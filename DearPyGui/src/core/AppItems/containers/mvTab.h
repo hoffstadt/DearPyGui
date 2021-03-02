@@ -33,12 +33,12 @@ namespace Marvel {
 		MV_CREATE_THEME_CONSTANT(mvAppItemType::TabItem, mvThemeStyle_Tab_InnerSpacingY	, 14L, 1L);
 
 		MV_START_COLOR_CONSTANTS
-			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Tab_Text),
-			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Tab_Border),
-			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Tab_Bg),
-			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Tab_BgHovered),
-			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Tab_BgActive),
-			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Tab_PopupBg),
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Tab_Text, mvColor(255, 255, 255, 255)),
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Tab_Border, mvColor(255, 255, 255, 255)),
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Tab_Bg, mvColor(255, 255, 255, 255)),
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Tab_BgHovered, mvColor(255, 255, 255, 255)),
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Tab_BgActive, mvColor(255, 255, 255, 255)),
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Tab_PopupBg, mvColor(255, 255, 255, 255)),
 		MV_END_COLOR_CONSTANTS
 
 		MV_START_STYLE_CONSTANTS

@@ -25,10 +25,10 @@ namespace Marvel {
 
 
 		MV_START_COLOR_CONSTANTS
-			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Selectable_Text),
-			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Selectable_Bg),
-			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Selectable_BgHovered),
-			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Selectable_BgActive),
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Selectable_Text, mvColor(255, 255, 255, 255)),
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Selectable_Bg, mvColor(255, 255, 255, 255)),
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Selectable_BgHovered, mvColor(255, 255, 255, 255)),
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Selectable_BgActive, mvColor(255, 255, 255, 255)),
 		MV_END_COLOR_CONSTANTS
 
 		MV_START_STYLE_CONSTANTS

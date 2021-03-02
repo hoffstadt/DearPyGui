@@ -26,15 +26,15 @@ namespace Marvel{
 		MV_CREATE_THEME_CONSTANT(mvAppItemType::SimplePlot, mvThemeStyle_SimplePlot_InnerItemSpacingY	, 14L, 1L);
 
 		MV_START_COLOR_CONSTANTS
-			MV_CREATE_CONSTANT_PAIR(mvThemeCol_SimplePlot_Text),
-			MV_CREATE_CONSTANT_PAIR(mvThemeCol_SimplePlot_Border),
-			MV_CREATE_CONSTANT_PAIR(mvThemeCol_SimplePlot_BorderShadow),
-			MV_CREATE_CONSTANT_PAIR(mvThemeCol_SimplePlot_Bg),
-			MV_CREATE_CONSTANT_PAIR(mvThemeCol_SimplePlot_PopupBg),
-			MV_CREATE_CONSTANT_PAIR(mvThemeCol_SimplePlot_Lines),
-			MV_CREATE_CONSTANT_PAIR(mvThemeCol_SimplePlot_LinesHovered),
-			MV_CREATE_CONSTANT_PAIR(mvThemeCol_SimplePlot_Histogram),
-			MV_CREATE_CONSTANT_PAIR(mvThemeCol_SimplePlot_HistogramHovered),
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_SimplePlot_Text, mvColor(255, 255, 255, 255)),
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_SimplePlot_Border, mvColor(255, 255, 255, 255)),
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_SimplePlot_BorderShadow, mvColor(255, 255, 255, 255)),
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_SimplePlot_Bg, mvColor(255, 255, 255, 255)),
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_SimplePlot_PopupBg, mvColor(255, 255, 255, 255)),
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_SimplePlot_Lines, mvColor(255, 255, 255, 255)),
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_SimplePlot_LinesHovered, mvColor(255, 255, 255, 255)),
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_SimplePlot_Histogram, mvColor(255, 255, 255, 255)),
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_SimplePlot_HistogramHovered, mvColor(255, 255, 255, 255)),
 		MV_END_COLOR_CONSTANTS
 
 		MV_START_STYLE_CONSTANTS

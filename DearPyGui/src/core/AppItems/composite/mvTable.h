@@ -39,17 +39,17 @@ namespace Marvel {
 		MV_CREATE_THEME_CONSTANT(mvAppItemType::Table, mvThemeStyle_Table_SelectableTextAlignY	, 23L, 1L);
 
 		MV_START_COLOR_CONSTANTS
-			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Table_Text),
-			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Table_Cell),
-			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Table_CellHovered),
-			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Table_CellActive),
-			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Table_Border),
-			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Table_BorderHovered),
-			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Table_BorderActive),
-			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Table_Scrollbar),
-			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Table_ScrollbarGrab),
-			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Table_ScrollbarGrabHovered),
-			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Table_ScrollbarGrabActive),
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Table_Text, mvColor(255, 255, 255, 255)),
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Table_Cell, mvColor(255, 255, 255, 255)),
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Table_CellHovered, mvColor(255, 255, 255, 255)),
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Table_CellActive, mvColor(255, 255, 255, 255)),
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Table_Border, mvColor(255, 255, 255, 255)),
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Table_BorderHovered, mvColor(255, 255, 255, 255)),
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Table_BorderActive, mvColor(255, 255, 255, 255)),
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Table_Scrollbar, mvColor(255, 255, 255, 255)),
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Table_ScrollbarGrab, mvColor(255, 255, 255, 255)),
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Table_ScrollbarGrabHovered, mvColor(255, 255, 255, 255)),
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Table_ScrollbarGrabActive, mvColor(255, 255, 255, 255)),
 		MV_END_COLOR_CONSTANTS
 
 		MV_START_STYLE_CONSTANTS

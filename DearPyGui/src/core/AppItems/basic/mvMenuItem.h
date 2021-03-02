@@ -24,8 +24,8 @@ namespace Marvel {
 		MV_CREATE_THEME_CONSTANT(mvAppItemType::MenuItem, ImGuiStyleVar_MenuItem_TextAlignY	, 23L, 1L);
 
 		MV_START_COLOR_CONSTANTS
-			MV_CREATE_CONSTANT_PAIR(mvThemeCol_MenuItem_Text),
-			MV_CREATE_CONSTANT_PAIR(mvThemeCol_MenuItem_BgHovered),
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_MenuItem_Text, mvColor(255, 255, 255, 255)),
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_MenuItem_BgHovered, mvColor(255, 255, 255, 255)),
 		MV_END_COLOR_CONSTANTS
 
 		MV_START_STYLE_CONSTANTS

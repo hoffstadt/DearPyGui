@@ -38,18 +38,18 @@ namespace Marvel {
 		MV_CREATE_THEME_CONSTANT(mvAppItemType::TimePicker, mvThemeStyle_TimePicker_DropTextAlignY		, 23L, 1L);
 
 		MV_START_COLOR_CONSTANTS
-			MV_CREATE_CONSTANT_PAIR(mvThemeCol_TimePicker_Time),
-			MV_CREATE_CONSTANT_PAIR(mvThemeCol_TimePicker_TimeHovered),
-			MV_CREATE_CONSTANT_PAIR(mvThemeCol_TimePicker_DropDown),
-			MV_CREATE_CONSTANT_PAIR(mvThemeCol_TimePicker_DropDownHovered),
-			MV_CREATE_CONSTANT_PAIR(mvThemeCol_TimePicker_DropDownActive),
-			MV_CREATE_CONSTANT_PAIR(mvThemeCol_TimePicker_DropDownBg),
-			MV_CREATE_CONSTANT_PAIR(mvThemeCol_TimePicker_Scrollbar),
-			MV_CREATE_CONSTANT_PAIR(mvThemeCol_TimePicker_ScrollbarGrab),
-			MV_CREATE_CONSTANT_PAIR(mvThemeCol_TimePicker_ScrollbarGrabHovered),
-			MV_CREATE_CONSTANT_PAIR(mvThemeCol_TimePicker_ScrollbarGrabActive),
-			MV_CREATE_CONSTANT_PAIR(mvThemeCol_TimePicker_Border),
-			MV_CREATE_CONSTANT_PAIR(mvThemeCol_TimePicker_BorderShadow),
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_TimePicker_Time, mvColor(255, 255, 255, 255)),
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_TimePicker_TimeHovered, mvColor(255, 255, 255, 255)),
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_TimePicker_DropDown, mvColor(255, 255, 255, 255)),
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_TimePicker_DropDownHovered, mvColor(255, 255, 255, 255)),
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_TimePicker_DropDownActive, mvColor(255, 255, 255, 255)),
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_TimePicker_DropDownBg, mvColor(255, 255, 255, 255)),
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_TimePicker_Scrollbar, mvColor(255, 255, 255, 255)),
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_TimePicker_ScrollbarGrab, mvColor(255, 255, 255, 255)),
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_TimePicker_ScrollbarGrabHovered, mvColor(255, 255, 255, 255)),
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_TimePicker_ScrollbarGrabActive, mvColor(255, 255, 255, 255)),
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_TimePicker_Border, mvColor(255, 255, 255, 255)),
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_TimePicker_BorderShadow, mvColor(255, 255, 255, 255)),
 		MV_END_COLOR_CONSTANTS
 
 		MV_START_STYLE_CONSTANTS

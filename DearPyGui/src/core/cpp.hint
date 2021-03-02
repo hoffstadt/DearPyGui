@@ -11,14 +11,14 @@ std::string getParserCommand() const override { return parser; }
 mvAppItemType getType() const override { return x; }\
 std::string getStringType() const override { return std::string(#x); }\
 std::string getParserCommand() const override { return parser; }\
-const std::vector<std::pair<std::string, long>>& getColorConstants() const override{return y::GetColorConstants();}
+const std::vector<std::tuple<std::string, long, mvColor>>& getColorConstants() const override{return y::GetColorConstants();}
 
-#define MV_START_COLOR_CONSTANTS public: static const std::vector<std::pair<std::string, long>>& GetColorConstants()\
-        {static std::vector<std::pair<std::string, long>> constants ={
+#define MV_START_COLOR_CONSTANTS public: static const std::vector<std::tuple<std::string, long, mvColor>>& GetColorConstants()\
+        {static std::vector<std::tuple<std::string, long, mvColor>> constants ={
 #define MV_END_COLOR_CONSTANTS };return constants;}
 #define MV_START_STYLE_CONSTANTS public: static const std::vector<std::tuple<std::string, long, int, int>>& GetStyleConstants()\
         {static std::vector<std::tuple<std::string, long, int, int>> constants ={
 #define MV_END_STYLE_CONSTANTS };return constants;}
-#define MV_CREATE_CONSTANT_PAIR(x) {#x, x}
+#define MV_CREATE_CONSTANT_PAIR(x, y) {#x, x, y}
 #define MV_CREATE_CONSTANT_TUPLE(x, y, z) {#x, x, y, z}
 #define MV_CREATE_THEME_CONSTANT(x, y, z, i) static constexpr const long y = (long)x*1000L+z*10L+i;

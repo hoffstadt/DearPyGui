@@ -42,16 +42,16 @@ namespace Marvel {
 
 
 		MV_START_COLOR_CONSTANTS
-			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Listbox_Text),
-			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Listbox_Selected),
-			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Listbox_Hovered),
-			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Listbox_Active),
-			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Listbox_Bg),
-			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Listbox_Border),
-			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Listbox_Scrollbar),
-			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Listbox_ScrollbarGrab),
-			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Listbox_ScrollbarGrabHovered),
-			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Listbox_ScrollbarGrabActive),
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Listbox_Text, mvColor(255, 255, 255, 255)),
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Listbox_Selected, mvColor(255, 255, 255, 255)),
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Listbox_Hovered, mvColor(255, 255, 255, 255)),
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Listbox_Active, mvColor(255, 255, 255, 255)),
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Listbox_Bg, mvColor(255, 255, 255, 255)),
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Listbox_Border, mvColor(255, 255, 255, 255)),
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Listbox_Scrollbar, mvColor(255, 255, 255, 255)),
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Listbox_ScrollbarGrab, mvColor(255, 255, 255, 255)),
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Listbox_ScrollbarGrabHovered, mvColor(255, 255, 255, 255)),
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Listbox_ScrollbarGrabActive, mvColor(255, 255, 255, 255)),
 		MV_END_COLOR_CONSTANTS
 
 		MV_START_STYLE_CONSTANTS
