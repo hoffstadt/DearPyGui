@@ -319,7 +319,7 @@ namespace Marvel {
     
     struct mvDragIntConfig : public mvAppItemConfig
     {
-        int default_value;
+        int default_value = 0;
         float speed = 1.0;
         int min_value = 0;
         int max_value = 100;
