@@ -27,8 +27,8 @@ namespace Marvel {
     
     struct mvInputIntConfig : public mvAppItemConfig
     {
-        int     default_value;
-        int     min_value;
+        int     default_value  = 0;
+        int     min_value      = 0;
         int     max_value      = 100;
         bool    min_clamped    = false;
         bool    max_clamped    = false;
@@ -117,7 +117,7 @@ namespace Marvel {
     struct mvInputIntsConfig : public mvAppItemConfig
     {
         std::array<int, 4>  default_value   = { 0, 0, 0, 0 };
-        int                 min_value;
+        int                 min_value       = 0;
         int                 max_value       = 100;
         bool                min_clamped     = false;
         bool                max_clamped     = false;

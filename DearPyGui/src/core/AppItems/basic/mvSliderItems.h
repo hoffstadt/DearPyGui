@@ -342,13 +342,13 @@ namespace Marvel {
     
     struct mvSliderIntConfig : public mvAppItemConfig
     {
-        int         default_value;
-        int         min_value;
-        int         max_value   = 100;
-        std::string format      = "'%d'";
-        bool        vertical    = false;
-        bool        no_input    = false;
-        bool        clamped     = false;
+        int         default_value = 0;
+        int         min_value     = 0;
+        int         max_value     = 100;
+        std::string format        = "'%d'";
+        bool        vertical      = false;
+        bool        no_input      = false;
+        bool        clamped       = false;
     };
     
     class mvSliderInt : public mvIntPtrBase
