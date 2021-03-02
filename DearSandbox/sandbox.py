@@ -19,5 +19,6 @@ add_additional_font("../../Resources/NotoSerifCJKjp-Medium.otf", 20)
 
 show_demo()
 show_logger()
+show_metrics()
 
 start_dearpygui()

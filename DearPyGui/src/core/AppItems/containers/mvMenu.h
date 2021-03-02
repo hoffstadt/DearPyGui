@@ -26,11 +26,11 @@ namespace Marvel {
 		MV_CREATE_THEME_CONSTANT(mvAppItemType::Menu, mvThemeStyle_Menu_ItemSpacingY, 13L, 1L);
 
 		MV_START_COLOR_CONSTANTS
-			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Menu_Text),
-			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Menu_Bg),
-			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Menu_BgHovered),
-			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Menu_BgActive),
-			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Menu_Border),
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Menu_Text, mvColor(255, 255, 255, 255)),
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Menu_Bg, mvColor(255, 255, 255, 255)),
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Menu_BgHovered, mvColor(255, 255, 255, 255)),
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Menu_BgActive, mvColor(255, 255, 255, 255)),
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Menu_Border, mvColor(255, 255, 255, 255)),
 		MV_END_COLOR_CONSTANTS
 
 		MV_START_STYLE_CONSTANTS

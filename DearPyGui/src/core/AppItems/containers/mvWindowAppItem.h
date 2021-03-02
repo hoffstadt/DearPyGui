@@ -74,22 +74,22 @@ namespace Marvel {
 		MV_CREATE_THEME_CONSTANT(mvAppItemType::Window, mvThemeStyle_Window_ScrollbarRounding	, 18L, 0L);
 
 		MV_START_COLOR_CONSTANTS
-			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Window_TitleText),
-			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Window_TitleBg),
-			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Window_TitleBgActive),
-			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Window_TitleBgCollapsed),
-			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Window_MenuBar),
-			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Window_Bg),
-			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Window_Scrollbar),
-			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Window_ScrollbarGrab),
-			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Window_ScrollbarGrabHovered),
-			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Window_ScrollbarGrabActive),
-			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Window_ResizeBorder),
-			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Window_ResizeGrip),
-			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Window_ResizeGripHovered),
-			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Window_ResizeGripActive),
-			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Window_Border),
-			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Window_BorderShadow),
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Window_TitleText, mvColor(255, 255, 255, 255)),
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Window_TitleBg, mvColor(255, 255, 255, 255)),
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Window_TitleBgActive, mvColor(255, 255, 255, 255)),
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Window_TitleBgCollapsed, mvColor(255, 255, 255, 255)),
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Window_MenuBar, mvColor(255, 255, 255, 255)),
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Window_Bg, mvColor(255, 255, 255, 255)),
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Window_Scrollbar, mvColor(255, 255, 255, 255)),
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Window_ScrollbarGrab, mvColor(255, 255, 255, 255)),
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Window_ScrollbarGrabHovered, mvColor(255, 255, 255, 255)),
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Window_ScrollbarGrabActive, mvColor(255, 255, 255, 255)),
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Window_ResizeBorder, mvColor(255, 255, 255, 255)),
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Window_ResizeGrip, mvColor(255, 255, 255, 255)),
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Window_ResizeGripHovered, mvColor(255, 255, 255, 255)),
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Window_ResizeGripActive, mvColor(255, 255, 255, 255)),
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Window_Border, mvColor(255, 255, 255, 255)),
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Window_BorderShadow, mvColor(255, 255, 255, 255)),
 		MV_END_COLOR_CONSTANTS
 
 		MV_START_STYLE_CONSTANTS

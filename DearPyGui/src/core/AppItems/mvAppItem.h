@@ -149,9 +149,9 @@ namespace Marvel {
 
         // theme get/set
         std::unordered_map<mvAppItemType, mvThemeColors>& getColors() { return m_colors; }
-        virtual const std::vector<std::pair<std::string, long>>& getColorConstants() const 
+        virtual const std::vector<std::tuple<std::string, long, mvColor>>& getColorConstants() const 
         { 
-            static std::vector<std::pair<std::string, long>> constants;
+            static std::vector<std::tuple<std::string, long, mvColor>> constants;
             return constants;
         }
         std::unordered_map<mvAppItemType, mvThemeStyles>& getStyles() { return m_styles; }

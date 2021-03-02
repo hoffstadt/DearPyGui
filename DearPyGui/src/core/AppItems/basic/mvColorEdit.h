@@ -71,14 +71,14 @@ namespace Marvel {
 		MV_CREATE_THEME_CONSTANT(mvAppItemType::ColorEdit3, mvThemeStyle_ColorEdit3_PaddingY			, 10L, 1L);
 
 		MV_START_COLOR_CONSTANTS
-			MV_CREATE_CONSTANT_PAIR(mvThemeCol_ColorEdit3_Text),
-			MV_CREATE_CONSTANT_PAIR(mvThemeCol_ColorEdit3_TextHighlight),
-			MV_CREATE_CONSTANT_PAIR(mvThemeCol_ColorEdit3_Bg),
-			MV_CREATE_CONSTANT_PAIR(mvThemeCol_ColorEdit3_BgHovered),
-			MV_CREATE_CONSTANT_PAIR(mvThemeCol_ColorEdit3_BgActive),
-			MV_CREATE_CONSTANT_PAIR(mvThemeCol_ColorEdit3_PopupBg),
-			MV_CREATE_CONSTANT_PAIR(mvThemeCol_ColorEdit3_Border),
-			MV_CREATE_CONSTANT_PAIR(mvThemeCol_ColorEdit3_BorderShadow),
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_ColorEdit3_Text,          mvColor(255, 255, 255, 255)),
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_ColorEdit3_TextHighlight, mvColor(255, 255, 255, 255)),
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_ColorEdit3_Bg,            mvColor(255, 255, 255, 255)),
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_ColorEdit3_BgHovered,     mvColor(255, 255, 255, 255)),
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_ColorEdit3_BgActive,      mvColor(255, 255, 255, 255)),
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_ColorEdit3_PopupBg,       mvColor(255, 255, 255, 255)),
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_ColorEdit3_Border,        mvColor(255, 255, 255, 255)),
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_ColorEdit3_BorderShadow,  mvColor(255, 255, 255, 255)),
 		MV_END_COLOR_CONSTANTS
 
 		MV_START_STYLE_CONSTANTS
@@ -150,14 +150,14 @@ namespace Marvel {
 		MV_CREATE_THEME_CONSTANT(mvAppItemType::ColorEdit4, mvThemeStyle_ColorEdit4_PaddingY			, 10L, 1L);
 
 		MV_START_COLOR_CONSTANTS
-			MV_CREATE_CONSTANT_PAIR(mvThemeCol_ColorEdit4_Text),
-			MV_CREATE_CONSTANT_PAIR(mvThemeCol_ColorEdit4_TextHighlight),
-			MV_CREATE_CONSTANT_PAIR(mvThemeCol_ColorEdit4_Bg),
-			MV_CREATE_CONSTANT_PAIR(mvThemeCol_ColorEdit4_BgHovered),
-			MV_CREATE_CONSTANT_PAIR(mvThemeCol_ColorEdit4_BgActive),
-			MV_CREATE_CONSTANT_PAIR(mvThemeCol_ColorEdit4_PopupBg),
-			MV_CREATE_CONSTANT_PAIR(mvThemeCol_ColorEdit4_Border),
-			MV_CREATE_CONSTANT_PAIR(mvThemeCol_ColorEdit4_BorderShadow),
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_ColorEdit4_Text,          mvColor(255, 255, 255, 255)),
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_ColorEdit4_TextHighlight, mvColor(255, 255, 255, 255)),
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_ColorEdit4_Bg,            mvColor(255, 255, 255, 255)),
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_ColorEdit4_BgHovered,     mvColor(255, 255, 255, 255)),
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_ColorEdit4_BgActive,      mvColor(255, 255, 255, 255)),
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_ColorEdit4_PopupBg,       mvColor(255, 255, 255, 255)),
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_ColorEdit4_Border,        mvColor(255, 255, 255, 255)),
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_ColorEdit4_BorderShadow,  mvColor(255, 255, 255, 255)),
 		MV_END_COLOR_CONSTANTS
 
 		MV_START_STYLE_CONSTANTS

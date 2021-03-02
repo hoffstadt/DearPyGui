@@ -32,11 +32,11 @@ namespace Marvel {
 		MV_CREATE_THEME_CONSTANT(mvAppItemType::ImageButton, mvThemeStyle_ImageButton_PaddingY		, 10L, 1L);
 
 		MV_START_COLOR_CONSTANTS
-			MV_CREATE_CONSTANT_PAIR(mvThemeCol_ImageButton_Bg),
-			MV_CREATE_CONSTANT_PAIR(mvThemeCol_ImageButton_BgHovered),
-			MV_CREATE_CONSTANT_PAIR(mvThemeCol_ImageButton_BgActive),
-			MV_CREATE_CONSTANT_PAIR(mvThemeCol_ImageButton_Border),
-			MV_CREATE_CONSTANT_PAIR(mvThemeCol_ImageButton_BorderShadow),
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_ImageButton_Bg,           mvColor(255, 255, 255, 255)),
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_ImageButton_BgHovered,    mvColor(255, 255, 255, 255)),
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_ImageButton_BgActive,     mvColor(255, 255, 255, 255)),
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_ImageButton_Border,       mvColor(255, 255, 255, 255)),
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_ImageButton_BorderShadow, mvColor(255, 255, 255, 255)),
 		MV_END_COLOR_CONSTANTS
 
 		MV_START_STYLE_CONSTANTS

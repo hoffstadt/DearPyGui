@@ -35,12 +35,12 @@ namespace Marvel {
 		MV_CREATE_THEME_CONSTANT(mvAppItemType::CollapsingHeader, mvThemeStyle_CollapsingHeader_ItemSpacingY, 13L, 1L);
 
 		MV_START_COLOR_CONSTANTS
-			MV_CREATE_CONSTANT_PAIR(mvThemeCol_CollapsingHeader_Text),
-			MV_CREATE_CONSTANT_PAIR(mvThemeCol_CollapsingHeader_Bg),
-			MV_CREATE_CONSTANT_PAIR(mvThemeCol_CollapsingHeader_BgHovered),
-			MV_CREATE_CONSTANT_PAIR(mvThemeCol_CollapsingHeader_BgActive),
-			MV_CREATE_CONSTANT_PAIR(mvThemeCol_CollapsingHeader_Border),
-			MV_CREATE_CONSTANT_PAIR(mvThemeCol_CollapsingHeader_BorderShadow),
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_CollapsingHeader_Text, mvColor(255, 255, 255, 255)),
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_CollapsingHeader_Bg,   mvColor(255, 255, 255, 255)),
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_CollapsingHeader_BgHovered, mvColor(255, 255, 255, 255)),
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_CollapsingHeader_BgActive, mvColor(255, 255, 255, 255)),
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_CollapsingHeader_Border, mvColor(255, 255, 255, 255)),
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_CollapsingHeader_BorderShadow, mvColor(255, 255, 255, 255)),
 		MV_END_COLOR_CONSTANTS
 
 		MV_START_STYLE_CONSTANTS
