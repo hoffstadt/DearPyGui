@@ -369,27 +369,53 @@ namespace Marvel {
 
 	}
 
-	float BufferViewItemAsFloat(Py_buffer& bufferView, Py_ssize_t index)
+	BufferViewerPtr BufferViewFunctions(Py_buffer& bufferView)
 	{
-		if (strcmp(bufferView.format, "d") == 0)
+		if (strcmp(bufferView.format, "f") == 0)
 		{
-			return *((double*)bufferView.buf + index);
+			return &BufferFloatAsFloat;
+		}
+		else if (strcmp(bufferView.format, "d") == 0)
+		{
+			return BufferDoubleAsFloat;
 		}
 		else if (strcmp(bufferView.format, "l") == 0)
 		{
-			return *((int*)bufferView.buf + index);
+			return BufferIntAsFloat;
 		}
 		else if (strcmp(bufferView.format, "B") == 0)
 		{
-			return *((unsigned char*)bufferView.buf + index);
+			return BufferUCharAsFloat;
 		}
 		else
 		{
 			ThrowPythonException("Unknown buffer type.");
 			ThrowPythonException(bufferView.format);
+			ThrowPythonException("Currently supported buffer types f, d, l, B");
+			return nullptr;
 		}
-		return NULL;
 	}
+
+	float BufferFloatAsFloat(Py_buffer& bufferView, Py_ssize_t index)
+	{
+		return *((float*)bufferView.buf + index);
+	}
+
+	float BufferDoubleAsFloat(Py_buffer& bufferView, Py_ssize_t index)
+	{
+		return *((double*)bufferView.buf + index);
+	}
+
+	float BufferIntAsFloat(Py_buffer& bufferView, Py_ssize_t index)
+	{
+		return *((int*)bufferView.buf + index);
+	}
+
+	float BufferUCharAsFloat(Py_buffer& bufferView, Py_ssize_t index)
+	{
+		return *((unsigned char*)bufferView.buf + index);
+	}
+
 
 	std::vector<int> ToIntVect(PyObject* value, const std::string& message)
 	{
@@ -404,9 +430,7 @@ namespace Marvel {
 			items.resize(PyTuple_Size(value));
 			for (Py_ssize_t i = 0; i < PyTuple_Size(value); ++i)
 			{
-				PyObject* item = PyTuple_GetItem(value, i);
-				if(PyLong_Check(item))
-					items.emplace_back(PyLong_AsLong(item));
+				items.emplace_back(PyLong_AsLong(PyTuple_GetItem(value, i)));
 			}
 		}
 
@@ -415,9 +439,7 @@ namespace Marvel {
 			items.resize(PyList_Size(value));
 			for (Py_ssize_t i = 0; i < PyList_Size(value); ++i)
 			{
-				PyObject* item = PyList_GetItem(value, i);
-				if (PyLong_Check(item))
-					items[i] = PyLong_AsLong(item);
+				items[i] = PyLong_AsLong(PyList_GetItem(value, i));
 			}
 		}
 
@@ -430,9 +452,11 @@ namespace Marvel {
 			if (!PyObject_GetBuffer(value, &buffer_info,
 				PyBUF_CONTIG_RO | PyBUF_FORMAT))
 			{
+				BufferViewerPtr BufferViewer = BufferViewFunctions(buffer_info);
+
 				for (Py_ssize_t i = 0; i < buffer_info.len / buffer_info.itemsize; ++i)
 				{
-					items.emplace_back(BufferViewItemAsFloat(buffer_info, i));
+					items.emplace_back(BufferViewer(buffer_info, i));
 				}
 			}
 
@@ -458,9 +482,7 @@ namespace Marvel {
 		{
 			for (Py_ssize_t i = 0; i < PyTuple_Size(value); ++i)
 			{
-				PyObject* item = PyTuple_GetItem(value, i);
-				if (PyNumber_Check(item))
-					items.emplace_back(PyFloat_AsDouble(item));
+				items.emplace_back(PyFloat_AsDouble(PyTuple_GetItem(value, i)));
 			}
 		}
 
@@ -468,9 +490,7 @@ namespace Marvel {
 		{
 			for (Py_ssize_t i = 0; i < PyList_Size(value); ++i)
 			{
-				PyObject* item = PyList_GetItem(value, i);
-				if (PyNumber_Check(item))
-					items.emplace_back(PyFloat_AsDouble(item));
+				items.emplace_back(PyFloat_AsDouble(PyList_GetItem(value, i)));
 			}
 		}
 
@@ -482,13 +502,14 @@ namespace Marvel {
 				PyBUF_CONTIG_RO | PyBUF_FORMAT)) 
 			{
 
+				BufferViewerPtr BufferViewer = BufferViewFunctions(buffer_info);
+
 				for (Py_ssize_t i = 0; i < buffer_info.len / buffer_info.itemsize; ++i)
 				{
-					items.emplace_back(BufferViewItemAsFloat(buffer_info, i));
+					items.emplace_back(BufferViewer(buffer_info, i));
 				}
-	
-				PyBuffer_Release(&buffer_info);
 			}
+			PyBuffer_Release(&buffer_info);
 		}
 
 		else

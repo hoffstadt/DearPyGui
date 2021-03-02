@@ -210,7 +210,7 @@ namespace Marvel {
 		// When using RGBA python data is texture data
 		// When using RGB we must divide out the increment to stay in bouds of the shorter python data
 		// When using BGRA python data must be reordered to match RGBA
-		// When using BGR we must divide out the increment to stay in bouds of the shorter python data and reorder
+		// When using BGR we must divide out the increment to stay in bouds of the shorter python data and also reorder
 
 		const char* name;
 		PyObject* data;
@@ -224,39 +224,38 @@ namespace Marvel {
 
 		mvTextureFormat tformat = (mvTextureFormat)format;
 
-		std::vector<float> fdata;
-		fdata.resize(width * height * 4);
-
 		if (PyList_Check(data)) {
 
+			std::vector<float> fdata;
+			fdata.resize(width * height * 4);
 			switch (tformat)
 			{
 			case mvTextureFormat::RGBA_FLOAT:
-				for (Py_ssize_t i = 0; i < PyList_Size(data); ++i)
+				for (size_t i = 0; i < fdata.size(); ++i)
 				{
 					fdata[i] = PyFloat_AsDouble(PyList_GetItem(data, i));
 				}
 				break;
 
 			case mvTextureFormat::RGBA_INT:
-				for (Py_ssize_t i = 0; i < PyList_Size(data); ++i)
+				for (size_t i = 0; i < fdata.size(); ++i)
 				{
-					fdata[i] = PyLong_AsLong(PyList_GetItem(data, i)) / 255.0f;
+					fdata[i] = PyFloat_AsDouble(PyList_GetItem(data, i)) / 255.0f;
 				}
 				break;
 
 			case mvTextureFormat::BGRA_FLOAT:
-				for (Py_ssize_t i = 0; i < PyList_Size(data); i += 4)
+				for (size_t i = 0; i < fdata.size(); i += 4)
 				{
-					fdata[i] = PyFloat_AsDouble(PyList_GetItem(data, i + 2));
-					fdata[i + 1] = PyFloat_AsDouble(PyList_GetItem(data, i + 1));
-					fdata[i + 2] = PyFloat_AsDouble(PyList_GetItem(data, i));
-					fdata[i + 3] = PyFloat_AsDouble(PyList_GetItem(data, i + 3));
+					fdata[i] = PyLong_AsLong(PyList_GetItem(data, i + 2));
+					fdata[i + 1] = PyLong_AsLong(PyList_GetItem(data, i + 1));
+					fdata[i + 2] = PyLong_AsLong(PyList_GetItem(data, i));
+					fdata[i + 3] = PyLong_AsLong(PyList_GetItem(data, i + 3));
 				}
 				break;
 
 			case mvTextureFormat::BGRA_INT:
-				for (Py_ssize_t i = 0; i < PyList_Size(data); i += 4)
+				for (size_t i = 0; i < fdata.size(); i += 4)
 				{
 					fdata[i] = PyLong_AsLong(PyList_GetItem(data, i + 2)) / 255.0f;
 					fdata[i + 1] = PyLong_AsLong(PyList_GetItem(data, i + 1)) / 255.0f;
@@ -266,7 +265,7 @@ namespace Marvel {
 				break;
 
 			case mvTextureFormat::RGB_FLOAT:
-				for (Py_ssize_t i = 0; i < PyList_Size(data); i += 4)
+				for (size_t i = 0; i < fdata.size(); i += 4)
 				{
 					fdata[i] = PyFloat_AsDouble(PyList_GetItem(data, (i / 4) * 3));
 					fdata[i + 1] = PyFloat_AsDouble(PyList_GetItem(data, (i / 4) * 3 + 1));
@@ -276,7 +275,7 @@ namespace Marvel {
 				break;
 
 			case mvTextureFormat::RGB_INT:
-				for (Py_ssize_t i = 0; i < PyList_Size(data); i += 4)
+				for (size_t i = 0; i < fdata.size(); i += 4)
 				{
 					fdata[i] = PyLong_AsLong(PyList_GetItem(data, (i / 4) * 3)) / 255.0f;
 					fdata[i + 1] = PyLong_AsLong(PyList_GetItem(data, (i / 4) * 3 + 1)) / 255.0f;
@@ -286,7 +285,7 @@ namespace Marvel {
 				break;
 
 			case mvTextureFormat::BGR_FLOAT:
-				for (Py_ssize_t i = 0; i < PyList_Size(data); i += 4)
+				for (size_t i = 0; i < fdata.size(); i += 4)
 				{
 					fdata[i] = PyFloat_AsDouble(PyList_GetItem(data, (i / 4) * 3 + 2));
 					fdata[i + 1] = PyFloat_AsDouble(PyList_GetItem(data, (i / 4) * 3 + 1));
@@ -296,7 +295,7 @@ namespace Marvel {
 				break;
 
 			case mvTextureFormat::BGR_INT:
-				for (Py_ssize_t i = 0; i < PyList_Size(data); i += 4)
+				for (size_t i = 0; i < fdata.size(); i += 4)
 				{
 					fdata[i] = PyLong_AsLong(PyList_GetItem(data, (i / 4) * 3 + 2)) / 255.0f;
 					fdata[i + 1] = PyLong_AsLong(PyList_GetItem(data, (i / 4) * 3 + 1)) / 255.0f;
@@ -308,11 +307,18 @@ namespace Marvel {
 			default:
 				return GetPyNone();
 			}
+
+			std::lock_guard<std::mutex> lk(mvApp::GetApp()->GetApp()->getMutex());
+			if (mvApp::IsAppStarted())
+				mvApp::GetApp()->getTextureStorage().addTexture(name, fdata.data(), width, height, mvTextureFormat::BGRA_FLOAT);
+			else
+				mvApp::GetApp()->getTextureStorage().addDelayedTexture(name, fdata, width, height, mvTextureFormat::RGBA_FLOAT);
+
+			return GetPyNone();
 		}
 
 		else if (PyObject_CheckBuffer(data)) 
 		{
-
 			Py_buffer buffer_info;
 
 			if (PyObject_GetBuffer(data, &buffer_info,
@@ -322,78 +328,86 @@ namespace Marvel {
 				return GetPyNone();
 			}
 
+			std::vector<float> fdata;
+			fdata.resize(buffer_info.len / buffer_info.itemsize);
+
+			//This will choose which function to use to interpretate the array. 
+			//Each function interpretates it as a different type.
+
+			BufferViewerPtr BufferViewer = BufferViewFunctions(buffer_info);
+
 			switch (tformat)
 			{
 			case mvTextureFormat::RGBA_FLOAT:
-				for (Py_ssize_t i = 0; i < buffer_info.len / buffer_info.itemsize; ++i)
+				for (size_t i = 0; i < fdata.size(); ++i)
 				{
-					fdata[i] = BufferViewItemAsFloat(buffer_info, i);
+					fdata[i] = BufferViewer(buffer_info, i);
 				}
 				break;
 
 			case mvTextureFormat::RGBA_INT:
-				for (Py_ssize_t i = 0; i < buffer_info.len / buffer_info.itemsize; ++i)
+				for (size_t i = 0; i < fdata.size(); ++i)
 				{
-					fdata[i] = BufferViewItemAsFloat(buffer_info, i) / 255.0f;
+					fdata[i] = BufferViewer(buffer_info, i) / 255.0f;
 				}
 				break;
 
 			case mvTextureFormat::BGRA_FLOAT:
-				for (Py_ssize_t i = 0; i < buffer_info.len / buffer_info.itemsize; i += 4)
+				for (size_t i = 0; i < fdata.size(); i += 4)
 				{
-					fdata[i] = BufferViewItemAsFloat(buffer_info, i + 2);
-					fdata[i + 1] = BufferViewItemAsFloat(buffer_info, i + 1);
-					fdata[i + 2] = BufferViewItemAsFloat(buffer_info, i);
-					fdata[i + 3] = BufferViewItemAsFloat(buffer_info, i + 3);
+					fdata[i] = BufferViewer(buffer_info, i + 2);
+					fdata[i + 1] = BufferViewer(buffer_info, i + 1);
+					fdata[i + 2] = BufferViewer(buffer_info, i);
+					fdata[i + 3] = BufferViewer(buffer_info, i + 3);
 				}
 				break;
 
 			case mvTextureFormat::BGRA_INT:
-				for (Py_ssize_t i = 0; i < buffer_info.len / buffer_info.itemsize; i += 4)
+				for (size_t i = 0; i < fdata.size(); i += 4)
 				{
-					fdata[i] = BufferViewItemAsFloat(buffer_info, i + 2) / 255.0f;
-					fdata[i + 1] = BufferViewItemAsFloat(buffer_info, i + 1) / 255.0f;
-					fdata[i + 2] = BufferViewItemAsFloat(buffer_info, i) / 255.0f;
-					fdata[i + 3] = BufferViewItemAsFloat(buffer_info, i + 3) / 255.0f;
+					fdata[i] = BufferViewer(buffer_info, i + 2) / 255.0f;
+					fdata[i + 1] = BufferViewer(buffer_info, i + 1) / 255.0f;
+					fdata[i + 2] = BufferViewer(buffer_info, i) / 255.0f;
+					fdata[i + 3] = BufferViewer(buffer_info, i + 3) / 255.0f;
 				}
 				break;
 
 			case mvTextureFormat::RGB_FLOAT:
-				for (Py_ssize_t i = 0; i < buffer_info.len / buffer_info.itemsize; i += 4)
+				for (size_t i = 0; i < fdata.size(); i += 4)
 				{
-					fdata[i] = BufferViewItemAsFloat(buffer_info, (i / 4) * 3);
-					fdata[i + 1] = BufferViewItemAsFloat(buffer_info, (i / 4) * 3 + 1);
-					fdata[i + 2] = BufferViewItemAsFloat(buffer_info, (i / 4) * 3 + 2);
+					fdata[i] = BufferViewer(buffer_info, (i / 4) * 3);
+					fdata[i + 1] = BufferViewer(buffer_info, (i / 4) * 3 + 1);
+					fdata[i + 2] = BufferViewer(buffer_info, (i / 4) * 3 + 2);
 					fdata[i + 3] = 1.0f;
 				}
 				break;
 
 			case mvTextureFormat::RGB_INT:
-				for (Py_ssize_t i = 0; i < buffer_info.len / buffer_info.itemsize; i += 4)
+				for (size_t i = 0; i < fdata.size(); i += 4)
 				{
-					fdata[i] = BufferViewItemAsFloat(buffer_info, (i / 4) * 3) / 255.0f;
-					fdata[i + 1] = BufferViewItemAsFloat(buffer_info, (i / 4) * 3 + 1) / 255.0f;
-					fdata[i + 2] = BufferViewItemAsFloat(buffer_info, (i / 4) * 3 + 2) / 255.0f;
+					fdata[i] = BufferViewer(buffer_info, (i / 4) * 3) / 255.0f;
+					fdata[i + 1] = BufferViewer(buffer_info, (i / 4) * 3 + 1) / 255.0f;
+					fdata[i + 2] = BufferViewer(buffer_info, (i / 4) * 3 + 2) / 255.0f;
 					fdata[i + 3] = 1.0f;
 				}
 				break;
 
 			case mvTextureFormat::BGR_FLOAT:
-				for (Py_ssize_t i = 0; i < buffer_info.len / buffer_info.itemsize; i += 4)
+				for (size_t i = 0; i < fdata.size(); i += 4)
 				{
-					fdata[i] = BufferViewItemAsFloat(buffer_info, (i / 4) * 3 + 2);
-					fdata[i + 1] = BufferViewItemAsFloat(buffer_info, (i / 4) * 3 + 1);
-					fdata[i + 2] = BufferViewItemAsFloat(buffer_info, (i / 4) * 3);
+					fdata[i] = BufferViewer(buffer_info, (i / 4) * 3 + 2);
+					fdata[i + 1] = BufferViewer(buffer_info, (i / 4) * 3 + 1);
+					fdata[i + 2] = BufferViewer(buffer_info, (i / 4) * 3);
 					fdata[i + 3] = 1.0f;
 				}
 				break;
 
 			case mvTextureFormat::BGR_INT:
-				for (Py_ssize_t i = 0; i < buffer_info.len / buffer_info.itemsize; i += 4)
+				for (size_t i = 0; i < fdata.size(); i += 4)
 				{
-					fdata[i] = BufferViewItemAsFloat(buffer_info, (i / 4) * 3 + 2) / 255.0f;
-					fdata[i + 1] = BufferViewItemAsFloat(buffer_info, (i / 4) * 3 + 1) / 255.0f;
-					fdata[i + 2] = BufferViewItemAsFloat(buffer_info, (i / 4) * 3) / 255.0f;
+					fdata[i] = BufferViewer(buffer_info, (i / 4) * 3 + 2) / 255.0f;
+					fdata[i + 1] = BufferViewer(buffer_info, (i / 4) * 3 + 1) / 255.0f;
+					fdata[i + 2] = BufferViewer(buffer_info, (i / 4) * 3) / 255.0f;
 					fdata[i + 3] = 1.0f;
 				}
 				break;
@@ -402,16 +416,23 @@ namespace Marvel {
 				PyBuffer_Release(&buffer_info);
 				return GetPyNone();
 			}
+
+			std::lock_guard<std::mutex> lk(mvApp::GetApp()->GetApp()->getMutex());
+			if (mvApp::IsAppStarted())
+				mvApp::GetApp()->getTextureStorage().addTexture(name, fdata.data(), width, height, tformat);
+			else
+			{
+				mvApp::GetApp()->getTextureStorage().addDelayedTexture(name, fdata, width, height, tformat);
+			}
 			PyBuffer_Release(&buffer_info);
+			return GetPyNone();
 		}
 
-		std::lock_guard<std::mutex> lk(mvApp::GetApp()->GetApp()->getMutex());
-		if (mvApp::IsAppStarted())
-			mvApp::GetApp()->getTextureStorage().addTexture(name, fdata.data(), width, height, tformat);
-		else
-			mvApp::GetApp()->getTextureStorage().addDelayedTexture(name, fdata, width, height, tformat);
+		else 
+		{
+			return GetPyNone();
+		}
 
-		return GetPyNone();
 	}
 
 	PyObject* enable_docking(PyObject* self, PyObject* args, PyObject* kwargs)
