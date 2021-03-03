@@ -30,13 +30,19 @@ namespace Marvel {
 			std::atomic_int y;
 		};
 
+		struct AtomicFloatVec2
+		{
+			std::atomic<float> x;
+			std::atomic<float> y;
+		};
+
 
 	public:
 
 		static void          setMousePosition      (float x, float y);
 		static void          setGlobalMousePosition(float x, float y);
 		static void          setPlotMousePosition  (float x, float y);
-		static void          setDrawingMousePosition  (float x, float y);
+		static void          setDrawingMousePosition(float x, float y);
 		static void          setMouseDragThreshold (float threshold);
 		static void          setMouseDragDelta     (const mvVec2& delta);
 
@@ -62,7 +68,7 @@ namespace Marvel {
 
 		static AtomicVec2       s_mousePos;
 		static AtomicVec2       s_mouseGlobalPos;
-		static AtomicVec2       s_mousePlotPos;
+		static AtomicFloatVec2  s_mousePlotPos;
 		static AtomicVec2       s_mouseDrawingPos;
 		static std::atomic_int  s_mouseDragThreshold;
 		static AtomicVec2       s_mouseDragDelta;
