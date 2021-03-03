@@ -34,15 +34,15 @@ namespace Marvel {
 
 
 		MV_START_COLOR_CONSTANTS
-			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Popup_TitleText, mvColor(255, 255, 255, 255)),
-			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Popup_TitleBg, mvColor(255, 255, 255, 255)),
-			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Popup_Bg, mvColor(255, 255, 255, 255)),
-			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Popup_ModalDimBg, mvColor(255, 255, 255, 255)),
-			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Popup_Scrollbar, mvColor(255, 255, 255, 255)),
-			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Popup_ScrollbarGrab, mvColor(255, 255, 255, 255)),
-			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Popup_ScrollbarGrabHovered, mvColor(255, 255, 255, 255)),
-			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Popup_ScrollbarGrabActive, mvColor(255, 255, 255, 255)),
-			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Popup_Border, mvColor(255, 255, 255, 255)),
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Popup_TitleText,				mvColor(255, 255, 255, 255)),
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Popup_TitleBg,				mvColor( 10,  10,  10, 255)),
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Popup_Bg,					mvColor( 20,  20,  20, 240)),
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Popup_ModalDimBg,			mvColor(204, 204, 204,  89)),
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Popup_Scrollbar,				mvColor(  5,   5,   5, 135)),
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Popup_ScrollbarGrab,			mvColor( 79,  79,  79, 255)),
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Popup_ScrollbarGrabHovered,	mvColor(105, 105, 105, 255)),
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Popup_ScrollbarGrabActive,	mvColor(130, 130, 130, 255)),
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Popup_Border,				mvColor(110, 110, 128, 128)),
 		MV_END_COLOR_CONSTANTS
 
 		MV_START_STYLE_CONSTANTS
