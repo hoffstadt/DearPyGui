@@ -74,6 +74,8 @@ namespace Marvel {
 			m_dirty_pos = false;
 		}
 
+		imnodes::SetNodeDraggable((int)m_id, m_draggable);
+
 		imnodes::BeginNode(m_id);
 
 		imnodes::BeginNodeTitleBar();
