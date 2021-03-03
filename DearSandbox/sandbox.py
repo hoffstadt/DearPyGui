@@ -1,35 +1,23 @@
 from dearpygui.core import *
 from dearpygui.simple import *
+from dearpygui.demo import *
+from math import sin, cos
+import random
+import time
 
-with window("example"):
-    with managed_columns("column1", 3):
-        for i in range(9):
-            add_text(f"Text #1-{i}")
+set_log_level(0)
+#enable_docking(shift_only=False, dock_space=True)
 
-    # set_managed_column_width("column1", 1, 60)
+set_main_window_title("DearPyGui Demo")
+set_main_window_size(1000, 800)
+set_main_window_pos(0, 0)
+add_additional_font("../../Resources/NotoSerifCJKjp-Medium.otf", 20)
 
-    # prints [0.0, 0.0, 0.0]
-    widths = [ get_managed_column_width("column1", i) for i in range(3) ]
-    print(widths)
+# char remaps
+#add_character_remap(0x0041, 0x00A2)
+#add_character_remap(0x0061, 0x00AB)
 
-    def slider_callback(sender, data):
-        set_managed_column_width("column1", 1, get_value("slider"))
-
-    add_slider_float("slider", default_value=widths[1], callback=slider_callback)
-
-    add_separator()
-
-    with managed_columns("column2", 3):
-        for i in range(9):
-            add_text(f"Text #2-{i}")
-
-    set_managed_column_width("column2", 1, 67)
-
-def start_callback(sender, data):
-    widths = [ get_managed_column_width("column1", i) for i in range(3) ]
-    print(widths)
-
-set_start_callback(start_callback)
+show_demo()
 show_logger()
-show_debug()
+
 start_dearpygui()
