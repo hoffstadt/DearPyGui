@@ -47,6 +47,9 @@ namespace Marvel {
 
 	void mvInputText::setEnabled(bool value)
 	{
+		if (value == m_enabled)
+			return;
+
 		if (value)
 			m_flags = m_stor_flags;
 
@@ -124,6 +127,16 @@ namespace Marvel {
 		flagop("on_enter", ImGuiInputTextFlags_EnterReturnsTrue, m_flags);
 		flagop("scientific", ImGuiInputTextFlags_CharsScientific, m_flags);
 		flagop("tab_input", ImGuiInputTextFlags_AllowTabInput, m_flags);
+
+		flagop("no_spaces", ImGuiInputTextFlags_CharsNoBlank, m_stor_flags);
+		flagop("uppercase", ImGuiInputTextFlags_CharsUppercase, m_stor_flags);
+		flagop("decimal", ImGuiInputTextFlags_CharsDecimal, m_stor_flags);
+		flagop("hexadecimal", ImGuiInputTextFlags_CharsHexadecimal, m_stor_flags);
+		flagop("readonly", ImGuiInputTextFlags_ReadOnly, m_stor_flags);
+		flagop("password", ImGuiInputTextFlags_Password, m_stor_flags);
+		flagop("on_enter", ImGuiInputTextFlags_EnterReturnsTrue, m_stor_flags);
+		flagop("scientific", ImGuiInputTextFlags_CharsScientific, m_stor_flags);
+		flagop("tab_input", ImGuiInputTextFlags_AllowTabInput, m_stor_flags);
 	}
 
 	void mvInputText::getExtraConfigDict(PyObject* dict)

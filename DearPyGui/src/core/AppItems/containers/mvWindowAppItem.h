@@ -63,6 +63,8 @@ namespace Marvel {
 		bool              m_noclose = false;
 		bool              m_hasMenuBar = false;
 		bool              m_focusNextFrame = false;
+		bool              m_collapsed      = false;
+		bool              m_collapsedDirty = true;
 		mvRef<mvDrawList> m_drawList;
 		
 	};

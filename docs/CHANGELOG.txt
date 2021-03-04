@@ -22,6 +22,17 @@ HOW TO UPDATE?
 - Read the `Breaking Changes` section (here in the changelog).
 - Please report any issue!
 
+
+------------------------------------------------------------------------
+ VERSION 0.6.234
+------------------------------------------------------------------------
+
+New Keywords:
+- add_window: "collapsed" keyword added #656
+
+Fixes:
+- enable/disable: fixed bug related to disabling twice.
+
 ------------------------------------------------------------------------
  VERSION 0.6.229
 ------------------------------------------------------------------------

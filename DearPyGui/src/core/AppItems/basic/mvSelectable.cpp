@@ -33,6 +33,9 @@ namespace Marvel {
 
 	void mvSelectable::setEnabled(bool value)
 	{
+		if (value == m_enabled)
+			return;
+
 		if (value)
 			m_flags &= ~ImGuiSelectableFlags_Disabled;
 

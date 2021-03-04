@@ -22,6 +22,9 @@ namespace Marvel {
 
     void mvSliderFloat::setEnabled(bool value)
     {
+        if (value == m_enabled)
+            return;
+
         if (value)
             m_flags = m_stor_flags;
 
@@ -130,6 +133,9 @@ namespace Marvel {
 
     void mvSliderFloat2::setEnabled(bool value)
     {
+        if (value == m_enabled)
+            return;
+
         if (value)
             m_flags = m_stor_flags;
 
@@ -221,6 +227,9 @@ namespace Marvel {
 
     void mvSliderFloat3::setEnabled(bool value)
     {
+        if (value == m_enabled)
+            return;
+
         if (value)
             m_flags = m_stor_flags;
 
@@ -311,6 +320,9 @@ namespace Marvel {
 
     void mvSliderFloat4::setEnabled(bool value)
     {
+        if (value == m_enabled)
+            return;
+
         if (value)
             m_flags = m_stor_flags;
 
@@ -402,6 +414,9 @@ namespace Marvel {
 
     void mvSliderInt::setEnabled(bool value)
     {
+        if (value == m_enabled)
+            return;
+
         if (value)
             m_flags = m_stor_flags;
 
@@ -509,6 +524,9 @@ namespace Marvel {
 
     void mvSliderInt2::setEnabled(bool value)
     {
+        if (value == m_enabled)
+            return;
+
         if (value)
             m_flags = m_stor_flags;
 
@@ -599,6 +617,9 @@ namespace Marvel {
 
     void mvSliderInt3::setEnabled(bool value)
     {
+        if (value == m_enabled)
+            return;
+
         if (value)
             m_flags = m_stor_flags;
 
@@ -690,6 +711,9 @@ namespace Marvel {
 
     void mvSliderInt4::setEnabled(bool value)
     {
+        if (value == m_enabled)
+            return;
+
         if (value)
             m_flags = m_stor_flags;
 
