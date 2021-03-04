@@ -38,13 +38,13 @@ namespace Marvel {
 		MV_CREATE_THEME_CONSTANT(mvAppItemType::Child, mvThemeStyle_Child_ScrollbarRounding		, 18L, 0L);
 
 		MV_START_COLOR_CONSTANTS
-			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Child_Bg, mvColor(255, 255, 255, 255)),
-			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Child_MenuBar, mvColor(255, 255, 255, 255)),
-			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Child_Border, mvColor(255, 255, 255, 255)),
-			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Child_Scrollbar, mvColor(255, 255, 255, 255)),
-			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Child_ScrollbarGrab, mvColor(255, 255, 255, 255)),
-			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Child_ScrollbarGrabHovered, mvColor(255, 255, 255, 255)),
-			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Child_ScrollbarGrabActive, mvColor(255, 255, 255, 255)),
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Child_Bg,					mvColor(  0,   0,   0,   0)),
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Child_MenuBar,				mvColor( 36,  36,  36, 255)),
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Child_Border,				mvColor(110, 110, 128, 128)),
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Child_Scrollbar,				mvColor(  5,   5,   5, 135)),
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Child_ScrollbarGrab,			mvColor( 79,  79,  79, 255)),
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Child_ScrollbarGrabHovered,	mvColor(105, 105, 105, 255)),
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Child_ScrollbarGrabActive,	mvColor(130, 130, 130, 255)),
 		MV_END_COLOR_CONSTANTS
 
 		MV_START_STYLE_CONSTANTS

@@ -41,12 +41,12 @@ namespace Marvel {
 		MV_CREATE_THEME_CONSTANT(mvAppItemType::InputText, mvThemeStyle_InputText_InnerSpacingY	, 14L, 1L);
 
 		MV_START_COLOR_CONSTANTS
-			MV_CREATE_CONSTANT_PAIR(mvThemeCol_InputText_Text, mvColor(255, 255, 255, 255)),
-			MV_CREATE_CONSTANT_PAIR(mvThemeCol_InputText_TextHighlight, mvColor(255, 255, 255, 255)),
-			MV_CREATE_CONSTANT_PAIR(mvThemeCol_InputText_Bg, mvColor(255, 255, 255, 255)),
-			MV_CREATE_CONSTANT_PAIR(mvThemeCol_InputText_Hint, mvColor(255, 255, 255, 255)),
-			MV_CREATE_CONSTANT_PAIR(mvThemeCol_InputText_Border, mvColor(255, 255, 255, 255)),
-			MV_CREATE_CONSTANT_PAIR(mvThemeCol_InputText_BorderShadow, mvColor(255, 255, 255, 255)),
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_InputText_Text,			mvColor(255, 255, 255, 255)),
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_InputText_TextHighlight,	mvColor( 66, 150, 250,  89)),
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_InputText_Bg,			mvColor( 41,  74, 122, 138)),
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_InputText_Hint,			mvColor(128, 128, 128, 255)),
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_InputText_Border,		mvColor(110, 110, 128, 128)),
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_InputText_BorderShadow,	mvColor(  0,   0,   0,   0)),
 		MV_END_COLOR_CONSTANTS
 
 		MV_START_STYLE_CONSTANTS

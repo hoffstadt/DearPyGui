@@ -42,12 +42,12 @@ namespace Marvel {
 
 
 		MV_START_COLOR_CONSTANTS
-			MV_CREATE_CONSTANT_PAIR(mvThemeCol_CheckBox_Text,         mvColor(255, 255, 255, 255)),
-			MV_CREATE_CONSTANT_PAIR(mvThemeCol_CheckBox_Bg,           mvColor(255, 255, 255, 255)),
-			MV_CREATE_CONSTANT_PAIR(mvThemeCol_CheckBox_BgHovered,    mvColor(255, 255, 255, 255)),
-			MV_CREATE_CONSTANT_PAIR(mvThemeCol_CheckBox_BgActive,     mvColor(255, 255, 255, 255)),
-			MV_CREATE_CONSTANT_PAIR(mvThemeCol_CheckBox_Border,       mvColor(255, 255, 255, 255)),
-			MV_CREATE_CONSTANT_PAIR(mvThemeCol_CheckBox_BorderShadow, mvColor(255, 255, 255, 255)),
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_CheckBox_Text,			mvColor(255, 255, 255, 255)),
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_CheckBox_Bg,				mvColor( 41,  74, 122, 138)),
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_CheckBox_BgHovered,		mvColor( 66, 150, 250, 102)),
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_CheckBox_BgActive,		mvColor( 66, 150, 250, 171)),
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_CheckBox_Border,			mvColor(110, 110, 128, 128)),
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_CheckBox_BorderShadow,	mvColor(  0,   0,   0,   0)),
 		MV_END_COLOR_CONSTANTS
 
 		MV_START_STYLE_CONSTANTS

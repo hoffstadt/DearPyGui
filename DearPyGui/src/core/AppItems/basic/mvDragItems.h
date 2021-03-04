@@ -56,11 +56,11 @@ namespace Marvel {
 
         MV_START_COLOR_CONSTANTS
             MV_CREATE_CONSTANT_PAIR(mvThemeCol_DragFloat_Text,         mvColor(255, 255, 255, 255)),
-            MV_CREATE_CONSTANT_PAIR(mvThemeCol_DragFloat_Bg,           mvColor(255, 255, 255, 255)),
-            MV_CREATE_CONSTANT_PAIR(mvThemeCol_DragFloat_BgHovered,    mvColor(255, 255, 255, 255)),
-            MV_CREATE_CONSTANT_PAIR(mvThemeCol_DragFloat_BgActive,     mvColor(255, 255, 255, 255)),
-            MV_CREATE_CONSTANT_PAIR(mvThemeCol_DragFloat_Border,       mvColor(255, 255, 255, 255)),
-            MV_CREATE_CONSTANT_PAIR(mvThemeCol_DragFloat_BorderShadow, mvColor(255, 255, 255, 255)),
+            MV_CREATE_CONSTANT_PAIR(mvThemeCol_DragFloat_Bg,           mvColor( 41,  74, 122, 138)),
+            MV_CREATE_CONSTANT_PAIR(mvThemeCol_DragFloat_BgHovered,    mvColor( 66, 150, 250, 102)),
+            MV_CREATE_CONSTANT_PAIR(mvThemeCol_DragFloat_BgActive,     mvColor( 66, 150, 250, 171)),
+            MV_CREATE_CONSTANT_PAIR(mvThemeCol_DragFloat_Border,       mvColor(110, 110, 128, 128)),
+            MV_CREATE_CONSTANT_PAIR(mvThemeCol_DragFloat_BorderShadow, mvColor(  0,   0,   0,   0)),
         MV_END_COLOR_CONSTANTS
 
         MV_START_STYLE_CONSTANTS
@@ -137,11 +137,11 @@ namespace Marvel {
 
         MV_START_COLOR_CONSTANTS
             MV_CREATE_CONSTANT_PAIR(mvThemeCol_DragFloat2_Text,         mvColor(255, 255, 255, 255)),
-            MV_CREATE_CONSTANT_PAIR(mvThemeCol_DragFloat2_Bg,           mvColor(255, 255, 255, 255)),
-            MV_CREATE_CONSTANT_PAIR(mvThemeCol_DragFloat2_BgHovered,    mvColor(255, 255, 255, 255)),
-            MV_CREATE_CONSTANT_PAIR(mvThemeCol_DragFloat2_BgActive,     mvColor(255, 255, 255, 255)),
-            MV_CREATE_CONSTANT_PAIR(mvThemeCol_DragFloat2_Border,       mvColor(255, 255, 255, 255)),
-            MV_CREATE_CONSTANT_PAIR(mvThemeCol_DragFloat2_BorderShadow, mvColor(255, 255, 255, 255)),
+            MV_CREATE_CONSTANT_PAIR(mvThemeCol_DragFloat2_Bg,           mvColor( 41,  74, 122, 138)),
+            MV_CREATE_CONSTANT_PAIR(mvThemeCol_DragFloat2_BgHovered,    mvColor( 66, 150, 250, 102)),
+            MV_CREATE_CONSTANT_PAIR(mvThemeCol_DragFloat2_BgActive,     mvColor( 66, 150, 250, 171)),
+            MV_CREATE_CONSTANT_PAIR(mvThemeCol_DragFloat2_Border,       mvColor(110, 110, 128, 128)),
+            MV_CREATE_CONSTANT_PAIR(mvThemeCol_DragFloat2_BorderShadow, mvColor(  0,   0,   0,   0)),
         MV_END_COLOR_CONSTANTS
 
         MV_START_STYLE_CONSTANTS
@@ -203,11 +203,11 @@ namespace Marvel {
 
         MV_START_COLOR_CONSTANTS
             MV_CREATE_CONSTANT_PAIR(mvThemeCol_DragFloat3_Text,         mvColor(255, 255, 255, 255)),
-            MV_CREATE_CONSTANT_PAIR(mvThemeCol_DragFloat3_Bg,           mvColor(255, 255, 255, 255)),
-            MV_CREATE_CONSTANT_PAIR(mvThemeCol_DragFloat3_BgHovered,    mvColor(255, 255, 255, 255)),
-            MV_CREATE_CONSTANT_PAIR(mvThemeCol_DragFloat3_BgActive,     mvColor(255, 255, 255, 255)),
-            MV_CREATE_CONSTANT_PAIR(mvThemeCol_DragFloat3_Border,       mvColor(255, 255, 255, 255)),
-            MV_CREATE_CONSTANT_PAIR(mvThemeCol_DragFloat3_BorderShadow, mvColor(255, 255, 255, 255)),
+            MV_CREATE_CONSTANT_PAIR(mvThemeCol_DragFloat3_Bg,           mvColor( 41,  74, 122, 138)),
+            MV_CREATE_CONSTANT_PAIR(mvThemeCol_DragFloat3_BgHovered,    mvColor( 66, 150, 250, 102)),
+            MV_CREATE_CONSTANT_PAIR(mvThemeCol_DragFloat3_BgActive,     mvColor( 66, 150, 250, 171)),
+            MV_CREATE_CONSTANT_PAIR(mvThemeCol_DragFloat3_Border,       mvColor(110, 110, 128, 128)),
+            MV_CREATE_CONSTANT_PAIR(mvThemeCol_DragFloat3_BorderShadow, mvColor(  0,   0,   0,   0)),
         MV_END_COLOR_CONSTANTS
 
         MV_START_STYLE_CONSTANTS
@@ -270,11 +270,11 @@ namespace Marvel {
 
         MV_START_COLOR_CONSTANTS
             MV_CREATE_CONSTANT_PAIR(mvThemeCol_DragFloat4_Text,         mvColor(255, 255, 255, 255)),
-            MV_CREATE_CONSTANT_PAIR(mvThemeCol_DragFloat4_Bg,           mvColor(255, 255, 255, 255)),
-            MV_CREATE_CONSTANT_PAIR(mvThemeCol_DragFloat4_BgHovered,    mvColor(255, 255, 255, 255)),
-            MV_CREATE_CONSTANT_PAIR(mvThemeCol_DragFloat4_BgActive,     mvColor(255, 255, 255, 255)),
-            MV_CREATE_CONSTANT_PAIR(mvThemeCol_DragFloat4_Border,       mvColor(255, 255, 255, 255)),
-            MV_CREATE_CONSTANT_PAIR(mvThemeCol_DragFloat4_BorderShadow, mvColor(255, 255, 255, 255)),
+            MV_CREATE_CONSTANT_PAIR(mvThemeCol_DragFloat4_Bg,           mvColor( 41,  74, 122, 138)),
+            MV_CREATE_CONSTANT_PAIR(mvThemeCol_DragFloat4_BgHovered,    mvColor( 66, 150, 250, 102)),
+            MV_CREATE_CONSTANT_PAIR(mvThemeCol_DragFloat4_BgActive,     mvColor( 66, 150, 250, 171)),
+            MV_CREATE_CONSTANT_PAIR(mvThemeCol_DragFloat4_Border,       mvColor(110, 110, 128, 128)),
+            MV_CREATE_CONSTANT_PAIR(mvThemeCol_DragFloat4_BorderShadow, mvColor(  0,   0,   0,   0)),
         MV_END_COLOR_CONSTANTS
 
         MV_START_STYLE_CONSTANTS
@@ -348,11 +348,11 @@ namespace Marvel {
 
         MV_START_COLOR_CONSTANTS
             MV_CREATE_CONSTANT_PAIR(mvThemeCol_DragInt_Text,         mvColor(255, 255, 255, 255)),
-            MV_CREATE_CONSTANT_PAIR(mvThemeCol_DragInt_Bg,           mvColor(255, 255, 255, 255)),
-            MV_CREATE_CONSTANT_PAIR(mvThemeCol_DragInt_BgHovered,    mvColor(255, 255, 255, 255)),
-            MV_CREATE_CONSTANT_PAIR(mvThemeCol_DragInt_BgActive,     mvColor(255, 255, 255, 255)),
-            MV_CREATE_CONSTANT_PAIR(mvThemeCol_DragInt_Border,       mvColor(255, 255, 255, 255)),
-            MV_CREATE_CONSTANT_PAIR(mvThemeCol_DragInt_BorderShadow, mvColor(255, 255, 255, 255)),
+            MV_CREATE_CONSTANT_PAIR(mvThemeCol_DragInt_Bg,           mvColor( 41,  74, 122, 138)),
+            MV_CREATE_CONSTANT_PAIR(mvThemeCol_DragInt_BgHovered,    mvColor( 66, 150, 250, 102)),
+            MV_CREATE_CONSTANT_PAIR(mvThemeCol_DragInt_BgActive,     mvColor( 66, 150, 250, 171)),
+            MV_CREATE_CONSTANT_PAIR(mvThemeCol_DragInt_Border,       mvColor(110, 110, 128, 128)),
+            MV_CREATE_CONSTANT_PAIR(mvThemeCol_DragInt_BorderShadow, mvColor(  0,   0,   0,   0)),
         MV_END_COLOR_CONSTANTS
 
         MV_START_STYLE_CONSTANTS
@@ -426,11 +426,11 @@ namespace Marvel {
 
         MV_START_COLOR_CONSTANTS
             MV_CREATE_CONSTANT_PAIR(mvThemeCol_DragInt2_Text,         mvColor(255, 255, 255, 255)),
-            MV_CREATE_CONSTANT_PAIR(mvThemeCol_DragInt2_Bg,           mvColor(255, 255, 255, 255)),
-            MV_CREATE_CONSTANT_PAIR(mvThemeCol_DragInt2_BgHovered,    mvColor(255, 255, 255, 255)),
-            MV_CREATE_CONSTANT_PAIR(mvThemeCol_DragInt2_BgActive,     mvColor(255, 255, 255, 255)),
-            MV_CREATE_CONSTANT_PAIR(mvThemeCol_DragInt2_Border,       mvColor(255, 255, 255, 255)),
-            MV_CREATE_CONSTANT_PAIR(mvThemeCol_DragInt2_BorderShadow, mvColor(255, 255, 255, 255)),
+            MV_CREATE_CONSTANT_PAIR(mvThemeCol_DragInt2_Bg,           mvColor( 41,  74, 122, 138)),
+            MV_CREATE_CONSTANT_PAIR(mvThemeCol_DragInt2_BgHovered,    mvColor( 66, 150, 250, 102)),
+            MV_CREATE_CONSTANT_PAIR(mvThemeCol_DragInt2_BgActive,     mvColor( 66, 150, 250, 171)),
+            MV_CREATE_CONSTANT_PAIR(mvThemeCol_DragInt2_Border,       mvColor(110, 110, 128, 128)),
+            MV_CREATE_CONSTANT_PAIR(mvThemeCol_DragInt2_BorderShadow, mvColor(  0,   0,   0,   0)),
         MV_END_COLOR_CONSTANTS
 
         MV_START_STYLE_CONSTANTS
@@ -492,11 +492,11 @@ namespace Marvel {
 
         MV_START_COLOR_CONSTANTS
             MV_CREATE_CONSTANT_PAIR(mvThemeCol_DragInt3_Text,         mvColor(255, 255, 255, 255)),
-            MV_CREATE_CONSTANT_PAIR(mvThemeCol_DragInt3_Bg,           mvColor(255, 255, 255, 255)),
-            MV_CREATE_CONSTANT_PAIR(mvThemeCol_DragInt3_BgHovered,    mvColor(255, 255, 255, 255)),
-            MV_CREATE_CONSTANT_PAIR(mvThemeCol_DragInt3_BgActive,     mvColor(255, 255, 255, 255)),
-            MV_CREATE_CONSTANT_PAIR(mvThemeCol_DragInt3_Border,       mvColor(255, 255, 255, 255)),
-            MV_CREATE_CONSTANT_PAIR(mvThemeCol_DragInt3_BorderShadow, mvColor(255, 255, 255, 255)),
+            MV_CREATE_CONSTANT_PAIR(mvThemeCol_DragInt3_Bg,           mvColor( 41,  74, 122, 138)),
+            MV_CREATE_CONSTANT_PAIR(mvThemeCol_DragInt3_BgHovered,    mvColor( 66, 150, 250, 102)),
+            MV_CREATE_CONSTANT_PAIR(mvThemeCol_DragInt3_BgActive,     mvColor( 66, 150, 250, 171)),
+            MV_CREATE_CONSTANT_PAIR(mvThemeCol_DragInt3_Border,       mvColor(110, 110, 128, 128)),
+            MV_CREATE_CONSTANT_PAIR(mvThemeCol_DragInt3_BorderShadow, mvColor(  0,   0,   0,   0)),
         MV_END_COLOR_CONSTANTS
 
         MV_START_STYLE_CONSTANTS
@@ -558,11 +558,11 @@ namespace Marvel {
 
         MV_START_COLOR_CONSTANTS
             MV_CREATE_CONSTANT_PAIR(mvThemeCol_DragInt4_Text,         mvColor(255, 255, 255, 255)),
-            MV_CREATE_CONSTANT_PAIR(mvThemeCol_DragInt4_Bg,           mvColor(255, 255, 255, 255)),
-            MV_CREATE_CONSTANT_PAIR(mvThemeCol_DragInt4_BgHovered,    mvColor(255, 255, 255, 255)),
-            MV_CREATE_CONSTANT_PAIR(mvThemeCol_DragInt4_BgActive,     mvColor(255, 255, 255, 255)),
-            MV_CREATE_CONSTANT_PAIR(mvThemeCol_DragInt4_Border,       mvColor(255, 255, 255, 255)),
-            MV_CREATE_CONSTANT_PAIR(mvThemeCol_DragInt4_BorderShadow, mvColor(255, 255, 255, 255)),
+            MV_CREATE_CONSTANT_PAIR(mvThemeCol_DragInt4_Bg,           mvColor( 41,  74, 122, 138)),
+            MV_CREATE_CONSTANT_PAIR(mvThemeCol_DragInt4_BgHovered,    mvColor( 66, 150, 250, 102)),
+            MV_CREATE_CONSTANT_PAIR(mvThemeCol_DragInt4_BgActive,     mvColor( 66, 150, 250, 171)),
+            MV_CREATE_CONSTANT_PAIR(mvThemeCol_DragInt4_Border,       mvColor(110, 110, 128, 128)),
+            MV_CREATE_CONSTANT_PAIR(mvThemeCol_DragInt4_BorderShadow, mvColor(  0,   0,   0,   0)),
         MV_END_COLOR_CONSTANTS
 
         MV_START_STYLE_CONSTANTS

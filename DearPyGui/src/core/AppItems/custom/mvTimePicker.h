@@ -13,10 +13,10 @@ namespace Marvel {
 
 		MV_CREATE_THEME_CONSTANT(mvAppItemType::TimePicker, mvThemeCol_TimePicker_Time					,  0L, 0L);
 		MV_CREATE_THEME_CONSTANT(mvAppItemType::TimePicker, mvThemeCol_TimePicker_TimeHovered			, 22L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::TimePicker, mvThemeCol_TimePicker_DropDown				, 24L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::TimePicker, mvThemeCol_TimePicker_DropDownHovered		, 25L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::TimePicker, mvThemeCol_TimePicker_DropDownActive		, 26L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::TimePicker, mvThemeCol_TimePicker_DropDownBg			,  4L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvAppItemType::TimePicker, mvThemeCol_TimePicker_DropSelected			, 24L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvAppItemType::TimePicker, mvThemeCol_TimePicker_DropHovered			, 25L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvAppItemType::TimePicker, mvThemeCol_TimePicker_DropActive			, 26L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvAppItemType::TimePicker, mvThemeCol_TimePicker_DropBg				,  4L, 0L);
 		MV_CREATE_THEME_CONSTANT(mvAppItemType::TimePicker, mvThemeCol_TimePicker_Scrollbar				, 14L, 0L);
 		MV_CREATE_THEME_CONSTANT(mvAppItemType::TimePicker, mvThemeCol_TimePicker_ScrollbarGrab			, 15L, 0L);
 		MV_CREATE_THEME_CONSTANT(mvAppItemType::TimePicker, mvThemeCol_TimePicker_ScrollbarGrabHovered	, 16L, 0L);
@@ -38,18 +38,18 @@ namespace Marvel {
 		MV_CREATE_THEME_CONSTANT(mvAppItemType::TimePicker, mvThemeStyle_TimePicker_DropTextAlignY		, 23L, 1L);
 
 		MV_START_COLOR_CONSTANTS
-			MV_CREATE_CONSTANT_PAIR(mvThemeCol_TimePicker_Time, mvColor(255, 255, 255, 255)),
-			MV_CREATE_CONSTANT_PAIR(mvThemeCol_TimePicker_TimeHovered, mvColor(255, 255, 255, 255)),
-			MV_CREATE_CONSTANT_PAIR(mvThemeCol_TimePicker_DropDown, mvColor(255, 255, 255, 255)),
-			MV_CREATE_CONSTANT_PAIR(mvThemeCol_TimePicker_DropDownHovered, mvColor(255, 255, 255, 255)),
-			MV_CREATE_CONSTANT_PAIR(mvThemeCol_TimePicker_DropDownActive, mvColor(255, 255, 255, 255)),
-			MV_CREATE_CONSTANT_PAIR(mvThemeCol_TimePicker_DropDownBg, mvColor(255, 255, 255, 255)),
-			MV_CREATE_CONSTANT_PAIR(mvThemeCol_TimePicker_Scrollbar, mvColor(255, 255, 255, 255)),
-			MV_CREATE_CONSTANT_PAIR(mvThemeCol_TimePicker_ScrollbarGrab, mvColor(255, 255, 255, 255)),
-			MV_CREATE_CONSTANT_PAIR(mvThemeCol_TimePicker_ScrollbarGrabHovered, mvColor(255, 255, 255, 255)),
-			MV_CREATE_CONSTANT_PAIR(mvThemeCol_TimePicker_ScrollbarGrabActive, mvColor(255, 255, 255, 255)),
-			MV_CREATE_CONSTANT_PAIR(mvThemeCol_TimePicker_Border, mvColor(255, 255, 255, 255)),
-			MV_CREATE_CONSTANT_PAIR(mvThemeCol_TimePicker_BorderShadow, mvColor(255, 255, 255, 255)),
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_TimePicker_Time,					mvColor(255, 255, 255, 255)),
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_TimePicker_TimeHovered,			mvColor( 66, 150, 250, 255)),
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_TimePicker_DropSelected,			mvColor( 66, 150, 250,  79)),
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_TimePicker_DropHovered,			mvColor( 66, 150, 250, 102)),
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_TimePicker_DropActive,			mvColor( 66, 150, 250, 171)),
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_TimePicker_DropBg,				mvColor( 20,  20,  20, 240)),
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_TimePicker_Scrollbar,			mvColor(  5,   5,   5, 135)),
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_TimePicker_ScrollbarGrab,		mvColor( 79,  79,  79, 255)),
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_TimePicker_ScrollbarGrabHovered, mvColor(105, 105, 105, 255)),
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_TimePicker_ScrollbarGrabActive,	mvColor(130, 130, 130, 255)),
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_TimePicker_Border,               mvColor(110, 110, 128, 128)),
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_TimePicker_BorderShadow,         mvColor(  0,   0,   0,   0)),
 		MV_END_COLOR_CONSTANTS
 
 		MV_START_STYLE_CONSTANTS
