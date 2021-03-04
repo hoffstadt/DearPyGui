@@ -57,14 +57,14 @@ namespace Marvel {
         MV_CREATE_THEME_CONSTANT(mvAppItemType::SliderFloat, mvThemeStyle_SliderFloat_GrabRounding      , 20L, 0L);
 
         MV_START_COLOR_CONSTANTS
-            MV_CREATE_CONSTANT_PAIR(mvThemeCol_SliderFloat_Text, mvColor(255, 255, 255, 255)),
-            MV_CREATE_CONSTANT_PAIR(mvThemeCol_SliderFloat_Bg, mvColor(255, 255, 255, 255)),
-            MV_CREATE_CONSTANT_PAIR(mvThemeCol_SliderFloat_BgHovered, mvColor(255, 255, 255, 255)),
-            MV_CREATE_CONSTANT_PAIR(mvThemeCol_SliderFloat_BgActive, mvColor(255, 255, 255, 255)),
-            MV_CREATE_CONSTANT_PAIR(mvThemeCol_SliderFloat_Grab, mvColor(255, 255, 255, 255)),
-            MV_CREATE_CONSTANT_PAIR(mvThemeCol_SliderFloat_GrabActive, mvColor(255, 255, 255, 255)),
-            MV_CREATE_CONSTANT_PAIR(mvThemeCol_SliderFloat_Border, mvColor(255, 255, 255, 255)),
-            MV_CREATE_CONSTANT_PAIR(mvThemeCol_SliderFloat_BorderShadow, mvColor(255, 255, 255, 255)),
+            MV_CREATE_CONSTANT_PAIR(mvThemeCol_SliderFloat_Text,            mvColor(255, 255, 255, 255)),
+            MV_CREATE_CONSTANT_PAIR(mvThemeCol_SliderFloat_Bg,				mvColor( 41,  74, 122, 138)),
+            MV_CREATE_CONSTANT_PAIR(mvThemeCol_SliderFloat_BgHovered,		mvColor( 66, 150, 250, 102)),
+            MV_CREATE_CONSTANT_PAIR(mvThemeCol_SliderFloat_BgActive,		mvColor( 66, 150, 250, 171)),
+            MV_CREATE_CONSTANT_PAIR(mvThemeCol_SliderFloat_Grab,            mvColor( 61, 133, 224, 255)),
+            MV_CREATE_CONSTANT_PAIR(mvThemeCol_SliderFloat_GrabActive,      mvColor( 66, 150, 250, 255)),
+            MV_CREATE_CONSTANT_PAIR(mvThemeCol_SliderFloat_Border,			mvColor(110, 110, 128, 128)),
+            MV_CREATE_CONSTANT_PAIR(mvThemeCol_SliderFloat_BorderShadow,	mvColor(  0,   0,   0,   0)),
         MV_END_COLOR_CONSTANTS
 
         MV_START_STYLE_CONSTANTS
@@ -142,14 +142,14 @@ namespace Marvel {
         MV_CREATE_THEME_CONSTANT(mvAppItemType::SliderFloat2, mvThemeStyle_SliderFloat2_GrabRounding    , 20L, 0L);
 
         MV_START_COLOR_CONSTANTS
-            MV_CREATE_CONSTANT_PAIR(mvThemeCol_SliderFloat2_Text, mvColor(255, 255, 255, 255)),
-            MV_CREATE_CONSTANT_PAIR(mvThemeCol_SliderFloat2_Bg, mvColor(255, 255, 255, 255)),
-            MV_CREATE_CONSTANT_PAIR(mvThemeCol_SliderFloat2_BgHovered, mvColor(255, 255, 255, 255)),
-            MV_CREATE_CONSTANT_PAIR(mvThemeCol_SliderFloat2_BgActive, mvColor(255, 255, 255, 255)),
-            MV_CREATE_CONSTANT_PAIR(mvThemeCol_SliderFloat2_Grab, mvColor(255, 255, 255, 255)),
-            MV_CREATE_CONSTANT_PAIR(mvThemeCol_SliderFloat2_GrabActive, mvColor(255, 255, 255, 255)),
-            MV_CREATE_CONSTANT_PAIR(mvThemeCol_SliderFloat2_Border, mvColor(255, 255, 255, 255)),
-            MV_CREATE_CONSTANT_PAIR(mvThemeCol_SliderFloat2_BorderShadow, mvColor(255, 255, 255, 255)),
+            MV_CREATE_CONSTANT_PAIR(mvThemeCol_SliderFloat2_Text,           mvColor(255, 255, 255, 255)),
+            MV_CREATE_CONSTANT_PAIR(mvThemeCol_SliderFloat2_Bg,				mvColor( 41,  74, 122, 138)),
+            MV_CREATE_CONSTANT_PAIR(mvThemeCol_SliderFloat2_BgHovered,		mvColor( 66, 150, 250, 102)),
+            MV_CREATE_CONSTANT_PAIR(mvThemeCol_SliderFloat2_BgActive,		mvColor( 66, 150, 250, 171)),
+            MV_CREATE_CONSTANT_PAIR(mvThemeCol_SliderFloat2_Grab,           mvColor( 61, 133, 224, 255)),
+            MV_CREATE_CONSTANT_PAIR(mvThemeCol_SliderFloat2_GrabActive,     mvColor( 66, 150, 250, 255)),
+            MV_CREATE_CONSTANT_PAIR(mvThemeCol_SliderFloat2_Border,         mvColor(110, 110, 128, 128)),
+            MV_CREATE_CONSTANT_PAIR(mvThemeCol_SliderFloat2_BorderShadow,   mvColor(  0,   0,   0,   0)),
         MV_END_COLOR_CONSTANTS
 
         MV_START_STYLE_CONSTANTS
@@ -216,14 +216,14 @@ namespace Marvel {
         MV_CREATE_THEME_CONSTANT(mvAppItemType::SliderFloat3, mvThemeStyle_SliderFloat3_GrabRounding    , 20L, 0L);
 
         MV_START_COLOR_CONSTANTS
-            MV_CREATE_CONSTANT_PAIR(mvThemeCol_SliderFloat3_Text, mvColor(255, 255, 255, 255)),
-            MV_CREATE_CONSTANT_PAIR(mvThemeCol_SliderFloat3_Bg, mvColor(255, 255, 255, 255)),
-            MV_CREATE_CONSTANT_PAIR(mvThemeCol_SliderFloat3_BgHovered, mvColor(255, 255, 255, 255)),
-            MV_CREATE_CONSTANT_PAIR(mvThemeCol_SliderFloat3_BgActive, mvColor(255, 255, 255, 255)),
-            MV_CREATE_CONSTANT_PAIR(mvThemeCol_SliderFloat3_Grab, mvColor(255, 255, 255, 255)),
-            MV_CREATE_CONSTANT_PAIR(mvThemeCol_SliderFloat3_GrabActive, mvColor(255, 255, 255, 255)),
-            MV_CREATE_CONSTANT_PAIR(mvThemeCol_SliderFloat3_Border, mvColor(255, 255, 255, 255)),
-            MV_CREATE_CONSTANT_PAIR(mvThemeCol_SliderFloat3_BorderShadow, mvColor(255, 255, 255, 255)),
+            MV_CREATE_CONSTANT_PAIR(mvThemeCol_SliderFloat3_Text,           mvColor(255, 255, 255, 255)),
+            MV_CREATE_CONSTANT_PAIR(mvThemeCol_SliderFloat3_Bg,				mvColor( 41,  74, 122, 138)),
+            MV_CREATE_CONSTANT_PAIR(mvThemeCol_SliderFloat3_BgHovered,		mvColor( 66, 150, 250, 102)),
+            MV_CREATE_CONSTANT_PAIR(mvThemeCol_SliderFloat3_BgActive,		mvColor( 66, 150, 250, 171)),
+            MV_CREATE_CONSTANT_PAIR(mvThemeCol_SliderFloat3_Grab,           mvColor( 61, 133, 224, 255)),
+            MV_CREATE_CONSTANT_PAIR(mvThemeCol_SliderFloat3_GrabActive,     mvColor( 66, 150, 250, 255)),
+            MV_CREATE_CONSTANT_PAIR(mvThemeCol_SliderFloat3_Border,         mvColor(110, 110, 128, 128)),
+            MV_CREATE_CONSTANT_PAIR(mvThemeCol_SliderFloat3_BorderShadow,   mvColor(  0,   0,   0,   0)),
         MV_END_COLOR_CONSTANTS
 
         MV_START_STYLE_CONSTANTS
@@ -289,14 +289,14 @@ namespace Marvel {
         MV_CREATE_THEME_CONSTANT(mvAppItemType::SliderFloat4, mvThemeStyle_SliderFloat4_GrabRounding  , 20L, 0L);
 
         MV_START_COLOR_CONSTANTS
-            MV_CREATE_CONSTANT_PAIR(mvThemeCol_SliderFloat4_Text, mvColor(255, 255, 255, 255)),
-            MV_CREATE_CONSTANT_PAIR(mvThemeCol_SliderFloat4_Bg, mvColor(255, 255, 255, 255)),
-            MV_CREATE_CONSTANT_PAIR(mvThemeCol_SliderFloat4_BgHovered, mvColor(255, 255, 255, 255)),
-            MV_CREATE_CONSTANT_PAIR(mvThemeCol_SliderFloat4_BgActive, mvColor(255, 255, 255, 255)),
-            MV_CREATE_CONSTANT_PAIR(mvThemeCol_SliderFloat4_Grab, mvColor(255, 255, 255, 255)),
-            MV_CREATE_CONSTANT_PAIR(mvThemeCol_SliderFloat4_GrabActive, mvColor(255, 255, 255, 255)),
-            MV_CREATE_CONSTANT_PAIR(mvThemeCol_SliderFloat4_Border, mvColor(255, 255, 255, 255)),
-            MV_CREATE_CONSTANT_PAIR(mvThemeCol_SliderFloat4_BorderShadow, mvColor(255, 255, 255, 255)),
+            MV_CREATE_CONSTANT_PAIR(mvThemeCol_SliderFloat4_Text,           mvColor(255, 255, 255, 255)),
+            MV_CREATE_CONSTANT_PAIR(mvThemeCol_SliderFloat4_Bg,				mvColor( 41,  74, 122, 138)),
+            MV_CREATE_CONSTANT_PAIR(mvThemeCol_SliderFloat4_BgHovered,		mvColor( 66, 150, 250, 102)),
+            MV_CREATE_CONSTANT_PAIR(mvThemeCol_SliderFloat4_BgActive,		mvColor( 66, 150, 250, 171)),
+            MV_CREATE_CONSTANT_PAIR(mvThemeCol_SliderFloat4_Grab,           mvColor( 61, 133, 224, 255)),
+            MV_CREATE_CONSTANT_PAIR(mvThemeCol_SliderFloat4_GrabActive,     mvColor( 66, 150, 250, 255)),
+            MV_CREATE_CONSTANT_PAIR(mvThemeCol_SliderFloat4_Border,         mvColor(110, 110, 128, 128)),
+            MV_CREATE_CONSTANT_PAIR(mvThemeCol_SliderFloat4_BorderShadow,   mvColor(  0,   0,   0,   0)),
         MV_END_COLOR_CONSTANTS
 
         MV_START_STYLE_CONSTANTS
@@ -375,14 +375,14 @@ namespace Marvel {
 
 
         MV_START_COLOR_CONSTANTS
-            MV_CREATE_CONSTANT_PAIR(mvThemeCol_SliderInt_Text, mvColor(255, 255, 255, 255)),
-            MV_CREATE_CONSTANT_PAIR(mvThemeCol_SliderInt_Bg, mvColor(255, 255, 255, 255)),
-            MV_CREATE_CONSTANT_PAIR(mvThemeCol_SliderInt_BgHovered, mvColor(255, 255, 255, 255)),
-            MV_CREATE_CONSTANT_PAIR(mvThemeCol_SliderInt_BgActive, mvColor(255, 255, 255, 255)),
-            MV_CREATE_CONSTANT_PAIR(mvThemeCol_SliderInt_Grab, mvColor(255, 255, 255, 255)),
-            MV_CREATE_CONSTANT_PAIR(mvThemeCol_SliderInt_GrabActive, mvColor(255, 255, 255, 255)),
-            MV_CREATE_CONSTANT_PAIR(mvThemeCol_SliderInt_Border, mvColor(255, 255, 255, 255)),
-            MV_CREATE_CONSTANT_PAIR(mvThemeCol_SliderInt_BorderShadow, mvColor(255, 255, 255, 255)),
+            MV_CREATE_CONSTANT_PAIR(mvThemeCol_SliderInt_Text,          mvColor(255, 255, 255, 255)),
+            MV_CREATE_CONSTANT_PAIR(mvThemeCol_SliderInt_Bg,             mvColor( 41,  74, 122, 138)),
+            MV_CREATE_CONSTANT_PAIR(mvThemeCol_SliderInt_BgHovered,		mvColor( 66, 150, 250, 102)),
+            MV_CREATE_CONSTANT_PAIR(mvThemeCol_SliderInt_BgActive,      mvColor( 66, 150, 250, 171)),
+            MV_CREATE_CONSTANT_PAIR(mvThemeCol_SliderInt_Grab,          mvColor( 61, 133, 224, 255)),
+            MV_CREATE_CONSTANT_PAIR(mvThemeCol_SliderInt_GrabActive,    mvColor( 66, 150, 250, 255)),
+            MV_CREATE_CONSTANT_PAIR(mvThemeCol_SliderInt_Border,        mvColor(110, 110, 128, 128)),
+            MV_CREATE_CONSTANT_PAIR(mvThemeCol_SliderInt_BorderShadow,  mvColor(  0,   0,   0,   0)),
         MV_END_COLOR_CONSTANTS
 
         MV_START_STYLE_CONSTANTS
@@ -460,14 +460,14 @@ namespace Marvel {
         MV_CREATE_THEME_CONSTANT(mvAppItemType::SliderInt2, mvThemeStyle_SliderInt2_GrabRounding    , 20L, 0L);
 
         MV_START_COLOR_CONSTANTS
-            MV_CREATE_CONSTANT_PAIR(mvThemeCol_SliderInt2_Text, mvColor(255, 255, 255, 255)),
-            MV_CREATE_CONSTANT_PAIR(mvThemeCol_SliderInt2_Bg, mvColor(255, 255, 255, 255)),
-            MV_CREATE_CONSTANT_PAIR(mvThemeCol_SliderInt2_BgHovered, mvColor(255, 255, 255, 255)),
-            MV_CREATE_CONSTANT_PAIR(mvThemeCol_SliderInt2_BgActive, mvColor(255, 255, 255, 255)),
-            MV_CREATE_CONSTANT_PAIR(mvThemeCol_SliderInt2_Grab, mvColor(255, 255, 255, 255)),
-            MV_CREATE_CONSTANT_PAIR(mvThemeCol_SliderInt2_GrabActive, mvColor(255, 255, 255, 255)),
-            MV_CREATE_CONSTANT_PAIR(mvThemeCol_SliderInt2_Border, mvColor(255, 255, 255, 255)),
-            MV_CREATE_CONSTANT_PAIR(mvThemeCol_SliderInt2_BorderShadow, mvColor(255, 255, 255, 255)),
+            MV_CREATE_CONSTANT_PAIR(mvThemeCol_SliderInt2_Text,         mvColor(255, 255, 255, 255)),
+            MV_CREATE_CONSTANT_PAIR(mvThemeCol_SliderInt2_Bg,           mvColor( 41,  74, 122, 138)),
+            MV_CREATE_CONSTANT_PAIR(mvThemeCol_SliderInt2_BgHovered,    mvColor( 66, 150, 250, 102)),
+            MV_CREATE_CONSTANT_PAIR(mvThemeCol_SliderInt2_BgActive,     mvColor( 66, 150, 250, 171)),
+            MV_CREATE_CONSTANT_PAIR(mvThemeCol_SliderInt2_Grab,         mvColor( 61, 133, 224, 255)),
+            MV_CREATE_CONSTANT_PAIR(mvThemeCol_SliderInt2_GrabActive,   mvColor( 66, 150, 250, 255)),
+            MV_CREATE_CONSTANT_PAIR(mvThemeCol_SliderInt2_Border,       mvColor(110, 110, 128, 128)),
+            MV_CREATE_CONSTANT_PAIR(mvThemeCol_SliderInt2_BorderShadow, mvColor(  0,   0,   0,   0)),
         MV_END_COLOR_CONSTANTS
 
         MV_START_STYLE_CONSTANTS
@@ -533,14 +533,14 @@ namespace Marvel {
         MV_CREATE_THEME_CONSTANT(mvAppItemType::SliderInt3, mvThemeStyle_SliderInt3_GrabRounding    , 20L, 0L);
 
         MV_START_COLOR_CONSTANTS
-            MV_CREATE_CONSTANT_PAIR(mvThemeCol_SliderInt3_Text, mvColor(255, 255, 255, 255)),
-            MV_CREATE_CONSTANT_PAIR(mvThemeCol_SliderInt3_Bg, mvColor(255, 255, 255, 255)),
-            MV_CREATE_CONSTANT_PAIR(mvThemeCol_SliderInt3_BgHovered, mvColor(255, 255, 255, 255)),
-            MV_CREATE_CONSTANT_PAIR(mvThemeCol_SliderInt3_BgActive, mvColor(255, 255, 255, 255)),
-            MV_CREATE_CONSTANT_PAIR(mvThemeCol_SliderInt3_Grab, mvColor(255, 255, 255, 255)),
-            MV_CREATE_CONSTANT_PAIR(mvThemeCol_SliderInt3_GrabActive, mvColor(255, 255, 255, 255)),
-            MV_CREATE_CONSTANT_PAIR(mvThemeCol_SliderInt3_Border, mvColor(255, 255, 255, 255)),
-            MV_CREATE_CONSTANT_PAIR(mvThemeCol_SliderInt3_BorderShadow, mvColor(255, 255, 255, 255)),
+            MV_CREATE_CONSTANT_PAIR(mvThemeCol_SliderInt3_Text,         mvColor(255, 255, 255, 255)),
+            MV_CREATE_CONSTANT_PAIR(mvThemeCol_SliderInt3_Bg,           mvColor( 41,  74, 122, 138)),
+            MV_CREATE_CONSTANT_PAIR(mvThemeCol_SliderInt3_BgHovered,    mvColor( 66, 150, 250, 102)),
+            MV_CREATE_CONSTANT_PAIR(mvThemeCol_SliderInt3_BgActive,     mvColor( 66, 150, 250, 171)),
+            MV_CREATE_CONSTANT_PAIR(mvThemeCol_SliderInt3_Grab,         mvColor( 61, 133, 224, 255)),
+            MV_CREATE_CONSTANT_PAIR(mvThemeCol_SliderInt3_GrabActive,   mvColor( 66, 150, 250, 255)),
+            MV_CREATE_CONSTANT_PAIR(mvThemeCol_SliderInt3_Border,       mvColor(110, 110, 128, 128)),
+            MV_CREATE_CONSTANT_PAIR(mvThemeCol_SliderInt3_BorderShadow, mvColor(  0,   0,   0,   0)),
         MV_END_COLOR_CONSTANTS
 
         MV_START_STYLE_CONSTANTS
@@ -606,14 +606,14 @@ namespace Marvel {
         MV_CREATE_THEME_CONSTANT(mvAppItemType::SliderInt4, mvThemeStyle_SliderInt4_GrabRounding    , 20L, 0L);
 
         MV_START_COLOR_CONSTANTS
-            MV_CREATE_CONSTANT_PAIR(mvThemeCol_SliderInt4_Text, mvColor(255, 255, 255, 255)),
-            MV_CREATE_CONSTANT_PAIR(mvThemeCol_SliderInt4_Bg, mvColor(255, 255, 255, 255)),
-            MV_CREATE_CONSTANT_PAIR(mvThemeCol_SliderInt4_BgHovered, mvColor(255, 255, 255, 255)),
-            MV_CREATE_CONSTANT_PAIR(mvThemeCol_SliderInt4_BgActive, mvColor(255, 255, 255, 255)),
-            MV_CREATE_CONSTANT_PAIR(mvThemeCol_SliderInt4_Grab, mvColor(255, 255, 255, 255)),
-            MV_CREATE_CONSTANT_PAIR(mvThemeCol_SliderInt4_GrabActive, mvColor(255, 255, 255, 255)),
-            MV_CREATE_CONSTANT_PAIR(mvThemeCol_SliderInt4_Border, mvColor(255, 255, 255, 255)),
-            MV_CREATE_CONSTANT_PAIR(mvThemeCol_SliderInt4_BorderShadow, mvColor(255, 255, 255, 255)),
+            MV_CREATE_CONSTANT_PAIR(mvThemeCol_SliderInt4_Text,         mvColor(255, 255, 255, 255)),
+            MV_CREATE_CONSTANT_PAIR(mvThemeCol_SliderInt4_Bg,           mvColor( 41,  74, 122, 138)),
+            MV_CREATE_CONSTANT_PAIR(mvThemeCol_SliderInt4_BgHovered,    mvColor( 66, 150, 250, 102)),
+            MV_CREATE_CONSTANT_PAIR(mvThemeCol_SliderInt4_BgActive,     mvColor( 66, 150, 250, 171)),
+            MV_CREATE_CONSTANT_PAIR(mvThemeCol_SliderInt4_Grab,         mvColor( 61, 133, 224, 255)),
+            MV_CREATE_CONSTANT_PAIR(mvThemeCol_SliderInt4_GrabActive,   mvColor( 66, 150, 250, 255)),
+            MV_CREATE_CONSTANT_PAIR(mvThemeCol_SliderInt4_Border,       mvColor(110, 110, 128, 128)),
+            MV_CREATE_CONSTANT_PAIR(mvThemeCol_SliderInt4_BorderShadow, mvColor(  0,   0,   0,   0)),
         MV_END_COLOR_CONSTANTS
 
         MV_START_STYLE_CONSTANTS
