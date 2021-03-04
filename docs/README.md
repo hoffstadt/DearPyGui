@@ -12,7 +12,7 @@
 ![Python Version](https://img.shields.io/pypi/pyversions/dearpygui)
 [![PYPI](https://img.shields.io/pypi/v/dearpygui)](https://pypi.org/project/dearpygui/)
 [![Downloads](https://pepy.tech/badge/dearpygui)](https://pepy.tech/project/dearpygui)
-[![Sponsors](https://img.shields.io/badge/sponsors-25-brightgreen)](https://img.shields.io/badge/sponsors-25-brightgreen)
+[![Sponsors](https://img.shields.io/badge/sponsors-26-brightgreen)](https://img.shields.io/badge/sponsors-26-brightgreen)
 
 [![build status](https://github.com/hoffstadt/DearPyGui/workflows/Embedded%20Build/badge.svg?branch=master)](https://github.com/hoffstadt/DearPyGui/actions?workflow=Embedded%20Build)
 [![static-analysis](https://github.com/hoffstadt/DearPyGui/workflows/static-analysis/badge.svg?branch=master)](https://github.com/hoffstadt/DearPyGui/actions?workflow=static-analysis)
@@ -150,6 +150,7 @@ These include:
 * 🏆 [何凌锋](https://github.com/Hedaozi) _Partner Sponsor_
 * 🏆 [Nikki Luzader](https://github.com/nikkiluzader) _Partner Sponsor_
 * 🏆 [Ray Heasman](https://github.com/rheasman) _Partner Sponsor_
+* 🏆 [Marco Studer](https://github.com/Mstpyt) _Partner Sponsor_
 * 🥇 [Caden Bloxham](https://github.com/cubic-unit) _Gold Sponsor_
 * 🥇 [Michael Kadziela](https://github.com/Innominus) _Gold Sponsor_
 * 🥇 [Yan Zaretskiy](https://github.com/mindv0rtex) _Gold Sponsor_

@@ -28,6 +28,7 @@ namespace Marvel {
 			{mvPythonDataType::Bool, "no_background", "", "False"},
 			{mvPythonDataType::String, "label", "", "''"},
 			{mvPythonDataType::Bool, "show", "Attempt to render", "True"},
+			{mvPythonDataType::Bool, "collapsed", "Collapse the window", "False"},
 			{mvPythonDataType::Callable, "on_close", "Callback ran when window is closed", "None"},
 		}, "Creates a new window for following items to be added to.",
 			"None", "Containers") });
@@ -240,6 +241,11 @@ namespace Marvel {
 			m_dirty_size = false;
 		}
 
+		if (m_collapsedDirty)
+		{
+			ImGui::SetNextWindowCollapsed(m_config.collapsed);
+			m_collapsedDirty = false;
+		}
 
 		auto styleManager = m_styleManager.getScopedStyleManager();
 		ScopedID id;
@@ -314,6 +320,9 @@ namespace Marvel {
 		m_drawList->draw(ImGui::GetWindowDrawList(), m_config.xpos, m_config.ypos);
 
 		ImGui::End();
+
+		m_config.collapsed = ImGui::IsWindowCollapsed();
+
 	}
 
 #ifdef MV_CPP
@@ -344,6 +353,12 @@ namespace Marvel {
 		if (PyObject* item = PyDict_GetItemString(dict, "x_pos")) setWindowPos((float)ToInt(item), (float)m_config.ypos);
 		if (PyObject* item = PyDict_GetItemString(dict, "y_pos")) setWindowPos((float)m_config.xpos, (float)ToInt(item));
 		if (PyObject* item = PyDict_GetItemString(dict, "no_close")) m_config.no_close = ToBool(item);
+		if (PyObject* item = PyDict_GetItemString(dict, "collapsed"))
+		{
+			m_collapsedDirty = true;
+			m_config.collapsed = ToBool(item);
+		}
+
 
 		// helper for bit flipping
 		auto flagop = [dict](const char* keyword, int flag, int& flags)
@@ -380,6 +395,7 @@ namespace Marvel {
 		PyDict_SetItemString(dict, "x_pos", ToPyInt(m_config.xpos));
 		PyDict_SetItemString(dict, "y_pos", ToPyInt(m_config.ypos));
 		PyDict_SetItemString(dict, "no_close", ToPyBool(m_closing));
+		PyDict_SetItemString(dict, "collapsed", ToPyBool(m_config.collapsed));
 
 		// helper to check and set bit
 		auto checkbitset = [dict](const char* keyword, int flag, const int& flags)
@@ -423,12 +439,14 @@ namespace Marvel {
 
 		const char* label = "";
 		int show = true;
+		int collapsed = false;
+
 		PyObject* closing_callback = nullptr;
 
 		if (!(*mvApp::GetApp()->getParsers())["add_window"].parse(args, kwargs, __FUNCTION__, &name, &width,
 			&height, &x_pos, &y_pos, &autosize, &no_resize, &no_title_bar, &no_move, &no_scrollbar,
 			&no_collapse, &horizontal_scrollbar, &no_focus_on_appearing, &no_bring_to_front_on_focus, &menubar,
-			&noclose, &no_background, &label, &show, &closing_callback))
+			&noclose, &no_background, &label, &show, &collapsed, &closing_callback))
 			return ToPyBool(false);
 
 		if (closing_callback)
