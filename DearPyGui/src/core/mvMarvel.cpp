@@ -39,17 +39,17 @@ namespace Marvel {
 		{
 			constants.push_back({ std::get<0>(item), std::get<1>(item) });
 
-			// //uncomment
-			//mvEventBus::Publish
-			//(
-			//	mvEVT_CATEGORY_THEMES,
-			//	SID("color_change"),
-			//	{
-			//		CreateEventArgument("WIDGET", std::string("")),
-			//		CreateEventArgument("ID", std::get<1>(item)),
-			//		CreateEventArgument("COLOR", std::get<2>(item))
-			//	}
-			//);
+			 //uncomment
+			mvEventBus::Publish
+			(
+				mvEVT_CATEGORY_THEMES,
+				SID("color_change"),
+				{
+					CreateEventArgument("WIDGET", std::string("")),
+					CreateEventArgument("ID", std::get<1>(item)),
+					CreateEventArgument("COLOR", std::get<2>(item))
+				}
+			);
 		}
 	}
 	template <typename T>
