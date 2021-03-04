@@ -23,6 +23,7 @@ namespace Marvel {
 		bool menubar = false;
 		bool no_close = false;
 		bool no_background = false;
+		bool collapsed = false;
 		mvCallable on_close = nullptr;
 		
 		mvWindowAppItemConfig()
@@ -161,6 +162,7 @@ namespace Marvel {
 		bool                  m_hasMenuBar = false;
 		bool                  m_focusNextFrame = false;
 		bool                  m_closing = true;
+		bool                  m_collapsedDirty = true;
 		mvRef<mvDrawList>     m_drawList;
 		
 	};

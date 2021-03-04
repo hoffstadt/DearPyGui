@@ -18,6 +18,9 @@ namespace Marvel {
 
     void mvDragFloat::setEnabled(bool value)
     {
+        if (value == m_core_config.enabled)
+            return;
+
         if (value)
         {
             m_flags = m_stor_flags;
@@ -90,6 +93,9 @@ namespace Marvel {
 
     void mvDragFloat2::setEnabled(bool value)
     {
+        if (value == m_core_config.enabled)
+            return;
+
         if (value)
         {
             m_flags = m_stor_flags;
@@ -158,6 +164,9 @@ namespace Marvel {
 
     void mvDragFloat3::setEnabled(bool value)
     {
+        if (value == m_core_config.enabled)
+            return;
+
         if (value)
             m_flags = m_stor_flags;
 
@@ -226,6 +235,9 @@ namespace Marvel {
 
     void mvDragFloat4::setEnabled(bool value)
     {
+        if (value == m_core_config.enabled)
+            return;
+
         if (value)
             m_flags = m_stor_flags;
 
@@ -294,6 +306,9 @@ namespace Marvel {
 
     void mvDragInt::setEnabled(bool value)
     {
+        if (value == m_core_config.enabled)
+            return;
+
         if (value)
             m_flags = m_stor_flags;
 
@@ -362,6 +377,9 @@ namespace Marvel {
 
     void mvDragInt2::setEnabled(bool value)
     {
+        if (value == m_core_config.enabled)
+            return;
+
         if (value)
             m_flags = m_stor_flags;
 
@@ -430,6 +448,9 @@ namespace Marvel {
 
     void mvDragInt3::setEnabled(bool value)
     {
+        if (value == m_core_config.enabled)
+            return;
+
         if (value)
             m_flags = m_stor_flags;
 
@@ -498,6 +519,9 @@ namespace Marvel {
 
     void mvDragInt4::setEnabled(bool value)
     {
+        if (value == m_core_config.enabled)
+            return;
+
         if (value)
             m_flags = m_stor_flags;
 
