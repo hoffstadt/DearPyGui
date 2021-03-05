@@ -391,7 +391,7 @@ def add_text_point(plot: str, name: str, x: float, y: float, *, vertical: bool =
 	...
 
 def add_texture(name: str, data: List[int], width: int, height: int, *, format: int = 0) -> None:
-	"""Adds a texture."""
+	"""Adds a texture. Incorrect format may yield unexpected results."""
 	...
 
 def add_time_picker(name: str, *, default_value: dict = {'hour': 14, 'min': 32, 'sec': 23}, hour24: bool = False, callback: Callable = None, callback_data: Any = None, parent: str = '', before: str = '', show: bool = True) -> None:
