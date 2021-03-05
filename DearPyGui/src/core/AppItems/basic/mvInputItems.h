@@ -37,9 +37,25 @@ namespace Marvel {
         int     step_fast      = 100;
         bool    readonly       = false;
     };
+
+#ifdef MV_CPP
+#else
+	PyObject* add_input_int   (PyObject* self, PyObject* args, PyObject* kwargs);
+	PyObject* add_input_int2  (PyObject* self, PyObject* args, PyObject* kwargs);
+	PyObject* add_input_int3  (PyObject* self, PyObject* args, PyObject* kwargs);
+	PyObject* add_input_int4  (PyObject* self, PyObject* args, PyObject* kwargs);
+	PyObject* add_input_float (PyObject* self, PyObject* args, PyObject* kwargs);
+	PyObject* add_input_float2(PyObject* self, PyObject* args, PyObject* kwargs);
+	PyObject* add_input_float3(PyObject* self, PyObject* args, PyObject* kwargs);
+	PyObject* add_input_float4(PyObject* self, PyObject* args, PyObject* kwargs);
+#endif
     
     class mvInputInt : public mvIntPtrBase
     {
+
+    public:
+
+        static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
         
         MV_APPITEM_TYPE(mvAppItemType::InputInt, mvInputInt, "add_input_int")
 
@@ -129,6 +145,10 @@ namespace Marvel {
     class mvInputInt2 : public mvInt2PtrBase
     {
 
+    public:
+
+        static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
+
         MV_APPITEM_TYPE(mvAppItemType::InputInt2, mvInputInt2, "add_input_int2")
 
         MV_CREATE_THEME_CONSTANT(mvAppItemType::InputInt2, mvThemeCol_InputInt2_Text            ,  0L, 0L);
@@ -193,6 +213,10 @@ namespace Marvel {
     //-----------------------------------------------------------------------------
     class mvInputInt3 : public mvInt3PtrBase
     {
+
+    public:
+
+        static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
 
         MV_APPITEM_TYPE(mvAppItemType::InputInt3, mvInputInt3, "add_input_int3")
 
@@ -259,6 +283,10 @@ namespace Marvel {
     //-----------------------------------------------------------------------------
     class mvInputInt4 : public mvInt4PtrBase
     {
+
+    public:
+
+        static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
     
         MV_APPITEM_TYPE(mvAppItemType::InputInt4, mvInputInt4, "add_input_int4")
 
@@ -339,6 +367,10 @@ namespace Marvel {
     
     class mvInputFloat : public mvFloatPtrBase
     {
+
+    public:
+
+        static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
         
         MV_APPITEM_TYPE(mvAppItemType::InputFloat, mvInputFloat, "add_input_float")
 
@@ -428,6 +460,10 @@ namespace Marvel {
     
     class mvInputFloat2: public mvFloat2PtrBase
     {
+
+    public:
+
+        static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
     
         MV_APPITEM_TYPE(mvAppItemType::InputFloat2, mvInputFloat2, "add_input_float2")
 
@@ -494,6 +530,10 @@ namespace Marvel {
     //-----------------------------------------------------------------------------
     class mvInputFloat3 : public mvFloat3PtrBase
     {
+
+    public:
+
+        static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
         
         MV_APPITEM_TYPE(mvAppItemType::InputFloat3, mvInputFloat3, "add_input_float3")
 
@@ -560,6 +600,10 @@ namespace Marvel {
     //-----------------------------------------------------------------------------
     class mvInputFloat4 : public mvFloat4PtrBase
     {
+
+    public:
+
+        static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
     
         MV_APPITEM_TYPE(mvAppItemType::InputFloat4, mvInputFloat3, "add_input_float4")
 

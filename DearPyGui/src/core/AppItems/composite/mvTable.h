@@ -16,7 +16,32 @@ namespace Marvel {
 		}
 	};
 
+#ifdef MV_CPP
+#else
 	PyObject* add_table(PyObject* self, PyObject* args, PyObject* kwargs);
+
+	// table
+	PyObject* set_table_data(PyObject* self, PyObject* args, PyObject* kwargs);
+	PyObject* get_table_data(PyObject* self, PyObject* args, PyObject* kwargs);
+	PyObject* clear_table(PyObject* self, PyObject* args, PyObject* kwargs);
+	PyObject* get_table_item(PyObject* self, PyObject* args, PyObject* kwargs);
+	PyObject* set_table_item(PyObject* self, PyObject* args, PyObject* kwargs);
+	PyObject* get_table_selections(PyObject* self, PyObject* args, PyObject* kwargs);
+	PyObject* set_table_selection(PyObject* self, PyObject* args, PyObject* kwargs);
+
+	// column
+	PyObject* add_column(PyObject* self, PyObject* args, PyObject* kwargs);
+	PyObject* insert_column(PyObject* self, PyObject* args, PyObject* kwargs);
+	PyObject* delete_column(PyObject* self, PyObject* args, PyObject* kwargs);
+
+	// row
+	PyObject* add_row(PyObject* self, PyObject* args, PyObject* kwargs);
+	PyObject* insert_row(PyObject* self, PyObject* args, PyObject* kwargs);
+	PyObject* delete_row(PyObject* self, PyObject* args, PyObject* kwargs);
+
+#endif // MV_CPP
+
+	
 
 	class mvTable : public mvAppItem
 	{

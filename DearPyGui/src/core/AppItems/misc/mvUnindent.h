@@ -4,8 +4,17 @@
 
 namespace Marvel {
 
+#ifdef MV_CPP
+#else
+	PyObject* unindent(PyObject* self, PyObject* args, PyObject* kwargs);
+#endif
+
 	class mvUnindent : public mvFloatPtrBase
 	{
+
+	public:
+
+		static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
 
 	public:
 
@@ -17,16 +26,9 @@ namespace Marvel {
 		MV_START_STYLE_CONSTANTS
 		MV_END_STYLE_CONSTANTS
 
-		mvUnindent(const std::string& name, float default_value)
-			: mvFloatPtrBase(name, default_value)
-		{
-			m_description.duplicatesAllowed = true;
-		}
+		mvUnindent(const std::string& name, float default_value);
 
-		void draw() override
-		{
-			ImGui::Unindent(*m_value);
-		}
+		void draw() override;
 
 	};
 

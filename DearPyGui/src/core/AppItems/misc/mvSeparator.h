@@ -4,8 +4,19 @@
 
 namespace Marvel {
 
+#ifdef MV_CPP
+#else
+	PyObject* add_separator(PyObject* self, PyObject* args, PyObject* kwargs);
+#endif
+
 	class mvSeparator : public mvAppItem
 	{
+
+
+	public:
+
+		static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
+
 		MV_APPITEM_TYPE(mvAppItemType::Separator, mvSeparator, "add_separator")
 
 		MV_CREATE_THEME_CONSTANT(mvAppItemType::Separator, mvThemeCol_Separator, 27L, 0L);
@@ -19,20 +30,9 @@ namespace Marvel {
 
 	public:
 
-			mvSeparator(const std::string& name)
-			: mvAppItem(name)
-		{
-			m_description.duplicatesAllowed = true;
-		}
+		mvSeparator(const std::string& name);
 
-		void draw() override
-		{
-			auto styleManager = m_styleManager.getScopedStyleManager();
-			mvImGuiThemeScope scope(this);
-
-			ImGui::Separator();
-
-		}
+		void draw() override;
 
 	};
 

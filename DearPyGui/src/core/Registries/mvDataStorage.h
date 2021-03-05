@@ -17,9 +17,22 @@
 #include <string>
 #include <unordered_map>
 #include <mutex>
+#include <map>
 #include "mvPython.h"
 
 namespace Marvel {
+
+	// forward declarations
+	class mvPythonParser;
+
+#ifdef MV_CPP
+#else
+	void AddDataStorageCommands(std::map<std::string, mvPythonParser>* parsers);
+
+	PyObject* add_data   (PyObject* self, PyObject* args, PyObject* kwargs);
+	PyObject* get_data   (PyObject* self, PyObject* args, PyObject* kwargs);
+	PyObject* delete_data(PyObject* self, PyObject* args, PyObject* kwargs);
+#endif
 
 	//-----------------------------------------------------------------------------
 	// mvDataStorage

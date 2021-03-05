@@ -99,4 +99,65 @@ namespace Marvel {
 		return (unsigned)s_dataStorage.size();
 	}
 
+#ifdef MV_CPP
+#else
+	void AddDataStorageCommands(std::map<std::string, mvPythonParser>* parsers)
+	{
+
+		parsers->insert({ "add_data", mvPythonParser({
+			{mvPythonDataType::String, "name"},
+			{mvPythonDataType::Object, "data"}
+		}, "Adds data for later retrieval.") });
+
+		parsers->insert({ "get_data", mvPythonParser({
+			{mvPythonDataType::String, "name"}
+		}, "Retrieves data from storage.", "object") });
+
+		parsers->insert({ "delete_data", mvPythonParser({
+			{mvPythonDataType::String, "name"}
+		}, "Deletes data from storage.") });
+
+	}
+
+	PyObject* add_data(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+
+		const char* name;
+		PyObject* data;
+
+		if (!(*mvApp::GetApp()->getParsers())["add_data"].parse(args, kwargs, __FUNCTION__, &name, &data))
+			return GetPyNone();
+
+		Py_XINCREF(data);
+
+		mvDataStorage::AddData(name, data);
+
+		return GetPyNone();
+	}
+
+	PyObject* get_data(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+
+		const char* name;
+
+		if (!(*mvApp::GetApp()->getParsers())["get_data"].parse(args, kwargs, __FUNCTION__, &name))
+			return GetPyNone();
+
+		return mvDataStorage::GetDataIncRef(name);
+
+	}
+
+	PyObject* delete_data(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+
+		const char* name;
+
+		if (!(*mvApp::GetApp()->getParsers())["delete_data"].parse(args, kwargs, __FUNCTION__, &name))
+			return GetPyNone();
+
+		mvDataStorage::DeleteData(name);
+
+		return GetPyNone();
+	}
+#endif
 }
