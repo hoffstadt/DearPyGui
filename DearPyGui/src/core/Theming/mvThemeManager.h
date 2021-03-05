@@ -6,9 +6,6 @@
 
 namespace Marvel {
 
-	class mvAppItem;
-	enum class mvAppItemType;
-
 	class mvThemeManager : public mvEventHandler
 	{
 
