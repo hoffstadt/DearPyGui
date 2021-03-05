@@ -521,6 +521,10 @@ namespace Marvel {
 			{ "mvTEX_RGBA_FLOAT", 1 },
 			{ "mvTEX_RGB_FLOAT"	, 2 },
 			{ "mvTEX_RGB_INT"	, 3 },
+			{ "mvTEX_BGRA_INT"	, 4 },
+			{ "mvTEX_BGRA_FLOAT", 5 },
+			{ "mvTEX_BGR_FLOAT"	, 6 },
+			{ "mvTEX_BGR_INT"	, 7 },
 
 		};
 
