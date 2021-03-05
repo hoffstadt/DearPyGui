@@ -2,6 +2,8 @@
 #include "mvApp.h"
 #include "mvItemRegistry.h"
 #include "mvThemeManager.h"
+#include "containers/mvWindowAppItem.h"
+#include "containers/mvChild.h"
 
 namespace Marvel {
 
