@@ -9,8 +9,14 @@ namespace Marvel {
 
     class mvMetricsWindow : public mvBaseWindowAppitem
     {
-        
-        MV_APPITEM_TYPE_OLD_SYSTEM(mvAppItemType::MetricsWindow, "add_metrics_window")
+
+        MV_APPITEM_TYPE(mvAppItemType::MetricsWindow, mvMetricsWindow, "add_metrics_window")
+
+        MV_START_COLOR_CONSTANTS
+        MV_END_COLOR_CONSTANTS
+
+        MV_START_STYLE_CONSTANTS
+        MV_END_STYLE_CONSTANTS
         
     public:
         

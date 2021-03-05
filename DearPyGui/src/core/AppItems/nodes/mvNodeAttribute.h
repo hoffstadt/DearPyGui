@@ -9,7 +9,13 @@ namespace Marvel {
 	class mvNodeAttribute : public mvAppItem
 	{
 
-		MV_APPITEM_TYPE_OLD_SYSTEM(mvAppItemType::NodeAttribute, "add_node_attribute")
+		MV_APPITEM_TYPE(mvAppItemType::NodeAttribute, mvNodeAttribute, "add_node_attribute")
+
+		MV_START_COLOR_CONSTANTS
+		MV_END_COLOR_CONSTANTS
+
+		MV_START_STYLE_CONSTANTS
+		MV_END_STYLE_CONSTANTS
 
 	public:
 

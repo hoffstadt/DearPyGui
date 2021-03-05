@@ -16,7 +16,13 @@ namespace Marvel {
 
 	public:
 
-		MV_APPITEM_TYPE_OLD_SYSTEM(mvAppItemType::Drawing, "add_drawing")
+		MV_APPITEM_TYPE(mvAppItemType::Drawing, mvDrawing, "add_drawing")
+
+		MV_START_COLOR_CONSTANTS
+		MV_END_COLOR_CONSTANTS
+
+		MV_START_STYLE_CONSTANTS
+		MV_END_STYLE_CONSTANTS
 
 		mvDrawing(const std::string& name);
 

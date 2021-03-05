@@ -29,7 +29,14 @@ namespace Marvel {
 
 	public:
 
-		MV_APPITEM_TYPE_OLD_SYSTEM(mvAppItemType::Logger, "add_logger")
+
+		MV_APPITEM_TYPE(mvAppItemType::Logger, mvLoggerItem, "add_logger")
+
+		MV_START_COLOR_CONSTANTS
+		MV_END_COLOR_CONSTANTS
+
+		MV_START_STYLE_CONSTANTS
+		MV_END_STYLE_CONSTANTS
 
 		mvLoggerItem(const std::string& name)
 			: mvAppItem(name)

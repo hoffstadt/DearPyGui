@@ -32,35 +32,6 @@
 
 namespace Marvel {
 
-	template <typename T>
-	static void AddWidgetColorConstants(std::vector<std::pair<std::string, long>>& constants)
-	{
-		for (const auto& item : T::GetColorConstants())
-		{
-			constants.push_back({ std::get<0>(item), std::get<1>(item) });
-
-			 //uncomment
-			mvEventBus::Publish
-			(
-				mvEVT_CATEGORY_THEMES,
-				SID("color_change"),
-				{
-					CreateEventArgument("WIDGET", std::string("")),
-					CreateEventArgument("ID", std::get<1>(item)),
-					CreateEventArgument("COLOR", std::get<2>(item))
-				}
-			);
-		}
-	}
-	template <typename T>
-	static void AddWidgetStyleConstants(std::vector<std::pair<std::string, long>>& constants)
-	{
-		for (const auto& item : T::GetStyleConstants())
-		{
-			constants.push_back({std::get<0>(item), std::get<1>(item)});
-		}
-	}
-
 	mvRef<std::map<std::string, mvPythonParser>> BuildDearPyGuiInterface()
 	{
 
@@ -528,124 +499,34 @@ namespace Marvel {
 
 		};
 
-		AddWidgetColorConstants<mvInputText>		(ModuleConstants);
-		AddWidgetColorConstants<mvButton>			(ModuleConstants);
-		AddWidgetColorConstants<mvRadioButton>		(ModuleConstants);
-		AddWidgetColorConstants<mvTabBar>			(ModuleConstants);
-		AddWidgetColorConstants<mvTab>				(ModuleConstants);
-		AddWidgetColorConstants<mvMenu>				(ModuleConstants);
-		AddWidgetColorConstants<mvMenuItem>			(ModuleConstants);
-		AddWidgetColorConstants<mvChild>			(ModuleConstants);
-		AddWidgetColorConstants<mvSliderFloat>		(ModuleConstants);
-		AddWidgetColorConstants<mvSliderFloat2>		(ModuleConstants);
-		AddWidgetColorConstants<mvSliderFloat3>		(ModuleConstants);
-		AddWidgetColorConstants<mvSliderFloat4>		(ModuleConstants);
-		AddWidgetColorConstants<mvSliderInt>		(ModuleConstants);
-		AddWidgetColorConstants<mvSliderInt2>		(ModuleConstants);
-		AddWidgetColorConstants<mvSliderInt3>		(ModuleConstants);
-		AddWidgetColorConstants<mvSliderInt4>		(ModuleConstants);
-		AddWidgetColorConstants<mvDragFloat>		(ModuleConstants);
-		AddWidgetColorConstants<mvDragFloat2>		(ModuleConstants);
-		AddWidgetColorConstants<mvDragFloat3>		(ModuleConstants);
-		AddWidgetColorConstants<mvDragFloat4>		(ModuleConstants);
-		AddWidgetColorConstants<mvDragInt>			(ModuleConstants);
-		AddWidgetColorConstants<mvDragInt2>			(ModuleConstants);
-		AddWidgetColorConstants<mvDragInt3>			(ModuleConstants);
-		AddWidgetColorConstants<mvDragInt4>			(ModuleConstants);
-		AddWidgetColorConstants<mvInputFloat>		(ModuleConstants);
-		AddWidgetColorConstants<mvInputFloat2>		(ModuleConstants);
-		AddWidgetColorConstants<mvInputFloat3>		(ModuleConstants);
-		AddWidgetColorConstants<mvInputFloat4>		(ModuleConstants);
-		AddWidgetColorConstants<mvInputInt>			(ModuleConstants);
-		AddWidgetColorConstants<mvInputInt2>		(ModuleConstants);
-		AddWidgetColorConstants<mvInputInt3>		(ModuleConstants);
-		AddWidgetColorConstants<mvInputInt4>		(ModuleConstants);
-		AddWidgetColorConstants<mvColorEdit3>		(ModuleConstants);
-		AddWidgetColorConstants<mvColorEdit4>		(ModuleConstants);
-		AddWidgetColorConstants<mvColorPicker3>		(ModuleConstants);
-		AddWidgetColorConstants<mvColorPicker4>		(ModuleConstants);
-		AddWidgetColorConstants<mvTooltip>			(ModuleConstants);
-		AddWidgetColorConstants<mvCollapsingHeader>	(ModuleConstants);
-		AddWidgetColorConstants<mvSeparator>		(ModuleConstants);
-		AddWidgetColorConstants<mvCheckbox>			(ModuleConstants);
-		AddWidgetColorConstants<mvListbox>			(ModuleConstants);
-		AddWidgetColorConstants<mvText>				(ModuleConstants);
-		AddWidgetColorConstants<mvLabelText>		(ModuleConstants);
-		AddWidgetColorConstants<mvCombo>			(ModuleConstants);
-		AddWidgetColorConstants<mvSimplePlot>		(ModuleConstants);
-		AddWidgetColorConstants<mvWindowAppItem>	(ModuleConstants);
-		AddWidgetColorConstants<mvPopup>			(ModuleConstants);
-		AddWidgetColorConstants<mvSelectable>		(ModuleConstants);
-		AddWidgetColorConstants<mvTreeNode>			(ModuleConstants);
-		AddWidgetColorConstants<mvProgressBar>		(ModuleConstants);
-		AddWidgetColorConstants<mvTable>			(ModuleConstants);
-		AddWidgetColorConstants<mvImageButton>		(ModuleConstants);
-		AddWidgetColorConstants<mvTimePicker>		(ModuleConstants);
-		AddWidgetColorConstants<mvDatePicker>		(ModuleConstants);
-		AddWidgetColorConstants<mvColorButton>		(ModuleConstants);
-		AddWidgetColorConstants<mvManagedColumns>	(ModuleConstants);
-		AddWidgetColorConstants<mvTabButton>		(ModuleConstants);
+		constexpr_for<1, (int)mvAppItemType::ItemTypeCount, 1>(
+			[&](auto i) {
+				
+				using item_type = mvItemType<i>::type;
 
-		AddWidgetStyleConstants<mvInputText>		(ModuleConstants);
-		AddWidgetStyleConstants<mvButton>			(ModuleConstants);
-		AddWidgetStyleConstants<mvRadioButton>		(ModuleConstants);
-		AddWidgetStyleConstants<mvTabBar>			(ModuleConstants);
-		AddWidgetStyleConstants<mvTab>				(ModuleConstants);
-		AddWidgetStyleConstants<mvMenuBar>			(ModuleConstants);
-		AddWidgetStyleConstants<mvMenu>				(ModuleConstants);
-		AddWidgetStyleConstants<mvMenuItem>			(ModuleConstants);
-		AddWidgetStyleConstants<mvGroup>			(ModuleConstants);
-		AddWidgetStyleConstants<mvChild>			(ModuleConstants);
-		AddWidgetStyleConstants<mvSliderFloat>		(ModuleConstants);
-		AddWidgetStyleConstants<mvSliderFloat2>		(ModuleConstants);
-		AddWidgetStyleConstants<mvSliderFloat3>		(ModuleConstants);
-		AddWidgetStyleConstants<mvSliderFloat4>		(ModuleConstants);
-		AddWidgetStyleConstants<mvSliderInt>		(ModuleConstants);
-		AddWidgetStyleConstants<mvSliderInt2>		(ModuleConstants);
-		AddWidgetStyleConstants<mvSliderInt3>		(ModuleConstants);
-		AddWidgetStyleConstants<mvSliderInt4>		(ModuleConstants);
-		AddWidgetStyleConstants<mvDragFloat>		(ModuleConstants);
-		AddWidgetStyleConstants<mvDragFloat2>		(ModuleConstants);
-		AddWidgetStyleConstants<mvDragFloat3>		(ModuleConstants);
-		AddWidgetStyleConstants<mvDragFloat4>		(ModuleConstants);
-		AddWidgetStyleConstants<mvDragInt>			(ModuleConstants);
-		AddWidgetStyleConstants<mvDragInt2>			(ModuleConstants);
-		AddWidgetStyleConstants<mvDragInt3>			(ModuleConstants);
-		AddWidgetStyleConstants<mvDragInt4>			(ModuleConstants);
-		AddWidgetStyleConstants<mvInputFloat>		(ModuleConstants);
-		AddWidgetStyleConstants<mvInputFloat2>		(ModuleConstants);
-		AddWidgetStyleConstants<mvInputFloat3>		(ModuleConstants);
-		AddWidgetStyleConstants<mvInputFloat4>		(ModuleConstants);
-		AddWidgetStyleConstants<mvInputInt>			(ModuleConstants);
-		AddWidgetStyleConstants<mvInputInt2>		(ModuleConstants);
-		AddWidgetStyleConstants<mvInputInt3>		(ModuleConstants);
-		AddWidgetStyleConstants<mvInputInt4>		(ModuleConstants);
-		AddWidgetStyleConstants<mvColorEdit3>		(ModuleConstants);
-		AddWidgetStyleConstants<mvColorEdit4>		(ModuleConstants);
-		AddWidgetStyleConstants<mvColorPicker3>		(ModuleConstants);
-		AddWidgetStyleConstants<mvColorPicker4>		(ModuleConstants);
-		AddWidgetStyleConstants<mvTooltip>			(ModuleConstants);
-		AddWidgetStyleConstants<mvCollapsingHeader>	(ModuleConstants);
-		AddWidgetStyleConstants<mvSeparator>		(ModuleConstants);
-		AddWidgetStyleConstants<mvCheckbox>			(ModuleConstants);
-		AddWidgetStyleConstants<mvListbox>			(ModuleConstants);
-		AddWidgetStyleConstants<mvText>				(ModuleConstants);
-		AddWidgetStyleConstants<mvLabelText>		(ModuleConstants);
-		AddWidgetStyleConstants<mvCombo>			(ModuleConstants);
-		AddWidgetStyleConstants<mvSimplePlot>		(ModuleConstants);
-		AddWidgetStyleConstants<mvIndent>			(ModuleConstants);
-		AddWidgetStyleConstants<mvWindowAppItem>	(ModuleConstants);
-		AddWidgetStyleConstants<mvPopup>			(ModuleConstants);
-		AddWidgetStyleConstants<mvSelectable>		(ModuleConstants);
-		AddWidgetStyleConstants<mvTreeNode>			(ModuleConstants);
-		AddWidgetStyleConstants<mvProgressBar>		(ModuleConstants);
-		AddWidgetStyleConstants<mvTable>			(ModuleConstants);
-		AddWidgetStyleConstants<mvImageButton>		(ModuleConstants);
-		AddWidgetStyleConstants<mvTimePicker>		(ModuleConstants);
-		AddWidgetStyleConstants<mvDatePicker>		(ModuleConstants);
-		AddWidgetStyleConstants<mvColorButton>		(ModuleConstants);
-		AddWidgetStyleConstants<mvManagedColumns>	(ModuleConstants);
-		AddWidgetStyleConstants<mvTabButton>		(ModuleConstants);
+				// color constants
+				for (const auto& item : item_type::GetColorConstants())
+				{
+					ModuleConstants.push_back({ std::get<0>(item), std::get<1>(item) });
+
+					//uncomment
+					mvEventBus::Publish
+					(
+						mvEVT_CATEGORY_THEMES,
+						SID("color_change"),
+						{
+							CreateEventArgument("WIDGET", std::string("")),
+							CreateEventArgument("ID", std::get<1>(item)),
+							CreateEventArgument("COLOR", std::get<2>(item))
+						}
+					);
+				}
+
+				// style constants
+				for (const auto& item : item_type::GetStyleConstants())
+					ModuleConstants.push_back({ std::get<0>(item), std::get<1>(item) });
+
+			});
 
 		return ModuleConstants;
 	}

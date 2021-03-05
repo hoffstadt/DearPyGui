@@ -9,7 +9,13 @@ namespace Marvel {
 
 	public:
 
-		MV_APPITEM_TYPE_OLD_SYSTEM(mvAppItemType::Dummy, "add_dummy")
+		MV_APPITEM_TYPE(mvAppItemType::Dummy, mvDummy, "add_dummy")
+
+		MV_START_COLOR_CONSTANTS
+		MV_END_COLOR_CONSTANTS
+
+		MV_START_STYLE_CONSTANTS
+		MV_END_STYLE_CONSTANTS
 
 		mvDummy(const std::string& name)
 			: mvAppItem(name)

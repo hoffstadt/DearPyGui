@@ -27,7 +27,13 @@ namespace Marvel {
 
 	public:
 
-		MV_APPITEM_TYPE_OLD_SYSTEM(mvAppItemType::InputInt, "add_image")
+		MV_APPITEM_TYPE(mvAppItemType::Image, mvImage, "add_image")
+
+		MV_START_COLOR_CONSTANTS
+		MV_END_COLOR_CONSTANTS
+
+		MV_START_STYLE_CONSTANTS
+		MV_END_STYLE_CONSTANTS
 
 		mvImage(const std::string& name, std::string default_value);
 

@@ -6,8 +6,14 @@ namespace Marvel {
 
     class mvAboutWindow : public mvBaseWindowAppitem
     {
-        
-        MV_APPITEM_TYPE_OLD_SYSTEM(mvAppItemType::AboutWindow, "add_about_window")
+
+        MV_APPITEM_TYPE(mvAppItemType::AboutWindow, mvAboutWindow, "add_about_window")
+
+        MV_START_COLOR_CONSTANTS
+        MV_END_COLOR_CONSTANTS
+
+        MV_START_STYLE_CONSTANTS
+        MV_END_STYLE_CONSTANTS
         
     public:
         

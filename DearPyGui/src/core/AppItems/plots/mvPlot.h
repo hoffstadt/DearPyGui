@@ -48,7 +48,13 @@ namespace Marvel {
 
 	public:
 
-		MV_APPITEM_TYPE_OLD_SYSTEM(mvAppItemType::Plot, "add_plot")
+		MV_APPITEM_TYPE(mvAppItemType::Plot, mvPlot, "add_plot")
+
+		MV_START_COLOR_CONSTANTS
+		MV_END_COLOR_CONSTANTS
+
+		MV_START_STYLE_CONSTANTS
+		MV_END_STYLE_CONSTANTS
 
 		mvPlot(const std::string& name, mvCallable queryCallback);
 		~mvPlot(){clear();}

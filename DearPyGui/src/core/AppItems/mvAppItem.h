@@ -26,31 +26,37 @@
 namespace Marvel {
 
     //-----------------------------------------------------------------------------
-    // Widget Types
+    // mvAppItemType
+    //   - Don't forget to register item in mvAppItems.h file.
     //-----------------------------------------------------------------------------
     enum class mvAppItemType
     {
-        None = 0, Spacing, SameLine, InputText, Button, 
-        RadioButtons, TabBar, TabItem, Image, MenuBar, 
-        Menu, EndMenu, MenuItem, EndMenuBar, Group, Child, 
-        SliderFloat, SliderFloat4, SliderInt, SliderInt4, 
+        None = 0, Spacing, SameLine, InputText, Button,
+        RadioButtons, TabBar, TabItem, Image, MenuBar,
+        Menu, MenuItem, Group, Child,
+        SliderFloat, SliderFloat4, SliderInt, SliderInt4,
         SliderFloat2, SliderFloat3, SliderInt2, SliderInt3,
         DragFloat, DragFloat4, DragInt, DragInt4, DragFloat2,
-        DragFloat3, DragInt2, DragInt3, InputFloat, InputFloat4, 
-        InputInt, InputInt4, InputFloat2, InputFloat3, 
-        InputInt2, InputInt3, ColorEdit3, ColorEdit4, 
-        ColorPicker3, ColorPicker4, Tooltip, CollapsingHeader, 
-        Separator, Checkbox, Listbox, Text, LabelText, Combo, 
+        DragFloat3, DragInt2, DragInt3, InputFloat, InputFloat4,
+        InputInt, InputInt4, InputFloat2, InputFloat3,
+        InputInt2, InputInt3, ColorEdit3, ColorEdit4,
+        ColorPicker3, ColorPicker4, Tooltip, CollapsingHeader,
+        Separator, Checkbox, Listbox, Text, LabelText, Combo,
         Plot, SimplePlot, Indent, Unindent, Drawing, Window,
         Popup, Selectable, TreeNode, ProgressBar, Table, Dummy,
         ImageButton, TimePicker, DatePicker, ColorButton,
         ManagedColumns, ColumnSet, NextColumn, Logger,
         AboutWindow, DocWindow, DebugWindow, MetricsWindow,
-        StyleWindow, FileDialog, TabButton, 
+        StyleWindow, FileDialog, TabButton,
         NodeEditor, Node, NodeAttribute,
         ItemTypeCount
     };
 
+    template<int item_type> struct mvItemType {};
+
+    //-----------------------------------------------------------------------------
+    // Core Config Struct
+    //-----------------------------------------------------------------------------
     struct mvAppItemConfig
     {
         std::string name = "";
@@ -149,25 +155,16 @@ namespace Marvel {
 
         // theme get/set
         std::unordered_map<mvAppItemType, mvThemeColors>& getColors() { return m_colors; }
-        virtual const std::vector<std::tuple<std::string, long, mvColor>>& getColorConstants() const 
-        { 
-            static std::vector<std::tuple<std::string, long, mvColor>> constants;
-            return constants;
-        }
         std::unordered_map<mvAppItemType, mvThemeStyles>& getStyles() { return m_styles; }
-        virtual const std::vector<std::tuple<std::string, long, int, int>>& getStyleConstants() const
-        {
-            static std::vector<std::tuple<std::string, long, int, int>> constants;
-            return constants;
-        }
+
 
         //-----------------------------------------------------------------------------
         // cpp interface
         //-----------------------------------------------------------------------------
-        virtual void updateConfig(mvAppItemConfig* config) {}
-        virtual mvAppItemConfig* getConfig() { return nullptr; }
-        void updateCoreConfig();
-        mvAppItemConfig& getCoreConfig();
+        virtual void             updateConfig    (mvAppItemConfig* config) {}
+        virtual mvAppItemConfig* getConfig       () { return nullptr; }
+        void                     updateCoreConfig();
+        mvAppItemConfig&         getCoreConfig   ();
 
     protected:
 

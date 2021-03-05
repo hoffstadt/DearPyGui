@@ -7,7 +7,14 @@ namespace Marvel {
 
 	class mvFileDialog : public mvBaseWindowAppitem
 	{
-		MV_APPITEM_TYPE_OLD_SYSTEM(mvAppItemType::FileDialog, "no_command_set")
+
+		MV_APPITEM_TYPE(mvAppItemType::FileDialog, mvFileDialog, "no_command_set")
+
+		MV_START_COLOR_CONSTANTS
+		MV_END_COLOR_CONSTANTS
+
+		MV_START_STYLE_CONSTANTS
+		MV_END_STYLE_CONSTANTS
 
 	public:
 

@@ -9,9 +9,15 @@ namespace Marvel {
 
 	public:
 
-		MV_APPITEM_TYPE_OLD_SYSTEM(mvAppItemType::SameLine, "add_same_line")
+		MV_APPITEM_TYPE(mvAppItemType::SameLine, mvSameLine, "add_same_line")
 
-			mvSameLine(const std::string& name)
+		MV_START_COLOR_CONSTANTS
+		MV_END_COLOR_CONSTANTS
+
+		MV_START_STYLE_CONSTANTS
+		MV_END_STYLE_CONSTANTS
+
+		mvSameLine(const std::string& name)
 			: mvAppItem(name)
 		{
 			m_description.duplicatesAllowed = true;
