@@ -29,6 +29,61 @@ namespace Marvel {
 			{mvPythonDataType::Bool, "autosize_y", "", "False"},
 
 		}, "Adds a logging widget.", "None", "Adding Widgets") });
+
+		parsers->insert({ "get_log_level", mvPythonParser({
+			{mvPythonDataType::KeywordOnly},
+			{mvPythonDataType::String, "logger", "logger widget", "''"},
+		}, "Returns the log level.", "int", "Logging") });
+
+		parsers->insert({ "clear_log", mvPythonParser({
+			{mvPythonDataType::KeywordOnly},
+			{mvPythonDataType::String, "logger", "logger widget", "''"},
+		}, "Clears the logger.", "None", "Logging") });
+
+		parsers->insert({ "set_log_level", mvPythonParser({
+			{mvPythonDataType::Integer, "level"},
+			{mvPythonDataType::KeywordOnly},
+			{mvPythonDataType::String, "logger", "logger widget", "''"},
+		}, "Sets the log level.", "None", "Logging") });
+
+		parsers->insert({ "log", mvPythonParser({
+			{mvPythonDataType::Object, "message"},
+			{mvPythonDataType::KeywordOnly},
+			{mvPythonDataType::String, "level", "logger widget", "'TRACE'"},
+			{mvPythonDataType::String, "logger", "logger widget", "''"}
+		}, "Logs a trace level log.", "None", "Logging") });
+
+		parsers->insert({ "log_debug", mvPythonParser({
+			{mvPythonDataType::Object, "message"},
+			{mvPythonDataType::KeywordOnly},
+			{mvPythonDataType::String, "logger", "logger widget", "''"},
+		}, "Logs a debug level log.", "None", "Logging") });
+
+		parsers->insert({ "log_info", mvPythonParser({
+			{mvPythonDataType::Object, "message"},
+			{mvPythonDataType::KeywordOnly},
+			{mvPythonDataType::String, "logger", "logger widget", "''"},
+		}, "Logs a info level log.", "None", "Logging") });
+
+		parsers->insert({ "log_warning", mvPythonParser({
+			{mvPythonDataType::Object, "message"},
+			{mvPythonDataType::KeywordOnly},
+			{mvPythonDataType::String, "logger", "logger widget", "''"},
+		}, "Logs a warning level log.", "None", "Logging") });
+
+		parsers->insert({ "log_error", mvPythonParser({
+			{mvPythonDataType::Object, "message"},
+			{mvPythonDataType::KeywordOnly},
+			{mvPythonDataType::String, "logger", "logger widget", "''"},
+		}, "Logs a error level log.", "None", "Logging") });
+
+		parsers->insert({ "show_logger", mvPythonParser({
+		}, "Shows the logging window. The Default log level is Trace", "None", "Standard Windows") });
+
+		parsers->insert({ "set_logger_window_title", mvPythonParser({
+			{mvPythonDataType::String, "title"}
+		}, "Sets the title of the logger window.")
+		});
 	}
 
 #if defined (_WIN32)
@@ -303,5 +358,295 @@ namespace Marvel {
 		return GetPyNone();
 	}
 
+	PyObject* get_log_level(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		const char* logger = "";
+
+		if (!(*mvApp::GetApp()->getParsers())["get_log_level"].parse(args, kwargs, __FUNCTION__, &logger))
+			return GetPyNone();
+
+
+		if (!std::string(logger).empty())
+		{
+			auto loggeritem = mvApp::GetApp()->getItemRegistry().getItem(logger);
+			if (loggeritem == nullptr)
+			{
+				ThrowPythonException(std::string(logger) + " logger does not exist.");
+				return ToPyInt(-1);
+			}
+
+			if (loggeritem->getType() != mvAppItemType::Logger)
+			{
+				ThrowPythonException(std::string(logger) + " is not a logger.");
+				return ToPyInt(-1);
+			}
+
+			auto loggerwidget = static_cast<mvLoggerItem*>(loggeritem.get());
+			return ToPyInt(loggerwidget->getLogLevel());
+
+		}
+		else
+			return ToPyInt((int)mvAppLog::getLogLevel());
+
+	}
+
+	PyObject* set_log_level(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		int level;
+		const char* logger = "";
+		if (!(*mvApp::GetApp()->getParsers())["set_log_level"].parse(args, kwargs, __FUNCTION__,
+			&level, &logger))
+			return GetPyNone();
+
+
+		if (!std::string(logger).empty())
+		{
+			auto loggeritem = mvApp::GetApp()->getItemRegistry().getItem(logger);
+			if (loggeritem == nullptr)
+			{
+				ThrowPythonException(std::string(logger) + " logger does not exist.");
+				return GetPyNone();
+			}
+
+			if (loggeritem->getType() != mvAppItemType::Logger)
+			{
+				ThrowPythonException(std::string(logger) + " is not a logger.");
+				return GetPyNone();
+			}
+
+			auto loggerwidget = static_cast<mvLoggerItem*>(loggeritem.get());
+			loggerwidget->setLogLevel(level);
+
+		}
+		else
+			mvAppLog::setLogLevel(level);
+
+		return GetPyNone();
+	}
+
+	PyObject* log(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		PyObject* message;
+		const char* level = "TRACE";
+		const char* logger = "";
+		if (!(*mvApp::GetApp()->getParsers())["log"].parse(args, kwargs, __FUNCTION__, &message, &level, &logger))
+			return GetPyNone();
+
+		std::string cmessage = ToString(message);
+
+		if (!std::string(logger).empty())
+		{
+			auto loggeritem = mvApp::GetApp()->getItemRegistry().getItem(logger);
+			if (loggeritem == nullptr)
+			{
+				ThrowPythonException(std::string(logger) + " logger does not exist.");
+				return GetPyNone();
+			}
+
+			if (loggeritem->getType() != mvAppItemType::Logger)
+			{
+				ThrowPythonException(std::string(logger) + " is not a logger.");
+				return GetPyNone();
+			}
+
+			auto loggerwidget = static_cast<mvLoggerItem*>(loggeritem.get());
+			loggerwidget->Log(cmessage, std::string(level));
+
+		}
+		else
+			mvAppLog::Log(cmessage, std::string(level));
+
+		return GetPyNone();
+	}
+
+	PyObject* log_debug(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		PyObject* message;
+		const char* logger = "";
+
+		if (!(*mvApp::GetApp()->getParsers())["log_debug"].parse(args, kwargs, __FUNCTION__, &message, &logger))
+			return GetPyNone();
+
+		std::string cmessage = ToString(message);
+
+		if (!std::string(logger).empty())
+		{
+			auto loggeritem = mvApp::GetApp()->getItemRegistry().getItem(logger);
+			if (loggeritem == nullptr)
+			{
+				ThrowPythonException(std::string(logger) + " logger does not exist.");
+				return GetPyNone();
+			}
+
+			if (loggeritem->getType() != mvAppItemType::Logger)
+			{
+				ThrowPythonException(std::string(logger) + " is not a logger.");
+				return GetPyNone();
+			}
+
+			auto loggerwidget = static_cast<mvLoggerItem*>(loggeritem.get());
+			loggerwidget->LogDebug(cmessage);
+
+		}
+		else
+			mvAppLog::LogDebug(cmessage);
+
+		return GetPyNone();
+	}
+
+	PyObject* log_info(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		PyObject* message;
+		const char* logger = "";
+
+		if (!(*mvApp::GetApp()->getParsers())["log_info"].parse(args, kwargs, __FUNCTION__, &message, &logger))
+			return GetPyNone();
+
+		std::string cmessage = ToString(message);
+
+		if (!std::string(logger).empty())
+		{
+			auto loggeritem = mvApp::GetApp()->getItemRegistry().getItem(logger);
+			if (loggeritem == nullptr)
+			{
+				ThrowPythonException(std::string(logger) + " logger does not exist.");
+				return GetPyNone();
+			}
+
+			if (loggeritem->getType() != mvAppItemType::Logger)
+			{
+				ThrowPythonException(std::string(logger) + " is not a logger.");
+				return GetPyNone();
+			}
+
+			auto loggerwidget = static_cast<mvLoggerItem*>(loggeritem.get());
+			loggerwidget->LogInfo(cmessage);
+
+		}
+		else
+			mvAppLog::LogInfo(cmessage);
+
+		return GetPyNone();
+	}
+
+	PyObject* log_warning(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		PyObject* message;
+		const char* logger = "";
+
+		if (!(*mvApp::GetApp()->getParsers())["log_warning"].parse(args, kwargs, __FUNCTION__, &message, &logger))
+			return GetPyNone();
+
+		std::string cmessage = ToString(message);
+
+		if (!std::string(logger).empty())
+		{
+			auto loggeritem = mvApp::GetApp()->getItemRegistry().getItem(logger);
+			if (loggeritem == nullptr)
+			{
+				ThrowPythonException(std::string(logger) + " logger does not exist.");
+				return GetPyNone();
+			}
+
+			if (loggeritem->getType() != mvAppItemType::Logger)
+			{
+				ThrowPythonException(std::string(logger) + " is not a logger.");
+				return GetPyNone();
+			}
+
+			auto loggerwidget = static_cast<mvLoggerItem*>(loggeritem.get());
+			loggerwidget->LogWarning(cmessage);
+
+		}
+		else
+			mvAppLog::LogWarning(cmessage);
+		return GetPyNone();
+	}
+
+	PyObject* log_error(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		PyObject* message;
+		const char* logger = "";
+
+		if (!(*mvApp::GetApp()->getParsers())["log_error"].parse(args, kwargs, __FUNCTION__, &message, &logger))
+			return GetPyNone();
+
+		std::string cmessage = ToString(message);
+		if (!std::string(logger).empty())
+		{
+			auto loggeritem = mvApp::GetApp()->getItemRegistry().getItem(logger);
+			if (loggeritem == nullptr)
+			{
+				ThrowPythonException(std::string(logger) + " logger does not exist.");
+				return GetPyNone();
+			}
+
+			if (loggeritem->getType() != mvAppItemType::Logger)
+			{
+				ThrowPythonException(std::string(logger) + " is not a logger.");
+				return GetPyNone();
+			}
+
+			auto loggerwidget = static_cast<mvLoggerItem*>(loggeritem.get());
+			loggerwidget->LogError(cmessage);
+
+		}
+		else
+			mvAppLog::LogError(cmessage);
+		return GetPyNone();
+	}
+
+	PyObject* clear_log(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		const char* logger = "";
+
+		if (!(*mvApp::GetApp()->getParsers())["clear_log"].parse(args, kwargs, __FUNCTION__, &logger))
+			return GetPyNone();
+
+		if (!std::string(logger).empty())
+		{
+			auto loggeritem = mvApp::GetApp()->getItemRegistry().getItem(logger);
+			if (loggeritem == nullptr)
+			{
+				ThrowPythonException(std::string(logger) + " logger does not exist.");
+				return GetPyNone();
+			}
+
+			if (loggeritem->getType() != mvAppItemType::Logger)
+			{
+				ThrowPythonException(std::string(logger) + " is not a logger.");
+				return GetPyNone();
+			}
+
+			auto loggerwidget = static_cast<mvLoggerItem*>(loggeritem.get());
+			loggerwidget->ClearLog();
+
+		}
+		else
+			mvAppLog::ClearLog();
+
+		return GetPyNone();
+	}
+
+	PyObject* show_logger(PyObject* self, PyObject* args)
+	{
+		std::lock_guard<std::mutex> lk(mvApp::GetApp()->GetApp()->getMutex());
+		mvAppLog::Show();
+		return GetPyNone();
+	}
+
+	PyObject* set_logger_window_title(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		const char* title;
+
+		if (!(*mvApp::GetApp()->getParsers())["set_logger_window_title"].parse(args, kwargs, __FUNCTION__,
+			&title))
+			return GetPyNone();
+
+		std::lock_guard<std::mutex> lk(mvApp::GetApp()->GetApp()->getMutex());
+		mvAppLog::setTitle(title);
+
+		return GetPyNone();
+	}
 #endif
 }

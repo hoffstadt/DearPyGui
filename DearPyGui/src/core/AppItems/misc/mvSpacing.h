@@ -4,8 +4,17 @@
 
 namespace Marvel {
 
+#ifdef MV_CPP
+#else
+	PyObject* add_spacing(PyObject* self, PyObject* args, PyObject* kwargs);
+#endif
+
 	class mvSpacing : public mvIntPtrBase
 	{
+
+	public:
+
+		static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
 
 	public:
 
@@ -17,17 +26,9 @@ namespace Marvel {
 		MV_START_STYLE_CONSTANTS
 		MV_END_STYLE_CONSTANTS
 
-		mvSpacing(const std::string& name, int count)
-			: mvIntPtrBase(name, count)
-		{
-			m_description.duplicatesAllowed = true;
-		}
+		mvSpacing(const std::string& name, int count);
 
-		void draw() override
-		{
-			for (int i = 0; i < *m_value; i++)
-				ImGui::Spacing();
-		}
+		void draw() override;
 
 	};
 

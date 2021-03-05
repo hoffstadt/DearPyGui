@@ -690,34 +690,6 @@ def get_selected_nodes(node_editor: str) -> List[str]:
 	"""Returns selected nodes."""
 	...
 
-def get_style_antialiased_fill() -> bool:
-	"""Gets anti-aliasing on filled shapes (rounded rectangles, circles, etc.)."""
-	...
-
-def get_style_antialiased_lines() -> bool:
-	"""Gets anti-aliasing on lines/borders."""
-	...
-
-def get_style_circle_segment_max_error() -> float:
-	"""Gets maximum error (in pixels) allowed when using draw_circle()or drawing rounded corner rectangles with no explicit segment count specified."""
-	...
-
-def get_style_curve_tessellation_tolerance() -> float:
-	"""Gets Tessellation tolerance."""
-	...
-
-def get_style_display_safe_area_padding() -> List[float]:
-	"""Gets safe area padding. Applies to popups/tooltips as well regular windows."""
-	...
-
-def get_style_global_alpha() -> float:
-	"""Gets global alpha applies to everything in Dear PyGui."""
-	...
-
-def get_style_touch_extra_padding() -> List[float]:
-	"""Get touch extra padding."""
-	...
-
 def get_table_data(name: str) -> List[List[str]]:
 	"""Gets table data."""
 	...
@@ -1044,34 +1016,6 @@ def set_resize_callback(callback: Callable, *, handler: str = '') -> None:
 
 def set_start_callback(callback: Any) -> None:
 	"""Callback to run when starting main window."""
-	...
-
-def set_style_antialiased_fill(value: bool) -> None:
-	"""Sets anti-aliasing on filled shapes (rounded rectangles, circles, etc.)."""
-	...
-
-def set_style_antialiased_lines(value: bool) -> None:
-	"""Sets anti-aliasing on lines/borders. Disable if you are really tight on CPU/GPU."""
-	...
-
-def set_style_circle_segment_max_error(value: float) -> None:
-	"""Sets maximum error (in pixels) allowed when using draw_circle()or drawing rounded corner rectangles with no explicit segment count specified. Decrease for higher quality but more geometry."""
-	...
-
-def set_style_curve_tessellation_tolerance(value: float) -> None:
-	"""Sets Tessellation tolerance."""
-	...
-
-def set_style_display_safe_area_padding(x: float, y: float) -> None:
-	"""Sets if you cannot see the edges of your screen (e.g. on a TV) increase the safe area padding. Apply to popups/tooltips as well regular windows. NB: Prefer configuring your TV sets correctly!"""
-	...
-
-def set_style_global_alpha(value: float) -> None:
-	"""Sets global alpha applies to everything in Dear PyGui."""
-	...
-
-def set_style_touch_extra_padding(x: float, y: float) -> None:
-	"""Expand reactive bounding box for touch-based system where touch position is not accurate enough. Unfortunately we don't sort widgets so priority on overlap will always be given to the first widget. So don't grow this too much!"""
 	...
 
 def set_table_data(name: str, data: List[List[str]]) -> None:

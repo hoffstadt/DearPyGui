@@ -18,7 +18,22 @@ namespace Marvel {
 		bool autosize_y = false;
 	};
 
-	PyObject* add_logger(PyObject* self, PyObject* args, PyObject* kwargs);
+	
+
+#ifdef MV_CPP
+#else
+	PyObject* add_logger             (PyObject* self, PyObject* args, PyObject* kwargs);
+	PyObject* get_log_level          (PyObject* self, PyObject* args, PyObject* kwargs);
+	PyObject* set_log_level          (PyObject* self, PyObject* args, PyObject* kwargs);
+	PyObject* log                    (PyObject* self, PyObject* args, PyObject* kwargs);
+	PyObject* log_debug              (PyObject* self, PyObject* args, PyObject* kwargs);
+	PyObject* log_info               (PyObject* self, PyObject* args, PyObject* kwargs);
+	PyObject* log_warning            (PyObject* self, PyObject* args, PyObject* kwargs);
+	PyObject* log_error              (PyObject* self, PyObject* args, PyObject* kwargs);
+	PyObject* clear_log              (PyObject* self, PyObject* args, PyObject* kwargs);
+	PyObject* show_logger            (PyObject* self, PyObject* args);
+	PyObject* set_logger_window_title(PyObject* self, PyObject* args, PyObject* kwargs);
+#endif
 
 	class mvLoggerItem : public mvAppItem
 	{

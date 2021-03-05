@@ -4,12 +4,211 @@
 #include "mvMarvel.h"
 #include "mvApp.h"
 #include <string>
+#include "mvItemRegistry.h"
 
 namespace Marvel {
 
-    //-----------------------------------------------------------------------------
-    // mvInputInt
-    //-----------------------------------------------------------------------------
+    void mvInputInt::InsertParser(std::map<std::string, mvPythonParser>* parsers)
+    {
+        parsers->insert({ "add_input_int", mvPythonParser({
+            {mvPythonDataType::String, "name"},
+            {mvPythonDataType::KeywordOnly},
+            {mvPythonDataType::Integer, "default_value", "", "0"},
+            {mvPythonDataType::Integer, "min_value", "", "0"},
+            {mvPythonDataType::Integer, "max_value", "", "100"},
+            {mvPythonDataType::Bool, "min_clamped", "activates and deactivates min_value", "False"},
+            {mvPythonDataType::Bool, "max_clamped", "activates and deactivates max_value", "False"},
+            {mvPythonDataType::Callable, "callback", "Registers a callback", "None"},
+            {mvPythonDataType::Object, "callback_data", "Callback data", "None"},
+            {mvPythonDataType::String, "parent", "Parent to add this item to. (runtime adding)", "''"},
+            {mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)", "''"},
+            {mvPythonDataType::String, "source", "", "''"},
+            {mvPythonDataType::Bool, "enabled", "Display grayed out text so selectable cannot be selected", "True"},
+            {mvPythonDataType::Integer, "width","", "0"},
+            {mvPythonDataType::Bool, "on_enter", "Only runs callback on enter", "False"},
+            {mvPythonDataType::String, "label", "", "''"},
+            {mvPythonDataType::Bool, "show", "Attempt to render", "True"},
+            {mvPythonDataType::Integer, "step", "", "1"},
+            {mvPythonDataType::Integer, "step_fast", "", "100"},
+            {mvPythonDataType::Bool, "readonly", "", "False"},
+        }, "Adds input for integer values.", "None", "Adding Widgets") });
+    }
+
+    void mvInputInt2::InsertParser(std::map<std::string, mvPythonParser>* parsers)
+    {
+
+        parsers->insert({ "add_input_int2", mvPythonParser({
+            {mvPythonDataType::String, "name"},
+            {mvPythonDataType::KeywordOnly},
+            {mvPythonDataType::IntList, "default_value", "", "(0, 0)"},
+            {mvPythonDataType::Integer, "min_value", "", "0"},
+            {mvPythonDataType::Integer, "max_value", "", "100"},
+            {mvPythonDataType::Bool, "min_clamped", "activates and deactivates min_value", "False"},
+            {mvPythonDataType::Bool, "max_clamped", "activates and deactivates max_value", "False"},
+            {mvPythonDataType::Callable, "callback", "Registers a callback", "None"},
+            {mvPythonDataType::Object, "callback_data", "Callback data", "None"},
+            {mvPythonDataType::String, "parent", "Parent this item will be added to. (runtime adding)", "''"},
+            {mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)", "''"},
+            {mvPythonDataType::String, "source", "", "''"},
+            {mvPythonDataType::Bool, "enabled", "Display grayed out text so selectable cannot be selected", "True"},
+            {mvPythonDataType::Integer, "width","", "0"},
+            {mvPythonDataType::Bool, "on_enter", "Only runs callback on enter", "False"},
+            {mvPythonDataType::String, "label", "", "''"},
+            {mvPythonDataType::Bool, "show", "Attempt to render", "True"},
+            {mvPythonDataType::Bool, "readonly", "", "False"},
+        }, "Adds input for 2 integer values.", "None", "Adding Widgets") });
+    }
+
+    void mvInputInt3::InsertParser(std::map<std::string, mvPythonParser>* parsers)
+    {
+        parsers->insert({ "add_input_int3", mvPythonParser({
+            {mvPythonDataType::String, "name"},
+            {mvPythonDataType::KeywordOnly},
+            {mvPythonDataType::IntList, "default_value", "", "(0, 0, 0)"},
+            {mvPythonDataType::Integer, "min_value", "", "0"},
+            {mvPythonDataType::Integer, "max_value", "", "100"},
+            {mvPythonDataType::Bool, "min_clamped", "activates and deactivates min_value", "False"},
+            {mvPythonDataType::Bool, "max_clamped", "activates and deactivates max_value", "False"},
+            {mvPythonDataType::Callable, "callback", "Registers a callback", "None"},
+            {mvPythonDataType::Object, "callback_data", "Callback data", "None"},
+            {mvPythonDataType::String, "parent", "Parent this item will be added to. (runtime adding)", "''"},
+            {mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)", "''"},
+            {mvPythonDataType::String, "source", "", "''"},
+            {mvPythonDataType::Bool, "enabled", "Display grayed out text so selectable cannot be selected", "True"},
+            {mvPythonDataType::Integer, "width","", "0"},
+            {mvPythonDataType::Bool, "on_enter", "Only runs callback on enter", "False"},
+            {mvPythonDataType::String, "label", "", "''"},
+            {mvPythonDataType::Bool, "show", "Attempt to render", "True"},
+            {mvPythonDataType::Bool, "readonly", "", "False"},
+        }, "Adds input for 3 integer values.", "None", "Adding Widgets") });
+    }
+
+    void mvInputInt4::InsertParser(std::map<std::string, mvPythonParser>* parsers)
+    {
+        parsers->insert({ "add_input_int4", mvPythonParser({
+            {mvPythonDataType::String, "name"},
+            {mvPythonDataType::KeywordOnly},
+            {mvPythonDataType::IntList, "default_value", "", "(0, 0, 0, 0)"},
+            {mvPythonDataType::Integer, "min_value", "", "0"},
+            {mvPythonDataType::Integer, "max_value", "", "100"},
+            {mvPythonDataType::Bool, "min_clamped", "activates and deactivates min_value", "False"},
+            {mvPythonDataType::Bool, "max_clamped", "activates and deactivates max_value", "False"},
+            {mvPythonDataType::Callable, "callback", "Registers a callback", "None"},
+            {mvPythonDataType::Object, "callback_data", "Callback data", "None"},
+            {mvPythonDataType::String, "parent", "Parent this item will be added to. (runtime adding)", "''"},
+            {mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)", "''"},
+            {mvPythonDataType::String, "source", "", "''"},
+            {mvPythonDataType::Bool, "enabled", "Display grayed out text so selectable cannot be selected", "True"},
+            {mvPythonDataType::Integer, "width","", "0"},
+            {mvPythonDataType::Bool, "on_enter", "Only runs callback on enter", "False"},
+            {mvPythonDataType::String, "label", "", "''"},
+            {mvPythonDataType::Bool, "show", "Attempt to render", "True"},
+            {mvPythonDataType::Bool, "readonly", "", "False"},
+        }, "Adds input for 4 integer values.", "None", "Adding Widgets") });
+    }
+
+    void mvInputFloat::InsertParser(std::map<std::string, mvPythonParser>* parsers)
+    {
+        parsers->insert({ "add_input_float", mvPythonParser({
+            {mvPythonDataType::String, "name"},
+            {mvPythonDataType::KeywordOnly},
+            {mvPythonDataType::Float, "default_value", "", "0.0"},
+            {mvPythonDataType::Float, "min_value", "", "0"},
+            {mvPythonDataType::Float, "max_value", "", "100"},
+            {mvPythonDataType::Bool, "min_clamped", "activates and deactivates min_value", "False"},
+            {mvPythonDataType::Bool, "max_clamped", "activates and deactivates max_value", "False"},
+            {mvPythonDataType::String, "format", "", "'%.3f'"},
+            {mvPythonDataType::Callable, "callback", "Registers a callback", "None"},
+            {mvPythonDataType::Object, "callback_data", "Callback data", "None"},
+            {mvPythonDataType::String, "parent", "Parent this item will be added to. (runtime adding)", "''"},
+            {mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)", "''"},
+            {mvPythonDataType::String, "source", "", "''"},
+            {mvPythonDataType::Bool, "enabled", "Display grayed out text so selectable cannot be selected", "True"},
+            {mvPythonDataType::Integer, "width","", "0"},
+            {mvPythonDataType::Bool, "on_enter", "Only runs callback on enter", "False"},
+            {mvPythonDataType::String, "label", "", "''"},
+            {mvPythonDataType::Bool, "show", "Attempt to render", "True"},
+            {mvPythonDataType::Float, "step", "", "0.1"},
+            {mvPythonDataType::Float, "step_fast", "", "1.0"},
+            {mvPythonDataType::Bool, "readonly", "", "False"},
+        }, "Adds input for float values.", "None", "Adding Widgets") });
+    }
+
+    void mvInputFloat2::InsertParser(std::map<std::string, mvPythonParser>* parsers)
+    {
+        parsers->insert({ "add_input_float2", mvPythonParser({
+            {mvPythonDataType::String, "name"},
+            {mvPythonDataType::KeywordOnly},
+            {mvPythonDataType::FloatList, "default_value", "", "(0.0, 0.0)"},
+            {mvPythonDataType::Float, "min_value", "", "0"},
+            {mvPythonDataType::Float, "max_value", "", "100"},
+            {mvPythonDataType::Bool, "min_clamped", "activates and deactivates min_value", "False"},
+            {mvPythonDataType::Bool, "max_clamped", "activates and deactivates max_value", "False"},
+            {mvPythonDataType::String, "format", "", "'%.3f'"},
+            {mvPythonDataType::Callable, "callback", "Registers a callback", "None"},
+            {mvPythonDataType::Object, "callback_data", "Callback data", "None"},
+            {mvPythonDataType::String, "parent", "Parent this item will be added to. (runtime adding)", "''"},
+            {mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)", "''"},
+            {mvPythonDataType::String, "source", "", "''"},
+            {mvPythonDataType::Bool, "enabled", "Display grayed out text so selectable cannot be selected", "True"},
+            {mvPythonDataType::Integer, "width","", "0"},
+            {mvPythonDataType::Bool, "on_enter", "Only runs callback on enter", "False"},
+            {mvPythonDataType::String, "label", "", "''"},
+            {mvPythonDataType::Bool, "show", "Attempt to render", "True"},
+            {mvPythonDataType::Bool, "readonly", "", "False"},
+        }, "Adds input for 2 float values.", "None", "Adding Widgets") });
+    }
+
+    void mvInputFloat3::InsertParser(std::map<std::string, mvPythonParser>* parsers)
+    {
+        parsers->insert({ "add_input_float3", mvPythonParser({
+            {mvPythonDataType::String, "name"},
+            {mvPythonDataType::KeywordOnly},
+            {mvPythonDataType::FloatList, "default_value", "", "(0.0, 0.0, 0.0)"},
+            {mvPythonDataType::Float, "min_value", "", "0"},
+            {mvPythonDataType::Float, "max_value", "", "100"},
+            {mvPythonDataType::Bool, "min_clamped", "activates and deactivates min_value", "False"},
+            {mvPythonDataType::Bool, "max_clamped", "activates and deactivates max_value", "False"},
+            {mvPythonDataType::String, "format", "", "'%.3f'"},
+            {mvPythonDataType::Callable, "callback", "Registers a callback", "None"},
+            {mvPythonDataType::Object, "callback_data", "Callback data", "None"},
+            {mvPythonDataType::String, "parent", "Parent this item will be added to. (runtime adding)", "''"},
+            {mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)", "''"},
+            {mvPythonDataType::String, "source", "", "''"},
+            {mvPythonDataType::Bool, "enabled", "Display grayed out text so selectable cannot be selected", "True"},
+            {mvPythonDataType::Integer, "width","", "0"},
+            {mvPythonDataType::Bool, "on_enter", "Only runs callback on enter", "False"},
+            {mvPythonDataType::String, "label", "", "''"},
+            {mvPythonDataType::Bool, "show", "Attempt to render", "True"},
+            {mvPythonDataType::Bool, "readonly", "", "False"},
+        }, "Adds input for 3 float values.", "None", "Adding Widgets") });
+    }
+
+    void mvInputFloat4::InsertParser(std::map<std::string, mvPythonParser>* parsers)
+    {
+        parsers->insert({ "add_input_float4", mvPythonParser({
+            {mvPythonDataType::String, "name"},
+            {mvPythonDataType::KeywordOnly},
+            {mvPythonDataType::FloatList, "default_value", "", "(0.0, 0.0, 0.0, 0.0)"},
+            {mvPythonDataType::Float, "min_value", "", "0"},
+            {mvPythonDataType::Float, "max_value", "", "100"},
+            {mvPythonDataType::Bool, "min_clamped", "activates and deactivates min_value", "False"},
+            {mvPythonDataType::Bool, "max_clamped", "activates and deactivates max_value", "False"},
+            {mvPythonDataType::String, "format", "", "'%.3f'"},
+            {mvPythonDataType::Callable, "callback", "Registers a callback", "None"},
+            {mvPythonDataType::Object, "callback_data", "Callback data", "None"},
+            {mvPythonDataType::String, "parent", "Parent this item will be added to. (runtime adding)", "''"},
+            {mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)", "''"},
+            {mvPythonDataType::String, "source", "", "''"},
+            {mvPythonDataType::Bool, "enabled", "Display grayed out text so selectable cannot be selected", "True"},
+            {mvPythonDataType::Integer, "width","", "0"},
+            {mvPythonDataType::Bool, "on_enter", "Only runs callback on enter", "False"},
+            {mvPythonDataType::String, "label", "", "''"},
+            {mvPythonDataType::Bool, "show", "Attempt to render", "True"},
+            {mvPythonDataType::Bool, "readonly", "", "False"},
+        }, "Adds input for 4 float values.", "None", "Adding Widgets") });
+    }
+
     mvInputInt::mvInputInt(const std::string& name, int default_value, const std::string& dataSource)
         : mvIntPtrBase(name, default_value)
     {
@@ -99,9 +298,6 @@ namespace Marvel {
         return &m_config;
     }
 
-    //-----------------------------------------------------------------------------
-    // mvInputInt2
-    //-----------------------------------------------------------------------------
     mvInputInt2::mvInputInt2(const std::string& name, int* default_value, const std::string& dataSource)
         : mvInt2PtrBase(name, default_value)
     {
@@ -199,9 +395,6 @@ namespace Marvel {
         return &m_config;
     }
 
-    //-----------------------------------------------------------------------------
-    // mvInputInt3
-    //-----------------------------------------------------------------------------
     mvInputInt3::mvInputInt3(const std::string& name, int* default_value, const std::string& dataSource)
         : mvInt3PtrBase(name, default_value)
     {
@@ -299,9 +492,6 @@ namespace Marvel {
         return &m_config;
     }
 
-    //-----------------------------------------------------------------------------
-    // mvInputInt4
-    //-----------------------------------------------------------------------------
     mvInputInt4::mvInputInt4(const std::string& name, int* default_value, const std::string& dataSource)
         : mvInt4PtrBase(name, default_value)
     {
@@ -399,9 +589,6 @@ namespace Marvel {
         return &m_config;
     }
 
-    //-----------------------------------------------------------------------------
-    // mvInputFloat
-    //-----------------------------------------------------------------------------
     mvInputFloat::mvInputFloat(const std::string& name, float default_value, const std::string& dataSource)
         : mvFloatPtrBase(name, default_value)
     {
@@ -490,9 +677,6 @@ namespace Marvel {
         return &m_config;
     }
 
-    //-----------------------------------------------------------------------------
-    // mvInputFloat2
-    //-----------------------------------------------------------------------------
     mvInputFloat2::mvInputFloat2(const std::string& name, float* default_value, const std::string& dataSource)
         : mvFloat2PtrBase(name, default_value)
     {
@@ -590,9 +774,6 @@ namespace Marvel {
         return &m_config;
     }
 
-    //-----------------------------------------------------------------------------
-    // mvInputFloat3
-    //-----------------------------------------------------------------------------
     mvInputFloat3::mvInputFloat3(const std::string& name, float* default_value, const std::string& dataSource)
         : mvFloat3PtrBase(name, default_value)
     {
@@ -690,9 +871,6 @@ namespace Marvel {
         return &m_config;
     }
 
-    //-----------------------------------------------------------------------------
-    // mvInputFloat4
-    //-----------------------------------------------------------------------------
     mvInputFloat4::mvInputFloat4(const std::string& name, float* default_value, const std::string& dataSource)
         : mvFloat4PtrBase(name, default_value)
     {
@@ -1103,6 +1281,383 @@ namespace Marvel {
         // window flags
         checkbitset("on_enter", ImGuiInputTextFlags_EnterReturnsTrue, m_flags);
         checkbitset("readonly", ImGuiInputTextFlags_ReadOnly, m_flags);
+    }
+
+    PyObject* add_input_int(PyObject* self, PyObject* args, PyObject* kwargs)
+    {
+        const char* name;
+        int default_value = 0;
+        int min_value = 0;
+        int max_value = 100;
+        int min_clamped = false;
+        int max_clamped = false;
+        PyObject* callback = nullptr;
+        PyObject* callback_data = nullptr;
+        int width = 0;
+        const char* before = "";
+        const char* parent = "";
+        const char* source = "";
+        int enabled = true;
+        int on_enter = false;
+        const char* label = "";
+        int show = false;
+        int step = 1;
+        int step_fast = 100;
+        int readonly = false;
+
+        if (!(*mvApp::GetApp()->getParsers())["add_input_int"].parse(args, kwargs, __FUNCTION__, &name,
+            &default_value, &min_value, &max_value, &min_clamped, &max_clamped, &callback, &callback_data, &parent, &before, &source, &enabled, &width, &on_enter,
+            &label, &show, &step, &step_fast, &readonly))
+            return ToPyBool(false);
+
+        auto item = CreateRef<mvInputInt>(name, default_value, source);
+        if (callback)
+            Py_XINCREF(callback);
+        item->setCallback(callback);
+        if (callback_data)
+            Py_XINCREF(callback_data);
+        item->setCallbackData(callback_data);
+
+        item->checkConfigDict(kwargs);
+        item->setConfigDict(kwargs);
+        item->setExtraConfigDict(kwargs);
+
+        mvApp::GetApp()->getItemRegistry().addItemWithRuntimeChecks(item, parent, before);
+
+        return GetPyNone();
+    }
+
+    PyObject* add_input_int2(PyObject* self, PyObject* args, PyObject* kwargs)
+    {
+        const char* name;
+        PyObject* default_value = PyTuple_New(2);
+        PyTuple_SetItem(default_value, 0, PyLong_FromLong(0));
+        PyTuple_SetItem(default_value, 1, PyLong_FromLong(0));
+        int min_value = 0;
+        int max_value = 100;
+        int min_clamped = false;
+        int max_clamped = false;
+        PyObject* callback = nullptr;
+        PyObject* callback_data = nullptr;
+        int width = 0;
+        const char* before = "";
+        const char* parent = "";
+        const char* source = "";
+        int enabled = true;
+        int on_enter = false;
+        const char* label = "";
+        int show = false;
+        int readonly = false;
+
+        if (!(*mvApp::GetApp()->getParsers())["add_input_int2"].parse(args, kwargs, __FUNCTION__, &name,
+            &default_value, &min_value, &max_value, &min_clamped, &max_clamped, &callback, &callback_data, &parent, &before, &source, &enabled, &width, &on_enter,
+            &label, &show, &readonly))
+            return ToPyBool(false);
+
+        auto vec = ToIntVect(default_value);
+
+        auto item = CreateRef<mvInputInt2>(name, vec.data(), source);
+        if (callback)
+            Py_XINCREF(callback);
+        item->setCallback(callback);
+        if (callback_data)
+            Py_XINCREF(callback_data);
+        item->setCallbackData(callback_data);
+
+        item->checkConfigDict(kwargs);
+        item->setConfigDict(kwargs);
+        item->setExtraConfigDict(kwargs);
+
+        mvApp::GetApp()->getItemRegistry().addItemWithRuntimeChecks(item, parent, before);
+
+        return GetPyNone();
+    }
+
+    PyObject* add_input_int3(PyObject* self, PyObject* args, PyObject* kwargs)
+    {
+        const char* name;
+        PyObject* default_value = PyTuple_New(3);
+        PyTuple_SetItem(default_value, 0, PyLong_FromLong(0));
+        PyTuple_SetItem(default_value, 1, PyLong_FromLong(0));
+        PyTuple_SetItem(default_value, 2, PyLong_FromLong(0));
+        int min_value = 0;
+        int max_value = 100;
+        int min_clamped = false;
+        int max_clamped = false;
+        PyObject* callback = nullptr;
+        PyObject* callback_data = nullptr;
+        int width = 0;
+        const char* before = "";
+        const char* parent = "";
+        const char* source = "";
+        int enabled = true;
+        int on_enter = false;
+        const char* label = "";
+        const char* popup = "";
+        int show = false;
+        int readonly = false;
+
+        if (!(*mvApp::GetApp()->getParsers())["add_input_int3"].parse(args, kwargs, __FUNCTION__, &name,
+            &default_value, &min_value, &max_value, &min_clamped, &max_clamped, &callback, &callback_data, &parent, &before, &source, &enabled, &width, &on_enter,
+            &label, &popup, &show, &readonly))
+            return ToPyBool(false);
+
+        auto vec = ToIntVect(default_value);
+
+        auto item = CreateRef<mvInputInt3>(name, vec.data(), source);
+        if (callback)
+            Py_XINCREF(callback);
+        item->setCallback(callback);
+        if (callback_data)
+            Py_XINCREF(callback_data);
+        item->setCallbackData(callback_data);
+
+        item->checkConfigDict(kwargs);
+        item->setConfigDict(kwargs);
+        item->setExtraConfigDict(kwargs);
+
+        mvApp::GetApp()->getItemRegistry().addItemWithRuntimeChecks(item, parent, before);
+
+        return GetPyNone();
+    }
+
+    PyObject* add_input_int4(PyObject* self, PyObject* args, PyObject* kwargs)
+    {
+        const char* name;
+        PyObject* default_value = PyTuple_New(4);
+        PyTuple_SetItem(default_value, 0, PyLong_FromLong(0));
+        PyTuple_SetItem(default_value, 1, PyLong_FromLong(0));
+        PyTuple_SetItem(default_value, 2, PyLong_FromLong(0));
+        PyTuple_SetItem(default_value, 3, PyLong_FromLong(0));
+        int min_value = 0;
+        int max_value = 100;
+        int min_clamped = false;
+        int max_clamped = false;
+        PyObject* callback = nullptr;
+        PyObject* callback_data = nullptr;
+        int width = 0;
+        const char* before = "";
+        const char* parent = "";
+        const char* source = "";
+        int enabled = true;
+        int on_enter = false;
+        const char* label = "";
+        int show = false;
+        int readonly = false;
+
+        if (!(*mvApp::GetApp()->getParsers())["add_input_int4"].parse(args, kwargs, __FUNCTION__, &name,
+            &default_value, &min_value, &max_value, &min_clamped, &max_clamped, &callback, &callback_data, &parent, &before, &source, &enabled, &width, &on_enter,
+            &label, &show, &readonly))
+            return ToPyBool(false);
+
+        auto vec = ToIntVect(default_value);
+        auto item = CreateRef<mvInputInt4>(name, vec.data(), source);
+        if (callback)
+            Py_XINCREF(callback);
+        item->setCallback(callback);
+        if (callback_data)
+            Py_XINCREF(callback_data);
+        item->setCallbackData(callback_data);
+
+        item->checkConfigDict(kwargs);
+        item->setConfigDict(kwargs);
+        item->setExtraConfigDict(kwargs);
+
+        mvApp::GetApp()->getItemRegistry().addItemWithRuntimeChecks(item, parent, before);
+
+        return GetPyNone();
+    }
+
+    PyObject* add_input_float(PyObject* self, PyObject* args, PyObject* kwargs)
+    {
+        const char* name;
+        float default_value = 0.0f;
+        float min_value = 0.0f;
+        float max_value = 100.0f;
+        int min_clamped = false;
+        int max_clamped = false;
+        const char* format = "%.3f";
+        PyObject* callback = nullptr;
+        PyObject* callback_data = nullptr;
+        int width = 0;
+        const char* before = "";
+        const char* parent = "";
+        const char* source = "";
+        int enabled = true;
+        int on_enter = false;
+        const char* label = "";
+        int show = false;
+        float step = 0.1f;
+        float step_fast = 1.0f;
+        int readonly = false;
+
+        if (!(*mvApp::GetApp()->getParsers())["add_input_float"].parse(args, kwargs, __FUNCTION__, &name,
+            &default_value, &min_value, &max_value, &min_clamped, &max_clamped, &format, &callback, &callback_data,
+            &parent, &before, &source, &enabled, &width, &on_enter,
+            &label, &show, &step, &step_fast, &readonly))
+            return ToPyBool(false);
+
+        auto item = CreateRef<mvInputFloat>(name, default_value, source);
+        if (callback)
+            Py_XINCREF(callback);
+        item->setCallback(callback);
+        if (callback_data)
+            Py_XINCREF(callback_data);
+        item->setCallbackData(callback_data);
+
+        item->checkConfigDict(kwargs);
+        item->setConfigDict(kwargs);
+        item->setExtraConfigDict(kwargs);
+
+        mvApp::GetApp()->getItemRegistry().addItemWithRuntimeChecks(item, parent, before);
+
+        return GetPyNone();
+    }
+
+    PyObject* add_input_float2(PyObject* self, PyObject* args, PyObject* kwargs)
+    {
+        const char* name;
+        PyObject* default_value = PyTuple_New(2);
+        PyTuple_SetItem(default_value, 0, PyLong_FromLong(0));
+        PyTuple_SetItem(default_value, 1, PyLong_FromLong(0));
+        float min_value = 0.0f;
+        float max_value = 100.0f;
+        int min_clamped = false;
+        int max_clamped = false;
+        const char* format = "%.3f";
+        PyObject* callback = nullptr;
+        PyObject* callback_data = nullptr;
+        int width = 0;
+        const char* before = "";
+        const char* parent = "";
+        const char* source = "";
+        int enabled = true;
+        int on_enter = false;
+        const char* label = "";
+        int show = false;
+        int readonly = false;
+
+        if (!(*mvApp::GetApp()->getParsers())["add_input_float2"].parse(args, kwargs, __FUNCTION__, &name,
+            &default_value, &min_value, &max_value, &min_clamped, &max_clamped, &format, &callback, &callback_data,
+            &parent, &before, &source, &enabled, &width, &on_enter,
+            &label, &show, &readonly))
+            return ToPyBool(false);
+
+        auto vec = ToFloatVect(default_value);
+        auto item = CreateRef<mvInputFloat2>(name, vec.data(), source);
+        if (callback)
+            Py_XINCREF(callback);
+        item->setCallback(callback);
+        if (callback_data)
+            Py_XINCREF(callback_data);
+        item->setCallbackData(callback_data);
+
+        item->checkConfigDict(kwargs);
+        item->setConfigDict(kwargs);
+        item->setExtraConfigDict(kwargs);
+
+        mvApp::GetApp()->getItemRegistry().addItemWithRuntimeChecks(item, parent, before);
+
+        return GetPyNone();
+    }
+
+    PyObject* add_input_float3(PyObject* self, PyObject* args, PyObject* kwargs)
+    {
+        const char* name;
+        PyObject* default_value = PyTuple_New(3);
+        PyTuple_SetItem(default_value, 0, PyLong_FromLong(0));
+        PyTuple_SetItem(default_value, 1, PyLong_FromLong(0));
+        PyTuple_SetItem(default_value, 2, PyLong_FromLong(0));
+        float min_value = 0.0f;
+        float max_value = 100.0f;
+        int min_clamped = false;
+        int max_clamped = false;
+        const char* format = "%.3f";
+        PyObject* callback = nullptr;
+        PyObject* callback_data = nullptr;
+        int width = 0;
+        const char* before = "";
+        const char* parent = "";
+        const char* source = "";
+        int enabled = true;
+        int on_enter = false;
+        const char* label = "";
+        int show = false;
+        int readonly = false;
+
+        if (!(*mvApp::GetApp()->getParsers())["add_input_float3"].parse(args, kwargs, __FUNCTION__, &name,
+            &default_value, &min_value, &max_value, &min_clamped, &max_clamped, &format, &callback, &callback_data,
+            &parent, &before, &source, &enabled, &width, &on_enter,
+            &label, &show, &readonly))
+            return ToPyBool(false);
+
+        auto vec = ToFloatVect(default_value);
+
+        auto item = CreateRef<mvInputFloat3>(name, vec.data(), source);
+        if (callback)
+            Py_XINCREF(callback);
+        item->setCallback(callback);
+        if (callback_data)
+            Py_XINCREF(callback_data);
+        item->setCallbackData(callback_data);
+
+        item->checkConfigDict(kwargs);
+        item->setConfigDict(kwargs);
+        item->setExtraConfigDict(kwargs);
+
+        mvApp::GetApp()->getItemRegistry().addItemWithRuntimeChecks(item, parent, before);
+
+        return GetPyNone();
+    }
+
+    PyObject* add_input_float4(PyObject* self, PyObject* args, PyObject* kwargs)
+    {
+        const char* name;
+        PyObject* default_value = PyTuple_New(4);
+        PyTuple_SetItem(default_value, 0, PyLong_FromLong(0));
+        PyTuple_SetItem(default_value, 1, PyLong_FromLong(0));
+        PyTuple_SetItem(default_value, 2, PyLong_FromLong(0));
+        PyTuple_SetItem(default_value, 3, PyLong_FromLong(0));
+        float min_value = 0.0f;
+        float max_value = 100.0f;
+        int min_clamped = false;
+        int max_clamped = false;
+        const char* format = "%.3f";
+        PyObject* callback = nullptr;
+        PyObject* callback_data = nullptr;
+        int width = 0;
+        const char* before = "";
+        const char* parent = "";
+        const char* source = "";
+        int enabled = true;
+        int on_enter = false;
+        const char* label = "";
+        int show = false;
+        int readonly = false;
+
+        if (!(*mvApp::GetApp()->getParsers())["add_input_float4"].parse(args, kwargs, __FUNCTION__, &name,
+            &default_value, &min_value, &max_value, &min_clamped, &max_clamped, &format, &callback, &callback_data,
+            &parent, &before, &source, &enabled, &width, &on_enter,
+            &label, &show, &readonly))
+            return ToPyBool(false);
+
+        auto vec = ToFloatVect(default_value);
+
+        auto item = CreateRef<mvInputFloat4>(name, vec.data(), source);
+        if (callback)
+            Py_XINCREF(callback);
+        item->setCallback(callback);
+        if (callback_data)
+            Py_XINCREF(callback_data);
+        item->setCallbackData(callback_data);
+
+        item->checkConfigDict(kwargs);
+        item->setConfigDict(kwargs);
+        item->setExtraConfigDict(kwargs);
+
+        mvApp::GetApp()->getItemRegistry().addItemWithRuntimeChecks(item, parent, before);
+
+        return GetPyNone();
     }
 
 #endif // !MV_CPP

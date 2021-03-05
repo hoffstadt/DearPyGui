@@ -9,22 +9,6 @@
 #include <ImGuiFileDialog.h>
 #include <cstdlib>
 
-#ifndef MV_CPP
-#include "mvPlotInterface.h"
-#include "mvTableInterface.h"
-#include "mvThemeInterface.h"
-#include "mvInputInterface.h"
-#include "mvBasicWidgetInterface.h"
-#include "mvSliderInterface.h"
-#include "mvInputsInterface.h"
-#include "mvDragInterface.h"
-#include "mvContainerInterface.h"
-#include "mvAppItemInterface.h"
-#include "mvAppInterface.h"
-#endif // !MV_CPP
-
-
-
 //-----------------------------------------------------------------------------
 // Helper Macro
 //-----------------------------------------------------------------------------
@@ -37,67 +21,21 @@ namespace Marvel {
 
 		auto parsers = CreateRef<std::map< std::string, mvPythonParser>>();
 
-		// new system
-		mvDrawing::InsertParser(parsers.get());
-		mvListbox::InsertParser(parsers.get());
-		mvText::InsertParser(parsers.get());
-		mvCombo::InsertParser(parsers.get());
-		mvRadioButton::InsertParser(parsers.get());
-		mvButton::InsertParser(parsers.get());
-		mvSelectable::InsertParser(parsers.get());
-		mvCheckbox::InsertParser(parsers.get());
-		mvColorButton::InsertParser(parsers.get());
-		mvColorEdit3::InsertParser(parsers.get());
-		mvColorEdit4::InsertParser(parsers.get());
-		mvColorPicker3::InsertParser(parsers.get());
-		mvColorPicker4::InsertParser(parsers.get());
-		mvImage::InsertParser(parsers.get());
-		mvImageButton::InsertParser(parsers.get());
-		mvProgressBar::InsertParser(parsers.get());
-		mvLoggerItem::InsertParser(parsers.get());
-		mvDatePicker::InsertParser(parsers.get());
-		mvTimePicker::InsertParser(parsers.get());
-		mvLabelText::InsertParser(parsers.get());
-		mvMenuBar::InsertParser(parsers.get());
-		mvMenu::InsertParser(parsers.get());
-		mvMenuItem::InsertParser(parsers.get());
-		mvTabBar::InsertParser(parsers.get());
-		mvTab::InsertParser(parsers.get());
-		mvTabButton::InsertParser(parsers.get());
-		mvGroup::InsertParser(parsers.get());
-		mvChild::InsertParser(parsers.get());
-		mvWindowAppItem::InsertParser(parsers.get());
-		mvDocWindow::InsertParser(parsers.get());
-		mvDebugWindow::InsertParser(parsers.get());
-		mvStyleWindow::InsertParser(parsers.get());
-		mvTooltip::InsertParser(parsers.get());
-		mvCollapsingHeader::InsertParser(parsers.get());
-		mvTreeNode::InsertParser(parsers.get());
-		mvManagedColumns::InsertParser(parsers.get());
-		mvColumn::InsertParser(parsers.get());
-		mvNextColumn::InsertParser(parsers.get());
-		mvInputText::InsertParser(parsers.get());
-		mvTable::InsertParser(parsers.get());
-		mvPlot::InsertParser(parsers.get());
-		mvDrawList::InsertParser(parsers.get());
+		constexpr_for<1, (int)mvAppItemType::ItemTypeCount, 1>(
+			[&](auto i) {
 
-		mvNodeEditor::InsertParser(parsers.get());
-		mvNode::InsertParser(parsers.get());
-		mvNodeAttribute::InsertParser(parsers.get());
+				using item_type = mvItemType<i>::type;
+
+				item_type::InsertParser(parsers.get());
+
+			});
 
 #ifndef MV_CPP
-		AddPlotCommands(parsers.get());
-		AddLogCommands(parsers.get());
+		mvDrawList::InsertParser(parsers.get());
+		AddTextureStorageCommands(parsers.get());
+		AddDataStorageCommands(parsers.get());
 		AddInputCommands(parsers.get());
-		AddInputWidgets(parsers.get());
-		AddSliderWidgets(parsers.get());
-		AddDragWidgets(parsers.get());
-		AddTableCommands(parsers.get());
 		AddItemCommands(parsers.get());
-		AddStdWindowCommands(parsers.get());
-		AddThemeCommands(parsers.get());
-		AddBasicWidgets(parsers.get());
-		AddContainerWidgets(parsers.get());
 		AddAppCommands(parsers.get());
 #endif
 		return parsers;

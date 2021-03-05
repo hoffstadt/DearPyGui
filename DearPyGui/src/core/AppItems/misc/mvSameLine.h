@@ -4,8 +4,17 @@
 
 namespace Marvel {
 
+#ifdef MV_CPP
+#else
+	PyObject* add_same_line(PyObject* self, PyObject* args, PyObject* kwargs);
+#endif
+
 	class mvSameLine : public mvAppItem
 	{
+
+	public:
+
+		static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
 
 	public:
 
@@ -17,39 +26,13 @@ namespace Marvel {
 		MV_START_STYLE_CONSTANTS
 		MV_END_STYLE_CONSTANTS
 
-		mvSameLine(const std::string& name)
-			: mvAppItem(name)
-		{
-			m_description.duplicatesAllowed = true;
-		}
+		mvSameLine(const std::string& name);
 
-		void draw() override
-		{
-			ImGui::SameLine(m_xoffset, m_spacing);
-		}
+		void draw() override;
 
 #ifndef MV_CPP
-
-
-		void setExtraConfigDict(PyObject* dict) override
-		{
-			if (dict == nullptr)
-				return;
-			 
-			if (PyObject* item = PyDict_GetItemString(dict, "xoffset")) m_xoffset = ToFloat(item);
-			if (PyObject* item = PyDict_GetItemString(dict, "spacing")) m_spacing = ToFloat(item);
-
-		}
-
-		void getExtraConfigDict(PyObject* dict) override
-		{
-			if (dict == nullptr)
-				return;
-			 
-			PyDict_SetItemString(dict, "xoffset", ToPyFloat(m_xoffset));
-			PyDict_SetItemString(dict, "spacing", ToPyFloat(m_spacing));
-		}
-
+		void setExtraConfigDict(PyObject* dict) override;
+		void getExtraConfigDict(PyObject* dict) override;
 #endif
 
 	private:

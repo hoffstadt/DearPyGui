@@ -4,6 +4,11 @@
 
 namespace Marvel {
 
+#ifdef MV_CPP
+#else
+    PyObject* add_about_window(PyObject* self, PyObject* args, PyObject* kwargs);
+#endif
+
     class mvAboutWindow : public mvBaseWindowAppitem
     {
 
@@ -14,6 +19,10 @@ namespace Marvel {
 
         MV_START_STYLE_CONSTANTS
         MV_END_STYLE_CONSTANTS
+
+    public:
+
+        static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
         
     public:
         

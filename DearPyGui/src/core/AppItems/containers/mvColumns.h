@@ -20,9 +20,14 @@ namespace Marvel {
 		bool border = true;
 	};
 
-	PyObject* add_managed_columns(PyObject* self, PyObject* args, PyObject* kwargs);
-	PyObject* add_columns        (PyObject* self, PyObject* args, PyObject* kwargs);
-	PyObject* add_next_column    (PyObject* self, PyObject* args, PyObject* kwargs);
+#ifdef MV_CPP
+#else
+	PyObject* add_managed_columns     (PyObject* self, PyObject* args, PyObject* kwargs);
+	PyObject* add_columns             (PyObject* self, PyObject* args, PyObject* kwargs);
+	PyObject* add_next_column         (PyObject* self, PyObject* args, PyObject* kwargs);
+	PyObject* set_managed_column_width(PyObject* self, PyObject* args, PyObject* kwargs);
+	PyObject* get_managed_column_width(PyObject* self, PyObject* args, PyObject* kwargs);
+#endif
 
 	//-----------------------------------------------------------------------------
 	// mvManagedColumns

@@ -1,6 +1,21 @@
 #include "mvFileDialog.h"
+#include "mvItemRegistry.h"
 
 namespace Marvel {
+
+	void mvFileDialog::InsertParser(std::map<std::string, mvPythonParser>* parsers)
+	{
+		parsers->insert({ "open_file_dialog", mvPythonParser({
+			{mvPythonDataType::Optional},
+			{mvPythonDataType::Callable, "callback", "function to call on completion", "None"},
+			{mvPythonDataType::String, "extensions", "filters items with extensions i.e '.*, .py'", "''"},
+		}, "Opens an 'open file' dialog.") });
+
+		parsers->insert({ "select_directory_dialog", mvPythonParser({
+			{mvPythonDataType::Optional},
+			{mvPythonDataType::Callable, "callback", "function to call on completion", "None"},
+		}, "Opens a select directory dialog.") });
+	}
 
 	mvFileDialog::mvFileDialog() : mvBaseWindowAppitem("filedialog")
 	{
@@ -45,5 +60,56 @@ namespace Marvel {
 			m_core_config.show = false;
 		}
 	}
+
+#ifdef MV_CPP
+#else
+	PyObject* select_directory_dialog(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		PyObject* callback = nullptr;
+
+		if (!(*mvApp::GetApp()->getParsers())["select_directory_dialog"].parse(args, kwargs, __FUNCTION__, &callback))
+			return GetPyNone();
+
+		if (callback)
+			Py_XINCREF(callback);
+
+		mvApp::GetApp()->getCallbackRegistry().submit([=]()
+			{
+				igfd::ImGuiFileDialog::Instance()->OpenModal("ChooseFileDlgKey", "Choose Directory", 0, ".");
+				auto window = mvApp::GetApp()->getItemRegistry().getItem("filedialog");
+				auto dialog = static_cast<mvFileDialog*>(window.get());
+				dialog->setCallback(callback);
+				window->show();
+			});
+
+		return GetPyNone();
+	}
+
+	PyObject* open_file_dialog(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		PyObject* callback = nullptr;
+		const char* extensions = ".*";
+
+		if (!(*mvApp::GetApp()->getParsers())["open_file_dialog"].parse(args, kwargs, __FUNCTION__,
+			&callback, &extensions))
+			return GetPyNone();
+
+		if (callback)
+			Py_XINCREF(callback);
+
+		mvApp::GetApp()->getCallbackRegistry().submit([=]()
+			{
+				igfd::ImGuiFileDialog::Instance()->OpenModal("ChooseFileDlgKey", "Choose File", extensions, ".");
+				auto window = mvApp::GetApp()->getItemRegistry().getItem("filedialog");
+				auto dialog = static_cast<mvFileDialog*>(window.get());
+
+				dialog->setCallback(callback);
+				window->show();
+			});
+
+		return GetPyNone();
+	}
+#endif // 
+
 
 }

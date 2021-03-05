@@ -33,6 +33,18 @@ namespace Marvel {
         bool        no_input        = false;
         bool        clamped         = false;
     };
+
+#ifdef MV_CPP
+#else
+	PyObject* add_slider_float (PyObject* self, PyObject* args, PyObject* kwargs);
+	PyObject* add_slider_float2(PyObject* self, PyObject* args, PyObject* kwargs);
+	PyObject* add_slider_float3(PyObject* self, PyObject* args, PyObject* kwargs);
+	PyObject* add_slider_float4(PyObject* self, PyObject* args, PyObject* kwargs);
+	PyObject* add_slider_int   (PyObject* self, PyObject* args, PyObject* kwargs);
+	PyObject* add_slider_int2  (PyObject* self, PyObject* args, PyObject* kwargs);
+	PyObject* add_slider_int3  (PyObject* self, PyObject* args, PyObject* kwargs);
+	PyObject* add_slider_int4  (PyObject* self, PyObject* args, PyObject* kwargs);
+#endif
     
     class mvSliderFloat : public mvFloatPtrBase
     {
@@ -77,6 +89,10 @@ namespace Marvel {
             MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_SliderFloat_GrabMinSize       , 0, 20),
             MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_SliderFloat_GrabRounding      , 0, 12),
         MV_END_STYLE_CONSTANTS
+   
+    public:
+
+        static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
 
     public:
 
@@ -165,6 +181,10 @@ namespace Marvel {
 
     public:
 
+        static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
+
+    public:
+
         mvSliderFloat2(const std::string& name, float* default_value, const std::string& dataSource);
         
         void setEnabled(bool value) override;
@@ -239,6 +259,10 @@ namespace Marvel {
 
     public:
 
+        static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
+
+    public:
+
         mvSliderFloat3(const std::string& name, float* default_value, const std::string& dataSource);
         
         void setEnabled(bool value) override;
@@ -309,6 +333,10 @@ namespace Marvel {
             MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_SliderFloat4_GrabMinSize  , 0, 20),
             MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_SliderFloat4_GrabRounding , 0, 12),
         MV_END_STYLE_CONSTANTS
+
+    public:
+
+        static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
 
     public:
 
@@ -398,6 +426,10 @@ namespace Marvel {
 
     public:
 
+        static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
+
+    public:
+
         mvSliderInt(const std::string& name, int default_value, const std::string& dataSource);
             
         void setEnabled(bool value) override;   
@@ -483,6 +515,10 @@ namespace Marvel {
 
     public:
 
+        static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
+
+    public:
+
         mvSliderInt2(const std::string& name, int* default_value, const std::string& dataSource);
         
         void setEnabled(bool value) override;
@@ -556,6 +592,10 @@ namespace Marvel {
 
     public:
 
+        static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
+
+    public:
+
         mvSliderInt3(const std::string& name, int* default_value, const std::string& dataSource);
         
         void setEnabled(bool value) override;
@@ -626,6 +666,10 @@ namespace Marvel {
             MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_SliderInt4_GrabMinSize    , 0, 20),
             MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_SliderInt4_GrabRounding   , 0, 12),
         MV_END_STYLE_CONSTANTS
+
+    public:
+
+        static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
 
     public:
 

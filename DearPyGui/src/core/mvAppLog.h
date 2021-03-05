@@ -9,6 +9,8 @@
 
 namespace Marvel {
 
+
+
 	class mvAppLog
 	{
 

@@ -35,6 +35,18 @@ namespace Marvel {
         bool        no_input        = false;
         bool        clamped         = false;
     };
+
+#ifdef MV_CPP
+#else
+    PyObject* add_drag_float(PyObject* self, PyObject* args, PyObject* kwargs);
+    PyObject* add_drag_float2(PyObject* self, PyObject* args, PyObject* kwargs);
+    PyObject* add_drag_float3(PyObject* self, PyObject* args, PyObject* kwargs);
+    PyObject* add_drag_float4(PyObject* self, PyObject* args, PyObject* kwargs);
+    PyObject* add_drag_int(PyObject* self, PyObject* args, PyObject* kwargs);
+    PyObject* add_drag_int2(PyObject* self, PyObject* args, PyObject* kwargs);
+    PyObject* add_drag_int3(PyObject* self, PyObject* args, PyObject* kwargs);
+    PyObject* add_drag_int4(PyObject* self, PyObject* args, PyObject* kwargs);
+#endif
     
     class mvDragFloat : public mvFloatPtrBase
     {
@@ -71,6 +83,10 @@ namespace Marvel {
             MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_DragFloat_InnerSpacingX   , 0, 20),
             MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_DragFloat_InnerSpacingY   , 0, 20),
         MV_END_STYLE_CONSTANTS
+
+    public:
+
+        static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
 
     public:
 
@@ -155,6 +171,10 @@ namespace Marvel {
 
     public:
 
+        static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
+
+    public:
+
         mvDragFloat2(const std::string& name, float* default_value, const std::string& dataSource);
         
         void setEnabled(bool value) override;
@@ -218,6 +238,10 @@ namespace Marvel {
             MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_DragFloat3_InnerSpacingX  , 0, 20),
             MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_DragFloat3_InnerSpacingY  , 0, 20),
         MV_END_STYLE_CONSTANTS
+
+    public:
+
+        static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
 
     public:
 
@@ -285,6 +309,10 @@ namespace Marvel {
             MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_DragFloat4_InnerSpacingX  , 0, 20),
             MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_DragFloat4_InnerSpacingY  , 0, 20),
         MV_END_STYLE_CONSTANTS
+
+    public:
+
+        static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
 
     public:
 
@@ -366,6 +394,10 @@ namespace Marvel {
 
     public:
 
+        static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
+
+    public:
+
         mvDragInt(const std::string& name, int default_value, const std::string& dataSource);
         
         void setEnabled(bool value) override;
@@ -444,6 +476,10 @@ namespace Marvel {
 
     public:
 
+        static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
+
+    public:
+
         mvDragInt2(const std::string& name, int* default_value, const std::string& dataSource);
         
         void setEnabled(bool value) override;
@@ -510,6 +546,10 @@ namespace Marvel {
 
     public:
 
+        static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
+
+    public:
+
         mvDragInt3(const std::string& name, int* default_value, const std::string& dataSource);
         
         void setEnabled(bool value) override;
@@ -573,6 +613,10 @@ namespace Marvel {
             MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_DragInt4_InnerSpacingX, 0, 20),
             MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_DragInt4_InnerSpacingY, 0, 20),
         MV_END_STYLE_CONSTANTS
+
+    public:
+
+        static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
 
     public:
 

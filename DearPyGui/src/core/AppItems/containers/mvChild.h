@@ -14,7 +14,11 @@ namespace Marvel {
 		bool menubar = false;
 	};
 
+
+#ifdef MV_CPP
+#else
 	PyObject* add_child(PyObject* self, PyObject* args, PyObject* kwargs);
+#endif
 
 	class mvChild : public mvBoolPtrBase
 	{

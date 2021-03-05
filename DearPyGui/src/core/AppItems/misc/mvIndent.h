@@ -4,8 +4,17 @@
 
 namespace Marvel {
 
+#ifdef MV_CPP
+#else
+	PyObject* add_indent(PyObject* self, PyObject* args, PyObject* kwargs);
+#endif
+
 	class mvIndent : public mvFloatPtrBase
 	{
+
+	public:
+
+		static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
 
 	public:
 
@@ -16,19 +25,12 @@ namespace Marvel {
 		MV_END_COLOR_CONSTANTS
 
 		MV_START_STYLE_CONSTANTS
-			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_Indent_Spacing, 0, 30),
+		MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_Indent_Spacing, 0, 30),
 		MV_END_STYLE_CONSTANTS
 
-		mvIndent(const std::string& name, float default_value)
-			: mvFloatPtrBase(name, default_value)
-		{
-			m_description.duplicatesAllowed = true;
-		}
+		mvIndent(const std::string& name, float default_value);
 
-		void draw() override
-		{
-			ImGui::Indent(*m_value);
-		}
+		void draw() override;
 
 	};
 

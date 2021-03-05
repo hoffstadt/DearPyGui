@@ -16,17 +16,6 @@ set(MARVEL_PY_SOURCES
 	"src/core/PythonUtilities/mvPythonExceptions.cpp"
 	"src/core/PythonUtilities/mvGlobalIntepreterLock.cpp"
 
-	"src/core/PythonCommands/mvPlotInterface.cpp"
-	"src/core/PythonCommands/mvTableInterface.cpp"
-	"src/core/PythonCommands/mvThemeInterface.cpp"
-	"src/core/PythonCommands/mvInputInterface.cpp"
-	"src/core/PythonCommands/mvBasicWidgetInterface.cpp"
-	"src/core/PythonCommands/mvSliderInterface.cpp"
-	"src/core/PythonCommands/mvInputsInterface.cpp"
-	"src/core/PythonCommands/mvDragInterface.cpp"
-	"src/core/PythonCommands/mvContainerInterface.cpp"
-	"src/core/PythonCommands/mvAppItemInterface.cpp"
-	"src/core/PythonCommands/mvAppInterface.cpp"
 )
 
 set(MARVEL_CPP_SOURCES
@@ -98,6 +87,12 @@ set(MARVEL_SOURCES
 	"src/core/AppItems/basic/mvSliderItems.cpp"
 
 	"src/core/AppItems/misc/mvProgressBar.cpp"
+	"src/core/AppItems/misc/mvIndent.cpp"
+	"src/core/AppItems/misc/mvUnindent.cpp"
+	"src/core/AppItems/misc/mvSameLine.cpp"
+	"src/core/AppItems/misc/mvSeparator.cpp"
+	"src/core/AppItems/misc/mvDummy.cpp"
+	"src/core/AppItems/misc/mvSpacing.cpp"
 
 	"src/core/AppItems/containers/mvCollapsingHeader.cpp"
 	"src/core/AppItems/containers/mvGroup.cpp"
@@ -110,6 +105,7 @@ set(MARVEL_SOURCES
 	"src/core/AppItems/containers/mvTreeNode.cpp"
 	"src/core/AppItems/containers/mvColumns.cpp"
 	"src/core/AppItems/containers/mvWindowAppItem.cpp"
+	"src/core/AppItems/containers/mvPopup.cpp"
 
 	"src/core/AppItems/custom/mvDatePicker.cpp"
 	"src/core/AppItems/custom/mvTimePicker.cpp"
@@ -130,6 +126,7 @@ set(MARVEL_SOURCES
 	
 	"src/core/AppItems/plots/mvPlot.cpp"
 	"src/core/AppItems/plots/mvAreaSeries.cpp"
+	"src/core/AppItems/plots/mvSimplePlot.cpp"
 
 	# imnodes
 	"vendor/imnodes/imnodes.cpp"
@@ -167,7 +164,6 @@ set(MARVEL_INCLUDE_DIR
 	"src/core"
 	"src/core/AppItems"
 	"src/core/DrawCommands"
-	"src/core/PythonCommands"
 	"src/core/CppUtilities"
 	"src/core/PythonUtilities"
 	"src/core/Registries"
