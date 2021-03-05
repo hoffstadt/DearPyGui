@@ -24,7 +24,7 @@ namespace Marvel {
 		constexpr_for<1, (int)mvAppItemType::ItemTypeCount, 1>(
 			[&](auto i) {
 
-				using item_type = mvItemType<i>::type;
+				using item_type = typename mvItemType<i>::type;
 
 				item_type::InsertParser(parsers.get());
 
@@ -440,7 +440,7 @@ namespace Marvel {
 		constexpr_for<1, (int)mvAppItemType::ItemTypeCount, 1>(
 			[&](auto i) {
 				
-				using item_type = mvItemType<i>::type;
+				using item_type = typename mvItemType<i>::type;
 
 				// color constants
 				for (const auto& item : item_type::GetColorConstants())
