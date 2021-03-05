@@ -9,7 +9,13 @@ namespace Marvel {
 
 	public:
 
-		MV_APPITEM_TYPE_OLD_SYSTEM(mvAppItemType::Unindent, "unindent")
+		MV_APPITEM_TYPE(mvAppItemType::Unindent, mvUnindent, "unindent")
+
+		MV_START_COLOR_CONSTANTS
+		MV_END_COLOR_CONSTANTS
+
+		MV_START_STYLE_CONSTANTS
+		MV_END_STYLE_CONSTANTS
 
 		mvUnindent(const std::string& name, float default_value)
 			: mvFloatPtrBase(name, default_value)

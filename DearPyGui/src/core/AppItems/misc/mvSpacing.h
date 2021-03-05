@@ -9,9 +9,15 @@ namespace Marvel {
 
 	public:
 
-		MV_APPITEM_TYPE_OLD_SYSTEM(mvAppItemType::Spacing, "add_spacing")
+		MV_APPITEM_TYPE(mvAppItemType::Spacing, mvSpacing, "add_spacing")
 
-			mvSpacing(const std::string& name, int count)
+		MV_START_COLOR_CONSTANTS
+		MV_END_COLOR_CONSTANTS
+
+		MV_START_STYLE_CONSTANTS
+		MV_END_STYLE_CONSTANTS
+
+		mvSpacing(const std::string& name, int count)
 			: mvIntPtrBase(name, count)
 		{
 			m_description.duplicatesAllowed = true;

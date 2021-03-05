@@ -11,7 +11,13 @@ namespace Marvel {
 
 		friend class mvNodeEditor;
 
-		MV_APPITEM_TYPE_OLD_SYSTEM(mvAppItemType::Node, "add_node")
+		MV_APPITEM_TYPE(mvAppItemType::Node, mvNode, "add_node")
+
+		MV_START_COLOR_CONSTANTS
+		MV_END_COLOR_CONSTANTS
+
+		MV_START_STYLE_CONSTANTS
+		MV_END_STYLE_CONSTANTS
 
 	public:
 

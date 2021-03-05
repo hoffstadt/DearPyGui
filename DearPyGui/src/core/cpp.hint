@@ -2,16 +2,10 @@
 // such as names of functions and macros.
 // For more information see https://go.microsoft.com/fwlink/?linkid=865984
 
-#define MV_APPITEM_TYPE_OLD_SYSTEM(x, parser)\
-mvAppItemType getType() const override { return x; }\
-std::string getStringType() const override { return std::string(#x); }\
-std::string getParserCommand() const override { return parser; }
-
 #define MV_APPITEM_TYPE(x, y, parser)public:\
 mvAppItemType getType() const override { return x; }\
 std::string getStringType() const override { return std::string(#x); }\
-std::string getParserCommand() const override { return parser; }\
-const std::vector<std::tuple<std::string, long, mvColor>>& getColorConstants() const override{return y::GetColorConstants();}
+std::string getParserCommand() const override { return parser; }
 
 #define MV_START_COLOR_CONSTANTS public: static const std::vector<std::tuple<std::string, long, mvColor>>& GetColorConstants()\
         {static std::vector<std::tuple<std::string, long, mvColor>> constants ={
