@@ -6,6 +6,7 @@
 #include "mvTextEditor.h"
 #include "mvApp.h"
 #include "mvMarvel.h"
+#include "mvThemeManager.h"
 
 #define IMGUI_DEFINE_MATH_OPERATORS
 #include "imgui.h" // for imGui::GetCurrentWindow()

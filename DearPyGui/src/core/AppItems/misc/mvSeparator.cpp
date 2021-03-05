@@ -1,5 +1,7 @@
 #include "mvSeparator.h"
 #include "mvItemRegistry.h"
+#include "mvThemeManager.h"
+#include "mvThemeManager.h"
 
 namespace Marvel {
 

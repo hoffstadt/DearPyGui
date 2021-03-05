@@ -3,6 +3,7 @@
 #include "mvApp.h"
 #include "mvItemRegistry.h"
 #include "mvNodeEditor.h"
+#include "mvThemeManager.h"
 
 namespace Marvel {
 

@@ -1,5 +1,6 @@
 #include "mvPopup.h"
 #include "mvItemRegistry.h"
+#include "mvThemeManager.h"
 
 namespace Marvel {
 
