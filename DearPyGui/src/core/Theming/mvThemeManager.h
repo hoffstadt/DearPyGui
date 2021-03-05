@@ -2,6 +2,7 @@
 
 #include <unordered_map>
 #include "mvEvents.h"
+#include "mvAppItem.h"
 
 namespace Marvel {
 
