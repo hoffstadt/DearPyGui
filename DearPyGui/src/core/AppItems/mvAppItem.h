@@ -16,7 +16,6 @@
 #include "mvAppItemDescription.h"
 #include "mvAppItemStyleManager.h"
 #include "mvCallbackRegistry.h"
-#include "mvThemeManager.h"
 
 //-----------------------------------------------------------------------------
 // Helper Macros
@@ -24,6 +23,9 @@
 #include "cpp.hint"
 
 namespace Marvel {
+
+    // forward declarations
+    class mvThemeManager;
 
     //-----------------------------------------------------------------------------
     // mvAppItemType

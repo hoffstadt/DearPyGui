@@ -2,6 +2,7 @@
 #include <misc/cpp/imgui_stdlib.h>
 #include <utility>
 #include "mvItemRegistry.h"
+#include "mvThemeManager.h"
 
 namespace Marvel {
 

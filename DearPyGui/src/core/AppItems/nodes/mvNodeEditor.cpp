@@ -4,6 +4,7 @@
 #include "mvItemRegistry.h"
 #include "mvNode.h"
 #include "mvNodeAttribute.h"
+#include "mvThemeManager.h"
 
 namespace Marvel {
 
