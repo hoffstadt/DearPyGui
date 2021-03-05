@@ -100,13 +100,13 @@ namespace Marvel {
 	mvImGuiThemeScope::mvImGuiThemeScope(mvAppItem* item)
 	{
 
-		const std::vector<std::pair<std::string, long>>& color_constants = item->getColorConstants();
+		const std::vector<std::tuple<std::string, long, mvColor>>& color_constants = item->getColorConstants();
 		const std::vector<std::tuple<std::string, long, int, int>>& style_constants = item->getStyleConstants();
 
 		mvThemeColors colors;
 		std::unordered_map<long, bool> colors_found;
 		for (const auto& color_pair : color_constants)
-			colors_found[color_pair.second] = false;
+			colors_found[std::get<1>(color_pair)] = false;
 
 		//style is were we place all zero first position floats
 		//style2 is where we place a const that may have a second position for pushing ImVec2 constants

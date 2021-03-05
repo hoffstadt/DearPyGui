@@ -38,7 +38,7 @@ def window(name: str, *, width: int = 200, height: int = 200, x_pos: int = 200, 
            no_resize: bool = False, no_title_bar: bool = False, no_move: bool = False, no_scrollbar: bool = False,
            no_collapse: bool = False, horizontal_scrollbar: bool = False, no_focus_on_appearing: bool = False,
            no_bring_to_front_on_focus: bool = False, menubar: bool = False, no_close: bool = False,
-           no_background: bool = False, label: str = "__DearPyGuiDefault", show: bool = True,
+           no_background: bool = False, label: str = "__DearPyGuiDefault", show: bool = True, collapsed: bool = False,
            on_close: Callable = None):
     """Wraps add_window() and automates calling end().
 
@@ -78,7 +78,7 @@ def window(name: str, *, width: int = 200, height: int = 200, x_pos: int = 200, 
                                           no_focus_on_appearing=no_focus_on_appearing,
                                           no_bring_to_front_on_focus=no_bring_to_front_on_focus,
                                           menubar=menubar, no_close=no_close, no_background=no_background,
-                                          show=show, on_close=on_close)
+                                          show=show, collapsed=collapsed, on_close=on_close)
         else:
             yield internal_dpg.add_window(name, width=width, height=height, x_pos=x_pos, y_pos=y_pos, autosize=autosize,
                                           no_resize=no_resize, no_title_bar=no_title_bar, no_move=no_move,
@@ -87,7 +87,8 @@ def window(name: str, *, width: int = 200, height: int = 200, x_pos: int = 200, 
                                           no_focus_on_appearing=no_focus_on_appearing,
                                           no_bring_to_front_on_focus=no_bring_to_front_on_focus,
                                           menubar=menubar, no_close=no_close,
-                                          no_background=no_background, label=label, show=show, on_close=on_close)
+                                          no_background=no_background, label=label, show=show, 
+                                          collapsed=collapsed, on_close=on_close)
     finally:
         internal_dpg.end()
 

@@ -30,12 +30,12 @@ namespace Marvel {
 		MV_CREATE_THEME_CONSTANT(mvAppItemType::RadioButtons, mvThemeStyle_RadioButton_InnerSpacingY, 14L, 1L);
 
 		MV_START_COLOR_CONSTANTS
-			MV_CREATE_CONSTANT_PAIR(mvThemeCol_RadioButton_Text),
-			MV_CREATE_CONSTANT_PAIR(mvThemeCol_RadioButton_Bg),
-			MV_CREATE_CONSTANT_PAIR(mvThemeCol_RadioButton_BgHovered),
-			MV_CREATE_CONSTANT_PAIR(mvThemeCol_RadioButton_BgActive),
-			MV_CREATE_CONSTANT_PAIR(mvThemeCol_RadioButton_Border),
-			MV_CREATE_CONSTANT_PAIR(mvThemeCol_RadioButton_BorderShadow),
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_RadioButton_Text,			mvColor(255, 255, 255, 255)),
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_RadioButton_Bg,				mvColor( 41,  74, 122, 138)),
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_RadioButton_BgHovered,		mvColor( 66, 150, 250, 102)),
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_RadioButton_BgActive,		mvColor( 66, 150, 250, 171)),
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_RadioButton_Border,			mvColor(110, 110, 128, 128)),
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_RadioButton_BorderShadow,	mvColor(  0,   0,   0,   0)),
 		MV_END_COLOR_CONSTANTS
 
 		MV_START_STYLE_CONSTANTS

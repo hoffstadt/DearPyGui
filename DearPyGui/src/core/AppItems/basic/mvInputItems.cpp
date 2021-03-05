@@ -18,6 +18,9 @@ namespace Marvel {
     
     void mvInputInt::setEnabled(bool value)
     {
+        if (value == m_core_config.enabled)
+            return;
+
         if (value)
             m_flags = m_stor_flags;
 
@@ -107,6 +110,9 @@ namespace Marvel {
 
     void mvInputInt2::setEnabled(bool value)
     {
+        if (value == m_core_config.enabled)
+            return;
+
         if (value)
             m_flags = m_stor_flags;
 
@@ -204,6 +210,9 @@ namespace Marvel {
 
     void mvInputInt3::setEnabled(bool value)
     {
+        if (value == m_core_config.enabled)
+            return;
+
         if (value)
             m_flags = m_stor_flags;
 
@@ -301,6 +310,9 @@ namespace Marvel {
 
     void mvInputInt4::setEnabled(bool value)
     {
+        if (value == m_core_config.enabled)
+            return;
+
         if (value)
             m_flags = m_stor_flags;
 
@@ -398,6 +410,9 @@ namespace Marvel {
 
     void mvInputFloat::setEnabled(bool value)
     {
+        if (value == m_core_config.enabled)
+            return;
+
         if (value)
             m_flags = m_stor_flags;
 
@@ -486,6 +501,9 @@ namespace Marvel {
 
     void mvInputFloat2::setEnabled(bool value)
     {
+        if (value == m_core_config.enabled)
+            return;
+
         if (value)
             m_flags = m_stor_flags;
 
@@ -583,6 +601,9 @@ namespace Marvel {
 
     void mvInputFloat3::setEnabled(bool value)
     {
+        if (value == m_core_config.enabled)
+            return;
+
         if (value)
             m_flags = m_stor_flags;
 
@@ -680,6 +701,9 @@ namespace Marvel {
 
     void mvInputFloat4::setEnabled(bool value)
     {
+        if (value == m_core_config.enabled)
+            return;
+
         if (value)
             m_flags = m_stor_flags;
 

@@ -21,7 +21,7 @@ namespace Marvel {
 		MV_CREATE_THEME_CONSTANT(mvAppItemType::TabBar, mvThemeStyle_TabBar_ItemSpacingY, 13L, 1L);
 
 		MV_START_COLOR_CONSTANTS
-			MV_CREATE_CONSTANT_PAIR(mvThemeCol_TabBar),
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_TabBar, mvColor(110, 110, 128, 128)),
 		MV_END_COLOR_CONSTANTS
 
 		MV_START_STYLE_CONSTANTS

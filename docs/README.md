@@ -12,7 +12,7 @@
 ![Python Version](https://img.shields.io/pypi/pyversions/dearpygui)
 [![PYPI](https://img.shields.io/pypi/v/dearpygui)](https://pypi.org/project/dearpygui/)
 [![Downloads](https://pepy.tech/badge/dearpygui)](https://pepy.tech/project/dearpygui)
-[![Sponsors](https://img.shields.io/badge/sponsors-25-brightgreen)](https://img.shields.io/badge/sponsors-25-brightgreen)
+[![Sponsors](https://img.shields.io/badge/sponsors-26-brightgreen)](https://img.shields.io/badge/sponsors-26-brightgreen)
 
 [![build status](https://github.com/hoffstadt/DearPyGui/workflows/Embedded%20Build/badge.svg?branch=master)](https://github.com/hoffstadt/DearPyGui/actions?workflow=Embedded%20Build)
 [![static-analysis](https://github.com/hoffstadt/DearPyGui/workflows/static-analysis/badge.svg?branch=master)](https://github.com/hoffstadt/DearPyGui/actions?workflow=static-analysis)
@@ -60,7 +60,13 @@ Ensure you have at least Python 3.6 64bit.
 - [Documentation](https://github.com/hoffstadt/DearPyGui/wiki) comprehensive documentaion, tutorials, and examples.
 - [Development Roadmap](https://github.com/hoffstadt/DearPyGui/projects/4) future features and changes.
 - Internal Documentation: Run the `show_documentation` command from within the library to view an reference guide. 
-- Complete Demo: You can also view a mostly complete showcase of _Dear PyGui_ by running the `show_demo` command found in _dearpygui.demo_.
+- Complete Demo: You can also view a mostly complete showcase of _Dear PyGui_ by running:
+```python
+from dearpygui.core import start_dearpygui
+from dearpygui.demo import show_demo
+show_demo()
+start_dearpygui()
+```
 
 
 ### Usage
@@ -144,6 +150,7 @@ These include:
 * 🏆 [何凌锋](https://github.com/Hedaozi) _Partner Sponsor_
 * 🏆 [Nikki Luzader](https://github.com/nikkiluzader) _Partner Sponsor_
 * 🏆 [Ray Heasman](https://github.com/rheasman) _Partner Sponsor_
+* 🏆 [Marco Studer](https://github.com/Mstpyt) _Partner Sponsor_
 * 🥇 [Caden Bloxham](https://github.com/cubic-unit) _Gold Sponsor_
 * 🥇 [Michael Kadziela](https://github.com/Innominus) _Gold Sponsor_
 * 🥇 [Yan Zaretskiy](https://github.com/mindv0rtex) _Gold Sponsor_

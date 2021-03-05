@@ -24,12 +24,12 @@ namespace Marvel {
 
 
 		MV_START_COLOR_CONSTANTS
-			MV_CREATE_CONSTANT_PAIR(mvThemeCol_DatePicker_Date),
-			MV_CREATE_CONSTANT_PAIR(mvThemeCol_DatePicker_DateDisabled),
-			MV_CREATE_CONSTANT_PAIR(mvThemeCol_DatePicker_DateHovered),
-			MV_CREATE_CONSTANT_PAIR(mvThemeCol_DatePicker_DateActive),
-			MV_CREATE_CONSTANT_PAIR(mvThemeCol_DatePicker_Border),
-			MV_CREATE_CONSTANT_PAIR(mvThemeCol_DatePicker_BorderShadow),
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_DatePicker_Date,			mvColor(255, 255, 255, 255)),
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_DatePicker_DateDisabled, mvColor(128, 128, 128, 255)),
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_DatePicker_DateHovered,	mvColor( 66, 150, 250, 255)),
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_DatePicker_DateActive,	mvColor( 15, 135, 250, 255)),
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_DatePicker_Border,		mvColor(110, 110, 128, 128)),
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_DatePicker_BorderShadow, mvColor(  0,   0,   0,   0)),
 		MV_END_COLOR_CONSTANTS
 
 			MV_START_STYLE_CONSTANTS

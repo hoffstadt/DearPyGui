@@ -4,23 +4,23 @@
 
 namespace Marvel {
 
-	mvInput::AtomicVec2  mvInput::s_mousePos = {0, 0};
-	mvInput::AtomicVec2  mvInput::s_mouseGlobalPos = {0, 0};
-	mvInput::AtomicVec2  mvInput::s_mousePlotPos = {0, 0};
-	mvInput::AtomicVec2  mvInput::s_mouseDrawingPos = {0, 0};
-	std::atomic_int      mvInput::s_mouseDragThreshold = 20;
-	mvInput::AtomicVec2  mvInput::s_mouseDragDelta = { 0, 0 };
-	std::atomic_bool     mvInput::s_keysdown[512];
-	std::atomic_int      mvInput::s_keysdownduration[512]; // 1/100 seconds
-	std::atomic_bool     mvInput::s_keyspressed[512];
-	std::atomic_bool     mvInput::s_keysreleased[512];
-	std::atomic_int      mvInput::s_mousewheel;
-	std::atomic_bool     mvInput::s_mousedown[5];
-	std::atomic_bool     mvInput::s_mouseDragging[5];
-	std::atomic_int      mvInput::s_mousedownduration[5]; // 1/100 seconds
-	std::atomic_bool     mvInput::s_mouseclick[5];
-	std::atomic_bool     mvInput::s_mousedoubleclick[5];
-	std::atomic_bool     mvInput::s_mousereleased[5];
+	mvInput::AtomicVec2      mvInput::s_mousePos = {0, 0};
+	mvInput::AtomicVec2      mvInput::s_mouseGlobalPos = {0, 0};
+	mvInput::AtomicFloatVec2 mvInput::s_mousePlotPos = {0, 0};
+	mvInput::AtomicVec2      mvInput::s_mouseDrawingPos = {0, 0};
+	std::atomic_int          mvInput::s_mouseDragThreshold = 20;
+	mvInput::AtomicVec2      mvInput::s_mouseDragDelta = { 0, 0 };
+	std::atomic_bool         mvInput::s_keysdown[512];
+	std::atomic_int          mvInput::s_keysdownduration[512]; // 1/100 seconds
+	std::atomic_bool         mvInput::s_keyspressed[512];
+	std::atomic_bool         mvInput::s_keysreleased[512];
+	std::atomic_int          mvInput::s_mousewheel;
+	std::atomic_bool         mvInput::s_mousedown[5];
+	std::atomic_bool         mvInput::s_mouseDragging[5];
+	std::atomic_int          mvInput::s_mousedownduration[5]; // 1/100 seconds
+	std::atomic_bool         mvInput::s_mouseclick[5];
+	std::atomic_bool         mvInput::s_mousedoubleclick[5];
+	std::atomic_bool         mvInput::s_mousereleased[5];
 
 	void mvInput::CheckInputs()
 	{
@@ -136,8 +136,8 @@ namespace Marvel {
 
 	void mvInput::setPlotMousePosition(float x, float y)
 	{
-		s_mousePlotPos.x = (int)x;
-		s_mousePlotPos.y = (int)y;
+		s_mousePlotPos.x = x;
+		s_mousePlotPos.y = y;
 	}
 
 	void mvInput::setDrawingMousePosition(float x, float y)

@@ -23,6 +23,7 @@ namespace Marvel {
 		bool menubar = false;
 		bool no_close = false;
 		bool no_background = false;
+		bool collapsed = false;
 		mvCallable on_close = nullptr;
 		
 		mvWindowAppItemConfig()
@@ -74,22 +75,22 @@ namespace Marvel {
 		MV_CREATE_THEME_CONSTANT(mvAppItemType::Window, mvThemeStyle_Window_ScrollbarRounding	, 18L, 0L);
 
 		MV_START_COLOR_CONSTANTS
-			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Window_TitleText),
-			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Window_TitleBg),
-			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Window_TitleBgActive),
-			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Window_TitleBgCollapsed),
-			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Window_MenuBar),
-			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Window_Bg),
-			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Window_Scrollbar),
-			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Window_ScrollbarGrab),
-			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Window_ScrollbarGrabHovered),
-			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Window_ScrollbarGrabActive),
-			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Window_ResizeBorder),
-			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Window_ResizeGrip),
-			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Window_ResizeGripHovered),
-			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Window_ResizeGripActive),
-			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Window_Border),
-			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Window_BorderShadow),
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Window_TitleText,			mvColor(255, 255, 255, 255)),
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Window_TitleBg,				mvColor( 10,  10,  10, 255)),
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Window_TitleBgActive,		mvColor( 41,  74, 122, 255)),
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Window_TitleBgCollapsed,		mvColor(  0,   0,   0, 130)),
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Window_MenuBar,				mvColor( 36,  36,  36, 255)),
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Window_Bg,					mvColor( 15,  15,  15, 240)),
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Window_Scrollbar,			mvColor(  5,   5,   5, 135)),
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Window_ScrollbarGrab,		mvColor( 79,  79,  79, 255)),
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Window_ScrollbarGrabHovered, mvColor(105, 105, 105, 255)),
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Window_ScrollbarGrabActive,	mvColor(130, 130, 130, 255)),
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Window_ResizeBorder,			mvColor( 26, 102, 191, 255)),
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Window_ResizeGrip,			mvColor( 66, 150, 250,  42)),
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Window_ResizeGripHovered,	mvColor( 66, 150, 250, 171)),
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Window_ResizeGripActive,		mvColor( 66, 150, 250, 242)),
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Window_Border,				mvColor(110, 110, 128, 128)),
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Window_BorderShadow,			mvColor(  0,   0,   0,   0)),
 		MV_END_COLOR_CONSTANTS
 
 		MV_START_STYLE_CONSTANTS
@@ -161,6 +162,7 @@ namespace Marvel {
 		bool                  m_hasMenuBar = false;
 		bool                  m_focusNextFrame = false;
 		bool                  m_closing = true;
+		bool                  m_collapsedDirty = true;
 		mvRef<mvDrawList>     m_drawList;
 		
 	};
