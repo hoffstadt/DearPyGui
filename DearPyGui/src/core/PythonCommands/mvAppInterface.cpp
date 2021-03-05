@@ -334,22 +334,18 @@ namespace Marvel {
 			//This will choose which function to use to interpretate the array. 
 			//Each function interpretates it as a different type.
 
-			BufferViewerPtr BufferViewer = BufferViewFunctions(buffer_info);
+			auto BufferViewer = BufferViewFunctions(buffer_info);
 
 			switch (tformat)
 			{
 			case mvTextureFormat::RGBA_FLOAT:
 				for (size_t i = 0; i < fdata.size(); ++i)
-				{
 					fdata[i] = BufferViewer(buffer_info, i);
-				}
 				break;
 
 			case mvTextureFormat::RGBA_INT:
 				for (size_t i = 0; i < fdata.size(); ++i)
-				{
 					fdata[i] = BufferViewer(buffer_info, i) / 255.0f;
-				}
 				break;
 
 			case mvTextureFormat::BGRA_FLOAT:
@@ -421,9 +417,8 @@ namespace Marvel {
 			if (mvApp::IsAppStarted())
 				mvApp::GetApp()->getTextureStorage().addTexture(name, fdata.data(), width, height, tformat);
 			else
-			{
 				mvApp::GetApp()->getTextureStorage().addDelayedTexture(name, fdata, width, height, tformat);
-			}
+
 			PyBuffer_Release(&buffer_info);
 			return GetPyNone();
 		}

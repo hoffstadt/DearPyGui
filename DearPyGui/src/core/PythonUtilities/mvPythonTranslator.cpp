@@ -369,24 +369,19 @@ namespace Marvel {
 
 	}
 
-	BufferViewerPtr BufferViewFunctions(Py_buffer& bufferView)
+	std::function<float(Py_buffer&, Py_ssize_t index)> BufferViewFunctions(Py_buffer& bufferView)
 	{
 		if (strcmp(bufferView.format, "f") == 0)
-		{
-			return &BufferFloatAsFloat;
-		}
+			return [](Py_buffer& bufferView, Py_ssize_t index) {return *((float*)bufferView.buf + index); };
+
 		else if (strcmp(bufferView.format, "d") == 0)
-		{
-			return BufferDoubleAsFloat;
-		}
+			return [](Py_buffer& bufferView, Py_ssize_t index) {return *((double*)bufferView.buf + index); };
+
 		else if (strcmp(bufferView.format, "l") == 0)
-		{
-			return BufferIntAsFloat;
-		}
+			return [](Py_buffer& bufferView, Py_ssize_t index) {return *((int*)bufferView.buf + index); };
+
 		else if (strcmp(bufferView.format, "B") == 0)
-		{
-			return BufferUCharAsFloat;
-		}
+			return [](Py_buffer& bufferView, Py_ssize_t index) {return *((unsigned char*)bufferView.buf + index); };
 		else
 		{
 			ThrowPythonException("Unknown buffer type.");
@@ -395,27 +390,6 @@ namespace Marvel {
 			return nullptr;
 		}
 	}
-
-	float BufferFloatAsFloat(Py_buffer& bufferView, Py_ssize_t index)
-	{
-		return *((float*)bufferView.buf + index);
-	}
-
-	float BufferDoubleAsFloat(Py_buffer& bufferView, Py_ssize_t index)
-	{
-		return *((double*)bufferView.buf + index);
-	}
-
-	float BufferIntAsFloat(Py_buffer& bufferView, Py_ssize_t index)
-	{
-		return *((int*)bufferView.buf + index);
-	}
-
-	float BufferUCharAsFloat(Py_buffer& bufferView, Py_ssize_t index)
-	{
-		return *((unsigned char*)bufferView.buf + index);
-	}
-
 
 	std::vector<int> ToIntVect(PyObject* value, const std::string& message)
 	{
@@ -452,7 +426,7 @@ namespace Marvel {
 			if (!PyObject_GetBuffer(value, &buffer_info,
 				PyBUF_CONTIG_RO | PyBUF_FORMAT))
 			{
-				BufferViewerPtr BufferViewer = BufferViewFunctions(buffer_info);
+				auto BufferViewer = BufferViewFunctions(buffer_info);
 
 				for (Py_ssize_t i = 0; i < buffer_info.len / buffer_info.itemsize; ++i)
 				{
@@ -502,7 +476,7 @@ namespace Marvel {
 				PyBUF_CONTIG_RO | PyBUF_FORMAT)) 
 			{
 
-				BufferViewerPtr BufferViewer = BufferViewFunctions(buffer_info);
+				auto BufferViewer = BufferViewFunctions(buffer_info);
 
 				for (Py_ssize_t i = 0; i < buffer_info.len / buffer_info.itemsize; ++i)
 				{

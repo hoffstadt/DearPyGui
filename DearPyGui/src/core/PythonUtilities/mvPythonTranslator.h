@@ -14,6 +14,7 @@
 #include "mvCore.h"
 #include "mvPython.h"
 #include <time.h>
+#include <functional>
 
 namespace Marvel {
 
@@ -68,10 +69,5 @@ namespace Marvel {
 	std::vector<std::vector<float>>                  ToVectVectFloat      (PyObject* value, const std::string& message = "Type must be an list/tuple of list/tuple of strings.");
 	std::vector<std::pair<std::string, float>>       ToVectPairStringFloat(PyObject* value, const std::string& message = "Type must be an list/tuple of str,float pairs.");
 
-	typedef float (*BufferViewerPtr)(Py_buffer& bufferView, Py_ssize_t index);
-	BufferViewerPtr  BufferViewFunctions(Py_buffer& bufferView);
-	float BufferFloatAsFloat(Py_buffer& bufferView, Py_ssize_t index);
-	float BufferDoubleAsFloat(Py_buffer& bufferView, Py_ssize_t index);
-	float BufferIntAsFloat(Py_buffer& bufferView, Py_ssize_t index);
-	float BufferUCharAsFloat(Py_buffer& bufferView, Py_ssize_t index);
+	std::function<float(Py_buffer&, Py_ssize_t index)> BufferViewFunctions(Py_buffer& bufferView);
 }
