@@ -1402,7 +1402,7 @@ namespace Marvel {
 		int show_drag_lines = true;
 		int show_drag_points = true;
 
-		if (!(*mvApp::GetApp()->getParsers())["add_plot"].parse(args, kwargs, __FUNCTION__, &name, &xAxisName, &yAxisName,
+		if (!(mvApp::GetApp()->getParsers())["add_plot"].parse(args, kwargs, __FUNCTION__, &name, &xAxisName, &yAxisName,
 			&no_legend, &no_menus, &no_box_select, &no_mouse_pos, &no_highlight, &no_child, &query, &crosshairs, 
 			&antialiased, &equal_aspects,
 			&yaxis2, &yaxis3,
@@ -1469,7 +1469,7 @@ namespace Marvel {
 		PyObject* callback = nullptr;
 		float default_value = 0.0f;
 
-		if (!(*mvApp::GetApp()->getParsers())["add_drag_line"].parse(args, kwargs, __FUNCTION__,
+		if (!(mvApp::GetApp()->getParsers())["add_drag_line"].parse(args, kwargs, __FUNCTION__,
 			&plot, &name, &source, &color, &thickness, &y_line, &show_label, &callback, &default_value))
 			return GetPyNone();
 
@@ -1504,7 +1504,7 @@ namespace Marvel {
 		const char* plot;
 		const char* name;
 
-		if (!(*mvApp::GetApp()->getParsers())["delete_drag_line"].parse(args, kwargs, __FUNCTION__,
+		if (!(mvApp::GetApp()->getParsers())["delete_drag_line"].parse(args, kwargs, __FUNCTION__,
 			&plot, &name))
 			return GetPyNone();
 
@@ -1547,7 +1547,7 @@ namespace Marvel {
 		float default_x = 0.0f;
 		float default_y = 0.0f;
 
-		if (!(*mvApp::GetApp()->getParsers())["add_drag_point"].parse(args, kwargs, __FUNCTION__,
+		if (!(mvApp::GetApp()->getParsers())["add_drag_point"].parse(args, kwargs, __FUNCTION__,
 			&plot, &name, &source, &color, &radius, &show_label, &callback, &default_x, &default_y))
 			return GetPyNone();
 
@@ -1583,7 +1583,7 @@ namespace Marvel {
 		const char* plot;
 		const char* name;
 
-		if (!(*mvApp::GetApp()->getParsers())["delete_drag_point"].parse(args, kwargs, __FUNCTION__,
+		if (!(mvApp::GetApp()->getParsers())["delete_drag_point"].parse(args, kwargs, __FUNCTION__,
 			&plot, &name))
 			return GetPyNone();
 
@@ -1626,7 +1626,7 @@ namespace Marvel {
 		int clamped = true;
 		const char* tag = "";
 
-		if (!(*mvApp::GetApp()->getParsers())["add_annotation"].parse(args, kwargs, __FUNCTION__,
+		if (!(mvApp::GetApp()->getParsers())["add_annotation"].parse(args, kwargs, __FUNCTION__,
 			&plot, &text, &x, &y, &xoffset, &yoffset, &color, &clamped, &tag))
 			return GetPyNone();
 
@@ -1658,7 +1658,7 @@ namespace Marvel {
 		const char* plot;
 		const char* name;
 
-		if (!(*mvApp::GetApp()->getParsers())["delete_annotation"].parse(args, kwargs, __FUNCTION__,
+		if (!(mvApp::GetApp()->getParsers())["delete_annotation"].parse(args, kwargs, __FUNCTION__,
 			&plot, &name))
 			return GetPyNone();
 
@@ -1689,7 +1689,7 @@ namespace Marvel {
 	{
 		const char* plot;
 
-		if (!(*mvApp::GetApp()->getParsers())["clear_plot"].parse(args, kwargs, __FUNCTION__, &plot))
+		if (!(mvApp::GetApp()->getParsers())["clear_plot"].parse(args, kwargs, __FUNCTION__, &plot))
 			return GetPyNone();
 
 		std::lock_guard<std::mutex> lk(mvApp::GetApp()->GetApp()->getMutex());
@@ -1719,7 +1719,7 @@ namespace Marvel {
 	{
 		const char* plot;
 
-		if (!(*mvApp::GetApp()->getParsers())["reset_xticks"].parse(args, kwargs, __FUNCTION__, &plot))
+		if (!(mvApp::GetApp()->getParsers())["reset_xticks"].parse(args, kwargs, __FUNCTION__, &plot))
 			return GetPyNone();
 
 		std::lock_guard<std::mutex> lk(mvApp::GetApp()->GetApp()->getMutex());
@@ -1749,7 +1749,7 @@ namespace Marvel {
 	{
 		const char* plot;
 
-		if (!(*mvApp::GetApp()->getParsers())["reset_yticks"].parse(args, kwargs, __FUNCTION__, &plot))
+		if (!(mvApp::GetApp()->getParsers())["reset_yticks"].parse(args, kwargs, __FUNCTION__, &plot))
 			return GetPyNone();
 
 		std::lock_guard<std::mutex> lk(mvApp::GetApp()->GetApp()->getMutex());
@@ -1780,7 +1780,7 @@ namespace Marvel {
 		const char* plot;
 		PyObject* label_pairs;
 
-		if (!(*mvApp::GetApp()->getParsers())["set_xticks"].parse(args, kwargs, __FUNCTION__, &plot, &label_pairs))
+		if (!(mvApp::GetApp()->getParsers())["set_xticks"].parse(args, kwargs, __FUNCTION__, &plot, &label_pairs))
 			return GetPyNone();
 
 		auto mlabel_pairs = ToVectPairStringFloat(label_pairs);
@@ -1822,7 +1822,7 @@ namespace Marvel {
 		const char* plot;
 		PyObject* label_pairs;
 
-		if (!(*mvApp::GetApp()->getParsers())["set_yticks"].parse(args, kwargs, __FUNCTION__, &plot, &label_pairs))
+		if (!(mvApp::GetApp()->getParsers())["set_yticks"].parse(args, kwargs, __FUNCTION__, &plot, &label_pairs))
 			return GetPyNone();
 
 		auto mlabel_pairs = ToVectPairStringFloat(label_pairs);
@@ -1862,7 +1862,7 @@ namespace Marvel {
 	{
 		const char* plot;
 
-		if (!(*mvApp::GetApp()->getParsers())["set_plot_xlimits_auto"].parse(args, kwargs, __FUNCTION__, &plot))
+		if (!(mvApp::GetApp()->getParsers())["set_plot_xlimits_auto"].parse(args, kwargs, __FUNCTION__, &plot))
 			return GetPyNone();
 
 		std::lock_guard<std::mutex> lk(mvApp::GetApp()->GetApp()->getMutex());
@@ -1892,7 +1892,7 @@ namespace Marvel {
 	{
 		const char* plot;
 
-		if (!(*mvApp::GetApp()->getParsers())["set_plot_ylimits_auto"].parse(args, kwargs, __FUNCTION__, &plot))
+		if (!(mvApp::GetApp()->getParsers())["set_plot_ylimits_auto"].parse(args, kwargs, __FUNCTION__, &plot))
 			return GetPyNone();
 
 		std::lock_guard<std::mutex> lk(mvApp::GetApp()->GetApp()->getMutex());
@@ -1924,7 +1924,7 @@ namespace Marvel {
 		float xmin;
 		float xmax;
 
-		if (!(*mvApp::GetApp()->getParsers())["set_plot_xlimits"].parse(args, kwargs, __FUNCTION__, &plot, &xmin, &xmax))
+		if (!(mvApp::GetApp()->getParsers())["set_plot_xlimits"].parse(args, kwargs, __FUNCTION__, &plot, &xmin, &xmax))
 			return GetPyNone();
 
 		std::lock_guard<std::mutex> lk(mvApp::GetApp()->GetApp()->getMutex());
@@ -1956,7 +1956,7 @@ namespace Marvel {
 		float ymin;
 		float ymax;
 
-		if (!(*mvApp::GetApp()->getParsers())["set_plot_ylimits"].parse(args, kwargs, __FUNCTION__, &plot, &ymin, &ymax))
+		if (!(mvApp::GetApp()->getParsers())["set_plot_ylimits"].parse(args, kwargs, __FUNCTION__, &plot, &ymin, &ymax))
 			return GetPyNone();
 
 		std::lock_guard<std::mutex> lk(mvApp::GetApp()->GetApp()->getMutex());
@@ -1986,7 +1986,7 @@ namespace Marvel {
 	{
 		const char* plot;
 
-		if (!(*mvApp::GetApp()->getParsers())["is_plot_queried"].parse(args, kwargs, __FUNCTION__, &plot))
+		if (!(mvApp::GetApp()->getParsers())["is_plot_queried"].parse(args, kwargs, __FUNCTION__, &plot))
 			return GetPyNone();
 
 		std::lock_guard<std::mutex> lk(mvApp::GetApp()->GetApp()->getMutex());
@@ -2014,7 +2014,7 @@ namespace Marvel {
 	{
 		const char* plot;
 
-		if (!(*mvApp::GetApp()->getParsers())["get_plot_xlimits"].parse(args, kwargs, __FUNCTION__, &plot))
+		if (!(mvApp::GetApp()->getParsers())["get_plot_xlimits"].parse(args, kwargs, __FUNCTION__, &plot))
 			return GetPyNone();
 
 		std::lock_guard<std::mutex> lk(mvApp::GetApp()->GetApp()->getMutex());
@@ -2043,7 +2043,7 @@ namespace Marvel {
 	{
 		const char* plot;
 
-		if (!(*mvApp::GetApp()->getParsers())["get_plot_ylimits"].parse(args, kwargs, __FUNCTION__, &plot))
+		if (!(mvApp::GetApp()->getParsers())["get_plot_ylimits"].parse(args, kwargs, __FUNCTION__, &plot))
 			return GetPyNone();
 
 		std::lock_guard<std::mutex> lk(mvApp::GetApp()->GetApp()->getMutex());
@@ -2072,7 +2072,7 @@ namespace Marvel {
 	{
 		const char* plot;
 
-		if (!(*mvApp::GetApp()->getParsers())["get_plot_query_area"].parse(args, kwargs, __FUNCTION__, &plot))
+		if (!(mvApp::GetApp()->getParsers())["get_plot_query_area"].parse(args, kwargs, __FUNCTION__, &plot))
 			return GetPyNone();
 
 		std::lock_guard<std::mutex> lk(mvApp::GetApp()->GetApp()->getMutex());
@@ -2102,7 +2102,7 @@ namespace Marvel {
 		const char* plot;
 		int map;
 
-		if (!(*mvApp::GetApp()->getParsers())["set_color_map"].parse(args, kwargs, __FUNCTION__, &plot, &map))
+		if (!(mvApp::GetApp()->getParsers())["set_color_map"].parse(args, kwargs, __FUNCTION__, &plot, &map))
 			return GetPyNone();
 
 		std::lock_guard<std::mutex> lk(mvApp::GetApp()->GetApp()->getMutex());
@@ -2133,7 +2133,7 @@ namespace Marvel {
 		const char* plot;
 		const char* series;
 
-		if (!(*mvApp::GetApp()->getParsers())["delete_series"].parse(args, kwargs, __FUNCTION__, &plot, &series))
+		if (!(mvApp::GetApp()->getParsers())["delete_series"].parse(args, kwargs, __FUNCTION__, &plot, &series))
 			return GetPyNone();
 
 		std::lock_guard<std::mutex> lk(mvApp::GetApp()->GetApp()->getMutex());
@@ -2183,7 +2183,7 @@ namespace Marvel {
 		int update_bounds = true;
 		int axis = 0;
 
-		if (!(*mvApp::GetApp()->getParsers())["add_image_series"].parse(args, kwargs, __FUNCTION__,
+		if (!(mvApp::GetApp()->getParsers())["add_image_series"].parse(args, kwargs, __FUNCTION__,
 			&plot, &name, &value, &bounds_min, &bounds_max, &uv_min, &uv_max, &tintcolor, &update_bounds, &axis))
 			return GetPyNone();
 
@@ -2237,7 +2237,7 @@ namespace Marvel {
 		int update_bounds = true;
 		int axis = 0;
 
-		if (!(*mvApp::GetApp()->getParsers())["add_pie_series"].parse(args, kwargs, __FUNCTION__, &plot, &name,
+		if (!(mvApp::GetApp()->getParsers())["add_pie_series"].parse(args, kwargs, __FUNCTION__, &plot, &name,
 			&values, &labels, &x,
 			&y, &radius, &normalize, &angle, &format, &update_bounds, &axis))
 			return GetPyNone();
@@ -2294,7 +2294,7 @@ namespace Marvel {
 		int update_bounds = true;
 		int axis = 0;
 
-		if (!(*mvApp::GetApp()->getParsers())["add_line_series"].parse(args, kwargs, __FUNCTION__,
+		if (!(mvApp::GetApp()->getParsers())["add_line_series"].parse(args, kwargs, __FUNCTION__,
 			&plot, &name, &x, &y, &color, &weight, &update_bounds, &axis))
 			return GetPyNone();
 
@@ -2348,7 +2348,7 @@ namespace Marvel {
 		int update_bounds = true;
 		int axis = 0;
 
-		if (!(*mvApp::GetApp()->getParsers())["add_stair_series"].parse(args, kwargs, __FUNCTION__,
+		if (!(mvApp::GetApp()->getParsers())["add_stair_series"].parse(args, kwargs, __FUNCTION__,
 			&plot, &name, &x, &y, &color, &weight, &update_bounds))
 			return GetPyNone();
 
@@ -2399,7 +2399,7 @@ namespace Marvel {
 		int update_bounds = true;
 		int axis = 0;
 
-		if (!(*mvApp::GetApp()->getParsers())["add_bar_series"].parse(args, kwargs, __FUNCTION__,
+		if (!(mvApp::GetApp()->getParsers())["add_bar_series"].parse(args, kwargs, __FUNCTION__,
 			&plot, &name, &x, &y, &weight, &horizontal, &update_bounds, &axis))
 			return GetPyNone();
 
@@ -2462,7 +2462,7 @@ namespace Marvel {
 		int update_bounds = true;
 		int axis = 0;
 
-		if (!(*mvApp::GetApp()->getParsers())["add_shade_series"].parse(args, kwargs, __FUNCTION__,
+		if (!(mvApp::GetApp()->getParsers())["add_shade_series"].parse(args, kwargs, __FUNCTION__,
 			&plot, &name, &x, &y1, &y2, &color, &fill, &weight, &update_bounds, &axis))
 			return GetPyNone();
 
@@ -2540,7 +2540,7 @@ namespace Marvel {
 		int update_bounds = true;
 		int axis = 0;
 
-		if (!(*mvApp::GetApp()->getParsers())["add_candle_series"].parse(args, kwargs, __FUNCTION__,
+		if (!(mvApp::GetApp()->getParsers())["add_candle_series"].parse(args, kwargs, __FUNCTION__,
 			&plot, &name, &dates, &opens, &highs, &lows, &closes, &tooltip,
 			&bull_color, &bear_color, &weight, &update_bounds, &axis))
 			return GetPyNone();
@@ -2615,7 +2615,7 @@ namespace Marvel {
 		int xy_data_format = false;
 		int axis = 0;
 
-		if (!(*mvApp::GetApp()->getParsers())["add_scatter_series"].parse(args, kwargs, __FUNCTION__, &plot,
+		if (!(mvApp::GetApp()->getParsers())["add_scatter_series"].parse(args, kwargs, __FUNCTION__, &plot,
 			&name, &x, &y, &marker,
 			&size, &weight, &outline, &fill, &update_bounds, &xy_data_format, &axis))
 			return GetPyNone();
@@ -2677,7 +2677,7 @@ namespace Marvel {
 		int update_bounds = true;
 		int axis = 0;
 
-		if (!(*mvApp::GetApp()->getParsers())["add_stem_series"].parse(args, kwargs, __FUNCTION__, &plot, &name,
+		if (!(mvApp::GetApp()->getParsers())["add_stem_series"].parse(args, kwargs, __FUNCTION__, &plot, &name,
 			&x, &y, &marker,
 			&size, &weight, &outline, &fill, &update_bounds, (ImPlotYAxis_)axis))
 			return GetPyNone();
@@ -2731,7 +2731,7 @@ namespace Marvel {
 		int update_bounds = true;
 		int axis = 0;
 
-		if (!(*mvApp::GetApp()->getParsers())["add_text_point"].parse(args, kwargs, __FUNCTION__,
+		if (!(mvApp::GetApp()->getParsers())["add_text_point"].parse(args, kwargs, __FUNCTION__,
 			&plot, &name, &x, &y, &vertical, &xoffset, &yoffset, &update_bounds, &axis))
 			return GetPyNone();
 
@@ -2773,7 +2773,7 @@ namespace Marvel {
 		int update_bounds = true;
 		int axis = 0;
 
-		if (!(*mvApp::GetApp()->getParsers())["add_area_series"].parse(args, kwargs, __FUNCTION__,
+		if (!(mvApp::GetApp()->getParsers())["add_area_series"].parse(args, kwargs, __FUNCTION__,
 			&plot, &name, &x, &y, &color, &fill, &weight, &update_bounds, &axis))
 			return GetPyNone();
 
@@ -2837,7 +2837,7 @@ namespace Marvel {
 		PyTuple_SetItem(color, 3, PyLong_FromLong(255));
 		int axis = 0;
 
-		if (!(*mvApp::GetApp()->getParsers())["add_error_series"].parse(args, kwargs, __FUNCTION__,
+		if (!(mvApp::GetApp()->getParsers())["add_error_series"].parse(args, kwargs, __FUNCTION__,
 			&plot, &name, &x, &y, &negative, &positive, &horizontal, &update_bounds, &color, &axis))
 			return GetPyNone();
 
@@ -2901,7 +2901,7 @@ namespace Marvel {
 		int update_bounds = true;
 		int axis = 0;
 
-		if (!(*mvApp::GetApp()->getParsers())["add_heat_series"].parse(args, kwargs, __FUNCTION__,
+		if (!(mvApp::GetApp()->getParsers())["add_heat_series"].parse(args, kwargs, __FUNCTION__,
 			&plot, &name, &values, &rows, &columns, &scale_min, &scale_max, &format,
 			&bounds_min, &bounds_max, &update_bounds, &axis))
 			return GetPyNone();
@@ -2967,7 +2967,7 @@ namespace Marvel {
 		int update_bounds = true;
 		int axis = 0;
 
-		if (!(*mvApp::GetApp()->getParsers())["add_vline_series"].parse(args, kwargs, __FUNCTION__,
+		if (!(mvApp::GetApp()->getParsers())["add_vline_series"].parse(args, kwargs, __FUNCTION__,
 			&plot, &name, &x, &color, &weight, &update_bounds, &axis))
 			return GetPyNone();
 
@@ -3016,7 +3016,7 @@ namespace Marvel {
 		int update_bounds = true;
 		int axis = 0;
 
-		if (!(*mvApp::GetApp()->getParsers())["add_hline_series"].parse(args, kwargs, __FUNCTION__,
+		if (!(mvApp::GetApp()->getParsers())["add_hline_series"].parse(args, kwargs, __FUNCTION__,
 			&plot, &name, &x, &color, &weight, &update_bounds, &axis))
 			return GetPyNone();
 

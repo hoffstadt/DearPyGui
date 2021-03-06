@@ -100,7 +100,7 @@ namespace Marvel {
 		PyObject* color;
 		const char* tag = "";
 
-		if (!(*mvApp::GetApp()->getParsers())["draw_arrow"].parse(args, kwargs, __FUNCTION__, &drawing, &p1, &p2, &color, &thickness, &size, &tag))
+		if (!(mvApp::GetApp()->getParsers())["draw_arrow"].parse(args, kwargs, __FUNCTION__, &drawing, &p1, &p2, &color, &thickness, &size, &tag))
 			return GetPyNone();
 
 		mvVec2 mp1 = ToVec2(p1);

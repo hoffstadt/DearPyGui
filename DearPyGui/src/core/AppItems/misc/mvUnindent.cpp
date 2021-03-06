@@ -42,7 +42,7 @@ namespace Marvel {
 		const char* parent = "";
 		int show = true;
 
-		if (!(*mvApp::GetApp()->getParsers())["unindent"].parse(args, kwargs, __FUNCTION__,
+		if (!(mvApp::GetApp()->getParsers())["unindent"].parse(args, kwargs, __FUNCTION__,
 			&name, &offset, &parent, &before, &show))
 			return ToPyBool(false);
 

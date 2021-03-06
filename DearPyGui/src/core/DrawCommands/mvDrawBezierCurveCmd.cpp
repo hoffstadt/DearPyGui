@@ -60,7 +60,7 @@ namespace Marvel {
 		int segments = 0;
 		const char* tag = "";
 
-		if (!(*mvApp::GetApp()->getParsers())["draw_bezier_curve"].parse(args, kwargs, __FUNCTION__, &drawing, &p1, &p2, &p3, &p4, &color, &thickness, &segments, &tag))
+		if (!(mvApp::GetApp()->getParsers())["draw_bezier_curve"].parse(args, kwargs, __FUNCTION__, &drawing, &p1, &p2, &p3, &p4, &color, &thickness, &segments, &tag))
 			return GetPyNone();
 
 		mvVec2 mp1 = ToVec2(p1);

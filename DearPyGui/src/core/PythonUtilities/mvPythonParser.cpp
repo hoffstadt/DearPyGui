@@ -1,5 +1,5 @@
 #include "mvPythonParser.h"
-#include "mvMarvel.h"
+#include "mvModule_Core.h"
 #include "mvApp.h"
 #include "mvAppLog.h"
 #include <fstream>
@@ -176,7 +176,7 @@ namespace Marvel {
 
 	void GenerateStubFile(const std::string& file)
 	{
-		auto commands = BuildDearPyGuiInterface();
+		const auto& commands = mvModule_Core::GetModuleParsers();
 
 		// current date/time based on current system
 		time_t now = time(0);
@@ -194,7 +194,7 @@ namespace Marvel {
 		stub << "##########################################################\n\n";
 		stub << "# ~ Dear PyGui Version: " << mvApp::GetVersion() <<"\n";
 
-		for (const auto& parser : *commands)
+		for (const auto& parser : commands)
 		{
 			stub << "def " << parser.first << "(";
 

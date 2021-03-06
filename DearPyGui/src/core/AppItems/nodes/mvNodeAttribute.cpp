@@ -106,7 +106,7 @@ namespace Marvel {
 		const char* parent = "";
 		const char* before = "";
 
-		if (!(*mvApp::GetApp()->getParsers())["add_node_attribute"].parse(args, kwargs, __FUNCTION__, &name,
+		if (!(mvApp::GetApp()->getParsers())["add_node_attribute"].parse(args, kwargs, __FUNCTION__, &name,
 			&output, &kw_static, &show, &parent, &before))
 			return ToPyBool(false);
 

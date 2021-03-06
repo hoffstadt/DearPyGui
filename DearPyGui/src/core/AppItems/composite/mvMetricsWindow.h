@@ -3,7 +3,7 @@
 #include "mvTypeBases.h"
 #include "mvApp.h"
 #include <string>
-#include "mvMarvel.h"
+#include "mvModule_Core.h"
 
 namespace Marvel {
 

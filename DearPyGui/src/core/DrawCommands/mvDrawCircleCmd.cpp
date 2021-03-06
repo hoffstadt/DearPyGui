@@ -63,7 +63,7 @@ namespace Marvel {
 		PyObject* fill = nullptr;
 		const char* tag = "";
 
-		if (!(*mvApp::GetApp()->getParsers())["draw_circle"].parse(args, kwargs, __FUNCTION__, &drawing, &center, &radius, &color, &segments, &thickness, &fill, &tag))
+		if (!(mvApp::GetApp()->getParsers())["draw_circle"].parse(args, kwargs, __FUNCTION__, &drawing, &center, &radius, &color, &segments, &thickness, &fill, &tag))
 			return GetPyNone();
 
 		mvVec2 mcenter = ToVec2(center);

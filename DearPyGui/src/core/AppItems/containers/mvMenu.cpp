@@ -99,7 +99,7 @@ namespace Marvel {
 		const char* before = "";
 		int enabled = true;
 
-		if (!(*mvApp::GetApp()->getParsers())["add_menu"].parse(args, kwargs, __FUNCTION__, &name,
+		if (!(mvApp::GetApp()->getParsers())["add_menu"].parse(args, kwargs, __FUNCTION__, &name,
 			&label, &show, &parent, &before, &enabled))
 			return ToPyBool(false);
 

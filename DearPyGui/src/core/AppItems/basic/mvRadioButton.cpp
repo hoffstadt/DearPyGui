@@ -115,7 +115,7 @@ namespace Marvel {
 		int horizontal = false;
 		int show = true;
 
-		if (!(*mvApp::GetApp()->getParsers())["add_radio_button"].parse(args, kwargs, __FUNCTION__, &name, &items,
+		if (!(mvApp::GetApp()->getParsers())["add_radio_button"].parse(args, kwargs, __FUNCTION__, &name, &items,
 			&default_value, &callback, &callback_data, &parent, &before, &source, &enabled, &horizontal, &show))
 			return ToPyBool(false);
 

@@ -216,7 +216,7 @@ namespace Marvel {
 		const char* default_value = "";
 
 
-		if (!(*mvApp::GetApp()->getParsers())["add_text"].parse(args, kwargs, __FUNCTION__, &name, &wrap,
+		if (!(mvApp::GetApp()->getParsers())["add_text"].parse(args, kwargs, __FUNCTION__, &name, &wrap,
 			&color, &bullet, &parent, &before, &source, &default_value, &show))
 			return ToPyBool(false);
 
@@ -247,7 +247,7 @@ namespace Marvel {
 		int show = true;
 
 
-		if (!(*mvApp::GetApp()->getParsers())["add_label_text"].parse(args, kwargs, __FUNCTION__, &name, &value,
+		if (!(mvApp::GetApp()->getParsers())["add_label_text"].parse(args, kwargs, __FUNCTION__, &name, &value,
 			&color, &parent, &before, &source, &label, &show))
 			return ToPyBool(false);
 

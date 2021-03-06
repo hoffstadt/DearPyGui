@@ -98,7 +98,7 @@ namespace Marvel {
 		int horizontal = false;
 		float horizontal_spacing = -1.0f;
 
-		if (!(*mvApp::GetApp()->getParsers())["add_group"].parse(args, kwargs, __FUNCTION__, &name,
+		if (!(mvApp::GetApp()->getParsers())["add_group"].parse(args, kwargs, __FUNCTION__, &name,
 			&show, &parent, &before, &width, &horizontal, &horizontal_spacing))
 			return ToPyBool(false);
 

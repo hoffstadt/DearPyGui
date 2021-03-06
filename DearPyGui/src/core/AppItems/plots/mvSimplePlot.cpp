@@ -86,7 +86,7 @@ namespace Marvel {
 		const char* label = "";
 		int show = true;
 
-		if (!(*mvApp::GetApp()->getParsers())["add_simple_plot"].parse(args, kwargs, __FUNCTION__, &name, &value, &overlay,
+		if (!(mvApp::GetApp()->getParsers())["add_simple_plot"].parse(args, kwargs, __FUNCTION__, &name, &value, &overlay,
 			&minscale, &maxscale, &histogram, &parent, &before, &width, &height, &source, &label, &show))
 			return ToPyBool(false);
 

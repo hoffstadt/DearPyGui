@@ -71,7 +71,7 @@ namespace Marvel {
 		const char* before = "";
 		int show = true;
 
-		if (!(*mvApp::GetApp()->getParsers())["add_tooltip"].parse(args, kwargs, __FUNCTION__, &tipparent,
+		if (!(mvApp::GetApp()->getParsers())["add_tooltip"].parse(args, kwargs, __FUNCTION__, &tipparent,
 			&name, &parent, &before, &show))
 			return ToPyBool(false);
 

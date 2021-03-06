@@ -357,7 +357,7 @@ namespace Marvel {
 		PyObject* delink_callback = nullptr;
 
 
-		if (!(*mvApp::GetApp()->getParsers())["add_node_editor"].parse(args, kwargs, __FUNCTION__, &name,
+		if (!(mvApp::GetApp()->getParsers())["add_node_editor"].parse(args, kwargs, __FUNCTION__, &name,
 			&show, &parent, &before, &link_callback, &delink_callback))
 			return ToPyBool(false);
 
@@ -397,7 +397,7 @@ namespace Marvel {
 		const char* node_2;
 
 
-		if (!(*mvApp::GetApp()->getParsers())["add_node_link"].parse(args, kwargs, __FUNCTION__, &node_editor,
+		if (!(mvApp::GetApp()->getParsers())["add_node_link"].parse(args, kwargs, __FUNCTION__, &node_editor,
 			&node_1, &node_2))
 			return ToPyBool(false);
 
@@ -432,7 +432,7 @@ namespace Marvel {
 		const char* node_2;
 
 
-		if (!(*mvApp::GetApp()->getParsers())["delete_node_link"].parse(args, kwargs, __FUNCTION__, &node_editor,
+		if (!(mvApp::GetApp()->getParsers())["delete_node_link"].parse(args, kwargs, __FUNCTION__, &node_editor,
 			&node_1, &node_2))
 			return ToPyBool(false);
 
@@ -465,7 +465,7 @@ namespace Marvel {
 		const char* node_editor;
 
 
-		if (!(*mvApp::GetApp()->getParsers())["get_selected_nodes"].parse(args, kwargs, __FUNCTION__, &node_editor))
+		if (!(mvApp::GetApp()->getParsers())["get_selected_nodes"].parse(args, kwargs, __FUNCTION__, &node_editor))
 			return ToPyBool(false);
 
 		std::lock_guard<std::mutex> lk(mvApp::GetApp()->GetApp()->getMutex());
@@ -496,7 +496,7 @@ namespace Marvel {
 	{
 		const char* node_editor;
 
-		if (!(*mvApp::GetApp()->getParsers())["get_selected_links"].parse(args, kwargs, __FUNCTION__, &node_editor))
+		if (!(mvApp::GetApp()->getParsers())["get_selected_links"].parse(args, kwargs, __FUNCTION__, &node_editor))
 			return ToPyBool(false);
 
 		std::lock_guard<std::mutex> lk(mvApp::GetApp()->GetApp()->getMutex());
@@ -532,7 +532,7 @@ namespace Marvel {
 	{
 		const char* node_editor;
 
-		if (!(*mvApp::GetApp()->getParsers())["get_links"].parse(args, kwargs, __FUNCTION__, &node_editor))
+		if (!(mvApp::GetApp()->getParsers())["get_links"].parse(args, kwargs, __FUNCTION__, &node_editor))
 			return ToPyBool(false);
 
 		std::lock_guard<std::mutex> lk(mvApp::GetApp()->GetApp()->getMutex());
@@ -563,7 +563,7 @@ namespace Marvel {
 	{
 		const char* node_editor;
 
-		if (!(*mvApp::GetApp()->getParsers())["clear_selected_links"].parse(args, kwargs, __FUNCTION__, &node_editor))
+		if (!(mvApp::GetApp()->getParsers())["clear_selected_links"].parse(args, kwargs, __FUNCTION__, &node_editor))
 			return ToPyBool(false);
 
 		std::lock_guard<std::mutex> lk(mvApp::GetApp()->GetApp()->getMutex());
@@ -593,7 +593,7 @@ namespace Marvel {
 	{
 		const char* node_editor;
 
-		if (!(*mvApp::GetApp()->getParsers())["clear_selected_nodes"].parse(args, kwargs, __FUNCTION__, &node_editor))
+		if (!(mvApp::GetApp()->getParsers())["clear_selected_nodes"].parse(args, kwargs, __FUNCTION__, &node_editor))
 			return ToPyBool(false);
 
 		std::lock_guard<std::mutex> lk(mvApp::GetApp()->GetApp()->getMutex());

@@ -167,7 +167,7 @@ namespace Marvel {
 		const char* before = "";
 
 
-		if (!(*mvApp::GetApp()->getParsers())["add_managed_columns"].parse(args, kwargs, __FUNCTION__,
+		if (!(mvApp::GetApp()->getParsers())["add_managed_columns"].parse(args, kwargs, __FUNCTION__,
 			&name, &columns, &border, &show, &parent, &before))
 			return ToPyBool(false);
 
@@ -196,7 +196,7 @@ namespace Marvel {
 		const char* parent = "";
 		int show = true;
 
-		if (!(*mvApp::GetApp()->getParsers())["add_next_column"].parse(args, kwargs, __FUNCTION__,
+		if (!(mvApp::GetApp()->getParsers())["add_next_column"].parse(args, kwargs, __FUNCTION__,
 			&name, &show, &parent, &before))
 			return ToPyBool(false);
 
@@ -220,7 +220,7 @@ namespace Marvel {
 		const char* before = "";
 
 
-		if (!(*mvApp::GetApp()->getParsers())["add_columns"].parse(args, kwargs, __FUNCTION__,
+		if (!(mvApp::GetApp()->getParsers())["add_columns"].parse(args, kwargs, __FUNCTION__,
 			&name, &columns, &border, &show, &parent, &before))
 			return ToPyBool(false);
 
@@ -240,7 +240,7 @@ namespace Marvel {
 		const char* managed_columns;
 		int column;
 
-		if (!(*mvApp::GetApp()->getParsers())["get_managed_column_width"].parse(args, kwargs, __FUNCTION__,
+		if (!(mvApp::GetApp()->getParsers())["get_managed_column_width"].parse(args, kwargs, __FUNCTION__,
 			&managed_columns, &column))
 			return ToPyFloat(0.0f);
 
@@ -275,7 +275,7 @@ namespace Marvel {
 		int column;
 		float width;
 
-		if (!(*mvApp::GetApp()->getParsers())["set_managed_column_width"].parse(args, kwargs, __FUNCTION__,
+		if (!(mvApp::GetApp()->getParsers())["set_managed_column_width"].parse(args, kwargs, __FUNCTION__,
 			&managed_columns, &column, &width))
 			return GetPyNone();
 

@@ -111,7 +111,7 @@ namespace Marvel {
 		int show = true;
 		int enabled = true;
 
-		if (!(*mvApp::GetApp()->getParsers())["add_checkbox"].parse(args, kwargs, __FUNCTION__, &name,
+		if (!(mvApp::GetApp()->getParsers())["add_checkbox"].parse(args, kwargs, __FUNCTION__, &name,
 			&default_value, &callback, &callback_data, &parent, &before, &source,
 			&label, &show, &enabled))
 			return ToPyBool(false);

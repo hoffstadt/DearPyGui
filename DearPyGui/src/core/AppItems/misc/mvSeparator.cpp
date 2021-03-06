@@ -42,7 +42,7 @@ namespace Marvel {
 		const char* parent = "";
 		const char* before = "";
 
-		if (!(*mvApp::GetApp()->getParsers())["add_separator"].parse(args, kwargs, __FUNCTION__, &name, &parent, &before))
+		if (!(mvApp::GetApp()->getParsers())["add_separator"].parse(args, kwargs, __FUNCTION__, &name, &parent, &before))
 			return ToPyBool(false);
 
 		auto item = CreateRef<mvSeparator>(name);

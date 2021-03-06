@@ -1,7 +1,7 @@
 #pragma once
 #include "mvTypeBases.h"
 #include <string>
-#include "mvMarvel.h"
+#include "mvModule_Core.h"
 
 //-----------------------------------------------------------------------------
 // Widget Index

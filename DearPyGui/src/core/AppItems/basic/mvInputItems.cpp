@@ -1,7 +1,7 @@
 #include "mvInputItems.h"
 #include "mvTypeBases.h"
 #include <utility>
-#include "mvMarvel.h"
+#include "mvModule_Core.h"
 #include "mvApp.h"
 #include <string>
 #include "mvItemRegistry.h"
@@ -1306,7 +1306,7 @@ namespace Marvel {
         int step_fast = 100;
         int readonly = false;
 
-        if (!(*mvApp::GetApp()->getParsers())["add_input_int"].parse(args, kwargs, __FUNCTION__, &name,
+        if (!(mvApp::GetApp()->getParsers())["add_input_int"].parse(args, kwargs, __FUNCTION__, &name,
             &default_value, &min_value, &max_value, &min_clamped, &max_clamped, &callback, &callback_data, &parent, &before, &source, &enabled, &width, &on_enter,
             &label, &show, &step, &step_fast, &readonly))
             return ToPyBool(false);
@@ -1350,7 +1350,7 @@ namespace Marvel {
         int show = false;
         int readonly = false;
 
-        if (!(*mvApp::GetApp()->getParsers())["add_input_int2"].parse(args, kwargs, __FUNCTION__, &name,
+        if (!(mvApp::GetApp()->getParsers())["add_input_int2"].parse(args, kwargs, __FUNCTION__, &name,
             &default_value, &min_value, &max_value, &min_clamped, &max_clamped, &callback, &callback_data, &parent, &before, &source, &enabled, &width, &on_enter,
             &label, &show, &readonly))
             return ToPyBool(false);
@@ -1398,7 +1398,7 @@ namespace Marvel {
         int show = false;
         int readonly = false;
 
-        if (!(*mvApp::GetApp()->getParsers())["add_input_int3"].parse(args, kwargs, __FUNCTION__, &name,
+        if (!(mvApp::GetApp()->getParsers())["add_input_int3"].parse(args, kwargs, __FUNCTION__, &name,
             &default_value, &min_value, &max_value, &min_clamped, &max_clamped, &callback, &callback_data, &parent, &before, &source, &enabled, &width, &on_enter,
             &label, &popup, &show, &readonly))
             return ToPyBool(false);
@@ -1446,7 +1446,7 @@ namespace Marvel {
         int show = false;
         int readonly = false;
 
-        if (!(*mvApp::GetApp()->getParsers())["add_input_int4"].parse(args, kwargs, __FUNCTION__, &name,
+        if (!(mvApp::GetApp()->getParsers())["add_input_int4"].parse(args, kwargs, __FUNCTION__, &name,
             &default_value, &min_value, &max_value, &min_clamped, &max_clamped, &callback, &callback_data, &parent, &before, &source, &enabled, &width, &on_enter,
             &label, &show, &readonly))
             return ToPyBool(false);
@@ -1492,7 +1492,7 @@ namespace Marvel {
         float step_fast = 1.0f;
         int readonly = false;
 
-        if (!(*mvApp::GetApp()->getParsers())["add_input_float"].parse(args, kwargs, __FUNCTION__, &name,
+        if (!(mvApp::GetApp()->getParsers())["add_input_float"].parse(args, kwargs, __FUNCTION__, &name,
             &default_value, &min_value, &max_value, &min_clamped, &max_clamped, &format, &callback, &callback_data,
             &parent, &before, &source, &enabled, &width, &on_enter,
             &label, &show, &step, &step_fast, &readonly))
@@ -1538,7 +1538,7 @@ namespace Marvel {
         int show = false;
         int readonly = false;
 
-        if (!(*mvApp::GetApp()->getParsers())["add_input_float2"].parse(args, kwargs, __FUNCTION__, &name,
+        if (!(mvApp::GetApp()->getParsers())["add_input_float2"].parse(args, kwargs, __FUNCTION__, &name,
             &default_value, &min_value, &max_value, &min_clamped, &max_clamped, &format, &callback, &callback_data,
             &parent, &before, &source, &enabled, &width, &on_enter,
             &label, &show, &readonly))
@@ -1586,7 +1586,7 @@ namespace Marvel {
         int show = false;
         int readonly = false;
 
-        if (!(*mvApp::GetApp()->getParsers())["add_input_float3"].parse(args, kwargs, __FUNCTION__, &name,
+        if (!(mvApp::GetApp()->getParsers())["add_input_float3"].parse(args, kwargs, __FUNCTION__, &name,
             &default_value, &min_value, &max_value, &min_clamped, &max_clamped, &format, &callback, &callback_data,
             &parent, &before, &source, &enabled, &width, &on_enter,
             &label, &show, &readonly))
@@ -1636,7 +1636,7 @@ namespace Marvel {
         int show = false;
         int readonly = false;
 
-        if (!(*mvApp::GetApp()->getParsers())["add_input_float4"].parse(args, kwargs, __FUNCTION__, &name,
+        if (!(mvApp::GetApp()->getParsers())["add_input_float4"].parse(args, kwargs, __FUNCTION__, &name,
             &default_value, &min_value, &max_value, &min_clamped, &max_clamped, &format, &callback, &callback_data,
             &parent, &before, &source, &enabled, &width, &on_enter,
             &label, &show, &readonly))

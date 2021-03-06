@@ -56,7 +56,7 @@ namespace Marvel {
 		float thickness = 1.0f;
 		const char* tag = "";
 
-		if (!(*mvApp::GetApp()->getParsers())["draw_polyline"].parse(args, kwargs, __FUNCTION__, &drawing, &points, &color, &closed, &thickness, &tag))
+		if (!(mvApp::GetApp()->getParsers())["draw_polyline"].parse(args, kwargs, __FUNCTION__, &drawing, &points, &color, &closed, &thickness, &tag))
 			return GetPyNone();
 
 		auto mpoints = ToVectVec2(points);

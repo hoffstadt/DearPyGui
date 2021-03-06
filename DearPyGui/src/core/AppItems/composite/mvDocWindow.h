@@ -100,9 +100,9 @@ namespace Marvel {
 		std::vector<const char*> m_docContainers;
 
 		std::vector<std::pair<std::string, std::string>> m_commands;
-		std::vector<std::pair<std::string, long>> m_constants;
+		const std::vector<std::pair<std::string, long>>& m_constants = mvModule_Core::GetModuleConstants();
 		std::vector<std::string> m_constantsValues;
-		mvRef<std::map<std::string, mvPythonParser>> m_docmap = nullptr;
+		const std::map<std::string, mvPythonParser>& m_docmap = mvModule_Core::GetModuleParsers();
 
 	};
 

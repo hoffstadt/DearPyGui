@@ -66,7 +66,7 @@ namespace Marvel {
 		float scalex = 1.0f;
 		float scaley = 1.0f;
 
-		if (!(*mvApp::GetApp()->getParsers())["add_drawing"].parse(args, kwargs, __FUNCTION__,
+		if (!(mvApp::GetApp()->getParsers())["add_drawing"].parse(args, kwargs, __FUNCTION__,
 			&name, &parent, &before, &width, &height, &show, &originx, &originy, &scalex, &scaley))
 			return ToPyBool(false);
 

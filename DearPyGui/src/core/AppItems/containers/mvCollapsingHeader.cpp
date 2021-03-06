@@ -126,7 +126,7 @@ namespace Marvel {
 		int bullet = false;
 
 
-		if (!(*mvApp::GetApp()->getParsers())["add_collapsing_header"].parse(args, kwargs, __FUNCTION__, &name,
+		if (!(mvApp::GetApp()->getParsers())["add_collapsing_header"].parse(args, kwargs, __FUNCTION__, &name,
 			&label, &show, &parent, &before, &closable, &default_open, &open_on_double_click, &open_on_arrow, &leaf, &bullet))
 			return ToPyBool(false);
 

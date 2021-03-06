@@ -23,6 +23,7 @@
 #include <atomic>
 #include "mvEvents.h"
 #include <memory>
+#include "mvModule_Core.h"
 
 namespace Marvel {
 
@@ -175,7 +176,7 @@ namespace Marvel {
         //-----------------------------------------------------------------------------
         // Other
         //-----------------------------------------------------------------------------
-        std::map<std::string, mvPythonParser>* getParsers      () { return m_parsers.get(); }
+        std::map<std::string, mvPythonParser>& getParsers() { return const_cast<std::map<std::string, mvPythonParser>&>(mvModule_Core::GetModuleParsers()); }
         std::mutex& getMutex() const { return m_mutex; }
         std::unordered_map<mvAppItemType, mvThemeColors>& getColors() { return m_colors; }
         std::unordered_map<mvAppItemType, mvThemeStyles>& getStyles() { return m_styles; }
@@ -216,7 +217,6 @@ namespace Marvel {
         int                                          m_mainXPos = 100;
         int                                          m_mainYPos = 100;
         std::string                                  m_title = "DearPyGui";
-        mvRef<std::map<std::string, mvPythonParser>> m_parsers;
         
         // appearance
         float       m_globalFontScale = 1.0f;

@@ -230,7 +230,7 @@ namespace Marvel {
 		int no_preview = false;
 
 
-		if (!(*mvApp::GetApp()->getParsers())["add_combo"].parse(args, kwargs, __FUNCTION__, &name, &items,
+		if (!(mvApp::GetApp()->getParsers())["add_combo"].parse(args, kwargs, __FUNCTION__, &name, &items,
 			&default_value, &callback, &callback_data, &parent, &before, &source, &enabled, &width,
 			&label, &show, &popup_align_left, &height_small, &height_regular, &height_large,
 			&height_largest, &no_arrow_button, &no_preview))

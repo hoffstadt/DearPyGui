@@ -205,7 +205,7 @@ namespace Marvel {
 
 		//int flags = 0;
 
-		if (!(*mvApp::GetApp()->getParsers())["add_input_text"].parse(args, kwargs, __FUNCTION__,
+		if (!(mvApp::GetApp()->getParsers())["add_input_text"].parse(args, kwargs, __FUNCTION__,
 			&name, &default_value, &hint, &multiline, &no_spaces,
 			&uppercase, &tab_input, &decimal, &hexadecimal, &readonly, &password, &scientific, &callback,
 			&callback_data, &parent, &before, &source, &enabled, &width, &height, &on_enter,

@@ -119,7 +119,7 @@ namespace Marvel {
 		const char* parent = "";
 		const char* before = "";
 
-		if (!(*mvApp::GetApp()->getParsers())["add_tab_button"].parse(args, kwargs, __FUNCTION__, &name,
+		if (!(mvApp::GetApp()->getParsers())["add_tab_button"].parse(args, kwargs, __FUNCTION__, &name,
 			&label, &show, &no_reorder, &leading, &trailing, &no_tooltip, &callback,
 			&callback_data, &parent, &before))
 			return ToPyBool(false);

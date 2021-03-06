@@ -196,7 +196,7 @@ namespace Marvel {
 		PyTuple_SetItem(uv_max, 1, PyFloat_FromDouble(1));
 		int show = true;
 
-		if (!(*mvApp::GetApp()->getParsers())["add_image_button"].parse(args, kwargs, __FUNCTION__,
+		if (!(mvApp::GetApp()->getParsers())["add_image_button"].parse(args, kwargs, __FUNCTION__,
 			&name, &value, &callback, &callback_data, &tintcolor, &backgroundColor, &parent,
 			&before, &width, &height, &frame_padding, &uv_min, &uv_max, &show))
 			return ToPyBool(false);

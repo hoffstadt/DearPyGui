@@ -28,6 +28,7 @@ target_include_directories(DearSandbox
 		"../DearPyGui/vendor/implot/"
 		"../DearPyGui/src/"
 		"../DearPyGui/src/core/"
+		"../DearPyGui/src/core/Modules"
 		"../DearPyGui/src/core/AppItems"
 		"../DearPyGui/src/core/DrawCommands"
 		"../DearPyGui/src/core/PythonCommands"

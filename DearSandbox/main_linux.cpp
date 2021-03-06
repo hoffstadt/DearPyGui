@@ -1,6 +1,7 @@
 #include "mvPython.h"
 #include "mvStdOutput.h"
-#include "mvMarvel.h"
+#include "mvModule_Core.h"
+#include "mvWindow.h"
 #include <iostream>
 
 using namespace Marvel;
@@ -60,6 +61,14 @@ int main(int argc, char* argv[])
 		return 0;
 	}
 
-    start_dearpygui_error();
+	PyErr_Print();
+
+	// create window
+	auto window = mvWindow::CreatemvWindow(mvApp::GetApp()->getActualWidth(), mvApp::GetApp()->getActualHeight(), true);
+	window->show();
+	window->run();
+	delete window;
+	delete mvApp::GetApp();
+
     return 0;
 }
