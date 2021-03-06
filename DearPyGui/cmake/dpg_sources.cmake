@@ -40,6 +40,7 @@ set(MARVEL_SOURCES
 	"src/core/mvInput.cpp"
 	"src/core/mvWindow.cpp"
 	"src/core/mvProfiler.cpp"
+	"src/core/mvLog.cpp"
 
 	"src/core/Theming/mvAppItemStyleManager.cpp"
 	"src/core/Theming/mvThemeManager.cpp"
@@ -171,6 +172,7 @@ set(MARVEL_INCLUDE_DIR
 	"src/core/Theming"
 	"$<$<PLATFORM_ID:Windows>:${CMAKE_SOURCE_DIR}/DearPyGui/vendor/dirent/>"
 	"../Dependencies/ImGuiFileDialog/ImGuiFileDialog/"
+	"../Dependencies/spdlog/include/"
 	"../Dependencies/glfw/include/"
 	"../Dependencies/glfw/deps/"
 	"../Dependencies/imgui/"
