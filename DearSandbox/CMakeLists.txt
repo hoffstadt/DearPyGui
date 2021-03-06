@@ -24,6 +24,7 @@ target_include_directories(DearSandbox
 
 		"$<$<PLATFORM_ID:Linux>:${CMAKE_SOURCE_DIR}/Dependencies/cpython/debug/include/python3.9d/>"
 		"$<$<PLATFORM_ID:Windows>:${CMAKE_SOURCE_DIR}/Dependencies/cpython/PC/>"
+		"../Dependencies/spdlog/include"
 		"../Dependencies/imgui/"
 		"../DearPyGui/vendor/implot/"
 		"../DearPyGui/src/"

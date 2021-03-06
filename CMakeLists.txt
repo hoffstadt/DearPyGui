@@ -37,6 +37,7 @@ endif()
 
 if(NOT MVDIST_ONLY)
     add_subdirectory ("ImguiTesting")
+    add_definitions(-DMV_LOG)
 endif()
 
 # version number of Dear PyGui, usually set
@@ -46,6 +47,7 @@ set(MVDPG_VERSION ${MVDPG_VERSION})
 # if this is not a distribution build
 # build development environment
 if(NOT MVDIST_ONLY AND NOT MV_CPP)
+    add_subdirectory("Dependencies/spdlog")
     add_subdirectory ("DearSandbox")
 endif()
 

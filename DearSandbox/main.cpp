@@ -7,6 +7,7 @@
 #include <fstream>
 #include <filesystem>
 #include "mvWindow.h"
+#include "mvLog.h"
 
 namespace fs = std::filesystem;
 using namespace Marvel;
