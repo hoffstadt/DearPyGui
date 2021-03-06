@@ -391,114 +391,114 @@ namespace Marvel {
 		constants.emplace_back("mvKey_Close_Brace"		  , 0xDD);
 		constants.emplace_back("mvKey_Quote"			  , 0xDE);
 #else
-		constants.emplace_back("mvKey_Back", 259 },
-		constants.emplace_back("mvKey_Tab", 258 },
-		constants.emplace_back("mvKey_Clear", 259 },
-		constants.emplace_back("mvKey_Return", 257 },
-		constants.emplace_back("mvKey_Shift", 340 },
-		constants.emplace_back("mvKey_Control", 241 },
-		constants.emplace_back("mvKey_Alt", 342 },
-		constants.emplace_back("mvKey_Pause", 284 },
-		constants.emplace_back("mvKey_Capital", 280 },
-		constants.emplace_back("mvKey_Escape", 256 },
-		constants.emplace_back("mvKey_Spacebar", 32 },
-		constants.emplace_back("mvKey_Prior", 266 },
-		constants.emplace_back("mvKey_Next", 267 },
-		constants.emplace_back("mvKey_End", 269 },
-		constants.emplace_back("mvKey_Home", 268 },
-		constants.emplace_back("mvKey_Left", 263 },
-		constants.emplace_back("mvKey_Up", 265 },
-		constants.emplace_back("mvKey_Right", 262 },
-		constants.emplace_back("mvKey_Down", 264 },
-		constants.emplace_back("mvKey_Select", -1 },
-		constants.emplace_back("mvKey_Print", -1 },
-		constants.emplace_back("mvKey_Execute", -1 },
-		constants.emplace_back("mvKey_PrintScreen", 286 },
-		constants.emplace_back("mvKey_Insert", 260 },
-		constants.emplace_back("mvKey_Delete", 261 },
-		constants.emplace_back("mvKey_Help", -1 },
-		constants.emplace_back("mvKey_LWin", 343 },
-		constants.emplace_back("mvKey_RWin", 347 },
-		constants.emplace_back("mvKey_Apps", -1 },
-		constants.emplace_back("mvKey_Sleep", -1 },
-		constants.emplace_back("mvKey_NumPad0", 320 },
-		constants.emplace_back("mvKey_NumPad1", 321 },
-		constants.emplace_back("mvKey_NumPad2", 322 },
-		constants.emplace_back("mvKey_NumPad3", 323 },
-		constants.emplace_back("mvKey_NumPad4", 324 },
-		constants.emplace_back("mvKey_NumPad5", 325 },
-		constants.emplace_back("mvKey_NumPad6", 326 },
-		constants.emplace_back("mvKey_NumPad7", 327 },
-		constants.emplace_back("mvKey_NumPad8", 328 },
-		constants.emplace_back("mvKey_NumPad9", 329 },
-		constants.emplace_back("mvKey_Multiply", 332 },
-		constants.emplace_back("mvKey_Add", 334 },
-		constants.emplace_back("mvKey_Separator", -1 },
-		constants.emplace_back("mvKey_Subtract", 333 },
-		constants.emplace_back("mvKey_Decimal", 330 },
-		constants.emplace_back("mvKey_Divide", 331 },
-		constants.emplace_back("mvKey_F1", 290 },
-		constants.emplace_back("mvKey_F2", 291 },
-		constants.emplace_back("mvKey_F3", 292 },
-		constants.emplace_back("mvKey_F4", 293 },
-		constants.emplace_back("mvKey_F5", 294 },
-		constants.emplace_back("mvKey_F6", 295 },
-		constants.emplace_back("mvKey_F7", 296 },
-		constants.emplace_back("mvKey_F8", 297 },
-		constants.emplace_back("mvKey_F9", 298 },
-		constants.emplace_back("mvKey_F10", 299 },
-		constants.emplace_back("mvKey_F11", 300 },
-		constants.emplace_back("mvKey_F12", 301 },
-		constants.emplace_back("mvKey_F13", 302 },
-		constants.emplace_back("mvKey_F14", 303 },
-		constants.emplace_back("mvKey_F15", 304 },
-		constants.emplace_back("mvKey_F16", 305 },
-		constants.emplace_back("mvKey_F17", 306 },
-		constants.emplace_back("mvKey_F18", 307 },
-		constants.emplace_back("mvKey_F19", 308 },
-		constants.emplace_back("mvKey_F20", 309 },
-		constants.emplace_back("mvKey_F21", 310 },
-		constants.emplace_back("mvKey_F22", 311 },
-		constants.emplace_back("mvKey_F23", 312 },
-		constants.emplace_back("mvKey_F24", 313 },
-		constants.emplace_back("mvKey_F24", 314 },
-		constants.emplace_back("mvKey_NumLock", 282 },
-		constants.emplace_back("mvKey_ScrollLock", 281 },
-		constants.emplace_back("mvKey_LShift", 340 },
-		constants.emplace_back("mvKey_RShift", 344 },
-		constants.emplace_back("mvKey_LControl", 341 },
-		constants.emplace_back("mvKey_RControl", 345 },
-		constants.emplace_back("mvKey_LMenu", -1 },
-		constants.emplace_back("mvKey_RMenu", -1 },
-		constants.emplace_back("mvKey_Browser_Back", -1 },
-		constants.emplace_back("mvKey_Browser_Forward", -1 },
-		constants.emplace_back("mvKey_Browser_Refresh", -1 },
-		constants.emplace_back("mvKey_Browser_Stop", -1 },
-		constants.emplace_back("mvKey_Browser_Search", -1 },
-		constants.emplace_back("mvKey_Browser_Favorites", -1 },
-		constants.emplace_back("mvKey_Browser_Home", -1 },
-		constants.emplace_back("mvKey_Volume_Mute", -1 },
-		constants.emplace_back("mvKey_Volume_Down", -1 },
-		constants.emplace_back("mvKey_Volume_Up", -1 },
-		constants.emplace_back("mvKey_Media_Next_Track", -1 },
-		constants.emplace_back("mvKey_Media_Prev_Track", -1 },
-		constants.emplace_back("mvKey_Media_Stop", -1 },
-		constants.emplace_back("mvKey_Media_Play_Pause", -1 },
-		constants.emplace_back("mvKey_Launch_Mail", -1 },
-		constants.emplace_back("mvKey_Launch_Media_Select", -1 },
-		constants.emplace_back("mvKey_Launch_App1", -1 },
-		constants.emplace_back("mvKey_Launch_App2", -1 },
-		constants.emplace_back("mvKey_Colon", 59 },
-		constants.emplace_back("mvKey_Plus", 61 },
-		constants.emplace_back("mvKey_Comma", 44 },
-		constants.emplace_back("mvKey_Minus", 45 },
-		constants.emplace_back("mvKey_Period", 46 },
-		constants.emplace_back("mvKey_Slash", 47 },
-		constants.emplace_back("mvKey_Tilde", 96 },
-		constants.emplace_back("mvKey_Open_Brace", 91 },
-		constants.emplace_back("mvKey_Backslash", 92 },
-		constants.emplace_back("mvKey_Close_Brace", 93 },
-		constants.emplace_back("mvKey_Quote", 39 },
+		constants.emplace_back("mvKey_Back", 259);
+		constants.emplace_back("mvKey_Tab", 258);
+		constants.emplace_back("mvKey_Clear", 259);
+		constants.emplace_back("mvKey_Return", 257);
+		constants.emplace_back("mvKey_Shift", 340);
+		constants.emplace_back("mvKey_Control", 241);
+		constants.emplace_back("mvKey_Alt", 342);
+		constants.emplace_back("mvKey_Pause", 284);
+		constants.emplace_back("mvKey_Capital", 280);
+		constants.emplace_back("mvKey_Escape", 256);
+		constants.emplace_back("mvKey_Spacebar", 32);
+		constants.emplace_back("mvKey_Prior", 266);
+		constants.emplace_back("mvKey_Next", 267);
+		constants.emplace_back("mvKey_End", 269);
+		constants.emplace_back("mvKey_Home", 268);
+		constants.emplace_back("mvKey_Left", 263);
+		constants.emplace_back("mvKey_Up", 265);
+		constants.emplace_back("mvKey_Right", 262);
+		constants.emplace_back("mvKey_Down", 264);
+		constants.emplace_back("mvKey_Select", -1);
+		constants.emplace_back("mvKey_Print", -1);
+		constants.emplace_back("mvKey_Execute", -1);
+		constants.emplace_back("mvKey_PrintScreen", 286);
+		constants.emplace_back("mvKey_Insert", 260);
+		constants.emplace_back("mvKey_Delete", 261);
+		constants.emplace_back("mvKey_Help", -1);
+		constants.emplace_back("mvKey_LWin", 343);
+		constants.emplace_back("mvKey_RWin", 347);
+		constants.emplace_back("mvKey_Apps", -1);
+		constants.emplace_back("mvKey_Sleep", -1);
+		constants.emplace_back("mvKey_NumPad0", 320);
+		constants.emplace_back("mvKey_NumPad1", 321);
+		constants.emplace_back("mvKey_NumPad2", 322);
+		constants.emplace_back("mvKey_NumPad3", 323);
+		constants.emplace_back("mvKey_NumPad4", 324);
+		constants.emplace_back("mvKey_NumPad5", 325);
+		constants.emplace_back("mvKey_NumPad6", 326);
+		constants.emplace_back("mvKey_NumPad7", 327);
+		constants.emplace_back("mvKey_NumPad8", 328);
+		constants.emplace_back("mvKey_NumPad9", 329);
+		constants.emplace_back("mvKey_Multiply", 332);
+		constants.emplace_back("mvKey_Add", 334);
+		constants.emplace_back("mvKey_Separator", -1);
+		constants.emplace_back("mvKey_Subtract", 333);
+		constants.emplace_back("mvKey_Decimal", 330);
+		constants.emplace_back("mvKey_Divide", 331);
+		constants.emplace_back("mvKey_F1", 290);
+		constants.emplace_back("mvKey_F2", 291);
+		constants.emplace_back("mvKey_F3", 292);
+		constants.emplace_back("mvKey_F4", 293);
+		constants.emplace_back("mvKey_F5", 294);
+		constants.emplace_back("mvKey_F6", 295);
+		constants.emplace_back("mvKey_F7", 296);
+		constants.emplace_back("mvKey_F8", 297);
+		constants.emplace_back("mvKey_F9", 298);
+		constants.emplace_back("mvKey_F10", 299);
+		constants.emplace_back("mvKey_F11", 300);
+		constants.emplace_back("mvKey_F12", 301);
+		constants.emplace_back("mvKey_F13", 302);
+		constants.emplace_back("mvKey_F14", 303);
+		constants.emplace_back("mvKey_F15", 304);
+		constants.emplace_back("mvKey_F16", 305);
+		constants.emplace_back("mvKey_F17", 306);
+		constants.emplace_back("mvKey_F18", 307);
+		constants.emplace_back("mvKey_F19", 308);
+		constants.emplace_back("mvKey_F20", 309);
+		constants.emplace_back("mvKey_F21", 310);
+		constants.emplace_back("mvKey_F22", 311);
+		constants.emplace_back("mvKey_F23", 312);
+		constants.emplace_back("mvKey_F24", 313);
+		constants.emplace_back("mvKey_F24", 314);
+		constants.emplace_back("mvKey_NumLock", 282);
+		constants.emplace_back("mvKey_ScrollLock", 281);
+		constants.emplace_back("mvKey_LShift", 340);
+		constants.emplace_back("mvKey_RShift", 344);
+		constants.emplace_back("mvKey_LControl", 341);
+		constants.emplace_back("mvKey_RControl", 345);
+		constants.emplace_back("mvKey_LMenu", -1);
+		constants.emplace_back("mvKey_RMenu", -1);
+		constants.emplace_back("mvKey_Browser_Back", -1);
+		constants.emplace_back("mvKey_Browser_Forward", -1);
+		constants.emplace_back("mvKey_Browser_Refresh", -1);
+		constants.emplace_back("mvKey_Browser_Stop", -1);
+		constants.emplace_back("mvKey_Browser_Search", -1);
+		constants.emplace_back("mvKey_Browser_Favorites", -1);
+		constants.emplace_back("mvKey_Browser_Home", -1);
+		constants.emplace_back("mvKey_Volume_Mute", -1);
+		constants.emplace_back("mvKey_Volume_Down", -1);
+		constants.emplace_back("mvKey_Volume_Up", -1);
+		constants.emplace_back("mvKey_Media_Next_Track", -1);
+		constants.emplace_back("mvKey_Media_Prev_Track", -1);
+		constants.emplace_back("mvKey_Media_Stop", -1);
+		constants.emplace_back("mvKey_Media_Play_Pause", -1);
+		constants.emplace_back("mvKey_Launch_Mail", -1);
+		constants.emplace_back("mvKey_Launch_Media_Select", -1);
+		constants.emplace_back("mvKey_Launch_App1", -1);
+		constants.emplace_back("mvKey_Launch_App2", -1);
+		constants.emplace_back("mvKey_Colon", 59);
+		constants.emplace_back("mvKey_Plus", 61);
+		constants.emplace_back("mvKey_Comma", 44);
+		constants.emplace_back("mvKey_Minus", 45);
+		constants.emplace_back("mvKey_Period", 46);
+		constants.emplace_back("mvKey_Slash", 47);
+		constants.emplace_back("mvKey_Tilde", 96);
+		constants.emplace_back("mvKey_Open_Brace", 91);
+		constants.emplace_back("mvKey_Backslash", 92);
+		constants.emplace_back("mvKey_Close_Brace", 93);
+		constants.emplace_back("mvKey_Quote", 39);
 #endif
 	}
 
