@@ -113,15 +113,15 @@ namespace Marvel {
 		PyDict_SetItemString(dict, "autosize_y", ToPyBool(m_autosize_y));
 
 		// helper for bit flipping
-		auto flagop = [dict](const char* keyword, int flag, int& flags)
+		auto checkbitset = [dict](const char* keyword, int flag, const int& flags)
 		{
-			if (PyObject* item = PyDict_GetItemString(dict, keyword)) ToBool(item) ? flags |= flag : flags &= ~flag;
+			PyDict_SetItemString(dict, keyword, ToPyBool(flags & flag));
 		};
 
 		// window flags
-		flagop("no_scrollbar", ImGuiWindowFlags_NoScrollbar, m_windowflags);
-		flagop("horizontal_scrollbar", ImGuiWindowFlags_HorizontalScrollbar, m_windowflags);
-		flagop("menubar", ImGuiWindowFlags_MenuBar, m_windowflags);
+		checkbitset("no_scrollbar", ImGuiWindowFlags_NoScrollbar, m_windowflags);
+		checkbitset("horizontal_scrollbar", ImGuiWindowFlags_HorizontalScrollbar, m_windowflags);
+		checkbitset("menubar", ImGuiWindowFlags_MenuBar, m_windowflags);
 	}
 
 	PyObject* add_child(PyObject* self, PyObject* args, PyObject* kwargs)
