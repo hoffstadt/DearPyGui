@@ -86,6 +86,19 @@ namespace Marvel {
 		});
 	}
 
+	void mvLoggerItem::InsertConstants(std::vector<std::pair<std::string, long>>& constants)
+	{
+		//-----------------------------------------------------------------------------
+		// Log Levels
+		//-----------------------------------------------------------------------------
+		constants.emplace_back("mvTRACE"   , 0);
+		constants.emplace_back("mvDEBUG"   , 1);
+		constants.emplace_back("mvINFO"    , 2);
+		constants.emplace_back("mvWARNING" , 3);
+		constants.emplace_back("mvERROR"   , 4);
+		constants.emplace_back("mvOFF"     , 5);
+	}
+
 #if defined (_WIN32)
 	std::chrono::steady_clock::time_point mvLoggerItem::s_start = clock_::now();
 #elif defined(__APPLE__)

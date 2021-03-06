@@ -41,6 +41,7 @@ namespace Marvel {
 	public:
 
 		static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
+		static void InsertConstants(std::vector<std::pair<std::string, long>>& constants);
 
 	public:
 

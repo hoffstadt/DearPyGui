@@ -5,6 +5,21 @@
 
 namespace Marvel {
 
+	void mvTextureStorage::InsertConstants(std::vector<std::pair<std::string, long>>& constants)
+	{
+		//-----------------------------------------------------------------------------
+		// Texture Formats
+		//-----------------------------------------------------------------------------
+		constants.emplace_back("mvTEX_RGBA_INT"  , 0);
+		constants.emplace_back("mvTEX_RGBA_FLOAT", 1);
+		constants.emplace_back("mvTEX_RGB_FLOAT" , 2);
+		constants.emplace_back("mvTEX_RGB_INT"	 , 3);
+		constants.emplace_back("mvTEX_BGRA_INT"	 , 4);
+		constants.emplace_back("mvTEX_BGRA_FLOAT", 5);
+		constants.emplace_back("mvTEX_BGR_FLOAT" , 6);
+		constants.emplace_back("mvTEX_BGR_INT"	 , 7);
+	}
+
 	mvTextureStorage::mvTextureStorage()
 	{
 		mvEventBus::Subscribe(this, mvEVT_FRAME);

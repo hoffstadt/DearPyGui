@@ -326,61 +326,10 @@ namespace Marvel {
 
 	const std::vector<std::pair<std::string, long>>& mvModule_Core::GetSubModuleConstants()
 	{
+		static bool First_Run = true;
 		static std::vector<std::pair<std::string, long>> ModuleConstants =
 		{
 
-			//-----------------------------------------------------------------------------
-			// Plot Colors
-			//-----------------------------------------------------------------------------
-			{"mvPlotCol_Line"         , 0}, // plot line/outline color (defaults to a rotating color set)
-			{"mvPlotCol_Fill"         , 1}, // plot fill color for bars (defaults to the current line color)
-			{"mvPlotCol_MarkerOutline", 2}, // marker outline color (defaults to the current line color)
-			{"mvPlotCol_MarkerFill"   , 3}, // marker fill color (defaults to the current line color)
-			{"mvPlotCol_ErrorBar"     , 4}, // error bar color (defaults to ImGuiCol_Text)
-			{"mvPlotCol_FrameBg"      , 5}, // plot frame background color (defaults to ImGuiCol_FrameBg)
-			{"mvPlotCol_PlotBg"       , 6}, // plot area background color (defaults to ImGuiCol_WindowBg)
-			{"mvPlotCol_PlotBorder"   , 7}, // plot area border color (defaults to ImGuiCol_Text)
-			{"mvPlotCol_XAxis"        , 8}, // x-axis grid/label color (defaults to 25% ImGuiCol_Text)
-			{"mvPlotCol_YAxis"        , 9}, // y-axis grid/label color (defaults to 25% ImGuiCol_Text)
-			{"mvPlotCol_YAxis2"       ,10}, // 2nd y-axis grid/label color (defaults to 25% ImGuiCol_Text)
-			{"mvPlotCol_YAxis3"       ,11}, // 3rd y-axis grid/label color (defaults to 25% ImGuiCol_Text)
-			{"mvPlotCol_Selection"    ,12}, // box-selection color (defaults to yellow)
-			{"mvPlotCol_Query"        ,13}, // box-query color (defaults to green)
-			{"mvPlotCol_COUNT"        ,14},
-
-			//-----------------------------------------------------------------------------
-			// Plot Marker Specifications
-			//-----------------------------------------------------------------------------
-			{"mvPlotMarker_None"    , -1},  // no marker
-			{"mvPlotMarker_Circle"  , 0},  // a circle marker will be rendered at each point
-			{"mvPlotMarker_Square"  , 1},  // a square maker will be rendered at each point
-			{"mvPlotMarker_Diamond" , 2},  // a diamond marker will be rendered at each point
-			{"mvPlotMarker_Up"      , 3},  // an upward-pointing triangle marker will up rendered at each point
-			{"mvPlotMarker_Down"    , 4},  // an downward-pointing triangle marker will up rendered at each point
-			{"mvPlotMarker_Left"    , 5},  // an leftward-pointing triangle marker will up rendered at each point
-			{"mvPlotMarker_Right"   , 6},  // an rightward-pointing triangle marker will up rendered at each point
-			{"mvPlotMarker_Cross"   , 7},  // a cross marker will be rendered at each point (not filled)
-			{"mvPlotMarker_Plus"    , 8},  // a plus marker will be rendered at each point (not filled)
-			{"mvPlotMarker_Asterisk", 9}, // a asterisk marker will be rendered at each point (not filled)
-
-			//-----------------------------------------------------------------------------
-			// Built-in ImPlot Color maps
-			//-----------------------------------------------------------------------------
-			{"mvPlotColormap_Default",  0}, // ImPlot default colormap         (n=10)
-			{"mvPlotColormap_Deep"   ,  1}, // a.k.a. matplotlib "Set1"        (n=9)
-			{"mvPlotColormap_Dark"   ,  2}, // a.k.a. matplotlib "Set1"        (n=9)
-			{"mvPlotColormap_Pastel" ,  3}, // a.k.a. matplotlib "Pastel1"     (n=9)
-			{"mvPlotColormap_Paired" ,  4}, // a.k.a. matplotlib "Paired"      (n=12)
-			{"mvPlotColormap_Viridis",  5}, // a.k.a. matplotlib "viridis"     (n=11)
-			{"mvPlotColormap_Plasma" ,  6}, // a.k.a. matplotlib "plasma"      (n=11)
-			{"mvPlotColormap_Hot"    ,  7}, // a.k.a. matplotlib/MATLAB "hot"  (n=11)
-			{"mvPlotColormap_Cool"   ,  8}, // a.k.a. matplotlib/MATLAB "cool" (n=11)
-			{"mvPlotColormap_Pink"   ,  9}, // a.k.a. matplotlib/MATLAB "pink" (n=11)
-			{"mvPlotColormap_Jet"    ,  10}, // a.k.a. MATLAB "jet"             (n=11)
-
-			//-----------------------------------------------------------------------------
-			// Theme style variable IDs
-			//-----------------------------------------------------------------------------
 			{ "mvGuiStyleVar_Alpha",               0 },
 			{ "mvGuiStyleVar_WindowPadding",       1 },
 			{ "mvGuiStyleVar_WindowRounding",      2 },
@@ -405,338 +354,48 @@ namespace Marvel {
 			{ "mvGuiStyleVar_TabRounding",         21 },
 			{ "mvGuiStyleVar_ButtonTextAlign",     22 },
 			{ "mvGuiStyleVar_SelectableTextAlign", 23 },
-			//-----------------------------------------------------------------------------
-			// Key Codes
-			//-----------------------------------------------------------------------------
-			{ "mvKey_0"			, 0x30 },
-			{ "mvKey_1"			, 0x31 },
-			{ "mvKey_2"			, 0x32 },
-			{ "mvKey_3"			, 0x33 },
-			{ "mvKey_4"			, 0x34 },
-			{ "mvKey_5"			, 0x35 },
-			{ "mvKey_6"			, 0x36 },
-			{ "mvKey_7"			, 0x37 },
-			{ "mvKey_8"			, 0x38 },
-			{ "mvKey_9"			, 0x39 },
-			{ "mvKey_A"			, 0x41 },
-			{ "mvKey_B"			, 0x42 },
-			{ "mvKey_C"			, 0x43 },
-			{ "mvKey_D"			, 0x44 },
-			{ "mvKey_E"			, 0x45 },
-			{ "mvKey_F"			, 0x46 },
-			{ "mvKey_G"			, 0x47 },
-			{ "mvKey_H"			, 0x48 },
-			{ "mvKey_I"			, 0x49 },
-			{ "mvKey_J"			, 0x4A },
-			{ "mvKey_K"			, 0x4B },
-			{ "mvKey_L"			, 0x4C },
-			{ "mvKey_M"			, 0x4D },
-			{ "mvKey_N"			, 0x4E },
-			{ "mvKey_O"			, 0x4F },
-			{ "mvKey_P"			, 0x50 },
-			{ "mvKey_Q"			, 0x51 },
-			{ "mvKey_R"			, 0x52 },
-			{ "mvKey_S"			, 0x53 },
-			{ "mvKey_T"			, 0x54 },
-			{ "mvKey_U"			, 0x55 },
-			{ "mvKey_V"			, 0x56 },
-			{ "mvKey_W"			, 0x57 },
-			{ "mvKey_X"			, 0x58 },
-			{ "mvKey_Y"			, 0x59 },
-			{ "mvKey_Z"			, 0x5A },
-
-#if defined (_WIN32)
-			{ "mvKey_Back"			, 0x08 },
-			{ "mvKey_Tab"			, 0x09 },
-			{ "mvKey_Clear"			, 0x0C },
-			{ "mvKey_Return"		, 0x0D },
-			{ "mvKey_Shift"			, 0x10 },
-			{ "mvKey_Control"		, 0x11 },
-			{ "mvKey_Alt"			, 0x12 },
-			{ "mvKey_Pause"			, 0x13 },
-			{ "mvKey_Capital"		, 0x14 },
-			{ "mvKey_Escape"		, 0x1B },
-			{ "mvKey_Spacebar"		, 0x20 },
-			{ "mvKey_Prior"			, 0x21 },
-			{ "mvKey_Next"			, 0x22 },
-			{ "mvKey_End"			, 0x23 },
-			{ "mvKey_Home"			, 0x24 },
-			{ "mvKey_Left"			, 0x25 },
-			{ "mvKey_Up"			, 0x26 },
-			{ "mvKey_Right"			, 0x27 },
-			{ "mvKey_Down"			, 0x28 },
-			{ "mvKey_Select"		, 0x29 },
-			{ "mvKey_Print"			, 0x2A },
-			{ "mvKey_Execute"		, 0x2B },
-			{ "mvKey_PrintScreen"	, 0x2C },
-			{ "mvKey_Insert"		, 0x2D },
-			{ "mvKey_Delete"		, 0x2E },
-			{ "mvKey_Help"			, 0x2F },
-			{ "mvKey_LWin"		, 0x5B },
-			{ "mvKey_RWin"		, 0x5C },
-			{ "mvKey_Apps"		, 0x5D },
-			{ "mvKey_Sleep"		, 0x5F },
-			{ "mvKey_NumPad0"   , 0x60 },
-			{ "mvKey_NumPad1"   , 0x61 },
-			{ "mvKey_NumPad2"   , 0x62 },
-			{ "mvKey_NumPad3"   , 0x63 },
-			{ "mvKey_NumPad4"   , 0x64 },
-			{ "mvKey_NumPad5"   , 0x65 },
-			{ "mvKey_NumPad6"	, 0x66 },
-			{ "mvKey_NumPad7"	, 0x67 },
-			{ "mvKey_NumPad8"	, 0x68 },
-			{ "mvKey_NumPad9"	, 0x69 },
-			{ "mvKey_Multiply"	, 0x6A },
-			{ "mvKey_Add"		, 0x6B },
-			{ "mvKey_Separator"	, 0x6C },
-			{ "mvKey_Subtract"	, 0x6D },
-			{ "mvKey_Decimal"	, 0x6E },
-			{ "mvKey_Divide"	, 0x6F },
-			{ "mvKey_F1"		, 0x70 },
-			{ "mvKey_F2"		, 0x71 },
-			{ "mvKey_F3"		, 0x72 },
-			{ "mvKey_F4"		, 0x73 },
-			{ "mvKey_F5"		, 0x74 },
-			{ "mvKey_F6"		, 0x75 },
-			{ "mvKey_F7"		, 0x76 },
-			{ "mvKey_F8"		, 0x77 },
-			{ "mvKey_F9"		, 0x78 },
-			{ "mvKey_F10"		, 0x79 },
-			{ "mvKey_F11"		, 0x7A },
-			{ "mvKey_F12"		, 0x7B },
-			{ "mvKey_F13"		, 0x7C },
-			{ "mvKey_F14"		, 0x7D },
-			{ "mvKey_F15"		, 0x7E },
-			{ "mvKey_F16"		, 0x7F },
-			{ "mvKey_F17"		, 0x80 },
-			{ "mvKey_F18"		, 0x81 },
-			{ "mvKey_F19"		, 0x82 },
-			{ "mvKey_F20"		, 0x83 },
-			{ "mvKey_F21"		, 0x84 },
-			{ "mvKey_F22"		, 0x85 },
-			{ "mvKey_F23"		, 0x86 },
-			{ "mvKey_F24"		, 0x87 },
-			{ "mvKey_NumLock"				, 0x90 },
-			{ "mvKey_ScrollLock"			, 0x91 },
-			{ "mvKey_LShift"				, 0xA0 },
-			{ "mvKey_RShift"				, 0xA1 },
-			{ "mvKey_LControl"				, 0xA2 },
-			{ "mvKey_RControl"				, 0xA3 },
-			{ "mvKey_LMenu"					, 0xA4 },
-			{ "mvKey_RMenu"					, 0xA5 },
-			{ "mvKey_Browser_Back"			, 0xA6 },
-			{ "mvKey_Browser_Forward"		, 0xA7 },
-			{ "mvKey_Browser_Refresh"		, 0xA8 },
-			{ "mvKey_Browser_Stop"			, 0xA9 },
-			{ "mvKey_Browser_Search"		, 0xAA },
-			{ "mvKey_Browser_Favorites"		, 0xAB },
-			{ "mvKey_Browser_Home"			, 0xAC },
-			{ "mvKey_Volume_Mute"			, 0xAD },
-			{ "mvKey_Volume_Down"			, 0xAE },
-			{ "mvKey_Volume_Up"				, 0xAF },
-			{ "mvKey_Media_Next_Track"		, 0xB0 },
-			{ "mvKey_Media_Prev_Track"		, 0xB1 },
-			{ "mvKey_Media_Stop"			, 0xB2 },
-			{ "mvKey_Media_Play_Pause"		, 0xB3 },
-			{ "mvKey_Launch_Mail"			, 0xB4 },
-			{ "mvKey_Launch_Media_Select"	, 0xB5 },
-			{ "mvKey_Launch_App1"			, 0xB6 },
-			{ "mvKey_Launch_App2"			, 0xB7 },
-			{ "mvKey_Colon"					, 0xBA },
-			{ "mvKey_Plus"					, 0xBB },
-			{ "mvKey_Comma"					, 0xBC },
-			{ "mvKey_Minus"					, 0xBD },
-			{ "mvKey_Period"				, 0xBE },
-			{ "mvKey_Slash"					, 0xBF },
-			{ "mvKey_Tilde"					, 0xC0 },
-			{ "mvKey_Open_Brace"			, 0xDB },
-			{ "mvKey_Backslash"				, 0xDC },
-			{ "mvKey_Close_Brace"			, 0xDD },
-			{ "mvKey_Quote"					, 0xDE },
-#else
-			{ "mvKey_Back",  259 },
-			{"mvKey_Tab",  258 },
-			{"mvKey_Clear",  259 },
-			{"mvKey_Return",  257 },
-			{"mvKey_Shift",  340 },
-			{"mvKey_Control",  241 },
-			{"mvKey_Alt",  342 },
-			{"mvKey_Pause",  284 },
-			{"mvKey_Capital",  280 },
-			{"mvKey_Escape",  256 },
-			{"mvKey_Spacebar",  32 },
-			{"mvKey_Prior",  266 },
-			{"mvKey_Next",  267 },
-			{"mvKey_End",  269 },
-			{"mvKey_Home",  268 },
-			{"mvKey_Left",  263 },
-			{"mvKey_Up",  265 },
-			{"mvKey_Right",  262 },
-			{"mvKey_Down",  264 },
-			{"mvKey_Select",  -1 },
-			{"mvKey_Print",  -1 },
-			{"mvKey_Execute",  -1 },
-			{"mvKey_PrintScreen",  286 },
-			{"mvKey_Insert",  260 },
-			{"mvKey_Delete",  261 },
-			{"mvKey_Help",  -1 },
-			{"mvKey_LWin",  343 },
-			{"mvKey_RWin",  347 },
-			{"mvKey_Apps",  -1 },
-			{"mvKey_Sleep",  -1 },
-			{"mvKey_NumPad0",  320 },
-			{"mvKey_NumPad1",  321 },
-			{"mvKey_NumPad2",  322 },
-			{"mvKey_NumPad3",  323 },
-			{"mvKey_NumPad4",  324 },
-			{"mvKey_NumPad5",  325 },
-			{"mvKey_NumPad6",  326 },
-			{"mvKey_NumPad7",  327 },
-			{"mvKey_NumPad8",  328 },
-			{"mvKey_NumPad9",  329 },
-			{"mvKey_Multiply",  332 },
-			{"mvKey_Add",  334 },
-			{"mvKey_Separator",  -1 },
-			{"mvKey_Subtract",  333 },
-			{"mvKey_Decimal",  330 },
-			{"mvKey_Divide",  331 },
-			{"mvKey_F1",  290 },
-			{"mvKey_F2",  291 },
-			{"mvKey_F3",  292 },
-			{"mvKey_F4",  293 },
-			{"mvKey_F5",  294 },
-			{"mvKey_F6",  295 },
-			{"mvKey_F7",  296 },
-			{"mvKey_F8",  297 },
-			{"mvKey_F9",  298 },
-			{"mvKey_F10",  299 },
-			{"mvKey_F11",  300 },
-			{"mvKey_F12",  301 },
-			{"mvKey_F13",  302 },
-			{"mvKey_F14",  303 },
-			{"mvKey_F15",  304 },
-			{"mvKey_F16",  305 },
-			{"mvKey_F17",  306 },
-			{"mvKey_F18",  307 },
-			{"mvKey_F19",  308 },
-			{"mvKey_F20",  309 },
-			{"mvKey_F21",  310 },
-			{"mvKey_F22",  311 },
-			{"mvKey_F23",  312 },
-			{"mvKey_F24",  313 },
-			{"mvKey_F24",  314 },
-			{"mvKey_NumLock",  282 },
-			{"mvKey_ScrollLock",  281 },
-			{"mvKey_LShift",  340 },
-			{"mvKey_RShift",  344 },
-			{"mvKey_LControl",  341 },
-			{"mvKey_RControl",  345 },
-			{"mvKey_LMenu",  -1 },
-			{"mvKey_RMenu",  -1 },
-			{"mvKey_Browser_Back",  -1 },
-			{"mvKey_Browser_Forward",  -1 },
-			{"mvKey_Browser_Refresh",  -1 },
-			{"mvKey_Browser_Stop",  -1 },
-			{"mvKey_Browser_Search",  -1 },
-			{"mvKey_Browser_Favorites",  -1 },
-			{"mvKey_Browser_Home",  -1 },
-			{"mvKey_Volume_Mute",  -1 },
-			{"mvKey_Volume_Down",  -1 },
-			{"mvKey_Volume_Up",  -1 },
-			{"mvKey_Media_Next_Track",  -1 },
-			{"mvKey_Media_Prev_Track",  -1 },
-			{"mvKey_Media_Stop",  -1 },
-			{"mvKey_Media_Play_Pause",  -1 },
-			{"mvKey_Launch_Mail",  -1 },
-			{"mvKey_Launch_Media_Select",  -1 },
-			{"mvKey_Launch_App1",  -1 },
-			{"mvKey_Launch_App2",  -1 },
-			{"mvKey_Colon",  59 },
-			{"mvKey_Plus",  61 },
-			{"mvKey_Comma",  44 },
-			{"mvKey_Minus",  45 },
-			{"mvKey_Period",  46 },
-			{"mvKey_Slash",  47 },
-			{"mvKey_Tilde",  96 },
-			{"mvKey_Open_Brace",  91 },
-			{"mvKey_Backslash",  92 },
-			{"mvKey_Close_Brace",  93 },
-			{"mvKey_Quote",  39 },
-#endif
-
-
-
-			//-----------------------------------------------------------------------------
-			// Mouse Codes
-			//-----------------------------------------------------------------------------
-			{ "mvMouseButton_Left"  , 0 },
-			{ "mvMouseButton_Right" , 1 },
-			{ "mvMouseButton_Middle", 2 },
-			{ "mvMouseButton_X1", 3 },
-			{ "mvMouseButton_X2", 4 },
-
-			//-----------------------------------------------------------------------------
-			// Cardinal directions
-			//-----------------------------------------------------------------------------
-			{ "mvDir_None" ,-1 },
-			{ "mvDir_Left" , 0 },
-			{ "mvDir_Right", 1 },
-			{ "mvDir_Up"   , 2 },
-			{ "mvDir_Down" , 3 },
-
-			//-----------------------------------------------------------------------------
-			// Log Levels
-			//-----------------------------------------------------------------------------
-			{ "mvTRACE"   , 0 },
-			{ "mvDEBUG"   , 1 },
-			{ "mvINFO"    , 2 },
-			{ "mvWARNING" , 3 },
-			{ "mvERROR"   , 4 },
-			{ "mvOFF"     , 5 },
-
-			//-----------------------------------------------------------------------------
-			// Texture Formats
-			//-----------------------------------------------------------------------------
-			{ "mvTEX_RGBA_INT"	, 0 },
-			{ "mvTEX_RGBA_FLOAT", 1 },
-			{ "mvTEX_RGB_FLOAT"	, 2 },
-			{ "mvTEX_RGB_INT"	, 3 },
-			{ "mvTEX_BGRA_INT"	, 4 },
-			{ "mvTEX_BGRA_FLOAT", 5 },
-			{ "mvTEX_BGR_FLOAT"	, 6 },
-			{ "mvTEX_BGR_INT"	, 7 },
 
 		};
 
-		constexpr_for<1, (int)mvAppItemType::ItemTypeCount, 1>(
-			[&](auto i) {
+		if (First_Run)
+		{
+			mvInput::InsertConstants(ModuleConstants);
+			mvPlot::InsertConstants(ModuleConstants);
+			mvButton::InsertConstants(ModuleConstants);
+			mvLoggerItem::InsertConstants(ModuleConstants);
+			mvTextureStorage::InsertConstants(ModuleConstants);
 
-				using item_type = typename mvItemType<i>::type;
+			constexpr_for<1, (int)mvAppItemType::ItemTypeCount, 1>(
+				[&](auto i) {
 
-				// color constants
-				for (const auto& item : item_type::GetColorConstants())
-				{
-					ModuleConstants.push_back({ std::get<0>(item), std::get<1>(item) });
+					using item_type = typename mvItemType<i>::type;
 
-					//uncomment
-					mvEventBus::Publish
-					(
-						mvEVT_CATEGORY_THEMES,
-						SID("color_change"),
-						{
-							CreateEventArgument("WIDGET", std::string("")),
-							CreateEventArgument("ID", std::get<1>(item)),
-							CreateEventArgument("COLOR", std::get<2>(item))
-						}
-					);
-				}
+					// color constants
+					for (const auto& item : item_type::GetColorConstants())
+					{
+						ModuleConstants.push_back({ std::get<0>(item), std::get<1>(item) });
 
-				// style constants
-				for (const auto& item : item_type::GetStyleConstants())
-					ModuleConstants.push_back({ std::get<0>(item), std::get<1>(item) });
+						//uncomment
+						mvEventBus::Publish
+						(
+							mvEVT_CATEGORY_THEMES,
+							SID("color_change"),
+							{
+								CreateEventArgument("WIDGET", std::string("")),
+								CreateEventArgument("ID", std::get<1>(item)),
+								CreateEventArgument("COLOR", std::get<2>(item))
+							}
+						);
+					}
 
-			});
+					// style constants
+					for (const auto& item : item_type::GetStyleConstants())
+						ModuleConstants.push_back({ std::get<0>(item), std::get<1>(item) });
 
+				});
+		}
+
+		First_Run = false;
 		return ModuleConstants;
 	}
 

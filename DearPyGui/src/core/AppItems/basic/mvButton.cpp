@@ -26,6 +26,18 @@ namespace Marvel {
 		}, "Adds a button.", "None", "Adding Widgets") });
 	}
 
+	void mvButton::InsertConstants(std::vector<std::pair<std::string, long>>& constants)
+	{
+		//-----------------------------------------------------------------------------
+		// Cardinal directions
+		//-----------------------------------------------------------------------------
+		constants.emplace_back("mvDir_None", -1);
+		constants.emplace_back("mvDir_Left" , 0);
+		constants.emplace_back("mvDir_Right", 1);
+		constants.emplace_back("mvDir_Up"   , 2);
+		constants.emplace_back("mvDir_Down" , 3);
+	}
+
 	mvButton::mvButton(const std::string& name)
 		: 
 		mvAppItem(name)

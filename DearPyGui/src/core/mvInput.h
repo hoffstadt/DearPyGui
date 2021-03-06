@@ -102,6 +102,8 @@ namespace Marvel {
 		static bool          isKeyDown                 (int keycode);
 		static bool          isKeyPressed              (int keycode);
 		static bool          isKeyReleased             (int keycode);
+		
+		static void          InsertConstants(std::vector<std::pair<std::string, long>>& constants);
 
 		static void          CheckInputs();
 
