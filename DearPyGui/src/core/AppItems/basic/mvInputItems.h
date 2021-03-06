@@ -2,7 +2,7 @@
 
 #include "mvTypeBases.h"
 #include "mvApp.h"
-#include "mvMarvel.h"
+#include "mvModule_Core.h"
 #include <string>
 
 //-----------------------------------------------------------------------------

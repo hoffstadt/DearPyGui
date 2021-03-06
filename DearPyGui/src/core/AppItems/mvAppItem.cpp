@@ -458,7 +458,7 @@ namespace Marvel{
 			return;
 
 		auto configKeys = ToStringVect(PyDict_Keys(dict));
-		auto parserKeywords = (*mvApp::GetApp()->getParsers())[getParserCommand()].getKeywords();
+		auto parserKeywords = (mvApp::GetApp()->getParsers())[getParserCommand()].getKeywords();
 		if (parserKeywords.empty())
 		{
 			ThrowPythonException("\"" + m_core_config.name + "\" could not find a parser that matched \"" + getParserCommand() + "\".");
@@ -705,7 +705,7 @@ namespace Marvel{
 		const char* parent = "";
 		const char* before = "";
 
-		if (!(*mvApp::GetApp()->getParsers())["move_item"].parse(args, kwargs, __FUNCTION__,
+		if (!(mvApp::GetApp()->getParsers())["move_item"].parse(args, kwargs, __FUNCTION__,
 			&item, &parent, &before))
 			return GetPyNone();
 
@@ -719,7 +719,7 @@ namespace Marvel{
 	{
 		const char* item;
 
-		if (!(*mvApp::GetApp()->getParsers())["get_item_configuration"].parse(args, kwargs, __FUNCTION__, &item))
+		if (!(mvApp::GetApp()->getParsers())["get_item_configuration"].parse(args, kwargs, __FUNCTION__, &item))
 			return GetPyNone();
 
 
@@ -774,7 +774,7 @@ namespace Marvel{
 		const char* item;
 		int childrenOnly = false;
 
-		if (!(*mvApp::GetApp()->getParsers())["delete_item"].parse(args, kwargs, __FUNCTION__, &item, &childrenOnly))
+		if (!(mvApp::GetApp()->getParsers())["delete_item"].parse(args, kwargs, __FUNCTION__, &item, &childrenOnly))
 			return GetPyNone();
 
 		std::lock_guard<std::mutex> lk(mvApp::GetApp()->GetApp()->getMutex());
@@ -789,7 +789,7 @@ namespace Marvel{
 
 		const char* item;
 
-		if (!(*mvApp::GetApp()->getParsers())["does_item_exist"].parse(args, kwargs, __FUNCTION__, &item))
+		if (!(mvApp::GetApp()->getParsers())["does_item_exist"].parse(args, kwargs, __FUNCTION__, &item))
 			return GetPyNone();
 
 		std::lock_guard<std::mutex> lk(mvApp::GetApp()->GetApp()->getMutex());
@@ -803,7 +803,7 @@ namespace Marvel{
 
 		const char* item;
 
-		if (!(*mvApp::GetApp()->getParsers())["move_item_up"].parse(args, kwargs, __FUNCTION__, &item))
+		if (!(mvApp::GetApp()->getParsers())["move_item_up"].parse(args, kwargs, __FUNCTION__, &item))
 			return GetPyNone();
 
 		mvApp::GetApp()->getCallbackRegistry().submit([item]()
@@ -818,7 +818,7 @@ namespace Marvel{
 
 		const char* item;
 
-		if (!(*mvApp::GetApp()->getParsers())["move_item_down"].parse(args, kwargs, __FUNCTION__, &item))
+		if (!(mvApp::GetApp()->getParsers())["move_item_down"].parse(args, kwargs, __FUNCTION__, &item))
 			return GetPyNone();
 
 		mvApp::GetApp()->getCallbackRegistry().submit([item]()
@@ -831,7 +831,7 @@ namespace Marvel{
 	{
 		const char* item;
 
-		if (!(*mvApp::GetApp()->getParsers())["get_item_callback"].parse(args, kwargs, __FUNCTION__, &item))
+		if (!(mvApp::GetApp()->getParsers())["get_item_callback"].parse(args, kwargs, __FUNCTION__, &item))
 			return GetPyNone();
 
 		std::lock_guard<std::mutex> lk(mvApp::GetApp()->GetApp()->getMutex());
@@ -855,7 +855,7 @@ namespace Marvel{
 	{
 		const char* item;
 
-		if (!(*mvApp::GetApp()->getParsers())["get_item_children"].parse(args, kwargs, __FUNCTION__, &item))
+		if (!(mvApp::GetApp()->getParsers())["get_item_children"].parse(args, kwargs, __FUNCTION__, &item))
 			return GetPyNone();
 
 		std::lock_guard<std::mutex> lk(mvApp::GetApp()->GetApp()->getMutex());
@@ -885,7 +885,7 @@ namespace Marvel{
 	{
 		const char* item;
 
-		if (!(*mvApp::GetApp()->getParsers())["get_item_parent"].parse(args, kwargs, __FUNCTION__, &item))
+		if (!(mvApp::GetApp()->getParsers())["get_item_parent"].parse(args, kwargs, __FUNCTION__, &item))
 			return GetPyNone();
 
 		std::lock_guard<std::mutex> lk(mvApp::GetApp()->GetApp()->getMutex());
@@ -903,7 +903,7 @@ namespace Marvel{
 	{
 		const char* item;
 
-		if (!(*mvApp::GetApp()->getParsers())["is_item_hovered"].parse(args, kwargs, __FUNCTION__, &item))
+		if (!(mvApp::GetApp()->getParsers())["is_item_hovered"].parse(args, kwargs, __FUNCTION__, &item))
 			return GetPyNone();
 
 		std::lock_guard<std::mutex> lk(mvApp::GetApp()->GetApp()->getMutex());
@@ -917,7 +917,7 @@ namespace Marvel{
 	{
 		const char* item;
 
-		if (!(*mvApp::GetApp()->getParsers())["is_item_shown"].parse(args, kwargs, __FUNCTION__, &item))
+		if (!(mvApp::GetApp()->getParsers())["is_item_shown"].parse(args, kwargs, __FUNCTION__, &item))
 			return GetPyNone();
 
 		std::lock_guard<std::mutex> lk(mvApp::GetApp()->GetApp()->getMutex());
@@ -931,7 +931,7 @@ namespace Marvel{
 	{
 		const char* item;
 
-		if (!(*mvApp::GetApp()->getParsers())["is_item_active"].parse(args, kwargs, __FUNCTION__, &item))
+		if (!(mvApp::GetApp()->getParsers())["is_item_active"].parse(args, kwargs, __FUNCTION__, &item))
 			return GetPyNone();
 
 		std::lock_guard<std::mutex> lk(mvApp::GetApp()->GetApp()->getMutex());
@@ -945,7 +945,7 @@ namespace Marvel{
 	{
 		const char* item;
 
-		if (!(*mvApp::GetApp()->getParsers())["is_item_focused"].parse(args, kwargs, __FUNCTION__, &item))
+		if (!(mvApp::GetApp()->getParsers())["is_item_focused"].parse(args, kwargs, __FUNCTION__, &item))
 			return GetPyNone();
 
 		std::lock_guard<std::mutex> lk(mvApp::GetApp()->GetApp()->getMutex());
@@ -959,7 +959,7 @@ namespace Marvel{
 	{
 		const char* item;
 
-		if (!(*mvApp::GetApp()->getParsers())["is_item_clicked"].parse(args, kwargs, __FUNCTION__, &item))
+		if (!(mvApp::GetApp()->getParsers())["is_item_clicked"].parse(args, kwargs, __FUNCTION__, &item))
 			return GetPyNone();
 
 		std::lock_guard<std::mutex> lk(mvApp::GetApp()->GetApp()->getMutex());
@@ -973,7 +973,7 @@ namespace Marvel{
 	{
 		const char* item;
 
-		if (!(*mvApp::GetApp()->getParsers())["is_item_container"].parse(args, kwargs, __FUNCTION__, &item))
+		if (!(mvApp::GetApp()->getParsers())["is_item_container"].parse(args, kwargs, __FUNCTION__, &item))
 			return GetPyNone();
 
 		std::lock_guard<std::mutex> lk(mvApp::GetApp()->GetApp()->getMutex());
@@ -988,7 +988,7 @@ namespace Marvel{
 	{
 		const char* item;
 
-		if (!(*mvApp::GetApp()->getParsers())["is_item_visible"].parse(args, kwargs, __FUNCTION__, &item))
+		if (!(mvApp::GetApp()->getParsers())["is_item_visible"].parse(args, kwargs, __FUNCTION__, &item))
 			return GetPyNone();
 
 		std::lock_guard<std::mutex> lk(mvApp::GetApp()->GetApp()->getMutex());
@@ -1002,7 +1002,7 @@ namespace Marvel{
 	{
 		const char* item;
 
-		if (!(*mvApp::GetApp()->getParsers())["is_item_edited"].parse(args, kwargs, __FUNCTION__, &item))
+		if (!(mvApp::GetApp()->getParsers())["is_item_edited"].parse(args, kwargs, __FUNCTION__, &item))
 			return GetPyNone();
 
 		std::lock_guard<std::mutex> lk(mvApp::GetApp()->GetApp()->getMutex());
@@ -1016,7 +1016,7 @@ namespace Marvel{
 	{
 		const char* item;
 
-		if (!(*mvApp::GetApp()->getParsers())["is_item_activated"].parse(args, kwargs, __FUNCTION__, &item))
+		if (!(mvApp::GetApp()->getParsers())["is_item_activated"].parse(args, kwargs, __FUNCTION__, &item))
 			return GetPyNone();
 
 		std::lock_guard<std::mutex> lk(mvApp::GetApp()->GetApp()->getMutex());
@@ -1030,7 +1030,7 @@ namespace Marvel{
 	{
 		const char* item;
 
-		if (!(*mvApp::GetApp()->getParsers())["is_item_deactivated"].parse(args, kwargs, __FUNCTION__, &item))
+		if (!(mvApp::GetApp()->getParsers())["is_item_deactivated"].parse(args, kwargs, __FUNCTION__, &item))
 			return GetPyNone();
 
 		std::lock_guard<std::mutex> lk(mvApp::GetApp()->GetApp()->getMutex());
@@ -1044,7 +1044,7 @@ namespace Marvel{
 	{
 		const char* item;
 
-		if (!(*mvApp::GetApp()->getParsers())["is_item_deactivated_after_edit"].parse(args, kwargs, __FUNCTION__, &item))
+		if (!(mvApp::GetApp()->getParsers())["is_item_deactivated_after_edit"].parse(args, kwargs, __FUNCTION__, &item))
 			return GetPyNone();
 
 		std::lock_guard<std::mutex> lk(mvApp::GetApp()->GetApp()->getMutex());
@@ -1058,7 +1058,7 @@ namespace Marvel{
 	{
 		const char* item;
 
-		if (!(*mvApp::GetApp()->getParsers())["is_item_toggled_open"].parse(args, kwargs, __FUNCTION__, &item))
+		if (!(mvApp::GetApp()->getParsers())["is_item_toggled_open"].parse(args, kwargs, __FUNCTION__, &item))
 			return GetPyNone();
 
 		std::lock_guard<std::mutex> lk(mvApp::GetApp()->GetApp()->getMutex());
@@ -1075,7 +1075,7 @@ namespace Marvel{
 	{
 		const char* item;
 
-		if (!(*mvApp::GetApp()->getParsers())["get_item_rect_min"].parse(args, kwargs, __FUNCTION__, &item))
+		if (!(mvApp::GetApp()->getParsers())["get_item_rect_min"].parse(args, kwargs, __FUNCTION__, &item))
 			return GetPyNone();
 
 		std::lock_guard<std::mutex> lk(mvApp::GetApp()->GetApp()->getMutex());
@@ -1092,7 +1092,7 @@ namespace Marvel{
 	{
 		const char* item;
 
-		if (!(*mvApp::GetApp()->getParsers())["get_item_rect_max"].parse(args, kwargs, __FUNCTION__, &item))
+		if (!(mvApp::GetApp()->getParsers())["get_item_rect_max"].parse(args, kwargs, __FUNCTION__, &item))
 			return GetPyNone();
 
 
@@ -1110,7 +1110,7 @@ namespace Marvel{
 	{
 		const char* item;
 
-		if (!(*mvApp::GetApp()->getParsers())["get_item_rect_size"].parse(args, kwargs, __FUNCTION__, &item))
+		if (!(mvApp::GetApp()->getParsers())["get_item_rect_size"].parse(args, kwargs, __FUNCTION__, &item))
 			return GetPyNone();
 
 		std::lock_guard<std::mutex> lk(mvApp::GetApp()->GetApp()->getMutex());
@@ -1128,7 +1128,7 @@ namespace Marvel{
 	{
 		const char* name;
 
-		if (!(*mvApp::GetApp()->getParsers())["get_value"].parse(args, kwargs, __FUNCTION__, &name))
+		if (!(mvApp::GetApp()->getParsers())["get_value"].parse(args, kwargs, __FUNCTION__, &name))
 			return GetPyNone();
 
 		std::lock_guard<std::mutex> lk(mvApp::GetApp()->GetApp()->getMutex());
@@ -1145,7 +1145,7 @@ namespace Marvel{
 		const char* name;
 		PyObject* value;
 
-		if (!(*mvApp::GetApp()->getParsers())["set_value"].parse(args, kwargs, __FUNCTION__, &name, &value))
+		if (!(mvApp::GetApp()->getParsers())["set_value"].parse(args, kwargs, __FUNCTION__, &name, &value))
 			return GetPyNone();
 
 		if (value)
@@ -1168,7 +1168,7 @@ namespace Marvel{
 		PyObject* callback_data = nullptr;
 		const char* item;
 
-		if (!(*mvApp::GetApp()->getParsers())["set_item_callback"].parse(args, kwargs, __FUNCTION__, &item, &callback, &callback_data))
+		if (!(mvApp::GetApp()->getParsers())["set_item_callback"].parse(args, kwargs, __FUNCTION__, &item, &callback, &callback_data))
 			return GetPyNone();
 
 		std::lock_guard<std::mutex> lk(mvApp::GetApp()->GetApp()->getMutex());
@@ -1195,7 +1195,7 @@ namespace Marvel{
 	{
 		const char* name;
 
-		if (!(*mvApp::GetApp()->getParsers())["get_item_type"].parse(args, kwargs, __FUNCTION__, &name))
+		if (!(mvApp::GetApp()->getParsers())["get_item_type"].parse(args, kwargs, __FUNCTION__, &name))
 			return GetPyNone();
 
 		std::lock_guard<std::mutex> lk(mvApp::GetApp()->GetApp()->getMutex());
@@ -1208,7 +1208,7 @@ namespace Marvel{
 	{
 		const char* item;
 
-		if (!(*mvApp::GetApp()->getParsers())["get_item_callback_data"].parse(args, kwargs, __FUNCTION__, &item))
+		if (!(mvApp::GetApp()->getParsers())["get_item_callback_data"].parse(args, kwargs, __FUNCTION__, &item))
 			return GetPyNone();
 
 		std::lock_guard<std::mutex> lk(mvApp::GetApp()->GetApp()->getMutex());
@@ -1233,7 +1233,7 @@ namespace Marvel{
 		PyObject* data;
 		const char* item;
 
-		if (!(*mvApp::GetApp()->getParsers())["set_item_callback_data"].parse(args, kwargs, __FUNCTION__, &item, &data))
+		if (!(mvApp::GetApp()->getParsers())["set_item_callback_data"].parse(args, kwargs, __FUNCTION__, &item, &data))
 			return GetPyNone();
 
 		std::lock_guard<std::mutex> lk(mvApp::GetApp()->GetApp()->getMutex());

@@ -125,7 +125,7 @@ namespace Marvel {
 		const char* name;
 		PyObject* data;
 
-		if (!(*mvApp::GetApp()->getParsers())["add_data"].parse(args, kwargs, __FUNCTION__, &name, &data))
+		if (!(mvApp::GetApp()->getParsers())["add_data"].parse(args, kwargs, __FUNCTION__, &name, &data))
 			return GetPyNone();
 
 		Py_XINCREF(data);
@@ -140,7 +140,7 @@ namespace Marvel {
 
 		const char* name;
 
-		if (!(*mvApp::GetApp()->getParsers())["get_data"].parse(args, kwargs, __FUNCTION__, &name))
+		if (!(mvApp::GetApp()->getParsers())["get_data"].parse(args, kwargs, __FUNCTION__, &name))
 			return GetPyNone();
 
 		return mvDataStorage::GetDataIncRef(name);
@@ -152,7 +152,7 @@ namespace Marvel {
 
 		const char* name;
 
-		if (!(*mvApp::GetApp()->getParsers())["delete_data"].parse(args, kwargs, __FUNCTION__, &name))
+		if (!(mvApp::GetApp()->getParsers())["delete_data"].parse(args, kwargs, __FUNCTION__, &name))
 			return GetPyNone();
 
 		mvDataStorage::DeleteData(name);

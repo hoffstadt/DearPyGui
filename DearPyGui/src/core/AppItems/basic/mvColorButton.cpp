@@ -143,7 +143,7 @@ namespace Marvel {
 		int no_border = false;
 		int no_drag_drop = false;
 
-		if (!(*mvApp::GetApp()->getParsers())["add_color_button"].parse(args, kwargs, __FUNCTION__,
+		if (!(mvApp::GetApp()->getParsers())["add_color_button"].parse(args, kwargs, __FUNCTION__,
 			&name, &color, &callback, &callback_data, &parent, &before, &width, &height,
 			&show, &no_alpha, &no_border, &no_drag_drop))
 			return ToPyBool(false);

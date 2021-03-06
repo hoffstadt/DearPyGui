@@ -145,7 +145,7 @@ namespace Marvel {
 		int xpos = 100;
 		int ypos = 100;
 
-		if (!(*mvApp::GetApp()->getParsers())["add_node"].parse(args, kwargs, __FUNCTION__, &name,
+		if (!(mvApp::GetApp()->getParsers())["add_node"].parse(args, kwargs, __FUNCTION__, &name,
 			&show, &label, &draggable, &parent, &before, &xpos, &ypos))
 			return ToPyBool(false);
 

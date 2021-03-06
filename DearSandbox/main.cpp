@@ -1,11 +1,12 @@
 #include "mvPython.h"
 #include "mvStdOutput.h"
-#include "mvMarvel.h"
+#include "mvModule_Core.h"
 #include "mvApp.h"
 #include <Windows.h>
 #include <iostream>
 #include <fstream>
 #include <filesystem>
+#include "mvWindow.h"
 
 namespace fs = std::filesystem;
 using namespace Marvel;
@@ -58,6 +59,15 @@ int main(int argc, char* argv[])
 	}
 
 	else
-		start_dearpygui_error();
+	{
+		PyErr_Print();
+
+		// create window
+		auto window = mvWindow::CreatemvWindow(mvApp::GetApp()->getActualWidth(), mvApp::GetApp()->getActualHeight(), true);
+		window->show();
+		window->run();
+		delete window;
+		delete mvApp::GetApp();
+	}
 	
 }

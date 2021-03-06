@@ -342,7 +342,7 @@ namespace Marvel {
 		int autosize_x = false;
 		int autosize_y = false;
 
-		if (!(*mvApp::GetApp()->getParsers())["add_logger"].parse(args, kwargs, __FUNCTION__,
+		if (!(mvApp::GetApp()->getParsers())["add_logger"].parse(args, kwargs, __FUNCTION__,
 			&name, &logLevel, &autoScroll, &autoScrollButton, &clearButton, &copyButton,
 			&filter, &width, &height, &parent, &before, &show, &autosize_x, &autosize_y))
 			return ToPyBool(false);
@@ -362,7 +362,7 @@ namespace Marvel {
 	{
 		const char* logger = "";
 
-		if (!(*mvApp::GetApp()->getParsers())["get_log_level"].parse(args, kwargs, __FUNCTION__, &logger))
+		if (!(mvApp::GetApp()->getParsers())["get_log_level"].parse(args, kwargs, __FUNCTION__, &logger))
 			return GetPyNone();
 
 
@@ -394,7 +394,7 @@ namespace Marvel {
 	{
 		int level;
 		const char* logger = "";
-		if (!(*mvApp::GetApp()->getParsers())["set_log_level"].parse(args, kwargs, __FUNCTION__,
+		if (!(mvApp::GetApp()->getParsers())["set_log_level"].parse(args, kwargs, __FUNCTION__,
 			&level, &logger))
 			return GetPyNone();
 
@@ -429,7 +429,7 @@ namespace Marvel {
 		PyObject* message;
 		const char* level = "TRACE";
 		const char* logger = "";
-		if (!(*mvApp::GetApp()->getParsers())["log"].parse(args, kwargs, __FUNCTION__, &message, &level, &logger))
+		if (!(mvApp::GetApp()->getParsers())["log"].parse(args, kwargs, __FUNCTION__, &message, &level, &logger))
 			return GetPyNone();
 
 		std::string cmessage = ToString(message);
@@ -464,7 +464,7 @@ namespace Marvel {
 		PyObject* message;
 		const char* logger = "";
 
-		if (!(*mvApp::GetApp()->getParsers())["log_debug"].parse(args, kwargs, __FUNCTION__, &message, &logger))
+		if (!(mvApp::GetApp()->getParsers())["log_debug"].parse(args, kwargs, __FUNCTION__, &message, &logger))
 			return GetPyNone();
 
 		std::string cmessage = ToString(message);
@@ -499,7 +499,7 @@ namespace Marvel {
 		PyObject* message;
 		const char* logger = "";
 
-		if (!(*mvApp::GetApp()->getParsers())["log_info"].parse(args, kwargs, __FUNCTION__, &message, &logger))
+		if (!(mvApp::GetApp()->getParsers())["log_info"].parse(args, kwargs, __FUNCTION__, &message, &logger))
 			return GetPyNone();
 
 		std::string cmessage = ToString(message);
@@ -534,7 +534,7 @@ namespace Marvel {
 		PyObject* message;
 		const char* logger = "";
 
-		if (!(*mvApp::GetApp()->getParsers())["log_warning"].parse(args, kwargs, __FUNCTION__, &message, &logger))
+		if (!(mvApp::GetApp()->getParsers())["log_warning"].parse(args, kwargs, __FUNCTION__, &message, &logger))
 			return GetPyNone();
 
 		std::string cmessage = ToString(message);
@@ -568,7 +568,7 @@ namespace Marvel {
 		PyObject* message;
 		const char* logger = "";
 
-		if (!(*mvApp::GetApp()->getParsers())["log_error"].parse(args, kwargs, __FUNCTION__, &message, &logger))
+		if (!(mvApp::GetApp()->getParsers())["log_error"].parse(args, kwargs, __FUNCTION__, &message, &logger))
 			return GetPyNone();
 
 		std::string cmessage = ToString(message);
@@ -600,7 +600,7 @@ namespace Marvel {
 	{
 		const char* logger = "";
 
-		if (!(*mvApp::GetApp()->getParsers())["clear_log"].parse(args, kwargs, __FUNCTION__, &logger))
+		if (!(mvApp::GetApp()->getParsers())["clear_log"].parse(args, kwargs, __FUNCTION__, &logger))
 			return GetPyNone();
 
 		if (!std::string(logger).empty())
@@ -639,7 +639,7 @@ namespace Marvel {
 	{
 		const char* title;
 
-		if (!(*mvApp::GetApp()->getParsers())["set_logger_window_title"].parse(args, kwargs, __FUNCTION__,
+		if (!(mvApp::GetApp()->getParsers())["set_logger_window_title"].parse(args, kwargs, __FUNCTION__,
 			&title))
 			return GetPyNone();
 

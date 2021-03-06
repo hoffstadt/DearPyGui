@@ -2,7 +2,7 @@
 #include "mvTypeBases.h"
 #include <utility>
 #include "mvApp.h"
-#include "mvMarvel.h"
+#include "mvModule_Core.h"
 #include <string>
 #include "mvItemRegistry.h"
 #include "mvThemeManager.h"
@@ -1139,7 +1139,7 @@ namespace Marvel {
         const char* label = "";
         int show = true;
 
-        if (!(*mvApp::GetApp()->getParsers())["add_drag_float"].parse(args, kwargs, __FUNCTION__, &name, &default_value, &speed,
+        if (!(mvApp::GetApp()->getParsers())["add_drag_float"].parse(args, kwargs, __FUNCTION__, &name, &default_value, &speed,
             &min_value, &max_value, &format, &callback, &callback_data, &parent, &before, &source, &enable, &width, &no_input, &clamped,
             &label, &show))
             return ToPyBool(false);
@@ -1183,7 +1183,7 @@ namespace Marvel {
         const char* label = "";
         int show = true;
 
-        if (!(*mvApp::GetApp()->getParsers())["add_drag_float2"].parse(args, kwargs, __FUNCTION__, &name, &default_value, &speed,
+        if (!(mvApp::GetApp()->getParsers())["add_drag_float2"].parse(args, kwargs, __FUNCTION__, &name, &default_value, &speed,
             &min_value, &max_value, &format, &callback, &callback_data, &parent, &before, &source, &enable, &width, &no_input, &clamped,
             &label, &show))
             return ToPyBool(false);
@@ -1229,7 +1229,7 @@ namespace Marvel {
         const char* label = "";
         int show = true;
 
-        if (!(*mvApp::GetApp()->getParsers())["add_drag_float3"].parse(args, kwargs, __FUNCTION__, &name, &default_value, &speed,
+        if (!(mvApp::GetApp()->getParsers())["add_drag_float3"].parse(args, kwargs, __FUNCTION__, &name, &default_value, &speed,
             &min_value, &max_value, &format, &callback, &callback_data, &parent, &before, &source, &enable, &width, &no_input, &clamped,
             &label, &show))
             return ToPyBool(false);
@@ -1276,7 +1276,7 @@ namespace Marvel {
         const char* label = "";
         int show = true;
 
-        if (!(*mvApp::GetApp()->getParsers())["add_drag_float4"].parse(args, kwargs, __FUNCTION__, &name, &default_value, &speed,
+        if (!(mvApp::GetApp()->getParsers())["add_drag_float4"].parse(args, kwargs, __FUNCTION__, &name, &default_value, &speed,
             &min_value, &max_value, &format, &callback, &callback_data, &parent, &before, &source, &enable, &width, &no_input, &clamped,
             &label, &show))
             return ToPyBool(false);
@@ -1321,7 +1321,7 @@ namespace Marvel {
         const char* popup = "";
         int show = true;
 
-        if (!(*mvApp::GetApp()->getParsers())["add_drag_int"].parse(args, kwargs, __FUNCTION__, &name, &default_value, &speed,
+        if (!(mvApp::GetApp()->getParsers())["add_drag_int"].parse(args, kwargs, __FUNCTION__, &name, &default_value, &speed,
             &min_value, &max_value, &format, &callback, &callback_data, &parent, &before, &source, &enable, &width, &no_input, &clamped,
             &label, &popup, &show))
             return ToPyBool(false);
@@ -1365,7 +1365,7 @@ namespace Marvel {
         const char* label = "";
         int show = true;
 
-        if (!(*mvApp::GetApp()->getParsers())["add_drag_int2"].parse(args, kwargs, __FUNCTION__, &name, &default_value, &speed,
+        if (!(mvApp::GetApp()->getParsers())["add_drag_int2"].parse(args, kwargs, __FUNCTION__, &name, &default_value, &speed,
             &min_value, &max_value, &format, &callback, &callback_data, &parent, &before, &source, &enable, &width, &no_input, &clamped,
             &label, &show))
             return ToPyBool(false);
@@ -1411,7 +1411,7 @@ namespace Marvel {
         const char* label = "";
         int show = true;
 
-        if (!(*mvApp::GetApp()->getParsers())["add_drag_int3"].parse(args, kwargs, __FUNCTION__, &name, &default_value, &speed,
+        if (!(mvApp::GetApp()->getParsers())["add_drag_int3"].parse(args, kwargs, __FUNCTION__, &name, &default_value, &speed,
             &min_value, &max_value, &format, &callback, &callback_data, &parent, &before, &source, &enable, &width, &no_input, &clamped,
             &label, &show))
             return ToPyBool(false);
@@ -1458,7 +1458,7 @@ namespace Marvel {
         const char* label = "";
         int show = true;
 
-        if (!(*mvApp::GetApp()->getParsers())["add_drag_int4"].parse(args, kwargs, __FUNCTION__, &name, &default_value, &speed,
+        if (!(mvApp::GetApp()->getParsers())["add_drag_int4"].parse(args, kwargs, __FUNCTION__, &name, &default_value, &speed,
             &min_value, &max_value, &format, &callback, &callback_data, &parent, &before, &source, &enable, &width, &no_input, &clamped,
             &label, &show))
             return ToPyBool(false);

@@ -70,7 +70,7 @@ namespace Marvel {
 		const char* parent = "";
 		int show = true;
 
-		if (!(*mvApp::GetApp()->getParsers())["add_same_line"].parse(args, kwargs, __FUNCTION__, &name,
+		if (!(mvApp::GetApp()->getParsers())["add_same_line"].parse(args, kwargs, __FUNCTION__, &name,
 			&xoffset, &spacing, &parent, &before, &show))
 			return ToPyBool(false);
 

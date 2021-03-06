@@ -59,7 +59,7 @@ namespace Marvel {
 		PyObject* fill = nullptr;
 		const char* tag = "";
 
-		if (!(*mvApp::GetApp()->getParsers())["draw_rectangle"].parse(args, kwargs, __FUNCTION__, &drawing, &pmin, &pmax, &color, &fill, &rounding, &thickness, &tag))
+		if (!(mvApp::GetApp()->getParsers())["draw_rectangle"].parse(args, kwargs, __FUNCTION__, &drawing, &pmin, &pmax, &color, &fill, &rounding, &thickness, &tag))
 			return GetPyNone();
 
 

@@ -137,7 +137,7 @@ namespace Marvel {
 		PyTuple_SetItem(color, 3, PyFloat_FromDouble(255));
 		const char* tag = "";
 
-		if (!(*mvApp::GetApp()->getParsers())["draw_image"].parse(args, kwargs, __FUNCTION__, &drawing, &file,
+		if (!(mvApp::GetApp()->getParsers())["draw_image"].parse(args, kwargs, __FUNCTION__, &drawing, &file,
 			&pmin, &pmax, &uv_min, &uv_max, &color, &tag))
 			return GetPyNone();
 

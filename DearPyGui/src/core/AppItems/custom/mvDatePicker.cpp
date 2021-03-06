@@ -71,7 +71,7 @@ namespace Marvel {
 		const char* parent = "";
 		int show = true;
 
-		if (!(*mvApp::GetApp()->getParsers())["add_date_picker"].parse(args, kwargs, __FUNCTION__,
+		if (!(mvApp::GetApp()->getParsers())["add_date_picker"].parse(args, kwargs, __FUNCTION__,
 			&name, &default_value, &level, &callback, &callback_data, &parent, &before, &show))
 			return ToPyBool(false);
 

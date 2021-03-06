@@ -128,7 +128,7 @@ namespace Marvel {
 		float thickness = 1.0f;
 		const char* tag = "";
 
-		if (!(*mvApp::GetApp()->getParsers())["draw_polygon"].parse(args, kwargs, __FUNCTION__, &drawing, &points, &color, &fill, &thickness, &tag))
+		if (!(mvApp::GetApp()->getParsers())["draw_polygon"].parse(args, kwargs, __FUNCTION__, &drawing, &points, &color, &fill, &thickness, &tag))
 			return GetPyNone();
 
 		auto mpoints = ToVectVec2(points);

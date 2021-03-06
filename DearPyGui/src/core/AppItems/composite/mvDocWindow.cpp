@@ -1,7 +1,7 @@
 #include "mvDocWindow.h"
 #include <imgui.h>
 #include "mvApp.h"
-#include "mvMarvel.h"
+#include "mvModule_Core.h"
 #include "mvInput.h"
 #include "mvItemRegistry.h"
 
@@ -64,16 +64,14 @@ namespace Marvel {
 
 	void mvDocWindow::setup()
 	{
-		m_docmap = BuildDearPyGuiInterface();
-		m_constants = GetModuleConstants();
 
-		for (auto& item : m_constants)
+		for (const auto& item : m_constants)
 		{
 			m_cconstants.push_back(item.first.c_str());
 			m_constantsValues.emplace_back("Constant with a value of " + std::to_string(item.second));
 		}
 
-		for (const auto& item : *m_docmap)
+		for (const auto& item : m_docmap)
 		{
 			m_commands.emplace_back(item.first.c_str(), item.second.getDocumentation());
 
@@ -678,7 +676,7 @@ namespace Marvel {
 		const char* label = "";
 		int show = true;
 
-		if (!(*mvApp::GetApp()->getParsers())["add_doc_window"].parse(args, kwargs, __FUNCTION__, &name, &width,
+		if (!(mvApp::GetApp()->getParsers())["add_doc_window"].parse(args, kwargs, __FUNCTION__, &name, &width,
 			&height, &x_pos, &y_pos, &autosize, &no_resize, &no_title_bar, &no_move, &no_scrollbar,
 			&no_collapse, &horizontal_scrollbar, &no_focus_on_appearing, &no_bring_to_front_on_focus,
 			&noclose, &no_background, &label, &show))

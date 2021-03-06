@@ -1,9 +1,9 @@
 ﻿
 set(MARVEL_PY_SOURCES
 
-	"$<$<PLATFORM_ID:Windows>:src/core/mvMarvel.cpp>"
-	"$<$<PLATFORM_ID:Linux>:src/core/mvMarvel.cpp>"
-	"$<$<PLATFORM_ID:Darwin>:src/core/mvMarvel.mm>"
+	"$<$<PLATFORM_ID:Windows>:src/core/Modules/mvModule_Core.cpp>"
+	"$<$<PLATFORM_ID:Linux>:src/core/Modules/mvModule_Core.cpp>"
+	"$<$<PLATFORM_ID:Darwin>:src/core/Modules/mvModule_Core.mm>"
 
 	"src/core/Registries/mvDataStorage.cpp"
 
@@ -162,6 +162,7 @@ set(MARVEL_INCLUDE_DIR
 	"vendor/imnodes"
 	"src/"
 	"src/core"
+	"src/core/Modules"
 	"src/core/AppItems"
 	"src/core/DrawCommands"
 	"src/core/CppUtilities"

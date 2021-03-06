@@ -51,7 +51,7 @@ namespace Marvel {
 		PyObject* color = nullptr;
 		const char* tag = "";
 
-		if (!(*mvApp::GetApp()->getParsers())["draw_text"].parse(args, kwargs, __FUNCTION__, &drawing, &pos, &text, &color, &size, &tag))
+		if (!(mvApp::GetApp()->getParsers())["draw_text"].parse(args, kwargs, __FUNCTION__, &drawing, &pos, &text, &color, &size, &tag))
 			return GetPyNone();
 
 		mvVec2 mpos = ToVec2(pos);

@@ -126,7 +126,7 @@ namespace Marvel {
 		const char* label = "";
 		int show = true;
 
-		if (!(*mvApp::GetApp()->getParsers())["add_listbox"].parse(args, kwargs, __FUNCTION__, &name, &items,
+		if (!(mvApp::GetApp()->getParsers())["add_listbox"].parse(args, kwargs, __FUNCTION__, &name, &items,
 			&default_value, &callback, &callback_data, &parent, &before, &source, &enabled, &width,
 			&num_items, &label, &show))
 			return ToPyBool(false);

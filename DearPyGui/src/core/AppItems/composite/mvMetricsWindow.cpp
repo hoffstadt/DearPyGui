@@ -2,7 +2,7 @@
 #include "mvTypeBases.h"
 #include "mvAppItem.h"
 #include "mvInput.h"
-#include "mvMarvel.h"
+#include "mvModule_Core.h"
 #include "mvApp.h"
 #include <string>
 #include "mvItemRegistry.h"
@@ -98,7 +98,7 @@ namespace Marvel {
         const char* label = "";
         int show = true;
 
-        if (!(*mvApp::GetApp()->getParsers())["add_metrics_window"].parse(args, kwargs, __FUNCTION__, &name, &width,
+        if (!(mvApp::GetApp()->getParsers())["add_metrics_window"].parse(args, kwargs, __FUNCTION__, &name, &width,
             &height, &x_pos, &y_pos, &autosize, &no_resize, &no_title_bar, &no_move, &no_scrollbar,
             &no_collapse, &horizontal_scrollbar, &no_focus_on_appearing, &no_bring_to_front_on_focus,
             &noclose, &no_background, &label, &show))

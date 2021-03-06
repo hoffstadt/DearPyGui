@@ -340,7 +340,7 @@ namespace Marvel {
 	{
 		int local = true;
 
-		if (!(*mvApp::GetApp()->getParsers())["get_mouse_pos"].parse(args, kwargs, __FUNCTION__, &local))
+		if (!(mvApp::GetApp()->getParsers())["get_mouse_pos"].parse(args, kwargs, __FUNCTION__, &local))
 			return GetPyNone();
 
 		mvVec2 pos;
@@ -356,7 +356,7 @@ namespace Marvel {
 	PyObject* get_plot_mouse_pos(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 
-		if (!(*mvApp::GetApp()->getParsers())["get_plot_mouse_pos"].parse(args, kwargs, __FUNCTION__))
+		if (!(mvApp::GetApp()->getParsers())["get_plot_mouse_pos"].parse(args, kwargs, __FUNCTION__))
 			return GetPyNone();
 
 		mvVec2 pos = mvInput::getPlotMousePosition();
@@ -367,7 +367,7 @@ namespace Marvel {
 	PyObject* get_drawing_mouse_pos(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 
-		if (!(*mvApp::GetApp()->getParsers())["get_drawing_mouse_pos"].parse(args, kwargs, __FUNCTION__))
+		if (!(mvApp::GetApp()->getParsers())["get_drawing_mouse_pos"].parse(args, kwargs, __FUNCTION__))
 			return GetPyNone();
 
 		mvVec2 pos = mvInput::getDrawingMousePosition();
@@ -386,7 +386,7 @@ namespace Marvel {
 	{
 		int key;
 
-		if (!(*mvApp::GetApp()->getParsers())["is_key_pressed"].parse(args, kwargs, __FUNCTION__, &key))
+		if (!(mvApp::GetApp()->getParsers())["is_key_pressed"].parse(args, kwargs, __FUNCTION__, &key))
 			return GetPyNone();
 
 		return ToPyBool(mvInput::isKeyPressed(key));
@@ -396,7 +396,7 @@ namespace Marvel {
 	{
 		int key;
 
-		if (!(*mvApp::GetApp()->getParsers())["is_key_released"].parse(args, kwargs, __FUNCTION__, &key))
+		if (!(mvApp::GetApp()->getParsers())["is_key_released"].parse(args, kwargs, __FUNCTION__, &key))
 			return GetPyNone();
 
 		return ToPyBool(mvInput::isKeyReleased(key));
@@ -406,7 +406,7 @@ namespace Marvel {
 	{
 		int key;
 
-		if (!(*mvApp::GetApp()->getParsers())["is_key_down"].parse(args, kwargs, __FUNCTION__, &key))
+		if (!(mvApp::GetApp()->getParsers())["is_key_down"].parse(args, kwargs, __FUNCTION__, &key))
 			return GetPyNone();
 
 		return ToPyBool(mvInput::isKeyDown(key));
@@ -417,7 +417,7 @@ namespace Marvel {
 		int button;
 		float threshold;
 
-		if (!(*mvApp::GetApp()->getParsers())["is_mouse_button_dragging"].parse(args, kwargs, __FUNCTION__, &button, &threshold))
+		if (!(mvApp::GetApp()->getParsers())["is_mouse_button_dragging"].parse(args, kwargs, __FUNCTION__, &button, &threshold))
 			return GetPyNone();
 
 		return ToPyBool(mvInput::isMouseDragging(button, threshold));
@@ -427,7 +427,7 @@ namespace Marvel {
 	{
 		int button;
 
-		if (!(*mvApp::GetApp()->getParsers())["is_mouse_button_down"].parse(args, kwargs, __FUNCTION__, &button))
+		if (!(mvApp::GetApp()->getParsers())["is_mouse_button_down"].parse(args, kwargs, __FUNCTION__, &button))
 			return GetPyNone();
 
 		return ToPyBool(mvInput::isMouseButtonDown(button));
@@ -437,7 +437,7 @@ namespace Marvel {
 	{
 		int button;
 
-		if (!(*mvApp::GetApp()->getParsers())["is_mouse_button_clicked"].parse(args, kwargs, __FUNCTION__, &button))
+		if (!(mvApp::GetApp()->getParsers())["is_mouse_button_clicked"].parse(args, kwargs, __FUNCTION__, &button))
 			return GetPyNone();
 
 		return ToPyBool(mvInput::isMouseButtonClicked(button));
@@ -447,7 +447,7 @@ namespace Marvel {
 	{
 		int button;
 
-		if (!(*mvApp::GetApp()->getParsers())["is_mouse_button_double_clicked"].parse(args, kwargs, __FUNCTION__, &button))
+		if (!(mvApp::GetApp()->getParsers())["is_mouse_button_double_clicked"].parse(args, kwargs, __FUNCTION__, &button))
 			return GetPyNone();
 
 		return ToPyBool(mvInput::isMouseButtonDoubleClicked(button));
@@ -457,7 +457,7 @@ namespace Marvel {
 	{
 		int button;
 
-		if (!(*mvApp::GetApp()->getParsers())["is_mouse_button_released"].parse(args, kwargs, __FUNCTION__, &button))
+		if (!(mvApp::GetApp()->getParsers())["is_mouse_button_released"].parse(args, kwargs, __FUNCTION__, &button))
 			return GetPyNone();
 
 		return ToPyBool(mvInput::isMouseButtonReleased(button));
@@ -467,7 +467,7 @@ namespace Marvel {
 	{
 		PyObject* callback;
 
-		if (!(*mvApp::GetApp()->getParsers())["set_mouse_down_callback"].parse(args, kwargs, __FUNCTION__,
+		if (!(mvApp::GetApp()->getParsers())["set_mouse_down_callback"].parse(args, kwargs, __FUNCTION__,
 			&callback))
 			return GetPyNone();
 
@@ -486,7 +486,7 @@ namespace Marvel {
 		PyObject* callback;
 		float threshold;
 
-		if (!(*mvApp::GetApp()->getParsers())["set_mouse_drag_callback"].parse(args, kwargs, __FUNCTION__,
+		if (!(mvApp::GetApp()->getParsers())["set_mouse_drag_callback"].parse(args, kwargs, __FUNCTION__,
 			&callback, &threshold))
 			return GetPyNone();
 
@@ -507,7 +507,7 @@ namespace Marvel {
 	{
 		PyObject* callback;
 
-		if (!(*mvApp::GetApp()->getParsers())["set_mouse_double_click_callback"].parse(args, kwargs, __FUNCTION__,
+		if (!(mvApp::GetApp()->getParsers())["set_mouse_double_click_callback"].parse(args, kwargs, __FUNCTION__,
 			&callback))
 			return GetPyNone();
 
@@ -525,7 +525,7 @@ namespace Marvel {
 	{
 		PyObject* callback;
 
-		if (!(*mvApp::GetApp()->getParsers())["set_mouse_click_callback"].parse(args, kwargs, __FUNCTION__,
+		if (!(mvApp::GetApp()->getParsers())["set_mouse_click_callback"].parse(args, kwargs, __FUNCTION__,
 			&callback))
 			return GetPyNone();
 		if (callback)
@@ -541,7 +541,7 @@ namespace Marvel {
 	{
 		PyObject* callback;
 
-		if (!(*mvApp::GetApp()->getParsers())["set_mouse_release_callback"].parse(args, kwargs, __FUNCTION__,
+		if (!(mvApp::GetApp()->getParsers())["set_mouse_release_callback"].parse(args, kwargs, __FUNCTION__,
 			&callback))
 			return GetPyNone();
 		if (callback)
@@ -558,7 +558,7 @@ namespace Marvel {
 	{
 		PyObject* callback;
 
-		if (!(*mvApp::GetApp()->getParsers())["set_key_down_callback"].parse(args, kwargs, __FUNCTION__,
+		if (!(mvApp::GetApp()->getParsers())["set_key_down_callback"].parse(args, kwargs, __FUNCTION__,
 			&callback))
 			return GetPyNone();
 		if (callback)
@@ -575,7 +575,7 @@ namespace Marvel {
 	{
 		PyObject* callback;
 
-		if (!(*mvApp::GetApp()->getParsers())["set_key_press_callback"].parse(args, kwargs, __FUNCTION__,
+		if (!(mvApp::GetApp()->getParsers())["set_key_press_callback"].parse(args, kwargs, __FUNCTION__,
 			&callback))
 			return GetPyNone();
 		if (callback)
@@ -592,7 +592,7 @@ namespace Marvel {
 	{
 		PyObject* callback;
 
-		if (!(*mvApp::GetApp()->getParsers())["set_key_release_callback"].parse(args, kwargs, __FUNCTION__,
+		if (!(mvApp::GetApp()->getParsers())["set_key_release_callback"].parse(args, kwargs, __FUNCTION__,
 			&callback))
 			return GetPyNone();
 		if (callback)
@@ -608,7 +608,7 @@ namespace Marvel {
 	{
 		PyObject* callback;
 
-		if (!(*mvApp::GetApp()->getParsers())["set_mouse_wheel_callback"].parse(args, kwargs, __FUNCTION__,
+		if (!(mvApp::GetApp()->getParsers())["set_mouse_wheel_callback"].parse(args, kwargs, __FUNCTION__,
 			&callback))
 			return GetPyNone();
 		if (callback)
@@ -625,7 +625,7 @@ namespace Marvel {
 	{
 		PyObject* callback;
 
-		if (!(*mvApp::GetApp()->getParsers())["set_mouse_move_callback"].parse(args, kwargs, __FUNCTION__,
+		if (!(mvApp::GetApp()->getParsers())["set_mouse_move_callback"].parse(args, kwargs, __FUNCTION__,
 			&callback))
 			return GetPyNone();
 		if (callback)
@@ -642,7 +642,7 @@ namespace Marvel {
 	{
 		PyObject* callback = nullptr;
 
-		if (!(*mvApp::GetApp()->getParsers())["set_render_callback"].parse(args, kwargs, __FUNCTION__, &callback))
+		if (!(mvApp::GetApp()->getParsers())["set_render_callback"].parse(args, kwargs, __FUNCTION__, &callback))
 			return GetPyNone();
 		if (callback)
 			Py_XINCREF(callback);
@@ -658,7 +658,7 @@ namespace Marvel {
 		PyObject* callback = nullptr;
 		const char* handler = "";
 
-		if (!(*mvApp::GetApp()->getParsers())["set_resize_callback"].parse(args, kwargs, __FUNCTION__,
+		if (!(mvApp::GetApp()->getParsers())["set_resize_callback"].parse(args, kwargs, __FUNCTION__,
 			&callback, &handler))
 			return GetPyNone();
 		if (callback)

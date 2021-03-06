@@ -42,7 +42,7 @@ namespace Marvel {
 		const char* parent = "";
 		int show = true;
 
-		if (!(*mvApp::GetApp()->getParsers())["add_indent"].parse(args, kwargs, __FUNCTION__, &name, &offset,
+		if (!(mvApp::GetApp()->getParsers())["add_indent"].parse(args, kwargs, __FUNCTION__, &name, &offset,
 			&parent, &before, &show))
 			return ToPyBool(false);
 

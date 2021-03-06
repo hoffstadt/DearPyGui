@@ -67,7 +67,7 @@ namespace Marvel {
 		const char* parent = "";
 		const char* before = "";
 
-		if (!(*mvApp::GetApp()->getParsers())["add_menu_bar"].parse(args, kwargs, __FUNCTION__, &name,
+		if (!(mvApp::GetApp()->getParsers())["add_menu_bar"].parse(args, kwargs, __FUNCTION__, &name,
 			&show, &parent, &before))
 			return ToPyBool(false);
 

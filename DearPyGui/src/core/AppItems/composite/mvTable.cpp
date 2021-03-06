@@ -663,7 +663,7 @@ namespace Marvel {
 		int show = true;
 		bool hide_headers = false;
 
-		if (!(*mvApp::GetApp()->getParsers())["add_table"].parse(args, kwargs, __FUNCTION__,
+		if (!(mvApp::GetApp()->getParsers())["add_table"].parse(args, kwargs, __FUNCTION__,
 			&name, &headers, &callback, &callback_data, &parent,
 			&before, &width, &height, &show, &hide_headers))
 			return ToPyBool(false);
@@ -689,7 +689,7 @@ namespace Marvel {
 	{
 		const char* name;
 
-		if (!(*mvApp::GetApp()->getParsers())["get_table_data"].parse(args, kwargs, __FUNCTION__, &name))
+		if (!(mvApp::GetApp()->getParsers())["get_table_data"].parse(args, kwargs, __FUNCTION__, &name))
 			return GetPyNone();
 
 		std::lock_guard<std::mutex> lk(mvApp::GetApp()->GetApp()->getMutex());
@@ -717,7 +717,7 @@ namespace Marvel {
 		const char* name;
 		PyObject* value;
 
-		if (!(*mvApp::GetApp()->getParsers())["set_table_data"].parse(args, kwargs, __FUNCTION__, &name, &value))
+		if (!(mvApp::GetApp()->getParsers())["set_table_data"].parse(args, kwargs, __FUNCTION__, &name, &value))
 			return GetPyNone();
 
 		std::lock_guard<std::mutex> lk(mvApp::GetApp()->GetApp()->getMutex());
@@ -747,7 +747,7 @@ namespace Marvel {
 		const char* table;
 		PyObject* headers;
 
-		if (!(*mvApp::GetApp()->getParsers())["set_headers"].parse(args, kwargs, __FUNCTION__, &table, &headers))
+		if (!(mvApp::GetApp()->getParsers())["set_headers"].parse(args, kwargs, __FUNCTION__, &table, &headers))
 			return GetPyNone();
 
 		std::lock_guard<std::mutex> lk(mvApp::GetApp()->GetApp()->getMutex());
@@ -771,7 +771,7 @@ namespace Marvel {
 	{
 		const char* table;
 
-		if (!(*mvApp::GetApp()->getParsers())["clear_table"].parse(args, kwargs, __FUNCTION__, &table))
+		if (!(mvApp::GetApp()->getParsers())["clear_table"].parse(args, kwargs, __FUNCTION__, &table))
 			return GetPyNone();
 
 		std::lock_guard<std::mutex> lk(mvApp::GetApp()->GetApp()->getMutex());
@@ -801,7 +801,7 @@ namespace Marvel {
 		int row;
 		int column;
 
-		if (!(*mvApp::GetApp()->getParsers())["get_table_item"].parse(args, kwargs, __FUNCTION__, &table, &row,
+		if (!(mvApp::GetApp()->getParsers())["get_table_item"].parse(args, kwargs, __FUNCTION__, &table, &row,
 			&column))
 			return GetPyNone();
 
@@ -833,7 +833,7 @@ namespace Marvel {
 		int column;
 		const char* value;
 
-		if (!(*mvApp::GetApp()->getParsers())["set_table_item"].parse(args, kwargs, __FUNCTION__, &table, &row,
+		if (!(mvApp::GetApp()->getParsers())["set_table_item"].parse(args, kwargs, __FUNCTION__, &table, &row,
 			&column, &value))
 			return GetPyNone();
 
@@ -863,7 +863,7 @@ namespace Marvel {
 	{
 		const char* table;
 
-		if (!(*mvApp::GetApp()->getParsers())["get_table_selections"].parse(args, kwargs, __FUNCTION__, &table))
+		if (!(mvApp::GetApp()->getParsers())["get_table_selections"].parse(args, kwargs, __FUNCTION__, &table))
 			return GetPyNone();
 
 		std::lock_guard<std::mutex> lk(mvApp::GetApp()->GetApp()->getMutex());
@@ -893,7 +893,7 @@ namespace Marvel {
 		int column;
 		int value;
 
-		if (!(*mvApp::GetApp()->getParsers())["set_table_selection"].parse(args, kwargs, __FUNCTION__, &table, &row,
+		if (!(mvApp::GetApp()->getParsers())["set_table_selection"].parse(args, kwargs, __FUNCTION__, &table, &row,
 			&column, &value))
 			return GetPyNone();
 
@@ -925,7 +925,7 @@ namespace Marvel {
 		const char* name;
 		PyObject* column;
 
-		if (!(*mvApp::GetApp()->getParsers())["add_column"].parse(args, kwargs, __FUNCTION__, &table, &name, &column))
+		if (!(mvApp::GetApp()->getParsers())["add_column"].parse(args, kwargs, __FUNCTION__, &table, &name, &column))
 			return GetPyNone();
 
 		std::lock_guard<std::mutex> lk(mvApp::GetApp()->GetApp()->getMutex());
@@ -959,7 +959,7 @@ namespace Marvel {
 		const char* name;
 		PyObject* column;
 
-		if (!(*mvApp::GetApp()->getParsers())["insert_column"].parse(args, kwargs, __FUNCTION__, &table, &column_index, &name, &column))
+		if (!(mvApp::GetApp()->getParsers())["insert_column"].parse(args, kwargs, __FUNCTION__, &table, &column_index, &name, &column))
 			return GetPyNone();
 
 		std::lock_guard<std::mutex> lk(mvApp::GetApp()->GetApp()->getMutex());
@@ -991,7 +991,7 @@ namespace Marvel {
 		const char* table;
 		int column;
 
-		if (!(*mvApp::GetApp()->getParsers())["delete_column"].parse(args, kwargs, __FUNCTION__, &table, &column))
+		if (!(mvApp::GetApp()->getParsers())["delete_column"].parse(args, kwargs, __FUNCTION__, &table, &column))
 			return GetPyNone();
 
 		std::lock_guard<std::mutex> lk(mvApp::GetApp()->GetApp()->getMutex());
@@ -1021,7 +1021,7 @@ namespace Marvel {
 		const char* table;
 		PyObject* row;
 
-		if (!(*mvApp::GetApp()->getParsers())["add_row"].parse(args, kwargs, __FUNCTION__, &table, &row))
+		if (!(mvApp::GetApp()->getParsers())["add_row"].parse(args, kwargs, __FUNCTION__, &table, &row))
 			return GetPyNone();
 
 		std::lock_guard<std::mutex> lk(mvApp::GetApp()->GetApp()->getMutex());
@@ -1060,7 +1060,7 @@ namespace Marvel {
 		int row_index;
 		PyObject* row;
 
-		if (!(*mvApp::GetApp()->getParsers())["insert_row"].parse(args, kwargs, __FUNCTION__, &table, &row_index, &row))
+		if (!(mvApp::GetApp()->getParsers())["insert_row"].parse(args, kwargs, __FUNCTION__, &table, &row_index, &row))
 			return GetPyNone();
 
 		std::lock_guard<std::mutex> lk(mvApp::GetApp()->GetApp()->getMutex());
@@ -1098,7 +1098,7 @@ namespace Marvel {
 		const char* table;
 		int row;
 
-		if (!(*mvApp::GetApp()->getParsers())["delete_row"].parse(args, kwargs, __FUNCTION__, &table, &row))
+		if (!(mvApp::GetApp()->getParsers())["delete_row"].parse(args, kwargs, __FUNCTION__, &table, &row))
 			return GetPyNone();
 
 		std::lock_guard<std::mutex> lk(mvApp::GetApp()->GetApp()->getMutex());

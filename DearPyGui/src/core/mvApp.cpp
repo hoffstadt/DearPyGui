@@ -1,5 +1,5 @@
 #include "mvApp.h"
-#include "mvMarvel.h"
+#include "mvModule_Core.h"
 #include "mvWindow.h"
 #include "mvCallbackRegistry.h"
 #include "mvInput.h"
@@ -145,7 +145,6 @@ namespace Marvel {
 		mvAppLog::AddLog("[DearImGui Version] %0s\n", IMGUI_VERSION);
 
 #ifndef MV_CPP
-		m_parsers = BuildDearPyGuiInterface();
         mvAppLog::AddLog("[Python Version] %0s\n", PY_VERSION);
 #endif // !MV_CPP
 
@@ -457,7 +456,7 @@ namespace Marvel {
 		int shift_only = true;
 		int dockspace = false;
 
-		if (!(*mvApp::GetApp()->getParsers())["enable_docking"].parse(args, kwargs, __FUNCTION__,
+		if (!(mvApp::GetApp()->getParsers())["enable_docking"].parse(args, kwargs, __FUNCTION__,
 			&shift_only, &dockspace))
 			return GetPyNone();
 
@@ -478,7 +477,7 @@ namespace Marvel {
 	{
 		const char* title;
 
-		if (!(*mvApp::GetApp()->getParsers())["set_main_window_title"].parse(args, kwargs, __FUNCTION__,
+		if (!(mvApp::GetApp()->getParsers())["set_main_window_title"].parse(args, kwargs, __FUNCTION__,
 			&title))
 			return GetPyNone();
 
@@ -498,7 +497,7 @@ namespace Marvel {
 		int x;
 		int y;
 
-		if (!(*mvApp::GetApp()->getParsers())["set_main_window_pos"].parse(args, kwargs, __FUNCTION__,
+		if (!(mvApp::GetApp()->getParsers())["set_main_window_pos"].parse(args, kwargs, __FUNCTION__,
 			&x, &y))
 			return GetPyNone();
 
@@ -513,7 +512,7 @@ namespace Marvel {
 		int destination;
 		int source;
 
-		if (!(*mvApp::GetApp()->getParsers())["add_character_remap"].parse(args, kwargs, __FUNCTION__,
+		if (!(mvApp::GetApp()->getParsers())["add_character_remap"].parse(args, kwargs, __FUNCTION__,
 			&destination, &source))
 			return GetPyNone();
 
@@ -529,7 +528,7 @@ namespace Marvel {
 	{
 		int resizable = true;
 
-		if (!(*mvApp::GetApp()->getParsers())["set_main_window_resizable"].parse(args, kwargs, __FUNCTION__,
+		if (!(mvApp::GetApp()->getParsers())["set_main_window_resizable"].parse(args, kwargs, __FUNCTION__,
 			&resizable))
 			return GetPyNone();
 
@@ -543,7 +542,7 @@ namespace Marvel {
 	{
 		int value;
 
-		if (!(*mvApp::GetApp()->getParsers())["set_vsync"].parse(args, kwargs, __FUNCTION__,
+		if (!(mvApp::GetApp()->getParsers())["set_vsync"].parse(args, kwargs, __FUNCTION__,
 			&value))
 			return GetPyNone();
 
@@ -598,7 +597,7 @@ namespace Marvel {
 	{
 		const char* primary_window = "";
 
-		if (!(*mvApp::GetApp()->getParsers())["start_dearpygui"].parse(args, kwargs, __FUNCTION__, &primary_window))
+		if (!(mvApp::GetApp()->getParsers())["start_dearpygui"].parse(args, kwargs, __FUNCTION__, &primary_window))
 			return GetPyNone();
 		if (mvApp::IsAppStarted())
 		{
@@ -621,7 +620,7 @@ namespace Marvel {
 	{
 		PyObject* callback;
 
-		if (!(*mvApp::GetApp()->getParsers())["set_start_callback"].parse(args, kwargs, __FUNCTION__, &callback))
+		if (!(mvApp::GetApp()->getParsers())["set_start_callback"].parse(args, kwargs, __FUNCTION__, &callback))
 			return GetPyNone();
 
 		Py_XINCREF(callback);
@@ -637,7 +636,7 @@ namespace Marvel {
 	{
 		PyObject* callback;
 
-		if (!(*mvApp::GetApp()->getParsers())["set_exit_callback"].parse(args, kwargs, __FUNCTION__, &callback))
+		if (!(mvApp::GetApp()->getParsers())["set_exit_callback"].parse(args, kwargs, __FUNCTION__, &callback))
 			return GetPyNone();
 
 		Py_XINCREF(callback);
@@ -652,7 +651,7 @@ namespace Marvel {
 	{
 		PyObject* callback;
 
-		if (!(*mvApp::GetApp()->getParsers())["set_accelerator_callback"].parse(args, kwargs, __FUNCTION__, &callback))
+		if (!(mvApp::GetApp()->getParsers())["set_accelerator_callback"].parse(args, kwargs, __FUNCTION__, &callback))
 			return GetPyNone();
 
 		Py_XINCREF(callback);
@@ -707,7 +706,7 @@ namespace Marvel {
 		int width;
 		int height;
 
-		if (!(*mvApp::GetApp()->getParsers())["set_main_window_size"].parse(args, kwargs, __FUNCTION__, &width, &height))
+		if (!(mvApp::GetApp()->getParsers())["set_main_window_size"].parse(args, kwargs, __FUNCTION__, &width, &height))
 			return GetPyNone();
 
 
@@ -727,7 +726,7 @@ namespace Marvel {
 		const char* item;
 		int value;
 
-		if (!(*mvApp::GetApp()->getParsers())["set_primary_window"].parse(args, kwargs, __FUNCTION__, &item, &value))
+		if (!(mvApp::GetApp()->getParsers())["set_primary_window"].parse(args, kwargs, __FUNCTION__, &item, &value))
 			return GetPyNone();
 
 		std::lock_guard<std::mutex> lk(mvApp::GetApp()->GetApp()->getMutex());
@@ -742,7 +741,7 @@ namespace Marvel {
 		PyObject* color;
 		const char* item = "";
 
-		if (!(*mvApp::GetApp()->getParsers())["set_theme_color"].parse(args, kwargs, __FUNCTION__, &constant, &color, &item))
+		if (!(mvApp::GetApp()->getParsers())["set_theme_color"].parse(args, kwargs, __FUNCTION__, &constant, &color, &item))
 			return GetPyNone();
 
 		Py_XINCREF(color);
@@ -777,7 +776,7 @@ namespace Marvel {
 		float style;
 		const char* item = "";
 
-		if (!(*mvApp::GetApp()->getParsers())["set_theme_style"].parse(args, kwargs, __FUNCTION__, &constant, &style, &item))
+		if (!(mvApp::GetApp()->getParsers())["set_theme_style"].parse(args, kwargs, __FUNCTION__, &constant, &style, &item))
 			return GetPyNone();
 
 		std::lock_guard<std::mutex> lk(mvApp::GetApp()->GetApp()->getMutex());
@@ -802,7 +801,7 @@ namespace Marvel {
 	{
 		float scale;
 
-		if (!(*mvApp::GetApp()->getParsers())["set_global_font_scale"].parse(args, kwargs, __FUNCTION__, &scale))
+		if (!(mvApp::GetApp()->getParsers())["set_global_font_scale"].parse(args, kwargs, __FUNCTION__, &scale))
 			return GetPyNone();
 
 		std::lock_guard<std::mutex> lk(mvApp::GetApp()->GetApp()->getMutex());
@@ -825,7 +824,7 @@ namespace Marvel {
 		PyObject* custom_glyph_chars = nullptr;
 
 
-		if (!(*mvApp::GetApp()->getParsers())["add_additional_font"].parse(args, kwargs, __FUNCTION__,
+		if (!(mvApp::GetApp()->getParsers())["add_additional_font"].parse(args, kwargs, __FUNCTION__,
 			&file, &size, &glyph_ranges, &custom_glyph_chars, &custom_glyph_ranges))
 			return GetPyNone();
 

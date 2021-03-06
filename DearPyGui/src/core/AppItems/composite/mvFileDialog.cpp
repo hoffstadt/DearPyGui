@@ -67,7 +67,7 @@ namespace Marvel {
 	{
 		PyObject* callback = nullptr;
 
-		if (!(*mvApp::GetApp()->getParsers())["select_directory_dialog"].parse(args, kwargs, __FUNCTION__, &callback))
+		if (!(mvApp::GetApp()->getParsers())["select_directory_dialog"].parse(args, kwargs, __FUNCTION__, &callback))
 			return GetPyNone();
 
 		if (callback)
@@ -90,7 +90,7 @@ namespace Marvel {
 		PyObject* callback = nullptr;
 		const char* extensions = ".*";
 
-		if (!(*mvApp::GetApp()->getParsers())["open_file_dialog"].parse(args, kwargs, __FUNCTION__,
+		if (!(mvApp::GetApp()->getParsers())["open_file_dialog"].parse(args, kwargs, __FUNCTION__,
 			&callback, &extensions))
 			return GetPyNone();
 

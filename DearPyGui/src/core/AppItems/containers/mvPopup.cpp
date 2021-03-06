@@ -143,7 +143,7 @@ namespace Marvel {
 		int height = 0;
 		int show = true;
 
-		if (!(*mvApp::GetApp()->getParsers())["add_popup"].parse(args, kwargs, __FUNCTION__, &popupparent,
+		if (!(mvApp::GetApp()->getParsers())["add_popup"].parse(args, kwargs, __FUNCTION__, &popupparent,
 			&name, &mousebutton, &modal, &parent, &before, &width, &height, &show))
 			return ToPyBool(false);
 
@@ -170,7 +170,7 @@ namespace Marvel {
 	{
 		const char* popup;
 
-		if (!(*mvApp::GetApp()->getParsers())["close_popup"].parse(args, kwargs, __FUNCTION__, &popup))
+		if (!(mvApp::GetApp()->getParsers())["close_popup"].parse(args, kwargs, __FUNCTION__, &popup))
 			return GetPyNone();
 
 		std::lock_guard<std::mutex> lk(mvApp::GetApp()->GetApp()->getMutex());

@@ -116,7 +116,7 @@ namespace Marvel {
 		int leaf = false;
 		int bullet = false;
 
-		if (!(*mvApp::GetApp()->getParsers())["add_tree_node"].parse(args, kwargs, __FUNCTION__, &name,
+		if (!(mvApp::GetApp()->getParsers())["add_tree_node"].parse(args, kwargs, __FUNCTION__, &name,
 			&label, &show, &parent, &before, &default_open, &open_on_double_click, &open_on_arrow, &leaf, &bullet))
 			return ToPyBool(false);
 

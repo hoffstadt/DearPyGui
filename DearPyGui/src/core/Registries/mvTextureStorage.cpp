@@ -183,7 +183,7 @@ namespace Marvel {
 		int height;
 		int format = 0;
 
-		if (!(*mvApp::GetApp()->getParsers())["add_texture"].parse(args, kwargs, __FUNCTION__,
+		if (!(mvApp::GetApp()->getParsers())["add_texture"].parse(args, kwargs, __FUNCTION__,
 			&name, &data, &width, &height, &format))
 			return GetPyNone();
 
@@ -399,7 +399,7 @@ namespace Marvel {
 	{
 		const char* name;
 
-		if (!(*mvApp::GetApp()->getParsers())["decrement_texture"].parse(args, kwargs, __FUNCTION__,
+		if (!(mvApp::GetApp()->getParsers())["decrement_texture"].parse(args, kwargs, __FUNCTION__,
 			&name))
 			return GetPyNone();
 

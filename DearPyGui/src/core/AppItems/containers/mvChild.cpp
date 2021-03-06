@@ -136,7 +136,7 @@ namespace Marvel {
 		int horizontal_scrollbar = false;
 		int menubar = false;
 
-		if (!(*mvApp::GetApp()->getParsers())["add_child"].parse(args, kwargs, __FUNCTION__, &name,
+		if (!(mvApp::GetApp()->getParsers())["add_child"].parse(args, kwargs, __FUNCTION__, &name,
 			&show, &parent, &before, &width, &height, &border, &autosize_x,
 			&autosize_y, &no_scrollbar, &horizontal_scrollbar, &menubar))
 			return ToPyBool(false);

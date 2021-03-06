@@ -213,6 +213,7 @@ namespace Marvel {
     void AddItemCommands(std::map<std::string, mvPythonParser>* parsers);
 
     PyObject* get_item_type(PyObject* self, PyObject* args, PyObject* kwargs);
+
     PyObject* get_item_configuration(PyObject* self, PyObject* args, PyObject* kwargs);
     PyObject* configure_item(PyObject* self, PyObject* args, PyObject* kwargs);
 
