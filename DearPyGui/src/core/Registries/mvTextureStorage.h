@@ -70,6 +70,10 @@ namespace Marvel {
 
 	public:
 
+		static void InsertConstants(std::vector<std::pair<std::string, long>>& constants);
+
+	public:
+
 		mvTextureStorage();
 		~mvTextureStorage();
 
