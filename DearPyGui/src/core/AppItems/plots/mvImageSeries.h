@@ -24,6 +24,10 @@ namespace Marvel {
 			m_uv_max(uv_max),
 			m_tintColor(tintColor)
 		{
+			mvApp::GetApp()->getTextureStorage().addTexture(m_value);
+			mvTexture* texture = mvApp::GetApp()->getTextureStorage().getTexture(m_value);
+			if (texture)
+				m_texture = texture->texture;
 		}
 
 		bool onEvent(mvEvent& event)
@@ -57,7 +61,8 @@ namespace Marvel {
 			{
 				mvApp::GetApp()->getTextureStorage().addTexture(m_value);
 				mvTexture* texture = mvApp::GetApp()->getTextureStorage().getTexture(m_value);
-				m_texture = texture->texture;
+				if (texture)
+					m_texture = texture->texture;
 			}
 		}
 

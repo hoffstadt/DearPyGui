@@ -23,11 +23,12 @@ HOW TO UPDATE?
 - Please report any issue!
 
 ------------------------------------------------------------------------
- VERSION 0.6.x
+ VERSION 0.6.250
 ------------------------------------------------------------------------
 
 Fixes:
 - child: fixed "get_item_configuration" not returning all items
+- image_series: fixed issue for render callback #667
 
 
 ------------------------------------------------------------------------

@@ -235,7 +235,7 @@ namespace Marvel {
 
 			std::vector<int> mdata = ToIntVect(data);
 
-			for (int i = 0; i < mdata.size(); i = i + 3)
+			for (int i = 0; i < mdata.size()-2; i = i + 3)
 			{
 				fdata.push_back(mdata[i] / 255.0f);
 				fdata.push_back(mdata[i + 1] / 255.0f);
@@ -252,7 +252,7 @@ namespace Marvel {
 		{
 			std::vector<float> mdata = ToFloatVect(data);
 
-			for (int i = 0; i < mdata.size(); i = i + 3)
+			for (int i = 0; i < mdata.size()-2; i = i + 3)
 			{
 				fdata.push_back(mdata[i]);
 				fdata.push_back(mdata[i + 1]);
