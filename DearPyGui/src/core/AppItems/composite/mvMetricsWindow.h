@@ -12,10 +12,11 @@ namespace Marvel {
     PyObject* add_metrics_window(PyObject* self, PyObject* args, PyObject* kwargs);
 #endif
 
+    MV_REGISTER_WIDGET(mvMetricsWindow);
     class mvMetricsWindow : public mvBaseWindowAppitem
     {
 
-        MV_APPITEM_TYPE(mvAppItemType::MetricsWindow, mvMetricsWindow, "add_metrics_window")
+        MV_APPITEM_TYPE(mvAppItemType::mvMetricsWindow, "add_metrics_window")
 
         MV_START_COLOR_CONSTANTS
         MV_END_COLOR_CONSTANTS

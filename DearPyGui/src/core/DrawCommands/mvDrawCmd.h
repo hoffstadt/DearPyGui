@@ -73,11 +73,11 @@ namespace Marvel {
 		if (item == nullptr)
 			return nullptr;
 
-		if (item->getType() == mvAppItemType::Drawing)
+		if (item->getType() == mvAppItemType::mvDrawing)
 			return static_cast<mvDrawing*>(item.get())->getDrawList();
-		if (item->getType() == mvAppItemType::Window)
+		if (item->getType() == mvAppItemType::mvWindowAppItem)
 			return static_cast<mvWindowAppItem*>(item.get())->getDrawList();
-		if (item->getType() == mvAppItemType::Plot)
+		if (item->getType() == mvAppItemType::mvPlot)
 			return static_cast<mvPlot*>(item.get())->getDrawList();
 
 		ThrowPythonException(std::string(name) + " draw target does not exist or is not a valid target.");

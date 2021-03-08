@@ -145,7 +145,6 @@ namespace Marvel {
 
 	mvApp::mvApp()
 	{
-
 		mvEventBus::Subscribe(this, 0, mvEVT_CATEGORY_VIEWPORT);
 
 	

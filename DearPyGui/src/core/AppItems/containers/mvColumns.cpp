@@ -29,7 +29,7 @@ namespace Marvel {
 		}, "Sets the width of the ith column.", "None", "Widget Commands") });
 	}
 
-	void mvColumn::InsertParser(std::map<std::string, mvPythonParser>* parsers)
+	void mvColumnSet::InsertParser(std::map<std::string, mvPythonParser>* parsers)
 	{
 		parsers->insert({ "add_columns", mvPythonParser({
 			{mvPythonDataType::String, "name"},
@@ -128,7 +128,7 @@ namespace Marvel {
 
 	}
 
-	mvColumn::mvColumn(const std::string& name, int columns)
+	mvColumnSet::mvColumnSet(const std::string& name, int columns)
 		: mvAppItem(name)
 	{
 		if (columns < 1)
@@ -139,7 +139,7 @@ namespace Marvel {
 			m_columns = columns;
 	}
 
-	void mvColumn::draw()
+	void mvColumnSet::draw()
 	{
 		ScopedID id;
 		ImGui::Columns(m_columns, m_core_config.name.c_str(), m_border);
@@ -224,7 +224,7 @@ namespace Marvel {
 			&name, &columns, &border, &show, &parent, &before))
 			return ToPyBool(false);
 
-		auto item = CreateRef<mvColumn>(name, columns);
+		auto item = CreateRef<mvColumnSet>(name, columns);
 		item->checkConfigDict(kwargs);
 		item->setConfigDict(kwargs);
 		item->setExtraConfigDict(kwargs);
@@ -257,7 +257,7 @@ namespace Marvel {
 		}
 
 		mvManagedColumns* columns;
-		if (appitem->getType() == mvAppItemType::ManagedColumns)
+		if (appitem->getType() == mvAppItemType::mvManagedColumns)
 			columns = static_cast<mvManagedColumns*>(appitem.get());
 		else
 		{
@@ -290,7 +290,7 @@ namespace Marvel {
 		}
 
 		mvManagedColumns* columns;
-		if (appitem->getType() == mvAppItemType::ManagedColumns)
+		if (appitem->getType() == mvAppItemType::mvManagedColumns)
 		{
 			columns = static_cast<mvManagedColumns*>(appitem.get());
 			columns->setColumnWidth(column, width);
@@ -334,7 +334,7 @@ namespace Marvel {
 		PyDict_SetItemString(dict, "columns", ToPyInt(m_columns));
 	}
 
-	void mvColumn::setExtraConfigDict(PyObject* dict)
+	void mvColumnSet::setExtraConfigDict(PyObject* dict)
 	{
 		if (dict == nullptr)
 			return;
@@ -351,7 +351,7 @@ namespace Marvel {
 		}
 	}
 
-	void mvColumn::getExtraConfigDict(PyObject* dict)
+	void mvColumnSet::getExtraConfigDict(PyObject* dict)
 	{
 		if (dict == nullptr)
 			return;

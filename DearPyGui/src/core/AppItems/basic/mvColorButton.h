@@ -29,21 +29,22 @@ namespace Marvel {
 	PyObject* add_color_button(PyObject* self, PyObject* args, PyObject* kwargs);
 #endif
 
+	MV_REGISTER_WIDGET(mvColorButton);
 	class mvColorButton : public mvAppItem
 	{
-		MV_APPITEM_TYPE(mvAppItemType::ColorButton, mvColorButton, "add_color_button")
+		MV_APPITEM_TYPE(mvAppItemType::mvColorButton, "add_color_button")
 
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::ColorButton, mvThemeCol_ColorButton_Text, 0L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::ColorButton, mvThemeCol_ColorButton_Separator, 27L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::ColorButton, mvThemeCol_ColorButton_PopupBg, 4L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::ColorButton, mvThemeCol_ColorButton_Border, 5L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::ColorButton, mvThemeCol_ColorButton_BorderShadow, 6L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::ColorButton, mvThemeStyle_ColorButton_Rounding, 11L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::ColorButton, mvThemeStyle_ColorButton_BorderSize, 12L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::ColorButton, mvThemeStyle_ColorButton_PopupRounding, 8L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::ColorButton, mvThemeStyle_ColorButton_PopupBorderSize, 9L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::ColorButton, mvThemeStyle_ColorButton_PopupPaddingX, 1L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::ColorButton, mvThemeStyle_ColorButton_PopupPaddingY, 1L, 1L);
+		MV_CREATE_THEME_CONSTANT(mvThemeCol_ColorButton_Text, 0L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeCol_ColorButton_Separator, 27L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeCol_ColorButton_PopupBg, 4L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeCol_ColorButton_Border, 5L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeCol_ColorButton_BorderShadow, 6L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeStyle_ColorButton_Rounding, 11L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeStyle_ColorButton_BorderSize, 12L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeStyle_ColorButton_PopupRounding, 8L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeStyle_ColorButton_PopupBorderSize, 9L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeStyle_ColorButton_PopupPaddingX, 1L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeStyle_ColorButton_PopupPaddingY, 1L, 1L);
 
 		MV_START_COLOR_CONSTANTS
 			MV_CREATE_CONSTANT_PAIR(mvThemeCol_ColorButton_Text,         mvColor(255, 255, 255, 255)),

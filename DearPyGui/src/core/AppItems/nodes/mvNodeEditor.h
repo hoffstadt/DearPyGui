@@ -13,10 +13,11 @@ namespace Marvel {
 	PyObject* clear_selected_nodes(PyObject* self, PyObject* args, PyObject* kwargs);
 	PyObject* clear_selected_links(PyObject* self, PyObject* args, PyObject* kwargs);
 
+	MV_REGISTER_WIDGET(mvNodeEditor);
 	class mvNodeEditor : public mvAppItem
 	{
 
-		MV_APPITEM_TYPE(mvAppItemType::NodeEditor, mvNodeEditor, "add_node_editor")
+		MV_APPITEM_TYPE(mvAppItemType::mvNodeEditor, "add_node_editor")
 
 		MV_START_COLOR_CONSTANTS
 		MV_END_COLOR_CONSTANTS

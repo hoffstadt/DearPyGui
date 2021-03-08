@@ -16,23 +16,24 @@ namespace Marvel {
 
 	PyObject* add_collapsing_header(PyObject* self, PyObject* args, PyObject* kwargs);
 
+	MV_REGISTER_WIDGET(mvCollapsingHeader);
 	class mvCollapsingHeader : public mvBoolPtrBase
 	{
 
-		MV_APPITEM_TYPE(mvAppItemType::CollapsingHeader, mvCollapsingHeader, "add_collapsing_header")
+		MV_APPITEM_TYPE(mvAppItemType::mvCollapsingHeader, "add_collapsing_header")
 
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::CollapsingHeader, mvThemeCol_CollapsingHeader_Text			,  0L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::CollapsingHeader, mvThemeCol_CollapsingHeader_Bg			, 24L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::CollapsingHeader, mvThemeCol_CollapsingHeader_BgHovered		, 25L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::CollapsingHeader, mvThemeCol_CollapsingHeader_BgActive		, 26L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::CollapsingHeader, mvThemeCol_CollapsingHeader_Border		,  5L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::CollapsingHeader, mvThemeCol_CollapsingHeader_BorderShadow	,  6L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::CollapsingHeader, mvThemeStyle_CollapsingHeader_BorderSize	, 12L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::CollapsingHeader, mvThemeStyle_CollapsingHeader_Rounding	, 11L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::CollapsingHeader, mvThemeStyle_CollapsingHeader_PaddingX	, 10L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::CollapsingHeader, mvThemeStyle_CollapsingHeader_PaddingY	, 10L, 1L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::CollapsingHeader, mvThemeStyle_CollapsingHeader_ItemSpacingX, 13L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::CollapsingHeader, mvThemeStyle_CollapsingHeader_ItemSpacingY, 13L, 1L);
+		MV_CREATE_THEME_CONSTANT(mvThemeCol_CollapsingHeader_Text			,  0L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeCol_CollapsingHeader_Bg			, 24L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeCol_CollapsingHeader_BgHovered		, 25L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeCol_CollapsingHeader_BgActive		, 26L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeCol_CollapsingHeader_Border		,  5L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeCol_CollapsingHeader_BorderShadow	,  6L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeStyle_CollapsingHeader_BorderSize	, 12L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeStyle_CollapsingHeader_Rounding	, 11L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeStyle_CollapsingHeader_PaddingX	, 10L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeStyle_CollapsingHeader_PaddingY	, 10L, 1L);
+		MV_CREATE_THEME_CONSTANT(mvThemeStyle_CollapsingHeader_ItemSpacingX, 13L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeStyle_CollapsingHeader_ItemSpacingY, 13L, 1L);
 
 		MV_START_COLOR_CONSTANTS
 			MV_CREATE_CONSTANT_PAIR(mvThemeCol_CollapsingHeader_Text,			mvColor(255, 255, 255, 255)),

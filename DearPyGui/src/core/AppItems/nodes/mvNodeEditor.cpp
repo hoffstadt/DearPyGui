@@ -410,7 +410,7 @@ namespace Marvel {
 			return GetPyNone();
 		}
 
-		if (anode_editor->getType() != mvAppItemType::NodeEditor)
+		if (anode_editor->getType() != mvAppItemType::mvNodeEditor)
 		{
 			std::string message = node_editor;
 			ThrowPythonException(message + " is not a plot.");
@@ -445,7 +445,7 @@ namespace Marvel {
 			return GetPyNone();
 		}
 
-		if (anode_editor->getType() != mvAppItemType::NodeEditor)
+		if (anode_editor->getType() != mvAppItemType::mvNodeEditor)
 		{
 			std::string message = node_editor;
 			ThrowPythonException(message + " is not a plot.");
@@ -477,7 +477,7 @@ namespace Marvel {
 			return GetPyNone();
 		}
 
-		if (anode_editor->getType() != mvAppItemType::NodeEditor)
+		if (anode_editor->getType() != mvAppItemType::mvNodeEditor)
 		{
 			std::string message = node_editor;
 			ThrowPythonException(message + " is not a plot.");
@@ -508,7 +508,7 @@ namespace Marvel {
 			return GetPyNone();
 		}
 
-		if (anode_editor->getType() != mvAppItemType::NodeEditor)
+		if (anode_editor->getType() != mvAppItemType::mvNodeEditor)
 		{
 			std::string message = node_editor;
 			ThrowPythonException(message + " is not a plot.");
@@ -544,7 +544,7 @@ namespace Marvel {
 			return GetPyNone();
 		}
 
-		if (anode_editor->getType() != mvAppItemType::NodeEditor)
+		if (anode_editor->getType() != mvAppItemType::mvNodeEditor)
 		{
 			std::string message = node_editor;
 			ThrowPythonException(message + " is not a plot.");
@@ -575,7 +575,7 @@ namespace Marvel {
 			return GetPyNone();
 		}
 
-		if (anode_editor->getType() != mvAppItemType::NodeEditor)
+		if (anode_editor->getType() != mvAppItemType::mvNodeEditor)
 		{
 			std::string message = node_editor;
 			ThrowPythonException(message + " is not a plot.");
@@ -605,7 +605,7 @@ namespace Marvel {
 			return GetPyNone();
 		}
 
-		if (anode_editor->getType() != mvAppItemType::NodeEditor)
+		if (anode_editor->getType() != mvAppItemType::mvNodeEditor)
 		{
 			std::string message = node_editor;
 			ThrowPythonException(message + " is not a plot.");

@@ -134,7 +134,7 @@ namespace Marvel {
 				return ToPyBool(false);
 			}
 
-			else if (parentItem->getType() == mvAppItemType::TabBar)
+			else if (parentItem->getType() == mvAppItemType::mvTabBar)
 			{
 				auto item = CreateRef<mvTabButton>(name);
 				if (callback)
@@ -168,7 +168,7 @@ namespace Marvel {
 				return ToPyBool(false);
 			}
 
-			else if (parentItem->getType() == mvAppItemType::TabBar)
+			else if (parentItem->getType() == mvAppItemType::mvTabBar)
 			{
 				auto item = CreateRef<mvTabButton>(name);
 				if (callback)

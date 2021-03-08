@@ -13,21 +13,22 @@ namespace Marvel {
 
 	PyObject* add_radio_button(PyObject* self, PyObject* args, PyObject* kwargs);
 
+	MV_REGISTER_WIDGET(mvRadioButton);
 	class mvRadioButton : public mvIntPtrBase
 	{
-		MV_APPITEM_TYPE(mvAppItemType::RadioButtons, mvRadioButton, "add_radio_button")
+		MV_APPITEM_TYPE(mvAppItemType::mvRadioButton, "add_radio_button")
 
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::RadioButtons, mvThemeCol_RadioButton_Text			,  0L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::RadioButtons, mvThemeCol_RadioButton_Bg				,  7L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::RadioButtons, mvThemeCol_RadioButton_BgHovered		,  8L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::RadioButtons, mvThemeCol_RadioButton_BgActive		, 18L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::RadioButtons, mvThemeCol_RadioButton_Border			,  5L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::RadioButtons, mvThemeCol_RadioButton_BorderShadow	,  6L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::RadioButtons, mvThemeStyle_RadioButton_BorderSize	, 12L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::RadioButtons, mvThemeStyle_RadioButton_PaddingX		, 10L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::RadioButtons, mvThemeStyle_RadioButton_PaddingY		, 10L, 1L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::RadioButtons, mvThemeStyle_RadioButton_InnerSpacingX, 14L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::RadioButtons, mvThemeStyle_RadioButton_InnerSpacingY, 14L, 1L);
+		MV_CREATE_THEME_CONSTANT(mvThemeCol_RadioButton_Text			,  0L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeCol_RadioButton_Bg				,  7L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeCol_RadioButton_BgHovered		,  8L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeCol_RadioButton_BgActive		, 18L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeCol_RadioButton_Border			,  5L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeCol_RadioButton_BorderShadow	,  6L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeStyle_RadioButton_BorderSize	, 12L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeStyle_RadioButton_PaddingX		, 10L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeStyle_RadioButton_PaddingY		, 10L, 1L);
+		MV_CREATE_THEME_CONSTANT(mvThemeStyle_RadioButton_InnerSpacingX, 14L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeStyle_RadioButton_InnerSpacingY, 14L, 1L);
 
 		MV_START_COLOR_CONSTANTS
 			MV_CREATE_CONSTANT_PAIR(mvThemeCol_RadioButton_Text,			mvColor(255, 255, 255, 255)),

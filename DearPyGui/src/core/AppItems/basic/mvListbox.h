@@ -14,31 +14,32 @@ namespace Marvel {
 
 	PyObject* add_listbox(PyObject* self, PyObject* args, PyObject* kwargs);
 
+	MV_REGISTER_WIDGET(mvListbox);
 	class mvListbox : public mvIntPtrBase
 	{
 
-		MV_APPITEM_TYPE(mvAppItemType::Listbox, mvListbox, "add_listbox")
+		MV_APPITEM_TYPE(mvAppItemType::mvListbox, "add_listbox")
 
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::Listbox, mvThemeCol_Listbox_Text                ,  0L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::Listbox, mvThemeCol_Listbox_Selected            , 24L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::Listbox, mvThemeCol_Listbox_Hovered             , 25L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::Listbox, mvThemeCol_Listbox_Active              , 26L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::Listbox, mvThemeCol_Listbox_Bg                  ,  7L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::Listbox, mvThemeCol_Listbox_Border              ,  5L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::Listbox, mvThemeCol_Listbox_Scrollbar           , 14L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::Listbox, mvThemeCol_Listbox_ScrollbarGrab       , 15L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::Listbox, mvThemeCol_Listbox_ScrollbarGrabHovered, 16L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::Listbox, mvThemeCol_Listbox_ScrollbarGrabActive , 17L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::Listbox, mvThemeStyle_Listbox_BorderSize		, 12L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::Listbox, mvThemeStyle_Listbox_Rounding			, 11L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::Listbox, mvThemeStyle_Listbox_PaddingX			, 10L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::Listbox, mvThemeStyle_Listbox_PaddingY			, 10L, 1L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::Listbox, mvThemeStyle_Listbox_ItemSpacingX		, 13L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::Listbox, mvThemeStyle_Listbox_ItemSpacingY		, 13L, 1L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::Listbox, mvThemeStyle_Listbox_ScrollbarSize		, 17L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::Listbox, mvThemeStyle_Listbox_ScrollbarRounding	, 18L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::Listbox, mvThemeStyle_Listbox_TextAlignX		, 23L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::Listbox, mvThemeStyle_Listbox_TextAlignY		, 23L, 1L);
+		MV_CREATE_THEME_CONSTANT(mvThemeCol_Listbox_Text                ,  0L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeCol_Listbox_Selected            , 24L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeCol_Listbox_Hovered             , 25L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeCol_Listbox_Active              , 26L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeCol_Listbox_Bg                  ,  7L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeCol_Listbox_Border              ,  5L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeCol_Listbox_Scrollbar           , 14L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeCol_Listbox_ScrollbarGrab       , 15L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeCol_Listbox_ScrollbarGrabHovered, 16L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeCol_Listbox_ScrollbarGrabActive , 17L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeStyle_Listbox_BorderSize		, 12L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeStyle_Listbox_Rounding			, 11L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeStyle_Listbox_PaddingX			, 10L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeStyle_Listbox_PaddingY			, 10L, 1L);
+		MV_CREATE_THEME_CONSTANT(mvThemeStyle_Listbox_ItemSpacingX		, 13L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeStyle_Listbox_ItemSpacingY		, 13L, 1L);
+		MV_CREATE_THEME_CONSTANT(mvThemeStyle_Listbox_ScrollbarSize		, 17L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeStyle_Listbox_ScrollbarRounding	, 18L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeStyle_Listbox_TextAlignX		, 23L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeStyle_Listbox_TextAlignY		, 23L, 1L);
 
 
 		MV_START_COLOR_CONSTANTS

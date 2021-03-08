@@ -52,7 +52,7 @@ namespace Marvel {
 			// set other tab's value false
 			for (auto child : parent->m_children)
 			{
-				if (child->getType() == mvAppItemType::TabItem)
+				if (child->getType() == mvAppItemType::mvTab)
 					*((mvTab*)child.get())->m_value = false;
 			}
 
@@ -162,7 +162,7 @@ namespace Marvel {
 				return ToPyBool(false);
 			}
 
-			else if (parentItem->getType() == mvAppItemType::TabBar)
+			else if (parentItem->getType() == mvAppItemType::mvTabBar)
 			{
 				auto item = CreateRef<mvTab>(name);
 				item->checkConfigDict(kwargs);
@@ -194,7 +194,7 @@ namespace Marvel {
 				return ToPyBool(false);
 			}
 
-			else if (parentItem->getType() == mvAppItemType::TabBar)
+			else if (parentItem->getType() == mvAppItemType::mvTabBar)
 			{
 				auto item = CreateRef<mvTab>(name);
 				item->checkConfigDict(kwargs);

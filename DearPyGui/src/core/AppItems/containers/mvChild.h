@@ -20,26 +20,27 @@ namespace Marvel {
 	PyObject* add_child(PyObject* self, PyObject* args, PyObject* kwargs);
 #endif
 
+	MV_REGISTER_WIDGET(mvChild);
 	class mvChild : public mvBoolPtrBase
 	{
 
-		MV_APPITEM_TYPE(mvAppItemType::Child, mvChild, "add_child")
+		MV_APPITEM_TYPE(mvAppItemType::mvChild, "add_child")
 
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::Child, mvThemeCol_Child_Bg						,  3L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::Child, mvThemeCol_Child_MenuBar					, 13L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::Child, mvThemeCol_Child_Border					,  5L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::Child, mvThemeCol_Child_Scrollbar				, 14L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::Child, mvThemeCol_Child_ScrollbarGrab			, 15L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::Child, mvThemeCol_Child_ScrollbarGrabHovered	, 16L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::Child, mvThemeCol_Child_ScrollbarGrabActive		, 17L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::Child, mvThemeStyle_Child_BorderSize			,  7L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::Child, mvThemeStyle_Child_Rounding				,  6L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::Child, mvThemeStyle_Child_PaddingX				,  1L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::Child, mvThemeStyle_Child_PaddingY				,  1L, 1L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::Child, mvThemeStyle_Child_ItemSpacingX			, 13L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::Child, mvThemeStyle_Child_ItemSpacingY			, 13L, 1L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::Child, mvThemeStyle_Child_ScrollbarSize			, 17L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::Child, mvThemeStyle_Child_ScrollbarRounding		, 18L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeCol_Child_Bg						,  3L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeCol_Child_MenuBar					, 13L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeCol_Child_Border					,  5L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeCol_Child_Scrollbar				, 14L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeCol_Child_ScrollbarGrab			, 15L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeCol_Child_ScrollbarGrabHovered	, 16L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeCol_Child_ScrollbarGrabActive		, 17L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeStyle_Child_BorderSize			,  7L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeStyle_Child_Rounding				,  6L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeStyle_Child_PaddingX				,  1L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeStyle_Child_PaddingY				,  1L, 1L);
+		MV_CREATE_THEME_CONSTANT(mvThemeStyle_Child_ItemSpacingX			, 13L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeStyle_Child_ItemSpacingY			, 13L, 1L);
+		MV_CREATE_THEME_CONSTANT(mvThemeStyle_Child_ScrollbarSize			, 17L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeStyle_Child_ScrollbarRounding		, 18L, 0L);
 
 		MV_START_COLOR_CONSTANTS
 			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Child_Bg,					mvColor(  0,   0,   0,   0)),

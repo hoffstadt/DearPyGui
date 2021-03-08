@@ -42,26 +42,26 @@ namespace Marvel {
 #endif // MV_CPP
 
 	
-
+	MV_REGISTER_WIDGET(mvTable);
 	class mvTable : public mvAppItem
 	{
-		MV_APPITEM_TYPE(mvAppItemType::Table, mvTable, "add_table")
+		MV_APPITEM_TYPE(mvAppItemType::mvTable, "add_table")
 
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::Table, mvThemeCol_Table_Text					, 14L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::Table, mvThemeCol_Table_Cell					, 24L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::Table, mvThemeCol_Table_CellHovered				, 25L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::Table, mvThemeCol_Table_CellActive				, 26L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::Table, mvThemeCol_Table_Border					, 27L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::Table, mvThemeCol_Table_BorderHovered			, 28L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::Table, mvThemeCol_Table_BorderActive			, 29L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::Table, mvThemeCol_Table_Scrollbar				, 14L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::Table, mvThemeCol_Table_ScrollbarGrab			, 15L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::Table, mvThemeCol_Table_ScrollbarGrabHovered	, 16L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::Table, mvThemeCol_Table_ScrollbarGrabActive		, 17L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::Table, mvThemeStyle_Table_ItemSpacingX			, 13L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::Table, mvThemeStyle_Table_ItemSpacingY			, 13L, 1L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::Table, mvThemeStyle_Table_SelectableTextAlignX	, 23L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::Table, mvThemeStyle_Table_SelectableTextAlignY	, 23L, 1L);
+		MV_CREATE_THEME_CONSTANT(mvThemeCol_Table_Text					, 14L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeCol_Table_Cell					, 24L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeCol_Table_CellHovered				, 25L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeCol_Table_CellActive				, 26L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeCol_Table_Border					, 27L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeCol_Table_BorderHovered			, 28L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeCol_Table_BorderActive			, 29L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeCol_Table_Scrollbar				, 14L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeCol_Table_ScrollbarGrab			, 15L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeCol_Table_ScrollbarGrabHovered	, 16L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeCol_Table_ScrollbarGrabActive		, 17L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeStyle_Table_ItemSpacingX			, 13L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeStyle_Table_ItemSpacingY			, 13L, 1L);
+		MV_CREATE_THEME_CONSTANT(mvThemeStyle_Table_SelectableTextAlignX	, 23L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeStyle_Table_SelectableTextAlignY	, 23L, 1L);
 
 		MV_START_COLOR_CONSTANTS
 			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Table_Text, mvColor(255, 255, 255, 255)),

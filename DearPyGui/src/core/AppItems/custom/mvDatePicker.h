@@ -6,21 +6,22 @@ namespace Marvel {
 
 	PyObject* add_date_picker(PyObject* self, PyObject* args, PyObject* kwargs);
 
+	MV_REGISTER_WIDGET(mvDatePicker);
 	class mvDatePicker : public mvTimePtrBase
 	{
 
-		MV_APPITEM_TYPE(mvAppItemType::DatePicker, mvDatePicker, "add_date_picker")
+		MV_APPITEM_TYPE(mvAppItemType::mvDatePicker, "add_date_picker")
 
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::DatePicker, mvThemeCol_DatePicker_Date			,  0L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::DatePicker, mvThemeCol_DatePicker_DateDisabled	,  1L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::DatePicker, mvThemeCol_DatePicker_DateHovered	, 22L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::DatePicker, mvThemeCol_DatePicker_DateActive	, 23L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::DatePicker, mvThemeCol_DatePicker_Border		,  5L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::DatePicker, mvThemeCol_DatePicker_BorderShadow	,  6L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::DatePicker, mvThemeStyle_DatePicker_Rounding	, 11L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::DatePicker, mvThemeStyle_DatePicker_BorderSize	, 12L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::DatePicker, mvThemeStyle_DatePicker_PaddingX	, 10L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::DatePicker, mvThemeStyle_DatePicker_PaddingY	, 10L, 1L);
+		MV_CREATE_THEME_CONSTANT(mvThemeCol_DatePicker_Date			,  0L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeCol_DatePicker_DateDisabled	,  1L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeCol_DatePicker_DateHovered	, 22L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeCol_DatePicker_DateActive	, 23L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeCol_DatePicker_Border		,  5L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeCol_DatePicker_BorderShadow	,  6L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeStyle_DatePicker_Rounding	, 11L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeStyle_DatePicker_BorderSize	, 12L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeStyle_DatePicker_PaddingX	, 10L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeStyle_DatePicker_PaddingY	, 10L, 1L);
 
 
 		MV_START_COLOR_CONSTANTS

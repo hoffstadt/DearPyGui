@@ -375,7 +375,7 @@ namespace Marvel {
 		if (item == nullptr)
 			return nullptr;
 
-		if (item->getType() == mvAppItemType::Window)
+		if (item->getType() == mvAppItemType::mvWindowAppItem)
 			return static_cast<mvWindowAppItem*>(item.get());
 
 		return nullptr;
@@ -440,25 +440,25 @@ namespace Marvel {
 			ThrowPythonException("Parent stack not empty. Adding window will empty the parent stack. Don't forget to end container types.");
 		}
 
-		if (item->getType() != mvAppItemType::Node && topParent() != nullptr)
+		if (item->getType() != mvAppItemType::mvNode && topParent() != nullptr)
 		{
-			if (topParent()->getType() == mvAppItemType::NodeEditor)
+			if (topParent()->getType() == mvAppItemType::mvNodeEditor)
 			{
 				ThrowPythonException("Node editor children must be nodes only.");
 				return false;
 			}
 		}
 
-		if (item->getType() != mvAppItemType::NodeAttribute && topParent() != nullptr)
+		if (item->getType() != mvAppItemType::mvNodeAttribute && topParent() != nullptr)
 		{
-			if (topParent()->getType() == mvAppItemType::Node)
+			if (topParent()->getType() == mvAppItemType::mvNode)
 			{
 				ThrowPythonException("Node children must be nodes attributes only.");
 				return false;
 			}
 		}
 
-		if (item->getType() == mvAppItemType::Popup || item->getType() == mvAppItemType::Tooltip)
+		if (item->getType() == mvAppItemType::mvPopup || item->getType() == mvAppItemType::mvTooltip)
 		{
 			addItemAfter(parent, item);
 			return true;

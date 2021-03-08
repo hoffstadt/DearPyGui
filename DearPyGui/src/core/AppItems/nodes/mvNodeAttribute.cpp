@@ -118,7 +118,7 @@ namespace Marvel {
 		auto topParent = mvApp::GetApp()->getItemRegistry().topParent();
 		if (topParent)
 		{
-			if (topParent->getType() != mvAppItemType::Node)
+			if (topParent->getType() != mvAppItemType::mvNode)
 			{
 				ThrowPythonException("Parent on parent stack must be a node.");
 				return ToPyBool(false);

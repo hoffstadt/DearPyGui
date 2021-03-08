@@ -2,7 +2,11 @@
 // such as names of functions and macros.
 // For more information see https://go.microsoft.com/fwlink/?linkid=865984
 
-#define MV_APPITEM_TYPE(x, y, parser)public:\
+#define MV_REGISTER_WIDGET(x) class x;\
+template<> struct mvItemType<(int)mvAppItemType::x> { typedef x type; };
+
+#define MV_APPITEM_TYPE(x, parser)public:\
+static constexpr const long s_internal_type = (long)x;\
 mvAppItemType getType() const override { return x; }\
 std::string getStringType() const override { return std::string(#x); }\
 std::string getParserCommand() const override { return parser; }
@@ -15,4 +19,4 @@ std::string getParserCommand() const override { return parser; }
 #define MV_END_STYLE_CONSTANTS };return constants;}
 #define MV_CREATE_CONSTANT_PAIR(x, y) {#x, x, y}
 #define MV_CREATE_CONSTANT_TUPLE(x, y, z) {#x, x, y, z}
-#define MV_CREATE_THEME_CONSTANT(x, y, z, i) static constexpr const long y = (long)x*1000L+z*10L+i;
+#define MV_CREATE_THEME_CONSTANT(y, z, i) static constexpr const long y = s_internal_type*1000L+z*10L+i;

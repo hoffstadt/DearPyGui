@@ -29,28 +29,27 @@ namespace Marvel {
 
     //-----------------------------------------------------------------------------
     // mvAppItemType
-    //   - Don't forget to register item in mvAppItems.h file.
     //-----------------------------------------------------------------------------
     enum class mvAppItemType
     {
-        None = 0, Spacing, SameLine, InputText, Button,
-        RadioButtons, TabBar, TabItem, Image, MenuBar,
-        Menu, MenuItem, Group, Child,
-        SliderFloat, SliderFloat4, SliderInt, SliderInt4,
-        SliderFloat2, SliderFloat3, SliderInt2, SliderInt3,
-        DragFloat, DragFloat4, DragInt, DragInt4, DragFloat2,
-        DragFloat3, DragInt2, DragInt3, InputFloat, InputFloat4,
-        InputInt, InputInt4, InputFloat2, InputFloat3,
-        InputInt2, InputInt3, ColorEdit3, ColorEdit4,
-        ColorPicker3, ColorPicker4, Tooltip, CollapsingHeader,
-        Separator, Checkbox, Listbox, Text, LabelText, Combo,
-        Plot, SimplePlot, Indent, Unindent, Drawing, Window,
-        Popup, Selectable, TreeNode, ProgressBar, Table, Dummy,
-        ImageButton, TimePicker, DatePicker, ColorButton,
-        ManagedColumns, ColumnSet, NextColumn, Logger,
-        AboutWindow, DocWindow, DebugWindow, MetricsWindow,
-        StyleWindow, FileDialog, TabButton,
-        NodeEditor, Node, NodeAttribute,
+        None = 0, mvSpacing, mvSameLine, mvInputText, mvButton,
+        mvRadioButton, mvTabBar, mvTab, mvImage, mvMenuBar,
+        mvMenu, mvMenuItem, mvGroup, mvChild,
+        mvSliderFloat, mvSliderFloat4, mvSliderInt, mvSliderInt4,
+        mvSliderFloat2, mvSliderFloat3, mvSliderInt2, mvSliderInt3,
+        mvDragFloat, mvDragFloat4, mvDragInt, mvDragInt4, mvDragFloat2,
+        mvDragFloat3, mvDragInt2, mvDragInt3, mvInputFloat, mvInputFloat4,
+        mvInputInt, mvInputInt4, mvInputFloat2, mvInputFloat3,
+        mvInputInt2, mvInputInt3, mvColorEdit3, mvColorEdit4,
+        mvColorPicker3, mvColorPicker4, mvTooltip, mvCollapsingHeader,
+        mvSeparator, mvCheckbox, mvListbox, mvText, mvLabelText, mvCombo,
+        mvPlot, mvSimplePlot, mvIndent, mvUnindent, mvDrawing, mvWindowAppItem,
+        mvPopup, mvSelectable, mvTreeNode, mvProgressBar, mvTable, mvDummy,
+        mvImageButton, mvTimePicker, mvDatePicker, mvColorButton,
+        mvManagedColumns, mvColumnSet, mvNextColumn, mvLoggerItem,
+        mvAboutWindow, mvDocWindow, mvDebugWindow, mvMetricsWindow,
+        mvStyleWindow, mvFileDialog, mvTabButton,
+        mvNodeEditor, mvNode, mvNodeAttribute,
         ItemTypeCount
     };
 

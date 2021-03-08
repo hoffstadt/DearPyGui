@@ -49,27 +49,28 @@ namespace Marvel {
 	//-----------------------------------------------------------------------------
 	// mvColorPicker3
 	//-----------------------------------------------------------------------------
+	MV_REGISTER_WIDGET(mvColorPicker3);
 	class mvColorPicker3 : public mvColorPtrBase
 	{
 
-		MV_APPITEM_TYPE(mvAppItemType::ColorPicker3, mvColorPicker3, "add_color_picker3")
+		MV_APPITEM_TYPE(mvAppItemType::mvColorPicker3, "add_color_picker3")
 
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::ColorPicker3, mvThemeCol_ColorPicker3_Text, 0L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::ColorPicker3, mvThemeCol_ColorPicker3_Bg, 7L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::ColorPicker3, mvThemeCol_ColorPicker3_BgHovered, 8L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::ColorPicker3, mvThemeCol_ColorPicker3_BgActive, 9L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::ColorPicker3, mvThemeCol_ColorPicker3_Border, 5L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::ColorPicker3, mvThemeCol_ColorPicker3_BorderShadow, 6L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::ColorPicker3, mvThemeStyle_ColorPicker3_Rounding, 11L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::ColorPicker3, mvThemeStyle_ColorPicker3_BorderSize, 12L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::ColorPicker3, mvThemeStyle_ColorPicker3_PopupRounding, 8L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::ColorPicker3, mvThemeStyle_ColorPicker3_PopupBorderSize, 9L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::ColorPicker3, mvThemeStyle_ColorPicker3_InnerSpacingX, 14L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::ColorPicker3, mvThemeStyle_ColorPicker3_InnerSpacingY, 14L, 1L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::ColorPicker3, mvThemeStyle_ColorPicker3_PopupPaddingX, 1L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::ColorPicker3, mvThemeStyle_ColorPicker3_PopupPaddingY, 1L, 1L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::ColorPicker3, mvThemeStyle_ColorPicker3_PaddingX, 10L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::ColorPicker3, mvThemeStyle_ColorPicker3_PaddingY, 10L, 1L);
+		MV_CREATE_THEME_CONSTANT(mvThemeCol_ColorPicker3_Text, 0L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeCol_ColorPicker3_Bg, 7L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeCol_ColorPicker3_BgHovered, 8L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeCol_ColorPicker3_BgActive, 9L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeCol_ColorPicker3_Border, 5L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeCol_ColorPicker3_BorderShadow, 6L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeStyle_ColorPicker3_Rounding, 11L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeStyle_ColorPicker3_BorderSize, 12L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeStyle_ColorPicker3_PopupRounding, 8L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeStyle_ColorPicker3_PopupBorderSize, 9L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeStyle_ColorPicker3_InnerSpacingX, 14L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeStyle_ColorPicker3_InnerSpacingY, 14L, 1L);
+		MV_CREATE_THEME_CONSTANT(mvThemeStyle_ColorPicker3_PopupPaddingX, 1L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeStyle_ColorPicker3_PopupPaddingY, 1L, 1L);
+		MV_CREATE_THEME_CONSTANT(mvThemeStyle_ColorPicker3_PaddingX, 10L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeStyle_ColorPicker3_PaddingY, 10L, 1L);
 
 		MV_START_COLOR_CONSTANTS
 			MV_CREATE_CONSTANT_PAIR(mvThemeCol_ColorPicker3_Text,         mvColor(255, 255, 255, 255)),
@@ -123,27 +124,28 @@ namespace Marvel {
 	//-----------------------------------------------------------------------------
 	// mvColorPicker4
 	//-----------------------------------------------------------------------------
+	MV_REGISTER_WIDGET(mvColorPicker4);
 	class mvColorPicker4 : public mvColorPtrBase
 	{
 
-		MV_APPITEM_TYPE(mvAppItemType::ColorPicker4, mvColorPicker4, "add_color_picker4")
+		MV_APPITEM_TYPE(mvAppItemType::mvColorPicker4, "add_color_picker4")
 
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::ColorPicker4, mvThemeCol_ColorPicker4_Text, 0L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::ColorPicker4, mvThemeCol_ColorPicker4_Bg, 7L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::ColorPicker4, mvThemeCol_ColorPicker4_BgHovered, 8L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::ColorPicker4, mvThemeCol_ColorPicker4_BgActive, 9L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::ColorPicker4, mvThemeCol_ColorPicker4_Border, 5L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::ColorPicker4, mvThemeCol_ColorPicker4_BorderShadow, 6L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::ColorPicker4, mvThemeStyle_ColorPicker4_Rounding, 11L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::ColorPicker4, mvThemeStyle_ColorPicker4_BorderSize, 12L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::ColorPicker4, mvThemeStyle_ColorPicker4_PopupRounding, 8L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::ColorPicker4, mvThemeStyle_ColorPicker4_PopupBorderSize, 9L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::ColorPicker4, mvThemeStyle_ColorPicker4_InnerSpacingX, 14L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::ColorPicker4, mvThemeStyle_ColorPicker4_InnerSpacingY, 14L, 1L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::ColorPicker4, mvThemeStyle_ColorPicker4_PopupPaddingX, 1L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::ColorPicker4, mvThemeStyle_ColorPicker4_PopupPaddingY, 1L, 1L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::ColorPicker4, mvThemeStyle_ColorPicker4_PaddingX, 10L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::ColorPicker4, mvThemeStyle_ColorPicker4_PaddingY, 10L, 1L);
+		MV_CREATE_THEME_CONSTANT(mvThemeCol_ColorPicker4_Text, 0L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeCol_ColorPicker4_Bg, 7L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeCol_ColorPicker4_BgHovered, 8L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeCol_ColorPicker4_BgActive, 9L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeCol_ColorPicker4_Border, 5L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeCol_ColorPicker4_BorderShadow, 6L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeStyle_ColorPicker4_Rounding, 11L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeStyle_ColorPicker4_BorderSize, 12L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeStyle_ColorPicker4_PopupRounding, 8L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeStyle_ColorPicker4_PopupBorderSize, 9L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeStyle_ColorPicker4_InnerSpacingX, 14L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeStyle_ColorPicker4_InnerSpacingY, 14L, 1L);
+		MV_CREATE_THEME_CONSTANT(mvThemeStyle_ColorPicker4_PopupPaddingX, 1L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeStyle_ColorPicker4_PopupPaddingY, 1L, 1L);
+		MV_CREATE_THEME_CONSTANT(mvThemeStyle_ColorPicker4_PaddingX, 10L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeStyle_ColorPicker4_PaddingY, 10L, 1L);
 
 		MV_START_COLOR_CONSTANTS
 			MV_CREATE_CONSTANT_PAIR(mvThemeCol_ColorPicker4_Text,         mvColor(255, 255, 255, 255)),

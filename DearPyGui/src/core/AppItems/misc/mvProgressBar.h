@@ -6,22 +6,23 @@ namespace Marvel {
 
 	PyObject* add_progress_bar(PyObject* self, PyObject* args, PyObject* kwargs);
 
+	MV_REGISTER_WIDGET(mvProgressBar);
 	class mvProgressBar : public mvFloatPtrBase
 	{
 
-		MV_APPITEM_TYPE(mvAppItemType::ProgressBar, mvProgressBar, "add_progress_bar")
+		MV_APPITEM_TYPE(mvAppItemType::mvProgressBar, "add_progress_bar")
 
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::ProgressBar, mvThemeCol_ProgressBar_Text				,  0L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::ProgressBar, mvThemeCol_ProgressBar_Bar					, 42L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::ProgressBar, mvThemeCol_ProgressBar_Bg					,  7L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::ProgressBar, mvThemeCol_ProgressBar_Border				,  5L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::ProgressBar, mvThemeCol_ProgressBar_BorderShadow		,  6L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::ProgressBar, mvThemeStyle_ProgressBar_Rounding			, 11L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::ProgressBar, mvThemeStyle_ProgressBar_BorderSize		, 12L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::ProgressBar, mvThemeStyle_ProgressBar_PaddingX			, 10L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::ProgressBar, mvThemeStyle_ProgressBar_PaddingY			, 10L, 1L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::ProgressBar, mvThemeStyle_ProgressBar_InnerItemSpacingX	, 14L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::ProgressBar, mvThemeStyle_ProgressBar_InnerItemSpacingY	, 14L, 1L);
+		MV_CREATE_THEME_CONSTANT(mvThemeCol_ProgressBar_Text				,  0L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeCol_ProgressBar_Bar					, 42L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeCol_ProgressBar_Bg					,  7L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeCol_ProgressBar_Border				,  5L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeCol_ProgressBar_BorderShadow		,  6L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeStyle_ProgressBar_Rounding			, 11L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeStyle_ProgressBar_BorderSize		, 12L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeStyle_ProgressBar_PaddingX			, 10L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeStyle_ProgressBar_PaddingY			, 10L, 1L);
+		MV_CREATE_THEME_CONSTANT(mvThemeStyle_ProgressBar_InnerItemSpacingX	, 14L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeStyle_ProgressBar_InnerItemSpacingY	, 14L, 1L);
 
 		MV_START_COLOR_CONSTANTS
 			MV_CREATE_CONSTANT_PAIR(mvThemeCol_ProgressBar_Text,			mvColor(255, 255, 255, 255)),

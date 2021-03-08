@@ -86,6 +86,7 @@ namespace Marvel {
 	//-----------------------------------------------------------------------------
 	// mvPlot
 	//-----------------------------------------------------------------------------
+	MV_REGISTER_WIDGET(mvPlot);
 	class mvPlot : public mvAppItem
 	{
 
@@ -96,7 +97,7 @@ namespace Marvel {
 
 	public:
 
-		MV_APPITEM_TYPE(mvAppItemType::Plot, mvPlot, "add_plot")
+		MV_APPITEM_TYPE(mvAppItemType::mvPlot, "add_plot")
 
 		MV_START_COLOR_CONSTANTS
 		MV_END_COLOR_CONSTANTS

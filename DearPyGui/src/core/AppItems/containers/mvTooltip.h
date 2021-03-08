@@ -11,18 +11,19 @@ namespace Marvel {
 
 	PyObject* add_tooltip(PyObject* self, PyObject* args, PyObject* kwargs);
 
+	MV_REGISTER_WIDGET(mvTooltip);
 	class mvTooltip : public mvBoolPtrBase
 	{
-		MV_APPITEM_TYPE(mvAppItemType::Tooltip, mvTooltip, "add_tooltip")
+		MV_APPITEM_TYPE(mvAppItemType::mvTooltip, "add_tooltip")
 
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::Tooltip, mvThemeCol_Tooltip_Bg				,  4L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::Tooltip, mvThemeCol_Tooltip_Border			,  5L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::Tooltip, mvThemeStyle_Tooltip_BorderSize	,  3L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::Tooltip, mvThemeStyle_Tooltip_Rounding		,  2L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::Tooltip, mvThemeStyle_Tooltip_PaddingX		,  1L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::Tooltip, mvThemeStyle_Tooltip_PaddingY		,  1L, 1L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::Tooltip, mvThemeStyle_Tooltip_ItemSpacingX	, 13L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::Tooltip, mvThemeStyle_Tooltip_ItemSpacingY	, 13L, 1L);
+		MV_CREATE_THEME_CONSTANT(mvThemeCol_Tooltip_Bg				,  4L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeCol_Tooltip_Border			,  5L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeStyle_Tooltip_BorderSize	,  3L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeStyle_Tooltip_Rounding		,  2L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeStyle_Tooltip_PaddingX		,  1L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeStyle_Tooltip_PaddingY		,  1L, 1L);
+		MV_CREATE_THEME_CONSTANT(mvThemeStyle_Tooltip_ItemSpacingX	, 13L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeStyle_Tooltip_ItemSpacingY	, 13L, 1L);
 
 		MV_START_COLOR_CONSTANTS
 			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Tooltip_Bg,		mvColor( 20,  20,  20, 240)),

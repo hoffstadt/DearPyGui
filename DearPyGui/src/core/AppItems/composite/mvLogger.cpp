@@ -388,7 +388,7 @@ namespace Marvel {
 				return ToPyInt(-1);
 			}
 
-			if (loggeritem->getType() != mvAppItemType::Logger)
+			if (loggeritem->getType() != mvAppItemType::mvLoggerItem)
 			{
 				ThrowPythonException(std::string(logger) + " is not a logger.");
 				return ToPyInt(-1);
@@ -421,7 +421,7 @@ namespace Marvel {
 				return GetPyNone();
 			}
 
-			if (loggeritem->getType() != mvAppItemType::Logger)
+			if (loggeritem->getType() != mvAppItemType::mvLoggerItem)
 			{
 				ThrowPythonException(std::string(logger) + " is not a logger.");
 				return GetPyNone();
@@ -456,7 +456,7 @@ namespace Marvel {
 				return GetPyNone();
 			}
 
-			if (loggeritem->getType() != mvAppItemType::Logger)
+			if (loggeritem->getType() != mvAppItemType::mvLoggerItem)
 			{
 				ThrowPythonException(std::string(logger) + " is not a logger.");
 				return GetPyNone();
@@ -491,7 +491,7 @@ namespace Marvel {
 				return GetPyNone();
 			}
 
-			if (loggeritem->getType() != mvAppItemType::Logger)
+			if (loggeritem->getType() != mvAppItemType::mvLoggerItem)
 			{
 				ThrowPythonException(std::string(logger) + " is not a logger.");
 				return GetPyNone();
@@ -526,7 +526,7 @@ namespace Marvel {
 				return GetPyNone();
 			}
 
-			if (loggeritem->getType() != mvAppItemType::Logger)
+			if (loggeritem->getType() != mvAppItemType::mvLoggerItem)
 			{
 				ThrowPythonException(std::string(logger) + " is not a logger.");
 				return GetPyNone();
@@ -561,7 +561,7 @@ namespace Marvel {
 				return GetPyNone();
 			}
 
-			if (loggeritem->getType() != mvAppItemType::Logger)
+			if (loggeritem->getType() != mvAppItemType::mvLoggerItem)
 			{
 				ThrowPythonException(std::string(logger) + " is not a logger.");
 				return GetPyNone();
@@ -594,7 +594,7 @@ namespace Marvel {
 				return GetPyNone();
 			}
 
-			if (loggeritem->getType() != mvAppItemType::Logger)
+			if (loggeritem->getType() != mvAppItemType::mvLoggerItem)
 			{
 				ThrowPythonException(std::string(logger) + " is not a logger.");
 				return GetPyNone();
@@ -625,7 +625,7 @@ namespace Marvel {
 				return GetPyNone();
 			}
 
-			if (loggeritem->getType() != mvAppItemType::Logger)
+			if (loggeritem->getType() != mvAppItemType::mvLoggerItem)
 			{
 				ThrowPythonException(std::string(logger) + " is not a logger.");
 				return GetPyNone();

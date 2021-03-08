@@ -38,7 +38,7 @@ namespace Marvel {
 			for (auto sibling : m_parent->m_children)
 			{
 				// ensure sibling
-				if (sibling->getType() == mvAppItemType::Menu)
+				if (sibling->getType() == mvAppItemType::mvMenu)
 					*((mvMenu*)sibling.get())->m_value = false;
 			}
 

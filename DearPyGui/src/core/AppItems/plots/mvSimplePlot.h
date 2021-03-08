@@ -10,6 +10,7 @@ namespace Marvel{
 	PyObject* add_simple_plot(PyObject* self, PyObject* args, PyObject* kwargs);
 #endif
 
+	MV_REGISTER_WIDGET(mvSimplePlot);
 	class mvSimplePlot : public mvFloatVectPtrBase
 	{
 
@@ -17,23 +18,23 @@ namespace Marvel{
 
 		static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
 
-		MV_APPITEM_TYPE(mvAppItemType::SimplePlot, mvSimplePlot, "add_simple_plot")
+		MV_APPITEM_TYPE(mvAppItemType::mvSimplePlot, "add_simple_plot")
 
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::SimplePlot, mvThemeCol_SimplePlot_Text					,  0L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::SimplePlot, mvThemeCol_SimplePlot_Border				,  5L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::SimplePlot, mvThemeCol_SimplePlot_BorderShadow			,  6L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::SimplePlot, mvThemeCol_SimplePlot_Bg					,  7L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::SimplePlot, mvThemeCol_SimplePlot_PopupBg				,  4L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::SimplePlot, mvThemeCol_SimplePlot_Lines					, 40L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::SimplePlot, mvThemeCol_SimplePlot_LinesHovered			, 41L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::SimplePlot, mvThemeCol_SimplePlot_Histogram				, 42L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::SimplePlot, mvThemeCol_SimplePlot_HistogramHovered		, 43L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::SimplePlot, mvThemeStyle_SimplePlot_Rounding			, 11L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::SimplePlot, mvThemeStyle_SimplePlot_BorderSize			, 12L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::SimplePlot, mvThemeStyle_SimplePlot_PaddingX			, 10L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::SimplePlot, mvThemeStyle_SimplePlot_PaddingY			, 10L, 1L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::SimplePlot, mvThemeStyle_SimplePlot_InnerItemSpacingX	, 14L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::SimplePlot, mvThemeStyle_SimplePlot_InnerItemSpacingY	, 14L, 1L);
+		MV_CREATE_THEME_CONSTANT(mvThemeCol_SimplePlot_Text					,  0L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeCol_SimplePlot_Border				,  5L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeCol_SimplePlot_BorderShadow			,  6L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeCol_SimplePlot_Bg					,  7L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeCol_SimplePlot_PopupBg				,  4L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeCol_SimplePlot_Lines					, 40L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeCol_SimplePlot_LinesHovered			, 41L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeCol_SimplePlot_Histogram				, 42L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeCol_SimplePlot_HistogramHovered		, 43L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeStyle_SimplePlot_Rounding			, 11L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeStyle_SimplePlot_BorderSize			, 12L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeStyle_SimplePlot_PaddingX			, 10L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeStyle_SimplePlot_PaddingY			, 10L, 1L);
+		MV_CREATE_THEME_CONSTANT(mvThemeStyle_SimplePlot_InnerItemSpacingX	, 14L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeStyle_SimplePlot_InnerItemSpacingY	, 14L, 1L);
 
 		MV_START_COLOR_CONSTANTS
 			MV_CREATE_CONSTANT_PAIR(mvThemeCol_SimplePlot_Text,				mvColor(255, 255, 255, 255)),
