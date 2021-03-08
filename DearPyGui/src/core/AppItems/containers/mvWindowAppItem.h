@@ -40,39 +40,40 @@ namespace Marvel {
 	PyObject* add_window(PyObject* self, PyObject* args, PyObject* kwargs);
 #endif //
 
+	MV_REGISTER_WIDGET(mvWindowAppItem);
 	class mvWindowAppItem : public mvAppItem
 	{
 
-		MV_APPITEM_TYPE(mvAppItemType::Window, mvWindowAppItem, "add_window")
+		MV_APPITEM_TYPE(mvAppItemType::mvWindowAppItem, "add_window")
 
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::Window, mvThemeCol_Window_TitleText				,  0L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::Window, mvThemeCol_Window_TitleBg				, 10L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::Window, mvThemeCol_Window_TitleBgActive			, 11L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::Window, mvThemeCol_Window_TitleBgCollapsed		, 12L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::Window, mvThemeCol_Window_MenuBar				, 13L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::Window, mvThemeCol_Window_Bg					,  2L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::Window, mvThemeCol_Window_Scrollbar				, 14L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::Window, mvThemeCol_Window_ScrollbarGrab			, 15L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::Window, mvThemeCol_Window_ScrollbarGrabHovered	, 16L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::Window, mvThemeCol_Window_ScrollbarGrabActive	, 17L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::Window, mvThemeCol_Window_ResizeBorder			, 29L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::Window, mvThemeCol_Window_ResizeGrip			, 30L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::Window, mvThemeCol_Window_ResizeGripHovered		, 31L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::Window, mvThemeCol_Window_ResizeGripActive		, 32L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::Window, mvThemeCol_Window_Border				,  5L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::Window, mvThemeCol_Window_BorderShadow			,  6L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::Window, mvThemeStyle_Window_BorderSize			,  3L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::Window, mvThemeStyle_Window_Rounding			,  2L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::Window, mvThemeStyle_Window_MinSizeX			,  4L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::Window, mvThemeStyle_Window_MinSizeY			,  4L, 1L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::Window, mvThemeStyle_Window_TitleAlignX			,  5L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::Window, mvThemeStyle_Window_TitleAlignY			,  5L, 1L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::Window, mvThemeStyle_Window_PaddingX			,  1L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::Window, mvThemeStyle_Window_PaddingY			,  1L, 1L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::Window, mvThemeStyle_Window_ItemSpacingX		, 13L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::Window, mvThemeStyle_Window_ItemSpacingY		, 13L, 1L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::Window, mvThemeStyle_Window_ScrollbarSize		, 17L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::Window, mvThemeStyle_Window_ScrollbarRounding	, 18L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeCol_Window_TitleText				,  0L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeCol_Window_TitleBg				, 10L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeCol_Window_TitleBgActive			, 11L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeCol_Window_TitleBgCollapsed		, 12L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeCol_Window_MenuBar				, 13L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeCol_Window_Bg					,  2L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeCol_Window_Scrollbar				, 14L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeCol_Window_ScrollbarGrab			, 15L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeCol_Window_ScrollbarGrabHovered	, 16L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeCol_Window_ScrollbarGrabActive	, 17L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeCol_Window_ResizeBorder			, 29L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeCol_Window_ResizeGrip			, 30L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeCol_Window_ResizeGripHovered		, 31L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeCol_Window_ResizeGripActive		, 32L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeCol_Window_Border				,  5L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeCol_Window_BorderShadow			,  6L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeStyle_Window_BorderSize			,  3L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeStyle_Window_Rounding			,  2L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeStyle_Window_MinSizeX			,  4L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeStyle_Window_MinSizeY			,  4L, 1L);
+		MV_CREATE_THEME_CONSTANT(mvThemeStyle_Window_TitleAlignX			,  5L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeStyle_Window_TitleAlignY			,  5L, 1L);
+		MV_CREATE_THEME_CONSTANT(mvThemeStyle_Window_PaddingX			,  1L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeStyle_Window_PaddingY			,  1L, 1L);
+		MV_CREATE_THEME_CONSTANT(mvThemeStyle_Window_ItemSpacingX		, 13L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeStyle_Window_ItemSpacingY		, 13L, 1L);
+		MV_CREATE_THEME_CONSTANT(mvThemeStyle_Window_ScrollbarSize		, 17L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeStyle_Window_ScrollbarRounding	, 18L, 0L);
 
 		MV_START_COLOR_CONSTANTS
 			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Window_TitleText,			mvColor(255, 255, 255, 255)),

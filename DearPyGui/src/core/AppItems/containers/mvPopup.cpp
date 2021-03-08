@@ -185,7 +185,7 @@ namespace Marvel {
 		}
 
 		mvPopup* pop;
-		if (item->getType() == mvAppItemType::Popup)
+		if (item->getType() == mvAppItemType::mvPopup)
 			pop = static_cast<mvPopup*>(item.get());
 		else
 		{

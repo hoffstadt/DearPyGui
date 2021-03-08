@@ -446,7 +446,7 @@ namespace Marvel {
 			return false;
 		}
 
-		if (plot->getType() != mvAppItemType::Plot)
+		if (plot->getType() != mvAppItemType::mvPlot)
 		{
 			ThrowPythonException(std::string(name) + " is not a plot.");
 			return false;
@@ -1482,7 +1482,7 @@ namespace Marvel {
 			return GetPyNone();
 		}
 
-		if (aplot->getType() != mvAppItemType::Plot)
+		if (aplot->getType() != mvAppItemType::mvPlot)
 		{
 			std::string message = plot;
 			ThrowPythonException(message + " is not a plot.");
@@ -1517,7 +1517,7 @@ namespace Marvel {
 			return GetPyNone();
 		}
 
-		if (aplot->getType() != mvAppItemType::Plot)
+		if (aplot->getType() != mvAppItemType::mvPlot)
 		{
 			std::string message = plot;
 			ThrowPythonException(message + " is not a plot.");
@@ -1560,7 +1560,7 @@ namespace Marvel {
 			return GetPyNone();
 		}
 
-		if (aplot->getType() != mvAppItemType::Plot)
+		if (aplot->getType() != mvAppItemType::mvPlot)
 		{
 			std::string message = plot;
 			ThrowPythonException(message + " is not a plot.");
@@ -1596,7 +1596,7 @@ namespace Marvel {
 			return GetPyNone();
 		}
 
-		if (aplot->getType() != mvAppItemType::Plot)
+		if (aplot->getType() != mvAppItemType::mvPlot)
 		{
 			std::string message = plot;
 			ThrowPythonException(message + " is not a plot.");
@@ -1639,7 +1639,7 @@ namespace Marvel {
 			return GetPyNone();
 		}
 
-		if (aplot->getType() != mvAppItemType::Plot)
+		if (aplot->getType() != mvAppItemType::mvPlot)
 		{
 			std::string message = plot;
 			ThrowPythonException(message + " is not a plot.");
@@ -1671,7 +1671,7 @@ namespace Marvel {
 			return GetPyNone();
 		}
 
-		if (aplot->getType() != mvAppItemType::Plot)
+		if (aplot->getType() != mvAppItemType::mvPlot)
 		{
 			std::string message = plot;
 			ThrowPythonException(message + " is not a plot.");
@@ -1701,7 +1701,7 @@ namespace Marvel {
 			return GetPyNone();
 		}
 
-		if (aplot->getType() != mvAppItemType::Plot)
+		if (aplot->getType() != mvAppItemType::mvPlot)
 		{
 			std::string message = plot;
 			ThrowPythonException(message + " is not a plot.");
@@ -1731,7 +1731,7 @@ namespace Marvel {
 			return GetPyNone();
 		}
 
-		if (aplot->getType() != mvAppItemType::Plot)
+		if (aplot->getType() != mvAppItemType::mvPlot)
 		{
 			std::string message = plot;
 			ThrowPythonException(message + " is not a plot.");
@@ -1761,7 +1761,7 @@ namespace Marvel {
 			return GetPyNone();
 		}
 
-		if (aplot->getType() != mvAppItemType::Plot)
+		if (aplot->getType() != mvAppItemType::mvPlot)
 		{
 			std::string message = plot;
 			ThrowPythonException(message + " is not a plot.");
@@ -1794,7 +1794,7 @@ namespace Marvel {
 			return GetPyNone();
 		}
 
-		if (aplot->getType() != mvAppItemType::Plot)
+		if (aplot->getType() != mvAppItemType::mvPlot)
 		{
 			std::string message = plot;
 			ThrowPythonException(message + " is not a plot.");
@@ -1836,7 +1836,7 @@ namespace Marvel {
 			return GetPyNone();
 		}
 
-		if (aplot->getType() != mvAppItemType::Plot)
+		if (aplot->getType() != mvAppItemType::mvPlot)
 		{
 			std::string message = plot;
 			ThrowPythonException(message + " is not a plot.");
@@ -1874,7 +1874,7 @@ namespace Marvel {
 			return GetPyNone();
 		}
 
-		if (aplot->getType() != mvAppItemType::Plot)
+		if (aplot->getType() != mvAppItemType::mvPlot)
 		{
 			std::string message = plot;
 			ThrowPythonException(message + " is not a plot.");
@@ -1904,7 +1904,7 @@ namespace Marvel {
 			return GetPyNone();
 		}
 
-		if (aplot->getType() != mvAppItemType::Plot)
+		if (aplot->getType() != mvAppItemType::mvPlot)
 		{
 			std::string message = plot;
 			ThrowPythonException(message + " is not a plot.");
@@ -1936,7 +1936,7 @@ namespace Marvel {
 			return GetPyNone();
 		}
 
-		if (aplot->getType() != mvAppItemType::Plot)
+		if (aplot->getType() != mvAppItemType::mvPlot)
 		{
 			std::string message = plot;
 			ThrowPythonException(message + " is not a plot.");
@@ -1968,7 +1968,7 @@ namespace Marvel {
 			return GetPyNone();
 		}
 
-		if (aplot->getType() != mvAppItemType::Plot)
+		if (aplot->getType() != mvAppItemType::mvPlot)
 		{
 			std::string message = plot;
 			ThrowPythonException(message + " is not a plot.");
@@ -1998,7 +1998,7 @@ namespace Marvel {
 			return GetPyNone();
 		}
 
-		if (aplot->getType() != mvAppItemType::Plot)
+		if (aplot->getType() != mvAppItemType::mvPlot)
 		{
 			std::string message = plot;
 			ThrowPythonException(message + " is not a plot.");
@@ -2026,7 +2026,7 @@ namespace Marvel {
 			return GetPyNone();
 		}
 
-		if (aplot->getType() != mvAppItemType::Plot)
+		if (aplot->getType() != mvAppItemType::mvPlot)
 		{
 			std::string message = plot;
 			ThrowPythonException(message + " is not a plot.");
@@ -2055,7 +2055,7 @@ namespace Marvel {
 			return GetPyNone();
 		}
 
-		if (aplot->getType() != mvAppItemType::Plot)
+		if (aplot->getType() != mvAppItemType::mvPlot)
 		{
 			std::string message = plot;
 			ThrowPythonException(message + " is not a plot.");
@@ -2084,7 +2084,7 @@ namespace Marvel {
 			return GetPyNone();
 		}
 
-		if (aplot->getType() != mvAppItemType::Plot)
+		if (aplot->getType() != mvAppItemType::mvPlot)
 		{
 			std::string message = plot;
 			ThrowPythonException(message + " is not a plot.");
@@ -2114,7 +2114,7 @@ namespace Marvel {
 			return GetPyNone();
 		}
 
-		if (aplot->getType() != mvAppItemType::Plot)
+		if (aplot->getType() != mvAppItemType::mvPlot)
 		{
 			std::string message = plot;
 			ThrowPythonException(message + " is not a plot.");
@@ -2145,7 +2145,7 @@ namespace Marvel {
 			return GetPyNone();
 		}
 
-		if (aplot->getType() != mvAppItemType::Plot)
+		if (aplot->getType() != mvAppItemType::mvPlot)
 		{
 			std::string message = plot;
 			ThrowPythonException(message + " is not a plot.");
@@ -2208,7 +2208,7 @@ namespace Marvel {
 			return GetPyNone();
 		}
 
-		if (aplot->getType() != mvAppItemType::Plot)
+		if (aplot->getType() != mvAppItemType::mvPlot)
 		{
 			std::string message = plot;
 			ThrowPythonException(message + " is not a plot.");
@@ -2265,7 +2265,7 @@ namespace Marvel {
 			return GetPyNone();
 		}
 
-		if (aplot->getType() != mvAppItemType::Plot)
+		if (aplot->getType() != mvAppItemType::mvPlot)
 		{
 			std::string message = plot;
 			ThrowPythonException(message + " is not a plot.");
@@ -2319,7 +2319,7 @@ namespace Marvel {
 			return GetPyNone();
 		}
 
-		if (aplot->getType() != mvAppItemType::Plot)
+		if (aplot->getType() != mvAppItemType::mvPlot)
 		{
 			std::string message = plot;
 			ThrowPythonException(message + " is not a plot.");
@@ -2374,7 +2374,7 @@ namespace Marvel {
 			return GetPyNone();
 		}
 
-		if (aplot->getType() != mvAppItemType::Plot)
+		if (aplot->getType() != mvAppItemType::mvPlot)
 		{
 			std::string message = plot;
 			ThrowPythonException(message + " is not a plot.");
@@ -2426,7 +2426,7 @@ namespace Marvel {
 			return GetPyNone();
 		}
 
-		if (aplot->getType() != mvAppItemType::Plot)
+		if (aplot->getType() != mvAppItemType::mvPlot)
 		{
 			std::string message = plot;
 			ThrowPythonException(message + " is not a plot.");
@@ -2500,7 +2500,7 @@ namespace Marvel {
 			return GetPyNone();
 		}
 
-		if (aplot->getType() != mvAppItemType::Plot)
+		if (aplot->getType() != mvAppItemType::mvPlot)
 		{
 			std::string message = plot;
 			ThrowPythonException(message + " is not a plot.");
@@ -2578,7 +2578,7 @@ namespace Marvel {
 			return GetPyNone();
 		}
 
-		if (aplot->getType() != mvAppItemType::Plot)
+		if (aplot->getType() != mvAppItemType::mvPlot)
 		{
 			std::string message = plot;
 			ThrowPythonException(message + " is not a plot.");
@@ -2641,7 +2641,7 @@ namespace Marvel {
 			return GetPyNone();
 		}
 
-		if (aplot->getType() != mvAppItemType::Plot)
+		if (aplot->getType() != mvAppItemType::mvPlot)
 		{
 			std::string message = plot;
 			ThrowPythonException(message + " is not a plot.");
@@ -2704,7 +2704,7 @@ namespace Marvel {
 			return GetPyNone();
 		}
 
-		if (aplot->getType() != mvAppItemType::Plot)
+		if (aplot->getType() != mvAppItemType::mvPlot)
 		{
 			std::string message = plot;
 			ThrowPythonException(message + " is not a plot.");
@@ -2747,7 +2747,7 @@ namespace Marvel {
 			return GetPyNone();
 		}
 
-		if (aplot->getType() != mvAppItemType::Plot)
+		if (aplot->getType() != mvAppItemType::mvPlot)
 		{
 			std::string message = plot;
 			ThrowPythonException(message + " is not a plot.");
@@ -2800,7 +2800,7 @@ namespace Marvel {
 			return GetPyNone();
 		}
 
-		if (aplot->getType() != mvAppItemType::Plot)
+		if (aplot->getType() != mvAppItemType::mvPlot)
 		{
 			std::string message = plot;
 			ThrowPythonException(message + " is not a plot.");
@@ -2868,7 +2868,7 @@ namespace Marvel {
 			return GetPyNone();
 		}
 
-		if (aplot->getType() != mvAppItemType::Plot)
+		if (aplot->getType() != mvAppItemType::mvPlot)
 		{
 			std::string message = plot;
 			ThrowPythonException(message + " is not a plot.");
@@ -2939,7 +2939,7 @@ namespace Marvel {
 			return GetPyNone();
 		}
 
-		if (aplot->getType() != mvAppItemType::Plot)
+		if (aplot->getType() != mvAppItemType::mvPlot)
 		{
 			std::string message = plot;
 			ThrowPythonException(message + " is not a plot.");
@@ -2988,7 +2988,7 @@ namespace Marvel {
 			return GetPyNone();
 		}
 
-		if (aplot->getType() != mvAppItemType::Plot)
+		if (aplot->getType() != mvAppItemType::mvPlot)
 		{
 			std::string message = plot;
 			ThrowPythonException(message + " is not a plot.");
@@ -3037,7 +3037,7 @@ namespace Marvel {
 			return GetPyNone();
 		}
 
-		if (aplot->getType() != mvAppItemType::Plot)
+		if (aplot->getType() != mvAppItemType::mvPlot)
 		{
 			std::string message = plot;
 			ThrowPythonException(message + " is not a plot.");

@@ -9,6 +9,7 @@ namespace Marvel {
 	PyObject* unindent(PyObject* self, PyObject* args, PyObject* kwargs);
 #endif
 
+	MV_REGISTER_WIDGET(mvUnindent);
 	class mvUnindent : public mvFloatPtrBase
 	{
 
@@ -18,7 +19,7 @@ namespace Marvel {
 
 	public:
 
-		MV_APPITEM_TYPE(mvAppItemType::Unindent, mvUnindent, "unindent")
+		MV_APPITEM_TYPE(mvAppItemType::mvUnindent, "unindent")
 
 		MV_START_COLOR_CONSTANTS
 		MV_END_COLOR_CONSTANTS

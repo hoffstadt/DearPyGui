@@ -26,12 +26,13 @@ namespace Marvel {
 	//-----------------------------------------------------------------------------
 	// mvText
 	//-----------------------------------------------------------------------------
+	MV_REGISTER_WIDGET(mvText);
 	class mvText : public mvStringPtrBase
 	{
 
-		MV_APPITEM_TYPE(mvAppItemType::Text, mvText, "add_text")
+		MV_APPITEM_TYPE(mvAppItemType::mvText, "add_text")
 
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::Text, mvThemeCol_Text_Text, 0L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeCol_Text_Text, 0L, 0L);
 
 		MV_START_COLOR_CONSTANTS
 			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Text_Text, mvColor(255, 255, 255, 255))
@@ -78,16 +79,17 @@ namespace Marvel {
 		mvColor color{ 0, 0, 0, -1 };
 	};
 
+	MV_REGISTER_WIDGET(mvLabelText);
 	class mvLabelText : public mvStringPtrBase
 	{
 
-		MV_APPITEM_TYPE(mvAppItemType::LabelText, mvLabelText, "add_label_text")
+		MV_APPITEM_TYPE(mvAppItemType::mvLabelText, "add_label_text")
 
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::LabelText, mvThemeCol_LabelText_Text				,  0L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::LabelText, mvThemeStyle_LabelText_PaddingX			, 10L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::LabelText, mvThemeStyle_LabelText_PaddingY			, 10L, 1L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::LabelText, mvThemeStyle_LabelText_ItemInnerSpacingX	, 14L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::LabelText, mvThemeStyle_LabelText_ItemInnerSpacingY	, 14L, 1L);
+		MV_CREATE_THEME_CONSTANT(mvThemeCol_LabelText_Text				    ,  0L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeStyle_LabelText_PaddingX			, 10L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeStyle_LabelText_PaddingY			, 10L, 1L);
+		MV_CREATE_THEME_CONSTANT(mvThemeStyle_LabelText_ItemInnerSpacingX	, 14L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeStyle_LabelText_ItemInnerSpacingY	, 14L, 1L);
 
 		MV_START_COLOR_CONSTANTS
 			MV_CREATE_CONSTANT_PAIR(mvThemeCol_LabelText_Text, mvColor(255, 255, 255, 255))

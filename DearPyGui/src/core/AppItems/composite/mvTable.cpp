@@ -702,7 +702,7 @@ namespace Marvel {
 			return GetPyNone();
 		}
 
-		if (item->getType() != mvAppItemType::Table)
+		if (item->getType() != mvAppItemType::mvTable)
 		{
 			std::string message = name;
 			ThrowPythonException(message + " is not a table.");
@@ -730,7 +730,7 @@ namespace Marvel {
 			return GetPyNone();
 		}
 
-		if (item->getType() != mvAppItemType::Table)
+		if (item->getType() != mvAppItemType::mvTable)
 		{
 			std::string message = name;
 			ThrowPythonException(message + " is not a table.");
@@ -783,7 +783,7 @@ namespace Marvel {
 			return GetPyNone();
 		}
 
-		if (item->getType() != mvAppItemType::Table)
+		if (item->getType() != mvAppItemType::mvTable)
 		{
 			std::string message = table;
 			ThrowPythonException(message + " is not a table.");
@@ -814,7 +814,7 @@ namespace Marvel {
 			return GetPyNone();
 		}
 
-		if (item->getType() != mvAppItemType::Table)
+		if (item->getType() != mvAppItemType::mvTable)
 		{
 			std::string message = table;
 			ThrowPythonException(message + " is not a table.");
@@ -846,7 +846,7 @@ namespace Marvel {
 			return GetPyNone();
 		}
 
-		if (item->getType() != mvAppItemType::Table)
+		if (item->getType() != mvAppItemType::mvTable)
 		{
 			std::string message = table;
 			ThrowPythonException(message + " is not a table.");
@@ -875,7 +875,7 @@ namespace Marvel {
 			return GetPyNone();
 		}
 
-		if (item->getType() != mvAppItemType::Table)
+		if (item->getType() != mvAppItemType::mvTable)
 		{
 			std::string message = table;
 			ThrowPythonException(message + " is not a table.");
@@ -906,7 +906,7 @@ namespace Marvel {
 			return GetPyNone();
 		}
 
-		if (item->getType() != mvAppItemType::Table)
+		if (item->getType() != mvAppItemType::mvTable)
 		{
 			std::string message = table;
 			ThrowPythonException(message + " is not a table.");
@@ -937,7 +937,7 @@ namespace Marvel {
 			return GetPyNone();
 		}
 
-		if (item->getType() != mvAppItemType::Table)
+		if (item->getType() != mvAppItemType::mvTable)
 		{
 			std::string message = table;
 			ThrowPythonException(message + " is not a table.");
@@ -971,7 +971,7 @@ namespace Marvel {
 			return GetPyNone();
 		}
 
-		if (item->getType() != mvAppItemType::Table)
+		if (item->getType() != mvAppItemType::mvTable)
 		{
 			std::string message = table;
 			ThrowPythonException(message + " is not a table.");
@@ -1003,7 +1003,7 @@ namespace Marvel {
 			return GetPyNone();
 		}
 
-		if (item->getType() != mvAppItemType::Table)
+		if (item->getType() != mvAppItemType::mvTable)
 		{
 			std::string message = table;
 			ThrowPythonException(message + " is not a table.");
@@ -1033,7 +1033,7 @@ namespace Marvel {
 			return GetPyNone();
 		}
 
-		if (item->getType() != mvAppItemType::Table)
+		if (item->getType() != mvAppItemType::mvTable)
 		{
 			std::string message = table;
 			ThrowPythonException(message + " is not a table.");
@@ -1072,7 +1072,7 @@ namespace Marvel {
 			return GetPyNone();
 		}
 
-		if (item->getType() != mvAppItemType::Table)
+		if (item->getType() != mvAppItemType::mvTable)
 		{
 			std::string message = table;
 			ThrowPythonException(message + " is not a table.");
@@ -1110,7 +1110,7 @@ namespace Marvel {
 			return GetPyNone();
 		}
 
-		if (item->getType() != mvAppItemType::Table)
+		if (item->getType() != mvAppItemType::mvTable)
 		{
 			std::string message = table;
 			ThrowPythonException(message + " is not a table.");

@@ -46,29 +46,30 @@ namespace Marvel {
 	PyObject* add_color_edit4(PyObject* self, PyObject* args, PyObject* kwargs);
 #endif
 
+	MV_REGISTER_WIDGET(mvColorEdit3);
 	class mvColorEdit3 : public mvColorPtrBase
 	{
 
-		MV_APPITEM_TYPE(mvAppItemType::ColorEdit3, mvColorEdit3, "add_color_edit3")
+		MV_APPITEM_TYPE(mvAppItemType::mvColorEdit3, "add_color_edit3")
 
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::ColorEdit3, mvThemeCol_ColorEdit3_Text					,  0L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::ColorEdit3, mvThemeCol_ColorEdit3_TextHighlight			, 44L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::ColorEdit3, mvThemeCol_ColorEdit3_Bg					,  7L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::ColorEdit3, mvThemeCol_ColorEdit3_BgHovered				,  8L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::ColorEdit3, mvThemeCol_ColorEdit3_BgActive				,  9L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::ColorEdit3, mvThemeCol_ColorEdit3_PopupBg				,  4L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::ColorEdit3, mvThemeCol_ColorEdit3_Border				,  5L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::ColorEdit3, mvThemeCol_ColorEdit3_BorderShadow			,  6L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::ColorEdit3, mvThemeStyle_ColorEdit3_Rounding			, 11L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::ColorEdit3, mvThemeStyle_ColorEdit3_BorderSize			, 12L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::ColorEdit3, mvThemeStyle_ColorEdit3_PopupRounding		,  8L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::ColorEdit3, mvThemeStyle_ColorEdit3_PopupBorderSize		,  9L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::ColorEdit3, mvThemeStyle_ColorEdit3_InnerSpacingX		, 14L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::ColorEdit3, mvThemeStyle_ColorEdit3_InnerSpacingY		, 14L, 1L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::ColorEdit3, mvThemeStyle_ColorEdit3_PopupPaddingX		,  1L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::ColorEdit3, mvThemeStyle_ColorEdit3_PopupPaddingY		,  1L, 1L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::ColorEdit3, mvThemeStyle_ColorEdit3_PaddingX			, 10L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::ColorEdit3, mvThemeStyle_ColorEdit3_PaddingY			, 10L, 1L);
+		MV_CREATE_THEME_CONSTANT(mvThemeCol_ColorEdit3_Text					,  0L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeCol_ColorEdit3_TextHighlight			, 44L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeCol_ColorEdit3_Bg					,  7L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeCol_ColorEdit3_BgHovered				,  8L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeCol_ColorEdit3_BgActive				,  9L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeCol_ColorEdit3_PopupBg				,  4L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeCol_ColorEdit3_Border				,  5L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeCol_ColorEdit3_BorderShadow			,  6L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeStyle_ColorEdit3_Rounding			, 11L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeStyle_ColorEdit3_BorderSize			, 12L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeStyle_ColorEdit3_PopupRounding		,  8L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeStyle_ColorEdit3_PopupBorderSize		,  9L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeStyle_ColorEdit3_InnerSpacingX		, 14L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeStyle_ColorEdit3_InnerSpacingY		, 14L, 1L);
+		MV_CREATE_THEME_CONSTANT(mvThemeStyle_ColorEdit3_PopupPaddingX		,  1L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeStyle_ColorEdit3_PopupPaddingY		,  1L, 1L);
+		MV_CREATE_THEME_CONSTANT(mvThemeStyle_ColorEdit3_PaddingX			, 10L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeStyle_ColorEdit3_PaddingY			, 10L, 1L);
 
 		MV_START_COLOR_CONSTANTS
 			MV_CREATE_CONSTANT_PAIR(mvThemeCol_ColorEdit3_Text,          mvColor(255, 255, 255, 255)),
@@ -125,29 +126,30 @@ namespace Marvel {
 	//-----------------------------------------------------------------------------
 	// mvColorEdit4
 	//-----------------------------------------------------------------------------
+	MV_REGISTER_WIDGET(mvColorEdit4);
 	class mvColorEdit4 : public mvColorPtrBase
 	{
 
-		MV_APPITEM_TYPE(mvAppItemType::ColorEdit4, mvColorEdit4, "add_color_edit4")
+		MV_APPITEM_TYPE(mvAppItemType::mvColorEdit4, "add_color_edit4")
 
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::ColorEdit4, mvThemeCol_ColorEdit4_Text					,  0L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::ColorEdit4, mvThemeCol_ColorEdit4_TextHighlight			, 44L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::ColorEdit4, mvThemeCol_ColorEdit4_Bg					,  7L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::ColorEdit4, mvThemeCol_ColorEdit4_BgHovered				,  8L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::ColorEdit4, mvThemeCol_ColorEdit4_BgActive				,  9L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::ColorEdit4, mvThemeCol_ColorEdit4_PopupBg				,  4L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::ColorEdit4, mvThemeCol_ColorEdit4_Border				,  5L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::ColorEdit4, mvThemeCol_ColorEdit4_BorderShadow			,  6L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::ColorEdit4, mvThemeStyle_ColorEdit4_Rounding			, 11L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::ColorEdit4, mvThemeStyle_ColorEdit4_BorderSize			, 12L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::ColorEdit4, mvThemeStyle_ColorEdit4_PopupRounding		,  8L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::ColorEdit4, mvThemeStyle_ColorEdit4_PopupBorderSize		,  9L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::ColorEdit4, mvThemeStyle_ColorEdit4_InnerSpacingX		, 14L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::ColorEdit4, mvThemeStyle_ColorEdit4_InnerSpacingY		, 14L, 1L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::ColorEdit4, mvThemeStyle_ColorEdit4_PopupPaddingX		,  1L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::ColorEdit4, mvThemeStyle_ColorEdit4_PopupPaddingY		,  1L, 1L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::ColorEdit4, mvThemeStyle_ColorEdit4_PaddingX			, 10L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::ColorEdit4, mvThemeStyle_ColorEdit4_PaddingY			, 10L, 1L);
+		MV_CREATE_THEME_CONSTANT(mvThemeCol_ColorEdit4_Text					,  0L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeCol_ColorEdit4_TextHighlight			, 44L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeCol_ColorEdit4_Bg					,  7L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeCol_ColorEdit4_BgHovered				,  8L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeCol_ColorEdit4_BgActive				,  9L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeCol_ColorEdit4_PopupBg				,  4L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeCol_ColorEdit4_Border				,  5L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeCol_ColorEdit4_BorderShadow			,  6L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeStyle_ColorEdit4_Rounding			, 11L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeStyle_ColorEdit4_BorderSize			, 12L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeStyle_ColorEdit4_PopupRounding		,  8L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeStyle_ColorEdit4_PopupBorderSize		,  9L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeStyle_ColorEdit4_InnerSpacingX		, 14L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeStyle_ColorEdit4_InnerSpacingY		, 14L, 1L);
+		MV_CREATE_THEME_CONSTANT(mvThemeStyle_ColorEdit4_PopupPaddingX		,  1L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeStyle_ColorEdit4_PopupPaddingY		,  1L, 1L);
+		MV_CREATE_THEME_CONSTANT(mvThemeStyle_ColorEdit4_PaddingX			, 10L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeStyle_ColorEdit4_PaddingY			, 10L, 1L);
 
 		MV_START_COLOR_CONSTANTS
 			MV_CREATE_CONSTANT_PAIR(mvThemeCol_ColorEdit4_Text,          mvColor(255, 255, 255, 255)),

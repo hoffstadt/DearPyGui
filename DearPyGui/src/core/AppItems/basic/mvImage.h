@@ -18,6 +18,7 @@ namespace Marvel {
 
 	PyObject* add_image(PyObject* self, PyObject* args, PyObject* kwargs);
 
+	MV_REGISTER_WIDGET(mvImage);
 	class mvImage : public mvAppItem, public mvEventHandler
 	{
 
@@ -27,7 +28,7 @@ namespace Marvel {
 
 	public:
 
-		MV_APPITEM_TYPE(mvAppItemType::Image, mvImage, "add_image")
+		MV_APPITEM_TYPE(mvAppItemType::mvImage, "add_image")
 
 		MV_START_COLOR_CONSTANTS
 		MV_END_COLOR_CONSTANTS

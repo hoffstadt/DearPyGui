@@ -6,10 +6,11 @@ namespace Marvel {
 
 	PyObject* add_node_attribute(PyObject* self, PyObject* args, PyObject* kwargs);
 
+	MV_REGISTER_WIDGET(mvNodeAttribute);
 	class mvNodeAttribute : public mvAppItem
 	{
 
-		MV_APPITEM_TYPE(mvAppItemType::NodeAttribute, mvNodeAttribute, "add_node_attribute")
+		MV_APPITEM_TYPE(mvAppItemType::mvNodeAttribute, "add_node_attribute")
 
 		MV_START_COLOR_CONSTANTS
 		MV_END_COLOR_CONSTANTS

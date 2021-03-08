@@ -11,10 +11,11 @@ namespace Marvel {
 	PyObject* open_file_dialog       (PyObject* self, PyObject* args, PyObject* kwargs);
 #endif
 
+	MV_REGISTER_WIDGET(mvFileDialog);
 	class mvFileDialog : public mvBaseWindowAppitem
 	{
 
-		MV_APPITEM_TYPE(mvAppItemType::FileDialog, mvFileDialog, "no_command_set")
+		MV_APPITEM_TYPE(mvAppItemType::mvFileDialog, "no_command_set")
 
 		MV_START_COLOR_CONSTANTS
 		MV_END_COLOR_CONSTANTS

@@ -6,36 +6,37 @@ namespace Marvel {
 
 	PyObject* add_time_picker(PyObject* self, PyObject* args, PyObject* kwargs);
 
+	MV_REGISTER_WIDGET(mvTimePicker);
 	class mvTimePicker : public mvTimePtrBase
 	{
 
-		MV_APPITEM_TYPE(mvAppItemType::TimePicker, mvTimePicker, "add_time_picker")
+		MV_APPITEM_TYPE(mvAppItemType::mvTimePicker, "add_time_picker")
 
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::TimePicker, mvThemeCol_TimePicker_Time					,  0L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::TimePicker, mvThemeCol_TimePicker_TimeHovered			, 22L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::TimePicker, mvThemeCol_TimePicker_DropSelected			, 24L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::TimePicker, mvThemeCol_TimePicker_DropHovered			, 25L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::TimePicker, mvThemeCol_TimePicker_DropActive			, 26L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::TimePicker, mvThemeCol_TimePicker_DropBg				,  4L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::TimePicker, mvThemeCol_TimePicker_Scrollbar				, 14L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::TimePicker, mvThemeCol_TimePicker_ScrollbarGrab			, 15L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::TimePicker, mvThemeCol_TimePicker_ScrollbarGrabHovered	, 16L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::TimePicker, mvThemeCol_TimePicker_ScrollbarGrabActive	, 17L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::TimePicker, mvThemeCol_TimePicker_Border				,  5L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::TimePicker, mvThemeCol_TimePicker_BorderShadow			,  6L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::TimePicker, mvThemeStyle_TimePicker_BorderSize			, 12L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::TimePicker, mvThemeStyle_TimePicker_Rounding			, 11L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::TimePicker, mvThemeStyle_TimePicker_PaddingX			, 10L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::TimePicker, mvThemeStyle_TimePicker_PaddingY			, 10L, 1L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::TimePicker, mvThemeStyle_TimePicker_TextAlignX			, 22L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::TimePicker, mvThemeStyle_TimePicker_TextAlignY			, 22L, 1L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::TimePicker, mvThemeStyle_TimePicker_DropPaddingX		,  1L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::TimePicker, mvThemeStyle_TimePicker_DropPaddingY		,  1L, 1L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::TimePicker, mvThemeStyle_TimePicker_DropBorderSize		,  9L, 0L)
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::TimePicker, mvThemeStyle_TimePicker_DropItemSpacingX	, 13L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::TimePicker, mvThemeStyle_TimePicker_DropItemSpacingY	, 13L, 1L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::TimePicker, mvThemeStyle_TimePicker_DropTextAlignX		, 23L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::TimePicker, mvThemeStyle_TimePicker_DropTextAlignY		, 23L, 1L);
+		MV_CREATE_THEME_CONSTANT(mvThemeCol_TimePicker_Time					,  0L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeCol_TimePicker_TimeHovered			, 22L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeCol_TimePicker_DropSelected			, 24L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeCol_TimePicker_DropHovered			, 25L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeCol_TimePicker_DropActive			, 26L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeCol_TimePicker_DropBg				,  4L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeCol_TimePicker_Scrollbar				, 14L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeCol_TimePicker_ScrollbarGrab			, 15L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeCol_TimePicker_ScrollbarGrabHovered	, 16L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeCol_TimePicker_ScrollbarGrabActive	, 17L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeCol_TimePicker_Border				,  5L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeCol_TimePicker_BorderShadow			,  6L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeStyle_TimePicker_BorderSize			, 12L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeStyle_TimePicker_Rounding			, 11L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeStyle_TimePicker_PaddingX			, 10L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeStyle_TimePicker_PaddingY			, 10L, 1L);
+		MV_CREATE_THEME_CONSTANT(mvThemeStyle_TimePicker_TextAlignX			, 22L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeStyle_TimePicker_TextAlignY			, 22L, 1L);
+		MV_CREATE_THEME_CONSTANT(mvThemeStyle_TimePicker_DropPaddingX		,  1L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeStyle_TimePicker_DropPaddingY		,  1L, 1L);
+		MV_CREATE_THEME_CONSTANT(mvThemeStyle_TimePicker_DropBorderSize		,  9L, 0L)
+		MV_CREATE_THEME_CONSTANT(mvThemeStyle_TimePicker_DropItemSpacingX	, 13L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeStyle_TimePicker_DropItemSpacingY	, 13L, 1L);
+		MV_CREATE_THEME_CONSTANT(mvThemeStyle_TimePicker_DropTextAlignX		, 23L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeStyle_TimePicker_DropTextAlignY		, 23L, 1L);
 
 		MV_START_COLOR_CONSTANTS
 			MV_CREATE_CONSTANT_PAIR(mvThemeCol_TimePicker_Time,					mvColor(255, 255, 255, 255)),

@@ -35,6 +35,7 @@ namespace Marvel {
 	PyObject* set_logger_window_title(PyObject* self, PyObject* args, PyObject* kwargs);
 #endif
 
+	MV_REGISTER_WIDGET(mvLoggerItem);
 	class mvLoggerItem : public mvAppItem
 	{
 
@@ -46,7 +47,7 @@ namespace Marvel {
 	public:
 
 
-		MV_APPITEM_TYPE(mvAppItemType::Logger, mvLoggerItem, "add_logger")
+		MV_APPITEM_TYPE(mvAppItemType::mvLoggerItem, "add_logger")
 
 		MV_START_COLOR_CONSTANTS
 		MV_END_COLOR_CONSTANTS

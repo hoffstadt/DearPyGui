@@ -14,14 +14,15 @@ namespace Marvel {
 
 	PyObject* add_menu_item(PyObject* self, PyObject* args, PyObject* kwargs);
 
+	MV_REGISTER_WIDGET(mvMenuItem);
 	class mvMenuItem : public mvBoolPtrBase
 	{
-		MV_APPITEM_TYPE(mvAppItemType::MenuItem, mvMenuItem, "add_menu_item")
+		MV_APPITEM_TYPE(mvAppItemType::mvMenuItem, "add_menu_item")
 
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::MenuItem, mvThemeCol_MenuItem_Text			,  0L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::MenuItem, mvThemeCol_MenuItem_BgHovered		, 25L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::MenuItem, ImGuiStyleVar_MenuItem_TextAlignX	, 23L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::MenuItem, ImGuiStyleVar_MenuItem_TextAlignY	, 23L, 1L);
+		MV_CREATE_THEME_CONSTANT(mvThemeCol_MenuItem_Text			,  0L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeCol_MenuItem_BgHovered		, 25L, 0L);
+		MV_CREATE_THEME_CONSTANT(ImGuiStyleVar_MenuItem_TextAlignX	, 23L, 0L);
+		MV_CREATE_THEME_CONSTANT(ImGuiStyleVar_MenuItem_TextAlignY	, 23L, 1L);
 
 		MV_START_COLOR_CONSTANTS
 			MV_CREATE_CONSTANT_PAIR(mvThemeCol_MenuItem_Text,		mvColor(255, 255, 255, 255)),

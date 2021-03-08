@@ -17,19 +17,20 @@ namespace Marvel {
 
 	PyObject* add_image_button(PyObject* self, PyObject* args, PyObject* kwargs);
 
+	MV_REGISTER_WIDGET(mvImageButton);
 	class mvImageButton : public mvAppItem, public mvEventHandler
 	{
 
-		MV_APPITEM_TYPE(mvAppItemType::ImageButton, mvImageButton, "add_image_button")
+		MV_APPITEM_TYPE(mvAppItemType::mvImageButton, "add_image_button")
 
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::ImageButton, mvThemeCol_ImageButton_Bg				, 21L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::ImageButton, mvThemeCol_ImageButton_BgHovered		, 22L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::ImageButton, mvThemeCol_ImageButton_BgActive		, 23L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::ImageButton, mvThemeCol_ImageButton_Border			,  5L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::ImageButton, mvThemeCol_ImageButton_BorderShadow	,  6L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::ImageButton, mvThemeStyle_ImageButton_BorderSize	, 12L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::ImageButton, mvThemeStyle_ImageButton_PaddingX		, 10L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::ImageButton, mvThemeStyle_ImageButton_PaddingY		, 10L, 1L);
+		MV_CREATE_THEME_CONSTANT(mvThemeCol_ImageButton_Bg				, 21L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeCol_ImageButton_BgHovered		, 22L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeCol_ImageButton_BgActive		, 23L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeCol_ImageButton_Border			,  5L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeCol_ImageButton_BorderShadow	,  6L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeStyle_ImageButton_BorderSize	, 12L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeStyle_ImageButton_PaddingX		, 10L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeStyle_ImageButton_PaddingY		, 10L, 1L);
 
 		MV_START_COLOR_CONSTANTS
 			MV_CREATE_CONSTANT_PAIR(mvThemeCol_ImageButton_Bg,           mvColor( 41,  74, 122, 138)),

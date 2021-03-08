@@ -12,16 +12,17 @@ namespace Marvel {
 
 	PyObject* add_selectable(PyObject* self, PyObject* args, PyObject* kwargs);
 
+	MV_REGISTER_WIDGET(mvSelectable);
 	class mvSelectable : public mvBoolPtrBase
 	{
-		MV_APPITEM_TYPE(mvAppItemType::Selectable, mvSelectable, "add_selectable")
+		MV_APPITEM_TYPE(mvAppItemType::mvSelectable, "add_selectable")
 
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::Selectable, mvThemeCol_Selectable_Text			,  0L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::Selectable, mvThemeCol_Selectable_Bg			, 24L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::Selectable, mvThemeCol_Selectable_BgHovered		, 25L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::Selectable, mvThemeCol_Selectable_BgActive		, 26L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::Selectable, mvThemeStyle_Selectable_TextAlignX	, 23L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvAppItemType::Selectable, mvThemeStyle_Selectable_TextAlignY	, 23L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeCol_Selectable_Text			,  0L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeCol_Selectable_Bg			, 24L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeCol_Selectable_BgHovered		, 25L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeCol_Selectable_BgActive		, 26L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeStyle_Selectable_TextAlignX	, 23L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeStyle_Selectable_TextAlignY	, 23L, 0L);
 
 
 		MV_START_COLOR_CONSTANTS

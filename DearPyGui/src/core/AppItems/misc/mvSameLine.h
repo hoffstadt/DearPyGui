@@ -9,6 +9,7 @@ namespace Marvel {
 	PyObject* add_same_line(PyObject* self, PyObject* args, PyObject* kwargs);
 #endif
 
+	MV_REGISTER_WIDGET(mvSameLine);
 	class mvSameLine : public mvAppItem
 	{
 
@@ -18,7 +19,7 @@ namespace Marvel {
 
 	public:
 
-		MV_APPITEM_TYPE(mvAppItemType::SameLine, mvSameLine, "add_same_line")
+		MV_APPITEM_TYPE(mvAppItemType::mvSameLine, "add_same_line")
 
 		MV_START_COLOR_CONSTANTS
 		MV_END_COLOR_CONSTANTS

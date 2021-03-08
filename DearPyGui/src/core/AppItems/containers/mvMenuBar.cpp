@@ -79,7 +79,7 @@ namespace Marvel {
 			return ToPyBool(false);
 		}
 
-		else if (parentItem->getType() == mvAppItemType::Window)
+		else if (parentItem->getType() == mvAppItemType::mvWindowAppItem)
 		{
 			auto window = static_cast<mvWindowAppItem*>(parentItem.get());
 			window->addFlag(ImGuiWindowFlags_MenuBar);
@@ -102,7 +102,7 @@ namespace Marvel {
 			return GetPyNone();
 		}
 
-		else if (parentItem->getType() == mvAppItemType::Child)
+		else if (parentItem->getType() == mvAppItemType::mvChild)
 		{
 			auto child = static_cast<mvChild*>(parentItem.get());
 			child->addFlag(ImGuiWindowFlags_MenuBar);
