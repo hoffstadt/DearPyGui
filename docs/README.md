@@ -12,7 +12,7 @@
 ![Python Version](https://img.shields.io/pypi/pyversions/dearpygui)
 [![PYPI](https://img.shields.io/pypi/v/dearpygui)](https://pypi.org/project/dearpygui/)
 [![Downloads](https://pepy.tech/badge/dearpygui)](https://pepy.tech/project/dearpygui)
-[![Sponsors](https://img.shields.io/badge/sponsors-26-brightgreen)](https://img.shields.io/badge/sponsors-26-brightgreen)
+[![Sponsors](https://img.shields.io/badge/sponsors-27-brightgreen)](https://img.shields.io/badge/sponsors-27-brightgreen)
 
 [![build status](https://github.com/hoffstadt/DearPyGui/workflows/Embedded%20Build/badge.svg?branch=master)](https://github.com/hoffstadt/DearPyGui/actions?workflow=Embedded%20Build)
 [![static-analysis](https://github.com/hoffstadt/DearPyGui/workflows/static-analysis/badge.svg?branch=master)](https://github.com/hoffstadt/DearPyGui/actions?workflow=static-analysis)
@@ -157,6 +157,7 @@ These include:
 * 🥇 [Trinnik](https://github.com/Trinnik) _Gold Sponsor_
 * 🥇 [Anthony Doupe](https://github.com/Atlamillias) _Gold Sponsor_
 * 🥇 [Derek Barker](https://github.com/LordOdin) _Gold Sponsor_
+* 🥇 [Barney Mannerings](https://github.com/barnabee) _Gold Sponsor_
 
 
 Thank you to all other [sponsors](https://github.com/hoffstadt/DearPyGui/wiki/Sponsors) for keeping this project moving forward!
