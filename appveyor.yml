@@ -237,6 +237,7 @@ on_success:
 
   # Ubuntu & MacOS
   - sh: |
+      ${PYLOC} -m pip install --upgrade pip
       if [ "$MACOS" = "" ]; then
         ${PYLOC} BuildPythonWheel.py /home/appveyor/projects/dearpygui/cmake-build-release/DearPyGui/core.so ${APPVEYOR_BUILD_VERSION}
         ${PYLOC} -m pip install twine --upgrade
