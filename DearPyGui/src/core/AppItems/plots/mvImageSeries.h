@@ -50,14 +50,14 @@ namespace Marvel {
 
 		void draw() override
 		{
-			if(m_texture)
-				ImPlot::PlotImage(m_name.c_str(), m_texture, m_bounds_min, m_bounds_max, m_uv_min, m_uv_max, m_tintColor);
-			else
+			if(m_texture == nullptr)
 			{
 				mvApp::GetApp()->getTextureStorage().addTexture(m_value);
 				mvTexture* texture = mvApp::GetApp()->getTextureStorage().getTexture(m_value);
 				m_texture = texture->texture;
 			}
+			if (m_texture)
+				ImPlot::PlotImage(m_name.c_str(), m_texture, m_bounds_min, m_bounds_max, m_uv_min, m_uv_max, m_tintColor);
 		}
 
 		~mvImageSeries()
