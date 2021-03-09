@@ -18,7 +18,7 @@ namespace Marvel {
 	void mvDrawCircleCmd::draw(ImDrawList* drawlist, float x, float y)
 	{
 		mvVec2 start = {x, y};
-		if (m_fill.specified)
+		if (m_fill.r > 0.0f)
 			drawlist->AddCircleFilled(m_center + start, m_radius, m_fill, m_segments);
 
 		drawlist->AddCircle(m_center + start, m_radius, m_color, m_segments, m_thickness);

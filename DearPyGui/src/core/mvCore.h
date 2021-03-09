@@ -127,22 +127,26 @@ namespace Marvel {
 	//-----------------------------------------------------------------------------
 	struct mvColor
 	{
-		int r=0, g=0, b=0, a=255;
-		bool specified = true;
+		float r = -1.0f, g = -1.0f, b = -1.0f, a = -1.0f;
 
 		mvColor() = default;
 
-		mvColor(int r, int g, int b, int a, bool specified = true)
-			: r(r), g(g), b(b), a(a), specified(specified)
+		mvColor(float r, float g, float b, float a)
+			: r(r), g(g), b(b), a(a)
+		{
+		}
+
+		mvColor(int r, int g, int b, int a)
+			: r(r/255.0f), g(g/255.0f), b(b/255.0f), a(a/255.0f)
 		{
 		}
 
 		explicit mvColor(ImVec4 color)
 		{
-			r = (int)(color.x*255.0f);
-			g = (int)(color.y*255.0f);
-			b = (int)(color.z*255.0f);
-			a = (int)(color.w*255.0f);
+			r = color.x;
+			g = color.y;
+			b = color.z;
+			a = color.w;
 		}
 
 		operator ImU32()
@@ -150,11 +154,19 @@ namespace Marvel {
 			return ImGui::ColorConvertFloat4ToU32(toVec4());
 		}
 
-		ImVec4 toVec4() const
+		operator float* ()
 		{
-			if (r < 0 || g < 0 || b < 0 || a < 0)
-				return ImVec4(0, 0, 0, -1);
-			return { r / 255.0f, g / 255.0f, b / 255.0f, a / 255.0f };
+			return &r;
+		}
+
+		operator ImVec4()
+		{
+			return { r, g, b, a };
+		}
+
+		const ImVec4 toVec4() const
+		{
+			return { r, g, b, a };
 		}
 
 	};
@@ -176,5 +188,4 @@ namespace Marvel {
 	typedef std::unordered_map<long, float> mvThemeStyles;
 }
 
-#define MV_DEFAULT_COLOR Marvel::mvColor{255, 255, 255, 255, false}
-#define MV_TRANSPARENT   Marvel::mvColor{255, 255, 255,   0, true }
+#define MV_DEFAULT_COLOR Marvel::mvColor(1.0f, 1.0f, 1.0f, 1.0f)

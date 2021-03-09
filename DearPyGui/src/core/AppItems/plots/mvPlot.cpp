@@ -1042,7 +1042,7 @@ namespace Marvel {
 					dummy = *line.value;
 					if (line.y_line)
 					{
-						if (ImPlot::DragLineY(line.name.c_str(),&dummy, line.show_label, line.color.toVec4(), line.thickness))
+						if (ImPlot::DragLineY(line.name.c_str(),&dummy, line.show_label, line.color, line.thickness))
 						{
 							*line.value = (float)dummy;
 							mvApp::GetApp()->getCallbackRegistry().addCallback(line.callback, line.name, nullptr);
@@ -1050,7 +1050,7 @@ namespace Marvel {
 					}
 					else
 					{
-						if (ImPlot::DragLineX(line.name.c_str(), &dummy, line.show_label, line.color.toVec4(), line.thickness))
+						if (ImPlot::DragLineX(line.name.c_str(), &dummy, line.show_label, line.color, line.thickness))
 						{
 							*line.value = (float)dummy;
 							mvApp::GetApp()->getCallbackRegistry().addCallback(line.callback, line.name, nullptr);
@@ -1064,7 +1064,7 @@ namespace Marvel {
 			{
 				for (auto& point : m_dragPoints)
 				{
-					if (ImPlot::DragPoint(point.name.c_str(), (double*)point.value.get(), (double*)(&point.value.get()[1]), point.show_label, point.color.toVec4(), point.radius))
+					if (ImPlot::DragPoint(point.name.c_str(), (double*)point.value.get(), (double*)(&point.value.get()[1]), point.show_label, point.color, point.radius))
 					{
 						mvApp::GetApp()->getCallbackRegistry().addCallback(point.callback, point.name, nullptr);
 					}
@@ -1459,10 +1459,10 @@ namespace Marvel {
 		const char* name;
 		const char* source = "";
 		PyObject* color = PyTuple_New(4);
-		PyTuple_SetItem(color, 0, PyLong_FromLong(0));
+		PyTuple_SetItem(color, 0, PyLong_FromLong(-255));
 		PyTuple_SetItem(color, 1, PyLong_FromLong(0));
 		PyTuple_SetItem(color, 2, PyLong_FromLong(0));
-		PyTuple_SetItem(color, 3, PyLong_FromLong(-1));
+		PyTuple_SetItem(color, 3, PyLong_FromLong(0));
 		float thickness = 1.0f;
 		int y_line = false;
 		int show_label = true;
@@ -1537,7 +1537,7 @@ namespace Marvel {
 		const char* name;
 		const char* source = "";
 		PyObject* color = PyTuple_New(4);
-		PyTuple_SetItem(color, 0, PyLong_FromLong(0));
+		PyTuple_SetItem(color, 0, PyLong_FromLong(-255));
 		PyTuple_SetItem(color, 1, PyLong_FromLong(0));
 		PyTuple_SetItem(color, 2, PyLong_FromLong(0));
 		PyTuple_SetItem(color, 3, PyLong_FromLong(-1));
@@ -1619,7 +1619,7 @@ namespace Marvel {
 		float xoffset;
 		float yoffset;
 		PyObject* color = PyTuple_New(4);
-		PyTuple_SetItem(color, 0, PyLong_FromLong(0));
+		PyTuple_SetItem(color, 0, PyLong_FromLong(-255));
 		PyTuple_SetItem(color, 1, PyLong_FromLong(0));
 		PyTuple_SetItem(color, 2, PyLong_FromLong(0));
 		PyTuple_SetItem(color, 3, PyLong_FromLong(0));
@@ -2290,7 +2290,7 @@ namespace Marvel {
 		PyTuple_SetItem(color, 0, PyLong_FromLong(-255));
 		PyTuple_SetItem(color, 1, PyLong_FromLong(0));
 		PyTuple_SetItem(color, 2, PyLong_FromLong(0));
-		PyTuple_SetItem(color, 3, PyLong_FromLong(255));
+		PyTuple_SetItem(color, 3, PyLong_FromLong(-255));
 		int update_bounds = true;
 		int axis = 0;
 
@@ -2344,7 +2344,7 @@ namespace Marvel {
 		PyTuple_SetItem(color, 0, PyLong_FromLong(-255));
 		PyTuple_SetItem(color, 1, PyLong_FromLong(0));
 		PyTuple_SetItem(color, 2, PyLong_FromLong(0));
-		PyTuple_SetItem(color, 3, PyLong_FromLong(255));
+		PyTuple_SetItem(color, 3, PyLong_FromLong(-255));
 		int update_bounds = true;
 		int axis = 0;
 
@@ -2452,13 +2452,13 @@ namespace Marvel {
 		PyTuple_SetItem(color, 0, PyLong_FromLong(-255));
 		PyTuple_SetItem(color, 1, PyLong_FromLong(0));
 		PyTuple_SetItem(color, 2, PyLong_FromLong(0));
-		PyTuple_SetItem(color, 3, PyLong_FromLong(255));
+		PyTuple_SetItem(color, 3, PyLong_FromLong(-255));
 
 		PyObject* fill = PyTuple_New(4);
 		PyTuple_SetItem(fill, 0, PyLong_FromLong(-255));
 		PyTuple_SetItem(fill, 1, PyLong_FromLong(0));
 		PyTuple_SetItem(fill, 2, PyLong_FromLong(0));
-		PyTuple_SetItem(fill, 3, PyLong_FromLong(255));
+		PyTuple_SetItem(fill, 3, PyLong_FromLong(-255));
 		int update_bounds = true;
 		int axis = 0;
 
@@ -2605,12 +2605,12 @@ namespace Marvel {
 		PyTuple_SetItem(outline, 0, PyLong_FromLong(-255));
 		PyTuple_SetItem(outline, 1, PyLong_FromLong(0));
 		PyTuple_SetItem(outline, 2, PyLong_FromLong(0));
-		PyTuple_SetItem(outline, 3, PyLong_FromLong(255));
+		PyTuple_SetItem(outline, 3, PyLong_FromLong(-255));
 		PyObject* fill = PyTuple_New(4);
 		PyTuple_SetItem(fill, 0, PyLong_FromLong(-255));
 		PyTuple_SetItem(fill, 1, PyLong_FromLong(0));
 		PyTuple_SetItem(fill, 2, PyLong_FromLong(0));
-		PyTuple_SetItem(fill, 3, PyLong_FromLong(255));
+		PyTuple_SetItem(fill, 3, PyLong_FromLong(-255));
 		int update_bounds = true;
 		int xy_data_format = false;
 		int axis = 0;
@@ -2668,12 +2668,12 @@ namespace Marvel {
 		PyTuple_SetItem(outline, 0, PyLong_FromLong(-255));
 		PyTuple_SetItem(outline, 1, PyLong_FromLong(0));
 		PyTuple_SetItem(outline, 2, PyLong_FromLong(0));
-		PyTuple_SetItem(outline, 3, PyLong_FromLong(255));
+		PyTuple_SetItem(outline, 3, PyLong_FromLong(-255));
 		PyObject* fill = PyTuple_New(4);
 		PyTuple_SetItem(fill, 0, PyLong_FromLong(-255));
 		PyTuple_SetItem(fill, 1, PyLong_FromLong(0));
 		PyTuple_SetItem(fill, 2, PyLong_FromLong(0));
-		PyTuple_SetItem(fill, 3, PyLong_FromLong(255));
+		PyTuple_SetItem(fill, 3, PyLong_FromLong(-255));
 		int update_bounds = true;
 		int axis = 0;
 
@@ -2834,7 +2834,7 @@ namespace Marvel {
 		PyTuple_SetItem(color, 0, PyLong_FromLong(-255));
 		PyTuple_SetItem(color, 1, PyLong_FromLong(0));
 		PyTuple_SetItem(color, 2, PyLong_FromLong(0));
-		PyTuple_SetItem(color, 3, PyLong_FromLong(255));
+		PyTuple_SetItem(color, 3, PyLong_FromLong(-255));
 		int axis = 0;
 
 		if (!(mvApp::GetApp()->getParsers())["add_error_series"].parse(args, kwargs, __FUNCTION__,
@@ -2963,7 +2963,7 @@ namespace Marvel {
 		PyTuple_SetItem(color, 0, PyLong_FromLong(-255));
 		PyTuple_SetItem(color, 1, PyLong_FromLong(0));
 		PyTuple_SetItem(color, 2, PyLong_FromLong(0));
-		PyTuple_SetItem(color, 3, PyLong_FromLong(255));
+		PyTuple_SetItem(color, 3, PyLong_FromLong(-255));
 		int update_bounds = true;
 		int axis = 0;
 
@@ -3012,7 +3012,7 @@ namespace Marvel {
 		PyTuple_SetItem(color, 0, PyLong_FromLong(-255));
 		PyTuple_SetItem(color, 1, PyLong_FromLong(0));
 		PyTuple_SetItem(color, 2, PyLong_FromLong(0));
-		PyTuple_SetItem(color, 3, PyLong_FromLong(255));
+		PyTuple_SetItem(color, 3, PyLong_FromLong(-255));
 		int update_bounds = true;
 		int axis = 0;
 

@@ -50,7 +50,7 @@ namespace Marvel {
     void mvAppItemStyleManager::pushColorStyles()
     {
         for (auto& item : m_colors)
-            ImGui::PushStyleColor(item.idx, item.color);
+            ImGui::PushStyleColor(item.idx, item.color.toVec4());
     }
 
     void mvAppItemStyleManager::popColorStyles()

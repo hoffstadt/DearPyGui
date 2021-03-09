@@ -334,10 +334,11 @@ namespace Marvel {
 	PyObject* mvColorPtrBase::getPyValue()
 	{
 		mvColor color = { 
-			(int)(m_value->data()[0] * 255), 
-			(int)(m_value->data()[1] * 255), 
-			(int)(m_value->data()[2] * 255), 
-			(int)(m_value->data()[3] * 255), true };
+			m_value->data()[0], 
+			m_value->data()[1], 
+			m_value->data()[2], 
+			m_value->data()[3]
+		};
 		return ToPyColor(color);
 	}
 

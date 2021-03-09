@@ -11,7 +11,7 @@ namespace Marvel {
 			{mvPythonDataType::String, "name"},
 			{mvPythonDataType::KeywordOnly},
 			{mvPythonDataType::Integer, "wrap", "number of characters until wraping", "-1"},
-			{mvPythonDataType::FloatList, "color", "color of the text (rgba)", "(0, 0, 0, -1)"},
+			{mvPythonDataType::FloatList, "color", "color of the text (rgba)", "(-1, 0, 0, 0)"},
 			{mvPythonDataType::Bool, "bullet", "makes the text bulleted", "False"},
 			{mvPythonDataType::String, "parent", "Parent this item will be added to. (runtime adding)", "''"},
 			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)", "''"},
@@ -27,7 +27,7 @@ namespace Marvel {
 			{mvPythonDataType::String, "name"},
 			{mvPythonDataType::KeywordOnly},
 			{mvPythonDataType::String, "default_value", "", "''"},
-			{mvPythonDataType::FloatList, "color", "", "(0, 0, 0, -1)"},
+			{mvPythonDataType::FloatList, "color", "", "(-1, 0, 0, 0)"},
 			{mvPythonDataType::String, "parent", "Parent this item will be added to. (runtime adding)", "''"},
 			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)", "''"},
 			{mvPythonDataType::String, "source", "data source for shared data", "''"},
@@ -72,8 +72,8 @@ namespace Marvel {
 		ScopedID id;
 		mvImGuiThemeScope scope(this);
 
-		if (m_color.specified)
-			ImGui::PushStyleColor(ImGuiCol_Text, m_color);
+		if (m_color.r > 0.0f)
+			ImGui::PushStyleColor(ImGuiCol_Text, m_color.toVec4());
 
 		if (m_wrap >= 0)
 			ImGui::PushTextWrapPos((float)m_wrap);
@@ -87,7 +87,7 @@ namespace Marvel {
 		if (m_wrap >= 0)
 			ImGui::PopTextWrapPos();
 
-		if (m_color.specified)
+		if (m_color.r > 0.0f)
 			ImGui::PopStyleColor();
 
 	}
@@ -102,9 +102,9 @@ namespace Marvel {
 	void mvLabelText::draw()
 	{
 
-		if (m_color.specified)
+		if (m_color.r > 0.0f)
 		{
-			ImGui::PushStyleColor(ImGuiCol_Text, m_color);
+			ImGui::PushStyleColor(ImGuiCol_Text, m_color.toVec4());
 
 			ImGui::TextUnformatted(m_value->c_str());
 
@@ -205,7 +205,7 @@ namespace Marvel {
 		int wrap = -1;
 		int bullet = false;
 		PyObject* color = PyTuple_New(4);
-		PyTuple_SetItem(color, 0, PyLong_FromLong(1000));
+		PyTuple_SetItem(color, 0, PyLong_FromLong(-255));
 		PyTuple_SetItem(color, 1, PyLong_FromLong(0));
 		PyTuple_SetItem(color, 2, PyLong_FromLong(0));
 		PyTuple_SetItem(color, 3, PyLong_FromLong(255));
@@ -236,7 +236,7 @@ namespace Marvel {
 		const char* name;
 		const char* value = "";
 		PyObject* color = PyTuple_New(4);
-		PyTuple_SetItem(color, 0, PyLong_FromLong(1000));
+		PyTuple_SetItem(color, 0, PyLong_FromLong(-255));
 		PyTuple_SetItem(color, 1, PyLong_FromLong(0));
 		PyTuple_SetItem(color, 2, PyLong_FromLong(0));
 		PyTuple_SetItem(color, 3, PyLong_FromLong(255));
