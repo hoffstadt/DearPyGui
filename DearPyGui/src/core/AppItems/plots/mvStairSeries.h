@@ -22,7 +22,7 @@ namespace Marvel {
 		void draw() override
 		{
 
-			ImPlot::SetNextLineStyle(m_color.toVec4());
+			ImPlot::SetNextLineStyle(m_color);
 			ImPlot::PushStyleVar(ImPlotStyleVar_LineWeight, m_weight);
 			ImPlot::PlotStairs(m_name.c_str(), m_data[0].data(), m_data[1].data(), (int)m_data[0].size());
 			ImPlot::PopStyleVar();

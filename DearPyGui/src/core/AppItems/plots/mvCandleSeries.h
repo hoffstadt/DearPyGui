@@ -114,8 +114,8 @@ namespace Marvel {
 		{
 
 			PlotCandlestick(m_name.c_str(), m_data[0].data(), m_data[1].data(), m_data[4].data(),
-				m_data[3].data(), m_data[2].data(), (int)m_data[0].size(), m_tooltip, m_width, m_bullColor.toVec4(), 
-				m_bearColor.toVec4());
+				m_data[3].data(), m_data[2].data(), (int)m_data[0].size(), m_tooltip, m_width, m_bullColor, 
+				m_bearColor);
 		}
 
 	private:

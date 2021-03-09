@@ -542,12 +542,10 @@ namespace Marvel {
 
 	mvColor ToColor(PyObject* value, const std::string& message)
 	{
-		int color[4] = { 255, 255, 255, 255 };
+		float color[4] = { -1.0f, 0.0f, 0.0f, 1.0f };
 
 		if (value == nullptr)
-			return mvColor{ color[0], color[1], color[2], color[3], false };
-
-		 
+			return mvColor{ color[0], color[1], color[2], color[3] };
 
 		if (PyTuple_Check(value))
 		{
@@ -557,7 +555,7 @@ namespace Marvel {
 					break;
 				PyObject* item = PyTuple_GetItem(value, i);
 				if(PyNumber_Check(item))
-					color[i] = (int)PyFloat_AsDouble(item);
+					color[i] = PyFloat_AsDouble(item)/255.0f;
 			}
 
 		}
@@ -569,11 +567,11 @@ namespace Marvel {
 					break;
 				PyObject* item = PyList_GetItem(value, i);
 				if (PyNumber_Check(item))
-					color[i] = (int)PyFloat_AsDouble(item);
+					color[i] = PyFloat_AsDouble(item)/255.0f;
 			}
 		}
 
-		return mvColor{ color[0], color[1], color[2], color[3], true };
+		return mvColor{ color[0], color[1], color[2], color[3] };
 	}
 
 	mvVec2 ToVec2(PyObject* value, const std::string& message)

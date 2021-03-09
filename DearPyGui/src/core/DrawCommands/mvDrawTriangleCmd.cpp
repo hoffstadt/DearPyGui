@@ -18,7 +18,7 @@ namespace Marvel {
 	void mvDrawTriangleCmd::draw(ImDrawList* drawlist, float x, float y)
 	{
 		mvVec2 start = {x, y};
-		if (m_fill.specified)
+		if (m_fill.r > 0.0f)
 			drawlist->AddTriangleFilled(m_p1 + start, m_p2 + start, m_p3 + start, m_fill);
 
 		drawlist->AddTriangle(m_p1 + start, m_p2 + start, m_p3 + start, m_color, m_thickness);

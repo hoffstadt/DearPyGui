@@ -214,7 +214,7 @@ def add_input_text(name: str, *, default_value: str = '', hint: str = '', multil
 	"""Adds input for text values."""
 	...
 
-def add_label_text(name: str, *, default_value: str = '', color: List[float] = (0, 0, 0, -1), parent: str = '', before: str = '', source: str = '', label: str = '', show: bool = True) -> None:
+def add_label_text(name: str, *, default_value: str = '', color: List[float] = (-1, 0, 0, 0), parent: str = '', before: str = '', source: str = '', label: str = '', show: bool = True) -> None:
 	"""Adds text with a label. Useful for output values."""
 	...
 
@@ -382,7 +382,7 @@ def add_table(name: str, headers: List[str], *, callback: Callable = None, callb
 	"""Adds table."""
 	...
 
-def add_text(name: str, *, wrap: int = -1, color: List[float] = (0, 0, 0, -1), bullet: bool = False, parent: str = '', before: str = '', source: str = '', default_value: str = '', show: bool = True) -> None:
+def add_text(name: str, *, wrap: int = -1, color: List[float] = (-1, 0, 0, 0), bullet: bool = False, parent: str = '', before: str = '', source: str = '', default_value: str = '', show: bool = True) -> None:
 	"""Adds text"""
 	...
 

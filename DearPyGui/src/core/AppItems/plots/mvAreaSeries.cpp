@@ -19,7 +19,7 @@ namespace Marvel {
 			points.push_back(p);
 		}
 
-		if (m_fill.specified)
+		if (m_fill.r > 0.0f)
 		{
 			size_t i;
 			int y;
