@@ -4,6 +4,7 @@
 #include "mvStyleWindow.h"
 #include "mvInput.h"
 #include "mvItemRegistry.h"
+#include "mvThemeManager.h"
 
 // Helper to display a little (?) mark which shows a tooltip when hovered.
 // In your own code you may want to display an actual icon if you are using a merged icon fonts (see docs/FONTS.md)
@@ -21,6 +22,8 @@ static void HelpMarker(const char* desc)
 }
 
 namespace Marvel {
+
+
 
     void mvStyleWindow::InsertParser(std::map<std::string, mvPythonParser>* parsers)
     {
@@ -48,23 +51,9 @@ namespace Marvel {
             "None", "Containers") });
     }
 
-    void mvStyleWindow::init()
-    {
-
-        constexpr_for<1, (int)mvAppItemType::ItemTypeCount, 1>(
-            [&](auto i) {
-
-                using item_type = typename mvItemType<i>::type;
-
-                // color constants
-                for (const auto& item : item_type::GetColorConstants())
-                    m_colors.push_back(item);
-
-            });
-    }
-
     void mvStyleWindow::draw()
     {
+
         if (!prerender())
             return;
 
@@ -76,7 +65,7 @@ namespace Marvel {
 
             ImGui::LogToClipboard();
 
-            for (auto& item : m_colors)
+            for (auto item : mvThemeManager::GetColorsPtr())
             {
                 // Uncomment and replace with new command
                 
@@ -93,25 +82,25 @@ namespace Marvel {
         ImGui::BeginChild("##colors", ImVec2(0, 0), true, ImGuiWindowFlags_AlwaysVerticalScrollbar | ImGuiWindowFlags_AlwaysHorizontalScrollbar | ImGuiWindowFlags_NavFlattened);
         ImGui::PushItemWidth(-350);
 
-        for (auto& item : m_colors)
+        for (auto& item : mvThemeManager::GetColorsPtr())
         {
             if (!filter.PassFilter(std::get<0>(item).c_str()))
                 continue;
 
             ImGui::PushID(&item);
-            if (ImGui::ColorEdit4("##color", std::get<2>(item), ImGuiColorEditFlags_AlphaBar))
+            if (ImGui::ColorEdit4("##color", *std::get<2>(item), ImGuiColorEditFlags_AlphaBar))
             {
-                //uncomment
-                mvEventBus::Publish
-                (
-                    mvEVT_CATEGORY_THEMES,
-                    SID("color_change"),
-                    {
-                        CreateEventArgument("WIDGET", std::string("")),
-                        CreateEventArgument("ID", std::get<1>(item)),
-                        CreateEventArgument("COLOR", std::get<2>(item))
-                    }
-                );
+                ////uncomment
+                //mvEventBus::Publish
+                //(
+                //    mvEVT_CATEGORY_THEMES,
+                //    SID("color_change"),
+                //    {
+                //        CreateEventArgument("WIDGET", std::string("")),
+                //        CreateEventArgument("ID", std::get<1>(item)),
+                //        CreateEventArgument("COLOR", std::get<2>(item))
+                //    }
+                //);
             }
 
             ImGui::SameLine();

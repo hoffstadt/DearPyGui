@@ -28,6 +28,7 @@ namespace Marvel {
 		add_hidden_window(CreateRef<mvMetricsWindow>("metrics##standard"), "Metrics");
 		add_hidden_window(CreateRef<mvStyleWindow>("style##standard"), "Dear PyGui Style Editor");
 		add_hidden_window(CreateRef<mvFileDialog>(), "FileDialog");
+		
 	}
 
 	mvItemRegistry::~mvItemRegistry()

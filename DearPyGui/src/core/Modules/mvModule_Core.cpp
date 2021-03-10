@@ -6,6 +6,7 @@
 #include "mvDrawList.h"
 #include "mvDrawCmdCommon.h"
 #include "mvWindow.h"
+#include "mvThemeManager.h"
 #include <ImGuiFileDialog.h>
 #include <cstdlib>
 
@@ -365,6 +366,11 @@ namespace Marvel {
 			mvLoggerItem::InsertConstants(ModuleConstants);
 			mvTextureStorage::InsertConstants(ModuleConstants);
 
+			auto decodeType = [](long encoded_constant, mvAppItemType* type)
+			{
+				*type = (mvAppItemType)(encoded_constant / 1000);
+			};
+
 			constexpr_for<1, (int)mvAppItemType::ItemTypeCount, 1>(
 				[&](auto i) {
 
@@ -375,17 +381,15 @@ namespace Marvel {
 					{
 						ModuleConstants.push_back({ std::get<0>(item), std::get<1>(item) });
 
-						//uncomment
-						mvEventBus::Publish
-						(
-							mvEVT_CATEGORY_THEMES,
-							SID("color_change"),
-							{
-								CreateEventArgument("WIDGET", std::string("")),
-								CreateEventArgument("ID", std::get<1>(item)),
-								CreateEventArgument("COLOR", std::get<2>(item))
-							}
-						);
+						static mvAppItemType type;
+						long mvThemeConstant = std::get<1>(item);
+						decodeType(mvThemeConstant, &type);
+						mvColor color = std::get<2>(item);
+						const std::string& name = std::get<0>(item);
+
+						mvThemeManager::GetColors()[type][mvThemeConstant] = color;
+						mvThemeManager::GetColorsPtr().push_back({name, mvThemeConstant, &mvThemeManager::GetColors()[type][mvThemeConstant] });
+
 					}
 
 					// style constants
