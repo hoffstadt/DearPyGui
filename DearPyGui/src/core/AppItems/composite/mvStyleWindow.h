@@ -50,9 +50,16 @@ namespace Marvel {
 			: mvBaseWindowAppitem(name) 
 		{
 			m_description.deleteAllowed = false;
+			init();
 		}
 
 		void draw() override;
+
+		void init();
+
+	private:
+
+		std::vector<std::tuple<std::string, long, mvColor>> m_colors;
 
 	};
 
