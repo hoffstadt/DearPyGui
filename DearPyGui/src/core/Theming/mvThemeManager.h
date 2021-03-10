@@ -3,6 +3,7 @@
 #include <unordered_map>
 #include "mvEvents.h"
 #include "mvAppItem.h"
+#include "composite/mvStyleWindow.h"
 
 namespace Marvel {
 
@@ -15,6 +16,10 @@ namespace Marvel {
 		static void decodelibID(long encoded_constant, int* libID);
 		static int decodeIndex(long encoded_constant);
 
+		static std::vector<std::tuple<std::string, long, mvColor*>>& GetColorsPtr() { return s_acolors; }
+		static std::unordered_map<mvAppItemType, mvThemeColors>& GetColors() { return s_colors; }
+		static std::unordered_map<mvAppItemType, mvThemeStyles>& GetStyles() { return s_styles; }
+
 	public:
 
 		mvThemeManager();
@@ -25,6 +30,10 @@ namespace Marvel {
 		bool onEvent(mvEvent& event) override;
 		bool add_color(mvEvent& event);
 		bool add_style(mvEvent& event);
+
+		static std::vector<std::tuple<std::string, long, mvColor*>> s_acolors;
+		static std::unordered_map<mvAppItemType, mvThemeColors>     s_colors;
+		static std::unordered_map<mvAppItemType, mvThemeStyles>     s_styles;
 
 	};
 
@@ -110,7 +119,7 @@ namespace Marvel {
 				}
 			}
 
-			for (auto& color : mvApp::GetApp()->getColors()[item->getType()])
+			for (auto& color : mvThemeManager::GetColors()[item->getType()])
 			{
 				// only apply if it wasn't found yet
 				if (!colors_found[color.first])
@@ -119,7 +128,7 @@ namespace Marvel {
 					colors_found[color.first] = true;
 				}
 			}
-			for (auto& style : mvApp::GetApp()->getStyles()[item->getType()])
+			for (auto& style : mvThemeManager::GetStyles()[item->getType()])
 			{
 				// only apply if it wasn't found yet
 				if (!styles_found[style.first])
@@ -171,6 +180,7 @@ namespace Marvel {
 	private:
 		int libIDCount = 0;
 		int StyleIDCount = 0;
+
 	};
 
 }

@@ -178,8 +178,6 @@ namespace Marvel {
         //-----------------------------------------------------------------------------
         std::map<std::string, mvPythonParser>& getParsers() { return const_cast<std::map<std::string, mvPythonParser>&>(mvModule_Core::GetModuleParsers()); }
         std::mutex& getMutex() const { return m_mutex; }
-        std::unordered_map<mvAppItemType, mvThemeColors>& getColors() { return m_colors; }
-        std::unordered_map<mvAppItemType, mvThemeStyles>& getStyles() { return m_styles; }
             
     private:
 
@@ -201,8 +199,7 @@ namespace Marvel {
         mvOwnedPtr<mvTextureStorage>                   m_textureStorage;
         mvOwnedPtr<mvThemeManager>                     m_themeManager;
         mvOwnedPtr<mvCallbackRegistry>                 m_callbackRegistry;
-        std::unordered_map<mvAppItemType, mvThemeColors> m_colors;
-        std::unordered_map<mvAppItemType, mvThemeStyles> m_styles;
+
                                                      
         // docking                                   
         bool                                         m_docking          = false;

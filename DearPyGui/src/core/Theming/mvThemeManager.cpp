@@ -6,6 +6,10 @@
 
 namespace Marvel {
 
+	std::vector<std::tuple<std::string, long, mvColor*>> mvThemeManager::s_acolors;
+	std::unordered_map<mvAppItemType, mvThemeColors>     mvThemeManager::s_colors;
+	std::unordered_map<mvAppItemType, mvThemeStyles>     mvThemeManager::s_styles;
+
 	void mvThemeManager::decodeType(long encoded_constant, mvAppItemType* type)
 	{
 		*type = (mvAppItemType)(encoded_constant / 1000);
@@ -18,7 +22,6 @@ namespace Marvel {
 	{
 		return (int)(encoded_constant % 10);
 	}
-
 
 	mvThemeManager::mvThemeManager()
 	{
@@ -50,7 +53,7 @@ namespace Marvel {
 		//fills out the app's root theme if no item was given
 		if (widget.empty())
 		{
-			mvApp::GetApp()->getColors()[type][mvThemeConstant] = color;
+			GetColors()[type][mvThemeConstant] = color;
 			return true;
 		}
 
@@ -79,7 +82,7 @@ namespace Marvel {
 		//fills out the app's root theme if no item was given
 		if (widget.empty())
 		{
-			mvApp::GetApp()->getStyles()[type][mvThemeConstant] = style;
+			GetStyles()[type][mvThemeConstant] = style;
 			return true;
 		}
 

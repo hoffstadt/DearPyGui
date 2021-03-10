@@ -44,22 +44,16 @@ namespace Marvel {
 
 		static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
 
+
 	public:
 
 		mvStyleWindow(const std::string& name) 
 			: mvBaseWindowAppitem(name) 
 		{
 			m_description.deleteAllowed = false;
-			init();
 		}
 
 		void draw() override;
-
-		void init();
-
-	private:
-
-		std::vector<std::tuple<std::string, long, mvColor>> m_colors;
 
 	};
 
