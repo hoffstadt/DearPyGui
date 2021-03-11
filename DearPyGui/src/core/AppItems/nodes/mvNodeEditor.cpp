@@ -68,6 +68,11 @@ namespace Marvel {
 		m_description.container = true;
 	}
 
+	mvNodeEditor::~mvNodeEditor()
+	{
+		m_delinkCallback = nullptr;
+	}
+
 	void mvNodeEditor::addLink(const std::string& node1, const std::string& node2)
 	{
 		int64_t node1_id = 0;
