@@ -53,7 +53,7 @@ namespace Marvel {
 		MV_END_COLOR_CONSTANTS
 
 		MV_START_STYLE_CONSTANTS
-			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_Button_Rounding	, 0, 12),
+			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_Button_Rounding	, 0 ,12),
 			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_Button_BorderSize	, 0 , 1),
 			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_Button_TextAlignX	, 0 , 1),
 			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_Button_TextAlignY	, 0 , 1),
