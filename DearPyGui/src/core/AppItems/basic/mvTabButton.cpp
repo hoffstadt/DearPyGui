@@ -31,7 +31,6 @@ namespace Marvel {
 
 	void mvTabButton::draw()
 	{
-		auto styleManager = m_styleManager.getScopedStyleManager();
 		ScopedID id;
 		mvImGuiThemeScope scope(this);
 

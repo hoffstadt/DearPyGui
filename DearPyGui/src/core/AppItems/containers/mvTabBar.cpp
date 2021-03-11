@@ -38,7 +38,6 @@ namespace Marvel {
 
 	void mvTabBar::draw()
 	{
-		auto styleManager = m_styleManager.getScopedStyleManager();
 		ScopedID id;
 		mvImGuiThemeScope scope(this);
 		ImGui::BeginGroup();

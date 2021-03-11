@@ -68,7 +68,6 @@ namespace Marvel {
 
 	void mvText::draw()
 	{
-		auto styleManager = m_styleManager.getScopedStyleManager();
 		ScopedID id;
 		mvImGuiThemeScope scope(this);
 
@@ -112,7 +111,6 @@ namespace Marvel {
 
 			ImGui::SameLine();
 
-			auto styleManager = m_styleManager.getScopedStyleManager();
 			mvImGuiThemeScope scope(this);
 			ImGui::TextUnformatted(m_label.c_str());
 		}

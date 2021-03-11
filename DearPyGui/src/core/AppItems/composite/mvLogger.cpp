@@ -111,7 +111,6 @@ namespace Marvel {
 	{
 		ImGui::BeginGroup();
 
-		auto styleManager = m_styleManager.getScopedStyleManager();
 		ImGui::PushID(this);
 		
 		// auto scroll button

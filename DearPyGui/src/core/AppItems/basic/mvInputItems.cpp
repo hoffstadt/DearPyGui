@@ -236,19 +236,18 @@ namespace Marvel {
 
     void mvInputInt::draw()
     {
-        auto styleManager = m_styleManager.getScopedStyleManager();
         ScopedID id;
         mvImGuiThemeScope scope(this);
 
         if (!m_core_config.enabled)
         {
-            ImVec4 disabled_color = ImVec4(ImGui::GetStyleColorVec4(ImGuiCol_TextDisabled));
-            disabled_color.w = 0.392f;
-            styleManager.addColorStyle(ImGuiCol_FrameBg, disabled_color);
-            styleManager.addColorStyle(ImGuiCol_FrameBgHovered, disabled_color);
-            styleManager.addColorStyle(ImGuiCol_FrameBgActive, disabled_color);
-            styleManager.addColorStyle(ImGuiCol_Button, disabled_color);
-            styleManager.addColorStyle(ImGuiCol_Text, ImVec4(ImGui::GetStyleColorVec4(ImGuiCol_TextDisabled)));
+            //ImVec4 disabled_color = ImVec4(ImGui::GetStyleColorVec4(ImGuiCol_TextDisabled));
+            //disabled_color.w = 0.392f;
+            //styleManager.addColorStyle(ImGuiCol_FrameBg, disabled_color);
+            //styleManager.addColorStyle(ImGuiCol_FrameBgHovered, disabled_color);
+            //styleManager.addColorStyle(ImGuiCol_FrameBgActive, disabled_color);
+            //styleManager.addColorStyle(ImGuiCol_Button, disabled_color);
+            //styleManager.addColorStyle(ImGuiCol_Text, ImVec4(ImGui::GetStyleColorVec4(ImGuiCol_TextDisabled)));
         }
 
         if (ImGui::InputInt(m_label.c_str(), m_value.get(), m_step, m_step_fast, m_flags))
@@ -325,19 +324,18 @@ namespace Marvel {
 
     void mvInputInt2::draw()
     {
-        auto styleManager = m_styleManager.getScopedStyleManager();
         ScopedID id;
         mvImGuiThemeScope scope(this);
 
         if (!m_core_config.enabled)
         {
-            ImVec4 disabled_color = ImVec4(ImGui::GetStyleColorVec4(ImGuiCol_TextDisabled));
-            disabled_color.w = 0.392f;
-            styleManager.addColorStyle(ImGuiCol_FrameBg, disabled_color);
-            styleManager.addColorStyle(ImGuiCol_FrameBgHovered, disabled_color);
-            styleManager.addColorStyle(ImGuiCol_FrameBgActive, disabled_color);
-            styleManager.addColorStyle(ImGuiCol_Button, disabled_color);
-            styleManager.addColorStyle(ImGuiCol_Text, ImVec4(ImGui::GetStyleColorVec4(ImGuiCol_TextDisabled)));
+            //ImVec4 disabled_color = ImVec4(ImGui::GetStyleColorVec4(ImGuiCol_TextDisabled));
+            //disabled_color.w = 0.392f;
+            //styleManager.addColorStyle(ImGuiCol_FrameBg, disabled_color);
+            //styleManager.addColorStyle(ImGuiCol_FrameBgHovered, disabled_color);
+            //styleManager.addColorStyle(ImGuiCol_FrameBgActive, disabled_color);
+            //styleManager.addColorStyle(ImGuiCol_Button, disabled_color);
+            //styleManager.addColorStyle(ImGuiCol_Text, ImVec4(ImGui::GetStyleColorVec4(ImGuiCol_TextDisabled)));
         }
 
         if (ImGui::InputInt2(m_label.c_str(), m_value->data(), m_flags))
@@ -422,19 +420,18 @@ namespace Marvel {
 
     void mvInputInt3::draw()
     {
-        auto styleManager = m_styleManager.getScopedStyleManager();
         ScopedID id;
         mvImGuiThemeScope scope(this);
 
         if (!m_core_config.enabled)
         {
-            ImVec4 disabled_color = ImVec4(ImGui::GetStyleColorVec4(ImGuiCol_TextDisabled));
-            disabled_color.w = 0.392f;
-            styleManager.addColorStyle(ImGuiCol_FrameBg, disabled_color);
-            styleManager.addColorStyle(ImGuiCol_FrameBgHovered, disabled_color);
-            styleManager.addColorStyle(ImGuiCol_FrameBgActive, disabled_color);
-            styleManager.addColorStyle(ImGuiCol_Button, disabled_color);
-            styleManager.addColorStyle(ImGuiCol_Text, ImVec4(ImGui::GetStyleColorVec4(ImGuiCol_TextDisabled)));
+            //ImVec4 disabled_color = ImVec4(ImGui::GetStyleColorVec4(ImGuiCol_TextDisabled));
+            //disabled_color.w = 0.392f;
+            //styleManager.addColorStyle(ImGuiCol_FrameBg, disabled_color);
+            //styleManager.addColorStyle(ImGuiCol_FrameBgHovered, disabled_color);
+            //styleManager.addColorStyle(ImGuiCol_FrameBgActive, disabled_color);
+            //styleManager.addColorStyle(ImGuiCol_Button, disabled_color);
+            //styleManager.addColorStyle(ImGuiCol_Text, ImVec4(ImGui::GetStyleColorVec4(ImGuiCol_TextDisabled)));
         }
 
         if (ImGui::InputInt3(m_label.c_str(), m_value->data(), m_flags))
@@ -519,19 +516,18 @@ namespace Marvel {
 
     void mvInputInt4::draw()
     {
-        auto styleManager = m_styleManager.getScopedStyleManager();
         ScopedID id;
         mvImGuiThemeScope scope(this);
 
         if (!m_core_config.enabled)
         {
-            ImVec4 disabled_color = ImVec4(ImGui::GetStyleColorVec4(ImGuiCol_TextDisabled));
-            disabled_color.w = 0.392f;
-            styleManager.addColorStyle(ImGuiCol_FrameBg, disabled_color);
-            styleManager.addColorStyle(ImGuiCol_FrameBgHovered, disabled_color);
-            styleManager.addColorStyle(ImGuiCol_FrameBgActive, disabled_color);
-            styleManager.addColorStyle(ImGuiCol_Button, disabled_color);
-            styleManager.addColorStyle(ImGuiCol_Text, ImVec4(ImGui::GetStyleColorVec4(ImGuiCol_TextDisabled)));
+            //ImVec4 disabled_color = ImVec4(ImGui::GetStyleColorVec4(ImGuiCol_TextDisabled));
+            //disabled_color.w = 0.392f;
+            //styleManager.addColorStyle(ImGuiCol_FrameBg, disabled_color);
+            //styleManager.addColorStyle(ImGuiCol_FrameBgHovered, disabled_color);
+            //styleManager.addColorStyle(ImGuiCol_FrameBgActive, disabled_color);
+            //styleManager.addColorStyle(ImGuiCol_Button, disabled_color);
+            //styleManager.addColorStyle(ImGuiCol_Text, ImVec4(ImGui::GetStyleColorVec4(ImGuiCol_TextDisabled)));
         }
 
         if (ImGui::InputInt4(m_label.c_str(), m_value->data(), m_flags))
@@ -616,19 +612,18 @@ namespace Marvel {
 
     void mvInputFloat::draw()
     {
-        auto styleManager = m_styleManager.getScopedStyleManager();
         ScopedID id;
         mvImGuiThemeScope scope(this);
 
         if (!m_core_config.enabled)
         {
-            ImVec4 disabled_color = ImVec4(ImGui::GetStyleColorVec4(ImGuiCol_TextDisabled));
-            disabled_color.w = 0.392f;
-            styleManager.addColorStyle(ImGuiCol_FrameBg, disabled_color);
-            styleManager.addColorStyle(ImGuiCol_FrameBgHovered, disabled_color);
-            styleManager.addColorStyle(ImGuiCol_FrameBgActive, disabled_color);
-            styleManager.addColorStyle(ImGuiCol_Button, disabled_color);
-            styleManager.addColorStyle(ImGuiCol_Text, ImVec4(ImGui::GetStyleColorVec4(ImGuiCol_TextDisabled)));
+            //ImVec4 disabled_color = ImVec4(ImGui::GetStyleColorVec4(ImGuiCol_TextDisabled));
+            //disabled_color.w = 0.392f;
+            //styleManager.addColorStyle(ImGuiCol_FrameBg, disabled_color);
+            //styleManager.addColorStyle(ImGuiCol_FrameBgHovered, disabled_color);
+            //styleManager.addColorStyle(ImGuiCol_FrameBgActive, disabled_color);
+            //styleManager.addColorStyle(ImGuiCol_Button, disabled_color);
+            //styleManager.addColorStyle(ImGuiCol_Text, ImVec4(ImGui::GetStyleColorVec4(ImGuiCol_TextDisabled)));
         }
 
         if (ImGui::InputFloat(m_label.c_str(), m_value.get(), m_step, m_step_fast, m_format.c_str(), m_flags))
@@ -704,19 +699,18 @@ namespace Marvel {
 
     void mvInputFloat2::draw()
     {
-        auto styleManager = m_styleManager.getScopedStyleManager();
         ScopedID id;
         mvImGuiThemeScope scope(this);
 
         if (!m_core_config.enabled)
         {
-            ImVec4 disabled_color = ImVec4(ImGui::GetStyleColorVec4(ImGuiCol_TextDisabled));
-            disabled_color.w = 0.392f;
-            styleManager.addColorStyle(ImGuiCol_FrameBg, disabled_color);
-            styleManager.addColorStyle(ImGuiCol_FrameBgHovered, disabled_color);
-            styleManager.addColorStyle(ImGuiCol_FrameBgActive, disabled_color);
-            styleManager.addColorStyle(ImGuiCol_Button, disabled_color);
-            styleManager.addColorStyle(ImGuiCol_Text, ImVec4(ImGui::GetStyleColorVec4(ImGuiCol_TextDisabled)));
+            //ImVec4 disabled_color = ImVec4(ImGui::GetStyleColorVec4(ImGuiCol_TextDisabled));
+            //disabled_color.w = 0.392f;
+            //styleManager.addColorStyle(ImGuiCol_FrameBg, disabled_color);
+            //styleManager.addColorStyle(ImGuiCol_FrameBgHovered, disabled_color);
+            //styleManager.addColorStyle(ImGuiCol_FrameBgActive, disabled_color);
+            //styleManager.addColorStyle(ImGuiCol_Button, disabled_color);
+            //styleManager.addColorStyle(ImGuiCol_Text, ImVec4(ImGui::GetStyleColorVec4(ImGuiCol_TextDisabled)));
         }
 
         if (ImGui::InputFloat2(m_label.c_str(), m_value->data(), m_format.c_str(), m_flags))
@@ -801,19 +795,18 @@ namespace Marvel {
 
     void mvInputFloat3::draw()
     {
-        auto styleManager = m_styleManager.getScopedStyleManager();
         ScopedID id;
         mvImGuiThemeScope scope(this);
 
         if (!m_core_config.enabled)
         {
-            ImVec4 disabled_color = ImVec4(ImGui::GetStyleColorVec4(ImGuiCol_TextDisabled));
-            disabled_color.w = 0.392f;
-            styleManager.addColorStyle(ImGuiCol_FrameBg, disabled_color);
-            styleManager.addColorStyle(ImGuiCol_FrameBgHovered, disabled_color);
-            styleManager.addColorStyle(ImGuiCol_FrameBgActive, disabled_color);
-            styleManager.addColorStyle(ImGuiCol_Button, disabled_color);
-            styleManager.addColorStyle(ImGuiCol_Text, ImVec4(ImGui::GetStyleColorVec4(ImGuiCol_TextDisabled)));
+            //ImVec4 disabled_color = ImVec4(ImGui::GetStyleColorVec4(ImGuiCol_TextDisabled));
+            //disabled_color.w = 0.392f;
+            //styleManager.addColorStyle(ImGuiCol_FrameBg, disabled_color);
+            //styleManager.addColorStyle(ImGuiCol_FrameBgHovered, disabled_color);
+            //styleManager.addColorStyle(ImGuiCol_FrameBgActive, disabled_color);
+            //styleManager.addColorStyle(ImGuiCol_Button, disabled_color);
+            //styleManager.addColorStyle(ImGuiCol_Text, ImVec4(ImGui::GetStyleColorVec4(ImGuiCol_TextDisabled)));
         }
 
         if (ImGui::InputFloat3(m_label.c_str(), m_value->data(), m_format.c_str(), m_flags))
@@ -898,19 +891,18 @@ namespace Marvel {
 
     void mvInputFloat4::draw()
     {
-        auto styleManager = m_styleManager.getScopedStyleManager();
         ScopedID id;
         mvImGuiThemeScope scope(this);
 
         if (!m_core_config.enabled)
         {
-            ImVec4 disabled_color = ImVec4(ImGui::GetStyleColorVec4(ImGuiCol_TextDisabled));
-            disabled_color.w = 0.392f;
-            styleManager.addColorStyle(ImGuiCol_FrameBg, disabled_color);
-            styleManager.addColorStyle(ImGuiCol_FrameBgHovered, disabled_color);
-            styleManager.addColorStyle(ImGuiCol_FrameBgActive, disabled_color);
-            styleManager.addColorStyle(ImGuiCol_Button, disabled_color);
-            styleManager.addColorStyle(ImGuiCol_Text, ImVec4(ImGui::GetStyleColorVec4(ImGuiCol_TextDisabled)));
+            //ImVec4 disabled_color = ImVec4(ImGui::GetStyleColorVec4(ImGuiCol_TextDisabled));
+            //disabled_color.w = 0.392f;
+            //styleManager.addColorStyle(ImGuiCol_FrameBg, disabled_color);
+            //styleManager.addColorStyle(ImGuiCol_FrameBgHovered, disabled_color);
+            //styleManager.addColorStyle(ImGuiCol_FrameBgActive, disabled_color);
+            //styleManager.addColorStyle(ImGuiCol_Button, disabled_color);
+            //styleManager.addColorStyle(ImGuiCol_Text, ImVec4(ImGui::GetStyleColorVec4(ImGuiCol_TextDisabled)));
         }
 
         if (ImGui::InputFloat4(m_label.c_str(), m_value->data(), m_format.c_str(), m_flags))

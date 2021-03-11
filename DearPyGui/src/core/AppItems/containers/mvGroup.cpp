@@ -30,7 +30,6 @@ namespace Marvel {
 
 	void mvGroup::draw()
 	{
-		auto styleManager = m_styleManager.getScopedStyleManager();
 		mvImGuiThemeScope scope(this);
 
 		if (m_core_config.width != 0)
