@@ -92,15 +92,9 @@ namespace Marvel {
 	{
 		s_started = true;
 
-#ifdef MV_LOG
 		mvLog::Init();
-#endif // MV_LOG
 
-		MV_CORE_TRACE("application starting");
 		MV_CORE_INFO("application starting");
-		MV_CORE_WARN("application starting");
-		MV_CORE_ERROR("application starting");
-		MV_CORE_FATAL("application starting");
 
 		// create window
 		m_viewport = mvWindow::CreatemvWindow(m_actualWidth, m_actualHeight, false);
@@ -146,8 +140,6 @@ namespace Marvel {
 	mvApp::mvApp()
 	{
 		mvEventBus::Subscribe(this, 0, mvEVT_CATEGORY_VIEWPORT);
-
-	
 
 		// info
         mvAppLog::Clear();
@@ -219,6 +211,8 @@ namespace Marvel {
 #ifndef MV_CPP
         mvDataStorage::DeleteAllData();
 #endif // !MV_CPP
+
+		mvLog::Cleanup();
 	
 	}
 
