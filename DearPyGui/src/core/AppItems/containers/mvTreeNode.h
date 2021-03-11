@@ -35,9 +35,9 @@ namespace Marvel {
 		MV_END_COLOR_CONSTANTS
 
 		MV_START_STYLE_CONSTANTS
-			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_TreeNode_FramePaddingX, 0, 20),
-			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_TreeNode_FramePaddingY, 0, 20),
-			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_TreeNode_IndentSpacing, 0, 30),
+			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_TreeNode_FramePaddingX, 4, 20),
+			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_TreeNode_FramePaddingY, 3, 20),
+			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_TreeNode_IndentSpacing,21, 30),
 		MV_END_STYLE_CONSTANTS
 
 	public:

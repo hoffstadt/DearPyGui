@@ -47,16 +47,16 @@ namespace Marvel {
 	{
 		MV_APPITEM_TYPE(mvAppItemType::mvTable, "add_table")
 
-		MV_CREATE_THEME_CONSTANT(mvThemeCol_Table_Text					, 14L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvThemeCol_Table_Cell					, 24L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvThemeCol_Table_CellHovered				, 25L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvThemeCol_Table_CellActive				, 26L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvThemeCol_Table_Border					, 27L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvThemeCol_Table_BorderHovered			, 28L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvThemeCol_Table_BorderActive			, 29L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvThemeCol_Table_Scrollbar				, 14L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvThemeCol_Table_ScrollbarGrab			, 15L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvThemeCol_Table_ScrollbarGrabHovered	, 16L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeCol_Table_Text					    , 14L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeCol_Table_Cell					    , 24L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeCol_Table_CellHovered			    , 25L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeCol_Table_CellActive			    , 26L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeCol_Table_Border				    , 27L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeCol_Table_BorderHovered			    , 28L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeCol_Table_BorderActive			    , 29L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeCol_Table_Scrollbar				    , 14L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeCol_Table_ScrollbarGrab			    , 15L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeCol_Table_ScrollbarGrabHovered	    , 16L, 0L);
 		MV_CREATE_THEME_CONSTANT(mvThemeCol_Table_ScrollbarGrabActive		, 17L, 0L);
 		MV_CREATE_THEME_CONSTANT(mvThemeStyle_Table_ItemSpacingX			, 13L, 0L);
 		MV_CREATE_THEME_CONSTANT(mvThemeStyle_Table_ItemSpacingY			, 13L, 1L);
@@ -64,22 +64,22 @@ namespace Marvel {
 		MV_CREATE_THEME_CONSTANT(mvThemeStyle_Table_SelectableTextAlignY	, 23L, 1L);
 
 		MV_START_COLOR_CONSTANTS
-			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Table_Text, mvColor(255, 255, 255, 255)),
-			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Table_Cell, mvColor(255, 255, 255, 255)),
-			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Table_CellHovered, mvColor(255, 255, 255, 255)),
-			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Table_CellActive, mvColor(255, 255, 255, 255)),
-			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Table_Border, mvColor(255, 255, 255, 255)),
-			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Table_BorderHovered, mvColor(255, 255, 255, 255)),
-			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Table_BorderActive, mvColor(255, 255, 255, 255)),
-			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Table_Scrollbar, mvColor(255, 255, 255, 255)),
-			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Table_ScrollbarGrab, mvColor(255, 255, 255, 255)),
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Table_Text,                 mvColor(255, 255, 255, 255)),
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Table_Cell,                 mvColor(255, 255, 255, 255)),
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Table_CellHovered,          mvColor(255, 255, 255, 255)),
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Table_CellActive,           mvColor(255, 255, 255, 255)),
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Table_Border,               mvColor(255, 255, 255, 255)),
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Table_BorderHovered,        mvColor(255, 255, 255, 255)),
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Table_BorderActive,         mvColor(255, 255, 255, 255)),
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Table_Scrollbar,            mvColor(255, 255, 255, 255)),
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Table_ScrollbarGrab,        mvColor(255, 255, 255, 255)),
 			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Table_ScrollbarGrabHovered, mvColor(255, 255, 255, 255)),
-			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Table_ScrollbarGrabActive, mvColor(255, 255, 255, 255)),
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Table_ScrollbarGrabActive,  mvColor(255, 255, 255, 255)),
 		MV_END_COLOR_CONSTANTS
 
 		MV_START_STYLE_CONSTANTS
-			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_Table_ItemSpacingX		, 0, 20),
-			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_Table_ItemSpacingY		, 0, 20),
+			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_Table_ItemSpacingX		, 4, 20),
+			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_Table_ItemSpacingY		, 4, 20),
 			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_Table_SelectableTextAlignX, 0, 20),
 			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_Table_SelectableTextAlignY, 0, 20),
 		MV_END_STYLE_CONSTANTS

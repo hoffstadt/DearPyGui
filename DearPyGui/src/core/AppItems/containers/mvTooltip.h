@@ -31,12 +31,12 @@ namespace Marvel {
 		MV_END_COLOR_CONSTANTS
 
 		MV_START_STYLE_CONSTANTS
-			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_Tooltip_BorderSize	, 0,  1),
+			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_Tooltip_BorderSize	, 1,  1),
 			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_Tooltip_Rounding		, 0, 12),
-			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_Tooltip_PaddingX		, 0, 20),
-			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_Tooltip_PaddingY		, 0, 20),
-			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_Tooltip_ItemSpacingX	, 0, 20),
-			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_Tooltip_ItemSpacingY	, 0, 20),
+			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_Tooltip_PaddingX		, 4, 20),
+			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_Tooltip_PaddingY		, 3, 20),
+			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_Tooltip_ItemSpacingX	, 8, 20),
+			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_Tooltip_ItemSpacingY	, 8, 20),
 		MV_END_STYLE_CONSTANTS
 
 	public:

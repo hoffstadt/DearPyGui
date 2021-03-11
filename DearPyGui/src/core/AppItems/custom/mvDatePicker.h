@@ -36,8 +36,8 @@ namespace Marvel {
 			MV_START_STYLE_CONSTANTS
 			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_DatePicker_Rounding	, 0, 12),
 			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_DatePicker_BorderSize	, 0,  1),
-			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_DatePicker_PaddingX	, 0, 20),
-			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_DatePicker_PaddingY	, 0, 20),
+			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_DatePicker_PaddingX	, 4, 20),
+			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_DatePicker_PaddingY	, 3, 20),
 			MV_END_STYLE_CONSTANTS
 
 	public:

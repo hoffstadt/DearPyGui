@@ -60,6 +60,7 @@ namespace Marvel {
         MV_CREATE_THEME_CONSTANT(mvThemeCol_SliderFloat_GrabActive          , 20L, 0L);
         MV_CREATE_THEME_CONSTANT(mvThemeCol_SliderFloat_Border              ,  5L, 0L);
         MV_CREATE_THEME_CONSTANT(mvThemeCol_SliderFloat_BorderShadow        ,  6L, 0L);
+
         MV_CREATE_THEME_CONSTANT(mvThemeStyle_SliderFloat_Rounding          , 11L, 0L);
         MV_CREATE_THEME_CONSTANT(mvThemeStyle_SliderFloat_BorderSize        , 12L, 0L);
         MV_CREATE_THEME_CONSTANT(mvThemeStyle_SliderFloat_PaddingX          , 10L, 0L);
@@ -83,11 +84,11 @@ namespace Marvel {
         MV_START_STYLE_CONSTANTS
             MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_SliderFloat_Rounding          , 0, 12),
             MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_SliderFloat_BorderSize        , 0,  1),
-            MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_SliderFloat_PaddingX          , 0, 20),
-            MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_SliderFloat_PaddingY          , 0, 20),
-            MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_SliderFloat_InnerSpacingX     , 0, 20),
-            MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_SliderFloat_InnerSpacingY     , 0, 20),
-            MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_SliderFloat_GrabMinSize       , 0, 20),
+            MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_SliderFloat_PaddingX          , 4, 20),
+            MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_SliderFloat_PaddingY          , 3, 20),
+            MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_SliderFloat_InnerSpacingX     , 4, 20),
+            MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_SliderFloat_InnerSpacingY     , 4, 20),
+            MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_SliderFloat_GrabMinSize       ,10, 20),
             MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_SliderFloat_GrabRounding      , 0, 12),
         MV_END_STYLE_CONSTANTS
    
@@ -150,6 +151,7 @@ namespace Marvel {
         MV_CREATE_THEME_CONSTANT(mvThemeCol_SliderFloat2_GrabActive        , 20L, 0L);
         MV_CREATE_THEME_CONSTANT(mvThemeCol_SliderFloat2_Border            ,  5L, 0L);
         MV_CREATE_THEME_CONSTANT(mvThemeCol_SliderFloat2_BorderShadow      ,  6L, 0L);
+
         MV_CREATE_THEME_CONSTANT(mvThemeStyle_SliderFloat2_Rounding        , 11L, 0L);
         MV_CREATE_THEME_CONSTANT(mvThemeStyle_SliderFloat2_BorderSize      , 12L, 0L);
         MV_CREATE_THEME_CONSTANT(mvThemeStyle_SliderFloat2_PaddingX        , 10L, 0L);
@@ -173,11 +175,11 @@ namespace Marvel {
         MV_START_STYLE_CONSTANTS
             MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_SliderFloat2_Rounding      , 0, 12),
             MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_SliderFloat2_BorderSize    , 0,  1),
-            MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_SliderFloat2_PaddingX      , 0, 20),
-            MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_SliderFloat2_PaddingY      , 0, 20),
-            MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_SliderFloat2_InnerSpacingX , 0, 20),
-            MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_SliderFloat2_InnerSpacingY , 0, 20),
-            MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_SliderFloat2_GrabMinSize   , 0, 20),
+            MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_SliderFloat2_PaddingX      , 4, 20),
+            MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_SliderFloat2_PaddingY      , 3, 20),
+            MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_SliderFloat2_InnerSpacingX , 4, 20),
+            MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_SliderFloat2_InnerSpacingY , 4, 20),
+            MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_SliderFloat2_GrabMinSize   ,10, 20),
             MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_SliderFloat2_GrabRounding  , 0, 12),
         MV_END_STYLE_CONSTANTS
 
@@ -229,6 +231,7 @@ namespace Marvel {
         MV_CREATE_THEME_CONSTANT(mvThemeCol_SliderFloat3_GrabActive        , 20L, 0L);
         MV_CREATE_THEME_CONSTANT(mvThemeCol_SliderFloat3_Border            ,  5L, 0L);
         MV_CREATE_THEME_CONSTANT(mvThemeCol_SliderFloat3_BorderShadow      ,  6L, 0L);
+
         MV_CREATE_THEME_CONSTANT(mvThemeStyle_SliderFloat3_Rounding        , 11L, 0L);
         MV_CREATE_THEME_CONSTANT(mvThemeStyle_SliderFloat3_BorderSize      , 12L, 0L);
         MV_CREATE_THEME_CONSTANT(mvThemeStyle_SliderFloat3_PaddingX        , 10L, 0L);
@@ -252,11 +255,11 @@ namespace Marvel {
         MV_START_STYLE_CONSTANTS
             MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_SliderFloat3_Rounding     , 0, 12),
             MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_SliderFloat3_BorderSize   , 0,  1),
-            MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_SliderFloat3_PaddingX     , 0, 20),
-            MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_SliderFloat3_PaddingY     , 0, 20),
-            MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_SliderFloat3_InnerSpacingX, 0, 20),
-            MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_SliderFloat3_InnerSpacingY, 0, 20),
-            MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_SliderFloat3_GrabMinSize  , 0, 20),
+            MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_SliderFloat3_PaddingX     , 4, 20),
+            MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_SliderFloat3_PaddingY     , 3, 20),
+            MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_SliderFloat3_InnerSpacingX, 4, 20),
+            MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_SliderFloat3_InnerSpacingY, 4, 20),
+            MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_SliderFloat3_GrabMinSize  ,10, 20),
             MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_SliderFloat3_GrabRounding , 0, 12),
         MV_END_STYLE_CONSTANTS
 
@@ -307,6 +310,7 @@ namespace Marvel {
         MV_CREATE_THEME_CONSTANT(mvThemeCol_SliderFloat4_GrabActive      , 20L, 0L);
         MV_CREATE_THEME_CONSTANT(mvThemeCol_SliderFloat4_Border          ,  5L, 0L);
         MV_CREATE_THEME_CONSTANT(mvThemeCol_SliderFloat4_BorderShadow    ,  6L, 0L);
+
         MV_CREATE_THEME_CONSTANT(mvThemeStyle_SliderFloat4_Rounding      , 11L, 0L);
         MV_CREATE_THEME_CONSTANT(mvThemeStyle_SliderFloat4_BorderSize    , 12L, 0L);
         MV_CREATE_THEME_CONSTANT(mvThemeStyle_SliderFloat4_PaddingX      , 10L, 0L);
@@ -329,12 +333,12 @@ namespace Marvel {
 
         MV_START_STYLE_CONSTANTS
             MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_SliderFloat4_Rounding     , 0, 12),
-            MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_SliderFloat4_BorderSize   , 0, 1),
-            MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_SliderFloat4_PaddingX     , 0, 20),
-            MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_SliderFloat4_PaddingY     , 0, 20),
-            MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_SliderFloat4_InnerSpacingX, 0, 20),
-            MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_SliderFloat4_InnerSpacingY, 0, 20),
-            MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_SliderFloat4_GrabMinSize  , 0, 20),
+            MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_SliderFloat4_BorderSize   , 0,  1),
+            MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_SliderFloat4_PaddingX     , 4, 20),
+            MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_SliderFloat4_PaddingY     , 3, 20),
+            MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_SliderFloat4_InnerSpacingX, 4, 20),
+            MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_SliderFloat4_InnerSpacingY, 4, 20),
+            MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_SliderFloat4_GrabMinSize  ,10, 20),
             MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_SliderFloat4_GrabRounding , 0, 12),
         MV_END_STYLE_CONSTANTS
 
@@ -397,6 +401,7 @@ namespace Marvel {
         MV_CREATE_THEME_CONSTANT(mvThemeCol_SliderInt_GrabActive          , 20L, 0L);
         MV_CREATE_THEME_CONSTANT(mvThemeCol_SliderInt_Border              ,  5L, 0L);
         MV_CREATE_THEME_CONSTANT(mvThemeCol_SliderInt_BorderShadow        ,  6L, 0L);
+
         MV_CREATE_THEME_CONSTANT(mvThemeStyle_SliderInt_Rounding          , 11L, 0L);
         MV_CREATE_THEME_CONSTANT(mvThemeStyle_SliderInt_BorderSize        , 12L, 0L);
         MV_CREATE_THEME_CONSTANT(mvThemeStyle_SliderInt_PaddingX          , 10L, 0L);
@@ -421,11 +426,11 @@ namespace Marvel {
         MV_START_STYLE_CONSTANTS
             MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_SliderInt_Rounding        , 0, 12),
             MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_SliderInt_BorderSize      , 0,  1),
-            MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_SliderInt_PaddingX        , 0, 20),
-            MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_SliderInt_PaddingY        , 0, 20),
-            MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_SliderInt_InnerSpacingX   , 0, 20),
-            MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_SliderInt_InnerSpacingY   , 0, 20),
-            MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_SliderInt_GrabMinSize     , 0, 20),
+            MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_SliderInt_PaddingX        , 4, 20),
+            MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_SliderInt_PaddingY        , 3, 20),
+            MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_SliderInt_InnerSpacingX   , 4, 20),
+            MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_SliderInt_InnerSpacingY   , 4, 20),
+            MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_SliderInt_GrabMinSize     ,10, 20),
             MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_SliderInt_GrabRounding    , 0, 12),
         MV_END_STYLE_CONSTANTS
 
@@ -488,6 +493,7 @@ namespace Marvel {
         MV_CREATE_THEME_CONSTANT(mvThemeCol_SliderInt2_GrabActive        , 20L, 0L);
         MV_CREATE_THEME_CONSTANT(mvThemeCol_SliderInt2_Border            ,  5L, 0L);
         MV_CREATE_THEME_CONSTANT(mvThemeCol_SliderInt2_BorderShadow      ,  6L, 0L);
+
         MV_CREATE_THEME_CONSTANT(mvThemeStyle_SliderInt2_Rounding        , 11L, 0L);
         MV_CREATE_THEME_CONSTANT(mvThemeStyle_SliderInt2_BorderSize      , 12L, 0L);
         MV_CREATE_THEME_CONSTANT(mvThemeStyle_SliderInt2_PaddingX        , 10L, 0L);
@@ -511,11 +517,11 @@ namespace Marvel {
         MV_START_STYLE_CONSTANTS
             MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_SliderInt2_Rounding       , 0, 12),
             MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_SliderInt2_BorderSize     , 0,  1),
-            MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_SliderInt2_PaddingX       , 0, 20),
-            MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_SliderInt2_PaddingY       , 0, 20),
-            MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_SliderInt2_InnerSpacingX  , 0, 20),
-            MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_SliderInt2_InnerSpacingY  , 0, 20),
-            MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_SliderInt2_GrabMinSize    , 0, 20),
+            MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_SliderInt2_PaddingX       , 4, 20),
+            MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_SliderInt2_PaddingY       , 3, 20),
+            MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_SliderInt2_InnerSpacingX  , 4, 20),
+            MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_SliderInt2_InnerSpacingY  , 4, 20),
+            MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_SliderInt2_GrabMinSize    ,10, 20),
             MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_SliderInt2_GrabRounding   , 0, 12),
         MV_END_STYLE_CONSTANTS
 
@@ -566,6 +572,7 @@ namespace Marvel {
         MV_CREATE_THEME_CONSTANT(mvThemeCol_SliderInt3_GrabActive        , 20L, 0L);
         MV_CREATE_THEME_CONSTANT(mvThemeCol_SliderInt3_Border            ,  5L, 0L);
         MV_CREATE_THEME_CONSTANT(mvThemeCol_SliderInt3_BorderShadow      ,  6L, 0L);
+
         MV_CREATE_THEME_CONSTANT(mvThemeStyle_SliderInt3_Rounding        , 11L, 0L);
         MV_CREATE_THEME_CONSTANT(mvThemeStyle_SliderInt3_BorderSize      , 12L, 0L);
         MV_CREATE_THEME_CONSTANT(mvThemeStyle_SliderInt3_PaddingX        , 10L, 0L);
@@ -589,11 +596,11 @@ namespace Marvel {
         MV_START_STYLE_CONSTANTS
             MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_SliderInt3_Rounding       , 0, 12),
             MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_SliderInt3_BorderSize     , 0,  1),
-            MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_SliderInt3_PaddingX       , 0, 20),
-            MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_SliderInt3_PaddingY       , 0, 20),
-            MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_SliderInt3_InnerSpacingX  , 0, 20),
-            MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_SliderInt3_InnerSpacingY  , 0, 20),
-            MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_SliderInt3_GrabMinSize    , 0, 20),
+            MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_SliderInt3_PaddingX       , 4, 20),
+            MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_SliderInt3_PaddingY       , 3, 20),
+            MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_SliderInt3_InnerSpacingX  , 4, 20),
+            MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_SliderInt3_InnerSpacingY  , 4, 20),
+            MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_SliderInt3_GrabMinSize    ,10, 20),
             MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_SliderInt3_GrabRounding   , 0, 12),
         MV_END_STYLE_CONSTANTS
 
@@ -644,6 +651,7 @@ namespace Marvel {
         MV_CREATE_THEME_CONSTANT(mvThemeCol_SliderInt4_GrabActive        , 20L, 0L);
         MV_CREATE_THEME_CONSTANT(mvThemeCol_SliderInt4_Border            ,  5L, 0L);
         MV_CREATE_THEME_CONSTANT(mvThemeCol_SliderInt4_BorderShadow      ,  6L, 0L);
+
         MV_CREATE_THEME_CONSTANT(mvThemeStyle_SliderInt4_Rounding        , 11L, 0L);
         MV_CREATE_THEME_CONSTANT(mvThemeStyle_SliderInt4_BorderSize      , 12L, 0L);
         MV_CREATE_THEME_CONSTANT(mvThemeStyle_SliderInt4_PaddingX        , 10L, 0L);
@@ -667,11 +675,11 @@ namespace Marvel {
         MV_START_STYLE_CONSTANTS
             MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_SliderInt4_Rounding       , 0, 12),
             MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_SliderInt4_BorderSize     , 0,  1),
-            MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_SliderInt4_PaddingX       , 0, 20),
-            MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_SliderInt4_PaddingY       , 0, 20),
-            MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_SliderInt4_InnerSpacingX  , 0, 20),
-            MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_SliderInt4_InnerSpacingY  , 0, 20),
-            MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_SliderInt4_GrabMinSize    , 0, 20),
+            MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_SliderInt4_PaddingX       , 4, 20),
+            MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_SliderInt4_PaddingY       , 3, 20),
+            MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_SliderInt4_InnerSpacingX  , 4, 20),
+            MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_SliderInt4_InnerSpacingY  , 4, 20),
+            MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_SliderInt4_GrabMinSize    ,10, 20),
             MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_SliderInt4_GrabRounding   , 0, 12),
         MV_END_STYLE_CONSTANTS
 

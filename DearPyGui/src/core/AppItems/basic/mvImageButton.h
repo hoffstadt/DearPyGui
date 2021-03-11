@@ -28,6 +28,7 @@ namespace Marvel {
 		MV_CREATE_THEME_CONSTANT(mvThemeCol_ImageButton_BgActive		, 23L, 0L);
 		MV_CREATE_THEME_CONSTANT(mvThemeCol_ImageButton_Border			,  5L, 0L);
 		MV_CREATE_THEME_CONSTANT(mvThemeCol_ImageButton_BorderShadow	,  6L, 0L);
+
 		MV_CREATE_THEME_CONSTANT(mvThemeStyle_ImageButton_BorderSize	, 12L, 0L);
 		MV_CREATE_THEME_CONSTANT(mvThemeStyle_ImageButton_PaddingX		, 10L, 0L);
 		MV_CREATE_THEME_CONSTANT(mvThemeStyle_ImageButton_PaddingY		, 10L, 1L);
@@ -42,8 +43,8 @@ namespace Marvel {
 
 		MV_START_STYLE_CONSTANTS
 			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_ImageButton_BorderSize, 0,  1),
-			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_ImageButton_PaddingX	, 0, 20),
-			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_ImageButton_PaddingY	, 0, 20),
+			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_ImageButton_PaddingX	, 4, 20),
+			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_ImageButton_PaddingY	, 3, 20),
 		MV_END_STYLE_CONSTANTS
 
 	public:
