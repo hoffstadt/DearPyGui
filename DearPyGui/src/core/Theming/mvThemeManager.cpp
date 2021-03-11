@@ -7,6 +7,7 @@
 namespace Marvel {
 
 	std::vector<std::tuple<std::string, long, mvColor*>> mvThemeManager::s_acolors;
+	std::vector<std::tuple<std::string, long, float*>>   mvThemeManager::s_astyles;
 	std::unordered_map<mvAppItemType, mvThemeColors>     mvThemeManager::s_colors;
 	std::unordered_map<mvAppItemType, mvThemeStyles>     mvThemeManager::s_styles;
 

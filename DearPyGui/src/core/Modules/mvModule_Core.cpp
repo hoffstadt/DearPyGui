@@ -394,7 +394,20 @@ namespace Marvel {
 
 					// style constants
 					for (const auto& item : item_type::GetStyleConstants())
+					{
 						ModuleConstants.push_back({ std::get<0>(item), std::get<1>(item) });
+
+						static mvAppItemType type;
+						long mvThemeConstant = std::get<1>(item);
+						decodeType(mvThemeConstant, &type);
+						float style = std::get<2>(item);
+						const std::string& name = std::get<0>(item);
+
+						mvThemeManager::GetStyles()[type][mvThemeConstant] = style;
+						mvThemeManager::GetStylesPtr().push_back({ name, mvThemeConstant,
+							&mvThemeManager::GetStyles()[type][mvThemeConstant] });
+
+					}
 
 				});
 		}

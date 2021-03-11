@@ -74,7 +74,8 @@ namespace Marvel {
         MV_CREATE_THEME_CONSTANT(mvThemeStyle_InputInt_PaddingY        , 10L, 1L);
         MV_CREATE_THEME_CONSTANT(mvThemeStyle_InputInt_InnerSpacingX   , 14L, 0L);
         MV_CREATE_THEME_CONSTANT(mvThemeStyle_InputInt_InnerSpacingY   , 14L, 1L);
-        MV_CREATE_THEME_CONSTANT(mvThemeStyle_InputInt_ButtonTextAlign , 22L, 0L);
+        MV_CREATE_THEME_CONSTANT(mvThemeStyle_InputInt_ButtonTextAlignX, 22L, 0L);
+        MV_CREATE_THEME_CONSTANT(mvThemeStyle_InputInt_ButtonTextAlignY, 22L, 1L);
 
         MV_START_COLOR_CONSTANTS
             MV_CREATE_CONSTANT_PAIR(mvThemeCol_InputInt_Text,               mvColor(255, 255, 255, 255)),
@@ -94,7 +95,8 @@ namespace Marvel {
             MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_InputInt_PaddingY         , 0, 20),
             MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_InputInt_InnerSpacingX    , 0, 20),
             MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_InputInt_InnerSpacingY    , 0, 20),
-            MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_InputInt_ButtonTextAlign  , 0,  1),
+            MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_InputInt_ButtonTextAlignX , 0, 20),
+            MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_InputInt_ButtonTextAlignY , 0, 20),
         MV_END_STYLE_CONSTANTS
 
     public:
@@ -393,7 +395,8 @@ namespace Marvel {
         MV_CREATE_THEME_CONSTANT(mvThemeStyle_InputFloat_PaddingY        , 10L, 1L);
         MV_CREATE_THEME_CONSTANT(mvThemeStyle_InputFloat_InnerSpacingX   , 14L, 0L);
         MV_CREATE_THEME_CONSTANT(mvThemeStyle_InputFloat_InnerSpacingY   , 14L, 1L);
-        MV_CREATE_THEME_CONSTANT(mvThemeStyle_InputFloat_ButtonTextAlign , 22L, 0L);
+        MV_CREATE_THEME_CONSTANT(mvThemeStyle_InputFloat_ButtonTextAlignX, 22L, 0L);
+        MV_CREATE_THEME_CONSTANT(mvThemeStyle_InputFloat_ButtonTextAlignY, 22L, 1L);
 
         MV_START_COLOR_CONSTANTS
             MV_CREATE_CONSTANT_PAIR(mvThemeCol_InputFloat_Text,               mvColor(255, 255, 255, 255)),
@@ -407,13 +410,14 @@ namespace Marvel {
         MV_END_COLOR_CONSTANTS
 
         MV_START_STYLE_CONSTANTS
-            MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_InputFloat_Rounding       , 0, 12),
-            MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_InputFloat_BorderSize     , 0,  1),
-            MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_InputFloat_PaddingX       , 0, 20),
-            MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_InputFloat_PaddingY       , 0, 20),
-            MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_InputFloat_InnerSpacingX  , 0, 20),
-            MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_InputFloat_InnerSpacingY  , 0, 20),
-            MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_InputFloat_ButtonTextAlign, 0,  1),
+            MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_InputFloat_Rounding        , 0, 12),
+            MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_InputFloat_BorderSize      , 0,  1),
+            MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_InputFloat_PaddingX        , 0, 20),
+            MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_InputFloat_PaddingY        , 0, 20),
+            MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_InputFloat_InnerSpacingX   , 0, 20),
+            MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_InputFloat_InnerSpacingY   , 0, 20),
+            MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_InputFloat_ButtonTextAlignX, 0, 20),
+            MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_InputFloat_ButtonTextAlignY, 0, 20),
         MV_END_STYLE_CONSTANTS
 
     public:
