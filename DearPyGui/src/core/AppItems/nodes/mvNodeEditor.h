@@ -25,6 +25,7 @@ namespace Marvel {
 	public:
 
 		mvNodeEditor(const std::string& name, PyObject* linkCallback, PyObject* delinkCallback);
+		~mvNodeEditor();
 
 		void addLink(const std::string& node1, const std::string& node2);
 		void addLink(int node1, int node2);
