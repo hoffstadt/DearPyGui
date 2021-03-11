@@ -26,7 +26,7 @@ namespace Marvel {
 		MV_END_COLOR_CONSTANTS
 
 		MV_START_STYLE_CONSTANTS
-		MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_Indent_Spacing, 0, 30),
+		MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_Indent_Spacing, 21, 30),
 		MV_END_STYLE_CONSTANTS
 
 		mvIndent(const std::string& name, float default_value);

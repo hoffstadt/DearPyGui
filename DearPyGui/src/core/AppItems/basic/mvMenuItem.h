@@ -21,12 +21,13 @@ namespace Marvel {
 
 		MV_CREATE_THEME_CONSTANT(mvThemeCol_MenuItem_Text			,  0L, 0L);
 		MV_CREATE_THEME_CONSTANT(mvThemeCol_MenuItem_BgHovered		, 25L, 0L);
+
 		MV_CREATE_THEME_CONSTANT(ImGuiStyleVar_MenuItem_TextAlignX	, 23L, 0L);
 		MV_CREATE_THEME_CONSTANT(ImGuiStyleVar_MenuItem_TextAlignY	, 23L, 1L);
 
 		MV_START_COLOR_CONSTANTS
 			MV_CREATE_CONSTANT_PAIR(mvThemeCol_MenuItem_Text,		mvColor(255, 255, 255, 255)),
-			MV_CREATE_CONSTANT_PAIR(mvThemeCol_MenuItem_BgHovered,	mvColor( 20,  20,  20, 240)),
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_MenuItem_BgHovered,	mvColor( 66, 150, 250, 240)),
 		MV_END_COLOR_CONSTANTS
 
 		MV_START_STYLE_CONSTANTS

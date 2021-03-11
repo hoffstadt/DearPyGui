@@ -68,6 +68,7 @@ namespace Marvel {
         MV_CREATE_THEME_CONSTANT(mvThemeCol_InputInt_ButtonBgActive    , 23L, 0L);
         MV_CREATE_THEME_CONSTANT(mvThemeCol_InputInt_Border            ,  5L, 0L);
         MV_CREATE_THEME_CONSTANT(mvThemeCol_InputInt_BorderShadow      ,  6L, 0L);
+
         MV_CREATE_THEME_CONSTANT(mvThemeStyle_InputInt_Rounding        , 11L, 0L);
         MV_CREATE_THEME_CONSTANT(mvThemeStyle_InputInt_BorderSize      , 12L, 0L);
         MV_CREATE_THEME_CONSTANT(mvThemeStyle_InputInt_PaddingX        , 10L, 0L);
@@ -89,14 +90,14 @@ namespace Marvel {
         MV_END_COLOR_CONSTANTS
 
         MV_START_STYLE_CONSTANTS
-            MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_InputInt_Rounding         , 0, 12),
-            MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_InputInt_BorderSize       , 0,  1),
-            MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_InputInt_PaddingX         , 0, 20),
-            MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_InputInt_PaddingY         , 0, 20),
-            MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_InputInt_InnerSpacingX    , 0, 20),
-            MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_InputInt_InnerSpacingY    , 0, 20),
-            MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_InputInt_ButtonTextAlignX , 0, 20),
-            MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_InputInt_ButtonTextAlignY , 0, 20),
+            MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_InputInt_Rounding         , 0,   12),
+            MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_InputInt_BorderSize       , 0,    1),
+            MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_InputInt_PaddingX         , 4,   20),
+            MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_InputInt_PaddingY         , 3,   20),
+            MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_InputInt_InnerSpacingX    , 4,   20),
+            MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_InputInt_InnerSpacingY    , 4,   20),
+            MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_InputInt_ButtonTextAlignX , 0.5, 20),
+            MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_InputInt_ButtonTextAlignY , 0.5, 20),
         MV_END_STYLE_CONSTANTS
 
     public:
@@ -160,6 +161,7 @@ namespace Marvel {
         MV_CREATE_THEME_CONSTANT(mvThemeCol_InputInt2_Bg              ,  7L, 0L);
         MV_CREATE_THEME_CONSTANT(mvThemeCol_InputInt2_Border          ,  5L, 0L);
         MV_CREATE_THEME_CONSTANT(mvThemeCol_InputInt2_BorderShadow    ,  6L, 0L);
+
         MV_CREATE_THEME_CONSTANT(mvThemeStyle_InputInt2_Rounding      , 11L, 0L);
         MV_CREATE_THEME_CONSTANT(mvThemeStyle_InputInt2_BorderSize    , 12L, 0L);
         MV_CREATE_THEME_CONSTANT(mvThemeStyle_InputInt2_PaddingX      , 10L, 0L);
@@ -178,10 +180,10 @@ namespace Marvel {
         MV_START_STYLE_CONSTANTS
             MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_InputInt2_Rounding        , 0, 12),
             MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_InputInt2_BorderSize      , 0,  1),
-            MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_InputInt2_PaddingX        , 0, 20),
-            MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_InputInt2_PaddingY        , 0, 20),
-            MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_InputInt2_InnerSpacingX   , 0, 20),
-            MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_InputInt2_InnerSpacingY   , 0, 20),
+            MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_InputInt2_PaddingX        , 4, 20),
+            MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_InputInt2_PaddingY        , 3, 20),
+            MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_InputInt2_InnerSpacingX   , 4, 20),
+            MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_InputInt2_InnerSpacingY   , 4, 20),
         MV_END_STYLE_CONSTANTS
 
     public:
@@ -230,6 +232,7 @@ namespace Marvel {
         MV_CREATE_THEME_CONSTANT(mvThemeCol_InputInt3_Bg              ,  7L, 0L);
         MV_CREATE_THEME_CONSTANT(mvThemeCol_InputInt3_Border          ,  5L, 0L);
         MV_CREATE_THEME_CONSTANT(mvThemeCol_InputInt3_BorderShadow    ,  6L, 0L);
+
         MV_CREATE_THEME_CONSTANT(mvThemeStyle_InputInt3_Rounding      , 11L, 0L);
         MV_CREATE_THEME_CONSTANT(mvThemeStyle_InputInt3_BorderSize    , 12L, 0L);
         MV_CREATE_THEME_CONSTANT(mvThemeStyle_InputInt3_PaddingX      , 10L, 0L);
@@ -248,10 +251,10 @@ namespace Marvel {
         MV_START_STYLE_CONSTANTS
             MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_InputInt3_Rounding        , 0, 12),
             MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_InputInt3_BorderSize      , 0,  1),
-            MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_InputInt3_PaddingX        , 0, 20),
-            MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_InputInt3_PaddingY        , 0, 20),
-            MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_InputInt3_InnerSpacingX   , 0, 20),
-            MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_InputInt3_InnerSpacingY   , 0, 20),
+            MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_InputInt3_PaddingX        , 4, 20),
+            MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_InputInt3_PaddingY        , 3, 20),
+            MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_InputInt3_InnerSpacingX   , 4, 20),
+            MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_InputInt3_InnerSpacingY   , 4, 20),
         MV_END_STYLE_CONSTANTS
 
         
@@ -301,6 +304,7 @@ namespace Marvel {
         MV_CREATE_THEME_CONSTANT(mvThemeCol_InputInt4_Bg              ,  7L, 0L);
         MV_CREATE_THEME_CONSTANT(mvThemeCol_InputInt4_Border          ,  5L, 0L);
         MV_CREATE_THEME_CONSTANT(mvThemeCol_InputInt4_BorderShadow    ,  6L, 0L);
+
         MV_CREATE_THEME_CONSTANT(mvThemeStyle_InputInt4_Rounding      , 11L, 0L);
         MV_CREATE_THEME_CONSTANT(mvThemeStyle_InputInt4_BorderSize    , 12L, 0L);
         MV_CREATE_THEME_CONSTANT(mvThemeStyle_InputInt4_PaddingX      , 10L, 0L);
@@ -319,10 +323,10 @@ namespace Marvel {
         MV_START_STYLE_CONSTANTS
             MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_InputInt4_Rounding        , 0, 12),
             MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_InputInt4_BorderSize      , 0,  1),
-            MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_InputInt4_PaddingX        , 0, 20),
-            MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_InputInt4_PaddingY        , 0, 20),
-            MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_InputInt4_InnerSpacingX   , 0, 20),
-            MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_InputInt4_InnerSpacingY   , 0, 20),
+            MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_InputInt4_PaddingX        , 4, 20),
+            MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_InputInt4_PaddingY        , 3, 20),
+            MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_InputInt4_InnerSpacingX   , 4, 20),
+            MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_InputInt4_InnerSpacingY   , 4, 20),
         MV_END_STYLE_CONSTANTS
 
     public:
@@ -389,6 +393,7 @@ namespace Marvel {
         MV_CREATE_THEME_CONSTANT(mvThemeCol_InputFloat_ButtonBgActive    , 23L, 0L);
         MV_CREATE_THEME_CONSTANT(mvThemeCol_InputFloat_Border            ,  5L, 0L);
         MV_CREATE_THEME_CONSTANT(mvThemeCol_InputFloat_BorderShadow      ,  6L, 0L);
+
         MV_CREATE_THEME_CONSTANT(mvThemeStyle_InputFloat_Rounding        , 11L, 0L);
         MV_CREATE_THEME_CONSTANT(mvThemeStyle_InputFloat_BorderSize      , 12L, 0L);
         MV_CREATE_THEME_CONSTANT(mvThemeStyle_InputFloat_PaddingX        , 10L, 0L);
@@ -410,14 +415,14 @@ namespace Marvel {
         MV_END_COLOR_CONSTANTS
 
         MV_START_STYLE_CONSTANTS
-            MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_InputFloat_Rounding        , 0, 12),
-            MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_InputFloat_BorderSize      , 0,  1),
-            MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_InputFloat_PaddingX        , 0, 20),
-            MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_InputFloat_PaddingY        , 0, 20),
-            MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_InputFloat_InnerSpacingX   , 0, 20),
-            MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_InputFloat_InnerSpacingY   , 0, 20),
-            MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_InputFloat_ButtonTextAlignX, 0, 20),
-            MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_InputFloat_ButtonTextAlignY, 0, 20),
+            MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_InputFloat_Rounding        , 0,   12),
+            MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_InputFloat_BorderSize      , 0,    1),
+            MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_InputFloat_PaddingX        , 4,   20),
+            MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_InputFloat_PaddingY        , 3,   20),
+            MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_InputFloat_InnerSpacingX   , 4,   20),
+            MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_InputFloat_InnerSpacingY   , 4,   20),
+            MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_InputFloat_ButtonTextAlignX, 0.5, 20),
+            MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_InputFloat_ButtonTextAlignY, 0.5, 20),
         MV_END_STYLE_CONSTANTS
 
     public:
@@ -483,6 +488,7 @@ namespace Marvel {
         MV_CREATE_THEME_CONSTANT(mvThemeCol_InputFloat2_Border          ,  5L, 0L);
         MV_CREATE_THEME_CONSTANT(mvThemeCol_InputFloat2_BorderShadow    ,  6L, 0L);
         MV_CREATE_THEME_CONSTANT(mvThemeStyle_InputFloat2_Rounding      , 11L, 0L);
+
         MV_CREATE_THEME_CONSTANT(mvThemeStyle_InputFloat2_BorderSize    , 12L, 0L);
         MV_CREATE_THEME_CONSTANT(mvThemeStyle_InputFloat2_PaddingX      , 10L, 0L);
         MV_CREATE_THEME_CONSTANT(mvThemeStyle_InputFloat2_PaddingY      , 10L, 1L);
@@ -500,10 +506,10 @@ namespace Marvel {
         MV_START_STYLE_CONSTANTS
             MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_InputFloat2_Rounding      , 0, 12),
             MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_InputFloat2_BorderSize    , 0,  1),
-            MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_InputFloat2_PaddingX      , 0, 20),
-            MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_InputFloat2_PaddingY      , 0, 20),
-            MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_InputFloat2_InnerSpacingX , 0, 20),
-            MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_InputFloat2_InnerSpacingY , 0, 20),
+            MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_InputFloat2_PaddingX      , 4, 20),
+            MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_InputFloat2_PaddingY      , 3, 20),
+            MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_InputFloat2_InnerSpacingX , 4, 20),
+            MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_InputFloat2_InnerSpacingY , 4, 20),
         MV_END_STYLE_CONSTANTS
 
     public:
@@ -553,6 +559,7 @@ namespace Marvel {
         MV_CREATE_THEME_CONSTANT(mvThemeCol_InputFloat3_Bg              ,  7L, 0L);
         MV_CREATE_THEME_CONSTANT(mvThemeCol_InputFloat3_Border          ,  5L, 0L);
         MV_CREATE_THEME_CONSTANT(mvThemeCol_InputFloat3_BorderShadow    ,  6L, 0L);
+
         MV_CREATE_THEME_CONSTANT(mvThemeStyle_InputFloat3_Rounding      , 11L, 0L);
         MV_CREATE_THEME_CONSTANT(mvThemeStyle_InputFloat3_BorderSize    , 12L, 0L);
         MV_CREATE_THEME_CONSTANT(mvThemeStyle_InputFloat3_PaddingX      , 10L, 0L);
@@ -571,10 +578,10 @@ namespace Marvel {
         MV_START_STYLE_CONSTANTS
             MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_InputFloat3_Rounding      , 0, 12),
             MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_InputFloat3_BorderSize    , 0,  1),
-            MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_InputFloat3_PaddingX      , 0, 20),
-            MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_InputFloat3_PaddingY      , 0, 20),
-            MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_InputFloat3_InnerSpacingX , 0, 20),
-            MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_InputFloat3_InnerSpacingY , 0, 20),
+            MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_InputFloat3_PaddingX      , 4, 20),
+            MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_InputFloat3_PaddingY      , 3, 20),
+            MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_InputFloat3_InnerSpacingX , 4, 20),
+            MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_InputFloat3_InnerSpacingY , 4, 20),
         MV_END_STYLE_CONSTANTS
 
 
@@ -624,6 +631,7 @@ namespace Marvel {
         MV_CREATE_THEME_CONSTANT(mvThemeCol_InputFloat4_Bg              ,  7L, 0L);
         MV_CREATE_THEME_CONSTANT(mvThemeCol_InputFloat4_Border          ,  5L, 0L);
         MV_CREATE_THEME_CONSTANT(mvThemeCol_InputFloat4_BorderShadow    ,  6L, 0L);
+
         MV_CREATE_THEME_CONSTANT(mvThemeStyle_InputFloat4_Rounding      , 11L, 0L);
         MV_CREATE_THEME_CONSTANT(mvThemeStyle_InputFloat4_BorderSize    , 12L, 0L);
         MV_CREATE_THEME_CONSTANT(mvThemeStyle_InputFloat4_PaddingX      , 10L, 0L);
@@ -642,10 +650,10 @@ namespace Marvel {
         MV_START_STYLE_CONSTANTS
             MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_InputFloat4_Rounding      , 0, 12),
             MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_InputFloat4_BorderSize    , 0,  1),
-            MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_InputFloat4_PaddingX      , 0, 20),
-            MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_InputFloat4_PaddingY      , 0, 20),
-            MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_InputFloat4_InnerSpacingX , 0, 20),
-            MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_InputFloat4_InnerSpacingY , 0, 20),
+            MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_InputFloat4_PaddingX      , 4, 20),
+            MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_InputFloat4_PaddingY      , 3, 20),
+            MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_InputFloat4_InnerSpacingX , 4, 20),
+            MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_InputFloat4_InnerSpacingY , 4, 20),
         MV_END_STYLE_CONSTANTS
 
     public:

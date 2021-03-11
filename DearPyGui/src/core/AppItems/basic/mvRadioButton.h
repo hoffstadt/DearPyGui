@@ -18,15 +18,16 @@ namespace Marvel {
 	{
 		MV_APPITEM_TYPE(mvAppItemType::mvRadioButton, "add_radio_button")
 
-		MV_CREATE_THEME_CONSTANT(mvThemeCol_RadioButton_Text			,  0L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvThemeCol_RadioButton_Bg				,  7L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvThemeCol_RadioButton_BgHovered		,  8L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvThemeCol_RadioButton_BgActive		, 18L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvThemeCol_RadioButton_Border			,  5L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvThemeCol_RadioButton_BorderShadow	,  6L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvThemeStyle_RadioButton_BorderSize	, 12L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvThemeStyle_RadioButton_PaddingX		, 10L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvThemeStyle_RadioButton_PaddingY		, 10L, 1L);
+		MV_CREATE_THEME_CONSTANT(mvThemeCol_RadioButton_Text,             0L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeCol_RadioButton_Bg,               7L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeCol_RadioButton_BgHovered,        8L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeCol_RadioButton_BgActive,        18L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeCol_RadioButton_Border,           5L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeCol_RadioButton_BorderShadow,     6L, 0L);
+
+		MV_CREATE_THEME_CONSTANT(mvThemeStyle_RadioButton_BorderSize,    12L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeStyle_RadioButton_PaddingX,      10L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeStyle_RadioButton_PaddingY,      10L, 1L);
 		MV_CREATE_THEME_CONSTANT(mvThemeStyle_RadioButton_InnerSpacingX, 14L, 0L);
 		MV_CREATE_THEME_CONSTANT(mvThemeStyle_RadioButton_InnerSpacingY, 14L, 1L);
 
@@ -40,11 +41,11 @@ namespace Marvel {
 		MV_END_COLOR_CONSTANTS
 
 		MV_START_STYLE_CONSTANTS
-			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_RadioButton_BorderSize	, 0,  1),
-			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_RadioButton_PaddingX		, 0, 20),
-			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_RadioButton_PaddingY		, 0, 20),
-			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_RadioButton_InnerSpacingX	, 0, 20),
-			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_RadioButton_InnerSpacingY	, 0, 20),
+			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_RadioButton_BorderSize,    0,  1),
+			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_RadioButton_PaddingX,      4, 20),
+			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_RadioButton_PaddingY,      3, 20),
+			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_RadioButton_InnerSpacingX, 4, 20),
+			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_RadioButton_InnerSpacingY, 4, 20),
 		MV_END_STYLE_CONSTANTS
 
 	public:

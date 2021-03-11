@@ -18,12 +18,13 @@ namespace Marvel {
 		MV_CREATE_THEME_CONSTANT(mvThemeCol_TimePicker_DropHovered			, 25L, 0L);
 		MV_CREATE_THEME_CONSTANT(mvThemeCol_TimePicker_DropActive			, 26L, 0L);
 		MV_CREATE_THEME_CONSTANT(mvThemeCol_TimePicker_DropBg				,  4L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvThemeCol_TimePicker_Scrollbar				, 14L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvThemeCol_TimePicker_ScrollbarGrab			, 15L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeCol_TimePicker_Scrollbar			, 14L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeCol_TimePicker_ScrollbarGrab		, 15L, 0L);
 		MV_CREATE_THEME_CONSTANT(mvThemeCol_TimePicker_ScrollbarGrabHovered	, 16L, 0L);
 		MV_CREATE_THEME_CONSTANT(mvThemeCol_TimePicker_ScrollbarGrabActive	, 17L, 0L);
 		MV_CREATE_THEME_CONSTANT(mvThemeCol_TimePicker_Border				,  5L, 0L);
 		MV_CREATE_THEME_CONSTANT(mvThemeCol_TimePicker_BorderShadow			,  6L, 0L);
+
 		MV_CREATE_THEME_CONSTANT(mvThemeStyle_TimePicker_BorderSize			, 12L, 0L);
 		MV_CREATE_THEME_CONSTANT(mvThemeStyle_TimePicker_Rounding			, 11L, 0L);
 		MV_CREATE_THEME_CONSTANT(mvThemeStyle_TimePicker_PaddingX			, 10L, 0L);
@@ -56,15 +57,15 @@ namespace Marvel {
 		MV_START_STYLE_CONSTANTS
 			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_TimePicker_BorderSize			, 0,  1),
 			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_TimePicker_Rounding			, 0, 12),
-			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_TimePicker_PaddingX			, 0, 20),
-			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_TimePicker_PaddingY			, 0, 20),
+			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_TimePicker_PaddingX			, 8, 20),
+			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_TimePicker_PaddingY			, 4, 20),
 			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_TimePicker_TextAlignX			, 0, 20),
 			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_TimePicker_TextAlignY			, 0, 20),
-			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_TimePicker_DropPaddingX		, 0, 20),
-			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_TimePicker_DropPaddingY		, 0, 20),
-			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_TimePicker_DropBorderSize		, 0,  1),
-			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_TimePicker_DropItemSpacingX	, 0, 20),
-			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_TimePicker_DropItemSpacingY	, 0, 20),
+			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_TimePicker_DropPaddingX		, 8, 20),
+			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_TimePicker_DropPaddingY		, 4, 20),
+			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_TimePicker_DropBorderSize		, 1,  1),
+			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_TimePicker_DropItemSpacingX	, 8, 20),
+			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_TimePicker_DropItemSpacingY	, 4, 20),
 			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_TimePicker_DropTextAlignX		, 0, 20),
 			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_TimePicker_DropTextAlignY		, 0, 20),
 		MV_END_STYLE_CONSTANTS

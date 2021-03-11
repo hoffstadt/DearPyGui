@@ -20,8 +20,8 @@ namespace Marvel {
 		MV_END_COLOR_CONSTANTS
 
 		MV_START_STYLE_CONSTANTS
-			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_MenuBar_ItemSpacingX, 0, 20),
-			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_MenuBar_ItemSpacingY, 0, 20),
+			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_MenuBar_ItemSpacingX, 8, 20),
+			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_MenuBar_ItemSpacingY, 4, 20),
 		MV_END_STYLE_CONSTANTS
 
 	public:

@@ -25,10 +25,11 @@ namespace Marvel{
 		MV_CREATE_THEME_CONSTANT(mvThemeCol_SimplePlot_BorderShadow			,  6L, 0L);
 		MV_CREATE_THEME_CONSTANT(mvThemeCol_SimplePlot_Bg					,  7L, 0L);
 		MV_CREATE_THEME_CONSTANT(mvThemeCol_SimplePlot_PopupBg				,  4L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvThemeCol_SimplePlot_Lines					, 40L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeCol_SimplePlot_Lines				, 40L, 0L);
 		MV_CREATE_THEME_CONSTANT(mvThemeCol_SimplePlot_LinesHovered			, 41L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvThemeCol_SimplePlot_Histogram				, 42L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeCol_SimplePlot_Histogram			, 42L, 0L);
 		MV_CREATE_THEME_CONSTANT(mvThemeCol_SimplePlot_HistogramHovered		, 43L, 0L);
+
 		MV_CREATE_THEME_CONSTANT(mvThemeStyle_SimplePlot_Rounding			, 11L, 0L);
 		MV_CREATE_THEME_CONSTANT(mvThemeStyle_SimplePlot_BorderSize			, 12L, 0L);
 		MV_CREATE_THEME_CONSTANT(mvThemeStyle_SimplePlot_PaddingX			, 10L, 0L);
@@ -51,10 +52,10 @@ namespace Marvel{
 		MV_START_STYLE_CONSTANTS
 			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_SimplePlot_BorderSize			, 0,  1),
 			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_SimplePlot_Rounding			, 0, 12),
-			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_SimplePlot_PaddingX			, 0, 20),
-			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_SimplePlot_PaddingY			, 0, 20),
-			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_SimplePlot_InnerItemSpacingX	, 0, 20),
-			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_SimplePlot_InnerItemSpacingY	, 0, 20),
+			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_SimplePlot_PaddingX			, 8, 20),
+			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_SimplePlot_PaddingY			, 4, 20),
+			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_SimplePlot_InnerItemSpacingX	, 4, 20),
+			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_SimplePlot_InnerItemSpacingY	, 4, 20),
 		MV_END_STYLE_CONSTANTS
 
 	public:
