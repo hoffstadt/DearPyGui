@@ -19,10 +19,10 @@ namespace Marvel {
 
 		MV_CREATE_THEME_CONSTANT(mvThemeCol_Selectable_Text			,  0L, 0L);
 		MV_CREATE_THEME_CONSTANT(mvThemeCol_Selectable_Bg			, 24L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvThemeCol_Selectable_BgHovered		, 25L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeCol_Selectable_BgHovered	, 25L, 0L);
 		MV_CREATE_THEME_CONSTANT(mvThemeCol_Selectable_BgActive		, 26L, 0L);
 		MV_CREATE_THEME_CONSTANT(mvThemeStyle_Selectable_TextAlignX	, 23L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvThemeStyle_Selectable_TextAlignY	, 23L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeStyle_Selectable_TextAlignY	, 23L, 1L);
 
 
 		MV_START_COLOR_CONSTANTS

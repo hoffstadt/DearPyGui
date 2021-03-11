@@ -57,56 +57,103 @@ namespace Marvel {
         if (!prerender())
             return;
 
-        HelpMarker(
-            "Export saves commands to your clipboard. Paste into your file.");
-        ImGui::SameLine();
-        if (ImGui::Button("Export Colors"))
-        {
 
-            ImGui::LogToClipboard();
 
-            for (auto item : mvThemeManager::GetColorsPtr())
-            {
-                // Uncomment and replace with new command
-                
-                //ImGui::LogText("set_theme_item(mvGuiCol_%s, %i, %i, %i, %i)\r\n",
-                //    name, (int)(round(col.x * 255.0f)), (int)(round(col.y * 255.0f)), (int)(round(col.z * 255.0f)),
-                //    (int)(round(col.w * 255.0f)));
-            }
-            ImGui::LogFinish();
-        }
-
-        static ImGuiTextFilter filter;
-        filter.Draw("Filter colors", ImGui::GetFontSize() * 16);
 
         ImGui::BeginChild("##colors", ImVec2(0, 0), true, ImGuiWindowFlags_AlwaysVerticalScrollbar | ImGuiWindowFlags_AlwaysHorizontalScrollbar | ImGuiWindowFlags_NavFlattened);
         ImGui::PushItemWidth(-350);
 
-        for (auto& item : mvThemeManager::GetColorsPtr())
+        if(ImGui::BeginTabBar("##tabs", ImGuiTabBarFlags_None))
         {
-            if (!filter.PassFilter(std::get<0>(item).c_str()))
-                continue;
 
-            ImGui::PushID(&item);
-            if (ImGui::ColorEdit4("##color", *std::get<2>(item), ImGuiColorEditFlags_AlphaBar))
+            if (ImGui::BeginTabItem("Styles"))
             {
-                ////uncomment
-                //mvEventBus::Publish
-                //(
-                //    mvEVT_CATEGORY_THEMES,
-                //    SID("color_change"),
-                //    {
-                //        CreateEventArgument("WIDGET", std::string("")),
-                //        CreateEventArgument("ID", std::get<1>(item)),
-                //        CreateEventArgument("COLOR", std::get<2>(item))
-                //    }
-                //);
+
+
+                HelpMarker(
+                    "Export saves commands to your clipboard. Paste into your file.");
+                ImGui::SameLine();
+                if (ImGui::Button("Export Styles"))
+                {
+
+                    ImGui::LogToClipboard();
+
+                    for (auto item : mvThemeManager::GetStylesPtr())
+                    {
+                        // Uncomment and replace with new command
+
+                        //ImGui::LogText("set_theme_item(mvGuiCol_%s, %i, %i, %i, %i)\r\n",
+                        //    name, (int)(round(col.x * 255.0f)), (int)(round(col.y * 255.0f)), (int)(round(col.z * 255.0f)),
+                        //    (int)(round(col.w * 255.0f)));
+                    }
+                    ImGui::LogFinish();
+                }
+
+                static ImGuiTextFilter filter1;
+                filter1.Draw("Filter Styles", ImGui::GetFontSize() * 16);
+
+                ImGui::Separator();
+
+                for (auto& item : mvThemeManager::GetStylesPtr())
+                {
+                    if (!filter1.PassFilter(std::get<0>(item).c_str()))
+                        continue;
+
+                    ImGui::PushID(&item);
+                    ImGui::SliderFloat("##style", std::get<2>(item), 0.0f, 10.0f);
+                    ImGui::SameLine();
+                    ImGui::TextUnformatted(std::get<0>(item).c_str());
+                    ImGui::PopID();
+                }
+
+                ImGui::EndTabItem();
             }
 
-            ImGui::SameLine();
-            ImGui::TextUnformatted(std::get<0>(item).c_str());
-            ImGui::PopID();
+            if (ImGui::BeginTabItem("Colors"))
+            {
+
+                HelpMarker(
+                    "Export saves commands to your clipboard. Paste into your file.");
+                ImGui::SameLine();
+                if (ImGui::Button("Export Colors"))
+                {
+
+                    ImGui::LogToClipboard();
+
+                    for (auto item : mvThemeManager::GetColorsPtr())
+                    {
+                        // Uncomment and replace with new command
+
+                        //ImGui::LogText("set_theme_item(mvGuiCol_%s, %i, %i, %i, %i)\r\n",
+                        //    name, (int)(round(col.x * 255.0f)), (int)(round(col.y * 255.0f)), (int)(round(col.z * 255.0f)),
+                        //    (int)(round(col.w * 255.0f)));
+                    }
+                    ImGui::LogFinish();
+                }
+
+                static ImGuiTextFilter filter2;
+                filter2.Draw("Filter Colors", ImGui::GetFontSize() * 16);
+
+                ImGui::Separator();
+
+                for (auto& item : mvThemeManager::GetColorsPtr())
+                {
+                    if (!filter2.PassFilter(std::get<0>(item).c_str()))
+                        continue;
+
+                    ImGui::PushID(&item);
+                    ImGui::ColorEdit4("##color", *std::get<2>(item), ImGuiColorEditFlags_AlphaBar);
+                    ImGui::SameLine();
+                    ImGui::TextUnformatted(std::get<0>(item).c_str());
+                    ImGui::PopID();
+                }
+
+                ImGui::EndTabItem();
+            }
+
         }
+
+        ImGui::EndTabBar();
 
         ImGui::PopItemWidth();
         ImGui::EndChild();

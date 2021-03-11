@@ -17,6 +17,7 @@ namespace Marvel {
 		static int decodeIndex(long encoded_constant);
 
 		static std::vector<std::tuple<std::string, long, mvColor*>>& GetColorsPtr() { return s_acolors; }
+		static std::vector<std::tuple<std::string, long, float*>>& GetStylesPtr() { return s_astyles; }
 		static std::unordered_map<mvAppItemType, mvThemeColors>& GetColors() { return s_colors; }
 		static std::unordered_map<mvAppItemType, mvThemeStyles>& GetStyles() { return s_styles; }
 
@@ -32,6 +33,7 @@ namespace Marvel {
 		bool add_style(mvEvent& event);
 
 		static std::vector<std::tuple<std::string, long, mvColor*>> s_acolors;
+		static std::vector<std::tuple<std::string, long, float*>>   s_astyles;
 		static std::unordered_map<mvAppItemType, mvThemeColors>     s_colors;
 		static std::unordered_map<mvAppItemType, mvThemeStyles>     s_styles;
 
@@ -157,9 +159,7 @@ namespace Marvel {
 				styles.erase(style.first);
 			}
 			for (const auto& style : styles)
-			{
 				ImGui::PushStyleVar(style.first, style.second);
-			}
 		}
 
 		~mvImGuiThemeScope()
