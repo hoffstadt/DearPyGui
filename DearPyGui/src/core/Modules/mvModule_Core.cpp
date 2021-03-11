@@ -400,12 +400,13 @@ namespace Marvel {
 						static mvAppItemType type;
 						long mvThemeConstant = std::get<1>(item);
 						decodeType(mvThemeConstant, &type);
-						float style = std::get<2>(item);
+						float default_val = std::get<2>(item);
+						float max_val = std::get<3>(item);
 						const std::string& name = std::get<0>(item);
 
-						mvThemeManager::GetStyles()[type][mvThemeConstant] = style;
+						mvThemeManager::GetStyles()[type][mvThemeConstant] = default_val;
 						mvThemeManager::GetStylesPtr().push_back({ name, mvThemeConstant,
-							&mvThemeManager::GetStyles()[type][mvThemeConstant] });
+							&mvThemeManager::GetStyles()[type][mvThemeConstant] , max_val});
 
 					}
 

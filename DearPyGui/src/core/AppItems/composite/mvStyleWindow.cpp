@@ -100,7 +100,7 @@ namespace Marvel {
                         continue;
 
                     ImGui::PushID(&item);
-                    ImGui::SliderFloat("##style", std::get<2>(item), 0.0f, 10.0f);
+                    ImGui::SliderFloat("##style", std::get<2>(item), 0.0f, std::get<3>(item));
                     ImGui::SameLine();
                     ImGui::TextUnformatted(std::get<0>(item).c_str());
                     ImGui::PopID();
