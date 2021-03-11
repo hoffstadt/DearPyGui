@@ -24,7 +24,6 @@ namespace Marvel {
 
 	void mvSeparator::draw()
 	{
-		auto styleManager = m_styleManager.getScopedStyleManager();
 		mvImGuiThemeScope scope(this);
 
 		ImGui::Separator();

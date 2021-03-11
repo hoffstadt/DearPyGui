@@ -42,7 +42,6 @@ set(MARVEL_SOURCES
 	"src/core/mvProfiler.cpp"
 	"src/core/mvLog.cpp"
 
-	"src/core/Theming/mvAppItemStyleManager.cpp"
 	"src/core/Theming/mvThemeManager.cpp"
 
 	"src/core/DrawCommands/mvDrawList.cpp"

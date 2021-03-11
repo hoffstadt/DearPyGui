@@ -83,18 +83,17 @@ namespace Marvel {
 
 	void mvButton::draw()
 	{
-		auto styleManager = m_styleManager.getScopedStyleManager();
 		ScopedID id;
 		mvImGuiThemeScope scope(this);
 
 		if (!m_core_config.enabled)
 		{
-			auto disabled_color = ImVec4(ImGui::GetStyleColorVec4(ImGuiCol_TextDisabled));
-			disabled_color.w = 0.392f;
-			styleManager.addColorStyle(ImGuiCol_Button, disabled_color);
-			styleManager.addColorStyle(ImGuiCol_ButtonHovered, disabled_color);
-			styleManager.addColorStyle(ImGuiCol_ButtonActive, disabled_color);
-			styleManager.addColorStyle(ImGuiCol_Text, ImVec4(ImGui::GetStyleColorVec4(ImGuiCol_TextDisabled)));
+			//auto disabled_color = ImVec4(ImGui::GetStyleColorVec4(ImGuiCol_TextDisabled));
+			//disabled_color.w = 0.392f;
+			//styleManager.addColorStyle(ImGuiCol_Button, disabled_color);
+			//styleManager.addColorStyle(ImGuiCol_ButtonHovered, disabled_color);
+			//styleManager.addColorStyle(ImGuiCol_ButtonActive, disabled_color);
+			//styleManager.addColorStyle(ImGuiCol_Text, ImVec4(ImGui::GetStyleColorVec4(ImGuiCol_TextDisabled)));
 		}
 
 		if (m_config.small_button)

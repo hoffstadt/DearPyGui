@@ -33,7 +33,6 @@ namespace Marvel {
 
 	void mvCollapsingHeader::draw()
 	{
-		auto styleManager = m_styleManager.getScopedStyleManager();
 		ScopedID id;
 		mvImGuiThemeScope scope(this);
 

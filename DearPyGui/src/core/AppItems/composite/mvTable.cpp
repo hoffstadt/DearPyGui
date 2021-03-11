@@ -595,7 +595,6 @@ namespace Marvel {
 
 	void mvTable::draw()
 	{
-		auto styleManager = m_styleManager.getScopedStyleManager();
 		mvImGuiThemeScope scope(this);
 
 		ImGui::BeginChild(m_core_config.name.c_str(), ImVec2((float)m_core_config.width, (float)m_core_config.height));

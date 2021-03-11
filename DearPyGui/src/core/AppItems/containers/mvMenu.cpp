@@ -26,7 +26,6 @@ namespace Marvel {
 
 	void mvMenu::draw()
 	{
-		auto styleManager = m_styleManager.getScopedStyleManager();
 		ScopedID id;
 		mvImGuiThemeScope scope(this);
 

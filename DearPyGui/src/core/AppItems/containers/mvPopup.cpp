@@ -39,7 +39,6 @@ namespace Marvel {
 	void mvPopup::draw()
 	{
 
-		auto styleManager = m_styleManager.getScopedStyleManager();
 		ScopedID id(m_parentAddress);
 		mvImGuiThemeScope scope(this);
 

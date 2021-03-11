@@ -14,7 +14,6 @@
 #include <imgui.h>
 #include "mvAppItemState.h"
 #include "mvAppItemDescription.h"
-#include "mvAppItemStyleManager.h"
 #include "mvCallbackRegistry.h"
 
 //-----------------------------------------------------------------------------
@@ -151,7 +150,6 @@ namespace Marvel {
         [[nodiscard]] mvCallableData        getCallbackData()       { return m_core_config.callback_data; }
         const mvAppItemDescription&         getDescription () const { return m_description; }
         mvAppItemState&                     getState       () { return m_state; } 
-        mvAppItemStyleManager&              getStyleManager() { return m_styleManager; }
         mvAppItem*                          getParent() { return m_parent; }
 
         // theme get/set
@@ -194,7 +192,6 @@ namespace Marvel {
     protected:
 
         mvAppItemState                m_state;
-        mvAppItemStyleManager         m_styleManager;
         mvAppItemDescription          m_description;
         mvAppItemConfig               m_core_config;
 

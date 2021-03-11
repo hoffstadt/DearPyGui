@@ -34,7 +34,6 @@ namespace Marvel {
 	{
 		if (ImGui::IsItemHovered())
 		{
-			auto styleManager = m_styleManager.getScopedStyleManager();
 			mvImGuiThemeScope scope(this);
 			ImGui::BeginTooltip();
 

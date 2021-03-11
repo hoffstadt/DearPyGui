@@ -49,7 +49,6 @@ namespace Marvel {
 
 		void mvSimplePlot::draw()
 		{
-			auto styleManager = m_styleManager.getScopedStyleManager();
 			ImGui::PushID(this);
 			mvImGuiThemeScope scope(this);
 
