@@ -534,9 +534,15 @@ namespace Marvel {
 		};
 
 		for (auto window : m_frontWindows)
+		{
 			ChildRetriever(window);
+			childList.emplace_back(window->getName());
+		}
 		for (auto window : m_backWindows)
+		{
 			ChildRetriever(window);
+			childList.emplace_back(window->getName());
+		}
 
 		return childList;
 	}

@@ -27,6 +27,7 @@ HOW TO UPDATE?
 ------------------------------------------------------------------------
 
 Fixes:
+- get_all_items: now returns windows too #685
 - item label: fixed trailing "#" not showing in labels
 - get_item_configuration: fixed "no_close" returning true always for
                           windows #694
