@@ -8,7 +8,7 @@ namespace Marvel{
 	mvAppItem::mvAppItem(const std::string& name)
 	{
 		m_core_config.name = name;
-		m_label = name + "###" + name;
+		m_label = name + " ###" + name;
 		m_core_config.label = name;
 		m_state.setParent(this);
 	}
@@ -16,13 +16,13 @@ namespace Marvel{
 	mvAppItem::mvAppItem(const mvAppItemConfig& config)
 	{
 		m_core_config.name = config.name;
-		m_label = config.name + "###" + config.name;
+		m_label = config.name + " ###" + config.name;
 		m_core_config.label = config.name;
 		m_state.setParent(this);
 
 		if (m_label != "__DearPyGuiDefault")
 		{
-			m_label = config.label + "###" + config.label;
+			m_label = config.label + " ###" + config.label;
 			m_core_config.label = config.label;
 		}
 	}
@@ -360,7 +360,7 @@ namespace Marvel{
 	void mvAppItem::setLabel(const std::string& value)
 	{
 		m_core_config.label = value;
-		m_label = value + "###" + m_core_config.name;
+		m_label = value + " ###" + m_core_config.name;
 	}
 
 	mvRef<mvAppItem> mvAppItem::stealChild(const std::string& name)
