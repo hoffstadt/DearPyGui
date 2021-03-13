@@ -10,7 +10,7 @@ namespace Marvel{
 	mvAppItem::mvAppItem(const std::string& name)
 	{
 		m_name = name;
-		m_label = name + "###" + name;
+		m_label = name + " ###" + name;
 		m_specifiedLabel = name;
 		m_state.setParent(this);
 	}
@@ -390,7 +390,7 @@ namespace Marvel{
 	void mvAppItem::setLabel(const std::string& value)
 	{
 		m_specifiedLabel = value;
-		m_label = value + "###" + m_name;
+		m_label = value + " ###" + m_name;
 	}
 
 	mvRef<mvAppItem> mvAppItem::stealChild(const std::string& name)
