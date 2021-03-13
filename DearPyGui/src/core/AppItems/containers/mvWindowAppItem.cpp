@@ -393,7 +393,7 @@ namespace Marvel {
 		 
 		PyDict_SetItemString(dict, "x_pos", ToPyInt(m_config.xpos));
 		PyDict_SetItemString(dict, "y_pos", ToPyInt(m_config.ypos));
-		PyDict_SetItemString(dict, "no_close", ToPyBool(m_closing));
+		PyDict_SetItemString(dict, "no_close", ToPyBool(m_config.no_close));
 		PyDict_SetItemString(dict, "collapsed", ToPyBool(m_config.collapsed));
 
 		// helper to check and set bit
