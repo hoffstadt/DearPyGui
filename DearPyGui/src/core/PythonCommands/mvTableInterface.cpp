@@ -89,7 +89,7 @@ namespace Marvel{
 		if (!(*mvApp::GetApp()->getParsers())["get_table_data"].parse(args, kwargs, __FUNCTION__, &name))
 			return GetPyNone();
 
-		std::lock_guard<std::mutex> lk(mvApp::GetApp()->GetApp()->getMutex());
+		std::lock_guard<std::mutex> lk(mvApp::GetApp()->getMutex());
 		auto item = mvApp::GetApp()->getItemRegistry().getItem(std::string(name));
 
 		if (item == nullptr)
@@ -117,7 +117,7 @@ namespace Marvel{
 		if (!(*mvApp::GetApp()->getParsers())["set_table_data"].parse(args, kwargs, __FUNCTION__, &name, &value))
 			return GetPyNone();
 
-		std::lock_guard<std::mutex> lk(mvApp::GetApp()->GetApp()->getMutex());
+		std::lock_guard<std::mutex> lk(mvApp::GetApp()->getMutex());
 		auto item = mvApp::GetApp()->getItemRegistry().getItem(std::string(name));
 
 		if (item == nullptr)
@@ -147,7 +147,7 @@ namespace Marvel{
 		if (!(*mvApp::GetApp()->getParsers())["set_headers"].parse(args, kwargs, __FUNCTION__, &table, &headers))
 			return GetPyNone();
 
-		std::lock_guard<std::mutex> lk(mvApp::GetApp()->GetApp()->getMutex());
+		std::lock_guard<std::mutex> lk(mvApp::GetApp()->getMutex());
 		auto item = mvApp::GetApp()->getItemRegistry().getItem(table);
 		if (item == nullptr)
 		{
@@ -171,7 +171,7 @@ namespace Marvel{
 		if (!(*mvApp::GetApp()->getParsers())["clear_table"].parse(args, kwargs, __FUNCTION__, &table))
 			return GetPyNone();
 
-		std::lock_guard<std::mutex> lk(mvApp::GetApp()->GetApp()->getMutex());
+		std::lock_guard<std::mutex> lk(mvApp::GetApp()->getMutex());
 		auto item = mvApp::GetApp()->getItemRegistry().getItem(table);
 		if (item == nullptr)
 		{
@@ -202,7 +202,7 @@ namespace Marvel{
 			&column))
 			return GetPyNone();
 
-		std::lock_guard<std::mutex> lk(mvApp::GetApp()->GetApp()->getMutex());
+		std::lock_guard<std::mutex> lk(mvApp::GetApp()->getMutex());
 		auto item = mvApp::GetApp()->getItemRegistry().getItem(table);
 		if (item == nullptr)
 		{
@@ -234,7 +234,7 @@ namespace Marvel{
 			&column, &value))
 			return GetPyNone();
 
-		std::lock_guard<std::mutex> lk(mvApp::GetApp()->GetApp()->getMutex());
+		std::lock_guard<std::mutex> lk(mvApp::GetApp()->getMutex());
 		auto item = mvApp::GetApp()->getItemRegistry().getItem(table);
 		if (item == nullptr)
 		{
@@ -263,7 +263,7 @@ namespace Marvel{
 		if (!(*mvApp::GetApp()->getParsers())["get_table_selections"].parse(args, kwargs, __FUNCTION__, &table))
 			return GetPyNone();
 
-		std::lock_guard<std::mutex> lk(mvApp::GetApp()->GetApp()->getMutex());
+		std::lock_guard<std::mutex> lk(mvApp::GetApp()->getMutex());
 		auto item = mvApp::GetApp()->getItemRegistry().getItem(table);
 		if (item == nullptr)
 		{
@@ -294,7 +294,7 @@ namespace Marvel{
 			&column, &value))
 			return GetPyNone();
 
-		std::lock_guard<std::mutex> lk(mvApp::GetApp()->GetApp()->getMutex());
+		std::lock_guard<std::mutex> lk(mvApp::GetApp()->getMutex());
 		auto item = mvApp::GetApp()->getItemRegistry().getItem(table);
 		if (item == nullptr)
 		{
@@ -325,7 +325,7 @@ namespace Marvel{
 		if (!(*mvApp::GetApp()->getParsers())["add_column"].parse(args, kwargs, __FUNCTION__, &table, &name, &column))
 			return GetPyNone();
 
-		std::lock_guard<std::mutex> lk(mvApp::GetApp()->GetApp()->getMutex());
+		std::lock_guard<std::mutex> lk(mvApp::GetApp()->getMutex());
 		auto item = mvApp::GetApp()->getItemRegistry().getItem(table);
 		if (item == nullptr)
 		{
@@ -359,7 +359,7 @@ namespace Marvel{
 		if (!(*mvApp::GetApp()->getParsers())["insert_column"].parse(args, kwargs, __FUNCTION__, &table, &column_index, &name, &column))
 			return GetPyNone();
 
-		std::lock_guard<std::mutex> lk(mvApp::GetApp()->GetApp()->getMutex());
+		std::lock_guard<std::mutex> lk(mvApp::GetApp()->getMutex());
 		auto item = mvApp::GetApp()->getItemRegistry().getItem(table);
 		if (item == nullptr)
 		{
@@ -391,7 +391,7 @@ namespace Marvel{
 		if (!(*mvApp::GetApp()->getParsers())["delete_column"].parse(args, kwargs, __FUNCTION__, &table, &column))
 			return GetPyNone();
 
-		std::lock_guard<std::mutex> lk(mvApp::GetApp()->GetApp()->getMutex());
+		std::lock_guard<std::mutex> lk(mvApp::GetApp()->getMutex());
 		auto item = mvApp::GetApp()->getItemRegistry().getItem(table);
 		if (item == nullptr)
 		{
@@ -421,7 +421,7 @@ namespace Marvel{
 		if (!(*mvApp::GetApp()->getParsers())["add_row"].parse(args, kwargs, __FUNCTION__, &table, &row))
 			return GetPyNone();
 
-		std::lock_guard<std::mutex> lk(mvApp::GetApp()->GetApp()->getMutex());
+		std::lock_guard<std::mutex> lk(mvApp::GetApp()->getMutex());
 		auto item = mvApp::GetApp()->getItemRegistry().getItem(table);
 		if (item == nullptr)
 		{
@@ -460,7 +460,7 @@ namespace Marvel{
 		if (!(*mvApp::GetApp()->getParsers())["insert_row"].parse(args, kwargs, __FUNCTION__, &table, &row_index, &row))
 			return GetPyNone();
 
-		std::lock_guard<std::mutex> lk(mvApp::GetApp()->GetApp()->getMutex());
+		std::lock_guard<std::mutex> lk(mvApp::GetApp()->getMutex());
 		auto item = mvApp::GetApp()->getItemRegistry().getItem(table);
 		if (item == nullptr)
 		{
@@ -498,7 +498,7 @@ namespace Marvel{
 		if (!(*mvApp::GetApp()->getParsers())["delete_row"].parse(args, kwargs, __FUNCTION__, &table, &row))
 			return GetPyNone();
 
-		std::lock_guard<std::mutex> lk(mvApp::GetApp()->GetApp()->getMutex());
+		std::lock_guard<std::mutex> lk(mvApp::GetApp()->getMutex());
 		auto item = mvApp::GetApp()->getItemRegistry().getItem(table);
 		if (item == nullptr)
 		{

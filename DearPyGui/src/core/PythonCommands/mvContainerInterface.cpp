@@ -197,7 +197,7 @@ namespace Marvel {
 
 	PyObject* end(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
-		std::lock_guard<std::mutex> lk(mvApp::GetApp()->GetApp()->getMutex());
+		std::lock_guard<std::mutex> lk(mvApp::GetApp()->getMutex());
 		mvApp::GetApp()->getItemRegistry().popParent();
 		return GetPyNone();
 	}

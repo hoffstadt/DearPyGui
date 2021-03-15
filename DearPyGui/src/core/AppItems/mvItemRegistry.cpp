@@ -420,7 +420,7 @@ namespace Marvel {
 		if (item == nullptr)
 			return false;
 
-		std::lock_guard<std::mutex> lk(mvApp::GetApp()->GetApp()->getMutex());
+		std::lock_guard<std::mutex> lk(mvApp::GetApp()->getMutex());
 
 		// remove bad parent stack item
 		if (item->getDescription().root && topParent() != nullptr)

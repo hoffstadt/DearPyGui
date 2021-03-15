@@ -399,7 +399,7 @@ namespace Marvel {
 			&node_1, &node_2))
 			return ToPyBool(false);
 
-		std::lock_guard<std::mutex> lk(mvApp::GetApp()->GetApp()->getMutex());
+		std::lock_guard<std::mutex> lk(mvApp::GetApp()->getMutex());
 		auto anode_editor = mvApp::GetApp()->getItemRegistry().getItem(node_editor);
 		if (anode_editor == nullptr)
 		{
@@ -434,7 +434,7 @@ namespace Marvel {
 			&node_1, &node_2))
 			return ToPyBool(false);
 
-		std::lock_guard<std::mutex> lk(mvApp::GetApp()->GetApp()->getMutex());
+		std::lock_guard<std::mutex> lk(mvApp::GetApp()->getMutex());
 		auto anode_editor = mvApp::GetApp()->getItemRegistry().getItem(node_editor);
 		if (anode_editor == nullptr)
 		{
@@ -466,7 +466,7 @@ namespace Marvel {
 		if (!(*mvApp::GetApp()->getParsers())["get_selected_nodes"].parse(args, kwargs, __FUNCTION__, &node_editor))
 			return ToPyBool(false);
 
-		std::lock_guard<std::mutex> lk(mvApp::GetApp()->GetApp()->getMutex());
+		std::lock_guard<std::mutex> lk(mvApp::GetApp()->getMutex());
 		auto anode_editor = mvApp::GetApp()->getItemRegistry().getItem(node_editor);
 		if (anode_editor == nullptr)
 		{
@@ -497,7 +497,7 @@ namespace Marvel {
 		if (!(*mvApp::GetApp()->getParsers())["get_selected_links"].parse(args, kwargs, __FUNCTION__, &node_editor))
 			return ToPyBool(false);
 
-		std::lock_guard<std::mutex> lk(mvApp::GetApp()->GetApp()->getMutex());
+		std::lock_guard<std::mutex> lk(mvApp::GetApp()->getMutex());
 		auto anode_editor = mvApp::GetApp()->getItemRegistry().getItem(node_editor);
 		if (anode_editor == nullptr)
 		{
@@ -533,7 +533,7 @@ namespace Marvel {
 		if (!(*mvApp::GetApp()->getParsers())["get_links"].parse(args, kwargs, __FUNCTION__, &node_editor))
 			return ToPyBool(false);
 
-		std::lock_guard<std::mutex> lk(mvApp::GetApp()->GetApp()->getMutex());
+		std::lock_guard<std::mutex> lk(mvApp::GetApp()->getMutex());
 		auto anode_editor = mvApp::GetApp()->getItemRegistry().getItem(node_editor);
 		if (anode_editor == nullptr)
 		{
@@ -564,7 +564,7 @@ namespace Marvel {
 		if (!(*mvApp::GetApp()->getParsers())["clear_selected_links"].parse(args, kwargs, __FUNCTION__, &node_editor))
 			return ToPyBool(false);
 
-		std::lock_guard<std::mutex> lk(mvApp::GetApp()->GetApp()->getMutex());
+		std::lock_guard<std::mutex> lk(mvApp::GetApp()->getMutex());
 		auto anode_editor = mvApp::GetApp()->getItemRegistry().getItem(node_editor);
 		if (anode_editor == nullptr)
 		{
@@ -594,7 +594,7 @@ namespace Marvel {
 		if (!(*mvApp::GetApp()->getParsers())["clear_selected_nodes"].parse(args, kwargs, __FUNCTION__, &node_editor))
 			return ToPyBool(false);
 
-		std::lock_guard<std::mutex> lk(mvApp::GetApp()->GetApp()->getMutex());
+		std::lock_guard<std::mutex> lk(mvApp::GetApp()->getMutex());
 		auto anode_editor = mvApp::GetApp()->getItemRegistry().getItem(node_editor);
 		if (anode_editor == nullptr)
 		{
