@@ -32,7 +32,7 @@ namespace Marvel {
 
 	void end()
 	{
-		std::lock_guard<std::mutex> lk(Marvel::mvApp::GetApp()->GetApp()->getMutex());
+		std::lock_guard<std::mutex> lk(Marvel::mvApp::GetApp()->getMutex());
 		Marvel::mvApp::GetApp()->getItemRegistry().popParent();
 	}
 

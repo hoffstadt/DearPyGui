@@ -642,7 +642,7 @@ namespace Marvel {
 
 	PyObject* show_logger(PyObject* self, PyObject* args)
 	{
-		std::lock_guard<std::mutex> lk(mvApp::GetApp()->GetApp()->getMutex());
+		std::lock_guard<std::mutex> lk(mvApp::GetApp()->getMutex());
 		mvAppLog::Show();
 		return GetPyNone();
 	}
@@ -655,7 +655,7 @@ namespace Marvel {
 			&title))
 			return GetPyNone();
 
-		std::lock_guard<std::mutex> lk(mvApp::GetApp()->GetApp()->getMutex());
+		std::lock_guard<std::mutex> lk(mvApp::GetApp()->getMutex());
 		mvAppLog::setTitle(title);
 
 		return GetPyNone();

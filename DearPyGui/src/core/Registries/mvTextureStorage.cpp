@@ -288,7 +288,7 @@ namespace Marvel {
 				return GetPyNone();
 			}
 
-			std::lock_guard<std::mutex> lk(mvApp::GetApp()->GetApp()->getMutex());
+			std::lock_guard<std::mutex> lk(mvApp::GetApp()->getMutex());
 			if (mvApp::IsAppStarted())
 				mvApp::GetApp()->getTextureStorage().addTexture(name, fdata.data(), width, height, mvTextureFormat::BGRA_FLOAT);
 			else
@@ -393,7 +393,7 @@ namespace Marvel {
 				return GetPyNone();
 			}
 
-			std::lock_guard<std::mutex> lk(mvApp::GetApp()->GetApp()->getMutex());
+			std::lock_guard<std::mutex> lk(mvApp::GetApp()->getMutex());
 			if (mvApp::IsAppStarted())
 				mvApp::GetApp()->getTextureStorage().addTexture(name, fdata.data(), width, height, tformat);
 			else
@@ -418,7 +418,7 @@ namespace Marvel {
 			&name))
 			return GetPyNone();
 
-		std::lock_guard<std::mutex> lk(mvApp::GetApp()->GetApp()->getMutex());
+		std::lock_guard<std::mutex> lk(mvApp::GetApp()->getMutex());
 		mvEventBus::PublishEndFrame(mvEVT_CATEGORY_TEXTURE, mvEVT_DEC_TEXTURE, { CreateEventArgument("NAME", std::string(name)) });
 
 		return GetPyNone();
