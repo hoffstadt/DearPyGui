@@ -76,7 +76,7 @@ namespace Marvel {
 		auto cmd = CreateRef<mvDrawQuadCmd>(mp1, mp2, mp3, mp4, mcolor, mfill, thickness);
 		cmd->tag = tag;
 
-		std::lock_guard<std::mutex> lk(mvApp::GetApp()->GetApp()->getMutex());
+		std::lock_guard<std::mutex> lk(mvApp::GetApp()->getMutex());
 		mvRef<mvDrawList> drawlist = GetDrawListFromTarget(drawing);
 		if (drawlist)
 			drawlist->addCommand(cmd);

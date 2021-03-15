@@ -247,7 +247,7 @@ namespace Marvel {
 
 		std::string returnMessage;
 
-		std::lock_guard<std::mutex> lk(mvApp::GetApp()->GetApp()->getMutex());
+		std::lock_guard<std::mutex> lk(mvApp::GetApp()->getMutex());
 		auto appitem = mvApp::GetApp()->getItemRegistry().getItem(managed_columns);
 
 		if (appitem == nullptr)
@@ -279,7 +279,7 @@ namespace Marvel {
 			&managed_columns, &column, &width))
 			return GetPyNone();
 
-		std::lock_guard<std::mutex> lk(mvApp::GetApp()->GetApp()->getMutex());
+		std::lock_guard<std::mutex> lk(mvApp::GetApp()->getMutex());
 		auto appitem = mvApp::GetApp()->getItemRegistry().getItem(managed_columns);
 
 		if (appitem == nullptr)
