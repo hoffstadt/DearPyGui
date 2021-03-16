@@ -26,7 +26,7 @@ namespace Marvel {
         textureDescriptor.storageMode = MTLStorageModeManaged;
 
         id <MTLTexture> texture = [mvAppleWindow::GetDevice() newTextureWithDescriptor:textureDescriptor];
-        [texture replaceRegion:MTLRegionMake2D(0, 0, width, height) mipmapLevel:0 withBytes:data bytesPerRow:width * 4];
+        [texture replaceRegion:MTLRegionMake2D(0, 0, width, height) mipmapLevel:0 withBytes:data bytesPerRow:width * 4 * 4];
 
         g_textures.push_back({name, texture});
 

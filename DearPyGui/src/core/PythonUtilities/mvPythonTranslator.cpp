@@ -377,11 +377,26 @@ namespace Marvel {
 		else if (strcmp(bufferView.format, "d") == 0)
 			return [](Py_buffer& bufferView, Py_ssize_t index) {return *((double*)bufferView.buf + index); };
 
-		else if (strcmp(bufferView.format, "l") == 0)
+		else if (strcmp(bufferView.format, "i") == 0)
 			return [](Py_buffer& bufferView, Py_ssize_t index) {return *((int*)bufferView.buf + index); };
+
+		else if (strcmp(bufferView.format, "I") == 0)
+			return [](Py_buffer& bufferView, Py_ssize_t index) {return *((unsigned int*)bufferView.buf + index); };
+
+		else if (strcmp(bufferView.format, "l") == 0)
+			return [](Py_buffer& bufferView, Py_ssize_t index) {return *((long*)bufferView.buf + index); };
+
+		else if (strcmp(bufferView.format, "L") == 0)
+			return [](Py_buffer& bufferView, Py_ssize_t index) {return *((unsigned long*)bufferView.buf + index); };
 
 		else if (strcmp(bufferView.format, "B") == 0)
 			return [](Py_buffer& bufferView, Py_ssize_t index) {return *((unsigned char*)bufferView.buf + index); };
+
+		else if (strcmp(bufferView.format, "b") == 0)
+			return [](Py_buffer& bufferView, Py_ssize_t index) {return *((signed char*)bufferView.buf + index); };
+
+		else if (strcmp(bufferView.format, "c") == 0)
+			return [](Py_buffer& bufferView, Py_ssize_t index) {return *((char*)bufferView.buf + index); };
 		else
 		{
 			ThrowPythonException("Unknown buffer type.");
