@@ -345,6 +345,19 @@ namespace Marvel {
 		
 	}
 
+	void mvNodeEditor::setExtraConfigDict(PyObject* dict)
+	{
+		if (dict == nullptr)
+			return;
+
+	}
+
+	void mvNodeEditor::getExtraConfigDict(PyObject* dict)
+	{
+		if (dict == nullptr)
+			return;
+	}
+
 	PyObject* add_node_editor(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		const char* name;

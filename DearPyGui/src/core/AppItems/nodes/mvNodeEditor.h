@@ -40,6 +40,9 @@ namespace Marvel {
 
 		void draw() override;
 
+		void setExtraConfigDict(PyObject* dict) override;
+		void getExtraConfigDict(PyObject* dict) override;
+
 	private:
 
 		std::vector<std::pair<int, int>> m_links;

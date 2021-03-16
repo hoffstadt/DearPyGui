@@ -21,7 +21,30 @@ namespace Marvel{
 			return;
 		 
 		auto configKeys = ToStringVect(PyDict_Keys(dict));
-		auto parserKeywords = (*mvApp::GetApp()->getParsers())[getParserCommand()].getKeywords();
+		
+		static std::string base_keyword1 = "name";
+		static std::string base_keyword2 = "label";
+		static std::string base_keyword3 = "source";
+		static std::string base_keyword4 = "tip";
+		static std::string base_keyword5 = "show";
+		static std::string base_keyword6 = "enabled";
+		static std::string base_keyword7 = "width";
+		static std::string base_keyword8 = "height";
+
+		const auto& parserKeywordsOrig = (*mvApp::GetApp()->getParsers())[getParserCommand()].getKeywords();
+		std::vector<std::string> parserKeywords;
+		parserKeywords.reserve(parserKeywordsOrig.size() + 7);
+		for(int i = 0; i<parserKeywordsOrig.size()-1; i++)
+			parserKeywords.push_back(std::string(parserKeywordsOrig[i]));
+
+		parserKeywords.push_back(base_keyword1);
+		parserKeywords.push_back(base_keyword2);
+		parserKeywords.push_back(base_keyword3);
+		parserKeywords.push_back(base_keyword4);
+		parserKeywords.push_back(base_keyword5);
+		parserKeywords.push_back(base_keyword6);
+		parserKeywords.push_back(base_keyword7);
+		parserKeywords.push_back(base_keyword8);
 		if (parserKeywords.empty())
 		{
 			ThrowPythonException("\"" + m_name + "\" could not find a parser that matched \"" + getParserCommand() + "\".");
@@ -30,7 +53,7 @@ namespace Marvel{
 		for (const auto& key : configKeys)
 		{
 			size_t i = 0;
-			while (i < parserKeywords.size() - 1)
+			while (i < parserKeywords.size())
 			{
 				if (key == parserKeywords[i])
 				{
@@ -38,7 +61,7 @@ namespace Marvel{
 				}
 				i++;
 			}
-			if (i == parserKeywords.size() - 1)
+			if (i == parserKeywords.size())
 			{
 				ThrowPythonException("\"" + key + "\" configuration does not exist in \"" + m_name + "\".");
 			}

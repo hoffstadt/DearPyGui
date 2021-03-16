@@ -421,17 +421,50 @@ namespace Marvel {
 					for (Py_ssize_t i = 0; i < buffer_info.len / buffer_info.itemsize; i++)
 						items.emplace_back(*((double*)buffer_info.buf + i));
 				}
+				else if (strcmp(buffer_info.format, "f") == 0)
+				{
+
+					for (Py_ssize_t i = 0; i < buffer_info.len / buffer_info.itemsize; i++)
+						items.emplace_back(*((float*)buffer_info.buf + i));
+				}
 				else if (strcmp(buffer_info.format, "l") == 0)
+				{
+
+					for (Py_ssize_t i = 0; i < buffer_info.len / buffer_info.itemsize; i++)
+						items.emplace_back(*((long*)buffer_info.buf + i));
+				}
+				else if (strcmp(buffer_info.format, "i") == 0)
 				{
 
 					for (Py_ssize_t i = 0; i < buffer_info.len / buffer_info.itemsize; i++)
 						items.emplace_back(*((int*)buffer_info.buf + i));
 				}
-				else if (strcmp(buffer_info.format, "B") == 0)
+				else if (strcmp(buffer_info.format, "L") == 0)
 				{
 
 					for (Py_ssize_t i = 0; i < buffer_info.len / buffer_info.itemsize; i++)
+						items.emplace_back(*((unsigned long*)buffer_info.buf + i));
+				}
+				else if (strcmp(buffer_info.format, "I") == 0)
+				{
+
+					for (Py_ssize_t i = 0; i < buffer_info.len / buffer_info.itemsize; i++)
+						items.emplace_back(*((unsigned int*)buffer_info.buf + i));
+				}
+				else if (strcmp(buffer_info.format, "B") == 0)
+				{
+					for (Py_ssize_t i = 0; i < buffer_info.len / buffer_info.itemsize; i++)
 						items.emplace_back(*((unsigned char*)buffer_info.buf + i));
+				}
+				else if (strcmp(buffer_info.format, "b") == 0)
+				{
+					for (Py_ssize_t i = 0; i < buffer_info.len / buffer_info.itemsize; i++)
+						items.emplace_back(*((signed char*)buffer_info.buf + i));
+				}
+				else if (strcmp(buffer_info.format, "c") == 0)
+				{
+					for (Py_ssize_t i = 0; i < buffer_info.len / buffer_info.itemsize; i++)
+						items.emplace_back(*((char*)buffer_info.buf + i));
 				}
 				else
 				{
@@ -492,17 +525,50 @@ namespace Marvel {
 					for (Py_ssize_t i = 0; i < buffer_info.len / buffer_info.itemsize; i++)
 						items.emplace_back(*((double*)buffer_info.buf + i));
 				}
+				else if (strcmp(buffer_info.format, "f") == 0)
+				{
+
+					for (Py_ssize_t i = 0; i < buffer_info.len / buffer_info.itemsize; i++)
+						items.emplace_back(*((float*)buffer_info.buf + i));
+				}
 				else if (strcmp(buffer_info.format, "l") == 0)
+				{
+
+					for (Py_ssize_t i = 0; i < buffer_info.len / buffer_info.itemsize; i++)
+						items.emplace_back(*((long*)buffer_info.buf + i));
+				}
+				else if (strcmp(buffer_info.format, "i") == 0)
 				{
 
 					for (Py_ssize_t i = 0; i < buffer_info.len / buffer_info.itemsize; i++)
 						items.emplace_back(*((int*)buffer_info.buf + i));
 				}
-				else if (strcmp(buffer_info.format, "B") == 0)
+				else if (strcmp(buffer_info.format, "L") == 0)
 				{
 
 					for (Py_ssize_t i = 0; i < buffer_info.len / buffer_info.itemsize; i++)
+						items.emplace_back(*((unsigned long*)buffer_info.buf + i));
+				}
+				else if (strcmp(buffer_info.format, "I") == 0)
+				{
+
+					for (Py_ssize_t i = 0; i < buffer_info.len / buffer_info.itemsize; i++)
+						items.emplace_back(*((unsigned int*)buffer_info.buf + i));
+				}
+				else if (strcmp(buffer_info.format, "B") == 0)
+				{
+					for (Py_ssize_t i = 0; i < buffer_info.len / buffer_info.itemsize; i++)
 						items.emplace_back(*((unsigned char*)buffer_info.buf + i));
+				}
+				else if (strcmp(buffer_info.format, "b") == 0)
+				{
+					for (Py_ssize_t i = 0; i < buffer_info.len / buffer_info.itemsize; i++)
+						items.emplace_back(*((signed char*)buffer_info.buf + i));
+				}
+				else if (strcmp(buffer_info.format, "c") == 0)
+				{
+					for (Py_ssize_t i = 0; i < buffer_info.len / buffer_info.itemsize; i++)
+						items.emplace_back(*((char*)buffer_info.buf + i));
 				}
 				else
 				{
