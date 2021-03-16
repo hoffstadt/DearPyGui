@@ -82,10 +82,6 @@ def add_combo(name: str, *, items: List[str] = (), default_value: str = '', call
 	"""Adds a combo."""
 	...
 
-def add_data(name: str, data: Any) -> None:
-	"""Adds data for later retrieval."""
-	...
-
 def add_date_picker(name: str, *, default_value: dict = {'month_day': 14, 'year':20, 'month':5}, level: int = 0, callback: Callable = None, callback_data: Any = None, parent: str = '', before: str = '', show: bool = True) -> None:
 	"""Adds a data selector widget."""
 	...
@@ -470,10 +466,6 @@ def delete_column(table: str, column: int) -> None:
 	"""Delete a column in a table."""
 	...
 
-def delete_data(name: str) -> None:
-	"""Deletes data from storage."""
-	...
-
 def delete_drag_line(plot: str, name: str) -> None:
 	"""Deletes a drag line if it exists."""
 	...
@@ -564,10 +556,6 @@ def get_active_window() -> str:
 
 def get_all_items() -> List[str]:
 	"""Returns a list of all items."""
-	...
-
-def get_data(name: str) -> object:
-	"""Retrieves data from storage."""
 	...
 
 def get_dearpygui_version() -> str:
