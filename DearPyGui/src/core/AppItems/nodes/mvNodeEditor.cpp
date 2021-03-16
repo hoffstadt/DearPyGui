@@ -113,7 +113,7 @@ namespace Marvel {
 
 	}
 
-	void mvNodeEditor::deleteLink(const std::string& node, int id)
+	void mvNodeEditor::deleteLink(const std::string& node, int id, bool deletion)
 	{
 		int nodeid = id;
 
@@ -135,7 +135,7 @@ namespace Marvel {
 			m_linksStrings.push_back(link_string);
 		}
 
-		if(m_delinkCallback)
+		if(m_delinkCallback || !deletion)
 			mvApp::GetApp()->getCallbackRegistry().submitCallback([=]() {
 				PyObject* link = PyTuple_New(2);
 				PyTuple_SetItem(link, 0, ToPyString(node));

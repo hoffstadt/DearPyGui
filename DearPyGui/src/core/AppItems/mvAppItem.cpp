@@ -728,8 +728,8 @@ namespace Marvel{
 			&item, &parent, &before))
 			return GetPyNone();
 
-		mvApp::GetApp()->getCallbackRegistry().submit([item, parent, before]()
-			{mvApp::GetApp()->getItemRegistry().moveItem(item, parent, before); });
+		std::lock_guard<std::mutex> lk(mvApp::GetApp()->getMutex());
+		mvApp::GetApp()->getItemRegistry().moveItem(item, parent, before);
 
 		return GetPyNone();
 	}
@@ -825,8 +825,8 @@ namespace Marvel{
 		if (!(mvApp::GetApp()->getParsers())["move_item_up"].parse(args, kwargs, __FUNCTION__, &item))
 			return GetPyNone();
 
-		mvApp::GetApp()->getCallbackRegistry().submit([item]()
-			{mvApp::GetApp()->getItemRegistry().moveItemUp(item); });
+		std::lock_guard<std::mutex> lk(mvApp::GetApp()->getMutex());
+		mvApp::GetApp()->getItemRegistry().moveItemUp(item);
 
 		return GetPyNone();
 
@@ -840,8 +840,8 @@ namespace Marvel{
 		if (!(mvApp::GetApp()->getParsers())["move_item_down"].parse(args, kwargs, __FUNCTION__, &item))
 			return GetPyNone();
 
-		mvApp::GetApp()->getCallbackRegistry().submit([item]()
-			{mvApp::GetApp()->getItemRegistry().moveItemDown(item); });
+		std::lock_guard<std::mutex> lk(mvApp::GetApp()->getMutex());
+		mvApp::GetApp()->getItemRegistry().moveItemDown(item);
 
 		return GetPyNone();
 	}
