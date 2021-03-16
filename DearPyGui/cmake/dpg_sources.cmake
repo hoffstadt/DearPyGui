@@ -5,8 +5,6 @@ set(MARVEL_PY_SOURCES
 	"$<$<PLATFORM_ID:Linux>:src/core/Modules/mvModule_Core.cpp>"
 	"$<$<PLATFORM_ID:Darwin>:src/core/Modules/mvModule_Core.mm>"
 
-	"src/core/Registries/mvDataStorage.cpp"
-
 	"src/core/AppItems/composite/mvDebugWindow.cpp"
 	"src/core/AppItems/composite/mvDocWindow.cpp"
 

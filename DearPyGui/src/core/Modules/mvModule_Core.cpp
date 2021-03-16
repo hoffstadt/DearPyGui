@@ -39,9 +39,6 @@ namespace Marvel {
 			ADD_PYTHON_FUNCTION(select_directory_dialog)
 			ADD_PYTHON_FUNCTION(get_delta_time)
 			ADD_PYTHON_FUNCTION(get_total_time)
-			ADD_PYTHON_FUNCTION(get_data)
-			ADD_PYTHON_FUNCTION(delete_data)
-			ADD_PYTHON_FUNCTION(add_data)
 			ADD_PYTHON_FUNCTION(open_file_dialog)
 			ADD_PYTHON_FUNCTION(set_exit_callback)
 			ADD_PYTHON_FUNCTION(set_vsync)
@@ -316,7 +313,6 @@ namespace Marvel {
 
 			mvDrawList::InsertParser(&parsers);
 			AddTextureStorageCommands(&parsers);
-			AddDataStorageCommands(&parsers);
 			AddInputCommands(&parsers);
 			AddItemCommands(&parsers);
 			AddAppCommands(&parsers);

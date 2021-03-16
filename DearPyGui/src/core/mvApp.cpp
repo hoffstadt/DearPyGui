@@ -208,9 +208,6 @@ namespace Marvel {
 		m_itemRegistry->clearRegistry();
 
 		mvApp::GetApp()->getTextureStorage().deleteAllTextures();
-#ifndef MV_CPP
-        mvDataStorage::DeleteAllData();
-#endif // !MV_CPP
 
 		mvLog::Cleanup();
 	
