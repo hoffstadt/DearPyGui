@@ -23,7 +23,7 @@ HOW TO UPDATE?
 - Please report any issue!
 
 ------------------------------------------------------------------------
- VERSION 0.6.x
+ VERSION 0.6.278
 ------------------------------------------------------------------------
 
 Updates:
@@ -32,6 +32,7 @@ Updates:
 Fixes:
 - configure_item: base item configuration no longer errors #708
 - numpy: finally fixed buffer protocol on mac #698
+- nodes: fixed deleting node attributes causing crash
 
 ------------------------------------------------------------------------
  VERSION 0.6.268
