@@ -18,7 +18,7 @@
 #include "mvShadeSeries.h"
 #include "mvStairSeries.h"
 #include "mvStemSeries.h"
-#include "mvThemeManager.h"
+#include "mvImGuiThemeScope.h"
 
 namespace Marvel {
 

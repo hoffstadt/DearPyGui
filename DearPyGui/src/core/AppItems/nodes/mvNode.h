@@ -14,7 +14,22 @@ namespace Marvel {
 
 		MV_APPITEM_TYPE(mvAppItemType::mvNode, "add_node")
 
+		MV_CREATE_THEME_CONSTANT(mvThemeCol_Node_Background,         0L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeCol_Node_BackgroundHovered,  1L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeCol_Node_BackgroundSelected, 2L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeCol_Node_Outline,            3L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeCol_Node_TitleBar,           4L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeCol_Node_TitleBarHovered,    5L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeCol_Node_TitleBarSelected,   6L, 0L);
+
 		MV_START_COLOR_CONSTANTS
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Node_Background,         mvColor( 50,  50,  50, 255)),
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Node_BackgroundHovered,  mvColor( 75,  75,  75, 255)),
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Node_BackgroundSelected, mvColor( 75,  75,  75, 255)),
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Node_Outline,            mvColor(100, 100, 100, 255)),
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Node_TitleBar,           mvColor( 41,  74, 122, 255)),
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Node_TitleBarHovered,    mvColor( 66, 150, 250, 255)),
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Node_TitleBarSelected,   mvColor( 66, 150, 250, 255)),
 		MV_END_COLOR_CONSTANTS
 
 		MV_START_STYLE_CONSTANTS

@@ -11,7 +11,7 @@
 #include "mvProfiler.h"
 #include <implot.h>
 #include "mvEventListener.h"
-#include "mvThemeManager.h"
+#include "mvImGuiThemeScope.h"
 #include "mvCallbackRegistry.h"
 #include "mvTextureStorage.h"
 #include "mvItemRegistry.h"

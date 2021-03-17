@@ -1,7 +1,7 @@
 #include "mvSeparator.h"
 #include "mvItemRegistry.h"
-#include "mvThemeManager.h"
-#include "mvThemeManager.h"
+#include "mvImGuiThemeScope.h"
+#include "mvImGuiThemeScope.h"
 
 namespace Marvel {
 

@@ -6,7 +6,7 @@
 #include "mvTextEditor.h"
 #include "mvApp.h"
 #include "mvModule_Core.h"
-#include "mvThemeManager.h"
+#include "mvImGuiThemeScope.h"
 
 #define IMGUI_DEFINE_MATH_OPERATORS
 #include "imgui.h" // for imGui::GetCurrentWindow()

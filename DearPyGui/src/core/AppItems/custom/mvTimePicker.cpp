@@ -4,7 +4,7 @@
 #include <misc/cpp/imgui_stdlib.h>
 #include "mvApp.h"
 #include "mvItemRegistry.h"
-#include "mvThemeManager.h"
+#include "mvImGuiThemeScope.h"
 
 namespace Marvel {
 

@@ -6,7 +6,7 @@
 #include "mvDrawList.h"
 #include "mvDrawCmdCommon.h"
 #include "mvWindow.h"
-#include "mvThemeManager.h"
+#include "mvImGuiThemeScope.h"
 #include <ImGuiFileDialog.h>
 #include <cstdlib>
 
