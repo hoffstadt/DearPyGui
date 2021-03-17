@@ -136,7 +136,7 @@ namespace Marvel {
 		
 		if(m_delinkCallback && !deletion)
 			mvApp::GetApp()->getCallbackRegistry().submitCallback([=]() {
-				PyObject* link = PyTuple_New(2);
+				PyObject* link = PyTuple_New(1);
 				PyTuple_SetItem(link, 0, ToPyString(node));
 				mvApp::GetApp()->getCallbackRegistry().addCallback(m_delinkCallback, m_name, link);
 				});
@@ -176,7 +176,7 @@ namespace Marvel {
 			mvApp::GetApp()->getCallbackRegistry().submitCallback([=]() {
 			PyObject* link = PyTuple_New(2);
 			PyTuple_SetItem(link, 0, ToPyString(node1));
-			PyTuple_SetItem(link, 0, ToPyString(node2));
+			PyTuple_SetItem(link, 1, ToPyString(node2));
 			mvApp::GetApp()->getCallbackRegistry().addCallback(m_delinkCallback, m_name, link);
 				});
 
