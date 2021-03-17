@@ -1267,6 +1267,25 @@ def show_demo():
                     log_info("Info Message")
                     log_warning("Warning Message")
                     log_error("Error Message")
+                    py_items = [
+                        memoryview(bytes(5)),
+                        bytearray(5),
+                        b"Hello",
+                        True,
+                        frozenset({"apple", "banana", "cherry"}),
+                        {"apple", "banana", "cherry"},
+                        {"name" : "John", "age" : 36},
+                        range(6),
+                        ("apple", "banana", "cherry"),
+                        ["apple", "banana", "cherry"],
+                        -1j,
+                        20.5,
+                        20,
+                        "Hello World",
+                        None]
+                    for item in py_items:
+                        log_debug(type(item))
+                        log_debug(item)
 
                 add_button("Test Logger##demo", callback=LogCallback1)
                 add_same_line(spacing=10)
