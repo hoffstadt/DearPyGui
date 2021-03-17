@@ -107,11 +107,11 @@ namespace Marvel {
 			}
 
 			libIDCount = colors.size();
-			static imnodes::ColorStyle imColorID;
+			static int imColorID;
 			for (auto& color : colors)
 			{
-				mvThemeManager::decodelibID(color.first, &(int)imColorID);
-				imnodes::PushColorStyle(imColorID, color.second);
+				mvThemeManager::decodelibID(color.first, &imColorID);
+				imnodes::PushColorStyle((imnodes::ColorStyle)imColorID, color.second);
 			}
 
 			StyleIDCount = styles.size();
