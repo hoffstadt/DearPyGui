@@ -56,7 +56,7 @@ namespace Marvel {
         // begin plot item
         if (ImPlot::BeginItem(label_id)) {
             // override legend icon color
-            ImPlot::GetCurrentItem()->Color = ImVec4(0.25f, 0.25f, 0.25f, 1);
+            ImPlot::GetCurrentItem()->Color = ImGui::ColorConvertFloat4ToU32({ 0.25f, 0.25f, 0.25f, 1.0f });
             // fit data if requested
             if (ImPlot::FitThisFrame()) {
                 for (int i = 0; i < count; ++i) {

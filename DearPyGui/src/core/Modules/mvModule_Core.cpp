@@ -271,7 +271,6 @@ namespace Marvel {
 			ADD_PYTHON_FUNCTION(set_plot_xlimits)
 			ADD_PYTHON_FUNCTION(set_plot_ylimits)
 			ADD_PYTHON_FUNCTION(get_plot_ylimits)
-			ADD_PYTHON_FUNCTION(set_color_map)
 			ADD_PYTHON_FUNCTION(add_plot)
 			ADD_PYTHON_FUNCTION(add_shade_series)
 			ADD_PYTHON_FUNCTION(add_bar_series)
@@ -324,35 +323,7 @@ namespace Marvel {
 	const std::vector<std::pair<std::string, long>>& mvModule_Core::GetSubModuleConstants()
 	{
 		static bool First_Run = true;
-		static std::vector<std::pair<std::string, long>> ModuleConstants =
-		{
-
-			{ "mvGuiStyleVar_Alpha",               0 },
-			{ "mvGuiStyleVar_WindowPadding",       1 },
-			{ "mvGuiStyleVar_WindowRounding",      2 },
-			{ "mvGuiStyleVar_WindowBorderSize",    3 },
-			{ "mvGuiStyleVar_WindowMinSize",       4 },
-			{ "mvGuiStyleVar_WindowTitleAlign",    5 },
-			{ "mvGuiStyleVar_ChildRounding",       6 },
-			{ "mvGuiStyleVar_ChildBorderSize",     7 },
-			{ "mvGuiStyleVar_PopupRounding",       8 },
-			{ "mvGuiStyleVar_PopupBorderSize",     9 },
-			{ "mvGuiStyleVar_FramePadding",        10 },
-			{ "mvGuiStyleVar_FrameRounding",       11 },
-			{ "mvGuiStyleVar_FrameBorderSize",     12 },
-			{ "mvGuiStyleVar_ItemSpacing",         13 },
-			{ "mvGuiStyleVar_ItemInnerSpacing",    14 },
-			{ "mvGuiStyleVar_IndentSpacing",       15 },
-			{ "ImGuiStyleVar_CellPadding",		   16 },
-			{ "mvGuiStyleVar_ScrollbarSize",       17 },
-			{ "mvGuiStyleVar_ScrollbarRounding",   18 },
-			{ "mvGuiStyleVar_GrabMinSize",         19 },
-			{ "mvGuiStyleVar_GrabRounding",        20 },
-			{ "mvGuiStyleVar_TabRounding",         21 },
-			{ "mvGuiStyleVar_ButtonTextAlign",     22 },
-			{ "mvGuiStyleVar_SelectableTextAlign", 23 },
-
-		};
+		static std::vector<std::pair<std::string, long>> ModuleConstants;
 
 		if (First_Run)
 		{

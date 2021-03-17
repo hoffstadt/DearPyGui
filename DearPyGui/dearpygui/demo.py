@@ -1072,7 +1072,6 @@ def show_demo():
                 add_pie_series("##PieChart1##demo", "PieChart1", [0.25, 0.30, 0.30], ["fish", "cow", "chicken"], 0.5, 0.5, 0.5)
                 add_pie_series("##PieChart2##demo", "PieChart2", [1, 1, 2, 3, 5], ["A", "B", "C", "D", "E"], 0.5, 0.5, 0.5, 
                                normalize=True, format="%.0f")
-                set_color_map("##PieChart2##demo", mvPlotColormap_Deep)
 
             with tree_node("Heatmaps##demo"):
                 add_plot("Heat Plot##demo", show_color_scale=True, scale_min=0.0, scale_max=6.0, 
