@@ -19,7 +19,22 @@ namespace Marvel {
 
 		MV_APPITEM_TYPE(mvAppItemType::mvNodeEditor, "add_node_editor")
 
+		MV_CREATE_THEME_CONSTANT(mvThemeCol_NodeEditor_Link,                7L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeCol_NodeEditor_LinkHovered,         8L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeCol_NodeEditor_LinkSelected,        9L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeCol_NodeEditor_BoxSelector,        12L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeCol_NodeEditor_BoxSelectorOutline, 13L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeCol_NodeEditor_GridBackground,     14L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeCol_NodeEditor_GridLine,           15L, 0L);
+
 		MV_START_COLOR_CONSTANTS
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_NodeEditor_Link,               mvColor( 61, 133, 224, 200)),
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_NodeEditor_LinkHovered,        mvColor( 66, 150, 250, 255)),
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_NodeEditor_LinkSelected,       mvColor( 66, 150, 250, 255)),
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_NodeEditor_BoxSelector,        mvColor( 61, 133, 224,  30)),
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_NodeEditor_BoxSelectorOutline, mvColor( 61, 133, 224, 150)),
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_NodeEditor_GridBackground,     mvColor( 40,  40,  50, 200)),
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_NodeEditor_GridLine,           mvColor(200, 200, 200,  40)),
 		MV_END_COLOR_CONSTANTS
 
 		MV_START_STYLE_CONSTANTS

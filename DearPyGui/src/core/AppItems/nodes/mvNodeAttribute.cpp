@@ -3,7 +3,7 @@
 #include "mvApp.h"
 #include "mvItemRegistry.h"
 #include "mvNodeEditor.h"
-#include "mvThemeManager.h"
+#include "mvImNodesThemeScope.h"
 
 namespace Marvel {
 
@@ -40,7 +40,7 @@ namespace Marvel {
 	void mvNodeAttribute::draw()
 	{
 		ScopedID id;
-		mvImGuiThemeScope scope(this);
+		mvImNodesThemeScope scope(this);
 
 		if (m_static)
 			imnodes::BeginStaticAttribute((int)m_id);

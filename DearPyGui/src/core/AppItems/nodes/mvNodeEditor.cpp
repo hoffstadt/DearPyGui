@@ -4,7 +4,8 @@
 #include "mvItemRegistry.h"
 #include "mvNode.h"
 #include "mvNodeAttribute.h"
-#include "mvThemeManager.h"
+#include "mvImGuiThemeScope.h"
+#include "mvImNodesThemeScope.h"
 
 namespace Marvel {
 
@@ -229,7 +230,8 @@ namespace Marvel {
 	void mvNodeEditor::draw()
 	{
 		ScopedID id;
-		mvImGuiThemeScope scope(this);
+		imnodes::StyleColorsClassic();
+		mvImNodesThemeScope scope(this);
 
 		imnodes::PushAttributeFlag(imnodes::AttributeFlags_EnableLinkDetachWithDragClick);
 

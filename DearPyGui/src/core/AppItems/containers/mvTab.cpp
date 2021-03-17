@@ -2,7 +2,7 @@
 #include "mvTabBar.h"
 #include "mvApp.h"
 #include "mvItemRegistry.h"
-#include "mvThemeManager.h"
+#include "mvImGuiThemeScope.h"
 
 namespace Marvel {
 	void mvTab::InsertParser(std::map<std::string, mvPythonParser>* parsers)

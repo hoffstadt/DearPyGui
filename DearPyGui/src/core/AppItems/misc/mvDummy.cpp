@@ -1,6 +1,6 @@
 #include "mvDummy.h"
 #include "mvItemRegistry.h"
-#include "mvThemeManager.h"
+#include "mvImGuiThemeScope.h"
 
 namespace Marvel {
 

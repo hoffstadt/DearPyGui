@@ -2,7 +2,7 @@
 #include "mvApp.h"
 #include "mvAppLog.h"
 #include "mvItemRegistry.h"
-#include "mvThemeManager.h"
+#include "mvImGuiThemeScope.h"
 
 namespace Marvel {
 

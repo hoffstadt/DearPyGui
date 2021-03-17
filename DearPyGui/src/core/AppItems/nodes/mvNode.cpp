@@ -2,7 +2,7 @@
 #include <imnodes.h>
 #include "mvApp.h"
 #include "mvItemRegistry.h"
-#include "mvThemeManager.h"
+#include "mvImNodesThemeScope.h"
 
 namespace Marvel {
 
@@ -66,7 +66,7 @@ namespace Marvel {
 	void mvNode::draw()
 	{
 		ScopedID id;
-		mvImGuiThemeScope scope(this);
+		mvImNodesThemeScope scope(this);
 
 		if (m_dirty_pos)
 		{
