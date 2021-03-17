@@ -18,7 +18,7 @@
 #include "mvShadeSeries.h"
 #include "mvStairSeries.h"
 #include "mvStemSeries.h"
-#include "mvImGuiThemeScope.h"
+#include "mvImPlotThemeScope.h"
 
 namespace Marvel {
 
@@ -154,8 +154,8 @@ namespace Marvel {
 		}, "Deletes an annotation", "None", "Plotting") });
 
 		parsers->insert({ "clear_plot", mvPythonParser({
-	{mvPythonDataType::String, "plot"},
-}, "Clears a plot.", "None", "Plotting") });
+			{mvPythonDataType::String, "plot"},
+		}, "Clears a plot.", "None", "Plotting") });
 
 		parsers->insert({ "is_plot_queried", mvPythonParser({
 			{mvPythonDataType::String, "plot"},
@@ -164,11 +164,6 @@ namespace Marvel {
 		parsers->insert({ "get_plot_query_area", mvPythonParser({
 			{mvPythonDataType::String, "plot"},
 		}, "Returns the bounding axis limits for the query area [x_min, x_max, y_min, y_max]", "List[float]", "Plotting") });
-
-		parsers->insert({ "set_color_map", mvPythonParser({
-			{mvPythonDataType::String, "plot"},
-			{mvPythonDataType::Integer, "map"}
-		}, "Sets the color map of the plot's series.", "None", "Plotting") });
 
 		parsers->insert({ "delete_series", mvPythonParser({
 			{mvPythonDataType::String, "plot"},
@@ -913,7 +908,7 @@ namespace Marvel {
 
 	void mvPlot::SetColorMap(ImPlotColormap colormap)
 	{
-		if (colormap < ImPlotColormap_COUNT)
+		if (colormap < ImPlot::GetColormapCount())
 		m_dirty = true;			{
 			m_colormap = colormap;
 			m_dirty = true;
@@ -966,7 +961,7 @@ namespace Marvel {
 	{
 		if (m_colormapscale)
 		{
-			ImPlot::ShowColormapScale(m_scale_min, m_scale_max, (float)m_scale_height);
+			ImPlot::ColormapScale(std::string(m_core_config.name + "##colorscale").c_str(), m_scale_min, m_scale_max, ImVec2(0, m_scale_height));
 			ImGui::SameLine();
 		}
 
@@ -997,6 +992,8 @@ namespace Marvel {
 			// TODO: Checks
 			ImPlot::SetNextPlotTicksY(m_ylabelLocations.data(), (int)m_ylabels.size(), m_yclabels.data());
 		}
+
+		mvImPlotThemeScope scope(this);
 
 		if (ImPlot::BeginPlot(m_label.c_str(), m_xaxisName.empty() ? nullptr : m_xaxisName.c_str(), m_yaxisName.empty() ? nullptr : m_yaxisName.c_str(),
 			ImVec2((float)m_core_config.width, (float)m_core_config.height), m_flags,
@@ -2095,37 +2092,6 @@ namespace Marvel {
 
 		float* result = graph->getPlotQueryArea();
 		return Py_BuildValue("(ffff)", result[0], result[1], result[2], result[3]);
-	}
-
-	PyObject* set_color_map(PyObject* self, PyObject* args, PyObject* kwargs)
-	{
-		const char* plot;
-		int map;
-
-		if (!(mvApp::GetApp()->getParsers())["set_color_map"].parse(args, kwargs, __FUNCTION__, &plot, &map))
-			return GetPyNone();
-
-		std::lock_guard<std::mutex> lk(mvApp::GetApp()->getMutex());
-		auto aplot = mvApp::GetApp()->getItemRegistry().getItem(plot);
-		if (aplot == nullptr)
-		{
-			std::string message = plot;
-			ThrowPythonException(message + " plot does not exist.");
-			return GetPyNone();
-		}
-
-		if (aplot->getType() != mvAppItemType::mvPlot)
-		{
-			std::string message = plot;
-			ThrowPythonException(message + " is not a plot.");
-			return GetPyNone();
-		}
-
-		mvPlot* graph = static_cast<mvPlot*>(aplot.get());
-
-		graph->SetColorMap(map);
-
-		return GetPyNone();
 	}
 
 	PyObject* delete_series(PyObject* self, PyObject* args, PyObject* kwargs)

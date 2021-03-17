@@ -38,6 +38,7 @@ Breaking Changes:
 
 Updates:
 - imgui: updated to v1.81
+- implot: updated to commit 1d9381a
 - value_storage: removed
 
 Fixes:
