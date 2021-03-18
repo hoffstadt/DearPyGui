@@ -59,7 +59,7 @@ namespace Marvel {
         ImGui::BulletText("Tkachenko Igor");
         ImGui::BulletText("Dean Keinan");
         ImGui::BulletText("He Lingfeng");
-        ImGui::BulletText("Nikki Luzader");
+        ImGui::BulletText("Anthony Doupe");
         ImGui::BulletText("Ray Heasman");
         ImGui::BulletText("Marco Studer");
         ImGui::Separator();
