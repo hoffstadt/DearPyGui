@@ -470,9 +470,10 @@ namespace Marvel{
 
 		const auto& parserKeywordsOrig = mvApp::GetApp()->getParsers()[getParserCommand()].getKeywords();
 		std::vector<std::string> parserKeywords;
-		parserKeywords.reserve(parserKeywordsOrig.size() + 7);
-		for (int i = 0; i < parserKeywordsOrig.size() - 1; i++)
-			parserKeywords.push_back(std::string(parserKeywordsOrig[i]));
+		parserKeywords.reserve(parserKeywordsOrig.size() + 8);
+		for (int i = 0; i < parserKeywordsOrig.size(); i++)
+			if(parserKeywordsOrig[i])
+				parserKeywords.push_back(std::string(parserKeywordsOrig[i]));
 
 		parserKeywords.push_back(base_keyword1);
 		parserKeywords.push_back(base_keyword2);
