@@ -23,11 +23,15 @@ HOW TO UPDATE?
 - Please report any issue!
 
 ------------------------------------------------------------------------
- VERSION 0.6.292
+ VERSION 0.6.294
 ------------------------------------------------------------------------
 
 Updates:
 - vcruntime140_1.dll: now included, addressing #563 and others
+
+
+Fixes:
+- textures: fixed issues related to textures #711 #687
 
 ------------------------------------------------------------------------
  VERSION 0.6.278

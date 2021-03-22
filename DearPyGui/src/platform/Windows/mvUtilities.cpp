@@ -125,8 +125,8 @@ namespace Marvel {
     void FreeTexture(mvTexture& storage)
     {
         ID3D11ShaderResourceView* out_srv = static_cast<ID3D11ShaderResourceView*>(storage.texture);
-        if (out_srv)
-            auto count = out_srv->Release();
+        //if (out_srv)
+        //    auto count = out_srv->Release();
 
         storage.texture = nullptr;
         storage.count = 0;

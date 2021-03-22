@@ -24,6 +24,7 @@ namespace Marvel {
 			m_uv_max(uv_max),
 			m_tintColor(tintColor)
 		{
+			mvEventBus::Subscribe(this, mvEVT_DELETE_TEXTURE);
 			//mvApp::GetApp()->getTextureStorage().addTexture(m_value);
 			//mvTexture* texture = mvApp::GetApp()->getTextureStorage().getTexture(m_value);
 			//if (texture)
@@ -43,10 +44,7 @@ namespace Marvel {
 			std::string name = GetEString(event, "NAME");
 
 			if (name == m_value)
-			{
 				m_texture = nullptr;
-				return true;
-			}
 
 			return false;
 		}
@@ -55,7 +53,7 @@ namespace Marvel {
 
 		void draw() override
 		{
-			if(m_texture == nullptr)
+			if(m_texture == nullptr && !m_value.empty())
 			{
 				mvApp::GetApp()->getTextureStorage().addTexture(m_value);
 				mvTexture* texture = mvApp::GetApp()->getTextureStorage().getTexture(m_value);
