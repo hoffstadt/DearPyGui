@@ -45,8 +45,8 @@ namespace Marvel {
 		parsers->insert({ "draw_image", mvPythonParser({
 			{mvPythonDataType::String, "drawing"},
 			{mvPythonDataType::String, "file"},
-			{mvPythonDataType::FloatList, "pmin"},
-			{mvPythonDataType::FloatList, "pmax", ""},
+			{mvPythonDataType::FloatList, "pmin", "top left coordinate"},
+			{mvPythonDataType::FloatList, "pmax", "bottom right coordinate"},
 			{mvPythonDataType::KeywordOnly},
 			{mvPythonDataType::FloatList, "uv_min", "normalized texture coordinates", "(0.0, 0.0)"},
 			{mvPythonDataType::FloatList, "uv_max", "normalized texture coordinates", "(1.0, 1.0)"},
@@ -92,8 +92,8 @@ namespace Marvel {
 
 		parsers->insert({ "draw_rectangle", mvPythonParser({
 			{mvPythonDataType::String, "drawing"},
-			{mvPythonDataType::FloatList, "pmin"},
-			{mvPythonDataType::FloatList, "pmax"},
+			{mvPythonDataType::FloatList, "pmin", "top left coordinate"},
+			{mvPythonDataType::FloatList, "pmax", "bottom right coordinate"},
 			{mvPythonDataType::IntList, "color"},
 			{mvPythonDataType::KeywordOnly},
 			{mvPythonDataType::FloatList, "fill", "", "(0, 0, 0, -1)"},
