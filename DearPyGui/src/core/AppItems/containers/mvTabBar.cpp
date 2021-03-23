@@ -2,6 +2,7 @@
 #include "mvApp.h"
 #include "mvItemRegistry.h"
 #include "mvImGuiThemeScope.h"
+#include "mvTab.h"
 
 namespace Marvel {
 
@@ -28,12 +29,12 @@ namespace Marvel {
 
 	std::string& mvTabBar::getSpecificValue()
 	{
-		return *m_value;
+		return m_uiValue;
 	}
 
 	void mvTabBar::setValue(const std::string& value)
 	{
-		*m_value = value;
+		m_uiValue = value;
 	}
 
 	void mvTabBar::draw()
@@ -56,7 +57,13 @@ namespace Marvel {
 				if (item->m_core_config.width != 0)
 					ImGui::SetNextItemWidth((float)item->m_core_config.width);
 
+				if (*m_value == item->getCoreConfig().name && m_lastValue != *m_value)
+					static_cast<mvTab*>(item.get())->addFlag(ImGuiTabItemFlags_SetSelected);
+
 				item->draw();
+
+				if (*m_value == item->getCoreConfig().name)
+					static_cast<mvTab*>(item.get())->removeFlag(ImGuiTabItemFlags_SetSelected);
 
 				item->getState().update();
 			}
@@ -65,6 +72,9 @@ namespace Marvel {
 		}
 
 		ImGui::EndGroup();
+
+		*m_value = m_uiValue;
+		m_lastValue = *m_value;
 	}
 
 #ifndef MV_CPP

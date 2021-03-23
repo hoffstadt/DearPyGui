@@ -28,6 +28,16 @@ namespace Marvel {
 		m_description.container = true;
 	}
 
+	void mvTab::addFlag(ImGuiTabItemFlags flag)
+	{
+		m_flags |= flag;
+	}
+
+	void mvTab::removeFlag(ImGuiTabItemFlags flag)
+	{
+		m_flags &= ~flag;
+	}
+
 	void mvTab::draw()
 	{
 		ScopedID id;
