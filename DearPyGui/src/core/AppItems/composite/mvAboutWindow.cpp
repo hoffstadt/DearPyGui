@@ -28,10 +28,12 @@ namespace Marvel {
         ImGui::BulletText("Preston Cothren");
         ImGui::Text("Dear PyGui is licensed under the MIT License, see LICENSE for more information.");
         ImGui::Separator();
+        ImGui::TextColored(ImGui::GetStyleColorVec4(ImGuiCol_PlotHistogramHovered), "Corporate");
+        ImGui::BulletText("Anthony Tanbakuchi");
+        ImGui::Separator();
         ImGui::TextColored(ImGui::GetStyleColorVec4(ImGuiCol_PlotHistogramHovered), "Partners");
         ImGui::BulletText("Dean Keinan");
         ImGui::BulletText("He Lingfeng");
-        ImGui::BulletText("Nikki Luzader");
         ImGui::BulletText("Ray Heasman");
         ImGui::BulletText("Marco Studer");
         ImGui::Separator();
