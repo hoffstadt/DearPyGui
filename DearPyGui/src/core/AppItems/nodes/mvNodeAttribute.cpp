@@ -50,7 +50,7 @@ namespace Marvel {
 			imnodes::BeginInputAttribute((int)m_id);
 
 		//we do this so that the children dont get the theme
-		scope.cleanup();
+		//scope.cleanup();
 
 		for (auto item : m_children)
 		{
