@@ -21,7 +21,7 @@ namespace Marvel {
 			// this is messy and disgusting. Needs to be cleaned up and optimized
 
 			const std::vector<std::tuple<std::string, long, mvColor>>& color_constants = T::GetColorConstants();
-			const std::vector<std::tuple<std::string, long, int, int>>& style_constants = T::GetStyleConstants();
+			const std::vector<std::tuple<std::string, long, float, float>>& style_constants = T::GetStyleConstants();
 
 			mvThemeColors colors;
 			std::unordered_map<long, bool> colors_found;
