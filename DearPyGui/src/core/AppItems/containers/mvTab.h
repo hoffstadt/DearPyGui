@@ -59,7 +59,9 @@ namespace Marvel {
 
 		mvTab(const std::string& name);
 
-		void draw              ()               override;
+		void draw      ()               override;
+		void addFlag   (ImGuiTabItemFlags flag);
+		void removeFlag(ImGuiTabItemFlags flag);
 
 #ifndef MV_CPP
 		void setExtraConfigDict(PyObject* dict) override;
