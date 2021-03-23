@@ -147,6 +147,7 @@ If you are having issues or want to help, here are some places you can go:
 Ongoing _Dear PyGui_ development is financially supported by users and private sponsors.
 
 These include:
+* 🏢 [Anthony Tanbakuchi](https://github.com/kuchi) _Corporate Sponsor_
 * 🏆 [Dean Keinan](https://github.com/deankeinan) _Partner Sponsor_
 * 🏆 [何凌锋](https://github.com/Hedaozi) _Partner Sponsor_
 * 🏆 [Anthony Doupe](https://github.com/Atlamillias) _Partner Sponsor_
