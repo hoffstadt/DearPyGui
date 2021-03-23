@@ -257,7 +257,7 @@ namespace Marvel {
 			imnodes::Link(i, m_links[i].first, m_links[i].second);
 
 		//we do this so that the children dont get the theme
-		scope.cleanup();
+		//scope.cleanup();
 
 		for (auto item : m_children)
 		{

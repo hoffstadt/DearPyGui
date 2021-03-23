@@ -12,8 +12,8 @@ namespace Marvel {
 
 		MV_APPITEM_TYPE(mvAppItemType::mvNodeAttribute, "add_node_attribute")
 
-		MV_CREATE_THEME_CONSTANT(mvThemeCol_NodeAttr_Pin,        10L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvThemeCol_NodeAttr_PinHovered, 11L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeCol_NodeAttr_Pin,						10L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeCol_NodeAttr_PinHovered,				11L, 0L);
 
 		MV_START_COLOR_CONSTANTS
 			MV_CREATE_CONSTANT_PAIR(mvThemeCol_NodeAttr_Pin,        mvColor(53, 150, 250, 180)),
