@@ -29,6 +29,8 @@ namespace Marvel {
 	private:
 
 		ImGuiTabBarFlags m_flags = ImGuiTabBarFlags_None;
+		std::string      m_lastValue;
+		std::string      m_uiValue; // value suggested from UI
 
 	};
 

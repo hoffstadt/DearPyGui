@@ -2,6 +2,7 @@
 #include "mvApp.h"
 #include "mvPythonTranslator.h"
 #include "mvGlobalIntepreterLock.h"
+#include "mvTab.h"
 
 namespace Marvel {
 
@@ -28,16 +29,17 @@ namespace Marvel {
 
 	std::string& mvTabBar::getValue()
 	{
-		return *m_value;
+		return m_uiValue;
 	}
 
 	void mvTabBar::setValue(const std::string& value)
 	{
-		*m_value = value;
+		m_uiValue = value;
 	}
 
 	void mvTabBar::draw()
 	{
+
 		auto styleManager = m_styleManager.getScopedStyleManager();
 		ScopedID id;
 		ImGui::BeginGroup();
@@ -54,7 +56,13 @@ namespace Marvel {
 				if (item->m_width != 0)
 					ImGui::SetNextItemWidth((float)item->m_width);
 
+				if (*m_value == item->getName() && m_lastValue != *m_value)
+					static_cast<mvTab*>(item.get())->addFlag(ImGuiTabItemFlags_SetSelected);
+
 				item->draw();
+
+				if (*m_value == item->getName())
+					static_cast<mvTab*>(item.get())->removeFlag(ImGuiTabItemFlags_SetSelected);
 
 				// Regular Tooltip (simple)
 				if (!item->m_tip.empty() && ImGui::IsItemHovered())
@@ -67,6 +75,9 @@ namespace Marvel {
 		}
 
 		ImGui::EndGroup();
+
+		*m_value = m_uiValue;
+		m_lastValue = *m_value;
 	}
 
 	void mvTabBar::setExtraConfigDict(PyObject* dict)

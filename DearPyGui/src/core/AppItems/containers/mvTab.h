@@ -23,6 +23,9 @@ namespace Marvel {
 		void draw              ()               override;
 		void setExtraConfigDict(PyObject* dict) override;
 		void getExtraConfigDict(PyObject* dict) override;
+		
+		void addFlag   (ImGuiTabItemFlags flag);
+		void removeFlag(ImGuiTabItemFlags flag);
 
 	private:
 
