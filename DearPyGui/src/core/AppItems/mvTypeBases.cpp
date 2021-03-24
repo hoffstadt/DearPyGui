@@ -542,6 +542,9 @@ namespace Marvel {
 	bool mvBaseWindowAppitem::prerender()
 	{
 
+		if (!m_core_config.show)
+			return false;
+
 		if (m_dirty_size)
 		{
 			ImGui::SetNextWindowSize(ImVec2((float)m_core_config.width, (float)m_core_config.height));
@@ -553,9 +556,6 @@ namespace Marvel {
 			ImGui::SetNextWindowPos(ImVec2((float)m_xpos, (float)m_ypos));
 			m_dirty_pos = false;
 		}
-
-		if (!m_core_config.show)
-			return false;
 
 		if (!ImGui::Begin(m_label.c_str(), &m_core_config.show, m_windowflags))
 		{

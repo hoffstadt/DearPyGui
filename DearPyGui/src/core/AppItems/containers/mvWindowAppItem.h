@@ -25,6 +25,8 @@ namespace Marvel {
 		bool no_background = false;
 		bool collapsed = false;
 		mvCallable on_close = nullptr;
+		mvVec2 min_size = { 32.0f, 32.0f };
+		mvVec2 max_size = { 30000.0f, 30000.0f };
 		
 		mvWindowAppItemConfig()
 		{

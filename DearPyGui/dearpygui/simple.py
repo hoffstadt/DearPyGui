@@ -39,7 +39,7 @@ def window(name: str, *, width: int = 200, height: int = 200, x_pos: int = 200, 
            no_collapse: bool = False, horizontal_scrollbar: bool = False, no_focus_on_appearing: bool = False,
            no_bring_to_front_on_focus: bool = False, menubar: bool = False, no_close: bool = False,
            no_background: bool = False, label: str = "__DearPyGuiDefault", show: bool = True, collapsed: bool = False,
-           on_close: Callable = None):
+           on_close: Callable = None, min_size: List[int]=[32, 32], max_size: List[int] = [30000, 30000]):
     """Wraps add_window() and automates calling end().
 
     Args:
@@ -65,6 +65,8 @@ def window(name: str, *, width: int = 200, height: int = 200, x_pos: int = 200, 
         **label: Displayed name of the item.
         **show: sets if the item is shown or not window.
         **on_close: Callback ran when window is closed
+        **min_size: Minimum window size
+        **max_size: Maximum window size
 
     Returns:
         None
@@ -78,7 +80,8 @@ def window(name: str, *, width: int = 200, height: int = 200, x_pos: int = 200, 
                                           no_focus_on_appearing=no_focus_on_appearing,
                                           no_bring_to_front_on_focus=no_bring_to_front_on_focus,
                                           menubar=menubar, no_close=no_close, no_background=no_background,
-                                          show=show, collapsed=collapsed, on_close=on_close)
+                                          show=show, collapsed=collapsed, on_close=on_close,
+                                          min_size=min_size, max_size=max_size)
         else:
             yield internal_dpg.add_window(name, width=width, height=height, x_pos=x_pos, y_pos=y_pos, autosize=autosize,
                                           no_resize=no_resize, no_title_bar=no_title_bar, no_move=no_move,
@@ -88,7 +91,8 @@ def window(name: str, *, width: int = 200, height: int = 200, x_pos: int = 200, 
                                           no_bring_to_front_on_focus=no_bring_to_front_on_focus,
                                           menubar=menubar, no_close=no_close,
                                           no_background=no_background, label=label, show=show, 
-                                          collapsed=collapsed, on_close=on_close)
+                                          collapsed=collapsed, on_close=on_close,
+                                          min_size=min_size, max_size=max_size)
     finally:
         internal_dpg.end()
 

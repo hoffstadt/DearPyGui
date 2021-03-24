@@ -301,6 +301,7 @@ namespace Marvel {
 		int              m_ypos = 200;
 		bool             m_dirty_pos = true;
 		bool             m_dirty_size = true;
+		
 	};
 
 }
