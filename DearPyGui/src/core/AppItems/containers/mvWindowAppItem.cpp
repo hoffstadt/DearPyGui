@@ -30,6 +30,8 @@ namespace Marvel {
 			{mvPythonDataType::Bool, "show", "Attempt to render", "True"},
 			{mvPythonDataType::Bool, "collapsed", "Collapse the window", "False"},
 			{mvPythonDataType::Callable, "on_close", "Callback ran when window is closed", "None"},
+			{mvPythonDataType::IntList, "min_size", "Minimum window size.", "[32, 32]"},
+			{mvPythonDataType::IntList, "max_size", "Maximum window size.", "[30000, 30000]"},
 		}, "Creates a new window for following items to be added to.",
 			"None", "Containers") });
 	}
@@ -110,6 +112,9 @@ namespace Marvel {
 		flagop(aconfig->no_bring_to_front_on_focus, ImGuiWindowFlags_NoBringToFrontOnFocus, m_windowflags);
 		flagop(aconfig->menubar, ImGuiWindowFlags_MenuBar, m_windowflags);
 		flagop(aconfig->no_background, ImGuiWindowFlags_NoBackground, m_windowflags);
+
+		m_config.min_size = aconfig->min_size;
+		m_config.max_size = aconfig->max_size;
 
 		m_oldxpos = aconfig->xpos;
 		m_oldypos = aconfig->ypos;
@@ -247,6 +252,8 @@ namespace Marvel {
 			m_collapsedDirty = false;
 		}
 
+		ImGui::SetNextWindowSizeConstraints(m_config.min_size, m_config.max_size);
+
 		ScopedID id;
 		mvImGuiThemeScope scope(this);
 
@@ -358,6 +365,17 @@ namespace Marvel {
 			m_config.collapsed = ToBool(item);
 		}
 
+		if (PyObject* item = PyDict_GetItemString(dict, "min_size"))
+		{
+			auto min_size = ToIntVect(item);
+			m_config.min_size = { (float)min_size[0], (float)min_size[1]};
+		}
+
+		if (PyObject* item = PyDict_GetItemString(dict, "max_size"))
+		{
+			auto max_size = ToIntVect(item);
+			m_config.max_size = { (float)max_size[0], (float)max_size[1] };
+		}
 
 		// helper for bit flipping
 		auto flagop = [dict](const char* keyword, int flag, int& flags)
@@ -395,6 +413,8 @@ namespace Marvel {
 		PyDict_SetItemString(dict, "y_pos", ToPyInt(m_config.ypos));
 		PyDict_SetItemString(dict, "no_close", ToPyBool(m_config.no_close));
 		PyDict_SetItemString(dict, "collapsed", ToPyBool(m_config.collapsed));
+		PyDict_SetItemString(dict, "min_size", ToPyPair(m_config.min_size.x, m_config.min_size.y));
+		PyDict_SetItemString(dict, "max_size", ToPyPair(m_config.min_size.x, m_config.min_size.y));
 
 		// helper to check and set bit
 		auto checkbitset = [dict](const char* keyword, int flag, const int& flags)
@@ -441,11 +461,18 @@ namespace Marvel {
 		int collapsed = false;
 
 		PyObject* closing_callback = nullptr;
+		PyObject* min_size = PyList_New(2);
+		PyList_SetItem(min_size, 0, PyLong_FromLong(-1));
+		PyList_SetItem(min_size, 1, PyLong_FromLong(-1));
+
+		PyObject* max_size = PyList_New(2);
+		PyList_SetItem(max_size, 0, PyLong_FromLong(-1));
+		PyList_SetItem(max_size, 1, PyLong_FromLong(-1));
 
 		if (!(mvApp::GetApp()->getParsers())["add_window"].parse(args, kwargs, __FUNCTION__, &name, &width,
 			&height, &x_pos, &y_pos, &autosize, &no_resize, &no_title_bar, &no_move, &no_scrollbar,
 			&no_collapse, &horizontal_scrollbar, &no_focus_on_appearing, &no_bring_to_front_on_focus, &menubar,
-			&noclose, &no_background, &label, &show, &collapsed, &closing_callback))
+			&noclose, &no_background, &label, &show, &collapsed, &closing_callback, &min_size, &max_size))
 			return ToPyBool(false);
 
 		if (closing_callback)

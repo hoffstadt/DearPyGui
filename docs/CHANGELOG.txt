@@ -36,6 +36,11 @@ Breaking Changes:
 - removed command: delete_data
 - removed command: get_data
 
+New Keywords:
+- add_window: Added "min_size" keyword #700
+- add_window: Added "max_size" keyword #700
+
+
 Updates:
 - imgui: updated to v1.82
 - implot: updated to commit 1d9381a
