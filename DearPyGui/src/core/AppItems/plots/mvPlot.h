@@ -115,6 +115,16 @@ namespace Marvel {
 		MV_CREATE_THEME_CONSTANT(mvThemeCol_Plot_Selection,					21L, 0L);
 		MV_CREATE_THEME_CONSTANT(mvThemeCol_Plot_Query,						22L, 0L);
 		MV_CREATE_THEME_CONSTANT(mvThemeCol_Plot_Crosshairs,				23L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeStyle_Plot_LineWeight,				 0L, 0L);
+		//TODO":This will not work due to it being an int/implot enum
+		//MV_CREATE_THEME_CONSTANT(mvThemeStyle_Plot_Marker,					 1L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeStyle_Plot_MarkerSize,				 2L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeStyle_Plot_MarkerWeight,			 3L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeStyle_Plot_FillAlpha,				 4L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeStyle_Plot_ErrorBarSize,			 5L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeStyle_Plot_ErrorBarWeight,			 6L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeStyle_Plot_DigitalBitHeight,		 7L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeStyle_Plot_DigitalBitGap,			 8L, 0L);
 		MV_CREATE_THEME_CONSTANT(mvThemeStyle_Plot_BorderSize,				 9L, 0L);
 		MV_CREATE_THEME_CONSTANT(mvThemeStyle_Plot_MinorAlpha,				10L, 0L);
 		MV_CREATE_THEME_CONSTANT(mvThemeStyle_Plot_MajorTickLenX,			11L, 0L);
@@ -173,6 +183,16 @@ namespace Marvel {
 		MV_END_COLOR_CONSTANTS
 
 		MV_START_STYLE_CONSTANTS
+			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_Plot_LineWeight,			   1,  10),
+			//This will not work due to it being an int/implot enum
+			//MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_Plot_Marker,				   1,   0),
+			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_Plot_MarkerSize,			   4,  10),
+			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_Plot_MarkerWeight,		   1,  10),
+			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_Plot_FillAlpha,			   1,   1),
+			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_Plot_ErrorBarSize,		   5,  10),
+			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_Plot_ErrorBarWeight,		 1.5,  10),
+			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_Plot_DigitalBitHeight,	   8,  16),
+			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_Plot_DigitalBitGap,		   4,   8),
 			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_Plot_BorderSize,			   1,  10),
 			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_Plot_MinorAlpha,			0.25,   1),
 			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_Plot_MajorTickLenX,		  10,  20),
