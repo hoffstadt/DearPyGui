@@ -3,6 +3,7 @@
 #include "mvApp.h"
 #include "mvItemRegistry.h"
 #include "mvAppItems.h"
+#include "mvLog.h"
 
 namespace Marvel {
 
@@ -31,11 +32,6 @@ namespace Marvel {
 		
 	}
 
-	mvItemRegistry::~mvItemRegistry()
-	{
-		mvEventBus::UnSubscribe(this);
-	}
-
 	mvValueVariant mvItemRegistry::getValue(const std::string& name)
 	{
 		mvRef<mvAppItem> item = getItem(name);
@@ -47,20 +43,23 @@ namespace Marvel {
 	bool mvItemRegistry::deleteItem(const std::string& name, bool childrenOnly)
 	{
 
-		// delete items that are parent only
+		MV_ITEM_REGISTRY_TRACE("Attempting to delete: " + name);
+
+		// delete item's children only
 		if(childrenOnly)
 		{
 			auto item = getItem(name);
 			if (item)
 			{
 				item->deleteChildren();
+				MV_ITEM_REGISTRY_INFO("Item found and it's children deleted.");
 				return true;
 			}
 		}
 
 		bool deletedItem = false;
 
-		// try to delete item
+		// try to delete build-in item
 		for (auto window : m_frontWindows)
 		{
 			deletedItem = window->deleteChild(name);
@@ -68,6 +67,7 @@ namespace Marvel {
 				break;
 		}
 
+		// try to delete user added item
 		if (!deletedItem)
 		{
 			for (auto window : m_backWindows)
@@ -137,14 +137,21 @@ namespace Marvel {
 			}
 		}
 
-		if (!deletedItem)
-			ThrowPythonException(name + " not deleted because it was not found");
+		if (deletedItem)
+		{
+			MV_ITEM_REGISTRY_INFO(name + " found and deleted.");
+		}
+		else
+			mvThrowPythonError(1001, name + " not deleted because it was not found");
 
+		assert(deletedItem && "Item to delete not found");
 		return deletedItem;
 	}
 
 	bool mvItemRegistry::moveItem(const std::string& name, const std::string& parent, const std::string& before)
 	{
+
+		MV_ITEM_REGISTRY_TRACE("Attempting to move: " + name);
 
 		mvRef<mvAppItem> child = nullptr;
 
@@ -158,16 +165,23 @@ namespace Marvel {
 		}
 
 		if (child == nullptr)
-			ThrowPythonException(name + " not moved because it was not found");
+		{
+			mvThrowPythonError(1002, name + " not moved because it was not found");
+			MV_ITEM_REGISTRY_WARN("Could not move item, it was not found");
+		}
 
 		if (child)
 			addRuntimeItem(parent, before, child);
+
+		assert(movedItem && "Item to move not found");
 
 		return movedItem;
 	}
 
 	bool mvItemRegistry::moveItemUp(const std::string& name)
 	{
+
+		MV_ITEM_REGISTRY_TRACE("Attempting to move: " + name);
 
 		bool movedItem = false;
 
@@ -179,13 +193,20 @@ namespace Marvel {
 		}
 
 		if (!movedItem)
-			ThrowPythonException(name + " not moved because it was not found");
+		{
+			mvThrowPythonError(1002, name + " not moved because it was not found");
+			MV_ITEM_REGISTRY_WARN("Could not move item, it was not found");
+		}
+
+		assert(movedItem && "Item to move not found");
 
 		return movedItem;
 	}
 
 	bool mvItemRegistry::moveItemDown(const std::string& name)
 	{
+
+		MV_ITEM_REGISTRY_TRACE("Attempting to move: " + name);
 
 		bool movedItem = false;
 
@@ -197,7 +218,12 @@ namespace Marvel {
 		}
 
 		if (!movedItem)
-			ThrowPythonException(name + " not moved because it was not found");
+		{
+			mvThrowPythonError(1002, name + " not moved because it was not found");
+			MV_ITEM_REGISTRY_WARN("Could not move item, it was not found");
+		}
+
+		assert(movedItem && "Item to move not found");
 
 		return movedItem;
 	}
@@ -246,11 +272,15 @@ namespace Marvel {
 
 		m_activeWindow = GetEString(event, "WINDOW");
 
+		MV_ITEM_REGISTRY_INFO("Active window changed to: " + m_activeWindow);
+
 		return false;
 	}
 
 	bool mvItemRegistry::addRuntimeItem(const std::string& parent, const std::string& before, mvRef<mvAppItem> item)
 	{
+		MV_ITEM_REGISTRY_TRACE("Attempting to add new widget: ", item->getCoreConfig().name);
+
 		// add runtime items
 		bool addedItem = false;
 
@@ -259,7 +289,9 @@ namespace Marvel {
 			if (getItem(item->m_core_config.name))
 			{
 				std::string message = item->m_core_config.name;
-				ThrowPythonException(message + ": Items of this type must have unique names");
+				mvThrowPythonError(1003, message + ": Items of this type must have unique names");
+				MV_ITEM_REGISTRY_WARN("New widget could not be added because it did not have a unique name.");
+				assert(false);
 				return false;
 			}
 		}
@@ -279,7 +311,9 @@ namespace Marvel {
 
 		if (!addedItem)
 		{
-			ThrowPythonException(item->m_core_config.name + " not added because its parent was not found");
+			mvThrowPythonError(1004, item->m_core_config.name + " not added because its parent was not found");
+			MV_ITEM_REGISTRY_WARN("New widget could not be added because it's parent was not found.");
+			assert(false);
 		}
 
 		return addedItem;
@@ -287,13 +321,17 @@ namespace Marvel {
 
 	bool mvItemRegistry::addItemAfter(const std::string& prev, mvRef<mvAppItem> item)
 	{
+		MV_ITEM_REGISTRY_TRACE("Attempting to add new widget after: ", item->getCoreConfig().name);
+
 		// add popup items
 		bool addedItem = false;
 
 		if (getItem(item->m_core_config.name))
 		{
 			std::string message = item->m_core_config.name;
-			ThrowPythonException(message + ": Items of this type must have unique names");
+			mvThrowPythonError(1003, message + ": Items of this type must have unique names");
+			MV_ITEM_REGISTRY_WARN("New widget could not be added because it did not have a unique name.");
+			assert(false);
 			return false;
 		}
 
@@ -306,9 +344,12 @@ namespace Marvel {
 
 		if (!addedItem)
 		{
-			ThrowPythonException(item->m_core_config.name + " not added because its parent was not found");
+			mvThrowPythonError(1004, item->m_core_config.name + " not added because its parent was not found");
+			MV_ITEM_REGISTRY_WARN("New widget not added because its parent was not found.");
+			assert(false);
 		}
-		return true;
+
+		return addedItem;
 	}
 
 	void mvItemRegistry::pushParent(mvRef<mvAppItem> item)
@@ -320,7 +361,9 @@ namespace Marvel {
 	{
 		if (m_parents.empty())
 		{
-			ThrowPythonException("No parent to pop.");
+			mvThrowPythonError(1005, "No parent to pop.");
+			MV_ITEM_REGISTRY_WARN("No parent to pop.");
+			assert(false);
 			return nullptr;
 		}
 
@@ -333,6 +376,8 @@ namespace Marvel {
 	{
 		while (!m_parents.empty())
 			m_parents.pop();
+
+		MV_ITEM_REGISTRY_INFO("Parent stack emptied.");
 	}
 
 	mvRef<mvAppItem> mvItemRegistry::topParent()
@@ -366,6 +411,8 @@ namespace Marvel {
 				return child;
 		}
 
+		//assert(false && "Item not found.");
+
 		return nullptr;
 	}
 
@@ -374,16 +421,22 @@ namespace Marvel {
 
 		mvRef<mvAppItem> item = getItem(name);
 		if (item == nullptr)
+		{
+			assert(false && "Window not found.");
 			return nullptr;
+		}
 
 		if (item->getType() == mvAppItemType::mvWindowAppItem)
 			return static_cast<mvWindowAppItem*>(item.get());
 
+		assert(false && "Item is not a window not found.");
 		return nullptr;
 	}
 
 	bool mvItemRegistry::addItem(mvRef<mvAppItem> item)
 	{
+
+		MV_ITEM_REGISTRY_TRACE("Adding item: " + item->getCoreConfig().name);
 
 		static int count = 0;
 		count++;
@@ -393,7 +446,9 @@ namespace Marvel {
 			if (getItem(item->m_core_config.name))
 			{
 				std::string message = item->m_core_config.name + " " + std::to_string(count);
-				ThrowPythonException(message + ": Items of this type must have unique names");
+				mvThrowPythonError(1003, message + ": Items of this type must have unique names");
+				MV_ITEM_REGISTRY_ERROR("Items of this type must have unique names: " + item->getCoreConfig().name);
+				assert(false);
 				return false;
 			}
 		}
@@ -402,7 +457,9 @@ namespace Marvel {
 		if (parentitem == nullptr)
 		{
 			std::string message = item->m_core_config.name;
-			ThrowPythonException(message + ": Parent for this item not found or the parent stack is empty.");
+			mvThrowPythonError(1004, message + ": Parent for this item not found or the parent stack is empty.");
+			MV_ITEM_REGISTRY_ERROR("Parent for this item not found or the parent stack is empty: " + item->getCoreConfig().name);
+			assert(false);
 			return false;
 		}
 
@@ -414,19 +471,21 @@ namespace Marvel {
 
 	bool mvItemRegistry::addWindow(mvRef<mvAppItem> item)
 	{
-
+		MV_ITEM_REGISTRY_INFO("Adding window: " + item->getCoreConfig().name);
 		m_frontWindows.push_back(item);
 		return true;
 	}
 
 	void mvItemRegistry::clearRegistry()
 	{
+		MV_ITEM_REGISTRY_INFO("Clearing item registry.");
 		m_frontWindows.clear();
 		m_backWindows.clear();
 	}
 
 	bool mvItemRegistry::addItemWithRuntimeChecks(mvRef<mvAppItem> item, const char* parent, const char* before)
 	{
+		MV_ITEM_REGISTRY_TRACE("Adding runtime item: " + item->getCoreConfig().name);
 
 		if (item == nullptr)
 			return false;
@@ -436,16 +495,19 @@ namespace Marvel {
 		// remove bad parent stack item
 		if (item->getDescription().root && topParent() != nullptr)
 		{
+			mvThrowPythonError(1000, "Parent stack not empty. Adding window will empty the parent stack. Don't forget to end container types.");
 			emptyParents();
-
-			ThrowPythonException("Parent stack not empty. Adding window will empty the parent stack. Don't forget to end container types.");
+			MV_ITEM_REGISTRY_ERROR("Parent stack not empty when adding: " + item->getCoreConfig().name);
+			assert(false);
 		}
 
 		if (item->getType() != mvAppItemType::mvNode && topParent() != nullptr)
 		{
 			if (topParent()->getType() == mvAppItemType::mvNodeEditor)
 			{
-				ThrowPythonException("Node editor children must be nodes only.");
+				mvThrowPythonError(1006, "Node editor children must be nodes only.");
+				MV_ITEM_REGISTRY_ERROR("Is not a node, can't be added to node editor: " + item->getCoreConfig().name);
+				assert(false);
 				return false;
 			}
 		}
@@ -454,7 +516,9 @@ namespace Marvel {
 		{
 			if (topParent()->getType() == mvAppItemType::mvNode)
 			{
-				ThrowPythonException("Node children must be nodes attributes only.");
+				mvThrowPythonError(1007, "Node children must be node attributes only.");
+				MV_ITEM_REGISTRY_ERROR("Is not a node atrribute, can't be added to a node: " + item->getCoreConfig().name);
+				assert(false);
 				return false;
 			}
 		}
@@ -462,40 +526,59 @@ namespace Marvel {
 		if (item->getType() == mvAppItemType::mvPopup || item->getType() == mvAppItemType::mvTooltip)
 		{
 			addItemAfter(parent, item);
+			MV_ITEM_REGISTRY_TRACE("Adding item using 'addItemAfter' method: " + item->getCoreConfig().name);
 			return true;
 		}
 
 		// window runtime adding
 		if (item->getDescription().root && mvApp::IsAppStarted())
+		{
+			MV_ITEM_REGISTRY_TRACE("Adding root using window runtime method: " + item->getCoreConfig().name);
 			addRuntimeItem("", "", item);
+		}
 
 		// window compile adding
 		else if (item->getDescription().root)
+		{
+			MV_ITEM_REGISTRY_TRACE("Adding root using window compile method: " + item->getCoreConfig().name);
 			addWindow(item);
+		}
 
 		// typical run time adding
 		else if ((!std::string(parent).empty() || !std::string(before).empty()) && mvApp::IsAppStarted())
+		{
+			MV_ITEM_REGISTRY_TRACE("Adding item using typical runtime method: " + item->getCoreConfig().name);
 			addRuntimeItem(parent, before, item);
+		}
 
 		// adding without specifying before or parent, instead using parent stack
 		else if (std::string(parent).empty() && std::string(before).empty() && mvApp::IsAppStarted() && topParent() != nullptr)
+		{
+			MV_ITEM_REGISTRY_TRACE("Adding item using runtime parent stack method: " + item->getCoreConfig().name);
 			addRuntimeItem(topParent()->m_core_config.name, before, item);
+		}
 
 		// adding without specifying before or parent, but with empty stack (add to main window)
 		else if (std::string(parent).empty() && std::string(before).empty() && mvApp::IsAppStarted())
 		{
-			ThrowPythonException("Parent stack is empty. You must specify 'before' or 'parent' widget.");
+			mvThrowPythonError(1008, "Parent stack is empty. You must specify 'before' or 'parent' widget.");
+			MV_ITEM_REGISTRY_ERROR("Failed to add item using runtime method (before or after not specificed): " + item->getCoreConfig().name);
 			return false;
 		}
 
 		// adding normally but using the runtime style of adding
 		else if (!std::string(parent).empty() && !mvApp::IsAppStarted())
+		{
+			MV_ITEM_REGISTRY_TRACE("Adding item using runtime method at compile time: " + item->getCoreConfig().name);
 			addRuntimeItem(parent, before, item);
+		}
 
 		// typical adding before runtime
 		else if (std::string(parent).empty() && !mvApp::IsAppStarted() && std::string(before).empty())
+		{
+			MV_ITEM_REGISTRY_TRACE("Adding item using compile method: {}", item->getCoreConfig().name);
 			addItem(item);
-
+		}
 
 		return true;
 	}
@@ -506,6 +589,9 @@ namespace Marvel {
 		if (item)
 			return item->m_parent->m_core_config.name;
 		
+		mvThrowPythonError(1009, name + ": item not found");
+		assert(false && "Item not found.");
+
 		return "";
 	}
 
@@ -521,6 +607,11 @@ namespace Marvel {
 			auto children = item->m_children;
 			for (auto child : children)
 				childList.emplace_back(child->m_core_config.name);
+		}
+		else
+		{
+			mvThrowPythonError(1010, name + ": item not found");
+			assert(false && "Item not found.");
 		}
 
 		return childList;
@@ -584,7 +675,10 @@ namespace Marvel {
 				window->setWindowAsMainStatus(value);
 		}
 		else
-			ThrowPythonException("Window does not exists.");
+		{
+			mvThrowPythonError(1011, "Window does not exists.");
+			assert(false);
+		}
 
 		// reset other windows
 		for (auto window : m_frontWindows)

@@ -71,7 +71,7 @@ namespace Marvel {
 
 			if (m_callCount > s_MaxNumberOfCalls)
 			{
-				mvAppLog::LogWarning("[W0001] Too many callbacks already in the queue.");
+				mvAppLog::LogWarning("Too many callbacks already in the queue.");
 				return {};
 			}
 

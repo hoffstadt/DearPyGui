@@ -90,7 +90,7 @@ namespace Marvel {
 	public:
 
 		virtual bool onEvent(mvEvent& event) = 0;
-		virtual ~mvEventHandler() {}
+		virtual ~mvEventHandler();
 
 	};
 

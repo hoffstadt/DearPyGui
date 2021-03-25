@@ -909,7 +909,6 @@ namespace Marvel{
 			return GetPyNone();
 
 		std::lock_guard<std::mutex> lk(mvApp::GetApp()->getMutex());
-		auto appitem = mvApp::GetApp()->getItemRegistry().getItem(item);
 
 		std::string parent = mvApp::GetApp()->getItemRegistry().getItemParentName(item);
 

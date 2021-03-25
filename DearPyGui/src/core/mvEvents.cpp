@@ -214,4 +214,9 @@ namespace Marvel {
 		static std::deque<std::string> messages;
 		return messages;
 	}
+
+	mvEventHandler::~mvEventHandler()
+	{
+		mvEventBus::UnSubscribe(this);
+	}
 }

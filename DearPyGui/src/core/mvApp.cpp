@@ -52,6 +52,8 @@ namespace Marvel {
 
 	mvApp* mvApp::GetApp()
 	{
+		mvLog::Init();
+
 		if (s_instance)
 			return s_instance;
 
@@ -91,8 +93,6 @@ namespace Marvel {
 	void mvApp::start(const std::string& primaryWindow)
 	{
 		s_started = true;
-
-		mvLog::Init();
 
 		MV_CORE_INFO("application starting");
 
@@ -597,6 +597,8 @@ namespace Marvel {
 	PyObject* start_dearpygui(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		const char* primary_window = "";
+		
+		mvLog::Init();
 
 		if (!(mvApp::GetApp()->getParsers())["start_dearpygui"].parse(args, kwargs, __FUNCTION__, &primary_window))
 			return GetPyNone();
