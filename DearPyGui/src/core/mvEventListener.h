@@ -6,7 +6,7 @@
 #include "mvLog.h"
 
 #define MV_ELT_MESSAGE(CODE) MV_EVENT_TRACE("{} : {}", #CODE, CODE)
-#define MV_EL_MESSAGE(CODE) MV_EVENT_INFO("{} : {}", #CODE, CODE)
+#define MV_EL_MESSAGE(CODE) MV_EVENT_TRACE("{} : {}", #CODE, CODE)
 
 namespace Marvel {
 

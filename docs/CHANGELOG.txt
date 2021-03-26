@@ -35,6 +35,8 @@ Breaking Changes:
 - removed command: add_data
 - removed command: delete_data
 - removed command: get_data
+- removed command: set_render_callback
+- removed command: start_dearpygui
 
 New Keywords:
 - add_window: Added "min_size" keyword #700
