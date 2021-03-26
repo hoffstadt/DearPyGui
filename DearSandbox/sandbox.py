@@ -16,7 +16,8 @@ add_additional_font("../../Resources/NotoSerifCJKjp-Medium.otf", 20)
 # char remaps
 #add_character_remap(0x0041, 0x00A2)
 #add_character_remap(0x0061, 0x00AB)
-
+with window("extra"):
+        add_input_int3('start',min_clamped = True,max_clamped = True,max_value = 50,width=120,tip='H:M:S',callback=lambda: print("here"),on_enter=True,)
 show_demo()
 show_logger()
 
