@@ -89,7 +89,6 @@ namespace Marvel {
 		//-----------------------------------------------------------------------------
         // Callbacks
         //----------------------------------------------------------------------------- 
-        void setRenderCallback          (mvCallable callback) { m_renderCallback = SanitizeCallback(callback); }
         void setResizeCallback          (mvCallable callback) { m_resizeCallback = SanitizeCallback(callback); }
         void setMouseMoveCallback       (mvCallable callback) { m_mouseMoveCallback = SanitizeCallback(callback); }
         void setOnCloseCallback         (mvCallable callback) { m_onCloseCallback = SanitizeCallback(callback); }
@@ -105,7 +104,6 @@ namespace Marvel {
         void setKeyPressCallback        (mvCallable callback) { m_keyPressCallback = SanitizeCallback(callback); }
         void setKeyReleaseCallback      (mvCallable callback) { m_keyReleaseCallback = SanitizeCallback(callback); }
 
-        [[nodiscard]] mvCallable getRenderCallback          (){ return m_renderCallback; }
         [[nodiscard]] mvCallable getResizeCallback          (){ return m_resizeCallback; }
         [[nodiscard]] mvCallable getMouseReleaseCallback    (){ return m_mouseReleaseCallback; }
         [[nodiscard]] mvCallable getMouseClickCallback      (){ return m_mouseClickCallback; }
@@ -131,7 +129,6 @@ namespace Marvel {
 
 		// input callbacks
 #ifdef MV_CPP
-		mvCallable m_renderCallback = []() {};
 		mvCallable m_mouseDownCallback = []() {};
 		mvCallable m_mouseClickCallback = []() {};
 		mvCallable m_mouseReleaseCallback = []() {};
@@ -148,7 +145,6 @@ namespace Marvel {
 		mvCallable m_acceleratorCallback = []() {}; // basically the same as the key press callback
 
 #else
-		mvCallable m_renderCallback = nullptr;
 		mvCallable m_mouseDownCallback = nullptr;
 		mvCallable m_mouseClickCallback = nullptr;
 		mvCallable m_mouseReleaseCallback = nullptr;

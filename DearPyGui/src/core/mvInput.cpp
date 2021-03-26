@@ -910,21 +910,6 @@ namespace Marvel {
 		return GetPyNone();
 	}
 
-	PyObject* set_render_callback(PyObject* self, PyObject* args, PyObject* kwargs)
-	{
-		PyObject* callback = nullptr;
-
-		if (!(mvApp::GetApp()->getParsers())["set_render_callback"].parse(args, kwargs, __FUNCTION__, &callback))
-			return GetPyNone();
-		if (callback)
-			Py_XINCREF(callback);
-		mvApp::GetApp()->getCallbackRegistry().submit([=]()
-			{
-				mvApp::GetApp()->getCallbackRegistry().setRenderCallback(callback);
-			});
-		return GetPyNone();
-	}
-
 	PyObject* set_resize_callback(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		PyObject* callback = nullptr;

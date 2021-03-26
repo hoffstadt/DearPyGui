@@ -33,7 +33,6 @@ namespace Marvel {
 			ADD_PYTHON_FUNCTION(setup_dearpygui)
 			ADD_PYTHON_FUNCTION(render_dearpygui_frame)
 			ADD_PYTHON_FUNCTION(cleanup_dearpygui)
-			ADD_PYTHON_FUNCTION(start_dearpygui)
 			ADD_PYTHON_FUNCTION(get_global_font_scale)
 			ADD_PYTHON_FUNCTION(set_global_font_scale)
 			ADD_PYTHON_FUNCTION(select_directory_dialog)
@@ -193,7 +192,6 @@ namespace Marvel {
 			ADD_PYTHON_FUNCTION(set_key_press_callback)
 			ADD_PYTHON_FUNCTION(set_key_release_callback)
 			ADD_PYTHON_FUNCTION(set_mouse_release_callback)
-			ADD_PYTHON_FUNCTION(set_render_callback)
 			ADD_PYTHON_FUNCTION(set_resize_callback)
 
 			// Node commands

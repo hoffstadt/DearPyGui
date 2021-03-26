@@ -119,20 +119,19 @@ namespace Marvel {
                         ThrowPythonException("Window does not exists.");
                     });
 		}
+	}
 
-        m_future = std::async(std::launch::async, [&]() {return m_callbackRegistry->runCallbacks(); });
-
-		m_viewport->run();
-
-        GetApp()->getCallbackRegistry().stop();
-#ifdef MV_CPP
-        GetApp()->getCallbackRegistry().addCallback([]() {}, "null", nullptr);
-#else
-        GetApp()->getCallbackRegistry().addCallback(nullptr, "null", nullptr);
-#endif // !MV_CPP
-
-        
-        m_future.get();
+	void mvApp::cleanup()
+	{
+		getCallbackRegistry().stop();
+		#ifdef MV_CPP
+		        getCallbackRegistry().addCallback([]() {}, "null", nullptr);
+		#else
+		        getCallbackRegistry().addCallback(nullptr, "null", nullptr);
+		#endif // !MV_CPP
+		
+		        
+		m_future.get();
 		delete m_viewport;
 		s_started = false;
 	}
@@ -558,13 +557,17 @@ namespace Marvel {
 	PyObject* setup_dearpygui(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		Py_BEGIN_ALLOW_THREADS;
+		mvLog::Init();
+
+		if (mvApp::IsAppStarted())
+		{
+			ThrowPythonException("Cannot call \"start_dearpygui\" while a Dear PyGUI app is already running.");
+			return GetPyNone();
+		}
+
 		mvApp::SetAppStarted();
 
-		// create window
-		auto window = mvWindow::CreatemvWindow(mvApp::GetApp()->getActualWidth(), mvApp::GetApp()->getActualHeight(), false);
-		window->show();
-		mvApp::GetApp()->setViewport(window);
-		window->setup();
+		mvApp::GetApp()->start("");
 		Py_END_ALLOW_THREADS;
 
 		return GetPyNone();
@@ -583,38 +586,12 @@ namespace Marvel {
 
 	PyObject* cleanup_dearpygui(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
-		auto window = mvApp::GetApp()->getViewport();
-		delete window;
-		mvApp::GetApp()->setViewport(nullptr);
 		Py_BEGIN_ALLOW_THREADS;
-		mvApp::SetAppStopped();
-		mvApp::DeleteApp();
-		Py_END_ALLOW_THREADS;
-
-		return GetPyNone();
-	}
-
-	PyObject* start_dearpygui(PyObject* self, PyObject* args, PyObject* kwargs)
-	{
-		const char* primary_window = "";
-		
-		mvLog::Init();
-
-		if (!(mvApp::GetApp()->getParsers())["start_dearpygui"].parse(args, kwargs, __FUNCTION__, &primary_window))
-			return GetPyNone();
-		if (mvApp::IsAppStarted())
-		{
-			ThrowPythonException("Cannot call \"start_dearpygui\" while a Dear PyGUI app is already running.");
-			return GetPyNone();
-		}
-
-		Py_BEGIN_ALLOW_THREADS;
-		mvApp::GetApp()->start(primary_window);
-		Py_END_ALLOW_THREADS;
-
+		mvApp::GetApp()->cleanup();
 		mvApp::DeleteApp();
 		mvEventBus::Reset();
 		mvAppLog::Clear();
+		Py_END_ALLOW_THREADS;
 
 		return GetPyNone();
 	}
