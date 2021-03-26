@@ -12,7 +12,6 @@
 ![Python Version](https://img.shields.io/pypi/pyversions/dearpygui)
 [![PYPI](https://img.shields.io/pypi/v/dearpygui)](https://pypi.org/project/dearpygui/)
 [![Downloads](https://pepy.tech/badge/dearpygui)](https://pepy.tech/project/dearpygui)
-[![Sponsors](https://img.shields.io/badge/sponsors-27-brightgreen)](https://img.shields.io/badge/sponsors-27-brightgreen)
 
 [![build status](https://github.com/hoffstadt/DearPyGui/workflows/Embedded%20Build/badge.svg?branch=master)](https://github.com/hoffstadt/DearPyGui/actions?workflow=Embedded%20Build)
 [![static-analysis](https://github.com/hoffstadt/DearPyGui/workflows/static-analysis/badge.svg?branch=master)](https://github.com/hoffstadt/DearPyGui/actions?workflow=static-analysis)
@@ -56,6 +55,9 @@ Ensure you have at least Python 3.6 64bit.
 ### Resources
 
  ---
+ 
+ [![Chat on Discord](https://img.shields.io/discord/736279277242417272?logo=discord)](https://discord.gg/tyE7Gu4)
+[![Reddit](https://img.shields.io/reddit/subreddit-subscribers/dearpygui?label=r%2Fdearpygui)](https://www.reddit.com/r/DearPyGui/)
  
 - [Documentation](https://github.com/hoffstadt/DearPyGui/wiki) comprehensive documentaion, tutorials, and examples.
 - [Development Roadmap](https://github.com/hoffstadt/DearPyGui/projects/4) major future features and changes.
@@ -141,6 +143,9 @@ If you are having issues or want to help, here are some places you can go:
 ### Sponsors
 
 ---
+
+![GitHub Sponsors](https://img.shields.io/github/sponsors/hoffstadt?label=Github%20Sponsors)
+![Open Collective](https://img.shields.io/opencollective/sponsors/dearpygui?label=Open%20Collective%20Sponsors)
 
  If you enjoy _Dear PyGui_ please consider becoming a [sponsor](https://github.com/hoffstadt/DearPyGui/wiki/Sponsors).
 
