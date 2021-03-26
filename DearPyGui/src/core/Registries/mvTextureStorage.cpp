@@ -2,6 +2,7 @@
 #include "mvUtilities.h"
 #include <imgui.h>
 #include "mvApp.h"
+#include "implot.h"
 
 namespace Marvel {
 
@@ -45,6 +46,8 @@ namespace Marvel {
 		if (GetEInt(event, "FRAME") != 1)
 			return false;
 
+		addTexture("INTERNAL_DPG_FONT_ATLAS");
+
 		for (auto& item : m_delayedTextures)
 		{
 			if (item.width > 0u)
@@ -56,6 +59,63 @@ namespace Marvel {
 		m_delayedTextures.clear();
 		
 		return false;
+	}
+
+	void mvTextureStorage::show_debugger()
+	{
+		ImGui::SetNextWindowSize(ImVec2(500, 500), ImGuiCond_FirstUseEver);
+		if (ImGui::Begin("Texture Storage"))
+		{
+
+			static std::string selection = "INTERNAL_DPG_FONT_ATLAS";
+			ImGui::Text("Textures");
+
+			ImGui::BeginChild("##TextureStorageChild", ImVec2(300, 0), true, ImGuiWindowFlags_AlwaysVerticalScrollbar);
+
+			for (auto& texture : m_textures)
+			{
+				bool status = false;
+				ImGui::Image(texture.second.texture, ImVec2(25, 25));
+				ImGui::SameLine();
+				if (ImGui::Selectable(texture.first.c_str(), &status))
+					selection = texture.first;
+				
+				
+			}
+			ImGui::EndChild();
+
+			ImGui::SameLine();
+
+			ImGui::BeginGroup();
+
+			if (!selection.empty())
+			{
+				
+				ImGui::BeginGroup();
+				ImGui::Text("Width: %d", m_textures[selection].width);
+				ImGui::Text("Height: %d", m_textures[selection].height);
+				ImGui::Text("Ref Count: %d", m_textures[selection].count);
+				ImGui::EndGroup();
+
+				ImGui::SameLine();
+
+				ImGui::Image(m_textures[selection].texture, ImVec2(m_textures[selection].width, m_textures[selection].height));
+
+				ImPlot::PushStyleColor(ImPlotCol_FrameBg, ImVec4(0.0f, 0.0f, 0.0f, 0.0f));
+				if (ImPlot::BeginPlot("##texture plot", 0, 0, ImVec2(-1, -1), 
+					ImPlotFlags_NoTitle | ImPlotFlags_NoLegend | ImPlotFlags_NoMenus | ImPlotFlags_Equal))
+				{
+					ImPlot::PlotImage(selection.c_str(), m_textures[selection].texture, ImPlotPoint(0.0, 0.0), 
+						ImPlotPoint(m_textures[selection].width, m_textures[selection].height));
+					ImPlot::EndPlot();
+				}
+				ImPlot::PopStyleColor();
+
+			}
+			ImGui::EndGroup();
+
+			ImGui::End();
+		}
 	}
 
 	bool mvTextureStorage::onDecrement(mvEvent& event)
@@ -130,7 +190,8 @@ namespace Marvel {
 		if (m_textures.count(name) == 0)
 			return;
 
-		m_textures.at(name).count++;
+		if (name != "INTERNAL_DPG_FONT_ATLAS")
+			m_textures.at(name).count++;
 
 	}
 
@@ -140,10 +201,11 @@ namespace Marvel {
 		if (m_textures.count(name) == 0)
 			return;
 
-		m_textures.at(name).count--;
+		if(name != "INTERNAL_DPG_FONT_ATLAS")
+			m_textures.at(name).count--;
 
 		// remove if count reaches 0
-		if (m_textures.at(name).count == 0 && name != "INTERNAL_DPG_FONT_ATLAS")
+		if (m_textures.at(name).count == 0)
 		{
 			UnloadTexture(name);
 			FreeTexture(m_textures.at(name));
