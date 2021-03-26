@@ -677,6 +677,9 @@ namespace Marvel {
 			{
 				switch (series->m_axis)
 				{
+				case ImPlotYAxis_1:
+					ImPlot::SetPlotYAxis(ImPlotYAxis_1);
+					break;
 				case ImPlotYAxis_2:
 					ImPlot::SetPlotYAxis(ImPlotYAxis_2);
 					break;

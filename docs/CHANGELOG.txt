@@ -29,6 +29,9 @@ HOW TO UPDATE?
 Updates:
 - tab_bar: "set_value" can now programmatically set the active tab #729
 
+Fixes:
+- add_series: fixed axis 1 not being reset when plotting to different axes #744
+
 ------------------------------------------------------------------------
  VERSION 0.6.294
 ------------------------------------------------------------------------
