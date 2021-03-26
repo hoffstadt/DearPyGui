@@ -56,25 +56,20 @@ namespace Marvel {
         if (ImGui::InputInt(m_label.c_str(), m_value, m_step, m_step_fast, m_flags))
         {
             // determines clamped cases
-            //if the value is aboved a clamped value we will do like drag and slider and not run the callback
             if (m_min_clamped && m_max_clamped)
             {
                 if (m_value[0] < m_min) m_value[0] = m_min;
                 else if (m_value[0] > m_max) m_value[0] = m_max;
-                else mvApp::GetApp()->getCallbackRegistry().addCallback(m_callback, m_name, m_callbackData);
             }
             else if (m_min_clamped)
             {
                 if (m_value[0] < m_min) m_value[0] = m_min;
-                else mvApp::GetApp()->getCallbackRegistry().addCallback(m_callback, m_name, m_callbackData);
             }
             else if (m_max_clamped)
             {
                 if (m_value[0] > m_max) m_value[0] = m_max;
-                else mvApp::GetApp()->getCallbackRegistry().addCallback(m_callback, m_name, m_callbackData);
             }
-            else
-                mvApp::GetApp()->getCallbackRegistry().addCallback(m_callback, m_name, m_callbackData);
+            mvApp::GetApp()->getCallbackRegistry().addCallback(m_callback, m_name, m_callbackData);
         }
 
     }
@@ -158,14 +153,12 @@ namespace Marvel {
         if (ImGui::InputInt2(m_label.c_str(), m_value, m_flags))
         {
             // determines clamped cases
-            //if the value is aboved a clamped value we will do like drag and slider and not run the callback
             if (m_min_clamped && m_max_clamped)
             {
                 for (int i = 0; i < 2; i++)
                 {
                     if (m_value[i] < m_min) m_value[i] = m_min;
                     else if (m_value[i] > m_max) m_value[i] = m_max;
-                    else mvApp::GetApp()->getCallbackRegistry().addCallback(m_callback, m_name, m_callbackData);
                 }
             }
             else if (m_min_clamped)
@@ -173,7 +166,6 @@ namespace Marvel {
                 for (int i = 0 ; i < 2 ; i++)
                 {
                     if (m_value[i] < m_min) m_value[i] = m_min;
-                    else mvApp::GetApp()->getCallbackRegistry().addCallback(m_callback, m_name, m_callbackData);
                 }
             }
             else if (m_max_clamped)
@@ -181,11 +173,9 @@ namespace Marvel {
                 for (int i = 0; i < 2; i++)
                 {
                     if (m_value[i] > m_max) m_value[i] = m_max;
-                    else mvApp::GetApp()->getCallbackRegistry().addCallback(m_callback, m_name, m_callbackData);
                 }
             }
-            else
-                mvApp::GetApp()->getCallbackRegistry().addCallback(m_callback, m_name, m_callbackData);
+            mvApp::GetApp()->getCallbackRegistry().addCallback(m_callback, m_name, m_callbackData);
         }
     }
 
@@ -263,14 +253,12 @@ namespace Marvel {
         if (ImGui::InputInt3(m_label.c_str(), m_value, m_flags))
         {
             // determines clamped cases
-            //if the value is aboved a clamped value we will do like drag and slider and not run the callback
             if (m_min_clamped && m_max_clamped)
             {
                 for (int i = 0; i < 3; i++)
                 {
                     if (m_value[i] < m_min) m_value[i] = m_min;
                     else if (m_value[i] > m_max) m_value[i] = m_max;
-                    else mvApp::GetApp()->getCallbackRegistry().addCallback(m_callback, m_name, m_callbackData);
                 }
             }
             else if (m_min_clamped)
@@ -278,7 +266,6 @@ namespace Marvel {
                 for (int i = 0; i < 3; i++)
                 {
                     if (m_value[i] < m_min) m_value[i] = m_min;
-                    else mvApp::GetApp()->getCallbackRegistry().addCallback(m_callback, m_name, m_callbackData);
                 }
             }
             else if (m_max_clamped)
@@ -286,11 +273,9 @@ namespace Marvel {
                 for (int i = 0; i < 3; i++)
                 {
                     if (m_value[i] > m_max) m_value[i] = m_max;
-                    else mvApp::GetApp()->getCallbackRegistry().addCallback(m_callback, m_name, m_callbackData);
                 }
             }
-            else
-                mvApp::GetApp()->getCallbackRegistry().addCallback(m_callback, m_name, m_callbackData);
+            mvApp::GetApp()->getCallbackRegistry().addCallback(m_callback, m_name, m_callbackData);
         }
     }
 
@@ -368,14 +353,12 @@ namespace Marvel {
         if (ImGui::InputInt4(m_label.c_str(), m_value, m_flags))
         {
             // determines clamped cases
-            //if the value is aboved a clamped value we will do like drag and slider and not run the callback
             if (m_min_clamped && m_max_clamped)
             {
                 for (int i = 0; i < 4; i++)
                 {
                     if (m_value[i] < m_min) m_value[i] = m_min;
                     else if (m_value[i] > m_max) m_value[i] = m_max;
-                    else mvApp::GetApp()->getCallbackRegistry().addCallback(m_callback, m_name, m_callbackData);
                 }
             }
             else if (m_min_clamped)
@@ -383,7 +366,6 @@ namespace Marvel {
                 for (int i = 0; i < 4; i++)
                 {
                     if (m_value[i] < m_min) m_value[i] = m_min;
-                    else mvApp::GetApp()->getCallbackRegistry().addCallback(m_callback, m_name, m_callbackData);
                 }
             }
             else if (m_max_clamped)
@@ -391,11 +373,9 @@ namespace Marvel {
                 for (int i = 0; i < 4; i++)
                 {
                     if (m_value[i] > m_max) m_value[i] = m_max;
-                    else mvApp::GetApp()->getCallbackRegistry().addCallback(m_callback, m_name, m_callbackData);
                 }
             }
-            else
-                mvApp::GetApp()->getCallbackRegistry().addCallback(m_callback, m_name, m_callbackData);
+            mvApp::GetApp()->getCallbackRegistry().addCallback(m_callback, m_name, m_callbackData);
         }
     }
 
@@ -473,25 +453,20 @@ namespace Marvel {
         if (ImGui::InputFloat(m_label.c_str(), m_value, m_step, m_step_fast, m_format.c_str(), m_flags))
         {
             // determines clamped cases
-            //if the value is aboved a clamped value we will do like drag and slider and not run the callback
             if (m_min_clamped && m_max_clamped)
             {
                 if (m_value[0] < m_min) m_value[0] = m_min;
                 else if (m_value[0] > m_max) m_value[0] = m_max;
-                else mvApp::GetApp()->getCallbackRegistry().addCallback(m_callback, m_name, m_callbackData);
             }
             else if (m_min_clamped)
             {
                 if (m_value[0] < m_min) m_value[0] = m_min;
-                else mvApp::GetApp()->getCallbackRegistry().addCallback(m_callback, m_name, m_callbackData);
             }
             else if (m_max_clamped)
             {
                 if (m_value[0] > m_max) m_value[0] = m_max;
-                else mvApp::GetApp()->getCallbackRegistry().addCallback(m_callback, m_name, m_callbackData);
             }
-            else
-                mvApp::GetApp()->getCallbackRegistry().addCallback(m_callback, m_name, m_callbackData);
+            mvApp::GetApp()->getCallbackRegistry().addCallback(m_callback, m_name, m_callbackData);
         }
     }
 
@@ -593,14 +568,12 @@ namespace Marvel {
         if (ImGui::InputFloat2(m_label.c_str(), m_value, m_format.c_str(), m_flags))
         {
             // determines clamped cases
-            //if the value is aboved a clamped value we will do like drag and slider and not run the callback
             if (m_min_clamped && m_max_clamped)
             {
                 for (int i = 0; i < 2; i++)
                 {
                     if (m_value[i] < m_min) m_value[i] = m_min;
                     else if (m_value[i] > m_max) m_value[i] = m_max;
-                    else mvApp::GetApp()->getCallbackRegistry().addCallback(m_callback, m_name, m_callbackData);
                 }
             }
             else if (m_min_clamped)
@@ -608,7 +581,6 @@ namespace Marvel {
                 for (int i = 0; i < 2; i++)
                 {
                     if (m_value[i] < m_min) m_value[i] = m_min;
-                    else mvApp::GetApp()->getCallbackRegistry().addCallback(m_callback, m_name, m_callbackData);
                 }
             }
             else if (m_max_clamped)
@@ -616,11 +588,9 @@ namespace Marvel {
                 for (int i = 0; i < 2; i++)
                 {
                     if (m_value[i] > m_max) m_value[i] = m_max;
-                    else mvApp::GetApp()->getCallbackRegistry().addCallback(m_callback, m_name, m_callbackData);
                 }
             }
-            else
-                mvApp::GetApp()->getCallbackRegistry().addCallback(m_callback, m_name, m_callbackData);
+            mvApp::GetApp()->getCallbackRegistry().addCallback(m_callback, m_name, m_callbackData);
         }
     }
 
@@ -718,14 +688,12 @@ namespace Marvel {
         if (ImGui::InputFloat3(m_label.c_str(), m_value, m_format.c_str(), m_flags))
         {
             // determines clamped cases
-            //if the value is aboved a clamped value we will do like drag and slider and not run the callback
             if (m_min_clamped && m_max_clamped)
             {
                 for (int i = 0; i < 3; i++)
                 {
                     if (m_value[i] < m_min) m_value[i] = m_min;
                     else if (m_value[i] > m_max) m_value[i] = m_max;
-                    else mvApp::GetApp()->getCallbackRegistry().addCallback(m_callback, m_name, m_callbackData);
                 }
             }
             else if (m_min_clamped)
@@ -733,7 +701,6 @@ namespace Marvel {
                 for (int i = 0; i < 3; i++)
                 {
                     if (m_value[i] < m_min) m_value[i] = m_min;
-                    else mvApp::GetApp()->getCallbackRegistry().addCallback(m_callback, m_name, m_callbackData);
                 }
             }
             else if (m_max_clamped)
@@ -741,11 +708,9 @@ namespace Marvel {
                 for (int i = 0; i < 3; i++)
                 {
                     if (m_value[i] > m_max) m_value[i] = m_max;
-                    else mvApp::GetApp()->getCallbackRegistry().addCallback(m_callback, m_name, m_callbackData);
                 }
             }
-            else
-                mvApp::GetApp()->getCallbackRegistry().addCallback(m_callback, m_name, m_callbackData);
+            mvApp::GetApp()->getCallbackRegistry().addCallback(m_callback, m_name, m_callbackData);
         }
     }
 
@@ -843,14 +808,12 @@ namespace Marvel {
         if (ImGui::InputFloat4(m_label.c_str(), m_value, m_format.c_str(), m_flags))
         {
             // determines clamped cases
-            //if the value is aboved a clamped value we will do like drag and slider and not run the callback
             if (m_min_clamped && m_max_clamped)
             {
                 for (int i = 0; i < 4; i++)
                 {
                     if (m_value[i] < m_min) m_value[i] = m_min;
                     else if (m_value[i] > m_max) m_value[i] = m_max;
-                    else mvApp::GetApp()->getCallbackRegistry().addCallback(m_callback, m_name, m_callbackData);
                 }
             }
             else if (m_min_clamped)
@@ -858,7 +821,6 @@ namespace Marvel {
                 for (int i = 0; i < 4; i++)
                 {
                     if (m_value[i] < m_min) m_value[i] = m_min;
-                    else mvApp::GetApp()->getCallbackRegistry().addCallback(m_callback, m_name, m_callbackData);
                 }
             }
             else if (m_max_clamped)
@@ -866,11 +828,9 @@ namespace Marvel {
                 for (int i = 0; i < 4; i++)
                 {
                     if (m_value[i] > m_max) m_value[i] = m_max;
-                    else mvApp::GetApp()->getCallbackRegistry().addCallback(m_callback, m_name, m_callbackData);
                 }
             }
-            else
-                mvApp::GetApp()->getCallbackRegistry().addCallback(m_callback, m_name, m_callbackData);
+            mvApp::GetApp()->getCallbackRegistry().addCallback(m_callback, m_name, m_callbackData);
         }
     }
 
