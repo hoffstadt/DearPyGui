@@ -57,9 +57,6 @@ namespace Marvel {
 		MV_PROFILE_FUNCTION()
 
 		runTasks();
-
-		if(m_renderCallback)
-			addCallback(m_renderCallback, "Main Application", nullptr);
 		
 		return false;
 	}

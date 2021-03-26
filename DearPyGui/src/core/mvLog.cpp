@@ -11,6 +11,7 @@ namespace Marvel {
 		spdlog::set_pattern("%^[%T] %t %n:%$ %v");
 		GetCoreLogger()->set_level(spdlog::level::trace);
 		GetEventLogger()->set_level(spdlog::level::info);
+		GetItemRegistryLogger()->set_level(spdlog::level::info);
 #endif // MV_LOG
 	}
 
@@ -32,6 +33,12 @@ namespace Marvel {
 	std::shared_ptr<spdlog::logger>& mvLog::GetEventLogger()
 	{
 		static auto eventLogger = spdlog::create_async<spdlog::sinks::stdout_color_sink_mt>("[EVENT]");
+		return eventLogger;
+	}
+
+	std::shared_ptr<spdlog::logger>& mvLog::GetItemRegistryLogger()
+	{
+		static auto eventLogger = spdlog::create_async<spdlog::sinks::stdout_color_sink_mt>("[ITEM REGISTRY]");
 		return eventLogger;
 	}
 #endif // MV_LOG

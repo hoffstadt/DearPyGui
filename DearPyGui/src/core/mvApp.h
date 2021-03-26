@@ -37,7 +37,6 @@ namespace Marvel {
 
     // app
 	PyObject* is_dearpygui_running     (PyObject* self, PyObject* args, PyObject* kwargs);
-	PyObject* start_dearpygui          (PyObject* self, PyObject* args, PyObject* kwargs);
 	PyObject* stop_dearpygui           (PyObject* self, PyObject* args, PyObject* kwargs);
 	PyObject* set_start_callback       (PyObject* self, PyObject* args, PyObject* kwargs);
 	PyObject* set_exit_callback        (PyObject* self, PyObject* args, PyObject* kwargs);
@@ -115,6 +114,7 @@ namespace Marvel {
         static void              StopApp             () { s_started = false; } // ugly
 
         void start(const std::string& primaryWindow);
+        void cleanup();
 
         ~mvApp() override;
 
@@ -127,7 +127,7 @@ namespace Marvel {
         //-----------------------------------------------------------------------------
         // Rendering
         //-----------------------------------------------------------------------------
-        void                     render          (); // actual render loop
+        void                     render          (); // actual render loop          
 
         //-----------------------------------------------------------------------------
         // Managers

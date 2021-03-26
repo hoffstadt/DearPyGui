@@ -25,7 +25,7 @@ def hsv_to_rgb(h: float, s: float, v: float) -> (float, float, float):
     if i == 4: return (255*t, 255*p, 255*v)
     if i == 5: return (255*v, 255*p, 255*q)
 
-def demo_main_callback(sender, data):
+def demo_main_callback():
 
     set_value("Mouse Position##demo", str(get_mouse_pos()))
     set_value("Drawing Mouse Position##demo", str(get_drawing_mouse_pos()))
@@ -157,7 +157,6 @@ def show_demo():
 
     
     # the render callback is a function that runs every frame
-    set_render_callback(demo_main_callback)
 
     #set_accelerator_callback(demo_accelerator_callback)
 

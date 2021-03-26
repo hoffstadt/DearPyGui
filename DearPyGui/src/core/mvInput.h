@@ -55,7 +55,6 @@ namespace Marvel {
 	PyObject* set_key_release_callback       (PyObject* self, PyObject* args, PyObject* kwargs);
 
 	// app callbacks
-	PyObject* set_render_callback            (PyObject* self, PyObject* args, PyObject* kwargs);
 	PyObject* set_resize_callback            (PyObject* self, PyObject* args, PyObject* kwargs);
 #endif
 
