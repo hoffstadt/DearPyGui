@@ -595,55 +595,41 @@ namespace Marvel {
 
 	void mvTable::draw()
 	{
-		mvImGuiThemeScope scope(this);
+		//mvImGuiThemeScope scope(this);
 
-		ImGui::BeginChild(m_core_config.name.c_str(), ImVec2((float)m_core_config.width, (float)m_core_config.height));
-		ImGui::Separator();
-		if(m_columns > 0)
-			ImGui::Columns((int)m_columns, nullptr, true);
-		
-		if (!m_hide_headers) {
-			for (auto& header : m_headers)
-			{
-				ImGui::Text("%s", header.c_str());
-				ImGui::NextColumn();
-			}
-			ImGui::Separator();
-		}
-
-		ImVec4 alt_color = ImVec4(ImGui::GetStyleColorVec4(ImGuiCol_Header));
-		alt_color.w = 0.10f;
-		auto ralt_col = IM_COL32(alt_color.x * 255.0f, alt_color.y * 255.0f, alt_color.z * 255.0f, alt_color.w * 255.0f);
-
-		int index = 0;
-		for (size_t i = 0; i < m_hashValues.size(); i++)
+		if (ImGui::BeginTable(m_core_config.name.c_str(), m_columns, 
+			ImGuiTableFlags_Hideable | ImGuiTableFlags_Resizable | ImGuiTableFlags_RowBg | ImGuiTableFlags_Borders))
 		{
-
-			for (size_t j = 0; j < m_columns; j++)
+			if (!m_hide_headers)
 			{
-				if (i % 2 == 0)
-				{
-					ImVec2 p_min = ImGui::GetCursorScreenPos();
-					p_min.x = p_min.x - ImGui::GetStyle().ItemSpacing.x;
-					p_min.y = p_min.y - ImGui::GetStyle().FramePadding.y;
-					ImVec2 p_max = ImVec2(p_min.x + ImGui::GetWindowContentRegionWidth(), p_min.y + ImGui::GetFrameHeight());
-					ImGui::GetWindowDrawList()->AddRectFilled(p_min, p_max, ralt_col);
-				}
-
-				if (ImGui::Selectable(m_hashValues[i][j].c_str(), m_selections[{i, j}]))
-				{
-					m_selections[{i, j}] = !m_selections[{i, j}];
-					mvApp::GetApp()->getCallbackRegistry().addCallback(m_core_config.callback, m_core_config.name, m_core_config.callback_data);
-				}
-				ImGui::NextColumn();
-				index++;
+				for (auto& header : m_headers)
+					ImGui::TableSetupColumn(header.c_str());
+				ImGui::TableHeadersRow();
+				ImGui::TableNextColumn();
 			}
 
+			int index = 0;
+			for (size_t i = 0; i < m_hashValues.size(); i++)
+			{
+
+				for (size_t j = 0; j < m_columns; j++)
+				{
+
+					if (ImGui::Selectable(m_hashValues[i][j].c_str(), m_selections[{i, j}]))
+					{
+						m_selections[{i, j}] = !m_selections[{i, j}];
+						mvApp::GetApp()->getCallbackRegistry().addCallback(m_core_config.callback, m_core_config.name, m_core_config.callback_data);
+					}
+					ImGui::TableNextColumn();
+					index++;
+				}
+
+			}
+
+			ImGui::EndTable();
 		}
 
-		ImGui::Columns(1);
-		ImGui::Separator();
-		ImGui::EndChild();
+
 	}
 
 #ifdef MV_CPP
