@@ -31,6 +31,7 @@ Updates:
 
 Fixes:
 - add_series: fixed axis 1 not being reset when plotting to different axes #744
+- add_input_*: fixed multiple ran callback when using min/max values
 
 ------------------------------------------------------------------------
  VERSION 0.6.294
