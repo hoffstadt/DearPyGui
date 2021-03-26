@@ -96,25 +96,62 @@ namespace Marvel {
 
 		MV_APPITEM_TYPE(mvAppItemType::mvPlot, "add_plot")
 
-		MV_CREATE_THEME_CONSTANT(mvThemeCol_Plot_FrameBg,       5L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvThemeCol_Plot_PlotBg,        6L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvThemeCol_Plot_PlotBorder,    7L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvThemeCol_Plot_LegendBg,      8L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvThemeCol_Plot_LegendBorder,  9L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvThemeCol_Plot_LegendText,   10L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvThemeCol_Plot_TitleText,    11L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvThemeCol_Plot_InlayText,    12L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvThemeCol_Plot_XAxis,        13L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvThemeCol_Plot_XAxisGrid,    14L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvThemeCol_Plot_YAxis,        15L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvThemeCol_Plot_YAxisGrid,    16L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvThemeCol_Plot_YAxis2,       17L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvThemeCol_Plot_YAxisGrid2,   18L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvThemeCol_Plot_YAxis3,       19L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvThemeCol_Plot_YAxisGrid3,   20L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvThemeCol_Plot_Selection,    21L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvThemeCol_Plot_Query,        22L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvThemeCol_Plot_Crosshairs,   23L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeCol_Plot_FrameBg,					 5L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeCol_Plot_PlotBg,					 6L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeCol_Plot_PlotBorder,				 7L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeCol_Plot_LegendBg,					 8L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeCol_Plot_LegendBorder,				 9L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeCol_Plot_LegendText,				10L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeCol_Plot_TitleText,					11L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeCol_Plot_InlayText,					12L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeCol_Plot_XAxis,						13L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeCol_Plot_XAxisGrid,					14L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeCol_Plot_YAxis,						15L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeCol_Plot_YAxisGrid,					16L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeCol_Plot_YAxis2,					17L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeCol_Plot_YAxisGrid2,				18L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeCol_Plot_YAxis3,					19L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeCol_Plot_YAxisGrid3,				20L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeCol_Plot_Selection,					21L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeCol_Plot_Query,						22L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeCol_Plot_Crosshairs,				23L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeStyle_Plot_FillAlpha,				 4L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeStyle_Plot_ErrorBarSize,			 5L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeStyle_Plot_ErrorBarWeight,			 6L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeStyle_Plot_BorderSize,				 9L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeStyle_Plot_MinorAlpha,				10L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeStyle_Plot_MajorTickLenX,			11L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeStyle_Plot_MajorTickLenY,			11L, 1L);
+		MV_CREATE_THEME_CONSTANT(mvThemeStyle_Plot_MinorTickLenX,			12L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeStyle_Plot_MinorTickLenY,			12L, 1L);
+		MV_CREATE_THEME_CONSTANT(mvThemeStyle_Plot_MajorTickSizeX,			13L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeStyle_Plot_MajorTickSizeY,			13L, 1L);
+		MV_CREATE_THEME_CONSTANT(mvThemeStyle_Plot_MinorTickSizeX,			14L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeStyle_Plot_MinorTickSizeY,			14L, 1L);
+		MV_CREATE_THEME_CONSTANT(mvThemeStyle_Plot_MajorGridSizeX,			15L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeStyle_Plot_MajorGridSizeY,			15L, 1L);
+		MV_CREATE_THEME_CONSTANT(mvThemeStyle_Plot_MinorGridSizeX,			16L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeStyle_Plot_MinorGridSizeY,			16L, 1L);
+		MV_CREATE_THEME_CONSTANT(mvThemeStyle_Plot_PlotPaddingX,			17L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeStyle_Plot_PlotPaddingY,			17L, 1L);
+		MV_CREATE_THEME_CONSTANT(mvThemeStyle_Plot_LabelPaddingX,			18L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeStyle_Plot_LabelPaddingY,			18L, 1L);
+		MV_CREATE_THEME_CONSTANT(mvThemeStyle_Plot_LegendPaddingX,			19L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeStyle_Plot_LegendPaddingY,			19L, 1L);
+		MV_CREATE_THEME_CONSTANT(mvThemeStyle_Plot_LegendInnerPaddingX,		20L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeStyle_Plot_LegendInnerPaddingY,		20L, 1L);
+		MV_CREATE_THEME_CONSTANT(mvThemeStyle_Plot_LegendSpacingX,			21L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeStyle_Plot_LegendSpacingY,			21L, 1L);
+		MV_CREATE_THEME_CONSTANT(mvThemeStyle_Plot_MousePosPaddingX,		22L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeStyle_Plot_MousePosPaddingY,		22L, 1L);
+		MV_CREATE_THEME_CONSTANT(mvThemeStyle_Plot_AnnotationPaddingX,		23L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeStyle_Plot_AnnotationPaddingY,		23L, 1L);
+		MV_CREATE_THEME_CONSTANT(mvThemeStyle_Plot_FitPaddingX,				24L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeStyle_Plot_FitPaddingY,				24L, 1L);
+		MV_CREATE_THEME_CONSTANT(mvThemeStyle_Plot_PlotDefaultSizeX,		25L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeStyle_Plot_PlotDefaultSizeY,		25L, 1L);
+		MV_CREATE_THEME_CONSTANT(mvThemeStyle_Plot_PlotMinSizeX,			26L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeStyle_Plot_PlotMinSizeY,			26L, 1L);
 
 		MV_START_COLOR_CONSTANTS
 			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Plot_FrameBg,      mvColor(255, 255, 255,  18)),
@@ -139,6 +176,43 @@ namespace Marvel {
 		MV_END_COLOR_CONSTANTS
 
 		MV_START_STYLE_CONSTANTS
+			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_Plot_FillAlpha,			   1,   1),
+			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_Plot_ErrorBarSize,		   5,  10),
+			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_Plot_ErrorBarWeight,		 1.5,  10),
+			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_Plot_BorderSize,			   1,  10),
+			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_Plot_MinorAlpha,			0.25,   1),
+			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_Plot_MajorTickLenX,		  10,  20),
+			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_Plot_MajorTickLenY,		  10,  20),
+			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_Plot_MinorTickLenX,		   5,  10),
+			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_Plot_MinorTickLenY,		   5,  10),
+			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_Plot_MajorTickSizeX,		   1,  10),
+			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_Plot_MajorTickSizeY,		   1,  10),
+			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_Plot_MinorTickSizeX,		   1,  10),
+			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_Plot_MinorTickSizeY,		   1,  10),
+			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_Plot_MajorGridSizeX,		   1,  10),
+			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_Plot_MajorGridSizeY,		   1,  10),
+			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_Plot_MinorGridSizeX,		   1,  10),
+			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_Plot_MinorGridSizeY,		   1,  10),
+			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_Plot_PlotPaddingX,		  10,  10),
+			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_Plot_PlotPaddingY,		  10,  10),
+			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_Plot_LabelPaddingX,		   5,  10),
+			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_Plot_LabelPaddingY,		   5,  10),
+			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_Plot_LegendPaddingX,		  10,  20),
+			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_Plot_LegendPaddingY,		  10,  20),
+			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_Plot_LegendInnerPaddingX,	   5,  10),
+			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_Plot_LegendInnerPaddingY,	   5,  10),
+			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_Plot_LegendSpacingX,		   5,  10),
+			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_Plot_LegendSpacingY,		   0,  10),
+			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_Plot_MousePosPaddingX,	  10,  20),
+			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_Plot_MousePosPaddingY,	  10,  20),
+			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_Plot_AnnotationPaddingX,	   2,   4),
+			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_Plot_AnnotationPaddingY,	   2,   4),
+			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_Plot_FitPaddingX,			   0,   1),
+			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_Plot_FitPaddingY,			   0,   1),
+			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_Plot_PlotDefaultSizeX,	 400, 800),
+			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_Plot_PlotDefaultSizeY,	 300, 600),
+			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_Plot_PlotMinSizeX,		 300, 600),
+			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_Plot_PlotMinSizeY,		 255, 510),
 		MV_END_STYLE_CONSTANTS
 
 		mvPlot(const std::string& name, mvCallable queryCallback);
