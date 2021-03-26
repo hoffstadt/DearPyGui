@@ -91,6 +91,9 @@ namespace Marvel {
 		unsigned   getTextureCount  ();
 		void       deleteAllTextures();
 
+		// new debugger window
+		void show_debugger();
+
 	private:
 		
 		std::unordered_map<std::string, mvTexture> m_textures;

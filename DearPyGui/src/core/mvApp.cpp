@@ -237,6 +237,8 @@ namespace Marvel {
 		// route input callbacks
 		mvInput::CheckInputs();
 
+		m_textureStorage->show_debugger();
+
         std::lock_guard<std::mutex> lk(m_mutex);
 		mvEventBus::Publish(mvEVT_CATEGORY_APP, mvEVT_PRE_RENDER);
 		mvEventBus::Publish(mvEVT_CATEGORY_APP, mvEVT_PRE_RENDER_RESET);
