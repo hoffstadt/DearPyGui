@@ -44,7 +44,7 @@
 #include "custom/mvTimePicker.h"
 #include "custom/mvDatePicker.h"
 
-#include "composite/mvTable.h"
+#include "composite/mvDataGrid.h"
 #include "composite/mvLogger.h"
 #include "composite/mvAboutWindow.h"
 #include "composite/mvDocWindow.h"

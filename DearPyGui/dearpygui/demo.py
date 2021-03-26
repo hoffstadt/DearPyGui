@@ -749,37 +749,40 @@ def show_demo():
             with tree_node("Basic##columns##demo"):
                 add_text("This uses managed columns (add_managed_columns)")
                 add_text("Without border:")
-                add_separator()
                 with managed_columns("columns1##demo", 3, border=False):
                     for i in range(0, 14):
                         add_selectable(f"Item {i}##columns1##demo")
-                add_separator()
+                        add_next_column()
 
                 add_text("With border:")
-                add_separator()
                 with managed_columns("columns2##demo", 4):
-                    add_text("ID")
-                    add_text("Name")
-                    add_text("Path")
-                    with group("Just to get separator in the same cell##demo"):
-                        add_text("Hovered")
-                        add_separator()
-
+ 
                     add_selectable("0000##demo", span_columns=False)
+                    add_next_column()
                     add_text("One")
+                    add_next_column()
                     add_text("/path/one")
+                    add_next_column()
                     add_text("0")
+                    add_next_column()
 
                     add_selectable("0001##demo", span_columns=True)
+                    add_next_column()
                     add_text("Two")
+                    add_next_column()
                     add_text("/path/two")
+                    add_next_column()
                     add_text("0")
+                    add_next_column()
 
                     add_selectable("0003##demo", span_columns=True)
+                    add_next_column()
                     add_text("Three")
+                    add_next_column()
                     add_text("/path/three")
+                    add_next_column()
                     add_text("0")
-                add_separator()
+ 
 
             with tree_node("Borders##columns##demo"):
 
@@ -788,52 +791,13 @@ def show_demo():
 
                     def replicated_cell(i):
                         with group(f"replicated_group##{i}##demo"):
-                            if i % 4 == 0:
-                                add_separator()
                             add_text(f"aaa##{i}")
                             add_input_text(f"##inputcolumns{i}")
                             add_button(f"Button##repl{i}##demo")
 
                     for i in range(0, 12):
                         replicated_cell(i)
-                add_separator()
-
-            with tree_node("Mixed items##columns##demo"):
-                add_text("This uses raw columns (add_columns/add_next_column)")
-                add_separator()
-                add_columns("demo##columns", 3)
-                add_text("Hello")
-                add_next_column()
-                add_text("PyGui")
-                add_next_column()
-                add_text("Sailer")
-                add_next_column()
-                add_button("Banana##democolumns")
-                add_next_column()
-                add_button("Apple##democolumns")
-                add_next_column()
-                add_button("Corniflower##democolumns")
-                add_next_column()
-                add_next_column()
-                add_input_float("red##democoluns")
-                add_next_column()
-                add_input_float("blue##democoluns")
-                add_next_column()
-                add_next_column()
-                add_text("An extra line here")
-                add_next_column()
-                add_next_column()
-                with collapsing_header("Category A##democolumns"):
-                    add_text("blah blah")
-                    add_separator()
-                add_next_column()
-                with collapsing_header("Category B##democolumns"):
-                    add_text("blah blah")
-                add_next_column()
-                with collapsing_header("Category C##democolumns"):
-                    add_text("blah blah")
-                add_columns("demo##columnsend", 1)
-                add_separator()
+                        add_next_column()
 
         with collapsing_header("Drawings##demo"):
 
@@ -1171,7 +1135,7 @@ def show_demo():
                 draw_quad("Custom Rendering Plot##demo", (210, 10), (290, 10), (290, 100), (210, 100), (255, 255, 0, 255), thickness = 3.0)
                 draw_circle("Custom Rendering Plot##demo", (350, 60), 49, (255, 255, 0, 255))
 
-        with collapsing_header("Simple Tables##demo"):
+        with collapsing_header("Data Grid##demo"):
 
             add_button("Delete row 6##demo", callback=lambda sender, data: delete_row("Table##widget##demo", 6))
             add_same_line()
@@ -1186,7 +1150,7 @@ def show_demo():
             add_button("Insert col 1##demo", callback=lambda sender, data:insert_column("Table##widget##demo", 1,  "Inserted Column", ["inew1", "inew2", "inew3", "inew4"]))
             add_same_line()
             add_button("Clear Table##demo", callback=lambda sender, data: clear_table("Table##widget##demo"))
-            add_table("Table##widget##demo", ["Column 1", "Column 2", "Column 3", "Column 4"], height=400)
+            add_data_grid("Table##widget##demo", ["Column 1", "Column 2", "Column 3", "Column 4"], height=400)
 
             tabledata = []
             for i in range(0, 10):

@@ -75,52 +75,12 @@ namespace Marvel {
 
 	private:
 
-		int                m_previousColCount = 1;
-		int                m_columns = 1;
-		bool               m_border = true;
-		std::vector<float> m_widths;
-		bool               m_dirty_widths = false;
-		bool               m_firstFrame = true; // only necessary for column widths
-
-	};
-
-	//-----------------------------------------------------------------------------
-	// mvColumn
-	//-----------------------------------------------------------------------------
-	struct mvColumnConfig : public mvManagedColumnsConfig {};
-	
-	MV_REGISTER_WIDGET(mvColumnSet);
-	class mvColumnSet : public mvAppItem
-	{
-
-	public:
-
-		static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
-
-	public:
-
-		MV_APPITEM_TYPE(mvAppItemType::mvColumnSet, "add_columns")
-
-		MV_START_COLOR_CONSTANTS
-		MV_END_COLOR_CONSTANTS
-
-		MV_START_STYLE_CONSTANTS
-		MV_END_STYLE_CONSTANTS
-
-		mvColumnSet(const std::string& name, int columns);
-
-		void draw              ()               override;
-
-#ifndef MV_CPP
-		void setExtraConfigDict(PyObject* dict) override;
-		void getExtraConfigDict(PyObject* dict) override;
-#endif // !MV_CPP
-
-	private:
-
-		int  m_columns = 1;
-		bool m_border = true;
-
+		int                      m_columns = 1;
+		bool                     m_border = true;
+		std::vector<float>       m_widths;
+		bool                     m_dirty_widths = false;
+		bool                     m_firstFrame = true; // only necessary for column widths
+		std::vector<std::string> m_headers;
 	};
 
 	//-----------------------------------------------------------------------------

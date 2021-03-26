@@ -11,6 +11,7 @@ namespace Marvel {
 			{mvPythonDataType::String, "name"},
 			{mvPythonDataType::Integer, "columns"},
 			{mvPythonDataType::KeywordOnly},
+			{mvPythonDataType::StringList, "headers"},
 			{mvPythonDataType::Bool, "border", "show border", "True"},
 			{mvPythonDataType::Bool, "show", "Attempt to render", "True"},
 			{mvPythonDataType::String, "parent", "Parent this item will be added to. (runtime adding)", "''"},
@@ -27,19 +28,6 @@ namespace Marvel {
 			{mvPythonDataType::Integer, "column"},
 			{mvPythonDataType::Float, "width"},
 		}, "Sets the width of the ith column.", "None", "Widget Commands") });
-	}
-
-	void mvColumnSet::InsertParser(std::map<std::string, mvPythonParser>* parsers)
-	{
-		parsers->insert({ "add_columns", mvPythonParser({
-			{mvPythonDataType::String, "name"},
-			{mvPythonDataType::Integer, "columns"},
-			{mvPythonDataType::KeywordOnly},
-			{mvPythonDataType::Bool, "border", "show border", "True"},
-			{mvPythonDataType::Bool, "show", "Attempt to render", "True"},
-			{mvPythonDataType::String, "parent", "Parent this item will be added to. (runtime adding)", "''"},
-			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)", "''"},
-		}, "Sets columns.", "None", "Containers") });
 	}
 
 	void mvNextColumn::InsertParser(std::map<std::string, mvPythonParser>* parsers)
@@ -88,61 +76,39 @@ namespace Marvel {
 
 	void mvManagedColumns::draw()
 	{
-		m_previousColCount = ImGui::GetColumnsCount();
 		ScopedID id;
 		mvImGuiThemeScope scope(this);
 
-		ImGui::Columns(m_columns, m_core_config.name.c_str(), m_border);
-		for (auto& item : m_children)
+		if (ImGui::BeginTable(m_core_config.name.c_str(), m_columns, 
+			ImGuiTableFlags_Hideable | ImGuiTableFlags_Resizable | ImGuiTableFlags_RowBg | ImGuiTableFlags_Borders))
 		{
-			// skip item if it's not shown
-			if (!item->m_core_config.show)
-				continue;
 
-			// set item width
-			if (item->m_core_config.width != 0)
-				ImGui::SetNextItemWidth((float)item->m_core_config.width);
+			if (!m_headers.empty())
+			{
+				for (int i = 0; i < m_columns; i++)
+					ImGui::TableSetupColumn(std::string(m_core_config.name + m_headers[i]).c_str(), 0, m_widths[i]);
 
-			item->draw();
+				ImGui::TableHeadersRow();
+			}
+			ImGui::TableNextColumn();
 
-			item->getState().update();
+			for (auto& item : m_children)
+			{
+				// skip item if it's not shown
+				if (!item->m_core_config.show)
+					continue;
 
-			int index = ImGui::GetColumnIndex();
+				// set item width
+				if (item->m_core_config.width != 0)
+					ImGui::SetNextItemWidth((float)item->m_core_config.width);
 
-			if (m_dirty_widths && !m_firstFrame)
-				ImGui::SetColumnWidth(index, m_widths[index]);
+				item->draw();
 
-			if (!m_firstFrame)
-				m_widths[index] = ImGui::GetColumnWidth();
-			ImGui::NextColumn();
+				item->getState().update();
+			}
+			ImGui::EndTable();
 		}
 
-		// this is odd but is necessary for column widths to 
-		// work properly
-		if (m_firstFrame)
-			m_firstFrame = false;
-		else
-			m_dirty_widths = false;
-
-		ImGui::Columns(m_previousColCount);
-
-	}
-
-	mvColumnSet::mvColumnSet(const std::string& name, int columns)
-		: mvAppItem(name)
-	{
-		if (columns < 1)
-			m_columns = 1;
-		else if (columns > 64)
-			m_columns = 64;
-		else
-			m_columns = columns;
-	}
-
-	void mvColumnSet::draw()
-	{
-		ScopedID id;
-		ImGui::Columns(m_columns, m_core_config.name.c_str(), m_border);
 	}
 
 	mvNextColumn::mvNextColumn(const std::string& name)
@@ -152,7 +118,7 @@ namespace Marvel {
 
 	void mvNextColumn::draw()
 	{
-		ImGui::NextColumn();
+		ImGui::TableNextColumn();
 	}
 
 #ifndef MV_CPP
@@ -161,6 +127,7 @@ namespace Marvel {
 	{
 		const char* name;
 		int columns;
+		PyObject* headers = nullptr;
 		int border = true;
 		int show = true;
 		const char* parent = "";
@@ -168,7 +135,7 @@ namespace Marvel {
 
 
 		if (!(mvApp::GetApp()->getParsers())["add_managed_columns"].parse(args, kwargs, __FUNCTION__,
-			&name, &columns, &border, &show, &parent, &before))
+			&name, &columns, &headers, &border, &show, &parent, &before))
 			return ToPyBool(false);
 
 		auto item = CreateRef<mvManagedColumns>(name, columns);
@@ -201,30 +168,6 @@ namespace Marvel {
 			return ToPyBool(false);
 
 		auto item = CreateRef<mvNextColumn>(name);
-		item->checkConfigDict(kwargs);
-		item->setConfigDict(kwargs);
-		item->setExtraConfigDict(kwargs);
-
-		mvApp::GetApp()->getItemRegistry().addItemWithRuntimeChecks(item, parent, before);
-
-		return GetPyNone();
-	}
-
-	PyObject* add_columns(PyObject* self, PyObject* args, PyObject* kwargs)
-	{
-		const char* name;
-		int columns;
-		int border = true;
-		int show = true;
-		const char* parent = "";
-		const char* before = "";
-
-
-		if (!(mvApp::GetApp()->getParsers())["add_columns"].parse(args, kwargs, __FUNCTION__,
-			&name, &columns, &border, &show, &parent, &before))
-			return ToPyBool(false);
-
-		auto item = CreateRef<mvColumnSet>(name, columns);
 		item->checkConfigDict(kwargs);
 		item->setConfigDict(kwargs);
 		item->setExtraConfigDict(kwargs);
@@ -309,6 +252,7 @@ namespace Marvel {
 		if (dict == nullptr)
 			return;
 
+		if (PyObject* item = PyDict_GetItemString(dict, "headers")) m_headers = ToStringVect(item);
 		if (PyObject* item = PyDict_GetItemString(dict, "border")) m_border = ToBool(item);
 		if (PyObject* item = PyDict_GetItemString(dict, "columns"))
 		{
@@ -332,32 +276,7 @@ namespace Marvel {
 
 		PyDict_SetItemString(dict, "border", ToPyBool(m_border));
 		PyDict_SetItemString(dict, "columns", ToPyInt(m_columns));
-	}
-
-	void mvColumnSet::setExtraConfigDict(PyObject* dict)
-	{
-		if (dict == nullptr)
-			return;
-
-		if (PyObject* item = PyDict_GetItemString(dict, "border")) m_border = ToBool(item);
-		if (PyObject* item = PyDict_GetItemString(dict, "columns"))
-		{
-			m_columns = ToInt(item);
-
-			if (m_columns < 1)
-				m_columns = 1;
-			else if (m_columns > 64)
-				m_columns = 64;
-		}
-	}
-
-	void mvColumnSet::getExtraConfigDict(PyObject* dict)
-	{
-		if (dict == nullptr)
-			return;
-
-		PyDict_SetItemString(dict, "border", ToPyBool(m_border));
-		PyDict_SetItemString(dict, "columns", ToPyInt(m_columns));
+		PyDict_SetItemString(dict, "headers", ToPyList(m_headers));
 	}
 
 #endif // !MV_CPP

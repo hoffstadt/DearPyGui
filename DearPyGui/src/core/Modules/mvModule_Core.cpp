@@ -97,7 +97,6 @@ namespace Marvel {
 			// widget commands
 			ADD_PYTHON_FUNCTION(add_logger)
 			ADD_PYTHON_FUNCTION(add_next_column)
-			ADD_PYTHON_FUNCTION(add_columns)
 			ADD_PYTHON_FUNCTION(add_date_picker)
 			ADD_PYTHON_FUNCTION(add_time_picker)
 			ADD_PYTHON_FUNCTION(add_input_text)
@@ -212,7 +211,7 @@ namespace Marvel {
 			ADD_PYTHON_FUNCTION(add_additional_font)
 
 			// table commands
-			ADD_PYTHON_FUNCTION(add_table)
+			ADD_PYTHON_FUNCTION(add_data_grid)
 			ADD_PYTHON_FUNCTION(set_table_data)
 			ADD_PYTHON_FUNCTION(get_table_data)
 			ADD_PYTHON_FUNCTION(clear_table)

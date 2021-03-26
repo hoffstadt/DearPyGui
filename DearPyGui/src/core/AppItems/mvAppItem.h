@@ -43,12 +43,14 @@ namespace Marvel {
         mvColorPicker3, mvColorPicker4, mvTooltip, mvCollapsingHeader,
         mvSeparator, mvCheckbox, mvListbox, mvText, mvLabelText, mvCombo,
         mvPlot, mvSimplePlot, mvIndent, mvUnindent, mvDrawing, mvWindowAppItem,
-        mvPopup, mvSelectable, mvTreeNode, mvProgressBar, mvTable, mvDummy,
+        mvPopup, mvSelectable, mvTreeNode, mvProgressBar, mvDataGrid, mvDummy,
         mvImageButton, mvTimePicker, mvDatePicker, mvColorButton,
-        mvManagedColumns, mvColumnSet, mvNextColumn, mvLoggerItem,
         mvAboutWindow, mvDocWindow, mvDebugWindow, mvMetricsWindow,
-        mvStyleWindow, mvFileDialog, mvTabButton,
+        mvStyleWindow, mvFileDialog, mvTabButton, mvLoggerItem,
         mvNodeEditor, mvNode, mvNodeAttribute,
+        mvManagedColumns, mvNextColumn, 
+        // mvTable, mvTableNextColumn, mvTableNextRow, mvTableSetColumnIndex
+        //
         ItemTypeCount
     };
 

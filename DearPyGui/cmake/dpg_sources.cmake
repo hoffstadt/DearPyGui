@@ -112,7 +112,7 @@ set(MARVEL_SOURCES
 	
 	"src/core/AppItems/composite/mvFileDialog.cpp"
 	"src/core/AppItems/composite/mvAboutWindow.cpp"
-	"src/core/AppItems/composite/mvTable.cpp"
+	"src/core/AppItems/composite/mvDataGrid.cpp"
 	"src/core/AppItems/composite/mvLogger.cpp"
 	"src/core/AppItems/composite/mvStyleWindow.cpp"
 	"src/core/AppItems/composite/mvMetricsWindow.cpp"

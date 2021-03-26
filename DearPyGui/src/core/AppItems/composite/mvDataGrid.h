@@ -52,7 +52,7 @@ namespace Marvel {
 
 #ifdef MV_CPP
 #else
-	PyObject* add_table(PyObject* self, PyObject* args, PyObject* kwargs);
+	PyObject* add_data_grid(PyObject* self, PyObject* args, PyObject* kwargs);
 
 	// table
 	PyObject* set_table_data(PyObject* self, PyObject* args, PyObject* kwargs);
@@ -76,46 +76,46 @@ namespace Marvel {
 #endif // MV_CPP
 
 	
-	MV_REGISTER_WIDGET(mvTable);
-	class mvTable : public mvAppItem
+	MV_REGISTER_WIDGET(mvDataGrid);
+	class mvDataGrid : public mvAppItem
 	{
-		MV_APPITEM_TYPE(mvAppItemType::mvTable, "add_table")
+		MV_APPITEM_TYPE(mvAppItemType::mvDataGrid, "add_data_grid")
 
-		MV_CREATE_THEME_CONSTANT(mvThemeCol_Table_Text					    , 14L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvThemeCol_Table_Cell					    , 24L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvThemeCol_Table_CellHovered			    , 25L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvThemeCol_Table_CellActive			    , 26L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvThemeCol_Table_Border				    , 27L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvThemeCol_Table_BorderHovered			    , 28L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvThemeCol_Table_BorderActive			    , 29L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvThemeCol_Table_Scrollbar				    , 14L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvThemeCol_Table_ScrollbarGrab			    , 15L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvThemeCol_Table_ScrollbarGrabHovered	    , 16L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvThemeCol_Table_ScrollbarGrabActive		, 17L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvThemeStyle_Table_ItemSpacingX			, 13L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvThemeStyle_Table_ItemSpacingY			, 13L, 1L);
-		MV_CREATE_THEME_CONSTANT(mvThemeStyle_Table_SelectableTextAlignX	, 23L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvThemeStyle_Table_SelectableTextAlignY	, 23L, 1L);
+		MV_CREATE_THEME_CONSTANT(mvThemeCol_DataGrid_Text					    , 14L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeCol_DataGrid_Cell					    , 24L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeCol_DataGrid_CellHovered			    , 25L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeCol_DataGrid_CellActive			    , 26L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeCol_DataGrid_Border				    , 27L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeCol_DataGrid_BorderHovered			    , 28L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeCol_DataGrid_BorderActive			    , 29L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeCol_DataGrid_Scrollbar				    , 14L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeCol_DataGrid_ScrollbarGrab			    , 15L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeCol_DataGrid_ScrollbarGrabHovered	    , 16L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeCol_DataGrid_ScrollbarGrabActive		, 17L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeStyle_DataGrid_ItemSpacingX			, 13L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeStyle_DataGrid_ItemSpacingY			, 13L, 1L);
+		MV_CREATE_THEME_CONSTANT(mvThemeStyle_DataGrid_SelectableTextAlignX	, 23L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeStyle_DataGrid_SelectableTextAlignY	, 23L, 1L);
 
 		MV_START_COLOR_CONSTANTS
-			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Table_Text,                 mvColor(255, 255, 255, 255)),
-			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Table_Cell,                 mvColor(255, 255, 255, 255)),
-			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Table_CellHovered,          mvColor(255, 255, 255, 255)),
-			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Table_CellActive,           mvColor(255, 255, 255, 255)),
-			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Table_Border,               mvColor(255, 255, 255, 255)),
-			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Table_BorderHovered,        mvColor(255, 255, 255, 255)),
-			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Table_BorderActive,         mvColor(255, 255, 255, 255)),
-			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Table_Scrollbar,            mvColor(255, 255, 255, 255)),
-			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Table_ScrollbarGrab,        mvColor(255, 255, 255, 255)),
-			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Table_ScrollbarGrabHovered, mvColor(255, 255, 255, 255)),
-			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Table_ScrollbarGrabActive,  mvColor(255, 255, 255, 255)),
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_DataGrid_Text,                 mvColor(255, 255, 255, 255)),
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_DataGrid_Cell,                 mvColor(255, 255, 255, 255)),
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_DataGrid_CellHovered,          mvColor(255, 255, 255, 255)),
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_DataGrid_CellActive,           mvColor(255, 255, 255, 255)),
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_DataGrid_Border,               mvColor(255, 255, 255, 255)),
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_DataGrid_BorderHovered,        mvColor(255, 255, 255, 255)),
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_DataGrid_BorderActive,         mvColor(255, 255, 255, 255)),
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_DataGrid_Scrollbar,            mvColor(255, 255, 255, 255)),
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_DataGrid_ScrollbarGrab,        mvColor(255, 255, 255, 255)),
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_DataGrid_ScrollbarGrabHovered, mvColor(255, 255, 255, 255)),
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_DataGrid_ScrollbarGrabActive,  mvColor(255, 255, 255, 255)),
 		MV_END_COLOR_CONSTANTS
 
 		MV_START_STYLE_CONSTANTS
-			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_Table_ItemSpacingX		, 4, 20),
-			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_Table_ItemSpacingY		, 4, 20),
-			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_Table_SelectableTextAlignX, 0, 20),
-			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_Table_SelectableTextAlignY, 0, 20),
+			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_DataGrid_ItemSpacingX		, 4, 20),
+			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_DataGrid_ItemSpacingY		, 4, 20),
+			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_DataGrid_SelectableTextAlignX, 0, 20),
+			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_DataGrid_SelectableTextAlignY, 0, 20),
 		MV_END_STYLE_CONSTANTS
 
 	public:
@@ -124,7 +124,7 @@ namespace Marvel {
 
 	public:
 
-		mvTable(const std::string& name, const std::vector<std::string>& headers);
+		mvDataGrid(const std::string& name, const std::vector<std::string>& headers);
 
 		// table operations
 		void setTableItem  (int row, int column, const std::string& value);
