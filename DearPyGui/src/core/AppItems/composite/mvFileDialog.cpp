@@ -38,15 +38,16 @@ namespace Marvel {
 			return;
 
 		// display
-		if (igfd::ImGuiFileDialog::Instance()->FileDialog("ChooseFileDlgKey", ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoSavedSettings, ImVec2(500, 600)))
+		if (ImGuiFileDialog::Instance()->Display("ChooseFileDlgKey", ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoSavedSettings, ImVec2(500, 600)))
 		{
 
 			// action if OK
-			if (igfd::ImGuiFileDialog::Instance()->IsOk)
+			if (ImGuiFileDialog::Instance()->IsOk())
 			{
 				mvApp::GetApp()->getCallbackRegistry().submitCallback([&]() 
 					{
-						mvApp::GetApp()->getCallbackRegistry().runCallback(m_callback2, "File Dialog", ToPyList({ igfd::ImGuiFileDialog::Instance()->GetCurrentPath(), igfd::ImGuiFileDialog::Instance()->FileNameBuffer }));
+						mvApp::GetApp()->getCallbackRegistry().runCallback(m_callback2, "File Dialog", ToPyList({ ImGuiFileDialog::Instance()->GetCurrentPath(), 
+							ImGuiFileDialog::Instance()->FileNameBuffer }));
 
 						// action
 						if (m_callback2)
@@ -56,7 +57,7 @@ namespace Marvel {
 
 			}
 			// close
-			igfd::ImGuiFileDialog::Instance()->CloseDialog("ChooseFileDlgKey");
+			ImGuiFileDialog::Instance()->Close();
 			m_core_config.show = false;
 		}
 	}
@@ -75,7 +76,7 @@ namespace Marvel {
 
 		mvApp::GetApp()->getCallbackRegistry().submit([=]()
 			{
-				igfd::ImGuiFileDialog::Instance()->OpenModal("ChooseFileDlgKey", "Choose Directory", 0, ".");
+				ImGuiFileDialog::Instance()->OpenModal("ChooseFileDlgKey", "Choose Directory", 0, ".");
 				auto window = mvApp::GetApp()->getItemRegistry().getItem("filedialog");
 				auto dialog = static_cast<mvFileDialog*>(window.get());
 				dialog->setCallback(callback);
@@ -99,7 +100,7 @@ namespace Marvel {
 
 		mvApp::GetApp()->getCallbackRegistry().submit([=]()
 			{
-				igfd::ImGuiFileDialog::Instance()->OpenModal("ChooseFileDlgKey", "Choose File", extensions, ".");
+				ImGuiFileDialog::Instance()->OpenModal("ChooseFileDlgKey", "Choose File", extensions, ".");
 				auto window = mvApp::GetApp()->getItemRegistry().getItem("filedialog");
 				auto dialog = static_cast<mvFileDialog*>(window.get());
 
