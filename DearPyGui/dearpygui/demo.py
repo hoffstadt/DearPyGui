@@ -155,9 +155,6 @@ def demo_accelerator_callback(sender, data):
         
 def show_demo():
 
-    
-    # the render callback is a function that runs every frame
-
     #set_accelerator_callback(demo_accelerator_callback)
 
     def on_demo_close(sender, data):
@@ -1137,19 +1134,19 @@ def show_demo():
 
         with collapsing_header("Data Grid##demo"):
 
-            add_button("Delete row 6##demo", callback=lambda sender, data: delete_row("Table##widget##demo", 6))
+            add_button("Delete row 6##demo", callback=lambda sender, data: delete_grid_row("Table##widget##demo", 6))
             add_same_line()
-            add_button("Delete col 1##demo", callback=lambda sender, data: delete_column("Table##widget##demo", 1))   
+            add_button("Delete col 1##demo", callback=lambda sender, data: delete_grid_column("Table##widget##demo", 1))   
             add_same_line()
-            add_button("Add row##demo", callback=lambda sender, data: add_row("Table##widget##demo", ["new1", "new2", "new3", 53]))
+            add_button("Add row##demo", callback=lambda sender, data: add_grid_row("Table##widget##demo", ["new1", "new2", "new3", 53]))
             add_same_line()
-            add_button("Add col##demo", callback=lambda sender, data: add_column("Table##widget##demo", "New Column", ["new1", "new2", "new3", "new4"]))
+            add_button("Add col##demo", callback=lambda sender, data: add_grid_column("Table##widget##demo", "New Column", ["new1", "new2", "new3", "new4"]))
             add_same_line()
-            add_button("Insert row 5##demo", callback=lambda sender, data: insert_row("Table##widget##demo", 5, ["inew1", "inew2", "inew3", "inew4"]))
+            add_button("Insert row 5##demo", callback=lambda sender, data: insert_grid_row("Table##widget##demo", 5, ["inew1", "inew2", "inew3", "inew4"]))
             add_same_line()
-            add_button("Insert col 1##demo", callback=lambda sender, data:insert_column("Table##widget##demo", 1,  "Inserted Column", ["inew1", "inew2", "inew3", "inew4"]))
+            add_button("Insert col 1##demo", callback=lambda sender, data:insert_grid_column("Table##widget##demo", 1,  "Inserted Column", ["inew1", "inew2", "inew3", "inew4"]))
             add_same_line()
-            add_button("Clear Table##demo", callback=lambda sender, data: clear_table("Table##widget##demo"))
+            add_button("Clear Table##demo", callback=lambda sender, data: clear_data_grid("Table##widget##demo"))
             add_data_grid("Table##widget##demo", ["Column 1", "Column 2", "Column 3", "Column 4"], height=400)
 
             tabledata = []
@@ -1159,7 +1156,7 @@ def show_demo():
                     row.append("Item"+str(i)+"-"+str(j))
                 tabledata.append(row)
 
-            set_table_data("Table##widget##demo", tabledata)
+            set_grid_data("Table##widget##demo", tabledata)
 
         with collapsing_header("Node Editor##demo"):
 

@@ -6,7 +6,7 @@
 
 namespace Marvel {
 
-	struct mvTableConfig : public mvAppItemConfig
+	struct mvDataGridConfig : public mvAppItemConfig
 	{
 		std::vector<std::string> headers;
 
@@ -44,34 +44,31 @@ namespace Marvel {
 		bool scroll_x                = false; // Enable horizontal scrolling. Require 'outer_size' parameter of BeginTable() to specify the container siz
 		bool scroll_y                = false; // Enable vertical scrolling. Require 'outer_size' parameter of BeginTable() to specify the container size.
 
-		mvTableConfig()
-		{
-			height = 200;
-		}
 	};
 
 #ifdef MV_CPP
 #else
 	PyObject* add_data_grid(PyObject* self, PyObject* args, PyObject* kwargs);
 
-	// table
-	PyObject* set_table_data(PyObject* self, PyObject* args, PyObject* kwargs);
-	PyObject* get_table_data(PyObject* self, PyObject* args, PyObject* kwargs);
-	PyObject* clear_table(PyObject* self, PyObject* args, PyObject* kwargs);
-	PyObject* get_table_item(PyObject* self, PyObject* args, PyObject* kwargs);
-	PyObject* set_table_item(PyObject* self, PyObject* args, PyObject* kwargs);
-	PyObject* get_table_selections(PyObject* self, PyObject* args, PyObject* kwargs);
-	PyObject* set_table_selection(PyObject* self, PyObject* args, PyObject* kwargs);
+	// data grid
+	PyObject* set_grid_headers   (PyObject* self, PyObject* args, PyObject* kwargs);
+	PyObject* set_grid_data      (PyObject* self, PyObject* args, PyObject* kwargs);
+	PyObject* get_grid_data      (PyObject* self, PyObject* args, PyObject* kwargs);
+	PyObject* clear_data_grid    (PyObject* self, PyObject* args, PyObject* kwargs);
+	PyObject* get_grid_item      (PyObject* self, PyObject* args, PyObject* kwargs);
+	PyObject* set_grid_item      (PyObject* self, PyObject* args, PyObject* kwargs);
+	PyObject* get_grid_selections(PyObject* self, PyObject* args, PyObject* kwargs);
+	PyObject* set_grid_selection (PyObject* self, PyObject* args, PyObject* kwargs);
 
 	// column
-	PyObject* add_column(PyObject* self, PyObject* args, PyObject* kwargs);
-	PyObject* insert_column(PyObject* self, PyObject* args, PyObject* kwargs);
-	PyObject* delete_column(PyObject* self, PyObject* args, PyObject* kwargs);
+	PyObject* add_grid_column     (PyObject* self, PyObject* args, PyObject* kwargs);
+	PyObject* insert_grid_column  (PyObject* self, PyObject* args, PyObject* kwargs);
+	PyObject* delete_grid_column  (PyObject* self, PyObject* args, PyObject* kwargs);
 
 	// row
-	PyObject* add_row(PyObject* self, PyObject* args, PyObject* kwargs);
-	PyObject* insert_row(PyObject* self, PyObject* args, PyObject* kwargs);
-	PyObject* delete_row(PyObject* self, PyObject* args, PyObject* kwargs);
+	PyObject* add_grid_row        (PyObject* self, PyObject* args, PyObject* kwargs);
+	PyObject* insert_grid_row     (PyObject* self, PyObject* args, PyObject* kwargs);
+	PyObject* delete_grid_row     (PyObject* self, PyObject* args, PyObject* kwargs);
 
 #endif // MV_CPP
 
@@ -81,17 +78,17 @@ namespace Marvel {
 	{
 		MV_APPITEM_TYPE(mvAppItemType::mvDataGrid, "add_data_grid")
 
-		MV_CREATE_THEME_CONSTANT(mvThemeCol_DataGrid_Text					    , 14L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvThemeCol_DataGrid_Cell					    , 24L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvThemeCol_DataGrid_CellHovered			    , 25L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeCol_DataGrid_Text					, 14L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeCol_DataGrid_Cell					, 24L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeCol_DataGrid_CellHovered			, 25L, 0L);
 		MV_CREATE_THEME_CONSTANT(mvThemeCol_DataGrid_CellActive			    , 26L, 0L);
 		MV_CREATE_THEME_CONSTANT(mvThemeCol_DataGrid_Border				    , 27L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvThemeCol_DataGrid_BorderHovered			    , 28L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvThemeCol_DataGrid_BorderActive			    , 29L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvThemeCol_DataGrid_Scrollbar				    , 14L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvThemeCol_DataGrid_ScrollbarGrab			    , 15L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvThemeCol_DataGrid_ScrollbarGrabHovered	    , 16L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvThemeCol_DataGrid_ScrollbarGrabActive		, 17L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeCol_DataGrid_BorderHovered			, 28L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeCol_DataGrid_BorderActive			, 29L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeCol_DataGrid_Scrollbar				, 14L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeCol_DataGrid_ScrollbarGrab			, 15L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeCol_DataGrid_ScrollbarGrabHovered	, 16L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeCol_DataGrid_ScrollbarGrabActive	, 17L, 0L);
 		MV_CREATE_THEME_CONSTANT(mvThemeStyle_DataGrid_ItemSpacingX			, 13L, 0L);
 		MV_CREATE_THEME_CONSTANT(mvThemeStyle_DataGrid_ItemSpacingY			, 13L, 1L);
 		MV_CREATE_THEME_CONSTANT(mvThemeStyle_DataGrid_SelectableTextAlignX	, 23L, 0L);
@@ -127,7 +124,7 @@ namespace Marvel {
 		mvDataGrid(const std::string& name, const std::vector<std::string>& headers);
 
 		// table operations
-		void setTableItem  (int row, int column, const std::string& value);
+		void setGridItem   (int row, int column, const std::string& value);
 		void setSelection  (int row, int column, bool value);
 		void addHeaders    (const std::vector<std::string>& headers);
 		void addRow        (const std::vector<std::string>& row);
@@ -136,12 +133,12 @@ namespace Marvel {
 		void addColumn     (const std::string& name, const std::vector<std::string>& column);
 		void insertColumn  (int column_index, const std::string& name, const std::vector<std::string>& column);
 		void deleteColumn  (int column);
-		void clearTable    ();
+		void clearGrid     ();
 		int  getColumnCount() const { return (int)m_columns; }
 		void setExtraConfigDict(PyObject* dict) override;
 		void getExtraConfigDict(PyObject* dict) override;
 
-		[[nodiscard]] std::string getTableItem (int row, int column) const;
+		[[nodiscard]] std::string getGridItem (int row, int column) const;
 		[[nodiscard]] PyObject*   getSelections() const;
 
 		void                    setPyValue(PyObject* value) override;
