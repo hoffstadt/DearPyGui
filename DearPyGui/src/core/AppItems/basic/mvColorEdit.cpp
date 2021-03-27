@@ -87,7 +87,7 @@ namespace Marvel {
 		: 
 		mvColorPtrBase(name, color)
 	{
-		m_description.disableAllowed;
+		m_description.disableAllowed = true;
 		m_config = {};
 	}
 
@@ -96,7 +96,7 @@ namespace Marvel {
 		mvColorPtrBase(name, config.default_value.data()),
 		m_config(config)
 	{
-		m_description.disableAllowed;
+		m_description.disableAllowed = true;
 		m_config.name = name;
 		updateConfig(&m_config);
 	}
@@ -139,7 +139,7 @@ namespace Marvel {
 		: 
 		mvColorPtrBase(name, color)
 	{
-		m_description.disableAllowed;
+		m_description.disableAllowed = true;
 		m_config = {};
 	}
 
@@ -148,7 +148,7 @@ namespace Marvel {
 		mvColorPtrBase(name, config.default_value.data()),
 		m_config(config)
 	{
-		m_description.disableAllowed;
+		m_description.disableAllowed = true;
 		m_config.name = name;
 		updateConfig(&m_config);
 	}
