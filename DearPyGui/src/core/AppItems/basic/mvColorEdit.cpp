@@ -22,6 +22,7 @@ namespace Marvel {
 			{mvPythonDataType::Integer, "height", "", "0"},
 			{mvPythonDataType::String, "label", "", "''"},
 			{mvPythonDataType::Bool, "show", "Attempt to render", "True"},
+			{mvPythonDataType::Bool, "enabled", "", "True"},
 			{mvPythonDataType::Bool, "no_alpha", "ignore Alpha component", "False"},
 			{mvPythonDataType::Bool, "no_picker", "disable picker when clicking on colored square.", "False"},
 			{mvPythonDataType::Bool, "no_options", " disable toggling options menu when right-clicking on inputs/small preview.", "False"},
@@ -59,6 +60,7 @@ namespace Marvel {
 			{mvPythonDataType::Integer, "height", "", "0"},
 			{mvPythonDataType::String, "label", "", "''"},
 			{mvPythonDataType::Bool, "show", "Attempt to render", "True"},
+			{mvPythonDataType::Bool, "enabled", "", "True"},
 			{mvPythonDataType::Bool, "no_alpha", "ignore Alpha component", "False"},
 			{mvPythonDataType::Bool, "no_picker", "disable picker when clicking on colored square.", "False"},
 			{mvPythonDataType::Bool, "no_options", " disable toggling options menu when right-clicking on inputs/small preview.", "False"},
@@ -85,6 +87,7 @@ namespace Marvel {
 		: 
 		mvColorPtrBase(name, color)
 	{
+		m_description.disableAllowed;
 		m_config = {};
 	}
 
@@ -93,6 +96,7 @@ namespace Marvel {
 		mvColorPtrBase(name, config.default_value.data()),
 		m_config(config)
 	{
+		m_description.disableAllowed;
 		m_config.name = name;
 		updateConfig(&m_config);
 	}
@@ -102,9 +106,10 @@ namespace Marvel {
 		ScopedID id;
 		mvImGuiThemeScope scope(this);
 
-		if (ImGui::ColorEdit3(m_label.c_str(), m_value->data(), m_flags))
-			mvApp::GetApp()->getCallbackRegistry().addCallback(m_core_config.callback, m_core_config.name, m_core_config.callback_data);
+		if (!m_core_config.enabled) std::copy(m_value->data(), m_value->data() + 3, m_disabled_value);
 
+		if (ImGui::ColorEdit3(m_label.c_str(), m_core_config.enabled ? m_value->data() : &m_disabled_value[0], m_flags))
+			mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), m_core_config.name, m_core_config.callback_data);
 	}
 
 	void mvColorEdit3::updateConfig(mvAppItemConfig* config)
@@ -134,6 +139,7 @@ namespace Marvel {
 		: 
 		mvColorPtrBase(name, color)
 	{
+		m_description.disableAllowed;
 		m_config = {};
 	}
 
@@ -142,6 +148,7 @@ namespace Marvel {
 		mvColorPtrBase(name, config.default_value.data()),
 		m_config(config)
 	{
+		m_description.disableAllowed;
 		m_config.name = name;
 		updateConfig(&m_config);
 	}
@@ -151,8 +158,10 @@ namespace Marvel {
 		ScopedID id;
 		mvImGuiThemeScope scope(this);
 
-		if (ImGui::ColorEdit4(m_label.c_str(), m_value->data(), m_flags))
-			mvApp::GetApp()->getCallbackRegistry().addCallback(m_core_config.callback, m_core_config.name, m_core_config.callback_data);
+		if (!m_core_config.enabled) std::copy(m_value->data(), m_value->data() + 4, m_disabled_value);
+
+		if (ImGui::ColorEdit4(m_label.c_str(), m_core_config.enabled ? m_value->data() : &m_disabled_value[0], m_flags))
+			mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), m_core_config.name, m_core_config.callback_data);
 
 	}
 
@@ -298,6 +307,7 @@ namespace Marvel {
 		const char* source = "";
 		const char* label = "";
 		int show = true;
+		int enabled = true;
 		int no_alpha = false;
 		int no_picker = false;
 		int no_options = false;
@@ -320,7 +330,7 @@ namespace Marvel {
 
 		if (!(mvApp::GetApp()->getParsers())["add_color_edit3"].parse(args, kwargs, __FUNCTION__, &name,
 			&default_value, &callback, &callback_data, &parent, &before, &source, &width, &height,
-			&label, &show, &no_alpha, &no_picker, &no_options, &no_small_preview, &no_inputs, &no_tooltip, &no_label, &no_drag_drop,
+			&label, &show, &enabled, &no_alpha, &no_picker, &no_options, &no_small_preview, &no_inputs, &no_tooltip, &no_label, &no_drag_drop,
 			&alpha_bar, &alpha_preview, &alpha_preview_half, &display_rgb, &display_hsv, &display_hex, &unit8, &floats, &input_rgb, &input_hsv))
 			return ToPyBool(false);
 
@@ -450,6 +460,7 @@ namespace Marvel {
 		const char* source = "";
 		const char* label = "";
 		int show = true;
+		int enabled = true;
 		int no_alpha = false;
 		int no_picker = false;
 		int no_options = false;
@@ -470,7 +481,7 @@ namespace Marvel {
 		int input_hsv = false;
 
 		if (!(mvApp::GetApp()->getParsers())["add_color_edit4"].parse(args, kwargs, __FUNCTION__, &name, &default_value,
-			&callback, &callback_data, &parent, &before, &source, &width, &height, &label, &show,
+			&callback, &callback_data, &parent, &before, &source, &width, &height, &label, &show, &enabled,
 			&no_alpha, &no_picker, &no_options, &no_small_preview, &no_inputs, &no_tooltip, &no_label, &no_drag_drop,
 			&alpha_bar, &alpha_preview, &alpha_preview_half, &display_rgb, &display_hsv, &display_hex, &unit8, &floats, &input_rgb, &input_hsv))
 			return ToPyBool(false);

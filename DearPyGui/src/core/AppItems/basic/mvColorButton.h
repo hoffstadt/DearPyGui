@@ -48,11 +48,11 @@ namespace Marvel {
 		MV_CREATE_THEME_CONSTANT(mvThemeStyle_ColorButton_PopupPaddingY,   1L, 1L);
 
 		MV_START_COLOR_CONSTANTS
-			MV_CREATE_CONSTANT_PAIR(mvThemeCol_ColorButton_Text,         mvColor(255, 255, 255, 255)),
-			MV_CREATE_CONSTANT_PAIR(mvThemeCol_ColorButton_Separator,    mvColor(110, 110, 128, 128)),
-			MV_CREATE_CONSTANT_PAIR(mvThemeCol_ColorButton_PopupBg,      mvColor( 20,  20,  20, 240)),
-			MV_CREATE_CONSTANT_PAIR(mvThemeCol_ColorButton_Border,       mvColor(110, 110, 128, 128)),
-			MV_CREATE_CONSTANT_PAIR(mvThemeCol_ColorButton_BorderShadow, mvColor(  0,   0,   0,   0)),
+			MV_CREATE_CONSTANT_TUPLE(mvThemeCol_ColorButton_Text,         mvColor(255, 255, 255, 255), mvColor(128, 128, 128, 63)),
+			MV_CREATE_CONSTANT_TUPLE(mvThemeCol_ColorButton_Separator,    mvColor(110, 110, 128, 128), mvColor(128, 128, 128, 63)),
+			MV_CREATE_CONSTANT_TUPLE(mvThemeCol_ColorButton_PopupBg,      mvColor( 20,  20,  20, 240), mvColor(128, 128, 128, 63)),
+			MV_CREATE_CONSTANT_TUPLE(mvThemeCol_ColorButton_Border,       mvColor(110, 110, 128, 128), mvColor(128, 128, 128, 63)),
+			MV_CREATE_CONSTANT_TUPLE(mvThemeCol_ColorButton_BorderShadow, mvColor(  0,   0,   0,   0), mvColor(128, 128, 128, 63)),
 		MV_END_COLOR_CONSTANTS
 
 		MV_START_STYLE_CONSTANTS

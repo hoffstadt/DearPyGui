@@ -22,6 +22,7 @@ namespace Marvel {
 			{mvPythonDataType::Integer, "height", "", "0"},
 			{mvPythonDataType::String, "label", "", "''"},
 			{mvPythonDataType::Bool, "show", "Attempt to render", "True"},
+			{mvPythonDataType::Bool, "enabled", "", "True"},
 			{mvPythonDataType::Bool, "no_alpha", "ignore Alpha component", "False"},
 			{mvPythonDataType::Bool, "no_small_preview", "disable colored square preview next to the inputs. (e.g. to show only the inputs). This only displays if the side preview is not shown.", "False"},
 			{mvPythonDataType::Bool, "no_inputs", "disable inputs sliders/text widgets (e.g. to show only the small preview colored square)", "False"},
@@ -59,6 +60,7 @@ namespace Marvel {
 			{mvPythonDataType::Integer, "height", "", "0"},
 			{mvPythonDataType::String, "label", "", "''"},
 			{mvPythonDataType::Bool, "show", "Attempt to render", "True"},
+			{mvPythonDataType::Bool, "enabled", "", "True"},
 			{mvPythonDataType::Bool, "no_alpha", "ignore Alpha component", "False"},
 			{mvPythonDataType::Bool, "no_small_preview", "disable colored square preview next to the inputs. (e.g. to show only the inputs). This only displays if the side preview is not shown.", "False"},
 			{mvPythonDataType::Bool, "no_inputs", "disable inputs sliders/text widgets (e.g. to show only the small preview colored square)", "False"},
@@ -84,6 +86,7 @@ namespace Marvel {
 		: 
 		mvColorPtrBase(name, color)
 	{
+		m_description.disableAllowed = true;
 		m_config = {};
 	}
 
@@ -92,6 +95,7 @@ namespace Marvel {
 		mvColorPtrBase(name, config.default_value.data()),
 		m_config(config)
 	{
+		m_description.disableAllowed = true;
 		m_config.name = name;
 		updateConfig(&m_config);
 	}
@@ -124,8 +128,10 @@ namespace Marvel {
 		ScopedID id;
 		mvImGuiThemeScope scope(this);
 
-		if (ImGui::ColorPicker3(m_label.c_str(), m_value->data(), m_flags))
-			mvApp::GetApp()->getCallbackRegistry().addCallback(m_core_config.callback, m_core_config.name, m_core_config.callback_data);
+		if (!m_core_config.enabled) std::copy(m_value->data(), m_value->data() + 3, m_disabled_value);
+
+		if (ImGui::ColorPicker3(m_label.c_str(), m_core_config.enabled ? m_value->data() : &m_disabled_value[0], m_flags))
+			mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), m_core_config.name, m_core_config.callback_data);
 
 	}
 
@@ -133,6 +139,7 @@ namespace Marvel {
 		: 
 		mvColorPtrBase(name, color)
 	{
+		m_description.disableAllowed = true;
 		m_config = {};
 	}
 
@@ -141,6 +148,7 @@ namespace Marvel {
 		mvColorPtrBase(name, config.default_value.data()),
 		m_config(config)
 	{
+		m_description.disableAllowed = true;
 		m_config.name = name;
 		updateConfig(&m_config);
 	}
@@ -173,8 +181,10 @@ namespace Marvel {
 		ScopedID id;
 		mvImGuiThemeScope scope(this);
 
-		if (ImGui::ColorPicker4(m_label.c_str(), m_value->data(), m_flags))
-			mvApp::GetApp()->getCallbackRegistry().addCallback(m_core_config.callback, m_core_config.name, m_core_config.callback_data);
+		if (!m_core_config.enabled) std::copy(m_value->data(), m_value->data() + 4, m_disabled_value);
+
+		if (ImGui::ColorPicker4(m_label.c_str(), m_core_config.enabled ? m_value->data() : &m_disabled_value[0], m_flags))
+			mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), m_core_config.name, m_core_config.callback_data);
 
 	}
 
@@ -298,6 +308,7 @@ namespace Marvel {
 		const char* source = "";
 		const char* label = "";
 		int show = true;
+		int enabled = true;
 		int no_alpha = false;
 		int no_small_preview = false;
 		int no_inputs = false;
@@ -319,7 +330,7 @@ namespace Marvel {
 
 
 		if (!(mvApp::GetApp()->getParsers())["add_color_picker3"].parse(args, kwargs, __FUNCTION__, &name, &default_value,
-			&callback, &callback_data, &parent, &before, &source, &width, &height, &label, &show,
+			&callback, &callback_data, &parent, &before, &source, &width, &height, &label, &show, &enabled,
 			&no_alpha, &no_small_preview, &no_inputs, &no_tooltip, &no_label, &no_side_preview, &alpha_bar,
 			&alpha_preview, &alpha_preview_half, &display_rgb, &display_hsv, &display_hex, &uint8, &floats, &picker_hue_bar,
 			&picker_hue_wheel, &input_rgb, &input_hsv))
@@ -450,6 +461,7 @@ namespace Marvel {
 		const char* source = "";
 		const char* label = "";
 		int show = true;
+		int enabled = true;
 		int no_alpha = false;
 		int no_small_preview = false;
 		int no_inputs = false;
@@ -471,7 +483,7 @@ namespace Marvel {
 
 		if (!(mvApp::GetApp()->getParsers())["add_color_picker4"].parse(args, kwargs, __FUNCTION__, &name,
 			&default_value, &callback, &callback_data, &parent, &before, &source, &width, &height,
-			&label, &show, &no_alpha, &no_small_preview, &no_inputs, &no_tooltip, &no_label, &no_side_preview, &alpha_bar,
+			&label, &show, &enabled, &no_alpha, &no_small_preview, &no_inputs, &no_tooltip, &no_label, &no_side_preview, &alpha_bar,
 			&alpha_preview, &alpha_preview_half, &display_rgb, &display_hsv, &display_hex, &uint8, &floats, &picker_hue_bar,
 			&picker_hue_wheel, &input_rgb, &input_hsv))
 			return ToPyBool(false);

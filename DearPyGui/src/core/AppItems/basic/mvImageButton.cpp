@@ -24,6 +24,7 @@ namespace Marvel {
 			{mvPythonDataType::FloatList, "uv_min", "normalized texture coordinates", "(0.0, 0.0)"},
 			{mvPythonDataType::FloatList, "uv_max", "normalized texture coordinates", "(1.0, 1.0)"},
 			{mvPythonDataType::Bool, "show", "Attempt to render", "True"},
+			{mvPythonDataType::Bool, "enabled", "", "True"},
 		}, "Adds an image button."
 		"uv_min and uv_max represent the normalized texture coordinates of the original image that will be shown."
 		"Using(0,0)->(1,1) texture coordinates will generally display the entire texture", "None", "Adding Widgets") });
@@ -33,6 +34,7 @@ namespace Marvel {
 		: mvAppItem(name), m_value(std::move(default_value))
 	{
 		m_description.ignoreSizeUpdate = true;
+		m_description.disableAllowed = true;
 		mvEventBus::Subscribe(this, mvEVT_DELETE_TEXTURE);
 	}
 
@@ -106,7 +108,7 @@ namespace Marvel {
 			if (ImGui::ImageButton(m_texture, ImVec2((float)m_core_config.width, (float)m_core_config.height),
 				ImVec2(m_uv_min.x, m_uv_min.y), ImVec2(m_uv_max.x, m_uv_max.y), m_framePadding,
 				m_backgroundColor, m_tintColor))
-				mvApp::GetApp()->getCallbackRegistry().addCallback(m_core_config.callback, m_core_config.name, m_core_config.callback_data);
+				mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), m_core_config.name, m_core_config.callback_data);
 			ImGui::PopID();
 		}
 
@@ -195,10 +197,11 @@ namespace Marvel {
 		PyTuple_SetItem(uv_max, 0, PyFloat_FromDouble(1));
 		PyTuple_SetItem(uv_max, 1, PyFloat_FromDouble(1));
 		int show = true;
+		int enabled = true;
 
 		if (!(mvApp::GetApp()->getParsers())["add_image_button"].parse(args, kwargs, __FUNCTION__,
 			&name, &value, &callback, &callback_data, &tintcolor, &backgroundColor, &parent,
-			&before, &width, &height, &frame_padding, &uv_min, &uv_max, &show))
+			&before, &width, &height, &frame_padding, &uv_min, &uv_max, &show, &enabled))
 			return ToPyBool(false);
 
 		auto item = CreateRef<mvImageButton>(name, value);

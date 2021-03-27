@@ -22,6 +22,7 @@ namespace Marvel {
 			{mvPythonDataType::Bool, "no_alpha", "ignore Alpha component", "False"},
 			{mvPythonDataType::Bool, "no_border", "disable border (which is enforced by default)", "False"},
 			{mvPythonDataType::Bool, "no_drag_drop", "disable display of inline text label", "False"},
+			{mvPythonDataType::Bool, "enabled", "", "True"},
 		}, "Adds a color button.", "None", "Adding Widgets") });
 	}
 
@@ -30,6 +31,7 @@ namespace Marvel {
 		mvAppItem(name),
 		m_color(color.toVec4())
 	{
+		m_description.disableAllowed = true;
 		m_config.color = color;
 	}
 
@@ -39,6 +41,7 @@ namespace Marvel {
 		m_color(config.color.toVec4()),
 		m_config(config)
 	{
+		m_description.disableAllowed = true;
 		m_config.name = name;
 		updateConfig(&m_config);
 	}
@@ -49,7 +52,7 @@ namespace Marvel {
 		mvImGuiThemeScope scope(this);
 
 		if (ImGui::ColorButton(m_label.c_str(), m_color, m_flags, ImVec2((float)m_core_config.width, (float)m_core_config.height)))
-			mvApp::GetApp()->getCallbackRegistry().addCallback(m_core_config.callback, m_core_config.name, m_core_config.callback_data);
+			mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), m_core_config.name, m_core_config.callback_data);
 
 	}
 
@@ -142,10 +145,11 @@ namespace Marvel {
 		int no_alpha = false;
 		int no_border = false;
 		int no_drag_drop = false;
+		int enabled = true;
 
 		if (!(mvApp::GetApp()->getParsers())["add_color_button"].parse(args, kwargs, __FUNCTION__,
 			&name, &color, &callback, &callback_data, &parent, &before, &width, &height,
-			&show, &no_alpha, &no_border, &no_drag_drop))
+			&show, &no_alpha, &no_border, &no_drag_drop, &enabled))
 			return ToPyBool(false);
 
 		auto item = CreateRef<mvColorButton>(name, ToColor(color));
