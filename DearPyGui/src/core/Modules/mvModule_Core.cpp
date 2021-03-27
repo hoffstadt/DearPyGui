@@ -355,7 +355,7 @@ namespace Marvel {
 
 						mvThemeManager::GetColors()[type][mvThemeConstant].first = color;
 						mvThemeManager::GetColors()[type][mvThemeConstant].second = color_disable;
-						mvThemeManager::GetColorsPtr().push_back({name, mvThemeConstant, &mvThemeManager::GetColors()[type][mvThemeConstant].first, &mvThemeManager::GetColors()[type][mvThemeConstant].first });
+						mvThemeManager::GetColorsPtr().push_back({name, mvThemeConstant, &mvThemeManager::GetColors()[type][mvThemeConstant].first, &mvThemeManager::GetColors()[type][mvThemeConstant].second });
 
 					}
 
