@@ -150,6 +150,47 @@ namespace Marvel {
 
                 ImGui::EndTabItem();
             }
+            if (ImGui::BeginTabItem("Colors (disabled)"))
+            {
+
+                HelpMarker(
+                    "Export saves commands to your clipboard. Paste into your file.");
+                ImGui::SameLine();
+                if (ImGui::Button("Export Colors (disabled)"))
+                {
+
+                    ImGui::LogToClipboard();
+
+                    for (auto item : mvThemeManager::GetColorsPtr())
+                    {
+                        // Uncomment and replace with new command
+
+                        //ImGui::LogText("set_theme_item(mvGuiCol_%s, %i, %i, %i, %i)\r\n",
+                        //    name, (int)(round(col.x * 255.0f)), (int)(round(col.y * 255.0f)), (int)(round(col.z * 255.0f)),
+                        //    (int)(round(col.w * 255.0f)));
+                    }
+                    ImGui::LogFinish();
+                }
+
+                static ImGuiTextFilter filter3;
+                filter3.Draw("Filter Colors##(disabled)", ImGui::GetFontSize() * 16);
+
+                ImGui::Separator();
+
+                for (auto& item : mvThemeManager::GetColorsPtr())
+                {
+                    if (!filter3.PassFilter(std::get<0>(item).c_str()))
+                        continue;
+
+                    ImGui::PushID(&item);
+                    ImGui::ColorEdit4("##color(disable)", *std::get<3>(item), ImGuiColorEditFlags_AlphaBar);
+                    ImGui::SameLine();
+                    ImGui::TextUnformatted(std::get<0>(item).c_str());
+                    ImGui::PopID();
+                }
+
+                ImGui::EndTabItem();
+            }
 
         }
 

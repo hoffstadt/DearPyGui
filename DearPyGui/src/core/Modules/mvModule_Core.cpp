@@ -350,10 +350,12 @@ namespace Marvel {
 						long mvThemeConstant = std::get<1>(item);
 						decodeType(mvThemeConstant, &type);
 						mvColor color = std::get<2>(item);
+						mvColor color_disable = std::get<3>(item);
 						const std::string& name = std::get<0>(item);
 
-						mvThemeManager::GetColors()[type][mvThemeConstant] = color;
-						mvThemeManager::GetColorsPtr().push_back({name, mvThemeConstant, &mvThemeManager::GetColors()[type][mvThemeConstant] });
+						mvThemeManager::GetColors()[type][mvThemeConstant].first = color;
+						mvThemeManager::GetColors()[type][mvThemeConstant].second = color_disable;
+						mvThemeManager::GetColorsPtr().push_back({name, mvThemeConstant, &mvThemeManager::GetColors()[type][mvThemeConstant].first, &mvThemeManager::GetColors()[type][mvThemeConstant].first });
 
 					}
 
