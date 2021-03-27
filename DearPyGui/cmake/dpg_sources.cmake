@@ -101,7 +101,7 @@ set(MARVEL_SOURCES
 	"src/core/AppItems/containers/mvMenu.cpp"
 	"src/core/AppItems/containers/mvMenuBar.cpp"
 	"src/core/AppItems/containers/mvTreeNode.cpp"
-	"src/core/AppItems/containers/mvColumns.cpp"
+	"src/core/AppItems/containers/mvTable.cpp"
 	"src/core/AppItems/containers/mvWindowAppItem.cpp"
 	"src/core/AppItems/containers/mvPopup.cpp"
 

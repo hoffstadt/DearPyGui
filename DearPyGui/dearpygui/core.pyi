@@ -230,10 +230,6 @@ def add_logger(name: str, *, log_level: int = 1, auto_scroll: bool = True, auto_
 	"""Adds a logging widget."""
 	...
 
-def add_managed_columns(name: str, columns: int, *, headers: List[str] = ..., border: bool = True, show: bool = True, parent: str = '', before: str = '') -> None:
-	"""Adds managed columns."""
-	...
-
 def add_menu(name: str, *, label: str = '', show: bool = True, parent: str = '', before: str = '', enabled: bool = True) -> None:
 	"""Adds a menu to an existing menu bar. Must be followed by a call to end."""
 	...
@@ -250,7 +246,7 @@ def add_metrics_window(name: str, *, width: int = 700, height: int = 500, x_pos:
 	"""Creates a metrics window."""
 	...
 
-def add_next_column(*, name: str = 'next_collumn', show: bool = True, parent: str = '', before: str = '') -> None:
+def add_next_column(*, name: str = 'next_column', show: bool = True, parent: str = '', before: str = '') -> None:
 	"""Changes to next column."""
 	...
 
@@ -372,6 +368,18 @@ def add_tab_bar(name: str, *, reorderable: bool = False, callback: Callable = No
 
 def add_tab_button(name: str, *, label: str = '', show: bool = True, no_reorder: bool = False, leading: bool = False, trailing: bool = False, no_tooltip: bool = False, callback: Callable = None, callback_data: Any = None, parent: str = '', before: str = '') -> None:
 	"""Adds a tab button to a tab bar"""
+	...
+
+def add_table(name: str, *, width: int = 0, height: int = 0, inner_width: int = 0, show: bool = True, parent: str = '', before: str = '', resizable: bool = False, reorderable: bool = False, hideable: bool = False, sortable: bool = False, context_menu_in_body: bool = False, row_background: bool = False, borders_innerH: bool = False, borders_outerH: bool = False, borders_innerV: bool = False, borders_outerV: bool = False, policy: int = 8192, no_host_extendX: bool = False, no_host_extendY: bool = False, no_keep_columns_visible: bool = False, precise_widths: bool = False, no_clip: bool = False, pad_outerX: bool = False, no_pad_outerX: bool = False, no_pad_innerX: bool = False, scollX: bool = False, scollY: bool = False) -> None:
+	"""Adds managed columns."""
+	...
+
+def add_table_column(name: str, *, init_width_or_weight: float = 0.0, show: bool = True, parent: str = '', before: str = '', default_hide: bool = False, default_sort: bool = False, width_stretch: bool = False, width_fixed: bool = False, no_resize: bool = False, no_reorder: bool = False, no_hide: bool = False, no_clip: bool = False, no_sort: bool = False, no_sort_ascending: bool = False, no_sort_descending: bool = False, no_header_width: bool = False, prefer_sort_ascending: bool = False, prefer_sort_descending: bool = False, indent_enable: bool = False, indent_disable: bool = False) -> None:
+	"""Changes to next column."""
+	...
+
+def add_table_header_row(*, name: str = ..., show: bool = True, parent: str = '') -> None:
+	"""Changes to next column."""
 	...
 
 def add_text(name: str, *, wrap: int = -1, color: List[float] = (-1, 0, 0, 0), bullet: bool = False, parent: str = '', before: str = '', source: str = '', default_value: str = '', show: bool = True) -> None:
@@ -648,10 +656,6 @@ def get_log_level(*, logger: str = '') -> int:
 
 def get_main_window_size() -> [int, int]:
 	"""Returns the size of the main window."""
-	...
-
-def get_managed_column_width(item: str, column: int) -> Float:
-	"""Returns the width of the ith column."""
 	...
 
 def get_mouse_drag_delta() -> (float, float):
@@ -944,10 +948,6 @@ def set_main_window_size(width: int, height: int) -> None:
 
 def set_main_window_title(title: str) -> None:
 	"""Sets the title of the main window."""
-	...
-
-def set_managed_column_width(item: str, column: int, width: float) -> None:
-	"""Sets the width of the ith column."""
 	...
 
 def set_mouse_click_callback(callback: Callable) -> None:

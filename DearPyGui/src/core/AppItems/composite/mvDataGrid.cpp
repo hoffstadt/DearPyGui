@@ -597,7 +597,7 @@ namespace Marvel {
 	{
 		//mvImGuiThemeScope scope(this);
 
-		if (ImGui::BeginTable(m_core_config.name.c_str(), m_columns, 
+		if (ImGui::BeginTable(m_core_config.name.c_str(), m_columns,
 			ImGuiTableFlags_Hideable | ImGuiTableFlags_Resizable | ImGuiTableFlags_RowBg | ImGuiTableFlags_Borders))
 		{
 			if (!m_hide_headers)
@@ -605,23 +605,21 @@ namespace Marvel {
 				for (auto& header : m_headers)
 					ImGui::TableSetupColumn(header.c_str());
 				ImGui::TableHeadersRow();
-				ImGui::TableNextColumn();
+				//ImGui::TableNextColumn();
 			}
 
-			int index = 0;
 			for (size_t i = 0; i < m_hashValues.size(); i++)
 			{
-
-				for (size_t j = 0; j < m_columns; j++)
+				ImGui::TableNextRow();
+				for (size_t j = 0; j < m_hashValues[i].size(); j++)
 				{
-
+					ImGui::TableSetColumnIndex(j);
 					if (ImGui::Selectable(m_hashValues[i][j].c_str(), m_selections[{i, j}]))
 					{
 						m_selections[{i, j}] = !m_selections[{i, j}];
-						mvApp::GetApp()->getCallbackRegistry().addCallback(m_core_config.callback, m_core_config.name, m_core_config.callback_data);
+						mvApp::GetApp()->getCallbackRegistry().addCallback(m_core_config.callback, 
+							m_core_config.name, m_core_config.callback_data);
 					}
-					ImGui::TableNextColumn();
-					index++;
 				}
 
 			}

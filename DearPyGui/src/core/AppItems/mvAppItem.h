@@ -48,7 +48,7 @@ namespace Marvel {
         mvAboutWindow, mvDocWindow, mvDebugWindow, mvMetricsWindow,
         mvStyleWindow, mvFileDialog, mvTabButton, mvLoggerItem,
         mvNodeEditor, mvNode, mvNodeAttribute,
-        mvManagedColumns, mvNextColumn, 
+        mvTable, mvTableColumn, mvTableHeaderRow, mvNextColumn,
         // mvTable, mvTableNextColumn, mvTableNextRow, mvTableSetColumnIndex
         //
         ItemTypeCount
@@ -100,7 +100,7 @@ namespace Marvel {
         friend class mvPopup;
         friend class mvTreeNode;
         friend class mvWindowAppItem;
-        friend class mvManagedColumns;
+        friend class mvTable;
         friend class mvNodeEditor;
         friend class mvNode;
         friend class mvNodeAttribute;

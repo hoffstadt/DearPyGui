@@ -211,19 +211,26 @@ def show_demo():
         add_text("https://github.com/hoffstadt/DearPyGui/blob/master/DearPyGui/dearpygui/demo.py")
 
         with collapsing_header("Window options##demo"):
-            with managed_columns("Window Options Col##demo", 3, border=False):
+            with table("Window Options Col##demo"):
+                add_table_column("##windowoptions_demo1")
+                add_table_column("##windowoptions_demo2")
+                add_table_column("##windowoptions_demo3")
+                
+                add_next_column()
                 add_checkbox("No titlebar##demo", callback=lambda sender, data: configure_item("Dear PyGui Demo", no_title_bar=get_value(sender)))
                 add_checkbox("No scrollbar##demo", callback=lambda sender, data: configure_item("Dear PyGui Demo", no_scrollbar=get_value(sender)))
                 add_checkbox("No menu##demo", callback=lambda sender, data: configure_item("Dear PyGui Demo", menubar=not get_value(sender)))
 
+                add_next_column()
                 add_checkbox("No move##demo", callback=lambda sender, data: configure_item("Dear PyGui Demo", no_move=get_value(sender)))
                 add_checkbox("No resize##demo", callback=lambda sender, data: configure_item("Dear PyGui Demo", no_resize=get_value(sender)))
                 add_checkbox("No collapse##demo", callback=lambda sender, data: configure_item("Dear PyGui Demo", no_collapse=get_value(sender)))
             
+                add_next_column()
                 add_checkbox("No close##demo", callback=lambda sender, data: configure_item("Dear PyGui Demo", no_close=get_value(sender)))
                 add_checkbox("No background##demo", callback=lambda sender, data: configure_item("Dear PyGui Demo", no_background=get_value(sender)))
                 add_checkbox("No bring to front##demo", callback=lambda sender, data: configure_item("Dear PyGui Demo", no_bring_to_front_on_focus=get_value(sender)))
-
+        
         with collapsing_header("Widgets##demo"):
 
             with tree_node("Basic##demo"):
@@ -398,17 +405,27 @@ def show_demo():
                         configure_item(name, **kwargs)
                 color_edit_names = ["MyColor##1", "MyColor##2"]
 
-                with managed_columns("##demowidgetscolor", 3, border=False):
+                with table("##demowidgetscolor"):
+                    add_table_column("##demowidgetscolor1")
+                    add_table_column("##demowidgetscolor2")
+                    add_table_column("##demowidgetscolor3")
+
+                    add_next_column()
                     add_checkbox("With Alpha Preview", callback=lambda sender, data: configure_items(color_edit_names, alpha_preview = get_value(sender)))
                     add_checkbox("With Half Alpha Preview", callback=lambda sender, data: configure_items(color_edit_names, alpha_preview_half = get_value(sender)))
                     add_checkbox("With No Small Preview", callback=lambda sender, data: configure_items(color_edit_names, no_small_preview = get_value(sender)))
                     add_checkbox("With No Inputs", callback=lambda sender, data: configure_items(color_edit_names, no_inputs = get_value(sender)))
+
+                    add_next_column()
                     add_checkbox("With No Tooltip", callback=lambda sender, data: configure_items(color_edit_names, no_tooltip = get_value(sender)))
                     add_checkbox("With RGB", callback=lambda sender, data: configure_items(color_edit_names, display_rgb = get_value(sender)))
                     add_checkbox("With HSV", callback=lambda sender, data: configure_items(color_edit_names, display_hsv = get_value(sender)))
+                    
+                    add_next_column()
                     add_checkbox("With HEX", callback=lambda sender, data: configure_items(color_edit_names, display_hex = get_value(sender)))
                     add_checkbox("With Ints", callback=lambda sender, data: configure_items(color_edit_names, uint8 = get_value(sender)))
                     add_checkbox("With Floats", callback=lambda sender, data: configure_items(color_edit_names, floats = get_value(sender)))
+
                 helpmarker("Right-click on the individual color widget to show options.")
                 add_checkbox("With No Drag and Drop", callback=lambda sender, data: configure_items(color_edit_names, no_drag_drop = get_value(sender)))
                 helpmarker("Click and drag a preview square, drop on another color widget to apply the color")
@@ -440,13 +457,20 @@ def show_demo():
                 add_text("Color button only:")
                 add_checkbox("no_border", callback=lambda sender, data: configure_item("Color Button", no_border=get_value(sender)))
                 add_color_button("Color Button", (255, 50, 255, 0), width=50, height=50)
-                with managed_columns("##demowidgetscolor2", 2, border=False):
+                with table("##demowidgetscolor_2"):
+                    add_table_column("##demowidgetscolor_21")
+                    add_table_column("##demowidgetscolor_22")
+
+                    add_next_column()
                     add_checkbox("With Alpha", default_value=True, callback=lambda sender, data: configure_item("Color Picker 4", alpha_preview = get_value(sender)))
                     add_checkbox("With Alpha Bar", default_value=True, callback=lambda sender, data: configure_item("Color Picker 4", alpha_bar = get_value(sender)))
                     add_checkbox("With Side Preview", callback=lambda sender, data: configure_item("Color Picker 4", no_side_preview = get_value(sender)))
+
+                    add_next_column()
                     add_checkbox("Display RGB", callback=lambda sender, data: configure_item("Color Picker 4", display_rgb = get_value(sender)))
                     add_checkbox("Display HSV", callback=lambda sender, data: configure_item("Color Picker 4", display_hsv = get_value(sender)))
                     add_checkbox("Display HEX", callback=lambda sender, data: configure_item("Color Picker 4", display_hex = get_value(sender)))
+
                 def apply_hue(sender, data):
                     log_debug(get_value(sender))
                     if(get_value(sender) == 0): 
@@ -537,7 +561,10 @@ def show_demo():
             with tree_node("Time/Date Widgets##demo"):
                 add_time_picker("Time Picker##demo", default_value={'hour': 14, 'min': 32, 'sec': 23})
                 add_separator()
-                with managed_columns("Date Columns##demo", 3):
+                with table("Date Columns##demo"):
+                    add_table_column("Date Columns##demo1")
+                    add_table_column("Date Columns##demo2")
+                    add_table_column("Date Columns##demo3")
                     add_date_picker("Date Picker1##demo", level=0, default_value={'month_day': 8, 'year':93, 'month':5})
                     add_date_picker("Date Picker2##demo", level=1, default_value={'month_day': 8, 'year':93, 'month':5})
                     add_date_picker("Date Picker3##demo", level=2, default_value={'month_day': 8, 'year':93, 'month':5})
@@ -562,13 +589,23 @@ def show_demo():
 
             with tree_node("Child Window Flags##demo"):
 
-                with managed_columns("##childwindowcol", 3, border=False):
+                with table("##childwindowcol"):
+                    add_table_column("##childwindowcol1")
+                    add_table_column("##childwindowcol2")
+                    add_table_column("##childwindowcol3")
+
+                    add_next_column()
                     add_checkbox("autosize_x##demo", callback=lambda sender, data: configure_item("testchild##demo", autosize_x=get_value(sender)))
                     add_checkbox("autosize_y##demo", callback=lambda sender, data: configure_item("testchild##demo", autosize_y=get_value(sender)))
+
+                    add_next_column()
                     add_checkbox("menubar##childdemo", default_value=True, callback=lambda sender, data: configure_item("testchild##demo", menubar=get_value(sender)))
                     add_checkbox("no_scrollbar##childdemo", callback=lambda sender, data: configure_item("testchild##demo", no_scrollbar=get_value(sender)))
+
+                    add_next_column()
                     add_checkbox("horizontal_scrollbar##childdemo", callback=lambda sender, data: configure_item("testchild##demo", horizontal_scrollbar=get_value(sender)))
                     add_checkbox("border##childdemo", default_value=True, callback=lambda sender, data: configure_item("testchild##demo", border=get_value(sender)))
+
                 with child("testchild##demo", width=500, height=500):
                     #set_item_color("testchild##demo", mvGuiCol_ChildBg, [255, 0, 0, 100])
                     with menu_bar("MenuBartestChild##demo"):
@@ -741,18 +778,30 @@ def show_demo():
                     add_menu_item("Disabled item##demotestingmenus", enabled=False)
                     add_menu_item("New##demotestingmenus")
 
-        with collapsing_header("Columns##demo"):
+        with collapsing_header("Tables##demo"):
 
             with tree_node("Basic##columns##demo"):
-                add_text("This uses managed columns (add_managed_columns)")
                 add_text("Without border:")
-                with managed_columns("columns1##demo", 3, border=False):
+
+                with table("columns1##demo", hideable=True, resizable=True, row_background=True, borders_innerH=True,
+                          borders_outerH=True):
+                    add_table_column("Header 1##democolumns1")
+                    add_table_column("Header 2##democolumns1")
+                    add_table_column("Header 3##democolumns1")
+                    add_table_column("Header 4##democolumns1")
+                    add_table_header_row()
+
                     for i in range(0, 14):
                         add_selectable(f"Item {i}##columns1##demo")
                         add_next_column()
 
                 add_text("With border:")
-                with managed_columns("columns2##demo", 4):
+                with table("columns2##demo"):
+                    add_table_column("Header 1##democolumns2")
+                    add_table_column("Header 2##democolumns2")
+                    add_table_column("Header 3##democolumns2")
+                    add_table_column("Header 4##democolumns2")
+                    add_next_column()
  
                     add_selectable("0000##demo", span_columns=False)
                     add_next_column()
@@ -780,11 +829,14 @@ def show_demo():
                     add_next_column()
                     add_text("0")
  
-
             with tree_node("Borders##columns##demo"):
 
-                add_text("This uses managed columns (add_managed_columns)")
-                with managed_columns("Columns3##demo", 4):
+                with table("Columns3##demo"):
+                    add_table_column("Columns3##demo1")
+                    add_table_column("Columns3##demo2")
+                    add_table_column("Columns3##demo3")
+                    add_table_column("Columns3##demo4")
+                    add_next_column()
 
                     def replicated_cell(i):
                         with group(f"replicated_group##{i}##demo"):
@@ -795,7 +847,7 @@ def show_demo():
                     for i in range(0, 12):
                         replicated_cell(i)
                         add_next_column()
-
+       
         with collapsing_header("Drawings##demo"):
 
             def fancy_drawing(sender, data):
@@ -1147,6 +1199,7 @@ def show_demo():
             add_button("Insert col 1##demo", callback=lambda sender, data:insert_grid_column("Table##widget##demo", 1,  "Inserted Column", ["inew1", "inew2", "inew3", "inew4"]))
             add_same_line()
             add_button("Clear Table##demo", callback=lambda sender, data: clear_data_grid("Table##widget##demo"))
+            
             add_data_grid("Table##widget##demo", ["Column 1", "Column 2", "Column 3", "Column 4"], height=400)
 
             tabledata = []
@@ -1182,12 +1235,16 @@ def show_demo():
                 print(data)
 
             add_text("Ctrl+Click to remove a link.", bullet=True)
-            with managed_columns("Node Editor Columns##demo", 4):
-                add_button("New Link##demo", callback=add_new_link)
-                add_button("Delete Link##demo", callback=delete_new_link)
-                add_button("Get Info##demo", callback=get_link_info)
-                add_button("Clear Selections##demo", callback=clear_stuff)
-
+            add_table("Node Editor Columns##demo")
+            add_table_column("Node Editor Columns##demo1")
+            add_table_column("Node Editor Columns##demo2")
+            add_table_column("Node Editor Columns##demo3")
+            add_table_column("Node Editor Columns##demo4")
+            add_button("New Link##demo", callback=add_new_link)
+            add_button("Delete Link##demo", callback=delete_new_link)
+            add_button("Get Info##demo", callback=get_link_info)
+            add_button("Clear Selections##demo", callback=clear_stuff)
+            end()
             with node_editor("Node Editor 1##demo", link_callback=link_callback, delink_callback=delink_callback):
     
                 with node("Node 1##demo", x_pos=10, y_pos=10):
