@@ -232,18 +232,7 @@ namespace Marvel {
         ScopedID id;
         mvImGuiThemeScope scope(this);
 
-        if (!m_core_config.enabled)
-        {
-            //ImVec4 disabled_color = ImVec4(ImGui::GetStyleColorVec4(ImGuiCol_TextDisabled));
-            //disabled_color.w = 0.392f;
-            //styleManager.addColorStyle(ImGuiCol_FrameBg, disabled_color);
-            //styleManager.addColorStyle(ImGuiCol_FrameBgHovered, disabled_color);
-            //styleManager.addColorStyle(ImGuiCol_FrameBgActive, disabled_color);
-            //styleManager.addColorStyle(ImGuiCol_Button, disabled_color);
-            //styleManager.addColorStyle(ImGuiCol_Text, ImVec4(ImGui::GetStyleColorVec4(ImGuiCol_TextDisabled)));
-            //m_disabled_value = *m_value;
-        }
-
+        if (!m_core_config.enabled) m_disabled_value = *m_value;
 
         if (ImGui::DragFloat(m_label.c_str(), m_core_config.enabled ? m_value.get() : &m_disabled_value, m_speed, m_min, m_max, m_format.c_str(), m_flags))
             mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), m_core_config.name, m_core_config.callback_data);
@@ -301,17 +290,7 @@ namespace Marvel {
         ScopedID id;
         mvImGuiThemeScope scope(this);
 
-        if (!m_core_config.enabled)
-        {
-            //ImVec4 disabled_color = ImVec4(ImGui::GetStyleColorVec4(ImGuiCol_TextDisabled));
-            //disabled_color.w = 0.392f;
-            //styleManager.addColorStyle(ImGuiCol_FrameBg, disabled_color);
-            //styleManager.addColorStyle(ImGuiCol_FrameBgHovered, disabled_color);
-            //styleManager.addColorStyle(ImGuiCol_FrameBgActive, disabled_color);
-            //styleManager.addColorStyle(ImGuiCol_Button, disabled_color);
-            //styleManager.addColorStyle(ImGuiCol_Text, ImVec4(ImGui::GetStyleColorVec4(ImGuiCol_TextDisabled)));
-            //std::copy(m_value->data(), m_value->data() + 2, m_disabled_value);
-        }
+        if (!m_core_config.enabled) std::copy(m_value->data(), m_value->data() + 2, m_disabled_value);
 
         if (ImGui::DragFloat2(m_label.c_str(), m_core_config.enabled ? m_value->data() : &m_disabled_value[0], m_speed, m_min, m_max, m_format.c_str(), m_flags))
             mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), m_core_config.name, m_core_config.callback_data);
@@ -367,21 +346,10 @@ namespace Marvel {
         ScopedID id;
         mvImGuiThemeScope scope(this);
 
-        if (!m_core_config.enabled)
-        {
-            //ImVec4 disabled_color = ImVec4(ImGui::GetStyleColorVec4(ImGuiCol_TextDisabled));
-            //disabled_color.w = 0.392f;
-            //styleManager.addColorStyle(ImGuiCol_FrameBg, disabled_color);
-            //styleManager.addColorStyle(ImGuiCol_FrameBgHovered, disabled_color);
-            //styleManager.addColorStyle(ImGuiCol_FrameBgActive, disabled_color);
-            //styleManager.addColorStyle(ImGuiCol_Button, disabled_color);
-            //styleManager.addColorStyle(ImGuiCol_Text, ImVec4(ImGui::GetStyleColorVec4(ImGuiCol_TextDisabled)));
-            //std::copy(m_value->data(), m_value->data() + 3, m_disabled_value);
-        }
+        if (!m_core_config.enabled) std::copy(m_value->data(), m_value->data() + 3, m_disabled_value);
 
         if (ImGui::DragFloat3(m_label.c_str(), m_core_config.enabled ? m_value->data() : &m_disabled_value[0], m_speed, m_min, m_max, m_format.c_str(), m_flags))
             mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), m_core_config.name, m_core_config.callback_data);
-
     }
 
     void mvDragFloat3::updateConfig(mvAppItemConfig* config)
@@ -434,21 +402,10 @@ namespace Marvel {
         ScopedID id;
         mvImGuiThemeScope scope(this);
 
-        if (!m_core_config.enabled)
-        {
-            //ImVec4 disabled_color = ImVec4(ImGui::GetStyleColorVec4(ImGuiCol_TextDisabled));
-            //disabled_color.w = 0.392f;
-            //styleManager.addColorStyle(ImGuiCol_FrameBg, disabled_color);
-            //styleManager.addColorStyle(ImGuiCol_FrameBgHovered, disabled_color);
-            //styleManager.addColorStyle(ImGuiCol_FrameBgActive, disabled_color);
-            //styleManager.addColorStyle(ImGuiCol_Button, disabled_color);
-            //styleManager.addColorStyle(ImGuiCol_Text, ImVec4(ImGui::GetStyleColorVec4(ImGuiCol_TextDisabled)));
-            //std::copy(m_value->data(), m_value->data() + 4, m_disabled_value);
-        }
+        if (!m_core_config.enabled) std::copy(m_value->data(), m_value->data() + 4, m_disabled_value);
 
         if (ImGui::DragFloat4(m_label.c_str(), m_core_config.enabled ? m_value->data() : &m_disabled_value[0], m_speed, m_min, m_max, m_format.c_str(), m_flags))
             mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), m_core_config.name, m_core_config.callback_data);
-
     }
 
     void mvDragFloat4::updateConfig(mvAppItemConfig* config)
@@ -501,21 +458,10 @@ namespace Marvel {
         ScopedID id;
         mvImGuiThemeScope scope(this);
 
-        if (!m_core_config.enabled)
-        {
-            //ImVec4 disabled_color = ImVec4(ImGui::GetStyleColorVec4(ImGuiCol_TextDisabled));
-            //disabled_color.w = 0.392f;
-            //styleManager.addColorStyle(ImGuiCol_FrameBg, disabled_color);
-            //styleManager.addColorStyle(ImGuiCol_FrameBgHovered, disabled_color);
-            //styleManager.addColorStyle(ImGuiCol_FrameBgActive, disabled_color);
-            //styleManager.addColorStyle(ImGuiCol_Button, disabled_color);
-            //styleManager.addColorStyle(ImGuiCol_Text, ImVec4(ImGui::GetStyleColorVec4(ImGuiCol_TextDisabled)));
-            //m_disabled_value = *m_value;
-        }
+        if (!m_core_config.enabled) m_disabled_value = *m_value;
 
         if (ImGui::DragInt(m_label.c_str(), m_core_config.enabled ? m_value.get() : &m_disabled_value, m_speed, m_min, m_max, m_format.c_str(), m_flags))
             mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), m_core_config.name, m_core_config.callback_data);
-
     }
 
     void mvDragInt::updateConfig(mvAppItemConfig* config)
@@ -568,21 +514,10 @@ namespace Marvel {
         ScopedID id;
         mvImGuiThemeScope scope(this);
 
-        if (!m_core_config.enabled)
-        {
-            //ImVec4 disabled_color = ImVec4(ImGui::GetStyleColorVec4(ImGuiCol_TextDisabled));
-            //disabled_color.w = 0.392f;
-            //styleManager.addColorStyle(ImGuiCol_FrameBg, disabled_color);
-            //styleManager.addColorStyle(ImGuiCol_FrameBgHovered, disabled_color);
-            //styleManager.addColorStyle(ImGuiCol_FrameBgActive, disabled_color);
-            //styleManager.addColorStyle(ImGuiCol_Button, disabled_color);
-            //styleManager.addColorStyle(ImGuiCol_Text, ImVec4(ImGui::GetStyleColorVec4(ImGuiCol_TextDisabled)));
-            //std::copy(m_value->data(), m_value->data() + 2, m_disabled_value);
-        }
+        if (!m_core_config.enabled) std::copy(m_value->data(), m_value->data() + 2, m_disabled_value);
 
         if (ImGui::DragInt2(m_label.c_str(), m_core_config.enabled ? m_value->data() : &m_disabled_value[0], m_speed, m_min, m_max, m_format.c_str(), m_flags))
             mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), m_core_config.name, m_core_config.callback_data);
-
     }
 
     void mvDragInt2::updateConfig(mvAppItemConfig* config)
@@ -610,7 +545,7 @@ namespace Marvel {
     mvDragInt3::mvDragInt3(const std::string& name, int* default_value, const std::string& dataSource)
         : mvInt3PtrBase(name, default_value)
     {
-        // empty constructor
+        m_description.disableAllowed = true;
     }
 
     void mvDragInt3::setEnabled(bool value)
@@ -635,21 +570,10 @@ namespace Marvel {
         ScopedID id;
         mvImGuiThemeScope scope(this);
 
-        if (!m_core_config.enabled)
-        {
-            //ImVec4 disabled_color = ImVec4(ImGui::GetStyleColorVec4(ImGuiCol_TextDisabled));
-            //disabled_color.w = 0.392f;
-            //styleManager.addColorStyle(ImGuiCol_FrameBg, disabled_color);
-            //styleManager.addColorStyle(ImGuiCol_FrameBgHovered, disabled_color);
-            //styleManager.addColorStyle(ImGuiCol_FrameBgActive, disabled_color);
-            //styleManager.addColorStyle(ImGuiCol_Button, disabled_color);
-            //styleManager.addColorStyle(ImGuiCol_Text, ImVec4(ImGui::GetStyleColorVec4(ImGuiCol_TextDisabled)));
-            //std::copy(m_value->data(), m_value->data() + 3, m_disabled_value);
-        }
+        if (!m_core_config.enabled) std::copy(m_value->data(), m_value->data() + 3, m_disabled_value);
 
         if (ImGui::DragInt3(m_label.c_str(), m_core_config.enabled ? m_value->data() : &m_disabled_value[0], m_speed, m_min, m_max, m_format.c_str(), m_flags))
             mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), m_core_config.name, m_core_config.callback_data);
-
     }
 
     void mvDragInt3::updateConfig(mvAppItemConfig* config)
@@ -702,21 +626,10 @@ namespace Marvel {
         ScopedID id;
         mvImGuiThemeScope scope(this);
 
-        if (!m_core_config.enabled)
-        {
-            //ImVec4 disabled_color = ImVec4(ImGui::GetStyleColorVec4(ImGuiCol_TextDisabled));
-            //disabled_color.w = 0.392f;
-            //styleManager.addColorStyle(ImGuiCol_FrameBg, disabled_color);
-            //styleManager.addColorStyle(ImGuiCol_FrameBgHovered, disabled_color);
-            //styleManager.addColorStyle(ImGuiCol_FrameBgActive, disabled_color);
-            //styleManager.addColorStyle(ImGuiCol_Button, disabled_color);
-            //styleManager.addColorStyle(ImGuiCol_Text, ImVec4(ImGui::GetStyleColorVec4(ImGuiCol_TextDisabled)));
-            //std::copy(m_value->data(), m_value->data() + 4, m_disabled_value);
-        }
+        if (!m_core_config.enabled) std::copy(m_value->data(), m_value->data() + 4, m_disabled_value);
 
         if (ImGui::DragInt4(m_label.c_str(), m_core_config.enabled ? m_value->data() : &m_disabled_value[0], m_speed, m_min, m_max, m_format.c_str(), m_flags))
             mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), m_core_config.name, m_core_config.callback_data);
-
     }
 
     void mvDragInt4::updateConfig(mvAppItemConfig* config)

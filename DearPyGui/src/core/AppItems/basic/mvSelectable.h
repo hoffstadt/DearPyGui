@@ -27,15 +27,15 @@ namespace Marvel {
 
 
 		MV_START_COLOR_CONSTANTS
-			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Selectable_Text,			mvColor(255, 255, 255, 255)),
-			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Selectable_Bg,			mvColor( 41,  74, 122, 138)),
-			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Selectable_BgHovered,	mvColor( 66, 150, 250, 102)),
-			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Selectable_BgActive,		mvColor( 66, 150, 250, 171)),
+			MV_CREATE_CONSTANT_TUPLE(mvThemeCol_Selectable_Text,			mvColor(255, 255, 255, 255), mvColor(128, 128, 128, 63)),
+			MV_CREATE_CONSTANT_TUPLE(mvThemeCol_Selectable_Bg,				mvColor( 41,  74, 122, 138), mvColor(128, 128, 128, 63)),
+			MV_CREATE_CONSTANT_TUPLE(mvThemeCol_Selectable_BgHovered,		mvColor( 66, 150, 250, 102), mvColor(128, 128, 128, 63)),
+			MV_CREATE_CONSTANT_TUPLE(mvThemeCol_Selectable_BgActive,		mvColor( 66, 150, 250, 171), mvColor(128, 128, 128, 63)),
 		MV_END_COLOR_CONSTANTS
 
 		MV_START_STYLE_CONSTANTS
-				MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_Selectable_TextAlignX, 0, 20),
-				MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_Selectable_TextAlignY, 0, 20),
+			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_Selectable_TextAlignX, 0, 20),
+			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_Selectable_TextAlignY, 0, 20),
 		MV_END_STYLE_CONSTANTS
 
 	public:

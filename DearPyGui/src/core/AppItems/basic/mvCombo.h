@@ -64,21 +64,21 @@ namespace Marvel {
 		MV_CREATE_THEME_CONSTANT(mvThemeStyle_Combo_TextAlignY,         23L, 1L);
 
 		MV_START_COLOR_CONSTANTS
-			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Combo_Text,                 mvColor(255, 255, 255, 255)),
-			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Combo_Selected,             mvColor( 66, 150, 250, 171)),
-			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Combo_Hovered,              mvColor( 41,  74,  74, 138)),
-			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Combo_Active,               mvColor( 66, 150, 250, 171)),
-			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Combo_Bg,                   mvColor( 41,  74, 122, 138)),
-			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Combo_BgHovered,            mvColor( 41,  74,  74, 138)),
-			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Combo_DropBg,               mvColor( 20,  20,  20, 240)),
-			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Combo_DropButtonBg,         mvColor( 66, 150, 250, 102)),
-			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Combo_DropButtonHovered,    mvColor( 66, 150, 250, 255)),
-			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Combo_Scrollbar,            mvColor(  5,   5,   5, 135)),
-			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Combo_ScrollbarGrab,        mvColor( 79,  79,  79, 255)),
-			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Combo_ScrollbarGrabHovered, mvColor(105, 105, 105, 255)),
-			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Combo_ScrollbarGrabActive,  mvColor(130, 130, 130, 255)),
-			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Combo_Border,               mvColor(110, 110, 128, 128)),
-			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Combo_BorderShadow,         mvColor(  0,   0,   0,   0)),
+			MV_CREATE_CONSTANT_TUPLE(mvThemeCol_Combo_Text,                 mvColor(255, 255, 255, 255), mvColor(128, 128, 128, 63)),
+			MV_CREATE_CONSTANT_TUPLE(mvThemeCol_Combo_Selected,             mvColor( 66, 150, 250, 171), mvColor(128, 128, 128, 63)),
+			MV_CREATE_CONSTANT_TUPLE(mvThemeCol_Combo_Hovered,              mvColor( 41,  74,  74, 138), mvColor(128, 128, 128, 63)),
+			MV_CREATE_CONSTANT_TUPLE(mvThemeCol_Combo_Active,               mvColor( 66, 150, 250, 171), mvColor(128, 128, 128, 63)),
+			MV_CREATE_CONSTANT_TUPLE(mvThemeCol_Combo_Bg,                   mvColor( 41,  74, 122, 138), mvColor(128, 128, 128, 63)),
+			MV_CREATE_CONSTANT_TUPLE(mvThemeCol_Combo_BgHovered,            mvColor( 41,  74,  74, 138), mvColor(128, 128, 128, 63)),
+			MV_CREATE_CONSTANT_TUPLE(mvThemeCol_Combo_DropBg,               mvColor( 20,  20,  20, 240), mvColor(128, 128, 128, 63)),
+			MV_CREATE_CONSTANT_TUPLE(mvThemeCol_Combo_DropButtonBg,         mvColor( 66, 150, 250, 102), mvColor(128, 128, 128, 63)),
+			MV_CREATE_CONSTANT_TUPLE(mvThemeCol_Combo_DropButtonHovered,    mvColor( 66, 150, 250, 255), mvColor(128, 128, 128, 63)),
+			MV_CREATE_CONSTANT_TUPLE(mvThemeCol_Combo_Scrollbar,            mvColor(  5,   5,   5, 135), mvColor(128, 128, 128, 63)),
+			MV_CREATE_CONSTANT_TUPLE(mvThemeCol_Combo_ScrollbarGrab,        mvColor( 79,  79,  79, 255), mvColor(128, 128, 128, 63)),
+			MV_CREATE_CONSTANT_TUPLE(mvThemeCol_Combo_ScrollbarGrabHovered, mvColor(105, 105, 105, 255), mvColor(128, 128, 128, 63)),
+			MV_CREATE_CONSTANT_TUPLE(mvThemeCol_Combo_ScrollbarGrabActive,  mvColor(130, 130, 130, 255), mvColor(128, 128, 128, 63)),
+			MV_CREATE_CONSTANT_TUPLE(mvThemeCol_Combo_Border,               mvColor(110, 110, 128, 128), mvColor(128, 128, 128, 63)),
+			MV_CREATE_CONSTANT_TUPLE(mvThemeCol_Combo_BorderShadow,         mvColor(  0,   0,   0,   0), mvColor(128, 128, 128, 63)),
 		MV_END_COLOR_CONSTANTS
 
 		MV_START_STYLE_CONSTANTS

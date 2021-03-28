@@ -174,6 +174,9 @@ def show_demo():
         set_key_release_callback(None)
         set_accelerator_callback(None)
 
+    def log_callback(sender, data):
+        log_debug(f"{sender} ran a callback its value is {get_value(sender)}")
+
     with window("Dear PyGui Demo", x_pos=100, y_pos=100, width=800, height=800, on_close=on_demo_close):
 
         with menu_bar("MenuBar##demo"):
@@ -189,14 +192,14 @@ def show_demo():
                 add_menu_item("Save As..#demo")
                 add_separator()
                 with menu("Options##demomenu"):
-                    add_menu_item("Enabled##demo", check=True)
+                    add_checkbox("Toggle Enabled##demomenu", default_value=True, callback=lambda sender: configure_item("Enabled##demo", enabled=get_value(sender)))
+                    add_menu_item("Enabled##demo", check=True, callback=log_callback)
                     with child("childmenu##demo", height=60, autosize_x=True):
                         for i in range(0, 10):
                             add_text(f"Scrolling Text {i}")
                     add_slider_float("Value##demomenu")
                     add_input_float("Input##demomenu")
                     add_combo("Combo##demomenu", items=["Yes", "No", "Maybe"])
-                    add_checkbox("Some Option##demomenu")
 
             with menu("Tools##demo"):
                 add_menu_item("Show Logger##demo", callback=show_logger)
@@ -234,8 +237,6 @@ def show_demo():
         with collapsing_header("Widgets##demo"):
 
             with tree_node("Basic##demo"):
-                def log_callback(sender, data):
-                    log_debug(f"{sender} ran a callback its value is {get_value(sender)}")
                 def toggle_config(sender, data):
                     config_dict = {}
                     for kwarg in data['kwargs']:
@@ -248,7 +249,7 @@ def show_demo():
                     ,"combo##demo","listbox##demo","input text##demo","input text (w/ hint)##demo"
                     ,"input int##demo", "input float##demo", "input scientific##demo", "input float3##example##demo"
                     ,"drag int", "drag int 0..100##demo", "drag float##demo", "drag small float##demo"
-                    ,"slider int##demo", "slider float##demo", "slider angle##demo"]
+                    ,"slider int##demo", "slider float##demo", "slider angle##demo", "color 1##demo", "color 2##demo"]
                 add_checkbox("Enable-Disable##basic", default_value=True, callback=toggle_config, callback_data={'kwargs': ['enabled'], 'items': disable_items})
                 helpmarker('This will toggle the keyword "enable" for the widgets below that can be enabled & disabled')
                 with group("buttons##demo", horizontal=True):
@@ -310,13 +311,13 @@ def show_demo():
                 helpmarker("CTRL+click to enter value.")
                 add_slider_float("slider float##demo", max_value=1.0, format="ratio = %.3f", callback=log_callback)
                 add_slider_int("slider angle##demo", min_value=-360, max_value=360, format="%d deg", callback=log_callback)
-                add_color_edit3("color 1##demo", default_value=[255, 0, 51])
+                add_color_edit3("color 1##demo", default_value=[255, 0, 51], callback=log_callback)
                 helpmarker(
                         "Click on the colored square to open a color picker.\n"
                         "Click and hold to use drag and drop.\n"
                         "Right-click on the colored square to show options.\n"
                         "CTRL+click on individual component to input value.\n")
-                add_color_edit4("color 2##demo", default_value=[102, 179, 0, 128])
+                add_color_edit4("color 2##demo", default_value=[102, 179, 0, 128], callback=log_callback)
                 add_listbox("listbox##demo", items=["Apple", "Banana", "Cherry", "Kiwi", "Mango", "Orange", "Pineapple", "Strawberry", "Watermelon"]
                             , num_items=4, callback=log_callback)
 
@@ -338,8 +339,10 @@ def show_demo():
             with tree_node("Images##demo"):
                 add_text("Below we are displaying the font texture (which is the only texture we have access to in this demo).")
                 add_image("image##demo", "INTERNAL_DPG_FONT_ATLAS")
+                disable_items = ["__image##button1", "__image##button2"]
+                add_checkbox("Enable-Disable##images", default_value=True, callback=toggle_config, callback_data={'kwargs': ['enabled'], 'items': disable_items})
                 add_text("Here is an image button using a portion of the font atlas")
-                add_image_button("#image##button1", "INTERNAL_DPG_FONT_ATLAS", uv_max=[0.1, 0.1])
+                add_image_button("__image##button1", "INTERNAL_DPG_FONT_ATLAS", uv_max=[0.1, 0.1], callback=log_callback)
                 add_same_line()
                 textdata = []
                 for i in range(0, 10000):
@@ -348,7 +351,7 @@ def show_demo():
                     textdata.append(255)
                     textdata.append(255)
                 add_texture("#cooltexture", textdata, 100, 100, format=mvTEX_RGBA_INT)
-                add_image_button("#image##button2", "#cooltexture")
+                add_image_button("__image##button2", "#cooltexture", callback=log_callback)
 
             with tree_node("Text Input##demo"):
                 disable_items = ["##multiline##demo","default##demo", "decimal##demo", "hexdecimal##demo", 
@@ -404,6 +407,10 @@ def show_demo():
                     for name in names:
                         configure_item(name, **kwargs)
                 color_edit_names = ["MyColor##1", "MyColor##2"]
+                
+                disable_items = ["MyColor##1", "MyColor##2", "Color Edit 4##2", "Color Edit 4 (with custom popup)", "custom picker",
+                                 "Color Button", "Color Picker 4", "Color Edit 4 (float values)", "Color Edit 4 (ints value)"]
+                add_checkbox("Enable-Disable##color_widgets", default_value=True, callback=toggle_config, callback_data={'kwargs': ['enabled'], 'items': disable_items})
 
                 with table("##demowidgetscolor"):
                     add_table_column("##demowidgetscolor1")
@@ -442,11 +449,11 @@ def show_demo():
                            "click the color edit preview will reveal the color picker.")
                 add_color_edit4("Color Edit 4##2", source=color_edit_names[0], no_inputs=True, no_label=True)
                 
-                add_text("Color button with Custom Picker Popup:")
-                add_color_edit4("Color Edit 4 (with custom popup)", source=color_edit_names[0], no_inputs=True, no_picker=True)
+                add_text("Custom Picker Popup (a color edit with no options)")
+                add_color_edit4("Color Edit 4 (with custom popup)", source=color_edit_names[0], no_inputs=True, no_picker=True, callback=log_callback)
                 helpmarker("we can override the popup with our own custom popup that includes a color pallet")
                 with popup("Color Edit 4 (with custom popup)", "custom picker popup", mousebutton=0):
-                    add_color_picker4("custom picker", no_tooltip=True, picker_hue_wheel=True)
+                    add_color_picker4("custom picker", no_tooltip=True, picker_hue_wheel=True, callback=log_callback)
                     add_text("Color Pallet")
                     for i in range(30):
                         add_color_button(f"color button {i}", hsv_to_rgb(i/30,1,1))
@@ -456,12 +463,14 @@ def show_demo():
                 
                 add_text("Color button only:")
                 add_checkbox("no_border", callback=lambda sender, data: configure_item("Color Button", no_border=get_value(sender)))
-                add_color_button("Color Button", (255, 50, 255, 0), width=50, height=50)
+
+                add_color_button("Color Button", (255, 50, 255, 0), width=50, height=50, callback=log_callback)
                 with table("##demowidgetscolor_2"):
                     add_table_column("##demowidgetscolor_21")
                     add_table_column("##demowidgetscolor_22")
 
                     add_table_next_column()
+
                     add_checkbox("With Alpha", default_value=True, callback=lambda sender, data: configure_item("Color Picker 4", alpha_preview = get_value(sender)))
                     add_checkbox("With Alpha Bar", default_value=True, callback=lambda sender, data: configure_item("Color Picker 4", alpha_bar = get_value(sender)))
                     add_checkbox("With Side Preview", callback=lambda sender, data: configure_item("Color Picker 4", no_side_preview = get_value(sender)))
@@ -478,7 +487,7 @@ def show_demo():
                     elif(get_value(sender) == 1): 
                         configure_item("Color Picker 4", picker_hue_wheel = True)
                 add_radio_button("Display Type", items=["Hue Bar", "Hue Wheel"], callback=apply_hue)
-                add_color_picker4("Color Picker 4", source=color_edit_names[0], alpha_preview= True, alpha_bar=True)
+                add_color_picker4("Color Picker 4", source=color_edit_names[0], alpha_preview= True, alpha_bar=True, callback=log_callback)
                 add_color_edit4("Color Edit 4 (float values)", alpha_preview= True, floats=True, callback=lambda sender, data: configure_item("float_values", label=f"{get_value('list_color_value')}", color=hsv_to_rgb(get_value('list_color_value')[0],get_value('list_color_value')[1],get_value('list_color_value')[2])))
                 helpmarker("Color item values given to the widget as a list will cause the \n"
                            "color item to store and return colors as scalar floats from 0.0-1.0.\n"
