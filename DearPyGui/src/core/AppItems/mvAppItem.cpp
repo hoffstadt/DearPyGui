@@ -45,11 +45,7 @@ namespace Marvel{
 		parserKeywords.push_back(base_keyword6);
 		parserKeywords.push_back(base_keyword7);
 		parserKeywords.push_back(base_keyword8);
-		if (parserKeywords.empty())
-		{
-			ThrowPythonException("\"" + m_name + "\" could not find a parser that matched \"" + getParserCommand() + "\".");
-			return;
-		}
+
 		for (const auto& key : configKeys)
 		{
 			size_t i = 0;
