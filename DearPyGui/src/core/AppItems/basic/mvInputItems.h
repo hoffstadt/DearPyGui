@@ -127,6 +127,7 @@ namespace Marvel {
         ImGuiInputTextFlags m_flags = 0;
         ImGuiInputTextFlags m_stor_flags = 0;
         mvInputIntConfig    m_config;
+        int                 last_value = 0;
         
     };
 
@@ -211,6 +212,7 @@ namespace Marvel {
         ImGuiInputTextFlags m_flags = 0;
         ImGuiInputTextFlags m_stor_flags = 0;
         mvInputIntsConfig   m_config;
+        std::array<int, 2>  last_value = { 0, 0 };
         
     };
         
@@ -283,6 +285,7 @@ namespace Marvel {
         ImGuiInputTextFlags m_flags = 0;
         ImGuiInputTextFlags m_stor_flags = 0;
         mvInputIntsConfig   m_config;
+        std::array<int, 3>  last_value = { 0, 0, 0 };
         
     };
         
@@ -354,6 +357,7 @@ namespace Marvel {
         ImGuiInputTextFlags m_flags = 0;
         ImGuiInputTextFlags m_stor_flags = 0;
         mvInputIntsConfig   m_config;
+        std::array<int, 4>  last_value = { 0, 0, 0, 0 };
         
     };
         
@@ -453,6 +457,7 @@ namespace Marvel {
         ImGuiInputTextFlags m_flags = 0;
         ImGuiInputTextFlags m_stor_flags = 0;
         mvInputFloatConfig  m_config;
+        float               last_value = 0.0f;
         
     };
         
@@ -538,6 +543,7 @@ namespace Marvel {
         ImGuiInputTextFlags m_flags = 0;
         ImGuiInputTextFlags m_stor_flags = 0;
         mvInputFloatsConfig m_config;
+        std::array<float, 2>last_value = { 0.0f, 0.0f };
         
     };
         
@@ -611,6 +617,7 @@ namespace Marvel {
         ImGuiInputTextFlags m_flags = 0;
         ImGuiInputTextFlags m_stor_flags = 0;
         mvInputFloatsConfig m_config;
+        std::array<float, 3>last_value = { 0.0f, 0.0f, 0.0f };
     };
         
     //-----------------------------------------------------------------------------
@@ -682,6 +689,7 @@ namespace Marvel {
         ImGuiInputTextFlags m_flags = 0;
         ImGuiInputTextFlags m_stor_flags = 0;
         mvInputFloatsConfig m_config;
+        std::array<float, 4>last_value = { 0.0f, 0.0f, 0.0f, 0.0f };
     };
 
 }
