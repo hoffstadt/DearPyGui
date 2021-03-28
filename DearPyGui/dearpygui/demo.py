@@ -216,17 +216,17 @@ def show_demo():
                 add_table_column("##windowoptions_demo2")
                 add_table_column("##windowoptions_demo3")
                 
-                add_next_column()
+                add_table_next_column()
                 add_checkbox("No titlebar##demo", callback=lambda sender, data: configure_item("Dear PyGui Demo", no_title_bar=get_value(sender)))
                 add_checkbox("No scrollbar##demo", callback=lambda sender, data: configure_item("Dear PyGui Demo", no_scrollbar=get_value(sender)))
                 add_checkbox("No menu##demo", callback=lambda sender, data: configure_item("Dear PyGui Demo", menubar=not get_value(sender)))
 
-                add_next_column()
+                add_table_next_column()
                 add_checkbox("No move##demo", callback=lambda sender, data: configure_item("Dear PyGui Demo", no_move=get_value(sender)))
                 add_checkbox("No resize##demo", callback=lambda sender, data: configure_item("Dear PyGui Demo", no_resize=get_value(sender)))
                 add_checkbox("No collapse##demo", callback=lambda sender, data: configure_item("Dear PyGui Demo", no_collapse=get_value(sender)))
             
-                add_next_column()
+                add_table_next_column()
                 add_checkbox("No close##demo", callback=lambda sender, data: configure_item("Dear PyGui Demo", no_close=get_value(sender)))
                 add_checkbox("No background##demo", callback=lambda sender, data: configure_item("Dear PyGui Demo", no_background=get_value(sender)))
                 add_checkbox("No bring to front##demo", callback=lambda sender, data: configure_item("Dear PyGui Demo", no_bring_to_front_on_focus=get_value(sender)))
@@ -410,18 +410,18 @@ def show_demo():
                     add_table_column("##demowidgetscolor2")
                     add_table_column("##demowidgetscolor3")
 
-                    add_next_column()
+                    add_table_next_column()
                     add_checkbox("With Alpha Preview", callback=lambda sender, data: configure_items(color_edit_names, alpha_preview = get_value(sender)))
                     add_checkbox("With Half Alpha Preview", callback=lambda sender, data: configure_items(color_edit_names, alpha_preview_half = get_value(sender)))
                     add_checkbox("With No Small Preview", callback=lambda sender, data: configure_items(color_edit_names, no_small_preview = get_value(sender)))
                     add_checkbox("With No Inputs", callback=lambda sender, data: configure_items(color_edit_names, no_inputs = get_value(sender)))
 
-                    add_next_column()
+                    add_table_next_column()
                     add_checkbox("With No Tooltip", callback=lambda sender, data: configure_items(color_edit_names, no_tooltip = get_value(sender)))
                     add_checkbox("With RGB", callback=lambda sender, data: configure_items(color_edit_names, display_rgb = get_value(sender)))
                     add_checkbox("With HSV", callback=lambda sender, data: configure_items(color_edit_names, display_hsv = get_value(sender)))
                     
-                    add_next_column()
+                    add_table_next_column()
                     add_checkbox("With HEX", callback=lambda sender, data: configure_items(color_edit_names, display_hex = get_value(sender)))
                     add_checkbox("With Ints", callback=lambda sender, data: configure_items(color_edit_names, uint8 = get_value(sender)))
                     add_checkbox("With Floats", callback=lambda sender, data: configure_items(color_edit_names, floats = get_value(sender)))
@@ -461,12 +461,12 @@ def show_demo():
                     add_table_column("##demowidgetscolor_21")
                     add_table_column("##demowidgetscolor_22")
 
-                    add_next_column()
+                    add_table_next_column()
                     add_checkbox("With Alpha", default_value=True, callback=lambda sender, data: configure_item("Color Picker 4", alpha_preview = get_value(sender)))
                     add_checkbox("With Alpha Bar", default_value=True, callback=lambda sender, data: configure_item("Color Picker 4", alpha_bar = get_value(sender)))
                     add_checkbox("With Side Preview", callback=lambda sender, data: configure_item("Color Picker 4", no_side_preview = get_value(sender)))
 
-                    add_next_column()
+                    add_table_next_column()
                     add_checkbox("Display RGB", callback=lambda sender, data: configure_item("Color Picker 4", display_rgb = get_value(sender)))
                     add_checkbox("Display HSV", callback=lambda sender, data: configure_item("Color Picker 4", display_hsv = get_value(sender)))
                     add_checkbox("Display HEX", callback=lambda sender, data: configure_item("Color Picker 4", display_hex = get_value(sender)))
@@ -594,15 +594,15 @@ def show_demo():
                     add_table_column("##childwindowcol2")
                     add_table_column("##childwindowcol3")
 
-                    add_next_column()
+                    add_table_next_column()
                     add_checkbox("autosize_x##demo", callback=lambda sender, data: configure_item("testchild##demo", autosize_x=get_value(sender)))
                     add_checkbox("autosize_y##demo", callback=lambda sender, data: configure_item("testchild##demo", autosize_y=get_value(sender)))
 
-                    add_next_column()
+                    add_table_next_column()
                     add_checkbox("menubar##childdemo", default_value=True, callback=lambda sender, data: configure_item("testchild##demo", menubar=get_value(sender)))
                     add_checkbox("no_scrollbar##childdemo", callback=lambda sender, data: configure_item("testchild##demo", no_scrollbar=get_value(sender)))
 
-                    add_next_column()
+                    add_table_next_column()
                     add_checkbox("horizontal_scrollbar##childdemo", callback=lambda sender, data: configure_item("testchild##demo", horizontal_scrollbar=get_value(sender)))
                     add_checkbox("border##childdemo", default_value=True, callback=lambda sender, data: configure_item("testchild##demo", border=get_value(sender)))
 
@@ -793,7 +793,7 @@ def show_demo():
 
                     for i in range(0, 14):
                         add_selectable(f"Item {i}##columns1##demo")
-                        add_next_column()
+                        add_table_next_column()
 
                 add_text("With border:")
                 with table("columns2##demo"):
@@ -801,32 +801,32 @@ def show_demo():
                     add_table_column("Header 2##democolumns2")
                     add_table_column("Header 3##democolumns2")
                     add_table_column("Header 4##democolumns2")
-                    add_next_column()
+                    add_table_next_column()
  
                     add_selectable("0000##demo", span_columns=False)
-                    add_next_column()
+                    add_table_next_column()
                     add_text("One")
-                    add_next_column()
+                    add_table_next_column()
                     add_text("/path/one")
-                    add_next_column()
+                    add_table_next_column()
                     add_text("0")
-                    add_next_column()
+                    add_table_next_column()
 
                     add_selectable("0001##demo", span_columns=True)
-                    add_next_column()
+                    add_table_next_column()
                     add_text("Two")
-                    add_next_column()
+                    add_table_next_column()
                     add_text("/path/two")
-                    add_next_column()
+                    add_table_next_column()
                     add_text("0")
-                    add_next_column()
+                    add_table_next_column()
 
                     add_selectable("0003##demo", span_columns=True)
-                    add_next_column()
+                    add_table_next_column()
                     add_text("Three")
-                    add_next_column()
+                    add_table_next_column()
                     add_text("/path/three")
-                    add_next_column()
+                    add_table_next_column()
                     add_text("0")
  
             with tree_node("Borders##columns##demo"):
@@ -836,7 +836,7 @@ def show_demo():
                     add_table_column("Columns3##demo2")
                     add_table_column("Columns3##demo3")
                     add_table_column("Columns3##demo4")
-                    add_next_column()
+                    add_table_next_column()
 
                     def replicated_cell(i):
                         with group(f"replicated_group##{i}##demo"):
@@ -846,7 +846,7 @@ def show_demo():
 
                     for i in range(0, 12):
                         replicated_cell(i)
-                        add_next_column()
+                        add_table_next_column()
        
         with collapsing_header("Drawings##demo"):
 

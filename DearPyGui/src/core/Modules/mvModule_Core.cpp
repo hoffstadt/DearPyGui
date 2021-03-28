@@ -210,7 +210,7 @@ namespace Marvel {
 			ADD_PYTHON_FUNCTION(add_table)
 			ADD_PYTHON_FUNCTION(add_table_header_row)
 			ADD_PYTHON_FUNCTION(add_table_column)
-			ADD_PYTHON_FUNCTION(add_next_column)
+			ADD_PYTHON_FUNCTION(add_table_next_column)
 
 			// data grid commands
 			ADD_PYTHON_FUNCTION(add_data_grid)

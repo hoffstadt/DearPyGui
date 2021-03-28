@@ -48,9 +48,7 @@ namespace Marvel {
         mvAboutWindow, mvDocWindow, mvDebugWindow, mvMetricsWindow,
         mvStyleWindow, mvFileDialog, mvTabButton, mvLoggerItem,
         mvNodeEditor, mvNode, mvNodeAttribute,
-        mvTable, mvTableColumn, mvTableHeaderRow, mvNextColumn,
-        // mvTable, mvTableNextColumn, mvTableNextRow, mvTableSetColumnIndex
-        //
+        mvTable, mvTableColumn, mvTableHeaderRow, mvTableNextColumn,
         ItemTypeCount
     };
 

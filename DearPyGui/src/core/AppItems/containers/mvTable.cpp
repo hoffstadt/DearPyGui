@@ -80,9 +80,9 @@ namespace Marvel {
 		}, "Changes to next column.", "None", "Containers") });
 	}
 
-	void mvNextColumn::InsertParser(std::map<std::string, mvPythonParser>* parsers)
+	void mvTableNextColumn::InsertParser(std::map<std::string, mvPythonParser>* parsers)
 	{
-		parsers->insert({ "add_next_column", mvPythonParser({
+		parsers->insert({ "add_table_next_column", mvPythonParser({
 			{mvPythonDataType::KeywordOnly},
 			{mvPythonDataType::String, "name", "", "'next_column'"},
 			{mvPythonDataType::Bool, "show", "Attempt to render", "True"},
@@ -97,6 +97,21 @@ namespace Marvel {
 	{
 		m_description.container = true;
 		m_inner_width = inner_width;
+	}
+
+	const std::string& mvTable::getLastColumnAdded() const
+	{
+		return m_lastColumnAdded;
+	}
+
+	void mvTable::setLastColumnAdded(const std::string& name)
+	{
+		m_lastColumnAdded = name;
+	}
+
+	void mvTable::setRowHeader(const std::string& name)
+	{
+		m_rowHeader = name;
 	}
 
 	void mvTable::draw()
@@ -165,12 +180,12 @@ namespace Marvel {
 		ImGui::TableSetupColumn(m_core_config.name.c_str());
 	}
 
-	mvNextColumn::mvNextColumn(const std::string& name)
+	mvTableNextColumn::mvTableNextColumn(const std::string& name)
 		: mvAppItem(name)
 	{
 	}
 
-	void mvNextColumn::draw()
+	void mvTableNextColumn::draw()
 	{
 		ImGui::TableNextColumn();
 	}
@@ -332,7 +347,7 @@ namespace Marvel {
 		return GetPyNone();
 	}
 
-	PyObject* add_next_column(PyObject* self, PyObject* args, PyObject* kwargs)
+	PyObject* add_table_next_column(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		static int i = 0; i++;
 		std::string sname = std::string("next_column" + std::to_string(i));
@@ -341,11 +356,11 @@ namespace Marvel {
 		const char* parent = "";
 		int show = true;
 
-		if (!(mvApp::GetApp()->getParsers())["add_next_column"].parse(args, kwargs, __FUNCTION__,
+		if (!(mvApp::GetApp()->getParsers())["add_table_next_column"].parse(args, kwargs, __FUNCTION__,
 			&name, &show, &parent, &before))
 			return ToPyBool(false);
 
-		auto item = CreateRef<mvNextColumn>(name);
+		auto item = CreateRef<mvTableNextColumn>(name);
 		item->checkConfigDict(kwargs);
 		item->setConfigDict(kwargs);
 		item->setExtraConfigDict(kwargs);
