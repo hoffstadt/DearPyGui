@@ -55,6 +55,8 @@ namespace Marvel {
 		void setNodePos(float x, float y);
 
 		void draw() override;
+		bool isParentCompatible(mvAppItemType type) override;
+		bool canChildBeAdded(mvAppItemType type) override;
 
 		int getId() const {return m_id;}
 

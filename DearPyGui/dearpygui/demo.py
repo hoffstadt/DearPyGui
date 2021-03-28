@@ -214,12 +214,11 @@ def show_demo():
         add_text("https://github.com/hoffstadt/DearPyGui/blob/master/DearPyGui/dearpygui/demo.py")
 
         with collapsing_header("Window options##demo"):
-            with table("Window Options Col##demo"):
+            with table("Window Options Col##demo", header_row=False):
                 add_table_column("##windowoptions_demo1")
                 add_table_column("##windowoptions_demo2")
                 add_table_column("##windowoptions_demo3")
                 
-                add_table_next_column()
                 add_checkbox("No titlebar##demo", callback=lambda sender, data: configure_item("Dear PyGui Demo", no_title_bar=get_value(sender)))
                 add_checkbox("No scrollbar##demo", callback=lambda sender, data: configure_item("Dear PyGui Demo", no_scrollbar=get_value(sender)))
                 add_checkbox("No menu##demo", callback=lambda sender, data: configure_item("Dear PyGui Demo", menubar=not get_value(sender)))
@@ -412,12 +411,11 @@ def show_demo():
                                  "Color Button", "Color Picker 4", "Color Edit 4 (float values)", "Color Edit 4 (ints value)"]
                 add_checkbox("Enable-Disable##color_widgets", default_value=True, callback=toggle_config, callback_data={'kwargs': ['enabled'], 'items': disable_items})
 
-                with table("##demowidgetscolor"):
+                with table("##demowidgetscolor", header_row=False):
                     add_table_column("##demowidgetscolor1")
                     add_table_column("##demowidgetscolor2")
                     add_table_column("##demowidgetscolor3")
 
-                    add_table_next_column()
                     add_checkbox("With Alpha Preview", callback=lambda sender, data: configure_items(color_edit_names, alpha_preview = get_value(sender)))
                     add_checkbox("With Half Alpha Preview", callback=lambda sender, data: configure_items(color_edit_names, alpha_preview_half = get_value(sender)))
                     add_checkbox("With No Small Preview", callback=lambda sender, data: configure_items(color_edit_names, no_small_preview = get_value(sender)))
@@ -465,11 +463,9 @@ def show_demo():
                 add_checkbox("no_border", callback=lambda sender, data: configure_item("Color Button", no_border=get_value(sender)))
 
                 add_color_button("Color Button", (255, 50, 255, 0), width=50, height=50, callback=log_callback)
-                with table("##demowidgetscolor_2"):
+                with table("##demowidgetscolor_2", header_row=False):
                     add_table_column("##demowidgetscolor_21")
                     add_table_column("##demowidgetscolor_22")
-
-                    add_table_next_column()
 
                     add_checkbox("With Alpha", default_value=True, callback=lambda sender, data: configure_item("Color Picker 4", alpha_preview = get_value(sender)))
                     add_checkbox("With Alpha Bar", default_value=True, callback=lambda sender, data: configure_item("Color Picker 4", alpha_bar = get_value(sender)))
@@ -570,12 +566,15 @@ def show_demo():
             with tree_node("Time/Date Widgets##demo"):
                 add_time_picker("Time Picker##demo", default_value={'hour': 14, 'min': 32, 'sec': 23})
                 add_separator()
-                with table("Date Columns##demo"):
+                with table("Date Columns##demo", header_row=False):
                     add_table_column("Date Columns##demo1")
                     add_table_column("Date Columns##demo2")
                     add_table_column("Date Columns##demo3")
+
                     add_date_picker("Date Picker1##demo", level=0, default_value={'month_day': 8, 'year':93, 'month':5})
+                    add_table_next_column()
                     add_date_picker("Date Picker2##demo", level=1, default_value={'month_day': 8, 'year':93, 'month':5})
+                    add_table_next_column()
                     add_date_picker("Date Picker3##demo", level=2, default_value={'month_day': 8, 'year':93, 'month':5})
                 add_separator()
 
@@ -598,12 +597,11 @@ def show_demo():
 
             with tree_node("Child Window Flags##demo"):
 
-                with table("##childwindowcol"):
+                with table("##childwindowcol", header_row=False):
                     add_table_column("##childwindowcol1")
                     add_table_column("##childwindowcol2")
                     add_table_column("##childwindowcol3")
 
-                    add_table_next_column()
                     add_checkbox("autosize_x##demo", callback=lambda sender, data: configure_item("testchild##demo", autosize_x=get_value(sender)))
                     add_checkbox("autosize_y##demo", callback=lambda sender, data: configure_item("testchild##demo", autosize_y=get_value(sender)))
 
@@ -798,7 +796,6 @@ def show_demo():
                     add_table_column("Header 2##democolumns1")
                     add_table_column("Header 3##democolumns1")
                     add_table_column("Header 4##democolumns1")
-                    add_table_header_row()
 
                     for i in range(0, 14):
                         add_selectable(f"Item {i}##columns1##demo")
@@ -810,7 +807,6 @@ def show_demo():
                     add_table_column("Header 2##democolumns2")
                     add_table_column("Header 3##democolumns2")
                     add_table_column("Header 4##democolumns2")
-                    add_table_next_column()
  
                     add_selectable("0000##demo", span_columns=False)
                     add_table_next_column()
@@ -845,7 +841,6 @@ def show_demo():
                     add_table_column("Columns3##demo2")
                     add_table_column("Columns3##demo3")
                     add_table_column("Columns3##demo4")
-                    add_table_next_column()
 
                     def replicated_cell(i):
                         with group(f"replicated_group##{i}##demo"):

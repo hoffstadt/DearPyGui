@@ -8,7 +8,6 @@
 //
 //     * mvTable
 //     * mvTableColumn
-//     * mvTableHeaderRow
 //     * mvTableNextColumn
 //
 //-----------------------------------------------------------------------------
@@ -19,7 +18,6 @@ namespace Marvel {
 #else
 	PyObject* add_table           (PyObject* self, PyObject* args, PyObject* kwargs);
 	PyObject* add_table_column    (PyObject* self, PyObject* args, PyObject* kwargs);
-	PyObject* add_table_header_row(PyObject* self, PyObject* args, PyObject* kwargs);
 	PyObject* add_table_next_column     (PyObject* self, PyObject* args, PyObject* kwargs);
 #endif
 
@@ -48,6 +46,7 @@ namespace Marvel {
 		~mvTableColumn();
 
 		void draw() override;
+		bool isParentCompatible(mvAppItemType type) override;
 
 #ifndef MV_CPP
 		void setExtraConfigDict(PyObject* dict) override;
@@ -62,34 +61,7 @@ namespace Marvel {
 	};
 
 	//-----------------------------------------------------------------------------
-	// mvTableHeaderRow
-	//-----------------------------------------------------------------------------
-	MV_REGISTER_WIDGET(mvTableHeaderRow);
-	class mvTableHeaderRow : public mvAppItem
-	{
-
-	public:
-
-		static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
-
-	public:
-
-		MV_APPITEM_TYPE(mvAppItemType::mvTableHeaderRow, "add_table_header_row")
-
-		MV_START_COLOR_CONSTANTS
-		MV_END_COLOR_CONSTANTS
-
-		MV_START_STYLE_CONSTANTS
-		MV_END_STYLE_CONSTANTS
-
-		mvTableHeaderRow(const std::string& name);
-
-		void draw() override;
-
-	};
-
-	//-----------------------------------------------------------------------------
-	// mvNextColumn
+	// mvTableNextColumn
 	//-----------------------------------------------------------------------------
 	MV_REGISTER_WIDGET(mvTableNextColumn);
 	class mvTableNextColumn : public mvAppItem
@@ -110,6 +82,8 @@ namespace Marvel {
 		MV_END_STYLE_CONSTANTS
 
 		mvTableNextColumn(const std::string& name);
+
+		bool isParentCompatible(mvAppItemType type) override;
 
 		void draw() override;
 
@@ -143,7 +117,6 @@ namespace Marvel {
 		void decrementColumns();
 		const std::string& getLastColumnAdded() const;
 		void setLastColumnAdded(const std::string& name);
-		void setRowHeader(const std::string& name);
 
 #ifndef MV_CPP
 		void setExtraConfigDict(PyObject* dict) override;
@@ -155,12 +128,12 @@ namespace Marvel {
 		int  m_columns = 0;
 		int  m_inner_width = 0;
 		ImGuiTableFlags m_flags = 0;
+		bool m_tableHeader = true;
 		
 		// this keeps track of the last column so
 		// addAfter() can use this to place
 		// columns correctly.
 		std::string m_lastColumnAdded;
-		std::string m_rowHeader;
 	};
 
 }

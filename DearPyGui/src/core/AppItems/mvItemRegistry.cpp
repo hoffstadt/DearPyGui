@@ -284,24 +284,6 @@ namespace Marvel {
 		// add runtime items
 		bool addedItem = false;
 
-		if (!item->getDescription().duplicatesAllowed)
-		{
-			if (getItem(item->m_core_config.name))
-			{
-				std::string message = item->m_core_config.name;
-				mvThrowPythonError(1003, message + ": Items of this type must have unique names");
-				MV_ITEM_REGISTRY_WARN("New widget could not be added because it did not have a unique name.");
-				assert(false);
-				return false;
-			}
-		}
-
-		if (item->getDescription().root)
-		{
-			m_frontWindows.push_back(item);
-			return true;
-		}
-
 		for (auto window : m_frontWindows)
 		{
 			addedItem = window->addRuntimeChild(parent, before, item);
@@ -309,13 +291,7 @@ namespace Marvel {
 				break;
 		}
 
-		if (!addedItem)
-		{
-			mvThrowPythonError(1004, item->m_core_config.name + " not added because its parent was not found");
-			MV_ITEM_REGISTRY_WARN("New widget could not be added because it's parent was not found.");
-			assert(false);
-		}
-
+		assert(addedItem);
 		return addedItem;
 	}
 
@@ -323,32 +299,16 @@ namespace Marvel {
 	{
 		MV_ITEM_REGISTRY_TRACE("Attempting to add new widget after: ", item->getCoreConfig().name);
 
-		// add popup items
 		bool addedItem = false;
 
-		if (getItem(item->m_core_config.name))
-		{
-			std::string message = item->m_core_config.name;
-			mvThrowPythonError(1003, message + ": Items of this type must have unique names");
-			MV_ITEM_REGISTRY_WARN("New widget could not be added because it did not have a unique name.");
-			assert(false);
-			return false;
-		}
-
-		for (auto window : m_frontWindows)
+		for (auto& window : m_frontWindows)
 		{
 			addedItem = window->addChildAfter(prev, item);
 			if (addedItem)
 				break;
 		}
 
-		if (!addedItem)
-		{
-			mvThrowPythonError(1004, item->m_core_config.name + " not added because its parent was not found");
-			MV_ITEM_REGISTRY_WARN("New widget not added because its parent was not found.");
-			assert(false);
-		}
-
+		assert(addedItem);
 		return addedItem;
 	}
 
@@ -438,31 +398,7 @@ namespace Marvel {
 
 		MV_ITEM_REGISTRY_TRACE("Adding item: " + item->getCoreConfig().name);
 
-		static int count = 0;
-		count++;
-
-		if (!item->getDescription().duplicatesAllowed)
-		{
-			if (getItem(item->m_core_config.name))
-			{
-				std::string message = item->m_core_config.name + " " + std::to_string(count);
-				mvThrowPythonError(1003, message + ": Items of this type must have unique names");
-				MV_ITEM_REGISTRY_ERROR("Items of this type must have unique names: " + item->getCoreConfig().name);
-				assert(false);
-				return false;
-			}
-		}
-
 		mvRef<mvAppItem> parentitem = topParent();
-		if (parentitem == nullptr)
-		{
-			std::string message = item->m_core_config.name;
-			mvThrowPythonError(1004, message + ": Parent for this item not found or the parent stack is empty.");
-			MV_ITEM_REGISTRY_ERROR("Parent for this item not found or the parent stack is empty: " + item->getCoreConfig().name);
-			assert(false);
-			return false;
-		}
-
 		item->m_parent = parentitem.get();
 		parentitem->m_children.emplace_back(item);
 
@@ -490,134 +426,121 @@ namespace Marvel {
 		if (item == nullptr)
 			return false;
 
+		//---------------------------------------------------------------------------
+		// STEP 0: check if an item with this name exists
+		//---------------------------------------------------------------------------
+		if (!item->getDescription().duplicatesAllowed)
+		{
+			if (getItem(item->m_core_config.name))
+			{
+				mvThrowPythonError(1000, "Item must have a unique name.");
+				MV_ITEM_REGISTRY_WARN("Item must have a unique name.");
+				assert(false);
+				return false;
+			}
+		}
+
+		enum class AddTechnique
+		{
+			NONE, BEFORE, PARENT, STACK
+		};
+		AddTechnique technique = AddTechnique::NONE;
+
 		std::lock_guard<std::mutex> lk(mvApp::GetApp()->getMutex());
 
-		// remove bad parent stack item
+		//---------------------------------------------------------------------------
+		// STEP 1: empty parent stack if mistakes were made
+		//---------------------------------------------------------------------------
 		if (item->getDescription().root && topParent() != nullptr)
 		{
-			mvThrowPythonError(1000, "Parent stack not empty. Adding window will empty the parent stack. Don't forget to end container types.");
+			mvThrowPythonError(1000, "Parent stack not empty.");
 			emptyParents();
-			MV_ITEM_REGISTRY_ERROR("Parent stack not empty when adding: " + item->getCoreConfig().name);
+			MV_ITEM_REGISTRY_ERROR("Parent stack not empty when adding " + item->getCoreConfig().name);
 			assert(false);
 		}
 
-		if (item->getType() != mvAppItemType::mvNode && topParent() != nullptr)
+		//---------------------------------------------------------------------------
+		// STEP 2: handle window case
+		//---------------------------------------------------------------------------
+		if (item->getDescription().root)
 		{
-			if (topParent()->getType() == mvAppItemType::mvNodeEditor)
+			if (mvApp::IsAppStarted())
 			{
-				mvThrowPythonError(1006, "Node editor children must be nodes only.");
-				MV_ITEM_REGISTRY_ERROR("Is not a node, can't be added to node editor: " + item->getCoreConfig().name);
-				assert(false);
-				return false;
+				m_frontWindows.push_back(item);
+				return true;
 			}
+			return addWindow(item);
+		}
+			
+		//---------------------------------------------------------------------------
+		// STEP 3: attempt to deduce parent
+		//---------------------------------------------------------------------------
+		mvRef<mvAppItem> parentPtr = nullptr;
+		if (!std::string(before).empty())
+		{
+			parentPtr = getItem(before);
+			technique = AddTechnique::BEFORE;
 		}
 
-		if (item->getType() != mvAppItemType::mvNodeAttribute && topParent() != nullptr)
+		else if (!std::string(parent).empty())
 		{
-			if (topParent()->getType() == mvAppItemType::mvNode)
-			{
-				mvThrowPythonError(1007, "Node children must be node attributes only.");
-				MV_ITEM_REGISTRY_ERROR("Is not a node atrribute, can't be added to a node: " + item->getCoreConfig().name);
-				assert(false);
-				return false;
-			}
+			parentPtr = getItem(parent);
+			technique = AddTechnique::PARENT;
 		}
 
-		// special widgets whose order matter, adding after
-		if (item->getType() == mvAppItemType::mvTableColumn || item->getType() == mvAppItemType::mvTableHeaderRow)
+		else
 		{
-			// normal adding
-			if (std::string(parent).empty() && std::string(before).empty())
-			{
-				auto topparent = topParent();
-				if (topparent)
-				{
-					if (topparent->getType() != mvAppItemType::mvTable)
-					{
-						mvThrowPythonError(1011, "This item's parent must be an mvTable.");
-						MV_ITEM_REGISTRY_ERROR("This item's parent must be an mvTable.: " + item->getCoreConfig().name);
-						assert(false);
-						return false;
-					}
-					else
-					{
-
-						const auto& lastColumnAdded = static_cast<mvTable*>(topparent.get())->getLastColumnAdded();
-						if (lastColumnAdded.empty())
-							addItem(item);
-						else
-							addItemAfter(lastColumnAdded, item);
-						item->m_parent = topparent.get();
-						if (item->getType() == mvAppItemType::mvTableColumn)
-							static_cast<mvTable*>(topparent.get())->setLastColumnAdded(item->getCoreConfig().name);
-						else
-							static_cast<mvTable*>(topparent.get())->setRowHeader(item->getCoreConfig().name);
-						return true;
-					}
-				}
-			}
-
+			parentPtr = topParent();
+			technique = AddTechnique::STACK;
 		}
 
-		// special widgets whose order matter, adding after
-		if (item->getType() == mvAppItemType::mvPopup || item->getType() == mvAppItemType::mvTooltip)
+		//---------------------------------------------------------------------------
+		// STEP 4: check if parent was deduced
+		//---------------------------------------------------------------------------
+		if (parentPtr == nullptr)
 		{
-			addItemAfter(parent, item);
-			MV_ITEM_REGISTRY_TRACE("Adding item using 'addItemAfter' method: " + item->getCoreConfig().name);
-			return true;
-		}
-
-		// window runtime adding
-		if (item->getDescription().root && mvApp::IsAppStarted())
-		{
-			MV_ITEM_REGISTRY_TRACE("Adding root using window runtime method: " + item->getCoreConfig().name);
-			addRuntimeItem("", "", item);
-		}
-
-		// window compile adding
-		else if (item->getDescription().root)
-		{
-			MV_ITEM_REGISTRY_TRACE("Adding root using window compile method: " + item->getCoreConfig().name);
-			addWindow(item);
-		}
-
-		// typical run time adding
-		else if ((!std::string(parent).empty() || !std::string(before).empty()) && mvApp::IsAppStarted())
-		{
-			MV_ITEM_REGISTRY_TRACE("Adding item using typical runtime method: " + item->getCoreConfig().name);
-			addRuntimeItem(parent, before, item);
-		}
-
-		// adding without specifying before or parent, instead using parent stack
-		else if (std::string(parent).empty() && std::string(before).empty() && mvApp::IsAppStarted() && topParent() != nullptr)
-		{
-			MV_ITEM_REGISTRY_TRACE("Adding item using runtime parent stack method: " + item->getCoreConfig().name);
-			addRuntimeItem(topParent()->m_core_config.name, before, item);
-		}
-
-		// adding without specifying before or parent, but with empty stack (add to main window)
-		else if (std::string(parent).empty() && std::string(before).empty() && mvApp::IsAppStarted())
-		{
-			mvThrowPythonError(1008, "Parent stack is empty. You must specify 'before' or 'parent' widget.");
-			MV_ITEM_REGISTRY_ERROR("Failed to add item using runtime method (before or after not specificed): " + item->getCoreConfig().name);
+			mvThrowPythonError(1000, "Parent could not be deduced.");
+			MV_ITEM_REGISTRY_ERROR("Parent could not be deduced.");
+			assert(false);
 			return false;
 		}
 
-		// adding normally but using the runtime style of adding
-		else if (!std::string(parent).empty() && !mvApp::IsAppStarted())
+		//---------------------------------------------------------------------------
+		// STEP 5: check if parent is a compatible type
+		//---------------------------------------------------------------------------
+		if (!item->isParentCompatible(parentPtr->getType()))
+			return false;
+
+		//---------------------------------------------------------------------------
+		// STEP 6: check if parent accepts our item (this isn't duplicate STEP 3 ha)
+		//---------------------------------------------------------------------------
+		if (!parentPtr->canChildBeAdded(item->getType()))
+			return false;
+
+		//---------------------------------------------------------------------------
+		// STEP 7: add items who require "after" adding (i.e. popup, tooltip)
+		//---------------------------------------------------------------------------
+		if (item->getDescription().addAfterRequired)
+			return addItemAfter(parent, item);
+
+		//---------------------------------------------------------------------------
+		// STEP 8: handle "before" and "after" style adding
+		//---------------------------------------------------------------------------
+		if (technique == AddTechnique::BEFORE || technique == AddTechnique::PARENT)
+			return addRuntimeItem(parent, before, item); // same for run/compile time
+
+		//---------------------------------------------------------------------------
+		// STEP 9: handle "stack" style adding
+		//---------------------------------------------------------------------------
+		if (technique == AddTechnique::STACK)
 		{
-			MV_ITEM_REGISTRY_TRACE("Adding item using runtime method at compile time: " + item->getCoreConfig().name);
-			addRuntimeItem(parent, before, item);
+			if(mvApp::IsAppStarted())
+				return addRuntimeItem(parentPtr->m_core_config.name, "", item);
+			return addItem(item);
 		}
 
-		// typical adding before runtime
-		else if (std::string(parent).empty() && !mvApp::IsAppStarted() && std::string(before).empty())
-		{
-			MV_ITEM_REGISTRY_TRACE("Adding item using compile method: {}", item->getCoreConfig().name);
-			addItem(item);
-		}
-
-		return true;
+		assert(false);
+		return false;
 	}
 
 	std::string mvItemRegistry::getItemParentName(const std::string& name)

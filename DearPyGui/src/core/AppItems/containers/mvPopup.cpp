@@ -29,6 +29,7 @@ namespace Marvel {
 		: mvBoolPtrBase(name, false), m_parentAddress(parentAddress)
 	{
 		m_description.container = true;
+		m_description.addAfterRequired = true;
 	}
 
 	void mvPopup::closePopup()

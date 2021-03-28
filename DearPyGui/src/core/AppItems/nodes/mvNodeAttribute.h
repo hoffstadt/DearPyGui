@@ -31,7 +31,9 @@ namespace Marvel {
 
 		mvNodeAttribute(const std::string& name);
 		~mvNodeAttribute();
+
 		void draw() override;
+		bool isParentCompatible(mvAppItemType type) override;
 
 		int getId() const {return m_id;}
 

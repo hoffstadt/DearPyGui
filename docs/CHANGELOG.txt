@@ -65,7 +65,6 @@ New Keywords:
 New Commands:
 - table
 - add_table_column
-- add_table_header_row
 - clear_data_grid
 - insert_grid_column
 - delete_grid_column

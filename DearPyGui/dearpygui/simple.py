@@ -9,7 +9,7 @@ import dearpygui.core as internal_dpg
 ########################################################################################################################
 
 @contextmanager
-def table(name: str, *, width: int = 0, height: int = 0, inner_width: int = 0, show: bool = True, parent: str = "",
+def table(name: str, *, header_row: bool = True, width: int = 0, height: int = 0, inner_width: int = 0, show: bool = True, parent: str = "",
 		before: str = "", resizable: bool = False, reorderable: bool = False, hideable: bool = False, sortable: bool = False,   
 		context_menu_in_body: bool = False, row_background: bool = False, borders_innerH: bool = False, borders_outerH: bool = False,
 		borders_innerV: bool = False, borders_outerV: bool = False, policy: int = 8192, no_host_extendX: bool = False,
@@ -20,6 +20,7 @@ def table(name: str, *, width: int = 0, height: int = 0, inner_width: int = 0, s
     Args:
         name: Unique name used to programmatically refer to the item. If label is unused this will be the label,
             anything after "##" that occurs in the name will not be shown on screen.
+			**header_row: show headers at the top of the columns
 			**width: 
 			**height: 
 			**inner_width:
@@ -52,7 +53,7 @@ def table(name: str, *, width: int = 0, height: int = 0, inner_width: int = 0, s
         None
     """
     try:
-        yield internal_dpg.add_table(name, width = width, height = height, inner_width = inner_width,
+        yield internal_dpg.add_table(name, header_row=header_row, width = width, height = height, inner_width = inner_width,
 		    show = show, parent = parent, before = before, resizable = resizable, reorderable = reorderable, hideable = hideable,
 		    sortable = sortable, context_menu_in_body = context_menu_in_body, row_background = row_background,
 		    borders_innerH = borders_innerH, borders_outerH = borders_outerH, borders_innerV = borders_innerV,

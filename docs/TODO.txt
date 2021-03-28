@@ -6,25 +6,11 @@ The list below consist mostly of ideas noted down before they are requested/disc
 It's mostly a bunch of personal notes, probably incomplete. Feel free to query if you have any questions.
 
 - window class: alot of work needs to happen here to clean this up.
-
 - doc: work on the CONTRIBUTING.md file
 - doc/wiki: work on the wiki https://github.com/RaylockLLC/DearPyGui/wiki
-
-- 3d widget: add a 3d widget similar to the one provided in javafx or wpf
-
 - custom widgets: add a fully supported custom widget API to allow users to make their own widgets more easily
-
 - misc: deal with deprecation of codecvt
-- misc: add support for raspberry pi
-
 - mvPythonTranslator: make commands more consistent, more like ToPyPairII
-
-- layouts: because there is not a way to know boarder sizes on things like the main window and also the childs it maks sizing hard same for menu. its hard to set a child to fill the main window width
-- layout: doing add_spacing in count when everything is in pixels is weird
-- layout: group has no height attribute which would be useful for when the group is set to horizontal
-
 - add_texture: fix alpha channel mess
-
 - mac: handle retina display nonsense
-
-- window callbacks: move callbacks to callback registry
+- tables: add automatic placement of columns

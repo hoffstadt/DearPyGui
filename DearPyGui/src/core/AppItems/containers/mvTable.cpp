@@ -1,5 +1,6 @@
 #include "mvTable.h"
 #include "mvApp.h"
+#include "mvLog.h"
 #include "mvItemRegistry.h"
 #include "mvImGuiThemeScope.h"
 
@@ -10,6 +11,7 @@ namespace Marvel {
 		parsers->insert({ "add_table", mvPythonParser({
 			{mvPythonDataType::String, "name"},
 			{mvPythonDataType::KeywordOnly},
+			{mvPythonDataType::Bool, "header_row", "show headers at the top of the columns", "True"},
 			{mvPythonDataType::Integer, "width", "", "0"},
 			{mvPythonDataType::Integer, "height", "", "0"},
 			{mvPythonDataType::Integer, "inner_width", "", "0"},
@@ -70,16 +72,6 @@ namespace Marvel {
 			}, "Changes to next column.", "None", "Containers") });
 	}
 
-	void mvTableHeaderRow::InsertParser(std::map<std::string, mvPythonParser>* parsers)
-	{
-		parsers->insert({ "add_table_header_row", mvPythonParser({
-			{mvPythonDataType::KeywordOnly},
-			{mvPythonDataType::String, "name", "'table_header_row'"},
-			{mvPythonDataType::Bool, "show", "Attempt to render", "True"},
-			{mvPythonDataType::String, "parent", "Parent this item will be added to. (runtime adding)", "''"},
-		}, "Changes to next column.", "None", "Containers") });
-	}
-
 	void mvTableNextColumn::InsertParser(std::map<std::string, mvPythonParser>* parsers)
 	{
 		parsers->insert({ "add_table_next_column", mvPythonParser({
@@ -109,15 +101,14 @@ namespace Marvel {
 		m_lastColumnAdded = name;
 	}
 
-	void mvTable::setRowHeader(const std::string& name)
-	{
-		m_rowHeader = name;
-	}
-
 	void mvTable::draw()
 	{
 		ScopedID id;
 		mvImGuiThemeScope scope(this);
+
+		bool endOfColumnsFound = false;
+		bool headerPlaced = false;
+		bool firstColPlaced = false;
 
 		if (ImGui::BeginTable(m_core_config.name.c_str(), m_columns, m_flags, 
 			ImVec2(m_core_config.width, m_core_config.height), m_inner_width))
@@ -132,6 +123,20 @@ namespace Marvel {
 				// set item width
 				if (item->m_core_config.width != 0)
 					ImGui::SetNextItemWidth((float)item->m_core_config.width);
+
+				endOfColumnsFound = item->getType() != mvAppItemType::mvTableColumn;
+
+				if (m_tableHeader && endOfColumnsFound && !headerPlaced)
+				{
+					ImGui::TableHeadersRow();
+					headerPlaced = true;
+				}
+
+				if (endOfColumnsFound && !firstColPlaced)
+				{
+					ImGui::TableNextColumn();
+					firstColPlaced = true;
+				}
 
 				item->draw();
 
@@ -152,17 +157,6 @@ namespace Marvel {
 		m_columns--;
 	}
 
-	mvTableHeaderRow::mvTableHeaderRow(const std::string& name)
-		: mvAppItem(name)
-	{
-	}
-
-	void mvTableHeaderRow::draw()
-	{
-		ImGui::TableHeadersRow();
-		ImGui::TableNextColumn();
-	}
-
 	mvTableColumn::mvTableColumn(const std::string& name, float init_width_or_weight)
 		: mvAppItem(name)
 	{
@@ -180,6 +174,17 @@ namespace Marvel {
 		ImGui::TableSetupColumn(m_core_config.name.c_str());
 	}
 
+	bool mvTableColumn::isParentCompatible(mvAppItemType type)
+	{
+		if (type == mvAppItemType::mvTable)
+			return true;
+
+		mvThrowPythonError(1000, "mvTableColumn parent must be a table.");
+		MV_ITEM_REGISTRY_ERROR("mvTableColumn parent must be a table.");
+		assert(false);
+		return false;
+	}
+
 	mvTableNextColumn::mvTableNextColumn(const std::string& name)
 		: mvAppItem(name)
 	{
@@ -190,11 +195,23 @@ namespace Marvel {
 		ImGui::TableNextColumn();
 	}
 
+	bool mvTableNextColumn::isParentCompatible(mvAppItemType type)
+	{
+		if (type == mvAppItemType::mvTable)
+			return true;
+
+		mvThrowPythonError(1000, "mvTableNextColumn parent must be a table.");
+		MV_ITEM_REGISTRY_ERROR("mvTableNextColumn parent must be a table.");
+		assert(false);
+		return false;
+	}
+
 #ifndef MV_CPP
 
 	PyObject* add_table(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		const char* name;
+		int header_row = true;
 		int width = 0;
 		int height = 0;
 		int inner_width = 0;
@@ -224,7 +241,7 @@ namespace Marvel {
 		int scrollY = false; 
 
 		if (!(mvApp::GetApp()->getParsers())["add_table"].parse(args, kwargs, __FUNCTION__,
-			&name, &width, &height, &inner_width, &show, &parent, &before,
+			&name, &header_row, &width, &height, &inner_width, &show, &parent, &before,
 			&resizable,
 			&reorderable,
 			&hideable,
@@ -325,28 +342,6 @@ namespace Marvel {
 		return GetPyNone();
 	}
 
-	PyObject* add_table_header_row(PyObject* self, PyObject* args, PyObject* kwargs)
-	{
-		static int i = 0; i++;
-		std::string sname = std::string("header_table_row" + std::to_string(i));
-		const char* name = sname.c_str();
-		int show = true;
-		const char* parent = "";
-
-		if (!(mvApp::GetApp()->getParsers())["add_table_header_row"].parse(args, kwargs, __FUNCTION__,
-			&name, &show, &parent))
-			return ToPyBool(false);
-
-		auto item = CreateRef<mvTableHeaderRow>(name);
-		item->checkConfigDict(kwargs);
-		item->setConfigDict(kwargs);
-		item->setExtraConfigDict(kwargs);
-
-		mvApp::GetApp()->getItemRegistry().addItemWithRuntimeChecks(item, parent, "");
-
-		return GetPyNone();
-	}
-
 	PyObject* add_table_next_column(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		static int i = 0; i++;
@@ -375,6 +370,7 @@ namespace Marvel {
 		if (dict == nullptr)
 			return;
 
+		if (PyObject* item = PyDict_GetItemString(dict, "header_row")) m_tableHeader = ToBool(item);
 		if (PyObject* item = PyDict_GetItemString(dict, "inner_width")) m_inner_width = ToFloat(item);
 
 		// helper for bit flipping
@@ -411,6 +407,7 @@ namespace Marvel {
 			return;
 
 		PyDict_SetItemString(dict, "inner_width", ToPyInt(m_inner_width));
+		PyDict_SetItemString(dict, "header_row", ToPyBool(m_tableHeader));
 
 		// helper to check and set bit
 		auto checkbitset = [dict](const char* keyword, int flag, const int& flags)
