@@ -55,8 +55,10 @@ namespace Marvel {
 			cvalue[i] = text[i];
 
 		cvalue[size] = '\0';
+		auto result = std::string(cvalue);
+		delete[] cvalue;
 
-		return std::string(cvalue);
+		return result;
 	}
 
 	mvText::mvText(const std::string& name, const std::string& default_value, const std::string& dataSource)

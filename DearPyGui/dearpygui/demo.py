@@ -1239,16 +1239,18 @@ def show_demo():
                 print(data)
 
             add_text("Ctrl+Click to remove a link.", bullet=True)
-            add_table("Node Editor Columns##demo")
-            add_table_column("Node Editor Columns##demo1")
-            add_table_column("Node Editor Columns##demo2")
-            add_table_column("Node Editor Columns##demo3")
-            add_table_column("Node Editor Columns##demo4")
-            add_button("New Link##demo", callback=add_new_link)
-            add_button("Delete Link##demo", callback=delete_new_link)
-            add_button("Get Info##demo", callback=get_link_info)
-            add_button("Clear Selections##demo", callback=clear_stuff)
-            end()
+            with table("Node Editor Columns##demo", header_row=False):
+                add_table_column("Node Editor Columns##demo1")
+                add_table_column("Node Editor Columns##demo2")
+                add_table_column("Node Editor Columns##demo3")
+                add_table_column("Node Editor Columns##demo4")
+                add_button("New Link##demo", callback=add_new_link)
+                add_table_next_column()
+                add_button("Delete Link##demo", callback=delete_new_link)
+                add_table_next_column()
+                add_button("Get Info##demo", callback=get_link_info)
+                add_table_next_column()
+                add_button("Clear Selections##demo", callback=clear_stuff)
             with node_editor("Node Editor 1##demo", link_callback=link_callback, delink_callback=delink_callback):
     
                 with node("Node 1##demo", x_pos=10, y_pos=10):
