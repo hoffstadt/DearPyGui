@@ -523,6 +523,43 @@ namespace Marvel {
 			}
 		}
 
+		// special widgets whose order matter, adding after
+		if (item->getType() == mvAppItemType::mvTableColumn || item->getType() == mvAppItemType::mvTableHeaderRow)
+		{
+			// normal adding
+			if (std::string(parent).empty() && std::string(before).empty())
+			{
+				auto topparent = topParent();
+				if (topparent)
+				{
+					if (topparent->getType() != mvAppItemType::mvTable)
+					{
+						mvThrowPythonError(1011, "This item's parent must be an mvTable.");
+						MV_ITEM_REGISTRY_ERROR("This item's parent must be an mvTable.: " + item->getCoreConfig().name);
+						assert(false);
+						return false;
+					}
+					else
+					{
+
+						const auto& lastColumnAdded = static_cast<mvTable*>(topparent.get())->getLastColumnAdded();
+						if (lastColumnAdded.empty())
+							addItem(item);
+						else
+							addItemAfter(lastColumnAdded, item);
+						item->m_parent = topparent.get();
+						if (item->getType() == mvAppItemType::mvTableColumn)
+							static_cast<mvTable*>(topparent.get())->setLastColumnAdded(item->getCoreConfig().name);
+						else
+							static_cast<mvTable*>(topparent.get())->setRowHeader(item->getCoreConfig().name);
+						return true;
+					}
+				}
+			}
+
+		}
+
+		// special widgets whose order matter, adding after
 		if (item->getType() == mvAppItemType::mvPopup || item->getType() == mvAppItemType::mvTooltip)
 		{
 			addItemAfter(parent, item);

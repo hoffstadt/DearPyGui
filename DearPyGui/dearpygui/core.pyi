@@ -70,16 +70,12 @@ def add_color_picker4(name: str, *, default_value: List[int] = (0, 0, 0, 255), c
 	"""Adds an rgba color picking widget. Click and draging the color square will copy the color to be applied on any other color widget. Right Click allows the style of the color picker to be changed"""
 	...
 
-def add_column(table: str, name: str, column: List[str]) -> None:
-	"""Adds a column to the end of a table."""
-	...
-
-def add_columns(name: str, columns: int, *, border: bool = True, show: bool = True, parent: str = '', before: str = '') -> None:
-	"""Sets columns."""
-	...
-
 def add_combo(name: str, *, items: List[str] = (), default_value: str = '', callback: Callable = None, callback_data: Any = None, parent: str = '', before: str = '', source: str = '', enabled: bool = True, width: int = 0, label: str = '', show: bool = True, popup_align_left: bool = False, height_small: bool = False, height_regular: bool = False, height_large: bool = False, height_largest: bool = False, no_arrow_button: bool = False, no_preview: bool = False) -> None:
 	"""Adds a combo."""
+	...
+
+def add_data_grid(name: str, headers: List[str], *, callback: Callable = None, callback_data: Any = None, parent: str = '', before: str = '', width: int = 0, height: int = 200, hide_headers: bool = False, show: bool = True) -> None:
+	"""Adds data grid."""
 	...
 
 def add_date_picker(name: str, *, default_value: dict = {'month_day': 14, 'year':20, 'month':5}, level: int = 0, callback: Callable = None, callback_data: Any = None, parent: str = '', before: str = '', show: bool = True) -> None:
@@ -144,6 +140,14 @@ def add_dummy(*, width: int = 0, height: int = 0, name: str = 'dummy', parent: s
 
 def add_error_series(plot: str, name: str, x: List[float], y: List[float], negative: List[float], positive: List[float], *, horizontal: bool = False, update_bounds: bool = True, color: List[float] = (0, 0, 0, -1), axis: int = 0) -> None:
 	"""Adds an error series to a plot."""
+	...
+
+def add_grid_column(data_grid: str, name: str, column: List[str]) -> None:
+	"""Adds a column to the end of a data grid."""
+	...
+
+def add_grid_row(data_grid: str, row: List[str]) -> None:
+	"""Adds a row to the end of a data grid."""
 	...
 
 def add_group(name: str, *, show: bool = True, parent: str = '', before: str = '', width: int = 0, horizontal: bool = False, horizontal_spacing: float = -1) -> None:
@@ -226,10 +230,6 @@ def add_logger(name: str, *, log_level: int = 1, auto_scroll: bool = True, auto_
 	"""Adds a logging widget."""
 	...
 
-def add_managed_columns(name: str, columns: int, *, border: bool = True, show: bool = True, parent: str = '', before: str = '') -> None:
-	"""Adds managed columns."""
-	...
-
 def add_menu(name: str, *, label: str = '', show: bool = True, parent: str = '', before: str = '', enabled: bool = True) -> None:
 	"""Adds a menu to an existing menu bar. Must be followed by a call to end."""
 	...
@@ -246,7 +246,7 @@ def add_metrics_window(name: str, *, width: int = 700, height: int = 500, x_pos:
 	"""Creates a metrics window."""
 	...
 
-def add_next_column(*, name: str = 'next_collumn', show: bool = True, parent: str = '', before: str = '') -> None:
+def add_next_column(*, name: str = 'next_column', show: bool = True, parent: str = '', before: str = '') -> None:
 	"""Changes to next column."""
 	...
 
@@ -284,10 +284,6 @@ def add_progress_bar(name: str, *, default_value: float = 0.0, overlay: str = ''
 
 def add_radio_button(name: str, *, items: List[str] = (), default_value: int = 0, callback: Callable = None, callback_data: Any = None, parent: str = '', before: str = '', source: str = '', enabled: bool = True, horizontal: bool = False, show: bool = True) -> None:
 	"""Adds a set of radio buttons. If items is empty, nothing will be shown."""
-	...
-
-def add_row(table: str, row: List[str]) -> None:
-	"""Adds a row to the end of a table."""
 	...
 
 def add_same_line(*, name: str = 'sameline', xoffset: float = 0.0, spacing: float = -1.0, parent: str = '', before: str = '', show: bool = True) -> None:
@@ -374,8 +370,16 @@ def add_tab_button(name: str, *, label: str = '', show: bool = True, no_reorder:
 	"""Adds a tab button to a tab bar"""
 	...
 
-def add_table(name: str, headers: List[str], *, callback: Callable = None, callback_data: Any = None, parent: str = '', before: str = '', width: int = 0, height: int = 200, hide_headers: bool = False, show: bool = True) -> None:
-	"""Adds table."""
+def add_table(name: str, *, width: int = 0, height: int = 0, inner_width: int = 0, show: bool = True, parent: str = '', before: str = '', resizable: bool = False, reorderable: bool = False, hideable: bool = False, sortable: bool = False, context_menu_in_body: bool = False, row_background: bool = False, borders_innerH: bool = False, borders_outerH: bool = False, borders_innerV: bool = False, borders_outerV: bool = False, policy: int = 8192, no_host_extendX: bool = False, no_host_extendY: bool = False, no_keep_columns_visible: bool = False, precise_widths: bool = False, no_clip: bool = False, pad_outerX: bool = False, no_pad_outerX: bool = False, no_pad_innerX: bool = False, scollX: bool = False, scollY: bool = False) -> None:
+	"""Adds managed columns."""
+	...
+
+def add_table_column(name: str, *, init_width_or_weight: float = 0.0, show: bool = True, parent: str = '', before: str = '', default_hide: bool = False, default_sort: bool = False, width_stretch: bool = False, width_fixed: bool = False, no_resize: bool = False, no_reorder: bool = False, no_hide: bool = False, no_clip: bool = False, no_sort: bool = False, no_sort_ascending: bool = False, no_sort_descending: bool = False, no_header_width: bool = False, prefer_sort_ascending: bool = False, prefer_sort_descending: bool = False, indent_enable: bool = False, indent_disable: bool = False) -> None:
+	"""Changes to next column."""
+	...
+
+def add_table_header_row(*, name: str = ..., show: bool = True, parent: str = '') -> None:
+	"""Changes to next column."""
 	...
 
 def add_text(name: str, *, wrap: int = -1, color: List[float] = (-1, 0, 0, 0), bullet: bool = False, parent: str = '', before: str = '', source: str = '', default_value: str = '', show: bool = True) -> None:
@@ -422,6 +426,10 @@ def cleanup_dearpygui() -> None:
 	"""Cleans up DearPyGui after calling setup_dearpygui."""
 	...
 
+def clear_data_grid(data_grid: str) -> None:
+	"""Clears data in a data grid"""
+	...
+
 def clear_drawing(draw: str) -> None:
 	"""Clears a drawing."""
 	...
@@ -442,10 +450,6 @@ def clear_selected_nodes(node_editor: str) -> None:
 	"""Clears selected nodes."""
 	...
 
-def clear_table(table: str) -> None:
-	"""Clears data in a table"""
-	...
-
 def close_popup(item: str) -> None:
 	"""Closes a popup."""
 	...
@@ -462,10 +466,6 @@ def delete_annotation(plot: str, name: str) -> None:
 	"""Deletes an annotation"""
 	...
 
-def delete_column(table: str, column: int) -> None:
-	"""Delete a column in a table."""
-	...
-
 def delete_drag_line(plot: str, name: str) -> None:
 	"""Deletes a drag line if it exists."""
 	...
@@ -478,16 +478,20 @@ def delete_draw_command(drawing: str, tag: str) -> None:
 	"""Deletes a drawing item."""
 	...
 
+def delete_grid_column(data_grid: str, column: int) -> None:
+	"""Delete a column in a data grid."""
+	...
+
+def delete_grid_row(data_grid: str, row: int) -> None:
+	"""Delete a row in a data grid."""
+	...
+
 def delete_item(item: str, *, children_only: bool = False) -> None:
 	"""Deletes an item if it exists."""
 	...
 
 def delete_node_link(node_editor: str, node_1: str, node_2: str) -> None:
 	"""Deletes a node link if it exist."""
-	...
-
-def delete_row(table: str, row: int) -> None:
-	"""Delete a row in a table."""
 	...
 
 def delete_series(plot: str, series: str) -> None:
@@ -578,6 +582,18 @@ def get_global_font_scale() -> float:
 	"""Returns the global font scale."""
 	...
 
+def get_grid_data(data_grid: str) -> List[List[str]]:
+	"""Gets data grid data."""
+	...
+
+def get_grid_item(data_grid: str, row: int, column: int) -> str:
+	"""Gets a data grid's cell value."""
+	...
+
+def get_grid_selections(data_grid: str) -> List[List[int]]:
+	"""Retrieves data from storage."""
+	...
+
 def get_item_callback(item: str) -> Callable:
 	"""Returns an item' callback"""
 	...
@@ -642,10 +658,6 @@ def get_main_window_size() -> [int, int]:
 	"""Returns the size of the main window."""
 	...
 
-def get_managed_column_width(item: str, column: int) -> Float:
-	"""Returns the width of the ith column."""
-	...
-
 def get_mouse_drag_delta() -> (float, float):
 	"""Returns the current mouse drag delta in pixels"""
 	...
@@ -678,18 +690,6 @@ def get_selected_nodes(node_editor: str) -> List[str]:
 	"""Returns selected nodes."""
 	...
 
-def get_table_data(name: str) -> List[List[str]]:
-	"""Gets table data."""
-	...
-
-def get_table_item(table: str, row: int, column: int) -> str:
-	"""Gets a table's cell value."""
-	...
-
-def get_table_selections(table: str) -> List[List[int]]:
-	"""Retrieves data from storage."""
-	...
-
 def get_total_time() -> float:
 	"""Returns total time since app started."""
 	...
@@ -702,12 +702,12 @@ def get_windows() -> List[str]:
 	"""Returns a list of windows."""
 	...
 
-def insert_column(table: str, column_index: int, name: str, column: List[str]) -> None:
-	"""Inserts a column into a table."""
+def insert_grid_column(data_grid: str, column_index: int, name: str, column: List[str]) -> None:
+	"""Inserts a column into a data grid."""
 	...
 
-def insert_row(table: str, row_index: int, row: List[str]) -> None:
-	"""Inserts a row into a table."""
+def insert_grid_row(data_grid: str, row_index: int, row: List[str]) -> None:
+	"""Inserts a row into a data grid."""
 	...
 
 def is_dearpygui_running() -> bool:
@@ -874,8 +874,20 @@ def set_global_font_scale(scale: float) -> None:
 	"""Changes the global font scale."""
 	...
 
-def set_headers(table: str, headers: List[str]) -> None:
-	"""Sets a tables headers."""
+def set_grid_data(data_grid: str, data: List[List[str]]) -> None:
+	"""Overwrites data grid data."""
+	...
+
+def set_grid_headers(data_grid: str, headers: List[str]) -> None:
+	"""Sets a data grid's headers."""
+	...
+
+def set_grid_item(data_grid: str, row: int, column: int, value: str) -> None:
+	"""Sets a data grid's cell value."""
+	...
+
+def set_grid_selection(data_grid: str, row: int, column: int, value: bool) -> None:
+	"""Sets a data grid's cell selection value."""
 	...
 
 def set_item_callback(item: str, callback: Callable, *, callback_data: Any = None) -> None:
@@ -938,10 +950,6 @@ def set_main_window_title(title: str) -> None:
 	"""Sets the title of the main window."""
 	...
 
-def set_managed_column_width(item: str, column: int, width: float) -> None:
-	"""Sets the width of the ith column."""
-	...
-
 def set_mouse_click_callback(callback: Callable) -> None:
 	"""Sets a callback for a mouse click event."""
 	...
@@ -1000,18 +1008,6 @@ def set_resize_callback(callback: Callable, *, handler: str = '') -> None:
 
 def set_start_callback(callback: Any) -> None:
 	"""Callback to run when starting main window."""
-	...
-
-def set_table_data(name: str, data: List[List[str]]) -> None:
-	"""Overwrites table data."""
-	...
-
-def set_table_item(table: str, row: int, column: int, value: str) -> None:
-	"""Sets a table's cell value."""
-	...
-
-def set_table_selection(table: str, row: int, column: int, value: bool) -> None:
-	"""Sets a table's cell selection value."""
 	...
 
 def set_theme_color(constant: int, color: List[float], item: str = '') -> None:
