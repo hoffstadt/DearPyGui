@@ -6,6 +6,7 @@
 #include "mvNodeAttribute.h"
 #include "mvImGuiThemeScope.h"
 #include "mvImNodesThemeScope.h"
+#include "mvLog.h"
 
 namespace Marvel {
 
@@ -72,6 +73,17 @@ namespace Marvel {
 	mvNodeEditor::~mvNodeEditor()
 	{
 		m_delinkCallback = nullptr;
+	}
+
+	bool mvNodeEditor::canChildBeAdded(mvAppItemType type)
+	{
+		if(type ==mvAppItemType::mvNode)
+			return true;
+
+		mvThrowPythonError(1006, "Node editor children must be nodes only.");
+		MV_ITEM_REGISTRY_ERROR("Node editor children must be nodes only.");
+		assert(false);
+		return false;
 	}
 
 	void mvNodeEditor::addLink(const std::string& node1, const std::string& node2)

@@ -48,7 +48,7 @@ namespace Marvel {
         mvAboutWindow, mvDocWindow, mvDebugWindow, mvMetricsWindow,
         mvStyleWindow, mvFileDialog, mvTabButton, mvLoggerItem,
         mvNodeEditor, mvNode, mvNodeAttribute,
-        mvTable, mvTableColumn, mvTableHeaderRow, mvTableNextColumn,
+        mvTable, mvTableColumn, mvTableNextColumn,
         ItemTypeCount
     };
 
@@ -128,10 +128,14 @@ namespace Marvel {
         virtual void                        draw         ()       = 0; // actual imgui draw commands
 
         // virtual methods
-        virtual std::string                 getParserCommand     () const { return "no_command_set"; }
+        virtual std::string    getParserCommand     () const { return "no_command_set"; }
         virtual mvValueVariant getValue() { return nullptr; }
         virtual PyObject*      getPyValue() { return GetPyNone(); }
         virtual void           setPyValue(PyObject* value) { }
+
+        // registy helpers
+        virtual bool           isParentCompatible(mvAppItemType type) { return true; }
+        virtual bool           canChildBeAdded   (mvAppItemType type) { return true; }
 
         // configuration get/set
         void                                checkConfigDict(PyObject* dict);

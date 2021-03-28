@@ -70,6 +70,8 @@ namespace Marvel {
 		mvNodeEditor(const std::string& name, mvCallable linkCallback, mvCallable delinkCallback);
 		~mvNodeEditor();
 
+		bool canChildBeAdded(mvAppItemType type) override;
+
 		void addLink(const std::string& node1, const std::string& node2);
 		void addLink(int node1, int node2);
 		void deleteLink(const std::string& node, int id, bool deletion);

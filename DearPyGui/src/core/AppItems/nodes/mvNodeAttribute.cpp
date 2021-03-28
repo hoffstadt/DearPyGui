@@ -1,6 +1,7 @@
 #include "mvNodeAttribute.h"
 #include <imnodes.h>
 #include "mvApp.h"
+#include "mvLog.h"
 #include "mvItemRegistry.h"
 #include "mvNodeEditor.h"
 #include "mvImNodesThemeScope.h"
@@ -35,6 +36,17 @@ namespace Marvel {
 		if (m_parent)
 			if (m_parent->m_parent)
 				static_cast<mvNodeEditor*>(m_parent->m_parent)->deleteLink(m_core_config.name, m_id, true);
+	}
+
+	bool mvNodeAttribute::isParentCompatible(mvAppItemType type)
+	{
+		if(type == mvAppItemType::mvNode)
+			return true;
+		
+		mvThrowPythonError(1000, "Node attribute parent must be node.");
+		MV_ITEM_REGISTRY_ERROR("Node attribute parent must be node.");
+		assert(false);
+		return false;
 	}
 
 	void mvNodeAttribute::draw()

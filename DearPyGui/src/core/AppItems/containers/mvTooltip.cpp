@@ -27,6 +27,7 @@ namespace Marvel {
 		// otherwise it will never show
 		m_core_config.show = true;
 		m_description.container = true;
+		m_description.addAfterRequired = true;
 		
 	}
 
