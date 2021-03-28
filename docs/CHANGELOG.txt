@@ -37,10 +37,46 @@ Breaking Changes:
 - removed command: get_data
 - removed command: set_render_callback
 - removed command: start_dearpygui
+- removed command: add_next_column
+- removed command: add_column
+- removed command: add_columns
+- removed command: add_managed_columns
+- removed command: managed_columns
+- removed command: add_row
+- removed command: clear_table
+- removed command: delete_column
+- removed command: delete_row
+- removed command: set_managed_column_width
+- removed command: get_managed_column_width
+- removed command: set_table_data
+- removed command: get_table_data
+- removed command: get_table_item
+- removed command: set_table_item
+- removed command: get_table_selections
+- removed command: set_table_selection
+- removed command: insert_column
+- removed command: insert_row
+- removed command: set_headers
 
 New Keywords:
 - add_window: Added "min_size" keyword #700
 - add_window: Added "max_size" keyword #700
+
+New Commands:
+- table
+- add_table_column
+- add_table_header_row
+- clear_data_grid
+- insert_grid_column
+- delete_grid_column
+- delete_grid_row
+- insert_grid_row
+- get_grid_data
+- set_grid_data
+- get_grid_item
+- set_grid_item
+- get_grid_selections
+- set_grid_selection
 
 
 Updates:
