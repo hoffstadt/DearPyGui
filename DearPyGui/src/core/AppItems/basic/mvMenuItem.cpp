@@ -23,7 +23,10 @@ namespace Marvel {
 	}
 
 	mvMenuItem::mvMenuItem(const std::string& name)
-		: mvBoolPtrBase(name, false) {}
+		: mvBoolPtrBase(name, false) 
+	{
+		m_description.disableAllowed = true;
+	}
 
 	void mvMenuItem::draw()
 	{
@@ -33,7 +36,6 @@ namespace Marvel {
 		// create menuitem and see if its selected
 		if (ImGui::MenuItem(m_label.c_str(), m_shortcut.c_str(), m_check ? m_value.get() : nullptr, m_core_config.enabled))
 		{
-
 			// set other menuitems's value false on same level
 			for (auto sibling : m_parent->m_children)
 			{

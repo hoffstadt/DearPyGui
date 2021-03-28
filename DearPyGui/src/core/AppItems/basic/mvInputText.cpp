@@ -63,16 +63,6 @@ namespace Marvel {
 		ScopedID id;
 		mvImGuiThemeScope scope(this);
 
-		if (!m_core_config.enabled)
-		{
-			//ImVec4 disabled_color = ImVec4(ImGui::GetStyleColorVec4(ImGuiCol_TextDisabled));
-			//disabled_color.w = 0.392f;
-			//styleManager.addColorStyle(ImGuiCol_FrameBg, disabled_color);
-			//styleManager.addColorStyle(ImGuiCol_FrameBgHovered, disabled_color);
-			//styleManager.addColorStyle(ImGuiCol_FrameBgActive, disabled_color);
-			//styleManager.addColorStyle(ImGuiCol_Text, ImVec4(ImGui::GetStyleColorVec4(ImGuiCol_TextDisabled)));
-		}
-
 		if (m_multiline)
 			m_hint = "";
 

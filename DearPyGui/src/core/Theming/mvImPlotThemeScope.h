@@ -19,7 +19,7 @@ namespace Marvel {
 
 			// this is messy and disgusting. Needs to be cleaned up and optimized
 
-			const std::vector<std::tuple<std::string, long, mvColor>>& color_constants = T::GetColorConstants();
+			const std::vector<std::tuple<std::string, long, mvColor, mvColor>>& color_constants = T::GetColorConstants();
 			const std::vector<std::tuple<std::string, long, float, float>>& style_constants = T::GetStyleConstants();
 
 			mvThemeColors colors;
@@ -121,7 +121,7 @@ namespace Marvel {
 			for (const auto& color : colors)
 			{
 				mvThemeManager::decodelibID(color.first, &imColorID);
-				ImPlot::PushStyleColor(imColorID, color.second.toVec4());
+				ImPlot::PushStyleColor(imColorID, color.second.first.toVec4());
 			}
 
 			StyleIDCount = styles.size();

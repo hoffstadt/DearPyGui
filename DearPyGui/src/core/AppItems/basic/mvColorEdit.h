@@ -73,14 +73,14 @@ namespace Marvel {
 		MV_CREATE_THEME_CONSTANT(mvThemeStyle_ColorEdit3_PaddingY			, 10L, 1L);
 
 		MV_START_COLOR_CONSTANTS
-			MV_CREATE_CONSTANT_PAIR(mvThemeCol_ColorEdit3_Text,          mvColor(255, 255, 255, 255)),
-			MV_CREATE_CONSTANT_PAIR(mvThemeCol_ColorEdit3_TextHighlight, mvColor( 66, 150, 250,  89)),
-			MV_CREATE_CONSTANT_PAIR(mvThemeCol_ColorEdit3_Bg,            mvColor( 41,  74, 122, 138)),
-			MV_CREATE_CONSTANT_PAIR(mvThemeCol_ColorEdit3_BgHovered,     mvColor( 66, 150, 250, 102)),
-			MV_CREATE_CONSTANT_PAIR(mvThemeCol_ColorEdit3_BgActive,      mvColor( 66, 150, 250, 171)),
-			MV_CREATE_CONSTANT_PAIR(mvThemeCol_ColorEdit3_PopupBg,       mvColor( 20,  20,  20, 240)),
-			MV_CREATE_CONSTANT_PAIR(mvThemeCol_ColorEdit3_Border,        mvColor(110, 110, 128, 128)),
-			MV_CREATE_CONSTANT_PAIR(mvThemeCol_ColorEdit3_BorderShadow,  mvColor(  0,   0,   0,   0)),
+			MV_CREATE_CONSTANT_TUPLE(mvThemeCol_ColorEdit3_Text,          mvColor(255, 255, 255, 255), mvColor(128, 128, 128, 63)),
+			MV_CREATE_CONSTANT_TUPLE(mvThemeCol_ColorEdit3_TextHighlight, mvColor( 66, 150, 250,  89), mvColor(128, 128, 128, 63)),
+			MV_CREATE_CONSTANT_TUPLE(mvThemeCol_ColorEdit3_Bg,            mvColor( 41,  74, 122, 138), mvColor(128, 128, 128, 63)),
+			MV_CREATE_CONSTANT_TUPLE(mvThemeCol_ColorEdit3_BgHovered,     mvColor( 66, 150, 250, 102), mvColor(128, 128, 128, 63)),
+			MV_CREATE_CONSTANT_TUPLE(mvThemeCol_ColorEdit3_BgActive,      mvColor( 66, 150, 250, 171), mvColor(128, 128, 128, 63)),
+			MV_CREATE_CONSTANT_TUPLE(mvThemeCol_ColorEdit3_PopupBg,       mvColor( 20,  20,  20, 240), mvColor(128, 128, 128, 63)),
+			MV_CREATE_CONSTANT_TUPLE(mvThemeCol_ColorEdit3_Border,        mvColor(110, 110, 128, 128), mvColor(128, 128, 128, 63)),
+			MV_CREATE_CONSTANT_TUPLE(mvThemeCol_ColorEdit3_BorderShadow,  mvColor(  0,   0,   0,   0), mvColor(128, 128, 128, 63)),
 		MV_END_COLOR_CONSTANTS
 
 		MV_START_STYLE_CONSTANTS
@@ -121,7 +121,6 @@ namespace Marvel {
 
 		ImGuiColorEditFlags m_flags = ImGuiColorEditFlags_None;
 		mvColorEditConfig   m_config;
-
 	};
 
 	//-----------------------------------------------------------------------------
@@ -154,14 +153,14 @@ namespace Marvel {
 		MV_CREATE_THEME_CONSTANT(mvThemeStyle_ColorEdit4_PaddingY			, 10L, 1L);
 
 		MV_START_COLOR_CONSTANTS
-			MV_CREATE_CONSTANT_PAIR(mvThemeCol_ColorEdit4_Text,          mvColor(255, 255, 255, 255)),
-			MV_CREATE_CONSTANT_PAIR(mvThemeCol_ColorEdit4_TextHighlight, mvColor( 66, 150, 250,  89)),
-			MV_CREATE_CONSTANT_PAIR(mvThemeCol_ColorEdit4_Bg,            mvColor( 41,  74, 122, 138)),
-			MV_CREATE_CONSTANT_PAIR(mvThemeCol_ColorEdit4_BgHovered,     mvColor( 66, 150, 250, 102)),
-			MV_CREATE_CONSTANT_PAIR(mvThemeCol_ColorEdit4_BgActive,      mvColor( 66, 150, 250, 171)),
-			MV_CREATE_CONSTANT_PAIR(mvThemeCol_ColorEdit4_PopupBg,       mvColor( 20,  20,  20, 240)),
-			MV_CREATE_CONSTANT_PAIR(mvThemeCol_ColorEdit4_Border,        mvColor(110, 110, 128, 128)),
-			MV_CREATE_CONSTANT_PAIR(mvThemeCol_ColorEdit4_BorderShadow,  mvColor(  0,   0,   0,   0)),
+			MV_CREATE_CONSTANT_TUPLE(mvThemeCol_ColorEdit4_Text,          mvColor(255, 255, 255, 255), mvColor(128, 128, 128, 63)),
+			MV_CREATE_CONSTANT_TUPLE(mvThemeCol_ColorEdit4_TextHighlight, mvColor( 66, 150, 250,  89), mvColor(128, 128, 128, 63)),
+			MV_CREATE_CONSTANT_TUPLE(mvThemeCol_ColorEdit4_Bg,            mvColor( 41,  74, 122, 138), mvColor(128, 128, 128, 63)),
+			MV_CREATE_CONSTANT_TUPLE(mvThemeCol_ColorEdit4_BgHovered,     mvColor( 66, 150, 250, 102), mvColor(128, 128, 128, 63)),
+			MV_CREATE_CONSTANT_TUPLE(mvThemeCol_ColorEdit4_BgActive,      mvColor( 66, 150, 250, 171), mvColor(128, 128, 128, 63)),
+			MV_CREATE_CONSTANT_TUPLE(mvThemeCol_ColorEdit4_PopupBg,       mvColor( 20,  20,  20, 240), mvColor(128, 128, 128, 63)),
+			MV_CREATE_CONSTANT_TUPLE(mvThemeCol_ColorEdit4_Border,        mvColor(110, 110, 128, 128), mvColor(128, 128, 128, 63)),
+			MV_CREATE_CONSTANT_TUPLE(mvThemeCol_ColorEdit4_BorderShadow,  mvColor(  0,   0,   0,   0), mvColor(128, 128, 128, 63)),
 		MV_END_COLOR_CONSTANTS
 
 		MV_START_STYLE_CONSTANTS

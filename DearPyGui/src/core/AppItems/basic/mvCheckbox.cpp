@@ -46,17 +46,7 @@ namespace Marvel {
 		ScopedID id;
 		mvImGuiThemeScope scope(this);
 
-		if (!m_core_config.enabled)
-		{
-			//ImVec4 disabled_color = ImVec4(ImGui::GetStyleColorVec4(ImGuiCol_TextDisabled));
-			//disabled_color.w = 0.392f;
-			//styleManager.addColorStyle(ImGuiCol_CheckMark, disabled_color);
-			//styleManager.addColorStyle(ImGuiCol_FrameBg, disabled_color);
-			//styleManager.addColorStyle(ImGuiCol_FrameBgHovered, disabled_color);
-			//styleManager.addColorStyle(ImGuiCol_FrameBgActive, disabled_color);
-			//styleManager.addColorStyle(ImGuiCol_Text, ImVec4(ImGui::GetStyleColorVec4(ImGuiCol_TextDisabled)));
-			//m_disabled_value = *m_value;
-		}
+		if (!m_core_config.enabled) m_disabled_value = *m_value;
 
 		if (ImGui::Checkbox(m_label.c_str(), m_core_config.enabled ? m_value.get() : &m_disabled_value))
 			mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), m_core_config.name, m_core_config.callback_data);

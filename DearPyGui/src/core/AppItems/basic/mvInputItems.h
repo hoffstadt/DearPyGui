@@ -79,14 +79,14 @@ namespace Marvel {
         MV_CREATE_THEME_CONSTANT(mvThemeStyle_InputInt_ButtonTextAlignY, 22L, 1L);
 
         MV_START_COLOR_CONSTANTS
-            MV_CREATE_CONSTANT_PAIR(mvThemeCol_InputInt_Text,               mvColor(255, 255, 255, 255)),
-            MV_CREATE_CONSTANT_PAIR(mvThemeCol_InputInt_TextHighlight,      mvColor( 66, 150, 250,  89)),
-            MV_CREATE_CONSTANT_PAIR(mvThemeCol_InputInt_Bg,                 mvColor( 41,  74, 122, 138)),
-            MV_CREATE_CONSTANT_PAIR(mvThemeCol_InputInt_ButtonBg,           mvColor( 66, 150, 250, 102)),
-            MV_CREATE_CONSTANT_PAIR(mvThemeCol_InputInt_ButtonBgHovered,    mvColor( 66, 150, 250, 255)),
-            MV_CREATE_CONSTANT_PAIR(mvThemeCol_InputInt_ButtonBgActive,     mvColor( 15, 135, 250, 255)),
-            MV_CREATE_CONSTANT_PAIR(mvThemeCol_InputInt_Border,             mvColor(110, 110, 128, 128)),
-            MV_CREATE_CONSTANT_PAIR(mvThemeCol_InputInt_BorderShadow,       mvColor(  0,   0,   0,   0)),
+            MV_CREATE_CONSTANT_TUPLE(mvThemeCol_InputInt_Text,               mvColor(255, 255, 255, 255), mvColor(128, 128, 128, 63)),
+            MV_CREATE_CONSTANT_TUPLE(mvThemeCol_InputInt_TextHighlight,      mvColor( 66, 150, 250,  89), mvColor(128, 128, 128, 63)),
+            MV_CREATE_CONSTANT_TUPLE(mvThemeCol_InputInt_Bg,                 mvColor( 41,  74, 122, 138), mvColor(128, 128, 128, 63)),
+            MV_CREATE_CONSTANT_TUPLE(mvThemeCol_InputInt_ButtonBg,           mvColor( 66, 150, 250, 102), mvColor(128, 128, 128, 63)),
+            MV_CREATE_CONSTANT_TUPLE(mvThemeCol_InputInt_ButtonBgHovered,    mvColor( 66, 150, 250, 255), mvColor(128, 128, 128, 63)),
+            MV_CREATE_CONSTANT_TUPLE(mvThemeCol_InputInt_ButtonBgActive,     mvColor( 15, 135, 250, 255), mvColor(128, 128, 128, 63)),
+            MV_CREATE_CONSTANT_TUPLE(mvThemeCol_InputInt_Border,             mvColor(110, 110, 128, 128), mvColor(128, 128, 128, 63)),
+            MV_CREATE_CONSTANT_TUPLE(mvThemeCol_InputInt_BorderShadow,       mvColor(  0,   0,   0,   0), mvColor(128, 128, 128, 63)),
         MV_END_COLOR_CONSTANTS
 
         MV_START_STYLE_CONSTANTS
@@ -170,11 +170,11 @@ namespace Marvel {
         MV_CREATE_THEME_CONSTANT(mvThemeStyle_InputInt2_InnerSpacingY , 14L, 1L);
 
         MV_START_COLOR_CONSTANTS
-            MV_CREATE_CONSTANT_PAIR(mvThemeCol_InputInt2_Text,          mvColor(255, 255, 255, 255)),
-            MV_CREATE_CONSTANT_PAIR(mvThemeCol_InputInt2_TextHighlight, mvColor( 66, 150, 250,  89)),
-            MV_CREATE_CONSTANT_PAIR(mvThemeCol_InputInt2_Bg,            mvColor( 41,  74, 122, 138)),
-            MV_CREATE_CONSTANT_PAIR(mvThemeCol_InputInt2_Border,        mvColor(110, 110, 128, 128)),
-            MV_CREATE_CONSTANT_PAIR(mvThemeCol_InputInt2_BorderShadow,  mvColor(  0,   0,   0,   0)),
+            MV_CREATE_CONSTANT_TUPLE(mvThemeCol_InputInt2_Text,          mvColor(255, 255, 255, 255), mvColor(128, 128, 128, 63)),
+            MV_CREATE_CONSTANT_TUPLE(mvThemeCol_InputInt2_TextHighlight, mvColor( 66, 150, 250,  89), mvColor(128, 128, 128, 63)),
+            MV_CREATE_CONSTANT_TUPLE(mvThemeCol_InputInt2_Bg,            mvColor( 41,  74, 122, 138), mvColor(128, 128, 128, 63)),
+            MV_CREATE_CONSTANT_TUPLE(mvThemeCol_InputInt2_Border,        mvColor(110, 110, 128, 128), mvColor(128, 128, 128, 63)),
+            MV_CREATE_CONSTANT_TUPLE(mvThemeCol_InputInt2_BorderShadow,  mvColor(  0,   0,   0,   0), mvColor(128, 128, 128, 63)),
         MV_END_COLOR_CONSTANTS
 
         MV_START_STYLE_CONSTANTS
@@ -241,11 +241,11 @@ namespace Marvel {
         MV_CREATE_THEME_CONSTANT(mvThemeStyle_InputInt3_InnerSpacingY , 14L, 1L);
 
         MV_START_COLOR_CONSTANTS
-            MV_CREATE_CONSTANT_PAIR(mvThemeCol_InputInt3_Text,          mvColor(255, 255, 255, 255)),
-            MV_CREATE_CONSTANT_PAIR(mvThemeCol_InputInt3_TextHighlight, mvColor( 66, 150, 250,  89)),
-            MV_CREATE_CONSTANT_PAIR(mvThemeCol_InputInt3_Bg,            mvColor( 41,  74, 122, 138)),
-            MV_CREATE_CONSTANT_PAIR(mvThemeCol_InputInt3_Border,        mvColor(110, 110, 128, 128)),
-            MV_CREATE_CONSTANT_PAIR(mvThemeCol_InputInt3_BorderShadow,  mvColor(  0,   0,   0,   0)),
+            MV_CREATE_CONSTANT_TUPLE(mvThemeCol_InputInt3_Text,          mvColor(255, 255, 255, 255), mvColor(128, 128, 128, 63)),
+            MV_CREATE_CONSTANT_TUPLE(mvThemeCol_InputInt3_TextHighlight, mvColor( 66, 150, 250,  89), mvColor(128, 128, 128, 63)),
+            MV_CREATE_CONSTANT_TUPLE(mvThemeCol_InputInt3_Bg,            mvColor( 41,  74, 122, 138), mvColor(128, 128, 128, 63)),
+            MV_CREATE_CONSTANT_TUPLE(mvThemeCol_InputInt3_Border,        mvColor(110, 110, 128, 128), mvColor(128, 128, 128, 63)),
+            MV_CREATE_CONSTANT_TUPLE(mvThemeCol_InputInt3_BorderShadow,  mvColor(  0,   0,   0,   0), mvColor(128, 128, 128, 63)),
         MV_END_COLOR_CONSTANTS
 
         MV_START_STYLE_CONSTANTS
@@ -313,11 +313,11 @@ namespace Marvel {
         MV_CREATE_THEME_CONSTANT(mvThemeStyle_InputInt4_InnerSpacingY , 14L, 1L);
 
         MV_START_COLOR_CONSTANTS
-            MV_CREATE_CONSTANT_PAIR(mvThemeCol_InputInt4_Text,          mvColor(255, 255, 255, 255)),
-            MV_CREATE_CONSTANT_PAIR(mvThemeCol_InputInt4_TextHighlight, mvColor( 66, 150, 250,  89)),
-            MV_CREATE_CONSTANT_PAIR(mvThemeCol_InputInt4_Bg,            mvColor( 41,  74, 122, 138)),
-            MV_CREATE_CONSTANT_PAIR(mvThemeCol_InputInt4_Border,        mvColor(110, 110, 128, 128)),
-            MV_CREATE_CONSTANT_PAIR(mvThemeCol_InputInt4_BorderShadow,  mvColor(  0,   0,   0,   0)),
+            MV_CREATE_CONSTANT_TUPLE(mvThemeCol_InputInt4_Text,          mvColor(255, 255, 255, 255), mvColor(128, 128, 128, 63)),
+            MV_CREATE_CONSTANT_TUPLE(mvThemeCol_InputInt4_TextHighlight, mvColor( 66, 150, 250,  89), mvColor(128, 128, 128, 63)),
+            MV_CREATE_CONSTANT_TUPLE(mvThemeCol_InputInt4_Bg,            mvColor( 41,  74, 122, 138), mvColor(128, 128, 128, 63)),
+            MV_CREATE_CONSTANT_TUPLE(mvThemeCol_InputInt4_Border,        mvColor(110, 110, 128, 128), mvColor(128, 128, 128, 63)),
+            MV_CREATE_CONSTANT_TUPLE(mvThemeCol_InputInt4_BorderShadow,  mvColor(  0,   0,   0,   0), mvColor(128, 128, 128, 63)),
         MV_END_COLOR_CONSTANTS
 
         MV_START_STYLE_CONSTANTS
@@ -404,14 +404,14 @@ namespace Marvel {
         MV_CREATE_THEME_CONSTANT(mvThemeStyle_InputFloat_ButtonTextAlignY, 22L, 1L);
 
         MV_START_COLOR_CONSTANTS
-            MV_CREATE_CONSTANT_PAIR(mvThemeCol_InputFloat_Text,               mvColor(255, 255, 255, 255)),
-            MV_CREATE_CONSTANT_PAIR(mvThemeCol_InputFloat_TextHighlight,      mvColor( 66, 150, 250,  89)),
-            MV_CREATE_CONSTANT_PAIR(mvThemeCol_InputFloat_Bg,                 mvColor( 41,  74, 122, 138)),
-            MV_CREATE_CONSTANT_PAIR(mvThemeCol_InputFloat_ButtonBg,           mvColor( 66, 150, 250, 102)),
-            MV_CREATE_CONSTANT_PAIR(mvThemeCol_InputFloat_ButtonBgHovered,    mvColor( 66, 150, 250, 255)),
-            MV_CREATE_CONSTANT_PAIR(mvThemeCol_InputFloat_ButtonBgActive,     mvColor( 15, 135, 250, 255)),
-            MV_CREATE_CONSTANT_PAIR(mvThemeCol_InputFloat_Border,             mvColor(110, 110, 128, 128)),
-            MV_CREATE_CONSTANT_PAIR(mvThemeCol_InputFloat_BorderShadow,       mvColor(  0,   0,   0,   0)),
+            MV_CREATE_CONSTANT_TUPLE(mvThemeCol_InputFloat_Text,               mvColor(255, 255, 255, 255), mvColor(128, 128, 128, 63)),
+            MV_CREATE_CONSTANT_TUPLE(mvThemeCol_InputFloat_TextHighlight,      mvColor( 66, 150, 250,  89), mvColor(128, 128, 128, 63)),
+            MV_CREATE_CONSTANT_TUPLE(mvThemeCol_InputFloat_Bg,                 mvColor( 41,  74, 122, 138), mvColor(128, 128, 128, 63)),
+            MV_CREATE_CONSTANT_TUPLE(mvThemeCol_InputFloat_ButtonBg,           mvColor( 66, 150, 250, 102), mvColor(128, 128, 128, 63)),
+            MV_CREATE_CONSTANT_TUPLE(mvThemeCol_InputFloat_ButtonBgHovered,    mvColor( 66, 150, 250, 255), mvColor(128, 128, 128, 63)),
+            MV_CREATE_CONSTANT_TUPLE(mvThemeCol_InputFloat_ButtonBgActive,     mvColor( 15, 135, 250, 255), mvColor(128, 128, 128, 63)),
+            MV_CREATE_CONSTANT_TUPLE(mvThemeCol_InputFloat_Border,             mvColor(110, 110, 128, 128), mvColor(128, 128, 128, 63)),
+            MV_CREATE_CONSTANT_TUPLE(mvThemeCol_InputFloat_BorderShadow,       mvColor(  0,   0,   0,   0), mvColor(128, 128, 128, 63)),
         MV_END_COLOR_CONSTANTS
 
         MV_START_STYLE_CONSTANTS
@@ -496,11 +496,11 @@ namespace Marvel {
         MV_CREATE_THEME_CONSTANT(mvThemeStyle_InputFloat2_InnerSpacingY , 14L, 1L);
 
         MV_START_COLOR_CONSTANTS
-            MV_CREATE_CONSTANT_PAIR(mvThemeCol_InputFloat2_Text,          mvColor(255, 255, 255, 255)),
-            MV_CREATE_CONSTANT_PAIR(mvThemeCol_InputFloat2_TextHighlight, mvColor( 66, 150, 250,  89)),
-            MV_CREATE_CONSTANT_PAIR(mvThemeCol_InputFloat2_Bg,            mvColor( 41,  74, 122, 138)),
-            MV_CREATE_CONSTANT_PAIR(mvThemeCol_InputFloat2_Border,        mvColor(110, 110, 128, 128)),
-            MV_CREATE_CONSTANT_PAIR(mvThemeCol_InputFloat2_BorderShadow,  mvColor(  0,   0,   0,   0)),
+            MV_CREATE_CONSTANT_TUPLE(mvThemeCol_InputFloat2_Text,          mvColor(255, 255, 255, 255), mvColor(128, 128, 128, 63)),
+            MV_CREATE_CONSTANT_TUPLE(mvThemeCol_InputFloat2_TextHighlight, mvColor( 66, 150, 250,  89), mvColor(128, 128, 128, 63)),
+            MV_CREATE_CONSTANT_TUPLE(mvThemeCol_InputFloat2_Bg,            mvColor( 41,  74, 122, 138), mvColor(128, 128, 128, 63)),
+            MV_CREATE_CONSTANT_TUPLE(mvThemeCol_InputFloat2_Border,        mvColor(110, 110, 128, 128), mvColor(128, 128, 128, 63)),
+            MV_CREATE_CONSTANT_TUPLE(mvThemeCol_InputFloat2_BorderShadow,  mvColor(  0,   0,   0,   0), mvColor(128, 128, 128, 63)),
         MV_END_COLOR_CONSTANTS
 
         MV_START_STYLE_CONSTANTS
@@ -568,11 +568,11 @@ namespace Marvel {
         MV_CREATE_THEME_CONSTANT(mvThemeStyle_InputFloat3_InnerSpacingY , 14L, 1L);
 
         MV_START_COLOR_CONSTANTS
-            MV_CREATE_CONSTANT_PAIR(mvThemeCol_InputFloat3_Text,          mvColor(255, 255, 255, 255)),
-            MV_CREATE_CONSTANT_PAIR(mvThemeCol_InputFloat3_TextHighlight, mvColor( 66, 150, 250,  89)),
-            MV_CREATE_CONSTANT_PAIR(mvThemeCol_InputFloat3_Bg,            mvColor( 41,  74, 122, 138)),
-            MV_CREATE_CONSTANT_PAIR(mvThemeCol_InputFloat3_Border,        mvColor(110, 110, 128, 128)),
-            MV_CREATE_CONSTANT_PAIR(mvThemeCol_InputFloat3_BorderShadow,  mvColor(  0,   0,   0,   0)),
+            MV_CREATE_CONSTANT_TUPLE(mvThemeCol_InputFloat3_Text,          mvColor(255, 255, 255, 255), mvColor(128, 128, 128, 63)),
+            MV_CREATE_CONSTANT_TUPLE(mvThemeCol_InputFloat3_TextHighlight, mvColor( 66, 150, 250,  89), mvColor(128, 128, 128, 63)),
+            MV_CREATE_CONSTANT_TUPLE(mvThemeCol_InputFloat3_Bg,            mvColor( 41,  74, 122, 138), mvColor(128, 128, 128, 63)),
+            MV_CREATE_CONSTANT_TUPLE(mvThemeCol_InputFloat3_Border,        mvColor(110, 110, 128, 128), mvColor(128, 128, 128, 63)),
+            MV_CREATE_CONSTANT_TUPLE(mvThemeCol_InputFloat3_BorderShadow,  mvColor(  0,   0,   0,   0), mvColor(128, 128, 128, 63)),
         MV_END_COLOR_CONSTANTS
 
         MV_START_STYLE_CONSTANTS
@@ -640,11 +640,11 @@ namespace Marvel {
         MV_CREATE_THEME_CONSTANT(mvThemeStyle_InputFloat4_InnerSpacingY , 14L, 1L);
 
         MV_START_COLOR_CONSTANTS
-            MV_CREATE_CONSTANT_PAIR(mvThemeCol_InputFloat4_Text,          mvColor(255, 255, 255, 255)),
-            MV_CREATE_CONSTANT_PAIR(mvThemeCol_InputFloat4_TextHighlight, mvColor( 66, 150, 250,  89)),
-            MV_CREATE_CONSTANT_PAIR(mvThemeCol_InputFloat4_Bg,            mvColor( 41,  74, 122, 138)),
-            MV_CREATE_CONSTANT_PAIR(mvThemeCol_InputFloat4_Border,        mvColor(110, 110, 128, 128)),
-            MV_CREATE_CONSTANT_PAIR(mvThemeCol_InputFloat4_BorderShadow,  mvColor(  0,   0,   0,   0)),
+            MV_CREATE_CONSTANT_TUPLE(mvThemeCol_InputFloat4_Text,          mvColor(255, 255, 255, 255), mvColor(128, 128, 128, 63)),
+            MV_CREATE_CONSTANT_TUPLE(mvThemeCol_InputFloat4_TextHighlight, mvColor( 66, 150, 250,  89), mvColor(128, 128, 128, 63)),
+            MV_CREATE_CONSTANT_TUPLE(mvThemeCol_InputFloat4_Bg,            mvColor( 41,  74, 122, 138), mvColor(128, 128, 128, 63)),
+            MV_CREATE_CONSTANT_TUPLE(mvThemeCol_InputFloat4_Border,        mvColor(110, 110, 128, 128), mvColor(128, 128, 128, 63)),
+            MV_CREATE_CONSTANT_TUPLE(mvThemeCol_InputFloat4_BorderShadow,  mvColor(  0,   0,   0,   0), mvColor(128, 128, 128, 63)),
         MV_END_COLOR_CONSTANTS
 
         MV_START_STYLE_CONSTANTS

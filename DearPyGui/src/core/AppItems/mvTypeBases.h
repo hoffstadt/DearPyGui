@@ -192,6 +192,7 @@ namespace Marvel {
 	protected:
 
 		mvRef<std::array<float, 4>> m_value;
+		float  m_disabled_value[4]{};
 	};
 
 	//-----------------------------------------------------------------------------

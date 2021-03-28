@@ -37,27 +37,10 @@ namespace Marvel {
 		ScopedID id;
 		mvImGuiThemeScope scope(this);
 
-		if (!m_core_config.enabled)
-		{
-			//ImVec4 disabled_color = ImVec4(ImGui::GetStyleColorVec4(ImGuiCol_TextDisabled));
-			//disabled_color.w = 0.392f;
-			//styleManager.addColorStyle(ImGuiCol_Header, disabled_color);
-			//styleManager.addColorStyle(ImGuiCol_HeaderHovered, disabled_color);
-			//styleManager.addColorStyle(ImGuiCol_HeaderActive, disabled_color);
-			//styleManager.addColorStyle(ImGuiCol_FrameBg, disabled_color);
-			//styleManager.addColorStyle(ImGuiCol_FrameBgHovered, disabled_color);
-			//styleManager.addColorStyle(ImGuiCol_FrameBgActive, disabled_color);
-			//styleManager.addColorStyle(ImGuiCol_ScrollbarBg, disabled_color);
-			//styleManager.addColorStyle(ImGuiCol_ScrollbarGrab, disabled_color);
-			//styleManager.addColorStyle(ImGuiCol_ScrollbarGrabHovered, disabled_color);
-			//styleManager.addColorStyle(ImGuiCol_ScrollbarGrabActive, disabled_color);
-			//styleManager.addColorStyle(ImGuiCol_Text, ImVec4(ImGui::GetStyleColorVec4(ImGuiCol_TextDisabled)));
-			//m_disabled_value = *m_value;
-		}
+		if (!m_core_config.enabled) m_disabled_value = *m_value;
 
 		if (ImGui::ListBox(m_label.c_str(), m_core_config.enabled ? m_value.get() : &m_disabled_value, m_charNames.data(), (int)m_names.size(), m_itemsHeight))
 			mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), m_core_config.name, m_core_config.callback_data);
-
 	}
 
 	void mvListbox::updateConfig(mvAppItemConfig* config)
