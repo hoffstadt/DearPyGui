@@ -1,8 +1,6 @@
 from dearpygui.core import *
 from dearpygui.simple import *
 from dearpygui.demo import *
-from math import sin, cos
-import random
 
 set_log_level(0)
 #enable_docking(shift_only=False, dock_space=True)

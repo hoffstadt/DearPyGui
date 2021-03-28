@@ -160,7 +160,7 @@ namespace Marvel {
 		bool                                  m_hide_headers;
 
 		// new table api items
-		ImGuiTableFlags m_flags;
+		ImGuiTableFlags m_flags = 0;
 
 	};
 

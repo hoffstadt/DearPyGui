@@ -27,7 +27,10 @@ namespace Marvel {
 
 		cvalue[size] = '\0';
 
-		return std::string(cvalue);
+		auto result = std::string(cvalue);
+		delete[] cvalue;
+
+		return result;
 	}
 
 	void mvNode::InsertParser(std::map<std::string, mvPythonParser>* parsers)

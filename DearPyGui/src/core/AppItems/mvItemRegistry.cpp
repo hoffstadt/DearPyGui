@@ -532,15 +532,9 @@ namespace Marvel {
 		//---------------------------------------------------------------------------
 		// STEP 9: handle "stack" style adding
 		//---------------------------------------------------------------------------
-		if (technique == AddTechnique::STACK)
-		{
-			if(mvApp::IsAppStarted())
-				return addRuntimeItem(parentPtr->m_core_config.name, "", item);
-			return addItem(item);
-		}
-
-		assert(false);
-		return false;
+		if(mvApp::IsAppStarted())
+			return addRuntimeItem(parentPtr->m_core_config.name, "", item);
+		return addItem(item);
 	}
 
 	std::string mvItemRegistry::getItemParentName(const std::string& name)
