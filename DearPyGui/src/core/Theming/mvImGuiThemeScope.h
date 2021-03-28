@@ -19,16 +19,15 @@ namespace Marvel {
 
 			// this is messy and disgusting. Needs to be cleaned up and optimized
 
-			const std::vector<std::tuple<std::string, long, mvColor>>& color_constants = T::GetColorConstants();
+			const std::vector<std::tuple<std::string, long, mvColor, mvColor>>& color_constants = T::GetColorConstants();
 			const std::vector<std::tuple<std::string, long, float, float>>& style_constants = T::GetStyleConstants();
-
 			mvThemeColors colors;
 			std::unordered_map<long, bool> colors_found;
 			for (const auto& color_pair : color_constants)
 				colors_found[std::get<1>(color_pair)] = false;
 
-			//style is were we place all zero first position floats
-			//style2 is where we place a const that may have a second position for pushing ImVec2 constants
+			// style is were we place all zero first position floats
+			// style2 is where we place a const that may have a second position for pushing ImVec2 constants
 			std::unordered_map<ImGuiStyleVar, float> styles;
 			std::unordered_map<ImGuiStyleVar, float> styles2;
 			static int styleID;
@@ -36,7 +35,7 @@ namespace Marvel {
 			for (const auto& style_pair : style_constants)
 				styles_found[std::get<1>(style_pair)] = false;
 
-			// check local colors first
+			// check local colors and styles first
 			if (item->getColors().find(item->getType()) != item->getColors().end())
 			{
 				for (const auto& color : item->getColors()[item->getType()])
@@ -57,7 +56,8 @@ namespace Marvel {
 						styles[styleID] = style.second;
 				}
 			}
-			// search through ancestor tree for unfound colors
+
+			// search through ancestor tree for unfound colors and styles
 			mvAppItem* widget = item;
 			while (!widget->getDescription().root)
 			{
@@ -116,14 +116,27 @@ namespace Marvel {
 				}
 			}
 
+			// decode and push colors to ImGui
 			libIDCount = colors.size();
 			static ImGuiCol imColorID;
-			for (const auto& color : colors)
+			if (item->getCoreConfig().enabled)
 			{
-				mvThemeManager::decodelibID(color.first, &imColorID);
-				ImGui::PushStyleColor(imColorID, color.second.toVec4());
+				for (const auto& color : colors)
+				{
+					mvThemeManager::decodelibID(color.first, &imColorID);
+					ImGui::PushStyleColor(imColorID, color.second.first.toVec4());
+				}
+			}
+			else
+			{
+				for (const auto& color : colors)
+				{
+					mvThemeManager::decodelibID(color.first, &imColorID);
+					ImGui::PushStyleColor(imColorID, color.second.second.toVec4());
+				}
 			}
 
+			// push styles2 and its matching style1 vect to ImGui then push the remaining float styles
 			StyleIDCount = styles.size();
 			for (const auto& style : styles2)
 			{
