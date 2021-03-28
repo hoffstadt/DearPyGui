@@ -48,6 +48,7 @@ namespace Marvel {
         bool                m_max_clamped = false;
         ImGuiInputTextFlags m_flags = 0;
         ImGuiInputTextFlags m_stor_flags = 0;
+        int                 last_value = 0;
         
     };
 
@@ -76,6 +77,7 @@ namespace Marvel {
         bool                m_max_clamped = false;
         ImGuiInputTextFlags m_flags = 0;
         ImGuiInputTextFlags m_stor_flags = 0;
+        std::array<int, 2>  last_value = { 0, 0 };
         
     };
         
@@ -104,6 +106,7 @@ namespace Marvel {
         bool                m_max_clamped = false;
         ImGuiInputTextFlags m_flags = 0;
         ImGuiInputTextFlags m_stor_flags = 0;
+        std::array<int, 3>  last_value = { 0, 0, 0 };
         
     };
         
@@ -132,6 +135,7 @@ namespace Marvel {
         bool                m_max_clamped = false;
         ImGuiInputTextFlags m_flags = 0;
         ImGuiInputTextFlags m_stor_flags = 0;
+        std::array<int, 4>  last_value = { 0, 0, 0, 0 };
         
     };
         
@@ -163,6 +167,7 @@ namespace Marvel {
         float               m_step_fast = 1.0f;
         ImGuiInputTextFlags m_flags = 0;
         ImGuiInputTextFlags m_stor_flags = 0;
+        float               last_value = 0.0f;
         
     };
         
@@ -192,6 +197,7 @@ namespace Marvel {
         std::string         m_format = "%.3f";
         ImGuiInputTextFlags m_flags = 0;
         ImGuiInputTextFlags m_stor_flags = 0;
+        std::array<float, 2>last_value = { 0.0f, 0.0f };
         
     };
         
@@ -221,6 +227,7 @@ namespace Marvel {
         std::string         m_format = "%.3f";
         ImGuiInputTextFlags m_flags = 0;
         ImGuiInputTextFlags m_stor_flags = 0;
+        std::array<float, 3>last_value = { 0.0f, 0.0f, 0.0f };
         
     };
         
@@ -250,7 +257,7 @@ namespace Marvel {
         std::string         m_format = "%.3f";
         ImGuiInputTextFlags m_flags = 0;
         ImGuiInputTextFlags m_stor_flags = 0;
-        
+        std::array<float, 4>last_value = { 0.0f, 0.0f, 0.0f, 0.0f };        
     };
 
 }
