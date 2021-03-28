@@ -8,30 +8,60 @@ import dearpygui.core as internal_dpg
 # context manager container wrappers
 ########################################################################################################################
 
-
 @contextmanager
-def managed_columns(name: str, columns: int, *, border: bool = True, show: bool = True, parent: str = "",
-                    before: str = ""):
-    """Wraps add_managed_columns() and automates calling end().
+def table(name: str, *, width: int = 0, height: int = 0, inner_width: int = 0, show: bool = True, parent: str = "",
+		before: str = "", resizable: bool = False, reorderable: bool = False, hideable: bool = False, sortable: bool = False,   
+		context_menu_in_body: bool = False, row_background: bool = False, borders_innerH: bool = False, borders_outerH: bool = False,
+		borders_innerV: bool = False, borders_outerV: bool = False, policy: int = 8192, no_host_extendX: bool = False,
+		no_host_extendY: bool = False, no_keep_columns_visible: bool = False, precise_widths: bool = False, no_clip: bool = False,
+		pad_outerX: bool = False, no_pad_outerX: bool = False, no_pad_innerX: bool = False, scrollX: bool = False, scrollY: bool = False):
+    """Wraps add_table() and automates calling end().
 
     Args:
         name: Unique name used to programmatically refer to the item. If label is unused this will be the label,
             anything after "##" that occurs in the name will not be shown on screen.
-        columns: The number of columns to be created.
-        **border: Shows a border.
-        **show: Decides if the item is shown of not.
-        **parent: Parent this item will be added to. (runtime adding)
-        **before: This item will be displayed before the specified item in the parent. (runtime adding)
+			**width: 
+			**height: 
+			**inner_width:
+			**show: Attempt to render
+			**parent: Parent this item will be added to. (runtime adding)
+			**before: This item will be displayed before the specified item in the parent. (runtime adding)
+			**resizable: Enable resizing columns
+	        **reorderable: Enable reordering columns in header row
+	        **hideable: Enable hiding/disabling columns in context menu.
+	        **sortable: Enable sorting.
+	        **context_menu_in_body: Right-click on columns body/contents will display table context menu.
+			**row_background: Set each RowBg color with ImGuiCol_TableRowBg or ImGuiCol_TableRowBgAlt (equivalent of calling TableSetBgColor with ImGuiTableBgFlags_RowBg0 on each row manually)
+	        **borders_innerH: Draw horizontal borders between rows.
+	        **borders_outerH: Draw horizontal borders at the top and bottom.
+	        **borders_innerV: Draw vertical borders between columns.
+	        **borders_outerV: Draw vertical borders on the left and right sides.
+	        **policy: sizing policy
+			**no_host_extendX: Make outer width auto-fit to columns, overriding outer_size.x value. Only available when ScrollX/ScrollY are disabled and Stretch columns are not used.
+			**no_host_extendY: Make outer height stop exactly at outer_size.y (prevent auto-extending table past the limit). Only available when ScrollX/ScrollY are disabled. Data below the limit will be clipped and not visible.
+			**no_keep_columns_visible: Disable keeping column always minimally visible when ScrollX is off and table gets too small. Not recommended if columns are resizable.
+			**precise_widths: Disable distributing remainder width to stretched columns (width allocation on a 100-wide table with 3 columns: Without this flag: 33,33,34. With this flag: 33,33,33). With larger number of columns, resizing will appear to be less smooth.
+			**no_clip: Disable clipping rectangle for every individual columns.
+	        **pad_outerX: Default if BordersOuterV is on. Enable outer-most padding. Generally desirable if you have headers.
+	        **no_pad_outerX: Default if BordersOuterV is off. Disable outer-most padding.
+	        **no_pad_innerX: Disable inner padding between columns (double inner padding if BordersOuterV is on, single inner padding if BordersOuterV is off).
+	        **scollX: Enable horizontal scrolling. Require 'outer_size' parameter of BeginTable() to specify the container size. Changes default sizing policy. Because this create a child window, ScrollY is currently generally recommended when using ScrollX.
+	        **scollY: Enable horizontal vertical.
 
     Returns:
         None
     """
     try:
-        yield internal_dpg.add_managed_columns(name, columns, border=border, show=show, parent=parent, before=before)
-
+        yield internal_dpg.add_table(name, width = width, height = height, inner_width = inner_width,
+		    show = show, parent = parent, before = before, resizable = resizable, reorderable = reorderable, hideable = hideable,
+		    sortable = sortable, context_menu_in_body = context_menu_in_body, row_background = row_background,
+		    borders_innerH = borders_innerH, borders_outerH = borders_outerH, borders_innerV = borders_innerV,
+		    borders_outerV = borders_outerV, policy = policy, no_host_extendX = no_host_extendX,
+		    no_host_extendY = no_host_extendY, no_keep_columns_visible = no_keep_columns_visible, precise_widths = precise_widths,
+		    no_clip = no_clip, pad_outerX = pad_outerX, no_pad_outerX = no_pad_outerX, no_pad_innerX = no_pad_innerX,
+		    scrollX = scrollX, scrollY = scrollY)
     finally:
         internal_dpg.end()
-
 
 @contextmanager
 def window(name: str, *, width: int = 200, height: int = 200, x_pos: int = 200, y_pos: int = 200, autosize: bool = False,

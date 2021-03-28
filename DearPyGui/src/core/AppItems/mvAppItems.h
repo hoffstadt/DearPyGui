@@ -36,7 +36,7 @@
 #include "containers/mvMenu.h"
 #include "containers/mvMenuBar.h"
 #include "containers/mvTooltip.h"
-#include "containers/mvColumns.h"
+#include "containers/mvTable.h"
 #include "containers/mvWindowAppItem.h"
 #include "containers/mvPopup.h"
 
@@ -44,7 +44,7 @@
 #include "custom/mvTimePicker.h"
 #include "custom/mvDatePicker.h"
 
-#include "composite/mvTable.h"
+#include "composite/mvDataGrid.h"
 #include "composite/mvLogger.h"
 #include "composite/mvAboutWindow.h"
 #include "composite/mvDocWindow.h"

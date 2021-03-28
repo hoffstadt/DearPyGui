@@ -61,8 +61,6 @@ namespace Marvel {
 
 			// app item interface
 			ADD_PYTHON_FUNCTION(move_item)
-			ADD_PYTHON_FUNCTION(get_managed_column_width)
-			ADD_PYTHON_FUNCTION(set_managed_column_width)
 			ADD_PYTHON_FUNCTION(get_item_type)
 			ADD_PYTHON_FUNCTION(set_item_callback)
 			ADD_PYTHON_FUNCTION(set_item_callback_data)
@@ -96,8 +94,6 @@ namespace Marvel {
 
 			// widget commands
 			ADD_PYTHON_FUNCTION(add_logger)
-			ADD_PYTHON_FUNCTION(add_next_column)
-			ADD_PYTHON_FUNCTION(add_columns)
 			ADD_PYTHON_FUNCTION(add_date_picker)
 			ADD_PYTHON_FUNCTION(add_time_picker)
 			ADD_PYTHON_FUNCTION(add_input_text)
@@ -162,7 +158,6 @@ namespace Marvel {
 			ADD_PYTHON_FUNCTION(add_tooltip)
 			ADD_PYTHON_FUNCTION(add_collapsing_header)
 			ADD_PYTHON_FUNCTION(add_dummy)
-			ADD_PYTHON_FUNCTION(add_managed_columns)
 			ADD_PYTHON_FUNCTION(add_about_window)
 			ADD_PYTHON_FUNCTION(add_doc_window)
 			ADD_PYTHON_FUNCTION(add_debug_window)
@@ -213,19 +208,25 @@ namespace Marvel {
 
 			// table commands
 			ADD_PYTHON_FUNCTION(add_table)
-			ADD_PYTHON_FUNCTION(set_table_data)
-			ADD_PYTHON_FUNCTION(get_table_data)
-			ADD_PYTHON_FUNCTION(clear_table)
-			ADD_PYTHON_FUNCTION(get_table_item)
-			ADD_PYTHON_FUNCTION(set_table_item)
-			ADD_PYTHON_FUNCTION(get_table_selections)
-			ADD_PYTHON_FUNCTION(set_table_selection)
-			ADD_PYTHON_FUNCTION(add_column)
-			ADD_PYTHON_FUNCTION(insert_column)
-			ADD_PYTHON_FUNCTION(delete_column)
-			ADD_PYTHON_FUNCTION(add_row)
-			ADD_PYTHON_FUNCTION(insert_row)
-			ADD_PYTHON_FUNCTION(delete_row)
+			ADD_PYTHON_FUNCTION(add_table_header_row)
+			ADD_PYTHON_FUNCTION(add_table_column)
+			ADD_PYTHON_FUNCTION(add_table_next_column)
+
+			// data grid commands
+			ADD_PYTHON_FUNCTION(add_data_grid)
+			ADD_PYTHON_FUNCTION(set_grid_data)
+			ADD_PYTHON_FUNCTION(get_grid_data)
+			ADD_PYTHON_FUNCTION(clear_data_grid)
+			ADD_PYTHON_FUNCTION(get_grid_item)
+			ADD_PYTHON_FUNCTION(set_grid_item)
+			ADD_PYTHON_FUNCTION(get_grid_selections)
+			ADD_PYTHON_FUNCTION(set_grid_selection)
+			ADD_PYTHON_FUNCTION(add_grid_column)
+			ADD_PYTHON_FUNCTION(insert_grid_column)
+			ADD_PYTHON_FUNCTION(delete_grid_column)
+			ADD_PYTHON_FUNCTION(add_grid_row)
+			ADD_PYTHON_FUNCTION(insert_grid_row)
+			ADD_PYTHON_FUNCTION(delete_grid_row)
 
 			// drawing commands
 			ADD_PYTHON_FUNCTION(bring_draw_command_forward)

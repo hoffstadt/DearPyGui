@@ -1,4 +1,4 @@
-#include "mvTable.h"
+#include "mvDataGrid.h"
 #include "mvApp.h"
 #include "mvAppLog.h"
 #include "mvItemRegistry.h"
@@ -6,9 +6,9 @@
 
 namespace Marvel {
 
-	void mvTable::InsertParser(std::map<std::string, mvPythonParser>* parsers)
+	void mvDataGrid::InsertParser(std::map<std::string, mvPythonParser>* parsers)
 	{
-		parsers->insert({ "add_table", mvPythonParser({
+		parsers->insert({ "add_data_grid", mvPythonParser({
 			{mvPythonDataType::String, "name"},
 			{mvPythonDataType::StringList, "headers"},
 			{mvPythonDataType::KeywordOnly},
@@ -20,86 +20,86 @@ namespace Marvel {
 			{mvPythonDataType::Integer, "height","", "200"},
 			{mvPythonDataType::Bool, "hide_headers", "Hide headers of the table", "False"},
 			{mvPythonDataType::Bool, "show","Attempt to render", "True"}
-		}, "Adds table.", "None", "Tables") });
+		}, "Adds data grid.", "None", "Tables") });
 
-		parsers->insert({ "set_table_data", mvPythonParser({
-			{mvPythonDataType::String, "name"},
+		parsers->insert({ "set_grid_data", mvPythonParser({
+			{mvPythonDataType::String, "data_grid"},
 			{mvPythonDataType::ListStrList, "data"}
-		}, "Overwrites table data.", "None", "Tables") });
+		}, "Overwrites data grid data.", "None", "Tables") });
 
-		parsers->insert({ "get_table_data", mvPythonParser({
-			{mvPythonDataType::String, "name"},
-		}, "Gets table data.", "List[List[str]]", "Tables") });
+		parsers->insert({ "get_grid_data", mvPythonParser({
+			{mvPythonDataType::String, "data_grid"},
+		}, "Gets data grid data.", "List[List[str]]", "Tables") });
 
-		parsers->insert({ "set_headers", mvPythonParser({
-			{mvPythonDataType::String, "table"},
+		parsers->insert({ "set_grid_headers", mvPythonParser({
+			{mvPythonDataType::String, "data_grid"},
 			{mvPythonDataType::StringList, "headers"},
-		}, "Sets a tables headers.", "None", "Tables") });
+		}, "Sets a data grid's headers.", "None", "Tables") });
 
-		parsers->insert({ "clear_table", mvPythonParser({
-			{mvPythonDataType::String, "table"}
-		}, "Clears data in a table", "None", "Tables") });
+		parsers->insert({ "clear_data_grid", mvPythonParser({
+			{mvPythonDataType::String, "data_grid"}
+		}, "Clears data in a data grid", "None", "Tables") });
 
-		parsers->insert({ "add_column", mvPythonParser({
-			{mvPythonDataType::String, "table"},
+		parsers->insert({ "add_grid_column", mvPythonParser({
+			{mvPythonDataType::String, "data_grid"},
 			{mvPythonDataType::String, "name"},
 			{mvPythonDataType::StringList, "column"},
-		}, "Adds a column to the end of a table.", "None", "Tables") });
+		}, "Adds a column to the end of a data grid.", "None", "Tables") });
 
-		parsers->insert({ "insert_column", mvPythonParser({
-			{mvPythonDataType::String, "table"},
+		parsers->insert({ "insert_grid_column", mvPythonParser({
+			{mvPythonDataType::String, "data_grid"},
 			{mvPythonDataType::Integer, "column_index"},
 			{mvPythonDataType::String, "name"},
 			{mvPythonDataType::StringList, "column"},
-		}, "Inserts a column into a table.", "None", "Tables") });
+		}, "Inserts a column into a data grid.", "None", "Tables") });
 
-		parsers->insert({ "delete_column", mvPythonParser({
-			{mvPythonDataType::String, "table"},
+		parsers->insert({ "delete_grid_column", mvPythonParser({
+			{mvPythonDataType::String, "data_grid"},
 			{mvPythonDataType::Integer, "column"}
-		}, "Delete a column in a table.", "None", "Tables") });
+		}, "Delete a column in a data grid.", "None", "Tables") });
 
-		parsers->insert({ "add_row", mvPythonParser({
-			{mvPythonDataType::String, "table"},
+		parsers->insert({ "add_grid_row", mvPythonParser({
+			{mvPythonDataType::String, "data_grid"},
 			{mvPythonDataType::StringList, "row"},
-		}, "Adds a row to the end of a table.", "None", "Tables") });
+		}, "Adds a row to the end of a data grid.", "None", "Tables") });
 
-		parsers->insert({ "insert_row", mvPythonParser({
-			{mvPythonDataType::String, "table"},
+		parsers->insert({ "insert_grid_row", mvPythonParser({
+			{mvPythonDataType::String, "data_grid"},
 			{mvPythonDataType::Integer, "row_index"},
 			{mvPythonDataType::StringList, "row"},
-		}, "Inserts a row into a table.", "None", "Tables") });
+		}, "Inserts a row into a data grid.", "None", "Tables") });
 
-		parsers->insert({ "delete_row", mvPythonParser({
-			{mvPythonDataType::String, "table"},
+		parsers->insert({ "delete_grid_row", mvPythonParser({
+			{mvPythonDataType::String, "data_grid"},
 			{mvPythonDataType::Integer, "row"}
-		}, "Delete a row in a table.", "None", "Tables") });
+		}, "Delete a row in a data grid.", "None", "Tables") });
 
-		parsers->insert({ "get_table_item", mvPythonParser({
-			{mvPythonDataType::String, "table"},
+		parsers->insert({ "get_grid_item", mvPythonParser({
+			{mvPythonDataType::String, "data_grid"},
 			{mvPythonDataType::Integer, "row"},
 			{mvPythonDataType::Integer, "column"}
-		}, "Gets a table's cell value.", "str", "Tables") });
+		}, "Gets a data grid's cell value.", "str", "Tables") });
 
-		parsers->insert({ "set_table_item", mvPythonParser({
-			{mvPythonDataType::String, "table"},
+		parsers->insert({ "set_grid_item", mvPythonParser({
+			{mvPythonDataType::String, "data_grid"},
 			{mvPythonDataType::Integer, "row"},
 			{mvPythonDataType::Integer, "column"},
 			{mvPythonDataType::String, "value"},
-		}, "Sets a table's cell value.", "None", "Tables") });
+		}, "Sets a data grid's cell value.", "None", "Tables") });
 
-		parsers->insert({ "get_table_selections", mvPythonParser({
-			{mvPythonDataType::String, "table"}
+		parsers->insert({ "get_grid_selections", mvPythonParser({
+			{mvPythonDataType::String, "data_grid"}
 		}, "Retrieves data from storage.", "List[List[int]]", "Tables") });
 
-		parsers->insert({ "set_table_selection", mvPythonParser({
-			{mvPythonDataType::String, "table"},
+		parsers->insert({ "set_grid_selection", mvPythonParser({
+			{mvPythonDataType::String, "data_grid"},
 			{mvPythonDataType::Integer, "row"},
 			{mvPythonDataType::Integer, "column"},
 			{mvPythonDataType::Bool, "value"},
-		}, "Sets a table's cell selection value.", "None", "Tables") });
+		}, "Sets a data grid's cell selection value.", "None", "Tables") });
 	}
 
-	mvTable::mvTable(const std::string& name, const std::vector<std::string>& headers)
+	mvDataGrid::mvDataGrid(const std::string& name, const std::vector<std::string>& headers)
 		: mvAppItem(name)
 	{
 		m_core_config.height = 200;
@@ -108,7 +108,7 @@ namespace Marvel {
 		m_hide_headers = false;
 	}
 
-	void mvTable::setExtraConfigDict(PyObject* dict)
+	void mvDataGrid::setExtraConfigDict(PyObject* dict)
 	{
 		if (dict == nullptr)
 			return;
@@ -116,7 +116,7 @@ namespace Marvel {
 		if (PyObject* item = PyDict_GetItemString(dict, "hide_headers")) m_hide_headers = ToBool(item);
 	}
 
-	void mvTable::getExtraConfigDict(PyObject* dict)
+	void mvDataGrid::getExtraConfigDict(PyObject* dict)
 	{
 		if (dict == nullptr)
 			return;
@@ -124,24 +124,24 @@ namespace Marvel {
 		PyDict_SetItemString(dict, "hide_headers", ToPyBool(m_hide_headers));
 	}
 
-	bool mvTable::isIndexValid(int row, int column) const
+	bool mvDataGrid::isIndexValid(int row, int column) const
 	{
 		if (column < 0 || row < 0)
 		{
-			ThrowPythonException("Table index must be a positive integer.");
+			ThrowPythonException("Data Grid index must be a positive integer.");
 			return false;
 		}
 
 		if (static_cast<size_t>(column) > m_columns + 1 || static_cast<size_t>(row) > m_values.size() + 1)
 		{
-			ThrowPythonException("Table indices out of range.");
+			ThrowPythonException("Data Grid indices out of range.");
 			return false;
 		}
 
 		return true;
 	}
 
-	void mvTable::updateHashValues()
+	void mvDataGrid::updateHashValues()
 	{
 		m_hashValues.clear();
 
@@ -157,7 +157,7 @@ namespace Marvel {
 		}
 	}
 
-	void mvTable::setTableItem(int row, int column, const std::string& value)
+	void mvDataGrid::setGridItem(int row, int column, const std::string& value)
 	{
 		if (!isIndexValid(row, column))
 			return;
@@ -167,7 +167,7 @@ namespace Marvel {
 
 	}
 
-	std::string mvTable::getTableItem(int row, int column) const
+	std::string mvDataGrid::getGridItem(int row, int column) const
 	{
 		if (!isIndexValid(row, column))
 			return "";
@@ -175,7 +175,7 @@ namespace Marvel {
 		return m_values[row][column];
 	}
 
-	void mvTable::setSelection(int row, int column, bool value)
+	void mvDataGrid::setSelection(int row, int column, bool value)
 	{
 		if (!isIndexValid(row, column))
 			return;
@@ -183,7 +183,7 @@ namespace Marvel {
 		m_selections[{row, column}] = value;
 	}
 
-	void mvTable::setPyValue(PyObject* value)
+	void mvDataGrid::setPyValue(PyObject* value)
 	{
 		auto values = ToVectVectString(value, m_core_config.name + " requires a list/tuple or list/tuple of strings.");
 
@@ -200,12 +200,12 @@ namespace Marvel {
 		m_selections.clear();
 	}
 
-	PyObject* mvTable::getPyValue()
+	PyObject* mvDataGrid::getPyValue()
 	{
 		return ToPyList(m_values);
 	}
 
-	PyObject* mvTable::getSelections() const
+	PyObject* mvDataGrid::getSelections() const
 	{
 		int selectionCount = 0;
 
@@ -223,7 +223,7 @@ namespace Marvel {
 		return ToPyList(selections);
 	}
 
-	void mvTable::addHeaders(const std::vector<std::string>& headers) 
+	void mvDataGrid::addHeaders(const std::vector<std::string>& headers)
 	{
 		m_headers = headers; 
 		m_columns = headers.size(); 
@@ -245,7 +245,7 @@ namespace Marvel {
 		updateHashValues();
 	}
 
-	void mvTable::addRow(const std::vector<std::string>& row)
+	void mvDataGrid::addRow(const std::vector<std::string>& row)
 	{
 		m_values.push_back(row);
 
@@ -258,7 +258,7 @@ namespace Marvel {
 		updateHashValues();
 	}
 
-	void mvTable::addColumn(const std::string& name, const std::vector<std::string>& column)
+	void mvDataGrid::addColumn(const std::string& name, const std::vector<std::string>& column)
 	{
 		m_headers.push_back(name);
 
@@ -305,7 +305,7 @@ namespace Marvel {
 		updateHashValues();
 	}
 
-	void mvTable::insertColumn(int column_index, const std::string& name, const std::vector<std::string>& column)
+	void mvDataGrid::insertColumn(int column_index, const std::string& name, const std::vector<std::string>& column)
 	{
 		if (!isIndexValid(0, column_index))
 			return;
@@ -427,7 +427,7 @@ namespace Marvel {
 
 	}
 
-	void mvTable::insertRow(int row_index, const std::vector<std::string>& row)
+	void mvDataGrid::insertRow(int row_index, const std::vector<std::string>& row)
 	{
 		if (!isIndexValid(row_index, 0))
 			return;
@@ -482,7 +482,7 @@ namespace Marvel {
 
 	}
 
-	void mvTable::deleteRow(int row)
+	void mvDataGrid::deleteRow(int row)
 	{
 		if (!isIndexValid(row, 0))
 			return ;
@@ -527,7 +527,7 @@ namespace Marvel {
 
 	}
 
-	void mvTable::deleteColumn(int column)
+	void mvDataGrid::deleteColumn(int column)
 	{
 		if (!isIndexValid(0, column))
 			return;
@@ -586,70 +586,54 @@ namespace Marvel {
 
 	}
 
-	void mvTable::clearTable()
+	void mvDataGrid::clearGrid()
 	{
 		m_selections.clear();
 		m_hashValues.clear();
 		m_values.clear();
 	}
 
-	void mvTable::draw()
+	void mvDataGrid::draw()
 	{
-		mvImGuiThemeScope scope(this);
+		//mvImGuiThemeScope scope(this);
 
-		ImGui::BeginChild(m_core_config.name.c_str(), ImVec2((float)m_core_config.width, (float)m_core_config.height));
-		ImGui::Separator();
-		if(m_columns > 0)
-			ImGui::Columns((int)m_columns, nullptr, true);
-		
-		if (!m_hide_headers) {
-			for (auto& header : m_headers)
-			{
-				ImGui::Text("%s", header.c_str());
-				ImGui::NextColumn();
-			}
-			ImGui::Separator();
-		}
-
-		ImVec4 alt_color = ImVec4(ImGui::GetStyleColorVec4(ImGuiCol_Header));
-		alt_color.w = 0.10f;
-		auto ralt_col = IM_COL32(alt_color.x * 255.0f, alt_color.y * 255.0f, alt_color.z * 255.0f, alt_color.w * 255.0f);
-
-		int index = 0;
-		for (size_t i = 0; i < m_hashValues.size(); i++)
+		if (ImGui::BeginTable(m_core_config.name.c_str(), m_columns,
+			ImGuiTableFlags_Hideable | ImGuiTableFlags_Resizable | ImGuiTableFlags_RowBg | ImGuiTableFlags_Borders))
 		{
-
-			for (size_t j = 0; j < m_columns; j++)
+			if (!m_hide_headers)
 			{
-				if (i % 2 == 0)
-				{
-					ImVec2 p_min = ImGui::GetCursorScreenPos();
-					p_min.x = p_min.x - ImGui::GetStyle().ItemSpacing.x;
-					p_min.y = p_min.y - ImGui::GetStyle().FramePadding.y;
-					ImVec2 p_max = ImVec2(p_min.x + ImGui::GetWindowContentRegionWidth(), p_min.y + ImGui::GetFrameHeight());
-					ImGui::GetWindowDrawList()->AddRectFilled(p_min, p_max, ralt_col);
-				}
-
-				if (ImGui::Selectable(m_hashValues[i][j].c_str(), m_selections[{i, j}]))
-				{
-					m_selections[{i, j}] = !m_selections[{i, j}];
-					mvApp::GetApp()->getCallbackRegistry().addCallback(m_core_config.callback, m_core_config.name, m_core_config.callback_data);
-				}
-				ImGui::NextColumn();
-				index++;
+				for (auto& header : m_headers)
+					ImGui::TableSetupColumn(header.c_str());
+				ImGui::TableHeadersRow();
+				//ImGui::TableNextColumn();
 			}
 
+			for (size_t i = 0; i < m_hashValues.size(); i++)
+			{
+				ImGui::TableNextRow();
+				for (size_t j = 0; j < m_hashValues[i].size(); j++)
+				{
+					ImGui::TableSetColumnIndex(j);
+					if (ImGui::Selectable(m_hashValues[i][j].c_str(), m_selections[{i, j}]))
+					{
+						m_selections[{i, j}] = !m_selections[{i, j}];
+						mvApp::GetApp()->getCallbackRegistry().addCallback(m_core_config.callback, 
+							m_core_config.name, m_core_config.callback_data);
+					}
+				}
+
+			}
+
+			ImGui::EndTable();
 		}
 
-		ImGui::Columns(1);
-		ImGui::Separator();
-		ImGui::EndChild();
+
 	}
 
 #ifdef MV_CPP
 #else
 
-	PyObject* add_table(PyObject* self, PyObject* args, PyObject* kwargs)
+	PyObject* add_data_grid(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		const char* name;
 		PyObject* headers;
@@ -662,12 +646,12 @@ namespace Marvel {
 		int show = true;
 		bool hide_headers = false;
 
-		if (!(mvApp::GetApp()->getParsers())["add_table"].parse(args, kwargs, __FUNCTION__,
+		if (!(mvApp::GetApp()->getParsers())["add_data_grid"].parse(args, kwargs, __FUNCTION__,
 			&name, &headers, &callback, &callback_data, &parent,
 			&before, &width, &height, &show, &hide_headers))
 			return ToPyBool(false);
 
-		auto item = CreateRef<mvTable>(name, ToStringVect(headers));
+		auto item = CreateRef<mvDataGrid>(name, ToStringVect(headers));
 		if (callback)
 			Py_XINCREF(callback);
 		item->setCallback(callback);
@@ -684,363 +668,363 @@ namespace Marvel {
 		return GetPyNone();
 	}
 
-	PyObject* get_table_data(PyObject* self, PyObject* args, PyObject* kwargs)
+	PyObject* get_grid_data(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
-		const char* name;
+		const char* grid;
 
-		if (!(mvApp::GetApp()->getParsers())["get_table_data"].parse(args, kwargs, __FUNCTION__, &name))
+		if (!(mvApp::GetApp()->getParsers())["get_grid_data"].parse(args, kwargs, __FUNCTION__, &grid))
 			return GetPyNone();
 
 		std::lock_guard<std::mutex> lk(mvApp::GetApp()->getMutex());
-		auto item = mvApp::GetApp()->getItemRegistry().getItem(std::string(name));
+		auto item = mvApp::GetApp()->getItemRegistry().getItem(std::string(grid));
 
 		if (item == nullptr)
 		{
-			std::string message = name;
+			std::string message = grid;
 			ThrowPythonException(message + " table does not exist.");
 			return GetPyNone();
 		}
 
-		if (item->getType() != mvAppItemType::mvTable)
+		if (item->getType() != mvAppItemType::mvDataGrid)
 		{
-			std::string message = name;
+			std::string message = grid;
 			ThrowPythonException(message + " is not a table.");
 			return GetPyNone();
 		}
 
-		return static_cast<mvTable*>(item.get())->getPyValue();
+		return static_cast<mvDataGrid*>(item.get())->getPyValue();
 	}
 
-	PyObject* set_table_data(PyObject* self, PyObject* args, PyObject* kwargs)
+	PyObject* set_grid_data(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
-		const char* name;
+		const char* grid;
 		PyObject* value;
 
-		if (!(mvApp::GetApp()->getParsers())["set_table_data"].parse(args, kwargs, __FUNCTION__, &name, &value))
+		if (!(mvApp::GetApp()->getParsers())["set_grid_data"].parse(args, kwargs, __FUNCTION__, &grid, &value))
 			return GetPyNone();
 
 		std::lock_guard<std::mutex> lk(mvApp::GetApp()->getMutex());
-		auto item = mvApp::GetApp()->getItemRegistry().getItem(std::string(name));
+		auto item = mvApp::GetApp()->getItemRegistry().getItem(std::string(grid));
 
 		if (item == nullptr)
 		{
-			std::string message = name;
-			ThrowPythonException(message + " table does not exist.");
+			std::string message = grid;
+			ThrowPythonException(message + " grid does not exist.");
 			return GetPyNone();
 		}
 
-		if (item->getType() != mvAppItemType::mvTable)
+		if (item->getType() != mvAppItemType::mvDataGrid)
 		{
-			std::string message = name;
-			ThrowPythonException(message + " is not a table.");
+			std::string message = grid;
+			ThrowPythonException(message + " is not a grid.");
 			return GetPyNone();
 		}
 
-		static_cast<mvTable*>(item.get())->setPyValue(value);
+		static_cast<mvDataGrid*>(item.get())->setPyValue(value);
 
 		return GetPyNone();
 	}
 
-	PyObject* set_headers(PyObject* self, PyObject* args, PyObject* kwargs)
+	PyObject* set_grid_headers(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
-		const char* table;
+		const char* grid;
 		PyObject* headers;
 
-		if (!(mvApp::GetApp()->getParsers())["set_headers"].parse(args, kwargs, __FUNCTION__, &table, &headers))
+		if (!(mvApp::GetApp()->getParsers())["set_grid_headers"].parse(args, kwargs, __FUNCTION__, &grid, &headers))
 			return GetPyNone();
 
 		std::lock_guard<std::mutex> lk(mvApp::GetApp()->getMutex());
-		auto item = mvApp::GetApp()->getItemRegistry().getItem(table);
+		auto item = mvApp::GetApp()->getItemRegistry().getItem(grid);
 		if (item == nullptr)
 		{
-			std::string message = table;
-			ThrowPythonException(message + " table does not exist.");
+			std::string message = grid;
+			ThrowPythonException(message + " grid does not exist.");
 			return GetPyNone();
 		}
 
 		auto prow = ToStringVect(headers);
-		mvTable* atable = static_cast<mvTable*>(item.get());
+		mvDataGrid* atable = static_cast<mvDataGrid*>(item.get());
 
 		atable->addHeaders(prow);
 
 		return GetPyNone();
 	}
 
-	PyObject* clear_table(PyObject* self, PyObject* args, PyObject* kwargs)
+	PyObject* clear_data_grid(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
-		const char* table;
+		const char* grid;
 
-		if (!(mvApp::GetApp()->getParsers())["clear_table"].parse(args, kwargs, __FUNCTION__, &table))
+		if (!(mvApp::GetApp()->getParsers())["clear_data_grid"].parse(args, kwargs, __FUNCTION__, &grid))
 			return GetPyNone();
 
 		std::lock_guard<std::mutex> lk(mvApp::GetApp()->getMutex());
-		auto item = mvApp::GetApp()->getItemRegistry().getItem(table);
+		auto item = mvApp::GetApp()->getItemRegistry().getItem(grid);
 		if (item == nullptr)
 		{
-			std::string message = table;
-			ThrowPythonException(message + " table does not exist.");
+			std::string message = grid;
+			ThrowPythonException(message + " grid does not exist.");
 			return GetPyNone();
 		}
 
-		if (item->getType() != mvAppItemType::mvTable)
+		if (item->getType() != mvAppItemType::mvDataGrid)
 		{
-			std::string message = table;
-			ThrowPythonException(message + " is not a table.");
+			std::string message = grid;
+			ThrowPythonException(message + " is not a grid.");
 			return GetPyNone();
 		}
 
-		mvTable* atable = static_cast<mvTable*>(item.get());
-		atable->clearTable();
+		mvDataGrid* atable = static_cast<mvDataGrid*>(item.get());
+		atable->clearGrid();
 		Py_RETURN_NONE;
 	}
 
-	PyObject* get_table_item(PyObject* self, PyObject* args, PyObject* kwargs)
+	PyObject* get_grid_item(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
-		const char* table;
+		const char* grid;
 		int row;
 		int column;
 
-		if (!(mvApp::GetApp()->getParsers())["get_table_item"].parse(args, kwargs, __FUNCTION__, &table, &row,
+		if (!(mvApp::GetApp()->getParsers())["get_grid_item"].parse(args, kwargs, __FUNCTION__, &grid, &row,
 			&column))
 			return GetPyNone();
 
 		std::lock_guard<std::mutex> lk(mvApp::GetApp()->getMutex());
-		auto item = mvApp::GetApp()->getItemRegistry().getItem(table);
+		auto item = mvApp::GetApp()->getItemRegistry().getItem(grid);
 		if (item == nullptr)
 		{
-			std::string message = table;
-			ThrowPythonException(message + " table does not exist.");
+			std::string message = grid;
+			ThrowPythonException(message + " grid does not exist.");
 			return GetPyNone();
 		}
 
-		if (item->getType() != mvAppItemType::mvTable)
+		if (item->getType() != mvAppItemType::mvDataGrid)
 		{
-			std::string message = table;
-			ThrowPythonException(message + " is not a table.");
+			std::string message = grid;
+			ThrowPythonException(message + " is not a grid.");
 			return GetPyNone();
 		}
 
-		mvTable* atable = static_cast<mvTable*>(item.get());
-		return Py_BuildValue("s", atable->getTableItem(row, column).c_str());
+		mvDataGrid* atable = static_cast<mvDataGrid*>(item.get());
+		return Py_BuildValue("s", atable->getGridItem(row, column).c_str());
 
 	}
 
-	PyObject* set_table_item(PyObject* self, PyObject* args, PyObject* kwargs)
+	PyObject* set_grid_item(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
-		const char* table;
+		const char* grid;
 		int row;
 		int column;
 		const char* value;
 
-		if (!(mvApp::GetApp()->getParsers())["set_table_item"].parse(args, kwargs, __FUNCTION__, &table, &row,
+		if (!(mvApp::GetApp()->getParsers())["set_grid_item"].parse(args, kwargs, __FUNCTION__, &grid, &row,
 			&column, &value))
 			return GetPyNone();
 
 		std::lock_guard<std::mutex> lk(mvApp::GetApp()->getMutex());
-		auto item = mvApp::GetApp()->getItemRegistry().getItem(table);
+		auto item = mvApp::GetApp()->getItemRegistry().getItem(grid);
 		if (item == nullptr)
 		{
-			std::string message = table;
-			ThrowPythonException(message + " table does not exist.");
+			std::string message = grid;
+			ThrowPythonException(message + " grid does not exist.");
 			return GetPyNone();
 		}
 
-		if (item->getType() != mvAppItemType::mvTable)
+		if (item->getType() != mvAppItemType::mvDataGrid)
 		{
-			std::string message = table;
-			ThrowPythonException(message + " is not a table.");
+			std::string message = grid;
+			ThrowPythonException(message + " is not a grid.");
 			return GetPyNone();
 		}
 
-		mvTable* atable = static_cast<mvTable*>(item.get());
-		atable->setTableItem(row, column, value);
+		mvDataGrid* atable = static_cast<mvDataGrid*>(item.get());
+		atable->setGridItem(row, column, value);
 
 		return GetPyNone();
 	}
 
-	PyObject* get_table_selections(PyObject* self, PyObject* args, PyObject* kwargs)
+	PyObject* get_grid_selections(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
-		const char* table;
+		const char* grid;
 
-		if (!(mvApp::GetApp()->getParsers())["get_table_selections"].parse(args, kwargs, __FUNCTION__, &table))
+		if (!(mvApp::GetApp()->getParsers())["get_grid_selections"].parse(args, kwargs, __FUNCTION__, &grid))
 			return GetPyNone();
 
 		std::lock_guard<std::mutex> lk(mvApp::GetApp()->getMutex());
-		auto item = mvApp::GetApp()->getItemRegistry().getItem(table);
+		auto item = mvApp::GetApp()->getItemRegistry().getItem(grid);
 		if (item == nullptr)
 		{
-			std::string message = table;
-			ThrowPythonException(message + " table does not exist.");
+			std::string message = grid;
+			ThrowPythonException(message + " grid does not exist.");
 			return GetPyNone();
 		}
 
-		if (item->getType() != mvAppItemType::mvTable)
+		if (item->getType() != mvAppItemType::mvDataGrid)
 		{
-			std::string message = table;
-			ThrowPythonException(message + " is not a table.");
+			std::string message = grid;
+			ThrowPythonException(message + " is not a grid.");
 			return GetPyNone();
 		}
 
-		mvTable* atable = static_cast<mvTable*>(item.get());
+		mvDataGrid* atable = static_cast<mvDataGrid*>(item.get());
 		return atable->getSelections();
 	}
 
-	PyObject* set_table_selection(PyObject* self, PyObject* args, PyObject* kwargs)
+	PyObject* set_grid_selection(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
-		const char* table;
+		const char* grid;
 		int row;
 		int column;
 		int value;
 
-		if (!(mvApp::GetApp()->getParsers())["set_table_selection"].parse(args, kwargs, __FUNCTION__, &table, &row,
+		if (!(mvApp::GetApp()->getParsers())["set_grid_selection"].parse(args, kwargs, __FUNCTION__, &grid, &row,
 			&column, &value))
 			return GetPyNone();
 
 		std::lock_guard<std::mutex> lk(mvApp::GetApp()->getMutex());
-		auto item = mvApp::GetApp()->getItemRegistry().getItem(table);
+		auto item = mvApp::GetApp()->getItemRegistry().getItem(grid);
 		if (item == nullptr)
 		{
-			std::string message = table;
-			ThrowPythonException(message + " table does not exist.");
+			std::string message = grid;
+			ThrowPythonException(message + " grid does not exist.");
 			return GetPyNone();
 		}
 
-		if (item->getType() != mvAppItemType::mvTable)
+		if (item->getType() != mvAppItemType::mvDataGrid)
 		{
-			std::string message = table;
-			ThrowPythonException(message + " is not a table.");
+			std::string message = grid;
+			ThrowPythonException(message + " is not a grid.");
 			return GetPyNone();
 		}
 
-		mvTable* atable = static_cast<mvTable*>(item.get());
+		mvDataGrid* atable = static_cast<mvDataGrid*>(item.get());
 		atable->setSelection(row, column, value);
 
 		return GetPyNone();
 	}
 
-	PyObject* add_column(PyObject* self, PyObject* args, PyObject* kwargs)
+	PyObject* add_grid_column(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
-		const char* table;
+		const char* grid;
 		const char* name;
 		PyObject* column;
 
-		if (!(mvApp::GetApp()->getParsers())["add_column"].parse(args, kwargs, __FUNCTION__, &table, &name, &column))
+		if (!(mvApp::GetApp()->getParsers())["add_grid_column"].parse(args, kwargs, __FUNCTION__, &grid, &name, &column))
 			return GetPyNone();
 
 		std::lock_guard<std::mutex> lk(mvApp::GetApp()->getMutex());
-		auto item = mvApp::GetApp()->getItemRegistry().getItem(table);
+		auto item = mvApp::GetApp()->getItemRegistry().getItem(grid);
 		if (item == nullptr)
 		{
-			std::string message = table;
+			std::string message = grid;
 			ThrowPythonException(message + " table does not exist.");
 			return GetPyNone();
 		}
 
-		if (item->getType() != mvAppItemType::mvTable)
+		if (item->getType() != mvAppItemType::mvDataGrid)
 		{
-			std::string message = table;
+			std::string message = grid;
 			ThrowPythonException(message + " is not a table.");
 			return GetPyNone();
 		}
 
 		auto pcolumn = ToStringVect(column);
 
-		mvTable* atable = static_cast<mvTable*>(item.get());
+		mvDataGrid* atable = static_cast<mvDataGrid*>(item.get());
 		atable->addColumn(name, pcolumn);
 
 		return GetPyNone();
 	}
 
-	PyObject* insert_column(PyObject* self, PyObject* args, PyObject* kwargs)
+	PyObject* insert_grid_column(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
-		const char* table;
+		const char* grid;
 		int column_index;
 		const char* name;
 		PyObject* column;
 
-		if (!(mvApp::GetApp()->getParsers())["insert_column"].parse(args, kwargs, __FUNCTION__, &table, &column_index, &name, &column))
+		if (!(mvApp::GetApp()->getParsers())["insert_grid_column"].parse(args, kwargs, __FUNCTION__, &grid, &column_index, &name, &column))
 			return GetPyNone();
 
 		std::lock_guard<std::mutex> lk(mvApp::GetApp()->getMutex());
-		auto item = mvApp::GetApp()->getItemRegistry().getItem(table);
+		auto item = mvApp::GetApp()->getItemRegistry().getItem(grid);
 		if (item == nullptr)
 		{
-			std::string message = table;
-			ThrowPythonException(message + " table does not exist.");
+			std::string message = grid;
+			ThrowPythonException(message + " grid does not exist.");
 			return GetPyNone();
 		}
 
-		if (item->getType() != mvAppItemType::mvTable)
+		if (item->getType() != mvAppItemType::mvDataGrid)
 		{
-			std::string message = table;
-			ThrowPythonException(message + " is not a table.");
+			std::string message = grid;
+			ThrowPythonException(message + " is not a grid.");
 			return GetPyNone();
 		}
 
 		auto prow = ToStringVect(column);
 
-		mvTable* atable = static_cast<mvTable*>(item.get());
+		mvDataGrid* atable = static_cast<mvDataGrid*>(item.get());
 		atable->insertColumn(column_index, name, prow);
 
 		return GetPyNone();
 	}
 
-	PyObject* delete_column(PyObject* self, PyObject* args, PyObject* kwargs)
+	PyObject* delete_grid_column(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
-		const char* table;
+		const char* grid;
 		int column;
 
-		if (!(mvApp::GetApp()->getParsers())["delete_column"].parse(args, kwargs, __FUNCTION__, &table, &column))
+		if (!(mvApp::GetApp()->getParsers())["delete_grid_column"].parse(args, kwargs, __FUNCTION__, &grid, &column))
 			return GetPyNone();
 
 		std::lock_guard<std::mutex> lk(mvApp::GetApp()->getMutex());
-		auto item = mvApp::GetApp()->getItemRegistry().getItem(table);
+		auto item = mvApp::GetApp()->getItemRegistry().getItem(grid);
 		if (item == nullptr)
 		{
-			std::string message = table;
-			ThrowPythonException(message + " table does not exist.");
+			std::string message = grid;
+			ThrowPythonException(message + " grid does not exist.");
 			return GetPyNone();
 		}
 
-		if (item->getType() != mvAppItemType::mvTable)
+		if (item->getType() != mvAppItemType::mvDataGrid)
 		{
-			std::string message = table;
-			ThrowPythonException(message + " is not a table.");
+			std::string message = grid;
+			ThrowPythonException(message + " is not a grid.");
 			return GetPyNone();
 		}
 
-		mvTable* atable = static_cast<mvTable*>(item.get());
+		mvDataGrid* atable = static_cast<mvDataGrid*>(item.get());
 		atable->deleteColumn(column);
 
 		return GetPyNone();
 	}
 
-	PyObject* add_row(PyObject* self, PyObject* args, PyObject* kwargs)
+	PyObject* add_grid_row(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
-		const char* table;
+		const char* grid;
 		PyObject* row;
 
-		if (!(mvApp::GetApp()->getParsers())["add_row"].parse(args, kwargs, __FUNCTION__, &table, &row))
+		if (!(mvApp::GetApp()->getParsers())["add_grid_row"].parse(args, kwargs, __FUNCTION__, &grid, &row))
 			return GetPyNone();
 
 		std::lock_guard<std::mutex> lk(mvApp::GetApp()->getMutex());
-		auto item = mvApp::GetApp()->getItemRegistry().getItem(table);
+		auto item = mvApp::GetApp()->getItemRegistry().getItem(grid);
 		if (item == nullptr)
 		{
-			std::string message = table;
-			ThrowPythonException(message + " table does not exist.");
+			std::string message = grid;
+			ThrowPythonException(message + " grid does not exist.");
 			return GetPyNone();
 		}
 
-		if (item->getType() != mvAppItemType::mvTable)
+		if (item->getType() != mvAppItemType::mvDataGrid)
 		{
-			std::string message = table;
-			ThrowPythonException(message + " is not a table.");
+			std::string message = grid;
+			ThrowPythonException(message + " is not a grid.");
 			return GetPyNone();
 		}
 
 		auto prow = ToStringVect(row);
-		mvTable* atable = static_cast<mvTable*>(item.get());
+		mvDataGrid* atable = static_cast<mvDataGrid*>(item.get());
 		if (atable->getColumnCount() == 0)
 		{
 			std::vector<std::string> headers;
@@ -1053,33 +1037,33 @@ namespace Marvel {
 		return GetPyNone();
 	}
 
-	PyObject* insert_row(PyObject* self, PyObject* args, PyObject* kwargs)
+	PyObject* insert_grid_row(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
-		const char* table;
+		const char* grid;
 		int row_index;
 		PyObject* row;
 
-		if (!(mvApp::GetApp()->getParsers())["insert_row"].parse(args, kwargs, __FUNCTION__, &table, &row_index, &row))
+		if (!(mvApp::GetApp()->getParsers())["insert_grid_row"].parse(args, kwargs, __FUNCTION__, &grid, &row_index, &row))
 			return GetPyNone();
 
 		std::lock_guard<std::mutex> lk(mvApp::GetApp()->getMutex());
-		auto item = mvApp::GetApp()->getItemRegistry().getItem(table);
+		auto item = mvApp::GetApp()->getItemRegistry().getItem(grid);
 		if (item == nullptr)
 		{
-			std::string message = table;
-			ThrowPythonException(message + " table does not exist.");
+			std::string message = grid;
+			ThrowPythonException(message + " grid does not exist.");
 			return GetPyNone();
 		}
 
-		if (item->getType() != mvAppItemType::mvTable)
+		if (item->getType() != mvAppItemType::mvDataGrid)
 		{
-			std::string message = table;
-			ThrowPythonException(message + " is not a table.");
+			std::string message = grid;
+			ThrowPythonException(message + " is not a grid.");
 			return GetPyNone();
 		}
 
 		auto prow = ToStringVect(row);
-		mvTable* atable = static_cast<mvTable*>(item.get());
+		mvDataGrid* atable = static_cast<mvDataGrid*>(item.get());
 		if (atable->getColumnCount() == 0)
 		{
 			std::vector<std::string> headers;
@@ -1092,31 +1076,31 @@ namespace Marvel {
 		return GetPyNone();
 	}
 
-	PyObject* delete_row(PyObject* self, PyObject* args, PyObject* kwargs)
+	PyObject* delete_grid_row(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
-		const char* table;
+		const char* grid;
 		int row;
 
-		if (!(mvApp::GetApp()->getParsers())["delete_row"].parse(args, kwargs, __FUNCTION__, &table, &row))
+		if (!(mvApp::GetApp()->getParsers())["delete_grid_row"].parse(args, kwargs, __FUNCTION__, &grid, &row))
 			return GetPyNone();
 
 		std::lock_guard<std::mutex> lk(mvApp::GetApp()->getMutex());
-		auto item = mvApp::GetApp()->getItemRegistry().getItem(table);
+		auto item = mvApp::GetApp()->getItemRegistry().getItem(grid);
 		if (item == nullptr)
 		{
-			std::string message = table;
-			ThrowPythonException(message + " table does not exist.");
+			std::string message = grid;
+			ThrowPythonException(message + " grid does not exist.");
 			return GetPyNone();
 		}
 
-		if (item->getType() != mvAppItemType::mvTable)
+		if (item->getType() != mvAppItemType::mvDataGrid)
 		{
-			std::string message = table;
-			ThrowPythonException(message + " is not a table.");
+			std::string message = grid;
+			ThrowPythonException(message + " is not a grid.");
 			return GetPyNone();
 		}
 
-		mvTable* atable = static_cast<mvTable*>(item.get());
+		mvDataGrid* atable = static_cast<mvDataGrid*>(item.get());
 		atable->deleteRow(row);
 
 		return GetPyNone();
