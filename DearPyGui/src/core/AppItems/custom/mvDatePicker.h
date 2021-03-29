@@ -13,6 +13,7 @@ namespace Marvel {
 		MV_APPITEM_TYPE(mvAppItemType::mvDatePicker, "add_date_picker")
 
 		MV_CREATE_THEME_CONSTANT(mvThemeCol_DatePicker_Date			,  0L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeCol_DatePicker_DateBg		, 21L, 0L);
 		MV_CREATE_THEME_CONSTANT(mvThemeCol_DatePicker_DateDisabled	,  1L, 0L);
 		MV_CREATE_THEME_CONSTANT(mvThemeCol_DatePicker_DateHovered	, 22L, 0L);
 		MV_CREATE_THEME_CONSTANT(mvThemeCol_DatePicker_DateActive	, 23L, 0L);
@@ -26,6 +27,7 @@ namespace Marvel {
 
 		MV_START_COLOR_CONSTANTS
 			MV_CREATE_CONSTANT_PAIR(mvThemeCol_DatePicker_Date,			mvColor(255, 255, 255, 255)),
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_DatePicker_DateBg,		mvColor( 41,  74, 122, 138)),
 			MV_CREATE_CONSTANT_PAIR(mvThemeCol_DatePicker_DateDisabled, mvColor(128, 128, 128, 255)),
 			MV_CREATE_CONSTANT_PAIR(mvThemeCol_DatePicker_DateHovered,	mvColor( 66, 150, 250, 255)),
 			MV_CREATE_CONSTANT_PAIR(mvThemeCol_DatePicker_DateActive,	mvColor( 15, 135, 250, 255)),
