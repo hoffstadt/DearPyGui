@@ -24,6 +24,7 @@
 #include "mvEvents.h"
 #include <memory>
 #include "mvModule_Core.h"
+#include "mvFontManager.h"
 
 namespace Marvel {
 
@@ -82,6 +83,7 @@ namespace Marvel {
     class mvTextEditor;
     class mvWindow;
     class mvThemeManager;
+    class mvFontManager;
     class mvItemRegistry;
     class mvTextureStorage;
     class mvCallbackRegistry;
@@ -137,6 +139,7 @@ namespace Marvel {
         mvTextureStorage&        getTextureStorage  ();
         mvCallbackRegistry&      getCallbackRegistry();
         mvThemeManager&          getThemeManager    ();
+        mvFontManager&           getFontManager     ();
         
         //-----------------------------------------------------------------------------
         // App Settings
@@ -200,6 +203,7 @@ namespace Marvel {
         mvOwnedPtr<mvItemRegistry>                     m_itemRegistry;
         mvOwnedPtr<mvTextureStorage>                   m_textureStorage;
         mvOwnedPtr<mvThemeManager>                     m_themeManager;
+        mvOwnedPtr<mvFontManager>                      m_fontManager;
         mvOwnedPtr<mvCallbackRegistry>                 m_callbackRegistry;
 
                                                      

@@ -37,6 +37,8 @@ namespace Marvel {
 		mvRef<mvDrawList> getFrontDrawList() { return m_frontDrawList; }
 		mvRef<mvDrawList> getBackDrawList() { return m_backDrawList; }
 
+		virtual void invalidateObjects() {}
+
 		virtual void show       () {}
 		virtual void run        () {}
 		virtual void setup      () {}

@@ -93,6 +93,7 @@ namespace Marvel {
 
 		// new debugger window
 		void show_debugger();
+		void refreshAtlas();
 
 	private:
 		

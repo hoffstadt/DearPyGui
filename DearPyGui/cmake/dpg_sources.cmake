@@ -41,6 +41,8 @@ set(MARVEL_SOURCES
 	"src/core/mvLog.cpp"
 
 	"src/core/Theming/mvThemeManager.cpp"
+	"src/core/Theming/mvFontScope.cpp"
+	"src/core/Theming/mvFontManager.cpp"
 
 	"src/core/DrawCommands/mvDrawList.cpp"
 	"src/core/DrawCommands/mvDrawImageCmd.cpp"
@@ -56,7 +58,6 @@ set(MARVEL_SOURCES
 	"src/core/DrawCommands/mvDrawBezierCurveCmd.cpp"
 
 	"src/core/Registries/mvCallbackRegistry.cpp"
-	
 	"src/core/Registries/mvTextureStorage.cpp"
 
 	"src/core/AppItems/mvAppItemState.cpp"

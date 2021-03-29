@@ -5,6 +5,7 @@
 #include "mvInput.h"
 #include "mvItemRegistry.h"
 #include "mvImGuiThemeScope.h"
+#include "mvFontScope.h"
 
 // Helper to display a little (?) mark which shows a tooltip when hovered.
 // In your own code you may want to display an actual icon if you are using a merged icon fonts (see docs/FONTS.md)
@@ -54,11 +55,10 @@ namespace Marvel {
     void mvStyleWindow::draw()
     {
 
+        mvFontScope fscope(this);
+
         if (!prerender())
             return;
-
-
-
 
         ImGui::BeginChild("##colors", ImVec2(0, 0), true, ImGuiWindowFlags_AlwaysVerticalScrollbar | ImGuiWindowFlags_AlwaysHorizontalScrollbar | ImGuiWindowFlags_NavFlattened);
         ImGui::PushItemWidth(-350);

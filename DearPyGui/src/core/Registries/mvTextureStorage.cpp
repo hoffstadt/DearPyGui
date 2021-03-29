@@ -61,8 +61,15 @@ namespace Marvel {
 		return false;
 	}
 
+	void mvTextureStorage::refreshAtlas()
+	{
+		m_textures.erase("INTERNAL_DPG_FONT_ATLAS");
+		addTexture("INTERNAL_DPG_FONT_ATLAS");
+	}
+
 	void mvTextureStorage::show_debugger()
 	{
+		return;
 		ImGui::SetNextWindowSize(ImVec2(500, 500), ImGuiCond_FirstUseEver);
 		if (ImGui::Begin("Texture Storage"))
 		{
@@ -114,8 +121,10 @@ namespace Marvel {
 			}
 			ImGui::EndGroup();
 
-			ImGui::End();
+			
 		}
+
+		ImGui::End();
 	}
 
 	bool mvTextureStorage::onDecrement(mvEvent& event)

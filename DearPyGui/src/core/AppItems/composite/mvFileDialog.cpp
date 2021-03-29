@@ -1,5 +1,6 @@
 #include "mvFileDialog.h"
 #include "mvItemRegistry.h"
+#include "mvFontScope.h"
 
 namespace Marvel {
 
@@ -36,6 +37,8 @@ namespace Marvel {
 	{
 		if (!prerender2())
 			return;
+
+		mvFontScope fscope(this);
 
 		// display
 		if (ImGuiFileDialog::Instance()->Display("ChooseFileDlgKey", ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoSavedSettings, ImVec2(500, 600)))

@@ -164,6 +164,12 @@ namespace Marvel {
         // Generally you may always pass all inputs to dear imgui, and hide them from your application based on those two flags.
         glfwPollEvents();
 
+        if (mvApp::GetApp()->getFontManager().rebuild)
+        {
+            mvApp::GetApp()->getFontManager().rebuildAtlas();
+            ImGui_ImplOpenGL3_DestroyDeviceObjects();
+        }
+
         // Start the Dear ImGui frame
         ImGui_ImplOpenGL3_NewFrame();
         ImGui_ImplGlfw_NewFrame();

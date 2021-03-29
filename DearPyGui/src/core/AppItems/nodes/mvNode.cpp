@@ -4,6 +4,7 @@
 #include "mvLog.h"
 #include "mvItemRegistry.h"
 #include "mvImNodesThemeScope.h"
+#include "mvFontScope.h"
 
 namespace Marvel {
 
@@ -94,6 +95,7 @@ namespace Marvel {
 	{
 		ScopedID id;
 		mvImNodesThemeScope scope(this);
+		mvFontScope fscope(this);
 
 		if (m_dirty_pos)
 		{

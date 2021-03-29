@@ -161,6 +161,7 @@ namespace Marvel {
 		m_textureStorage = CreateOwnedPtr<mvTextureStorage>();
 		m_themeManager = CreateOwnedPtr<mvThemeManager>();
         m_callbackRegistry = CreateOwnedPtr<mvCallbackRegistry>();
+        m_fontManager = CreateOwnedPtr<mvFontManager>();
 
 	}
 
@@ -182,6 +183,11 @@ namespace Marvel {
 	mvThemeManager& mvApp::getThemeManager()
 	{
 		return *m_themeManager;
+	}
+
+	mvFontManager& mvApp::getFontManager()
+	{
+		return *m_fontManager;
 	}
 
 	bool mvApp::onEvent(mvEvent& event)

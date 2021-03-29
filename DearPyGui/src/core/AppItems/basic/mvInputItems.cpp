@@ -6,6 +6,7 @@
 #include <string>
 #include "mvItemRegistry.h"
 #include "mvImGuiThemeScope.h"
+#include "mvFontScope.h"
 
 namespace Marvel {
 
@@ -239,6 +240,7 @@ namespace Marvel {
     {
         ScopedID id;
         mvImGuiThemeScope scope(this);
+        mvFontScope fscope(this);
 
         if (ImGui::InputInt(m_label.c_str(), m_value.get(), m_step, m_step_fast, m_flags))
         {
@@ -321,6 +323,7 @@ namespace Marvel {
     {
         ScopedID id;
         mvImGuiThemeScope scope(this);
+        mvFontScope fscope(this);
 
         if (ImGui::InputInt2(m_label.c_str(), m_value->data(), m_flags))
         {
@@ -411,6 +414,7 @@ namespace Marvel {
     {
         ScopedID id;
         mvImGuiThemeScope scope(this);
+        mvFontScope fscope(this);
 
         if (ImGui::InputInt3(m_label.c_str(), m_value->data(), m_flags))
         {
@@ -502,6 +506,7 @@ namespace Marvel {
     {
         ScopedID id;
         mvImGuiThemeScope scope(this);
+        mvFontScope fscope(this);
 
         if (ImGui::InputInt4(m_label.c_str(), m_value->data(), m_flags))
         {
@@ -593,6 +598,7 @@ namespace Marvel {
     {
         ScopedID id;
         mvImGuiThemeScope scope(this);
+        mvFontScope fscope(this);
 
         if (ImGui::InputFloat(m_label.c_str(), m_value.get(), m_step, m_step_fast, m_format.c_str(), m_flags))
         {
@@ -675,6 +681,7 @@ namespace Marvel {
     {
         ScopedID id;
         mvImGuiThemeScope scope(this);
+        mvFontScope fscope(this);
 
         if (ImGui::InputFloat2(m_label.c_str(), m_value->data(), m_format.c_str(), m_flags))
         {
@@ -766,6 +773,7 @@ namespace Marvel {
     {
         ScopedID id;
         mvImGuiThemeScope scope(this);
+        mvFontScope fscope(this);
 
         if (ImGui::InputFloat3(m_label.c_str(), m_value->data(), m_format.c_str(), m_flags))
         {
@@ -857,6 +865,7 @@ namespace Marvel {
     {
         ScopedID id;
         mvImGuiThemeScope scope(this);
+        mvFontScope fscope(this);
 
         if (ImGui::InputFloat4(m_label.c_str(), m_value->data(), m_format.c_str(), m_flags))
         {

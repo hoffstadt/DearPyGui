@@ -6,6 +6,7 @@
 #include "mvApp.h"
 #include <string>
 #include "mvItemRegistry.h"
+#include "mvFontScope.h"
 
 namespace Marvel {
 
@@ -43,6 +44,8 @@ namespace Marvel {
 
     void mvMetricsWindow::draw()
     {
+        mvFontScope fscope(this);
+
         if (!prerender())
             return;
 

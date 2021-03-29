@@ -128,6 +128,12 @@ namespace Marvel {
 			//continue;
 		}
 
+		if (mvApp::GetApp()->getFontManager().rebuild)
+		{
+			mvApp::GetApp()->getFontManager().rebuildAtlas();
+			ImGui_ImplDX11_InvalidateDeviceObjects();
+		}
+
 		// Start the Dear ImGui frame
 		ImGui_ImplDX11_NewFrame();
 		ImGui_ImplWin32_NewFrame();

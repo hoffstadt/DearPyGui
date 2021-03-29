@@ -19,6 +19,7 @@
 #include "mvStairSeries.h"
 #include "mvStemSeries.h"
 #include "mvImPlotThemeScope.h"
+#include "mvFontScope.h"
 
 namespace Marvel {
 
@@ -994,6 +995,7 @@ namespace Marvel {
 		}
 
 		mvImPlotThemeScope scope(this);
+		mvFontScope fscope(this);
 
 		if (ImPlot::BeginPlot(m_label.c_str(), m_xaxisName.empty() ? nullptr : m_xaxisName.c_str(), m_yaxisName.empty() ? nullptr : m_yaxisName.c_str(),
 			ImVec2((float)m_core_config.width, (float)m_core_config.height), m_flags,
