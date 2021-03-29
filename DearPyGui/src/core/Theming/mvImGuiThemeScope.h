@@ -22,11 +22,16 @@ namespace Marvel {
 			std::unordered_map<ImGuiStyleVar, float>& styles1 = item->getCachedThemeStyles1();
 			std::unordered_map<ImGuiStyleVar, float>& styles2 = item->getCachedThemeStyles2();
 
-			if (!item->isThemeCacheValid())
+			if (!item->isThemeColorCacheValid())
 			{
 				SearchAncestorTreeForColors<T>(item, colors);
+				item->setThemeColorCacheValid();
+			}
+
+			if (!item->isThemeStyleCacheValid())
+			{
 				SearchAncestorTreeForStyles<T>(item, styles, styles1, styles2);
-				item->setThemeCacheValid();
+				item->setThemeStyleCacheValid();
 			}
 
 			// decode and push colors to ImGui

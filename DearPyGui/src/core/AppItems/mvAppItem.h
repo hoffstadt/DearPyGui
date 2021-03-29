@@ -161,9 +161,12 @@ namespace Marvel {
         std::unordered_map<mvAppItemType, mvThemeStyles>& getStyles() { return m_styles; }
 
         // cached theming
-        bool                                      isThemeCacheValid() const;
-        void                                      inValidateThemeCache();
-        void                                      setThemeCacheValid();
+        bool                                      isThemeColorCacheValid() const;
+        bool                                      isThemeStyleCacheValid() const;
+        void                                      inValidateThemeColorCache();
+        void                                      inValidateThemeStyleCache();
+        void                                      setThemeColorCacheValid();
+        void                                      setThemeStyleCacheValid();
         mvThemeColors&                            getCachedThemeColors();
         std::unordered_map<ImGuiStyleVar, float>& getCachedThemeStyles();
         std::unordered_map<ImGuiStyleVar, float>& getCachedThemeStyles1();
@@ -217,7 +220,8 @@ namespace Marvel {
         std::unordered_map<mvAppItemType, mvThemeStyles> m_styles;
 
         // cached theming
-        bool                                     m_theme_dirty = true;
+        bool                                     m_theme_color_dirty = true;
+        bool                                     m_theme_style_dirty = true;
         mvThemeColors                            m_cached_colors;
         std::unordered_map<ImGuiStyleVar, float> m_cached_styles;
         std::unordered_map<ImGuiStyleVar, float> m_cached_styles1;

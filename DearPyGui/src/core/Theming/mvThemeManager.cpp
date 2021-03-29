@@ -11,16 +11,28 @@ namespace Marvel {
 	std::unordered_map<mvAppItemType, mvThemeColors>					mvThemeManager::s_colors;
 	std::unordered_map<mvAppItemType, mvThemeStyles>					mvThemeManager::s_styles;
 
-	void mvThemeManager::InValidateAllThemes()
+	void mvThemeManager::InValidateColorTheme()
 	{
 		auto& frontWindows = mvApp::GetApp()->getItemRegistry().getFrontWindows();
 		auto& backWindows = mvApp::GetApp()->getItemRegistry().getBackWindows();
 
 		for (auto& window : frontWindows)
-			window->inValidateThemeCache();
+			window->inValidateThemeColorCache();
 
 		for (auto& window : backWindows)
-			window->inValidateThemeCache();
+			window->inValidateThemeColorCache();
+	}
+
+	void mvThemeManager::InValidateStyleTheme()
+	{
+		auto& frontWindows = mvApp::GetApp()->getItemRegistry().getFrontWindows();
+		auto& backWindows = mvApp::GetApp()->getItemRegistry().getBackWindows();
+
+		for (auto& window : frontWindows)
+			window->inValidateThemeStyleCache();
+
+		for (auto& window : backWindows)
+			window->inValidateThemeStyleCache();
 	}
 
 	void mvThemeManager::decodeType(long encoded_constant, mvAppItemType* type)
@@ -69,7 +81,7 @@ namespace Marvel {
 		{
 			if (enabled) GetColors()[type][mvThemeConstant].first = color;
 			else GetColors()[type][mvThemeConstant].second = color;
-			InValidateAllThemes();
+			InValidateColorTheme();
 			return true;
 		}
 
@@ -82,7 +94,7 @@ namespace Marvel {
 				if (enabled) item->getColors()[type][mvThemeConstant].first = color;
 				else item->getColors()[type][mvThemeConstant].second = color;
 
-				item->inValidateThemeCache();
+				item->inValidateThemeColorCache();
 			}
 			else
 			{
@@ -114,7 +126,7 @@ namespace Marvel {
 		if (widget.empty())
 		{
 			GetStyles()[type][mvThemeConstant] = style;
-			InValidateAllThemes();
+			InValidateStyleTheme();
 			return true;
 		}
 
@@ -125,7 +137,7 @@ namespace Marvel {
 			if (item->getDescription().container || item->getType() == type)
 			{
 				item->getStyles()[type][mvThemeConstant] = style;
-				item->inValidateThemeCache();
+				item->inValidateThemeStyleCache();
 			}
 			else
 			{
