@@ -66,6 +66,7 @@ namespace Marvel {
 
     // global
     PyObject* set_theme_color(PyObject* self, PyObject* args, PyObject* kwargs);
+    PyObject* set_theme_color_disabled(PyObject* self, PyObject* args, PyObject* kwargs);
     PyObject* set_theme_style(PyObject* self, PyObject* args, PyObject* kwargs);
 
     // font
