@@ -136,6 +136,7 @@ namespace Marvel {
         mvItemRegistry&          getItemRegistry    ();
         mvTextureStorage&        getTextureStorage  ();
         mvCallbackRegistry&      getCallbackRegistry();
+        mvThemeManager&          getThemeManager    ();
         
         //-----------------------------------------------------------------------------
         // App Settings

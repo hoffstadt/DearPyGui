@@ -179,6 +179,11 @@ namespace Marvel {
 		return *m_textureStorage; 
 	}
 
+	mvThemeManager& mvApp::getThemeManager()
+	{
+		return *m_themeManager;
+	}
+
 	bool mvApp::onEvent(mvEvent& event)
 	{
 		mvEventDispatcher dispatcher(event);
@@ -735,27 +740,21 @@ namespace Marvel {
 
 		Py_XINCREF(color);
 		std::lock_guard<std::mutex> lk(mvApp::GetApp()->getMutex());
-		mvApp::GetApp()->getCallbackRegistry().submit([=]()
+
+		mvEventBus::Publish
+		(
+			mvEVT_CATEGORY_THEMES,
+			SID("color_change"),
 			{
-				mvEventBus::Publish
-				(
-					mvEVT_CATEGORY_THEMES,
-					SID("color_change"),
-					{
-						CreateEventArgument("WIDGET", std::string(item)),
-						CreateEventArgument("ID", constant),
-						CreateEventArgument("COLOR", ToColor(color)),
-						CreateEventArgument("ENABLED", true)
-					}
-				);
+				CreateEventArgument("WIDGET", std::string(item)),
+				CreateEventArgument("ID", constant),
+				CreateEventArgument("COLOR", ToColor(color)),
+				CreateEventArgument("ENABLED", true)
+			}
+		);
 
-				// to ensure the decrement happens on the python thread
-				mvApp::GetApp()->getCallbackRegistry().submitCallback([=]()
-					{
-						Py_XDECREF(color);
-					});
+		Py_XDECREF(color);
 
-			});
 
 		return GetPyNone();
 	}
