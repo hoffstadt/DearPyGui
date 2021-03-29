@@ -214,7 +214,7 @@ namespace Marvel {
         : mvIntPtrBase(name, default_value)
     {
         m_description.disableAllowed = true;
-        last_value = *m_value;
+        m_last_value = *m_value;
     }
     
     void mvInputInt::setEnabled(bool value)
@@ -261,9 +261,9 @@ namespace Marvel {
             // If the value is out of bounds the value will be overwritten with max or min so each frame the value will be switching between the
             // ctrl+click value and the bounds value until the widget is not in ctrl+click mode. To prevent the callback from running every 
             // frame we check if the value was already submitted.
-            if (last_value != *m_value)
+            if (m_last_value != *m_value)
             {
-                last_value = *m_value;
+                m_last_value = *m_value;
                 mvApp::GetApp()->getCallbackRegistry().addCallback(m_core_config.callback, m_core_config.name, m_core_config.callback_data);
             }
         }
@@ -296,7 +296,7 @@ namespace Marvel {
         : mvInt2PtrBase(name, default_value)
     {
         m_description.disableAllowed = true;
-        last_value = *m_value;
+        m_last_value = *m_value;
     }
 
     void mvInputInt2::setEnabled(bool value)
@@ -352,9 +352,9 @@ namespace Marvel {
             // If the value is out of bounds the value will be overwritten with max or min so each frame the value will be switching between the
             // ctrl+click value and the bounds value until the widget is not in ctrl+click mode. To prevent the callback from running every 
             // frame we check if the value was already submitted.
-            if (last_value != *m_value)
+            if (m_last_value != *m_value)
             {
-                last_value = *m_value;
+                m_last_value = *m_value;
                 mvApp::GetApp()->getCallbackRegistry().addCallback(m_core_config.callback, m_core_config.name, m_core_config.callback_data);
             }
         }
@@ -386,7 +386,7 @@ namespace Marvel {
         : mvInt3PtrBase(name, default_value)
     {
         m_description.disableAllowed = true;
-        last_value = *m_value;
+        m_last_value = *m_value;
     }
 
     void mvInputInt3::setEnabled(bool value)
@@ -443,9 +443,9 @@ namespace Marvel {
             // If the value is out of bounds the value will be overwritten with max or min so each frame the value will be switching between the
             // ctrl+click value and the bounds value until the widget is not in ctrl+click mode. To prevent the callback from running every 
             // frame we check if the value was already submitted.
-            if (last_value != *m_value)
+            if (m_last_value != *m_value)
             {
-                last_value = *m_value;
+                m_last_value = *m_value;
                 mvApp::GetApp()->getCallbackRegistry().addCallback(m_core_config.callback, m_core_config.name, m_core_config.callback_data);
             }
         }
@@ -477,7 +477,7 @@ namespace Marvel {
         : mvInt4PtrBase(name, default_value)
     {
         m_description.disableAllowed = true;
-        last_value = *m_value;
+        m_last_value = *m_value;
     }
 
     void mvInputInt4::setEnabled(bool value)
@@ -534,9 +534,9 @@ namespace Marvel {
             // If the value is out of bounds the value will be overwritten with max or min so each frame the value will be switching between the
             // ctrl+click value and the bounds value until the widget is not in ctrl+click mode. To prevent the callback from running every 
             // frame we check if the value was already submitted.
-            if (last_value != *m_value)
+            if (m_last_value != *m_value)
             {
-                last_value = *m_value;
+                m_last_value = *m_value;
                 mvApp::GetApp()->getCallbackRegistry().addCallback(m_core_config.callback, m_core_config.name, m_core_config.callback_data);
             }
         }
@@ -568,7 +568,7 @@ namespace Marvel {
         : mvFloatPtrBase(name, default_value)
     {
         m_description.disableAllowed = true;
-        last_value = *m_value;
+        m_last_value = *m_value;
     }
 
     void mvInputFloat::setEnabled(bool value)
@@ -616,9 +616,9 @@ namespace Marvel {
             // If the value is out of bounds the value will be overwritten with max or min so each frame the value will be switching between the
             // ctrl+click value and the bounds value until the widget is not in ctrl+click mode. To prevent the callback from running every 
             // frame we check if the value was already submitted.
-            if (last_value != *m_value)
+            if (m_last_value != *m_value)
             {
-                last_value = *m_value;
+                m_last_value = *m_value;
                 mvApp::GetApp()->getCallbackRegistry().addCallback(m_core_config.callback, m_core_config.name, m_core_config.callback_data);
             }
         }
@@ -650,7 +650,7 @@ namespace Marvel {
         : mvFloat2PtrBase(name, default_value)
     {
         m_description.disableAllowed = true;
-        last_value = *m_value;
+        m_last_value = *m_value;
     }
 
     void mvInputFloat2::setEnabled(bool value)
@@ -707,9 +707,9 @@ namespace Marvel {
             // If the value is out of bounds the value will be overwritten with max or min so each frame the value will be switching between the
             // ctrl+click value and the bounds value until the widget is not in ctrl+click mode. To prevent the callback from running every 
             // frame we check if the value was already submitted.
-            if (last_value != *m_value)
+            if (m_last_value != *m_value)
             {
-                last_value = *m_value;
+                m_last_value = *m_value;
                 mvApp::GetApp()->getCallbackRegistry().addCallback(m_core_config.callback, m_core_config.name, m_core_config.callback_data);
             }
         }
@@ -741,7 +741,7 @@ namespace Marvel {
         : mvFloat3PtrBase(name, default_value)
     {
         m_description.disableAllowed = true;
-        last_value = *m_value;
+        m_last_value = *m_value;
     }
 
     void mvInputFloat3::setEnabled(bool value)
@@ -798,9 +798,9 @@ namespace Marvel {
             // If the value is out of bounds the value will be overwritten with max or min so each frame the value will be switching between the
             // ctrl+click value and the bounds value until the widget is not in ctrl+click mode. To prevent the callback from running every 
             // frame we check if the value was already submitted.
-            if (last_value != *m_value)
+            if (m_last_value != *m_value)
             {
-                last_value = *m_value;
+                m_last_value = *m_value;
                 mvApp::GetApp()->getCallbackRegistry().addCallback(m_core_config.callback, m_core_config.name, m_core_config.callback_data);
             }
         }
@@ -832,7 +832,7 @@ namespace Marvel {
         : mvFloat4PtrBase(name, default_value)
     {
         m_description.disableAllowed = true;
-        last_value = *m_value;
+        m_last_value = *m_value;
     }
 
     void mvInputFloat4::setEnabled(bool value)
@@ -889,9 +889,9 @@ namespace Marvel {
             // If the value is out of bounds the value will be overwritten with max or min so each frame the value will be switching between the
             // ctrl+click value and the bounds value until the widget is not in ctrl+click mode. To prevent the callback from running every 
             // frame we check if the value was already submitted.
-            if (last_value != *m_value)
+            if (m_last_value != *m_value)
             {
-                last_value = *m_value;
+                m_last_value = *m_value;
                 mvApp::GetApp()->getCallbackRegistry().addCallback(m_core_config.callback, m_core_config.name, m_core_config.callback_data);
             }
         }
