@@ -50,18 +50,23 @@ namespace Marvel {
 		decodeType(mvThemeConstant, &type);
 		mvColor color = GetEColor(event, "COLOR");
 		const std::string& widget = GetEString(event, "WIDGET");
+		bool enabled = GetEBool(event, "ENABLED");
 
 		//fills out the app's root theme if no item was given
 		if (widget.empty())
 		{
-			GetColors()[type][mvThemeConstant].first = color;
+			if (enabled) GetColors()[type][mvThemeConstant].first = color;
+			else GetColors()[type][mvThemeConstant].second = color;
 			return true;
 		}
 
 		//check widget can take color and apply
 		mvRef<mvAppItem> item = mvApp::GetApp()->getItemRegistry().getItem(widget);
 		if (item->getDescription().container || item->getType() == type)
-			item->getColors()[type][mvThemeConstant].first = color;
+		{
+			if (enabled) item->getColors()[type][mvThemeConstant].first = color;
+			else item->getColors()[type][mvThemeConstant].second = color;
+		}
 		else
 		{
 			mvApp::GetApp()->getCallbackRegistry().submitCallback([=]()
