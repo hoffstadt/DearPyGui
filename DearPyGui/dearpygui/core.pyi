@@ -1007,7 +1007,11 @@ def set_start_callback(callback: Any) -> None:
 	...
 
 def set_theme_color(constant: int, color: List[float], item: str = '') -> None:
-	"""Sets a color of a theme item."""
+	"""Sets a color of a theme item for when the item is enabled."""
+	...
+
+def set_theme_color_disabled(constant: int, color: List[float], item: str = '') -> None:
+	"""Sets a color of a theme item for when the item is disabled."""
 	...
 
 def set_theme_style(constant: int, style: float, item: str = '') -> None:

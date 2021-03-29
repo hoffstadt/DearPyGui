@@ -11,6 +11,18 @@ namespace Marvel {
 	std::unordered_map<mvAppItemType, mvThemeColors>					mvThemeManager::s_colors;
 	std::unordered_map<mvAppItemType, mvThemeStyles>					mvThemeManager::s_styles;
 
+	void mvThemeManager::InValidateAllThemes()
+	{
+		auto& frontWindows = mvApp::GetApp()->getItemRegistry().getFrontWindows();
+		auto& backWindows = mvApp::GetApp()->getItemRegistry().getBackWindows();
+
+		for (auto& window : frontWindows)
+			window->inValidateThemeCache();
+
+		for (auto& window : backWindows)
+			window->inValidateThemeCache();
+	}
+
 	void mvThemeManager::decodeType(long encoded_constant, mvAppItemType* type)
 	{
 		*type = (mvAppItemType)(encoded_constant / 1000);
@@ -57,22 +69,35 @@ namespace Marvel {
 		{
 			if (enabled) GetColors()[type][mvThemeConstant].first = color;
 			else GetColors()[type][mvThemeConstant].second = color;
+			InValidateAllThemes();
 			return true;
 		}
 
 		//check widget can take color and apply
 		mvRef<mvAppItem> item = mvApp::GetApp()->getItemRegistry().getItem(widget);
-		if (item->getDescription().container || item->getType() == type)
+		if (item)
 		{
-			if (enabled) item->getColors()[type][mvThemeConstant].first = color;
-			else item->getColors()[type][mvThemeConstant].second = color;
+			if (item->getDescription().container || item->getType() == type)
+			{
+				if (enabled) item->getColors()[type][mvThemeConstant].first = color;
+				else item->getColors()[type][mvThemeConstant].second = color;
+
+				item->inValidateThemeCache();
+			}
+			else
+			{
+				mvApp::GetApp()->getCallbackRegistry().submitCallback([=]()
+					{
+						ThrowPythonException("Item type does not except this color constant.");
+					});
+			}
 		}
 		else
 		{
 			mvApp::GetApp()->getCallbackRegistry().submitCallback([=]()
-			{
-				ThrowPythonException("Item type does not except this color constant.");
-			});
+				{
+					ThrowPythonException("Item can not be found");
+				});
 		}
 		return true;
 	}
@@ -89,19 +114,33 @@ namespace Marvel {
 		if (widget.empty())
 		{
 			GetStyles()[type][mvThemeConstant] = style;
+			InValidateAllThemes();
 			return true;
 		}
 
 		//check widget can take style and apply
 		mvRef<mvAppItem> item = mvApp::GetApp()->getItemRegistry().getItem(widget);
-		if (item->getDescription().container || item->getType() == type)
-			item->getStyles()[type][mvThemeConstant] = style;
+		if (item)
+		{
+			if (item->getDescription().container || item->getType() == type)
+			{
+				item->getStyles()[type][mvThemeConstant] = style;
+				item->inValidateThemeCache();
+			}
+			else
+			{
+				mvApp::GetApp()->getCallbackRegistry().submitCallback([=]()
+					{
+						ThrowPythonException("Item type does not except this style constant.");
+					});
+			}
+		}
 		else
 		{
 			mvApp::GetApp()->getCallbackRegistry().submitCallback([=]()
-			{
-				ThrowPythonException("Item type does not except this style constant.");
-			});
+				{
+					ThrowPythonException("Item can not be found");
+				});
 		}
 		return true;
 	}
