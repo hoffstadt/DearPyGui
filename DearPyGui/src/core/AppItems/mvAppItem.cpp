@@ -449,25 +449,44 @@ namespace Marvel{
 		
 	}
 
-	bool mvAppItem::isThemeCacheValid() const
+	bool mvAppItem::isThemeColorCacheValid() const
 	{
-		return !m_theme_dirty;
+		return !m_theme_color_dirty;
 	}
 
-	void mvAppItem::inValidateThemeCache()
+	bool mvAppItem::isThemeStyleCacheValid() const
 	{
-		m_theme_dirty = true;
+		return !m_theme_style_dirty;
+	}
+
+	void mvAppItem::inValidateThemeColorCache()
+	{
+		m_theme_color_dirty = true;
 		m_cached_colors.clear();
+
+		for (auto& child : m_children)
+			child->inValidateThemeColorCache();
+	}
+
+	void mvAppItem::inValidateThemeStyleCache()
+	{
+		m_theme_style_dirty = true;
 		m_cached_styles.clear();
 		m_cached_styles2.clear();
 
 		for (auto& child : m_children)
-			child->inValidateThemeCache();
+			child->inValidateThemeStyleCache();
 	}
 
-	void mvAppItem::setThemeCacheValid()
+	void mvAppItem::setThemeColorCacheValid()
 	{
-		m_theme_dirty = false;
+		m_theme_color_dirty = false;
+	}
+
+
+	void mvAppItem::setThemeStyleCacheValid()
+	{
+		m_theme_style_dirty = false;
 	}
 
 	mvThemeColors& mvAppItem::getCachedThemeColors()

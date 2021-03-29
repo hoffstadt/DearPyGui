@@ -15,7 +15,8 @@ namespace Marvel {
 		static void decodeType(long encoded_constant, mvAppItemType* type);
 		static void decodelibID(long encoded_constant, int* libID);
 		static int decodeIndex(long encoded_constant);
-		static void InValidateAllThemes();
+		static void InValidateColorTheme();
+		static void InValidateStyleTheme();
 
 		static std::vector<std::tuple<std::string, long, mvColor*, mvColor*>>& GetColorsPtr() { return s_acolors; }
 		static std::vector<std::tuple<std::string, long, float*, float>>& GetStylesPtr() { return s_astyles; }
@@ -34,9 +35,9 @@ namespace Marvel {
 		bool add_style(mvEvent& event);
 
 		static std::vector<std::tuple<std::string, long, mvColor*, mvColor*>> s_acolors;
-		static std::vector<std::tuple<std::string, long, float*, float>>   s_astyles;
-		static std::unordered_map<mvAppItemType, mvThemeColors>     s_colors;
-		static std::unordered_map<mvAppItemType, mvThemeStyles>     s_styles;
+		static std::vector<std::tuple<std::string, long, float*, float>>      s_astyles;
+		static std::unordered_map<mvAppItemType, mvThemeColors>               s_colors;
+		static std::unordered_map<mvAppItemType, mvThemeStyles>               s_styles;
 
 	};
 

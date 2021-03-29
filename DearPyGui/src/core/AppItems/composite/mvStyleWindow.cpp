@@ -101,7 +101,7 @@ namespace Marvel {
 
                     ImGui::PushID(&item);
                     if(ImGui::SliderFloat("##style", std::get<2>(item), 0.0f, std::get<3>(item)))
-                        mvThemeManager::InValidateAllThemes();
+                        mvThemeManager::InValidateStyleTheme();
                     ImGui::SameLine();
                     ImGui::TextUnformatted(std::get<0>(item).c_str());
                     ImGui::PopID();
@@ -144,7 +144,7 @@ namespace Marvel {
 
                     ImGui::PushID(&item);
                     if (ImGui::ColorEdit4("##color", *std::get<2>(item), ImGuiColorEditFlags_AlphaBar))
-                        mvThemeManager::InValidateAllThemes();
+                        mvThemeManager::InValidateColorTheme();
                     ImGui::SameLine();
                     ImGui::TextUnformatted(std::get<0>(item).c_str());
                     ImGui::PopID();
@@ -186,7 +186,7 @@ namespace Marvel {
 
                     ImGui::PushID(&item);
                     if(ImGui::ColorEdit4("##color(disable)", *std::get<3>(item), ImGuiColorEditFlags_AlphaBar))
-                        mvThemeManager::InValidateAllThemes();
+                        mvThemeManager::InValidateColorTheme();
                     ImGui::SameLine();
                     ImGui::TextUnformatted(std::get<0>(item).c_str());
                     ImGui::PopID();
