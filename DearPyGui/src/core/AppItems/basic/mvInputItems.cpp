@@ -214,6 +214,7 @@ namespace Marvel {
         : mvIntPtrBase(name, default_value)
     {
         m_description.disableAllowed = true;
+        m_last_value = *m_value;
     }
     
     void mvInputInt::setEnabled(bool value)
@@ -242,25 +243,29 @@ namespace Marvel {
         if (ImGui::InputInt(m_label.c_str(), m_value.get(), m_step, m_step_fast, m_flags))
         {
             // determines clamped cases
-            //if the value is aboved a clamped value we will do like drag and slider and not run the callback
-            if (m_min_clamped && m_max_clamped)
+            if (m_min_clamped && m_max_clamped) 
             {
                 if (*m_value < m_min) *m_value = m_min;
                 else if (*m_value > m_max) *m_value = m_max;
-                else mvApp::GetApp()->getCallbackRegistry().addCallback(m_core_config.callback, m_core_config.name, m_core_config.callback_data);
             }
-            else if (m_min_clamped)
+            else if (m_min_clamped) 
             {
                 if (*m_value < m_min) *m_value = m_min;
-                else mvApp::GetApp()->getCallbackRegistry().addCallback(m_core_config.callback, m_core_config.name, m_core_config.callback_data);
             }
-            else if (m_max_clamped)
+            else if (m_max_clamped) 
             {
                 if (*m_value > m_max) *m_value = m_max;
-                else mvApp::GetApp()->getCallbackRegistry().addCallback(m_core_config.callback, m_core_config.name, m_core_config.callback_data);
             }
-            else
+
+            // If the widget is edited through ctrl+click mode the active value will be entered every frame.
+            // If the value is out of bounds the value will be overwritten with max or min so each frame the value will be switching between the
+            // ctrl+click value and the bounds value until the widget is not in ctrl+click mode. To prevent the callback from running every 
+            // frame we check if the value was already submitted.
+            if (m_last_value != *m_value)
+            {
+                m_last_value = *m_value;
                 mvApp::GetApp()->getCallbackRegistry().addCallback(m_core_config.callback, m_core_config.name, m_core_config.callback_data);
+            }
         }
 
     }
@@ -291,6 +296,7 @@ namespace Marvel {
         : mvInt2PtrBase(name, default_value)
     {
         m_description.disableAllowed = true;
+        m_last_value = *m_value;
     }
 
     void mvInputInt2::setEnabled(bool value)
@@ -319,14 +325,12 @@ namespace Marvel {
         if (ImGui::InputInt2(m_label.c_str(), m_value->data(), m_flags))
         {
             // determines clamped cases
-            //if the value is aboved a clamped value we will do like drag and slider and not run the callback
             if (m_min_clamped && m_max_clamped)
             {
                 for (int i = 0; i < 2; i++)
                 {
                     if (m_value->data()[i] < m_min) m_value->data()[i] = m_min;
                     else if (m_value->data()[i] > m_max) m_value->data()[i] = m_max;
-                    else mvApp::GetApp()->getCallbackRegistry().addCallback(m_core_config.callback, m_core_config.name, m_core_config.callback_data);
                 }
             }
             else if (m_min_clamped)
@@ -334,7 +338,6 @@ namespace Marvel {
                 for (int i = 0 ; i < 2 ; i++)
                 {
                     if (m_value->data()[i] < m_min) m_value->data()[i] = m_min;
-                    else mvApp::GetApp()->getCallbackRegistry().addCallback(m_core_config.callback, m_core_config.name, m_core_config.callback_data);
                 }
             }
             else if (m_max_clamped)
@@ -342,11 +345,18 @@ namespace Marvel {
                 for (int i = 0; i < 2; i++)
                 {
                     if (m_value->data()[i] > m_max) m_value->data()[i] = m_max;
-                    else mvApp::GetApp()->getCallbackRegistry().addCallback(m_core_config.callback, m_core_config.name, m_core_config.callback_data);
                 }
             }
-            else
+
+            // If the widget is edited through ctrl+click mode the active value will be entered every frame.
+            // If the value is out of bounds the value will be overwritten with max or min so each frame the value will be switching between the
+            // ctrl+click value and the bounds value until the widget is not in ctrl+click mode. To prevent the callback from running every 
+            // frame we check if the value was already submitted.
+            if (m_last_value != *m_value)
+            {
+                m_last_value = *m_value;
                 mvApp::GetApp()->getCallbackRegistry().addCallback(m_core_config.callback, m_core_config.name, m_core_config.callback_data);
+            }
         }
     }
 
@@ -376,6 +386,7 @@ namespace Marvel {
         : mvInt3PtrBase(name, default_value)
     {
         m_description.disableAllowed = true;
+        m_last_value = *m_value;
     }
 
     void mvInputInt3::setEnabled(bool value)
@@ -403,15 +414,14 @@ namespace Marvel {
 
         if (ImGui::InputInt3(m_label.c_str(), m_value->data(), m_flags))
         {
+            auto inital_value = *m_value;
             // determines clamped cases
-            //if the value is aboved a clamped value we will do like drag and slider and not run the callback
             if (m_min_clamped && m_max_clamped)
             {
                 for (int i = 0; i < 3; i++)
                 {
                     if (m_value->data()[i] < m_min) m_value->data()[i] = m_min;
                     else if (m_value->data()[i] > m_max) m_value->data()[i] = m_max;
-                    else mvApp::GetApp()->getCallbackRegistry().addCallback(m_core_config.callback, m_core_config.name, m_core_config.callback_data);
                 }
             }
             else if (m_min_clamped)
@@ -419,7 +429,6 @@ namespace Marvel {
                 for (int i = 0; i < 3; i++)
                 {
                     if (m_value->data()[i] < m_min) m_value->data()[i] = m_min;
-                    else mvApp::GetApp()->getCallbackRegistry().addCallback(m_core_config.callback, m_core_config.name, m_core_config.callback_data);
                 }
             }
             else if (m_max_clamped)
@@ -427,11 +436,18 @@ namespace Marvel {
                 for (int i = 0; i < 3; i++)
                 {
                     if (m_value->data()[i] > m_max) m_value->data()[i] = m_max;
-                    else mvApp::GetApp()->getCallbackRegistry().addCallback(m_core_config.callback, m_core_config.name, m_core_config.callback_data);
                 }
             }
-            else
+
+            // If the widget is edited through ctrl+click mode the active value will be entered every frame.
+            // If the value is out of bounds the value will be overwritten with max or min so each frame the value will be switching between the
+            // ctrl+click value and the bounds value until the widget is not in ctrl+click mode. To prevent the callback from running every 
+            // frame we check if the value was already submitted.
+            if (m_last_value != *m_value)
+            {
+                m_last_value = *m_value;
                 mvApp::GetApp()->getCallbackRegistry().addCallback(m_core_config.callback, m_core_config.name, m_core_config.callback_data);
+            }
         }
     }
 
@@ -461,6 +477,7 @@ namespace Marvel {
         : mvInt4PtrBase(name, default_value)
     {
         m_description.disableAllowed = true;
+        m_last_value = *m_value;
     }
 
     void mvInputInt4::setEnabled(bool value)
@@ -488,15 +505,14 @@ namespace Marvel {
 
         if (ImGui::InputInt4(m_label.c_str(), m_value->data(), m_flags))
         {
+            auto inital_value = *m_value;
             // determines clamped cases
-            //if the value is aboved a clamped value we will do like drag and slider and not run the callback
             if (m_min_clamped && m_max_clamped)
             {
                 for (int i = 0; i < 4; i++)
                 {
                     if (m_value->data()[i] < m_min) m_value->data()[i] = m_min;
                     else if (m_value->data()[i] > m_max) m_value->data()[i] = m_max;
-                    else mvApp::GetApp()->getCallbackRegistry().addCallback(m_core_config.callback, m_core_config.name, m_core_config.callback_data);
                 }
             }
             else if (m_min_clamped)
@@ -504,7 +520,6 @@ namespace Marvel {
                 for (int i = 0; i < 4; i++)
                 {
                     if (m_value->data()[i] < m_min) m_value->data()[i] = m_min;
-                    else mvApp::GetApp()->getCallbackRegistry().addCallback(m_core_config.callback, m_core_config.name, m_core_config.callback_data);
                 }
             }
             else if (m_max_clamped)
@@ -512,11 +527,18 @@ namespace Marvel {
                 for (int i = 0; i < 4; i++)
                 {
                     if (m_value->data()[i] > m_max) m_value->data()[i] = m_max;
-                    else mvApp::GetApp()->getCallbackRegistry().addCallback(m_core_config.callback, m_core_config.name, m_core_config.callback_data);
                 }
             }
-            else
+
+            // If the widget is edited through ctrl+click mode the active value will be entered every frame.
+            // If the value is out of bounds the value will be overwritten with max or min so each frame the value will be switching between the
+            // ctrl+click value and the bounds value until the widget is not in ctrl+click mode. To prevent the callback from running every 
+            // frame we check if the value was already submitted.
+            if (m_last_value != *m_value)
+            {
+                m_last_value = *m_value;
                 mvApp::GetApp()->getCallbackRegistry().addCallback(m_core_config.callback, m_core_config.name, m_core_config.callback_data);
+            }
         }
     }
 
@@ -546,6 +568,7 @@ namespace Marvel {
         : mvFloatPtrBase(name, default_value)
     {
         m_description.disableAllowed = true;
+        m_last_value = *m_value;
     }
 
     void mvInputFloat::setEnabled(bool value)
@@ -573,26 +596,31 @@ namespace Marvel {
 
         if (ImGui::InputFloat(m_label.c_str(), m_value.get(), m_step, m_step_fast, m_format.c_str(), m_flags))
         {
+            auto inital_value = *m_value;
             // determines clamped cases
-            //if the value is aboved a clamped value we will do like drag and slider and not run the callback
             if (m_min_clamped && m_max_clamped)
             {
                 if (*m_value < m_min) *m_value = m_min;
                 else if (*m_value > m_max) *m_value = m_max;
-                else mvApp::GetApp()->getCallbackRegistry().addCallback(m_core_config.callback, m_core_config.name, m_core_config.callback_data);
             }
             else if (m_min_clamped)
             {
                 if (*m_value < m_min) *m_value = m_min;
-                else mvApp::GetApp()->getCallbackRegistry().addCallback(m_core_config.callback, m_core_config.name, m_core_config.callback_data);
             }
             else if (m_max_clamped)
             {
                 if (*m_value > m_max) *m_value = m_max;
-                else mvApp::GetApp()->getCallbackRegistry().addCallback(m_core_config.callback, m_core_config.name, m_core_config.callback_data);
             }
-            else
+
+            // If the widget is edited through ctrl+click mode the active value will be entered every frame.
+            // If the value is out of bounds the value will be overwritten with max or min so each frame the value will be switching between the
+            // ctrl+click value and the bounds value until the widget is not in ctrl+click mode. To prevent the callback from running every 
+            // frame we check if the value was already submitted.
+            if (m_last_value != *m_value)
+            {
+                m_last_value = *m_value;
                 mvApp::GetApp()->getCallbackRegistry().addCallback(m_core_config.callback, m_core_config.name, m_core_config.callback_data);
+            }
         }
     }
 
@@ -622,6 +650,7 @@ namespace Marvel {
         : mvFloat2PtrBase(name, default_value)
     {
         m_description.disableAllowed = true;
+        m_last_value = *m_value;
     }
 
     void mvInputFloat2::setEnabled(bool value)
@@ -649,15 +678,14 @@ namespace Marvel {
 
         if (ImGui::InputFloat2(m_label.c_str(), m_value->data(), m_format.c_str(), m_flags))
         {
+            auto inital_value = *m_value;
             // determines clamped cases
-            //if the value is aboved a clamped value we will do like drag and slider and not run the callback
             if (m_min_clamped && m_max_clamped)
             {
                 for (int i = 0; i < 2; i++)
                 {
                     if (m_value->data()[i] < m_min) m_value->data()[i] = m_min;
                     else if (m_value->data()[i] > m_max) m_value->data()[i] = m_max;
-                    else mvApp::GetApp()->getCallbackRegistry().addCallback(m_core_config.callback, m_core_config.name, m_core_config.callback_data);
                 }
             }
             else if (m_min_clamped)
@@ -665,7 +693,6 @@ namespace Marvel {
                 for (int i = 0; i < 2; i++)
                 {
                     if (m_value->data()[i] < m_min) m_value->data()[i] = m_min;
-                    else mvApp::GetApp()->getCallbackRegistry().addCallback(m_core_config.callback, m_core_config.name, m_core_config.callback_data);
                 }
             }
             else if (m_max_clamped)
@@ -673,11 +700,18 @@ namespace Marvel {
                 for (int i = 0; i < 2; i++)
                 {
                     if (m_value->data()[i] > m_max) m_value->data()[i] = m_max;
-                    else mvApp::GetApp()->getCallbackRegistry().addCallback(m_core_config.callback, m_core_config.name, m_core_config.callback_data);
                 }
             }
-            else
+
+            // If the widget is edited through ctrl+click mode the active value will be entered every frame.
+            // If the value is out of bounds the value will be overwritten with max or min so each frame the value will be switching between the
+            // ctrl+click value and the bounds value until the widget is not in ctrl+click mode. To prevent the callback from running every 
+            // frame we check if the value was already submitted.
+            if (m_last_value != *m_value)
+            {
+                m_last_value = *m_value;
                 mvApp::GetApp()->getCallbackRegistry().addCallback(m_core_config.callback, m_core_config.name, m_core_config.callback_data);
+            }
         }
     }
 
@@ -707,6 +741,7 @@ namespace Marvel {
         : mvFloat3PtrBase(name, default_value)
     {
         m_description.disableAllowed = true;
+        m_last_value = *m_value;
     }
 
     void mvInputFloat3::setEnabled(bool value)
@@ -734,15 +769,14 @@ namespace Marvel {
 
         if (ImGui::InputFloat3(m_label.c_str(), m_value->data(), m_format.c_str(), m_flags))
         {
+            auto inital_value = *m_value;
             // determines clamped cases
-            //if the value is aboved a clamped value we will do like drag and slider and not run the callback
             if (m_min_clamped && m_max_clamped)
             {
                 for (int i = 0; i < 3; i++)
                 {
                     if (m_value->data()[i] < m_min) m_value->data()[i] = m_min;
                     else if (m_value->data()[i] > m_max) m_value->data()[i] = m_max;
-                    else mvApp::GetApp()->getCallbackRegistry().addCallback(m_core_config.callback, m_core_config.name, m_core_config.callback_data);
                 }
             }
             else if (m_min_clamped)
@@ -750,7 +784,6 @@ namespace Marvel {
                 for (int i = 0; i < 3; i++)
                 {
                     if (m_value->data()[i] < m_min) m_value->data()[i] = m_min;
-                    else mvApp::GetApp()->getCallbackRegistry().addCallback(m_core_config.callback, m_core_config.name, m_core_config.callback_data);
                 }
             }
             else if (m_max_clamped)
@@ -758,11 +791,18 @@ namespace Marvel {
                 for (int i = 0; i < 3; i++)
                 {
                     if (m_value->data()[i] > m_max) m_value->data()[i] = m_max;
-                    else mvApp::GetApp()->getCallbackRegistry().addCallback(m_core_config.callback, m_core_config.name, m_core_config.callback_data);
                 }
             }
-            else
+
+            // If the widget is edited through ctrl+click mode the active value will be entered every frame.
+            // If the value is out of bounds the value will be overwritten with max or min so each frame the value will be switching between the
+            // ctrl+click value and the bounds value until the widget is not in ctrl+click mode. To prevent the callback from running every 
+            // frame we check if the value was already submitted.
+            if (m_last_value != *m_value)
+            {
+                m_last_value = *m_value;
                 mvApp::GetApp()->getCallbackRegistry().addCallback(m_core_config.callback, m_core_config.name, m_core_config.callback_data);
+            }
         }
     }
 
@@ -792,6 +832,7 @@ namespace Marvel {
         : mvFloat4PtrBase(name, default_value)
     {
         m_description.disableAllowed = true;
+        m_last_value = *m_value;
     }
 
     void mvInputFloat4::setEnabled(bool value)
@@ -819,15 +860,14 @@ namespace Marvel {
 
         if (ImGui::InputFloat4(m_label.c_str(), m_value->data(), m_format.c_str(), m_flags))
         {
+            auto inital_value = *m_value;
             // determines clamped cases
-            //if the value is aboved a clamped value we will do like drag and slider and not run the callback
             if (m_min_clamped && m_max_clamped)
             {
                 for (int i = 0; i < 4; i++)
                 {
                     if (m_value->data()[i] < m_min) m_value->data()[i] = m_min;
                     else if (m_value->data()[i] > m_max) m_value->data()[i] = m_max;
-                    else mvApp::GetApp()->getCallbackRegistry().addCallback(m_core_config.callback, m_core_config.name, m_core_config.callback_data);
                 }
             }
             else if (m_min_clamped)
@@ -835,7 +875,6 @@ namespace Marvel {
                 for (int i = 0; i < 4; i++)
                 {
                     if (m_value->data()[i] < m_min) m_value->data()[i] = m_min;
-                    else mvApp::GetApp()->getCallbackRegistry().addCallback(m_core_config.callback, m_core_config.name, m_core_config.callback_data);
                 }
             }
             else if (m_max_clamped)
@@ -843,11 +882,18 @@ namespace Marvel {
                 for (int i = 0; i < 4; i++)
                 {
                     if (m_value->data()[i] > m_max) m_value->data()[i] = m_max;
-                    else mvApp::GetApp()->getCallbackRegistry().addCallback(m_core_config.callback, m_core_config.name, m_core_config.callback_data);
                 }
             }
-            else
+
+            // If the widget is edited through ctrl+click mode the active value will be entered every frame.
+            // If the value is out of bounds the value will be overwritten with max or min so each frame the value will be switching between the
+            // ctrl+click value and the bounds value until the widget is not in ctrl+click mode. To prevent the callback from running every 
+            // frame we check if the value was already submitted.
+            if (m_last_value != *m_value)
+            {
+                m_last_value = *m_value;
                 mvApp::GetApp()->getCallbackRegistry().addCallback(m_core_config.callback, m_core_config.name, m_core_config.callback_data);
+            }
         }
     }
 
