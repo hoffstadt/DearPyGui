@@ -246,7 +246,7 @@ def add_node(name: str, *, show: bool = True, label: str = '', draggable: bool =
 	"""Adds a node to a node editor."""
 	...
 
-def add_node_attribute(name: str, *, output: bool = False, static: bool = False, show: bool = True, parent: str = '', before: str = '') -> None:
+def add_node_attribute(name: str, *, shape: int = 1, output: bool = False, static: bool = False, show: bool = True, parent: str = '', before: str = '') -> None:
 	"""Adds a node attribute."""
 	...
 

@@ -37,6 +37,9 @@ namespace Marvel{
 		MV_CREATE_THEME_CONSTANT(mvThemeStyle_SimplePlot_InnerItemSpacingX	, 14L, 0L);
 		MV_CREATE_THEME_CONSTANT(mvThemeStyle_SimplePlot_InnerItemSpacingY	, 14L, 1L);
 
+		MV_START_GENERAL_CONSTANTS
+		MV_END_GENERAL_CONSTANTS
+
 		MV_START_COLOR_CONSTANTS
 			MV_CREATE_CONSTANT_PAIR(mvThemeCol_SimplePlot_Text,				mvColor(255, 255, 255, 255)),
 			MV_CREATE_CONSTANT_PAIR(mvThemeCol_SimplePlot_Border,			mvColor(110, 110, 128, 128)),

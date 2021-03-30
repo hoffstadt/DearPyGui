@@ -25,6 +25,9 @@ namespace Marvel {
 		MV_CREATE_THEME_CONSTANT(ImGuiStyleVar_MenuItem_TextAlignX	, 23L, 0L);
 		MV_CREATE_THEME_CONSTANT(ImGuiStyleVar_MenuItem_TextAlignY	, 23L, 1L);
 
+		MV_START_GENERAL_CONSTANTS
+		MV_END_GENERAL_CONSTANTS
+
 		MV_START_COLOR_CONSTANTS
 			MV_CREATE_CONSTANT_TUPLE(mvThemeCol_MenuItem_Text,		mvColor(255, 255, 255, 255), mvColor(128, 128, 128, 63)),
 			MV_CREATE_CONSTANT_TUPLE(mvThemeCol_MenuItem_BgHovered,	mvColor( 66, 150, 250, 240), mvColor(128, 128, 128, 0)),

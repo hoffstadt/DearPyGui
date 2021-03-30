@@ -1,6 +1,7 @@
 #pragma once
 
 #include "mvPlot.h"
+#include "mvThemeManager.h"
 
 namespace Marvel {
 
@@ -20,6 +21,7 @@ namespace Marvel {
 			m_markerOutlineColor(markerOutlineColor),
 			m_markerFillColor(markerFillColor)
 		{
+			mvThemeManager::decodelibID(m_marker, (int*)&m_marker);
 		}
 
 		mvSeriesType getSeriesType() override { return mvSeriesType::Scatter; }

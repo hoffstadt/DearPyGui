@@ -867,7 +867,7 @@ def show_demo():
 
             with tree_node("Resizable, mixed##tables##demo"):
 
-                with table("table5##demo", header_row=True, policy=8192, row_background=True, reorderable=True, 
+                with table("table5##demo", header_row=True, policy=mvTable_SizingFixedFit, row_background=True, reorderable=True, 
                            resizable=True, no_host_extendX=False, hideable=True, 
                            borders_innerV=True, borders_outerV=True, borders_innerH=True, borders_outerH=True):
                     add_table_column("AAA##democolumns5", width_fixed=True)
@@ -883,7 +883,7 @@ def show_demo():
                             if not (i == 4 and j == 2):
                                 add_table_next_column()
 
-                with table("table6##demo", header_row=True, policy=8192, row_background=True, reorderable=True, 
+                with table("table6##demo", header_row=True, policy=mvTable_SizingFixedFit, row_background=True, reorderable=True, 
                            resizable=True, no_host_extendX=False, hideable=True, 
                            borders_innerV=True, borders_outerV=True, borders_innerH=True, borders_outerH=True):
                     add_table_column("AAA##democolumns6", width_fixed=True)
@@ -926,7 +926,7 @@ def show_demo():
                 with table("table8##demo", header_row=False, no_host_extendX=True,
                            borders_innerH=True, borders_outerH=True, borders_innerV=True,
                            borders_outerV=True, context_menu_in_body=True, row_background=True,
-                           policy=8192, height=150):
+                           policy=mvTable_SizingFixedFit, height=150):
                     add_table_column("One##democolumns8")
                     add_table_column("Two##democolumns8")
                     add_table_column("three##democolumns8")
@@ -941,7 +941,7 @@ def show_demo():
                 with table("table9##demo", header_row=False, no_host_extendX=True,
                            borders_innerH=True, borders_outerH=True, borders_innerV=True,
                            borders_outerV=True, context_menu_in_body=True, row_background=True,
-                           policy=8192, height=0, width=300):
+                           policy=mvTable_SizingFixedFit, height=0, width=300):
                     add_table_column("One##democolumns9")
                     add_table_column("Two##democolumns9")
                     add_table_column("three##democolumns9")
@@ -1355,7 +1355,7 @@ def show_demo():
     
                 with node("Node 1##demo", x_pos=10, y_pos=10):
 
-                    with node_attribute("Node A1##demo"):
+                    with node_attribute("Node A1##demo", shape=mvNode_PinShape_Quad):
                         add_input_float("F1##demo", width=150)
 
                     with node_attribute("Node A2##demo", output=True):
@@ -1363,7 +1363,7 @@ def show_demo():
 
                 with node("Node 2##demo", x_pos=300, y_pos=10):
 
-                    with node_attribute("Node A3##demo"):
+                    with node_attribute("Node A3##demo", shape=mvNode_PinShape_TriangleFilled):
                         add_input_float("F3##demo", width=200)
 
                     with node_attribute("Node A4##demo", output=True):

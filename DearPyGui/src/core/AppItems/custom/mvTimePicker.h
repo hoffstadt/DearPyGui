@@ -39,6 +39,9 @@ namespace Marvel {
 		MV_CREATE_THEME_CONSTANT(mvThemeStyle_TimePicker_DropTextAlignX		, 23L, 0L);
 		MV_CREATE_THEME_CONSTANT(mvThemeStyle_TimePicker_DropTextAlignY		, 23L, 1L);
 
+		MV_START_GENERAL_CONSTANTS
+		MV_END_GENERAL_CONSTANTS
+
 		MV_START_COLOR_CONSTANTS
 			MV_CREATE_CONSTANT_PAIR(mvThemeCol_TimePicker_Time,					mvColor(255, 255, 255, 255)),
 			MV_CREATE_CONSTANT_PAIR(mvThemeCol_TimePicker_TimeHovered,			mvColor( 66, 150, 250, 255)),

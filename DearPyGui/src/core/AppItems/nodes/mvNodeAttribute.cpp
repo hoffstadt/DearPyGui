@@ -14,6 +14,7 @@ namespace Marvel {
 		parsers->insert({ "add_node_attribute", mvPythonParser({
 			{mvPythonDataType::String, "name"},
 			{mvPythonDataType::KeywordOnly},
+			{mvPythonDataType::Integer, "shape", "Pin shape", "1"},
 			{mvPythonDataType::Bool, "output", "Set as output attribute", "False"},
 			{mvPythonDataType::Bool, "static", "Set as static attribute", "False"},
 			{mvPythonDataType::Bool, "show", "Attempt to render", "True"},
@@ -59,9 +60,9 @@ namespace Marvel {
 		if (m_static)
 			imnodes::BeginStaticAttribute((int)m_id);
 		else if(m_output)
-			imnodes::BeginOutputAttribute((int)m_id);
+			imnodes::BeginOutputAttribute((int)m_id, m_shape);
 		else
-			imnodes::BeginInputAttribute((int)m_id);
+			imnodes::BeginInputAttribute((int)m_id, m_shape);
 
 		//we do this so that the children dont get the theme
 		//scope.cleanup();
@@ -99,6 +100,9 @@ namespace Marvel {
 
 		if (PyObject* item = PyDict_GetItemString(dict, "output")) m_output = ToBool(item);
 		if (PyObject* item = PyDict_GetItemString(dict, "static")) m_static = ToBool(item);
+		if (PyObject* item = PyDict_GetItemString(dict, "shape")) m_shape = (imnodes::PinShape)ToInt(item);
+
+		mvThemeManager::decodelibID(m_shape, (int*)&m_shape);
 	}
 
 	void mvNodeAttribute::getExtraConfigDict(PyObject* dict)
@@ -108,11 +112,13 @@ namespace Marvel {
 
 		PyDict_SetItemString(dict, "output", ToPyBool(m_output));
 		PyDict_SetItemString(dict, "static", ToPyBool(m_static));
+		PyDict_SetItemString(dict, "shape", ToPyInt((int)m_shape));
 	}
 
 	PyObject* add_node_attribute(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		const char* name;
+		int shape = 1;
 		int output = false;
 		int kw_static = false;
 		int show = true;
@@ -120,7 +126,7 @@ namespace Marvel {
 		const char* before = "";
 
 		if (!(mvApp::GetApp()->getParsers())["add_node_attribute"].parse(args, kwargs, __FUNCTION__, &name,
-			&output, &kw_static, &show, &parent, &before))
+			&shape, &output, &kw_static, &show, &parent, &before))
 			return ToPyBool(false);
 
 		auto item = CreateRef<mvNodeAttribute>(name);

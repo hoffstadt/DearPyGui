@@ -18,6 +18,9 @@ namespace Marvel {
 
         MV_APPITEM_TYPE(mvAppItemType::mvMetricsWindow, "add_metrics_window")
 
+		MV_START_GENERAL_CONSTANTS
+		MV_END_GENERAL_CONSTANTS
+
         MV_START_COLOR_CONSTANTS
         MV_END_COLOR_CONSTANTS
 

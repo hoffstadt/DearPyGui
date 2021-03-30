@@ -32,6 +32,9 @@ namespace Marvel {
 		MV_CREATE_THEME_CONSTANT(mvThemeStyle_TabButton_PaddingX,   10L, 0L);
 		MV_CREATE_THEME_CONSTANT(mvThemeStyle_TabButton_PaddingY,   10L, 1L);
 
+		MV_START_GENERAL_CONSTANTS
+		MV_END_GENERAL_CONSTANTS
+
 		MV_START_COLOR_CONSTANTS
 			MV_CREATE_CONSTANT_PAIR(mvThemeCol_TabButton_Text,		mvColor(255, 255, 255, 255)),
 			MV_CREATE_CONSTANT_PAIR(mvThemeCol_TabButton_Bg,		mvColor( 41,  74, 122, 138)),

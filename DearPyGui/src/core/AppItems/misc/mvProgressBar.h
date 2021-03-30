@@ -25,6 +25,9 @@ namespace Marvel {
 		MV_CREATE_THEME_CONSTANT(mvThemeStyle_ProgressBar_InnerItemSpacingX	, 14L, 0L);
 		MV_CREATE_THEME_CONSTANT(mvThemeStyle_ProgressBar_InnerItemSpacingY	, 14L, 1L);
 
+		MV_START_GENERAL_CONSTANTS
+		MV_END_GENERAL_CONSTANTS
+
 		MV_START_COLOR_CONSTANTS
 			MV_CREATE_CONSTANT_PAIR(mvThemeCol_ProgressBar_Text,			mvColor(255, 255, 255, 255)),
 			MV_CREATE_CONSTANT_PAIR(mvThemeCol_ProgressBar_Bar,				mvColor(230, 179,   0, 255)),

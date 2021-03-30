@@ -37,6 +37,8 @@ namespace Marvel {
 		MV_CREATE_THEME_CONSTANT(mvThemeStyle_NodeEditor_PinHoverRadius,			12L, 0L);
 		MV_CREATE_THEME_CONSTANT(mvThemeStyle_NodeEditor_PinOffset,					13L, 0L);
 
+		MV_START_GENERAL_CONSTANTS
+		MV_END_GENERAL_CONSTANTS
 
 		MV_START_COLOR_CONSTANTS
 			MV_CREATE_CONSTANT_PAIR(mvThemeCol_NodeEditor_Link,               mvColor( 61, 133, 224, 200)),

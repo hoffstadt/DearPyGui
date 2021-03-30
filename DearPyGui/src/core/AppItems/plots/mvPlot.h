@@ -89,12 +89,41 @@ namespace Marvel {
 
 	public:
 
-		static void InsertParser   (std::map<std::string, mvPythonParser>* parsers);
-		static void InsertConstants(std::vector<std::pair<std::string, long>>& constants);
+		static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
 
 	public:
 
 		MV_APPITEM_TYPE(mvAppItemType::mvPlot, "add_plot")
+
+		//-----------------------------------------------------------------------------
+		// Plot Marker Specifications
+		//-----------------------------------------------------------------------------
+		MV_CREATE_THEME_CONSTANT(mvPlotMarker_None    , -1L, 0L);  // no marker
+		MV_CREATE_THEME_CONSTANT(mvPlotMarker_Circle  ,  0L, 0L);  // a circle marker will be rendered at each point
+		MV_CREATE_THEME_CONSTANT(mvPlotMarker_Square  ,  1L, 0L);  // a square maker will be rendered at each point
+		MV_CREATE_THEME_CONSTANT(mvPlotMarker_Diamond ,  2L, 0L);  // a diamond marker will be rendered at each point
+		MV_CREATE_THEME_CONSTANT(mvPlotMarker_Up      ,  3L, 0L);  // an upward-pointing triangle marker will up rendered at each point
+		MV_CREATE_THEME_CONSTANT(mvPlotMarker_Down    ,  4L, 0L);  // an downward-pointing triangle marker will up rendered at each point
+		MV_CREATE_THEME_CONSTANT(mvPlotMarker_Left    ,  5L, 0L);  // an leftward-pointing triangle marker will up rendered at each point
+		MV_CREATE_THEME_CONSTANT(mvPlotMarker_Right   ,  6L, 0L);  // an rightward-pointing triangle marker will up rendered at each point
+		MV_CREATE_THEME_CONSTANT(mvPlotMarker_Cross   ,  7L, 0L);  // a cross marker will be rendered at each point (not filled)
+		MV_CREATE_THEME_CONSTANT(mvPlotMarker_Plus    ,  8L, 0L);  // a plus marker will be rendered at each point (not filled)
+		MV_CREATE_THEME_CONSTANT(mvPlotMarker_Asterisk,  9L, 0L); // a asterisk marker will be rendered at each point (not filled)
+
+		//-----------------------------------------------------------------------------
+		// Built-in ImPlot Color maps
+		//-----------------------------------------------------------------------------
+		MV_CREATE_THEME_CONSTANT(mvPlotColormap_Default,   0L, 0L); // ImPlot default colormap         (n=10)
+		MV_CREATE_THEME_CONSTANT(mvPlotColormap_Deep   ,   1L, 0L); // a.k.a. matplotlib "Set1"        (n=9)
+		MV_CREATE_THEME_CONSTANT(mvPlotColormap_Dark   ,   2L, 0L); // a.k.a. matplotlib "Set1"        (n=9)
+		MV_CREATE_THEME_CONSTANT(mvPlotColormap_Pastel ,   3L, 0L); // a.k.a. matplotlib "Pastel1"     (n=9)
+		MV_CREATE_THEME_CONSTANT(mvPlotColormap_Paired ,   4L, 0L); // a.k.a. matplotlib "Paired"      (n=12)
+		MV_CREATE_THEME_CONSTANT(mvPlotColormap_Viridis,   5L, 0L); // a.k.a. matplotlib "viridis"     (n=11)
+		MV_CREATE_THEME_CONSTANT(mvPlotColormap_Plasma ,   6L, 0L); // a.k.a. matplotlib "plasma"      (n=11)
+		MV_CREATE_THEME_CONSTANT(mvPlotColormap_Hot    ,   7L, 0L); // a.k.a. matplotlib/MATLAB "hot"  (n=11)
+		MV_CREATE_THEME_CONSTANT(mvPlotColormap_Cool   ,   8L, 0L); // a.k.a. matplotlib/MATLAB "cool" (n=11)
+		MV_CREATE_THEME_CONSTANT(mvPlotColormap_Pink   ,   9L, 0L); // a.k.a. matplotlib/MATLAB "pink" (n=11)
+		MV_CREATE_THEME_CONSTANT(mvPlotColormap_Jet    ,  10L, 0L); // a.k.a. MATLAB "jet"             (n=11)
 
 		MV_CREATE_THEME_CONSTANT(mvThemeCol_Plot_FrameBg,					 5L, 0L);
 		MV_CREATE_THEME_CONSTANT(mvThemeCol_Plot_PlotBg,					 6L, 0L);
@@ -152,6 +181,31 @@ namespace Marvel {
 		MV_CREATE_THEME_CONSTANT(mvThemeStyle_Plot_PlotDefaultSizeY,		25L, 1L);
 		MV_CREATE_THEME_CONSTANT(mvThemeStyle_Plot_PlotMinSizeX,			26L, 0L);
 		MV_CREATE_THEME_CONSTANT(mvThemeStyle_Plot_PlotMinSizeY,			26L, 1L);
+
+		MV_START_GENERAL_CONSTANTS
+		MV_CREATE_CONSTANT_SINGLE(mvPlotMarker_None),
+		MV_CREATE_CONSTANT_SINGLE(mvPlotMarker_Circle),
+		MV_CREATE_CONSTANT_SINGLE(mvPlotMarker_Square),
+		MV_CREATE_CONSTANT_SINGLE(mvPlotMarker_Diamond),
+		MV_CREATE_CONSTANT_SINGLE(mvPlotMarker_Up),
+		MV_CREATE_CONSTANT_SINGLE(mvPlotMarker_Down),
+		MV_CREATE_CONSTANT_SINGLE(mvPlotMarker_Left),
+		MV_CREATE_CONSTANT_SINGLE(mvPlotMarker_Right),
+		MV_CREATE_CONSTANT_SINGLE(mvPlotMarker_Cross),
+		MV_CREATE_CONSTANT_SINGLE(mvPlotMarker_Plus),
+		MV_CREATE_CONSTANT_SINGLE(mvPlotMarker_Asterisk),
+		MV_CREATE_CONSTANT_SINGLE(mvPlotColormap_Default),
+		MV_CREATE_CONSTANT_SINGLE(mvPlotColormap_Deep),
+		MV_CREATE_CONSTANT_SINGLE(mvPlotColormap_Dark),
+		MV_CREATE_CONSTANT_SINGLE(mvPlotColormap_Pastel),
+		MV_CREATE_CONSTANT_SINGLE(mvPlotColormap_Paired),
+		MV_CREATE_CONSTANT_SINGLE(mvPlotColormap_Viridis),
+		MV_CREATE_CONSTANT_SINGLE(mvPlotColormap_Plasma),
+		MV_CREATE_CONSTANT_SINGLE(mvPlotColormap_Hot),
+		MV_CREATE_CONSTANT_SINGLE(mvPlotColormap_Cool),
+		MV_CREATE_CONSTANT_SINGLE(mvPlotColormap_Pink),
+		MV_CREATE_CONSTANT_SINGLE(mvPlotColormap_Jet),
+		MV_END_GENERAL_CONSTANTS
 
 		MV_START_COLOR_CONSTANTS
 			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Plot_FrameBg,      mvColor(255, 255, 255,  18)),

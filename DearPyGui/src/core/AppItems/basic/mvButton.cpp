@@ -27,18 +27,6 @@ namespace Marvel {
 		}, "Adds a button.", "None", "Adding Widgets") });
 	}
 
-	void mvButton::InsertConstants(std::vector<std::pair<std::string, long>>& constants)
-	{
-		//-----------------------------------------------------------------------------
-		// Cardinal directions
-		//-----------------------------------------------------------------------------
-		constants.emplace_back("mvDir_None", -1);
-		constants.emplace_back("mvDir_Left" , 0);
-		constants.emplace_back("mvDir_Right", 1);
-		constants.emplace_back("mvDir_Up"   , 2);
-		constants.emplace_back("mvDir_Down" , 3);
-	}
-
 	mvButton::mvButton(const std::string& name)
 		: 
 		mvAppItem(name)
@@ -134,6 +122,8 @@ namespace Marvel {
 		if (PyObject* item = PyDict_GetItemString(dict, "small")) m_config.small_button = ToBool(item);
 		if (PyObject* item = PyDict_GetItemString(dict, "arrow")) m_config.arrow = ToBool(item);
 		if (PyObject* item = PyDict_GetItemString(dict, "direction")) m_config.direction = ToInt(item);
+
+		mvThemeManager::decodelibID(m_config.direction, (int*)&m_config.direction);
 	}
 
 	void mvButton::getExtraConfigDict(PyObject* dict)

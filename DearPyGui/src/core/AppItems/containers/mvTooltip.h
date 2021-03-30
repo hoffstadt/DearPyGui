@@ -25,6 +25,9 @@ namespace Marvel {
 		MV_CREATE_THEME_CONSTANT(mvThemeStyle_Tooltip_ItemSpacingX	, 13L, 0L);
 		MV_CREATE_THEME_CONSTANT(mvThemeStyle_Tooltip_ItemSpacingY	, 13L, 1L);
 
+		MV_START_GENERAL_CONSTANTS
+		MV_END_GENERAL_CONSTANTS
+
 		MV_START_COLOR_CONSTANTS
 			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Tooltip_Bg,		mvColor( 20,  20,  20, 240)),
 			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Tooltip_Border,	mvColor(110, 110, 128, 128)),

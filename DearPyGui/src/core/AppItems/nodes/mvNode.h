@@ -26,6 +26,9 @@ namespace Marvel {
 		MV_CREATE_THEME_CONSTANT(mvThemeStyle_Node_PaddingVertical,			 3L, 0L);
 		MV_CREATE_THEME_CONSTANT(mvThemeStyle_Node_BorderThickness,			 4L, 0L);
 
+		MV_START_GENERAL_CONSTANTS
+		MV_END_GENERAL_CONSTANTS
+
 		MV_START_COLOR_CONSTANTS
 			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Node_Background,         mvColor( 50,  50,  50, 255)),
 			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Node_BackgroundHovered,  mvColor( 75,  75,  75, 255)),

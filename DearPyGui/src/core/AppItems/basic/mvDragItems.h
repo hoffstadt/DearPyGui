@@ -68,6 +68,9 @@ namespace Marvel {
         MV_CREATE_THEME_CONSTANT(mvThemeStyle_DragFloat_InnerSpacingX , 14L, 0L);
         MV_CREATE_THEME_CONSTANT(mvThemeStyle_DragFloat_InnerSpacingY , 14L, 1L);
 
+		MV_START_GENERAL_CONSTANTS
+		MV_END_GENERAL_CONSTANTS
+
         MV_START_COLOR_CONSTANTS
             MV_CREATE_CONSTANT_TUPLE(mvThemeCol_DragFloat_Text,         mvColor(255, 255, 255, 255), mvColor(128, 128, 128, 63)),
             MV_CREATE_CONSTANT_TUPLE(mvThemeCol_DragFloat_Bg,           mvColor( 41,  74, 122, 138), mvColor(128, 128, 128, 63)),
@@ -155,6 +158,9 @@ namespace Marvel {
         MV_CREATE_THEME_CONSTANT(mvThemeStyle_DragFloat2_InnerSpacingX   , 14L, 0L);
         MV_CREATE_THEME_CONSTANT(mvThemeStyle_DragFloat2_InnerSpacingY   , 14L, 1L);
 
+		MV_START_GENERAL_CONSTANTS
+		MV_END_GENERAL_CONSTANTS
+
         MV_START_COLOR_CONSTANTS
             MV_CREATE_CONSTANT_TUPLE(mvThemeCol_DragFloat2_Text,         mvColor(255, 255, 255, 255), mvColor(128, 128, 128, 63)),
             MV_CREATE_CONSTANT_TUPLE(mvThemeCol_DragFloat2_Bg,           mvColor( 41,  74, 122, 138), mvColor(128, 128, 128, 63)),
@@ -226,6 +232,9 @@ namespace Marvel {
         MV_CREATE_THEME_CONSTANT(mvThemeStyle_DragFloat3_PaddingY        , 10L, 1L);
         MV_CREATE_THEME_CONSTANT(mvThemeStyle_DragFloat3_InnerSpacingX   , 14L, 0L);
         MV_CREATE_THEME_CONSTANT(mvThemeStyle_DragFloat3_InnerSpacingY   , 14L, 1L);
+
+		MV_START_GENERAL_CONSTANTS
+		MV_END_GENERAL_CONSTANTS
 
         MV_START_COLOR_CONSTANTS
             MV_CREATE_CONSTANT_TUPLE(mvThemeCol_DragFloat3_Text,         mvColor(255, 255, 255, 255), mvColor(128, 128, 128, 63)),
@@ -299,6 +308,9 @@ namespace Marvel {
         MV_CREATE_THEME_CONSTANT(mvThemeStyle_DragFloat4_PaddingY        , 10L, 1L);
         MV_CREATE_THEME_CONSTANT(mvThemeStyle_DragFloat4_InnerSpacingX   , 14L, 0L);
         MV_CREATE_THEME_CONSTANT(mvThemeStyle_DragFloat4_InnerSpacingY   , 14L, 1L);
+
+		MV_START_GENERAL_CONSTANTS
+		MV_END_GENERAL_CONSTANTS
 
         MV_START_COLOR_CONSTANTS
             MV_CREATE_CONSTANT_TUPLE(mvThemeCol_DragFloat4_Text,         mvColor(255, 255, 255, 255), mvColor(128, 128, 128, 63)),
@@ -384,6 +396,9 @@ namespace Marvel {
         MV_CREATE_THEME_CONSTANT(mvThemeStyle_DragInt_InnerSpacingX , 14L, 0L);
         MV_CREATE_THEME_CONSTANT(mvThemeStyle_DragInt_InnerSpacingY , 14L, 1L);
 
+		MV_START_GENERAL_CONSTANTS
+		MV_END_GENERAL_CONSTANTS
+
         MV_START_COLOR_CONSTANTS
             MV_CREATE_CONSTANT_TUPLE(mvThemeCol_DragInt_Text,         mvColor(255, 255, 255, 255), mvColor(128, 128, 128, 63)),
             MV_CREATE_CONSTANT_TUPLE(mvThemeCol_DragInt_Bg,           mvColor( 41,  74, 122, 138), mvColor(128, 128, 128, 63)),
@@ -468,6 +483,9 @@ namespace Marvel {
         MV_CREATE_THEME_CONSTANT(mvThemeStyle_DragInt2_InnerSpacingX   , 14L, 0L);
         MV_CREATE_THEME_CONSTANT(mvThemeStyle_DragInt2_InnerSpacingY   , 14L, 1L);
 
+		MV_START_GENERAL_CONSTANTS
+		MV_END_GENERAL_CONSTANTS
+
         MV_START_COLOR_CONSTANTS
             MV_CREATE_CONSTANT_TUPLE(mvThemeCol_DragInt2_Text,         mvColor(255, 255, 255, 255), mvColor(128, 128, 128, 63)),
             MV_CREATE_CONSTANT_TUPLE(mvThemeCol_DragInt2_Bg,           mvColor( 41,  74, 122, 138), mvColor(128, 128, 128, 63)),
@@ -540,6 +558,9 @@ namespace Marvel {
         MV_CREATE_THEME_CONSTANT(mvThemeStyle_DragInt3_InnerSpacingX   , 14L, 0L);
         MV_CREATE_THEME_CONSTANT(mvThemeStyle_DragInt3_InnerSpacingY   , 14L, 1L);
 
+		MV_START_GENERAL_CONSTANTS
+		MV_END_GENERAL_CONSTANTS
+
         MV_START_COLOR_CONSTANTS
             MV_CREATE_CONSTANT_TUPLE(mvThemeCol_DragInt3_Text,         mvColor(255, 255, 255, 255), mvColor(128, 128, 128, 63)),
             MV_CREATE_CONSTANT_TUPLE(mvThemeCol_DragInt3_Bg,           mvColor( 41,  74, 122, 138), mvColor(128, 128, 128, 63)),
@@ -611,6 +632,9 @@ namespace Marvel {
         MV_CREATE_THEME_CONSTANT(mvThemeStyle_DragInt4_PaddingY        , 10L, 1L);
         MV_CREATE_THEME_CONSTANT(mvThemeStyle_DragInt4_InnerSpacingX   , 14L, 0L);
         MV_CREATE_THEME_CONSTANT(mvThemeStyle_DragInt4_InnerSpacingY   , 14L, 1L);
+
+		MV_START_GENERAL_CONSTANTS
+		MV_END_GENERAL_CONSTANTS
 
         MV_START_COLOR_CONSTANTS
             MV_CREATE_CONSTANT_TUPLE(mvThemeCol_DragInt4_Text,         mvColor(255, 255, 255, 255), mvColor(128, 128, 128, 63)),

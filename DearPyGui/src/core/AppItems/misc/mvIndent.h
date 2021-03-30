@@ -22,6 +22,9 @@ namespace Marvel {
 		MV_APPITEM_TYPE(mvAppItemType::mvIndent, "add_indent")
 		MV_CREATE_THEME_CONSTANT(mvThemeStyle_Indent_Spacing, 11L, 0L);
 
+		MV_START_GENERAL_CONSTANTS
+		MV_END_GENERAL_CONSTANTS
+
 		MV_START_COLOR_CONSTANTS
 		MV_END_COLOR_CONSTANTS
 

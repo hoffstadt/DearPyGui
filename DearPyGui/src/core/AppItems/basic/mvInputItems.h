@@ -78,6 +78,9 @@ namespace Marvel {
         MV_CREATE_THEME_CONSTANT(mvThemeStyle_InputInt_ButtonTextAlignX, 22L, 0L);
         MV_CREATE_THEME_CONSTANT(mvThemeStyle_InputInt_ButtonTextAlignY, 22L, 1L);
 
+		MV_START_GENERAL_CONSTANTS
+		MV_END_GENERAL_CONSTANTS
+
         MV_START_COLOR_CONSTANTS
             MV_CREATE_CONSTANT_TUPLE(mvThemeCol_InputInt_Text,               mvColor(255, 255, 255, 255), mvColor(128, 128, 128, 63)),
             MV_CREATE_CONSTANT_TUPLE(mvThemeCol_InputInt_TextHighlight,      mvColor( 66, 150, 250,  89), mvColor(128, 128, 128, 63)),
@@ -170,6 +173,9 @@ namespace Marvel {
         MV_CREATE_THEME_CONSTANT(mvThemeStyle_InputInt2_InnerSpacingX , 14L, 0L);
         MV_CREATE_THEME_CONSTANT(mvThemeStyle_InputInt2_InnerSpacingY , 14L, 1L);
 
+		MV_START_GENERAL_CONSTANTS
+		MV_END_GENERAL_CONSTANTS
+
         MV_START_COLOR_CONSTANTS
             MV_CREATE_CONSTANT_TUPLE(mvThemeCol_InputInt2_Text,          mvColor(255, 255, 255, 255), mvColor(128, 128, 128, 63)),
             MV_CREATE_CONSTANT_TUPLE(mvThemeCol_InputInt2_TextHighlight, mvColor( 66, 150, 250,  89), mvColor(128, 128, 128, 63)),
@@ -241,6 +247,9 @@ namespace Marvel {
         MV_CREATE_THEME_CONSTANT(mvThemeStyle_InputInt3_PaddingY      , 10L, 1L);
         MV_CREATE_THEME_CONSTANT(mvThemeStyle_InputInt3_InnerSpacingX , 14L, 0L);
         MV_CREATE_THEME_CONSTANT(mvThemeStyle_InputInt3_InnerSpacingY , 14L, 1L);
+
+		MV_START_GENERAL_CONSTANTS
+		MV_END_GENERAL_CONSTANTS
 
         MV_START_COLOR_CONSTANTS
             MV_CREATE_CONSTANT_TUPLE(mvThemeCol_InputInt3_Text,          mvColor(255, 255, 255, 255), mvColor(128, 128, 128, 63)),
@@ -314,6 +323,9 @@ namespace Marvel {
         MV_CREATE_THEME_CONSTANT(mvThemeStyle_InputInt4_PaddingY      , 10L, 1L);
         MV_CREATE_THEME_CONSTANT(mvThemeStyle_InputInt4_InnerSpacingX , 14L, 0L);
         MV_CREATE_THEME_CONSTANT(mvThemeStyle_InputInt4_InnerSpacingY , 14L, 1L);
+
+		MV_START_GENERAL_CONSTANTS
+		MV_END_GENERAL_CONSTANTS
 
         MV_START_COLOR_CONSTANTS
             MV_CREATE_CONSTANT_TUPLE(mvThemeCol_InputInt4_Text,          mvColor(255, 255, 255, 255), mvColor(128, 128, 128, 63)),
@@ -406,6 +418,9 @@ namespace Marvel {
         MV_CREATE_THEME_CONSTANT(mvThemeStyle_InputFloat_InnerSpacingY   , 14L, 1L);
         MV_CREATE_THEME_CONSTANT(mvThemeStyle_InputFloat_ButtonTextAlignX, 22L, 0L);
         MV_CREATE_THEME_CONSTANT(mvThemeStyle_InputFloat_ButtonTextAlignY, 22L, 1L);
+
+		MV_START_GENERAL_CONSTANTS
+		MV_END_GENERAL_CONSTANTS
 
         MV_START_COLOR_CONSTANTS
             MV_CREATE_CONSTANT_TUPLE(mvThemeCol_InputFloat_Text,               mvColor(255, 255, 255, 255), mvColor(128, 128, 128, 63)),
@@ -500,6 +515,9 @@ namespace Marvel {
         MV_CREATE_THEME_CONSTANT(mvThemeStyle_InputFloat2_InnerSpacingX , 14L, 0L);
         MV_CREATE_THEME_CONSTANT(mvThemeStyle_InputFloat2_InnerSpacingY , 14L, 1L);
 
+		MV_START_GENERAL_CONSTANTS
+		MV_END_GENERAL_CONSTANTS
+
         MV_START_COLOR_CONSTANTS
             MV_CREATE_CONSTANT_TUPLE(mvThemeCol_InputFloat2_Text,          mvColor(255, 255, 255, 255), mvColor(128, 128, 128, 63)),
             MV_CREATE_CONSTANT_TUPLE(mvThemeCol_InputFloat2_TextHighlight, mvColor( 66, 150, 250,  89), mvColor(128, 128, 128, 63)),
@@ -573,6 +591,9 @@ namespace Marvel {
         MV_CREATE_THEME_CONSTANT(mvThemeStyle_InputFloat3_InnerSpacingX , 14L, 0L);
         MV_CREATE_THEME_CONSTANT(mvThemeStyle_InputFloat3_InnerSpacingY , 14L, 1L);
 
+		MV_START_GENERAL_CONSTANTS
+		MV_END_GENERAL_CONSTANTS
+
         MV_START_COLOR_CONSTANTS
             MV_CREATE_CONSTANT_TUPLE(mvThemeCol_InputFloat3_Text,          mvColor(255, 255, 255, 255), mvColor(128, 128, 128, 63)),
             MV_CREATE_CONSTANT_TUPLE(mvThemeCol_InputFloat3_TextHighlight, mvColor( 66, 150, 250,  89), mvColor(128, 128, 128, 63)),
@@ -645,6 +666,9 @@ namespace Marvel {
         MV_CREATE_THEME_CONSTANT(mvThemeStyle_InputFloat4_PaddingY      , 10L, 1L);
         MV_CREATE_THEME_CONSTANT(mvThemeStyle_InputFloat4_InnerSpacingX , 14L, 0L);
         MV_CREATE_THEME_CONSTANT(mvThemeStyle_InputFloat4_InnerSpacingY , 14L, 1L);
+
+		MV_START_GENERAL_CONSTANTS
+		MV_END_GENERAL_CONSTANTS
 
         MV_START_COLOR_CONSTANTS
             MV_CREATE_CONSTANT_TUPLE(mvThemeCol_InputFloat4_Text,          mvColor(255, 255, 255, 255), mvColor(128, 128, 128, 63)),

@@ -45,6 +45,8 @@ namespace Marvel {
 		MV_CREATE_THEME_CONSTANT(mvThemeStyle_Popup_ModalScrollbarSize	  , 17L, 0L);
 		MV_CREATE_THEME_CONSTANT(mvThemeStyle_Popup_ModalScrollbarRounding, 18L, 0L);
 
+		MV_START_GENERAL_CONSTANTS
+		MV_END_GENERAL_CONSTANTS
 
 		MV_START_COLOR_CONSTANTS
 			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Popup_TitleText,				mvColor(255, 255, 255, 255)),
