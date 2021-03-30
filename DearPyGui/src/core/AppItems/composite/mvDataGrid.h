@@ -78,41 +78,45 @@ namespace Marvel {
 	{
 		MV_APPITEM_TYPE(mvAppItemType::mvDataGrid, "add_data_grid")
 
-		MV_CREATE_THEME_CONSTANT(mvThemeCol_DataGrid_Text					, 14L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvThemeCol_DataGrid_Cell					, 24L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvThemeCol_DataGrid_CellHovered			, 25L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvThemeCol_DataGrid_CellActive			    , 26L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvThemeCol_DataGrid_Border				    , 27L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeCol_DataGrid_Text					,  0L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeCol_DataGrid_HeaderBg				, 44L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeCol_DataGrid_RowBg					, 47L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeCol_DataGrid_RowBgAlt				, 48L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeCol_DataGrid_Item					, 24L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeCol_DataGrid_ItemHovered			, 25L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeCol_DataGrid_ItemActive			    , 26L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeCol_DataGrid_BorderStrong			, 45L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeCol_DataGrid_BorderLight			, 46L, 0L);
 		MV_CREATE_THEME_CONSTANT(mvThemeCol_DataGrid_BorderHovered			, 28L, 0L);
 		MV_CREATE_THEME_CONSTANT(mvThemeCol_DataGrid_BorderActive			, 29L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvThemeCol_DataGrid_Scrollbar				, 14L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvThemeCol_DataGrid_ScrollbarGrab			, 15L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvThemeCol_DataGrid_ScrollbarGrabHovered	, 16L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvThemeCol_DataGrid_ScrollbarGrabActive	, 17L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeStyle_DataGrid_CellPaddingX			, 16L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeStyle_DataGrid_CellPaddingY			, 16L, 1L);
 		MV_CREATE_THEME_CONSTANT(mvThemeStyle_DataGrid_ItemSpacingX			, 13L, 0L);
 		MV_CREATE_THEME_CONSTANT(mvThemeStyle_DataGrid_ItemSpacingY			, 13L, 1L);
-		MV_CREATE_THEME_CONSTANT(mvThemeStyle_DataGrid_SelectableTextAlignX	, 23L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvThemeStyle_DataGrid_SelectableTextAlignY	, 23L, 1L);
+		MV_CREATE_THEME_CONSTANT(mvThemeStyle_DataGrid_ItemTextAlignX		, 23L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeStyle_DataGrid_ItemTextAlignY		, 23L, 1L);
 
 		MV_START_COLOR_CONSTANTS
 			MV_CREATE_CONSTANT_PAIR(mvThemeCol_DataGrid_Text,                 mvColor(255, 255, 255, 255)),
-			MV_CREATE_CONSTANT_PAIR(mvThemeCol_DataGrid_Cell,                 mvColor(255, 255, 255, 255)),
-			MV_CREATE_CONSTANT_PAIR(mvThemeCol_DataGrid_CellHovered,          mvColor(255, 255, 255, 255)),
-			MV_CREATE_CONSTANT_PAIR(mvThemeCol_DataGrid_CellActive,           mvColor(255, 255, 255, 255)),
-			MV_CREATE_CONSTANT_PAIR(mvThemeCol_DataGrid_Border,               mvColor(255, 255, 255, 255)),
-			MV_CREATE_CONSTANT_PAIR(mvThemeCol_DataGrid_BorderHovered,        mvColor(255, 255, 255, 255)),
-			MV_CREATE_CONSTANT_PAIR(mvThemeCol_DataGrid_BorderActive,         mvColor(255, 255, 255, 255)),
-			MV_CREATE_CONSTANT_PAIR(mvThemeCol_DataGrid_Scrollbar,            mvColor(255, 255, 255, 255)),
-			MV_CREATE_CONSTANT_PAIR(mvThemeCol_DataGrid_ScrollbarGrab,        mvColor(255, 255, 255, 255)),
-			MV_CREATE_CONSTANT_PAIR(mvThemeCol_DataGrid_ScrollbarGrabHovered, mvColor(255, 255, 255, 255)),
-			MV_CREATE_CONSTANT_PAIR(mvThemeCol_DataGrid_ScrollbarGrabActive,  mvColor(255, 255, 255, 255)),
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_DataGrid_HeaderBg,			  mvColor( 48,  48,  51, 255)),
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_DataGrid_RowBg,				  mvColor(  0,   0,   0,   0)),
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_DataGrid_RowBgAlt,			  mvColor(255, 255, 255,  15)),
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_DataGrid_Item,                 mvColor( 66, 150, 250,  79)),
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_DataGrid_ItemHovered,          mvColor( 66, 150, 250, 255)),
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_DataGrid_ItemActive,           mvColor( 15, 135, 250, 255)),
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_DataGrid_BorderStrong,		  mvColor( 79,  79,  89, 255)),
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_DataGrid_BorderLight,		  mvColor( 59,  59,  64, 255)),
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_DataGrid_BorderHovered,        mvColor( 26, 102, 191, 199)),
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_DataGrid_BorderActive,         mvColor( 26, 102, 191, 255)),
 		MV_END_COLOR_CONSTANTS
 
 		MV_START_STYLE_CONSTANTS
-			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_DataGrid_ItemSpacingX		, 4, 20),
-			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_DataGrid_ItemSpacingY		, 4, 20),
-			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_DataGrid_SelectableTextAlignX, 0, 20),
-			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_DataGrid_SelectableTextAlignY, 0, 20),
+			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_DataGrid_CellPaddingX			, 4, 20),
+			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_DataGrid_CellPaddingY			, 2, 20),
+			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_DataGrid_ItemSpacingX			, 8, 20),
+			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_DataGrid_ItemSpacingY			, 4, 20),
+			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_DataGrid_ItemTextAlignX		, 0,  1),
+			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_DataGrid_ItemTextAlignY		, 0,  1),
 		MV_END_STYLE_CONSTANTS
 
 	public:

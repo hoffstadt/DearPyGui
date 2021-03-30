@@ -17,13 +17,15 @@ namespace Marvel {
 	{
 		MV_APPITEM_TYPE(mvAppItemType::mvSelectable, "add_selectable")
 
-		MV_CREATE_THEME_CONSTANT(mvThemeCol_Selectable_Text			,  0L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvThemeCol_Selectable_Bg			, 24L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvThemeCol_Selectable_BgHovered	, 25L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvThemeCol_Selectable_BgActive		, 26L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeCol_Selectable_Text,		 0L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeCol_Selectable_Bg,			24L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeCol_Selectable_BgHovered,	25L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeCol_Selectable_BgActive,	26L, 0L);
 
-		MV_CREATE_THEME_CONSTANT(mvThemeStyle_Selectable_TextAlignX	, 23L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvThemeStyle_Selectable_TextAlignY	, 23L, 1L);
+		MV_CREATE_THEME_CONSTANT(mvThemeStyle_Selectable_TextAlignX,	23L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeStyle_Selectable_TextAlignY,	23L, 1L);
+		MV_CREATE_THEME_CONSTANT(mvThemeStyle_Selectable_ItemSpacingX,	13L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeStyle_Selectable_ItemSpacingY,	13L, 1L);
 
 
 		MV_START_COLOR_CONSTANTS
@@ -34,8 +36,10 @@ namespace Marvel {
 		MV_END_COLOR_CONSTANTS
 
 		MV_START_STYLE_CONSTANTS
-			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_Selectable_TextAlignX, 0, 20),
-			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_Selectable_TextAlignY, 0, 20),
+			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_Selectable_TextAlignX,	0,  1),
+			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_Selectable_TextAlignY,	0,  1),
+			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_Selectable_ItemSpacingX,	8, 20),
+			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_Selectable_ItemSpacingY,	4, 20),
 		MV_END_STYLE_CONSTANTS
 
 	public:
