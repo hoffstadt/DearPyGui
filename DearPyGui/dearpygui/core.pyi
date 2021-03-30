@@ -10,10 +10,6 @@ def add_about_window(name: str, *, width: int = -1, height: int = -1, x_pos: int
 	"""Creates an about window."""
 	...
 
-def add_additional_font(file: str, size: float = 13.0, glyph_ranges: str = '', *, custom_glyph_chars: List[int] = (), custom_glyph_ranges: Any = List[List[int]]) -> None:
-	"""Adds additional font."""
-	...
-
 def add_annotation(plot: str, text: str, x: float, y: float, xoffset: float, yoffset: float, *, color: List[float] = (0, 0, 0, -1), clamped: bool = True, tag: str = '') -> None:
 	"""Adds an annotation to a plot."""
 	...
@@ -32,10 +28,6 @@ def add_button(name: str, *, small: bool = False, arrow: bool = False, direction
 
 def add_candle_series(plot: str, name: str, date: List[float], opens: List[float], highs: List[float], lows: List[float], closes: List[float], *, tooltip: bool = True, bull_color: List[float] = (0, 255, 113, 255), bear_color: List[float] = (218, 13, 79, 255), weight: float = 0.25, update_bounds: bool = True, axis: int = 0) -> None:
 	"""Adds a candle series to a plot."""
-	...
-
-def add_character_remap(destination: int, source: int) -> None:
-	"""Remaps characters."""
 	...
 
 def add_checkbox(name: str, *, default_value: int = False, callback: Callable = None, callback_data: Any = None, parent: str = '', before: str = '', source: str = '', label: str = '', show: bool = True, enabled: bool = True) -> None:
@@ -140,6 +132,10 @@ def add_dummy(*, width: int = 0, height: int = 0, name: str = 'dummy', parent: s
 
 def add_error_series(plot: str, name: str, x: List[float], y: List[float], negative: List[float], positive: List[float], *, horizontal: bool = False, update_bounds: bool = True, color: List[float] = (0, 0, 0, -1), axis: int = 0) -> None:
 	"""Adds an error series to a plot."""
+	...
+
+def add_font(font: str, file: str, size: float = 13.0, glyph_ranges: str = '', *, custom_glyph_chars: List[int] = (), custom_glyph_ranges: Any = List[List[int]], char_remaps: Any = List[List[int]]) -> None:
+	"""Adds additional font."""
 	...
 
 def add_grid_column(data_grid: str, name: str, column: List[str]) -> None:
@@ -290,7 +286,7 @@ def add_scatter_series(plot: str, name: str, x: List[float], y: List[float], *, 
 	"""Adds a scatter series to a plot."""
 	...
 
-def add_selectable(name: str, *, default_value: bool = False, callback: Callable = None, callback_data: Any = None, parent: str = '', before: str = '', source: str = '', enabled: bool = True, label: str = '', show: bool = True, span_columns: bool = False) -> None:
+def add_selectable(name: str, *, default_value: bool = False, callback: Callable = None, callback_data: Any = None, width: int = 0, height: int = 0, parent: str = '', before: str = '', source: str = '', enabled: bool = True, label: str = '', show: bool = True, span_columns: bool = False) -> None:
 	"""Adds a selectable."""
 	...
 
@@ -864,6 +860,10 @@ def set_accelerator_callback(callback: Any) -> None:
 
 def set_exit_callback(callback: Any) -> None:
 	"""Callback to run when exiting main window."""
+	...
+
+def set_font(font: str, size: int, *, item: str = ) -> None:
+	"""Adds additional font."""
 	...
 
 def set_global_font_scale(scale: float) -> None:

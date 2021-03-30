@@ -2,6 +2,7 @@
 #include "mvApp.h"
 #include "mvItemRegistry.h"
 #include "mvImGuiThemeScope.h"
+#include "mvFontScope.h"
 
 namespace Marvel {
 
@@ -33,6 +34,7 @@ namespace Marvel {
 	{
 		ScopedID id;
 		mvImGuiThemeScope scope(this);
+		mvFontScope fscope(this);
 
 		if (ImGui::TabItemButton(m_label.c_str(), m_flags))
 			mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), m_core_config.name, m_core_config.callback_data);

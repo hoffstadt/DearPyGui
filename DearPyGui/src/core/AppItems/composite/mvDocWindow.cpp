@@ -4,6 +4,7 @@
 #include "mvModule_Core.h"
 #include "mvInput.h"
 #include "mvItemRegistry.h"
+#include "mvFontScope.h"
 
 namespace Marvel {
 
@@ -150,6 +151,7 @@ namespace Marvel {
 
 	void mvDocWindow::draw()
 	{
+		mvFontScope fscope(this);
 
 		if (!prerender())
 			return;

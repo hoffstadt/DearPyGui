@@ -3,6 +3,7 @@
 #include "mvApp.h"
 #include "mvItemRegistry.h"
 #include "mvImGuiThemeScope.h"
+#include "mvFontScope.h"
 
 namespace Marvel {
 
@@ -85,6 +86,7 @@ namespace Marvel {
 	{
 		ScopedID id;
 		mvImGuiThemeScope scope(this);
+		mvFontScope fscope(this);
 
 		if (m_config.small_button)
 		{

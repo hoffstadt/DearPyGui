@@ -1,6 +1,7 @@
 #include "mvSimplePlot.h"
 #include "mvItemRegistry.h"
 #include "mvImGuiThemeScope.h"
+#include "mvFontScope.h"
 
 namespace Marvel {
 
@@ -51,6 +52,7 @@ namespace Marvel {
 		{
 			ImGui::PushID(this);
 			mvImGuiThemeScope scope(this);
+			mvFontScope fscope(this);
 
 			if (m_histogram)
 				ImGui::PlotHistogram(m_label.c_str(), m_value->data(), (int)m_value->size(), 0, m_overlay.c_str(),

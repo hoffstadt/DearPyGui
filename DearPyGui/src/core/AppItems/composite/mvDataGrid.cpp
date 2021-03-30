@@ -3,6 +3,7 @@
 #include "mvAppLog.h"
 #include "mvItemRegistry.h"
 #include "mvImGuiThemeScope.h"
+#include "mvFontScope.h"
 
 namespace Marvel {
 
@@ -597,6 +598,7 @@ namespace Marvel {
 	{
 		ScopedID id;
 		mvImGuiThemeScope scope(this);
+		mvFontScope fscope(this);
 
 		if (ImGui::BeginTable(m_core_config.name.c_str(), m_columns,
 			ImGuiTableFlags_Hideable | ImGuiTableFlags_Resizable | ImGuiTableFlags_RowBg | ImGuiTableFlags_Borders))

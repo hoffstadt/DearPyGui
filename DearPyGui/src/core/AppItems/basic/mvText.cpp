@@ -2,6 +2,7 @@
 #include "mvApp.h"
 #include "mvItemRegistry.h"
 #include "mvImGuiThemeScope.h"
+#include "mvFontScope.h"
 
 namespace Marvel {
 
@@ -72,6 +73,7 @@ namespace Marvel {
 	{
 		ScopedID id;
 		mvImGuiThemeScope scope(this);
+		mvFontScope fscope(this);
 
 		if (m_color.r > 0.0f)
 			ImGui::PushStyleColor(ImGuiCol_Text, m_color.toVec4());

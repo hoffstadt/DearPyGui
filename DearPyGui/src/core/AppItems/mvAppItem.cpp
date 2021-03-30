@@ -459,6 +459,11 @@ namespace Marvel{
 		return !m_theme_style_dirty;
 	}
 
+	bool mvAppItem::isThemeFontCacheValid() const
+	{
+		return !m_theme_font_dirty;
+	}
+
 	void mvAppItem::inValidateThemeColorCache()
 	{
 		m_theme_color_dirty = true;
@@ -478,6 +483,15 @@ namespace Marvel{
 			child->inValidateThemeStyleCache();
 	}
 
+	void mvAppItem::inValidateThemeFontCache()
+	{
+		m_theme_font_dirty = true;
+		m_cached_font = nullptr;
+
+		for (auto& child : m_children)
+			child->inValidateThemeFontCache();
+	}
+
 	void mvAppItem::setThemeColorCacheValid()
 	{
 		m_theme_color_dirty = false;
@@ -487,6 +501,16 @@ namespace Marvel{
 	void mvAppItem::setThemeStyleCacheValid()
 	{
 		m_theme_style_dirty = false;
+	}
+
+	void mvAppItem::setThemeFontCacheValid()
+	{
+		m_theme_font_dirty = false;
+	}
+
+	ImFont* mvAppItem::getCachedFont()
+	{
+		return m_cached_font;
 	}
 
 	mvThemeColors& mvAppItem::getCachedThemeColors()

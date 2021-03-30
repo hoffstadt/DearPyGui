@@ -3,6 +3,7 @@
 #include "mvInput.h"
 #include "mvItemRegistry.h"
 #include "mvImGuiThemeScope.h"
+#include "mvFontScope.h"
 
 namespace Marvel {
 
@@ -28,6 +29,8 @@ namespace Marvel {
 
 	void mvDrawing::draw()
 	{
+		mvFontScope fscope(this);
+
 		m_startx = (float)ImGui::GetCursorScreenPos().x;
 		m_starty = (float)ImGui::GetCursorScreenPos().y;
 

@@ -9,6 +9,7 @@
 #include "imgui_impl_glfw.h"
 #include "imgui_impl_opengl3.h"
 #include <stdio.h>
+#include "mvTextureStorage.h"
 
 namespace Marvel {
 
@@ -75,7 +76,6 @@ namespace Marvel {
         ImGuiIO& io = ImGui::GetIO(); (void)io;
         io.ConfigWindowsMoveFromTitleBarOnly = true;
         io.IniFilename = nullptr;
-        setupFonts();
         //io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;  // Enable Keyboard Controls
         //io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;   // Enable Gamepad Controls
 
@@ -164,11 +164,20 @@ namespace Marvel {
         // Generally you may always pass all inputs to dear imgui, and hide them from your application based on those two flags.
         glfwPollEvents();
 
+        if (mvApp::GetApp()->getFontManager().isInvalid())
+        {
+            mvApp::GetApp()->getFontManager().rebuildAtlas();
+            ImGui_ImplOpenGL3_DestroyDeviceObjects();
+            mvApp::GetApp()->getFontManager().updateDefaultFont();
+        }
+
         // Start the Dear ImGui frame
         ImGui_ImplOpenGL3_NewFrame();
         ImGui_ImplGlfw_NewFrame();
         ImGui::NewFrame();
 
+        if (!mvApp::GetApp()->getTextureStorage().isValid())
+            mvApp::GetApp()->getTextureStorage().refreshAtlas();
     }
 
     void mvLinuxWindow::postrender()

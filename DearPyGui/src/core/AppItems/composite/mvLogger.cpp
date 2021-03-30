@@ -3,6 +3,7 @@
 #include "mvInput.h"
 #include "mvGlobalIntepreterLock.h"
 #include "mvItemRegistry.h"
+#include "mvFontScope.h"
 
 typedef std::chrono::high_resolution_clock clock_;
 typedef std::chrono::duration<double, std::ratio<1> > second_;
@@ -109,6 +110,8 @@ namespace Marvel {
 
 	void mvLoggerItem::draw()
 	{
+		mvFontScope fscope(this);
+
 		ImGui::BeginGroup();
 
 		ImGui::PushID(this);

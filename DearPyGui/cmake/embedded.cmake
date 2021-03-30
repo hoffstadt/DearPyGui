@@ -33,7 +33,7 @@ if(WIN32)
 	if(MV_CPP)
 		target_link_libraries(coreemb PUBLIC d3d11)
 	else()
-		target_link_libraries(coreemb PUBLIC d3d11 $<$<CONFIG:Debug>:python39_d> $<$<CONFIG:Release>:python39>)
+		target_link_libraries(coreemb PUBLIC d3d11 freetype $<$<CONFIG:Debug>:python39_d> $<$<CONFIG:Release>:python39>)
 	endif()
 	
 ###############################################################################
@@ -54,6 +54,7 @@ elseif(APPLE)
 		PUBLIC
 
 			glfw
+			freetype
 			"-framework Metal"
 			"-framework MetalKit"
 			"-framework Cocoa"
@@ -79,9 +80,9 @@ else() # Linux
 	
 	# Add sources specific to either the C++ or Python Interface
 	if(MV_CPP)
-		target_link_libraries(coreemb PRIVATE "-lcrypt -lpthread -ldl -lutil -lm" GL glfw)
+		target_link_libraries(coreemb PRIVATE "-lcrypt -lpthread -ldl -lutil -lm" GL glfw freetype)
 	else()
-		target_link_libraries(coreemb PRIVATE "-lcrypt -lpthread -ldl -lutil -lm" GL glfw python3.9d)
+		target_link_libraries(coreemb PRIVATE "-lcrypt -lpthread -ldl -lutil -lm" GL glfw python3.9d freetype)
 	endif()
 
 endif()

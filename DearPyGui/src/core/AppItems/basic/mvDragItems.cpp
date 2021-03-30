@@ -6,6 +6,7 @@
 #include <string>
 #include "mvItemRegistry.h"
 #include "mvImGuiThemeScope.h"
+#include "mvFontScope.h"
 
 namespace Marvel {
 
@@ -231,6 +232,7 @@ namespace Marvel {
     {
         ScopedID id;
         mvImGuiThemeScope scope(this);
+        mvFontScope fscope(this);
 
         if (!m_core_config.enabled) m_disabled_value = *m_value;
 
@@ -289,6 +291,7 @@ namespace Marvel {
     {
         ScopedID id;
         mvImGuiThemeScope scope(this);
+        mvFontScope fscope(this);
 
         if (!m_core_config.enabled) std::copy(m_value->data(), m_value->data() + 2, m_disabled_value);
 
@@ -345,6 +348,7 @@ namespace Marvel {
     {
         ScopedID id;
         mvImGuiThemeScope scope(this);
+        mvFontScope fscope(this);
 
         if (!m_core_config.enabled) std::copy(m_value->data(), m_value->data() + 3, m_disabled_value);
 
@@ -401,6 +405,7 @@ namespace Marvel {
     {
         ScopedID id;
         mvImGuiThemeScope scope(this);
+        mvFontScope fscope(this);
 
         if (!m_core_config.enabled) std::copy(m_value->data(), m_value->data() + 4, m_disabled_value);
 
@@ -457,6 +462,7 @@ namespace Marvel {
     {
         ScopedID id;
         mvImGuiThemeScope scope(this);
+        mvFontScope fscope(this);
 
         if (!m_core_config.enabled) m_disabled_value = *m_value;
 
@@ -513,6 +519,7 @@ namespace Marvel {
     {
         ScopedID id;
         mvImGuiThemeScope scope(this);
+        mvFontScope fscope(this);
 
         if (!m_core_config.enabled) std::copy(m_value->data(), m_value->data() + 2, m_disabled_value);
 
@@ -569,6 +576,7 @@ namespace Marvel {
     {
         ScopedID id;
         mvImGuiThemeScope scope(this);
+        mvFontScope fscope(this);
 
         if (!m_core_config.enabled) std::copy(m_value->data(), m_value->data() + 3, m_disabled_value);
 
@@ -625,6 +633,7 @@ namespace Marvel {
     {
         ScopedID id;
         mvImGuiThemeScope scope(this);
+        mvFontScope fscope(this);
 
         if (!m_core_config.enabled) std::copy(m_value->data(), m_value->data() + 4, m_disabled_value);
 

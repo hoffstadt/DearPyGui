@@ -12,6 +12,7 @@ target_link_libraries(core
 	PRIVATE
 
 		glfw
+		freetype
 		"-undefined dynamic_lookup"
 		"-framework Metal"
 		"-framework MetalKit"

@@ -3,6 +3,7 @@
 #include "mvApp.h"
 #include "mvItemRegistry.h"
 #include "mvImGuiThemeScope.h"
+#include "mvFontScope.h"
 
 namespace Marvel {
 	void mvTab::InsertParser(std::map<std::string, mvPythonParser>* parsers)
@@ -42,6 +43,7 @@ namespace Marvel {
 	{
 		ScopedID id;
 		mvImGuiThemeScope scope(this);
+		mvFontScope fscope(this);
 
 		// cast parent to mvTabBar
 		auto parent = (mvTabBar*)m_parent;
