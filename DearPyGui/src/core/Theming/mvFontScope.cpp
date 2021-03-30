@@ -31,6 +31,9 @@ namespace Marvel {
 					break;
 			}
 
+			if (font == nullptr)
+				font = mvApp::GetApp()->getFontManager().getFont("", 0);
+
 			if (font)
 			{
 				ImGui::PushFont(font);

@@ -93,8 +93,6 @@ namespace Marvel {
 		if (mvApp::GetApp()->m_dockingShiftOnly)
 			io.ConfigDockingWithShift = true;
 
-		setupFonts();
-
 		//io.Fonts->AddFontDefault();
 		//io.Fonts->AddFontFromFileTTF("C:/Users/Jonathan Hoffstadt/Desktop/calibrili.ttf", 13.0f);
 		//io.Fonts->Build();

@@ -41,6 +41,9 @@ namespace Marvel {
 		std::unordered_map<std::string, int>         m_fontSize;
 		std::unordered_map<std::string, std::string> m_fontFile;
 		bool                                         m_dirty = false;
+		ImFont*                                      m_font = nullptr;
+		std::string                                  m_fontName;
+		int                                          m_fontSize = 13;
 
 	};
 

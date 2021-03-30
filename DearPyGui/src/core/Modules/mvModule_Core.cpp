@@ -28,7 +28,6 @@ namespace Marvel {
 			ADD_PYTHON_FUNCTION(enable_docking)
 			ADD_PYTHON_FUNCTION(add_texture)
 			ADD_PYTHON_FUNCTION(decrement_texture)
-			ADD_PYTHON_FUNCTION(add_character_remap)
 			ADD_PYTHON_FUNCTION(set_primary_window)
 			ADD_PYTHON_FUNCTION(set_accelerator_callback)
 			ADD_PYTHON_FUNCTION(set_main_window_size)
@@ -210,7 +209,6 @@ namespace Marvel {
 			ADD_PYTHON_FUNCTION(set_theme_color)
 			ADD_PYTHON_FUNCTION(set_theme_color_disabled)
 			ADD_PYTHON_FUNCTION(set_theme_style)
-			ADD_PYTHON_FUNCTION(add_additional_font)
 
 			// table commands
 			ADD_PYTHON_FUNCTION(add_table)

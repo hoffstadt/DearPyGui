@@ -47,6 +47,10 @@ namespace Marvel {
 
 	ImFont* mvFontManager::getFont(const std::string& font, int size)
 	{
+
+		if (font.empty())
+			return m_font;
+
 		std::string key = font + std::to_string(size);
 
 		if (m_fonts.count(key) == 0)
@@ -86,6 +90,13 @@ namespace Marvel {
 		const std::string& widget = GetEString(event, "WIDGET");
 		const std::string& font = GetEString(event, "FONT");
 		int size = GetEInt(event, "SIZE");
+
+		if (widget.empty())
+		{
+			InValidateFontTheme();
+			m_font = getFont(font, size);
+			return true;
+		}
 
 		mvRef<mvAppItem> item = mvApp::GetApp()->getItemRegistry().getItem(widget);
 		if (item)

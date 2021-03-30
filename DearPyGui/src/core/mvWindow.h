@@ -50,7 +50,6 @@ namespace Marvel {
 		virtual void setWindowText(const std::string& name) {}
 		
 		void stop      () { m_running = false; }
-		void setupFonts();
 
 	protected:
 
