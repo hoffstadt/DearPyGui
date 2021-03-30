@@ -139,6 +139,7 @@ set(MARVEL_SOURCES
 	"../Dependencies/ImGuiFileDialog/ImGuiFileDialog/ImGuiFileDialog.cpp"
 
 	# imgui
+	"../Dependencies/imgui/misc/freetype/imgui_freetype.cpp"
 	"../Dependencies/imgui/misc/cpp/imgui_stdlib.cpp"
 	"../Dependencies/imgui/imgui.cpp"
 	"../Dependencies/imgui/imgui_demo.cpp"
@@ -174,6 +175,7 @@ set(MARVEL_INCLUDE_DIR
 	"../Dependencies/glfw/include/"
 	"../Dependencies/glfw/deps/"
 	"../Dependencies/imgui/"
+	"../Dependencies/imgui/misc/freetype/"
 	"../Dependencies/imgui/backends/"
 	"../Dependencies/imgui/examples/libs/gl3w"
 	"../Dependencies/cpython/"

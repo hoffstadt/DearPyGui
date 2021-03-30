@@ -27,6 +27,7 @@ if(MVPY_VERSION EQUAL 36)
 		PRIVATE 
 			"-fPIC -lcrypt -lpthread -ldl  -lutil -lm"
 			GL
+			freetype
 			glfw
 			python3.6m
 	)
@@ -50,6 +51,7 @@ elseif(MVPY_VERSION EQUAL 37)
 		PRIVATE 
 			"-fPIC -lcrypt -lpthread -ldl  -lutil -lm"
 			GL
+			freetype
 			glfw
 			python3.7m
 	)
@@ -73,6 +75,7 @@ elseif(MVPY_VERSION EQUAL 38)
 		PRIVATE 
 			"-fPIC -lcrypt -lpthread -ldl  -lutil -lm"
 			GL
+			freetype
 			glfw
 			python3.8
 	)
@@ -97,6 +100,7 @@ elseif(MVPY_VERSION EQUAL 39)
 			"-fPIC -lcrypt -lpthread -ldl  -lutil -lm"
 			GL
 			glfw
+			freetype
 			python3.9
 	)
 
@@ -122,6 +126,7 @@ elseif(MVPY_VERSION EQUAL 0)
 			"-fPIC -lcrypt -lpthread -ldl  -lutil -lm"
 			GL
 			glfw
+			freetype
 			${Python_LIBRARIES}
 	)
 endif()

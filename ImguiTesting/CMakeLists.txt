@@ -22,6 +22,7 @@ target_sources(PureImgui
 		"../DearPyGui/vendor/implot/implot_demo.cpp"
 
 		# imgui
+		"../Dependencies/imgui/misc/freetype/imgui_freetype.cpp"
 		"../Dependencies/imgui/imgui.cpp"
 		"../Dependencies/imgui/imgui_demo.cpp"
 		"../Dependencies/imgui/imgui_draw.cpp"
@@ -66,6 +67,7 @@ target_include_directories(PureImgui
 		"../Dependencies/glfw/include/"
 		"../Dependencies/glfw/deps/"
 		"../Dependencies/imgui/"
+		"../Dependencies/imgui/misc/freetype/"
 		"../Dependencies/ImGuiFileDialog/ImGuiFileDialog/"
 		"../Dependencies/imgui/backends/"
 		"../Dependencies/imgui/examples/libs/gl3w"
@@ -77,7 +79,8 @@ target_include_directories(PureImgui
 target_link_libraries(PureImgui
 
 	PRIVATE
-
+		
+		freetype
 		$<$<PLATFORM_ID:Linux>:GL>
 		$<$<PLATFORM_ID:Linux>:glfw>
 		$<$<PLATFORM_ID:Darwin>:glfw>

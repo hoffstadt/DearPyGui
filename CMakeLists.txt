@@ -4,7 +4,7 @@ project ("DearPyGui")
 
 # various settings
 set(GLFW_BUILD_DOCS OFF)
-add_definitions(-D_USE_MATH_DEFINES)
+add_definitions(-D_USE_MATH_DEFINES -DIMGUI_USER_CONFIG="mvImGuiConfig.h")
 
 # can be set to 36, 37, 38, 39, or 0
 #   * 36 = Python 3.6
@@ -57,4 +57,5 @@ else() # Apple and Linux
 	add_subdirectory ("Dependencies/glfw")
 endif()
 
+add_subdirectory("Dependencies/freetype")
 add_subdirectory ("DearPyGui")

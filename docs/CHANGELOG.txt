@@ -85,6 +85,7 @@ New Commands:
 
 
 Updates:
+- fonts: replaced truetype with free type 2.10.4
 - imgui: updated to v1.82
 - imfiledialog: updated to v0.5.5
 - implot: updated to commit 1d9381a
