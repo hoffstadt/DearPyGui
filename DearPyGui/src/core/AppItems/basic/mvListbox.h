@@ -61,12 +61,12 @@ namespace Marvel {
 			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_Listbox_Rounding			, 0, 12),
 			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_Listbox_PaddingX			, 4, 20),
 			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_Listbox_PaddingY			, 3, 20),
-			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_Listbox_ItemSpacingX		, 4, 20),
+			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_Listbox_ItemSpacingX		, 8, 20),
 			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_Listbox_ItemSpacingY		, 4, 20),
 			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_Listbox_ScrollbarSize		,14, 20),
 			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_Listbox_ScrollbarRounding	, 9, 12),
-			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_Listbox_TextAlignX		, 0, 20),
-			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_Listbox_TextAlignY		, 0, 20),
+			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_Listbox_TextAlignX		, 0,  1),
+			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_Listbox_TextAlignY		, 0,  1),
 		MV_END_STYLE_CONSTANTS
 
 	public:

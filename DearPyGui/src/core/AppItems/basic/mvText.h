@@ -96,10 +96,10 @@ namespace Marvel {
 		MV_END_COLOR_CONSTANTS
 
 		MV_START_STYLE_CONSTANTS
-			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_LabelText_PaddingX			, 0, 20),
-			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_LabelText_PaddingY			, 0, 20),
-			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_LabelText_ItemInnerSpacingX	, 0, 20),
-			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_LabelText_ItemInnerSpacingY	, 0, 20),
+			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_LabelText_PaddingX			, 4, 20),
+			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_LabelText_PaddingY			, 3, 20),
+			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_LabelText_ItemInnerSpacingX	, 4, 20),
+			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_LabelText_ItemInnerSpacingY	, 4, 20),
 		MV_END_STYLE_CONSTANTS
 
 	public:
