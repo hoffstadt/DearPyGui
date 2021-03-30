@@ -4,6 +4,7 @@
 #include "mvImGuiThemeScope.h"
 #include "containers/mvWindowAppItem.h"
 #include "containers/mvChild.h"
+#include "mvFontScope.h"
 
 namespace Marvel {
 
@@ -33,6 +34,7 @@ namespace Marvel {
 	void mvMenuBar::draw()
 	{
 		mvImGuiThemeScope scope(this);
+		mvFontScope fscope(this);
 
 		if (ImGui::BeginMenuBar())
 		{

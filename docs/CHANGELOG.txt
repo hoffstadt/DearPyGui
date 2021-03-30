@@ -57,6 +57,8 @@ Breaking Changes:
 - removed command: insert_column
 - removed command: insert_row
 - removed command: set_headers
+- removed command: add_additional_font
+- removed command: add_character_remap
 
 New Keywords:
 - add_window: Added "min_size" keyword #700
@@ -78,9 +80,12 @@ New Commands:
 - set_grid_item
 - get_grid_selections
 - set_grid_selection
+- set_font
+- add_font
 
 
 Updates:
+- fonts: replaced truetype with free type 2.10.4
 - imgui: updated to v1.82
 - imfiledialog: updated to v0.5.5
 - implot: updated to commit 1d9381a

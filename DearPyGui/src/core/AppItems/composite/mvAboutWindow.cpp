@@ -6,6 +6,7 @@
 #include "mvApp.h"
 #include <string>
 #include "mvItemRegistry.h"
+#include "mvFontScope.h"
 
 namespace Marvel {
 

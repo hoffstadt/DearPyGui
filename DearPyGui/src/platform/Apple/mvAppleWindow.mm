@@ -1,6 +1,7 @@
 #include "mvAppleWindow.h"
 #include <implot.h>
 #include "imnodes.h"
+#include "mvTextureStorage.h"
 
 #define GLFW_INCLUDE_NONE
 #define GLFW_EXPOSE_NATIVE_COCOA
@@ -55,7 +56,6 @@ namespace Marvel {
         io.ConfigWindowsMoveFromTitleBarOnly = true;
         io.IniFilename = nullptr;
         (void) io;
-        setupFonts();
         //io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;  // Enable Keyboard Controls
         //io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;   // Enable Gamepad Controls
 
@@ -178,10 +178,20 @@ namespace Marvel {
             id <MTLRenderCommandEncoder> m_renderEncoder = [commandBuffer renderCommandEncoderWithDescriptor:m_renderPassDescriptor];
             [m_renderEncoder pushDebugGroup:@"ImGui demo"];
 
+            if (mvApp::GetApp()->getFontManager().isInvalid())
+            {
+			    mvApp::GetApp()->getFontManager().rebuildAtlas();
+                ImGui_ImplMetal_DestroyDeviceObjects();
+                mvApp::GetApp()->getFontManager().updateDefaultFont();
+            }
+
             // Start the Dear ImGui frame
             ImGui_ImplMetal_NewFrame(m_renderPassDescriptor);
             ImGui_ImplGlfw_NewFrame();
             ImGui::NewFrame();
+
+            if(!mvApp::GetApp()->getTextureStorage().isValid())
+			    mvApp::GetApp()->getTextureStorage().refreshAtlas();
 
             if (m_error) 
             {

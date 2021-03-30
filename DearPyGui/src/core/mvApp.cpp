@@ -161,6 +161,7 @@ namespace Marvel {
 		m_textureStorage = CreateOwnedPtr<mvTextureStorage>();
 		m_themeManager = CreateOwnedPtr<mvThemeManager>();
         m_callbackRegistry = CreateOwnedPtr<mvCallbackRegistry>();
+        m_fontManager = CreateOwnedPtr<mvFontManager>();
 
 	}
 
@@ -182,6 +183,11 @@ namespace Marvel {
 	mvThemeManager& mvApp::getThemeManager()
 	{
 		return *m_themeManager;
+	}
+
+	mvFontManager& mvApp::getFontManager()
+	{
+		return *m_fontManager;
 	}
 
 	bool mvApp::onEvent(mvEvent& event)
@@ -243,6 +249,7 @@ namespace Marvel {
 		mvInput::CheckInputs();
 
 		m_textureStorage->show_debugger();
+		m_fontManager->show_debugger();
 
         std::lock_guard<std::mutex> lk(m_mutex);
 		mvEventBus::Publish(mvEVT_CATEGORY_APP, mvEVT_PRE_RENDER);
@@ -266,16 +273,6 @@ namespace Marvel {
 	void mvApp::setGlobalFontScale(float scale)
 	{
 		m_globalFontScale = scale;
-	}
-
-	void mvApp::setFont(const std::string& file, float size, const std::string& glyphRange,
-		std::vector<std::array<ImWchar, 3>> customRanges, std::vector<ImWchar> chars)
-	{
-		m_fontFile = file;
-		m_fontGlyphRange = glyphRange;
-		m_fontSize = size;
-		m_fontGlyphRangeCustom = std::move(customRanges);
-		m_fontGlyphChars = std::move(chars);
 	}
 
 	bool mvApp::checkIfMainThread() const
@@ -331,15 +328,6 @@ namespace Marvel {
 
 	void AddAppCommands(std::map<std::string, mvPythonParser>* parsers)
 	{
-		parsers->insert({ "add_additional_font", mvPythonParser({
-			{mvPythonDataType::String, "file", "ttf or otf file"},
-			{mvPythonDataType::Optional},
-			{mvPythonDataType::Float, "size", "", "13.0"},
-			{mvPythonDataType::String, "glyph_ranges", "options: korean, japanese, chinese_full, chinese_simplified_common, cryillic, thai, vietnamese", "''"},
-			{mvPythonDataType::KeywordOnly},
-			{mvPythonDataType::IntList, "custom_glyph_chars", "", "()"},
-			{mvPythonDataType::Object, "custom_glyph_ranges", "list of ranges", "List[List[int]]"},
-		}, "Adds additional font.", "None", "Themes and Styles") });
 
 		parsers->insert({ "set_theme_color", mvPythonParser({
 			{mvPythonDataType::Integer, "constant", "mvThemeCol_* constants"},
@@ -402,11 +390,6 @@ namespace Marvel {
 			{mvPythonDataType::Integer, "x"},
 			{mvPythonDataType::Integer, "y"},
 		}, "Sets the main window position.") });
-
-		parsers->insert({ "add_character_remap", mvPythonParser({
-			{mvPythonDataType::Integer, "destination"},
-			{mvPythonDataType::Integer, "source"},
-		}, "Remaps characters.") });
 
 		parsers->insert({ "setup_dearpygui", mvPythonParser({
 		}, "Sets up DearPyGui for user controlled rendering. Only call once and you must call cleanup_deapygui when finished.") });
@@ -517,23 +500,6 @@ namespace Marvel {
 
 		std::lock_guard<std::mutex> lk(mvApp::GetApp()->getMutex());
 		mvApp::GetApp()->setMainPos(x, y);
-
-		return GetPyNone();
-	}
-
-	PyObject* add_character_remap(PyObject* self, PyObject* args, PyObject* kwargs)
-	{
-		int destination;
-		int source;
-
-		if (!(mvApp::GetApp()->getParsers())["add_character_remap"].parse(args, kwargs, __FUNCTION__,
-			&destination, &source))
-			return GetPyNone();
-
-		mvApp::GetApp()->getCallbackRegistry().submit([=]()
-			{
-				mvApp::GetApp()->addRemapChar(destination, source);
-			});
 
 		return GetPyNone();
 	}
@@ -840,36 +806,6 @@ namespace Marvel {
 		return ToPyFloat(mvApp::GetApp()->getGlobalFontScale());
 	}
 
-	PyObject* add_additional_font(PyObject* self, PyObject* args, PyObject* kwargs)
-	{
-		const char* file;
-		float size = 13.0f;
-		const char* glyph_ranges = "";
-		PyObject* custom_glyph_ranges = nullptr;
-		PyObject* custom_glyph_chars = nullptr;
-
-
-		if (!(mvApp::GetApp()->getParsers())["add_additional_font"].parse(args, kwargs, __FUNCTION__,
-			&file, &size, &glyph_ranges, &custom_glyph_chars, &custom_glyph_ranges))
-			return GetPyNone();
-
-		std::vector<int> custom_chars = ToIntVect(custom_glyph_chars);
-		std::vector<std::pair<int, int>> custom_ranges = ToVectInt2(custom_glyph_ranges);
-		std::vector<std::array<ImWchar, 3>> imgui_custom_ranges;
-		std::vector<ImWchar> imgui_custom_chars;
-
-		for (auto& item : custom_ranges)
-			imgui_custom_ranges.push_back({ (ImWchar)item.first, (ImWchar)item.second, 0 });
-		for (auto& item : custom_chars)
-			imgui_custom_chars.push_back((ImWchar)item);
-
-		mvApp::GetApp()->getCallbackRegistry().submit([=]()
-			{
-				mvApp::GetApp()->setFont(file, size, glyph_ranges, imgui_custom_ranges, imgui_custom_chars);
-			});
-
-		return GetPyNone();
-	}
 #endif
 
 }

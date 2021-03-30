@@ -24,6 +24,7 @@
 #include "mvEvents.h"
 #include <memory>
 #include "mvModule_Core.h"
+#include "mvFontManager.h"
 
 namespace Marvel {
 
@@ -47,7 +48,6 @@ namespace Marvel {
 	PyObject* set_vsync                (PyObject* self, PyObject* args, PyObject* kwargs);
 	PyObject* get_dearpygui_version    (PyObject* self, PyObject* args, PyObject* kwargs);
 	PyObject* get_active_window        (PyObject* self, PyObject* args, PyObject* kwargs);
-	PyObject* add_character_remap      (PyObject* self, PyObject* args, PyObject* kwargs);
 
 	// docking
 	PyObject* enable_docking           (PyObject* self, PyObject* args, PyObject* kwargs);
@@ -72,7 +72,6 @@ namespace Marvel {
     // font
     PyObject* set_global_font_scale(PyObject* self, PyObject* args, PyObject* kwargs);
     PyObject* get_global_font_scale(PyObject* self, PyObject* args, PyObject* kwargs);
-    PyObject* add_additional_font(PyObject* self, PyObject* args, PyObject* kwargs);
 #endif
 
     //-----------------------------------------------------------------------------
@@ -82,6 +81,7 @@ namespace Marvel {
     class mvTextEditor;
     class mvWindow;
     class mvThemeManager;
+    class mvFontManager;
     class mvItemRegistry;
     class mvTextureStorage;
     class mvCallbackRegistry;
@@ -137,22 +137,18 @@ namespace Marvel {
         mvTextureStorage&        getTextureStorage  ();
         mvCallbackRegistry&      getCallbackRegistry();
         mvThemeManager&          getThemeManager    ();
+        mvFontManager&           getFontManager     ();
         
         //-----------------------------------------------------------------------------
         // App Settings
         //-----------------------------------------------------------------------------
         void                     turnOnDocking     (bool shiftOnly, bool dockSpace);
-        void                     addRemapChar      (int dst, int src) { m_charRemaps.emplace_back( dst, src ); }
         void                     setVSync          (bool value) { m_vsync = value; }
         void                     setResizable      (bool value) { m_resizable = value; }			
         void                     setMainPos        (int x, int y);			
         void                     setGlobalFontScale(float scale);
         void                     setViewport       (mvWindow* viewport) { m_viewport = viewport; }
         void                     setTitle          (const std::string& title) { m_title = title; }
-        void                     setFont(const std::string& file, float size = 13.0f, const std::string& glyphRange = "",
-                                    std::vector<std::array<ImWchar, 3>> customRanges = {},
-                                    std::vector<ImWchar> chars= {});
-        
         
         float&                   getGlobalFontScale()       { return m_globalFontScale; }
         int                      getActualWidth    () const { return m_actualWidth; }
@@ -200,6 +196,7 @@ namespace Marvel {
         mvOwnedPtr<mvItemRegistry>                     m_itemRegistry;
         mvOwnedPtr<mvTextureStorage>                   m_textureStorage;
         mvOwnedPtr<mvThemeManager>                     m_themeManager;
+        mvOwnedPtr<mvFontManager>                      m_fontManager;
         mvOwnedPtr<mvCallbackRegistry>                 m_callbackRegistry;
 
                                                      
@@ -221,14 +218,6 @@ namespace Marvel {
         float       m_globalFontScale = 1.0f;
         bool        m_vsync = true;
         bool        m_resizable = true;
-
-        // fonts
-        std::string                         m_fontFile;
-        std::string                         m_fontGlyphRange;
-        float                               m_fontSize = 13.0f;
-        std::vector<std::array<ImWchar, 3>> m_fontGlyphRangeCustom;
-        std::vector<ImWchar>                m_fontGlyphChars;
-        std::vector<std::pair<int, int>>    m_charRemaps;
 
         // timing
         float                        m_deltaTime = 0.0f; // time since last frame

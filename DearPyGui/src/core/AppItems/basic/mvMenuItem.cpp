@@ -2,6 +2,7 @@
 #include "mvApp.h"
 #include "mvItemRegistry.h"
 #include "mvImGuiThemeScope.h"
+#include "mvFontScope.h"
 
 namespace Marvel {
 
@@ -32,6 +33,7 @@ namespace Marvel {
 	{
 		ScopedID id;
 		mvImGuiThemeScope scope(this);
+		mvFontScope fscope(this);
 
 		// create menu item and see if its selected, we opted not to utilize the imgui enable/disable input to the MenuItem so we can use normal style
 		// constants instead of adding a constant for the disabled text that the widget pushes when disabled.

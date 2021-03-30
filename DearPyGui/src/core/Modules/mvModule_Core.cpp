@@ -6,6 +6,7 @@
 #include "mvDrawList.h"
 #include "mvDrawCmdCommon.h"
 #include "mvWindow.h"
+#include "mvFontManager.h"
 #include "mvImGuiThemeScope.h"
 #include <ImGuiFileDialog.h>
 #include <cstdlib>
@@ -19,11 +20,14 @@ namespace Marvel {
 			ADD_PYTHON_FUNCTION(get_item_configuration)
 			ADD_PYTHON_FUNCTION(configure_item)
 
+			// font manager
+			ADD_PYTHON_FUNCTION(add_font)
+			ADD_PYTHON_FUNCTION(set_font)
+
 			// app interface
 			ADD_PYTHON_FUNCTION(enable_docking)
 			ADD_PYTHON_FUNCTION(add_texture)
 			ADD_PYTHON_FUNCTION(decrement_texture)
-			ADD_PYTHON_FUNCTION(add_character_remap)
 			ADD_PYTHON_FUNCTION(set_primary_window)
 			ADD_PYTHON_FUNCTION(set_accelerator_callback)
 			ADD_PYTHON_FUNCTION(set_main_window_size)
@@ -205,7 +209,6 @@ namespace Marvel {
 			ADD_PYTHON_FUNCTION(set_theme_color)
 			ADD_PYTHON_FUNCTION(set_theme_color_disabled)
 			ADD_PYTHON_FUNCTION(set_theme_style)
-			ADD_PYTHON_FUNCTION(add_additional_font)
 
 			// table commands
 			ADD_PYTHON_FUNCTION(add_table)
@@ -314,6 +317,7 @@ namespace Marvel {
 			AddInputCommands(&parsers);
 			AddItemCommands(&parsers);
 			AddAppCommands(&parsers);
+			AddFontCommands(&parsers);
 		}
 #endif
 		return parsers;

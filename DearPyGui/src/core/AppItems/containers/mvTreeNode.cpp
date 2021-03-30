@@ -3,6 +3,7 @@
 #include "mvApp.h"
 #include "mvItemRegistry.h"
 #include "mvImGuiThemeScope.h"
+#include "mvFontScope.h"
 
 namespace Marvel {
 	void mvTreeNode::InsertParser(std::map<std::string, mvPythonParser>* parsers)
@@ -32,6 +33,7 @@ namespace Marvel {
 	{
 		ScopedID id;
 		mvImGuiThemeScope scope(this);
+		mvFontScope fscope(this);
 
 		ImGui::BeginGroup();
 		if (ImGui::TreeNodeEx(m_label.c_str(), m_flags))

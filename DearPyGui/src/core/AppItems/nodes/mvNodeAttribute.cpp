@@ -5,6 +5,7 @@
 #include "mvItemRegistry.h"
 #include "mvNodeEditor.h"
 #include "mvImNodesThemeScope.h"
+#include "mvFontScope.h"
 
 namespace Marvel {
 
@@ -53,6 +54,7 @@ namespace Marvel {
 	{
 		ScopedID id;
 		mvImNodesThemeScope scope(this);
+		mvFontScope fscope(this);
 
 		if (m_static)
 			imnodes::BeginStaticAttribute((int)m_id);

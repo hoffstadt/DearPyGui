@@ -17,3 +17,6 @@
 [submodule "Dependencies/spdlog"]
 	path = Dependencies/spdlog
 	url = https://github.com/gabime/spdlog
+[submodule "Dependencies/freetype"]
+	path = Dependencies/freetype
+	url = https://gitlab.freedesktop.org/freetype/freetype

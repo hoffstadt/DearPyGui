@@ -102,6 +102,8 @@ namespace Marvel {
         friend class mvNodeEditor;
         friend class mvNode;
         friend class mvNodeAttribute;
+        friend class mvFontManager;
+        friend class mvFontScope;
 
     protected:
 
@@ -163,10 +165,15 @@ namespace Marvel {
         // cached theming
         bool                                      isThemeColorCacheValid() const;
         bool                                      isThemeStyleCacheValid() const;
+        bool                                      isThemeFontCacheValid() const;
         void                                      inValidateThemeColorCache();
         void                                      inValidateThemeStyleCache();
+        void                                      inValidateThemeFontCache();
         void                                      setThemeColorCacheValid();
         void                                      setThemeStyleCacheValid();
+        void                                      setThemeFontCacheValid();
+        void                                      setFont(ImFont* font) { m_cached_font = font; }
+        ImFont*                                   getCachedFont();
         mvThemeColors&                            getCachedThemeColors();
         std::unordered_map<ImGuiStyleVar, float>& getCachedThemeStyles();
         std::unordered_map<ImGuiStyleVar, float>& getCachedThemeStyles1();
@@ -222,10 +229,14 @@ namespace Marvel {
         // cached theming
         bool                                     m_theme_color_dirty = true;
         bool                                     m_theme_style_dirty = true;
+        bool                                     m_theme_font_dirty = false;
         mvThemeColors                            m_cached_colors;
         std::unordered_map<ImGuiStyleVar, float> m_cached_styles;
         std::unordered_map<ImGuiStyleVar, float> m_cached_styles1;
         std::unordered_map<ImGuiStyleVar, float> m_cached_styles2;
+
+        // fonts
+        ImFont* m_cached_font = nullptr;
     };
 
 #ifdef MV_CPP
