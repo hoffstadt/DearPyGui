@@ -237,7 +237,10 @@ namespace Marvel {
 
         // fonts
         ImFont* m_cached_font = nullptr;
+
     };
+
+    inline void DecodeType(long encoded_constant, mvAppItemType* type) { *type = (mvAppItemType)(encoded_constant / 1000); }
 
 #ifdef MV_CPP
 #else
