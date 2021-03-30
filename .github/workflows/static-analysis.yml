@@ -35,6 +35,7 @@ jobs:
           sudo apt-get update
           sudo apt-get install libgl1-mesa-dev
           sudo apt-get install xorg-dev
+          sudo apt-get install libfreetype6-dev
           cd Dependencies/cpython
           mkdir debug
           cd debug
