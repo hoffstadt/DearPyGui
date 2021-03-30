@@ -11,7 +11,7 @@ namespace Marvel {
 			{mvPythonDataType::String, "name"},
 			{mvPythonDataType::KeywordOnly},
 			{mvPythonDataType::String, "shortcut", "Adds a shortcut", "''"},
-			{mvPythonDataType::Bool, "check", "Makes menu with checkmarks.", "False"},
+			{mvPythonDataType::Bool, "check", "Makes menu item with checkmark. Only one menu item per container can be checked at a time.", "False"},
 			{mvPythonDataType::Callable, "callback", "Registers a callback", "None"},
 			{mvPythonDataType::Object, "callback_data", "Callback data", "None"},
 			{mvPythonDataType::String, "label", "", "''"},
@@ -33,8 +33,9 @@ namespace Marvel {
 		ScopedID id;
 		mvImGuiThemeScope scope(this);
 
-		// create menuitem and see if its selected
-		if (ImGui::MenuItem(m_label.c_str(), m_shortcut.c_str(), m_check ? m_value.get() : nullptr, m_core_config.enabled))
+		// create menu item and see if its selected, we opted not to utilize the imgui enable/disable input to the MenuItem so we can use normal style
+		// constants instead of adding a constant for the disabled text that the widget pushes when disabled.
+		if (ImGui::MenuItem(m_label.c_str(), m_shortcut.c_str(), m_check ? m_value.get() : nullptr))
 		{
 			// set other menuitems's value false on same level
 			for (auto sibling : m_parent->m_children)
@@ -46,7 +47,7 @@ namespace Marvel {
 
 			*m_value = true;
 
-			mvApp::GetApp()->getCallbackRegistry().addCallback(m_core_config.callback, m_core_config.name, m_core_config.callback_data);
+			mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), m_core_config.name, m_core_config.callback_data);
 
 		}
 
@@ -118,7 +119,7 @@ namespace Marvel {
 		if (callback_data)
 			Py_XINCREF(callback_data);
 		item->setCallbackData(callback_data);
-		item->setConfigDict(kwargs);
+		item->checkConfigDict(kwargs);
 		item->setConfigDict(kwargs);
 		item->setExtraConfigDict(kwargs);
 
