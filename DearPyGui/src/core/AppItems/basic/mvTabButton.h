@@ -42,7 +42,7 @@ namespace Marvel {
 
 		MV_START_STYLE_CONSTANTS
 			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_TabButton_Rounding	, 0, 12),
-			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_TabButton_BorderSize	, 0, 1),
+			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_TabButton_BorderSize	, 0,  1),
 			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_TabButton_PaddingX	, 4, 20),
 			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_TabButton_PaddingY	, 3, 20),
 		MV_END_STYLE_CONSTANTS

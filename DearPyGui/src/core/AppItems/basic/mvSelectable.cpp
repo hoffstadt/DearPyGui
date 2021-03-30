@@ -15,6 +15,8 @@ namespace Marvel {
 			{mvPythonDataType::Bool, "default_value", "", "False"},
 			{mvPythonDataType::Callable, "callback", "Registers a callback", "None"},
 			{mvPythonDataType::Object, "callback_data", "Callback data", "None"},
+			{mvPythonDataType::Integer, "width","", "0"},
+			{mvPythonDataType::Integer, "height", "", "0"},
 			{mvPythonDataType::String, "parent", "Parent this item will be added to. (runtime adding)", "''"},
 			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)", "''"},
 			{mvPythonDataType::String, "source", "", "''"},
@@ -52,7 +54,7 @@ namespace Marvel {
 		mvImGuiThemeScope scope(this);
 		mvFontScope fscope(this);
 
-		if (ImGui::Selectable(m_label.c_str(), m_value.get(), m_flags))
+		if (ImGui::Selectable(m_label.c_str(), m_value.get(), m_flags, ImVec2((float)m_core_config.width, (float)m_core_config.height)))
 			mvApp::GetApp()->getCallbackRegistry().addCallback(m_core_config.callback, m_core_config.name, m_core_config.callback_data);
 
 	}
@@ -61,6 +63,8 @@ namespace Marvel {
 	{
 		auto aconfig = (mvSelectableConfig*)config;
 
+		m_core_config.width = config->width;
+		m_core_config.height = config->height;
 		m_core_config.label = config->label;
 		m_core_config.show = config->show;
 		m_core_config.enabled = config->enabled;
@@ -119,6 +123,8 @@ namespace Marvel {
 		int default_value = false;
 		PyObject* callback = nullptr;
 		PyObject* callback_data = nullptr;
+		int width = 0;
+		int height = 0;
 		const char* before = "";
 		const char* parent = "";
 		const char* source = "";
@@ -130,7 +136,7 @@ namespace Marvel {
 		//ImGuiSelectableFlags flags = ImGuiSelectableFlags_None;
 
 		if (!(mvApp::GetApp()->getParsers())["add_selectable"].parse(args, kwargs, __FUNCTION__, &name,
-			&default_value, &callback, &callback_data, &parent, &before, &source, &enabled,
+			&default_value, &callback, &callback_data, &width, &height, &before, &parent, &source, &enabled,
 			&label, &show, &span_columns))
 			return ToPyBool(false);
 

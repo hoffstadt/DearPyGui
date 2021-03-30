@@ -596,7 +596,8 @@ namespace Marvel {
 
 	void mvDataGrid::draw()
 	{
-		//mvImGuiThemeScope scope(this);
+		ScopedID id;
+		mvImGuiThemeScope scope(this);
 		mvFontScope fscope(this);
 
 		if (ImGui::BeginTable(m_core_config.name.c_str(), m_columns,

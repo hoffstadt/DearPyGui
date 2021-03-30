@@ -192,8 +192,11 @@ def show_demo():
                 add_menu_item("Save As..#demo")
                 add_separator()
                 with menu("Options##demomenu"):
-                    add_checkbox("Toggle Enabled##demomenu", default_value=True, callback=lambda sender: configure_item("Enabled##demo", enabled=get_value(sender)))
-                    add_menu_item("Enabled##demo", check=True, callback=log_callback)
+                    add_checkbox("Toggle Enabled##demomenu", default_value=True, callback=lambda sender: configure_item("Option1a##demo", enabled=get_value(sender)))
+                    with group("Option1"):
+                        add_menu_item("Option1a##demo", check=True, callback=log_callback)
+                        add_menu_item("Option1b##demo", check=True, callback=log_callback)
+                    add_menu_item("Option2##demo", check=True, callback=log_callback)
                     with child("childmenu##demo", height=60, autosize_x=True):
                         for i in range(0, 10):
                             add_text(f"Scrolling Text {i}")
@@ -261,6 +264,7 @@ def show_demo():
                 add_checkbox("checkbox##demo", callback=log_callback)
                 add_radio_button("radiobutton##demo", items=["radio a", "radio b", "radio c"], horizontal=True, callback=log_callback)
                 add_selectable("selectable##demo", callback=log_callback)
+                add_selectable("selectable (sized)##demo", callback=log_callback, width=125, height=35)
                 for i in range(0, 7):
                     if i > 0:
                         add_same_line()
@@ -788,10 +792,10 @@ def show_demo():
         with collapsing_header("Tables##demo"):
 
             with tree_node("Basic##columns##demo"):
-                add_text("Without border:")
+                add_text("With border:")
 
                 with table("columns1##demo", hideable=True, resizable=True, row_background=True, borders_innerH=True,
-                          borders_outerH=True):
+                          borders_innerV=True, borders_outerH=True, borders_outerV=True):
                     add_table_column("Header 1##democolumns1")
                     add_table_column("Header 2##democolumns1")
                     add_table_column("Header 3##democolumns1")
@@ -801,7 +805,7 @@ def show_demo():
                         add_selectable(f"Item {i}##columns1##demo")
                         add_table_next_column()
 
-                add_text("With border:")
+                add_text("Without border:")
                 with table("columns2##demo"):
                     add_table_column("Header 1##democolumns2")
                     add_table_column("Header 2##democolumns2")
@@ -834,7 +838,7 @@ def show_demo():
                     add_table_next_column()
                     add_text("0")
  
-            with tree_node("Borders##columns##demo"):
+            with tree_node("Advanced##columns##demo"):
 
                 with table("Columns3##demo"):
                     add_table_column("Columns3##demo1")

@@ -59,15 +59,15 @@ namespace Marvel {
 			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_TimePicker_Rounding			, 0, 12),
 			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_TimePicker_PaddingX			, 8, 20),
 			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_TimePicker_PaddingY			, 4, 20),
-			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_TimePicker_TextAlignX			, 0, 20),
-			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_TimePicker_TextAlignY			, 0, 20),
+			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_TimePicker_TextAlignX			, 0,  1),
+			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_TimePicker_TextAlignY			, 0,  1),
 			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_TimePicker_DropPaddingX		, 8, 20),
 			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_TimePicker_DropPaddingY		, 4, 20),
 			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_TimePicker_DropBorderSize		, 1,  1),
 			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_TimePicker_DropItemSpacingX	, 8, 20),
 			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_TimePicker_DropItemSpacingY	, 4, 20),
-			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_TimePicker_DropTextAlignX		, 0, 20),
-			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_TimePicker_DropTextAlignY		, 0, 20),
+			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_TimePicker_DropTextAlignX		, 0,  1),
+			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_TimePicker_DropTextAlignY		, 0,  1),
 		MV_END_STYLE_CONSTANTS
 
 	public:
