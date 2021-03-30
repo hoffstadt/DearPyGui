@@ -96,8 +96,8 @@ namespace Marvel {
             MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_InputInt_PaddingY         , 3,   20),
             MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_InputInt_InnerSpacingX    , 4,   20),
             MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_InputInt_InnerSpacingY    , 4,   20),
-            MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_InputInt_ButtonTextAlignX , 0.5, 20),
-            MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_InputInt_ButtonTextAlignY , 0.5, 20),
+            MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_InputInt_ButtonTextAlignX , 0.5,  1),
+            MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_InputInt_ButtonTextAlignY , 0.5,  1),
         MV_END_STYLE_CONSTANTS
 
     public:
@@ -425,8 +425,8 @@ namespace Marvel {
             MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_InputFloat_PaddingY        , 3,   20),
             MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_InputFloat_InnerSpacingX   , 4,   20),
             MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_InputFloat_InnerSpacingY   , 4,   20),
-            MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_InputFloat_ButtonTextAlignX, 0.5, 20),
-            MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_InputFloat_ButtonTextAlignY, 0.5, 20),
+            MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_InputFloat_ButtonTextAlignX, 0.5,  1),
+            MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_InputFloat_ButtonTextAlignY, 0.5,  1),
         MV_END_STYLE_CONSTANTS
 
     public:

@@ -59,7 +59,7 @@ namespace Marvel {
 			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_ColorButton_Rounding,        0, 12),
 			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_ColorButton_BorderSize,      0,  1),
 			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_ColorButton_PopupRounding,   0, 12),
-			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_ColorButton_PopupBorderSize, 0,  1),
+			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_ColorButton_PopupBorderSize, 1,  1),
 			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_ColorButton_PopupPaddingX,   8, 20),
 			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_ColorButton_PopupPaddingY,   8, 20),
 		MV_END_STYLE_CONSTANTS
