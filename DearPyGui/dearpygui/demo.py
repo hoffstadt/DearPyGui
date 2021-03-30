@@ -247,7 +247,7 @@ def show_demo():
                         configure_item(item, **config_dict)
 
                 disable_items = ["Button1##demo", "Button2##demo", "Button3##demo", "Button4##demo", "Button5##demo", "Button6##demo"
-                    ,"checkbox##demo", "radiobutton##demo", "selectable##demo", "Left##demo", "Right##demo"
+                    ,"checkbox##demo", "radiobutton##demo", "selectable##demo", "selectable (sized)##demo", "Left##demo", "Right##demo"
                     ,"combo##demo","listbox##demo","input text##demo","input text (w/ hint)##demo"
                     ,"input int##demo", "input float##demo", "input scientific##demo", "input float3##example##demo"
                     ,"drag int", "drag int 0..100##demo", "drag float##demo", "drag small float##demo"
