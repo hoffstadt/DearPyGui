@@ -12,9 +12,6 @@ namespace Marvel {
 
 	public:
 
-		static void decodeType(long encoded_constant, mvAppItemType* type);
-		static void decodelibID(long encoded_constant, int* libID);
-		static int decodeIndex(long encoded_constant);
 		static void InValidateColorTheme();
 		static void InValidateStyleTheme();
 
@@ -110,8 +107,8 @@ namespace Marvel {
 			for (const auto& style : item->getStyles()[item->getType()])
 			{
 				styles_found[style.first] = true;
-				mvThemeManager::decodelibID(style.first, &styleID);
-				if (mvThemeManager::decodeIndex(style.first) > 0)
+				DecodelibID(style.first, &styleID);
+				if (DecodeIndex(style.first) > 0)
 					styles2[styleID] = style.second;
 				else
 					styles1[styleID] = style.second;
@@ -132,8 +129,8 @@ namespace Marvel {
 					if (!styles_found[style.first])
 					{
 						styles_found[style.first] = true;
-						mvThemeManager::decodelibID(style.first, &styleID);
-						if (mvThemeManager::decodeIndex(style.first) > 0)
+						DecodelibID(style.first, &styleID);
+						if (DecodeIndex(style.first) > 0)
 							styles2[styleID] = style.second;
 						else
 							styles1[styleID] = style.second;
@@ -148,8 +145,8 @@ namespace Marvel {
 			if (!styles_found[style.first])
 			{
 				styles_found[style.first] = true;
-				mvThemeManager::decodelibID(style.first, &styleID);
-				if (mvThemeManager::decodeIndex(style.first) > 0)
+				DecodelibID(style.first, &styleID);
+				if (DecodeIndex(style.first) > 0)
 					styles2[styleID] = style.second;
 				else
 					styles1[styleID] = style.second;

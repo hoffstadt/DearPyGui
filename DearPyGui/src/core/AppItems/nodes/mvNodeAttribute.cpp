@@ -1,6 +1,7 @@
 #include "mvNodeAttribute.h"
 #include <imnodes.h>
 #include "mvApp.h"
+#include "mvCore.h"
 #include "mvLog.h"
 #include "mvItemRegistry.h"
 #include "mvNodeEditor.h"
@@ -102,7 +103,11 @@ namespace Marvel {
 		if (PyObject* item = PyDict_GetItemString(dict, "static")) m_static = ToBool(item);
 		if (PyObject* item = PyDict_GetItemString(dict, "shape")) m_shape = (imnodes::PinShape)ToInt(item);
 
-		mvThemeManager::decodelibID(m_shape, (int*)&m_shape);
+		if (PyObject* item = PyDict_GetItemString(dict, "shape"))
+		{
+			m_shape = (imnodes::PinShape)ToInt(item);
+			DecodelibID(m_shape, (int*)&m_shape);
+		}
 	}
 
 	void mvNodeAttribute::getExtraConfigDict(PyObject* dict)
@@ -112,7 +117,7 @@ namespace Marvel {
 
 		PyDict_SetItemString(dict, "output", ToPyBool(m_output));
 		PyDict_SetItemString(dict, "static", ToPyBool(m_static));
-		PyDict_SetItemString(dict, "shape", ToPyInt((int)m_shape));
+		PyDict_SetItemString(dict, "shape", ToPyInt(MV_ENCODE_CONSTANT((int)m_shape, 0)));
 	}
 
 	PyObject* add_node_attribute(PyObject* self, PyObject* args, PyObject* kwargs)

@@ -103,10 +103,10 @@ namespace Marvel {
 	{
 		MV_APPITEM_TYPE(mvAppItemType::mvTable, "add_table")
 
-		MV_CREATE_THEME_CONSTANT(mvTable_SizingFixedFit,			1<<13, 0L);
-		MV_CREATE_THEME_CONSTANT(mvTable_SizingFixedSame,			2<<13, 0L);
-		MV_CREATE_THEME_CONSTANT(mvTable_SizingStretchProp,			3<<13, 0L);
-		MV_CREATE_THEME_CONSTANT(mvTable_SizingStretchSame,			4<<13, 0L);
+		MV_CREATE_THEME_CONSTANT(mvTable_SizingFixedFit,			8192L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvTable_SizingFixedSame,			16384L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvTable_SizingStretchProp,			24576L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvTable_SizingStretchSame,			32768L, 0L);
 
 		MV_CREATE_THEME_CONSTANT(mvThemeCol_Table_HeaderBg,			44L, 0L);
 		MV_CREATE_THEME_CONSTANT(mvThemeCol_Table_BorderStrong,		45L, 0L);

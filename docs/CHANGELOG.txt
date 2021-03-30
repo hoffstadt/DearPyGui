@@ -72,6 +72,7 @@ New Keywords:
 - add_window: Added "max_size" keyword #700
 - add_selectable: Added "width" keyword
 - add_selectable: Added "height" keyword
+- add_node_attribute: Added "shape" keyword #713
 
 New Commands:
 - table

@@ -39,7 +39,7 @@ namespace Marvel {
 			static int imColorID;
 			for (auto& color : colors)
 			{
-				mvThemeManager::decodelibID(color.first, &imColorID);
+				DecodelibID(color.first, &imColorID);
 				imnodes::PushColorStyle((imnodes::ColorStyle)imColorID, color.second.first);
 			}
 

@@ -1,6 +1,7 @@
 #include "mvLogger.h"
 #include <chrono>
 #include "mvInput.h"
+#include "mvCore.h"
 #include "mvGlobalIntepreterLock.h"
 #include "mvItemRegistry.h"
 #include "mvFontScope.h"
@@ -300,7 +301,6 @@ namespace Marvel {
 		if (dict == nullptr)
 			return;
 		 
-		if (PyObject* item = PyDict_GetItemString(dict, "log_level")) m_loglevel = ToInt(item);
 		if (PyObject* item = PyDict_GetItemString(dict, "auto_scroll")) AutoScroll = ToBool(item);
 		if (PyObject* item = PyDict_GetItemString(dict, "auto_scroll_button")) m_autoScrollButton = ToBool(item);
 		if (PyObject* item = PyDict_GetItemString(dict, "clear_button")) m_clearButton = ToBool(item);
@@ -308,6 +308,13 @@ namespace Marvel {
 		if (PyObject* item = PyDict_GetItemString(dict, "filter")) m_filter = ToBool(item);
 		if (PyObject* item = PyDict_GetItemString(dict, "autosize_x")) m_autosize_x = ToBool(item);
 		if (PyObject* item = PyDict_GetItemString(dict, "autosize_y")) m_autosize_y = ToBool(item);
+
+		if (PyObject* item = PyDict_GetItemString(dict, "log_level"))
+		{
+			m_loglevel = ToInt(item);
+			DecodelibID(m_loglevel, &m_loglevel);
+		}
+		
 
 	}
 
@@ -317,7 +324,7 @@ namespace Marvel {
 			return;
 		 
 
-		PyDict_SetItemString(dict, "log_level", ToPyInt(m_loglevel));
+		PyDict_SetItemString(dict, "log_level", ToPyInt(MV_ENCODE_CONSTANT(m_loglevel, 0)));
 		PyDict_SetItemString(dict, "auto_scroll", ToPyBool(AutoScroll));
 		PyDict_SetItemString(dict, "auto_scroll_button", ToPyBool(m_autoScrollButton));
 		PyDict_SetItemString(dict, "clear_button", ToPyBool(m_clearButton));

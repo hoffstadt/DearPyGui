@@ -38,7 +38,7 @@ namespace Marvel {
 			static ImPlotCol imColorID;
 			for (const auto& color : colors)
 			{
-				mvThemeManager::decodelibID(color.first, &imColorID);
+				DecodelibID(color.first, &imColorID);
 				ImPlot::PushStyleColor(imColorID, color.second.first.toVec4());
 			}
 
