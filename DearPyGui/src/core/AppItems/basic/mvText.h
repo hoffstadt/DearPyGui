@@ -34,6 +34,9 @@ namespace Marvel {
 
 		MV_CREATE_THEME_CONSTANT(mvThemeCol_Text_Text, 0L, 0L);
 
+		MV_START_GENERAL_CONSTANTS
+		MV_END_GENERAL_CONSTANTS
+
 		MV_START_COLOR_CONSTANTS
 			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Text_Text, mvColor(255, 255, 255, 255))
 		MV_END_COLOR_CONSTANTS
@@ -90,6 +93,9 @@ namespace Marvel {
 		MV_CREATE_THEME_CONSTANT(mvThemeStyle_LabelText_PaddingY			, 10L, 1L);
 		MV_CREATE_THEME_CONSTANT(mvThemeStyle_LabelText_ItemInnerSpacingX	, 14L, 0L);
 		MV_CREATE_THEME_CONSTANT(mvThemeStyle_LabelText_ItemInnerSpacingY	, 14L, 1L);
+
+		MV_START_GENERAL_CONSTANTS
+		MV_END_GENERAL_CONSTANTS
 
 		MV_START_COLOR_CONSTANTS
 			MV_CREATE_CONSTANT_PAIR(mvThemeCol_LabelText_Text, mvColor(255, 255, 255, 255))

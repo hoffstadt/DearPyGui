@@ -331,9 +331,6 @@ namespace Marvel {
 		if (First_Run)
 		{
 			mvInput::InsertConstants(ModuleConstants);
-			mvPlot::InsertConstants(ModuleConstants);
-			mvButton::InsertConstants(ModuleConstants);
-			mvLoggerItem::InsertConstants(ModuleConstants);
 			mvTextureStorage::InsertConstants(ModuleConstants);
 
 			auto decodeType = [](long encoded_constant, mvAppItemType* type)
@@ -381,6 +378,10 @@ namespace Marvel {
 							&mvThemeManager::GetStyles()[type][mvThemeConstant] , max_val});
 
 					}
+
+					// general constants
+					for (const auto& item : item_type::GetGeneralConstants())
+						ModuleConstants.push_back({ item.first, item.second });
 
 				});
 		}

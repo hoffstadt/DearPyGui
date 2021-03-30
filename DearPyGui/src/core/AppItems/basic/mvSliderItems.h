@@ -70,6 +70,9 @@ namespace Marvel {
         MV_CREATE_THEME_CONSTANT(mvThemeStyle_SliderFloat_GrabMinSize       , 19L, 0L);
         MV_CREATE_THEME_CONSTANT(mvThemeStyle_SliderFloat_GrabRounding      , 20L, 0L);
 
+		MV_START_GENERAL_CONSTANTS
+		MV_END_GENERAL_CONSTANTS
+
         MV_START_COLOR_CONSTANTS
             MV_CREATE_CONSTANT_TUPLE(mvThemeCol_SliderFloat_Text,           mvColor(255, 255, 255, 255), mvColor(128, 128, 128, 63)),
             MV_CREATE_CONSTANT_TUPLE(mvThemeCol_SliderFloat_Bg,             mvColor( 41,  74, 122, 138), mvColor(128, 128, 128, 63)),
@@ -161,6 +164,9 @@ namespace Marvel {
         MV_CREATE_THEME_CONSTANT(mvThemeStyle_SliderFloat2_GrabMinSize     , 19L, 0L);
         MV_CREATE_THEME_CONSTANT(mvThemeStyle_SliderFloat2_GrabRounding    , 20L, 0L);
 
+		MV_START_GENERAL_CONSTANTS
+		MV_END_GENERAL_CONSTANTS
+
         MV_START_COLOR_CONSTANTS
             MV_CREATE_CONSTANT_TUPLE(mvThemeCol_SliderFloat2_Text,          mvColor(255, 255, 255, 255), mvColor(128, 128, 128, 63)),
             MV_CREATE_CONSTANT_TUPLE(mvThemeCol_SliderFloat2_Bg,            mvColor( 41,  74, 122, 138), mvColor(128, 128, 128, 63)),
@@ -241,6 +247,9 @@ namespace Marvel {
         MV_CREATE_THEME_CONSTANT(mvThemeStyle_SliderFloat3_GrabMinSize     , 19L, 0L);
         MV_CREATE_THEME_CONSTANT(mvThemeStyle_SliderFloat3_GrabRounding    , 20L, 0L);
 
+		MV_START_GENERAL_CONSTANTS
+		MV_END_GENERAL_CONSTANTS
+
         MV_START_COLOR_CONSTANTS
             MV_CREATE_CONSTANT_TUPLE(mvThemeCol_SliderFloat3_Text,          mvColor(255, 255, 255, 255), mvColor(128, 128, 128, 63)),
             MV_CREATE_CONSTANT_TUPLE(mvThemeCol_SliderFloat3_Bg,            mvColor( 41,  74, 122, 138), mvColor(128, 128, 128, 63)),
@@ -319,6 +328,9 @@ namespace Marvel {
         MV_CREATE_THEME_CONSTANT(mvThemeStyle_SliderFloat4_InnerSpacingY , 14L, 1L);
         MV_CREATE_THEME_CONSTANT(mvThemeStyle_SliderFloat4_GrabMinSize   , 19L, 0L);
         MV_CREATE_THEME_CONSTANT(mvThemeStyle_SliderFloat4_GrabRounding  , 20L, 0L);
+
+		MV_START_GENERAL_CONSTANTS
+		MV_END_GENERAL_CONSTANTS
 
         MV_START_COLOR_CONSTANTS
             MV_CREATE_CONSTANT_TUPLE(mvThemeCol_SliderFloat4_Text,          mvColor(255, 255, 255, 255), mvColor(128, 128, 128, 63)),
@@ -411,6 +423,8 @@ namespace Marvel {
         MV_CREATE_THEME_CONSTANT(mvThemeStyle_SliderInt_GrabMinSize       , 19L, 0L);
         MV_CREATE_THEME_CONSTANT(mvThemeStyle_SliderInt_GrabRounding      , 20L, 0L);
 
+		MV_START_GENERAL_CONSTANTS
+		MV_END_GENERAL_CONSTANTS
 
         MV_START_COLOR_CONSTANTS
             MV_CREATE_CONSTANT_TUPLE(mvThemeCol_SliderInt_Text,             mvColor(255, 255, 255, 255), mvColor(128, 128, 128, 63)),
@@ -503,6 +517,9 @@ namespace Marvel {
         MV_CREATE_THEME_CONSTANT(mvThemeStyle_SliderInt2_GrabMinSize     , 19L, 0L);
         MV_CREATE_THEME_CONSTANT(mvThemeStyle_SliderInt2_GrabRounding    , 20L, 0L);
 
+		MV_START_GENERAL_CONSTANTS
+		MV_END_GENERAL_CONSTANTS
+
         MV_START_COLOR_CONSTANTS
             MV_CREATE_CONSTANT_TUPLE(mvThemeCol_SliderInt2_Text,         mvColor(255, 255, 255, 255), mvColor(128, 128, 128, 63)),
             MV_CREATE_CONSTANT_TUPLE(mvThemeCol_SliderInt2_Bg,           mvColor( 41,  74, 122, 138), mvColor(128, 128, 128, 63)),
@@ -582,6 +599,9 @@ namespace Marvel {
         MV_CREATE_THEME_CONSTANT(mvThemeStyle_SliderInt3_GrabMinSize     , 19L, 0L);
         MV_CREATE_THEME_CONSTANT(mvThemeStyle_SliderInt3_GrabRounding    , 20L, 0L);
 
+		MV_START_GENERAL_CONSTANTS
+		MV_END_GENERAL_CONSTANTS
+
         MV_START_COLOR_CONSTANTS
             MV_CREATE_CONSTANT_TUPLE(mvThemeCol_SliderInt3_Text,         mvColor(255, 255, 255, 255), mvColor(128, 128, 128, 63)),
             MV_CREATE_CONSTANT_TUPLE(mvThemeCol_SliderInt3_Bg,           mvColor( 41,  74, 122, 138), mvColor(128, 128, 128, 63)),
@@ -660,6 +680,9 @@ namespace Marvel {
         MV_CREATE_THEME_CONSTANT(mvThemeStyle_SliderInt4_InnerSpacingY   , 14L, 1L);
         MV_CREATE_THEME_CONSTANT(mvThemeStyle_SliderInt4_GrabMinSize     , 19L, 0L);
         MV_CREATE_THEME_CONSTANT(mvThemeStyle_SliderInt4_GrabRounding    , 20L, 0L);
+
+		MV_START_GENERAL_CONSTANTS
+		MV_END_GENERAL_CONSTANTS
 
         MV_START_COLOR_CONSTANTS
             MV_CREATE_CONSTANT_TUPLE(mvThemeCol_SliderInt4_Text,         mvColor(255, 255, 255, 255), mvColor(128, 128, 128, 63)),

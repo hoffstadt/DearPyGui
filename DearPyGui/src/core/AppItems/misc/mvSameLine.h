@@ -21,6 +21,9 @@ namespace Marvel {
 
 		MV_APPITEM_TYPE(mvAppItemType::mvSameLine, "add_same_line")
 
+		MV_START_GENERAL_CONSTANTS
+		MV_END_GENERAL_CONSTANTS
+
 		MV_START_COLOR_CONSTANTS
 		MV_END_COLOR_CONSTANTS
 

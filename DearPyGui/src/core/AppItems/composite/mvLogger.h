@@ -42,12 +42,27 @@ namespace Marvel {
 	public:
 
 		static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
-		static void InsertConstants(std::vector<std::pair<std::string, long>>& constants);
 
 	public:
 
 
 		MV_APPITEM_TYPE(mvAppItemType::mvLoggerItem, "add_logger")
+
+		MV_CREATE_THEME_CONSTANT(mvTRACE,   0L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvDEBUG,   1L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvINFO,    2L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvWARNING, 3L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvERROR,   4L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvOFF,     5L, 0L);
+
+		MV_START_GENERAL_CONSTANTS
+			MV_CREATE_CONSTANT_SINGLE(mvTRACE),
+			MV_CREATE_CONSTANT_SINGLE(mvDEBUG),
+            MV_CREATE_CONSTANT_SINGLE(mvINFO),
+            MV_CREATE_CONSTANT_SINGLE(mvWARNING),
+            MV_CREATE_CONSTANT_SINGLE(mvERROR),
+           MV_CREATE_CONSTANT_SINGLE(mvOFF),
+		MV_END_GENERAL_CONSTANTS
 
 		MV_START_COLOR_CONSTANTS
 		MV_END_COLOR_CONSTANTS

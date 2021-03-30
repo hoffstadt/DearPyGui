@@ -30,6 +30,12 @@ namespace Marvel {
 
 		MV_APPITEM_TYPE(mvAppItemType::mvButton, "add_button")
 
+		MV_CREATE_THEME_CONSTANT(mvDir_None,  -1L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvDir_Left,  0L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvDir_Right,  1L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvDir_Up,  2L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvDir_Down,  3L, 0L);
+
 		MV_CREATE_THEME_CONSTANT(mvThemeCol_Button_Text			,  0L, 0L);
 		MV_CREATE_THEME_CONSTANT(mvThemeCol_Button_Bg			, 21L, 0L);
 		MV_CREATE_THEME_CONSTANT(mvThemeCol_Button_Hovered		, 22L, 0L);
@@ -43,6 +49,14 @@ namespace Marvel {
 		MV_CREATE_THEME_CONSTANT(mvThemeStyle_Button_TextAlignY	, 22L, 1L);
 		MV_CREATE_THEME_CONSTANT(mvThemeStyle_Button_PaddingX	, 10L, 0L);
 		MV_CREATE_THEME_CONSTANT(mvThemeStyle_Button_PaddingY	, 10L, 1L);
+
+		MV_START_GENERAL_CONSTANTS
+			MV_CREATE_CONSTANT_SINGLE(mvDir_None),
+			MV_CREATE_CONSTANT_SINGLE(mvDir_Left),
+			MV_CREATE_CONSTANT_SINGLE(mvDir_Right),
+			MV_CREATE_CONSTANT_SINGLE(mvDir_Up),
+			MV_CREATE_CONSTANT_SINGLE(mvDir_Down),
+		MV_END_GENERAL_CONSTANTS
 
 		MV_START_COLOR_CONSTANTS
 			MV_CREATE_CONSTANT_TUPLE(mvThemeCol_Button_Text,         mvColor(255, 255, 255, 255), mvColor(128, 128, 128, 63)),
@@ -66,7 +80,6 @@ namespace Marvel {
 	public:
 
 		static void InsertParser   (std::map<std::string, mvPythonParser>* parsers);
-		static void InsertConstants(std::vector<std::pair<std::string, long>>& constants);
 
 	public:
 

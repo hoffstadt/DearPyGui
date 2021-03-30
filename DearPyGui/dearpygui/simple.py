@@ -303,7 +303,7 @@ def node(name: str, *, label: str = "__DearPyGuiDefault", show: bool = True, dra
 
 @contextmanager
 def node_attribute(name: str, *, show: bool = True, output: bool = False,
-         static: bool = False, parent: str = "", before: str = ""):
+         static: bool = False, parent: str = "", before: str = "", shape: int = 1):
     """Wraps add_node_attribute() and automates calling end().
 
     Args:
@@ -320,7 +320,7 @@ def node_attribute(name: str, *, show: bool = True, output: bool = False,
     """
     try:
         yield internal_dpg.add_node_attribute(name, show=show, parent=parent, before=before, 
-                                                    output=output, static=static)
+                                                    output=output, static=static, shape=shape)
 
     finally:
         internal_dpg.end()

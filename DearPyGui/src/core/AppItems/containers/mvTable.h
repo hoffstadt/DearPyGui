@@ -36,11 +36,14 @@ namespace Marvel {
 
 		MV_APPITEM_TYPE(mvAppItemType::mvTableColumn, "add_table_column")
 
-			MV_START_COLOR_CONSTANTS
-			MV_END_COLOR_CONSTANTS
+		MV_START_GENERAL_CONSTANTS
+		MV_END_GENERAL_CONSTANTS
 
-			MV_START_STYLE_CONSTANTS
-			MV_END_STYLE_CONSTANTS
+		MV_START_COLOR_CONSTANTS
+		MV_END_COLOR_CONSTANTS
+
+		MV_START_STYLE_CONSTANTS
+		MV_END_STYLE_CONSTANTS
 
 		mvTableColumn(const std::string& name, float init_width_or_weight);
 		~mvTableColumn();
@@ -75,6 +78,9 @@ namespace Marvel {
 
 		MV_APPITEM_TYPE(mvAppItemType::mvTableNextColumn, "add_table_next_column")
 
+		MV_START_GENERAL_CONSTANTS
+		MV_END_GENERAL_CONSTANTS
+
 		MV_START_COLOR_CONSTANTS
 		MV_END_COLOR_CONSTANTS
 
@@ -97,6 +103,11 @@ namespace Marvel {
 	{
 		MV_APPITEM_TYPE(mvAppItemType::mvTable, "add_table")
 
+		MV_CREATE_THEME_CONSTANT(mvTable_SizingFixedFit,			1<<13, 0L);
+		MV_CREATE_THEME_CONSTANT(mvTable_SizingFixedSame,			2<<13, 0L);
+		MV_CREATE_THEME_CONSTANT(mvTable_SizingStretchProp,			3<<13, 0L);
+		MV_CREATE_THEME_CONSTANT(mvTable_SizingStretchSame,			4<<13, 0L);
+
 		MV_CREATE_THEME_CONSTANT(mvThemeCol_Table_HeaderBg,			44L, 0L);
 		MV_CREATE_THEME_CONSTANT(mvThemeCol_Table_BorderStrong,		45L, 0L);
 		MV_CREATE_THEME_CONSTANT(mvThemeCol_Table_BorderLight,		46L, 0L);
@@ -106,6 +117,13 @@ namespace Marvel {
 		MV_CREATE_THEME_CONSTANT(mvThemeCol_Table_RowBgAlt,			48L, 0L);
 		MV_CREATE_THEME_CONSTANT(mvThemeStyle_Table_CellPaddingX,	16L, 0L);
 		MV_CREATE_THEME_CONSTANT(mvThemeStyle_Table_CellPaddingY,	16L, 1L);
+
+		MV_START_GENERAL_CONSTANTS
+			MV_CREATE_CONSTANT_SINGLE(mvTable_SizingFixedFit),
+			MV_CREATE_CONSTANT_SINGLE(mvTable_SizingFixedSame),
+			MV_CREATE_CONSTANT_SINGLE(mvTable_SizingStretchProp),
+			MV_CREATE_CONSTANT_SINGLE(mvTable_SizingStretchSame)
+		MV_END_GENERAL_CONSTANTS
 
 		MV_START_COLOR_CONSTANTS
 			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Table_HeaderBg,		mvColor( 48,  48,  51, 255)),

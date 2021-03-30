@@ -73,6 +73,9 @@ namespace Marvel {
 		MV_CREATE_THEME_CONSTANT(mvThemeStyle_ColorPicker3_PaddingX,       10L, 0L);
 		MV_CREATE_THEME_CONSTANT(mvThemeStyle_ColorPicker3_PaddingY,       10L, 1L);
 
+		MV_START_GENERAL_CONSTANTS
+		MV_END_GENERAL_CONSTANTS
+
 		MV_START_COLOR_CONSTANTS
 			MV_CREATE_CONSTANT_TUPLE(mvThemeCol_ColorPicker3_Text,         mvColor(255, 255, 255, 255), mvColor(128, 128, 128, 63)),
 			MV_CREATE_CONSTANT_TUPLE(mvThemeCol_ColorPicker3_Bg,           mvColor( 41,  74, 122, 138), mvColor(128, 128, 128, 63)),
@@ -148,6 +151,9 @@ namespace Marvel {
 		MV_CREATE_THEME_CONSTANT(mvThemeStyle_ColorPicker4_PopupPaddingY,   1L, 1L);
 		MV_CREATE_THEME_CONSTANT(mvThemeStyle_ColorPicker4_PaddingX,       10L, 0L);
 		MV_CREATE_THEME_CONSTANT(mvThemeStyle_ColorPicker4_PaddingY,       10L, 1L);
+
+		MV_START_GENERAL_CONSTANTS
+		MV_END_GENERAL_CONSTANTS
 
 		MV_START_COLOR_CONSTANTS
 			MV_CREATE_CONSTANT_TUPLE(mvThemeCol_ColorPicker4_Text,         mvColor(255, 255, 255, 255), mvColor(128, 128, 128, 63)),
