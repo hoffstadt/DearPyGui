@@ -193,9 +193,8 @@ def show_demo():
                 add_separator()
                 with menu("Options##demomenu"):
                     add_checkbox("Toggle Enabled##demomenu", default_value=True, callback=lambda sender: configure_item("Option1a##demo", enabled=get_value(sender)))
-                    with group("Option1"):
-                        add_menu_item("Option1a##demo", check=True, callback=log_callback)
-                        add_menu_item("Option1b##demo", check=True, callback=log_callback)
+                    add_menu_item("Option1a##demo", check=True, callback=log_callback)
+                    add_menu_item("Option1b##demo", check=True, callback=log_callback)
                     add_menu_item("Option2##demo", check=True, callback=log_callback)
                     with child("childmenu##demo", height=60, autosize_x=True):
                         for i in range(0, 10):
