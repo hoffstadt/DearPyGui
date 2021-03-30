@@ -29,6 +29,7 @@ HOW TO UPDATE?
 Decorated log: https://github.com/hoffstadt/DearPyGui/releases/tag/v0.7.x
 
 Breaking Changes:
+- modified command: add_menu_item - when used with checkmark it will no longer disable other sibling menui items checkmarks
 - removed command: decref_value
 - removed command: incref_value
 - removed command: add_value
