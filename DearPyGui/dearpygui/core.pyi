@@ -134,7 +134,7 @@ def add_error_series(plot: str, name: str, x: List[float], y: List[float], negat
 	"""Adds an error series to a plot."""
 	...
 
-def add_font(font: str, file: str, size: float = 13.0, glyph_ranges: str = '', *, custom_glyph_chars: List[int] = (), custom_glyph_ranges: Any = List[List[int]]) -> None:
+def add_font(font: str, file: str, size: float = 13.0, glyph_ranges: str = '', *, custom_glyph_chars: List[int] = (), custom_glyph_ranges: Any = List[List[int]], char_remaps: Any = List[List[int]]) -> None:
 	"""Adds additional font."""
 	...
 
@@ -286,7 +286,7 @@ def add_scatter_series(plot: str, name: str, x: List[float], y: List[float], *, 
 	"""Adds a scatter series to a plot."""
 	...
 
-def add_selectable(name: str, *, default_value: bool = False, callback: Callable = None, callback_data: Any = None, parent: str = '', before: str = '', source: str = '', enabled: bool = True, label: str = '', show: bool = True, span_columns: bool = False) -> None:
+def add_selectable(name: str, *, default_value: bool = False, callback: Callable = None, callback_data: Any = None, width: int = 0, height: int = 0, parent: str = '', before: str = '', source: str = '', enabled: bool = True, label: str = '', show: bool = True, span_columns: bool = False) -> None:
 	"""Adds a selectable."""
 	...
 

@@ -93,10 +93,6 @@ namespace Marvel {
 		if (mvApp::GetApp()->m_dockingShiftOnly)
 			io.ConfigDockingWithShift = true;
 
-		//io.Fonts->AddFontDefault();
-		//io.Fonts->AddFontFromFileTTF("C:/Users/Jonathan Hoffstadt/Desktop/calibrili.ttf", 13.0f);
-		//io.Fonts->Build();
-
 		// Setup Dear ImGui style
 		ImGui::StyleColorsDark();
 
@@ -131,6 +127,7 @@ namespace Marvel {
 		{
 			mvApp::GetApp()->getFontManager().rebuildAtlas();
 			ImGui_ImplDX11_InvalidateDeviceObjects();
+			mvApp::GetApp()->getFontManager().updateDefaultFont();
 		}
 
 		// Start the Dear ImGui frame
@@ -138,7 +135,9 @@ namespace Marvel {
 		ImGui_ImplWin32_NewFrame();
 		ImGui::NewFrame();
 
-		if(!mvApp::GetApp()->getTextureStorage().isValid())
+
+
+		if (!mvApp::GetApp()->getTextureStorage().isValid())
 			mvApp::GetApp()->getTextureStorage().refreshAtlas();
 	}
 

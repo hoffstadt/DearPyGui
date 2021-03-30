@@ -182,6 +182,7 @@ namespace Marvel {
             {
 			    mvApp::GetApp()->getFontManager().rebuildAtlas();
                 ImGui_ImplMetal_DestroyDeviceObjects();
+                mvApp::GetApp()->getFontManager().updateDefaultFont();
             }
 
             // Start the Dear ImGui frame
