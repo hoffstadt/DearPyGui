@@ -61,6 +61,8 @@ Breaking Changes:
 New Keywords:
 - add_window: Added "min_size" keyword #700
 - add_window: Added "max_size" keyword #700
+- add_selectable: Added "width" keyword
+- add_selectable: Added "height" keyword
 
 New Commands:
 - table

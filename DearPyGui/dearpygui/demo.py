@@ -261,6 +261,7 @@ def show_demo():
                 add_checkbox("checkbox##demo", callback=log_callback)
                 add_radio_button("radiobutton##demo", items=["radio a", "radio b", "radio c"], horizontal=True, callback=log_callback)
                 add_selectable("selectable##demo", callback=log_callback)
+                add_selectable("selectable (sized)##demo", callback=log_callback, width=125, height=35)
                 for i in range(0, 7):
                     if i > 0:
                         add_same_line()
