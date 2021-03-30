@@ -65,11 +65,11 @@ namespace Marvel {
 	{
 		m_textures.erase("INTERNAL_DPG_FONT_ATLAS");
 		addTexture("INTERNAL_DPG_FONT_ATLAS");
+		m_dirty = false;
 	}
 
 	void mvTextureStorage::show_debugger()
 	{
-		return;
 		ImGui::SetNextWindowSize(ImVec2(500, 500), ImGuiCond_FirstUseEver);
 		if (ImGui::Begin("Texture Storage"))
 		{

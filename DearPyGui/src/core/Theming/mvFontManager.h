@@ -19,13 +19,16 @@ namespace Marvel {
 
 	public:
 
+		static void InValidateFontTheme();
+
+	public:
+
 		mvFontManager();
 
 		void    addFont(const std::string& font, const std::string& file, int size);
 		ImFont* getFont(const std::string& font, int size);
 		void    rebuildAtlas();
-
-		bool rebuild = false;
+		bool    isInvalid() const;
 
 	private:
 
@@ -34,9 +37,10 @@ namespace Marvel {
 
 	private:
 
-		std::unordered_map<std::string, ImFont*> m_fonts;
-		std::unordered_map<std::string, int> m_fontSize;
+		std::unordered_map<std::string, ImFont*>     m_fonts;
+		std::unordered_map<std::string, int>         m_fontSize;
 		std::unordered_map<std::string, std::string> m_fontFile;
+		bool                                         m_dirty = false;
 
 	};
 

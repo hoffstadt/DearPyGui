@@ -178,10 +178,10 @@ namespace Marvel {
             id <MTLRenderCommandEncoder> m_renderEncoder = [commandBuffer renderCommandEncoderWithDescriptor:m_renderPassDescriptor];
             [m_renderEncoder pushDebugGroup:@"ImGui demo"];
 
-            if (mvApp::GetApp()->getFontManager().rebuild)
+            if (mvApp::GetApp()->getFontManager().isInvalid())
             {
 			    mvApp::GetApp()->getFontManager().rebuildAtlas();
-                ImGui_ImplMetal_DestroyDeviceObjects
+                ImGui_ImplMetal_DestroyDeviceObjects();
             }
 
             // Start the Dear ImGui frame

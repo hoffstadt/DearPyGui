@@ -7,28 +7,39 @@ namespace Marvel {
 
 	mvFontScope::mvFontScope(mvAppItem* item)
 	{
-		ImFont* font = item->getCachedFont();
 
-		if (!item->isThemeFontCacheValid())
+		if (item->isThemeFontCacheValid())
+		{
+			ImFont* font = item->getCachedFont();
+			if (font)
+			{
+				ImGui::PushFont(font);
+				m_valid = true;
+			}
+		}
+		else
 		{
 			// search through ancestor tree for font
+			ImFont* font = nullptr;
 			mvAppItem* widget = item;
+			font = widget->getCachedFont();
 			while (!widget->getDescription().root)
 			{
 				widget = widget->getParent();
 
-				if (widget->getCachedFont())
-				{
-					ImGui::PushFont(widget->getCachedFont());
+				if (font = widget->getCachedFont())
 					break;
-				}
+			}
+
+			if (font)
+			{
+				ImGui::PushFont(font);
+				item->setFont(font);
+				m_valid = true;
 			}
 
 			item->setThemeFontCacheValid();
 		}
-
-		if (font)
-			m_valid = true;
 
 	}
 

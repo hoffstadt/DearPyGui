@@ -1,5 +1,6 @@
 #include "Platform/Windows/mvWindowsWindow.h"
 #include "mvApp.h"
+#include "mvTextureStorage.h"
 #include "implot.h"
 #include "imnodes.h"
 #include <cstdlib>
@@ -128,7 +129,7 @@ namespace Marvel {
 			//continue;
 		}
 
-		if (mvApp::GetApp()->getFontManager().rebuild)
+		if (mvApp::GetApp()->getFontManager().isInvalid())
 		{
 			mvApp::GetApp()->getFontManager().rebuildAtlas();
 			ImGui_ImplDX11_InvalidateDeviceObjects();
@@ -138,6 +139,9 @@ namespace Marvel {
 		ImGui_ImplDX11_NewFrame();
 		ImGui_ImplWin32_NewFrame();
 		ImGui::NewFrame();
+
+		if(!mvApp::GetApp()->getTextureStorage().isValid())
+			mvApp::GetApp()->getTextureStorage().refreshAtlas();
 	}
 
 	void mvWindowsWindow::renderFrame()

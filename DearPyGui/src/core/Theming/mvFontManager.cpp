@@ -6,9 +6,22 @@
 #include "mvAppItem.h"
 #include "mvCore.h"
 #include "mvItemRegistry.h"
+#include "mvTextureStorage.h"
 #include "mvWindow.h"
 
 namespace Marvel {
+
+	void mvFontManager::InValidateFontTheme()
+	{
+		auto& frontWindows = mvApp::GetApp()->getItemRegistry().getFrontWindows();
+		auto& backWindows = mvApp::GetApp()->getItemRegistry().getBackWindows();
+
+		for (auto& window : frontWindows)
+			window->inValidateThemeFontCache();
+
+		for (auto& window : backWindows)
+			window->inValidateThemeFontCache();
+	}
 
 	mvFontManager::mvFontManager()
 	{
@@ -16,17 +29,20 @@ namespace Marvel {
 		mvEventBus::Subscribe(this, SID("set_font"), mvEVT_CATEGORY_THEMES);
 	}
 
+	bool mvFontManager::isInvalid() const
+	{
+		return m_dirty;
+	}
+
 	void mvFontManager::addFont(const std::string& font, const std::string& file, int size)
 	{
 		std::string key = font + std::to_string(size);
 
-		if (m_fonts.count(key) != 0)
-			delete m_fonts[key];
-
 		m_fonts[key] = nullptr;
 		m_fontFile[key] = file;
 		m_fontSize[key] = size;
-		rebuild = true;
+		m_dirty = true;
+		mvApp::GetApp()->getTextureStorage().scheduleRefresh();
 	}
 
 	ImFont* mvFontManager::getFont(const std::string& font, int size)
@@ -54,6 +70,8 @@ namespace Marvel {
 		}
 
 		io.Fonts->Build();
+		InValidateFontTheme();
+		m_dirty = false;
 	}
 
 	bool mvFontManager::onEvent(mvEvent& event)
@@ -72,6 +90,7 @@ namespace Marvel {
 		mvRef<mvAppItem> item = mvApp::GetApp()->getItemRegistry().getItem(widget);
 		if (item)
 		{
+			item->inValidateThemeFontCache();
 			item->setFont(getFont(font, size));
 		}
 		else

@@ -94,11 +94,14 @@ namespace Marvel {
 		// new debugger window
 		void show_debugger();
 		void refreshAtlas();
+		void scheduleRefresh() { m_dirty = true; }
+		bool isValid() const { return !m_dirty; }
 
 	private:
 		
 		std::unordered_map<std::string, mvTexture> m_textures;
 		std::vector<CompileTimeTexture>            m_delayedTextures;
+		bool                                       m_dirty = false;
 
 	};
 
