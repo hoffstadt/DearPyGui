@@ -189,6 +189,7 @@ build_script:
       if [ "$MACOS" = "" ]; then
           sudo apt-get update
           sudo apt-get install libglu1-mesa-dev libgl1-mesa-dev xorg-dev libxrandr-dev -y
+          sudo apt-get install libfreetype6-dev
       fi
 
   # Ubuntu & MacOS
