@@ -29,7 +29,7 @@ namespace Marvel {
 	        {mvPythonDataType::Bool, "borders_outerH", "Draw horizontal borders at the top and bottom.", "False"},
 	        {mvPythonDataType::Bool, "borders_innerV", "Draw vertical borders between columns.", "False"},
 	        {mvPythonDataType::Bool, "borders_outerV", "Draw vertical borders on the left and right sides.", "False"},
-	        {mvPythonDataType::Integer, "policy", "sizing policy", "8192"},
+	        {mvPythonDataType::Integer, "policy", "sizing policy", "0"},
 			{mvPythonDataType::Bool, "no_host_extendX", "Make outer width auto-fit to columns, overriding outer_size.x value. Only available when ScrollX/ScrollY are disabled and Stretch columns are not used.", "False"},
 			{mvPythonDataType::Bool, "no_host_extendY", "Make outer height stop exactly at outer_size.y (prevent auto-extending table past the limit). Only available when ScrollX/ScrollY are disabled. Data below the limit will be clipped and not visible.", "False"},
 			{mvPythonDataType::Bool, "no_keep_columns_visible", "Disable keeping column always minimally visible when ScrollX is off and table gets too small. Not recommended if columns are resizable.", "False"},
@@ -173,7 +173,7 @@ namespace Marvel {
 
 	void mvTableColumn::draw()
 	{
-		ImGui::TableSetupColumn(m_core_config.name.c_str());
+		ImGui::TableSetupColumn(m_core_config.name.c_str(), m_flags, m_init_width_or_weight);
 	}
 
 	bool mvTableColumn::isParentCompatible(mvAppItemType type)
@@ -230,7 +230,7 @@ namespace Marvel {
 		int borders_outerH = false;
 		int borders_innerV = false;
 		int borders_outerV = false;
-		int policy = 8192;
+		int policy = 0;
 		int no_host_extendX = false;
 		int no_host_extendY = false;
 		int no_keep_columns_visible = false; 
@@ -311,7 +311,8 @@ namespace Marvel {
 
 
 		if (!(mvApp::GetApp()->getParsers())["add_table_column"].parse(args, kwargs, __FUNCTION__,
-			&name, &init_width_or_weight, &show, &parent, &before,
+			&name,
+			&init_width_or_weight, &show, &parent, &before,
 			&default_hide,
 		    &default_sort,
 		    &width_stretch,
@@ -401,6 +402,27 @@ namespace Marvel {
 		flagop("no_pad_innerX", ImGuiTableFlags_NoPadInnerX, m_flags);
 		flagop("scrollX", ImGuiTableFlags_ScrollX, m_flags);
 		flagop("scrollY", ImGuiTableFlags_ScrollY, m_flags);
+
+		if (PyObject* item = PyDict_GetItemString(dict, "policy"))
+		{
+			int policy = ToInt(item);
+
+			// remove old flags
+			m_flags &= ~ImGuiTableFlags_SizingFixedFit;
+			m_flags &= ~ImGuiTableFlags_SizingFixedSame;
+			m_flags &= ~ImGuiTableFlags_SizingStretchProp;
+			m_flags &= ~ImGuiTableFlags_SizingStretchSame;
+
+			if (policy == ImGuiTableFlags_SizingFixedFit)
+				m_flags |= ImGuiTableFlags_SizingFixedFit;
+			else if(policy == ImGuiTableFlags_SizingFixedSame)
+				m_flags |= ImGuiTableFlags_SizingFixedSame;
+			else if (policy == ImGuiTableFlags_SizingStretchProp)
+				m_flags |= ImGuiTableFlags_SizingStretchProp;
+			else
+				m_flags |= ImGuiTableFlags_SizingStretchSame;
+
+		}
 }
 
 	void mvTable::getExtraConfigDict(PyObject* dict)
@@ -437,6 +459,15 @@ namespace Marvel {
 		checkbitset("no_pad_innerX", ImGuiTableFlags_NoPadInnerX, m_flags);
 		checkbitset("scrollX", ImGuiTableFlags_ScrollX, m_flags);
 		checkbitset("scrollY", ImGuiTableFlags_ScrollY, m_flags);
+		
+		if(m_flags & ImGuiTableFlags_SizingFixedFit)
+			PyDict_SetItemString(dict, "policy", ToPyInt(ImGuiTableFlags_SizingFixedFit));
+		else if (m_flags & ImGuiTableFlags_SizingFixedSame)
+			PyDict_SetItemString(dict, "policy", ToPyInt(ImGuiTableFlags_SizingFixedSame));
+		else if (m_flags & ImGuiTableFlags_SizingStretchProp)
+			PyDict_SetItemString(dict, "policy", ToPyInt(ImGuiTableFlags_SizingStretchProp));
+		else if (m_flags & ImGuiTableFlags_SizingStretchSame)
+			PyDict_SetItemString(dict, "policy", ToPyInt(ImGuiTableFlags_SizingStretchSame));
 	}
 
 	void mvTableColumn::setExtraConfigDict(PyObject* dict)
