@@ -53,11 +53,11 @@ namespace Marvel {
 	PyObject* enable_docking           (PyObject* self, PyObject* args, PyObject* kwargs);
 	
 	// main viewport
-	PyObject* set_main_window_pos      (PyObject* self, PyObject* args, PyObject* kwargs);
-	PyObject* set_main_window_title    (PyObject* self, PyObject* args, PyObject* kwargs);
-	PyObject* set_main_window_resizable(PyObject* self, PyObject* args, PyObject* kwargs);
-	PyObject* get_main_window_size     (PyObject* self, PyObject* args, PyObject* kwargs);
-	PyObject* set_main_window_size     (PyObject* self, PyObject* args, PyObject* kwargs);
+	PyObject* set_viewport_pos      (PyObject* self, PyObject* args, PyObject* kwargs);
+	PyObject* set_viewport_title    (PyObject* self, PyObject* args, PyObject* kwargs);
+	PyObject* set_viewport_resizable(PyObject* self, PyObject* args, PyObject* kwargs);
+	PyObject* get_viewport_size     (PyObject* self, PyObject* args, PyObject* kwargs);
+	PyObject* set_viewport_size     (PyObject* self, PyObject* args, PyObject* kwargs);
 	PyObject* set_primary_window       (PyObject* self, PyObject* args, PyObject* kwargs);
 
     // timing

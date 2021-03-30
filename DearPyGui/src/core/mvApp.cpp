@@ -378,18 +378,18 @@ namespace Marvel {
 		parsers->insert({ "is_dearpygui_running", mvPythonParser({
 		}, "Checks if dearpygui is still running", "bool") });
 
-		parsers->insert({ "set_main_window_title", mvPythonParser({
+		parsers->insert({ "set_viewport_title", mvPythonParser({
 			{mvPythonDataType::String, "title"}
-		}, "Sets the title of the main window.") });
+		}, "Sets the title of the viewport.") });
 
-		parsers->insert({ "set_main_window_resizable", mvPythonParser({
+		parsers->insert({ "set_viewport_resizable", mvPythonParser({
 			{mvPythonDataType::Bool, "resizable"}
-		}, "Sets the main window to be resizable.") });
+		}, "Sets the viewport to be resizable.") });
 
-		parsers->insert({ "set_main_window_pos", mvPythonParser({
+		parsers->insert({ "set_viewport_pos", mvPythonParser({
 			{mvPythonDataType::Integer, "x"},
 			{mvPythonDataType::Integer, "y"},
-		}, "Sets the main window position.") });
+		}, "Sets the viewport position.") });
 
 		parsers->insert({ "setup_dearpygui", mvPythonParser({
 		}, "Sets up DearPyGui for user controlled rendering. Only call once and you must call cleanup_deapygui when finished.") });
@@ -399,11 +399,6 @@ namespace Marvel {
 
 		parsers->insert({ "cleanup_dearpygui", mvPythonParser({
 		}, "Cleans up DearPyGui after calling setup_dearpygui.") });
-
-		parsers->insert({ "start_dearpygui", mvPythonParser({
-			{mvPythonDataType::KeywordOnly},
-			{mvPythonDataType::String, "primary_window", "Window that will expand into viewport.", "''"},
-		}, "Starts DearPyGui.") });
 
 		parsers->insert({ "stop_dearpygui", mvPythonParser({
 		}, "Stops DearPyGui.") });
@@ -421,8 +416,8 @@ namespace Marvel {
 		parsers->insert({ "get_delta_time", mvPythonParser({
 		}, "Returns time since last frame.", "float") });
 
-		parsers->insert({ "get_main_window_size", mvPythonParser({
-		}, "Returns the size of the main window.", "[int, int]") });
+		parsers->insert({ "get_viewport_size", mvPythonParser({
+		}, "Returns the size of the viewport.", "[int, int]") });
 
 		parsers->insert({ "get_active_window", mvPythonParser({
 		}, "Returns the active window name.", "str") });
@@ -430,10 +425,10 @@ namespace Marvel {
 		parsers->insert({ "get_dearpygui_version", mvPythonParser({
 		}, "Returns the current version of Dear PyGui.", "str") });
 
-		parsers->insert({ "set_main_window_size", mvPythonParser({
+		parsers->insert({ "set_viewport_size", mvPythonParser({
 			{mvPythonDataType::Integer, "width"},
 			{mvPythonDataType::Integer, "height"}
-		}, "Sets the main window size.") });
+		}, "Sets the viewport size.") });
 
 		parsers->insert({ "set_primary_window", mvPythonParser({
 			{mvPythonDataType::String, "window"},
@@ -470,11 +465,11 @@ namespace Marvel {
 		return ToPyBool(mvApp::IsAppStarted());
 	}
 
-	PyObject* set_main_window_title(PyObject* self, PyObject* args, PyObject* kwargs)
+	PyObject* set_viewport_title(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		const char* title;
 
-		if (!(mvApp::GetApp()->getParsers())["set_main_window_title"].parse(args, kwargs, __FUNCTION__,
+		if (!(mvApp::GetApp()->getParsers())["set_viewport_title"].parse(args, kwargs, __FUNCTION__,
 			&title))
 			return GetPyNone();
 
@@ -489,12 +484,12 @@ namespace Marvel {
 		return GetPyNone();
 	}
 
-	PyObject* set_main_window_pos(PyObject* self, PyObject* args, PyObject* kwargs)
+	PyObject* set_viewport_pos(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		int x;
 		int y;
 
-		if (!(mvApp::GetApp()->getParsers())["set_main_window_pos"].parse(args, kwargs, __FUNCTION__,
+		if (!(mvApp::GetApp()->getParsers())["set_viewport_pos"].parse(args, kwargs, __FUNCTION__,
 			&x, &y))
 			return GetPyNone();
 
@@ -504,11 +499,11 @@ namespace Marvel {
 		return GetPyNone();
 	}
 
-	PyObject* set_main_window_resizable(PyObject* self, PyObject* args, PyObject* kwargs)
+	PyObject* set_viewport_resizable(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		int resizable = true;
 
-		if (!(mvApp::GetApp()->getParsers())["set_main_window_resizable"].parse(args, kwargs, __FUNCTION__,
+		if (!(mvApp::GetApp()->getParsers())["set_viewport_resizable"].parse(args, kwargs, __FUNCTION__,
 			&resizable))
 			return GetPyNone();
 
@@ -644,7 +639,7 @@ namespace Marvel {
 
 	}
 
-	PyObject* get_main_window_size(PyObject* self, PyObject* args, PyObject* kwargs)
+	PyObject* get_viewport_size(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		std::lock_guard<std::mutex> lk(mvApp::GetApp()->getMutex());
 		return ToPyPairII(mvApp::GetApp()->getActualWidth(), mvApp::GetApp()->getActualHeight());
@@ -661,12 +656,12 @@ namespace Marvel {
 		return ToPyString(mvApp::GetApp()->GetVersion());
 	}
 
-	PyObject* set_main_window_size(PyObject* self, PyObject* args, PyObject* kwargs)
+	PyObject* set_viewport_size(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		int width;
 		int height;
 
-		if (!(mvApp::GetApp()->getParsers())["set_main_window_size"].parse(args, kwargs, __FUNCTION__, &width, &height))
+		if (!(mvApp::GetApp()->getParsers())["set_viewport_size"].parse(args, kwargs, __FUNCTION__, &width, &height))
 			return GetPyNone();
 
 

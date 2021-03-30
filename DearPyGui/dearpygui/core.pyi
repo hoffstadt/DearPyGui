@@ -646,10 +646,6 @@ def get_log_level(*, logger: str = '') -> int:
 	"""Returns the log level."""
 	...
 
-def get_main_window_size() -> [int, int]:
-	"""Returns the size of the main window."""
-	...
-
 def get_mouse_drag_delta() -> (float, float):
 	"""Returns the current mouse drag delta in pixels"""
 	...
@@ -688,6 +684,10 @@ def get_total_time() -> float:
 
 def get_value(name: str) -> Any:
 	"""Returns an item's value or None if there is none."""
+	...
+
+def get_viewport_size() -> [int, int]:
+	"""Returns the size of the viewport."""
 	...
 
 def get_windows() -> List[str]:
@@ -862,7 +862,7 @@ def set_exit_callback(callback: Any) -> None:
 	"""Callback to run when exiting main window."""
 	...
 
-def set_font(font: str, size: int, *, item: str = ) -> None:
+def set_font(font: str, size: int, *, item: str = '') -> None:
 	"""Adds additional font."""
 	...
 
@@ -928,22 +928,6 @@ def set_log_level(level: int, *, logger: str = '') -> None:
 
 def set_logger_window_title(title: str) -> None:
 	"""Sets the title of the logger window."""
-	...
-
-def set_main_window_pos(x: int, y: int) -> None:
-	"""Sets the main window position."""
-	...
-
-def set_main_window_resizable(resizable: bool) -> None:
-	"""Sets the main window to be resizable."""
-	...
-
-def set_main_window_size(width: int, height: int) -> None:
-	"""Sets the main window size."""
-	...
-
-def set_main_window_title(title: str) -> None:
-	"""Sets the title of the main window."""
 	...
 
 def set_mouse_click_callback(callback: Callable) -> None:
@@ -1022,6 +1006,22 @@ def set_value(name: str, value: Any) -> bool:
 	"""Sets an item's value if applicable."""
 	...
 
+def set_viewport_pos(x: int, y: int) -> None:
+	"""Sets the viewport position."""
+	...
+
+def set_viewport_resizable(resizable: bool) -> None:
+	"""Sets the viewport to be resizable."""
+	...
+
+def set_viewport_size(width: int, height: int) -> None:
+	"""Sets the viewport size."""
+	...
+
+def set_viewport_title(title: str) -> None:
+	"""Sets the title of the viewport."""
+	...
+
 def set_vsync(value: bool) -> None:
 	"""Sets vsync on or off."""
 	...
@@ -1044,10 +1044,6 @@ def show_item(name: str) -> None:
 
 def show_logger() -> None:
 	"""Shows the logging window. The Default log level is Trace"""
-	...
-
-def start_dearpygui(*, primary_window: str = '') -> None:
-	"""Starts DearPyGui."""
 	...
 
 def stop_dearpygui() -> None:
