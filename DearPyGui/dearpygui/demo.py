@@ -788,10 +788,10 @@ def show_demo():
         with collapsing_header("Tables##demo"):
 
             with tree_node("Basic##columns##demo"):
-                add_text("Without border:")
+                add_text("With border:")
 
                 with table("columns1##demo", hideable=True, resizable=True, row_background=True, borders_innerH=True,
-                          borders_outerH=True):
+                          borders_innerV=True, borders_outerH=True, borders_outerV=True):
                     add_table_column("Header 1##democolumns1")
                     add_table_column("Header 2##democolumns1")
                     add_table_column("Header 3##democolumns1")
@@ -801,7 +801,7 @@ def show_demo():
                         add_selectable(f"Item {i}##columns1##demo")
                         add_table_next_column()
 
-                add_text("With border:")
+                add_text("Without border:")
                 with table("columns2##demo"):
                     add_table_column("Header 1##democolumns2")
                     add_table_column("Header 2##democolumns2")
@@ -834,7 +834,7 @@ def show_demo():
                     add_table_next_column()
                     add_text("0")
  
-            with tree_node("Borders##columns##demo"):
+            with tree_node("Advanced##columns##demo"):
 
                 with table("Columns3##demo"):
                     add_table_column("Columns3##demo1")

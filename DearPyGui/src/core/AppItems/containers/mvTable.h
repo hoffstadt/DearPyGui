@@ -97,7 +97,18 @@ namespace Marvel {
 	{
 		MV_APPITEM_TYPE(mvAppItemType::mvTable, "add_table")
 
+		MV_CREATE_THEME_CONSTANT(mvThemeCol_TableHeaderBg,		44L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeCol_TableBorderStrong,	45L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeCol_TableBorderLight,	46L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeCol_TableRowBg,			47L, 0L);
+		MV_CREATE_THEME_CONSTANT(mvThemeCol_TableRowBgAlt,		48L, 0L);
+
 		MV_START_COLOR_CONSTANTS
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_TableHeaderBg,		mvColor( 48,  48,  51, 255)),
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_TableBorderStrong,	mvColor( 79,  79,  89, 255)),
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_TableBorderLight,	mvColor( 59,  59,  64, 255)),
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_TableRowBg,			mvColor(  0,   0,   0,   0)),
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_TableRowBgAlt,		mvColor(255, 255, 255,  15))
 		MV_END_COLOR_CONSTANTS
 
 		MV_START_STYLE_CONSTANTS
