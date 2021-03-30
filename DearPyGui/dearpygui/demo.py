@@ -791,70 +791,166 @@ def show_demo():
 
         with collapsing_header("Tables##demo"):
 
-            with tree_node("Basic##columns##demo"):
-                add_text("With border:")
+            with tree_node("Basic##tables##demo"):
 
-                with table("columns1##demo", hideable=True, resizable=True, row_background=True, borders_innerH=True,
-                          borders_innerV=True, borders_outerH=True, borders_outerV=True):
+                # basic usage of the table api
+                with table("table1##demo", header_row=False):
+
+                    # use add_table_column to add columns to the table
                     add_table_column("Header 1##democolumns1")
                     add_table_column("Header 2##democolumns1")
                     add_table_column("Header 3##democolumns1")
-                    add_table_column("Header 4##democolumns1")
 
-                    for i in range(0, 14):
-                        add_selectable(f"Item {i}##columns1##demo")
-                        add_table_next_column()
+                    # add_table_next_column will jump to the next row
+                    # once it reaches the end of the columns
+                    for i in range(0, 4):
+                        for j in range(0, 3):
+                            add_text(f"Row{i} Column{j}")
+                            if not (i == 3 and j == 2):
+                                add_table_next_column()
 
-                add_text("Without border:")
-                with table("columns2##demo"):
+            with tree_node("Borders, background##tables##demo"):
+
+                add_checkbox("row_background##tables2##demo", default_value=True, callback=lambda sender:configure_item("table2##demo", row_background=get_value(sender)))
+                add_checkbox("borders_innerH##tables2##demo", default_value=True, callback=lambda sender:configure_item("table2##demo", borders_innerH=get_value(sender)))
+                add_checkbox("borders_innerV##tables2##demo", default_value=True, callback=lambda sender:configure_item("table2##demo", borders_innerV=get_value(sender)))
+                add_checkbox("borders_outerH##tables2##demo", default_value=True, callback=lambda sender:configure_item("table2##demo", borders_outerH=get_value(sender)))
+                add_checkbox("borders_outerV##tables2##demo", default_value=True, callback=lambda sender:configure_item("table2##demo", borders_outerV=get_value(sender)))
+                add_checkbox("header_row##tables2##demo", default_value=False, callback=lambda sender:configure_item("table2##demo", header_row=get_value(sender)))
+
+                with table("table2##demo", header_row=False, row_background=True,
+                          borders_innerH=True, borders_outerH=True, borders_innerV=True,
+                           borders_outerV=True):
                     add_table_column("Header 1##democolumns2")
                     add_table_column("Header 2##democolumns2")
                     add_table_column("Header 3##democolumns2")
-                    add_table_column("Header 4##democolumns2")
- 
-                    add_selectable("0000##demo", span_columns=False)
-                    add_table_next_column()
-                    add_text("One")
-                    add_table_next_column()
-                    add_text("/path/one")
-                    add_table_next_column()
-                    add_text("0")
-                    add_table_next_column()
 
-                    add_selectable("0001##demo", span_columns=True)
-                    add_table_next_column()
-                    add_text("Two")
-                    add_table_next_column()
-                    add_text("/path/two")
-                    add_table_next_column()
-                    add_text("0")
-                    add_table_next_column()
+                    for i in range(0, 5):
+                        for j in range(0, 3):
+                            add_text(f"Row{i} Column{j}")
+                            if not (i == 4 and j == 2):
+                                add_table_next_column()
 
-                    add_selectable("0003##demo", span_columns=True)
-                    add_table_next_column()
-                    add_text("Three")
-                    add_table_next_column()
-                    add_text("/path/three")
-                    add_table_next_column()
-                    add_text("0")
- 
-            with tree_node("Advanced##columns##demo"):
+            with tree_node("Resizable, stretch##tables##demo"):
 
-                with table("Columns3##demo"):
-                    add_table_column("Columns3##demo1")
-                    add_table_column("Columns3##demo2")
-                    add_table_column("Columns3##demo3")
-                    add_table_column("Columns3##demo4")
+                add_checkbox("borders_innerV##tables3##demo", default_value=True, callback=lambda sender:configure_item("table3##demo", borders_innerV=get_value(sender)))
+                add_checkbox("borders_outerV##tables3##demo", default_value=True, callback=lambda sender:configure_item("table3##demo", borders_outerV=get_value(sender)))
+                add_checkbox("resizable##tables3##demo", default_value=True, callback=lambda sender:configure_item("table3##demo", resizable=get_value(sender)))
 
-                    def replicated_cell(i):
-                        with group(f"replicated_group##{i}##demo"):
-                            add_text(f"aaa##{i}")
-                            add_input_text(f"##inputcolumns{i}")
-                            add_button(f"Button##repl{i}##demo")
+                with table("table3##demo", header_row=False, resizable=True,
+                           borders_outerH=True, borders_innerV=True, borders_outerV=True):
+                    add_table_column("Header 1##democolumns3")
+                    add_table_column("Header 2##democolumns3")
+                    add_table_column("Header 3##democolumns3")
 
-                    for i in range(0, 12):
-                        replicated_cell(i)
-                        add_table_next_column()
+                    for i in range(0, 5):
+                        for j in range(0, 3):
+                            add_text(f"Row{i} Column{j}")
+                            if not (i == 4 and j == 2):
+                                add_table_next_column()
+
+            with tree_node("Resizable, fixed##tables##demo"):
+
+                add_checkbox("no_host_extendX##tables3##demo", callback=lambda sender:configure_item("table4##demo", no_host_extendX=get_value(sender)))
+
+                with table("table4##demo", header_row=False, policy=8192, resizable=True, no_host_extendX=False, 
+                           borders_innerV=True, borders_outerV=True,borders_outerH=True):
+                    add_table_column("Header 1##democolumns4")
+                    add_table_column("Header 2##democolumns4")
+                    add_table_column("Header 3##democolumns4")
+
+                    for i in range(0, 5):
+                        for j in range(0, 3):
+                            add_text(f"Row{i} Column{j}")
+                            if not (i == 4 and j == 2):
+                                add_table_next_column()
+
+            with tree_node("Resizable, mixed##tables##demo"):
+
+                with table("table5##demo", header_row=True, policy=8192, row_background=True, reorderable=True, 
+                           resizable=True, no_host_extendX=False, hideable=True, 
+                           borders_innerV=True, borders_outerV=True, borders_innerH=True, borders_outerH=True):
+                    add_table_column("AAA##democolumns5", width_fixed=True)
+                    add_table_column("BBB##democolumns5", width_fixed=True)
+                    add_table_column("CCC##democolumns5", width_stretch=True, init_width_or_weight=0.0)
+
+                    for i in range(0, 5):
+                        for j in range(0, 3):
+                            if j == 2:
+                                add_text(f"Stretch {i}, {j}")
+                            else:
+                                add_text(f"Fixed {i}, {j}")
+                            if not (i == 4 and j == 2):
+                                add_table_next_column()
+
+                with table("table6##demo", header_row=True, policy=8192, row_background=True, reorderable=True, 
+                           resizable=True, no_host_extendX=False, hideable=True, 
+                           borders_innerV=True, borders_outerV=True, borders_innerH=True, borders_outerH=True):
+                    add_table_column("AAA##democolumns6", width_fixed=True)
+                    add_table_column("BBB##democolumns6", width_fixed=True)
+                    add_table_column("CCC##democolumns6", width_stretch=True, init_width_or_weight=0.0)
+                    add_table_column("DDD##democolumns6", width_stretch=True, init_width_or_weight=0.0)
+
+                    for i in range(0, 5):
+                        for j in range(0, 4):
+                            if j == 2 or j == 3:
+                                add_text(f"Stretch {i},{j}")
+                            else:
+                                add_text(f"Fixed {i}, {j}")
+                            if not (i == 4 and j == 3):
+                                add_table_next_column()
+                              
+            with tree_node("Reorderable, hideable, with headers##tables##demo"):
+
+                add_checkbox("hideable##tables7##demo", default_value=True, callback=lambda sender:configure_item("table7##demo", hideable=get_value(sender)))
+                add_checkbox("reorderable##tables7##demo", default_value=True, callback=lambda sender:configure_item("table7##demo", reorderable=get_value(sender)))
+                add_checkbox("resizable##tables7##demo", default_value=True, callback=lambda sender:configure_item("table7##demo", resizable=get_value(sender)))
+
+                with table("table7##demo", header_row=True, resizable=True,
+                           hideable=True, reorderable=True):
+                    add_table_column("One##democolumns7")
+                    add_table_column("Two##democolumns7")
+                    add_table_column("three##democolumns7")
+
+                    for i in range(0, 5):
+                        for j in range(0, 3):
+                            add_text(f"Hello {i}, {j}")
+                            if not (i == 4 and j == 2):
+                                add_table_next_column()
+
+            with tree_node("Outer Size##tables##demo"):
+
+                add_checkbox("no_host_extendX##tables8##demo", default_value=True, callback=lambda sender:configure_item("table8##demo", no_host_extendX=get_value(sender)))
+                add_checkbox("no_host_extendY##tables8##demo", default_value=False, callback=lambda sender:configure_item("table8##demo", no_host_extendY=get_value(sender)))
+
+                with table("table8##demo", header_row=False, no_host_extendX=True,
+                           borders_innerH=True, borders_outerH=True, borders_innerV=True,
+                           borders_outerV=True, context_menu_in_body=True, row_background=True,
+                           policy=8192, height=150):
+                    add_table_column("One##democolumns8")
+                    add_table_column("Two##democolumns8")
+                    add_table_column("three##democolumns8")
+
+                    for i in range(0, 10):
+                        for j in range(0, 3):
+                            add_text(f"Cell {i}, {j}")
+                            if not (i == 9 and j == 2):
+                                add_table_next_column()
+
+                add_text("Using explicit size:")
+                with table("table9##demo", header_row=False, no_host_extendX=True,
+                           borders_innerH=True, borders_outerH=True, borders_innerV=True,
+                           borders_outerV=True, context_menu_in_body=True, row_background=True,
+                           policy=8192, height=0, width=300):
+                    add_table_column("One##democolumns9")
+                    add_table_column("Two##democolumns9")
+                    add_table_column("three##democolumns9")
+
+                    for i in range(0, 6):
+                        for j in range(0, 3):
+                            add_text(f"Cell {i}, {j}")
+                            if not (i == 9 and j == 2):
+                                add_table_next_column()
        
         with collapsing_header("Drawings##demo"):
 
