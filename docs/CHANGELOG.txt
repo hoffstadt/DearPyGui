@@ -59,6 +59,13 @@ Breaking Changes:
 - removed command: set_headers
 - removed command: add_additional_font
 - removed command: add_character_remap
+- removed command: get_main_window_size
+- removed command: get_main_window_size
+- removed command: set_main_window_size
+- removed command: set_main_window_pos
+- removed command: get_main_window_pos
+- removed command: set_main_window_resizable
+- removed command: set_main_window_title
 
 New Keywords:
 - add_window: Added "min_size" keyword #700
@@ -82,6 +89,13 @@ New Commands:
 - set_grid_selection
 - set_font
 - add_font
+- removed command: get_viewport_size
+- removed command: get_viewport_size
+- removed command: set_viewport_size
+- removed command: set_viewport_pos
+- removed command: get_viewport_pos
+- removed command: set_viewport_resizable
+- removed command: set_viewport_title
 
 
 Updates:

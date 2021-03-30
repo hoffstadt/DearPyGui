@@ -362,7 +362,7 @@ namespace Marvel {
 			{mvPythonDataType::String, "font", "ttf or otf file"},
 			{mvPythonDataType::Integer, "size", "ttf or otf file"},
 			{mvPythonDataType::KeywordOnly},
-			{mvPythonDataType::String, "item", "", ""},
+			{mvPythonDataType::String, "item", "", "''"},
 		}, "Adds additional font.", "None", "Themes and Styles") });
 
 	}
