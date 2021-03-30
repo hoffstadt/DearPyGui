@@ -21,7 +21,7 @@ namespace Marvel {
 			m_markerOutlineColor(markerOutlineColor),
 			m_markerFillColor(markerFillColor)
 		{
-			mvThemeManager::decodelibID(m_marker, (int*)&m_marker);
+			DecodelibID(m_marker, (int*)&m_marker);
 		}
 
 		mvSeriesType getSeriesType() override { return mvSeriesType::Scatter; }

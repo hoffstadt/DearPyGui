@@ -1,5 +1,6 @@
 #include <utility>
 #include "mvButton.h"
+#include "mvCore.h"
 #include "mvApp.h"
 #include "mvItemRegistry.h"
 #include "mvImGuiThemeScope.h"
@@ -121,9 +122,13 @@ namespace Marvel {
 
 		if (PyObject* item = PyDict_GetItemString(dict, "small")) m_config.small_button = ToBool(item);
 		if (PyObject* item = PyDict_GetItemString(dict, "arrow")) m_config.arrow = ToBool(item);
-		if (PyObject* item = PyDict_GetItemString(dict, "direction")) m_config.direction = ToInt(item);
 
-		mvThemeManager::decodelibID(m_config.direction, (int*)&m_config.direction);
+		if (PyObject* item = PyDict_GetItemString(dict, "direction"))
+		{
+			m_config.direction = ToInt(item);
+			DecodelibID(m_config.direction, &m_config.direction);
+		}
+
 	}
 
 	void mvButton::getExtraConfigDict(PyObject* dict)
@@ -133,7 +138,7 @@ namespace Marvel {
 
 		PyDict_SetItemString(dict, "small", ToPyBool(m_config.small_button));
 		PyDict_SetItemString(dict, "arrow", ToPyBool(m_config.arrow));
-		PyDict_SetItemString(dict, "direction", ToPyInt(m_config.direction));
+		PyDict_SetItemString(dict, "direction", ToPyInt(MV_ENCODE_CONSTANT(m_config.direction, 0)));
 	}
 
 
@@ -142,7 +147,7 @@ namespace Marvel {
 		const char* name;
 		int smallb = false;
 		int arrow = false;
-		int direction = 2;
+		int direction = 4000;
 		PyObject* callback = nullptr;
 		PyObject* callback_data = nullptr;
 		int width = 0;

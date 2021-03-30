@@ -24,4 +24,5 @@ std::string getParserCommand() const override { return parser; }
 #define MV_CREATE_CONSTANT_SINGLE(x) {#x, x}
 #define MV_CREATE_CONSTANT_PAIR(x, y) {#x, x, y, y}
 #define MV_CREATE_CONSTANT_TUPLE(x, y, z) {#x, x, y, z}
-#define MV_CREATE_THEME_CONSTANT(y, z, i) static constexpr const long y = s_internal_type*1000L+z*10L+i;
+#define MV_ENCODE_CONSTANT(z, i) s_internal_type*1000L+z*10L+i
+#define MV_CREATE_THEME_CONSTANT(y, z, i) static constexpr const long y = MV_ENCODE_CONSTANT(z, i);

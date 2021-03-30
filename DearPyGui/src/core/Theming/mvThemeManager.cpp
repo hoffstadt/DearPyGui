@@ -35,19 +35,6 @@ namespace Marvel {
 			window->inValidateThemeStyleCache();
 	}
 
-	void mvThemeManager::decodeType(long encoded_constant, mvAppItemType* type)
-	{
-		*type = (mvAppItemType)(encoded_constant / 1000);
-	}
-	void mvThemeManager::decodelibID(long encoded_constant, int* libID)
-	{
-		*libID = (int)((encoded_constant / 10) % 100);
-	}
-	int mvThemeManager::decodeIndex(long encoded_constant)
-	{
-		return (int)(encoded_constant % 10);
-	}
-
 	mvThemeManager::mvThemeManager()
 	{
 		mvEventBus::Subscribe(this, SID("color_change"), mvEVT_CATEGORY_THEMES);
@@ -71,7 +58,7 @@ namespace Marvel {
 	{
 		static mvAppItemType type;
 		long mvThemeConstant = GetELong(event, "ID");
-		decodeType(mvThemeConstant, &type);
+		DecodeType(mvThemeConstant, &type);
 		mvColor color = GetEColor(event, "COLOR");
 		const std::string& widget = GetEString(event, "WIDGET");
 		bool enabled = GetEBool(event, "ENABLED");
@@ -118,7 +105,7 @@ namespace Marvel {
 	{
 		static mvAppItemType type;
 		long mvThemeConstant = GetELong(event, "ID");
-		decodeType(mvThemeConstant, &type);
+		DecodeType(mvThemeConstant, &type);
 		float style = GetEFloat(event, "STYLE");
 		const std::string& widget = GetEString(event, "WIDGET");
 
