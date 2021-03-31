@@ -29,6 +29,8 @@ HOW TO UPDATE?
 Decorated log: https://github.com/hoffstadt/DearPyGui/releases/tag/v0.7.x
 
 Breaking Changes:
+- add_image: image and name keyword order swapped
+- add_image_button: image and name keyword order swapped
 - modified command: add_menu_item - when used with checkmark it will no longer disable other sibling menui items checkmarks
 - removed command: decref_value
 - removed command: incref_value
@@ -101,6 +103,8 @@ New Commands:
 
 
 Updates:
+- item name is now optional
+- widget adding functions return ID
 - fonts: replaced truetype with free type 2.10.4
 - imgui: updated to v1.82
 - imfiledialog: updated to v0.5.5
