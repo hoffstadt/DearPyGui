@@ -74,13 +74,16 @@ jobs:
 
     - name: Retrieve submodules
       run: git submodule update --init --recursive
-    
-    - name: Build Python
+
+    - name: Install Dependencies
       run: |
         sudo apt-get update
         sudo apt-get install libgl1-mesa-dev
         sudo apt-get install xorg-dev
         sudo apt-get install libfreetype6-dev
+    
+    - name: Build Python
+      run: |
         cd Dependencies/cpython
         mkdir debug
         cd debug
