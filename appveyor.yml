@@ -130,48 +130,6 @@ matrix:
 stack:
   python %PYSTACK%
 
-#install:
-
-  # Ubuntu Only - Build Python(s) since AppVeyor forgot --enable-shared flag
-  #- sh: |
-  #     if [ "$MACOS" = "" ]; then
-  #         command -v virtualenv || install_virtualenv
-  #         VENV_PATH=${HOME}/venv${PYFULLVERSION%%[abrcf]*}
-  #         VENV_MINOR_PATH=${HOME}/venv${PYFULLVERSION%.*}
-  #         if [ -d ${VENV_PATH} ]; then
-  #             { echo "[WARNING] Python version exists, deleting ${PYFULLVERSION}."; }
-  #             rm -r ${VENV_PATH}
-  #             rm -r ${VENV_MINOR_PATH}
-  #         fi
-  #         if [ ! -d ${VENV_PATH} ]; then
-  #         curl -fsSL -O "http://www.python.org/ftp/python/${PYFULLVERSION%%[abrcf]*}/Python-${PYFULLVERSION}.tgz" ||
-  #             { echo "[WARNING] Cannot download Python ${PYFULLVERSION}."; continue; }
-  #         tar -zxf "Python-${PYFULLVERSION}.tgz" &&
-  #         pushd "Python-${PYFULLVERSION}" ||
-  #             { echo "[WARNING] Cannot unpack Python ${PYFULLVERSION}."; continue; }
-  #         PY_PATH=${HOME}/.localpython${PYFULLVERSION}
-  #         mkdir -p "${PY_PATH}"
-  #         ./configure --enable-shared --silent "--prefix=${PY_PATH}" &&
-  #         make --silent &&
-  #         make install --silent >/dev/null ||
-  #             { echo "[WARNING] Cannot make Python ${PYFULLVERSION}."; popd; continue; }
-  #         if [ ${PYFULLVERSION:0:1} -eq 3 ]; then
-  #             PY_BIN=python3
-  #         else
-  #             PY_BIN=python
-  #         fi
-  #         virtualenv -p "$PY_PATH/bin/${PY_BIN}" "${VENV_PATH}" ||
-  #             { echo "[WARNING] Can't make virtualenv for Python ${PYFULLVERSION}."; popd; continue; }
-  #         popd
-  #         echo "Linking ${VENV_MINOR_PATH} to ${VENV_PATH}"
-  #         rm -f ${VENV_MINOR_PATH}
-  #         ln -s ${VENV_PATH} ${VENV_MINOR_PATH}
-  #         fi
-  #         find "${HOME}" -name "Python-*" -type d -maxdepth 1 | xargs -I {} rm -rf {}
-  #         sudo sh -c "echo ${PY_PATH}/lib/ >> /etc/ld.so.conf"
-  #         sudo ldconfig -v
-  #     fi
-  #
 # actual build
 build_script:
   
@@ -201,7 +159,12 @@ build_script:
   - sh: git submodule update --init --recursive ./Dependencies/glfw
   - sh: mkdir cmake-build-release
   - sh: cd cmake-build-release
-  - sh: cmake .. -DMVDIST_ONLY=True -DMVPY_VERSION=${PYVER} -DMVDPG_VERSION=${APPVEYOR_BUILD_VERSION} -DCMAKE_C_FLAGS_RELEASE=-fPIC
+  - sh: |
+      if [ "$MACOS" = "" ]; then
+          cmake .. -DMVDIST_ONLY=True -DMVPY_VERSION=${PYVER} -DMVDPG_VERSION=${APPVEYOR_BUILD_VERSION} -DBUILD_SHARED_LIBS:BOOL=true
+      else
+          cmake .. -DMVDIST_ONLY=True -DMVPY_VERSION=${PYVER} -DMVDPG_VERSION=${APPVEYOR_BUILD_VERSION}
+      fi
   - sh: cd ..
   - sh: cmake --build cmake-build-release --config "${CONFIG}"
 
