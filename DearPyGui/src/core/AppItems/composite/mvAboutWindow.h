@@ -4,13 +4,11 @@
 
 namespace Marvel {
 
-    PyObject* add_about_window(PyObject* self, PyObject* args, PyObject* kwargs);
-
     MV_REGISTER_WIDGET(mvAboutWindow);
     class mvAboutWindow : public mvBaseWindowAppitem
     {
 
-        MV_APPITEM_TYPE(mvAppItemType::mvAboutWindow, "add_about_window")
+        MV_APPITEM_TYPE(mvAppItemType::mvAboutWindow, add_about_window)
 
         MV_START_GENERAL_CONSTANTS
         MV_END_GENERAL_CONSTANTS

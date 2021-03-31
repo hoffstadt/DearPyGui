@@ -4,8 +4,6 @@
 
 namespace Marvel {
 
-	PyObject* add_indent(PyObject* self, PyObject* args, PyObject* kwargs);
-
 	MV_REGISTER_WIDGET(mvIndent);
 	class mvIndent : public mvFloatPtrBase
 	{
@@ -14,9 +12,8 @@ namespace Marvel {
 
 		static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
 
-	public:
+		MV_APPITEM_TYPE(mvAppItemType::mvIndent, add_indent)
 
-		MV_APPITEM_TYPE(mvAppItemType::mvIndent, "add_indent")
 		MV_CREATE_THEME_CONSTANT(mvThemeStyle_Indent_Spacing, 11L, 0L);
 
 		MV_START_GENERAL_CONSTANTS

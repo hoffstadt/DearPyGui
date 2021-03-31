@@ -30,10 +30,10 @@ namespace Marvel {
 
 	}
 
-	PyObject* add_separator(PyObject* self, PyObject* args, PyObject* kwargs)
+	PyObject* mvSeparator::add_separator(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		static int i = 0; i++;
-		std::string sname = std::string("separator" + std::to_string(i));
+		std::string sname = std::string(std::string("$$DPG_") + s_internal_id + std::to_string(i));
 		const char* name = sname.c_str();
 		const char* parent = "";
 		const char* before = "";
@@ -48,7 +48,7 @@ namespace Marvel {
 
 		mvApp::GetApp()->getItemRegistry().addItemWithRuntimeChecks(item, parent, before);
 
-		return GetPyNone();
+		return ToPyString(name);
 	}
 
 }

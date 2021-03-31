@@ -38,9 +38,6 @@ namespace Marvel {
 		bool                 input_hsv          = false;
 	};
 
-	PyObject* add_color_picker3(PyObject* self, PyObject* args, PyObject* kwargs);
-	PyObject* add_color_picker4(PyObject* self, PyObject* args, PyObject* kwargs);
-
 	//-----------------------------------------------------------------------------
 	// mvColorPicker3
 	//-----------------------------------------------------------------------------
@@ -48,7 +45,7 @@ namespace Marvel {
 	class mvColorPicker3 : public mvColorPtrBase
 	{
 
-		MV_APPITEM_TYPE(mvAppItemType::mvColorPicker3, "add_color_picker3")
+		MV_APPITEM_TYPE(mvAppItemType::mvColorPicker3, add_color_picker3)
 
 		MV_CREATE_THEME_CONSTANT(mvThemeCol_ColorPicker3_Text,              0L, 0L);
 		MV_CREATE_THEME_CONSTANT(mvThemeCol_ColorPicker3_Bg,                7L, 0L);
@@ -125,7 +122,7 @@ namespace Marvel {
 	class mvColorPicker4 : public mvColorPtrBase
 	{
 
-		MV_APPITEM_TYPE(mvAppItemType::mvColorPicker4, "add_color_picker4")
+		MV_APPITEM_TYPE(mvAppItemType::mvColorPicker4, add_color_picker4)
 
 		MV_CREATE_THEME_CONSTANT(mvThemeCol_ColorPicker4_Text,              0L, 0L);
 		MV_CREATE_THEME_CONSTANT(mvThemeCol_ColorPicker4_Bg,                7L, 0L);

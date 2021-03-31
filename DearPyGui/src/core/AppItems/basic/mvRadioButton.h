@@ -11,12 +11,11 @@ namespace Marvel {
 		bool horizontal = false;
 	};
 
-	PyObject* add_radio_button(PyObject* self, PyObject* args, PyObject* kwargs);
-
 	MV_REGISTER_WIDGET(mvRadioButton);
 	class mvRadioButton : public mvIntPtrBase
 	{
-		MV_APPITEM_TYPE(mvAppItemType::mvRadioButton, "add_radio_button")
+
+		MV_APPITEM_TYPE(mvAppItemType::mvRadioButton, add_radio_button)
 
 		MV_CREATE_THEME_CONSTANT(mvThemeCol_RadioButton_Text,             0L, 0L);
 		MV_CREATE_THEME_CONSTANT(mvThemeCol_RadioButton_Bg,               7L, 0L);

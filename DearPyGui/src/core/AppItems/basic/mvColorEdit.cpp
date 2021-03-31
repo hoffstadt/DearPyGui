@@ -11,6 +11,7 @@ namespace Marvel {
 	{
 
 		parsers->insert({ "add_color_edit3", mvPythonParser({
+			{mvPythonDataType::Optional},
 			{mvPythonDataType::String, "name"},
 			{mvPythonDataType::KeywordOnly},
 			{mvPythonDataType::IntList, "default_value", "", "(0, 0, 0, 255)"},
@@ -49,6 +50,7 @@ namespace Marvel {
 	void mvColorEdit4::InsertParser(std::map<std::string, mvPythonParser>* parsers)
 	{
 		parsers->insert({ "add_color_edit4", mvPythonParser({
+			{mvPythonDataType::Optional},
 			{mvPythonDataType::String, "name"},
 			{mvPythonDataType::KeywordOnly},
 			{mvPythonDataType::IntList, "default_value", "", "(0, 0, 0, 255)"},
@@ -279,9 +281,11 @@ namespace Marvel {
 		checkbitset("input_hsv", ImGuiColorEditFlags_InputHSV, m_flags);
 	}
 
-	PyObject* add_color_edit3(PyObject* self, PyObject* args, PyObject* kwargs)
+	PyObject* mvColorEdit3::add_color_edit3(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
-		const char* name;
+		static int i = 0; i++;
+		std::string sname = std::string(std::string("$$DPG_") + s_internal_id + std::to_string(i));
+		const char* name = sname.c_str();
 		PyObject* default_value = PyTuple_New(4);
 		PyTuple_SetItem(default_value, 0, PyLong_FromLong(0));
 		PyTuple_SetItem(default_value, 1, PyLong_FromLong(0));
@@ -340,7 +344,7 @@ namespace Marvel {
 
 		mvApp::GetApp()->getItemRegistry().addItemWithRuntimeChecks(item, parent, before);
 
-		return GetPyNone();
+		return ToPyString(name);
 	}
 
 	void mvColorEdit4::setExtraConfigDict(PyObject* dict)
@@ -432,9 +436,11 @@ namespace Marvel {
 		checkbitset("input_hsv", ImGuiColorEditFlags_InputHSV, m_flags);
 	}
 
-	PyObject* add_color_edit4(PyObject* self, PyObject* args, PyObject* kwargs)
+	PyObject* mvColorEdit4::add_color_edit4(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
-		const char* name;
+		static int i = 0; i++;
+		std::string sname = std::string(std::string("$$DPG_") + s_internal_id + std::to_string(i));
+		const char* name = sname.c_str();
 		PyObject* default_value = PyTuple_New(4);
 		PyTuple_SetItem(default_value, 0, PyLong_FromLong(0));
 		PyTuple_SetItem(default_value, 1, PyLong_FromLong(0));
@@ -492,7 +498,7 @@ namespace Marvel {
 
 		mvApp::GetApp()->getItemRegistry().addItemWithRuntimeChecks(item, parent, before);
 
-		return GetPyNone();
+		return ToPyString(name);
 	}
 
 }

@@ -13,6 +13,7 @@ namespace Marvel {
 	void mvNodeAttribute::InsertParser(std::map<std::string, mvPythonParser>* parsers)
 	{
 		parsers->insert({ "add_node_attribute", mvPythonParser({
+			{mvPythonDataType::Optional},
 			{mvPythonDataType::String, "name"},
 			{mvPythonDataType::KeywordOnly},
 			{mvPythonDataType::Integer, "shape", "Pin shape", "1"},
@@ -120,9 +121,11 @@ namespace Marvel {
 		PyDict_SetItemString(dict, "shape", ToPyInt(MV_ENCODE_CONSTANT((int)m_shape, 0)));
 	}
 
-	PyObject* add_node_attribute(PyObject* self, PyObject* args, PyObject* kwargs)
+	PyObject* mvNodeAttribute::add_node_attribute(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
-		const char* name;
+		static int i = 0; i++;
+		std::string sname = std::string(std::string("$$DPG_") + s_internal_id + std::to_string(i));
+		const char* name = sname.c_str();
 		int shape = 1;
 		int output = false;
 		int kw_static = false;
@@ -157,7 +160,7 @@ namespace Marvel {
 
 		}
 
-		return GetPyNone();
+		return ToPyString(name);
 
 	}
 

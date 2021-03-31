@@ -30,13 +30,11 @@ namespace Marvel {
 		}
 	};
 
-	PyObject* add_doc_window(PyObject* self, PyObject* args, PyObject* kwargs);
-
 	MV_REGISTER_WIDGET(mvDocWindow);
 	class mvDocWindow : public mvBaseWindowAppitem
 	{
 
-		MV_APPITEM_TYPE(mvAppItemType::mvDocWindow, "add_doc_window")
+		MV_APPITEM_TYPE(mvAppItemType::mvDocWindow, add_doc_window)
 
 		MV_START_GENERAL_CONSTANTS
 		MV_END_GENERAL_CONSTANTS

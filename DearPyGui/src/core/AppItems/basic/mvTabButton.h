@@ -12,14 +12,13 @@ namespace Marvel {
 		bool no_tooltip = false;
 	};
 
-	PyObject* add_tab_button(PyObject* self, PyObject* args, PyObject* kwargs);
+	
 
 	MV_REGISTER_WIDGET(mvTabButton);
 	class mvTabButton : public mvAppItem
 	{
 
-
-		MV_APPITEM_TYPE(mvAppItemType::mvTabButton, "add_tab_button")
+		MV_APPITEM_TYPE(mvAppItemType::mvTabButton, add_tab_button)
 
 		MV_CREATE_THEME_CONSTANT(mvThemeCol_TabButton_Text,          0L, 0L);
 		MV_CREATE_THEME_CONSTANT(mvThemeCol_TabButton_Bg,           33L, 0L);

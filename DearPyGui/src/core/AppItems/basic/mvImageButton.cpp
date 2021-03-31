@@ -9,8 +9,9 @@ namespace Marvel {
 	void mvImageButton::InsertParser(std::map<std::string, mvPythonParser>* parsers)
 	{
 		parsers->insert({ "add_image_button", mvPythonParser({
-			{mvPythonDataType::String, "name"},
 			{mvPythonDataType::String, "value"},
+			{mvPythonDataType::Optional},
+			{mvPythonDataType::String, "name"},
 			{mvPythonDataType::KeywordOnly},
 			{mvPythonDataType::Callable, "callback", "Registers a callback", "None"},
 			{mvPythonDataType::Object, "callback_data", "Callback data", "None"},
@@ -167,9 +168,11 @@ namespace Marvel {
 		PyDict_SetItemString(dict, "frame_padding", ToPyInt(m_framePadding));
 	}
 
-	PyObject* add_image_button(PyObject* self, PyObject* args, PyObject* kwargs)
+	PyObject* mvImageButton::add_image_button(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
-		const char* name;
+		static int i = 0; i++;
+		std::string sname = std::string(std::string("$$DPG_") + s_internal_id + std::to_string(i));
+		const char* name = sname.c_str();
 		const char* value;
 		PyObject* callback = nullptr;
 		PyObject* callback_data = nullptr;
@@ -198,7 +201,7 @@ namespace Marvel {
 		int enabled = true;
 
 		if (!(mvApp::GetApp()->getParsers())["add_image_button"].parse(args, kwargs, __FUNCTION__,
-			&name, &value, &callback, &callback_data, &tintcolor, &backgroundColor, &parent,
+			&value, &name, &callback, &callback_data, &tintcolor, &backgroundColor, &parent,
 			&before, &width, &height, &frame_padding, &uv_min, &uv_max, &show, &enabled))
 			return ToPyBool(false);
 
@@ -216,7 +219,7 @@ namespace Marvel {
 
 		mvApp::GetApp()->getItemRegistry().addItemWithRuntimeChecks(item, parent, before);
 
-		return GetPyNone();
+		return ToPyString(name);
 	}
 
 }

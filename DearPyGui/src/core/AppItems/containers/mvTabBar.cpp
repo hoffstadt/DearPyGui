@@ -10,6 +10,7 @@ namespace Marvel {
 	void mvTabBar::InsertParser(std::map<std::string, mvPythonParser>* parsers)
 	{
 		parsers->insert({ "add_tab_bar", mvPythonParser({
+			{mvPythonDataType::Optional},
 			{mvPythonDataType::String, "name"},
 			{mvPythonDataType::KeywordOnly},
 			{mvPythonDataType::Bool, "reorderable", "allows for moveable tabs", "False"},
@@ -112,9 +113,11 @@ namespace Marvel {
 		checkbitset("reorderable", ImGuiTabBarFlags_Reorderable, m_flags);
 	}
 
-	PyObject* add_tab_bar(PyObject* self, PyObject* args, PyObject* kwargs)
+	PyObject* mvTabBar::add_tab_bar(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
-		const char* name;
+		static int i = 0; i++;
+		std::string sname = std::string(std::string("$$DPG_") + s_internal_id + std::to_string(i));
+		const char* name = sname.c_str();
 		int reorderable = false;
 		PyObject* callback = nullptr;
 		PyObject* callback_data = nullptr;
@@ -148,7 +151,7 @@ namespace Marvel {
 				item->hide();
 		}
 
-		return GetPyNone();
+		return ToPyString(name);
 	}
 
 }

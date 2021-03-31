@@ -21,12 +21,13 @@ namespace Marvel {
 		bool on_enter = false;
 	};
 
-	PyObject* add_input_text(PyObject* self, PyObject* args, PyObject* kwargs);
+	
 
 	MV_REGISTER_WIDGET(mvInputText);
 	class mvInputText : public mvStringPtrBase
 	{
-		MV_APPITEM_TYPE(mvAppItemType::mvInputText, "add_input_text")
+
+		MV_APPITEM_TYPE(mvAppItemType::mvInputText, add_input_text)
 
 		MV_CREATE_THEME_CONSTANT(mvThemeCol_InputText_Text,             0L, 0L);
 		MV_CREATE_THEME_CONSTANT(mvThemeCol_InputText_TextHighlight,   44L, 0L);

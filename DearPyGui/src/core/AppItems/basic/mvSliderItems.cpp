@@ -14,6 +14,7 @@ namespace Marvel {
     void mvSliderFloat::InsertParser(std::map<std::string, mvPythonParser>* parsers)
     {
         parsers->insert({ "add_slider_float", mvPythonParser({
+            {mvPythonDataType::Optional},
             {mvPythonDataType::String, "name"},
             {mvPythonDataType::KeywordOnly},
             {mvPythonDataType::Float, "default_value", "", "0.0"},
@@ -1051,9 +1052,11 @@ namespace Marvel {
 
     }
 
-    PyObject* add_slider_float(PyObject* self, PyObject* args, PyObject* kwargs)
+    PyObject* mvSliderFloat::add_slider_float(PyObject* self, PyObject* args, PyObject* kwargs)
     {
-        const char* name;
+        static int i = 0; i++;
+        std::string sname = std::string(std::string("$$DPG_") + s_internal_id + std::to_string(i));
+        const char* name = sname.c_str();
         float default_value = 0.0f;
         float min_value = 0.0f;
         float max_value = 100.0f;
@@ -1091,12 +1094,14 @@ namespace Marvel {
 
         mvApp::GetApp()->getItemRegistry().addItemWithRuntimeChecks(item, parent, before);
 
-        return GetPyNone();
+        return ToPyString(name);
     }
 
-    PyObject* add_slider_float2(PyObject* self, PyObject* args, PyObject* kwargs)
+    PyObject* mvSliderFloat2::add_slider_float2(PyObject* self, PyObject* args, PyObject* kwargs)
     {
-        const char* name;
+        static int i = 0; i++;
+        std::string sname = std::string(std::string("$$DPG_") + s_internal_id + std::to_string(i));
+        const char* name = sname.c_str();
         PyObject* default_value = PyTuple_New(2);
         PyTuple_SetItem(default_value, 0, PyFloat_FromDouble(0.0));
         PyTuple_SetItem(default_value, 1, PyFloat_FromDouble(0.0));
@@ -1137,12 +1142,14 @@ namespace Marvel {
 
         mvApp::GetApp()->getItemRegistry().addItemWithRuntimeChecks(item, parent, before);
 
-        return GetPyNone();
+        return ToPyString(name);
     }
 
-    PyObject* add_slider_float3(PyObject* self, PyObject* args, PyObject* kwargs)
+    PyObject* mvSliderFloat3::add_slider_float3(PyObject* self, PyObject* args, PyObject* kwargs)
     {
-        const char* name;
+        static int i = 0; i++;
+        std::string sname = std::string(std::string("$$DPG_") + s_internal_id + std::to_string(i));
+        const char* name = sname.c_str();
         PyObject* default_value = PyTuple_New(3);
         PyTuple_SetItem(default_value, 0, PyFloat_FromDouble(0.0));
         PyTuple_SetItem(default_value, 1, PyFloat_FromDouble(0.0));
@@ -1183,12 +1190,14 @@ namespace Marvel {
 
         mvApp::GetApp()->getItemRegistry().addItemWithRuntimeChecks(item, parent, before);
 
-        return GetPyNone();
+        return ToPyString(name);
     }
 
-    PyObject* add_slider_float4(PyObject* self, PyObject* args, PyObject* kwargs)
+    PyObject* mvSliderFloat4::add_slider_float4(PyObject* self, PyObject* args, PyObject* kwargs)
     {
-        const char* name;
+        static int i = 0; i++;
+        std::string sname = std::string(std::string("$$DPG_") + s_internal_id + std::to_string(i));
+        const char* name = sname.c_str();
         PyObject* default_value = PyTuple_New(4);
         PyTuple_SetItem(default_value, 0, PyFloat_FromDouble(0.0));
         PyTuple_SetItem(default_value, 1, PyFloat_FromDouble(0.0));
@@ -1229,12 +1238,14 @@ namespace Marvel {
 
         mvApp::GetApp()->getItemRegistry().addItemWithRuntimeChecks(item, parent, before);
 
-        return GetPyNone();
+        return ToPyString(name);
     }
 
-    PyObject* add_slider_int(PyObject* self, PyObject* args, PyObject* kwargs)
+    PyObject* mvSliderInt::add_slider_int(PyObject* self, PyObject* args, PyObject* kwargs)
     {
-        const char* name;
+        static int i = 0; i++;
+        std::string sname = std::string(std::string("$$DPG_") + s_internal_id + std::to_string(i));
+        const char* name = sname.c_str();
         int default_value = 0;
         int min_value = 0;
         int max_value = 100;
@@ -1272,12 +1283,14 @@ namespace Marvel {
 
         mvApp::GetApp()->getItemRegistry().addItemWithRuntimeChecks(item, parent, before);
 
-        return GetPyNone();
+        return ToPyString(name);
     }
 
-    PyObject* add_slider_int2(PyObject* self, PyObject* args, PyObject* kwargs)
+    PyObject* mvSliderInt2::add_slider_int2(PyObject* self, PyObject* args, PyObject* kwargs)
     {
-        const char* name;
+        static int i = 0; i++;
+        std::string sname = std::string(std::string("$$DPG_") + s_internal_id + std::to_string(i));
+        const char* name = sname.c_str();
         PyObject* default_value = PyTuple_New(2);
         PyTuple_SetItem(default_value, 0, PyLong_FromLong(0));
         PyTuple_SetItem(default_value, 1, PyLong_FromLong(0));
@@ -1316,12 +1329,14 @@ namespace Marvel {
 
         mvApp::GetApp()->getItemRegistry().addItemWithRuntimeChecks(item, parent, before);
 
-        return GetPyNone();
+        return ToPyString(name);
     }
 
-    PyObject* add_slider_int3(PyObject* self, PyObject* args, PyObject* kwargs)
+    PyObject* mvSliderInt3::add_slider_int3(PyObject* self, PyObject* args, PyObject* kwargs)
     {
-        const char* name;
+        static int i = 0; i++;
+        std::string sname = std::string(std::string("$$DPG_") + s_internal_id + std::to_string(i));
+        const char* name = sname.c_str();
         PyObject* default_value = PyTuple_New(3);
         PyTuple_SetItem(default_value, 0, PyLong_FromLong(0));
         PyTuple_SetItem(default_value, 1, PyLong_FromLong(0));
@@ -1361,12 +1376,14 @@ namespace Marvel {
 
         mvApp::GetApp()->getItemRegistry().addItemWithRuntimeChecks(item, parent, before);
 
-        return GetPyNone();
+        return ToPyString(name);
     }
 
-    PyObject* add_slider_int4(PyObject* self, PyObject* args, PyObject* kwargs)
+    PyObject* mvSliderInt4::add_slider_int4(PyObject* self, PyObject* args, PyObject* kwargs)
     {
-        const char* name;
+        static int i = 0; i++;
+        std::string sname = std::string(std::string("$$DPG_") + s_internal_id + std::to_string(i));
+        const char* name = sname.c_str();
         PyObject* default_value = PyTuple_New(4);
         PyTuple_SetItem(default_value, 0, PyLong_FromLong(0));
         PyTuple_SetItem(default_value, 1, PyLong_FromLong(0));
@@ -1407,7 +1424,7 @@ namespace Marvel {
 
         mvApp::GetApp()->getItemRegistry().addItemWithRuntimeChecks(item, parent, before);
 
-        return GetPyNone();
+        return ToPyString(name);
     }
 
 }

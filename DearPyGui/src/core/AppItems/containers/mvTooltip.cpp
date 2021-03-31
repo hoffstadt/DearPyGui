@@ -10,6 +10,7 @@ namespace Marvel {
 	{
 		parsers->insert({ "add_tooltip", mvPythonParser({
 			{mvPythonDataType::String, "tipparent", "Sets the item's tool tip to be the same as the named item's tool tip"},
+			{mvPythonDataType::Optional},
 			{mvPythonDataType::String, "name"},
 			{mvPythonDataType::KeywordOnly},
 			{mvPythonDataType::String, "parent", "Parent to add this item to. (runtime adding)", "''"},
@@ -63,10 +64,12 @@ namespace Marvel {
 
 	}
 
-	PyObject* add_tooltip(PyObject* self, PyObject* args, PyObject* kwargs)
+	PyObject* mvTooltip::add_tooltip(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		const char* tipparent;
-		const char* name;
+		static int i = 0; i++;
+		std::string sname = std::string(std::string("$$DPG_") + s_internal_id + std::to_string(i));
+		const char* name = sname.c_str();
 		const char* parent = "";
 		const char* before = "";
 		int show = true;
@@ -89,7 +92,7 @@ namespace Marvel {
 
 		}
 
-		return GetPyNone();
+		return ToPyString(name);
 
 	}
 

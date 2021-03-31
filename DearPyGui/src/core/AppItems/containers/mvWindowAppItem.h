@@ -36,13 +36,11 @@ namespace Marvel {
 
 	};
 
-	PyObject* add_window(PyObject* self, PyObject* args, PyObject* kwargs);
-
 	MV_REGISTER_WIDGET(mvWindowAppItem);
 	class mvWindowAppItem : public mvAppItem
 	{
 
-		MV_APPITEM_TYPE(mvAppItemType::mvWindowAppItem, "add_window")
+		MV_APPITEM_TYPE(mvAppItemType::mvWindowAppItem, add_window)
 
 		MV_CREATE_THEME_CONSTANT(mvThemeCol_Window_TitleText			,  0L, 0L);
 		MV_CREATE_THEME_CONSTANT(mvThemeCol_Window_TitleBg				, 10L, 0L);

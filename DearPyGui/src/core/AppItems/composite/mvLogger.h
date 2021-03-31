@@ -18,7 +18,7 @@ namespace Marvel {
 		bool autosize_y = false;
 	};
 
-	PyObject* add_logger             (PyObject* self, PyObject* args, PyObject* kwargs);
+	
 	PyObject* get_log_level          (PyObject* self, PyObject* args, PyObject* kwargs);
 	PyObject* set_log_level          (PyObject* self, PyObject* args, PyObject* kwargs);
 	PyObject* log                    (PyObject* self, PyObject* args, PyObject* kwargs);
@@ -40,8 +40,7 @@ namespace Marvel {
 
 	public:
 
-
-		MV_APPITEM_TYPE(mvAppItemType::mvLoggerItem, "add_logger")
+		MV_APPITEM_TYPE(mvAppItemType::mvLoggerItem, add_logger)
 
 		MV_CREATE_THEME_CONSTANT(mvTRACE,   0L, 0L);
 		MV_CREATE_THEME_CONSTANT(mvDEBUG,   1L, 0L);

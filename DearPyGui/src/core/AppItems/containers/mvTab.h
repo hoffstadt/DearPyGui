@@ -13,13 +13,11 @@ namespace Marvel {
 		bool no_tooltip = false;
 	};
 
-	PyObject* add_tab(PyObject* self, PyObject* args, PyObject* kwargs);
-
 	MV_REGISTER_WIDGET(mvTab);
 	class mvTab : public mvBoolPtrBase
 	{
 
-		MV_APPITEM_TYPE(mvAppItemType::mvTab, "add_tab")
+		MV_APPITEM_TYPE(mvAppItemType::mvTab, add_tab)
 
 		MV_CREATE_THEME_CONSTANT(mvThemeCol_Tab_Text			,  0L, 0L);
 		MV_CREATE_THEME_CONSTANT(mvThemeCol_Tab_Border			,  5L, 0L);

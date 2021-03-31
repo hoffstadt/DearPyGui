@@ -4,8 +4,6 @@
 
 namespace Marvel {
 
-	PyObject* add_spacing(PyObject* self, PyObject* args, PyObject* kwargs);
-
 	MV_REGISTER_WIDGET(mvSpacing);
 	class mvSpacing : public mvIntPtrBase
 	{
@@ -14,9 +12,7 @@ namespace Marvel {
 
 		static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
 
-	public:
-
-		MV_APPITEM_TYPE(mvAppItemType::mvSpacing, "add_spacing")
+		MV_APPITEM_TYPE(mvAppItemType::mvSpacing, add_spacing)
 
 		MV_START_GENERAL_CONSTANTS
 		MV_END_GENERAL_CONSTANTS

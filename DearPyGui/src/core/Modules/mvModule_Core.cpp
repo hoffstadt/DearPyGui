@@ -15,7 +15,8 @@ namespace Marvel {
 
 	PyMethodDef* mvModule_Core::GetSubMethods()
 	{
-		static PyMethodDef methods[]
+
+		static PyMethodDef methods[173 + (size_t)mvAppItemType::ItemTypeCount]
 		{
 			ADD_PYTHON_FUNCTION(get_item_configuration)
 			ADD_PYTHON_FUNCTION(configure_item)
@@ -42,7 +43,6 @@ namespace Marvel {
 			ADD_PYTHON_FUNCTION(select_directory_dialog)
 			ADD_PYTHON_FUNCTION(get_delta_time)
 			ADD_PYTHON_FUNCTION(get_total_time)
-			ADD_PYTHON_FUNCTION(open_file_dialog)
 			ADD_PYTHON_FUNCTION(set_exit_callback)
 			ADD_PYTHON_FUNCTION(set_vsync)
 			ADD_PYTHON_FUNCTION(stop_dearpygui)
@@ -97,76 +97,7 @@ namespace Marvel {
 			ADD_PYTHON_FUNCTION(get_item_children)
 
 			// widget commands
-			ADD_PYTHON_FUNCTION(add_logger)
-			ADD_PYTHON_FUNCTION(add_date_picker)
-			ADD_PYTHON_FUNCTION(add_time_picker)
-			ADD_PYTHON_FUNCTION(add_input_text)
-			ADD_PYTHON_FUNCTION(add_input_int)
-			ADD_PYTHON_FUNCTION(add_input_int2)
-			ADD_PYTHON_FUNCTION(add_input_int3)
-			ADD_PYTHON_FUNCTION(add_input_int4)
-			ADD_PYTHON_FUNCTION(add_input_float)
-			ADD_PYTHON_FUNCTION(add_input_float2)
-			ADD_PYTHON_FUNCTION(add_input_float3)
-			ADD_PYTHON_FUNCTION(add_input_float4)
 			ADD_PYTHON_FUNCTION(end)
-			ADD_PYTHON_FUNCTION(add_image)
-			ADD_PYTHON_FUNCTION(add_image_button)
-			ADD_PYTHON_FUNCTION(add_progress_bar)
-			ADD_PYTHON_FUNCTION(add_drag_float)
-			ADD_PYTHON_FUNCTION(add_drag_int)
-			ADD_PYTHON_FUNCTION(add_drag_float2)
-			ADD_PYTHON_FUNCTION(add_drag_float3)
-			ADD_PYTHON_FUNCTION(add_drag_float4)
-			ADD_PYTHON_FUNCTION(add_drag_int2)
-			ADD_PYTHON_FUNCTION(add_drag_int3)
-			ADD_PYTHON_FUNCTION(add_drag_int4)
-			ADD_PYTHON_FUNCTION(add_slider_float)
-			ADD_PYTHON_FUNCTION(add_slider_int)
-			ADD_PYTHON_FUNCTION(add_slider_float2)
-			ADD_PYTHON_FUNCTION(add_slider_float3)
-			ADD_PYTHON_FUNCTION(add_slider_float4)
-			ADD_PYTHON_FUNCTION(add_slider_int2)
-			ADD_PYTHON_FUNCTION(add_slider_int3)
-			ADD_PYTHON_FUNCTION(add_slider_int4)
-			ADD_PYTHON_FUNCTION(add_tree_node)
-			ADD_PYTHON_FUNCTION(add_selectable)
-			ADD_PYTHON_FUNCTION(add_popup)
-			ADD_PYTHON_FUNCTION(add_window)
-			ADD_PYTHON_FUNCTION(add_indent)
-			ADD_PYTHON_FUNCTION(unindent)
-			ADD_PYTHON_FUNCTION(add_simple_plot)
-			ADD_PYTHON_FUNCTION(add_combo)
-			ADD_PYTHON_FUNCTION(add_text)
-			ADD_PYTHON_FUNCTION(add_label_text)
-			ADD_PYTHON_FUNCTION(add_listbox)
-			ADD_PYTHON_FUNCTION(add_color_button)
-			ADD_PYTHON_FUNCTION(add_color_edit3)
-			ADD_PYTHON_FUNCTION(add_color_edit4)
-			ADD_PYTHON_FUNCTION(add_color_picker3)
-			ADD_PYTHON_FUNCTION(add_color_picker4)
-			ADD_PYTHON_FUNCTION(add_separator)
-			ADD_PYTHON_FUNCTION(add_button)
-			ADD_PYTHON_FUNCTION(add_radio_button)
-			ADD_PYTHON_FUNCTION(add_checkbox)
-			ADD_PYTHON_FUNCTION(add_group)
-			ADD_PYTHON_FUNCTION(add_child)
-			ADD_PYTHON_FUNCTION(add_tab_bar)
-			ADD_PYTHON_FUNCTION(add_tab)
-			ADD_PYTHON_FUNCTION(add_tab_button)
-			ADD_PYTHON_FUNCTION(add_menu_bar)
-			ADD_PYTHON_FUNCTION(add_menu)
-			ADD_PYTHON_FUNCTION(add_menu_item)
-			ADD_PYTHON_FUNCTION(add_spacing)
-			ADD_PYTHON_FUNCTION(add_same_line)
-			ADD_PYTHON_FUNCTION(add_tooltip)
-			ADD_PYTHON_FUNCTION(add_collapsing_header)
-			ADD_PYTHON_FUNCTION(add_dummy)
-			ADD_PYTHON_FUNCTION(add_about_window)
-			ADD_PYTHON_FUNCTION(add_doc_window)
-			ADD_PYTHON_FUNCTION(add_debug_window)
-			ADD_PYTHON_FUNCTION(add_style_window)
-			ADD_PYTHON_FUNCTION(add_metrics_window)
 
 			// input commands
 			ADD_PYTHON_FUNCTION(get_drawing_mouse_pos)
@@ -194,9 +125,6 @@ namespace Marvel {
 			ADD_PYTHON_FUNCTION(set_resize_callback)
 
 			// Node commands
-			ADD_PYTHON_FUNCTION(add_node_editor)
-			ADD_PYTHON_FUNCTION(add_node)
-			ADD_PYTHON_FUNCTION(add_node_attribute)
 			ADD_PYTHON_FUNCTION(add_node_link)
 			ADD_PYTHON_FUNCTION(delete_node_link)
 			ADD_PYTHON_FUNCTION(get_selected_nodes)
@@ -210,13 +138,7 @@ namespace Marvel {
 			ADD_PYTHON_FUNCTION(set_theme_color_disabled)
 			ADD_PYTHON_FUNCTION(set_theme_style)
 
-			// table commands
-			ADD_PYTHON_FUNCTION(add_table)
-			ADD_PYTHON_FUNCTION(add_table_column)
-			ADD_PYTHON_FUNCTION(add_table_next_column)
-
 			// data grid commands
-			ADD_PYTHON_FUNCTION(add_data_grid)
 			ADD_PYTHON_FUNCTION(set_grid_data)
 			ADD_PYTHON_FUNCTION(get_grid_data)
 			ADD_PYTHON_FUNCTION(clear_data_grid)
@@ -239,7 +161,6 @@ namespace Marvel {
 			ADD_PYTHON_FUNCTION(modify_draw_command)
 			ADD_PYTHON_FUNCTION(get_draw_command)
 			ADD_PYTHON_FUNCTION(draw_arrow)
-			ADD_PYTHON_FUNCTION(add_drawing)
 			ADD_PYTHON_FUNCTION(draw_image)
 			ADD_PYTHON_FUNCTION(draw_line)
 			ADD_PYTHON_FUNCTION(draw_triangle)
@@ -273,7 +194,6 @@ namespace Marvel {
 			ADD_PYTHON_FUNCTION(set_plot_xlimits)
 			ADD_PYTHON_FUNCTION(set_plot_ylimits)
 			ADD_PYTHON_FUNCTION(get_plot_ylimits)
-			ADD_PYTHON_FUNCTION(add_plot)
 			ADD_PYTHON_FUNCTION(add_shade_series)
 			ADD_PYTHON_FUNCTION(add_bar_series)
 			ADD_PYTHON_FUNCTION(add_line_series)
@@ -290,8 +210,17 @@ namespace Marvel {
 			ADD_PYTHON_FUNCTION(delete_series)
 			ADD_PYTHON_FUNCTION(add_heat_series)
 			ADD_PYTHON_FUNCTION(add_text_point)
-			{NULL, NULL, 0, NULL}
 		};
+
+		PyMethodDef* methodsptr = &(methods[171]);
+
+		constexpr_for<1, (int)mvAppItemType::ItemTypeCount, 1>(
+			[&](auto i) {
+				using item_type = typename mvItemType<i>::type;
+				methodsptr[i] = item_type::GetMethodDefinition();
+			});
+
+		methods[173 + (size_t)mvAppItemType::ItemTypeCount - 1] = { NULL, NULL, 0, NULL };
 
 		return methods;
 	}

@@ -36,20 +36,11 @@ namespace Marvel {
         bool        clamped         = false;
     };
 
-    PyObject* add_drag_float(PyObject* self, PyObject* args, PyObject* kwargs);
-    PyObject* add_drag_float2(PyObject* self, PyObject* args, PyObject* kwargs);
-    PyObject* add_drag_float3(PyObject* self, PyObject* args, PyObject* kwargs);
-    PyObject* add_drag_float4(PyObject* self, PyObject* args, PyObject* kwargs);
-    PyObject* add_drag_int(PyObject* self, PyObject* args, PyObject* kwargs);
-    PyObject* add_drag_int2(PyObject* self, PyObject* args, PyObject* kwargs);
-    PyObject* add_drag_int3(PyObject* self, PyObject* args, PyObject* kwargs);
-    PyObject* add_drag_int4(PyObject* self, PyObject* args, PyObject* kwargs);
-    
     MV_REGISTER_WIDGET(mvDragFloat);
     class mvDragFloat : public mvFloatPtrBase
     {
 
-        MV_APPITEM_TYPE(mvAppItemType::mvDragFloat, "add_drag_float")
+        MV_APPITEM_TYPE(mvAppItemType::mvDragFloat, add_drag_float)
 
         MV_CREATE_THEME_CONSTANT(mvThemeCol_DragFloat_Text            ,  0L, 0L);
         MV_CREATE_THEME_CONSTANT(mvThemeCol_DragFloat_Bg              ,  7L, 0L);
@@ -137,7 +128,7 @@ namespace Marvel {
     class mvDragFloat2 : public mvFloat2PtrBase
     {
 
-        MV_APPITEM_TYPE(mvAppItemType::mvDragFloat2, "add_drag_float2")
+        MV_APPITEM_TYPE(mvAppItemType::mvDragFloat2, add_drag_float2)
 
         MV_CREATE_THEME_CONSTANT(mvThemeCol_DragFloat2_Text              ,  0L, 0L);
         MV_CREATE_THEME_CONSTANT(mvThemeCol_DragFloat2_Bg                ,  7L, 0L);
@@ -210,7 +201,7 @@ namespace Marvel {
     class mvDragFloat3 : public mvFloat3PtrBase
     {
 
-        MV_APPITEM_TYPE(mvAppItemType::mvDragFloat3, "add_drag_float3")
+        MV_APPITEM_TYPE(mvAppItemType::mvDragFloat3, add_drag_float3)
 
         MV_CREATE_THEME_CONSTANT(mvThemeCol_DragFloat3_Text              ,  0L, 0L);
         MV_CREATE_THEME_CONSTANT(mvThemeCol_DragFloat3_Bg                ,  7L, 0L);
@@ -283,8 +274,7 @@ namespace Marvel {
     class mvDragFloat4 : public mvFloat4PtrBase
     {
 
-
-        MV_APPITEM_TYPE(mvAppItemType::mvDragFloat4, "add_drag_float4")
+        MV_APPITEM_TYPE(mvAppItemType::mvDragFloat4, add_drag_float4)
 
         MV_CREATE_THEME_CONSTANT(mvThemeCol_DragFloat4_Text              ,  0L, 0L);
         MV_CREATE_THEME_CONSTANT(mvThemeCol_DragFloat4_Bg                ,  7L, 0L);
@@ -369,7 +359,7 @@ namespace Marvel {
     class mvDragInt : public mvIntPtrBase
     {
 
-        MV_APPITEM_TYPE(mvAppItemType::mvDragInt, "add_drag_int")
+        MV_APPITEM_TYPE(mvAppItemType::mvDragInt, add_drag_int)
 
         MV_CREATE_THEME_CONSTANT(mvThemeCol_DragInt_Text            ,  0L, 0L);
         MV_CREATE_THEME_CONSTANT(mvThemeCol_DragInt_Bg              ,  7L, 0L);
@@ -454,7 +444,7 @@ namespace Marvel {
     class mvDragInt2 : public mvInt2PtrBase
     {
 
-        MV_APPITEM_TYPE(mvAppItemType::mvDragInt2, "add_drag_int2")
+        MV_APPITEM_TYPE(mvAppItemType::mvDragInt2, add_drag_int2)
 
         MV_CREATE_THEME_CONSTANT(mvThemeCol_DragInt2_Text              ,  0L, 0L);
         MV_CREATE_THEME_CONSTANT(mvThemeCol_DragInt2_Bg                ,  7L, 0L);
@@ -527,7 +517,7 @@ namespace Marvel {
     class mvDragInt3 : public mvInt3PtrBase
     {
 
-        MV_APPITEM_TYPE(mvAppItemType::mvDragInt3, "add_drag_int3")
+        MV_APPITEM_TYPE(mvAppItemType::mvDragInt3, add_drag_int3)
 
         MV_CREATE_THEME_CONSTANT(mvThemeCol_DragInt3_Text              ,  0L, 0L);
         MV_CREATE_THEME_CONSTANT(mvThemeCol_DragInt3_Bg                ,  7L, 0L);
@@ -599,8 +589,8 @@ namespace Marvel {
     MV_REGISTER_WIDGET(mvDragInt4);
     class mvDragInt4 : public mvInt4PtrBase
     {
-
-        MV_APPITEM_TYPE(mvAppItemType::mvDragInt4, "add_drag_int4")
+  
+        MV_APPITEM_TYPE(mvAppItemType::mvDragInt4, add_drag_int4)
 
         MV_CREATE_THEME_CONSTANT(mvThemeCol_DragInt4_Text              ,  0L, 0L);
         MV_CREATE_THEME_CONSTANT(mvThemeCol_DragInt4_Bg                ,  7L, 0L);

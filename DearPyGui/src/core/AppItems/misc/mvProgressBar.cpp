@@ -10,6 +10,7 @@ namespace Marvel {
 	void mvProgressBar::InsertParser(std::map<std::string, mvPythonParser>* parsers)
 	{
 		parsers->insert({ "add_progress_bar", mvPythonParser({
+			{mvPythonDataType::Optional},
 			{mvPythonDataType::String, "name"},
 			{mvPythonDataType::KeywordOnly},
 			{mvPythonDataType::Float, "default_value", "value from 0 to 1", "0.0"},
@@ -54,9 +55,11 @@ namespace Marvel {
 		PyDict_SetItemString(dict, "overlay", ToPyString(m_overlay));
 	}
 
-	PyObject* add_progress_bar(PyObject* self, PyObject* args, PyObject* kwargs)
+	PyObject* mvProgressBar::add_progress_bar(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
-		const char* name;
+		static int i = 0; i++;
+		std::string sname = std::string(std::string("$$DPG_") + s_internal_id + std::to_string(i));
+		const char* name = sname.c_str();
 		float default_value = 0.0f;
 		const char* overlay = "";
 		const char* parent = "";
@@ -78,7 +81,7 @@ namespace Marvel {
 
 		mvApp::GetApp()->getItemRegistry().addItemWithRuntimeChecks(item, parent, before);
 
-		return GetPyNone();
+		return ToPyString(name);
 	}
 
 }

@@ -29,13 +29,11 @@ namespace Marvel {
 		}
 	};
 
-	PyObject* add_debug_window(PyObject* self, PyObject* args, PyObject* kwargs);
-
 	MV_REGISTER_WIDGET(mvDebugWindow);
 	class mvDebugWindow : public mvBaseWindowAppitem
 	{
 
-		MV_APPITEM_TYPE(mvAppItemType::mvDebugWindow, "add_debug_window")
+		MV_APPITEM_TYPE(mvAppItemType::mvDebugWindow, add_debug_window)
 
 		MV_START_GENERAL_CONSTANTS
 		MV_END_GENERAL_CONSTANTS

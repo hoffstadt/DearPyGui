@@ -46,8 +46,6 @@ namespace Marvel {
 
 	};
 
-	PyObject* add_data_grid(PyObject* self, PyObject* args, PyObject* kwargs);
-
 	// data grid
 	PyObject* set_grid_headers   (PyObject* self, PyObject* args, PyObject* kwargs);
 	PyObject* set_grid_data      (PyObject* self, PyObject* args, PyObject* kwargs);
@@ -71,7 +69,8 @@ namespace Marvel {
 	MV_REGISTER_WIDGET(mvDataGrid);
 	class mvDataGrid : public mvAppItem
 	{
-		MV_APPITEM_TYPE(mvAppItemType::mvDataGrid, "add_data_grid")
+
+		MV_APPITEM_TYPE(mvAppItemType::mvDataGrid, add_data_grid)
 
 		MV_CREATE_THEME_CONSTANT(mvThemeCol_DataGrid_Text					,  0L, 0L);
 		MV_CREATE_THEME_CONSTANT(mvThemeCol_DataGrid_HeaderBg				, 44L, 0L);

@@ -28,7 +28,6 @@ namespace Marvel {
 	struct mvDragPoint;
 	class mvDrawList;
 
-	PyObject* add_plot         (PyObject* self, PyObject* args, PyObject* kwargs);
 	PyObject* add_drag_point   (PyObject* self, PyObject* args, PyObject* kwargs);
 	PyObject* delete_drag_point(PyObject* self, PyObject* args, PyObject* kwargs);
 	PyObject* add_annotation   (PyObject* self, PyObject* args, PyObject* kwargs);
@@ -86,9 +85,7 @@ namespace Marvel {
 
 		static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
 
-	public:
-
-		MV_APPITEM_TYPE(mvAppItemType::mvPlot, "add_plot")
+		MV_APPITEM_TYPE(mvAppItemType::mvPlot, add_plot)
 
 		//-----------------------------------------------------------------------------
 		// Plot Marker Specifications

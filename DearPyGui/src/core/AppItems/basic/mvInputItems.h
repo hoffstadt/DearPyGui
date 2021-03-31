@@ -37,15 +37,6 @@ namespace Marvel {
         int     step_fast      = 100;
         bool    readonly       = false;
     };
-
-	PyObject* add_input_int   (PyObject* self, PyObject* args, PyObject* kwargs);
-	PyObject* add_input_int2  (PyObject* self, PyObject* args, PyObject* kwargs);
-	PyObject* add_input_int3  (PyObject* self, PyObject* args, PyObject* kwargs);
-	PyObject* add_input_int4  (PyObject* self, PyObject* args, PyObject* kwargs);
-	PyObject* add_input_float (PyObject* self, PyObject* args, PyObject* kwargs);
-	PyObject* add_input_float2(PyObject* self, PyObject* args, PyObject* kwargs);
-	PyObject* add_input_float3(PyObject* self, PyObject* args, PyObject* kwargs);
-	PyObject* add_input_float4(PyObject* self, PyObject* args, PyObject* kwargs);
     
     MV_REGISTER_WIDGET(mvInputInt);
     class mvInputInt : public mvIntPtrBase
@@ -54,8 +45,8 @@ namespace Marvel {
     public:
 
         static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
-        
-        MV_APPITEM_TYPE(mvAppItemType::mvInputInt, "add_input_int")
+
+        MV_APPITEM_TYPE(mvAppItemType::mvInputInt, add_input_int)
 
         MV_CREATE_THEME_CONSTANT(mvThemeCol_InputInt_Text              ,  0L, 0L);
         MV_CREATE_THEME_CONSTANT(mvThemeCol_InputInt_TextHighlight     , 44L, 0L);
@@ -153,7 +144,7 @@ namespace Marvel {
 
         static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
 
-        MV_APPITEM_TYPE(mvAppItemType::mvInputInt2, "add_input_int2")
+        MV_APPITEM_TYPE(mvAppItemType::mvInputInt2, add_input_int2)
 
         MV_CREATE_THEME_CONSTANT(mvThemeCol_InputInt2_Text            ,  0L, 0L);
         MV_CREATE_THEME_CONSTANT(mvThemeCol_InputInt2_TextHighlight   , 44L, 0L);
@@ -226,7 +217,7 @@ namespace Marvel {
 
         static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
 
-        MV_APPITEM_TYPE(mvAppItemType::mvInputInt3, "add_input_int3")
+        MV_APPITEM_TYPE(mvAppItemType::mvInputInt3, add_input_int3)
 
         MV_CREATE_THEME_CONSTANT(mvThemeCol_InputInt3_Text            ,  0L, 0L);
         MV_CREATE_THEME_CONSTANT(mvThemeCol_InputInt3_TextHighlight   , 44L, 0L);
@@ -299,8 +290,8 @@ namespace Marvel {
     public:
 
         static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
-    
-        MV_APPITEM_TYPE(mvAppItemType::mvInputInt4, "add_input_int4")
+
+        MV_APPITEM_TYPE(mvAppItemType::mvInputInt4, add_input_int4)
 
         MV_CREATE_THEME_CONSTANT(mvThemeCol_InputInt4_Text            ,  0L, 0L);
         MV_CREATE_THEME_CONSTANT(mvThemeCol_InputInt4_TextHighlight   , 44L, 0L);
@@ -387,8 +378,8 @@ namespace Marvel {
     public:
 
         static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
-        
-        MV_APPITEM_TYPE(mvAppItemType::mvInputFloat, "add_input_float")
+
+        MV_APPITEM_TYPE(mvAppItemType::mvInputFloat, add_input_float)
 
         MV_CREATE_THEME_CONSTANT(mvThemeCol_InputFloat_Text              ,  0L, 0L);
         MV_CREATE_THEME_CONSTANT(mvThemeCol_InputFloat_TextHighlight     , 44L, 0L);
@@ -486,8 +477,8 @@ namespace Marvel {
     public:
 
         static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
-    
-        MV_APPITEM_TYPE(mvAppItemType::mvInputFloat2, "add_input_float2")
+
+        MV_APPITEM_TYPE(mvAppItemType::mvInputFloat2, add_input_float2)
 
         MV_CREATE_THEME_CONSTANT(mvThemeCol_InputFloat2_Text            ,  0L, 0L);
         MV_CREATE_THEME_CONSTANT(mvThemeCol_InputFloat2_TextHighlight   , 44L, 0L);
@@ -560,8 +551,8 @@ namespace Marvel {
     public:
 
         static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
-        
-        MV_APPITEM_TYPE(mvAppItemType::mvInputFloat3, "add_input_float3")
+
+        MV_APPITEM_TYPE(mvAppItemType::mvInputFloat3, add_input_float3)
 
         MV_CREATE_THEME_CONSTANT(mvThemeCol_InputFloat3_Text            ,  0L, 0L);
         MV_CREATE_THEME_CONSTANT(mvThemeCol_InputFloat3_TextHighlight   , 44L, 0L);
@@ -634,8 +625,8 @@ namespace Marvel {
     public:
 
         static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
-    
-        MV_APPITEM_TYPE(mvAppItemType::mvInputFloat4, "add_input_float4")
+
+        MV_APPITEM_TYPE(mvAppItemType::mvInputFloat4, add_input_float4)
 
         MV_CREATE_THEME_CONSTANT(mvThemeCol_InputFloat4_Text            ,  0L, 0L);
         MV_CREATE_THEME_CONSTANT(mvThemeCol_InputFloat4_TextHighlight   , 44L, 0L);

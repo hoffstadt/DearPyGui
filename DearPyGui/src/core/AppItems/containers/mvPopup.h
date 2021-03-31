@@ -4,7 +4,6 @@
 
 namespace Marvel {
 
-	PyObject* add_popup  (PyObject* self, PyObject* args, PyObject* kwargs);
 	PyObject* close_popup(PyObject* self, PyObject* args, PyObject* kwargs);
 
 	MV_REGISTER_WIDGET(mvPopup);
@@ -15,7 +14,7 @@ namespace Marvel {
 
 		static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
 
-		MV_APPITEM_TYPE(mvAppItemType::mvPopup, "add_popup")
+		MV_APPITEM_TYPE(mvAppItemType::mvPopup, add_popup)
 
 		MV_CREATE_THEME_CONSTANT(mvThemeCol_Popup_TitleText				  ,  0L, 0L);
 		MV_CREATE_THEME_CONSTANT(mvThemeCol_Popup_TitleBg				  , 11L, 0L);

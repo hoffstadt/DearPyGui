@@ -9,6 +9,7 @@ namespace Marvel {
 	void mvMenuItem::InsertParser(std::map<std::string, mvPythonParser>* parsers)
 	{
 		parsers->insert({ "add_menu_item", mvPythonParser({
+			{mvPythonDataType::Optional},
 			{mvPythonDataType::String, "name"},
 			{mvPythonDataType::KeywordOnly},
 			{mvPythonDataType::String, "shortcut", "Adds a shortcut", "''"},
@@ -90,9 +91,11 @@ namespace Marvel {
 		PyDict_SetItemString(dict, "check", ToPyBool(m_check));
 	}
 
-	PyObject* add_menu_item(PyObject* self, PyObject* args, PyObject* kwargs)
+	PyObject* mvMenuItem::add_menu_item(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
-		const char* name;
+		static int i = 0; i++;
+		std::string sname = std::string(std::string("$$DPG_") + s_internal_id + std::to_string(i));
+		const char* name = sname.c_str();
 		const char* shortcut = "";
 		int check = false;
 		PyObject* callback = nullptr;
@@ -120,7 +123,7 @@ namespace Marvel {
 
 		mvApp::GetApp()->getItemRegistry().addItemWithRuntimeChecks(item, parent, before);
 
-		return GetPyNone();
+		return ToPyString(name);
 	}
 
 }

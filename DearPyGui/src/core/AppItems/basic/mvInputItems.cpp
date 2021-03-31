@@ -13,6 +13,7 @@ namespace Marvel {
     void mvInputInt::InsertParser(std::map<std::string, mvPythonParser>* parsers)
     {
         parsers->insert({ "add_input_int", mvPythonParser({
+            {mvPythonDataType::Optional},
             {mvPythonDataType::String, "name"},
             {mvPythonDataType::KeywordOnly},
             {mvPythonDataType::Integer, "default_value", "", "0"},
@@ -40,6 +41,7 @@ namespace Marvel {
     {
 
         parsers->insert({ "add_input_int2", mvPythonParser({
+            {mvPythonDataType::Optional},
             {mvPythonDataType::String, "name"},
             {mvPythonDataType::KeywordOnly},
             {mvPythonDataType::IntList, "default_value", "", "(0, 0)"},
@@ -64,6 +66,7 @@ namespace Marvel {
     void mvInputInt3::InsertParser(std::map<std::string, mvPythonParser>* parsers)
     {
         parsers->insert({ "add_input_int3", mvPythonParser({
+            {mvPythonDataType::Optional},
             {mvPythonDataType::String, "name"},
             {mvPythonDataType::KeywordOnly},
             {mvPythonDataType::IntList, "default_value", "", "(0, 0, 0)"},
@@ -88,6 +91,7 @@ namespace Marvel {
     void mvInputInt4::InsertParser(std::map<std::string, mvPythonParser>* parsers)
     {
         parsers->insert({ "add_input_int4", mvPythonParser({
+            {mvPythonDataType::Optional},
             {mvPythonDataType::String, "name"},
             {mvPythonDataType::KeywordOnly},
             {mvPythonDataType::IntList, "default_value", "", "(0, 0, 0, 0)"},
@@ -112,6 +116,7 @@ namespace Marvel {
     void mvInputFloat::InsertParser(std::map<std::string, mvPythonParser>* parsers)
     {
         parsers->insert({ "add_input_float", mvPythonParser({
+            {mvPythonDataType::Optional},
             {mvPythonDataType::String, "name"},
             {mvPythonDataType::KeywordOnly},
             {mvPythonDataType::Float, "default_value", "", "0.0"},
@@ -139,6 +144,7 @@ namespace Marvel {
     void mvInputFloat2::InsertParser(std::map<std::string, mvPythonParser>* parsers)
     {
         parsers->insert({ "add_input_float2", mvPythonParser({
+            {mvPythonDataType::Optional},
             {mvPythonDataType::String, "name"},
             {mvPythonDataType::KeywordOnly},
             {mvPythonDataType::FloatList, "default_value", "", "(0.0, 0.0)"},
@@ -164,6 +170,7 @@ namespace Marvel {
     void mvInputFloat3::InsertParser(std::map<std::string, mvPythonParser>* parsers)
     {
         parsers->insert({ "add_input_float3", mvPythonParser({
+            {mvPythonDataType::Optional},
             {mvPythonDataType::String, "name"},
             {mvPythonDataType::KeywordOnly},
             {mvPythonDataType::FloatList, "default_value", "", "(0.0, 0.0, 0.0)"},
@@ -189,6 +196,7 @@ namespace Marvel {
     void mvInputFloat4::InsertParser(std::map<std::string, mvPythonParser>* parsers)
     {
         parsers->insert({ "add_input_float4", mvPythonParser({
+            {mvPythonDataType::Optional},
             {mvPythonDataType::String, "name"},
             {mvPythonDataType::KeywordOnly},
             {mvPythonDataType::FloatList, "default_value", "", "(0.0, 0.0, 0.0, 0.0)"},
@@ -1241,9 +1249,11 @@ namespace Marvel {
         checkbitset("readonly", ImGuiInputTextFlags_ReadOnly, m_flags);
     }
 
-    PyObject* add_input_int(PyObject* self, PyObject* args, PyObject* kwargs)
+    PyObject* mvInputInt::add_input_int(PyObject* self, PyObject* args, PyObject* kwargs)
     {
-        const char* name;
+        static int i = 0; i++;
+        std::string sname = std::string(std::string("$$DPG_") + s_internal_id + std::to_string(i));
+        const char* name = sname.c_str();
         int default_value = 0;
         int min_value = 0;
         int max_value = 100;
@@ -1282,12 +1292,14 @@ namespace Marvel {
 
         mvApp::GetApp()->getItemRegistry().addItemWithRuntimeChecks(item, parent, before);
 
-        return GetPyNone();
+        return ToPyString(name);
     }
 
-    PyObject* add_input_int2(PyObject* self, PyObject* args, PyObject* kwargs)
+    PyObject* mvInputInt2::add_input_int2(PyObject* self, PyObject* args, PyObject* kwargs)
     {
-        const char* name;
+        static int i = 0; i++;
+        std::string sname = std::string(std::string("$$DPG_") + s_internal_id + std::to_string(i));
+        const char* name = sname.c_str();
         PyObject* default_value = PyTuple_New(2);
         PyTuple_SetItem(default_value, 0, PyLong_FromLong(0));
         PyTuple_SetItem(default_value, 1, PyLong_FromLong(0));
@@ -1328,12 +1340,14 @@ namespace Marvel {
 
         mvApp::GetApp()->getItemRegistry().addItemWithRuntimeChecks(item, parent, before);
 
-        return GetPyNone();
+        return ToPyString(name);
     }
 
-    PyObject* add_input_int3(PyObject* self, PyObject* args, PyObject* kwargs)
+    PyObject* mvInputInt3::add_input_int3(PyObject* self, PyObject* args, PyObject* kwargs)
     {
-        const char* name;
+        static int i = 0; i++;
+        std::string sname = std::string(std::string("$$DPG_") + s_internal_id + std::to_string(i));
+        const char* name = sname.c_str();
         PyObject* default_value = PyTuple_New(3);
         PyTuple_SetItem(default_value, 0, PyLong_FromLong(0));
         PyTuple_SetItem(default_value, 1, PyLong_FromLong(0));
@@ -1376,12 +1390,14 @@ namespace Marvel {
 
         mvApp::GetApp()->getItemRegistry().addItemWithRuntimeChecks(item, parent, before);
 
-        return GetPyNone();
+        return ToPyString(name);
     }
 
-    PyObject* add_input_int4(PyObject* self, PyObject* args, PyObject* kwargs)
+    PyObject* mvInputInt4::add_input_int4(PyObject* self, PyObject* args, PyObject* kwargs)
     {
-        const char* name;
+        static int i = 0; i++;
+        std::string sname = std::string(std::string("$$DPG_") + s_internal_id + std::to_string(i));
+        const char* name = sname.c_str();
         PyObject* default_value = PyTuple_New(4);
         PyTuple_SetItem(default_value, 0, PyLong_FromLong(0));
         PyTuple_SetItem(default_value, 1, PyLong_FromLong(0));
@@ -1423,12 +1439,14 @@ namespace Marvel {
 
         mvApp::GetApp()->getItemRegistry().addItemWithRuntimeChecks(item, parent, before);
 
-        return GetPyNone();
+        return ToPyString(name);
     }
 
-    PyObject* add_input_float(PyObject* self, PyObject* args, PyObject* kwargs)
+    PyObject* mvInputFloat::add_input_float(PyObject* self, PyObject* args, PyObject* kwargs)
     {
-        const char* name;
+        static int i = 0; i++;
+        std::string sname = std::string(std::string("$$DPG_") + s_internal_id + std::to_string(i));
+        const char* name = sname.c_str();
         float default_value = 0.0f;
         float min_value = 0.0f;
         float max_value = 100.0f;
@@ -1469,12 +1487,14 @@ namespace Marvel {
 
         mvApp::GetApp()->getItemRegistry().addItemWithRuntimeChecks(item, parent, before);
 
-        return GetPyNone();
+        return ToPyString(name);
     }
 
-    PyObject* add_input_float2(PyObject* self, PyObject* args, PyObject* kwargs)
+    PyObject* mvInputFloat2::add_input_float2(PyObject* self, PyObject* args, PyObject* kwargs)
     {
-        const char* name;
+        static int i = 0; i++;
+        std::string sname = std::string(std::string("$$DPG_") + s_internal_id + std::to_string(i));
+        const char* name = sname.c_str();
         PyObject* default_value = PyTuple_New(2);
         PyTuple_SetItem(default_value, 0, PyLong_FromLong(0));
         PyTuple_SetItem(default_value, 1, PyLong_FromLong(0));
@@ -1516,12 +1536,14 @@ namespace Marvel {
 
         mvApp::GetApp()->getItemRegistry().addItemWithRuntimeChecks(item, parent, before);
 
-        return GetPyNone();
+        return ToPyString(name);
     }
 
-    PyObject* add_input_float3(PyObject* self, PyObject* args, PyObject* kwargs)
+    PyObject* mvInputFloat3::add_input_float3(PyObject* self, PyObject* args, PyObject* kwargs)
     {
-        const char* name;
+        static int i = 0; i++;
+        std::string sname = std::string(std::string("$$DPG_") + s_internal_id + std::to_string(i));
+        const char* name = sname.c_str();
         PyObject* default_value = PyTuple_New(3);
         PyTuple_SetItem(default_value, 0, PyLong_FromLong(0));
         PyTuple_SetItem(default_value, 1, PyLong_FromLong(0));
@@ -1565,12 +1587,14 @@ namespace Marvel {
 
         mvApp::GetApp()->getItemRegistry().addItemWithRuntimeChecks(item, parent, before);
 
-        return GetPyNone();
+        return ToPyString(name);
     }
 
-    PyObject* add_input_float4(PyObject* self, PyObject* args, PyObject* kwargs)
+    PyObject* mvInputFloat4::add_input_float4(PyObject* self, PyObject* args, PyObject* kwargs)
     {
-        const char* name;
+        static int i = 0; i++;
+        std::string sname = std::string(std::string("$$DPG_") + s_internal_id + std::to_string(i));
+        const char* name = sname.c_str();
         PyObject* default_value = PyTuple_New(4);
         PyTuple_SetItem(default_value, 0, PyLong_FromLong(0));
         PyTuple_SetItem(default_value, 1, PyLong_FromLong(0));
@@ -1615,7 +1639,7 @@ namespace Marvel {
 
         mvApp::GetApp()->getItemRegistry().addItemWithRuntimeChecks(item, parent, before);
 
-        return GetPyNone();
+        return ToPyString(name);
     }
 
 }

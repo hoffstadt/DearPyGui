@@ -10,6 +10,7 @@ namespace Marvel {
 	void mvListbox::InsertParser(std::map<std::string, mvPythonParser>* parsers)
 	{
 		parsers->insert({ "add_listbox", mvPythonParser({
+			{mvPythonDataType::Optional},
 			{mvPythonDataType::String, "name", "Name of the listbox"},
 			{mvPythonDataType::KeywordOnly},
 			{mvPythonDataType::StringList, "items", "", "()"},
@@ -91,9 +92,11 @@ namespace Marvel {
 		PyDict_SetItemString(dict, "num_items", ToPyInt(m_itemsHeight));
 	}
 
-	PyObject* add_listbox(PyObject* self, PyObject* args, PyObject* kwargs)
+	PyObject* mvListbox::add_listbox(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
-		const char* name;
+		static int i = 0; i++;
+		std::string sname = std::string(std::string("$$DPG_") + s_internal_id + std::to_string(i));
+		const char* name = sname.c_str();
 		PyObject* items;
 		int default_value = 0;
 		PyObject* callback = nullptr;
@@ -126,7 +129,7 @@ namespace Marvel {
 
 		mvApp::GetApp()->getItemRegistry().addItemWithRuntimeChecks(item, parent, before);
 
-		return GetPyNone();
+		return ToPyString(name);
 	}
 
 }

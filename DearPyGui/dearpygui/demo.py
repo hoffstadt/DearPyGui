@@ -215,6 +215,10 @@ def show_demo():
         add_text("This code for this demo can be found here: ")
         add_text("https://github.com/hoffstadt/DearPyGui/blob/master/DearPyGui/dearpygui/demo.py")
 
+        add_button()
+        add_button()
+        add_checkbox()
+
         with collapsing_header("Window options##demo"):
             with table("Window Options Col##demo", header_row=False):
                 add_table_column("##windowoptions_demo1")
@@ -340,11 +344,11 @@ def show_demo():
     
             with tree_node("Images##demo"):
                 add_text("Below we are displaying the font texture (which is the only texture we have access to in this demo).")
-                add_image("image##demo", "INTERNAL_DPG_FONT_ATLAS")
+                add_image("INTERNAL_DPG_FONT_ATLAS", "image##demo")
                 disable_items = ["__image##button1", "__image##button2"]
                 add_checkbox("Enable-Disable##images", default_value=True, callback=toggle_config, callback_data={'kwargs': ['enabled'], 'items': disable_items})
                 add_text("Here is an image button using a portion of the font atlas")
-                add_image_button("__image##button1", "INTERNAL_DPG_FONT_ATLAS", uv_max=[0.1, 0.1], callback=log_callback)
+                add_image_button("INTERNAL_DPG_FONT_ATLAS", "__image##button1",uv_max=[0.1, 0.1], callback=log_callback)
                 add_same_line()
                 textdata = []
                 for i in range(0, 10000):
@@ -457,7 +461,7 @@ def show_demo():
                     add_color_picker4("custom picker", no_tooltip=True, picker_hue_wheel=True, callback=log_callback)
                     add_text("Color Pallet")
                     for i in range(30):
-                        add_color_button(f"color button {i}", hsv_to_rgb(i/30,1,1))
+                        add_color_button(hsv_to_rgb(i/30,1,1))
                         if i<9: add_same_line()
                         if i>9 and i<19: add_same_line()
                         if i>19 and i<29: add_same_line()
@@ -465,7 +469,7 @@ def show_demo():
                 add_text("Color button only:")
                 add_checkbox("no_border", callback=lambda sender, data: configure_item("Color Button", no_border=get_value(sender)))
 
-                add_color_button("Color Button", (255, 50, 255, 0), width=50, height=50, callback=log_callback)
+                add_color_button((255, 50, 255, 0), "Color Button", width=50, height=50, callback=log_callback)
                 with table("##demowidgetscolor_2", header_row=False):
                     add_table_column("##demowidgetscolor_21")
                     add_table_column("##demowidgetscolor_22")

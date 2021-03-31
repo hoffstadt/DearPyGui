@@ -33,21 +33,12 @@ namespace Marvel {
         bool        no_input        = false;
         bool        clamped         = false;
     };
-
-	PyObject* add_slider_float (PyObject* self, PyObject* args, PyObject* kwargs);
-	PyObject* add_slider_float2(PyObject* self, PyObject* args, PyObject* kwargs);
-	PyObject* add_slider_float3(PyObject* self, PyObject* args, PyObject* kwargs);
-	PyObject* add_slider_float4(PyObject* self, PyObject* args, PyObject* kwargs);
-	PyObject* add_slider_int   (PyObject* self, PyObject* args, PyObject* kwargs);
-	PyObject* add_slider_int2  (PyObject* self, PyObject* args, PyObject* kwargs);
-	PyObject* add_slider_int3  (PyObject* self, PyObject* args, PyObject* kwargs);
-	PyObject* add_slider_int4  (PyObject* self, PyObject* args, PyObject* kwargs);
     
     MV_REGISTER_WIDGET(mvSliderFloat);
     class mvSliderFloat : public mvFloatPtrBase
     {
-        
-        MV_APPITEM_TYPE(mvAppItemType::mvSliderFloat, "add_slider_float")
+
+        MV_APPITEM_TYPE(mvAppItemType::mvSliderFloat, add_slider_float)
 
         MV_CREATE_THEME_CONSTANT(mvThemeCol_SliderFloat_Text                ,  0L, 0L);
         MV_CREATE_THEME_CONSTANT(mvThemeCol_SliderFloat_Bg                  ,  7L, 0L);
@@ -138,8 +129,8 @@ namespace Marvel {
     MV_REGISTER_WIDGET(mvSliderFloat2);
     class mvSliderFloat2 : public mvFloat2PtrBase
     {
-        
-        MV_APPITEM_TYPE(mvAppItemType::mvSliderFloat2, "add_slider_float2")
+
+        MV_APPITEM_TYPE(mvAppItemType::mvSliderFloat2, add_slider_float2)
 
         MV_CREATE_THEME_CONSTANT(mvThemeCol_SliderFloat2_Text              ,  0L, 0L);
         MV_CREATE_THEME_CONSTANT(mvThemeCol_SliderFloat2_Bg                ,  7L, 0L);
@@ -219,8 +210,8 @@ namespace Marvel {
     MV_REGISTER_WIDGET(mvSliderFloat3);
     class mvSliderFloat3 : public mvFloat3PtrBase
     {
-        
-        MV_APPITEM_TYPE(mvAppItemType::mvSliderFloat3, "add_slider_float3")
+
+        MV_APPITEM_TYPE(mvAppItemType::mvSliderFloat3, add_slider_float3)
 
         MV_CREATE_THEME_CONSTANT(mvThemeCol_SliderFloat3_Text              ,  0L, 0L);
         MV_CREATE_THEME_CONSTANT(mvThemeCol_SliderFloat3_Bg                ,  7L, 0L);
@@ -299,8 +290,8 @@ namespace Marvel {
     MV_REGISTER_WIDGET(mvSliderFloat4);
     class mvSliderFloat4 : public mvFloat4PtrBase
     {
-          
-        MV_APPITEM_TYPE(mvAppItemType::mvSliderFloat4, "add_slider_float4")
+
+        MV_APPITEM_TYPE(mvAppItemType::mvSliderFloat4, add_slider_float4)
 
         MV_CREATE_THEME_CONSTANT(mvThemeCol_SliderFloat4_Text            ,  0L, 0L);
         MV_CREATE_THEME_CONSTANT(mvThemeCol_SliderFloat4_Bg              ,  7L, 0L);
@@ -391,8 +382,8 @@ namespace Marvel {
     MV_REGISTER_WIDGET(mvSliderInt);
     class mvSliderInt : public mvIntPtrBase
     {
-            
-        MV_APPITEM_TYPE(mvAppItemType::mvSliderInt, "add_slider_int")
+ 
+        MV_APPITEM_TYPE(mvAppItemType::mvSliderInt, add_slider_int)
 
         MV_CREATE_THEME_CONSTANT(mvThemeCol_SliderInt_Text                ,  0L, 0L);
         MV_CREATE_THEME_CONSTANT(mvThemeCol_SliderInt_Bg                  ,  7L, 0L);
@@ -483,8 +474,8 @@ namespace Marvel {
     MV_REGISTER_WIDGET(mvSliderInt2);
     class mvSliderInt2 : public mvInt2PtrBase
     {
-        
-        MV_APPITEM_TYPE(mvAppItemType::mvSliderInt2, "add_slider_int2")
+
+        MV_APPITEM_TYPE(mvAppItemType::mvSliderInt2, add_slider_int2)
 
         MV_CREATE_THEME_CONSTANT(mvThemeCol_SliderInt2_Text              ,  0L, 0L);
         MV_CREATE_THEME_CONSTANT(mvThemeCol_SliderInt2_Bg                ,  7L, 0L);
@@ -563,8 +554,8 @@ namespace Marvel {
     MV_REGISTER_WIDGET(mvSliderInt3);
     class mvSliderInt3 : public mvInt3PtrBase
     {
-        
-        MV_APPITEM_TYPE(mvAppItemType::mvSliderInt3, "add_slider_int3")
+
+        MV_APPITEM_TYPE(mvAppItemType::mvSliderInt3, add_slider_int3)
 
         MV_CREATE_THEME_CONSTANT(mvThemeCol_SliderInt3_Text              ,  0L, 0L);
         MV_CREATE_THEME_CONSTANT(mvThemeCol_SliderInt3_Bg                ,  7L, 0L);
@@ -643,8 +634,8 @@ namespace Marvel {
     MV_REGISTER_WIDGET(mvSliderInt4);
     class mvSliderInt4 : public mvInt4PtrBase
     {
-        
-        MV_APPITEM_TYPE(mvAppItemType::mvSliderInt4, "add_slider_int4")
+
+        MV_APPITEM_TYPE(mvAppItemType::mvSliderInt4, add_slider_int4)
 
         MV_CREATE_THEME_CONSTANT(mvThemeCol_SliderInt4_Text              ,  0L, 0L);
         MV_CREATE_THEME_CONSTANT(mvThemeCol_SliderInt4_Bg                ,  7L, 0L);

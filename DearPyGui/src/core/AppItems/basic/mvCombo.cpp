@@ -10,6 +10,7 @@ namespace Marvel {
 	void mvCombo::InsertParser(std::map<std::string, mvPythonParser>* parsers)
 	{
 		parsers->insert({ "add_combo", mvPythonParser({
+			{mvPythonDataType::Optional},
 			{mvPythonDataType::String, "name"},
 			{mvPythonDataType::KeywordOnly},
 			{mvPythonDataType::StringList, "items", "", "()"},
@@ -177,9 +178,11 @@ namespace Marvel {
 		checkbitset("no_preview", ImGuiComboFlags_NoPreview, m_flags);
 	}
 
-	PyObject* add_combo(PyObject* self, PyObject* args, PyObject* kwargs)
+	PyObject* mvCombo::add_combo(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
-		const char* name;
+		static int i = 0; i++;
+		std::string sname = std::string(std::string("$$DPG_") + s_internal_id + std::to_string(i));
+		const char* name = sname.c_str();
 		const char* default_value = "";
 		PyObject* items;
 		PyObject* callback = nullptr;
@@ -220,7 +223,7 @@ namespace Marvel {
 
 		mvApp::GetApp()->getItemRegistry().addItemWithRuntimeChecks(item, parent, before);
 
-		return GetPyNone();
+		return ToPyString(name);
 	}
 
 }

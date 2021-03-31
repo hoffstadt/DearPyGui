@@ -10,6 +10,7 @@ namespace Marvel {
 	void mvCollapsingHeader::InsertParser(std::map<std::string, mvPythonParser>* parsers)
 	{
 		parsers->insert({ "add_collapsing_header", mvPythonParser({
+			{mvPythonDataType::Optional},
 			{mvPythonDataType::String, "name"},
 			{mvPythonDataType::KeywordOnly},
 			{mvPythonDataType::String, "label", "", "''"},
@@ -110,9 +111,11 @@ namespace Marvel {
 
 	}
 
-	PyObject* add_collapsing_header(PyObject* self, PyObject* args, PyObject* kwargs)
+	PyObject* mvCollapsingHeader::add_collapsing_header(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
-		const char* name;
+		static int i = 0; i++;
+		std::string sname = std::string(std::string("$$DPG_") + s_internal_id + std::to_string(i));
+		const char* name = sname.c_str();
 		const char* label = "";
 		int show = true;
 		const char* parent = "";
@@ -142,7 +145,7 @@ namespace Marvel {
 
 		}
 
-		return GetPyNone();
+		return ToPyString(name);
 	}
 
 }

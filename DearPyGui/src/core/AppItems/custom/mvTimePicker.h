@@ -4,13 +4,11 @@
 
 namespace Marvel {
 
-	PyObject* add_time_picker(PyObject* self, PyObject* args, PyObject* kwargs);
-
 	MV_REGISTER_WIDGET(mvTimePicker);
 	class mvTimePicker : public mvTimePtrBase
 	{
 
-		MV_APPITEM_TYPE(mvAppItemType::mvTimePicker, "add_time_picker")
+		MV_APPITEM_TYPE(mvAppItemType::mvTimePicker, add_time_picker)
 
 		MV_CREATE_THEME_CONSTANT(mvThemeCol_TimePicker_Time					,  0L, 0L);
 		MV_CREATE_THEME_CONSTANT(mvThemeCol_TimePicker_TimeHovered			, 22L, 0L);

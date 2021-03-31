@@ -9,6 +9,7 @@ namespace Marvel {
 	void mvRadioButton::InsertParser(std::map<std::string, mvPythonParser>* parsers)
 	{
 		parsers->insert({ "add_radio_button", mvPythonParser({
+			{mvPythonDataType::Optional},
 			{mvPythonDataType::String, "name"},
 			{mvPythonDataType::KeywordOnly},
 			{mvPythonDataType::StringList, "items", "", "()"},
@@ -91,9 +92,11 @@ namespace Marvel {
 		PyDict_SetItemString(dict, "horizontal", ToPyBool(m_horizontal));
 	}
 
-	PyObject* add_radio_button(PyObject* self, PyObject* args, PyObject* kwargs)
+	PyObject* mvRadioButton::add_radio_button(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
-		const char* name;
+		static int i = 0; i++;
+		std::string sname = std::string(std::string("$$DPG_") + s_internal_id + std::to_string(i));
+		const char* name = sname.c_str();
 		PyObject* items;
 		int default_value = 0;
 		PyObject* callback = nullptr;
@@ -123,7 +126,7 @@ namespace Marvel {
 
 		mvApp::GetApp()->getItemRegistry().addItemWithRuntimeChecks(item, parent, before);
 
-		return GetPyNone();
+		return ToPyString(name);
 	}
 
 }

@@ -9,6 +9,7 @@ namespace Marvel {
 	void mvTreeNode::InsertParser(std::map<std::string, mvPythonParser>* parsers)
 	{
 		parsers->insert({ "add_tree_node", mvPythonParser({
+			{mvPythonDataType::Optional},
 			{mvPythonDataType::String, "name"},
 			{mvPythonDataType::KeywordOnly},
 			{mvPythonDataType::String, "label", "", "''"},
@@ -102,9 +103,11 @@ namespace Marvel {
 
 	}
 
-	PyObject* add_tree_node(PyObject* self, PyObject* args, PyObject* kwargs)
+	PyObject* mvTreeNode::add_tree_node(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
-		const char* name;
+		static int i = 0; i++;
+		std::string sname = std::string(std::string("$$DPG_") + s_internal_id + std::to_string(i));
+		const char* name = sname.c_str();
 		const char* label = "";
 		int show = false;
 		const char* parent = "";
@@ -132,7 +135,7 @@ namespace Marvel {
 
 		}
 
-		return GetPyNone();
+		return ToPyString(name);
 	}
 
 }

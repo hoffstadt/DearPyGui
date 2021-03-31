@@ -9,6 +9,7 @@ namespace Marvel {
 	void mvTab::InsertParser(std::map<std::string, mvPythonParser>* parsers)
 	{
 		parsers->insert({ "add_tab", mvPythonParser({
+			{mvPythonDataType::Optional},
 			{mvPythonDataType::String, "name"},
 			{mvPythonDataType::KeywordOnly},
 			{mvPythonDataType::Bool, "closable", "creates a button on the tab that can hide the tab", "False"},
@@ -144,9 +145,11 @@ namespace Marvel {
 
 	}
 
-	PyObject* add_tab(PyObject* self, PyObject* args, PyObject* kwargs)
+	PyObject* mvTab::add_tab(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
-		const char* name;
+		static int i = 0; i++;
+		std::string sname = std::string(std::string("$$DPG_") + s_internal_id + std::to_string(i));
+		const char* name = sname.c_str();
 		int closeable = false;
 		const char* label = "";
 		int show = true;
@@ -186,7 +189,7 @@ namespace Marvel {
 
 				}
 
-				return GetPyNone();
+				return ToPyString(name);
 			}
 
 			else
@@ -218,7 +221,7 @@ namespace Marvel {
 
 				}
 
-				return GetPyNone();
+				return ToPyString(name);
 			}
 
 			else

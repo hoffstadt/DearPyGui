@@ -38,14 +38,11 @@ namespace Marvel {
 		bool                 input_hsv          = false;
 	};
 
-	PyObject* add_color_edit3(PyObject* self, PyObject* args, PyObject* kwargs);
-	PyObject* add_color_edit4(PyObject* self, PyObject* args, PyObject* kwargs);
-
 	MV_REGISTER_WIDGET(mvColorEdit3);
 	class mvColorEdit3 : public mvColorPtrBase
 	{
 
-		MV_APPITEM_TYPE(mvAppItemType::mvColorEdit3, "add_color_edit3")
+		MV_APPITEM_TYPE(mvAppItemType::mvColorEdit3, add_color_edit3)
 
 		MV_CREATE_THEME_CONSTANT(mvThemeCol_ColorEdit3_Text					,  0L, 0L);
 		MV_CREATE_THEME_CONSTANT(mvThemeCol_ColorEdit3_TextHighlight		, 44L, 0L);
@@ -125,7 +122,7 @@ namespace Marvel {
 	class mvColorEdit4 : public mvColorPtrBase
 	{
 
-		MV_APPITEM_TYPE(mvAppItemType::mvColorEdit4, "add_color_edit4")
+		MV_APPITEM_TYPE(mvAppItemType::mvColorEdit4, add_color_edit4)
 
 		MV_CREATE_THEME_CONSTANT(mvThemeCol_ColorEdit4_Text					,  0L, 0L);
 		MV_CREATE_THEME_CONSTANT(mvThemeCol_ColorEdit4_TextHighlight		, 44L, 0L);

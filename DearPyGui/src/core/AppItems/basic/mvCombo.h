@@ -20,12 +20,11 @@ namespace Marvel {
 		bool                     no_preview       = false;
 	};
 
-	PyObject* add_combo(PyObject* self, PyObject* args, PyObject* kwargs);
-
 	MV_REGISTER_WIDGET(mvCombo);
 	class mvCombo : public mvStringPtrBase
 	{
-		MV_APPITEM_TYPE(mvAppItemType::mvCombo, "add_combo")
+
+		MV_APPITEM_TYPE(mvAppItemType::mvCombo, add_combo)
 
 		MV_CREATE_THEME_CONSTANT(mvThemeCol_Combo_Text,                  0L, 0L);
 		MV_CREATE_THEME_CONSTANT(mvThemeCol_Combo_Selected,             24L, 0L);

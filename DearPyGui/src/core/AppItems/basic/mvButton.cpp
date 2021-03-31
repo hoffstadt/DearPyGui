@@ -11,6 +11,7 @@ namespace Marvel {
 	void mvButton::InsertParser(std::map<std::string, mvPythonParser>* parsers)
 	{
 		parsers->insert({ "add_button", mvPythonParser({
+			{mvPythonDataType::Optional},
 			{mvPythonDataType::String, "name"},
 			{mvPythonDataType::KeywordOnly},
 			{mvPythonDataType::Bool, "small", "Small button, useful for embedding in text.", "False"},
@@ -124,9 +125,11 @@ namespace Marvel {
 	}
 
 
-	PyObject* add_button(PyObject* self, PyObject* args, PyObject* kwargs)
+	PyObject* mvButton::add_button(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
-		const char* name;
+		static int i = 0; i++;
+		std::string sname = std::string(std::string("$$DPG_") + s_internal_id + std::to_string(i));
+		const char* name = sname.c_str();
 		int smallb = false;
 		int arrow = false;
 		int direction = 4000;
@@ -159,6 +162,6 @@ namespace Marvel {
 
 		mvApp::GetApp()->getItemRegistry().addItemWithRuntimeChecks(item, parent, before);
 
-		return GetPyNone();
+		return ToPyString(name);
 	}
 }

@@ -5,8 +5,6 @@
 
 namespace Marvel {
 
-	PyObject* add_table_next_column(PyObject* self, PyObject* args, PyObject* kwargs);
-
 	MV_REGISTER_WIDGET(mvTableNextColumn);
 	class mvTableNextColumn : public mvAppItem
 	{
@@ -17,7 +15,7 @@ namespace Marvel {
 
 	public:
 
-		MV_APPITEM_TYPE(mvAppItemType::mvTableNextColumn, "add_table_next_column")
+		MV_APPITEM_TYPE(mvAppItemType::mvTableNextColumn, add_table_next_column)
 
 			MV_START_GENERAL_CONSTANTS
 			MV_END_GENERAL_CONSTANTS

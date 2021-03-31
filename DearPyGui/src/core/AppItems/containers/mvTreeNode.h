@@ -13,12 +13,10 @@ namespace Marvel {
 		bool bullet = false;
 	};
 
-	PyObject* add_tree_node(PyObject* self, PyObject* args, PyObject* kwargs);
-
 	MV_REGISTER_WIDGET(mvTreeNode);
 	class mvTreeNode : public mvBoolPtrBase
 	{
-		MV_APPITEM_TYPE(mvAppItemType::mvTreeNode, "add_tree_node")
+		MV_APPITEM_TYPE(mvAppItemType::mvTreeNode, add_tree_node)
 
 		MV_CREATE_THEME_CONSTANT(mvThemeCol_TreeNode_Text				,  0L, 0L);
 		MV_CREATE_THEME_CONSTANT(mvThemeCol_TreeNode_BgHovered			, 25L, 0L);

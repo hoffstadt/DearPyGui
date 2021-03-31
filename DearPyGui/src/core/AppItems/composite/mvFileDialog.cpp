@@ -87,7 +87,7 @@ namespace Marvel {
 		return GetPyNone();
 	}
 
-	PyObject* open_file_dialog(PyObject* self, PyObject* args, PyObject* kwargs)
+	PyObject* mvFileDialog::open_file_dialog(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		PyObject* callback = nullptr;
 		const char* extensions = ".*";

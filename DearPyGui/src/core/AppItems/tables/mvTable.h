@@ -5,12 +5,10 @@
 
 namespace Marvel {
 
-	PyObject* add_table           (PyObject* self, PyObject* args, PyObject* kwargs);
-
 	MV_REGISTER_WIDGET(mvTable);
 	class mvTable : public mvAppItem
 	{
-		MV_APPITEM_TYPE(mvAppItemType::mvTable, "add_table")
+		MV_APPITEM_TYPE(mvAppItemType::mvTable, add_table)
 
 		MV_CREATE_THEME_CONSTANT(mvTable_SizingFixedFit,			8192L, 0L);
 		MV_CREATE_THEME_CONSTANT(mvTable_SizingFixedSame,			16384L, 0L);

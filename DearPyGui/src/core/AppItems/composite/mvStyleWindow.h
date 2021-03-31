@@ -26,13 +26,11 @@ namespace Marvel {
 		}
 	};
 
-	PyObject* add_style_window(PyObject* self, PyObject* args, PyObject* kwargs);
-
 	MV_REGISTER_WIDGET(mvStyleWindow);
 	class mvStyleWindow : public mvBaseWindowAppitem
 	{
 
-		MV_APPITEM_TYPE(mvAppItemType::mvStyleWindow, "add_style_window")
+		MV_APPITEM_TYPE(mvAppItemType::mvStyleWindow, add_style_window)
 
 		MV_START_GENERAL_CONSTANTS
 		MV_END_GENERAL_CONSTANTS

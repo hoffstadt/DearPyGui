@@ -14,8 +14,6 @@ namespace Marvel {
 		bool arrow = false;
 	};
 
-	PyObject* add_button(PyObject* self, PyObject* args, PyObject* kwargs);
-	
 	//-----------------------------------------------------------------------------
 	// mvButton
 	//-----------------------------------------------------------------------------
@@ -23,7 +21,7 @@ namespace Marvel {
 	class mvButton : public mvAppItem
 	{
 
-		MV_APPITEM_TYPE(mvAppItemType::mvButton, "add_button")
+		MV_APPITEM_TYPE(mvAppItemType::mvButton, add_button)
 
 		MV_CREATE_THEME_CONSTANT(mvDir_None,  -1L, 0L);
 		MV_CREATE_THEME_CONSTANT(mvDir_Left,  0L, 0L);

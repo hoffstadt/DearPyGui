@@ -10,6 +10,7 @@ namespace Marvel {
 	void mvSelectable::InsertParser(std::map<std::string, mvPythonParser>* parsers)
 	{
 		parsers->insert({ "add_selectable", mvPythonParser({
+			{mvPythonDataType::Optional},
 			{mvPythonDataType::String, "name"},
 			{mvPythonDataType::KeywordOnly},
 			{mvPythonDataType::Bool, "default_value", "", "False"},
@@ -115,9 +116,11 @@ namespace Marvel {
 		checkbitset("span_columns", ImGuiSelectableFlags_SpanAllColumns, m_flags, false);
 	}
 
-	PyObject* add_selectable(PyObject* self, PyObject* args, PyObject* kwargs)
+	PyObject* mvSelectable::add_selectable(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
-		const char* name;
+		static int i = 0; i++;
+		std::string sname = std::string(std::string("$$DPG_") + s_internal_id + std::to_string(i));
+		const char* name = sname.c_str();
 		int default_value = false;
 		PyObject* callback = nullptr;
 		PyObject* callback_data = nullptr;
@@ -152,7 +155,7 @@ namespace Marvel {
 
 		mvApp::GetApp()->getItemRegistry().addItemWithRuntimeChecks(item, parent, before);
 
-		return GetPyNone();
+		return ToPyString(name);
 	}
 
 }

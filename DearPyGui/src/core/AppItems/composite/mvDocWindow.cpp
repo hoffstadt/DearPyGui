@@ -11,6 +11,7 @@ namespace Marvel {
 	void mvDocWindow::InsertParser(std::map<std::string, mvPythonParser>* parsers)
 	{
 		parsers->insert({ "add_doc_window", mvPythonParser({
+			{mvPythonDataType::Optional},
 			{mvPythonDataType::String, "name"},
 			{mvPythonDataType::KeywordOnly},
 			{mvPythonDataType::Integer, "width", "", "-1"},
@@ -654,9 +655,11 @@ namespace Marvel {
 		ImGui::End();
 	}
 
-	PyObject* add_doc_window(PyObject* self, PyObject* args, PyObject* kwargs)
+	PyObject* mvDocWindow::add_doc_window(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
-		const char* name;
+		static int i = 0; i++;
+		std::string sname = std::string(std::string("$$DPG_") + s_internal_id + std::to_string(i));
+		const char* name = sname.c_str();
 		int width = -1;
 		int height = -1;
 		int x_pos = 200;
@@ -695,7 +698,7 @@ namespace Marvel {
 				item->hide();
 					
 		}
-		return GetPyNone();
+		return ToPyString(name);
 	}
 
 }

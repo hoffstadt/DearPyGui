@@ -9,6 +9,7 @@ namespace Marvel {
 	{
 		parsers->insert({ "add_popup", mvPythonParser({
 			{mvPythonDataType::String, "popupparent", "Parent that the popup will be assigned to."},
+			{mvPythonDataType::Optional},
 			{mvPythonDataType::String, "name"},
 			{mvPythonDataType::KeywordOnly},
 			{mvPythonDataType::Integer, "mousebutton", "The mouse code that will trigger the popup.", "1"},
@@ -131,10 +132,12 @@ namespace Marvel {
 		PyDict_SetItemString(dict, "mousebutton", ToPyInt(m_button));
 	}
 
-	PyObject* add_popup(PyObject* self, PyObject* args, PyObject* kwargs)
+	PyObject* mvPopup::add_popup(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		const char* popupparent;
-		const char* name;
+		static int i = 0; i++;
+		std::string sname = std::string(std::string("$$DPG_") + s_internal_id + std::to_string(i));
+		const char* name = sname.c_str();
 		int mousebutton = 1;
 		int modal = false;
 		const char* parent = "";
@@ -163,7 +166,7 @@ namespace Marvel {
 
 		}
 
-		return GetPyNone();
+		return ToPyString(name);
 	}
 
 	PyObject* close_popup(PyObject* self, PyObject* args, PyObject* kwargs)

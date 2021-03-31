@@ -10,6 +10,7 @@ namespace Marvel {
 	void mvTableNextColumn::InsertParser(std::map<std::string, mvPythonParser>* parsers)
 	{
 		parsers->insert({ "add_table_next_column", mvPythonParser({
+			{mvPythonDataType::Optional},
 			{mvPythonDataType::KeywordOnly},
 			{mvPythonDataType::String, "name", "", "'next_column'"},
 			{mvPythonDataType::Bool, "show", "Attempt to render", "True"},
@@ -40,10 +41,10 @@ namespace Marvel {
 		return false;
 	}
 
-	PyObject* add_table_next_column(PyObject* self, PyObject* args, PyObject* kwargs)
+	PyObject* mvTableNextColumn::add_table_next_column(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		static int i = 0; i++;
-		std::string sname = std::string("next_column" + std::to_string(i));
+		std::string sname = std::string(std::string("$$DPG_") + s_internal_id + std::to_string(i));
 		const char* name = sname.c_str();
 		const char* before = "";
 		const char* parent = "";
@@ -60,7 +61,7 @@ namespace Marvel {
 
 		mvApp::GetApp()->getItemRegistry().addItemWithRuntimeChecks(item, parent, before);
 
-		return GetPyNone();
+		return ToPyString(name);
 	}
 
 }

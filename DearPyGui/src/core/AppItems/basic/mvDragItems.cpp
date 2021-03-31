@@ -13,6 +13,7 @@ namespace Marvel {
     void mvDragFloat::InsertParser(std::map<std::string, mvPythonParser>* parsers)
     {
         parsers->insert({ "add_drag_float", mvPythonParser({
+            {mvPythonDataType::Optional},
             {mvPythonDataType::String, "name"},
             {mvPythonDataType::KeywordOnly},
             {mvPythonDataType::Float, "default_value", "", "0.0"},
@@ -37,6 +38,7 @@ namespace Marvel {
     void mvDragFloat2::InsertParser(std::map<std::string, mvPythonParser>* parsers)
     {
         parsers->insert({ "add_drag_float2", mvPythonParser({
+            {mvPythonDataType::Optional},
             {mvPythonDataType::String, "name"},
             {mvPythonDataType::KeywordOnly},
             {mvPythonDataType::FloatList, "default_value", "", "(0.0, 0.0)"},
@@ -61,6 +63,7 @@ namespace Marvel {
     void mvDragFloat3::InsertParser(std::map<std::string, mvPythonParser>* parsers)
     {
         parsers->insert({ "add_drag_float3", mvPythonParser({
+            {mvPythonDataType::Optional},
             {mvPythonDataType::String, "name"},
             {mvPythonDataType::KeywordOnly},
             {mvPythonDataType::FloatList, "default_value", "", "(0.0, 0.0, 0.0)"},
@@ -109,6 +112,7 @@ namespace Marvel {
     void mvDragInt::InsertParser(std::map<std::string, mvPythonParser>* parsers)
     {
         parsers->insert({ "add_drag_int", mvPythonParser({
+            {mvPythonDataType::Optional},
             {mvPythonDataType::String, "name"},
             {mvPythonDataType::KeywordOnly},
             {mvPythonDataType::Integer, "default_value", "", "0"},
@@ -133,6 +137,7 @@ namespace Marvel {
     void mvDragInt2::InsertParser(std::map<std::string, mvPythonParser>* parsers)
     {
         parsers->insert({ "add_drag_int2", mvPythonParser({
+            {mvPythonDataType::Optional},
             {mvPythonDataType::String, "name"},
             {mvPythonDataType::KeywordOnly},
             {mvPythonDataType::IntList, "default_value", "", "(0, 0)"},
@@ -159,6 +164,7 @@ namespace Marvel {
     void mvDragInt3::InsertParser(std::map<std::string, mvPythonParser>* parsers)
     {
         parsers->insert({ "add_drag_int3", mvPythonParser({
+            {mvPythonDataType::Optional},
             {mvPythonDataType::String, "name"},
             {mvPythonDataType::KeywordOnly},
             {mvPythonDataType::IntList, "default_value", "", "(0, 0, 0)"},
@@ -183,6 +189,7 @@ namespace Marvel {
     void mvDragInt4::InsertParser(std::map<std::string, mvPythonParser>* parsers)
     {
         parsers->insert({ "add_drag_int4", mvPythonParser({
+            {mvPythonDataType::Optional},
             {mvPythonDataType::String, "name"},
             {mvPythonDataType::KeywordOnly},
             {mvPythonDataType::IntList, "default_value", "", "(0, 0, 0, 0)"},
@@ -1030,9 +1037,11 @@ namespace Marvel {
 
     }
 
-    PyObject* add_drag_float(PyObject* self, PyObject* args, PyObject* kwargs)
+    PyObject* mvDragFloat::add_drag_float(PyObject* self, PyObject* args, PyObject* kwargs)
     {
-        const char* name;
+        static int i = 0; i++;
+        std::string sname = std::string(std::string("$$DPG_") + s_internal_id + std::to_string(i));
+        const char* name = sname.c_str();
         float default_value = 0.0f;
         float speed = 1.0f;
         float min_value = 0.0f;
@@ -1069,12 +1078,14 @@ namespace Marvel {
 
         mvApp::GetApp()->getItemRegistry().addItemWithRuntimeChecks(item, parent, before);
 
-        return GetPyNone();
+        return ToPyString(name);
     }
 
-    PyObject* add_drag_float2(PyObject* self, PyObject* args, PyObject* kwargs)
+    PyObject* mvDragFloat2::add_drag_float2(PyObject* self, PyObject* args, PyObject* kwargs)
     {
-        const char* name;
+        static int i = 0; i++;
+        std::string sname = std::string(std::string("$$DPG_") + s_internal_id + std::to_string(i));
+        const char* name = sname.c_str();
         PyObject* default_value = PyTuple_New(2);
         PyTuple_SetItem(default_value, 0, PyFloat_FromDouble(0.0));
         PyTuple_SetItem(default_value, 1, PyFloat_FromDouble(0.0));
@@ -1114,12 +1125,14 @@ namespace Marvel {
 
         mvApp::GetApp()->getItemRegistry().addItemWithRuntimeChecks(item, parent, before);
 
-        return GetPyNone();
+        return ToPyString(name);
     }
 
-    PyObject* add_drag_float3(PyObject* self, PyObject* args, PyObject* kwargs)
+    PyObject* mvDragFloat3::add_drag_float3(PyObject* self, PyObject* args, PyObject* kwargs)
     {
-        const char* name;
+        static int i = 0; i++;
+        std::string sname = std::string(std::string("$$DPG_") + s_internal_id + std::to_string(i));
+        const char* name = sname.c_str();
         PyObject* default_value = PyTuple_New(3);
         PyTuple_SetItem(default_value, 0, PyFloat_FromDouble(0.0));
         PyTuple_SetItem(default_value, 1, PyFloat_FromDouble(0.0));
@@ -1160,12 +1173,14 @@ namespace Marvel {
 
         mvApp::GetApp()->getItemRegistry().addItemWithRuntimeChecks(item, parent, before);
 
-        return GetPyNone();
+        return ToPyString(name);
     }
 
-    PyObject* add_drag_float4(PyObject* self, PyObject* args, PyObject* kwargs)
+    PyObject* mvDragFloat4::add_drag_float4(PyObject* self, PyObject* args, PyObject* kwargs)
     {
-        const char* name;
+        static int i = 0; i++;
+        std::string sname = std::string(std::string("$$DPG_") + s_internal_id + std::to_string(i));
+        const char* name = sname.c_str();
         PyObject* default_value = PyTuple_New(4);
         PyTuple_SetItem(default_value, 0, PyFloat_FromDouble(0.0));
         PyTuple_SetItem(default_value, 1, PyFloat_FromDouble(0.0));
@@ -1208,12 +1223,14 @@ namespace Marvel {
 
         mvApp::GetApp()->getItemRegistry().addItemWithRuntimeChecks(item, parent, before);
 
-        return GetPyNone();
+        return ToPyString(name);
     }
 
-    PyObject* add_drag_int(PyObject* self, PyObject* args, PyObject* kwargs)
+    PyObject* mvDragInt::add_drag_int(PyObject* self, PyObject* args, PyObject* kwargs)
     {
-        const char* name;
+        static int i = 0; i++;
+        std::string sname = std::string(std::string("$$DPG_") + s_internal_id + std::to_string(i));
+        const char* name = sname.c_str();
         int default_value = 0;
         float speed = 1.0f;
         int min_value = 0;
@@ -1251,12 +1268,14 @@ namespace Marvel {
 
         mvApp::GetApp()->getItemRegistry().addItemWithRuntimeChecks(item, parent, before);
 
-        return GetPyNone();
+        return ToPyString(name);
     }
 
-    PyObject* add_drag_int2(PyObject* self, PyObject* args, PyObject* kwargs)
+    PyObject* mvDragInt2::add_drag_int2(PyObject* self, PyObject* args, PyObject* kwargs)
     {
-        const char* name;
+        static int i = 0; i++;
+        std::string sname = std::string(std::string("$$DPG_") + s_internal_id + std::to_string(i));
+        const char* name = sname.c_str();
         PyObject* default_value = PyTuple_New(2);
         PyTuple_SetItem(default_value, 0, PyLong_FromLong(0));
         PyTuple_SetItem(default_value, 1, PyLong_FromLong(0));
@@ -1296,12 +1315,14 @@ namespace Marvel {
 
         mvApp::GetApp()->getItemRegistry().addItemWithRuntimeChecks(item, parent, before);
 
-        return GetPyNone();
+        return ToPyString(name);
     }
 
-    PyObject* add_drag_int3(PyObject* self, PyObject* args, PyObject* kwargs)
+    PyObject* mvDragInt3::add_drag_int3(PyObject* self, PyObject* args, PyObject* kwargs)
     {
-        const char* name;
+        static int i = 0; i++;
+        std::string sname = std::string(std::string("$$DPG_") + s_internal_id + std::to_string(i));
+        const char* name = sname.c_str();
         PyObject* default_value = PyTuple_New(3);
         PyTuple_SetItem(default_value, 0, PyLong_FromLong(0));
         PyTuple_SetItem(default_value, 1, PyLong_FromLong(0));
@@ -1342,12 +1363,14 @@ namespace Marvel {
 
         mvApp::GetApp()->getItemRegistry().addItemWithRuntimeChecks(item, parent, before);
 
-        return GetPyNone();
+        return ToPyString(name);
     }
 
-    PyObject* add_drag_int4(PyObject* self, PyObject* args, PyObject* kwargs)
+    PyObject* mvDragInt4::add_drag_int4(PyObject* self, PyObject* args, PyObject* kwargs)
     {
-        const char* name;
+        static int i = 0; i++;
+        std::string sname = std::string(std::string("$$DPG_") + s_internal_id + std::to_string(i));
+        const char* name = sname.c_str();
         PyObject* default_value = PyTuple_New(4);
         PyTuple_SetItem(default_value, 0, PyLong_FromLong(0));
         PyTuple_SetItem(default_value, 1, PyLong_FromLong(0));
@@ -1389,7 +1412,7 @@ namespace Marvel {
 
         mvApp::GetApp()->getItemRegistry().addItemWithRuntimeChecks(item, parent, before);
 
-        return GetPyNone();
+        return ToPyString(name);
     }
 
 }

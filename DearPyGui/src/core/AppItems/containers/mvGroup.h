@@ -10,12 +10,11 @@ namespace Marvel {
 		float horizontal_spacing = -1;
 	};
 
-	PyObject* add_group(PyObject* self, PyObject* args, PyObject* kwargs);
-
 	MV_REGISTER_WIDGET(mvGroup);
 	class mvGroup : public mvAppItem
 	{
-		MV_APPITEM_TYPE(mvAppItemType::mvGroup, "add_group")
+		MV_APPITEM_TYPE(mvAppItemType::mvGroup, add_group)
+
 		MV_CREATE_THEME_CONSTANT(mvThemeStyle_Group_ItemSpacingX, 13L, 0L);
 		MV_CREATE_THEME_CONSTANT(mvThemeStyle_Group_ItemSpacingY, 13L, 1L);
 

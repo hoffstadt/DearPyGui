@@ -10,6 +10,7 @@ namespace Marvel {
 	void mvDataGrid::InsertParser(std::map<std::string, mvPythonParser>* parsers)
 	{
 		parsers->insert({ "add_data_grid", mvPythonParser({
+			{mvPythonDataType::Optional},
 			{mvPythonDataType::String, "name"},
 			{mvPythonDataType::StringList, "headers"},
 			{mvPythonDataType::KeywordOnly},
@@ -633,9 +634,11 @@ namespace Marvel {
 
 	}
 
-	PyObject* add_data_grid(PyObject* self, PyObject* args, PyObject* kwargs)
+	PyObject* mvDataGrid::add_data_grid(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
-		const char* name;
+		static int i = 0; i++;
+		std::string sname = std::string(std::string("$$DPG_") + s_internal_id + std::to_string(i));
+		const char* name = sname.c_str();
 		PyObject* headers;
 		PyObject* callback = nullptr;
 		PyObject* callback_data = nullptr;
@@ -665,7 +668,7 @@ namespace Marvel {
 
 		mvApp::GetApp()->getItemRegistry().addItemWithRuntimeChecks(item, parent, before);
 
-		return GetPyNone();
+		return ToPyString(name);
 	}
 
 	PyObject* get_grid_data(PyObject* self, PyObject* args, PyObject* kwargs)

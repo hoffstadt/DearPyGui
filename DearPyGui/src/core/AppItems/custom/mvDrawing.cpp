@@ -10,6 +10,7 @@ namespace Marvel {
 	void mvDrawing::InsertParser(std::map<std::string, mvPythonParser>* parsers)
 	{
 		parsers->insert({ "add_drawing", mvPythonParser({
+			{mvPythonDataType::Optional},
 			{mvPythonDataType::String, "name"},
 			{mvPythonDataType::KeywordOnly},
 			{mvPythonDataType::String, "parent", "Parent this item will be added to. (runtime adding)", "''"},
@@ -54,9 +55,11 @@ namespace Marvel {
 		return m_drawList;
 	}
 
-	PyObject* add_drawing(PyObject* self, PyObject* args, PyObject* kwargs)
+	PyObject* mvDrawing::add_drawing(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
-		const char* name;
+		static int i = 0; i++;
+		std::string sname = std::string(std::string("$$DPG_") + s_internal_id + std::to_string(i));
+		const char* name = sname.c_str();
 		const char* parent = "";
 		const char* before = "";
 		int width = 0;
@@ -82,7 +85,7 @@ namespace Marvel {
 
 		mvApp::GetApp()->getItemRegistry().addItemWithRuntimeChecks(item, parent, before);
 
-		return GetPyNone();
+		return ToPyString(name);
 	}
 
 }

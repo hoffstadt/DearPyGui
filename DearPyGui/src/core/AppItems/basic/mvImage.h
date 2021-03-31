@@ -16,7 +16,7 @@ namespace Marvel {
 		std::array<float, 2> uv_max{ 1.0, 1.0 };
 	};
 
-	PyObject* add_image(PyObject* self, PyObject* args, PyObject* kwargs);
+	
 
 	MV_REGISTER_WIDGET(mvImage);
 	class mvImage : public mvAppItem, public mvEventHandler
@@ -26,9 +26,7 @@ namespace Marvel {
 
 		static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
 
-	public:
-
-		MV_APPITEM_TYPE(mvAppItemType::mvImage, "add_image")
+		MV_APPITEM_TYPE(mvAppItemType::mvImage, add_image)
 
 		MV_START_GENERAL_CONSTANTS
 		MV_END_GENERAL_CONSTANTS

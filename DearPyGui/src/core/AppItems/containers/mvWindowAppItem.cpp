@@ -9,6 +9,7 @@ namespace Marvel {
 	void mvWindowAppItem::InsertParser(std::map<std::string, mvPythonParser>* parsers)
 	{
 		parsers->insert({ "add_window", mvPythonParser({
+			{mvPythonDataType::Optional},
 			{mvPythonDataType::String, "name"},
 			{mvPythonDataType::KeywordOnly},
 			{mvPythonDataType::Integer, "width", "", "-1"},
@@ -333,22 +334,6 @@ namespace Marvel {
 
 	}
 
-	void add_window(const char* name, const mvWindowAppItemConfig& config)
-	{
-
-		auto item = CreateRef<mvWindowAppItem>(name, config);
-
-
-		if (mvApp::GetApp()->getItemRegistry().addItemWithRuntimeChecks(item, "", ""))
-		{
-			mvApp::GetApp()->getItemRegistry().pushParent(item);
-			if (!config.show)
-				item->hide();
-
-		}
-
-	}
-
 	void mvWindowAppItem::setExtraConfigDict(PyObject* dict)
 	{
 		if (dict == nullptr)
@@ -434,9 +419,11 @@ namespace Marvel {
 		checkbitset("no_background", ImGuiWindowFlags_NoBackground, m_windowflags);
 	}
 
-	PyObject* add_window(PyObject* self, PyObject* args, PyObject* kwargs)
+	PyObject* mvWindowAppItem::add_window(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
-		const char* name;
+		static int i = 0; i++;
+		std::string sname = std::string(std::string("$$DPG_") + s_internal_id + std::to_string(i));
+		const char* name = sname.c_str();
 		int width = -1;
 		int height = -1;
 		int x_pos = 200;
@@ -490,7 +477,7 @@ namespace Marvel {
 
 		}
 
-		return GetPyNone();
+		return ToPyString(name);
 	}
 
 }
