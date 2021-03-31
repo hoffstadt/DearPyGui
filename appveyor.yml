@@ -177,6 +177,7 @@ build_script:
   
   # Windows
   - cmd: git submodule update --init --recursive ./Dependencies/imgui
+  - cmd: git submodule update --init --recursive ./Dependencies/freetype
   - cmd: git submodule update --init --recursive ./Dependencies/ImGuiFileDialog
   - cmd: mkdir cmake-build-release
   - cmd: cd cmake-build-Release
@@ -194,6 +195,7 @@ build_script:
 
   # Ubuntu & MacOS
   - sh: git submodule update --init --recursive ./Dependencies/imgui
+  - sh: git submodule update --init --recursive ./Dependencies/freetype
   - sh: git submodule update --init --recursive ./Dependencies/ImGuiFileDialog
   - sh: git submodule update --init --recursive ./Dependencies/glfw
   - sh: mkdir cmake-build-release
