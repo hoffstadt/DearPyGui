@@ -177,7 +177,7 @@ def show_demo():
     def log_callback(sender, data):
         log_debug(f"{sender} ran a callback its value is {get_value(sender)}")
 
-    with window("Dear PyGui Demo", x_pos=100, y_pos=100, width=800, height=800, on_close=on_demo_close):
+    with window(x_pos=100, y_pos=100, width=800, height=800, on_close=on_demo_close, label="Dear PyGui Demo"):
 
         with menu_bar("MenuBar##demo"):
 
@@ -215,15 +215,11 @@ def show_demo():
         add_text("This code for this demo can be found here: ")
         add_text("https://github.com/hoffstadt/DearPyGui/blob/master/DearPyGui/dearpygui/demo.py")
 
-        add_button()
-        add_button()
-        add_checkbox()
-
         with collapsing_header("Window options##demo"):
-            with table("Window Options Col##demo", header_row=False):
-                add_table_column("##windowoptions_demo1")
-                add_table_column("##windowoptions_demo2")
-                add_table_column("##windowoptions_demo3")
+            with table(header_row=False):
+                add_table_column()
+                add_table_column()
+                add_table_column()
                 
                 add_checkbox("No titlebar##demo", callback=lambda sender, data: configure_item("Dear PyGui Demo", no_title_bar=get_value(sender)))
                 add_checkbox("No scrollbar##demo", callback=lambda sender, data: configure_item("Dear PyGui Demo", no_scrollbar=get_value(sender)))
@@ -257,7 +253,7 @@ def show_demo():
                     ,"slider int##demo", "slider float##demo", "slider angle##demo", "color 1##demo", "color 2##demo"]
                 add_checkbox("Enable-Disable##basic", default_value=True, callback=toggle_config, callback_data={'kwargs': ['enabled'], 'items': disable_items})
                 helpmarker('This will toggle the keyword "enable" for the widgets below that can be enabled & disabled')
-                with group("buttons##demo", horizontal=True):
+                with group(horizontal=True):
                     add_button("Button1##demo", callback=log_callback)
                     add_button("Button2##demo", callback=log_callback, small=True)
                     add_button("Button3##demo", callback=log_callback, arrow=True)
@@ -265,7 +261,7 @@ def show_demo():
                     add_button("Button5##demo", callback=log_callback, arrow=True, direction=4020)
                     add_button("Button6##demo", callback=log_callback, arrow=True, direction=4030)
                 add_checkbox("checkbox##demo", callback=log_callback)
-                add_radio_button("radiobutton##demo", items=["radio a", "radio b", "radio c"], horizontal=True, callback=log_callback)
+                add_radio_button(items=["radio a", "radio b", "radio c"], horizontal=True, callback=log_callback)
                 add_selectable("selectable##demo", callback=log_callback)
                 add_selectable("selectable (sized)##demo", callback=log_callback, width=125, height=35)
                 for i in range(0, 7):
@@ -278,7 +274,7 @@ def show_demo():
                     #set_item_style_var(f"Click##{i}", mvGuiStyleVar_FrameRounding, [i*5])
                     #set_item_style_var(f"Click##{i}", mvGuiStyleVar_FramePadding, [i*3, i*3])
                     disable_items.append(f"Click##{i}")
-                with group("increment_buttons##demo", horizontal=True):
+                with group(horizontal=True):
                     add_text("Press a button: ")
                     add_button("Left##demo", arrow=True, direction=mvDir_Left, 
                                callback=lambda sender, data: set_value("value", int(get_value("value"))-1))
@@ -344,11 +340,11 @@ def show_demo():
     
             with tree_node("Images##demo"):
                 add_text("Below we are displaying the font texture (which is the only texture we have access to in this demo).")
-                add_image("INTERNAL_DPG_FONT_ATLAS", "image##demo")
+                add_image("INTERNAL_DPG_FONT_ATLAS")
                 disable_items = ["__image##button1", "__image##button2"]
                 add_checkbox("Enable-Disable##images", default_value=True, callback=toggle_config, callback_data={'kwargs': ['enabled'], 'items': disable_items})
                 add_text("Here is an image button using a portion of the font atlas")
-                add_image_button("INTERNAL_DPG_FONT_ATLAS", "__image##button1",uv_max=[0.1, 0.1], callback=log_callback)
+                add_image_button("INTERNAL_DPG_FONT_ATLAS",uv_max=[0.1, 0.1], callback=log_callback)
                 add_same_line()
                 textdata = []
                 for i in range(0, 10000):
@@ -357,7 +353,7 @@ def show_demo():
                     textdata.append(255)
                     textdata.append(255)
                 add_texture("#cooltexture", textdata, 100, 100, format=mvTEX_RGBA_INT)
-                add_image_button("__image##button2", "#cooltexture", callback=log_callback)
+                add_image_button("#cooltexture", callback=log_callback)
 
             with tree_node("Text Input##demo"):
                 disable_items = ["##multiline##demo","default##demo", "decimal##demo", "hexdecimal##demo", 
@@ -418,10 +414,10 @@ def show_demo():
                                  "Color Button", "Color Picker 4", "Color Edit 4 (float values)", "Color Edit 4 (ints value)"]
                 add_checkbox("Enable-Disable##color_widgets", default_value=True, callback=toggle_config, callback_data={'kwargs': ['enabled'], 'items': disable_items})
 
-                with table("##demowidgetscolor", header_row=False):
-                    add_table_column("##demowidgetscolor1")
-                    add_table_column("##demowidgetscolor2")
-                    add_table_column("##demowidgetscolor3")
+                with table(header_row=False):
+                    add_table_column()
+                    add_table_column()
+                    add_table_column()
 
                     add_checkbox("With Alpha Preview", callback=lambda sender, data: configure_items(color_edit_names, alpha_preview = get_value(sender)))
                     add_checkbox("With Half Alpha Preview", callback=lambda sender, data: configure_items(color_edit_names, alpha_preview_half = get_value(sender)))
@@ -457,7 +453,7 @@ def show_demo():
                 add_text("Custom Picker Popup (a color edit with no options)")
                 add_color_edit4("Color Edit 4 (with custom popup)", source=color_edit_names[0], no_inputs=True, no_picker=True, callback=log_callback)
                 helpmarker("we can override the popup with our own custom popup that includes a color pallet")
-                with popup("Color Edit 4 (with custom popup)", "custom picker popup", mousebutton=0):
+                with popup("Color Edit 4 (with custom popup)", mousebutton=0):
                     add_color_picker4("custom picker", no_tooltip=True, picker_hue_wheel=True, callback=log_callback)
                     add_text("Color Pallet")
                     for i in range(30):
@@ -470,9 +466,9 @@ def show_demo():
                 add_checkbox("no_border", callback=lambda sender, data: configure_item("Color Button", no_border=get_value(sender)))
 
                 add_color_button((255, 50, 255, 0), "Color Button", width=50, height=50, callback=log_callback)
-                with table("##demowidgetscolor_2", header_row=False):
-                    add_table_column("##demowidgetscolor_21")
-                    add_table_column("##demowidgetscolor_22")
+                with table(header_row=False):
+                    add_table_column()
+                    add_table_column()
 
                     add_checkbox("With Alpha", default_value=True, callback=lambda sender, data: configure_item("Color Picker 4", alpha_preview = get_value(sender)))
                     add_checkbox("With Alpha Bar", default_value=True, callback=lambda sender, data: configure_item("Color Picker 4", alpha_bar = get_value(sender)))
@@ -539,7 +535,7 @@ def show_demo():
                 add_checkbox("Enable-Disable##vertical_sliders", default_value=True, callback=toggle_config, callback_data={'kwargs': ['enabled'], 'items': disable_items})
                 add_slider_int(f"##vi", default_value=1, vertical=True, max_value=5, height=160)
                 add_same_line()
-                with group("v group 1##demo"):
+                with group():
                     values = [ 0.0, 0.60, 0.35, 0.9, 0.70, 0.20, 0.0 ]
                     for i in range(0, 7):
                         if i > 0:
@@ -551,9 +547,9 @@ def show_demo():
                         #set_item_color(f"##v{i}##demo", mvGuiCol_SliderGrab, hsv_to_rgb(i/7.0, 0.9, 0.9))
 
                 add_same_line()
-                with group("v group 2##demo"):
+                with group():
                     for i in range(0, 3):
-                        with group(f"v group 2{i}##demo"):
+                        with group():
                             values = [ 0.20, 0.80, 0.40, 0.25 ]
                             for j in range(0, 4):
                                 add_slider_float(f"##v{j}{i}##demo", default_value=values[j], vertical=True, max_value=1.0, height=50)
@@ -561,7 +557,7 @@ def show_demo():
                                     add_same_line()   
                             
                 add_same_line()
-                with group("v group 3##demo"):
+                with group():
                     add_slider_float("##vs1##demo", vertical=True, max_value=1.0, height=160, width=40)
                     add_same_line()
                     add_slider_float("##vs2##demo", vertical=True, max_value=1.0, height=160, width=40)
@@ -573,10 +569,10 @@ def show_demo():
             with tree_node("Time/Date Widgets##demo"):
                 add_time_picker("Time Picker##demo", default_value={'hour': 14, 'min': 32, 'sec': 23})
                 add_separator()
-                with table("Date Columns##demo", header_row=False):
-                    add_table_column("Date Columns##demo1")
-                    add_table_column("Date Columns##demo2")
-                    add_table_column("Date Columns##demo3")
+                with table(header_row=False):
+                    add_table_column()
+                    add_table_column()
+                    add_table_column()
 
                     add_date_picker("Date Picker1##demo", level=0, default_value={'month_day': 8, 'year':93, 'month':5})
                     add_table_next_column()
@@ -589,25 +585,25 @@ def show_demo():
 
             with tree_node("Child windows##demo"):
 
-                with child("child##demo", border=False, width=400):
+                with child(border=False, width=400):
                     for i in range(0, 100):
                         add_text(f"{i}: scrollable region")
 
                 add_same_line()
-                with child("decorated child##demo", autosize_x=True):
-                    with menu_bar("MenuBarChild##demo"):
+                with child(autosize_x=True):
+                    with menu_bar():
                         with menu("Menu##child##demo"):
                             pass
-                    with group("decorated child group##demo", width=-20):
+                    with group(width=-20):
                         for i in range(0, 100):
                             add_button(f"{i}##childbutton##demo")
 
             with tree_node("Child Window Flags##demo"):
 
-                with table("##childwindowcol", header_row=False):
-                    add_table_column("##childwindowcol1")
-                    add_table_column("##childwindowcol2")
-                    add_table_column("##childwindowcol3")
+                with table(header_row=False):
+                    add_table_column()
+                    add_table_column()
+                    add_table_column()
 
                     add_checkbox("autosize_x##demo", callback=lambda sender, data: configure_item("testchild##demo", autosize_x=get_value(sender)))
                     add_checkbox("autosize_y##demo", callback=lambda sender, data: configure_item("testchild##demo", autosize_y=get_value(sender)))
@@ -620,9 +616,8 @@ def show_demo():
                     add_checkbox("horizontal_scrollbar##childdemo", callback=lambda sender, data: configure_item("testchild##demo", horizontal_scrollbar=get_value(sender)))
                     add_checkbox("border##childdemo", default_value=True, callback=lambda sender, data: configure_item("testchild##demo", border=get_value(sender)))
 
-                with child("testchild##demo", width=500, height=500):
-                    #set_item_color("testchild##demo", mvGuiCol_ChildBg, [255, 0, 0, 100])
-                    with menu_bar("MenuBartestChild##demo"):
+                with child(width=500, height=500):
+                    with menu_bar():
                         with menu("Menu##testchild##demo"):
                             pass
                     for i in range(0, 100):
@@ -640,7 +635,7 @@ def show_demo():
                 add_drag_float("float##demowidths3", width=-1)
 
                 add_text("group with width=75")
-                with group("##demowidgetWidthgroup", width=75):
+                with group(width=75):
                     add_drag_float("float##demowidths4")
                     add_drag_float("float##demowidths5")
                     add_drag_float("float##demowidths6")
@@ -698,7 +693,7 @@ def show_demo():
 
             with tree_node("Tabs##demo"):
                 with tree_node("Basic##tabs##demo"):
-                    with tab_bar("Basic Tabbar##demo"):
+                    with tab_bar():
                         with tab("Avocado##demo"):
                             add_text("This is the avocado tab!")
                         with tab("Broccoli##demo"):
@@ -730,11 +725,11 @@ def show_demo():
                     add_button("AAA##demogroup")
                     add_button("BBB##demogroup")
                     add_button("CCC##demogroup")
-                with tooltip("group##demotabexamples", "grouptooltip"):
+                with tooltip("group##demotabexamples"):
                     add_text("The group is hovered", wrap=200)
 
                 add_text("Horizontal group:")
-                with group("group##demotabexamples1", horizontal=True):
+                with group(horizontal=True):
                     add_button("AAA##demogroup1")
                     add_button("BBB##demogroup1")
                     add_button("CCC##demogroup1")
@@ -797,12 +792,12 @@ def show_demo():
             with tree_node("Basic##tables##demo"):
 
                 # basic usage of the table api
-                with table("table1##demo", header_row=False):
+                with table(header_row=False):
 
                     # use add_table_column to add columns to the table
-                    add_table_column("Header 1##democolumns1")
-                    add_table_column("Header 2##democolumns1")
-                    add_table_column("Header 3##democolumns1")
+                    add_table_column()
+                    add_table_column()
+                    add_table_column()
 
                     # add_table_next_column will jump to the next row
                     # once it reaches the end of the columns
