@@ -35,23 +35,18 @@ namespace Marvel {
 		mvImGuiThemeScope scope(this);
 		mvFontScope fscope(this);
 
-		// create menu item and see if its selected, we opted not to utilize the imgui enable/disable input to the MenuItem so we can use normal style
-		// constants instead of adding a constant for the disabled text that the widget pushes when disabled.
-		if (ImGui::MenuItem(m_label.c_str(), m_shortcut.c_str(), m_check ? m_value.get() : nullptr))
+		// This is ugly and goes against our style system but its the only widget that ImGui chooses to push teh disable color for us
+		// so we have to map our text disable color to the system text disable color, or we can create a new constant which goes agains our 
+		// constants. 
+		ImGui::PushStyleColor(ImGuiCol_TextDisabled, ImGui::GetStyleColorVec4(ImGuiCol_Text));
+
+		// create menu item and see if its selected
+		if (ImGui::MenuItem(m_label.c_str(), m_shortcut.c_str(), m_check ? m_value.get() : nullptr, m_core_config.enabled))
 		{
-			// set other menuitems's value false on same level
-			for (auto sibling : m_parent->m_children)
-			{
-				// ensure sibling
-				if (sibling->getType() == mvAppItemType::mvMenuItem)
-					*((mvMenuItem*)sibling.get())->m_value = false;
-			}
-
-			*m_value = true;
-
-			mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), m_core_config.name, m_core_config.callback_data);
-
+			mvApp::GetApp()->getCallbackRegistry().addCallback(m_core_config.callback, m_core_config.name, m_core_config.callback_data);
 		}
+
+		ImGui::PopStyleColor();
 
 	}
 

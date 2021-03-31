@@ -193,9 +193,8 @@ def show_demo():
                 add_separator()
                 with menu("Options##demomenu"):
                     add_checkbox("Toggle Enabled##demomenu", default_value=True, callback=lambda sender: configure_item("Option1a##demo", enabled=get_value(sender)))
-                    with group("Option1"):
-                        add_menu_item("Option1a##demo", check=True, callback=log_callback)
-                        add_menu_item("Option1b##demo", check=True, callback=log_callback)
+                    add_menu_item("Option1a##demo", check=True, callback=log_callback)
+                    add_menu_item("Option1b##demo", check=True, callback=log_callback)
                     add_menu_item("Option2##demo", check=True, callback=log_callback)
                     with child("childmenu##demo", height=60, autosize_x=True):
                         for i in range(0, 10):
@@ -247,7 +246,7 @@ def show_demo():
                         configure_item(item, **config_dict)
 
                 disable_items = ["Button1##demo", "Button2##demo", "Button3##demo", "Button4##demo", "Button5##demo", "Button6##demo"
-                    ,"checkbox##demo", "radiobutton##demo", "selectable##demo", "Left##demo", "Right##demo"
+                    ,"checkbox##demo", "radiobutton##demo", "selectable##demo", "selectable (sized)##demo", "Left##demo", "Right##demo"
                     ,"combo##demo","listbox##demo","input text##demo","input text (w/ hint)##demo"
                     ,"input int##demo", "input float##demo", "input scientific##demo", "input float3##example##demo"
                     ,"drag int", "drag int 0..100##demo", "drag float##demo", "drag small float##demo"
