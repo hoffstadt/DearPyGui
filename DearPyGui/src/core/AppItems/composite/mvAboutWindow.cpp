@@ -160,9 +160,6 @@ namespace Marvel {
         
     }
 
-
-#ifdef MV_CPP
-#else
     PyObject* add_about_window(PyObject* self, PyObject* args, PyObject* kwargs)
     {
         const char* name;
@@ -207,6 +204,5 @@ namespace Marvel {
 
         return GetPyNone();
     }
-#endif // 
 
 }

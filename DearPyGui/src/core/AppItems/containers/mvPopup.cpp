@@ -112,8 +112,6 @@ namespace Marvel {
 		}
 	}
 
-#ifndef MV_CPP
-
 	void mvPopup::setExtraConfigDict(PyObject* dict)
 	{
 		if (dict == nullptr)
@@ -200,5 +198,4 @@ namespace Marvel {
 		return GetPyNone();
 	}
 
-#endif
 }

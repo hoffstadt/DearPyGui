@@ -55,10 +55,8 @@ namespace Marvel {
 		int getId() const {return m_id;}
 		void markForDeletion() { m_delete = true; }
 
-#ifndef MV_CPP
 		void setExtraConfigDict(PyObject* dict) override;
 		void getExtraConfigDict(PyObject* dict) override;
-#endif // !MV_CPP
 
 	private:
         int m_id = 0;

@@ -36,11 +36,7 @@ namespace Marvel {
 
 	};
 
-#ifdef MV_CPP
-	void add_window(const char* name, const mvWindowAppItemConfig& config = {});
-#else
 	PyObject* add_window(PyObject* self, PyObject* args, PyObject* kwargs);
-#endif //
 
 	MV_REGISTER_WIDGET(mvWindowAppItem);
 	class mvWindowAppItem : public mvAppItem
@@ -139,10 +135,8 @@ namespace Marvel {
 		void   setResizeCallback    (mvCallable callback);
 		bool  getWindowAsMainStatus() const { return m_mainWindow; }
 
-#ifndef MV_CPP
 		void setExtraConfigDict(PyObject* dict) override;
 		void getExtraConfigDict(PyObject* dict) override;
-#endif // !MV_CPP
 
 		void   setFocusedNextFrame  () { m_focusNextFrame = true; }
 		mvRef<mvDrawList> getDrawList     () { return m_drawList; }

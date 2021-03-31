@@ -301,8 +301,6 @@ namespace Marvel {
 
 		static auto parsers = std::map<std::string, mvPythonParser>();
 
-#ifdef MV_CPP
-#else
 		if (parsers.empty())
 		{
 			constexpr_for<1, (int)mvAppItemType::ItemTypeCount, 1>(
@@ -319,7 +317,6 @@ namespace Marvel {
 			AddAppCommands(&parsers);
 			AddFontCommands(&parsers);
 		}
-#endif
 		return parsers;
 	}
 

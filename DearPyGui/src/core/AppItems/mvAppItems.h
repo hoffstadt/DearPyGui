@@ -36,9 +36,12 @@
 #include "containers/mvMenu.h"
 #include "containers/mvMenuBar.h"
 #include "containers/mvTooltip.h"
-#include "containers/mvTable.h"
 #include "containers/mvWindowAppItem.h"
 #include "containers/mvPopup.h"
+
+#include "tables/mvTable.h"
+#include "tables/mvTableColumn.h"
+#include "tables/mvTableNextColumn.h"
 
 #include "custom/mvDrawing.h"
 #include "custom/mvTimePicker.h"

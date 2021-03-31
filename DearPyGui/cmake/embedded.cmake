@@ -11,12 +11,8 @@ target_compile_definitions(coreemb
 		$<$<CONFIG:Release>:MV_RELEASE>
 )
 
-# Add sources specific to either the C++ or Python Interface
-if(MV_CPP)
-	target_sources(coreemb PRIVATE ${MARVEL_SOURCES} ${MARVEL_CPP_SOURCES})
-else()
-	target_sources(coreemb PRIVATE ${MARVEL_SOURCES} ${MARVEL_PY_SOURCES})
-endif()
+# Add sources
+target_sources(coreemb PRIVATE ${MARVEL_SOURCES} ${MARVEL_PY_SOURCES})
 
 ###############################################################################
 # Windows Specifics
@@ -29,12 +25,8 @@ if(WIN32)
 	# tell cmake where to find the python3x dlls
 	target_link_directories(coreemb PRIVATE "../Dependencies/cpython/PCbuild/amd64/")
 
-	# Add sources specific to either the C++ or Python Interface
-	if(MV_CPP)
-		target_link_libraries(coreemb PUBLIC d3d11)
-	else()
-		target_link_libraries(coreemb PUBLIC d3d11 freetype $<$<CONFIG:Debug>:python39_d> $<$<CONFIG:Release>:python39>)
-	endif()
+	# Add libraries to link to
+	target_link_libraries(coreemb PUBLIC d3d11 freetype $<$<CONFIG:Debug>:python39_d> $<$<CONFIG:Release>:python39>)
 	
 ###############################################################################
 # Apple Specifics
@@ -78,11 +70,7 @@ else() # Linux
 
 	set_property(TARGET coreemb APPEND_STRING PROPERTY COMPILE_FLAGS "-fPIC -Wno-unused-result -Wsign-compare -DNDEBUG -g -fwrapv -O3 -Wall")
 	
-	# Add sources specific to either the C++ or Python Interface
-	if(MV_CPP)
-		target_link_libraries(coreemb PRIVATE "-lcrypt -lpthread -ldl -lutil -lm" GL glfw freetype)
-	else()
-		target_link_libraries(coreemb PRIVATE "-lcrypt -lpthread -ldl -lutil -lm" GL glfw python3.9d freetype)
-	endif()
+	# Add libraries to link to
+	target_link_libraries(coreemb PRIVATE "-lcrypt -lpthread -ldl -lutil -lm" GL glfw python3.9d freetype)
 
 endif()

@@ -69,8 +69,6 @@ namespace Marvel {
 			*m_value = value;
 		}
 
-#ifdef MV_CPP
-#else
 	PyObject* add_simple_plot(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		const char* name;
@@ -125,5 +123,5 @@ namespace Marvel {
 		PyDict_SetItemString(dict, "maxscale", ToPyFloat(m_max));
 		PyDict_SetItemString(dict, "histogram", ToPyBool(m_histogram));
 	}
-#endif
+
 }

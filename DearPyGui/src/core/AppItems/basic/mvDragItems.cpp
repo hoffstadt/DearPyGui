@@ -663,9 +663,6 @@ namespace Marvel {
         return &m_config;
     }
 
-#ifdef MV_CPP
-#else
-
     void mvDragFloat::setExtraConfigDict(PyObject* dict)
     {
         if (dict == nullptr)
@@ -1395,5 +1392,4 @@ namespace Marvel {
         return GetPyNone();
     }
 
-#endif
 }

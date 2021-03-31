@@ -502,8 +502,6 @@ namespace Marvel {
 #endif
 	}
 
-#ifdef MV_CPP
-#else
 	void AddInputCommands(std::map<std::string, mvPythonParser>* parsers)
 	{
 		parsers->insert({ "set_mouse_move_callback", mvPythonParser({
@@ -953,6 +951,4 @@ namespace Marvel {
 
 		return GetPyNone();
 	}
-#endif // MV_CPP
-
 }

@@ -13,11 +13,7 @@ namespace Marvel {
 		std::string source = "";
 	};
 
-#ifdef MV_CPP
-	void add_checkbox(const char* name, const mvCheckboxConfig& config = {});
-#else
 	PyObject* add_checkbox(PyObject* self, PyObject* args, PyObject* kwargs);
-#endif
 
 	//-----------------------------------------------------------------------------
 	// mvCheckbox Keyword Struct

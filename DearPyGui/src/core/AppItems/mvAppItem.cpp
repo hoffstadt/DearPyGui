@@ -61,13 +61,12 @@ namespace Marvel{
 
 	void mvAppItem::setCallback(mvCallable callback)
 	{ 
-#ifndef MV_CPP
+
 		if (callback == Py_None)
 		{
 			m_core_config.callback = nullptr;
 			return;
 		}
-#endif // !MV_CPP
 
 		m_core_config.callback = callback;
 	}
@@ -427,25 +426,20 @@ namespace Marvel{
 	mvAppItem::~mvAppItem()
 	{
 		deleteChildren();
-
-#ifndef MV_CPP		 
+ 
 		mvGlobalIntepreterLock gil;
 		if (m_core_config.callback)
 			Py_DECREF(m_core_config.callback);
 		if (m_core_config.callback_data)
 			Py_DECREF(m_core_config.callback_data);
-#endif
 	}
 
 	mvCallable mvAppItem::getCallback(bool ignore_enabled)
 	{
 		if (m_core_config.enabled)
 			return m_core_config.callback;
-#ifdef MV_CPP	
-		return m_core_config.callback;
-#else
+
 		return ignore_enabled ? m_core_config.callback : nullptr;
-#endif
 		
 	}
 
@@ -533,11 +527,8 @@ namespace Marvel{
 		return m_cached_styles2;
 	}
 
-#ifndef MV_CPP
-
 	void mvAppItem::checkConfigDict(PyObject* dict)
 	{
-#ifndef MV_CPP	
 		if (dict == nullptr)
 			return;
 
@@ -584,7 +575,6 @@ namespace Marvel{
 				ThrowPythonException("\"" + key + "\" configuration does not exist in \"" + m_core_config.name + "\".");
 			}
 		}
-#endif
 	}
 
 	void mvAppItem::setConfigDict(PyObject* dict)
@@ -592,7 +582,6 @@ namespace Marvel{
 		if (dict == nullptr)
 			return;
 
-#ifndef MV_CPP	
 		if (PyObject* item = PyDict_GetItemString(dict, "name")) m_core_config.name = ToString(item);
 		if (PyObject* item = PyDict_GetItemString(dict, "label")) setLabel(ToString(item));
 		if (PyObject* item = PyDict_GetItemString(dict, "width")) setWidth(ToInt(item));
@@ -600,14 +589,13 @@ namespace Marvel{
 		if (PyObject* item = PyDict_GetItemString(dict, "show")) m_core_config.show = ToBool(item);
 		if (PyObject* item = PyDict_GetItemString(dict, "source")) setDataSource(ToString(item));
 		if (PyObject* item = PyDict_GetItemString(dict, "enabled")) setEnabled(ToBool(item));
-#endif
 	}
 
 	void mvAppItem::getConfigDict(PyObject* dict)
 	{
 		if (dict == nullptr)
 			return;
-#ifndef MV_CPP	
+
 		PyDict_SetItemString(dict, "name", ToPyString(m_core_config.name));
 		PyDict_SetItemString(dict, "label", ToPyString(m_core_config.label));
 		PyDict_SetItemString(dict, "source", ToPyString(m_core_config.source));
@@ -615,7 +603,7 @@ namespace Marvel{
 		PyDict_SetItemString(dict, "enabled", ToPyBool(m_core_config.enabled));
 		PyDict_SetItemString(dict, "width", ToPyInt(m_core_config.width));
 		PyDict_SetItemString(dict, "height", ToPyInt(m_core_config.height));
-#endif
+
 	}
 
 	void AddItemCommands(std::map<std::string, mvPythonParser>* parsers)
@@ -1352,5 +1340,4 @@ namespace Marvel{
 		return GetPyNone();
 	}
 
-#endif // !MV_CPP
 }

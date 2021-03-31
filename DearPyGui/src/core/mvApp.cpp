@@ -124,13 +124,9 @@ namespace Marvel {
 	void mvApp::cleanup()
 	{
 		getCallbackRegistry().stop();
-		#ifdef MV_CPP
-		        getCallbackRegistry().addCallback([]() {}, "null", nullptr);
-		#else
-		        getCallbackRegistry().addCallback(nullptr, "null", nullptr);
-		#endif // !MV_CPP
-		
-		        
+
+		getCallbackRegistry().addCallback(nullptr, "null", nullptr);
+      
 		m_future.get();
 		delete m_viewport;
 		s_started = false;
@@ -144,10 +140,7 @@ namespace Marvel {
         mvAppLog::Clear();
 		mvAppLog::AddLog("[DearPyGui Version] %0s\n", mvApp::GetVersion());
 		mvAppLog::AddLog("[DearImGui Version] %0s\n", IMGUI_VERSION);
-
-#ifndef MV_CPP
         mvAppLog::AddLog("[Python Version] %0s\n", PY_VERSION);
-#endif // !MV_CPP
 
 
 		m_mainThreadID = std::this_thread::get_id();
@@ -322,9 +315,6 @@ namespace Marvel {
 		ImGui::End();
 
 	}
-
-#ifdef MV_CPP
-#else
 
 	void AddAppCommands(std::map<std::string, mvPythonParser>* parsers)
 	{
@@ -800,7 +790,5 @@ namespace Marvel {
 	{
 		return ToPyFloat(mvApp::GetApp()->getGlobalFontScale());
 	}
-
-#endif
 
 }

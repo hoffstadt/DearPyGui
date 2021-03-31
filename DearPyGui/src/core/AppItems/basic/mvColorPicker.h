@@ -38,13 +38,8 @@ namespace Marvel {
 		bool                 input_hsv          = false;
 	};
 
-#ifdef MV_CPP
-	void add_color_picker3(const std::string& name, const mvColorPickerConfig& config = {});
-	void add_color_picker4(const std::string& name, const mvColorPickerConfig& config = {});
-#else
 	PyObject* add_color_picker3(PyObject* self, PyObject* args, PyObject* kwargs);
 	PyObject* add_color_picker4(PyObject* self, PyObject* args, PyObject* kwargs);
-#endif
 
 	//-----------------------------------------------------------------------------
 	// mvColorPicker3
@@ -109,10 +104,8 @@ namespace Marvel {
 
 		void draw()               override;
 
-#ifndef MV_CPP
 		void setExtraConfigDict(PyObject* dict) override;
 		void getExtraConfigDict(PyObject* dict) override;
-#endif // !MV_CPP
 
 		// cpp interface
 		void updateConfig(mvAppItemConfig* config) override;
@@ -188,10 +181,8 @@ namespace Marvel {
 
 		void draw()               override;
 
-#ifndef MV_CPP
 		void setExtraConfigDict(PyObject* dict) override;
 		void getExtraConfigDict(PyObject* dict) override;
-#endif // !MV_CPP
 
 		// cpp interface
 		void updateConfig(mvAppItemConfig* config) override;

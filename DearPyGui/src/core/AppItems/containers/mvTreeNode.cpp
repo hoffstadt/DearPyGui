@@ -61,8 +61,6 @@ namespace Marvel {
 		ImGui::EndGroup();
 	}
 
-#ifndef MV_CPP
-
 	void mvTreeNode::setExtraConfigDict(PyObject* dict)
 	{
 		if (dict == nullptr)
@@ -137,5 +135,4 @@ namespace Marvel {
 		return GetPyNone();
 	}
 
-#endif
 }

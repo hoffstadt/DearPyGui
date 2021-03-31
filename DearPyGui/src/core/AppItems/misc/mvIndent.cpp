@@ -29,9 +29,6 @@ namespace Marvel {
 		ImGui::Indent(*m_value);
 	}
 
-
-#ifdef MV_CPP
-#else
 	PyObject* add_indent(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		static int i = 0; i++;
@@ -56,6 +53,5 @@ namespace Marvel {
 
 		return GetPyNone();
 	}
-#endif
 
 }

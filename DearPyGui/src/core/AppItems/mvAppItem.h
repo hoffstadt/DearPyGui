@@ -242,8 +242,6 @@ namespace Marvel {
 
     inline void DecodeType(long encoded_constant, mvAppItemType* type) { *type = (mvAppItemType)(encoded_constant / 1000); }
 
-#ifdef MV_CPP
-#else
     void AddItemCommands(std::map<std::string, mvPythonParser>* parsers);
 
     PyObject* get_item_type(PyObject* self, PyObject* args, PyObject* kwargs);
@@ -286,5 +284,5 @@ namespace Marvel {
     PyObject* get_item_rect_size(PyObject* self, PyObject* args, PyObject* kwargs);
     PyObject* get_value(PyObject* self, PyObject* args, PyObject* kwargs);
     PyObject* set_value(PyObject* self, PyObject* args, PyObject* kwargs);
-#endif
+
 }

@@ -22,12 +22,7 @@ namespace Marvel {
 		bool no_drag_drop = false;
 	};
 
-#ifdef MV_CPP
-	void add_color_button(const char* name, const mvColorButtonConfig& config = {});
-	void add_color_button(const char* name, mvColor color, mvCallable callable);
-#else
 	PyObject* add_color_button(PyObject* self, PyObject* args, PyObject* kwargs);
-#endif
 
 	MV_REGISTER_WIDGET(mvColorButton);
 	class mvColorButton : public mvAppItem
@@ -78,10 +73,8 @@ namespace Marvel {
 
 		void draw() override;
 
-#ifndef MV_CPP
 		void setExtraConfigDict(PyObject* dict) override;
 		void getExtraConfigDict(PyObject* dict) override;
-#endif // !MV_CPP
 
 		// cpp interface
 		void updateConfig(mvAppItemConfig* config) override;

@@ -5,10 +5,7 @@
 
 namespace Marvel{
 
-#ifdef MV_CPP
-#else
 	PyObject* add_simple_plot(PyObject* self, PyObject* args, PyObject* kwargs);
-#endif
 
 	MV_REGISTER_WIDGET(mvSimplePlot);
 	class mvSimplePlot : public mvFloatVectPtrBase
@@ -69,10 +66,8 @@ namespace Marvel{
 		void setValue(const std::vector<float>& value);
 		[[nodiscard]] const std::vector<float>& getValue() const { return *m_value; }
 
-#ifndef MV_CPP
 		void setExtraConfigDict(PyObject* dict) override;
 		void getExtraConfigDict(PyObject* dict) override;
-#endif
 
 	private:
 

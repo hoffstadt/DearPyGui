@@ -31,8 +31,6 @@ namespace Marvel {
 		ImGui::Dummy({ (float)m_core_config.width, (float)m_core_config.height });
 	}
 
-#ifdef MV_CPP
-#else
 	PyObject* add_dummy(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		static int i = 0; i++;
@@ -58,6 +56,5 @@ namespace Marvel {
 
 		return GetPyNone();
 	}
-#endif
 
 }

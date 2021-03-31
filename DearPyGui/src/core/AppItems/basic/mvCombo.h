@@ -20,12 +20,7 @@ namespace Marvel {
 		bool                     no_preview       = false;
 	};
 
-#ifdef MV_CPP
-	void add_combo(const char* name, const mvComboConfig& config = {});
-	void add_combo(const char* name, const std::vector<std::string>& items, mvCallable callable = nullptr);
-#else
 	PyObject* add_combo(PyObject* self, PyObject* args, PyObject* kwargs);
-#endif
 
 	MV_REGISTER_WIDGET(mvCombo);
 	class mvCombo : public mvStringPtrBase
@@ -112,10 +107,8 @@ namespace Marvel {
 
 		void draw() override;
 
-#ifndef MV_CPP
 		void setExtraConfigDict(PyObject* dict) override;
 		void getExtraConfigDict(PyObject* dict) override;
-#endif // !MV_CPP
 
 		// cpp interface
 		void updateConfig(mvAppItemConfig* config) override;

@@ -928,8 +928,6 @@ namespace Marvel {
         return &m_config;
     }
 
-#ifndef MV_CPP
-
     void mvInputInt::setExtraConfigDict(PyObject* dict)
     {
         if (dict == nullptr)
@@ -1620,5 +1618,4 @@ namespace Marvel {
         return GetPyNone();
     }
 
-#endif // !MV_CPP
 }

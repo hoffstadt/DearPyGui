@@ -1176,9 +1176,6 @@ namespace Marvel {
 		return m_queryArea;
 	}
 
-#ifdef MV_CPP
-#else
-
 	void mvPlot::setExtraConfigDict(PyObject* dict)
 	{
 		if (dict == nullptr)
@@ -3021,7 +3018,5 @@ namespace Marvel {
 
 		return GetPyNone();
 	}
-
-#endif
 
 }

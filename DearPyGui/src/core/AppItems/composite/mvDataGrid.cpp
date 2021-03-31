@@ -633,9 +633,6 @@ namespace Marvel {
 
 	}
 
-#ifdef MV_CPP
-#else
-
 	PyObject* add_data_grid(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		const char* name;
@@ -1109,5 +1106,4 @@ namespace Marvel {
 		return GetPyNone();
 	}
 
-#endif // !MV_CPP
 }

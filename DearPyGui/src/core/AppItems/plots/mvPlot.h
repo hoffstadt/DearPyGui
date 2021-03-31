@@ -28,9 +28,6 @@ namespace Marvel {
 	struct mvDragPoint;
 	class mvDrawList;
 
-#ifdef MV_CPP
-#else
-	
 	PyObject* add_plot         (PyObject* self, PyObject* args, PyObject* kwargs);
 	PyObject* add_drag_point   (PyObject* self, PyObject* args, PyObject* kwargs);
 	PyObject* delete_drag_point(PyObject* self, PyObject* args, PyObject* kwargs);
@@ -77,8 +74,6 @@ namespace Marvel {
 	PyObject* add_candle_series(PyObject* self, PyObject* args, PyObject* kwargs);
 	PyObject* add_vline_series(PyObject* self, PyObject* args, PyObject* kwargs);
 	PyObject* add_hline_series(PyObject* self, PyObject* args, PyObject* kwargs);
-#endif
-
 
 	//-----------------------------------------------------------------------------
 	// mvPlot
@@ -330,10 +325,8 @@ namespace Marvel {
 		const ImVec2&      getY2Limits       () const { return m_y2limits_actual; }
 		const ImVec2&      getY3Limits       () const { return m_y3limits_actual; }
 
-#ifndef MV_CPP
 		void setExtraConfigDict(PyObject* dict) override;
 		void getExtraConfigDict(PyObject* dict) override;
-#endif // !MV_CPP
 
 	private:
 

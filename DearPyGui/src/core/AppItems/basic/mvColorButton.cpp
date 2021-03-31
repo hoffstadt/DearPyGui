@@ -81,23 +81,6 @@ namespace Marvel {
 		return &m_config;
 	}
 
-#ifdef MV_CPP
-
-	void add_color_button(const char* name, const mvColorButtonConfig& config)
-	{
-		auto item = CreateRef<mvColorButton>(name, config);
-		mvApp::GetApp()->getItemRegistry().addItemWithRuntimeChecks(item, config.parent.c_str(), config.before.c_str());
-	}
-
-	void add_color_button(const char* name, mvColor color, mvCallable callable)
-	{
-		mvColorButtonConfig config;
-		config.color = color;
-		config.callback = callable;
-		add_color_button(name, config);
-	}
-
-#else
 	void mvColorButton::setExtraConfigDict(PyObject* dict)
 	{
 		if (dict == nullptr)
@@ -170,6 +153,4 @@ namespace Marvel {
 
 		return GetPyNone();
 	}
-
-#endif // !MV_CPP
 }

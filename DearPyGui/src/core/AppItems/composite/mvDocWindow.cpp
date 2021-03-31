@@ -654,8 +654,6 @@ namespace Marvel {
 		ImGui::End();
 	}
 
-#ifndef MV_CPP
-
 	PyObject* add_doc_window(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		const char* name;
@@ -700,5 +698,4 @@ namespace Marvel {
 		return GetPyNone();
 	}
 
-#endif
 }

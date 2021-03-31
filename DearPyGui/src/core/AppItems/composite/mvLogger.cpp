@@ -294,8 +294,6 @@ namespace Marvel {
 		LineOffsets.push_back(0);
 	}
 
-#ifndef MV_CPP
-
 	void mvLoggerItem::setExtraConfigDict(PyObject* dict)
 	{
 		if (dict == nullptr)
@@ -657,5 +655,5 @@ namespace Marvel {
 
 		return GetPyNone();
 	}
-#endif
+
 }

@@ -30,9 +30,6 @@ namespace Marvel {
 
 	}
 
-
-#ifdef MV_CPP
-#else
 	PyObject* add_separator(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		static int i = 0; i++;
@@ -53,6 +50,5 @@ namespace Marvel {
 
 		return GetPyNone();
 	}
-#endif
 
 }

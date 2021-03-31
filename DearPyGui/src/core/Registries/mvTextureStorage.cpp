@@ -237,8 +237,6 @@ namespace Marvel {
 		return (unsigned)m_textures.size();
 	}
 
-#ifdef MV_CPP
-#else
 	void AddTextureStorageCommands(std::map<std::string, mvPythonParser>* parsers)
 	{
 
@@ -494,5 +492,4 @@ namespace Marvel {
 
 		return GetPyNone();
 	}
-#endif
 }

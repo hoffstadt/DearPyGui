@@ -324,8 +324,6 @@ namespace Marvel {
 				ImGui::PopTextWrapPos();
 				ImGui::EndChild();
 
-#ifndef MV_CPP
-
 				ImGui::InputTextMultiline("Command##debug", &commandstring, ImVec2(-1, -50));
 				ImGui::PopItemWidth();
 				if (ImGui::Button("Run##debug"))
@@ -336,7 +334,6 @@ namespace Marvel {
 						});
 
 				}
-#endif // !MV_CPP
 
 				ImGui::EndTabItem();
 			}
@@ -363,8 +360,6 @@ namespace Marvel {
 		ImGui::End();
 
 	}
-
-#ifndef MV_CPP
 
 	PyObject* add_debug_window(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
@@ -411,5 +406,4 @@ namespace Marvel {
 		return GetPyNone();
 	}
 
-#endif
 }

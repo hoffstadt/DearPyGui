@@ -7,10 +7,7 @@
 
 namespace Marvel {
 
-#ifdef MV_CPP
-#else
     PyObject* add_metrics_window(PyObject* self, PyObject* args, PyObject* kwargs);
-#endif
 
     MV_REGISTER_WIDGET(mvMetricsWindow);
     class mvMetricsWindow : public mvBaseWindowAppitem

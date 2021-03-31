@@ -18,9 +18,6 @@
 #include "mvPythonParser.h"
 
 namespace Marvel {
-
-#ifdef MV_CPP
-#else
 	
 	void AddInputCommands                    (std::map<std::string, mvPythonParser>* parsers);
 
@@ -56,7 +53,6 @@ namespace Marvel {
 
 	// app callbacks
 	PyObject* set_resize_callback            (PyObject* self, PyObject* args, PyObject* kwargs);
-#endif
 
 	//-----------------------------------------------------------------------------
 	// mvInput

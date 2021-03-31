@@ -333,8 +333,6 @@ namespace Marvel {
 
 	}
 
-#ifdef MV_CPP
-
 	void add_window(const char* name, const mvWindowAppItemConfig& config)
 	{
 
@@ -350,8 +348,6 @@ namespace Marvel {
 		}
 
 	}
-
-#else
 
 	void mvWindowAppItem::setExtraConfigDict(PyObject* dict)
 	{
@@ -496,7 +492,5 @@ namespace Marvel {
 
 		return GetPyNone();
 	}
-
-#endif
 
 }

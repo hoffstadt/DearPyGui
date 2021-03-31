@@ -18,10 +18,6 @@ namespace Marvel {
 		bool autosize_y = false;
 	};
 
-	
-
-#ifdef MV_CPP
-#else
 	PyObject* add_logger             (PyObject* self, PyObject* args, PyObject* kwargs);
 	PyObject* get_log_level          (PyObject* self, PyObject* args, PyObject* kwargs);
 	PyObject* set_log_level          (PyObject* self, PyObject* args, PyObject* kwargs);
@@ -33,7 +29,6 @@ namespace Marvel {
 	PyObject* clear_log              (PyObject* self, PyObject* args, PyObject* kwargs);
 	PyObject* show_logger            (PyObject* self, PyObject* args);
 	PyObject* set_logger_window_title(PyObject* self, PyObject* args, PyObject* kwargs);
-#endif
 
 	MV_REGISTER_WIDGET(mvLoggerItem);
 	class mvLoggerItem : public mvAppItem
@@ -94,10 +89,8 @@ namespace Marvel {
 		void LogError(const std::string& text);
 		void ClearLog();
 
-#ifndef MV_CPP
 		void setExtraConfigDict(PyObject* dict) override;
 		void getExtraConfigDict(PyObject* dict) override;
-#endif
 
 
 	private:

@@ -29,9 +29,6 @@ namespace Marvel {
 		ImGui::Unindent(*m_value);
 	}
 
-
-#ifdef MV_CPP
-#else
 	PyObject* unindent(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		static int i = 0; i++;
@@ -56,5 +53,5 @@ namespace Marvel {
 
 		return GetPyNone();
 	}
-#endif
+
 }
