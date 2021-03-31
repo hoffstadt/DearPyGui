@@ -53,6 +53,7 @@ namespace Marvel {
 		bool isParentCompatible(mvAppItemType type) override;
 
 		int getId() const {return m_id;}
+		void markForDeletion() { m_delete = true; }
 
 #ifndef MV_CPP
 		void setExtraConfigDict(PyObject* dict) override;
@@ -64,6 +65,7 @@ namespace Marvel {
 		bool m_output = false;
 		bool m_static = false;
 		imnodes::PinShape m_shape = imnodes::PinShape_CircleFilled;
+		bool m_delete = false; // specific delete instructions when node editor is deleted
 
 	};
 

@@ -74,6 +74,15 @@ namespace Marvel {
 	mvNodeEditor::~mvNodeEditor()
 	{
 		m_delinkCallback = nullptr;
+		for (auto& child : m_children)
+		{
+			for (auto& grandchild : child->m_children)
+			{
+				((mvNodeAttribute*)grandchild.get())->markForDeletion();
+				deleteLink(grandchild->m_core_config.name, ((mvNodeAttribute*)grandchild.get())->getId(), true);
+			}
+
+		}
 	}
 
 	bool mvNodeEditor::canChildBeAdded(mvAppItemType type)

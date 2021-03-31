@@ -36,9 +36,12 @@ namespace Marvel {
 
 	mvNodeAttribute::~mvNodeAttribute()
 	{
-		if (m_parent)
-			if (m_parent->m_parent)
-				static_cast<mvNodeEditor*>(m_parent->m_parent)->deleteLink(m_core_config.name, m_id, true);
+		if (!m_delete)
+		{
+			if (m_parent)
+				if (m_parent->m_parent)
+					static_cast<mvNodeEditor*>(m_parent->m_parent)->deleteLink(m_core_config.name, m_id, true);
+		}
 	}
 
 	bool mvNodeAttribute::isParentCompatible(mvAppItemType type)
