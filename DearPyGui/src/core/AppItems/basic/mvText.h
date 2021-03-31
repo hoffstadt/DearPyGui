@@ -20,9 +20,6 @@ namespace Marvel {
 		std::string default_value = "";
 	};
 
-	PyObject* add_text      (PyObject* self, PyObject* args, PyObject* kwargs);
-	PyObject* add_label_text(PyObject* self, PyObject* args, PyObject* kwargs);
-
 	//-----------------------------------------------------------------------------
 	// mvText
 	//-----------------------------------------------------------------------------
@@ -30,7 +27,7 @@ namespace Marvel {
 	class mvText : public mvStringPtrBase
 	{
 
-		MV_APPITEM_TYPE(mvAppItemType::mvText, "add_text")
+		MV_APPITEM_TYPE(mvAppItemType::mvText, add_text)
 
 		MV_CREATE_THEME_CONSTANT(mvThemeCol_Text_Text, 0L, 0L);
 
@@ -84,7 +81,7 @@ namespace Marvel {
 	class mvLabelText : public mvStringPtrBase
 	{
 
-		MV_APPITEM_TYPE(mvAppItemType::mvLabelText, "add_label_text")
+		MV_APPITEM_TYPE(mvAppItemType::mvLabelText, add_label_text)
 
 		MV_CREATE_THEME_CONSTANT(mvThemeCol_LabelText_Text				    ,  0L, 0L);
 		MV_CREATE_THEME_CONSTANT(mvThemeStyle_LabelText_PaddingX			, 10L, 0L);

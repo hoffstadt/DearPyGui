@@ -7,12 +7,11 @@ namespace Marvel {
 
 	struct mvMenuBarConfig : public mvAppItemConfig {};
 
-	PyObject* add_menu_bar(PyObject* self, PyObject* args, PyObject* kwargs);
-
 	MV_REGISTER_WIDGET(mvMenuBar);
 	class mvMenuBar : public mvBoolPtrBase
 	{
-		MV_APPITEM_TYPE(mvAppItemType::mvMenuBar, "add_menu_bar")
+		MV_APPITEM_TYPE(mvAppItemType::mvMenuBar, add_menu_bar)
+
 		MV_CREATE_THEME_CONSTANT(mvThemeStyle_MenuBar_ItemSpacingX, 13L, 0L);
 		MV_CREATE_THEME_CONSTANT(mvThemeStyle_MenuBar_ItemSpacingY, 13L, 1L);
 

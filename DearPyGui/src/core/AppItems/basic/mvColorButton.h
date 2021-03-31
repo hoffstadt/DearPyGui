@@ -22,12 +22,13 @@ namespace Marvel {
 		bool no_drag_drop = false;
 	};
 
-	PyObject* add_color_button(PyObject* self, PyObject* args, PyObject* kwargs);
+	
 
 	MV_REGISTER_WIDGET(mvColorButton);
 	class mvColorButton : public mvAppItem
 	{
-		MV_APPITEM_TYPE(mvAppItemType::mvColorButton, "add_color_button")
+
+		MV_APPITEM_TYPE(mvAppItemType::mvColorButton, add_color_button)
 
 		MV_CREATE_THEME_CONSTANT(mvThemeCol_ColorButton_Text,              0L, 0L);
 		MV_CREATE_THEME_CONSTANT(mvThemeCol_ColorButton_Separator,        27L, 0L);

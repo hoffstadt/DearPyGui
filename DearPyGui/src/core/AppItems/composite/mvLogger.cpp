@@ -14,6 +14,7 @@ namespace Marvel {
 	void mvLoggerItem::InsertParser(std::map<std::string, mvPythonParser>* parsers)
 	{
 		parsers->insert({ "add_logger", mvPythonParser({
+			{mvPythonDataType::Optional},
 			{mvPythonDataType::String, "name"},
 			{mvPythonDataType::KeywordOnly},
 			{mvPythonDataType::Integer, "log_level", "", "1"},
@@ -332,9 +333,11 @@ namespace Marvel {
 		PyDict_SetItemString(dict, "autosize_y", ToPyBool(m_autosize_y));
 	}
 
-	PyObject* add_logger(PyObject* self, PyObject* args, PyObject* kwargs)
+	PyObject* mvLoggerItem::add_logger(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
-		const char* name;
+		static int i = 0; i++;
+		std::string sname = std::string(std::string("$$DPG_") + s_internal_id + std::to_string(i));
+		const char* name = sname.c_str();
 		int logLevel = 1;
 		int autoScroll = true;
 		int autoScrollButton = true;
@@ -362,7 +365,7 @@ namespace Marvel {
 
 		mvApp::GetApp()->getItemRegistry().addItemWithRuntimeChecks(item, parent, before);
 
-		return GetPyNone();
+		return ToPyString(name);
 	}
 
 	PyObject* get_log_level(PyObject* self, PyObject* args, PyObject* kwargs)

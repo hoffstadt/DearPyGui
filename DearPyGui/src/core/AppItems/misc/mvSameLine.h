@@ -4,8 +4,6 @@
 
 namespace Marvel {
 
-	PyObject* add_same_line(PyObject* self, PyObject* args, PyObject* kwargs);
-
 	MV_REGISTER_WIDGET(mvSameLine);
 	class mvSameLine : public mvAppItem
 	{
@@ -14,9 +12,7 @@ namespace Marvel {
 
 		static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
 
-	public:
-
-		MV_APPITEM_TYPE(mvAppItemType::mvSameLine, "add_same_line")
+		MV_APPITEM_TYPE(mvAppItemType::mvSameLine, add_same_line)
 
 		MV_START_GENERAL_CONSTANTS
 		MV_END_GENERAL_CONSTANTS

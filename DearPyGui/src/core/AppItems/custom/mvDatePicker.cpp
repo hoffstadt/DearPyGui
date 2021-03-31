@@ -12,6 +12,7 @@ namespace Marvel {
 	void mvDatePicker::InsertParser(std::map<std::string, mvPythonParser>* parsers)
 	{
 		parsers->insert({ "add_date_picker", mvPythonParser({
+			{mvPythonDataType::Optional},
 			{mvPythonDataType::String, "name"},
 			{mvPythonDataType::KeywordOnly},
 			{mvPythonDataType::Dict, "default_value", "data dict", "{'month_day': 14, 'year':20, 'month':5}"},
@@ -59,9 +60,11 @@ namespace Marvel {
 		PyDict_SetItemString(dict, "level", ToPyInt(m_level));
 	}
 
-	PyObject* add_date_picker(PyObject* self, PyObject* args, PyObject* kwargs)
+	PyObject* mvDatePicker::add_date_picker(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
-		const char* name;
+		static int i = 0; i++;
+		std::string sname = std::string(std::string("$$DPG_") + s_internal_id + std::to_string(i));
+		const char* name = sname.c_str();
 		PyObject* default_value = nullptr;
 		int level = 0;
 		PyObject* callback = nullptr;
@@ -88,7 +91,7 @@ namespace Marvel {
 
 		mvApp::GetApp()->getItemRegistry().addItemWithRuntimeChecks(item, parent, before);
 
-		return GetPyNone();
+		return ToPyString(name);
 	}
 
 }

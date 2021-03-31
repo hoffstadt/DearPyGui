@@ -9,12 +9,10 @@ namespace Marvel {
 		std::string tipparent;
 	};
 
-	PyObject* add_tooltip(PyObject* self, PyObject* args, PyObject* kwargs);
-
 	MV_REGISTER_WIDGET(mvTooltip);
 	class mvTooltip : public mvBoolPtrBase
 	{
-		MV_APPITEM_TYPE(mvAppItemType::mvTooltip, "add_tooltip")
+		MV_APPITEM_TYPE(mvAppItemType::mvTooltip, add_tooltip)
 
 		MV_CREATE_THEME_CONSTANT(mvThemeCol_Tooltip_Bg				,  4L, 0L);
 		MV_CREATE_THEME_CONSTANT(mvThemeCol_Tooltip_Border			,  5L, 0L);

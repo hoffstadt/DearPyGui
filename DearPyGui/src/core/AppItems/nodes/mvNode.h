@@ -4,15 +4,13 @@
 
 namespace Marvel {
 
-	PyObject* add_node(PyObject* self, PyObject* args, PyObject* kwargs);
-
 	MV_REGISTER_WIDGET(mvNode);
 	class mvNode : public mvAppItem
 	{
 
 		friend class mvNodeEditor;
 
-		MV_APPITEM_TYPE(mvAppItemType::mvNode, "add_node")
+		MV_APPITEM_TYPE(mvAppItemType::mvNode, add_node)
 
 		MV_CREATE_THEME_CONSTANT(mvThemeCol_Node_Background,				 0L, 0L);
 		MV_CREATE_THEME_CONSTANT(mvThemeCol_Node_BackgroundHovered,			 1L, 0L);

@@ -15,13 +15,11 @@ namespace Marvel {
 		std::array<float, 2> uv_max{ 1.0, 1.0 };
 	};
 
-	PyObject* add_image_button(PyObject* self, PyObject* args, PyObject* kwargs);
-
 	MV_REGISTER_WIDGET(mvImageButton);
 	class mvImageButton : public mvAppItem, public mvEventHandler
 	{
 
-		MV_APPITEM_TYPE(mvAppItemType::mvImageButton, "add_image_button")
+		MV_APPITEM_TYPE(mvAppItemType::mvImageButton, add_image_button)
 
 		MV_CREATE_THEME_CONSTANT(mvThemeCol_ImageButton_Bg				, 21L, 0L);
 		MV_CREATE_THEME_CONSTANT(mvThemeCol_ImageButton_BgHovered		, 22L, 0L);

@@ -28,10 +28,10 @@ namespace Marvel {
 			ImGui::Spacing();
 	}
 
-	PyObject* add_spacing(PyObject* self, PyObject* args, PyObject* kwargs)
+	PyObject* mvSpacing::add_spacing(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		static int i = 0; i++;
-		std::string sname = std::string("spacing" + std::to_string(i));
+		std::string sname = std::string(std::string("$$DPG_") + s_internal_id + std::to_string(i));
 		const char* name = sname.c_str();
 		int count = 1;
 		const char* before = "";
@@ -50,7 +50,7 @@ namespace Marvel {
 
 		mvApp::GetApp()->getItemRegistry().addItemWithRuntimeChecks(item, parent, before);
 
-		return GetPyNone();
+		return ToPyString(name);
 	}
 
 }

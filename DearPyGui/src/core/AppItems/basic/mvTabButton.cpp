@@ -9,6 +9,7 @@ namespace Marvel {
 	void mvTabButton::InsertParser(std::map<std::string, mvPythonParser>* parsers)
 	{
 		parsers->insert({ "add_tab_button", mvPythonParser({
+			{mvPythonDataType::Optional},
 			{mvPythonDataType::String, "name"},
 			{mvPythonDataType::KeywordOnly},
 			{mvPythonDataType::String, "label", "", "''"},
@@ -104,9 +105,11 @@ namespace Marvel {
 
 	}
 
-	PyObject* add_tab_button(PyObject* self, PyObject* args, PyObject* kwargs)
+	PyObject* mvTabButton::add_tab_button(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
-		const char* name;
+		static int i = 0; i++;
+		std::string sname = std::string(std::string("$$DPG_") + s_internal_id + std::to_string(i));
+		const char* name = sname.c_str();
 		const char* label = "";
 		int show = true;
 		int no_reorder = false;
@@ -149,7 +152,7 @@ namespace Marvel {
 
 				mvApp::GetApp()->getItemRegistry().addItemWithRuntimeChecks(item, parent, before);
 
-				return GetPyNone();
+				return ToPyString(name);
 
 			}
 
@@ -182,7 +185,7 @@ namespace Marvel {
 
 				mvApp::GetApp()->getItemRegistry().addItemWithRuntimeChecks(item, parent, before);
 
-				return GetPyNone();
+				return ToPyString(name);
 			}
 
 			else

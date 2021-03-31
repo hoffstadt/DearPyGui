@@ -26,6 +26,7 @@ namespace Marvel {
 	void mvPlot::InsertParser(std::map<std::string, mvPythonParser>* parsers)
 	{
 		parsers->insert({ "add_plot", mvPythonParser({
+			{mvPythonDataType::Optional},
 			{mvPythonDataType::String, "name"},
 			{mvPythonDataType::KeywordOnly},
 			{mvPythonDataType::String, "x_axis_name", "", "''"},
@@ -1327,9 +1328,11 @@ namespace Marvel {
 		checkbitset("y3axis_lock_max",       ImPlotAxisFlags_LockMax,      m_y3flags);
 	}
 
-	PyObject* add_plot(PyObject* self, PyObject* args, PyObject* kwargs)
+	PyObject* mvPlot::add_plot(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
-		const char* name;
+		static int i = 0; i++;
+		std::string sname = std::string(std::string("$$DPG_") + s_internal_id + std::to_string(i));
+		const char* name = sname.c_str();
 		const char* xAxisName = "";
 		const char* yAxisName = "";
 
@@ -1449,7 +1452,7 @@ namespace Marvel {
 
 		mvApp::GetApp()->getItemRegistry().addItemWithRuntimeChecks(item, parent, before);
 		
-		return GetPyNone();
+		return ToPyString(name);
 	}
 
 	PyObject* add_drag_line(PyObject* self, PyObject* args, PyObject* kwargs)

@@ -49,10 +49,10 @@ namespace Marvel {
 		PyDict_SetItemString(dict, "spacing", ToPyFloat(m_spacing));
 	}
 
-	PyObject* add_same_line(PyObject* self, PyObject* args, PyObject* kwargs)
+	PyObject* mvSameLine::add_same_line(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		static int i = 0; i++;
-		std::string sname = std::string("sameline" + std::to_string(i));
+		std::string sname = std::string(std::string("$$DPG_") + s_internal_id + std::to_string(i));
 		const char* name = sname.c_str();
 		float xoffset = 0.0f;
 		float spacing = -1.0f;
@@ -72,7 +72,7 @@ namespace Marvel {
 
 		mvApp::GetApp()->getItemRegistry().addItemWithRuntimeChecks(item, parent, before);
 
-		return GetPyNone();
+		return ToPyString(name);
 	}
 
 }

@@ -13,6 +13,7 @@ namespace Marvel {
 	{
 
 		parsers->insert({ "add_time_picker", mvPythonParser({
+			{mvPythonDataType::Optional},
 			{mvPythonDataType::String, "name"},
 			{mvPythonDataType::KeywordOnly},
 			{mvPythonDataType::Dict, "default_value", "time dict", "{'hour': 14, 'min': 32, 'sec': 23}"},
@@ -63,9 +64,11 @@ namespace Marvel {
 		PyDict_SetItemString(dict, "hour24", ToPyBool(m_hour24));
 	}
 
-	PyObject* add_time_picker(PyObject* self, PyObject* args, PyObject* kwargs)
+	PyObject* mvTimePicker::add_time_picker(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
-		const char* name;
+		static int i = 0; i++;
+		std::string sname = std::string(std::string("$$DPG_") + s_internal_id + std::to_string(i));
+		const char* name = sname.c_str();
 		PyObject* default_value = nullptr;
 		int hour24 = false;
 		PyObject* callback = nullptr;
@@ -92,7 +95,7 @@ namespace Marvel {
 
 		mvApp::GetApp()->getItemRegistry().addItemWithRuntimeChecks(item, parent, before);
 
-		return GetPyNone();
+		return ToPyString(name);
 	}
 
 }

@@ -14,6 +14,7 @@ namespace Marvel {
 	void mvNodeEditor::InsertParser(std::map<std::string, mvPythonParser>* parsers)
 	{
 		parsers->insert({ "add_node_editor", mvPythonParser({
+			{mvPythonDataType::Optional},
 			{mvPythonDataType::String, "name"},
 			{mvPythonDataType::KeywordOnly},
 			{mvPythonDataType::Bool, "show", "Attempt to render", "True"},
@@ -373,9 +374,11 @@ namespace Marvel {
 		
 	}
 
-	PyObject* add_node_editor(PyObject* self, PyObject* args, PyObject* kwargs)
+	PyObject* mvNodeEditor::add_node_editor(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
-		const char* name;
+		static int i = 0; i++;
+		std::string sname = std::string(std::string("$$DPG_") + s_internal_id + std::to_string(i));
+		const char* name = sname.c_str();
 		int show = true;
 		const char* parent = "";
 		const char* before = "";
@@ -412,7 +415,7 @@ namespace Marvel {
 
 		}
 
-		return GetPyNone();
+		return ToPyString(name);
 
 	}
 

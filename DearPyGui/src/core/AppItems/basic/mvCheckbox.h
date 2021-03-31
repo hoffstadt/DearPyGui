@@ -13,8 +13,6 @@ namespace Marvel {
 		std::string source = "";
 	};
 
-	PyObject* add_checkbox(PyObject* self, PyObject* args, PyObject* kwargs);
-
 	//-----------------------------------------------------------------------------
 	// mvCheckbox Keyword Struct
 	//-----------------------------------------------------------------------------
@@ -22,7 +20,7 @@ namespace Marvel {
 	class mvCheckbox : public mvBoolPtrBase
 	{
 
-		MV_APPITEM_TYPE(mvAppItemType::mvCheckbox, "add_checkbox")
+		MV_APPITEM_TYPE(mvAppItemType::mvCheckbox, add_checkbox)
 
 		MV_CREATE_THEME_CONSTANT(mvThemeCol_CheckBox_Text				,  0L, 0L);
 		MV_CREATE_THEME_CONSTANT(mvThemeCol_CheckBox_Bg					,  7L, 0L);

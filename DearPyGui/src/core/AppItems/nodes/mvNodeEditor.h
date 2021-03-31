@@ -4,7 +4,6 @@
 
 namespace Marvel {
 
-	PyObject* add_node_editor(PyObject* self, PyObject* args, PyObject* kwargs);
 	PyObject* add_node_link(PyObject* self, PyObject* args, PyObject* kwargs);
 	PyObject* delete_node_link(PyObject* self, PyObject* args, PyObject* kwargs);
 	PyObject* get_selected_nodes(PyObject* self, PyObject* args, PyObject* kwargs);
@@ -17,7 +16,7 @@ namespace Marvel {
 	class mvNodeEditor : public mvAppItem
 	{
 
-		MV_APPITEM_TYPE(mvAppItemType::mvNodeEditor, "add_node_editor")
+		MV_APPITEM_TYPE(mvAppItemType::mvNodeEditor, add_node_editor)
 
 		MV_CREATE_THEME_CONSTANT(mvThemeCol_NodeEditor_Link,						 7L, 0L);
 		MV_CREATE_THEME_CONSTANT(mvThemeCol_NodeEditor_LinkHovered,					 8L, 0L);

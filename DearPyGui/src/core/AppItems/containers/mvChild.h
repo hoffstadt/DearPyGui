@@ -14,13 +14,10 @@ namespace Marvel {
 		bool menubar = false;
 	};
 
-	PyObject* add_child(PyObject* self, PyObject* args, PyObject* kwargs);
-
 	MV_REGISTER_WIDGET(mvChild);
 	class mvChild : public mvBoolPtrBase
 	{
-
-		MV_APPITEM_TYPE(mvAppItemType::mvChild, "add_child")
+		MV_APPITEM_TYPE(mvAppItemType::mvChild, add_child)
 
 		MV_CREATE_THEME_CONSTANT(mvThemeCol_Child_Bg					,  3L, 0L);
 		MV_CREATE_THEME_CONSTANT(mvThemeCol_Child_MenuBar				, 13L, 0L);

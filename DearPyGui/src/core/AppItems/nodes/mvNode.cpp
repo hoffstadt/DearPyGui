@@ -37,6 +37,7 @@ namespace Marvel {
 	void mvNode::InsertParser(std::map<std::string, mvPythonParser>* parsers)
 	{
 		parsers->insert({ "add_node", mvPythonParser({
+			{mvPythonDataType::Optional},
 			{mvPythonDataType::String, "name"},
 			{mvPythonDataType::KeywordOnly},
 			{mvPythonDataType::Bool, "show", "Attempt to render", "True"},
@@ -159,9 +160,11 @@ namespace Marvel {
 		PyDict_SetItemString(dict, "draggable", ToPyBool(m_draggable));	
 	}
 
-	PyObject* add_node(PyObject* self, PyObject* args, PyObject* kwargs)
+	PyObject* mvNode::add_node(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
-		const char* name;
+		static int i = 0; i++;
+		std::string sname = std::string(std::string("$$DPG_") + s_internal_id + std::to_string(i));
+		const char* name = sname.c_str();
 		int show = true;
 		const char* label = "";
 		int draggable = true;
@@ -197,7 +200,7 @@ namespace Marvel {
 
 		}
 
-		return GetPyNone();
+		return ToPyString(name);
 
 	}
 }

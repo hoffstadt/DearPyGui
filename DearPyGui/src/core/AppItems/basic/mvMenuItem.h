@@ -12,12 +12,11 @@ namespace Marvel {
 
 	};
 
-	PyObject* add_menu_item(PyObject* self, PyObject* args, PyObject* kwargs);
-
 	MV_REGISTER_WIDGET(mvMenuItem);
 	class mvMenuItem : public mvBoolPtrBase
 	{
-		MV_APPITEM_TYPE(mvAppItemType::mvMenuItem, "add_menu_item")
+
+		MV_APPITEM_TYPE(mvAppItemType::mvMenuItem, add_menu_item)
 
 		MV_CREATE_THEME_CONSTANT(mvThemeCol_MenuItem_Text			,  0L, 0L);
 		MV_CREATE_THEME_CONSTANT(mvThemeCol_MenuItem_BgHovered		, 25L, 0L);

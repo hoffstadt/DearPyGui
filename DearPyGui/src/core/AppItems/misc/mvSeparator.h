@@ -4,8 +4,6 @@
 
 namespace Marvel {
 
-	PyObject* add_separator(PyObject* self, PyObject* args, PyObject* kwargs);
-
 	MV_REGISTER_WIDGET(mvSeparator);
 	class mvSeparator : public mvAppItem
 	{
@@ -15,7 +13,7 @@ namespace Marvel {
 
 		static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
 
-		MV_APPITEM_TYPE(mvAppItemType::mvSeparator, "add_separator")
+		MV_APPITEM_TYPE(mvAppItemType::mvSeparator, add_separator)
 
 		MV_CREATE_THEME_CONSTANT(mvThemeCol_Separator, 27L, 0L);
 

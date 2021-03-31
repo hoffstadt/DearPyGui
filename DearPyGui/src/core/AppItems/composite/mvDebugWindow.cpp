@@ -22,6 +22,7 @@ namespace Marvel {
 	void mvDebugWindow::InsertParser(std::map<std::string, mvPythonParser>* parsers)
 	{
 		parsers->insert({ "add_debug_window", mvPythonParser({
+			{mvPythonDataType::Optional},
 			{mvPythonDataType::String, "name"},
 			{mvPythonDataType::KeywordOnly},
 			{mvPythonDataType::Integer, "width", "", "700"},
@@ -165,7 +166,6 @@ namespace Marvel {
 				ImGui::Text("%d active allocations", io.MetricsActiveAllocations);
 				DebugItem("DearPyGui Version: ", mvApp::GetVersion());
 				DebugItem("ImGui Version: ", IMGUI_VERSION);
-				DebugItem("Stored Textures: ", std::to_string(mvApp::GetApp()->getTextureStorage().getTextureCount()).c_str());
 
 
 				ImGui::EndGroup();
@@ -361,9 +361,11 @@ namespace Marvel {
 
 	}
 
-	PyObject* add_debug_window(PyObject* self, PyObject* args, PyObject* kwargs)
+	PyObject* mvDebugWindow::add_debug_window(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
-		const char* name;
+		static int i = 0; i++;
+		std::string sname = std::string(std::string("$$DPG_") + s_internal_id + std::to_string(i));
+		const char* name = sname.c_str();
 		int width = 700;
 		int height = 500;
 		int x_pos = 200;
@@ -403,7 +405,7 @@ namespace Marvel {
 					
 		}
 
-		return GetPyNone();
+		return ToPyString(name);
 	}
 
 }

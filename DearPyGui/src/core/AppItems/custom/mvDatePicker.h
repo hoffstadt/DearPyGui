@@ -4,13 +4,11 @@
 
 namespace Marvel {
 
-	PyObject* add_date_picker(PyObject* self, PyObject* args, PyObject* kwargs);
-
 	MV_REGISTER_WIDGET(mvDatePicker);
 	class mvDatePicker : public mvTimePtrBase
 	{
 
-		MV_APPITEM_TYPE(mvAppItemType::mvDatePicker, "add_date_picker")
+		MV_APPITEM_TYPE(mvAppItemType::mvDatePicker, add_date_picker)
 
 		MV_CREATE_THEME_CONSTANT(mvThemeCol_DatePicker_Date			,  0L, 0L);
 		MV_CREATE_THEME_CONSTANT(mvThemeCol_DatePicker_DateBg		, 21L, 0L);

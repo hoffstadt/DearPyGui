@@ -6,13 +6,12 @@
 namespace Marvel {
 
 	PyObject* select_directory_dialog(PyObject* self, PyObject* args, PyObject* kwargs);
-	PyObject* open_file_dialog       (PyObject* self, PyObject* args, PyObject* kwargs);
 
 	MV_REGISTER_WIDGET(mvFileDialog);
 	class mvFileDialog : public mvBaseWindowAppitem
 	{
 
-		MV_APPITEM_TYPE(mvAppItemType::mvFileDialog, "no_command_set")
+		MV_APPITEM_TYPE(mvAppItemType::mvFileDialog, open_file_dialog)
 
 		MV_START_GENERAL_CONSTANTS
 		MV_END_GENERAL_CONSTANTS

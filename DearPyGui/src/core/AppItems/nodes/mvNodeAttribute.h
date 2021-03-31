@@ -5,13 +5,11 @@
 
 namespace Marvel {
 
-	PyObject* add_node_attribute(PyObject* self, PyObject* args, PyObject* kwargs);
-
 	MV_REGISTER_WIDGET(mvNodeAttribute);
 	class mvNodeAttribute : public mvAppItem
 	{
 
-		MV_APPITEM_TYPE(mvAppItemType::mvNodeAttribute, "add_node_attribute")
+		MV_APPITEM_TYPE(mvAppItemType::mvNodeAttribute, add_node_attribute)
 
 		MV_CREATE_THEME_CONSTANT(mvNode_PinShape_Circle,				0L, 0L);
 		MV_CREATE_THEME_CONSTANT(mvNode_PinShape_CircleFilled,			1L, 0L);

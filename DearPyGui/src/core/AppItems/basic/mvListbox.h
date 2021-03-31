@@ -12,13 +12,11 @@ namespace Marvel {
 
 	};
 
-	PyObject* add_listbox(PyObject* self, PyObject* args, PyObject* kwargs);
-
 	MV_REGISTER_WIDGET(mvListbox);
 	class mvListbox : public mvIntPtrBase
 	{
 
-		MV_APPITEM_TYPE(mvAppItemType::mvListbox, "add_listbox")
+		MV_APPITEM_TYPE(mvAppItemType::mvListbox, add_listbox)
 
 		MV_CREATE_THEME_CONSTANT(mvThemeCol_Listbox_Text                ,  0L, 0L);
 		MV_CREATE_THEME_CONSTANT(mvThemeCol_Listbox_Selected            , 24L, 0L);

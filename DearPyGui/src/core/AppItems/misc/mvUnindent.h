@@ -4,8 +4,6 @@
 
 namespace Marvel {
 
-	PyObject* unindent(PyObject* self, PyObject* args, PyObject* kwargs);
-
 	MV_REGISTER_WIDGET(mvUnindent);
 	class mvUnindent : public mvFloatPtrBase
 	{
@@ -14,9 +12,7 @@ namespace Marvel {
 
 		static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
 
-	public:
-
-		MV_APPITEM_TYPE(mvAppItemType::mvUnindent, "unindent")
+		MV_APPITEM_TYPE(mvAppItemType::mvUnindent, unindent)
 
 		MV_START_GENERAL_CONSTANTS
 		MV_END_GENERAL_CONSTANTS

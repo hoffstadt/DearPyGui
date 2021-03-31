@@ -9,8 +9,9 @@ namespace Marvel {
 	void mvImage::InsertParser(std::map<std::string, mvPythonParser>* parsers)
 	{
 		parsers->insert({ "add_image", mvPythonParser({
-			{mvPythonDataType::String, "name"},
 			{mvPythonDataType::String, "value"},
+			{mvPythonDataType::Optional},
+			{mvPythonDataType::String, "name"},
 			{mvPythonDataType::KeywordOnly},
 			{mvPythonDataType::FloatList, "tint_color", "", "(255, 255, 255, 255)"},
 			{mvPythonDataType::FloatList, "border_color", "", "(0, 0, 0, 0)"},
@@ -169,9 +170,11 @@ namespace Marvel {
 		PyDict_SetItemString(dict, "border_color", ToPyColor(m_borderColor));
 	}
 
-	PyObject* add_image(PyObject* self, PyObject* args, PyObject* kwargs)
+	PyObject* mvImage::add_image(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
-		const char* name;
+		static int i = 0; i++;
+		std::string sname = std::string(std::string("$$DPG_") + s_internal_id + std::to_string(i));
+		const char* name = sname.c_str();
 		const char* value;
 		PyObject* tintcolor = PyTuple_New(4);
 		PyTuple_SetItem(tintcolor, 0, PyFloat_FromDouble(1.0));
@@ -196,8 +199,8 @@ namespace Marvel {
 		PyTuple_SetItem(uv_max, 1, PyFloat_FromDouble(1));
 		int show = true;
 
-		if (!(mvApp::GetApp()->getParsers())["add_image"].parse(args, kwargs, __FUNCTION__, &name,
-			&value, &tintcolor, &bordercolor, &parent, &before, &source, &width,
+		if (!(mvApp::GetApp()->getParsers())["add_image"].parse(args, kwargs, __FUNCTION__, &value,
+			&name, &tintcolor, &bordercolor, &parent, &before, &source, &width,
 			&height, &uv_min, &uv_max, &show))
 			return ToPyBool(false);
 
@@ -209,7 +212,7 @@ namespace Marvel {
 
 		mvApp::GetApp()->getItemRegistry().addItemWithRuntimeChecks(item, parent, before);
 
-		return GetPyNone();
+		return ToPyString(name);
 	}
 
 }

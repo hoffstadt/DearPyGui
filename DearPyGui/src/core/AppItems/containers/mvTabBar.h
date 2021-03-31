@@ -9,13 +9,11 @@ namespace Marvel {
 		bool reorderable = false;
 	};
 
-	PyObject* add_tab_bar(PyObject* self, PyObject* args, PyObject* kwargs);
-
 	MV_REGISTER_WIDGET(mvTabBar);
 	class mvTabBar : public mvStringPtrBase
 	{
 
-		MV_APPITEM_TYPE(mvAppItemType::mvTabBar, "add_tab_bar")
+		MV_APPITEM_TYPE(mvAppItemType::mvTabBar, add_tab_bar)
 
 		MV_CREATE_THEME_CONSTANT(mvThemeCol_TabBar, 35L, 0L);
 		MV_CREATE_THEME_CONSTANT(mvThemeStyle_TabBar_ItemSpacingX, 13L, 0L);

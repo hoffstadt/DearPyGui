@@ -8,6 +8,7 @@ namespace Marvel {
 	void mvSimplePlot::InsertParser(std::map<std::string, mvPythonParser>* parsers)
 	{
 		parsers->insert({ "add_simple_plot", mvPythonParser({
+			{mvPythonDataType::Optional},
 			{mvPythonDataType::String, "name"},
 			{mvPythonDataType::KeywordOnly},
 			{mvPythonDataType::FloatList, "value", "Tuple of float values", "()"},
@@ -69,9 +70,11 @@ namespace Marvel {
 			*m_value = value;
 		}
 
-	PyObject* add_simple_plot(PyObject* self, PyObject* args, PyObject* kwargs)
+	PyObject* mvSimplePlot::add_simple_plot(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
-		const char* name;
+		static int i = 0; i++;
+		std::string sname = std::string(std::string("$$DPG_") + s_internal_id + std::to_string(i));
+		const char* name = sname.c_str();
 		const char* overlay = "";
 		float minscale = 0.0f;
 		float maxscale = 0.0f;
@@ -99,7 +102,7 @@ namespace Marvel {
 
 		mvApp::GetApp()->getItemRegistry().addItemWithRuntimeChecks(item, parent, before);
 
-		return GetPyNone();
+		return ToPyString(name);
 	}
 
 	void mvSimplePlot::setExtraConfigDict(PyObject* dict)

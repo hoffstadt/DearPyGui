@@ -10,6 +10,7 @@ namespace Marvel {
 	void mvTable::InsertParser(std::map<std::string, mvPythonParser>* parsers)
 	{
 		parsers->insert({ "add_table", mvPythonParser({
+			{mvPythonDataType::Optional},
 			{mvPythonDataType::String, "name"},
 			{mvPythonDataType::KeywordOnly},
 			{mvPythonDataType::Bool, "header_row", "show headers at the top of the columns", "True"},
@@ -118,9 +119,11 @@ namespace Marvel {
 		m_columns--;
 	}
 
-	PyObject* add_table(PyObject* self, PyObject* args, PyObject* kwargs)
+	PyObject* mvTable::add_table(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
-		const char* name;
+		static int i = 0; i++;
+		std::string sname = std::string(std::string("$$DPG_") + s_internal_id + std::to_string(i));
+		const char* name = sname.c_str();
 		int header_row = true;
 		int width = 0;
 		int height = 0;
@@ -189,7 +192,7 @@ namespace Marvel {
 
 		}
 
-		return GetPyNone();
+		return ToPyString(name);
 	}
 
 	void mvTable::setExtraConfigDict(PyObject* dict)

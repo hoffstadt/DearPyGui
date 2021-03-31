@@ -5,8 +5,6 @@
 
 namespace Marvel{
 
-	PyObject* add_simple_plot(PyObject* self, PyObject* args, PyObject* kwargs);
-
 	MV_REGISTER_WIDGET(mvSimplePlot);
 	class mvSimplePlot : public mvFloatVectPtrBase
 	{
@@ -15,7 +13,7 @@ namespace Marvel{
 
 		static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
 
-		MV_APPITEM_TYPE(mvAppItemType::mvSimplePlot, "add_simple_plot")
+		MV_APPITEM_TYPE(mvAppItemType::mvSimplePlot, add_simple_plot)
 
 		MV_CREATE_THEME_CONSTANT(mvThemeCol_SimplePlot_Text					,  0L, 0L);
 		MV_CREATE_THEME_CONSTANT(mvThemeCol_SimplePlot_Border				,  5L, 0L);

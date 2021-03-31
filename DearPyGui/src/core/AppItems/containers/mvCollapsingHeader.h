@@ -14,13 +14,11 @@ namespace Marvel {
 		bool bullet = false;
 	};
 
-	PyObject* add_collapsing_header(PyObject* self, PyObject* args, PyObject* kwargs);
-
 	MV_REGISTER_WIDGET(mvCollapsingHeader);
 	class mvCollapsingHeader : public mvBoolPtrBase
 	{
 
-		MV_APPITEM_TYPE(mvAppItemType::mvCollapsingHeader, "add_collapsing_header")
+		MV_APPITEM_TYPE(mvAppItemType::mvCollapsingHeader, add_collapsing_header)
 
 		MV_CREATE_THEME_CONSTANT(mvThemeCol_CollapsingHeader_Text		    ,  0L, 0L);
 		MV_CREATE_THEME_CONSTANT(mvThemeCol_CollapsingHeader_Bg			    , 24L, 0L);

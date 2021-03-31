@@ -13,6 +13,7 @@ namespace Marvel {
     void mvMetricsWindow::InsertParser(std::map<std::string, mvPythonParser>* parsers)
     {
         parsers->insert({ "add_metrics_window", mvPythonParser({
+            {mvPythonDataType::Optional},
             {mvPythonDataType::String, "name"},
             {mvPythonDataType::KeywordOnly},
             {mvPythonDataType::Integer, "width", "", "700"},
@@ -77,9 +78,11 @@ namespace Marvel {
         
     }
 
-    PyObject* add_metrics_window(PyObject* self, PyObject* args, PyObject* kwargs)
+    PyObject* mvMetricsWindow::add_metrics_window(PyObject* self, PyObject* args, PyObject* kwargs)
     {
-        const char* name;
+        static int i = 0; i++;
+        std::string sname = std::string(std::string("$$DPG_") + s_internal_id + std::to_string(i));
+        const char* name = sname.c_str();
         int width = 700;
         int height = 500;
         int x_pos = 200;
@@ -119,7 +122,7 @@ namespace Marvel {
 
         }
 
-        return GetPyNone();
+        return ToPyString(name);
     }
 
 }

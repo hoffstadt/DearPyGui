@@ -10,8 +10,9 @@ namespace Marvel {
 	void mvColorButton::InsertParser(std::map<std::string, mvPythonParser>* parsers)
 	{
 		parsers->insert({ "add_color_button", mvPythonParser({
-			{mvPythonDataType::String, "name"},
 			{mvPythonDataType::FloatList, "color"},
+			{mvPythonDataType::Optional},
+			{mvPythonDataType::String, "name"},		
 			{mvPythonDataType::KeywordOnly},
 			{mvPythonDataType::Callable, "callback", "Registers a callback", "None"},
 			{mvPythonDataType::Object, "callback_data", "Callback data", "None"},
@@ -116,9 +117,11 @@ namespace Marvel {
 		checkbitset("no_drag_drop", ImGuiColorEditFlags_NoDragDrop, m_flags);
 	}
 
-	PyObject* add_color_button(PyObject* self, PyObject* args, PyObject* kwargs)
+	PyObject* mvColorButton::add_color_button(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
-		const char* name;
+		static int i = 0; i++;
+		std::string sname = std::string(std::string("$$DPG_") + s_internal_id + std::to_string(i));
+		const char* name = sname.c_str();
 		PyObject* color;
 		PyObject* callback = nullptr;
 		PyObject* callback_data = nullptr;
@@ -133,7 +136,7 @@ namespace Marvel {
 		int enabled = true;
 
 		if (!(mvApp::GetApp()->getParsers())["add_color_button"].parse(args, kwargs, __FUNCTION__,
-			&name, &color, &callback, &callback_data, &parent, &before, &width, &height,
+			&color, &name, &callback, &callback_data, &parent, &before, &width, &height,
 			&show, &no_alpha, &no_border, &no_drag_drop, &enabled))
 			return ToPyBool(false);
 
@@ -151,6 +154,6 @@ namespace Marvel {
 
 		mvApp::GetApp()->getItemRegistry().addItemWithRuntimeChecks(item, parent, before);
 
-		return GetPyNone();
+		return ToPyString(name);
 	}
 }

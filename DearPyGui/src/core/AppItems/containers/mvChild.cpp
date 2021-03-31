@@ -10,6 +10,7 @@ namespace Marvel {
 	void mvChild::InsertParser(std::map<std::string, mvPythonParser>* parsers)
 	{
 		parsers->insert({ "add_child", mvPythonParser({
+			{mvPythonDataType::Optional},
 			{mvPythonDataType::String, "name"},
 			{mvPythonDataType::KeywordOnly},
 			{mvPythonDataType::Bool, "show", "Attempt to render", "True"},
@@ -120,9 +121,11 @@ namespace Marvel {
 		checkbitset("menubar", ImGuiWindowFlags_MenuBar, m_windowflags);
 	}
 
-	PyObject* add_child(PyObject* self, PyObject* args, PyObject* kwargs)
+	PyObject* mvChild::add_child(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
-		const char* name;
+		static int i = 0; i++;
+		std::string sname = std::string(std::string("$$DPG_") + s_internal_id + std::to_string(i));
+		const char* name = sname.c_str();
 		int show = true;
 		const char* parent = "";
 		const char* before = "";
@@ -153,7 +156,7 @@ namespace Marvel {
 
 		}
 
-		return GetPyNone();
+		return ToPyString(name);
 
 	}
 

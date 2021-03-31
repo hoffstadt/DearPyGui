@@ -9,6 +9,7 @@ namespace Marvel {
 	void mvText::InsertParser(std::map<std::string, mvPythonParser>* parsers)
 	{
 		parsers->insert({ "add_text", mvPythonParser({
+			{mvPythonDataType::Optional},
 			{mvPythonDataType::String, "name"},
 			{mvPythonDataType::KeywordOnly},
 			{mvPythonDataType::Integer, "wrap", "number of characters until wraping", "-1"},
@@ -199,9 +200,11 @@ namespace Marvel {
 		PyDict_SetItemString(dict, "color", ToPyColor(m_color));
 	}
 
-	PyObject* add_text(PyObject* self, PyObject* args, PyObject* kwargs)
+	PyObject* mvText::add_text(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
-		const char* name;
+		static int i = 0; i++;
+		std::string sname = std::string(std::string("$$DPG_") + s_internal_id + std::to_string(i));
+		const char* name = sname.c_str();
 		int wrap = -1;
 		int bullet = false;
 		PyObject* color = PyTuple_New(4);
@@ -228,12 +231,14 @@ namespace Marvel {
 
 		mvApp::GetApp()->getItemRegistry().addItemWithRuntimeChecks(item, parent, before);
 
-		return GetPyNone();
+		return ToPyString(name);
 	}
 
-	PyObject* add_label_text(PyObject* self, PyObject* args, PyObject* kwargs)
+	PyObject* mvLabelText::add_label_text(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
-		const char* name;
+		static int i = 0; i++;
+		std::string sname = std::string(std::string("$$DPG_") + s_internal_id + std::to_string(i));
+		const char* name = sname.c_str();
 		const char* value = "";
 		PyObject* color = PyTuple_New(4);
 		PyTuple_SetItem(color, 0, PyLong_FromLong(-255));
@@ -260,7 +265,7 @@ namespace Marvel {
 
 		mvApp::GetApp()->getItemRegistry().addItemWithRuntimeChecks(item, parent, before);
 
-		return GetPyNone();
+		return ToPyString(name);
 	}
 
 }

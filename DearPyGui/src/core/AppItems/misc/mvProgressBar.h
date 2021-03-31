@@ -4,13 +4,11 @@
 
 namespace Marvel {
 
-	PyObject* add_progress_bar(PyObject* self, PyObject* args, PyObject* kwargs);
-
 	MV_REGISTER_WIDGET(mvProgressBar);
 	class mvProgressBar : public mvFloatPtrBase
 	{
 
-		MV_APPITEM_TYPE(mvAppItemType::mvProgressBar, "add_progress_bar")
+		MV_APPITEM_TYPE(mvAppItemType::mvProgressBar, add_progress_bar)
 
 		MV_CREATE_THEME_CONSTANT(mvThemeCol_ProgressBar_Text				,  0L, 0L);
 		MV_CREATE_THEME_CONSTANT(mvThemeCol_ProgressBar_Bar					, 42L, 0L);
