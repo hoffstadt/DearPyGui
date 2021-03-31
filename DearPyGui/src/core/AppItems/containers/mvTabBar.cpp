@@ -79,8 +79,6 @@ namespace Marvel {
 		m_lastValue = *m_value;
 	}
 
-#ifndef MV_CPP
-
 	void mvTabBar::setExtraConfigDict(PyObject* dict)
 	{
 		if (dict == nullptr)
@@ -153,5 +151,4 @@ namespace Marvel {
 		return GetPyNone();
 	}
 
-#endif
 }

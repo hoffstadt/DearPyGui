@@ -175,9 +175,7 @@ namespace Marvel {
 	{
 		m_running = true;
 
-#ifndef MV_CPP
 		mvGlobalIntepreterLock gil;
-#endif // !MV_CPP
 
 		while (m_running)
 		{
@@ -196,10 +194,6 @@ namespace Marvel {
 	void mvCallbackRegistry::addCallback(mvCallable callable, const std::string& sender, mvCallableData data)
 	{
 
-#ifdef MV_CPP
-		if(callable)
-			submitCallback(callable);
-#else
 		if (m_callCount > s_MaxNumberOfCalls)
 		{
 			if (data != nullptr)
@@ -211,17 +205,10 @@ namespace Marvel {
 		submitCallback([=]() {
 			runCallback(callable, sender, data);
 			});
-#endif
 	}
 
 	void mvCallbackRegistry::runCallback(mvCallable callable, const std::string& sender, PyObject* data)
 	{
-
-#ifdef MV_CPP
-
-		callable();
-		 
-#else
 
 		if (callable == nullptr)
 		{
@@ -348,8 +335,6 @@ namespace Marvel {
 			}
 			Py_DECREF(fc);
 		}
-
-#endif // !MV_CPP
 
 	}
 

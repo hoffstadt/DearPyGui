@@ -20,11 +20,8 @@ namespace Marvel {
 			m_backWindows.back()->hide();
 		};
 
-#ifndef MV_CPP
 		add_hidden_window(CreateRef<mvDocWindow>("documentation##standard"), "Core Documentation");
 		add_hidden_window(CreateRef<mvDebugWindow>("debug##standard"), "Dear PyGui Debug");
-#endif // !MV_CPP
-
 		add_hidden_window(CreateRef<mvAboutWindow>("about##standard"), "About Dear PyGui");
 		add_hidden_window(CreateRef<mvMetricsWindow>("metrics##standard"), "Metrics");
 		add_hidden_window(CreateRef<mvStyleWindow>("style##standard"), "Dear PyGui Style Editor");

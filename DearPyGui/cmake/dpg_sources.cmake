@@ -16,11 +16,6 @@ set(MARVEL_PY_SOURCES
 
 )
 
-set(MARVEL_CPP_SOURCES
-
-	"src/core/CppUtilities/mvCppTranslator.cpp"
-)
-
 set(MARVEL_SOURCES
 
 	"$<$<PLATFORM_ID:Windows>:src/platform/Windows/mvWindowsWindow.cpp>"
@@ -102,9 +97,12 @@ set(MARVEL_SOURCES
 	"src/core/AppItems/containers/mvMenu.cpp"
 	"src/core/AppItems/containers/mvMenuBar.cpp"
 	"src/core/AppItems/containers/mvTreeNode.cpp"
-	"src/core/AppItems/containers/mvTable.cpp"
 	"src/core/AppItems/containers/mvWindowAppItem.cpp"
 	"src/core/AppItems/containers/mvPopup.cpp"
+
+	"src/core/AppItems/tables/mvTable.cpp"
+	"src/core/AppItems/tables/mvTableColumn.cpp"
+	"src/core/AppItems/tables/mvTableNextColumn.cpp"
 
 	"src/core/AppItems/custom/mvDatePicker.cpp"
 	"src/core/AppItems/custom/mvTimePicker.cpp"

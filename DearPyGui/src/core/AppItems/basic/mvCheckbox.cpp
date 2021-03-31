@@ -78,17 +78,6 @@ namespace Marvel {
 		return &m_config;
 	}
 
-#ifdef MV_CPP
-
-	void add_checkbox(const char* name, const mvCheckboxConfig& config)
-	{
-		auto item = CreateRef<mvCheckbox>(name, config);
-
-		mvApp::GetApp()->getItemRegistry().addItemWithRuntimeChecks(item, config.parent.c_str(), config.before.c_str());
-	}
-
-#else
-
 	PyObject* add_checkbox(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		const char* name;
@@ -123,5 +112,4 @@ namespace Marvel {
 
 		return GetPyNone();
 	}
-#endif
 }

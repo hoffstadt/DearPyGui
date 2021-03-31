@@ -30,34 +30,24 @@ namespace Marvel {
 		ImGui::SameLine(m_xoffset, m_spacing);
 	}
 
-#ifndef MV_CPP
+	void mvSameLine::setExtraConfigDict(PyObject* dict)
+	{
+		if (dict == nullptr)
+			return;
 
+		if (PyObject* item = PyDict_GetItemString(dict, "xoffset")) m_xoffset = ToFloat(item);
+		if (PyObject* item = PyDict_GetItemString(dict, "spacing")) m_spacing = ToFloat(item);
 
+	}
 
-#endif
+	void mvSameLine::getExtraConfigDict(PyObject* dict)
+	{
+		if (dict == nullptr)
+			return;
 
-
-#ifdef MV_CPP
-#else
-
-		void mvSameLine::setExtraConfigDict(PyObject* dict)
-		{
-			if (dict == nullptr)
-				return;
-
-			if (PyObject* item = PyDict_GetItemString(dict, "xoffset")) m_xoffset = ToFloat(item);
-			if (PyObject* item = PyDict_GetItemString(dict, "spacing")) m_spacing = ToFloat(item);
-
-		}
-
-		void mvSameLine::getExtraConfigDict(PyObject* dict)
-		{
-			if (dict == nullptr)
-				return;
-
-			PyDict_SetItemString(dict, "xoffset", ToPyFloat(m_xoffset));
-			PyDict_SetItemString(dict, "spacing", ToPyFloat(m_spacing));
-		}
+		PyDict_SetItemString(dict, "xoffset", ToPyFloat(m_xoffset));
+		PyDict_SetItemString(dict, "spacing", ToPyFloat(m_spacing));
+	}
 
 	PyObject* add_same_line(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
@@ -84,6 +74,5 @@ namespace Marvel {
 
 		return GetPyNone();
 	}
-#endif
 
 }

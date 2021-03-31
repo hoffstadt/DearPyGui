@@ -106,23 +106,6 @@ namespace Marvel {
 		return &m_config;
 	}
 
-#ifdef MV_CPP
-	void add_combo(const char* name, const mvComboConfig& config)
-	{
-		auto item = CreateRef<mvCombo>(name, config);
-
-		mvApp::GetApp()->getItemRegistry().addItemWithRuntimeChecks(item, config.parent.c_str(), config.before.c_str());
-	}
-
-	void add_combo(const char* name, const std::vector<std::string>& items, mvCallable callable)
-	{
-		mvComboConfig config;
-		config.items = items;
-		config.callback = callable;
-		add_combo(name, config);
-	}
-#else
-
 	void mvCombo::setExtraConfigDict(PyObject* dict)
 	{
 		if (dict == nullptr)
@@ -240,5 +223,4 @@ namespace Marvel {
 		return GetPyNone();
 	}
 
-#endif
 }

@@ -4,10 +4,7 @@
 
 namespace Marvel {
 
-#ifdef MV_CPP
-#else
 	PyObject* add_spacing(PyObject* self, PyObject* args, PyObject* kwargs);
-#endif
 
 	MV_REGISTER_WIDGET(mvSpacing);
 	class mvSpacing : public mvIntPtrBase

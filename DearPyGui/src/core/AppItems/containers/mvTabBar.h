@@ -44,10 +44,8 @@ namespace Marvel {
 		void         setValue(const std::string& value);
 		void         draw()               override;
 
-#ifndef MV_CPP
 		void setExtraConfigDict(PyObject* dict) override;
 		void getExtraConfigDict(PyObject* dict) override;
-#endif // !MV_CPP
 
 	private:
 

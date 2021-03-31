@@ -38,13 +38,8 @@ namespace Marvel {
 		bool                 input_hsv          = false;
 	};
 
-#ifdef MV_CPP
-	void add_color_edit3(const std::string& name, const mvColorEditConfig& config = {});
-	void add_color_edit4(const std::string& name, const mvColorEditConfig& config = {});
-#else
 	PyObject* add_color_edit3(PyObject* self, PyObject* args, PyObject* kwargs);
 	PyObject* add_color_edit4(PyObject* self, PyObject* args, PyObject* kwargs);
-#endif
 
 	MV_REGISTER_WIDGET(mvColorEdit3);
 	class mvColorEdit3 : public mvColorPtrBase
@@ -114,11 +109,8 @@ namespace Marvel {
 		void             updateConfig(mvAppItemConfig* config) override;
 		mvAppItemConfig* getConfig() override;
 
-
-#ifndef MV_CPP
 		void setExtraConfigDict(PyObject* dict) override;
 		void getExtraConfigDict(PyObject* dict) override;
-#endif // !MV_CPP
 	
 	private:
 
@@ -193,10 +185,8 @@ namespace Marvel {
 
 		void draw() override;
 
-#ifndef MV_CPP
 		void setExtraConfigDict(PyObject* dict) override;
 		void getExtraConfigDict(PyObject* dict) override;
-#endif // !MV_CPP
 
 		// cpp interface
 		void             updateConfig(mvAppItemConfig* config) override;

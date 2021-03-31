@@ -28,9 +28,6 @@
 
 namespace Marvel {
 
-#ifdef MV_CPP
-#else
-
     void AddAppCommands(std::map<std::string, mvPythonParser>* parsers);
 
     // containers
@@ -72,7 +69,6 @@ namespace Marvel {
     // font
     PyObject* set_global_font_scale(PyObject* self, PyObject* args, PyObject* kwargs);
     PyObject* get_global_font_scale(PyObject* self, PyObject* args, PyObject* kwargs);
-#endif
 
     //-----------------------------------------------------------------------------
     // Forward Declarations

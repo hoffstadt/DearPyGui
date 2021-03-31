@@ -19,14 +19,6 @@ else()
     add_definitions(-DMV_SANDBOX_VERSION="master")
 endif()
 
-# when set to "ON", the C++ version will be
-# build instead of the Python version
-set(MV_CPP ${MV_CPP})
-if(MV_CPP)
-    add_definitions(-DMV_CPP)
-    add_subdirectory ("DearSandboxCpp")
-endif()
-
 # when set to "ON", the embedded version
 # will be the only version build (no sandbox builds)
 set(MVDIST_ONLY ${MVDIST_ONLY})
@@ -46,7 +38,7 @@ set(MVDPG_VERSION ${MVDPG_VERSION})
 
 # if this is not a distribution build
 # build development environment
-if(NOT MVDIST_ONLY AND NOT MV_CPP)
+if(NOT MVDIST_ONLY)
     add_subdirectory("Dependencies/spdlog")
     add_subdirectory ("DearSandbox")
 endif()

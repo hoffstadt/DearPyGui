@@ -14,11 +14,7 @@ namespace Marvel {
 		bool menubar = false;
 	};
 
-
-#ifdef MV_CPP
-#else
 	PyObject* add_child(PyObject* self, PyObject* args, PyObject* kwargs);
-#endif
 
 	MV_REGISTER_WIDGET(mvChild);
 	class mvChild : public mvBoolPtrBase
@@ -77,10 +73,8 @@ namespace Marvel {
 
 		void draw()               override;
 
-#ifndef MV_CPP
 		void setExtraConfigDict(PyObject* dict) override;
 		void getExtraConfigDict(PyObject* dict) override;
-#endif // !MV_CPP
 
 		void addFlag           (ImGuiWindowFlags flag);
 		void removeFlag        (ImGuiWindowFlags flag);

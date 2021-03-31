@@ -54,8 +54,6 @@ namespace Marvel {
 		return m_drawList;
 	}
 
-#ifndef MV_CPP
-
 	PyObject* add_drawing(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		const char* name;
@@ -87,5 +85,4 @@ namespace Marvel {
 		return GetPyNone();
 	}
 
-#endif
 }

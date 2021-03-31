@@ -191,20 +191,6 @@ namespace Marvel {
 		return &m_config;
 	}
 
-#ifdef MV_CPP
-	void add_color_edit3(const std::string& name, const mvColorEditConfig& config)
-	{
-		auto item = CreateRef<mvColorEdit3>(name, config);
-		mvApp::GetApp()->getItemRegistry().addItemWithRuntimeChecks(item, config.parent.c_str(), config.before.c_str());
-	}
-
-	void add_color_edit4(const std::string& name, const mvColorEditConfig& config)
-	{
-		auto item = CreateRef<mvColorEdit4>(name, config);
-		mvApp::GetApp()->getItemRegistry().addItemWithRuntimeChecks(item, config.parent.c_str(), config.before.c_str());
-	}
-#else
-
 	void mvColorEdit3::setExtraConfigDict(PyObject* dict)
 	{
 		if (dict == nullptr)
@@ -509,5 +495,4 @@ namespace Marvel {
 		return GetPyNone();
 	}
 
-#endif // !MV_CPP
 }

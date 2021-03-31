@@ -46,8 +46,6 @@ namespace Marvel {
 
 	};
 
-#ifdef MV_CPP
-#else
 	PyObject* add_data_grid(PyObject* self, PyObject* args, PyObject* kwargs);
 
 	// data grid
@@ -70,9 +68,6 @@ namespace Marvel {
 	PyObject* insert_grid_row     (PyObject* self, PyObject* args, PyObject* kwargs);
 	PyObject* delete_grid_row     (PyObject* self, PyObject* args, PyObject* kwargs);
 
-#endif // MV_CPP
-
-	
 	MV_REGISTER_WIDGET(mvDataGrid);
 	class mvDataGrid : public mvAppItem
 	{

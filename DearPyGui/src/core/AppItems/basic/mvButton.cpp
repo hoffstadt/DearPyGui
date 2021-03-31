@@ -97,24 +97,6 @@ namespace Marvel {
 
 	}
 
-#ifdef MV_CPP
-
-	void add_button(const char* name, const mvButtonConfig& config)
-	{
-		auto item = CreateRef<mvButton>(name, config);
-
-		mvApp::GetApp()->getItemRegistry().addItemWithRuntimeChecks(item, config.parent.c_str(), config.before.c_str());
-	}
-
-	void add_button(const char* name, mvCallable callable)
-	{
-		mvButtonConfig config;
-		config.callback = callable;
-		add_button(name, config);
-	}
-
-#else
-
 	void mvButton::setExtraConfigDict(PyObject* dict)
 	{
 		if (dict == nullptr)
@@ -179,5 +161,4 @@ namespace Marvel {
 
 		return GetPyNone();
 	}
-#endif
 }

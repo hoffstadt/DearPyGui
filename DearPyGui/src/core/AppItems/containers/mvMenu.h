@@ -57,10 +57,8 @@ namespace Marvel {
 
 		void draw() override;
 
-#ifndef MV_CPP
 		void setExtraConfigDict(PyObject* dict) override;
 		void getExtraConfigDict(PyObject* dict) override;
-#endif // !MV_CPP
 
 	};
 

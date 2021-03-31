@@ -4,10 +4,7 @@
 
 namespace Marvel {
 
-#ifdef MV_CPP
-#else
 	PyObject* unindent(PyObject* self, PyObject* args, PyObject* kwargs);
-#endif
 
 	MV_REGISTER_WIDGET(mvUnindent);
 	class mvUnindent : public mvFloatPtrBase

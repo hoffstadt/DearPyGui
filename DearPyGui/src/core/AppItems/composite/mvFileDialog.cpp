@@ -65,8 +65,6 @@ namespace Marvel {
 		}
 	}
 
-#ifdef MV_CPP
-#else
 	PyObject* select_directory_dialog(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		PyObject* callback = nullptr;
@@ -113,7 +111,5 @@ namespace Marvel {
 
 		return GetPyNone();
 	}
-#endif // 
-
 
 }

@@ -4,10 +4,7 @@
 
 namespace Marvel {
 
-#ifdef MV_CPP
-#else
 	PyObject* add_same_line(PyObject* self, PyObject* args, PyObject* kwargs);
-#endif
 
 	MV_REGISTER_WIDGET(mvSameLine);
 	class mvSameLine : public mvAppItem
@@ -34,10 +31,8 @@ namespace Marvel {
 
 		void draw() override;
 
-#ifndef MV_CPP
 		void setExtraConfigDict(PyObject* dict) override;
 		void getExtraConfigDict(PyObject* dict) override;
-#endif
 
 	private:
 

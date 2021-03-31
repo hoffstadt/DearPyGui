@@ -14,12 +14,7 @@ namespace Marvel {
 		bool arrow = false;
 	};
 
-#ifdef MV_CPP
-	void add_button(const char* name, const mvButtonConfig& config = {});
-	void add_button(const char* name, mvCallable callable);
-#else
 	PyObject* add_button(PyObject* self, PyObject* args, PyObject* kwargs);
-#endif
 	
 	//-----------------------------------------------------------------------------
 	// mvButton
@@ -88,10 +83,8 @@ namespace Marvel {
 
 		void draw() override;
 
-#ifndef MV_CPP
 		void setExtraConfigDict(PyObject* dict) override;
 		void getExtraConfigDict(PyObject* dict) override;
-#endif // !MV_CPP
 
 		// cpp interface
 		void             updateConfig(mvAppItemConfig* config) override;

@@ -8,10 +8,8 @@ namespace Marvel {
 
 	static mvCallable SanitizeCallback(mvCallable callback)
 	{
-#ifndef MV_CPP
 		if (callback == Py_None)
 			return nullptr;
-#endif // !MV_CPP
 
 		return callback;
 	}
@@ -128,23 +126,6 @@ namespace Marvel {
 		std::atomic<int> m_callCount = 0;
 
 		// input callbacks
-#ifdef MV_CPP
-		mvCallable m_mouseDownCallback = []() {};
-		mvCallable m_mouseClickCallback = []() {};
-		mvCallable m_mouseReleaseCallback = []() {};
-		mvCallable m_mouseDoubleClickCallback = []() {};
-		mvCallable m_mouseWheelCallback = []() {};
-		mvCallable m_mouseDragCallback = []() {};
-		mvCallable m_keyDownCallback = []() {};
-		mvCallable m_keyPressCallback = []() {};
-		mvCallable m_keyReleaseCallback = []() {};
-		mvCallable m_resizeCallback = []() {};
-		mvCallable m_mouseMoveCallback = []() {};
-		mvCallable m_onCloseCallback = []() {};
-		mvCallable m_onStartCallback = []() {};
-		mvCallable m_acceleratorCallback = []() {}; // basically the same as the key press callback
-
-#else
 		mvCallable m_mouseDownCallback = nullptr;
 		mvCallable m_mouseClickCallback = nullptr;
 		mvCallable m_mouseReleaseCallback = nullptr;
@@ -159,9 +140,6 @@ namespace Marvel {
 		mvCallable m_onCloseCallback = nullptr;
 		mvCallable m_onStartCallback = nullptr;
 		mvCallable m_acceleratorCallback = nullptr; // basically the same as the key press callback
-
-#endif // !MV_CPP
-
 
 	};
 

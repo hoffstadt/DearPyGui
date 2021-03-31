@@ -47,8 +47,6 @@ namespace Marvel {
 
 	}
 
-#ifndef MV_CPP
-
 	void mvTimePicker::setExtraConfigDict(PyObject* dict)
 	{
 		if (dict == nullptr)
@@ -96,7 +94,5 @@ namespace Marvel {
 
 		return GetPyNone();
 	}
-
-#endif
 
 }

@@ -138,9 +138,6 @@ namespace Marvel {
 		m_ypos = pos.y;
 	}
 
-#ifdef MV_CPP
-#else
-
 	void mvNode::setExtraConfigDict(PyObject* dict)
 	{
 		if (dict == nullptr)
@@ -203,6 +200,4 @@ namespace Marvel {
 		return GetPyNone();
 
 	}
-
-#endif
 }

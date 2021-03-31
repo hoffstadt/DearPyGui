@@ -36,8 +36,6 @@ namespace Marvel {
         bool        clamped         = false;
     };
 
-#ifdef MV_CPP
-#else
     PyObject* add_drag_float(PyObject* self, PyObject* args, PyObject* kwargs);
     PyObject* add_drag_float2(PyObject* self, PyObject* args, PyObject* kwargs);
     PyObject* add_drag_float3(PyObject* self, PyObject* args, PyObject* kwargs);
@@ -46,7 +44,6 @@ namespace Marvel {
     PyObject* add_drag_int2(PyObject* self, PyObject* args, PyObject* kwargs);
     PyObject* add_drag_int3(PyObject* self, PyObject* args, PyObject* kwargs);
     PyObject* add_drag_int4(PyObject* self, PyObject* args, PyObject* kwargs);
-#endif
     
     MV_REGISTER_WIDGET(mvDragFloat);
     class mvDragFloat : public mvFloatPtrBase
@@ -101,10 +98,8 @@ namespace Marvel {
         
         void draw() override;
         
-#ifndef MV_CPP
         void setExtraConfigDict(PyObject* dict) override;
         void getExtraConfigDict(PyObject* dict) override;
-#endif // !MV_CPP
         
         // cpp interface
         void updateConfig(mvAppItemConfig* config) override;
@@ -190,10 +185,8 @@ namespace Marvel {
         void setEnabled(bool value) override;
         void draw() override;
 
-#ifndef MV_CPP
         void setExtraConfigDict(PyObject* dict) override;
         void getExtraConfigDict(PyObject* dict) override;
-#endif // !MV_CPP
         
         // cpp interface
         void updateConfig(mvAppItemConfig* config) override;
@@ -265,10 +258,8 @@ namespace Marvel {
         void setEnabled(bool value) override;
         void draw() override;
 
-#ifndef MV_CPP
         void setExtraConfigDict(PyObject* dict) override;
         void getExtraConfigDict(PyObject* dict) override;
-#endif // !MV_CPP
         
         // cpp interface
         void updateConfig(mvAppItemConfig* config) override;
@@ -341,10 +332,8 @@ namespace Marvel {
         void setEnabled(bool value) override;
         void draw() override;
 
-#ifndef MV_CPP
         void setExtraConfigDict(PyObject* dict) override;
         void getExtraConfigDict(PyObject* dict) override;
-#endif // !MV_CPP
         
         // cpp interface
         void updateConfig(mvAppItemConfig* config) override;
@@ -428,10 +417,8 @@ namespace Marvel {
         void setEnabled(bool value) override;
         void draw() override;
 
-#ifndef MV_CPP
         void setExtraConfigDict(PyObject* dict) override;
         void getExtraConfigDict(PyObject* dict) override;
-#endif // !MV_CPP
         
         // cpp interface
         void updateConfig(mvAppItemConfig* config) override;
@@ -515,10 +502,8 @@ namespace Marvel {
         void setEnabled(bool value) override;
         void draw() override;
 
-#ifndef MV_CPP
         void setExtraConfigDict(PyObject* dict) override;
         void getExtraConfigDict(PyObject* dict) override;
-#endif // !MV_CPP
         
         // cpp interface
         void updateConfig(mvAppItemConfig* config) override;
@@ -590,10 +575,8 @@ namespace Marvel {
         void setEnabled(bool value) override;
         void draw() override;
 
-#ifndef MV_CPP
         void setExtraConfigDict(PyObject* dict) override;
         void getExtraConfigDict(PyObject* dict) override;
-#endif // !MV_CPP
         
         // cpp interface
         void updateConfig(mvAppItemConfig* config) override;
@@ -665,10 +648,8 @@ namespace Marvel {
         void setEnabled(bool value) override;
         void draw() override;
 
-#ifndef MV_CPP
         void setExtraConfigDict(PyObject* dict) override;
         void getExtraConfigDict(PyObject* dict) override;
-#endif // !MV_CPP
 
         // cpp interface
         void updateConfig(mvAppItemConfig* config) override;
