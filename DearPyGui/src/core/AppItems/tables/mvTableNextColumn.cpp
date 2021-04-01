@@ -9,7 +9,7 @@ namespace Marvel {
 
 	void mvTableNextColumn::InsertParser(std::map<std::string, mvPythonParser>* parsers)
 	{
-		parsers->insert({ s_parser, mvPythonParser({
+		parsers->insert({ s_command, mvPythonParser({
 			{mvPythonDataType::Optional},
 			{mvPythonDataType::KeywordOnly},
 			{mvPythonDataType::String, "name", "", "'next_column'"},

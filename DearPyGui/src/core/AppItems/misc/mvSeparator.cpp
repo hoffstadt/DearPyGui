@@ -7,7 +7,7 @@ namespace Marvel {
 
 	void mvSeparator::InsertParser(std::map<std::string, mvPythonParser>* parsers)
 	{
-		parsers->insert({ s_parser, mvPythonParser({
+		parsers->insert({ s_command, mvPythonParser({
 			{mvPythonDataType::KeywordOnly},
 			{mvPythonDataType::String, "name", "", "'separator'"},
 			{mvPythonDataType::String, "parent", "Parent this item will be added to. (runtime adding)", "''"},

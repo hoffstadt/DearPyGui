@@ -10,7 +10,7 @@ namespace Marvel {
 	void mvColorEdit3::InsertParser(std::map<std::string, mvPythonParser>* parsers)
 	{
 
-		parsers->insert({ s_parser, mvPythonParser({
+		parsers->insert({ s_command, mvPythonParser({
 			{mvPythonDataType::Optional},
 			{mvPythonDataType::String, "name"},
 			{mvPythonDataType::KeywordOnly},
@@ -49,7 +49,7 @@ namespace Marvel {
 
 	void mvColorEdit4::InsertParser(std::map<std::string, mvPythonParser>* parsers)
 	{
-		parsers->insert({ s_parser, mvPythonParser({
+		parsers->insert({ s_command, mvPythonParser({
 			{mvPythonDataType::Optional},
 			{mvPythonDataType::String, "name"},
 			{mvPythonDataType::KeywordOnly},

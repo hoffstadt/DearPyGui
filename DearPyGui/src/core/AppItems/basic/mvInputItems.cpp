@@ -12,7 +12,7 @@ namespace Marvel {
 
     void mvInputInt::InsertParser(std::map<std::string, mvPythonParser>* parsers)
     {
-        parsers->insert({ s_parser, mvPythonParser({
+        parsers->insert({ s_command, mvPythonParser({
             {mvPythonDataType::Optional},
             {mvPythonDataType::String, "name"},
             {mvPythonDataType::KeywordOnly},
@@ -40,7 +40,7 @@ namespace Marvel {
     void mvInputInt2::InsertParser(std::map<std::string, mvPythonParser>* parsers)
     {
 
-        parsers->insert({ s_parser, mvPythonParser({
+        parsers->insert({ s_command, mvPythonParser({
             {mvPythonDataType::Optional},
             {mvPythonDataType::String, "name"},
             {mvPythonDataType::KeywordOnly},
@@ -65,7 +65,7 @@ namespace Marvel {
 
     void mvInputInt3::InsertParser(std::map<std::string, mvPythonParser>* parsers)
     {
-        parsers->insert({ s_parser, mvPythonParser({
+        parsers->insert({ s_command, mvPythonParser({
             {mvPythonDataType::Optional},
             {mvPythonDataType::String, "name"},
             {mvPythonDataType::KeywordOnly},
@@ -90,7 +90,7 @@ namespace Marvel {
 
     void mvInputInt4::InsertParser(std::map<std::string, mvPythonParser>* parsers)
     {
-        parsers->insert({ s_parser, mvPythonParser({
+        parsers->insert({ s_command, mvPythonParser({
             {mvPythonDataType::Optional},
             {mvPythonDataType::String, "name"},
             {mvPythonDataType::KeywordOnly},
@@ -115,7 +115,7 @@ namespace Marvel {
 
     void mvInputFloat::InsertParser(std::map<std::string, mvPythonParser>* parsers)
     {
-        parsers->insert({ s_parser, mvPythonParser({
+        parsers->insert({ s_command, mvPythonParser({
             {mvPythonDataType::Optional},
             {mvPythonDataType::String, "name"},
             {mvPythonDataType::KeywordOnly},
@@ -143,7 +143,7 @@ namespace Marvel {
 
     void mvInputFloat2::InsertParser(std::map<std::string, mvPythonParser>* parsers)
     {
-        parsers->insert({ s_parser, mvPythonParser({
+        parsers->insert({ s_command, mvPythonParser({
             {mvPythonDataType::Optional},
             {mvPythonDataType::String, "name"},
             {mvPythonDataType::KeywordOnly},
@@ -169,7 +169,7 @@ namespace Marvel {
 
     void mvInputFloat3::InsertParser(std::map<std::string, mvPythonParser>* parsers)
     {
-        parsers->insert({ s_parser, mvPythonParser({
+        parsers->insert({ s_command, mvPythonParser({
             {mvPythonDataType::Optional},
             {mvPythonDataType::String, "name"},
             {mvPythonDataType::KeywordOnly},
@@ -195,7 +195,7 @@ namespace Marvel {
 
     void mvInputFloat4::InsertParser(std::map<std::string, mvPythonParser>* parsers)
     {
-        parsers->insert({ s_parser, mvPythonParser({
+        parsers->insert({ s_command, mvPythonParser({
             {mvPythonDataType::Optional},
             {mvPythonDataType::String, "name"},
             {mvPythonDataType::KeywordOnly},

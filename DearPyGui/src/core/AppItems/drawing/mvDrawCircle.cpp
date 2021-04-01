@@ -7,7 +7,7 @@ namespace Marvel {
 	void mvDrawCircle::InsertParser(std::map<std::string, mvPythonParser>* parsers)
 	{
 
-		parsers->insert({ s_parser, mvPythonParser({
+		parsers->insert({ s_command, mvPythonParser({
 			{mvPythonDataType::Optional},
 			{mvPythonDataType::FloatList, "center"},
 			{mvPythonDataType::Float, "radius"},
@@ -104,7 +104,7 @@ namespace Marvel {
 		const char* parent = "";
 		int show = true;
 
-		if (!(mvApp::GetApp()->getParsers())[s_parser].parse(args, kwargs, __FUNCTION__, 
+		if (!(mvApp::GetApp()->getParsers())[s_command].parse(args, kwargs, __FUNCTION__, 
 			&center, &radius, &color, &segments, &thickness, &fill, &name, &parent, &before, &show))
 			return GetPyNone();
 
