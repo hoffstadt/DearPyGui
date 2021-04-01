@@ -75,9 +75,9 @@ namespace Marvel {
 	mvNodeEditor::~mvNodeEditor()
 	{
 		m_delinkCallback = nullptr;
-		for (auto& child : m_children)
+		for (auto& child : m_children1)
 		{
-			for (auto& grandchild : child->m_children)
+			for (auto& grandchild : child->m_children1)
 			{
 				((mvNodeAttribute*)grandchild.get())->markForDeletion();
 				deleteLink(grandchild->m_core_config.name, ((mvNodeAttribute*)grandchild.get())->getId(), true);
@@ -102,9 +102,9 @@ namespace Marvel {
 		int64_t node1_id = 0;
         int64_t node2_id = 0;
 
-		for (const auto& node : m_children)
+		for (const auto& node : m_children1)
 		{
-			for (const auto& attr : node->m_children)
+			for (const auto& attr : node->m_children1)
 			{
 				if (attr->getCoreConfig().name == node1)
 					node1_id = static_cast<mvNodeAttribute*>(attr.get())->getId();
@@ -173,9 +173,9 @@ namespace Marvel {
 		int node1_id = 0;
 		int node2_id = 0;
 
-		for (const auto& node : m_children)
+		for (const auto& node : m_children1)
 		{
-			for (const auto& attr : node->m_children)
+			for (const auto& attr : node->m_children1)
 			{
 				if (attr->getCoreConfig().name == node1)
 					node1_id = static_cast<mvNodeAttribute*>(attr.get())->getId();
@@ -236,7 +236,7 @@ namespace Marvel {
 		std::vector<std::string> result;
 		for (const auto& item : m_selectedNodes)
 		{
-			for (const auto& child : m_children)
+			for (const auto& child : m_children1)
 			{
 			    int i1 = item;
 			    int i2 = static_cast<mvNode*>(child.get())->getId();
@@ -283,7 +283,7 @@ namespace Marvel {
 		//we do this so that the children dont get the theme
 		//scope.cleanup();
 
-		for (auto item : m_children)
+		for (auto item : m_children1)
 		{
 			// skip item if it's not shown
 			if (!item->m_core_config.show)
@@ -303,7 +303,7 @@ namespace Marvel {
 		
 
 		static int hovered_node_id;
-		for (auto& child : m_children)
+		for (auto& child : m_children1)
 		{
 			child->getState().setHovered(false);
 
@@ -315,7 +315,7 @@ namespace Marvel {
 
 		if (imnodes::IsNodeHovered(&hovered_node_id))
 		{
-			for (auto& child : m_children)
+			for (auto& child : m_children1)
 			{
 				if (static_cast<mvNode*>(child.get())->getId() == hovered_node_id)
 					child->getState().setHovered(true);
@@ -348,9 +348,9 @@ namespace Marvel {
 		if (imnodes::IsLinkCreated(&start_attr, &end_attr))
 		{
 			std::string node1, node2;
-			for (const auto& child : m_children)
+			for (const auto& child : m_children1)
 			{
-				for (const auto& grandchild : child->m_children)
+				for (const auto& grandchild : child->m_children1)
 				{
 					if (static_cast<mvNodeAttribute*>(grandchild.get())->getId()== start_attr)
 						node1 = grandchild->getCoreConfig().name;

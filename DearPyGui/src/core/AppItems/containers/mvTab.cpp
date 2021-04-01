@@ -62,7 +62,7 @@ namespace Marvel {
 		{
 
 			// set other tab's value false
-			for (auto child : parent->m_children)
+			for (auto child : parent->m_children1)
 			{
 				if (child->getType() == mvAppItemType::mvTab)
 					*((mvTab*)child.get())->m_value = false;
@@ -80,7 +80,7 @@ namespace Marvel {
 			//we do this so that the children dont get the theme
 			scope.cleanup();
 
-			for (auto& item : m_children)
+			for (auto& item : m_children1)
 			{
 				// skip item if it's not shown
 				if (!item->m_core_config.show)

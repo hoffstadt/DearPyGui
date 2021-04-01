@@ -441,7 +441,7 @@ namespace Marvel {
 
 		mvRef<mvAppItem> parentitem = topParent();
 		item->m_parent = parentitem.get();
-		parentitem->m_children.emplace_back(item);
+		parentitem->addItem(item);
 
 		return true;
 	}
@@ -599,8 +599,11 @@ namespace Marvel {
 
 		if (item)
 		{
-			auto children = item->m_children;
-			for (auto child : children)
+			auto children0 = item->m_children0;
+			auto children1 = item->m_children1;
+			for (auto child : children0)
+				childList.emplace_back(child->m_core_config.name);
+			for (auto child : children1)
 				childList.emplace_back(child->m_core_config.name);
 		}
 		else
@@ -620,8 +623,15 @@ namespace Marvel {
 		// to help recursively retrieve children
 		std::function<void(mvRef<mvAppItem>)> ChildRetriever;
 		ChildRetriever = [&childList, &ChildRetriever](mvRef<mvAppItem> item) {
-			auto children = item->m_children;
-			for (auto child : children)
+			auto children0 = item->m_children0;
+			auto children1 = item->m_children1;
+			for (auto child : children0)
+			{
+				childList.emplace_back(child->m_core_config.name);
+				if (child->getDescription().container)
+					ChildRetriever(child);
+			}
+			for (auto child : children1)
 			{
 				childList.emplace_back(child->m_core_config.name);
 				if (child->getDescription().container)

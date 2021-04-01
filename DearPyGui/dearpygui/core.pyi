@@ -594,7 +594,7 @@ def get_item_callback_data(item: str) -> Any:
 	"""Returns an item' callback data"""
 	...
 
-def get_item_children(item: str) -> List[str]:
+def get_item_children1(item: str) -> List[str]:
 	"""Returns a list of an item's children."""
 	...
 
@@ -824,10 +824,6 @@ def reset_xticks(plot: str) -> None:
 
 def reset_yticks(plot: str) -> None:
 	"""Sets plots y ticks and labels back to automatic"""
-	...
-
-def select_directory_dialog(callback: Callable = None) -> None:
-	"""Opens a select directory dialog."""
 	...
 
 def send_draw_command_back(drawing: str, tag: str) -> None:

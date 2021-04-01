@@ -37,7 +37,7 @@ namespace Marvel {
 		{
 
 			// set other menus's value false on same level
-			for (auto sibling : m_parent->m_children)
+			for (auto sibling : m_parent->m_children1)
 			{
 				// ensure sibling
 				if (sibling->getType() == mvAppItemType::mvMenu)
@@ -50,7 +50,7 @@ namespace Marvel {
 			//we do this so that the children dont get the theme
 			scope.cleanup();
 
-			for (auto& item : m_children)
+			for (auto& item : m_children1)
 			{
 				// skip item if it's not shown
 				if (!item->m_core_config.show)
