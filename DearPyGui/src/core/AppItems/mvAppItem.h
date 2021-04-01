@@ -55,7 +55,13 @@ namespace Marvel {
         ItemTypeCount
     };
 
-    template<int item_type> struct mvItemType {};
+    template<int item_type> 
+    struct mvItemTypeMap {};
+
+    template<typename T> 
+    struct mvItemTypeReverseMap{};
+
+    
 
     //-----------------------------------------------------------------------------
     // mvAppItem
@@ -276,16 +282,20 @@ namespace Marvel {
         ImFont* m_cached_font = nullptr;
 
         // config
-        std::string m_name = "";
-        std::string m_source = "";
-        std::string m_specificedlabel = "__DearPyGuiDefault";
-        std::string m_parent = "";
-        std::string m_before = "";
-        int m_width = 0;
-        int m_height = 0;
-        bool m_show = true;
-        bool m_enabled = true;
-        mvCallable m_callback = nullptr;
+        std::string    m_name = "";
+        std::string    m_source = "";
+        std::string    m_specificedlabel = "__DearPyGuiDefault";
+        std::string    m_parent = "";
+        std::string    m_before = "";
+        int            m_width = 0;
+        int            m_height = 0;
+        int            m_windowPosx = 0;
+        int            m_windowPosy = 0;
+        int            m_posx = 0;
+        int            m_posy = 0;
+        bool           m_show = true;
+        bool           m_enabled = true;
+        mvCallable     m_callback = nullptr;
         mvCallableData m_callback_data = nullptr;
 
     };
