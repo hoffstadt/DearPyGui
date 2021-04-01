@@ -20,7 +20,7 @@ namespace Marvel {
 
 		constexpr_for<1, (int)mvAppItemType::ItemTypeCount, 1>(
 			[&](auto i) {
-				using item_type = typename mvItemType<i>::type;
+				using item_type = typename mvItemTypeMap<i>::type;
 				methods.push_back(item_type::GetMethodDefinition());
 				item_type::FillExtraCommands(methods);
 			});
@@ -48,7 +48,7 @@ namespace Marvel {
 		{
 			constexpr_for<1, (int)mvAppItemType::ItemTypeCount, 1>(
 				[&](auto i) {
-					using item_type = typename mvItemType<i>::type;
+					using item_type = typename mvItemTypeMap<i>::type;
 					item_type::InsertParser(&parsers);
 				});
 
@@ -82,7 +82,7 @@ namespace Marvel {
 			constexpr_for<1, (int)mvAppItemType::ItemTypeCount, 1>(
 				[&](auto i) {
 
-					using item_type = typename mvItemType<i>::type;
+					using item_type = typename mvItemTypeMap<i>::type;
 
 					// color constants
 					for (const auto& item : item_type::GetColorConstants())
