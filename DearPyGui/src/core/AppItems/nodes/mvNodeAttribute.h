@@ -11,26 +11,26 @@ namespace Marvel {
 
 		MV_APPITEM_TYPE(mvAppItemType::mvNodeAttribute, add_node_attribute)
 
-		MV_CREATE_THEME_CONSTANT(mvNode_PinShape_Circle,				0L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvNode_PinShape_CircleFilled,			1L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvNode_PinShape_Triangle,				2L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvNode_PinShape_TriangleFilled,		3L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvNode_PinShape_Quad,				    4L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvNode_PinShape_QuadFilled,			5L, 0L);
+		MV_CREATE_CONSTANT(mvNode_PinShape_Circle,				0L, 0L);
+		MV_CREATE_CONSTANT(mvNode_PinShape_CircleFilled,			1L, 0L);
+		MV_CREATE_CONSTANT(mvNode_PinShape_Triangle,				2L, 0L);
+		MV_CREATE_CONSTANT(mvNode_PinShape_TriangleFilled,		3L, 0L);
+		MV_CREATE_CONSTANT(mvNode_PinShape_Quad,				    4L, 0L);
+		MV_CREATE_CONSTANT(mvNode_PinShape_QuadFilled,			5L, 0L);
 
-		MV_CREATE_THEME_CONSTANT(mvThemeCol_NodeAttr_Pin,				10L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvThemeCol_NodeAttr_PinHovered,		11L, 0L);
+		MV_CREATE_CONSTANT(mvThemeCol_NodeAttr_Pin,				10L, 0L);
+		MV_CREATE_CONSTANT(mvThemeCol_NodeAttr_PinHovered,		11L, 0L);
 
 		MV_START_EXTRA_COMMANDS
 		MV_END_EXTRA_COMMANDS
 
 		MV_START_GENERAL_CONSTANTS
-			MV_CREATE_CONSTANT_SINGLE(mvNode_PinShape_Circle),
-			MV_CREATE_CONSTANT_SINGLE(mvNode_PinShape_CircleFilled),
-			MV_CREATE_CONSTANT_SINGLE(mvNode_PinShape_Triangle),
-			MV_CREATE_CONSTANT_SINGLE(mvNode_PinShape_TriangleFilled),
-			MV_CREATE_CONSTANT_SINGLE(mvNode_PinShape_Quad),
-			MV_CREATE_CONSTANT_SINGLE(mvNode_PinShape_QuadFilled)
+			MV_ADD_GENERAL_CONSTANT(mvNode_PinShape_Circle),
+			MV_ADD_GENERAL_CONSTANT(mvNode_PinShape_CircleFilled),
+			MV_ADD_GENERAL_CONSTANT(mvNode_PinShape_Triangle),
+			MV_ADD_GENERAL_CONSTANT(mvNode_PinShape_TriangleFilled),
+			MV_ADD_GENERAL_CONSTANT(mvNode_PinShape_Quad),
+			MV_ADD_GENERAL_CONSTANT(mvNode_PinShape_QuadFilled)
 		MV_END_GENERAL_CONSTANTS
 
 		MV_START_COLOR_CONSTANTS

@@ -19,22 +19,22 @@ namespace Marvel {
 	{
 		MV_APPITEM_TYPE(mvAppItemType::mvChild, add_child)
 
-		MV_CREATE_THEME_CONSTANT(mvThemeCol_Child_Bg					,  3L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvThemeCol_Child_MenuBar				, 13L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvThemeCol_Child_Border				,  5L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvThemeCol_Child_Scrollbar				, 14L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvThemeCol_Child_ScrollbarGrab			, 15L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvThemeCol_Child_ScrollbarGrabHovered	, 16L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvThemeCol_Child_ScrollbarGrabActive	, 17L, 0L);
+		MV_CREATE_CONSTANT(mvThemeCol_Child_Bg					,  3L, 0L);
+		MV_CREATE_CONSTANT(mvThemeCol_Child_MenuBar				, 13L, 0L);
+		MV_CREATE_CONSTANT(mvThemeCol_Child_Border				,  5L, 0L);
+		MV_CREATE_CONSTANT(mvThemeCol_Child_Scrollbar				, 14L, 0L);
+		MV_CREATE_CONSTANT(mvThemeCol_Child_ScrollbarGrab			, 15L, 0L);
+		MV_CREATE_CONSTANT(mvThemeCol_Child_ScrollbarGrabHovered	, 16L, 0L);
+		MV_CREATE_CONSTANT(mvThemeCol_Child_ScrollbarGrabActive	, 17L, 0L);
 
-		MV_CREATE_THEME_CONSTANT(mvThemeStyle_Child_BorderSize			,  7L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvThemeStyle_Child_Rounding			,  6L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvThemeStyle_Child_PaddingX			,  1L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvThemeStyle_Child_PaddingY			,  1L, 1L);
-		MV_CREATE_THEME_CONSTANT(mvThemeStyle_Child_ItemSpacingX		, 13L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvThemeStyle_Child_ItemSpacingY		, 13L, 1L);
-		MV_CREATE_THEME_CONSTANT(mvThemeStyle_Child_ScrollbarSize		, 17L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvThemeStyle_Child_ScrollbarRounding	, 18L, 0L);
+		MV_CREATE_CONSTANT(mvThemeStyle_Child_BorderSize			,  7L, 0L);
+		MV_CREATE_CONSTANT(mvThemeStyle_Child_Rounding			,  6L, 0L);
+		MV_CREATE_CONSTANT(mvThemeStyle_Child_PaddingX			,  1L, 0L);
+		MV_CREATE_CONSTANT(mvThemeStyle_Child_PaddingY			,  1L, 1L);
+		MV_CREATE_CONSTANT(mvThemeStyle_Child_ItemSpacingX		, 13L, 0L);
+		MV_CREATE_CONSTANT(mvThemeStyle_Child_ItemSpacingY		, 13L, 1L);
+		MV_CREATE_CONSTANT(mvThemeStyle_Child_ScrollbarSize		, 17L, 0L);
+		MV_CREATE_CONSTANT(mvThemeStyle_Child_ScrollbarRounding	, 18L, 0L);
 
 		MV_START_EXTRA_COMMANDS
 		MV_END_EXTRA_COMMANDS
@@ -53,14 +53,14 @@ namespace Marvel {
 		MV_END_COLOR_CONSTANTS
 
 		MV_START_STYLE_CONSTANTS
-			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_Child_BorderSize			, 1,  1),
-			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_Child_Rounding			, 0, 12),
-			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_Child_PaddingX			, 8, 20),
-			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_Child_PaddingY			, 8, 20),
-			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_Child_ItemSpacingX		, 8, 20),
-			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_Child_ItemSpacingY		, 4, 20),
-			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_Child_ScrollbarSize		,14, 20),
-			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_Child_ScrollbarRounding	, 9, 12),
+			MV_ADD_CONSTANT(mvThemeStyle_Child_BorderSize			, 1,  1),
+			MV_ADD_CONSTANT(mvThemeStyle_Child_Rounding			, 0, 12),
+			MV_ADD_CONSTANT(mvThemeStyle_Child_PaddingX			, 8, 20),
+			MV_ADD_CONSTANT(mvThemeStyle_Child_PaddingY			, 8, 20),
+			MV_ADD_CONSTANT(mvThemeStyle_Child_ItemSpacingX		, 8, 20),
+			MV_ADD_CONSTANT(mvThemeStyle_Child_ItemSpacingY		, 4, 20),
+			MV_ADD_CONSTANT(mvThemeStyle_Child_ScrollbarSize		,14, 20),
+			MV_ADD_CONSTANT(mvThemeStyle_Child_ScrollbarRounding	, 9, 12),
 		MV_END_STYLE_CONSTANTS
 
 	public:

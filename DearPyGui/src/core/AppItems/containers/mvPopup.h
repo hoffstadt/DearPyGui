@@ -16,30 +16,30 @@ namespace Marvel {
 
 		MV_CREATE_EXTRA_COMMAND(close_popup);
 
-		MV_CREATE_THEME_CONSTANT(mvThemeCol_Popup_TitleText				  ,  0L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvThemeCol_Popup_TitleBg				  , 11L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvThemeCol_Popup_Bg					  ,  4L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvThemeCol_Popup_ModalDimBg			  , 49L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvThemeCol_Popup_Scrollbar				  , 14L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvThemeCol_Popup_ScrollbarGrab			  , 15L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvThemeCol_Popup_ScrollbarGrabHovered	  , 16L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvThemeCol_Popup_ScrollbarGrabActive	  , 17L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvThemeCol_Popup_Border				  ,  5L, 0L);
+		MV_CREATE_CONSTANT(mvThemeCol_Popup_TitleText				  ,  0L, 0L);
+		MV_CREATE_CONSTANT(mvThemeCol_Popup_TitleBg				  , 11L, 0L);
+		MV_CREATE_CONSTANT(mvThemeCol_Popup_Bg					  ,  4L, 0L);
+		MV_CREATE_CONSTANT(mvThemeCol_Popup_ModalDimBg			  , 49L, 0L);
+		MV_CREATE_CONSTANT(mvThemeCol_Popup_Scrollbar				  , 14L, 0L);
+		MV_CREATE_CONSTANT(mvThemeCol_Popup_ScrollbarGrab			  , 15L, 0L);
+		MV_CREATE_CONSTANT(mvThemeCol_Popup_ScrollbarGrabHovered	  , 16L, 0L);
+		MV_CREATE_CONSTANT(mvThemeCol_Popup_ScrollbarGrabActive	  , 17L, 0L);
+		MV_CREATE_CONSTANT(mvThemeCol_Popup_Border				  ,  5L, 0L);
 
-		MV_CREATE_THEME_CONSTANT(mvThemeStyle_Popup_BorderSize			  ,  9L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvThemeStyle_Popup_Rounding			  ,  8L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvThemeStyle_Popup_PaddingX			  ,  1L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvThemeStyle_Popup_PaddingY			  ,  1L, 1L);
-		MV_CREATE_THEME_CONSTANT(mvThemeStyle_Popup_ItemSpacingX		  , 13L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvThemeStyle_Popup_ItemSpacingY		  , 13L, 1L);
-		MV_CREATE_THEME_CONSTANT(mvThemeStyle_Popup_ModalRounding		  ,  2L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvThemeStyle_Popup_ModalBorderSize		  ,  3L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvThemeStyle_Popup_ModalTitleAlignX	  ,  5L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvThemeStyle_Popup_ModalTitleAlignY	  ,  5L, 1L);
-		MV_CREATE_THEME_CONSTANT(mvThemeStyle_Popup_ModalMinSizeX		  ,  4L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvThemeStyle_Popup_ModalMinSizeY		  ,  4L, 1L);
-		MV_CREATE_THEME_CONSTANT(mvThemeStyle_Popup_ModalScrollbarSize	  , 17L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvThemeStyle_Popup_ModalScrollbarRounding, 18L, 0L);
+		MV_CREATE_CONSTANT(mvThemeStyle_Popup_BorderSize			  ,  9L, 0L);
+		MV_CREATE_CONSTANT(mvThemeStyle_Popup_Rounding			  ,  8L, 0L);
+		MV_CREATE_CONSTANT(mvThemeStyle_Popup_PaddingX			  ,  1L, 0L);
+		MV_CREATE_CONSTANT(mvThemeStyle_Popup_PaddingY			  ,  1L, 1L);
+		MV_CREATE_CONSTANT(mvThemeStyle_Popup_ItemSpacingX		  , 13L, 0L);
+		MV_CREATE_CONSTANT(mvThemeStyle_Popup_ItemSpacingY		  , 13L, 1L);
+		MV_CREATE_CONSTANT(mvThemeStyle_Popup_ModalRounding		  ,  2L, 0L);
+		MV_CREATE_CONSTANT(mvThemeStyle_Popup_ModalBorderSize		  ,  3L, 0L);
+		MV_CREATE_CONSTANT(mvThemeStyle_Popup_ModalTitleAlignX	  ,  5L, 0L);
+		MV_CREATE_CONSTANT(mvThemeStyle_Popup_ModalTitleAlignY	  ,  5L, 1L);
+		MV_CREATE_CONSTANT(mvThemeStyle_Popup_ModalMinSizeX		  ,  4L, 0L);
+		MV_CREATE_CONSTANT(mvThemeStyle_Popup_ModalMinSizeY		  ,  4L, 1L);
+		MV_CREATE_CONSTANT(mvThemeStyle_Popup_ModalScrollbarSize	  , 17L, 0L);
+		MV_CREATE_CONSTANT(mvThemeStyle_Popup_ModalScrollbarRounding, 18L, 0L);
 
 		MV_START_EXTRA_COMMANDS
 			MV_ADD_EXTRA_COMMAND(close_popup);
@@ -61,20 +61,20 @@ namespace Marvel {
 		MV_END_COLOR_CONSTANTS
 
 		MV_START_STYLE_CONSTANTS
-			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_Popup_BorderSize				, 1,    1),
-			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_Popup_Rounding				, 0,   12),
-			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_Popup_PaddingX				, 8,   20),
-			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_Popup_PaddingY				, 8,   20),
-			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_Popup_ItemSpacingX			, 8,   20),
-			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_Popup_ItemSpacingY			, 4,   20),
-			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_Popup_ModalRounding			, 0,   12),
-			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_Popup_ModalBorderSize			, 1,    1),
-			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_Popup_ModalTitleAlignX		, 0,    1),
-			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_Popup_ModalTitleAlignY		, 0.5,  1),
-			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_Popup_ModalMinSizeX			,32,   50),
-			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_Popup_ModalMinSizeY			,32,   50),
-			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_Popup_ModalScrollbarSize		,14,   20),
-			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_Popup_ModalScrollbarRounding	, 9,   12),
+			MV_ADD_CONSTANT(mvThemeStyle_Popup_BorderSize				, 1,    1),
+			MV_ADD_CONSTANT(mvThemeStyle_Popup_Rounding				, 0,   12),
+			MV_ADD_CONSTANT(mvThemeStyle_Popup_PaddingX				, 8,   20),
+			MV_ADD_CONSTANT(mvThemeStyle_Popup_PaddingY				, 8,   20),
+			MV_ADD_CONSTANT(mvThemeStyle_Popup_ItemSpacingX			, 8,   20),
+			MV_ADD_CONSTANT(mvThemeStyle_Popup_ItemSpacingY			, 4,   20),
+			MV_ADD_CONSTANT(mvThemeStyle_Popup_ModalRounding			, 0,   12),
+			MV_ADD_CONSTANT(mvThemeStyle_Popup_ModalBorderSize			, 1,    1),
+			MV_ADD_CONSTANT(mvThemeStyle_Popup_ModalTitleAlignX		, 0,    1),
+			MV_ADD_CONSTANT(mvThemeStyle_Popup_ModalTitleAlignY		, 0.5,  1),
+			MV_ADD_CONSTANT(mvThemeStyle_Popup_ModalMinSizeX			,32,   50),
+			MV_ADD_CONSTANT(mvThemeStyle_Popup_ModalMinSizeY			,32,   50),
+			MV_ADD_CONSTANT(mvThemeStyle_Popup_ModalScrollbarSize		,14,   20),
+			MV_ADD_CONSTANT(mvThemeStyle_Popup_ModalScrollbarRounding	, 9,   12),
 		MV_END_STYLE_CONSTANTS
 
 	public:

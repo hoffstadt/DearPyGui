@@ -12,17 +12,17 @@ namespace Marvel {
 
 		MV_APPITEM_TYPE(mvAppItemType::mvNode, add_node)
 
-		MV_CREATE_THEME_CONSTANT(mvThemeCol_Node_Background,				 0L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvThemeCol_Node_BackgroundHovered,			 1L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvThemeCol_Node_BackgroundSelected,		 2L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvThemeCol_Node_Outline,					 3L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvThemeCol_Node_TitleBar,					 4L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvThemeCol_Node_TitleBarHovered,			 5L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvThemeCol_Node_TitleBarSelected,			 6L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvThemeStyle_Node_CornerRounding,			 1L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvThemeStyle_Node_PaddingHorizontal,		 2L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvThemeStyle_Node_PaddingVertical,			 3L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvThemeStyle_Node_BorderThickness,			 4L, 0L);
+		MV_CREATE_CONSTANT(mvThemeCol_Node_Background,				 0L, 0L);
+		MV_CREATE_CONSTANT(mvThemeCol_Node_BackgroundHovered,			 1L, 0L);
+		MV_CREATE_CONSTANT(mvThemeCol_Node_BackgroundSelected,		 2L, 0L);
+		MV_CREATE_CONSTANT(mvThemeCol_Node_Outline,					 3L, 0L);
+		MV_CREATE_CONSTANT(mvThemeCol_Node_TitleBar,					 4L, 0L);
+		MV_CREATE_CONSTANT(mvThemeCol_Node_TitleBarHovered,			 5L, 0L);
+		MV_CREATE_CONSTANT(mvThemeCol_Node_TitleBarSelected,			 6L, 0L);
+		MV_CREATE_CONSTANT(mvThemeStyle_Node_CornerRounding,			 1L, 0L);
+		MV_CREATE_CONSTANT(mvThemeStyle_Node_PaddingHorizontal,		 2L, 0L);
+		MV_CREATE_CONSTANT(mvThemeStyle_Node_PaddingVertical,			 3L, 0L);
+		MV_CREATE_CONSTANT(mvThemeStyle_Node_BorderThickness,			 4L, 0L);
 
 		MV_START_EXTRA_COMMANDS
 		MV_END_EXTRA_COMMANDS
@@ -41,10 +41,10 @@ namespace Marvel {
 		MV_END_COLOR_CONSTANTS
 
 		MV_START_STYLE_CONSTANTS
-			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_Node_CornerRounding,		5, 20),
-			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_Node_PaddingHorizontal,	8, 20),
-			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_Node_PaddingVertical,		8, 20),
-			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_Node_BorderThickness,		1, 20),
+			MV_ADD_CONSTANT(mvThemeStyle_Node_CornerRounding,		5, 20),
+			MV_ADD_CONSTANT(mvThemeStyle_Node_PaddingHorizontal,	8, 20),
+			MV_ADD_CONSTANT(mvThemeStyle_Node_PaddingVertical,		8, 20),
+			MV_ADD_CONSTANT(mvThemeStyle_Node_BorderThickness,		1, 20),
 
 		MV_END_STYLE_CONSTANTS
 

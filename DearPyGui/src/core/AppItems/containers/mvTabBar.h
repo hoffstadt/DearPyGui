@@ -15,9 +15,9 @@ namespace Marvel {
 
 		MV_APPITEM_TYPE(mvAppItemType::mvTabBar, add_tab_bar)
 
-		MV_CREATE_THEME_CONSTANT(mvThemeCol_TabBar, 35L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvThemeStyle_TabBar_ItemSpacingX, 13L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvThemeStyle_TabBar_ItemSpacingY, 13L, 1L);
+		MV_CREATE_CONSTANT(mvThemeCol_TabBar, 35L, 0L);
+		MV_CREATE_CONSTANT(mvThemeStyle_TabBar_ItemSpacingX, 13L, 0L);
+		MV_CREATE_CONSTANT(mvThemeStyle_TabBar_ItemSpacingY, 13L, 1L);
 
 		MV_START_EXTRA_COMMANDS
 		MV_END_EXTRA_COMMANDS
@@ -30,8 +30,8 @@ namespace Marvel {
 		MV_END_COLOR_CONSTANTS
 
 		MV_START_STYLE_CONSTANTS
-			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_TabBar_ItemSpacingX, 8, 20),
-			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_TabBar_ItemSpacingY, 4, 20),
+			MV_ADD_CONSTANT(mvThemeStyle_TabBar_ItemSpacingX, 8, 20),
+			MV_ADD_CONSTANT(mvThemeStyle_TabBar_ItemSpacingY, 4, 20),
 		MV_END_STYLE_CONSTANTS
 	public:
 

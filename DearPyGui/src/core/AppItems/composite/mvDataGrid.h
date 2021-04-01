@@ -67,23 +67,23 @@ namespace Marvel {
 		MV_CREATE_EXTRA_COMMAND(insert_grid_row);
 		MV_CREATE_EXTRA_COMMAND(delete_grid_row);
 
-		MV_CREATE_THEME_CONSTANT(mvThemeCol_DataGrid_Text					,  0L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvThemeCol_DataGrid_HeaderBg				, 44L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvThemeCol_DataGrid_RowBg					, 47L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvThemeCol_DataGrid_RowBgAlt				, 48L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvThemeCol_DataGrid_Item					, 24L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvThemeCol_DataGrid_ItemHovered			, 25L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvThemeCol_DataGrid_ItemActive			    , 26L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvThemeCol_DataGrid_BorderStrong			, 45L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvThemeCol_DataGrid_BorderLight			, 46L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvThemeCol_DataGrid_BorderHovered			, 28L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvThemeCol_DataGrid_BorderActive			, 29L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvThemeStyle_DataGrid_CellPaddingX			, 16L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvThemeStyle_DataGrid_CellPaddingY			, 16L, 1L);
-		MV_CREATE_THEME_CONSTANT(mvThemeStyle_DataGrid_ItemSpacingX			, 13L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvThemeStyle_DataGrid_ItemSpacingY			, 13L, 1L);
-		MV_CREATE_THEME_CONSTANT(mvThemeStyle_DataGrid_ItemTextAlignX		, 23L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvThemeStyle_DataGrid_ItemTextAlignY		, 23L, 1L);
+		MV_CREATE_CONSTANT(mvThemeCol_DataGrid_Text					,  0L, 0L);
+		MV_CREATE_CONSTANT(mvThemeCol_DataGrid_HeaderBg				, 44L, 0L);
+		MV_CREATE_CONSTANT(mvThemeCol_DataGrid_RowBg					, 47L, 0L);
+		MV_CREATE_CONSTANT(mvThemeCol_DataGrid_RowBgAlt				, 48L, 0L);
+		MV_CREATE_CONSTANT(mvThemeCol_DataGrid_Item					, 24L, 0L);
+		MV_CREATE_CONSTANT(mvThemeCol_DataGrid_ItemHovered			, 25L, 0L);
+		MV_CREATE_CONSTANT(mvThemeCol_DataGrid_ItemActive			    , 26L, 0L);
+		MV_CREATE_CONSTANT(mvThemeCol_DataGrid_BorderStrong			, 45L, 0L);
+		MV_CREATE_CONSTANT(mvThemeCol_DataGrid_BorderLight			, 46L, 0L);
+		MV_CREATE_CONSTANT(mvThemeCol_DataGrid_BorderHovered			, 28L, 0L);
+		MV_CREATE_CONSTANT(mvThemeCol_DataGrid_BorderActive			, 29L, 0L);
+		MV_CREATE_CONSTANT(mvThemeStyle_DataGrid_CellPaddingX			, 16L, 0L);
+		MV_CREATE_CONSTANT(mvThemeStyle_DataGrid_CellPaddingY			, 16L, 1L);
+		MV_CREATE_CONSTANT(mvThemeStyle_DataGrid_ItemSpacingX			, 13L, 0L);
+		MV_CREATE_CONSTANT(mvThemeStyle_DataGrid_ItemSpacingY			, 13L, 1L);
+		MV_CREATE_CONSTANT(mvThemeStyle_DataGrid_ItemTextAlignX		, 23L, 0L);
+		MV_CREATE_CONSTANT(mvThemeStyle_DataGrid_ItemTextAlignY		, 23L, 1L);
 
 		MV_START_EXTRA_COMMANDS
 			MV_ADD_EXTRA_COMMAND(set_grid_headers);
@@ -120,12 +120,12 @@ namespace Marvel {
 		MV_END_COLOR_CONSTANTS
 
 		MV_START_STYLE_CONSTANTS
-			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_DataGrid_CellPaddingX			, 4, 20),
-			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_DataGrid_CellPaddingY			, 2, 20),
-			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_DataGrid_ItemSpacingX			, 8, 20),
-			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_DataGrid_ItemSpacingY			, 4, 20),
-			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_DataGrid_ItemTextAlignX		, 0,  1),
-			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_DataGrid_ItemTextAlignY		, 0,  1),
+			MV_ADD_CONSTANT(mvThemeStyle_DataGrid_CellPaddingX			, 4, 20),
+			MV_ADD_CONSTANT(mvThemeStyle_DataGrid_CellPaddingY			, 2, 20),
+			MV_ADD_CONSTANT(mvThemeStyle_DataGrid_ItemSpacingX			, 8, 20),
+			MV_ADD_CONSTANT(mvThemeStyle_DataGrid_ItemSpacingY			, 4, 20),
+			MV_ADD_CONSTANT(mvThemeStyle_DataGrid_ItemTextAlignX		, 0,  1),
+			MV_ADD_CONSTANT(mvThemeStyle_DataGrid_ItemTextAlignY		, 0,  1),
 		MV_END_STYLE_CONSTANTS
 
 	public:

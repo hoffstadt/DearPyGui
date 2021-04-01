@@ -12,18 +12,18 @@ namespace Marvel {
 
 		MV_APPITEM_TYPE(mvAppItemType::mvMenu, add_menu)
 
-		MV_CREATE_THEME_CONSTANT(mvThemeCol_Menu_Text		    ,  0L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvThemeCol_Menu_Bg			    ,  4L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvThemeCol_Menu_BgHovered	    , 25L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvThemeCol_Menu_BgActive	    , 24L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvThemeCol_Menu_Border		    ,  5L, 0L);
+		MV_CREATE_CONSTANT(mvThemeCol_Menu_Text		    ,  0L, 0L);
+		MV_CREATE_CONSTANT(mvThemeCol_Menu_Bg			    ,  4L, 0L);
+		MV_CREATE_CONSTANT(mvThemeCol_Menu_BgHovered	    , 25L, 0L);
+		MV_CREATE_CONSTANT(mvThemeCol_Menu_BgActive	    , 24L, 0L);
+		MV_CREATE_CONSTANT(mvThemeCol_Menu_Border		    ,  5L, 0L);
 
-		MV_CREATE_THEME_CONSTANT(mvThemeStyle_Menu_BorderSize	,  9L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvThemeStyle_Menu_Rounding	    ,  8L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvThemeStyle_Menu_PaddingX	    ,  1L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvThemeStyle_Menu_PaddingY	    ,  1L, 1L);
-		MV_CREATE_THEME_CONSTANT(mvThemeStyle_Menu_ItemSpacingX , 13L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvThemeStyle_Menu_ItemSpacingY , 13L, 1L);
+		MV_CREATE_CONSTANT(mvThemeStyle_Menu_BorderSize	,  9L, 0L);
+		MV_CREATE_CONSTANT(mvThemeStyle_Menu_Rounding	    ,  8L, 0L);
+		MV_CREATE_CONSTANT(mvThemeStyle_Menu_PaddingX	    ,  1L, 0L);
+		MV_CREATE_CONSTANT(mvThemeStyle_Menu_PaddingY	    ,  1L, 1L);
+		MV_CREATE_CONSTANT(mvThemeStyle_Menu_ItemSpacingX , 13L, 0L);
+		MV_CREATE_CONSTANT(mvThemeStyle_Menu_ItemSpacingY , 13L, 1L);
 
 		MV_START_EXTRA_COMMANDS
 		MV_END_EXTRA_COMMANDS
@@ -40,12 +40,12 @@ namespace Marvel {
 		MV_END_COLOR_CONSTANTS
 
 		MV_START_STYLE_CONSTANTS
-			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_Menu_BorderSize	, 1,  1),
-			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_Menu_Rounding		, 0, 12),
-			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_Menu_PaddingX		, 8, 20),
-			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_Menu_PaddingY		, 8, 20),
-			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_Menu_ItemSpacingX	, 8, 20),
-			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_Menu_ItemSpacingY	, 4, 20),
+			MV_ADD_CONSTANT(mvThemeStyle_Menu_BorderSize	, 1,  1),
+			MV_ADD_CONSTANT(mvThemeStyle_Menu_Rounding		, 0, 12),
+			MV_ADD_CONSTANT(mvThemeStyle_Menu_PaddingX		, 8, 20),
+			MV_ADD_CONSTANT(mvThemeStyle_Menu_PaddingY		, 8, 20),
+			MV_ADD_CONSTANT(mvThemeStyle_Menu_ItemSpacingX	, 8, 20),
+			MV_ADD_CONSTANT(mvThemeStyle_Menu_ItemSpacingY	, 4, 20),
 		MV_END_STYLE_CONSTANTS
 
 	public:
