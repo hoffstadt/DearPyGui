@@ -4,8 +4,6 @@
 
 namespace Marvel {
 
-
-
 	MV_REGISTER_WIDGET(mvNodeEditor);
 	class mvNodeEditor : public mvAppItem
 	{

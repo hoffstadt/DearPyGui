@@ -38,28 +38,8 @@ namespace Marvel {
 		mvFontScope fscope(this);
 
 		if (ImGui::TabItemButton(m_label.c_str(), m_flags))
-			mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), m_core_config.name, m_core_config.callback_data);
+			mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), m_name, m_callback_data);
 
-	}
-
-	void mvTabButton::updateConfig(mvAppItemConfig* config)
-	{
-		auto aconfig = (mvTabButtonConfig*)config;
-
-		m_core_config.label = config->label;
-		m_core_config.show = config->show;
-		m_core_config.callback = config->callback;
-		m_core_config.callback_data = config->callback_data;
-
-		m_config.source = aconfig->source;
-
-		if (config != &m_config)
-			m_config = *aconfig;
-	}
-
-	mvAppItemConfig* mvTabButton::getConfig()
-	{
-		return &m_config;
 	}
 
 	void mvTabButton::setExtraConfigDict(PyObject* dict)

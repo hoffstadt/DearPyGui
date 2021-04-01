@@ -18,8 +18,8 @@ namespace Marvel {
 
 	void mvIntPtrBase::setDataSource(const std::string& dataSource)
 	{
-		if (dataSource == m_core_config.source) return;
-		m_core_config.source = dataSource;
+		if (dataSource == m_source) return;
+		m_source = dataSource;
 
 		mvRef<mvAppItem> item = mvApp::GetApp()->getItemRegistry().getItem(dataSource);
 		if (!item)
@@ -69,8 +69,8 @@ namespace Marvel {
 
 	void mvInt2PtrBase::setDataSource(const std::string& dataSource)
 	{
-		if (dataSource == m_core_config.source) return;
-		m_core_config.source = dataSource;
+		if (dataSource == m_source) return;
+		m_source = dataSource;
 
 		mvRef<mvAppItem> item = mvApp::GetApp()->getItemRegistry().getItem(dataSource);
 		if (!item)
@@ -110,8 +110,8 @@ namespace Marvel {
 
 	void mvInt3PtrBase::setDataSource(const std::string& dataSource)
 	{
-		if (dataSource == m_core_config.source) return;
-		m_core_config.source = dataSource;
+		if (dataSource == m_source) return;
+		m_source = dataSource;
 
 		mvRef<mvAppItem> item = mvApp::GetApp()->getItemRegistry().getItem(dataSource);
 		if (!item)
@@ -151,8 +151,8 @@ namespace Marvel {
 
 	void mvInt4PtrBase::setDataSource(const std::string& dataSource)
 	{
-		if (dataSource == m_core_config.source) return;
-		m_core_config.source = dataSource;
+		if (dataSource == m_source) return;
+		m_source = dataSource;
 
 		mvRef<mvAppItem> item = mvApp::GetApp()->getItemRegistry().getItem(dataSource);
 		if (!item)
@@ -187,8 +187,8 @@ namespace Marvel {
 
 	void mvFloatPtrBase::setDataSource(const std::string& dataSource)
 	{
-		if (dataSource == m_core_config.source) return;
-		m_core_config.source = dataSource;
+		if (dataSource == m_source) return;
+		m_source = dataSource;
 
 		mvRef<mvAppItem> item = mvApp::GetApp()->getItemRegistry().getItem(dataSource);
 		if (!item)
@@ -227,8 +227,8 @@ namespace Marvel {
 
 	void mvFloat2PtrBase::setDataSource(const std::string& dataSource)
 	{
-		if (dataSource == m_core_config.source) return;
-		m_core_config.source = dataSource;
+		if (dataSource == m_source) return;
+		m_source = dataSource;
 
 		mvRef<mvAppItem> item = mvApp::GetApp()->getItemRegistry().getItem(dataSource);
 		if (!item)
@@ -267,8 +267,8 @@ namespace Marvel {
 
 	void mvFloat3PtrBase::setDataSource(const std::string& dataSource)
 	{
-		if (dataSource == m_core_config.source) return;
-		m_core_config.source = dataSource;
+		if (dataSource == m_source) return;
+		m_source = dataSource;
 
 		mvRef<mvAppItem> item = mvApp::GetApp()->getItemRegistry().getItem(dataSource);
 		if (!item)
@@ -307,8 +307,8 @@ namespace Marvel {
 
 	void mvFloat4PtrBase::setDataSource(const std::string& dataSource)
 	{
-		if (dataSource == m_core_config.source) return;
-		m_core_config.source = dataSource;
+		if (dataSource == m_source) return;
+		m_source = dataSource;
 
 		mvRef<mvAppItem> item = mvApp::GetApp()->getItemRegistry().getItem(dataSource);
 		if (!item)
@@ -353,8 +353,8 @@ namespace Marvel {
 
 	void mvColorPtrBase::setDataSource(const std::string& dataSource)
 	{
-		if (dataSource == m_core_config.source) return;
-		m_core_config.source = dataSource;
+		if (dataSource == m_source) return;
+		m_source = dataSource;
 
 		mvRef<mvAppItem> item = mvApp::GetApp()->getItemRegistry().getItem(dataSource);
 		if (!item)
@@ -390,8 +390,8 @@ namespace Marvel {
 
 	void mvBoolPtrBase::setDataSource(const std::string& dataSource)
 	{
-		if (dataSource == m_core_config.source) return;
-		m_core_config.source = dataSource;
+		if (dataSource == m_source) return;
+		m_source = dataSource;
 
 		mvRef<mvAppItem> item = mvApp::GetApp()->getItemRegistry().getItem(dataSource);
 		if (!item)
@@ -426,8 +426,8 @@ namespace Marvel {
 
 	void mvStringPtrBase::setDataSource(const std::string& dataSource)
 	{
-		if (dataSource == m_core_config.source) return;
-		m_core_config.source = dataSource;
+		if (dataSource == m_source) return;
+		m_source = dataSource;
 
 		mvRef<mvAppItem> item = mvApp::GetApp()->getItemRegistry().getItem(dataSource);
 		if (!item)
@@ -481,8 +481,8 @@ namespace Marvel {
 
 	void mvFloatVectPtrBase::setDataSource(const std::string& dataSource)
 	{
-		if (dataSource == m_core_config.source) return;
-		m_core_config.source = dataSource;
+		if (dataSource == m_source) return;
+		m_source = dataSource;
 
 		mvRef<mvAppItem> item = mvApp::GetApp()->getItemRegistry().getItem(dataSource);
 		if (!item)
@@ -524,13 +524,13 @@ namespace Marvel {
 
 	void mvBaseWindowAppitem::setWidth(int width)
 	{ 
-		m_core_config.width = width;
+		m_width = width;
 		m_dirty_size = true; 
 	}
 
 	void mvBaseWindowAppitem::setHeight(int height)
 	{
-		m_core_config.height = height;
+		m_height = height;
 		m_dirty_size = true; 
 	}
 
@@ -542,12 +542,12 @@ namespace Marvel {
 	bool mvBaseWindowAppitem::prerender()
 	{
 
-		if (!m_core_config.show)
+		if (!m_show)
 			return false;
 
 		if (m_dirty_size)
 		{
-			ImGui::SetNextWindowSize(ImVec2((float)m_core_config.width, (float)m_core_config.height));
+			ImGui::SetNextWindowSize(ImVec2((float)m_width, (float)m_height));
 			m_dirty_size = false;
 		}
 
@@ -557,7 +557,7 @@ namespace Marvel {
 			m_dirty_pos = false;
 		}
 
-		if (!ImGui::Begin(m_label.c_str(), &m_core_config.show, m_windowflags))
+		if (!ImGui::Begin(m_label.c_str(), &m_show, m_windowflags))
 		{
 			ImGui::End();
 			return false;

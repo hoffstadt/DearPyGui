@@ -6,15 +6,6 @@
 
 namespace Marvel {
 
-	struct mvImageButtonConfig : public mvAppItemConfig
-	{
-		mvColor tint_color{ 255, 255, 255, 255 };
-		mvColor background_color{ 0, 0, 0, 0 };
-		int frame_padding = -1;
-		std::array<float, 2> uv_min{ 0.0, 0.0 };
-		std::array<float, 2> uv_max{ 1.0, 1.0 };
-	};
-
 	MV_REGISTER_WIDGET(mvImageButton);
 	class mvImageButton : public mvAppItem, public mvEventHandler
 	{
@@ -64,14 +55,10 @@ namespace Marvel {
 		bool onEvent(mvEvent& event) override;
 		bool onTextureDeleted(mvEvent& event);
 
-		void draw(ImDrawList* drawlist, float x, float y)               override;
+		void draw(ImDrawList* drawlist, float x, float y) override;
 
 		void setExtraConfigDict(PyObject* dict) override;
 		void getExtraConfigDict(PyObject* dict) override;
-
-		// cpp interface
-		void updateConfig(mvAppItemConfig* config) override;
-		mvAppItemConfig* getConfig() override;
 
 	private:
 
@@ -83,7 +70,6 @@ namespace Marvel {
 		void*       m_texture = nullptr;
 		int         m_framePadding = -1;
 		bool        m_dirty = false;
-		mvImageButtonConfig m_config;
 
 	};
 

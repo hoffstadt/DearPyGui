@@ -4,16 +4,6 @@
 
 namespace Marvel {
 
-	struct mvCollapsingHeaderConfig : public mvAppItemConfig
-	{
-		bool closable = false;
-		bool default_open = false;
-		bool open_on_double_click = false;
-		bool open_on_arrow = false;
-		bool leaf = false;
-		bool bullet = false;
-	};
-
 	MV_REGISTER_WIDGET(mvCollapsingHeader);
 	class mvCollapsingHeader : public mvBoolPtrBase
 	{

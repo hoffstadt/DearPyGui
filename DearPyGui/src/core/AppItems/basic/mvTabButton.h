@@ -4,16 +4,6 @@
 
 namespace Marvel {
 
-	struct mvTabButtonConfig : public mvAppItemConfig
-	{
-		bool no_reorder = false;
-		bool leading = false;
-		bool trailing = false;
-		bool no_tooltip = false;
-	};
-
-	
-
 	MV_REGISTER_WIDGET(mvTabButton);
 	class mvTabButton : public mvAppItem
 	{
@@ -60,18 +50,14 @@ namespace Marvel {
 
 		mvTabButton(const std::string& name);
 
-		void draw(ImDrawList* drawlist, float x, float y)               override;
+		void draw(ImDrawList* drawlist, float x, float y) override;
 
 		void setExtraConfigDict(PyObject* dict) override;
 		void getExtraConfigDict(PyObject* dict) override;
 
-		// cpp interface
-		void updateConfig(mvAppItemConfig* config) override;
-		mvAppItemConfig* getConfig() override;
-
 	private:
 
 		ImGuiTabItemFlags m_flags = ImGuiTabItemFlags_None;
-		mvTabButtonConfig m_config;
+
 	};
 }

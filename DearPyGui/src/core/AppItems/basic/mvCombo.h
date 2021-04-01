@@ -4,22 +4,6 @@
 
 namespace Marvel {
 
-	//-----------------------------------------------------------------------------
-	// mvColorPicker Config Struct
-	//-----------------------------------------------------------------------------
-	struct mvComboConfig : public mvAppItemConfig
-	{	
-		std::vector<std::string> items;
-		std::string              default_value    = "";
-		bool                     popup_align_left = false;
-		bool                     height_small     = false;
-		bool                     height_regular   = false;
-		bool                     height_large     = false;
-		bool                     height_largest   = false;
-		bool                     no_arrow_button  = false;
-		bool                     no_preview       = false;
-	};
-
 	MV_REGISTER_WIDGET(mvCombo);
 	class mvCombo : public mvStringPtrBase
 	{
@@ -105,20 +89,24 @@ namespace Marvel {
 	public:
 
 		mvCombo(const std::string& name, const std::string& default_value, const std::string& dataSource);
-		mvCombo(const std::string& name, const mvComboConfig& config);
 
 		void draw(ImDrawList* drawlist, float x, float y) override;
 
 		void setExtraConfigDict(PyObject* dict) override;
 		void getExtraConfigDict(PyObject* dict) override;
 
-		// cpp interface
-		void updateConfig(mvAppItemConfig* config) override;
-		mvAppItemConfig* getConfig() override;
-
 	private:
 		ImGuiComboFlags m_flags = ImGuiComboFlags_None;
-		mvComboConfig   m_config;
+
+		std::vector<std::string> m_items;
+		std::string              m_default_value = "";
+		bool                     m_popup_align_left = false;
+		bool                     m_height_small = false;
+		bool                     m_height_regular = false;
+		bool                     m_height_large = false;
+		bool                     m_height_largest = false;
+		bool                     m_no_arrow_button = false;
+		bool                     m_no_preview = false;
 	};
 
 }

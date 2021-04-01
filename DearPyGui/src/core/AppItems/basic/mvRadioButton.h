@@ -4,13 +4,6 @@
 
 namespace Marvel {
 
-	struct mvRadioButtonConfig : public mvAppItemConfig
-	{
-		std::vector<std::string> items;
-		int default_value = 0;
-		bool horizontal = false;
-	};
-
 	MV_REGISTER_WIDGET(mvRadioButton);
 	class mvRadioButton : public mvIntPtrBase
 	{
@@ -66,15 +59,10 @@ namespace Marvel {
 		void setExtraConfigDict(PyObject* dict) override;
 		void getExtraConfigDict(PyObject* dict) override;
 
-		// cpp interface
-		void updateConfig(mvAppItemConfig* config) override;
-		mvAppItemConfig* getConfig() override;
-
 	private:
 
 		std::vector<std::string> m_itemnames;
 		bool                     m_horizontal = false;
-		mvRadioButtonConfig		 m_config;
 	};
 
 }

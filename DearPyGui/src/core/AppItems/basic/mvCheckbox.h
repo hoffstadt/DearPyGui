@@ -4,18 +4,6 @@
 
 namespace Marvel {
 
-	//-----------------------------------------------------------------------------
-	// mvCheckbox Keyword Struct
-	//-----------------------------------------------------------------------------
-	struct mvCheckboxConfig : public mvAppItemConfig
-	{
-		bool default_value = false;
-		std::string source = "";
-	};
-
-	//-----------------------------------------------------------------------------
-	// mvCheckbox Keyword Struct
-	//-----------------------------------------------------------------------------
 	MV_REGISTER_WIDGET(mvCheckbox);
 	class mvCheckbox : public mvBoolPtrBase
 	{
@@ -67,17 +55,13 @@ namespace Marvel {
 	public:
 
 		mvCheckbox(const std::string& name, bool default_value, const std::string& dataSource);
-		mvCheckbox(const std::string& name, const mvCheckboxConfig& config);
 
 		void draw(ImDrawList* drawlist, float x, float y) override;
 
-		// cpp interface
-		void updateConfig(mvAppItemConfig* config) override;
-		mvAppItemConfig* getConfig() override;
-
 	private:
 
-		mvCheckboxConfig m_config;
+		bool        m_default_value = false;
+		std::string m_source = "";
 
 	};
 

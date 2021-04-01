@@ -53,7 +53,7 @@ namespace Marvel {
 
 	void mvTableColumn::draw(ImDrawList* drawlist, float x, float y)
 	{
-		ImGui::TableSetupColumn(m_core_config.name.c_str(), m_flags, m_init_width_or_weight);
+		ImGui::TableSetupColumn(m_name.c_str(), m_flags, m_init_width_or_weight);
 	}
 
 	bool mvTableColumn::isParentCompatible(mvAppItemType type)

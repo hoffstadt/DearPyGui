@@ -6,30 +6,6 @@
 
 namespace Marvel {
 
-	struct mvLoggerItemConfig : public mvAppItemConfig
-	{
-		int log_level = 1;
-		bool auto_scroll = true;
-		bool auto_scroll_button = true;
-		bool clear_button = true;
-		bool copy_button = true;
-		bool filter = true;
-		bool autosize_x = false;
-		bool autosize_y = false;
-	};
-
-	
-	PyObject* get_log_level          (PyObject* self, PyObject* args, PyObject* kwargs);
-	PyObject* set_log_level          (PyObject* self, PyObject* args, PyObject* kwargs);
-	PyObject* log                    (PyObject* self, PyObject* args, PyObject* kwargs);
-	PyObject* log_debug              (PyObject* self, PyObject* args, PyObject* kwargs);
-	PyObject* log_info               (PyObject* self, PyObject* args, PyObject* kwargs);
-	PyObject* log_warning            (PyObject* self, PyObject* args, PyObject* kwargs);
-	PyObject* log_error              (PyObject* self, PyObject* args, PyObject* kwargs);
-	PyObject* clear_log              (PyObject* self, PyObject* args, PyObject* kwargs);
-	PyObject* show_logger            (PyObject* self, PyObject* args);
-	PyObject* set_logger_window_title(PyObject* self, PyObject* args, PyObject* kwargs);
-
 	MV_REGISTER_WIDGET(mvLoggerItem);
 	class mvLoggerItem : public mvAppItem
 	{
@@ -95,7 +71,7 @@ namespace Marvel {
 			m_clearButtonName = "Clear##" + name;
 			m_copyButtonName = "Copy##" + name;
 			ClearLog();
-			LogInfo("[Logger] " + m_core_config.name);
+			LogInfo("[Logger] " + m_name);
 			m_description.ignoreSizeUpdate = true;
 		}
 

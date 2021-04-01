@@ -24,20 +24,6 @@ namespace Marvel {
     //-----------------------------------------------------------------------------
     // mvInputInt
     //-----------------------------------------------------------------------------
-    
-    struct mvInputIntConfig : public mvAppItemConfig
-    {
-        int     default_value  = 0;
-        int     min_value      = 0;
-        int     max_value      = 100;
-        bool    min_clamped    = false;
-        bool    max_clamped    = false;
-        bool    on_enter       = false;
-        int     step           = 1;
-        int     step_fast      = 100;
-        bool    readonly       = false;
-    };
-    
     MV_REGISTER_WIDGET(mvInputInt);
     class mvInputInt : public mvIntPtrBase
     {
@@ -103,10 +89,6 @@ namespace Marvel {
 
         void setExtraConfigDict(PyObject* dict) override;
         void getExtraConfigDict(PyObject* dict) override;
-
-        // cpp interface
-        void updateConfig(mvAppItemConfig* config) override;
-        mvAppItemConfig* getConfig() override;
         
     private:
 
@@ -118,7 +100,6 @@ namespace Marvel {
         bool                m_max_clamped = false;
         ImGuiInputTextFlags m_flags = 0;
         ImGuiInputTextFlags m_stor_flags = 0;
-        mvInputIntConfig    m_config;
         int                 m_last_value = 0;
         
     };
@@ -126,19 +107,6 @@ namespace Marvel {
     //-----------------------------------------------------------------------------
     // mvInputInt2
     //-----------------------------------------------------------------------------
-
-    struct mvInputIntsConfig : public mvAppItemConfig
-    {
-        std::array<int, 4>  default_value   = { 0, 0, 0, 0 };
-        int                 min_value       = 0;
-        int                 max_value       = 100;
-        bool                min_clamped     = false;
-        bool                max_clamped     = false;
-        bool                on_enter        = false;
-        bool                readonly        = false;
-
-    };
-
     MV_REGISTER_WIDGET(mvInputInt2);
     class mvInputInt2 : public mvInt2PtrBase
     {
@@ -194,10 +162,6 @@ namespace Marvel {
 
         void setExtraConfigDict(PyObject* dict) override;
         void getExtraConfigDict(PyObject* dict) override;
-        
-        // cpp interface
-        void updateConfig(mvAppItemConfig* config) override;
-        mvAppItemConfig* getConfig() override;
 
     private:
         
@@ -207,7 +171,6 @@ namespace Marvel {
         bool                m_max_clamped = false;
         ImGuiInputTextFlags m_flags = 0;
         ImGuiInputTextFlags m_stor_flags = 0;
-        mvInputIntsConfig   m_config;
         std::array<int, 2>  m_last_value = { 0, 0 };
         
     };
@@ -271,10 +234,6 @@ namespace Marvel {
 
         void setExtraConfigDict(PyObject* dict) override;
         void getExtraConfigDict(PyObject* dict) override;
-
-        // cpp interface
-        void updateConfig(mvAppItemConfig* config) override;
-        mvAppItemConfig* getConfig() override;
         
     private:
 
@@ -284,7 +243,6 @@ namespace Marvel {
         bool                m_max_clamped = false;
         ImGuiInputTextFlags m_flags = 0;
         ImGuiInputTextFlags m_stor_flags = 0;
-        mvInputIntsConfig   m_config;
         std::array<int, 3>  m_last_value = { 0, 0, 0 };
         
     };
@@ -347,10 +305,6 @@ namespace Marvel {
 
         void setExtraConfigDict(PyObject* dict) override;
         void getExtraConfigDict(PyObject* dict) override;
-        
-        // cpp interface
-        void updateConfig(mvAppItemConfig* config) override;
-        mvAppItemConfig* getConfig() override;
 
     private:
 
@@ -360,7 +314,6 @@ namespace Marvel {
         bool                m_max_clamped = false;
         ImGuiInputTextFlags m_flags = 0;
         ImGuiInputTextFlags m_stor_flags = 0;
-        mvInputIntsConfig   m_config;
         std::array<int, 4>  m_last_value = { 0, 0, 0, 0 };
         
     };
@@ -368,21 +321,6 @@ namespace Marvel {
     //-----------------------------------------------------------------------------
     // mvInputFloat
     //-----------------------------------------------------------------------------
-    
-    struct mvInputFloatConfig : public mvAppItemConfig
-    {
-        float       default_value   = 0.0;
-        float       min_value       = 0.0;
-        float       max_value       = 100.0;
-        bool        min_clamped     = false;
-        bool        max_clamped     = false;
-        std::string format          = "'%.3f'";
-        bool        on_enter        = false;
-        float       step            = 0.1;
-        float       step_fast       = 1.0;
-        bool        readonly        = false;
-    };
-    
     MV_REGISTER_WIDGET(mvInputFloat);
     class mvInputFloat : public mvFloatPtrBase
     {
@@ -448,10 +386,6 @@ namespace Marvel {
 
         void setExtraConfigDict(PyObject* dict) override;
         void getExtraConfigDict(PyObject* dict) override;
-        
-        // cpp interface
-        void updateConfig(mvAppItemConfig* config) override;
-        mvAppItemConfig* getConfig() override;
 
     private:
 
@@ -464,27 +398,13 @@ namespace Marvel {
         float               m_step_fast = 1.0f;
         ImGuiInputTextFlags m_flags = 0;
         ImGuiInputTextFlags m_stor_flags = 0;
-        mvInputFloatConfig  m_config;
         float               m_last_value = 0.0f;
         
     };
         
     //-----------------------------------------------------------------------------
     // mvInputFloat2
-    //-----------------------------------------------------------------------------
-    
-    struct mvInputFloatsConfig : public mvAppItemConfig
-    {
-        std::array<float, 4>    default_value   = { 0.0f, 0.0f, 0.0f, 0.0f };
-        float                   min_value       = 0.0;
-        float                   max_value       = 100.0;
-        bool                    min_clamped     = false;
-        bool                    max_clamped     = false;
-        std::string             format          = "'%.3f'";
-        bool                    on_enter        = false;
-        bool                    readonly        = false;
-    };
-    
+    //-----------------------------------------------------------------------------  
     MV_REGISTER_WIDGET(mvInputFloat2);
     class mvInputFloat2: public mvFloat2PtrBase
     {
@@ -540,10 +460,6 @@ namespace Marvel {
 
         void setExtraConfigDict(PyObject* dict) override;
         void getExtraConfigDict(PyObject* dict) override;
-        
-        // cpp interface
-        void updateConfig(mvAppItemConfig* config) override;
-        mvAppItemConfig* getConfig() override;
 
     private:
 
@@ -554,7 +470,6 @@ namespace Marvel {
         std::string         m_format = "%.3f";
         ImGuiInputTextFlags m_flags = 0;
         ImGuiInputTextFlags m_stor_flags = 0;
-        mvInputFloatsConfig m_config;
         std::array<float, 2>m_last_value = { 0.0f, 0.0f };
         
     };
@@ -618,10 +533,6 @@ namespace Marvel {
 
         void setExtraConfigDict(PyObject* dict) override;
         void getExtraConfigDict(PyObject* dict) override;
-        
-        // cpp interface
-        void updateConfig(mvAppItemConfig* config) override;
-        mvAppItemConfig* getConfig() override;
 
     private:
 
@@ -632,7 +543,6 @@ namespace Marvel {
         std::string         m_format = "%.3f";
         ImGuiInputTextFlags m_flags = 0;
         ImGuiInputTextFlags m_stor_flags = 0;
-        mvInputFloatsConfig m_config;
         std::array<float, 3>m_last_value = { 0.0f, 0.0f, 0.0f };
     };
         
@@ -694,10 +604,6 @@ namespace Marvel {
 
         void setExtraConfigDict(PyObject* dict) override;
         void getExtraConfigDict(PyObject* dict) override;
-
-        // cpp interface
-        void updateConfig(mvAppItemConfig* config) override;
-        mvAppItemConfig* getConfig() override;
         
     private:
 
@@ -708,7 +614,6 @@ namespace Marvel {
         std::string         m_format = "%.3f";
         ImGuiInputTextFlags m_flags = 0;
         ImGuiInputTextFlags m_stor_flags = 0;
-        mvInputFloatsConfig m_config;
         std::array<float, 4>m_last_value = { 0.0f, 0.0f, 0.0f, 0.0f };
     };
 

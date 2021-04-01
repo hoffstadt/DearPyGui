@@ -228,7 +228,7 @@ namespace Marvel {
     
     void mvInputInt::setEnabled(bool value)
     {
-        if (value == m_core_config.enabled)
+        if (value == m_enabled)
             return;
 
         if (value)
@@ -241,7 +241,7 @@ namespace Marvel {
             m_flags &= ~ImGuiInputTextFlags_EnterReturnsTrue;
         }
 
-        m_core_config.enabled = value;
+        m_enabled = value;
     }
 
     void mvInputInt::draw(ImDrawList* drawlist, float x, float y)
@@ -274,32 +274,10 @@ namespace Marvel {
             if (m_last_value != *m_value)
             {
                 m_last_value = *m_value;
-                mvApp::GetApp()->getCallbackRegistry().addCallback(m_core_config.callback, m_core_config.name, m_core_config.callback_data);
+                mvApp::GetApp()->getCallbackRegistry().addCallback(m_callback, m_name, m_callback_data);
             }
         }
 
-    }
-
-    void mvInputInt::updateConfig(mvAppItemConfig* config)
-    {
-        auto aconfig = (mvInputIntConfig*)config;
-
-        m_core_config.width = config->width;
-        m_core_config.label = config->label;
-        m_core_config.show = config->show;
-        m_core_config.callback = config->callback;
-        m_core_config.callback_data = config->callback_data;
-        m_core_config.enabled = config->enabled;
-
-        m_config.source = aconfig->source;
-
-        if (config != &m_config)
-            m_config = *aconfig;
-    }
-
-    mvAppItemConfig* mvInputInt::getConfig()
-    {
-        return &m_config;
     }
 
     mvInputInt2::mvInputInt2(const std::string& name, int* default_value, const std::string& dataSource)
@@ -311,7 +289,7 @@ namespace Marvel {
 
     void mvInputInt2::setEnabled(bool value)
     {
-        if (value == m_core_config.enabled)
+        if (value == m_enabled)
             return;
 
         if (value)
@@ -324,7 +302,7 @@ namespace Marvel {
             m_flags &= ~ImGuiInputTextFlags_EnterReturnsTrue;
         }
 
-        m_core_config.enabled = value;
+        m_enabled = value;
     }
 
     void mvInputInt2::draw(ImDrawList* drawlist, float x, float y)
@@ -366,31 +344,9 @@ namespace Marvel {
             if (m_last_value != *m_value)
             {
                 m_last_value = *m_value;
-                mvApp::GetApp()->getCallbackRegistry().addCallback(m_core_config.callback, m_core_config.name, m_core_config.callback_data);
+                mvApp::GetApp()->getCallbackRegistry().addCallback(m_callback, m_name, m_callback_data);
             }
         }
-    }
-
-    void mvInputInt2::updateConfig(mvAppItemConfig* config)
-    {
-        auto aconfig = (mvInputIntsConfig*)config;
-
-        m_core_config.width = config->width;
-        m_core_config.label = config->label;
-        m_core_config.show = config->show;
-        m_core_config.callback = config->callback;
-        m_core_config.callback_data = config->callback_data;
-        m_core_config.enabled = config->enabled;
-
-        m_config.source = aconfig->source;
-
-        if (config != &m_config)
-            m_config = *aconfig;
-    }
-
-    mvAppItemConfig* mvInputInt2::getConfig()
-    {
-        return &m_config;
     }
 
     mvInputInt3::mvInputInt3(const std::string& name, int* default_value, const std::string& dataSource)
@@ -402,7 +358,7 @@ namespace Marvel {
 
     void mvInputInt3::setEnabled(bool value)
     {
-        if (value == m_core_config.enabled)
+        if (value == m_enabled)
             return;
 
         if (value)
@@ -415,7 +371,7 @@ namespace Marvel {
             m_flags &= ~ImGuiInputTextFlags_EnterReturnsTrue;
         }
 
-        m_core_config.enabled = value;
+        m_enabled = value;
     }
 
     void mvInputInt3::draw(ImDrawList* drawlist, float x, float y)
@@ -458,31 +414,9 @@ namespace Marvel {
             if (m_last_value != *m_value)
             {
                 m_last_value = *m_value;
-                mvApp::GetApp()->getCallbackRegistry().addCallback(m_core_config.callback, m_core_config.name, m_core_config.callback_data);
+                mvApp::GetApp()->getCallbackRegistry().addCallback(m_callback, m_name, m_callback_data);
             }
         }
-    }
-
-    void mvInputInt3::updateConfig(mvAppItemConfig* config)
-    {
-        auto aconfig = (mvInputIntsConfig*)config;
-
-        m_core_config.width = config->width;
-        m_core_config.label = config->label;
-        m_core_config.show = config->show;
-        m_core_config.callback = config->callback;
-        m_core_config.callback_data = config->callback_data;
-        m_core_config.enabled = config->enabled;
-
-        m_config.source = aconfig->source;
-
-        if (config != &m_config)
-            m_config = *aconfig;
-    }
-
-    mvAppItemConfig* mvInputInt3::getConfig()
-    {
-        return &m_config;
     }
 
     mvInputInt4::mvInputInt4(const std::string& name, int* default_value, const std::string& dataSource)
@@ -494,7 +428,7 @@ namespace Marvel {
 
     void mvInputInt4::setEnabled(bool value)
     {
-        if (value == m_core_config.enabled)
+        if (value == m_enabled)
             return;
 
         if (value)
@@ -507,7 +441,7 @@ namespace Marvel {
             m_flags &= ~ImGuiInputTextFlags_EnterReturnsTrue;
         }
 
-        m_core_config.enabled = value;
+        m_enabled = value;
     }
 
     void mvInputInt4::draw(ImDrawList* drawlist, float x, float y)
@@ -550,31 +484,9 @@ namespace Marvel {
             if (m_last_value != *m_value)
             {
                 m_last_value = *m_value;
-                mvApp::GetApp()->getCallbackRegistry().addCallback(m_core_config.callback, m_core_config.name, m_core_config.callback_data);
+                mvApp::GetApp()->getCallbackRegistry().addCallback(m_callback, m_name, m_callback_data);
             }
         }
-    }
-
-    void mvInputInt4::updateConfig(mvAppItemConfig* config)
-    {
-        auto aconfig = (mvInputIntsConfig*)config;
-
-        m_core_config.width = config->width;
-        m_core_config.label = config->label;
-        m_core_config.show = config->show;
-        m_core_config.callback = config->callback;
-        m_core_config.callback_data = config->callback_data;
-        m_core_config.enabled = config->enabled;
-
-        m_config.source = aconfig->source;
-
-        if (config != &m_config)
-            m_config = *aconfig;
-    }
-
-    mvAppItemConfig* mvInputInt4::getConfig()
-    {
-        return &m_config;
     }
 
     mvInputFloat::mvInputFloat(const std::string& name, float default_value, const std::string& dataSource)
@@ -586,7 +498,7 @@ namespace Marvel {
 
     void mvInputFloat::setEnabled(bool value)
     {
-        if (value == m_core_config.enabled)
+        if (value == m_enabled)
             return;
 
         if (value)
@@ -599,7 +511,7 @@ namespace Marvel {
             m_flags &= ~ImGuiInputTextFlags_EnterReturnsTrue;
         }
 
-        m_core_config.enabled = value;
+        m_enabled = value;
     }
 
     void mvInputFloat::draw(ImDrawList* drawlist, float x, float y)
@@ -633,31 +545,9 @@ namespace Marvel {
             if (m_last_value != *m_value)
             {
                 m_last_value = *m_value;
-                mvApp::GetApp()->getCallbackRegistry().addCallback(m_core_config.callback, m_core_config.name, m_core_config.callback_data);
+                mvApp::GetApp()->getCallbackRegistry().addCallback(m_callback, m_name, m_callback_data);
             }
         }
-    }
-
-    void mvInputFloat::updateConfig(mvAppItemConfig* config)
-    {
-        auto aconfig = (mvInputFloatConfig*)config;
-
-        m_core_config.width = config->width;
-        m_core_config.label = config->label;
-        m_core_config.show = config->show;
-        m_core_config.callback = config->callback;
-        m_core_config.callback_data = config->callback_data;
-        m_core_config.enabled = config->enabled;
-
-        m_config.source = aconfig->source;
-
-        if (config != &m_config)
-            m_config = *aconfig;
-    }
-
-    mvAppItemConfig* mvInputFloat::getConfig()
-    {
-        return &m_config;
     }
 
     mvInputFloat2::mvInputFloat2(const std::string& name, float* default_value, const std::string& dataSource)
@@ -669,7 +559,7 @@ namespace Marvel {
 
     void mvInputFloat2::setEnabled(bool value)
     {
-        if (value == m_core_config.enabled)
+        if (value == m_enabled)
             return;
 
         if (value)
@@ -682,7 +572,7 @@ namespace Marvel {
             m_flags &= ~ImGuiInputTextFlags_EnterReturnsTrue;
         }
 
-        m_core_config.enabled = value;
+        m_enabled = value;
     }
 
     void mvInputFloat2::draw(ImDrawList* drawlist, float x, float y)
@@ -725,31 +615,9 @@ namespace Marvel {
             if (m_last_value != *m_value)
             {
                 m_last_value = *m_value;
-                mvApp::GetApp()->getCallbackRegistry().addCallback(m_core_config.callback, m_core_config.name, m_core_config.callback_data);
+                mvApp::GetApp()->getCallbackRegistry().addCallback(m_callback, m_name, m_callback_data);
             }
         }
-    }
-
-    void mvInputFloat2::updateConfig(mvAppItemConfig* config)
-    {
-        auto aconfig = (mvInputFloatsConfig*)config;
-
-        m_core_config.width = config->width;
-        m_core_config.label = config->label;
-        m_core_config.show = config->show;
-        m_core_config.callback = config->callback;
-        m_core_config.callback_data = config->callback_data;
-        m_core_config.enabled = config->enabled;
-
-        m_config.source = aconfig->source;
-
-        if (config != &m_config)
-            m_config = *aconfig;
-    }
-
-    mvAppItemConfig* mvInputFloat2::getConfig()
-    {
-        return &m_config;
     }
 
     mvInputFloat3::mvInputFloat3(const std::string& name, float* default_value, const std::string& dataSource)
@@ -761,7 +629,7 @@ namespace Marvel {
 
     void mvInputFloat3::setEnabled(bool value)
     {
-        if (value == m_core_config.enabled)
+        if (value == m_enabled)
             return;
 
         if (value)
@@ -774,7 +642,7 @@ namespace Marvel {
             m_flags &= ~ImGuiInputTextFlags_EnterReturnsTrue;
         }
 
-        m_core_config.enabled = value;
+        m_enabled = value;
     }
 
     void mvInputFloat3::draw(ImDrawList* drawlist, float x, float y)
@@ -817,31 +685,9 @@ namespace Marvel {
             if (m_last_value != *m_value)
             {
                 m_last_value = *m_value;
-                mvApp::GetApp()->getCallbackRegistry().addCallback(m_core_config.callback, m_core_config.name, m_core_config.callback_data);
+                mvApp::GetApp()->getCallbackRegistry().addCallback(m_callback, m_name, m_callback_data);
             }
         }
-    }
-
-    void mvInputFloat3::updateConfig(mvAppItemConfig* config)
-    {
-        auto aconfig = (mvInputFloatsConfig*)config;
-
-        m_core_config.width = config->width;
-        m_core_config.label = config->label;
-        m_core_config.show = config->show;
-        m_core_config.callback = config->callback;
-        m_core_config.callback_data = config->callback_data;
-        m_core_config.enabled = config->enabled;
-
-        m_config.source = aconfig->source;
-
-        if (config != &m_config)
-            m_config = *aconfig;
-    }
-
-    mvAppItemConfig* mvInputFloat3::getConfig()
-    {
-        return &m_config;
     }
 
     mvInputFloat4::mvInputFloat4(const std::string& name, float* default_value, const std::string& dataSource)
@@ -853,7 +699,7 @@ namespace Marvel {
 
     void mvInputFloat4::setEnabled(bool value)
     {
-        if (value == m_core_config.enabled)
+        if (value == m_enabled)
             return;
 
         if (value)
@@ -866,7 +712,7 @@ namespace Marvel {
             m_flags &= ~ImGuiInputTextFlags_EnterReturnsTrue;
         }
 
-        m_core_config.enabled = value;
+        m_enabled = value;
     }
 
     void mvInputFloat4::draw(ImDrawList* drawlist, float x, float y)
@@ -909,31 +755,9 @@ namespace Marvel {
             if (m_last_value != *m_value)
             {
                 m_last_value = *m_value;
-                mvApp::GetApp()->getCallbackRegistry().addCallback(m_core_config.callback, m_core_config.name, m_core_config.callback_data);
+                mvApp::GetApp()->getCallbackRegistry().addCallback(m_callback, m_name, m_callback_data);
             }
         }
-    }
-
-    void mvInputFloat4::updateConfig(mvAppItemConfig* config)
-    {
-        auto aconfig = (mvInputFloatsConfig*)config;
-
-        m_core_config.width = config->width;
-        m_core_config.label = config->label;
-        m_core_config.show = config->show;
-        m_core_config.callback = config->callback;
-        m_core_config.callback_data = config->callback_data;
-        m_core_config.enabled = config->enabled;
-
-        m_config.source = aconfig->source;
-
-        if (config != &m_config)
-            m_config = *aconfig;
-    }
-
-    mvAppItemConfig* mvInputFloat4::getConfig()
-    {
-        return &m_config;
     }
 
     void mvInputInt::setExtraConfigDict(PyObject* dict)

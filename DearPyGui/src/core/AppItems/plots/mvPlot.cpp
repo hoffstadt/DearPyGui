@@ -2,7 +2,6 @@
 #include "mvPlot.h"
 #include "mvApp.h"
 #include "mvInput.h"
-#include "mvDrawList.h"
 #include "mvItemRegistry.h"
 #include "mvAreaSeries.h"
 #include "mvBarSeries.h"
@@ -533,9 +532,8 @@ namespace Marvel {
 	mvPlot::mvPlot(const std::string& name, mvCallable queryCallback)
 		: mvAppItem(name), m_queryCallback(queryCallback)
 	{
-		m_drawList = CreateRef<mvDrawList>();
-		m_core_config.width = -1;
-		m_core_config.height = -1;
+		m_width = -1;
+		m_height = -1;
 	}
 
 	void mvPlot::addDragPoint(const std::string& name, bool show_label, const mvColor& color, float radius, mvCallable callback, const double* dummyValue, const std::string& source)
@@ -963,7 +961,7 @@ namespace Marvel {
 	{
 		if (m_colormapscale)
 		{
-			ImPlot::ColormapScale(std::string(m_core_config.name + "##colorscale").c_str(), m_scale_min, m_scale_max, ImVec2(0, m_scale_height));
+			ImPlot::ColormapScale(std::string(m_name + "##colorscale").c_str(), m_scale_min, m_scale_max, ImVec2(0, m_scale_height));
 			ImGui::SameLine();
 		}
 
@@ -999,7 +997,7 @@ namespace Marvel {
 		mvFontScope fscope(this);
 
 		if (ImPlot::BeginPlot(m_label.c_str(), m_xaxisName.empty() ? nullptr : m_xaxisName.c_str(), m_yaxisName.empty() ? nullptr : m_yaxisName.c_str(),
-			ImVec2((float)m_core_config.width, (float)m_core_config.height), m_flags,
+			ImVec2((float)m_width, (float)m_height), m_flags,
 			m_xflags, m_yflags, m_y2flags, m_y3flags))
 		{
 			ImPlot::PushColormap(m_colormap);
@@ -1095,7 +1093,7 @@ namespace Marvel {
 					PyTuple_SetItem(area, 1, PyFloat_FromDouble(m_queryArea[1]));
 					PyTuple_SetItem(area, 2, PyFloat_FromDouble(m_queryArea[2]));
 					PyTuple_SetItem(area, 3, PyFloat_FromDouble(m_queryArea[3]));
-					mvApp::GetApp()->getCallbackRegistry().addCallback(m_queryCallback, m_core_config.name, area);
+					mvApp::GetApp()->getCallbackRegistry().addCallback(m_queryCallback, m_name, area);
 					});
 			}
 
@@ -1114,7 +1112,7 @@ namespace Marvel {
 
 			ImPlot::PushPlotClipRect();
 			auto topleft = ImPlot::GetPlotPos();
-			m_drawList->draw(ImPlot::GetPlotDrawList(), topleft.x, topleft.y);
+			//m_drawList->draw(ImPlot::GetPlotDrawList(), topleft.x, topleft.y);
 			ImPlot::PopPlotClipRect();
 
 			ImPlot::EndPlot();

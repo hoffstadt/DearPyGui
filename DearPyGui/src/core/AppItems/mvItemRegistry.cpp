@@ -125,7 +125,7 @@ namespace Marvel {
 		// check if attempting to delete a window
 		for (auto window : m_frontWindows)
 		{
-			if (window->m_core_config.name == name)
+			if (window->m_name == name)
 			{
 				frontWindowDeleting = true;
 				break;
@@ -134,7 +134,7 @@ namespace Marvel {
 
 		for (auto window : m_backWindows)
 		{
-			if (window->m_core_config.name == name)
+			if (window->m_name == name)
 			{
 				backWindowDeleting = true;
 				break;
@@ -152,7 +152,7 @@ namespace Marvel {
 
 			for (auto window : oldwindows)
 			{
-				if (window->m_core_config.name == name)
+				if (window->m_name == name)
 				{
 					deletedItem = true;
 					continue;
@@ -169,7 +169,7 @@ namespace Marvel {
 
 			for (auto window : oldwindows)
 			{
-				if (window->m_core_config.name == name)
+				if (window->m_name == name)
 				{
 					deletedItem = true;
 					continue;
@@ -320,7 +320,7 @@ namespace Marvel {
 
 	bool mvItemRegistry::addRuntimeItem(const std::string& parent, const std::string& before, mvRef<mvAppItem> item)
 	{
-		MV_ITEM_REGISTRY_TRACE("Attempting to add new widget: ", item->getCoreConfig().name);
+		MV_ITEM_REGISTRY_TRACE("Attempting to add new widget: ", item->m_name);
 
 		// add runtime items
 		bool addedItem = false;
@@ -338,7 +338,7 @@ namespace Marvel {
 
 	bool mvItemRegistry::addItemAfter(const std::string& prev, mvRef<mvAppItem> item)
 	{
-		MV_ITEM_REGISTRY_TRACE("Attempting to add new widget after: ", item->getCoreConfig().name);
+		MV_ITEM_REGISTRY_TRACE("Attempting to add new widget after: ", item->m_name);
 
 		bool addedItem = false;
 
@@ -394,7 +394,7 @@ namespace Marvel {
 
 		for (auto window : m_frontWindows)
 		{
-			if (window->m_core_config.name == name)
+			if (window->m_name == name)
 				return window;
 
 			auto child = window->getChild(name);
@@ -404,7 +404,7 @@ namespace Marvel {
 
 		for (auto window : m_backWindows)
 		{
-			if (window->m_core_config.name == name)
+			if (window->m_name == name)
 				return window;
 
 			auto child = window->getChild(name);
@@ -437,10 +437,10 @@ namespace Marvel {
 	bool mvItemRegistry::addItem(mvRef<mvAppItem> item)
 	{
 
-		MV_ITEM_REGISTRY_TRACE("Adding item: " + item->getCoreConfig().name);
+		MV_ITEM_REGISTRY_TRACE("Adding item: " + item->m_name);
 
 		mvRef<mvAppItem> parentitem = topParent();
-		item->m_parent = parentitem.get();
+		item->m_parentPtr = parentitem.get();
 		parentitem->addItem(item);
 
 		return true;
@@ -448,7 +448,7 @@ namespace Marvel {
 
 	bool mvItemRegistry::addWindow(mvRef<mvAppItem> item)
 	{
-		MV_ITEM_REGISTRY_INFO("Adding window: " + item->getCoreConfig().name);
+		MV_ITEM_REGISTRY_INFO("Adding window: " + item->m_name);
 		m_frontWindows.push_back(item);
 		return true;
 	}
@@ -462,7 +462,7 @@ namespace Marvel {
 
 	bool mvItemRegistry::addItemWithRuntimeChecks(mvRef<mvAppItem> item, const char* parent, const char* before)
 	{
-		MV_ITEM_REGISTRY_TRACE("Adding runtime item: " + item->getCoreConfig().name);
+		MV_ITEM_REGISTRY_TRACE("Adding runtime item: " + item->m_name);
 
 		if (item == nullptr)
 			return false;
@@ -472,7 +472,7 @@ namespace Marvel {
 		//---------------------------------------------------------------------------
 		if (!item->getDescription().duplicatesAllowed)
 		{
-			if (getItem(item->m_core_config.name))
+			if (getItem(item->m_name))
 			{
 				mvThrowPythonError(1000, "Item must have a unique name.");
 				MV_ITEM_REGISTRY_WARN("Item must have a unique name.");
@@ -496,7 +496,7 @@ namespace Marvel {
 		{
 			mvThrowPythonError(1000, "Parent stack not empty.");
 			emptyParents();
-			MV_ITEM_REGISTRY_ERROR("Parent stack not empty when adding " + item->getCoreConfig().name);
+			MV_ITEM_REGISTRY_ERROR("Parent stack not empty when adding " + item->m_name);
 			assert(false);
 		}
 
@@ -574,7 +574,7 @@ namespace Marvel {
 		// STEP 9: handle "stack" style adding
 		//---------------------------------------------------------------------------
 		if(mvApp::IsAppStarted())
-			return addRuntimeItem(parentPtr->m_core_config.name, "", item);
+			return addRuntimeItem(parentPtr->m_name, "", item);
 		return addItem(item);
 	}
 
@@ -582,7 +582,7 @@ namespace Marvel {
 	{
 		mvRef<mvAppItem> item = getItem(name);
 		if (item)
-			return item->m_parent->m_core_config.name;
+			return item->m_parentPtr->m_name;
 		
 		mvThrowPythonError(1009, name + ": item not found");
 		assert(false && "Item not found.");
@@ -602,9 +602,9 @@ namespace Marvel {
 			auto children0 = item->m_children0;
 			auto children1 = item->m_children1;
 			for (auto child : children0)
-				childList.emplace_back(child->m_core_config.name);
+				childList.emplace_back(child->m_name);
 			for (auto child : children1)
-				childList.emplace_back(child->m_core_config.name);
+				childList.emplace_back(child->m_name);
 		}
 		else
 		{
@@ -627,13 +627,13 @@ namespace Marvel {
 			auto children1 = item->m_children1;
 			for (auto child : children0)
 			{
-				childList.emplace_back(child->m_core_config.name);
+				childList.emplace_back(child->m_name);
 				if (child->getDescription().container)
 					ChildRetriever(child);
 			}
 			for (auto child : children1)
 			{
-				childList.emplace_back(child->m_core_config.name);
+				childList.emplace_back(child->m_name);
 				if (child->getDescription().container)
 					ChildRetriever(child);
 			}
@@ -642,12 +642,12 @@ namespace Marvel {
 
 		for (auto window : m_frontWindows)
 		{
-			childList.emplace_back(window->getCoreConfig().name);
+			childList.emplace_back(window->m_name);
 			ChildRetriever(window);
 		}
 		for (auto window : m_backWindows)
 		{
-			childList.emplace_back(window->getCoreConfig().name);
+			childList.emplace_back(window->m_name);
 			ChildRetriever(window);
 		}
 
@@ -659,10 +659,10 @@ namespace Marvel {
 
 		std::vector<std::string> childList;
 		for (auto window : m_frontWindows)
-			childList.emplace_back(window->m_core_config.name);
+			childList.emplace_back(window->m_name);
 
 		for (auto window : m_backWindows)
-			childList.emplace_back(window->m_core_config.name);
+			childList.emplace_back(window->m_name);
 
 		return childList;
 	}
@@ -688,7 +688,7 @@ namespace Marvel {
 		// reset other windows
 		for (auto window : m_frontWindows)
 		{
-			if (window->m_core_config.name != name)
+			if (window->m_name != name)
 				static_cast<mvWindowAppItem*>(window.get())->setWindowAsMainStatus(false);
 		}
 

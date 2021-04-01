@@ -39,8 +39,6 @@ set(MARVEL_SOURCES
 	"src/core/Theming/mvFontScope.cpp"
 	"src/core/Theming/mvFontManager.cpp"
 
-	"src/core/DrawCommands/mvDrawList.cpp"
-
 	"src/core/Registries/mvCallbackRegistry.cpp"
 	"src/core/Registries/mvTextureStorage.cpp"
 

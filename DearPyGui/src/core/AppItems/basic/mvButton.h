@@ -4,19 +4,6 @@
 
 namespace Marvel {
 
-	//-----------------------------------------------------------------------------
-	// mvButton Keyword Struct
-	//-----------------------------------------------------------------------------
-	struct mvButtonConfig : public mvAppItemConfig
-	{
-		ImGuiDir direction = ImGuiDir_Up;
-		bool small_button = false;
-		bool arrow = false;
-	};
-
-	//-----------------------------------------------------------------------------
-	// mvButton
-	//-----------------------------------------------------------------------------
 	MV_REGISTER_WIDGET(mvButton);
 	class mvButton : public mvAppItem
 	{
@@ -80,20 +67,17 @@ namespace Marvel {
 	public:
 
 		mvButton(const std::string& name);
-		mvButton(const std::string& name, const mvButtonConfig& config);
 
 		void draw(ImDrawList* drawlist, float x, float y) override;
 
 		void setExtraConfigDict(PyObject* dict) override;
 		void getExtraConfigDict(PyObject* dict) override;
 
-		// cpp interface
-		void             updateConfig(mvAppItemConfig* config) override;
-		mvAppItemConfig* getConfig   () override;
-
 	private:
 
-		mvButtonConfig m_config;
+		ImGuiDir m_direction = ImGuiDir_Up;
+		bool     m_small_button = false;
+		bool     m_arrow = false;
 
 	};
 

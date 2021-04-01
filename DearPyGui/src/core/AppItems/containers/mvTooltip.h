@@ -4,11 +4,6 @@
 
 namespace Marvel {
 
-	struct mvTooltipConfig : public mvAppItemConfig
-	{
-		std::string tipparent;
-	};
-
 	MV_REGISTER_WIDGET(mvTooltip);
 	class mvTooltip : public mvBoolPtrBase
 	{

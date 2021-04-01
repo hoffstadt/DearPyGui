@@ -4,11 +4,6 @@
 
 namespace Marvel {
 
-	struct mvTabBarConfig : public mvAppItemConfig
-	{
-		bool reorderable = false;
-	};
-
 	MV_REGISTER_WIDGET(mvTabBar);
 	class mvTabBar : public mvStringPtrBase
 	{

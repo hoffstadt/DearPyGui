@@ -58,25 +58,6 @@ namespace Marvel {
     template<int item_type> struct mvItemType {};
 
     //-----------------------------------------------------------------------------
-    // Core Config Struct
-    //-----------------------------------------------------------------------------
-    struct mvAppItemConfig
-    {
-        std::string name = "";
-        std::string source = "";
-        std::string label = "__DearPyGuiDefault";
-        std::string parent = "";
-        std::string before = "";
-        int width = 0;
-        int height = 0;
-        bool show = true;
-        bool enabled = true;
-        mvCallable callback = nullptr;
-        mvCallableData callback_data = nullptr;
-        
-    };
-
-    //-----------------------------------------------------------------------------
     // mvAppItem
     //-----------------------------------------------------------------------------
     class mvAppItem
@@ -181,7 +162,6 @@ namespace Marvel {
     public:
 
         mvAppItem(const std::string& name);
-        mvAppItem(const mvAppItemConfig& config);
 
         virtual ~mvAppItem();
 
@@ -211,16 +191,17 @@ namespace Marvel {
         virtual void                        getExtraConfigDict(PyObject* dict) {}
 
         void                                setCallback    (mvCallable callback);
-        void                                hide           () { m_core_config.show = false; }
-        void                                show           () { m_core_config.show = true; }
+        void                                hide           () { m_show = false; }
+        void                                show           () { m_show = true; }
         void                                setCallbackData(mvCallableData data);
 
-        [[nodiscard]] bool                  isShown        () const { return m_core_config.show; }
+        [[nodiscard]] bool                  isShown        () const { return m_show; }
         [[nodiscard]] mvCallable            getCallback    (bool ignore_enabled = true);  // returns the callback. If ignore_enable false and item is disabled then no callback will be returned.
-        [[nodiscard]] mvCallableData        getCallbackData()       { return m_core_config.callback_data; }
+        [[nodiscard]] mvCallableData        getCallbackData()       { return m_callback_data; }
         const mvAppItemDescription&         getDescription () const { return m_description; }
         mvAppItemState&                     getState       () { return m_state; } 
-        mvAppItem*                          getParent() { return m_parent; }
+        mvAppItem*                          getParent() { return m_parentPtr; }
+        bool                                isEnabled() const { return m_enabled; }
 
         // theme get/set
         std::unordered_map<mvAppItemType, mvThemeColors>& getColors() { return m_colors; }
@@ -243,21 +224,12 @@ namespace Marvel {
         std::unordered_map<ImGuiStyleVar, float>& getCachedThemeStyles1();
         std::unordered_map<ImGuiStyleVar, float>& getCachedThemeStyles2();
 
-
-        //-----------------------------------------------------------------------------
-        // cpp interface
-        //-----------------------------------------------------------------------------
-        virtual void             updateConfig    (mvAppItemConfig* config) {}
-        virtual mvAppItemConfig* getConfig       () { return nullptr; }
-        void                     updateCoreConfig();
-        mvAppItemConfig&         getCoreConfig   ();
-
     protected:
 
-        virtual void                        setWidth                  (int width)               { m_core_config.width = width; }
-        virtual void                        setHeight                 (int height)              { m_core_config.height = height; }
-        virtual void                        setEnabled                (bool value)              { m_core_config.enabled = value; }
-        virtual void                        setDataSource             (const std::string& value){ m_core_config.source = value; }
+        virtual void                        setWidth                  (int width)               { m_width = width; }
+        virtual void                        setHeight                 (int height)              { m_height = height; }
+        virtual void                        setEnabled                (bool value)              { m_enabled = value; }
+        virtual void                        setDataSource             (const std::string& value){ m_source = value; }
         virtual void                        setLabel                  (const std::string& value); 
 
     private:
@@ -281,9 +253,8 @@ namespace Marvel {
 
         mvAppItemState                m_state;
         mvAppItemDescription          m_description;
-        mvAppItemConfig               m_core_config;
 
-        mvAppItem*                    m_parent = nullptr;
+        mvAppItem*                    m_parentPtr = nullptr;
         std::vector<mvRef<mvAppItem>> m_children0;
         std::vector<mvRef<mvAppItem>> m_children1;
 
@@ -303,6 +274,19 @@ namespace Marvel {
 
         // fonts
         ImFont* m_cached_font = nullptr;
+
+        // config
+        std::string m_name = "";
+        std::string m_source = "";
+        std::string m_specificedlabel = "__DearPyGuiDefault";
+        std::string m_parent = "";
+        std::string m_before = "";
+        int m_width = 0;
+        int m_height = 0;
+        bool m_show = true;
+        bool m_enabled = true;
+        mvCallable m_callback = nullptr;
+        mvCallableData m_callback_data = nullptr;
 
     };
 

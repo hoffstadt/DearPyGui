@@ -37,7 +37,7 @@ namespace Marvel {
 			// decode and push colors to ImGui
 			libIDCount = colors.size();
 			static ImGuiCol imColorID;
-			if (item->getCoreConfig().enabled)
+			if (item->isEnabled())
 			{
 				for (const auto& color : colors)
 				{

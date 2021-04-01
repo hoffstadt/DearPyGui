@@ -216,7 +216,7 @@ namespace Marvel {
 
     void mvSliderFloat::setEnabled(bool value)
     {
-        if (value == m_core_config.enabled)
+        if (value == m_enabled)
             return;
 
         if (value)
@@ -228,7 +228,7 @@ namespace Marvel {
             m_flags |= ImGuiSliderFlags_NoInput;
         }
 
-        m_core_config.enabled = value;
+        m_enabled = value;
     }
 
     void mvSliderFloat::draw(ImDrawList* drawlist, float x, float y)
@@ -237,48 +237,25 @@ namespace Marvel {
         mvImGuiThemeScope scope(this);
         mvFontScope fscope(this);
 
-        if (!m_core_config.enabled) m_disabled_value = *m_value;
+        if (!m_enabled) m_disabled_value = *m_value;
 
         if (m_vertical)
         {
-            if ((float)m_core_config.height < 1.0f)
-                m_core_config.height = 100;
-            if ((float)m_core_config.width < 1.0f)
-                m_core_config.width = 20;
+            if ((float)m_height < 1.0f)
+                m_height = 100;
+            if ((float)m_width < 1.0f)
+                m_width = 20;
 
-            if (ImGui::VSliderFloat(m_label.c_str(), ImVec2((float)m_core_config.width, (float)m_core_config.height), m_core_config.enabled ? m_value.get() : &m_disabled_value, m_min, m_max, m_format.c_str()))
-                mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), m_core_config.name, m_core_config.callback_data);
+            if (ImGui::VSliderFloat(m_label.c_str(), ImVec2((float)m_width, (float)m_height), m_enabled ? m_value.get() : &m_disabled_value, m_min, m_max, m_format.c_str()))
+                mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), m_name, m_callback_data);
 
         }
         else
         {
-            if (ImGui::SliderFloat(m_label.c_str(), m_core_config.enabled ? m_value.get() : &m_disabled_value, m_min, m_max, m_format.c_str(), m_flags))
-                mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), m_core_config.name, m_core_config.callback_data);
+            if (ImGui::SliderFloat(m_label.c_str(), m_enabled ? m_value.get() : &m_disabled_value, m_min, m_max, m_format.c_str(), m_flags))
+                mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), m_name, m_callback_data);
 
         }
-    }
-
-    void mvSliderFloat::updateConfig(mvAppItemConfig* config)
-    {
-        auto aconfig = (mvSliderFloatConfig*)config;
-
-        m_core_config.width = config->width;
-        m_core_config.height = config->height;
-        m_core_config.label = config->label;
-        m_core_config.show = config->show;
-        m_core_config.callback = config->callback;
-        m_core_config.callback_data = config->callback_data;
-        m_core_config.enabled = config->enabled;
-
-        m_config.source = aconfig->source;
-
-        if (config != &m_config)
-            m_config = *aconfig;
-    }
-
-    mvAppItemConfig* mvSliderFloat::getConfig()
-    {
-        return &m_config;
     }
 
     mvSliderFloat2::mvSliderFloat2(const std::string& name, float* default_value, const std::string& dataSource)
@@ -289,7 +266,7 @@ namespace Marvel {
 
     void mvSliderFloat2::setEnabled(bool value)
     {
-        if (value == m_core_config.enabled)
+        if (value == m_enabled)
             return;
 
         if (value)
@@ -301,7 +278,7 @@ namespace Marvel {
             m_flags |= ImGuiSliderFlags_NoInput;
         }
 
-        m_core_config.enabled = value;
+        m_enabled = value;
     }
 
     void mvSliderFloat2::draw(ImDrawList* drawlist, float x, float y)
@@ -310,32 +287,10 @@ namespace Marvel {
         mvImGuiThemeScope scope(this);
         mvFontScope fscope(this);
 
-        if (!m_core_config.enabled) std::copy(m_value->data(), m_value->data() + 2, m_disabled_value);
+        if (!m_enabled) std::copy(m_value->data(), m_value->data() + 2, m_disabled_value);
 
-        if (ImGui::SliderFloat2(m_label.c_str(), m_core_config.enabled ? m_value->data() : &m_disabled_value[0], m_min, m_max, m_format.c_str(), m_flags))
-            mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), m_core_config.name, m_core_config.callback_data);
-    }
-
-    void mvSliderFloat2::updateConfig(mvAppItemConfig* config)
-    {
-        auto aconfig = (mvSliderFloatsConfig*)config;
-
-        m_core_config.width = config->width;
-        m_core_config.label = config->label;
-        m_core_config.show = config->show;
-        m_core_config.callback = config->callback;
-        m_core_config.callback_data = config->callback_data;
-        m_core_config.enabled = config->enabled;
-
-        m_config.source = aconfig->source;
-
-        if (config != &m_config)
-            m_config = *aconfig;
-    }
-
-    mvAppItemConfig* mvSliderFloat2::getConfig()
-    {
-        return &m_config;
+        if (ImGui::SliderFloat2(m_label.c_str(), m_enabled ? m_value->data() : &m_disabled_value[0], m_min, m_max, m_format.c_str(), m_flags))
+            mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), m_name, m_callback_data);
     }
 
     mvSliderFloat3::mvSliderFloat3(const std::string& name, float* default_value, const std::string& dataSource)
@@ -346,7 +301,7 @@ namespace Marvel {
 
     void mvSliderFloat3::setEnabled(bool value)
     {
-        if (value == m_core_config.enabled)
+        if (value == m_enabled)
             return;
 
         if (value)
@@ -358,7 +313,7 @@ namespace Marvel {
             m_flags |= ImGuiSliderFlags_NoInput;
         }
 
-        m_core_config.enabled = value;
+        m_enabled = value;
     }
 
     void mvSliderFloat3::draw(ImDrawList* drawlist, float x, float y)
@@ -367,32 +322,10 @@ namespace Marvel {
         mvImGuiThemeScope scope(this);
         mvFontScope fscope(this);
 
-        if (!m_core_config.enabled) std::copy(m_value->data(), m_value->data() + 3, m_disabled_value);
+        if (!m_enabled) std::copy(m_value->data(), m_value->data() + 3, m_disabled_value);
 
-        if (ImGui::SliderFloat3(m_label.c_str(), m_core_config.enabled ? m_value->data() : &m_disabled_value[0], m_min, m_max, m_format.c_str(), m_flags))
-            mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), m_core_config.name, m_core_config.callback_data);
-    }
-
-    void mvSliderFloat3::updateConfig(mvAppItemConfig* config)
-    {
-        auto aconfig = (mvSliderFloatsConfig*)config;
-
-        m_core_config.width = config->width;
-        m_core_config.label = config->label;
-        m_core_config.show = config->show;
-        m_core_config.callback = config->callback;
-        m_core_config.callback_data = config->callback_data;
-        m_core_config.enabled = config->enabled;
-
-        m_config.source = aconfig->source;
-
-        if (config != &m_config)
-            m_config = *aconfig;
-    }
-
-    mvAppItemConfig* mvSliderFloat3::getConfig()
-    {
-        return &m_config;
+        if (ImGui::SliderFloat3(m_label.c_str(), m_enabled ? m_value->data() : &m_disabled_value[0], m_min, m_max, m_format.c_str(), m_flags))
+            mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), m_name, m_callback_data);
     }
 
     mvSliderFloat4::mvSliderFloat4(const std::string& name, float* default_value, const std::string& dataSource)
@@ -403,7 +336,7 @@ namespace Marvel {
 
     void mvSliderFloat4::setEnabled(bool value)
     {
-        if (value == m_core_config.enabled)
+        if (value == m_enabled)
             return;
 
         if (value)
@@ -415,7 +348,7 @@ namespace Marvel {
             m_flags |= ImGuiSliderFlags_NoInput;
         }
 
-        m_core_config.enabled = value;
+        m_enabled = value;
     }
 
     void mvSliderFloat4::draw(ImDrawList* drawlist, float x, float y)
@@ -424,32 +357,10 @@ namespace Marvel {
         mvImGuiThemeScope scope(this);
         mvFontScope fscope(this);
 
-        if (!m_core_config.enabled) std::copy(m_value->data(), m_value->data() + 4, m_disabled_value);
+        if (!m_enabled) std::copy(m_value->data(), m_value->data() + 4, m_disabled_value);
 
-        if (ImGui::SliderFloat4(m_label.c_str(), m_core_config.enabled ? m_value->data() : &m_disabled_value[0], m_min, m_max, m_format.c_str(), m_flags))
-            mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), m_core_config.name, m_core_config.callback_data);
-    }
-
-    void mvSliderFloat4::updateConfig(mvAppItemConfig* config)
-    {
-        auto aconfig = (mvSliderFloatsConfig*)config;
-
-        m_core_config.width = config->width;
-        m_core_config.label = config->label;
-        m_core_config.show = config->show;
-        m_core_config.callback = config->callback;
-        m_core_config.callback_data = config->callback_data;
-        m_core_config.enabled = config->enabled;
-
-        m_config.source = aconfig->source;
-
-        if (config != &m_config)
-            m_config = *aconfig;
-    }
-
-    mvAppItemConfig* mvSliderFloat4::getConfig()
-    {
-        return &m_config;
+        if (ImGui::SliderFloat4(m_label.c_str(), m_enabled ? m_value->data() : &m_disabled_value[0], m_min, m_max, m_format.c_str(), m_flags))
+            mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), m_name, m_callback_data);
     }
 
     mvSliderInt::mvSliderInt(const std::string& name, int default_value, const std::string& dataSource)
@@ -460,7 +371,7 @@ namespace Marvel {
 
     void mvSliderInt::setEnabled(bool value)
     {
-        if (value == m_core_config.enabled)
+        if (value == m_enabled)
             return;
 
         if (value)
@@ -472,7 +383,7 @@ namespace Marvel {
             m_flags |= ImGuiSliderFlags_NoInput;
         }
 
-        m_core_config.enabled = value;
+        m_enabled = value;
     }
 
     void mvSliderInt::draw(ImDrawList* drawlist, float x, float y)
@@ -481,47 +392,24 @@ namespace Marvel {
         mvImGuiThemeScope scope(this);
         mvFontScope fscope(this);
 
-        if (!m_core_config.enabled) m_disabled_value = *m_value;
+        if (!m_enabled) m_disabled_value = *m_value;
 
         if (m_vertical)
         {
-            if ((float)m_core_config.height < 1.0f)
-                m_core_config.height = 100;
-            if ((float)m_core_config.width < 1.0f)
-                m_core_config.width = 20;
+            if ((float)m_height < 1.0f)
+                m_height = 100;
+            if ((float)m_width < 1.0f)
+                m_width = 20;
 
-            if (ImGui::VSliderInt(m_label.c_str(), ImVec2((float)m_core_config.width, (float)m_core_config.height), m_core_config.enabled ? m_value.get() : &m_disabled_value, m_min, m_max, m_format.c_str()))
-                mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), m_core_config.name, m_core_config.callback_data);
+            if (ImGui::VSliderInt(m_label.c_str(), ImVec2((float)m_width, (float)m_height), m_enabled ? m_value.get() : &m_disabled_value, m_min, m_max, m_format.c_str()))
+                mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), m_name, m_callback_data);
         }
         else
         {
-            if (ImGui::SliderInt(m_label.c_str(), m_core_config.enabled ? m_value.get() : &m_disabled_value, m_min, m_max, m_format.c_str(), m_flags))
-                mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), m_core_config.name, m_core_config.callback_data);
+            if (ImGui::SliderInt(m_label.c_str(), m_enabled ? m_value.get() : &m_disabled_value, m_min, m_max, m_format.c_str(), m_flags))
+                mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), m_name, m_callback_data);
 
         }
-    }
-
-    void mvSliderInt::updateConfig(mvAppItemConfig* config)
-    {
-        auto aconfig = (mvSliderIntConfig*)config;
-
-        m_core_config.width = config->width;
-        m_core_config.height = config->height;
-        m_core_config.label = config->label;
-        m_core_config.show = config->show;
-        m_core_config.callback = config->callback;
-        m_core_config.callback_data = config->callback_data;
-        m_core_config.enabled = config->enabled;
-
-        m_config.source = aconfig->source;
-
-        if (config != &m_config)
-            m_config = *aconfig;
-    }
-
-    mvAppItemConfig* mvSliderInt::getConfig()
-    {
-        return &m_config;
     }
 
     mvSliderInt2::mvSliderInt2(const std::string& name, int* default_value, const std::string& dataSource)
@@ -532,7 +420,7 @@ namespace Marvel {
 
     void mvSliderInt2::setEnabled(bool value)
     {
-        if (value == m_core_config.enabled)
+        if (value == m_enabled)
             return;
 
         if (value)
@@ -544,7 +432,7 @@ namespace Marvel {
             m_flags |= ImGuiSliderFlags_NoInput;
         }
 
-        m_core_config.enabled = value;
+        m_enabled = value;
     }
 
     void mvSliderInt2::draw(ImDrawList* drawlist, float x, float y)
@@ -553,32 +441,10 @@ namespace Marvel {
         mvImGuiThemeScope scope(this);
         mvFontScope fscope(this);
 
-        if (!m_core_config.enabled) std::copy(m_value->data(), m_value->data() + 2, m_disabled_value);
+        if (!m_enabled) std::copy(m_value->data(), m_value->data() + 2, m_disabled_value);
 
-        if (ImGui::SliderInt2(m_label.c_str(), m_core_config.enabled ? m_value->data() : &m_disabled_value[0], m_min, m_max, m_format.c_str(), m_flags))
-            mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), m_core_config.name, m_core_config.callback_data);
-    }
-
-    void mvSliderInt2::updateConfig(mvAppItemConfig* config)
-    {
-        auto aconfig = (mvSliderIntsConfig*)config;
-
-        m_core_config.width = config->width;
-        m_core_config.label = config->label;
-        m_core_config.show = config->show;
-        m_core_config.callback = config->callback;
-        m_core_config.callback_data = config->callback_data;
-        m_core_config.enabled = config->enabled;
-
-        m_config.source = aconfig->source;
-
-        if (config != &m_config)
-            m_config = *aconfig;
-    }
-
-    mvAppItemConfig* mvSliderInt2::getConfig()
-    {
-        return &m_config;
+        if (ImGui::SliderInt2(m_label.c_str(), m_enabled ? m_value->data() : &m_disabled_value[0], m_min, m_max, m_format.c_str(), m_flags))
+            mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), m_name, m_callback_data);
     }
 
     mvSliderInt3::mvSliderInt3(const std::string& name, int* default_value, const std::string& dataSource)
@@ -589,7 +455,7 @@ namespace Marvel {
 
     void mvSliderInt3::setEnabled(bool value)
     {
-        if (value == m_core_config.enabled)
+        if (value == m_enabled)
             return;
 
         if (value)
@@ -601,7 +467,7 @@ namespace Marvel {
             m_flags |= ImGuiSliderFlags_NoInput;
         }
 
-        m_core_config.enabled = value;
+        m_enabled = value;
     }
 
     void mvSliderInt3::draw(ImDrawList* drawlist, float x, float y)
@@ -610,32 +476,10 @@ namespace Marvel {
         mvImGuiThemeScope scope(this);
         mvFontScope fscope(this);
 
-        if (!m_core_config.enabled) std::copy(m_value->data(), m_value->data() + 3, m_disabled_value);
+        if (!m_enabled) std::copy(m_value->data(), m_value->data() + 3, m_disabled_value);
 
-        if (ImGui::SliderInt3(m_label.c_str(), m_core_config.enabled ? m_value->data() : &m_disabled_value[0], m_min, m_max, m_format.c_str(), m_flags))
-            mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), m_core_config.name, m_core_config.callback_data);
-    }
-
-    void mvSliderInt3::updateConfig(mvAppItemConfig* config)
-    {
-        auto aconfig = (mvSliderIntsConfig*)config;
-
-        m_core_config.width = config->width;
-        m_core_config.label = config->label;
-        m_core_config.show = config->show;
-        m_core_config.callback = config->callback;
-        m_core_config.callback_data = config->callback_data;
-        m_core_config.enabled = config->enabled;
-
-        m_config.source = aconfig->source;
-
-        if (config != &m_config)
-            m_config = *aconfig;
-    }
-
-    mvAppItemConfig* mvSliderInt3::getConfig()
-    {
-        return &m_config;
+        if (ImGui::SliderInt3(m_label.c_str(), m_enabled ? m_value->data() : &m_disabled_value[0], m_min, m_max, m_format.c_str(), m_flags))
+            mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), m_name, m_callback_data);
     }
 
     mvSliderInt4::mvSliderInt4(const std::string& name, int* default_value, const std::string& dataSource)
@@ -646,7 +490,7 @@ namespace Marvel {
 
     void mvSliderInt4::setEnabled(bool value)
     {
-        if (value == m_core_config.enabled)
+        if (value == m_enabled)
             return;
 
         if (value)
@@ -658,7 +502,7 @@ namespace Marvel {
             m_flags |= ImGuiSliderFlags_NoInput;
         }
 
-        m_core_config.enabled = value;
+        m_enabled = value;
     }
 
     void mvSliderInt4::draw(ImDrawList* drawlist, float x, float y)
@@ -667,33 +511,11 @@ namespace Marvel {
         mvImGuiThemeScope scope(this);
         mvFontScope fscope(this);
 
-        if (!m_core_config.enabled) std::copy(m_value->data(), m_value->data() + 4, m_disabled_value);
+        if (!m_enabled) std::copy(m_value->data(), m_value->data() + 4, m_disabled_value);
 
-        if (ImGui::SliderInt4(m_label.c_str(), m_core_config.enabled ? m_value->data() : &m_disabled_value[0], m_min, m_max, m_format.c_str(), m_flags))
-            mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), m_core_config.name, m_core_config.callback_data);
+        if (ImGui::SliderInt4(m_label.c_str(), m_enabled ? m_value->data() : &m_disabled_value[0], m_min, m_max, m_format.c_str(), m_flags))
+            mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), m_name, m_callback_data);
 
-    }
-
-    void mvSliderInt4::updateConfig(mvAppItemConfig* config)
-    {
-        auto aconfig = (mvSliderIntsConfig*)config;
-
-        m_core_config.width = config->width;
-        m_core_config.label = config->label;
-        m_core_config.show = config->show;
-        m_core_config.callback = config->callback;
-        m_core_config.callback_data = config->callback_data;
-        m_core_config.enabled = config->enabled;
-
-        m_config.source = aconfig->source;
-
-        if (config != &m_config)
-            m_config = *aconfig;
-    }
-
-    mvAppItemConfig* mvSliderInt4::getConfig()
-    {
-        return &m_config;
     }
 
     void mvSliderFloat::setExtraConfigDict(PyObject* dict)

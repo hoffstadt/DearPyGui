@@ -61,7 +61,7 @@ namespace Marvel {
 			}
 			// close
 			ImGuiFileDialog::Instance()->Close();
-			m_core_config.show = false;
+			m_show = false;
 		}
 	}
 

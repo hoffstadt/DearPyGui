@@ -6,18 +6,6 @@
 
 namespace Marvel {
 
-	struct mvImageConfig : public mvAppItemConfig
-	{
-		
-		std::string value = "";
-		mvColor tint_color = mvColor{ 255, 255, 255, 255 };
-		mvColor border_color = mvColor{ 0, 0, 0, 0 };
-		std::array<float, 2> uv_min{ 0.0, 0.0 };
-		std::array<float, 2> uv_max{ 1.0, 1.0 };
-	};
-
-	
-
 	MV_REGISTER_WIDGET(mvImage);
 	class mvImage : public mvAppItem, public mvEventHandler
 	{
@@ -55,10 +43,6 @@ namespace Marvel {
 		void               setValue          (const std::string& value);
 		const std::string& getValue          () const;
 
-		// cpp interface
-		void updateConfig(mvAppItemConfig* config) override;
-		mvAppItemConfig* getConfig() override;
-
 	private:
 
 		std::string m_value;
@@ -68,7 +52,6 @@ namespace Marvel {
 		mvColor     m_borderColor = {0.0f, 0.0f, 0.0f, 0.0f};
 		void*       m_texture = nullptr;
 		bool        m_dirty = false;
-		mvImageConfig m_config;
 
 	};
 

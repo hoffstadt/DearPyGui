@@ -53,19 +53,19 @@ namespace Marvel {
 			for (auto& item : m_children1)
 			{
 				// skip item if it's not shown
-				if (!item->m_core_config.show)
+				if (!item->m_show)
 					continue;
 
 				// set item width
-				if (item->m_core_config.width != 0)
-					ImGui::SetNextItemWidth((float)item->m_core_config.width);
+				if (item->m_width != 0)
+					ImGui::SetNextItemWidth((float)item->m_width);
 
-				if (*m_value == item->getCoreConfig().name && m_lastValue != *m_value)
+				if (*m_value == item->m_name && m_lastValue != *m_value)
 					static_cast<mvTab*>(item.get())->addFlag(ImGuiTabItemFlags_SetSelected);
 
 				item->draw(drawlist, x, y);
 
-				if (*m_value == item->getCoreConfig().name)
+				if (*m_value == item->m_name)
 					static_cast<mvTab*>(item.get())->removeFlag(ImGuiTabItemFlags_SetSelected);
 
 				item->getState().update();

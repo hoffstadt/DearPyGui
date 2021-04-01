@@ -41,7 +41,7 @@ namespace Marvel {
 
 		bool* toggle = nullptr;
 		if (m_closable)
-			toggle = &m_core_config.show;
+			toggle = &m_show;
 		*m_value = ImGui::CollapsingHeader(m_label.c_str(), toggle, m_flags);
 
 		//we do this so that the children dont get the theme
@@ -52,12 +52,12 @@ namespace Marvel {
 			for (auto& item : m_children1)
 			{
 				// skip item if it's not shown
-				if (!item->m_core_config.show)
+				if (!item->m_show)
 					continue;
 
 				// set item width
-				if (item->m_core_config.width != 0)
-					ImGui::SetNextItemWidth((float)item->m_core_config.width);
+				if (item->m_width != 0)
+					ImGui::SetNextItemWidth((float)item->m_width);
 
 				item->draw(drawlist, x, y);
 

@@ -24,21 +24,13 @@ namespace Marvel {
     //-----------------------------------------------------------------------------
     // mvDragFloat
     //-----------------------------------------------------------------------------
-    
-    struct mvDragFloatConfig : public mvAppItemConfig
-    {
-        float       default_value   = 0.0;
-        float       speed           = 1.0;
-        float       min_value       = 0.0;
-        float       max_value       = 100.0;
-        std::string format          = "'%0.3f'";
-        bool        no_input        = false;
-        bool        clamped         = false;
-    };
-
     MV_REGISTER_WIDGET(mvDragFloat);
     class mvDragFloat : public mvFloatPtrBase
     {
+
+    public:
+
+        static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
 
         MV_APPITEM_TYPE(mvAppItemType::mvDragFloat, add_drag_float)
 
@@ -82,10 +74,6 @@ namespace Marvel {
 
     public:
 
-        static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
-
-    public:
-
         mvDragFloat(const std::string& name, float default_value, const std::string& dataSource);
         
         void setEnabled(bool value) override;
@@ -94,11 +82,7 @@ namespace Marvel {
         
         void setExtraConfigDict(PyObject* dict) override;
         void getExtraConfigDict(PyObject* dict) override;
-        
-        // cpp interface
-        void updateConfig(mvAppItemConfig* config) override;
-        mvAppItemConfig* getConfig() override;
-
+       
     private:
 
         float               m_speed = 1.0f;
@@ -107,26 +91,12 @@ namespace Marvel {
         std::string         m_format = "%.3f";
         ImGuiInputTextFlags m_flags = ImGuiSliderFlags_None;
         ImGuiInputTextFlags m_stor_flags = ImGuiSliderFlags_None;
-        mvDragFloatConfig   m_config;
 
     };
         
     //-----------------------------------------------------------------------------
     // mvDragFloat2
     //-----------------------------------------------------------------------------
-    
-    struct mvDragFloatsConfig : public mvAppItemConfig
-    {
-        std::array<float, 4> default_value = { 0.0f, 0.0f, 0.0f, 0.0f };
-        float speed = 1.0;
-        float min_value = 0.0;
-        float max_value = 100.0;
-        std::string format = "'%0.3f'";
-        bool no_input = false;
-        bool clamped = false;
-        
-    };
-    
     MV_REGISTER_WIDGET(mvDragFloat2);
     class mvDragFloat2 : public mvFloat2PtrBase
     {
@@ -184,10 +154,6 @@ namespace Marvel {
 
         void setExtraConfigDict(PyObject* dict) override;
         void getExtraConfigDict(PyObject* dict) override;
-        
-        // cpp interface
-        void updateConfig(mvAppItemConfig* config) override;
-        mvAppItemConfig* getConfig() override;
 
     private:
 
@@ -197,7 +163,6 @@ namespace Marvel {
         std::string         m_format = "%.3f";
         ImGuiInputTextFlags m_flags = ImGuiSliderFlags_None;
         ImGuiInputTextFlags m_stor_flags = ImGuiSliderFlags_None;
-        mvDragFloatsConfig  m_config;
     };
         
     //-----------------------------------------------------------------------------
@@ -260,10 +225,6 @@ namespace Marvel {
 
         void setExtraConfigDict(PyObject* dict) override;
         void getExtraConfigDict(PyObject* dict) override;
-        
-        // cpp interface
-        void updateConfig(mvAppItemConfig* config) override;
-        mvAppItemConfig* getConfig() override;
 
     private:
 
@@ -273,7 +234,6 @@ namespace Marvel {
         std::string         m_format = "%.3f";
         ImGuiInputTextFlags m_flags = ImGuiSliderFlags_None;
         ImGuiInputTextFlags m_stor_flags = ImGuiSliderFlags_None;
-        mvDragFloatsConfig  m_config;
     };
         
     //-----------------------------------------------------------------------------
@@ -336,10 +296,6 @@ namespace Marvel {
 
         void setExtraConfigDict(PyObject* dict) override;
         void getExtraConfigDict(PyObject* dict) override;
-        
-        // cpp interface
-        void updateConfig(mvAppItemConfig* config) override;
-        mvAppItemConfig* getConfig() override;
 
     private:
 
@@ -349,24 +305,11 @@ namespace Marvel {
         std::string         m_format = "%.3f";
         ImGuiInputTextFlags m_flags = ImGuiSliderFlags_None;
         ImGuiInputTextFlags m_stor_flags = ImGuiSliderFlags_None;
-        mvDragFloatsConfig  m_config;
     };
         
     //-----------------------------------------------------------------------------
     // mvDragInt
-    //-----------------------------------------------------------------------------
-    
-    struct mvDragIntConfig : public mvAppItemConfig
-    {
-        int default_value = 0;
-        float speed = 1.0;
-        int min_value = 0;
-        int max_value = 100;
-        std::string format = "'%d'";
-        bool no_input = false;
-        bool clamped = false;
-    };
-    
+    //----------------------------------------------------------------------------- 
     MV_REGISTER_WIDGET(mvDragInt);
     class mvDragInt : public mvIntPtrBase
     {
@@ -424,11 +367,7 @@ namespace Marvel {
 
         void setExtraConfigDict(PyObject* dict) override;
         void getExtraConfigDict(PyObject* dict) override;
-        
-        // cpp interface
-        void updateConfig(mvAppItemConfig* config) override;
-        mvAppItemConfig* getConfig() override;
-
+       
     private:
 
         float               m_speed = 1.0f;
@@ -437,24 +376,12 @@ namespace Marvel {
         std::string         m_format = "%d";
         ImGuiInputTextFlags m_flags = ImGuiSliderFlags_None;
         ImGuiInputTextFlags m_stor_flags = ImGuiSliderFlags_None;
-        mvDragIntConfig     m_config;
+
     };
         
     //-----------------------------------------------------------------------------
     // mvDragInt2
     //-----------------------------------------------------------------------------
-    
-    struct mvDragIntsConfig : public mvAppItemConfig
-    {
-        std::array<int, 4> default_value = { 0, 0, 0, 0 };
-        float speed = 1.0;
-        int min_value = 0;
-        int max_value = 100;
-        std::string format = "'%d'";
-        bool no_input = false;
-        bool clamped = false;
-    };
-    
     MV_REGISTER_WIDGET(mvDragInt2);
     class mvDragInt2 : public mvInt2PtrBase
     {
@@ -512,10 +439,6 @@ namespace Marvel {
 
         void setExtraConfigDict(PyObject* dict) override;
         void getExtraConfigDict(PyObject* dict) override;
-        
-        // cpp interface
-        void updateConfig(mvAppItemConfig* config) override;
-        mvAppItemConfig* getConfig() override;
 
     private:
 
@@ -525,7 +448,7 @@ namespace Marvel {
         std::string         m_format = "%d";
         ImGuiInputTextFlags m_flags = ImGuiSliderFlags_None;
         ImGuiInputTextFlags m_stor_flags = ImGuiSliderFlags_None;
-        mvDragIntsConfig    m_config;
+
     };
         
     //-----------------------------------------------------------------------------
@@ -588,10 +511,6 @@ namespace Marvel {
 
         void setExtraConfigDict(PyObject* dict) override;
         void getExtraConfigDict(PyObject* dict) override;
-        
-        // cpp interface
-        void updateConfig(mvAppItemConfig* config) override;
-        mvAppItemConfig* getConfig() override;
 
     private:
 
@@ -601,7 +520,6 @@ namespace Marvel {
         std::string         m_format = "%d";
         ImGuiInputTextFlags m_flags = ImGuiSliderFlags_None;
         ImGuiInputTextFlags m_stor_flags = ImGuiSliderFlags_None;
-        mvDragIntsConfig    m_config;
     };
         
     //-----------------------------------------------------------------------------
@@ -664,10 +582,6 @@ namespace Marvel {
 
         void setExtraConfigDict(PyObject* dict) override;
         void getExtraConfigDict(PyObject* dict) override;
-
-        // cpp interface
-        void updateConfig(mvAppItemConfig* config) override;
-        mvAppItemConfig* getConfig() override;
         
     private:
 
@@ -677,7 +591,7 @@ namespace Marvel {
         std::string         m_format = "%d";
         ImGuiInputTextFlags m_flags = ImGuiSliderFlags_None;
         ImGuiInputTextFlags m_stor_flags = ImGuiSliderFlags_None;
-        mvDragIntsConfig    m_config;
+
     };
 
 }

@@ -5,24 +5,6 @@
 
 namespace Marvel {
 
-	struct mvInputTextConfig : public mvAppItemConfig
-	{
-		std::string default_value = "";
-		std::string hint = "";
-		bool multiline = false;
-		bool no_spaces = false;
-		bool uppercase = false;
-		bool tab_input = false;
-		bool decimal = false;
-		bool hexadecimal = false;
-		bool readonly = false;
-		bool password = false;
-		bool scientific = false;
-		bool on_enter = false;
-	};
-
-	
-
 	MV_REGISTER_WIDGET(mvInputText);
 	class mvInputText : public mvStringPtrBase
 	{
@@ -81,17 +63,12 @@ namespace Marvel {
 		void setExtraConfigDict(PyObject* dict) override;
 		void getExtraConfigDict(PyObject* dict) override;
 
-		// cpp interface
-		void updateConfig(mvAppItemConfig* config) override;
-		mvAppItemConfig* getConfig() override;
-
 	private:
 
 		std::string         m_hint;
 		bool                m_multiline = false;
 		ImGuiInputTextFlags m_flags = 0;
 		ImGuiInputTextFlags m_stor_flags = 0;
-		mvInputTextConfig m_config;
 
 	};
 

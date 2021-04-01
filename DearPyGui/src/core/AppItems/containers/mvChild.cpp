@@ -50,7 +50,7 @@ namespace Marvel {
 		mvImGuiThemeScope scope(this);
 		mvFontScope fscope(this);
 
-		ImGui::BeginChild(m_label.c_str(), ImVec2(m_autosize_x ? 0 : (float)m_core_config.width, m_autosize_y ? 0 : (float)m_core_config.height), m_border, m_windowflags);
+		ImGui::BeginChild(m_label.c_str(), ImVec2(m_autosize_x ? 0 : (float)m_width, m_autosize_y ? 0 : (float)m_height), m_border, m_windowflags);
 
 		//we do this so that the children dont get the theme
 		scope.cleanup();
@@ -58,12 +58,12 @@ namespace Marvel {
 		for (auto item : m_children1)
 		{
 			// skip item if it's not shown
-			if (!item->m_core_config.show)
+			if (!item->m_show)
 				continue;
 
 			// set item width
-			if (item->m_core_config.width != 0)
-				ImGui::SetNextItemWidth((float)item->m_core_config.width);
+			if (item->m_width != 0)
+				ImGui::SetNextItemWidth((float)item->m_width);
 
 			item->draw(drawlist, x, y);
 
@@ -73,8 +73,8 @@ namespace Marvel {
 		// allows this item to have a render callback
 		registerWindowFocusing();
 
-		m_core_config.width = (int)ImGui::GetWindowWidth();
-		m_core_config.height = (int)ImGui::GetWindowHeight();
+		m_width = (int)ImGui::GetWindowWidth();
+		m_height = (int)ImGui::GetWindowHeight();
 
 		ImGui::EndChild();
 	}

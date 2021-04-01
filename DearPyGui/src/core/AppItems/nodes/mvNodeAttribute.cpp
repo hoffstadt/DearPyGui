@@ -39,9 +39,9 @@ namespace Marvel {
 	{
 		if (!m_delete)
 		{
-			if (m_parent)
-				if (m_parent->m_parent)
-					static_cast<mvNodeEditor*>(m_parent->m_parent)->deleteLink(m_core_config.name, m_id, true);
+			if (m_parentPtr)
+				if (m_parentPtr->m_parentPtr)
+					static_cast<mvNodeEditor*>(m_parentPtr->m_parentPtr)->deleteLink(m_name, m_id, true);
 		}
 	}
 
@@ -75,12 +75,12 @@ namespace Marvel {
 		for (auto item : m_children1)
 		{
 			// skip item if it's not shown
-			if (!item->m_core_config.show)
+			if (!item->m_show)
 				continue;
 
 			// set item width
-			if (item->m_core_config.width != 0)
-				ImGui::SetNextItemWidth((float)item->m_core_config.width);
+			if (item->m_width != 0)
+				ImGui::SetNextItemWidth((float)item->m_width);
 
 			item->draw(drawlist, x, y);
 
