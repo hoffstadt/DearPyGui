@@ -15,7 +15,7 @@ namespace Marvel {
 
 		MV_APPITEM_TYPE(mvAppItemType::mvSeparator, add_separator)
 
-		MV_CREATE_THEME_CONSTANT(mvThemeCol_Separator, 27L, 0L);
+		MV_CREATE_CONSTANT(mvThemeCol_Separator, 27L, 0L);
 
 		MV_START_EXTRA_COMMANDS
 		MV_END_EXTRA_COMMANDS

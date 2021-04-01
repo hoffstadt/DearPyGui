@@ -10,29 +10,29 @@ namespace Marvel {
 	{
 		MV_APPITEM_TYPE(mvAppItemType::mvTable, add_table)
 
-		MV_CREATE_THEME_CONSTANT(mvTable_SizingFixedFit,			8192L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvTable_SizingFixedSame,			16384L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvTable_SizingStretchProp,			24576L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvTable_SizingStretchSame,			32768L, 0L);
+		MV_CREATE_CONSTANT(mvTable_SizingFixedFit,			8192L, 0L);
+		MV_CREATE_CONSTANT(mvTable_SizingFixedSame,			16384L, 0L);
+		MV_CREATE_CONSTANT(mvTable_SizingStretchProp,			24576L, 0L);
+		MV_CREATE_CONSTANT(mvTable_SizingStretchSame,			32768L, 0L);
 
-		MV_CREATE_THEME_CONSTANT(mvThemeCol_Table_HeaderBg,			44L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvThemeCol_Table_BorderStrong,		45L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvThemeCol_Table_BorderLight,		46L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvThemeCol_Table_BorderHovered,	28L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvThemeCol_Table_BorderActive,		29L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvThemeCol_Table_RowBg,			47L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvThemeCol_Table_RowBgAlt,			48L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvThemeStyle_Table_CellPaddingX,	16L, 0L);
-		MV_CREATE_THEME_CONSTANT(mvThemeStyle_Table_CellPaddingY,	16L, 1L);
+		MV_CREATE_CONSTANT(mvThemeCol_Table_HeaderBg,			44L, 0L);
+		MV_CREATE_CONSTANT(mvThemeCol_Table_BorderStrong,		45L, 0L);
+		MV_CREATE_CONSTANT(mvThemeCol_Table_BorderLight,		46L, 0L);
+		MV_CREATE_CONSTANT(mvThemeCol_Table_BorderHovered,	28L, 0L);
+		MV_CREATE_CONSTANT(mvThemeCol_Table_BorderActive,		29L, 0L);
+		MV_CREATE_CONSTANT(mvThemeCol_Table_RowBg,			47L, 0L);
+		MV_CREATE_CONSTANT(mvThemeCol_Table_RowBgAlt,			48L, 0L);
+		MV_CREATE_CONSTANT(mvThemeStyle_Table_CellPaddingX,	16L, 0L);
+		MV_CREATE_CONSTANT(mvThemeStyle_Table_CellPaddingY,	16L, 1L);
 
 		MV_START_EXTRA_COMMANDS
 		MV_END_EXTRA_COMMANDS
 
 		MV_START_GENERAL_CONSTANTS
-			MV_CREATE_CONSTANT_SINGLE(mvTable_SizingFixedFit),
-			MV_CREATE_CONSTANT_SINGLE(mvTable_SizingFixedSame),
-			MV_CREATE_CONSTANT_SINGLE(mvTable_SizingStretchProp),
-			MV_CREATE_CONSTANT_SINGLE(mvTable_SizingStretchSame)
+			MV_ADD_GENERAL_CONSTANT(mvTable_SizingFixedFit),
+			MV_ADD_GENERAL_CONSTANT(mvTable_SizingFixedSame),
+			MV_ADD_GENERAL_CONSTANT(mvTable_SizingStretchProp),
+			MV_ADD_GENERAL_CONSTANT(mvTable_SizingStretchSame)
 		MV_END_GENERAL_CONSTANTS
 
 		MV_START_COLOR_CONSTANTS
@@ -46,8 +46,8 @@ namespace Marvel {
 		MV_END_COLOR_CONSTANTS
 
 		MV_START_STYLE_CONSTANTS
-			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_Table_CellPaddingX, 4, 20),
-			MV_CREATE_CONSTANT_TUPLE(mvThemeStyle_Table_CellPaddingY, 2, 20),
+			MV_ADD_CONSTANT(mvThemeStyle_Table_CellPaddingX, 4, 20),
+			MV_ADD_CONSTANT(mvThemeStyle_Table_CellPaddingY, 2, 20),
 		MV_END_STYLE_CONSTANTS
 
 	public:
