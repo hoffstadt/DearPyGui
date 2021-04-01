@@ -25,6 +25,23 @@ def hsv_to_rgb(h: float, s: float, v: float) -> (float, float, float):
     if i == 4: return (255*t, 255*p, 255*v)
     if i == 5: return (255*v, 255*p, 255*q)
 
+def toggle_config(sender, siblings, restart_index=0):
+    '''This command will toggle enable/disable for any eligible children of the parent container recursively down the widget tree.'''
+    for i in range(restart_index,len(siblings)-1, 1):
+        if is_item_container(siblings[i]):
+            siblings += get_item_children(siblings.pop(i))
+            toggle_config(sender, siblings, i-1)
+            return
+    siblings.remove(sender)
+    for item in siblings:
+        for key,value in get_item_configuration(item).items():
+            if key == 'enabled':
+                configure_item(item, enabled = not value)
+
+def demo_enable_disable():
+    add_checkbox(label="Enable/Disable", default_value=True, callback=lambda sender: toggle_config(sender, get_item_children(get_item_parent(sender))))
+    helpmarker('This will toggle the keyword "enable" for any sibling widgets that allow enabled & disabled')
+
 def demo_main_callback():
 
     set_value("Mouse Position##demo", str(get_mouse_pos()))
@@ -237,54 +254,58 @@ def show_demo():
         
         with collapsing_header("Widgets##demo"):
 
-            with tree_node("Basic##demo"):
-                def toggle_config(sender, data):
-                    config_dict = {}
-                    for kwarg in data['kwargs']:
-                        config_dict[kwarg] = get_value(sender)
-                    for item in data['items']:
-                        configure_item(item, **config_dict)
+            with tree_node(label="Basic"):
+                demo_enable_disable()
 
-                disable_items = ["Button1##demo", "Button2##demo", "Button3##demo", "Button4##demo", "Button5##demo", "Button6##demo"
-                    ,"checkbox##demo", "radiobutton##demo", "selectable##demo", "selectable (sized)##demo", "Left##demo", "Right##demo"
-                    ,"combo##demo","listbox##demo","input text##demo","input text (w/ hint)##demo"
-                    ,"input int##demo", "input float##demo", "input scientific##demo", "input float3##example##demo"
-                    ,"drag int", "drag int 0..100##demo", "drag float##demo", "drag small float##demo"
-                    ,"slider int##demo", "slider float##demo", "slider angle##demo", "color 1##demo", "color 2##demo"]
-                add_checkbox("Enable-Disable##basic", default_value=True, callback=toggle_config, callback_data={'kwargs': ['enabled'], 'items': disable_items})
-                helpmarker('This will toggle the keyword "enable" for the widgets below that can be enabled & disabled')
                 with group(horizontal=True):
-                    add_button("Button1##demo", callback=log_callback)
-                    add_button("Button2##demo", callback=log_callback, small=True)
-                    add_button("Button3##demo", callback=log_callback, arrow=True)
-                    add_button("Button4##demo", callback=log_callback, arrow=True, direction=4010)
-                    add_button("Button5##demo", callback=log_callback, arrow=True, direction=4020)
-                    add_button("Button6##demo", callback=log_callback, arrow=True, direction=4030)
-                add_checkbox("checkbox##demo", callback=log_callback)
+                    add_button(label="Button", callback=log_callback)
+                    add_button(label="Button", callback=log_callback, small=True)
+                    add_button(label="Button", callback=log_callback, arrow=True)
+                    add_button(label="Button", callback=log_callback, arrow=True, direction=4010)
+                    add_button(label="Button", callback=log_callback, arrow=True, direction=4020)
+                    add_button(label="Button", callback=log_callback, arrow=True, direction=4030)
+                add_checkbox(label="checkbox", callback=log_callback)
                 add_radio_button(items=["radio a", "radio b", "radio c"], horizontal=True, callback=log_callback)
-                add_selectable("selectable##demo", callback=log_callback)
-                add_selectable("selectable (sized)##demo", callback=log_callback, width=125, height=35)
+                add_selectable(label="selectable", callback=log_callback)
+
+                # TODO: when items whose colors are set then disabled the disable color is not found so its clear
+                # this is because we only search for theme color which has both enabled and disable and it was created when we added the enabled
+                # but the disabled was never filled out so its still empty when its found in the tree
+
+                # demonstrate the ability to programmatically create buttons and store their id to do something. 
+                # In this case we are adding to the list of items that will be disabled
+                log_items = []
                 for i in range(0, 7):
                     if i > 0:
                         add_same_line()
-                    add_button(f"Click##{i}")
-                    #set_item_color(f"Click##{i}", mvGuiCol_Button, hsv_to_rgb(i/7.0, 0.6, 0.6))
-                    #set_item_color(f"Click##{i}", mvGuiCol_ButtonHovered, hsv_to_rgb(i/7.0, 0.7, 0.7))
-                    #set_item_color(f"Click##{i}", mvGuiCol_ButtonActive, hsv_to_rgb(i/7.0, 0.8, 0.8))
-                    #set_item_style_var(f"Click##{i}", mvGuiStyleVar_FrameRounding, [i*5])
-                    #set_item_style_var(f"Click##{i}", mvGuiStyleVar_FramePadding, [i*3, i*3])
-                    disable_items.append(f"Click##{i}")
+                    button_widget = add_button(label="Click", callback = lambda: log_debug(log_items))
+                    set_theme_color(mvThemeCol_Button_Bg, hsv_to_rgb(i/7.0, 0.6, 0.6), item=button_widget)
+                    set_theme_color(mvThemeCol_Button_Hovered, hsv_to_rgb(i/7.0, 0.7, 0.7), item=button_widget)
+                    set_theme_color(mvThemeCol_Button_Active, hsv_to_rgb(i/7.0, 0.8, 0.8), item=button_widget)
+                    set_theme_style(mvThemeStyle_Button_Rounding, i*5, item=button_widget)
+                    set_theme_style(mvThemeStyle_Button_PaddingX, i*3, item=button_widget)
+                    set_theme_style(mvThemeStyle_Button_PaddingY, i*3, item=button_widget)
+                    log_items.append(button_widget)
+
                 with group(horizontal=True):
                     add_text("Press a button: ")
-                    add_button("Left##demo", arrow=True, direction=mvDir_Left, 
-                               callback=lambda sender, data: set_value("value", int(get_value("value"))-1))
-                    add_button("Right##demo", arrow=True, direction=mvDir_Right,
-                               callback=lambda sender, data: set_value("value", int(get_value("value"))+1))
-                    add_text("value", default_value="0")
+                    add_button(arrow=True, direction=mvDir_Left, callback=lambda: set_value(widget, int(get_value(widget))-1))
+                    add_button(arrow=True, direction=mvDir_Right, callback=lambda: set_value(widget, int(get_value(widget))+1))
+                    widget = add_text(default_value="0")
+
+                with group(horizontal=True):
+                    parent = add_text(default_value="hover me")
+                    with tooltip(parent):
+                        add_text(default_value="I'm a tooltip")
+                    add_dummy(width=10)
+                    parent = add_text(default_value="or me")
+                    with tooltip(parent):
+                        add_text(default_value="I'm a fancy tooltip")
+                        add_simple_plot(label="Curve",value=[0.6, 0.1, 1.0, 0.5, 0.92, 0.1, 0.2])
 
                 add_separator()
 
-                add_label_text("label##demo", default_value="Value")
+                add_label_text(name="some nuew name", label="Label", default_value="Value")
                 add_combo("combo##demo", items=["AAAA", "BBBB", "CCCC", "DDDD", "EEEE", "FFFF", "GGGG", "HHHH", "IIII", "JJJJ", "KKKK"], 
                           default_value="AAAA", callback=log_callback)
                 add_input_text("input text##demo", default_value="Hello, world!", callback=log_callback)
@@ -323,9 +344,36 @@ def show_demo():
                 add_listbox("listbox##demo", items=["Apple", "Banana", "Cherry", "Kiwi", "Mango", "Orange", "Pineapple", "Strawberry", "Watermelon"]
                             , num_items=4, callback=log_callback)
 
-            with tree_node("Bullets##demo"):
+            with tree_node(label="Trees"):
+                with tree_node(label="Basic Trees"):
+                    with tree_node(label="Child 0", default_open=True):
+                        add_text(default_value="blah blah")
+                        add_same_line()
+                        add_button(label="button")
+                    with tree_node(label="Child 1"):
+                        add_text(default_value="blah blah")
+                        add_same_line()
+                        add_button(label="button")
+                    with tree_node(label="Child 2"):
+                        add_text(default_value="blah blah")
+                        add_same_line()
+                        add_button(label="button")
+                    with tree_node(label="Child 3"):
+                        add_text(default_value="blah blah")
+                        add_same_line()
+                        add_button(label="button")
+                    with tree_node(label="Child 4"):
+                        add_text(default_value="blah blah")
+                        add_same_line()
+                        add_button(label="button")
+                with tree_node(label="Advanced, with selectable nodes"):
+                    helpmarker("This is a more typical looking tree with selectable nodes.\n"
+                               "Click to select, CTRL+Click to toggle, click on arrows or double-click to open.");
+
+            # TODO: fix this section after bullet labels fixed
+            with tree_node(label="Bullets"):
                 add_text("Bullet point 1", bullet=True)
-                add_text("Bullet point 2\nOn multiple lines", bullet=True)
+                add_text("Bullet point 2\nbullet text can be\nOn multiple lines", bullet=True)
                 with tree_node("Tree node"):
                     add_text("Another bullet point", bullet=True)
                 add_text("", bullet=True)
@@ -341,8 +389,8 @@ def show_demo():
             with tree_node("Images##demo"):
                 add_text("Below we are displaying the font texture (which is the only texture we have access to in this demo).")
                 add_image("INTERNAL_DPG_FONT_ATLAS")
-                disable_items = ["__image##button1", "__image##button2"]
-                add_checkbox("Enable-Disable##images", default_value=True, callback=toggle_config, callback_data={'kwargs': ['enabled'], 'items': disable_items})
+                # disable_items = ["__image##button1", "__image##button2"]
+                add_checkbox("Enable-Disable##images", default_value=True, callback=toggle_config)
                 add_text("Here is an image button using a portion of the font atlas")
                 add_image_button("INTERNAL_DPG_FONT_ATLAS",uv_max=[0.1, 0.1], callback=log_callback)
                 add_same_line()
