@@ -33,7 +33,7 @@ namespace Marvel {
 
 		bool isParentCompatible(mvAppItemType type) override;
 
-		void draw() override;
+		void draw(ImDrawList* drawlist, float x, float y) override;
 
 	};
 

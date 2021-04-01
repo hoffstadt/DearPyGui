@@ -47,7 +47,7 @@ namespace Marvel {
 			}
 		}
 
-		void mvSimplePlot::draw()
+		void mvSimplePlot::draw(ImDrawList* drawlist, float x, float y)
 		{
 			ImGui::PushID(this);
 			mvImGuiThemeScope scope(this);

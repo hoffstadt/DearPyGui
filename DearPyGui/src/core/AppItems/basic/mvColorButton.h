@@ -75,7 +75,7 @@ namespace Marvel {
 		mvColorButton(const std::string& name, const mvColor& color);
 		mvColorButton(const std::string& name, const mvColorButtonConfig& config);
 
-		void draw() override;
+		void draw(ImDrawList* drawlist, float x, float y) override;
 
 		void setExtraConfigDict(PyObject* dict) override;
 		void getExtraConfigDict(PyObject* dict) override;

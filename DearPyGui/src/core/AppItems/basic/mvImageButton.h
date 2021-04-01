@@ -64,7 +64,7 @@ namespace Marvel {
 		bool onEvent(mvEvent& event) override;
 		bool onTextureDeleted(mvEvent& event);
 
-		void draw()               override;
+		void draw(ImDrawList* drawlist, float x, float y)               override;
 
 		void setExtraConfigDict(PyObject* dict) override;
 		void getExtraConfigDict(PyObject* dict) override;

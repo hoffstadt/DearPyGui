@@ -51,7 +51,7 @@ namespace Marvel {
 
 		mvTreeNode(const std::string& name);
 
-		void draw              ()               override;
+		void draw(ImDrawList* drawlist, float x, float y) override;
 
 		void setExtraConfigDict(PyObject* dict) override;
 		void getExtraConfigDict(PyObject* dict) override;

@@ -28,7 +28,7 @@ namespace Marvel {
 
 		mvSeriesType getSeriesType() override { return mvSeriesType::Pie; }
 
-		void draw() override
+		void draw(ImDrawList* drawlist, float x, float y) override
 		{
 			ImPlot::PlotPieChart(m_clabels.data(), m_data[0].data(), (int)m_labels.size(),
 				m_x, m_y, m_radius, m_normalize, m_format.c_str(), m_angle);

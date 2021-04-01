@@ -39,7 +39,7 @@ namespace Marvel {
 		m_uiValue = value;
 	}
 
-	void mvTabBar::draw()
+	void mvTabBar::draw(ImDrawList* drawlist, float x, float y)
 	{
 		ScopedID id;
 		mvImGuiThemeScope scope(this);
@@ -63,7 +63,7 @@ namespace Marvel {
 				if (*m_value == item->getCoreConfig().name && m_lastValue != *m_value)
 					static_cast<mvTab*>(item.get())->addFlag(ImGuiTabItemFlags_SetSelected);
 
-				item->draw();
+				item->draw(drawlist, x, y);
 
 				if (*m_value == item->getCoreConfig().name)
 					static_cast<mvTab*>(item.get())->removeFlag(ImGuiTabItemFlags_SetSelected);

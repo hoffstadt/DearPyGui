@@ -22,7 +22,7 @@ namespace Marvel {
 		m_description.duplicatesAllowed = true;
 	}
 
-	void mvSpacing::draw()
+	void mvSpacing::draw(ImDrawList* drawlist, float x, float y)
 	{
 		for (int i = 0; i < *m_value; i++)
 			ImGui::Spacing();

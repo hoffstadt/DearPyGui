@@ -31,7 +31,7 @@ namespace Marvel {
 	{
 	}
 
-	void mvTabButton::draw()
+	void mvTabButton::draw(ImDrawList* drawlist, float x, float y)
 	{
 		ScopedID id;
 		mvImGuiThemeScope scope(this);

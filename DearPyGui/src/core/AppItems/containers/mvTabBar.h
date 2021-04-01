@@ -43,7 +43,7 @@ namespace Marvel {
 
 		std::string& getSpecificValue();
 		void         setValue(const std::string& value);
-		void         draw()               override;
+		void         draw(ImDrawList* drawlist, float x, float y)               override;
 
 		void setExtraConfigDict(PyObject* dict) override;
 		void getExtraConfigDict(PyObject* dict) override;

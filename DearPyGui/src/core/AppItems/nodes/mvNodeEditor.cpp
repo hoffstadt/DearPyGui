@@ -250,7 +250,7 @@ namespace Marvel {
 		return result;
 	}
 
-	void mvNodeEditor::draw()
+	void mvNodeEditor::draw(ImDrawList* drawlist, float x, float y)
 	{
 		ScopedID id;
 		imnodes::StyleColorsClassic();
@@ -293,7 +293,7 @@ namespace Marvel {
 			if (item->m_core_config.width != 0)
 				ImGui::SetNextItemWidth((float)item->m_core_config.width);
 
-			item->draw();
+			item->draw(drawlist, x, y);
 
 			item->getState().update();
 		}

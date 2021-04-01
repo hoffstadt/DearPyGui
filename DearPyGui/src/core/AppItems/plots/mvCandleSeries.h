@@ -110,7 +110,7 @@ namespace Marvel {
 
 		mvSeriesType getSeriesType() override { return mvSeriesType::Candle; }
 
-		void draw() override
+		void draw(ImDrawList* drawlist, float x, float y) override
 		{
 
 			PlotCandlestick(m_name.c_str(), m_data[0].data(), m_data[1].data(), m_data[4].data(),

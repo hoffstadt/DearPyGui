@@ -62,7 +62,7 @@ namespace Marvel {
 		return false;
 	}
 
-	void mvImage::draw()
+	void mvImage::draw(ImDrawList* drawlist, float x, float y)
 	{
 
 		if (m_texture == nullptr && !m_value.empty())

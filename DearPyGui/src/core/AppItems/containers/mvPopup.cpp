@@ -39,7 +39,7 @@ namespace Marvel {
 		m_close = true;
 	}
 
-	void mvPopup::draw()
+	void mvPopup::draw(ImDrawList* drawlist, float x, float y)
 	{
 
 		ScopedID id(m_parentAddress);
@@ -73,7 +73,7 @@ namespace Marvel {
 					if (item->m_core_config.width != 0)
 						ImGui::SetNextItemWidth((float)item->m_core_config.width);
 
-					item->draw();
+					item->draw(drawlist, x, y);
 
 					item->getState().update();
 				}
@@ -100,7 +100,7 @@ namespace Marvel {
 					if (item->m_core_config.width > 0)
 						ImGui::SetNextItemWidth((float)item->m_core_config.width);
 
-					item->draw();
+					item->draw(drawlist, x, y);
 
 					item->getState().update();
 				}

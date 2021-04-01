@@ -52,7 +52,7 @@ namespace Marvel {
 		updateConfig(&m_config);
 	}
 
-	void mvCombo::draw()
+	void mvCombo::draw(ImDrawList* drawlist, float x, float y)
 	{
 
 		ScopedID id;

@@ -82,7 +82,7 @@ namespace Marvel {
 		mvButton(const std::string& name);
 		mvButton(const std::string& name, const mvButtonConfig& config);
 
-		void draw() override;
+		void draw(ImDrawList* drawlist, float x, float y) override;
 
 		void setExtraConfigDict(PyObject* dict) override;
 		void getExtraConfigDict(PyObject* dict) override;

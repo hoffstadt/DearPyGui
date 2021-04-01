@@ -52,7 +52,7 @@ namespace Marvel {
 
 		mvText(const std::string& name, const std::string& default_value, const std::string& dataSource);
 
-		void draw              () override;
+		void draw(ImDrawList* drawlist, float x, float y) override;
 
 		void setExtraConfigDict(PyObject* dict) override;
 		void getExtraConfigDict(PyObject* dict) override;
@@ -117,7 +117,7 @@ namespace Marvel {
 
 		mvLabelText(const std::string& name, const std::string& value, const std::string& dataSource);
 
-		void draw              ()               override;
+		void draw(ImDrawList* drawlist, float x, float y) override;
 
 		void setExtraConfigDict(PyObject* dict) override;
 		void getExtraConfigDict(PyObject* dict) override;

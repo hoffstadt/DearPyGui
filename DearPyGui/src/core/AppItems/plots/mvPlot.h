@@ -319,7 +319,7 @@ namespace Marvel {
 		void setXTicks      (const std::vector<std::string>& labels, const std::vector<double>& locations);
 		void setYTicks      (const std::vector<std::string>& labels, const std::vector<double>& locations);
 		void clear          ();
-		void draw           () override;
+		void draw           (ImDrawList* drawlist, float x, float y) override;
 		void setXLimits     (float x_min, float x_max);
 		void setYLimits     (float y_min, float y_max);
 		void setY2Limits     (float y_min, float y_max);
@@ -476,7 +476,7 @@ namespace Marvel {
 
 		virtual ~mvSeries() = default;
 
-		virtual void draw() = 0;
+		virtual void draw(ImDrawList* drawlist, float x, float y) = 0;
 		virtual mvSeriesType getSeriesType() = 0;
 
 		const std::string& getName() const { return m_name; }

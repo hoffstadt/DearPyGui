@@ -62,7 +62,7 @@ namespace Marvel {
 		m_lastColumnAdded = name;
 	}
 
-	void mvTable::draw()
+	void mvTable::draw(ImDrawList* drawlist, float x, float y)
 	{
 		ScopedID id;
 		mvImGuiThemeScope scope(this);
@@ -82,7 +82,7 @@ namespace Marvel {
 				if (item->m_core_config.width != 0)
 					ImGui::SetNextItemWidth((float)item->m_core_config.width);
 
-				item->draw();
+				item->draw(drawlist, x, y);
 
 				item->getState().update();
 			}
@@ -102,7 +102,7 @@ namespace Marvel {
 				if (item->m_core_config.width != 0)
 					ImGui::SetNextItemWidth((float)item->m_core_config.width);
 
-				item->draw();
+				item->draw(drawlist, x, y);
 
 				item->getState().update();
 			}

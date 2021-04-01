@@ -25,7 +25,7 @@ namespace Marvel {
 	{
 	}
 
-	void mvTableNextColumn::draw()
+	void mvTableNextColumn::draw(ImDrawList* drawlist, float x, float y)
 	{
 		ImGui::TableNextColumn();
 	}

@@ -27,7 +27,7 @@ namespace Marvel {
 
 		mvSeriesType getSeriesType() override { return mvSeriesType::Stem; }
 
-		void draw() override
+		void draw(ImDrawList* drawlist, float x, float y) override
 		{
 
 			ImPlot::PushStyleColor(ImPlotCol_MarkerOutline, m_markerOutlineColor.toVec4());

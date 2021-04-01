@@ -51,7 +51,7 @@ namespace Marvel {
             "None", "Containers") });
     }
 
-    void mvStyleWindow::draw()
+    void mvStyleWindow::draw(ImDrawList* drawlist, float x, float y)
     {
 
         mvFontScope fscope(this);

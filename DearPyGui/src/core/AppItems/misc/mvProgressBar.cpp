@@ -29,7 +29,7 @@ namespace Marvel {
 	{
 	}
 
-	void mvProgressBar::draw()
+	void mvProgressBar::draw(ImDrawList* drawlist, float x, float y)
 	{
 		ScopedID id;
 		mvImGuiThemeScope scope(this);

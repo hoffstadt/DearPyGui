@@ -97,7 +97,7 @@ namespace Marvel {
 	std::chrono::system_clock::time_point mvLoggerItem::s_start = clock_::now();
 #endif
 
-	void mvLoggerItem::draw()
+	void mvLoggerItem::draw(ImDrawList* drawlist, float x, float y)
 	{
 		mvFontScope fscope(this);
 

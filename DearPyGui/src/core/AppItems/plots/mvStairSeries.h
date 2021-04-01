@@ -19,7 +19,7 @@ namespace Marvel {
 
 		mvSeriesType getSeriesType() override { return mvSeriesType::Stair; }
 
-		void draw() override
+		void draw(ImDrawList* drawlist, float x, float y) override
 		{
 
 			ImPlot::SetNextLineStyle(m_color);

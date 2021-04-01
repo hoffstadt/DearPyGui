@@ -21,7 +21,7 @@ namespace Marvel {
 
 		mvSeriesType getSeriesType() override { return mvSeriesType::Label; }
 
-		void draw() override
+		void draw(ImDrawList* drawlist, float x, float y) override
 		{
 			ImPlot::PlotText(m_name.c_str(), m_data[0][0], m_data[1][0], m_vertical,
 				ImVec2((float)m_xoffset, (float)m_yoffset));

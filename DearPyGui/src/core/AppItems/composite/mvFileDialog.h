@@ -34,7 +34,7 @@ namespace Marvel {
 
 		mvFileDialog();
 
-		void draw       () override;
+		void draw(ImDrawList* drawlist, float x, float y) override;
 		bool prerender2 ();
 		void setCallback(mvCallable callback);
 

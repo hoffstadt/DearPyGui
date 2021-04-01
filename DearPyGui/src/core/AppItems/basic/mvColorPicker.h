@@ -102,7 +102,7 @@ namespace Marvel {
 		mvColorPicker3(const std::string& name, float* color, const std::string& dataSource);
 		mvColorPicker3(const std::string& name, const mvColorPickerConfig& config);
 
-		void draw()               override;
+		void draw(ImDrawList* drawlist, float x, float y)               override;
 
 		void setExtraConfigDict(PyObject* dict) override;
 		void getExtraConfigDict(PyObject* dict) override;
@@ -182,7 +182,7 @@ namespace Marvel {
 		mvColorPicker4(const std::string& name, float* color, const std::string& dataSource);
 		mvColorPicker4(const std::string& name, const mvColorPickerConfig& config);
 
-		void draw()               override;
+		void draw(ImDrawList* drawlist, float x, float y)               override;
 
 		void setExtraConfigDict(PyObject* dict) override;
 		void getExtraConfigDict(PyObject* dict) override;

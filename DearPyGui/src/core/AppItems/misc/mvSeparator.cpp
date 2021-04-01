@@ -22,7 +22,7 @@ namespace Marvel {
 		m_description.duplicatesAllowed = true;
 	}
 
-	void mvSeparator::draw()
+	void mvSeparator::draw(ImDrawList* drawlist, float x, float y)
 	{
 		mvImGuiThemeScope scope(this);
 

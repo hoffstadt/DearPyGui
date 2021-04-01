@@ -150,7 +150,7 @@ namespace Marvel {
 
 	}
 
-	void mvDocWindow::draw()
+	void mvDocWindow::draw(ImDrawList* drawlist, float x, float y)
 	{
 		mvFontScope fscope(this);
 

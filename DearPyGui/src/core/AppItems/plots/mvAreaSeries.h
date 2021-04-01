@@ -20,7 +20,7 @@ namespace Marvel {
 
 		mvSeriesType getSeriesType() override { return mvSeriesType::Area; }
 
-		void draw() override
+		void draw(ImDrawList* drawlist, float x, float y) override
 		{
 
 			ImPlot::PushPlotClipRect();

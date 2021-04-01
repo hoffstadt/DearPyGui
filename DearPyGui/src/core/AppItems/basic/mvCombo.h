@@ -107,7 +107,7 @@ namespace Marvel {
 		mvCombo(const std::string& name, const std::string& default_value, const std::string& dataSource);
 		mvCombo(const std::string& name, const mvComboConfig& config);
 
-		void draw() override;
+		void draw(ImDrawList* drawlist, float x, float y) override;
 
 		void setExtraConfigDict(PyObject* dict) override;
 		void getExtraConfigDict(PyObject* dict) override;

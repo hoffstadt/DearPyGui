@@ -72,7 +72,7 @@ namespace Marvel {
 		return &m_config;
 	}
 
-	void mvButton::draw()
+	void mvButton::draw(ImDrawList* drawlist, float x, float y)
 	{
 		ScopedID id;
 		mvImGuiThemeScope scope(this);

@@ -1,25 +1,43 @@
-#include "mvDrawArrowCmd.h"
-#include <cmath>
-#include <algorithm>
-#include "mvApp.h"
-#undef min
-#undef max
+#include "mvDrawArrow.h"
+#include "mvLog.h"
+#include "mvItemRegistry.h"
 
 namespace Marvel {
 
-	mvDrawArrowCmd::mvDrawArrowCmd(const mvVec2& p1, const mvVec2& p2,
+	void mvDrawArrow::InsertParser(std::map<std::string, mvPythonParser>* parsers)
+	{
+
+		parsers->insert({ s_parser, mvPythonParser({
+			{mvPythonDataType::Optional},
+			{mvPythonDataType::FloatList, "p1"},
+			{mvPythonDataType::FloatList, "p2"},
+			{mvPythonDataType::IntList, "color"},
+			{mvPythonDataType::Integer, "thickness"},
+			{mvPythonDataType::Integer, "size"},
+			{mvPythonDataType::KeywordOnly},
+			{mvPythonDataType::String, "name", "", "''"},
+			{mvPythonDataType::String, "parent", "Parent to add this item to. (runtime adding)", "''"},
+			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)", "''"},
+			{mvPythonDataType::Bool, "show", "Attempt to render", "True"},
+		}, "Draws an arrow on a drawing.", "None", "Drawing") });
+
+	}
+
+	mvDrawArrow::mvDrawArrow(const std::string& name, const mvVec2& p1, const mvVec2& p2,
 		const mvColor& color, float thickness, float size)
 		:
+		mvAppItem(name),
 		m_p1(p1),
 		m_p2(p2),
 		m_color(color),
 		m_thickness(thickness),
 		m_size(size)
 	{
+		m_description.target = 0;
 		updatePoints();
 	}
 
-	void mvDrawArrowCmd::updatePoints()
+	void mvDrawArrow::updatePoints()
 	{
 		float xsi = m_p1.x;
 		float xfi = m_p2.x;
@@ -56,19 +74,30 @@ namespace Marvel {
 
 	}
 
-	void mvDrawArrowCmd::draw(ImDrawList* drawlist, float x, float y)
+	bool mvDrawArrow::isParentCompatible(mvAppItemType type)
 	{
-		mvVec2 start = {x, y};
+		if (type == mvAppItemType::mvDrawing) return true;
+		if (type == mvAppItemType::mvWindowAppItem) return true;
+
+		mvThrowPythonError(1000, "Drawing item parent must be a drawing.");
+		MV_ITEM_REGISTRY_ERROR("Drawing item parent must be a drawing.");
+		assert(false);
+		return false;
+	}
+
+	void mvDrawArrow::draw(ImDrawList* drawlist, float x, float y)
+	{
+		mvVec2 start = { x, y };
 		drawlist->AddLine(m_p1 + start, m_p2 + start, m_color, m_thickness);
 		drawlist->AddTriangle(m_points[0] + start, m_points[1] + start, m_points[2] + start, m_color, m_thickness);
 		drawlist->AddTriangleFilled(m_points[0] + start, m_points[1] + start, m_points[2] + start, m_color);
 	}
 
-	void mvDrawArrowCmd::setConfigDict(PyObject* dict)
+	void mvDrawArrow::setExtraConfigDict(PyObject* dict)
 	{
 		if (dict == nullptr)
 			return;
-		 
+
 
 		if (PyObject* item = PyDict_GetItemString(dict, "p1")) m_p1 = ToVec2(item);
 		if (PyObject* item = PyDict_GetItemString(dict, "p2")) m_p2 = ToVec2(item);
@@ -77,13 +106,13 @@ namespace Marvel {
 		if (PyObject* item = PyDict_GetItemString(dict, "size")) m_size = ToFloat(item);
 
 		updatePoints();
+
 	}
 
-	void mvDrawArrowCmd::getConfigDict(PyObject* dict)
+	void mvDrawArrow::getExtraConfigDict(PyObject* dict)
 	{
 		if (dict == nullptr)
 			return;
-		 
 		PyDict_SetItemString(dict, "p1", ToPyPair(m_p1.x, m_p1.y));
 		PyDict_SetItemString(dict, "p2", ToPyPair(m_p2.x, m_p2.y));
 		PyDict_SetItemString(dict, "color", ToPyColor(m_color));
@@ -91,30 +120,37 @@ namespace Marvel {
 		PyDict_SetItemString(dict, "size", ToPyFloat(m_size));
 	}
 
-	PyObject* draw_arrow(PyObject* self, PyObject* args, PyObject* kwargs)
+	PyObject* mvDrawArrow::draw_arrow(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
-		const char* drawing;
-		int thickness;
-		int size;
+
 		PyObject* p1, * p2;
 		PyObject* color;
-		const char* tag = "";
+		int thickness;
+		int size;
 
-		if (!(mvApp::GetApp()->getParsers())["draw_arrow"].parse(args, kwargs, __FUNCTION__, &drawing, &p1, &p2, &color, &thickness, &size, &tag))
+		static int i = 0; i++;
+		std::string sname = std::string(std::string("$$DPG_") + s_internal_id + std::to_string(i));
+		const char* name = sname.c_str();
+		const char* before = "";
+		const char* parent = "";
+		int show = true;
+
+		if (!(mvApp::GetApp()->getParsers())[s_parser].parse(args, kwargs, __FUNCTION__,
+			&p1, &p2, &color, &thickness, &size, &name, &parent, &before, &show))
 			return GetPyNone();
 
 		mvVec2 mp1 = ToVec2(p1);
 		mvVec2 mp2 = ToVec2(p2);
 		mvColor mcolor = ToColor(color);
 
-		auto cmd = CreateRef<mvDrawArrowCmd>(mp1, mp2, mcolor, (float)thickness, (float)size);
-		cmd->tag = tag;
+		auto item = CreateRef<mvDrawArrow>(name, mp1, mp2, mcolor, thickness, size);
 
-		std::lock_guard<std::mutex> lk(mvApp::GetApp()->getMutex());
-		mvRef<mvDrawList> drawlist = GetDrawListFromTarget(drawing);
-		if (drawlist)
-			drawlist->addCommand(cmd);
+		item->checkConfigDict(kwargs);
+		item->setConfigDict(kwargs);
+		item->setExtraConfigDict(kwargs);
 
-		return GetPyNone();
+		mvApp::GetApp()->getItemRegistry().addItemWithRuntimeChecks(item, parent, before);
+
+		return ToPyString(name);
 	}
 }

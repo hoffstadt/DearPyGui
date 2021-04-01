@@ -126,7 +126,7 @@ namespace Marvel {
 		return &m_config;
 	}
 
-	void mvColorPicker3::draw()
+	void mvColorPicker3::draw(ImDrawList* drawlist, float x, float y)
 	{
 		ScopedID id;
 		mvImGuiThemeScope scope(this);
@@ -180,7 +180,7 @@ namespace Marvel {
 		return &m_config;
 	}
 
-	void mvColorPicker4::draw()
+	void mvColorPicker4::draw(ImDrawList* drawlist, float x, float y)
 	{
 		ScopedID id;
 		mvImGuiThemeScope scope(this);

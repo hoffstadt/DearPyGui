@@ -56,7 +56,7 @@ namespace Marvel {
 
 		mvDocWindow(const std::string& name);
 
-		void draw() override;
+		void draw(ImDrawList* drawlist, float x, float y) override;
 		void setup();
 
 	private:

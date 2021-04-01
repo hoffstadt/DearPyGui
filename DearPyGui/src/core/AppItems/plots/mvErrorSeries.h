@@ -21,7 +21,7 @@ namespace Marvel {
 
 		mvSeriesType getSeriesType() override { return mvSeriesType::Error; }
 
-		void draw() override
+		void draw(ImDrawList* drawlist, float x, float y) override
 		{
 			ImPlot::PushStyleColor(ImPlotCol_ErrorBar, m_color.toVec4());
 			if(m_horizontal)

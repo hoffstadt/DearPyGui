@@ -194,7 +194,7 @@ def show_demo():
     def log_callback(sender, data):
         log_debug(f"{sender} ran a callback its value is {get_value(sender)}")
 
-    with window(x_pos=100, y_pos=100, width=800, height=800, on_close=on_demo_close, label="Dear PyGui Demo"):
+    with window("Dear PyGui Demo", x_pos=100, y_pos=100, width=800, height=800, on_close=on_demo_close):
 
         with menu_bar("MenuBar##demo"):
 
@@ -1004,9 +1004,9 @@ def show_demo():
 
                 if sender == "Draw To Demo Window##demo":
                     if get_value(sender):
-                        draw_image("Dear PyGui Demo", "INTERNAL_DPG_FONT_ATLAS", pmin=[225,50], pmax=[300, 300], uv_max=[0.1, 0.1], tag="atlas")
+                        draw_image("INTERNAL_DPG_FONT_ATLAS", pmin=[225,50], pmax=[300, 300], uv_max=[0.1, 0.1], name="atlas", parent="Dear PyGui Demo")
                     else:
-                        delete_draw_command("Dear PyGui Demo", "atlas")
+                        delete_item("atlas")
 
                 elif sender == "Draw To Foreground##demo":
                     if get_value(sender):
@@ -1025,19 +1025,20 @@ def show_demo():
             add_checkbox("Draw To Background##demo", callback=fancy_drawing)
 
             add_drawing("drawing##widget##demo", width=900, height=200)
-            draw_rectangle("drawing##widget##demo", (0, 0), (900, 200), (255, 0, 0, 255), fill=(0, 0, 25, 255), 
-                           rounding=12, thickness = 1.0, tag="square") 
-            draw_line("drawing##widget##demo", (10, 10), (100, 100), (255, 0, 0, 255), 1, tag="line command")
-            draw_triangle("drawing##widget##demo", (150, 10), (110, 100), (190, 100), (255, 255, 0, 255), thickness = 3.0)
-            draw_quad("drawing##widget##demo", (210, 10), (290, 10), (290, 100), (210, 100), (255, 255, 0, 255), thickness = 3.0)
-            draw_circle("drawing##widget##demo", (350, 60), 49, (255, 255, 0, 255))
-            draw_bezier_curve("drawing##widget##demo", (410, 10), (450, 25), (410, 50), (490, 85), (255, 255, 0, 255), thickness = 2.0)
-            draw_arrow("drawing##widget##demo", (510, 10), (590, 80), (255, 0, 0), 4, 10)
-            draw_image("drawing##widget##demo", "INTERNAL_DPG_FONT_ATLAS", pmin=[610,10], pmax=[690, 80], uv_max=[0.1, 0.1])
-            draw_text("drawing##widget##demo", (50, 300), "Some Text", color=(255, 255, 0, 255), size=15)
-            draw_text("drawing##widget##demo", (0, 0), "Origin", color=(255, 255, 0, 255), size=15)
-            draw_polygon("drawing##widget##demo", ((710, 10), (780, 50), (730, 75), (710, 10)), (255, 125, 0, 255), thickness=1.0, fill=(255, 125, 0, 50))
-            draw_polyline("drawing##widget##demo", ((810, 20), (835, 50), (890, 10)), (255, 255, 0, 255), thickness=1.0)
+            draw_rectangle((0, 0), (900, 200), (255, 0, 0, 255), fill=(0, 0, 25, 255), 
+                           rounding=12, thickness = 1.0) 
+            draw_line((10, 10), (100, 100), (255, 0, 0, 255), 1, name="line command")
+            draw_triangle((150, 10), (110, 100), (190, 100), (255, 255, 0, 255), thickness = 3.0)
+            draw_quad((210, 10), (290, 10), (290, 100), (210, 100), (255, 255, 0, 255), thickness = 3.0)
+            draw_circle((350, 60), 49, (255, 255, 0, 255))
+            draw_bezier_curve((410, 10), (450, 25), (410, 50), (490, 85), (255, 255, 0, 255), thickness = 2.0)
+            draw_arrow((510, 10), (590, 80), (255, 0, 0), 4, 10)
+            draw_image("INTERNAL_DPG_FONT_ATLAS", pmin=[610,10], pmax=[690, 80], uv_max=[0.1, 0.1])
+            draw_text((50, 300), "Some Text", color=(255, 255, 0, 255), size=15)
+            draw_text((0, 0), "Origin", color=(255, 255, 0, 255), size=15)
+            draw_polygon(((710, 10), (780, 50), (730, 75), (710, 10)), (255, 125, 0, 255), thickness=1.0, fill=(255, 125, 0, 50))
+            draw_polyline(((810, 20), (835, 50), (890, 10)), (255, 255, 0, 255), thickness=1.0)
+            end()
 
         with collapsing_header("Plots##demo"):
 
@@ -1329,10 +1330,10 @@ def show_demo():
             with tree_node("Custom Rendering Plots##demo"):
 
                 add_plot("Custom Rendering Plot##demo", height=400)
-                draw_line("Custom Rendering Plot##demo", (10, 10), (100, 100), (255, 0, 0, 255), 1, tag="line command")
-                draw_triangle("Custom Rendering Plot##demo", (150, 10), (110, 100), (190, 100), (255, 255, 0, 255), thickness = 3.0)
-                draw_quad("Custom Rendering Plot##demo", (210, 10), (290, 10), (290, 100), (210, 100), (255, 255, 0, 255), thickness = 3.0)
-                draw_circle("Custom Rendering Plot##demo", (350, 60), 49, (255, 255, 0, 255))
+                #draw_line("Custom Rendering Plot##demo", (10, 10), (100, 100), (255, 0, 0, 255), 1, tag="line command")
+                #draw_triangle("Custom Rendering Plot##demo", (150, 10), (110, 100), (190, 100), (255, 255, 0, 255), thickness = 3.0)
+                #draw_quad("Custom Rendering Plot##demo", (210, 10), (290, 10), (290, 100), (210, 100), (255, 255, 0, 255), thickness = 3.0)
+                #draw_circle("Custom Rendering Plot##demo", (350, 60), 49, (255, 255, 0, 255))
 
         with collapsing_header("Data Grid##demo"):
 

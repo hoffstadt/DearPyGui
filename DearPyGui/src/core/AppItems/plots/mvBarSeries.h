@@ -17,7 +17,7 @@ namespace Marvel {
 
 		mvSeriesType getSeriesType() override { return mvSeriesType::Bar; }
 
-		void draw() override
+		void draw(ImDrawList* drawlist, float x, float y) override
 		{
 			if(m_horizontal)
 				ImPlot::PlotBarsH(m_name.c_str(), m_data[0].data(), m_data[1].data(), (int)m_data[0].size(), m_weight);

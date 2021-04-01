@@ -19,7 +19,7 @@ namespace Marvel {
 
 		mvSeriesType getSeriesType() override { return mvSeriesType::VLine; }
 
-		void draw() override
+		void draw(ImDrawList* drawlist, float x, float y) override
 		{
 
 			ImPlot::SetNextLineStyle(m_color);
@@ -49,7 +49,7 @@ namespace Marvel {
 
 		mvSeriesType getSeriesType() override { return mvSeriesType::HLine; }
 
-		void draw() override
+		void draw(ImDrawList* drawlist, float x, float y) override
 		{
 
 			ImPlot::SetNextLineStyle(m_color);
