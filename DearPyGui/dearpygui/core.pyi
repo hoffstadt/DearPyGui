@@ -602,14 +602,6 @@ def get_item_configuration(item: str) -> dict:
 	"""Returns an items configuration"""
 	...
 
-def get_item_height(item: str) -> float:
-	"""Returns an item's height."""
-	...
-
-def get_item_label(item: str) -> str:
-	"""Gets an item's label."""
-	...
-
 def get_item_parent(item: str) -> str:
 	"""Returns an item's parent."""
 	...
@@ -626,16 +618,8 @@ def get_item_rect_size(item: str) -> [float, float]:
 	"""Returns an item's current size. [width, height]"""
 	...
 
-def get_item_tip(item: str) -> str:
-	"""Returns an item's tip."""
-	...
-
 def get_item_type(item: str) -> str:
 	"""Returns an item's type"""
-	...
-
-def get_item_width(item: str) -> float:
-	"""Returns an item's width."""
 	...
 
 def get_links(node_editor: str) -> List[List[str]]:
@@ -894,22 +878,6 @@ def set_item_callback_data(item: str, callback_data: Any) -> None:
 	"""Sets an item's callback data if applicable."""
 	...
 
-def set_item_height(item: str, height: int) -> None:
-	"""Sets an item's height if applicable."""
-	...
-
-def set_item_label(item: str, label: str) -> None:
-	"""Sets an item's label."""
-	...
-
-def set_item_tip(item: str, tip: str) -> None:
-	"""Sets a simple tooltip for an item."""
-	...
-
-def set_item_width(item: str, width: int) -> None:
-	"""Sets an item's width."""
-	...
-
 def set_key_down_callback(callback: Callable) -> None:
 	"""Sets a callback for a key down event."""
 	...
@@ -978,10 +946,6 @@ def set_primary_window(window: str, value: bool) -> None:
 	"""Sets the primary window to fill the viewport."""
 	...
 
-def set_render_callback(callback: Callable) -> None:
-	"""Sets the callback to be ran every frame."""
-	...
-
 def set_resize_callback(callback: Callable, *, handler: str = '') -> None:
 	"""Sets a callback for a window resize event."""
 	...
@@ -1036,10 +1000,6 @@ def set_yticks(plot: str, label_pairs: Any) -> None:
 
 def setup_dearpygui() -> None:
 	"""Sets up DearPyGui for user controlled rendering. Only call once and you must call cleanup_deapygui when finished."""
-	...
-
-def show_item(name: str) -> None:
-	"""Shows an item if it was hidden."""
 	...
 
 def show_logger() -> None:

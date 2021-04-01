@@ -36,6 +36,9 @@ namespace Marvel {
 		MV_CREATE_THEME_CONSTANT(mvThemeStyle_Child_ScrollbarSize		, 17L, 0L);
 		MV_CREATE_THEME_CONSTANT(mvThemeStyle_Child_ScrollbarRounding	, 18L, 0L);
 
+		MV_START_EXTRA_COMMANDS
+		MV_END_EXTRA_COMMANDS
+
 		MV_START_GENERAL_CONSTANTS
 		MV_END_GENERAL_CONSTANTS
 

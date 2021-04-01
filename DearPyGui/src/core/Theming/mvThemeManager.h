@@ -12,6 +12,18 @@ namespace Marvel {
 
 	public:
 
+		static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
+
+		MV_CREATE_EXTRA_COMMAND(set_theme_color);
+		MV_CREATE_EXTRA_COMMAND(set_theme_color_disabled);
+		MV_CREATE_EXTRA_COMMAND(set_theme_style);
+
+		MV_START_EXTRA_COMMANDS
+			MV_ADD_EXTRA_COMMAND(set_theme_color);
+			MV_ADD_EXTRA_COMMAND(set_theme_color_disabled);
+			MV_ADD_EXTRA_COMMAND(set_theme_style);
+		MV_END_EXTRA_COMMANDS
+
 		static void InValidateColorTheme();
 		static void InValidateStyleTheme();
 

@@ -5,15 +5,12 @@
 #include <imgui.h>
 #include "mvPython.h"
 #include "mvEvents.h"
+#include "mvApp.h"
+#include "cpp.hint"
 
 struct ImFont;
 
 namespace Marvel {
-
-	void AddFontCommands(std::map<std::string, mvPythonParser>* parsers);
-
-	PyObject* add_font(PyObject* self, PyObject* args, PyObject* kwargs);
-	PyObject* set_font(PyObject* self, PyObject* args, PyObject* kwargs);
 
 	class mvFontManager : public mvEventHandler
 	{
@@ -35,6 +32,20 @@ namespace Marvel {
 
 		static void InValidateFontTheme();
 
+		static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
+
+		MV_CREATE_EXTRA_COMMAND(add_font);
+		MV_CREATE_EXTRA_COMMAND(set_font);
+		MV_CREATE_EXTRA_COMMAND(get_global_font_scale);
+		MV_CREATE_EXTRA_COMMAND(set_global_font_scale);
+
+		MV_START_EXTRA_COMMANDS
+			MV_ADD_EXTRA_COMMAND(add_font);
+			MV_ADD_EXTRA_COMMAND(set_font);
+			MV_ADD_EXTRA_COMMAND(get_global_font_scale);
+			MV_ADD_EXTRA_COMMAND(set_global_font_scale);
+		MV_END_EXTRA_COMMANDS
+
 	public:
 
 		mvFontManager();
@@ -46,6 +57,8 @@ namespace Marvel {
 		void    rebuildAtlas();
 		bool    isInvalid() const;
 		void    updateDefaultFont();
+		float&  getGlobalFontScale() { return m_globalFontScale; }
+		void     setGlobalFontScale(float scale);
 
 		void show_debugger();
 
@@ -63,6 +76,7 @@ namespace Marvel {
 		ImFont*           m_font = nullptr;
 		std::string       m_fontName;
 		int               m_size = 13;
+		float             m_globalFontScale = 1.0f;
 
 	};
 

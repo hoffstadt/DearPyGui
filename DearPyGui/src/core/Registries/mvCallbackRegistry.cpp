@@ -4,8 +4,73 @@
 #include <chrono>
 #include <iostream>
 #include "mvItemRegistry.h"
+#include "mvInput.h"
+#include "mvAppItems.h"
 
 namespace Marvel {
+
+	void mvCallbackRegistry::InsertParser(std::map<std::string, mvPythonParser>* parsers)
+	{
+
+		parsers->insert({ "set_start_callback", mvPythonParser({
+			{mvPythonDataType::Object, "callback"},
+		}, "Callback to run when starting main window.") });
+
+		parsers->insert({ "set_exit_callback", mvPythonParser({
+			{mvPythonDataType::Object, "callback"},
+		}, "Callback to run when exiting main window.") });
+
+		parsers->insert({ "set_accelerator_callback", mvPythonParser({
+			{mvPythonDataType::Object, "callback"},
+		}, "Callback similar to keypress but used for accelerator keys.") });
+
+		parsers->insert({ "set_mouse_move_callback", mvPythonParser({
+			{mvPythonDataType::Callable, "callback", "Registers a callback"}
+		}, "Sets a callback for a mouse move event. Data is the mouse position in local coordinates.", "None", "Input Polling") });
+
+		parsers->insert({ "set_resize_callback", mvPythonParser({
+			{mvPythonDataType::Callable, "callback", "Registers a callback"},
+			{mvPythonDataType::KeywordOnly},
+			{mvPythonDataType::String, "handler", "Callback will be run when window is resized (default is viewport)", "''"},
+		}, "Sets a callback for a window resize event.", "None", "Input Polling") });
+
+		parsers->insert({ "set_mouse_release_callback", mvPythonParser({
+			{mvPythonDataType::Callable, "callback", "Registers a callback"}
+		}, "Sets a callback for a mouse release event.", "None", "Input Polling") });
+
+		parsers->insert({ "set_mouse_down_callback", mvPythonParser({
+			{mvPythonDataType::Callable, "callback", "Registers a callback"}
+		}, "Sets a callback for a mouse down event.", "None", "Input Polling") });
+
+		parsers->insert({ "set_mouse_drag_callback", mvPythonParser({
+			{mvPythonDataType::Callable, "callback", "Registers a callback"},
+			{mvPythonDataType::Float, "threshold"}
+		}, "Sets a callback for a mouse drag event.", "None", "Input Polling") });
+
+		parsers->insert({ "set_mouse_wheel_callback", mvPythonParser({
+			{mvPythonDataType::Callable, "callback", "Registers a callback"}
+		}, "Sets a callback for a mouse wheel event.", "None", "Input Polling") });
+
+		parsers->insert({ "set_mouse_double_click_callback", mvPythonParser({
+			{mvPythonDataType::Callable, "callback", "Registers a callback"}
+		}, "Sets a callback for a mouse double click event.", "None", "Input Polling") });
+
+		parsers->insert({ "set_mouse_click_callback", mvPythonParser({
+			{mvPythonDataType::Callable, "callback", "Registers a callback"}
+		}, "Sets a callback for a mouse click event.", "None", "Input Polling") });
+
+		parsers->insert({ "set_key_down_callback", mvPythonParser({
+			{mvPythonDataType::Callable, "callback", "Registers a callback"}
+		}, "Sets a callback for a key down event.", "None", "Input Polling") }),
+
+		parsers->insert({ "set_key_press_callback", mvPythonParser({
+			{mvPythonDataType::Callable, "callback", "Registers a callback"}
+			}, "Sets a callback for a key press event.", "None", "Input Polling") });
+
+		parsers->insert({ "set_key_release_callback", mvPythonParser({
+			{mvPythonDataType::Callable, "callback", "Registers a callback"}
+		}, "Sets a callback for a key release event.", "None", "Input Polling") });
+	}
 
 	mvCallbackRegistry::mvCallbackRegistry()
 	{
@@ -338,4 +403,268 @@ namespace Marvel {
 
 	}
 
+	PyObject* mvCallbackRegistry::set_start_callback(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		PyObject* callback;
+
+		if (!(mvApp::GetApp()->getParsers())["set_start_callback"].parse(args, kwargs, __FUNCTION__, &callback))
+			return GetPyNone();
+
+		Py_XINCREF(callback);
+		mvApp::GetApp()->getCallbackRegistry().submit([=]()
+			{
+				mvApp::GetApp()->getCallbackRegistry().setOnStartCallback(callback);
+			});
+
+		return GetPyNone();
+	}
+
+	PyObject* mvCallbackRegistry::set_exit_callback(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		PyObject* callback;
+
+		if (!(mvApp::GetApp()->getParsers())["set_exit_callback"].parse(args, kwargs, __FUNCTION__, &callback))
+			return GetPyNone();
+
+		Py_XINCREF(callback);
+		mvApp::GetApp()->getCallbackRegistry().submit([=]()
+			{
+				mvApp::GetApp()->getCallbackRegistry().setOnCloseCallback(callback);
+			});
+		return GetPyNone();
+	}
+
+	PyObject* mvCallbackRegistry::set_accelerator_callback(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		PyObject* callback;
+
+		if (!(mvApp::GetApp()->getParsers())["set_accelerator_callback"].parse(args, kwargs, __FUNCTION__, &callback))
+			return GetPyNone();
+
+		Py_XINCREF(callback);
+		mvApp::GetApp()->getCallbackRegistry().submit([=]()
+			{
+				mvApp::GetApp()->getCallbackRegistry().setAcceleratorCallback(callback);
+			});
+		return GetPyNone();
+	}
+
+	PyObject* mvCallbackRegistry::set_mouse_down_callback(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		PyObject* callback;
+
+		if (!(mvApp::GetApp()->getParsers())["set_mouse_down_callback"].parse(args, kwargs, __FUNCTION__,
+			&callback))
+			return GetPyNone();
+
+		if (callback)
+			Py_XINCREF(callback);
+
+		mvApp::GetApp()->getCallbackRegistry().submit([=]()
+			{
+				mvApp::GetApp()->getCallbackRegistry().setMouseDownCallback(callback);
+			});
+		return GetPyNone();
+	}
+
+	PyObject* mvCallbackRegistry::set_mouse_drag_callback(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		PyObject* callback;
+		float threshold;
+
+		if (!(mvApp::GetApp()->getParsers())["set_mouse_drag_callback"].parse(args, kwargs, __FUNCTION__,
+			&callback, &threshold))
+			return GetPyNone();
+
+		mvInput::setMouseDragThreshold(threshold);
+
+		if (callback)
+			Py_XINCREF(callback);
+
+		mvApp::GetApp()->getCallbackRegistry().submit([=]()
+			{
+				mvApp::GetApp()->getCallbackRegistry().setMouseDragCallback(callback);
+			});
+
+		return GetPyNone();
+	}
+
+	PyObject* mvCallbackRegistry::set_mouse_double_click_callback(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		PyObject* callback;
+
+		if (!(mvApp::GetApp()->getParsers())["set_mouse_double_click_callback"].parse(args, kwargs, __FUNCTION__,
+			&callback))
+			return GetPyNone();
+
+		if (callback)
+			Py_XINCREF(callback);
+		mvApp::GetApp()->getCallbackRegistry().submit([=]()
+			{
+				mvApp::GetApp()->getCallbackRegistry().setMouseDoubleClickCallback(callback);
+			});
+
+		return GetPyNone();
+	}
+
+	PyObject* mvCallbackRegistry::set_mouse_click_callback(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		PyObject* callback;
+
+		if (!(mvApp::GetApp()->getParsers())["set_mouse_click_callback"].parse(args, kwargs, __FUNCTION__,
+			&callback))
+			return GetPyNone();
+		if (callback)
+			Py_XINCREF(callback);
+		mvApp::GetApp()->getCallbackRegistry().submit([=]()
+			{
+				mvApp::GetApp()->getCallbackRegistry().setMouseClickCallback(callback);
+			});
+		return GetPyNone();
+	}
+
+	PyObject* mvCallbackRegistry::set_mouse_release_callback(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		PyObject* callback;
+
+		if (!(mvApp::GetApp()->getParsers())["set_mouse_release_callback"].parse(args, kwargs, __FUNCTION__,
+			&callback))
+			return GetPyNone();
+		if (callback)
+			Py_XINCREF(callback);
+		mvApp::GetApp()->getCallbackRegistry().submit([=]()
+			{
+				mvApp::GetApp()->getCallbackRegistry().setMouseReleaseCallback(callback);
+			});
+
+		return GetPyNone();
+	}
+
+	PyObject* mvCallbackRegistry::set_key_down_callback(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		PyObject* callback;
+
+		if (!(mvApp::GetApp()->getParsers())["set_key_down_callback"].parse(args, kwargs, __FUNCTION__,
+			&callback))
+			return GetPyNone();
+		if (callback)
+			Py_XINCREF(callback);
+		mvApp::GetApp()->getCallbackRegistry().submit([=]()
+			{
+				mvApp::GetApp()->getCallbackRegistry().setKeyDownCallback(callback);
+			});
+
+		return GetPyNone();
+	}
+
+	PyObject* mvCallbackRegistry::set_key_press_callback(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		PyObject* callback;
+
+		if (!(mvApp::GetApp()->getParsers())["set_key_press_callback"].parse(args, kwargs, __FUNCTION__,
+			&callback))
+			return GetPyNone();
+		if (callback)
+			Py_XINCREF(callback);
+		mvApp::GetApp()->getCallbackRegistry().submit([=]()
+			{
+				mvApp::GetApp()->getCallbackRegistry().setKeyPressCallback(callback);
+			});
+
+		return GetPyNone();
+	}
+
+	PyObject* mvCallbackRegistry::set_key_release_callback(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		PyObject* callback;
+
+		if (!(mvApp::GetApp()->getParsers())["set_key_release_callback"].parse(args, kwargs, __FUNCTION__,
+			&callback))
+			return GetPyNone();
+		if (callback)
+			Py_XINCREF(callback);
+		mvApp::GetApp()->getCallbackRegistry().submit([=]()
+			{
+				mvApp::GetApp()->getCallbackRegistry().setKeyReleaseCallback(callback);
+			});
+		return GetPyNone();
+	}
+
+	PyObject* mvCallbackRegistry::set_mouse_wheel_callback(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		PyObject* callback;
+
+		if (!(mvApp::GetApp()->getParsers())["set_mouse_wheel_callback"].parse(args, kwargs, __FUNCTION__,
+			&callback))
+			return GetPyNone();
+		if (callback)
+			Py_XINCREF(callback);
+		mvApp::GetApp()->getCallbackRegistry().submit([=]()
+			{
+				mvApp::GetApp()->getCallbackRegistry().setMouseWheelCallback(callback);
+			});
+
+		return GetPyNone();
+	}
+
+	PyObject* mvCallbackRegistry::set_mouse_move_callback(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		PyObject* callback;
+
+		if (!(mvApp::GetApp()->getParsers())["set_mouse_move_callback"].parse(args, kwargs, __FUNCTION__,
+			&callback))
+			return GetPyNone();
+		if (callback)
+			Py_XINCREF(callback);
+		mvApp::GetApp()->getCallbackRegistry().submit([=]()
+			{
+				mvApp::GetApp()->getCallbackRegistry().setMouseMoveCallback(callback);
+			});
+
+		return GetPyNone();
+	}
+
+	PyObject* mvCallbackRegistry::set_resize_callback(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		PyObject* callback = nullptr;
+		const char* handler = "";
+
+		if (!(mvApp::GetApp()->getParsers())["set_resize_callback"].parse(args, kwargs, __FUNCTION__,
+			&callback, &handler))
+			return GetPyNone();
+		if (callback)
+			Py_XINCREF(callback);
+
+
+		auto fut = mvApp::GetApp()->getCallbackRegistry().submit([=]()
+			{
+
+				if (std::string(handler).empty())
+				{
+					mvApp::GetApp()->getCallbackRegistry().setResizeCallback(callback);
+					return std::string("");
+				}
+
+				mvRef<mvAppItem> item = mvApp::GetApp()->getItemRegistry().getItem(handler);
+
+				if (item)
+				{
+					if (item->getDescription().root)
+					{
+						auto windowtype = static_cast<mvWindowAppItem*>(item.get());
+						windowtype->setResizeCallback(callback);
+					}
+					else
+						return std::string("Resize callback can only be set for window items");
+				}
+				return std::string("");
+			});
+
+		auto message = fut.get();
+
+		if (!message.empty())
+			ThrowPythonException(message);
+
+		return GetPyNone();
+	}
 }

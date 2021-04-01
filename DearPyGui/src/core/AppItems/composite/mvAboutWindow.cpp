@@ -12,7 +12,7 @@ namespace Marvel {
 
     void mvAboutWindow::InsertParser(std::map<std::string, mvPythonParser>* parsers)
     {
-        parsers->insert({ "add_about_window", mvPythonParser({
+        parsers->insert({ s_parser, mvPythonParser({
             {mvPythonDataType::Optional},
             {mvPythonDataType::String, "name"},
             {mvPythonDataType::KeywordOnly},

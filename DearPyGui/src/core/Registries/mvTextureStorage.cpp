@@ -237,7 +237,7 @@ namespace Marvel {
 		return (unsigned)m_textures.size();
 	}
 
-	void AddTextureStorageCommands(std::map<std::string, mvPythonParser>* parsers)
+	void mvTextureStorage::InsertParser(std::map<std::string, mvPythonParser>* parsers)
 	{
 
 		parsers->insert({ "add_texture", mvPythonParser({
@@ -254,7 +254,7 @@ namespace Marvel {
 		}, "Decrements a texture.") });
 	}
 
-	PyObject* add_texture(PyObject* self, PyObject* args, PyObject* kwargs)
+	PyObject* mvTextureStorage::add_texture(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		// When using RGBA python data is texture data
 		// When using RGB we must divide out the increment to stay in bouds of the shorter python data
@@ -479,7 +479,7 @@ namespace Marvel {
 
 	}
 
-	PyObject* decrement_texture(PyObject* self, PyObject* args, PyObject* kwargs)
+	PyObject* mvTextureStorage::decrement_texture(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		const char* name;
 

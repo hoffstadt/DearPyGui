@@ -49,6 +49,30 @@ namespace Marvel {
 		MV_CREATE_THEME_CONSTANT(mvERROR,   4L, 0L);
 		MV_CREATE_THEME_CONSTANT(mvOFF,     5L, 0L);
 
+		MV_CREATE_EXTRA_COMMAND(get_log_level);
+		MV_CREATE_EXTRA_COMMAND(set_log_level);
+		MV_CREATE_EXTRA_COMMAND(log);
+		MV_CREATE_EXTRA_COMMAND(log_debug);
+		MV_CREATE_EXTRA_COMMAND(log_info);
+		MV_CREATE_EXTRA_COMMAND(log_warning);
+		MV_CREATE_EXTRA_COMMAND(log_error);
+		MV_CREATE_EXTRA_COMMAND(clear_log);
+		static PyObject* show_logger(PyObject* self, PyObject* args);
+		MV_CREATE_EXTRA_COMMAND(set_logger_window_title);
+
+		MV_START_EXTRA_COMMANDS
+			MV_ADD_EXTRA_COMMAND(get_log_level);
+			MV_ADD_EXTRA_COMMAND(set_log_level);
+			MV_ADD_EXTRA_COMMAND(log);
+			MV_ADD_EXTRA_COMMAND(log_debug);
+			MV_ADD_EXTRA_COMMAND(log_info);
+			MV_ADD_EXTRA_COMMAND(log_warning);
+			MV_ADD_EXTRA_COMMAND(log_error);
+			MV_ADD_EXTRA_COMMAND(clear_log);
+			MV_ADD_EXTRA_COMMAND(show_logger);
+			MV_ADD_EXTRA_COMMAND(set_logger_window_title);
+		MV_END_EXTRA_COMMANDS
+
 		MV_START_GENERAL_CONSTANTS
 			MV_CREATE_CONSTANT_SINGLE(mvTRACE),
 			MV_CREATE_CONSTANT_SINGLE(mvDEBUG),

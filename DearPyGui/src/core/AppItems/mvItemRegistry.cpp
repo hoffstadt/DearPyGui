@@ -7,6 +7,50 @@
 
 namespace Marvel {
 
+	void mvItemRegistry::InsertParser(std::map<std::string, mvPythonParser>* parsers)
+	{
+
+		parsers->insert({ "move_item", mvPythonParser({
+			{mvPythonDataType::String, "item"},
+			{mvPythonDataType::KeywordOnly},
+			{mvPythonDataType::String, "parent", "", "''"},
+			{mvPythonDataType::String, "before", "", "''"}
+		}, "Moves an existing item.", "None", "Widget Commands") });
+
+		parsers->insert({ "get_windows", mvPythonParser({
+		}, "Returns a list of windows.", "List[str]", "Widget Commands") });
+
+		parsers->insert({ "get_all_items", mvPythonParser({
+		}, "Returns a list of all items.", "List[str]", "Widget Commands") });
+
+		parsers->insert({ "delete_item", mvPythonParser({
+			{mvPythonDataType::String, "item"},
+			{mvPythonDataType::KeywordOnly},
+			{mvPythonDataType::Bool, "children_only", "delete children only", "False"}
+		}, "Deletes an item if it exists.", "None", "Widget Commands") });
+
+		parsers->insert({ "does_item_exist", mvPythonParser({
+		{mvPythonDataType::String, "item"},
+		}, "Checks if item exists.", "bool", "Widget Commands") });
+
+		parsers->insert({ "move_item_up", mvPythonParser({
+			{mvPythonDataType::String, "item"}
+		}, "Moves item up if possible and if it exists.", "None", "Widget Commands") });
+
+		parsers->insert({ "move_item_down", mvPythonParser({
+			{mvPythonDataType::String, "item"}
+		}, "Moves item down if possible and if it exists.", "None", "Widget Commands") });
+
+		parsers->insert({ "get_active_window", mvPythonParser({
+		}, "Returns the active window name.", "str") });
+
+		parsers->insert({ "set_primary_window", mvPythonParser({
+			{mvPythonDataType::String, "window"},
+			{mvPythonDataType::Bool, "value"},
+		}, "Sets the primary window to fill the viewport.") });
+
+	}
+
 	mvItemRegistry::mvItemRegistry()
 	{
 		mvEventBus::Subscribe(this, 0, mvEVT_CATEGORY_ITEM);
@@ -639,5 +683,115 @@ namespace Marvel {
 		}
 
 		mvAppLog::Focus();
+	}
+
+	PyObject* mvItemRegistry::set_primary_window(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		const char* item;
+		int value;
+
+		if (!(mvApp::GetApp()->getParsers())["set_primary_window"].parse(args, kwargs, __FUNCTION__, &item, &value))
+			return GetPyNone();
+
+		std::lock_guard<std::mutex> lk(mvApp::GetApp()->getMutex());
+		mvApp::GetApp()->getItemRegistry().setPrimaryWindow(item, value);
+
+		return GetPyNone();
+	}
+
+	PyObject* mvItemRegistry::get_active_window(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		std::lock_guard<std::mutex> lk(mvApp::GetApp()->getMutex());
+		return ToPyString(mvApp::GetApp()->getItemRegistry().getActiveWindow());
+	}
+
+	PyObject* mvItemRegistry::move_item(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+
+		const char* item;
+		const char* parent = "";
+		const char* before = "";
+
+		if (!(mvApp::GetApp()->getParsers())["move_item"].parse(args, kwargs, __FUNCTION__,
+			&item, &parent, &before))
+			return GetPyNone();
+
+		std::lock_guard<std::mutex> lk(mvApp::GetApp()->getMutex());
+		mvApp::GetApp()->getItemRegistry().moveItem(item, parent, before);
+
+		return GetPyNone();
+	}
+
+	PyObject* mvItemRegistry::delete_item(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+
+		const char* item;
+		int childrenOnly = false;
+
+		if (!(mvApp::GetApp()->getParsers())["delete_item"].parse(args, kwargs, __FUNCTION__, &item, &childrenOnly))
+			return GetPyNone();
+
+		std::lock_guard<std::mutex> lk(mvApp::GetApp()->getMutex());
+		mvApp::GetApp()->getItemRegistry().deleteItem(item, childrenOnly);
+
+		return GetPyNone();
+
+	}
+
+	PyObject* mvItemRegistry::does_item_exist(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+
+		const char* item;
+
+		if (!(mvApp::GetApp()->getParsers())["does_item_exist"].parse(args, kwargs, __FUNCTION__, &item))
+			return GetPyNone();
+
+		std::lock_guard<std::mutex> lk(mvApp::GetApp()->getMutex());
+		if (mvApp::GetApp()->getItemRegistry().getItem(item))
+			return ToPyBool(true);
+		return ToPyBool(false);
+	}
+
+	PyObject* mvItemRegistry::move_item_up(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+
+		const char* item;
+
+		if (!(mvApp::GetApp()->getParsers())["move_item_up"].parse(args, kwargs, __FUNCTION__, &item))
+			return GetPyNone();
+
+		std::lock_guard<std::mutex> lk(mvApp::GetApp()->getMutex());
+		mvApp::GetApp()->getItemRegistry().moveItemUp(item);
+
+		return GetPyNone();
+
+	}
+
+	PyObject* mvItemRegistry::move_item_down(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+
+		const char* item;
+
+		if (!(mvApp::GetApp()->getParsers())["move_item_down"].parse(args, kwargs, __FUNCTION__, &item))
+			return GetPyNone();
+
+		std::lock_guard<std::mutex> lk(mvApp::GetApp()->getMutex());
+		mvApp::GetApp()->getItemRegistry().moveItemDown(item);
+
+		return GetPyNone();
+	}
+
+	PyObject* mvItemRegistry::get_all_items(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+
+		std::lock_guard<std::mutex> lk(mvApp::GetApp()->getMutex());
+		return ToPyList(mvApp::GetApp()->getItemRegistry().getAllItems());
+	}
+
+	PyObject* mvItemRegistry::get_windows(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+
+		std::lock_guard<std::mutex> lk(mvApp::GetApp()->getMutex());
+		return ToPyList(mvApp::GetApp()->getItemRegistry().getWindows());
 	}
 }

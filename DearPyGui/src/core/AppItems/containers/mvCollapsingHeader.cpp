@@ -9,7 +9,7 @@ namespace Marvel {
 
 	void mvCollapsingHeader::InsertParser(std::map<std::string, mvPythonParser>* parsers)
 	{
-		parsers->insert({ "add_collapsing_header", mvPythonParser({
+		parsers->insert({ s_parser, mvPythonParser({
 			{mvPythonDataType::Optional},
 			{mvPythonDataType::String, "name"},
 			{mvPythonDataType::KeywordOnly},

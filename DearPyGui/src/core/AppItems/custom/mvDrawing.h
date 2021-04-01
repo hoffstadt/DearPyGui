@@ -17,6 +17,27 @@ namespace Marvel {
 
 		MV_APPITEM_TYPE(mvAppItemType::mvDrawing, add_drawing)
 
+		MV_CREATE_EXTRA_COMMAND(bring_draw_command_forward);
+		MV_CREATE_EXTRA_COMMAND(bring_draw_command_to_front);
+		MV_CREATE_EXTRA_COMMAND(send_draw_command_back);
+		MV_CREATE_EXTRA_COMMAND(send_draw_command_to_back);
+		MV_CREATE_EXTRA_COMMAND(modify_draw_command);
+		MV_CREATE_EXTRA_COMMAND(get_draw_command);
+		MV_CREATE_EXTRA_COMMAND(clear_drawing);
+		MV_CREATE_EXTRA_COMMAND(delete_draw_command);
+
+		MV_START_EXTRA_COMMANDS
+			MV_ADD_EXTRA_COMMAND(bring_draw_command_forward);
+			MV_ADD_EXTRA_COMMAND(bring_draw_command_to_front);
+			MV_ADD_EXTRA_COMMAND(send_draw_command_back);
+			MV_ADD_EXTRA_COMMAND(send_draw_command_to_back);
+			MV_ADD_EXTRA_COMMAND(modify_draw_command);
+			MV_ADD_EXTRA_COMMAND(get_draw_command);
+
+			MV_ADD_EXTRA_COMMAND(clear_drawing);
+			MV_ADD_EXTRA_COMMAND(delete_draw_command);
+		MV_END_EXTRA_COMMANDS
+
 		MV_START_GENERAL_CONSTANTS
 		MV_END_GENERAL_CONSTANTS
 

@@ -4,19 +4,21 @@
 
 namespace Marvel {
 
-	PyObject* add_node_link(PyObject* self, PyObject* args, PyObject* kwargs);
-	PyObject* delete_node_link(PyObject* self, PyObject* args, PyObject* kwargs);
-	PyObject* get_selected_nodes(PyObject* self, PyObject* args, PyObject* kwargs);
-	PyObject* get_links(PyObject* self, PyObject* args, PyObject* kwargs);
-	PyObject* get_selected_links(PyObject* self, PyObject* args, PyObject* kwargs);
-	PyObject* clear_selected_nodes(PyObject* self, PyObject* args, PyObject* kwargs);
-	PyObject* clear_selected_links(PyObject* self, PyObject* args, PyObject* kwargs);
+
 
 	MV_REGISTER_WIDGET(mvNodeEditor);
 	class mvNodeEditor : public mvAppItem
 	{
 
 		MV_APPITEM_TYPE(mvAppItemType::mvNodeEditor, add_node_editor)
+
+		MV_CREATE_EXTRA_COMMAND(add_node_link);
+		MV_CREATE_EXTRA_COMMAND(delete_node_link);
+		MV_CREATE_EXTRA_COMMAND(get_selected_nodes);
+		MV_CREATE_EXTRA_COMMAND(get_links);
+		MV_CREATE_EXTRA_COMMAND(get_selected_links);
+		MV_CREATE_EXTRA_COMMAND(clear_selected_nodes);
+		MV_CREATE_EXTRA_COMMAND(clear_selected_links);
 
 		MV_CREATE_THEME_CONSTANT(mvThemeCol_NodeEditor_Link,						 7L, 0L);
 		MV_CREATE_THEME_CONSTANT(mvThemeCol_NodeEditor_LinkHovered,					 8L, 0L);
@@ -35,6 +37,16 @@ namespace Marvel {
 		MV_CREATE_THEME_CONSTANT(mvThemeStyle_NodeEditor_PinLineThickness,			11L, 0L);
 		MV_CREATE_THEME_CONSTANT(mvThemeStyle_NodeEditor_PinHoverRadius,			12L, 0L);
 		MV_CREATE_THEME_CONSTANT(mvThemeStyle_NodeEditor_PinOffset,					13L, 0L);
+
+		MV_START_EXTRA_COMMANDS
+			MV_ADD_EXTRA_COMMAND(add_node_link);
+			MV_ADD_EXTRA_COMMAND(delete_node_link);
+			MV_ADD_EXTRA_COMMAND(get_selected_nodes);
+			MV_ADD_EXTRA_COMMAND(get_links);
+			MV_ADD_EXTRA_COMMAND(get_selected_links);
+			MV_ADD_EXTRA_COMMAND(clear_selected_nodes);
+			MV_ADD_EXTRA_COMMAND(clear_selected_links);
+		MV_END_EXTRA_COMMANDS
 
 		MV_START_GENERAL_CONSTANTS
 		MV_END_GENERAL_CONSTANTS

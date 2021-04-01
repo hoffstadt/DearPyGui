@@ -1,7 +1,7 @@
 #include "mvFontScope.h"
 #include <imgui.h>
 #include "mvAppItem.h"
-
+#include "mvFontManager.h"
 
 namespace Marvel {
 

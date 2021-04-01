@@ -43,6 +43,9 @@ namespace Marvel {
 		MV_CREATE_THEME_CONSTANT(mvThemeStyle_ColorButton_PopupPaddingX,   1L, 0L);
 		MV_CREATE_THEME_CONSTANT(mvThemeStyle_ColorButton_PopupPaddingY,   1L, 1L);
 
+		MV_START_EXTRA_COMMANDS
+		MV_END_EXTRA_COMMANDS
+
 		MV_START_GENERAL_CONSTANTS
 		MV_END_GENERAL_CONSTANTS
 

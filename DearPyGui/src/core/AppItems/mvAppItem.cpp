@@ -5,6 +5,120 @@
 
 namespace Marvel{
 
+	void mvAppItem::InsertParser(std::map<std::string, mvPythonParser>* parsers)
+	{
+		parsers->insert({ "get_item_callback_data", mvPythonParser({
+			{mvPythonDataType::String, "item"}
+		}, "Returns an item' callback data", "Any", "Widget Commands") });
+
+		parsers->insert({ "set_item_callback_data", mvPythonParser({
+			{mvPythonDataType::String, "item"},
+			{mvPythonDataType::Object, "callback_data", "Callback data", "None"},
+		}, "Sets an item's callback data if applicable.", "None", "Widget Commands") });
+
+		parsers->insert({ "get_item_type", mvPythonParser({
+			{mvPythonDataType::String, "item"}
+		}, "Returns an item's type", "str", "Widget Commands") });
+
+		parsers->insert({ "get_item_configuration", mvPythonParser({
+			{mvPythonDataType::String, "item"}
+		}, "Returns an items configuration", "dict", "Widget Commands") });
+
+		parsers->insert({ "configure_item", mvPythonParser({
+			{mvPythonDataType::String, "item"},
+			{mvPythonDataType::Kwargs, "**Kwargs"},
+		}, "Configures an item", "None", "Widget Commands") });
+
+		parsers->insert({ "get_item_children", mvPythonParser({
+			{mvPythonDataType::String, "item"}
+		}, "Returns a list of an item's children.", "List[str]", "Widget Commands") });
+
+		parsers->insert({ "get_item_callback", mvPythonParser({
+			{mvPythonDataType::String, "item"}
+		}, "Returns an item' callback", "Callable", "Widget Commands") });
+
+		parsers->insert({ "get_item_parent", mvPythonParser({
+		{mvPythonDataType::String, "item"}
+		}, "Returns an item's parent.", "str", "Widget Commands") });
+
+		parsers->insert({ "is_item_hovered", mvPythonParser({
+			{mvPythonDataType::String, "item"},
+		}, "Checks if an item is hovered.", "bool", "Widget Commands") });
+
+		parsers->insert({ "is_item_shown", mvPythonParser({
+		{mvPythonDataType::String, "item"},
+		}, "Checks if an item is shown.", "bool", "Widget Commands") });
+
+		parsers->insert({ "is_item_active", mvPythonParser({
+			{mvPythonDataType::String, "item"},
+		}, "Checks if an item is active.", "bool", "Widget Commands") });
+
+		parsers->insert({ "is_item_focused", mvPythonParser({
+			{mvPythonDataType::String, "item"},
+		}, "Checks if an item is focused.", "bool", "Widget Commands") });
+
+		parsers->insert({ "is_item_clicked", mvPythonParser({
+			{mvPythonDataType::String, "item"},
+		}, "Checks if an item is clicked.", "bool", "Widget Commands") });
+
+		parsers->insert({ "is_item_container", mvPythonParser({
+		{mvPythonDataType::String, "item"},
+		}, "Checks if an item is container.", "bool", "Widget Commands") });
+
+		parsers->insert({ "is_item_visible", mvPythonParser({
+			{mvPythonDataType::String, "item"},
+		}, "Checks if an item is visible on screen.", "bool", "Widget Commands") });
+
+		parsers->insert({ "is_item_edited", mvPythonParser({
+			{mvPythonDataType::String, "item"},
+		}, "Checks if an item has been edited.", "bool", "Widget Commands") });
+
+		parsers->insert({ "is_item_activated", mvPythonParser({
+			{mvPythonDataType::String, "item"},
+		}, "Checks if an item has been activated.", "bool", "Widget Commands") });
+
+		parsers->insert({ "is_item_deactivated", mvPythonParser({
+			{mvPythonDataType::String, "item"},
+		}, "Checks if an item has been deactivated.", "bool", "Widget Commands") });
+
+		parsers->insert({ "is_item_deactivated_after_edit", mvPythonParser({
+			{mvPythonDataType::String, "item"},
+		}, "Checks if an item has been deactivated after editing.", "bool", "Widget Commands") });
+
+		parsers->insert({ "is_item_toggled_open", mvPythonParser({
+			{mvPythonDataType::String, "item"},
+		}, "Checks if an item is toggled.", "bool", "Widget Commands") });
+
+		parsers->insert({ "get_item_rect_min", mvPythonParser({
+			{mvPythonDataType::String, "item"},
+		}, "Returns an item's minimum allowable size. [width, height]", "[float, float]", "Widget Commands") });
+
+		parsers->insert({ "get_item_rect_max", mvPythonParser({
+			{mvPythonDataType::String, "item"},
+		}, "Returns an item's maximum allowable size. [width, height]", "[float, float]", "Widget Commands") });
+
+		parsers->insert({ "get_item_rect_size", mvPythonParser({
+			{mvPythonDataType::String, "item"},
+		}, "Returns an item's current size. [width, height]", "[float, float]", "Widget Commands") });
+
+		parsers->insert({ "get_value", mvPythonParser({
+			{mvPythonDataType::String, "name"}
+		}, "Returns an item's value or None if there is none.", "Any", "Widget Commands") });
+
+		parsers->insert({ "set_value", mvPythonParser({
+			{mvPythonDataType::String, "name"},
+			{mvPythonDataType::Object, "value"}
+		}, "Sets an item's value if applicable.", "bool", "Widget Commands") });
+
+		parsers->insert({ "set_item_callback", mvPythonParser({
+			{mvPythonDataType::String, "item"},
+			{mvPythonDataType::Callable, "callback", "Registers a callback"},
+			{mvPythonDataType::KeywordOnly},
+			{mvPythonDataType::Object, "callback_data", "Callback data", "None"},
+		}, "Sets an item's callback if applicable.", "None", "Widget Commands") });
+
+	}
+
 	mvAppItem::mvAppItem(const std::string& name)
 	{
 		m_core_config.name = name;
@@ -491,7 +605,6 @@ namespace Marvel{
 		m_theme_color_dirty = false;
 	}
 
-
 	void mvAppItem::setThemeStyleCacheValid()
 	{
 		m_theme_style_dirty = false;
@@ -606,208 +719,7 @@ namespace Marvel{
 
 	}
 
-	void AddItemCommands(std::map<std::string, mvPythonParser>* parsers)
-	{
-		parsers->insert({ "get_item_callback_data", mvPythonParser({
-			{mvPythonDataType::String, "item"}
-		}, "Returns an item' callback data", "Any", "Widget Commands") });
-
-		parsers->insert({ "set_item_callback_data", mvPythonParser({
-			{mvPythonDataType::String, "item"},
-			{mvPythonDataType::Object, "callback_data", "Callback data", "None"},
-		}, "Sets an item's callback data if applicable.", "None", "Widget Commands") });
-
-		parsers->insert({ "move_item", mvPythonParser({
-			{mvPythonDataType::String, "item"},
-			{mvPythonDataType::KeywordOnly},
-			{mvPythonDataType::String, "parent", "", "''"},
-			{mvPythonDataType::String, "before", "", "''"}
-		}, "Moves an existing item.", "None", "Widget Commands") });
-
-		parsers->insert({ "get_item_type", mvPythonParser({
-			{mvPythonDataType::String, "item"}
-		}, "Returns an item's type", "str", "Widget Commands") });
-
-		parsers->insert({ "get_item_configuration", mvPythonParser({
-			{mvPythonDataType::String, "item"}
-		}, "Returns an items configuration", "dict", "Widget Commands") });
-
-		parsers->insert({ "configure_item", mvPythonParser({
-			{mvPythonDataType::String, "item"},
-			{mvPythonDataType::Kwargs, "**Kwargs"},
-		}, "Configures an item", "None", "Widget Commands") });
-
-		parsers->insert({ "get_windows", mvPythonParser({
-		}, "Returns a list of windows.", "List[str]", "Widget Commands") });
-
-		parsers->insert({ "get_all_items", mvPythonParser({
-		}, "Returns a list of all items.", "List[str]", "Widget Commands") });
-
-		parsers->insert({ "get_item_children", mvPythonParser({
-			{mvPythonDataType::String, "item"}
-		}, "Returns a list of an item's children.", "List[str]", "Widget Commands") });
-
-		parsers->insert({ "set_item_label", mvPythonParser({
-			{mvPythonDataType::String, "item"},
-			{mvPythonDataType::String, "label"},
-		}, "Sets an item's label.", "None", "Widget Commands") });
-
-		parsers->insert({ "get_item_label", mvPythonParser({
-			{mvPythonDataType::String, "item"}
-		}, "Gets an item's label.", "str", "Widget Commands") });
-
-		parsers->insert({ "delete_item", mvPythonParser({
-			{mvPythonDataType::String, "item"},
-			{mvPythonDataType::KeywordOnly},
-			{mvPythonDataType::Bool, "children_only", "delete children only", "False"}
-		}, "Deletes an item if it exists.", "None", "Widget Commands") });
-
-		parsers->insert({ "does_item_exist", mvPythonParser({
-		{mvPythonDataType::String, "item"},
-		}, "Checks if item exists.", "bool", "Widget Commands") });
-
-		parsers->insert({ "move_item_up", mvPythonParser({
-			{mvPythonDataType::String, "item"}
-		}, "Moves item up if possible and if it exists.", "None", "Widget Commands") });
-
-		parsers->insert({ "move_item_down", mvPythonParser({
-			{mvPythonDataType::String, "item"}
-		}, "Moves item down if possible and if it exists.", "None", "Widget Commands") });
-
-		parsers->insert({ "get_item_callback", mvPythonParser({
-			{mvPythonDataType::String, "item"}
-		}, "Returns an item' callback", "Callable", "Widget Commands") });
-
-		parsers->insert({ "get_item_height", mvPythonParser({
-			{mvPythonDataType::String, "item"}
-		}, "Returns an item's height.", "float", "Widget Commands") });
-
-		parsers->insert({ "get_item_width", mvPythonParser({
-			{mvPythonDataType::String, "item"}
-		}, "Returns an item's width.", "float", "Widget Commands") });
-
-		parsers->insert({ "get_item_parent", mvPythonParser({
-		{mvPythonDataType::String, "item"}
-		}, "Returns an item's parent.", "str", "Widget Commands") });
-
-		parsers->insert({ "get_item_tip", mvPythonParser({
-			{mvPythonDataType::String, "item"}
-		}, "Returns an item's tip.", "str", "Widget Commands") });
-
-		parsers->insert({ "is_item_hovered", mvPythonParser({
-			{mvPythonDataType::String, "item"},
-		}, "Checks if an item is hovered.", "bool", "Widget Commands") });
-
-		parsers->insert({ "is_item_shown", mvPythonParser({
-		{mvPythonDataType::String, "item"},
-		}, "Checks if an item is shown.", "bool", "Widget Commands") });
-
-		parsers->insert({ "is_item_active", mvPythonParser({
-			{mvPythonDataType::String, "item"},
-		}, "Checks if an item is active.", "bool", "Widget Commands") });
-
-		parsers->insert({ "is_item_focused", mvPythonParser({
-			{mvPythonDataType::String, "item"},
-		}, "Checks if an item is focused.", "bool", "Widget Commands") });
-
-		parsers->insert({ "is_item_clicked", mvPythonParser({
-			{mvPythonDataType::String, "item"},
-		}, "Checks if an item is clicked.", "bool", "Widget Commands") });
-
-		parsers->insert({ "is_item_container", mvPythonParser({
-		{mvPythonDataType::String, "item"},
-		}, "Checks if an item is container.", "bool", "Widget Commands") });
-
-		parsers->insert({ "is_item_visible", mvPythonParser({
-			{mvPythonDataType::String, "item"},
-		}, "Checks if an item is visible on screen.", "bool", "Widget Commands") });
-
-		parsers->insert({ "is_item_edited", mvPythonParser({
-			{mvPythonDataType::String, "item"},
-		}, "Checks if an item has been edited.", "bool", "Widget Commands") });
-
-		parsers->insert({ "is_item_activated", mvPythonParser({
-			{mvPythonDataType::String, "item"},
-		}, "Checks if an item has been activated.", "bool", "Widget Commands") });
-
-		parsers->insert({ "is_item_deactivated", mvPythonParser({
-			{mvPythonDataType::String, "item"},
-		}, "Checks if an item has been deactivated.", "bool", "Widget Commands") });
-
-		parsers->insert({ "is_item_deactivated_after_edit", mvPythonParser({
-			{mvPythonDataType::String, "item"},
-		}, "Checks if an item has been deactivated after editing.", "bool", "Widget Commands") });
-
-		parsers->insert({ "is_item_toggled_open", mvPythonParser({
-			{mvPythonDataType::String, "item"},
-		}, "Checks if an item is toggled.", "bool", "Widget Commands") });
-
-		parsers->insert({ "get_item_rect_min", mvPythonParser({
-			{mvPythonDataType::String, "item"},
-		}, "Returns an item's minimum allowable size. [width, height]", "[float, float]", "Widget Commands") });
-
-		parsers->insert({ "get_item_rect_max", mvPythonParser({
-			{mvPythonDataType::String, "item"},
-		}, "Returns an item's maximum allowable size. [width, height]", "[float, float]", "Widget Commands") });
-
-		parsers->insert({ "get_item_rect_size", mvPythonParser({
-			{mvPythonDataType::String, "item"},
-		}, "Returns an item's current size. [width, height]", "[float, float]", "Widget Commands") });
-
-		parsers->insert({ "get_value", mvPythonParser({
-			{mvPythonDataType::String, "name"}
-		}, "Returns an item's value or None if there is none.", "Any", "Widget Commands") });
-
-		parsers->insert({ "set_value", mvPythonParser({
-			{mvPythonDataType::String, "name"},
-			{mvPythonDataType::Object, "value"}
-		}, "Sets an item's value if applicable.", "bool", "Widget Commands") });
-
-		parsers->insert({ "show_item", mvPythonParser({
-			{mvPythonDataType::String, "name"}
-		}, "Shows an item if it was hidden.", "None", "Widget Commands") });
-
-		parsers->insert({ "set_item_callback", mvPythonParser({
-			{mvPythonDataType::String, "item"},
-			{mvPythonDataType::Callable, "callback", "Registers a callback"},
-			{mvPythonDataType::KeywordOnly},
-			{mvPythonDataType::Object, "callback_data", "Callback data", "None"},
-		}, "Sets an item's callback if applicable.", "None", "Widget Commands") });
-
-		parsers->insert({ "set_item_tip", mvPythonParser({
-			{mvPythonDataType::String, "item"},
-			{mvPythonDataType::String, "tip"}
-		}, "Sets a simple tooltip for an item.", "None", "Widget Commands") });
-
-		parsers->insert({ "set_item_width", mvPythonParser({
-			{mvPythonDataType::String, "item"},
-			{mvPythonDataType::Integer, "width"}
-		}, "Sets an item's width.", "None", "Widget Commands") });
-
-		parsers->insert({ "set_item_height", mvPythonParser({
-			{mvPythonDataType::String, "item"},
-			{mvPythonDataType::Integer, "height"}
-		}, "Sets an item's height if applicable.", "None", "Widget Commands") });
-	}
-
-	PyObject* move_item(PyObject* self, PyObject* args, PyObject* kwargs)
-	{
-
-		const char* item;
-		const char* parent = "";
-		const char* before = "";
-
-		if (!(mvApp::GetApp()->getParsers())["move_item"].parse(args, kwargs, __FUNCTION__,
-			&item, &parent, &before))
-			return GetPyNone();
-
-		std::lock_guard<std::mutex> lk(mvApp::GetApp()->getMutex());
-		mvApp::GetApp()->getItemRegistry().moveItem(item, parent, before);
-
-		return GetPyNone();
-	}
-
-	PyObject* get_item_configuration(PyObject* self, PyObject* args, PyObject* kwargs)
+	PyObject* mvAppItem::get_item_configuration(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		const char* item;
 
@@ -834,7 +746,7 @@ namespace Marvel{
 		return pdict;
 	}
 
-	PyObject* configure_item(PyObject* self, PyObject* args, PyObject* kwargs)
+	PyObject* mvAppItem::configure_item(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 
 		std::string item = ToString(PyTuple_GetItem(args, 0));
@@ -860,66 +772,7 @@ namespace Marvel{
 		return GetPyNone();
 	}
 
-	PyObject* delete_item(PyObject* self, PyObject* args, PyObject* kwargs)
-	{
-
-		const char* item;
-		int childrenOnly = false;
-
-		if (!(mvApp::GetApp()->getParsers())["delete_item"].parse(args, kwargs, __FUNCTION__, &item, &childrenOnly))
-			return GetPyNone();
-
-		std::lock_guard<std::mutex> lk(mvApp::GetApp()->getMutex());
-		mvApp::GetApp()->getItemRegistry().deleteItem(item, childrenOnly);
-
-		return GetPyNone();
-
-	}
-
-	PyObject* does_item_exist(PyObject* self, PyObject* args, PyObject* kwargs)
-	{
-
-		const char* item;
-
-		if (!(mvApp::GetApp()->getParsers())["does_item_exist"].parse(args, kwargs, __FUNCTION__, &item))
-			return GetPyNone();
-
-		std::lock_guard<std::mutex> lk(mvApp::GetApp()->getMutex());
-		if (mvApp::GetApp()->getItemRegistry().getItem(item))
-			return ToPyBool(true);
-		return ToPyBool(false);
-	}
-
-	PyObject* move_item_up(PyObject* self, PyObject* args, PyObject* kwargs)
-	{
-
-		const char* item;
-
-		if (!(mvApp::GetApp()->getParsers())["move_item_up"].parse(args, kwargs, __FUNCTION__, &item))
-			return GetPyNone();
-
-		std::lock_guard<std::mutex> lk(mvApp::GetApp()->getMutex());
-		mvApp::GetApp()->getItemRegistry().moveItemUp(item);
-
-		return GetPyNone();
-
-	}
-
-	PyObject* move_item_down(PyObject* self, PyObject* args, PyObject* kwargs)
-	{
-
-		const char* item;
-
-		if (!(mvApp::GetApp()->getParsers())["move_item_down"].parse(args, kwargs, __FUNCTION__, &item))
-			return GetPyNone();
-
-		std::lock_guard<std::mutex> lk(mvApp::GetApp()->getMutex());
-		mvApp::GetApp()->getItemRegistry().moveItemDown(item);
-
-		return GetPyNone();
-	}
-
-	PyObject* get_item_callback(PyObject* self, PyObject* args, PyObject* kwargs)
+	PyObject* mvAppItem::get_item_callback(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		const char* item;
 
@@ -943,7 +796,7 @@ namespace Marvel{
 		return GetPyNone();
 	}
 
-	PyObject* get_item_children(PyObject* self, PyObject* args, PyObject* kwargs)
+	PyObject* mvAppItem::get_item_children(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		const char* item;
 
@@ -959,21 +812,7 @@ namespace Marvel{
 		return GetPyNone();
 	}
 
-	PyObject* get_all_items(PyObject* self, PyObject* args, PyObject* kwargs)
-	{
-
-		std::lock_guard<std::mutex> lk(mvApp::GetApp()->getMutex());
-		return ToPyList(mvApp::GetApp()->getItemRegistry().getAllItems());
-	}
-
-	PyObject* get_windows(PyObject* self, PyObject* args, PyObject* kwargs)
-	{
-
-		std::lock_guard<std::mutex> lk(mvApp::GetApp()->getMutex());
-		return ToPyList(mvApp::GetApp()->getItemRegistry().getWindows());
-	}
-
-	PyObject* get_item_parent(PyObject* self, PyObject* args, PyObject* kwargs)
+	PyObject* mvAppItem::get_item_parent(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		const char* item;
 
@@ -990,7 +829,7 @@ namespace Marvel{
 		return GetPyNone();
 	}
 
-	PyObject* is_item_hovered(PyObject* self, PyObject* args, PyObject* kwargs)
+	PyObject* mvAppItem::is_item_hovered(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		const char* item;
 
@@ -1004,7 +843,7 @@ namespace Marvel{
 		return ToPyBool(false);
 	}
 
-	PyObject* is_item_shown(PyObject* self, PyObject* args, PyObject* kwargs)
+	PyObject* mvAppItem::is_item_shown(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		const char* item;
 
@@ -1018,7 +857,7 @@ namespace Marvel{
 		return ToPyBool(false);
 	}
 
-	PyObject* is_item_active(PyObject* self, PyObject* args, PyObject* kwargs)
+	PyObject* mvAppItem::is_item_active(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		const char* item;
 
@@ -1032,7 +871,7 @@ namespace Marvel{
 		return ToPyBool(false);
 	}
 
-	PyObject* is_item_focused(PyObject* self, PyObject* args, PyObject* kwargs)
+	PyObject* mvAppItem::is_item_focused(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		const char* item;
 
@@ -1046,7 +885,7 @@ namespace Marvel{
 		return ToPyBool(false);
 	}
 
-	PyObject* is_item_clicked(PyObject* self, PyObject* args, PyObject* kwargs)
+	PyObject* mvAppItem::is_item_clicked(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		const char* item;
 
@@ -1060,7 +899,7 @@ namespace Marvel{
 		return ToPyBool(false);
 	}
 
-	PyObject* is_item_container(PyObject* self, PyObject* args, PyObject* kwargs)
+	PyObject* mvAppItem::is_item_container(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		const char* item;
 
@@ -1075,7 +914,7 @@ namespace Marvel{
 
 	}
 
-	PyObject* is_item_visible(PyObject* self, PyObject* args, PyObject* kwargs)
+	PyObject* mvAppItem::is_item_visible(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		const char* item;
 
@@ -1089,7 +928,7 @@ namespace Marvel{
 		return ToPyBool(false);
 	}
 
-	PyObject* is_item_edited(PyObject* self, PyObject* args, PyObject* kwargs)
+	PyObject* mvAppItem::is_item_edited(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		const char* item;
 
@@ -1103,7 +942,7 @@ namespace Marvel{
 		return ToPyBool(false);
 	}
 
-	PyObject* is_item_activated(PyObject* self, PyObject* args, PyObject* kwargs)
+	PyObject* mvAppItem::is_item_activated(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		const char* item;
 
@@ -1117,7 +956,7 @@ namespace Marvel{
 		return ToPyBool(false);
 	}
 
-	PyObject* is_item_deactivated(PyObject* self, PyObject* args, PyObject* kwargs)
+	PyObject* mvAppItem::is_item_deactivated(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		const char* item;
 
@@ -1131,7 +970,7 @@ namespace Marvel{
 		return ToPyBool(false);
 	}
 
-	PyObject* is_item_deactivated_after_edit(PyObject* self, PyObject* args, PyObject* kwargs)
+	PyObject* mvAppItem::is_item_deactivated_after_edit(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		const char* item;
 
@@ -1145,7 +984,7 @@ namespace Marvel{
 		return ToPyBool(false);
 	}
 
-	PyObject* is_item_toggled_open(PyObject* self, PyObject* args, PyObject* kwargs)
+	PyObject* mvAppItem::is_item_toggled_open(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		const char* item;
 
@@ -1162,7 +1001,7 @@ namespace Marvel{
 		return ToPyBool(false);
 	}
 
-	PyObject* get_item_rect_min(PyObject* self, PyObject* args, PyObject* kwargs)
+	PyObject* mvAppItem::get_item_rect_min(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		const char* item;
 
@@ -1179,7 +1018,7 @@ namespace Marvel{
 		return ToPyPair(0.0f, 0.0f);
 	}
 
-	PyObject* get_item_rect_max(PyObject* self, PyObject* args, PyObject* kwargs)
+	PyObject* mvAppItem::get_item_rect_max(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		const char* item;
 
@@ -1197,7 +1036,7 @@ namespace Marvel{
 		return ToPyPair(0.0f, 0.0f);
 	}
 
-	PyObject* get_item_rect_size(PyObject* self, PyObject* args, PyObject* kwargs)
+	PyObject* mvAppItem::get_item_rect_size(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		const char* item;
 
@@ -1215,7 +1054,7 @@ namespace Marvel{
 		return ToPyPair(0.0f, 0.0f);
 	}
 
-	PyObject* get_value(PyObject* self, PyObject* args, PyObject* kwargs)
+	PyObject* mvAppItem::get_value(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		const char* name;
 
@@ -1231,7 +1070,7 @@ namespace Marvel{
 
 	}
 
-	PyObject* set_value(PyObject* self, PyObject* args, PyObject* kwargs)
+	PyObject* mvAppItem::set_value(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		const char* name;
 		PyObject* value;
@@ -1253,7 +1092,7 @@ namespace Marvel{
 		return GetPyNone();
 	}
 
-	PyObject* set_item_callback(PyObject* self, PyObject* args, PyObject* kwargs)
+	PyObject* mvAppItem::set_item_callback(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		PyObject* callback;
 		PyObject* callback_data = nullptr;
@@ -1282,7 +1121,7 @@ namespace Marvel{
 		return GetPyNone();
 	}
 
-	PyObject* get_item_type(PyObject* self, PyObject* args, PyObject* kwargs)
+	PyObject* mvAppItem::get_item_type(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		const char* name;
 
@@ -1295,7 +1134,7 @@ namespace Marvel{
 		return ToPyString(appitem->getStringType());
 	}
 
-	PyObject* get_item_callback_data(PyObject* self, PyObject* args, PyObject* kwargs)
+	PyObject* mvAppItem::get_item_callback_data(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		const char* item;
 
@@ -1319,7 +1158,7 @@ namespace Marvel{
 		return GetPyNone();
 	}
 
-	PyObject* set_item_callback_data(PyObject* self, PyObject* args, PyObject* kwargs)
+	PyObject* mvAppItem::set_item_callback_data(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		PyObject* data;
 		const char* item;

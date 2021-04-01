@@ -7,7 +7,7 @@ namespace Marvel {
 
 	void mvSimplePlot::InsertParser(std::map<std::string, mvPythonParser>* parsers)
 	{
-		parsers->insert({ "add_simple_plot", mvPythonParser({
+		parsers->insert({ s_parser, mvPythonParser({
 			{mvPythonDataType::Optional},
 			{mvPythonDataType::String, "name"},
 			{mvPythonDataType::KeywordOnly},
@@ -25,8 +25,6 @@ namespace Marvel {
 			{mvPythonDataType::Bool, "show", "Attempt to render", "True"},
 		}, "A simple plot for visualization of a set of values", "None", "Adding Widgets") });
 	}
-
-
 
 	mvSimplePlot::mvSimplePlot(const std::string& name, const std::vector<float>& value)
 			: mvFloatVectPtrBase(name, value)

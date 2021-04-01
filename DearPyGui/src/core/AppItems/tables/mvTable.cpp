@@ -9,7 +9,7 @@ namespace Marvel {
 
 	void mvTable::InsertParser(std::map<std::string, mvPythonParser>* parsers)
 	{
-		parsers->insert({ "add_table", mvPythonParser({
+		parsers->insert({ s_parser, mvPythonParser({
 			{mvPythonDataType::Optional},
 			{mvPythonDataType::String, "name"},
 			{mvPythonDataType::KeywordOnly},

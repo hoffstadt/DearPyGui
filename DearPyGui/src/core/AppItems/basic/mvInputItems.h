@@ -66,6 +66,9 @@ namespace Marvel {
         MV_CREATE_THEME_CONSTANT(mvThemeStyle_InputInt_ButtonTextAlignX, 22L, 0L);
         MV_CREATE_THEME_CONSTANT(mvThemeStyle_InputInt_ButtonTextAlignY, 22L, 1L);
 
+		MV_START_EXTRA_COMMANDS
+		MV_END_EXTRA_COMMANDS
+
 		MV_START_GENERAL_CONSTANTS
 		MV_END_GENERAL_CONSTANTS
 
@@ -159,6 +162,9 @@ namespace Marvel {
         MV_CREATE_THEME_CONSTANT(mvThemeStyle_InputInt2_InnerSpacingX , 14L, 0L);
         MV_CREATE_THEME_CONSTANT(mvThemeStyle_InputInt2_InnerSpacingY , 14L, 1L);
 
+		MV_START_EXTRA_COMMANDS
+		MV_END_EXTRA_COMMANDS
+
 		MV_START_GENERAL_CONSTANTS
 		MV_END_GENERAL_CONSTANTS
 
@@ -231,6 +237,9 @@ namespace Marvel {
         MV_CREATE_THEME_CONSTANT(mvThemeStyle_InputInt3_PaddingY      , 10L, 1L);
         MV_CREATE_THEME_CONSTANT(mvThemeStyle_InputInt3_InnerSpacingX , 14L, 0L);
         MV_CREATE_THEME_CONSTANT(mvThemeStyle_InputInt3_InnerSpacingY , 14L, 1L);
+
+		MV_START_EXTRA_COMMANDS
+		MV_END_EXTRA_COMMANDS
 
 		MV_START_GENERAL_CONSTANTS
 		MV_END_GENERAL_CONSTANTS
@@ -305,6 +314,9 @@ namespace Marvel {
         MV_CREATE_THEME_CONSTANT(mvThemeStyle_InputInt4_PaddingY      , 10L, 1L);
         MV_CREATE_THEME_CONSTANT(mvThemeStyle_InputInt4_InnerSpacingX , 14L, 0L);
         MV_CREATE_THEME_CONSTANT(mvThemeStyle_InputInt4_InnerSpacingY , 14L, 1L);
+
+		MV_START_EXTRA_COMMANDS
+		MV_END_EXTRA_COMMANDS
 
 		MV_START_GENERAL_CONSTANTS
 		MV_END_GENERAL_CONSTANTS
@@ -398,6 +410,9 @@ namespace Marvel {
         MV_CREATE_THEME_CONSTANT(mvThemeStyle_InputFloat_InnerSpacingY   , 14L, 1L);
         MV_CREATE_THEME_CONSTANT(mvThemeStyle_InputFloat_ButtonTextAlignX, 22L, 0L);
         MV_CREATE_THEME_CONSTANT(mvThemeStyle_InputFloat_ButtonTextAlignY, 22L, 1L);
+
+		MV_START_EXTRA_COMMANDS
+		MV_END_EXTRA_COMMANDS
 
 		MV_START_GENERAL_CONSTANTS
 		MV_END_GENERAL_CONSTANTS
@@ -493,6 +508,9 @@ namespace Marvel {
         MV_CREATE_THEME_CONSTANT(mvThemeStyle_InputFloat2_InnerSpacingX , 14L, 0L);
         MV_CREATE_THEME_CONSTANT(mvThemeStyle_InputFloat2_InnerSpacingY , 14L, 1L);
 
+		MV_START_EXTRA_COMMANDS
+		MV_END_EXTRA_COMMANDS
+
 		MV_START_GENERAL_CONSTANTS
 		MV_END_GENERAL_CONSTANTS
 
@@ -567,6 +585,9 @@ namespace Marvel {
         MV_CREATE_THEME_CONSTANT(mvThemeStyle_InputFloat3_InnerSpacingX , 14L, 0L);
         MV_CREATE_THEME_CONSTANT(mvThemeStyle_InputFloat3_InnerSpacingY , 14L, 1L);
 
+		MV_START_EXTRA_COMMANDS
+		MV_END_EXTRA_COMMANDS
+
 		MV_START_GENERAL_CONSTANTS
 		MV_END_GENERAL_CONSTANTS
 
@@ -640,6 +661,9 @@ namespace Marvel {
         MV_CREATE_THEME_CONSTANT(mvThemeStyle_InputFloat4_PaddingY      , 10L, 1L);
         MV_CREATE_THEME_CONSTANT(mvThemeStyle_InputFloat4_InnerSpacingX , 14L, 0L);
         MV_CREATE_THEME_CONSTANT(mvThemeStyle_InputFloat4_InnerSpacingY , 14L, 1L);
+
+		MV_START_EXTRA_COMMANDS
+		MV_END_EXTRA_COMMANDS
 
 		MV_START_GENERAL_CONSTANTS
 		MV_END_GENERAL_CONSTANTS

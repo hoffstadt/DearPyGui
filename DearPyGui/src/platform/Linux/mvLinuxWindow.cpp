@@ -1,5 +1,6 @@
 #include "platform/Linux/mvLinuxWindow.h"
 #include "mvApp.h"
+#include "mvFontManager.h"
 #include <GL/gl3w.h>
 #include <GLFW/glfw3.h>
 #include "implot.h"

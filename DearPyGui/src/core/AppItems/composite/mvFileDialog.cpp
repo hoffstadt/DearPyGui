@@ -12,7 +12,7 @@ namespace Marvel {
 			{mvPythonDataType::String, "extensions", "filters items with extensions i.e '.*, .py'", "''"},
 		}, "Opens an 'open file' dialog.") });
 
-		parsers->insert({ "select_directory_dialog", mvPythonParser({
+		parsers->insert({ s_parser, mvPythonParser({
 			{mvPythonDataType::Optional},
 			{mvPythonDataType::Callable, "callback", "function to call on completion", "None"},
 		}, "Opens a select directory dialog.") });
@@ -65,7 +65,7 @@ namespace Marvel {
 		}
 	}
 
-	PyObject* select_directory_dialog(PyObject* self, PyObject* args, PyObject* kwargs)
+	PyObject* mvFileDialog::select_directory_dialog(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		PyObject* callback = nullptr;
 

@@ -4,7 +4,7 @@
 //-----------------------------------------------------------------------------
 // Helper Macro
 //-----------------------------------------------------------------------------
-#define ADD_PYTHON_FUNCTION(Function) { #Function, (PyCFunction)Function, METH_VARARGS | METH_KEYWORDS, mvApp::GetApp()->getParsers()[#Function].getDocumentation() },
+#define ADD_PYTHON_FUNCTION(Function) methods.push_back({ #Function, (PyCFunction)Function, METH_VARARGS | METH_KEYWORDS, mvApp::GetApp()->getParsers()[#Function].getDocumentation() })
 
 namespace Marvel {
 

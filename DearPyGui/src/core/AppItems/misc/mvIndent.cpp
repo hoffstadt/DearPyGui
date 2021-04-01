@@ -7,7 +7,7 @@ namespace Marvel {
 
 	void mvIndent::InsertParser(std::map<std::string, mvPythonParser>* parsers)
 	{
-		parsers->insert({ "add_indent", mvPythonParser({
+		parsers->insert({ s_parser, mvPythonParser({
 			{mvPythonDataType::KeywordOnly},
 			{mvPythonDataType::String, "name", "", "'indent'"},
 			{mvPythonDataType::Float, "offset", "", "0.0"},

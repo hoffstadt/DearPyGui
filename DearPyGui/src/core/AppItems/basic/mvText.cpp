@@ -8,7 +8,7 @@ namespace Marvel {
 
 	void mvText::InsertParser(std::map<std::string, mvPythonParser>* parsers)
 	{
-		parsers->insert({ "add_text", mvPythonParser({
+		parsers->insert({ s_parser, mvPythonParser({
 			{mvPythonDataType::Optional},
 			{mvPythonDataType::String, "name"},
 			{mvPythonDataType::KeywordOnly},
@@ -25,7 +25,7 @@ namespace Marvel {
 
 	void mvLabelText::InsertParser(std::map<std::string, mvPythonParser>* parsers)
 	{
-		parsers->insert({ "add_label_text", mvPythonParser({
+		parsers->insert({ s_parser, mvPythonParser({
 			{mvPythonDataType::String, "name"},
 			{mvPythonDataType::KeywordOnly},
 			{mvPythonDataType::String, "default_value", "", "''"},

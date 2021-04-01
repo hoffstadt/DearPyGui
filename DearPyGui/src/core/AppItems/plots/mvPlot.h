@@ -28,52 +28,6 @@ namespace Marvel {
 	struct mvDragPoint;
 	class mvDrawList;
 
-	PyObject* add_drag_point   (PyObject* self, PyObject* args, PyObject* kwargs);
-	PyObject* delete_drag_point(PyObject* self, PyObject* args, PyObject* kwargs);
-	PyObject* add_annotation   (PyObject* self, PyObject* args, PyObject* kwargs);
-	PyObject* delete_annotation(PyObject* self, PyObject* args, PyObject* kwargs);
-	PyObject* add_drag_line    (PyObject* self, PyObject* args, PyObject* kwargs);
-	PyObject* delete_drag_line (PyObject* self, PyObject* args, PyObject* kwargs);
-
-	// data removal
-	PyObject* clear_plot(PyObject* self, PyObject* args, PyObject* kwargs);
-	PyObject* delete_series(PyObject* self, PyObject* args, PyObject* kwargs);
-
-	// ticks
-	PyObject* reset_xticks(PyObject* self, PyObject* args, PyObject* kwargs);
-	PyObject* reset_yticks(PyObject* self, PyObject* args, PyObject* kwargs);
-	PyObject* set_xticks(PyObject* self, PyObject* args, PyObject* kwargs);
-	PyObject* set_yticks(PyObject* self, PyObject* args, PyObject* kwargs);
-
-	// query
-	PyObject* is_plot_queried(PyObject* self, PyObject* args, PyObject* kwargs);
-	PyObject* get_plot_query_area(PyObject* self, PyObject* args, PyObject* kwargs);
-
-	// limits
-	PyObject* set_plot_xlimits_auto(PyObject* self, PyObject* args, PyObject* kwargs);
-	PyObject* set_plot_ylimits_auto(PyObject* self, PyObject* args, PyObject* kwargs);
-	PyObject* set_plot_xlimits(PyObject* self, PyObject* args, PyObject* kwargs);
-	PyObject* set_plot_ylimits(PyObject* self, PyObject* args, PyObject* kwargs);
-	PyObject* get_plot_xlimits(PyObject* self, PyObject* args, PyObject* kwargs);
-	PyObject* get_plot_ylimits(PyObject* self, PyObject* args, PyObject* kwargs);
-
-	// series
-	PyObject* add_image_series(PyObject* self, PyObject* args, PyObject* kwargs);
-	PyObject* add_pie_series(PyObject* self, PyObject* args, PyObject* kwargs);
-	PyObject* add_line_series(PyObject* self, PyObject* args, PyObject* kwargs);
-	PyObject* add_bar_series(PyObject* self, PyObject* args, PyObject* kwargs);
-	PyObject* add_shade_series(PyObject* self, PyObject* args, PyObject* kwargs);
-	PyObject* add_scatter_series(PyObject* self, PyObject* args, PyObject* kwargs);
-	PyObject* add_stem_series(PyObject* self, PyObject* args, PyObject* kwargs);
-	PyObject* add_text_point(PyObject* self, PyObject* args, PyObject* kwargs);
-	PyObject* add_area_series(PyObject* self, PyObject* args, PyObject* kwargs);
-	PyObject* add_error_series(PyObject* self, PyObject* args, PyObject* kwargs);
-	PyObject* add_heat_series(PyObject* self, PyObject* args, PyObject* kwargs);
-	PyObject* add_stair_series(PyObject* self, PyObject* args, PyObject* kwargs);
-	PyObject* add_candle_series(PyObject* self, PyObject* args, PyObject* kwargs);
-	PyObject* add_vline_series(PyObject* self, PyObject* args, PyObject* kwargs);
-	PyObject* add_hline_series(PyObject* self, PyObject* args, PyObject* kwargs);
-
 	//-----------------------------------------------------------------------------
 	// mvPlot
 	//-----------------------------------------------------------------------------
@@ -86,6 +40,42 @@ namespace Marvel {
 		static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
 
 		MV_APPITEM_TYPE(mvAppItemType::mvPlot, add_plot)
+
+		MV_CREATE_EXTRA_COMMAND(add_drag_point);
+		MV_CREATE_EXTRA_COMMAND(delete_drag_point);
+		MV_CREATE_EXTRA_COMMAND(add_annotation);
+		MV_CREATE_EXTRA_COMMAND(delete_annotation);
+		MV_CREATE_EXTRA_COMMAND(add_drag_line);
+		MV_CREATE_EXTRA_COMMAND(delete_drag_line);
+		MV_CREATE_EXTRA_COMMAND(clear_plot);
+		MV_CREATE_EXTRA_COMMAND(delete_series);
+		MV_CREATE_EXTRA_COMMAND(reset_xticks);
+		MV_CREATE_EXTRA_COMMAND(reset_yticks);
+		MV_CREATE_EXTRA_COMMAND(set_xticks);
+		MV_CREATE_EXTRA_COMMAND(set_yticks);
+		MV_CREATE_EXTRA_COMMAND(is_plot_queried);
+		MV_CREATE_EXTRA_COMMAND(get_plot_query_area);
+		MV_CREATE_EXTRA_COMMAND(set_plot_xlimits_auto);
+		MV_CREATE_EXTRA_COMMAND(set_plot_ylimits_auto);
+		MV_CREATE_EXTRA_COMMAND(set_plot_xlimits);
+		MV_CREATE_EXTRA_COMMAND(set_plot_ylimits);
+		MV_CREATE_EXTRA_COMMAND(get_plot_xlimits);
+		MV_CREATE_EXTRA_COMMAND(get_plot_ylimits);
+		MV_CREATE_EXTRA_COMMAND(add_image_series);
+		MV_CREATE_EXTRA_COMMAND(add_pie_series);
+		MV_CREATE_EXTRA_COMMAND(add_line_series);;
+		MV_CREATE_EXTRA_COMMAND(add_bar_series);
+		MV_CREATE_EXTRA_COMMAND(add_shade_series);
+		MV_CREATE_EXTRA_COMMAND(add_scatter_series);
+		MV_CREATE_EXTRA_COMMAND(add_stem_series);
+		MV_CREATE_EXTRA_COMMAND(add_text_point);
+		MV_CREATE_EXTRA_COMMAND(add_area_series);
+		MV_CREATE_EXTRA_COMMAND(add_error_series);
+		MV_CREATE_EXTRA_COMMAND(add_heat_series);
+		MV_CREATE_EXTRA_COMMAND(add_stair_series);
+		MV_CREATE_EXTRA_COMMAND(add_candle_series);
+		MV_CREATE_EXTRA_COMMAND(add_vline_series);
+		MV_CREATE_EXTRA_COMMAND(add_hline_series);
 
 		//-----------------------------------------------------------------------------
 		// Plot Marker Specifications
@@ -173,6 +163,44 @@ namespace Marvel {
 		MV_CREATE_THEME_CONSTANT(mvThemeStyle_Plot_PlotDefaultSizeY,		25L, 1L);
 		MV_CREATE_THEME_CONSTANT(mvThemeStyle_Plot_PlotMinSizeX,			26L, 0L);
 		MV_CREATE_THEME_CONSTANT(mvThemeStyle_Plot_PlotMinSizeY,			26L, 1L);
+
+		MV_START_EXTRA_COMMANDS
+			MV_ADD_EXTRA_COMMAND(add_drag_point);
+			MV_ADD_EXTRA_COMMAND(delete_drag_point);
+			MV_ADD_EXTRA_COMMAND(add_annotation);
+			MV_ADD_EXTRA_COMMAND(delete_annotation);
+			MV_ADD_EXTRA_COMMAND(add_drag_line);
+			MV_ADD_EXTRA_COMMAND(delete_drag_line);
+			MV_ADD_EXTRA_COMMAND(clear_plot);
+			MV_ADD_EXTRA_COMMAND(delete_series);
+			MV_ADD_EXTRA_COMMAND(reset_xticks);
+			MV_ADD_EXTRA_COMMAND(reset_yticks);
+			MV_ADD_EXTRA_COMMAND(set_xticks);
+			MV_ADD_EXTRA_COMMAND(set_yticks);
+			MV_ADD_EXTRA_COMMAND(is_plot_queried);
+			MV_ADD_EXTRA_COMMAND(get_plot_query_area);
+			MV_ADD_EXTRA_COMMAND(set_plot_xlimits_auto);
+			MV_ADD_EXTRA_COMMAND(set_plot_ylimits_auto);
+			MV_ADD_EXTRA_COMMAND(set_plot_xlimits);
+			MV_ADD_EXTRA_COMMAND(set_plot_ylimits);
+			MV_ADD_EXTRA_COMMAND(get_plot_xlimits);
+			MV_ADD_EXTRA_COMMAND(get_plot_ylimits);
+			MV_ADD_EXTRA_COMMAND(add_image_series);
+			MV_ADD_EXTRA_COMMAND(add_pie_series);
+			MV_ADD_EXTRA_COMMAND(add_line_series);;
+			MV_ADD_EXTRA_COMMAND(add_bar_series);
+			MV_ADD_EXTRA_COMMAND(add_shade_series);
+			MV_ADD_EXTRA_COMMAND(add_scatter_series);
+			MV_ADD_EXTRA_COMMAND(add_stem_series);
+			MV_ADD_EXTRA_COMMAND(add_text_point);
+			MV_ADD_EXTRA_COMMAND(add_area_series);
+			MV_ADD_EXTRA_COMMAND(add_error_series);
+			MV_ADD_EXTRA_COMMAND(add_heat_series);
+			MV_ADD_EXTRA_COMMAND(add_stair_series);
+			MV_ADD_EXTRA_COMMAND(add_candle_series);
+			MV_ADD_EXTRA_COMMAND(add_vline_series);
+			MV_ADD_EXTRA_COMMAND(add_hline_series);
+		MV_END_EXTRA_COMMANDS
 
 		MV_START_GENERAL_CONSTANTS
 		MV_CREATE_CONSTANT_SINGLE(mvPlotMarker_None),

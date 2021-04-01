@@ -2,6 +2,7 @@
 #include <implot.h>
 #include "imnodes.h"
 #include "mvTextureStorage.h"
+#include "mvFontManager.h"
 
 #define GLFW_INCLUDE_NONE
 #define GLFW_EXPOSE_NATIVE_COCOA
