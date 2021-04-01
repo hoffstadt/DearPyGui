@@ -8,7 +8,7 @@ namespace Marvel {
 
 	void mvImage::InsertParser(std::map<std::string, mvPythonParser>* parsers)
 	{
-		parsers->insert({ "add_image", mvPythonParser({
+		parsers->insert({ s_parser, mvPythonParser({
 			{mvPythonDataType::String, "value"},
 			{mvPythonDataType::Optional},
 			{mvPythonDataType::String, "name"},

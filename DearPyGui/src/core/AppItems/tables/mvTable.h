@@ -25,6 +25,9 @@ namespace Marvel {
 		MV_CREATE_THEME_CONSTANT(mvThemeStyle_Table_CellPaddingX,	16L, 0L);
 		MV_CREATE_THEME_CONSTANT(mvThemeStyle_Table_CellPaddingY,	16L, 1L);
 
+		MV_START_EXTRA_COMMANDS
+		MV_END_EXTRA_COMMANDS
+
 		MV_START_GENERAL_CONSTANTS
 			MV_CREATE_CONSTANT_SINGLE(mvTable_SizingFixedFit),
 			MV_CREATE_CONSTANT_SINGLE(mvTable_SizingFixedSame),

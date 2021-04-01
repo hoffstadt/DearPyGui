@@ -8,7 +8,7 @@ namespace Marvel {
 
 	void mvDummy::InsertParser(std::map<std::string, mvPythonParser>* parsers)
 	{
-		parsers->insert({ "add_dummy", mvPythonParser({
+		parsers->insert({ s_parser, mvPythonParser({
 			{mvPythonDataType::KeywordOnly},
 			{mvPythonDataType::Integer, "width", "", "0"},
 			{mvPythonDataType::Integer, "height", "", "0"},

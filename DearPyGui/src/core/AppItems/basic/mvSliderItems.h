@@ -58,6 +58,9 @@ namespace Marvel {
         MV_CREATE_THEME_CONSTANT(mvThemeStyle_SliderFloat_GrabMinSize       , 19L, 0L);
         MV_CREATE_THEME_CONSTANT(mvThemeStyle_SliderFloat_GrabRounding      , 20L, 0L);
 
+		MV_START_EXTRA_COMMANDS
+		MV_END_EXTRA_COMMANDS
+
 		MV_START_GENERAL_CONSTANTS
 		MV_END_GENERAL_CONSTANTS
 
@@ -150,6 +153,9 @@ namespace Marvel {
         MV_CREATE_THEME_CONSTANT(mvThemeStyle_SliderFloat2_GrabMinSize     , 19L, 0L);
         MV_CREATE_THEME_CONSTANT(mvThemeStyle_SliderFloat2_GrabRounding    , 20L, 0L);
 
+		MV_START_EXTRA_COMMANDS
+		MV_END_EXTRA_COMMANDS
+
 		MV_START_GENERAL_CONSTANTS
 		MV_END_GENERAL_CONSTANTS
 
@@ -231,6 +237,9 @@ namespace Marvel {
         MV_CREATE_THEME_CONSTANT(mvThemeStyle_SliderFloat3_GrabMinSize     , 19L, 0L);
         MV_CREATE_THEME_CONSTANT(mvThemeStyle_SliderFloat3_GrabRounding    , 20L, 0L);
 
+		MV_START_EXTRA_COMMANDS
+		MV_END_EXTRA_COMMANDS
+
 		MV_START_GENERAL_CONSTANTS
 		MV_END_GENERAL_CONSTANTS
 
@@ -310,6 +319,9 @@ namespace Marvel {
         MV_CREATE_THEME_CONSTANT(mvThemeStyle_SliderFloat4_InnerSpacingY , 14L, 1L);
         MV_CREATE_THEME_CONSTANT(mvThemeStyle_SliderFloat4_GrabMinSize   , 19L, 0L);
         MV_CREATE_THEME_CONSTANT(mvThemeStyle_SliderFloat4_GrabRounding  , 20L, 0L);
+
+		MV_START_EXTRA_COMMANDS
+		MV_END_EXTRA_COMMANDS
 
 		MV_START_GENERAL_CONSTANTS
 		MV_END_GENERAL_CONSTANTS
@@ -403,6 +415,9 @@ namespace Marvel {
         MV_CREATE_THEME_CONSTANT(mvThemeStyle_SliderInt_GrabMinSize       , 19L, 0L);
         MV_CREATE_THEME_CONSTANT(mvThemeStyle_SliderInt_GrabRounding      , 20L, 0L);
 
+		MV_START_EXTRA_COMMANDS
+		MV_END_EXTRA_COMMANDS
+
 		MV_START_GENERAL_CONSTANTS
 		MV_END_GENERAL_CONSTANTS
 
@@ -495,6 +510,9 @@ namespace Marvel {
         MV_CREATE_THEME_CONSTANT(mvThemeStyle_SliderInt2_GrabMinSize     , 19L, 0L);
         MV_CREATE_THEME_CONSTANT(mvThemeStyle_SliderInt2_GrabRounding    , 20L, 0L);
 
+		MV_START_EXTRA_COMMANDS
+		MV_END_EXTRA_COMMANDS
+
 		MV_START_GENERAL_CONSTANTS
 		MV_END_GENERAL_CONSTANTS
 
@@ -575,6 +593,9 @@ namespace Marvel {
         MV_CREATE_THEME_CONSTANT(mvThemeStyle_SliderInt3_GrabMinSize     , 19L, 0L);
         MV_CREATE_THEME_CONSTANT(mvThemeStyle_SliderInt3_GrabRounding    , 20L, 0L);
 
+		MV_START_EXTRA_COMMANDS
+		MV_END_EXTRA_COMMANDS
+
 		MV_START_GENERAL_CONSTANTS
 		MV_END_GENERAL_CONSTANTS
 
@@ -654,6 +675,9 @@ namespace Marvel {
         MV_CREATE_THEME_CONSTANT(mvThemeStyle_SliderInt4_InnerSpacingY   , 14L, 1L);
         MV_CREATE_THEME_CONSTANT(mvThemeStyle_SliderInt4_GrabMinSize     , 19L, 0L);
         MV_CREATE_THEME_CONSTANT(mvThemeStyle_SliderInt4_GrabRounding    , 20L, 0L);
+
+		MV_START_EXTRA_COMMANDS
+		MV_END_EXTRA_COMMANDS
 
 		MV_START_GENERAL_CONSTANTS
 		MV_END_GENERAL_CONSTANTS

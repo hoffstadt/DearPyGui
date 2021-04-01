@@ -25,7 +25,7 @@ namespace Marvel {
 
 	void mvPlot::InsertParser(std::map<std::string, mvPythonParser>* parsers)
 	{
-		parsers->insert({ "add_plot", mvPythonParser({
+		parsers->insert({ s_parser, mvPythonParser({
 			{mvPythonDataType::Optional},
 			{mvPythonDataType::String, "name"},
 			{mvPythonDataType::KeywordOnly},
@@ -1455,7 +1455,7 @@ namespace Marvel {
 		return ToPyString(name);
 	}
 
-	PyObject* add_drag_line(PyObject* self, PyObject* args, PyObject* kwargs)
+	PyObject* mvPlot::add_drag_line(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		const char* plot;
 		const char* name;
@@ -1501,7 +1501,7 @@ namespace Marvel {
 		return GetPyNone();
 	}
 
-	PyObject* delete_drag_line(PyObject* self, PyObject* args, PyObject* kwargs)
+	PyObject* mvPlot::delete_drag_line(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		const char* plot;
 		const char* name;
@@ -1533,7 +1533,7 @@ namespace Marvel {
 		return GetPyNone();
 	}
 
-	PyObject* add_drag_point(PyObject* self, PyObject* args, PyObject* kwargs)
+	PyObject* mvPlot::add_drag_point(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		const char* plot;
 		const char* name;
@@ -1580,7 +1580,7 @@ namespace Marvel {
 		return GetPyNone();
 	}
 
-	PyObject* delete_drag_point(PyObject* self, PyObject* args, PyObject* kwargs)
+	PyObject* mvPlot::delete_drag_point(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		const char* plot;
 		const char* name;
@@ -1612,7 +1612,7 @@ namespace Marvel {
 		return GetPyNone();
 	}
 
-	PyObject* add_annotation(PyObject* self, PyObject* args, PyObject* kwargs)
+	PyObject* mvPlot::add_annotation(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		const char* plot;
 		const char* text;
@@ -1655,7 +1655,7 @@ namespace Marvel {
 		return GetPyNone();
 	}
 
-	PyObject* delete_annotation(PyObject* self, PyObject* args, PyObject* kwargs)
+	PyObject* mvPlot::delete_annotation(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		const char* plot;
 		const char* name;
@@ -1687,7 +1687,7 @@ namespace Marvel {
 		return GetPyNone();
 	}
 
-	PyObject* clear_plot(PyObject* self, PyObject* args, PyObject* kwargs)
+	PyObject* mvPlot::clear_plot(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		const char* plot;
 
@@ -1717,7 +1717,7 @@ namespace Marvel {
 		return GetPyNone();
 	}
 
-	PyObject* reset_xticks(PyObject* self, PyObject* args, PyObject* kwargs)
+	PyObject* mvPlot::reset_xticks(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		const char* plot;
 
@@ -1747,7 +1747,7 @@ namespace Marvel {
 		return GetPyNone();
 	}
 
-	PyObject* reset_yticks(PyObject* self, PyObject* args, PyObject* kwargs)
+	PyObject* mvPlot::reset_yticks(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		const char* plot;
 
@@ -1777,7 +1777,7 @@ namespace Marvel {
 		return GetPyNone();
 	}
 
-	PyObject* set_xticks(PyObject* self, PyObject* args, PyObject* kwargs)
+	PyObject* mvPlot::set_xticks(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		const char* plot;
 		PyObject* label_pairs;
@@ -1819,7 +1819,7 @@ namespace Marvel {
 		return GetPyNone();
 	}
 
-	PyObject* set_yticks(PyObject* self, PyObject* args, PyObject* kwargs)
+	PyObject* mvPlot::set_yticks(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		const char* plot;
 		PyObject* label_pairs;
@@ -1860,7 +1860,7 @@ namespace Marvel {
 		return GetPyNone();
 	}
 
-	PyObject* set_plot_xlimits_auto(PyObject* self, PyObject* args, PyObject* kwargs)
+	PyObject* mvPlot::set_plot_xlimits_auto(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		const char* plot;
 
@@ -1890,7 +1890,7 @@ namespace Marvel {
 		return GetPyNone();
 	}
 
-	PyObject* set_plot_ylimits_auto(PyObject* self, PyObject* args, PyObject* kwargs)
+	PyObject* mvPlot::set_plot_ylimits_auto(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		const char* plot;
 
@@ -1920,7 +1920,7 @@ namespace Marvel {
 		return GetPyNone();
 	}
 
-	PyObject* set_plot_xlimits(PyObject* self, PyObject* args, PyObject* kwargs)
+	PyObject* mvPlot::set_plot_xlimits(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		const char* plot;
 		float xmin;
@@ -1952,7 +1952,7 @@ namespace Marvel {
 		return GetPyNone();
 	}
 
-	PyObject* set_plot_ylimits(PyObject* self, PyObject* args, PyObject* kwargs)
+	PyObject* mvPlot::set_plot_ylimits(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		const char* plot;
 		float ymin;
@@ -1984,7 +1984,7 @@ namespace Marvel {
 		return GetPyNone();
 	}
 
-	PyObject* is_plot_queried(PyObject* self, PyObject* args, PyObject* kwargs)
+	PyObject* mvPlot::is_plot_queried(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		const char* plot;
 
@@ -2012,7 +2012,7 @@ namespace Marvel {
 		return ToPyBool(graph->isPlotQueried());
 	}
 
-	PyObject* get_plot_xlimits(PyObject* self, PyObject* args, PyObject* kwargs)
+	PyObject* mvPlot::get_plot_xlimits(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		const char* plot;
 
@@ -2041,7 +2041,7 @@ namespace Marvel {
 		return ToPyPair(lim.x, lim.y);
 	}
 
-	PyObject* get_plot_ylimits(PyObject* self, PyObject* args, PyObject* kwargs)
+	PyObject* mvPlot::get_plot_ylimits(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		const char* plot;
 
@@ -2070,7 +2070,7 @@ namespace Marvel {
 		return ToPyPair(lim.x, lim.y);
 	}
 
-	PyObject* get_plot_query_area(PyObject* self, PyObject* args, PyObject* kwargs)
+	PyObject* mvPlot::get_plot_query_area(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		const char* plot;
 
@@ -2099,7 +2099,7 @@ namespace Marvel {
 		return Py_BuildValue("(ffff)", result[0], result[1], result[2], result[3]);
 	}
 
-	PyObject* delete_series(PyObject* self, PyObject* args, PyObject* kwargs)
+	PyObject* mvPlot::delete_series(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		const char* plot;
 		const char* series;
@@ -2130,7 +2130,7 @@ namespace Marvel {
 		return GetPyNone();
 	}
 
-	PyObject* add_image_series(PyObject* self, PyObject* args, PyObject* kwargs)
+	PyObject* mvPlot::add_image_series(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		const char* plot;
 		const char* name;
@@ -2193,7 +2193,7 @@ namespace Marvel {
 		return GetPyNone();
 	}
 
-	PyObject* add_pie_series(PyObject* self, PyObject* args, PyObject* kwargs)
+	PyObject* mvPlot::add_pie_series(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		const char* plot;
 		const char* name;
@@ -2250,7 +2250,7 @@ namespace Marvel {
 		return GetPyNone();
 	}
 
-	PyObject* add_line_series(PyObject* self, PyObject* args, PyObject* kwargs)
+	PyObject* mvPlot::add_line_series(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		const char* plot;
 		const char* name;
@@ -2304,7 +2304,7 @@ namespace Marvel {
 		return GetPyNone();
 	}
 
-	PyObject* add_stair_series(PyObject* self, PyObject* args, PyObject* kwargs)
+	PyObject* mvPlot::add_stair_series(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		const char* plot;
 		const char* name;
@@ -2359,7 +2359,7 @@ namespace Marvel {
 		return GetPyNone();
 	}
 
-	PyObject* add_bar_series(PyObject* self, PyObject* args, PyObject* kwargs)
+	PyObject* mvPlot::add_bar_series(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		const char* plot;
 		const char* name;
@@ -2411,7 +2411,7 @@ namespace Marvel {
 		return GetPyNone();
 	}
 
-	PyObject* add_shade_series(PyObject* self, PyObject* args, PyObject* kwargs)
+	PyObject* mvPlot::add_shade_series(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		const char* plot;
 		const char* name;
@@ -2485,7 +2485,7 @@ namespace Marvel {
 		return GetPyNone();
 	}
 
-	PyObject* add_candle_series(PyObject* self, PyObject* args, PyObject* kwargs)
+	PyObject* mvPlot::add_candle_series(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		const char* plot;
 		const char* name;
@@ -2563,7 +2563,7 @@ namespace Marvel {
 		return GetPyNone();
 	}
 
-	PyObject* add_scatter_series(PyObject* self, PyObject* args, PyObject* kwargs)
+	PyObject* mvPlot::add_scatter_series(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		const char* plot;
 		const char* name;
@@ -2626,7 +2626,7 @@ namespace Marvel {
 		return GetPyNone();
 	}
 
-	PyObject* add_stem_series(PyObject* self, PyObject* args, PyObject* kwargs)
+	PyObject* mvPlot::add_stem_series(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		const char* plot;
 		const char* name;
@@ -2690,7 +2690,7 @@ namespace Marvel {
 		return GetPyNone();
 	}
 
-	PyObject* add_text_point(PyObject* self, PyObject* args, PyObject* kwargs)
+	PyObject* mvPlot::add_text_point(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		const char* plot;
 		const char* name;
@@ -2732,7 +2732,7 @@ namespace Marvel {
 		return GetPyNone();
 	}
 
-	PyObject* add_area_series(PyObject* self, PyObject* args, PyObject* kwargs)
+	PyObject* mvPlot::add_area_series(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		const char* plot;
 		const char* name;
@@ -2791,7 +2791,7 @@ namespace Marvel {
 		return GetPyNone();
 	}
 
-	PyObject* add_error_series(PyObject* self, PyObject* args, PyObject* kwargs)
+	PyObject* mvPlot::add_error_series(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		const char* plot;
 		const char* name;
@@ -2853,7 +2853,7 @@ namespace Marvel {
 		return GetPyNone();
 	}
 
-	PyObject* add_heat_series(PyObject* self, PyObject* args, PyObject* kwargs)
+	PyObject* mvPlot::add_heat_series(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		const char* plot;
 		const char* name;
@@ -2924,7 +2924,7 @@ namespace Marvel {
 		return GetPyNone();
 	}
 
-	PyObject* add_vline_series(PyObject* self, PyObject* args, PyObject* kwargs)
+	PyObject* mvPlot::add_vline_series(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		const char* plot;
 		const char* name;
@@ -2973,7 +2973,7 @@ namespace Marvel {
 		return GetPyNone();
 	}
 
-	PyObject* add_hline_series(PyObject* self, PyObject* args, PyObject* kwargs)
+	PyObject* mvPlot::add_hline_series(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		const char* plot;
 		const char* name;

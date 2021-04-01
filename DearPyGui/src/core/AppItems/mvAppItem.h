@@ -105,6 +105,66 @@ namespace Marvel {
         friend class mvFontManager;
         friend class mvFontScope;
 
+    public:
+
+        static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
+
+        MV_CREATE_EXTRA_COMMAND(get_item_configuration);
+        MV_CREATE_EXTRA_COMMAND(configure_item);
+        MV_CREATE_EXTRA_COMMAND(get_item_type);
+        MV_CREATE_EXTRA_COMMAND(set_item_callback);
+        MV_CREATE_EXTRA_COMMAND(set_item_callback_data);
+        MV_CREATE_EXTRA_COMMAND(get_value);
+        MV_CREATE_EXTRA_COMMAND(set_value);
+        MV_CREATE_EXTRA_COMMAND(is_item_hovered);
+        MV_CREATE_EXTRA_COMMAND(is_item_shown);
+        MV_CREATE_EXTRA_COMMAND(is_item_active);
+        MV_CREATE_EXTRA_COMMAND(is_item_focused);
+        MV_CREATE_EXTRA_COMMAND(is_item_clicked);
+        MV_CREATE_EXTRA_COMMAND(is_item_container);
+        MV_CREATE_EXTRA_COMMAND(is_item_visible);
+        MV_CREATE_EXTRA_COMMAND(is_item_edited);
+        MV_CREATE_EXTRA_COMMAND(is_item_activated);
+        MV_CREATE_EXTRA_COMMAND(is_item_deactivated);
+        MV_CREATE_EXTRA_COMMAND(is_item_deactivated_after_edit);
+        MV_CREATE_EXTRA_COMMAND(is_item_toggled_open);
+        MV_CREATE_EXTRA_COMMAND(get_item_rect_min);
+        MV_CREATE_EXTRA_COMMAND(get_item_rect_max);
+        MV_CREATE_EXTRA_COMMAND(get_item_rect_size);
+        MV_CREATE_EXTRA_COMMAND(get_item_callback);
+        MV_CREATE_EXTRA_COMMAND(get_item_callback_data);
+        MV_CREATE_EXTRA_COMMAND(get_item_parent);
+        MV_CREATE_EXTRA_COMMAND(get_item_children);
+
+        MV_START_EXTRA_COMMANDS
+            MV_ADD_EXTRA_COMMAND(get_item_configuration);
+            MV_ADD_EXTRA_COMMAND(configure_item);
+            MV_ADD_EXTRA_COMMAND(get_item_type);
+            MV_ADD_EXTRA_COMMAND(set_item_callback);
+            MV_ADD_EXTRA_COMMAND(set_item_callback_data);
+            MV_ADD_EXTRA_COMMAND(get_value);
+            MV_ADD_EXTRA_COMMAND(set_value);
+            MV_ADD_EXTRA_COMMAND(is_item_hovered);
+            MV_ADD_EXTRA_COMMAND(is_item_shown);
+            MV_ADD_EXTRA_COMMAND(is_item_active);
+            MV_ADD_EXTRA_COMMAND(is_item_focused);
+            MV_ADD_EXTRA_COMMAND(is_item_clicked);
+            MV_ADD_EXTRA_COMMAND(is_item_container);
+            MV_ADD_EXTRA_COMMAND(is_item_visible);
+            MV_ADD_EXTRA_COMMAND(is_item_edited);
+            MV_ADD_EXTRA_COMMAND(is_item_activated);
+            MV_ADD_EXTRA_COMMAND(is_item_deactivated);
+            MV_ADD_EXTRA_COMMAND(is_item_deactivated_after_edit);
+            MV_ADD_EXTRA_COMMAND(is_item_toggled_open);
+            MV_ADD_EXTRA_COMMAND(get_item_rect_min);
+            MV_ADD_EXTRA_COMMAND(get_item_rect_max);
+            MV_ADD_EXTRA_COMMAND(get_item_rect_size);
+            MV_ADD_EXTRA_COMMAND(get_item_callback);
+            MV_ADD_EXTRA_COMMAND(get_item_callback_data);
+            MV_ADD_EXTRA_COMMAND(get_item_parent);
+            MV_ADD_EXTRA_COMMAND(get_item_children);
+        MV_END_EXTRA_COMMANDS
+
     protected:
 
             struct ScopedID
@@ -241,48 +301,5 @@ namespace Marvel {
     };
 
     inline void DecodeType(long encoded_constant, mvAppItemType* type) { *type = (mvAppItemType)(encoded_constant / 1000); }
-
-    void AddItemCommands(std::map<std::string, mvPythonParser>* parsers);
-
-    PyObject* get_item_type(PyObject* self, PyObject* args, PyObject* kwargs);
-
-    PyObject* get_item_configuration(PyObject* self, PyObject* args, PyObject* kwargs);
-    PyObject* configure_item(PyObject* self, PyObject* args, PyObject* kwargs);
-
-    // replacing
-    PyObject* set_item_callback(PyObject* self, PyObject* args, PyObject* kwargs);
-    PyObject* set_item_callback_data(PyObject* self, PyObject* args, PyObject* kwargs);
-
-    PyObject* move_item(PyObject* self, PyObject* args, PyObject* kwargs);
-    PyObject* delete_item(PyObject* self, PyObject* args, PyObject* kwargs);
-    PyObject* does_item_exist(PyObject* self, PyObject* args, PyObject* kwargs);
-    PyObject* move_item_up(PyObject* self, PyObject* args, PyObject* kwargs);
-    PyObject* move_item_down(PyObject* self, PyObject* args, PyObject* kwargs);
-    PyObject* get_item_callback(PyObject* self, PyObject* args, PyObject* kwargs);
-    PyObject* get_item_callback_data(PyObject* self, PyObject* args, PyObject* kwargs);
-
-    PyObject* get_item_children(PyObject* self, PyObject* args, PyObject* kwargs);
-    PyObject* get_all_items(PyObject* self, PyObject* args, PyObject* kwargs);
-    PyObject* get_windows(PyObject* self, PyObject* args, PyObject* kwargs);
-
-    PyObject* get_item_parent(PyObject* self, PyObject* args, PyObject* kwargs);
-
-    PyObject* is_item_hovered(PyObject* self, PyObject* args, PyObject* kwargs);
-    PyObject* is_item_shown(PyObject* self, PyObject* args, PyObject* kwargs);
-    PyObject* is_item_active(PyObject* self, PyObject* args, PyObject* kwargs);
-    PyObject* is_item_focused(PyObject* self, PyObject* args, PyObject* kwargs);
-    PyObject* is_item_clicked(PyObject* self, PyObject* args, PyObject* kwargs);
-    PyObject* is_item_container(PyObject* self, PyObject* args, PyObject* kwargs);
-    PyObject* is_item_visible(PyObject* self, PyObject* args, PyObject* kwargs);
-    PyObject* is_item_edited(PyObject* self, PyObject* args, PyObject* kwargs);
-    PyObject* is_item_activated(PyObject* self, PyObject* args, PyObject* kwargs);
-    PyObject* is_item_deactivated(PyObject* self, PyObject* args, PyObject* kwargs);
-    PyObject* is_item_deactivated_after_edit(PyObject* self, PyObject* args, PyObject* kwargs);
-    PyObject* is_item_toggled_open(PyObject* self, PyObject* args, PyObject* kwargs);
-    PyObject* get_item_rect_min(PyObject* self, PyObject* args, PyObject* kwargs);
-    PyObject* get_item_rect_max(PyObject* self, PyObject* args, PyObject* kwargs);
-    PyObject* get_item_rect_size(PyObject* self, PyObject* args, PyObject* kwargs);
-    PyObject* get_value(PyObject* self, PyObject* args, PyObject* kwargs);
-    PyObject* set_value(PyObject* self, PyObject* args, PyObject* kwargs);
 
 }

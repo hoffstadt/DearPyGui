@@ -46,31 +46,26 @@ namespace Marvel {
 
 	};
 
-	// data grid
-	PyObject* set_grid_headers   (PyObject* self, PyObject* args, PyObject* kwargs);
-	PyObject* set_grid_data      (PyObject* self, PyObject* args, PyObject* kwargs);
-	PyObject* get_grid_data      (PyObject* self, PyObject* args, PyObject* kwargs);
-	PyObject* clear_data_grid    (PyObject* self, PyObject* args, PyObject* kwargs);
-	PyObject* get_grid_item      (PyObject* self, PyObject* args, PyObject* kwargs);
-	PyObject* set_grid_item      (PyObject* self, PyObject* args, PyObject* kwargs);
-	PyObject* get_grid_selections(PyObject* self, PyObject* args, PyObject* kwargs);
-	PyObject* set_grid_selection (PyObject* self, PyObject* args, PyObject* kwargs);
-
-	// column
-	PyObject* add_grid_column     (PyObject* self, PyObject* args, PyObject* kwargs);
-	PyObject* insert_grid_column  (PyObject* self, PyObject* args, PyObject* kwargs);
-	PyObject* delete_grid_column  (PyObject* self, PyObject* args, PyObject* kwargs);
-
-	// row
-	PyObject* add_grid_row        (PyObject* self, PyObject* args, PyObject* kwargs);
-	PyObject* insert_grid_row     (PyObject* self, PyObject* args, PyObject* kwargs);
-	PyObject* delete_grid_row     (PyObject* self, PyObject* args, PyObject* kwargs);
-
 	MV_REGISTER_WIDGET(mvDataGrid);
 	class mvDataGrid : public mvAppItem
 	{
 
 		MV_APPITEM_TYPE(mvAppItemType::mvDataGrid, add_data_grid)
+
+		MV_CREATE_EXTRA_COMMAND(set_grid_headers);
+		MV_CREATE_EXTRA_COMMAND(set_grid_data);
+		MV_CREATE_EXTRA_COMMAND(get_grid_data);
+		MV_CREATE_EXTRA_COMMAND(clear_data_grid);
+		MV_CREATE_EXTRA_COMMAND(get_grid_item);
+		MV_CREATE_EXTRA_COMMAND(set_grid_item);
+		MV_CREATE_EXTRA_COMMAND(get_grid_selections);
+		MV_CREATE_EXTRA_COMMAND(set_grid_selection);
+		MV_CREATE_EXTRA_COMMAND(add_grid_column);
+		MV_CREATE_EXTRA_COMMAND(insert_grid_column);
+		MV_CREATE_EXTRA_COMMAND(delete_grid_column);
+		MV_CREATE_EXTRA_COMMAND(add_grid_row);
+		MV_CREATE_EXTRA_COMMAND(insert_grid_row);
+		MV_CREATE_EXTRA_COMMAND(delete_grid_row);
 
 		MV_CREATE_THEME_CONSTANT(mvThemeCol_DataGrid_Text					,  0L, 0L);
 		MV_CREATE_THEME_CONSTANT(mvThemeCol_DataGrid_HeaderBg				, 44L, 0L);
@@ -89,6 +84,23 @@ namespace Marvel {
 		MV_CREATE_THEME_CONSTANT(mvThemeStyle_DataGrid_ItemSpacingY			, 13L, 1L);
 		MV_CREATE_THEME_CONSTANT(mvThemeStyle_DataGrid_ItemTextAlignX		, 23L, 0L);
 		MV_CREATE_THEME_CONSTANT(mvThemeStyle_DataGrid_ItemTextAlignY		, 23L, 1L);
+
+		MV_START_EXTRA_COMMANDS
+			MV_ADD_EXTRA_COMMAND(set_grid_headers);
+			MV_ADD_EXTRA_COMMAND(set_grid_data);
+			MV_ADD_EXTRA_COMMAND(get_grid_data);
+			MV_ADD_EXTRA_COMMAND(clear_data_grid);
+			MV_ADD_EXTRA_COMMAND(get_grid_item);
+			MV_ADD_EXTRA_COMMAND(set_grid_item);
+			MV_ADD_EXTRA_COMMAND(get_grid_selections);
+			MV_ADD_EXTRA_COMMAND(set_grid_selection);
+			MV_ADD_EXTRA_COMMAND(add_grid_column);
+			MV_ADD_EXTRA_COMMAND(insert_grid_column);
+			MV_ADD_EXTRA_COMMAND(delete_grid_column);
+			MV_ADD_EXTRA_COMMAND(add_grid_row);
+			MV_ADD_EXTRA_COMMAND(insert_grid_row);
+			MV_ADD_EXTRA_COMMAND(delete_grid_row);
+		MV_END_EXTRA_COMMANDS
 
 		MV_START_GENERAL_CONSTANTS
 		MV_END_GENERAL_CONSTANTS

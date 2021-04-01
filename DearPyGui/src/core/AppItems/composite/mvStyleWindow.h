@@ -32,6 +32,9 @@ namespace Marvel {
 
 		MV_APPITEM_TYPE(mvAppItemType::mvStyleWindow, add_style_window)
 
+		MV_START_EXTRA_COMMANDS
+		MV_END_EXTRA_COMMANDS
+
 		MV_START_GENERAL_CONSTANTS
 		MV_END_GENERAL_CONSTANTS
 

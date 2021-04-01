@@ -15,6 +15,11 @@ std::string getParserCommand() const override { return #parser; }\
 static PyObject* parser(PyObject* self, PyObject* args, PyObject* kwargs);\
 static PyMethodDef GetMethodDefinition(){return { s_parser, (PyCFunction)parser, METH_VARARGS | METH_KEYWORDS, mvApp::GetApp()->getParsers()[s_parser].getDocumentation() };}
 
+#define MV_CREATE_EXTRA_COMMAND(x) static PyObject* x(PyObject* self, PyObject* args, PyObject* kwargs)
+#define MV_START_EXTRA_COMMANDS static void FillExtraCommands(std::vector<PyMethodDef>& methods){ 
+#define MV_ADD_EXTRA_COMMAND(x) methods.push_back({ #x, (PyCFunction)x, METH_VARARGS | METH_KEYWORDS, mvApp::GetApp()->getParsers()[#x].getDocumentation() });
+#define MV_END_EXTRA_COMMANDS }
+
 #define MV_START_GENERAL_CONSTANTS public: static const std::vector<std::pair<std::string, long>>& GetGeneralConstants()\
         {static std::vector<std::pair<std::string, long>> constants ={
 #define MV_END_GENERAL_CONSTANTS };return constants;}

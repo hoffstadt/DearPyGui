@@ -9,7 +9,7 @@ namespace Marvel {
 
 	void mvColorButton::InsertParser(std::map<std::string, mvPythonParser>* parsers)
 	{
-		parsers->insert({ "add_color_button", mvPythonParser({
+		parsers->insert({ s_parser, mvPythonParser({
 			{mvPythonDataType::FloatList, "color"},
 			{mvPythonDataType::Optional},
 			{mvPythonDataType::String, "name"},		

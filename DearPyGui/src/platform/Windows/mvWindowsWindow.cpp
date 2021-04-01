@@ -1,5 +1,6 @@
 #include "Platform/Windows/mvWindowsWindow.h"
 #include "mvApp.h"
+#include "mvFontManager.h"
 #include "mvTextureStorage.h"
 #include "implot.h"
 #include "imnodes.h"

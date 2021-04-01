@@ -16,44 +16,11 @@
 #include "mvCore.h"
 #include <atomic>
 #include "mvPythonParser.h"
+#include "cpp.hint"
+#include "mvApp.h"
 
 namespace Marvel {
 	
-	void AddInputCommands                    (std::map<std::string, mvPythonParser>* parsers);
-
-	// mouse polling
-	PyObject* is_mouse_button_dragging       (PyObject* self, PyObject* args, PyObject* kwargs);
-	PyObject* is_mouse_button_down           (PyObject* self, PyObject* args, PyObject* kwargs);
-	PyObject* is_mouse_button_clicked        (PyObject* self, PyObject* args, PyObject* kwargs);
-	PyObject* is_mouse_button_double_clicked (PyObject* self, PyObject* args, PyObject* kwargs);
-	PyObject* is_mouse_button_released       (PyObject* self, PyObject* args, PyObject* kwargs);
-	PyObject* get_mouse_pos                  (PyObject* self, PyObject* args, PyObject* kwargs);
-	PyObject* get_plot_mouse_pos             (PyObject* self, PyObject* args, PyObject* kwargs);
-	PyObject* get_drawing_mouse_pos          (PyObject* self, PyObject* args, PyObject* kwargs);
-	PyObject* get_mouse_drag_delta           (PyObject* self, PyObject* args);
-
-	// mouse callbacks
-	PyObject* set_mouse_down_callback        (PyObject* self, PyObject* args, PyObject* kwargs);
-	PyObject* set_mouse_drag_callback        (PyObject* self, PyObject* args, PyObject* kwargs);
-	PyObject* set_mouse_double_click_callback(PyObject* self, PyObject* args, PyObject* kwargs);
-	PyObject* set_mouse_click_callback       (PyObject* self, PyObject* args, PyObject* kwargs);
-	PyObject* set_mouse_release_callback     (PyObject* self, PyObject* args, PyObject* kwargs);
-	PyObject* set_mouse_wheel_callback       (PyObject* self, PyObject* args, PyObject* kwargs);
-	PyObject* set_mouse_move_callback        (PyObject* self, PyObject* args, PyObject* kwargs);
-
-	// key polling
-	PyObject* is_key_pressed                 (PyObject* self, PyObject* args, PyObject* kwargs);
-	PyObject* is_key_released                (PyObject* self, PyObject* args, PyObject* kwargs);
-	PyObject* is_key_down                    (PyObject* self, PyObject* args, PyObject* kwargs);
-
-	// key callbacks
-	PyObject* set_key_down_callback          (PyObject* self, PyObject* args, PyObject* kwargs);
-	PyObject* set_key_press_callback         (PyObject* self, PyObject* args, PyObject* kwargs);
-	PyObject* set_key_release_callback       (PyObject* self, PyObject* args, PyObject* kwargs);
-
-	// app callbacks
-	PyObject* set_resize_callback            (PyObject* self, PyObject* args, PyObject* kwargs);
-
 	//-----------------------------------------------------------------------------
 	// mvInput
 	//-----------------------------------------------------------------------------
@@ -71,6 +38,38 @@ namespace Marvel {
 			std::atomic<float> x;
 			std::atomic<float> y;
 		};
+
+	public:
+
+		static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
+
+		MV_CREATE_EXTRA_COMMAND(get_drawing_mouse_pos);
+		MV_CREATE_EXTRA_COMMAND(is_mouse_button_dragging);
+		MV_CREATE_EXTRA_COMMAND(is_mouse_button_down);
+		MV_CREATE_EXTRA_COMMAND(is_mouse_button_clicked);
+		MV_CREATE_EXTRA_COMMAND(is_mouse_button_double_clicked);
+		MV_CREATE_EXTRA_COMMAND(is_mouse_button_released);
+		MV_CREATE_EXTRA_COMMAND(get_mouse_drag_delta);
+		MV_CREATE_EXTRA_COMMAND(get_mouse_pos);
+		MV_CREATE_EXTRA_COMMAND(get_plot_mouse_pos);
+		MV_CREATE_EXTRA_COMMAND(is_key_pressed);
+		MV_CREATE_EXTRA_COMMAND(is_key_released);
+		MV_CREATE_EXTRA_COMMAND(is_key_down);
+
+		MV_START_EXTRA_COMMANDS
+			MV_ADD_EXTRA_COMMAND(get_drawing_mouse_pos);
+			MV_ADD_EXTRA_COMMAND(is_mouse_button_dragging);
+			MV_ADD_EXTRA_COMMAND(is_mouse_button_down);
+			MV_ADD_EXTRA_COMMAND(is_mouse_button_clicked);
+			MV_ADD_EXTRA_COMMAND(is_mouse_button_double_clicked);
+			MV_ADD_EXTRA_COMMAND(is_mouse_button_released);
+			MV_ADD_EXTRA_COMMAND(get_mouse_drag_delta);
+			MV_ADD_EXTRA_COMMAND(get_mouse_pos);
+			MV_ADD_EXTRA_COMMAND(get_plot_mouse_pos);
+			MV_ADD_EXTRA_COMMAND(is_key_pressed);
+			MV_ADD_EXTRA_COMMAND(is_key_released);
+			MV_ADD_EXTRA_COMMAND(is_key_down);
+		MV_END_EXTRA_COMMANDS
 
 
 	public:

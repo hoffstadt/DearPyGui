@@ -5,8 +5,12 @@
 #include <queue>
 #include <string>
 #include <mutex>
+#include <map>
 #include "mvEvents.h"
+#include "mvApp.h"
 #include "mvAppItemDescription.h"
+#include "mvPythonParser.h"
+#include "cpp.hint"
 
 namespace Marvel {
 
@@ -27,6 +31,32 @@ namespace Marvel {
     //-----------------------------------------------------------------------------
 	class mvItemRegistry : public mvEventHandler
 	{
+
+    public:
+
+        static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
+
+        MV_CREATE_EXTRA_COMMAND(move_item);
+        MV_CREATE_EXTRA_COMMAND(delete_item);
+        MV_CREATE_EXTRA_COMMAND(does_item_exist);
+        MV_CREATE_EXTRA_COMMAND(move_item_down);
+        MV_CREATE_EXTRA_COMMAND(move_item_up);
+        MV_CREATE_EXTRA_COMMAND(get_windows);
+        MV_CREATE_EXTRA_COMMAND(get_all_items);
+        MV_CREATE_EXTRA_COMMAND(get_active_window);
+        MV_CREATE_EXTRA_COMMAND(set_primary_window);
+
+        MV_START_EXTRA_COMMANDS
+            MV_ADD_EXTRA_COMMAND(move_item);
+            MV_ADD_EXTRA_COMMAND(delete_item);
+            MV_ADD_EXTRA_COMMAND(does_item_exist);
+            MV_ADD_EXTRA_COMMAND(move_item_down);
+            MV_ADD_EXTRA_COMMAND(move_item_up);
+            MV_ADD_EXTRA_COMMAND(get_windows);
+            MV_ADD_EXTRA_COMMAND(get_all_items);
+            MV_ADD_EXTRA_COMMAND(get_active_window);
+            MV_ADD_EXTRA_COMMAND(set_primary_window);
+        MV_END_EXTRA_COMMANDS
 
 	public:
 

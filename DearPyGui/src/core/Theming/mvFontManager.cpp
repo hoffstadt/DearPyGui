@@ -337,14 +337,19 @@ namespace Marvel {
 				"However, the _correct_ way of scaling your UI is currently to reload your font at the designed size, "
 				"rebuild the font atlas, and call style.ScaleAllSizes() on a reference ImGuiStyle structure.\n"
 				"Using those settings here will give you poor quality results.");
-			if (ImGui::DragFloat("global scale", &mvApp::GetApp()->getGlobalFontScale(), 0.005f, MIN_SCALE, MAX_SCALE, "%.2f")) // Scale everything
-				mvApp::GetApp()->getGlobalFontScale() = IM_MAX(mvApp::GetApp()->getGlobalFontScale(), MIN_SCALE);
+			if (ImGui::DragFloat("global scale", &getGlobalFontScale(), 0.005f, MIN_SCALE, MAX_SCALE, "%.2f")) // Scale everything
+				getGlobalFontScale() = IM_MAX(getGlobalFontScale(), MIN_SCALE);
 			ImGui::PopItemWidth();
 		}
 		ImGui::End();
 	}
 
-	void AddFontCommands(std::map<std::string, mvPythonParser>* parsers)
+	void mvFontManager::setGlobalFontScale(float scale)
+	{
+		m_globalFontScale = scale;
+	}
+
+	void mvFontManager::InsertParser(std::map<std::string, mvPythonParser>* parsers)
 	{
 		parsers->insert({ "add_font", mvPythonParser({
 			{mvPythonDataType::String, "font", "ttf or otf file"},
@@ -365,9 +370,15 @@ namespace Marvel {
 			{mvPythonDataType::String, "item", "", "''"},
 		}, "Adds additional font.", "None", "Themes and Styles") });
 
+		parsers->insert({ "set_global_font_scale", mvPythonParser({
+			{mvPythonDataType::Float, "scale", "default is 1.0"}
+		}, "Changes the global font scale.") });
+
+		parsers->insert({ "get_global_font_scale", mvPythonParser({
+		}, "Returns the global font scale.", "float") });
 	}
 
-	PyObject* add_font(PyObject* self, PyObject* args, PyObject* kwargs)
+	PyObject* mvFontManager::add_font(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		const char* font;
 		const char* file;
@@ -400,7 +411,7 @@ namespace Marvel {
 		return GetPyNone();
 	}
 
-	PyObject* set_font(PyObject* self, PyObject* args, PyObject* kwargs)
+	PyObject* mvFontManager::set_font(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		const char* font = "";
 		int size = 0;
@@ -423,5 +434,23 @@ namespace Marvel {
 		);
 
 		return GetPyNone();
+	}
+
+	PyObject* mvFontManager::set_global_font_scale(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		float scale;
+
+		if (!(mvApp::GetApp()->getParsers())["set_global_font_scale"].parse(args, kwargs, __FUNCTION__, &scale))
+			return GetPyNone();
+
+		std::lock_guard<std::mutex> lk(mvApp::GetApp()->getMutex());
+		mvApp::GetApp()->getFontManager().setGlobalFontScale(scale);
+
+		return GetPyNone();
+	}
+
+	PyObject* mvFontManager::get_global_font_scale(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		return ToPyFloat(mvApp::GetApp()->getFontManager().getGlobalFontScale());
 	}
 }

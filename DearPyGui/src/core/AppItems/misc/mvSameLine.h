@@ -14,6 +14,9 @@ namespace Marvel {
 
 		MV_APPITEM_TYPE(mvAppItemType::mvSameLine, add_same_line)
 
+		MV_START_EXTRA_COMMANDS
+		MV_END_EXTRA_COMMANDS
+
 		MV_START_GENERAL_CONSTANTS
 		MV_END_GENERAL_CONSTANTS
 

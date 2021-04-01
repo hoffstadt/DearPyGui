@@ -13,7 +13,7 @@ namespace Marvel {
 
 	void mvLoggerItem::InsertParser(std::map<std::string, mvPythonParser>* parsers)
 	{
-		parsers->insert({ "add_logger", mvPythonParser({
+		parsers->insert({ s_parser, mvPythonParser({
 			{mvPythonDataType::Optional},
 			{mvPythonDataType::String, "name"},
 			{mvPythonDataType::KeywordOnly},
@@ -368,7 +368,7 @@ namespace Marvel {
 		return ToPyString(name);
 	}
 
-	PyObject* get_log_level(PyObject* self, PyObject* args, PyObject* kwargs)
+	PyObject* mvLoggerItem::get_log_level(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		const char* logger = "";
 
@@ -400,7 +400,7 @@ namespace Marvel {
 
 	}
 
-	PyObject* set_log_level(PyObject* self, PyObject* args, PyObject* kwargs)
+	PyObject* mvLoggerItem::set_log_level(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		int level;
 		const char* logger = "";
@@ -434,7 +434,7 @@ namespace Marvel {
 		return GetPyNone();
 	}
 
-	PyObject* log(PyObject* self, PyObject* args, PyObject* kwargs)
+	PyObject* mvLoggerItem::log(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		PyObject* message;
 		const char* level = "TRACE";
@@ -469,7 +469,7 @@ namespace Marvel {
 		return GetPyNone();
 	}
 
-	PyObject* log_debug(PyObject* self, PyObject* args, PyObject* kwargs)
+	PyObject* mvLoggerItem::log_debug(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		PyObject* message;
 		const char* logger = "";
@@ -504,7 +504,7 @@ namespace Marvel {
 		return GetPyNone();
 	}
 
-	PyObject* log_info(PyObject* self, PyObject* args, PyObject* kwargs)
+	PyObject* mvLoggerItem::log_info(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		PyObject* message;
 		const char* logger = "";
@@ -539,7 +539,7 @@ namespace Marvel {
 		return GetPyNone();
 	}
 
-	PyObject* log_warning(PyObject* self, PyObject* args, PyObject* kwargs)
+	PyObject* mvLoggerItem::log_warning(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		PyObject* message;
 		const char* logger = "";
@@ -573,7 +573,7 @@ namespace Marvel {
 		return GetPyNone();
 	}
 
-	PyObject* log_error(PyObject* self, PyObject* args, PyObject* kwargs)
+	PyObject* mvLoggerItem::log_error(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		PyObject* message;
 		const char* logger = "";
@@ -606,7 +606,7 @@ namespace Marvel {
 		return GetPyNone();
 	}
 
-	PyObject* clear_log(PyObject* self, PyObject* args, PyObject* kwargs)
+	PyObject* mvLoggerItem::clear_log(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		const char* logger = "";
 
@@ -638,14 +638,14 @@ namespace Marvel {
 		return GetPyNone();
 	}
 
-	PyObject* show_logger(PyObject* self, PyObject* args)
+	PyObject* mvLoggerItem::show_logger(PyObject* self, PyObject* args)
 	{
 		std::lock_guard<std::mutex> lk(mvApp::GetApp()->getMutex());
 		mvAppLog::Show();
 		return GetPyNone();
 	}
 
-	PyObject* set_logger_window_title(PyObject* self, PyObject* args, PyObject* kwargs)
+	PyObject* mvLoggerItem::set_logger_window_title(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		const char* title;
 

@@ -13,7 +13,7 @@ namespace Marvel {
 
 	void mvNodeEditor::InsertParser(std::map<std::string, mvPythonParser>* parsers)
 	{
-		parsers->insert({ "add_node_editor", mvPythonParser({
+		parsers->insert({ s_parser, mvPythonParser({
 			{mvPythonDataType::Optional},
 			{mvPythonDataType::String, "name"},
 			{mvPythonDataType::KeywordOnly},
@@ -419,7 +419,7 @@ namespace Marvel {
 
 	}
 
-	PyObject* add_node_link(PyObject* self, PyObject* args, PyObject* kwargs)
+	PyObject* mvNodeEditor::add_node_link(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		const char* node_editor;
 		const char* node_1;
@@ -454,7 +454,7 @@ namespace Marvel {
 
 	}
 
-	PyObject* delete_node_link(PyObject* self, PyObject* args, PyObject* kwargs)
+	PyObject* mvNodeEditor::delete_node_link(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		const char* node_editor;
 		const char* node_1;
@@ -489,7 +489,7 @@ namespace Marvel {
 
 	}
 
-	PyObject* get_selected_nodes(PyObject* self, PyObject* args, PyObject* kwargs)
+	PyObject* mvNodeEditor::get_selected_nodes(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		const char* node_editor;
 
@@ -521,7 +521,7 @@ namespace Marvel {
 
 	}
 
-	PyObject* get_selected_links(PyObject* self, PyObject* args, PyObject* kwargs)
+	PyObject* mvNodeEditor::get_selected_links(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		const char* node_editor;
 
@@ -557,7 +557,7 @@ namespace Marvel {
 
 	}
 
-	PyObject* get_links(PyObject* self, PyObject* args, PyObject* kwargs)
+	PyObject* mvNodeEditor::get_links(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		const char* node_editor;
 
@@ -588,7 +588,7 @@ namespace Marvel {
 
 	}
 
-	PyObject* clear_selected_links(PyObject* self, PyObject* args, PyObject* kwargs)
+	PyObject* mvNodeEditor::clear_selected_links(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		const char* node_editor;
 
@@ -618,7 +618,7 @@ namespace Marvel {
 
 	}
 
-	PyObject* clear_selected_nodes(PyObject* self, PyObject* args, PyObject* kwargs)
+	PyObject* mvNodeEditor::clear_selected_nodes(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		const char* node_editor;
 

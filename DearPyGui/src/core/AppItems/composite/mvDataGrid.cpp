@@ -9,7 +9,7 @@ namespace Marvel {
 
 	void mvDataGrid::InsertParser(std::map<std::string, mvPythonParser>* parsers)
 	{
-		parsers->insert({ "add_data_grid", mvPythonParser({
+		parsers->insert({ s_parser, mvPythonParser({
 			{mvPythonDataType::Optional},
 			{mvPythonDataType::String, "name"},
 			{mvPythonDataType::StringList, "headers"},
@@ -671,7 +671,7 @@ namespace Marvel {
 		return ToPyString(name);
 	}
 
-	PyObject* get_grid_data(PyObject* self, PyObject* args, PyObject* kwargs)
+	PyObject* mvDataGrid::get_grid_data(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		const char* grid;
 
@@ -698,7 +698,7 @@ namespace Marvel {
 		return static_cast<mvDataGrid*>(item.get())->getPyValue();
 	}
 
-	PyObject* set_grid_data(PyObject* self, PyObject* args, PyObject* kwargs)
+	PyObject* mvDataGrid::set_grid_data(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		const char* grid;
 		PyObject* value;
@@ -728,7 +728,7 @@ namespace Marvel {
 		return GetPyNone();
 	}
 
-	PyObject* set_grid_headers(PyObject* self, PyObject* args, PyObject* kwargs)
+	PyObject* mvDataGrid::set_grid_headers(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		const char* grid;
 		PyObject* headers;
@@ -753,7 +753,7 @@ namespace Marvel {
 		return GetPyNone();
 	}
 
-	PyObject* clear_data_grid(PyObject* self, PyObject* args, PyObject* kwargs)
+	PyObject* mvDataGrid::clear_data_grid(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		const char* grid;
 
@@ -781,7 +781,7 @@ namespace Marvel {
 		Py_RETURN_NONE;
 	}
 
-	PyObject* get_grid_item(PyObject* self, PyObject* args, PyObject* kwargs)
+	PyObject* mvDataGrid::get_grid_item(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		const char* grid;
 		int row;
@@ -812,7 +812,7 @@ namespace Marvel {
 
 	}
 
-	PyObject* set_grid_item(PyObject* self, PyObject* args, PyObject* kwargs)
+	PyObject* mvDataGrid::set_grid_item(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		const char* grid;
 		int row;
@@ -845,7 +845,7 @@ namespace Marvel {
 		return GetPyNone();
 	}
 
-	PyObject* get_grid_selections(PyObject* self, PyObject* args, PyObject* kwargs)
+	PyObject* mvDataGrid::get_grid_selections(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		const char* grid;
 
@@ -872,7 +872,7 @@ namespace Marvel {
 		return atable->getSelections();
 	}
 
-	PyObject* set_grid_selection(PyObject* self, PyObject* args, PyObject* kwargs)
+	PyObject* mvDataGrid::set_grid_selection(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		const char* grid;
 		int row;
@@ -905,7 +905,7 @@ namespace Marvel {
 		return GetPyNone();
 	}
 
-	PyObject* add_grid_column(PyObject* self, PyObject* args, PyObject* kwargs)
+	PyObject* mvDataGrid::add_grid_column(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		const char* grid;
 		const char* name;
@@ -938,7 +938,7 @@ namespace Marvel {
 		return GetPyNone();
 	}
 
-	PyObject* insert_grid_column(PyObject* self, PyObject* args, PyObject* kwargs)
+	PyObject* mvDataGrid::insert_grid_column(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		const char* grid;
 		int column_index;
@@ -972,7 +972,7 @@ namespace Marvel {
 		return GetPyNone();
 	}
 
-	PyObject* delete_grid_column(PyObject* self, PyObject* args, PyObject* kwargs)
+	PyObject* mvDataGrid::delete_grid_column(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		const char* grid;
 		int column;
@@ -1002,7 +1002,7 @@ namespace Marvel {
 		return GetPyNone();
 	}
 
-	PyObject* add_grid_row(PyObject* self, PyObject* args, PyObject* kwargs)
+	PyObject* mvDataGrid::add_grid_row(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		const char* grid;
 		PyObject* row;
@@ -1040,7 +1040,7 @@ namespace Marvel {
 		return GetPyNone();
 	}
 
-	PyObject* insert_grid_row(PyObject* self, PyObject* args, PyObject* kwargs)
+	PyObject* mvDataGrid::insert_grid_row(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		const char* grid;
 		int row_index;
@@ -1079,7 +1079,7 @@ namespace Marvel {
 		return GetPyNone();
 	}
 
-	PyObject* delete_grid_row(PyObject* self, PyObject* args, PyObject* kwargs)
+	PyObject* mvDataGrid::delete_grid_row(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		const char* grid;
 		int row;

@@ -7,7 +7,7 @@ namespace Marvel {
 
 	void mvPopup::InsertParser(std::map<std::string, mvPythonParser>* parsers)
 	{
-		parsers->insert({ "add_popup", mvPythonParser({
+		parsers->insert({ s_parser, mvPythonParser({
 			{mvPythonDataType::String, "popupparent", "Parent that the popup will be assigned to."},
 			{mvPythonDataType::Optional},
 			{mvPythonDataType::String, "name"},
@@ -169,7 +169,7 @@ namespace Marvel {
 		return ToPyString(name);
 	}
 
-	PyObject* close_popup(PyObject* self, PyObject* args, PyObject* kwargs)
+	PyObject* mvPopup::close_popup(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		const char* popup;
 

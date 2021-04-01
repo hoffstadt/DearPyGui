@@ -10,21 +10,8 @@ namespace Marvel {
 
 	class mvDrawCmd;
 
-	PyObject* modify_draw_command        (PyObject* self, PyObject* args, PyObject* kwargs);
-	PyObject* get_draw_command           (PyObject* self, PyObject* args, PyObject* kwargs);
-	PyObject* bring_draw_command_forward (PyObject* self, PyObject* args, PyObject* kwargs);
-	PyObject* bring_draw_command_to_front(PyObject* self, PyObject* args, PyObject* kwargs);
-	PyObject* send_draw_command_back     (PyObject* self, PyObject* args, PyObject* kwargs);
-	PyObject* send_draw_command_to_back  (PyObject* self, PyObject* args, PyObject* kwargs);
-	PyObject* delete_draw_command        (PyObject* self, PyObject* args, PyObject* kwargs);
-	PyObject* clear_drawing              (PyObject* self, PyObject* args, PyObject* kwargs);
-
 	class mvDrawList
 	{
-
-	public:
-
-		static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
 
 	public:
 

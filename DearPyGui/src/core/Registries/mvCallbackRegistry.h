@@ -30,6 +30,42 @@ namespace Marvel {
 
 	public:
 
+		static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
+
+		MV_CREATE_EXTRA_COMMAND(set_start_callback);
+		MV_CREATE_EXTRA_COMMAND(set_accelerator_callback);
+		MV_CREATE_EXTRA_COMMAND(set_exit_callback);
+		MV_CREATE_EXTRA_COMMAND(set_mouse_move_callback);
+		MV_CREATE_EXTRA_COMMAND(set_mouse_drag_callback);
+		MV_CREATE_EXTRA_COMMAND(set_mouse_click_callback);
+		MV_CREATE_EXTRA_COMMAND(set_mouse_down_callback);
+		MV_CREATE_EXTRA_COMMAND(set_mouse_double_click_callback);
+		MV_CREATE_EXTRA_COMMAND(set_key_down_callback);
+		MV_CREATE_EXTRA_COMMAND(set_key_press_callback);
+		MV_CREATE_EXTRA_COMMAND(set_key_release_callback);
+		MV_CREATE_EXTRA_COMMAND(set_mouse_release_callback);
+		MV_CREATE_EXTRA_COMMAND(set_resize_callback);
+		MV_CREATE_EXTRA_COMMAND(set_mouse_wheel_callback);
+
+		MV_START_EXTRA_COMMANDS
+			MV_ADD_EXTRA_COMMAND(set_start_callback);
+			MV_ADD_EXTRA_COMMAND(set_accelerator_callback);
+			MV_ADD_EXTRA_COMMAND(set_exit_callback);
+			MV_ADD_EXTRA_COMMAND(set_mouse_move_callback);
+			MV_ADD_EXTRA_COMMAND(set_mouse_drag_callback);
+			MV_ADD_EXTRA_COMMAND(set_mouse_click_callback);
+			MV_ADD_EXTRA_COMMAND(set_mouse_down_callback);
+			MV_ADD_EXTRA_COMMAND(set_mouse_double_click_callback);
+			MV_ADD_EXTRA_COMMAND(set_key_down_callback);
+			MV_ADD_EXTRA_COMMAND(set_key_press_callback);
+			MV_ADD_EXTRA_COMMAND(set_key_release_callback);
+			MV_ADD_EXTRA_COMMAND(set_mouse_release_callback);
+			MV_ADD_EXTRA_COMMAND(set_resize_callback);
+			MV_ADD_EXTRA_COMMAND(set_mouse_wheel_callback);
+		MV_END_EXTRA_COMMANDS
+
+	public:
+
 		mvCallbackRegistry();
 
 		bool onEvent   (mvEvent& event) override;

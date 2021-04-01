@@ -6,7 +6,7 @@ namespace Marvel {
 
 	void mvSameLine::InsertParser(std::map<std::string, mvPythonParser>* parsers)
 	{
-		parsers->insert({ "add_same_line", mvPythonParser({
+		parsers->insert({ s_parser, mvPythonParser({
 			{mvPythonDataType::KeywordOnly},
 			{mvPythonDataType::String, "name", "", "'sameline'"},
 			{mvPythonDataType::Float, "xoffset", "offset from containing window", "0.0"},
