@@ -8,7 +8,7 @@ namespace Marvel {
 
 	void mvTooltip::InsertParser(std::map<std::string, mvPythonParser>* parsers)
 	{
-		parsers->insert({ s_parser, mvPythonParser({
+		parsers->insert({ s_command, mvPythonParser({
 			{mvPythonDataType::String, "tipparent", "Sets the item's tool tip to be the same as the named item's tool tip"},
 			{mvPythonDataType::Optional},
 			{mvPythonDataType::String, "name"},

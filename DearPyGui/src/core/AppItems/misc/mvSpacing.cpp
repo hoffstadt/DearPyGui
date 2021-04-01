@@ -5,7 +5,7 @@ namespace Marvel {
 
 	void mvSpacing::InsertParser(std::map<std::string, mvPythonParser>* parsers)
 	{
-		parsers->insert({ s_parser, mvPythonParser({
+		parsers->insert({ s_command, mvPythonParser({
 			{mvPythonDataType::KeywordOnly},
 			{mvPythonDataType::String, "name", "", "'spacing'"},
 			{mvPythonDataType::Integer, "count", "", "1"},

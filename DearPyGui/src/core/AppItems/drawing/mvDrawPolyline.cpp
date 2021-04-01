@@ -7,7 +7,7 @@ namespace Marvel {
 	void mvDrawPolyline::InsertParser(std::map<std::string, mvPythonParser>* parsers)
 	{
 
-		parsers->insert({ s_parser, mvPythonParser({
+		parsers->insert({ s_command, mvPythonParser({
 			{mvPythonDataType::Optional},
 			{mvPythonDataType::ListFloatList, "points"},
 			{mvPythonDataType::IntList, "color"},
@@ -93,7 +93,7 @@ namespace Marvel {
 		const char* parent = "";
 		int show = true;
 
-		if (!(mvApp::GetApp()->getParsers())[s_parser].parse(args, kwargs, __FUNCTION__, 
+		if (!(mvApp::GetApp()->getParsers())[s_command].parse(args, kwargs, __FUNCTION__, 
 			&points, &color, &closed, &thickness, &name, &parent, &before, &show))
 			return GetPyNone();
 

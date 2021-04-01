@@ -7,7 +7,7 @@ namespace Marvel {
 
 	void mvUnindent::InsertParser(std::map<std::string, mvPythonParser>* parsers)
 	{
-		parsers->insert({ s_parser, mvPythonParser({
+		parsers->insert({ s_command, mvPythonParser({
 			{mvPythonDataType::KeywordOnly},
 			{mvPythonDataType::String, "name", "", "'unindent'"},
 			{mvPythonDataType::Float, "offset", "", "0.0"},

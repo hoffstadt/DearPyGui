@@ -14,7 +14,7 @@ namespace Marvel {
 
 	void mvDrawing::InsertParser(std::map<std::string, mvPythonParser>* parsers)
 	{
-		parsers->insert({ s_parser, mvPythonParser({
+		parsers->insert({ s_command, mvPythonParser({
 			{mvPythonDataType::Optional},
 			{mvPythonDataType::String, "name"},
 			{mvPythonDataType::KeywordOnly},

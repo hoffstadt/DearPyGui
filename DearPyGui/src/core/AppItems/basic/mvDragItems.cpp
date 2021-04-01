@@ -12,7 +12,7 @@ namespace Marvel {
 
     void mvDragFloat::InsertParser(std::map<std::string, mvPythonParser>* parsers)
     {
-        parsers->insert({ s_parser, mvPythonParser({
+        parsers->insert({ s_command, mvPythonParser({
             {mvPythonDataType::Optional},
             {mvPythonDataType::String, "name"},
             {mvPythonDataType::KeywordOnly},
@@ -37,7 +37,7 @@ namespace Marvel {
 
     void mvDragFloat2::InsertParser(std::map<std::string, mvPythonParser>* parsers)
     {
-        parsers->insert({ s_parser, mvPythonParser({
+        parsers->insert({ s_command, mvPythonParser({
             {mvPythonDataType::Optional},
             {mvPythonDataType::String, "name"},
             {mvPythonDataType::KeywordOnly},
@@ -62,7 +62,7 @@ namespace Marvel {
 
     void mvDragFloat3::InsertParser(std::map<std::string, mvPythonParser>* parsers)
     {
-        parsers->insert({ s_parser, mvPythonParser({
+        parsers->insert({ s_command, mvPythonParser({
             {mvPythonDataType::Optional},
             {mvPythonDataType::String, "name"},
             {mvPythonDataType::KeywordOnly},
@@ -87,7 +87,7 @@ namespace Marvel {
 
     void mvDragFloat4::InsertParser(std::map<std::string, mvPythonParser>* parsers)
     {
-        parsers->insert({ s_parser, mvPythonParser({
+        parsers->insert({ s_command, mvPythonParser({
             {mvPythonDataType::String, "name"},
             {mvPythonDataType::KeywordOnly},
             {mvPythonDataType::FloatList, "default_value", "", "(0.0, 0.0, 0.0, 0.0)"},
@@ -111,7 +111,7 @@ namespace Marvel {
 
     void mvDragInt::InsertParser(std::map<std::string, mvPythonParser>* parsers)
     {
-        parsers->insert({ s_parser, mvPythonParser({
+        parsers->insert({ s_command, mvPythonParser({
             {mvPythonDataType::Optional},
             {mvPythonDataType::String, "name"},
             {mvPythonDataType::KeywordOnly},
@@ -136,7 +136,7 @@ namespace Marvel {
 
     void mvDragInt2::InsertParser(std::map<std::string, mvPythonParser>* parsers)
     {
-        parsers->insert({ s_parser, mvPythonParser({
+        parsers->insert({ s_command, mvPythonParser({
             {mvPythonDataType::Optional},
             {mvPythonDataType::String, "name"},
             {mvPythonDataType::KeywordOnly},
@@ -163,7 +163,7 @@ namespace Marvel {
 
     void mvDragInt3::InsertParser(std::map<std::string, mvPythonParser>* parsers)
     {
-        parsers->insert({ s_parser, mvPythonParser({
+        parsers->insert({ s_command, mvPythonParser({
             {mvPythonDataType::Optional},
             {mvPythonDataType::String, "name"},
             {mvPythonDataType::KeywordOnly},
@@ -188,7 +188,7 @@ namespace Marvel {
 
     void mvDragInt4::InsertParser(std::map<std::string, mvPythonParser>* parsers)
     {
-        parsers->insert({ s_parser, mvPythonParser({
+        parsers->insert({ s_command, mvPythonParser({
             {mvPythonDataType::Optional},
             {mvPythonDataType::String, "name"},
             {mvPythonDataType::KeywordOnly},

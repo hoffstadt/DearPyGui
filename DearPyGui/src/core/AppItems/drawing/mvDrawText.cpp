@@ -7,7 +7,7 @@ namespace Marvel {
 	void mvDrawText::InsertParser(std::map<std::string, mvPythonParser>* parsers)
 	{
 
-		parsers->insert({ s_parser, mvPythonParser({
+		parsers->insert({ s_command, mvPythonParser({
 			{mvPythonDataType::Optional},
 			{mvPythonDataType::FloatList, "pos"},
 			{mvPythonDataType::String, "text"},
@@ -87,7 +87,7 @@ namespace Marvel {
 		const char* parent = "";
 		int show = true;
 
-		if (!(mvApp::GetApp()->getParsers())[s_parser].parse(args, kwargs, __FUNCTION__, 
+		if (!(mvApp::GetApp()->getParsers())[s_command].parse(args, kwargs, __FUNCTION__, 
 			&pos, &text, &color, &size, &name, &parent, &before, &show))
 			return GetPyNone();
 

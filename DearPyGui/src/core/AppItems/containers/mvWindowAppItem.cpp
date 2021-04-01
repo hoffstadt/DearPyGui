@@ -8,7 +8,7 @@ namespace Marvel {
 
 	void mvWindowAppItem::InsertParser(std::map<std::string, mvPythonParser>* parsers)
 	{
-		parsers->insert({ s_parser, mvPythonParser({
+		parsers->insert({ s_command, mvPythonParser({
 			{mvPythonDataType::Optional},
 			{mvPythonDataType::String, "name"},
 			{mvPythonDataType::KeywordOnly},
@@ -280,23 +280,6 @@ namespace Marvel {
 		if (m_mainWindow)
 			ImGui::PopStyleVar();
 
-		for (auto& item : m_children1)
-		{
-			// skip item if it's not shown
-			if (!item->m_core_config.show)
-				continue;
-
-			// set item width
-			if (item->m_core_config.width != 0)
-				ImGui::SetNextItemWidth((float)item->m_core_config.width);
-
-			item->draw(this_drawlist, x, y);
-
-			item->getState().update();
-
-		}
-
-
 		for (auto& item : m_children0)
 		{
 			// skip item if it's not shown
@@ -308,6 +291,25 @@ namespace Marvel {
 			item->getState().update();
 
 		}
+
+		for (auto& item : m_children1)
+		{
+			// skip item if it's not shown
+			if (!item->m_core_config.show)
+				continue;
+
+			// set item width
+			if (item->m_core_config.width != 0)
+				ImGui::SetNextItemWidth((float)item->m_core_config.width);
+
+			item->draw(this_drawlist, ImGui::GetCursorPosX(), ImGui::GetCursorPosY());
+
+			item->getState().update();
+
+		}
+
+
+
 
 		m_state.setVisible(true);
 		m_state.setHovered(ImGui::IsWindowHovered());
