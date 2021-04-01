@@ -60,7 +60,7 @@ namespace Marvel {
 				if (item->m_width != 0)
 					ImGui::SetNextItemWidth((float)item->m_width);
 
-				item->draw(drawlist, x, y);
+				item->draw(drawlist, ImGui::GetCursorPosX(), ImGui::GetCursorPosY());
 
 				item->getState().update();
 			}

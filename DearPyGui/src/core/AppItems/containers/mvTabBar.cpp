@@ -63,7 +63,7 @@ namespace Marvel {
 				if (*m_value == item->m_name && m_lastValue != *m_value)
 					static_cast<mvTab*>(item.get())->addFlag(ImGuiTabItemFlags_SetSelected);
 
-				item->draw(drawlist, x, y);
+				item->draw(drawlist, ImGui::GetCursorPosX(), ImGui::GetCursorPosY());
 
 				if (*m_value == item->m_name)
 					static_cast<mvTab*>(item.get())->removeFlag(ImGuiTabItemFlags_SetSelected);
