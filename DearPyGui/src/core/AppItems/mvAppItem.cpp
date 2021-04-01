@@ -29,7 +29,7 @@ namespace Marvel{
 			{mvPythonDataType::Kwargs, "**Kwargs"},
 		}, "Configures an item", "None", "Widget Commands") });
 
-		parsers->insert({ "get_item_children", mvPythonParser({
+		parsers->insert({ "get_item_children1", mvPythonParser({
 			{mvPythonDataType::String, "item"}
 		}, "Returns a list of an item's children.", "List[str]", "Widget Commands") });
 
@@ -198,7 +198,9 @@ namespace Marvel{
 	void mvAppItem::resetState()
 	{
 		m_state.reset();
-		for (auto& item : m_children)
+		for (auto& item : m_children0)
+			item->resetState();
+		for (auto& item : m_children1)
 			item->resetState();
 
 	}
@@ -208,41 +210,49 @@ namespace Marvel{
 		bool found = false;
 		int index = 0;
 
-		// check children
-		for (size_t i = 0; i<m_children.size(); i++)
+		auto operation = [&](std::vector<mvRef<mvAppItem>>& children)
 		{
-
-			if (m_children[i]->m_core_config.name == name)
+			// check children
+			for (size_t i = 0; i < children.size(); i++)
 			{
-				found = true;
-				index = (int)i;
-				break;
+
+				if (children[i]->m_core_config.name == name)
+				{
+					found = true;
+					index = (int)i;
+					break;
+				}
+
+				if (children[i]->getDescription().container)
+				{
+					found = children[i]->moveChildUp(name);
+					if (found)
+						return true;
+				}
+
 			}
 
-			if (m_children[i]->getDescription().container)
+			if (found)
 			{
-				found = m_children[i]->moveChildUp(name);
-				if (found)
-					return true;
+				if (index > 0)
+				{
+					auto upperitem = children[index - 1];
+					auto loweritem = children[index];
+
+					children[index] = upperitem;
+					children[index - 1] = loweritem;
+				}
+
+				return true;
 			}
 
-		}
+			return false;
+		};
 
-		if (found)
-		{
-			if (index > 0)
-			{
-				auto upperitem = m_children[index - 1];
-				auto loweritem = m_children[index];
-
-				m_children[index] = upperitem;
-				m_children[index-1] = loweritem;
-			}
-
+		if (operation(m_children0))
 			return true;
-		}
+		return operation(m_children1);
 
-		return false;
 
 	}
 
@@ -251,41 +261,49 @@ namespace Marvel{
 		bool found = false;
 		size_t index = 0;
 
-		// check children
-		for (size_t i = 0; i < m_children.size(); i++)
+		auto operation = [&](std::vector<mvRef<mvAppItem>>& children)
 		{
-
-			if (m_children[i]->m_core_config.name == name)
+			// check children
+			for (size_t i = 0; i < children.size(); i++)
 			{
-				found = true;
-				index = i;
-				break;
+
+				if (children[i]->m_core_config.name == name)
+				{
+					found = true;
+					index = i;
+					break;
+				}
+
+				if (children[i]->getDescription().container)
+				{
+					found = children[i]->moveChildDown(name);
+					if (found)
+						return true;
+				}
+
 			}
 
-			if (m_children[i]->getDescription().container)
+			if (found)
 			{
-				found = m_children[i]->moveChildDown(name);
-				if (found)
-					return true;
+				if (index < children.size() - 1)
+				{
+					auto upperitem = children[index];
+					auto loweritem = children[index + 1];
+
+					children[index] = loweritem;
+					children[index + 1] = upperitem;
+				}
+
+				return true;
 			}
 
-		}
+			return false;
+		};
 
-		if (found)
-		{
-			if (index < m_children.size()-1)
-			{
-				auto upperitem = m_children[index];
-				auto loweritem = m_children[index+1];
-
-				m_children[index] = loweritem;
-				m_children[index + 1] = upperitem;
-			}
-
+		if (operation(m_children0))
 			return true;
-		}
+		return operation(m_children1);
 
-		return false;
 	}
 
 	bool mvAppItem::addRuntimeChild(const std::string& parent, const std::string& before, mvRef<mvAppItem> item)
@@ -293,79 +311,97 @@ namespace Marvel{
 		if (before.empty() && parent.empty())
 			return false;
 
-		//this is the container, add item to beginning.
-		if (before.empty())
+
+		auto operation = [&](std::vector<mvRef<mvAppItem>>& children)
 		{
-			if (parent == m_core_config.name)
+			//this is the container, add item to beginning.
+			if (before.empty())
 			{
-				m_children.push_back(item);
-				item->m_parent = this;
-				return true;
+				if (parent == m_core_config.name)
+				{
+					children.push_back(item);
+					item->m_parent = this;
+					return true;
+				}
+
+				else
+				{
+					// check children
+					for (auto& child : children)
+					{
+						if (child->getDescription().container)
+						{
+							// parent found
+							if (child->addRuntimeChild(parent, before, item))
+								return true;
+						}
+					}
+				}
 			}
 
 			else
 			{
+				bool beforeFound = false;
+
 				// check children
-				for (auto& child : m_children)
+				for (auto& child : children)
 				{
-					if (child->getDescription().container)
+
+					if (child->m_core_config.name == before)
 					{
-						// parent found
-						if (child->addRuntimeChild(parent, before, item))
-							return true;
+						beforeFound = true;
+						break;
 					}
+
+				}
+
+				// after item is in this container
+				if (beforeFound)
+				{
+					item->m_parent = this;
+
+					std::vector<mvRef<mvAppItem>> oldchildren = children;
+					children.clear();
+
+					for (auto child : oldchildren)
+					{
+						if (child->m_core_config.name == before)
+							children.push_back(item);
+						children.push_back(child);
+
+					}
+
+					return true;
 				}
 			}
-		}
-
-		else
-		{
-			bool beforeFound = false;
 
 			// check children
-			for (auto& child : m_children)
+			for (auto& child : children)
 			{
-
-				if (child->m_core_config.name == before)
+				if (child->getDescription().container)
 				{
-					beforeFound = true;
-					break;
+					// parent found
+					if (child->addRuntimeChild(parent, before, item))
+						return true;
 				}
-
 			}
 
-			// after item is in this container
-			if (beforeFound)
-			{
-				item->m_parent = this;
+			return false;
+		};
 
-				std::vector<mvRef<mvAppItem>> oldchildren = m_children;
-				m_children.clear();
+		if (operation(m_children0))
+			return true;
+		return operation(m_children1);
+	}
 
-				for (auto child : oldchildren)
-				{
-					if (child->m_core_config.name == before)
-						m_children.push_back(item);
-					m_children.push_back(child);
+	bool mvAppItem::addItem(mvRef<mvAppItem> item)
+	{
+		if (item->m_description.target == 0)
+			m_children0.push_back(item);
+		else
+			m_children1.push_back(item);
 
-				}
-
-				return true;
-			}
-		}
-
-		// check children
-		for (auto& child : m_children)
-		{
-			if (child->getDescription().container)
-			{
-				// parent found
-				if (child->addRuntimeChild(parent, before, item))
-					return true;
-			}
-		}
-
-		return false;
+		return true;
 	}
 
 	bool mvAppItem::addChildAfter(const std::string& prev, mvRef<mvAppItem> item)
@@ -374,100 +410,115 @@ namespace Marvel{
 			return false;
 
 
-		bool prevFound = false;
-
-		// check children
-		for (auto& child : m_children)
+		auto operation = [&](std::vector<mvRef<mvAppItem>>& children)
 		{
+			bool prevFound = false;
 
-			if (child->m_core_config.name == prev)
+			// check children
+			for (auto& child : children)
 			{
-				item->m_parent = this;
-				prevFound = true;
-				break;
-			}
 
-		}
-
-		// prev item is in this container
-		if (prevFound)
-		{
-			//item->setParent(this);
-
-			std::vector<mvRef<mvAppItem>> oldchildren = m_children;
-			m_children.clear();
-
-			for (auto& child : oldchildren)
-			{
-				m_children.push_back(child);
 				if (child->m_core_config.name == prev)
-					m_children.push_back(item);
+				{
+					item->m_parent = this;
+					prevFound = true;
+					break;
+				}
+
 			}
 
-			return true;
-		}
-		
-
-		// check children
-		for (auto& child : m_children)
-		{
-			if (child->getDescription().container)
+			// prev item is in this container
+			if (prevFound)
 			{
-				// parent found
-				if (child->addChildAfter(prev, item))
-					return true;
-			}
-		}
+				//item->setParent(this);
 
-		return false;
+				std::vector<mvRef<mvAppItem>> oldchildren = children;
+				children.clear();
+
+				for (auto& child : oldchildren)
+				{
+					children.push_back(child);
+					if (child->m_core_config.name == prev)
+						children.push_back(item);
+				}
+
+				return true;
+			}
+
+
+			// check children
+			for (auto& child : children)
+			{
+				if (child->getDescription().container)
+				{
+					// parent found
+					if (child->addChildAfter(prev, item))
+						return true;
+				}
+			}
+
+			return false;
+		};
+
+		if (operation(m_children0))
+			return true;
+		return operation(m_children1);
 	}
 
 	bool mvAppItem::deleteChild(const std::string& name)
 	{
 
-		bool childfound = false;
-		bool itemDeleted = false;
-
-		for (auto& item : m_children)
+		auto operation = [&](std::vector<mvRef<mvAppItem>>& children)
 		{
-			if (item->m_core_config.name == name)
-			{
-				childfound = true;
-				break;
-			}
+			bool childfound = false;
+			bool itemDeleted = false;
 
-			if (item->getDescription().container)
-			{
-				itemDeleted = item->deleteChild(name);
-				if (itemDeleted)
-					break;
-			}
-		}
-
-		if (childfound)
-		{
-			std::vector<mvRef<mvAppItem>> oldchildren = m_children;
-
-			m_children.clear();
-
-			for (auto& item : oldchildren)
+			for (auto& item : children)
 			{
 				if (item->m_core_config.name == name)
 				{
-					itemDeleted = true;
-					continue;
+					childfound = true;
+					break;
 				}
 
-				m_children.push_back(item);
+				if (item->getDescription().container)
+				{
+					itemDeleted = item->deleteChild(name);
+					if (itemDeleted)
+						break;
+				}
 			}
-		}
 
-		return itemDeleted;
+			if (childfound)
+			{
+				std::vector<mvRef<mvAppItem>> oldchildren = children;
+
+				children.clear();
+
+				for (auto& item : oldchildren)
+				{
+					if (item->m_core_config.name == name)
+					{
+						itemDeleted = true;
+						continue;
+					}
+
+					children.push_back(item);
+				}
+			}
+
+			return itemDeleted;
+		};
+
+		if (operation(m_children0))
+			return true;
+		return operation(m_children1);
 	}
 
 	void mvAppItem::deleteChildren()
 	{
-		m_children.clear();
+		m_children0.clear();
+		m_children1.clear();
 	}
 
 	void mvAppItem::setLabel(const std::string& value)
@@ -480,48 +531,70 @@ namespace Marvel{
 	{
 		mvRef<mvAppItem> stolenChild = nullptr;
 
-		bool childfound = false;
-
-		for (auto& item : m_children)
+		auto operation = [&](std::vector<mvRef<mvAppItem>>& children)
 		{
-			if (item->m_core_config.name == name)
-			{
-				childfound = true;
-				break;
-			}
+			bool childfound = false;
 
-			if (item->getDescription().container)
-			{
-				stolenChild = item->stealChild(name);
-				if (stolenChild)
-					return stolenChild;
-			}
-		}
-
-		if (childfound)
-		{
-			std::vector<mvRef<mvAppItem>> oldchildren = m_children;
-
-			m_children.clear();
-
-			for (auto& item : oldchildren)
+			for (auto& item : children)
 			{
 				if (item->m_core_config.name == name)
 				{
-					stolenChild = item;
-					continue;
+					childfound = true;
+					break;
 				}
 
-				m_children.push_back(item);
+				if (item->getDescription().container)
+				{
+					stolenChild = item->stealChild(name);
+					if (stolenChild)
+						return stolenChild;
+				}
 			}
-		}
 
-		return stolenChild;
+			if (childfound)
+			{
+				std::vector<mvRef<mvAppItem>> oldchildren = children;
+
+				children.clear();
+
+				for (auto& item : oldchildren)
+				{
+					if (item->m_core_config.name == name)
+					{
+						stolenChild = item;
+						continue;
+					}
+
+					children.push_back(item);
+				}
+			}
+
+
+		};
+
+
+		if (operation(m_children0))
+			return stolenChild;
+		return operation(m_children1);
+
 	}
 
 	mvRef<mvAppItem> mvAppItem::getChild(const std::string& name)
 	{
-		for (auto& item : m_children)
+		for (auto& item : m_children0)
+		{
+			if (item->m_core_config.name == name)
+				return item;
+
+			if (item->getDescription().container)
+			{
+				auto child = item->getChild(name);
+				if (child)
+					return child;
+			}
+		}
+
+		for (auto& item : m_children1)
 		{
 			if (item->m_core_config.name == name)
 				return item;
@@ -577,7 +650,7 @@ namespace Marvel{
 		m_theme_color_dirty = true;
 		m_cached_colors.clear();
 
-		for (auto& child : m_children)
+		for (auto& child : m_children1)
 			child->inValidateThemeColorCache();
 	}
 
@@ -587,7 +660,7 @@ namespace Marvel{
 		m_cached_styles.clear();
 		m_cached_styles2.clear();
 
-		for (auto& child : m_children)
+		for (auto& child : m_children1)
 			child->inValidateThemeStyleCache();
 	}
 
@@ -596,7 +669,7 @@ namespace Marvel{
 		m_theme_font_dirty = true;
 		m_cached_font = nullptr;
 
-		for (auto& child : m_children)
+		for (auto& child : m_children1)
 			child->inValidateThemeFontCache();
 	}
 
@@ -800,7 +873,7 @@ namespace Marvel{
 	{
 		const char* item;
 
-		if (!(mvApp::GetApp()->getParsers())["get_item_children"].parse(args, kwargs, __FUNCTION__, &item))
+		if (!(mvApp::GetApp()->getParsers())["get_item_children1"].parse(args, kwargs, __FUNCTION__, &item))
 			return GetPyNone();
 
 		std::lock_guard<std::mutex> lk(mvApp::GetApp()->getMutex());

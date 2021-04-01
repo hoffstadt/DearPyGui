@@ -50,6 +50,7 @@ namespace Marvel {
         bool deleteAllowed     = true ;
         bool ignoreSizeUpdate  = false;
         bool addAfterRequired  = false;
+        int target = 1;
         StorageValueTypes valueType = StorageValueTypes::None;
 
     };

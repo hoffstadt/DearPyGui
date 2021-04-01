@@ -68,15 +68,11 @@ namespace Marvel {
 		mvImGuiThemeScope scope(this);
 		mvFontScope fscope(this);
 
-		bool endOfColumnsFound = false;
-		bool headerPlaced = false;
-		bool firstColPlaced = false;
-
 		if (ImGui::BeginTable(m_core_config.name.c_str(), m_columns, m_flags, 
 			ImVec2(m_core_config.width, m_core_config.height), m_inner_width))
 		{
 
-			for (auto& item : m_children)
+			for (auto& item : m_children0)
 			{
 				// skip item if it's not shown
 				if (!item->m_core_config.show)
@@ -86,19 +82,25 @@ namespace Marvel {
 				if (item->m_core_config.width != 0)
 					ImGui::SetNextItemWidth((float)item->m_core_config.width);
 
-				endOfColumnsFound = item->getType() != mvAppItemType::mvTableColumn;
+				item->draw();
 
-				if (m_tableHeader && endOfColumnsFound && !headerPlaced)
-				{
-					ImGui::TableHeadersRow();
-					headerPlaced = true;
-				}
+				item->getState().update();
+			}
 
-				if (endOfColumnsFound && !firstColPlaced)
-				{
-					ImGui::TableNextColumn();
-					firstColPlaced = true;
-				}
+			if (m_tableHeader)
+				ImGui::TableHeadersRow();
+
+			ImGui::TableNextColumn();
+
+			for (auto& item : m_children1)
+			{
+				// skip item if it's not shown
+				if (!item->m_core_config.show)
+					continue;
+
+				// set item width
+				if (item->m_core_config.width != 0)
+					ImGui::SetNextItemWidth((float)item->m_core_config.width);
 
 				item->draw();
 

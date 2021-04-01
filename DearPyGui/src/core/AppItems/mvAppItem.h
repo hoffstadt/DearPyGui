@@ -261,6 +261,7 @@ namespace Marvel {
         mvRef<mvAppItem>                    getChild(const std::string& name);      // will return nullptr if not found
 
         // runtime modifications
+        bool                                addItem(mvRef<mvAppItem> item);
         bool                                addRuntimeChild(const std::string& parent, const std::string& before, mvRef<mvAppItem> item);
         bool                                addChildAfter(const std::string& prev, mvRef<mvAppItem> item);
         bool                                deleteChild(const std::string& name);
@@ -279,7 +280,8 @@ namespace Marvel {
         mvAppItemConfig               m_core_config;
 
         mvAppItem*                    m_parent = nullptr;
-        std::vector<mvRef<mvAppItem>> m_children;
+        std::vector<mvRef<mvAppItem>> m_children0;
+        std::vector<mvRef<mvAppItem>> m_children1;
 
         std::string                   m_label; // internal label
 

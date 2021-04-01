@@ -43,7 +43,7 @@ namespace Marvel {
 		//we do this so that the children dont get the theme
 		scope.cleanup();
 
-		for (auto& item : m_children)
+		for (auto& item : m_children1)
 		{
 			if (m_core_config.width != 0)
 				item->setWidth(m_core_config.width);
