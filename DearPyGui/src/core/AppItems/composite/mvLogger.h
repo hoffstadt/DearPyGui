@@ -99,7 +99,7 @@ namespace Marvel {
 			m_description.ignoreSizeUpdate = true;
 		}
 
-		void draw() override;
+		void draw(ImDrawList* drawlist, float x, float y) override;
 
 		inline void setLogLevel(int level) { m_loglevel = level; }
 		inline int  getLogLevel() const { return m_loglevel; }

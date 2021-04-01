@@ -43,7 +43,7 @@ namespace Marvel {
         m_description.deleteAllowed = false;
     }
 
-    void mvMetricsWindow::draw()
+    void mvMetricsWindow::draw(ImDrawList* drawlist, float x, float y)
     {
         mvFontScope fscope(this);
 

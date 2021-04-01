@@ -30,7 +30,7 @@ namespace Marvel {
         
         mvAboutWindow(const std::string& name);
         
-        void draw() override;
+        void draw(ImDrawList* drawlist, float x, float y) override;
     };
 
 }

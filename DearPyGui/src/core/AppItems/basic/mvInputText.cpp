@@ -60,7 +60,7 @@ namespace Marvel {
 		m_core_config.enabled = value;
 	}
 
-	void mvInputText::draw()
+	void mvInputText::draw(ImDrawList* drawlist, float x, float y)
 	{
 		ScopedID id;
 		mvImGuiThemeScope scope(this);

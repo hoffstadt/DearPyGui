@@ -20,7 +20,7 @@ namespace Marvel {
 
 		void setFile(const std::string& file);
 
-		void draw() override;
+		void draw(ImDrawList* drawlist, float x, float y) override;
 
 	private:
 

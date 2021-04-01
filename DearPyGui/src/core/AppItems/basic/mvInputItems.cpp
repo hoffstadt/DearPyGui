@@ -244,7 +244,7 @@ namespace Marvel {
         m_core_config.enabled = value;
     }
 
-    void mvInputInt::draw()
+    void mvInputInt::draw(ImDrawList* drawlist, float x, float y)
     {
         ScopedID id;
         mvImGuiThemeScope scope(this);
@@ -327,7 +327,7 @@ namespace Marvel {
         m_core_config.enabled = value;
     }
 
-    void mvInputInt2::draw()
+    void mvInputInt2::draw(ImDrawList* drawlist, float x, float y)
     {
         ScopedID id;
         mvImGuiThemeScope scope(this);
@@ -418,7 +418,7 @@ namespace Marvel {
         m_core_config.enabled = value;
     }
 
-    void mvInputInt3::draw()
+    void mvInputInt3::draw(ImDrawList* drawlist, float x, float y)
     {
         ScopedID id;
         mvImGuiThemeScope scope(this);
@@ -510,7 +510,7 @@ namespace Marvel {
         m_core_config.enabled = value;
     }
 
-    void mvInputInt4::draw()
+    void mvInputInt4::draw(ImDrawList* drawlist, float x, float y)
     {
         ScopedID id;
         mvImGuiThemeScope scope(this);
@@ -602,7 +602,7 @@ namespace Marvel {
         m_core_config.enabled = value;
     }
 
-    void mvInputFloat::draw()
+    void mvInputFloat::draw(ImDrawList* drawlist, float x, float y)
     {
         ScopedID id;
         mvImGuiThemeScope scope(this);
@@ -685,7 +685,7 @@ namespace Marvel {
         m_core_config.enabled = value;
     }
 
-    void mvInputFloat2::draw()
+    void mvInputFloat2::draw(ImDrawList* drawlist, float x, float y)
     {
         ScopedID id;
         mvImGuiThemeScope scope(this);
@@ -777,7 +777,7 @@ namespace Marvel {
         m_core_config.enabled = value;
     }
 
-    void mvInputFloat3::draw()
+    void mvInputFloat3::draw(ImDrawList* drawlist, float x, float y)
     {
         ScopedID id;
         mvImGuiThemeScope scope(this);
@@ -869,7 +869,7 @@ namespace Marvel {
         m_core_config.enabled = value;
     }
 
-    void mvInputFloat4::draw()
+    void mvInputFloat4::draw(ImDrawList* drawlist, float x, float y)
     {
         ScopedID id;
         mvImGuiThemeScope scope(this);

@@ -287,9 +287,9 @@ namespace Marvel {
 
 		// resets app items states (i.e. hovered)
 		for (auto window : m_frontWindows)
-			window->draw();
+			window->draw(nullptr, 0.0f, 0.0f);
 		for (auto window : m_backWindows)
-			window->draw();
+			window->draw(nullptr, 0.0f, 0.0f);
 
 		return false;
 	}

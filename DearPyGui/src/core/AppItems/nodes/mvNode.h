@@ -58,7 +58,7 @@ namespace Marvel {
 
 		void setNodePos(float x, float y);
 
-		void draw() override;
+		void draw(ImDrawList* drawlist, float x, float y) override;
 		bool isParentCompatible(mvAppItemType type) override;
 		bool canChildBeAdded(mvAppItemType type) override;
 

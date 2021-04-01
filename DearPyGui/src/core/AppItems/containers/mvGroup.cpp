@@ -30,7 +30,7 @@ namespace Marvel {
 		m_description.container = true;
 	}
 
-	void mvGroup::draw()
+	void mvGroup::draw(ImDrawList* drawlist, float x, float y)
 	{
 		mvImGuiThemeScope scope(this);
 		mvFontScope fscope(this);
@@ -56,7 +56,7 @@ namespace Marvel {
 			if (item->m_core_config.width != 0)
 				ImGui::SetNextItemWidth((float)item->m_core_config.width);
 
-			item->draw();
+			item->draw(drawlist, x, y);
 
 			if (m_horizontal)
 				ImGui::SameLine(0.0, m_hspacing);

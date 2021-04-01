@@ -103,7 +103,7 @@ namespace Marvel {
 		mvColorEdit3(const std::string& name, float* color, const std::string& dataSource);
 		mvColorEdit3(const std::string& name, const mvColorEditConfig& config);
 
-		void draw() override;
+		void draw(ImDrawList* drawlist, float x, float y) override;
 
 		// cpp interface
 		void             updateConfig(mvAppItemConfig* config) override;
@@ -186,7 +186,7 @@ namespace Marvel {
 		mvColorEdit4(const std::string& name, float* color, const std::string& dataSource);
 		mvColorEdit4(const std::string& name, const mvColorEditConfig& config);
 
-		void draw() override;
+		void draw(ImDrawList* drawlist, float x, float y) override;
 
 		void setExtraConfigDict(PyObject* dict) override;
 		void getExtraConfigDict(PyObject* dict) override;

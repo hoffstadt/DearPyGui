@@ -141,7 +141,7 @@ namespace Marvel {
 		
 	}
 
-	void mvDebugWindow::draw()
+	void mvDebugWindow::draw(ImDrawList* drawlist, float x, float y)
 	{
 		if (!prerender())
 			return;

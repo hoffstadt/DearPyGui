@@ -80,7 +80,7 @@ namespace Marvel {
 
 		mvListbox(const std::string& name, int default_value, const std::string& dataSource);
 
-		void draw()               override;
+		void draw(ImDrawList* drawlist, float x, float y)               override;
 
 		void setExtraConfigDict(PyObject* dict) override;
 		void getExtraConfigDict(PyObject* dict) override;

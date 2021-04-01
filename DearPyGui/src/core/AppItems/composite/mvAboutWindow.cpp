@@ -44,7 +44,7 @@ namespace Marvel {
         m_description.deleteAllowed = false;
     }
 
-    void mvAboutWindow::draw()
+    void mvAboutWindow::draw(ImDrawList* drawlist, float x, float y)
     {
         if (!prerender())
             return;

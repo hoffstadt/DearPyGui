@@ -231,7 +231,7 @@ namespace Marvel {
         m_core_config.enabled = value;
     }
 
-    void mvSliderFloat::draw()
+    void mvSliderFloat::draw(ImDrawList* drawlist, float x, float y)
     {
         ScopedID id;
         mvImGuiThemeScope scope(this);
@@ -304,7 +304,7 @@ namespace Marvel {
         m_core_config.enabled = value;
     }
 
-    void mvSliderFloat2::draw()
+    void mvSliderFloat2::draw(ImDrawList* drawlist, float x, float y)
     {
         ScopedID id;
         mvImGuiThemeScope scope(this);
@@ -361,7 +361,7 @@ namespace Marvel {
         m_core_config.enabled = value;
     }
 
-    void mvSliderFloat3::draw()
+    void mvSliderFloat3::draw(ImDrawList* drawlist, float x, float y)
     {
         ScopedID id;
         mvImGuiThemeScope scope(this);
@@ -418,7 +418,7 @@ namespace Marvel {
         m_core_config.enabled = value;
     }
 
-    void mvSliderFloat4::draw()
+    void mvSliderFloat4::draw(ImDrawList* drawlist, float x, float y)
     {
         ScopedID id;
         mvImGuiThemeScope scope(this);
@@ -475,7 +475,7 @@ namespace Marvel {
         m_core_config.enabled = value;
     }
 
-    void mvSliderInt::draw()
+    void mvSliderInt::draw(ImDrawList* drawlist, float x, float y)
     {
         ScopedID id;
         mvImGuiThemeScope scope(this);
@@ -547,7 +547,7 @@ namespace Marvel {
         m_core_config.enabled = value;
     }
 
-    void mvSliderInt2::draw()
+    void mvSliderInt2::draw(ImDrawList* drawlist, float x, float y)
     {
         ScopedID id;
         mvImGuiThemeScope scope(this);
@@ -604,7 +604,7 @@ namespace Marvel {
         m_core_config.enabled = value;
     }
 
-    void mvSliderInt3::draw()
+    void mvSliderInt3::draw(ImDrawList* drawlist, float x, float y)
     {
         ScopedID id;
         mvImGuiThemeScope scope(this);
@@ -661,7 +661,7 @@ namespace Marvel {
         m_core_config.enabled = value;
     }
 
-    void mvSliderInt4::draw()
+    void mvSliderInt4::draw(ImDrawList* drawlist, float x, float y)
     {
         ScopedID id;
         mvImGuiThemeScope scope(this);

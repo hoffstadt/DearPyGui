@@ -57,7 +57,7 @@ namespace Marvel {
 			m_description.deleteAllowed = false;
 		}
 
-		void draw() override;
+		void draw(ImDrawList* drawlist, float x, float y) override;
 
 	};
 

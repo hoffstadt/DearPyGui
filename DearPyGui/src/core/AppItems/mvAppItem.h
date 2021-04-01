@@ -49,6 +49,9 @@ namespace Marvel {
         mvStyleWindow, mvFileDialog, mvTabButton, mvLoggerItem,
         mvNodeEditor, mvNode, mvNodeAttribute,
         mvTable, mvTableColumn, mvTableNextColumn,
+        mvDrawLine, mvDrawArrow, mvDrawTriangle, mvDrawCircle, mvDrawBezierCurve,
+        mvDrawQuad, mvDrawRect, mvDrawText, mvDrawPolygon, mvDrawPolyline,
+        mvDrawImage,
         ItemTypeCount
     };
 
@@ -104,6 +107,7 @@ namespace Marvel {
         friend class mvNodeAttribute;
         friend class mvFontManager;
         friend class mvFontScope;
+        friend class mvDrawing;
 
     public:
 
@@ -187,7 +191,7 @@ namespace Marvel {
         // pure virtual methods
         [[nodiscard]] virtual mvAppItemType getType      () const = 0;
         [[nodiscard]] virtual std::string   getStringType() const = 0;
-        virtual void                        draw         ()       = 0; // actual imgui draw commands
+        virtual void                        draw         (ImDrawList* drawlist, float x, float y)       = 0; // actual imgui draw commands
 
         // virtual methods
         virtual std::string    getParserCommand     () const { return "no_command_set"; }

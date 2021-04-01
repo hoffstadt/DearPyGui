@@ -92,7 +92,7 @@ namespace Marvel {
 		m_dirty_pos = true;
 	}
 
-	void mvNode::draw()
+	void mvNode::draw(ImDrawList* drawlist, float x, float y)
 	{
 		ScopedID id;
 		mvImNodesThemeScope scope(this);
@@ -125,7 +125,7 @@ namespace Marvel {
 			if (item->m_core_config.width != 0)
 				ImGui::SetNextItemWidth((float)item->m_core_config.width);
 
-			item->draw();
+			item->draw(drawlist, x, y);
 
 			auto& state = item->getState();
 			state.setActive(imnodes::IsAttributeActive());

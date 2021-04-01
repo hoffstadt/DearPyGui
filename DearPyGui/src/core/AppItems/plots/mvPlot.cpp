@@ -959,7 +959,7 @@ namespace Marvel {
 
 	}
 
-	void mvPlot::draw()
+	void mvPlot::draw(ImDrawList* drawlist, float x, float y)
 	{
 		if (m_colormapscale)
 		{
@@ -1021,7 +1021,7 @@ namespace Marvel {
 				default:
 					break;
 				}
-				series->draw();
+				series->draw(drawlist, x, y);
 			}
 
 			// annotations

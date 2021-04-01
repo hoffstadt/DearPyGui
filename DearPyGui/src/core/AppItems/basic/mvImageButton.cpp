@@ -66,7 +66,7 @@ namespace Marvel {
 		return false;
 	}
 
-	void mvImageButton::draw()
+	void mvImageButton::draw(ImDrawList* drawlist, float x, float y)
 	{
 		mvImGuiThemeScope scope(this);
 

@@ -58,7 +58,7 @@ namespace Marvel {
 
 		mvTable(const std::string& name, int inner_width);
 
-		void draw() override;
+		void draw(ImDrawList* drawlist, float x, float y) override;
 
 		void incrementColumns();
 		void decrementColumns();

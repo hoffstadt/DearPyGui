@@ -235,7 +235,7 @@ namespace Marvel {
         m_core_config.enabled = value;
     }
 
-    void mvDragFloat::draw()
+    void mvDragFloat::draw(ImDrawList* drawlist, float x, float y)
     {
         ScopedID id;
         mvImGuiThemeScope scope(this);
@@ -294,7 +294,7 @@ namespace Marvel {
         m_core_config.enabled = value;
     }
 
-    void mvDragFloat2::draw()
+    void mvDragFloat2::draw(ImDrawList* drawlist, float x, float y)
     {
         ScopedID id;
         mvImGuiThemeScope scope(this);
@@ -351,7 +351,7 @@ namespace Marvel {
         m_core_config.enabled = value;
     }
 
-    void mvDragFloat3::draw()
+    void mvDragFloat3::draw(ImDrawList* drawlist, float x, float y)
     {
         ScopedID id;
         mvImGuiThemeScope scope(this);
@@ -408,7 +408,7 @@ namespace Marvel {
         m_core_config.enabled = value;
     }
 
-    void mvDragFloat4::draw()
+    void mvDragFloat4::draw(ImDrawList* drawlist, float x, float y)
     {
         ScopedID id;
         mvImGuiThemeScope scope(this);
@@ -465,7 +465,7 @@ namespace Marvel {
         m_core_config.enabled = value;
     }
 
-    void mvDragInt::draw()
+    void mvDragInt::draw(ImDrawList* drawlist, float x, float y)
     {
         ScopedID id;
         mvImGuiThemeScope scope(this);
@@ -522,7 +522,7 @@ namespace Marvel {
         m_core_config.enabled = value;
     }
 
-    void mvDragInt2::draw()
+    void mvDragInt2::draw(ImDrawList* drawlist, float x, float y)
     {
         ScopedID id;
         mvImGuiThemeScope scope(this);
@@ -579,7 +579,7 @@ namespace Marvel {
         m_core_config.enabled = value;
     }
 
-    void mvDragInt3::draw()
+    void mvDragInt3::draw(ImDrawList* drawlist, float x, float y)
     {
         ScopedID id;
         mvImGuiThemeScope scope(this);
@@ -636,7 +636,7 @@ namespace Marvel {
         m_core_config.enabled = value;
     }
 
-    void mvDragInt4::draw()
+    void mvDragInt4::draw(ImDrawList* drawlist, float x, float y)
     {
         ScopedID id;
         mvImGuiThemeScope scope(this);

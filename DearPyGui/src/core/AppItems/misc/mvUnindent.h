@@ -28,7 +28,7 @@ namespace Marvel {
 
 		mvUnindent(const std::string& name, float default_value);
 
-		void draw() override;
+		void draw(ImDrawList* drawlist, float x, float y) override;
 
 	};
 

@@ -32,7 +32,7 @@ namespace Marvel {
 			m_core_config.height = 21;
 		}
 
-	void mvMenuBar::draw()
+	void mvMenuBar::draw(ImDrawList* drawlist, float x, float y)
 	{
 		mvImGuiThemeScope scope(this);
 		mvFontScope fscope(this);
@@ -52,7 +52,7 @@ namespace Marvel {
 				if (item->m_core_config.width != 0)
 					ImGui::SetNextItemWidth((float)item->m_core_config.width);
 
-				item->draw();
+				item->draw(drawlist, x, y);
 
 				item->getState().update();
 			}

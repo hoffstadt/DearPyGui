@@ -33,7 +33,7 @@ namespace Marvel {
 		
 	}
 
-	void mvTooltip::draw()
+	void mvTooltip::draw(ImDrawList* drawlist, float x, float y)
 	{
 		if (ImGui::IsItemHovered())
 		{
@@ -54,7 +54,7 @@ namespace Marvel {
 				if (item->m_core_config.width != 0)
 					ImGui::SetNextItemWidth((float)item->m_core_config.width);
 
-				item->draw();
+				item->draw(drawlist, x, y);
 
 				item->getState().update();
 			}

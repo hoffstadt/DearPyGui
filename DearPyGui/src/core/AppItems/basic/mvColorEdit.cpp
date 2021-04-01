@@ -104,7 +104,7 @@ namespace Marvel {
 		updateConfig(&m_config);
 	}
 
-	void mvColorEdit3::draw()
+	void mvColorEdit3::draw(ImDrawList* drawlist, float x, float y)
 	{
 		ScopedID id;
 		mvImGuiThemeScope scope(this);
@@ -157,7 +157,7 @@ namespace Marvel {
 		updateConfig(&m_config);
 	}
 
-	void mvColorEdit4::draw()
+	void mvColorEdit4::draw(ImDrawList* drawlist, float x, float y)
 	{
 		ScopedID id;
 		mvImGuiThemeScope scope(this);

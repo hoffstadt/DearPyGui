@@ -62,7 +62,7 @@ namespace Marvel{
 	public:
 		mvSimplePlot(const std::string& name, const std::vector<float>& value);
 
-		void draw() override;
+		void draw(ImDrawList* drawlist, float x, float y) override;
 
 		void setValue(const std::vector<float>& value);
 		[[nodiscard]] const std::vector<float>& getValue() const { return *m_value; }

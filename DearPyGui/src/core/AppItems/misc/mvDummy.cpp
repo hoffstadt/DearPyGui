@@ -26,7 +26,7 @@ namespace Marvel {
 		m_description.duplicatesAllowed = true;
 	}
 
-	void mvDummy::draw()
+	void mvDummy::draw(ImDrawList* drawlist, float x, float y)
 	{
 		ImGui::Dummy({ (float)m_core_config.width, (float)m_core_config.height });
 	}

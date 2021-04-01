@@ -30,7 +30,7 @@ namespace Marvel {
 
 		mvSeriesType getSeriesType() override { return mvSeriesType::Heat; }
 
-		void draw() override
+		void draw(ImDrawList* drawlist, float x, float y) override
 		{
 
 			ImPlot::PlotHeatmap(m_name.c_str(), m_data[0].data(), m_rows, m_cols, m_scale_min, m_scale_max,

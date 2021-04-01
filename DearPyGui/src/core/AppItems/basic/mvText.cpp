@@ -70,7 +70,7 @@ namespace Marvel {
 		m_description.duplicatesAllowed = true;
 	}
 
-	void mvText::draw()
+	void mvText::draw(ImDrawList* drawlist, float x, float y)
 	{
 		ScopedID id;
 		mvImGuiThemeScope scope(this);
@@ -103,7 +103,7 @@ namespace Marvel {
 		m_label = FindRenderedTextEnd(m_core_config.name.c_str());
 	}
 
-	void mvLabelText::draw()
+	void mvLabelText::draw(ImDrawList* drawlist, float x, float y)
 	{
 
 		if (m_color.r > 0.0f)

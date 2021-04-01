@@ -48,7 +48,7 @@ namespace Marvel {
 
 		mvSeriesType getSeriesType() override { return mvSeriesType::Image; }
 
-		void draw() override
+		void draw(ImDrawList* drawlist, float x, float y) override
 		{
 			if(m_texture == nullptr)
 			{

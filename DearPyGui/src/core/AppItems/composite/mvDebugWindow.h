@@ -55,7 +55,7 @@ namespace Marvel {
 
 		mvDebugWindow(const std::string& name);
 
-		void draw() override;
+		void draw(ImDrawList* drawlist, float x, float y) override;
 
 		void renderItem(mvAppItem* item);
 

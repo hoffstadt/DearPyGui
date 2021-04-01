@@ -132,7 +132,7 @@ namespace Marvel {
 		void   setWidth             (int width) override;
 		void   setHeight            (int height) override;
 		mvVec2 getWindowPos         () const;
-		void   draw                 () override;
+		void   draw                 (ImDrawList* drawlist, float x, float y) override;
 		void   setResizeCallback    (mvCallable callback);
 		bool  getWindowAsMainStatus() const { return m_mainWindow; }
 

@@ -51,7 +51,7 @@ namespace Marvel {
 			static_cast<mvTable*>(ptrParent)->decrementColumns();
 	}
 
-	void mvTableColumn::draw()
+	void mvTableColumn::draw(ImDrawList* drawlist, float x, float y)
 	{
 		ImGui::TableSetupColumn(m_core_config.name.c_str(), m_flags, m_init_width_or_weight);
 	}

@@ -69,7 +69,7 @@ namespace Marvel {
 		mvCheckbox(const std::string& name, bool default_value, const std::string& dataSource);
 		mvCheckbox(const std::string& name, const mvCheckboxConfig& config);
 
-		void draw() override;
+		void draw(ImDrawList* drawlist, float x, float y) override;
 
 		// cpp interface
 		void updateConfig(mvAppItemConfig* config) override;

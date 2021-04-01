@@ -25,7 +25,7 @@ namespace Marvel {
 		m_description.duplicatesAllowed = true;
 	}
 
-	void mvSameLine::draw()
+	void mvSameLine::draw(ImDrawList* drawlist, float x, float y)
 	{
 		ImGui::SameLine(m_xoffset, m_spacing);
 	}

@@ -76,7 +76,7 @@ namespace Marvel {
 		mvInputText(const std::string& name, const std::string& default_value, const std::string& dataSource);
 
 		void setEnabled        (bool value)     override;
-		void draw              ()               override;
+		void draw(ImDrawList* drawlist, float x, float y) override;
 
 		void setExtraConfigDict(PyObject* dict) override;
 		void getExtraConfigDict(PyObject* dict) override;

@@ -33,7 +33,7 @@ namespace Marvel {
 		m_callback2 = callback; 
 	}
 
-	void mvFileDialog::draw()
+	void mvFileDialog::draw(ImDrawList* drawlist, float x, float y)
 	{
 		if (!prerender2())
 			return;

@@ -90,7 +90,7 @@ namespace Marvel {
         
         void setEnabled(bool value) override;
         
-        void draw() override;
+        void draw(ImDrawList* drawlist, float x, float y) override;
         
         void setExtraConfigDict(PyObject* dict) override;
         void getExtraConfigDict(PyObject* dict) override;
@@ -180,7 +180,7 @@ namespace Marvel {
         mvDragFloat2(const std::string& name, float* default_value, const std::string& dataSource);
         
         void setEnabled(bool value) override;
-        void draw() override;
+        void draw(ImDrawList* drawlist, float x, float y) override;
 
         void setExtraConfigDict(PyObject* dict) override;
         void getExtraConfigDict(PyObject* dict) override;
@@ -256,7 +256,7 @@ namespace Marvel {
         mvDragFloat3(const std::string& name, float* default_value, const std::string& dataSource);
         
         void setEnabled(bool value) override;
-        void draw() override;
+        void draw(ImDrawList* drawlist, float x, float y) override;
 
         void setExtraConfigDict(PyObject* dict) override;
         void getExtraConfigDict(PyObject* dict) override;
@@ -332,7 +332,7 @@ namespace Marvel {
         mvDragFloat4(const std::string& name, float* default_value, const std::string& dataSource);
         
         void setEnabled(bool value) override;
-        void draw() override;
+        void draw(ImDrawList* drawlist, float x, float y) override;
 
         void setExtraConfigDict(PyObject* dict) override;
         void getExtraConfigDict(PyObject* dict) override;
@@ -420,7 +420,7 @@ namespace Marvel {
         mvDragInt(const std::string& name, int default_value, const std::string& dataSource);
         
         void setEnabled(bool value) override;
-        void draw() override;
+        void draw(ImDrawList* drawlist, float x, float y) override;
 
         void setExtraConfigDict(PyObject* dict) override;
         void getExtraConfigDict(PyObject* dict) override;
@@ -508,7 +508,7 @@ namespace Marvel {
         mvDragInt2(const std::string& name, int* default_value, const std::string& dataSource);
         
         void setEnabled(bool value) override;
-        void draw() override;
+        void draw(ImDrawList* drawlist, float x, float y) override;
 
         void setExtraConfigDict(PyObject* dict) override;
         void getExtraConfigDict(PyObject* dict) override;
@@ -584,7 +584,7 @@ namespace Marvel {
         mvDragInt3(const std::string& name, int* default_value, const std::string& dataSource);
         
         void setEnabled(bool value) override;
-        void draw() override;
+        void draw(ImDrawList* drawlist, float x, float y) override;
 
         void setExtraConfigDict(PyObject* dict) override;
         void getExtraConfigDict(PyObject* dict) override;
@@ -660,7 +660,7 @@ namespace Marvel {
         mvDragInt4(const std::string& name, int* default_value, const std::string& dataSource);
         
         void setEnabled(bool value) override;
-        void draw() override;
+        void draw(ImDrawList* drawlist, float x, float y) override;
 
         void setExtraConfigDict(PyObject* dict) override;
         void getExtraConfigDict(PyObject* dict) override;

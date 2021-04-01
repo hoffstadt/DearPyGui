@@ -57,7 +57,7 @@ namespace Marvel {
 		mvSelectable(const std::string& name, bool default_value, const std::string& dataSource);
 
 		void setEnabled(bool value)     override;
-		void draw()               override;
+		void draw(ImDrawList* drawlist, float x, float y)               override;
 
 		void setExtraConfigDict(PyObject* dict) override;
 		void getExtraConfigDict(PyObject* dict) override;

@@ -203,7 +203,7 @@ namespace Marvel {
 		m_resize_callback = callback;
 	}
 
-	void mvWindowAppItem::draw()
+	void mvWindowAppItem::draw(ImDrawList* drawlist, float x, float y)
 	{
 		// shouldn't have to do this but do. Fix later
 		if (!m_core_config.show)
@@ -269,6 +269,11 @@ namespace Marvel {
 			return;
 		}
 
+		ImDrawList* this_drawlist = ImGui::GetWindowDrawList();
+
+		float startx = (float)ImGui::GetCursorScreenPos().x;
+		float starty = (float)ImGui::GetCursorScreenPos().y;
+
 		//we do this so that the children dont get the theme
 		scope.cleanup();
 
@@ -285,7 +290,20 @@ namespace Marvel {
 			if (item->m_core_config.width != 0)
 				ImGui::SetNextItemWidth((float)item->m_core_config.width);
 
-			item->draw();
+			item->draw(this_drawlist, x, y);
+
+			item->getState().update();
+
+		}
+
+
+		for (auto& item : m_children0)
+		{
+			// skip item if it's not shown
+			if (!item->m_core_config.show)
+				continue;
+
+			item->draw(this_drawlist, startx, starty);
 
 			item->getState().update();
 

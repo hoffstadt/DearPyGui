@@ -99,7 +99,7 @@ namespace Marvel {
 		void clearNodes() { m_clearNodes = true; }
 		void clearLinks() { m_clearLinks = true; }
 
-		void draw() override;
+		void draw(ImDrawList* drawlist, float x, float y) override;
 
 	private:
 

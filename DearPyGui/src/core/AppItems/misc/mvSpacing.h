@@ -28,7 +28,7 @@ namespace Marvel {
 
 		mvSpacing(const std::string& name, int count);
 
-		void draw() override;
+		void draw(ImDrawList* drawlist, float x, float y) override;
 
 	};
 

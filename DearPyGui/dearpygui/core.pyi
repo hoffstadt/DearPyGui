@@ -406,24 +406,12 @@ def add_window(name: str = ..., *, width: int = -1, height: int = -1, x_pos: int
 	"""Creates a new window for following items to be added to."""
 	...
 
-def bring_draw_command_forward(drawing: str, tag: str) -> None:
-	"""Brings draw command forward."""
-	...
-
-def bring_draw_command_to_front(drawing: str, tag: str) -> None:
-	"""Brings draw command to front."""
-	...
-
 def cleanup_dearpygui() -> None:
 	"""Cleans up DearPyGui after calling setup_dearpygui."""
 	...
 
 def clear_data_grid(data_grid: str) -> None:
 	"""Clears data in a data grid"""
-	...
-
-def clear_drawing(draw: str) -> None:
-	"""Clears a drawing."""
 	...
 
 def clear_log(*, logger: str = '') -> None:
@@ -466,10 +454,6 @@ def delete_drag_point(plot: str, name: str) -> None:
 	"""Deletes a drag point if it exists."""
 	...
 
-def delete_draw_command(drawing: str, tag: str) -> None:
-	"""Deletes a drawing item."""
-	...
-
 def delete_grid_column(data_grid: str, column: int) -> None:
 	"""Delete a column in a data grid."""
 	...
@@ -494,47 +478,47 @@ def does_item_exist(item: str) -> bool:
 	"""Checks if item exists."""
 	...
 
-def draw_arrow(drawing: str, p1: List[float], p2: List[float], color: List[int], thickness: int, size: int, *, tag: str = '') -> None:
+def draw_arrow(p1: List[float] = ..., p2: List[float] = ..., color: List[int] = ..., thickness: int = ..., size: int = ..., *, name: str = '', parent: str = '', before: str = '', show: bool = True) -> None:
 	"""Draws an arrow on a drawing."""
 	...
 
-def draw_bezier_curve(drawing: str, p1: List[float], p2: List[float], p3: List[float], p4: List[float], color: List[int], *, thickness: float = 1.0, segments: int = 0, tag: str = '') -> None:
+def draw_bezier_curve(p1: List[float] = ..., p2: List[float] = ..., p3: List[float] = ..., p4: List[float] = ..., color: List[int] = ..., *, thickness: float = 1.0, segments: int = 0, name: str = '', parent: str = '', before: str = '', show: bool = True) -> None:
 	"""Draws a bezier curve on a drawing."""
 	...
 
-def draw_circle(drawing: str, center: List[float], radius: float, color: List[int], *, segments: int = 0, thickness: float = 1.0, fill: List[float] = (0, 0, 0, -1), tag: str = '') -> None:
+def draw_circle(center: List[float] = ..., radius: float = ..., color: List[int] = ..., *, segments: int = 0, thickness: float = 1.0, fill: List[float] = (0, 0, 0, -1), name: str = '', parent: str = '', before: str = '', show: bool = True) -> None:
 	"""Draws a circle on a drawing."""
 	...
 
-def draw_image(drawing: str, file: str, pmin: List[float], pmax: List[float], *, uv_min: List[float] = (0.0, 0.0), uv_max: List[float] = (1.0, 1.0), color: List[int] = (255, 255, 255, 255), tag: str = '') -> None:
+def draw_image(file: str = ..., pmin: List[float] = ..., pmax: List[float] = ..., *, uv_min: List[float] = (0.0, 0.0), uv_max: List[float] = (1.0, 1.0), color: List[int] = (255, 255, 255, 255), name: str = '', parent: str = '', before: str = '', show: bool = True) -> None:
 	"""Draws an image on a drawing. p_min (bottom-left) and p_max (upper-right) represent corners of the rectangle the image will be drawn to.Setting the p_min equal to the p_max will sraw the image to with 1:1 scale.uv_min and uv_max represent the normalized texture coordinates of the original image that will be shown. Using (0,0)->(1,1) texturecoordinates will generally display the entire texture."""
 	...
 
-def draw_line(drawing: str, p1: List[float], p2: List[float], color: List[int], thickness: int, *, tag: str = '') -> None:
+def draw_line(p1: List[float] = ..., p2: List[float] = ..., color: List[int] = ..., thickness: int = ..., *, name: str = '', parent: str = '', before: str = '', show: bool = True) -> None:
 	"""Draws a line on a drawing."""
 	...
 
-def draw_polygon(drawing: str, points: List[List[float]], color: List[int], *, fill: List[float] = (0, 0, 0, -1), thickness: float = 1.0, tag: str = '') -> None:
+def draw_polygon(points: List[List[float]] = ..., color: List[int] = ..., *, fill: List[float] = (0, 0, 0, -1), thickness: float = 1.0, name: str = '', parent: str = '', before: str = '', show: bool = True) -> None:
 	"""Draws a polygon on a drawing."""
 	...
 
-def draw_polyline(drawing: str, points: List[List[float]], color: List[int], *, closed: bool = False, thickness: float = 1.0, tag: str = '') -> None:
+def draw_polyline(points: List[List[float]] = ..., color: List[int] = ..., *, closed: bool = False, thickness: float = 1.0, name: str = '', parent: str = '', before: str = '', show: bool = True) -> None:
 	"""Draws lines on a drawing."""
 	...
 
-def draw_quad(drawing: str, p1: List[float], p2: List[float], p3: List[float], p4: List[float], color: List[int], *, fill: List[float] = (0, 0, 0, -1), thickness: float = 1.0, tag: str = '') -> None:
+def draw_quad(p1: List[float] = ..., p2: List[float] = ..., p3: List[float] = ..., p4: List[float] = ..., color: List[int] = ..., *, fill: List[float] = (0, 0, 0, -1), thickness: float = 1.0, name: str = '', parent: str = '', before: str = '', show: bool = True) -> None:
 	"""Draws a quad on a drawing."""
 	...
 
-def draw_rectangle(drawing: str, pmin: List[float], pmax: List[float], color: List[int], *, fill: List[float] = (0, 0, 0, -1), rounding: float = 0.0, thickness: float = 1.0, tag: str = '') -> None:
-	"""Draws a rectangle on a drawing."""
+def draw_rectangle(pmin: List[float] = ..., pmax: List[float] = ..., color: List[int] = ..., *, fill: List[float] = (0, 0, 0, -1), rounding: float = 0.0, thickness: float = 1.0, name: str = '', parent: str = '', before: str = '', show: bool = True) -> None:
+	"""Draws a line on a drawing."""
 	...
 
-def draw_text(drawing: str, pos: List[float], text: str, *, color: List[int] = (0, 0, 0, -1), size: int = 10, tag: str = '') -> None:
+def draw_text(pos: List[float] = ..., text: str = ..., *, color: List[int] = (0, 0, 0, -1), size: int = 10, name: str = '', parent: str = '', before: str = '', show: bool = True) -> None:
 	"""Draws text on a drawing."""
 	...
 
-def draw_triangle(drawing: str, p1: List[float], p2: List[float], p3: List[float], color: List[int], *, fill: List[float] = (0, 0, 0, -1), thickness: float = 1.0, tag: str = '') -> None:
+def draw_triangle(p1: List[float] = ..., p2: List[float] = ..., p3: List[float] = ..., color: List[int] = ..., *, fill: List[float] = (0, 0, 0, -1), thickness: float = 1.0, name: str = '', parent: str = '', before: str = '', show: bool = True) -> None:
 	"""Draws a triangle on a drawing."""
 	...
 
@@ -560,10 +544,6 @@ def get_dearpygui_version() -> str:
 
 def get_delta_time() -> float:
 	"""Returns time since last frame."""
-	...
-
-def get_draw_command(drawing: str, tag: str) -> dict:
-	"""Returns an draw commands information"""
 	...
 
 def get_drawing_mouse_pos() -> (int, int):
@@ -794,10 +774,6 @@ def log_warning(message: Any, *, logger: str = '') -> None:
 	"""Logs a warning level log."""
 	...
 
-def modify_draw_command(drawing: str, tag: str, **Kwargs) -> None:
-	"""Configures an drawing command."""
-	...
-
 def move_item(item: str, *, parent: str = '', before: str = '') -> None:
 	"""Moves an existing item."""
 	...
@@ -824,14 +800,6 @@ def reset_xticks(plot: str) -> None:
 
 def reset_yticks(plot: str) -> None:
 	"""Sets plots y ticks and labels back to automatic"""
-	...
-
-def send_draw_command_back(drawing: str, tag: str) -> None:
-	"""Sends draw command back."""
-	...
-
-def send_draw_command_to_back(drawing: str, tag: str) -> None:
-	"""Sends draw command to the back."""
 	...
 
 def set_accelerator_callback(callback: Any) -> None:

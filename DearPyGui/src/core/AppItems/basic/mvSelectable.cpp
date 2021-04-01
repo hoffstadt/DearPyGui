@@ -48,7 +48,7 @@ namespace Marvel {
 		m_core_config.enabled = value;
 	}
 
-	void mvSelectable::draw()
+	void mvSelectable::draw(ImDrawList* drawlist, float x, float y)
 	{
 
 		ScopedID id;

@@ -4,9 +4,9 @@
 #include "mvAppLog.h"
 #include "mvAppItems.h"
 #include "mvDrawList.h"
-#include "mvDrawCmdCommon.h"
 #include "mvWindow.h"
 #include "mvFontManager.h"
+#include "mvItemRegistry.h"
 #include "mvImGuiThemeScope.h"
 #include <ImGuiFileDialog.h>
 #include <cstdlib>
@@ -25,18 +25,6 @@ namespace Marvel {
 				methods.push_back(item_type::GetMethodDefinition());
 				item_type::FillExtraCommands(methods);
 			});
-
-		ADD_PYTHON_FUNCTION(draw_arrow);
-		ADD_PYTHON_FUNCTION(draw_image);
-		ADD_PYTHON_FUNCTION(draw_line);
-		ADD_PYTHON_FUNCTION(draw_triangle);
-		ADD_PYTHON_FUNCTION(draw_rectangle);
-		ADD_PYTHON_FUNCTION(draw_quad);
-		ADD_PYTHON_FUNCTION(draw_text);
-		ADD_PYTHON_FUNCTION(draw_circle);
-		ADD_PYTHON_FUNCTION(draw_polyline);
-		ADD_PYTHON_FUNCTION(draw_polygon);
-		ADD_PYTHON_FUNCTION(draw_bezier_curve);
 
 		mvApp::FillExtraCommands(methods);
 		mvAppItem::FillExtraCommands(methods);

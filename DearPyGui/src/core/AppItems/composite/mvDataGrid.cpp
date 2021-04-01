@@ -595,7 +595,7 @@ namespace Marvel {
 		m_values.clear();
 	}
 
-	void mvDataGrid::draw()
+	void mvDataGrid::draw(ImDrawList* drawlist, float x, float y)
 	{
 		ScopedID id;
 		mvImGuiThemeScope scope(this);
