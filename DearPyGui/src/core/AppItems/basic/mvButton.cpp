@@ -36,65 +36,29 @@ namespace Marvel {
 		m_description.disableAllowed = true;
 	}
 
-	mvButton::mvButton(const std::string& name, const mvButtonConfig& config)
-		:
-		mvAppItem(name), 
-		m_config(config)
-	{
-		m_description.disableAllowed = true;
-
-		m_config.name = name;
-		updateConfig(&m_config);
-	}
-
-	void mvButton::updateConfig(mvAppItemConfig* config)
-	{
-		auto aconfig = (mvButtonConfig*)config;
-
-		m_core_config.width = config->width;
-		m_core_config.height = config->height;
-		m_core_config.label = config->label;
-		m_core_config.show = config->show;
-		m_core_config.callback = config->callback;
-		m_core_config.callback_data = config->callback_data;
-		m_core_config.enabled = config->enabled;
-		
-		m_config.arrow = aconfig->arrow;
-		m_config.direction = aconfig->direction;
-		m_config.small_button = aconfig->small_button;
-
-		if (config != &m_config)
-			m_config = *aconfig;
-	}
-
-	mvAppItemConfig* mvButton::getConfig()
-	{
-		return &m_config;
-	}
-
 	void mvButton::draw(ImDrawList* drawlist, float x, float y)
 	{
 		ScopedID id;
 		mvImGuiThemeScope scope(this);
 		mvFontScope fscope(this);
 
-		if (m_config.small_button)
+		if (m_small_button)
 		{
 			if (ImGui::SmallButton(m_label.c_str()))
-				mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), m_core_config.name, m_core_config.callback_data);
+				mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), m_name, m_callback_data);
 			return;
 		}
 
-		if (m_config.arrow)
+		if (m_arrow)
 		{
-			if (ImGui::ArrowButton(m_label.c_str(), m_config.direction))
-				mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), m_core_config.name, m_core_config.callback_data);
+			if (ImGui::ArrowButton(m_label.c_str(), m_direction))
+				mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), m_name, m_callback_data);
 
 			return;
 		}
 
-		if (ImGui::Button(m_label.c_str(), ImVec2((float)m_core_config.width, (float)m_core_config.height)))
-			mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), m_core_config.name, m_core_config.callback_data);
+		if (ImGui::Button(m_label.c_str(), ImVec2((float)m_width, (float)m_height)))
+			mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), m_name, m_callback_data);
 
 	}
 
@@ -103,13 +67,13 @@ namespace Marvel {
 		if (dict == nullptr)
 			return;
 
-		if (PyObject* item = PyDict_GetItemString(dict, "small")) m_config.small_button = ToBool(item);
-		if (PyObject* item = PyDict_GetItemString(dict, "arrow")) m_config.arrow = ToBool(item);
+		if (PyObject* item = PyDict_GetItemString(dict, "small")) m_small_button = ToBool(item);
+		if (PyObject* item = PyDict_GetItemString(dict, "arrow")) m_arrow = ToBool(item);
 
 		if (PyObject* item = PyDict_GetItemString(dict, "direction"))
 		{
-			m_config.direction = ToInt(item);
-			DecodelibID(m_config.direction, &m_config.direction);
+			m_direction = ToInt(item);
+			DecodelibID(m_direction, &m_direction);
 		}
 
 	}
@@ -119,9 +83,9 @@ namespace Marvel {
 		if (dict == nullptr)
 			return;
 
-		PyDict_SetItemString(dict, "small", ToPyBool(m_config.small_button));
-		PyDict_SetItemString(dict, "arrow", ToPyBool(m_config.arrow));
-		PyDict_SetItemString(dict, "direction", ToPyInt(MV_ENCODE_CONSTANT(m_config.direction, 0)));
+		PyDict_SetItemString(dict, "small", ToPyBool(m_small_button));
+		PyDict_SetItemString(dict, "arrow", ToPyBool(m_arrow));
+		PyDict_SetItemString(dict, "direction", ToPyInt(MV_ENCODE_CONSTANT(m_direction, 0)));
 	}
 
 

@@ -4,8 +4,6 @@
 #include "mvItemRegistry.h"
 #include "mvImGuiThemeScope.h"
 #include "mvFontScope.h"
-#include "mvDrawList.h"
-#include "mvDrawCmd.h"
 #include "mvWindow.h"
 #include "mvAppItems.h"
 #include "mvLog.h"
@@ -30,7 +28,6 @@ namespace Marvel {
 	mvDrawing::mvDrawing(const std::string& name)
 		: mvAppItem(name)
 	{
-		m_drawList = CreateRef<mvDrawList>();
 		m_description.container = true;
 	}
 
@@ -62,12 +59,12 @@ namespace Marvel {
 		m_startx = (float)ImGui::GetCursorScreenPos().x;
 		m_starty = (float)ImGui::GetCursorScreenPos().y;
 
-		ImGui::PushClipRect({ m_startx, m_starty }, { m_startx + (float)m_core_config.width, m_starty + (float)m_core_config.height }, true);
+		ImGui::PushClipRect({ m_startx, m_starty }, { m_startx + (float)m_width, m_starty + (float)m_height }, true);
 
 		for (auto& item : m_children0)
 		{
 			// skip item if it's not shown
-			if (!item->m_core_config.show)
+			if (!item->m_show)
 				continue;
 
 			item->draw(drawlist, m_startx, m_starty);
@@ -76,7 +73,7 @@ namespace Marvel {
 		}
 
 		ImGui::PopClipRect();
-		ImGui::Dummy(ImVec2((float)m_core_config.width, (float)m_core_config.height));
+		ImGui::Dummy(ImVec2((float)m_width, (float)m_height));
 
 
 		if (ImGui::IsItemHovered())
@@ -84,11 +81,6 @@ namespace Marvel {
 			ImVec2 mousepos = ImGui::GetMousePos();
 			mvInput::setDrawingMousePosition((float)mousepos.x- m_startx, (float)mousepos.y - m_starty);
 		}
-	}
-
-	mvRef<mvDrawList> mvDrawing::getDrawList()
-	{
-		return m_drawList;
 	}
 
 	PyObject* mvDrawing::add_drawing(PyObject* self, PyObject* args, PyObject* kwargs)

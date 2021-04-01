@@ -36,10 +36,10 @@ namespace Marvel {
 		mvImGuiThemeScope scope(this);
 		mvFontScope fscope(this);
 
-		if (ImPlot::ShowDatePicker(m_core_config.name.c_str(), &m_level, m_imvalue.get(), m_imvalue.get()))
+		if (ImPlot::ShowDatePicker(m_name.c_str(), &m_level, m_imvalue.get(), m_imvalue.get()))
 		{
 			ImPlot::GetGmtTime(*m_imvalue, m_value.get());
-			mvApp::GetApp()->getCallbackRegistry().addCallback(m_core_config.callback, m_core_config.name, m_core_config.callback_data);
+			mvApp::GetApp()->getCallbackRegistry().addCallback(m_callback, m_name, m_callback_data);
 		}
 
 	}

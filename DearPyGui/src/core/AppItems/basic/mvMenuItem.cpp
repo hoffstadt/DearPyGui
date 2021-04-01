@@ -42,34 +42,13 @@ namespace Marvel {
 		ImGui::PushStyleColor(ImGuiCol_TextDisabled, ImGui::GetStyleColorVec4(ImGuiCol_Text));
 
 		// create menu item and see if its selected
-		if (ImGui::MenuItem(m_label.c_str(), m_shortcut.c_str(), m_check ? m_value.get() : nullptr, m_core_config.enabled))
+		if (ImGui::MenuItem(m_label.c_str(), m_shortcut.c_str(), m_check ? m_value.get() : nullptr, m_enabled))
 		{
-			mvApp::GetApp()->getCallbackRegistry().addCallback(m_core_config.callback, m_core_config.name, m_core_config.callback_data);
+			mvApp::GetApp()->getCallbackRegistry().addCallback(m_callback, m_name, m_callback_data);
 		}
 
 		ImGui::PopStyleColor();
 
-	}
-
-	void mvMenuItem::updateConfig(mvAppItemConfig* config)
-	{
-		auto aconfig = (mvMenuItemConfig*)config;
-
-		m_core_config.label = config->label;
-		m_core_config.show = config->show;
-		m_core_config.enabled = config->enabled;
-		m_core_config.callback = config->callback;
-		m_core_config.callback_data = config->callback_data;
-
-		m_config.source = aconfig->source;
-
-		if (config != &m_config)
-			m_config = *aconfig;
-	}
-
-	mvAppItemConfig* mvMenuItem::getConfig()
-	{
-		return &m_config;
 	}
 
 	void mvMenuItem::setExtraConfigDict(PyObject* dict)

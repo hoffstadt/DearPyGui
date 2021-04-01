@@ -86,8 +86,8 @@ namespace Marvel {
 					});
 				return;
 			}
-			if (m_core_config.width == 0) m_core_config.width = (int)((float)texture->width * (m_uv_max.x - m_uv_min.x));
-			if (m_core_config.height == 0) m_core_config.height = (int)((float)texture->height * (m_uv_max.y - m_uv_min.y));
+			if (m_width == 0) m_width = (int)((float)texture->width * (m_uv_max.x - m_uv_min.x));
+			if (m_height == 0) m_height = (int)((float)texture->height * (m_uv_max.y - m_uv_min.y));
 
 			m_texture = texture->texture;
 		}
@@ -97,43 +97,22 @@ namespace Marvel {
 			mvTexture* texture = mvApp::GetApp()->getTextureStorage().getTexture(m_value);
 			if (texture)
 			{
-				m_core_config.width = (int)((float)texture->width * (m_uv_max.x - m_uv_min.x));
-				m_core_config.height = (int)((float)texture->height * (m_uv_max.y - m_uv_min.y));
+				m_width = (int)((float)texture->width * (m_uv_max.x - m_uv_min.x));
+				m_height = (int)((float)texture->height * (m_uv_max.y - m_uv_min.y));
 			}
 			m_dirty = false;
 		}
 
 		if (m_texture)
 		{
-			ImGui::PushID(m_core_config.name.c_str());
-			if (ImGui::ImageButton(m_texture, ImVec2((float)m_core_config.width, (float)m_core_config.height),
+			ImGui::PushID(m_name.c_str());
+			if (ImGui::ImageButton(m_texture, ImVec2((float)m_width, (float)m_height),
 				ImVec2(m_uv_min.x, m_uv_min.y), ImVec2(m_uv_max.x, m_uv_max.y), m_framePadding,
 				m_backgroundColor, m_tintColor))
-				mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), m_core_config.name, m_core_config.callback_data);
+				mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), m_name, m_callback_data);
 			ImGui::PopID();
 		}
 
-	}
-
-	void mvImageButton::updateConfig(mvAppItemConfig* config)
-	{
-		auto aconfig = (mvImageButtonConfig*)config;
-
-		m_core_config.width = config->width;
-		m_core_config.height = config->height;
-		m_core_config.show = config->show;
-		m_core_config.callback = config->callback;
-		m_core_config.callback_data = config->callback_data;
-
-		m_config.source = aconfig->source;
-
-		if (config != &m_config)
-			m_config = *aconfig;
-	}
-
-	mvAppItemConfig* mvImageButton::getConfig()
-	{
-		return &m_config;
 	}
 
 	void mvImageButton::setExtraConfigDict(PyObject* dict)

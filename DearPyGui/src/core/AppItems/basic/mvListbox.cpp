@@ -40,32 +40,10 @@ namespace Marvel {
 		mvImGuiThemeScope scope(this);
 		mvFontScope fscope(this);
 
-		if (!m_core_config.enabled) m_disabled_value = *m_value;
+		if (!m_enabled) m_disabled_value = *m_value;
 
-		if (ImGui::ListBox(m_label.c_str(), m_core_config.enabled ? m_value.get() : &m_disabled_value, m_charNames.data(), (int)m_names.size(), m_itemsHeight))
-			mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), m_core_config.name, m_core_config.callback_data);
-	}
-
-	void mvListbox::updateConfig(mvAppItemConfig* config)
-	{
-		auto aconfig = (mvListboxConfig*)config;
-
-		m_core_config.label = config->label;
-		m_core_config.width = config->width;
-		m_core_config.show = config->show;
-		m_core_config.enabled = config->enabled;
-		m_core_config.callback = config->callback;
-		m_core_config.callback_data = config->callback_data;
-
-		m_config.source = aconfig->source;
-
-		if (config != &m_config)
-			m_config = *aconfig;
-	}
-
-	mvAppItemConfig* mvListbox::getConfig()
-	{
-		return &m_config;
+		if (ImGui::ListBox(m_label.c_str(), m_enabled ? m_value.get() : &m_disabled_value, m_charNames.data(), (int)m_names.size(), m_itemsHeight))
+			mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), m_name, m_callback_data);
 	}
 
 	void mvListbox::setExtraConfigDict(PyObject* dict)

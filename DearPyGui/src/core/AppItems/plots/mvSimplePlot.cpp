@@ -55,10 +55,10 @@ namespace Marvel {
 
 			if (m_histogram)
 				ImGui::PlotHistogram(m_label.c_str(), m_value->data(), (int)m_value->size(), 0, m_overlay.c_str(),
-					m_min, m_max, ImVec2((float)m_core_config.width, (float)m_core_config.height));
+					m_min, m_max, ImVec2((float)m_width, (float)m_height));
 			else
 				ImGui::PlotLines(m_label.c_str(), m_value->data(), (int)m_value->size(), 0, m_overlay.c_str(),
-					m_min, m_max, ImVec2((float)m_core_config.width, (float)m_core_config.height));
+					m_min, m_max, ImVec2((float)m_width, (float)m_height));
 
 			ImGui::PopID();
 		}

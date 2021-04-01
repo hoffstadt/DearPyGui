@@ -3,38 +3,8 @@
 #include <utility>
 #include "mvTypeBases.h"
 #include "mvApp.h"
-#include "mvDrawList.h"
 
 namespace Marvel {
-
-	struct mvWindowAppItemConfig : public mvAppItemConfig
-	{
-		int xpos = 200;
-		int ypos = 200;
-		bool autosize = false;
-		bool no_resize = false;
-		bool no_title_bar = false;
-		bool no_move = false;
-		bool no_scrollbar = false;
-		bool no_collapse = false;
-		bool horizontal_scrollbar = false;
-		bool no_focus_on_appearing = false;
-		bool no_bring_to_front_on_focus = false;
-		bool menubar = false;
-		bool no_close = false;
-		bool no_background = false;
-		bool collapsed = false;
-		mvCallable on_close = nullptr;
-		mvVec2 min_size = { 32.0f, 32.0f };
-		mvVec2 max_size = { 30000.0f, 30000.0f };
-		
-		mvWindowAppItemConfig()
-		{
-			width = 200;
-			height = 200;
-		}
-
-	};
 
 	MV_REGISTER_WIDGET(mvWindowAppItem);
 	class mvWindowAppItem : public mvAppItem
@@ -121,7 +91,6 @@ namespace Marvel {
 	public:
 
 		mvWindowAppItem(const std::string& name, bool mainWindow, mvCallable closing_callback);
-		mvWindowAppItem(const std::string& name, const mvWindowAppItemConfig& config);
 
 		void   addMenuBar           () { m_hasMenuBar = true; }
 		void   addFlag              (ImGuiWindowFlags flag) { m_windowflags |= flag; }
@@ -140,19 +109,13 @@ namespace Marvel {
 		void getExtraConfigDict(PyObject* dict) override;
 
 		void   setFocusedNextFrame  () { m_focusNextFrame = true; }
-		mvRef<mvDrawList> getDrawList     () { return m_drawList; }
 
 		~mvWindowAppItem();
-
-		// cpp interface
-		void updateConfig(mvAppItemConfig* config) override;
-		mvAppItemConfig* getConfig() override;
 
 	private:
 
 		ImGuiWindowFlags      m_windowflags = ImGuiWindowFlags_NoSavedSettings;
 		ImGuiWindowFlags      m_oldWindowflags = ImGuiWindowFlags_NoSavedSettings;
-		mvWindowAppItemConfig m_config;
 		int                   m_oldxpos = 200;
 		int                   m_oldypos = 200;
 		int                   m_oldWidth = 200;
@@ -165,7 +128,25 @@ namespace Marvel {
 		bool                  m_focusNextFrame = false;
 		bool                  m_closing = true;
 		bool                  m_collapsedDirty = true;
-		mvRef<mvDrawList>     m_drawList;
+
+		int        m_xpos = 200;
+		int        m_ypos = 200;
+		bool       m_autosize = false;
+		bool       m_no_resize = false;
+		bool       m_no_title_bar = false;
+		bool       m_no_move = false;
+		bool       m_no_scrollbar = false;
+		bool       m_no_collapse = false;
+		bool       m_horizontal_scrollbar = false;
+		bool       m_no_focus_on_appearing = false;
+		bool       m_no_bring_to_front_on_focus = false;
+		bool       m_menubar = false;
+		bool       m_no_close = false;
+		bool       m_no_background = false;
+		bool       m_collapsed = false;
+		mvCallable m_on_close = nullptr;
+		mvVec2     m_min_size = { 32.0f, 32.0f };
+		mvVec2     m_max_size = { 30000.0f, 30000.0f };
 		
 	};
 

@@ -68,19 +68,19 @@ namespace Marvel {
 		mvImGuiThemeScope scope(this);
 		mvFontScope fscope(this);
 
-		if (ImGui::BeginTable(m_core_config.name.c_str(), m_columns, m_flags, 
-			ImVec2(m_core_config.width, m_core_config.height), m_inner_width))
+		if (ImGui::BeginTable(m_name.c_str(), m_columns, m_flags, 
+			ImVec2(m_width, m_height), m_inner_width))
 		{
 
 			for (auto& item : m_children0)
 			{
 				// skip item if it's not shown
-				if (!item->m_core_config.show)
+				if (!item->m_show)
 					continue;
 
 				// set item width
-				if (item->m_core_config.width != 0)
-					ImGui::SetNextItemWidth((float)item->m_core_config.width);
+				if (item->m_width != 0)
+					ImGui::SetNextItemWidth((float)item->m_width);
 
 				item->draw(drawlist, x, y);
 
@@ -95,12 +95,12 @@ namespace Marvel {
 			for (auto& item : m_children1)
 			{
 				// skip item if it's not shown
-				if (!item->m_core_config.show)
+				if (!item->m_show)
 					continue;
 
 				// set item width
-				if (item->m_core_config.width != 0)
-					ImGui::SetNextItemWidth((float)item->m_core_config.width);
+				if (item->m_width != 0)
+					ImGui::SetNextItemWidth((float)item->m_width);
 
 				item->draw(drawlist, x, y);
 

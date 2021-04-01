@@ -4,14 +4,6 @@
 
 namespace Marvel {
 
-	struct mvListboxConfig : public mvAppItemConfig
-	{
-		std::vector<std::string> items;
-		int default_value = 0;
-		int num_items = 3;
-
-	};
-
 	MV_REGISTER_WIDGET(mvListbox);
 	class mvListbox : public mvIntPtrBase
 	{
@@ -85,16 +77,11 @@ namespace Marvel {
 		void setExtraConfigDict(PyObject* dict) override;
 		void getExtraConfigDict(PyObject* dict) override;
 
-		// cpp interface
-		void updateConfig(mvAppItemConfig* config) override;
-		mvAppItemConfig* getConfig() override;
-
 	private:
 
 		std::vector<std::string> m_names;
 		int                      m_itemsHeight = 3; // number of items to show (default -1)
 		std::vector<const char*> m_charNames;
-		mvListboxConfig          m_config;
 
 	};
 

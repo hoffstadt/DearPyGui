@@ -4,12 +4,6 @@
 
 namespace Marvel {
 
-	struct mvGroupConfig : public mvAppItemConfig
-	{
-		bool horizontal = false;
-		float horizontal_spacing = -1;
-	};
-
 	MV_REGISTER_WIDGET(mvGroup);
 	class mvGroup : public mvAppItem
 	{

@@ -13,32 +13,6 @@
 namespace Marvel {
 
 	//-----------------------------------------------------------------------------
-	// mvColorPicker Config Struct
-	//-----------------------------------------------------------------------------
-	struct mvColorPickerConfig : public mvAppItemConfig
-	{
-		std::array<float, 4> default_value = {0.0f, 0.0f, 0.0f, 1.0f};
-		bool                 no_alpha           = false;
-		bool                 no_small_preview   = false;
-		bool                 no_inputs          = false;
-		bool                 no_tooltip         = false;
-		bool                 no_label           = false;
-		bool                 no_side_preview    = false;
-		bool                 alpha_bar          = false;
-		bool                 alpha_preview      = false;
-		bool                 alpha_preview_half = false;
-		bool                 display_rgb        = false;
-		bool                 display_hsv        = false;
-		bool                 display_hex        = false;
-		bool                 uint8              = false;
-		bool                 floats             = false;
-		bool                 picker_hue_bar     = false;
-		bool                 picker_hue_wheel   = false;
-		bool                 input_rgb          = false;
-		bool                 input_hsv          = false;
-	};
-
-	//-----------------------------------------------------------------------------
 	// mvColorPicker3
 	//-----------------------------------------------------------------------------
 	MV_REGISTER_WIDGET(mvColorPicker3);
@@ -100,21 +74,35 @@ namespace Marvel {
 	public:
 
 		mvColorPicker3(const std::string& name, float* color, const std::string& dataSource);
-		mvColorPicker3(const std::string& name, const mvColorPickerConfig& config);
 
 		void draw(ImDrawList* drawlist, float x, float y)               override;
 
 		void setExtraConfigDict(PyObject* dict) override;
 		void getExtraConfigDict(PyObject* dict) override;
 
-		// cpp interface
-		void updateConfig(mvAppItemConfig* config) override;
-		mvAppItemConfig* getConfig() override;
-
 	private:
 
 		ImGuiColorEditFlags m_flags = ImGuiColorEditFlags_None;
-		mvColorPickerConfig m_config;
+
+		std::array<float, 4> m_default_value = { 0.0f, 0.0f, 0.0f, 1.0f };
+		bool                 m_no_alpha = false;
+		bool                 m_no_small_preview = false;
+		bool                 m_no_inputs = false;
+		bool                 m_no_tooltip = false;
+		bool                 m_no_label = false;
+		bool                 m_no_side_preview = false;
+		bool                 m_alpha_bar = false;
+		bool                 m_alpha_preview = false;
+		bool                 m_alpha_preview_half = false;
+		bool                 m_display_rgb = false;
+		bool                 m_display_hsv = false;
+		bool                 m_display_hex = false;
+		bool                 m_uint8 = false;
+		bool                 m_floats = false;
+		bool                 m_picker_hue_bar = false;
+		bool                 m_picker_hue_wheel = false;
+		bool                 m_input_rgb = false;
+		bool                 m_input_hsv = false;
 
 	};
 
@@ -180,21 +168,35 @@ namespace Marvel {
 	public:
 
 		mvColorPicker4(const std::string& name, float* color, const std::string& dataSource);
-		mvColorPicker4(const std::string& name, const mvColorPickerConfig& config);
 
-		void draw(ImDrawList* drawlist, float x, float y)               override;
+		void draw(ImDrawList* drawlist, float x, float y) override;
 
 		void setExtraConfigDict(PyObject* dict) override;
 		void getExtraConfigDict(PyObject* dict) override;
 
-		// cpp interface
-		void updateConfig(mvAppItemConfig* config) override;
-		mvAppItemConfig* getConfig() override;
-
 	private:
 
 		ImGuiColorEditFlags m_flags = ImGuiColorEditFlags_None;
-		mvColorPickerConfig m_config;
+
+		std::array<float, 4> m_default_value = { 0.0f, 0.0f, 0.0f, 1.0f };
+		bool                 m_no_alpha = false;
+		bool                 m_no_small_preview = false;
+		bool                 m_no_inputs = false;
+		bool                 m_no_tooltip = false;
+		bool                 m_no_label = false;
+		bool                 m_no_side_preview = false;
+		bool                 m_alpha_bar = false;
+		bool                 m_alpha_preview = false;
+		bool                 m_alpha_preview_half = false;
+		bool                 m_display_rgb = false;
+		bool                 m_display_hsv = false;
+		bool                 m_display_hex = false;
+		bool                 m_uint8 = false;
+		bool                 m_floats = false;
+		bool                 m_picker_hue_bar = false;
+		bool                 m_picker_hue_wheel = false;
+		bool                 m_input_rgb = false;
+		bool                 m_input_hsv = false;
 
 	};
 

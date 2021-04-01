@@ -5,13 +5,6 @@
 
 namespace Marvel {
 
-	struct mvMenuItemConfig : public mvAppItemConfig
-	{
-		std::string shortcut = "";
-		bool check = false;
-
-	};
-
 	MV_REGISTER_WIDGET(mvMenuItem);
 	class mvMenuItem : public mvBoolPtrBase
 	{
@@ -53,15 +46,10 @@ namespace Marvel {
 		void setExtraConfigDict(PyObject* dict) override;
 		void getExtraConfigDict(PyObject* dict) override;
 
-		// cpp interface
-		void updateConfig(mvAppItemConfig* config) override;
-		mvAppItemConfig* getConfig() override;
-
 	private:
 
 		std::string m_shortcut;
 		bool        m_check = false;
-		mvMenuItemConfig m_config;
 
 	};
 

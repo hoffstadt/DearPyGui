@@ -80,7 +80,7 @@ namespace Marvel {
 			for (auto& grandchild : child->m_children1)
 			{
 				((mvNodeAttribute*)grandchild.get())->markForDeletion();
-				deleteLink(grandchild->m_core_config.name, ((mvNodeAttribute*)grandchild.get())->getId(), true);
+				deleteLink(grandchild->m_name, ((mvNodeAttribute*)grandchild.get())->getId(), true);
 			}
 
 		}
@@ -106,9 +106,9 @@ namespace Marvel {
 		{
 			for (const auto& attr : node->m_children1)
 			{
-				if (attr->getCoreConfig().name == node1)
+				if (attr->m_name == node1)
 					node1_id = static_cast<mvNodeAttribute*>(attr.get())->getId();
-				if (attr->getCoreConfig().name == node2)
+				if (attr->m_name == node2)
 					node2_id = static_cast<mvNodeAttribute*>(attr.get())->getId();
 			}
 		}
@@ -132,7 +132,7 @@ namespace Marvel {
 				PyObject* link = PyTuple_New(2);
 				PyTuple_SetItem(link, 0, ToPyString(node1));
 				PyTuple_SetItem(link, 1, ToPyString(node2));
-				mvApp::GetApp()->getCallbackRegistry().addCallback(m_linkCallback, m_core_config.name, link);
+				mvApp::GetApp()->getCallbackRegistry().addCallback(m_linkCallback, m_name, link);
 				});
 
 	}
@@ -163,7 +163,7 @@ namespace Marvel {
 			mvApp::GetApp()->getCallbackRegistry().submitCallback([=]() {
 				PyObject* link = PyTuple_New(1);
 				PyTuple_SetItem(link, 0, ToPyString(node));
-				mvApp::GetApp()->getCallbackRegistry().addCallback(m_delinkCallback, m_core_config.name, link);
+				mvApp::GetApp()->getCallbackRegistry().addCallback(m_delinkCallback, m_name, link);
 				});
 
 	}
@@ -177,9 +177,9 @@ namespace Marvel {
 		{
 			for (const auto& attr : node->m_children1)
 			{
-				if (attr->getCoreConfig().name == node1)
+				if (attr->m_name == node1)
 					node1_id = static_cast<mvNodeAttribute*>(attr.get())->getId();
-				if (attr->getCoreConfig().name == node2)
+				if (attr->m_name == node2)
 					node2_id = static_cast<mvNodeAttribute*>(attr.get())->getId();
 			}
 		}
@@ -202,7 +202,7 @@ namespace Marvel {
 			PyObject* link = PyTuple_New(2);
 			PyTuple_SetItem(link, 0, ToPyString(node1));
 			PyTuple_SetItem(link, 1, ToPyString(node2));
-			mvApp::GetApp()->getCallbackRegistry().addCallback(m_delinkCallback, m_core_config.name, link);
+			mvApp::GetApp()->getCallbackRegistry().addCallback(m_delinkCallback, m_name, link);
 				});
 
 	}
@@ -243,7 +243,7 @@ namespace Marvel {
 			    int i3 = i1 + i2;
 				//if (static_cast<mvNode*>(child.get())->getId() == item)
 				if (i1 == i2)
-					result.push_back(child->getCoreConfig().name);
+					result.push_back(child->m_name);
 			}
 		}
 
@@ -286,12 +286,12 @@ namespace Marvel {
 		for (auto item : m_children1)
 		{
 			// skip item if it's not shown
-			if (!item->m_core_config.show)
+			if (!item->m_show)
 				continue;
 
 			// set item width
-			if (item->m_core_config.width != 0)
-				ImGui::SetNextItemWidth((float)item->m_core_config.width);
+			if (item->m_width != 0)
+				ImGui::SetNextItemWidth((float)item->m_width);
 
 			item->draw(drawlist, x, y);
 
@@ -353,10 +353,10 @@ namespace Marvel {
 				for (const auto& grandchild : child->m_children1)
 				{
 					if (static_cast<mvNodeAttribute*>(grandchild.get())->getId()== start_attr)
-						node1 = grandchild->getCoreConfig().name;
+						node1 = grandchild->m_name;
 
 					if (static_cast<mvNodeAttribute*>(grandchild.get())->getId() == end_attr)
-						node2 = grandchild->getCoreConfig().name;
+						node2 = grandchild->m_name;
 				}
 			}
 			addLink(node1, node2);

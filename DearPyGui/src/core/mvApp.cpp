@@ -106,7 +106,7 @@ namespace Marvel {
 			// reset other windows
 			for (auto window : m_itemRegistry->getFrontWindows())
 			{
-				if (window->m_core_config.name != primaryWindow)
+				if (window->m_name != primaryWindow)
                     dynamic_cast<mvWindowAppItem*>(window.get())->setWindowAsMainStatus(false);
 			}
 

@@ -40,10 +40,10 @@ namespace Marvel {
 
 		ImPlot::GetStyle().Use24HourClock = m_hour24;
 
-		if (ImPlot::ShowTimePicker(m_core_config.name.c_str(), m_imvalue.get()))
+		if (ImPlot::ShowTimePicker(m_name.c_str(), m_imvalue.get()))
 		{
 			ImPlot::GetGmtTime(*m_imvalue, m_value.get());
-			mvApp::GetApp()->getCallbackRegistry().addCallback(m_core_config.callback, m_core_config.name, m_core_config.callback_data);
+			mvApp::GetApp()->getCallbackRegistry().addCallback(m_callback, m_name, m_callback_data);
 		}
 
 	}

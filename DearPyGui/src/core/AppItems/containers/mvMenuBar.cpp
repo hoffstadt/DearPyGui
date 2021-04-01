@@ -29,7 +29,7 @@ namespace Marvel {
 			//float FontSize = ImGui::GetFontSize(); // = Base Font Size * Current Window Scale
 			//ImGuiStyle currentStyle = ImGui::GetStyle(); // = Padding for the Top and Bottom
 			//m_height = int(currentStyle.FramePadding.y * 2 + FontSize);
-			m_core_config.height = 21;
+			m_height = 21;
 		}
 
 	void mvMenuBar::draw(ImDrawList* drawlist, float x, float y)
@@ -45,12 +45,12 @@ namespace Marvel {
 			for (auto& item : m_children1)
 			{
 				// skip item if it's not shown
-				if (!item->m_core_config.show)
+				if (!item->m_show)
 					continue;
 
 				// set item width
-				if (item->m_core_config.width != 0)
-					ImGui::SetNextItemWidth((float)item->m_core_config.width);
+				if (item->m_width != 0)
+					ImGui::SetNextItemWidth((float)item->m_width);
 
 				item->draw(drawlist, x, y);
 

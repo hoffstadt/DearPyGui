@@ -35,7 +35,7 @@ namespace Marvel {
 		mvImGuiThemeScope scope(this);
 		mvFontScope fscope(this);
 
-		ImGui::ProgressBar(*m_value, ImVec2((float)m_core_config.width, (float)m_core_config.height), m_overlay.c_str());
+		ImGui::ProgressBar(*m_value, ImVec2((float)m_width, (float)m_height), m_overlay.c_str());
 
 	}
 

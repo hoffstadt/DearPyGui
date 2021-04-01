@@ -36,7 +36,7 @@ namespace Marvel {
 
 	void mvSelectable::setEnabled(bool value)
 	{
-		if (value == m_core_config.enabled)
+		if (value == m_enabled)
 			return;
 
 		if (value)
@@ -45,7 +45,7 @@ namespace Marvel {
 		else
 			m_flags |= ImGuiSelectableFlags_Disabled;
 
-		m_core_config.enabled = value;
+		m_enabled = value;
 	}
 
 	void mvSelectable::draw(ImDrawList* drawlist, float x, float y)
@@ -55,32 +55,9 @@ namespace Marvel {
 		mvImGuiThemeScope scope(this);
 		mvFontScope fscope(this);
 
-		if (ImGui::Selectable(m_label.c_str(), m_value.get(), m_flags, ImVec2((float)m_core_config.width, (float)m_core_config.height)))
-			mvApp::GetApp()->getCallbackRegistry().addCallback(m_core_config.callback, m_core_config.name, m_core_config.callback_data);
+		if (ImGui::Selectable(m_label.c_str(), m_value.get(), m_flags, ImVec2((float)m_width, (float)m_height)))
+			mvApp::GetApp()->getCallbackRegistry().addCallback(m_callback, m_name, m_callback_data);
 
-	}
-
-	void mvSelectable::updateConfig(mvAppItemConfig* config)
-	{
-		auto aconfig = (mvSelectableConfig*)config;
-
-		m_core_config.width = config->width;
-		m_core_config.height = config->height;
-		m_core_config.label = config->label;
-		m_core_config.show = config->show;
-		m_core_config.enabled = config->enabled;
-		m_core_config.callback = config->callback;
-		m_core_config.callback_data = config->callback_data;
-
-		m_config.source = aconfig->source;
-
-		if (config != &m_config)
-			m_config = *aconfig;
-	}
-
-	mvAppItemConfig* mvSelectable::getConfig()
-	{
-		return &m_config;
 	}
 
 	void mvSelectable::setExtraConfigDict(PyObject* dict)

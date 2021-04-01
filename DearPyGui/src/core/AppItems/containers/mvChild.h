@@ -4,16 +4,6 @@
 
 namespace Marvel {
 
-	struct mvChildConfig : public mvAppItemConfig
-	{
-		bool border = true;
-		bool autosize_x = false;
-		bool autosize_y = false;
-		bool no_scrollbar = false;
-		bool horizontal_scrollbar = false;
-		bool menubar = false;
-	};
-
 	MV_REGISTER_WIDGET(mvChild);
 	class mvChild : public mvBoolPtrBase
 	{

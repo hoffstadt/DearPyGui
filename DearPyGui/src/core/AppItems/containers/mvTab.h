@@ -4,15 +4,6 @@
 
 namespace Marvel {
 
-	struct mvTabConfig : public mvAppItemConfig
-	{
-		bool closable = false;
-		bool no_reorder = false;
-		bool leading = false;
-		bool trailing = false;
-		bool no_tooltip = false;
-	};
-
 	MV_REGISTER_WIDGET(mvTab);
 	class mvTab : public mvBoolPtrBase
 	{

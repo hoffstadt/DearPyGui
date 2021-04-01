@@ -33,11 +33,11 @@ namespace Marvel {
 		mvFontScope fscope(this);
 
 		// create menu and see if its selected
-		if (ImGui::BeginMenu(m_label.c_str(), m_core_config.enabled))
+		if (ImGui::BeginMenu(m_label.c_str(), m_enabled))
 		{
 
 			// set other menus's value false on same level
-			for (auto sibling : m_parent->m_children1)
+			for (auto sibling : m_parentPtr->m_children1)
 			{
 				// ensure sibling
 				if (sibling->getType() == mvAppItemType::mvMenu)
@@ -53,12 +53,12 @@ namespace Marvel {
 			for (auto& item : m_children1)
 			{
 				// skip item if it's not shown
-				if (!item->m_core_config.show)
+				if (!item->m_show)
 					continue;
 
 				// set item width
-				if (item->m_core_config.width != 0)
-					ImGui::SetNextItemWidth((float)item->m_core_config.width);
+				if (item->m_width != 0)
+					ImGui::SetNextItemWidth((float)item->m_width);
 
 				item->draw(drawlist, x, y);
 
@@ -77,7 +77,7 @@ namespace Marvel {
 		if (dict == nullptr)
 			return;
 		 
-		if (PyObject* item = PyDict_GetItemString(dict, "enabled")) m_core_config.enabled = ToBool(item);
+		if (PyObject* item = PyDict_GetItemString(dict, "enabled")) m_enabled = ToBool(item);
 
 	}
 
@@ -86,7 +86,7 @@ namespace Marvel {
 		if (dict == nullptr)
 			return;
 		 
-		PyDict_SetItemString(dict, "enabled", ToPyBool(m_core_config.enabled));
+		PyDict_SetItemString(dict, "enabled", ToPyBool(m_enabled));
 	}
 
 

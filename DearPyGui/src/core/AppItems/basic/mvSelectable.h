@@ -4,14 +4,6 @@
 
 namespace Marvel {
 
-	struct mvSelectableConfig : public mvAppItemConfig
-	{
-		bool default_value = false;
-		bool span_columns = false;
-	};
-
-	
-
 	MV_REGISTER_WIDGET(mvSelectable);
 	class mvSelectable : public mvBoolPtrBase
 	{
@@ -62,13 +54,9 @@ namespace Marvel {
 		void setExtraConfigDict(PyObject* dict) override;
 		void getExtraConfigDict(PyObject* dict) override;
 
-		// cpp interface
-		void updateConfig(mvAppItemConfig* config) override;
-		mvAppItemConfig* getConfig() override;
-
 	private:
+
 		ImGuiSelectableFlags m_flags = ImGuiSelectableFlags_None;
-		mvSelectableConfig   m_config;
 	};
 
 }

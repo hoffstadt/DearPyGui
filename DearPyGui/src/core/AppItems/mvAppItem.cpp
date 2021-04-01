@@ -121,39 +121,10 @@ namespace Marvel{
 
 	mvAppItem::mvAppItem(const std::string& name)
 	{
-		m_core_config.name = name;
+		m_name = name;
 		m_label = name + " ###" + name;
-		m_core_config.label = name;
+		m_label = name;
 		m_state.setParent(this);
-	}
-
-	mvAppItem::mvAppItem(const mvAppItemConfig& config)
-	{
-		m_core_config.name = config.name;
-		m_label = config.name + " ###" + config.name;
-		m_core_config.label = config.name;
-		m_state.setParent(this);
-
-		if (m_label != "__DearPyGuiDefault")
-		{
-			m_label = config.label + " ###" + config.label;
-			m_core_config.label = config.label;
-		}
-	}
-
-	void mvAppItem::updateCoreConfig()
-	{
-
-		setLabel(m_core_config.label);
-		setWidth(m_core_config.width);
-		setHeight(m_core_config.height);
-		setDataSource(m_core_config.source);
-		setEnabled(m_core_config.enabled);
-	}
-
-	mvAppItemConfig& mvAppItem::getCoreConfig()
-	{
-		return m_core_config;
 	}
 
 	void mvAppItem::registerWindowFocusing()
@@ -167,8 +138,8 @@ namespace Marvel{
 			float y = mousePos.y - ImGui::GetWindowPos().y;
 			mvInput::setMousePosition(x, y);
 
-			if (mvApp::GetApp()->getItemRegistry().getActiveWindow() != m_core_config.name)
-				mvEventBus::Publish(mvEVT_CATEGORY_ITEM, mvEVT_ACTIVE_WINDOW, { CreateEventArgument("WINDOW", m_core_config.name) });
+			if (mvApp::GetApp()->getItemRegistry().getActiveWindow() != m_name)
+				mvEventBus::Publish(mvEVT_CATEGORY_ITEM, mvEVT_ACTIVE_WINDOW, { CreateEventArgument("WINDOW", m_name) });
 
 		}
 	}
@@ -178,21 +149,21 @@ namespace Marvel{
 
 		if (callback == Py_None)
 		{
-			m_core_config.callback = nullptr;
+			m_callback = nullptr;
 			return;
 		}
 
-		m_core_config.callback = callback;
+		m_callback = callback;
 	}
 
 	void mvAppItem::setCallbackData(mvCallableData data)
 	{
 		if (data == Py_None)
 		{
-			m_core_config.callback_data = nullptr;
+			m_callback_data = nullptr;
 			return;
 		}
-		m_core_config.callback_data = data;
+		m_callback_data = data;
 	}
 
 	void mvAppItem::resetState()
@@ -216,7 +187,7 @@ namespace Marvel{
 			for (size_t i = 0; i < children.size(); i++)
 			{
 
-				if (children[i]->m_core_config.name == name)
+				if (children[i]->m_name == name)
 				{
 					found = true;
 					index = (int)i;
@@ -267,7 +238,7 @@ namespace Marvel{
 			for (size_t i = 0; i < children.size(); i++)
 			{
 
-				if (children[i]->m_core_config.name == name)
+				if (children[i]->m_name == name)
 				{
 					found = true;
 					index = i;
@@ -317,10 +288,10 @@ namespace Marvel{
 			//this is the container, add item to beginning.
 			if (before.empty())
 			{
-				if (parent == m_core_config.name)
+				if (parent == m_name)
 				{
 					children.push_back(item);
-					item->m_parent = this;
+					item->m_parentPtr = this;
 					return true;
 				}
 
@@ -347,7 +318,7 @@ namespace Marvel{
 				for (auto& child : children)
 				{
 
-					if (child->m_core_config.name == before)
+					if (child->m_name == before)
 					{
 						beforeFound = true;
 						break;
@@ -358,14 +329,14 @@ namespace Marvel{
 				// after item is in this container
 				if (beforeFound)
 				{
-					item->m_parent = this;
+					item->m_parentPtr = this;
 
 					std::vector<mvRef<mvAppItem>> oldchildren = children;
 					children.clear();
 
 					for (auto child : oldchildren)
 					{
-						if (child->m_core_config.name == before)
+						if (child->m_name == before)
 							children.push_back(item);
 						children.push_back(child);
 
@@ -418,9 +389,9 @@ namespace Marvel{
 			for (auto& child : children)
 			{
 
-				if (child->m_core_config.name == prev)
+				if (child->m_name == prev)
 				{
-					item->m_parent = this;
+					item->m_parentPtr = this;
 					prevFound = true;
 					break;
 				}
@@ -438,7 +409,7 @@ namespace Marvel{
 				for (auto& child : oldchildren)
 				{
 					children.push_back(child);
-					if (child->m_core_config.name == prev)
+					if (child->m_name == prev)
 						children.push_back(item);
 				}
 
@@ -475,7 +446,7 @@ namespace Marvel{
 
 			for (auto& item : children)
 			{
-				if (item->m_core_config.name == name)
+				if (item->m_name == name)
 				{
 					childfound = true;
 					break;
@@ -497,7 +468,7 @@ namespace Marvel{
 
 				for (auto& item : oldchildren)
 				{
-					if (item->m_core_config.name == name)
+					if (item->m_name == name)
 					{
 						itemDeleted = true;
 						continue;
@@ -523,8 +494,8 @@ namespace Marvel{
 
 	void mvAppItem::setLabel(const std::string& value)
 	{
-		m_core_config.label = value;
-		m_label = value + " ###" + m_core_config.name;
+		m_label = value;
+		m_label = value + " ###" + m_name;
 	}
 
 	mvRef<mvAppItem> mvAppItem::stealChild(const std::string& name)
@@ -537,7 +508,7 @@ namespace Marvel{
 
 			for (auto& item : children)
 			{
-				if (item->m_core_config.name == name)
+				if (item->m_name == name)
 				{
 					childfound = true;
 					break;
@@ -559,7 +530,7 @@ namespace Marvel{
 
 				for (auto& item : oldchildren)
 				{
-					if (item->m_core_config.name == name)
+					if (item->m_name == name)
 					{
 						stolenChild = item;
 						continue;
@@ -583,7 +554,7 @@ namespace Marvel{
 	{
 		for (auto& item : m_children0)
 		{
-			if (item->m_core_config.name == name)
+			if (item->m_name == name)
 				return item;
 
 			if (item->getDescription().container)
@@ -596,7 +567,7 @@ namespace Marvel{
 
 		for (auto& item : m_children1)
 		{
-			if (item->m_core_config.name == name)
+			if (item->m_name == name)
 				return item;
 
 			if (item->getDescription().container)
@@ -615,18 +586,18 @@ namespace Marvel{
 		deleteChildren();
  
 		mvGlobalIntepreterLock gil;
-		if (m_core_config.callback)
-			Py_DECREF(m_core_config.callback);
-		if (m_core_config.callback_data)
-			Py_DECREF(m_core_config.callback_data);
+		if (m_callback)
+			Py_DECREF(m_callback);
+		if (m_callback_data)
+			Py_DECREF(m_callback_data);
 	}
 
 	mvCallable mvAppItem::getCallback(bool ignore_enabled)
 	{
-		if (m_core_config.enabled)
-			return m_core_config.callback;
+		if (m_enabled)
+			return m_callback;
 
-		return ignore_enabled ? m_core_config.callback : nullptr;
+		return ignore_enabled ? m_callback : nullptr;
 		
 	}
 
@@ -758,7 +729,7 @@ namespace Marvel{
 			}
 			if (i == parserKeywords.size())
 			{
-				ThrowPythonException("\"" + key + "\" configuration does not exist in \"" + m_core_config.name + "\".");
+				ThrowPythonException("\"" + key + "\" configuration does not exist in \"" + m_name + "\".");
 			}
 		}
 	}
@@ -768,11 +739,11 @@ namespace Marvel{
 		if (dict == nullptr)
 			return;
 
-		if (PyObject* item = PyDict_GetItemString(dict, "name")) m_core_config.name = ToString(item);
+		if (PyObject* item = PyDict_GetItemString(dict, "name")) m_name = ToString(item);
 		if (PyObject* item = PyDict_GetItemString(dict, "label")) setLabel(ToString(item));
 		if (PyObject* item = PyDict_GetItemString(dict, "width")) setWidth(ToInt(item));
 		if (PyObject* item = PyDict_GetItemString(dict, "height")) setHeight(ToInt(item));
-		if (PyObject* item = PyDict_GetItemString(dict, "show")) m_core_config.show = ToBool(item);
+		if (PyObject* item = PyDict_GetItemString(dict, "show")) m_show = ToBool(item);
 		if (PyObject* item = PyDict_GetItemString(dict, "source")) setDataSource(ToString(item));
 		if (PyObject* item = PyDict_GetItemString(dict, "enabled")) setEnabled(ToBool(item));
 	}
@@ -782,13 +753,13 @@ namespace Marvel{
 		if (dict == nullptr)
 			return;
 
-		PyDict_SetItemString(dict, "name", ToPyString(m_core_config.name));
-		PyDict_SetItemString(dict, "label", ToPyString(m_core_config.label));
-		PyDict_SetItemString(dict, "source", ToPyString(m_core_config.source));
-		PyDict_SetItemString(dict, "show", ToPyBool(m_core_config.show));
-		PyDict_SetItemString(dict, "enabled", ToPyBool(m_core_config.enabled));
-		PyDict_SetItemString(dict, "width", ToPyInt(m_core_config.width));
-		PyDict_SetItemString(dict, "height", ToPyInt(m_core_config.height));
+		PyDict_SetItemString(dict, "name", ToPyString(m_name));
+		PyDict_SetItemString(dict, "label", ToPyString(m_label));
+		PyDict_SetItemString(dict, "source", ToPyString(m_source));
+		PyDict_SetItemString(dict, "show", ToPyBool(m_show));
+		PyDict_SetItemString(dict, "enabled", ToPyBool(m_enabled));
+		PyDict_SetItemString(dict, "width", ToPyInt(m_width));
+		PyDict_SetItemString(dict, "height", ToPyInt(m_height));
 
 	}
 

@@ -100,7 +100,7 @@ namespace Marvel {
 		: 
 		mvStringPtrBase(name, value)
 	{
-		m_label = FindRenderedTextEnd(m_core_config.name.c_str());
+		m_label = FindRenderedTextEnd(m_name.c_str());
 	}
 
 	void mvLabelText::draw(ImDrawList* drawlist, float x, float y)
@@ -126,41 +126,6 @@ namespace Marvel {
 			ImGui::LabelText(m_label.c_str(), m_value->c_str());
 		}
 
-	}
-
-	void mvText::updateConfig(mvAppItemConfig* config)
-	{
-		auto aconfig = (mvTextConfig*)config;
-
-		m_core_config.show = config->show;
-
-		m_config.source = aconfig->source;
-
-		if (config != &m_config)
-			m_config = *aconfig;
-	}
-
-	mvAppItemConfig* mvText::getConfig()
-	{
-		return &m_config;
-	}
-
-	void mvLabelText::updateConfig(mvAppItemConfig* config)
-	{
-		auto aconfig = (mvLabelTextConfig*)config;
-
-		m_core_config.show = config->show;
-		m_core_config.label = config->label;
-
-		m_config.source = aconfig->source;
-
-		if (config != &m_config)
-			m_config = *aconfig;
-	}
-
-	mvAppItemConfig* mvLabelText::getConfig()
-	{
-		return &m_config;
 	}
 
 	void mvText::setExtraConfigDict(PyObject* dict)

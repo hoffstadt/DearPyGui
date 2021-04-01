@@ -32,51 +32,17 @@ namespace Marvel {
 		m_description.disableAllowed = true;
 	}
 
-	mvCheckbox::mvCheckbox(const std::string& name, const mvCheckboxConfig& config)
-		: 
-		mvBoolPtrBase(name, config.default_value), 
-		m_config(config)
-	{
-		m_description.disableAllowed = true;
-
-		m_config.name = name;
-		updateConfig(&m_config);
-	}
-
 	void mvCheckbox::draw(ImDrawList* drawlist, float x, float y)
 	{
 		ScopedID id;
 		mvImGuiThemeScope scope(this);
 		mvFontScope fscope(this);
 
-		if (!m_core_config.enabled) m_disabled_value = *m_value;
+		if (!m_enabled) m_disabled_value = *m_value;
 
-		if (ImGui::Checkbox(m_label.c_str(), m_core_config.enabled ? m_value.get() : &m_disabled_value))
-			mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), m_core_config.name, m_core_config.callback_data);
+		if (ImGui::Checkbox(m_label.c_str(), m_enabled ? m_value.get() : &m_disabled_value))
+			mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), m_name, m_callback_data);
 
-	}
-
-	void mvCheckbox::updateConfig(mvAppItemConfig* config)
-	{
-		auto aconfig = (mvCheckboxConfig*)config;
-
-		m_core_config.width = config->width;
-		m_core_config.height = config->height;
-		m_core_config.label = config->label;
-		m_core_config.show = config->show;
-		m_core_config.callback = config->callback;
-		m_core_config.callback_data = config->callback_data;
-		m_core_config.enabled = config->enabled;
-
-		m_config.source = aconfig->source;
-
-		if (config != &m_config)
-			m_config = *aconfig;
-	}
-
-	mvAppItemConfig* mvCheckbox::getConfig()
-	{
-		return &m_config;
 	}
 
 	PyObject* mvCheckbox::add_checkbox(PyObject* self, PyObject* args, PyObject* kwargs)

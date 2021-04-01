@@ -57,7 +57,7 @@ namespace Marvel {
 			m_flags &= ~ImGuiInputTextFlags_EnterReturnsTrue;
 		}
 
-		m_core_config.enabled = value;
+		m_enabled = value;
 	}
 
 	void mvInputText::draw(ImDrawList* drawlist, float x, float y)
@@ -73,45 +73,22 @@ namespace Marvel {
 		{
 			if (m_multiline)
 			{
-				if (ImGui::InputTextMultiline(m_label.c_str(), m_value.get(), ImVec2((float)m_core_config.width, (float)m_core_config.height), m_flags))
-					mvApp::GetApp()->getCallbackRegistry().addCallback(m_core_config.callback, m_core_config.name, m_core_config.callback_data);
+				if (ImGui::InputTextMultiline(m_label.c_str(), m_value.get(), ImVec2((float)m_width, (float)m_height), m_flags))
+					mvApp::GetApp()->getCallbackRegistry().addCallback(m_callback, m_name, m_callback_data);
 			}
 			else
 			{
 				if (ImGui::InputText(m_label.c_str(), m_value.get(), m_flags))
-					mvApp::GetApp()->getCallbackRegistry().addCallback(m_core_config.callback, m_core_config.name, m_core_config.callback_data);
+					mvApp::GetApp()->getCallbackRegistry().addCallback(m_callback, m_name, m_callback_data);
 			}
 		}
 
 		else
 		{
 			if (ImGui::InputTextWithHint(m_label.c_str(), m_hint.c_str(), m_value.get(), m_flags))
-				mvApp::GetApp()->getCallbackRegistry().addCallback(m_core_config.callback, m_core_config.name, m_core_config.callback_data);
+				mvApp::GetApp()->getCallbackRegistry().addCallback(m_callback, m_name, m_callback_data);
 		}
 
-	}
-
-	void mvInputText::updateConfig(mvAppItemConfig* config)
-	{
-		auto aconfig = (mvInputTextConfig*)config;
-
-		m_core_config.label = config->label;
-		m_core_config.width = config->width;
-		m_core_config.height = config->height;
-		m_core_config.show = config->show;
-		m_core_config.enabled = config->enabled;
-		m_core_config.callback = config->callback;
-		m_core_config.callback_data = config->callback_data;
-
-		m_config.source = aconfig->source;
-
-		if (config != &m_config)
-			m_config = *aconfig;
-	}
-
-	mvAppItemConfig* mvInputText::getConfig()
-	{
-		return &m_config;
 	}
 
 	void mvInputText::setExtraConfigDict(PyObject* dict)

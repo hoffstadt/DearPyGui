@@ -4,8 +4,6 @@
 
 namespace Marvel {
 
-	struct mvMenuConfig : public mvAppItemConfig {};
-
 	MV_REGISTER_WIDGET(mvMenu);
 	class mvMenu : public mvBoolPtrBase
 	{

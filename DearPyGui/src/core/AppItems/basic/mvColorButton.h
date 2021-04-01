@@ -2,31 +2,15 @@
 
 #include "mvTypeBases.h"
 
-//-----------------------------------------------------------------------------
-// Widget Index
-//
-//     * mvColorButton
-//
-//-----------------------------------------------------------------------------
-
 namespace Marvel {
-
-	//-----------------------------------------------------------------------------
-	// mvColorButton Config Struct
-	//-----------------------------------------------------------------------------
-	struct mvColorButtonConfig : public mvAppItemConfig
-	{
-		mvColor color;
-		bool no_alpha     = false;
-		bool no_border    = false;
-		bool no_drag_drop = false;
-	};
-
-	
 
 	MV_REGISTER_WIDGET(mvColorButton);
 	class mvColorButton : public mvAppItem
 	{
+
+	public:
+
+		static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
 
 		MV_APPITEM_TYPE(mvAppItemType::mvColorButton, add_color_button)
 
@@ -68,27 +52,20 @@ namespace Marvel {
 
 	public:
 
-		static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
-
-	public:
-
 		mvColorButton(const std::string& name, const mvColor& color);
-		mvColorButton(const std::string& name, const mvColorButtonConfig& config);
 
 		void draw(ImDrawList* drawlist, float x, float y) override;
 
 		void setExtraConfigDict(PyObject* dict) override;
 		void getExtraConfigDict(PyObject* dict) override;
 
-		// cpp interface
-		void updateConfig(mvAppItemConfig* config) override;
-		mvAppItemConfig* getConfig() override;
-
 	private:
 
 		ImGuiColorEditFlags m_flags = ImGuiColorEditFlags_None;
-		ImVec4 m_color;
-		mvColorButtonConfig m_config;
+		ImVec4              m_color;
+		bool                m_no_alpha = false;
+		bool                m_no_border = false;
+		bool                m_no_drag_drop = false;
 
 	};
 

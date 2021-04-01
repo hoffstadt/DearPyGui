@@ -34,18 +34,6 @@ namespace Marvel {
 		m_color(color.toVec4())
 	{
 		m_description.disableAllowed = true;
-		m_config.color = color;
-	}
-
-	mvColorButton::mvColorButton(const std::string& name, const mvColorButtonConfig& config)
-		: 
-		mvAppItem(name),
-		m_color(config.color.toVec4()),
-		m_config(config)
-	{
-		m_description.disableAllowed = true;
-		m_config.name = name;
-		updateConfig(&m_config);
 	}
 
 	void mvColorButton::draw(ImDrawList* drawlist, float x, float y)
@@ -54,32 +42,9 @@ namespace Marvel {
 		mvImGuiThemeScope scope(this);
 		mvFontScope fscope(this);
 
-		if (ImGui::ColorButton(m_label.c_str(), m_color, m_flags, ImVec2((float)m_core_config.width, (float)m_core_config.height)))
-			mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), m_core_config.name, m_core_config.callback_data);
+		if (ImGui::ColorButton(m_label.c_str(), m_color, m_flags, ImVec2((float)m_width, (float)m_height)))
+			mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), m_name, m_callback_data);
 
-	}
-
-	void mvColorButton::updateConfig(mvAppItemConfig* config)
-	{
-		auto aconfig = (mvColorButtonConfig*)config;
-
-		m_core_config.width = config->width;
-		m_core_config.height = config->height;
-		m_core_config.label = config->label;
-		m_core_config.show = config->show;
-		m_core_config.callback = config->callback;
-		m_core_config.callback_data = config->callback_data;
-		m_core_config.enabled = config->enabled;
-
-		m_config.source = aconfig->source;
-
-		if (config != &m_config)
-			m_config = *aconfig;
-	}
-
-	mvAppItemConfig* mvColorButton::getConfig()
-	{
-		return &m_config;
 	}
 
 	void mvColorButton::setExtraConfigDict(PyObject* dict)
