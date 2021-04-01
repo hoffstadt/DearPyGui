@@ -40,7 +40,6 @@ namespace Marvel {
     mvMetricsWindow::mvMetricsWindow(const std::string& name)
         : mvBaseWindowAppitem(name)
     {
-        m_description.deleteAllowed = false;
     }
 
     void mvMetricsWindow::draw(ImDrawList* drawlist, float x, float y)

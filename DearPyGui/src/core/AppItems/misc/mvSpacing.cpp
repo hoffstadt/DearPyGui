@@ -19,7 +19,6 @@ namespace Marvel {
 	mvSpacing::mvSpacing(const std::string& name, int count)
 		: mvIntPtrBase(name, count)
 	{
-		m_description.duplicatesAllowed = true;
 	}
 
 	void mvSpacing::draw(ImDrawList* drawlist, float x, float y)

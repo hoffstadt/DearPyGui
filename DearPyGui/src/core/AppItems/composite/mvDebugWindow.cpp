@@ -13,7 +13,6 @@ namespace Marvel {
 	{
 		m_width = 700;
 		m_height = 500;
-		m_description.deleteAllowed = false;
 
 		for (const auto& item : mvModule_Core::GetModuleParsers())
 			m_commands.emplace_back(item.first, item.second.getDocumentation());
@@ -260,7 +259,7 @@ namespace Marvel {
 
                 ImGui::PushItemWidth(200);
                 DebugItem("Item Name:", m_selectedItem.c_str());
-                DebugItem("Item Type:", selectedItem->getStringType().c_str());
+                //DebugItem("Item Type:", selectedItem->getStringType().c_str());
                 DebugItem("Container:", selectedItem->getDescription().container ? ts : fs);
                 DebugItem("Item Parent:", parentName.c_str());
                 DebugItem("Item Width:", width.c_str());

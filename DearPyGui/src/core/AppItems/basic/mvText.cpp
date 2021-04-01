@@ -67,7 +67,6 @@ namespace Marvel {
 		: 
 		mvStringPtrBase(name, default_value.empty() ? name : default_value)
 	{
-		m_description.duplicatesAllowed = true;
 	}
 
 	void mvText::draw(ImDrawList* drawlist, float x, float y)

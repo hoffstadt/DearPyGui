@@ -72,7 +72,6 @@ namespace Marvel {
 			m_copyButtonName = "Copy##" + name;
 			ClearLog();
 			LogInfo("[Logger] " + m_name);
-			m_description.ignoreSizeUpdate = true;
 		}
 
 		void draw(ImDrawList* drawlist, float x, float y) override;

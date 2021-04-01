@@ -19,7 +19,6 @@ namespace Marvel {
 	mvSeparator::mvSeparator(const std::string& name)
 		: mvAppItem(name)
 	{
-		m_description.duplicatesAllowed = true;
 	}
 
 	void mvSeparator::draw(ImDrawList* drawlist, float x, float y)

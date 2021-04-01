@@ -61,8 +61,6 @@ namespace Marvel {
     template<typename T> 
     struct mvItemTypeReverseMap{};
 
-    
-
     //-----------------------------------------------------------------------------
     // mvAppItem
     //-----------------------------------------------------------------------------
@@ -176,11 +174,9 @@ namespace Marvel {
 
         // pure virtual methods
         [[nodiscard]] virtual mvAppItemType getType      () const = 0;
-        [[nodiscard]] virtual std::string   getStringType() const = 0;
         virtual void                        draw         (ImDrawList* drawlist, float x, float y)       = 0; // actual imgui draw commands
 
         // virtual methods
-        virtual std::string    getParserCommand     () const { return "no_command_set"; }
         virtual mvValueVariant getValue() { return nullptr; }
         virtual PyObject*      getPyValue() { return GetPyNone(); }
         virtual void           setPyValue(PyObject* value) { }

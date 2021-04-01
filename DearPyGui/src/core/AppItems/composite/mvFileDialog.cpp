@@ -20,7 +20,6 @@ namespace Marvel {
 
 	mvFileDialog::mvFileDialog() : mvBaseWindowAppitem("filedialog")
 	{
-		m_description.deleteAllowed = false;
 	}
 
 	bool mvFileDialog::prerender2() 

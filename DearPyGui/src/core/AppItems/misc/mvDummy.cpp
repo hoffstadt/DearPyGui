@@ -23,7 +23,6 @@ namespace Marvel {
 	mvDummy::mvDummy(const std::string& name)
 		: mvAppItem(name)
 	{
-		m_description.duplicatesAllowed = true;
 	}
 
 	void mvDummy::draw(ImDrawList* drawlist, float x, float y)
