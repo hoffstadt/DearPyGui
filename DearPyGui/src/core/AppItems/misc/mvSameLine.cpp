@@ -22,7 +22,6 @@ namespace Marvel {
 	mvSameLine::mvSameLine(const std::string& name)
 		: mvAppItem(name)
 	{
-		m_description.duplicatesAllowed = true;
 	}
 
 	void mvSameLine::draw(ImDrawList* drawlist, float x, float y)

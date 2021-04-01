@@ -21,7 +21,6 @@ namespace Marvel {
 	mvUnindent::mvUnindent(const std::string& name, float default_value)
 		: mvFloatPtrBase(name, default_value)
 	{
-		m_description.duplicatesAllowed = true;
 	}
 
 	void mvUnindent::draw(ImDrawList* drawlist, float x, float y)

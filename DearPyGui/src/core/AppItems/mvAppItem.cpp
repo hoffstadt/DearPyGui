@@ -2,6 +2,8 @@
 #include "mvApp.h"
 #include "mvInput.h"
 #include "mvItemRegistry.h"
+#include "mvCore.h"
+#include "mvAppItems.h"
 
 namespace Marvel{
 
@@ -700,7 +702,17 @@ namespace Marvel{
 		static std::string base_keyword7 = "width";
 		static std::string base_keyword8 = "height";
 
-		const auto& parserKeywordsOrig = mvApp::GetApp()->getParsers()[getParserCommand()].getKeywords();
+		std::string parserCommand;
+
+		constexpr_for<1, (int)mvAppItemType::ItemTypeCount, 1>(
+			[&](auto i) {
+				using item_type = typename mvItemTypeMap<i>::type;
+				mvAppItemType ait = mvItemTypeReverseMap<item_type>::type;
+				if (getType() == ait)
+					parserCommand = item_type::s_command;
+			});
+
+		const auto& parserKeywordsOrig = mvApp::GetApp()->getParsers()[parserCommand].getKeywords();
 		std::vector<std::string> parserKeywords;
 		parserKeywords.reserve(parserKeywordsOrig.size() + 8);
 		for (int i = 0; i < parserKeywordsOrig.size(); i++)
@@ -1175,7 +1187,17 @@ namespace Marvel{
 		std::lock_guard<std::mutex> lk(mvApp::GetApp()->getMutex());
 		auto appitem = mvApp::GetApp()->getItemRegistry().getItem(name);
 
-		return ToPyString(appitem->getStringType());
+		std::string parserCommand;
+
+		constexpr_for<1, (int)mvAppItemType::ItemTypeCount, 1>(
+			[&](auto i) {
+				using item_type = typename mvItemTypeMap<i>::type;
+				mvAppItemType ait = mvItemTypeReverseMap<item_type>::type;
+				if (appitem->getType() == ait)
+					parserCommand = item_type::s_internal_id;
+			});
+
+		return ToPyString(parserCommand);
 	}
 
 	PyObject* mvAppItem::get_item_callback_data(PyObject* self, PyObject* args, PyObject* kwargs)

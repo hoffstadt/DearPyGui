@@ -15,7 +15,6 @@ namespace Marvel {
 			mvBaseWindowAppitem(name)
 		{
 			m_windowflags = ImGuiWindowFlags_HorizontalScrollbar | ImGuiWindowFlags_MenuBar;
-			m_description.deleteAllowed = false;
 		}
 
 		void setFile(const std::string& file);

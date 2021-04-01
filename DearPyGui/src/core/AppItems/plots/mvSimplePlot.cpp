@@ -30,8 +30,6 @@ namespace Marvel {
 			: mvFloatVectPtrBase(name, value)
 		{
 
-			m_description.ignoreSizeUpdate = true;
-
 			if (!value.empty())
 			{
 				m_max = m_value->data()[0];

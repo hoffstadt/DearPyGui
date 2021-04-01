@@ -60,7 +60,6 @@ namespace Marvel {
 	{
 		m_width = 700;
 		m_height = 500;
-		m_description.deleteAllowed = false;
 		setup();
 	}
 

@@ -41,7 +41,6 @@ namespace Marvel {
         : mvBaseWindowAppitem(name)
     {
         m_windowflags = ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_NoSavedSettings;
-        m_description.deleteAllowed = false;
     }
 
     void mvAboutWindow::draw(ImDrawList* drawlist, float x, float y)

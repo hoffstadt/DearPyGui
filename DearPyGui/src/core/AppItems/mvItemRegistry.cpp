@@ -470,15 +470,12 @@ namespace Marvel {
 		//---------------------------------------------------------------------------
 		// STEP 0: check if an item with this name exists
 		//---------------------------------------------------------------------------
-		if (!item->getDescription().duplicatesAllowed)
+		if (getItem(item->m_name))
 		{
-			if (getItem(item->m_name))
-			{
-				mvThrowPythonError(1000, "Item must have a unique name.");
-				MV_ITEM_REGISTRY_WARN("Item must have a unique name.");
-				assert(false);
-				return false;
-			}
+			mvThrowPythonError(1000, "Item must have a unique name.");
+			MV_ITEM_REGISTRY_WARN("Item must have a unique name.");
+			assert(false);
+			return false;
 		}
 
 		enum class AddTechnique

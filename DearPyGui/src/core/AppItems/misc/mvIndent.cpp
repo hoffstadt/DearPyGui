@@ -21,7 +21,6 @@ namespace Marvel {
 	mvIndent::mvIndent(const std::string& name, float default_value)
 		: mvFloatPtrBase(name, default_value)
 	{
-		m_description.duplicatesAllowed = true;
 	}
 
 	void mvIndent::draw(ImDrawList* drawlist, float x, float y)
