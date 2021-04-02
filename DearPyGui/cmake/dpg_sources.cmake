@@ -105,7 +105,7 @@ set(MARVEL_SOURCES
 	"src/core/AppItems/drawing/mvDrawRect.cpp"
 	"src/core/AppItems/drawing/mvDrawText.cpp"
 	"src/core/AppItems/drawing/mvDrawPolygon.cpp"
-	"src/core/AppItems/drawing/mvDrawPolyLine.cpp"
+	"src/core/AppItems/drawing/mvDrawPolyline.cpp"
 	"src/core/AppItems/drawing/mvDrawImage.cpp"
 	
 	"src/core/AppItems/composite/mvFileDialog.cpp"
