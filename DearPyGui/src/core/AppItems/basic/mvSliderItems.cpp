@@ -41,6 +41,7 @@ namespace Marvel {
     void mvSliderFloat2::InsertParser(std::map<std::string, mvPythonParser>* parsers)
     {
         parsers->insert({ "add_slider_float2", mvPythonParser({
+            {mvPythonDataType::Optional},
             {mvPythonDataType::String, "name"},
             {mvPythonDataType::KeywordOnly},
             {mvPythonDataType::FloatList, "default_value", "", "(0.0, 0.0)"},
@@ -65,6 +66,7 @@ namespace Marvel {
     void mvSliderFloat3::InsertParser(std::map<std::string, mvPythonParser>* parsers)
     {
         parsers->insert({ "add_slider_float3", mvPythonParser({
+            {mvPythonDataType::Optional},
             {mvPythonDataType::String, "name"},
             {mvPythonDataType::KeywordOnly},
             {mvPythonDataType::FloatList, "default_value", "", "(0.0, 0.0, 0.0)"},
@@ -89,6 +91,7 @@ namespace Marvel {
     void mvSliderFloat4::InsertParser(std::map<std::string, mvPythonParser>* parsers)
     {
         parsers->insert({ "add_slider_float4", mvPythonParser({
+            {mvPythonDataType::Optional},
             {mvPythonDataType::String, "name"},
             {mvPythonDataType::KeywordOnly},
             {mvPythonDataType::FloatList, "default_value", "", "(0.0, 0.0, 0.0, 0.0)"},
@@ -113,6 +116,7 @@ namespace Marvel {
     void mvSliderInt::InsertParser(std::map<std::string, mvPythonParser>* parsers)
     {
         parsers->insert({ "add_slider_int", mvPythonParser({
+            {mvPythonDataType::Optional},
             {mvPythonDataType::String, "name"},
             {mvPythonDataType::KeywordOnly},
             {mvPythonDataType::Integer, "default_value", "", "0"},
@@ -139,6 +143,7 @@ namespace Marvel {
     void mvSliderInt2::InsertParser(std::map<std::string, mvPythonParser>* parsers)
     {
         parsers->insert({ "add_slider_int2", mvPythonParser({
+            {mvPythonDataType::Optional},
             {mvPythonDataType::String, "name"},
             {mvPythonDataType::KeywordOnly},
             {mvPythonDataType::IntList, "default_value", "", "(0, 0)"},
@@ -163,6 +168,7 @@ namespace Marvel {
     void mvSliderInt3::InsertParser(std::map<std::string, mvPythonParser>* parsers)
     {
         parsers->insert({ "add_slider_int3", mvPythonParser({
+            {mvPythonDataType::Optional},
             {mvPythonDataType::String, "name"},
             {mvPythonDataType::KeywordOnly},
             {mvPythonDataType::IntList, "default_value", "", "(0, 0, 0)"},
@@ -187,6 +193,7 @@ namespace Marvel {
     void mvSliderInt4::InsertParser(std::map<std::string, mvPythonParser>* parsers)
     {
         parsers->insert({ "add_slider_int4", mvPythonParser({
+            {mvPythonDataType::Optional},
             {mvPythonDataType::String, "name"},
             {mvPythonDataType::KeywordOnly},
             {mvPythonDataType::IntList, "default_value", "", "(0, 0, 0, 0)"},

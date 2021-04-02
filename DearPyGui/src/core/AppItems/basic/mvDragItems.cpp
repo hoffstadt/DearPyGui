@@ -88,6 +88,7 @@ namespace Marvel {
     void mvDragFloat4::InsertParser(std::map<std::string, mvPythonParser>* parsers)
     {
         parsers->insert({ s_command, mvPythonParser({
+            {mvPythonDataType::Optional},
             {mvPythonDataType::String, "name"},
             {mvPythonDataType::KeywordOnly},
             {mvPythonDataType::FloatList, "default_value", "", "(0.0, 0.0, 0.0, 0.0)"},
