@@ -4,9 +4,13 @@
 
 namespace Marvel {
 
-	MV_REGISTER_WIDGET(mvTimePicker);
+	MV_REGISTER_WIDGET(mvTimePicker, MV_ITEM_DESC_DEFAULT, StorageValueTypes::Time, 1);
 	class mvTimePicker : public mvTimePtrBase
 	{
+
+	public:
+
+		static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
 
 		MV_APPITEM_TYPE(mvAppItemType::mvTimePicker, add_time_picker)
 
@@ -73,10 +77,6 @@ namespace Marvel {
 			MV_ADD_CONSTANT(mvThemeStyle_TimePicker_DropTextAlignX		, 0,  1),
 			MV_ADD_CONSTANT(mvThemeStyle_TimePicker_DropTextAlignY		, 0,  1),
 		MV_END_STYLE_CONSTANTS
-
-	public:
-
-		static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
 
 	public:
 

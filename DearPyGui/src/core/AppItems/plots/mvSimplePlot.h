@@ -5,7 +5,7 @@
 
 namespace Marvel{
 
-	MV_REGISTER_WIDGET(mvSimplePlot);
+	MV_REGISTER_WIDGET(mvSimplePlot, MV_ITEM_DESC_DEFAULT, StorageValueTypes::Float, 1);
 	class mvSimplePlot : public mvFloatVectPtrBase
 	{
 
@@ -60,6 +60,7 @@ namespace Marvel{
 		MV_END_STYLE_CONSTANTS
 
 	public:
+
 		mvSimplePlot(const std::string& name, const std::vector<float>& value);
 
 		void draw(ImDrawList* drawlist, float x, float y) override;

@@ -4,7 +4,7 @@
 
 namespace Marvel {
 
-	MV_REGISTER_WIDGET(mvDrawArrow);
+	MV_REGISTER_WIDGET(mvDrawArrow, MV_ITEM_DESC_DEFAULT, StorageValueTypes::None, 0);
 	class mvDrawArrow : public mvAppItem
 	{
 

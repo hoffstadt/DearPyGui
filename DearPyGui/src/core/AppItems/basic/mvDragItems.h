@@ -24,7 +24,7 @@ namespace Marvel {
     //-----------------------------------------------------------------------------
     // mvDragFloat
     //-----------------------------------------------------------------------------
-    MV_REGISTER_WIDGET(mvDragFloat);
+    MV_REGISTER_WIDGET(mvDragFloat, MV_ITEM_DESC_DEFAULT, StorageValueTypes::Float, 1);
     class mvDragFloat : public mvFloatPtrBase
     {
 
@@ -97,9 +97,13 @@ namespace Marvel {
     //-----------------------------------------------------------------------------
     // mvDragFloat2
     //-----------------------------------------------------------------------------
-    MV_REGISTER_WIDGET(mvDragFloat2);
+    MV_REGISTER_WIDGET(mvDragFloat2, MV_ITEM_DESC_DEFAULT, StorageValueTypes::Float2, 1);
     class mvDragFloat2 : public mvFloat2PtrBase
     {
+
+    public:
+
+        static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
 
         MV_APPITEM_TYPE(mvAppItemType::mvDragFloat2, add_drag_float2)
 
@@ -143,10 +147,6 @@ namespace Marvel {
 
     public:
 
-        static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
-
-    public:
-
         mvDragFloat2(const std::string& name, float* default_value, const std::string& dataSource);
         
         void setEnabled(bool value) override;
@@ -168,9 +168,13 @@ namespace Marvel {
     //-----------------------------------------------------------------------------
     // mvDragFloat3
     //-----------------------------------------------------------------------------
-    MV_REGISTER_WIDGET(mvDragFloat3);
+    MV_REGISTER_WIDGET(mvDragFloat3, MV_ITEM_DESC_DEFAULT, StorageValueTypes::Float3, 1);
     class mvDragFloat3 : public mvFloat3PtrBase
     {
+
+    public:
+
+        static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
 
         MV_APPITEM_TYPE(mvAppItemType::mvDragFloat3, add_drag_float3)
 
@@ -214,10 +218,6 @@ namespace Marvel {
 
     public:
 
-        static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
-
-    public:
-
         mvDragFloat3(const std::string& name, float* default_value, const std::string& dataSource);
         
         void setEnabled(bool value) override;
@@ -239,9 +239,13 @@ namespace Marvel {
     //-----------------------------------------------------------------------------
     // mvDragFloat4
     //-----------------------------------------------------------------------------
-    MV_REGISTER_WIDGET(mvDragFloat4);
+    MV_REGISTER_WIDGET(mvDragFloat4, MV_ITEM_DESC_DEFAULT, StorageValueTypes::Float4, 1);
     class mvDragFloat4 : public mvFloat4PtrBase
     {
+
+    public:
+
+        static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
 
         MV_APPITEM_TYPE(mvAppItemType::mvDragFloat4, add_drag_float4)
 
@@ -285,10 +289,6 @@ namespace Marvel {
 
     public:
 
-        static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
-
-    public:
-
         mvDragFloat4(const std::string& name, float* default_value, const std::string& dataSource);
         
         void setEnabled(bool value) override;
@@ -310,9 +310,13 @@ namespace Marvel {
     //-----------------------------------------------------------------------------
     // mvDragInt
     //----------------------------------------------------------------------------- 
-    MV_REGISTER_WIDGET(mvDragInt);
+    MV_REGISTER_WIDGET(mvDragInt, MV_ITEM_DESC_DEFAULT, StorageValueTypes::Int, 1);
     class mvDragInt : public mvIntPtrBase
     {
+
+    public:
+
+        static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
 
         MV_APPITEM_TYPE(mvAppItemType::mvDragInt, add_drag_int)
 
@@ -356,10 +360,6 @@ namespace Marvel {
 
     public:
 
-        static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
-
-    public:
-
         mvDragInt(const std::string& name, int default_value, const std::string& dataSource);
         
         void setEnabled(bool value) override;
@@ -382,9 +382,13 @@ namespace Marvel {
     //-----------------------------------------------------------------------------
     // mvDragInt2
     //-----------------------------------------------------------------------------
-    MV_REGISTER_WIDGET(mvDragInt2);
+    MV_REGISTER_WIDGET(mvDragInt2, MV_ITEM_DESC_DEFAULT, StorageValueTypes::Int2, 1);
     class mvDragInt2 : public mvInt2PtrBase
     {
+
+    public:
+
+        static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
 
         MV_APPITEM_TYPE(mvAppItemType::mvDragInt2, add_drag_int2)
 
@@ -428,10 +432,6 @@ namespace Marvel {
 
     public:
 
-        static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
-
-    public:
-
         mvDragInt2(const std::string& name, int* default_value, const std::string& dataSource);
         
         void setEnabled(bool value) override;
@@ -454,9 +454,13 @@ namespace Marvel {
     //-----------------------------------------------------------------------------
     // mvDragInt3
     //-----------------------------------------------------------------------------
-    MV_REGISTER_WIDGET(mvDragInt3);
+    MV_REGISTER_WIDGET(mvDragInt3, MV_ITEM_DESC_DEFAULT, StorageValueTypes::Int3, 1);
     class mvDragInt3 : public mvInt3PtrBase
     {
+
+    public:
+
+        static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
 
         MV_APPITEM_TYPE(mvAppItemType::mvDragInt3, add_drag_int3)
 
@@ -500,10 +504,6 @@ namespace Marvel {
 
     public:
 
-        static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
-
-    public:
-
         mvDragInt3(const std::string& name, int* default_value, const std::string& dataSource);
         
         void setEnabled(bool value) override;
@@ -525,9 +525,13 @@ namespace Marvel {
     //-----------------------------------------------------------------------------
     // mvDragInt4
     //-----------------------------------------------------------------------------
-    MV_REGISTER_WIDGET(mvDragInt4);
+    MV_REGISTER_WIDGET(mvDragInt4, MV_ITEM_DESC_DEFAULT, StorageValueTypes::Int4, 1);
     class mvDragInt4 : public mvInt4PtrBase
     {
+
+    public:
+
+        static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
   
         MV_APPITEM_TYPE(mvAppItemType::mvDragInt4, add_drag_int4)
 
@@ -568,10 +572,6 @@ namespace Marvel {
             MV_ADD_CONSTANT(mvThemeStyle_DragInt4_InnerSpacingX, 4, 20),
             MV_ADD_CONSTANT(mvThemeStyle_DragInt4_InnerSpacingY, 4, 20),
         MV_END_STYLE_CONSTANTS
-
-    public:
-
-        static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
 
     public:
 

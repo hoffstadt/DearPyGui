@@ -24,6 +24,15 @@ namespace Marvel {
         Time, Color
     };
 
+    enum ItemDescriptionFlags
+    {
+        MV_ITEM_DESC_DEFAULT     = 0,
+        MV_ITEM_DESC_ROOT        = 1 << 1,
+        MV_ITEM_DESC_CONTAINER   = 1 << 2,
+        MV_ITEM_DESC_DISABLEABLE = 1 << 3,
+        MV_ITEM_DESC_AFTER       = 1 << 4,
+    };
+
     using mvValueVariant = std::variant<
         std::shared_ptr<int>,
         std::shared_ptr<std::array<int, 2>>,

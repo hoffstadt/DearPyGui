@@ -2,9 +2,18 @@
 // such as names of functions and macros.
 // For more information see https://go.microsoft.com/fwlink/?linkid=865984
 
-#define MV_REGISTER_WIDGET(x) class x;\
-template<> struct mvItemTypeMap<(int)mvAppItemType::x> { typedef x type; };\
-template<>struct mvItemTypeReverseMap<class x>{static constexpr mvAppItemType type = mvAppItemType::x;};
+#define MV_REGISTER_WIDGET(x, y, z, w) class x;\
+template<> struct mvItemTypeMap<(int)mvAppItemType::x>\
+{\
+typedef x type;\
+int flags = y;\
+StorageValueTypes value_type = z;\
+int target = w;\
+};\
+template<>struct mvItemTypeReverseMap<class x>\
+{\
+static constexpr mvAppItemType type = mvAppItemType::x;\
+};
 
 #define MV_APPITEM_TYPE(x, parser)public:\
 static constexpr const long s_internal_type = (long)x;\

@@ -4,9 +4,13 @@
 
 namespace Marvel {
 
-	MV_REGISTER_WIDGET(mvTooltip);
+	MV_REGISTER_WIDGET(mvTooltip, MV_ITEM_DESC_CONTAINER | MV_ITEM_DESC_AFTER, StorageValueTypes::Bool, 1);
 	class mvTooltip : public mvBoolPtrBase
 	{
+	public:
+
+		static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
+
 		MV_APPITEM_TYPE(mvAppItemType::mvTooltip, add_tooltip)
 
 		MV_CREATE_CONSTANT(mvThemeCol_Tooltip_Bg				,  4L, 0L);
@@ -37,10 +41,6 @@ namespace Marvel {
 			MV_ADD_CONSTANT(mvThemeStyle_Tooltip_ItemSpacingX	, 8, 20),
 			MV_ADD_CONSTANT(mvThemeStyle_Tooltip_ItemSpacingY	, 8, 20),
 		MV_END_STYLE_CONSTANTS
-
-	public:
-
-		static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
 
 	public:
 

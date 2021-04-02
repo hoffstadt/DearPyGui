@@ -4,10 +4,9 @@
 
 namespace Marvel {
 
-	MV_REGISTER_WIDGET(mvSeparator);
+	MV_REGISTER_WIDGET(mvSeparator, MV_ITEM_DESC_DEFAULT, StorageValueTypes::None, 1);
 	class mvSeparator : public mvAppItem
 	{
-
 
 	public:
 

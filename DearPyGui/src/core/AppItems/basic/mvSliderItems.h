@@ -22,9 +22,13 @@ namespace Marvel {
     //-----------------------------------------------------------------------------
     // mvSliderFloat
     //-----------------------------------------------------------------------------
-    MV_REGISTER_WIDGET(mvSliderFloat);
+    MV_REGISTER_WIDGET(mvSliderFloat, MV_ITEM_DESC_DEFAULT, StorageValueTypes::Float, 1);
     class mvSliderFloat : public mvFloatPtrBase
     {
+
+    public:
+
+        static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
 
         MV_APPITEM_TYPE(mvAppItemType::mvSliderFloat, add_slider_float)
 
@@ -73,10 +77,6 @@ namespace Marvel {
             MV_ADD_CONSTANT(mvThemeStyle_SliderFloat_GrabMinSize       ,10, 20),
             MV_ADD_CONSTANT(mvThemeStyle_SliderFloat_GrabRounding      , 0, 12),
         MV_END_STYLE_CONSTANTS
-   
-    public:
-
-        static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
 
     public:
 
@@ -102,9 +102,13 @@ namespace Marvel {
     //-----------------------------------------------------------------------------
     // mvSliderFloat2
     //-----------------------------------------------------------------------------
-    MV_REGISTER_WIDGET(mvSliderFloat2);
+    MV_REGISTER_WIDGET(mvSliderFloat2, MV_ITEM_DESC_DEFAULT, StorageValueTypes::Float2, 1);
     class mvSliderFloat2 : public mvFloat2PtrBase
     {
+
+    public:
+
+        static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
 
         MV_APPITEM_TYPE(mvAppItemType::mvSliderFloat2, add_slider_float2)
 
@@ -156,10 +160,6 @@ namespace Marvel {
 
     public:
 
-        static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
-
-    public:
-
         mvSliderFloat2(const std::string& name, float* default_value, const std::string& dataSource);
         
         void setEnabled(bool value) override;
@@ -181,9 +181,13 @@ namespace Marvel {
     //-----------------------------------------------------------------------------
     // mvSliderFloat3
     //-----------------------------------------------------------------------------
-    MV_REGISTER_WIDGET(mvSliderFloat3);
+    MV_REGISTER_WIDGET(mvSliderFloat3, MV_ITEM_DESC_DEFAULT, StorageValueTypes::Float3, 1);
     class mvSliderFloat3 : public mvFloat3PtrBase
     {
+
+    public:
+
+        static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
 
         MV_APPITEM_TYPE(mvAppItemType::mvSliderFloat3, add_slider_float3)
 
@@ -235,10 +239,6 @@ namespace Marvel {
 
     public:
 
-        static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
-
-    public:
-
         mvSliderFloat3(const std::string& name, float* default_value, const std::string& dataSource);
         
         void setEnabled(bool value) override;
@@ -259,9 +259,13 @@ namespace Marvel {
     //-----------------------------------------------------------------------------
     // mvSliderFloat4
     //-----------------------------------------------------------------------------
-    MV_REGISTER_WIDGET(mvSliderFloat4);
+    MV_REGISTER_WIDGET(mvSliderFloat4, MV_ITEM_DESC_DEFAULT, StorageValueTypes::Float4, 1);
     class mvSliderFloat4 : public mvFloat4PtrBase
     {
+
+    public:
+
+        static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
 
         MV_APPITEM_TYPE(mvAppItemType::mvSliderFloat4, add_slider_float4)
 
@@ -313,10 +317,6 @@ namespace Marvel {
 
     public:
 
-        static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
-
-    public:
-
         mvSliderFloat4(const std::string& name, float* default_value, const std::string& dataSource);
         
         void setEnabled(bool value) override;
@@ -337,9 +337,13 @@ namespace Marvel {
     //-----------------------------------------------------------------------------
     // mvSliderInt
     //-----------------------------------------------------------------------------
-    MV_REGISTER_WIDGET(mvSliderInt);
+    MV_REGISTER_WIDGET(mvSliderInt, MV_ITEM_DESC_DEFAULT, StorageValueTypes::Int, 1);
     class mvSliderInt : public mvIntPtrBase
     {
+
+    public:
+
+        static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
  
         MV_APPITEM_TYPE(mvAppItemType::mvSliderInt, add_slider_int)
 
@@ -391,10 +395,6 @@ namespace Marvel {
 
     public:
 
-        static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
-
-    public:
-
         mvSliderInt(const std::string& name, int default_value, const std::string& dataSource);
             
         void setEnabled(bool value) override;   
@@ -416,9 +416,13 @@ namespace Marvel {
     //-----------------------------------------------------------------------------
     // mvSliderInt2
     //-----------------------------------------------------------------------------
-    MV_REGISTER_WIDGET(mvSliderInt2);
+    MV_REGISTER_WIDGET(mvSliderInt2, MV_ITEM_DESC_DEFAULT, StorageValueTypes::Int2, 1);
     class mvSliderInt2 : public mvInt2PtrBase
     {
+
+    public:
+
+        static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
 
         MV_APPITEM_TYPE(mvAppItemType::mvSliderInt2, add_slider_int2)
 
@@ -470,10 +474,6 @@ namespace Marvel {
 
     public:
 
-        static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
-
-    public:
-
         mvSliderInt2(const std::string& name, int* default_value, const std::string& dataSource);
         
         void setEnabled(bool value) override;
@@ -494,9 +494,13 @@ namespace Marvel {
     //-----------------------------------------------------------------------------
     // mvSliderInt3
     //-----------------------------------------------------------------------------
-    MV_REGISTER_WIDGET(mvSliderInt3);
+    MV_REGISTER_WIDGET(mvSliderInt3, MV_ITEM_DESC_DEFAULT, StorageValueTypes::Int3, 1);
     class mvSliderInt3 : public mvInt3PtrBase
     {
+
+    public:
+
+        static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
 
         MV_APPITEM_TYPE(mvAppItemType::mvSliderInt3, add_slider_int3)
 
@@ -548,10 +552,6 @@ namespace Marvel {
 
     public:
 
-        static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
-
-    public:
-
         mvSliderInt3(const std::string& name, int* default_value, const std::string& dataSource);
         
         void setEnabled(bool value) override;
@@ -572,9 +572,13 @@ namespace Marvel {
     //-----------------------------------------------------------------------------
     // mvSliderInt4
     //-----------------------------------------------------------------------------
-    MV_REGISTER_WIDGET(mvSliderInt4);
+    MV_REGISTER_WIDGET(mvSliderInt4, MV_ITEM_DESC_DEFAULT, StorageValueTypes::Int4, 1);
     class mvSliderInt4 : public mvInt4PtrBase
     {
+
+    public:
+
+        static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
 
         MV_APPITEM_TYPE(mvAppItemType::mvSliderInt4, add_slider_int4)
 
@@ -623,10 +627,6 @@ namespace Marvel {
             MV_ADD_CONSTANT(mvThemeStyle_SliderInt4_GrabMinSize    ,10, 20),
             MV_ADD_CONSTANT(mvThemeStyle_SliderInt4_GrabRounding   , 0, 12),
         MV_END_STYLE_CONSTANTS
-
-    public:
-
-        static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
 
     public:
 

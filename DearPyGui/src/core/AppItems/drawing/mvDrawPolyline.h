@@ -4,9 +4,10 @@
 
 namespace Marvel {
 
-	MV_REGISTER_WIDGET(mvDrawPolyline);
+	MV_REGISTER_WIDGET(mvDrawPolyline, MV_ITEM_DESC_DEFAULT, StorageValueTypes::None, 0);
 	class mvDrawPolyline : public mvAppItem
 	{
+
 	public:
 
 		static void InsertParser(std::map<std::string, mvPythonParser>* parsers);

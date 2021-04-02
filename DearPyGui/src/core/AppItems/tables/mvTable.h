@@ -5,9 +5,14 @@
 
 namespace Marvel {
 
-	MV_REGISTER_WIDGET(mvTable);
+	MV_REGISTER_WIDGET(mvTable, MV_ITEM_DESC_CONTAINER, StorageValueTypes::None, 1);
 	class mvTable : public mvAppItem
 	{
+
+	public:
+
+		static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
+
 		MV_APPITEM_TYPE(mvAppItemType::mvTable, add_table)
 
 		MV_CREATE_CONSTANT(mvTable_SizingFixedFit,			8192L, 0L);
@@ -49,10 +54,6 @@ namespace Marvel {
 			MV_ADD_CONSTANT(mvThemeStyle_Table_CellPaddingX, 4, 20),
 			MV_ADD_CONSTANT(mvThemeStyle_Table_CellPaddingY, 2, 20),
 		MV_END_STYLE_CONSTANTS
-
-	public:
-
-		static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
 
 	public:
 

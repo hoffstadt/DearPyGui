@@ -5,9 +5,13 @@
 
 namespace Marvel {
 
-	MV_REGISTER_WIDGET(mvInputText);
+	MV_REGISTER_WIDGET(mvInputText, MV_ITEM_DESC_DEFAULT, StorageValueTypes::String, 1);
 	class mvInputText : public mvStringPtrBase
 	{
+
+	public:
+
+		static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
 
 		MV_APPITEM_TYPE(mvAppItemType::mvInputText, add_input_text)
 
@@ -48,10 +52,6 @@ namespace Marvel {
 			MV_ADD_CONSTANT(mvThemeStyle_InputText_InnerSpacingX	, 4, 20),
 			MV_ADD_CONSTANT(mvThemeStyle_InputText_InnerSpacingY	, 4, 20),
 		MV_END_STYLE_CONSTANTS
-
-	public:
-
-		static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
 
 	public:
 

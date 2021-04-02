@@ -4,7 +4,7 @@
 
 namespace Marvel {
 
-	MV_REGISTER_WIDGET(mvIndent);
+	MV_REGISTER_WIDGET(mvIndent, MV_ITEM_DESC_DEFAULT, StorageValueTypes::Float, 1);
 	class mvIndent : public mvFloatPtrBase
 	{
 

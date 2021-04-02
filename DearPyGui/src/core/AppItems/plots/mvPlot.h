@@ -30,7 +30,7 @@ namespace Marvel {
 	//-----------------------------------------------------------------------------
 	// mvPlot
 	//-----------------------------------------------------------------------------
-	MV_REGISTER_WIDGET(mvPlot);
+	MV_REGISTER_WIDGET(mvPlot, MV_ITEM_DESC_DEFAULT, StorageValueTypes::None, 1);
 	class mvPlot : public mvAppItem
 	{
 

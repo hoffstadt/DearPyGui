@@ -6,9 +6,13 @@
 
 namespace Marvel {
 
-	MV_REGISTER_WIDGET(mvImageButton);
+	MV_REGISTER_WIDGET(mvImageButton, MV_ITEM_DESC_DEFAULT, StorageValueTypes::None, 1);
 	class mvImageButton : public mvAppItem, public mvEventHandler
 	{
+
+	public:
+
+		static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
 
 		MV_APPITEM_TYPE(mvAppItemType::mvImageButton, add_image_button)
 
@@ -41,10 +45,6 @@ namespace Marvel {
 			MV_ADD_CONSTANT(mvThemeStyle_ImageButton_PaddingX	, 4, 20),
 			MV_ADD_CONSTANT(mvThemeStyle_ImageButton_PaddingY	, 3, 20),
 		MV_END_STYLE_CONSTANTS
-
-	public:
-
-		static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
 
 	public:
 

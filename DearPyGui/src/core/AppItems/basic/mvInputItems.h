@@ -24,7 +24,7 @@ namespace Marvel {
     //-----------------------------------------------------------------------------
     // mvInputInt
     //-----------------------------------------------------------------------------
-    MV_REGISTER_WIDGET(mvInputInt);
+    MV_REGISTER_WIDGET(mvInputInt, MV_ITEM_DESC_DEFAULT, StorageValueTypes::Int, 1);
     class mvInputInt : public mvIntPtrBase
     {
 
@@ -107,7 +107,7 @@ namespace Marvel {
     //-----------------------------------------------------------------------------
     // mvInputInt2
     //-----------------------------------------------------------------------------
-    MV_REGISTER_WIDGET(mvInputInt2);
+    MV_REGISTER_WIDGET(mvInputInt2, MV_ITEM_DESC_DEFAULT, StorageValueTypes::Int2, 1);
     class mvInputInt2 : public mvInt2PtrBase
     {
 
@@ -178,7 +178,7 @@ namespace Marvel {
     //-----------------------------------------------------------------------------
     // mvInputInt3
     //-----------------------------------------------------------------------------
-    MV_REGISTER_WIDGET(mvInputInt3);
+    MV_REGISTER_WIDGET(mvInputInt3, MV_ITEM_DESC_DEFAULT, StorageValueTypes::Int3, 1);
     class mvInputInt3 : public mvInt3PtrBase
     {
 
@@ -250,7 +250,7 @@ namespace Marvel {
     //-----------------------------------------------------------------------------
     // mvInputInt4
     //-----------------------------------------------------------------------------
-    MV_REGISTER_WIDGET(mvInputInt4);
+    MV_REGISTER_WIDGET(mvInputInt4, MV_ITEM_DESC_DEFAULT, StorageValueTypes::Int4, 1);
     class mvInputInt4 : public mvInt4PtrBase
     {
 
@@ -321,7 +321,7 @@ namespace Marvel {
     //-----------------------------------------------------------------------------
     // mvInputFloat
     //-----------------------------------------------------------------------------
-    MV_REGISTER_WIDGET(mvInputFloat);
+    MV_REGISTER_WIDGET(mvInputFloat, MV_ITEM_DESC_DEFAULT, StorageValueTypes::Float, 1);
     class mvInputFloat : public mvFloatPtrBase
     {
 
@@ -405,7 +405,7 @@ namespace Marvel {
     //-----------------------------------------------------------------------------
     // mvInputFloat2
     //-----------------------------------------------------------------------------  
-    MV_REGISTER_WIDGET(mvInputFloat2);
+    MV_REGISTER_WIDGET(mvInputFloat2, MV_ITEM_DESC_DEFAULT, StorageValueTypes::Float2, 1);
     class mvInputFloat2: public mvFloat2PtrBase
     {
 
@@ -477,7 +477,7 @@ namespace Marvel {
     //-----------------------------------------------------------------------------
     // mvInputFloat3
     //-----------------------------------------------------------------------------
-    MV_REGISTER_WIDGET(mvInputFloat3);
+    MV_REGISTER_WIDGET(mvInputFloat3, MV_ITEM_DESC_DEFAULT, StorageValueTypes::Float3, 1);
     class mvInputFloat3 : public mvFloat3PtrBase
     {
 
@@ -549,7 +549,7 @@ namespace Marvel {
     //-----------------------------------------------------------------------------
     // mvInputFloat4
     //-----------------------------------------------------------------------------
-    MV_REGISTER_WIDGET(mvInputFloat4);
+    MV_REGISTER_WIDGET(mvInputFloat4, MV_ITEM_DESC_DEFAULT, StorageValueTypes::Float4, 1);
     class mvInputFloat4 : public mvFloat4PtrBase
     {
 

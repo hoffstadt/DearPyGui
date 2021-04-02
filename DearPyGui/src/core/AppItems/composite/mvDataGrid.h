@@ -6,9 +6,13 @@
 
 namespace Marvel {
 
-	MV_REGISTER_WIDGET(mvDataGrid);
+	MV_REGISTER_WIDGET(mvDataGrid, MV_ITEM_DESC_DEFAULT, StorageValueTypes::None, 1);
 	class mvDataGrid : public mvAppItem
 	{
+
+	public:
+
+		static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
 
 		MV_APPITEM_TYPE(mvAppItemType::mvDataGrid, add_data_grid)
 
@@ -87,10 +91,6 @@ namespace Marvel {
 			MV_ADD_CONSTANT(mvThemeStyle_DataGrid_ItemTextAlignX		, 0,  1),
 			MV_ADD_CONSTANT(mvThemeStyle_DataGrid_ItemTextAlignY		, 0,  1),
 		MV_END_STYLE_CONSTANTS
-
-	public:
-
-		static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
 
 	public:
 
