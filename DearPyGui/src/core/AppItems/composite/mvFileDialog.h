@@ -8,6 +8,9 @@ namespace Marvel {
 	MV_REGISTER_WIDGET(mvFileDialog, MV_ITEM_DESC_ROOT, StorageValueTypes::None, 1);
 	class mvFileDialog : public mvBaseWindowAppitem
 	{
+	public:
+
+		static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
 
 		MV_APPITEM_TYPE(mvAppItemType::mvFileDialog, open_file_dialog)
 
@@ -25,10 +28,6 @@ namespace Marvel {
 
 		MV_START_STYLE_CONSTANTS
 		MV_END_STYLE_CONSTANTS
-
-	public:
-
-		static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
 
 	public:
 
