@@ -12,10 +12,12 @@ namespace Marvel {
 			{mvPythonDataType::Optional},
 			{mvPythonDataType::String, "name"},
 			{mvPythonDataType::KeywordOnly},
+			{mvPythonDataType::Integer, "default_value", "", "False"},
 			{mvPythonDataType::String, "shortcut", "Adds a shortcut", "''"},
 			{mvPythonDataType::Bool, "check", "Makes menu item with checkmark. Only one menu item per container can be checked at a time.", "False"},
 			{mvPythonDataType::Callable, "callback", "Registers a callback", "None"},
 			{mvPythonDataType::Object, "callback_data", "Callback data", "None"},
+						{mvPythonDataType::String, "source", "Overrides 'name' as value storage key", "''"},
 			{mvPythonDataType::String, "label", "", "''"},
 			{mvPythonDataType::Bool, "show", "Attempt to render", "True"},
 			{mvPythonDataType::Bool, "enabled", "", "True"},
@@ -24,8 +26,8 @@ namespace Marvel {
 		}, "Adds a menu item to an existing menu.", "None", "Containers") });
 	}
 
-	mvMenuItem::mvMenuItem(const std::string& name)
-		: mvBoolPtrBase(name, false) 
+	mvMenuItem::mvMenuItem(const std::string& name, bool default_value, const std::string& dataSource)
+		: mvBoolPtrBase(name, default_value) 
 	{
 		m_description.disableAllowed = true;
 	}
@@ -75,10 +77,12 @@ namespace Marvel {
 		static int i = 0; i++;
 		std::string sname = std::string(std::string("$$DPG_") + s_internal_id + std::to_string(i));
 		const char* name = sname.c_str();
+		int default_value = 0;
 		const char* shortcut = "";
 		int check = false;
 		PyObject* callback = nullptr;
 		PyObject* callback_data = nullptr;
+		const char* source = "";
 		const char* label = "";
 		int show = true;
 		int enabled = true;
@@ -86,10 +90,10 @@ namespace Marvel {
 		const char* before = "";
 
 		if (!(mvApp::GetApp()->getParsers())["add_menu_item"].parse(args, kwargs, __FUNCTION__, &name,
-			&shortcut, &check, &callback, &callback_data, &label, &show, &enabled, &parent, &before))
+			&default_value, &shortcut, &check, &callback, &callback_data, &source, &label, &show, &enabled, &parent, &before))
 			return ToPyBool(false);
 
-		auto item = CreateRef<mvMenuItem>(name);
+		auto item = CreateRef<mvMenuItem>(name, default_value, source);
 		if (callback)
 			Py_XINCREF(callback);
 		item->setCallback(callback);

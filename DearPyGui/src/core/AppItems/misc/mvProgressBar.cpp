@@ -18,6 +18,7 @@ namespace Marvel {
 			{mvPythonDataType::String, "parent", "Parent this item will be added to. (runtime adding)", "''"},
 			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)", "''"},
 			{mvPythonDataType::String, "source", "data source for shared data", "''"},
+			{mvPythonDataType::String, "label", "", "''"},
 			{mvPythonDataType::Integer, "width","", "0"},
 			{mvPythonDataType::Integer, "height","", "0"},
 			{mvPythonDataType::Bool, "show", "Attempt to render", "True"},
@@ -65,12 +66,13 @@ namespace Marvel {
 		const char* parent = "";
 		const char* before = "";
 		const char* source = "";
+		const char* label = "";
 		int width = 0;
 		int height = 0;
 		int show = true;
 
 		if (!(mvApp::GetApp()->getParsers())["add_progress_bar"].parse(args, kwargs, __FUNCTION__, &name, &default_value,
-			&overlay, &parent, &before, &source, &width, &height, &show))
+			&overlay, &parent, &before, &source, &label, &width, &height, &show))
 			return ToPyBool(false);
 
 		auto item = CreateRef<mvProgressBar>(name, default_value, source);

@@ -78,6 +78,7 @@ New Keywords:
 - add_selectable: Added "width" keyword
 - add_selectable: Added "height" keyword
 - add_node_attribute: Added "shape" keyword #713
+- add_menu_item: Added "default_value" keyword
 
 New Commands:
 - table
