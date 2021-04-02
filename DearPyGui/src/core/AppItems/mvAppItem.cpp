@@ -501,7 +501,7 @@ namespace Marvel{
 
 	void mvAppItem::setLabel(const std::string& value)
 	{
-		m_label = value;
+		m_specificedlabel = value;
 		m_label = value + " ###" + m_name;
 	}
 
@@ -774,7 +774,7 @@ namespace Marvel{
 			return;
 
 		PyDict_SetItemString(dict, "name", ToPyString(m_name));
-		PyDict_SetItemString(dict, "label", ToPyString(m_label));
+		PyDict_SetItemString(dict, "label", ToPyString(m_specificedlabel));
 		PyDict_SetItemString(dict, "source", ToPyString(m_source));
 		PyDict_SetItemString(dict, "show", ToPyBool(m_show));
 		PyDict_SetItemString(dict, "enabled", ToPyBool(m_enabled));
