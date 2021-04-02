@@ -441,7 +441,7 @@ namespace Marvel {
 	struct mvDragPoint
 	{
 		std::string name;
-		std::shared_ptr<std::array<float, 2>> value;
+		std::shared_ptr<std::array<float, 4>> value;
 		bool        show_label;
 		mvColor     color;
 		float       radius;

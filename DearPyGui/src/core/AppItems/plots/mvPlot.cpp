@@ -546,19 +546,19 @@ namespace Marvel {
 				ThrowPythonException("Source item not found.");
 				return;
 			}
-			if (item->getValueType() != StorageValueTypes::Float2)
+			if (item->getValueType() != StorageValueTypes::Float4)
 			{
 				ThrowPythonException("Values types do not match");
 				return;
 			}
-			auto value = std::get<std::shared_ptr<std::array<float, 2>>>(item->getValue());
+			auto value = std::get<std::shared_ptr<std::array<float, 4>>>(item->getValue());
 			double dummyx = value->data()[0];
 			double dummyy = value->data()[1];
 
 			m_dragPoints.push_back({ name, value, show_label, color, radius, callback, source });
 			return;
 		}
-		auto value = std::make_shared<std::array<float, 2>>(std::array{ (float)dummyValue[0], (float)dummyValue[1] });
+		auto value = std::make_shared<std::array<float, 4>>(std::array{ (float)dummyValue[0], (float)dummyValue[1] , 0.0f, 0.0f});
 
 		m_dragPoints.push_back({ name, value, show_label, color, radius, callback, source });
 	}
@@ -580,12 +580,12 @@ namespace Marvel {
 						ThrowPythonException("Source item not found.");
 						continue;
 					}
-					if (newitem->getValueType() != StorageValueTypes::Float2)
+					if (newitem->getValueType() != StorageValueTypes::Float4)
 					{
 						ThrowPythonException("Values types do not match");
 						continue;
 					}
-					item.value = std::get<std::shared_ptr<std::array<float, 2>>>(newitem->getValue());
+					item.value = std::get<std::shared_ptr<std::array<float, 4>>>(newitem->getValue());
 				}
 				item.show_label = show_label;
 				item.color = color;

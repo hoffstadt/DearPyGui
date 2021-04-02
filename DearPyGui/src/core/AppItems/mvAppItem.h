@@ -34,12 +34,9 @@ namespace Marvel {
         None = 0, mvSpacing, mvSameLine, mvInputText, mvButton,
         mvRadioButton, mvTabBar, mvTab, mvImage, mvMenuBar,
         mvMenu, mvMenuItem, mvGroup, mvChild,
-        mvSliderFloat, mvSliderFloat4, mvSliderInt, mvSliderInt4,
-        mvSliderFloat2, mvSliderFloat3, mvSliderInt2, mvSliderInt3,
-        mvDragFloat, mvDragFloat4, mvDragInt, mvDragInt4, mvDragFloat2,
-        mvDragFloat3, mvDragInt2, mvDragInt3, mvInputFloat, mvInputFloat4,
-        mvInputInt, mvInputInt4, mvInputFloat2, mvInputFloat3,
-        mvInputInt2, mvInputInt3, mvColorEdit3, mvColorEdit4,
+        mvSliderFloat, mvSliderInt,
+        mvDragFloat, mvDragInt, mvInputFloat,
+        mvInputInt, mvColorEdit3, mvColorEdit4,
         mvColorPicker3, mvColorPicker4, mvTooltip, mvCollapsingHeader,
         mvSeparator, mvCheckbox, mvListbox, mvText, mvLabelText, mvCombo,
         mvPlot, mvSimplePlot, mvIndent, mvUnindent, mvDrawing, mvWindowAppItem,
@@ -51,7 +48,8 @@ namespace Marvel {
         mvTable, mvTableColumn, mvTableNextColumn,
         mvDrawLine, mvDrawArrow, mvDrawTriangle, mvDrawCircle, mvDrawBezierCurve,
         mvDrawQuad, mvDrawRect, mvDrawText, mvDrawPolygon, mvDrawPolyline,
-        mvDrawImage,
+        mvDrawImage, mvDragFloatMulti, mvDragIntMulti, mvSliderFloatMulti,
+        mvSliderIntMulti, mvInputIntMulti, mvInputFloatMulti,
         ItemTypeCount
     };
 

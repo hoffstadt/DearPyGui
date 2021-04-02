@@ -29,6 +29,9 @@ HOW TO UPDATE?
 Decorated log: https://github.com/hoffstadt/DearPyGui/releases/tag/v0.7.x
 
 Breaking Changes:
+- drags: combined drags into a single widget
+- sliders: combined sliders into a single widget
+- inputs: combined inputs into a single widget
 - draw commands: now widgets, with parent, show, before keyword
 - drawings: now a container widget
 - add_image: image and name keyword order swapped

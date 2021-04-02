@@ -36,46 +36,6 @@ namespace Marvel {
 	};
 
 	//-----------------------------------------------------------------------------
-	// mvInt2PtrBase
-	//-----------------------------------------------------------------------------
-	class mvInt2PtrBase : public mvAppItem
-	{
-
-	public:
-
-		mvInt2PtrBase(const std::string& name,int* default_value);
-		void setDataSource(const std::string& dataSource) override;
-		mvValueVariant getValue() override { return m_value; }
-		PyObject* getPyValue() override;
-		void           setPyValue(PyObject* value) override;
-
-	protected:
-
-		mvRef<std::array<int,2>> m_value;
-		int  m_disabled_value[2] {};
-	};
-
-	//-----------------------------------------------------------------------------
-	// mvInt3PtrBase
-	//-----------------------------------------------------------------------------
-	class mvInt3PtrBase : public mvAppItem
-	{
-
-	public:
-
-		mvInt3PtrBase(const std::string& name, int* default_value);
-		void setDataSource(const std::string& dataSource) override;
-		mvValueVariant getValue() override { return m_value; }
-		PyObject* getPyValue() override;
-		void           setPyValue(PyObject* value) override;
-
-	protected:
-
-		mvRef<std::array<int, 3>> m_value;
-		int m_disabled_value[3] {};
-	};
-
-	//-----------------------------------------------------------------------------
 	// mvInt4PtrBase
 	//-----------------------------------------------------------------------------
 	class mvInt4PtrBase : public mvAppItem
@@ -113,46 +73,6 @@ namespace Marvel {
 
 		mvRef<float> m_value;
 		float  m_disabled_value = 0.0;
-	};
-
-	//-----------------------------------------------------------------------------
-	// mvFloat2PtrBase
-	//-----------------------------------------------------------------------------
-	class mvFloat2PtrBase : public mvAppItem
-	{
-
-	public:
-
-		mvFloat2PtrBase(const std::string& name, float* default_value);
-		void setDataSource(const std::string& dataSource) override;
-		mvValueVariant getValue() override { return m_value; }
-		PyObject* getPyValue() override;
-		void           setPyValue(PyObject* value) override;
-
-	protected:
-
-		mvRef<std::array<float, 2>> m_value;
-		float  m_disabled_value[2] {};
-	};
-
-	//-----------------------------------------------------------------------------
-	// mvFloat3PtrBase
-	//-----------------------------------------------------------------------------
-	class mvFloat3PtrBase : public mvAppItem
-	{
-
-	public:
-
-		mvFloat3PtrBase(const std::string& name, float* default_value);
-		void setDataSource(const std::string& dataSource) override;
-		mvValueVariant getValue() override { return m_value; }
-		PyObject* getPyValue() override;
-		void           setPyValue(PyObject* value) override;
-
-	protected:
-
-		mvRef<std::array<float, 3>> m_value;
-		float  m_disabled_value[3] {};
 	};
 
 	//-----------------------------------------------------------------------------
