@@ -4,9 +4,13 @@
 
 namespace Marvel {
 
-	MV_REGISTER_WIDGET(mvMenu);
+	MV_REGISTER_WIDGET(mvMenu, MV_ITEM_DESC_CONTAINER, StorageValueTypes::Bool, 1);
 	class mvMenu : public mvBoolPtrBase
 	{
+
+	public:
+
+		static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
 
 		MV_APPITEM_TYPE(mvAppItemType::mvMenu, add_menu)
 
@@ -45,10 +49,6 @@ namespace Marvel {
 			MV_ADD_CONSTANT(mvThemeStyle_Menu_ItemSpacingX	, 8, 20),
 			MV_ADD_CONSTANT(mvThemeStyle_Menu_ItemSpacingY	, 4, 20),
 		MV_END_STYLE_CONSTANTS
-
-	public:
-
-		static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
 
 	public:
 

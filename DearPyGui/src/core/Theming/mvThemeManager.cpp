@@ -1,6 +1,6 @@
 #include "mvThemeManager.h"
 #include "imgui.h"
-#include "mvAppItems.h"
+#include "mvAppItemCommons.h"
 #include "mvCore.h"
 #include "mvItemRegistry.h"
 
@@ -102,7 +102,7 @@ namespace Marvel {
 		mvRef<mvAppItem> item = mvApp::GetApp()->getItemRegistry().getItem(widget);
 		if (item)
 		{
-			if (item->getDescription().container || item->getType() == type)
+			if (mvAppItem::DoesItemHaveFlag(item.get(), MV_ITEM_DESC_CONTAINER) || item->getType() == type)
 			{
 				if (enabled) item->getColors()[type][mvThemeConstant].first = color;
 				else item->getColors()[type][mvThemeConstant].second = color;
@@ -147,7 +147,7 @@ namespace Marvel {
 		mvRef<mvAppItem> item = mvApp::GetApp()->getItemRegistry().getItem(widget);
 		if (item)
 		{
-			if (item->getDescription().container || item->getType() == type)
+			if (mvAppItem::DoesItemHaveFlag(item.get(), MV_ITEM_DESC_CONTAINER) || item->getType() == type)
 			{
 				item->getStyles()[type][mvThemeConstant] = style;
 				item->inValidateThemeStyleCache();

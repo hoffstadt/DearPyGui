@@ -15,9 +15,13 @@ namespace Marvel {
 	//-----------------------------------------------------------------------------
 	// mvText
 	//-----------------------------------------------------------------------------
-	MV_REGISTER_WIDGET(mvText);
+	MV_REGISTER_WIDGET(mvText, MV_ITEM_DESC_DEFAULT, StorageValueTypes::String, 1);
 	class mvText : public mvStringPtrBase
 	{
+
+	public:
+
+		static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
 
 		MV_APPITEM_TYPE(mvAppItemType::mvText, add_text)
 
@@ -35,10 +39,6 @@ namespace Marvel {
 
 		MV_START_STYLE_CONSTANTS
 		MV_END_STYLE_CONSTANTS
-
-	public:
-
-		static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
 
 	public:
 
@@ -60,9 +60,13 @@ namespace Marvel {
 	//-----------------------------------------------------------------------------
 	// mvLabelText
 	//-----------------------------------------------------------------------------
-	MV_REGISTER_WIDGET(mvLabelText);
+	MV_REGISTER_WIDGET(mvLabelText, MV_ITEM_DESC_DEFAULT, StorageValueTypes::String, 1);
 	class mvLabelText : public mvStringPtrBase
 	{
+
+	public:
+
+		static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
 
 		MV_APPITEM_TYPE(mvAppItemType::mvLabelText, add_label_text)
 
@@ -88,10 +92,6 @@ namespace Marvel {
 			MV_ADD_CONSTANT(mvThemeStyle_LabelText_ItemInnerSpacingX	, 4, 20),
 			MV_ADD_CONSTANT(mvThemeStyle_LabelText_ItemInnerSpacingY	, 4, 20),
 		MV_END_STYLE_CONSTANTS
-
-	public:
-
-		static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
 
 	public:
 

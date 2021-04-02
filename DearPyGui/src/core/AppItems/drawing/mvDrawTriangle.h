@@ -4,7 +4,7 @@
 
 namespace Marvel {
 
-	MV_REGISTER_WIDGET(mvDrawTriangle);
+	MV_REGISTER_WIDGET(mvDrawTriangle, MV_ITEM_DESC_DEFAULT, StorageValueTypes::None, 0);
 	class mvDrawTriangle : public mvAppItem
 	{
 

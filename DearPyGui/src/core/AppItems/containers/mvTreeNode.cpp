@@ -27,7 +27,6 @@ namespace Marvel {
 	mvTreeNode::mvTreeNode(const std::string& name)
 		: mvBoolPtrBase(name, false)
 	{
-		m_description.container = true;
 	}
 
 	void mvTreeNode::draw(ImDrawList* drawlist, float x, float y)

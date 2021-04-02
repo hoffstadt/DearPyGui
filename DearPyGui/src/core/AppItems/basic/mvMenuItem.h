@@ -5,9 +5,13 @@
 
 namespace Marvel {
 
-	MV_REGISTER_WIDGET(mvMenuItem);
+	MV_REGISTER_WIDGET(mvMenuItem, MV_ITEM_DESC_DEFAULT, StorageValueTypes::Bool, 1);
 	class mvMenuItem : public mvBoolPtrBase
 	{
+
+	public:
+
+		static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
 
 		MV_APPITEM_TYPE(mvAppItemType::mvMenuItem, add_menu_item)
 
@@ -32,10 +36,6 @@ namespace Marvel {
 			MV_ADD_CONSTANT(ImGuiStyleVar_MenuItem_TextAlignX, 0, 1),
 			MV_ADD_CONSTANT(ImGuiStyleVar_MenuItem_TextAlignY, 0, 1),
 		MV_END_STYLE_CONSTANTS
-
-	public:
-
-		static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
 
 	public:
 

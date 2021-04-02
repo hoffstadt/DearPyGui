@@ -6,15 +6,13 @@
 
 namespace Marvel {
 
-	MV_REGISTER_WIDGET(mvLoggerItem);
+	MV_REGISTER_WIDGET(mvLoggerItem, MV_ITEM_DESC_DEFAULT, StorageValueTypes::None, 1);
 	class mvLoggerItem : public mvAppItem
 	{
 
 	public:
 
 		static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
-
-	public:
 
 		MV_APPITEM_TYPE(mvAppItemType::mvLoggerItem, add_logger)
 

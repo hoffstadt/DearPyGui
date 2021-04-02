@@ -33,7 +33,6 @@ namespace Marvel {
 		mvAppItem(name),
 		m_color(color.toVec4())
 	{
-		m_description.disableAllowed = true;
 	}
 
 	void mvColorButton::draw(ImDrawList* drawlist, float x, float y)

@@ -34,7 +34,6 @@ namespace Marvel {
 	mvImageButton::mvImageButton(const std::string& name, std::string  default_value)
 		: mvAppItem(name), m_value(std::move(default_value))
 	{
-		m_description.disableAllowed = true;
 		mvEventBus::Subscribe(this, mvEVT_DELETE_TEXTURE);
 	}
 

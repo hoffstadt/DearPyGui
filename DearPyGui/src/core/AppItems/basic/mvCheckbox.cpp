@@ -29,7 +29,6 @@ namespace Marvel {
 		: 
 		mvBoolPtrBase(name, default_value)
 	{
-		m_description.disableAllowed = true;
 	}
 
 	void mvCheckbox::draw(ImDrawList* drawlist, float x, float y)

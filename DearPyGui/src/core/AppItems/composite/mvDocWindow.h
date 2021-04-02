@@ -6,9 +6,13 @@
 
 namespace Marvel {
 
-	MV_REGISTER_WIDGET(mvDocWindow);
+	MV_REGISTER_WIDGET(mvDocWindow, MV_ITEM_DESC_ROOT, StorageValueTypes::None, 1);
 	class mvDocWindow : public mvBaseWindowAppitem
 	{
+
+	public:
+
+		static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
 
 		MV_APPITEM_TYPE(mvAppItemType::mvDocWindow, add_doc_window)
 
@@ -23,10 +27,6 @@ namespace Marvel {
 
 		MV_START_STYLE_CONSTANTS
 		MV_END_STYLE_CONSTANTS
-
-	public:
-
-		static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
 
 	public:
 

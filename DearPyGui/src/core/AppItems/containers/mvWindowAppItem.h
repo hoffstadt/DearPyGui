@@ -6,9 +6,13 @@
 
 namespace Marvel {
 
-	MV_REGISTER_WIDGET(mvWindowAppItem);
+	MV_REGISTER_WIDGET(mvWindowAppItem, MV_ITEM_DESC_CONTAINER | MV_ITEM_DESC_ROOT, StorageValueTypes::None, 1);
 	class mvWindowAppItem : public mvAppItem
 	{
+
+	public:
+
+		static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
 
 		MV_APPITEM_TYPE(mvAppItemType::mvWindowAppItem, add_window)
 
@@ -83,10 +87,6 @@ namespace Marvel {
 		MV_END_STYLE_CONSTANTS
 
 		enum class Status{ Normal, Transition, Dirty};
-
-	public:
-
-		static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
 
 	public:
 

@@ -4,9 +4,13 @@
 
 namespace Marvel {
 
-	MV_REGISTER_WIDGET(mvSelectable);
+	MV_REGISTER_WIDGET(mvSelectable, MV_ITEM_DESC_DEFAULT, StorageValueTypes::Bool, 1);
 	class mvSelectable : public mvBoolPtrBase
 	{
+
+	public:
+
+		static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
 
 		MV_APPITEM_TYPE(mvAppItemType::mvSelectable, add_selectable)
 
@@ -39,10 +43,6 @@ namespace Marvel {
 			MV_ADD_CONSTANT(mvThemeStyle_Selectable_ItemSpacingX,	8, 20),
 			MV_ADD_CONSTANT(mvThemeStyle_Selectable_ItemSpacingY,	4, 20),
 		MV_END_STYLE_CONSTANTS
-
-	public:
-
-		static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
 
 	public:
 

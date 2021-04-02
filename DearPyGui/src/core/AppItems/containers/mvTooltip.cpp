@@ -28,8 +28,6 @@ namespace Marvel {
 		// has to be showed that way it can check for hovering
 		// otherwise it will never show
 		m_show = true;
-		m_description.container = true;
-		m_description.addAfterRequired = true;
 		
 	}
 

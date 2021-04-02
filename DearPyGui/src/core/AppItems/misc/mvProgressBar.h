@@ -4,9 +4,13 @@
 
 namespace Marvel {
 
-	MV_REGISTER_WIDGET(mvProgressBar);
+	MV_REGISTER_WIDGET(mvProgressBar, MV_ITEM_DESC_DEFAULT, StorageValueTypes::Float, 1);
 	class mvProgressBar : public mvFloatPtrBase
 	{
+
+	public:
+
+		static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
 
 		MV_APPITEM_TYPE(mvAppItemType::mvProgressBar, add_progress_bar)
 
@@ -45,9 +49,6 @@ namespace Marvel {
 			MV_ADD_CONSTANT(mvThemeStyle_ProgressBar_InnerItemSpacingX, 4, 20),
 			MV_ADD_CONSTANT(mvThemeStyle_ProgressBar_InnerItemSpacingY, 4, 20),
 		MV_END_STYLE_CONSTANTS
-
-	public:
-		static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
 
 	public:
 

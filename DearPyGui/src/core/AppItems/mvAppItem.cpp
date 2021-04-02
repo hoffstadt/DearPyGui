@@ -3,7 +3,7 @@
 #include "mvInput.h"
 #include "mvItemRegistry.h"
 #include "mvCore.h"
-#include "mvAppItems.h"
+#include "mvAppItemCommons.h"
 
 namespace Marvel{
 
@@ -121,6 +121,11 @@ namespace Marvel{
 
 	}
 
+	bool mvAppItem::DoesItemHaveFlag(mvAppItem* item, int flag)
+	{
+		return item->getDescFlags() & flag;
+	}
+
 	mvAppItem::mvAppItem(const std::string& name)
 	{
 		m_name = name;
@@ -196,7 +201,7 @@ namespace Marvel{
 					break;
 				}
 
-				if (children[i]->getDescription().container)
+				if (mvAppItem::DoesItemHaveFlag(children[i].get(), MV_ITEM_DESC_CONTAINER))
 				{
 					found = children[i]->moveChildUp(name);
 					if (found)
@@ -247,7 +252,7 @@ namespace Marvel{
 					break;
 				}
 
-				if (children[i]->getDescription().container)
+				if (mvAppItem::DoesItemHaveFlag(children[i].get(), MV_ITEM_DESC_CONTAINER))
 				{
 					found = children[i]->moveChildDown(name);
 					if (found)
@@ -302,7 +307,7 @@ namespace Marvel{
 					// check children
 					for (auto& child : children)
 					{
-						if (child->getDescription().container)
+						if (mvAppItem::DoesItemHaveFlag(child.get(), MV_ITEM_DESC_CONTAINER))
 						{
 							// parent found
 							if (child->addRuntimeChild(parent, before, item))
@@ -351,7 +356,7 @@ namespace Marvel{
 			// check children
 			for (auto& child : children)
 			{
-				if (child->getDescription().container)
+				if (mvAppItem::DoesItemHaveFlag(child.get(), MV_ITEM_DESC_CONTAINER))
 				{
 					// parent found
 					if (child->addRuntimeChild(parent, before, item))
@@ -369,7 +374,7 @@ namespace Marvel{
 
 	bool mvAppItem::addItem(mvRef<mvAppItem> item)
 	{
-		if (item->m_description.target == 0)
+		if (item->getTarget() == 0)
 			m_children0.push_back(item);
 		else
 			m_children1.push_back(item);
@@ -422,7 +427,7 @@ namespace Marvel{
 			// check children
 			for (auto& child : children)
 			{
-				if (child->getDescription().container)
+				if (DoesItemHaveFlag(child.get(), MV_ITEM_DESC_CONTAINER))
 				{
 					// parent found
 					if (child->addChildAfter(prev, item))
@@ -454,7 +459,7 @@ namespace Marvel{
 					break;
 				}
 
-				if (item->getDescription().container)
+				if (DoesItemHaveFlag(item.get(), MV_ITEM_DESC_CONTAINER))
 				{
 					itemDeleted = item->deleteChild(name);
 					if (itemDeleted)
@@ -496,7 +501,7 @@ namespace Marvel{
 
 	void mvAppItem::setLabel(const std::string& value)
 	{
-		m_label = value;
+		m_specificedlabel = value;
 		m_label = value + " ###" + m_name;
 	}
 
@@ -516,7 +521,7 @@ namespace Marvel{
 					break;
 				}
 
-				if (item->getDescription().container)
+				if (DoesItemHaveFlag(item.get(), MV_ITEM_DESC_CONTAINER))
 				{
 					stolenChild = item->stealChild(name);
 					if (stolenChild)
@@ -559,7 +564,7 @@ namespace Marvel{
 			if (item->m_name == name)
 				return item;
 
-			if (item->getDescription().container)
+			if (DoesItemHaveFlag(item.get(), MV_ITEM_DESC_CONTAINER))
 			{
 				auto child = item->getChild(name);
 				if (child)
@@ -572,7 +577,7 @@ namespace Marvel{
 			if (item->m_name == name)
 				return item;
 
-			if (item->getDescription().container)
+			if (DoesItemHaveFlag(item.get(), MV_ITEM_DESC_CONTAINER))
 			{
 				auto child = item->getChild(name);
 				if (child)
@@ -709,7 +714,10 @@ namespace Marvel{
 				using item_type = typename mvItemTypeMap<i>::type;
 				mvAppItemType ait = mvItemTypeReverseMap<item_type>::type;
 				if (getType() == ait)
+				{
 					parserCommand = item_type::s_command;
+					return;
+				}
 			});
 
 		const auto& parserKeywordsOrig = mvApp::GetApp()->getParsers()[parserCommand].getKeywords();
@@ -766,7 +774,7 @@ namespace Marvel{
 			return;
 
 		PyDict_SetItemString(dict, "name", ToPyString(m_name));
-		PyDict_SetItemString(dict, "label", ToPyString(m_label));
+		PyDict_SetItemString(dict, "label", ToPyString(m_specificedlabel));
 		PyDict_SetItemString(dict, "source", ToPyString(m_source));
 		PyDict_SetItemString(dict, "show", ToPyBool(m_show));
 		PyDict_SetItemString(dict, "enabled", ToPyBool(m_enabled));
@@ -965,7 +973,7 @@ namespace Marvel{
 		std::lock_guard<std::mutex> lk(mvApp::GetApp()->getMutex());
 		auto appitem = mvApp::GetApp()->getItemRegistry().getItem(item);
 		if (appitem)
-			return ToPyBool(appitem->getDescription().container);
+			return ToPyBool(DoesItemHaveFlag(appitem.get(), MV_ITEM_DESC_CONTAINER));
 		return ToPyBool(false);
 
 	}
@@ -1194,7 +1202,10 @@ namespace Marvel{
 				using item_type = typename mvItemTypeMap<i>::type;
 				mvAppItemType ait = mvItemTypeReverseMap<item_type>::type;
 				if (appitem->getType() == ait)
+				{
 					parserCommand = item_type::s_internal_id;
+					return;
+				}
 			});
 
 		return ToPyString(parserCommand);

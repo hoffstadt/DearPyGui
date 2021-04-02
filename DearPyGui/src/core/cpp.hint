@@ -2,15 +2,19 @@
 // such as names of functions and macros.
 // For more information see https://go.microsoft.com/fwlink/?linkid=865984
 
-#define MV_REGISTER_WIDGET(x) class x;\
-template<> struct mvItemTypeMap<(int)mvAppItemType::x> { typedef x type; };\
+#define MV_REGISTER_WIDGET(x, y, z, w) class x;\
+template<> struct mvItemTypeMap<(int)mvAppItemType::x>\
+{typedef x type;static constexpr const int flags = y;static constexpr const StorageValueTypes value_type = z;static constexpr const int target = w;};\
 template<>struct mvItemTypeReverseMap<class x>{static constexpr mvAppItemType type = mvAppItemType::x;};
 
-#define MV_APPITEM_TYPE(x, parser)public:\
+#define MV_APPITEM_TYPE(x, parser)\
 static constexpr const long s_internal_type = (long)x;\
 static constexpr const char* const s_internal_id = #x;\
 static constexpr const char* const s_command = #parser;\
 mvAppItemType getType() const override { return x; }\
+int getTarget() const override { return mvItemTypeMap<(int)x>::target; }\
+int getDescFlags() const override { return mvItemTypeMap<(int)x>::flags; }\
+StorageValueTypes getValueType() const override { return mvItemTypeMap<(int)x>::value_type; }\
 static PyObject* parser(PyObject* self, PyObject* args, PyObject* kwargs);\
 static PyMethodDef GetMethodDefinition(){return { s_command, (PyCFunction)parser, METH_VARARGS | METH_KEYWORDS, mvApp::GetApp()->getParsers()[s_command].getDocumentation() };}
 
@@ -20,14 +24,17 @@ static PyMethodDef GetMethodDefinition(){return { s_command, (PyCFunction)parser
 #define MV_END_EXTRA_COMMANDS }
 
 #define MV_START_GENERAL_CONSTANTS public: static const std::vector<std::pair<std::string, long>>& GetGeneralConstants()\
-        {static std::vector<std::pair<std::string, long>> constants ={
+{static std::vector<std::pair<std::string, long>> constants ={
+
 #define MV_END_GENERAL_CONSTANTS };return constants;}
 
 #define MV_START_COLOR_CONSTANTS public: static const std::vector<std::tuple<std::string, long, mvColor, mvColor>>& GetColorConstants()\
-        {static std::vector<std::tuple<std::string, long, mvColor, mvColor>> constants ={
+{static std::vector<std::tuple<std::string, long, mvColor, mvColor>> constants ={
+
 #define MV_END_COLOR_CONSTANTS };return constants;}
 #define MV_START_STYLE_CONSTANTS public: static const std::vector<std::tuple<std::string, long, float, float>>& GetStyleConstants()\
-        {static std::vector<std::tuple<std::string, long, float, float>> constants ={
+{static std::vector<std::tuple<std::string, long, float, float>> constants ={
+
 #define MV_END_STYLE_CONSTANTS };return constants;}
 #define MV_ADD_GENERAL_CONSTANT(x) {#x, x}
 #define MV_CREATE_CONSTANT_PAIR(x, y) {#x, x, y, y}

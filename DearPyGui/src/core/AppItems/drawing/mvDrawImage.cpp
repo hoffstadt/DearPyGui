@@ -40,7 +40,6 @@ namespace Marvel {
 		m_color(color)
 	{
 		mvEventBus::Subscribe(this, mvEVT_DELETE_TEXTURE);
-		m_description.target = 0;
 	}
 
 	mvDrawImage::~mvDrawImage()

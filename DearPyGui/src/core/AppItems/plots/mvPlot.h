@@ -30,7 +30,7 @@ namespace Marvel {
 	//-----------------------------------------------------------------------------
 	// mvPlot
 	//-----------------------------------------------------------------------------
-	MV_REGISTER_WIDGET(mvPlot);
+	MV_REGISTER_WIDGET(mvPlot, MV_ITEM_DESC_DEFAULT, StorageValueTypes::None, 1);
 	class mvPlot : public mvAppItem
 	{
 
@@ -441,7 +441,7 @@ namespace Marvel {
 	struct mvDragPoint
 	{
 		std::string name;
-		std::shared_ptr<std::array<float, 2>> value;
+		std::shared_ptr<std::array<float, 4>> value;
 		bool        show_label;
 		mvColor     color;
 		float       radius;

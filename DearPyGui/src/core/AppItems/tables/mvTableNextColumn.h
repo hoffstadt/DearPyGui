@@ -5,15 +5,13 @@
 
 namespace Marvel {
 
-	MV_REGISTER_WIDGET(mvTableNextColumn);
+	MV_REGISTER_WIDGET(mvTableNextColumn, MV_ITEM_DESC_DEFAULT, StorageValueTypes::None, 1);
 	class mvTableNextColumn : public mvAppItem
 	{
 
 	public:
 
 		static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
-
-	public:
 
 		MV_APPITEM_TYPE(mvAppItemType::mvTableNextColumn, add_table_next_column)
 
@@ -29,7 +27,9 @@ namespace Marvel {
 		MV_START_STYLE_CONSTANTS
 		MV_END_STYLE_CONSTANTS
 
-			mvTableNextColumn(const std::string& name);
+	public:
+
+		mvTableNextColumn(const std::string& name);
 
 		bool isParentCompatible(mvAppItemType type) override;
 

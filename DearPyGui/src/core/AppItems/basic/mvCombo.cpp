@@ -38,7 +38,6 @@ namespace Marvel {
 		: 
 		mvStringPtrBase(name, default_value)
 	{
-		m_description.disableAllowed = true;
 	}
 
 	void mvCombo::draw(ImDrawList* drawlist, float x, float y)

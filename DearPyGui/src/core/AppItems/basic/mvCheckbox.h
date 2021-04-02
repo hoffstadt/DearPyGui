@@ -4,9 +4,13 @@
 
 namespace Marvel {
 
-	MV_REGISTER_WIDGET(mvCheckbox);
+	MV_REGISTER_WIDGET(mvCheckbox, MV_ITEM_DESC_DEFAULT, StorageValueTypes::Bool, 1);
 	class mvCheckbox : public mvBoolPtrBase
 	{
+
+	public:
+
+		static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
 
 		MV_APPITEM_TYPE(mvAppItemType::mvCheckbox, add_checkbox)
 
@@ -47,10 +51,6 @@ namespace Marvel {
 			MV_ADD_CONSTANT(mvThemeStyle_Checkbox_InnerItemSpacingX, 4, 20),
 			MV_ADD_CONSTANT(mvThemeStyle_Checkbox_InnerItemSpacingY, 4, 20),
 		MV_END_STYLE_CONSTANTS
-
-	public:
-
-		static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
 
 	public:
 

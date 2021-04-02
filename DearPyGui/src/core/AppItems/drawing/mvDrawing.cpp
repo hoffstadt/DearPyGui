@@ -5,7 +5,7 @@
 #include "mvImGuiThemeScope.h"
 #include "mvFontScope.h"
 #include "mvWindow.h"
-#include "mvAppItems.h"
+#include "mvAppItemCommons.h"
 #include "mvLog.h"
 
 namespace Marvel {
@@ -28,7 +28,6 @@ namespace Marvel {
 	mvDrawing::mvDrawing(const std::string& name)
 		: mvAppItem(name)
 	{
-		m_description.container = true;
 	}
 
 	bool mvDrawing::canChildBeAdded(mvAppItemType type)

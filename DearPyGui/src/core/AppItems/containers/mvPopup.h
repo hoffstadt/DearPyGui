@@ -4,7 +4,7 @@
 
 namespace Marvel {
 
-	MV_REGISTER_WIDGET(mvPopup);
+	MV_REGISTER_WIDGET(mvPopup, MV_ITEM_DESC_CONTAINER | MV_ITEM_DESC_AFTER, StorageValueTypes::Bool, 1);
 	class mvPopup : public mvBoolPtrBase
 	{
 

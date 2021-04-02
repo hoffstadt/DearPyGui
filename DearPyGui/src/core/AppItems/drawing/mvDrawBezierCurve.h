@@ -4,7 +4,7 @@
 
 namespace Marvel {
 
-	MV_REGISTER_WIDGET(mvDrawBezierCurve);
+	MV_REGISTER_WIDGET(mvDrawBezierCurve, MV_ITEM_DESC_DEFAULT, StorageValueTypes::None, 0);
 	class mvDrawBezierCurve : public mvAppItem
 	{
 	public:

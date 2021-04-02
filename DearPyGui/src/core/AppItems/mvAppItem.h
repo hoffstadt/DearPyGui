@@ -34,12 +34,9 @@ namespace Marvel {
         None = 0, mvSpacing, mvSameLine, mvInputText, mvButton,
         mvRadioButton, mvTabBar, mvTab, mvImage, mvMenuBar,
         mvMenu, mvMenuItem, mvGroup, mvChild,
-        mvSliderFloat, mvSliderFloat4, mvSliderInt, mvSliderInt4,
-        mvSliderFloat2, mvSliderFloat3, mvSliderInt2, mvSliderInt3,
-        mvDragFloat, mvDragFloat4, mvDragInt, mvDragInt4, mvDragFloat2,
-        mvDragFloat3, mvDragInt2, mvDragInt3, mvInputFloat, mvInputFloat4,
-        mvInputInt, mvInputInt4, mvInputFloat2, mvInputFloat3,
-        mvInputInt2, mvInputInt3, mvColorEdit3, mvColorEdit4,
+        mvSliderFloat, mvSliderInt,
+        mvDragFloat, mvDragInt, mvInputFloat,
+        mvInputInt, mvColorEdit3, mvColorEdit4,
         mvColorPicker3, mvColorPicker4, mvTooltip, mvCollapsingHeader,
         mvSeparator, mvCheckbox, mvListbox, mvText, mvLabelText, mvCombo,
         mvPlot, mvSimplePlot, mvIndent, mvUnindent, mvDrawing, mvWindowAppItem,
@@ -51,7 +48,8 @@ namespace Marvel {
         mvTable, mvTableColumn, mvTableNextColumn,
         mvDrawLine, mvDrawArrow, mvDrawTriangle, mvDrawCircle, mvDrawBezierCurve,
         mvDrawQuad, mvDrawRect, mvDrawText, mvDrawPolygon, mvDrawPolyline,
-        mvDrawImage,
+        mvDrawImage, mvDragFloatMulti, mvDragIntMulti, mvSliderFloatMulti,
+        mvSliderIntMulti, mvInputIntMulti, mvInputFloatMulti,
         ItemTypeCount
     };
 
@@ -154,6 +152,8 @@ namespace Marvel {
             MV_ADD_EXTRA_COMMAND(get_item_children);
         MV_END_EXTRA_COMMANDS
 
+        static bool DoesItemHaveFlag(mvAppItem* item, int flag);
+
     protected:
 
             struct ScopedID
@@ -173,7 +173,10 @@ namespace Marvel {
         mvAppItem(mvAppItem&& other)      = delete; // move constructor
 
         // pure virtual methods
-        [[nodiscard]] virtual mvAppItemType getType      () const = 0;
+        [[nodiscard]] virtual mvAppItemType     getType      () const = 0;
+        [[nodiscard]] virtual int               getDescFlags () const = 0;
+        [[nodiscard]] virtual int               getTarget    () const = 0;
+        [[nodiscard]] virtual StorageValueTypes getValueType () const = 0;
         virtual void                        draw         (ImDrawList* drawlist, float x, float y)       = 0; // actual imgui draw commands
 
         // virtual methods
@@ -200,7 +203,6 @@ namespace Marvel {
         [[nodiscard]] bool                  isShown        () const { return m_show; }
         [[nodiscard]] mvCallable            getCallback    (bool ignore_enabled = true);  // returns the callback. If ignore_enable false and item is disabled then no callback will be returned.
         [[nodiscard]] mvCallableData        getCallbackData()       { return m_callback_data; }
-        const mvAppItemDescription&         getDescription () const { return m_description; }
         mvAppItemState&                     getState       () { return m_state; } 
         mvAppItem*                          getParent() { return m_parentPtr; }
         bool                                isEnabled() const { return m_enabled; }
@@ -254,7 +256,6 @@ namespace Marvel {
     protected:
 
         mvAppItemState                m_state;
-        mvAppItemDescription          m_description;
 
         mvAppItem*                    m_parentPtr = nullptr;
         std::vector<mvRef<mvAppItem>> m_children0;

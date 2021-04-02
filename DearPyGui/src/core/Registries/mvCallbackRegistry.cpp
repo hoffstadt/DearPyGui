@@ -5,7 +5,7 @@
 #include <iostream>
 #include "mvItemRegistry.h"
 #include "mvInput.h"
-#include "mvAppItems.h"
+#include "mvAppItemCommons.h"
 
 namespace Marvel {
 
@@ -649,7 +649,7 @@ namespace Marvel {
 
 				if (item)
 				{
-					if (item->getDescription().root)
+					if (mvAppItem::DoesItemHaveFlag(item.get(), MV_ITEM_DESC_ROOT))
 					{
 						auto windowtype = static_cast<mvWindowAppItem*>(item.get());
 						windowtype->setResizeCallback(callback);
