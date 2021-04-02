@@ -11,9 +11,7 @@ namespace Marvel {
 		: 
 		mvAppItem(name)
 	{
-		m_description.valueType = StorageValueTypes::Int;
 		m_value = std::make_shared<int>(default_value);
-
 	}
 
 	void mvIntPtrBase::setDataSource(const std::string& dataSource)
@@ -27,7 +25,7 @@ namespace Marvel {
 			ThrowPythonException("Source item not found.");
 			return;
 		}
-		if (item->getDescription().valueType != getDescription().valueType)
+		if (item->getValueType() != getValueType())
 		{
 			ThrowPythonException("Values types do not match");
 			return;
@@ -49,7 +47,6 @@ namespace Marvel {
 		: 
 		mvAppItem(name)
 	{
-		m_description.valueType = StorageValueTypes::Int2;
 		m_value = std::make_shared<std::array<int,2>>(std::array{ default_value[0], default_value[1] });
 	}
 
@@ -78,7 +75,7 @@ namespace Marvel {
 			ThrowPythonException("Source item not found.");
 			return;
 		}
-		if (item->getDescription().valueType != getDescription().valueType)
+		if (item->getValueType() != getValueType())
 		{
 			ThrowPythonException("Values types do not match");
 			return;
@@ -90,7 +87,6 @@ namespace Marvel {
 		: 
 		mvAppItem(name)
 	{
-		m_description.valueType = StorageValueTypes::Int3;
 		m_value = std::make_shared<std::array<int, 3>>(std::array{ default_value[0], default_value[1], default_value[2] });
 	}
 
@@ -119,7 +115,7 @@ namespace Marvel {
 			ThrowPythonException("Source item not found.");
 			return;
 		}
-		if (item->getDescription().valueType != getDescription().valueType)
+		if (item->getValueType() != getValueType())
 		{
 			ThrowPythonException("Values types do not match");
 			return;
@@ -130,7 +126,6 @@ namespace Marvel {
 	mvInt4PtrBase::mvInt4PtrBase(const std::string& name, int* default_value)
 		: mvAppItem(name)
 	{
-		m_description.valueType = StorageValueTypes::Int4;
 		m_value = std::make_shared<std::array<int, 4>>(std::array{ default_value[0], 
 			default_value[1], default_value[2], default_value[3] });
 	}
@@ -160,7 +155,7 @@ namespace Marvel {
 			ThrowPythonException("Source item not found.");
 			return;
 		}
-		if (item->getDescription().valueType != getDescription().valueType)
+		if (item->getValueType() != getValueType())
 		{
 			ThrowPythonException("Values types do not match");
 			return;
@@ -171,7 +166,6 @@ namespace Marvel {
 	mvFloatPtrBase::mvFloatPtrBase(const std::string& name, float default_value)
 		: mvAppItem(name)
 	{
-		m_description.valueType = StorageValueTypes::Float;
 		m_value = std::make_shared<float>(default_value);
 	}
 
@@ -196,7 +190,7 @@ namespace Marvel {
 			ThrowPythonException("Source item not found.");
 			return;
 		}
-		if (item->getDescription().valueType != getDescription().valueType)
+		if (item->getValueType() != getValueType())
 		{
 			ThrowPythonException("Values types do not match");
 			return;
@@ -207,7 +201,6 @@ namespace Marvel {
 	mvFloat2PtrBase::mvFloat2PtrBase(const std::string& name, float* default_value)
 		: mvAppItem(name)
 	{
-		m_description.valueType = StorageValueTypes::Float2;
 		m_value = std::make_shared<std::array<float, 2>>(std::array{ default_value[0], default_value[1] });
 	}
 
@@ -236,7 +229,7 @@ namespace Marvel {
 			ThrowPythonException("Source item not found.");
 			return;
 		}
-		if (item->getDescription().valueType != getDescription().valueType)
+		if (item->getValueType() != getValueType())
 		{
 			ThrowPythonException("Values types do not match");
 			return;
@@ -247,7 +240,6 @@ namespace Marvel {
 	mvFloat3PtrBase::mvFloat3PtrBase(const std::string& name, float* default_value)
 		: mvAppItem(name)
 	{
-		m_description.valueType = StorageValueTypes::Float3;
 		m_value = std::make_shared<std::array<float, 3>>(std::array{ default_value[0], default_value[1], default_value[2] });
 	}
 
@@ -276,7 +268,7 @@ namespace Marvel {
 			ThrowPythonException("Source item not found.");
 			return;
 		}
-		if (item->getDescription().valueType != getDescription().valueType)
+		if (item->getValueType() != getValueType())
 		{
 			ThrowPythonException("Values types do not match");
 			return;
@@ -287,7 +279,6 @@ namespace Marvel {
 	mvFloat4PtrBase::mvFloat4PtrBase(const std::string& name, float* default_value)
 		: mvAppItem(name)
 	{
-		m_description.valueType = StorageValueTypes::Float4;
 		m_value = std::make_shared<std::array<float, 4>>(std::array{ default_value[0], default_value[1], default_value[2], default_value[3] });
 	}
 
@@ -316,7 +307,7 @@ namespace Marvel {
 			ThrowPythonException("Source item not found.");
 			return;
 		}
-		if (item->getDescription().valueType != getDescription().valueType)
+		if (item->getValueType() != getValueType())
 		{
 			ThrowPythonException("Values types do not match");
 			return;
@@ -327,7 +318,6 @@ namespace Marvel {
 	mvColorPtrBase::mvColorPtrBase(const std::string& name, const float* default_value)
 		: mvAppItem(name)
 	{
-		m_description.valueType = StorageValueTypes::Color;
 		m_value = std::make_shared<std::array<float, 4>>(std::array{ default_value[0], default_value[1], default_value[2], default_value[3] });
 	}
 
@@ -362,7 +352,7 @@ namespace Marvel {
 			ThrowPythonException("Source item not found.");
 			return;
 		}
-		if (item->getDescription().valueType != getDescription().valueType)
+		if (item->getValueType() != getValueType())
 		{
 			ThrowPythonException("Values types do not match");
 			return;
@@ -373,8 +363,6 @@ namespace Marvel {
 	mvBoolPtrBase::mvBoolPtrBase(const std::string& name, bool default_value)
 		: mvAppItem(name)
 	{
-		m_description.valueType = StorageValueTypes::Bool;
-
 		m_value = std::make_shared<bool>(default_value);
 	}
 
@@ -399,7 +387,7 @@ namespace Marvel {
 			ThrowPythonException("Source item not found.");
 			return;
 		}
-		if (item->getDescription().valueType != getDescription().valueType)
+		if (item->getValueType() != getValueType())
 		{
 			ThrowPythonException("Values types do not match");
 			return;
@@ -410,7 +398,6 @@ namespace Marvel {
 	mvStringPtrBase::mvStringPtrBase(const std::string& name, const std::string& default_value)
 		: mvAppItem(name)
 	{
-		m_description.valueType = StorageValueTypes::String;
 		m_value = std::make_shared<std::string>(default_value);
 	}
 
@@ -435,7 +422,7 @@ namespace Marvel {
 			ThrowPythonException("Source item not found.");
 			return;
 		}
-		if (item->getDescription().valueType != getDescription().valueType)
+		if (item->getValueType() != getValueType())
 		{
 			ThrowPythonException("Values types do not match");
 			return;
@@ -465,7 +452,6 @@ namespace Marvel {
 	mvFloatVectPtrBase::mvFloatVectPtrBase(const std::string& name, const std::vector<float>& default_value)
 		: mvAppItem(name)
 	{
-		m_description.valueType = StorageValueTypes::FloatVect;
 		m_value = std::make_shared<std::vector<float>>(default_value);
 	}
 
@@ -490,7 +476,7 @@ namespace Marvel {
 			ThrowPythonException("Source item not found.");
 			return;
 		}
-		if (item->getDescription().valueType != getDescription().valueType)
+		if (item->getValueType() != getValueType())
 		{
 			ThrowPythonException("Values types do not match");
 			return;
@@ -502,7 +488,6 @@ namespace Marvel {
 		: 
 		mvAppItem(name)
 	{
-		m_description.root = true;
 	}
 
 	void mvBaseWindowAppitem::addFlag(ImGuiWindowFlags flag) 

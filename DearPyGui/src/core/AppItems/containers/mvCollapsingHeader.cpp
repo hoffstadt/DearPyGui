@@ -30,7 +30,6 @@ namespace Marvel {
 	mvCollapsingHeader::mvCollapsingHeader(const std::string& name)
 		: mvBoolPtrBase(name, true)
 	{
-		m_description.container = true;
 	}
 
 	void mvCollapsingHeader::draw(ImDrawList* drawlist, float x, float y)

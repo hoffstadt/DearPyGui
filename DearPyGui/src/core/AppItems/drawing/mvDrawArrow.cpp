@@ -33,7 +33,6 @@ namespace Marvel {
 		m_thickness(thickness),
 		m_size(size)
 	{
-		m_description.target = 0;
 		updatePoints();
 	}
 

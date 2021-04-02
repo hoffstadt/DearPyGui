@@ -23,7 +23,6 @@ namespace Marvel {
 	mvMenu::mvMenu(const std::string& name)
 			: mvBoolPtrBase(name, false)
 	{
-		m_description.container = true;
 	}
 
 	void mvMenu::draw(ImDrawList* drawlist, float x, float y)

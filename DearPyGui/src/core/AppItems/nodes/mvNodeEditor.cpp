@@ -69,7 +69,6 @@ namespace Marvel {
 	mvNodeEditor::mvNodeEditor(const std::string& name, mvCallable linkCallback, mvCallable delinkCallback)
 		: mvAppItem(name), m_linkCallback(linkCallback), m_delinkCallback(delinkCallback)
 	{
-		m_description.container = true;
 	}
 
 	mvNodeEditor::~mvNodeEditor()

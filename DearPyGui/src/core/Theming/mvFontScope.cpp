@@ -23,7 +23,7 @@ namespace Marvel {
 			ImFont* font = nullptr;
 			mvAppItem* widget = item;
 			font = widget->getCachedFont();
-			while (!widget->getDescription().root)
+			while (!mvAppItem::DoesItemHaveFlag(widget, MV_ITEM_DESC_ROOT))
 			{
 				widget = widget->getParent();
 

@@ -29,8 +29,7 @@ namespace Marvel {
         MV_ITEM_DESC_DEFAULT     = 0,
         MV_ITEM_DESC_ROOT        = 1 << 1,
         MV_ITEM_DESC_CONTAINER   = 1 << 2,
-        MV_ITEM_DESC_DISABLEABLE = 1 << 3,
-        MV_ITEM_DESC_AFTER       = 1 << 4,
+        MV_ITEM_DESC_AFTER       = 1 << 3,
     };
 
     using mvValueVariant = std::variant<
@@ -48,16 +47,4 @@ namespace Marvel {
         std::shared_ptr<tm>,
         std::shared_ptr<ImPlotTime>,
         void*>;
-
-    struct mvAppItemDescription
-    {
-
-        bool root              = false;
-        bool container         = false;
-        bool disableAllowed    = false;
-        bool addAfterRequired  = false;
-        int target = 1;
-        StorageValueTypes valueType = StorageValueTypes::None;
-
-    };
 }

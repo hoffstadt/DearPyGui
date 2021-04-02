@@ -89,7 +89,6 @@ namespace Marvel {
 		: 
 		mvColorPtrBase(name, color)
 	{
-		m_description.disableAllowed = true;
 	}
 
 	void mvColorPicker3::draw(ImDrawList* drawlist, float x, float y)
@@ -109,7 +108,6 @@ namespace Marvel {
 		: 
 		mvColorPtrBase(name, color)
 	{
-		m_description.disableAllowed = true;
 	}
 
 	void mvColorPicker4::draw(ImDrawList* drawlist, float x, float y)

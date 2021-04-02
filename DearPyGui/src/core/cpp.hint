@@ -6,9 +6,9 @@
 template<> struct mvItemTypeMap<(int)mvAppItemType::x>\
 {\
 typedef x type;\
-int flags = y;\
-StorageValueTypes value_type = z;\
-int target = w;\
+static constexpr const int flags = y;\
+static constexpr const StorageValueTypes value_type = z;\
+static constexpr const int target = w;\
 };\
 template<>struct mvItemTypeReverseMap<class x>\
 {\
@@ -20,6 +20,9 @@ static constexpr const long s_internal_type = (long)x;\
 static constexpr const char* const s_internal_id = #x;\
 static constexpr const char* const s_command = #parser;\
 mvAppItemType getType() const override { return x; }\
+int getTarget() const override { return mvItemTypeMap<(int)x>::target; }\
+int getDescFlags() const override { return mvItemTypeMap<(int)x>::flags; }\
+StorageValueTypes getValueType() const override { return mvItemTypeMap<(int)x>::value_type; }\
 static PyObject* parser(PyObject* self, PyObject* args, PyObject* kwargs);\
 static PyMethodDef GetMethodDefinition(){return { s_command, (PyCFunction)parser, METH_VARARGS | METH_KEYWORDS, mvApp::GetApp()->getParsers()[s_command].getDocumentation() };}
 

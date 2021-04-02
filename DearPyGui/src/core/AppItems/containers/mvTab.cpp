@@ -27,7 +27,6 @@ namespace Marvel {
 		: 
 		mvBoolPtrBase(name, false)
 	{
-		m_description.container = true;
 	}
 
 	void mvTab::addFlag(ImGuiTabItemFlags flag)

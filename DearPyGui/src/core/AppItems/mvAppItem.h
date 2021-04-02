@@ -154,6 +154,8 @@ namespace Marvel {
             MV_ADD_EXTRA_COMMAND(get_item_children);
         MV_END_EXTRA_COMMANDS
 
+        static bool DoesItemHaveFlag(mvAppItem* item, int flag);
+
     protected:
 
             struct ScopedID
@@ -173,7 +175,10 @@ namespace Marvel {
         mvAppItem(mvAppItem&& other)      = delete; // move constructor
 
         // pure virtual methods
-        [[nodiscard]] virtual mvAppItemType getType      () const = 0;
+        [[nodiscard]] virtual mvAppItemType     getType      () const = 0;
+        [[nodiscard]] virtual int               getDescFlags () const = 0;
+        [[nodiscard]] virtual int               getTarget    () const = 0;
+        [[nodiscard]] virtual StorageValueTypes getValueType () const = 0;
         virtual void                        draw         (ImDrawList* drawlist, float x, float y)       = 0; // actual imgui draw commands
 
         // virtual methods
@@ -200,7 +205,6 @@ namespace Marvel {
         [[nodiscard]] bool                  isShown        () const { return m_show; }
         [[nodiscard]] mvCallable            getCallback    (bool ignore_enabled = true);  // returns the callback. If ignore_enable false and item is disabled then no callback will be returned.
         [[nodiscard]] mvCallableData        getCallbackData()       { return m_callback_data; }
-        const mvAppItemDescription&         getDescription () const { return m_description; }
         mvAppItemState&                     getState       () { return m_state; } 
         mvAppItem*                          getParent() { return m_parentPtr; }
         bool                                isEnabled() const { return m_enabled; }
@@ -254,7 +258,6 @@ namespace Marvel {
     protected:
 
         mvAppItemState                m_state;
-        mvAppItemDescription          m_description;
 
         mvAppItem*                    m_parentPtr = nullptr;
         std::vector<mvRef<mvAppItem>> m_children0;

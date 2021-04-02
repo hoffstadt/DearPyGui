@@ -27,7 +27,6 @@ namespace Marvel {
 	mvGroup::mvGroup(const std::string& name)
 		: mvAppItem(name)
 	{
-		m_description.container = true;
 	}
 
 	void mvGroup::draw(ImDrawList* drawlist, float x, float y)

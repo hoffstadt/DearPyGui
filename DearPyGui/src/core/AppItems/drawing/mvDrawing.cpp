@@ -28,7 +28,6 @@ namespace Marvel {
 	mvDrawing::mvDrawing(const std::string& name)
 		: mvAppItem(name)
 	{
-		m_description.container = true;
 	}
 
 	bool mvDrawing::canChildBeAdded(mvAppItemType type)

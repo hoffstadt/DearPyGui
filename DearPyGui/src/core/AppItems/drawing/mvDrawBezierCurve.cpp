@@ -36,7 +36,6 @@ namespace Marvel {
 		m_thickness(thickness),
 		m_segments(segments)
 	{
-		m_description.target = 0;
 	}
 
 	bool mvDrawBezierCurve::isParentCompatible(mvAppItemType type)

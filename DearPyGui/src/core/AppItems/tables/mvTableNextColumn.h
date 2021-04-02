@@ -27,7 +27,9 @@ namespace Marvel {
 		MV_START_STYLE_CONSTANTS
 		MV_END_STYLE_CONSTANTS
 
-			mvTableNextColumn(const std::string& name);
+	public:
+
+		mvTableNextColumn(const std::string& name);
 
 		bool isParentCompatible(mvAppItemType type) override;
 

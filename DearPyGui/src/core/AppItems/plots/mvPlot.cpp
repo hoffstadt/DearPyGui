@@ -546,7 +546,7 @@ namespace Marvel {
 				ThrowPythonException("Source item not found.");
 				return;
 			}
-			if (item->getDescription().valueType != StorageValueTypes::Float2)
+			if (item->getValueType() != StorageValueTypes::Float2)
 			{
 				ThrowPythonException("Values types do not match");
 				return;
@@ -580,7 +580,7 @@ namespace Marvel {
 						ThrowPythonException("Source item not found.");
 						continue;
 					}
-					if (newitem->getDescription().valueType != StorageValueTypes::Float2)
+					if (newitem->getValueType() != StorageValueTypes::Float2)
 					{
 						ThrowPythonException("Values types do not match");
 						continue;
@@ -610,7 +610,7 @@ namespace Marvel {
 				ThrowPythonException("Source item not found.");
 				return;
 			}
-			if (item->getDescription().valueType != StorageValueTypes::Float)
+			if (item->getValueType() != StorageValueTypes::Float)
 			{
 				ThrowPythonException("Values types do not match");
 				return;
@@ -643,7 +643,7 @@ namespace Marvel {
 						ThrowPythonException("Source item not found.");
 						continue;
 					}
-					if (newitem->getDescription().valueType != StorageValueTypes::Float)
+					if (newitem->getValueType() != StorageValueTypes::Float)
 					{
 						ThrowPythonException("Values types do not match");
 						continue;

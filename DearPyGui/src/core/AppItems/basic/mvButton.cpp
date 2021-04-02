@@ -33,7 +33,6 @@ namespace Marvel {
 		: 
 		mvAppItem(name)
 	{
-		m_description.disableAllowed = true;
 	}
 
 	void mvButton::draw(ImDrawList* drawlist, float x, float y)

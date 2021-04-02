@@ -29,7 +29,6 @@ namespace Marvel {
 		m_color(color),
 		m_thickness(thickness)
 	{
-		m_description.target = 0;
 	}
 
 	bool mvDrawLine::isParentCompatible(mvAppItemType type)
