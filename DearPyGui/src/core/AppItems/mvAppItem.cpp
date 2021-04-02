@@ -130,7 +130,7 @@ namespace Marvel{
 	{
 		m_name = name;
 		m_label = name + " ###" + name;
-		m_label = name;
+		m_specificedlabel = name;
 		m_state.setParent(this);
 	}
 
