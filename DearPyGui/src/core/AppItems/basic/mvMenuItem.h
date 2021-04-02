@@ -39,7 +39,7 @@ namespace Marvel {
 
 	public:
 
-		explicit mvMenuItem(const std::string& name);
+		explicit mvMenuItem(const std::string& name, bool default_value, const std::string& dataSource);
 
 		void draw(ImDrawList* drawlist, float x, float y) override;
 
@@ -49,7 +49,9 @@ namespace Marvel {
 	private:
 
 		std::string m_shortcut;
+		bool        m_default_value = false;
 		bool        m_check = false;
+		std::string m_source = "";
 
 	};
 

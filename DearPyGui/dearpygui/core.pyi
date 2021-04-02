@@ -94,7 +94,7 @@ def add_drag_float3(name: str = ..., *, default_value: List[float] = (0.0, 0.0, 
 	"""Adds drag for a 3 float values. CTRL+Click to directly modify the value."""
 	...
 
-def add_drag_float4(name: str, *, default_value: List[float] = (0.0, 0.0, 0.0, 0.0), speed: float = 1.0, min_value: float = 0.0, max_value: float = 100.0, format: str = '%0.3f', callback: Callable = None, callback_data: Any = None, parent: str = '', before: str = '', source: str = '', enabled: bool = True, width: int = 0, no_input: bool = False, clamped: bool = False, label: str = '', show: bool = True) -> None:
+def add_drag_float4(name: str = ..., *, default_value: List[float] = (0.0, 0.0, 0.0, 0.0), speed: float = 1.0, min_value: float = 0.0, max_value: float = 100.0, format: str = '%0.3f', callback: Callable = None, callback_data: Any = None, parent: str = '', before: str = '', source: str = '', enabled: bool = True, width: int = 0, no_input: bool = False, clamped: bool = False, label: str = '', show: bool = True) -> None:
 	"""Adds drag for a 4 float values. CTRL+Click to directly modify the value."""
 	...
 
@@ -210,7 +210,7 @@ def add_input_text(name: str = ..., *, default_value: str = '', hint: str = '', 
 	"""Adds input for text values."""
 	...
 
-def add_label_text(name: str, *, default_value: str = '', color: List[float] = (-1, 0, 0, 0), parent: str = '', before: str = '', source: str = '', label: str = '', show: bool = True) -> None:
+def add_label_text(name: str = ..., *, default_value: str = '', color: List[float] = (-1, 0, 0, 0), parent: str = '', before: str = '', source: str = '', label: str = '', show: bool = True) -> None:
 	"""Adds text with a label. Useful for output values."""
 	...
 
@@ -234,7 +234,7 @@ def add_menu_bar(name: str = ..., *, show: bool = True, parent: str = '', before
 	"""Adds a menu bar to a window. Must be followed by a call to end."""
 	...
 
-def add_menu_item(name: str = ..., *, shortcut: str = '', check: bool = False, callback: Callable = None, callback_data: Any = None, label: str = '', show: bool = True, enabled: bool = True, parent: str = '', before: str = '') -> None:
+def add_menu_item(name: str = ..., *, default_value: int = False, shortcut: str = '', check: bool = False, callback: Callable = None, callback_data: Any = None, source: str = '', label: str = '', show: bool = True, enabled: bool = True, parent: str = '', before: str = '') -> None:
 	"""Adds a menu item to an existing menu."""
 	...
 
@@ -270,7 +270,7 @@ def add_popup(popupparent: str, name: str = ..., *, mousebutton: int = 1, modal:
 	"""Adds a popup window for an item. This command must come immediately after the item the popup is for. Must be followed by a call to end."""
 	...
 
-def add_progress_bar(name: str = ..., *, default_value: float = 0.0, overlay: str = '', parent: str = '', before: str = '', source: str = '', width: int = 0, height: int = 0, show: bool = True) -> None:
+def add_progress_bar(name: str = ..., *, default_value: float = 0.0, overlay: str = '', parent: str = '', before: str = '', source: str = '', label: str = '', width: int = 0, height: int = 0, show: bool = True) -> None:
 	"""Adds a progress bar."""
 	...
 
@@ -306,31 +306,31 @@ def add_slider_float(name: str = ..., *, default_value: float = 0.0, min_value: 
 	"""Adds slider for a single float value. CTRL+Click to directly modify the value."""
 	...
 
-def add_slider_float2(name: str, *, default_value: List[float] = (0.0, 0.0), min_value: float = 0.0, max_value: float = 100.0, format: str = '%.3f', callback: Callable = None, callback_data: Any = None, parent: str = '', before: str = '', source: str = '', enabled: bool = True, width: int = 0, no_input: bool = False, clamped: bool = False, label: str = '', show: bool = True) -> None:
+def add_slider_float2(name: str = ..., *, default_value: List[float] = (0.0, 0.0), min_value: float = 0.0, max_value: float = 100.0, format: str = '%.3f', callback: Callable = None, callback_data: Any = None, parent: str = '', before: str = '', source: str = '', enabled: bool = True, width: int = 0, no_input: bool = False, clamped: bool = False, label: str = '', show: bool = True) -> None:
 	"""Adds slider for a 2 float values. CTRL+Click to directly modify the value."""
 	...
 
-def add_slider_float3(name: str, *, default_value: List[float] = (0.0, 0.0, 0.0), min_value: float = 0.0, max_value: float = 100.0, format: str = '%.3f', callback: Callable = None, callback_data: Any = None, parent: str = '', before: str = '', source: str = '', enabled: bool = True, width: int = 0, no_input: bool = False, clamped: bool = False, label: str = '', show: bool = True) -> None:
+def add_slider_float3(name: str = ..., *, default_value: List[float] = (0.0, 0.0, 0.0), min_value: float = 0.0, max_value: float = 100.0, format: str = '%.3f', callback: Callable = None, callback_data: Any = None, parent: str = '', before: str = '', source: str = '', enabled: bool = True, width: int = 0, no_input: bool = False, clamped: bool = False, label: str = '', show: bool = True) -> None:
 	"""Adds slider for a 3 float values. CTRL+Click to directly modify the value."""
 	...
 
-def add_slider_float4(name: str, *, default_value: List[float] = (0.0, 0.0, 0.0, 0.0), min_value: float = 0.0, max_value: float = 100.0, format: str = '%.3f', callback: Callable = None, callback_data: Any = None, parent: str = '', before: str = '', source: str = '', enabled: bool = True, width: int = 0, no_input: bool = False, clamped: bool = False, label: str = '', show: bool = True) -> None:
+def add_slider_float4(name: str = ..., *, default_value: List[float] = (0.0, 0.0, 0.0, 0.0), min_value: float = 0.0, max_value: float = 100.0, format: str = '%.3f', callback: Callable = None, callback_data: Any = None, parent: str = '', before: str = '', source: str = '', enabled: bool = True, width: int = 0, no_input: bool = False, clamped: bool = False, label: str = '', show: bool = True) -> None:
 	"""Adds slider for a 4 float values. CTRL+Click to directly modify the value."""
 	...
 
-def add_slider_int(name: str, *, default_value: int = 0, min_value: int = 0, max_value: int = 100, format: str = '%d', vertical: bool = False, callback: Callable = None, callback_data: Any = None, parent: str = '', before: str = '', source: str = '', enabled: bool = True, width: int = 0, height: int = 0, no_input: bool = False, clamped: bool = False, label: str = '', show: bool = True) -> None:
+def add_slider_int(name: str = ..., *, default_value: int = 0, min_value: int = 0, max_value: int = 100, format: str = '%d', vertical: bool = False, callback: Callable = None, callback_data: Any = None, parent: str = '', before: str = '', source: str = '', enabled: bool = True, width: int = 0, height: int = 0, no_input: bool = False, clamped: bool = False, label: str = '', show: bool = True) -> None:
 	"""Adds slider for a single int value. CTRL+Click to directly modify the value."""
 	...
 
-def add_slider_int2(name: str, *, default_value: List[int] = (0, 0), min_value: int = 0, max_value: int = 100, format: str = '%d', callback: Callable = None, callback_data: Any = None, parent: str = '', before: str = '', source: str = '', enabled: bool = True, width: int = 0, no_input: bool = False, clamped: bool = False, label: str = '', show: bool = True) -> None:
+def add_slider_int2(name: str = ..., *, default_value: List[int] = (0, 0), min_value: int = 0, max_value: int = 100, format: str = '%d', callback: Callable = None, callback_data: Any = None, parent: str = '', before: str = '', source: str = '', enabled: bool = True, width: int = 0, no_input: bool = False, clamped: bool = False, label: str = '', show: bool = True) -> None:
 	"""Adds slider for a 2 int values. CTRL+Click to directly modify the value."""
 	...
 
-def add_slider_int3(name: str, *, default_value: List[int] = (0, 0, 0), min_value: int = 0, max_value: int = 100, format: str = '%d', callback: Callable = None, callback_data: Any = None, parent: str = '', before: str = '', source: str = '', enabled: bool = True, width: int = 0, no_input: bool = False, clamped: bool = False, label: str = '', show: bool = True) -> None:
+def add_slider_int3(name: str = ..., *, default_value: List[int] = (0, 0, 0), min_value: int = 0, max_value: int = 100, format: str = '%d', callback: Callable = None, callback_data: Any = None, parent: str = '', before: str = '', source: str = '', enabled: bool = True, width: int = 0, no_input: bool = False, clamped: bool = False, label: str = '', show: bool = True) -> None:
 	"""Adds slider for a 3 int values. CTRL+Click to directly modify the value."""
 	...
 
-def add_slider_int4(name: str, *, default_value: List[int] = (0, 0, 0, 0), min_value: int = 0, max_value: int = 100, format: str = '%d', callback: Callable = None, callback_data: Any = None, parent: str = '', before: str = '', source: str = '', enabled: bool = True, width: int = 0, no_input: bool = False, clamped: bool = False, label: str = '', show: bool = True) -> None:
+def add_slider_int4(name: str = ..., *, default_value: List[int] = (0, 0, 0, 0), min_value: int = 0, max_value: int = 100, format: str = '%d', callback: Callable = None, callback_data: Any = None, parent: str = '', before: str = '', source: str = '', enabled: bool = True, width: int = 0, no_input: bool = False, clamped: bool = False, label: str = '', show: bool = True) -> None:
 	"""Adds slider for a 4 int values. CTRL+Click to directly modify the value."""
 	...
 
