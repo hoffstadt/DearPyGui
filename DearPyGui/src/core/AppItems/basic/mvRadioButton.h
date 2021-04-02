@@ -4,9 +4,13 @@
 
 namespace Marvel {
 
-	MV_REGISTER_WIDGET(mvRadioButton);
+	MV_REGISTER_WIDGET(mvRadioButton, MV_ITEM_DESC_DEFAULT, StorageValueTypes::Int, 1);
 	class mvRadioButton : public mvIntPtrBase
 	{
+
+	public:
+
+		static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
 
 		MV_APPITEM_TYPE(mvAppItemType::mvRadioButton, add_radio_button)
 
@@ -45,10 +49,6 @@ namespace Marvel {
 			MV_ADD_CONSTANT(mvThemeStyle_RadioButton_InnerSpacingX, 4, 20),
 			MV_ADD_CONSTANT(mvThemeStyle_RadioButton_InnerSpacingY, 4, 20),
 		MV_END_STYLE_CONSTANTS
-
-	public:
-
-		static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
 
 	public:
 

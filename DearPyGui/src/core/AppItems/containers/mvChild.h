@@ -4,9 +4,14 @@
 
 namespace Marvel {
 
-	MV_REGISTER_WIDGET(mvChild);
+	MV_REGISTER_WIDGET(mvChild, MV_ITEM_DESC_CONTAINER, StorageValueTypes::Bool, 1);
 	class mvChild : public mvBoolPtrBase
 	{
+
+	public:
+
+		static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
+
 		MV_APPITEM_TYPE(mvAppItemType::mvChild, add_child)
 
 		MV_CREATE_CONSTANT(mvThemeCol_Child_Bg					,  3L, 0L);
@@ -52,10 +57,6 @@ namespace Marvel {
 			MV_ADD_CONSTANT(mvThemeStyle_Child_ScrollbarSize		,14, 20),
 			MV_ADD_CONSTANT(mvThemeStyle_Child_ScrollbarRounding	, 9, 12),
 		MV_END_STYLE_CONSTANTS
-
-	public:
-
-		static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
 
 	public:
 

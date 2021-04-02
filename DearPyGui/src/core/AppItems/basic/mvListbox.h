@@ -4,9 +4,13 @@
 
 namespace Marvel {
 
-	MV_REGISTER_WIDGET(mvListbox);
+	MV_REGISTER_WIDGET(mvListbox, MV_ITEM_DESC_DEFAULT, StorageValueTypes::Int, 1);
 	class mvListbox : public mvIntPtrBase
 	{
+
+	public:
+
+		static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
 
 		MV_APPITEM_TYPE(mvAppItemType::mvListbox, add_listbox)
 
@@ -63,10 +67,6 @@ namespace Marvel {
 			MV_ADD_CONSTANT(mvThemeStyle_Listbox_TextAlignX		, 0,  1),
 			MV_ADD_CONSTANT(mvThemeStyle_Listbox_TextAlignY		, 0,  1),
 		MV_END_STYLE_CONSTANTS
-
-	public:
-
-		static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
 
 	public:
 

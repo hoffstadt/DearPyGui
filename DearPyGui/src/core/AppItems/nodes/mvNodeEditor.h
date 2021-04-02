@@ -4,9 +4,13 @@
 
 namespace Marvel {
 
-	MV_REGISTER_WIDGET(mvNodeEditor);
+	MV_REGISTER_WIDGET(mvNodeEditor, MV_ITEM_DESC_DEFAULT, StorageValueTypes::None, 1);
 	class mvNodeEditor : public mvAppItem
 	{
+
+	public:
+
+		static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
 
 		MV_APPITEM_TYPE(mvAppItemType::mvNodeEditor, add_node_editor)
 
@@ -71,10 +75,6 @@ namespace Marvel {
 			MV_ADD_CONSTANT(mvThemeStyle_NodeEditor_PinHoverRadius,			 5, 12),
 			MV_ADD_CONSTANT(mvThemeStyle_NodeEditor_PinOffset,					 0, 12),
 		MV_END_STYLE_CONSTANTS
-
-	public:
-
-		static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
 
 	public:
 

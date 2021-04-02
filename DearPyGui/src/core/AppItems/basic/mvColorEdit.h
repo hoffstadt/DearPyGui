@@ -15,9 +15,13 @@ namespace Marvel {
 	//-----------------------------------------------------------------------------
 	// mvColorEdit3
 	//-----------------------------------------------------------------------------
-	MV_REGISTER_WIDGET(mvColorEdit3);
+	MV_REGISTER_WIDGET(mvColorEdit3, MV_ITEM_DESC_DEFAULT, StorageValueTypes::Color, 1);
 	class mvColorEdit3 : public mvColorPtrBase
 	{
+
+	public:
+
+		static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
 
 		MV_APPITEM_TYPE(mvAppItemType::mvColorEdit3, add_color_edit3)
 
@@ -73,10 +77,6 @@ namespace Marvel {
 
 	public:
 
-		static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
-
-	public:
-
 		mvColorEdit3(const std::string& name, float* color, const std::string& dataSource);
 
 		void draw(ImDrawList* drawlist, float x, float y) override;
@@ -112,9 +112,13 @@ namespace Marvel {
 	//-----------------------------------------------------------------------------
 	// mvColorEdit4
 	//-----------------------------------------------------------------------------
-	MV_REGISTER_WIDGET(mvColorEdit4);
+	MV_REGISTER_WIDGET(mvColorEdit4, MV_ITEM_DESC_DEFAULT, StorageValueTypes::Color, 1);
 	class mvColorEdit4 : public mvColorPtrBase
 	{
+
+	public:
+
+		static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
 
 		MV_APPITEM_TYPE(mvAppItemType::mvColorEdit4, add_color_edit4)
 
@@ -167,10 +171,6 @@ namespace Marvel {
 			MV_ADD_CONSTANT(mvThemeStyle_ColorEdit4_PaddingX			, 4, 20),
 			MV_ADD_CONSTANT(mvThemeStyle_ColorEdit4_PaddingY			, 3, 20),
 		MV_END_STYLE_CONSTANTS
-
-	public:
-
-		static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
 
 	public:
 

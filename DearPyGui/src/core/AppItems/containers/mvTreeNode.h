@@ -4,9 +4,14 @@
 
 namespace Marvel {
 
-	MV_REGISTER_WIDGET(mvTreeNode);
+	MV_REGISTER_WIDGET(mvTreeNode, MV_ITEM_DESC_CONTAINER, StorageValueTypes::Bool, 1);
 	class mvTreeNode : public mvBoolPtrBase
 	{
+
+	public:
+
+		static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
+
 		MV_APPITEM_TYPE(mvAppItemType::mvTreeNode, add_tree_node)
 
 		MV_CREATE_CONSTANT(mvThemeCol_TreeNode_Text				,  0L, 0L);
@@ -33,10 +38,6 @@ namespace Marvel {
 			MV_ADD_CONSTANT(mvThemeStyle_TreeNode_FramePaddingY, 3, 20),
 			MV_ADD_CONSTANT(mvThemeStyle_TreeNode_IndentSpacing,21, 30),
 		MV_END_STYLE_CONSTANTS
-
-	public:
-
-		static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
 
 	public:
 

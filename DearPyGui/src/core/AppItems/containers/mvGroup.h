@@ -4,9 +4,14 @@
 
 namespace Marvel {
 
-	MV_REGISTER_WIDGET(mvGroup);
+	MV_REGISTER_WIDGET(mvGroup, MV_ITEM_DESC_CONTAINER, StorageValueTypes::None, 1);
 	class mvGroup : public mvAppItem
 	{
+
+	public:
+
+		static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
+
 		MV_APPITEM_TYPE(mvAppItemType::mvGroup, add_group)
 
 		MV_CREATE_CONSTANT(mvThemeStyle_Group_ItemSpacingX, 13L, 0L);
@@ -25,10 +30,6 @@ namespace Marvel {
 			MV_ADD_CONSTANT(mvThemeStyle_Group_ItemSpacingX, 8, 20),
 			MV_ADD_CONSTANT(mvThemeStyle_Group_ItemSpacingY, 4, 20),
 		MV_END_STYLE_CONSTANTS
-
-	public:
-
-		static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
 
 	public:
 

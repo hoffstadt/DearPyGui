@@ -4,15 +4,13 @@
 
 namespace Marvel {
 
-	MV_REGISTER_WIDGET(mvDummy);
+	MV_REGISTER_WIDGET(mvDummy, MV_ITEM_DESC_DEFAULT, StorageValueTypes::None, 1);
 	class mvDummy : public mvAppItem
 	{
 
 	public:
 
 		static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
-
-	public:
 
 		MV_APPITEM_TYPE(mvAppItemType::mvDummy, add_dummy)
 

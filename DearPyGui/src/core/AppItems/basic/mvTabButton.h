@@ -4,9 +4,13 @@
 
 namespace Marvel {
 
-	MV_REGISTER_WIDGET(mvTabButton);
+	MV_REGISTER_WIDGET(mvTabButton, MV_ITEM_DESC_DEFAULT, StorageValueTypes::None, 1);
 	class mvTabButton : public mvAppItem
 	{
+
+	public:
+
+		static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
 
 		MV_APPITEM_TYPE(mvAppItemType::mvTabButton, add_tab_button)
 
@@ -41,10 +45,6 @@ namespace Marvel {
 			MV_ADD_CONSTANT(mvThemeStyle_TabButton_PaddingX	, 4, 20),
 			MV_ADD_CONSTANT(mvThemeStyle_TabButton_PaddingY	, 3, 20),
 		MV_END_STYLE_CONSTANTS
-
-	public:
-
-		static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
 
 	public:
 

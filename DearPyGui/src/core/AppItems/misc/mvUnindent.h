@@ -4,7 +4,7 @@
 
 namespace Marvel {
 
-	MV_REGISTER_WIDGET(mvUnindent);
+	MV_REGISTER_WIDGET(mvUnindent, MV_ITEM_DESC_DEFAULT, StorageValueTypes::Float, 1);
 	class mvUnindent : public mvFloatPtrBase
 	{
 

@@ -4,9 +4,13 @@
 
 namespace Marvel {
 
-	MV_REGISTER_WIDGET(mvTabBar);
+	MV_REGISTER_WIDGET(mvTabBar, MV_ITEM_DESC_CONTAINER, StorageValueTypes::String, 1);
 	class mvTabBar : public mvStringPtrBase
 	{
+
+	public:
+
+		static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
 
 		MV_APPITEM_TYPE(mvAppItemType::mvTabBar, add_tab_bar)
 
@@ -28,9 +32,6 @@ namespace Marvel {
 			MV_ADD_CONSTANT(mvThemeStyle_TabBar_ItemSpacingX, 8, 20),
 			MV_ADD_CONSTANT(mvThemeStyle_TabBar_ItemSpacingY, 4, 20),
 		MV_END_STYLE_CONSTANTS
-	public:
-
-		static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
 
 	public:
 

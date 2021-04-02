@@ -4,7 +4,7 @@
 
 namespace Marvel {
 
-	MV_REGISTER_WIDGET(mvSameLine);
+	MV_REGISTER_WIDGET(mvSameLine, MV_ITEM_DESC_DEFAULT, StorageValueTypes::None, 1);
 	class mvSameLine : public mvAppItem
 	{
 

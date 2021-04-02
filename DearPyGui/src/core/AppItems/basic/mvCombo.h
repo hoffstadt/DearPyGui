@@ -4,9 +4,13 @@
 
 namespace Marvel {
 
-	MV_REGISTER_WIDGET(mvCombo);
+	MV_REGISTER_WIDGET(mvCombo, MV_ITEM_DESC_DEFAULT, StorageValueTypes::String, 1);
 	class mvCombo : public mvStringPtrBase
 	{
+
+	public:
+
+		static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
 
 		MV_APPITEM_TYPE(mvAppItemType::mvCombo, add_combo)
 
@@ -81,10 +85,6 @@ namespace Marvel {
 			MV_ADD_CONSTANT(mvThemeStyle_Combo_TextAlignX			, 0, 20),
 			MV_ADD_CONSTANT(mvThemeStyle_Combo_TextAlignY			, 0, 20),
 		MV_END_STYLE_CONSTANTS
-
-	public:
-
-		static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
 
 	public:
 

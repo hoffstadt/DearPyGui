@@ -4,9 +4,12 @@
 
 namespace Marvel {
 
-	MV_REGISTER_WIDGET(mvCollapsingHeader);
+	MV_REGISTER_WIDGET(mvCollapsingHeader, MV_ITEM_DESC_CONTAINER, StorageValueTypes::Bool, 1);
 	class mvCollapsingHeader : public mvBoolPtrBase
 	{
+	public:
+
+		static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
 
 		MV_APPITEM_TYPE(mvAppItemType::mvCollapsingHeader, add_collapsing_header)
 
@@ -47,10 +50,6 @@ namespace Marvel {
 			MV_ADD_CONSTANT(mvThemeStyle_CollapsingHeader_ItemSpacingX	, 8, 20),
 			MV_ADD_CONSTANT(mvThemeStyle_CollapsingHeader_ItemSpacingY	, 4, 20),
 		MV_END_STYLE_CONSTANTS
-
-	public:
-
-		static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
 
 	public:
 

@@ -4,9 +4,10 @@
 
 namespace Marvel {
 
-	MV_REGISTER_WIDGET(mvDrawText);
+	MV_REGISTER_WIDGET(mvDrawText, MV_ITEM_DESC_DEFAULT, StorageValueTypes::None, 0);
 	class mvDrawText : public mvAppItem
 	{
+
 	public:
 
 		static void InsertParser(std::map<std::string, mvPythonParser>* parsers);

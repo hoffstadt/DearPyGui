@@ -8,7 +8,7 @@ namespace Marvel {
 	//-----------------------------------------------------------------------------
 	// mvTableColumn
 	//-----------------------------------------------------------------------------
-	MV_REGISTER_WIDGET(mvTableColumn);
+	MV_REGISTER_WIDGET(mvTableColumn, MV_ITEM_DESC_DEFAULT, StorageValueTypes::None, 0);
 	class mvTableColumn : public mvAppItem
 	{
 

@@ -4,9 +4,13 @@
 
 namespace Marvel {
 
-	MV_REGISTER_WIDGET(mvDatePicker);
+	MV_REGISTER_WIDGET(mvDatePicker, MV_ITEM_DESC_DEFAULT, StorageValueTypes::Time, 1);
 	class mvDatePicker : public mvTimePtrBase
 	{
+
+	public:
+
+		static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
 
 		MV_APPITEM_TYPE(mvAppItemType::mvDatePicker, add_date_picker)
 
@@ -44,10 +48,6 @@ namespace Marvel {
 			MV_ADD_CONSTANT(mvThemeStyle_DatePicker_PaddingX	, 4, 20),
 			MV_ADD_CONSTANT(mvThemeStyle_DatePicker_PaddingY	, 3, 20),
 			MV_END_STYLE_CONSTANTS
-
-	public:
-
-		static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
 
 	public:
 
