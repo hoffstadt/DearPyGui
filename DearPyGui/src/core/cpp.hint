@@ -4,7 +4,7 @@
 
 #define MV_REGISTER_WIDGET(x) class x;\
 template<> struct mvItemTypeMap<(int)mvAppItemType::x> { typedef x type; };\
-template<>struct mvItemTypeReverseMap<typename x>{static constexpr mvAppItemType type = mvAppItemType::x;};
+template<>struct mvItemTypeReverseMap<class x>{static constexpr mvAppItemType type = mvAppItemType::x;};
 
 #define MV_APPITEM_TYPE(x, parser)public:\
 static constexpr const long s_internal_type = (long)x;\
