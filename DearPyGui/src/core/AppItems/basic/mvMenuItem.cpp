@@ -29,7 +29,6 @@ namespace Marvel {
 	mvMenuItem::mvMenuItem(const std::string& name, bool default_value, const std::string& dataSource)
 		: mvBoolPtrBase(name, default_value) 
 	{
-		m_description.disableAllowed = true;
 	}
 
 	void mvMenuItem::draw(ImDrawList* drawlist, float x, float y)

@@ -489,7 +489,7 @@ namespace Marvel {
 		//---------------------------------------------------------------------------
 		// STEP 1: empty parent stack if mistakes were made
 		//---------------------------------------------------------------------------
-		if (item->getDescription().root && topParent() != nullptr)
+		if (mvAppItem::DoesItemHaveFlag(item.get(), MV_ITEM_DESC_ROOT) && topParent() != nullptr)
 		{
 			mvThrowPythonError(1000, "Parent stack not empty.");
 			emptyParents();
@@ -500,7 +500,7 @@ namespace Marvel {
 		//---------------------------------------------------------------------------
 		// STEP 2: handle window case
 		//---------------------------------------------------------------------------
-		if (item->getDescription().root)
+		if (mvAppItem::DoesItemHaveFlag(item.get(), MV_ITEM_DESC_ROOT))
 		{
 			if (mvApp::IsAppStarted())
 			{
@@ -558,7 +558,7 @@ namespace Marvel {
 		//---------------------------------------------------------------------------
 		// STEP 7: add items who require "after" adding (i.e. popup, tooltip)
 		//---------------------------------------------------------------------------
-		if (item->getDescription().addAfterRequired)
+		if (mvAppItem::DoesItemHaveFlag(item.get(), MV_ITEM_DESC_AFTER))
 			return addItemAfter(parent, item);
 
 		//---------------------------------------------------------------------------
@@ -625,13 +625,13 @@ namespace Marvel {
 			for (auto child : children0)
 			{
 				childList.emplace_back(child->m_name);
-				if (child->getDescription().container)
+				if (mvAppItem::DoesItemHaveFlag(child.get(), MV_ITEM_DESC_CONTAINER))
 					ChildRetriever(child);
 			}
 			for (auto child : children1)
 			{
 				childList.emplace_back(child->m_name);
-				if (child->getDescription().container)
+				if (mvAppItem::DoesItemHaveFlag(child.get(), MV_ITEM_DESC_CONTAINER))
 					ChildRetriever(child);
 			}
 

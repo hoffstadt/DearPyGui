@@ -42,7 +42,6 @@ namespace Marvel {
 		: 
 		mvStringPtrBase(name, default_value)
 	{
-		m_description.disableAllowed = true;
 	}
 
 	void mvInputText::setEnabled(bool value)

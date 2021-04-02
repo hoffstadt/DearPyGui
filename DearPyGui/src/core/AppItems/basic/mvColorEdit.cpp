@@ -90,7 +90,6 @@ namespace Marvel {
 		: 
 		mvColorPtrBase(name, color)
 	{
-		m_description.disableAllowed = true;
 	}
 
 	void mvColorEdit3::draw(ImDrawList* drawlist, float x, float y)
@@ -109,7 +108,6 @@ namespace Marvel {
 		: 
 		mvColorPtrBase(name, color)
 	{
-		m_description.disableAllowed = true;
 	}
 
 	void mvColorEdit4::draw(ImDrawList* drawlist, float x, float y)

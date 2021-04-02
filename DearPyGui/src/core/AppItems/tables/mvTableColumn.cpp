@@ -42,7 +42,6 @@ namespace Marvel {
 		: mvAppItem(name)
 	{
 		m_init_width_or_weight = init_width_or_weight;
-		m_description.target = 0;
 	}
 
 	mvTableColumn::~mvTableColumn()

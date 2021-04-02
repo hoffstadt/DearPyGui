@@ -69,8 +69,7 @@ namespace Marvel {
 	void mvDebugWindow::renderItem(mvAppItem* item)
 	{
 		
-
-		if (item->getDescription().container)
+		if (mvAppItem::DoesItemHaveFlag(item, MV_ITEM_DESC_CONTAINER))
 		{
 			std::string container = item->m_name + "*";
 
@@ -260,7 +259,7 @@ namespace Marvel {
                 ImGui::PushItemWidth(200);
                 DebugItem("Item Name:", m_selectedItem.c_str());
                 //DebugItem("Item Type:", selectedItem->getStringType().c_str());
-                DebugItem("Container:", selectedItem->getDescription().container ? ts : fs);
+                DebugItem("Container:", mvAppItem::DoesItemHaveFlag(selectedItem.get(), MV_ITEM_DESC_CONTAINER) ? ts : fs);
                 DebugItem("Item Parent:", parentName.c_str());
                 DebugItem("Item Width:", width.c_str());
                 DebugItem("Item Height:", height.c_str());

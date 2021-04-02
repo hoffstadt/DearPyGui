@@ -26,7 +26,6 @@ namespace Marvel {
 		:
 		mvStringPtrBase(name, "")
 	{
-		m_description.container = true;
 	}
 
 	std::string& mvTabBar::getSpecificValue()

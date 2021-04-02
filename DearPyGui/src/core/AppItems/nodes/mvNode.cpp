@@ -54,7 +54,6 @@ namespace Marvel {
 	mvNode::mvNode(const std::string& name)
 		: mvAppItem(name)
 	{
-		m_description.container = true;
 		m_label = FindRenderedTextEnd(m_name.c_str());
 		m_label = m_label;
         int64_t address = (int64_t)this;

@@ -31,7 +31,6 @@ namespace Marvel {
 	mvListbox::mvListbox(const std::string& name, int default_value, const std::string& dataSource)
 		: mvIntPtrBase(name, default_value)
 	{
-		m_description.disableAllowed = true;
 	}
 
 	void mvListbox::draw(ImDrawList* drawlist, float x, float y)

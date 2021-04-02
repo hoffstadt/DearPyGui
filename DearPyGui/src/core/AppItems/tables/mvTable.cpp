@@ -48,7 +48,6 @@ namespace Marvel {
 	mvTable::mvTable(const std::string& name, int inner_width)
 		: mvAppItem(name)
 	{
-		m_description.container = true;
 		m_inner_width = inner_width;
 	}
 

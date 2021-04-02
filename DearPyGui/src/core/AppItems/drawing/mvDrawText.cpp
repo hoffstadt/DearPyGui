@@ -29,7 +29,6 @@ namespace Marvel {
 		m_color(color),
 		m_size(size)
 	{
-		m_description.target = 0;
 	}
 
 	bool mvDrawText::isParentCompatible(mvAppItemType type)

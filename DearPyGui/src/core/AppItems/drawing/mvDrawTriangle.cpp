@@ -35,7 +35,6 @@ namespace Marvel {
 		m_fill(fill),
 		m_thickness(thickness)
 	{
-		m_description.target = 0;
 	}
 
 	bool mvDrawTriangle::isParentCompatible(mvAppItemType type)

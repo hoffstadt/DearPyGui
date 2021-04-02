@@ -71,7 +71,7 @@ namespace Marvel {
 
 		// search through ancestor tree for unfound colors
 		mvAppItem* widget = item;
-		while (!widget->getDescription().root)
+		while (!mvAppItem::DoesItemHaveFlag(widget, MV_ITEM_DESC_ROOT))
 		{
 			widget = widget->getParent();
 
@@ -129,7 +129,7 @@ namespace Marvel {
 
 		// search through ancestor tree for unfound styles
 		mvAppItem* widget = item;
-		while (!widget->getDescription().root)
+		while (!mvAppItem::DoesItemHaveFlag(widget, MV_ITEM_DESC_ROOT))
 		{
 			widget = widget->getParent();
 

@@ -42,8 +42,6 @@ namespace Marvel {
 		: mvAppItem(name), m_mainWindow(mainWindow)
 	{
 		m_on_close = SanitizeCallback(closing_callback);
-		m_description.root = true;
-		m_description.container = true;
 
 		m_width = 500;
 		m_height = 500;
