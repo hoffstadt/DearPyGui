@@ -39,31 +39,6 @@ namespace Marvel {
 		}, "Adds text with a label. Useful for output values.", "None", "Adding Widgets") });
 	}
 
-	static std::string FindRenderedTextEnd(const char* text, const char* text_end = nullptr)
-	{
-		int size = 0;
-
-		const char* text_display_end = text;
-		if (!text_end)
-			text_end = (const char*)-1;
-
-		while (text_display_end < text_end && *text_display_end != '\0' && (text_display_end[0] != '#' || text_display_end[1] != '#'))
-		{
-			text_display_end++;
-			size++;
-		}
-
-		char* cvalue = new char[size + 1];
-		for (int i = 0; i < size; i++)
-			cvalue[i] = text[i];
-
-		cvalue[size] = '\0';
-		auto result = std::string(cvalue);
-		delete[] cvalue;
-
-		return result;
-	}
-
 	mvText::mvText(const std::string& name, const std::string& default_value, const std::string& dataSource)
 		: 
 		mvStringPtrBase(name, default_value.empty() ? name : default_value)
@@ -100,7 +75,6 @@ namespace Marvel {
 		: 
 		mvStringPtrBase(name, value)
 	{
-		m_label = FindRenderedTextEnd(m_name.c_str());
 	}
 
 	void mvLabelText::draw(ImDrawList* drawlist, float x, float y)
@@ -117,13 +91,13 @@ namespace Marvel {
 			ImGui::SameLine();
 
 			mvImGuiThemeScope scope(this);
-			ImGui::TextUnformatted(m_label.c_str());
+			ImGui::TextUnformatted(m_specificedlabel.c_str());
 		}
 
 		else
 		{
 			mvImGuiThemeScope scope(this);
-			ImGui::LabelText(m_label.c_str(), m_value->c_str());
+			ImGui::LabelText(m_specificedlabel.c_str(), m_value->c_str());
 		}
 
 	}
