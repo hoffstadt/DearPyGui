@@ -7,25 +7,27 @@
 #define DIRECTINPUT_VERSION 0x0800
 #include <dinput.h>
 #include <tchar.h>
-#include "mvWindow.h"
+#include "mvViewport.h"
 
 namespace Marvel {
 
-	class mvWindowsWindow : public mvWindow
+	class mvWindowsViewport : public mvViewport
 	{
 
 	public:
 
-		mvWindowsWindow(unsigned width, unsigned height, bool error = false);
-		~mvWindowsWindow() override;
+		mvWindowsViewport(unsigned width, unsigned height, bool error = false);
+		~mvWindowsViewport() override;
 
-		void show       () override;
+		void show       (bool minimized, bool maximized) override;
 		void setup      () override;
 		void prerender  () override;
 		void postrender () override;
 		void renderFrame() override;
 		void cleanup    () override;
-		void run        () override;
+		void maximize   () override;
+		void minimize   () override;
+		void handleModes() override;
 		void setWindowText(const std::string& name) override;
 
 	private:
@@ -53,6 +55,7 @@ namespace Marvel {
 		HWND m_hwnd;
 		WNDCLASSEX m_wc;
 		MSG m_msg;
+		DWORD m_modes;
 		ImVec4 m_clearColor;
 
 	private:

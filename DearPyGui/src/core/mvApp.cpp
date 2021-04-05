@@ -1,6 +1,6 @@
 #include "mvApp.h"
 #include "mvModule_Core.h"
-#include "mvWindow.h"
+#include "mvViewport.h"
 #include "mvCallbackRegistry.h"
 #include "mvInput.h"
 #include <thread>
@@ -73,12 +73,6 @@ namespace Marvel {
 		s_started = false;
 	}
 
-	void mvApp::SetAppStarted() 
-	{
-		s_started = true; 
-        GetApp()->m_future = std::async(std::launch::async, []() {return GetApp()->m_callbackRegistry->runCallbacks(); });
-	}
-
 	void mvApp::SetAppStopped() 
 	{ 
 
@@ -89,37 +83,6 @@ namespace Marvel {
 		auto viewport = s_instance->getViewport();
 		if (viewport)
 			viewport->stop();
-	}
-
-	void mvApp::start(const std::string& primaryWindow)
-	{
-		s_started = true;
-
-		MV_CORE_INFO("application starting");
-
-		// create window
-		m_viewport = mvWindow::CreatemvWindow(m_actualWidth, m_actualHeight, false);
-		m_viewport->show();
-
-		if (!std::string(primaryWindow).empty())
-		{
-			// reset other windows
-			for (auto window : m_itemRegistry->getFrontWindows())
-			{
-				if (window->m_name != primaryWindow)
-                    dynamic_cast<mvWindowAppItem*>(window.get())->setWindowAsMainStatus(false);
-			}
-
-			mvWindowAppItem* window = m_itemRegistry->getWindow(primaryWindow);
-
-			if (window)
-				window->setWindowAsMainStatus(true);
-			else
-                mvApp::GetApp()->getCallbackRegistry().submitCallback([=]()
-                    {
-                        ThrowPythonException("Window does not exists.");
-                    });
-		}
 	}
 
 	void mvApp::cleanup()
@@ -135,7 +98,6 @@ namespace Marvel {
 
 	mvApp::mvApp()
 	{
-		mvEventBus::Subscribe(this, 0, mvEVT_CATEGORY_VIEWPORT);
 
 		// info
         mvAppLog::Clear();
@@ -184,29 +146,6 @@ namespace Marvel {
 		return *m_fontManager;
 	}
 
-	bool mvApp::onEvent(mvEvent& event)
-	{
-		mvEventDispatcher dispatcher(event);
-
-		dispatcher.dispatch(BIND_EVENT_METH(onViewPortResize), mvEVT_VIEWPORT_RESIZE);
-
-		return event.handled;
-	}
-
-	bool mvApp::onViewPortResize(mvEvent& event)
-	{
-		m_actualWidth  = GetEInt(event, "actual_width");
-		m_actualHeight = GetEInt(event, "actual_height");
-		m_clientWidth  = GetEInt(event, "client_width");
-		m_clientHeight = GetEInt(event, "client_height");
-
-		m_callbackRegistry->addCallback(
-			m_callbackRegistry->getResizeCallback(), 
-			"Main Application", nullptr);
-
-		return true;
-	}
-
 	mvApp::~mvApp()
 	{
 		m_itemRegistry->clearRegistry();
@@ -242,8 +181,8 @@ namespace Marvel {
 		// route input callbacks
 		mvInput::CheckInputs();
 
-		m_textureStorage->show_debugger();
-		m_fontManager->show_debugger();
+		//m_textureStorage->show_debugger();
+		//m_fontManager->show_debugger();
 
         std::lock_guard<std::mutex> lk(m_mutex);
 		mvEventBus::Publish(mvEVT_CATEGORY_APP, mvEVT_PRE_RENDER);
@@ -255,13 +194,6 @@ namespace Marvel {
         //mvEventBus::ShowDebug();
 		postProfile();
 #endif // MV_PROFILE
-	}
-
-	void mvApp::setMainPos(int x, int y)
-	{
-
-		m_mainXPos = x;
-		m_mainYPos = y;
 	}
 
 	bool mvApp::checkIfMainThread() const
@@ -324,25 +256,8 @@ namespace Marvel {
 			{mvPythonDataType::Bool, "dock_space", "add explicit dockspace over viewport", "False"},
 		}, "Decrements a texture.") });
 
-		parsers->insert({ "set_vsync", mvPythonParser({
-			{mvPythonDataType::Bool, "value"},
-		}, "Sets vsync on or off.") });
-
 		parsers->insert({ "is_dearpygui_running", mvPythonParser({
 		}, "Checks if dearpygui is still running", "bool") });
-
-		parsers->insert({ "set_viewport_title", mvPythonParser({
-			{mvPythonDataType::String, "title"}
-		}, "Sets the title of the viewport.") });
-
-		parsers->insert({ "set_viewport_resizable", mvPythonParser({
-			{mvPythonDataType::Bool, "resizable"}
-		}, "Sets the viewport to be resizable.") });
-
-		parsers->insert({ "set_viewport_pos", mvPythonParser({
-			{mvPythonDataType::Integer, "x"},
-			{mvPythonDataType::Integer, "y"},
-		}, "Sets the viewport position.") });
 
 		parsers->insert({ "setup_dearpygui", mvPythonParser({
 		}, "Sets up DearPyGui for user controlled rendering. Only call once and you must call cleanup_deapygui when finished.") });
@@ -362,16 +277,8 @@ namespace Marvel {
 		parsers->insert({ "get_delta_time", mvPythonParser({
 		}, "Returns time since last frame.", "float") });
 
-		parsers->insert({ "get_viewport_size", mvPythonParser({
-		}, "Returns the size of the viewport.", "[int, int]") });
-
 		parsers->insert({ "get_dearpygui_version", mvPythonParser({
 		}, "Returns the current version of Dear PyGui.", "str") });
-
-		parsers->insert({ "set_viewport_size", mvPythonParser({
-			{mvPythonDataType::Integer, "width"},
-			{mvPythonDataType::Integer, "height"}
-		}, "Sets the viewport size.") });
 
 	}
 
@@ -404,70 +311,6 @@ namespace Marvel {
 		return ToPyBool(mvApp::IsAppStarted());
 	}
 
-	PyObject* mvApp::set_viewport_title(PyObject* self, PyObject* args, PyObject* kwargs)
-	{
-		const char* title;
-
-		if (!(mvApp::GetApp()->getParsers())["set_viewport_title"].parse(args, kwargs, __FUNCTION__,
-			&title))
-			return GetPyNone();
-
-		mvApp::GetApp()->getCallbackRegistry().submit([=]()
-			{
-				mvApp::GetApp()->setTitle(title);
-
-				if (mvApp::IsAppStarted())
-					mvApp::GetApp()->getViewport()->setWindowText(title);
-			});
-
-		return GetPyNone();
-	}
-
-	PyObject* mvApp::set_viewport_pos(PyObject* self, PyObject* args, PyObject* kwargs)
-	{
-		int x;
-		int y;
-
-		if (!(mvApp::GetApp()->getParsers())["set_viewport_pos"].parse(args, kwargs, __FUNCTION__,
-			&x, &y))
-			return GetPyNone();
-
-		std::lock_guard<std::mutex> lk(mvApp::GetApp()->getMutex());
-		mvApp::GetApp()->setMainPos(x, y);
-
-		return GetPyNone();
-	}
-
-	PyObject* mvApp::set_viewport_resizable(PyObject* self, PyObject* args, PyObject* kwargs)
-	{
-		int resizable = true;
-
-		if (!(mvApp::GetApp()->getParsers())["set_viewport_resizable"].parse(args, kwargs, __FUNCTION__,
-			&resizable))
-			return GetPyNone();
-
-		std::lock_guard<std::mutex> lk(mvApp::GetApp()->getMutex());
-		mvApp::GetApp()->setResizable(resizable);
-
-		return GetPyNone();
-	}
-
-	PyObject* mvApp::set_vsync(PyObject* self, PyObject* args, PyObject* kwargs)
-	{
-		int value;
-
-		if (!(mvApp::GetApp()->getParsers())["set_vsync"].parse(args, kwargs, __FUNCTION__,
-			&value))
-			return GetPyNone();
-
-		mvApp::GetApp()->getCallbackRegistry().submit([=]()
-			{
-				mvApp::GetApp()->setVSync(value);
-			});
-
-		return GetPyNone();
-	}
-
 	PyObject* mvApp::setup_dearpygui(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		Py_BEGIN_ALLOW_THREADS;
@@ -475,13 +318,15 @@ namespace Marvel {
 
 		if (mvApp::IsAppStarted())
 		{
-			ThrowPythonException("Cannot call \"start_dearpygui\" while a Dear PyGUI app is already running.");
+			ThrowPythonException("Cannot call \"setup_dearpygui\" while a Dear PyGUI app is already running.");
 			return GetPyNone();
 		}
 
-		mvApp::SetAppStarted();
+		s_started = true;
+		GetApp()->m_future = std::async(std::launch::async, []() {return GetApp()->m_callbackRegistry->runCallbacks(); });
 
-		mvApp::GetApp()->start("");
+		MV_CORE_INFO("application starting");
+
 		Py_END_ALLOW_THREADS;
 
 		return GetPyNone();
@@ -532,35 +377,9 @@ namespace Marvel {
 
 	}
 
-	PyObject* mvApp::get_viewport_size(PyObject* self, PyObject* args, PyObject* kwargs)
-	{
-		std::lock_guard<std::mutex> lk(mvApp::GetApp()->getMutex());
-		return ToPyPairII(mvApp::GetApp()->getActualWidth(), mvApp::GetApp()->getActualHeight());
-	}
-
 	PyObject* mvApp::get_dearpygui_version(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		return ToPyString(mvApp::GetApp()->GetVersion());
-	}
-
-	PyObject* mvApp::set_viewport_size(PyObject* self, PyObject* args, PyObject* kwargs)
-	{
-		int width;
-		int height;
-
-		if (!(mvApp::GetApp()->getParsers())["set_viewport_size"].parse(args, kwargs, __FUNCTION__, &width, &height))
-			return GetPyNone();
-
-
-		std::lock_guard<std::mutex> lk(mvApp::GetApp()->getMutex());
-		mvEventBus::Publish(mvEVT_CATEGORY_VIEWPORT, mvEVT_VIEWPORT_RESIZE, {
-			CreateEventArgument("actual_width", width),
-			CreateEventArgument("actual_height", height),
-			CreateEventArgument("client_width", width),
-			CreateEventArgument("client_height", height)
-			});
-
-		return GetPyNone();
 	}
 
 }

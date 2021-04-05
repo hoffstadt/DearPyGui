@@ -45,11 +45,11 @@ namespace Marvel {
     //-----------------------------------------------------------------------------
     // mvApp
     //-----------------------------------------------------------------------------
-    class mvApp : public mvEventHandler
+    class mvApp
     {
 
-        friend class mvWindow;
-        friend class mvWindowsWindow;
+        friend class mvViewport;
+        friend class mvWindowsViewport;
         friend class mvLinuxWindow;
         friend class mvAppleWindow;
 
@@ -58,38 +58,26 @@ namespace Marvel {
         static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
 
         MV_CREATE_EXTRA_COMMAND(enable_docking);
-        MV_CREATE_EXTRA_COMMAND(set_viewport_size);
         MV_CREATE_EXTRA_COMMAND(get_dearpygui_version);
-        MV_CREATE_EXTRA_COMMAND(get_viewport_size);
         MV_CREATE_EXTRA_COMMAND(setup_dearpygui);
         MV_CREATE_EXTRA_COMMAND(render_dearpygui_frame);
         MV_CREATE_EXTRA_COMMAND(cleanup_dearpygui);
         MV_CREATE_EXTRA_COMMAND(get_delta_time);
         MV_CREATE_EXTRA_COMMAND(get_total_time);
-        MV_CREATE_EXTRA_COMMAND(set_vsync);
         MV_CREATE_EXTRA_COMMAND(stop_dearpygui);
         MV_CREATE_EXTRA_COMMAND(is_dearpygui_running);
-        MV_CREATE_EXTRA_COMMAND(set_viewport_title);
-        MV_CREATE_EXTRA_COMMAND(set_viewport_pos);
-        MV_CREATE_EXTRA_COMMAND(set_viewport_resizable);
         MV_CREATE_EXTRA_COMMAND(end);
 
         MV_START_EXTRA_COMMANDS
             MV_ADD_EXTRA_COMMAND(enable_docking);
-            MV_ADD_EXTRA_COMMAND(set_viewport_size);
             MV_ADD_EXTRA_COMMAND(get_dearpygui_version);
-            MV_ADD_EXTRA_COMMAND(get_viewport_size);
             MV_ADD_EXTRA_COMMAND(setup_dearpygui);
             MV_ADD_EXTRA_COMMAND(render_dearpygui_frame);
             MV_ADD_EXTRA_COMMAND(cleanup_dearpygui);
             MV_ADD_EXTRA_COMMAND(get_delta_time);
             MV_ADD_EXTRA_COMMAND(get_total_time);
-            MV_ADD_EXTRA_COMMAND(set_vsync);
             MV_ADD_EXTRA_COMMAND(stop_dearpygui);
             MV_ADD_EXTRA_COMMAND(is_dearpygui_running);
-            MV_ADD_EXTRA_COMMAND(set_viewport_title);
-            MV_ADD_EXTRA_COMMAND(set_viewport_pos);
-            MV_ADD_EXTRA_COMMAND(set_viewport_resizable);
             MV_ADD_EXTRA_COMMAND(end);
         MV_END_EXTRA_COMMANDS
 
@@ -104,20 +92,12 @@ namespace Marvel {
         static void              DeleteApp           ();
         static const char*       GetVersion          () { return MV_SANDBOX_VERSION; }
         static bool              IsAppStarted        () { return s_started; }
-        static void              SetAppStarted       ();
         static void              SetAppStopped       ();
         static void              StopApp             () { s_started = false; } // ugly
 
-        void start(const std::string& primaryWindow);
         void cleanup();
 
-        ~mvApp() override;
-
-        //-----------------------------------------------------------------------------
-        // New event handling system
-        //-----------------------------------------------------------------------------
-        bool onEvent         (mvEvent& event) override;
-        bool onViewPortResize(mvEvent& event);
+        ~mvApp();
 
         //-----------------------------------------------------------------------------
         // Rendering
@@ -136,21 +116,10 @@ namespace Marvel {
         //-----------------------------------------------------------------------------
         // App Settings
         //-----------------------------------------------------------------------------
-        void                     turnOnDocking     (bool shiftOnly, bool dockSpace);
-        void                     setVSync          (bool value) { m_vsync = value; }
-        void                     setResizable      (bool value) { m_resizable = value; }			
-        void                     setMainPos        (int x, int y);			
-        void                     setViewport       (mvWindow* viewport) { m_viewport = viewport; }
-        void                     setTitle          (const std::string& title) { m_title = title; }
+        void                     turnOnDocking     (bool shiftOnly, bool dockSpace);	
+        void                     setViewport       (mvViewport* viewport) { m_viewport = viewport; }
         
-        int                      getActualWidth    () const { return m_actualWidth; }
-        int                      getActualHeight   () const { return m_actualHeight; }
-        int                      getClientWidth    () const { return m_clientWidth; }
-        int                      getClientHeight   () const { return m_clientHeight; }
-        mvWindow*                getViewport       ()       { return m_viewport; }
-        bool                     getVSync          () const { return m_vsync; }
-        bool                     getResizable      () const { return m_resizable; }
-       
+        mvViewport*              getViewport       ()       { return m_viewport; }
 
         //-----------------------------------------------------------------------------
         // Concurrency
@@ -197,18 +166,7 @@ namespace Marvel {
         bool                                         m_dockingShiftOnly = true;
         bool                                         m_dockingViewport  = false;
                                                      
-        mvWindow*                                    m_viewport = nullptr;
-        int                                          m_actualWidth = 1280;
-        int                                          m_actualHeight = 800;
-        int                                          m_clientWidth = 1280;
-        int                                          m_clientHeight = 800;
-        int                                          m_mainXPos = 100;
-        int                                          m_mainYPos = 100;
-        std::string                                  m_title = "DearPyGui";
-        
-        // appearance
-        bool        m_vsync = true;
-        bool        m_resizable = true;
+        mvViewport*                                  m_viewport = nullptr;
 
         // timing
         float                        m_deltaTime = 0.0f; // time since last frame

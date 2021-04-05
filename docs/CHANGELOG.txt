@@ -74,6 +74,12 @@ Breaking Changes:
 - removed command: get_main_window_pos
 - removed command: set_main_window_resizable
 - removed command: set_main_window_title
+- removed command: get_viewport_size
+- removed command: set_viewport_pos
+- removed command: set_viewport_resizable
+- removed command: set_viewport_size
+- removed command: set_viewport_title
+- removed command: set_vsync
 
 New Keywords:
 - add_window: Added "min_size" keyword #700
@@ -84,6 +90,11 @@ New Keywords:
 - add_menu_item: Added "default_value" keyword
 
 New Commands:
+- create_viewport
+- show_viewport
+- maximize_viewport
+- minimize_viewport
+- configure_viewport
 - table
 - add_table_column
 - clear_data_grid

@@ -1,21 +1,27 @@
 from dearpygui.core import *
 from dearpygui.simple import *
-from dearpygui.demo import *
 
 set_log_level(0)
 #enable_docking(shift_only=False, dock_space=True)
 
-set_viewport_title("DearPyGui Demo")
-set_viewport_size(1000, 800)
-set_viewport_pos(0, 0)
+
 add_font("google", "../../Resources/NotoSerifCJKjp-Medium.otf", 20)
 set_font("google", 20)
 
-show_demo()
 show_logger()
 
+with window("Testing"):
+
+    add_button("Always On Top", callback=lambda:configure_viewport(always_on_top=True))
+    add_button("Move Window", callback=lambda:configure_viewport(x_pos=500))
+    add_button("Size Window", callback=lambda:configure_viewport(width=500))
+    add_button("Remove Max", callback=lambda:configure_viewport(maximized_box=False))
+
+create_viewport(title="Dear PyGui Demo", width=1000, height=800,
+                x_pos=0, y_pos=0)
+
 setup_dearpygui()
+show_viewport()
 while(is_dearpygui_running()):
-    demo_main_callback()
     render_dearpygui_frame()   
 cleanup_dearpygui()

@@ -7,7 +7,7 @@
 #include "mvCore.h"
 #include "mvItemRegistry.h"
 #include "mvTextureStorage.h"
-#include "mvWindow.h"
+#include "mvViewport.h"
 
 #define IM_MIN(A, B)            (((A) < (B)) ? (A) : (B))
 #define IM_MAX(A, B)            (((A) >= (B)) ? (A) : (B))

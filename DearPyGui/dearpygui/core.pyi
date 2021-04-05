@@ -390,6 +390,14 @@ def configure_item(item: str, **Kwargs) -> None:
 	"""Configures an item"""
 	...
 
+def configure_viewport(**Kwargs) -> None:
+	"""Shows viewport"""
+	...
+
+def create_viewport(*, title: str = ..., width: int = ..., height: int = ..., x_pos: int = ..., y_pos: int = ..., resizable: bool = ..., vsync: bool = ..., always_on_top: bool = ..., maximized_box: bool = ..., minimized_box: bool = ..., border: bool = ..., caption: bool = ..., overlapped: bool = ..., min_width: int = ..., max_width: int = ..., min_height: int = ..., max_height: int = ...) -> None:
+	"""Creates a viewport"""
+	...
+
 def decrement_texture(name: str) -> None:
 	"""Decrements a texture."""
 	...
@@ -602,10 +610,6 @@ def get_value(name: str) -> Any:
 	"""Returns an item's value or None if there is none."""
 	...
 
-def get_viewport_size() -> [int, int]:
-	"""Returns the size of the viewport."""
-	...
-
 def get_windows() -> List[str]:
 	"""Returns a list of windows."""
 	...
@@ -724,6 +728,14 @@ def log_info(message: Any, *, logger: str = '') -> None:
 
 def log_warning(message: Any, *, logger: str = '') -> None:
 	"""Logs a warning level log."""
+	...
+
+def maximize_viewport() -> None:
+	"""Maximizes viewport"""
+	...
+
+def minimize_viewport() -> None:
+	"""Minimizes viewport"""
 	...
 
 def move_item(item: str, *, parent: str = '', before: str = '') -> None:
@@ -886,26 +898,6 @@ def set_value(name: str, value: Any) -> bool:
 	"""Sets an item's value if applicable."""
 	...
 
-def set_viewport_pos(x: int, y: int) -> None:
-	"""Sets the viewport position."""
-	...
-
-def set_viewport_resizable(resizable: bool) -> None:
-	"""Sets the viewport to be resizable."""
-	...
-
-def set_viewport_size(width: int, height: int) -> None:
-	"""Sets the viewport size."""
-	...
-
-def set_viewport_title(title: str) -> None:
-	"""Sets the title of the viewport."""
-	...
-
-def set_vsync(value: bool) -> None:
-	"""Sets vsync on or off."""
-	...
-
 def set_xticks(plot: str, label_pairs: Any) -> None:
 	"""Sets plots x ticks and labels"""
 	...
@@ -920,6 +912,10 @@ def setup_dearpygui() -> None:
 
 def show_logger() -> None:
 	"""Shows the logging window. The Default log level is Trace"""
+	...
+
+def show_viewport(*, minimized: bool = ..., maximized: bool = ...) -> None:
+	"""Shows viewport"""
 	...
 
 def stop_dearpygui() -> None:

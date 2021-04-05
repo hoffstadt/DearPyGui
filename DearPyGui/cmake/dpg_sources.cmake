@@ -1,5 +1,5 @@
 ﻿
-set(MARVEL_PY_SOURCES
+set(MARVEL_SOURCES
 
 	"$<$<PLATFORM_ID:Windows>:src/core/Modules/mvModule_Core.cpp>"
 	"$<$<PLATFORM_ID:Linux>:src/core/Modules/mvModule_Core.cpp>"
@@ -14,11 +14,7 @@ set(MARVEL_PY_SOURCES
 	"src/core/PythonUtilities/mvPythonExceptions.cpp"
 	"src/core/PythonUtilities/mvGlobalIntepreterLock.cpp"
 
-)
-
-set(MARVEL_SOURCES
-
-	"$<$<PLATFORM_ID:Windows>:src/platform/Windows/mvWindowsWindow.cpp>"
+	"$<$<PLATFORM_ID:Windows>:src/platform/Windows/mvWindowsViewport.cpp>"
 	"$<$<PLATFORM_ID:Windows>:src/platform/Windows/mvUtilities.cpp>"
 
 	"$<$<PLATFORM_ID:Darwin>:src/platform/Apple/mvAppleWindow.mm>"
@@ -31,7 +27,7 @@ set(MARVEL_SOURCES
 	"src/core/mvApp.cpp"
 	"src/core/mvAppLog.cpp"
 	"src/core/mvInput.cpp"
-	"src/core/mvWindow.cpp"
+	"src/core/mvViewport.cpp"
 	"src/core/mvProfiler.cpp"
 	"src/core/mvLog.cpp"
 
