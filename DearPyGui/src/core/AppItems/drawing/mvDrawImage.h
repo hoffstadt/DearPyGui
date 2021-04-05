@@ -51,8 +51,6 @@ namespace Marvel {
 		mvVec2		m_uv_max;
 		mvColor		m_color;
 		void* m_texture = nullptr;
-		int         m_width = 0;
-		int         m_height = 0;
 
 	};
 

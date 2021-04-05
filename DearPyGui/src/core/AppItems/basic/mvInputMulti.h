@@ -83,7 +83,7 @@ namespace Marvel {
         ImGuiInputTextFlags m_flags = 0;
         ImGuiInputTextFlags m_stor_flags = 0;
         std::array<int, 4>  m_last_value = { 0, 0, 0, 0 };
-        int                 m_size;
+        int                 m_size = 4;
         
     };
         

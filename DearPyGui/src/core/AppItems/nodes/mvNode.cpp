@@ -55,7 +55,7 @@ namespace Marvel {
 		: mvAppItem(name)
 	{
 		m_label = FindRenderedTextEnd(m_name.c_str());
-		m_label = m_label;
+		m_specificedlabel = m_label;
         int64_t address = (int64_t)this;
         int64_t reduced_address = address % 2147483648;
         m_id = (int)reduced_address;
