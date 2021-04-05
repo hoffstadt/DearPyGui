@@ -23,6 +23,7 @@ namespace Marvel {
 		void draw() override;
 
 		int getId() const {return m_id;}
+		void markForDeletion() { m_delete = true; }
 
 #ifndef MV_CPP
 		void setExtraConfigDict(PyObject* dict) override;
@@ -33,6 +34,7 @@ namespace Marvel {
         int m_id = 0;
 		bool m_output = false;
 		bool m_static = false;
+		bool m_delete = false; // specific delete instructions when node editor is deleted
 
 	};
 

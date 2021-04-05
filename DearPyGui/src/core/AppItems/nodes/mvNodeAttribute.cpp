@@ -31,9 +31,12 @@ namespace Marvel {
 
 	mvNodeAttribute::~mvNodeAttribute()
 	{
-		if (m_parent)
-			if(m_parent->m_parent)
-				static_cast<mvNodeEditor*>(m_parent->m_parent)->deleteLink(m_name, m_id, true);
+		if (!m_delete)
+		{
+			if (m_parent)
+				if (m_parent->m_parent)
+					static_cast<mvNodeEditor*>(m_parent->m_parent)->deleteLink(m_name, m_id, true);
+		}
 	}
 
 	void mvNodeAttribute::draw()
