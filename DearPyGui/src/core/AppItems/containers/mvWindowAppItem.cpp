@@ -119,7 +119,7 @@ namespace Marvel {
 
 	void mvWindowAppItem::setLabel(const std::string& value)
 	{
-		m_label = value;
+		m_specificedlabel = value;
 		m_label = value + "###" + m_name;
 		m_dirty_pos = true;
 		m_dirty_size = true;
