@@ -367,8 +367,8 @@ namespace Marvel{
 			return false;
 		};
 
-		if (operation(m_children0))
-			return true;
+		if (item->getTarget() == 0)
+			return operation(m_children0);
 		return operation(m_children1);
 	}
 

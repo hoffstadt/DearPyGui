@@ -10,10 +10,6 @@ def add_about_window(name: str = ..., *, width: int = -1, height: int = -1, x_po
 	"""Creates an about window."""
 	...
 
-def add_annotation(plot: str, text: str, x: float, y: float, xoffset: float, yoffset: float, *, color: List[float] = (0, 0, 0, -1), clamped: bool = True, tag: str = '') -> None:
-	"""Adds an annotation to a plot."""
-	...
-
 def add_area_series(plot: str, name: str, x: List[float], y: List[float], color: List[float], fill: List[float], *, weight: float = 1.0, update_bounds: bool = True, axis: int = 0) -> None:
 	"""Adds an area series to a plot."""
 	...
@@ -98,11 +94,11 @@ def add_drag_intx(name: str = ..., *, default_value: List[float] = (0, 0, 0, 0),
 	"""Adds drag for multiple int values. CTRL+Click to directly modify the value."""
 	...
 
-def add_drag_line(plot: str, name: str, *, source: str = '', color: List[float] = (0, 0, 0, -1), thickness: float = -1, y_line: bool = False, show_label: bool = True, callback: Callable = None, default_value: float = 0.0) -> None:
-	"""Adds a drag line to a plot."""
+def add_drag_line(name: str = ..., *, default_value: List[float] = (0.0, 0.0, 0.0, 0.0), label: str = '', source: str = '', color: List[float] = (0, 0, 0, -1), thickness: float = 1.0, show_label: bool = True, vertical: bool = True, callback: Callable = None, parent: str = '', before: str = '', show: bool = True) -> None:
+	"""Adds a drag point to a plot."""
 	...
 
-def add_drag_point(plot: str, name: str, *, source: str = '', color: List[float] = (0, 0, 0, -1), radius: float = 4.0, show_label: bool = True, callback: Callable = None, default_x: float = 0.0, default_y: float = 0.0) -> None:
+def add_drag_point(name: str = ..., *, default_value: List[float] = (0.0, 0.0, 0.0, 0.0), label: str = '', source: str = '', color: List[float] = (0, 0, 0, -1), radius: float = 4.0, show_label: bool = True, callback: Callable = None, parent: str = '', before: str = '', show: bool = True) -> None:
 	"""Adds a drag point to a plot."""
 	...
 
@@ -232,6 +228,10 @@ def add_pie_series(plot: str, name: str, values: List[float], labels: List[str],
 
 def add_plot(name: str = ..., *, x_axis_name: str = '', y_axis_name: str = '', no_legend: bool = False, no_menus: bool = False, no_box_select: bool = False, no_mouse_pos: bool = False, no_highlight: bool = False, no_child: bool = False, query: bool = False, crosshairs: bool = False, anti_aliased: bool = False, equal_aspects: bool = False, yaxis2: bool = False, yaxis3: bool = False, xaxis_no_gridlines: bool = False, xaxis_no_tick_marks: bool = False, xaxis_no_tick_labels: bool = False, xaxis_log_scale: bool = False, xaxis_time: bool = False, xaxis_invert: bool = False, xaxis_lock_min: bool = False, xaxis_lock_max: bool = False, yaxis_no_gridlines: bool = False, yaxis_no_tick_marks: bool = False, yaxis_no_tick_labels: bool = False, yaxis_log_scale: bool = False, yaxis_invert: bool = False, yaxis_lock_min: bool = False, yaxis_lock_max: bool = False, y2axis_no_gridlines: bool = False, y2axis_no_tick_marks: bool = False, y2axis_no_tick_labels: bool = False, y2axis_log_scale: bool = False, y2axis_invert: bool = False, y2axis_lock_min: bool = False, y2axis_lock_max: bool = False, y3axis_no_gridlines: bool = False, y3axis_no_tick_marks: bool = False, y3axis_no_tick_labels: bool = False, y3axis_log_scale: bool = False, y3axis_invert: bool = False, y3axis_lock_min: bool = False, y3axis_lock_max: bool = False, parent: str = '', before: str = '', width: int = -1, height: int = -1, query_callback: Callable = None, show_color_scale: bool = False, scale_min: float = 0.0, scale_max: float = 1.0, scale_height: int = 100, label: str = '', show: bool = True, show_annotations: bool = True, show_drag_lines: bool = True, show_drag_points: bool = True) -> None:
 	"""Adds a plot widget."""
+	...
+
+def add_plot_annotation(name: str = ..., *, default_value: List[float] = (0.0, 0.0), offset: List[float] = (0.0, 0.0), label: str = '', source: str = '', color: List[float] = (0, 0, 0, -1), clamped: bool = True, parent: str = '', before: str = '', show: bool = True) -> None:
+	"""Adds a drag point to a plot."""
 	...
 
 def add_popup(popupparent: str, name: str = ..., *, mousebutton: int = 1, modal: bool = False, parent: str = '', before: str = '', width: int = 0, height: int = 0, show: bool = True) -> None:
@@ -400,18 +400,6 @@ def create_viewport(*, title: str = ..., width: int = ..., height: int = ..., x_
 
 def decrement_texture(name: str) -> None:
 	"""Decrements a texture."""
-	...
-
-def delete_annotation(plot: str, name: str) -> None:
-	"""Deletes an annotation"""
-	...
-
-def delete_drag_line(plot: str, name: str) -> None:
-	"""Deletes a drag line if it exists."""
-	...
-
-def delete_drag_point(plot: str, name: str) -> None:
-	"""Deletes a drag point if it exists."""
 	...
 
 def delete_grid_column(data_grid: str, column: int) -> None:

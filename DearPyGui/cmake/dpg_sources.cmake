@@ -120,6 +120,9 @@ set(MARVEL_SOURCES
 	
 	"src/core/AppItems/plots/mvPlot.cpp"
 	"src/core/AppItems/plots/mvAreaSeries.cpp"
+	"src/core/AppItems/plots/mvDragPoint.cpp"
+	"src/core/AppItems/plots/mvDragLine.cpp"
+	"src/core/AppItems/plots/mvAnnotation.cpp"
 	"src/core/AppItems/plots/mvSimplePlot.cpp"
 
 	# imnodes
