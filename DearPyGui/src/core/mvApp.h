@@ -33,7 +33,7 @@ namespace Marvel {
     //-----------------------------------------------------------------------------
     class mvWindowAppItem;
     class mvTextEditor;
-    class mvWindow;
+    class mvViewport;
     class mvThemeManager;
     class mvFontManager;
     class mvItemRegistry;
@@ -50,7 +50,7 @@ namespace Marvel {
 
         friend class mvViewport;
         friend class mvWindowsViewport;
-        friend class mvLinuxWindow;
+        friend class mvLinuxViewport;
         friend class mvAppleWindow;
 
     public:

@@ -21,7 +21,7 @@ set(MARVEL_SOURCES
 	"$<$<PLATFORM_ID:Darwin>:src/platform/Apple/mvAppleUtilities.mm>"
 
 	"$<$<PLATFORM_ID:Linux>:src/platform/Linux/mvUtilities.cpp>"
-	"$<$<PLATFORM_ID:Linux>:src/platform/Linux/mvLinuxWindow.cpp>"
+	"$<$<PLATFORM_ID:Linux>:src/platform/Linux/mvLinuxViewport.cpp>"
 
 	"src/core/mvEvents.cpp"
 	"src/core/mvApp.cpp"

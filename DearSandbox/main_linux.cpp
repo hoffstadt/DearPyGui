@@ -1,7 +1,7 @@
 #include "mvPython.h"
 #include "mvStdOutput.h"
 #include "mvModule_Core.h"
-#include "mvWindow.h"
+#include "mvViewport.h"
 #include <iostream>
 
 using namespace Marvel;
@@ -64,10 +64,10 @@ int main(int argc, char* argv[])
 	PyErr_Print();
 
 	// create window
-	auto window = mvWindow::CreatemvWindow(mvApp::GetApp()->getActualWidth(), mvApp::GetApp()->getActualHeight(), true);
-	window->show();
-	window->run();
-	delete window;
+	auto viewport = mvViewport::CreateViewport(1080, 800, true);
+    viewport->show(false, false);
+    viewport->run();
+	delete viewport;
 	delete mvApp::GetApp();
 
     return 0;

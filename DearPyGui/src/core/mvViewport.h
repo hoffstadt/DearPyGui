@@ -68,13 +68,14 @@ namespace Marvel {
 
 		virtual void maximize() {}
 		virtual void minimize() {}
+		virtual void restore() {}
 		virtual void handleModes() {}
 		
 		void stop() { m_running = false; }
 
 		// for use by primary window
-		int getClientWidth() const { return m_clientWidth; }
-		int getClientHeight() const { return m_clientHeight; }
+		int getClientWidth() const { return (int)m_clientWidth; }
+		int getClientHeight() const { return (int)m_clientHeight; }
 		void onResizeEvent();
 
 	protected:
