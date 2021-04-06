@@ -1,6 +1,7 @@
 #include "mvTypeBases.h"
 #include <utility>
 #include "mvApp.h"
+#include "mvLog.h"
 #include "mvUtilities.h"
 #include "mvAppLog.h"
 #include "mvItemRegistry.h"
@@ -324,6 +325,90 @@ namespace Marvel {
 			return;
 		}
 		m_value = std::get<std::shared_ptr<std::vector<float>>>(item->getValue());
+	}
+
+	mvSeriesBase::mvSeriesBase(const std::string& name, const std::vector<std::vector<float>>& default_value)
+		: mvAppItem(name)
+	{
+		m_value = std::make_shared<std::vector<std::vector<float>>>(default_value);
+		calculateMaxMins();
+	}
+
+	PyObject* mvSeriesBase::getPyValue()
+	{
+		return ToPyList(*m_value);
+	}
+
+	void mvSeriesBase::setPyValue(PyObject* value)
+	{
+		*m_value = ToVectVectFloat(value);
+		resetMaxMins();
+		calculateMaxMins();
+	}
+
+	void mvSeriesBase::setDataSource(const std::string& dataSource)
+	{
+		if (dataSource == m_source) return;
+		m_source = dataSource;
+
+		mvRef<mvAppItem> item = mvApp::GetApp()->getItemRegistry().getItem(dataSource);
+		if (!item)
+		{
+			ThrowPythonException("Source item not found.");
+			return;
+		}
+		if (item->getValueType() != getValueType())
+		{
+			ThrowPythonException("Values types do not match");
+			return;
+		}
+		m_value = std::get<std::shared_ptr<std::vector<std::vector<float>>>>(item->getValue());
+		resetMaxMins();
+		calculateMaxMins();
+	}
+
+	const std::pair<float, float>& mvSeriesBase::getMaxMin(int i) const
+	{
+		assert(i < m_maxMins.size());
+
+		return m_maxMins[i];
+	}
+
+	void mvSeriesBase::calculateMaxMins()
+	{
+
+		static const std::vector<float>* xptr;
+
+		for (auto& data : (*m_value.get()))
+		{
+			xptr = &data;
+			float maxValue = (*xptr)[0];
+			float minValue = (*xptr)[0];
+
+			for (const auto& x : (*xptr))
+			{
+				if (x > maxValue) maxValue = x;
+				if (x < minValue) minValue = x;
+			}
+
+			m_maxMins.emplace_back(maxValue, minValue);
+		}
+	}
+
+	void mvSeriesBase::resetMaxMins()
+	{
+		m_maxMins.clear();
+	}
+
+	bool mvSeriesBase::isParentCompatible(mvAppItemType type)
+	{
+		if (type == mvAppItemType::mvPlot)
+			return true;
+
+		mvThrowPythonError(1000, "Item's parent must be plot.");
+		MV_ITEM_REGISTRY_ERROR("Item's parent must be plot.");
+		assert(false);
+		return false;
 	}
 
 	mvBaseWindowAppitem::mvBaseWindowAppitem(const std::string& name)

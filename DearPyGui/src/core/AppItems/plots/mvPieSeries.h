@@ -4,43 +4,43 @@
 
 namespace Marvel {
 
-	class mvPieSeries : public mvSeries
+	MV_REGISTER_WIDGET(mvPieSeries, MV_ITEM_DESC_DEFAULT, StorageValueTypes::VectFloatVect, 1);
+	class mvPieSeries : public mvSeriesBase
 	{
+	public:
+
+		static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
+
+		MV_APPITEM_TYPE(mvAppItemType::mvPieSeries, add_pie_series)
+
+		MV_START_EXTRA_COMMANDS
+		MV_END_EXTRA_COMMANDS
+
+		MV_START_GENERAL_CONSTANTS
+		MV_END_GENERAL_CONSTANTS
+
+		MV_START_COLOR_CONSTANTS
+		MV_END_COLOR_CONSTANTS
+
+		MV_START_STYLE_CONSTANTS
+		MV_END_STYLE_CONSTANTS
 
 	public:
 
-		mvPieSeries(const std::string& name, const std::vector<float>* values, double x,
-			double y, double radius, bool normalize, double angle, const std::string& format,
-			const std::vector<std::string>& labels, ImPlotYAxis_ axis)
-			: 
-			mvSeries(name, {values}, axis),
-			m_x(x), 
-			m_y(y),
-			m_radius(radius), 
-			m_normalize(normalize),
-			m_angle(angle), 
-			m_format(format), 
-			m_labels(labels)
-		{
-			for (const auto& item : m_labels)
-				m_clabels.push_back(item.c_str());
-		}
+		mvPieSeries(const std::string& name, const std::vector<std::vector<float>>& default_value);
 
-		mvSeriesType getSeriesType() override { return mvSeriesType::Pie; }
+		void draw(ImDrawList* drawlist, float x, float y) override;
 
-		void draw(ImDrawList* drawlist, float x, float y) override
-		{
-			ImPlot::PlotPieChart(m_clabels.data(), m_data[0].data(), (int)m_labels.size(),
-				m_x, m_y, m_radius, m_normalize, m_format.c_str(), m_angle);
-		}
+		void setExtraConfigDict(PyObject* dict) override;
+		void getExtraConfigDict(PyObject* dict) override;
 
 	private:
 
-		double m_x;
-		double m_y;
-		double m_radius;
-		bool m_normalize;
-		double m_angle;
+		double m_x = 0.0;
+		double m_y = 0.0;
+		double m_radius = 0.5f;
+		bool m_normalize = true;
+		double m_angle = 90.0;
 		std::string m_format;
 		std::vector<std::string> m_labels;
 		std::vector<const char*> m_clabels;

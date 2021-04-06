@@ -164,11 +164,20 @@ namespace Marvel {
 	PyObject* ToPyList(const std::vector<float>& value)
 	{
 		 
-
 		PyObject* result = PyList_New(value.size());
 
 		for (size_t i = 0; i < value.size(); ++i)
 			PyList_SetItem(result, i, PyFloat_FromDouble(value[i]));
+
+		return result;
+	}
+
+	PyObject* ToPyList(const std::vector<std::vector<float>>& value)
+	{
+		PyObject* result = PyList_New(value.size());
+
+		for (size_t i = 0; i < value.size(); ++i)
+			PyList_SetItem(result, i, ToPyList(value[i]));
 
 		return result;
 	}

@@ -32,6 +32,7 @@ namespace Marvel {
 	PyObject*   ToPyList  (const std::vector<mvVec2>& value);
 	PyObject*   ToPyList  (const std::vector<int>& value);
 	PyObject*   ToPyList  (const std::vector<float>& value);
+	PyObject*   ToPyList  (const std::vector<std::vector<float>>& value);
 	PyObject*   ToPyList  (const std::vector<std::string>& value);
 	PyObject*   ToPyList  (const std::vector<std::vector<std::string>>& value);
 	PyObject*   ToPyList  (const std::vector<std::pair<int, int>>& value);

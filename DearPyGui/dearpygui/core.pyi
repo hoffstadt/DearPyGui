@@ -14,8 +14,8 @@ def add_area_series(plot: str, name: str, x: List[float], y: List[float], color:
 	"""Adds an area series to a plot."""
 	...
 
-def add_bar_series(plot: str, name: str, x: List[float], y: List[float], *, weight: float = 1.0, horizontal: bool = False, update_bounds: bool = True, axis: int = 0) -> None:
-	"""Adds a bar series to a plot."""
+def add_bar_series(name: str = ..., *, x: List[float] = ..., y: List[float] = ..., weight: float = 1.0, horizontal: bool = False, label: str = '', source: str = '', parent: str = '', before: str = '', show: bool = True, axis: int = 0, contribute_to_bounds: bool = True) -> None:
+	"""Adds a drag point to a plot."""
 	...
 
 def add_button(name: str = ..., *, small: bool = False, arrow: bool = False, direction: int = 0, callback: Callable = None, callback_data: Any = None, parent: str = '', before: str = '', width: int = 0, height: int = 0, label: str = '', show: bool = True, enabled: bool = True) -> None:
@@ -110,8 +110,8 @@ def add_dummy(*, width: int = 0, height: int = 0, name: str = 'dummy', parent: s
 	"""Adds a spacer or 'dummy' object."""
 	...
 
-def add_error_series(plot: str, name: str, x: List[float], y: List[float], negative: List[float], positive: List[float], *, horizontal: bool = False, update_bounds: bool = True, color: List[float] = (0, 0, 0, -1), axis: int = 0) -> None:
-	"""Adds an error series to a plot."""
+def add_error_series(name: str = ..., *, x: List[float] = ..., y: List[float] = ..., negative: List[float] = ..., positive: List[float] = ..., horizontal: bool = False, label: str = '', source: str = '', parent: str = '', before: str = '', show: bool = True, axis: int = 0, contribute_to_bounds: bool = True) -> None:
+	"""Adds a drag point to a plot."""
 	...
 
 def add_font(font: str, file: str, size: float = 13.0, glyph_ranges: str = '', *, custom_glyph_chars: List[int] = (), custom_glyph_ranges: Any = List[List[int]], char_remaps: Any = List[List[int]]) -> None:
@@ -178,8 +178,8 @@ def add_label_text(name: str = ..., *, default_value: str = '', color: List[floa
 	"""Adds text with a label. Useful for output values."""
 	...
 
-def add_line_series(plot: str, name: str, x: List[float], y: List[float], *, color: List[float] = (0, 0, 0, -1), weight: float = 1.0, update_bounds: bool = True, axis: int = 0) -> None:
-	"""Adds a line series to a plot."""
+def add_line_series(name: str = ..., *, x: List[float] = ..., y: List[float] = ..., label: str = '', source: str = '', parent: str = '', before: str = '', show: bool = True, axis: int = 0, contribute_to_bounds: bool = True) -> None:
+	"""Adds a drag point to a plot."""
 	...
 
 def add_listbox(name: str = ..., *, items: List[str] = (), default_value: int = 0, callback: Callable = None, callback_data: Any = None, parent: str = '', before: str = '', source: str = '', enabled: bool = True, width: int = 0, num_items: int = 3, label: str = '', show: bool = True) -> None:
@@ -250,8 +250,8 @@ def add_same_line(*, name: str = 'sameline', xoffset: float = 0.0, spacing: floa
 	"""Places a widget on the same line as the previous widget. Can also be used for horizontal spacing."""
 	...
 
-def add_scatter_series(plot: str, name: str, x: List[float], y: List[float], *, marker: int = 0, size: float = 4.0, weight: float = 1.0, outline: List[float] = (0, 0, 0, -1), fill: List[float] = (0, 0, 0, -1), update_bounds: bool = True, xy_data_format: bool = False, axis: int = 0) -> None:
-	"""Adds a scatter series to a plot."""
+def add_scatter_series(name: str = ..., *, x: List[float] = ..., y: List[float] = ..., label: str = '', source: str = '', parent: str = '', before: str = '', show: bool = True, axis: int = 0, contribute_to_bounds: bool = True) -> None:
+	"""Adds a drag point to a plot."""
 	...
 
 def add_selectable(name: str = ..., *, default_value: bool = False, callback: Callable = None, callback_data: Any = None, width: int = 0, height: int = 0, parent: str = '', before: str = '', source: str = '', enabled: bool = True, label: str = '', show: bool = True, span_columns: bool = False) -> None:
@@ -290,12 +290,12 @@ def add_spacing(*, name: str = 'spacing', count: int = 1, parent: str = '', befo
 	"""Adds vertical spacing."""
 	...
 
-def add_stair_series(plot: str, name: str, x: List[float], y: List[float], *, color: List[float] = (0, 0, 0, -1), weight: float = 1.0, update_bounds: bool = True, axis: int = 0) -> None:
-	"""Adds a stair series to a plot."""
+def add_stair_series(name: str = ..., *, x: List[float] = ..., y: List[float] = ..., label: str = '', source: str = '', parent: str = '', before: str = '', show: bool = True, axis: int = 0, contribute_to_bounds: bool = True) -> None:
+	"""Adds a drag point to a plot."""
 	...
 
-def add_stem_series(plot: str, name: str, x: List[float], y: List[float], *, marker: int = 0, size: float = 4.0, weight: float = 1.0, outline: List[float] = (0, 0, 0, -1), fill: List[float] = (0, 0, 0, -1), update_bounds: bool = True, axis: int = 0) -> None:
-	"""Adds a stem series to a plot."""
+def add_stem_series(name: str = ..., *, x: List[float] = ..., y: List[float] = ..., label: str = '', source: str = '', parent: str = '', before: str = '', show: bool = True, axis: int = 0, contribute_to_bounds: bool = True) -> None:
+	"""Adds a drag point to a plot."""
 	...
 
 def add_style_window(name: str = ..., *, width: int = 700, height: int = 500, x_pos: int = 200, y_pos: int = 200, autosize: bool = False, no_resize: bool = False, no_title_bar: bool = False, no_move: bool = False, no_scrollbar: bool = False, no_collapse: bool = False, horizontal_scrollbar: bool = False, no_focus_on_appearing: bool = False, no_bring_to_front_on_focus: bool = False, no_close: bool = False, no_background: bool = False, label: str = '', show: bool = True) -> None:

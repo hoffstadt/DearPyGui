@@ -7,6 +7,7 @@
 #include "mvFontManager.h"
 #include "mvItemRegistry.h"
 #include "mvImGuiThemeScope.h"
+#include "mvTextureStorage.h"
 #include <ImGuiFileDialog.h>
 #include <cstdlib>
 

@@ -50,7 +50,11 @@ namespace Marvel {
         mvDrawQuad, mvDrawRect, mvDrawText, mvDrawPolygon, mvDrawPolyline,
         mvDrawImage, mvDragFloatMulti, mvDragIntMulti, mvSliderFloatMulti,
         mvSliderIntMulti, mvInputIntMulti, mvInputFloatMulti,
-        mvDragPoint, mvDragLine, mvAnnotation,
+        mvDragPoint, mvDragLine, mvAnnotation, mvLineSeries,
+        mvScatterSeries, mvStemSeries, mvStairSeries, mvBarSeries,
+        mvErrorSeries, mvVLineSeries, mvHLineSeries, mvHeatSeries,
+        mvImageSeries, mvPieSeries, mvShadeSeries, mvLabelSeries,
+        mvCandleSeries, mvAreaSeries,
         ItemTypeCount
     };
 

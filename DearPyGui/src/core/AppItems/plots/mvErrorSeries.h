@@ -4,40 +4,47 @@
 
 namespace Marvel {
 
-	class mvErrorSeries : public mvSeries
+	MV_REGISTER_WIDGET(mvErrorSeries, MV_ITEM_DESC_DEFAULT, StorageValueTypes::VectFloatVect, 1);
+	class mvErrorSeries : public mvSeriesBase
 	{
+	public:
+
+		static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
+
+		MV_APPITEM_TYPE(mvAppItemType::mvErrorSeries, add_error_series)
+
+		MV_CREATE_CONSTANT(mvThemeCol_Plot_Error, ImPlotCol_ErrorBar, 0L);
+
+		MV_CREATE_CONSTANT(mvThemeStyle_Plot_Error_Size, ImPlotStyleVar_ErrorBarSize, 0L);
+		MV_CREATE_CONSTANT(mvThemeStyle_Plot_Error_Weight, ImPlotStyleVar_ErrorBarWeight, 0L);
+
+		MV_START_EXTRA_COMMANDS
+		MV_END_EXTRA_COMMANDS
+
+		MV_START_GENERAL_CONSTANTS
+		MV_END_GENERAL_CONSTANTS
+
+		MV_START_COLOR_CONSTANTS
+		MV_ADD_CONSTANT(mvThemeCol_Plot_Error, mvColor(0, 0, 0, -255), mvColor(0, 0, 0, -255)),
+		MV_END_COLOR_CONSTANTS
+
+		MV_START_STYLE_CONSTANTS
+			MV_ADD_CONSTANT(mvThemeStyle_Plot_Error_Size, 5.0f, 10.0f),
+			MV_ADD_CONSTANT(mvThemeStyle_Plot_Error_Weight, 1.5f, 10.0f),
+		MV_END_STYLE_CONSTANTS
 
 	public:
 
-		mvErrorSeries(const std::string& name, const std::vector<float>* x, const std::vector<float>* y,
-			const std::vector<float>* neg, const std::vector<float>* pos,
-			bool horizontal, const mvColor& color, ImPlotYAxis_ axis)
-			: 
-			mvSeries(name, {x, y, neg, pos}, axis),
-			m_horizontal(horizontal), 
-			m_color(color)
-		{
-		}
+		mvErrorSeries(const std::string& name, const std::vector<std::vector<float>>& default_value);
 
-		mvSeriesType getSeriesType() override { return mvSeriesType::Error; }
+		void draw(ImDrawList* drawlist, float x, float y) override;
 
-		void draw(ImDrawList* drawlist, float x, float y) override
-		{
-			ImPlot::PushStyleColor(ImPlotCol_ErrorBar, m_color.toVec4());
-			if(m_horizontal)
-				ImPlot::PlotErrorBarsH(m_name.c_str(), m_data[0].data(), m_data[1].data(), m_data[2].data(), 
-					m_data[3].data(), (int)m_data[0].size());
-			else
-				ImPlot::PlotErrorBars(m_name.c_str(), m_data[0].data(), m_data[1].data(), m_data[2].data(),
-					m_data[3].data(), (int)m_data[0].size());
-
-			ImPlot::PopStyleColor();
-		}
+		void setExtraConfigDict(PyObject* dict) override;
+		void getExtraConfigDict(PyObject* dict) override;
 
 	private:
 
-		bool    m_horizontal;
-		mvColor m_color;
+		bool m_horizontal = false;
 
 	};
 
