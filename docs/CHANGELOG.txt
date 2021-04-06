@@ -138,6 +138,7 @@ Updates:
 - value_storage: removed
 
 Fixes:
+- MacOs: fixed obscured windows maxing CPU
 - start_dearpygui: fixed primary window not found crash #523
 - callback_error: prevent callback error crash
 - numpy: numpy arrays not working with plots
