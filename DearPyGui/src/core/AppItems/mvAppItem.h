@@ -50,6 +50,7 @@ namespace Marvel {
         mvDrawQuad, mvDrawRect, mvDrawText, mvDrawPolygon, mvDrawPolyline,
         mvDrawImage, mvDragFloatMulti, mvDragIntMulti, mvSliderFloatMulti,
         mvSliderIntMulti, mvInputIntMulti, mvInputFloatMulti,
+        mvDragPoint, mvDragLine, mvAnnotation,
         ItemTypeCount
     };
 
@@ -91,6 +92,7 @@ namespace Marvel {
         friend class mvFontManager;
         friend class mvFontScope;
         friend class mvDrawing;
+        friend class mvPlot;
 
     public:
 

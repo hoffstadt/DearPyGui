@@ -341,7 +341,7 @@ namespace Marvel {
         int show = false;
         int readonly = false;
 
-        if (!(mvApp::GetApp()->getParsers())["add_input_int4"].parse(args, kwargs, __FUNCTION__, &name,
+        if (!(mvApp::GetApp()->getParsers())[s_command].parse(args, kwargs, __FUNCTION__, &name,
             &default_value, &size, &min_value, &max_value, &min_clamped, &max_clamped, &callback, &callback_data, &parent, &before, &source, &enabled, &width, &on_enter,
             &label, &show, &readonly))
             return ToPyBool(false);
@@ -392,7 +392,7 @@ namespace Marvel {
         int show = false;
         int readonly = false;
 
-        if (!(mvApp::GetApp()->getParsers())["add_input_float4"].parse(args, kwargs, __FUNCTION__, &name,
+        if (!(mvApp::GetApp()->getParsers())[s_command].parse(args, kwargs, __FUNCTION__, &name,
             &default_value, &size, &min_value, &max_value, &min_clamped, &max_clamped, &format, &callback, &callback_data,
             &parent, &before, &source, &enabled, &width, &on_enter,
             &label, &show, &readonly))

@@ -1,5 +1,5 @@
-#include "core/mvUtilities.h"
-#include "mvAppleWindow.h"
+#include "mvUtilities.h"
+#include "mvAppleViewport.h"
 
 #define STB_IMAGE_IMPLEMENTATION
 #include <stb_image.h>
@@ -25,7 +25,7 @@ namespace Marvel {
         textureDescriptor.usage = MTLTextureUsageShaderRead;
         textureDescriptor.storageMode = MTLStorageModeManaged;
 
-        id <MTLTexture> texture = [mvAppleWindow::GetDevice() newTextureWithDescriptor:textureDescriptor];
+        id <MTLTexture> texture = [mvAppleViewport::GetDevice() newTextureWithDescriptor:textureDescriptor];
         [texture replaceRegion:MTLRegionMake2D(0, 0, width, height) mipmapLevel:0 withBytes:data bytesPerRow:width * 4 * 4];
 
         g_textures.push_back({name, texture});
@@ -52,7 +52,7 @@ namespace Marvel {
         textureDescriptor.usage = MTLTextureUsageShaderRead;
         textureDescriptor.storageMode = MTLStorageModeManaged;
 
-        id <MTLTexture> texture = [mvAppleWindow::GetDevice() newTextureWithDescriptor:textureDescriptor];
+        id <MTLTexture> texture = [mvAppleViewport::GetDevice() newTextureWithDescriptor:textureDescriptor];
         [texture replaceRegion:MTLRegionMake2D(0, 0, width, height) mipmapLevel:0 withBytes:image_data bytesPerRow:width * 4];
 
         g_textures.push_back({filename, texture});

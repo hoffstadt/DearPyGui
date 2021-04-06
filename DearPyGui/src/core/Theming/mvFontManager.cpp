@@ -7,7 +7,7 @@
 #include "mvCore.h"
 #include "mvItemRegistry.h"
 #include "mvTextureStorage.h"
-#include "mvWindow.h"
+#include "mvViewport.h"
 
 #define IM_MIN(A, B)            (((A) < (B)) ? (A) : (B))
 #define IM_MAX(A, B)            (((A) >= (B)) ? (A) : (B))
@@ -260,7 +260,6 @@ namespace Marvel {
 	{
 		m_font = getFont(m_fontName, m_size);
 		m_dirty = false;
-
 		ImGuiIO& io = ImGui::GetIO();
 		io.FontDefault = m_font;
 	}

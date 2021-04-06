@@ -1,5 +1,5 @@
 #include "mvUtilities.h"
-#include "mvWindowsWindow.h"
+#include "mvWindowsViewport.h"
 
 #define STB_IMAGE_IMPLEMENTATION
 #include <stb_image.h>
@@ -42,7 +42,7 @@ namespace Marvel {
         subResource.pSysMem = data;
         subResource.SysMemPitch = desc.Width * 4 * 4;
         subResource.SysMemSlicePitch = 0;
-        mvWindowsWindow::getDevice()->CreateTexture2D(&desc, &subResource, &pTexture);
+        mvWindowsViewport::getDevice()->CreateTexture2D(&desc, &subResource, &pTexture);
 
         // Create texture view
                 // Create texture view
@@ -52,7 +52,7 @@ namespace Marvel {
         srvDesc.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2D;
         srvDesc.Texture2D.MipLevels = desc.MipLevels;
         srvDesc.Texture2D.MostDetailedMip = 0;
-        mvWindowsWindow::getDevice()->CreateShaderResourceView(pTexture, &srvDesc, &out_srv);
+        mvWindowsViewport::getDevice()->CreateShaderResourceView(pTexture, &srvDesc, &out_srv);
         pTexture->Release();
 
         storage.texture = out_srv;
@@ -95,7 +95,7 @@ namespace Marvel {
         subResource.pSysMem = image_data;
         subResource.SysMemPitch = desc.Width * 4;
         subResource.SysMemSlicePitch = 0;
-        mvWindowsWindow::getDevice()->CreateTexture2D(&desc, &subResource, &pTexture);
+        mvWindowsViewport::getDevice()->CreateTexture2D(&desc, &subResource, &pTexture);
 
         // Create texture view
         D3D11_SHADER_RESOURCE_VIEW_DESC srvDesc;
@@ -104,7 +104,7 @@ namespace Marvel {
         srvDesc.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2D;
         srvDesc.Texture2D.MipLevels = desc.MipLevels;
         srvDesc.Texture2D.MostDetailedMip = 0;
-        mvWindowsWindow::getDevice()->CreateShaderResourceView(pTexture, &srvDesc, &out_srv);
+        mvWindowsViewport::getDevice()->CreateShaderResourceView(pTexture, &srvDesc, &out_srv);
         pTexture->Release();
 
         storage.texture = out_srv;

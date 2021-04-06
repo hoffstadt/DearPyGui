@@ -1,6 +1,7 @@
 #include <algorithm>
 #include "mvPlot.h"
 #include "mvApp.h"
+#include "mvLog.h"
 #include "mvInput.h"
 #include "mvItemRegistry.h"
 #include "mvAreaSeries.h"
@@ -99,60 +100,6 @@ namespace Marvel {
 			{mvPythonDataType::Bool, "show_drag_points", "", "True"}
 
 		}, "Adds a plot widget.", "None", "Plotting") });
-
-		parsers->insert({ "add_drag_line", mvPythonParser({
-			{mvPythonDataType::String, "plot"},
-			{mvPythonDataType::String, "name"},
-			{mvPythonDataType::KeywordOnly},
-			{mvPythonDataType::String, "source", "", "''"},
-			{mvPythonDataType::FloatList, "color", "", "(0, 0, 0, -1)"},
-			{mvPythonDataType::Float, "thickness", "", "-1"},
-			{mvPythonDataType::Bool, "y_line", "", "False"},
-			{mvPythonDataType::Bool, "show_label", "", "True"},
-			{mvPythonDataType::Callable, "callback", "function to run when line is dragged", "None"},
-			{mvPythonDataType::Float, "default_value", "", "0.0"},
-		}, "Adds a drag line to a plot.", "None", "Plotting") });
-
-		parsers->insert({ "delete_drag_line", mvPythonParser({
-			{mvPythonDataType::String, "plot"},
-			{mvPythonDataType::String, "name"}
-		}, "Deletes a drag line if it exists.", "None", "Plotting") });
-
-		parsers->insert({ "add_drag_point", mvPythonParser({
-			{mvPythonDataType::String, "plot"},
-			{mvPythonDataType::String, "name"},
-			{mvPythonDataType::KeywordOnly},
-			{mvPythonDataType::String, "source", "", "''"},
-			{mvPythonDataType::FloatList, "color", "", "(0, 0, 0, -1)"},
-			{mvPythonDataType::Float, "radius", "", "4.0"},
-			{mvPythonDataType::Bool, "show_label", "", "True"},
-			{mvPythonDataType::Callable, "callback", "function to run when point is moved", "None"},
-			{mvPythonDataType::Float, "default_x", "", "0.0"},
-			{mvPythonDataType::Float, "default_y", "", "0.0"},
-		}, "Adds a drag point to a plot.", "None", "Plotting") });
-
-		parsers->insert({ "delete_drag_point", mvPythonParser({
-			{mvPythonDataType::String, "plot"},
-			{mvPythonDataType::String, "name"}
-		}, "Deletes a drag point if it exists.", "None", "Plotting") });
-
-		parsers->insert({ "add_annotation", mvPythonParser({
-			{mvPythonDataType::String, "plot"},
-			{mvPythonDataType::String, "text"},
-			{mvPythonDataType::Double, "x"},
-			{mvPythonDataType::Double, "y"},
-			{mvPythonDataType::Float, "xoffset"},
-			{mvPythonDataType::Float, "yoffset"},
-			{mvPythonDataType::KeywordOnly},
-			{mvPythonDataType::FloatList, "color", "", "(0, 0, 0, -1)"},
-			{mvPythonDataType::Bool, "clamped", "", "True"},
-			{mvPythonDataType::String, "tag", "", "''"},
-		}, "Adds an annotation to a plot.", "None", "Plotting") });
-
-		parsers->insert({ "delete_annotation", mvPythonParser({
-			{mvPythonDataType::String, "plot"},
-			{mvPythonDataType::String, "name"},
-		}, "Deletes an annotation", "None", "Plotting") });
 
 		parsers->insert({ "clear_plot", mvPythonParser({
 			{mvPythonDataType::String, "plot"},
@@ -536,248 +483,20 @@ namespace Marvel {
 		m_height = -1;
 	}
 
-	void mvPlot::addDragPoint(const std::string& name, bool show_label, const mvColor& color, float radius, mvCallable callback, const double* dummyValue, const std::string& source)
+	bool mvPlot::canChildBeAdded(mvAppItemType type)
 	{
-		if (!source.empty())
-		{
-			mvRef<mvAppItem> item = mvApp::GetApp()->getItemRegistry().getItem(source);
-			if (!item)
-			{
-				ThrowPythonException("Source item not found.");
-				return;
-			}
-			if (item->getValueType() != StorageValueTypes::Float4)
-			{
-				ThrowPythonException("Values types do not match");
-				return;
-			}
-			auto value = std::get<std::shared_ptr<std::array<float, 4>>>(item->getValue());
-			double dummyx = value->data()[0];
-			double dummyy = value->data()[1];
+		if (type == mvAppItemType::mvDragPoint)
+			return true;
+		if (type == mvAppItemType::mvDragLine)
+			return true;
+		if (type == mvAppItemType::mvAnnotation)
+			return true;
 
-			m_dragPoints.push_back({ name, value, show_label, color, radius, callback, source });
-			return;
-		}
-		auto value = std::make_shared<std::array<float, 4>>(std::array{ (float)dummyValue[0], (float)dummyValue[1] , 0.0f, 0.0f});
+		mvThrowPythonError(1000, "Plot children must be compatible.");
+		MV_ITEM_REGISTRY_ERROR("Plot children must be compatible.");
+		assert(false);
 
-		m_dragPoints.push_back({ name, value, show_label, color, radius, callback, source });
-	}
-
-	void mvPlot::updateDragPoint(const std::string& name, bool show_label, const mvColor& color, float radius, mvCallable callback, const double* dummyValue, const std::string& source)
-	{
-		// check if drag point exist
-		bool exists = false;
-		for (auto& item : m_dragPoints)
-		{
-			if (item.name == name)
-			{
-				exists = true;
-				if (item.source != source)
-				{
-					mvRef<mvAppItem> newitem = mvApp::GetApp()->getItemRegistry().getItem(source);
-					if (!newitem)
-					{
-						ThrowPythonException("Source item not found.");
-						continue;
-					}
-					if (newitem->getValueType() != StorageValueTypes::Float4)
-					{
-						ThrowPythonException("Values types do not match");
-						continue;
-					}
-					item.value = std::get<std::shared_ptr<std::array<float, 4>>>(newitem->getValue());
-				}
-				item.show_label = show_label;
-				item.color = color;
-				item.radius = radius;
-				item.callback = callback;
-				item.source = source;
-				break;
-			}
-		}
-
-		if (!exists)
-			addDragPoint(name, show_label, color, radius, callback, dummyValue, source);
-	}
-
-	void mvPlot::addDragLine(const std::string& name, bool show_label, const mvColor& color, float thickness, bool y_line, mvCallable callback, double dummyValue, const std::string& source)
-	{
-		if (!source.empty())
-		{
-			mvRef<mvAppItem> item = mvApp::GetApp()->getItemRegistry().getItem(source);
-			if (!item)
-			{
-				ThrowPythonException("Source item not found.");
-				return;
-			}
-			if (item->getValueType() != StorageValueTypes::Float)
-			{
-				ThrowPythonException("Values types do not match");
-				return;
-			}
-			auto value = std::get<std::shared_ptr<float>>(item->getValue());
-
-			m_dragLines.push_back({ name, value, show_label, color, thickness, y_line, callback, source });
-			return;
-		}
-		auto value = std::make_shared<float>((float)dummyValue);
-
-		m_dragLines.push_back({ name, value, show_label, color, thickness, y_line, callback, source });
-	}
-
-	void mvPlot::updateDragLine(const std::string& name, bool show_label, const mvColor& color, float thickness, bool y_line, mvCallable callback, double dummyValue, const std::string& source)
-	{
-
-		// check if drag line exist
-		bool exists = false;
-		for (auto& item : m_dragLines)
-		{
-			if (item.name == name)
-			{
-				exists = true;
-				if (item.source != source)
-				{
-					mvRef<mvAppItem> newitem = mvApp::GetApp()->getItemRegistry().getItem(source);
-					if (!newitem)
-					{
-						ThrowPythonException("Source item not found.");
-						continue;
-					}
-					if (newitem->getValueType() != StorageValueTypes::Float)
-					{
-						ThrowPythonException("Values types do not match");
-						continue;
-					}
-					item.value = std::get<std::shared_ptr<float>>(newitem->getValue());
-				}
-				item.show_label = show_label;
-				item.color = color;
-				item.thickness = thickness;
-				item.y_line = y_line;
-				item.callback = callback;
-				item.source = source;
-				break;
-			}
-		}
-
-		if (!exists)
-			addDragLine(name, show_label, color, thickness, y_line, callback, dummyValue, source);
-	}
-
-	void mvPlot::deleteDragPoint(const std::string& name)
-	{
-		// check if annotations exist
-		bool exists = false;
-		for (auto item : m_dragPoints)
-		{
-			if (item.name == name)
-				exists = true;
-		}
-
-		if (exists)
-		{
-			auto oldDragPoints = m_dragPoints;
-			m_dragPoints.clear();
-
-			for (auto item : oldDragPoints)
-			{
-				if (item.name == name)
-				{
-					continue;
-				}
-
-				m_dragPoints.push_back(item);
-			}
-
-		}
-	}
-
-	void mvPlot::deleteDragLine(const std::string& name)
-	{
-		// check if annotations exist
-		bool exists = false;
-		for (auto item : m_dragLines)
-		{
-			if (item.name == name)
-				exists = true;
-		}
-
-		if (exists)
-		{
-			auto oldDragLines = m_dragLines;
-			m_dragLines.clear();
-
-			for (auto item : oldDragLines)
-			{
-				if (item.name == name)
-				{
-					continue;
-				}
-
-				m_dragLines.push_back(item);
-			}
-
-		}
-	}
-
-	void mvPlot::addAnnotation(const std::string& name, double x, double y, float xoffset, float yoffset, const mvColor& color, const std::string& text, bool clamped)
-	{
-		m_annotations.push_back({ name, x, y, { xoffset, yoffset }, color, text, clamped });
-	}
-
-	void mvPlot::updateAnnotation(const std::string& name, double x, double y, float xoffset, float yoffset, const mvColor& color, const std::string& text, bool clamped)
-	{
-		if (name.empty())
-		{
-			addAnnotation(name, x, y, xoffset, yoffset, color, text, clamped);
-			return;
-		}
-
-		// check if annotation exist
-		bool exists = false;
-		for (auto& item : m_annotations)
-		{
-			if (item.name == name)
-			{
-				exists = true;
-				item.x = x;
-				item.y = y;
-				item.pix_offset.x = xoffset;
-				item.pix_offset.y = yoffset;
-				item.color = color;
-				item.text = text;
-				item.clamped = clamped;
-			}
-		}
-
-		if(!exists)
-			addAnnotation(name, x, y, xoffset, yoffset, color, text, clamped);
-	}
-
-	void mvPlot::deleteAnnotation(const std::string& name)
-	{
-		// check if annotations exist
-		bool exists = false;
-		for (auto item : m_annotations)
-		{
-			if (item.name == name)
-				exists = true;
-		}
-
-		if (exists)
-		{
-			auto oldAnnotations = m_annotations;
-			m_annotations.clear();
-
-			for (auto item : oldAnnotations)
-			{
-				if (item.name == name)
-					continue;
-
-				m_annotations.push_back(item);
-			}
-
-		}
+		return false;
 	}
 
 	void mvPlot::addSeries(mvRef<mvSeries> series, bool updateBounds)
@@ -951,9 +670,6 @@ namespace Marvel {
 	{
 
 		m_series.clear();
-		m_annotations.clear();
-		m_dragLines.clear();
-		m_dragPoints.clear();
 
 	}
 
@@ -1022,54 +738,15 @@ namespace Marvel {
 				series->draw(drawlist, x, y);
 			}
 
-			// annotations
-			if (m_showAnnotations)
+			for (auto item : m_children1)
 			{
-				for (const auto& annotation : m_annotations)
-				{
-					if (annotation.clamped)
-						ImPlot::AnnotateClamped(annotation.x, annotation.y, annotation.pix_offset, annotation.color.toVec4(), annotation.text.c_str());
-					else
-						ImPlot::Annotate(annotation.x, annotation.y, annotation.pix_offset, annotation.color.toVec4(), annotation.text.c_str());
-				}
-			}
+				// skip item if it's not shown
+				if (!item->m_show)
+					continue;
 
-			// drag lines
-			if (m_showDragLines)
-			{
-				for (auto& line : m_dragLines)
-				{
-					static double dummy = 0.0;
-					dummy = *line.value;
-					if (line.y_line)
-					{
-						if (ImPlot::DragLineY(line.name.c_str(),&dummy, line.show_label, line.color, line.thickness))
-						{
-							*line.value = (float)dummy;
-							mvApp::GetApp()->getCallbackRegistry().addCallback(line.callback, line.name, nullptr);
-						}
-					}
-					else
-					{
-						if (ImPlot::DragLineX(line.name.c_str(), &dummy, line.show_label, line.color, line.thickness))
-						{
-							*line.value = (float)dummy;
-							mvApp::GetApp()->getCallbackRegistry().addCallback(line.callback, line.name, nullptr);
-						}
-					}
-				}
-			}
+				item->draw(drawlist, ImGui::GetCursorPosX(), ImGui::GetCursorPosY());
 
-			// drag points
-			if (m_showDragPoints)
-			{
-				for (auto& point : m_dragPoints)
-				{
-					if (ImPlot::DragPoint(point.name.c_str(), (double*)point.value.get(), (double*)(&point.value.get()[1]), point.show_label, point.color, point.radius))
-					{
-						mvApp::GetApp()->getCallbackRegistry().addCallback(point.callback, point.name, nullptr);
-					}
-				}
+				item->getState().update();
 			}
 
 			ImPlot::PopColormap();
@@ -1451,238 +1128,6 @@ namespace Marvel {
 		mvApp::GetApp()->getItemRegistry().addItemWithRuntimeChecks(item, parent, before);
 		
 		return ToPyString(name);
-	}
-
-	PyObject* mvPlot::add_drag_line(PyObject* self, PyObject* args, PyObject* kwargs)
-	{
-		const char* plot;
-		const char* name;
-		const char* source = "";
-		PyObject* color = PyTuple_New(4);
-		PyTuple_SetItem(color, 0, PyLong_FromLong(-255));
-		PyTuple_SetItem(color, 1, PyLong_FromLong(0));
-		PyTuple_SetItem(color, 2, PyLong_FromLong(0));
-		PyTuple_SetItem(color, 3, PyLong_FromLong(0));
-		float thickness = 1.0f;
-		int y_line = false;
-		int show_label = true;
-		PyObject* callback = nullptr;
-		float default_value = 0.0f;
-
-		if (!(mvApp::GetApp()->getParsers())["add_drag_line"].parse(args, kwargs, __FUNCTION__,
-			&plot, &name, &source, &color, &thickness, &y_line, &show_label, &callback, &default_value))
-			return GetPyNone();
-
-		auto aplot = mvApp::GetApp()->getItemRegistry().getItem(plot);
-
-		if (aplot == nullptr)
-		{
-			std::string message = plot;
-			ThrowPythonException(message + " plot does not exist.");
-			return GetPyNone();
-		}
-
-		if (aplot->getType() != mvAppItemType::mvPlot)
-		{
-			std::string message = plot;
-			ThrowPythonException(message + " is not a plot.");
-			return GetPyNone();
-		}
-
-		if (callback)
-			Py_XINCREF(callback);
-
-		mvPlot* graph = static_cast<mvPlot*>(aplot.get());
-		
-		graph->updateDragLine(name, show_label, ToColor(color), thickness, y_line, callback, default_value, source);
-		
-		return GetPyNone();
-	}
-
-	PyObject* mvPlot::delete_drag_line(PyObject* self, PyObject* args, PyObject* kwargs)
-	{
-		const char* plot;
-		const char* name;
-
-		if (!(mvApp::GetApp()->getParsers())["delete_drag_line"].parse(args, kwargs, __FUNCTION__,
-			&plot, &name))
-			return GetPyNone();
-
-		auto aplot = mvApp::GetApp()->getItemRegistry().getItem(plot);
-
-		if (aplot == nullptr)
-		{
-			std::string message = plot;
-			ThrowPythonException(message + " plot does not exist.");
-			return GetPyNone();
-		}
-
-		if (aplot->getType() != mvAppItemType::mvPlot)
-		{
-			std::string message = plot;
-			ThrowPythonException(message + " is not a plot.");
-			return GetPyNone();
-		}
-
-		mvPlot* graph = static_cast<mvPlot*>(aplot.get());
-		
-		graph->deleteDragLine(name);
-
-		return GetPyNone();
-	}
-
-	PyObject* mvPlot::add_drag_point(PyObject* self, PyObject* args, PyObject* kwargs)
-	{
-		const char* plot;
-		const char* name;
-		const char* source = "";
-		PyObject* color = PyTuple_New(4);
-		PyTuple_SetItem(color, 0, PyLong_FromLong(-255));
-		PyTuple_SetItem(color, 1, PyLong_FromLong(0));
-		PyTuple_SetItem(color, 2, PyLong_FromLong(0));
-		PyTuple_SetItem(color, 3, PyLong_FromLong(-1));
-		float radius = 4.0f;
-		int show_label = true;
-		PyObject* callback = nullptr;
-		float default_x = 0.0f;
-		float default_y = 0.0f;
-
-		if (!(mvApp::GetApp()->getParsers())["add_drag_point"].parse(args, kwargs, __FUNCTION__,
-			&plot, &name, &source, &color, &radius, &show_label, &callback, &default_x, &default_y))
-			return GetPyNone();
-
-		auto aplot = mvApp::GetApp()->getItemRegistry().getItem(plot);
-
-		if (aplot == nullptr)
-		{
-			std::string message = plot;
-			ThrowPythonException(message + " plot does not exist.");
-			return GetPyNone();
-		}
-
-		if (aplot->getType() != mvAppItemType::mvPlot)
-		{
-			std::string message = plot;
-			ThrowPythonException(message + " is not a plot.");
-			return GetPyNone();
-		}
-
-		if (callback)
-			Py_XINCREF(callback);
-
-		mvPlot* graph = static_cast<mvPlot*>(aplot.get());
-		double defaults[2] = { (double)default_x, (double)default_y };
-		
-		graph->updateDragPoint(name, show_label, ToColor(color), radius, callback, defaults, source);
-
-		return GetPyNone();
-	}
-
-	PyObject* mvPlot::delete_drag_point(PyObject* self, PyObject* args, PyObject* kwargs)
-	{
-		const char* plot;
-		const char* name;
-
-		if (!(mvApp::GetApp()->getParsers())["delete_drag_point"].parse(args, kwargs, __FUNCTION__,
-			&plot, &name))
-			return GetPyNone();
-
-		auto aplot = mvApp::GetApp()->getItemRegistry().getItem(plot);
-
-		if (aplot == nullptr)
-		{
-			std::string message = plot;
-			ThrowPythonException(message + " plot does not exist.");
-			return GetPyNone();
-		}
-
-		if (aplot->getType() != mvAppItemType::mvPlot)
-		{
-			std::string message = plot;
-			ThrowPythonException(message + " is not a plot.");
-			return GetPyNone();
-		}
-
-		mvPlot* graph = static_cast<mvPlot*>(aplot.get());
-
-		graph->deleteDragPoint(name);
-		
-		return GetPyNone();
-	}
-
-	PyObject* mvPlot::add_annotation(PyObject* self, PyObject* args, PyObject* kwargs)
-	{
-		const char* plot;
-		const char* text;
-		double x;
-		double y;
-		float xoffset;
-		float yoffset;
-		PyObject* color = PyTuple_New(4);
-		PyTuple_SetItem(color, 0, PyLong_FromLong(-255));
-		PyTuple_SetItem(color, 1, PyLong_FromLong(0));
-		PyTuple_SetItem(color, 2, PyLong_FromLong(0));
-		PyTuple_SetItem(color, 3, PyLong_FromLong(0));
-		int clamped = true;
-		const char* tag = "";
-
-		if (!(mvApp::GetApp()->getParsers())["add_annotation"].parse(args, kwargs, __FUNCTION__,
-			&plot, &text, &x, &y, &xoffset, &yoffset, &color, &clamped, &tag))
-			return GetPyNone();
-
-		auto aplot = mvApp::GetApp()->getItemRegistry().getItem(plot);
-
-		if (aplot == nullptr)
-		{
-			std::string message = plot;
-			ThrowPythonException(message + " plot does not exist.");
-			return GetPyNone();
-		}
-
-		if (aplot->getType() != mvAppItemType::mvPlot)
-		{
-			std::string message = plot;
-			ThrowPythonException(message + " is not a plot.");
-			return GetPyNone();
-		}
-
-		mvPlot* graph = static_cast<mvPlot*>(aplot.get());
-
-		graph->updateAnnotation(tag, x, y, xoffset, yoffset, ToColor(color), text, clamped);
-
-		return GetPyNone();
-	}
-
-	PyObject* mvPlot::delete_annotation(PyObject* self, PyObject* args, PyObject* kwargs)
-	{
-		const char* plot;
-		const char* name;
-
-		if (!(mvApp::GetApp()->getParsers())["delete_annotation"].parse(args, kwargs, __FUNCTION__,
-			&plot, &name))
-			return GetPyNone();
-
-		auto aplot = mvApp::GetApp()->getItemRegistry().getItem(plot);
-
-		if (aplot == nullptr)
-		{
-			std::string message = plot;
-			ThrowPythonException(message + " plot does not exist.");
-			return GetPyNone();
-		}
-
-		if (aplot->getType() != mvAppItemType::mvPlot)
-		{
-			std::string message = plot;
-			ThrowPythonException(message + " is not a plot.");
-			return GetPyNone();
-		}
-
-		mvPlot* graph = static_cast<mvPlot*>(aplot.get());
-
-		graph->deleteAnnotation(name);
-
-		return GetPyNone();
 	}
 
 	PyObject* mvPlot::clear_plot(PyObject* self, PyObject* args, PyObject* kwargs)

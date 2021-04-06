@@ -1,5 +1,6 @@
 #include "mvWindowAppItem.h"
 #include "mvInput.h"
+#include "mvViewport.h"
 #include "mvItemRegistry.h"
 #include "mvImGuiThemeScope.h"
 #include "mvFontScope.h"
@@ -159,7 +160,7 @@ namespace Marvel {
 			ImGui::SetNextWindowBgAlpha(1.0f);
 			ImGui::PushStyleVar(ImGuiStyleVar_WindowRounding, 0.0f); // to prevent main window corners from showing
 			ImGui::SetNextWindowPos(ImVec2(0.0f, 0.0f));
-			ImGui::SetNextWindowSize(ImVec2((float)mvApp::GetApp()->getClientWidth(), (float)mvApp::GetApp()->getClientHeight()));
+			ImGui::SetNextWindowSize(ImVec2((float)mvApp::GetApp()->getViewport()->getClientWidth(), (float)mvApp::GetApp()->getViewport()->getClientHeight()));
 		}
 
 		else if (m_dirty_pos)
