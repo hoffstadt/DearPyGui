@@ -17,7 +17,7 @@ set(MARVEL_SOURCES
 	"$<$<PLATFORM_ID:Windows>:src/platform/Windows/mvWindowsViewport.cpp>"
 	"$<$<PLATFORM_ID:Windows>:src/platform/Windows/mvUtilities.cpp>"
 
-	"$<$<PLATFORM_ID:Darwin>:src/platform/Apple/mvAppleWindow.mm>"
+	"$<$<PLATFORM_ID:Darwin>:src/platform/Apple/mvAppleViewport.mm>"
 	"$<$<PLATFORM_ID:Darwin>:src/platform/Apple/mvAppleUtilities.mm>"
 
 	"$<$<PLATFORM_ID:Linux>:src/platform/Linux/mvUtilities.cpp>"

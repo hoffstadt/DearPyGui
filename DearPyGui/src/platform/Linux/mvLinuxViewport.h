@@ -16,10 +16,9 @@ namespace Marvel {
 
 		void show(bool minimized, bool maximized) override;
 
-		void prerender  () override;
-		void postrender () override;
+		void prerender  ();
+		void postrender ();
 		void renderFrame() override;
-		void cleanup    () override;
 		void run        () override;
         void maximize   () override;
         void minimize   () override;

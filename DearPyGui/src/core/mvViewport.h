@@ -59,17 +59,11 @@ namespace Marvel {
 		virtual void show       (bool minimized, bool maximized) {}
 		virtual void run        () {}
 		virtual void setup      () {}
-		virtual void prerender  () {}
-		virtual void render     () {}
 		virtual void renderFrame() {}
-		virtual void postrender () {}
-		virtual void cleanup    () {}
-		virtual void setWindowText(const std::string& name) {}
 
 		virtual void maximize() {}
 		virtual void minimize() {}
 		virtual void restore() {}
-		virtual void handleModes() {}
 		
 		void stop() { m_running = false; }
 

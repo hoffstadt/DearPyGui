@@ -1,6 +1,6 @@
 #pragma once
 
-#include "core/mvWindow.h"
+#include "mvViewport.h"
 #import <Metal/Metal.h>
 #import <QuartzCore/QuartzCore.h>
 
@@ -8,19 +8,20 @@ struct GLFWwindow;
 
 namespace Marvel {
 
-    class mvAppleWindow : public mvWindow
+    class mvAppleViewport : public mvViewport
     {
 
     public:
 
-        mvAppleWindow(unsigned width, unsigned height, bool error = false);
-        ~mvAppleWindow();
+        mvAppleViewport(unsigned width, unsigned height, bool error = false);
+        ~mvAppleViewport();
 
+        void show(bool minimized, bool maximized) override;
         void run        () override {render();}
-        void render     () override;
         void renderFrame() override;
-        void cleanup    () override;
-        void setWindowText(const std::string& name) override;
+        void maximize() override;
+        void minimize() override;
+        void restore() override;
 
         static id<MTLDevice> GetDevice() { return device; }
 

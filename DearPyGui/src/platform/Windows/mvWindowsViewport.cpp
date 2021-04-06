@@ -38,11 +38,6 @@ namespace Marvel {
 		::UnregisterClass(m_wc.lpszClassName, m_wc.hInstance);
 	}
 
-	void mvWindowsViewport::setWindowText(const std::string& name)
-	{
-		SetWindowTextA(m_hwnd, name.c_str());
-	}
-
 	void mvWindowsViewport::maximize()
 	{
 		ShowWindow(m_hwnd, SW_MAXIMIZE);
@@ -232,18 +227,6 @@ namespace Marvel {
 		else {
 			presentFlags = 0;
 		}
-	}
-
-	void mvWindowsViewport::cleanup()
-	{
-		// Cleanup
-		ImGui_ImplDX11_Shutdown();
-		ImGui_ImplWin32_Shutdown();
-		ImGui::DestroyContext();
-
-		CleanupDeviceD3D();
-		::DestroyWindow(m_hwnd);
-		::UnregisterClass(m_wc.lpszClassName, m_wc.hInstance);
 	}
 
 	bool mvWindowsViewport::CreateDeviceD3D(HWND hWnd)

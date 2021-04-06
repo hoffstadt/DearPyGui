@@ -21,14 +21,12 @@ namespace Marvel {
 
 		void show       (bool minimized, bool maximized) override;
 		void setup      () override;
-		void prerender  () override;
-		void postrender () override;
+		void prerender  ();
+		void postrender ();
 		void renderFrame() override;
-		void cleanup    () override;
 		void maximize   () override;
 		void minimize   () override;
-		void handleModes() override;
-		void setWindowText(const std::string& name) override;
+		void handleModes();
 
 	private:
 

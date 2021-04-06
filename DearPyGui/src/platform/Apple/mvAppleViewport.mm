@@ -1,4 +1,4 @@
-#include "mvAppleWindow.h"
+#include "mvAppleViewport.h"
 #include <implot.h>
 #include "imnodes.h"
 #include "mvTextureStorage.h"
@@ -19,9 +19,9 @@ namespace Marvel {
 
     id <MTLDevice> mvAppleWindow::device;
 
-    mvWindow* mvWindow::CreatemvWindow(unsigned width, unsigned height, bool error)
+    mvWindow* mvAppleViewport::CreateViewport(unsigned width, unsigned height, bool error)
 	{
-		return new mvAppleWindow(width, height, error);
+		return new mvAppleViewport(width, height, error);
 	}
 
     static void window_close_callback(GLFWwindow* window)
@@ -45,8 +45,26 @@ namespace Marvel {
         fprintf(stderr, "Glfw Error %d: %s\n", error, description);
     }
 
-    mvAppleWindow::mvAppleWindow(unsigned width, unsigned height, bool error)
-        : mvWindow(width, height, error)
+    mvAppleViewport::mvAppleViewport(unsigned width, unsigned height, bool error)
+        : mvViewport(width, height, error)
+    {
+    }
+
+    mvAppleViewport::~mvAppleViewport()
+    {
+        // Cleanup
+        ImGui_ImplMetal_Shutdown();
+        ImGui_ImplGlfw_Shutdown();
+        imnodes::Shutdown();
+        ImPlot::DestroyContext();
+        ImGui::DestroyContext();
+
+        glfwDestroyWindow(m_window);
+        glfwTerminate();
+
+    }
+
+    void mvAppleViewport::show(bool minimized, bool maximized)
     {
         // Setup Dear ImGui binding
         IMGUI_CHECKVERSION();
@@ -73,14 +91,25 @@ namespace Marvel {
         glfwSetErrorCallback(glfw_error_callback);
         glfwInit();
 
-        if (!mvApp::GetApp()->getResizable())
+        if (!m_resizable)
             glfwWindowHint(GLFW_RESIZABLE, GLFW_FALSE);
+        if(m_alwaysOnTop)
+            glfwWindowHint(GLFW_FLOATING, GLFW_TRUE);
+        if(maximized)
+            glfwWindowHint(GLFW_MAXIMIZED, GLFW_TRUE);
+        else if(minimized)
+            glfwWindowHint(GLFW_AUTO_ICONIFY, GLFW_TRUE);
+        if(!m_caption)
+            glfwWindowHint(GLFW_DECORATED, GLFW_FALSE);
+
 
         // Create window with graphics context
         glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
         glfwWindowHint(GLFW_COCOA_RETINA_FRAMEBUFFER, GLFW_FALSE);
         m_window = glfwCreateWindow((int)width, (int)height, mvApp::GetApp()->m_title.c_str(), nullptr, nullptr);
         glfwSetWindowPos(m_window, mvApp::GetApp()->m_mainXPos, mvApp::GetApp()->m_mainYPos);
+        glfwSetWindowSizeLimits(m_window, (int)m_minwidth, (int)m_minheight, (int)m_maxwidth, (int)m_maxheight);
+
 
         mvEventBus::Publish(mvEVT_CATEGORY_VIEWPORT, mvEVT_VIEWPORT_RESIZE, {
             CreateEventArgument("actual_width", (int)width),
@@ -110,28 +139,46 @@ namespace Marvel {
         glfwSetWindowCloseCallback(m_window, window_close_callback);
     }
 
-    mvAppleWindow::~mvAppleWindow()
+    void mvAppleViewport::maximize()
+	{
+        glfwMaximizeWindow(m_window);
+	}
+
+	void mvAppleViewport::minimize()
+	{
+        glfwIconifyWindow(m_window);
+	}
+
+    void mvAppleViewport::restore()
     {
-        // Cleanup
-        ImGui_ImplMetal_Shutdown();
-        ImGui_ImplGlfw_Shutdown();
-        imnodes::Shutdown();
-        ImPlot::DestroyContext();
-        ImGui::DestroyContext();
-
-        glfwDestroyWindow(m_window);
-        glfwTerminate();
-
+        glfwRestoreWindow(m_window);
     }
 
-    void mvAppleWindow::setWindowText(const std::string& name)
-    {
-        glfwSetWindowTitle(m_window, name.c_str());
-    }
-
-    void mvAppleWindow::renderFrame()
+    void mvAppleViewport::renderFrame()
     {
         m_running = !glfwWindowShouldClose(m_window);
+
+        if(m_posDirty)
+        {
+            glfwSetWindowPos(m_window, m_xpos, m_ypos);
+            m_posDirty = false;
+        }
+
+        if(m_sizeDirty)
+        {
+            glfwSetWindowSizeLimits(m_window, (int)m_minwidth, (int)m_minheight, (int)m_maxwidth, (int)m_maxheight);
+            glfwSetWindowSize(m_window, m_actualWidth, m_actualHeight);
+            m_sizeDirty = false;
+        }
+
+        if(m_modesDirty)
+        {
+            glfwSetWindowTitle(m_window, m_title.c_str());
+            glfwSetWindowAttrib(m_window, GLFW_RESIZABLE, m_resizable ? GLFW_TRUE : GLFW_FALSE);
+            glfwSetWindowAttrib(m_window, GLFW_DECORATED, m_caption ? GLFW_TRUE : GLFW_FALSE);
+            glfwSetWindowAttrib(m_window, GLFW_FLOATING, m_alwaysOnTop ? GLFW_TRUE : GLFW_FALSE);
+            m_modesDirty = false;
+        }
 
         if(glfwGetWindowAttrib(m_window, GLFW_ICONIFIED))
         {
@@ -147,7 +194,7 @@ namespace Marvel {
             // Generally you may always pass all inputs to dear imgui, and hide them from your application based on those two flags.
             glfwPollEvents();
 
-            //glfwSwapInterval(mvApp::GetApp()->getVSync() ? 1 : 0); // Enable vsync
+            glfwSwapInterval(m_vsync ? 1 : 0); // Enable vsync
 
             m_layer.displaySyncEnabled = mvApp::GetApp()->getVSync();
 
@@ -159,14 +206,6 @@ namespace Marvel {
 
             m_width = (unsigned)width;
             m_height = (unsigned)height;
-
-
-/*            mvEventBus::Publish(mvEVT_CATEGORY_VIEWPORT, mvEVT_VIEWPORT_RESIZE, {
-            CreateEventArgument("actual_width", (int)m_width),
-            CreateEventArgument("actual_height", (int)m_height),
-            CreateEventArgument("client_width", width),
-            CreateEventArgument("client_height", height)
-                    });*/
 
             id <MTLCommandBuffer> commandBuffer = [m_commandQueue commandBuffer];
             m_renderPassDescriptor.colorAttachments[0].clearColor = MTLClearColorMake(m_clear_color[0],
@@ -213,21 +252,5 @@ namespace Marvel {
             [commandBuffer commit];
         }
 	}
-
-    void mvAppleWindow::render() {
-
-        while(m_running)
-            renderFrame();
-    }
-
-    void mvAppleWindow::cleanup() {
-        // Cleanup
-        ImGui_ImplMetal_Shutdown();
-        ImGui_ImplGlfw_Shutdown();
-        ImGui::DestroyContext();
-
-        glfwDestroyWindow(m_window);
-        glfwTerminate();
-    }
 
 }

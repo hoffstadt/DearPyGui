@@ -1,5 +1,5 @@
-#include "core/mvUtilities.h"
-#include "mvAppleWindow.h"
+#include "mvUtilities.h"
+#include "mvAppleViewport.h"
 
 #define STB_IMAGE_IMPLEMENTATION
 #include <stb_image.h>
