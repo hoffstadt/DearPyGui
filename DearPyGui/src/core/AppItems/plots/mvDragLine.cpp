@@ -50,7 +50,7 @@ namespace Marvel {
 		ScopedID id;
 		mvFontScope fscope(this);
 
-		static double dummy = *(float*)m_value.get();
+		static double dummy = 0.0;
 		dummy = *(float*)m_value.get();
 
 		if (m_vertical)
