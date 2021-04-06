@@ -148,6 +148,10 @@ namespace Marvel {
             glfwPollEvents();
 
             //glfwSwapInterval(mvApp::GetApp()->getVSync() ? 1 : 0); // Enable vsync
+		
+	    NSWindow *nswin = glfwGetCocoaWindow(m_window);
+            if(nswin.isVisible && (nswin.occlusionState & NSWindowOcclusionStateVisible) == 0)
+                usleep(16u);
 
             m_layer.displaySyncEnabled = mvApp::GetApp()->getVSync();
 
