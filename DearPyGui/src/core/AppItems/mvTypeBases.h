@@ -220,7 +220,7 @@ namespace Marvel {
 
 		mvRef<std::vector<std::vector<float>>> m_value;
 		std::vector<std::pair<float, float>>   m_maxMins;
-		bool                                   m_contributeToBounds = true;
+		bool                                   m_contributeToBounds = false;
 		ImPlotYAxis_                           m_axis = ImPlotYAxis_1;
 	};
 

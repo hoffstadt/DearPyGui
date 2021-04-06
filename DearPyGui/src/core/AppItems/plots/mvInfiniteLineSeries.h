@@ -15,7 +15,7 @@ namespace Marvel {
 	//-----------------------------------------------------------------------------
 	// mvVLineSeries
 	//-----------------------------------------------------------------------------
-	MV_REGISTER_WIDGET(mvVLineSeries, MV_ITEM_DESC_DEFAULT, StorageValueTypes::VectFloatVect, 1);
+	MV_REGISTER_WIDGET(mvVLineSeries, MV_ITEM_DESC_DEFAULT, StorageValueTypes::Series, 1);
 	class mvVLineSeries : public mvSeriesBase
 	{
 	public:
@@ -56,7 +56,7 @@ namespace Marvel {
 	//-----------------------------------------------------------------------------
 	// mvHLineSeries
 	//-----------------------------------------------------------------------------
-	MV_REGISTER_WIDGET(mvHLineSeries, MV_ITEM_DESC_DEFAULT, StorageValueTypes::VectFloatVect, 1);
+	MV_REGISTER_WIDGET(mvHLineSeries, MV_ITEM_DESC_DEFAULT, StorageValueTypes::Series, 1);
 	class mvHLineSeries : public mvSeriesBase
 	{
 	public:
