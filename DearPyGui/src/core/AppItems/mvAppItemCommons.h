@@ -61,6 +61,7 @@
 
 #include "custom/mvTimePicker.h"
 #include "custom/mvDatePicker.h"
+#include "custom/mvColorMapScale.h"
 
 #include "composite/mvDataGrid.h"
 #include "composite/mvLogger.h"

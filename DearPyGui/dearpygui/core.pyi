@@ -10,8 +10,8 @@ def add_about_window(name: str = ..., *, width: int = -1, height: int = -1, x_po
 	"""Creates an about window."""
 	...
 
-def add_area_series(plot: str, name: str, x: List[float], y: List[float], color: List[float], fill: List[float], *, weight: float = 1.0, update_bounds: bool = True, axis: int = 0) -> None:
-	"""Adds an area series to a plot."""
+def add_area_series(name: str = ..., *, x: List[float] = ..., y: List[float] = ..., fill: List[float] = (0, 0, 0, -1), label: str = '', source: str = '', parent: str = '', before: str = '', show: bool = True, axis: int = 0, contribute_to_bounds: bool = True) -> None:
+	"""Adds a drag point to a plot."""
 	...
 
 def add_bar_series(name: str = ..., *, x: List[float] = ..., y: List[float] = ..., weight: float = 1.0, horizontal: bool = False, label: str = '', source: str = '', parent: str = '', before: str = '', show: bool = True, axis: int = 0, contribute_to_bounds: bool = True) -> None:
@@ -22,8 +22,8 @@ def add_button(name: str = ..., *, small: bool = False, arrow: bool = False, dir
 	"""Adds a button."""
 	...
 
-def add_candle_series(plot: str, name: str, date: List[float], opens: List[float], highs: List[float], lows: List[float], closes: List[float], *, tooltip: bool = True, bull_color: List[float] = (0, 255, 113, 255), bear_color: List[float] = (218, 13, 79, 255), weight: float = 0.25, update_bounds: bool = True, axis: int = 0) -> None:
-	"""Adds a candle series to a plot."""
+def add_candle_series(name: str = ..., *, dates: List[float] = ..., opens: List[float] = ..., closes: List[float] = ..., lows: List[float] = ..., highs: List[float] = ..., tooltip: bool = True, bull_color: List[float] = (0, 255, 113, 255), bear_color: List[float] = (218, 13, 79, 255), weight: float = 0.25, label: str = '', source: str = '', parent: str = '', before: str = '', show: bool = True, axis: int = 0, contribute_to_bounds: bool = True) -> None:
+	"""Adds a drag point to a plot."""
 	...
 
 def add_checkbox(name: str = ..., *, default_value: int = False, callback: Callable = None, callback_data: Any = None, parent: str = '', before: str = '', source: str = '', label: str = '', show: bool = True, enabled: bool = True) -> None:
@@ -56,6 +56,10 @@ def add_color_picker3(name: str = ..., *, default_value: List[int] = (0, 0, 0, 2
 
 def add_color_picker4(name: str = ..., *, default_value: List[int] = (0, 0, 0, 255), callback: Callable = None, callback_data: Any = None, parent: str = '', before: str = '', source: str = '', width: int = 0, height: int = 0, label: str = '', show: bool = True, enabled: bool = True, no_alpha: bool = False, no_small_preview: bool = False, no_inputs: bool = False, no_tooltip: bool = False, no_label: bool = False, no_side_preview: bool = False, alpha_bar: bool = False, alpha_preview: bool = False, alpha_preview_half: bool = False, display_rgb: bool = False, display_hsv: bool = False, display_hex: bool = False, uint8: bool = False, floats: bool = False, picker_hue_bar: bool = False, picker_hue_wheel: bool = False, input_rgb: bool = False, input_hsv: bool = False) -> None:
 	"""Adds an rgba color picking widget. Click and draging the color square will copy the color to be applied on any other color widget. Right Click allows the style of the color picker to be changed"""
+	...
+
+def add_colormap_scale(name: str = ..., *, default_value: int = 0, min_scale: float = 0.0, max_scale: float = 1.0, parent: str = '', before: str = '', source: str = '', width: int = 0, height: int = 0, label: str = '', show: bool = True) -> None:
+	"""Adds drag for a single int value. CTRL+Click to directly modify the value."""
 	...
 
 def add_combo(name: str = ..., *, items: List[str] = (), default_value: str = '', callback: Callable = None, callback_data: Any = None, parent: str = '', before: str = '', source: str = '', enabled: bool = True, width: int = 0, label: str = '', show: bool = True, popup_align_left: bool = False, height_small: bool = False, height_regular: bool = False, height_large: bool = False, height_largest: bool = False, no_arrow_button: bool = False, no_preview: bool = False) -> None:
@@ -130,12 +134,12 @@ def add_group(name: str = ..., *, show: bool = True, parent: str = '', before: s
 	"""Creates a group that other widgets can belong to. The group allows item commands to be issued for all of its members.				Must be closed with the end command."""
 	...
 
-def add_heat_series(plot: str, name: str, values: List[float], rows: int, columns: int, scale_min: float, scale_max: float, *, format: str = '%0.1f', bounds_min: List[float] = (0.0, 0.0), bounds_max: List[float] = (1.0, 1.0), update_bounds: bool = True, axis: int = 0) -> None:
-	"""Adds a heat series to a plot."""
+def add_heat_series(name: str = ..., *, x: List[float] = ..., rows: int = 1, cols: int = 1, scale_min: float = 0.0, scale_max: float = 1.0, format: str = '%0.1f', bounds_min: List[float] = (0.0, 0.0), bounds_max: List[float] = (1.0, 1.0), label: str = '', source: str = '', parent: str = '', before: str = '', show: bool = True, contribute_to_bounds: bool = True) -> None:
+	"""Adds a drag point to a plot."""
 	...
 
-def add_hline_series(plot: str, name: str, x: List[float], *, color: List[float] = (0, 0, 0, -1), weight: float = 1.0, update_bounds: bool = True, axis: int = 0) -> None:
-	"""Adds a infinite horizontal line series to a plot."""
+def add_hline_series(name: str = ..., *, x: List[float] = ..., label: str = '', source: str = '', parent: str = '', before: str = '', show: bool = True, axis: int = 0, contribute_to_bounds: bool = True) -> None:
+	"""Adds a drag point to a plot."""
 	...
 
 def add_image(value: str, name: str = ..., *, tint_color: List[float] = (255, 255, 255, 255), border_color: List[float] = (0, 0, 0, 0), parent: str = '', before: str = '', source: str = '', width: int = 0, height: int = 0, uv_min: List[float] = (0.0, 0.0), uv_max: List[float] = (1.0, 1.0), show: bool = True) -> None:
@@ -146,8 +150,8 @@ def add_image_button(value: str, name: str = ..., *, callback: Callable = None, 
 	"""Adds an image button.uv_min and uv_max represent the normalized texture coordinates of the original image that will be shown.Using(0,0)->(1,1) texture coordinates will generally display the entire texture"""
 	...
 
-def add_image_series(plot: str, name: str, value: str, bounds_min: List[float], bounds_max: List[float], *, uv_min: List[float] = (0.0, 0.0), uv_max: List[float] = (1.0, 1.0), tint_color: List[int] = (255, 255, 255, 255), update_bounds: bool = True, axis: int = 0) -> None:
-	"""Adds a image series to a plot."""
+def add_image_series(name: str = ..., *, value: str = ..., bounds_min: List[float] = ..., bounds_max: List[float] = ..., uv_min: List[float] = (0.0, 0.0), uv_max: List[float] = (1.0, 1.0), tint_color: List[int] = (255, 255, 255, 255), label: str = '', parent: str = '', before: str = '', show: bool = True, contribute_to_bounds: bool = True) -> None:
+	"""Adds a drag point to a plot."""
 	...
 
 def add_indent(*, name: str = 'indent', offset: float = 0.0, parent: str = '', before: str = '', show: bool = True) -> None:
@@ -222,11 +226,11 @@ def add_node_link(node_editor: str, node_1: str, node_2: str) -> None:
 	"""Adds a node link between nodes."""
 	...
 
-def add_pie_series(plot: str, name: str, values: List[float], labels: List[str], x: float, y: float, radius: float, *, normalize: bool = False, angle: float = 90.0, format: str = '%0.2f', update_bounds: bool = True, axis: int = 0) -> None:
-	"""Adds a pie series to a plot."""
+def add_pie_series(name: str = ..., *, values: List[float] = ..., labels: List[str] = ..., x: float = ..., y: float = ..., radius: float = ..., normalize: bool = False, angle: float = 90.0, format: str = '%0.2f', label: str = '', parent: str = '', before: str = '', show: bool = True, axis: int = 0) -> None:
+	"""Adds a drag point to a plot."""
 	...
 
-def add_plot(name: str = ..., *, x_axis_name: str = '', y_axis_name: str = '', no_legend: bool = False, no_menus: bool = False, no_box_select: bool = False, no_mouse_pos: bool = False, no_highlight: bool = False, no_child: bool = False, query: bool = False, crosshairs: bool = False, anti_aliased: bool = False, equal_aspects: bool = False, yaxis2: bool = False, yaxis3: bool = False, xaxis_no_gridlines: bool = False, xaxis_no_tick_marks: bool = False, xaxis_no_tick_labels: bool = False, xaxis_log_scale: bool = False, xaxis_time: bool = False, xaxis_invert: bool = False, xaxis_lock_min: bool = False, xaxis_lock_max: bool = False, yaxis_no_gridlines: bool = False, yaxis_no_tick_marks: bool = False, yaxis_no_tick_labels: bool = False, yaxis_log_scale: bool = False, yaxis_invert: bool = False, yaxis_lock_min: bool = False, yaxis_lock_max: bool = False, y2axis_no_gridlines: bool = False, y2axis_no_tick_marks: bool = False, y2axis_no_tick_labels: bool = False, y2axis_log_scale: bool = False, y2axis_invert: bool = False, y2axis_lock_min: bool = False, y2axis_lock_max: bool = False, y3axis_no_gridlines: bool = False, y3axis_no_tick_marks: bool = False, y3axis_no_tick_labels: bool = False, y3axis_log_scale: bool = False, y3axis_invert: bool = False, y3axis_lock_min: bool = False, y3axis_lock_max: bool = False, parent: str = '', before: str = '', width: int = -1, height: int = -1, query_callback: Callable = None, show_color_scale: bool = False, scale_min: float = 0.0, scale_max: float = 1.0, scale_height: int = 100, label: str = '', show: bool = True, show_annotations: bool = True, show_drag_lines: bool = True, show_drag_points: bool = True) -> None:
+def add_plot(name: str = ..., *, x_axis_name: str = '', y_axis_name: str = '', no_legend: bool = False, no_menus: bool = False, no_box_select: bool = False, no_mouse_pos: bool = False, no_highlight: bool = False, no_child: bool = False, query: bool = False, crosshairs: bool = False, anti_aliased: bool = False, equal_aspects: bool = False, yaxis2: bool = False, yaxis3: bool = False, xaxis_no_gridlines: bool = False, xaxis_no_tick_marks: bool = False, xaxis_no_tick_labels: bool = False, xaxis_log_scale: bool = False, xaxis_time: bool = False, xaxis_invert: bool = False, xaxis_lock_min: bool = False, xaxis_lock_max: bool = False, yaxis_no_gridlines: bool = False, yaxis_no_tick_marks: bool = False, yaxis_no_tick_labels: bool = False, yaxis_log_scale: bool = False, yaxis_invert: bool = False, yaxis_lock_min: bool = False, yaxis_lock_max: bool = False, y2axis_no_gridlines: bool = False, y2axis_no_tick_marks: bool = False, y2axis_no_tick_labels: bool = False, y2axis_log_scale: bool = False, y2axis_invert: bool = False, y2axis_lock_min: bool = False, y2axis_lock_max: bool = False, y3axis_no_gridlines: bool = False, y3axis_no_tick_marks: bool = False, y3axis_no_tick_labels: bool = False, y3axis_log_scale: bool = False, y3axis_invert: bool = False, y3axis_lock_min: bool = False, y3axis_lock_max: bool = False, parent: str = '', before: str = '', width: int = -1, height: int = -1, query_callback: Callable = None, label: str = '', show: bool = True) -> None:
 	"""Adds a plot widget."""
 	...
 
@@ -262,8 +266,8 @@ def add_separator(*, name: str = 'separator', parent: str = '', before: str = ''
 	"""Adds a horizontal line."""
 	...
 
-def add_shade_series(plot: str, name: str, x: List[float], y1: List[float], *, y2: List[float] = ..., color: List[float] = (0, 0, 0, -1), fill: List[float] = (0, 0, 0, -1), weight: float = 1.0, update_bounds: bool = True, axis: int = 0) -> None:
-	"""Adds a shade series to a plot."""
+def add_shade_series(name: str = ..., *, x: List[float] = ..., y1: List[float] = ..., y2: List[float] = ..., label: str = '', source: str = '', parent: str = '', before: str = '', show: bool = True, axis: int = 0, contribute_to_bounds: bool = True) -> None:
+	"""Adds a drag point to a plot."""
 	...
 
 def add_simple_plot(name: str = ..., *, value: List[float] = (), overlay: str = '', minscale: float = 0.0, maxscale: float = 0.0, histogram: bool = False, parent: str = '', before: str = '', width: int = 0, height: int = 0, source: str = '', label: str = '', show: bool = True) -> None:
@@ -330,8 +334,8 @@ def add_text(name: str = ..., *, wrap: int = -1, color: List[float] = (-1, 0, 0,
 	"""Adds text"""
 	...
 
-def add_text_point(plot: str, name: str, x: float, y: float, *, vertical: bool = False, xoffset: int = 0.0, yoffset: int = 0.0, update_bounds: bool = True, axis: int = 0) -> None:
-	"""Adds a point with text to a plot."""
+def add_text_point(name: str = ..., *, x: float = ..., y: float = ..., vertical: bool = False, x_offset: int = 0.0, y_offset: int = 0.0, label: str = '', source: str = '', parent: str = '', before: str = '', show: bool = True, axis: int = 0, contribute_to_bounds: bool = True) -> None:
+	"""Adds a drag point to a plot."""
 	...
 
 def add_texture(name: str, data: List[int], width: int, height: int, *, format: int = 0) -> None:
@@ -350,8 +354,8 @@ def add_tree_node(name: str = ..., *, label: str = '', show: bool = True, parent
 	"""Adds a tree node to add items to. Must be closed with the end command."""
 	...
 
-def add_vline_series(plot: str, name: str, x: List[float], *, color: List[float] = (0, 0, 0, -1), weight: float = 1.0, update_bounds: bool = True, axis: int = 0) -> None:
-	"""Adds a infinite vertical line series to a plot."""
+def add_vline_series(name: str = ..., *, x: List[float] = ..., label: str = '', source: str = '', parent: str = '', before: str = '', show: bool = True, axis: int = 0, contribute_to_bounds: bool = True) -> None:
+	"""Adds a drag point to a plot."""
 	...
 
 def add_window(name: str = ..., *, width: int = -1, height: int = -1, x_pos: int = 200, y_pos: int = 200, autosize: bool = False, no_resize: bool = False, no_title_bar: bool = False, no_move: bool = False, no_scrollbar: bool = False, no_collapse: bool = False, horizontal_scrollbar: bool = False, no_focus_on_appearing: bool = False, no_bring_to_front_on_focus: bool = False, menubar: bool = False, no_close: bool = False, no_background: bool = False, label: str = '', show: bool = True, collapsed: bool = False, on_close: Callable = None, min_size: List[int] = [32, 32], max_size: List[int] = [30000, 30000]) -> None:
@@ -368,10 +372,6 @@ def clear_data_grid(data_grid: str) -> None:
 
 def clear_log(*, logger: str = '') -> None:
 	"""Clears the logger."""
-	...
-
-def clear_plot(plot: str) -> None:
-	"""Clears a plot."""
 	...
 
 def clear_selected_links(node_editor: str) -> None:
@@ -416,10 +416,6 @@ def delete_item(item: str, *, children_only: bool = False) -> None:
 
 def delete_node_link(node_editor: str, node_1: str, node_2: str) -> None:
 	"""Deletes a node link if it exist."""
-	...
-
-def delete_series(plot: str, series: str) -> None:
-	"""Deletes a series if it exists."""
 	...
 
 def does_item_exist(item: str) -> bool:

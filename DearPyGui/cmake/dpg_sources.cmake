@@ -92,6 +92,7 @@ set(MARVEL_SOURCES
 	"src/core/AppItems/custom/mvDatePicker.cpp"
 	"src/core/AppItems/custom/mvTimePicker.cpp"
 	"src/core/AppItems/custom/mvTextEditor.cpp"
+	"src/core/AppItems/custom/mvColorMapScale.cpp"
 
 	"src/core/AppItems/drawing/mvDrawing.cpp"
 	"src/core/AppItems/drawing/mvDrawLine.cpp"

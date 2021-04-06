@@ -88,15 +88,8 @@ namespace Marvel {
 			{mvPythonDataType::Integer, "height", "", "-1"},
 			{mvPythonDataType::Callable , "query_callback", "Callback ran when plot is queried. Should be of the form 'def Callback(sender, data)'\n Data is (x_min, x_max, y_min, y_max).", "None"},
 
-			{mvPythonDataType::Bool, "show_color_scale", "", "False"},
-			{mvPythonDataType::Float, "scale_min", "", "0.0"},
-			{mvPythonDataType::Float, "scale_max", "", "1.0"},
-			{mvPythonDataType::Integer, "scale_height", "", "100"},
 			{mvPythonDataType::String, "label", "", "''"},
 			{mvPythonDataType::Bool, "show", "Attempt to render", "True"},
-			{mvPythonDataType::Bool, "show_annotations", "", "True"},
-			{mvPythonDataType::Bool, "show_drag_lines", "", "True"},
-			{mvPythonDataType::Bool, "show_drag_points", "", "True"}
 
 		}, "Adds a plot widget.", "None", "Plotting") });
 
@@ -281,11 +274,6 @@ namespace Marvel {
 
 	void mvPlot::draw(ImDrawList* drawlist, float x, float y)
 	{
-		if (m_colormapscale)
-		{
-			ImPlot::ColormapScale(std::string(m_name + "##colorscale").c_str(), m_scale_min, m_scale_max, ImVec2(0, m_scale_height));
-			ImGui::SameLine();
-		}
 
 		ImGui::PushID(m_colormap);
 
@@ -443,17 +431,8 @@ namespace Marvel {
 		if (dict == nullptr)
 			return;
 
-		 
-
 		if (PyObject* item = PyDict_GetItemString(dict, "x_axis_name"))m_xaxisName = ToString(item);
 		if (PyObject* item = PyDict_GetItemString(dict, "y_axis_name")) m_yaxisName = ToString(item);
-		if (PyObject* item = PyDict_GetItemString(dict, "show_color_scale")) m_colormapscale = ToBool(item);
-		if (PyObject* item = PyDict_GetItemString(dict, "show_annotations")) m_showAnnotations = ToBool(item);
-		if (PyObject* item = PyDict_GetItemString(dict, "show_drag_lines")) m_showDragLines = ToBool(item);
-		if (PyObject* item = PyDict_GetItemString(dict, "show_drag_points")) m_showDragPoints = ToBool(item);
-		if (PyObject* item = PyDict_GetItemString(dict, "scale_min")) m_scale_min = ToFloat(item);
-		if (PyObject* item = PyDict_GetItemString(dict, "scale_max")) m_scale_max = ToFloat(item);
-		if (PyObject* item = PyDict_GetItemString(dict, "scale_height")) m_scale_height = ToInt(item);
 
 		// helper for bit flipping
 		auto flagop = [dict](const char* keyword, int flag, int& flags)
@@ -519,17 +498,8 @@ namespace Marvel {
 		if (dict == nullptr)
 			return;
 
-		 
-
 		PyDict_SetItemString(dict, "x_axis_name", ToPyString(m_xaxisName));
 		PyDict_SetItemString(dict, "y_axis_name", ToPyString(m_yaxisName));
-		PyDict_SetItemString(dict, "show_color_scale", ToPyBool(m_colormapscale));
-		PyDict_SetItemString(dict, "show_annotations", ToPyBool(m_showAnnotations));
-		PyDict_SetItemString(dict, "show_drag_lines", ToPyBool(m_showDragLines));
-		PyDict_SetItemString(dict, "show_drag_points", ToPyBool(m_showDragPoints));
-		PyDict_SetItemString(dict, "scale_min", ToPyFloat(m_scale_min));
-		PyDict_SetItemString(dict, "scale_max", ToPyFloat(m_scale_max));
-		PyDict_SetItemString(dict, "scale_height", ToPyInt(m_scale_height));
 
 		// helper to check and set bit
 		auto checkbitset = [dict](const char* keyword, int flag, const int& flags)
@@ -654,16 +624,8 @@ namespace Marvel {
 		int height = -1;
 		PyObject* query_callback = nullptr;
 
-		int show_color_scale = false;
-		float scale_min = 0.0f;
-		float scale_max = 1.0f;
-		int scale_height = 100;
-
 		const char* label = "";
 		int show = true;
-		int show_annotations = true;
-		int show_drag_lines = true;
-		int show_drag_points = true;
 
 		if (!(mvApp::GetApp()->getParsers())["add_plot"].parse(args, kwargs, __FUNCTION__, &name, &xAxisName, &yAxisName,
 			&no_legend, &no_menus, &no_box_select, &no_mouse_pos, &no_highlight, &no_child, &query, &crosshairs, 
@@ -698,8 +660,8 @@ namespace Marvel {
 			&y3axis_invert,
 			&y3axis_lock_min,
 			&y3axis_lock_max,
-			&parent, &before, &width, &height, &query_callback, &show_color_scale, &scale_min, &scale_max,
-			&scale_height, &label, &show, &show_annotations, &show_drag_lines, &show_drag_points))
+			&parent, &before, &width, &height, &query_callback,
+			&label, &show))
 			return GetPyNone();
 
 		if (query_callback)
