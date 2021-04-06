@@ -264,8 +264,7 @@ namespace Marvel {
         mvAppItemState                m_state;
 
         mvAppItem*                    m_parentPtr = nullptr;
-        std::vector<mvRef<mvAppItem>> m_children0;
-        std::vector<mvRef<mvAppItem>> m_children1;
+        std::vector<mvRef<mvAppItem>> m_children[2] = { {}, {} };
 
         std::string                   m_label; // internal label
 

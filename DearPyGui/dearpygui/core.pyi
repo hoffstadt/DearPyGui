@@ -518,7 +518,7 @@ def get_item_callback_data(item: str) -> Any:
 	"""Returns an item' callback data"""
 	...
 
-def get_item_children1(item: str) -> List[str]:
+def get_item_children[1](item: str) -> List[str]:
 	"""Returns a list of an item's children."""
 	...
 

@@ -101,7 +101,7 @@ namespace Marvel {
 					ImGui::PopID();
 				}			
 
-				for (auto child : item->m_children1)
+				for (auto child : item->m_children[1])
 					renderItem(child.get());
 
 				ImGui::TreePop();
