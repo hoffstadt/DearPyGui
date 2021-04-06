@@ -49,7 +49,7 @@ namespace Marvel {
 		{
 			//we do this so that the children dont get the theme
 			scope.cleanup();
-			for (auto& item : m_children1)
+			for (auto& item : m_children[1])
 			{
 				// skip item if it's not shown
 				if (!item->m_show)

@@ -207,7 +207,7 @@ namespace Marvel {
 
 		if (child == nullptr)
 		{
-			mvThrowPythonError(1002, name + " not moved because it was not found");
+			mvThrowPythonError(1000, name + " not moved because it was not found");
 			MV_ITEM_REGISTRY_WARN("Could not move item, it was not found");
 		}
 
@@ -235,7 +235,7 @@ namespace Marvel {
 
 		if (!movedItem)
 		{
-			mvThrowPythonError(1002, name + " not moved because it was not found");
+			mvThrowPythonError(1000, name + " not moved because it was not found");
 			MV_ITEM_REGISTRY_WARN("Could not move item, it was not found");
 		}
 
@@ -260,7 +260,7 @@ namespace Marvel {
 
 		if (!movedItem)
 		{
-			mvThrowPythonError(1002, name + " not moved because it was not found");
+			mvThrowPythonError(1000, name + " not moved because it was not found");
 			MV_ITEM_REGISTRY_WARN("Could not move item, it was not found");
 		}
 
@@ -362,7 +362,7 @@ namespace Marvel {
 	{
 		if (m_parents.empty())
 		{
-			mvThrowPythonError(1005, "No parent to pop.");
+			mvThrowPythonError(1000, "No parent to pop.");
 			MV_ITEM_REGISTRY_WARN("No parent to pop.");
 			assert(false);
 			return nullptr;
@@ -581,7 +581,7 @@ namespace Marvel {
 		if (item)
 			return item->m_parentPtr->m_name;
 		
-		mvThrowPythonError(1009, name + ": item not found");
+		mvThrowPythonError(1000, name + ": item not found");
 		assert(false && "Item not found.");
 
 		return "";
@@ -596,8 +596,8 @@ namespace Marvel {
 
 		if (item)
 		{
-			auto children0 = item->m_children0;
-			auto children1 = item->m_children1;
+			auto children0 = item->m_children[0];
+			auto children1 = item->m_children[1];
 			for (auto child : children0)
 				childList.emplace_back(child->m_name);
 			for (auto child : children1)
@@ -605,7 +605,7 @@ namespace Marvel {
 		}
 		else
 		{
-			mvThrowPythonError(1010, name + ": item not found");
+			mvThrowPythonError(1000, name + ": item not found");
 			assert(false && "Item not found.");
 		}
 
@@ -620,8 +620,8 @@ namespace Marvel {
 		// to help recursively retrieve children
 		std::function<void(mvRef<mvAppItem>)> ChildRetriever;
 		ChildRetriever = [&childList, &ChildRetriever](mvRef<mvAppItem> item) {
-			auto children0 = item->m_children0;
-			auto children1 = item->m_children1;
+			auto children0 = item->m_children[0];
+			auto children1 = item->m_children[1];
 			for (auto child : children0)
 			{
 				childList.emplace_back(child->m_name);
@@ -678,7 +678,7 @@ namespace Marvel {
 		}
 		else
 		{
-			mvThrowPythonError(1011, "Window does not exists.");
+			mvThrowPythonError(1000, "Window does not exists.");
 			assert(false);
 		}
 

@@ -60,7 +60,7 @@ namespace Marvel {
 
 		ImGui::PushClipRect({ m_startx, m_starty }, { m_startx + (float)m_width, m_starty + (float)m_height }, true);
 
-		for (auto& item : m_children0)
+		for (auto& item : m_children[0])
 		{
 			// skip item if it's not shown
 			if (!item->m_show)
