@@ -51,7 +51,7 @@ namespace Marvel {
         friend class mvViewport;
         friend class mvWindowsViewport;
         friend class mvLinuxViewport;
-        friend class mvAppleWindow;
+        friend class mvAppleViewport;
 
     public:
 

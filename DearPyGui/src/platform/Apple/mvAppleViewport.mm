@@ -1,4 +1,5 @@
 #include "mvAppleViewport.h"
+#include "mvAppLog.h"
 #include <implot.h>
 #include "imnodes.h"
 #include "mvTextureStorage.h"
@@ -17,9 +18,9 @@
 
 namespace Marvel {
 
-    id <MTLDevice> mvAppleWindow::device;
+    id <MTLDevice> mvAppleViewport::device;
 
-    mvWindow* mvAppleViewport::CreateViewport(unsigned width, unsigned height, bool error)
+    mvViewport* mvViewport::CreateViewport(unsigned width, unsigned height, bool error)
 	{
 		return new mvAppleViewport(width, height, error);
 	}
@@ -66,26 +67,6 @@ namespace Marvel {
 
     void mvAppleViewport::show(bool minimized, bool maximized)
     {
-        // Setup Dear ImGui binding
-        IMGUI_CHECKVERSION();
-        ImGui::CreateContext();
-        ImPlot::CreateContext();
-        imnodes::Initialize();
-        ImGuiIO &io = ImGui::GetIO();
-        io.ConfigWindowsMoveFromTitleBarOnly = true;
-        io.IniFilename = nullptr;
-        (void) io;
-        //io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;  // Enable Keyboard Controls
-        //io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;   // Enable Gamepad Controls
-
-        if(mvApp::GetApp()->m_docking)
-			io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
-		
-		if (mvApp::GetApp()->m_dockingShiftOnly)
-			io.ConfigDockingWithShift = true;
-
-        // Setup style
-        ImGui::StyleColorsDark();
 
         // Setup window
         glfwSetErrorCallback(glfw_error_callback);
@@ -101,25 +82,47 @@ namespace Marvel {
             glfwWindowHint(GLFW_AUTO_ICONIFY, GLFW_TRUE);
         if(!m_caption)
             glfwWindowHint(GLFW_DECORATED, GLFW_FALSE);
+        glfwWindowHint(GLFW_COCOA_GRAPHICS_SWITCHING, GLFW_FALSE);
 
 
         // Create window with graphics context
         glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
         glfwWindowHint(GLFW_COCOA_RETINA_FRAMEBUFFER, GLFW_FALSE);
-        m_window = glfwCreateWindow((int)width, (int)height, mvApp::GetApp()->m_title.c_str(), nullptr, nullptr);
-        glfwSetWindowPos(m_window, mvApp::GetApp()->m_mainXPos, mvApp::GetApp()->m_mainYPos);
+        m_window = glfwCreateWindow((int)m_actualWidth, (int)m_actualHeight, m_title.c_str(), nullptr, nullptr);
+        glfwSetWindowPos(m_window, m_xpos, m_ypos);
         glfwSetWindowSizeLimits(m_window, (int)m_minwidth, (int)m_minheight, (int)m_maxwidth, (int)m_maxheight);
 
 
         mvEventBus::Publish(mvEVT_CATEGORY_VIEWPORT, mvEVT_VIEWPORT_RESIZE, {
-            CreateEventArgument("actual_width", (int)width),
-            CreateEventArgument("actual_height", (int)height),
-            CreateEventArgument("client_width", (int)width),
-            CreateEventArgument("client_height", (int)height)
+            CreateEventArgument("actual_width", (int)m_actualWidth),
+            CreateEventArgument("actual_height", (int)m_actualHeight),
+            CreateEventArgument("client_width", (int)m_actualWidth),
+            CreateEventArgument("client_height", (int)m_actualHeight)
                     });
 
         device = MTLCreateSystemDefaultDevice();;
         m_commandQueue = [device newCommandQueue];
+
+        // Setup Dear ImGui binding
+        IMGUI_CHECKVERSION();
+        ImGui::CreateContext();
+        ImPlot::CreateContext();
+        imnodes::Initialize();
+        ImGuiIO &io = ImGui::GetIO();
+        io.ConfigWindowsMoveFromTitleBarOnly = true;
+        io.IniFilename = nullptr;
+        (void) io;
+        //io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;  // Enable Keyboard Controls
+        //io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;   // Enable Gamepad Controls
+
+        if(mvApp::GetApp()->m_docking)
+            io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
+
+        if (mvApp::GetApp()->m_dockingShiftOnly)
+            io.ConfigDockingWithShift = true;
+
+        // Setup style
+        ImGui::StyleColorsDark();
 
         ImGui_ImplGlfw_InitForOpenGL(m_window, true);
         ImGui_ImplMetal_Init(device);
@@ -194,9 +197,19 @@ namespace Marvel {
             // Generally you may always pass all inputs to dear imgui, and hide them from your application based on those two flags.
             glfwPollEvents();
 
-            glfwSwapInterval(m_vsync ? 1 : 0); // Enable vsync
+            if (mvApp::GetApp()->getFontManager().isInvalid())
+            {
+                mvApp::GetApp()->getFontManager().rebuildAtlas();
+                ImGui_ImplMetal_DestroyFontsTexture();
+                mvApp::GetApp()->getFontManager().updateDefaultFont();
+                ImGui_ImplMetal_CreateFontsTexture(device);
+            }
 
-            m_layer.displaySyncEnabled = mvApp::GetApp()->getVSync();
+            NSWindow *nswin = glfwGetCocoaWindow(m_window);
+            if(nswin.isVisible && (nswin.occlusionState & NSWindowOcclusionStateVisible) == 0)
+                sleep(1);
+
+            m_layer.displaySyncEnabled = m_vsync;
 
             int width;
             int height;
@@ -217,13 +230,6 @@ namespace Marvel {
             m_renderPassDescriptor.colorAttachments[0].storeAction = MTLStoreActionStore;
             id <MTLRenderCommandEncoder> m_renderEncoder = [commandBuffer renderCommandEncoderWithDescriptor:m_renderPassDescriptor];
             [m_renderEncoder pushDebugGroup:@"ImGui demo"];
-
-            if (mvApp::GetApp()->getFontManager().isInvalid())
-            {
-			    mvApp::GetApp()->getFontManager().rebuildAtlas();
-                ImGui_ImplMetal_DestroyDeviceObjects();
-                mvApp::GetApp()->getFontManager().updateDefaultFont();
-            }
 
             // Start the Dear ImGui frame
             ImGui_ImplMetal_NewFrame(m_renderPassDescriptor);
@@ -250,6 +256,7 @@ namespace Marvel {
 
             [commandBuffer presentDrawable:drawable];
             [commandBuffer commit];
+
         }
 	}
 

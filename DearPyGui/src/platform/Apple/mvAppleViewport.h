@@ -17,7 +17,6 @@ namespace Marvel {
         ~mvAppleViewport();
 
         void show(bool minimized, bool maximized) override;
-        void run        () override {render();}
         void renderFrame() override;
         void maximize() override;
         void minimize() override;

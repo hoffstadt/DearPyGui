@@ -260,7 +260,6 @@ namespace Marvel {
 	{
 		m_font = getFont(m_fontName, m_size);
 		m_dirty = false;
-
 		ImGuiIO& io = ImGui::GetIO();
 		io.FontDefault = m_font;
 	}
