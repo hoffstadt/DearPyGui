@@ -18,7 +18,8 @@ namespace Marvel {
     {
         None = 0,
         Int, Int4,
-        Float, Float4, FloatVect, VectFloatVect,
+        Float, Float4, FloatVect, 
+        Series,
         Bool,
         String,
         Time, Color

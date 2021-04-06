@@ -5,7 +5,7 @@
 
 namespace Marvel {
 
-	MV_REGISTER_WIDGET(mvImageSeries, MV_ITEM_DESC_DEFAULT, StorageValueTypes::VectFloatVect, 1);
+	MV_REGISTER_WIDGET(mvImageSeries, MV_ITEM_DESC_DEFAULT, StorageValueTypes::Series, 1);
 	class mvImageSeries : public mvSeriesBase, public mvEventHandler
 	{
 	public:
