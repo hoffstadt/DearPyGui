@@ -244,10 +244,6 @@ namespace Marvel {
 		ImPlotAxisFlags    getYFlags        () const { return m_yflags; }
 		ImPlotAxisFlags    getY2Flags        () const { return m_y2flags; }
 		ImPlotAxisFlags    getY3Flags        () const { return m_y3flags; }
-		bool               isColorScaleShown() const { return m_colormapscale; }
-		int                getScaleHeight   () const { return m_scale_height; }
-		float              getScaleMin      () const { return m_scale_min; }
-		float              getScaleMax      () const { return m_scale_max; }
 		const std::string& getXAxisName     () const { return m_xaxisName; }
 		const std::string& getYAxisName     () const { return m_yaxisName; }
 		mvCallable         getQueryCallback ()       { return m_queryCallback; }
@@ -269,10 +265,6 @@ namespace Marvel {
 		ImPlotAxisFlags               m_yflags  = 0;
 		ImPlotAxisFlags               m_y2flags  = 0;
 		ImPlotAxisFlags               m_y3flags  = 0;
-		bool                          m_showAnnotations = true;
-		bool                          m_showDragLines = true;
-		bool                          m_showDragPoints = true;
-
 
 		ImPlotColormap                m_colormap = ImPlotColormap_Deep;
 
@@ -287,10 +279,6 @@ namespace Marvel {
 		bool                          m_queried = false;
 		float                         m_queryArea[4] = {0.0f , 0.0f, 0.0f, 0.0f};
 		bool                          m_dirty = false;
-		bool                          m_colormapscale = false;
-		float                         m_scale_min = 0.0f;
-		float                         m_scale_max = 1.0f;
-		int                           m_scale_height = 100;
 		
 		std::vector<std::string>      m_xlabels;
 		std::vector<std::string>      m_ylabels;

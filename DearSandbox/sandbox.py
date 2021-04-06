@@ -169,10 +169,11 @@ with window("Testing", width=500, height=500):
         add_pie_series(values=[1, 1, 2, 3, 5], labels=["A", "B", "C", "D", "E"], x=0.5, y=0.5, radius=0.5, normalize=True, format="%.0f", parent=plot2)
 
     with tree_node("Heatmaps##demo"):
-        plot = add_plot(show_color_scale=True, scale_min=0.0, scale_max=6.0, 
-                    scale_height=400, no_legend=True, 
-                    no_mouse_pos=True, xaxis_lock_min=True, xaxis_lock_max=True, xaxis_no_gridlines=True, xaxis_no_tick_marks=True,
-                    yaxis_no_gridlines=True, yaxis_no_tick_marks=True, yaxis_lock_min=True, yaxis_lock_max=True, height=400)
+        cm = add_colormap_scale(height=400)
+        add_same_line()
+        plot = add_plot(no_legend=True, no_mouse_pos=True, xaxis_lock_min=True, xaxis_lock_max=True, xaxis_no_gridlines=True,
+                       xaxis_no_tick_marks=True, yaxis_no_gridlines=True, yaxis_no_tick_marks=True, yaxis_lock_min=True, 
+                       yaxis_lock_max=True, height=400)
         values = [0.8, 2.4, 2.5, 3.9, 0.0, 4.0, 0.0,
                     2.4, 0.0, 4.0, 1.0, 2.7, 0.0, 0.0,
                     1.1, 2.4, 0.8, 4.3, 1.9, 4.4, 0.0,
