@@ -12,9 +12,6 @@
 // Widget Index
 //
 //     * mvPlot
-//     * mvPlotAnnotation
-//     * mvDragLine
-//     * mvDragPoint
 //     * mvSeries
 //
 //-----------------------------------------------------------------------------
@@ -23,14 +20,11 @@ namespace Marvel {
 
 	// forward declarations
 	class mvSeries;
-	struct mvPlotAnnotation;
-	struct mvDragLine;
-	struct mvDragPoint;
 
 	//-----------------------------------------------------------------------------
 	// mvPlot
 	//-----------------------------------------------------------------------------
-	MV_REGISTER_WIDGET(mvPlot, MV_ITEM_DESC_DEFAULT, StorageValueTypes::None, 1);
+	MV_REGISTER_WIDGET(mvPlot, MV_ITEM_DESC_CONTAINER, StorageValueTypes::None, 1);
 	class mvPlot : public mvAppItem
 	{
 
@@ -40,12 +34,6 @@ namespace Marvel {
 
 		MV_APPITEM_TYPE(mvAppItemType::mvPlot, add_plot)
 
-		MV_CREATE_EXTRA_COMMAND(add_drag_point);
-		MV_CREATE_EXTRA_COMMAND(delete_drag_point);
-		MV_CREATE_EXTRA_COMMAND(add_annotation);
-		MV_CREATE_EXTRA_COMMAND(delete_annotation);
-		MV_CREATE_EXTRA_COMMAND(add_drag_line);
-		MV_CREATE_EXTRA_COMMAND(delete_drag_line);
 		MV_CREATE_EXTRA_COMMAND(clear_plot);
 		MV_CREATE_EXTRA_COMMAND(delete_series);
 		MV_CREATE_EXTRA_COMMAND(reset_xticks);
@@ -164,12 +152,6 @@ namespace Marvel {
 		MV_CREATE_CONSTANT(mvThemeStyle_Plot_PlotMinSizeY,			26L, 1L);
 
 		MV_START_EXTRA_COMMANDS
-			MV_ADD_EXTRA_COMMAND(add_drag_point);
-			MV_ADD_EXTRA_COMMAND(delete_drag_point);
-			MV_ADD_EXTRA_COMMAND(add_annotation);
-			MV_ADD_EXTRA_COMMAND(delete_annotation);
-			MV_ADD_EXTRA_COMMAND(add_drag_line);
-			MV_ADD_EXTRA_COMMAND(delete_drag_line);
 			MV_ADD_EXTRA_COMMAND(clear_plot);
 			MV_ADD_EXTRA_COMMAND(delete_series);
 			MV_ADD_EXTRA_COMMAND(reset_xticks);
@@ -291,21 +273,6 @@ namespace Marvel {
 		mvPlot(const std::string& name, mvCallable queryCallback);
 		~mvPlot(){clear();}
 
-		// drag lines
-		void addDragPoint   (const std::string& name, bool show_label, const mvColor& color, float radius, mvCallable callback, const double* dummyValue, const std::string& source);
-		void updateDragPoint(const std::string& name, bool show_label, const mvColor& color, float radius, mvCallable callback, const double* dummyValue, const std::string& source);
-		void deleteDragPoint(const std::string& name);
-
-		// drag lines
-		void addDragLine    (const std::string& name, bool show_label, const mvColor& color, float thickness, bool y_line, mvCallable callback, double dummyValue, const std::string& source);
-		void updateDragLine (const std::string& name, bool show_label, const mvColor& color, float thickness, bool y_line, mvCallable callback, double dummyValue, const std::string& source);
-		void deleteDragLine (const std::string& name);
-
-		// annotations
-		void addAnnotation  (const std::string& name, double x, double y, float xoffset, float yoffset, const mvColor& color, const std::string& text, bool clamped);
-		void updateAnnotation(const std::string& name, double x, double y, float xoffset, float yoffset, const mvColor& color, const std::string& text, bool clamped);
-		void deleteAnnotation(const std::string& name);
-
 		// series
 		void addSeries      (mvRef<mvSeries> series, bool updateBounds);
 		void updateSeries   (mvRef<mvSeries> series, bool updateBounds);
@@ -350,6 +317,7 @@ namespace Marvel {
 
 		void setExtraConfigDict(PyObject* dict) override;
 		void getExtraConfigDict(PyObject* dict) override;
+		bool canChildBeAdded(mvAppItemType type) override;
 
 	private:
 
@@ -391,9 +359,6 @@ namespace Marvel {
 		std::vector<double>           m_ylabelLocations;
 
 		std::vector<mvRef<mvSeries>>  m_series;
-		std::vector<mvPlotAnnotation> m_annotations;
-		std::vector<mvDragLine>       m_dragLines;
-		std::vector<mvDragPoint>      m_dragPoints;
 
 		// y axis 2
 		bool                          m_setY2Limits = false;
@@ -404,49 +369,6 @@ namespace Marvel {
 		bool                          m_setY3Limits = false;
 		ImVec2                        m_y3limits;
 		ImVec2                        m_y3limits_actual;
-	};
-
-	//-----------------------------------------------------------------------------
-	// mvPlotAnnotation
-	//-----------------------------------------------------------------------------
-	struct mvPlotAnnotation
-	{
-		std::string name;
-		double      x;
-		double      y;
-		ImVec2      pix_offset;
-		mvColor     color;
-		std::string text;
-		bool        clamped;
-	};
-
-	//-----------------------------------------------------------------------------
-	// mvDragLine
-	//-----------------------------------------------------------------------------
-	struct mvDragLine
-	{
-		std::string name;
-		std::shared_ptr<float> value;
-		bool        show_label;
-		mvColor     color;
-		float       thickness;
-		bool        y_line;
-		mvCallable  callback;
-		std::string source;
-	};
-
-	//-----------------------------------------------------------------------------
-	// mvDragPoint
-	//-----------------------------------------------------------------------------
-	struct mvDragPoint
-	{
-		std::string name;
-		std::shared_ptr<std::array<float, 4>> value;
-		bool        show_label;
-		mvColor     color;
-		float       radius;
-		mvCallable  callback;
-		std::string source;
 	};
 
 	//-----------------------------------------------------------------------------

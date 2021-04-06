@@ -72,6 +72,10 @@
 #include "composite/mvFileDialog.h"
 
 #include "plots/mvPlot.h"
+#include "plots/mvDragPoint.h"
+#include "plots/mvDragLine.h"
+#include "plots/mvAnnotation.h"
+
 #include "plots/mvSimplePlot.h"
 #include "plots/mvLineSeries.h"
 #include "plots/mvBarSeries.h"

@@ -1,5 +1,6 @@
-#include "Platform/Windows/mvWindowsWindow.h"
+#include "Platform/Windows/mvWindowsViewport.h"
 #include "mvApp.h"
+#include "mvAppLog.h"
 #include "mvFontManager.h"
 #include "mvTextureStorage.h"
 #include "implot.h"
@@ -12,47 +13,18 @@ extern IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg
 
 namespace Marvel {
 
-	mvWindow* mvWindow::CreatemvWindow(unsigned width, unsigned height, bool error)
+	mvViewport* mvViewport::CreateViewport(unsigned width, unsigned height, bool error)
 	{
-		return new mvWindowsWindow(width, height, error);
+		return new mvWindowsViewport(width, height, error);
 	}
 
-	mvWindowsWindow::mvWindowsWindow(unsigned width, unsigned height, bool error)
-		: mvWindow(width, height, error)
+	mvWindowsViewport::mvWindowsViewport(unsigned width, unsigned height, bool error)
+		: mvViewport(width, height, error)
 	{
 		m_clearColor = ImVec4(0.0f, 0.0f, 0.0f, 1.0f);
-
-		m_wc = { 
-			sizeof(WNDCLASSEX), 
-			CS_CLASSDC, 
-			HandleMsgSetup, 
-			0L, 
-			0L, 
-			GetModuleHandle(nullptr), nullptr, nullptr, nullptr, nullptr, 
-			_T(mvApp::GetApp()->m_title.c_str()), nullptr };
-		RegisterClassEx(&m_wc);
-
-		if(mvApp::GetApp()->getResizable())
-			m_hwnd = CreateWindow(m_wc.lpszClassName, _T(mvApp::GetApp()->m_title.c_str()), WS_OVERLAPPEDWINDOW, mvApp::GetApp()->m_mainXPos,
-				mvApp::GetApp()->m_mainYPos, width, height, nullptr, nullptr, m_wc.hInstance, this);
-		else
-			m_hwnd = CreateWindow(m_wc.lpszClassName, _T(mvApp::GetApp()->m_title.c_str()),
-				WS_OVERLAPPED | WS_CAPTION | WS_SYSMENU | WS_MINIMIZEBOX | WS_MAXIMIZEBOX, 
-				mvApp::GetApp()->m_mainXPos, mvApp::GetApp()->m_mainYPos, width, height, nullptr, nullptr, m_wc.hInstance, this);
-
-		// Initialize Direct3D
-		if (!CreateDeviceD3D(m_hwnd))
-		{
-			CleanupDeviceD3D();
-			::UnregisterClass(m_wc.lpszClassName, m_wc.hInstance);
-		}
-		previous_ime_char=0;
-		HKL hkl=GetKeyboardLayout(0);		
-		lang_id=LOWORD(hkl);
-
 	}
 
-	mvWindowsWindow::~mvWindowsWindow()
+	mvWindowsViewport::~mvWindowsViewport()
 	{
 		// Cleanup
 		ImGui_ImplDX11_Shutdown();
@@ -66,17 +38,71 @@ namespace Marvel {
 		::UnregisterClass(m_wc.lpszClassName, m_wc.hInstance);
 	}
 
-	void mvWindowsWindow::setWindowText(const std::string& name)
+	void mvWindowsViewport::maximize()
 	{
-		SetWindowTextA(m_hwnd, name.c_str());
+		ShowWindow(m_hwnd, SW_MAXIMIZE);
 	}
 
-	void mvWindowsWindow::show()
+	void mvWindowsViewport::minimize()
+	{
+		ShowWindow(m_hwnd, SW_MINIMIZE);
+	}
+
+	void mvWindowsViewport::handleModes()
+	{
+		m_modes = 0;
+
+		if (m_border) m_modes |= WS_THICKFRAME;
+		if (m_caption) m_modes |= WS_CAPTION;
+		if (m_minimizeBox) m_modes |= WS_MINIMIZEBOX;
+		if (m_maximizeBox) m_modes |= WS_MAXIMIZEBOX;
+		if (m_overlapped) m_modes |= WS_OVERLAPPED | WS_SYSMENU;
+	}
+
+	void mvWindowsViewport::show(bool minimized, bool maximized)
 	{
 
+		m_wc = {
+			sizeof(WNDCLASSEX),
+			CS_CLASSDC,
+			HandleMsgSetup,
+			0L,
+			0L,
+			GetModuleHandle(nullptr), nullptr, nullptr, nullptr, nullptr,
+			_T(m_title.c_str()), nullptr };
+		RegisterClassEx(&m_wc);
+
+		handleModes();
+		m_hwnd = CreateWindow(m_wc.lpszClassName, _T(m_title.c_str()),
+			m_modes,
+			m_xpos, m_ypos, m_actualWidth, m_actualHeight, nullptr, nullptr, m_wc.hInstance, this);
+
+		// Initialize Direct3D
+		if (!CreateDeviceD3D(m_hwnd))
+		{
+			CleanupDeviceD3D();
+			::UnregisterClass(m_wc.lpszClassName, m_wc.hInstance);
+		}
+		previous_ime_char = 0;
+		HKL hkl = GetKeyboardLayout(0);
+		lang_id = LOWORD(hkl);
+
 		// Show the window
-		::ShowWindow(m_hwnd, SW_SHOWDEFAULT);
+
+		int cmdShow;
+
+		if (minimized)
+			cmdShow = SW_MINIMIZE;
+		else if (maximized)
+			cmdShow = SW_MAXIMIZE;
+		else
+			cmdShow = SW_SHOWDEFAULT;
+
+		::ShowWindow(m_hwnd, cmdShow);
 		::UpdateWindow(m_hwnd);
+
+		if (m_alwaysOnTop)
+			SetWindowPos(m_hwnd, HWND_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
 
 		// Setup Dear ImGui context
 		IMGUI_CHECKVERSION();
@@ -102,15 +128,36 @@ namespace Marvel {
 		ImGui_ImplDX11_Init(s_pd3dDevice, s_pd3dDeviceContext);
 	}
 
-	void mvWindowsWindow::setup()
+	void mvWindowsViewport::setup()
 	{
 		ZeroMemory(&m_msg, sizeof(m_msg));
 	}
 
-	void mvWindowsWindow::prerender()
+	void mvWindowsViewport::prerender()
 	{
 		if (m_msg.message == WM_QUIT)
 			m_running = false;
+
+		if (m_posDirty)
+		{
+			SetWindowPos(m_hwnd, m_alwaysOnTop ? HWND_TOPMOST : HWND_TOP, m_xpos, m_ypos, 0, 0, SWP_SHOWWINDOW | SWP_NOSIZE);
+			m_posDirty = false;
+		}
+
+		if (m_sizeDirty)
+		{
+			SetWindowPos(m_hwnd, m_alwaysOnTop ? HWND_TOPMOST : HWND_TOP, 0, 0, m_actualWidth, m_actualHeight, SWP_SHOWWINDOW | SWP_NOMOVE);
+			m_sizeDirty = false;
+		}
+
+		if (m_modesDirty)
+		{
+			handleModes();
+			SetWindowTextA(m_hwnd, m_title.c_str());
+			SetWindowLongPtr(m_hwnd, GWL_STYLE, m_modes);
+			SetWindowPos(m_hwnd, m_alwaysOnTop ? HWND_TOPMOST : HWND_TOP, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_SHOWWINDOW);
+			m_modesDirty = false;
+		}
 
 		// Poll and handle messages (inputs, window resize, etc.)
 		// You can read the io.WantCaptureMouse, io.WantCaptureKeyboard flags to tell if dear imgui wants to use your inputs.
@@ -142,7 +189,7 @@ namespace Marvel {
 			mvApp::GetApp()->getTextureStorage().refreshAtlas();
 	}
 
-	void mvWindowsWindow::renderFrame()
+	void mvWindowsViewport::renderFrame()
 	{
 		prerender();
 
@@ -158,16 +205,7 @@ namespace Marvel {
 		postrender();
 	}
 
-	void mvWindowsWindow::run()
-	{
-
-		setup();
-		while (m_running)
-			renderFrame();
-
-	}
-
-	void mvWindowsWindow::postrender()
+	void mvWindowsViewport::postrender()
 	{
 
 		ImVec4 clear_color = m_clearColor;
@@ -182,7 +220,7 @@ namespace Marvel {
 		//s_pSwapChain->Present(0, 0); // Present without vsync
 
 		static UINT presentFlags = 0;
-		if (s_pSwapChain->Present(mvApp::GetApp()->getVSync() ? 1 : 0, presentFlags) == DXGI_STATUS_OCCLUDED) {
+		if (s_pSwapChain->Present(m_vsync ? 1 : 0, presentFlags) == DXGI_STATUS_OCCLUDED) {
 			presentFlags = DXGI_PRESENT_TEST;
 			Sleep(20);
 		}
@@ -191,19 +229,7 @@ namespace Marvel {
 		}
 	}
 
-	void mvWindowsWindow::cleanup()
-	{
-		// Cleanup
-		ImGui_ImplDX11_Shutdown();
-		ImGui_ImplWin32_Shutdown();
-		ImGui::DestroyContext();
-
-		CleanupDeviceD3D();
-		::DestroyWindow(m_hwnd);
-		::UnregisterClass(m_wc.lpszClassName, m_wc.hInstance);
-	}
-
-	bool mvWindowsWindow::CreateDeviceD3D(HWND hWnd)
+	bool mvWindowsViewport::CreateDeviceD3D(HWND hWnd)
 	{
 		// Setup swap chain
 		DXGI_SWAP_CHAIN_DESC sd;
@@ -235,7 +261,7 @@ namespace Marvel {
 		return true;
 	}
 
-	void mvWindowsWindow::CleanupDeviceD3D()
+	void mvWindowsViewport::CleanupDeviceD3D()
 	{
 		CleanupRenderTarget();
 		if (s_pSwapChain)
@@ -257,7 +283,7 @@ namespace Marvel {
 		}
 	}
 
-	void mvWindowsWindow::CreateRenderTarget()
+	void mvWindowsViewport::CreateRenderTarget()
 	{
 		ID3D11Texture2D* pBackBuffer;
 		s_pSwapChain->GetBuffer(0, IID_PPV_ARGS(&pBackBuffer));
@@ -265,7 +291,7 @@ namespace Marvel {
 		pBackBuffer->Release();
 	}
 
-	void mvWindowsWindow::CleanupRenderTarget()
+	void mvWindowsViewport::CleanupRenderTarget()
 	{
 		if (s_mainRenderTargetView)
 		{
@@ -274,18 +300,18 @@ namespace Marvel {
 		}
 	}
 
-	LRESULT CALLBACK mvWindowsWindow::HandleMsgSetup(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) noexcept
+	LRESULT CALLBACK mvWindowsViewport::HandleMsgSetup(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) noexcept
 	{
 		// use create parameter passed in from CreateWindow() to store window class pointer at WinAPI side
 		if (msg == WM_NCCREATE)
 		{
 			// extract ptr to window class from creation data
 			const CREATESTRUCTW* const pCreate = reinterpret_cast<CREATESTRUCTW*>(lParam);
-			auto const pWnd = static_cast<mvWindowsWindow*>(pCreate->lpCreateParams);
+			auto const pWnd = static_cast<mvWindowsViewport*>(pCreate->lpCreateParams);
 			// set WinAPI-managed user data to store ptr to window instance
 			SetWindowLongPtr(hWnd, GWLP_USERDATA, reinterpret_cast<LONG_PTR>(pWnd));
 			// set message proc to normal (non-setup) handler now that setup is finished
-			SetWindowLongPtr(hWnd, GWLP_WNDPROC, reinterpret_cast<LONG_PTR>(&mvWindowsWindow::HandleMsgThunk));
+			SetWindowLongPtr(hWnd, GWLP_WNDPROC, reinterpret_cast<LONG_PTR>(&mvWindowsViewport::HandleMsgThunk));
 			// forward message to window instance handler
 			return pWnd->HandleMsg(hWnd, msg, wParam, lParam);
 		}
@@ -293,20 +319,30 @@ namespace Marvel {
 		return DefWindowProc(hWnd, msg, wParam, lParam);
 	}
 
-	LRESULT CALLBACK mvWindowsWindow::HandleMsgThunk(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) noexcept
+	LRESULT CALLBACK mvWindowsViewport::HandleMsgThunk(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) noexcept
 	{
 		// retrieve ptr to window instance
-		auto const pWnd = reinterpret_cast<mvWindowsWindow*>(GetWindowLongPtr(hWnd, GWLP_USERDATA));
+		auto const pWnd = reinterpret_cast<mvWindowsViewport*>(GetWindowLongPtr(hWnd, GWLP_USERDATA));
 		// forward message to window instance handler
 		return pWnd->HandleMsg(hWnd, msg, wParam, lParam);
 	}
 
-	LRESULT mvWindowsWindow::HandleMsg(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) noexcept
+	LRESULT mvWindowsViewport::HandleMsg(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) noexcept
 	{
 		if (ImGui_ImplWin32_WndProcHandler(hWnd, msg, wParam, lParam))
 			return true;
 		switch (msg)
 		{
+		case WM_GETMINMAXINFO:
+		{
+			LPMINMAXINFO lpMMI = (LPMINMAXINFO)lParam;
+			lpMMI->ptMinTrackSize.x = m_minwidth;
+			lpMMI->ptMinTrackSize.y = m_minheight;
+			lpMMI->ptMaxTrackSize.x = m_maxwidth;
+			lpMMI->ptMaxTrackSize.y = m_maxheight;
+			break;
+		}
+
 		case WM_SIZE:
 			if (s_pd3dDevice != nullptr && wParam != SIZE_MINIMIZED)
 			{
@@ -328,12 +364,7 @@ namespace Marvel {
 					cheight = crect.bottom - crect.top;
 				}
 
-				mvEventBus::Publish(mvEVT_CATEGORY_VIEWPORT, mvEVT_VIEWPORT_RESIZE, {
-					CreateEventArgument("actual_width", awidth),
-					CreateEventArgument("actual_height", aheight),
-					CreateEventArgument("client_width", cwidth),
-					CreateEventArgument("client_height", cheight)
-					});
+				onResizeEvent();
 
 				// I believe this are only used for the error logger
 				m_width = (UINT)LOWORD(lParam);
@@ -398,9 +429,9 @@ namespace Marvel {
 		return ::DefWindowProc(hWnd, msg, wParam, lParam);
 	}
 
-	ID3D11Device* mvWindowsWindow::s_pd3dDevice = nullptr;
-	ID3D11DeviceContext* mvWindowsWindow::s_pd3dDeviceContext = nullptr;
-	IDXGISwapChain* mvWindowsWindow::s_pSwapChain = nullptr;
-	ID3D11RenderTargetView* mvWindowsWindow::s_mainRenderTargetView = nullptr;
+	ID3D11Device* mvWindowsViewport::s_pd3dDevice = nullptr;
+	ID3D11DeviceContext* mvWindowsViewport::s_pd3dDeviceContext = nullptr;
+	IDXGISwapChain* mvWindowsViewport::s_pSwapChain = nullptr;
+	ID3D11RenderTargetView* mvWindowsViewport::s_mainRenderTargetView = nullptr;
 
 }

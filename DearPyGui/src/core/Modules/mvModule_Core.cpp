@@ -3,7 +3,7 @@
 #include "mvInput.h"
 #include "mvAppLog.h"
 #include "mvAppItemCommons.h"
-#include "mvWindow.h"
+#include "mvViewport.h"
 #include "mvFontManager.h"
 #include "mvItemRegistry.h"
 #include "mvImGuiThemeScope.h"
@@ -25,6 +25,7 @@ namespace Marvel {
 				item_type::FillExtraCommands(methods);
 			});
 
+		mvViewport::FillExtraCommands(methods);
 		mvApp::FillExtraCommands(methods);
 		mvAppItem::FillExtraCommands(methods);
 		mvItemRegistry::FillExtraCommands(methods);
@@ -52,6 +53,7 @@ namespace Marvel {
 					item_type::InsertParser(&parsers);
 				});
 
+			mvViewport::InsertParser(&parsers);
 			mvApp::InsertParser(&parsers);
 			mvAppItem::InsertParser(&parsers);
 			mvItemRegistry::InsertParser(&parsers);

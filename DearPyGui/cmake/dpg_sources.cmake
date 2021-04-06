@@ -1,5 +1,5 @@
 ﻿
-set(MARVEL_PY_SOURCES
+set(MARVEL_SOURCES
 
 	"$<$<PLATFORM_ID:Windows>:src/core/Modules/mvModule_Core.cpp>"
 	"$<$<PLATFORM_ID:Linux>:src/core/Modules/mvModule_Core.cpp>"
@@ -14,24 +14,20 @@ set(MARVEL_PY_SOURCES
 	"src/core/PythonUtilities/mvPythonExceptions.cpp"
 	"src/core/PythonUtilities/mvGlobalIntepreterLock.cpp"
 
-)
-
-set(MARVEL_SOURCES
-
-	"$<$<PLATFORM_ID:Windows>:src/platform/Windows/mvWindowsWindow.cpp>"
+	"$<$<PLATFORM_ID:Windows>:src/platform/Windows/mvWindowsViewport.cpp>"
 	"$<$<PLATFORM_ID:Windows>:src/platform/Windows/mvUtilities.cpp>"
 
-	"$<$<PLATFORM_ID:Darwin>:src/platform/Apple/mvAppleWindow.mm>"
+	"$<$<PLATFORM_ID:Darwin>:src/platform/Apple/mvAppleViewport.mm>"
 	"$<$<PLATFORM_ID:Darwin>:src/platform/Apple/mvAppleUtilities.mm>"
 
 	"$<$<PLATFORM_ID:Linux>:src/platform/Linux/mvUtilities.cpp>"
-	"$<$<PLATFORM_ID:Linux>:src/platform/Linux/mvLinuxWindow.cpp>"
+	"$<$<PLATFORM_ID:Linux>:src/platform/Linux/mvLinuxViewport.cpp>"
 
 	"src/core/mvEvents.cpp"
 	"src/core/mvApp.cpp"
 	"src/core/mvAppLog.cpp"
 	"src/core/mvInput.cpp"
-	"src/core/mvWindow.cpp"
+	"src/core/mvViewport.cpp"
 	"src/core/mvProfiler.cpp"
 	"src/core/mvLog.cpp"
 
@@ -124,6 +120,9 @@ set(MARVEL_SOURCES
 	
 	"src/core/AppItems/plots/mvPlot.cpp"
 	"src/core/AppItems/plots/mvAreaSeries.cpp"
+	"src/core/AppItems/plots/mvDragPoint.cpp"
+	"src/core/AppItems/plots/mvDragLine.cpp"
+	"src/core/AppItems/plots/mvAnnotation.cpp"
 	"src/core/AppItems/plots/mvSimplePlot.cpp"
 
 	# imnodes

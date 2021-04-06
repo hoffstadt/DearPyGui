@@ -12,7 +12,7 @@ target_compile_definitions(coreemb
 )
 
 # Add sources
-target_sources(coreemb PRIVATE ${MARVEL_SOURCES} ${MARVEL_PY_SOURCES})
+target_sources(coreemb PRIVATE ${MARVEL_SOURCES})
 
 ###############################################################################
 # Windows Specifics
