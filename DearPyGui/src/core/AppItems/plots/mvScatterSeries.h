@@ -1,54 +1,50 @@
 #pragma once
 
 #include "mvPlot.h"
-#include "mvThemeManager.h"
 
 namespace Marvel {
 
-	class mvScatterSeries : public mvSeries
+	MV_REGISTER_WIDGET(mvScatterSeries, MV_ITEM_DESC_DEFAULT, StorageValueTypes::VectFloatVect, 1);
+	class mvScatterSeries : public mvSeriesBase
 	{
+	public:
+
+		static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
+
+		MV_APPITEM_TYPE(mvAppItemType::mvScatterSeries, add_scatter_series)
+
+		MV_CREATE_CONSTANT(mvThemeCol_Plot_Scatter_Outline, ImPlotCol_MarkerOutline, 0L);
+		MV_CREATE_CONSTANT(mvThemeCol_Plot_Scatter_Fill, ImPlotCol_MarkerFill, 0L);
+
+		MV_CREATE_CONSTANT(mvThemeStyle_Plot_Scatter_Marker, ImPlotStyleVar_Marker, 0L);
+		MV_CREATE_CONSTANT(mvThemeStyle_Plot_Scatter_Size, ImPlotStyleVar_MarkerSize, 0L);
+		MV_CREATE_CONSTANT(mvThemeStyle_Plot_Scatter_Weight, ImPlotStyleVar_MarkerWeight, 0L);
+
+		MV_START_EXTRA_COMMANDS
+		MV_END_EXTRA_COMMANDS
+
+		MV_START_GENERAL_CONSTANTS
+		MV_END_GENERAL_CONSTANTS
+
+		MV_START_COLOR_CONSTANTS
+		MV_ADD_CONSTANT(mvThemeCol_Plot_Scatter_Outline, mvColor(0, 0, 0, -255), mvColor(0, 0, 0, -255)),
+		MV_ADD_CONSTANT(mvThemeCol_Plot_Scatter_Fill, mvColor(0, 0, 0, -255), mvColor(0, 0, 0, -255)),
+		MV_END_COLOR_CONSTANTS
+
+		MV_START_STYLE_CONSTANTS
+		MV_ADD_CONSTANT(mvThemeStyle_Plot_Scatter_Marker, ImPlotMarker_Circle, 9),
+		MV_ADD_CONSTANT(mvThemeStyle_Plot_Scatter_Size, 4.0f, 12),
+		MV_ADD_CONSTANT(mvThemeStyle_Plot_Scatter_Weight, 1.0f, 12),
+		MV_END_STYLE_CONSTANTS
 
 	public:
 
-		mvScatterSeries(const std::string& name, const std::vector<float>* x, 
-			const std::vector<float>* y, int marker, float markerSize, float markerWeight,
-			mvColor markerOutlineColor, mvColor markerFillColor, ImPlotYAxis_ axis)
-			: 
-			mvSeries(name, {x, y}, axis),
-			m_marker(marker), 
-			m_markerSize(markerSize), 
-			m_markerWeight(markerWeight),
-			m_markerOutlineColor(markerOutlineColor),
-			m_markerFillColor(markerFillColor)
-		{
-			DecodelibID(m_marker, (int*)&m_marker);
-		}
+		mvScatterSeries(const std::string& name, const std::vector<std::vector<float>>& default_value);
 
-		mvSeriesType getSeriesType() override { return mvSeriesType::Scatter; }
+		void draw(ImDrawList* drawlist, float x, float y) override;
 
-		void draw(ImDrawList* drawlist, float x, float y) override
-		{
-			ImPlot::PushStyleColor(ImPlotCol_MarkerOutline, m_markerOutlineColor.toVec4());
-			ImPlot::PushStyleColor(ImPlotCol_MarkerFill, m_markerFillColor.toVec4());
-
-			ImPlot::PushStyleVar(ImPlotStyleVar_Marker, m_marker);
-			ImPlot::PushStyleVar(ImPlotStyleVar_MarkerSize, m_markerSize);
-			ImPlot::PushStyleVar(ImPlotStyleVar_MarkerWeight, m_markerWeight);
-
-			ImPlot::PlotScatter(m_name.c_str(), m_data[0].data(), m_data[1].data(), (int)m_data[0].size());
-
-			ImPlot::PopStyleColor();
-			ImPlot::PopStyleColor();
-			ImPlot::PopStyleVar(3);
-		}
-
-	private:
-
-		int   m_marker = 2;
-		float m_markerSize = 4.0f;
-		float m_markerWeight = 1.0f;
-		mvColor m_markerOutlineColor = MV_DEFAULT_COLOR;
-		mvColor m_markerFillColor = MV_DEFAULT_COLOR;
+		void setExtraConfigDict(PyObject* dict) override;
+		void getExtraConfigDict(PyObject* dict) override;
 
 	};
 

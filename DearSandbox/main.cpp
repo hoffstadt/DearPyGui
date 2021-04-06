@@ -67,7 +67,8 @@ int main(int argc, char* argv[])
 		auto window = mvViewport::CreateViewport(1080, 
 			800, true);
 		window->show(false, false);
-		window->run();
+		while (window->running())
+			window->renderFrame();
 		delete window;
 		delete mvApp::GetApp();
 	}

@@ -66,6 +66,7 @@ namespace Marvel {
 		virtual void restore() {}
 		
 		void stop() { m_running = false; }
+		bool running() const { return m_running; }
 
 		// for use by primary window
 		int getClientWidth() const { return (int)m_clientWidth; }
