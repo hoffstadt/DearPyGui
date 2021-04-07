@@ -12,7 +12,7 @@ namespace Marvel {
 
 		static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
 
-		MV_APPITEM_TYPE(mvAppItemType::mvDatePicker, add_date_picker)
+		MV_APPLY_WIDGET_REGISTRATION(mvAppItemType::mvDatePicker, add_date_picker)
 
 		MV_CREATE_CONSTANT(mvThemeCol_DatePicker_Date			, ImGuiCol_Text			, 0L);
 		MV_CREATE_CONSTANT(mvThemeCol_DatePicker_DateBg			, ImGuiCol_Button		, 0L);

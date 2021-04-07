@@ -13,7 +13,7 @@ namespace Marvel{
 
 		static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
 
-		MV_APPITEM_TYPE(mvAppItemType::mvSimplePlot, add_simple_plot)
+		MV_APPLY_WIDGET_REGISTRATION(mvAppItemType::mvSimplePlot, add_simple_plot)
 
 		MV_CREATE_CONSTANT(mvThemeCol_SimplePlot_Text					,  0L, 0L);
 		MV_CREATE_CONSTANT(mvThemeCol_SimplePlot_Border				,  5L, 0L);

@@ -8,7 +8,7 @@
 #include <map>
 #include "mvEvents.h"
 #include "mvApp.h"
-#include "mvAppItemDescription.h"
+#include "mvAppItem.h"
 #include "mvPythonParser.h"
 #include "cpp.hint"
 

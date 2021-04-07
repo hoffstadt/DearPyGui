@@ -18,7 +18,7 @@ namespace Marvel {
 
 		static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
 
-		MV_APPITEM_TYPE(mvAppItemType::mvPlot, add_plot)
+		MV_APPLY_WIDGET_REGISTRATION(mvAppItemType::mvPlot, add_plot)
 
 		MV_CREATE_EXTRA_COMMAND(reset_xticks);
 		MV_CREATE_EXTRA_COMMAND(reset_yticks);

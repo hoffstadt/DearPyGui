@@ -15,7 +15,7 @@ namespace Marvel {
 
 		friend class mvNodeEditor;
 
-		MV_APPITEM_TYPE(mvAppItemType::mvNode, add_node)
+		MV_APPLY_WIDGET_REGISTRATION(mvAppItemType::mvNode, add_node)
 
 		MV_CREATE_CONSTANT(mvThemeCol_Node_Background			, imnodes::ColorStyle::ColorStyle_NodeBackground		, 0L);
 		MV_CREATE_CONSTANT(mvThemeCol_Node_BackgroundHovered	, imnodes::ColorStyle::ColorStyle_NodeBackgroundHovered	, 0L);

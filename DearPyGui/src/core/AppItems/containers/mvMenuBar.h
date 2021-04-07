@@ -13,7 +13,7 @@ namespace Marvel {
 
 		static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
 
-		MV_APPITEM_TYPE(mvAppItemType::mvMenuBar, add_menu_bar)
+		MV_APPLY_WIDGET_REGISTRATION(mvAppItemType::mvMenuBar, add_menu_bar)
 
 		MV_CREATE_CONSTANT(mvThemeStyle_MenuBar_ItemSpacingX, ImGuiStyleVar_ItemSpacing, 0L);
 		MV_CREATE_CONSTANT(mvThemeStyle_MenuBar_ItemSpacingY, ImGuiStyleVar_ItemSpacing, 1L);

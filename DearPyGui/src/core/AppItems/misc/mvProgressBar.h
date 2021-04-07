@@ -12,7 +12,7 @@ namespace Marvel {
 
 		static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
 
-		MV_APPITEM_TYPE(mvAppItemType::mvProgressBar, add_progress_bar)
+		MV_APPLY_WIDGET_REGISTRATION(mvAppItemType::mvProgressBar, add_progress_bar)
 
 		MV_CREATE_CONSTANT(mvThemeCol_ProgressBar_Text			, ImGuiCol_Text, 0L);
 		MV_CREATE_CONSTANT(mvThemeCol_ProgressBar_Bar			, ImGuiCol_PlotHistogram, 0L);

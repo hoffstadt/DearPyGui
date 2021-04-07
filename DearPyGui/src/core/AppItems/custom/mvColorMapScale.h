@@ -15,7 +15,7 @@ namespace Marvel {
 
         static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
 
-        MV_APPITEM_TYPE(mvAppItemType::mvColorMapScale, add_colormap_scale)
+        MV_APPLY_WIDGET_REGISTRATION(mvAppItemType::mvColorMapScale, add_colormap_scale)
 
         MV_START_EXTRA_COMMANDS
         MV_END_EXTRA_COMMANDS

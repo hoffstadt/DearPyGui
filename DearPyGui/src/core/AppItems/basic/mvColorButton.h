@@ -12,7 +12,7 @@ namespace Marvel {
 
 		static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
 
-		MV_APPITEM_TYPE(mvAppItemType::mvColorButton, add_color_button)
+		MV_APPLY_WIDGET_REGISTRATION(mvAppItemType::mvColorButton, add_color_button)
 
 		MV_CREATE_CONSTANT(mvThemeCol_ColorButton_Text			, ImGuiCol_Text				, 0L);
 		MV_CREATE_CONSTANT(mvThemeCol_ColorButton_Separator		, ImGuiCol_Separator		, 0L);

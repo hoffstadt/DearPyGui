@@ -14,7 +14,7 @@ namespace Marvel {
 
 		static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
 
-		MV_APPITEM_TYPE(mvAppItemType::mvLoggerItem, add_logger)
+		MV_APPLY_WIDGET_REGISTRATION(mvAppItemType::mvLoggerItem, add_logger)
 
 		MV_CREATE_CONSTANT(mvTRACE,   0L, 0L);
 		MV_CREATE_CONSTANT(mvDEBUG,   1L, 0L);

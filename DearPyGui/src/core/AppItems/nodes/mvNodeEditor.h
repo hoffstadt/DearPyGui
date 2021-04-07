@@ -13,7 +13,7 @@ namespace Marvel {
 
 		static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
 
-		MV_APPITEM_TYPE(mvAppItemType::mvNodeEditor, add_node_editor)
+		MV_APPLY_WIDGET_REGISTRATION(mvAppItemType::mvNodeEditor, add_node_editor)
 
 		MV_CREATE_EXTRA_COMMAND(add_node_link);
 		MV_CREATE_EXTRA_COMMAND(delete_node_link);
