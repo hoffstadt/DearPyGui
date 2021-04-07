@@ -132,7 +132,7 @@ namespace Marvel {
 
 	protected:
 
-		mvRef<bool> m_value = { false };
+		mvRef<bool> m_value = CreateRef<bool>(false);
 		bool  m_disabled_value = false;
 	};
 
