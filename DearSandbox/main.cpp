@@ -6,7 +6,7 @@
 #include <iostream>
 #include <fstream>
 #include <filesystem>
-#include "mvWindow.h"
+#include "mvViewport.h"
 #include "mvLog.h"
 
 namespace fs = std::filesystem;
@@ -64,9 +64,11 @@ int main(int argc, char* argv[])
 		PyErr_Print();
 
 		// create window
-		auto window = mvWindow::CreatemvWindow(mvApp::GetApp()->getActualWidth(), mvApp::GetApp()->getActualHeight(), true);
-		window->show();
-		window->run();
+		auto window = mvViewport::CreateViewport(1080, 
+			800, true);
+		window->show(false, false);
+		while (window->running())
+			window->renderFrame();
 		delete window;
 		delete mvApp::GetApp();
 	}

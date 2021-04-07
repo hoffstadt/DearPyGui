@@ -4,37 +4,35 @@
 
 namespace Marvel {
 
-	class mvShadeSeries : public mvSeries
+	MV_REGISTER_WIDGET(mvShadeSeries, MV_ITEM_DESC_DEFAULT, StorageValueTypes::Series, 1);
+	class mvShadeSeries : public mvSeriesBase
 	{
+	public:
+
+		static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
+
+		MV_APPITEM_TYPE(mvAppItemType::mvShadeSeries, add_shade_series)
+
+		MV_START_EXTRA_COMMANDS
+		MV_END_EXTRA_COMMANDS
+
+		MV_START_GENERAL_CONSTANTS
+		MV_END_GENERAL_CONSTANTS
+
+		MV_START_COLOR_CONSTANTS
+		MV_END_COLOR_CONSTANTS
+
+		MV_START_STYLE_CONSTANTS
+		MV_END_STYLE_CONSTANTS
 
 	public:
 
-		mvShadeSeries(const std::string& name, mvColor color, mvColor fill, const std::vector<float>* x,
-			const std::vector<float>* y1, const std::vector<float>* y2, ImPlotYAxis_ axis)
-			: 
-			mvSeries(name, {x, y1, y2}, axis),
-			m_color(color), 
-			m_fill(fill)
-		{
-		}
+		mvShadeSeries(const std::string& name, const std::vector<std::vector<float>>& default_value);
 
-		mvSeriesType getSeriesType() override { return mvSeriesType::Shade; }
+		void draw(ImDrawList* drawlist, float x, float y) override;
 
-		void draw(ImDrawList* drawlist, float x, float y) override
-		{
-			ImPlot::SetNextLineStyle(m_color);
-	
-			ImPlot::SetNextFillStyle(m_fill);
-			ImPlot::PushStyleVar(ImPlotStyleVar_LineWeight, m_weight);
-			ImPlot::PlotShaded(m_name.c_str(), m_data[0].data(), m_data[1].data(), 
-				m_data[2].data(), (int)m_data[0].size());
-			ImPlot::PopStyleVar();
-		}
-
-	private:
-
-		mvColor m_color;
-		mvColor m_fill;
+		void setExtraConfigDict(PyObject* dict) override;
+		void getExtraConfigDict(PyObject* dict) override;
 
 	};
 

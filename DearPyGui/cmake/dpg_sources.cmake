@@ -1,5 +1,5 @@
 ﻿
-set(MARVEL_PY_SOURCES
+set(MARVEL_SOURCES
 
 	"$<$<PLATFORM_ID:Windows>:src/core/Modules/mvModule_Core.cpp>"
 	"$<$<PLATFORM_ID:Linux>:src/core/Modules/mvModule_Core.cpp>"
@@ -14,24 +14,20 @@ set(MARVEL_PY_SOURCES
 	"src/core/PythonUtilities/mvPythonExceptions.cpp"
 	"src/core/PythonUtilities/mvGlobalIntepreterLock.cpp"
 
-)
-
-set(MARVEL_SOURCES
-
-	"$<$<PLATFORM_ID:Windows>:src/platform/Windows/mvWindowsWindow.cpp>"
+	"$<$<PLATFORM_ID:Windows>:src/platform/Windows/mvWindowsViewport.cpp>"
 	"$<$<PLATFORM_ID:Windows>:src/platform/Windows/mvUtilities.cpp>"
 
-	"$<$<PLATFORM_ID:Darwin>:src/platform/Apple/mvAppleWindow.mm>"
+	"$<$<PLATFORM_ID:Darwin>:src/platform/Apple/mvAppleViewport.mm>"
 	"$<$<PLATFORM_ID:Darwin>:src/platform/Apple/mvAppleUtilities.mm>"
 
 	"$<$<PLATFORM_ID:Linux>:src/platform/Linux/mvUtilities.cpp>"
-	"$<$<PLATFORM_ID:Linux>:src/platform/Linux/mvLinuxWindow.cpp>"
+	"$<$<PLATFORM_ID:Linux>:src/platform/Linux/mvLinuxViewport.cpp>"
 
 	"src/core/mvEvents.cpp"
 	"src/core/mvApp.cpp"
 	"src/core/mvAppLog.cpp"
 	"src/core/mvInput.cpp"
-	"src/core/mvWindow.cpp"
+	"src/core/mvViewport.cpp"
 	"src/core/mvProfiler.cpp"
 	"src/core/mvLog.cpp"
 
@@ -96,6 +92,7 @@ set(MARVEL_SOURCES
 	"src/core/AppItems/custom/mvDatePicker.cpp"
 	"src/core/AppItems/custom/mvTimePicker.cpp"
 	"src/core/AppItems/custom/mvTextEditor.cpp"
+	"src/core/AppItems/custom/mvColorMapScale.cpp"
 
 	"src/core/AppItems/drawing/mvDrawing.cpp"
 	"src/core/AppItems/drawing/mvDrawLine.cpp"
@@ -124,7 +121,23 @@ set(MARVEL_SOURCES
 	
 	"src/core/AppItems/plots/mvPlot.cpp"
 	"src/core/AppItems/plots/mvAreaSeries.cpp"
+	"src/core/AppItems/plots/mvDragPoint.cpp"
+	"src/core/AppItems/plots/mvDragLine.cpp"
+	"src/core/AppItems/plots/mvAnnotation.cpp"
 	"src/core/AppItems/plots/mvSimplePlot.cpp"
+	"src/core/AppItems/plots/mvLineSeries.cpp"
+	"src/core/AppItems/plots/mvScatterSeries.cpp"
+	"src/core/AppItems/plots/mvStemSeries.cpp"
+	"src/core/AppItems/plots/mvStairSeries.cpp"
+	"src/core/AppItems/plots/mvBarSeries.cpp"
+	"src/core/AppItems/plots/mvErrorSeries.cpp"
+	"src/core/AppItems/plots/mvInfiniteLineSeries.cpp"
+	"src/core/AppItems/plots/mvHeatSeries.cpp"
+	"src/core/AppItems/plots/mvImageSeries.cpp"
+	"src/core/AppItems/plots/mvPieSeries.cpp"
+	"src/core/AppItems/plots/mvShadeSeries.cpp"
+	"src/core/AppItems/plots/mvLabelSeries.cpp"
+	"src/core/AppItems/plots/mvCandleSeries.cpp"
 
 	# imnodes
 	"vendor/imnodes/imnodes.cpp"

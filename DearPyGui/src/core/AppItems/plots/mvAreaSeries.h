@@ -4,38 +4,49 @@
 
 namespace Marvel {
 
-	class mvAreaSeries : public mvSeries
+	MV_REGISTER_WIDGET(mvAreaSeries, MV_ITEM_DESC_DEFAULT, StorageValueTypes::Series, 1);
+	class mvAreaSeries : public mvSeriesBase
 	{
 
 	public:
 
-		mvAreaSeries(const std::string& name, const std::vector<float>* x,
-			const std::vector<float>* y, mvColor color, mvColor fill, ImPlotYAxis_ axis)
-			: 
-			mvSeries(name, { x, y }, axis),
-			m_color(color), 
-			m_fill(fill)
-		{
-		}
+		static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
 
-		mvSeriesType getSeriesType() override { return mvSeriesType::Area; }
+		MV_APPITEM_TYPE(mvAppItemType::mvAreaSeries, add_area_series)
 
-		void draw(ImDrawList* drawlist, float x, float y) override
-		{
+		MV_CREATE_CONSTANT(mvThemeCol_Plot_Area_Line, ImPlotCol_Line, 0L);
 
-			ImPlot::PushPlotClipRect();
-			auto item = ImPlot::RegisterOrGetItem(m_name.c_str());
-			if (item->Show)
-				drawPolygon();
-			ImPlot::PopPlotClipRect();
+		MV_CREATE_CONSTANT(mvThemeStyle_Plot_Area_Weight, ImPlotStyleVar_LineWeight, 0L);
 
-		}
+		MV_START_EXTRA_COMMANDS
+		MV_END_EXTRA_COMMANDS
+
+		MV_START_GENERAL_CONSTANTS
+		MV_END_GENERAL_CONSTANTS
+
+		MV_START_COLOR_CONSTANTS
+		MV_ADD_CONSTANT(mvThemeCol_Plot_Area_Line, mvColor(0, 0, 0, -255), mvColor(0, 0, 0, -255)),
+		MV_END_COLOR_CONSTANTS
+
+		MV_START_STYLE_CONSTANTS
+		MV_ADD_CONSTANT(mvThemeStyle_Plot_Area_Weight, 1.0f, 12),
+		MV_END_STYLE_CONSTANTS
+
+	public:
+
+		mvAreaSeries(const std::string& name, const std::vector<std::vector<float>>& default_value);
+
+		void draw(ImDrawList* drawlist, float x, float y) override;
+
+		void setExtraConfigDict(PyObject* dict) override;
+		void getExtraConfigDict(PyObject* dict) override;
+
+	private:
 
 		void drawPolygon();
 
 	private:
 
-		mvColor m_color = MV_DEFAULT_COLOR;
 		mvColor m_fill = MV_DEFAULT_COLOR;
 	};
 

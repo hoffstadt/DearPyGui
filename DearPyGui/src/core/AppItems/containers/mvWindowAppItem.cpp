@@ -1,5 +1,6 @@
 #include "mvWindowAppItem.h"
 #include "mvInput.h"
+#include "mvViewport.h"
 #include "mvItemRegistry.h"
 #include "mvImGuiThemeScope.h"
 #include "mvFontScope.h"
@@ -119,7 +120,7 @@ namespace Marvel {
 
 	void mvWindowAppItem::setLabel(const std::string& value)
 	{
-		m_label = value;
+		m_specificedlabel = value;
 		m_label = value + "###" + m_name;
 		m_dirty_pos = true;
 		m_dirty_size = true;
@@ -159,7 +160,7 @@ namespace Marvel {
 			ImGui::SetNextWindowBgAlpha(1.0f);
 			ImGui::PushStyleVar(ImGuiStyleVar_WindowRounding, 0.0f); // to prevent main window corners from showing
 			ImGui::SetNextWindowPos(ImVec2(0.0f, 0.0f));
-			ImGui::SetNextWindowSize(ImVec2((float)mvApp::GetApp()->getClientWidth(), (float)mvApp::GetApp()->getClientHeight()));
+			ImGui::SetNextWindowSize(ImVec2((float)mvApp::GetApp()->getViewport()->getClientWidth(), (float)mvApp::GetApp()->getViewport()->getClientHeight()));
 		}
 
 		else if (m_dirty_pos)
@@ -212,7 +213,7 @@ namespace Marvel {
 		if (m_mainWindow)
 			ImGui::PopStyleVar();
 
-		for (auto& item : m_children0)
+		for (auto& item : m_children[0])
 		{
 			// skip item if it's not shown
 			if (!item->m_show)
@@ -224,7 +225,7 @@ namespace Marvel {
 
 		}
 
-		for (auto& item : m_children1)
+		for (auto& item : m_children[1])
 		{
 			// skip item if it's not shown
 			if (!item->m_show)

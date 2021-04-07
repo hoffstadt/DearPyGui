@@ -18,7 +18,8 @@ namespace Marvel {
     {
         None = 0,
         Int, Int4,
-        Float, Float4, FloatVect,
+        Float, Float4, FloatVect, 
+        Series,
         Bool,
         String,
         Time, Color
@@ -38,6 +39,7 @@ namespace Marvel {
         std::shared_ptr<float >,
         std::shared_ptr<std::array<float, 4>>,
         std::shared_ptr<std::vector<float>>,
+        std::shared_ptr<std::vector<std::vector<float>>>,
         std::shared_ptr<bool>,
         std::shared_ptr<std::string>,
         std::shared_ptr<tm>,

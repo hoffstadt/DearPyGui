@@ -106,7 +106,7 @@ namespace Marvel {
 		int show = true;
 		int enabled = true;
 
-		if (!(mvApp::GetApp()->getParsers())["add_button"].parse(args, kwargs, __FUNCTION__, &name, &smallb,
+		if (!(mvApp::GetApp()->getParsers())[s_command].parse(args, kwargs, __FUNCTION__, &name, &smallb,
 			&arrow, &direction, &callback, &callback_data, &parent, &before, &width, &height,
 			&label, &show, &enabled))
 			return GetPyNone();

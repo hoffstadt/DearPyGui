@@ -281,7 +281,7 @@ namespace Marvel {
         const char* label = "";
         int show = true;
 
-        if (!(mvApp::GetApp()->getParsers())["add_slider_float4"].parse(args, kwargs, __FUNCTION__, &name, &default_value,
+        if (!(mvApp::GetApp()->getParsers())[s_command].parse(args, kwargs, __FUNCTION__, &name, &default_value,
             &size, &min_value, &max_value, &format, &callback, &callback_data, &parent, &before, &source, &enabled,
             &width, &no_input, &clamped, &label, &show))
             return ToPyBool(false);
@@ -330,7 +330,7 @@ namespace Marvel {
         const char* label = "";
         int show = true;
 
-        if (!(mvApp::GetApp()->getParsers())["add_slider_int4"].parse(args, kwargs, __FUNCTION__, &name, &default_value,
+        if (!(mvApp::GetApp()->getParsers())[s_command].parse(args, kwargs, __FUNCTION__, &name, &default_value,
             &size, &min_value, &max_value, &format, &callback, &callback_data, &parent, &before, &source, &enabled,
             &width, &no_input, &clamped, &label, &show))
             return ToPyBool(false);

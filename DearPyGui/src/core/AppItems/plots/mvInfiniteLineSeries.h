@@ -2,65 +2,95 @@
 
 #include "mvPlot.h"
 
+//-----------------------------------------------------------------------------
+// Widget Index
+//
+//     * mvVLineSeries
+//     * mvHLineSeries
+//
+//-----------------------------------------------------------------------------
+
 namespace Marvel {
 
-	class mvVLineSeries : public mvSeries
+	//-----------------------------------------------------------------------------
+	// mvVLineSeries
+	//-----------------------------------------------------------------------------
+	MV_REGISTER_WIDGET(mvVLineSeries, MV_ITEM_DESC_DEFAULT, StorageValueTypes::Series, 1);
+	class mvVLineSeries : public mvSeriesBase
 	{
+	public:
+
+		static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
+
+		MV_APPITEM_TYPE(mvAppItemType::mvVLineSeries, add_vline_series)
+
+		MV_CREATE_CONSTANT(mvThemeCol_Plot_VLine, ImPlotCol_Line, 0L);
+
+		MV_CREATE_CONSTANT(mvThemeStyle_Plot_VLine_Weight, ImPlotStyleVar_LineWeight, 0L);
+
+		MV_START_EXTRA_COMMANDS
+		MV_END_EXTRA_COMMANDS
+
+		MV_START_GENERAL_CONSTANTS
+		MV_END_GENERAL_CONSTANTS
+
+		MV_START_COLOR_CONSTANTS
+		MV_ADD_CONSTANT(mvThemeCol_Plot_VLine, mvColor(0, 0, 0, -255), mvColor(0, 0, 0, -255)),
+		MV_END_COLOR_CONSTANTS
+
+		MV_START_STYLE_CONSTANTS
+		MV_ADD_CONSTANT(mvThemeStyle_Plot_VLine_Weight, 1.0f, 12),
+		MV_END_STYLE_CONSTANTS
 
 	public:
 
-		mvVLineSeries(const std::string& name, const std::vector<float>* x,
-			mvColor color, ImPlotYAxis_ axis)
-			:
-			mvSeries(name, { x }, axis),
-			m_color(color)
-		{
-		}
+		mvVLineSeries(const std::string& name, const std::vector<std::vector<float>>& default_value);
 
-		mvSeriesType getSeriesType() override { return mvSeriesType::VLine; }
+		void draw(ImDrawList* drawlist, float x, float y) override;
 
-		void draw(ImDrawList* drawlist, float x, float y) override
-		{
-
-			ImPlot::SetNextLineStyle(m_color);
-			ImPlot::PushStyleVar(ImPlotStyleVar_LineWeight, m_weight);
-			ImPlot::PlotVLines(m_name.c_str(), m_data[0].data(), (int)m_data[0].size());
-			ImPlot::PopStyleVar();
-		}
-
-	private:
-
-		mvColor m_color;
+		void setExtraConfigDict(PyObject* dict) override;
+		void getExtraConfigDict(PyObject* dict) override;
 
 	};
 
-	class mvHLineSeries : public mvSeries
+	//-----------------------------------------------------------------------------
+	// mvHLineSeries
+	//-----------------------------------------------------------------------------
+	MV_REGISTER_WIDGET(mvHLineSeries, MV_ITEM_DESC_DEFAULT, StorageValueTypes::Series, 1);
+	class mvHLineSeries : public mvSeriesBase
 	{
+	public:
+
+		static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
+
+		MV_APPITEM_TYPE(mvAppItemType::mvHLineSeries, add_hline_series)
+
+		MV_CREATE_CONSTANT(mvThemeCol_Plot_HLine, ImPlotCol_Line, 0L);
+
+		MV_CREATE_CONSTANT(mvThemeStyle_Plot_HLine_Weight, ImPlotStyleVar_LineWeight, 0L);
+
+		MV_START_EXTRA_COMMANDS
+		MV_END_EXTRA_COMMANDS
+
+		MV_START_GENERAL_CONSTANTS
+		MV_END_GENERAL_CONSTANTS
+
+		MV_START_COLOR_CONSTANTS
+		MV_ADD_CONSTANT(mvThemeCol_Plot_HLine, mvColor(0, 0, 0, -255), mvColor(0, 0, 0, -255)),
+		MV_END_COLOR_CONSTANTS
+
+		MV_START_STYLE_CONSTANTS
+		MV_ADD_CONSTANT(mvThemeStyle_Plot_HLine_Weight, 1.0f, 12),
+		MV_END_STYLE_CONSTANTS
 
 	public:
 
-		mvHLineSeries(const std::string& name, const std::vector<float>* x, 
-			mvColor color, ImPlotYAxis_ axis)
-			:
-			mvSeries(name, { x }, axis),
-			m_color(color)
-		{
-		}
+		mvHLineSeries(const std::string& name, const std::vector<std::vector<float>>& default_value);
 
-		mvSeriesType getSeriesType() override { return mvSeriesType::HLine; }
+		void draw(ImDrawList* drawlist, float x, float y) override;
 
-		void draw(ImDrawList* drawlist, float x, float y) override
-		{
-
-			ImPlot::SetNextLineStyle(m_color);
-			ImPlot::PushStyleVar(ImPlotStyleVar_LineWeight, m_weight);
-			ImPlot::PlotHLines(m_name.c_str(), m_data[0].data(), (int)m_data[0].size());
-			ImPlot::PopStyleVar();
-		}
-
-	private:
-
-		mvColor m_color;
+		void setExtraConfigDict(PyObject* dict) override;
+		void getExtraConfigDict(PyObject* dict) override;
 
 	};
 

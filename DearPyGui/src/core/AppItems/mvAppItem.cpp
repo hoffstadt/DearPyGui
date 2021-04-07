@@ -31,7 +31,7 @@ namespace Marvel{
 			{mvPythonDataType::Kwargs, "**Kwargs"},
 		}, "Configures an item", "None", "Widget Commands") });
 
-		parsers->insert({ "get_item_children1", mvPythonParser({
+		parsers->insert({ "get_item_children[1]", mvPythonParser({
 			{mvPythonDataType::String, "item"}
 		}, "Returns a list of an item's children.", "List[str]", "Widget Commands") });
 
@@ -176,11 +176,11 @@ namespace Marvel{
 	void mvAppItem::resetState()
 	{
 		m_state.reset();
-		for (auto& item : m_children0)
-			item->resetState();
-		for (auto& item : m_children1)
-			item->resetState();
-
+		for (auto& childset : m_children)
+		{
+			for (auto& child : childset)
+				child->resetState();
+		}
 	}
 
 	bool  mvAppItem::moveChildUp(const std::string& name)
@@ -227,9 +227,13 @@ namespace Marvel{
 			return false;
 		};
 
-		if (operation(m_children0))
-			return true;
-		return operation(m_children1);
+		for (auto& childset : m_children)
+		{
+			if (operation(childset))
+				return true;
+		}
+
+		return false;
 
 
 	}
@@ -278,9 +282,13 @@ namespace Marvel{
 			return false;
 		};
 
-		if (operation(m_children0))
-			return true;
-		return operation(m_children1);
+		for (auto& childset : m_children)
+		{
+			if (operation(childset))
+				return true;
+		}
+
+		return false;
 
 	}
 
@@ -367,17 +375,13 @@ namespace Marvel{
 			return false;
 		};
 
-		if (operation(m_children0))
-			return true;
-		return operation(m_children1);
+		return operation(m_children[item->getTarget()]);
 	}
 
 	bool mvAppItem::addItem(mvRef<mvAppItem> item)
 	{
-		if (item->getTarget() == 0)
-			m_children0.push_back(item);
-		else
-			m_children1.push_back(item);
+
+		m_children[item->getTarget()].push_back(item);
 
 		return true;
 	}
@@ -438,9 +442,7 @@ namespace Marvel{
 			return false;
 		};
 
-		if (operation(m_children0))
-			return true;
-		return operation(m_children1);
+		return operation(m_children[item->getTarget()]);
 	}
 
 	bool mvAppItem::deleteChild(const std::string& name)
@@ -488,15 +490,19 @@ namespace Marvel{
 			return itemDeleted;
 		};
 
-		if (operation(m_children0))
-			return true;
-		return operation(m_children1);
+		for (auto& childset : m_children)
+		{
+			if (operation(childset))
+				return true;
+		}
+
+		return false;
 	}
 
 	void mvAppItem::deleteChildren()
 	{
-		m_children0.clear();
-		m_children1.clear();
+		for (auto& childset : m_children)
+			childset.clear();
 	}
 
 	void mvAppItem::setLabel(const std::string& value)
@@ -551,37 +557,30 @@ namespace Marvel{
 		};
 
 
-		if (operation(m_children0))
-			return stolenChild;
-		return operation(m_children1);
+		for (auto& childset : m_children)
+		{
+			if (operation(childset))
+				return stolenChild;
+		}
 
+		return stolenChild;
 	}
 
 	mvRef<mvAppItem> mvAppItem::getChild(const std::string& name)
 	{
-		for (auto& item : m_children0)
+		for (auto& childset : m_children)
 		{
-			if (item->m_name == name)
-				return item;
-
-			if (DoesItemHaveFlag(item.get(), MV_ITEM_DESC_CONTAINER))
+			for (auto& item : childset)
 			{
-				auto child = item->getChild(name);
-				if (child)
-					return child;
-			}
-		}
+				if (item->m_name == name)
+					return item;
 
-		for (auto& item : m_children1)
-		{
-			if (item->m_name == name)
-				return item;
-
-			if (DoesItemHaveFlag(item.get(), MV_ITEM_DESC_CONTAINER))
-			{
-				auto child = item->getChild(name);
-				if (child)
-					return child;
+				if (DoesItemHaveFlag(item.get(), MV_ITEM_DESC_CONTAINER))
+				{
+					auto child = item->getChild(name);
+					if (child)
+						return child;
+				}
 			}
 		}
 
@@ -628,7 +627,7 @@ namespace Marvel{
 		m_theme_color_dirty = true;
 		m_cached_colors.clear();
 
-		for (auto& child : m_children1)
+		for (auto& child : m_children[1])
 			child->inValidateThemeColorCache();
 	}
 
@@ -638,7 +637,7 @@ namespace Marvel{
 		m_cached_styles.clear();
 		m_cached_styles2.clear();
 
-		for (auto& child : m_children1)
+		for (auto& child : m_children[1])
 			child->inValidateThemeStyleCache();
 	}
 
@@ -647,7 +646,7 @@ namespace Marvel{
 		m_theme_font_dirty = true;
 		m_cached_font = nullptr;
 
-		for (auto& child : m_children1)
+		for (auto& child : m_children[1])
 			child->inValidateThemeFontCache();
 	}
 
@@ -864,7 +863,7 @@ namespace Marvel{
 	{
 		const char* item;
 
-		if (!(mvApp::GetApp()->getParsers())["get_item_children1"].parse(args, kwargs, __FUNCTION__, &item))
+		if (!(mvApp::GetApp()->getParsers())["get_item_children[1]"].parse(args, kwargs, __FUNCTION__, &item))
 			return GetPyNone();
 
 		std::lock_guard<std::mutex> lk(mvApp::GetApp()->getMutex());

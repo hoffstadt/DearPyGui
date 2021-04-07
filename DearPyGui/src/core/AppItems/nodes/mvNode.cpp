@@ -55,7 +55,7 @@ namespace Marvel {
 		: mvAppItem(name)
 	{
 		m_label = FindRenderedTextEnd(m_name.c_str());
-		m_label = m_label;
+		m_specificedlabel = m_label;
         int64_t address = (int64_t)this;
         int64_t reduced_address = address % 2147483648;
         m_id = (int)reduced_address;
@@ -114,7 +114,7 @@ namespace Marvel {
 		//we do this so that the children dont get the theme
 		scope.cleanup();
 
-		for (auto item : m_children1)
+		for (auto item : m_children[1])
 		{
 			// skip item if it's not shown
 			if (!item->m_show)

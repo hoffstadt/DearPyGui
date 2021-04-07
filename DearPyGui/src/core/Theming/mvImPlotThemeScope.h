@@ -42,14 +42,17 @@ namespace Marvel {
 				ImPlot::PushStyleColor(imColorID, color.second.first.toVec4());
 			}
 
-			StyleIDCount = styles.size();
+			StyleIDCount = styles2.size() + styles.size();
 			for (const auto& style : styles2)
-			{
-				ImPlot::PushStyleVar((ImPlotStyleVar)style.first, { styles[style.first], styles2[style.first] });
-				styles.erase(style.first);
-			}
+				ImPlot::PushStyleVar((ImPlotStyleVar)style.first, { styles1[style.first], styles2[style.first] });
+
 			for (const auto& style : styles)
-				ImPlot::PushStyleVar((ImPlotStyleVar)style.first, style.second);
+			{
+				if((ImPlotStyleVar)style.first == ImPlotStyleVar_Marker)
+					ImPlot::PushStyleVar((ImPlotStyleVar)style.first, (int)style.second);
+				else
+					ImPlot::PushStyleVar((ImPlotStyleVar)style.first, style.second);
+			}
 		}
 
 		~mvImPlotThemeScope()

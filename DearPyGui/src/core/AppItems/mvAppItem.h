@@ -50,6 +50,11 @@ namespace Marvel {
         mvDrawQuad, mvDrawRect, mvDrawText, mvDrawPolygon, mvDrawPolyline,
         mvDrawImage, mvDragFloatMulti, mvDragIntMulti, mvSliderFloatMulti,
         mvSliderIntMulti, mvInputIntMulti, mvInputFloatMulti,
+        mvDragPoint, mvDragLine, mvAnnotation, mvLineSeries,
+        mvScatterSeries, mvStemSeries, mvStairSeries, mvBarSeries,
+        mvErrorSeries, mvVLineSeries, mvHLineSeries, mvHeatSeries,
+        mvImageSeries, mvPieSeries, mvShadeSeries, mvLabelSeries,
+        mvCandleSeries, mvAreaSeries, mvColorMapScale,
         ItemTypeCount
     };
 
@@ -91,6 +96,7 @@ namespace Marvel {
         friend class mvFontManager;
         friend class mvFontScope;
         friend class mvDrawing;
+        friend class mvPlot;
 
     public:
 
@@ -258,8 +264,7 @@ namespace Marvel {
         mvAppItemState                m_state;
 
         mvAppItem*                    m_parentPtr = nullptr;
-        std::vector<mvRef<mvAppItem>> m_children0;
-        std::vector<mvRef<mvAppItem>> m_children1;
+        std::vector<mvRef<mvAppItem>> m_children[2] = { {}, {} };
 
         std::string                   m_label; // internal label
 

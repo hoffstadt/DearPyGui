@@ -194,6 +194,37 @@ namespace Marvel {
 	};
 
 	//-----------------------------------------------------------------------------
+	// mvSeriesBase
+	//-----------------------------------------------------------------------------
+	class mvSeriesBase : public mvAppItem
+	{
+
+	public:
+
+		mvSeriesBase(const std::string& name, const std::vector<std::vector<float>>& default_value);
+		void setDataSource(const std::string& dataSource) override;
+		mvValueVariant getValue() override { return m_value; }
+		PyObject* getPyValue() override;
+		void setPyValue(PyObject* value) override;
+		bool isParentCompatible(mvAppItemType type) override;
+
+		const std::pair<float, float>& getMaxMin(int i) const;
+		bool doesSeriesContributeToBounds() const { return m_contributeToBounds; }
+
+	private:
+
+		void calculateMaxMins();
+		void resetMaxMins();
+
+	protected:
+
+		mvRef<std::vector<std::vector<float>>> m_value;
+		std::vector<std::pair<float, float>>   m_maxMins;
+		bool                                   m_contributeToBounds = false;
+		ImPlotYAxis_                           m_axis = ImPlotYAxis_1;
+	};
+
+	//-----------------------------------------------------------------------------
 	// mvBaseWindowAppitem
 	//-----------------------------------------------------------------------------
 	class mvBaseWindowAppitem : public mvAppItem

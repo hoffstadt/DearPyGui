@@ -71,7 +71,7 @@ namespace Marvel {
 			ImVec2(m_width, m_height), m_inner_width))
 		{
 
-			for (auto& item : m_children0)
+			for (auto& item : m_children[0])
 			{
 				// skip item if it's not shown
 				if (!item->m_show)
@@ -91,7 +91,7 @@ namespace Marvel {
 
 			ImGui::TableNextColumn();
 
-			for (auto& item : m_children1)
+			for (auto& item : m_children[1])
 			{
 				// skip item if it's not shown
 				if (!item->m_show)

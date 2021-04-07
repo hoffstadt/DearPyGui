@@ -4,28 +4,35 @@
 
 namespace Marvel {
 
-	class mvLabelSeries : public mvSeries
+	MV_REGISTER_WIDGET(mvLabelSeries, MV_ITEM_DESC_DEFAULT, StorageValueTypes::Series, 1);
+	class mvLabelSeries : public mvSeriesBase
 	{
+	public:
+
+		static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
+
+		MV_APPITEM_TYPE(mvAppItemType::mvLabelSeries, add_text_point)
+
+		MV_START_EXTRA_COMMANDS
+		MV_END_EXTRA_COMMANDS
+
+		MV_START_GENERAL_CONSTANTS
+		MV_END_GENERAL_CONSTANTS
+
+		MV_START_COLOR_CONSTANTS
+		MV_END_COLOR_CONSTANTS
+
+		MV_START_STYLE_CONSTANTS
+		MV_END_STYLE_CONSTANTS
 
 	public:
 
-		mvLabelSeries(const std::string& name, const std::vector<float>* x, 
-			const std::vector<float>* y, int xoffset = 0, int yoffset = 0, bool vertical = false, ImPlotYAxis_ axis = ImPlotYAxis_1)
-			: 
-			mvSeries(name, {x, y}, axis),
-			m_xoffset(xoffset), 
-			m_yoffset(yoffset),
-			m_vertical(vertical)
-		{
-		}
+		mvLabelSeries(const std::string& name, const std::vector<std::vector<float>>& default_value);
 
-		mvSeriesType getSeriesType() override { return mvSeriesType::Label; }
+		void draw(ImDrawList* drawlist, float x, float y) override;
 
-		void draw(ImDrawList* drawlist, float x, float y) override
-		{
-			ImPlot::PlotText(m_name.c_str(), m_data[0][0], m_data[1][0], m_vertical,
-				ImVec2((float)m_xoffset, (float)m_yoffset));
-		}
+		void setExtraConfigDict(PyObject* dict) override;
+		void getExtraConfigDict(PyObject* dict) override;
 
 	private:
 
