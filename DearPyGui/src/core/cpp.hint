@@ -19,7 +19,7 @@ static PyObject* parser(PyObject* self, PyObject* args, PyObject* kwargs)\
 {\
 	static int i = 0; i++;\
 	std::string name = std::string(std::string("$$DPG_") + s_internal_id + std::to_string(i));\
-	auto& [parent, before] = mvAppItem::GetNameFromArgs(name, args, kwargs);\
+	auto [parent, before] = mvAppItem::GetNameFromArgs(name, args, kwargs);\
 	auto item = CreateRef<mvItemTypeMap<(int)x>::type>(name);\
 	item->checkConfigDict(kwargs);\
 	item->setConfigArgs(args);\
