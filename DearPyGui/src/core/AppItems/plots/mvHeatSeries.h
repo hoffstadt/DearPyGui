@@ -36,11 +36,11 @@ namespace Marvel {
 
 	private:
 
-		int         m_rows;
-		int         m_cols;
-		double      m_scale_min;
-		double      m_scale_max;
-		std::string m_format;
+		int         m_rows = 1;
+		int         m_cols = 1;
+		double      m_scale_min = 0.0;
+		double      m_scale_max = 1.0;
+		std::string m_format = "%0.1f";
 		mvVec2      m_bounds_min = {0.0f, 0.0f};
 		mvVec2      m_bounds_max = {1.0f, 1.0f};
 
