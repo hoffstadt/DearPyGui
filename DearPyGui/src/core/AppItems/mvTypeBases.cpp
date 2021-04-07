@@ -275,12 +275,9 @@ namespace Marvel {
 		m_value = std::get<std::shared_ptr<std::string>>(item->getValue());
 	}
 
-	mvTimePtrBase::mvTimePtrBase(const std::string& name, const tm& default_value)
+	mvTimePtrBase::mvTimePtrBase(const std::string& name)
 		: mvAppItem(name)
 	{
-
-		m_value = std::make_shared<tm>(default_value);
-		m_imvalue = std::make_shared<ImPlotTime>(ImPlot::MkGmtTime(m_value.get()));
 	}
 
 	PyObject* mvTimePtrBase::getPyValue()

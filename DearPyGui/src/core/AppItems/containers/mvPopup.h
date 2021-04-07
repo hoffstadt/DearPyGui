@@ -79,7 +79,7 @@ namespace Marvel {
 
 	public:
 
-		mvPopup(const std::string& name, mvAppItem* parentAddress);
+		mvPopup(const std::string& name);
 
 		void closePopup();
 

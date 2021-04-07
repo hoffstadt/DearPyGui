@@ -38,7 +38,7 @@ def add_collapsing_header(name: str = ..., *, label: str = '', show: bool = True
 	"""Adds a collapsing header to add items to. Must be closed with the end command."""
 	...
 
-def add_color_button(color: List[float], name: str = ..., *, callback: Callable = None, callback_data: Any = None, parent: str = '', before: str = '', width: int = 0, height: int = 0, show: bool = True, no_alpha: bool = False, no_border: bool = False, no_drag_drop: bool = False, enabled: bool = True) -> None:
+def add_color_button(name: str = ..., *, default_value: List[int] = (0, 0, 0, 255), callback: Callable = None, callback_data: Any = None, parent: str = '', before: str = '', width: int = 0, height: int = 0, show: bool = True, no_alpha: bool = False, no_border: bool = False, no_drag_drop: bool = False, enabled: bool = True) -> None:
 	"""Adds a color button."""
 	...
 
@@ -66,7 +66,7 @@ def add_combo(name: str = ..., *, items: List[str] = (), default_value: str = ''
 	"""Adds a combo."""
 	...
 
-def add_data_grid(name: str = ..., headers: List[str] = ..., *, callback: Callable = None, callback_data: Any = None, parent: str = '', before: str = '', width: int = 0, height: int = 200, hide_headers: bool = False, show: bool = True) -> None:
+def add_data_grid(name: str = ..., *, headers: List[str] = ..., callback: Callable = None, callback_data: Any = None, parent: str = '', before: str = '', width: int = 0, height: int = 200, hide_headers: bool = False, show: bool = True) -> None:
 	"""Adds data grid."""
 	...
 
@@ -142,11 +142,11 @@ def add_hline_series(name: str = ..., *, x: List[float] = ..., label: str = '', 
 	"""Adds a drag point to a plot."""
 	...
 
-def add_image(value: str, name: str = ..., *, tint_color: List[float] = (255, 255, 255, 255), border_color: List[float] = (0, 0, 0, 0), parent: str = '', before: str = '', source: str = '', width: int = 0, height: int = 0, uv_min: List[float] = (0.0, 0.0), uv_max: List[float] = (1.0, 1.0), show: bool = True) -> None:
+def add_image(name: str = ..., *, value: str = ..., tint_color: List[float] = (255, 255, 255, 255), border_color: List[float] = (0, 0, 0, 0), parent: str = '', before: str = '', source: str = '', width: int = 0, height: int = 0, uv_min: List[float] = (0.0, 0.0), uv_max: List[float] = (1.0, 1.0), show: bool = True) -> None:
 	"""Adds an image.uv_min and uv_max represent the normalized texture coordinates of the original image that will be shown.Using(0,0)->(1,1) texture coordinates will generally display the entire texture"""
 	...
 
-def add_image_button(value: str, name: str = ..., *, callback: Callable = None, callback_data: Any = None, tint_color: List[float] = (255, 255, 255, 255), background_color: List[float] = (0, 0, 0, 0), parent: str = '', before: str = '', width: int = 0, height: int = 0, frame_padding: int = -1, uv_min: List[float] = (0.0, 0.0), uv_max: List[float] = (1.0, 1.0), show: bool = True, enabled: bool = True) -> None:
+def add_image_button(name: str = ..., *, value: str = ..., callback: Callable = None, callback_data: Any = None, tint_color: List[float] = (255, 255, 255, 255), background_color: List[float] = (0, 0, 0, 0), parent: str = '', before: str = '', width: int = 0, height: int = 0, frame_padding: int = -1, uv_min: List[float] = (0.0, 0.0), uv_max: List[float] = (1.0, 1.0), show: bool = True, enabled: bool = True) -> None:
 	"""Adds an image button.uv_min and uv_max represent the normalized texture coordinates of the original image that will be shown.Using(0,0)->(1,1) texture coordinates will generally display the entire texture"""
 	...
 
@@ -230,15 +230,15 @@ def add_pie_series(name: str = ..., *, values: List[float] = ..., labels: List[s
 	"""Adds a drag point to a plot."""
 	...
 
-def add_plot(name: str = ..., *, x_axis_name: str = '', y_axis_name: str = '', no_legend: bool = False, no_menus: bool = False, no_box_select: bool = False, no_mouse_pos: bool = False, no_highlight: bool = False, no_child: bool = False, query: bool = False, crosshairs: bool = False, anti_aliased: bool = False, equal_aspects: bool = False, yaxis2: bool = False, yaxis3: bool = False, xaxis_no_gridlines: bool = False, xaxis_no_tick_marks: bool = False, xaxis_no_tick_labels: bool = False, xaxis_log_scale: bool = False, xaxis_time: bool = False, xaxis_invert: bool = False, xaxis_lock_min: bool = False, xaxis_lock_max: bool = False, yaxis_no_gridlines: bool = False, yaxis_no_tick_marks: bool = False, yaxis_no_tick_labels: bool = False, yaxis_log_scale: bool = False, yaxis_invert: bool = False, yaxis_lock_min: bool = False, yaxis_lock_max: bool = False, y2axis_no_gridlines: bool = False, y2axis_no_tick_marks: bool = False, y2axis_no_tick_labels: bool = False, y2axis_log_scale: bool = False, y2axis_invert: bool = False, y2axis_lock_min: bool = False, y2axis_lock_max: bool = False, y3axis_no_gridlines: bool = False, y3axis_no_tick_marks: bool = False, y3axis_no_tick_labels: bool = False, y3axis_log_scale: bool = False, y3axis_invert: bool = False, y3axis_lock_min: bool = False, y3axis_lock_max: bool = False, parent: str = '', before: str = '', width: int = -1, height: int = -1, query_callback: Callable = None, label: str = '', show: bool = True) -> None:
-	"""Adds a plot widget."""
-	...
-
 def add_plot_annotation(name: str = ..., *, default_value: List[float] = (0.0, 0.0), offset: List[float] = (0.0, 0.0), label: str = '', source: str = '', color: List[float] = (0, 0, 0, -1), clamped: bool = True, parent: str = '', before: str = '', show: bool = True) -> None:
 	"""Adds a drag point to a plot."""
 	...
 
-def add_popup(popupparent: str, name: str = ..., *, mousebutton: int = 1, modal: bool = False, parent: str = '', before: str = '', width: int = 0, height: int = 0, show: bool = True) -> None:
+def add_plot_stack(name: str = ..., *, x_axis_name: str = '', y_axis_name: str = '', no_legend: bool = False, no_menus: bool = False, no_box_select: bool = False, no_mouse_pos: bool = False, no_highlight: bool = False, no_child: bool = False, query: bool = False, crosshairs: bool = False, anti_aliased: bool = False, equal_aspects: bool = False, yaxis2: bool = False, yaxis3: bool = False, xaxis_no_gridlines: bool = False, xaxis_no_tick_marks: bool = False, xaxis_no_tick_labels: bool = False, xaxis_log_scale: bool = False, xaxis_time: bool = False, xaxis_invert: bool = False, xaxis_lock_min: bool = False, xaxis_lock_max: bool = False, yaxis_no_gridlines: bool = False, yaxis_no_tick_marks: bool = False, yaxis_no_tick_labels: bool = False, yaxis_log_scale: bool = False, yaxis_invert: bool = False, yaxis_lock_min: bool = False, yaxis_lock_max: bool = False, y2axis_no_gridlines: bool = False, y2axis_no_tick_marks: bool = False, y2axis_no_tick_labels: bool = False, y2axis_log_scale: bool = False, y2axis_invert: bool = False, y2axis_lock_min: bool = False, y2axis_lock_max: bool = False, y3axis_no_gridlines: bool = False, y3axis_no_tick_marks: bool = False, y3axis_no_tick_labels: bool = False, y3axis_log_scale: bool = False, y3axis_invert: bool = False, y3axis_lock_min: bool = False, y3axis_lock_max: bool = False, parent: str = '', before: str = '', width: int = -1, height: int = -1, query_callback: Callable = None, label: str = '', show: bool = True) -> None:
+	"""Adds a plot widget."""
+	...
+
+def add_popup(name: str = ..., *, mousebutton: int = 1, modal: bool = False, parent: str = '', before: str = '', width: int = 0, height: int = 0, show: bool = True) -> None:
 	"""Adds a popup window for an item. This command must come immediately after the item the popup is for. Must be followed by a call to end."""
 	...
 
@@ -346,7 +346,7 @@ def add_time_picker(name: str = ..., *, default_value: dict = {'hour': 14, 'min'
 	"""Adds a time selector widget."""
 	...
 
-def add_tooltip(tipparent: str, name: str = ..., *, parent: str = '', before: str = '', show: bool = True) -> None:
+def add_tooltip(name: str = ..., *, parent: str = ..., before: str = '', show: bool = True) -> None:
 	"""Adds an advanced tool tip for an item. This command must come immediately after the item the tip is for."""
 	...
 
@@ -422,47 +422,47 @@ def does_item_exist(item: str) -> bool:
 	"""Checks if item exists."""
 	...
 
-def draw_arrow(p1: List[float] = ..., p2: List[float] = ..., color: List[int] = ..., thickness: int = ..., size: int = ..., *, name: str = '', parent: str = '', before: str = '', show: bool = True) -> None:
+def draw_arrow(name: str = '', *, p1: List[float] = ..., p2: List[float] = ..., color: List[int] = ..., thickness: int = ..., size: int = ..., parent: str = '', before: str = '', show: bool = True) -> None:
 	"""Draws an arrow on a drawing."""
 	...
 
-def draw_bezier_curve(p1: List[float] = ..., p2: List[float] = ..., p3: List[float] = ..., p4: List[float] = ..., color: List[int] = ..., *, thickness: float = 1.0, segments: int = 0, name: str = '', parent: str = '', before: str = '', show: bool = True) -> None:
+def draw_bezier_curve(name: str = '', *, p1: List[float] = ..., p2: List[float] = ..., p3: List[float] = ..., p4: List[float] = ..., color: List[int] = ..., thickness: float = 1.0, segments: int = 0, parent: str = '', before: str = '', show: bool = True) -> None:
 	"""Draws a bezier curve on a drawing."""
 	...
 
-def draw_circle(center: List[float] = ..., radius: float = ..., color: List[int] = ..., *, segments: int = 0, thickness: float = 1.0, fill: List[float] = (0, 0, 0, -1), name: str = '', parent: str = '', before: str = '', show: bool = True) -> None:
+def draw_circle(name: str = '', *, center: List[float] = ..., radius: float = ..., color: List[int] = ..., segments: int = 0, thickness: float = 1.0, fill: List[float] = (0, 0, 0, -1), parent: str = '', before: str = '', show: bool = True) -> None:
 	"""Draws a circle on a drawing."""
 	...
 
-def draw_image(file: str = ..., pmin: List[float] = ..., pmax: List[float] = ..., *, uv_min: List[float] = (0.0, 0.0), uv_max: List[float] = (1.0, 1.0), color: List[int] = (255, 255, 255, 255), name: str = '', parent: str = '', before: str = '', show: bool = True) -> None:
+def draw_image(name: str = '', *, file: str = ..., pmin: List[float] = ..., pmax: List[float] = ..., uv_min: List[float] = (0.0, 0.0), uv_max: List[float] = (1.0, 1.0), color: List[int] = (255, 255, 255, 255), parent: str = '', before: str = '', show: bool = True) -> None:
 	"""Draws an image on a drawing. p_min (bottom-left) and p_max (upper-right) represent corners of the rectangle the image will be drawn to.Setting the p_min equal to the p_max will sraw the image to with 1:1 scale.uv_min and uv_max represent the normalized texture coordinates of the original image that will be shown. Using (0,0)->(1,1) texturecoordinates will generally display the entire texture."""
 	...
 
-def draw_line(p1: List[float] = ..., p2: List[float] = ..., color: List[int] = ..., thickness: int = ..., *, name: str = '', parent: str = '', before: str = '', show: bool = True) -> None:
+def draw_line(name: str = '', *, p1: List[float] = ..., p2: List[float] = ..., color: List[int] = ..., thickness: int = ..., parent: str = '', before: str = '', show: bool = True) -> None:
 	"""Draws a line on a drawing."""
 	...
 
-def draw_polygon(points: List[List[float]] = ..., color: List[int] = ..., *, fill: List[float] = (0, 0, 0, -1), thickness: float = 1.0, name: str = '', parent: str = '', before: str = '', show: bool = True) -> None:
+def draw_polygon(name: str = '', *, points: List[List[float]] = ..., color: List[int] = ..., fill: List[float] = (0, 0, 0, -1), thickness: float = 1.0, parent: str = '', before: str = '', show: bool = True) -> None:
 	"""Draws a polygon on a drawing."""
 	...
 
-def draw_polyline(points: List[List[float]] = ..., color: List[int] = ..., *, closed: bool = False, thickness: float = 1.0, name: str = '', parent: str = '', before: str = '', show: bool = True) -> None:
+def draw_polyline(name: str = '', *, points: List[List[float]] = ..., color: List[int] = ..., closed: bool = False, thickness: float = 1.0, parent: str = '', before: str = '', show: bool = True) -> None:
 	"""Draws lines on a drawing."""
 	...
 
-def draw_quad(p1: List[float] = ..., p2: List[float] = ..., p3: List[float] = ..., p4: List[float] = ..., color: List[int] = ..., *, fill: List[float] = (0, 0, 0, -1), thickness: float = 1.0, name: str = '', parent: str = '', before: str = '', show: bool = True) -> None:
+def draw_quad(name: str = '', *, p1: List[float] = ..., p2: List[float] = ..., p3: List[float] = ..., p4: List[float] = ..., color: List[int] = ..., fill: List[float] = (0, 0, 0, -1), thickness: float = 1.0, parent: str = '', before: str = '', show: bool = True) -> None:
 	"""Draws a quad on a drawing."""
 	...
 
-def draw_rectangle(pmin: List[float] = ..., pmax: List[float] = ..., color: List[int] = ..., *, fill: List[float] = (0, 0, 0, -1), rounding: float = 0.0, thickness: float = 1.0, name: str = '', parent: str = '', before: str = '', show: bool = True) -> None:
+def draw_rectangle(name: str = '', *, pmin: List[float] = ..., pmax: List[float] = ..., color: List[int] = ..., fill: List[float] = (0, 0, 0, -1), rounding: float = 0.0, thickness: float = 1.0, parent: str = '', before: str = '', show: bool = True) -> None:
 	"""Draws a line on a drawing."""
 	...
 
-def draw_text(pos: List[float] = ..., text: str = ..., *, color: List[int] = (0, 0, 0, -1), size: int = 10, name: str = '', parent: str = '', before: str = '', show: bool = True) -> None:
+def draw_text(name: str = '', *, pos: List[float] = ..., text: str = ..., color: List[int] = (0, 0, 0, -1), size: int = 10, parent: str = '', before: str = '', show: bool = True) -> None:
 	"""Draws text on a drawing."""
 	...
 
-def draw_triangle(p1: List[float] = ..., p2: List[float] = ..., p3: List[float] = ..., color: List[int] = ..., *, fill: List[float] = (0, 0, 0, -1), thickness: float = 1.0, name: str = '', parent: str = '', before: str = '', show: bool = True) -> None:
+def draw_triangle(name: str = '', *, p1: List[float] = ..., p2: List[float] = ..., p3: List[float] = ..., color: List[int] = ..., fill: List[float] = (0, 0, 0, -1), thickness: float = 1.0, parent: str = '', before: str = '', show: bool = True) -> None:
 	"""Draws a triangle on a drawing."""
 	...
 

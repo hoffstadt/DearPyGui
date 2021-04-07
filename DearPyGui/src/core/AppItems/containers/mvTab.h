@@ -12,7 +12,7 @@ namespace Marvel {
 
 		static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
 
-		MV_APPLY_WIDGET_REGISTRATION2(mvAppItemType::mvTab, add_tab)
+		MV_APPLY_WIDGET_REGISTRATION(mvAppItemType::mvTab, add_tab)
 
 		MV_CREATE_CONSTANT(mvThemeCol_Tab_Text			, ImGuiCol_Text			, 0L);
 		MV_CREATE_CONSTANT(mvThemeCol_Tab_Border		, ImGuiCol_Border		, 0L);

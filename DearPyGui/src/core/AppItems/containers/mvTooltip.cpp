@@ -9,11 +9,10 @@ namespace Marvel {
 	void mvTooltip::InsertParser(std::map<std::string, mvPythonParser>* parsers)
 	{
 		parsers->insert({ s_command, mvPythonParser({
-			{mvPythonDataType::String, "tipparent", "Sets the item's tool tip to be the same as the named item's tool tip"},
 			{mvPythonDataType::Optional},
 			{mvPythonDataType::String, "name"},
 			{mvPythonDataType::KeywordOnly},
-			{mvPythonDataType::String, "parent", "Parent to add this item to. (runtime adding)", "''"},
+			{mvPythonDataType::String, "parent", "Sets the item's tool tip to be the same as the named item's tool tip"},
 			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)", "''"},
 			{mvPythonDataType::Bool, "show","Attempt to render", "True"},
 		}, "Adds an advanced tool tip for an item. This command must come immediately after the item the tip is for.",
@@ -59,38 +58,6 @@ namespace Marvel {
 
 			ImGui::EndTooltip();
 		}
-
-	}
-
-	PyObject* mvTooltip::add_tooltip(PyObject* self, PyObject* args, PyObject* kwargs)
-	{
-		const char* tipparent;
-		static int i = 0; i++;
-		std::string sname = std::string(std::string("$$DPG_") + s_internal_id + std::to_string(i));
-		const char* name = sname.c_str();
-		const char* parent = "";
-		const char* before = "";
-		int show = true;
-
-		if (!(mvApp::GetApp()->getParsers())["add_tooltip"].parse(args, kwargs, __FUNCTION__, &tipparent,
-			&name, &parent, &before, &show))
-			return ToPyBool(false);
-
-		auto item = CreateRef<mvTooltip>(name);
-
-		item->checkConfigDict(kwargs);
-		item->setConfigDict(kwargs);
-		item->setExtraConfigDict(kwargs);
-
-		if (mvApp::GetApp()->getItemRegistry().addItemWithRuntimeChecks(item, tipparent, before))
-		{
-			mvApp::GetApp()->getItemRegistry().pushParent(item);
-			if (!show)
-				item->hide();
-
-		}
-
-		return ToPyString(name);
 
 	}
 

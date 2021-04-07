@@ -9,10 +9,10 @@ namespace Marvel {
 	void mvImage::InsertParser(std::map<std::string, mvPythonParser>* parsers)
 	{
 		parsers->insert({ s_command, mvPythonParser({
-			{mvPythonDataType::String, "value"},
 			{mvPythonDataType::Optional},
 			{mvPythonDataType::String, "name"},
 			{mvPythonDataType::KeywordOnly},
+			{mvPythonDataType::String, "value"},
 			{mvPythonDataType::FloatList, "tint_color", "", "(255, 255, 255, 255)"},
 			{mvPythonDataType::FloatList, "border_color", "", "(0, 0, 0, 0)"},
 			{mvPythonDataType::String, "parent", "Parent this item will be added to. (runtime adding)", "''"},
@@ -28,8 +28,8 @@ namespace Marvel {
 		"Using(0,0)->(1,1) texture coordinates will generally display the entire texture", "None", "Adding Widgets") });
 	}
 
-	mvImage::mvImage(const std::string& name, std::string default_value)
-		: mvAppItem(name), m_value(std::move(default_value))
+	mvImage::mvImage(const std::string& name)
+		: mvAppItem(name)
 	{
 		mvEventBus::Subscribe(this, mvEVT_DELETE_TEXTURE);
 	}
@@ -137,6 +137,7 @@ namespace Marvel {
 		}
 		if (PyObject* item = PyDict_GetItemString(dict, "tint_color")) m_tintColor = ToColor(item);
 		if (PyObject* item = PyDict_GetItemString(dict, "border_color")) m_borderColor = ToColor(item);
+		if (PyObject* item = PyDict_GetItemString(dict, "value")) m_value = ToString(item);
 	}
 
 	void mvImage::getExtraConfigDict(PyObject* dict)
@@ -148,51 +149,7 @@ namespace Marvel {
 		PyDict_SetItemString(dict, "uv_max", ToPyPair(m_uv_max.x, m_uv_max.y));
 		PyDict_SetItemString(dict, "tint_color", ToPyColor(m_tintColor));
 		PyDict_SetItemString(dict, "border_color", ToPyColor(m_borderColor));
-	}
-
-	PyObject* mvImage::add_image(PyObject* self, PyObject* args, PyObject* kwargs)
-	{
-		static int i = 0; i++;
-		std::string sname = std::string(std::string("$$DPG_") + s_internal_id + std::to_string(i));
-		const char* name = sname.c_str();
-		const char* value;
-		PyObject* tintcolor = PyTuple_New(4);
-		PyTuple_SetItem(tintcolor, 0, PyFloat_FromDouble(1.0));
-		PyTuple_SetItem(tintcolor, 1, PyFloat_FromDouble(1.0));
-		PyTuple_SetItem(tintcolor, 2, PyFloat_FromDouble(1.0));
-		PyTuple_SetItem(tintcolor, 3, PyFloat_FromDouble(1.0));
-		PyObject* bordercolor = PyTuple_New(4);
-		PyTuple_SetItem(bordercolor, 0, PyFloat_FromDouble(0.0));
-		PyTuple_SetItem(bordercolor, 1, PyFloat_FromDouble(0.0));
-		PyTuple_SetItem(bordercolor, 2, PyFloat_FromDouble(0.0));
-		PyTuple_SetItem(bordercolor, 3, PyFloat_FromDouble(0.0));
-		const char* parent = "";
-		const char* before = "";
-		const char* source = "";
-		int width = 0;
-		int height = 0;
-		PyObject* uv_min = PyTuple_New(2);
-		PyTuple_SetItem(uv_min, 0, PyFloat_FromDouble(0));
-		PyTuple_SetItem(uv_min, 1, PyFloat_FromDouble(0));
-		PyObject* uv_max = PyTuple_New(2);
-		PyTuple_SetItem(uv_max, 0, PyFloat_FromDouble(1));
-		PyTuple_SetItem(uv_max, 1, PyFloat_FromDouble(1));
-		int show = true;
-
-		if (!(mvApp::GetApp()->getParsers())["add_image"].parse(args, kwargs, __FUNCTION__, &value,
-			&name, &tintcolor, &bordercolor, &parent, &before, &source, &width,
-			&height, &uv_min, &uv_max, &show))
-			return ToPyBool(false);
-
-		auto item = CreateRef<mvImage>(name, value);
-
-		item->checkConfigDict(kwargs);
-		item->setConfigDict(kwargs);
-		item->setExtraConfigDict(kwargs);
-
-		mvApp::GetApp()->getItemRegistry().addItemWithRuntimeChecks(item, parent, before);
-
-		return ToPyString(name);
+		PyDict_SetItemString(dict, "value", ToPyString(m_value));
 	}
 
 }

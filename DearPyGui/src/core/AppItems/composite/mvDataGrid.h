@@ -3,6 +3,7 @@
 #include "mvAppItem.h"
 #include "mvApp.h"
 #include "mvAppLog.h"
+#include "mvItemRegistry.h"
 
 namespace Marvel {
 
@@ -94,7 +95,7 @@ namespace Marvel {
 
 	public:
 
-		mvDataGrid(const std::string& name, const std::vector<std::string>& headers);
+		mvDataGrid(const std::string& name);
 
 		// table operations
 		void setGridItem   (int row, int column, const std::string& value);

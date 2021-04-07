@@ -5,7 +5,7 @@
 namespace Marvel {
 
 	MV_REGISTER_WIDGET(mvColorButton, MV_ITEM_DESC_DEFAULT, StorageValueTypes::None, 1);
-	class mvColorButton : public mvAppItem
+	class mvColorButton : public mvColorPtrBase
 	{
 
 	public:
@@ -54,7 +54,7 @@ namespace Marvel {
 
 	public:
 
-		mvColorButton(const std::string& name, const mvColor& color);
+		mvColorButton(const std::string& name);
 
 		void draw(ImDrawList* drawlist, float x, float y) override;
 
@@ -64,7 +64,6 @@ namespace Marvel {
 	private:
 
 		ImGuiColorEditFlags m_flags = ImGuiColorEditFlags_None;
-		ImVec4              m_color;
 		bool                m_no_alpha = false;
 		bool                m_no_border = false;
 		bool                m_no_drag_drop = false;

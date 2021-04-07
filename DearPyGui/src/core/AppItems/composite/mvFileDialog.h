@@ -11,8 +11,17 @@ namespace Marvel {
 	public:
 
 		static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
-
-		MV_APPLY_WIDGET_REGISTRATION(mvAppItemType::mvFileDialog, open_file_dialog)
+		
+		//MV_APPLY_WIDGET_REGISTRATION(mvAppItemType::mvFileDialog, open_file_dialog)
+		static constexpr const long s_internal_type = (long)mvAppItemType::mvFileDialog;
+		static constexpr const char* const s_internal_id = "mvAppItemType::mvFileDialog";
+		static constexpr const char* const s_command = "open_file_dialog";
+		mvAppItemType getType() const override { return mvAppItemType::mvFileDialog; }\
+		int getTarget() const override { return mvItemTypeMap<(int)mvAppItemType::mvFileDialog>::target; }
+		int getDescFlags() const override { return mvItemTypeMap<(int)mvAppItemType::mvFileDialog>::flags; }
+		StorageValueTypes getValueType() const override { return mvItemTypeMap<(int)mvAppItemType::mvFileDialog>::value_type; }
+		static PyObject* open_file_dialog(PyObject* self, PyObject* args, PyObject* kwargs);
+		static PyMethodDef GetMethodDefinition() { return { s_command, (PyCFunction)open_file_dialog, METH_VARARGS | METH_KEYWORDS, mvApp::GetApp()->getParsers()[s_command].getDocumentation() }; }
 
 		MV_CREATE_EXTRA_COMMAND(select_directory_dialog);
 

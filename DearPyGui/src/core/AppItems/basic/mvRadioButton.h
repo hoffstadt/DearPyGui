@@ -12,7 +12,7 @@ namespace Marvel {
 
 		static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
 
-		MV_APPLY_WIDGET_REGISTRATION2(mvAppItemType::mvRadioButton, add_radio_button)
+		MV_APPLY_WIDGET_REGISTRATION(mvAppItemType::mvRadioButton, add_radio_button)
 
 		MV_CREATE_CONSTANT(mvThemeCol_RadioButton_Text			, ImGuiCol_Text				, 0L);
 		MV_CREATE_CONSTANT(mvThemeCol_RadioButton_Bg			, ImGuiCol_FrameBg			, 0L);

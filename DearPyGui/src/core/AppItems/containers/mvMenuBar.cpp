@@ -1,5 +1,6 @@
 #include "mvMenuBar.h"
 #include "mvApp.h"
+#include "mvLog.h"
 #include "mvItemRegistry.h"
 #include "mvImGuiThemeScope.h"
 #include "containers/mvWindowAppItem.h"
@@ -57,6 +58,17 @@ namespace Marvel {
 			}
 			ImGui::EndMenuBar();
 		}
+	}
+
+	bool mvMenuBar::isParentCompatible(mvAppItemType type)
+	{
+		if (type == mvAppItemType::mvWindowAppItem) return true;
+		if (type == mvAppItemType::mvChild) return true;
+
+		mvThrowPythonError(1000, "Menubar parent must be a window or child.");
+		MV_ITEM_REGISTRY_ERROR("Menubar parent must be a window or child.");
+		assert(false);
+		return false;
 	}
 
 }

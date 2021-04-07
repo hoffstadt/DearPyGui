@@ -13,7 +13,7 @@ namespace Marvel {
 
 		static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
 
-		MV_APPLY_WIDGET_REGISTRATION2(mvAppItemType::mvMenuBar, add_menu_bar)
+		MV_APPLY_WIDGET_REGISTRATION(mvAppItemType::mvMenuBar, add_menu_bar)
 
 		MV_CREATE_CONSTANT(mvThemeStyle_MenuBar_ItemSpacingX, ImGuiStyleVar_ItemSpacing, 0L);
 		MV_CREATE_CONSTANT(mvThemeStyle_MenuBar_ItemSpacingY, ImGuiStyleVar_ItemSpacing, 1L);
@@ -35,6 +35,8 @@ namespace Marvel {
 	public:
 
 		explicit mvMenuBar(const std::string& name);
+
+		bool isParentCompatible(mvAppItemType type) override;
 
 		void draw(ImDrawList* drawlist, float x, float y) override;
 

@@ -66,8 +66,8 @@ namespace Marvel {
 		"None", "Containers") });
 	}
 
-	mvNodeEditor::mvNodeEditor(const std::string& name, mvCallable linkCallback, mvCallable delinkCallback)
-		: mvAppItem(name), m_linkCallback(linkCallback), m_delinkCallback(delinkCallback)
+	mvNodeEditor::mvNodeEditor(const std::string& name)
+		: mvAppItem(name)
 	{
 	}
 
@@ -82,6 +82,30 @@ namespace Marvel {
 				deleteLink(grandchild->m_name, ((mvNodeAttribute*)grandchild.get())->getId(), true);
 			}
 
+		}
+	}
+
+	void mvNodeEditor::setExtraConfigDict(PyObject* dict)
+	{
+		if (dict == nullptr)
+			return;
+
+		if (PyObject* item = PyDict_GetItemString(dict, "link_callback"))
+		{
+			if (m_linkCallback)
+				Py_XDECREF(m_linkCallback);
+			if (item)
+				Py_XINCREF(item);
+			m_linkCallback = item;
+		}
+
+		if (PyObject* item = PyDict_GetItemString(dict, "delink_callback"))
+		{
+			if (m_delinkCallback)
+				Py_XDECREF(m_delinkCallback);
+			if (item)
+				Py_XINCREF(item);
+			m_delinkCallback = item;
 		}
 	}
 
@@ -371,51 +395,6 @@ namespace Marvel {
 		m_state.setHovered(imnodes::IsEditorHovered());
 
 		
-	}
-
-	PyObject* mvNodeEditor::add_node_editor(PyObject* self, PyObject* args, PyObject* kwargs)
-	{
-		static int i = 0; i++;
-		std::string sname = std::string(std::string("$$DPG_") + s_internal_id + std::to_string(i));
-		const char* name = sname.c_str();
-		int show = true;
-		const char* parent = "";
-		const char* before = "";
-		PyObject* link_callback = nullptr;
-		PyObject* delink_callback = nullptr;
-
-
-		if (!(mvApp::GetApp()->getParsers())["add_node_editor"].parse(args, kwargs, __FUNCTION__, &name,
-			&show, &parent, &before, &link_callback, &delink_callback))
-			return ToPyBool(false);
-
-		if (link_callback)
-			Py_XINCREF(link_callback);
-
-		if (delink_callback)
-			Py_XINCREF(delink_callback);
-
-		if (link_callback == Py_None)
-			link_callback = nullptr;
-
-		if (delink_callback == Py_None)
-			delink_callback = nullptr;
-
-		auto item = CreateRef<mvNodeEditor>(name, link_callback, delink_callback);
-		item->checkConfigDict(kwargs);
-		item->setConfigDict(kwargs);
-		item->setExtraConfigDict(kwargs);
-
-		if (mvApp::GetApp()->getItemRegistry().addItemWithRuntimeChecks(item, parent, before))
-		{
-			mvApp::GetApp()->getItemRegistry().pushParent(item);
-			if (!show)
-				item->hide();
-
-		}
-
-		return ToPyString(name);
-
 	}
 
 	PyObject* mvNodeEditor::add_node_link(PyObject* self, PyObject* args, PyObject* kwargs)

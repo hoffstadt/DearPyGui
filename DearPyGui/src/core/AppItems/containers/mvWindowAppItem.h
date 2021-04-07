@@ -90,7 +90,7 @@ namespace Marvel {
 
 	public:
 
-		mvWindowAppItem(const std::string& name, bool mainWindow, mvCallable closing_callback);
+		mvWindowAppItem(const std::string& name, bool mainWindow = false);
 
 		void   addMenuBar           () { m_hasMenuBar = true; }
 		void   addFlag              (ImGuiWindowFlags flag) { m_windowflags |= flag; }

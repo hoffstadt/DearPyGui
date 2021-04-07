@@ -8,13 +8,12 @@ namespace Marvel {
 	void mvPopup::InsertParser(std::map<std::string, mvPythonParser>* parsers)
 	{
 		parsers->insert({ s_command, mvPythonParser({
-			{mvPythonDataType::String, "popupparent", "Parent that the popup will be assigned to."},
 			{mvPythonDataType::Optional},
 			{mvPythonDataType::String, "name"},
 			{mvPythonDataType::KeywordOnly},
 			{mvPythonDataType::Integer, "mousebutton", "The mouse code that will trigger the popup.", "1"},
 			{mvPythonDataType::Bool, "modal", "", "False"},
-			{mvPythonDataType::String, "parent", "Parent to add this item to. (runtime adding)", "''"},
+			{mvPythonDataType::String, "parent", "Parent that the popup will be assigned to.", "''"},
 			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)", "''"},
 			{mvPythonDataType::Integer, "width", "", "0"},
 			{mvPythonDataType::Integer, "height", "", "0"},
@@ -27,8 +26,8 @@ namespace Marvel {
 		}, "Closes a popup.") });
 	}
 
-	mvPopup::mvPopup(const std::string& name, mvAppItem* parentAddress)
-		: mvBoolPtrBase(name), m_parentAddress(parentAddress)
+	mvPopup::mvPopup(const std::string& name)
+		: mvBoolPtrBase(name)
 	{
 	}
 
@@ -116,6 +115,12 @@ namespace Marvel {
 		if (dict == nullptr)
 			return;
 
+		if (PyObject* item = PyDict_GetItemString(dict, "parent"))
+		{
+			auto parentName = ToString(item);
+			auto parent = mvApp::GetApp()->getItemRegistry().getItem(parentName);
+			m_parentAddress = parent.get();
+		}
 		if (PyObject* item = PyDict_GetItemString(dict, "modal")) m_modal = ToBool(item);
 		if (PyObject* item = PyDict_GetItemString(dict, "mousebutton")) m_button = ToInt(item);
 
@@ -128,43 +133,6 @@ namespace Marvel {
 
 		PyDict_SetItemString(dict, "modal", ToPyBool(m_modal));
 		PyDict_SetItemString(dict, "mousebutton", ToPyInt(m_button));
-	}
-
-	PyObject* mvPopup::add_popup(PyObject* self, PyObject* args, PyObject* kwargs)
-	{
-		const char* popupparent;
-		static int i = 0; i++;
-		std::string sname = std::string(std::string("$$DPG_") + s_internal_id + std::to_string(i));
-		const char* name = sname.c_str();
-		int mousebutton = 1;
-		int modal = false;
-		const char* parent = "";
-		const char* before = "";
-		int width = 0;
-		int height = 0;
-		int show = true;
-
-		if (!(mvApp::GetApp()->getParsers())["add_popup"].parse(args, kwargs, __FUNCTION__, &popupparent,
-			&name, &mousebutton, &modal, &parent, &before, &width, &height, &show))
-			return ToPyBool(false);
-
-		auto PopupParent = mvApp::GetApp()->getItemRegistry().getItem(popupparent);
-
-		auto item = CreateRef<mvPopup>(name, PopupParent.get());
-
-		item->checkConfigDict(kwargs);
-		item->setConfigDict(kwargs);
-		item->setExtraConfigDict(kwargs);
-
-		if (mvApp::GetApp()->getItemRegistry().addItemWithRuntimeChecks(item, popupparent, before))
-		{
-			mvApp::GetApp()->getItemRegistry().pushParent(item);
-			if (!show)
-				item->hide();
-
-		}
-
-		return ToPyString(name);
 	}
 
 	PyObject* mvPopup::close_popup(PyObject* self, PyObject* args, PyObject* kwargs)

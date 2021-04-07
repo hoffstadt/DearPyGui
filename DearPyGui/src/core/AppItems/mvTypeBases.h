@@ -164,15 +164,15 @@ namespace Marvel {
 
 	public:
 
-		mvTimePtrBase(const std::string& name, const tm& default_value);
+		mvTimePtrBase(const std::string& name);
 		mvValueVariant getValue() override { return m_value; }
 		PyObject* getPyValue() override;
 		void           setPyValue(PyObject* value) override;
 
 	protected:
 
-		mvRef<tm>         m_value;
-		mvRef<ImPlotTime> m_imvalue;
+		mvRef<tm>         m_value = {};
+		mvRef<ImPlotTime> m_imvalue = {};
 	};
 
 	//-----------------------------------------------------------------------------
