@@ -13,25 +13,25 @@ namespace Marvel {
 
 		MV_APPITEM_TYPE(mvAppItemType::mvButton, add_button)
 
-		MV_CREATE_CONSTANT(mvDir_None,  -1L, 0L);
-		MV_CREATE_CONSTANT(mvDir_Left,  0L, 0L);
-		MV_CREATE_CONSTANT(mvDir_Right,  1L, 0L);
-		MV_CREATE_CONSTANT(mvDir_Up,  2L, 0L);
-		MV_CREATE_CONSTANT(mvDir_Down,  3L, 0L);
+		MV_CREATE_CONSTANT(mvDir_None	, -1L, 0L);
+		MV_CREATE_CONSTANT(mvDir_Left	,  0L, 0L);
+		MV_CREATE_CONSTANT(mvDir_Right	,  1L, 0L);
+		MV_CREATE_CONSTANT(mvDir_Up		,  2L, 0L);
+		MV_CREATE_CONSTANT(mvDir_Down	,  3L, 0L);
 
-		MV_CREATE_CONSTANT(mvThemeCol_Button_Text			,  0L, 0L);
-		MV_CREATE_CONSTANT(mvThemeCol_Button_Bg			, 21L, 0L);
-		MV_CREATE_CONSTANT(mvThemeCol_Button_Hovered		, 22L, 0L);
-		MV_CREATE_CONSTANT(mvThemeCol_Button_Active		, 23L, 0L);
-		MV_CREATE_CONSTANT(mvThemeCol_Button_Border		,  5L, 0L);
-		MV_CREATE_CONSTANT(mvThemeCol_Button_BorderShadow	,  6L, 0L);
+		MV_CREATE_CONSTANT(mvThemeCol_Button_Text			, ImGuiCol_Text			, 0L);
+		MV_CREATE_CONSTANT(mvThemeCol_Button_Bg				, ImGuiCol_Button		, 0L);
+		MV_CREATE_CONSTANT(mvThemeCol_Button_Hovered		, ImGuiCol_ButtonHovered, 0L);
+		MV_CREATE_CONSTANT(mvThemeCol_Button_Active			, ImGuiCol_ButtonActive	, 0L);
+		MV_CREATE_CONSTANT(mvThemeCol_Button_Border			, ImGuiCol_Border		, 0L);
+		MV_CREATE_CONSTANT(mvThemeCol_Button_BorderShadow	, ImGuiCol_BorderShadow	, 0L);
 
-		MV_CREATE_CONSTANT(mvThemeStyle_Button_Rounding	, 11L, 0L);
-		MV_CREATE_CONSTANT(mvThemeStyle_Button_BorderSize	, 12L, 0L);
-		MV_CREATE_CONSTANT(mvThemeStyle_Button_TextAlignX	, 22L, 0L);
-		MV_CREATE_CONSTANT(mvThemeStyle_Button_TextAlignY	, 22L, 1L);
-		MV_CREATE_CONSTANT(mvThemeStyle_Button_PaddingX	, 10L, 0L);
-		MV_CREATE_CONSTANT(mvThemeStyle_Button_PaddingY	, 10L, 1L);
+		MV_CREATE_CONSTANT(mvThemeStyle_Button_Rounding		, ImGuiStyleVar_FrameRounding	, 0L);
+		MV_CREATE_CONSTANT(mvThemeStyle_Button_BorderSize	, ImGuiStyleVar_FrameBorderSize	, 0L);
+		MV_CREATE_CONSTANT(mvThemeStyle_Button_TextAlignX	, ImGuiStyleVar_ButtonTextAlign	, 0L);
+		MV_CREATE_CONSTANT(mvThemeStyle_Button_TextAlignY	, ImGuiStyleVar_ButtonTextAlign	, 1L);
+		MV_CREATE_CONSTANT(mvThemeStyle_Button_PaddingX		, ImGuiStyleVar_FramePadding	, 0L);
+		MV_CREATE_CONSTANT(mvThemeStyle_Button_PaddingY		, ImGuiStyleVar_FramePadding	, 1L);
 
 		MV_START_EXTRA_COMMANDS
 		MV_END_EXTRA_COMMANDS

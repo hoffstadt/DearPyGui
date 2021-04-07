@@ -14,18 +14,18 @@ namespace Marvel {
 
 		MV_APPITEM_TYPE(mvAppItemType::mvTab, add_tab)
 
-		MV_CREATE_CONSTANT(mvThemeCol_Tab_Text			,  0L, 0L);
-		MV_CREATE_CONSTANT(mvThemeCol_Tab_Border			,  5L, 0L);
-		MV_CREATE_CONSTANT(mvThemeCol_Tab_Bg				, 33L, 0L);
-		MV_CREATE_CONSTANT(mvThemeCol_Tab_BgHovered		, 34L, 0L);
-		MV_CREATE_CONSTANT(mvThemeCol_Tab_BgActive		, 35L, 0L);
-		MV_CREATE_CONSTANT(mvThemeCol_Tab_PopupBg			,  4L, 0L);
+		MV_CREATE_CONSTANT(mvThemeCol_Tab_Text			, ImGuiCol_Text			, 0L);
+		MV_CREATE_CONSTANT(mvThemeCol_Tab_Border		, ImGuiCol_Border		, 0L);
+		MV_CREATE_CONSTANT(mvThemeCol_Tab_Bg			, ImGuiCol_Tab			, 0L);
+		MV_CREATE_CONSTANT(mvThemeCol_Tab_BgHovered		, ImGuiCol_TabHovered	, 0L);
+		MV_CREATE_CONSTANT(mvThemeCol_Tab_BgActive		, ImGuiCol_TabActive	, 0L);
+		MV_CREATE_CONSTANT(mvThemeCol_Tab_PopupBg		, ImGuiCol_PopupBg		, 0L);
 
-		MV_CREATE_CONSTANT(mvThemeStyle_Tab_Rounding		, 21L, 0L);
-		MV_CREATE_CONSTANT(mvThemeStyle_Tab_PaddingX		, 10L, 0L);
-		MV_CREATE_CONSTANT(mvThemeStyle_Tab_PaddingY		, 10L, 1L);
-		MV_CREATE_CONSTANT(mvThemeStyle_Tab_InnerSpacingX	, 14L, 0L);
-		MV_CREATE_CONSTANT(mvThemeStyle_Tab_InnerSpacingY	, 14L, 1L);
+		MV_CREATE_CONSTANT(mvThemeStyle_Tab_Rounding		, ImGuiStyleVar_TabRounding		, 0L);
+		MV_CREATE_CONSTANT(mvThemeStyle_Tab_PaddingX		, ImGuiStyleVar_FramePadding	, 0L);
+		MV_CREATE_CONSTANT(mvThemeStyle_Tab_PaddingY		, ImGuiStyleVar_FramePadding	, 1L);
+		MV_CREATE_CONSTANT(mvThemeStyle_Tab_InnerSpacingX	, ImGuiStyleVar_ItemInnerSpacing, 0L);
+		MV_CREATE_CONSTANT(mvThemeStyle_Tab_InnerSpacingY	, ImGuiStyleVar_ItemInnerSpacing, 1L);
 
 		MV_START_EXTRA_COMMANDS
 		MV_END_EXTRA_COMMANDS
