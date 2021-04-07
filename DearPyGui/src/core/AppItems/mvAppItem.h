@@ -250,6 +250,10 @@ namespace Marvel {
         virtual void                        setExtraConfigDict(PyObject* dict) {}
         virtual void                        getExtraConfigDict(PyObject* dict) {}
 
+        virtual void                        onChildAdd(mvRef<mvAppItem> item) {}
+        virtual void                        onChildRemoved(mvRef<mvAppItem> item) {}
+        virtual void                        onChildrenRemoved() {}
+
         void                                setCallback    (mvCallable callback);
         void                                hide           () { m_show = false; }
         void                                show           () { m_show = true; }

@@ -3,6 +3,7 @@
 #include <utility>
 #include <array>
 #include "mvAppItem.h"
+#include "mvItemRegistry.h"
 
 namespace Marvel {
 
@@ -48,7 +49,7 @@ namespace Marvel {
 
 	public:
 
-		mvImageButton(const std::string& name, std::string  default_value);
+		mvImageButton(const std::string& name);
 
 		~mvImageButton() override;
 

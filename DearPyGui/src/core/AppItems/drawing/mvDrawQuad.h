@@ -1,6 +1,7 @@
 #pragma once
 
 #include "mvAppItem.h"
+#include "mvItemRegistry.h"
 
 namespace Marvel {
 
@@ -28,8 +29,7 @@ namespace Marvel {
 
 	public:
 
-		mvDrawQuad(const std::string& name, const mvVec2& p1, const mvVec2& p2, const mvVec2& p3, const mvVec2& p4,
-			const mvColor& color, const mvColor& fill, float thickness);
+		mvDrawQuad(const std::string& name);
 
 		void draw(ImDrawList* drawlist, float x, float y) override;
 		bool isParentCompatible(mvAppItemType type) override;

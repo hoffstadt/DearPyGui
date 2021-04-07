@@ -52,7 +52,7 @@ namespace Marvel {
 
 	public:
 
-		mvDatePicker(const std::string& name, tm default_value);
+		mvDatePicker(const std::string& name);
 
 		void draw(ImDrawList* drawlist, float x, float y) override;
 

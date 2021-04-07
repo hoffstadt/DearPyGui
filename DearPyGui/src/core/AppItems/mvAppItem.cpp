@@ -306,6 +306,7 @@ namespace Marvel{
 				if (parent == m_name)
 				{
 					children.push_back(item);
+					onChildAdd(item);
 					item->m_parentPtr = this;
 					return true;
 				}
@@ -352,7 +353,10 @@ namespace Marvel{
 					for (auto child : oldchildren)
 					{
 						if (child->m_name == before)
+						{
 							children.push_back(item);
+							onChildAdd(item);
+						}
 						children.push_back(child);
 
 					}
@@ -382,6 +386,7 @@ namespace Marvel{
 	{
 
 		m_children[item->getTarget()].push_back(item);
+		onChildAdd(item);
 
 		return true;
 	}
@@ -421,7 +426,10 @@ namespace Marvel{
 				{
 					children.push_back(child);
 					if (child->m_name == prev)
+					{
 						children.push_back(item);
+						onChildAdd(item);
+					}
 				}
 
 				return true;
@@ -480,6 +488,7 @@ namespace Marvel{
 					if (item->m_name == name)
 					{
 						itemDeleted = true;
+						onChildRemoved(item);
 						continue;
 					}
 
@@ -503,6 +512,7 @@ namespace Marvel{
 	{
 		for (auto& childset : m_children)
 			childset.clear();
+		onChildrenRemoved();
 	}
 
 	void mvAppItem::setLabel(const std::string& value)
@@ -546,6 +556,7 @@ namespace Marvel{
 					if (item->m_name == name)
 					{
 						stolenChild = item;
+						onChildRemoved(item);
 						continue;
 					}
 

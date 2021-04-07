@@ -58,17 +58,16 @@ namespace Marvel {
 
 	public:
 
-		mvTable(const std::string& name, int inner_width);
+		mvTable(const std::string& name);
 
 		void draw(ImDrawList* drawlist, float x, float y) override;
 
-		void incrementColumns();
-		void decrementColumns();
-		const std::string& getLastColumnAdded() const;
-		void setLastColumnAdded(const std::string& name);
-
 		void setExtraConfigDict(PyObject* dict) override;
 		void getExtraConfigDict(PyObject* dict) override;
+
+		void onChildAdd(mvRef<mvAppItem> item) override;
+		void onChildRemoved(mvRef<mvAppItem> item) override;
+		void onChildrenRemoved() override;
 
 	private:
 
@@ -77,10 +76,6 @@ namespace Marvel {
 		ImGuiTableFlags m_flags = 0;
 		bool m_tableHeader = true;
 		
-		// this keeps track of the last column so
-		// addAfter() can use this to place
-		// columns correctly.
-		std::string m_lastColumnAdded;
 	};
 
 }

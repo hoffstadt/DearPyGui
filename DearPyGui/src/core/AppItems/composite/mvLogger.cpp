@@ -333,41 +333,6 @@ namespace Marvel {
 		PyDict_SetItemString(dict, "autosize_y", ToPyBool(m_autosize_y));
 	}
 
-	PyObject* mvLoggerItem::add_logger(PyObject* self, PyObject* args, PyObject* kwargs)
-	{
-		static int i = 0; i++;
-		std::string sname = std::string(std::string("$$DPG_") + s_internal_id + std::to_string(i));
-		const char* name = sname.c_str();
-		int logLevel = 1;
-		int autoScroll = true;
-		int autoScrollButton = true;
-		int copyButton = true;
-		int clearButton = true;
-		int filter = true;
-		int width = 0;
-		int height = 0;
-		const char* parent = "";
-		const char* before = "";
-		int show = true;
-		int autosize_x = false;
-		int autosize_y = false;
-
-		if (!(mvApp::GetApp()->getParsers())["add_logger"].parse(args, kwargs, __FUNCTION__,
-			&name, &logLevel, &autoScroll, &autoScrollButton, &clearButton, &copyButton,
-			&filter, &width, &height, &parent, &before, &show, &autosize_x, &autosize_y))
-			return ToPyBool(false);
-
-		auto item = CreateRef<mvLoggerItem>(name);
-
-		item->checkConfigDict(kwargs);
-		item->setConfigDict(kwargs);
-		item->setExtraConfigDict(kwargs);
-
-		mvApp::GetApp()->getItemRegistry().addItemWithRuntimeChecks(item, parent, before);
-
-		return ToPyString(name);
-	}
-
 	PyObject* mvLoggerItem::get_log_level(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		const char* logger = "";

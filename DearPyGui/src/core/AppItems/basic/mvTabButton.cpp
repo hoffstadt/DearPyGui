@@ -1,5 +1,6 @@
 #include "mvTabButton.h"
 #include "mvApp.h"
+#include "mvLog.h"
 #include "mvItemRegistry.h"
 #include "mvImGuiThemeScope.h"
 #include "mvFontScope.h"
@@ -40,6 +41,17 @@ namespace Marvel {
 		if (ImGui::TabItemButton(m_label.c_str(), m_flags))
 			mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), m_name, m_callback_data);
 
+	}
+
+	bool mvTabButton::isParentCompatible(mvAppItemType type)
+	{
+		if (type == mvAppItemType::mvTabBar)
+			return true;
+
+		mvThrowPythonError(1000, "Tab button parent must be a tab bar.");
+		MV_ITEM_REGISTRY_ERROR("Tab button parent must be a tab bar.");
+		assert(false);
+		return false;
 	}
 
 	void mvTabButton::setExtraConfigDict(PyObject* dict)

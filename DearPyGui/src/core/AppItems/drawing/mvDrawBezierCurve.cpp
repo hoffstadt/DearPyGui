@@ -9,32 +9,24 @@ namespace Marvel {
 
 		parsers->insert({ s_command, mvPythonParser({
 			{mvPythonDataType::Optional},
+			{mvPythonDataType::String, "name", "", "''"},
+			{mvPythonDataType::KeywordOnly},
 			{mvPythonDataType::FloatList, "p1"},
 			{mvPythonDataType::FloatList, "p2"},
 			{mvPythonDataType::FloatList, "p3"},
 			{mvPythonDataType::FloatList, "p4"},
 			{mvPythonDataType::IntList, "color"},
-			{mvPythonDataType::KeywordOnly},
 			{mvPythonDataType::Float, "thickness", "", "1.0"},
 			{mvPythonDataType::Integer, "segments", "", "0"},
-			{mvPythonDataType::String, "name", "", "''"},
 			{mvPythonDataType::String, "parent", "Parent to add this item to. (runtime adding)", "''"},
 			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)", "''"},
 			{mvPythonDataType::Bool, "show", "Attempt to render", "True"},
 		}, "Draws a bezier curve on a drawing.", "None", "Drawing") });
 	}
 
-	mvDrawBezierCurve::mvDrawBezierCurve(const std::string& name, const mvVec2& p1, const mvVec2& p2,
-		const mvVec2& p3, const mvVec2& p4, const mvColor& color, float thickness, int segments)
+	mvDrawBezierCurve::mvDrawBezierCurve(const std::string& name)
 		:
-		mvAppItem(name),
-		m_p1(p1),
-		m_p2(p2),
-		m_p3(p3),
-		m_p4(p4),
-		m_color(color),
-		m_thickness(thickness),
-		m_segments(segments)
+		mvAppItem(name)
 	{
 	}
 
@@ -83,40 +75,4 @@ namespace Marvel {
 		PyDict_SetItemString(dict, "segments", ToPyInt(m_segments));
 	}
 
-	PyObject* mvDrawBezierCurve::draw_bezier_curve(PyObject* self, PyObject* args, PyObject* kwargs)
-	{
-
-		float thickness = 1.0f;
-		PyObject* p1, * p2, * p3, * p4;
-		PyObject* color;
-		int segments = 0;
-
-		static int i = 0; i++;
-		std::string sname = std::string(std::string("$$DPG_") + s_internal_id + std::to_string(i));
-		const char* name = sname.c_str();
-		const char* before = "";
-		const char* parent = "";
-		int show = true;
-
-		if (!(mvApp::GetApp()->getParsers())[s_command].parse(args, kwargs, __FUNCTION__, 
-			&p1, &p2, &p3, &p4, &color, &thickness, &segments, &name, &parent, &before, &show))
-			return GetPyNone();
-
-		mvVec2 mp1 = ToVec2(p1);
-		mvVec2 mp2 = ToVec2(p2);
-		mvVec2 mp3 = ToVec2(p3);
-		mvVec2 mp4 = ToVec2(p4);
-		mvColor mcolor = ToColor(color);
-
-		auto item = CreateRef<mvDrawBezierCurve>(name, mp1, mp2, mp3, mp4, mcolor,
-			thickness, segments);
-
-		item->checkConfigDict(kwargs);
-		item->setConfigDict(kwargs);
-		item->setExtraConfigDict(kwargs);
-
-		mvApp::GetApp()->getItemRegistry().addItemWithRuntimeChecks(item, parent, before);
-
-		return ToPyString(name);
-	}
 }

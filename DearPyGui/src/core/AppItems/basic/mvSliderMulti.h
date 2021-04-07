@@ -24,7 +24,7 @@ namespace Marvel {
 
         static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
 
-        MV_APPLY_WIDGET_REGISTRATION2(mvAppItemType::mvSliderFloatMulti, add_slider_floatx)
+        MV_APPLY_WIDGET_REGISTRATION(mvAppItemType::mvSliderFloatMulti, add_slider_floatx)
 
         MV_CREATE_CONSTANT(mvThemeCol_SliderFloatx_Text            , ImGuiCol_Text              , 0L);
         MV_CREATE_CONSTANT(mvThemeCol_SliderFloatx_Bg              , ImGuiCol_FrameBg           , 0L);
@@ -103,7 +103,7 @@ namespace Marvel {
 
         static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
 
-        MV_APPLY_WIDGET_REGISTRATION2(mvAppItemType::mvSliderIntMulti, add_slider_intx)
+        MV_APPLY_WIDGET_REGISTRATION(mvAppItemType::mvSliderIntMulti, add_slider_intx)
 
         MV_CREATE_CONSTANT(mvThemeCol_SliderIntx_Text              , ImGuiCol_Text              , 0L);
         MV_CREATE_CONSTANT(mvThemeCol_SliderIntx_Bg                , ImGuiCol_FrameBg           , 0L);

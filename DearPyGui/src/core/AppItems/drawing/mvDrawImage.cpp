@@ -11,14 +11,14 @@ namespace Marvel {
 
 		parsers->insert({ s_command, mvPythonParser({
 			{mvPythonDataType::Optional},
+			{mvPythonDataType::String, "name", "", "''"},
+			{mvPythonDataType::KeywordOnly},
 			{mvPythonDataType::String, "file"},
 			{mvPythonDataType::FloatList, "pmin", "top left coordinate"},
 			{mvPythonDataType::FloatList, "pmax", "bottom right coordinate"},
-			{mvPythonDataType::KeywordOnly},
 			{mvPythonDataType::FloatList, "uv_min", "normalized texture coordinates", "(0.0, 0.0)"},
 			{mvPythonDataType::FloatList, "uv_max", "normalized texture coordinates", "(1.0, 1.0)"},
 			{mvPythonDataType::IntList, "color", "", "(255, 255, 255, 255)"},
-			{mvPythonDataType::String, "name", "", "''"},
 			{mvPythonDataType::String, "parent", "Parent to add this item to. (runtime adding)", "''"},
 			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)", "''"},
 			{mvPythonDataType::Bool, "show", "Attempt to render", "True"},
@@ -28,16 +28,9 @@ namespace Marvel {
 			"coordinates will generally display the entire texture."), "None", "Drawing") });
 	}
 
-	mvDrawImage::mvDrawImage(const std::string& name, std::string file, const mvVec2& pmin, const mvVec2& pmax, const mvVec2& uv_min,
-		const mvVec2& uv_max, const mvColor& color)
+	mvDrawImage::mvDrawImage(const std::string& name)
 		:
-		mvAppItem(name),
-		m_file(std::move(file)),
-		m_pmax(pmax),
-		m_pmin(pmin),
-		m_uv_min(uv_min),
-		m_uv_max(uv_max),
-		m_color(color)
+		mvAppItem(name)
 	{
 		mvEventBus::Subscribe(this, mvEVT_DELETE_TEXTURE);
 	}
@@ -151,51 +144,4 @@ namespace Marvel {
 		PyDict_SetItemString(dict, "file", ToPyString(m_file));
 	}
 
-	PyObject* mvDrawImage::draw_image(PyObject* self, PyObject* args, PyObject* kwargs)
-	{
-
-		const char* file;
-		PyObject* pmin;
-		PyObject* pmax = PyTuple_New(2);
-		PyTuple_SetItem(pmax, 0, PyFloat_FromDouble(0));
-		PyTuple_SetItem(pmax, 1, PyFloat_FromDouble(0));
-		PyObject* uv_min = PyTuple_New(2);
-		PyTuple_SetItem(uv_min, 0, PyFloat_FromDouble(0));
-		PyTuple_SetItem(uv_min, 1, PyFloat_FromDouble(0));
-		PyObject* uv_max = PyTuple_New(2);
-		PyTuple_SetItem(uv_max, 0, PyFloat_FromDouble(1));
-		PyTuple_SetItem(uv_max, 1, PyFloat_FromDouble(1));
-		PyObject* color = PyTuple_New(4);
-		PyTuple_SetItem(color, 0, PyFloat_FromDouble(255));
-		PyTuple_SetItem(color, 1, PyFloat_FromDouble(255));
-		PyTuple_SetItem(color, 2, PyFloat_FromDouble(255));
-		PyTuple_SetItem(color, 3, PyFloat_FromDouble(255));
-
-		static int i = 0; i++;
-		std::string sname = std::string(std::string("$$DPG_") + s_internal_id + std::to_string(i));
-		const char* name = sname.c_str();
-		const char* before = "";
-		const char* parent = "";
-		int show = true;
-
-		if (!(mvApp::GetApp()->getParsers())[s_command].parse(args, kwargs, __FUNCTION__, 
-			&file, &pmin, &pmax, &uv_min, &uv_max, &color, &name, &parent, &before, &show))
-			return GetPyNone();
-
-		mvVec2 mpmin = ToVec2(pmin);
-		mvVec2 mpmax = ToVec2(pmax);
-		mvVec2 muv_min = ToVec2(uv_min);
-		mvVec2 muv_max = ToVec2(uv_max);
-		mvColor mcolor = ToColor(color);
-
-		auto item = CreateRef<mvDrawImage>(name, file, mpmin, mpmax, muv_min, muv_max, mcolor);
-
-		item->checkConfigDict(kwargs);
-		item->setConfigDict(kwargs);
-		item->setExtraConfigDict(kwargs);
-
-		mvApp::GetApp()->getItemRegistry().addItemWithRuntimeChecks(item, parent, before);
-
-		return ToPyString(name);
-	}
 }

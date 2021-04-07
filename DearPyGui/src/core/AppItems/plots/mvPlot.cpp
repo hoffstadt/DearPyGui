@@ -3,7 +3,6 @@
 #include "mvApp.h"
 #include "mvLog.h"
 #include "mvInput.h"
-#include "mvItemRegistry.h"
 #include "mvAreaSeries.h"
 #include "mvBarSeries.h"
 #include "mvCandleSeries.h"
@@ -196,8 +195,8 @@ namespace Marvel {
 		return true;
 	}
 
-	mvPlot::mvPlot(const std::string& name, mvCallable queryCallback)
-		: mvAppItem(name), m_queryCallback(queryCallback)
+	mvPlot::mvPlot(const std::string& name)
+		: mvAppItem(name)
 	{
 		m_width = -1;
 		m_height = -1;
@@ -434,6 +433,15 @@ namespace Marvel {
 		if (PyObject* item = PyDict_GetItemString(dict, "x_axis_name"))m_xaxisName = ToString(item);
 		if (PyObject* item = PyDict_GetItemString(dict, "y_axis_name")) m_yaxisName = ToString(item);
 
+		if (PyObject* item = PyDict_GetItemString(dict, "query_callback"))
+		{
+			if (m_queryCallback)
+				Py_XDECREF(m_queryCallback);
+			if (item)
+				Py_XINCREF(item);
+			m_queryCallback = item;
+		}
+
 		// helper for bit flipping
 		auto flagop = [dict](const char* keyword, int flag, int& flags)
 		{
@@ -562,119 +570,14 @@ namespace Marvel {
 	PyObject* mvPlot::add_plot(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		static int i = 0; i++;
-		std::string sname = std::string(std::string("$$DPG_") + s_internal_id + std::to_string(i));
-		const char* name = sname.c_str();
-		const char* xAxisName = "";
-		const char* yAxisName = "";
-
-		// plot flags
-		int no_legend = false;
-		int no_menus = false;
-		int no_box_select = false;
-		int no_mouse_pos = false;
-		int no_highlight = false;
-		int no_child = false;
-		int query = false;
-		int crosshairs = false;
-		int antialiased = false;
-		int equal_aspects = false;
-		int yaxis2 = false;
-		int yaxis3 = false;
-
-		// x axis flags
-		int xaxis_no_gridlines = false;
-		int xaxis_no_tick_marks = false;
-		int xaxis_no_tick_labels = false;
-		int xaxis_log_scale = false;
-		int xaxis_time = false;
-		int xaxis_invert = false;
-		int xaxis_lock_min = false;
-		int xaxis_lock_max = false;
-
-		// y axis flags
-		int yaxis_no_gridlines = false;
-		int yaxis_no_tick_marks = false;
-		int yaxis_no_tick_labels = false;
-		int yaxis_log_scale = false;
-		int yaxis_invert = false;
-		int yaxis_lock_min = false;
-		int yaxis_lock_max = false;
-
-		// y2 axis flags
-		int y2axis_no_gridlines = false;
-		int y2axis_no_tick_marks = false;
-		int y2axis_no_tick_labels = false;
-		int y2axis_log_scale = false;
-		int y2axis_invert = false;
-		int y2axis_lock_min = false;
-		int y2axis_lock_max = false;
-
-		// y3 axis flags
-		int y3axis_no_gridlines = false;
-		int y3axis_no_tick_marks = false;
-		int y3axis_no_tick_labels = false;
-		int y3axis_log_scale = false;
-		int y3axis_invert = false;
-		int y3axis_lock_min = false;
-		int y3axis_lock_max = false;
-
-		const char* parent = "";
-		const char* before = "";
-		int width = -1;
-		int height = -1;
-		PyObject* query_callback = nullptr;
-
-		const char* label = "";
-		int show = true;
-
-		if (!(mvApp::GetApp()->getParsers())["add_plot"].parse(args, kwargs, __FUNCTION__, &name, &xAxisName, &yAxisName,
-			&no_legend, &no_menus, &no_box_select, &no_mouse_pos, &no_highlight, &no_child, &query, &crosshairs, 
-			&antialiased, &equal_aspects,
-			&yaxis2, &yaxis3,
-			&xaxis_no_gridlines,
-			&xaxis_no_tick_marks,
-			&xaxis_no_tick_labels,
-			&xaxis_log_scale,
-			&xaxis_time,
-			&xaxis_invert,
-			&xaxis_lock_min,
-			&xaxis_lock_max,
-			&yaxis_no_gridlines,
-			&yaxis_no_tick_marks,
-			&yaxis_no_tick_labels,
-			&yaxis_log_scale,
-			&yaxis_invert,
-			&yaxis_lock_min,
-			&yaxis_lock_max,
-			&y2axis_no_gridlines,
-			&y2axis_no_tick_marks,
-			&y2axis_no_tick_labels,
-			&y2axis_log_scale,
-			&y2axis_invert,
-			&y2axis_lock_min,
-			&y2axis_lock_max,
-			&yaxis_no_gridlines,
-			&y3axis_no_tick_marks,
-			&y3axis_no_tick_labels,
-			&y3axis_log_scale,
-			&y3axis_invert,
-			&y3axis_lock_min,
-			&y3axis_lock_max,
-			&parent, &before, &width, &height, &query_callback,
-			&label, &show))
-			return GetPyNone();
-
-		if (query_callback)
-			Py_XINCREF(query_callback);
-
-		auto item = CreateRef<mvPlot>(name, query_callback);
-
+		std::string name = std::string(std::string("$$DPG_ns") + s_internal_id + std::to_string(i));
+		auto& [parent, before] = mvAppItem::GetNameFromArgs(name, args, kwargs);
+		auto item = CreateRef<mvPlot>(name);
 		item->checkConfigDict(kwargs);
+		item->setConfigArgs(args);
 		item->setConfigDict(kwargs);
 		item->setExtraConfigDict(kwargs);
-
-		mvApp::GetApp()->getItemRegistry().addItemWithRuntimeChecks(item, parent, before);
-		
+		mvApp::GetApp()->getItemRegistry().addItemWithRuntimeChecks(item, parent.c_str(), before.c_str());
 		return ToPyString(name);
 	}
 

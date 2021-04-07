@@ -9,26 +9,21 @@ namespace Marvel {
 
 		parsers->insert({ s_command, mvPythonParser({
 			{mvPythonDataType::Optional},
+			{mvPythonDataType::String, "name", "", "''"},
+			{mvPythonDataType::KeywordOnly},
 			{mvPythonDataType::ListFloatList, "points"},
 			{mvPythonDataType::IntList, "color"},
-			{mvPythonDataType::KeywordOnly},
 			{mvPythonDataType::Bool, "closed", "", "False"},
 			{mvPythonDataType::Float, "thickness", "", "1.0"},
-			{mvPythonDataType::String, "name", "", "''"},
 			{mvPythonDataType::String, "parent", "Parent to add this item to. (runtime adding)", "''"},
 			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)", "''"},
 			{mvPythonDataType::Bool, "show", "Attempt to render", "True"},
 		}, "Draws lines on a drawing.", "None", "Drawing") });
 	}
 
-	mvDrawPolyline::mvDrawPolyline(const std::string& name, const std::vector<mvVec2>& points, const mvColor& color, bool closed,
-		float thickness)
+	mvDrawPolyline::mvDrawPolyline(const std::string& name)
 		:
-		mvAppItem(name),
-		m_points(points),
-		m_color(color),
-		m_closed(closed),
-		m_thickness(thickness)
+		mvAppItem(name)
 	{
 	}
 
@@ -75,38 +70,5 @@ namespace Marvel {
 		PyDict_SetItemString(dict, "closed", ToPyBool(m_closed));
 		PyDict_SetItemString(dict, "color", ToPyColor(m_color));
 		PyDict_SetItemString(dict, "thickness", ToPyFloat(m_thickness));
-	}
-
-	PyObject* mvDrawPolyline::draw_polyline(PyObject* self, PyObject* args, PyObject* kwargs)
-	{
-
-		PyObject* points;
-		PyObject* color;
-		int closed = false;
-		float thickness = 1.0f;
-
-		static int i = 0; i++;
-		std::string sname = std::string(std::string("$$DPG_") + s_internal_id + std::to_string(i));
-		const char* name = sname.c_str();
-		const char* before = "";
-		const char* parent = "";
-		int show = true;
-
-		if (!(mvApp::GetApp()->getParsers())[s_command].parse(args, kwargs, __FUNCTION__, 
-			&points, &color, &closed, &thickness, &name, &parent, &before, &show))
-			return GetPyNone();
-
-		auto mpoints = ToVectVec2(points);
-		mvColor mcolor = ToColor(color);
-
-		auto item = CreateRef<mvDrawPolyline>(name, mpoints, mcolor, closed, thickness);
-
-		item->checkConfigDict(kwargs);
-		item->setConfigDict(kwargs);
-		item->setExtraConfigDict(kwargs);
-
-		mvApp::GetApp()->getItemRegistry().addItemWithRuntimeChecks(item, parent, before);
-
-		return ToPyString(name);
 	}
 }

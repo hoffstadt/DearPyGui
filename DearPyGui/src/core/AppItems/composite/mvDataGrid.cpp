@@ -12,8 +12,8 @@ namespace Marvel {
 		parsers->insert({ s_command, mvPythonParser({
 			{mvPythonDataType::Optional},
 			{mvPythonDataType::String, "name"},
-			{mvPythonDataType::StringList, "headers"},
 			{mvPythonDataType::KeywordOnly},
+			{mvPythonDataType::StringList, "headers"},
 			{mvPythonDataType::Callable, "callback", "Registers a callback", "None"},
 			{mvPythonDataType::Object, "callback_data", "Callback data", "None"},
 			{mvPythonDataType::String, "parent", "Parent this item will be added to. (runtime adding)", "''"},
@@ -101,12 +101,10 @@ namespace Marvel {
 		}, "Sets a data grid's cell selection value.", "None", "Tables") });
 	}
 
-	mvDataGrid::mvDataGrid(const std::string& name, const std::vector<std::string>& headers)
+	mvDataGrid::mvDataGrid(const std::string& name)
 		: mvAppItem(name)
 	{
 		m_height = 200;
-		m_headers = headers;
-		m_columns = headers.size();
 		m_hide_headers = false;
 	}
 
@@ -116,6 +114,11 @@ namespace Marvel {
 			return;
 
 		if (PyObject* item = PyDict_GetItemString(dict, "hide_headers")) m_hide_headers = ToBool(item);
+		if (PyObject* item = PyDict_GetItemString(dict, "headers"))
+		{
+			m_headers = ToStringVect(item);
+			m_columns = m_headers.size();
+		}
 	}
 
 	void mvDataGrid::getExtraConfigDict(PyObject* dict)
@@ -632,43 +635,6 @@ namespace Marvel {
 		}
 
 
-	}
-
-	PyObject* mvDataGrid::add_data_grid(PyObject* self, PyObject* args, PyObject* kwargs)
-	{
-		static int i = 0; i++;
-		std::string sname = std::string(std::string("$$DPG_") + s_internal_id + std::to_string(i));
-		const char* name = sname.c_str();
-		PyObject* headers;
-		PyObject* callback = nullptr;
-		PyObject* callback_data = nullptr;
-		const char* parent = "";
-		const char* before = "";
-		int width = 0;
-		int height = 0;
-		int show = true;
-		bool hide_headers = false;
-
-		if (!(mvApp::GetApp()->getParsers())["add_data_grid"].parse(args, kwargs, __FUNCTION__,
-			&name, &headers, &callback, &callback_data, &parent,
-			&before, &width, &height, &show, &hide_headers))
-			return ToPyBool(false);
-
-		auto item = CreateRef<mvDataGrid>(name, ToStringVect(headers));
-		if (callback)
-			Py_XINCREF(callback);
-		item->setCallback(callback);
-		if (callback_data)
-			Py_XINCREF(callback_data);
-		item->setCallbackData(callback_data);
-
-		item->checkConfigDict(kwargs);
-		item->setConfigDict(kwargs);
-		item->setExtraConfigDict(kwargs);
-
-		mvApp::GetApp()->getItemRegistry().addItemWithRuntimeChecks(item, parent, before);
-
-		return ToPyString(name);
 	}
 
 	PyObject* mvDataGrid::get_grid_data(PyObject* self, PyObject* args, PyObject* kwargs)

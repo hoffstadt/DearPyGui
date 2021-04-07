@@ -43,6 +43,7 @@ namespace Marvel {
 		: 
 		mvStringPtrBase(name)
 	{
+		*m_value = name;
 	}
 
 	void mvText::draw(ImDrawList* drawlist, float x, float y)

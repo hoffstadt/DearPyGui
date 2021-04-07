@@ -45,20 +45,9 @@ namespace Marvel {
 		}, "Adds managed columns.", "None", "Containers") });
 	}
 
-	mvTable::mvTable(const std::string& name, int inner_width)
+	mvTable::mvTable(const std::string& name)
 		: mvAppItem(name)
 	{
-		m_inner_width = inner_width;
-	}
-
-	const std::string& mvTable::getLastColumnAdded() const
-	{
-		return m_lastColumnAdded;
-	}
-
-	void mvTable::setLastColumnAdded(const std::string& name)
-	{
-		m_lastColumnAdded = name;
 	}
 
 	void mvTable::draw(ImDrawList* drawlist, float x, float y)
@@ -110,90 +99,21 @@ namespace Marvel {
 
 	}
 
-	void mvTable::incrementColumns()
+	void mvTable::onChildAdd(mvRef<mvAppItem> item)
 	{
-		m_columns++;
+		if (item->getType() == mvAppItemType::mvTableColumn)
+			m_columns++;
 	}
 
-	void mvTable::decrementColumns()
+	void mvTable::onChildRemoved(mvRef<mvAppItem> item)
 	{
-		m_columns--;
+		if (item->getType() == mvAppItemType::mvTableColumn)
+			m_columns--;
 	}
 
-	PyObject* mvTable::add_table(PyObject* self, PyObject* args, PyObject* kwargs)
+	void mvTable::onChildrenRemoved()
 	{
-		static int i = 0; i++;
-		std::string sname = std::string(std::string("$$DPG_") + s_internal_id + std::to_string(i));
-		const char* name = sname.c_str();
-		int header_row = true;
-		int width = 0;
-		int height = 0;
-		int inner_width = 0;
-		int show = true;
-		const char* parent = "";
-		const char* before = "";
-		int resizable = false;  
-		int reorderable = false;
-		int hideable = false;   
-		int sortable = false;   
-		int context_menu_in_body = false;		  
-		int row_background = false;
-		int borders_innerH = false;
-		int borders_outerH = false;
-		int borders_innerV = false;
-		int borders_outerV = false;
-		int policy = 0;
-		int no_host_extendX = false;
-		int no_host_extendY = false;
-		int no_keep_columns_visible = false; 
-		int precise_widths = false;
-		int no_clip = false;
-		int pad_outerX = false;
-		int no_pad_outerX = false; 
-		int no_pad_innerX = false; 
-		int scrollX = false; 
-		int scrollY = false; 
-
-		if (!(mvApp::GetApp()->getParsers())["add_table"].parse(args, kwargs, __FUNCTION__,
-			&name, &header_row, &width, &height, &inner_width, &show, &parent, &before,
-			&resizable,
-			&reorderable,
-			&hideable,
-			&sortable,
-			&context_menu_in_body,
-			&row_background,
-			&borders_innerH,
-			&borders_outerH,
-			&borders_innerV,
-			&borders_outerV,
-			&policy,
-			&no_host_extendX,
-			&no_host_extendY,
-			&no_keep_columns_visible,
-			&precise_widths,
-			&no_clip,
-			&pad_outerX,
-			&no_pad_outerX,
-			&no_pad_innerX,
-			&scrollX,
-			&scrollY
-		))
-			return ToPyBool(false);
-
-		auto item = CreateRef<mvTable>(name, inner_width);
-		item->checkConfigDict(kwargs);
-		item->setConfigDict(kwargs);
-		item->setExtraConfigDict(kwargs);
-
-		if (mvApp::GetApp()->getItemRegistry().addItemWithRuntimeChecks(item, parent, before))
-		{
-			mvApp::GetApp()->getItemRegistry().pushParent(item);
-			if (!show)
-				item->hide();
-
-		}
-
-		return ToPyString(name);
+		m_columns = 0;
 	}
 
 	void mvTable::setExtraConfigDict(PyObject* dict)

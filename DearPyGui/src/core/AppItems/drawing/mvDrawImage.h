@@ -1,6 +1,7 @@
 #pragma once
 
 #include "mvAppItem.h"
+#include "mvItemRegistry.h"
 
 namespace Marvel {
 
@@ -27,8 +28,7 @@ namespace Marvel {
 
 	public:
 
-		mvDrawImage(const std::string& name, std::string file, const mvVec2& pmin, const mvVec2& pmax, const mvVec2& uv_min,
-			const mvVec2& uv_max, const mvColor& color);
+		mvDrawImage(const std::string& name);
 		~mvDrawImage() override;
 
 		bool onEvent(mvEvent& event) override;

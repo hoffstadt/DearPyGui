@@ -9,25 +9,21 @@ namespace Marvel {
 
 		parsers->insert({ s_command, mvPythonParser({
 			{mvPythonDataType::Optional},
+			{mvPythonDataType::String, "name", "", "''"},
+			{mvPythonDataType::KeywordOnly},
 			{mvPythonDataType::FloatList, "p1"},
 			{mvPythonDataType::FloatList, "p2"},
 			{mvPythonDataType::IntList, "color"},
 			{mvPythonDataType::Integer, "thickness"},
-			{mvPythonDataType::KeywordOnly},
-			{mvPythonDataType::String, "name", "", "''"},
 			{mvPythonDataType::String, "parent", "Parent to add this item to. (runtime adding)", "''"},
 			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)", "''"},
 			{mvPythonDataType::Bool, "show", "Attempt to render", "True"},
 		}, "Draws a line on a drawing.", "None", "Drawing") });
 	}
 
-	mvDrawLine::mvDrawLine(const std::string& name, const mvVec2& p1, const mvVec2& p2, const mvColor& color, float thickness)
+	mvDrawLine::mvDrawLine(const std::string& name)
 		:
-		mvAppItem(name),
-		m_p1(p1),
-		m_p2(p2),
-		m_color(color),
-		m_thickness(thickness)
+		mvAppItem(name)
 	{
 	}
 
@@ -74,36 +70,4 @@ namespace Marvel {
 		PyDict_SetItemString(dict, "thickness", ToPyFloat(m_thickness));
 	}
 
-	PyObject* mvDrawLine::draw_line(PyObject* self, PyObject* args, PyObject* kwargs)
-	{
-
-		PyObject* p1, * p2;
-		PyObject* color;
-		int thickness;
-
-		static int i = 0; i++;
-		std::string sname = std::string(std::string("$$DPG_") + s_internal_id + std::to_string(i));
-		const char* name = sname.c_str();
-		const char* before = "";
-		const char* parent = "";
-		int show = true;
-
-		if (!(mvApp::GetApp()->getParsers())[s_command].parse(args, kwargs, __FUNCTION__, 
-			&p1, &p2, &color, &thickness, &name, &parent, &before, &show))
-			return GetPyNone();
-
-		mvVec2 mp1 = ToVec2(p1);
-		mvVec2 mp2 = ToVec2(p2);
-		mvColor mcolor = ToColor(color);
-
-		auto item = CreateRef<mvDrawLine>(name, mp1, mp2, mcolor, thickness);
-
-		item->checkConfigDict(kwargs);
-		item->setConfigDict(kwargs);
-		item->setExtraConfigDict(kwargs);
-
-		mvApp::GetApp()->getItemRegistry().addItemWithRuntimeChecks(item, parent, before);
-
-		return ToPyString(name);
-	}
 }

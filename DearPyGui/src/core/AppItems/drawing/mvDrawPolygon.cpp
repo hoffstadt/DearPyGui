@@ -9,26 +9,21 @@ namespace Marvel {
 
 		parsers->insert({ s_command, mvPythonParser({
 			{mvPythonDataType::Optional},
+			{mvPythonDataType::String, "name", "", "''"},
+			{mvPythonDataType::KeywordOnly},
 			{mvPythonDataType::ListFloatList, "points"},
 			{mvPythonDataType::IntList, "color"},
-			{mvPythonDataType::KeywordOnly},
 			{mvPythonDataType::FloatList, "fill", "", "(0, 0, 0, -1)"},
 			{mvPythonDataType::Float, "thickness", "", "1.0"},
-			{mvPythonDataType::String, "name", "", "''"},
 			{mvPythonDataType::String, "parent", "Parent to add this item to. (runtime adding)", "''"},
 			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)", "''"},
 			{mvPythonDataType::Bool, "show", "Attempt to render", "True"},
 		}, "Draws a polygon on a drawing.", "None", "Drawing") });
 	}
 
-	mvDrawPolygon::mvDrawPolygon(const std::string& name, const std::vector<mvVec2>& points,
-		const mvColor& color, const mvColor& fill, float thickness)
+	mvDrawPolygon::mvDrawPolygon(const std::string& name)
 		:
-		mvAppItem(name),
-		m_points(points),
-		m_color(color),
-		m_fill(fill),
-		m_thickness(thickness)
+		mvAppItem(name)
 	{
 	}
 
@@ -150,37 +145,4 @@ namespace Marvel {
 
 	}
 
-	PyObject* mvDrawPolygon::draw_polygon(PyObject* self, PyObject* args, PyObject* kwargs)
-	{
-
-		PyObject* points;
-		PyObject* color;
-		PyObject* fill = nullptr;
-		float thickness = 1.0f;
-
-		static int i = 0; i++;
-		std::string sname = std::string(std::string("$$DPG_") + s_internal_id + std::to_string(i));
-		const char* name = sname.c_str();
-		const char* before = "";
-		const char* parent = "";
-		int show = true;
-
-		if (!(mvApp::GetApp()->getParsers())[s_command].parse(args, kwargs, __FUNCTION__, 
-			&points, &color, &fill, &thickness, &name, &parent, &before, &show))
-			return GetPyNone();
-
-		auto mpoints = ToVectVec2(points);
-		mvColor mcolor = ToColor(color);
-		mvColor mfill = ToColor(fill);
-
-		auto item = CreateRef<mvDrawPolygon>(name, mpoints, mcolor, mfill, thickness);
-
-		item->checkConfigDict(kwargs);
-		item->setConfigDict(kwargs);
-		item->setExtraConfigDict(kwargs);
-
-		mvApp::GetApp()->getItemRegistry().addItemWithRuntimeChecks(item, parent, before);
-
-		return ToPyString(name);
-	}
 }

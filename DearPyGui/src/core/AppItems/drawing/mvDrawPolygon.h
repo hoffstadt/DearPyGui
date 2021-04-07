@@ -1,6 +1,7 @@
 #pragma once
 
 #include "mvAppItem.h"
+#include "mvItemRegistry.h"
 
 namespace Marvel {
 
@@ -27,8 +28,7 @@ namespace Marvel {
 
 	public:
 
-		mvDrawPolygon(const std::string& name, const std::vector<mvVec2>& points,
-			const mvColor& color, const mvColor& fill, float thickness);
+		mvDrawPolygon(const std::string& name);
 
 		void draw(ImDrawList* drawlist, float x, float y) override;
 		bool isParentCompatible(mvAppItemType type) override;

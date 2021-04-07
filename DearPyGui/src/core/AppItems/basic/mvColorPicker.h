@@ -23,7 +23,7 @@ namespace Marvel {
 
 		static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
 
-		MV_APPLY_WIDGET_REGISTRATION2(mvAppItemType::mvColorPicker3, add_color_picker3)
+		MV_APPLY_WIDGET_REGISTRATION(mvAppItemType::mvColorPicker3, add_color_picker3)
 
 		MV_CREATE_CONSTANT(mvThemeCol_ColorPicker3_Text			, ImGuiCol_Text				, 0L);
 		MV_CREATE_CONSTANT(mvThemeCol_ColorPicker3_Bg			, ImGuiCol_FrameBg			, 0L);
@@ -119,7 +119,7 @@ namespace Marvel {
 
 		static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
 
-		MV_APPLY_WIDGET_REGISTRATION2(mvAppItemType::mvColorPicker4, add_color_picker4)
+		MV_APPLY_WIDGET_REGISTRATION(mvAppItemType::mvColorPicker4, add_color_picker4)
 
 		MV_CREATE_CONSTANT(mvThemeCol_ColorPicker4_Text			, ImGuiCol_Text				, 0L);
 		MV_CREATE_CONSTANT(mvThemeCol_ColorPicker4_Bg			, ImGuiCol_FrameBg			, 0L);

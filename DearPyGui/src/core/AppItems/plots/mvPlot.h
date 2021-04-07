@@ -18,8 +18,9 @@ namespace Marvel {
 
 		static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
 
-		MV_APPLY_WIDGET_REGISTRATION(mvAppItemType::mvPlot, add_plot)
+		MV_APPLY_WIDGET_REGISTRATION(mvAppItemType::mvPlot, add_plot_stack)
 
+		MV_CREATE_EXTRA_COMMAND(add_plot);
 		MV_CREATE_EXTRA_COMMAND(reset_xticks);
 		MV_CREATE_EXTRA_COMMAND(reset_yticks);
 		MV_CREATE_EXTRA_COMMAND(set_xticks);
@@ -119,6 +120,7 @@ namespace Marvel {
 		MV_CREATE_CONSTANT(mvThemeStyle_Plot_PlotMinSizeY,			26L, 1L);
 
 		MV_START_EXTRA_COMMANDS
+			MV_ADD_EXTRA_COMMAND(add_plot);
 			MV_ADD_EXTRA_COMMAND(reset_xticks);
 			MV_ADD_EXTRA_COMMAND(reset_yticks);
 			MV_ADD_EXTRA_COMMAND(set_xticks);
@@ -218,7 +220,7 @@ namespace Marvel {
 			MV_ADD_CONSTANT(mvThemeStyle_Plot_PlotMinSizeY,		 255, 510),
 		MV_END_STYLE_CONSTANTS
 
-		mvPlot(const std::string& name, mvCallable queryCallback);
+		mvPlot(const std::string& name);
 
 		// settings
 		void SetColorMap    (ImPlotColormap colormap);
@@ -246,7 +248,6 @@ namespace Marvel {
 		ImPlotAxisFlags    getY3Flags        () const { return m_y3flags; }
 		const std::string& getXAxisName     () const { return m_xaxisName; }
 		const std::string& getYAxisName     () const { return m_yaxisName; }
-		mvCallable         getQueryCallback ()       { return m_queryCallback; }
 		const ImVec2&      getXLimits       () const { return m_xlimits_actual; }
 		const ImVec2&      getYLimits       () const { return m_ylimits_actual; }
 		const ImVec2&      getY2Limits       () const { return m_y2limits_actual; }
@@ -275,7 +276,7 @@ namespace Marvel {
 		ImVec2                        m_xlimits_actual;
 		ImVec2                        m_ylimits;
 		ImVec2                        m_ylimits_actual;
-		mvCallable                    m_queryCallback;
+		mvCallable                    m_queryCallback = nullptr;
 		bool                          m_queried = false;
 		float                         m_queryArea[4] = {0.0f , 0.0f, 0.0f, 0.0f};
 		bool                          m_dirty = false;

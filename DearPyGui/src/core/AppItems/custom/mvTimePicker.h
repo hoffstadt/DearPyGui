@@ -80,7 +80,7 @@ namespace Marvel {
 
 	public:
 
-		mvTimePicker(const std::string& name, tm default_value);
+		mvTimePicker(const std::string& name);
 
 		void draw(ImDrawList* drawlist, float x, float y)override;
 

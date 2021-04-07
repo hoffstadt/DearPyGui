@@ -9,10 +9,10 @@ namespace Marvel {
 	void mvImageButton::InsertParser(std::map<std::string, mvPythonParser>* parsers)
 	{
 		parsers->insert({ s_command, mvPythonParser({
-			{mvPythonDataType::String, "value"},
 			{mvPythonDataType::Optional},
 			{mvPythonDataType::String, "name"},
 			{mvPythonDataType::KeywordOnly},
+			{mvPythonDataType::String, "value"},
 			{mvPythonDataType::Callable, "callback", "Registers a callback", "None"},
 			{mvPythonDataType::Object, "callback_data", "Callback data", "None"},
 			{mvPythonDataType::FloatList, "tint_color", "", "(255, 255, 255, 255)"},
@@ -31,8 +31,8 @@ namespace Marvel {
 		"Using(0,0)->(1,1) texture coordinates will generally display the entire texture", "None", "Adding Widgets") });
 	}
 
-	mvImageButton::mvImageButton(const std::string& name, std::string  default_value)
-		: mvAppItem(name), m_value(std::move(default_value))
+	mvImageButton::mvImageButton(const std::string& name)
+		: mvAppItem(name)
 	{
 		mvEventBus::Subscribe(this, mvEVT_DELETE_TEXTURE);
 	}
@@ -131,6 +131,7 @@ namespace Marvel {
 		if (PyObject* item = PyDict_GetItemString(dict, "tint_color")) m_tintColor = ToColor(item);
 		if (PyObject* item = PyDict_GetItemString(dict, "background_color")) m_backgroundColor = ToColor(item);
 		if (PyObject* item = PyDict_GetItemString(dict, "frame_padding")) m_framePadding = ToInt(item);
+		if (PyObject* item = PyDict_GetItemString(dict, "value")) m_value = ToString(item);
 	}
 
 	void mvImageButton::getExtraConfigDict(PyObject* dict)
@@ -143,60 +144,7 @@ namespace Marvel {
 		PyDict_SetItemString(dict, "tint_color", ToPyColor(m_tintColor));
 		PyDict_SetItemString(dict, "background_color", ToPyColor(m_backgroundColor));
 		PyDict_SetItemString(dict, "frame_padding", ToPyInt(m_framePadding));
-	}
-
-	PyObject* mvImageButton::add_image_button(PyObject* self, PyObject* args, PyObject* kwargs)
-	{
-		static int i = 0; i++;
-		std::string sname = std::string(std::string("$$DPG_") + s_internal_id + std::to_string(i));
-		const char* name = sname.c_str();
-		const char* value;
-		PyObject* callback = nullptr;
-		PyObject* callback_data = nullptr;
-		PyObject* tintcolor = PyTuple_New(4);
-		PyTuple_SetItem(tintcolor, 0, PyFloat_FromDouble(255.0));
-		PyTuple_SetItem(tintcolor, 1, PyFloat_FromDouble(255.0));
-		PyTuple_SetItem(tintcolor, 2, PyFloat_FromDouble(255.0));
-		PyTuple_SetItem(tintcolor, 3, PyFloat_FromDouble(255.0));
-		PyObject* backgroundColor = PyTuple_New(4);
-		PyTuple_SetItem(backgroundColor, 0, PyFloat_FromDouble(0.0));
-		PyTuple_SetItem(backgroundColor, 1, PyFloat_FromDouble(0.0));
-		PyTuple_SetItem(backgroundColor, 2, PyFloat_FromDouble(0.0));
-		PyTuple_SetItem(backgroundColor, 3, PyFloat_FromDouble(0.0));
-		const char* parent = "";
-		const char* before = "";
-		int width = 0;
-		int height = 0;
-		int frame_padding = -1;
-		PyObject* uv_min = PyTuple_New(2);
-		PyTuple_SetItem(uv_min, 0, PyFloat_FromDouble(0));
-		PyTuple_SetItem(uv_min, 1, PyFloat_FromDouble(0));
-		PyObject* uv_max = PyTuple_New(2);
-		PyTuple_SetItem(uv_max, 0, PyFloat_FromDouble(1));
-		PyTuple_SetItem(uv_max, 1, PyFloat_FromDouble(1));
-		int show = true;
-		int enabled = true;
-
-		if (!(mvApp::GetApp()->getParsers())["add_image_button"].parse(args, kwargs, __FUNCTION__,
-			&value, &name, &callback, &callback_data, &tintcolor, &backgroundColor, &parent,
-			&before, &width, &height, &frame_padding, &uv_min, &uv_max, &show, &enabled))
-			return ToPyBool(false);
-
-		auto item = CreateRef<mvImageButton>(name, value);
-		if (callback)
-			Py_XINCREF(callback);
-		item->setCallback(callback);
-		if (callback_data)
-			Py_XINCREF(callback_data);
-		item->setCallbackData(callback_data);
-
-		item->checkConfigDict(kwargs);
-		item->setConfigDict(kwargs);
-		item->setExtraConfigDict(kwargs);
-
-		mvApp::GetApp()->getItemRegistry().addItemWithRuntimeChecks(item, parent, before);
-
-		return ToPyString(name);
+		PyDict_SetItemString(dict, "value", ToPyString(m_value));
 	}
 
 }

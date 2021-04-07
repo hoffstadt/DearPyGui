@@ -38,16 +38,9 @@ namespace Marvel {
 			}, "Changes to next column.", "None", "Containers") });
 	}
 
-	mvTableColumn::mvTableColumn(const std::string& name, float init_width_or_weight)
+	mvTableColumn::mvTableColumn(const std::string& name)
 		: mvAppItem(name)
 	{
-		m_init_width_or_weight = init_width_or_weight;
-	}
-
-	mvTableColumn::~mvTableColumn()
-	{
-		if (auto ptrParent = getParent())
-			static_cast<mvTable*>(ptrParent)->decrementColumns();
 	}
 
 	void mvTableColumn::draw(ImDrawList* drawlist, float x, float y)
@@ -64,69 +57,6 @@ namespace Marvel {
 		MV_ITEM_REGISTRY_ERROR("mvTableColumn parent must be a table.");
 		assert(false);
 		return false;
-	}
-
-	PyObject* mvTableColumn::add_table_column(PyObject* self, PyObject* args, PyObject* kwargs)
-	{
-		static int i = 0; i++;
-		std::string sname = std::string(std::string("$$DPG_") + s_internal_id + std::to_string(i));
-		const char* name = sname.c_str();
-		float init_width_or_weight = 0.0f;
-		int show = true;
-		const char* parent = "";
-		const char* before = "";
-		int default_hide = false;
-		int default_sort = false;
-		int width_stretch = false;
-		int width_fixed = false;
-		int no_resize = false;
-		int no_reorder = false;
-		int no_hide = false;
-		int no_clip = false;
-		int no_sort = false;
-		int no_sort_ascending = false;
-		int no_sort_descending = false;
-		int no_header_width = false;
-		int prefer_sort_ascending = false;
-		int prefer_sort_descening = false;
-		int indent_enable = false;
-		int indent_disable = false;
-
-
-
-		if (!(mvApp::GetApp()->getParsers())["add_table_column"].parse(args, kwargs, __FUNCTION__,
-			&name,
-			&init_width_or_weight, &show, &parent, &before,
-			&default_hide,
-			&default_sort,
-			&width_stretch,
-			&width_fixed,
-			&no_resize,
-			&no_reorder,
-			&no_hide,
-			&no_clip,
-			&no_sort,
-			&no_sort_ascending,
-			&no_sort_descending,
-			&no_header_width,
-			&prefer_sort_ascending,
-			&prefer_sort_descening,
-			&indent_enable,
-			&indent_disable
-		))
-			return ToPyBool(false);
-
-		auto item = CreateRef<mvTableColumn>(name, init_width_or_weight);
-		item->checkConfigDict(kwargs);
-		item->setConfigDict(kwargs);
-		item->setExtraConfigDict(kwargs);
-
-		mvApp::GetApp()->getItemRegistry().addItemWithRuntimeChecks(item, parent, before);
-
-		if (auto ptrParent = item->getParent())
-			static_cast<mvTable*>(ptrParent)->incrementColumns();
-
-		return ToPyString(name);
 	}
 
 	void mvTableColumn::setExtraConfigDict(PyObject* dict)

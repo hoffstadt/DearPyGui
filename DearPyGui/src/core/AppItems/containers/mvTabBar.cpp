@@ -1,5 +1,6 @@
 #include "mvTabBar.h"
 #include "mvApp.h"
+#include "mvLog.h"
 #include "mvItemRegistry.h"
 #include "mvImGuiThemeScope.h"
 #include "mvTab.h"
@@ -26,6 +27,19 @@ namespace Marvel {
 		:
 		mvStringPtrBase(name)
 	{
+	}
+
+
+	bool mvTabBar::canChildBeAdded(mvAppItemType type)
+	{
+		if (type == mvAppItemType::mvTab)return true;
+		if (type == mvAppItemType::mvTabButton)return true;
+
+		mvThrowPythonError(1000, "TabBar children must be tabs or tab buttons.");
+		MV_ITEM_REGISTRY_ERROR("TabBar children must be tabs or tab buttons.");
+		assert(false);
+
+		return false;
 	}
 
 	std::string& mvTabBar::getSpecificValue()

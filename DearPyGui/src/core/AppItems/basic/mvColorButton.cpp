@@ -10,10 +10,10 @@ namespace Marvel {
 	void mvColorButton::InsertParser(std::map<std::string, mvPythonParser>* parsers)
 	{
 		parsers->insert({ s_command, mvPythonParser({
-			{mvPythonDataType::FloatList, "color"},
 			{mvPythonDataType::Optional},
 			{mvPythonDataType::String, "name"},		
 			{mvPythonDataType::KeywordOnly},
+			{mvPythonDataType::IntList, "default_value", "", "(0, 0, 0, 255)"},
 			{mvPythonDataType::Callable, "callback", "Registers a callback", "None"},
 			{mvPythonDataType::Object, "callback_data", "Callback data", "None"},
 			{mvPythonDataType::String, "parent", "Parent to add this item to. (runtime adding)", "''"},
@@ -28,10 +28,9 @@ namespace Marvel {
 		}, "Adds a color button.", "None", "Adding Widgets") });
 	}
 
-	mvColorButton::mvColorButton(const std::string& name, const mvColor& color)
+	mvColorButton::mvColorButton(const std::string& name)
 		: 
-		mvAppItem(name),
-		m_color(color.toVec4())
+		mvColorPtrBase(name)
 	{
 	}
 
@@ -41,7 +40,9 @@ namespace Marvel {
 		mvImGuiThemeScope scope(this);
 		mvFontScope fscope(this);
 
-		if (ImGui::ColorButton(m_label.c_str(), m_color, m_flags, ImVec2((float)m_width, (float)m_height)))
+		ImVec4 col = { (*m_value)[0], (*m_value)[1], (*m_value)[2], (*m_value)[3] };
+
+		if (ImGui::ColorButton(m_label.c_str(), col, m_flags, ImVec2((float)m_width, (float)m_height)))
 			mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), m_name, m_callback_data);
 
 	}
@@ -51,7 +52,6 @@ namespace Marvel {
 		if (dict == nullptr)
 			return;
 
-		if (PyObject* item = PyDict_GetItemString(dict, "color")) m_color = ToColor(item).toVec4();
 
 		// helpers for bit flipping
 		auto flagop = [dict](const char* keyword, int flag, int& flags)
@@ -68,8 +68,6 @@ namespace Marvel {
 		if (dict == nullptr)
 			return;
 
-		PyDict_SetItemString(dict, "color", ToPyColor({ (int)m_color.x * 255, (int)m_color.y * 255, (int)m_color.z * 255, (int)m_color.w * 255 }));
-
 		// helper to check and set bit
 		auto checkbitset = [dict](const char* keyword, int flag, const int& flags)
 		{
@@ -81,43 +79,4 @@ namespace Marvel {
 		checkbitset("no_drag_drop", ImGuiColorEditFlags_NoDragDrop, m_flags);
 	}
 
-	PyObject* mvColorButton::add_color_button(PyObject* self, PyObject* args, PyObject* kwargs)
-	{
-		static int i = 0; i++;
-		std::string sname = std::string(std::string("$$DPG_") + s_internal_id + std::to_string(i));
-		const char* name = sname.c_str();
-		PyObject* color;
-		PyObject* callback = nullptr;
-		PyObject* callback_data = nullptr;
-		const char* parent = "";
-		const char* before = "";
-		int width = 0;
-		int height = 0;
-		int show = true;
-		int no_alpha = false;
-		int no_border = false;
-		int no_drag_drop = false;
-		int enabled = true;
-
-		if (!(mvApp::GetApp()->getParsers())["add_color_button"].parse(args, kwargs, __FUNCTION__,
-			&color, &name, &callback, &callback_data, &parent, &before, &width, &height,
-			&show, &no_alpha, &no_border, &no_drag_drop, &enabled))
-			return ToPyBool(false);
-
-		auto item = CreateRef<mvColorButton>(name, ToColor(color));
-		if (callback)
-			Py_XINCREF(callback);
-		item->setCallback(callback);
-		if (callback_data)
-			Py_XINCREF(callback_data);
-		item->setCallbackData(callback_data);
-
-		item->checkConfigDict(kwargs);
-		item->setConfigDict(kwargs);
-		item->setExtraConfigDict(kwargs);
-
-		mvApp::GetApp()->getItemRegistry().addItemWithRuntimeChecks(item, parent, before);
-
-		return ToPyString(name);
-	}
 }

@@ -9,30 +9,23 @@ namespace Marvel {
 
 		parsers->insert({ s_command, mvPythonParser({
 			{mvPythonDataType::Optional},
+			{mvPythonDataType::String, "name", "", "''"},
+			{mvPythonDataType::KeywordOnly},
 			{mvPythonDataType::FloatList, "center"},
 			{mvPythonDataType::Float, "radius"},
-			{mvPythonDataType::IntList, "color"},
-			{mvPythonDataType::KeywordOnly},
+			{mvPythonDataType::IntList, "color"},	
 			{mvPythonDataType::Integer, "segments", "", "0"},
 			{mvPythonDataType::Float, "thickness", "", "1.0"},
 			{mvPythonDataType::FloatList, "fill", "", "(0, 0, 0, -1)"},
-			{mvPythonDataType::String, "name", "", "''"},
 			{mvPythonDataType::String, "parent", "Parent to add this item to. (runtime adding)", "''"},
 			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)", "''"},
 			{mvPythonDataType::Bool, "show", "Attempt to render", "True"},
 		}, "Draws a circle on a drawing.", "None", "Drawing") });
 	}
 
-	mvDrawCircle::mvDrawCircle(const std::string& name, const mvVec2& center, float radius, const mvColor& color,
-		int segments, float thickness, const mvColor& fill)
+	mvDrawCircle::mvDrawCircle(const std::string& name)
 		:
-		mvAppItem(name),
-		m_center(center),
-		m_radius(radius),
-		m_segments(segments),
-		m_color(color),
-		m_fill(fill),
-		m_thickness(thickness)
+		mvAppItem(name)
 	{
 	}
 
@@ -86,39 +79,4 @@ namespace Marvel {
 		PyDict_SetItemString(dict, "segments", ToPyInt(m_segments));
 	}
 
-	PyObject* mvDrawCircle::draw_circle(PyObject* self, PyObject* args, PyObject* kwargs)
-	{
-
-		PyObject* center;
-		float radius;
-		PyObject* color;
-		int segments = 0;
-		float thickness = 1.0f;
-		PyObject* fill = nullptr;
-
-		static int i = 0; i++;
-		std::string sname = std::string(std::string("$$DPG_") + s_internal_id + std::to_string(i));
-		const char* name = sname.c_str();
-		const char* before = "";
-		const char* parent = "";
-		int show = true;
-
-		if (!(mvApp::GetApp()->getParsers())[s_command].parse(args, kwargs, __FUNCTION__, 
-			&center, &radius, &color, &segments, &thickness, &fill, &name, &parent, &before, &show))
-			return GetPyNone();
-
-		mvVec2 mcenter = ToVec2(center);
-		mvColor mcolor = ToColor(color);
-		mvColor mfill = ToColor(fill);
-
-		auto item = CreateRef<mvDrawCircle>(name, mcenter, radius, mcolor, segments, thickness, mfill);
-
-		item->checkConfigDict(kwargs);
-		item->setConfigDict(kwargs);
-		item->setExtraConfigDict(kwargs);
-
-		mvApp::GetApp()->getItemRegistry().addItemWithRuntimeChecks(item, parent, before);
-
-		return ToPyString(name);
-	}
 }

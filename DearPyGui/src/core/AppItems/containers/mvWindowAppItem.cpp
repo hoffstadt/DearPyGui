@@ -39,10 +39,9 @@ namespace Marvel {
 			"None", "Containers") });
 	}
 
-	mvWindowAppItem::mvWindowAppItem(const std::string& name, bool mainWindow, mvCallable closing_callback)
+	mvWindowAppItem::mvWindowAppItem(const std::string& name, bool mainWindow)
 		: mvAppItem(name), m_mainWindow(mainWindow)
 	{
-		m_on_close = SanitizeCallback(closing_callback);
 
 		m_width = 500;
 		m_height = 500;
@@ -311,6 +310,16 @@ namespace Marvel {
 			m_max_size = { (float)max_size[0], (float)max_size[1] };
 		}
 
+		if (PyObject* item = PyDict_GetItemString(dict, "on_close"))
+		{
+			if (m_on_close)
+				Py_XDECREF(m_on_close);
+			item = SanitizeCallback(item);
+			if (item)
+				Py_XINCREF(item);
+			m_on_close = item;
+		}
+
 		// helper for bit flipping
 		auto flagop = [dict](const char* keyword, int flag, int& flags)
 		{
@@ -368,67 +377,6 @@ namespace Marvel {
 		checkbitset("no_bring_to_front_on_focus", ImGuiWindowFlags_NoBringToFrontOnFocus, m_windowflags);
 		checkbitset("menubar", ImGuiWindowFlags_MenuBar, m_windowflags);
 		checkbitset("no_background", ImGuiWindowFlags_NoBackground, m_windowflags);
-	}
-
-	PyObject* mvWindowAppItem::add_window(PyObject* self, PyObject* args, PyObject* kwargs)
-	{
-		static int i = 0; i++;
-		std::string sname = std::string(std::string("$$DPG_") + s_internal_id + std::to_string(i));
-		const char* name = sname.c_str();
-		int width = -1;
-		int height = -1;
-		int x_pos = 200;
-		int y_pos = 200;
-		int autosize = false;
-		int no_resize = false;
-		int no_title_bar = false;
-		int no_move = false;
-		int no_scrollbar = false;
-		int no_collapse = false;
-		int horizontal_scrollbar = false;
-		int no_focus_on_appearing = false;
-		int no_bring_to_front_on_focus = false;
-		int menubar = false;
-		int noclose = false;
-		int no_background = false;
-
-		const char* label = "";
-		int show = true;
-		int collapsed = false;
-
-		PyObject* closing_callback = nullptr;
-		PyObject* min_size = PyList_New(2);
-		PyList_SetItem(min_size, 0, PyLong_FromLong(-1));
-		PyList_SetItem(min_size, 1, PyLong_FromLong(-1));
-
-		PyObject* max_size = PyList_New(2);
-		PyList_SetItem(max_size, 0, PyLong_FromLong(-1));
-		PyList_SetItem(max_size, 1, PyLong_FromLong(-1));
-
-		if (!(mvApp::GetApp()->getParsers())["add_window"].parse(args, kwargs, __FUNCTION__, &name, &width,
-			&height, &x_pos, &y_pos, &autosize, &no_resize, &no_title_bar, &no_move, &no_scrollbar,
-			&no_collapse, &horizontal_scrollbar, &no_focus_on_appearing, &no_bring_to_front_on_focus, &menubar,
-			&noclose, &no_background, &label, &show, &collapsed, &closing_callback, &min_size, &max_size))
-			return ToPyBool(false);
-
-		if (closing_callback)
-			Py_XINCREF(closing_callback);
-
-		auto item = CreateRef<mvWindowAppItem>(name, false, closing_callback);
-
-		item->checkConfigDict(kwargs);
-		item->setConfigDict(kwargs);
-		item->setExtraConfigDict(kwargs);
-
-		if (mvApp::GetApp()->getItemRegistry().addItemWithRuntimeChecks(item, "", ""))
-		{
-			mvApp::GetApp()->getItemRegistry().pushParent(item);
-			if (!show)
-				item->hide();
-
-		}
-
-		return ToPyString(name);
 	}
 
 }

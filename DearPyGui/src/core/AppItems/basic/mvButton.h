@@ -11,7 +11,7 @@ namespace Marvel {
 
 		static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
 
-		MV_APPLY_WIDGET_REGISTRATION2(mvAppItemType::mvButton, add_button)
+		MV_APPLY_WIDGET_REGISTRATION(mvAppItemType::mvButton, add_button)
 
 		MV_CREATE_CONSTANT(mvDir_None	, -1L, 0L);
 		MV_CREATE_CONSTANT(mvDir_Left	,  0L, 0L);

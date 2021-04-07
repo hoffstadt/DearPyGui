@@ -9,14 +9,14 @@ namespace Marvel {
 
 		parsers->insert({ s_command, mvPythonParser({
 			{mvPythonDataType::Optional},
+			{mvPythonDataType::String, "name", "", "''"},
+			{mvPythonDataType::KeywordOnly},
 			{mvPythonDataType::FloatList, "p1"},
 			{mvPythonDataType::FloatList, "p2"},
 			{mvPythonDataType::FloatList, "p3"},
 			{mvPythonDataType::IntList, "color"},
-			{mvPythonDataType::KeywordOnly},
 			{mvPythonDataType::FloatList, "fill", "", "(0, 0, 0, -1)"},
 			{mvPythonDataType::Float, "thickness", "", "1.0"},
-			{mvPythonDataType::String, "name", "", "''"},
 			{mvPythonDataType::String, "parent", "Parent to add this item to. (runtime adding)", "''"},
 			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)", "''"},
 			{mvPythonDataType::Bool, "show", "Attempt to render", "True"},
@@ -24,16 +24,9 @@ namespace Marvel {
 
 	}
 
-	mvDrawTriangle::mvDrawTriangle(const std::string& name, const mvVec2& p1, const mvVec2& p2, const mvVec2& p3,
-		const mvColor& color, float thickness, const mvColor& fill)
+	mvDrawTriangle::mvDrawTriangle(const std::string& name)
 		:
-		mvAppItem(name),
-		m_p1(p1),
-		m_p2(p2),
-		m_p3(p3),
-		m_color(color),
-		m_fill(fill),
-		m_thickness(thickness)
+		mvAppItem(name)
 	{
 	}
 
@@ -84,39 +77,4 @@ namespace Marvel {
 		PyDict_SetItemString(dict, "thickness", ToPyFloat(m_thickness));
 	}
 
-	PyObject* mvDrawTriangle::draw_triangle(PyObject* self, PyObject* args, PyObject* kwargs)
-	{
-
-		float thickness = 1.0f;
-		PyObject* p1, * p2, * p3;
-		PyObject* color;
-		PyObject* fill = nullptr;
-
-		static int i = 0; i++;
-		std::string sname = std::string(std::string("$$DPG_") + s_internal_id + std::to_string(i));
-		const char* name = sname.c_str();
-		const char* before = "";
-		const char* parent = "";
-		int show = true;
-
-		if (!(mvApp::GetApp()->getParsers())[s_command].parse(args, kwargs, __FUNCTION__, 
-			&p1, &p2, &p3, &color, &fill, &thickness, &name, &parent, &before, &show))
-			return GetPyNone();
-
-		mvVec2 mp1 = ToVec2(p1);
-		mvVec2 mp2 = ToVec2(p2);
-		mvVec2 mp3 = ToVec2(p3);
-		mvColor mcolor = ToColor(color);
-		mvColor mfill = ToColor(fill);
-
-		auto item = CreateRef<mvDrawTriangle>(name, mp1, mp2, mp3, mcolor, thickness, mfill);
-
-		item->checkConfigDict(kwargs);
-		item->setConfigDict(kwargs);
-		item->setExtraConfigDict(kwargs);
-
-		mvApp::GetApp()->getItemRegistry().addItemWithRuntimeChecks(item, parent, before);
-
-		return ToPyString(name);
-	}
 }
