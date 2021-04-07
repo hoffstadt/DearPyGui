@@ -474,7 +474,7 @@ namespace Marvel {
 		{
 			mvThrowPythonError(1000, "Item must have a unique name.");
 			MV_ITEM_REGISTRY_WARN("Item must have a unique name.");
-			assert(false);
+			//assert(false);
 			return false;
 		}
 

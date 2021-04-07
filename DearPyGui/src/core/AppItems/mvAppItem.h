@@ -139,8 +139,6 @@ namespace Marvel {
         MV_CREATE_EXTRA_COMMAND(get_item_configuration);
         MV_CREATE_EXTRA_COMMAND(configure_item);
         MV_CREATE_EXTRA_COMMAND(get_item_type);
-        MV_CREATE_EXTRA_COMMAND(set_item_callback);
-        MV_CREATE_EXTRA_COMMAND(set_item_callback_data);
         MV_CREATE_EXTRA_COMMAND(get_value);
         MV_CREATE_EXTRA_COMMAND(set_value);
         MV_CREATE_EXTRA_COMMAND(is_item_hovered);
@@ -158,8 +156,6 @@ namespace Marvel {
         MV_CREATE_EXTRA_COMMAND(get_item_rect_min);
         MV_CREATE_EXTRA_COMMAND(get_item_rect_max);
         MV_CREATE_EXTRA_COMMAND(get_item_rect_size);
-        MV_CREATE_EXTRA_COMMAND(get_item_callback);
-        MV_CREATE_EXTRA_COMMAND(get_item_callback_data);
         MV_CREATE_EXTRA_COMMAND(get_item_parent);
         MV_CREATE_EXTRA_COMMAND(get_item_children);
 
@@ -167,8 +163,6 @@ namespace Marvel {
             MV_ADD_EXTRA_COMMAND(get_item_configuration);
             MV_ADD_EXTRA_COMMAND(configure_item);
             MV_ADD_EXTRA_COMMAND(get_item_type);
-            MV_ADD_EXTRA_COMMAND(set_item_callback);
-            MV_ADD_EXTRA_COMMAND(set_item_callback_data);
             MV_ADD_EXTRA_COMMAND(get_value);
             MV_ADD_EXTRA_COMMAND(set_value);
             MV_ADD_EXTRA_COMMAND(is_item_hovered);
@@ -186,8 +180,6 @@ namespace Marvel {
             MV_ADD_EXTRA_COMMAND(get_item_rect_min);
             MV_ADD_EXTRA_COMMAND(get_item_rect_max);
             MV_ADD_EXTRA_COMMAND(get_item_rect_size);
-            MV_ADD_EXTRA_COMMAND(get_item_callback);
-            MV_ADD_EXTRA_COMMAND(get_item_callback_data);
             MV_ADD_EXTRA_COMMAND(get_item_parent);
             MV_ADD_EXTRA_COMMAND(get_item_children);
         MV_END_EXTRA_COMMANDS
@@ -250,7 +242,11 @@ namespace Marvel {
         virtual void                        setExtraConfigDict(PyObject* dict) {}
         virtual void                        getExtraConfigDict(PyObject* dict) {}
 
-        virtual void                        onChildAdd(mvRef<mvAppItem> item) {}
+        //-----------------------------------------------------------------------------
+        // These methods can be optionally overridden if your widget needs to be
+        // notified when children are added/removed (i.e. tables, node editor)
+        //-----------------------------------------------------------------------------
+        virtual void                        onChildAdd    (mvRef<mvAppItem> item) {}
         virtual void                        onChildRemoved(mvRef<mvAppItem> item) {}
         virtual void                        onChildrenRemoved() {}
 

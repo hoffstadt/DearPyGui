@@ -841,6 +841,21 @@ namespace Marvel{
 		PyDict_SetItemString(dict, "width", ToPyInt(m_width));
 		PyDict_SetItemString(dict, "height", ToPyInt(m_height));
 
+		if (m_callback)
+		{
+			Py_XINCREF(m_callback);
+			PyDict_SetItemString(dict, "callback", m_callback);
+		}
+		else
+			PyDict_SetItemString(dict, "callback", GetPyNone());
+
+		if (m_callback_data)
+		{
+			Py_XINCREF(m_callback_data);
+			PyDict_SetItemString(dict, "callback_data", m_callback_data);
+		}
+		else
+			PyDict_SetItemString(dict, "callback_data", GetPyNone());
 	}
 
 	PyObject* mvAppItem::get_item_configuration(PyObject* self, PyObject* args, PyObject* kwargs)
@@ -892,30 +907,6 @@ namespace Marvel{
 		}
 		else
 			ThrowPythonException(item + std::string(" item was not found"));
-
-		return GetPyNone();
-	}
-
-	PyObject* mvAppItem::get_item_callback(PyObject* self, PyObject* args, PyObject* kwargs)
-	{
-		const char* item;
-
-		if (!(mvApp::GetApp()->getParsers())["get_item_callback"].parse(args, kwargs, __FUNCTION__, &item))
-			return GetPyNone();
-
-		std::lock_guard<std::mutex> lk(mvApp::GetApp()->getMutex());
-		auto appitem = mvApp::GetApp()->getItemRegistry().getItem(item);
-
-		if (appitem)
-		{
-			PyObject* callback = appitem->getCallback();
-			if (callback)
-			{
-				Py_XINCREF(callback);
-				return callback;
-			}
-
-		}
 
 		return GetPyNone();
 	}
@@ -1216,35 +1207,6 @@ namespace Marvel{
 		return GetPyNone();
 	}
 
-	PyObject* mvAppItem::set_item_callback(PyObject* self, PyObject* args, PyObject* kwargs)
-	{
-		PyObject* callback;
-		PyObject* callback_data = nullptr;
-		const char* item;
-
-		if (!(mvApp::GetApp()->getParsers())["set_item_callback"].parse(args, kwargs, __FUNCTION__, &item, &callback, &callback_data))
-			return GetPyNone();
-
-		std::lock_guard<std::mutex> lk(mvApp::GetApp()->getMutex());
-		auto appitem = mvApp::GetApp()->getItemRegistry().getItem(item);
-
-		if (appitem)
-		{
-			if (appitem->getCallback() != callback)
-				Py_XINCREF(callback);
-			appitem->setCallback(callback);
-
-			if (callback_data)
-			{
-				if (appitem->getCallbackData() != callback_data)
-					Py_XINCREF(callback_data);
-				appitem->setCallbackData(callback_data);
-			}
-		}
-
-		return GetPyNone();
-	}
-
 	PyObject* mvAppItem::get_item_type(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		const char* name;
@@ -1269,51 +1231,6 @@ namespace Marvel{
 			});
 
 		return ToPyString(parserCommand);
-	}
-
-	PyObject* mvAppItem::get_item_callback_data(PyObject* self, PyObject* args, PyObject* kwargs)
-	{
-		const char* item;
-
-		if (!(mvApp::GetApp()->getParsers())["get_item_callback_data"].parse(args, kwargs, __FUNCTION__, &item))
-			return GetPyNone();
-
-		std::lock_guard<std::mutex> lk(mvApp::GetApp()->getMutex());
-		auto appitem = mvApp::GetApp()->getItemRegistry().getItem(item);
-
-		if (appitem)
-		{
-			PyObject* callback = appitem->getCallbackData();
-			if (callback)
-			{
-				Py_XINCREF(callback);
-				return callback;
-			}
-
-		}
-
-		return GetPyNone();
-	}
-
-	PyObject* mvAppItem::set_item_callback_data(PyObject* self, PyObject* args, PyObject* kwargs)
-	{
-		PyObject* data;
-		const char* item;
-
-		if (!(mvApp::GetApp()->getParsers())["set_item_callback_data"].parse(args, kwargs, __FUNCTION__, &item, &data))
-			return GetPyNone();
-
-		std::lock_guard<std::mutex> lk(mvApp::GetApp()->getMutex());
-		auto appitem = mvApp::GetApp()->getItemRegistry().getItem(item);
-
-		if (appitem)
-		{
-			if (appitem->getCallbackData() != data)
-				Py_XINCREF(data);
-			appitem->setCallbackData(data);
-		}
-
-		return GetPyNone();
 	}
 
 }

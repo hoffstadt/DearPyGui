@@ -182,10 +182,15 @@ namespace Marvel {
 	void mvColorPtrBase::setPyValue(PyObject* value)
 	{
 		std::vector<float> temp = ToFloatVect(value);
+		while (temp.size() < 4)
+			temp.push_back(0.0f);
 		std::array<float, 4> temp_array;
 		for (int i = 0; i < temp_array.size(); i++)
 			temp_array[i] = temp[i];
-		*m_value = temp_array;
+		if (m_value)
+			*m_value = temp_array;
+		else
+			m_value = std::make_shared<std::array<float, 4>>(temp_array);
 	}
 
 	void mvColorPtrBase::setDataSource(const std::string& dataSource)
@@ -287,7 +292,12 @@ namespace Marvel {
 
 	void mvTimePtrBase::setPyValue(PyObject* value)
 	{
-		*m_value = ToTime(value);
+
+		if (m_value)
+			*m_value = ToTime(value);
+		else
+			m_value = {};
+
 		ImPlot::GetGmtTime(*m_imvalue, m_value.get());
 	}
 

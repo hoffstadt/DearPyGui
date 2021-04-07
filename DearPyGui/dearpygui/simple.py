@@ -445,7 +445,7 @@ def tree_node(*args, label: str = "__DearPyGuiDefault", show: bool = True, paren
 
 
 @contextmanager
-def tooltip(tipparent: str, *args, parent: str = "", before: str = "", show: bool = True):
+def tooltip(*args, parent: str = "", before: str = "", show: bool = True):
     """Wraps add_tooltip() and automates calling end().
 
     Args:
@@ -460,13 +460,13 @@ def tooltip(tipparent: str, *args, parent: str = "", before: str = "", show: boo
         None
     """
     try:
-        yield internal_dpg.add_tooltip(tipparent, *args, parent=parent, before=before, show=show)
+        yield internal_dpg.add_tooltip(*args, parent=parent, before=before, show=show)
     finally:
         internal_dpg.end()
 
 
 @contextmanager
-def popup(popupparent: str, *args, mousebutton: int = 1, modal: bool = False, parent: str = "", 
+def popup(*args, mousebutton: int = 1, modal: bool = False, parent: str = "", 
           before: str = "", width: int = 0, height: int = 0, show: bool = True):
     """Wraps add_popup() and automates calling end().
 
@@ -487,7 +487,7 @@ def popup(popupparent: str, *args, mousebutton: int = 1, modal: bool = False, pa
         None
     """
     try:
-        yield internal_dpg.add_popup(popupparent, *args, mousebutton=mousebutton, modal=modal, parent=parent,
+        yield internal_dpg.add_popup(*args, mousebutton=mousebutton, modal=modal, parent=parent,
                                      before=before, width=width, height=height, show=show)
     finally:
         internal_dpg.end()
