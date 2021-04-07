@@ -26,23 +26,23 @@ namespace Marvel {
 
         MV_APPITEM_TYPE(mvAppItemType::mvSliderFloat, add_slider_float)
 
-        MV_CREATE_CONSTANT(mvThemeCol_SliderFloat_Text                ,  0L, 0L);
-        MV_CREATE_CONSTANT(mvThemeCol_SliderFloat_Bg                  ,  7L, 0L);
-        MV_CREATE_CONSTANT(mvThemeCol_SliderFloat_BgHovered           ,  8L, 0L);
-        MV_CREATE_CONSTANT(mvThemeCol_SliderFloat_BgActive            ,  9L, 0L);
-        MV_CREATE_CONSTANT(mvThemeCol_SliderFloat_Grab                , 19L, 0L);
-        MV_CREATE_CONSTANT(mvThemeCol_SliderFloat_GrabActive          , 20L, 0L);
-        MV_CREATE_CONSTANT(mvThemeCol_SliderFloat_Border              ,  5L, 0L);
-        MV_CREATE_CONSTANT(mvThemeCol_SliderFloat_BorderShadow        ,  6L, 0L);
+        MV_CREATE_CONSTANT(mvThemeCol_SliderFloat_Text                , ImGuiCol_Text              , 0L);
+        MV_CREATE_CONSTANT(mvThemeCol_SliderFloat_Bg                  , ImGuiCol_FrameBg           , 0L);
+        MV_CREATE_CONSTANT(mvThemeCol_SliderFloat_BgHovered           , ImGuiCol_FrameBgHovered    , 0L);
+        MV_CREATE_CONSTANT(mvThemeCol_SliderFloat_BgActive            , ImGuiCol_FrameBgActive     , 0L);
+        MV_CREATE_CONSTANT(mvThemeCol_SliderFloat_Grab                , ImGuiCol_SliderGrab        , 0L);
+        MV_CREATE_CONSTANT(mvThemeCol_SliderFloat_GrabActive          , ImGuiCol_SliderGrabActive  , 0L);
+        MV_CREATE_CONSTANT(mvThemeCol_SliderFloat_Border              , ImGuiCol_Border            , 0L);
+        MV_CREATE_CONSTANT(mvThemeCol_SliderFloat_BorderShadow        , ImGuiCol_BorderShadow      , 0L);
 
-        MV_CREATE_CONSTANT(mvThemeStyle_SliderFloat_Rounding          , 11L, 0L);
-        MV_CREATE_CONSTANT(mvThemeStyle_SliderFloat_BorderSize        , 12L, 0L);
-        MV_CREATE_CONSTANT(mvThemeStyle_SliderFloat_PaddingX          , 10L, 0L);
-        MV_CREATE_CONSTANT(mvThemeStyle_SliderFloat_PaddingY          , 10L, 1L);
-        MV_CREATE_CONSTANT(mvThemeStyle_SliderFloat_InnerSpacingX     , 14L, 0L);
-        MV_CREATE_CONSTANT(mvThemeStyle_SliderFloat_InnerSpacingY     , 14L, 1L);
-        MV_CREATE_CONSTANT(mvThemeStyle_SliderFloat_GrabMinSize       , 19L, 0L);
-        MV_CREATE_CONSTANT(mvThemeStyle_SliderFloat_GrabRounding      , 20L, 0L);
+        MV_CREATE_CONSTANT(mvThemeStyle_SliderFloat_Rounding          , ImGuiStyleVar_FrameRounding    , 0L);
+        MV_CREATE_CONSTANT(mvThemeStyle_SliderFloat_BorderSize        , ImGuiStyleVar_FrameBorderSize  , 0L);
+        MV_CREATE_CONSTANT(mvThemeStyle_SliderFloat_PaddingX          , ImGuiStyleVar_FramePadding     , 0L);
+        MV_CREATE_CONSTANT(mvThemeStyle_SliderFloat_PaddingY          , ImGuiStyleVar_FramePadding     , 1L);
+        MV_CREATE_CONSTANT(mvThemeStyle_SliderFloat_InnerSpacingX     , ImGuiStyleVar_ItemInnerSpacing , 0L);
+        MV_CREATE_CONSTANT(mvThemeStyle_SliderFloat_InnerSpacingY     , ImGuiStyleVar_ItemInnerSpacing , 1L);
+        MV_CREATE_CONSTANT(mvThemeStyle_SliderFloat_GrabMinSize       , ImGuiStyleVar_GrabMinSize      , 0L);
+        MV_CREATE_CONSTANT(mvThemeStyle_SliderFloat_GrabRounding      , ImGuiStyleVar_GrabRounding     , 0L);
 
 		MV_START_EXTRA_COMMANDS
 		MV_END_EXTRA_COMMANDS
@@ -106,23 +106,23 @@ namespace Marvel {
  
         MV_APPITEM_TYPE(mvAppItemType::mvSliderInt, add_slider_int)
 
-        MV_CREATE_CONSTANT(mvThemeCol_SliderInt_Text                ,  0L, 0L);
-        MV_CREATE_CONSTANT(mvThemeCol_SliderInt_Bg                  ,  7L, 0L);
-        MV_CREATE_CONSTANT(mvThemeCol_SliderInt_BgHovered           ,  8L, 0L);
-        MV_CREATE_CONSTANT(mvThemeCol_SliderInt_BgActive            ,  9L, 0L);
-        MV_CREATE_CONSTANT(mvThemeCol_SliderInt_Grab                , 19L, 0L);
-        MV_CREATE_CONSTANT(mvThemeCol_SliderInt_GrabActive          , 20L, 0L);
-        MV_CREATE_CONSTANT(mvThemeCol_SliderInt_Border              ,  5L, 0L);
-        MV_CREATE_CONSTANT(mvThemeCol_SliderInt_BorderShadow        ,  6L, 0L);
+        MV_CREATE_CONSTANT(mvThemeCol_SliderInt_Text                , ImGuiCol_Text              , 0L);
+        MV_CREATE_CONSTANT(mvThemeCol_SliderInt_Bg                  , ImGuiCol_FrameBg           , 0L);
+        MV_CREATE_CONSTANT(mvThemeCol_SliderInt_BgHovered           , ImGuiCol_FrameBgHovered    , 0L);
+        MV_CREATE_CONSTANT(mvThemeCol_SliderInt_BgActive            , ImGuiCol_FrameBgActive     , 0L);
+        MV_CREATE_CONSTANT(mvThemeCol_SliderInt_Grab                , ImGuiCol_SliderGrab        , 0L);
+        MV_CREATE_CONSTANT(mvThemeCol_SliderInt_GrabActive          , ImGuiCol_SliderGrabActive  , 0L);
+        MV_CREATE_CONSTANT(mvThemeCol_SliderInt_Border              , ImGuiCol_Border            , 0L);
+        MV_CREATE_CONSTANT(mvThemeCol_SliderInt_BorderShadow        , ImGuiCol_BorderShadow      , 0L);
 
-        MV_CREATE_CONSTANT(mvThemeStyle_SliderInt_Rounding          , 11L, 0L);
-        MV_CREATE_CONSTANT(mvThemeStyle_SliderInt_BorderSize        , 12L, 0L);
-        MV_CREATE_CONSTANT(mvThemeStyle_SliderInt_PaddingX          , 10L, 0L);
-        MV_CREATE_CONSTANT(mvThemeStyle_SliderInt_PaddingY          , 10L, 1L);
-        MV_CREATE_CONSTANT(mvThemeStyle_SliderInt_InnerSpacingX     , 14L, 0L);
-        MV_CREATE_CONSTANT(mvThemeStyle_SliderInt_InnerSpacingY     , 14L, 1L);
-        MV_CREATE_CONSTANT(mvThemeStyle_SliderInt_GrabMinSize       , 19L, 0L);
-        MV_CREATE_CONSTANT(mvThemeStyle_SliderInt_GrabRounding      , 20L, 0L);
+        MV_CREATE_CONSTANT(mvThemeStyle_SliderInt_Rounding          , ImGuiStyleVar_FrameRounding    , 0L);
+        MV_CREATE_CONSTANT(mvThemeStyle_SliderInt_BorderSize        , ImGuiStyleVar_FrameBorderSize  , 0L);
+        MV_CREATE_CONSTANT(mvThemeStyle_SliderInt_PaddingX          , ImGuiStyleVar_FramePadding     , 0L);
+        MV_CREATE_CONSTANT(mvThemeStyle_SliderInt_PaddingY          , ImGuiStyleVar_FramePadding     , 1L);
+        MV_CREATE_CONSTANT(mvThemeStyle_SliderInt_InnerSpacingX     , ImGuiStyleVar_ItemInnerSpacing , 0L);
+        MV_CREATE_CONSTANT(mvThemeStyle_SliderInt_InnerSpacingY     , ImGuiStyleVar_ItemInnerSpacing , 1L);
+        MV_CREATE_CONSTANT(mvThemeStyle_SliderInt_GrabMinSize       , ImGuiStyleVar_GrabMinSize      , 0L);
+        MV_CREATE_CONSTANT(mvThemeStyle_SliderInt_GrabRounding      , ImGuiStyleVar_GrabRounding     , 0L);
 
 		MV_START_EXTRA_COMMANDS
 		MV_END_EXTRA_COMMANDS

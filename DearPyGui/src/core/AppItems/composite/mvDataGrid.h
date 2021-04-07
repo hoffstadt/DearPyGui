@@ -31,23 +31,23 @@ namespace Marvel {
 		MV_CREATE_EXTRA_COMMAND(insert_grid_row);
 		MV_CREATE_EXTRA_COMMAND(delete_grid_row);
 
-		MV_CREATE_CONSTANT(mvThemeCol_DataGrid_Text					,  0L, 0L);
-		MV_CREATE_CONSTANT(mvThemeCol_DataGrid_HeaderBg				, 44L, 0L);
-		MV_CREATE_CONSTANT(mvThemeCol_DataGrid_RowBg					, 47L, 0L);
-		MV_CREATE_CONSTANT(mvThemeCol_DataGrid_RowBgAlt				, 48L, 0L);
-		MV_CREATE_CONSTANT(mvThemeCol_DataGrid_Item					, 24L, 0L);
-		MV_CREATE_CONSTANT(mvThemeCol_DataGrid_ItemHovered			, 25L, 0L);
-		MV_CREATE_CONSTANT(mvThemeCol_DataGrid_ItemActive			    , 26L, 0L);
-		MV_CREATE_CONSTANT(mvThemeCol_DataGrid_BorderStrong			, 45L, 0L);
-		MV_CREATE_CONSTANT(mvThemeCol_DataGrid_BorderLight			, 46L, 0L);
-		MV_CREATE_CONSTANT(mvThemeCol_DataGrid_BorderHovered			, 28L, 0L);
-		MV_CREATE_CONSTANT(mvThemeCol_DataGrid_BorderActive			, 29L, 0L);
-		MV_CREATE_CONSTANT(mvThemeStyle_DataGrid_CellPaddingX			, 16L, 0L);
-		MV_CREATE_CONSTANT(mvThemeStyle_DataGrid_CellPaddingY			, 16L, 1L);
-		MV_CREATE_CONSTANT(mvThemeStyle_DataGrid_ItemSpacingX			, 13L, 0L);
-		MV_CREATE_CONSTANT(mvThemeStyle_DataGrid_ItemSpacingY			, 13L, 1L);
-		MV_CREATE_CONSTANT(mvThemeStyle_DataGrid_ItemTextAlignX		, 23L, 0L);
-		MV_CREATE_CONSTANT(mvThemeStyle_DataGrid_ItemTextAlignY		, 23L, 1L);
+		MV_CREATE_CONSTANT(mvThemeCol_DataGrid_Text					, ImGuiCol_Text						, 0L);
+		MV_CREATE_CONSTANT(mvThemeCol_DataGrid_HeaderBg				, ImGuiCol_TableHeaderBg			, 0L);
+		MV_CREATE_CONSTANT(mvThemeCol_DataGrid_RowBg				, ImGuiCol_TableRowBg				, 0L);
+		MV_CREATE_CONSTANT(mvThemeCol_DataGrid_RowBgAlt				, ImGuiCol_TableRowBgAlt			, 0L);
+		MV_CREATE_CONSTANT(mvThemeCol_DataGrid_Item					, ImGuiCol_Header					, 0L);
+		MV_CREATE_CONSTANT(mvThemeCol_DataGrid_ItemHovered			, ImGuiCol_HeaderHovered			, 0L);
+		MV_CREATE_CONSTANT(mvThemeCol_DataGrid_ItemActive			, ImGuiCol_HeaderActive				, 0L);
+		MV_CREATE_CONSTANT(mvThemeCol_DataGrid_BorderStrong			, ImGuiCol_TableBorderStrong		, 0L);
+		MV_CREATE_CONSTANT(mvThemeCol_DataGrid_BorderLight			, ImGuiCol_TableBorderLight			, 0L);
+		MV_CREATE_CONSTANT(mvThemeCol_DataGrid_BorderHovered		, ImGuiCol_SeparatorHovered			, 0L);
+		MV_CREATE_CONSTANT(mvThemeCol_DataGrid_BorderActive			, ImGuiCol_SeparatorActive			, 0L);
+		MV_CREATE_CONSTANT(mvThemeStyle_DataGrid_CellPaddingX		, ImGuiStyleVar_CellPadding			, 0L);
+		MV_CREATE_CONSTANT(mvThemeStyle_DataGrid_CellPaddingY		, ImGuiStyleVar_CellPadding			, 1L);
+		MV_CREATE_CONSTANT(mvThemeStyle_DataGrid_ItemSpacingX		, ImGuiStyleVar_ItemSpacing			, 0L);
+		MV_CREATE_CONSTANT(mvThemeStyle_DataGrid_ItemSpacingY		, ImGuiStyleVar_ItemSpacing			, 1L);
+		MV_CREATE_CONSTANT(mvThemeStyle_DataGrid_ItemTextAlignX		, ImGuiStyleVar_SelectableTextAlign	, 0L);
+		MV_CREATE_CONSTANT(mvThemeStyle_DataGrid_ItemTextAlignY		, ImGuiStyleVar_SelectableTextAlign	, 1L);
 
 		MV_START_EXTRA_COMMANDS
 			MV_ADD_EXTRA_COMMAND(set_grid_headers);

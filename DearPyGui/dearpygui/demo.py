@@ -7,14 +7,37 @@ import random
 # Helpers
 ########################################################################################################################
 
-def helpmarker(message):
+def demo_help(message):
+    """[INTERNAL DPG DEMO COMMAND]: This is a helper function that is intended to make the demo easier to read. not suggested for external use. 
+    If this command is appearing in your code consider importing demo as demo to prevent namespace polution.
+    
+    Creates a hoverable question marker on the same line as the last created item. The message will be displayed as a popup.
+
+    Args:
+        message: text that will be displayed in the popup when the "(?)" is hovered.
+
+    Returns:
+        None"""
     add_same_line()
     parent = add_text(color=[150, 150, 150], default_value="(?)")
     add_tooltip(tipparent=parent)
     add_text(default_value=message)
     end()
 
-def hsv_to_rgb(h: float, s: float, v: float) -> (float, float, float):
+def demo_hsv_to_rgb(h: float, s: float, v: float) -> (float, float, float):
+    """[INTERNAL DPG DEMO COMMAND]: This is a helper function that is intended to make the demo easier to read. not suggested for external use. 
+    If this command is appearing in your code consider importing demo as demo to prevent namespace polution.
+
+    converts hsv to rgb
+
+    Args:
+        h: hue.
+        s: saturation 
+        v: value
+
+    Returns:
+        rgb as a tuple of floats
+    """
     if s == 0.0: return (v, v, v)
     i = int(h*6.) # XXX assume int() truncates!
     f = (h*6.)-i; p,q,t = v*(1.-s), v*(1.-s*f), v*(1.-s*(1.-f)); i%=6
@@ -25,12 +48,22 @@ def hsv_to_rgb(h: float, s: float, v: float) -> (float, float, float):
     if i == 4: return (255*t, 255*p, 255*v)
     if i == 5: return (255*v, 255*p, 255*q)
 
-def toggle_config(sender, siblings, restart_index=0):
-    '''This command will toggle enable/disable for any eligible children of the parent container recursively down the widget tree.'''
+def demo_recursive_disable(sender, siblings, restart_index=0):
+    """[INTERNAL DPG DEMO COMMAND]: This is a helper function that is intended to make the demo easier to read. not suggested for external use. 
+    If this command is appearing in your code consider importing demo as demo to prevent namespace polution.
+    
+    This command will toggle enable/disable for any eligible children of the parent container recursively down the widget tree.
+    Args:
+        sender: is the widgets name that called the command.
+        siblings: children in the same container that this checkbox is in. 
+        **restart_index: sets the position of the next item to check so the same item isnt checked multiple times.
+
+    Returns:
+        None"""
     for i in range(restart_index,len(siblings)-1, 1):
         if is_item_container(siblings[i]):
             siblings += get_item_children(siblings.pop(i))
-            toggle_config(sender, siblings, i-1)
+            demo_recursive_disable(sender, siblings, i-1)
             return
     siblings.remove(sender)
     for item in siblings:
@@ -39,11 +72,69 @@ def toggle_config(sender, siblings, restart_index=0):
                 configure_item(item, enabled = not value)
 
 def demo_enable_disable():
-    add_checkbox(label="Enable/Disable", default_value=True, callback=lambda sender: toggle_config(sender, get_item_children(get_item_parent(sender))))
-    helpmarker('This will toggle the keyword "enable" for any sibling widgets that allow enabled & disabled')
+    """[INTERNAL DPG DEMO COMMAND]: This is a helper function that is intended to make the demo easier to read. not suggested for external use. 
+    If this command is appearing in your code consider importing demo as demo to prevent namespace polution.
+    
+    Creates a checkbox that will toggle enable/disable for any eligible children of the parent container recursively down the widget tree.
+    Args:
+        None
+
+    Returns:
+        None"""
+    add_checkbox(label="Enable/Disable", default_value=True, callback=lambda sender: demo_recursive_disable(sender, get_item_children(get_item_parent(sender))))
+    demo_help('This will toggle the keyword "enable" for any sibling widgets that allow enabled & disabled')
+
+def demo_config(sender, data):
+    """[INTERNAL DPG DEMO COMMAND]: This is a helper function that is intended to make the demo easier to read. not suggested for external use. 
+    If this command is appearing in your code consider importing demo as demo to prevent namespace polution.
+
+    Applies configuration of the data in callback_data.
+
+    Args:
+        sender: is the widgets name that called the command.
+        data: data that is populated by callback_data. Item as string or items as list that the configuration will be applied to.
+
+    Returns:
+        None
+    """
+    widget_type = get_item_type(sender)
+    log_debug(widget_type)
+    items = data
+    value = get_value(sender)
+
+    if widget_type == "mvAppItemType::mvCheckbox":
+        keyword = get_item_configuration(sender)["label"]
+        log_debug(keyword)
+
+    elif widget_type == "mvAppItemType::mvRadioButton":
+        keyword = get_item_configuration(sender)["items"][value]
+
+
+    if isinstance(data, list):
+        for item in items:
+            configure_item(item, **{keyword: value})
+    else:
+        configure_item(item, **{keyword: value})
+
+def demo_log(sender):
+    """[INTERNAL DPG DEMO COMMAND]: This is a helper function that is intended to make the demo easier to read. not suggested for external use. 
+    If this command is appearing in your code consider importing demo as demo to prevent namespace polution.
+    
+    Logs the name and value of the widget that called the command.
+    
+    Args:
+        sender: widgets name that called the command. 
+        that will get configured. The second item in the tuple is the keyword that will be set.
+    
+    Returns:
+        None
+    """
+    log_debug(f"{sender} ran a callback its value is {get_value(sender)}")
 
 def demo_main_callback():
-
+    """[INTERNAL DPG DEMO COMMAND]: This is a helper function that is intended to make the demo easier to read. not suggested for external use. 
+    If this command is appearing in your code consider importing demo as demo to prevent namespace polution.
+    """
     set_value("Mouse Position##demo", str(get_mouse_pos()))
     set_value("Drawing Mouse Position##demo", str(get_drawing_mouse_pos()))
     set_value("Plot Mouse Position##demo", str(get_plot_mouse_pos()))
@@ -169,30 +260,27 @@ def demo_accelerator_callback(sender, data):
             if shortcut != None and shortcut != "":
                 if are_all_true(shortcut):
                     get_item_callback(item)(item, None)
-        
+
+def on_demo_close(sender, data):
+
+    delete_item("Dear PyGui Demo")
+    if does_item_exist("Logging Widget On Window##demo"):
+        delete_item("Logging Widget On Window##demo")
+    set_mouse_down_callback(None)
+    set_mouse_drag_callback(None, 10)
+    set_mouse_move_callback(None)
+    set_mouse_double_click_callback(None)
+    set_mouse_click_callback(None)
+    set_mouse_release_callback(None)
+    set_mouse_wheel_callback(None)
+    set_key_down_callback(None)
+    set_key_press_callback(None)
+    set_key_release_callback(None)
+    set_accelerator_callback(None)
+
 def show_demo():
 
     #set_accelerator_callback(demo_accelerator_callback)
-
-    def on_demo_close(sender, data):
-
-        delete_item("Dear PyGui Demo")
-        if does_item_exist("Logging Widget On Window##demo"):
-            delete_item("Logging Widget On Window##demo")
-        set_mouse_down_callback(None)
-        set_mouse_drag_callback(None, 10)
-        set_mouse_move_callback(None)
-        set_mouse_double_click_callback(None)
-        set_mouse_click_callback(None)
-        set_mouse_release_callback(None)
-        set_mouse_wheel_callback(None)
-        set_key_down_callback(None)
-        set_key_press_callback(None)
-        set_key_release_callback(None)
-        set_accelerator_callback(None)
-
-    def log_callback(sender, data):
-        log_debug(f"{sender} ran a callback its value is {get_value(sender)}")
 
     with window("Dear PyGui Demo", x_pos=100, y_pos=100, width=800, height=800, on_close=on_demo_close):
 
@@ -212,9 +300,9 @@ def show_demo():
 
                 with menu(label="Settings"):
                     demo_enable_disable()
-                    add_menu_item(label="Option 1", check=True, callback=log_callback, default_value=True)
-                    add_menu_item(label="Option 2", check=True, callback=log_callback)
-                    add_menu_item(label="Option 3", check=True, callback=log_callback)
+                    add_menu_item(label="Option 1", callback=demo_log)
+                    add_menu_item(label="Option 2", check=True, callback=demo_log)
+                    add_menu_item(label="Option 3", check=True, callback=demo_log, default_value=True)
                     with child(height=60, autosize_x=True):
                         for i in range(0, 10):
                             add_text(default_value=f"Scrolling Text {i}")
@@ -240,19 +328,21 @@ def show_demo():
                 add_table_column()
                 add_table_column()
                 
-                add_checkbox(label="No titlebar", callback=lambda sender, data: configure_item("Dear PyGui Demo", no_title_bar=get_value(sender)))
-                add_checkbox(label="No scrollbar", callback=lambda sender, data: configure_item("Dear PyGui Demo", no_scrollbar=get_value(sender)))
-                add_checkbox(label="No menu", callback=lambda sender, data: configure_item("Dear PyGui Demo", menubar=not get_value(sender)))
+                # TODO: when autogenerated names are done and labels are set the label is correctly displayed however when the label is retrieved out of the config dict 
+                # the label is the autogenerated name
+                add_checkbox(label="no_title_bar", callback=demo_config, callback_data="Dear PyGui Demo")
+                add_checkbox(label="no_scrollbar", callback=demo_config, callback_data="Dear PyGui Demo")
+                add_checkbox(label="menubar", callback=demo_config, callback_data="Dear PyGui Demo", default_value=True)
 
                 add_table_next_column()
-                add_checkbox(label="No move", callback=lambda sender, data: configure_item("Dear PyGui Demo", no_move=get_value(sender)))
-                add_checkbox(label="No resize", callback=lambda sender, data: configure_item("Dear PyGui Demo", no_resize=get_value(sender)))
-                add_checkbox(label="No collapse", callback=lambda sender, data: configure_item("Dear PyGui Demo", no_collapse=get_value(sender)))
+                add_checkbox(label="no_move", callback=demo_config, callback_data="Dear PyGui Demo")
+                add_checkbox(label="no_resize", callback=demo_config, callback_data="Dear PyGui Demo")
+                add_checkbox(label="no_collapse", callback=demo_config, callback_data="Dear PyGui Demo")
             
                 add_table_next_column()
-                add_checkbox(label="No close", callback=lambda sender, data: configure_item("Dear PyGui Demo", no_close=get_value(sender)))
-                add_checkbox(label="No background", callback=lambda sender, data: configure_item("Dear PyGui Demo", no_background=get_value(sender)))
-                add_checkbox(label="No bring to front", callback=lambda sender, data: configure_item("Dear PyGui Demo", no_bring_to_front_on_focus=get_value(sender)))
+                add_checkbox(label="no_close", callback=demo_config, callback_data="Dear PyGui Demo")
+                add_checkbox(label="no_background", callback=demo_config, callback_data="Dear PyGui Demo")
+                add_checkbox(label="no_bring_to_front_on_focus", callback=demo_config, callback_data="Dear PyGui Demo")
         
         with collapsing_header(label="Widgets"):
 
@@ -261,20 +351,19 @@ def show_demo():
                 demo_enable_disable()
 
                 with group(horizontal=True):
-                    add_button(label="Button", callback=log_callback)
-                    add_button(label="Button", callback=log_callback, small=True)
-                    add_button(label="Button", callback=log_callback, arrow=True)
-                    add_button(label="Button", callback=log_callback, arrow=True, direction=4010)
-                    add_button(label="Button", callback=log_callback, arrow=True, direction=4020)
-                    add_button(label="Button", callback=log_callback, arrow=True, direction=4030)
+                    add_button(label="Button", callback=demo_log)
+                    add_button(label="Button", callback=demo_log, small=True)
+                    add_button(label="Button", callback=demo_log, arrow=True)
+                    add_button(label="Button", callback=demo_log, arrow=True, direction=4010)
+                    add_button(label="Button", callback=demo_log, arrow=True, direction=4020)
+                    add_button(label="Button", callback=demo_log, arrow=True, direction=4030)
                 
-                add_checkbox(label="checkbox", callback=log_callback)
-                add_radio_button(items=["radio a", "radio b", "radio c"], horizontal=True, callback=log_callback)
-                add_selectable(label="selectable", callback=log_callback)
+                add_checkbox(label="checkbox", callback=demo_log)
+                add_radio_button(items=["radio a", "radio b", "radio c"], callback=demo_log, horizontal=True)
+                add_selectable(label="selectable", callback=demo_log)
 
                 # TODO: when items whose colors are set then disabled the disable color is not found so its clear
-                # this is because we only search for theme color which has both enabled and disable and it was created when we added the enabled
-                # but the disabled was never filled out so its still empty when its found in the tree
+                # probably because if you dont set disable at the item level when the searcher finds color it grabs an empty disable member
 
                 # demonstrate the ability to programmatically create buttons and store their id to do something. 
                 # In this case we are adding to the list of items that will be disabled
@@ -282,13 +371,13 @@ def show_demo():
                 for i in range(0, 7):
                     if i > 0:
                         add_same_line()
-                    button_widget = add_button(label="Click", callback = lambda: log_debug(log_items))
-                    set_theme_color(mvThemeCol_Button_Bg, hsv_to_rgb(i/7.0, 0.6, 0.6), item=button_widget)
-                    set_theme_color(mvThemeCol_Button_Hovered, hsv_to_rgb(i/7.0, 0.7, 0.7), item=button_widget)
-                    set_theme_color(mvThemeCol_Button_Active, hsv_to_rgb(i/7.0, 0.8, 0.8), item=button_widget)
+                    button_widget = add_button(label="Click", callback=lambda: log_debug(log_items))
                     set_theme_style(mvThemeStyle_Button_Rounding, i*5, item=button_widget)
                     set_theme_style(mvThemeStyle_Button_PaddingX, i*3, item=button_widget)
                     set_theme_style(mvThemeStyle_Button_PaddingY, i*3, item=button_widget)
+                    set_theme_color(mvThemeCol_Button_Bg, demo_hsv_to_rgb(i/7.0, 0.6, 0.6), item=button_widget)
+                    set_theme_color(mvThemeCol_Button_Active, demo_hsv_to_rgb(i/7.0, 0.8, 0.8), item=button_widget)
+                    set_theme_color(mvThemeCol_Button_Hovered, demo_hsv_to_rgb(i/7.0, 0.7, 0.7), item=button_widget)
                     log_items.append(button_widget)
 
                 with group(horizontal=True):
@@ -310,10 +399,9 @@ def show_demo():
                 add_separator()
 
                 add_label_text(label="Label", default_value="Value")
-                add_combo(label="combo", items=["AAAA", "BBBB", "CCCC", "DDDD", "EEEE", "FFFF", "GGGG", "HHHH", "IIII", "JJJJ", "KKKK"], 
-                          default_value="AAAA", callback=log_callback)
-                add_input_text(label="input text", default_value="Hello, world!", callback=log_callback)
-                helpmarker(
+                add_combo(label="combo", items=["AAAA", "BBBB", "CCCC", "DDDD", "EEEE", "FFFF", "GGGG", "HHHH", "IIII", "JJJJ", "KKKK"], default_value="AAAA", callback=demo_log)
+                add_input_text(label="input text", default_value="Hello, world!", callback=demo_log)
+                demo_help(
                         "USER:\n"
                         "Hold SHIFT or use mouse to select text.\n"
                         "CTRL+Left/Right to word jump.\n"
@@ -321,31 +409,31 @@ def show_demo():
                         "CTRL+X,CTRL+C,CTRL+V clipboard.\n"
                         "CTRL+Z,CTRL+Y undo/redo.\n"
                         "ESCAPE to revert.\n\n")
-                add_input_text(label="input text (w/ hint)", hint="enter text here", callback=log_callback)
-                add_input_int(label="input int", callback=log_callback)
-                add_input_float(label="input float", callback=log_callback)
-                add_input_float(label="input scientific", format="%e", callback=log_callback)
-                add_input_float3(label="input float3", callback=log_callback)
-                add_drag_int(label="drag int", callback=log_callback)
-                helpmarker(
+                add_input_text(label="input text (w/ hint)", hint="enter text here", callback=demo_log)
+                add_input_int(label="input int", callback=demo_log)
+                add_input_float(label="input float", callback=demo_log)
+                add_input_float(label="input scientific", format="%e", callback=demo_log)
+                add_input_floatx(label="input floatx", callback=demo_log)
+                add_drag_int(label="drag int", callback=demo_log)
+                demo_help(
                         "Click and drag to edit value.\n"
                         "Hold SHIFT/ALT for faster/slower edit.\n"
                         "Double-click or CTRL+click to input value.")
-                add_drag_int(label="drag int 0..100", format="%d%%", callback=log_callback)
-                add_drag_float(label="drag float", callback=log_callback)
-                add_drag_float(label="drag small float", default_value=0.0067, format="%.06f ns", callback=log_callback)
-                add_slider_int(label="slider int", max_value=3, callback=log_callback)
-                helpmarker("CTRL+click to enter value.")
-                add_slider_float(label="slider float", max_value=1.0, format="ratio = %.3f", callback=log_callback)
-                add_slider_int(label="slider angle", min_value=-360, max_value=360, format="%d deg", callback=log_callback)
-                add_color_edit3(label="color 1", default_value=[255, 0, 51], callback=log_callback)
-                helpmarker(
+                add_drag_int(label="drag int 0..100", format="%d%%", callback=demo_log)
+                add_drag_float(label="drag float", callback=demo_log)
+                add_drag_float(label="drag small float", default_value=0.0067, format="%.06f ns", callback=demo_log)
+                add_slider_int(label="slider int", max_value=3, callback=demo_log)
+                demo_help("CTRL+click to enter value.")
+                add_slider_float(label="slider float", max_value=1.0, format="ratio = %.3f", callback=demo_log)
+                add_slider_int(label="slider angle", min_value=-360, max_value=360, format="%d deg", callback=demo_log)
+                add_color_edit3(label="color edit 3", default_value=[255, 0, 51], callback=demo_log)
+                demo_help(
                         "Click on the colored square to open a color picker.\n"
                         "Click and hold to use drag and drop.\n"
                         "Right-click on the colored square to show options.\n"
                         "CTRL+click on individual component to input value.\n")
-                add_color_edit4(label="color 2", default_value=[102, 179, 0, 128], callback=log_callback)
-                add_listbox(label="listbox", items=["Apple", "Banana", "Cherry", "Kiwi", "Mango", "Orange", "Pineapple", "Strawberry", "Watermelon"], num_items=4, callback=log_callback)
+                add_color_edit4(label="color edit 4", default_value=[102, 179, 0, 128], callback=demo_log)
+                add_listbox(label="listbox", items=["Apple", "Banana", "Cherry", "Kiwi", "Mango", "Orange", "Pineapple", "Strawberry", "Watermelon"], num_items=4, callback=demo_log)
 
             with tree_node(label="Trees"):
                 with tree_node(label="Basic Trees"):
@@ -370,7 +458,7 @@ def show_demo():
                         add_same_line()
                         add_button(label="button")
                 with tree_node(label="Advanced, with selectable nodes"):
-                    helpmarker("This is a more typical looking tree with selectable nodes.\n"
+                    demo_help("This is a more typical looking tree with selectable nodes.\n"
                                "Click to select, CTRL+Click to toggle, click on arrows or double-click to open.");
 
             with tree_node(label="Bullets"):
@@ -395,7 +483,7 @@ def show_demo():
                 add_image("INTERNAL_DPG_FONT_ATLAS")
                 add_text(default_value="Here is an image button using a portion of the font atlas")
                 demo_enable_disable()
-                add_image_button("INTERNAL_DPG_FONT_ATLAS",uv_max=[0.1, 0.1], callback=log_callback)
+                add_image_button("INTERNAL_DPG_FONT_ATLAS",uv_max=[0.1, 0.1], callback=demo_log)
                 add_same_line()
                 textdata = []
                 for i in range(0, 10000):
@@ -405,13 +493,13 @@ def show_demo():
                     textdata.append(255)
                 # TODO: texture requires a name when it would be nice that it didnt
                 add_texture("#cooltexture", textdata, 100, 100, format=mvTEX_RGBA_INT)
-                add_image_button("#cooltexture", callback=log_callback)
+                add_image_button("#cooltexture", callback=demo_log)
 
             with tree_node(label="Text Input"):
                 demo_enable_disable()
-                add_checkbox(label="readonly", default_value=False, callback=log_callback)
-                add_checkbox(label="on_enter", default_value=False, callback=log_callback)
-                with tree_node(label="Multi-line Text Input"):
+                add_checkbox(label="readonly", callback=demo_config, callback_data="Multi-line Text Input")
+                add_checkbox(label="on_enter", callback=demo_config, callback_data="Multi-line Text Input")
+                with tree_node("Multi-line Text Input"):
                     add_input_text(multiline=True, default_value="/*\n"
                         " The Pentium F00F bug, shorthand for F0 0F C7 C8,\n"
                         " the hexadecimal encoding of one offending instruction,\n"
@@ -421,20 +509,20 @@ def show_demo():
                         " processors (all in the P5 microarchitecture).\n"
                         "*/\n\n"
                         "label:\n"
-                        "\tlock cmpxchg8b eax\n", height=300, callback=log_callback, tab_input=True)
+                        "\tlock cmpxchg8b eax\n", height=300, callback=demo_log, tab_input=True)
 
                 with tree_node(label="Filtered Text Input"):
-                    add_input_text(label="default", callback=log_callback)
-                    add_input_text(label="decimal", decimal=True, callback=log_callback)
-                    add_input_text(label="hexdecimal", hexadecimal=True, callback=log_callback)
-                    add_input_text(label="uppercase", uppercase=True, callback=log_callback)
-                    add_input_text(label="no blank", no_spaces=True, callback=log_callback)
-                    add_input_text(label="scientific", scientific=True, callback=log_callback)
+                    add_input_text(callback=demo_log, label="default")
+                    add_input_text(callback=demo_log, label="decimal", decimal=True)
+                    add_input_text(callback=demo_log, label="no blank", no_spaces=True)
+                    add_input_text(callback=demo_log, label="uppercase", uppercase=True)
+                    add_input_text(callback=demo_log, label="scientific", scientific=True)
+                    add_input_text(callback=demo_log, label="hexdecimal", hexadecimal=True)
             
                 with tree_node(label="Password Input"):
-                    password = add_input_text(label="password", password=True, callback=log_callback)
-                    add_input_text(label="password (w/ hint)", password=True, hint="<password>", source=password, callback=log_callback)
-                    add_input_text(label="password (clear)", source=password, callback=log_callback)
+                    password = add_input_text(label="password", password=True, callback=demo_log)
+                    add_input_text(label="password (w/ hint)", password=True, hint="<password>", source=password, callback=demo_log)
+                    add_input_text(label="password (clear)", source=password, callback=demo_log)
 
             with tree_node(label="Simple Plot Widgets"):
                 add_simple_plot(label="Frame Times", value=[0.6, 0.1, 1.0, 0.5, 0.92, 0.1, 0.2])
@@ -452,13 +540,8 @@ def show_demo():
                 set_theme_color(mvThemeCol_ProgressBar_Bar, [255,0,0, 255], item=bar )
 
             with tree_node(label="Color/Picker Widgets"):
-                # wrapper to apply configuration of the checkboxes to the color items for testing different configurations 
-                def configure_items(names, **kwargs):
-                    for name in names:
-                        configure_item(name, **kwargs)
-
                 # used to populate and refer to widgets later to apply configs
-                color_edit_names = []
+                edit_items = ["col_edit_3_demo", "col_edit_4_demo"]
 
                 demo_enable_disable()
 
@@ -467,157 +550,135 @@ def show_demo():
                     add_table_column()
                     add_table_column()
 
-                    add_checkbox(label="With Alpha Preview", callback=lambda sender, data: configure_items(color_edit_names, alpha_preview = get_value(sender)))
-                    add_checkbox(label="With Half Alpha Preview", callback=lambda sender, data: configure_items(color_edit_names, alpha_preview_half = get_value(sender)))
-                    add_checkbox(label="With No Small Preview", callback=lambda sender, data: configure_items(color_edit_names, no_small_preview = get_value(sender)))
-                    add_checkbox(label="With No Inputs", callback=lambda sender, data: configure_items(color_edit_names, no_inputs = get_value(sender)))
+                    add_checkbox(label="no_inputs", callback=demo_config, callback_data=edit_items)
+                    add_checkbox(label="alpha_preview", callback=demo_config, callback_data=edit_items)
+                    add_checkbox(label="no_small_preview", callback=demo_config, callback_data=edit_items)
+                    add_checkbox(label="alpha_preview_half", callback=demo_config, callback_data=edit_items)
 
                     add_table_next_column()
-                    add_checkbox(label="With No Tooltip", callback=lambda sender, data: configure_items(color_edit_names, no_tooltip = get_value(sender)))
-                    add_checkbox(label="With RGB", callback=lambda sender, data: configure_items(color_edit_names, display_rgb = get_value(sender)))
-                    add_checkbox(label="With HSV", callback=lambda sender, data: configure_items(color_edit_names, display_hsv = get_value(sender)))
+                    add_checkbox(label="no_tooltip", callback=demo_config, callback_data=edit_items)
+                    add_checkbox(label="display_rgb", callback=demo_config, callback_data=edit_items)
+                    add_checkbox(label="display_hsv", callback=demo_config, callback_data=edit_items)
                     
                     add_table_next_column()
-                    add_checkbox(label="With HEX", callback=lambda sender, data: configure_items(color_edit_names, display_hex = get_value(sender)))
-                    add_checkbox(label="With Ints", callback=lambda sender, data: configure_items(color_edit_names, uint8 = get_value(sender)))
-                    add_checkbox(label="With Floats", callback=lambda sender, data: configure_items(color_edit_names, floats = get_value(sender)))
+                    add_checkbox(label="uint8", callback=demo_config, callback_data=edit_items)
+                    add_checkbox(label="floats", callback=demo_config, callback_data=edit_items)
+                    add_checkbox(label="display_hex", callback=demo_config, callback_data=edit_items)
+                demo_help("Right-click on the individual color widget to show options.")
 
-                helpmarker("Right-click on the individual color widget to show options.")
-                add_checkbox(label="With No Drag and Drop", callback=lambda sender, data: configure_items(color_edit_names, no_drag_drop = get_value(sender)))
-                helpmarker("Click and drag a preview square, drop on another color widget to apply the color")
-                add_checkbox(label="With No Options Menu", callback=lambda sender, data: configure_items(color_edit_names, no_options = get_value(sender)))
-                helpmarker("Right clicking a color widget brings up an options context menu")
+                add_checkbox(label="no_options", callback=demo_config, callback_data=edit_items)
+                demo_help("Right clicking a color widget brings up an options context menu")
+                add_checkbox(label="no_drag_drop", callback=demo_config, callback_data=edit_items)
+                demo_help("Click and drag a preview square, drop on another color widget to apply the color")
                 
                 add_text(default_value="Color Widget:")
-                color_0 = add_color_edit3(label="color edit 3")
-                color_edit_names.append(color_0)
+                color_0 = add_color_edit3(edit_items[0], label="color edit 3")
                 
                 add_text(default_value="Color Widget HSV with Alpha:")
-
-                color_1 = add_color_edit4(label="color edit 4", source=color_0, display_hsv=True, alpha_preview=True)
-                color_edit_names.append(color_1)
+                color_1 = add_color_edit4(edit_items[1], label="color edit 4", source=color_0, display_hsv=True, alpha_preview=True)
                 add_text(default_value="Color button with Picker:")
-                helpmarker("using no inputs and no label leaves only the preview\n"
+                demo_help("using no inputs and no label leaves only the preview\n"
                            "click the color edit preview will reveal the color picker.")
                 add_color_edit4(label="Color Edit 4", source=color_0, no_inputs=True, no_label=True)
                 
                 add_text(default_value="Custom Picker Popup (a color edit with no options)")
-                col_edit4 = add_color_edit4(label="Color Edit 4 (with custom popup)", source=color_0, no_inputs=True, no_picker=True, callback=log_callback)
-                helpmarker("we can override the popup with our own custom popup that includes a color pallet")
+                col_edit4 = add_color_edit4(label="Color Edit 4 (with custom popup)", source=color_0, no_inputs=True, no_picker=True, callback=demo_log)
+                demo_help("we can override the popup with our own custom popup that includes a color pallet")
                 with popup(col_edit4, mousebutton=0):
-                    add_color_picker4("custom picker", source=color_0, no_tooltip=True, picker_hue_wheel=True, callback=log_callback)
+                    add_color_picker4("custom picker", source=color_0, no_tooltip=True, picker_hue_wheel=True, callback=demo_log)
                     add_text(default_value="Color Pallet")
                     for i in range(30):
                         # TODO: using a color button like this causes a crash
-                        add_color_button(hsv_to_rgb(i/30,1,1), callback=lambda sender: set_value(color_0, get_value(sender)))
+                        add_color_button(demo_hsv_to_rgb(i/30,1,1), callback=lambda sender: set_value(color_0, get_value(sender)))
                         if i<9: add_same_line()
                         if i>9 and i<19: add_same_line()
                         if i>19 and i<29: add_same_line()
                 
                 add_text(default_value="Color button only:")
-                add_text(default_value="Color button only:")
-                add_checkbox(label="no_border", callback=lambda sender, data: configure_item("Color Button", no_border=get_value(sender)))
+                add_checkbox(label="no_border", callback=demo_config, callback_data=edit_items)
 
-                add_color_button((255, 50, 255, 0), "Color Button", width=50, height=50, callback=log_callback)
+                # TODO: color button should be able to use source
+                add_color_button((255, 50, 255, 0), "Color Button", width=50, height=50, callback=demo_log)
                 with table(header_row=False):
                     add_table_column()
                     add_table_column()
 
-                    add_checkbox(label="With Alpha", default_value=True, callback=lambda sender, data: configure_item("Color Picker 4", alpha_preview = get_value(sender)))
-                    add_checkbox(label="With Alpha Bar", default_value=True, callback=lambda sender, data: configure_item("Color Picker 4", alpha_bar = get_value(sender)))
-                    add_checkbox(label="With Side Preview", callback=lambda sender, data: configure_item("Color Picker 4", no_side_preview = get_value(sender)))
+                    add_checkbox(label="no_side_preview", callback=demo_config, callback_data=edit_items)
+                    add_checkbox(label="alpha_bar", callback=demo_config, callback_data=edit_items, default_value=True)
+                    add_checkbox(label="alpha_preview", callback=demo_config, callback_data=edit_items, default_value=True)
 
                     add_table_next_column()
-                    add_checkbox(label="Display RGB", callback=lambda sender, data: configure_item("Color Picker 4", display_rgb = get_value(sender)))
-                    add_checkbox(label="Display HSV", callback=lambda sender, data: configure_item("Color Picker 4", display_hsv = get_value(sender)))
-                    add_checkbox(label="Display HEX", callback=lambda sender, data: configure_item("Color Picker 4", display_hex = get_value(sender)))
+                    add_checkbox(label="display_rgb", callback=demo_config, callback_data=edit_items)
+                    add_checkbox(label="display_hsv", callback=demo_config, callback_data=edit_items)
+                    add_checkbox(label="display_hex", callback=demo_config, callback_data=edit_items)
 
-                def apply_hue(sender, data):
-                    log_debug(get_value(sender))
-                    if(get_value(sender) == 0): 
-                        configure_item("Color Picker 4", picker_hue_bar = True)
-                    elif(get_value(sender) == 1): 
-                        configure_item("Color Picker 4", picker_hue_wheel = True)
-                add_radio_button("Display Type", items=["Hue Bar", "Hue Wheel"], callback=apply_hue)
-                add_color_picker4("Color Picker 4", source=color_edit_names[0], alpha_preview= True, alpha_bar=True, callback=log_callback)
-                add_color_edit4("Color Edit 4 (float values)", alpha_preview= True, floats=True, callback=lambda sender, data: configure_item("float_values", label=f"{get_value('list_color_value')}", color=hsv_to_rgb(get_value('list_color_value')[0],get_value('list_color_value')[1],get_value('list_color_value')[2])))
-                helpmarker("Color item values given to the widget as a list will cause the \n"
-                           "color item to store and return colors as scalar floats from 0.0-1.0.\n"
-                           "setting floats=True will turn the inputs also to a float (although this is not necessary)")
-                #add_label_text("float_values", default_value="Color List: ",label=f"{get_value('list_color_value')}",color=hsv_to_rgb(get_value('list_color_value')[0],get_value('list_color_value')[1],get_value('list_color_value')[2]))
+                add_radio_button("Display Type", items=["hue_bar", "hue_wheel"], callback=demo_config, callback_data="Color Picker 4")
+                add_color_picker4("Color Picker 4", source=color_0, alpha_preview= True, alpha_bar=True, callback=demo_log)
+                add_color_edit4("Color Edit 4 (float values)",default_value=[125,125,125,255],alpha_preview= True, callback=lambda sender, data: configure_item("float_values", label=f"({get_value(sender)[0]}, {get_value(sender)[1]}, {get_value(sender)[2]}, {get_value(sender)[3]})",color=get_value(sender)))
+                add_label_text("float_values", default_value="Color List: ", color=[255, 0, 255])
+                demo_help("When the value of a color widget is set using a list will the widget will\n"
+                           "store and return colors as scalar floats from 0.0-1.0.\n"
+                           "setting floats=True will also turn the inputs also to a float (although this is not necessary)")
                 add_color_edit4("Color Edit 4 (ints value)", default_value=(125,125,125,255), alpha_preview= True, callback=lambda sender, data: configure_item("ints_values", label=f"({get_value(sender)[0]}, {get_value(sender)[1]}, {get_value(sender)[2]}, {get_value(sender)[3]})",color=get_value(sender)))
-                helpmarker("Color item values given to the widget as a tuple will cause the \n"
-                           "color item to store and return colors as ints from 0-255.")
                 add_label_text("ints_values", default_value="Color Tuple: ", label=f"{get_value('Color Edit 4 (ints value)')}", color=get_value('Color Edit 4 (ints value)'))
-
-            with tree_node("Multi-component Widgets##demo"):
-                disable_items = ["input float2##demo", "drag float2##demo", "slider float2##demo", "input int2##demo", "drag int2##demo", 
-                                 "slider int2##demo", "input float3##demo", "drag float3##demo", "slider float3##demo", "input int3##demo", 
-                                 "drag int3##demo", "slider int3##demo", "input float4##demo", "drag float4##demo", "slider float4##demo", 
-                                 "input int4##demo", "drag int4##demo", "slider int4##demo"]
-                add_checkbox("Enable-Disable##multi-component_widgets", default_value=True, callback=toggle_config, callback_data={'kwargs': ['enabled'], 'items': disable_items})
-                add_input_float2("input float2##demo", min_value=0.0, max_value=100.0)
-                add_drag_float2("drag float2##demo", source="input float2##demo")
-                add_slider_float2("slider float2##demo", source="input float2##demo")
-                add_input_int2("input int2##demo", min_value=0, max_value=100)
-                add_drag_int2("drag int2##demo", source="input int2##demo")
-                add_slider_int2("slider int2##demo", source="input int2##demo")
+                demo_help("When the value of a color widget is set using a list will the widget will \n"
+                           "store and return colors as ints from 0-255.")
+            with tree_node(label="Multi-component Widgets"):
+                demo_enable_disable()
+                input_float_2 = add_input_floatx(label="input float 2", min_value=0.0, max_value=100.0)
+                add_drag_floatx(label="drag float 2", source=input_float_2)
+                add_slider_floatx(label="slider float 2", source=input_float_2)
+                input_int_2 = add_input_intx(label="input int 2", min_value=0, max_value=100)
+                add_drag_intx(label="drag int 2", source=input_int_2)
+                add_slider_intx(label="slider int 2", source=input_int_2)
                 add_spacing()
-                add_input_float3("input float3##demo", min_value=0.0, max_value=100.0)
-                add_drag_float3("drag float3##demo", source="input float3##demo")
-                add_slider_float3("slider float3##demo", source="input float3##demo")
-                add_input_int3("input int3##demo", min_value=0, max_value=100)
-                add_drag_int3("drag int3##demo", source="input int3##demo")
-                add_slider_int3("slider int3##demo", source="input int3##demo")
+                input_float_3 = add_input_floatx(label="input float 3", min_value=0.0, max_value=100.0)
+                add_drag_floatx(label="drag float 3", source=input_float_3)
+                add_slider_floatx(label="slider float 3", source=input_float_3)
+                input_int_3 = add_input_intx(label="input intx", min_value=0, max_value=100)
+                add_drag_intx(label="drag int 3", source=input_int_3)
+                add_slider_intx(label="slider int 3", source=input_int_3)
                 add_spacing()
-                add_input_float4("input float4##demo", min_value=0.0, max_value=100.0)
-                add_drag_float4("drag float4##demo", source="input float4##demo")
-                add_slider_float4("slider float4##demo", source="input float4##demo")
-                add_input_int4("input int4##demo", min_value=0, max_value=100)
-                add_drag_int4("drag int4##demo", source="input int4##demo")
-                add_slider_int4("slider int4##demo", source="input int4##demo")
+                input_float_4 = add_input_floatx(label="input float 4", min_value=0.0, max_value=100.0)
+                add_drag_floatx(label="drag float 4", source=input_float_4)
+                add_slider_floatx(label="slider float 4", source=input_float_4)
+                input_int_4 = add_input_intx(label="input int 4", min_value=0, max_value=100)
+                add_drag_intx(label="drag int 4", source=input_int_4)
+                add_slider_intx(label="slider intx", source=input_int_4)
 
-            with tree_node("Vertical Sliders##demo"):
-
-                disable_items = [f"##vi","##vs1##demo","##vs2##demo","##vs3##demo","##vs4##demo"]
-                for i in range(0, 7):
-                    disable_items.append(f"##v{i}##demo")
-                for i in range(0, 3):
-                    for j in range(0, 4):
-                        disable_items.append(f"##v{j}{i}##demo")
-                add_checkbox("Enable-Disable##vertical_sliders", default_value=True, callback=toggle_config, callback_data={'kwargs': ['enabled'], 'items': disable_items})
-                add_slider_int(f"##vi", default_value=1, vertical=True, max_value=5, height=160)
+            with tree_node(label="Vertical Sliders"):
+                demo_enable_disable()
+                add_slider_int(label="", default_value=1, vertical=True, max_value=5, height=160)
                 add_same_line()
+
                 with group():
                     values = [ 0.0, 0.60, 0.35, 0.9, 0.70, 0.20, 0.0 ]
                     for i in range(0, 7):
                         if i > 0:
                             add_same_line()
-                        add_slider_float(f"##v{i}##demo", default_value=values[i], vertical=True, max_value=1.0, height=160)
-                        #set_item_color(f"##v{i}##demo", mvGuiCol_FrameBg, hsv_to_rgb(i/7.0, 0.5, 0.5))
-                        #set_item_color(f"##v{i}##demo", mvGuiCol_FrameBgHovered, hsv_to_rgb(i/7.0, 0.6, 0.5))
-                        #set_item_color(f"##v{i}##demo", mvGuiCol_FrameBgActive, hsv_to_rgb(i/7.0, 0.7, 0.5))
-                        #set_item_color(f"##v{i}##demo", mvGuiCol_SliderGrab, hsv_to_rgb(i/7.0, 0.9, 0.9))
+                        widget = add_slider_float(label="", default_value=values[i], vertical=True, max_value=1.0, height=160)
+                        set_theme_color(mvThemeCol_SliderFloat_Bg, demo_hsv_to_rgb(i/7.0, 0.5, 0.5), item=widget)
+                        set_theme_color(mvThemeCol_SliderFloat_Grab, demo_hsv_to_rgb(i/7.0, 0.9, 0.9), item=widget)
+                        set_theme_color(mvThemeCol_SliderFloat_BgActive, demo_hsv_to_rgb(i/7.0, 0.7, 0.5), item=widget)
+                        set_theme_color(mvThemeCol_SliderFloat_BgHovered, demo_hsv_to_rgb(i/7.0, 0.6, 0.5), item=widget)
 
+                # TODO: Find out why the final slider is throwing a error for duplicate name when the name should be autogenerated
                 add_same_line()
                 with group():
                     for i in range(0, 3):
                         with group():
                             values = [ 0.20, 0.80, 0.40, 0.25 ]
                             for j in range(0, 4):
-                                add_slider_float(f"##v{j}{i}##demo", default_value=values[j], vertical=True, max_value=1.0, height=50)
+                                add_slider_float(label="", default_value=values[j], vertical=True, max_value=1.0, height=50)
                                 if i != 3:
                                     add_same_line()   
-                            
+                # TODO: Should the label default just be an empty string when the item isnt given a name or a label, having to evter label="" is annoying, when you dont want a label to show
                 add_same_line()
-                with group():
-                    add_slider_float("##vs1##demo", vertical=True, max_value=1.0, height=160, width=40)
-                    add_same_line()
-                    add_slider_float("##vs2##demo", vertical=True, max_value=1.0, height=160, width=40)
-                    add_same_line()
-                    add_slider_float("##vs3##demo", vertical=True, max_value=1.0, height=160, width=40)
-                    add_same_line()
-                    add_slider_float("##vs4##demo", vertical=True, max_value=1.0, height=160, width=40)
+                with group(horizontal=True):
+                    add_slider_float(label="", vertical=True, max_value=1.0, height=160, width=40)
+                    add_slider_float(label="", vertical=True, max_value=1.0, height=160, width=40)
+                    add_slider_float(label="", vertical=True, max_value=1.0, height=160, width=40)
+                    add_slider_float(label="", vertical=True, max_value=1.0, height=160, width=40)
 
             with tree_node("Time/Date Widgets##demo"):
                 add_time_picker("Time Picker##demo", default_value={'hour': 14, 'min': 32, 'sec': 23})
@@ -799,7 +860,7 @@ def show_demo():
                 add_button("Select..##popups##demo")
                 add_same_line()
                 add_text("<None>")
-                helpmarker("right click for popup, it is set to right mouse button, this can be changed")
+                demo_help("right click for popup, it is set to right mouse button, this can be changed")
                 with popup("Select..##popups##demo", "popup1"):
                     add_text("Aquariam")
                     add_separator()
@@ -812,7 +873,7 @@ def show_demo():
             with tree_node("Modals##demo"):
                 add_text("Modal windows are like popups but the user cannot close them by clicking outside.")
                 add_button("Delete..##modals##demo")
-                helpmarker("right click for popup, it is set to right mouse button, this can be changed ")
+                demo_help("right click for popup, it is set to right mouse button, this can be changed ")
                 with popup("Delete..##modals##demo", "Delete?", modal=True):
                     add_text("All those beautiful files will be deleted.\nThis operation cannot be undone!")
                     add_separator()

@@ -14,18 +14,18 @@ namespace Marvel {
 
 		MV_APPITEM_TYPE(mvAppItemType::mvMenu, add_menu)
 
-		MV_CREATE_CONSTANT(mvThemeCol_Menu_Text		    ,  0L, 0L);
-		MV_CREATE_CONSTANT(mvThemeCol_Menu_Bg			    ,  4L, 0L);
-		MV_CREATE_CONSTANT(mvThemeCol_Menu_BgHovered	    , 25L, 0L);
-		MV_CREATE_CONSTANT(mvThemeCol_Menu_BgActive	    , 24L, 0L);
-		MV_CREATE_CONSTANT(mvThemeCol_Menu_Border		    ,  5L, 0L);
+		MV_CREATE_CONSTANT(mvThemeCol_Menu_Text			, ImGuiCol_Text			, 0L);
+		MV_CREATE_CONSTANT(mvThemeCol_Menu_Bg			, ImGuiCol_PopupBg		, 0L);
+		MV_CREATE_CONSTANT(mvThemeCol_Menu_BgHovered	, ImGuiCol_HeaderHovered, 0L);
+		MV_CREATE_CONSTANT(mvThemeCol_Menu_BgActive		, ImGuiCol_Header		, 0L);
+		MV_CREATE_CONSTANT(mvThemeCol_Menu_Border		, ImGuiCol_Border		, 0L);
 
-		MV_CREATE_CONSTANT(mvThemeStyle_Menu_BorderSize	,  9L, 0L);
-		MV_CREATE_CONSTANT(mvThemeStyle_Menu_Rounding	    ,  8L, 0L);
-		MV_CREATE_CONSTANT(mvThemeStyle_Menu_PaddingX	    ,  1L, 0L);
-		MV_CREATE_CONSTANT(mvThemeStyle_Menu_PaddingY	    ,  1L, 1L);
-		MV_CREATE_CONSTANT(mvThemeStyle_Menu_ItemSpacingX , 13L, 0L);
-		MV_CREATE_CONSTANT(mvThemeStyle_Menu_ItemSpacingY , 13L, 1L);
+		MV_CREATE_CONSTANT(mvThemeStyle_Menu_BorderSize		, ImGuiStyleVar_PopupBorderSize	, 0L);
+		MV_CREATE_CONSTANT(mvThemeStyle_Menu_Rounding		, ImGuiStyleVar_PopupRounding	, 0L);
+		MV_CREATE_CONSTANT(mvThemeStyle_Menu_PaddingX		, ImGuiStyleVar_WindowPadding	, 0L);
+		MV_CREATE_CONSTANT(mvThemeStyle_Menu_PaddingY		, ImGuiStyleVar_WindowPadding	, 1L);
+		MV_CREATE_CONSTANT(mvThemeStyle_Menu_ItemSpacingX	, ImGuiStyleVar_ItemSpacing		, 0L);
+		MV_CREATE_CONSTANT(mvThemeStyle_Menu_ItemSpacingY	, ImGuiStyleVar_ItemSpacing		, 1L);
 
 		MV_START_EXTRA_COMMANDS
 		MV_END_EXTRA_COMMANDS

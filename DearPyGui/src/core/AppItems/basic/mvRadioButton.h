@@ -14,18 +14,18 @@ namespace Marvel {
 
 		MV_APPITEM_TYPE(mvAppItemType::mvRadioButton, add_radio_button)
 
-		MV_CREATE_CONSTANT(mvThemeCol_RadioButton_Text,             0L, 0L);
-		MV_CREATE_CONSTANT(mvThemeCol_RadioButton_Bg,               7L, 0L);
-		MV_CREATE_CONSTANT(mvThemeCol_RadioButton_BgHovered,        8L, 0L);
-		MV_CREATE_CONSTANT(mvThemeCol_RadioButton_BgActive,        18L, 0L);
-		MV_CREATE_CONSTANT(mvThemeCol_RadioButton_Border,           5L, 0L);
-		MV_CREATE_CONSTANT(mvThemeCol_RadioButton_BorderShadow,     6L, 0L);
+		MV_CREATE_CONSTANT(mvThemeCol_RadioButton_Text			, ImGuiCol_Text				, 0L);
+		MV_CREATE_CONSTANT(mvThemeCol_RadioButton_Bg			, ImGuiCol_FrameBg			, 0L);
+		MV_CREATE_CONSTANT(mvThemeCol_RadioButton_BgHovered		, ImGuiCol_FrameBgHovered	, 0L);
+		MV_CREATE_CONSTANT(mvThemeCol_RadioButton_BgActive		, ImGuiCol_CheckMark		, 0L);
+		MV_CREATE_CONSTANT(mvThemeCol_RadioButton_Border		, ImGuiCol_Border			, 0L);
+		MV_CREATE_CONSTANT(mvThemeCol_RadioButton_BorderShadow	, ImGuiCol_BorderShadow		, 0L);
 
-		MV_CREATE_CONSTANT(mvThemeStyle_RadioButton_BorderSize,    12L, 0L);
-		MV_CREATE_CONSTANT(mvThemeStyle_RadioButton_PaddingX,      10L, 0L);
-		MV_CREATE_CONSTANT(mvThemeStyle_RadioButton_PaddingY,      10L, 1L);
-		MV_CREATE_CONSTANT(mvThemeStyle_RadioButton_InnerSpacingX, 14L, 0L);
-		MV_CREATE_CONSTANT(mvThemeStyle_RadioButton_InnerSpacingY, 14L, 1L);
+		MV_CREATE_CONSTANT(mvThemeStyle_RadioButton_BorderSize		, ImGuiStyleVar_FrameBorderSize	, 0L);
+		MV_CREATE_CONSTANT(mvThemeStyle_RadioButton_PaddingX		, ImGuiStyleVar_FramePadding	, 0L);
+		MV_CREATE_CONSTANT(mvThemeStyle_RadioButton_PaddingY		, ImGuiStyleVar_FramePadding	, 1L);
+		MV_CREATE_CONSTANT(mvThemeStyle_RadioButton_InnerSpacingX	, ImGuiStyleVar_ItemInnerSpacing, 0L);
+		MV_CREATE_CONSTANT(mvThemeStyle_RadioButton_InnerSpacingY	, ImGuiStyleVar_ItemInnerSpacing, 1L);
 
 		MV_START_EXTRA_COMMANDS
 		MV_END_EXTRA_COMMANDS

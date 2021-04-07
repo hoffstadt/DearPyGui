@@ -13,19 +13,19 @@ namespace Marvel {
 
 		MV_APPITEM_TYPE(mvAppItemType::mvCollapsingHeader, add_collapsing_header)
 
-		MV_CREATE_CONSTANT(mvThemeCol_CollapsingHeader_Text		    ,  0L, 0L);
-		MV_CREATE_CONSTANT(mvThemeCol_CollapsingHeader_Bg			    , 24L, 0L);
-		MV_CREATE_CONSTANT(mvThemeCol_CollapsingHeader_BgHovered	    , 25L, 0L);
-		MV_CREATE_CONSTANT(mvThemeCol_CollapsingHeader_BgActive	    , 26L, 0L);
-		MV_CREATE_CONSTANT(mvThemeCol_CollapsingHeader_Border		    ,  5L, 0L);
-		MV_CREATE_CONSTANT(mvThemeCol_CollapsingHeader_BorderShadow	,  6L, 0L);
+		MV_CREATE_CONSTANT(mvThemeCol_CollapsingHeader_Text		    , ImGuiCol_Text			, 0L);
+		MV_CREATE_CONSTANT(mvThemeCol_CollapsingHeader_Bg			, ImGuiCol_Header		, 0L);
+		MV_CREATE_CONSTANT(mvThemeCol_CollapsingHeader_BgHovered	, ImGuiCol_HeaderHovered, 0L);
+		MV_CREATE_CONSTANT(mvThemeCol_CollapsingHeader_BgActive		, ImGuiCol_HeaderActive	, 0L);
+		MV_CREATE_CONSTANT(mvThemeCol_CollapsingHeader_Border		, ImGuiCol_Border		, 0L);
+		MV_CREATE_CONSTANT(mvThemeCol_CollapsingHeader_BorderShadow	, ImGuiCol_BorderShadow	, 0L);
 
-		MV_CREATE_CONSTANT(mvThemeStyle_CollapsingHeader_BorderSize	, 12L, 0L);
-		MV_CREATE_CONSTANT(mvThemeStyle_CollapsingHeader_Rounding	    , 11L, 0L);
-		MV_CREATE_CONSTANT(mvThemeStyle_CollapsingHeader_PaddingX	    , 10L, 0L);
-		MV_CREATE_CONSTANT(mvThemeStyle_CollapsingHeader_PaddingY	    , 10L, 1L);
-		MV_CREATE_CONSTANT(mvThemeStyle_CollapsingHeader_ItemSpacingX,  13L, 0L);
-		MV_CREATE_CONSTANT(mvThemeStyle_CollapsingHeader_ItemSpacingY,  13L, 1L);
+		MV_CREATE_CONSTANT(mvThemeStyle_CollapsingHeader_BorderSize		, ImGuiStyleVar_FrameBorderSize	, 0L);
+		MV_CREATE_CONSTANT(mvThemeStyle_CollapsingHeader_Rounding	    , ImGuiStyleVar_FrameRounding	, 0L);
+		MV_CREATE_CONSTANT(mvThemeStyle_CollapsingHeader_PaddingX	    , ImGuiStyleVar_FramePadding	, 0L);
+		MV_CREATE_CONSTANT(mvThemeStyle_CollapsingHeader_PaddingY	    , ImGuiStyleVar_FramePadding	, 1L);
+		MV_CREATE_CONSTANT(mvThemeStyle_CollapsingHeader_ItemSpacingX	, ImGuiStyleVar_ItemSpacing		, 0L);
+		MV_CREATE_CONSTANT(mvThemeStyle_CollapsingHeader_ItemSpacingY	, ImGuiStyleVar_ItemSpacing		, 1L);
 
 		MV_START_EXTRA_COMMANDS
 		MV_END_EXTRA_COMMANDS

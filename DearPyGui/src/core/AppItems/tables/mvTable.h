@@ -15,20 +15,21 @@ namespace Marvel {
 
 		MV_APPITEM_TYPE(mvAppItemType::mvTable, add_table)
 
-		MV_CREATE_CONSTANT(mvTable_SizingFixedFit,			8192L, 0L);
-		MV_CREATE_CONSTANT(mvTable_SizingFixedSame,			16384L, 0L);
-		MV_CREATE_CONSTANT(mvTable_SizingStretchProp,			24576L, 0L);
-		MV_CREATE_CONSTANT(mvTable_SizingStretchSame,			32768L, 0L);
+		MV_CREATE_CONSTANT(mvTable_SizingFixedFit,	8192L, 0L);
+		MV_CREATE_CONSTANT(mvTable_SizingFixedSame,	16384L, 0L);
+		MV_CREATE_CONSTANT(mvTable_SizingStretchProp,	24576L, 0L);
+		MV_CREATE_CONSTANT(mvTable_SizingStretchSame,	32768L, 0L);
 
-		MV_CREATE_CONSTANT(mvThemeCol_Table_HeaderBg,			44L, 0L);
-		MV_CREATE_CONSTANT(mvThemeCol_Table_BorderStrong,		45L, 0L);
-		MV_CREATE_CONSTANT(mvThemeCol_Table_BorderLight,		46L, 0L);
-		MV_CREATE_CONSTANT(mvThemeCol_Table_BorderHovered,	28L, 0L);
-		MV_CREATE_CONSTANT(mvThemeCol_Table_BorderActive,		29L, 0L);
-		MV_CREATE_CONSTANT(mvThemeCol_Table_RowBg,			47L, 0L);
-		MV_CREATE_CONSTANT(mvThemeCol_Table_RowBgAlt,			48L, 0L);
-		MV_CREATE_CONSTANT(mvThemeStyle_Table_CellPaddingX,	16L, 0L);
-		MV_CREATE_CONSTANT(mvThemeStyle_Table_CellPaddingY,	16L, 1L);
+		MV_CREATE_CONSTANT(mvThemeCol_Table_HeaderBg		, ImGuiCol_TableHeaderBg	, 0L);
+		MV_CREATE_CONSTANT(mvThemeCol_Table_BorderStrong	, ImGuiCol_TableBorderStrong, 0L);
+		MV_CREATE_CONSTANT(mvThemeCol_Table_BorderLight		, ImGuiCol_TableBorderLight	, 0L);
+		MV_CREATE_CONSTANT(mvThemeCol_Table_BorderHovered	, ImGuiCol_SeparatorHovered	, 0L);
+		MV_CREATE_CONSTANT(mvThemeCol_Table_BorderActive	, ImGuiCol_SeparatorActive	, 0L);
+		MV_CREATE_CONSTANT(mvThemeCol_Table_RowBg			, ImGuiCol_TableRowBg		, 0L);
+		MV_CREATE_CONSTANT(mvThemeCol_Table_RowBgAlt		, ImGuiCol_TableRowBgAlt	, 0L);
+
+		MV_CREATE_CONSTANT(mvThemeStyle_Table_CellPaddingX, ImGuiStyleVar_CellPadding, 0L);
+		MV_CREATE_CONSTANT(mvThemeStyle_Table_CellPaddingY, ImGuiStyleVar_CellPadding, 1L);
 
 		MV_START_EXTRA_COMMANDS
 		MV_END_EXTRA_COMMANDS

@@ -14,17 +14,18 @@ namespace Marvel {
 
 		MV_APPITEM_TYPE(mvAppItemType::mvDatePicker, add_date_picker)
 
-		MV_CREATE_CONSTANT(mvThemeCol_DatePicker_Date			,  0L, 0L);
-		MV_CREATE_CONSTANT(mvThemeCol_DatePicker_DateBg		, 21L, 0L);
-		MV_CREATE_CONSTANT(mvThemeCol_DatePicker_DateDisabled	,  1L, 0L);
-		MV_CREATE_CONSTANT(mvThemeCol_DatePicker_DateHovered	, 22L, 0L);
-		MV_CREATE_CONSTANT(mvThemeCol_DatePicker_DateActive	, 23L, 0L);
-		MV_CREATE_CONSTANT(mvThemeCol_DatePicker_Border		,  5L, 0L);
-		MV_CREATE_CONSTANT(mvThemeCol_DatePicker_BorderShadow	,  6L, 0L);
-		MV_CREATE_CONSTANT(mvThemeStyle_DatePicker_Rounding	, 11L, 0L);
-		MV_CREATE_CONSTANT(mvThemeStyle_DatePicker_BorderSize	, 12L, 0L);
-		MV_CREATE_CONSTANT(mvThemeStyle_DatePicker_PaddingX	, 10L, 0L);
-		MV_CREATE_CONSTANT(mvThemeStyle_DatePicker_PaddingY	, 10L, 1L);
+		MV_CREATE_CONSTANT(mvThemeCol_DatePicker_Date			, ImGuiCol_Text			, 0L);
+		MV_CREATE_CONSTANT(mvThemeCol_DatePicker_DateBg			, ImGuiCol_Button		, 0L);
+		MV_CREATE_CONSTANT(mvThemeCol_DatePicker_DateDisabled	, ImGuiCol_TextDisabled	, 0L);
+		MV_CREATE_CONSTANT(mvThemeCol_DatePicker_DateHovered	, ImGuiCol_ButtonHovered, 0L);
+		MV_CREATE_CONSTANT(mvThemeCol_DatePicker_DateActive		, ImGuiCol_ButtonActive	, 0L);
+		MV_CREATE_CONSTANT(mvThemeCol_DatePicker_Border			, ImGuiCol_Border		, 0L);
+		MV_CREATE_CONSTANT(mvThemeCol_DatePicker_BorderShadow	, ImGuiCol_BorderShadow	, 0L);
+
+		MV_CREATE_CONSTANT(mvThemeStyle_DatePicker_Rounding		, ImGuiStyleVar_FrameRounding	, 0L);
+		MV_CREATE_CONSTANT(mvThemeStyle_DatePicker_BorderSize	, ImGuiStyleVar_FrameBorderSize	, 0L);
+		MV_CREATE_CONSTANT(mvThemeStyle_DatePicker_PaddingX		, ImGuiStyleVar_FramePadding	, 0L);
+		MV_CREATE_CONSTANT(mvThemeStyle_DatePicker_PaddingY		, ImGuiStyleVar_FramePadding	, 1L);
 
 		MV_START_EXTRA_COMMANDS
 		MV_END_EXTRA_COMMANDS

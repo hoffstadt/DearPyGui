@@ -28,23 +28,23 @@ namespace Marvel {
 
         MV_APPITEM_TYPE(mvAppItemType::mvInputInt, add_input_int)
 
-        MV_CREATE_CONSTANT(mvThemeCol_InputInt_Text              ,  0L, 0L);
-        MV_CREATE_CONSTANT(mvThemeCol_InputInt_TextHighlight     , 44L, 0L);
-        MV_CREATE_CONSTANT(mvThemeCol_InputInt_Bg                ,  7L, 0L);
-        MV_CREATE_CONSTANT(mvThemeCol_InputInt_ButtonBg          , 21L, 0L);
-        MV_CREATE_CONSTANT(mvThemeCol_InputInt_ButtonBgHovered   , 22L, 0L);
-        MV_CREATE_CONSTANT(mvThemeCol_InputInt_ButtonBgActive    , 23L, 0L);
-        MV_CREATE_CONSTANT(mvThemeCol_InputInt_Border            ,  5L, 0L);
-        MV_CREATE_CONSTANT(mvThemeCol_InputInt_BorderShadow      ,  6L, 0L);
+        MV_CREATE_CONSTANT(mvThemeCol_InputInt_Text              , ImGuiCol_Text            , 0L);
+        MV_CREATE_CONSTANT(mvThemeCol_InputInt_TextHighlight     , ImGuiCol_TextSelectedBg  , 0L);
+        MV_CREATE_CONSTANT(mvThemeCol_InputInt_Bg                , ImGuiCol_FrameBg         , 0L);
+        MV_CREATE_CONSTANT(mvThemeCol_InputInt_ButtonBg          , ImGuiCol_Button          , 0L);
+        MV_CREATE_CONSTANT(mvThemeCol_InputInt_ButtonBgHovered   , ImGuiCol_ButtonHovered   , 0L);
+        MV_CREATE_CONSTANT(mvThemeCol_InputInt_ButtonBgActive    , ImGuiCol_ButtonActive    , 0L);
+        MV_CREATE_CONSTANT(mvThemeCol_InputInt_Border            , ImGuiCol_Border          , 0L);
+        MV_CREATE_CONSTANT(mvThemeCol_InputInt_BorderShadow      , ImGuiCol_BorderShadow    , 0L);
 
-        MV_CREATE_CONSTANT(mvThemeStyle_InputInt_Rounding        , 11L, 0L);
-        MV_CREATE_CONSTANT(mvThemeStyle_InputInt_BorderSize      , 12L, 0L);
-        MV_CREATE_CONSTANT(mvThemeStyle_InputInt_PaddingX        , 10L, 0L);
-        MV_CREATE_CONSTANT(mvThemeStyle_InputInt_PaddingY        , 10L, 1L);
-        MV_CREATE_CONSTANT(mvThemeStyle_InputInt_InnerSpacingX   , 14L, 0L);
-        MV_CREATE_CONSTANT(mvThemeStyle_InputInt_InnerSpacingY   , 14L, 1L);
-        MV_CREATE_CONSTANT(mvThemeStyle_InputInt_ButtonTextAlignX, 22L, 0L);
-        MV_CREATE_CONSTANT(mvThemeStyle_InputInt_ButtonTextAlignY, 22L, 1L);
+        MV_CREATE_CONSTANT(mvThemeStyle_InputInt_Rounding        , ImGuiStyleVar_FrameRounding      , 0L);
+        MV_CREATE_CONSTANT(mvThemeStyle_InputInt_BorderSize      , ImGuiStyleVar_FrameBorderSize    , 0L);
+        MV_CREATE_CONSTANT(mvThemeStyle_InputInt_PaddingX        , ImGuiStyleVar_FramePadding       , 0L);
+        MV_CREATE_CONSTANT(mvThemeStyle_InputInt_PaddingY        , ImGuiStyleVar_FramePadding       , 1L);
+        MV_CREATE_CONSTANT(mvThemeStyle_InputInt_InnerSpacingX   , ImGuiStyleVar_ItemInnerSpacing   , 0L);
+        MV_CREATE_CONSTANT(mvThemeStyle_InputInt_InnerSpacingY   , ImGuiStyleVar_ItemInnerSpacing   , 1L);
+        MV_CREATE_CONSTANT(mvThemeStyle_InputInt_ButtonTextAlignX, ImGuiStyleVar_ButtonTextAlign    , 0L);
+        MV_CREATE_CONSTANT(mvThemeStyle_InputInt_ButtonTextAlignY, ImGuiStyleVar_ButtonTextAlign    , 1L);
 
 		MV_START_EXTRA_COMMANDS
 		MV_END_EXTRA_COMMANDS
@@ -111,23 +111,23 @@ namespace Marvel {
 
         MV_APPITEM_TYPE(mvAppItemType::mvInputFloat, add_input_float)
 
-        MV_CREATE_CONSTANT(mvThemeCol_InputFloat_Text              ,  0L, 0L);
-        MV_CREATE_CONSTANT(mvThemeCol_InputFloat_TextHighlight     , 44L, 0L);
-        MV_CREATE_CONSTANT(mvThemeCol_InputFloat_Bg                ,  7L, 0L);
-        MV_CREATE_CONSTANT(mvThemeCol_InputFloat_ButtonBg          , 21L, 0L);
-        MV_CREATE_CONSTANT(mvThemeCol_InputFloat_ButtonBgHovered   , 22L, 0L);
-        MV_CREATE_CONSTANT(mvThemeCol_InputFloat_ButtonBgActive    , 23L, 0L);
-        MV_CREATE_CONSTANT(mvThemeCol_InputFloat_Border            ,  5L, 0L);
-        MV_CREATE_CONSTANT(mvThemeCol_InputFloat_BorderShadow      ,  6L, 0L);
+        MV_CREATE_CONSTANT(mvThemeCol_InputFloat_Text              , ImGuiCol_Text          , 0L);
+        MV_CREATE_CONSTANT(mvThemeCol_InputFloat_TextHighlight     , ImGuiCol_TextSelectedBg, 0L);
+        MV_CREATE_CONSTANT(mvThemeCol_InputFloat_Bg                , ImGuiCol_FrameBg       , 0L);
+        MV_CREATE_CONSTANT(mvThemeCol_InputFloat_ButtonBg          , ImGuiCol_Button        , 0L);
+        MV_CREATE_CONSTANT(mvThemeCol_InputFloat_ButtonBgHovered   , ImGuiCol_ButtonHovered , 0L);
+        MV_CREATE_CONSTANT(mvThemeCol_InputFloat_ButtonBgActive    , ImGuiCol_ButtonActive  , 0L);
+        MV_CREATE_CONSTANT(mvThemeCol_InputFloat_Border            , ImGuiCol_Border        , 0L);
+        MV_CREATE_CONSTANT(mvThemeCol_InputFloat_BorderShadow      , ImGuiCol_BorderShadow  , 0L);
 
-        MV_CREATE_CONSTANT(mvThemeStyle_InputFloat_Rounding        , 11L, 0L);
-        MV_CREATE_CONSTANT(mvThemeStyle_InputFloat_BorderSize      , 12L, 0L);
-        MV_CREATE_CONSTANT(mvThemeStyle_InputFloat_PaddingX        , 10L, 0L);
-        MV_CREATE_CONSTANT(mvThemeStyle_InputFloat_PaddingY        , 10L, 1L);
-        MV_CREATE_CONSTANT(mvThemeStyle_InputFloat_InnerSpacingX   , 14L, 0L);
-        MV_CREATE_CONSTANT(mvThemeStyle_InputFloat_InnerSpacingY   , 14L, 1L);
-        MV_CREATE_CONSTANT(mvThemeStyle_InputFloat_ButtonTextAlignX, 22L, 0L);
-        MV_CREATE_CONSTANT(mvThemeStyle_InputFloat_ButtonTextAlignY, 22L, 1L);
+        MV_CREATE_CONSTANT(mvThemeStyle_InputFloat_Rounding        , ImGuiStyleVar_FrameRounding    , 0L);
+        MV_CREATE_CONSTANT(mvThemeStyle_InputFloat_BorderSize      , ImGuiStyleVar_FrameBorderSize  , 0L);
+        MV_CREATE_CONSTANT(mvThemeStyle_InputFloat_PaddingX        , ImGuiStyleVar_FramePadding     , 0L);
+        MV_CREATE_CONSTANT(mvThemeStyle_InputFloat_PaddingY        , ImGuiStyleVar_FramePadding     , 1L);
+        MV_CREATE_CONSTANT(mvThemeStyle_InputFloat_InnerSpacingX   , ImGuiStyleVar_ItemInnerSpacing , 0L);
+        MV_CREATE_CONSTANT(mvThemeStyle_InputFloat_InnerSpacingY   , ImGuiStyleVar_ItemInnerSpacing , 1L);
+        MV_CREATE_CONSTANT(mvThemeStyle_InputFloat_ButtonTextAlignX, ImGuiStyleVar_ButtonTextAlign  , 0L);
+        MV_CREATE_CONSTANT(mvThemeStyle_InputFloat_ButtonTextAlignY, ImGuiStyleVar_ButtonTextAlign  , 1L);
 
 		MV_START_EXTRA_COMMANDS
 		MV_END_EXTRA_COMMANDS
