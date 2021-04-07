@@ -14,16 +14,16 @@ namespace Marvel {
 
 		MV_APPITEM_TYPE(mvAppItemType::mvTabButton, add_tab_button)
 
-		MV_CREATE_CONSTANT(mvThemeCol_TabButton_Text,          0L, 0L);
-		MV_CREATE_CONSTANT(mvThemeCol_TabButton_Bg,           33L, 0L);
-		MV_CREATE_CONSTANT(mvThemeCol_TabButton_BgHovered,    34L, 0L);
-		MV_CREATE_CONSTANT(mvThemeCol_TabButton_Border,        5L, 0L);
-		MV_CREATE_CONSTANT(mvThemeCol_TabButton_PopupBg,       4L, 0L);
+		MV_CREATE_CONSTANT(mvThemeCol_TabButton_Text		, ImGuiCol_Text			, 0L);
+		MV_CREATE_CONSTANT(mvThemeCol_TabButton_Bg			, ImGuiCol_Tab			, 0L);
+		MV_CREATE_CONSTANT(mvThemeCol_TabButton_BgHovered	, ImGuiCol_TabHovered	, 0L);
+		MV_CREATE_CONSTANT(mvThemeCol_TabButton_Border		, ImGuiCol_Border		, 0L);
+		MV_CREATE_CONSTANT(mvThemeCol_TabButton_PopupBg		, ImGuiCol_PopupBg		, 0L);
 
-		MV_CREATE_CONSTANT(mvThemeStyle_TabButton_Rounding,   11L, 0L);
-		MV_CREATE_CONSTANT(mvThemeStyle_TabButton_BorderSize, 12L, 0L);
-		MV_CREATE_CONSTANT(mvThemeStyle_TabButton_PaddingX,   10L, 0L);
-		MV_CREATE_CONSTANT(mvThemeStyle_TabButton_PaddingY,   10L, 1L);
+		MV_CREATE_CONSTANT(mvThemeStyle_TabButton_Rounding		, ImGuiStyleVar_FrameRounding	, 0L);
+		MV_CREATE_CONSTANT(mvThemeStyle_TabButton_BorderSize	, ImGuiStyleVar_FrameBorderSize	, 0L);
+		MV_CREATE_CONSTANT(mvThemeStyle_TabButton_PaddingX		, ImGuiStyleVar_FramePadding	, 0L);
+		MV_CREATE_CONSTANT(mvThemeStyle_TabButton_PaddingY		, ImGuiStyleVar_FramePadding	, 1L);
 
 		MV_START_EXTRA_COMMANDS
 		MV_END_EXTRA_COMMANDS

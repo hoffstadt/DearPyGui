@@ -14,12 +14,13 @@ namespace Marvel {
 
 		MV_APPITEM_TYPE(mvAppItemType::mvTreeNode, add_tree_node)
 
-		MV_CREATE_CONSTANT(mvThemeCol_TreeNode_Text				,  0L, 0L);
-		MV_CREATE_CONSTANT(mvThemeCol_TreeNode_BgHovered			, 25L, 0L);
-		MV_CREATE_CONSTANT(mvThemeCol_TreeNode_BgActive			, 26L, 0L);
-		MV_CREATE_CONSTANT(mvThemeStyle_TreeNode_FramePaddingX	, 10L, 0L);
-		MV_CREATE_CONSTANT(mvThemeStyle_TreeNode_FramePaddingY	, 10L, 1L);
-		MV_CREATE_CONSTANT(mvThemeStyle_TreeNode_IndentSpacing	, 15L, 0L);
+		MV_CREATE_CONSTANT(mvThemeCol_TreeNode_Text				, ImGuiCol_Text			, 0L);
+		MV_CREATE_CONSTANT(mvThemeCol_TreeNode_BgHovered		, ImGuiCol_HeaderHovered, 0L);
+		MV_CREATE_CONSTANT(mvThemeCol_TreeNode_BgActive			, ImGuiCol_HeaderActive	, 0L);
+
+		MV_CREATE_CONSTANT(mvThemeStyle_TreeNode_FramePaddingX	, ImGuiStyleVar_FramePadding	, 0L);
+		MV_CREATE_CONSTANT(mvThemeStyle_TreeNode_FramePaddingY	, ImGuiStyleVar_FramePadding	, 1L);
+		MV_CREATE_CONSTANT(mvThemeStyle_TreeNode_IndentSpacing	, ImGuiStyleVar_IndentSpacing	, 0L);
 
 		MV_START_EXTRA_COMMANDS
 		MV_END_EXTRA_COMMANDS

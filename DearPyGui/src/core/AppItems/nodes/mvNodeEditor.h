@@ -22,23 +22,24 @@ namespace Marvel {
 		MV_CREATE_EXTRA_COMMAND(clear_selected_nodes);
 		MV_CREATE_EXTRA_COMMAND(clear_selected_links);
 
-		MV_CREATE_CONSTANT(mvThemeCol_NodeEditor_Link,						 7L, 0L);
-		MV_CREATE_CONSTANT(mvThemeCol_NodeEditor_LinkHovered,					 8L, 0L);
-		MV_CREATE_CONSTANT(mvThemeCol_NodeEditor_LinkSelected,				 9L, 0L);
-		MV_CREATE_CONSTANT(mvThemeCol_NodeEditor_BoxSelector,					12L, 0L);
-		MV_CREATE_CONSTANT(mvThemeCol_NodeEditor_BoxSelectorOutline,			13L, 0L);
-		MV_CREATE_CONSTANT(mvThemeCol_NodeEditor_GridBackground,				14L, 0L);
-		MV_CREATE_CONSTANT(mvThemeCol_NodeEditor_GridLine,					15L, 0L);
-		MV_CREATE_CONSTANT(mvThemeStyle_NodeEditor_GridSpacing,				 0L, 0L);
-		MV_CREATE_CONSTANT(mvThemeStyle_NodeEditor_LinkThickness,				 5L, 0L);
-		MV_CREATE_CONSTANT(mvThemeStyle_NodeEditor_LinkLineSegmentsPerLength,  6L, 0L);
-		MV_CREATE_CONSTANT(mvThemeStyle_NodeEditor_LinkHoverDistance,			 7L, 0L);
-		MV_CREATE_CONSTANT(mvThemeStyle_NodeEditor_PinCircleRadius,			 8L, 0L);
-		MV_CREATE_CONSTANT(mvThemeStyle_NodeEditor_PinQuadSideLength,			 9L, 0L);
-		MV_CREATE_CONSTANT(mvThemeStyle_NodeEditor_PinTriangleSideLength,		10L, 0L);
-		MV_CREATE_CONSTANT(mvThemeStyle_NodeEditor_PinLineThickness,			11L, 0L);
-		MV_CREATE_CONSTANT(mvThemeStyle_NodeEditor_PinHoverRadius,			12L, 0L);
-		MV_CREATE_CONSTANT(mvThemeStyle_NodeEditor_PinOffset,					13L, 0L);
+		MV_CREATE_CONSTANT(mvThemeCol_NodeEditor_Link				, imnodes::ColorStyle::ColorStyle_Link				, 0L);
+		MV_CREATE_CONSTANT(mvThemeCol_NodeEditor_LinkHovered		, imnodes::ColorStyle::ColorStyle_LinkHovered		, 0L);
+		MV_CREATE_CONSTANT(mvThemeCol_NodeEditor_LinkSelected		, imnodes::ColorStyle::ColorStyle_LinkSelected		, 0L);
+		MV_CREATE_CONSTANT(mvThemeCol_NodeEditor_BoxSelector		, imnodes::ColorStyle::ColorStyle_BoxSelector		, 0L);
+		MV_CREATE_CONSTANT(mvThemeCol_NodeEditor_BoxSelectorOutline	, imnodes::ColorStyle::ColorStyle_BoxSelectorOutline, 0L);
+		MV_CREATE_CONSTANT(mvThemeCol_NodeEditor_GridBackground		, imnodes::ColorStyle::ColorStyle_GridBackground	, 0L);
+		MV_CREATE_CONSTANT(mvThemeCol_NodeEditor_GridLine			, imnodes::ColorStyle::ColorStyle_GridLine			, 0L);
+
+		MV_CREATE_CONSTANT(mvThemeStyle_NodeEditor_GridSpacing				, imnodes::StyleVar::StyleVar_GridSpacing				, 0L);
+		MV_CREATE_CONSTANT(mvThemeStyle_NodeEditor_LinkThickness			, imnodes::StyleVar::StyleVar_LinkThickness				, 0L);
+		MV_CREATE_CONSTANT(mvThemeStyle_NodeEditor_LinkLineSegmentsPerLength, imnodes::StyleVar::StyleVar_LinkLineSegmentsPerLength	, 0L);
+		MV_CREATE_CONSTANT(mvThemeStyle_NodeEditor_LinkHoverDistance		, imnodes::StyleVar::StyleVar_LinkHoverDistance			, 0L);
+		MV_CREATE_CONSTANT(mvThemeStyle_NodeEditor_PinCircleRadius			, imnodes::StyleVar::StyleVar_PinCircleRadius			, 0L);
+		MV_CREATE_CONSTANT(mvThemeStyle_NodeEditor_PinQuadSideLength		, imnodes::StyleVar::StyleVar_PinQuadSideLength			, 0L);
+		MV_CREATE_CONSTANT(mvThemeStyle_NodeEditor_PinTriangleSideLength	, imnodes::StyleVar::StyleVar_PinTriangleSideLength		, 0L);
+		MV_CREATE_CONSTANT(mvThemeStyle_NodeEditor_PinLineThickness			, imnodes::StyleVar::StyleVar_PinLineThickness			, 0L);
+		MV_CREATE_CONSTANT(mvThemeStyle_NodeEditor_PinHoverRadius			, imnodes::StyleVar::StyleVar_PinHoverRadius			, 0L);
+		MV_CREATE_CONSTANT(mvThemeStyle_NodeEditor_PinOffset				, imnodes::StyleVar::StyleVar_PinOffset					, 0L);
 
 		MV_START_EXTRA_COMMANDS
 			MV_ADD_EXTRA_COMMAND(add_node_link);
@@ -65,15 +66,15 @@ namespace Marvel {
 
 		MV_START_STYLE_CONSTANTS
 			MV_ADD_CONSTANT(mvThemeStyle_NodeEditor_GridSpacing,				20, 20),
-			MV_ADD_CONSTANT(mvThemeStyle_NodeEditor_LinkThickness,				 3, 12),
-			MV_ADD_CONSTANT(mvThemeStyle_NodeEditor_LinkLineSegmentsPerLength,  1,  1),
-			MV_ADD_CONSTANT(mvThemeStyle_NodeEditor_LinkHoverDistance,			 3, 12),
-			MV_ADD_CONSTANT(mvThemeStyle_NodeEditor_PinCircleRadius,			 5, 12),
-			MV_ADD_CONSTANT(mvThemeStyle_NodeEditor_PinQuadSideLength,			 5, 12),
-			MV_ADD_CONSTANT(mvThemeStyle_NodeEditor_PinTriangleSideLength,		 5, 12),
-			MV_ADD_CONSTANT(mvThemeStyle_NodeEditor_PinLineThickness,			 3, 12),
-			MV_ADD_CONSTANT(mvThemeStyle_NodeEditor_PinHoverRadius,			 5, 12),
-			MV_ADD_CONSTANT(mvThemeStyle_NodeEditor_PinOffset,					 0, 12),
+			MV_ADD_CONSTANT(mvThemeStyle_NodeEditor_LinkThickness,				3, 12),
+			MV_ADD_CONSTANT(mvThemeStyle_NodeEditor_LinkLineSegmentsPerLength,	1,  1),
+			MV_ADD_CONSTANT(mvThemeStyle_NodeEditor_LinkHoverDistance,			3, 12),
+			MV_ADD_CONSTANT(mvThemeStyle_NodeEditor_PinCircleRadius,			5, 12),
+			MV_ADD_CONSTANT(mvThemeStyle_NodeEditor_PinQuadSideLength,			5, 12),
+			MV_ADD_CONSTANT(mvThemeStyle_NodeEditor_PinTriangleSideLength,		5, 12),
+			MV_ADD_CONSTANT(mvThemeStyle_NodeEditor_PinLineThickness,			3, 12),
+			MV_ADD_CONSTANT(mvThemeStyle_NodeEditor_PinHoverRadius,				5, 12),
+			MV_ADD_CONSTANT(mvThemeStyle_NodeEditor_PinOffset,					0, 12),
 		MV_END_STYLE_CONSTANTS
 
 	public:

@@ -14,32 +14,32 @@ namespace Marvel {
 
 		MV_APPITEM_TYPE(mvAppItemType::mvTimePicker, add_time_picker)
 
-		MV_CREATE_CONSTANT(mvThemeCol_TimePicker_Time					,  0L, 0L);
-		MV_CREATE_CONSTANT(mvThemeCol_TimePicker_TimeHovered			, 22L, 0L);
-		MV_CREATE_CONSTANT(mvThemeCol_TimePicker_DropSelected			, 24L, 0L);
-		MV_CREATE_CONSTANT(mvThemeCol_TimePicker_DropHovered			, 25L, 0L);
-		MV_CREATE_CONSTANT(mvThemeCol_TimePicker_DropActive			, 26L, 0L);
-		MV_CREATE_CONSTANT(mvThemeCol_TimePicker_DropBg				,  4L, 0L);
-		MV_CREATE_CONSTANT(mvThemeCol_TimePicker_Scrollbar			, 14L, 0L);
-		MV_CREATE_CONSTANT(mvThemeCol_TimePicker_ScrollbarGrab		, 15L, 0L);
-		MV_CREATE_CONSTANT(mvThemeCol_TimePicker_ScrollbarGrabHovered	, 16L, 0L);
-		MV_CREATE_CONSTANT(mvThemeCol_TimePicker_ScrollbarGrabActive	, 17L, 0L);
-		MV_CREATE_CONSTANT(mvThemeCol_TimePicker_Border				,  5L, 0L);
-		MV_CREATE_CONSTANT(mvThemeCol_TimePicker_BorderShadow			,  6L, 0L);
+		MV_CREATE_CONSTANT(mvThemeCol_TimePicker_Time					, ImGuiCol_Text					, 0L);
+		MV_CREATE_CONSTANT(mvThemeCol_TimePicker_TimeHovered			, ImGuiCol_ButtonHovered		, 0L);
+		MV_CREATE_CONSTANT(mvThemeCol_TimePicker_DropSelected			, ImGuiCol_Header				, 0L);
+		MV_CREATE_CONSTANT(mvThemeCol_TimePicker_DropHovered			, ImGuiCol_HeaderHovered		, 0L);
+		MV_CREATE_CONSTANT(mvThemeCol_TimePicker_DropActive				, ImGuiCol_HeaderActive			, 0L);
+		MV_CREATE_CONSTANT(mvThemeCol_TimePicker_DropBg					, ImGuiCol_PopupBg				, 0L);
+		MV_CREATE_CONSTANT(mvThemeCol_TimePicker_Scrollbar				, ImGuiCol_ScrollbarBg			, 0L);
+		MV_CREATE_CONSTANT(mvThemeCol_TimePicker_ScrollbarGrab			, ImGuiCol_ScrollbarGrab		, 0L);
+		MV_CREATE_CONSTANT(mvThemeCol_TimePicker_ScrollbarGrabHovered	, ImGuiCol_ScrollbarGrabHovered	, 0L);
+		MV_CREATE_CONSTANT(mvThemeCol_TimePicker_ScrollbarGrabActive	, ImGuiCol_ScrollbarGrabActive	, 0L);
+		MV_CREATE_CONSTANT(mvThemeCol_TimePicker_Border					, ImGuiCol_Border				, 0L);
+		MV_CREATE_CONSTANT(mvThemeCol_TimePicker_BorderShadow			, ImGuiCol_BorderShadow			, 0L);
 
-		MV_CREATE_CONSTANT(mvThemeStyle_TimePicker_BorderSize			, 12L, 0L);
-		MV_CREATE_CONSTANT(mvThemeStyle_TimePicker_Rounding			, 11L, 0L);
-		MV_CREATE_CONSTANT(mvThemeStyle_TimePicker_PaddingX			, 10L, 0L);
-		MV_CREATE_CONSTANT(mvThemeStyle_TimePicker_PaddingY			, 10L, 1L);
-		MV_CREATE_CONSTANT(mvThemeStyle_TimePicker_TextAlignX			, 22L, 0L);
-		MV_CREATE_CONSTANT(mvThemeStyle_TimePicker_TextAlignY			, 22L, 1L);
-		MV_CREATE_CONSTANT(mvThemeStyle_TimePicker_DropPaddingX		,  1L, 0L);
-		MV_CREATE_CONSTANT(mvThemeStyle_TimePicker_DropPaddingY		,  1L, 1L);
-		MV_CREATE_CONSTANT(mvThemeStyle_TimePicker_DropBorderSize		,  9L, 0L)
-		MV_CREATE_CONSTANT(mvThemeStyle_TimePicker_DropItemSpacingX	, 13L, 0L);
-		MV_CREATE_CONSTANT(mvThemeStyle_TimePicker_DropItemSpacingY	, 13L, 1L);
-		MV_CREATE_CONSTANT(mvThemeStyle_TimePicker_DropTextAlignX		, 23L, 0L);
-		MV_CREATE_CONSTANT(mvThemeStyle_TimePicker_DropTextAlignY		, 23L, 1L);
+		MV_CREATE_CONSTANT(mvThemeStyle_TimePicker_BorderSize		, ImGuiStyleVar_FrameBorderSize		, 0L);
+		MV_CREATE_CONSTANT(mvThemeStyle_TimePicker_Rounding			, ImGuiStyleVar_FrameRounding		, 0L);
+		MV_CREATE_CONSTANT(mvThemeStyle_TimePicker_PaddingX			, ImGuiStyleVar_FramePadding		, 0L);
+		MV_CREATE_CONSTANT(mvThemeStyle_TimePicker_PaddingY			, ImGuiStyleVar_FramePadding		, 1L);
+		MV_CREATE_CONSTANT(mvThemeStyle_TimePicker_TextAlignX		, ImGuiStyleVar_ButtonTextAlign		, 0L);
+		MV_CREATE_CONSTANT(mvThemeStyle_TimePicker_TextAlignY		, ImGuiStyleVar_ButtonTextAlign		, 1L);
+		MV_CREATE_CONSTANT(mvThemeStyle_TimePicker_DropPaddingX		, ImGuiStyleVar_WindowPadding		, 0L);
+		MV_CREATE_CONSTANT(mvThemeStyle_TimePicker_DropPaddingY		, ImGuiStyleVar_WindowPadding		, 1L);
+		MV_CREATE_CONSTANT(mvThemeStyle_TimePicker_DropBorderSize	, ImGuiStyleVar_PopupBorderSize		, 0L)
+		MV_CREATE_CONSTANT(mvThemeStyle_TimePicker_DropItemSpacingX	, ImGuiStyleVar_ItemSpacing			, 0L);
+		MV_CREATE_CONSTANT(mvThemeStyle_TimePicker_DropItemSpacingY	, ImGuiStyleVar_ItemSpacing			, 1L);
+		MV_CREATE_CONSTANT(mvThemeStyle_TimePicker_DropTextAlignX	, ImGuiStyleVar_SelectableTextAlign	, 0L);
+		MV_CREATE_CONSTANT(mvThemeStyle_TimePicker_DropTextAlignY	, ImGuiStyleVar_SelectableTextAlign	, 1L);
 
 		MV_START_EXTRA_COMMANDS
 		MV_END_EXTRA_COMMANDS

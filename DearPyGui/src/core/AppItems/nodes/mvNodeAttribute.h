@@ -15,15 +15,15 @@ namespace Marvel {
 
 		MV_APPITEM_TYPE(mvAppItemType::mvNodeAttribute, add_node_attribute)
 
-		MV_CREATE_CONSTANT(mvNode_PinShape_Circle,				0L, 0L);
-		MV_CREATE_CONSTANT(mvNode_PinShape_CircleFilled,			1L, 0L);
-		MV_CREATE_CONSTANT(mvNode_PinShape_Triangle,				2L, 0L);
-		MV_CREATE_CONSTANT(mvNode_PinShape_TriangleFilled,		3L, 0L);
-		MV_CREATE_CONSTANT(mvNode_PinShape_Quad,				    4L, 0L);
-		MV_CREATE_CONSTANT(mvNode_PinShape_QuadFilled,			5L, 0L);
+		MV_CREATE_CONSTANT(mvThemeCol_NodeAttr_Pin			, imnodes::ColorStyle::ColorStyle_Pin, 0L);
+		MV_CREATE_CONSTANT(mvThemeCol_NodeAttr_PinHovered	, imnodes::ColorStyle::ColorStyle_PinHovered, 0L);
 
-		MV_CREATE_CONSTANT(mvThemeCol_NodeAttr_Pin,				10L, 0L);
-		MV_CREATE_CONSTANT(mvThemeCol_NodeAttr_PinHovered,		11L, 0L);
+		MV_CREATE_CONSTANT(mvNode_PinShape_Circle			, imnodes::PinShape::PinShape_Circle		, 0L);
+		MV_CREATE_CONSTANT(mvNode_PinShape_CircleFilled		, imnodes::PinShape::PinShape_CircleFilled	, 0L);
+		MV_CREATE_CONSTANT(mvNode_PinShape_Triangle			, imnodes::PinShape::PinShape_Triangle		, 0L);
+		MV_CREATE_CONSTANT(mvNode_PinShape_TriangleFilled	, imnodes::PinShape::PinShape_TriangleFilled, 0L);
+		MV_CREATE_CONSTANT(mvNode_PinShape_Quad				, imnodes::PinShape::PinShape_Quad			, 0L);
+		MV_CREATE_CONSTANT(mvNode_PinShape_QuadFilled		, imnodes::PinShape::PinShape_QuadFilled	, 0L);
 
 		MV_START_EXTRA_COMMANDS
 		MV_END_EXTRA_COMMANDS

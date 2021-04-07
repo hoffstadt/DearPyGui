@@ -16,17 +16,18 @@ namespace Marvel {
 
 		MV_APPITEM_TYPE(mvAppItemType::mvNode, add_node)
 
-		MV_CREATE_CONSTANT(mvThemeCol_Node_Background,				 0L, 0L);
-		MV_CREATE_CONSTANT(mvThemeCol_Node_BackgroundHovered,			 1L, 0L);
-		MV_CREATE_CONSTANT(mvThemeCol_Node_BackgroundSelected,		 2L, 0L);
-		MV_CREATE_CONSTANT(mvThemeCol_Node_Outline,					 3L, 0L);
-		MV_CREATE_CONSTANT(mvThemeCol_Node_TitleBar,					 4L, 0L);
-		MV_CREATE_CONSTANT(mvThemeCol_Node_TitleBarHovered,			 5L, 0L);
-		MV_CREATE_CONSTANT(mvThemeCol_Node_TitleBarSelected,			 6L, 0L);
-		MV_CREATE_CONSTANT(mvThemeStyle_Node_CornerRounding,			 1L, 0L);
-		MV_CREATE_CONSTANT(mvThemeStyle_Node_PaddingHorizontal,		 2L, 0L);
-		MV_CREATE_CONSTANT(mvThemeStyle_Node_PaddingVertical,			 3L, 0L);
-		MV_CREATE_CONSTANT(mvThemeStyle_Node_BorderThickness,			 4L, 0L);
+		MV_CREATE_CONSTANT(mvThemeCol_Node_Background			, imnodes::ColorStyle::ColorStyle_NodeBackground		, 0L);
+		MV_CREATE_CONSTANT(mvThemeCol_Node_BackgroundHovered	, imnodes::ColorStyle::ColorStyle_NodeBackgroundHovered	, 0L);
+		MV_CREATE_CONSTANT(mvThemeCol_Node_BackgroundSelected	, imnodes::ColorStyle::ColorStyle_NodeBackgroundSelected, 0L);
+		MV_CREATE_CONSTANT(mvThemeCol_Node_Outline				, imnodes::ColorStyle::ColorStyle_NodeOutline			, 0L);
+		MV_CREATE_CONSTANT(mvThemeCol_Node_TitleBar				, imnodes::ColorStyle::ColorStyle_TitleBar				, 0L);
+		MV_CREATE_CONSTANT(mvThemeCol_Node_TitleBarHovered		, imnodes::ColorStyle::ColorStyle_TitleBarHovered		, 0L);
+		MV_CREATE_CONSTANT(mvThemeCol_Node_TitleBarSelected		, imnodes::ColorStyle::ColorStyle_TitleBarSelected		, 0L);
+
+		MV_CREATE_CONSTANT(mvThemeStyle_Node_CornerRounding		, imnodes::StyleVar::StyleVar_NodeCornerRounding	, 0L);
+		MV_CREATE_CONSTANT(mvThemeStyle_Node_PaddingHorizontal	, imnodes::StyleVar::StyleVar_NodePaddingHorizontal	, 0L);
+		MV_CREATE_CONSTANT(mvThemeStyle_Node_PaddingVertical	, imnodes::StyleVar::StyleVar_NodePaddingVertical	, 0L);
+		MV_CREATE_CONSTANT(mvThemeStyle_Node_BorderThickness	, imnodes::StyleVar::StyleVar_NodeBorderThickness	, 0L);
 
 		MV_START_EXTRA_COMMANDS
 		MV_END_EXTRA_COMMANDS
