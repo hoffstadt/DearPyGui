@@ -14,7 +14,7 @@ namespace Marvel {
 
 		static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
 
-		MV_APPITEM_TYPE(mvAppItemType::mvDataGrid, add_data_grid)
+		MV_APPLY_WIDGET_REGISTRATION(mvAppItemType::mvDataGrid, add_data_grid)
 
 		MV_CREATE_EXTRA_COMMAND(set_grid_headers);
 		MV_CREATE_EXTRA_COMMAND(set_grid_data);

@@ -12,7 +12,7 @@ namespace Marvel {
 
 		static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
 
-		MV_APPITEM_TYPE(mvAppItemType::mvSpacing, add_spacing)
+		MV_APPLY_WIDGET_REGISTRATION(mvAppItemType::mvSpacing, add_spacing)
 
 		MV_START_EXTRA_COMMANDS
 		MV_END_EXTRA_COMMANDS

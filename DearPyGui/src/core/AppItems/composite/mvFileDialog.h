@@ -12,7 +12,7 @@ namespace Marvel {
 
 		static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
 
-		MV_APPITEM_TYPE(mvAppItemType::mvFileDialog, open_file_dialog)
+		MV_APPLY_WIDGET_REGISTRATION(mvAppItemType::mvFileDialog, open_file_dialog)
 
 		MV_CREATE_EXTRA_COMMAND(select_directory_dialog);
 

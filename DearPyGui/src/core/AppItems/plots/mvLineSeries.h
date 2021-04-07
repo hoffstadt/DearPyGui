@@ -11,7 +11,7 @@ namespace Marvel {
 
 		static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
 
-		MV_APPITEM_TYPE(mvAppItemType::mvLineSeries, add_line_series)
+		MV_APPLY_WIDGET_REGISTRATION(mvAppItemType::mvLineSeries, add_line_series)
 
 		MV_CREATE_CONSTANT(mvThemeCol_Plot_Line, ImPlotCol_Line, 0L);
 

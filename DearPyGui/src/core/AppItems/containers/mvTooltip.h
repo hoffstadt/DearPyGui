@@ -11,7 +11,7 @@ namespace Marvel {
 
 		static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
 
-		MV_APPITEM_TYPE(mvAppItemType::mvTooltip, add_tooltip)
+		MV_APPLY_WIDGET_REGISTRATION(mvAppItemType::mvTooltip, add_tooltip)
 
 		MV_CREATE_CONSTANT(mvThemeCol_Tooltip_Bg				, ImGuiCol_PopupBg	, 0L);
 		MV_CREATE_CONSTANT(mvThemeCol_Tooltip_Border			, ImGuiCol_Border	, 0L);

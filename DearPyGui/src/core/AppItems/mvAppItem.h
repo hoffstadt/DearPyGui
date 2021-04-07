@@ -13,8 +13,10 @@
 #include <map>
 #include <imgui.h>
 #include "mvAppItemState.h"
-#include "mvAppItemDescription.h"
 #include "mvCallbackRegistry.h"
+
+// forward declarations
+struct ImPlotTime;
 
 //-----------------------------------------------------------------------------
 // Helper Macros
@@ -57,6 +59,38 @@ namespace Marvel {
         mvCandleSeries, mvAreaSeries, mvColorMapScale,
         ItemTypeCount
     };
+
+        enum class StorageValueTypes
+    {
+        None = 0,
+        Int, Int4,
+        Float, Float4, FloatVect, 
+        Series,
+        Bool,
+        String,
+        Time, Color
+    };
+
+    enum ItemDescriptionFlags
+    {
+        MV_ITEM_DESC_DEFAULT     = 0,
+        MV_ITEM_DESC_ROOT        = 1 << 1,
+        MV_ITEM_DESC_CONTAINER   = 1 << 2,
+        MV_ITEM_DESC_AFTER       = 1 << 3,
+    };
+
+    using mvValueVariant = std::variant<
+        std::shared_ptr<int>,
+        std::shared_ptr<std::array<int, 4>>,
+        std::shared_ptr<float >,
+        std::shared_ptr<std::array<float, 4>>,
+        std::shared_ptr<std::vector<float>>,
+        std::shared_ptr<std::vector<std::vector<float>>>,
+        std::shared_ptr<bool>,
+        std::shared_ptr<std::string>,
+        std::shared_ptr<tm>,
+        std::shared_ptr<ImPlotTime>,
+        void*>;
 
     template<int item_type> 
     struct mvItemTypeMap {};
@@ -172,29 +206,41 @@ namespace Marvel {
     public:
 
         mvAppItem(const std::string& name);
-
-        virtual ~mvAppItem();
-
         mvAppItem(const mvAppItem& other) = delete; // copy constructor
         mvAppItem(mvAppItem&& other)      = delete; // move constructor
 
-        // pure virtual methods
+        virtual ~mvAppItem();
+
+        //-----------------------------------------------------------------------------
+        // These methods are overridden through the use of:
+        //   - MV_REGISTER_WIDGET
+        //   - MV_APPLY_WIDGET_REGISTRATION
+        //-----------------------------------------------------------------------------
         [[nodiscard]] virtual mvAppItemType     getType      () const = 0;
         [[nodiscard]] virtual int               getDescFlags () const = 0;
-        [[nodiscard]] virtual int               getTarget    () const = 0;
+        [[nodiscard]] virtual int               getTarget    () const = 0; // which child slot
         [[nodiscard]] virtual StorageValueTypes getValueType () const = 0;
-        virtual void                        draw         (ImDrawList* drawlist, float x, float y)       = 0; // actual imgui draw commands
 
-        // virtual methods
+        // actual immediate mode drawing instructions
+        virtual void draw(ImDrawList* drawlist, float x, float y) = 0;
+
+        //-----------------------------------------------------------------------------
+        // These methods handle setting the widget's value using PyObject*'s or
+        // returning the actual value. These are mostly overridden by the
+        // mvTypeBase classes
+        //-----------------------------------------------------------------------------
         virtual mvValueVariant getValue() { return nullptr; }
         virtual PyObject*      getPyValue() { return GetPyNone(); }
         virtual void           setPyValue(PyObject* value) { }
 
-        // registy helpers
+        //-----------------------------------------------------------------------------
+        // These methods handle are used by the item registry:
+        //   - isParentCompatible -> will the parent accept the current item
+        //   - canChildBeAdded -> will the current item accept the incoming child
+        //-----------------------------------------------------------------------------
         virtual bool           isParentCompatible(mvAppItemType type) { return true; }
         virtual bool           canChildBeAdded   (mvAppItemType type) { return true; }
 
-        // configuration get/set
         void                                checkConfigDict(PyObject* dict);
         void                                setConfigDict(PyObject* dict);  // python dictionary acts as an out parameter 
         void                                getConfigDict(PyObject* dict);

@@ -11,7 +11,7 @@ namespace Marvel {
 
 		static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
 
-		MV_APPITEM_TYPE(mvAppItemType::mvCollapsingHeader, add_collapsing_header)
+		MV_APPLY_WIDGET_REGISTRATION(mvAppItemType::mvCollapsingHeader, add_collapsing_header)
 
 		MV_CREATE_CONSTANT(mvThemeCol_CollapsingHeader_Text		    , ImGuiCol_Text			, 0L);
 		MV_CREATE_CONSTANT(mvThemeCol_CollapsingHeader_Bg			, ImGuiCol_Header		, 0L);

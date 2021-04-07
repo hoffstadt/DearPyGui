@@ -12,7 +12,7 @@ namespace Marvel {
 
 		static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
 
-		MV_APPITEM_TYPE(mvAppItemType::mvTimePicker, add_time_picker)
+		MV_APPLY_WIDGET_REGISTRATION(mvAppItemType::mvTimePicker, add_time_picker)
 
 		MV_CREATE_CONSTANT(mvThemeCol_TimePicker_Time					, ImGuiCol_Text					, 0L);
 		MV_CREATE_CONSTANT(mvThemeCol_TimePicker_TimeHovered			, ImGuiCol_ButtonHovered		, 0L);

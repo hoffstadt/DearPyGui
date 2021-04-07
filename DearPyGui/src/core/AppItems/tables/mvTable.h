@@ -13,7 +13,7 @@ namespace Marvel {
 
 		static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
 
-		MV_APPITEM_TYPE(mvAppItemType::mvTable, add_table)
+		MV_APPLY_WIDGET_REGISTRATION(mvAppItemType::mvTable, add_table)
 
 		MV_CREATE_CONSTANT(mvTable_SizingFixedFit,	8192L, 0L);
 		MV_CREATE_CONSTANT(mvTable_SizingFixedSame,	16384L, 0L);
