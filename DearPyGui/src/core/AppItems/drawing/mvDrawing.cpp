@@ -82,42 +82,4 @@ namespace Marvel {
 		}
 	}
 
-	PyObject* mvDrawing::add_drawing(PyObject* self, PyObject* args, PyObject* kwargs)
-	{
-		static int i = 0; i++;
-		std::string sname = std::string(std::string("$$DPG_") + s_internal_id + std::to_string(i));
-		const char* name = sname.c_str();
-		const char* parent = "";
-		const char* before = "";
-		int width = 0;
-		int height = 0;
-		int show = true;
-		float originx = 0.0f;
-		float originy = 0.0f;
-		float scalex = 1.0f;
-		float scaley = 1.0f;
-
-		if (!(mvApp::GetApp()->getParsers())["add_drawing"].parse(args, kwargs, __FUNCTION__,
-			&name, &parent, &before, &width, &height, &show, &originx, &originy, &scalex, &scaley))
-			return ToPyBool(false);
-
-		auto item = CreateRef<mvDrawing>(name);
-
-		item->checkConfigDict(kwargs);
-		item->setConfigDict(kwargs);
-		item->setExtraConfigDict(kwargs);
-
-		if (!item)
-			return ToPyBool(false);
-
-		if (mvApp::GetApp()->getItemRegistry().addItemWithRuntimeChecks(item, parent, before))
-		{
-			mvApp::GetApp()->getItemRegistry().pushParent(item);
-			if (!show)
-				item->hide();
-		}
-
-		return ToPyString(name);
-	}
-
 }

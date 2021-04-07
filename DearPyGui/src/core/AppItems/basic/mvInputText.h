@@ -13,7 +13,7 @@ namespace Marvel {
 
 		static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
 
-		MV_APPLY_WIDGET_REGISTRATION(mvAppItemType::mvInputText, add_input_text)
+		MV_APPLY_WIDGET_REGISTRATION2(mvAppItemType::mvInputText, add_input_text)
 
 		MV_CREATE_CONSTANT(mvThemeCol_InputText_Text,			ImGuiCol_Text,				0L);
 		MV_CREATE_CONSTANT(mvThemeCol_InputText_TextHighlight,	ImGuiCol_TextSelectedBg,	0L);
@@ -55,7 +55,7 @@ namespace Marvel {
 
 	public:
 
-		mvInputText(const std::string& name, const std::string& default_value, const std::string& dataSource);
+		mvInputText(const std::string& name);
 
 		void setEnabled        (bool value)     override;
 		void draw(ImDrawList* drawlist, float x, float y) override;

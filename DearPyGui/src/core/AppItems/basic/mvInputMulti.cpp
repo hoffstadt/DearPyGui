@@ -63,8 +63,8 @@ namespace Marvel {
         }, "Adds input for 4 float values.", "None", "Adding Widgets") });
     }
 
-    mvInputIntMulti::mvInputIntMulti(const std::string& name, int* default_value, const std::string& dataSource)
-        : mvInt4PtrBase(name, default_value)
+    mvInputIntMulti::mvInputIntMulti(const std::string& name)
+        : mvInt4PtrBase(name)
     {
         m_last_value = *m_value;
     }
@@ -149,8 +149,8 @@ namespace Marvel {
         }
     }
 
-    mvInputFloatMulti::mvInputFloatMulti(const std::string& name, float* default_value, const std::string& dataSource)
-        : mvFloat4PtrBase(name, default_value)
+    mvInputFloatMulti::mvInputFloatMulti(const std::string& name)
+        : mvFloat4PtrBase(name)
     {
         m_last_value = *m_value;
     }
@@ -312,109 +312,6 @@ namespace Marvel {
         // window flags
         checkbitset("on_enter", ImGuiInputTextFlags_EnterReturnsTrue, m_flags);
         checkbitset("readonly", ImGuiInputTextFlags_ReadOnly, m_flags);
-    }
-
-    PyObject* mvInputIntMulti::add_input_intx(PyObject* self, PyObject* args, PyObject* kwargs)
-    {
-        static int i = 0; i++;
-        std::string sname = std::string(std::string("$$DPG_") + s_internal_id + std::to_string(i));
-        const char* name = sname.c_str();
-        PyObject* default_value = PyTuple_New(4);
-        PyTuple_SetItem(default_value, 0, PyLong_FromLong(0));
-        PyTuple_SetItem(default_value, 1, PyLong_FromLong(0));
-        PyTuple_SetItem(default_value, 2, PyLong_FromLong(0));
-        PyTuple_SetItem(default_value, 3, PyLong_FromLong(0));
-        int size = 4;
-        int min_value = 0;
-        int max_value = 100;
-        int min_clamped = false;
-        int max_clamped = false;
-        PyObject* callback = nullptr;
-        PyObject* callback_data = nullptr;
-        int width = 0;
-        const char* before = "";
-        const char* parent = "";
-        const char* source = "";
-        int enabled = true;
-        int on_enter = false;
-        const char* label = "";
-        int show = false;
-        int readonly = false;
-
-        if (!(mvApp::GetApp()->getParsers())[s_command].parse(args, kwargs, __FUNCTION__, &name,
-            &default_value, &size, &min_value, &max_value, &min_clamped, &max_clamped, &callback, &callback_data, &parent, &before, &source, &enabled, &width, &on_enter,
-            &label, &show, &readonly))
-            return ToPyBool(false);
-
-        auto vec = ToIntVect(default_value);
-        auto item = CreateRef<mvInputIntMulti>(name, vec.data(), source);
-        if (callback)
-            Py_XINCREF(callback);
-        item->setCallback(callback);
-        if (callback_data)
-            Py_XINCREF(callback_data);
-        item->setCallbackData(callback_data);
-
-        item->checkConfigDict(kwargs);
-        item->setConfigDict(kwargs);
-        item->setExtraConfigDict(kwargs);
-
-        mvApp::GetApp()->getItemRegistry().addItemWithRuntimeChecks(item, parent, before);
-
-        return ToPyString(name);
-    }
-
-    PyObject* mvInputFloatMulti::add_input_floatx(PyObject* self, PyObject* args, PyObject* kwargs)
-    {
-        static int i = 0; i++;
-        std::string sname = std::string(std::string("$$DPG_") + s_internal_id + std::to_string(i));
-        const char* name = sname.c_str();
-        PyObject* default_value = PyTuple_New(4);
-        PyTuple_SetItem(default_value, 0, PyLong_FromLong(0));
-        PyTuple_SetItem(default_value, 1, PyLong_FromLong(0));
-        PyTuple_SetItem(default_value, 2, PyLong_FromLong(0));
-        PyTuple_SetItem(default_value, 3, PyLong_FromLong(0));
-        int size = 4;
-        float min_value = 0.0f;
-        float max_value = 100.0f;
-        int min_clamped = false;
-        int max_clamped = false;
-        const char* format = "%.3f";
-        PyObject* callback = nullptr;
-        PyObject* callback_data = nullptr;
-        int width = 0;
-        const char* before = "";
-        const char* parent = "";
-        const char* source = "";
-        int enabled = true;
-        int on_enter = false;
-        const char* label = "";
-        int show = false;
-        int readonly = false;
-
-        if (!(mvApp::GetApp()->getParsers())[s_command].parse(args, kwargs, __FUNCTION__, &name,
-            &default_value, &size, &min_value, &max_value, &min_clamped, &max_clamped, &format, &callback, &callback_data,
-            &parent, &before, &source, &enabled, &width, &on_enter,
-            &label, &show, &readonly))
-            return ToPyBool(false);
-
-        auto vec = ToFloatVect(default_value);
-
-        auto item = CreateRef<mvInputFloatMulti>(name, vec.data(), source);
-        if (callback)
-            Py_XINCREF(callback);
-        item->setCallback(callback);
-        if (callback_data)
-            Py_XINCREF(callback_data);
-        item->setCallbackData(callback_data);
-
-        item->checkConfigDict(kwargs);
-        item->setConfigDict(kwargs);
-        item->setExtraConfigDict(kwargs);
-
-        mvApp::GetApp()->getItemRegistry().addItemWithRuntimeChecks(item, parent, before);
-
-        return ToPyString(name);
     }
 
 }

@@ -39,9 +39,9 @@ namespace Marvel {
 		}, "Adds text with a label. Useful for output values.", "None", "Adding Widgets") });
 	}
 
-	mvText::mvText(const std::string& name, const std::string& default_value, const std::string& dataSource)
+	mvText::mvText(const std::string& name)
 		: 
-		mvStringPtrBase(name, default_value.empty() ? name : default_value)
+		mvStringPtrBase(name)
 	{
 	}
 
@@ -71,9 +71,9 @@ namespace Marvel {
 
 	}
 
-	mvLabelText::mvLabelText(const std::string& name, const std::string& value, const std::string& dataSource)
+	mvLabelText::mvLabelText(const std::string& name)
 		: 
-		mvStringPtrBase(name, value)
+		mvStringPtrBase(name)
 	{
 	}
 
@@ -137,74 +137,6 @@ namespace Marvel {
 			return;
 		 
 		PyDict_SetItemString(dict, "color", ToPyColor(m_color));
-	}
-
-	PyObject* mvText::add_text(PyObject* self, PyObject* args, PyObject* kwargs)
-	{
-		static int i = 0; i++;
-		std::string sname = std::string(std::string("$$DPG_") + s_internal_id + std::to_string(i));
-		const char* name = sname.c_str();
-		int wrap = -1;
-		int bullet = false;
-		PyObject* color = PyTuple_New(4);
-		PyTuple_SetItem(color, 0, PyLong_FromLong(-255));
-		PyTuple_SetItem(color, 1, PyLong_FromLong(0));
-		PyTuple_SetItem(color, 2, PyLong_FromLong(0));
-		PyTuple_SetItem(color, 3, PyLong_FromLong(255));
-		const char* before = "";
-		const char* parent = "";
-		int show = true;
-		const char* source = "";
-		const char* default_value = "";
-
-
-		if (!(mvApp::GetApp()->getParsers())["add_text"].parse(args, kwargs, __FUNCTION__, &name, &wrap,
-			&color, &bullet, &parent, &before, &source, &default_value, &show))
-			return ToPyBool(false);
-
-		auto item = CreateRef<mvText>(name, default_value, source);
-
-		item->checkConfigDict(kwargs);
-		item->setConfigDict(kwargs);
-		item->setExtraConfigDict(kwargs);
-
-		mvApp::GetApp()->getItemRegistry().addItemWithRuntimeChecks(item, parent, before);
-
-		return ToPyString(name);
-	}
-
-	PyObject* mvLabelText::add_label_text(PyObject* self, PyObject* args, PyObject* kwargs)
-	{
-		static int i = 0; i++;
-		std::string sname = std::string(std::string("$$DPG_") + s_internal_id + std::to_string(i));
-		const char* name = sname.c_str();
-		const char* value = "";
-		PyObject* color = PyTuple_New(4);
-		PyTuple_SetItem(color, 0, PyLong_FromLong(-255));
-		PyTuple_SetItem(color, 1, PyLong_FromLong(0));
-		PyTuple_SetItem(color, 2, PyLong_FromLong(0));
-		PyTuple_SetItem(color, 3, PyLong_FromLong(255));
-		const char* before = "";
-		const char* parent = "";
-		const char* source = "";
-		const char* label = "";
-		int show = true;
-
-
-		if (!(mvApp::GetApp()->getParsers())["add_label_text"].parse(args, kwargs, __FUNCTION__, &name, &value,
-			&color, &parent, &before, &source, &label, &show))
-			return ToPyBool(false);
-
-
-		auto item = CreateRef<mvLabelText>(std::string(name), value, source);
-
-		item->checkConfigDict(kwargs);
-		item->setConfigDict(kwargs);
-		item->setExtraConfigDict(kwargs);
-
-		mvApp::GetApp()->getItemRegistry().addItemWithRuntimeChecks(item, parent, before);
-
-		return ToPyString(name);
 	}
 
 }

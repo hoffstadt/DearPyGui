@@ -87,44 +87,4 @@ namespace Marvel {
 		PyDict_SetItemString(dict, "direction", ToPyInt(MV_ENCODE_CONSTANT(m_direction, 0)));
 	}
 
-
-	PyObject* mvButton::add_button(PyObject* self, PyObject* args, PyObject* kwargs)
-	{
-		static int i = 0; i++;
-		std::string sname = std::string(std::string("$$DPG_") + s_internal_id + std::to_string(i));
-		const char* name = sname.c_str();
-		int smallb = false;
-		int arrow = false;
-		int direction = 4000;
-		PyObject* callback = nullptr;
-		PyObject* callback_data = nullptr;
-		int width = 0;
-		int height = 0;
-		const char* before = "";
-		const char* parent = "";
-		const char* label = "";
-		int show = true;
-		int enabled = true;
-
-		if (!(mvApp::GetApp()->getParsers())[s_command].parse(args, kwargs, __FUNCTION__, &name, &smallb,
-			&arrow, &direction, &callback, &callback_data, &parent, &before, &width, &height,
-			&label, &show, &enabled))
-			return GetPyNone();
-
-		auto item = CreateRef<mvButton>(name);
-		if (callback)
-			Py_XINCREF(callback);
-		item->setCallback(callback);
-		if (callback_data)
-			Py_XINCREF(callback_data);
-		item->setCallbackData(callback_data);
-
-		item->checkConfigDict(kwargs);
-		item->setConfigDict(kwargs);
-		item->setExtraConfigDict(kwargs);
-
-		mvApp::GetApp()->getItemRegistry().addItemWithRuntimeChecks(item, parent, before);
-
-		return ToPyString(name);
-	}
 }

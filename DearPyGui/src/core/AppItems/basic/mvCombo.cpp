@@ -34,9 +34,9 @@ namespace Marvel {
 		}, "Adds a combo.", "None", "Adding Widgets") });
 	}
 
-	mvCombo::mvCombo(const std::string& name, const std::string& default_value, const std::string& dataSource)
+	mvCombo::mvCombo(const std::string& name)
 		: 
-		mvStringPtrBase(name, default_value)
+		mvStringPtrBase(name)
 	{
 	}
 
@@ -141,54 +141,6 @@ namespace Marvel {
 		checkbitset("height_largest", ImGuiComboFlags_HeightLargest, m_flags);
 		checkbitset("no_arrow_button", ImGuiComboFlags_NoArrowButton, m_flags);
 		checkbitset("no_preview", ImGuiComboFlags_NoPreview, m_flags);
-	}
-
-	PyObject* mvCombo::add_combo(PyObject* self, PyObject* args, PyObject* kwargs)
-	{
-		static int i = 0; i++;
-		std::string sname = std::string(std::string("$$DPG_") + s_internal_id + std::to_string(i));
-		const char* name = sname.c_str();
-		const char* default_value = "";
-		PyObject* items;
-		PyObject* callback = nullptr;
-		PyObject* callback_data = nullptr;
-		int width = 0;
-		const char* before = "";
-		const char* parent = "";
-		const char* source = "";
-		int enabled = true;
-		const char* label = "";
-		int show = true;
-		int popup_align_left = false;
-		int height_small = false;
-		int height_regular = false;
-		int height_large = false;
-		int height_largest = false;
-		int no_arrow_button = false;
-		int no_preview = false;
-
-
-		if (!(mvApp::GetApp()->getParsers())["add_combo"].parse(args, kwargs, __FUNCTION__, &name, &items,
-			&default_value, &callback, &callback_data, &parent, &before, &source, &enabled, &width,
-			&label, &show, &popup_align_left, &height_small, &height_regular, &height_large,
-			&height_largest, &no_arrow_button, &no_preview))
-			return ToPyBool(false);
-
-		auto item = CreateRef<mvCombo>(name, default_value, source);
-		if (callback)
-			Py_XINCREF(callback);
-		item->setCallback(callback);
-		if (callback_data)
-			Py_XINCREF(callback_data);
-		item->setCallbackData(callback_data);
-
-		item->checkConfigDict(kwargs);
-		item->setConfigDict(kwargs);
-		item->setExtraConfigDict(kwargs);
-
-		mvApp::GetApp()->getItemRegistry().addItemWithRuntimeChecks(item, parent, before);
-
-		return ToPyString(name);
 	}
 
 }

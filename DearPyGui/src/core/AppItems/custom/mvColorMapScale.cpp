@@ -30,8 +30,8 @@ namespace Marvel {
         }, "Adds drag for a single int value. CTRL+Click to directly modify the value.", "None", "Adding Widgets") });
     }
 
-    mvColorMapScale::mvColorMapScale(const std::string& name, int default_value, const std::string& dataSource)
-        : mvIntPtrBase(name, default_value)
+    mvColorMapScale::mvColorMapScale(const std::string& name)
+        : mvIntPtrBase(name)
     {
     }
 
@@ -58,38 +58,6 @@ namespace Marvel {
         if (dict == nullptr)
             return;
 
-    }
-
-    PyObject* mvColorMapScale::add_colormap_scale(PyObject* self, PyObject* args, PyObject* kwargs)
-    {
-        static int i = 0; i++;
-        std::string sname = std::string(std::string("$$DPG_") + s_internal_id + std::to_string(i));
-        const char* name = sname.c_str();
-        int default_value = 0;
-        float min_scale = 0.0f;
-        float max_scale = 1.0f;
-        const char* parent = "";
-        const char* before = "";
-        const char* source = "";
-        int width = 0;
-        int height = 0;
-        const char* label = "";
-        int show = true;
-
-        if (!(mvApp::GetApp()->getParsers())[s_command].parse(args, kwargs, __FUNCTION__,
-            &name, &default_value, &min_scale, &max_scale, &parent, &before, &source,
-            &width, &height, &label, &show))
-            return ToPyBool(false);
-
-        auto item = CreateRef<mvColorMapScale>(name, default_value, source);
-
-        item->checkConfigDict(kwargs);
-        item->setConfigDict(kwargs);
-        item->setExtraConfigDict(kwargs);
-
-        mvApp::GetApp()->getItemRegistry().addItemWithRuntimeChecks(item, parent, before);
-
-        return ToPyString(name);
     }
 
 }

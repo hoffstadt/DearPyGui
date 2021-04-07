@@ -60,8 +60,8 @@ namespace Marvel {
         }, "Adds drag for a single int value. CTRL+Click to directly modify the value.", "None", "Adding Widgets") });
     }
 
-    mvDragFloat::mvDragFloat(const std::string& name, float default_value, const std::string& dataSource)
-        : mvFloatPtrBase(name, default_value)
+    mvDragFloat::mvDragFloat(const std::string& name)
+        : mvFloatPtrBase(name)
     {
     }
 
@@ -96,8 +96,8 @@ namespace Marvel {
 
     }
 
-    mvDragInt::mvDragInt(const std::string& name, int default_value, const std::string& dataSource)
-        : mvIntPtrBase(name, default_value)
+    mvDragInt::mvDragInt(const std::string& name)
+        : mvIntPtrBase(name)
     {
     }
 
@@ -219,95 +219,6 @@ namespace Marvel {
         checkbitset("clamped", ImGuiSliderFlags_ClampOnInput, m_flags);
         checkbitset("no_input", ImGuiSliderFlags_NoInput, m_flags);
 
-    }
-
-    PyObject* mvDragFloat::add_drag_float(PyObject* self, PyObject* args, PyObject* kwargs)
-    {
-        static int i = 0; i++;
-        std::string sname = std::string(std::string("$$DPG_") + s_internal_id + std::to_string(i));
-        const char* name = sname.c_str();
-        float default_value = 0.0f;
-        float speed = 1.0f;
-        float min_value = 0.0f;
-        float max_value = 100.0f;
-        const char* format = "%.3f";
-        PyObject* callback = nullptr;
-        PyObject* callback_data = nullptr;
-        int width = 0;
-        const char* before = "";
-        const char* parent = "";
-        const char* source = "";
-        int enable = true;
-        int no_input = false;
-        int clamped = false;
-        const char* label = "";
-        int show = true;
-
-        if (!(mvApp::GetApp()->getParsers())["add_drag_float"].parse(args, kwargs, __FUNCTION__, &name, &default_value, &speed,
-            &min_value, &max_value, &format, &callback, &callback_data, &parent, &before, &source, &enable, &width, &no_input, &clamped,
-            &label, &show))
-            return ToPyBool(false);
-
-        auto item = CreateRef<mvDragFloat>(name, default_value, source);
-        if (callback)
-            Py_XINCREF(callback);
-        item->setCallback(callback);
-        if (callback_data)
-            Py_XINCREF(callback_data);
-        item->setCallbackData(callback_data);
-
-        item->checkConfigDict(kwargs);
-        item->setConfigDict(kwargs);
-        item->setExtraConfigDict(kwargs);
-
-        mvApp::GetApp()->getItemRegistry().addItemWithRuntimeChecks(item, parent, before);
-
-        return ToPyString(name);
-    }
-
-    PyObject* mvDragInt::add_drag_int(PyObject* self, PyObject* args, PyObject* kwargs)
-    {
-        static int i = 0; i++;
-        std::string sname = std::string(std::string("$$DPG_") + s_internal_id + std::to_string(i));
-        const char* name = sname.c_str();
-        int default_value = 0;
-        float speed = 1.0f;
-        int min_value = 0;
-        int max_value = 100;
-        const char* format = "%d";
-        PyObject* callback = nullptr;
-        PyObject* callback_data = nullptr;
-        const char* parent = "";
-        const char* before = "";
-        const char* source = "";
-        int enable = true;
-        int width = 0;
-        int no_input = false;
-        int clamped = false;
-        const char* label = "";
-        const char* popup = "";
-        int show = true;
-
-        if (!(mvApp::GetApp()->getParsers())["add_drag_int"].parse(args, kwargs, __FUNCTION__, &name, &default_value, &speed,
-            &min_value, &max_value, &format, &callback, &callback_data, &parent, &before, &source, &enable, &width, &no_input, &clamped,
-            &label, &popup, &show))
-            return ToPyBool(false);
-
-        auto item = CreateRef<mvDragInt>(name, default_value, source);
-        if (callback)
-            Py_XINCREF(callback);
-        item->setCallback(callback);
-        if (callback_data)
-            Py_XINCREF(callback_data);
-        item->setCallbackData(callback_data);
-
-        item->checkConfigDict(kwargs);
-        item->setConfigDict(kwargs);
-        item->setExtraConfigDict(kwargs);
-
-        mvApp::GetApp()->getItemRegistry().addItemWithRuntimeChecks(item, parent, before);
-
-        return ToPyString(name);
     }
 
 }

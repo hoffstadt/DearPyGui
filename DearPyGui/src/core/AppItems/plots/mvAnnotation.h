@@ -11,7 +11,7 @@ namespace Marvel {
 
 		static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
 
-		MV_APPLY_WIDGET_REGISTRATION(mvAppItemType::mvAnnotation, add_plot_annotation)
+		MV_APPLY_WIDGET_REGISTRATION2(mvAppItemType::mvAnnotation, add_plot_annotation)
 
 		MV_START_EXTRA_COMMANDS
 		MV_END_EXTRA_COMMANDS
@@ -27,7 +27,7 @@ namespace Marvel {
 
 	public:
 
-		mvAnnotation(const std::string& name, float* default_value, const std::string& dataSource);
+		mvAnnotation(const std::string& name);
 
 		void draw(ImDrawList* drawlist, float x, float y) override;
 

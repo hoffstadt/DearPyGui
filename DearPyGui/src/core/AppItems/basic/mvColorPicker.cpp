@@ -85,9 +85,9 @@ namespace Marvel {
 		}, "Adds an rgba color picking widget. Click and draging the color square will copy the color to be applied on any other color widget. Right Click allows the style of the color picker to be changed", "None", "Adding Widgets") });
 	}
 
-	mvColorPicker3::mvColorPicker3(const std::string& name, float* color, const std::string& dataSource)
+	mvColorPicker3::mvColorPicker3(const std::string& name)
 		: 
-		mvColorPtrBase(name, color)
+		mvColorPtrBase(name)
 	{
 	}
 
@@ -104,9 +104,9 @@ namespace Marvel {
 
 	}
 
-	mvColorPicker4::mvColorPicker4(const std::string& name, float* color, const std::string& dataSource)
+	mvColorPicker4::mvColorPicker4(const std::string& name)
 		: 
-		mvColorPtrBase(name, color)
+		mvColorPtrBase(name)
 	{
 	}
 
@@ -212,72 +212,6 @@ namespace Marvel {
 		checkbitset("input_hsv", ImGuiColorEditFlags_InputHSV, m_flags);
 	}
 
-	PyObject* mvColorPicker3::add_color_picker3(PyObject* self, PyObject* args, PyObject* kwargs)
-	{
-		static int i = 0; i++;
-		std::string sname = std::string(std::string("$$DPG_") + s_internal_id + std::to_string(i));
-		const char* name = sname.c_str();
-		PyObject* default_value = PyTuple_New(4);
-		PyTuple_SetItem(default_value, 0, PyLong_FromLong(0));
-		PyTuple_SetItem(default_value, 1, PyLong_FromLong(0));
-		PyTuple_SetItem(default_value, 2, PyLong_FromLong(0));
-		PyTuple_SetItem(default_value, 2, PyLong_FromLong(255));
-		PyObject* callback = nullptr;
-		PyObject* callback_data = nullptr;
-		int width = 0;
-		int height = 0;
-		const char* before = "";
-		const char* parent = "";
-		const char* source = "";
-		const char* label = "";
-		int show = true;
-		int enabled = true;
-		int no_alpha = false;
-		int no_small_preview = false;
-		int no_inputs = false;
-		int no_tooltip = false;
-		int no_label = false;
-		int no_side_preview = false;
-		int alpha_bar = false;
-		int alpha_preview = false;
-		int alpha_preview_half = false;
-		int display_rgb = false;
-		int display_hsv = false;
-		int display_hex = false;
-		int uint8 = false;
-		int floats = false;
-		int picker_hue_bar = false;
-		int picker_hue_wheel = false;
-		int input_rgb = false;
-		int input_hsv = false;
-
-
-		if (!(mvApp::GetApp()->getParsers())["add_color_picker3"].parse(args, kwargs, __FUNCTION__, &name, &default_value,
-			&callback, &callback_data, &parent, &before, &source, &width, &height, &label, &show, &enabled,
-			&no_alpha, &no_small_preview, &no_inputs, &no_tooltip, &no_label, &no_side_preview, &alpha_bar,
-			&alpha_preview, &alpha_preview_half, &display_rgb, &display_hsv, &display_hex, &uint8, &floats, &picker_hue_bar,
-			&picker_hue_wheel, &input_rgb, &input_hsv))
-			return ToPyBool(false);
-
-		auto color = ToColor(default_value);
-		ImVec4 v = color.toVec4();
-		auto item = CreateRef<mvColorPicker3>(name, &v.x, source);
-		if (callback)
-			Py_XINCREF(callback);
-		item->setCallback(callback);
-		if (callback_data)
-			Py_XINCREF(callback_data);
-		item->setCallbackData(callback_data);
-
-		item->checkConfigDict(kwargs);
-		item->setConfigDict(kwargs);
-		item->setExtraConfigDict(kwargs);
-
-		mvApp::GetApp()->getItemRegistry().addItemWithRuntimeChecks(item, parent, before);
-
-		return ToPyString(name);
-	}
-
 	void mvColorPicker4::setExtraConfigDict(PyObject* dict)
 	{
 		if (dict == nullptr)
@@ -365,71 +299,6 @@ namespace Marvel {
 		checkbitset("picker_hue_wheel", ImGuiColorEditFlags_PickerHueWheel, m_flags);
 		checkbitset("input_rgb", ImGuiColorEditFlags_InputRGB, m_flags);
 		checkbitset("input_hsv", ImGuiColorEditFlags_InputHSV, m_flags);
-	}
-
-	PyObject* mvColorPicker4::add_color_picker4(PyObject* self, PyObject* args, PyObject* kwargs)
-	{
-		static int i = 0; i++;
-		std::string sname = std::string(std::string("$$DPG_") + s_internal_id + std::to_string(i));
-		const char* name = sname.c_str();
-		PyObject* default_value = PyTuple_New(4);
-		PyTuple_SetItem(default_value, 0, PyLong_FromLong(0));
-		PyTuple_SetItem(default_value, 1, PyLong_FromLong(0));
-		PyTuple_SetItem(default_value, 2, PyLong_FromLong(0));
-		PyTuple_SetItem(default_value, 3, PyLong_FromLong(255));
-		PyObject* callback = nullptr;
-		PyObject* callback_data = nullptr;
-		int width = 0;
-		int height = 0;
-		const char* before = "";
-		const char* parent = "";
-		const char* source = "";
-		const char* label = "";
-		int show = true;
-		int enabled = true;
-		int no_alpha = false;
-		int no_small_preview = false;
-		int no_inputs = false;
-		int no_tooltip = false;
-		int no_label = false;
-		int no_side_preview = false;
-		int alpha_bar = false;
-		int alpha_preview = false;
-		int alpha_preview_half = false;
-		int display_rgb = false;
-		int display_hsv = false;
-		int display_hex = false;
-		int uint8 = false;
-		int floats = false;
-		int picker_hue_bar = false;
-		int picker_hue_wheel = false;
-		int input_rgb = false;
-		int input_hsv = false;
-
-		if (!(mvApp::GetApp()->getParsers())["add_color_picker4"].parse(args, kwargs, __FUNCTION__, &name,
-			&default_value, &callback, &callback_data, &parent, &before, &source, &width, &height,
-			&label, &show, &enabled, &no_alpha, &no_small_preview, &no_inputs, &no_tooltip, &no_label, &no_side_preview, &alpha_bar,
-			&alpha_preview, &alpha_preview_half, &display_rgb, &display_hsv, &display_hex, &uint8, &floats, &picker_hue_bar,
-			&picker_hue_wheel, &input_rgb, &input_hsv))
-			return ToPyBool(false);
-
-		auto color = ToColor(default_value);
-		ImVec4 v = color.toVec4();
-		auto item = CreateRef<mvColorPicker4>(name, &v.x, source);
-		if (callback)
-			Py_XINCREF(callback);
-		item->setCallback(callback);
-		if (callback_data)
-			Py_XINCREF(callback_data);
-		item->setCallbackData(callback_data);
-
-		item->checkConfigDict(kwargs);
-		item->setConfigDict(kwargs);
-		item->setExtraConfigDict(kwargs);
-
-		mvApp::GetApp()->getItemRegistry().addItemWithRuntimeChecks(item, parent, before);
-
-		return ToPyString(name);
 	}
 
 }

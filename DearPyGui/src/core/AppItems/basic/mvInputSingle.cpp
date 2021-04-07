@@ -65,8 +65,8 @@ namespace Marvel {
         }, "Adds input for float values.", "None", "Adding Widgets") });
     }
 
-    mvInputInt::mvInputInt(const std::string& name, int default_value, const std::string& dataSource)
-        : mvIntPtrBase(name, default_value)
+    mvInputInt::mvInputInt(const std::string& name)
+        : mvIntPtrBase(name)
     {
         m_last_value = *m_value;
     }
@@ -125,8 +125,8 @@ namespace Marvel {
 
     }
 
-    mvInputFloat::mvInputFloat(const std::string& name, float default_value, const std::string& dataSource)
-        : mvFloatPtrBase(name, default_value)
+    mvInputFloat::mvInputFloat(const std::string& name)
+        : mvFloatPtrBase(name)
     {
         m_last_value = *m_value;
     }
@@ -268,100 +268,6 @@ namespace Marvel {
         checkbitset("on_enter", ImGuiInputTextFlags_EnterReturnsTrue, m_flags);
         checkbitset("readonly", ImGuiInputTextFlags_ReadOnly, m_flags);
 
-    }
-
-    PyObject* mvInputInt::add_input_int(PyObject* self, PyObject* args, PyObject* kwargs)
-    {
-        static int i = 0; i++;
-        std::string sname = std::string(std::string("$$DPG_") + s_internal_id + std::to_string(i));
-        const char* name = sname.c_str();
-        int default_value = 0;
-        int min_value = 0;
-        int max_value = 100;
-        int min_clamped = false;
-        int max_clamped = false;
-        PyObject* callback = nullptr;
-        PyObject* callback_data = nullptr;
-        int width = 0;
-        const char* before = "";
-        const char* parent = "";
-        const char* source = "";
-        int enabled = true;
-        int on_enter = false;
-        const char* label = "";
-        int show = false;
-        int step = 1;
-        int step_fast = 100;
-        int readonly = false;
-
-        if (!(mvApp::GetApp()->getParsers())["add_input_int"].parse(args, kwargs, __FUNCTION__, &name,
-            &default_value, &min_value, &max_value, &min_clamped, &max_clamped, &callback, &callback_data, &parent, &before, &source, &enabled, &width, &on_enter,
-            &label, &show, &step, &step_fast, &readonly))
-            return ToPyBool(false);
-
-        auto item = CreateRef<mvInputInt>(name, default_value, source);
-        if (callback)
-            Py_XINCREF(callback);
-        item->setCallback(callback);
-        if (callback_data)
-            Py_XINCREF(callback_data);
-        item->setCallbackData(callback_data);
-
-        item->checkConfigDict(kwargs);
-        item->setConfigDict(kwargs);
-        item->setExtraConfigDict(kwargs);
-
-        mvApp::GetApp()->getItemRegistry().addItemWithRuntimeChecks(item, parent, before);
-
-        return ToPyString(name);
-    }
-
-    PyObject* mvInputFloat::add_input_float(PyObject* self, PyObject* args, PyObject* kwargs)
-    {
-        static int i = 0; i++;
-        std::string sname = std::string(std::string("$$DPG_") + s_internal_id + std::to_string(i));
-        const char* name = sname.c_str();
-        float default_value = 0.0f;
-        float min_value = 0.0f;
-        float max_value = 100.0f;
-        int min_clamped = false;
-        int max_clamped = false;
-        const char* format = "%.3f";
-        PyObject* callback = nullptr;
-        PyObject* callback_data = nullptr;
-        int width = 0;
-        const char* before = "";
-        const char* parent = "";
-        const char* source = "";
-        int enabled = true;
-        int on_enter = false;
-        const char* label = "";
-        int show = false;
-        float step = 0.1f;
-        float step_fast = 1.0f;
-        int readonly = false;
-
-        if (!(mvApp::GetApp()->getParsers())["add_input_float"].parse(args, kwargs, __FUNCTION__, &name,
-            &default_value, &min_value, &max_value, &min_clamped, &max_clamped, &format, &callback, &callback_data,
-            &parent, &before, &source, &enabled, &width, &on_enter,
-            &label, &show, &step, &step_fast, &readonly))
-            return ToPyBool(false);
-
-        auto item = CreateRef<mvInputFloat>(name, default_value, source);
-        if (callback)
-            Py_XINCREF(callback);
-        item->setCallback(callback);
-        if (callback_data)
-            Py_XINCREF(callback_data);
-        item->setCallbackData(callback_data);
-
-        item->checkConfigDict(kwargs);
-        item->setConfigDict(kwargs);
-        item->setExtraConfigDict(kwargs);
-
-        mvApp::GetApp()->getItemRegistry().addItemWithRuntimeChecks(item, parent, before);
-
-        return ToPyString(name);
     }
 
 }

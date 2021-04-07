@@ -11,7 +11,7 @@ namespace Marvel {
 
 		static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
 
-		MV_APPLY_WIDGET_REGISTRATION(mvAppItemType::mvBarSeries, add_bar_series)
+		MV_APPLY_WIDGET_REGISTRATION2(mvAppItemType::mvBarSeries, add_bar_series)
 
 		MV_CREATE_CONSTANT(mvThemeCol_Plot_Bar, ImPlotCol_Line, 0L);
 
@@ -30,7 +30,7 @@ namespace Marvel {
 
 	public:
 
-		mvBarSeries(const std::string& name, const std::vector<std::vector<float>>& default_value);
+		mvBarSeries(const std::string& name);
 
 		void draw(ImDrawList* drawlist, float x, float y) override;
 

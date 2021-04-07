@@ -22,7 +22,7 @@ namespace Marvel {
 
 	mvTooltip::mvTooltip(const std::string& name)
 		: 
-		mvBoolPtrBase(name, false)
+		mvBoolPtrBase(name)
 	{
 
 		// has to be showed that way it can check for hovering

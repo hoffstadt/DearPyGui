@@ -28,7 +28,7 @@ namespace Marvel {
 	}
 
 	mvPopup::mvPopup(const std::string& name, mvAppItem* parentAddress)
-		: mvBoolPtrBase(name, false), m_parentAddress(parentAddress)
+		: mvBoolPtrBase(name), m_parentAddress(parentAddress)
 	{
 	}
 

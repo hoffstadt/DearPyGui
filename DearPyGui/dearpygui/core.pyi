@@ -110,7 +110,7 @@ def add_drawing(name: str = ..., *, parent: str = '', before: str = '', width: i
 	"""Adds a drawing widget."""
 	...
 
-def add_dummy(*, width: int = 0, height: int = 0, name: str = 'dummy', parent: str = '', before: str = '', show: bool = True) -> None:
+def add_dummy(name: str = 'dummy', *, width: int = 0, height: int = 0, parent: str = '', before: str = '', show: bool = True) -> None:
 	"""Adds a spacer or 'dummy' object."""
 	...
 
@@ -154,7 +154,7 @@ def add_image_series(name: str = ..., *, value: str = ..., bounds_min: List[floa
 	"""Adds a drag point to a plot."""
 	...
 
-def add_indent(*, name: str = 'indent', offset: float = 0.0, parent: str = '', before: str = '', show: bool = True) -> None:
+def add_indent(name: str = 'indent', *, offset: float = 0.0, parent: str = '', before: str = '', show: bool = True) -> None:
 	"""Adds an indent to following items. Must be closed with the unindent command."""
 	...
 
@@ -250,7 +250,7 @@ def add_radio_button(name: str = ..., *, items: List[str] = (), default_value: i
 	"""Adds a set of radio buttons. If items is empty, nothing will be shown."""
 	...
 
-def add_same_line(*, name: str = 'sameline', xoffset: float = 0.0, spacing: float = -1.0, parent: str = '', before: str = '', show: bool = True) -> None:
+def add_same_line(name: str = 'sameline', *, xoffset: float = 0.0, spacing: float = -1.0, parent: str = '', before: str = '', show: bool = True) -> None:
 	"""Places a widget on the same line as the previous widget. Can also be used for horizontal spacing."""
 	...
 
@@ -262,7 +262,7 @@ def add_selectable(name: str = ..., *, default_value: bool = False, callback: Ca
 	"""Adds a selectable."""
 	...
 
-def add_separator(*, name: str = 'separator', parent: str = '', before: str = '') -> None:
+def add_separator(name: str = 'separator', *, parent: str = '', before: str = '') -> None:
 	"""Adds a horizontal line."""
 	...
 
@@ -290,7 +290,7 @@ def add_slider_intx(name: str = ..., *, default_value: List[int] = (0, 0, 0, 0),
 	"""Adds slider for a 4 int values. CTRL+Click to directly modify the value."""
 	...
 
-def add_spacing(*, name: str = 'spacing', count: int = 1, parent: str = '', before: str = '', show: bool = True) -> None:
+def add_spacing(name: str = 'spacing', *, count: int = 1, parent: str = '', before: str = '', show: bool = True) -> None:
 	"""Adds vertical spacing."""
 	...
 
@@ -326,7 +326,7 @@ def add_table_column(name: str = ..., *, init_width_or_weight: float = 0.0, show
 	"""Changes to next column."""
 	...
 
-def add_table_next_column(*, name: str = 'next_column', show: bool = True, parent: str = '', before: str = '') -> None:
+def add_table_next_column(name: str = 'next_column', *, show: bool = True, parent: str = '', before: str = '') -> None:
 	"""Changes to next column."""
 	...
 
@@ -906,7 +906,7 @@ def stop_dearpygui() -> None:
 	"""Stops DearPyGui."""
 	...
 
-def unindent(*, name: str = 'unindent', offset: float = 0.0, parent: str = '', before: str = '', show: bool = True) -> None:
+def unindent(name: str = 'unindent', *, offset: float = 0.0, parent: str = '', before: str = '', show: bool = True) -> None:
 	"""Unindents following items."""
 	...
 

@@ -18,6 +18,34 @@ StorageValueTypes getValueType() const override { return mvItemTypeMap<(int)x>::
 static PyObject* parser(PyObject* self, PyObject* args, PyObject* kwargs);\
 static PyMethodDef GetMethodDefinition(){return { s_command, (PyCFunction)parser, METH_VARARGS | METH_KEYWORDS, mvApp::GetApp()->getParsers()[s_command].getDocumentation() };}
 
+#define MV_APPLY_WIDGET_REGISTRATION2(x, parser)\
+static constexpr const long s_internal_type = (long)x;\
+static constexpr const char* const s_internal_id = #x;\
+static constexpr const char* const s_command = #parser;\
+mvAppItemType getType() const override { return x; }\
+int getTarget() const override { return mvItemTypeMap<(int)x>::target; }\
+int getDescFlags() const override { return mvItemTypeMap<(int)x>::flags; }\
+StorageValueTypes getValueType() const override { return mvItemTypeMap<(int)x>::value_type; }\
+static PyObject* parser(PyObject* self, PyObject* args, PyObject* kwargs)\
+{\
+	static int i = 0; i++;\
+	std::string name = std::string(std::string("$$DPG_") + s_internal_id + std::to_string(i));\
+	auto& [parent, before] = mvAppItem::GetNameFromArgs(name, args, kwargs);\
+	auto item = CreateRef<mvItemTypeMap<(int)x>::type>(name);\
+	item->checkConfigDict(kwargs);\
+	item->setConfigArgs(args);\
+	item->setConfigDict(kwargs);\
+	item->setExtraConfigDict(kwargs);\
+	if(mvApp::GetApp()->getItemRegistry().addItemWithRuntimeChecks(item, parent.c_str(), before.c_str()))\
+	{\
+		if (mvAppItem::DoesItemHaveFlag(item.get(), MV_ITEM_DESC_CONTAINER))\
+			mvApp::GetApp()->getItemRegistry().pushParent(item);\
+	}\
+	return ToPyString(name);\
+}\
+static PyMethodDef GetMethodDefinition(){return { s_command, (PyCFunction)parser, METH_VARARGS | METH_KEYWORDS, mvApp::GetApp()->getParsers()[s_command].getDocumentation() };}
+
+
 #define MV_CREATE_EXTRA_COMMAND(x) static PyObject* x(PyObject* self, PyObject* args, PyObject* kwargs)
 #define MV_START_EXTRA_COMMANDS static void FillExtraCommands(std::vector<PyMethodDef>& methods){ 
 #define MV_ADD_EXTRA_COMMAND(x) methods.push_back({ #x, (PyCFunction)x, METH_VARARGS | METH_KEYWORDS, mvApp::GetApp()->getParsers()[#x].getDocumentation() });

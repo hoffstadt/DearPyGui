@@ -705,6 +705,8 @@ namespace Marvel{
 		static std::string base_keyword6 = "enabled";
 		static std::string base_keyword7 = "width";
 		static std::string base_keyword8 = "height";
+		static std::string base_keyword9 = "callback";
+		static std::string base_keyword10 = "callback_data";
 
 		std::string parserCommand;
 
@@ -721,7 +723,7 @@ namespace Marvel{
 
 		const auto& parserKeywordsOrig = mvApp::GetApp()->getParsers()[parserCommand].getKeywords();
 		std::vector<std::string> parserKeywords;
-		parserKeywords.reserve(parserKeywordsOrig.size() + 8);
+		parserKeywords.reserve(parserKeywordsOrig.size() + 10);
 		for (int i = 0; i < parserKeywordsOrig.size(); i++)
 			if(parserKeywordsOrig[i])
 				parserKeywords.push_back(std::string(parserKeywordsOrig[i]));
@@ -734,6 +736,8 @@ namespace Marvel{
 		parserKeywords.push_back(base_keyword6);
 		parserKeywords.push_back(base_keyword7);
 		parserKeywords.push_back(base_keyword8);
+		parserKeywords.push_back(base_keyword9);
+		parserKeywords.push_back(base_keyword10);
 
 		for (const auto& key : configKeys)
 		{
@@ -765,6 +769,52 @@ namespace Marvel{
 		if (PyObject* item = PyDict_GetItemString(dict, "show")) m_show = ToBool(item);
 		if (PyObject* item = PyDict_GetItemString(dict, "source")) setDataSource(ToString(item));
 		if (PyObject* item = PyDict_GetItemString(dict, "enabled")) setEnabled(ToBool(item));
+		if (PyObject* item = PyDict_GetItemString(dict, "default_value")) setPyValue(item);
+
+		if (PyObject* item = PyDict_GetItemString(dict, "callback"))
+		{
+			if (m_callback)
+				Py_XDECREF(m_callback);
+
+			if (item)
+				Py_XINCREF(item);
+			setCallback(item);
+		}
+
+		if (PyObject* item = PyDict_GetItemString(dict, "callback_data"))
+		{
+			if (m_callback_data)
+				Py_XDECREF(m_callback_data);
+			if (item)
+				Py_XINCREF(item);
+			setCallbackData(item);
+		}
+
+	}
+
+	std::pair<std::string, std::string> mvAppItem::GetNameFromArgs(std::string& name, PyObject* args, PyObject* kwargs)
+	{
+		if (args)
+		{
+			if (PyTuple_GET_SIZE(args) > 0)
+			{
+				PyObject* pyname = nullptr;
+				pyname = PyTuple_GetItem(args, 0);
+
+				name = ToString(pyname);
+			}
+		}
+
+		std::string parent;
+		std::string before;
+
+		if (kwargs)
+		{
+			if (PyObject* item = PyDict_GetItemString(kwargs, "parent")) parent = ToString(item);
+			if (PyObject* item = PyDict_GetItemString(kwargs, "before")) before = ToString(item);
+		}
+
+		return std::make_pair(parent, before);
 	}
 
 	void mvAppItem::getConfigDict(PyObject* dict)

@@ -30,8 +30,8 @@ namespace Marvel {
 		}, "Adds a drag point to a plot.", "None", "Plotting") });
 	}
 
-	mvPieSeries::mvPieSeries(const std::string& name, const std::vector<std::vector<float>>& default_value)
-		: mvSeriesBase(name, default_value)
+	mvPieSeries::mvPieSeries(const std::string& name)
+		: mvSeriesBase(name)
 	{
 	}
 
@@ -84,6 +84,15 @@ namespace Marvel {
 				m_clabels.push_back(label.c_str());
 		}
 
+		bool valueChanged = false;
+		if (PyObject* item = PyDict_GetItemString(dict, "values")) { valueChanged = true; (*m_value)[0] = ToFloatVect(item); }
+		if (valueChanged)
+		{
+			resetMaxMins();
+			calculateMaxMins();
+		}
+
+
 	}
 
 	void mvPieSeries::getExtraConfigDict(PyObject* dict)
@@ -92,40 +101,4 @@ namespace Marvel {
 			return;
 	}
 
-	PyObject* mvPieSeries::add_pie_series(PyObject* self, PyObject* args, PyObject* kwargs)
-	{
-		static int i = 0; i++;
-		std::string sname = std::string(std::string("$$DPG_") + s_internal_id + std::to_string(i));
-		const char* name = sname.c_str();
-		PyObject* values;
-		PyObject* labels;
-		double x;
-		double y;
-		double radius;
-		int normalize = false;
-		double angle = 90.0;
-		const char* format = "%0.2f";
-		const char* label = "";
-		const char* parent = "";
-		const char* before = "";
-		int show = true;
-		int axis = 0;
-
-		if (!(mvApp::GetApp()->getParsers())[s_command].parse(args, kwargs, __FUNCTION__,
-			&name, &values, &labels, &x, &y, &radius, &normalize, &angle, &format,
-			&label, &parent, &before, &show, &axis))
-			return GetPyNone();
-
-		auto mvalues = ToFloatVect(values);
-
-		auto item = CreateRef<mvPieSeries>(name, std::vector<std::vector<float>>{mvalues});
-
-		item->checkConfigDict(kwargs);
-		item->setConfigDict(kwargs);
-		item->setExtraConfigDict(kwargs);
-
-		mvApp::GetApp()->getItemRegistry().addItemWithRuntimeChecks(item, parent, before);
-
-		return ToPyString(name);
-	}
 }

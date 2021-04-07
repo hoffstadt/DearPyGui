@@ -86,9 +86,9 @@ namespace Marvel {
 		}, "Adds an rgba color editing widget. Click and draging the color square will copy the color to be applied on any other color widget.", "None", "Adding Widgets") });
 	}
 
-	mvColorEdit3::mvColorEdit3(const std::string& name, float* color, const std::string& dataSource)
+	mvColorEdit3::mvColorEdit3(const std::string& name)
 		: 
-		mvColorPtrBase(name, color)
+		mvColorPtrBase(name)
 	{
 	}
 
@@ -104,9 +104,9 @@ namespace Marvel {
 			mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), m_name, m_callback_data);
 	}
 
-	mvColorEdit4::mvColorEdit4(const std::string& name, float* color, const std::string& dataSource)
+	mvColorEdit4::mvColorEdit4(const std::string& name)
 		: 
-		mvColorPtrBase(name, color)
+		mvColorPtrBase(name)
 	{
 	}
 
@@ -211,72 +211,6 @@ namespace Marvel {
 		checkbitset("input_hsv", ImGuiColorEditFlags_InputHSV, m_flags);
 	}
 
-	PyObject* mvColorEdit3::add_color_edit3(PyObject* self, PyObject* args, PyObject* kwargs)
-	{
-		static int i = 0; i++;
-		std::string sname = std::string(std::string("$$DPG_") + s_internal_id + std::to_string(i));
-		const char* name = sname.c_str();
-		PyObject* default_value = PyTuple_New(4);
-		PyTuple_SetItem(default_value, 0, PyLong_FromLong(0));
-		PyTuple_SetItem(default_value, 1, PyLong_FromLong(0));
-		PyTuple_SetItem(default_value, 2, PyLong_FromLong(0));
-		PyTuple_SetItem(default_value, 2, PyLong_FromLong(255));
-		PyObject* callback = nullptr;
-		PyObject* callback_data = nullptr;
-		int width = 0;
-		int height = 0;
-		const char* before = "";
-		const char* parent = "";
-		const char* source = "";
-		const char* label = "";
-		int show = true;
-		int enabled = true;
-		int no_alpha = false;
-		int no_picker = false;
-		int no_options = false;
-		int no_small_preview = false;
-		int no_inputs = false;
-		int no_tooltip = false;
-		int no_label = false;
-		int no_drag_drop = false;
-		int alpha_bar = false;
-		int alpha_preview = false;
-		int alpha_preview_half = false;
-		int display_rgb = false;
-		int display_hsv = false;
-		int display_hex = false;
-		int unit8 = false;
-		int floats = false;
-		int input_rgb = false;
-		int input_hsv = false;
-
-
-		if (!(mvApp::GetApp()->getParsers())["add_color_edit3"].parse(args, kwargs, __FUNCTION__, &name,
-			&default_value, &callback, &callback_data, &parent, &before, &source, &width, &height,
-			&label, &show, &enabled, &no_alpha, &no_picker, &no_options, &no_small_preview, &no_inputs, &no_tooltip, &no_label, &no_drag_drop,
-			&alpha_bar, &alpha_preview, &alpha_preview_half, &display_rgb, &display_hsv, &display_hex, &unit8, &floats, &input_rgb, &input_hsv))
-			return ToPyBool(false);
-
-		auto color = ToColor(default_value);
-
-		ImVec4 v = color.toVec4();
-		auto item = CreateRef<mvColorEdit3>(name, &v.x, source);
-		if (callback)
-			Py_XINCREF(callback);
-		item->setCallback(callback);
-		if (callback_data)
-			Py_XINCREF(callback_data);
-		item->setCallbackData(callback_data);
-
-		item->checkConfigDict(kwargs);
-		item->setConfigDict(kwargs);
-		item->setExtraConfigDict(kwargs);
-
-		mvApp::GetApp()->getItemRegistry().addItemWithRuntimeChecks(item, parent, before);
-
-		return ToPyString(name);
-	}
-
 	void mvColorEdit4::setExtraConfigDict(PyObject* dict)
 	{
 		if (dict == nullptr)
@@ -364,71 +298,6 @@ namespace Marvel {
 		checkbitset("floats", ImGuiColorEditFlags_Float, m_flags);
 		checkbitset("input_rgb", ImGuiColorEditFlags_InputRGB, m_flags);
 		checkbitset("input_hsv", ImGuiColorEditFlags_InputHSV, m_flags);
-	}
-
-	PyObject* mvColorEdit4::add_color_edit4(PyObject* self, PyObject* args, PyObject* kwargs)
-	{
-		static int i = 0; i++;
-		std::string sname = std::string(std::string("$$DPG_") + s_internal_id + std::to_string(i));
-		const char* name = sname.c_str();
-		PyObject* default_value = PyTuple_New(4);
-		PyTuple_SetItem(default_value, 0, PyLong_FromLong(0));
-		PyTuple_SetItem(default_value, 1, PyLong_FromLong(0));
-		PyTuple_SetItem(default_value, 2, PyLong_FromLong(0));
-		PyTuple_SetItem(default_value, 3, PyLong_FromLong(255));
-		PyObject* callback = nullptr;
-		PyObject* callback_data = nullptr;
-		int width = 0;
-		int height = 0;
-		const char* before = "";
-		const char* parent = "";
-		const char* source = "";
-		const char* label = "";
-		int show = true;
-		int enabled = true;
-		int no_alpha = false;
-		int no_picker = false;
-		int no_options = false;
-		int no_small_preview = false;
-		int no_inputs = false;
-		int no_tooltip = false;
-		int no_label = false;
-		int no_drag_drop = false;
-		int alpha_bar = false;
-		int alpha_preview = false;
-		int alpha_preview_half = false;
-		int display_rgb = false;
-		int display_hsv = false;
-		int display_hex = false;
-		int unit8 = false;
-		int floats = false;
-		int input_rgb = false;
-		int input_hsv = false;
-
-		if (!(mvApp::GetApp()->getParsers())["add_color_edit4"].parse(args, kwargs, __FUNCTION__, &name, &default_value,
-			&callback, &callback_data, &parent, &before, &source, &width, &height, &label, &show, &enabled,
-			&no_alpha, &no_picker, &no_options, &no_small_preview, &no_inputs, &no_tooltip, &no_label, &no_drag_drop,
-			&alpha_bar, &alpha_preview, &alpha_preview_half, &display_rgb, &display_hsv, &display_hex, &unit8, &floats, &input_rgb, &input_hsv))
-			return ToPyBool(false);
-
-		auto color = ToColor(default_value);
-		ImVec4 v = color.toVec4();
-		auto item = CreateRef<mvColorEdit4>(name, &v.x, source);
-		if (callback)
-			Py_XINCREF(callback);
-		item->setCallback(callback);
-		if (callback_data)
-			Py_XINCREF(callback_data);
-		item->setCallbackData(callback_data);
-
-		item->checkConfigDict(kwargs);
-		item->setConfigDict(kwargs);
-		item->setExtraConfigDict(kwargs);
-
-
-		mvApp::GetApp()->getItemRegistry().addItemWithRuntimeChecks(item, parent, before);
-
-		return ToPyString(name);
 	}
 
 }

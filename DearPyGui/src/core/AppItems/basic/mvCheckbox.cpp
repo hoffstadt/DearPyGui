@@ -25,9 +25,9 @@ namespace Marvel {
 		}, "Adds a checkbox widget.", "None", "Adding Widgets") });
 	}
 
-	mvCheckbox::mvCheckbox(const std::string& name, bool default_value, const std::string& dataSource)
+	mvCheckbox::mvCheckbox(const std::string& name)
 		: 
-		mvBoolPtrBase(name, default_value)
+		mvBoolPtrBase(name)
 	{
 	}
 
@@ -44,40 +44,4 @@ namespace Marvel {
 
 	}
 
-	PyObject* mvCheckbox::add_checkbox(PyObject* self, PyObject* args, PyObject* kwargs)
-	{
-		static int i = 0; i++;
-		std::string sname = std::string(std::string("$$DPG_") + s_internal_id + std::to_string(i));
-		const char* name = sname.c_str();
-		int default_value = 0;
-		PyObject* callback = nullptr;
-		PyObject* callback_data = nullptr;
-		const char* before = "";
-		const char* parent = "";
-		const char* source = "";
-		const char* label = "";
-		int show = true;
-		int enabled = true;
-
-		if (!(mvApp::GetApp()->getParsers())["add_checkbox"].parse(args, kwargs, __FUNCTION__, &name,
-			&default_value, &callback, &callback_data, &parent, &before, &source,
-			&label, &show, &enabled))
-			return ToPyBool(false);
-
-		auto item = CreateRef<mvCheckbox>(name, default_value, source);
-		if (callback)
-			Py_XINCREF(callback);
-		item->setCallback(callback);
-		if (callback_data)
-			Py_XINCREF(callback_data);
-		item->setCallbackData(callback_data);
-
-		item->checkConfigDict(kwargs);
-		item->setConfigDict(kwargs);
-		item->setExtraConfigDict(kwargs);
-
-		mvApp::GetApp()->getItemRegistry().addItemWithRuntimeChecks(item, parent, before);
-
-		return ToPyString(name);
-	}
 }

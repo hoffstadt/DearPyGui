@@ -108,8 +108,8 @@ namespace Marvel {
 		}, "Adds a drag point to a plot.", "None", "Plotting") });
 	}
 
-	mvCandleSeries::mvCandleSeries(const std::string& name, const std::vector<std::vector<float>>& default_value)
-		: mvSeriesBase(name, default_value)
+	mvCandleSeries::mvCandleSeries(const std::string& name)
+		: mvSeriesBase(name)
 	{
 	}
 
@@ -163,6 +163,19 @@ namespace Marvel {
 		if (PyObject* item = PyDict_GetItemString(dict, "width")) m_width = ToFloat(item);
 		if (PyObject* item = PyDict_GetItemString(dict, "tooltip")) m_tooltip = ToBool(item);
 
+		bool valueChanged = false;
+		if (PyObject* item = PyDict_GetItemString(dict, "dates")) { valueChanged = true; (*m_value)[0] = ToFloatVect(item); }
+		if (PyObject* item = PyDict_GetItemString(dict, "opens")) { valueChanged = true; (*m_value)[1] = ToFloatVect(item); }
+		if (PyObject* item = PyDict_GetItemString(dict, "closes")) { valueChanged = true; (*m_value)[2] = ToFloatVect(item); }
+		if (PyObject* item = PyDict_GetItemString(dict, "lows")) { valueChanged = true; (*m_value)[3] = ToFloatVect(item); }
+		if (PyObject* item = PyDict_GetItemString(dict, "highs")) { valueChanged = true; (*m_value)[4] = ToFloatVect(item); }
+
+		if (valueChanged)
+		{
+			resetMaxMins();
+			calculateMaxMins();
+		}
+
 	}
 
 	void mvCandleSeries::getExtraConfigDict(PyObject* dict)
@@ -171,59 +184,4 @@ namespace Marvel {
 			return;
 	}
 
-	PyObject* mvCandleSeries::add_candle_series(PyObject* self, PyObject* args, PyObject* kwargs)
-	{
-		static int i = 0; i++;
-		std::string sname = std::string(std::string("$$DPG_") + s_internal_id + std::to_string(i));
-		const char* name = sname.c_str();
-
-		PyObject* dates;
-		PyObject* opens;
-		PyObject* closes;
-		PyObject* lows;
-		PyObject* highs;
-		int tooltip = true;
-
-		PyObject* bull_color = PyTuple_New(4);
-		PyTuple_SetItem(bull_color, 0, PyLong_FromLong(0));
-		PyTuple_SetItem(bull_color, 1, PyLong_FromLong(255));
-		PyTuple_SetItem(bull_color, 2, PyLong_FromLong(113));
-		PyTuple_SetItem(bull_color, 3, PyLong_FromLong(255));
-
-		PyObject* bear_color = PyTuple_New(4);
-		PyTuple_SetItem(bear_color, 0, PyLong_FromLong(218));
-		PyTuple_SetItem(bear_color, 1, PyLong_FromLong(13));
-		PyTuple_SetItem(bear_color, 2, PyLong_FromLong(79));
-		PyTuple_SetItem(bear_color, 3, PyLong_FromLong(255));
-		float weight = 0.25f;
-
-		const char* label = "";
-		const char* source = "";
-		const char* parent = "";
-		const char* before = "";
-		int show = true;
-		int axis = 0;
-		int contribute_to_bounds = true;
-
-		if (!(mvApp::GetApp()->getParsers())[s_command].parse(args, kwargs, __FUNCTION__,
-			&name, &dates, &opens, &closes, &lows, &highs, &tooltip, &bull_color, &bear_color,
-			&weight, &label, &source, &parent, &before, &show, &axis, &contribute_to_bounds))
-			return GetPyNone();
-
-		auto mdates = ToFloatVect(dates);
-		auto mopens = ToFloatVect(opens);
-		auto mhighs = ToFloatVect(highs);
-		auto mlows = ToFloatVect(lows);
-		auto mcloses = ToFloatVect(closes);
-
-		auto item = CreateRef<mvCandleSeries>(name, std::vector<std::vector<float>>{mdates, mopens, mcloses, mlows, mhighs});
-
-		item->checkConfigDict(kwargs);
-		item->setConfigDict(kwargs);
-		item->setExtraConfigDict(kwargs);
-
-		mvApp::GetApp()->getItemRegistry().addItemWithRuntimeChecks(item, parent, before);
-
-		return ToPyString(name);
-	}
 }

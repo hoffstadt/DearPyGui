@@ -28,8 +28,8 @@ namespace Marvel {
 		}, "Adds a drag point to a plot.", "None", "Plotting") });
 	}
 
-	mvBarSeries::mvBarSeries(const std::string& name, const std::vector<std::vector<float>>& default_value)
-		: mvSeriesBase(name, default_value)
+	mvBarSeries::mvBarSeries(const std::string& name)
+		: mvSeriesBase(name)
 	{
 	}
 
@@ -76,55 +76,21 @@ namespace Marvel {
 		if (PyObject* item = PyDict_GetItemString(dict, "horizontal")) m_horizontal= ToBool(item);
 		if (PyObject* item = PyDict_GetItemString(dict, "weight")) m_weight= ToFloat(item);
 
+		bool valueChanged = false;
+		if (PyObject* item = PyDict_GetItemString(dict, "x")) { valueChanged = true; (*m_value)[0] = ToFloatVect(item); }
+		if (PyObject* item = PyDict_GetItemString(dict, "y")) { valueChanged = true; (*m_value)[1] = ToFloatVect(item); }
+
+		if (valueChanged)
+		{
+			resetMaxMins();
+			calculateMaxMins();
+		}
+
 	}
 
 	void mvBarSeries::getExtraConfigDict(PyObject* dict)
 	{
 		if (dict == nullptr)
 			return;
-	}
-
-	PyObject* mvBarSeries::add_bar_series(PyObject* self, PyObject* args, PyObject* kwargs)
-	{
-		static int i = 0; i++;
-		std::string sname = std::string(std::string("$$DPG_") + s_internal_id + std::to_string(i));
-		const char* name = sname.c_str();
-
-		PyObject* x = PyTuple_New(2);
-		PyTuple_SetItem(x, 0, PyLong_FromLong(0));
-		PyTuple_SetItem(x, 1, PyLong_FromLong(1));
-
-		PyObject* y = PyTuple_New(2);
-		PyTuple_SetItem(y, 0, PyLong_FromLong(0));
-		PyTuple_SetItem(y, 1, PyLong_FromLong(1));
-
-		float weight = 1.0f;
-		int horizontal = false;
-
-		const char* label = "";
-		const char* source = "";
-		const char* parent = "";
-		const char* before = "";
-		int show = true;
-		int axis = 0;
-		int contribute_to_bounds = true;
-
-		if (!(mvApp::GetApp()->getParsers())[s_command].parse(args, kwargs, __FUNCTION__,
-			&name, &x, &y, &weight, &horizontal, &label, &source, &parent, &before,
-			&show, &axis, &contribute_to_bounds))
-			return GetPyNone();
-
-		auto xs = ToFloatVect(x);
-		auto ys = ToFloatVect(y);
-
-		auto item = CreateRef<mvBarSeries>(name, std::vector<std::vector<float>>{xs, ys});
-
-		item->checkConfigDict(kwargs);
-		item->setConfigDict(kwargs);
-		item->setExtraConfigDict(kwargs);
-
-		mvApp::GetApp()->getItemRegistry().addItemWithRuntimeChecks(item, parent, before);
-
-		return ToPyString(name);
 	}
 }

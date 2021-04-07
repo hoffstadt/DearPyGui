@@ -193,6 +193,7 @@ namespace Marvel {
         MV_END_EXTRA_COMMANDS
 
         static bool DoesItemHaveFlag(mvAppItem* item, int flag);
+        static std::pair<std::string, std::string> GetNameFromArgs(std::string& name, PyObject* args, PyObject* kwargs);
 
     protected:
 
@@ -241,9 +242,11 @@ namespace Marvel {
         virtual bool           isParentCompatible(mvAppItemType type) { return true; }
         virtual bool           canChildBeAdded   (mvAppItemType type) { return true; }
 
-        void                                checkConfigDict(PyObject* dict);
+    
+        void                                checkConfigDict(PyObject* dict);    
         void                                setConfigDict(PyObject* dict);  // python dictionary acts as an out parameter 
         void                                getConfigDict(PyObject* dict);
+        virtual void                        setConfigArgs(PyObject* args) {}
         virtual void                        setExtraConfigDict(PyObject* dict) {}
         virtual void                        getExtraConfigDict(PyObject* dict) {}
 

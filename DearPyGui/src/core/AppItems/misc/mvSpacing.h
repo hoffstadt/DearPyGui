@@ -12,7 +12,7 @@ namespace Marvel {
 
 		static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
 
-		MV_APPLY_WIDGET_REGISTRATION(mvAppItemType::mvSpacing, add_spacing)
+		MV_APPLY_WIDGET_REGISTRATION2(mvAppItemType::mvSpacing, add_spacing)
 
 		MV_START_EXTRA_COMMANDS
 		MV_END_EXTRA_COMMANDS
@@ -26,7 +26,7 @@ namespace Marvel {
 		MV_START_STYLE_CONSTANTS
 		MV_END_STYLE_CONSTANTS
 
-		mvSpacing(const std::string& name, int count);
+		mvSpacing(const std::string& name);
 
 		void draw(ImDrawList* drawlist, float x, float y) override;
 
