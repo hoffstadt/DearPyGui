@@ -28,8 +28,8 @@ namespace Marvel {
 		}, "Adds a selectable.", "None", "Adding Widgets") });
 	}
 
-	mvSelectable::mvSelectable(const std::string& name, bool default_value, const std::string& dataSource)
-		: mvBoolPtrBase(name, default_value)
+	mvSelectable::mvSelectable(const std::string& name)
+		: mvBoolPtrBase(name)
 	{
 	}
 
@@ -90,48 +90,6 @@ namespace Marvel {
 
 		// window flags
 		checkbitset("span_columns", ImGuiSelectableFlags_SpanAllColumns, m_flags, false);
-	}
-
-	PyObject* mvSelectable::add_selectable(PyObject* self, PyObject* args, PyObject* kwargs)
-	{
-		static int i = 0; i++;
-		std::string sname = std::string(std::string("$$DPG_") + s_internal_id + std::to_string(i));
-		const char* name = sname.c_str();
-		int default_value = false;
-		PyObject* callback = nullptr;
-		PyObject* callback_data = nullptr;
-		int width = 0;
-		int height = 0;
-		const char* before = "";
-		const char* parent = "";
-		const char* source = "";
-		int enabled = true;
-		const char* label = "";
-		int show = true;
-		int span_columns = false;
-
-		//ImGuiSelectableFlags flags = ImGuiSelectableFlags_None;
-
-		if (!(mvApp::GetApp()->getParsers())["add_selectable"].parse(args, kwargs, __FUNCTION__, &name,
-			&default_value, &callback, &callback_data, &width, &height, &before, &parent, &source, &enabled,
-			&label, &show, &span_columns))
-			return ToPyBool(false);
-
-		auto item = CreateRef<mvSelectable>(name, default_value, source);
-		if (callback)
-			Py_XINCREF(callback);
-		item->setCallback(callback);
-		if (callback_data)
-			Py_XINCREF(callback_data);
-		item->setCallbackData(callback_data);
-
-		item->checkConfigDict(kwargs);
-		item->setConfigDict(kwargs);
-		item->setExtraConfigDict(kwargs);
-
-		mvApp::GetApp()->getItemRegistry().addItemWithRuntimeChecks(item, parent, before);
-
-		return ToPyString(name);
 	}
 
 }

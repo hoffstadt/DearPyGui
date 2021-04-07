@@ -12,7 +12,7 @@ namespace Marvel {
 
 		static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
 
-		MV_APPLY_WIDGET_REGISTRATION(mvAppItemType::mvRadioButton, add_radio_button)
+		MV_APPLY_WIDGET_REGISTRATION2(mvAppItemType::mvRadioButton, add_radio_button)
 
 		MV_CREATE_CONSTANT(mvThemeCol_RadioButton_Text			, ImGuiCol_Text				, 0L);
 		MV_CREATE_CONSTANT(mvThemeCol_RadioButton_Bg			, ImGuiCol_FrameBg			, 0L);
@@ -52,9 +52,9 @@ namespace Marvel {
 
 	public:
 
-		mvRadioButton(const std::string& name, int default_value, const std::string& dataSource);
+		mvRadioButton(const std::string& name);
 
-		void draw(ImDrawList* drawlist, float x, float y)               override;
+		void draw(ImDrawList* drawlist, float x, float y) override;
 
 		void setExtraConfigDict(PyObject* dict) override;
 		void getExtraConfigDict(PyObject* dict) override;

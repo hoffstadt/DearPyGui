@@ -24,7 +24,7 @@ namespace Marvel {
 
         static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
 
-        MV_APPLY_WIDGET_REGISTRATION(mvAppItemType::mvSliderFloat, add_slider_float)
+        MV_APPLY_WIDGET_REGISTRATION2(mvAppItemType::mvSliderFloat, add_slider_float)
 
         MV_CREATE_CONSTANT(mvThemeCol_SliderFloat_Text                , ImGuiCol_Text              , 0L);
         MV_CREATE_CONSTANT(mvThemeCol_SliderFloat_Bg                  , ImGuiCol_FrameBg           , 0L);
@@ -74,7 +74,7 @@ namespace Marvel {
 
     public:
 
-        mvSliderFloat(const std::string& name, float default_value, const std::string& dataSource);
+        mvSliderFloat(const std::string& name);
         
         void setEnabled(bool value) override;
         void draw(ImDrawList* drawlist, float x, float y) override;
@@ -104,7 +104,7 @@ namespace Marvel {
 
         static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
  
-        MV_APPLY_WIDGET_REGISTRATION(mvAppItemType::mvSliderInt, add_slider_int)
+        MV_APPLY_WIDGET_REGISTRATION2(mvAppItemType::mvSliderInt, add_slider_int)
 
         MV_CREATE_CONSTANT(mvThemeCol_SliderInt_Text                , ImGuiCol_Text              , 0L);
         MV_CREATE_CONSTANT(mvThemeCol_SliderInt_Bg                  , ImGuiCol_FrameBg           , 0L);
@@ -154,7 +154,7 @@ namespace Marvel {
 
     public:
 
-        mvSliderInt(const std::string& name, int default_value, const std::string& dataSource);
+        mvSliderInt(const std::string& name);
             
         void setEnabled(bool value) override;   
         void draw(ImDrawList* drawlist, float x, float y) override;

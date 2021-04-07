@@ -87,37 +87,4 @@ namespace Marvel {
 		PyDict_SetItemString(dict, "horizontal_spacing", ToPyFloat(m_hspacing));
 	}
 
-	PyObject* mvGroup::add_group(PyObject* self, PyObject* args, PyObject* kwargs)
-	{
-		static int i = 0; i++;
-		std::string sname = std::string(std::string("$$DPG_") + s_internal_id + std::to_string(i));
-		const char* name = sname.c_str();
-		int show = true;
-		const char* parent = "";
-		const char* before = "";
-		int width = 0;
-		int horizontal = false;
-		float horizontal_spacing = -1.0f;
-
-		if (!(mvApp::GetApp()->getParsers())["add_group"].parse(args, kwargs, __FUNCTION__, &name,
-			&show, &parent, &before, &width, &horizontal, &horizontal_spacing))
-			return ToPyBool(false);
-
-		auto item = CreateRef<mvGroup>(name);
-
-		item->checkConfigDict(kwargs);
-		item->setConfigDict(kwargs);
-		item->setExtraConfigDict(kwargs);
-
-		if (mvApp::GetApp()->getItemRegistry().addItemWithRuntimeChecks(item, parent, before))
-		{
-			mvApp::GetApp()->getItemRegistry().pushParent(item);
-			if (!show)
-				item->hide();
-
-		}
-
-		return ToPyString(name);
-	}
-
 }

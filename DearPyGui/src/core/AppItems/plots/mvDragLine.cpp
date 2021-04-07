@@ -29,8 +29,8 @@ namespace Marvel {
 		}, "Adds a drag point to a plot.", "None", "Plotting") });
 	}
 
-	mvDragLine::mvDragLine(const std::string& name, float default_value, const std::string& dataSource)
-		: mvFloatPtrBase(name, default_value)
+	mvDragLine::mvDragLine(const std::string& name)
+		: mvFloatPtrBase(name)
 	{
 	}
 
@@ -90,52 +90,4 @@ namespace Marvel {
 			return;
 	}
 
-
-	PyObject* mvDragLine::add_drag_line(PyObject* self, PyObject* args, PyObject* kwargs)
-	{
-		static int i = 0; i++;
-		std::string sname = std::string(std::string("$$DPG_") + s_internal_id + std::to_string(i));
-		const char* name = sname.c_str();
-
-		float default_value = 0.0f;
-
-		const char* label = "";
-		const char* source = "";
-
-		PyObject* color = PyTuple_New(4);
-		PyTuple_SetItem(color, 0, PyLong_FromLong(0));
-		PyTuple_SetItem(color, 1, PyLong_FromLong(0));
-		PyTuple_SetItem(color, 2, PyLong_FromLong(0));
-		PyTuple_SetItem(color, 3, PyLong_FromLong(-1));
-
-		float thickness = 1.0f;
-
-		int show_label = true;
-		int vertical = true;
-
-		PyObject* callback = nullptr;
-		const char* before = "";
-		const char* parent = "";
-		
-		int show = true;
-
-		if (!(mvApp::GetApp()->getParsers())[s_command].parse(args, kwargs, __FUNCTION__, 
-			&name, &default_value, &label, &source, &color, &thickness, &show_label, &vertical,
-			&callback,
-			&parent, &before, &show))
-			return GetPyNone();
-
-		auto item = CreateRef<mvDragLine>(name, default_value, source);
-		if (callback)
-			Py_XINCREF(callback);
-		item->setCallback(callback);
-
-		item->checkConfigDict(kwargs);
-		item->setConfigDict(kwargs);
-		item->setExtraConfigDict(kwargs);
-
-		mvApp::GetApp()->getItemRegistry().addItemWithRuntimeChecks(item, parent, before);
-
-		return ToPyString(name);
-	}
 }

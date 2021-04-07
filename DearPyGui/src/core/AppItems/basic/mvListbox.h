@@ -12,7 +12,7 @@ namespace Marvel {
 
 		static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
 
-		MV_APPLY_WIDGET_REGISTRATION(mvAppItemType::mvListbox, add_listbox)
+		MV_APPLY_WIDGET_REGISTRATION2(mvAppItemType::mvListbox, add_listbox)
 
 		MV_CREATE_CONSTANT(mvThemeCol_Listbox_Text                , ImGuiCol_Text					, 0L);
 		MV_CREATE_CONSTANT(mvThemeCol_Listbox_Selected            , ImGuiCol_Header					, 0L);
@@ -70,7 +70,7 @@ namespace Marvel {
 
 	public:
 
-		mvListbox(const std::string& name, int default_value, const std::string& dataSource);
+		mvListbox(const std::string& name);
 
 		void draw(ImDrawList* drawlist, float x, float y) override;
 

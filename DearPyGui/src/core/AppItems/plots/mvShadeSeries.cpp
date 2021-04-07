@@ -27,8 +27,8 @@ namespace Marvel {
 		}, "Adds a drag point to a plot.", "None", "Plotting") });
 	}
 
-	mvShadeSeries::mvShadeSeries(const std::string& name, const std::vector<std::vector<float>>& default_value)
-		: mvSeriesBase(name, default_value)
+	mvShadeSeries::mvShadeSeries(const std::string& name)
+		: mvSeriesBase(name)
 	{
 	}
 
@@ -73,6 +73,22 @@ namespace Marvel {
 		if (PyObject* item = PyDict_GetItemString(dict, "axis")) m_axis = (ImPlotYAxis_)ToInt(item);
 		if (PyObject* item = PyDict_GetItemString(dict, "contribute_to_bounds")) m_contributeToBounds = ToBool(item);
 
+		bool valueChanged = false;
+		if (PyObject* item = PyDict_GetItemString(dict, "x")) { valueChanged = true; (*m_value)[0] = ToFloatVect(item); }
+		if (PyObject* item = PyDict_GetItemString(dict, "y1")) { valueChanged = true; (*m_value)[1] = ToFloatVect(item); }
+		if (PyObject* item = PyDict_GetItemString(dict, "y2")) { valueChanged = true; (*m_value)[2] = ToFloatVect(item); }
+
+		if (valueChanged)
+		{
+			if ((*m_value)[1].size() != (*m_value)[2].size())
+			{
+				(*m_value)[2].clear();
+				for (auto& item : (*m_value)[1])
+					(*m_value)[2].push_back(0.0f);
+			}
+			resetMaxMins();
+			calculateMaxMins();
+		}
 	}
 
 	void mvShadeSeries::getExtraConfigDict(PyObject* dict)
@@ -81,55 +97,4 @@ namespace Marvel {
 			return;
 	}
 
-	PyObject* mvShadeSeries::add_shade_series(PyObject* self, PyObject* args, PyObject* kwargs)
-	{
-		static int i = 0; i++;
-		std::string sname = std::string(std::string("$$DPG_") + s_internal_id + std::to_string(i));
-		const char* name = sname.c_str();
-
-		PyObject* x = PyTuple_New(2);
-		PyTuple_SetItem(x, 0, PyLong_FromLong(0));
-		PyTuple_SetItem(x, 1, PyLong_FromLong(1));
-
-		PyObject* y1 = PyTuple_New(2);
-		PyTuple_SetItem(y1, 0, PyLong_FromLong(0));
-		PyTuple_SetItem(y1, 1, PyLong_FromLong(1));
-
-		PyObject* y2 = nullptr;
-
-
-		const char* label = "";
-		const char* source = "";
-		const char* parent = "";
-		const char* before = "";
-		int show = true;
-		int axis = 0;
-		int contribute_to_bounds = true;
-
-		if (!(mvApp::GetApp()->getParsers())[s_command].parse(args, kwargs, __FUNCTION__,
-			&name, &x, &y1, &y2, &label, &source, &parent, &before, &show, &axis, &contribute_to_bounds))
-			return GetPyNone();
-
-		auto xs = ToFloatVect(x);
-		auto y1s = ToFloatVect(y1);
-
-		std::vector<float> y2s;
-		if (y2)
-			y2s = ToFloatVect(y2);
-		else
-		{
-			for (auto item : y1s)
-				y2s.push_back(0.0f);
-		}
-
-		auto item = CreateRef<mvShadeSeries>(name, std::vector<std::vector<float>>{xs, y1s, y2s});
-
-		item->checkConfigDict(kwargs);
-		item->setConfigDict(kwargs);
-		item->setExtraConfigDict(kwargs);
-
-		mvApp::GetApp()->getItemRegistry().addItemWithRuntimeChecks(item, parent, before);
-
-		return ToPyString(name);
-	}
 }

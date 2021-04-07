@@ -22,7 +22,7 @@ namespace Marvel {
 
 		static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
 
-		MV_APPLY_WIDGET_REGISTRATION(mvAppItemType::mvVLineSeries, add_vline_series)
+		MV_APPLY_WIDGET_REGISTRATION2(mvAppItemType::mvVLineSeries, add_vline_series)
 
 		MV_CREATE_CONSTANT(mvThemeCol_Plot_VLine, ImPlotCol_Line, 0L);
 
@@ -44,7 +44,7 @@ namespace Marvel {
 
 	public:
 
-		mvVLineSeries(const std::string& name, const std::vector<std::vector<float>>& default_value);
+		mvVLineSeries(const std::string& name);
 
 		void draw(ImDrawList* drawlist, float x, float y) override;
 
@@ -63,7 +63,7 @@ namespace Marvel {
 
 		static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
 
-		MV_APPLY_WIDGET_REGISTRATION(mvAppItemType::mvHLineSeries, add_hline_series)
+		MV_APPLY_WIDGET_REGISTRATION2(mvAppItemType::mvHLineSeries, add_hline_series)
 
 		MV_CREATE_CONSTANT(mvThemeCol_Plot_HLine, ImPlotCol_Line, 0L);
 
@@ -85,7 +85,7 @@ namespace Marvel {
 
 	public:
 
-		mvHLineSeries(const std::string& name, const std::vector<std::vector<float>>& default_value);
+		mvHLineSeries(const std::string& name);
 
 		void draw(ImDrawList* drawlist, float x, float y) override;
 

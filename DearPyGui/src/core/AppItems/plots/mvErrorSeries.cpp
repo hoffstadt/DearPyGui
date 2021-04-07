@@ -29,8 +29,8 @@ namespace Marvel {
 		}, "Adds a drag point to a plot.", "None", "Plotting") });
 	}
 
-	mvErrorSeries::mvErrorSeries(const std::string& name, const std::vector<std::vector<float>>& default_value)
-		: mvSeriesBase(name, default_value)
+	mvErrorSeries::mvErrorSeries(const std::string& name)
+		: mvSeriesBase(name)
 	{
 	}
 
@@ -80,6 +80,18 @@ namespace Marvel {
 		if (PyObject* item = PyDict_GetItemString(dict, "contribute_to_bounds")) m_contributeToBounds = ToBool(item);
 		if (PyObject* item = PyDict_GetItemString(dict, "horizontal")) m_horizontal= ToBool(item);
 
+		bool valueChanged = false;
+		if (PyObject* item = PyDict_GetItemString(dict, "x")) { valueChanged = true; (*m_value)[0] = ToFloatVect(item); }
+		if (PyObject* item = PyDict_GetItemString(dict, "y")) { valueChanged = true; (*m_value)[1] = ToFloatVect(item); }
+		if (PyObject* item = PyDict_GetItemString(dict, "negative")) { valueChanged = true; (*m_value)[2] = ToFloatVect(item); }
+		if (PyObject* item = PyDict_GetItemString(dict, "positive")) { valueChanged = true; (*m_value)[3] = ToFloatVect(item); }
+
+		if (valueChanged)
+		{
+			resetMaxMins();
+			calculateMaxMins();
+		}
+
 	}
 
 	void mvErrorSeries::getExtraConfigDict(PyObject* dict)
@@ -88,57 +100,4 @@ namespace Marvel {
 			return;
 	}
 
-	PyObject* mvErrorSeries::add_error_series(PyObject* self, PyObject* args, PyObject* kwargs)
-	{
-		static int i = 0; i++;
-		std::string sname = std::string(std::string("$$DPG_") + s_internal_id + std::to_string(i));
-		const char* name = sname.c_str();
-
-		PyObject* x = PyTuple_New(2);
-		PyTuple_SetItem(x, 0, PyLong_FromLong(0));
-		PyTuple_SetItem(x, 1, PyLong_FromLong(1));
-
-		PyObject* y = PyTuple_New(2);
-		PyTuple_SetItem(y, 0, PyLong_FromLong(0));
-		PyTuple_SetItem(y, 1, PyLong_FromLong(1));
-
-		PyObject* negative = PyTuple_New(2);
-		PyTuple_SetItem(negative, 0, PyLong_FromLong(0));
-		PyTuple_SetItem(negative, 1, PyLong_FromLong(1));
-
-		PyObject* positive = PyTuple_New(2);
-		PyTuple_SetItem(positive, 0, PyLong_FromLong(0));
-		PyTuple_SetItem(positive, 1, PyLong_FromLong(1));
-
-		int horizontal = false;
-
-		const char* label = "";
-		const char* source = "";
-		const char* parent = "";
-		const char* before = "";
-		int show = true;
-		int axis = 0;
-		int contribute_to_bounds = true;
-
-		if (!(mvApp::GetApp()->getParsers())[s_command].parse(args, kwargs, __FUNCTION__,
-			&name, &x, &y, &negative, &positive, &horizontal, &label, &source, &parent, &before,
-			&show, &axis, &contribute_to_bounds))
-			return GetPyNone();
-
-		auto xs = ToFloatVect(x);
-		auto ys = ToFloatVect(y);
-		auto negs = ToFloatVect(negative);
-		auto poss = ToFloatVect(positive);
-
-		auto item = CreateRef<mvErrorSeries>(name, 
-			std::vector<std::vector<float>>{xs, ys, negs, poss});
-
-		item->checkConfigDict(kwargs);
-		item->setConfigDict(kwargs);
-		item->setExtraConfigDict(kwargs);
-
-		mvApp::GetApp()->getItemRegistry().addItemWithRuntimeChecks(item, parent, before);
-
-		return ToPyString(name);
-	}
 }

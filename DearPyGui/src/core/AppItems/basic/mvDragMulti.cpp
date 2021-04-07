@@ -62,8 +62,8 @@ namespace Marvel {
         }, "Adds drag for multiple int values. CTRL+Click to directly modify the value.", "None", "Adding Widgets") });
     }
 
-    mvDragFloatMulti::mvDragFloatMulti(const std::string& name, float* default_value, const std::string& dataSource)
-        : mvFloat4PtrBase(name, default_value)
+    mvDragFloatMulti::mvDragFloatMulti(const std::string& name)
+        : mvFloat4PtrBase(name)
     {
     }
 
@@ -161,59 +161,8 @@ namespace Marvel {
 
     }
 
-    PyObject* mvDragFloatMulti::add_drag_floatx(PyObject* self, PyObject* args, PyObject* kwargs)
-    {
-        static int i = 0; i++;
-        std::string sname = std::string(std::string("$$DPG_") + s_internal_id + std::to_string(i));
-        const char* name = sname.c_str();
-        PyObject* default_value = PyTuple_New(4);
-        int size = 4;
-        PyTuple_SetItem(default_value, 0, PyFloat_FromDouble(0.0));
-        PyTuple_SetItem(default_value, 1, PyFloat_FromDouble(0.0));
-        PyTuple_SetItem(default_value, 2, PyFloat_FromDouble(0.0));
-        PyTuple_SetItem(default_value, 3, PyFloat_FromDouble(0.0));
-        float speed = 1.0f;
-        float min_value = 0.0f;
-        float max_value = 100.0f;
-        const char* format = "%.3f";
-        PyObject* callback = nullptr;
-        PyObject* callback_data = nullptr;
-        const char* parent = "";
-        const char* before = "";
-        const char* source = "";
-        int enable = true;
-        int width = 0;
-        int no_input = false;
-        int clamped = false;
-        const char* label = "";
-        int show = true;
-
-        if (!(mvApp::GetApp()->getParsers())[s_command].parse(args, kwargs, __FUNCTION__, &name, &default_value, &size, &speed,
-            &min_value, &max_value, &format, &callback, &callback_data, &parent, &before, &source, &enable, &width, &no_input, &clamped,
-            &label, &show))
-            return ToPyBool(false);
-
-        auto vec = ToFloatVect(default_value);
-
-        auto item = CreateRef<mvDragFloatMulti>(name, vec.data(), source);
-        if (callback)
-            Py_XINCREF(callback);
-        item->setCallback(callback);
-        if (callback_data)
-            Py_XINCREF(callback_data);
-        item->setCallbackData(callback_data);
-
-        item->checkConfigDict(kwargs);
-        item->setConfigDict(kwargs);
-        item->setExtraConfigDict(kwargs);
-
-        mvApp::GetApp()->getItemRegistry().addItemWithRuntimeChecks(item, parent, before);
-
-        return ToPyString(name);
-    }
-
-    mvDragIntMulti::mvDragIntMulti(const std::string& name, int* default_value, const std::string& dataSource)
-        : mvInt4PtrBase(name, default_value)
+    mvDragIntMulti::mvDragIntMulti(const std::string& name)
+        : mvInt4PtrBase(name)
     {
     }
 
@@ -311,54 +260,4 @@ namespace Marvel {
 
     }
 
-    PyObject* mvDragIntMulti::add_drag_intx(PyObject* self, PyObject* args, PyObject* kwargs)
-    {
-        static int i = 0; i++;
-        std::string sname = std::string(std::string("$$DPG_") + s_internal_id + std::to_string(i));
-        const char* name = sname.c_str();
-        PyObject* default_value = PyTuple_New(4);
-        int size = 4;
-        PyTuple_SetItem(default_value, 0, PyLong_FromLong(0));
-        PyTuple_SetItem(default_value, 1, PyLong_FromLong(0));
-        PyTuple_SetItem(default_value, 2, PyLong_FromLong(0));
-        PyTuple_SetItem(default_value, 3, PyLong_FromLong(0));
-        float speed = 1.0f;
-        float min_value = 0.0f;
-        float max_value = 100.0f;
-        const char* format = "%d";
-        PyObject* callback = nullptr;
-        PyObject* callback_data = nullptr;
-        const char* parent = "";
-        const char* before = "";
-        const char* source = "";
-        int enable = true;
-        int width = 0;
-        int no_input = false;
-        int clamped = false;
-        const char* label = "";
-        int show = true;
-
-        if (!(mvApp::GetApp()->getParsers())[s_command].parse(args, kwargs, __FUNCTION__, &name, &default_value, &size, &speed,
-            &min_value, &max_value, &format, &callback, &callback_data, &parent, &before, &source, &enable, &width, &no_input, &clamped,
-            &label, &show))
-            return ToPyBool(false);
-
-        auto vec = ToIntVect(default_value);
-
-        auto item = CreateRef<mvDragIntMulti>(name, vec.data(), source);
-        if (callback)
-            Py_XINCREF(callback);
-        item->setCallback(callback);
-        if (callback_data)
-            Py_XINCREF(callback_data);
-        item->setCallbackData(callback_data);
-
-        item->checkConfigDict(kwargs);
-        item->setConfigDict(kwargs);
-        item->setExtraConfigDict(kwargs);
-
-        mvApp::GetApp()->getItemRegistry().addItemWithRuntimeChecks(item, parent, before);
-
-        return ToPyString(name);
-    }
 }

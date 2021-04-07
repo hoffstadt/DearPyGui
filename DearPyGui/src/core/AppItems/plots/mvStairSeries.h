@@ -11,7 +11,7 @@ namespace Marvel {
 
 		static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
 
-		MV_APPLY_WIDGET_REGISTRATION(mvAppItemType::mvStairSeries, add_stair_series)
+		MV_APPLY_WIDGET_REGISTRATION2(mvAppItemType::mvStairSeries, add_stair_series)
 
 		MV_CREATE_CONSTANT(mvThemeCol_Plot_Stair, ImPlotCol_Line, 0L);
 
@@ -33,7 +33,7 @@ namespace Marvel {
 
 	public:
 
-		mvStairSeries(const std::string& name, const std::vector<std::vector<float>>& default_value);
+		mvStairSeries(const std::string& name);
 
 		void draw(ImDrawList* drawlist, float x, float y) override;
 

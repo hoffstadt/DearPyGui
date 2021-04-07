@@ -19,9 +19,19 @@ error1_pos = [0.4, 0.2, 0.4, 0.8, 0.6]
 
 set_log_level(0)
 show_logger()
-show_style_editor()
+
+def demo_log(sender):
+    log_debug(f"{sender} ran a callback its value is {get_value(sender)}")
 
 with window("Testing", width=500, height=500):
+
+    with group(horizontal=True):
+        add_button(label="Button", callback=demo_log)
+        add_button(label="Button", callback=demo_log, small=True)
+        add_button(label="Button", callback=demo_log, arrow=True)
+        add_button(label="Button", callback=demo_log, arrow=True, direction=4010)
+        add_button(label="Button", callback=demo_log, arrow=True, direction=4020)
+        add_button(label="Button", callback=demo_log, arrow=True, direction=4030)
 
     with tree_node("Line Plots##demo"):
 

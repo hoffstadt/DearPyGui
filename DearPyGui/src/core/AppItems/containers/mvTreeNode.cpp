@@ -25,7 +25,7 @@ namespace Marvel {
 		"None", "Containers") });
 	}
 	mvTreeNode::mvTreeNode(const std::string& name)
-		: mvBoolPtrBase(name, false)
+		: mvBoolPtrBase(name)
 	{
 	}
 
@@ -100,41 +100,6 @@ namespace Marvel {
 		checkbitset("leaf", ImGuiTreeNodeFlags_Leaf, m_flags);
 		checkbitset("bullet", ImGuiTreeNodeFlags_Bullet, m_flags);
 
-	}
-
-	PyObject* mvTreeNode::add_tree_node(PyObject* self, PyObject* args, PyObject* kwargs)
-	{
-		static int i = 0; i++;
-		std::string sname = std::string(std::string("$$DPG_") + s_internal_id + std::to_string(i));
-		const char* name = sname.c_str();
-		const char* label = "";
-		int show = false;
-		const char* parent = "";
-		const char* before = "";
-		int default_open = false;
-		int open_on_double_click = false;
-		int open_on_arrow = false;
-		int leaf = false;
-		int bullet = false;
-
-		if (!(mvApp::GetApp()->getParsers())["add_tree_node"].parse(args, kwargs, __FUNCTION__, &name,
-			&label, &show, &parent, &before, &default_open, &open_on_double_click, &open_on_arrow, &leaf, &bullet))
-			return ToPyBool(false);
-
-		auto item = CreateRef<mvTreeNode>(name);
-		item->checkConfigDict(kwargs);
-		item->setConfigDict(kwargs);
-		item->setExtraConfigDict(kwargs);
-
-		if (mvApp::GetApp()->getItemRegistry().addItemWithRuntimeChecks(item, parent, before))
-		{
-			mvApp::GetApp()->getItemRegistry().pushParent(item);
-			if (!show)
-				item->hide();
-
-		}
-
-		return ToPyString(name);
 	}
 
 }

@@ -159,47 +159,4 @@ namespace Marvel {
 		PyDict_SetItemString(dict, "draggable", ToPyBool(m_draggable));	
 	}
 
-	PyObject* mvNode::add_node(PyObject* self, PyObject* args, PyObject* kwargs)
-	{
-		static int i = 0; i++;
-		std::string sname = std::string(std::string("$$DPG_") + s_internal_id + std::to_string(i));
-		const char* name = sname.c_str();
-		int show = true;
-		const char* label = "";
-		int draggable = true;
-		const char* parent = "";
-		const char* before = "";
-		int xpos = 100;
-		int ypos = 100;
-
-		if (!(mvApp::GetApp()->getParsers())["add_node"].parse(args, kwargs, __FUNCTION__, &name,
-			&show, &label, &draggable, &parent, &before, &xpos, &ypos))
-			return ToPyBool(false);
-
-		auto item = CreateRef<mvNode>(name);
-		item->checkConfigDict(kwargs);
-		item->setConfigDict(kwargs);
-		item->setExtraConfigDict(kwargs);
-
-		auto topParent = mvApp::GetApp()->getItemRegistry().topParent();
-		if (topParent)
-		{
-			if (topParent->getType() != mvAppItemType::mvNodeEditor)
-			{
-				ThrowPythonException("Parent on parent stack must be a node editor.");
-				return ToPyBool(false);
-			}
-		}
-
-		if (mvApp::GetApp()->getItemRegistry().addItemWithRuntimeChecks(item, parent, before))
-		{
-			mvApp::GetApp()->getItemRegistry().pushParent(item);
-			if (!show)
-				item->hide();
-
-		}
-
-		return ToPyString(name);
-
-	}
 }

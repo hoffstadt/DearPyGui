@@ -1,5 +1,6 @@
 #pragma once
 #include "mvAppItem.h"
+#include "mvItemRegistry.h"
 #include <imnodes.h>
 #include <stdint.h>
 

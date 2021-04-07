@@ -28,8 +28,8 @@ namespace Marvel {
 		}, "Adds a listbox.", "None", "Adding Widgets") });
 	}
 
-	mvListbox::mvListbox(const std::string& name, int default_value, const std::string& dataSource)
-		: mvIntPtrBase(name, default_value)
+	mvListbox::mvListbox(const std::string& name)
+		: mvIntPtrBase(name)
 	{
 	}
 
@@ -67,46 +67,6 @@ namespace Marvel {
 		 
 		PyDict_SetItemString(dict, "items", ToPyList(m_names));
 		PyDict_SetItemString(dict, "num_items", ToPyInt(m_itemsHeight));
-	}
-
-	PyObject* mvListbox::add_listbox(PyObject* self, PyObject* args, PyObject* kwargs)
-	{
-		static int i = 0; i++;
-		std::string sname = std::string(std::string("$$DPG_") + s_internal_id + std::to_string(i));
-		const char* name = sname.c_str();
-		PyObject* items;
-		int default_value = 0;
-		PyObject* callback = nullptr;
-		PyObject* callback_data = nullptr;
-		int width = 0;
-		int num_items = 3;
-		const char* before = "";
-		const char* parent = "";
-		const char* source = "";
-		int enabled = true;
-		const char* label = "";
-		int show = true;
-
-		if (!(mvApp::GetApp()->getParsers())["add_listbox"].parse(args, kwargs, __FUNCTION__, &name, &items,
-			&default_value, &callback, &callback_data, &parent, &before, &source, &enabled, &width,
-			&num_items, &label, &show))
-			return ToPyBool(false);
-
-		auto item = CreateRef<mvListbox>(name, default_value, source);
-		if (callback)
-			Py_XINCREF(callback);
-		item->setCallback(callback);
-		if (callback_data)
-			Py_XINCREF(callback_data);
-		item->setCallbackData(callback_data);
-
-		item->checkConfigDict(kwargs);
-		item->setConfigDict(kwargs);
-		item->setExtraConfigDict(kwargs);
-
-		mvApp::GetApp()->getItemRegistry().addItemWithRuntimeChecks(item, parent, before);
-
-		return ToPyString(name);
 	}
 
 }

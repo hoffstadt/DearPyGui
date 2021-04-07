@@ -25,7 +25,7 @@ namespace Marvel {
 	}
 	mvTab::mvTab(const std::string& name)
 		: 
-		mvBoolPtrBase(name, false)
+		mvBoolPtrBase(name)
 	{
 	}
 
@@ -142,95 +142,6 @@ namespace Marvel {
 		checkbitset("trailing", ImGuiTabItemFlags_Trailing, m_flags);
 		checkbitset("no_tooltip", ImGuiTabItemFlags_NoTooltip, m_flags);
 
-	}
-
-	PyObject* mvTab::add_tab(PyObject* self, PyObject* args, PyObject* kwargs)
-	{
-		static int i = 0; i++;
-		std::string sname = std::string(std::string("$$DPG_") + s_internal_id + std::to_string(i));
-		const char* name = sname.c_str();
-		int closeable = false;
-		const char* label = "";
-		int show = true;
-		int no_reorder = false;
-		int leading = false;
-		int trailing = false;
-		int no_tooltip = false;
-		const char* parent = "";
-		const char* before = "";
-
-		if (!(mvApp::GetApp()->getParsers())["add_tab"].parse(args, kwargs, __FUNCTION__, &name, &closeable,
-			&label, &show, &no_reorder, &leading, &trailing, &no_tooltip, &parent, &before))
-			return ToPyBool(false);
-
-		if (std::string(parent).empty())
-		{
-			auto parentItem = mvApp::GetApp()->getItemRegistry().topParent();
-
-			if (parentItem == nullptr)
-			{
-				ThrowPythonException("add_tab must follow a call to add_tabbar.");
-				return ToPyBool(false);
-			}
-
-			else if (parentItem->getType() == mvAppItemType::mvTabBar)
-			{
-				auto item = CreateRef<mvTab>(name);
-				item->checkConfigDict(kwargs);
-				item->setConfigDict(kwargs);
-				item->setExtraConfigDict(kwargs);
-
-				if (mvApp::GetApp()->getItemRegistry().addItemWithRuntimeChecks(item, parent, before))
-				{
-					mvApp::GetApp()->getItemRegistry().pushParent(item);
-					if (!show)
-						item->hide();
-
-				}
-
-				return ToPyString(name);
-			}
-
-			else
-				ThrowPythonException("add_tab was called incorrectly. Did you forget to call end_tab?");
-		}
-
-		else
-		{
-			auto parentItem = mvApp::GetApp()->getItemRegistry().getItem(parent);
-
-			if (parentItem == nullptr)
-			{
-				ThrowPythonException("add_tab parent must exist.");
-				return ToPyBool(false);
-			}
-
-			else if (parentItem->getType() == mvAppItemType::mvTabBar)
-			{
-				auto item = CreateRef<mvTab>(name);
-				item->checkConfigDict(kwargs);
-				item->setConfigDict(kwargs);
-				item->setExtraConfigDict(kwargs);
-
-				if (mvApp::GetApp()->getItemRegistry().addItemWithRuntimeChecks(item, parent, before))
-				{
-					mvApp::GetApp()->getItemRegistry().pushParent(item);
-					if (!show)
-						item->hide();
-
-				}
-
-				return ToPyString(name);
-			}
-
-			else
-			{
-				ThrowPythonException("add_tab parent must be a tab bar.");
-				return ToPyBool(false);
-			}
-		}
-
-		return ToPyBool(false);
 	}
 
 }

@@ -27,8 +27,8 @@ namespace Marvel {
 		}, "Adds a drag point to a plot.", "None", "Plotting") });
 	}
 
-	mvAnnotation::mvAnnotation(const std::string& name, float* default_value, const std::string& dataSource)
-		: mvFloat4PtrBase(name, default_value)
+	mvAnnotation::mvAnnotation(const std::string& name)
+		: mvFloat4PtrBase(name)
 	{
 	}
 
@@ -72,53 +72,4 @@ namespace Marvel {
 			return;
 	}
 
-	PyObject* mvAnnotation::add_plot_annotation(PyObject* self, PyObject* args, PyObject* kwargs)
-	{
-		static int i = 0; i++;
-		std::string sname = std::string(std::string("$$DPG_") + s_internal_id + std::to_string(i));
-		const char* name = sname.c_str();
-
-		PyObject* default_value = PyTuple_New(4);
-		PyTuple_SetItem(default_value, 0, PyLong_FromLong(0));
-		PyTuple_SetItem(default_value, 1, PyLong_FromLong(0));
-		PyTuple_SetItem(default_value, 2, PyLong_FromLong(0));
-		PyTuple_SetItem(default_value, 3, PyLong_FromLong(0));
-
-		PyObject* offset = PyTuple_New(2);
-		PyTuple_SetItem(offset, 0, PyLong_FromLong(0));
-		PyTuple_SetItem(offset, 1, PyLong_FromLong(0));
-
-		const char* label = "";
-		const char* source = "";
-
-		PyObject* color = PyTuple_New(4);
-		PyTuple_SetItem(color, 0, PyLong_FromLong(0));
-		PyTuple_SetItem(color, 1, PyLong_FromLong(0));
-		PyTuple_SetItem(color, 2, PyLong_FromLong(0));
-		PyTuple_SetItem(color, 3, PyLong_FromLong(-1));
-
-		int clamped = true;
-
-		const char* before = "";
-		const char* parent = "";
-		
-		int show = true;
-
-		if (!(mvApp::GetApp()->getParsers())[s_command].parse(args, kwargs, __FUNCTION__, 
-			&name, &default_value, &offset, &label, &source, &color, &clamped,
-			&parent, &before, &show))
-			return GetPyNone();
-
-		auto vec = ToFloatVect(default_value);
-
-		auto item = CreateRef<mvAnnotation>(name, vec.data(), source);
-
-		item->checkConfigDict(kwargs);
-		item->setConfigDict(kwargs);
-		item->setExtraConfigDict(kwargs);
-
-		mvApp::GetApp()->getItemRegistry().addItemWithRuntimeChecks(item, parent, before);
-
-		return ToPyString(name);
-	}
 }

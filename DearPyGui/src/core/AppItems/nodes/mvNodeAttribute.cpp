@@ -120,47 +120,4 @@ namespace Marvel {
 		PyDict_SetItemString(dict, "shape", ToPyInt(MV_ENCODE_CONSTANT((int)m_shape, 0)));
 	}
 
-	PyObject* mvNodeAttribute::add_node_attribute(PyObject* self, PyObject* args, PyObject* kwargs)
-	{
-		static int i = 0; i++;
-		std::string sname = std::string(std::string("$$DPG_") + s_internal_id + std::to_string(i));
-		const char* name = sname.c_str();
-		int shape = 1;
-		int output = false;
-		int kw_static = false;
-		int show = true;
-		const char* parent = "";
-		const char* before = "";
-
-		if (!(mvApp::GetApp()->getParsers())["add_node_attribute"].parse(args, kwargs, __FUNCTION__, &name,
-			&shape, &output, &kw_static, &show, &parent, &before))
-			return ToPyBool(false);
-
-		auto item = CreateRef<mvNodeAttribute>(name);
-		item->checkConfigDict(kwargs);
-		item->setConfigDict(kwargs);
-		item->setExtraConfigDict(kwargs);
-
-		auto topParent = mvApp::GetApp()->getItemRegistry().topParent();
-		if (topParent)
-		{
-			if (topParent->getType() != mvAppItemType::mvNode)
-			{
-				ThrowPythonException("Parent on parent stack must be a node.");
-				return ToPyBool(false);
-			}
-		}
-
-		if (mvApp::GetApp()->getItemRegistry().addItemWithRuntimeChecks(item, parent, before))
-		{
-			mvApp::GetApp()->getItemRegistry().pushParent(item);
-			if (!show)
-				item->hide();
-
-		}
-
-		return ToPyString(name);
-
-	}
-
 }

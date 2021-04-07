@@ -12,7 +12,7 @@ namespace Marvel {
 
 		static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
 
-		MV_APPLY_WIDGET_REGISTRATION(mvAppItemType::mvCheckbox, add_checkbox)
+		MV_APPLY_WIDGET_REGISTRATION2(mvAppItemType::mvCheckbox, add_checkbox)
 
 		MV_CREATE_CONSTANT(mvThemeCol_CheckBox_Text			, ImGuiCol_Text				, 0L);
 		MV_CREATE_CONSTANT(mvThemeCol_CheckBox_Bg			, ImGuiCol_FrameBg			, 0L);
@@ -54,7 +54,7 @@ namespace Marvel {
 
 	public:
 
-		mvCheckbox(const std::string& name, bool default_value, const std::string& dataSource);
+		mvCheckbox(const std::string& name);
 
 		void draw(ImDrawList* drawlist, float x, float y) override;
 

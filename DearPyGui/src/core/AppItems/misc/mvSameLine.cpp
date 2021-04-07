@@ -7,8 +7,9 @@ namespace Marvel {
 	void mvSameLine::InsertParser(std::map<std::string, mvPythonParser>* parsers)
 	{
 		parsers->insert({ s_command, mvPythonParser({
-			{mvPythonDataType::KeywordOnly},
+			{mvPythonDataType::Optional},
 			{mvPythonDataType::String, "name", "", "'sameline'"},
+			{mvPythonDataType::KeywordOnly},
 			{mvPythonDataType::Float, "xoffset", "offset from containing window", "0.0"},
 			{mvPythonDataType::Float, "spacing", "offset from previous widget", "-1.0"},
 			{mvPythonDataType::String, "parent", "Parent to add this item to. (runtime adding)", "''"},
@@ -46,32 +47,6 @@ namespace Marvel {
 
 		PyDict_SetItemString(dict, "xoffset", ToPyFloat(m_xoffset));
 		PyDict_SetItemString(dict, "spacing", ToPyFloat(m_spacing));
-	}
-
-	PyObject* mvSameLine::add_same_line(PyObject* self, PyObject* args, PyObject* kwargs)
-	{
-		static int i = 0; i++;
-		std::string sname = std::string(std::string("$$DPG_") + s_internal_id + std::to_string(i));
-		const char* name = sname.c_str();
-		float xoffset = 0.0f;
-		float spacing = -1.0f;
-		const char* before = "";
-		const char* parent = "";
-		int show = true;
-
-		if (!(mvApp::GetApp()->getParsers())["add_same_line"].parse(args, kwargs, __FUNCTION__, &name,
-			&xoffset, &spacing, &parent, &before, &show))
-			return ToPyBool(false);
-
-		auto item = CreateRef<mvSameLine>(name);
-
-		item->checkConfigDict(kwargs);
-		item->setConfigDict(kwargs);
-		item->setExtraConfigDict(kwargs);
-
-		mvApp::GetApp()->getItemRegistry().addItemWithRuntimeChecks(item, parent, before);
-
-		return ToPyString(name);
 	}
 
 }

@@ -29,8 +29,8 @@ namespace Marvel {
 		}, "Adds a drag point to a plot.", "None", "Plotting") });
 	}
 
-	mvImageSeries::mvImageSeries(const std::string& name, const std::vector<std::vector<float>>& default_value)
-		: mvSeriesBase(name, default_value)
+	mvImageSeries::mvImageSeries(const std::string& name)
+		: mvSeriesBase(name)
 	{
 	}
 
@@ -117,50 +117,4 @@ namespace Marvel {
 			return;
 	}
 
-	PyObject* mvImageSeries::add_image_series(PyObject* self, PyObject* args, PyObject* kwargs)
-	{
-		static int i = 0; i++;
-		std::string sname = std::string(std::string("$$DPG_") + s_internal_id + std::to_string(i));
-		const char* name = sname.c_str();
-
-		const char* value = "";
-		PyObject* bounds_min;
-		PyObject* bounds_max;
-
-		PyObject* uv_min = PyTuple_New(2);
-		PyTuple_SetItem(uv_min, 0, PyFloat_FromDouble(0));
-		PyTuple_SetItem(uv_min, 1, PyFloat_FromDouble(0));
-
-		PyObject* uv_max = PyTuple_New(2);
-		PyTuple_SetItem(uv_max, 0, PyFloat_FromDouble(1));
-		PyTuple_SetItem(uv_max, 1, PyFloat_FromDouble(1));
-
-		PyObject* tintcolor = PyTuple_New(4);
-		PyTuple_SetItem(tintcolor, 0, PyFloat_FromDouble(255.0));
-		PyTuple_SetItem(tintcolor, 1, PyFloat_FromDouble(255.0));
-		PyTuple_SetItem(tintcolor, 2, PyFloat_FromDouble(255.0));
-		PyTuple_SetItem(tintcolor, 3, PyFloat_FromDouble(255.0));
-
-		const char* label = "";
-		const char* parent = "";
-		const char* before = "";
-		int show = true;
-		int contribute_to_bounds = true;
-
-		if (!(mvApp::GetApp()->getParsers())[s_command].parse(args, kwargs, __FUNCTION__,
-			&name, &value, &bounds_min, &bounds_max, &uv_min, &uv_max, &tintcolor, 
-			&label, &parent, 
-			&before, &show, &contribute_to_bounds))
-			return GetPyNone();
-
-		auto item = CreateRef<mvImageSeries>(name, std::vector<std::vector<float>>{});
-
-		item->checkConfigDict(kwargs);
-		item->setConfigDict(kwargs);
-		item->setExtraConfigDict(kwargs);
-
-		mvApp::GetApp()->getItemRegistry().addItemWithRuntimeChecks(item, parent, before);
-
-		return ToPyString(name);
-	}
 }

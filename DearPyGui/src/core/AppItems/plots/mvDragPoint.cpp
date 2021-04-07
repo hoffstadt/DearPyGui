@@ -28,8 +28,8 @@ namespace Marvel {
 		}, "Adds a drag point to a plot.", "None", "Plotting") });
 	}
 
-	mvDragPoint::mvDragPoint(const std::string& name, float* default_value, const std::string& dataSource)
-		: mvFloat4PtrBase(name, default_value)
+	mvDragPoint::mvDragPoint(const std::string& name)
+		: mvFloat4PtrBase(name)
 	{
 	}
 
@@ -80,55 +80,4 @@ namespace Marvel {
 			return;
 	}
 
-	PyObject* mvDragPoint::add_drag_point(PyObject* self, PyObject* args, PyObject* kwargs)
-	{
-		static int i = 0; i++;
-		std::string sname = std::string(std::string("$$DPG_") + s_internal_id + std::to_string(i));
-		const char* name = sname.c_str();
-
-		PyObject* default_value = PyTuple_New(4);
-		PyTuple_SetItem(default_value, 0, PyLong_FromLong(0));
-		PyTuple_SetItem(default_value, 1, PyLong_FromLong(0));
-		PyTuple_SetItem(default_value, 2, PyLong_FromLong(0));
-		PyTuple_SetItem(default_value, 3, PyLong_FromLong(0));
-
-		const char* label = "";
-		const char* source = "";
-
-		PyObject* color = PyTuple_New(4);
-		PyTuple_SetItem(color, 0, PyLong_FromLong(0));
-		PyTuple_SetItem(color, 1, PyLong_FromLong(0));
-		PyTuple_SetItem(color, 2, PyLong_FromLong(0));
-		PyTuple_SetItem(color, 3, PyLong_FromLong(-1));
-
-		float radius = 4.0f;
-
-		int show_label = true;
-
-		PyObject* callback = nullptr;
-		const char* before = "";
-		const char* parent = "";
-		
-		int show = true;
-
-		if (!(mvApp::GetApp()->getParsers())[s_command].parse(args, kwargs, __FUNCTION__, 
-			&name, &default_value, &label, &source, &color, &radius, &show_label, &callback,
-			&parent, &before, &show))
-			return GetPyNone();
-
-		auto vec = ToFloatVect(default_value);
-
-		auto item = CreateRef<mvDragPoint>(name, vec.data(), source);
-		if (callback)
-			Py_XINCREF(callback);
-		item->setCallback(callback);
-
-		item->checkConfigDict(kwargs);
-		item->setConfigDict(kwargs);
-		item->setExtraConfigDict(kwargs);
-
-		mvApp::GetApp()->getItemRegistry().addItemWithRuntimeChecks(item, parent, before);
-
-		return ToPyString(name);
-	}
 }

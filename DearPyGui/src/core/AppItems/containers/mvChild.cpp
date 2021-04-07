@@ -29,7 +29,7 @@ namespace Marvel {
 	}
 
 	mvChild::mvChild(const std::string& name)
-		: mvBoolPtrBase(name, false)
+		: mvBoolPtrBase(name)
 	{
 	}
 
@@ -118,45 +118,6 @@ namespace Marvel {
 		checkbitset("no_scrollbar", ImGuiWindowFlags_NoScrollbar, m_windowflags);
 		checkbitset("horizontal_scrollbar", ImGuiWindowFlags_HorizontalScrollbar, m_windowflags);
 		checkbitset("menubar", ImGuiWindowFlags_MenuBar, m_windowflags);
-	}
-
-	PyObject* mvChild::add_child(PyObject* self, PyObject* args, PyObject* kwargs)
-	{
-		static int i = 0; i++;
-		std::string sname = std::string(std::string("$$DPG_") + s_internal_id + std::to_string(i));
-		const char* name = sname.c_str();
-		int show = true;
-		const char* parent = "";
-		const char* before = "";
-		int width = 0;
-		int height = 0;
-		int border = true;
-		int autosize_x = false;
-		int autosize_y = false;
-		int no_scrollbar = false;
-		int horizontal_scrollbar = false;
-		int menubar = false;
-
-		if (!(mvApp::GetApp()->getParsers())["add_child"].parse(args, kwargs, __FUNCTION__, &name,
-			&show, &parent, &before, &width, &height, &border, &autosize_x,
-			&autosize_y, &no_scrollbar, &horizontal_scrollbar, &menubar))
-			return ToPyBool(false);
-
-		auto item = CreateRef<mvChild>(name);
-		item->checkConfigDict(kwargs);
-		item->setConfigDict(kwargs);
-		item->setExtraConfigDict(kwargs);
-
-		if (mvApp::GetApp()->getItemRegistry().addItemWithRuntimeChecks(item, parent, before))
-		{
-			mvApp::GetApp()->getItemRegistry().pushParent(item);
-			if (!show)
-				item->hide();
-
-		}
-
-		return ToPyString(name);
-
 	}
 
 }

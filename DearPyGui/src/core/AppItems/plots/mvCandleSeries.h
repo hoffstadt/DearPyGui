@@ -12,7 +12,7 @@ namespace Marvel {
 
 			static void InsertParser(std::map<std::string, mvPythonParser>*parsers);
 
-			MV_APPLY_WIDGET_REGISTRATION(mvAppItemType::mvCandleSeries, add_candle_series)
+			MV_APPLY_WIDGET_REGISTRATION2(mvAppItemType::mvCandleSeries, add_candle_series)
 
 
 			MV_START_EXTRA_COMMANDS
@@ -29,7 +29,7 @@ namespace Marvel {
 
 	public:
 
-		mvCandleSeries(const std::string& name, const std::vector<std::vector<float>>& default_value);
+		mvCandleSeries(const std::string& name);
 
 		void draw(ImDrawList* drawlist, float x, float y) override;
 

@@ -25,8 +25,8 @@ namespace Marvel {
 		}, "Adds a progress bar.", "None", "Adding Widgets") });
 	}
 
-	mvProgressBar::mvProgressBar(const std::string& name, float default_value, const std::string& dataSource)
-		: mvFloatPtrBase(name, default_value)
+	mvProgressBar::mvProgressBar(const std::string& name)
+		: mvFloatPtrBase(name)
 	{
 	}
 
@@ -54,36 +54,6 @@ namespace Marvel {
 			return;
 		 
 		PyDict_SetItemString(dict, "overlay", ToPyString(m_overlay));
-	}
-
-	PyObject* mvProgressBar::add_progress_bar(PyObject* self, PyObject* args, PyObject* kwargs)
-	{
-		static int i = 0; i++;
-		std::string sname = std::string(std::string("$$DPG_") + s_internal_id + std::to_string(i));
-		const char* name = sname.c_str();
-		float default_value = 0.0f;
-		const char* overlay = "";
-		const char* parent = "";
-		const char* before = "";
-		const char* source = "";
-		const char* label = "";
-		int width = 0;
-		int height = 0;
-		int show = true;
-
-		if (!(mvApp::GetApp()->getParsers())["add_progress_bar"].parse(args, kwargs, __FUNCTION__, &name, &default_value,
-			&overlay, &parent, &before, &source, &label, &width, &height, &show))
-			return ToPyBool(false);
-
-		auto item = CreateRef<mvProgressBar>(name, default_value, source);
-
-		item->checkConfigDict(kwargs);
-		item->setConfigDict(kwargs);
-		item->setExtraConfigDict(kwargs);
-
-		mvApp::GetApp()->getItemRegistry().addItemWithRuntimeChecks(item, parent, before);
-
-		return ToPyString(name);
 	}
 
 }

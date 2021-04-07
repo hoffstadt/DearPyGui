@@ -1,5 +1,6 @@
 #pragma once
 #include "mvAppItem.h"
+#include "mvItemRegistry.h"
 #include <stdint.h>
 #include <imnodes.h>
 
@@ -13,7 +14,7 @@ namespace Marvel {
 
 		static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
 
-		MV_APPLY_WIDGET_REGISTRATION(mvAppItemType::mvNodeAttribute, add_node_attribute)
+		MV_APPLY_WIDGET_REGISTRATION2(mvAppItemType::mvNodeAttribute, add_node_attribute)
 
 		MV_CREATE_CONSTANT(mvThemeCol_NodeAttr_Pin			, imnodes::ColorStyle::ColorStyle_Pin, 0L);
 		MV_CREATE_CONSTANT(mvThemeCol_NodeAttr_PinHovered	, imnodes::ColorStyle::ColorStyle_PinHovered, 0L);

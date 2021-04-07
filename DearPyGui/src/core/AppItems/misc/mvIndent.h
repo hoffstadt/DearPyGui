@@ -12,7 +12,7 @@ namespace Marvel {
 
 		static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
 
-		MV_APPLY_WIDGET_REGISTRATION(mvAppItemType::mvIndent, add_indent)
+		MV_APPLY_WIDGET_REGISTRATION2(mvAppItemType::mvIndent, add_indent)
 
 		MV_CREATE_CONSTANT(mvThemeStyle_Indent_Spacing, 11L, 0L);
 
@@ -29,7 +29,7 @@ namespace Marvel {
 		MV_ADD_CONSTANT(mvThemeStyle_Indent_Spacing, 21, 30),
 		MV_END_STYLE_CONSTANTS
 
-		mvIndent(const std::string& name, float default_value);
+		mvIndent(const std::string& name);
 
 		void draw(ImDrawList* drawlist, float x, float y) override;
 

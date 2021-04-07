@@ -31,8 +31,8 @@ namespace Marvel {
 		}, "Adds a drag point to a plot.", "None", "Plotting") });
 	}
 
-	mvHeatSeries::mvHeatSeries(const std::string& name, const std::vector<std::vector<float>>& default_value)
-		: mvSeriesBase(name, default_value)
+	mvHeatSeries::mvHeatSeries(const std::string& name)
+		: mvSeriesBase(name)
 	{
 	}
 
@@ -65,6 +65,15 @@ namespace Marvel {
 		if (PyObject* item = PyDict_GetItemString(dict, "scale_max")) m_scale_max = (double)ToFloat(item);
 		if (PyObject* item = PyDict_GetItemString(dict, "contribute_to_bounds")) m_contributeToBounds = ToBool(item);
 
+		bool valueChanged = false;
+		if (PyObject* item = PyDict_GetItemString(dict, "x")) { valueChanged = true; (*m_value)[0] = ToFloatVect(item); }
+
+		if (valueChanged)
+		{
+			resetMaxMins();
+			calculateMaxMins();
+		}
+
 	}
 
 	void mvHeatSeries::getExtraConfigDict(PyObject* dict)
@@ -73,68 +82,4 @@ namespace Marvel {
 			return;
 	}
 
-	PyObject* mvHeatSeries::add_heat_series(PyObject* self, PyObject* args, PyObject* kwargs)
-	{
-		static int i = 0; i++;
-		std::string sname = std::string(std::string("$$DPG_") + s_internal_id + std::to_string(i));
-		const char* name = sname.c_str();
-
-		PyObject* x = PyTuple_New(2);
-		PyTuple_SetItem(x, 0, PyLong_FromLong(0));
-		PyTuple_SetItem(x, 1, PyLong_FromLong(1));
-
-		int rows = 1;
-		int cols = 1;
-		double scale_min = 0.0;
-		double scale_max = 1.0;
-
-		const char* format = "%0.1f";
-		PyObject* bounds_min = PyTuple_New(2);
-		PyTuple_SetItem(bounds_min, 0, PyLong_FromLong(0));
-		PyTuple_SetItem(bounds_min, 1, PyLong_FromLong(0));
-		PyObject* bounds_max = PyTuple_New(2);
-		PyTuple_SetItem(bounds_max, 0, PyLong_FromLong(1));
-		PyTuple_SetItem(bounds_max, 1, PyLong_FromLong(1));
-
-		const char* label = "";
-		const char* source = "";
-		const char* parent = "";
-		const char* before = "";
-		int show = true;
-		int contribute_to_bounds = true;
-
-		if (!(mvApp::GetApp()->getParsers())[s_command].parse(args, kwargs, __FUNCTION__,
-			&name, &x, &rows, &cols, &scale_min, &scale_max, &format, &bounds_min,
-			&bounds_max, &label, &source, &parent, &before, &show, &contribute_to_bounds))
-			return GetPyNone();
-
-		auto mvalues = ToFloatVect(x);
-		auto mbounds_min = ToVec2(bounds_min);
-		auto mbounds_max = ToVec2(bounds_max);
-
-		if (mvalues.size() == 0)
-			return GetPyNone();
-
-		if (mvalues.size() % cols != 0)
-		{
-			ThrowPythonException(std::string(name) + " series dimensions are wrong.");
-			return GetPyNone();
-		}
-
-		if (rows * cols != mvalues.size())
-		{
-			ThrowPythonException(std::string(name) + " series dimensions do not match data sizes.");
-			return GetPyNone();
-		}
-
-		auto item = CreateRef<mvHeatSeries>(name, std::vector<std::vector<float>>{mvalues});
-
-		item->checkConfigDict(kwargs);
-		item->setConfigDict(kwargs);
-		item->setExtraConfigDict(kwargs);
-
-		mvApp::GetApp()->getItemRegistry().addItemWithRuntimeChecks(item, parent, before);
-
-		return ToPyString(name);
-	}
 }

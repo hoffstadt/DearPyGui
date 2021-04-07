@@ -38,9 +38,9 @@ namespace Marvel {
 		}, "Adds input for text values.", "None", "Adding Widgets") });
 	}
 
-	mvInputText::mvInputText(const std::string& name, const std::string& default_value, const std::string& dataSource)
+	mvInputText::mvInputText(const std::string& name)
 		: 
-		mvStringPtrBase(name, default_value)
+		mvStringPtrBase(name)
 	{
 	}
 
@@ -140,61 +140,6 @@ namespace Marvel {
 		checkbitset("on_enter", ImGuiInputTextFlags_EnterReturnsTrue, m_flags);
 		checkbitset("scientific", ImGuiInputTextFlags_CharsScientific, m_flags);
 		checkbitset("tab_input", ImGuiInputTextFlags_AllowTabInput, m_flags);
-	}
-
-	PyObject* mvInputText::add_input_text(PyObject* self, PyObject* args, PyObject* kwargs)
-	{
-		static int i = 0; i++;
-		std::string sname = std::string(std::string("$$DPG_") + s_internal_id + std::to_string(i));
-		const char* name = sname.c_str();
-		const char* default_value = "";
-		const char* hint = "";
-		int multiline = 0;
-		int no_spaces = false;
-		int uppercase = false;
-		int tab_input = false;
-		int decimal = false;
-		int hexadecimal = false;
-		int readonly = false;
-		int password = false;
-		int scientific = false;
-		PyObject* callback = nullptr;
-		PyObject* callback_data = nullptr;
-		int width = 0;
-		int height = 0;
-		const char* before = "";
-		const char* parent = "";
-		const char* source = "";
-		int enabled = true;
-		int on_enter = false;
-		const char* label = "";
-		int show = true;
-
-		//int flags = 0;
-
-		if (!(mvApp::GetApp()->getParsers())["add_input_text"].parse(args, kwargs, __FUNCTION__,
-			&name, &default_value, &hint, &multiline, &no_spaces,
-			&uppercase, &tab_input, &decimal, &hexadecimal, &readonly, &password, &scientific, &callback,
-			&callback_data, &parent, &before, &source, &enabled, &width, &height, &on_enter,
-			&label, &show))
-			return ToPyBool(false);
-
-
-		auto item = CreateRef<mvInputText>(name, default_value, source);
-		if (callback)
-			Py_XINCREF(callback);
-		item->setCallback(callback);
-		if (callback_data)
-			Py_XINCREF(callback_data);
-		item->setCallbackData(callback_data);
-
-		item->checkConfigDict(kwargs);
-		item->setConfigDict(kwargs);
-		item->setExtraConfigDict(kwargs);
-
-		mvApp::GetApp()->getItemRegistry().addItemWithRuntimeChecks(item, parent, before);
-
-		return ToPyString(name);
 	}
 
 }

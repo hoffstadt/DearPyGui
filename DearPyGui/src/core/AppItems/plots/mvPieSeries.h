@@ -11,7 +11,7 @@ namespace Marvel {
 
 		static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
 
-		MV_APPLY_WIDGET_REGISTRATION(mvAppItemType::mvPieSeries, add_pie_series)
+		MV_APPLY_WIDGET_REGISTRATION2(mvAppItemType::mvPieSeries, add_pie_series)
 
 		MV_START_EXTRA_COMMANDS
 		MV_END_EXTRA_COMMANDS
@@ -27,7 +27,7 @@ namespace Marvel {
 
 	public:
 
-		mvPieSeries(const std::string& name, const std::vector<std::vector<float>>& default_value);
+		mvPieSeries(const std::string& name);
 
 		void draw(ImDrawList* drawlist, float x, float y) override;
 

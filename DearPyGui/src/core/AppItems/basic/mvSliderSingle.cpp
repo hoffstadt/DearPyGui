@@ -65,8 +65,8 @@ namespace Marvel {
 
     }
 
-    mvSliderFloat::mvSliderFloat(const std::string& name, float default_value, const std::string& dataSource)
-        : mvFloatPtrBase(name, default_value)
+    mvSliderFloat::mvSliderFloat(const std::string& name)
+        : mvFloatPtrBase(name)
     {
     }
 
@@ -114,8 +114,8 @@ namespace Marvel {
         }
     }
 
-    mvSliderInt::mvSliderInt(const std::string& name, int default_value, const std::string& dataSource)
-        : mvIntPtrBase(name, default_value)
+    mvSliderInt::mvSliderInt(const std::string& name)
+        : mvIntPtrBase(name)
     {
     }
 
@@ -252,96 +252,6 @@ namespace Marvel {
         checkbitset("clamped", ImGuiSliderFlags_ClampOnInput, m_flags);
         checkbitset("no_input", ImGuiSliderFlags_NoInput, m_flags);
 
-    }
-
-    PyObject* mvSliderFloat::add_slider_float(PyObject* self, PyObject* args, PyObject* kwargs)
-    {
-        static int i = 0; i++;
-        std::string sname = std::string(std::string("$$DPG_") + s_internal_id + std::to_string(i));
-        const char* name = sname.c_str();
-        float default_value = 0.0f;
-        float min_value = 0.0f;
-        float max_value = 100.0f;
-        const char* format = "%.3f";
-        int vertical = false;
-        PyObject* callback = nullptr;
-        PyObject* callback_data = nullptr;
-        const char* parent = "";
-        const char* before = "";
-        const char* source = "";
-        int enabled = true;
-        int width = 0;
-        int height = 0;
-        int no_input = false;
-        int clamped = false;
-        const char* label = "";
-        int show = true;
-
-        if (!(mvApp::GetApp()->getParsers())["add_slider_float"].parse(args, kwargs, __FUNCTION__, &name, &default_value,
-            &min_value, &max_value, &format, &vertical, &callback, &callback_data, &parent, &before,
-            &source, &enabled, &width, &height, &no_input, &clamped, &label, &show))
-            return ToPyBool(false);
-
-        auto item = CreateRef<mvSliderFloat>(name, default_value, source);
-        if (callback)
-            Py_XINCREF(callback);
-        item->setCallback(callback);
-        if (callback_data)
-            Py_XINCREF(callback_data);
-        item->setCallbackData(callback_data);
-
-        item->checkConfigDict(kwargs);
-        item->setConfigDict(kwargs);
-        item->setExtraConfigDict(kwargs);
-
-        mvApp::GetApp()->getItemRegistry().addItemWithRuntimeChecks(item, parent, before);
-
-        return ToPyString(name);
-    }
-
-    PyObject* mvSliderInt::add_slider_int(PyObject* self, PyObject* args, PyObject* kwargs)
-    {
-        static int i = 0; i++;
-        std::string sname = std::string(std::string("$$DPG_") + s_internal_id + std::to_string(i));
-        const char* name = sname.c_str();
-        int default_value = 0;
-        int min_value = 0;
-        int max_value = 100;
-        const char* format = "%d";
-        int vertical = false;
-        PyObject* callback = nullptr;
-        PyObject* callback_data = nullptr;
-        const char* parent = "";
-        const char* before = "";
-        const char* source = "";
-        int enabled = true;
-        int width = 0;
-        int height = 0;
-        int no_input = false;
-        int clamped = false;
-        const char* label = "";
-        int show = true;
-
-        if (!(mvApp::GetApp()->getParsers())["add_slider_int"].parse(args, kwargs, __FUNCTION__, &name, &default_value,
-            &min_value, &max_value, &format, &vertical, &callback, &callback_data, &parent, &before, &source, &enabled,
-            &width, &height, &no_input, &clamped, &label, &show))
-            return ToPyBool(false);
-
-        auto item = CreateRef<mvSliderInt>(name, default_value, source);
-        if (callback)
-            Py_XINCREF(callback);
-        item->setCallback(callback);
-        if (callback_data)
-            Py_XINCREF(callback_data);
-        item->setCallbackData(callback_data);
-
-        item->checkConfigDict(kwargs);
-        item->setConfigDict(kwargs);
-        item->setExtraConfigDict(kwargs);
-
-        mvApp::GetApp()->getItemRegistry().addItemWithRuntimeChecks(item, parent, before);
-
-        return ToPyString(name);
     }
 
 }
