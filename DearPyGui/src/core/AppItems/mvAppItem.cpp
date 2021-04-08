@@ -126,6 +126,26 @@ namespace Marvel{
 		return item->getDescFlags() & flag;
 	}
 
+	void mvAppItem::AddCommonArgs(mvPythonParser& parser)
+	{
+		parser.addArg<mvPyDataType::String>("name", mvArgType::OPTIONAL);
+
+		parser.addArg<mvPyDataType::Integer>("width", mvArgType::KEYWORD, "0");
+		parser.addArg<mvPyDataType::Integer>("height", mvArgType::KEYWORD, "0");
+
+		parser.addArg<mvPyDataType::String>("parent", mvArgType::KEYWORD, "''", "Parent to add this item to. (runtime adding)");
+		parser.addArg<mvPyDataType::String>("before", mvArgType::KEYWORD, "''", "This item will be displayed before the specified item in the parent.");
+		parser.addArg<mvPyDataType::String>("label", mvArgType::KEYWORD, "''", "Overrides 'name' as label");
+		parser.addArg<mvPyDataType::String>("source", mvArgType::KEYWORD, "''", "Overrides 'name' as value storage key");
+		
+		parser.addArg<mvPyDataType::Callable>("callback", mvArgType::KEYWORD, "None", "Registers a callback");
+		parser.addArg<mvPyDataType::Object>("callback_data", mvArgType::KEYWORD, "None", "Callback data");
+
+		parser.addArg<mvPyDataType::Bool>("show", mvArgType::KEYWORD, "True", "Attempt to render");
+		parser.addArg<mvPyDataType::Bool>("enabled", mvArgType::KEYWORD, "True");
+
+	}
+
 	mvAppItem::mvAppItem(const std::string& name)
 	{
 		m_name = name;
@@ -706,66 +726,66 @@ namespace Marvel{
 		if (dict == nullptr)
 			return;
 
-		auto configKeys = ToStringVect(PyDict_Keys(dict));
+		//auto configKeys = ToStringVect(PyDict_Keys(dict));
 
-		static std::string base_keyword1 = "name";
-		static std::string base_keyword2 = "label";
-		static std::string base_keyword3 = "source";
-		static std::string base_keyword4 = "tip";
-		static std::string base_keyword5 = "show";
-		static std::string base_keyword6 = "enabled";
-		static std::string base_keyword7 = "width";
-		static std::string base_keyword8 = "height";
-		static std::string base_keyword9 = "callback";
-		static std::string base_keyword10 = "callback_data";
+		//static std::string base_keyword1 = "name";
+		//static std::string base_keyword2 = "label";
+		//static std::string base_keyword3 = "source";
+		//static std::string base_keyword4 = "tip";
+		//static std::string base_keyword5 = "show";
+		//static std::string base_keyword6 = "enabled";
+		//static std::string base_keyword7 = "width";
+		//static std::string base_keyword8 = "height";
+		//static std::string base_keyword9 = "callback";
+		//static std::string base_keyword10 = "callback_data";
 
-		std::string parserCommand;
+		//std::string parserCommand;
 
-		constexpr_for<1, (int)mvAppItemType::ItemTypeCount, 1>(
-			[&](auto i) {
-				using item_type = typename mvItemTypeMap<i>::type;
-				mvAppItemType ait = mvItemTypeReverseMap<item_type>::type;
-				if (getType() == ait)
-				{
-					parserCommand = item_type::s_command;
-					return;
-				}
-			});
+		//constexpr_for<1, (int)mvAppItemType::ItemTypeCount, 1>(
+		//	[&](auto i) {
+		//		using item_type = typename mvItemTypeMap<i>::type;
+		//		mvAppItemType ait = mvItemTypeReverseMap<item_type>::type;
+		//		if (getType() == ait)
+		//		{
+		//			parserCommand = item_type::s_command;
+		//			return;
+		//		}
+		//	});
 
-		const auto& parserKeywordsOrig = mvApp::GetApp()->getParsers()[parserCommand].getKeywords();
-		std::vector<std::string> parserKeywords;
-		parserKeywords.reserve(parserKeywordsOrig.size() + 10);
-		for (int i = 0; i < parserKeywordsOrig.size(); i++)
-			if(parserKeywordsOrig[i])
-				parserKeywords.push_back(std::string(parserKeywordsOrig[i]));
+		//const auto& parserKeywordsOrig = mvApp::GetApp()->getParsers()[parserCommand].getKeywords();
+		//std::vector<std::string> parserKeywords;
+		//parserKeywords.reserve(parserKeywordsOrig.size() + 10);
+		//for (int i = 0; i < parserKeywordsOrig.size(); i++)
+		//	if(parserKeywordsOrig[i])
+		//		parserKeywords.push_back(std::string(parserKeywordsOrig[i]));
 
-		parserKeywords.push_back(base_keyword1);
-		parserKeywords.push_back(base_keyword2);
-		parserKeywords.push_back(base_keyword3);
-		parserKeywords.push_back(base_keyword4);
-		parserKeywords.push_back(base_keyword5);
-		parserKeywords.push_back(base_keyword6);
-		parserKeywords.push_back(base_keyword7);
-		parserKeywords.push_back(base_keyword8);
-		parserKeywords.push_back(base_keyword9);
-		parserKeywords.push_back(base_keyword10);
+		//parserKeywords.push_back(base_keyword1);
+		//parserKeywords.push_back(base_keyword2);
+		//parserKeywords.push_back(base_keyword3);
+		//parserKeywords.push_back(base_keyword4);
+		//parserKeywords.push_back(base_keyword5);
+		//parserKeywords.push_back(base_keyword6);
+		//parserKeywords.push_back(base_keyword7);
+		//parserKeywords.push_back(base_keyword8);
+		//parserKeywords.push_back(base_keyword9);
+		//parserKeywords.push_back(base_keyword10);
 
-		for (const auto& key : configKeys)
-		{
-			size_t i = 0;
-			while (i < parserKeywords.size())
-			{
-				if (key == parserKeywords[i])
-				{
-					break;
-				}
-				i++;
-			}
-			if (i == parserKeywords.size())
-			{
-				ThrowPythonException("\"" + key + "\" configuration does not exist in \"" + m_name + "\".");
-			}
-		}
+		//for (const auto& key : configKeys)
+		//{
+		//	size_t i = 0;
+		//	while (i < parserKeywords.size())
+		//	{
+		//		if (key == parserKeywords[i])
+		//		{
+		//			break;
+		//		}
+		//		i++;
+		//	}
+		//	if (i == parserKeywords.size())
+		//	{
+		//		ThrowPythonException("\"" + key + "\" configuration does not exist in \"" + m_name + "\".");
+		//	}
+		//}
 	}
 
 	void mvAppItem::setConfigDict(PyObject* dict)

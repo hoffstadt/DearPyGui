@@ -38,8 +38,8 @@ namespace Marvel {
         mvMenu, mvMenuItem, mvGroup, mvChild,
         mvSliderFloat, mvSliderInt,
         mvDragFloat, mvDragInt, mvInputFloat,
-        mvInputInt, mvColorEdit3, mvColorEdit4,
-        mvColorPicker3, mvColorPicker4, mvTooltip, mvCollapsingHeader,
+        mvInputInt, mvColorEdit,
+        mvColorPicker, mvTooltip, mvCollapsingHeader,
         mvSeparator, mvCheckbox, mvListbox, mvText, mvLabelText, mvCombo,
         mvPlot, mvSimplePlot, mvIndent, mvUnindent, mvDrawing, mvWindowAppItem,
         mvPopup, mvSelectable, mvTreeNode, mvProgressBar, mvDataGrid, mvDummy,
@@ -186,6 +186,7 @@ namespace Marvel {
 
         static bool DoesItemHaveFlag(mvAppItem* item, int flag);
         static std::pair<std::string, std::string> GetNameFromArgs(std::string& name, PyObject* args, PyObject* kwargs);
+        static void AddCommonArgs(mvPythonParser& parser);
 
     protected:
 

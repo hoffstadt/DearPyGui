@@ -9,23 +9,20 @@ namespace Marvel {
 
 	void mvColorButton::InsertParser(std::map<std::string, mvPythonParser>* parsers)
 	{
-		parsers->insert({ s_command, mvPythonParser({
-			{mvPythonDataType::Optional},
-			{mvPythonDataType::String, "name"},		
-			{mvPythonDataType::KeywordOnly},
-			{mvPythonDataType::IntList, "default_value", "", "(0, 0, 0, 255)"},
-			{mvPythonDataType::Callable, "callback", "Registers a callback", "None"},
-			{mvPythonDataType::Object, "callback_data", "Callback data", "None"},
-			{mvPythonDataType::String, "parent", "Parent to add this item to. (runtime adding)", "''"},
-			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)", "''"},
-			{mvPythonDataType::Integer, "width","", "0"},
-			{mvPythonDataType::Integer, "height", "", "0"},
-			{mvPythonDataType::Bool, "show", "Attemp to render", "True"},
-			{mvPythonDataType::Bool, "no_alpha", "ignore Alpha component", "False"},
-			{mvPythonDataType::Bool, "no_border", "disable border (which is enforced by default)", "False"},
-			{mvPythonDataType::Bool, "no_drag_drop", "disable display of inline text label", "False"},
-			{mvPythonDataType::Bool, "enabled", "", "True"},
-		}, "Adds a color button.", "None", "Adding Widgets") });
+		mvPythonParser parser(mvPyDataType::String);
+		mvAppItem::AddCommonArgs(parser);
+		parser.removeArg("source");
+		parser.removeArg("label");
+
+		parser.addArg<mvPyDataType::IntList>("default_value", mvArgType::OPTIONAL, "(0, 0, 0, 255)");
+
+		parser.addArg<mvPyDataType::Bool>("no_alpha", mvArgType::KEYWORD, "False", "ignore Alpha component");
+		parser.addArg<mvPyDataType::Bool>("no_border", mvArgType::KEYWORD, "False", "disable border");
+		parser.addArg<mvPyDataType::Bool>("no_drag_drop", mvArgType::KEYWORD, "False", "disable display of inline text label");
+
+		parser.finalize();
+
+		parsers->insert({ s_command, parser });
 	}
 
 	mvColorButton::mvColorButton(const std::string& name)

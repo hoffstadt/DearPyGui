@@ -8,22 +8,22 @@ namespace Marvel {
 
 	void mvMenuItem::InsertParser(std::map<std::string, mvPythonParser>* parsers)
 	{
-		parsers->insert({ s_command, mvPythonParser({
-			{mvPythonDataType::Optional},
-			{mvPythonDataType::String, "name"},
-			{mvPythonDataType::KeywordOnly},
-			{mvPythonDataType::Integer, "default_value", "", "False"},
-			{mvPythonDataType::String, "shortcut", "Adds a shortcut", "''"},
-			{mvPythonDataType::Bool, "check", "Makes menu item with checkmark. Only one menu item per container can be checked at a time.", "False"},
-			{mvPythonDataType::Callable, "callback", "Registers a callback", "None"},
-			{mvPythonDataType::Object, "callback_data", "Callback data", "None"},
-						{mvPythonDataType::String, "source", "Overrides 'name' as value storage key", "''"},
-			{mvPythonDataType::String, "label", "", "''"},
-			{mvPythonDataType::Bool, "show", "Attempt to render", "True"},
-			{mvPythonDataType::Bool, "enabled", "", "True"},
-			{mvPythonDataType::String, "parent", "Parent this item will be added to. (runtime adding)", "''"},
-			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)", "''"},
-		}, "Adds a menu item to an existing menu.", "None", "Containers") });
+
+		mvPythonParser parser(mvPyDataType::String);
+		mvAppItem::AddCommonArgs(parser);
+		parser.removeArg("width");
+		parser.removeArg("height");
+		parser.removeArg("source");
+
+		parser.addArg<mvPyDataType::Bool>("default_value", mvArgType::KEYWORD, "False");
+
+		parser.addArg<mvPyDataType::String>("shortcut", mvArgType::KEYWORD, "''", "Adds a shortcut.");
+
+		parser.addArg<mvPyDataType::Bool>("check", mvArgType::KEYWORD, "False", "Makes menu item with checkmark.");
+
+		parser.finalize();
+
+		parsers->insert({ s_command, parser });
 	}
 
 	mvMenuItem::mvMenuItem(const std::string& name)

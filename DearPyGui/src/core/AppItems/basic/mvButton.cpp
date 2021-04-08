@@ -10,23 +10,18 @@ namespace Marvel {
 
 	void mvButton::InsertParser(std::map<std::string, mvPythonParser>* parsers)
 	{
-		parsers->insert({ s_command, mvPythonParser({
-			{mvPythonDataType::Optional},
-			{mvPythonDataType::String, "name"},
-			{mvPythonDataType::KeywordOnly},
-			{mvPythonDataType::Bool, "small", "Small button, useful for embedding in text.", "False"},
-			{mvPythonDataType::Bool, "arrow", "Arrow button, must use with direction", "False"},
-			{mvPythonDataType::Integer, "direction", "A cardinal direction", "0"},
-			{mvPythonDataType::Callable, "callback", "Registers a callback", "None"},
-			{mvPythonDataType::Object, "callback_data", "Callback data", "None"},
-			{mvPythonDataType::String, "parent", "Parent to add this item to. (runtime adding)", "''"},
-			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)", "''"},
-			{mvPythonDataType::Integer, "width","", "0"},
-			{mvPythonDataType::Integer, "height", "", "0"},
-			{mvPythonDataType::String, "label", "Overrides 'name' as label", "''"},
-			{mvPythonDataType::Bool, "show", "Attempt to render", "True"},
-			{mvPythonDataType::Bool, "enabled", "", "True"},
-		}, "Adds a button.", "None", "Adding Widgets") });
+
+		mvPythonParser parser(mvPyDataType::String);
+		mvAppItem::AddCommonArgs(parser);
+		parser.removeArg("source");
+
+		parser.addArg<mvPyDataType::Bool>("small", mvArgType::KEYWORD, "False", "Small button, useful for embedding in text.");
+		parser.addArg<mvPyDataType::Bool>("arrow", mvArgType::KEYWORD, "False", "Arrow button, must use with direction");
+		parser.addArg<mvPyDataType::Integer>("direction", mvArgType::KEYWORD, "0", "A cardinal direction");
+
+		parser.finalize();
+
+		parsers->insert({ s_command, parser });
 	}
 
 	mvButton::mvButton(const std::string& name)

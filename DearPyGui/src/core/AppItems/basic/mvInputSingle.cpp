@@ -12,57 +12,56 @@ namespace Marvel {
 
     void mvInputInt::InsertParser(std::map<std::string, mvPythonParser>* parsers)
     {
-        parsers->insert({ s_command, mvPythonParser({
-            {mvPythonDataType::Optional},
-            {mvPythonDataType::String, "name"},
-            {mvPythonDataType::KeywordOnly},
-            {mvPythonDataType::Integer, "default_value", "", "0"},
-            {mvPythonDataType::Integer, "min_value", "", "0"},
-            {mvPythonDataType::Integer, "max_value", "", "100"},
-            {mvPythonDataType::Bool, "min_clamped", "activates and deactivates min_value", "False"},
-            {mvPythonDataType::Bool, "max_clamped", "activates and deactivates max_value", "False"},
-            {mvPythonDataType::Callable, "callback", "Registers a callback", "None"},
-            {mvPythonDataType::Object, "callback_data", "Callback data", "None"},
-            {mvPythonDataType::String, "parent", "Parent to add this item to. (runtime adding)", "''"},
-            {mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)", "''"},
-            {mvPythonDataType::String, "source", "", "''"},
-            {mvPythonDataType::Bool, "enabled", "Display grayed out text so selectable cannot be selected", "True"},
-            {mvPythonDataType::Integer, "width","", "0"},
-            {mvPythonDataType::Bool, "on_enter", "Only runs callback on enter", "False"},
-            {mvPythonDataType::String, "label", "", "''"},
-            {mvPythonDataType::Bool, "show", "Attempt to render", "True"},
-            {mvPythonDataType::Integer, "step", "", "1"},
-            {mvPythonDataType::Integer, "step_fast", "", "100"},
-            {mvPythonDataType::Bool, "readonly", "", "False"},
-        }, "Adds input for integer values.", "None", "Adding Widgets") });
+
+        mvPythonParser parser(mvPyDataType::String);
+        mvAppItem::AddCommonArgs(parser);
+        parser.removeArg("height");
+
+        parser.addArg<mvPyDataType::IntList>("default_value", mvArgType::KEYWORD, "(0, 0, 0, 0)");
+
+        parser.addArg<mvPyDataType::Integer>("min_value", mvArgType::KEYWORD, "0");
+        parser.addArg<mvPyDataType::Integer>("max_value", mvArgType::KEYWORD, "100");
+        parser.addArg<mvPyDataType::Integer>("size", mvArgType::KEYWORD, "4", "number of components");
+        parser.addArg<mvPyDataType::Integer>("step", mvArgType::KEYWORD, "1");
+        parser.addArg<mvPyDataType::Integer>("step_fast", mvArgType::KEYWORD, "100");
+
+        parser.addArg<mvPyDataType::Bool>("min_clamped", mvArgType::KEYWORD, "False", "activates and deactivates min_value");
+        parser.addArg<mvPyDataType::Bool>("max_clamped", mvArgType::KEYWORD, "False", "activates and deactivates max_value");
+        parser.addArg<mvPyDataType::Bool>("on_enter", mvArgType::KEYWORD, "False", "Only runs callback on enter");
+        parser.addArg<mvPyDataType::Bool>("readonly", mvArgType::KEYWORD, "False");
+
+        parser.finalize();
+
+        parsers->insert({ s_command, parser });
+
+
     }
 
     void mvInputFloat::InsertParser(std::map<std::string, mvPythonParser>* parsers)
     {
-        parsers->insert({ s_command, mvPythonParser({
-            {mvPythonDataType::Optional},
-            {mvPythonDataType::String, "name"},
-            {mvPythonDataType::KeywordOnly},
-            {mvPythonDataType::Float, "default_value", "", "0.0"},
-            {mvPythonDataType::Float, "min_value", "", "0"},
-            {mvPythonDataType::Float, "max_value", "", "100"},
-            {mvPythonDataType::Bool, "min_clamped", "activates and deactivates min_value", "False"},
-            {mvPythonDataType::Bool, "max_clamped", "activates and deactivates max_value", "False"},
-            {mvPythonDataType::String, "format", "", "'%.3f'"},
-            {mvPythonDataType::Callable, "callback", "Registers a callback", "None"},
-            {mvPythonDataType::Object, "callback_data", "Callback data", "None"},
-            {mvPythonDataType::String, "parent", "Parent this item will be added to. (runtime adding)", "''"},
-            {mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)", "''"},
-            {mvPythonDataType::String, "source", "", "''"},
-            {mvPythonDataType::Bool, "enabled", "Display grayed out text so selectable cannot be selected", "True"},
-            {mvPythonDataType::Integer, "width","", "0"},
-            {mvPythonDataType::Bool, "on_enter", "Only runs callback on enter", "False"},
-            {mvPythonDataType::String, "label", "", "''"},
-            {mvPythonDataType::Bool, "show", "Attempt to render", "True"},
-            {mvPythonDataType::Float, "step", "", "0.1"},
-            {mvPythonDataType::Float, "step_fast", "", "1.0"},
-            {mvPythonDataType::Bool, "readonly", "", "False"},
-        }, "Adds input for float values.", "None", "Adding Widgets") });
+        mvPythonParser parser(mvPyDataType::String);
+        mvAppItem::AddCommonArgs(parser);
+        parser.removeArg("height");
+
+        parser.addArg<mvPyDataType::Float>("default_value", mvArgType::KEYWORD, "0.0");
+
+        parser.addArg<mvPyDataType::String>("format", mvArgType::KEYWORD, "'%.3f'");
+
+        parser.addArg<mvPyDataType::Float>("min_value", mvArgType::KEYWORD, "0.0");
+        parser.addArg<mvPyDataType::Float>("max_value", mvArgType::KEYWORD, "100.0");
+        parser.addArg<mvPyDataType::Float>("step", mvArgType::KEYWORD, "0.1");
+        parser.addArg<mvPyDataType::Float>("step_fast", mvArgType::KEYWORD, "1.0");
+
+        parser.addArg<mvPyDataType::Integer>("size", mvArgType::KEYWORD, "4", "number of components");
+
+        parser.addArg<mvPyDataType::Bool>("min_clamped", mvArgType::KEYWORD, "False", "activates and deactivates min_value");
+        parser.addArg<mvPyDataType::Bool>("max_clamped", mvArgType::KEYWORD, "False", "activates and deactivates max_value");
+        parser.addArg<mvPyDataType::Bool>("on_enter", mvArgType::KEYWORD, "False", "Only runs callback on enter");
+        parser.addArg<mvPyDataType::Bool>("readonly", mvArgType::KEYWORD, "False");
+
+        parser.finalize();
+
+        parsers->insert({ s_command, parser });
     }
 
     mvInputInt::mvInputInt(const std::string& name)
