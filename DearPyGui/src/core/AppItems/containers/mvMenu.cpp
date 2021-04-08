@@ -8,16 +8,17 @@ namespace Marvel {
 
 	void mvMenu::InsertParser(std::map<std::string, mvPythonParser>* parsers)
 	{
-		parsers->insert({ s_command, mvPythonParser({
-			{mvPythonDataType::Optional},
-			{mvPythonDataType::String, "name"},
-			{mvPythonDataType::KeywordOnly},
-			{mvPythonDataType::String, "label", "", "''"},
-			{mvPythonDataType::Bool, "show", "Attempt to render", "True"},
-			{mvPythonDataType::String, "parent", "Parent this item will be added to. (runtime adding)", "''"},
-			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)", "''"},
-			{mvPythonDataType::Bool, "enabled", "", "True"},
-		}, "Adds a menu to an existing menu bar. Must be followed by a call to end.", "None", "Containers") });
+
+		mvPythonParser parser(mvPyDataType::String);
+		mvAppItem::AddCommonArgs(parser);
+		parser.removeArg("source");
+		parser.removeArg("width");
+		parser.removeArg("height");
+		parser.removeArg("callback");
+		parser.removeArg("callback_data");
+		parser.finalize();
+
+		parsers->insert({ s_command, parser });
 	}
 
 	mvMenu::mvMenu(const std::string& name)

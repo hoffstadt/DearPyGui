@@ -247,38 +247,67 @@ namespace Marvel {
 	void mvApp::InsertParser(std::map<std::string, mvPythonParser>* parsers)
 	{
 
-		parsers->insert({ "end", mvPythonParser({
-		}, "Ends a container.", "None", "Containers") });
+		{
+			mvPythonParser parser(mvPyDataType::None);
+			parser.finalize();
+			parsers->insert({ "end", parser }); 
+		}
 
-		parsers->insert({ "enable_docking", mvPythonParser({
-			{mvPythonDataType::KeywordOnly},
-			{mvPythonDataType::Bool, "shift_only", "press shift for docking", "True"},
-			{mvPythonDataType::Bool, "dock_space", "add explicit dockspace over viewport", "False"},
-		}, "Decrements a texture.") });
+		{
+			mvPythonParser parser(mvPyDataType::None);
+			parser.addArg<mvPyDataType::Bool>("shift", mvArgType::KEYWORD, "True", "press shift for docking");
+			parser.addArg<mvPyDataType::Bool>("dock_space", mvArgType::KEYWORD, "False", "add explicit dockspace over viewport");
+			parser.finalize();
+			parsers->insert({ "enable_docking", parser });
+		}
 
-		parsers->insert({ "is_dearpygui_running", mvPythonParser({
-		}, "Checks if dearpygui is still running", "bool") });
+		{
+			mvPythonParser parser(mvPyDataType::Bool);
+			parser.finalize();
+			parsers->insert({ "is_dearpygui_running", parser });
+		}
 
-		parsers->insert({ "setup_dearpygui", mvPythonParser({
-		}, "Sets up DearPyGui for user controlled rendering. Only call once and you must call cleanup_deapygui when finished.") });
+		{
+			mvPythonParser parser(mvPyDataType::None);
+			parser.finalize();
+			parsers->insert({ "setup_dearpygui", parser });
+		}
 
-		parsers->insert({ "render_dearpygui_frame", mvPythonParser({
-		}, "Renders a DearPyGui frame. Should be called within a user's event loop. Must first call setup_dearpygui outside of event loop.") });
+		{
+			mvPythonParser parser(mvPyDataType::None);
+			parser.finalize();
+			parsers->insert({ "render_dearpygui_frame", parser });
+		}
 
-		parsers->insert({ "cleanup_dearpygui", mvPythonParser({
-		}, "Cleans up DearPyGui after calling setup_dearpygui.") });
+		{
+			mvPythonParser parser(mvPyDataType::None);
+			parser.finalize();
+			parsers->insert({ "cleanup_dearpygui", parser });
+		}
 
-		parsers->insert({ "stop_dearpygui", mvPythonParser({
-		}, "Stops DearPyGui.") });
+		{
+			mvPythonParser parser(mvPyDataType::None);
+			parser.finalize();
+			parsers->insert({ "stop_dearpygui", parser });
+		}
 
-		parsers->insert({ "get_total_time", mvPythonParser({
-		}, "Returns total time since app started.", "float") });
+		{
+			mvPythonParser parser(mvPyDataType::Float);
+			parser.finalize();
+			parsers->insert({ "get_total_time", parser });
+		}
 
-		parsers->insert({ "get_delta_time", mvPythonParser({
-		}, "Returns time since last frame.", "float") });
+		{
+			mvPythonParser parser(mvPyDataType::Float);
+			parser.finalize();
+			parsers->insert({ "get_delta_time", parser });
+		}
 
-		parsers->insert({ "get_dearpygui_version", mvPythonParser({
-		}, "Returns the current version of Dear PyGui.", "str") });
+		{
+			mvPythonParser parser(mvPyDataType::String);
+			parser.finalize();
+			parsers->insert({ "get_dearpygui_version", parser });
+		}
 
 	}
 

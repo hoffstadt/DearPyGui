@@ -41,7 +41,7 @@ namespace Marvel {
         mvInputInt, mvColorEdit,
         mvColorPicker, mvTooltip, mvCollapsingHeader,
         mvSeparator, mvCheckbox, mvListbox, mvText, mvLabelText, mvCombo,
-        mvPlot, mvSimplePlot, mvIndent, mvUnindent, mvDrawing, mvWindowAppItem,
+        mvPlot, mvSimplePlot, mvDrawing, mvWindowAppItem,
         mvPopup, mvSelectable, mvTreeNode, mvProgressBar, mvDataGrid, mvDummy,
         mvImageButton, mvTimePicker, mvDatePicker, mvColorButton,
         mvAboutWindow, mvDocWindow, mvDebugWindow, mvMetricsWindow,

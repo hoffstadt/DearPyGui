@@ -30,7 +30,7 @@ namespace Marvel {
     {
         None = 0, String, Integer, Float, Bool, StringList, FloatList, Optional,
         Object, IntList, KeywordOnly, Double, Callable, Dict, ListFloatList, 
-        ListStrList, Kwargs
+        ListStrList, ListListInt, Kwargs, Any
     };
 
     enum class mvArgType
@@ -66,7 +66,7 @@ namespace Marvel {
         mvPythonParser(mvPyDataType returnType = mvPyDataType::None, std::string about = "Undocumented function", std::string category = "App");
 
         template<mvPyDataType type>
-        void addArg(std::string name, mvArgType argType, std::string defaultValue = "...", std::string description = "")
+        void addArg(std::string name, mvArgType argType = mvArgType::REQUIRED, std::string defaultValue = "...", std::string description = "")
         {
             mvPythonDataElement element = { type, name, description, defaultValue, argType };
             for (auto& arg : m_staged_elements)

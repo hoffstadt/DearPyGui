@@ -11,20 +11,24 @@ namespace Marvel {
 	void mvAnnotation::InsertParser(std::map<std::string, mvPythonParser>* parsers)
 	{
 
-		parsers->insert({ s_command, mvPythonParser({
-			{mvPythonDataType::Optional},
-			{mvPythonDataType::String, "name"},
-			{mvPythonDataType::KeywordOnly},
-			{mvPythonDataType::FloatList, "default_value", "", "(0.0, 0.0)"},
-			{mvPythonDataType::FloatList, "offset", "", "(0.0, 0.0)"},
-			{mvPythonDataType::String, "label", "Overrides 'name' as label", "''"},
-			{mvPythonDataType::String, "source", "", "''"},
-			{mvPythonDataType::FloatList, "color", "", "(0, 0, 0, -1)"},
-			{mvPythonDataType::Bool, "clamped", "", "True"},
-			{mvPythonDataType::String, "parent", "Parent to add this item to. (runtime adding)", "''"},
-			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)", "''"},
-			{mvPythonDataType::Bool, "show", "Attempt to render", "True"},
-		}, "Adds a drag point to a plot.", "None", "Plotting") });
+		mvPythonParser parser(mvPyDataType::String);
+		mvAppItem::AddCommonArgs(parser);
+		parser.removeArg("width");
+		parser.removeArg("height");
+		parser.removeArg("callback");
+		parser.removeArg("callback_data");
+		parser.removeArg("enabled");
+
+		parser.addArg<mvPyDataType::FloatList>("default_value", mvArgType::KEYWORD, "(0.0, 0.0)");
+		parser.addArg<mvPyDataType::FloatList>("offset", mvArgType::KEYWORD, "(0.0, 0.0)");
+		
+		parser.addArg<mvPyDataType::IntList>("color", mvArgType::KEYWORD, "(0, 0, 0, -255)");
+
+		parser.addArg<mvPyDataType::Bool>("clamped", mvArgType::KEYWORD, "True");
+
+		parser.finalize();
+
+		parsers->insert({ s_command, parser });
 	}
 
 	mvAnnotation::mvAnnotation(const std::string& name)

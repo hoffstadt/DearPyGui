@@ -36,19 +36,24 @@ namespace Marvel {
 
 	void mvNode::InsertParser(std::map<std::string, mvPythonParser>* parsers)
 	{
-		parsers->insert({ s_command, mvPythonParser({
-			{mvPythonDataType::Optional},
-			{mvPythonDataType::String, "name"},
-			{mvPythonDataType::KeywordOnly},
-			{mvPythonDataType::Bool, "show", "Attempt to render", "True"},
-			{mvPythonDataType::String, "label", "", "''"},
-			{mvPythonDataType::Bool, "draggable", "Allow node to be draggable.", "True"},
-			{mvPythonDataType::String, "parent", "Parent to add this item to. (runtime adding)", "''"},
-			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)", "''"},
-			{mvPythonDataType::Integer, "x_pos", "x position the node will start at", "100"},
-			{mvPythonDataType::Integer, "y_pos", "y position the node will start at", "100"},
-		}, "Adds a node to a node editor.",
-		"None", "Containers") });
+
+		mvPythonParser parser(mvPyDataType::String);
+		mvAppItem::AddCommonArgs(parser);
+		parser.removeArg("source");
+		parser.removeArg("width");
+		parser.removeArg("height");
+		parser.removeArg("callback");
+		parser.removeArg("callback_data");
+		parser.removeArg("enabled");
+
+		parser.addArg<mvPyDataType::Bool>("draggable", mvArgType::KEYWORD, "True");
+
+		parser.addArg<mvPyDataType::Integer>("x_pos", mvArgType::KEYWORD, "100");
+		parser.addArg<mvPyDataType::Integer>("y_pos", mvArgType::KEYWORD, "100");
+
+		parser.finalize();
+
+		parsers->insert({ s_command, parser });
 	}
 
 	mvNode::mvNode(const std::string& name)

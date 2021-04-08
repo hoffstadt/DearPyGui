@@ -23,128 +23,165 @@ namespace Marvel {
 
 	void mvPlot::InsertParser(std::map<std::string, mvPythonParser>* parsers)
 	{
-		parsers->insert({ s_command, mvPythonParser({
-			{mvPythonDataType::Optional},
-			{mvPythonDataType::String, "name"},
-			{mvPythonDataType::KeywordOnly},
-			{mvPythonDataType::String, "x_axis_name", "", "''"},
-			{mvPythonDataType::String, "y_axis_name", "", "''"},
+
+		{
+			mvPythonParser parser(mvPyDataType::String);
+			mvAppItem::AddCommonArgs(parser);
+			parser.removeArg("source");
+			parser.removeArg("callback");
+			parser.removeArg("callback_data");
+			parser.removeArg("enabled");
+
+			parser.addArg<mvPyDataType::Callable>("query_callback", mvArgType::KEYWORD, "None", "Callback ran when plot is queried");
+
+			parser.addArg<mvPyDataType::String>("x_axis_name", mvArgType::KEYWORD, "''");
+			parser.addArg<mvPyDataType::String>("y_axis_name", mvArgType::KEYWORD, "''");
 
 			// plot flags
-			{mvPythonDataType::Bool, "no_legend", "", "False"},
-			{mvPythonDataType::Bool, "no_menus", "", "False"},
-			{mvPythonDataType::Bool, "no_box_select", "", "False"},
-			{mvPythonDataType::Bool, "no_mouse_pos", "", "False"},
-			{mvPythonDataType::Bool, "no_highlight", "", "False"},
-			{mvPythonDataType::Bool, "no_child", "", "False"},
-			{mvPythonDataType::Bool, "query", "", "False"},
-			{mvPythonDataType::Bool, "crosshairs", "", "False"},
-			{mvPythonDataType::Bool, "anti_aliased", "", "False"},
-			{mvPythonDataType::Bool, "equal_aspects", "", "False"},
-			{mvPythonDataType::Bool, "yaxis2", "", "False"},
-			{mvPythonDataType::Bool, "yaxis3", "", "False"},
+			parser.addArg<mvPyDataType::Bool>("no_legend", mvArgType::KEYWORD, "False");
+			parser.addArg<mvPyDataType::Bool>("no_menus", mvArgType::KEYWORD, "False");
+			parser.addArg<mvPyDataType::Bool>("no_box_select", mvArgType::KEYWORD, "False");
+			parser.addArg<mvPyDataType::Bool>("no_mouse_pos", mvArgType::KEYWORD, "False");
+			parser.addArg<mvPyDataType::Bool>("no_highlight", mvArgType::KEYWORD, "False");
+			parser.addArg<mvPyDataType::Bool>("no_child", mvArgType::KEYWORD, "False");
+			parser.addArg<mvPyDataType::Bool>("query", mvArgType::KEYWORD, "False");
+			parser.addArg<mvPyDataType::Bool>("crosshairs", mvArgType::KEYWORD, "False");
+			parser.addArg<mvPyDataType::Bool>("anti_aliased", mvArgType::KEYWORD, "False");
+			parser.addArg<mvPyDataType::Bool>("equal_aspects", mvArgType::KEYWORD, "False");
+			parser.addArg<mvPyDataType::Bool>("yaxis2", mvArgType::KEYWORD, "False");
+			parser.addArg<mvPyDataType::Bool>("yaxis3", mvArgType::KEYWORD, "False");
 
-			// x axis flags
-			{mvPythonDataType::Bool, "xaxis_no_gridlines", "", "False"},
-			{mvPythonDataType::Bool, "xaxis_no_tick_marks", "", "False"},
-			{mvPythonDataType::Bool, "xaxis_no_tick_labels", "", "False"},
-			{mvPythonDataType::Bool, "xaxis_log_scale", "", "False"},
-			{mvPythonDataType::Bool, "xaxis_time", "", "False"},
-			{mvPythonDataType::Bool, "xaxis_invert", "", "False"},
-			{mvPythonDataType::Bool, "xaxis_lock_min", "", "False"},
-			{mvPythonDataType::Bool, "xaxis_lock_max", "", "False"},
+				// x axis flags
+			parser.addArg<mvPyDataType::Bool>("xaxis_no_gridlines", mvArgType::KEYWORD, "False");
+			parser.addArg<mvPyDataType::Bool>("xaxis_no_tick_marks", mvArgType::KEYWORD, "False");
+			parser.addArg<mvPyDataType::Bool>("xaxis_no_tick_labels", mvArgType::KEYWORD, "False");
+			parser.addArg<mvPyDataType::Bool>("xaxis_log_scale", mvArgType::KEYWORD, "False");
+			parser.addArg<mvPyDataType::Bool>("xaxis_time", mvArgType::KEYWORD, "False");
+			parser.addArg<mvPyDataType::Bool>("xaxis_invert", mvArgType::KEYWORD, "False");
+			parser.addArg<mvPyDataType::Bool>("xaxis_lock_min", mvArgType::KEYWORD, "False");
+			parser.addArg<mvPyDataType::Bool>("xaxis_lock_max", mvArgType::KEYWORD, "False");
 
-			// y axis flags
-			{mvPythonDataType::Bool, "yaxis_no_gridlines", "", "False"},
-			{mvPythonDataType::Bool, "yaxis_no_tick_marks", "", "False"},
-			{mvPythonDataType::Bool, "yaxis_no_tick_labels", "", "False"},
-			{mvPythonDataType::Bool, "yaxis_log_scale", "", "False"},
-			{mvPythonDataType::Bool, "yaxis_invert", "", "False"},
-			{mvPythonDataType::Bool, "yaxis_lock_min", "", "False"},
-			{mvPythonDataType::Bool, "yaxis_lock_max", "", "False"},
+				// y axis flags
+			parser.addArg<mvPyDataType::Bool>("yaxis_no_gridlines", mvArgType::KEYWORD, "False");
+			parser.addArg<mvPyDataType::Bool>("yaxis_no_tick_marks", mvArgType::KEYWORD, "False");
+			parser.addArg<mvPyDataType::Bool>("yaxis_no_tick_labels", mvArgType::KEYWORD, "False");
+			parser.addArg<mvPyDataType::Bool>("yaxis_log_scale", mvArgType::KEYWORD, "False");
+			parser.addArg<mvPyDataType::Bool>("yaxis_invert", mvArgType::KEYWORD, "False");
+			parser.addArg<mvPyDataType::Bool>("yaxis_lock_min", mvArgType::KEYWORD, "False");
+			parser.addArg<mvPyDataType::Bool>("yaxis_lock_max", mvArgType::KEYWORD, "False");
 
-			// y2 axis flags
-			{mvPythonDataType::Bool, "y2axis_no_gridlines", "", "False"},
-			{mvPythonDataType::Bool, "y2axis_no_tick_marks", "", "False"},
-			{mvPythonDataType::Bool, "y2axis_no_tick_labels", "", "False"},
-			{mvPythonDataType::Bool, "y2axis_log_scale", "", "False"},
-			{mvPythonDataType::Bool, "y2axis_invert", "", "False"},
-			{mvPythonDataType::Bool, "y2axis_lock_min", "", "False"},
-			{mvPythonDataType::Bool, "y2axis_lock_max", "", "False"},
+				// y2 axis flags
+			parser.addArg<mvPyDataType::Bool>("y2axis_no_gridlines", mvArgType::KEYWORD, "False");
+			parser.addArg<mvPyDataType::Bool>("y2axis_no_tick_marks", mvArgType::KEYWORD, "False");
+			parser.addArg<mvPyDataType::Bool>("y2axis_no_tick_labels", mvArgType::KEYWORD, "False");
+			parser.addArg<mvPyDataType::Bool>("y2axis_log_scale", mvArgType::KEYWORD, "False");
+			parser.addArg<mvPyDataType::Bool>("y2axis_invert", mvArgType::KEYWORD, "False");
+			parser.addArg<mvPyDataType::Bool>("y2axis_lock_min", mvArgType::KEYWORD, "False");
+			parser.addArg<mvPyDataType::Bool>("y2axis_lock_max", mvArgType::KEYWORD, "False");
 
-			// y3 axis flags
-			{mvPythonDataType::Bool, "y3axis_no_gridlines", "", "False"},
-			{mvPythonDataType::Bool, "y3axis_no_tick_marks", "", "False"},
-			{mvPythonDataType::Bool, "y3axis_no_tick_labels", "", "False"},
-			{mvPythonDataType::Bool, "y3axis_log_scale", "", "False"},
-			{mvPythonDataType::Bool, "y3axis_invert", "", "False"},
-			{mvPythonDataType::Bool, "y3axis_lock_min", "", "False"},
-			{mvPythonDataType::Bool, "y3axis_lock_max", "", "False"},
+				// y3 axis flags
+			parser.addArg<mvPyDataType::Bool>("y3axis_no_gridlines", mvArgType::KEYWORD, "False");
+			parser.addArg<mvPyDataType::Bool>("y3axis_no_tick_marks", mvArgType::KEYWORD, "False");
+			parser.addArg<mvPyDataType::Bool>("y3axis_no_tick_labels", mvArgType::KEYWORD, "False");
+			parser.addArg<mvPyDataType::Bool>("y3axis_log_scale", mvArgType::KEYWORD, "False");
+			parser.addArg<mvPyDataType::Bool>("y3axis_invert", mvArgType::KEYWORD, "False");
+			parser.addArg<mvPyDataType::Bool>("y3axis_lock_min", mvArgType::KEYWORD, "False");
+			parser.addArg<mvPyDataType::Bool>("y3axis_lock_max", mvArgType::KEYWORD, "False");
 
-			{mvPythonDataType::String, "parent", "Parent to add this item to. (runtime adding)", "''"},
-			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)", "''"},
-			{mvPythonDataType::Integer, "width", "", "-1"},
-			{mvPythonDataType::Integer, "height", "", "-1"},
-			{mvPythonDataType::Callable , "query_callback", "Callback ran when plot is queried. Should be of the form 'def Callback(sender, data)'\n Data is (x_min, x_max, y_min, y_max).", "None"},
+			parser.finalize();
+			parsers->insert({ s_command, parser });
+		}
 
-			{mvPythonDataType::String, "label", "", "''"},
-			{mvPythonDataType::Bool, "show", "Attempt to render", "True"},
+		{
+			mvPythonParser parser(mvPyDataType::Bool);
+			parser.addArg<mvPyDataType::String>("plot");
+			parser.finalize();
+			parsers->insert({ "is_plot_queried", parser });
+		}
 
-		}, "Adds a plot widget.", "None", "Plotting") });
+		{
+			mvPythonParser parser(mvPyDataType::FloatList);
+			parser.addArg<mvPyDataType::String>("plot");
+			parser.finalize();
+			parsers->insert({ "get_plot_query_area", parser });
+		}
 
-		parsers->insert({ "is_plot_queried", mvPythonParser({
-			{mvPythonDataType::String, "plot"},
-		}, "Returns true if plot was queried", "bool", "Plotting") });
+		{
+			mvPythonParser parser(mvPyDataType::FloatList);
+			parser.addArg<mvPyDataType::String>("plot");
+			parser.finalize();
+			parsers->insert({ "get_plot_xlimits", parser });
+		}
 
-		parsers->insert({ "get_plot_query_area", mvPythonParser({
-			{mvPythonDataType::String, "plot"},
-		}, "Returns the bounding axis limits for the query area [x_min, x_max, y_min, y_max]", "List[float]", "Plotting") });
+		{
+			mvPythonParser parser(mvPyDataType::FloatList);
+			parser.addArg<mvPyDataType::String>("plot");
+			parser.finalize();
+			parsers->insert({ "get_plot_ylimits", parser });
+		}
 
-		parsers->insert({ "get_plot_xlimits", mvPythonParser({
-			{mvPythonDataType::String, "plot"},
-		}, "Returns the plots x limits", "List[float]", "Plotting") });
+		{
+			mvPythonParser parser(mvPyDataType::None);
+			parser.addArg<mvPyDataType::String>("plot");
+			parser.addArg<mvPyDataType::Float>("xmin");
+			parser.addArg<mvPyDataType::Float>("xmax");
+			parser.finalize();
+			parsers->insert({ "set_plot_xlimits", parser });
+		}
 
-		parsers->insert({ "get_plot_ylimits", mvPythonParser({
-			{mvPythonDataType::String, "plot"},
-		}, "Returns the plots x limits", "List[float]", "Plotting") });
+		{
+			mvPythonParser parser(mvPyDataType::None);
+			parser.addArg<mvPyDataType::String>("plot");
+			parser.addArg<mvPyDataType::Float>("ymin");
+			parser.addArg<mvPyDataType::Float>("ymax");
+			parser.finalize();
+			parsers->insert({ "set_plot_ylimits", parser });
+		}
 
-		parsers->insert({ "set_plot_xlimits", mvPythonParser({
-			{mvPythonDataType::String, "plot"},
-			{mvPythonDataType::Float, "xmin"},
-			{mvPythonDataType::Float, "xmax"},
-		}, "Sets x axis limits of a plot. (can be undone with set_plot_xlimits_auto()", "None", "Plotting") });
+		{
+			mvPythonParser parser(mvPyDataType::None);
+			parser.addArg<mvPyDataType::String>("plot");
+			parser.finalize();
+			parsers->insert({ "set_plot_xlimits_auto", parser });
+		}
 
-		parsers->insert({ "set_plot_ylimits", mvPythonParser({
-			{mvPythonDataType::String, "plot"},
-			{mvPythonDataType::Float, "ymin"},
-			{mvPythonDataType::Float, "ymax"},
-		}, "Sets y axis limits of a plot. (can be undone with set_plot_ylimits_auto()", "None", "Plotting") });
+		{
+			mvPythonParser parser(mvPyDataType::None);
+			parser.addArg<mvPyDataType::String>("plot");
+			parser.finalize();
+			parsers->insert({ "set_plot_ylimits_auto", parser });
+		}
 
-		parsers->insert({ "set_plot_xlimits_auto", mvPythonParser({
-			{mvPythonDataType::String, "plot"},
-		}, "Sets plots x limits to be automatic.", "None", "Plotting") });
+		{
+			mvPythonParser parser(mvPyDataType::None);
+			parser.addArg<mvPyDataType::String>("plot");
+			parser.finalize();
+			parsers->insert({ "reset_xticks", parser });
+		}
 
-		parsers->insert({ "set_plot_ylimits_auto", mvPythonParser({
-			{mvPythonDataType::String, "plot"},
-		}, "Sets plots y limits to be automatic.", "None", "Plotting") });
+		{
+			mvPythonParser parser(mvPyDataType::None);
+			parser.addArg<mvPyDataType::String>("plot");
+			parser.finalize();
+			parsers->insert({ "reset_yticks", parser });
+		}
 
-		parsers->insert({ "set_xticks", mvPythonParser({
-			{mvPythonDataType::String, "plot"},
-			{mvPythonDataType::Object, "label_pairs", "list of [str,float]"},
-		}, "Sets plots x ticks and labels", "None", "Plotting") });
+		{
+			mvPythonParser parser(mvPyDataType::None);
+			parser.addArg<mvPyDataType::String>("plot");
+			parser.addArg<mvPyDataType::Object>("label_pairs");
+			parser.finalize();
+			parsers->insert({ "set_xticks", parser });
+		}
 
-		parsers->insert({ "set_yticks", mvPythonParser({
-			{mvPythonDataType::String, "plot"},
-			{mvPythonDataType::Object, "label_pairs", "list of [str,float]"},
-		}, "Sets plots y ticks and labels", "None", "Plotting") });
+		{
+			mvPythonParser parser(mvPyDataType::None);
+			parser.addArg<mvPyDataType::String>("plot");
+			parser.addArg<mvPyDataType::Object>("label_pairs");
+			parser.finalize();
+			parsers->insert({ "set_yticks", parser });
+		}
 
-		parsers->insert({ "reset_xticks", mvPythonParser({
-			{mvPythonDataType::String, "plot"},
-		}, "Sets plots x ticks and labels back to automatic", "None", "Plotting") });
-
-		parsers->insert({ "reset_yticks", mvPythonParser({
-			{mvPythonDataType::String, "plot"},
-		}, "Sets plots y ticks and labels back to automatic", "None", "Plotting") });
 
 	}
 

@@ -350,31 +350,41 @@ namespace Marvel {
 
 	void mvFontManager::InsertParser(std::map<std::string, mvPythonParser>* parsers)
 	{
-		parsers->insert({ "add_font", mvPythonParser({
-			{mvPythonDataType::String, "font", "ttf or otf file"},
-			{mvPythonDataType::String, "file", "ttf or otf file"},
-			{mvPythonDataType::Optional},
-			{mvPythonDataType::Float, "size", "", "13.0"},
-			{mvPythonDataType::String, "glyph_ranges", "options: korean, japanese, chinese_full, chinese_simplified_common, cryillic, thai, vietnamese", "''"},
-			{mvPythonDataType::KeywordOnly},
-			{mvPythonDataType::IntList, "custom_glyph_chars", "", "()"},
-			{mvPythonDataType::Object, "custom_glyph_ranges", "list of ranges", "List[List[int]]"},
-			{mvPythonDataType::Object, "char_remaps", "", "List[List[int]]"},
-		}, "Adds additional font.", "None", "Themes and Styles") });
+		{
+			mvPythonParser parser(mvPyDataType::None);
+			parser.addArg<mvPyDataType::String>("font");
+			parser.addArg<mvPyDataType::String>("file");
+			parser.addArg<mvPyDataType::Float>("size");
+			parser.addArg<mvPyDataType::String>("glyph_ranges", mvArgType::OPTIONAL, "''");
+			parser.addArg<mvPyDataType::IntList>("custom_glyph_chars", mvArgType::KEYWORD, "()");
+			parser.addArg<mvPyDataType::Object>("custom_glyph_ranges", mvArgType::KEYWORD, "()");
+			parser.addArg<mvPyDataType::Object>("char_remaps", mvArgType::KEYWORD, "");
+			parser.finalize();
+			parsers->insert({ "add_font", parser });
+		}
 
-		parsers->insert({ "set_font", mvPythonParser({
-			{mvPythonDataType::String, "font", "ttf or otf file"},
-			{mvPythonDataType::Integer, "size", "ttf or otf file"},
-			{mvPythonDataType::KeywordOnly},
-			{mvPythonDataType::String, "item", "", "''"},
-		}, "Adds additional font.", "None", "Themes and Styles") });
+		{
+			mvPythonParser parser(mvPyDataType::None);
+			parser.addArg<mvPyDataType::String>("font");
+			parser.addArg<mvPyDataType::Float>("size");
+			parser.addArg<mvPyDataType::String>("item", mvArgType::KEYWORD, "''");
+			parser.finalize();
+			parsers->insert({ "set_font", parser });
+		}
 
-		parsers->insert({ "set_global_font_scale", mvPythonParser({
-			{mvPythonDataType::Float, "scale", "default is 1.0"}
-		}, "Changes the global font scale.") });
+		{
+			mvPythonParser parser(mvPyDataType::None);
+			parser.addArg<mvPyDataType::Float>("scale");
+			parser.finalize();
+			parsers->insert({ "set_global_font_scale", parser });
+		}
 
-		parsers->insert({ "get_global_font_scale", mvPythonParser({
-		}, "Returns the global font scale.", "float") });
+		{
+			mvPythonParser parser(mvPyDataType::Float);
+			parser.finalize();
+			parsers->insert({ "get_global_font_scale", parser });
+		}
+
 	}
 
 	PyObject* mvFontManager::add_font(PyObject* self, PyObject* args, PyObject* kwargs)

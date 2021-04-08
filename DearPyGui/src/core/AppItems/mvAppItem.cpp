@@ -9,115 +9,57 @@ namespace Marvel{
 
 	void mvAppItem::InsertParser(std::map<std::string, mvPythonParser>* parsers)
 	{
-		parsers->insert({ "get_item_callback_data", mvPythonParser({
-			{mvPythonDataType::String, "item"}
-		}, "Returns an item' callback data", "Any", "Widget Commands") });
 
-		parsers->insert({ "set_item_callback_data", mvPythonParser({
-			{mvPythonDataType::String, "item"},
-			{mvPythonDataType::Object, "callback_data", "Callback data", "None"},
-		}, "Sets an item's callback data if applicable.", "None", "Widget Commands") });
+		{
+			mvPythonParser parser(mvPyDataType::String);
+			parser.addArg<mvPyDataType::String>("item");
+			parser.finalize();
+			parsers->insert({ "get_item_type", parser });
+		}
 
-		parsers->insert({ "get_item_type", mvPythonParser({
-			{mvPythonDataType::String, "item"}
-		}, "Returns an item's type", "str", "Widget Commands") });
+		{
+			mvPythonParser parser(mvPyDataType::Dict);
+			parser.addArg<mvPyDataType::String>("item");
+			parser.finalize();
+			parsers->insert({ "get_item_configuration", parser });
+		}
 
-		parsers->insert({ "get_item_configuration", mvPythonParser({
-			{mvPythonDataType::String, "item"}
-		}, "Returns an items configuration", "dict", "Widget Commands") });
+		{
+			mvPythonParser parser(mvPyDataType::None);
+			parser.addArg<mvPyDataType::String>("item");
+			parser.addArg<mvPyDataType::Kwargs>("**Kwargs");
+			parser.finalize();
+			parsers->insert({ "configure_item", parser });
+		}
 
-		parsers->insert({ "configure_item", mvPythonParser({
-			{mvPythonDataType::String, "item"},
-			{mvPythonDataType::Kwargs, "**Kwargs"},
-		}, "Configures an item", "None", "Widget Commands") });
+		{
+			mvPythonParser parser(mvPyDataType::StringList);
+			parser.addArg<mvPyDataType::String>("item");
+			parser.finalize();
+			parsers->insert({ "get_item_children", parser });
+		}
 
-		parsers->insert({ "get_item_children[1]", mvPythonParser({
-			{mvPythonDataType::String, "item"}
-		}, "Returns a list of an item's children.", "List[str]", "Widget Commands") });
+		{
+			mvPythonParser parser(mvPyDataType::String);
+			parser.addArg<mvPyDataType::String>("item");
+			parser.finalize();
+			parsers->insert({ "get_item_parent", parser });
+		}
 
-		parsers->insert({ "get_item_callback", mvPythonParser({
-			{mvPythonDataType::String, "item"}
-		}, "Returns an item' callback", "Callable", "Widget Commands") });
+		{
+			mvPythonParser parser(mvPyDataType::Any);
+			parser.addArg<mvPyDataType::String>("item");
+			parser.finalize();
+			parsers->insert({ "get_value", parser });
+		}
 
-		parsers->insert({ "get_item_parent", mvPythonParser({
-		{mvPythonDataType::String, "item"}
-		}, "Returns an item's parent.", "str", "Widget Commands") });
-
-		parsers->insert({ "is_item_hovered", mvPythonParser({
-			{mvPythonDataType::String, "item"},
-		}, "Checks if an item is hovered.", "bool", "Widget Commands") });
-
-		parsers->insert({ "is_item_shown", mvPythonParser({
-		{mvPythonDataType::String, "item"},
-		}, "Checks if an item is shown.", "bool", "Widget Commands") });
-
-		parsers->insert({ "is_item_active", mvPythonParser({
-			{mvPythonDataType::String, "item"},
-		}, "Checks if an item is active.", "bool", "Widget Commands") });
-
-		parsers->insert({ "is_item_focused", mvPythonParser({
-			{mvPythonDataType::String, "item"},
-		}, "Checks if an item is focused.", "bool", "Widget Commands") });
-
-		parsers->insert({ "is_item_clicked", mvPythonParser({
-			{mvPythonDataType::String, "item"},
-		}, "Checks if an item is clicked.", "bool", "Widget Commands") });
-
-		parsers->insert({ "is_item_container", mvPythonParser({
-		{mvPythonDataType::String, "item"},
-		}, "Checks if an item is container.", "bool", "Widget Commands") });
-
-		parsers->insert({ "is_item_visible", mvPythonParser({
-			{mvPythonDataType::String, "item"},
-		}, "Checks if an item is visible on screen.", "bool", "Widget Commands") });
-
-		parsers->insert({ "is_item_edited", mvPythonParser({
-			{mvPythonDataType::String, "item"},
-		}, "Checks if an item has been edited.", "bool", "Widget Commands") });
-
-		parsers->insert({ "is_item_activated", mvPythonParser({
-			{mvPythonDataType::String, "item"},
-		}, "Checks if an item has been activated.", "bool", "Widget Commands") });
-
-		parsers->insert({ "is_item_deactivated", mvPythonParser({
-			{mvPythonDataType::String, "item"},
-		}, "Checks if an item has been deactivated.", "bool", "Widget Commands") });
-
-		parsers->insert({ "is_item_deactivated_after_edit", mvPythonParser({
-			{mvPythonDataType::String, "item"},
-		}, "Checks if an item has been deactivated after editing.", "bool", "Widget Commands") });
-
-		parsers->insert({ "is_item_toggled_open", mvPythonParser({
-			{mvPythonDataType::String, "item"},
-		}, "Checks if an item is toggled.", "bool", "Widget Commands") });
-
-		parsers->insert({ "get_item_rect_min", mvPythonParser({
-			{mvPythonDataType::String, "item"},
-		}, "Returns an item's minimum allowable size. [width, height]", "[float, float]", "Widget Commands") });
-
-		parsers->insert({ "get_item_rect_max", mvPythonParser({
-			{mvPythonDataType::String, "item"},
-		}, "Returns an item's maximum allowable size. [width, height]", "[float, float]", "Widget Commands") });
-
-		parsers->insert({ "get_item_rect_size", mvPythonParser({
-			{mvPythonDataType::String, "item"},
-		}, "Returns an item's current size. [width, height]", "[float, float]", "Widget Commands") });
-
-		parsers->insert({ "get_value", mvPythonParser({
-			{mvPythonDataType::String, "name"}
-		}, "Returns an item's value or None if there is none.", "Any", "Widget Commands") });
-
-		parsers->insert({ "set_value", mvPythonParser({
-			{mvPythonDataType::String, "name"},
-			{mvPythonDataType::Object, "value"}
-		}, "Sets an item's value if applicable.", "bool", "Widget Commands") });
-
-		parsers->insert({ "set_item_callback", mvPythonParser({
-			{mvPythonDataType::String, "item"},
-			{mvPythonDataType::Callable, "callback", "Registers a callback"},
-			{mvPythonDataType::KeywordOnly},
-			{mvPythonDataType::Object, "callback_data", "Callback data", "None"},
-		}, "Sets an item's callback if applicable.", "None", "Widget Commands") });
+		{
+			mvPythonParser parser(mvPyDataType::None);
+			parser.addArg<mvPyDataType::String>("item");
+			parser.addArg<mvPyDataType::Object>("value");
+			parser.finalize();
+			parsers->insert({ "set_value", parser });
+		}
 
 	}
 

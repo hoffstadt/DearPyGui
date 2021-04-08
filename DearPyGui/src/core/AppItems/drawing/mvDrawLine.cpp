@@ -7,18 +7,25 @@ namespace Marvel {
 	void mvDrawLine::InsertParser(std::map<std::string, mvPythonParser>* parsers)
 	{
 
-		parsers->insert({ s_command, mvPythonParser({
-			{mvPythonDataType::Optional},
-			{mvPythonDataType::String, "name", "", "''"},
-			{mvPythonDataType::KeywordOnly},
-			{mvPythonDataType::FloatList, "p1"},
-			{mvPythonDataType::FloatList, "p2"},
-			{mvPythonDataType::IntList, "color"},
-			{mvPythonDataType::Integer, "thickness"},
-			{mvPythonDataType::String, "parent", "Parent to add this item to. (runtime adding)", "''"},
-			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)", "''"},
-			{mvPythonDataType::Bool, "show", "Attempt to render", "True"},
-		}, "Draws a line on a drawing.", "None", "Drawing") });
+		mvPythonParser parser(mvPyDataType::String);
+		mvAppItem::AddCommonArgs(parser);
+		parser.removeArg("source");
+		parser.removeArg("width");
+		parser.removeArg("height");
+		parser.removeArg("label");
+		parser.removeArg("callback");
+		parser.removeArg("callback_data");
+		parser.removeArg("enabled");
+
+		parser.addArg<mvPyDataType::FloatList>("p1");
+		parser.addArg<mvPyDataType::FloatList>("p2");
+
+		parser.addArg<mvPyDataType::IntList>("color", mvArgType::KEYWORD, "(255, 255, 255, 255)");
+		parser.addArg<mvPyDataType::Float>("thickness", mvArgType::KEYWORD, "1.0");
+
+		parser.finalize();
+
+		parsers->insert({ s_command, parser });
 	}
 
 	mvDrawLine::mvDrawLine(const std::string& name)

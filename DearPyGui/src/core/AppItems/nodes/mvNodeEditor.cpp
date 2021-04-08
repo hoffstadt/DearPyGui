@@ -13,57 +13,85 @@ namespace Marvel {
 
 	void mvNodeEditor::InsertParser(std::map<std::string, mvPythonParser>* parsers)
 	{
-		parsers->insert({ s_command, mvPythonParser({
-			{mvPythonDataType::Optional},
-			{mvPythonDataType::String, "name"},
-			{mvPythonDataType::KeywordOnly},
-			{mvPythonDataType::Bool, "show", "Attempt to render", "True"},
-			{mvPythonDataType::String, "parent", "Parent to add this item to. (runtime adding)", "''"},
-			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)", "''"},
-			{mvPythonDataType::Callable , "link_callback", "Callback ran when a new link is created.", "None"},
-			{mvPythonDataType::Callable , "delink_callback", "Callback ran when a link is detached.", "None"},
 
-		}, "Adds a node editor.",
-		"None", "Containers") });
+		{
+			mvPythonParser parser(mvPyDataType::String);
+			mvAppItem::AddCommonArgs(parser);
+			parser.removeArg("source");
+			parser.removeArg("label");
+			parser.removeArg("width");
+			parser.removeArg("height");
+			parser.removeArg("callback");
+			parser.removeArg("callback_data");
+			parser.removeArg("enabled");
 
-		parsers->insert({ "add_node_link", mvPythonParser({
-			{mvPythonDataType::String, "node_editor"},
-			{mvPythonDataType::String, "node_1"},
-			{mvPythonDataType::String, "node_2"},
-		}, "Adds a node link between nodes.",
-		"None", "Containers") });
+			parser.addArg<mvPyDataType::Callable>("link_callback", mvArgType::KEYWORD, "None", "Callback ran when a new link is created.");
+			parser.addArg<mvPyDataType::Callable>("delink_callback", mvArgType::KEYWORD, "None", "Callback ran when a link is detached.");
 
-		parsers->insert({ "delete_node_link", mvPythonParser({
-			{mvPythonDataType::String, "node_editor"},
-			{mvPythonDataType::String, "node_1"},
-			{mvPythonDataType::String, "node_2"},
-		}, "Deletes a node link if it exist.",
-		"None", "Containers") });
+			parser.finalize();
 
-		parsers->insert({ "get_selected_nodes", mvPythonParser({
-			{mvPythonDataType::String, "node_editor"}
-		}, "Returns selected nodes.",
-		"List[str]", "Containers") });
+			parsers->insert({ s_command, parser });
+		}
 
-		parsers->insert({ "get_selected_links", mvPythonParser({
-			{mvPythonDataType::String, "node_editor"}
-		}, "Returns selected links.",
-		"List[List[str]]", "Containers") });
+		{
+			mvPythonParser parser(mvPyDataType::None);
 
-		parsers->insert({ "get_links", mvPythonParser({
-			{mvPythonDataType::String, "node_editor"}
-		}, "Returns all links. ",
-		"List[List[str]]", "Containers") });
+			parser.addArg<mvPyDataType::String>("node_editor");
+			parser.addArg<mvPyDataType::String>("node_1");
+			parser.addArg<mvPyDataType::String>("node_2");
 
-		parsers->insert({ "clear_selected_links", mvPythonParser({
-			{mvPythonDataType::String, "node_editor"}
-		}, "Clears selected links.",
-		"None", "Containers") });
+			parser.finalize();
 
-		parsers->insert({ "clear_selected_nodes", mvPythonParser({
-			{mvPythonDataType::String, "node_editor"}
-		}, "Clears selected nodes.",
-		"None", "Containers") });
+			parsers->insert({ "add_node_link", parser });
+		}
+
+		{
+			mvPythonParser parser(mvPyDataType::None);
+
+			parser.addArg<mvPyDataType::String>("node_editor");
+			parser.addArg<mvPyDataType::String>("node_1");
+			parser.addArg<mvPyDataType::String>("node_2");
+
+			parser.finalize();
+
+			parsers->insert({ "delete_node_link", parser });
+		}
+
+		{
+			mvPythonParser parser(mvPyDataType::StringList);
+			parser.addArg<mvPyDataType::String>("node_editor");
+			parser.finalize();
+			parsers->insert({ "get_selected_nodes", parser });
+		}
+
+		{
+			mvPythonParser parser(mvPyDataType::ListStrList);
+			parser.addArg<mvPyDataType::String>("node_editor");
+			parser.finalize();
+			parsers->insert({ "get_selected_links", parser });
+		}
+
+		{
+			mvPythonParser parser(mvPyDataType::ListStrList);
+			parser.addArg<mvPyDataType::String>("node_editor");
+			parser.finalize();
+			parsers->insert({ "get_links", parser });
+		}
+
+		{
+			mvPythonParser parser(mvPyDataType::None);
+			parser.addArg<mvPyDataType::String>("node_editor");
+			parser.finalize();
+			parsers->insert({ "clear_selected_links", parser });
+		}
+
+		{
+			mvPythonParser parser(mvPyDataType::None);
+			parser.addArg<mvPyDataType::String>("node_editor");
+			parser.finalize();
+			parsers->insert({ "clear_selected_nodes", parser });
+		}
+
 	}
 
 	mvNodeEditor::mvNodeEditor(const std::string& name)

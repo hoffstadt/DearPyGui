@@ -24,8 +24,6 @@
 
 #include "misc/mvProgressBar.h"
 #include "misc/mvDummy.h"
-#include "misc/mvIndent.h"
-#include "misc/mvUnindent.h"
 #include "misc/mvSameLine.h"
 #include "misc/mvSpacing.h"
 #include "misc/mvSeparator.h"

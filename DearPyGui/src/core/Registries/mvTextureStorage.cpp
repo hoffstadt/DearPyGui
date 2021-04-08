@@ -240,18 +240,24 @@ namespace Marvel {
 	void mvTextureStorage::InsertParser(std::map<std::string, mvPythonParser>* parsers)
 	{
 
-		parsers->insert({ "add_texture", mvPythonParser({
-			{mvPythonDataType::String, "name"},
-			{mvPythonDataType::IntList, "data", "RGBA format"},
-			{mvPythonDataType::Integer, "width"},
-			{mvPythonDataType::Integer, "height"},
-			{mvPythonDataType::KeywordOnly},
-			{mvPythonDataType::Integer, "format", "mvTEX_XXXX_XXXXX constants", "0"},
-		}, "Adds a texture. Incorrect format may yield unexpected results.") });
+		{
+			mvPythonParser parser(mvPyDataType::String);
+			parser.addArg<mvPyDataType::String>("name");
+			parser.addArg<mvPyDataType::IntList>("data");
+			parser.addArg<mvPyDataType::Integer>("width");
+			parser.addArg<mvPyDataType::Integer>("height");
+			parser.addArg<mvPyDataType::Integer>("format", mvArgType::KEYWORD, "0", "mvTEX_XXXX_XXXXX constants");
+			parser.finalize();
+			parsers->insert({ "add_texture", parser });
+		}
 
-		parsers->insert({ "decrement_texture", mvPythonParser({
-			{mvPythonDataType::String, "name"},
-		}, "Decrements a texture.") });
+		{
+			mvPythonParser parser(mvPyDataType::String);
+			parser.addArg<mvPyDataType::String>("name");
+			parser.finalize();
+			parsers->insert({ "decrement_texture", parser });
+		}
+
 	}
 
 	PyObject* mvTextureStorage::add_texture(PyObject* self, PyObject* args, PyObject* kwargs)

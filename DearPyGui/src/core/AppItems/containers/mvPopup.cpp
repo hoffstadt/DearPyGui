@@ -7,23 +7,31 @@ namespace Marvel {
 
 	void mvPopup::InsertParser(std::map<std::string, mvPythonParser>* parsers)
 	{
-		parsers->insert({ s_command, mvPythonParser({
-			{mvPythonDataType::Optional},
-			{mvPythonDataType::String, "name"},
-			{mvPythonDataType::KeywordOnly},
-			{mvPythonDataType::Integer, "mousebutton", "The mouse code that will trigger the popup.", "1"},
-			{mvPythonDataType::Bool, "modal", "", "False"},
-			{mvPythonDataType::String, "parent", "Parent that the popup will be assigned to.", "''"},
-			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)", "''"},
-			{mvPythonDataType::Integer, "width", "", "0"},
-			{mvPythonDataType::Integer, "height", "", "0"},
-			{mvPythonDataType::Bool, "show", "Attempt to render", "True"},
-		}, "Adds a popup window for an item. This command must come immediately after the item the popup is for. Must be followed by a call to end.",
-		"None", "Containers") });
 
-		parsers->insert({ "close_popup", mvPythonParser({
-			{mvPythonDataType::String, "item"},
-		}, "Closes a popup.") });
+		{
+			mvPythonParser parser(mvPyDataType::String);
+			mvAppItem::AddCommonArgs(parser);
+			parser.removeArg("source");
+			parser.removeArg("before");
+			parser.removeArg("label");
+			parser.removeArg("callback");
+			parser.removeArg("callback_data");
+			parser.removeArg("enabled");
+
+			parser.addArg<mvPyDataType::Integer>("mousebutton", mvArgType::KEYWORD, "1", "The mouse code that will trigger the popup.");
+			parser.addArg<mvPyDataType::Bool>("modal", mvArgType::KEYWORD, "False");
+
+			parser.finalize();
+
+			parsers->insert({ s_command, parser });
+		}
+
+		{
+			mvPythonParser parser(mvPyDataType::None);
+			parser.addArg<mvPyDataType::String>("item");
+			parser.finalize();
+			parsers->insert({ "Closes a popup.", parser });
+		}
 	}
 
 	mvPopup::mvPopup(const std::string& name)
