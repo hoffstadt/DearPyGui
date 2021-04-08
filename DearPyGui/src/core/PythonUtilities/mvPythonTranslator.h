@@ -11,10 +11,11 @@
 #include <string>
 #include <vector>
 #include <map>
-#include "mvCore.h"
-#include "mvPython.h"
+#define PY_SSIZE_T_CLEAN
+#include <Python.h>
 #include <time.h>
 #include <functional>
+#include "mvCore.h"
 
 namespace Marvel {
 

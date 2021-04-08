@@ -53,7 +53,7 @@ namespace Marvel {
 
 		{
 			mvPythonParser parser(mvPyDataType::None);
-			parser.addArg<mvPyDataType::Integer>("level", mvArgType::REQUIRED);
+			parser.addArg<mvPyDataType::Integer>("level", mvArgType::POSITIONAL);
 			parser.addArg<mvPyDataType::String>("logger", mvArgType::KEYWORD, "''", "specific logger");
 			parser.finalize();
 			parsers->insert({ "set_log_level", parser });
@@ -61,7 +61,7 @@ namespace Marvel {
 
 		{
 			mvPythonParser parser(mvPyDataType::None);
-			parser.addArg<mvPyDataType::Object>("message", mvArgType::REQUIRED);
+			parser.addArg<mvPyDataType::Object>("message", mvArgType::POSITIONAL);
 			parser.addArg<mvPyDataType::Integer>("level", mvArgType::KEYWORD, "'TRACE'");
 			parser.addArg<mvPyDataType::String>("logger", mvArgType::KEYWORD, "''", "specific logger");
 			parser.finalize();
@@ -70,7 +70,7 @@ namespace Marvel {
 
 		{
 			mvPythonParser parser(mvPyDataType::None);
-			parser.addArg<mvPyDataType::Object>("message", mvArgType::REQUIRED);
+			parser.addArg<mvPyDataType::Object>("message", mvArgType::POSITIONAL);
 			parser.addArg<mvPyDataType::String>("logger", mvArgType::KEYWORD, "''", "specific logger");
 			parser.finalize();
 			parsers->insert({ "log_debug", parser });
@@ -78,7 +78,7 @@ namespace Marvel {
 
 		{
 			mvPythonParser parser(mvPyDataType::None);
-			parser.addArg<mvPyDataType::Object>("message", mvArgType::REQUIRED);
+			parser.addArg<mvPyDataType::Object>("message", mvArgType::POSITIONAL);
 			parser.addArg<mvPyDataType::String>("logger", mvArgType::KEYWORD, "''", "specific logger");
 			parser.finalize();
 			parsers->insert({ "log_info", parser });
@@ -86,7 +86,7 @@ namespace Marvel {
 
 		{
 			mvPythonParser parser(mvPyDataType::None);
-			parser.addArg<mvPyDataType::Object>("message", mvArgType::REQUIRED);
+			parser.addArg<mvPyDataType::Object>("message", mvArgType::POSITIONAL);
 			parser.addArg<mvPyDataType::String>("logger", mvArgType::KEYWORD, "''", "specific logger");
 			parser.finalize();
 			parsers->insert({ "log_warning", parser });
@@ -94,7 +94,7 @@ namespace Marvel {
 
 		{
 			mvPythonParser parser(mvPyDataType::None);
-			parser.addArg<mvPyDataType::Object>("message", mvArgType::REQUIRED);
+			parser.addArg<mvPyDataType::Object>("message", mvArgType::POSITIONAL);
 			parser.addArg<mvPyDataType::String>("logger", mvArgType::KEYWORD, "''", "specific logger");
 			parser.finalize();
 			parsers->insert({ "log_error", parser });
@@ -108,7 +108,7 @@ namespace Marvel {
 
 		{
 			mvPythonParser parser(mvPyDataType::None);
-			parser.addArg<mvPyDataType::String>("title", mvArgType::REQUIRED);
+			parser.addArg<mvPyDataType::String>("title", mvArgType::POSITIONAL);
 			parser.finalize();
 			parsers->insert({ "set_logger_window_title", parser });
 		}
