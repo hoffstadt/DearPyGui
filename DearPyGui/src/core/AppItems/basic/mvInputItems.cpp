@@ -192,7 +192,7 @@ namespace Marvel {
             // If the value is out of bounds the value will be overwritten with max or min so each frame the value will be switching between the
             // ctrl+click value and the bounds value until the widget is not in ctrl+click mode. To prevent the callback from running every 
             // frame we check if the value was already submitted.
-            if (last_value[0] == m_value[0] && last_value[1] == m_value[1])
+            if (!(last_value[0] == m_value[0] && last_value[1] == m_value[1]))
             {
                 last_value[0] = m_value[0];
                 last_value[1] = m_value[1];
@@ -305,7 +305,7 @@ namespace Marvel {
             // If the value is out of bounds the value will be overwritten with max or min so each frame the value will be switching between the
             // ctrl+click value and the bounds value until the widget is not in ctrl+click mode. To prevent the callback from running every 
             // frame we check if the value was already submitted.
-            if (last_value[0] == m_value[0] && last_value[1] == m_value[1] && last_value[2] == m_value[2])
+            if (!(last_value[0] == m_value[0] && last_value[1] == m_value[1] && last_value[2] == m_value[2]))
             {
                 last_value[0] = m_value[0];
                 last_value[1] = m_value[1];
@@ -420,7 +420,7 @@ namespace Marvel {
             // If the value is out of bounds the value will be overwritten with max or min so each frame the value will be switching between the
             // ctrl+click value and the bounds value until the widget is not in ctrl+click mode. To prevent the callback from running every 
             // frame we check if the value was already submitted.
-            if (last_value[0] == m_value[0] && last_value[1] == m_value[1] && last_value[2] == m_value[2] && last_value[3] == m_value[3])
+            if (!(last_value[0] == m_value[0] && last_value[1] == m_value[1] && last_value[2] == m_value[2] && last_value[3] == m_value[3]))
             {
                 last_value[0] = m_value[0];
                 last_value[1] = m_value[1];
@@ -659,7 +659,7 @@ namespace Marvel {
             // If the value is out of bounds the value will be overwritten with max or min so each frame the value will be switching between the
             // ctrl+click value and the bounds value until the widget is not in ctrl+click mode. To prevent the callback from running every 
             // frame we check if the value was already submitted.
-            if (last_value[0] == m_value[0] && last_value[1] == m_value[1])
+            if (!(last_value[0] == m_value[0] && last_value[1] == m_value[1]))
             {
                 last_value[0] = m_value[0];
                 last_value[1] = m_value[1];
@@ -792,7 +792,7 @@ namespace Marvel {
             // If the value is out of bounds the value will be overwritten with max or min so each frame the value will be switching between the
             // ctrl+click value and the bounds value until the widget is not in ctrl+click mode. To prevent the callback from running every 
             // frame we check if the value was already submitted.
-            if (last_value[0] == m_value[0] && last_value[1] == m_value[1] && last_value[2] == m_value[2])
+            if (!(last_value[0] == m_value[0] && last_value[1] == m_value[1] && last_value[2] == m_value[2]))
             {
                 last_value[0] = m_value[0];
                 last_value[1] = m_value[1];
@@ -927,7 +927,7 @@ namespace Marvel {
             // If the value is out of bounds the value will be overwritten with max or min so each frame the value will be switching between the
             // ctrl+click value and the bounds value until the widget is not in ctrl+click mode. To prevent the callback from running every 
             // frame we check if the value was already submitted.
-            if (last_value[0] == m_value[0] && last_value[1] == m_value[1] && last_value[2] == m_value[2] && last_value[3] == m_value[3])
+            if (!(last_value[0] == m_value[0] && last_value[1] == m_value[1] && last_value[2] == m_value[2] && last_value[3] == m_value[3]))
             {
                 last_value[0] = m_value[0];
                 last_value[1] = m_value[1];

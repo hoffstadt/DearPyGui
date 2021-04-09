@@ -1,22 +1,17 @@
 from dearpygui.core import *
 from dearpygui.simple import *
-from dearpygui.demo import *
-from math import sin, cos
-import random
-import time
 
-set_log_level(0)
-#enable_docking(shift_only=False, dock_space=True)
+def printvalue(sender,data):
+    print("calling back if the input value is changed")
 
-set_main_window_title("DearPyGui Demo")
-set_main_window_size(1000, 800)
-set_main_window_pos(0, 0)
-add_additional_font("../../Resources/NotoSerifCJKjp-Medium.otf", 20)
 
-# char remaps
-#add_character_remap(0x0041, 0x00A2)
-#add_character_remap(0x0061, 0x00AB)
-show_demo()
+
+with window("test"):
+    add_input_int2('start',
+                   callback=printvalue
+                   )
+    add_input_float2('float',
+                     callback=printvalue)
 show_logger()
-
+print(get_dearpygui_version())
 start_dearpygui()
