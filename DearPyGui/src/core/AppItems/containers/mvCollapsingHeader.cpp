@@ -9,22 +9,27 @@ namespace Marvel {
 
 	void mvCollapsingHeader::InsertParser(std::map<std::string, mvPythonParser>* parsers)
 	{
-		parsers->insert({ s_command, mvPythonParser({
-			{mvPythonDataType::Optional},
-			{mvPythonDataType::String, "name"},
-			{mvPythonDataType::KeywordOnly},
-			{mvPythonDataType::String, "label", "", "''"},
-			{mvPythonDataType::Bool, "show", "Attempt to render", "True"},
-			{mvPythonDataType::String, "parent", "Parent to add this item to. (runtime adding)", "''"},
-			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)", "''"},
-			{mvPythonDataType::Bool, "closable", "", "False"},
-			{mvPythonDataType::Bool, "default_open", "", "False"},
-			{mvPythonDataType::Bool, "open_on_double_click", "Need double-click to open node", "False"},
-			{mvPythonDataType::Bool, "open_on_arrow", "Only open when clicking on the arrow part.", "False"},
-			{mvPythonDataType::Bool, "leaf", "No collapsing, no arrow (use as a convenience for leaf nodes).", "False"},
-			{mvPythonDataType::Bool, "bullet", "Display a bullet instead of arrow", "False"},
-		}, "Adds a collapsing header to add items to. Must be closed with the end command.",
-			"None", "Containers") });
+
+		mvPythonParser parser(mvPyDataType::String);
+		mvAppItem::AddCommonArgs(parser);
+		parser.removeArg("source");
+		parser.removeArg("width");
+		parser.removeArg("height");
+		parser.removeArg("source");
+		parser.removeArg("callback");
+		parser.removeArg("callback_data");
+		parser.removeArg("enabled");
+
+		parser.addArg<mvPyDataType::Bool>("closable", mvArgType::KEYWORD, "False");
+		parser.addArg<mvPyDataType::Bool>("default_open", mvArgType::KEYWORD, "False");
+		parser.addArg<mvPyDataType::Bool>("open_on_double_click", mvArgType::KEYWORD, "False", "Need double-click to open node");
+		parser.addArg<mvPyDataType::Bool>("open_on_arrow", mvArgType::KEYWORD, "False", "Only open when clicking on the arrow part.");
+		parser.addArg<mvPyDataType::Bool>("leaf", mvArgType::KEYWORD, "False", "No collapsing, no arrow (use as a convenience for leaf nodes).");
+		parser.addArg<mvPyDataType::Bool>("bullet", mvArgType::KEYWORD, "False", "Display a bullet instead of arrow");
+
+		parser.finalize();
+
+		parsers->insert({ s_command, parser });
 	}
 
 	mvCollapsingHeader::mvCollapsingHeader(const std::string& name)

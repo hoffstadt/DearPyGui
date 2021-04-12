@@ -7,23 +7,24 @@ namespace Marvel {
 
 	void mvSimplePlot::InsertParser(std::map<std::string, mvPythonParser>* parsers)
 	{
-		parsers->insert({ s_command, mvPythonParser({
-			{mvPythonDataType::Optional},
-			{mvPythonDataType::String, "name"},
-			{mvPythonDataType::KeywordOnly},
-			{mvPythonDataType::FloatList, "value", "Tuple of float values", "()"},
-			{mvPythonDataType::String, "overlay", "overlays text (similar to a plot title)", "''"},
-			{mvPythonDataType::Float, "minscale", "used if autoscale is false", "0.0"},
-			{mvPythonDataType::Float, "maxscale", "used if autoscale is false", "0.0"},
-			{mvPythonDataType::Bool, "histogram", "create a histogram", "False"},
-			{mvPythonDataType::String, "parent", "Parent this item will be added to. (runtime adding)", "''"},
-			{mvPythonDataType::String, "before","This item will be displayed before the specified item in the parent. (runtime adding)", "''"},
-			{mvPythonDataType::Integer, "width","", "0"},
-			{mvPythonDataType::Integer, "height","", "0"},
-			{mvPythonDataType::String, "source","", "''"},
-			{mvPythonDataType::String, "label", "", "''"},
-			{mvPythonDataType::Bool, "show", "Attempt to render", "True"},
-		}, "A simple plot for visualization of a set of values", "None", "Adding Widgets") });
+
+		mvPythonParser parser(mvPyDataType::String);
+		mvAppItem::AddCommonArgs(parser);
+		parser.removeArg("callback");
+		parser.removeArg("callback_data");
+		parser.removeArg("enabled");
+
+		parser.addArg<mvPyDataType::FloatList>("default_value", mvArgType::KEYWORD, "()");
+		parser.addArg<mvPyDataType::String>("overlay", mvArgType::KEYWORD, "''", "overlays text (similar to a plot title)");
+
+		parser.addArg<mvPyDataType::Bool>("histogram", mvArgType::KEYWORD, "False");
+		
+		parser.addArg<mvPyDataType::Float>("min_scale", mvArgType::KEYWORD, "0.0");
+		parser.addArg<mvPyDataType::Float>("max_scale", mvArgType::KEYWORD, "0.0");
+
+		parser.finalize();
+
+		parsers->insert({ s_command, parser });
 	}
 
 	mvSimplePlot::mvSimplePlot(const std::string& name)

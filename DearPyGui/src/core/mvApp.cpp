@@ -6,17 +6,19 @@
 #include <thread>
 #include <future>
 #include <chrono>
-#include "mvThreadPool.h"
-#include "mvAppItemCommons.h"
 #include "mvProfiler.h"
 #include <implot.h>
 #include "mvEventListener.h"
-#include "mvImGuiThemeScope.h"
+#include "mvItemRegistry.h"
+#include "mvFontManager.h"
+#include "mvThemeManager.h"
 #include "mvCallbackRegistry.h"
 #include "mvTextureStorage.h"
-#include "mvItemRegistry.h"
+#include "mvPythonTranslator.h"
+#include "mvPythonExceptions.h"
+#include "mvModule_Core.h"
 #include "mvLog.h"
-#include "mvFontManager.h"
+#include "mvEventMacros.h"
 
 namespace Marvel {
 
@@ -244,49 +246,70 @@ namespace Marvel {
 
 	}
 
+	std::map<std::string, mvPythonParser>& mvApp::getParsers()
+	{ 
+		return const_cast<std::map<std::string, mvPythonParser>&>(mvModule_Core::GetModuleParsers()); 
+	}
+
 	void mvApp::InsertParser(std::map<std::string, mvPythonParser>* parsers)
 	{
 
-		parsers->insert({ "end", mvPythonParser({
-		}, "Ends a container.", "None", "Containers") });
+		{
+			mvPythonParser parser(mvPyDataType::None);
+			parser.addArg<mvPyDataType::Bool>("shift", mvArgType::KEYWORD, "True", "press shift for docking");
+			parser.addArg<mvPyDataType::Bool>("dock_space", mvArgType::KEYWORD, "False", "add explicit dockspace over viewport");
+			parser.finalize();
+			parsers->insert({ "enable_docking", parser });
+		}
 
-		parsers->insert({ "enable_docking", mvPythonParser({
-			{mvPythonDataType::KeywordOnly},
-			{mvPythonDataType::Bool, "shift_only", "press shift for docking", "True"},
-			{mvPythonDataType::Bool, "dock_space", "add explicit dockspace over viewport", "False"},
-		}, "Decrements a texture.") });
+		{
+			mvPythonParser parser(mvPyDataType::Bool);
+			parser.finalize();
+			parsers->insert({ "is_dearpygui_running", parser });
+		}
 
-		parsers->insert({ "is_dearpygui_running", mvPythonParser({
-		}, "Checks if dearpygui is still running", "bool") });
+		{
+			mvPythonParser parser(mvPyDataType::None);
+			parser.finalize();
+			parsers->insert({ "setup_dearpygui", parser });
+		}
 
-		parsers->insert({ "setup_dearpygui", mvPythonParser({
-		}, "Sets up DearPyGui for user controlled rendering. Only call once and you must call cleanup_deapygui when finished.") });
+		{
+			mvPythonParser parser(mvPyDataType::None);
+			parser.finalize();
+			parsers->insert({ "render_dearpygui_frame", parser });
+		}
 
-		parsers->insert({ "render_dearpygui_frame", mvPythonParser({
-		}, "Renders a DearPyGui frame. Should be called within a user's event loop. Must first call setup_dearpygui outside of event loop.") });
+		{
+			mvPythonParser parser(mvPyDataType::None);
+			parser.finalize();
+			parsers->insert({ "cleanup_dearpygui", parser });
+		}
 
-		parsers->insert({ "cleanup_dearpygui", mvPythonParser({
-		}, "Cleans up DearPyGui after calling setup_dearpygui.") });
+		{
+			mvPythonParser parser(mvPyDataType::None);
+			parser.finalize();
+			parsers->insert({ "stop_dearpygui", parser });
+		}
 
-		parsers->insert({ "stop_dearpygui", mvPythonParser({
-		}, "Stops DearPyGui.") });
+		{
+			mvPythonParser parser(mvPyDataType::Float);
+			parser.finalize();
+			parsers->insert({ "get_total_time", parser });
+		}
 
-		parsers->insert({ "get_total_time", mvPythonParser({
-		}, "Returns total time since app started.", "float") });
+		{
+			mvPythonParser parser(mvPyDataType::Float);
+			parser.finalize();
+			parsers->insert({ "get_delta_time", parser });
+		}
 
-		parsers->insert({ "get_delta_time", mvPythonParser({
-		}, "Returns time since last frame.", "float") });
+		{
+			mvPythonParser parser(mvPyDataType::String);
+			parser.finalize();
+			parsers->insert({ "get_dearpygui_version", parser });
+		}
 
-		parsers->insert({ "get_dearpygui_version", mvPythonParser({
-		}, "Returns the current version of Dear PyGui.", "str") });
-
-	}
-
-	PyObject* mvApp::end(PyObject* self, PyObject* args, PyObject* kwargs)
-	{
-		std::lock_guard<std::mutex> lk(mvApp::GetApp()->getMutex());
-		mvApp::GetApp()->getItemRegistry().popParent();
-		return GetPyNone();
 	}
 
 	PyObject* mvApp::enable_docking(PyObject* self, PyObject* args, PyObject* kwargs)

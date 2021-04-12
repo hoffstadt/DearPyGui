@@ -7,22 +7,22 @@
 #include "mvViewport.h"
 #include "mvAppItemCommons.h"
 #include "mvLog.h"
+#include "mvPythonExceptions.h"
 
 namespace Marvel {
 
 	void mvDrawing::InsertParser(std::map<std::string, mvPythonParser>* parsers)
 	{
-		parsers->insert({ s_command, mvPythonParser({
-			{mvPythonDataType::Optional},
-			{mvPythonDataType::String, "name"},
-			{mvPythonDataType::KeywordOnly},
-			{mvPythonDataType::String, "parent", "Parent this item will be added to. (runtime adding)", "''"},
-			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)", "''"},
-			{mvPythonDataType::Integer, "width","", "0"},
-			{mvPythonDataType::Integer, "height","", "0"},
-			{mvPythonDataType::Bool, "show","Attempt to render", "True"},
-		}, "Adds a drawing widget.", "None", "Drawing") });
 
+		mvPythonParser parser(mvPyDataType::String);
+		mvAppItem::AddCommonArgs(parser);
+		parser.removeArg("source");
+		parser.removeArg("label");
+		parser.removeArg("callback");
+		parser.removeArg("callback_data");
+		parser.removeArg("enabled");
+		parser.finalize();
+		parsers->insert({ s_command, parser });
 	}
 
 	mvDrawing::mvDrawing(const std::string& name)

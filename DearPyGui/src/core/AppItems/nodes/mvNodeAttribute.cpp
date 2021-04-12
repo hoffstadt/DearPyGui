@@ -7,23 +7,31 @@
 #include "mvNodeEditor.h"
 #include "mvImNodesThemeScope.h"
 #include "mvFontScope.h"
+#include "mvPythonExceptions.h"
 
 namespace Marvel {
 
 	void mvNodeAttribute::InsertParser(std::map<std::string, mvPythonParser>* parsers)
 	{
-		parsers->insert({ s_command, mvPythonParser({
-			{mvPythonDataType::Optional},
-			{mvPythonDataType::String, "name"},
-			{mvPythonDataType::KeywordOnly},
-			{mvPythonDataType::Integer, "shape", "Pin shape", "1"},
-			{mvPythonDataType::Bool, "output", "Set as output attribute", "False"},
-			{mvPythonDataType::Bool, "static", "Set as static attribute", "False"},
-			{mvPythonDataType::Bool, "show", "Attempt to render", "True"},
-			{mvPythonDataType::String, "parent", "Parent to add this item to. (runtime adding)", "''"},
-			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)", "''"},
-		}, "Adds a node attribute.",
-		"None", "Containers") });
+
+		mvPythonParser parser(mvPyDataType::String);
+		mvAppItem::AddCommonArgs(parser);
+		parser.removeArg("source");
+		parser.removeArg("width");
+		parser.removeArg("height");
+		parser.removeArg("label");
+		parser.removeArg("callback");
+		parser.removeArg("callback_data");
+		parser.removeArg("enabled");
+
+		parser.addArg<mvPyDataType::Bool>("output", mvArgType::KEYWORD, "False", "Set as output attribute");
+		parser.addArg<mvPyDataType::Bool>("static", mvArgType::KEYWORD, "False", "Set as static attribute");
+
+		parser.addArg<mvPyDataType::Integer>("shape", mvArgType::KEYWORD, "1", "Pin shape");
+
+		parser.finalize();
+
+		parsers->insert({ s_command, parser });
 	}
 
 	mvNodeAttribute::mvNodeAttribute(const std::string& name)

@@ -13,27 +13,32 @@ namespace Marvel {
 
 	void mvThemeManager::InsertParser(std::map<std::string, mvPythonParser>* parsers)
 	{
+		{
+			mvPythonParser parser(mvPyDataType::String);
+			parser.addArg<mvPyDataType::Integer>("constant");
+			parser.addArg<mvPyDataType::FloatList>("color");
+			parser.addArg<mvPyDataType::String>("item", mvArgType::KEYWORD, "''");
+			parser.finalize();
+			parsers->insert({ "set_theme_color", parser });
+		}
 
-		parsers->insert({ "set_theme_color", mvPythonParser({
-			{mvPythonDataType::Integer, "constant", "mvThemeCol_* constants"},
-			{mvPythonDataType::FloatList, "color"},
-			{mvPythonDataType::Optional},
-			{mvPythonDataType::String, "item", "", "''"}
-		}, "Sets a color of a theme item for when the item is enabled.", "None", "Themes and Styles") });
+		{
+			mvPythonParser parser(mvPyDataType::String);
+			parser.addArg<mvPyDataType::Integer>("constant");
+			parser.addArg<mvPyDataType::FloatList>("color");
+			parser.addArg<mvPyDataType::String>("item", mvArgType::KEYWORD, "''");
+			parser.finalize();
+			parsers->insert({ "set_theme_color_disabled", parser });
+		}
 
-		parsers->insert({ "set_theme_color_disabled", mvPythonParser({
-			{mvPythonDataType::Integer, "constant", "mvThemeCol_* constants"},
-			{mvPythonDataType::FloatList, "color"},
-			{mvPythonDataType::Optional},
-			{mvPythonDataType::String, "item", "", "''"}
-		}, "Sets a color of a theme item for when the item is disabled.", "None", "Themes and Styles") });
-
-		parsers->insert({ "set_theme_style", mvPythonParser({
-			{mvPythonDataType::Integer, "constant", "mvThemeStyle_* constants"},
-			{mvPythonDataType::Float, "style"},
-			{mvPythonDataType::Optional},
-			{mvPythonDataType::String, "item", "", "''"}
-		}, "Sets a style of a theme item.", "None", "Themes and Styles") });
+		{
+			mvPythonParser parser(mvPyDataType::String);
+			parser.addArg<mvPyDataType::Integer>("constant");
+			parser.addArg<mvPyDataType::Float>("style");
+			parser.addArg<mvPyDataType::String>("item", mvArgType::KEYWORD, "''");
+			parser.finalize();
+			parsers->insert({ "set_theme_style", parser });
+		}
 
 	}
 

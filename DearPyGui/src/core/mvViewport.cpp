@@ -1,6 +1,6 @@
 #include "mvViewport.h"
-#include "mvApp.h"
 #include "mvCallbackRegistry.h"
+#include "mvPythonTranslator.h"
 #include <string>
 #include <array>
 
@@ -22,42 +22,57 @@ namespace Marvel {
 
 	void mvViewport::InsertParser(std::map<std::string, mvPythonParser>* parsers)
 	{
-		parsers->insert({ "create_viewport", mvPythonParser({
-			{mvPythonDataType::KeywordOnly},
-			{mvPythonDataType::String, "title"},
-			{mvPythonDataType::Integer, "width"},
-			{mvPythonDataType::Integer, "height"},
-			{mvPythonDataType::Integer, "x_pos"},
-			{mvPythonDataType::Integer, "y_pos"},
-			{mvPythonDataType::Bool, "resizable"},
-			{mvPythonDataType::Bool, "vsync"},	
-			{mvPythonDataType::Bool, "always_on_top"},	
-			{mvPythonDataType::Bool, "maximized_box"},	
-			{mvPythonDataType::Bool, "minimized_box"},	
-			{mvPythonDataType::Bool, "border"},	
-			{mvPythonDataType::Bool, "caption"},	
-			{mvPythonDataType::Bool, "overlapped"},	
-			{mvPythonDataType::Integer, "min_width"},
-			{mvPythonDataType::Integer, "max_width"},
-			{mvPythonDataType::Integer, "min_height"},
-			{mvPythonDataType::Integer, "max_height"},
-		}, "Creates a viewport") });
 
-		parsers->insert({ "show_viewport", mvPythonParser({
-			{mvPythonDataType::KeywordOnly},
-			{mvPythonDataType::Bool, "minimized"},
-			{mvPythonDataType::Bool, "maximized"},
-		}, "Shows viewport") });
+		{
+			mvPythonParser parser(mvPyDataType::None);
+			parser.addArg<mvPyDataType::String>("title", mvArgType::KEYWORD, "'Dear PyGui'");
 
-		parsers->insert({ "configure_viewport", mvPythonParser({
-			{mvPythonDataType::Kwargs, "**Kwargs"},
-		}, "Shows viewport") });
+			parser.addArg<mvPyDataType::String>("width", mvArgType::KEYWORD, "1280");
+			parser.addArg<mvPyDataType::String>("height", mvArgType::KEYWORD, "800");
+			parser.addArg<mvPyDataType::String>("x_pos", mvArgType::KEYWORD, "100");
+			parser.addArg<mvPyDataType::String>("y_pos", mvArgType::KEYWORD, "100");
+			parser.addArg<mvPyDataType::String>("min_width", mvArgType::KEYWORD, "250");
+			parser.addArg<mvPyDataType::String>("max_width", mvArgType::KEYWORD, "10000");
+			parser.addArg<mvPyDataType::String>("min_height", mvArgType::KEYWORD, "250");
+			parser.addArg<mvPyDataType::String>("max_height", mvArgType::KEYWORD, "10000");
 
-		parsers->insert({ "maximize_viewport", mvPythonParser({
-		}, "Maximizes viewport", "None") });
+			parser.addArg<mvPyDataType::Bool>("resizable", mvArgType::KEYWORD, "True");
+			parser.addArg<mvPyDataType::Bool>("vsync", mvArgType::KEYWORD, "True");
+			parser.addArg<mvPyDataType::Bool>("always_on_top", mvArgType::KEYWORD, "False");
+			parser.addArg<mvPyDataType::Bool>("maximized_box", mvArgType::KEYWORD, "True");
+			parser.addArg<mvPyDataType::Bool>("minimized_box", mvArgType::KEYWORD, "True");
+			parser.addArg<mvPyDataType::Bool>("border", mvArgType::KEYWORD, "True");
+			parser.addArg<mvPyDataType::Bool>("caption", mvArgType::KEYWORD, "True");
+			parser.addArg<mvPyDataType::Bool>("overlapped", mvArgType::KEYWORD, "True");
+			parser.finalize();
+			parsers->insert({ "create_viewport", parser });
+		}
 
-		parsers->insert({ "minimize_viewport", mvPythonParser({
-		}, "Minimizes viewport", "None") });
+		{
+			mvPythonParser parser(mvPyDataType::None);
+			parser.addArg<mvPyDataType::Bool>("minimized", mvArgType::KEYWORD, "False");
+			parser.addArg<mvPyDataType::Bool>("maximized", mvArgType::KEYWORD, "False");
+			parser.finalize();
+			parsers->insert({ "show_viewport", parser });
+		}
+
+		{
+			mvPythonParser parser(mvPyDataType::None);
+			parser.finalize();
+			parsers->insert({ "configure_viewport", parser });
+		}
+
+		{
+			mvPythonParser parser(mvPyDataType::None);
+			parser.finalize();
+			parsers->insert({ "maximize_viewport", parser });
+		}
+
+		{
+			mvPythonParser parser(mvPyDataType::None);
+			parser.finalize();
+			parsers->insert({ "minimize_viewport", parser });
+		}
 
 	}
 

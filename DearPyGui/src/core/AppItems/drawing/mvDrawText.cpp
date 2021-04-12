@@ -1,24 +1,33 @@
 #include "mvDrawText.h"
 #include "mvLog.h"
 #include "mvItemRegistry.h"
+#include "mvPythonExceptions.h"
 
 namespace Marvel {
 
 	void mvDrawText::InsertParser(std::map<std::string, mvPythonParser>* parsers)
 	{
 
-		parsers->insert({ s_command, mvPythonParser({
-			{mvPythonDataType::Optional},
-			{mvPythonDataType::String, "name", "", "''"},
-			{mvPythonDataType::KeywordOnly},
-			{mvPythonDataType::FloatList, "pos"},
-			{mvPythonDataType::String, "text"},
-			{mvPythonDataType::IntList, "color", "", "(0, 0, 0, -1)"},
-			{mvPythonDataType::Integer, "size", "", "10"},
-			{mvPythonDataType::String, "parent", "Parent to add this item to. (runtime adding)", "''"},
-			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)", "''"},
-			{mvPythonDataType::Bool, "show", "Attempt to render", "True"},
-		}, "Draws text on a drawing.", "None", "Drawing") });
+		mvPythonParser parser(mvPyDataType::String);
+		mvAppItem::AddCommonArgs(parser);
+		parser.removeArg("source");
+		parser.removeArg("width");
+		parser.removeArg("height");
+		parser.removeArg("label");
+		parser.removeArg("callback");
+		parser.removeArg("callback_data");
+		parser.removeArg("enabled");
+
+		parser.addArg<mvPyDataType::FloatList>("pos");
+		parser.addArg<mvPyDataType::String>("text");
+
+		parser.addArg<mvPyDataType::IntList>("color", mvArgType::KEYWORD, "(255, 255, 255, 255)");
+
+		parser.addArg<mvPyDataType::Integer>("size", mvArgType::KEYWORD, "10");
+
+		parser.finalize();
+
+		parsers->insert({ s_command, parser });
 	}
 
 	mvDrawText::mvDrawText(const std::string& name)

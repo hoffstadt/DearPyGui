@@ -9,23 +9,24 @@ namespace Marvel {
 
 	void mvChild::InsertParser(std::map<std::string, mvPythonParser>* parsers)
 	{
-		parsers->insert({ s_command, mvPythonParser({
-			{mvPythonDataType::Optional},
-			{mvPythonDataType::String, "name"},
-			{mvPythonDataType::KeywordOnly},
-			{mvPythonDataType::Bool, "show", "Attempt to render", "True"},
-			{mvPythonDataType::String, "parent", "Parent to add this item to. (runtime adding)", "''"},
-			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)", "''"},
-			{mvPythonDataType::Integer, "width","", "0"},
-			{mvPythonDataType::Integer, "height", "", "0"},
-			{mvPythonDataType::Bool, "border", "", "True"},
-			{mvPythonDataType::Bool, "autosize_x", "Autosize the window to fit it's items in the x.", "False"},
-			{mvPythonDataType::Bool, "autosize_y", "Autosize the window to fit it's items in the y.", "False"},
-			{mvPythonDataType::Bool, "no_scrollbar" ," Disable scrollbars (window can still scroll with mouse or programmatically)", "False"},
-			{mvPythonDataType::Bool, "horizontal_scrollbar" ,"Allow horizontal scrollbar to appear (off by default).", "False"},
-			{mvPythonDataType::Bool, "menubar", "", "False"},
-		}, "Adds an embedded child window. Will show scrollbars when items do not fit. Must be followed by a call to end.",
-		"None", "Containers") });
+		mvPythonParser parser(mvPyDataType::String);
+		mvAppItem::AddCommonArgs(parser);
+		parser.removeArg("source");
+		parser.removeArg("label");
+		parser.removeArg("callback");
+		parser.removeArg("callback_data");
+		parser.removeArg("enabled");
+
+		parser.addArg<mvPyDataType::Bool>("border", mvArgType::KEYWORD, "True");
+		parser.addArg<mvPyDataType::Bool>("autosize_x", mvArgType::KEYWORD, "False", "Autosize the window to fit it's items in the x.");
+		parser.addArg<mvPyDataType::Bool>("autosize_y", mvArgType::KEYWORD, "False", "Autosize the window to fit it's items in the y.");
+		parser.addArg<mvPyDataType::Bool>("no_scrollbar", mvArgType::KEYWORD, "False", " Disable scrollbars (window can still scroll with mouse or programmatically)");
+		parser.addArg<mvPyDataType::Bool>("horizontal_scrollbar", mvArgType::KEYWORD, "False", "Allow horizontal scrollbar to appear (off by default).");
+		parser.addArg<mvPyDataType::Bool>("menubar", mvArgType::KEYWORD, "False");
+
+		parser.finalize();
+
+		parsers->insert({ s_command, parser });
 	}
 
 	mvChild::mvChild(const std::string& name)

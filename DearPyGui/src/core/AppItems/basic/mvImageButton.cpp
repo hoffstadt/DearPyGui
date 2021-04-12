@@ -8,27 +8,22 @@ namespace Marvel {
 
 	void mvImageButton::InsertParser(std::map<std::string, mvPythonParser>* parsers)
 	{
-		parsers->insert({ s_command, mvPythonParser({
-			{mvPythonDataType::Optional},
-			{mvPythonDataType::String, "name"},
-			{mvPythonDataType::KeywordOnly},
-			{mvPythonDataType::String, "value"},
-			{mvPythonDataType::Callable, "callback", "Registers a callback", "None"},
-			{mvPythonDataType::Object, "callback_data", "Callback data", "None"},
-			{mvPythonDataType::FloatList, "tint_color", "", "(255, 255, 255, 255)"},
-			{mvPythonDataType::FloatList, "background_color", "", "(0, 0, 0, 0)"},
-			{mvPythonDataType::String, "parent", "Parent this item will be added to. (runtime adding)", "''"},
-			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)", "''"},
-			{mvPythonDataType::Integer, "width","", "0"},
-			{mvPythonDataType::Integer, "height","", "0"},
-			{mvPythonDataType::Integer, "frame_padding","", "-1"},
-			{mvPythonDataType::FloatList, "uv_min", "normalized texture coordinates", "(0.0, 0.0)"},
-			{mvPythonDataType::FloatList, "uv_max", "normalized texture coordinates", "(1.0, 1.0)"},
-			{mvPythonDataType::Bool, "show", "Attempt to render", "True"},
-			{mvPythonDataType::Bool, "enabled", "", "True"},
-		}, "Adds an image button."
-		"uv_min and uv_max represent the normalized texture coordinates of the original image that will be shown."
-		"Using(0,0)->(1,1) texture coordinates will generally display the entire texture", "None", "Adding Widgets") });
+
+		mvPythonParser parser(mvPyDataType::String);
+		mvAppItem::AddCommonArgs(parser);
+
+		parser.addArg<mvPyDataType::String>("value", mvArgType::OPTIONAL_ARG, "''");
+
+		parser.addArg<mvPyDataType::Integer>("frame_padding", mvArgType::KEYWORD, "-1");
+		
+		parser.addArg<mvPyDataType::FloatList>("tint_color", mvArgType::KEYWORD, "(255, 255, 255, 255)", "normalized texture coordinates");
+		parser.addArg<mvPyDataType::FloatList>("background_color", mvArgType::KEYWORD, "(0, 0, 0, 0)", "normalized texture coordinates");
+		parser.addArg<mvPyDataType::FloatList>("uv_min", mvArgType::KEYWORD, "(0.0, 0.0)", "normalized texture coordinates");
+		parser.addArg<mvPyDataType::FloatList>("uv_max", mvArgType::KEYWORD, "(1.0, 1.0)", "normalized texture coordinates");
+
+		parser.finalize();
+
+		parsers->insert({ s_command, parser });
 	}
 
 	mvImageButton::mvImageButton(const std::string& name)

@@ -12,18 +12,20 @@ namespace Marvel {
 	void mvTimePicker::InsertParser(std::map<std::string, mvPythonParser>* parsers)
 	{
 
-		parsers->insert({ s_command, mvPythonParser({
-			{mvPythonDataType::Optional},
-			{mvPythonDataType::String, "name"},
-			{mvPythonDataType::KeywordOnly},
-			{mvPythonDataType::Dict, "default_value", "time dict", "{'hour': 14, 'min': 32, 'sec': 23}"},
-			{mvPythonDataType::Bool, "hour24", "show 24 hour clock", "False"},
-			{mvPythonDataType::Callable, "callback", "Registers a callback", "None"},
-			{mvPythonDataType::Object, "callback_data", "Callback data", "None"},
-			{mvPythonDataType::String, "parent", "Parent this item will be added to. (runtime adding)", "''"},
-			{mvPythonDataType::String, "before","This item will be displayed before the specified item in the parent. (runtime adding)", "''"},
-			{mvPythonDataType::Bool, "show", "Attempt to render", "True"},
-		}, "Adds a time selector widget.", "None", "Adding Widgets") });
+		mvPythonParser parser(mvPyDataType::String);
+		mvAppItem::AddCommonArgs(parser);
+		parser.removeArg("source");
+		parser.removeArg("width");
+		parser.removeArg("height");
+		parser.removeArg("label");
+		parser.removeArg("enabled");
+
+		parser.addArg<mvPyDataType::Dict>("default_value", mvArgType::KEYWORD, "{'hour': 14, 'min': 32, 'sec': 23}");
+		parser.addArg<mvPyDataType::Bool>("hour24", mvArgType::KEYWORD, "False", "show 24 hour clock");
+
+		parser.finalize();
+
+		parsers->insert({ s_command, parser });
 	}
 
 	mvTimePicker::mvTimePicker(const std::string& name)

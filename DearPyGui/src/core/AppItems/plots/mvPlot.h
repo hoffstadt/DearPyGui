@@ -276,7 +276,7 @@ namespace Marvel {
 		ImVec2                        m_xlimits_actual;
 		ImVec2                        m_ylimits;
 		ImVec2                        m_ylimits_actual;
-		mvCallable                    m_queryCallback = nullptr;
+		PyObject*                    m_queryCallback = nullptr;
 		bool                          m_queried = false;
 		float                         m_queryArea[4] = {0.0f , 0.0f, 0.0f, 0.0f};
 		bool                          m_dirty = false;

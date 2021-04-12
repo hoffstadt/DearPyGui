@@ -11,22 +11,31 @@ namespace Marvel {
 	void mvImageSeries::InsertParser(std::map<std::string, mvPythonParser>* parsers)
 	{
 
-		parsers->insert({ s_command, mvPythonParser({
-			{mvPythonDataType::Optional},
-			{mvPythonDataType::String, "name"},
-			{mvPythonDataType::KeywordOnly},
-			{mvPythonDataType::String, "value"},
-			{mvPythonDataType::FloatList, "bounds_min", "bottom left coordinate"},
-			{mvPythonDataType::FloatList, "bounds_max", "top right coordinate"},
-			{mvPythonDataType::FloatList, "uv_min", "normalized texture coordinates", "(0.0, 0.0)"},
-			{mvPythonDataType::FloatList, "uv_max", "normalized texture coordinates", "(1.0, 1.0)"},
-			{mvPythonDataType::IntList, "tint_color", "", "(255, 255, 255, 255)"},
-			{mvPythonDataType::String, "label", "Overrides 'name' as label", "''"},
-			{mvPythonDataType::String, "parent", "Parent to add this item to. (runtime adding)", "''"},
-			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)", "''"},
-			{mvPythonDataType::Bool, "show", "Attempt to render", "True"},
-			{mvPythonDataType::Bool, "contribute_to_bounds", "", "True"},
-		}, "Adds a drag point to a plot.", "None", "Plotting") });
+		mvPythonParser parser(mvPyDataType::String);
+		mvAppItem::AddCommonArgs(parser);
+		parser.removeArg("width");
+		parser.removeArg("height");
+		parser.removeArg("callback");
+		parser.removeArg("callback_data");
+		parser.removeArg("enabled");
+
+		parser.addArg<mvPyDataType::String>("value");
+
+		parser.addArg<mvPyDataType::FloatList>("bounds_min");
+		parser.addArg<mvPyDataType::FloatList>("bounds_max");
+
+		parser.addArg<mvPyDataType::FloatList>("uv_min", mvArgType::KEYWORD, "(0.0, 0.0)", "normalized texture coordinates");
+		parser.addArg<mvPyDataType::FloatList>("uv_max", mvArgType::KEYWORD, "(1.0, 1.0)", "normalized texture coordinates");
+
+		parser.addArg<mvPyDataType::IntList>("tint_color", mvArgType::KEYWORD, "(255, 255, 255, 255)");
+
+		parser.addArg<mvPyDataType::Integer>("axis", mvArgType::KEYWORD, "0");
+
+		parser.addArg<mvPyDataType::Bool>("contribute_to_bounds", mvArgType::KEYWORD, "True");
+
+		parser.finalize();
+
+		parsers->insert({ s_command, parser });
 	}
 
 	mvImageSeries::mvImageSeries(const std::string& name)

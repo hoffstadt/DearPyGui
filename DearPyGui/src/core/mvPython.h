@@ -1,9 +1,6 @@
 #pragma once
 #include "mvCore.h"
 
-class PyContextManager {};
-#define mvCallable PyObject*
-#define mvCallableData PyObject*
 #define PY_SSIZE_T_CLEAN
 #include <Python.h>
 #include <frameobject.h>

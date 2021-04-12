@@ -12,64 +12,106 @@ namespace Marvel {
 	void mvCallbackRegistry::InsertParser(std::map<std::string, mvPythonParser>* parsers)
 	{
 
-		parsers->insert({ "set_start_callback", mvPythonParser({
-			{mvPythonDataType::Object, "callback"},
-		}, "Callback to run when starting main window.") });
+		{
+			mvPythonParser parser(mvPyDataType::String);
+			parser.addArg<mvPyDataType::Callable>("callback");
+			parser.finalize();
+			parsers->insert({ "set_start_callback", parser });
+		}
 
-		parsers->insert({ "set_exit_callback", mvPythonParser({
-			{mvPythonDataType::Object, "callback"},
-		}, "Callback to run when exiting main window.") });
+		{
+			mvPythonParser parser(mvPyDataType::String);
+			parser.addArg<mvPyDataType::Callable>("callback");
+			parser.finalize();
+			parsers->insert({ "set_exit_callback", parser });
+		}
 
-		parsers->insert({ "set_accelerator_callback", mvPythonParser({
-			{mvPythonDataType::Object, "callback"},
-		}, "Callback similar to keypress but used for accelerator keys.") });
+		{
+			mvPythonParser parser(mvPyDataType::String);
+			parser.addArg<mvPyDataType::Callable>("callback");
+			parser.finalize();
+			parsers->insert({ "set_accelerator_callback", parser });
+		}
 
-		parsers->insert({ "set_mouse_move_callback", mvPythonParser({
-			{mvPythonDataType::Callable, "callback", "Registers a callback"}
-		}, "Sets a callback for a mouse move event. Data is the mouse position in local coordinates.", "None", "Input Polling") });
+		{
+			mvPythonParser parser(mvPyDataType::String);
+			parser.addArg<mvPyDataType::Callable>("callback");
+			parser.finalize();
+			parsers->insert({ "set_mouse_move_callback", parser });
+		}
 
-		parsers->insert({ "set_resize_callback", mvPythonParser({
-			{mvPythonDataType::Callable, "callback", "Registers a callback"},
-			{mvPythonDataType::KeywordOnly},
-			{mvPythonDataType::String, "handler", "Callback will be run when window is resized (default is viewport)", "''"},
-		}, "Sets a callback for a window resize event.", "None", "Input Polling") });
+		{
+			mvPythonParser parser(mvPyDataType::String);
+			parser.addArg<mvPyDataType::Callable>("callback");
+			parser.addArg<mvPyDataType::String>("handler", mvArgType::KEYWORD, "''");
+			parser.finalize();
+			parsers->insert({ "set_resize_callback", parser });
+		}
 
-		parsers->insert({ "set_mouse_release_callback", mvPythonParser({
-			{mvPythonDataType::Callable, "callback", "Registers a callback"}
-		}, "Sets a callback for a mouse release event.", "None", "Input Polling") });
+		{
+			mvPythonParser parser(mvPyDataType::String);
+			parser.addArg<mvPyDataType::Callable>("callback");
+			parser.finalize();
+			parsers->insert({ "set_mouse_release_callback", parser });
+		}
 
-		parsers->insert({ "set_mouse_down_callback", mvPythonParser({
-			{mvPythonDataType::Callable, "callback", "Registers a callback"}
-		}, "Sets a callback for a mouse down event.", "None", "Input Polling") });
+		{
+			mvPythonParser parser(mvPyDataType::String);
+			parser.addArg<mvPyDataType::Callable>("callback");
+			parser.finalize();
+			parsers->insert({ "set_mouse_down_callback", parser });
+		}
 
-		parsers->insert({ "set_mouse_drag_callback", mvPythonParser({
-			{mvPythonDataType::Callable, "callback", "Registers a callback"},
-			{mvPythonDataType::Float, "threshold"}
-		}, "Sets a callback for a mouse drag event.", "None", "Input Polling") });
+		{
+			mvPythonParser parser(mvPyDataType::String);
+			parser.addArg<mvPyDataType::Callable>("callback");
+			parser.addArg<mvPyDataType::Float>("threshold");
+			parser.finalize();
+			parsers->insert({ "set_mouse_drag_callback", parser });
+		}
 
-		parsers->insert({ "set_mouse_wheel_callback", mvPythonParser({
-			{mvPythonDataType::Callable, "callback", "Registers a callback"}
-		}, "Sets a callback for a mouse wheel event.", "None", "Input Polling") });
+		{
+			mvPythonParser parser(mvPyDataType::String);
+			parser.addArg<mvPyDataType::Callable>("callback");
+			parser.finalize();
+			parsers->insert({ "set_mouse_wheel_callback", parser });
+		}
 
-		parsers->insert({ "set_mouse_double_click_callback", mvPythonParser({
-			{mvPythonDataType::Callable, "callback", "Registers a callback"}
-		}, "Sets a callback for a mouse double click event.", "None", "Input Polling") });
+		{
+			mvPythonParser parser(mvPyDataType::String);
+			parser.addArg<mvPyDataType::Callable>("callback");
+			parser.finalize();
+			parsers->insert({ "set_mouse_double_click_callback", parser });
+		}
 
-		parsers->insert({ "set_mouse_click_callback", mvPythonParser({
-			{mvPythonDataType::Callable, "callback", "Registers a callback"}
-		}, "Sets a callback for a mouse click event.", "None", "Input Polling") });
+		{
+			mvPythonParser parser(mvPyDataType::String);
+			parser.addArg<mvPyDataType::Callable>("callback");
+			parser.finalize();
+			parsers->insert({ "set_mouse_click_callback", parser });
+		}
 
-		parsers->insert({ "set_key_down_callback", mvPythonParser({
-			{mvPythonDataType::Callable, "callback", "Registers a callback"}
-		}, "Sets a callback for a key down event.", "None", "Input Polling") }),
+		{
+			mvPythonParser parser(mvPyDataType::String);
+			parser.addArg<mvPyDataType::Callable>("callback");
+			parser.finalize();
+			parsers->insert({ "set_key_down_callback", parser });
+		}
 
-		parsers->insert({ "set_key_press_callback", mvPythonParser({
-			{mvPythonDataType::Callable, "callback", "Registers a callback"}
-			}, "Sets a callback for a key press event.", "None", "Input Polling") });
+		{
+			mvPythonParser parser(mvPyDataType::String);
+			parser.addArg<mvPyDataType::Callable>("callback");
+			parser.finalize();
+			parsers->insert({ "set_key_press_callback", parser });
+		}
 
-		parsers->insert({ "set_key_release_callback", mvPythonParser({
-			{mvPythonDataType::Callable, "callback", "Registers a callback"}
-		}, "Sets a callback for a key release event.", "None", "Input Polling") });
+		{
+			mvPythonParser parser(mvPyDataType::String);
+			parser.addArg<mvPyDataType::Callable>("callback");
+			parser.finalize();
+			parsers->insert({ "set_key_release_callback", parser });
+		}
+
 	}
 
 	mvCallbackRegistry::mvCallbackRegistry()
@@ -256,7 +298,7 @@ namespace Marvel {
 		return true;
 	}
 
-	void mvCallbackRegistry::addCallback(mvCallable callable, const std::string& sender, mvCallableData data)
+	void mvCallbackRegistry::addCallback(PyObject* callable, const std::string& sender, PyObject* data)
 	{
 
 		if (m_callCount > s_MaxNumberOfCalls)
@@ -272,7 +314,7 @@ namespace Marvel {
 			});
 	}
 
-	void mvCallbackRegistry::runCallback(mvCallable callable, const std::string& sender, PyObject* data)
+	void mvCallbackRegistry::runCallback(PyObject* callable, const std::string& sender, PyObject* data)
 	{
 
 		if (callable == nullptr)

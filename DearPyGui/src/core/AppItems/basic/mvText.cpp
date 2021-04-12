@@ -8,35 +8,45 @@ namespace Marvel {
 
 	void mvText::InsertParser(std::map<std::string, mvPythonParser>* parsers)
 	{
-		parsers->insert({ s_command, mvPythonParser({
-			{mvPythonDataType::Optional},
-			{mvPythonDataType::String, "name"},
-			{mvPythonDataType::KeywordOnly},
-			{mvPythonDataType::Integer, "wrap", "number of characters until wraping", "-1"},
-			{mvPythonDataType::FloatList, "color", "color of the text (rgba)", "(-1, 0, 0, 0)"},
-			{mvPythonDataType::Bool, "bullet", "makes the text bulleted", "False"},
-			{mvPythonDataType::String, "parent", "Parent this item will be added to. (runtime adding)", "''"},
-			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)", "''"},
-			{mvPythonDataType::String, "source", "", "''"},
-			{mvPythonDataType::String, "default_value", "", "''"},
-			{mvPythonDataType::Bool, "show", "Attempt to render", "True"},
-		}, "Adds text", "None", "Adding Widgets") });
+		mvPythonParser parser(mvPyDataType::String);
+		mvAppItem::AddCommonArgs(parser);
+		parser.removeArg("width");
+		parser.removeArg("height");
+		parser.removeArg("label");
+		parser.removeArg("callback");
+		parser.removeArg("callback_data");
+		parser.removeArg("enabled");
+
+		parser.addArg<mvPyDataType::String>("default_value", mvArgType::KEYWORD, "''");
+
+		parser.addArg<mvPyDataType::Integer>("wrap", mvArgType::KEYWORD, "-1", "number of characters until wraping");
+
+		parser.addArg<mvPyDataType::Bool>("bullet", mvArgType::KEYWORD, "False", "makes the text bulleted");
+
+		parser.addArg<mvPyDataType::FloatList>("color", mvArgType::KEYWORD, "(-1, -1, -1, -1)", "color of the text (rgba)");
+
+		parser.finalize();
+
+		parsers->insert({ s_command, parser });
 	}
 
 	void mvLabelText::InsertParser(std::map<std::string, mvPythonParser>* parsers)
 	{
-		parsers->insert({ s_command, mvPythonParser({
-			{mvPythonDataType::Optional},
-			{mvPythonDataType::String, "name"},
-			{mvPythonDataType::KeywordOnly},
-			{mvPythonDataType::String, "default_value", "", "''"},
-			{mvPythonDataType::FloatList, "color", "", "(-1, 0, 0, 0)"},
-			{mvPythonDataType::String, "parent", "Parent this item will be added to. (runtime adding)", "''"},
-			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)", "''"},
-			{mvPythonDataType::String, "source", "data source for shared data", "''"},
-			{mvPythonDataType::String, "label", "", "''"},
-			{mvPythonDataType::Bool, "show", "Attempt to render", "True"},
-		}, "Adds text with a label. Useful for output values.", "None", "Adding Widgets") });
+
+		mvPythonParser parser(mvPyDataType::String);
+		mvAppItem::AddCommonArgs(parser);
+		parser.removeArg("width");
+		parser.removeArg("height");
+		parser.removeArg("callback");
+		parser.removeArg("callback_data");
+		parser.removeArg("enabled");
+
+		parser.addArg<mvPyDataType::String>("default_value", mvArgType::KEYWORD, "''");
+		parser.addArg<mvPyDataType::FloatList>("color", mvArgType::KEYWORD, "(-1, -1, -1, -1)", "color of the text (rgba)");
+
+		parser.finalize();
+
+		parsers->insert({ s_command, parser });
 	}
 
 	mvText::mvText(const std::string& name)

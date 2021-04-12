@@ -7,9 +7,7 @@
 #include <mutex>
 #include <map>
 #include "mvEvents.h"
-#include "mvApp.h"
 #include "mvAppItem.h"
-#include "mvPythonParser.h"
 #include "cpp.hint"
 
 namespace Marvel {
@@ -45,6 +43,7 @@ namespace Marvel {
         MV_CREATE_EXTRA_COMMAND(get_all_items);
         MV_CREATE_EXTRA_COMMAND(get_active_window);
         MV_CREATE_EXTRA_COMMAND(set_primary_window);
+        MV_CREATE_EXTRA_COMMAND(end);
 
         MV_START_EXTRA_COMMANDS
             MV_ADD_EXTRA_COMMAND(move_item);
@@ -56,6 +55,7 @@ namespace Marvel {
             MV_ADD_EXTRA_COMMAND(get_all_items);
             MV_ADD_EXTRA_COMMAND(get_active_window);
             MV_ADD_EXTRA_COMMAND(set_primary_window);
+            MV_ADD_EXTRA_COMMAND(end);
         MV_END_EXTRA_COMMANDS
 
 	public:

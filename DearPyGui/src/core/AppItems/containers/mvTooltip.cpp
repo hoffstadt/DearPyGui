@@ -8,15 +8,22 @@ namespace Marvel {
 
 	void mvTooltip::InsertParser(std::map<std::string, mvPythonParser>* parsers)
 	{
-		parsers->insert({ s_command, mvPythonParser({
-			{mvPythonDataType::Optional},
-			{mvPythonDataType::String, "name"},
-			{mvPythonDataType::KeywordOnly},
-			{mvPythonDataType::String, "parent", "Sets the item's tool tip to be the same as the named item's tool tip"},
-			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)", "''"},
-			{mvPythonDataType::Bool, "show","Attempt to render", "True"},
-		}, "Adds an advanced tool tip for an item. This command must come immediately after the item the tip is for.",
-			"None", "Containers") });
+
+
+		mvPythonParser parser(mvPyDataType::String);
+		mvAppItem::AddCommonArgs(parser);
+		parser.removeArg("source");
+		parser.removeArg("width");
+		parser.removeArg("height");
+		parser.removeArg("before");
+		parser.removeArg("label");
+		parser.removeArg("callback");
+		parser.removeArg("callback_data");
+		parser.removeArg("enabled");
+
+		parser.finalize();
+
+		parsers->insert({ s_command, parser });
 	}
 
 	mvTooltip::mvTooltip(const std::string& name)

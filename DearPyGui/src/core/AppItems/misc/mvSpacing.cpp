@@ -5,15 +5,22 @@ namespace Marvel {
 
 	void mvSpacing::InsertParser(std::map<std::string, mvPythonParser>* parsers)
 	{
-		parsers->insert({ s_command, mvPythonParser({
-			{mvPythonDataType::Optional},
-			{mvPythonDataType::String, "name", "", "'spacing'"},
-			{mvPythonDataType::KeywordOnly},
-			{mvPythonDataType::Integer, "count", "", "1"},
-			{mvPythonDataType::String, "parent", "Parent to add this item to. (runtime adding)", "''"},
-			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)", "''"},
-			{mvPythonDataType::Bool, "show", "Attempt to render", "True"},
-		}, "Adds vertical spacing.", "None", "Adding Widgets") });
+
+		mvPythonParser parser(mvPyDataType::String);
+		mvAppItem::AddCommonArgs(parser);
+		parser.removeArg("source");
+		parser.removeArg("width");
+		parser.removeArg("height");
+		parser.removeArg("label");
+		parser.removeArg("callback");
+		parser.removeArg("callback_data");
+		parser.removeArg("enabled");
+
+		parser.addArg<mvPyDataType::Integer>("count", mvArgType::KEYWORD, "1", "A cardinal direction");
+
+		parser.finalize();
+
+		parsers->insert({ s_command, parser });
 	}
 
 

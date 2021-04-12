@@ -9,23 +9,15 @@ namespace Marvel {
 
 	void mvSelectable::InsertParser(std::map<std::string, mvPythonParser>* parsers)
 	{
-		parsers->insert({ s_command, mvPythonParser({
-			{mvPythonDataType::Optional},
-			{mvPythonDataType::String, "name"},
-			{mvPythonDataType::KeywordOnly},
-			{mvPythonDataType::Bool, "default_value", "", "False"},
-			{mvPythonDataType::Callable, "callback", "Registers a callback", "None"},
-			{mvPythonDataType::Object, "callback_data", "Callback data", "None"},
-			{mvPythonDataType::Integer, "width","", "0"},
-			{mvPythonDataType::Integer, "height", "", "0"},
-			{mvPythonDataType::String, "parent", "Parent this item will be added to. (runtime adding)", "''"},
-			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)", "''"},
-			{mvPythonDataType::String, "source", "", "''"},
-			{mvPythonDataType::Bool, "enabled", "Display grayed out text so selectable cannot be selected", "True"},
-			{mvPythonDataType::String, "label", "", "''"},
-			{mvPythonDataType::Bool, "show", "Attempt to render", "True"},
-			{mvPythonDataType::Bool, "span_columns", "span all columns", "False"},
-		}, "Adds a selectable.", "None", "Adding Widgets") });
+		mvPythonParser parser(mvPyDataType::String);
+		mvAppItem::AddCommonArgs(parser);
+
+		parser.addArg<mvPyDataType::Bool>("default_value", mvArgType::KEYWORD, "False");
+		parser.addArg<mvPyDataType::Bool>("span_columns", mvArgType::KEYWORD, "False", "span all columns");
+
+		parser.finalize();
+
+		parsers->insert({ s_command, parser });
 	}
 
 	mvSelectable::mvSelectable(const std::string& name)

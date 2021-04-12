@@ -4,101 +4,148 @@
 #include "mvItemRegistry.h"
 #include "mvImGuiThemeScope.h"
 #include "mvFontScope.h"
+#include "mvPythonExceptions.h"
 
 namespace Marvel {
 
 	void mvDataGrid::InsertParser(std::map<std::string, mvPythonParser>* parsers)
 	{
-		parsers->insert({ s_command, mvPythonParser({
-			{mvPythonDataType::Optional},
-			{mvPythonDataType::String, "name"},
-			{mvPythonDataType::KeywordOnly},
-			{mvPythonDataType::StringList, "headers"},
-			{mvPythonDataType::Callable, "callback", "Registers a callback", "None"},
-			{mvPythonDataType::Object, "callback_data", "Callback data", "None"},
-			{mvPythonDataType::String, "parent", "Parent this item will be added to. (runtime adding)", "''"},
-			{mvPythonDataType::String, "before","This item will be displayed before the specified item in the parent. (runtime adding)", "''"},
-			{mvPythonDataType::Integer, "width","", "0"},
-			{mvPythonDataType::Integer, "height","", "200"},
-			{mvPythonDataType::Bool, "hide_headers", "Hide headers of the table", "False"},
-			{mvPythonDataType::Bool, "show","Attempt to render", "True"}
-		}, "Adds data grid.", "None", "Tables") });
 
-		parsers->insert({ "set_grid_data", mvPythonParser({
-			{mvPythonDataType::String, "data_grid"},
-			{mvPythonDataType::ListStrList, "data"}
-		}, "Overwrites data grid data.", "None", "Tables") });
+		{
+			mvPythonParser parser(mvPyDataType::String);
+			mvAppItem::AddCommonArgs(parser);
+			parser.removeArg("source");
+			parser.removeArg("label");
+			parser.removeArg("enabled");
 
-		parsers->insert({ "get_grid_data", mvPythonParser({
-			{mvPythonDataType::String, "data_grid"},
-		}, "Gets data grid data.", "List[List[str]]", "Tables") });
+			parser.addArg<mvPyDataType::StringList>("headers", mvArgType::OPTIONAL_ARG);
 
-		parsers->insert({ "set_grid_headers", mvPythonParser({
-			{mvPythonDataType::String, "data_grid"},
-			{mvPythonDataType::StringList, "headers"},
-		}, "Sets a data grid's headers.", "None", "Tables") });
+			parser.addArg<mvPyDataType::Bool>("hide_headers", mvArgType::KEYWORD, "False", "Hide headers of the table");
 
-		parsers->insert({ "clear_data_grid", mvPythonParser({
-			{mvPythonDataType::String, "data_grid"}
-		}, "Clears data in a data grid", "None", "Tables") });
 
-		parsers->insert({ "add_grid_column", mvPythonParser({
-			{mvPythonDataType::String, "data_grid"},
-			{mvPythonDataType::String, "name"},
-			{mvPythonDataType::StringList, "column"},
-		}, "Adds a column to the end of a data grid.", "None", "Tables") });
+			parser.finalize();
 
-		parsers->insert({ "insert_grid_column", mvPythonParser({
-			{mvPythonDataType::String, "data_grid"},
-			{mvPythonDataType::Integer, "column_index"},
-			{mvPythonDataType::String, "name"},
-			{mvPythonDataType::StringList, "column"},
-		}, "Inserts a column into a data grid.", "None", "Tables") });
+			parsers->insert({ s_command, parser });
+		}
 
-		parsers->insert({ "delete_grid_column", mvPythonParser({
-			{mvPythonDataType::String, "data_grid"},
-			{mvPythonDataType::Integer, "column"}
-		}, "Delete a column in a data grid.", "None", "Tables") });
+		{
+			mvPythonParser parser(mvPyDataType::None);
+			parser.addArg<mvPyDataType::String>("data_grid", mvArgType::POSITIONAL);
+			parser.addArg<mvPyDataType::ListStrList>("data", mvArgType::POSITIONAL);
+			parser.finalize();
+			parsers->insert({ "set_grid_data", parser });
+		}
 
-		parsers->insert({ "add_grid_row", mvPythonParser({
-			{mvPythonDataType::String, "data_grid"},
-			{mvPythonDataType::StringList, "row"},
-		}, "Adds a row to the end of a data grid.", "None", "Tables") });
+		{
+			mvPythonParser parser(mvPyDataType::ListStrList);
+			parser.addArg<mvPyDataType::String>("data_grid", mvArgType::POSITIONAL);
+			parser.finalize();
+			parsers->insert({ "get_grid_data", parser });
+		}
 
-		parsers->insert({ "insert_grid_row", mvPythonParser({
-			{mvPythonDataType::String, "data_grid"},
-			{mvPythonDataType::Integer, "row_index"},
-			{mvPythonDataType::StringList, "row"},
-		}, "Inserts a row into a data grid.", "None", "Tables") });
+		{
+			mvPythonParser parser(mvPyDataType::None);
+			parser.addArg<mvPyDataType::String>("data_grid", mvArgType::POSITIONAL);
+			parser.addArg<mvPyDataType::StringList>("headers", mvArgType::POSITIONAL);
+			parser.finalize();
+			parsers->insert({ "set_grid_headers", parser });
+		}
 
-		parsers->insert({ "delete_grid_row", mvPythonParser({
-			{mvPythonDataType::String, "data_grid"},
-			{mvPythonDataType::Integer, "row"}
-		}, "Delete a row in a data grid.", "None", "Tables") });
+		{
+			mvPythonParser parser(mvPyDataType::ListStrList);
+			parser.addArg<mvPyDataType::String>("data_grid", mvArgType::POSITIONAL);
+			parser.finalize();
+			parsers->insert({ "clear_data_grid", parser });
+		}
 
-		parsers->insert({ "get_grid_item", mvPythonParser({
-			{mvPythonDataType::String, "data_grid"},
-			{mvPythonDataType::Integer, "row"},
-			{mvPythonDataType::Integer, "column"}
-		}, "Gets a data grid's cell value.", "str", "Tables") });
+		{
+			mvPythonParser parser(mvPyDataType::None);
+			parser.addArg<mvPyDataType::String>("data_grid", mvArgType::POSITIONAL);
+			parser.addArg<mvPyDataType::String>("name", mvArgType::POSITIONAL);
+			parser.addArg<mvPyDataType::StringList>("column", mvArgType::POSITIONAL);
+			parser.finalize();
+			parsers->insert({ "add_grid_column", parser });
+		}
 
-		parsers->insert({ "set_grid_item", mvPythonParser({
-			{mvPythonDataType::String, "data_grid"},
-			{mvPythonDataType::Integer, "row"},
-			{mvPythonDataType::Integer, "column"},
-			{mvPythonDataType::String, "value"},
-		}, "Sets a data grid's cell value.", "None", "Tables") });
+		{
+			mvPythonParser parser(mvPyDataType::None);
+			parser.addArg<mvPyDataType::String>("data_grid", mvArgType::POSITIONAL);
+			parser.addArg<mvPyDataType::Integer>("column_index", mvArgType::POSITIONAL);
+			parser.addArg<mvPyDataType::String>("name", mvArgType::POSITIONAL);
+			parser.addArg<mvPyDataType::StringList>("column", mvArgType::POSITIONAL);
+			parser.finalize();
+			parsers->insert({ "insert_grid_column", parser });
+		}
 
-		parsers->insert({ "get_grid_selections", mvPythonParser({
-			{mvPythonDataType::String, "data_grid"}
-		}, "Retrieves data from storage.", "List[List[int]]", "Tables") });
+		{
+			mvPythonParser parser(mvPyDataType::None);
+			parser.addArg<mvPyDataType::String>("data_grid", mvArgType::POSITIONAL);
+			parser.addArg<mvPyDataType::Integer>("column_index", mvArgType::POSITIONAL);
+			parser.finalize();
+			parsers->insert({ "delete_grid_column", parser });
+		}
 
-		parsers->insert({ "set_grid_selection", mvPythonParser({
-			{mvPythonDataType::String, "data_grid"},
-			{mvPythonDataType::Integer, "row"},
-			{mvPythonDataType::Integer, "column"},
-			{mvPythonDataType::Bool, "value"},
-		}, "Sets a data grid's cell selection value.", "None", "Tables") });
+		{
+			mvPythonParser parser(mvPyDataType::None);
+			parser.addArg<mvPyDataType::String>("data_grid", mvArgType::POSITIONAL);
+			parser.addArg<mvPyDataType::StringList>("row", mvArgType::POSITIONAL);
+			parser.finalize();
+			parsers->insert({ "add_grid_row", parser });
+		}
+
+		{
+			mvPythonParser parser(mvPyDataType::None);
+			parser.addArg<mvPyDataType::String>("data_grid", mvArgType::POSITIONAL);
+			parser.addArg<mvPyDataType::Integer>("row_index", mvArgType::POSITIONAL);
+			parser.addArg<mvPyDataType::StringList>("row", mvArgType::POSITIONAL);
+			parser.finalize();
+			parsers->insert({ "insert_grid_row", parser });
+		}
+
+		{
+			mvPythonParser parser(mvPyDataType::None);
+			parser.addArg<mvPyDataType::String>("data_grid", mvArgType::POSITIONAL);
+			parser.addArg<mvPyDataType::Integer>("row", mvArgType::POSITIONAL);
+			parser.finalize();
+			parsers->insert({ "delete_grid_row", parser });
+		}
+
+		{
+			mvPythonParser parser(mvPyDataType::String);
+			parser.addArg<mvPyDataType::String>("data_grid", mvArgType::POSITIONAL);
+			parser.addArg<mvPyDataType::Integer>("row", mvArgType::POSITIONAL);
+			parser.addArg<mvPyDataType::Integer>("column", mvArgType::POSITIONAL);
+			parser.finalize();
+			parsers->insert({ "delete_grid_row", parser });
+		}
+
+		{
+			mvPythonParser parser(mvPyDataType::String);
+			parser.addArg<mvPyDataType::String>("data_grid", mvArgType::POSITIONAL);
+			parser.addArg<mvPyDataType::Integer>("row", mvArgType::POSITIONAL);
+			parser.addArg<mvPyDataType::Integer>("column", mvArgType::POSITIONAL);
+			parser.addArg<mvPyDataType::String>("value", mvArgType::POSITIONAL);
+			parser.finalize();
+			parsers->insert({ "set_grid_item", parser });
+		}
+
+		{
+			mvPythonParser parser(mvPyDataType::ListListInt);
+			parser.addArg<mvPyDataType::String>("data_grid", mvArgType::POSITIONAL);
+			parser.finalize();
+			parsers->insert({ "get_grid_selections", parser });
+		}
+
+		{
+			mvPythonParser parser(mvPyDataType::String);
+			parser.addArg<mvPyDataType::String>("data_grid", mvArgType::POSITIONAL);
+			parser.addArg<mvPyDataType::Integer>("row", mvArgType::POSITIONAL);
+			parser.addArg<mvPyDataType::Integer>("column", mvArgType::POSITIONAL);
+			parser.addArg<mvPyDataType::Bool>("value", mvArgType::POSITIONAL);
+			parser.finalize();
+			parsers->insert({ "set_grid_selection", parser });
+		}
+
 	}
 
 	mvDataGrid::mvDataGrid(const std::string& name)

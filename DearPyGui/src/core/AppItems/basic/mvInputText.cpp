@@ -9,33 +9,27 @@ namespace Marvel {
 
 	void mvInputText::InsertParser(std::map<std::string, mvPythonParser>* parsers)
 	{
-		parsers->insert({ s_command, mvPythonParser({
-			{mvPythonDataType::Optional},
-			{mvPythonDataType::String, "name"},
-			{mvPythonDataType::KeywordOnly},
-			{mvPythonDataType::String, "default_value", "", "''"},
-			{mvPythonDataType::String, "hint", "", "''"},
-			{mvPythonDataType::Bool, "multiline", "", "False"},
-			{mvPythonDataType::Bool, "no_spaces", "Filter out spaces, tabs", "False"},
-			{mvPythonDataType::Bool, "uppercase", "", "False"},
-			{mvPythonDataType::Bool, "tab_input", "Allows tabs to be input instead of changing widget focus", "False"},
-			{mvPythonDataType::Bool, "decimal", "Allow 0123456789.+-*/", "False"},
-			{mvPythonDataType::Bool, "hexadecimal", "Allow 0123456789ABCDEFabcdef", "False"},
-			{mvPythonDataType::Bool, "readonly", "", "False"},
-			{mvPythonDataType::Bool, "password", "Password mode, display all characters as '*'", "False"},
-			{mvPythonDataType::Bool, "scientific", "Allow 0123456789.+-*/eE (Scientific notation input)", "False"},
-			{mvPythonDataType::Callable, "callback", "Registers a callback", "None"},
-			{mvPythonDataType::Object, "callback_data", "Callback data", "None"},
-			{mvPythonDataType::String, "parent", "Parent to add this item to. (runtime adding)", "''"},
-			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)", "''"},
-			{mvPythonDataType::String, "source", "", "''"},
-			{mvPythonDataType::Bool, "enabled", "Display grayed out text so selectable cannot be selected", "True"},
-			{mvPythonDataType::Integer, "width","", "0"},
-			{mvPythonDataType::Integer, "height","", "0"},
-			{mvPythonDataType::Bool, "on_enter", "Only runs callback on enter", "False"},
-			{mvPythonDataType::String, "label", "", "''"},
-			{mvPythonDataType::Bool, "show", "Attempt to render", "True"},
-		}, "Adds input for text values.", "None", "Adding Widgets") });
+
+		mvPythonParser parser(mvPyDataType::String);
+		mvAppItem::AddCommonArgs(parser);
+
+		parser.addArg<mvPyDataType::String>("default_value", mvArgType::KEYWORD, "''");
+		parser.addArg<mvPyDataType::String>("hint", mvArgType::KEYWORD, "''");
+
+		parser.addArg<mvPyDataType::Bool>("multiline", mvArgType::KEYWORD, "False");
+		parser.addArg<mvPyDataType::Bool>("no_spaces", mvArgType::KEYWORD, "False", "Filter out spaces, tabs");
+		parser.addArg<mvPyDataType::Bool>("uppercase", mvArgType::KEYWORD, "False");
+		parser.addArg<mvPyDataType::Bool>("tab_input", mvArgType::KEYWORD, "False", "Allows tabs to be input instead of changing widget focus");
+		parser.addArg<mvPyDataType::Bool>("decimal", mvArgType::KEYWORD, "False", "Allow 0123456789.+-*/");
+		parser.addArg<mvPyDataType::Bool>("hexadecimal", mvArgType::KEYWORD, "False", "Allow 0123456789ABCDEFabcdef");
+		parser.addArg<mvPyDataType::Bool>("readonly", mvArgType::KEYWORD, "False");
+		parser.addArg<mvPyDataType::Bool>("password", mvArgType::KEYWORD, "False", "Password mode, display all characters as '*'");
+		parser.addArg<mvPyDataType::Bool>("scientific", mvArgType::KEYWORD, "False", "Allow 0123456789.+-*/eE (Scientific notation input)");
+		parser.addArg<mvPyDataType::Bool>("on_enter", mvArgType::KEYWORD, "False", "Only runs callback on enter");
+
+		parser.finalize();
+
+		parsers->insert({ s_command, parser });
 	}
 
 	mvInputText::mvInputText(const std::string& name)

@@ -6,16 +6,21 @@ namespace Marvel {
 
 	void mvFileDialog::InsertParser(std::map<std::string, mvPythonParser>* parsers)
 	{
-		parsers->insert({ "open_file_dialog", mvPythonParser({
-			{mvPythonDataType::Optional},
-			{mvPythonDataType::Callable, "callback", "function to call on completion", "None"},
-			{mvPythonDataType::String, "extensions", "filters items with extensions i.e '.*, .py'", "''"},
-		}, "Opens an 'open file' dialog.") });
+		{
+			mvPythonParser parser(mvPyDataType::String);
+			parser.addArg<mvPyDataType::Callable>("callback", mvArgType::KEYWORD, "None", "function to call on completion");
+			parser.finalize();
+			parsers->insert({ s_command, parser });
+		}
 
-		parsers->insert({ s_command, mvPythonParser({
-			{mvPythonDataType::Optional},
-			{mvPythonDataType::Callable, "callback", "function to call on completion", "None"},
-		}, "Opens a select directory dialog.") });
+		{
+			mvPythonParser parser(mvPyDataType::String);
+			parser.addArg<mvPyDataType::Callable>("callback", mvArgType::KEYWORD, "None", "function to call on completion");
+			parser.addArg<mvPyDataType::String>("extensions", mvArgType::KEYWORD, "''", "filters items with extensions i.e '.*, .py'");
+			parser.finalize();
+			parsers->insert({ "open_file_dialog", parser });
+		}
+
 	}
 
 	mvFileDialog::mvFileDialog() : mvBaseWindowAppitem("filedialog")
@@ -27,7 +32,7 @@ namespace Marvel {
 		return true; 
 	}
 
-	void mvFileDialog::setCallback(mvCallable callback)
+	void mvFileDialog::setCallback(PyObject* callback)
 	{ 
 		m_callback2 = callback; 
 	}

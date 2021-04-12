@@ -10,44 +10,75 @@ namespace Marvel {
 	void mvItemRegistry::InsertParser(std::map<std::string, mvPythonParser>* parsers)
 	{
 
-		parsers->insert({ "move_item", mvPythonParser({
-			{mvPythonDataType::String, "item"},
-			{mvPythonDataType::KeywordOnly},
-			{mvPythonDataType::String, "parent", "", "''"},
-			{mvPythonDataType::String, "before", "", "''"}
-		}, "Moves an existing item.", "None", "Widget Commands") });
+		{
+			mvPythonParser parser(mvPyDataType::None);
+			parser.finalize();
+			parsers->insert({ "end", parser });
+		}
 
-		parsers->insert({ "get_windows", mvPythonParser({
-		}, "Returns a list of windows.", "List[str]", "Widget Commands") });
+		{
+			mvPythonParser parser(mvPyDataType::None);
+			parser.addArg<mvPyDataType::String>("item");
+			parser.addArg<mvPyDataType::String>("parent", mvArgType::KEYWORD, "''");
+			parser.addArg<mvPyDataType::String>("before", mvArgType::KEYWORD, "''");
+			parser.finalize();
+			parsers->insert({ "move_item", parser });
+		}
 
-		parsers->insert({ "get_all_items", mvPythonParser({
-		}, "Returns a list of all items.", "List[str]", "Widget Commands") });
+		{
+			mvPythonParser parser(mvPyDataType::StringList);
+			parser.finalize();
+			parsers->insert({ "get_windows", parser });
+		}
 
-		parsers->insert({ "delete_item", mvPythonParser({
-			{mvPythonDataType::String, "item"},
-			{mvPythonDataType::KeywordOnly},
-			{mvPythonDataType::Bool, "children_only", "delete children only", "False"}
-		}, "Deletes an item if it exists.", "None", "Widget Commands") });
+		{
+			mvPythonParser parser(mvPyDataType::StringList);
+			parser.finalize();
+			parsers->insert({ "get_all_items", parser });
+		}
 
-		parsers->insert({ "does_item_exist", mvPythonParser({
-		{mvPythonDataType::String, "item"},
-		}, "Checks if item exists.", "bool", "Widget Commands") });
+		{
+			mvPythonParser parser(mvPyDataType::None);
+			parser.addArg<mvPyDataType::String>("item");
+			parser.addArg<mvPyDataType::Bool>("children_only", mvArgType::KEYWORD, "False");
+			parser.finalize();
+			parsers->insert({ "delete_item", parser });
+		}
 
-		parsers->insert({ "move_item_up", mvPythonParser({
-			{mvPythonDataType::String, "item"}
-		}, "Moves item up if possible and if it exists.", "None", "Widget Commands") });
+		{
+			mvPythonParser parser(mvPyDataType::Bool);
+			parser.addArg<mvPyDataType::String>("item");
+			parser.finalize();
+			parsers->insert({ "does_item_exist", parser });
+		}
 
-		parsers->insert({ "move_item_down", mvPythonParser({
-			{mvPythonDataType::String, "item"}
-		}, "Moves item down if possible and if it exists.", "None", "Widget Commands") });
+		{
+			mvPythonParser parser(mvPyDataType::None);
+			parser.addArg<mvPyDataType::String>("item");
+			parser.finalize();
+			parsers->insert({ "move_item_up", parser });
+		}
 
-		parsers->insert({ "get_active_window", mvPythonParser({
-		}, "Returns the active window name.", "str") });
+		{
+			mvPythonParser parser(mvPyDataType::None);
+			parser.addArg<mvPyDataType::String>("item");
+			parser.finalize();
+			parsers->insert({ "move_item_down", parser });
+		}
 
-		parsers->insert({ "set_primary_window", mvPythonParser({
-			{mvPythonDataType::String, "window"},
-			{mvPythonDataType::Bool, "value"},
-		}, "Sets the primary window to fill the viewport.") });
+		{
+			mvPythonParser parser(mvPyDataType::String);
+			parser.finalize();
+			parsers->insert({ "get_active_window", parser });
+		}
+
+		{
+			mvPythonParser parser(mvPyDataType::None);
+			parser.addArg<mvPyDataType::String>("window");
+			parser.addArg<mvPyDataType::Bool>("value");
+			parser.finalize();
+			parsers->insert({ "set_primary_window", parser });
+		}
 
 	}
 
@@ -690,6 +721,13 @@ namespace Marvel {
 		}
 
 		mvAppLog::Focus();
+	}
+
+	PyObject* mvItemRegistry::end(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		std::lock_guard<std::mutex> lk(mvApp::GetApp()->getMutex());
+		mvApp::GetApp()->getItemRegistry().popParent();
+		return GetPyNone();
 	}
 
 	PyObject* mvItemRegistry::set_primary_window(PyObject* self, PyObject* args, PyObject* kwargs)

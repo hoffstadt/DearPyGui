@@ -8,21 +8,22 @@
 namespace Marvel {
 	void mvRadioButton::InsertParser(std::map<std::string, mvPythonParser>* parsers)
 	{
-		parsers->insert({ s_command, mvPythonParser({
-			{mvPythonDataType::Optional},
-			{mvPythonDataType::String, "name"},
-			{mvPythonDataType::KeywordOnly},
-			{mvPythonDataType::StringList, "items", "", "()"},
-			{mvPythonDataType::Integer, "default_value", "", "0"},
-			{mvPythonDataType::Callable, "callback", "Registers a callback", "None"},
-			{mvPythonDataType::Object, "callback_data", "Callback data", "None"},
-			{mvPythonDataType::String, "parent", "Parent to add this item to. (runtime adding)", "''"},
-			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)", "''"},
-			{mvPythonDataType::String, "source", "", "''"},
-			{mvPythonDataType::Bool, "enabled", "Display grayed out text so selectable cannot be selected", "True"},
-			{mvPythonDataType::Bool, "horizontal", "", "False"},
-			{mvPythonDataType::Bool, "show", "Attempt to render", "True"},
-		}, "Adds a set of radio buttons. If items is empty, nothing will be shown.", "None", "Adding Widgets") });
+
+		mvPythonParser parser(mvPyDataType::String);
+		mvAppItem::AddCommonArgs(parser);
+		parser.removeArg("width");
+		parser.removeArg("height");
+		parser.removeArg("label");
+
+		parser.addArg<mvPyDataType::Integer>("items", mvArgType::OPTIONAL_ARG, "()");
+
+		parser.addArg<mvPyDataType::Integer>("default_value", mvArgType::KEYWORD, "0");
+
+		parser.addArg<mvPyDataType::Bool>("horizontal", mvArgType::KEYWORD, "False");
+
+		parser.finalize();
+
+		parsers->insert({ s_command, parser });
 	}
 
 	mvRadioButton::mvRadioButton(const std::string& name)
