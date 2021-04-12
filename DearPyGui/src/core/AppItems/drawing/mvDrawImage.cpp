@@ -3,6 +3,7 @@
 #include "mvItemRegistry.h"
 #include "mvTextureStorage.h"
 #include "mvApp.h"
+#include "mvPythonExceptions.h"
 
 namespace Marvel {
 

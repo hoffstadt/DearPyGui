@@ -14,7 +14,7 @@ namespace Marvel {
 		parser.removeArg("source");
 		parser.removeArg("label");
 
-		parser.addArg<mvPyDataType::IntList>("default_value", mvArgType::OPTIONAL, "(0, 0, 0, 255)");
+		parser.addArg<mvPyDataType::IntList>("default_value", mvArgType::OPTIONAL_ARG, "(0, 0, 0, 255)");
 
 		parser.addArg<mvPyDataType::Bool>("no_alpha", mvArgType::KEYWORD, "False", "ignore Alpha component");
 		parser.addArg<mvPyDataType::Bool>("no_border", mvArgType::KEYWORD, "False", "disable border");

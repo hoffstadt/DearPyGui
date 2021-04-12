@@ -18,7 +18,6 @@
 #include <vector>
 #include <unordered_map>
 #include "mvEvents.h"
-#include "mvPythonParser.h"
 #include "cpp.hint"
 #include "mvApp.h"
 

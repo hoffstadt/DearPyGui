@@ -12,7 +12,7 @@ namespace Marvel {
 		mvPythonParser parser(mvPyDataType::String);
 		mvAppItem::AddCommonArgs(parser);
 
-		parser.addArg<mvPyDataType::String>("value", mvArgType::OPTIONAL, "''");
+		parser.addArg<mvPyDataType::String>("value", mvArgType::OPTIONAL_ARG, "''");
 
 		parser.addArg<mvPyDataType::Integer>("frame_padding", mvArgType::KEYWORD, "-1");
 		

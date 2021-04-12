@@ -4,6 +4,7 @@
 #include "mvItemRegistry.h"
 #include "mvImGuiThemeScope.h"
 #include "mvFontScope.h"
+#include "mvPythonExceptions.h"
 
 namespace Marvel {
 
@@ -17,7 +18,7 @@ namespace Marvel {
 			parser.removeArg("label");
 			parser.removeArg("enabled");
 
-			parser.addArg<mvPyDataType::StringList>("headers", mvArgType::OPTIONAL);
+			parser.addArg<mvPyDataType::StringList>("headers", mvArgType::OPTIONAL_ARG);
 
 			parser.addArg<mvPyDataType::Bool>("hide_headers", mvArgType::KEYWORD, "False", "Hide headers of the table");
 

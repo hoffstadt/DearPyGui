@@ -14,7 +14,7 @@ namespace Marvel {
 		mvAppItem::AddCommonArgs(parser);
 		parser.removeArg("height");
 
-		parser.addArg<mvPyDataType::StringList>("items", mvArgType::OPTIONAL, "()");
+		parser.addArg<mvPyDataType::StringList>("items", mvArgType::OPTIONAL_ARG, "()");
 
 		parser.addArg<mvPyDataType::String>("default_value", mvArgType::KEYWORD, "''");
 		parser.addArg<mvPyDataType::Bool>("popup_align_left", mvArgType::KEYWORD, "False", "Align the popup toward the left by default");

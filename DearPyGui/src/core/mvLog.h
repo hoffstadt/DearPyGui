@@ -3,10 +3,10 @@
 #include<assert.h>
 
 #ifdef MV_LOG
-#include "spdlog/spdlog.h"
-#include "spdlog/async.h"
-#include "spdlog/fmt/ostr.h"
-#include "spdlog/sinks/stdout_color_sinks.h"
+#include <spdlog/spdlog.h>
+#include <spdlog/async.h>
+#include <spdlog/fmt/ostr.h>
+#include <spdlog/sinks/stdout_color_sinks.h>
 #endif // MV_LOG
 
 namespace Marvel {

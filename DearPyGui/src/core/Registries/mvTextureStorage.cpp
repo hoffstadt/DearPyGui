@@ -3,6 +3,7 @@
 #include <imgui.h>
 #include "mvApp.h"
 #include "implot.h"
+#include "mvPythonTranslator.h"
 
 namespace Marvel {
 

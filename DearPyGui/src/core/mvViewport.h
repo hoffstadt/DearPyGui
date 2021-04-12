@@ -13,16 +13,10 @@
 
 #include "mvApp.h"
 #include "mvEvents.h"
-#include "mvPython.h"
 #include "cpp.hint"
 
 namespace Marvel {
 
-	class mvApp;
-
-	//-----------------------------------------------------------------------------
-	// mvViewport
-	//-----------------------------------------------------------------------------
 	class mvViewport
 	{
 

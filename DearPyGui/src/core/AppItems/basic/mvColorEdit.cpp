@@ -13,7 +13,7 @@ namespace Marvel {
 		mvPythonParser parser(mvPyDataType::String);
 		mvAppItem::AddCommonArgs(parser);
 
-		parser.addArg<mvPyDataType::IntList>("default_value", mvArgType::OPTIONAL, "(0, 0, 0, 255)");
+		parser.addArg<mvPyDataType::IntList>("default_value", mvArgType::OPTIONAL_ARG, "(0, 0, 0, 255)");
 
 		parser.addArg<mvPyDataType::Bool>("no_alpha", mvArgType::KEYWORD, "False", "ignore Alpha component");
 		parser.addArg<mvPyDataType::Bool>("no_picker", mvArgType::KEYWORD, "False", "disable picker when clicking on colored square.");

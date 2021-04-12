@@ -298,7 +298,7 @@ namespace Marvel {
 		return true;
 	}
 
-	void mvCallbackRegistry::addCallback(mvCallable callable, const std::string& sender, mvCallableData data)
+	void mvCallbackRegistry::addCallback(PyObject* callable, const std::string& sender, PyObject* data)
 	{
 
 		if (m_callCount > s_MaxNumberOfCalls)
@@ -314,7 +314,7 @@ namespace Marvel {
 			});
 	}
 
-	void mvCallbackRegistry::runCallback(mvCallable callable, const std::string& sender, PyObject* data)
+	void mvCallbackRegistry::runCallback(PyObject* callable, const std::string& sender, PyObject* data)
 	{
 
 		if (callable == nullptr)

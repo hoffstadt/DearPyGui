@@ -32,7 +32,7 @@ namespace Marvel {
 		return true; 
 	}
 
-	void mvFileDialog::setCallback(mvCallable callback)
+	void mvFileDialog::setCallback(PyObject* callback)
 	{ 
 		m_callback2 = callback; 
 	}

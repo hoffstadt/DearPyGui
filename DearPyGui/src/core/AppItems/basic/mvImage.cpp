@@ -15,7 +15,7 @@ namespace Marvel {
 		parser.removeArg("callback_data");
 		parser.removeArg("enabled");
 
-		parser.addArg<mvPyDataType::String>("value", mvArgType::OPTIONAL, "''");
+		parser.addArg<mvPyDataType::String>("value", mvArgType::OPTIONAL_ARG, "''");
 		
 		parser.addArg<mvPyDataType::FloatList>("tint_color", mvArgType::KEYWORD, "(255, 255, 255, 255)");
 		parser.addArg<mvPyDataType::FloatList>("border_color", mvArgType::KEYWORD, "(0, 0, 0, 0)");

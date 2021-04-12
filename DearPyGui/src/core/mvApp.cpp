@@ -6,17 +6,19 @@
 #include <thread>
 #include <future>
 #include <chrono>
-#include "mvThreadPool.h"
-#include "mvAppItemCommons.h"
 #include "mvProfiler.h"
 #include <implot.h>
 #include "mvEventListener.h"
-#include "mvImGuiThemeScope.h"
+#include "mvItemRegistry.h"
+#include "mvFontManager.h"
+#include "mvThemeManager.h"
 #include "mvCallbackRegistry.h"
 #include "mvTextureStorage.h"
-#include "mvItemRegistry.h"
+#include "mvPythonTranslator.h"
+#include "mvPythonExceptions.h"
+#include "mvModule_Core.h"
 #include "mvLog.h"
-#include "mvFontManager.h"
+#include "mvEventMacros.h"
 
 namespace Marvel {
 
@@ -244,14 +246,13 @@ namespace Marvel {
 
 	}
 
+	std::map<std::string, mvPythonParser>& mvApp::getParsers()
+	{ 
+		return const_cast<std::map<std::string, mvPythonParser>&>(mvModule_Core::GetModuleParsers()); 
+	}
+
 	void mvApp::InsertParser(std::map<std::string, mvPythonParser>* parsers)
 	{
-
-		{
-			mvPythonParser parser(mvPyDataType::None);
-			parser.finalize();
-			parsers->insert({ "end", parser }); 
-		}
 
 		{
 			mvPythonParser parser(mvPyDataType::None);
@@ -309,13 +310,6 @@ namespace Marvel {
 			parsers->insert({ "get_dearpygui_version", parser });
 		}
 
-	}
-
-	PyObject* mvApp::end(PyObject* self, PyObject* args, PyObject* kwargs)
-	{
-		std::lock_guard<std::mutex> lk(mvApp::GetApp()->getMutex());
-		mvApp::GetApp()->getItemRegistry().popParent();
-		return GetPyNone();
 	}
 
 	PyObject* mvApp::enable_docking(PyObject* self, PyObject* args, PyObject* kwargs)

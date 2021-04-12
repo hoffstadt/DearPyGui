@@ -95,7 +95,7 @@ namespace Marvel {
 				case mvArgType::POSITIONAL:
 					m_positional_elements.push_back(arg);
 					break;
-				case mvArgType::OPTIONAL:
+				case mvArgType::OPTIONAL_ARG:
 					m_optional_elements.push_back(arg);
 					break;
 				case mvArgType::KEYWORD:

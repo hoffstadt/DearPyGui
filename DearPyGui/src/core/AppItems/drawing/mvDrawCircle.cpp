@@ -1,6 +1,7 @@
 #include "mvDrawCircle.h"
 #include "mvLog.h"
 #include "mvItemRegistry.h"
+#include "mvPythonExceptions.h"
 
 namespace Marvel {
 

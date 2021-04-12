@@ -5,6 +5,7 @@
 #include "mvItemRegistry.h"
 #include "mvImNodesThemeScope.h"
 #include "mvFontScope.h"
+#include "mvPythonExceptions.h"
 
 namespace Marvel {
 

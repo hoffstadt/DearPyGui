@@ -36,7 +36,7 @@ namespace Marvel {
     enum class mvArgType
     {
         POSITIONAL=0,
-        OPTIONAL,
+        OPTIONAL_ARG,
         KEYWORD
     };
 

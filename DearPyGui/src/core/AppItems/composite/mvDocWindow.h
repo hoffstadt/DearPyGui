@@ -3,6 +3,7 @@
 #include <map>
 #include <string>
 #include "mvTypeBases.h"
+#include "mvModule_Core.h"
 
 namespace Marvel {
 

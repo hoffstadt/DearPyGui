@@ -44,11 +44,11 @@ namespace Marvel {
 
 		void draw(ImDrawList* drawlist, float x, float y) override;
 		bool prerender2 ();
-		void setCallback(mvCallable callback);
+		void setCallback(PyObject* callback);
 
 	private:
 
-		mvCallable   m_callback2 = nullptr;
+		PyObject*   m_callback2 = nullptr;
 	};
 
 }

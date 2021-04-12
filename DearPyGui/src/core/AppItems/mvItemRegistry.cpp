@@ -12,6 +12,12 @@ namespace Marvel {
 
 		{
 			mvPythonParser parser(mvPyDataType::None);
+			parser.finalize();
+			parsers->insert({ "end", parser });
+		}
+
+		{
+			mvPythonParser parser(mvPyDataType::None);
 			parser.addArg<mvPyDataType::String>("item");
 			parser.addArg<mvPyDataType::String>("parent", mvArgType::KEYWORD, "''");
 			parser.addArg<mvPyDataType::String>("before", mvArgType::KEYWORD, "''");
@@ -715,6 +721,13 @@ namespace Marvel {
 		}
 
 		mvAppLog::Focus();
+	}
+
+	PyObject* mvItemRegistry::end(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		std::lock_guard<std::mutex> lk(mvApp::GetApp()->getMutex());
+		mvApp::GetApp()->getItemRegistry().popParent();
+		return GetPyNone();
 	}
 
 	PyObject* mvItemRegistry::set_primary_window(PyObject* self, PyObject* args, PyObject* kwargs)

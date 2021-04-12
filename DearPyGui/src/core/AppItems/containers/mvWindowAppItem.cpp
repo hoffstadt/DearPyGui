@@ -64,7 +64,7 @@ namespace Marvel {
 
 	mvWindowAppItem::~mvWindowAppItem()
 	{
-		mvCallable callback = m_on_close;
+		PyObject* callback = m_on_close;
 		mvApp::GetApp()->getCallbackRegistry().submitCallback([callback]() {
 			if (callback)
 				Py_XDECREF(callback);
@@ -137,7 +137,7 @@ namespace Marvel {
 		return { (float)m_xpos, (float)m_ypos };
 	}
 
-	void mvWindowAppItem::setResizeCallback(mvCallable callback)
+	void mvWindowAppItem::setResizeCallback(PyObject* callback)
 	{
 		m_resize_callback = callback;
 	}

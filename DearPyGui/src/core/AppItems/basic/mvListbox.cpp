@@ -14,7 +14,7 @@ namespace Marvel {
 		mvAppItem::AddCommonArgs(parser);
 		parser.removeArg("height");
 
-		parser.addArg<mvPyDataType::StringList>("items", mvArgType::OPTIONAL, "()");
+		parser.addArg<mvPyDataType::StringList>("items", mvArgType::OPTIONAL_ARG, "()");
 
 		parser.addArg<mvPyDataType::Integer>("default_value", mvArgType::KEYWORD, "0");
 		parser.addArg<mvPyDataType::Integer>("num_items", mvArgType::KEYWORD, "3", "number of items to show");

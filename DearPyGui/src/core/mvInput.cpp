@@ -1,9 +1,8 @@
 #include "mvInput.h"
-#include "mvApp.h"
-#include "mvProfiler.h"
 #include "mvCallbackRegistry.h"
-#include "mvItemRegistry.h"
-#include "containers/mvWindowAppItem.h"
+#include "mvEventMacros.h"
+#include "mvEvents.h"
+#include "mvPythonTranslator.h"
 
 namespace Marvel {
 
@@ -27,7 +26,6 @@ namespace Marvel {
 
 	void mvInput::CheckInputs()
 	{
-		MV_PROFILE_FUNCTION();
 
 		// update mouse
 		// mouse move event

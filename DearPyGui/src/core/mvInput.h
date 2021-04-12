@@ -15,7 +15,6 @@
 
 #include "mvCore.h"
 #include <atomic>
-#include "mvPythonParser.h"
 #include "cpp.hint"
 #include "mvApp.h"
 

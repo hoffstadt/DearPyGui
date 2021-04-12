@@ -3,7 +3,6 @@
 #include <string>
 #include <unordered_map>
 #include <imgui.h>
-#include "mvPython.h"
 #include "mvEvents.h"
 #include "mvApp.h"
 #include "cpp.hint"

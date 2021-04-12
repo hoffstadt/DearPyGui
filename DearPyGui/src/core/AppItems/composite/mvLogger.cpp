@@ -5,6 +5,7 @@
 #include "mvGlobalIntepreterLock.h"
 #include "mvItemRegistry.h"
 #include "mvFontScope.h"
+#include "mvPythonExceptions.h"
 
 typedef std::chrono::high_resolution_clock clock_;
 typedef std::chrono::duration<double, std::ratio<1> > second_;

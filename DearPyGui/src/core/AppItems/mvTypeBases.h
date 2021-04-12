@@ -1,6 +1,5 @@
 #pragma once
 
-#include "mvAppItem.h"
 #include <implot.h>
 #include <implot_internal.h>
 #include <array>

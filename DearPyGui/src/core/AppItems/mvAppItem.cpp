@@ -70,7 +70,7 @@ namespace Marvel{
 
 	void mvAppItem::AddCommonArgs(mvPythonParser& parser)
 	{
-		parser.addArg<mvPyDataType::String>("name", mvArgType::OPTIONAL);
+		parser.addArg<mvPyDataType::String>("name", mvArgType::OPTIONAL_ARG);
 
 		parser.addArg<mvPyDataType::Integer>("width", mvArgType::KEYWORD, "0");
 		parser.addArg<mvPyDataType::Integer>("height", mvArgType::KEYWORD, "0");
@@ -113,7 +113,7 @@ namespace Marvel{
 		}
 	}
 
-	void mvAppItem::setCallback(mvCallable callback)
+	void mvAppItem::setCallback(PyObject* callback)
 	{ 
 
 		if (callback == Py_None)
@@ -125,7 +125,7 @@ namespace Marvel{
 		m_callback = callback;
 	}
 
-	void mvAppItem::setCallbackData(mvCallableData data)
+	void mvAppItem::setCallbackData(PyObject* data)
 	{
 		if (data == Py_None)
 		{
@@ -571,7 +571,7 @@ namespace Marvel{
 			Py_DECREF(m_callback_data);
 	}
 
-	mvCallable mvAppItem::getCallback(bool ignore_enabled)
+	PyObject* mvAppItem::getCallback(bool ignore_enabled)
 	{
 		if (m_enabled)
 			return m_callback;

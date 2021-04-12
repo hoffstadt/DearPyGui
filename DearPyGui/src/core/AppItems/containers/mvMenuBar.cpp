@@ -6,6 +6,7 @@
 #include "containers/mvWindowAppItem.h"
 #include "containers/mvChild.h"
 #include "mvFontScope.h"
+#include "mvPythonExceptions.h"
 
 namespace Marvel {
 

@@ -8,6 +8,7 @@
 #include "mvImNodesThemeScope.h"
 #include "mvLog.h"
 #include "mvFontScope.h"
+#include "mvPythonExceptions.h"
 
 namespace Marvel {
 
