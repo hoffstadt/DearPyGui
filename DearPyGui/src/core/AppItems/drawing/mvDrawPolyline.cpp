@@ -1,24 +1,35 @@
 #include "mvDrawPolyline.h"
 #include "mvLog.h"
 #include "mvItemRegistry.h"
+#include "mvPythonExceptions.h"
 
 namespace Marvel {
 
 	void mvDrawPolyline::InsertParser(std::map<std::string, mvPythonParser>* parsers)
 	{
 
-		parsers->insert({ s_command, mvPythonParser({
-			{mvPythonDataType::Optional},
-			{mvPythonDataType::String, "name", "", "''"},
-			{mvPythonDataType::KeywordOnly},
-			{mvPythonDataType::ListFloatList, "points"},
-			{mvPythonDataType::IntList, "color"},
-			{mvPythonDataType::Bool, "closed", "", "False"},
-			{mvPythonDataType::Float, "thickness", "", "1.0"},
-			{mvPythonDataType::String, "parent", "Parent to add this item to. (runtime adding)", "''"},
-			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)", "''"},
-			{mvPythonDataType::Bool, "show", "Attempt to render", "True"},
-		}, "Draws lines on a drawing.", "None", "Drawing") });
+		mvPythonParser parser(mvPyDataType::String);
+		mvAppItem::AddCommonArgs(parser);
+		parser.removeArg("source");
+		parser.removeArg("width");
+		parser.removeArg("height");
+		parser.removeArg("label");
+		parser.removeArg("callback");
+		parser.removeArg("callback_data");
+		parser.removeArg("enabled");
+
+		parser.addArg<mvPyDataType::ListFloatList>("points");
+
+		parser.addArg<mvPyDataType::Bool>("closed", mvArgType::KEYWORD, "False");
+
+		parser.addArg<mvPyDataType::IntList>("color", mvArgType::KEYWORD, "(255, 255, 255, 255)");
+
+		parser.addArg<mvPyDataType::Float>("thickness", mvArgType::KEYWORD, "1.0");
+
+
+		parser.finalize();
+
+		parsers->insert({ s_command, parser });
 	}
 
 	mvDrawPolyline::mvDrawPolyline(const std::string& name)

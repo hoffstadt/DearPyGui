@@ -85,27 +85,33 @@ namespace Marvel {
 	void mvCandleSeries::InsertParser(std::map<std::string, mvPythonParser>* parsers)
 	{
 
-		parsers->insert({ s_command, mvPythonParser({
-			{mvPythonDataType::Optional},
-			{mvPythonDataType::String, "name"},
-			{mvPythonDataType::KeywordOnly},
-			{mvPythonDataType::FloatList, "dates"},
-			{mvPythonDataType::FloatList, "opens"},
-			{mvPythonDataType::FloatList, "closes"},
-			{mvPythonDataType::FloatList, "lows"},
-			{mvPythonDataType::FloatList, "highs"},
-			{mvPythonDataType::Bool, "tooltip", "", "True"},
-			{mvPythonDataType::FloatList, "bull_color", "", "(0, 255, 113, 255)"},
-			{mvPythonDataType::FloatList, "bear_color", "", "(218, 13, 79, 255)"},
-			{mvPythonDataType::Float, "weight", "", "0.25"},
-			{mvPythonDataType::String, "label", "Overrides 'name' as label", "''"},
-			{mvPythonDataType::String, "source", "", "''"},
-			{mvPythonDataType::String, "parent", "Parent to add this item to. (runtime adding)", "''"},
-			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)", "''"},
-			{mvPythonDataType::Bool, "show", "Attempt to render", "True"},
-			{mvPythonDataType::Integer, "axis", "", "0"},
-			{mvPythonDataType::Bool, "contribute_to_bounds", "", "True"},
-		}, "Adds a drag point to a plot.", "None", "Plotting") });
+		mvPythonParser parser(mvPyDataType::String);
+		mvAppItem::AddCommonArgs(parser);
+		parser.removeArg("width");
+		parser.removeArg("height");
+		parser.removeArg("callback");
+		parser.removeArg("callback_data");
+		parser.removeArg("enabled");
+
+		parser.addArg<mvPyDataType::FloatList>("dates");
+		parser.addArg<mvPyDataType::FloatList>("opens");
+		parser.addArg<mvPyDataType::FloatList>("closes");
+		parser.addArg<mvPyDataType::FloatList>("lows");
+		parser.addArg<mvPyDataType::FloatList>("highs");
+
+		parser.addArg<mvPyDataType::IntList>("bull_color", mvArgType::KEYWORD, "(0, 255, 113, 255)");
+		parser.addArg<mvPyDataType::IntList>("bear_color", mvArgType::KEYWORD, "(218, 13, 79, 255)");
+
+		parser.addArg<mvPyDataType::Integer>("axis", mvArgType::KEYWORD, "0");
+
+		parser.addArg<mvPyDataType::Integer>("weight", mvArgType::KEYWORD, "0.25");
+
+		parser.addArg<mvPyDataType::Bool>("contribute_to_bounds", mvArgType::KEYWORD, "True");
+		parser.addArg<mvPyDataType::Bool>("tooltip", mvArgType::KEYWORD, "True");
+
+		parser.finalize();
+
+		parsers->insert({ s_command, parser });
 	}
 
 	mvCandleSeries::mvCandleSeries(const std::string& name)

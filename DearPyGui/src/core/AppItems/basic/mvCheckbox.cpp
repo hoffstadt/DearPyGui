@@ -9,20 +9,17 @@ namespace Marvel {
 
 	void mvCheckbox::InsertParser(std::map<std::string, mvPythonParser>* parsers)
 	{
-		parsers->insert({ s_command, mvPythonParser({
-			{mvPythonDataType::Optional},
-			{mvPythonDataType::String, "name"},
-			{mvPythonDataType::KeywordOnly},
-			{mvPythonDataType::Integer, "default_value", "", "False"},
-			{mvPythonDataType::Callable, "callback", "Registers a callback", "None"},
-			{mvPythonDataType::Object, "callback_data", "Callback data", "None"},
-			{mvPythonDataType::String, "parent", "Parent to add this item to. (runtime adding)", "''"},
-			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)", "''"},
-			{mvPythonDataType::String, "source", "Overrides 'name' as value storage key", "''"},
-			{mvPythonDataType::String, "label", "Overrides 'name' as label", "''"},
-			{mvPythonDataType::Bool, "show", "Attempt to render", "True"},
-			{mvPythonDataType::Bool, "enabled", "", "True"}
-		}, "Adds a checkbox widget.", "None", "Adding Widgets") });
+
+		mvPythonParser parser(mvPyDataType::String);
+		mvAppItem::AddCommonArgs(parser);
+		parser.removeArg("width");
+		parser.removeArg("height");
+
+		parser.addArg<mvPyDataType::Bool>("default_value", mvArgType::KEYWORD, "False");
+
+		parser.finalize();
+
+		parsers->insert({ s_command, parser });
 	}
 
 	mvCheckbox::mvCheckbox(const std::string& name)

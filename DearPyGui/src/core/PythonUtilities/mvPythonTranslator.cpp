@@ -1,4 +1,5 @@
 #include "mvPythonTranslator.h"
+#include "mvPythonExceptions.h"
 #include "mvAppLog.h"
 
 namespace Marvel {

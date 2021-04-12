@@ -102,7 +102,7 @@ namespace Marvel {
 		void   setHeight            (int height) override;
 		mvVec2 getWindowPos         () const;
 		void   draw                 (ImDrawList* drawlist, float x, float y) override;
-		void   setResizeCallback    (mvCallable callback);
+		void   setResizeCallback    (PyObject* callback);
 		bool  getWindowAsMainStatus() const { return m_mainWindow; }
 
 		void setExtraConfigDict(PyObject* dict) override;
@@ -121,7 +121,7 @@ namespace Marvel {
 		int                   m_oldWidth = 200;
 		int                   m_oldHeight = 200;
 		bool                  m_mainWindow = false;
-		mvCallable            m_resize_callback = nullptr;
+		PyObject*            m_resize_callback = nullptr;
 		bool                  m_dirty_pos = true;
 		bool                  m_dirty_size = true;
 		bool                  m_hasMenuBar = false;
@@ -144,7 +144,7 @@ namespace Marvel {
 		bool       m_no_close = false;
 		bool       m_no_background = false;
 		bool       m_collapsed = false;
-		mvCallable m_on_close = nullptr;
+		PyObject* m_on_close = nullptr;
 		mvVec2     m_min_size = { 32.0f, 32.0f };
 		mvVec2     m_max_size = { 30000.0f, 30000.0f };
 		

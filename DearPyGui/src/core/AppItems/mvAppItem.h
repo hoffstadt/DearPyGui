@@ -7,21 +7,16 @@
 //     
 //-----------------------------------------------------------------------------
 
-#include "mvPython.h"
 #include <string>
 #include <vector>
 #include <map>
 #include <imgui.h>
 #include "mvAppItemState.h"
 #include "mvCallbackRegistry.h"
+#include "mvPythonTranslator.h"
 
 // forward declarations
 struct ImPlotTime;
-
-//-----------------------------------------------------------------------------
-// Helper Macros
-//-----------------------------------------------------------------------------
-#include "cpp.hint"
 
 namespace Marvel {
 
@@ -38,10 +33,10 @@ namespace Marvel {
         mvMenu, mvMenuItem, mvGroup, mvChild,
         mvSliderFloat, mvSliderInt,
         mvDragFloat, mvDragInt, mvInputFloat,
-        mvInputInt, mvColorEdit3, mvColorEdit4,
-        mvColorPicker3, mvColorPicker4, mvTooltip, mvCollapsingHeader,
+        mvInputInt, mvColorEdit,
+        mvColorPicker, mvTooltip, mvCollapsingHeader,
         mvSeparator, mvCheckbox, mvListbox, mvText, mvLabelText, mvCombo,
-        mvPlot, mvSimplePlot, mvIndent, mvUnindent, mvDrawing, mvWindowAppItem,
+        mvPlot, mvSimplePlot, mvDrawing, mvWindowAppItem,
         mvPopup, mvSelectable, mvTreeNode, mvProgressBar, mvDataGrid, mvDummy,
         mvImageButton, mvTimePicker, mvDatePicker, mvColorButton,
         mvAboutWindow, mvDocWindow, mvDebugWindow, mvMetricsWindow,
@@ -186,6 +181,7 @@ namespace Marvel {
 
         static bool DoesItemHaveFlag(mvAppItem* item, int flag);
         static std::pair<std::string, std::string> GetNameFromArgs(std::string& name, PyObject* args, PyObject* kwargs);
+        static void AddCommonArgs(mvPythonParser& parser);
 
     protected:
 
@@ -250,14 +246,14 @@ namespace Marvel {
         virtual void                        onChildRemoved(mvRef<mvAppItem> item) {}
         virtual void                        onChildrenRemoved() {}
 
-        void                                setCallback    (mvCallable callback);
+        void                                setCallback    (PyObject* callback);
         void                                hide           () { m_show = false; }
         void                                show           () { m_show = true; }
-        void                                setCallbackData(mvCallableData data);
+        void                                setCallbackData(PyObject* data);
 
         [[nodiscard]] bool                  isShown        () const { return m_show; }
-        [[nodiscard]] mvCallable            getCallback    (bool ignore_enabled = true);  // returns the callback. If ignore_enable false and item is disabled then no callback will be returned.
-        [[nodiscard]] mvCallableData        getCallbackData()       { return m_callback_data; }
+        [[nodiscard]] PyObject*             getCallback    (bool ignore_enabled = true);  // returns the callback. If ignore_enable false and item is disabled then no callback will be returned.
+        [[nodiscard]] PyObject*             getCallbackData()       { return m_callback_data; }
         mvAppItemState&                     getState       () { return m_state; } 
         mvAppItem*                          getParent() { return m_parentPtr; }
         bool                                isEnabled() const { return m_enabled; }
@@ -346,8 +342,8 @@ namespace Marvel {
         int            m_posy = 0;
         bool           m_show = true;
         bool           m_enabled = true;
-        mvCallable     m_callback = nullptr;
-        mvCallableData m_callback_data = nullptr;
+        PyObject*      m_callback = nullptr;
+        PyObject*      m_callback_data = nullptr;
 
     };
 

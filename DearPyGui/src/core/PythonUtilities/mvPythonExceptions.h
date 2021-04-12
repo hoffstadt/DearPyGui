@@ -1,6 +1,5 @@
 #pragma once
 
-#include "mvPython.h"
 #include <string>
 
 namespace Marvel

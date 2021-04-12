@@ -4,20 +4,26 @@
 #include "mvItemRegistry.h"
 #include "mvImGuiThemeScope.h"
 #include "mvFontScope.h"
+#include "mvPythonExceptions.h"
 
 namespace Marvel {
 
 	void mvTableNextColumn::InsertParser(std::map<std::string, mvPythonParser>* parsers)
 	{
-		parsers->insert({ s_command, mvPythonParser({
-			{mvPythonDataType::Optional},
-			{mvPythonDataType::String, "name", "", "'next_column'"},
-			{mvPythonDataType::KeywordOnly},
-			{mvPythonDataType::Bool, "show", "Attempt to render", "True"},
-			{mvPythonDataType::String, "parent", "Parent this item will be added to. (runtime adding)", "''"},
-			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)", "''"},
 
-			}, "Changes to next column.", "None", "Containers") });
+		mvPythonParser parser(mvPyDataType::String);
+		mvAppItem::AddCommonArgs(parser);
+		parser.removeArg("source");
+		parser.removeArg("width");
+		parser.removeArg("height");
+		parser.removeArg("label");
+		parser.removeArg("callback");
+		parser.removeArg("callback_data");
+		parser.removeArg("enabled");
+
+		parser.finalize();
+
+		parsers->insert({ s_command, parser });
 	}
 
 	mvTableNextColumn::mvTableNextColumn(const std::string& name)

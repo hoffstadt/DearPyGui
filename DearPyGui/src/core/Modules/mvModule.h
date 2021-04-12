@@ -1,7 +1,7 @@
 #pragma once
-#include "mvPython.h"
 #include <map>
 #include <vector>
+#include "mvPythonParser.h"
 
 namespace Marvel {
 

@@ -12,7 +12,6 @@
 //     
 //-----------------------------------------------------------------------------
 
-#include "mvPython.h"
 #include <vector>
 #include <map>
 #include <stack>
@@ -21,10 +20,11 @@
 #include <thread>
 #include <future>
 #include <atomic>
-#include "mvEvents.h"
 #include <memory>
-#include "mvModule_Core.h"
+#include "mvCore.h"
 #include "cpp.hint"
+#include "mvPythonParser.h"
+
 
 namespace Marvel {
 
@@ -66,7 +66,6 @@ namespace Marvel {
         MV_CREATE_EXTRA_COMMAND(get_total_time);
         MV_CREATE_EXTRA_COMMAND(stop_dearpygui);
         MV_CREATE_EXTRA_COMMAND(is_dearpygui_running);
-        MV_CREATE_EXTRA_COMMAND(end);
 
         MV_START_EXTRA_COMMANDS
             MV_ADD_EXTRA_COMMAND(enable_docking);
@@ -78,7 +77,6 @@ namespace Marvel {
             MV_ADD_EXTRA_COMMAND(get_total_time);
             MV_ADD_EXTRA_COMMAND(stop_dearpygui);
             MV_ADD_EXTRA_COMMAND(is_dearpygui_running);
-            MV_ADD_EXTRA_COMMAND(end);
         MV_END_EXTRA_COMMANDS
 
     public:
@@ -135,7 +133,7 @@ namespace Marvel {
         //-----------------------------------------------------------------------------
         // Other
         //-----------------------------------------------------------------------------
-        std::map<std::string, mvPythonParser>& getParsers() { return const_cast<std::map<std::string, mvPythonParser>&>(mvModule_Core::GetModuleParsers()); }
+        std::map<std::string, mvPythonParser>& getParsers();
         std::mutex& getMutex() const { return m_mutex; }
             
     private:

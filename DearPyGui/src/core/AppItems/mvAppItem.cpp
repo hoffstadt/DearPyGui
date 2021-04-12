@@ -9,121 +9,83 @@ namespace Marvel{
 
 	void mvAppItem::InsertParser(std::map<std::string, mvPythonParser>* parsers)
 	{
-		parsers->insert({ "get_item_callback_data", mvPythonParser({
-			{mvPythonDataType::String, "item"}
-		}, "Returns an item' callback data", "Any", "Widget Commands") });
 
-		parsers->insert({ "set_item_callback_data", mvPythonParser({
-			{mvPythonDataType::String, "item"},
-			{mvPythonDataType::Object, "callback_data", "Callback data", "None"},
-		}, "Sets an item's callback data if applicable.", "None", "Widget Commands") });
+		{
+			mvPythonParser parser(mvPyDataType::String);
+			parser.addArg<mvPyDataType::String>("item");
+			parser.finalize();
+			parsers->insert({ "get_item_type", parser });
+		}
 
-		parsers->insert({ "get_item_type", mvPythonParser({
-			{mvPythonDataType::String, "item"}
-		}, "Returns an item's type", "str", "Widget Commands") });
+		{
+			mvPythonParser parser(mvPyDataType::Dict);
+			parser.addArg<mvPyDataType::String>("item");
+			parser.finalize();
+			parsers->insert({ "get_item_configuration", parser });
+		}
 
-		parsers->insert({ "get_item_configuration", mvPythonParser({
-			{mvPythonDataType::String, "item"}
-		}, "Returns an items configuration", "dict", "Widget Commands") });
+		{
+			mvPythonParser parser(mvPyDataType::None);
+			parser.addArg<mvPyDataType::String>("item");
+			parser.addArg<mvPyDataType::Kwargs>("**Kwargs");
+			parser.finalize();
+			parsers->insert({ "configure_item", parser });
+		}
 
-		parsers->insert({ "configure_item", mvPythonParser({
-			{mvPythonDataType::String, "item"},
-			{mvPythonDataType::Kwargs, "**Kwargs"},
-		}, "Configures an item", "None", "Widget Commands") });
+		{
+			mvPythonParser parser(mvPyDataType::StringList);
+			parser.addArg<mvPyDataType::String>("item");
+			parser.finalize();
+			parsers->insert({ "get_item_children", parser });
+		}
 
-		parsers->insert({ "get_item_children[1]", mvPythonParser({
-			{mvPythonDataType::String, "item"}
-		}, "Returns a list of an item's children.", "List[str]", "Widget Commands") });
+		{
+			mvPythonParser parser(mvPyDataType::String);
+			parser.addArg<mvPyDataType::String>("item");
+			parser.finalize();
+			parsers->insert({ "get_item_parent", parser });
+		}
 
-		parsers->insert({ "get_item_callback", mvPythonParser({
-			{mvPythonDataType::String, "item"}
-		}, "Returns an item' callback", "Callable", "Widget Commands") });
+		{
+			mvPythonParser parser(mvPyDataType::Any);
+			parser.addArg<mvPyDataType::String>("item");
+			parser.finalize();
+			parsers->insert({ "get_value", parser });
+		}
 
-		parsers->insert({ "get_item_parent", mvPythonParser({
-		{mvPythonDataType::String, "item"}
-		}, "Returns an item's parent.", "str", "Widget Commands") });
-
-		parsers->insert({ "is_item_hovered", mvPythonParser({
-			{mvPythonDataType::String, "item"},
-		}, "Checks if an item is hovered.", "bool", "Widget Commands") });
-
-		parsers->insert({ "is_item_shown", mvPythonParser({
-		{mvPythonDataType::String, "item"},
-		}, "Checks if an item is shown.", "bool", "Widget Commands") });
-
-		parsers->insert({ "is_item_active", mvPythonParser({
-			{mvPythonDataType::String, "item"},
-		}, "Checks if an item is active.", "bool", "Widget Commands") });
-
-		parsers->insert({ "is_item_focused", mvPythonParser({
-			{mvPythonDataType::String, "item"},
-		}, "Checks if an item is focused.", "bool", "Widget Commands") });
-
-		parsers->insert({ "is_item_clicked", mvPythonParser({
-			{mvPythonDataType::String, "item"},
-		}, "Checks if an item is clicked.", "bool", "Widget Commands") });
-
-		parsers->insert({ "is_item_container", mvPythonParser({
-		{mvPythonDataType::String, "item"},
-		}, "Checks if an item is container.", "bool", "Widget Commands") });
-
-		parsers->insert({ "is_item_visible", mvPythonParser({
-			{mvPythonDataType::String, "item"},
-		}, "Checks if an item is visible on screen.", "bool", "Widget Commands") });
-
-		parsers->insert({ "is_item_edited", mvPythonParser({
-			{mvPythonDataType::String, "item"},
-		}, "Checks if an item has been edited.", "bool", "Widget Commands") });
-
-		parsers->insert({ "is_item_activated", mvPythonParser({
-			{mvPythonDataType::String, "item"},
-		}, "Checks if an item has been activated.", "bool", "Widget Commands") });
-
-		parsers->insert({ "is_item_deactivated", mvPythonParser({
-			{mvPythonDataType::String, "item"},
-		}, "Checks if an item has been deactivated.", "bool", "Widget Commands") });
-
-		parsers->insert({ "is_item_deactivated_after_edit", mvPythonParser({
-			{mvPythonDataType::String, "item"},
-		}, "Checks if an item has been deactivated after editing.", "bool", "Widget Commands") });
-
-		parsers->insert({ "is_item_toggled_open", mvPythonParser({
-			{mvPythonDataType::String, "item"},
-		}, "Checks if an item is toggled.", "bool", "Widget Commands") });
-
-		parsers->insert({ "get_item_rect_min", mvPythonParser({
-			{mvPythonDataType::String, "item"},
-		}, "Returns an item's minimum allowable size. [width, height]", "[float, float]", "Widget Commands") });
-
-		parsers->insert({ "get_item_rect_max", mvPythonParser({
-			{mvPythonDataType::String, "item"},
-		}, "Returns an item's maximum allowable size. [width, height]", "[float, float]", "Widget Commands") });
-
-		parsers->insert({ "get_item_rect_size", mvPythonParser({
-			{mvPythonDataType::String, "item"},
-		}, "Returns an item's current size. [width, height]", "[float, float]", "Widget Commands") });
-
-		parsers->insert({ "get_value", mvPythonParser({
-			{mvPythonDataType::String, "name"}
-		}, "Returns an item's value or None if there is none.", "Any", "Widget Commands") });
-
-		parsers->insert({ "set_value", mvPythonParser({
-			{mvPythonDataType::String, "name"},
-			{mvPythonDataType::Object, "value"}
-		}, "Sets an item's value if applicable.", "bool", "Widget Commands") });
-
-		parsers->insert({ "set_item_callback", mvPythonParser({
-			{mvPythonDataType::String, "item"},
-			{mvPythonDataType::Callable, "callback", "Registers a callback"},
-			{mvPythonDataType::KeywordOnly},
-			{mvPythonDataType::Object, "callback_data", "Callback data", "None"},
-		}, "Sets an item's callback if applicable.", "None", "Widget Commands") });
+		{
+			mvPythonParser parser(mvPyDataType::None);
+			parser.addArg<mvPyDataType::String>("item");
+			parser.addArg<mvPyDataType::Object>("value");
+			parser.finalize();
+			parsers->insert({ "set_value", parser });
+		}
 
 	}
 
 	bool mvAppItem::DoesItemHaveFlag(mvAppItem* item, int flag)
 	{
 		return item->getDescFlags() & flag;
+	}
+
+	void mvAppItem::AddCommonArgs(mvPythonParser& parser)
+	{
+		parser.addArg<mvPyDataType::String>("name", mvArgType::OPTIONAL_ARG);
+
+		parser.addArg<mvPyDataType::Integer>("width", mvArgType::KEYWORD, "0");
+		parser.addArg<mvPyDataType::Integer>("height", mvArgType::KEYWORD, "0");
+
+		parser.addArg<mvPyDataType::String>("parent", mvArgType::KEYWORD, "''", "Parent to add this item to. (runtime adding)");
+		parser.addArg<mvPyDataType::String>("before", mvArgType::KEYWORD, "''", "This item will be displayed before the specified item in the parent.");
+		parser.addArg<mvPyDataType::String>("label", mvArgType::KEYWORD, "''", "Overrides 'name' as label");
+		parser.addArg<mvPyDataType::String>("source", mvArgType::KEYWORD, "''", "Overrides 'name' as value storage key");
+		
+		parser.addArg<mvPyDataType::Callable>("callback", mvArgType::KEYWORD, "None", "Registers a callback");
+		parser.addArg<mvPyDataType::Object>("callback_data", mvArgType::KEYWORD, "None", "Callback data");
+
+		parser.addArg<mvPyDataType::Bool>("show", mvArgType::KEYWORD, "True", "Attempt to render");
+		parser.addArg<mvPyDataType::Bool>("enabled", mvArgType::KEYWORD, "True");
+
 	}
 
 	mvAppItem::mvAppItem(const std::string& name)
@@ -151,7 +113,7 @@ namespace Marvel{
 		}
 	}
 
-	void mvAppItem::setCallback(mvCallable callback)
+	void mvAppItem::setCallback(PyObject* callback)
 	{ 
 
 		if (callback == Py_None)
@@ -163,7 +125,7 @@ namespace Marvel{
 		m_callback = callback;
 	}
 
-	void mvAppItem::setCallbackData(mvCallableData data)
+	void mvAppItem::setCallbackData(PyObject* data)
 	{
 		if (data == Py_None)
 		{
@@ -609,7 +571,7 @@ namespace Marvel{
 			Py_DECREF(m_callback_data);
 	}
 
-	mvCallable mvAppItem::getCallback(bool ignore_enabled)
+	PyObject* mvAppItem::getCallback(bool ignore_enabled)
 	{
 		if (m_enabled)
 			return m_callback;
@@ -706,66 +668,66 @@ namespace Marvel{
 		if (dict == nullptr)
 			return;
 
-		auto configKeys = ToStringVect(PyDict_Keys(dict));
+		//auto configKeys = ToStringVect(PyDict_Keys(dict));
 
-		static std::string base_keyword1 = "name";
-		static std::string base_keyword2 = "label";
-		static std::string base_keyword3 = "source";
-		static std::string base_keyword4 = "tip";
-		static std::string base_keyword5 = "show";
-		static std::string base_keyword6 = "enabled";
-		static std::string base_keyword7 = "width";
-		static std::string base_keyword8 = "height";
-		static std::string base_keyword9 = "callback";
-		static std::string base_keyword10 = "callback_data";
+		//static std::string base_keyword1 = "name";
+		//static std::string base_keyword2 = "label";
+		//static std::string base_keyword3 = "source";
+		//static std::string base_keyword4 = "tip";
+		//static std::string base_keyword5 = "show";
+		//static std::string base_keyword6 = "enabled";
+		//static std::string base_keyword7 = "width";
+		//static std::string base_keyword8 = "height";
+		//static std::string base_keyword9 = "callback";
+		//static std::string base_keyword10 = "callback_data";
 
-		std::string parserCommand;
+		//std::string parserCommand;
 
-		constexpr_for<1, (int)mvAppItemType::ItemTypeCount, 1>(
-			[&](auto i) {
-				using item_type = typename mvItemTypeMap<i>::type;
-				mvAppItemType ait = mvItemTypeReverseMap<item_type>::type;
-				if (getType() == ait)
-				{
-					parserCommand = item_type::s_command;
-					return;
-				}
-			});
+		//constexpr_for<1, (int)mvAppItemType::ItemTypeCount, 1>(
+		//	[&](auto i) {
+		//		using item_type = typename mvItemTypeMap<i>::type;
+		//		mvAppItemType ait = mvItemTypeReverseMap<item_type>::type;
+		//		if (getType() == ait)
+		//		{
+		//			parserCommand = item_type::s_command;
+		//			return;
+		//		}
+		//	});
 
-		const auto& parserKeywordsOrig = mvApp::GetApp()->getParsers()[parserCommand].getKeywords();
-		std::vector<std::string> parserKeywords;
-		parserKeywords.reserve(parserKeywordsOrig.size() + 10);
-		for (int i = 0; i < parserKeywordsOrig.size(); i++)
-			if(parserKeywordsOrig[i])
-				parserKeywords.push_back(std::string(parserKeywordsOrig[i]));
+		//const auto& parserKeywordsOrig = mvApp::GetApp()->getParsers()[parserCommand].getKeywords();
+		//std::vector<std::string> parserKeywords;
+		//parserKeywords.reserve(parserKeywordsOrig.size() + 10);
+		//for (int i = 0; i < parserKeywordsOrig.size(); i++)
+		//	if(parserKeywordsOrig[i])
+		//		parserKeywords.push_back(std::string(parserKeywordsOrig[i]));
 
-		parserKeywords.push_back(base_keyword1);
-		parserKeywords.push_back(base_keyword2);
-		parserKeywords.push_back(base_keyword3);
-		parserKeywords.push_back(base_keyword4);
-		parserKeywords.push_back(base_keyword5);
-		parserKeywords.push_back(base_keyword6);
-		parserKeywords.push_back(base_keyword7);
-		parserKeywords.push_back(base_keyword8);
-		parserKeywords.push_back(base_keyword9);
-		parserKeywords.push_back(base_keyword10);
+		//parserKeywords.push_back(base_keyword1);
+		//parserKeywords.push_back(base_keyword2);
+		//parserKeywords.push_back(base_keyword3);
+		//parserKeywords.push_back(base_keyword4);
+		//parserKeywords.push_back(base_keyword5);
+		//parserKeywords.push_back(base_keyword6);
+		//parserKeywords.push_back(base_keyword7);
+		//parserKeywords.push_back(base_keyword8);
+		//parserKeywords.push_back(base_keyword9);
+		//parserKeywords.push_back(base_keyword10);
 
-		for (const auto& key : configKeys)
-		{
-			size_t i = 0;
-			while (i < parserKeywords.size())
-			{
-				if (key == parserKeywords[i])
-				{
-					break;
-				}
-				i++;
-			}
-			if (i == parserKeywords.size())
-			{
-				ThrowPythonException("\"" + key + "\" configuration does not exist in \"" + m_name + "\".");
-			}
-		}
+		//for (const auto& key : configKeys)
+		//{
+		//	size_t i = 0;
+		//	while (i < parserKeywords.size())
+		//	{
+		//		if (key == parserKeywords[i])
+		//		{
+		//			break;
+		//		}
+		//		i++;
+		//	}
+		//	if (i == parserKeywords.size())
+		//	{
+		//		ThrowPythonException("\"" + key + "\" configuration does not exist in \"" + m_name + "\".");
+		//	}
+		//}
 	}
 
 	void mvAppItem::setConfigDict(PyObject* dict)

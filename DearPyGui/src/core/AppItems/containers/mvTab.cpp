@@ -8,20 +8,25 @@
 namespace Marvel {
 	void mvTab::InsertParser(std::map<std::string, mvPythonParser>* parsers)
 	{
-		parsers->insert({ s_command, mvPythonParser({
-			{mvPythonDataType::Optional},
-			{mvPythonDataType::String, "name"},
-			{mvPythonDataType::KeywordOnly},
-			{mvPythonDataType::Bool, "closable", "creates a button on the tab that can hide the tab", "False"},
-			{mvPythonDataType::String, "label", "", "''"},
-			{mvPythonDataType::Bool, "show", "Attempt to render", "True"},
-			{mvPythonDataType::Bool, "no_reorder", "Disable reordering this tab or having another tab cross over this tab", "False"},
-			{mvPythonDataType::Bool, "leading", "Enforce the tab position to the left of the tab bar (after the tab list popup button)", "False"},
-			{mvPythonDataType::Bool, "trailing", "Enforce the tab position to the right of the tab bar (before the scrolling buttons)", "False"},
-			{mvPythonDataType::Bool, "no_tooltip", "Disable tooltip for the given tab", "False"},
-			{mvPythonDataType::String, "parent", "Parent to add this item to. (runtime adding)", "''"},
-			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)", "''"},
-		}, "Adds a tab to a tab bar. Must be closed with the end command.", "None", "Containers") });
+
+		mvPythonParser parser(mvPyDataType::String);
+		mvAppItem::AddCommonArgs(parser);
+		parser.removeArg("source");
+		parser.removeArg("width");
+		parser.removeArg("height");
+		parser.removeArg("callback");
+		parser.removeArg("callback_data");
+		parser.removeArg("enabled");
+
+		parser.addArg<mvPyDataType::Bool>("closable", mvArgType::KEYWORD, "False", "creates a button on the tab that can hide the tab");
+		parser.addArg<mvPyDataType::Bool>("no_reorder", mvArgType::KEYWORD, "False", "Disable reordering this tab or having another tab cross over this tab");
+		parser.addArg<mvPyDataType::Bool>("leading", mvArgType::KEYWORD, "False", "Enforce the tab position to the left of the tab bar (after the tab list popup button)");
+		parser.addArg<mvPyDataType::Bool>("trailing", mvArgType::KEYWORD, "False", "Enforce the tab position to the right of the tab bar (before the scrolling buttons)");
+		parser.addArg<mvPyDataType::Bool>("no_tooltip", mvArgType::KEYWORD, "False", "Disable tooltip for the given tab");
+
+		parser.finalize();
+
+		parsers->insert({ s_command, parser });
 	}
 	mvTab::mvTab(const std::string& name)
 		: 

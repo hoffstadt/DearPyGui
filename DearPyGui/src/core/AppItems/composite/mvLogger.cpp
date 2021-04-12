@@ -5,6 +5,7 @@
 #include "mvGlobalIntepreterLock.h"
 #include "mvItemRegistry.h"
 #include "mvFontScope.h"
+#include "mvPythonExceptions.h"
 
 typedef std::chrono::high_resolution_clock clock_;
 typedef std::chrono::duration<double, std::ratio<1> > second_;
@@ -13,80 +14,106 @@ namespace Marvel {
 
 	void mvLoggerItem::InsertParser(std::map<std::string, mvPythonParser>* parsers)
 	{
-		parsers->insert({ s_command, mvPythonParser({
-			{mvPythonDataType::Optional},
-			{mvPythonDataType::String, "name"},
-			{mvPythonDataType::KeywordOnly},
-			{mvPythonDataType::Integer, "log_level", "", "1"},
-			{mvPythonDataType::Bool, "auto_scroll", "auto scroll", "True"},
-			{mvPythonDataType::Bool, "auto_scroll_button", "show auto scroll button", "True"},
-			{mvPythonDataType::Bool, "clear_button", "show clear button", "True"},
-			{mvPythonDataType::Bool, "copy_button", "show copy button", "True"},
-			{mvPythonDataType::Bool, "filter", "show filter", "True"},
-			{mvPythonDataType::Integer, "width","", "0"},
-			{mvPythonDataType::Integer, "height","", "0"},
-			{mvPythonDataType::String, "parent", "Parent this item will be added to. (runtime adding)", "''"},
-			{mvPythonDataType::String, "before","This item will be displayed before the specified item in the parent. (runtime adding)", "''"},
-			{mvPythonDataType::Bool, "show", "Attempt to render", "True"},
-			{mvPythonDataType::Bool, "autosize_x", "", "False"},
-			{mvPythonDataType::Bool, "autosize_y", "", "False"},
+		{
+			mvPythonParser parser(mvPyDataType::String);
+			mvAppItem::AddCommonArgs(parser);
+			parser.removeArg("source");
+			parser.removeArg("label");
+			parser.removeArg("callback");
+			parser.removeArg("callback_data");
+			parser.removeArg("enabled");
 
-		}, "Adds a logging widget.", "None", "Adding Widgets") });
+			parser.addArg<mvPyDataType::Integer>("log_level", mvArgType::KEYWORD, "1");
 
-		parsers->insert({ "get_log_level", mvPythonParser({
-			{mvPythonDataType::KeywordOnly},
-			{mvPythonDataType::String, "logger", "logger widget", "''"},
-		}, "Returns the log level.", "int", "Logging") });
+			parser.addArg<mvPyDataType::Bool>("autosize_x", mvArgType::KEYWORD, "False");
+			parser.addArg<mvPyDataType::Bool>("autosize_y", mvArgType::KEYWORD, "False");
+			parser.addArg<mvPyDataType::Bool>("copy_button", mvArgType::KEYWORD, "True", "show copy button");
+			parser.addArg<mvPyDataType::Bool>("clear_button", mvArgType::KEYWORD, "True", "show clear butter");
+			parser.addArg<mvPyDataType::Bool>("filter", mvArgType::KEYWORD, "True", "show filter");
+			parser.addArg<mvPyDataType::Bool>("auto_scroll", mvArgType::KEYWORD, "True", "auto scroll");
+			parser.addArg<mvPyDataType::Bool>("auto_scroll_button", mvArgType::KEYWORD, "True", "show auto scroll button");
 
-		parsers->insert({ "clear_log", mvPythonParser({
-			{mvPythonDataType::KeywordOnly},
-			{mvPythonDataType::String, "logger", "logger widget", "''"},
-		}, "Clears the logger.", "None", "Logging") });
+			parser.finalize();
 
-		parsers->insert({ "set_log_level", mvPythonParser({
-			{mvPythonDataType::Integer, "level"},
-			{mvPythonDataType::KeywordOnly},
-			{mvPythonDataType::String, "logger", "logger widget", "''"},
-		}, "Sets the log level.", "None", "Logging") });
+			parsers->insert({ s_command, parser });
+		}
 
-		parsers->insert({ "log", mvPythonParser({
-			{mvPythonDataType::Object, "message"},
-			{mvPythonDataType::KeywordOnly},
-			{mvPythonDataType::String, "level", "logger widget", "'TRACE'"},
-			{mvPythonDataType::String, "logger", "logger widget", "''"}
-		}, "Logs a trace level log.", "None", "Logging") });
+		{
+			mvPythonParser parser(mvPyDataType::Integer);
+			parser.addArg<mvPyDataType::String>("logger", mvArgType::KEYWORD, "''", "specific logger");
+			parser.finalize();
+			parsers->insert({ "get_log_level", parser });
+		}
 
-		parsers->insert({ "log_debug", mvPythonParser({
-			{mvPythonDataType::Object, "message"},
-			{mvPythonDataType::KeywordOnly},
-			{mvPythonDataType::String, "logger", "logger widget", "''"},
-		}, "Logs a debug level log.", "None", "Logging") });
+		{
+			mvPythonParser parser(mvPyDataType::None);
+			parser.addArg<mvPyDataType::String>("logger", mvArgType::KEYWORD, "''", "specific logger");
+			parser.finalize();
+			parsers->insert({ "clear_log", parser });
+		}
 
-		parsers->insert({ "log_info", mvPythonParser({
-			{mvPythonDataType::Object, "message"},
-			{mvPythonDataType::KeywordOnly},
-			{mvPythonDataType::String, "logger", "logger widget", "''"},
-		}, "Logs a info level log.", "None", "Logging") });
+		{
+			mvPythonParser parser(mvPyDataType::None);
+			parser.addArg<mvPyDataType::Integer>("level", mvArgType::POSITIONAL);
+			parser.addArg<mvPyDataType::String>("logger", mvArgType::KEYWORD, "''", "specific logger");
+			parser.finalize();
+			parsers->insert({ "set_log_level", parser });
+		}
 
-		parsers->insert({ "log_warning", mvPythonParser({
-			{mvPythonDataType::Object, "message"},
-			{mvPythonDataType::KeywordOnly},
-			{mvPythonDataType::String, "logger", "logger widget", "''"},
-		}, "Logs a warning level log.", "None", "Logging") });
+		{
+			mvPythonParser parser(mvPyDataType::None);
+			parser.addArg<mvPyDataType::Object>("message", mvArgType::POSITIONAL);
+			parser.addArg<mvPyDataType::Integer>("level", mvArgType::KEYWORD, "'TRACE'");
+			parser.addArg<mvPyDataType::String>("logger", mvArgType::KEYWORD, "''", "specific logger");
+			parser.finalize();
+			parsers->insert({ "log", parser });
+		}
 
-		parsers->insert({ "log_error", mvPythonParser({
-			{mvPythonDataType::Object, "message"},
-			{mvPythonDataType::KeywordOnly},
-			{mvPythonDataType::String, "logger", "logger widget", "''"},
-		}, "Logs a error level log.", "None", "Logging") });
+		{
+			mvPythonParser parser(mvPyDataType::None);
+			parser.addArg<mvPyDataType::Object>("message", mvArgType::POSITIONAL);
+			parser.addArg<mvPyDataType::String>("logger", mvArgType::KEYWORD, "''", "specific logger");
+			parser.finalize();
+			parsers->insert({ "log_debug", parser });
+		}
 
-		parsers->insert({ "show_logger", mvPythonParser({
-		}, "Shows the logging window. The Default log level is Trace", "None", "Standard Windows") });
+		{
+			mvPythonParser parser(mvPyDataType::None);
+			parser.addArg<mvPyDataType::Object>("message", mvArgType::POSITIONAL);
+			parser.addArg<mvPyDataType::String>("logger", mvArgType::KEYWORD, "''", "specific logger");
+			parser.finalize();
+			parsers->insert({ "log_info", parser });
+		}
 
-		parsers->insert({ "set_logger_window_title", mvPythonParser({
-			{mvPythonDataType::String, "title"}
-		}, "Sets the title of the logger window.")
-		});
+		{
+			mvPythonParser parser(mvPyDataType::None);
+			parser.addArg<mvPyDataType::Object>("message", mvArgType::POSITIONAL);
+			parser.addArg<mvPyDataType::String>("logger", mvArgType::KEYWORD, "''", "specific logger");
+			parser.finalize();
+			parsers->insert({ "log_warning", parser });
+		}
+
+		{
+			mvPythonParser parser(mvPyDataType::None);
+			parser.addArg<mvPyDataType::Object>("message", mvArgType::POSITIONAL);
+			parser.addArg<mvPyDataType::String>("logger", mvArgType::KEYWORD, "''", "specific logger");
+			parser.finalize();
+			parsers->insert({ "log_error", parser });
+		}
+
+		{
+			mvPythonParser parser(mvPyDataType::None);
+			parser.finalize();
+			parsers->insert({ "show_logger", parser });
+		}
+
+		{
+			mvPythonParser parser(mvPyDataType::None);
+			parser.addArg<mvPyDataType::String>("title", mvArgType::POSITIONAL);
+			parser.finalize();
+			parsers->insert({ "set_logger_window_title", parser });
+		}
+
 	}
 
 #if defined (_WIN32)

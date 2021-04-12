@@ -1,26 +1,35 @@
 #include "mvDrawRect.h"
 #include "mvLog.h"
 #include "mvItemRegistry.h"
+#include "mvPythonExceptions.h"
 
 namespace Marvel {
 
 	void mvDrawRect::InsertParser(std::map<std::string, mvPythonParser>* parsers)
 	{
 
-		parsers->insert({ s_command, mvPythonParser({
-			{mvPythonDataType::Optional},
-			{mvPythonDataType::String, "name", "", "''"},
-			{mvPythonDataType::KeywordOnly},
-			{mvPythonDataType::FloatList, "pmin", "top left coordinate"},
-			{mvPythonDataType::FloatList, "pmax", "bottom right coordinate"},
-			{mvPythonDataType::IntList, "color"},
-			{mvPythonDataType::FloatList, "fill", "", "(0, 0, 0, -1)"},
-			{mvPythonDataType::Float, "rounding", "", "0.0"},
-			{mvPythonDataType::Float, "thickness", "", "1.0"},
-			{mvPythonDataType::String, "parent", "Parent to add this item to. (runtime adding)", "''"},
-			{mvPythonDataType::String, "before", "This item will be displayed before the specified item in the parent. (runtime adding)", "''"},
-			{mvPythonDataType::Bool, "show", "Attempt to render", "True"},
-		}, "Draws a line on a drawing.", "None", "Drawing") });
+		mvPythonParser parser(mvPyDataType::String);
+		mvAppItem::AddCommonArgs(parser);
+		parser.removeArg("source");
+		parser.removeArg("width");
+		parser.removeArg("height");
+		parser.removeArg("label");
+		parser.removeArg("callback");
+		parser.removeArg("callback_data");
+		parser.removeArg("enabled");
+
+		parser.addArg<mvPyDataType::FloatList>("pmin");
+		parser.addArg<mvPyDataType::FloatList>("pmax");
+
+		parser.addArg<mvPyDataType::IntList>("color", mvArgType::KEYWORD, "(255, 255, 255, 255)");
+		parser.addArg<mvPyDataType::IntList>("fill", mvArgType::KEYWORD, "(0, 0, 0, -255)");
+
+		parser.addArg<mvPyDataType::Float>("rounding", mvArgType::KEYWORD, "0.0");
+		parser.addArg<mvPyDataType::Float>("thickness", mvArgType::KEYWORD, "1.0");
+
+		parser.finalize();
+
+		parsers->insert({ s_command, parser });
 	}
 
 	mvDrawRect::mvDrawRect(const std::string& name)

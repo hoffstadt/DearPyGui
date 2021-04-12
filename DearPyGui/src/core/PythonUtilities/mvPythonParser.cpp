@@ -8,108 +8,135 @@
 
 namespace Marvel {
 
-	static char PythonDataTypeSymbol(mvPythonDataType type)
+	static char PythonDataTypeSymbol(mvPyDataType type)
 	{
 		switch (type)
 		{
-		case mvPythonDataType::String:     return 's';
-		case mvPythonDataType::Integer:    return 'i';
-		case mvPythonDataType::Float:      return 'f';
-		case mvPythonDataType::Double:     return 'd';
-		case mvPythonDataType::Bool:       return 'p';
-		case mvPythonDataType::Optional:   return '|';
-		case mvPythonDataType::KeywordOnly:return '$';
-		default:                           return 'O';
+		case mvPyDataType::String:     return 's';
+		case mvPyDataType::Integer:    return 'i';
+		case mvPyDataType::Float:      return 'f';
+		case mvPyDataType::Double:     return 'd';
+		case mvPyDataType::Bool:       return 'p';
+		default:                       return 'O';
 		}
 	}
 
-	static const char* PythonDataTypeString(mvPythonDataType type)
+	static const char* PythonDataTypeString(mvPyDataType type)
 	{
 		switch (type)
 		{
-		case mvPythonDataType::String:        return " : str";
-		case mvPythonDataType::Integer:       return " : int";
-		case mvPythonDataType::Float:         return " : float";
-		case mvPythonDataType::Double:        return " : float";
-		case mvPythonDataType::Bool:          return " : bool";
-		case mvPythonDataType::StringList:    return " : List[str]";
-		case mvPythonDataType::FloatList:     return " : List[float]";
-		case mvPythonDataType::IntList:       return " : List[int]";
-		case mvPythonDataType::Optional:      return "Optional Arguments\n____________________";
-		case mvPythonDataType::KeywordOnly:   return "Keyword Only Arguments\n____________________";
-		case mvPythonDataType::Callable:      return " : Callable";
-		case mvPythonDataType::Dict:          return " : dict";
-		case mvPythonDataType::ListFloatList: return " : List[List[float]]";
-		case mvPythonDataType::ListStrList:   return " : List[List[str]]";
-		case mvPythonDataType::Kwargs:        return "";
-		case mvPythonDataType::Object:        return " : Any";
+		case mvPyDataType::String:        return " : str";
+		case mvPyDataType::Integer:       return " : int";
+		case mvPyDataType::Float:         return " : float";
+		case mvPyDataType::Double:        return " : float";
+		case mvPyDataType::Bool:          return " : bool";
+		case mvPyDataType::StringList:    return " : List[str]";
+		case mvPyDataType::FloatList:     return " : List[float]";
+		case mvPyDataType::IntList:       return " : List[int]";
+		case mvPyDataType::Callable:      return " : Callable";
+		case mvPyDataType::Dict:          return " : dict";
+		case mvPyDataType::ListFloatList: return " : List[List[float]]";
+		case mvPyDataType::ListStrList:   return " : List[List[str]]";
+		case mvPyDataType::Kwargs:        return "";
+		case mvPyDataType::Object:        return " : Any";
 		default:                              return " : unknown";
 		}
 	}
 
-	const char* PythonDataTypeActual(mvPythonDataType type)
+	const char* PythonDataTypeActual(mvPyDataType type)
 	{
 		switch (type)
 		{
-		case mvPythonDataType::String:        return "str";
-		case mvPythonDataType::Integer:       return "int";
-		case mvPythonDataType::Float:         return "float";
-		case mvPythonDataType::Double:        return "float";
-		case mvPythonDataType::Bool:          return "bool";
-		case mvPythonDataType::StringList:    return "List[str]";
-		case mvPythonDataType::FloatList:     return "List[float]";
-		case mvPythonDataType::IntList:       return "List[int]";
-		case mvPythonDataType::Callable:      return "Callable";
-		case mvPythonDataType::Dict:          return "dict";
-		case mvPythonDataType::ListFloatList: return "List[List[float]]";
-		case mvPythonDataType::ListStrList:   return "List[List[str]]";
-		case mvPythonDataType::Kwargs:        return "";
-		case mvPythonDataType::Object:        return "Any";
+		case mvPyDataType::String:        return "str";
+		case mvPyDataType::Integer:       return "int";
+		case mvPyDataType::Float:         return "float";
+		case mvPyDataType::Double:        return "float";
+		case mvPyDataType::Bool:          return "bool";
+		case mvPyDataType::StringList:    return "List[str]";
+		case mvPyDataType::FloatList:     return "List[float]";
+		case mvPyDataType::IntList:       return "List[int]";
+		case mvPyDataType::Callable:      return "Callable";
+		case mvPyDataType::Dict:          return "dict";
+		case mvPyDataType::ListFloatList: return "List[List[float]]";
+		case mvPyDataType::ListStrList:   return "List[List[str]]";
+		case mvPyDataType::Kwargs:        return "";
+		case mvPyDataType::Object:        return "Any";
 		default:                              return "";
 		}
 	}
 
-	char mvPythonDataElement::getSymbol() const
-	{ 
-		return PythonDataTypeSymbol(type); 
-	}
-
-	mvPythonParser::mvPythonParser(const std::initializer_list<mvPythonDataElement>& elements, 
-		std::string  about, std::string  returnType, std::string  category)
-		: m_elements(elements), m_about(std::move(about)), m_return(std::move(returnType)), m_category(std::move(category))
+	mvPythonParser::mvPythonParser(mvPyDataType returnType, const char* about, const char* category)
+		: m_about(about), m_return(returnType), m_category(category)
 	{
 
-		for (const auto& element : m_elements)
+	}
+
+	void mvPythonParser::removeArg(const char* name)
+	{
+		for (auto& arg : m_staged_elements)
 		{
-			// ignore name types for optional and keyword only
-			if (element.type != mvPythonDataType::Optional && element.type != mvPythonDataType::KeywordOnly)
-				m_keywords.push_back(element.name.c_str());
-
-			// ignore additional optionals
-			if (m_optional && element.type == mvPythonDataType::Optional)
-				continue;
-			else if (element.type == mvPythonDataType::Optional)
-				m_optional = true;
-
-			if (element.type == mvPythonDataType::KeywordOnly && !m_optional)
+			if (strcmp(arg.name, name) != 0)
 			{
-				m_formatstring.push_back('|');
+				arg.active = false;
+				return;
 			}
+		}
+		assert(false);
+	}
 
-			// ignore additional keywords
-			if (m_keyword && element.type == mvPythonDataType::KeywordOnly)
-				continue;
-			else if (element.type == mvPythonDataType::KeywordOnly)
-				m_keyword = true;
+	void mvPythonParser::finalize()
+	{
+		for (auto& arg : m_staged_elements)
+		{
+			if (arg.active)
+			{
+				switch (arg.arg_type)
+				{
+				case mvArgType::POSITIONAL:
+					m_positional_elements.push_back(arg);
+					break;
+				case mvArgType::OPTIONAL_ARG:
+					m_optional_elements.push_back(arg);
+					break;
+				case mvArgType::KEYWORD:
+					m_keyword_elements.push_back(arg);
+					break;
+				}
+			}
+		}
+		m_staged_elements.clear();
 
-
-			m_formatstring.push_back(element.getSymbol());
+		// build format string and keywords
+		if (!m_positional_elements.empty())
+		{
+			for (auto& element : m_positional_elements)
+			{
+				m_formatstring.push_back(PythonDataTypeSymbol(element.type));
+				m_keywords.push_back(element.name);
+			}
 		}
 
+		if (!m_optional_elements.empty())
+		{
+			m_formatstring.push_back('|');
+			for (auto& element : m_optional_elements)
+			{
+				m_formatstring.push_back(PythonDataTypeSymbol(element.type));
+				m_keywords.push_back(element.name);
+			}
+		}
+
+		if (!m_keyword_elements.empty())
+		{
+			m_formatstring.push_back('$');
+			for (auto& element : m_keyword_elements)
+			{
+				m_formatstring.push_back(PythonDataTypeSymbol(element.type));
+				m_keywords.push_back(element.name);
+			}
+		}
 		m_formatstring.push_back(0);
 		m_keywords.push_back(NULL);
-
-		buildDocumentation();
 	}
 
 	bool mvPythonParser::parse(PyObject* args, PyObject* kwargs, const char* message, ...)
@@ -137,111 +164,41 @@ namespace Marvel {
 		return check;
 	}
 
-	void mvPythonParser::buildDocumentation()
-	{
-		std::string documentation = m_about + "\n\nReturn Type: " + m_return + "\n";
+	//void mvPythonParser::buildDocumentation()
+	//{
+	//	//std::string documentation = m_about + "\n\nReturn Type: " + m_return + "\n";
 
-		if (!m_elements.empty())
-			documentation = documentation + "\n\nParameters\n__________\n\n";
+	//	//if (!m_elements.empty())
+	//	//	documentation = documentation + "\n\nParameters\n__________\n\n";
 
-		bool opfound = false;
-		bool keyfound = false;
+	//	//bool opfound = false;
+	//	//bool keyfound = false;
 
-		for (auto& element : m_elements)
-		{
-			if (element.type == mvPythonDataType::Optional)
-			{
-				if (opfound)
-					continue;
-				opfound = true;
-			}
+	//	//for (auto& element : m_elements)
+	//	//{
+	//	//	if (element.type == mvPythonDataType::Optional)
+	//	//	{
+	//	//		if (opfound)
+	//	//			continue;
+	//	//		opfound = true;
+	//	//	}
 
-			if (element.type == mvPythonDataType::KeywordOnly)
-			{
-				if (keyfound)
-					continue;
-				keyfound = true;
-			}
+	//	//	if (element.type == mvPythonDataType::KeywordOnly)
+	//	//	{
+	//	//		if (keyfound)
+	//	//			continue;
+	//	//		keyfound = true;
+	//	//	}
 
-			if(element.type != mvPythonDataType::KeywordOnly && element.type != mvPythonDataType::Optional && (opfound || keyfound))
-				documentation = documentation + "* " + element.name + PythonDataTypeString(element.type) + " = " + element.default_value +
-					"\n\t" + element.description + "\n\n";
-			else
-				documentation = documentation + "* " + element.name + PythonDataTypeString(element.type) + 
-				"\n\t" + element.description + "\n\n";
-		}
+	//	//	if(element.type != mvPythonDataType::KeywordOnly && element.type != mvPythonDataType::Optional && (opfound || keyfound))
+	//	//		documentation = documentation + "* " + element.name + PythonDataTypeString(element.type) + " = " + element.default_value +
+	//	//			"\n\t" + element.description + "\n\n";
+	//	//	else
+	//	//		documentation = documentation + "* " + element.name + PythonDataTypeString(element.type) + 
+	//	//		"\n\t" + element.description + "\n\n";
+	//	//}
 
-		m_documentation = std::move(documentation);
-	}
+	//	//m_documentation = std::move(documentation);
+	//}
 
-	void GenerateStubFile(const std::string& file)
-	{
-		const auto& commands = mvModule_Core::GetModuleParsers();
-
-		// current date/time based on current system
-		time_t now = time(0);
-
-		// convert now to string form
-		char* dt = ctime(&now);
-
-		std::ofstream stub;
-		stub.open(file);
-
-		stub << "from typing import List, Any, Callable\n";
-		stub << "from dearpygui.core import *\n\n";
-		stub << "##########################################################\n";
-		stub << "# This file is generated automatically by mvPythonParser #\n";
-		stub << "##########################################################\n\n";
-		stub << "# ~ Dear PyGui Version: " << mvApp::GetVersion() <<"\n";
-
-		for (const auto& parser : commands)
-		{
-			stub << "def " << parser.first << "(";
-
-			auto elements = parser.second.getElements();
-
-			bool adddefault = false;
-
-			for (size_t i = 0; i < elements.size(); i++)
-			{
-				if (elements[i].type == mvPythonDataType::KeywordOnly || elements[i].type == mvPythonDataType::Optional)
-				{
-					adddefault = true;
-					if (elements[i].type == mvPythonDataType::KeywordOnly)
-						stub << "*, ";
-					continue;
-				}
-
-				if (i != elements.size() - 1)
-				{
-					if(adddefault)
-						stub << elements[i].name << ": " << PythonDataTypeActual(elements[i].type) << " = " << elements[i].default_value << ", ";
-					
-					else
-						stub << elements[i].name << ": " << PythonDataTypeActual(elements[i].type) << ", ";
-				}
-				else
-				{
-					if (elements[i].type == mvPythonDataType::Kwargs)
-						stub << elements[i].name << ") -> " <<
-						parser.second.getReturnType() << ":\n\t\"\"\"" << parser.second.getAbout() << "\"\"\"\n\t...\n\n";
-
-					else if (adddefault)
-						stub << elements[i].name << ": " << PythonDataTypeActual(elements[i].type) << " = " << elements[i].default_value << ") -> " <<
-						parser.second.getReturnType() << ":\n\t\"\"\"" << parser.second.getAbout() << "\"\"\"\n\t...\n\n";
-					else
-						stub << elements[i].name << ": " << PythonDataTypeActual(elements[i].type) <<
-						") -> " << parser.second.getReturnType() << ":\n\t\"\"\"" << parser.second.getAbout() << "\"\"\"\n\t...\n\n";
-				}
-			}
-
-			if (elements.empty())
-				stub << ") -> " << parser.second.getReturnType() << ":\n\t\"\"\"" << parser.second.getAbout() << "\"\"\"\n\t...\n\n";
-
-
-
-		}
-
-		stub.close();
-	}
 }
