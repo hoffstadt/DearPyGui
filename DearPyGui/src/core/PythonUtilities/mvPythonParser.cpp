@@ -116,9 +116,11 @@ namespace Marvel {
 			}
 		}
 
+		m_formatstring.push_back('|');
+
 		if (!m_optional_elements.empty())
 		{
-			m_formatstring.push_back('|');
+			
 			for (auto& element : m_optional_elements)
 			{
 				m_formatstring.push_back(PythonDataTypeSymbol(element.type));

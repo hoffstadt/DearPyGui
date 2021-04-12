@@ -81,7 +81,7 @@ namespace Marvel {
         {
             for (const auto& arg : m_staged_elements)
             {
-                if (strcmp(arg.name, name) != 0)
+                if (strcmp(arg.name, name) == 0)
                 {
                     assert(false);
                     return;
