@@ -16,6 +16,7 @@
 #include "mvTextureStorage.h"
 #include "mvPythonTranslator.h"
 #include "mvPythonExceptions.h"
+#include <frameobject.h>
 #include "mvModule_Core.h"
 #include "mvLog.h"
 #include "mvEventMacros.h"
