@@ -114,7 +114,7 @@ namespace Marvel {
 		}
 	}
 
-	void mvNodeEditor::setExtraConfigDict(PyObject* dict)
+	void mvNodeEditor::handleSpecificKeywordArgs(PyObject* dict)
 	{
 		if (dict == nullptr)
 			return;

@@ -36,7 +36,7 @@ namespace Marvel {
 		ImGui::SameLine(m_xoffset, m_spacing);
 	}
 
-	void mvSameLine::setExtraConfigDict(PyObject* dict)
+	void mvSameLine::handleSpecificKeywordArgs(PyObject* dict)
 	{
 		if (dict == nullptr)
 			return;
@@ -46,7 +46,7 @@ namespace Marvel {
 
 	}
 
-	void mvSameLine::getExtraConfigDict(PyObject* dict)
+	void mvSameLine::getSpecificConfiguration(PyObject* dict)
 	{
 		if (dict == nullptr)
 			return;

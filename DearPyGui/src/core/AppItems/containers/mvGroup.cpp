@@ -73,7 +73,7 @@ namespace Marvel {
 		ImGui::EndGroup();
 	}
 
-	void mvGroup::setExtraConfigDict(PyObject* dict)
+	void mvGroup::handleSpecificKeywordArgs(PyObject* dict)
 	{
 		if (dict == nullptr)
 			return;
@@ -82,7 +82,7 @@ namespace Marvel {
 		if (PyObject* item = PyDict_GetItemString(dict, "horizontal_spacing")) m_hspacing = ToFloat(item);
 	}
 
-	void mvGroup::getExtraConfigDict(PyObject* dict)
+	void mvGroup::getSpecificConfiguration(PyObject* dict)
 	{
 		if (dict == nullptr)
 			return;

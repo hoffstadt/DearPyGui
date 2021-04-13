@@ -155,7 +155,7 @@ namespace Marvel {
         }
     }
 
-    void mvSliderFloat::setExtraConfigDict(PyObject* dict)
+    void mvSliderFloat::handleSpecificKeywordArgs(PyObject* dict)
     {
         if (dict == nullptr)
             return;
@@ -179,7 +179,7 @@ namespace Marvel {
 
     }
 
-    void mvSliderFloat::getExtraConfigDict(PyObject* dict)
+    void mvSliderFloat::getSpecificConfiguration(PyObject* dict)
     {
         if (dict == nullptr)
             return;
@@ -201,7 +201,7 @@ namespace Marvel {
 
     }
 
-    void mvSliderInt::setExtraConfigDict(PyObject* dict)
+    void mvSliderInt::handleSpecificKeywordArgs(PyObject* dict)
     {
         if (dict == nullptr)
             return;
@@ -225,7 +225,7 @@ namespace Marvel {
 
     }
 
-    void mvSliderInt::getExtraConfigDict(PyObject* dict)
+    void mvSliderInt::getSpecificConfiguration(PyObject* dict)
     {
         if (dict == nullptr)
             return;

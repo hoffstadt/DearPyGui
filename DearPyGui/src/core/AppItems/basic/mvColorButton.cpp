@@ -44,7 +44,7 @@ namespace Marvel {
 
 	}
 
-	void mvColorButton::setExtraConfigDict(PyObject* dict)
+	void mvColorButton::handleSpecificKeywordArgs(PyObject* dict)
 	{
 		if (dict == nullptr)
 			return;
@@ -60,7 +60,7 @@ namespace Marvel {
 		flagop("no_drag_drop", ImGuiColorEditFlags_NoDragDrop, m_flags);
 	}
 
-	void mvColorButton::getExtraConfigDict(PyObject* dict)
+	void mvColorButton::getSpecificConfiguration(PyObject* dict)
 	{
 		if (dict == nullptr)
 			return;

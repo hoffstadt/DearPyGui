@@ -68,7 +68,7 @@ namespace Marvel {
 
 	}
 
-	void mvCombo::setExtraConfigDict(PyObject* dict)
+	void mvCombo::handleSpecificKeywordArgs(PyObject* dict)
 	{
 		if (dict == nullptr)
 			return;
@@ -118,7 +118,7 @@ namespace Marvel {
 
 	}
 
-	void mvCombo::getExtraConfigDict(PyObject* dict)
+	void mvCombo::getSpecificConfiguration(PyObject* dict)
 	{
 		if (dict == nullptr)
 			return;

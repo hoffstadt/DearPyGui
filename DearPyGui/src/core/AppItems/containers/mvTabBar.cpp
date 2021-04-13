@@ -96,7 +96,7 @@ namespace Marvel {
 		m_lastValue = *m_value;
 	}
 
-	void mvTabBar::setExtraConfigDict(PyObject* dict)
+	void mvTabBar::handleSpecificKeywordArgs(PyObject* dict)
 	{
 		if (dict == nullptr)
 			return;
@@ -113,7 +113,7 @@ namespace Marvel {
 
 	}
 
-	void mvTabBar::getExtraConfigDict(PyObject* dict)
+	void mvTabBar::getSpecificConfiguration(PyObject* dict)
 	{
 		if (dict == nullptr)
 			return;

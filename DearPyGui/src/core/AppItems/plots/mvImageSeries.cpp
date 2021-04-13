@@ -95,7 +95,7 @@ namespace Marvel {
 
 	}
 
-	void mvImageSeries::setExtraConfigDict(PyObject* dict)
+	void mvImageSeries::handleSpecificKeywordArgs(PyObject* dict)
 	{
 		if (dict == nullptr)
 			return;
@@ -120,7 +120,7 @@ namespace Marvel {
 
 	}
 
-	void mvImageSeries::getExtraConfigDict(PyObject* dict)
+	void mvImageSeries::getSpecificConfiguration(PyObject* dict)
 	{
 		if (dict == nullptr)
 			return;

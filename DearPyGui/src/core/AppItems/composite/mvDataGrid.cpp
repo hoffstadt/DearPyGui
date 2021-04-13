@@ -155,7 +155,7 @@ namespace Marvel {
 		m_hide_headers = false;
 	}
 
-	void mvDataGrid::setExtraConfigDict(PyObject* dict)
+	void mvDataGrid::handleSpecificKeywordArgs(PyObject* dict)
 	{
 		if (dict == nullptr)
 			return;
@@ -168,7 +168,7 @@ namespace Marvel {
 		}
 	}
 
-	void mvDataGrid::getExtraConfigDict(PyObject* dict)
+	void mvDataGrid::getSpecificConfiguration(PyObject* dict)
 	{
 		if (dict == nullptr)
 			return;

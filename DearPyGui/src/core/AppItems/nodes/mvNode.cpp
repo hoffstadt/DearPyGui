@@ -144,7 +144,7 @@ namespace Marvel {
 		m_ypos = (int)pos.y;
 	}
 
-	void mvNode::setExtraConfigDict(PyObject* dict)
+	void mvNode::handleSpecificKeywordArgs(PyObject* dict)
 	{
 		if (dict == nullptr)
 			return;
@@ -155,7 +155,7 @@ namespace Marvel {
 
 	}
 
-	void mvNode::getExtraConfigDict(PyObject* dict)
+	void mvNode::getSpecificConfiguration(PyObject* dict)
 	{
 		if (dict == nullptr)
 			return;

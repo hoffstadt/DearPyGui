@@ -65,7 +65,7 @@ namespace Marvel {
 
 	}
 
-	void mvColorPicker::setExtraConfigDict(PyObject* dict)
+	void mvColorPicker::handleSpecificKeywordArgs(PyObject* dict)
 	{
 		if (dict == nullptr)
 			return;
@@ -123,7 +123,7 @@ namespace Marvel {
 
 	}
 
-	void mvColorPicker::getExtraConfigDict(PyObject* dict)
+	void mvColorPicker::getSpecificConfiguration(PyObject* dict)
 	{
 		if (dict == nullptr)
 			return;

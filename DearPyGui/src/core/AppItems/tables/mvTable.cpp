@@ -121,7 +121,7 @@ namespace Marvel {
 		m_columns = 0;
 	}
 
-	void mvTable::setExtraConfigDict(PyObject* dict)
+	void mvTable::handleSpecificKeywordArgs(PyObject* dict)
 	{
 		if (dict == nullptr)
 			return;
@@ -178,7 +178,7 @@ namespace Marvel {
 		}
 }
 
-	void mvTable::getExtraConfigDict(PyObject* dict)
+	void mvTable::getSpecificConfiguration(PyObject* dict)
 	{
 		if (dict == nullptr)
 			return;

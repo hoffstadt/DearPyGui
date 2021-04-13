@@ -112,7 +112,7 @@ namespace Marvel {
         m_enabled = value;
     }
 
-    void mvDragFloatMulti::setExtraConfigDict(PyObject* dict)
+    void mvDragFloatMulti::handleSpecificKeywordArgs(PyObject* dict)
     {
         if (dict == nullptr)
             return;
@@ -137,7 +137,7 @@ namespace Marvel {
 
     }
 
-    void mvDragFloatMulti::getExtraConfigDict(PyObject* dict)
+    void mvDragFloatMulti::getSpecificConfiguration(PyObject* dict)
     {
         if (dict == nullptr)
             return;
@@ -211,7 +211,7 @@ namespace Marvel {
         m_enabled = value;
     }
 
-    void mvDragIntMulti::setExtraConfigDict(PyObject* dict)
+    void mvDragIntMulti::handleSpecificKeywordArgs(PyObject* dict)
     {
         if (dict == nullptr)
             return;
@@ -236,7 +236,7 @@ namespace Marvel {
 
     }
 
-    void mvDragIntMulti::getExtraConfigDict(PyObject* dict)
+    void mvDragIntMulti::getSpecificConfiguration(PyObject* dict)
     {
         if (dict == nullptr)
             return;

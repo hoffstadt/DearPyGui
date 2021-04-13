@@ -55,7 +55,7 @@ namespace Marvel {
 		return false;
 	}
 
-	void mvTabButton::setExtraConfigDict(PyObject* dict)
+	void mvTabButton::handleSpecificKeywordArgs(PyObject* dict)
 	{
 		if (dict == nullptr)
 			return;
@@ -78,7 +78,7 @@ namespace Marvel {
 
 	}
 
-	void mvTabButton::getExtraConfigDict(PyObject* dict)
+	void mvTabButton::getSpecificConfiguration(PyObject* dict)
 	{
 		if (dict == nullptr)
 			return;

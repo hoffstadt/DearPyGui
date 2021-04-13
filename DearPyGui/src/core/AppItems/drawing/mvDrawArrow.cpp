@@ -94,7 +94,7 @@ namespace Marvel {
 		drawlist->AddTriangleFilled(m_points[0] + start, m_points[1] + start, m_points[2] + start, m_color);
 	}
 
-	void mvDrawArrow::setExtraConfigDict(PyObject* dict)
+	void mvDrawArrow::handleSpecificKeywordArgs(PyObject* dict)
 	{
 		if (dict == nullptr)
 			return;
@@ -110,7 +110,7 @@ namespace Marvel {
 
 	}
 
-	void mvDrawArrow::getExtraConfigDict(PyObject* dict)
+	void mvDrawArrow::getSpecificConfiguration(PyObject* dict)
 	{
 		if (dict == nullptr)
 			return;

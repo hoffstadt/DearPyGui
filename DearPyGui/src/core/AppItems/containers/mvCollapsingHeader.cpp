@@ -70,7 +70,7 @@ namespace Marvel {
 		}
 	}
 
-	void mvCollapsingHeader::setExtraConfigDict(PyObject* dict)
+	void mvCollapsingHeader::handleSpecificKeywordArgs(PyObject* dict)
 	{
 		if (dict == nullptr)
 			return;
@@ -93,7 +93,7 @@ namespace Marvel {
 
 	}
 
-	void mvCollapsingHeader::getExtraConfigDict(PyObject* dict)
+	void mvCollapsingHeader::getSpecificConfiguration(PyObject* dict)
 	{
 		if (dict == nullptr)
 			return;

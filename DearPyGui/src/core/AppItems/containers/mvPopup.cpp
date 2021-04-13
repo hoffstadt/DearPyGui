@@ -119,7 +119,7 @@ namespace Marvel {
 		}
 	}
 
-	void mvPopup::setExtraConfigDict(PyObject* dict)
+	void mvPopup::handleSpecificKeywordArgs(PyObject* dict)
 	{
 		if (dict == nullptr)
 			return;
@@ -135,7 +135,7 @@ namespace Marvel {
 
 	}
 
-	void mvPopup::getExtraConfigDict(PyObject* dict)
+	void mvPopup::getSpecificConfiguration(PyObject* dict)
 	{
 		if (dict == nullptr)
 			return;

@@ -51,7 +51,7 @@ namespace Marvel {
 
 	}
 
-	void mvSelectable::setExtraConfigDict(PyObject* dict)
+	void mvSelectable::handleSpecificKeywordArgs(PyObject* dict)
 	{
 		if (dict == nullptr)
 			return;
@@ -68,7 +68,7 @@ namespace Marvel {
 
 	}
 
-	void mvSelectable::getExtraConfigDict(PyObject* dict)
+	void mvSelectable::getSpecificConfiguration(PyObject* dict)
 	{
 		if (dict == nullptr)
 			return;

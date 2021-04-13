@@ -52,7 +52,7 @@ namespace Marvel {
 
 	}
 
-	void mvMenuItem::setExtraConfigDict(PyObject* dict)
+	void mvMenuItem::handleSpecificKeywordArgs(PyObject* dict)
 	{
 		if (dict == nullptr)
 			return;
@@ -62,7 +62,7 @@ namespace Marvel {
 
 }
 
-	void mvMenuItem::getExtraConfigDict(PyObject* dict)
+	void mvMenuItem::getSpecificConfiguration(PyObject* dict)
 	{
 		if (dict == nullptr)
 			return;

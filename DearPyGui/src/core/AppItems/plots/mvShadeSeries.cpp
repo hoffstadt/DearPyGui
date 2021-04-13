@@ -69,7 +69,7 @@ namespace Marvel {
 
 	}
 
-	void mvShadeSeries::setExtraConfigDict(PyObject* dict)
+	void mvShadeSeries::handleSpecificKeywordArgs(PyObject* dict)
 	{
 		if (dict == nullptr)
 			return;
@@ -95,7 +95,7 @@ namespace Marvel {
 		}
 	}
 
-	void mvShadeSeries::getExtraConfigDict(PyObject* dict)
+	void mvShadeSeries::getSpecificConfiguration(PyObject* dict)
 	{
 		if (dict == nullptr)
 			return;

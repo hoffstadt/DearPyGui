@@ -463,7 +463,7 @@ namespace Marvel {
 		return m_queryArea;
 	}
 
-	void mvPlot::setExtraConfigDict(PyObject* dict)
+	void mvPlot::handleSpecificKeywordArgs(PyObject* dict)
 	{
 		if (dict == nullptr)
 			return;
@@ -538,7 +538,7 @@ namespace Marvel {
 
 	}
 
-	void mvPlot::getExtraConfigDict(PyObject* dict)
+	void mvPlot::getSpecificConfiguration(PyObject* dict)
 	{
 		if (dict == nullptr)
 			return;
@@ -610,10 +610,9 @@ namespace Marvel {
 		std::string name = std::string(std::string("$$DPG_ns") + s_internal_id + std::to_string(i));
 		auto [parent, before] = mvAppItem::GetNameFromArgs(name, args, kwargs);
 		auto item = CreateRef<mvPlot>(name);
-		item->checkConfigDict(kwargs);
-		item->setConfigArgs(args);
-		item->setConfigDict(kwargs);
-		item->setExtraConfigDict(kwargs);
+		item->checkArgs(kwargs);
+		item->handleSpecificPositionalArgs(args);
+		item->handleKeywordArgs(kwargs);
 		mvApp::GetApp()->getItemRegistry().addItemWithRuntimeChecks(item, parent.c_str(), before.c_str());
 		return ToPyString(name);
 	}

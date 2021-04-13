@@ -67,7 +67,7 @@ namespace Marvel {
 		}
 	}
 
-	void mvSimplePlot::setExtraConfigDict(PyObject* dict)
+	void mvSimplePlot::handleSpecificKeywordArgs(PyObject* dict)
 	{
 		if (dict == nullptr)
 			return;
@@ -78,7 +78,7 @@ namespace Marvel {
 		if (PyObject* item = PyDict_GetItemString(dict, "histogram")) m_histogram = ToBool(item);
 	}
 
-	void mvSimplePlot::getExtraConfigDict(PyObject* dict)
+	void mvSimplePlot::getSpecificConfiguration(PyObject* dict)
 	{
 		if (dict == nullptr)
 			return;

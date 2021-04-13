@@ -50,7 +50,7 @@ namespace Marvel {
 
 	}
 
-	void mvTimePicker::setExtraConfigDict(PyObject* dict)
+	void mvTimePicker::handleSpecificKeywordArgs(PyObject* dict)
 	{
 		if (dict == nullptr)
 			return;
@@ -58,7 +58,7 @@ namespace Marvel {
 		if (PyObject* item = PyDict_GetItemString(dict, "hour24")) m_hour24 = ToBool(item);
 	}
 
-	void mvTimePicker::getExtraConfigDict(PyObject* dict)
+	void mvTimePicker::getSpecificConfiguration(PyObject* dict)
 	{
 		if (dict == nullptr)
 			return;

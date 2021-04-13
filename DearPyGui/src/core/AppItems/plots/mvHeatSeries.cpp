@@ -58,7 +58,7 @@ namespace Marvel {
 
 	}
 
-	void mvHeatSeries::setExtraConfigDict(PyObject* dict)
+	void mvHeatSeries::handleSpecificKeywordArgs(PyObject* dict)
 	{
 		if (dict == nullptr)
 			return;
@@ -83,7 +83,7 @@ namespace Marvel {
 
 	}
 
-	void mvHeatSeries::getExtraConfigDict(PyObject* dict)
+	void mvHeatSeries::getSpecificConfiguration(PyObject* dict)
 	{
 		if (dict == nullptr)
 			return;

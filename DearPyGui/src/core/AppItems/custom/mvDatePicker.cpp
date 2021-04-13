@@ -48,7 +48,7 @@ namespace Marvel {
 
 	}
 
-	void mvDatePicker::setExtraConfigDict(PyObject* dict)
+	void mvDatePicker::handleSpecificKeywordArgs(PyObject* dict)
 	{
 		if (dict == nullptr)
 			return;
@@ -56,7 +56,7 @@ namespace Marvel {
 		if (PyObject* item = PyDict_GetItemString(dict, "level")) m_level = ToInt(item);
 	}
 
-	void mvDatePicker::getExtraConfigDict(PyObject* dict)
+	void mvDatePicker::getSpecificConfiguration(PyObject* dict)
 	{
 		if (dict == nullptr)
 			return;

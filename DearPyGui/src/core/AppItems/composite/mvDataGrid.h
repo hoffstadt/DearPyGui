@@ -109,8 +109,8 @@ namespace Marvel {
 		void deleteColumn  (int column);
 		void clearGrid     ();
 		int  getColumnCount() const { return (int)m_columns; }
-		void setExtraConfigDict(PyObject* dict) override;
-		void getExtraConfigDict(PyObject* dict) override;
+		void handleSpecificKeywordArgs(PyObject* dict) override;
+		void getSpecificConfiguration(PyObject* dict) override;
 
 		[[nodiscard]] std::string getGridItem (int row, int column) const;
 		[[nodiscard]] PyObject*   getSelections() const;

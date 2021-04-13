@@ -184,7 +184,7 @@ namespace Marvel {
         }
     }
 
-    void mvInputInt::setExtraConfigDict(PyObject* dict)
+    void mvInputInt::handleSpecificKeywordArgs(PyObject* dict)
     {
         if (dict == nullptr)
             return;
@@ -201,7 +201,7 @@ namespace Marvel {
         if (PyObject* item = PyDict_GetItemString(dict, "max_clamped")) m_max_clamped = ToBool(item);
     }
 
-    void mvInputInt::getExtraConfigDict(PyObject* dict)
+    void mvInputInt::getSpecificConfiguration(PyObject* dict)
     {
         if (dict == nullptr)
             return;
@@ -217,7 +217,7 @@ namespace Marvel {
 
     }
 
-    void mvInputFloat::setExtraConfigDict(PyObject* dict)
+    void mvInputFloat::handleSpecificKeywordArgs(PyObject* dict)
     {
         if (dict == nullptr)
             return;
@@ -244,7 +244,7 @@ namespace Marvel {
 
     }
 
-    void mvInputFloat::getExtraConfigDict(PyObject* dict)
+    void mvInputFloat::getSpecificConfiguration(PyObject* dict)
     {
         if (dict == nullptr)
             return;

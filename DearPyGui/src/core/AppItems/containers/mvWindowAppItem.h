@@ -105,8 +105,8 @@ namespace Marvel {
 		void   setResizeCallback    (PyObject* callback);
 		bool  getWindowAsMainStatus() const { return m_mainWindow; }
 
-		void setExtraConfigDict(PyObject* dict) override;
-		void getExtraConfigDict(PyObject* dict) override;
+		void handleSpecificKeywordArgs(PyObject* dict) override;
+		void getSpecificConfiguration(PyObject* dict) override;
 
 		void   setFocusedNextFrame  () { m_focusNextFrame = true; }
 

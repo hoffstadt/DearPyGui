@@ -57,8 +57,8 @@ namespace Marvel {
 		int getId() const {return m_id;}
 		void markForDeletion() { m_delete = true; }
 
-		void setExtraConfigDict(PyObject* dict) override;
-		void getExtraConfigDict(PyObject* dict) override;
+		void handleSpecificKeywordArgs(PyObject* dict) override;
+		void getSpecificConfiguration(PyObject* dict) override;
 
 	private:
         int m_id = 0;

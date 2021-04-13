@@ -84,7 +84,7 @@ namespace Marvel {
 		mvNodeEditor(const std::string& name);
 		~mvNodeEditor();
 
-		void setExtraConfigDict(PyObject* dict) override;
+		void handleSpecificKeywordArgs(PyObject* dict) override;
 
 		bool canChildBeAdded(mvAppItemType type) override;
 

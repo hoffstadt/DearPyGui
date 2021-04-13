@@ -56,7 +56,7 @@ namespace Marvel {
 
 	}
 
-	void mvButton::setExtraConfigDict(PyObject* dict)
+	void mvButton::handleSpecificKeywordArgs(PyObject* dict)
 	{
 		if (dict == nullptr)
 			return;
@@ -72,7 +72,7 @@ namespace Marvel {
 
 	}
 
-	void mvButton::getExtraConfigDict(PyObject* dict)
+	void mvButton::getSpecificConfiguration(PyObject* dict)
 	{
 		if (dict == nullptr)
 			return;

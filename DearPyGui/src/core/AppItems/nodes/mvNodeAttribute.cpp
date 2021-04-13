@@ -102,7 +102,7 @@ namespace Marvel {
 			imnodes::EndInputAttribute();
 	}
 
-	void mvNodeAttribute::setExtraConfigDict(PyObject* dict)
+	void mvNodeAttribute::handleSpecificKeywordArgs(PyObject* dict)
 	{
 		if (dict == nullptr)
 			return;
@@ -118,7 +118,7 @@ namespace Marvel {
 		}
 	}
 
-	void mvNodeAttribute::getExtraConfigDict(PyObject* dict)
+	void mvNodeAttribute::getSpecificConfiguration(PyObject* dict)
 	{
 		if (dict == nullptr)
 			return;
