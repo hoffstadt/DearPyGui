@@ -426,13 +426,13 @@ def show_demo():
                 demo_help("CTRL+click to enter value.")
                 add_slider_float(label="slider float", max_value=1.0, format="ratio = %.3f", callback=demo_log)
                 add_slider_int(label="slider angle", min_value=-360, max_value=360, format="%d deg", callback=demo_log)
-                add_color_edit3(label="color edit 3", default_value=[255, 0, 51], callback=demo_log)
+                add_color_edit(label="color edit 3", default_value=[255, 0, 51], callback=demo_log)
                 demo_help(
                         "Click on the colored square to open a color picker.\n"
                         "Click and hold to use drag and drop.\n"
                         "Right-click on the colored square to show options.\n"
                         "CTRL+click on individual component to input value.\n")
-                add_color_edit4(label="color edit 4", default_value=[102, 179, 0, 128], callback=demo_log)
+                add_color_edit(label="color edit 4", default_value=[102, 179, 0, 128], callback=demo_log)
                 add_listbox(label="listbox", items=["Apple", "Banana", "Cherry", "Kiwi", "Mango", "Orange", "Pineapple", "Strawberry", "Watermelon"], num_items=4, callback=demo_log)
 
             with tree_node(label="Trees"):
@@ -964,3 +964,19 @@ def show_demo():
                             add_text(default_value=f"Cell {i}, {j}")
                             if not (i == 9 and j == 2):
                                 add_table_next_column()
+
+        with collapsing_header("Drawings##demo"):
+
+            drawing = add_drawing(width=900, height=200) 
+            draw_line((10, 10), (100, 100), (255, 0, 0, 255), 1)
+            #draw_rectangle((0, 0), (900, 200), (255, 0, 0, 255), fill=(0, 0, 25, 255), rounding=12, thickness = 1.0) 
+            #draw_triangle((150, 10), (110, 100), (190, 100), (255, 255, 0, 255), thickness = 3.0)
+            #draw_quad((210, 10), (290, 10), (290, 100), (210, 100), (255, 255, 0, 255), thickness = 3.0)
+            #draw_circle((350, 60), 49, (255, 255, 0, 255))
+            #draw_bezier_curve((410, 10), (450, 25), (410, 50), (490, 85), (255, 255, 0, 255), thickness = 2.0)
+            #draw_arrow((510, 10), (590, 80), (255, 0, 0), 4, 10)
+            #draw_image("INTERNAL_DPG_FONT_ATLAS", pmin=[610,10], pmax=[690, 80], uv_max=[0.1, 0.1])
+            #draw_text((50, 300), "Some Text", color=(255, 255, 0, 255), size=15)
+            #draw_text((0, 0), "Origin", color=(255, 255, 0, 255), size=15)
+            #draw_polygon(((710, 10), (780, 50), (730, 75), (710, 10)), (255, 125, 0, 255), thickness=1.0, fill=(255, 125, 0, 50))
+            #draw_polyline(((810, 20), (835, 50), (890, 10)), (255, 255, 0, 255), thickness=1.0)
