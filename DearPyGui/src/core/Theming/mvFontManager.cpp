@@ -9,6 +9,7 @@
 #include "mvTextureStorage.h"
 #include "mvViewport.h"
 #include "mvPythonExceptions.h"
+#include <frameobject.h>
 
 #define IM_MIN(A, B)            (((A) < (B)) ? (A) : (B))
 #define IM_MAX(A, B)            (((A) >= (B)) ? (A) : (B))
