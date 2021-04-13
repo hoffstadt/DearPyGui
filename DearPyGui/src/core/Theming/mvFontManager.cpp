@@ -277,7 +277,7 @@ namespace Marvel {
 	{
 		const std::string& widget = GetEString(event, "WIDGET");
 		const std::string& font = GetEString(event, "FONT");
-		int size = GetEInt(event, "SIZE");
+		int size = (int)GetEFloat(event, "SIZE");
 
 		if (widget.empty())
 		{
@@ -425,7 +425,7 @@ namespace Marvel {
 	PyObject* mvFontManager::set_font(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		const char* font = "";
-		int size = 0;
+		float size = 0;
 		const char* item = "";
 
 		if (!(mvApp::GetApp()->getParsers())["set_font"].parse(args, kwargs, __FUNCTION__, &font, &size, &item))

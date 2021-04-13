@@ -101,6 +101,7 @@ namespace Marvel {
 
         bool verifyRequiredArguments(PyObject* args);
         bool verifyPositionalArguments(PyObject* args);
+        bool verifyArgumentCount(PyObject* args);
 
         bool parse(PyObject* args, PyObject* kwargs, const char* message, ...);
 

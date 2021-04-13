@@ -6,6 +6,7 @@
 #include "mvFontScope.h"
 
 namespace Marvel {
+
 	void mvRadioButton::InsertParser(std::map<std::string, mvPythonParser>* parsers)
 	{
 

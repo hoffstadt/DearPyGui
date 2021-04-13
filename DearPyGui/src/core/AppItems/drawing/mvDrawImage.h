@@ -46,11 +46,11 @@ namespace Marvel {
 
 
 		std::string m_file;
-		mvVec2		m_pmax;
-		mvVec2		m_pmin;
-		mvVec2		m_uv_min;
-		mvVec2		m_uv_max;
-		mvColor		m_color;
+		mvVec2		m_pmax = {0.0f, 0.0f};
+		mvVec2		m_pmin = {0.0f, 0.0f};
+		mvVec2		m_uv_min = {0.0f, 0.0f};
+		mvVec2		m_uv_max = {1.0f, 1.0f};
+		mvColor		m_color = mvColor(255, 255, 255, 255);
 		void* m_texture = nullptr;
 
 	};

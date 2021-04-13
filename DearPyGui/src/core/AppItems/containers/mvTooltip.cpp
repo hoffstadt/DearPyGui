@@ -16,6 +16,7 @@ namespace Marvel {
 		parser.removeArg("width");
 		parser.removeArg("height");
 		parser.removeArg("before");
+		parser.removeArg("parent");
 		parser.removeArg("label");
 		parser.removeArg("callback");
 		parser.removeArg("callback_data");

@@ -17,7 +17,7 @@ namespace Marvel {
 		parser.removeArg("callback_data");
 		parser.removeArg("enabled");
 
-		parser.addArg<mvPyDataType::String>("default_value", mvArgType::KEYWORD_ARG, "''");
+		parser.addArg<mvPyDataType::String>("default_value", mvArgType::POSITIONAL_ARG, "''");
 
 		parser.addArg<mvPyDataType::Integer>("wrap", mvArgType::KEYWORD_ARG, "-1", "number of characters until wraping");
 
@@ -111,6 +111,26 @@ namespace Marvel {
 			ImGui::LabelText(m_specificedlabel.c_str(), m_value->c_str());
 		}
 
+	}
+
+	void mvText::handleSpecificPositionalArgs(PyObject* dict)
+	{
+		if (!mvApp::GetApp()->getParsers()[s_command].verifyPositionalArguments(dict))
+			return;
+
+		for (int i = 0; i < PyTuple_Size(dict); i++)
+		{
+			PyObject* item = PyTuple_GetItem(dict, i);
+			switch (i)
+			{
+			case 0:
+				*m_value = ToString(item);
+				break;
+
+			default:
+				break;
+			}
+		}
 	}
 
 	void mvText::handleSpecificKeywordArgs(PyObject* dict)

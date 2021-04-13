@@ -346,6 +346,7 @@ namespace Marvel {
 			return GetPyNone();
 		}
 
+		GetApp()->getItemRegistry().emptyParents();
 		s_started = true;
 		GetApp()->m_future = std::async(std::launch::async, []() {return GetApp()->m_callbackRegistry->runCallbacks(); });
 

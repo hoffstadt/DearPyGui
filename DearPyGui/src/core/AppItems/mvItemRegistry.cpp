@@ -133,7 +133,7 @@ namespace Marvel {
 		bool deletedItem = false;
 
 		// try to delete build-in item
-		for (auto window : m_frontWindows)
+		for (auto& window : m_frontWindows)
 		{
 			deletedItem = window->deleteChild(name);
 			if (deletedItem)
@@ -143,7 +143,7 @@ namespace Marvel {
 		// try to delete user added item
 		if (!deletedItem)
 		{
-			for (auto window : m_backWindows)
+			for (auto& window : m_backWindows)
 			{
 				deletedItem = window->deleteChild(name);
 				if (deletedItem)
@@ -155,7 +155,7 @@ namespace Marvel {
 		bool backWindowDeleting = false;
 
 		// check if attempting to delete a window
-		for (auto window : m_frontWindows)
+		for (auto& window : m_frontWindows)
 		{
 			if (window->m_name == name)
 			{
@@ -164,7 +164,7 @@ namespace Marvel {
 			}
 		}
 
-		for (auto window : m_backWindows)
+		for (auto& window : m_backWindows)
 		{
 			if (window->m_name == name)
 			{
@@ -182,7 +182,7 @@ namespace Marvel {
 
 			m_frontWindows.clear();
 
-			for (auto window : oldwindows)
+			for (auto& window : oldwindows)
 			{
 				if (window->m_name == name)
 				{
@@ -199,7 +199,7 @@ namespace Marvel {
 
 			m_backWindows.clear();
 
-			for (auto window : oldwindows)
+			for (auto& window : oldwindows)
 			{
 				if (window->m_name == name)
 				{
@@ -557,7 +557,6 @@ namespace Marvel {
 			parentPtr = getItem(parent);
 			technique = AddTechnique::PARENT;
 		}
-
 		else
 		{
 			parentPtr = topParent();
