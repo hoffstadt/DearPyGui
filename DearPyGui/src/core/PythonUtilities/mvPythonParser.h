@@ -15,6 +15,7 @@
 //-----------------------------------------------------------------------------
 
 #include <string>
+#include <cstring>
 #include <vector>
 #include <map>
 #include <assert.h>
