@@ -119,6 +119,26 @@ namespace Marvel {
 		return m_value; 
 	}
 
+	void mvImage::handleSpecificPositionalArgs(PyObject* dict)
+	{
+		if (!mvApp::GetApp()->getParsers()[s_command].verifyPositionalArguments(dict))
+			return;
+
+		for (int i = 0; i < PyTuple_Size(dict); i++)
+		{
+			PyObject* item = PyTuple_GetItem(dict, i);
+			switch (i)
+			{
+			case 0:
+				m_value = ToString(item);
+				break;
+
+			default:
+				break;
+			}
+		}
+	}
+
 	void mvImage::handleSpecificKeywordArgs(PyObject* dict)
 	{
 		if (dict == nullptr)

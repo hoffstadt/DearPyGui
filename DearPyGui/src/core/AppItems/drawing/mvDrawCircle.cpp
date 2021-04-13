@@ -63,6 +63,30 @@ namespace Marvel {
 
 	}
 
+	void mvDrawCircle::handleSpecificRequiredArgs(PyObject* dict)
+	{
+		if (!mvApp::GetApp()->getParsers()[s_command].verifyRequiredArguments(dict))
+			return;
+
+		for (int i = 0; i < PyTuple_Size(dict); i++)
+		{
+			PyObject* item = PyTuple_GetItem(dict, i);
+			switch (i)
+			{
+			case 0:
+				m_center = ToVec2(item);
+				break;
+
+			case 1:
+				m_radius = ToFloat(item);
+				break;
+
+			default:
+				break;
+			}
+		}
+	}
+
 	void mvDrawCircle::handleSpecificKeywordArgs(PyObject* dict)
 	{
 		if (dict == nullptr)

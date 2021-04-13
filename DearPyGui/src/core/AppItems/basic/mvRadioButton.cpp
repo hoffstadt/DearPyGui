@@ -54,6 +54,26 @@ namespace Marvel {
 		ImGui::EndGroup();
 	}
 
+	void mvRadioButton::handleSpecificPositionalArgs(PyObject* dict)
+	{
+		if (!mvApp::GetApp()->getParsers()[s_command].verifyPositionalArguments(dict))
+			return;
+
+		for (int i = 0; i < PyTuple_Size(dict); i++)
+		{
+			PyObject* item = PyTuple_GetItem(dict, i);
+			switch (i)
+			{
+			case 0:
+				m_itemnames = ToStringVect(item);
+				break;
+
+			default:
+				break;
+			}
+		}
+	}
+
 	void mvRadioButton::handleSpecificKeywordArgs(PyObject* dict)
 	{
 		if (dict == nullptr)

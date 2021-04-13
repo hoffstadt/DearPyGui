@@ -72,6 +72,48 @@ namespace Marvel {
 
 	}
 
+	void mvPieSeries::handleSpecificRequiredArgs(PyObject* dict)
+	{
+		if (!mvApp::GetApp()->getParsers()[s_command].verifyRequiredArguments(dict))
+			return;
+
+		for (int i = 0; i < PyTuple_Size(dict); i++)
+		{
+			PyObject* item = PyTuple_GetItem(dict, i);
+			switch (i)
+			{
+			case 0:
+				m_x = ToFloat(item);
+				break;
+
+			case 1:
+				m_y = ToFloat(item);
+				break;
+
+			case 2:
+				m_radius = ToFloat(item);
+				break;
+
+			case 3:
+				(*m_value)[3] = ToFloatVect(item);
+				break;
+
+			case 4:
+				m_labels = ToStringVect(item);
+				m_clabels.clear();
+				for (const auto& label : m_labels)
+					m_clabels.push_back(label.c_str());
+				break;
+
+			default:
+				break;
+			}
+		}
+
+		resetMaxMins();
+		calculateMaxMins();
+	}
+
 	void mvPieSeries::handleSpecificKeywordArgs(PyObject* dict)
 	{
 		if (dict == nullptr)

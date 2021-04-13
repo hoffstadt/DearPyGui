@@ -95,6 +95,43 @@ namespace Marvel {
 
 	}
 
+	void mvImageSeries::handleSpecificRequiredArgs(PyObject* dict)
+	{
+		if (!mvApp::GetApp()->getParsers()[s_command].verifyRequiredArguments(dict))
+			return;
+
+		for (int i = 0; i < PyTuple_Size(dict); i++)
+		{
+			PyObject* item = PyTuple_GetItem(dict, i);
+			switch (i)
+			{
+			case 0:
+				m_imagevalue = ToString(item);
+				break;
+
+			case 1:
+			{
+				auto result = ToVec2(item);
+				m_bounds_min.x = (double)result.x;
+				m_bounds_min.y = (double)result.y;
+				break;
+			}
+
+			case 2:
+			{
+				auto result = ToVec2(item);
+				m_bounds_max.x = (double)result.x;
+				m_bounds_max.y = (double)result.y;
+				break;
+			}
+
+			default:
+				break;
+			}
+		}
+
+	}
+
 	void mvImageSeries::handleSpecificKeywordArgs(PyObject* dict)
 	{
 		if (dict == nullptr)

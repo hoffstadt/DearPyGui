@@ -308,7 +308,7 @@ def show_demo():
                             add_text(default_value=f"Scrolling Text {i}")
                     add_slider_float(label="Slider Float")
                     add_input_float(label="Input Int")
-                    add_combo(label="Combo", items=["Yes", "No", "Maybe"])
+                    add_combo(["Yes", "No", "Maybe"], label="Combo")
 
             with menu(label="Tools"):
                 add_menu_item(label="Show Logger", callback=show_logger)
@@ -359,7 +359,7 @@ def show_demo():
                     add_button(label="Button", callback=demo_log, arrow=True, direction=4030)
                 
                 add_checkbox(label="checkbox", callback=demo_log)
-                add_radio_button(items=["radio a", "radio b", "radio c"], callback=demo_log, horizontal=True)
+                add_radio_button(["radio a", "radio b", "radio c"], callback=demo_log, horizontal=True)
                 add_selectable(label="selectable", callback=demo_log)
 
                 # TODO: when items whose colors are set then disabled the disable color is not found so its clear
@@ -399,7 +399,7 @@ def show_demo():
                 add_separator()
 
                 add_label_text(label="Label", default_value="Value")
-                add_combo(label="combo", items=["AAAA", "BBBB", "CCCC", "DDDD", "EEEE", "FFFF", "GGGG", "HHHH", "IIII", "JJJJ", "KKKK"], default_value="AAAA", callback=demo_log)
+                add_combo(["AAAA", "BBBB", "CCCC", "DDDD", "EEEE", "FFFF", "GGGG", "HHHH", "IIII", "JJJJ", "KKKK"], label="combo", default_value="AAAA", callback=demo_log)
                 add_input_text(label="input text", default_value="Hello, world!", callback=demo_log)
                 demo_help(
                         "USER:\n"
@@ -432,8 +432,8 @@ def show_demo():
                         "Click and hold to use drag and drop.\n"
                         "Right-click on the colored square to show options.\n"
                         "CTRL+click on individual component to input value.\n")
-                add_color_edit(label="color edit 4", default_value=[102, 179, 0, 128], callback=demo_log)
-                add_listbox(label="listbox", items=["Apple", "Banana", "Cherry", "Kiwi", "Mango", "Orange", "Pineapple", "Strawberry", "Watermelon"], num_items=4, callback=demo_log)
+                add_color_edit([102, 179, 0, 128], label="color edit 4", callback=demo_log)
+                add_listbox(["Apple", "Banana", "Cherry", "Kiwi", "Mango", "Orange", "Pineapple", "Strawberry", "Watermelon"], label="listbox", num_items=4, callback=demo_log)
 
             with tree_node(label="Trees"):
                 with tree_node(label="Basic Trees"):
@@ -483,7 +483,7 @@ def show_demo():
                 add_image("INTERNAL_DPG_FONT_ATLAS")
                 add_text(default_value="Here is an image button using a portion of the font atlas")
                 demo_enable_disable()
-                add_image_button(value="INTERNAL_DPG_FONT_ATLAS",uv_max=[0.1, 0.1], callback=demo_log)
+                add_image_button("INTERNAL_DPG_FONT_ATLAS",uv_max=[0.1, 0.1], callback=demo_log)
                 add_same_line()
                 textdata = []
                 for i in range(0, 10000):
@@ -493,7 +493,7 @@ def show_demo():
                     textdata.append(255)
                 # TODO: texture requires a name when it would be nice that it didnt
                 add_texture("#cooltexture", textdata, 100, 100, format=mvTEX_RGBA_INT)
-                add_image_button(value="#cooltexture", callback=demo_log)
+                add_image_button("#cooltexture", callback=demo_log)
 
             with tree_node(label="Text Input"):
                 demo_enable_disable()

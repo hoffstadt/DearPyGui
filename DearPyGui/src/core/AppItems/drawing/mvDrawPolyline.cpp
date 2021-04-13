@@ -61,6 +61,26 @@ namespace Marvel {
 		drawlist->AddPolyline((const ImVec2*)const_cast<const mvVec2*>(points.data()), (int)m_points.size(), m_color, m_closed, m_thickness);
 	}
 
+	void mvDrawPolyline::handleSpecificRequiredArgs(PyObject* dict)
+	{
+		if (!mvApp::GetApp()->getParsers()[s_command].verifyRequiredArguments(dict))
+			return;
+
+		for (int i = 0; i < PyTuple_Size(dict); i++)
+		{
+			PyObject* item = PyTuple_GetItem(dict, i);
+			switch (i)
+			{
+			case 0:
+				m_points = ToVectVec2(item);
+				break;
+
+			default:
+				break;
+			}
+		}
+	}
+
 	void mvDrawPolyline::handleSpecificKeywordArgs(PyObject* dict)
 	{
 		if (dict == nullptr)

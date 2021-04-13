@@ -114,6 +114,39 @@ namespace Marvel {
 			drawlist->AddImage(m_texture, m_pmin + start, m_pmax + start, m_uv_min, m_uv_max, m_color);
 	}
 
+	void mvDrawImage::handleSpecificRequiredArgs(PyObject* dict)
+	{
+		if (!mvApp::GetApp()->getParsers()[s_command].verifyRequiredArguments(dict))
+			return;
+
+		for (int i = 0; i < PyTuple_Size(dict); i++)
+		{
+			PyObject* item = PyTuple_GetItem(dict, i);
+			switch (i)
+			{
+			case 0:
+				if (m_file != ToString(item))
+				{
+					mvApp::GetApp()->getTextureStorage().decrementTexture(m_file);
+					m_texture = nullptr;
+				}
+				m_file = ToString(item);
+				break;
+
+			case 1:
+				m_pmax = ToVec2(item);
+				break;
+
+			case 2:
+				m_pmin = ToVec2(item);
+				break;
+
+			default:
+				break;
+			}
+		}
+	}
+
 	void mvDrawImage::handleSpecificKeywordArgs(PyObject* dict)
 	{
 		if (dict == nullptr)
