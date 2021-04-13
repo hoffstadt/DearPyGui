@@ -749,8 +749,7 @@ namespace Marvel{
 			if (m_callback)
 				Py_XDECREF(m_callback);
 
-			if (item)
-				Py_XINCREF(item);
+			Py_XINCREF(item);
 			setCallback(item);
 		}
 
@@ -758,8 +757,8 @@ namespace Marvel{
 		{
 			if (m_callback_data)
 				Py_XDECREF(m_callback_data);
-			if (item)
-				Py_XINCREF(item);
+			
+			Py_XINCREF(item);
 			setCallbackData(item);
 		}
 

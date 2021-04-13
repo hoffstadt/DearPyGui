@@ -43,11 +43,11 @@ namespace Marvel {
 
 	private:
 
-		mvVec2              m_p1;
-		mvVec2              m_p2;
+		mvVec2              m_p1 = { 0.0f, 0.0f };
+		mvVec2              m_p2 = { 0.0f, 0.0f };
 		mvColor             m_color;
-		float               m_thickness;
-		float               m_size;
+		float               m_thickness = 1.0f;
+		float               m_size = 4;
 		std::vector<mvVec2> m_points;
 
 	};

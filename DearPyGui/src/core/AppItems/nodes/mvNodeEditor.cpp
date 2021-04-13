@@ -123,8 +123,8 @@ namespace Marvel {
 		{
 			if (m_linkCallback)
 				Py_XDECREF(m_linkCallback);
-			if (item)
-				Py_XINCREF(item);
+			
+			Py_XINCREF(item);
 			m_linkCallback = item;
 		}
 
@@ -132,8 +132,8 @@ namespace Marvel {
 		{
 			if (m_delinkCallback)
 				Py_XDECREF(m_delinkCallback);
-			if (item)
-				Py_XINCREF(item);
+
+			Py_XINCREF(item);
 			m_delinkCallback = item;
 		}
 	}
