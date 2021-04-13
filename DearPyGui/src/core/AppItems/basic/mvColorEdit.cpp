@@ -68,6 +68,26 @@ namespace Marvel {
 
 	}
 
+	void mvColorEdit::handleSpecificPositionalArgs(PyObject* dict)
+	{
+		if (!mvApp::GetApp()->getParsers()[s_command].verifyPositionalArguments(dict))
+			return;
+
+		for (int i = 0; i < PyTuple_Size(dict); i++)
+		{
+			PyObject* item = PyTuple_GetItem(dict, i);
+			switch (i)
+			{
+			case 0:
+				setPyValue(item);
+				break;
+
+			default:
+				break;
+			}
+		}
+	}
+
 	void mvColorEdit::handleSpecificKeywordArgs(PyObject* dict)
 	{
 		if (dict == nullptr)

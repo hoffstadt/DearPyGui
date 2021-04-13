@@ -94,6 +94,30 @@ namespace Marvel {
 		drawlist->AddTriangleFilled(m_points[0] + start, m_points[1] + start, m_points[2] + start, m_color);
 	}
 
+	void mvDrawArrow::handleSpecificRequiredArgs(PyObject* dict)
+	{
+		if (!mvApp::GetApp()->getParsers()[s_command].verifyRequiredArguments(dict))
+			return;
+
+		for (int i = 0; i < PyTuple_Size(dict); i++)
+		{
+			PyObject* item = PyTuple_GetItem(dict, i);
+			switch (i)
+			{
+			case 0:
+				m_p1 = ToVec2(item);
+				break;
+
+			case 1:
+				m_p2 = ToVec2(item);
+				break;
+
+			default:
+				break;
+			}
+		}
+	}
+
 	void mvDrawArrow::handleSpecificKeywordArgs(PyObject* dict)
 	{
 		if (dict == nullptr)

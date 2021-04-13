@@ -41,6 +41,29 @@ namespace Marvel {
 			mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), m_name, m_callback_data);
 	}
 
+	void mvListbox::handleSpecificPositionalArgs(PyObject* dict)
+	{
+		if (!mvApp::GetApp()->getParsers()[s_command].verifyPositionalArguments(dict))
+			return;
+
+		for (int i = 0; i < PyTuple_Size(dict); i++)
+		{
+			PyObject* item = PyTuple_GetItem(dict, i);
+			switch (i)
+			{
+			case 0:
+				m_names = ToStringVect(item);
+				m_charNames.clear();
+				for (const std::string& item : m_names)
+					m_charNames.emplace_back(item.c_str());
+				break;
+
+			default:
+				break;
+			}
+		}
+	}
+
 	void mvListbox::handleSpecificKeywordArgs(PyObject* dict)
 	{
 		if (dict == nullptr)

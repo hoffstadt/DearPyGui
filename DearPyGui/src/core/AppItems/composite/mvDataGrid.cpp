@@ -155,6 +155,27 @@ namespace Marvel {
 		m_hide_headers = false;
 	}
 
+	void mvDataGrid::handleSpecificPositionalArgs(PyObject* dict)
+	{
+		if (!mvApp::GetApp()->getParsers()[s_command].verifyPositionalArguments(dict))
+			return;
+
+		for (int i = 0; i < PyTuple_Size(dict); i++)
+		{
+			PyObject* item = PyTuple_GetItem(dict, i);
+			switch (i)
+			{
+			case 0:
+				m_headers = ToStringVect(item);
+				m_columns = m_headers.size();
+				break;
+
+			default:
+				break;
+			}
+		}
+	}
+
 	void mvDataGrid::handleSpecificKeywordArgs(PyObject* dict)
 	{
 		if (dict == nullptr)

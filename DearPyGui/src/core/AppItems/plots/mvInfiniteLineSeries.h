@@ -48,6 +48,7 @@ namespace Marvel {
 
 		void draw(ImDrawList* drawlist, float x, float y) override;
 
+		void handleSpecificRequiredArgs(PyObject* args) override;
 		void handleSpecificKeywordArgs(PyObject* dict) override;
 		void getSpecificConfiguration(PyObject* dict) override;
 
@@ -89,6 +90,7 @@ namespace Marvel {
 
 		void draw(ImDrawList* drawlist, float x, float y) override;
 
+		void handleSpecificRequiredArgs(PyObject* args) override;
 		void handleSpecificKeywordArgs(PyObject* dict) override;
 		void getSpecificConfiguration(PyObject* dict) override;
 

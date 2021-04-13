@@ -109,6 +109,8 @@ namespace Marvel {
 		void deleteColumn  (int column);
 		void clearGrid     ();
 		int  getColumnCount() const { return (int)m_columns; }
+
+		void handleSpecificPositionalArgs(PyObject* dict) override;
 		void handleSpecificKeywordArgs(PyObject* dict) override;
 		void getSpecificConfiguration(PyObject* dict) override;
 

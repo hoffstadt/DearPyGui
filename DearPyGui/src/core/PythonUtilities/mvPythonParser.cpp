@@ -10,13 +10,13 @@
 
 namespace Marvel {
 
-	static bool VerifyArguments(size_t start, PyObject* args, const std::vector<mvPythonDataElement>& elements)
+	static bool VerifyArguments(int start, PyObject* args, const std::vector<mvPythonDataElement>& elements)
 	{
 
 		if (start >= PyTuple_Size(args))
 			return true;
 
-		for(size_t i = start; i< PyTuple_Size(args); i++)
+		for(int i = start; i < PyTuple_Size(args); i++)
 		{
 			const auto& item = elements[i];
 			PyObject* obj = nullptr;
@@ -94,6 +94,8 @@ namespace Marvel {
 					return false;
 			}
 		}
+
+		return true;
 	}
 
 	static char PythonDataTypeSymbol(mvPyDataType type)
@@ -230,7 +232,7 @@ namespace Marvel {
 	bool mvPythonParser::verifyRequiredArguments(PyObject* args)
 	{
 		// ensure enough args were provided
-		if (PyTuple_Size(args) < m_required_elements.size())
+		if ((size_t)PyTuple_Size(args) < m_required_elements.size())
 		{
 			assert(false && "Not enough arguments provided");
 			return false;
@@ -241,7 +243,7 @@ namespace Marvel {
 
 	bool mvPythonParser::verifyPositionalArguments(PyObject* args)
 	{
-		return VerifyArguments(m_required_elements.size(), args, m_optional_elements);
+		return VerifyArguments((int)m_optional_elements.size(), args, m_optional_elements);
 	}
 
 	bool mvPythonParser::parse(PyObject* args, PyObject* kwargs, const char* message, ...)

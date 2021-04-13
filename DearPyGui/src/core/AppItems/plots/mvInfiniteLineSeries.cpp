@@ -62,6 +62,29 @@ namespace Marvel {
 
 	}
 
+	void mvVLineSeries::handleSpecificRequiredArgs(PyObject* dict)
+	{
+		if (!mvApp::GetApp()->getParsers()[s_command].verifyRequiredArguments(dict))
+			return;
+
+		for (int i = 0; i < PyTuple_Size(dict); i++)
+		{
+			PyObject* item = PyTuple_GetItem(dict, i);
+			switch (i)
+			{
+			case 0:
+				(*m_value)[0] = ToFloatVect(item);
+				break;
+
+			default:
+				break;
+			}
+		}
+
+		resetMaxMins();
+		calculateMaxMins();
+	}
+
 	void mvVLineSeries::handleSpecificKeywordArgs(PyObject* dict)
 	{
 		if (dict == nullptr)
@@ -140,6 +163,29 @@ namespace Marvel {
 
 		ImPlot::PlotHLines(m_label.c_str(), xptr->data(), (int)xptr->size());
 
+	}
+
+	void mvHLineSeries::handleSpecificRequiredArgs(PyObject* dict)
+	{
+		if (!mvApp::GetApp()->getParsers()[s_command].verifyRequiredArguments(dict))
+			return;
+
+		for (int i = 0; i < PyTuple_Size(dict); i++)
+		{
+			PyObject* item = PyTuple_GetItem(dict, i);
+			switch (i)
+			{
+			case 0:
+				(*m_value)[0] = ToFloatVect(item);
+				break;
+
+			default:
+				break;
+			}
+		}
+
+		resetMaxMins();
+		calculateMaxMins();
 	}
 
 	void mvHLineSeries::handleSpecificKeywordArgs(PyObject* dict)
