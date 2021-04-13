@@ -7,6 +7,7 @@
 #include <ctime>
 #include <frameobject.h>
 #include "mvPythonTypeChecker.h"
+#include "mvPythonExceptions.h"
 
 namespace Marvel {
 
@@ -16,7 +17,11 @@ namespace Marvel {
 		if (start >= PyTuple_Size(args))
 			return true;
 
-		for(int i = start; i < PyTuple_Size(args); i++)
+		int end = (int)PyTuple_Size(args);
+		if (end > (int)elements.size())
+			end = (int)elements.size();
+
+		for(int i = start; i < end; i++)
 		{
 			const auto& item = elements[i];
 			PyObject* obj = nullptr;
@@ -244,6 +249,35 @@ namespace Marvel {
 	bool mvPythonParser::verifyPositionalArguments(PyObject* args)
 	{
 		return VerifyArguments((int)m_optional_elements.size(), args, m_optional_elements);
+	}
+
+	bool mvPythonParser::verifyArgumentCount(PyObject* args)
+	{
+		if (args == nullptr && m_required_elements.size() == 0)
+			return true;
+		if (args == nullptr)
+		{
+			mvThrowPythonError(1000, "This command has a minimum number of arguments of " + std::to_string(m_required_elements.size()));
+			return false;
+		}
+
+		int possibleArgs = (int)m_required_elements.size() + (int)m_optional_elements.size();
+		int minArgs = (int)m_required_elements.size();
+		int numberOfArgs = (int)PyTuple_Size(args);
+
+		if (numberOfArgs > possibleArgs)
+		{
+			mvThrowPythonError(1000, "This command has a maximum number of arguments of " + std::to_string(possibleArgs) +
+				" but recieved " + std::to_string(numberOfArgs));
+			return false;
+		}
+		if (numberOfArgs < minArgs)
+		{
+			mvThrowPythonError(1000, "This command has a minimum number of arguments of " + std::to_string(minArgs) +
+				" but only recieved " + std::to_string(numberOfArgs));
+			return false;
+		}
+		return true;
 	}
 
 	bool mvPythonParser::parse(PyObject* args, PyObject* kwargs, const char* message, ...)

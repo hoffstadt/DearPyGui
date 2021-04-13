@@ -125,11 +125,6 @@ namespace Marvel {
 			switch (i)
 			{
 			case 0:
-				if (m_file != ToString(item))
-				{
-					mvApp::GetApp()->getTextureStorage().decrementTexture(m_file);
-					m_texture = nullptr;
-				}
 				m_file = ToString(item);
 				break;
 

@@ -282,7 +282,7 @@ def show_demo():
 
     #set_accelerator_callback(demo_accelerator_callback)
 
-    with window("Dear PyGui Demo", x_pos=100, y_pos=100, width=800, height=800, on_close=on_demo_close):
+    with window(id="Dear PyGui Demo", x_pos=100, y_pos=100, width=800, height=800, on_close=on_demo_close):
 
         with menu_bar():
 
@@ -499,7 +499,7 @@ def show_demo():
                 demo_enable_disable()
                 add_checkbox(label="readonly", callback=demo_config, callback_data="Multi-line Text Input")
                 add_checkbox(label="on_enter", callback=demo_config, callback_data="Multi-line Text Input")
-                with tree_node("Multi-line Text Input"):
+                with tree_node(id="Multi-line Text Input"):
                     add_input_text(multiline=True, default_value="/*\n"
                         " The Pentium F00F bug, shorthand for F0 0F C7 C8,\n"
                         " the hexadecimal encoding of one offending instruction,\n"
@@ -596,9 +596,9 @@ def show_demo():
                     add_slider_float(label="", vertical=True, max_value=1.0, height=160, width=40)
                     add_slider_float(label="", vertical=True, max_value=1.0, height=160, width=40)
 
-        with collapsing_header("Layout & Scolling##demo"):
+        with collapsing_header(label="Layout & Scolling##demo"):
 
-            with tree_node("Child windows##demo"):
+            with tree_node(id="Child windows##demo"):
 
                 with child(border=False, width=400):
                     for i in range(0, 100):
@@ -607,67 +607,67 @@ def show_demo():
                 add_same_line()
                 with child(autosize_x=True):
                     with menu_bar():
-                        with menu("Menu##child##demo"):
+                        with menu(id="Menu##child##demo"):
                             pass
                     with group(width=-20):
                         for i in range(0, 100):
-                            add_button(f"{i}##childbutton##demo")
+                            add_button(id=f"{i}##childbutton##demo")
 
-            with tree_node("Child Window Flags##demo"):
+            with tree_node(id="Child Window Flags##demo"):
 
                 with table(header_row=False):
                     add_table_column()
                     add_table_column()
                     add_table_column()
 
-                    add_checkbox("autosize_x##demo", callback=lambda sender, data: configure_item("testchild##demo", autosize_x=get_value(sender)))
-                    add_checkbox("autosize_y##demo", callback=lambda sender, data: configure_item("testchild##demo", autosize_y=get_value(sender)))
+                    add_checkbox(id="autosize_x##demo", callback=lambda sender, data: configure_item("testchild##demo", autosize_x=get_value(sender)))
+                    add_checkbox(id="autosize_y##demo", callback=lambda sender, data: configure_item("testchild##demo", autosize_y=get_value(sender)))
 
                     add_table_next_column()
-                    add_checkbox("menubar##childdemo", default_value=True, callback=lambda sender, data: configure_item("testchild##demo", menubar=get_value(sender)))
-                    add_checkbox("no_scrollbar##childdemo", callback=lambda sender, data: configure_item("testchild##demo", no_scrollbar=get_value(sender)))
+                    add_checkbox(id="menubar##childdemo", default_value=True, callback=lambda sender, data: configure_item("testchild##demo", menubar=get_value(sender)))
+                    add_checkbox(id="no_scrollbar##childdemo", callback=lambda sender, data: configure_item("testchild##demo", no_scrollbar=get_value(sender)))
 
                     add_table_next_column()
-                    add_checkbox("horizontal_scrollbar##childdemo", callback=lambda sender, data: configure_item("testchild##demo", horizontal_scrollbar=get_value(sender)))
-                    add_checkbox("border##childdemo", default_value=True, callback=lambda sender, data: configure_item("testchild##demo", border=get_value(sender)))
+                    add_checkbox(id="horizontal_scrollbar##childdemo", callback=lambda sender, data: configure_item("testchild##demo", horizontal_scrollbar=get_value(sender)))
+                    add_checkbox(id="border##childdemo", default_value=True, callback=lambda sender, data: configure_item("testchild##demo", border=get_value(sender)))
 
                 with child(width=500, height=500):
                     with menu_bar():
-                        with menu("Menu##testchild##demo"):
+                        with menu(id="Menu##testchild##demo"):
                             pass
                     for i in range(0, 100):
                         add_text(default_value="A pretty long sentence if you really think about it. It's also pointless.")
 
-            with tree_node("Widgets Width##demo"):
+            with tree_node(id="Widgets Width##demo"):
                 
                 add_text("Width=100")
-                add_drag_float("float##demowidths1", width=100)
+                add_drag_float(id="float##demowidths1", width=100)
 
                 add_text("Width=-100")
-                add_drag_float("float##demowidths2", width=-100)
+                add_drag_float(id="float##demowidths2", width=-100)
 
                 add_text("Width=-1")
-                add_drag_float("float##demowidths3", width=-1)
+                add_drag_float(id="float##demowidths3", width=-1)
 
                 add_text("group with width=75")
                 with group(width=75):
-                    add_drag_float("float##demowidths4")
-                    add_drag_float("float##demowidths5")
-                    add_drag_float("float##demowidths6")
+                    add_drag_float(id="float##demowidths4")
+                    add_drag_float(id="float##demowidths5")
+                    add_drag_float(id="float##demowidths6")
 
-            with tree_node("Basic Horizontal Layout##demo"):
+            with tree_node(id="Basic Horizontal Layout##demo"):
                 add_text("(Use add_same_line(), to keep adding items to the right of the preceding item)")
                 add_text("Normal buttons")
                 add_same_line()
-                add_button("Banana##demo")
+                add_button(id="Banana##demo")
                 add_same_line()
-                add_button("Apple##demo")
+                add_button(id="Apple##demo")
                 add_same_line()
-                add_button("Corniflower##demo")
+                add_button(id="Corniflower##demo")
 
                 add_text("Small buttons")
                 add_same_line()
-                add_button("Like this one##demo", small=True)
+                add_button(id="Like this one##demo", small=True)
                 add_same_line()
                 add_text("can fit within a text block")
 
@@ -679,132 +679,132 @@ def show_demo():
 
                 add_text(default_value="Aligned")
                 add_same_line(xoffset=150)
-                add_button("x=150##demo1", small=True)
+                add_button(id="x=150##demo1", small=True)
                 add_same_line(xoffset=300)
-                add_button("x=300##demo1", small=True)
+                add_button(id="x=300##demo1", small=True)
 
-                add_checkbox("My##demo")
+                add_checkbox(id="My##demo")
                 add_same_line()
-                add_checkbox("Tailor##demo")
+                add_checkbox(id="Tailor##demo")
                 add_same_line()
-                add_checkbox("is##demo")
+                add_checkbox(id="is##demo")
                 add_same_line()
-                add_checkbox("rich##demo")
+                add_checkbox(id="rich##demo")
 
                 add_text("Lists:")
-                add_listbox("##demolistbox1", items=["AAAA", "BBBB", "CCCC", "DDDD"], default_value=0, width=100)
+                add_listbox(["AAAA", "BBBB", "CCCC", "DDDD"], default_value=0, width=100)
                 add_same_line()
-                add_listbox("##demolistbox2", items=["AAAA", "BBBB", "CCCC", "DDDD"], default_value=1, width=100)
+                add_listbox(["AAAA", "BBBB", "CCCC", "DDDD"], default_value=1, width=100)
                 add_same_line()
-                add_listbox("##demolistbox3", items=["AAAA", "BBBB", "CCCC", "DDDD"], default_value=2, width=100)
+                add_listbox(["AAAA", "BBBB", "CCCC", "DDDD"], default_value=2, width=100)
                 add_same_line()
-                add_listbox("##demolistbox4", items=["AAAA", "BBBB", "CCCC", "DDDD"], default_value=3, width=100)
+                add_listbox(["AAAA", "BBBB", "CCCC", "DDDD"], default_value=3, width=100)
                 
 
                 add_text("Spacing(100):")
-                add_button("A##demospacing", width=50, height=50)
+                add_button(id="A##demospacing", width=50, height=50)
                 add_same_line(spacing=100)
-                add_button("B##demospacing", width=50, height=50)
+                add_button(id="B##demospacing", width=50, height=50)
 
-            with tree_node("Tabs##demo"):
-                with tree_node("Basic##tabs##demo"):
+            with tree_node(id="Tabs##demo"):
+                with tree_node(id="Basic##tabs##demo"):
                     with tab_bar():
-                        with tab("Avocado##demo"):
+                        with tab(id="Avocado##demo"):
                             add_text("This is the avocado tab!")
-                        with tab("Broccoli##demo"):
+                        with tab(id="Broccoli##demo"):
                             add_text("This is the broccoli tab!")
-                        with tab("Cucumber##demo"):
+                        with tab(id="Cucumber##demo"):
                             add_text("This is the cucumber tab!")
-                with tree_node("Advanced##tabs##demo"):
-                    add_checkbox("tab bar reorderable##demo", callback=lambda sender, data: configure_item("Basic Tabbar1##demo", reorderable=get_value(sender)))
-                    add_checkbox("tab 2 no_reorder##demo", callback=lambda sender, data: configure_item("tab 2##demo", no_reorder=get_value(sender)))
-                    add_checkbox("tab 2 leading##demo", callback=lambda sender, data: configure_item("tab 2##demo", leading=get_value(sender)))
-                    add_checkbox("tab 2 trailing##demo", callback=lambda sender, data: configure_item("tab 2##demo", trailing=get_value(sender)))
-                    add_checkbox("tab button trailing##demo", callback=lambda sender, data: configure_item("+##demo", trailing=get_value(sender)))
-                    add_checkbox("tab button leading##demo", callback=lambda sender, data: configure_item("+##demo", leading=get_value(sender)))
-                    with tab_bar("Basic Tabbar1##demo"):
-                        with tab("tab 1##demo"):
+                with tree_node(id="Advanced##tabs##demo"):
+                    add_checkbox(id="tab bar reorderable##demo", callback=lambda sender, data: configure_item("Basic Tabbar1##demo", reorderable=get_value(sender)))
+                    add_checkbox(id="tab 2 no_reorder##demo", callback=lambda sender, data: configure_item("tab 2##demo", no_reorder=get_value(sender)))
+                    add_checkbox(id="tab 2 leading##demo", callback=lambda sender, data: configure_item("tab 2##demo", leading=get_value(sender)))
+                    add_checkbox(id="tab 2 trailing##demo", callback=lambda sender, data: configure_item("tab 2##demo", trailing=get_value(sender)))
+                    add_checkbox(id="tab button trailing##demo", callback=lambda sender, data: configure_item("+##demo", trailing=get_value(sender)))
+                    add_checkbox(id="tab button leading##demo", callback=lambda sender, data: configure_item("+##demo", leading=get_value(sender)))
+                    with tab_bar(id="Basic Tabbar1##demo"):
+                        with tab(id="tab 1##demo"):
                             add_text("This is the tab 1!")
-                        with tab("tab 2##demo"):
+                        with tab(id="tab 2##demo"):
                             add_text("This is the tab 2!")
-                        with tab("tab 3##demo"):
+                        with tab(id="tab 3##demo"):
                             add_text("This is the tab 3!")
-                        with tab("tab 4##demo"):
+                        with tab(id="tab 4##demo"):
                             add_text("This is the tab 4!")
-                        add_tab_button("+##demo", callback=lambda sender, data: log_debug("Pressed tab button"))
-                        add_tab_button("?##demo", callback=lambda sender, data: log_debug("Pressed tab button"))
+                        add_tab_button(id="+##demo", callback=lambda sender, data: log_debug("Pressed tab button"))
+                        add_tab_button(id="?##demo", callback=lambda sender, data: log_debug("Pressed tab button"))
 
-            with tree_node("Groups##demo123"):
+            with tree_node(id="Groups##demo123"):
                 add_text("Groups can be used to bundle widths together so that you can use functions such as is_item_hovered or add_same_line on the whole group.")
-                with group("group##demotabexamples"):
-                    add_button("AAA##demogroup")
-                    add_button("BBB##demogroup")
-                    add_button("CCC##demogroup")
+                with group(id="group##demotabexamples"):
+                    add_button(id="AAA##demogroup")
+                    add_button(id="BBB##demogroup")
+                    add_button(id="CCC##demogroup")
                 with tooltip(parent="group##demotabexamples"):
                     add_text("The group is hovered", wrap=200)
 
                 add_text("Horizontal group:")
                 with group(horizontal=True):
-                    add_button("AAA##demogroup1")
-                    add_button("BBB##demogroup1")
-                    add_button("CCC##demogroup1")
+                    add_button(id="AAA##demogroup1")
+                    add_button(id="BBB##demogroup1")
+                    add_button(id="CCC##demogroup1")
 
-        with collapsing_header("Tooltips##demo"):
-            add_text("Hover me for a fancy tooltip")
-            with tooltip("tool_tip##tooltips", parent="Hover me for a fancy tooltip"):
-                add_simple_plot("Simpleplot##tooltips##demo", value=(0.3, 0.9, 2.5, 8.9), height = 80)
+        with collapsing_header(id="Tooltips##demo"):
+            widget = add_text("Hover me for a fancy tooltip")
+            with tooltip(id="tool_tip##tooltips", parent=widget):
+                add_simple_plot(id="Simpleplot##tooltips##demo", value=(0.3, 0.9, 2.5, 8.9), height = 80)
 
-        with collapsing_header("Popups, Modal windows, & Dialogs##demo"):
+        with collapsing_header(id="Popups, Modal windows, & Dialogs##demo"):
 
-            with tree_node("Popups##demo"):
+            with tree_node(id="Popups##demo"):
                 add_text("When a popup is active, it inhibits interacting with windows that are behind the popup. Clicking outside the popup closes it.")
-                add_button("Select..##popups##demo")
+                add_button(id="Select..##popups##demo")
                 add_same_line()
                 add_text("<None>")
                 demo_help("right click for popup, it is set to right mouse button, this can be changed")
-                with popup("popup1", parent="Select..##popups##demo", ):
+                with popup(id="popup1", parent="Select..##popups##demo", ):
                     add_text("Aquariam")
                     add_separator()
-                    add_selectable("Bream##demo", callback=lambda sender, data: set_value("<None>", sender))
-                    add_selectable("Haddock##demo", callback=lambda sender, data: set_value("<None>", sender))
-                    add_selectable("Mackerel##demo", callback=lambda sender, data: set_value("<None>", sender))
-                    add_selectable("Pollock##demo", callback=lambda sender, data: set_value("<None>", sender))
-                    add_selectable("Tilefish##demo", callback=lambda sender, data: set_value("<None>", sender))
+                    add_selectable(id="Bream##demo", callback=lambda sender, data: set_value("<None>", sender))
+                    add_selectable(id="Haddock##demo", callback=lambda sender, data: set_value("<None>", sender))
+                    add_selectable(id="Mackerel##demo", callback=lambda sender, data: set_value("<None>", sender))
+                    add_selectable(id="Pollock##demo", callback=lambda sender, data: set_value("<None>", sender))
+                    add_selectable(id="Tilefish##demo", callback=lambda sender, data: set_value("<None>", sender))
 
-            with tree_node("Modals##demo"):
+            with tree_node(id="Modals##demo"):
                 add_text("Modal windows are like popups but the user cannot close them by clicking outside.")
-                add_button("Delete..##modals##demo")
+                add_button(id="Delete..##modals##demo")
                 demo_help("right click for popup, it is set to right mouse button, this can be changed ")
-                with popup("Delete?", parent="Delete..##modals##demo", modal=True):
+                with popup(id="Delete?", parent="Delete..##modals##demo", modal=True):
                     add_text("All those beautiful files will be deleted.\nThis operation cannot be undone!")
                     add_separator()
-                    add_checkbox("Don't ask me next time##demo")
-                    add_button("OK##modal##demo", width=75, callback=lambda sender, data: close_popup("Delete?"))
+                    add_checkbox(id="Don't ask me next time##demo")
+                    add_button(id="OK##modal##demo", width=75, callback=lambda sender, data: close_popup("Delete?"))
                     add_same_line()
-                    add_button("Cancel##modal##demo", width=75, callback=lambda sender, data: close_popup("Delete?"))
+                    add_button(id="Cancel##modal##demo", width=75, callback=lambda sender, data: close_popup("Delete?"))
 
-            with tree_node("File Selector##demo"):
+            with tree_node(id="File Selector##demo"):
                 def file_selected(sender, data):
                     log_info(data)
-                add_button("Select Python File##demo", callback = lambda sender, data: open_file_dialog(file_selected, ".*,.py"))
-                add_button("Select C++ File##demo", callback = lambda sender, data: open_file_dialog(file_selected, ".*,.cpp"))
+                add_button(id="Select Python File##demo", callback = lambda sender, data: open_file_dialog(file_selected, ".*,.py"))
+                add_button(id="Select C++ File##demo", callback = lambda sender, data: open_file_dialog(file_selected, ".*,.cpp"))
 
-            with tree_node("Directory Selector##demo"):
+            with tree_node(id="Directory Selector##demo"):
                 def directory_selected(sender, data):
                     log_info(data)
-                add_button("Select Directory##demo", callback = lambda sender, data: select_directory_dialog(directory_selected))
+                add_button(id="Select Directory##demo", callback = lambda sender, data: select_directory_dialog(directory_selected))
 
-            with tree_node("Menus inside a regular window##demo"):
+            with tree_node(id="Menus inside a regular window##demo"):
                 add_text("Below we are testing adding menu items to a regular window. It's rather unusual but should work")
                 add_separator()
-                add_menu_item("Menu item##demotestingmenus", shortcut="CTRL+M")
-                with menu("Menu inside a regular window##demo"):
-                    add_menu_item("Disabled item##demotestingmenus", enabled=False)
-                    add_menu_item("New##demotestingmenus")
+                add_menu_item(id="Menu item##demotestingmenus", shortcut="CTRL+M")
+                with menu(id="Menu inside a regular window##demo"):
+                    add_menu_item(id="Disabled item##demotestingmenus", enabled=False)
+                    add_menu_item(id="New##demotestingmenus")
 
-        with collapsing_header("Tables##demo"):
+        with collapsing_header(id="Tables##demo"):
 
-            with tree_node("Basic##tables##demo"):
+            with tree_node(id="Basic##tables##demo"):
 
                 # basic usage of the table api
                 with table(header_row=False):
@@ -822,21 +822,21 @@ def show_demo():
                             if not (i == 3 and j == 2):
                                 add_table_next_column()
 
-            with tree_node("Borders, background##tables##demo"):
+            with tree_node(id="Borders, background##tables##demo"):
 
-                add_checkbox("row_background##tables2##demo", default_value=True, callback=lambda sender:configure_item("table2##demo", row_background=get_value(sender)))
-                add_checkbox("borders_innerH##tables2##demo", default_value=True, callback=lambda sender:configure_item("table2##demo", borders_innerH=get_value(sender)))
-                add_checkbox("borders_innerV##tables2##demo", default_value=True, callback=lambda sender:configure_item("table2##demo", borders_innerV=get_value(sender)))
-                add_checkbox("borders_outerH##tables2##demo", default_value=True, callback=lambda sender:configure_item("table2##demo", borders_outerH=get_value(sender)))
-                add_checkbox("borders_outerV##tables2##demo", default_value=True, callback=lambda sender:configure_item("table2##demo", borders_outerV=get_value(sender)))
-                add_checkbox("header_row##tables2##demo", default_value=False, callback=lambda sender:configure_item("table2##demo", header_row=get_value(sender)))
+                add_checkbox(id="row_background##tables2##demo", default_value=True, callback=lambda sender:configure_item("table2##demo", row_background=get_value(sender)))
+                add_checkbox(id="borders_innerH##tables2##demo", default_value=True, callback=lambda sender:configure_item("table2##demo", borders_innerH=get_value(sender)))
+                add_checkbox(id="borders_innerV##tables2##demo", default_value=True, callback=lambda sender:configure_item("table2##demo", borders_innerV=get_value(sender)))
+                add_checkbox(id="borders_outerH##tables2##demo", default_value=True, callback=lambda sender:configure_item("table2##demo", borders_outerH=get_value(sender)))
+                add_checkbox(id="borders_outerV##tables2##demo", default_value=True, callback=lambda sender:configure_item("table2##demo", borders_outerV=get_value(sender)))
+                add_checkbox(id="header_row##tables2##demo", default_value=False, callback=lambda sender:configure_item("table2##demo", header_row=get_value(sender)))
 
-                with table("table2##demo", header_row=False, row_background=True,
+                with table(id="table2##demo", header_row=False, row_background=True,
                           borders_innerH=True, borders_outerH=True, borders_innerV=True,
                            borders_outerV=True):
-                    add_table_column("Header 1##democolumns2")
-                    add_table_column("Header 2##democolumns2")
-                    add_table_column("Header 3##democolumns2")
+                    add_table_column(id="Header 1##democolumns2")
+                    add_table_column(id="Header 2##democolumns2")
+                    add_table_column(id="Header 3##democolumns2")
 
                     for i in range(0, 5):
                         for j in range(0, 3):
@@ -844,17 +844,17 @@ def show_demo():
                             if not (i == 4 and j == 2):
                                 add_table_next_column()
 
-            with tree_node("Resizable, stretch##tables##demo"):
+            with tree_node(id="Resizable, stretch##tables##demo"):
 
-                add_checkbox("borders_innerV##tables3##demo", default_value=True, callback=lambda sender:configure_item("table3##demo", borders_innerV=get_value(sender)))
-                add_checkbox("borders_outerV##tables3##demo", default_value=True, callback=lambda sender:configure_item("table3##demo", borders_outerV=get_value(sender)))
-                add_checkbox("resizable##tables3##demo", default_value=True, callback=lambda sender:configure_item("table3##demo", resizable=get_value(sender)))
+                add_checkbox(id="borders_innerV##tables3##demo", default_value=True, callback=lambda sender:configure_item("table3##demo", borders_innerV=get_value(sender)))
+                add_checkbox(id="borders_outerV##tables3##demo", default_value=True, callback=lambda sender:configure_item("table3##demo", borders_outerV=get_value(sender)))
+                add_checkbox(id="resizable##tables3##demo", default_value=True, callback=lambda sender:configure_item("table3##demo", resizable=get_value(sender)))
 
-                with table("table3##demo", header_row=False, resizable=True,
+                with table(id="table3##demo", header_row=False, resizable=True,
                            borders_outerH=True, borders_innerV=True, borders_outerV=True):
-                    add_table_column("Header 1##democolumns3")
-                    add_table_column("Header 2##democolumns3")
-                    add_table_column("Header 3##democolumns3")
+                    add_table_column(id="Header 1##democolumns3")
+                    add_table_column(id="Header 2##democolumns3")
+                    add_table_column(id="Header 3##democolumns3")
 
                     for i in range(0, 5):
                         for j in range(0, 3):
@@ -862,15 +862,15 @@ def show_demo():
                             if not (i == 4 and j == 2):
                                 add_table_next_column()
 
-            with tree_node("Resizable, fixed##tables##demo"):
+            with tree_node(id="Resizable, fixed##tables##demo"):
 
-                add_checkbox("no_host_extendX##tables3##demo", callback=lambda sender:configure_item("table4##demo", no_host_extendX=get_value(sender)))
+                add_checkbox(id="no_host_extendX##tables3##demo", callback=lambda sender:configure_item("table4##demo", no_host_extendX=get_value(sender)))
 
-                with table("table4##demo", header_row=False, policy=8192, resizable=True, no_host_extendX=False, 
+                with table(id="table4##demo", header_row=False, policy=8192, resizable=True, no_host_extendX=False, 
                            borders_innerV=True, borders_outerV=True,borders_outerH=True):
-                    add_table_column("Header 1##democolumns4")
-                    add_table_column("Header 2##democolumns4")
-                    add_table_column("Header 3##democolumns4")
+                    add_table_column(id="Header 1##democolumns4")
+                    add_table_column(id="Header 2##democolumns4")
+                    add_table_column(id="Header 3##democolumns4")
 
                     for i in range(0, 5):
                         for j in range(0, 3):
@@ -878,14 +878,14 @@ def show_demo():
                             if not (i == 4 and j == 2):
                                 add_table_next_column()
 
-            with tree_node("Resizable, mixed##tables##demo"):
+            with tree_node(id="Resizable, mixed##tables##demo"):
 
-                with table("table5##demo", header_row=True, policy=mvTable_SizingFixedFit, row_background=True, reorderable=True, 
+                with table(id="table5##demo", header_row=True, policy=mvTable_SizingFixedFit, row_background=True, reorderable=True, 
                            resizable=True, no_host_extendX=False, hideable=True, 
                            borders_innerV=True, borders_outerV=True, borders_innerH=True, borders_outerH=True):
-                    add_table_column("AAA##democolumns5", width_fixed=True)
-                    add_table_column("BBB##democolumns5", width_fixed=True)
-                    add_table_column("CCC##democolumns5", width_stretch=True, init_width_or_weight=0.0)
+                    add_table_column(id="AAA##democolumns5", width_fixed=True)
+                    add_table_column(id="BBB##democolumns5", width_fixed=True)
+                    add_table_column(id="CCC##democolumns5", width_stretch=True, init_width_or_weight=0.0)
 
                     for i in range(0, 5):
                         for j in range(0, 3):
@@ -896,13 +896,13 @@ def show_demo():
                             if not (i == 4 and j == 2):
                                 add_table_next_column()
 
-                with table("table6##demo", header_row=True, policy=mvTable_SizingFixedFit, row_background=True, reorderable=True, 
+                with table(id="table6##demo", header_row=True, policy=mvTable_SizingFixedFit, row_background=True, reorderable=True, 
                            resizable=True, no_host_extendX=False, hideable=True, 
                            borders_innerV=True, borders_outerV=True, borders_innerH=True, borders_outerH=True):
-                    add_table_column("AAA##democolumns6", width_fixed=True)
-                    add_table_column("BBB##democolumns6", width_fixed=True)
-                    add_table_column("CCC##democolumns6", width_stretch=True, init_width_or_weight=0.0)
-                    add_table_column("DDD##democolumns6", width_stretch=True, init_width_or_weight=0.0)
+                    add_table_column(id="AAA##democolumns6", width_fixed=True)
+                    add_table_column(id="BBB##democolumns6", width_fixed=True)
+                    add_table_column(id="CCC##democolumns6", width_stretch=True, init_width_or_weight=0.0)
+                    add_table_column(id="DDD##democolumns6", width_stretch=True, init_width_or_weight=0.0)
 
                     for i in range(0, 5):
                         for j in range(0, 4):
@@ -913,17 +913,17 @@ def show_demo():
                             if not (i == 4 and j == 3):
                                 add_table_next_column()
                               
-            with tree_node("Reorderable, hideable, with headers##tables##demo"):
+            with tree_node(id="Reorderable, hideable, with headers##tables##demo"):
 
-                add_checkbox("hideable##tables7##demo", default_value=True, callback=lambda sender:configure_item("table7##demo", hideable=get_value(sender)))
-                add_checkbox("reorderable##tables7##demo", default_value=True, callback=lambda sender:configure_item("table7##demo", reorderable=get_value(sender)))
-                add_checkbox("resizable##tables7##demo", default_value=True, callback=lambda sender:configure_item("table7##demo", resizable=get_value(sender)))
+                add_checkbox(id="hideable##tables7##demo", default_value=True, callback=lambda sender:configure_item("table7##demo", hideable=get_value(sender)))
+                add_checkbox(id="reorderable##tables7##demo", default_value=True, callback=lambda sender:configure_item("table7##demo", reorderable=get_value(sender)))
+                add_checkbox(id="resizable##tables7##demo", default_value=True, callback=lambda sender:configure_item("table7##demo", resizable=get_value(sender)))
 
-                with table("table7##demo", header_row=True, resizable=True,
+                with table(id="table7##demo", header_row=True, resizable=True,
                            hideable=True, reorderable=True):
-                    add_table_column("One##democolumns7")
-                    add_table_column("Two##democolumns7")
-                    add_table_column("three##democolumns7")
+                    add_table_column(id="One##democolumns7")
+                    add_table_column(id="Two##democolumns7")
+                    add_table_column(id="three##democolumns7")
 
                     for i in range(0, 5):
                         for j in range(0, 3):
@@ -931,18 +931,18 @@ def show_demo():
                             if not (i == 4 and j == 2):
                                 add_table_next_column()
 
-            with tree_node("Outer Size##tables##demo"):
+            with tree_node(id="Outer Size##tables##demo"):
 
-                add_checkbox("no_host_extendX##tables8##demo", default_value=True, callback=lambda sender:configure_item("table8##demo", no_host_extendX=get_value(sender)))
-                add_checkbox("no_host_extendY##tables8##demo", default_value=False, callback=lambda sender:configure_item("table8##demo", no_host_extendY=get_value(sender)))
+                add_checkbox(id="no_host_extendX##tables8##demo", default_value=True, callback=lambda sender:configure_item("table8##demo", no_host_extendX=get_value(sender)))
+                add_checkbox(id="no_host_extendY##tables8##demo", default_value=False, callback=lambda sender:configure_item("table8##demo", no_host_extendY=get_value(sender)))
 
-                with table("table8##demo", header_row=False, no_host_extendX=True,
+                with table(id="table8##demo", header_row=False, no_host_extendX=True,
                            borders_innerH=True, borders_outerH=True, borders_innerV=True,
                            borders_outerV=True, context_menu_in_body=True, row_background=True,
                            policy=mvTable_SizingFixedFit, height=150):
-                    add_table_column("One##democolumns8")
-                    add_table_column("Two##democolumns8")
-                    add_table_column("three##democolumns8")
+                    add_table_column(id="One##democolumns8")
+                    add_table_column(id="Two##democolumns8")
+                    add_table_column(id="three##democolumns8")
 
                     for i in range(0, 10):
                         for j in range(0, 3):
@@ -951,13 +951,13 @@ def show_demo():
                                 add_table_next_column()
 
                 add_text("Using explicit size:")
-                with table("table9##demo", header_row=False, no_host_extendX=True,
+                with table(id="table9##demo", header_row=False, no_host_extendX=True,
                            borders_innerH=True, borders_outerH=True, borders_innerV=True,
                            borders_outerV=True, context_menu_in_body=True, row_background=True,
                            policy=mvTable_SizingFixedFit, height=0, width=300):
-                    add_table_column("One##democolumns9")
-                    add_table_column("Two##democolumns9")
-                    add_table_column("three##democolumns9")
+                    add_table_column(id="One##democolumns9")
+                    add_table_column(id="Two##democolumns9")
+                    add_table_column(id="three##democolumns9")
 
                     for i in range(0, 6):
                         for j in range(0, 3):
@@ -965,18 +965,19 @@ def show_demo():
                             if not (i == 9 and j == 2):
                                 add_table_next_column()
 
-        with collapsing_header("Drawings##demo"):
+        with collapsing_header(id="Drawings##demo"):
 
             drawing = add_drawing(width=900, height=200) 
-            draw_line((10, 10), (100, 100), (255, 0, 0, 255), 1)
-            #draw_rectangle((0, 0), (900, 200), (255, 0, 0, 255), fill=(0, 0, 25, 255), rounding=12, thickness = 1.0) 
-            #draw_triangle((150, 10), (110, 100), (190, 100), (255, 255, 0, 255), thickness = 3.0)
-            #draw_quad((210, 10), (290, 10), (290, 100), (210, 100), (255, 255, 0, 255), thickness = 3.0)
-            #draw_circle((350, 60), 49, (255, 255, 0, 255))
-            #draw_bezier_curve((410, 10), (450, 25), (410, 50), (490, 85), (255, 255, 0, 255), thickness = 2.0)
-            #draw_arrow((510, 10), (590, 80), (255, 0, 0), 4, 10)
-            #draw_image("INTERNAL_DPG_FONT_ATLAS", pmin=[610,10], pmax=[690, 80], uv_max=[0.1, 0.1])
-            #draw_text((50, 300), "Some Text", color=(255, 255, 0, 255), size=15)
-            #draw_text((0, 0), "Origin", color=(255, 255, 0, 255), size=15)
-            #draw_polygon(((710, 10), (780, 50), (730, 75), (710, 10)), (255, 125, 0, 255), thickness=1.0, fill=(255, 125, 0, 50))
-            #draw_polyline(((810, 20), (835, 50), (890, 10)), (255, 255, 0, 255), thickness=1.0)
+            draw_line((10, 10), (100, 100), color=(255, 0, 0, 255), thickness=1)
+            draw_rectangle((0, 0), (900, 200), color=(255, 0, 0, 255), fill=(0, 0, 25, 255), rounding=12, thickness = 1.0) 
+            draw_triangle((150, 10), (110, 100), (190, 100), color=(255, 255, 0, 255), thickness = 3.0)
+            draw_quad((210, 10), (290, 10), (290, 100), (210, 100), color=(255, 255, 0, 255), thickness = 3.0)
+            draw_circle((350, 60), 49, color=(255, 255, 0, 255))
+            draw_bezier_curve((410, 10), (450, 25), (410, 50), (490, 85), color=(255, 255, 0, 255), thickness = 2.0)
+            draw_arrow((510, 10), (590, 80), color=(255, 0, 0), size=4, thickness=1)
+            draw_image("INTERNAL_DPG_FONT_ATLAS", [610,10], [690, 80], uv_max=[0.1, 0.1])
+            draw_text((50, 300), "Some Text", color=(255, 255, 0, 255), size=15)
+            draw_text((0, 0), "Origin", color=(255, 255, 0, 255), size=15)
+            draw_polygon(((710, 10), (780, 50), (730, 75), (710, 10)), color=(255, 125, 0, 255), thickness=1.0, fill=(255, 125, 0, 50))
+            draw_polyline(((810, 20), (835, 50), (890, 10)), color=(255, 255, 0, 255), thickness=1.0)
+            end()

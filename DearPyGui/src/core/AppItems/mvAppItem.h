@@ -232,7 +232,7 @@ namespace Marvel {
         virtual bool           canChildBeAdded   (mvAppItemType type) { return true; }
 
     
-        void                                checkArgs(PyObject* dict);    
+        void                                checkArgs(PyObject* args, PyObject* kwargs);    
         void                                handleKeywordArgs(PyObject* dict);  // python dictionary acts as an out parameter 
         void                                getConfiguration(PyObject* dict);
         virtual void                        handleSpecificRequiredArgs(PyObject* args) {}

@@ -610,7 +610,7 @@ namespace Marvel {
 		std::string name = std::string(std::string("$$DPG_ns") + s_internal_id + std::to_string(i));
 		auto [parent, before] = mvAppItem::GetNameFromArgs(name, args, kwargs);
 		auto item = CreateRef<mvPlot>(name);
-		item->checkArgs(kwargs);
+		item->checkArgs(args, kwargs);
 		item->handleSpecificPositionalArgs(args);
 		item->handleKeywordArgs(kwargs);
 		mvApp::GetApp()->getItemRegistry().addItemWithRuntimeChecks(item, parent.c_str(), before.c_str());
