@@ -20,10 +20,10 @@ namespace Marvel {
         parser.removeArg("callback_data");
         parser.removeArg("enabled");
 
-        parser.addArg<mvPyDataType::Integer>("default_value", mvArgType::KEYWORD, "0");
+        parser.addArg<mvPyDataType::Integer>("default_value", mvArgType::KEYWORD_ARG, "0");
 
-        parser.addArg<mvPyDataType::Float>("min_scale", mvArgType::KEYWORD, "0.0");
-        parser.addArg<mvPyDataType::Float>("max_scale", mvArgType::KEYWORD, "1.0");
+        parser.addArg<mvPyDataType::Float>("min_scale", mvArgType::KEYWORD_ARG, "0.0");
+        parser.addArg<mvPyDataType::Float>("max_scale", mvArgType::KEYWORD_ARG, "1.0");
 
         parser.finalize();
 

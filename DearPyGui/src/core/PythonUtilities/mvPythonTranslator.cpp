@@ -2,6 +2,9 @@
 #include "mvPythonExceptions.h"
 #include "mvAppLog.h"
 
+#define PY_SSIZE_T_CLEAN
+#include <Python.h>
+
 namespace Marvel {
 
 	void UpdatePyIntList(PyObject* pyvalue, const std::vector<int>& value)

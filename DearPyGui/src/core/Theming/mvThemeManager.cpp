@@ -18,7 +18,7 @@ namespace Marvel {
 			mvPythonParser parser(mvPyDataType::String);
 			parser.addArg<mvPyDataType::Integer>("constant");
 			parser.addArg<mvPyDataType::FloatList>("color");
-			parser.addArg<mvPyDataType::String>("item", mvArgType::KEYWORD, "''");
+			parser.addArg<mvPyDataType::String>("item", mvArgType::KEYWORD_ARG, "''");
 			parser.finalize();
 			parsers->insert({ "set_theme_color", parser });
 		}
@@ -27,7 +27,7 @@ namespace Marvel {
 			mvPythonParser parser(mvPyDataType::String);
 			parser.addArg<mvPyDataType::Integer>("constant");
 			parser.addArg<mvPyDataType::FloatList>("color");
-			parser.addArg<mvPyDataType::String>("item", mvArgType::KEYWORD, "''");
+			parser.addArg<mvPyDataType::String>("item", mvArgType::KEYWORD_ARG, "''");
 			parser.finalize();
 			parsers->insert({ "set_theme_color_disabled", parser });
 		}
@@ -36,7 +36,7 @@ namespace Marvel {
 			mvPythonParser parser(mvPyDataType::String);
 			parser.addArg<mvPyDataType::Integer>("constant");
 			parser.addArg<mvPyDataType::Float>("style");
-			parser.addArg<mvPyDataType::String>("item", mvArgType::KEYWORD, "''");
+			parser.addArg<mvPyDataType::String>("item", mvArgType::KEYWORD_ARG, "''");
 			parser.finalize();
 			parsers->insert({ "set_theme_style", parser });
 		}

@@ -16,16 +16,16 @@ namespace Marvel {
         mvAppItem::AddCommonArgs(parser);
         parser.removeArg("height");
 
-        parser.addArg<mvPyDataType::IntList>("default_value", mvArgType::KEYWORD, "(0, 0, 0, 0)");
+        parser.addArg<mvPyDataType::IntList>("default_value", mvArgType::KEYWORD_ARG, "(0, 0, 0, 0)");
 
-        parser.addArg<mvPyDataType::Integer>("min_value", mvArgType::KEYWORD, "0");
-        parser.addArg<mvPyDataType::Integer>("max_value", mvArgType::KEYWORD, "100");
-        parser.addArg<mvPyDataType::Integer>("size", mvArgType::KEYWORD, "4", "number of components");
+        parser.addArg<mvPyDataType::Integer>("min_value", mvArgType::KEYWORD_ARG, "0");
+        parser.addArg<mvPyDataType::Integer>("max_value", mvArgType::KEYWORD_ARG, "100");
+        parser.addArg<mvPyDataType::Integer>("size", mvArgType::KEYWORD_ARG, "4", "number of components");
 
-        parser.addArg<mvPyDataType::Bool>("min_clamped", mvArgType::KEYWORD, "False", "activates and deactivates min_value");
-        parser.addArg<mvPyDataType::Bool>("max_clamped", mvArgType::KEYWORD, "False", "activates and deactivates max_value");
-        parser.addArg<mvPyDataType::Bool>("on_enter", mvArgType::KEYWORD, "False", "Only runs callback on enter");
-        parser.addArg<mvPyDataType::Bool>("readonly", mvArgType::KEYWORD, "False");
+        parser.addArg<mvPyDataType::Bool>("min_clamped", mvArgType::KEYWORD_ARG, "False", "activates and deactivates min_value");
+        parser.addArg<mvPyDataType::Bool>("max_clamped", mvArgType::KEYWORD_ARG, "False", "activates and deactivates max_value");
+        parser.addArg<mvPyDataType::Bool>("on_enter", mvArgType::KEYWORD_ARG, "False", "Only runs callback on enter");
+        parser.addArg<mvPyDataType::Bool>("readonly", mvArgType::KEYWORD_ARG, "False");
 
         parser.finalize();
 
@@ -39,19 +39,19 @@ namespace Marvel {
         mvAppItem::AddCommonArgs(parser);
         parser.removeArg("height");
 
-        parser.addArg<mvPyDataType::FloatList>("default_value", mvArgType::KEYWORD, "(0.0, 0.0, 0.0, 0.0)");
+        parser.addArg<mvPyDataType::FloatList>("default_value", mvArgType::KEYWORD_ARG, "(0.0, 0.0, 0.0, 0.0)");
 
-        parser.addArg<mvPyDataType::String>("format", mvArgType::KEYWORD, "'%.3f'");
+        parser.addArg<mvPyDataType::String>("format", mvArgType::KEYWORD_ARG, "'%.3f'");
 
-        parser.addArg<mvPyDataType::Float>("min_value", mvArgType::KEYWORD, "0.0");
-        parser.addArg<mvPyDataType::Float>("max_value", mvArgType::KEYWORD, "100.0");
+        parser.addArg<mvPyDataType::Float>("min_value", mvArgType::KEYWORD_ARG, "0.0");
+        parser.addArg<mvPyDataType::Float>("max_value", mvArgType::KEYWORD_ARG, "100.0");
 
-        parser.addArg<mvPyDataType::Integer>("size", mvArgType::KEYWORD, "4", "number of components");
+        parser.addArg<mvPyDataType::Integer>("size", mvArgType::KEYWORD_ARG, "4", "number of components");
 
-        parser.addArg<mvPyDataType::Bool>("min_clamped", mvArgType::KEYWORD, "False", "activates and deactivates min_value");
-        parser.addArg<mvPyDataType::Bool>("max_clamped", mvArgType::KEYWORD, "False", "activates and deactivates max_value");
-        parser.addArg<mvPyDataType::Bool>("on_enter", mvArgType::KEYWORD, "False", "Only runs callback on enter");
-        parser.addArg<mvPyDataType::Bool>("readonly", mvArgType::KEYWORD, "False");
+        parser.addArg<mvPyDataType::Bool>("min_clamped", mvArgType::KEYWORD_ARG, "False", "activates and deactivates min_value");
+        parser.addArg<mvPyDataType::Bool>("max_clamped", mvArgType::KEYWORD_ARG, "False", "activates and deactivates max_value");
+        parser.addArg<mvPyDataType::Bool>("on_enter", mvArgType::KEYWORD_ARG, "False", "Only runs callback on enter");
+        parser.addArg<mvPyDataType::Bool>("readonly", mvArgType::KEYWORD_ARG, "False");
 
         parser.finalize();
 

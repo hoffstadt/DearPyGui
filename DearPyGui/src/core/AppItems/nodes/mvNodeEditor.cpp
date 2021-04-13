@@ -26,8 +26,8 @@ namespace Marvel {
 			parser.removeArg("callback_data");
 			parser.removeArg("enabled");
 
-			parser.addArg<mvPyDataType::Callable>("link_callback", mvArgType::KEYWORD, "None", "Callback ran when a new link is created.");
-			parser.addArg<mvPyDataType::Callable>("delink_callback", mvArgType::KEYWORD, "None", "Callback ran when a link is detached.");
+			parser.addArg<mvPyDataType::Callable>("link_callback", mvArgType::KEYWORD_ARG, "None", "Callback ran when a new link is created.");
+			parser.addArg<mvPyDataType::Callable>("delink_callback", mvArgType::KEYWORD_ARG, "None", "Callback ran when a link is detached.");
 
 			parser.finalize();
 

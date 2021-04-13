@@ -15,7 +15,7 @@ namespace Marvel {
 		parser.removeArg("width");
 		parser.removeArg("height");
 
-		parser.addArg<mvPyDataType::Bool>("default_value", mvArgType::KEYWORD, "False");
+		parser.addArg<mvPyDataType::Bool>("default_value", mvArgType::KEYWORD_ARG, "False");
 
 		parser.finalize();
 

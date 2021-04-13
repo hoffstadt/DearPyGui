@@ -14,13 +14,13 @@ namespace Marvel {
 		parser.removeArg("callback_data");
 		parser.removeArg("enabled");
 
-		parser.addArg<mvPyDataType::FloatList>("default_value", mvArgType::KEYWORD, "()");
-		parser.addArg<mvPyDataType::String>("overlay", mvArgType::KEYWORD, "''", "overlays text (similar to a plot title)");
+		parser.addArg<mvPyDataType::FloatList>("default_value", mvArgType::KEYWORD_ARG, "()");
+		parser.addArg<mvPyDataType::String>("overlay", mvArgType::KEYWORD_ARG, "''", "overlays text (similar to a plot title)");
 
-		parser.addArg<mvPyDataType::Bool>("histogram", mvArgType::KEYWORD, "False");
+		parser.addArg<mvPyDataType::Bool>("histogram", mvArgType::KEYWORD_ARG, "False");
 		
-		parser.addArg<mvPyDataType::Float>("min_scale", mvArgType::KEYWORD, "0.0");
-		parser.addArg<mvPyDataType::Float>("max_scale", mvArgType::KEYWORD, "0.0");
+		parser.addArg<mvPyDataType::Float>("min_scale", mvArgType::KEYWORD_ARG, "0.0");
+		parser.addArg<mvPyDataType::Float>("max_scale", mvArgType::KEYWORD_ARG, "0.0");
 
 		parser.finalize();
 

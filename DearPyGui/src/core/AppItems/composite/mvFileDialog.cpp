@@ -8,15 +8,15 @@ namespace Marvel {
 	{
 		{
 			mvPythonParser parser(mvPyDataType::String);
-			parser.addArg<mvPyDataType::Callable>("callback", mvArgType::KEYWORD, "None", "function to call on completion");
+			parser.addArg<mvPyDataType::Callable>("callback", mvArgType::KEYWORD_ARG, "None", "function to call on completion");
 			parser.finalize();
 			parsers->insert({ s_command, parser });
 		}
 
 		{
 			mvPythonParser parser(mvPyDataType::String);
-			parser.addArg<mvPyDataType::Callable>("callback", mvArgType::KEYWORD, "None", "function to call on completion");
-			parser.addArg<mvPyDataType::String>("extensions", mvArgType::KEYWORD, "''", "filters items with extensions i.e '.*, .py'");
+			parser.addArg<mvPyDataType::Callable>("callback", mvArgType::KEYWORD_ARG, "None", "function to call on completion");
+			parser.addArg<mvPyDataType::String>("extensions", mvArgType::KEYWORD_ARG, "''", "filters items with extensions i.e '.*, .py'");
 			parser.finalize();
 			parsers->insert({ "open_file_dialog", parser });
 		}

@@ -20,8 +20,8 @@ namespace Marvel {
 		{
 			mvPythonParser parser(mvPyDataType::None);
 			parser.addArg<mvPyDataType::String>("item");
-			parser.addArg<mvPyDataType::String>("parent", mvArgType::KEYWORD, "''");
-			parser.addArg<mvPyDataType::String>("before", mvArgType::KEYWORD, "''");
+			parser.addArg<mvPyDataType::String>("parent", mvArgType::KEYWORD_ARG, "''");
+			parser.addArg<mvPyDataType::String>("before", mvArgType::KEYWORD_ARG, "''");
 			parser.finalize();
 			parsers->insert({ "move_item", parser });
 		}
@@ -41,7 +41,7 @@ namespace Marvel {
 		{
 			mvPythonParser parser(mvPyDataType::None);
 			parser.addArg<mvPyDataType::String>("item");
-			parser.addArg<mvPyDataType::Bool>("children_only", mvArgType::KEYWORD, "False");
+			parser.addArg<mvPyDataType::Bool>("children_only", mvArgType::KEYWORD_ARG, "False");
 			parser.finalize();
 			parsers->insert({ "delete_item", parser });
 		}

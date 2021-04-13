@@ -13,19 +13,19 @@ namespace Marvel {
 		mvPythonParser parser(mvPyDataType::String);
 		mvAppItem::AddCommonArgs(parser);
 
-		parser.addArg<mvPyDataType::String>("default_value", mvArgType::KEYWORD, "''");
-		parser.addArg<mvPyDataType::String>("hint", mvArgType::KEYWORD, "''");
+		parser.addArg<mvPyDataType::String>("default_value", mvArgType::KEYWORD_ARG, "''");
+		parser.addArg<mvPyDataType::String>("hint", mvArgType::KEYWORD_ARG, "''");
 
-		parser.addArg<mvPyDataType::Bool>("multiline", mvArgType::KEYWORD, "False");
-		parser.addArg<mvPyDataType::Bool>("no_spaces", mvArgType::KEYWORD, "False", "Filter out spaces, tabs");
-		parser.addArg<mvPyDataType::Bool>("uppercase", mvArgType::KEYWORD, "False");
-		parser.addArg<mvPyDataType::Bool>("tab_input", mvArgType::KEYWORD, "False", "Allows tabs to be input instead of changing widget focus");
-		parser.addArg<mvPyDataType::Bool>("decimal", mvArgType::KEYWORD, "False", "Allow 0123456789.+-*/");
-		parser.addArg<mvPyDataType::Bool>("hexadecimal", mvArgType::KEYWORD, "False", "Allow 0123456789ABCDEFabcdef");
-		parser.addArg<mvPyDataType::Bool>("readonly", mvArgType::KEYWORD, "False");
-		parser.addArg<mvPyDataType::Bool>("password", mvArgType::KEYWORD, "False", "Password mode, display all characters as '*'");
-		parser.addArg<mvPyDataType::Bool>("scientific", mvArgType::KEYWORD, "False", "Allow 0123456789.+-*/eE (Scientific notation input)");
-		parser.addArg<mvPyDataType::Bool>("on_enter", mvArgType::KEYWORD, "False", "Only runs callback on enter");
+		parser.addArg<mvPyDataType::Bool>("multiline", mvArgType::KEYWORD_ARG, "False");
+		parser.addArg<mvPyDataType::Bool>("no_spaces", mvArgType::KEYWORD_ARG, "False", "Filter out spaces, tabs");
+		parser.addArg<mvPyDataType::Bool>("uppercase", mvArgType::KEYWORD_ARG, "False");
+		parser.addArg<mvPyDataType::Bool>("tab_input", mvArgType::KEYWORD_ARG, "False", "Allows tabs to be input instead of changing widget focus");
+		parser.addArg<mvPyDataType::Bool>("decimal", mvArgType::KEYWORD_ARG, "False", "Allow 0123456789.+-*/");
+		parser.addArg<mvPyDataType::Bool>("hexadecimal", mvArgType::KEYWORD_ARG, "False", "Allow 0123456789ABCDEFabcdef");
+		parser.addArg<mvPyDataType::Bool>("readonly", mvArgType::KEYWORD_ARG, "False");
+		parser.addArg<mvPyDataType::Bool>("password", mvArgType::KEYWORD_ARG, "False", "Password mode, display all characters as '*'");
+		parser.addArg<mvPyDataType::Bool>("scientific", mvArgType::KEYWORD_ARG, "False", "Allow 0123456789.+-*/eE (Scientific notation input)");
+		parser.addArg<mvPyDataType::Bool>("on_enter", mvArgType::KEYWORD_ARG, "False", "Only runs callback on enter");
 
 		parser.finalize();
 

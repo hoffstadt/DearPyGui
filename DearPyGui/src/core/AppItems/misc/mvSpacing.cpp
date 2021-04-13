@@ -16,7 +16,7 @@ namespace Marvel {
 		parser.removeArg("callback_data");
 		parser.removeArg("enabled");
 
-		parser.addArg<mvPyDataType::Integer>("count", mvArgType::KEYWORD, "1", "A cardinal direction");
+		parser.addArg<mvPyDataType::Integer>("count", mvArgType::KEYWORD_ARG, "1", "A cardinal direction");
 
 		parser.finalize();
 

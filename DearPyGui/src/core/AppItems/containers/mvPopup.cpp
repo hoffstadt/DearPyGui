@@ -19,8 +19,8 @@ namespace Marvel {
 			parser.removeArg("callback_data");
 			parser.removeArg("enabled");
 
-			parser.addArg<mvPyDataType::Integer>("mousebutton", mvArgType::KEYWORD, "1", "The mouse code that will trigger the popup.");
-			parser.addArg<mvPyDataType::Bool>("modal", mvArgType::KEYWORD, "False");
+			parser.addArg<mvPyDataType::Integer>("mousebutton", mvArgType::KEYWORD_ARG, "1", "The mouse code that will trigger the popup.");
+			parser.addArg<mvPyDataType::Bool>("modal", mvArgType::KEYWORD_ARG, "False");
 
 			parser.finalize();
 

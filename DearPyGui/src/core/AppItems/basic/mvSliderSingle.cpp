@@ -16,18 +16,18 @@ namespace Marvel {
         mvPythonParser parser(mvPyDataType::String);
         mvAppItem::AddCommonArgs(parser);
 
-        parser.addArg<mvPyDataType::Float>("default_value", mvArgType::KEYWORD, "0.0");
+        parser.addArg<mvPyDataType::Float>("default_value", mvArgType::KEYWORD_ARG, "0.0");
 
-        parser.addArg<mvPyDataType::Integer>("size", mvArgType::KEYWORD, "4", "number of components");
+        parser.addArg<mvPyDataType::Integer>("size", mvArgType::KEYWORD_ARG, "4", "number of components");
 
-        parser.addArg<mvPyDataType::Bool>("vertical", mvArgType::KEYWORD, "False", "sets orientation to vertical");
-        parser.addArg<mvPyDataType::Bool>("no_input", mvArgType::KEYWORD, "False", "Disable CTRL+Click or Enter key allowing to input text directly into the widget");
-        parser.addArg<mvPyDataType::Bool>("clamped", mvArgType::KEYWORD, "False", "Clamp value to min/max bounds when input manually with CTRL+Click. By default CTRL+Click allows going out of bounds.");
+        parser.addArg<mvPyDataType::Bool>("vertical", mvArgType::KEYWORD_ARG, "False", "sets orientation to vertical");
+        parser.addArg<mvPyDataType::Bool>("no_input", mvArgType::KEYWORD_ARG, "False", "Disable CTRL+Click or Enter key allowing to input text directly into the widget");
+        parser.addArg<mvPyDataType::Bool>("clamped", mvArgType::KEYWORD_ARG, "False", "Clamp value to min/max bounds when input manually with CTRL+Click. By default CTRL+Click allows going out of bounds.");
 
-        parser.addArg<mvPyDataType::Float>("min_value", mvArgType::KEYWORD, "0.0");
-        parser.addArg<mvPyDataType::Float>("max_value", mvArgType::KEYWORD, "100.0");
+        parser.addArg<mvPyDataType::Float>("min_value", mvArgType::KEYWORD_ARG, "0.0");
+        parser.addArg<mvPyDataType::Float>("max_value", mvArgType::KEYWORD_ARG, "100.0");
 
-        parser.addArg<mvPyDataType::String>("format", mvArgType::KEYWORD, "'%.3f'");
+        parser.addArg<mvPyDataType::String>("format", mvArgType::KEYWORD_ARG, "'%.3f'");
 
         parser.finalize();
 
@@ -40,18 +40,18 @@ namespace Marvel {
         mvPythonParser parser(mvPyDataType::String);
         mvAppItem::AddCommonArgs(parser);
 
-        parser.addArg<mvPyDataType::Integer>("default_value", mvArgType::KEYWORD, "0");
+        parser.addArg<mvPyDataType::Integer>("default_value", mvArgType::KEYWORD_ARG, "0");
 
-        parser.addArg<mvPyDataType::Integer>("size", mvArgType::KEYWORD, "4", "number of components");
+        parser.addArg<mvPyDataType::Integer>("size", mvArgType::KEYWORD_ARG, "4", "number of components");
 
-        parser.addArg<mvPyDataType::Bool>("vertical", mvArgType::KEYWORD, "False", "sets orientation to vertical");
-        parser.addArg<mvPyDataType::Bool>("no_input", mvArgType::KEYWORD, "False", "Disable CTRL+Click or Enter key allowing to input text directly into the widget");
-        parser.addArg<mvPyDataType::Bool>("clamped", mvArgType::KEYWORD, "False", "Clamp value to min/max bounds when input manually with CTRL+Click. By default CTRL+Click allows going out of bounds.");
+        parser.addArg<mvPyDataType::Bool>("vertical", mvArgType::KEYWORD_ARG, "False", "sets orientation to vertical");
+        parser.addArg<mvPyDataType::Bool>("no_input", mvArgType::KEYWORD_ARG, "False", "Disable CTRL+Click or Enter key allowing to input text directly into the widget");
+        parser.addArg<mvPyDataType::Bool>("clamped", mvArgType::KEYWORD_ARG, "False", "Clamp value to min/max bounds when input manually with CTRL+Click. By default CTRL+Click allows going out of bounds.");
 
-        parser.addArg<mvPyDataType::Integer>("min_value", mvArgType::KEYWORD, "0");
-        parser.addArg<mvPyDataType::Integer>("max_value", mvArgType::KEYWORD, "100");
+        parser.addArg<mvPyDataType::Integer>("min_value", mvArgType::KEYWORD_ARG, "0");
+        parser.addArg<mvPyDataType::Integer>("max_value", mvArgType::KEYWORD_ARG, "100");
 
-        parser.addArg<mvPyDataType::String>("format", mvArgType::KEYWORD, "'%d'");
+        parser.addArg<mvPyDataType::String>("format", mvArgType::KEYWORD_ARG, "'%d'");
 
         parser.finalize();
 

@@ -4,8 +4,50 @@
 #include "mvApp.h"
 #include "implot.h"
 #include "mvPythonTranslator.h"
+#include "mvPythonExceptions.h"
+
+#define PY_SSIZE_T_CLEAN
+#include <Python.h>
 
 namespace Marvel {
+
+	static std::function<float(Py_buffer&, Py_ssize_t index)> BufferViewFunctions(Py_buffer& bufferView)
+	{
+		if (strcmp(bufferView.format, "f") == 0)
+			return [](Py_buffer& bufferView, Py_ssize_t index) {return *((float*)bufferView.buf + index); };
+
+		else if (strcmp(bufferView.format, "d") == 0)
+			return [](Py_buffer& bufferView, Py_ssize_t index) {return (float)*((double*)bufferView.buf + index); };
+
+		else if (strcmp(bufferView.format, "i") == 0)
+			return [](Py_buffer& bufferView, Py_ssize_t index) {return (float)*((int*)bufferView.buf + index); };
+
+		else if (strcmp(bufferView.format, "I") == 0)
+			return [](Py_buffer& bufferView, Py_ssize_t index) {return (float)*((unsigned int*)bufferView.buf + index); };
+
+		else if (strcmp(bufferView.format, "l") == 0)
+			return [](Py_buffer& bufferView, Py_ssize_t index) {return (float)*((long*)bufferView.buf + index); };
+
+		else if (strcmp(bufferView.format, "L") == 0)
+			return [](Py_buffer& bufferView, Py_ssize_t index) {return (float)*((unsigned long*)bufferView.buf + index); };
+
+		else if (strcmp(bufferView.format, "B") == 0)
+			return [](Py_buffer& bufferView, Py_ssize_t index) {return (float)*((unsigned char*)bufferView.buf + index); };
+
+		else if (strcmp(bufferView.format, "b") == 0)
+			return [](Py_buffer& bufferView, Py_ssize_t index) {return (float)*((signed char*)bufferView.buf + index); };
+
+		else if (strcmp(bufferView.format, "c") == 0)
+			return [](Py_buffer& bufferView, Py_ssize_t index) {return (float)*((char*)bufferView.buf + index); };
+		else
+		{
+			ThrowPythonException("Unknown buffer type.");
+			ThrowPythonException(bufferView.format);
+			ThrowPythonException("Currently supported buffer types f, d, l, B");
+			return nullptr;
+		}
+	}
+
 
 	void mvTextureStorage::InsertConstants(std::vector<std::pair<std::string, long>>& constants)
 	{
@@ -247,7 +289,7 @@ namespace Marvel {
 			parser.addArg<mvPyDataType::IntList>("data");
 			parser.addArg<mvPyDataType::Integer>("width");
 			parser.addArg<mvPyDataType::Integer>("height");
-			parser.addArg<mvPyDataType::Integer>("format", mvArgType::KEYWORD, "0", "mvTEX_XXXX_XXXXX constants");
+			parser.addArg<mvPyDataType::Integer>("format", mvArgType::KEYWORD_ARG, "0", "mvTEX_XXXX_XXXXX constants");
 			parser.finalize();
 			parsers->insert({ "add_texture", parser });
 		}
@@ -390,7 +432,7 @@ namespace Marvel {
 			//This will choose which function to use to interpretate the array. 
 			//Each function interpretates it as a different type.
 
-			auto BufferViewer = BufferViewFunctionsFloat(buffer_info);
+			auto BufferViewer = BufferViewFunctions(buffer_info);
 
 			switch (tformat)
 			{

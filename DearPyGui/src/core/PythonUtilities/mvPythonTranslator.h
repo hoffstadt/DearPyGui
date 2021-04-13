@@ -11,11 +11,17 @@
 #include <string>
 #include <vector>
 #include <map>
-#define PY_SSIZE_T_CLEAN
-#include <Python.h>
 #include <time.h>
 #include <functional>
 #include "mvCore.h"
+
+// forward declare PyObject
+// as suggested on the python mailing list
+// http://mail.python.org/pipermail/python-dev/2003-August/037601.html
+#ifndef PyObject_HEAD
+struct _object;
+typedef _object PyObject;
+#endif
 
 namespace Marvel {
 
@@ -71,6 +77,6 @@ namespace Marvel {
 	std::vector<std::vector<float>>                  ToVectVectFloat      (PyObject* value, const std::string& message = "Type must be an list/tuple of list/tuple of strings.");
 	std::vector<std::pair<std::string, float>>       ToVectPairStringFloat(PyObject* value, const std::string& message = "Type must be an list/tuple of str,float pairs.");
 
-	std::function<float(Py_buffer&, Py_ssize_t index)> BufferViewFunctionsFloat(Py_buffer& bufferView);
-	std::function<int(Py_buffer&, Py_ssize_t index)> BufferViewFunctionsInt(Py_buffer& bufferView);
+	//std::function<float(Py_buffer&, Py_ssize_t index)> BufferViewFunctionsFloat(Py_buffer& bufferView);
+	//std::function<int(Py_buffer&, Py_ssize_t index)> BufferViewFunctionsInt(Py_buffer& bufferView);
 }

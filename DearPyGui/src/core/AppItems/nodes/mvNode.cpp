@@ -47,10 +47,10 @@ namespace Marvel {
 		parser.removeArg("callback_data");
 		parser.removeArg("enabled");
 
-		parser.addArg<mvPyDataType::Bool>("draggable", mvArgType::KEYWORD, "True");
+		parser.addArg<mvPyDataType::Bool>("draggable", mvArgType::KEYWORD_ARG, "True");
 
-		parser.addArg<mvPyDataType::Integer>("x_pos", mvArgType::KEYWORD, "100");
-		parser.addArg<mvPyDataType::Integer>("y_pos", mvArgType::KEYWORD, "100");
+		parser.addArg<mvPyDataType::Integer>("x_pos", mvArgType::KEYWORD_ARG, "100");
+		parser.addArg<mvPyDataType::Integer>("y_pos", mvArgType::KEYWORD_ARG, "100");
 
 		parser.finalize();
 

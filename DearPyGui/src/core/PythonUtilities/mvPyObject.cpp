@@ -1,6 +1,9 @@
 #include "mvPyObject.h"
 #include <utility>
 
+#define PY_SSIZE_T_CLEAN
+#include <Python.h>
+
 namespace Marvel {
 
 	mvPyObject::mvPyObject(PyObject* rawObject, bool borrowed) 

@@ -6,8 +6,13 @@
 #include <chrono>
 #include "mvCore.h"
 
-#define PY_SSIZE_T_CLEAN
-#include <Python.h>
+// forward declare PyObject
+// as suggested on the python mailing list
+// http://mail.python.org/pipermail/python-dev/2003-August/037601.html
+#ifndef PyObject_HEAD
+struct _object;
+typedef _object PyObject;
+#endif
 
 namespace Marvel {
 

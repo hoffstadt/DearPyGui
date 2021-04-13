@@ -12,14 +12,14 @@ namespace Marvel {
 		mvPythonParser parser(mvPyDataType::String);
 		mvAppItem::AddCommonArgs(parser);
 
-		parser.addArg<mvPyDataType::String>("value", mvArgType::OPTIONAL_ARG, "''");
+		parser.addArg<mvPyDataType::String>("value", mvArgType::POSITIONAL_ARG, "''");
 
-		parser.addArg<mvPyDataType::Integer>("frame_padding", mvArgType::KEYWORD, "-1");
+		parser.addArg<mvPyDataType::Integer>("frame_padding", mvArgType::KEYWORD_ARG, "-1");
 		
-		parser.addArg<mvPyDataType::FloatList>("tint_color", mvArgType::KEYWORD, "(255, 255, 255, 255)", "normalized texture coordinates");
-		parser.addArg<mvPyDataType::FloatList>("background_color", mvArgType::KEYWORD, "(0, 0, 0, 0)", "normalized texture coordinates");
-		parser.addArg<mvPyDataType::FloatList>("uv_min", mvArgType::KEYWORD, "(0.0, 0.0)", "normalized texture coordinates");
-		parser.addArg<mvPyDataType::FloatList>("uv_max", mvArgType::KEYWORD, "(1.0, 1.0)", "normalized texture coordinates");
+		parser.addArg<mvPyDataType::FloatList>("tint_color", mvArgType::KEYWORD_ARG, "(255, 255, 255, 255)", "normalized texture coordinates");
+		parser.addArg<mvPyDataType::FloatList>("background_color", mvArgType::KEYWORD_ARG, "(0, 0, 0, 0)", "normalized texture coordinates");
+		parser.addArg<mvPyDataType::FloatList>("uv_min", mvArgType::KEYWORD_ARG, "(0.0, 0.0)", "normalized texture coordinates");
+		parser.addArg<mvPyDataType::FloatList>("uv_max", mvArgType::KEYWORD_ARG, "(1.0, 1.0)", "normalized texture coordinates");
 
 		parser.finalize();
 

@@ -505,7 +505,7 @@ namespace Marvel {
 
 		{
 			mvPythonParser parser(mvPyDataType::IntList);
-			parser.addArg<mvPyDataType::Bool>("local", mvArgType::KEYWORD, "True");
+			parser.addArg<mvPyDataType::Bool>("local", mvArgType::KEYWORD_ARG, "True");
 			parser.finalize();
 			parsers->insert({ "get_mouse_pos", parser });
 		}

@@ -20,11 +20,11 @@ namespace Marvel {
 
 		parser.addArg<mvPyDataType::ListFloatList>("points");
 
-		parser.addArg<mvPyDataType::Bool>("closed", mvArgType::KEYWORD, "False");
+		parser.addArg<mvPyDataType::Bool>("closed", mvArgType::KEYWORD_ARG, "False");
 
-		parser.addArg<mvPyDataType::IntList>("color", mvArgType::KEYWORD, "(255, 255, 255, 255)");
+		parser.addArg<mvPyDataType::IntList>("color", mvArgType::KEYWORD_ARG, "(255, 255, 255, 255)");
 
-		parser.addArg<mvPyDataType::Float>("thickness", mvArgType::KEYWORD, "1.0");
+		parser.addArg<mvPyDataType::Float>("thickness", mvArgType::KEYWORD_ARG, "1.0");
 
 
 		parser.finalize();

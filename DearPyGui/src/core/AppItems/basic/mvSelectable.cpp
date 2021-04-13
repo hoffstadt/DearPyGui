@@ -12,8 +12,8 @@ namespace Marvel {
 		mvPythonParser parser(mvPyDataType::String);
 		mvAppItem::AddCommonArgs(parser);
 
-		parser.addArg<mvPyDataType::Bool>("default_value", mvArgType::KEYWORD, "False");
-		parser.addArg<mvPyDataType::Bool>("span_columns", mvArgType::KEYWORD, "False", "span all columns");
+		parser.addArg<mvPyDataType::Bool>("default_value", mvArgType::KEYWORD_ARG, "False");
+		parser.addArg<mvPyDataType::Bool>("span_columns", mvArgType::KEYWORD_ARG, "False", "span all columns");
 
 		parser.finalize();
 

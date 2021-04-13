@@ -21,9 +21,9 @@ namespace Marvel {
 		parser.addArg<mvPyDataType::FloatList>("pos");
 		parser.addArg<mvPyDataType::String>("text");
 
-		parser.addArg<mvPyDataType::IntList>("color", mvArgType::KEYWORD, "(255, 255, 255, 255)");
+		parser.addArg<mvPyDataType::IntList>("color", mvArgType::KEYWORD_ARG, "(255, 255, 255, 255)");
 
-		parser.addArg<mvPyDataType::Integer>("size", mvArgType::KEYWORD, "10");
+		parser.addArg<mvPyDataType::Integer>("size", mvArgType::KEYWORD_ARG, "10");
 
 		parser.finalize();
 

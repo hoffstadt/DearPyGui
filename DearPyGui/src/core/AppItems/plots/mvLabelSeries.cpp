@@ -20,13 +20,13 @@ namespace Marvel {
 
 		parser.addArg<mvPyDataType::Float>("x");
 		parser.addArg<mvPyDataType::Float>("y");
-		parser.addArg<mvPyDataType::Integer>("x_offset", mvArgType::KEYWORD);
-		parser.addArg<mvPyDataType::Integer>("y_offset", mvArgType::KEYWORD);
+		parser.addArg<mvPyDataType::Integer>("x_offset", mvArgType::KEYWORD_ARG);
+		parser.addArg<mvPyDataType::Integer>("y_offset", mvArgType::KEYWORD_ARG);
 
-		parser.addArg<mvPyDataType::Integer>("axis", mvArgType::KEYWORD, "0");
+		parser.addArg<mvPyDataType::Integer>("axis", mvArgType::KEYWORD_ARG, "0");
 
-		parser.addArg<mvPyDataType::Bool>("contribute_to_bounds", mvArgType::KEYWORD, "True");
-		parser.addArg<mvPyDataType::Bool>("vertical", mvArgType::KEYWORD, "False");
+		parser.addArg<mvPyDataType::Bool>("contribute_to_bounds", mvArgType::KEYWORD_ARG, "True");
+		parser.addArg<mvPyDataType::Bool>("vertical", mvArgType::KEYWORD_ARG, "False");
 
 		parser.finalize();
 

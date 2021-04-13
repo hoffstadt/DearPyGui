@@ -33,61 +33,61 @@ namespace Marvel {
 			parser.removeArg("callback_data");
 			parser.removeArg("enabled");
 
-			parser.addArg<mvPyDataType::Callable>("query_callback", mvArgType::KEYWORD, "None", "Callback ran when plot is queried");
+			parser.addArg<mvPyDataType::Callable>("query_callback", mvArgType::KEYWORD_ARG, "None", "Callback ran when plot is queried");
 
-			parser.addArg<mvPyDataType::String>("x_axis_name", mvArgType::KEYWORD, "''");
-			parser.addArg<mvPyDataType::String>("y_axis_name", mvArgType::KEYWORD, "''");
+			parser.addArg<mvPyDataType::String>("x_axis_name", mvArgType::KEYWORD_ARG, "''");
+			parser.addArg<mvPyDataType::String>("y_axis_name", mvArgType::KEYWORD_ARG, "''");
 
 			// plot flags
-			parser.addArg<mvPyDataType::Bool>("no_legend", mvArgType::KEYWORD, "False");
-			parser.addArg<mvPyDataType::Bool>("no_menus", mvArgType::KEYWORD, "False");
-			parser.addArg<mvPyDataType::Bool>("no_box_select", mvArgType::KEYWORD, "False");
-			parser.addArg<mvPyDataType::Bool>("no_mouse_pos", mvArgType::KEYWORD, "False");
-			parser.addArg<mvPyDataType::Bool>("no_highlight", mvArgType::KEYWORD, "False");
-			parser.addArg<mvPyDataType::Bool>("no_child", mvArgType::KEYWORD, "False");
-			parser.addArg<mvPyDataType::Bool>("query", mvArgType::KEYWORD, "False");
-			parser.addArg<mvPyDataType::Bool>("crosshairs", mvArgType::KEYWORD, "False");
-			parser.addArg<mvPyDataType::Bool>("anti_aliased", mvArgType::KEYWORD, "False");
-			parser.addArg<mvPyDataType::Bool>("equal_aspects", mvArgType::KEYWORD, "False");
-			parser.addArg<mvPyDataType::Bool>("yaxis2", mvArgType::KEYWORD, "False");
-			parser.addArg<mvPyDataType::Bool>("yaxis3", mvArgType::KEYWORD, "False");
+			parser.addArg<mvPyDataType::Bool>("no_legend", mvArgType::KEYWORD_ARG, "False");
+			parser.addArg<mvPyDataType::Bool>("no_menus", mvArgType::KEYWORD_ARG, "False");
+			parser.addArg<mvPyDataType::Bool>("no_box_select", mvArgType::KEYWORD_ARG, "False");
+			parser.addArg<mvPyDataType::Bool>("no_mouse_pos", mvArgType::KEYWORD_ARG, "False");
+			parser.addArg<mvPyDataType::Bool>("no_highlight", mvArgType::KEYWORD_ARG, "False");
+			parser.addArg<mvPyDataType::Bool>("no_child", mvArgType::KEYWORD_ARG, "False");
+			parser.addArg<mvPyDataType::Bool>("query", mvArgType::KEYWORD_ARG, "False");
+			parser.addArg<mvPyDataType::Bool>("crosshairs", mvArgType::KEYWORD_ARG, "False");
+			parser.addArg<mvPyDataType::Bool>("anti_aliased", mvArgType::KEYWORD_ARG, "False");
+			parser.addArg<mvPyDataType::Bool>("equal_aspects", mvArgType::KEYWORD_ARG, "False");
+			parser.addArg<mvPyDataType::Bool>("yaxis2", mvArgType::KEYWORD_ARG, "False");
+			parser.addArg<mvPyDataType::Bool>("yaxis3", mvArgType::KEYWORD_ARG, "False");
 
 				// x axis flags
-			parser.addArg<mvPyDataType::Bool>("xaxis_no_gridlines", mvArgType::KEYWORD, "False");
-			parser.addArg<mvPyDataType::Bool>("xaxis_no_tick_marks", mvArgType::KEYWORD, "False");
-			parser.addArg<mvPyDataType::Bool>("xaxis_no_tick_labels", mvArgType::KEYWORD, "False");
-			parser.addArg<mvPyDataType::Bool>("xaxis_log_scale", mvArgType::KEYWORD, "False");
-			parser.addArg<mvPyDataType::Bool>("xaxis_time", mvArgType::KEYWORD, "False");
-			parser.addArg<mvPyDataType::Bool>("xaxis_invert", mvArgType::KEYWORD, "False");
-			parser.addArg<mvPyDataType::Bool>("xaxis_lock_min", mvArgType::KEYWORD, "False");
-			parser.addArg<mvPyDataType::Bool>("xaxis_lock_max", mvArgType::KEYWORD, "False");
+			parser.addArg<mvPyDataType::Bool>("xaxis_no_gridlines", mvArgType::KEYWORD_ARG, "False");
+			parser.addArg<mvPyDataType::Bool>("xaxis_no_tick_marks", mvArgType::KEYWORD_ARG, "False");
+			parser.addArg<mvPyDataType::Bool>("xaxis_no_tick_labels", mvArgType::KEYWORD_ARG, "False");
+			parser.addArg<mvPyDataType::Bool>("xaxis_log_scale", mvArgType::KEYWORD_ARG, "False");
+			parser.addArg<mvPyDataType::Bool>("xaxis_time", mvArgType::KEYWORD_ARG, "False");
+			parser.addArg<mvPyDataType::Bool>("xaxis_invert", mvArgType::KEYWORD_ARG, "False");
+			parser.addArg<mvPyDataType::Bool>("xaxis_lock_min", mvArgType::KEYWORD_ARG, "False");
+			parser.addArg<mvPyDataType::Bool>("xaxis_lock_max", mvArgType::KEYWORD_ARG, "False");
 
 				// y axis flags
-			parser.addArg<mvPyDataType::Bool>("yaxis_no_gridlines", mvArgType::KEYWORD, "False");
-			parser.addArg<mvPyDataType::Bool>("yaxis_no_tick_marks", mvArgType::KEYWORD, "False");
-			parser.addArg<mvPyDataType::Bool>("yaxis_no_tick_labels", mvArgType::KEYWORD, "False");
-			parser.addArg<mvPyDataType::Bool>("yaxis_log_scale", mvArgType::KEYWORD, "False");
-			parser.addArg<mvPyDataType::Bool>("yaxis_invert", mvArgType::KEYWORD, "False");
-			parser.addArg<mvPyDataType::Bool>("yaxis_lock_min", mvArgType::KEYWORD, "False");
-			parser.addArg<mvPyDataType::Bool>("yaxis_lock_max", mvArgType::KEYWORD, "False");
+			parser.addArg<mvPyDataType::Bool>("yaxis_no_gridlines", mvArgType::KEYWORD_ARG, "False");
+			parser.addArg<mvPyDataType::Bool>("yaxis_no_tick_marks", mvArgType::KEYWORD_ARG, "False");
+			parser.addArg<mvPyDataType::Bool>("yaxis_no_tick_labels", mvArgType::KEYWORD_ARG, "False");
+			parser.addArg<mvPyDataType::Bool>("yaxis_log_scale", mvArgType::KEYWORD_ARG, "False");
+			parser.addArg<mvPyDataType::Bool>("yaxis_invert", mvArgType::KEYWORD_ARG, "False");
+			parser.addArg<mvPyDataType::Bool>("yaxis_lock_min", mvArgType::KEYWORD_ARG, "False");
+			parser.addArg<mvPyDataType::Bool>("yaxis_lock_max", mvArgType::KEYWORD_ARG, "False");
 
 				// y2 axis flags
-			parser.addArg<mvPyDataType::Bool>("y2axis_no_gridlines", mvArgType::KEYWORD, "False");
-			parser.addArg<mvPyDataType::Bool>("y2axis_no_tick_marks", mvArgType::KEYWORD, "False");
-			parser.addArg<mvPyDataType::Bool>("y2axis_no_tick_labels", mvArgType::KEYWORD, "False");
-			parser.addArg<mvPyDataType::Bool>("y2axis_log_scale", mvArgType::KEYWORD, "False");
-			parser.addArg<mvPyDataType::Bool>("y2axis_invert", mvArgType::KEYWORD, "False");
-			parser.addArg<mvPyDataType::Bool>("y2axis_lock_min", mvArgType::KEYWORD, "False");
-			parser.addArg<mvPyDataType::Bool>("y2axis_lock_max", mvArgType::KEYWORD, "False");
+			parser.addArg<mvPyDataType::Bool>("y2axis_no_gridlines", mvArgType::KEYWORD_ARG, "False");
+			parser.addArg<mvPyDataType::Bool>("y2axis_no_tick_marks", mvArgType::KEYWORD_ARG, "False");
+			parser.addArg<mvPyDataType::Bool>("y2axis_no_tick_labels", mvArgType::KEYWORD_ARG, "False");
+			parser.addArg<mvPyDataType::Bool>("y2axis_log_scale", mvArgType::KEYWORD_ARG, "False");
+			parser.addArg<mvPyDataType::Bool>("y2axis_invert", mvArgType::KEYWORD_ARG, "False");
+			parser.addArg<mvPyDataType::Bool>("y2axis_lock_min", mvArgType::KEYWORD_ARG, "False");
+			parser.addArg<mvPyDataType::Bool>("y2axis_lock_max", mvArgType::KEYWORD_ARG, "False");
 
 				// y3 axis flags
-			parser.addArg<mvPyDataType::Bool>("y3axis_no_gridlines", mvArgType::KEYWORD, "False");
-			parser.addArg<mvPyDataType::Bool>("y3axis_no_tick_marks", mvArgType::KEYWORD, "False");
-			parser.addArg<mvPyDataType::Bool>("y3axis_no_tick_labels", mvArgType::KEYWORD, "False");
-			parser.addArg<mvPyDataType::Bool>("y3axis_log_scale", mvArgType::KEYWORD, "False");
-			parser.addArg<mvPyDataType::Bool>("y3axis_invert", mvArgType::KEYWORD, "False");
-			parser.addArg<mvPyDataType::Bool>("y3axis_lock_min", mvArgType::KEYWORD, "False");
-			parser.addArg<mvPyDataType::Bool>("y3axis_lock_max", mvArgType::KEYWORD, "False");
+			parser.addArg<mvPyDataType::Bool>("y3axis_no_gridlines", mvArgType::KEYWORD_ARG, "False");
+			parser.addArg<mvPyDataType::Bool>("y3axis_no_tick_marks", mvArgType::KEYWORD_ARG, "False");
+			parser.addArg<mvPyDataType::Bool>("y3axis_no_tick_labels", mvArgType::KEYWORD_ARG, "False");
+			parser.addArg<mvPyDataType::Bool>("y3axis_log_scale", mvArgType::KEYWORD_ARG, "False");
+			parser.addArg<mvPyDataType::Bool>("y3axis_invert", mvArgType::KEYWORD_ARG, "False");
+			parser.addArg<mvPyDataType::Bool>("y3axis_lock_min", mvArgType::KEYWORD_ARG, "False");
+			parser.addArg<mvPyDataType::Bool>("y3axis_lock_max", mvArgType::KEYWORD_ARG, "False");
 
 			parser.finalize();
 			parsers->insert({ s_command, parser });

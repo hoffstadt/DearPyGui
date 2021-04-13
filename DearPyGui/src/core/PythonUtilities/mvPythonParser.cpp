@@ -6,8 +6,95 @@
 #include <utility>
 #include <ctime>
 #include <frameobject.h>
+#include "mvPythonTypeChecker.h"
 
 namespace Marvel {
+
+	static bool VerifyArguments(size_t start, PyObject* args, const std::vector<mvPythonDataElement>& elements)
+	{
+
+		if (start >= PyTuple_Size(args))
+			return true;
+
+		for(size_t i = start; i< PyTuple_Size(args); i++)
+		{
+			const auto& item = elements[i];
+			PyObject* obj = nullptr;
+			obj = PyTuple_GetItem(args, i);
+
+			switch (item.type)
+			{
+			case mvPyDataType::String:
+				if (!isPyObject_String(obj))
+					return false;
+				break;
+
+			case mvPyDataType::Integer:
+				if (!isPyObject_Int(obj))
+					return false;
+				break;
+
+			case mvPyDataType::Float:
+				if (!isPyObject_Float(obj))
+					return false;
+				break;
+
+			case mvPyDataType::Bool:
+				if (!isPyObject_Bool(obj))
+					return false;
+				break;
+
+			case mvPyDataType::StringList:
+				if (!isPyObject_StringList(obj))
+					return false;
+				break;
+
+			case mvPyDataType::FloatList:
+				if (!isPyObject_FloatList(obj))
+					return false;
+				break;
+
+			case mvPyDataType::IntList:
+				if (!isPyObject_IntList(obj))
+					return false;
+				break;
+
+			case mvPyDataType::Double:
+				if (!isPyObject_Double(obj))
+					return false;
+				break;
+
+			case mvPyDataType::Callable:
+				if (!isPyObject_Callable(obj))
+					return false;
+				break;
+
+			case mvPyDataType::Dict:
+				if (!isPyObject_Dict(obj))
+					return false;
+				break;
+
+			case mvPyDataType::ListFloatList:
+				if (!isPyObject_ListFloatList(obj))
+					return false;
+				break;
+
+			case mvPyDataType::ListStrList:
+				if (!isPyObject_ListStringList(obj))
+					return false;
+				break;
+
+			case mvPyDataType::ListListInt:
+				if (!isPyObject_ListIntList(obj))
+					return false;
+				break;
+
+			default:
+				if (!isPyObject_Any(obj))
+					return false;
+			}
+		}
+	}
 
 	static char PythonDataTypeSymbol(mvPyDataType type)
 	{
@@ -38,7 +125,6 @@ namespace Marvel {
 		case mvPyDataType::Dict:          return " : dict";
 		case mvPyDataType::ListFloatList: return " : List[List[float]]";
 		case mvPyDataType::ListStrList:   return " : List[List[str]]";
-		case mvPyDataType::Kwargs:        return "";
 		case mvPyDataType::Object:        return " : Any";
 		default:                              return " : unknown";
 		}
@@ -60,7 +146,6 @@ namespace Marvel {
 		case mvPyDataType::Dict:          return "dict";
 		case mvPyDataType::ListFloatList: return "List[List[float]]";
 		case mvPyDataType::ListStrList:   return "List[List[str]]";
-		case mvPyDataType::Kwargs:        return "";
 		case mvPyDataType::Object:        return "Any";
 		default:                              return "";
 		}
@@ -93,13 +178,13 @@ namespace Marvel {
 			{
 				switch (arg.arg_type)
 				{
-				case mvArgType::POSITIONAL:
-					m_positional_elements.push_back(arg);
+				case mvArgType::REQUIRED_ARG:
+					m_required_elements.push_back(arg);
 					break;
-				case mvArgType::OPTIONAL_ARG:
+				case mvArgType::POSITIONAL_ARG:
 					m_optional_elements.push_back(arg);
 					break;
-				case mvArgType::KEYWORD:
+				case mvArgType::KEYWORD_ARG:
 					m_keyword_elements.push_back(arg);
 					break;
 				}
@@ -108,9 +193,9 @@ namespace Marvel {
 		m_staged_elements.clear();
 
 		// build format string and keywords
-		if (!m_positional_elements.empty())
+		if (!m_required_elements.empty())
 		{
-			for (auto& element : m_positional_elements)
+			for (auto& element : m_required_elements)
 			{
 				m_formatstring.push_back(PythonDataTypeSymbol(element.type));
 				m_keywords.push_back(element.name);
@@ -140,6 +225,23 @@ namespace Marvel {
 		}
 		m_formatstring.push_back(0);
 		m_keywords.push_back(NULL);
+	}
+
+	bool mvPythonParser::verifyRequiredArguments(PyObject* args)
+	{
+		// ensure enough args were provided
+		if (PyTuple_Size(args) < m_required_elements.size())
+		{
+			assert(false && "Not enough arguments provided");
+			return false;
+		}
+
+		return VerifyArguments(0, args, m_required_elements);
+	}
+
+	bool mvPythonParser::verifyPositionalArguments(PyObject* args)
+	{
+		return VerifyArguments(m_required_elements.size(), args, m_optional_elements);
 	}
 
 	bool mvPythonParser::parse(PyObject* args, PyObject* kwargs, const char* message, ...)

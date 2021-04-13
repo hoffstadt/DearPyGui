@@ -19,8 +19,8 @@ namespace Marvel {
 		parser.removeArg("callback_data");
 		parser.removeArg("enabled");
 
-		parser.addArg<mvPyDataType::Bool>("horizontal", mvArgType::KEYWORD, "False");
-		parser.addArg<mvPyDataType::Float>("horizontal_spacing", mvArgType::KEYWORD, "-1");
+		parser.addArg<mvPyDataType::Bool>("horizontal", mvArgType::KEYWORD_ARG, "False");
+		parser.addArg<mvPyDataType::Float>("horizontal_spacing", mvArgType::KEYWORD_ARG, "-1");
 
 
 		parser.finalize();

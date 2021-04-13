@@ -257,8 +257,8 @@ namespace Marvel {
 
 		{
 			mvPythonParser parser(mvPyDataType::None);
-			parser.addArg<mvPyDataType::Bool>("shift", mvArgType::KEYWORD, "True", "press shift for docking");
-			parser.addArg<mvPyDataType::Bool>("dock_space", mvArgType::KEYWORD, "False", "add explicit dockspace over viewport");
+			parser.addArg<mvPyDataType::Bool>("shift", mvArgType::KEYWORD_ARG, "True", "press shift for docking");
+			parser.addArg<mvPyDataType::Bool>("dock_space", mvArgType::KEYWORD_ARG, "False", "add explicit dockspace over viewport");
 			parser.finalize();
 			parsers->insert({ "enable_docking", parser });
 		}

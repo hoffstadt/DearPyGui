@@ -2,16 +2,19 @@
 #include "mvApp.h"
 #include "mvAppLog.h"
 
+#define PY_SSIZE_T_CLEAN
+#include <Python.h>
+
 namespace Marvel {
 
 	mvGlobalIntepreterLock::mvGlobalIntepreterLock()
 	{
-		m_gstate = PyGILState_Ensure();
+		m_gstate = (int)PyGILState_Ensure();
 	}
 
 	mvGlobalIntepreterLock::~mvGlobalIntepreterLock()
 	{
-		PyGILState_Release(m_gstate);
+		PyGILState_Release((PyGILState_STATE)m_gstate);
 	}
 
 }

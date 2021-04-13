@@ -17,8 +17,8 @@ namespace Marvel {
 		parser.removeArg("callback_data");
 		parser.removeArg("enabled");
 
-		parser.addArg<mvPyDataType::Float>("xoffset", mvArgType::KEYWORD, "0.0", "offset from containing window");
-		parser.addArg<mvPyDataType::Float>("spacing", mvArgType::KEYWORD, "-1.0", "offset from previous widget");
+		parser.addArg<mvPyDataType::Float>("xoffset", mvArgType::KEYWORD_ARG, "0.0", "offset from containing window");
+		parser.addArg<mvPyDataType::Float>("spacing", mvArgType::KEYWORD_ARG, "-1.0", "offset from previous widget");
 
 		parser.finalize();
 
