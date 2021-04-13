@@ -17,13 +17,13 @@ namespace Marvel {
 		parser.removeArg("callback_data");
 		parser.removeArg("enabled");
 
-		parser.addArg<mvPyDataType::String>("default_value", mvArgType::KEYWORD, "''");
+		parser.addArg<mvPyDataType::String>("default_value", mvArgType::KEYWORD_ARG, "''");
 
-		parser.addArg<mvPyDataType::Integer>("wrap", mvArgType::KEYWORD, "-1", "number of characters until wraping");
+		parser.addArg<mvPyDataType::Integer>("wrap", mvArgType::KEYWORD_ARG, "-1", "number of characters until wraping");
 
-		parser.addArg<mvPyDataType::Bool>("bullet", mvArgType::KEYWORD, "False", "makes the text bulleted");
+		parser.addArg<mvPyDataType::Bool>("bullet", mvArgType::KEYWORD_ARG, "False", "makes the text bulleted");
 
-		parser.addArg<mvPyDataType::FloatList>("color", mvArgType::KEYWORD, "(-1, -1, -1, -1)", "color of the text (rgba)");
+		parser.addArg<mvPyDataType::FloatList>("color", mvArgType::KEYWORD_ARG, "(-1, -1, -1, -1)", "color of the text (rgba)");
 
 		parser.finalize();
 
@@ -41,8 +41,8 @@ namespace Marvel {
 		parser.removeArg("callback_data");
 		parser.removeArg("enabled");
 
-		parser.addArg<mvPyDataType::String>("default_value", mvArgType::KEYWORD, "''");
-		parser.addArg<mvPyDataType::FloatList>("color", mvArgType::KEYWORD, "(-1, -1, -1, -1)", "color of the text (rgba)");
+		parser.addArg<mvPyDataType::String>("default_value", mvArgType::KEYWORD_ARG, "''");
+		parser.addArg<mvPyDataType::FloatList>("color", mvArgType::KEYWORD_ARG, "(-1, -1, -1, -1)", "color of the text (rgba)");
 
 		parser.finalize();
 

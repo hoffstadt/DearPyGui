@@ -24,10 +24,10 @@ namespace Marvel {
 		parser.removeArg("callback_data");
 		parser.removeArg("enabled");
 
-		parser.addArg<mvPyDataType::Bool>("output", mvArgType::KEYWORD, "False", "Set as output attribute");
-		parser.addArg<mvPyDataType::Bool>("static", mvArgType::KEYWORD, "False", "Set as static attribute");
+		parser.addArg<mvPyDataType::Bool>("output", mvArgType::KEYWORD_ARG, "False", "Set as output attribute");
+		parser.addArg<mvPyDataType::Bool>("static", mvArgType::KEYWORD_ARG, "False", "Set as static attribute");
 
-		parser.addArg<mvPyDataType::Integer>("shape", mvArgType::KEYWORD, "1", "Pin shape");
+		parser.addArg<mvPyDataType::Integer>("shape", mvArgType::KEYWORD_ARG, "1", "Pin shape");
 
 		parser.finalize();
 

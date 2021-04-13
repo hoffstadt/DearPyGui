@@ -15,11 +15,11 @@ namespace Marvel {
 		parser.removeArg("height");
 		parser.removeArg("label");
 
-		parser.addArg<mvPyDataType::Integer>("items", mvArgType::OPTIONAL_ARG, "()");
+		parser.addArg<mvPyDataType::Integer>("items", mvArgType::POSITIONAL_ARG, "()");
 
-		parser.addArg<mvPyDataType::Integer>("default_value", mvArgType::KEYWORD, "0");
+		parser.addArg<mvPyDataType::Integer>("default_value", mvArgType::KEYWORD_ARG, "0");
 
-		parser.addArg<mvPyDataType::Bool>("horizontal", mvArgType::KEYWORD, "False");
+		parser.addArg<mvPyDataType::Bool>("horizontal", mvArgType::KEYWORD_ARG, "False");
 
 		parser.finalize();
 

@@ -46,7 +46,7 @@ namespace Marvel {
 		{
 			mvPythonParser parser(mvPyDataType::String);
 			parser.addArg<mvPyDataType::Callable>("callback");
-			parser.addArg<mvPyDataType::String>("handler", mvArgType::KEYWORD, "''");
+			parser.addArg<mvPyDataType::String>("handler", mvArgType::KEYWORD_ARG, "''");
 			parser.finalize();
 			parsers->insert({ "set_resize_callback", parser });
 		}

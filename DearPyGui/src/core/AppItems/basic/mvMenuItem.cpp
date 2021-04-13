@@ -15,11 +15,11 @@ namespace Marvel {
 		parser.removeArg("height");
 		parser.removeArg("source");
 
-		parser.addArg<mvPyDataType::Bool>("default_value", mvArgType::KEYWORD, "False");
+		parser.addArg<mvPyDataType::Bool>("default_value", mvArgType::KEYWORD_ARG, "False");
 
-		parser.addArg<mvPyDataType::String>("shortcut", mvArgType::KEYWORD, "''", "Adds a shortcut.");
+		parser.addArg<mvPyDataType::String>("shortcut", mvArgType::KEYWORD_ARG, "''", "Adds a shortcut.");
 
-		parser.addArg<mvPyDataType::Bool>("check", mvArgType::KEYWORD, "False", "Makes menu item with checkmark.");
+		parser.addArg<mvPyDataType::Bool>("check", mvArgType::KEYWORD_ARG, "False", "Makes menu item with checkmark.");
 
 		parser.finalize();
 

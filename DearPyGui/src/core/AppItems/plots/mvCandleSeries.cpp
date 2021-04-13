@@ -99,15 +99,15 @@ namespace Marvel {
 		parser.addArg<mvPyDataType::FloatList>("lows");
 		parser.addArg<mvPyDataType::FloatList>("highs");
 
-		parser.addArg<mvPyDataType::IntList>("bull_color", mvArgType::KEYWORD, "(0, 255, 113, 255)");
-		parser.addArg<mvPyDataType::IntList>("bear_color", mvArgType::KEYWORD, "(218, 13, 79, 255)");
+		parser.addArg<mvPyDataType::IntList>("bull_color", mvArgType::KEYWORD_ARG, "(0, 255, 113, 255)");
+		parser.addArg<mvPyDataType::IntList>("bear_color", mvArgType::KEYWORD_ARG, "(218, 13, 79, 255)");
 
-		parser.addArg<mvPyDataType::Integer>("axis", mvArgType::KEYWORD, "0");
+		parser.addArg<mvPyDataType::Integer>("axis", mvArgType::KEYWORD_ARG, "0");
 
-		parser.addArg<mvPyDataType::Integer>("weight", mvArgType::KEYWORD, "0.25");
+		parser.addArg<mvPyDataType::Integer>("weight", mvArgType::KEYWORD_ARG, "0.25");
 
-		parser.addArg<mvPyDataType::Bool>("contribute_to_bounds", mvArgType::KEYWORD, "True");
-		parser.addArg<mvPyDataType::Bool>("tooltip", mvArgType::KEYWORD, "True");
+		parser.addArg<mvPyDataType::Bool>("contribute_to_bounds", mvArgType::KEYWORD_ARG, "True");
+		parser.addArg<mvPyDataType::Bool>("tooltip", mvArgType::KEYWORD_ARG, "True");
 
 		parser.finalize();
 

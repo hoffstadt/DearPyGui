@@ -19,7 +19,7 @@ namespace Marvel {
 		parser.removeArg("label");
 		parser.removeArg("enabled");
 
-		parser.addArg<mvPyDataType::Bool>("reorderable", mvArgType::KEYWORD, "False", "allows for moveable tabs");
+		parser.addArg<mvPyDataType::Bool>("reorderable", mvArgType::KEYWORD_ARG, "False", "allows for moveable tabs");
 
 		parser.finalize();
 

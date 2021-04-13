@@ -15,9 +15,9 @@ namespace Marvel {
 		mvAppItem::AddCommonArgs(parser);
 		parser.removeArg("source");
 
-		parser.addArg<mvPyDataType::Bool>("small", mvArgType::KEYWORD, "False", "Small button, useful for embedding in text.");
-		parser.addArg<mvPyDataType::Bool>("arrow", mvArgType::KEYWORD, "False", "Arrow button, must use with direction");
-		parser.addArg<mvPyDataType::Integer>("direction", mvArgType::KEYWORD, "0", "A cardinal direction");
+		parser.addArg<mvPyDataType::Bool>("small", mvArgType::KEYWORD_ARG, "False", "Small button, useful for embedding in text.");
+		parser.addArg<mvPyDataType::Bool>("arrow", mvArgType::KEYWORD_ARG, "False", "Arrow button, must use with direction");
+		parser.addArg<mvPyDataType::Integer>("direction", mvArgType::KEYWORD_ARG, "0", "A cardinal direction");
 
 		parser.finalize();
 

@@ -23,15 +23,15 @@ namespace Marvel {
 			parser.removeArg("callback_data");
 			parser.removeArg("enabled");
 
-			parser.addArg<mvPyDataType::Integer>("log_level", mvArgType::KEYWORD, "1");
+			parser.addArg<mvPyDataType::Integer>("log_level", mvArgType::KEYWORD_ARG, "1");
 
-			parser.addArg<mvPyDataType::Bool>("autosize_x", mvArgType::KEYWORD, "False");
-			parser.addArg<mvPyDataType::Bool>("autosize_y", mvArgType::KEYWORD, "False");
-			parser.addArg<mvPyDataType::Bool>("copy_button", mvArgType::KEYWORD, "True", "show copy button");
-			parser.addArg<mvPyDataType::Bool>("clear_button", mvArgType::KEYWORD, "True", "show clear butter");
-			parser.addArg<mvPyDataType::Bool>("filter", mvArgType::KEYWORD, "True", "show filter");
-			parser.addArg<mvPyDataType::Bool>("auto_scroll", mvArgType::KEYWORD, "True", "auto scroll");
-			parser.addArg<mvPyDataType::Bool>("auto_scroll_button", mvArgType::KEYWORD, "True", "show auto scroll button");
+			parser.addArg<mvPyDataType::Bool>("autosize_x", mvArgType::KEYWORD_ARG, "False");
+			parser.addArg<mvPyDataType::Bool>("autosize_y", mvArgType::KEYWORD_ARG, "False");
+			parser.addArg<mvPyDataType::Bool>("copy_button", mvArgType::KEYWORD_ARG, "True", "show copy button");
+			parser.addArg<mvPyDataType::Bool>("clear_button", mvArgType::KEYWORD_ARG, "True", "show clear butter");
+			parser.addArg<mvPyDataType::Bool>("filter", mvArgType::KEYWORD_ARG, "True", "show filter");
+			parser.addArg<mvPyDataType::Bool>("auto_scroll", mvArgType::KEYWORD_ARG, "True", "auto scroll");
+			parser.addArg<mvPyDataType::Bool>("auto_scroll_button", mvArgType::KEYWORD_ARG, "True", "show auto scroll button");
 
 			parser.finalize();
 
@@ -40,63 +40,63 @@ namespace Marvel {
 
 		{
 			mvPythonParser parser(mvPyDataType::Integer);
-			parser.addArg<mvPyDataType::String>("logger", mvArgType::KEYWORD, "''", "specific logger");
+			parser.addArg<mvPyDataType::String>("logger", mvArgType::KEYWORD_ARG, "''", "specific logger");
 			parser.finalize();
 			parsers->insert({ "get_log_level", parser });
 		}
 
 		{
 			mvPythonParser parser(mvPyDataType::None);
-			parser.addArg<mvPyDataType::String>("logger", mvArgType::KEYWORD, "''", "specific logger");
+			parser.addArg<mvPyDataType::String>("logger", mvArgType::KEYWORD_ARG, "''", "specific logger");
 			parser.finalize();
 			parsers->insert({ "clear_log", parser });
 		}
 
 		{
 			mvPythonParser parser(mvPyDataType::None);
-			parser.addArg<mvPyDataType::Integer>("level", mvArgType::POSITIONAL);
-			parser.addArg<mvPyDataType::String>("logger", mvArgType::KEYWORD, "''", "specific logger");
+			parser.addArg<mvPyDataType::Integer>("level", mvArgType::REQUIRED_ARG);
+			parser.addArg<mvPyDataType::String>("logger", mvArgType::KEYWORD_ARG, "''", "specific logger");
 			parser.finalize();
 			parsers->insert({ "set_log_level", parser });
 		}
 
 		{
 			mvPythonParser parser(mvPyDataType::None);
-			parser.addArg<mvPyDataType::Object>("message", mvArgType::POSITIONAL);
-			parser.addArg<mvPyDataType::Integer>("level", mvArgType::KEYWORD, "'TRACE'");
-			parser.addArg<mvPyDataType::String>("logger", mvArgType::KEYWORD, "''", "specific logger");
+			parser.addArg<mvPyDataType::Object>("message", mvArgType::REQUIRED_ARG);
+			parser.addArg<mvPyDataType::Integer>("level", mvArgType::KEYWORD_ARG, "'TRACE'");
+			parser.addArg<mvPyDataType::String>("logger", mvArgType::KEYWORD_ARG, "''", "specific logger");
 			parser.finalize();
 			parsers->insert({ "log", parser });
 		}
 
 		{
 			mvPythonParser parser(mvPyDataType::None);
-			parser.addArg<mvPyDataType::Object>("message", mvArgType::POSITIONAL);
-			parser.addArg<mvPyDataType::String>("logger", mvArgType::KEYWORD, "''", "specific logger");
+			parser.addArg<mvPyDataType::Object>("message", mvArgType::REQUIRED_ARG);
+			parser.addArg<mvPyDataType::String>("logger", mvArgType::KEYWORD_ARG, "''", "specific logger");
 			parser.finalize();
 			parsers->insert({ "log_debug", parser });
 		}
 
 		{
 			mvPythonParser parser(mvPyDataType::None);
-			parser.addArg<mvPyDataType::Object>("message", mvArgType::POSITIONAL);
-			parser.addArg<mvPyDataType::String>("logger", mvArgType::KEYWORD, "''", "specific logger");
+			parser.addArg<mvPyDataType::Object>("message", mvArgType::REQUIRED_ARG);
+			parser.addArg<mvPyDataType::String>("logger", mvArgType::KEYWORD_ARG, "''", "specific logger");
 			parser.finalize();
 			parsers->insert({ "log_info", parser });
 		}
 
 		{
 			mvPythonParser parser(mvPyDataType::None);
-			parser.addArg<mvPyDataType::Object>("message", mvArgType::POSITIONAL);
-			parser.addArg<mvPyDataType::String>("logger", mvArgType::KEYWORD, "''", "specific logger");
+			parser.addArg<mvPyDataType::Object>("message", mvArgType::REQUIRED_ARG);
+			parser.addArg<mvPyDataType::String>("logger", mvArgType::KEYWORD_ARG, "''", "specific logger");
 			parser.finalize();
 			parsers->insert({ "log_warning", parser });
 		}
 
 		{
 			mvPythonParser parser(mvPyDataType::None);
-			parser.addArg<mvPyDataType::Object>("message", mvArgType::POSITIONAL);
-			parser.addArg<mvPyDataType::String>("logger", mvArgType::KEYWORD, "''", "specific logger");
+			parser.addArg<mvPyDataType::Object>("message", mvArgType::REQUIRED_ARG);
+			parser.addArg<mvPyDataType::String>("logger", mvArgType::KEYWORD_ARG, "''", "specific logger");
 			parser.finalize();
 			parsers->insert({ "log_error", parser });
 		}
@@ -109,7 +109,7 @@ namespace Marvel {
 
 		{
 			mvPythonParser parser(mvPyDataType::None);
-			parser.addArg<mvPyDataType::String>("title", mvArgType::POSITIONAL);
+			parser.addArg<mvPyDataType::String>("title", mvArgType::REQUIRED_ARG);
 			parser.finalize();
 			parsers->insert({ "set_logger_window_title", parser });
 		}

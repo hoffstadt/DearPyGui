@@ -22,13 +22,13 @@ namespace Marvel {
 
 		parser.addArg<mvPyDataType::Float>("radius");
 
-		parser.addArg<mvPyDataType::IntList>("color", mvArgType::KEYWORD, "(255, 255, 255, 255)");
-		parser.addArg<mvPyDataType::IntList>("fill", mvArgType::KEYWORD, "(0, 0, 0, -255)");
+		parser.addArg<mvPyDataType::IntList>("color", mvArgType::KEYWORD_ARG, "(255, 255, 255, 255)");
+		parser.addArg<mvPyDataType::IntList>("fill", mvArgType::KEYWORD_ARG, "(0, 0, 0, -255)");
 
-		parser.addArg<mvPyDataType::Float>("thickness", mvArgType::KEYWORD, "1.0");
+		parser.addArg<mvPyDataType::Float>("thickness", mvArgType::KEYWORD_ARG, "1.0");
 
-		parser.addArg<mvPyDataType::Integer>("size", mvArgType::KEYWORD, "4");
-		parser.addArg<mvPyDataType::Integer>("segments", mvArgType::KEYWORD, "0");
+		parser.addArg<mvPyDataType::Integer>("size", mvArgType::KEYWORD_ARG, "4");
+		parser.addArg<mvPyDataType::Integer>("segments", mvArgType::KEYWORD_ARG, "0");
 
 		parser.finalize();
 

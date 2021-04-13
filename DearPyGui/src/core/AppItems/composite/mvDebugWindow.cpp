@@ -29,20 +29,20 @@ namespace Marvel {
 		parser.removeArg("callback_data");
 		parser.removeArg("enabled");
 
-		parser.addArg<mvPyDataType::Integer>("x_pos", mvArgType::KEYWORD, "200");
-		parser.addArg<mvPyDataType::Integer>("y_pos", mvArgType::KEYWORD, "200");
+		parser.addArg<mvPyDataType::Integer>("x_pos", mvArgType::KEYWORD_ARG, "200");
+		parser.addArg<mvPyDataType::Integer>("y_pos", mvArgType::KEYWORD_ARG, "200");
 
-		parser.addArg<mvPyDataType::Bool>("autosize", mvArgType::KEYWORD, "False", "Autosized the window to fit it's items.");
-		parser.addArg<mvPyDataType::Bool>("no_resize", mvArgType::KEYWORD, "False", "Allows for the window size to be changed or fixed");
-		parser.addArg<mvPyDataType::Bool>("no_title_bar", mvArgType::KEYWORD, "False", "Title name for the title bar of the window");
-		parser.addArg<mvPyDataType::Bool>("no_move", mvArgType::KEYWORD, "False", "Allows for the window's position to be changed or fixed");
-		parser.addArg<mvPyDataType::Bool>("no_scrollbar", mvArgType::KEYWORD, "False", " Disable scrollbars (window can still scroll with mouse or programmatically)");
-		parser.addArg<mvPyDataType::Bool>("no_collapse", mvArgType::KEYWORD, "False", "Disable user collapsing window by double-clicking on it");
-		parser.addArg<mvPyDataType::Bool>("horizontal_scrollbar", mvArgType::KEYWORD, "False", "Allow horizontal scrollbar to appear (off by default).");
-		parser.addArg<mvPyDataType::Bool>("no_focus_on_appearing", mvArgType::KEYWORD, "False", "Disable taking focus when transitioning from hidden to visible state");
-		parser.addArg<mvPyDataType::Bool>("no_bring_to_front_on_focus", mvArgType::KEYWORD, "False", "Disable bringing window to front when taking focus (e.g. clicking on it or programmatically giving it focus)");
-		parser.addArg<mvPyDataType::Bool>("no_close", mvArgType::KEYWORD, "False");
-		parser.addArg<mvPyDataType::Bool>("no_background", mvArgType::KEYWORD, "False");
+		parser.addArg<mvPyDataType::Bool>("autosize", mvArgType::KEYWORD_ARG, "False", "Autosized the window to fit it's items.");
+		parser.addArg<mvPyDataType::Bool>("no_resize", mvArgType::KEYWORD_ARG, "False", "Allows for the window size to be changed or fixed");
+		parser.addArg<mvPyDataType::Bool>("no_title_bar", mvArgType::KEYWORD_ARG, "False", "Title name for the title bar of the window");
+		parser.addArg<mvPyDataType::Bool>("no_move", mvArgType::KEYWORD_ARG, "False", "Allows for the window's position to be changed or fixed");
+		parser.addArg<mvPyDataType::Bool>("no_scrollbar", mvArgType::KEYWORD_ARG, "False", " Disable scrollbars (window can still scroll with mouse or programmatically)");
+		parser.addArg<mvPyDataType::Bool>("no_collapse", mvArgType::KEYWORD_ARG, "False", "Disable user collapsing window by double-clicking on it");
+		parser.addArg<mvPyDataType::Bool>("horizontal_scrollbar", mvArgType::KEYWORD_ARG, "False", "Allow horizontal scrollbar to appear (off by default).");
+		parser.addArg<mvPyDataType::Bool>("no_focus_on_appearing", mvArgType::KEYWORD_ARG, "False", "Disable taking focus when transitioning from hidden to visible state");
+		parser.addArg<mvPyDataType::Bool>("no_bring_to_front_on_focus", mvArgType::KEYWORD_ARG, "False", "Disable bringing window to front when taking focus (e.g. clicking on it or programmatically giving it focus)");
+		parser.addArg<mvPyDataType::Bool>("no_close", mvArgType::KEYWORD_ARG, "False");
+		parser.addArg<mvPyDataType::Bool>("no_background", mvArgType::KEYWORD_ARG, "False");
 
 		parser.finalize();
 

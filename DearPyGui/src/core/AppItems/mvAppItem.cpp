@@ -29,7 +29,6 @@ namespace Marvel{
 		{
 			mvPythonParser parser(mvPyDataType::None);
 			parser.addArg<mvPyDataType::String>("item");
-			parser.addArg<mvPyDataType::Kwargs>("**Kwargs");
 			parser.finalize();
 			parsers->insert({ "configure_item", parser });
 		}
@@ -72,21 +71,21 @@ namespace Marvel{
 
 	void mvAppItem::AddCommonArgs(mvPythonParser& parser)
 	{
-		parser.addArg<mvPyDataType::String>("name", mvArgType::OPTIONAL_ARG);
+		parser.addArg<mvPyDataType::String>("id", mvArgType::KEYWORD_ARG);
 
-		parser.addArg<mvPyDataType::Integer>("width", mvArgType::KEYWORD, "0");
-		parser.addArg<mvPyDataType::Integer>("height", mvArgType::KEYWORD, "0");
+		parser.addArg<mvPyDataType::Integer>("width", mvArgType::KEYWORD_ARG, "0");
+		parser.addArg<mvPyDataType::Integer>("height", mvArgType::KEYWORD_ARG, "0");
 
-		parser.addArg<mvPyDataType::String>("parent", mvArgType::KEYWORD, "''", "Parent to add this item to. (runtime adding)");
-		parser.addArg<mvPyDataType::String>("before", mvArgType::KEYWORD, "''", "This item will be displayed before the specified item in the parent.");
-		parser.addArg<mvPyDataType::String>("label", mvArgType::KEYWORD, "''", "Overrides 'name' as label");
-		parser.addArg<mvPyDataType::String>("source", mvArgType::KEYWORD, "''", "Overrides 'name' as value storage key");
+		parser.addArg<mvPyDataType::String>("parent", mvArgType::KEYWORD_ARG, "''", "Parent to add this item to. (runtime adding)");
+		parser.addArg<mvPyDataType::String>("before", mvArgType::KEYWORD_ARG, "''", "This item will be displayed before the specified item in the parent.");
+		parser.addArg<mvPyDataType::String>("label", mvArgType::KEYWORD_ARG, "''", "Overrides 'name' as label");
+		parser.addArg<mvPyDataType::String>("source", mvArgType::KEYWORD_ARG, "''", "Overrides 'name' as value storage key");
 		
-		parser.addArg<mvPyDataType::Callable>("callback", mvArgType::KEYWORD, "None", "Registers a callback");
-		parser.addArg<mvPyDataType::Object>("callback_data", mvArgType::KEYWORD, "None", "Callback data");
+		parser.addArg<mvPyDataType::Callable>("callback", mvArgType::KEYWORD_ARG, "None", "Registers a callback");
+		parser.addArg<mvPyDataType::Object>("callback_data", mvArgType::KEYWORD_ARG, "None", "Callback data");
 
-		parser.addArg<mvPyDataType::Bool>("show", mvArgType::KEYWORD, "True", "Attempt to render");
-		parser.addArg<mvPyDataType::Bool>("enabled", mvArgType::KEYWORD, "True");
+		parser.addArg<mvPyDataType::Bool>("show", mvArgType::KEYWORD_ARG, "True", "Attempt to render");
+		parser.addArg<mvPyDataType::Bool>("enabled", mvArgType::KEYWORD_ARG, "True");
 
 	}
 
@@ -737,6 +736,13 @@ namespace Marvel{
 		if (dict == nullptr)
 			return;
 
+		if (PyArg_ValidateKeywordArguments(dict) == 0)
+		{
+			assert(false);
+			mvThrowPythonError(1000, "Dictionary keywords must be strings");
+			return;
+		}
+
 		if (PyObject* item = PyDict_GetItemString(dict, "name")) m_name = ToString(item);
 		if (PyObject* item = PyDict_GetItemString(dict, "label")) setLabel(ToString(item));
 		if (PyObject* item = PyDict_GetItemString(dict, "width")) setWidth(ToInt(item));
@@ -769,16 +775,6 @@ namespace Marvel{
 
 	std::pair<std::string, std::string> mvAppItem::GetNameFromArgs(std::string& name, PyObject* args, PyObject* kwargs)
 	{
-		if (args)
-		{
-			if (PyTuple_GET_SIZE(args) > 0)
-			{
-				PyObject* pyname = nullptr;
-				pyname = PyTuple_GetItem(args, 0);
-
-				name = ToString(pyname);
-			}
-		}
 
 		std::string parent;
 		std::string before;
@@ -787,6 +783,7 @@ namespace Marvel{
 		{
 			if (PyObject* item = PyDict_GetItemString(kwargs, "parent")) parent = ToString(item);
 			if (PyObject* item = PyDict_GetItemString(kwargs, "before")) before = ToString(item);
+			if (PyObject* item = PyDict_GetItemString(kwargs, "id")) name = ToString(item);
 		}
 
 		return std::make_pair(parent, before);

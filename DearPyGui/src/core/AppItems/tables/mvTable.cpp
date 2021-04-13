@@ -18,32 +18,32 @@ namespace Marvel {
 		parser.removeArg("callback_data");
 		parser.removeArg("enabled");
 
-		parser.addArg<mvPyDataType::Bool>("header_row", mvArgType::KEYWORD, "True", "show headers at the top of the columns");
+		parser.addArg<mvPyDataType::Bool>("header_row", mvArgType::KEYWORD_ARG, "True", "show headers at the top of the columns");
 
-		parser.addArg<mvPyDataType::Integer>("inner_width", mvArgType::KEYWORD, "0");
-		parser.addArg<mvPyDataType::Integer>("policy", mvArgType::KEYWORD, "0");
+		parser.addArg<mvPyDataType::Integer>("inner_width", mvArgType::KEYWORD_ARG, "0");
+		parser.addArg<mvPyDataType::Integer>("policy", mvArgType::KEYWORD_ARG, "0");
 
-		parser.addArg<mvPyDataType::Bool>("resizable", mvArgType::KEYWORD, "False", "Enable resizing columns");
-		parser.addArg<mvPyDataType::Bool>("reorderable", mvArgType::KEYWORD, "False", "Enable reordering columns in header row (need calling TableSetupColumn() + TableHeadersRow() to display headers)");
-		parser.addArg<mvPyDataType::Bool>("hideable", mvArgType::KEYWORD, "False", "Enable hiding/disabling columns in context menu.");
-		parser.addArg<mvPyDataType::Bool>("sortable", mvArgType::KEYWORD, "False", "Enable sorting. Call TableGetSortSpecs() to obtain sort specs. Also see ImGuiTableFlags_SortMulti and ImGuiTableFlags_SortTristate.");
-		parser.addArg<mvPyDataType::Bool>("context_menu_in_body", mvArgType::KEYWORD, "False", "Right-click on columns body/contents will display table context menu. By default it is available in TableHeadersRow().");
-		parser.addArg<mvPyDataType::Bool>("row_background", mvArgType::KEYWORD, "False", "Set each RowBg color with ImGuiCol_TableRowBg or ImGuiCol_TableRowBgAlt (equivalent of calling TableSetBgColor with ImGuiTableBgFlags_RowBg0 on each row manually)");
-		parser.addArg<mvPyDataType::Bool>("borders_innerH", mvArgType::KEYWORD, "False", "Draw horizontal borders between rows.");
-		parser.addArg<mvPyDataType::Bool>("borders_outerH", mvArgType::KEYWORD, "False", "Draw horizontal borders at the top and bottom.");
-		parser.addArg<mvPyDataType::Bool>("borders_innerV", mvArgType::KEYWORD, "False", "Draw vertical borders between columns.");
-		parser.addArg<mvPyDataType::Bool>("borders_outerV", mvArgType::KEYWORD, "False", "Draw vertical borders on the left and right sides.");
+		parser.addArg<mvPyDataType::Bool>("resizable", mvArgType::KEYWORD_ARG, "False", "Enable resizing columns");
+		parser.addArg<mvPyDataType::Bool>("reorderable", mvArgType::KEYWORD_ARG, "False", "Enable reordering columns in header row (need calling TableSetupColumn() + TableHeadersRow() to display headers)");
+		parser.addArg<mvPyDataType::Bool>("hideable", mvArgType::KEYWORD_ARG, "False", "Enable hiding/disabling columns in context menu.");
+		parser.addArg<mvPyDataType::Bool>("sortable", mvArgType::KEYWORD_ARG, "False", "Enable sorting. Call TableGetSortSpecs() to obtain sort specs. Also see ImGuiTableFlags_SortMulti and ImGuiTableFlags_SortTristate.");
+		parser.addArg<mvPyDataType::Bool>("context_menu_in_body", mvArgType::KEYWORD_ARG, "False", "Right-click on columns body/contents will display table context menu. By default it is available in TableHeadersRow().");
+		parser.addArg<mvPyDataType::Bool>("row_background", mvArgType::KEYWORD_ARG, "False", "Set each RowBg color with ImGuiCol_TableRowBg or ImGuiCol_TableRowBgAlt (equivalent of calling TableSetBgColor with ImGuiTableBgFlags_RowBg0 on each row manually)");
+		parser.addArg<mvPyDataType::Bool>("borders_innerH", mvArgType::KEYWORD_ARG, "False", "Draw horizontal borders between rows.");
+		parser.addArg<mvPyDataType::Bool>("borders_outerH", mvArgType::KEYWORD_ARG, "False", "Draw horizontal borders at the top and bottom.");
+		parser.addArg<mvPyDataType::Bool>("borders_innerV", mvArgType::KEYWORD_ARG, "False", "Draw vertical borders between columns.");
+		parser.addArg<mvPyDataType::Bool>("borders_outerV", mvArgType::KEYWORD_ARG, "False", "Draw vertical borders on the left and right sides.");
 
-		parser.addArg<mvPyDataType::Bool>("no_host_extendX", mvArgType::KEYWORD, "False", "Make outer width auto-fit to columns, overriding outer_size.x value. Only available when ScrollX/ScrollY are disabled and Stretch columns are not used.");
-		parser.addArg<mvPyDataType::Bool>("no_host_extendY", mvArgType::KEYWORD, "False", "Make outer height stop exactly at outer_size.y (prevent auto-extending table past the limit). Only available when ScrollX/ScrollY are disabled. Data below the limit will be clipped and not visible.");
-		parser.addArg<mvPyDataType::Bool>("no_keep_columns_visible", mvArgType::KEYWORD, "False", "Disable keeping column always minimally visible when ScrollX is off and table gets too small. Not recommended if columns are resizable.");
-		parser.addArg<mvPyDataType::Bool>("precise_widths", mvArgType::KEYWORD, "False", "Disable distributing remainder width to stretched columns (width allocation on a 100-wide table with 3 columns: Without this flag: 33,33,34. With this flag: 33,33,33). With larger number of columns, resizing will appear to be less smooth.");
-		parser.addArg<mvPyDataType::Bool>("no_clip", mvArgType::KEYWORD, "False", "Disable clipping rectangle for every individual columns.");
-		parser.addArg<mvPyDataType::Bool>("pad_outerX", mvArgType::KEYWORD, "False", "Default if BordersOuterV is on. Enable outer-most padding. Generally desirable if you have headers.");
-		parser.addArg<mvPyDataType::Bool>("no_pad_outerX", mvArgType::KEYWORD, "False", "Default if BordersOuterV is off. Disable outer-most padding.");
-		parser.addArg<mvPyDataType::Bool>("no_pad_innerX", mvArgType::KEYWORD, "False", "Disable inner padding between columns (double inner padding if BordersOuterV is on, single inner padding if BordersOuterV is off).");
-		parser.addArg<mvPyDataType::Bool>("scrollX", mvArgType::KEYWORD, "False", "Enable horizontal scrolling. Require 'outer_size' parameter of BeginTable() to specify the container size. Changes default sizing policy. Because this create a child window, ScrollY is currently generally recommended when using ScrollX.");
-		parser.addArg<mvPyDataType::Bool>("scrollY", mvArgType::KEYWORD, "False", "Enable horizontal vertical.");
+		parser.addArg<mvPyDataType::Bool>("no_host_extendX", mvArgType::KEYWORD_ARG, "False", "Make outer width auto-fit to columns, overriding outer_size.x value. Only available when ScrollX/ScrollY are disabled and Stretch columns are not used.");
+		parser.addArg<mvPyDataType::Bool>("no_host_extendY", mvArgType::KEYWORD_ARG, "False", "Make outer height stop exactly at outer_size.y (prevent auto-extending table past the limit). Only available when ScrollX/ScrollY are disabled. Data below the limit will be clipped and not visible.");
+		parser.addArg<mvPyDataType::Bool>("no_keep_columns_visible", mvArgType::KEYWORD_ARG, "False", "Disable keeping column always minimally visible when ScrollX is off and table gets too small. Not recommended if columns are resizable.");
+		parser.addArg<mvPyDataType::Bool>("precise_widths", mvArgType::KEYWORD_ARG, "False", "Disable distributing remainder width to stretched columns (width allocation on a 100-wide table with 3 columns: Without this flag: 33,33,34. With this flag: 33,33,33). With larger number of columns, resizing will appear to be less smooth.");
+		parser.addArg<mvPyDataType::Bool>("no_clip", mvArgType::KEYWORD_ARG, "False", "Disable clipping rectangle for every individual columns.");
+		parser.addArg<mvPyDataType::Bool>("pad_outerX", mvArgType::KEYWORD_ARG, "False", "Default if BordersOuterV is on. Enable outer-most padding. Generally desirable if you have headers.");
+		parser.addArg<mvPyDataType::Bool>("no_pad_outerX", mvArgType::KEYWORD_ARG, "False", "Default if BordersOuterV is off. Disable outer-most padding.");
+		parser.addArg<mvPyDataType::Bool>("no_pad_innerX", mvArgType::KEYWORD_ARG, "False", "Disable inner padding between columns (double inner padding if BordersOuterV is on, single inner padding if BordersOuterV is off).");
+		parser.addArg<mvPyDataType::Bool>("scrollX", mvArgType::KEYWORD_ARG, "False", "Enable horizontal scrolling. Require 'outer_size' parameter of BeginTable() to specify the container size. Changes default sizing policy. Because this create a child window, ScrollY is currently generally recommended when using ScrollX.");
+		parser.addArg<mvPyDataType::Bool>("scrollY", mvArgType::KEYWORD_ARG, "False", "Enable horizontal vertical.");
 
 		parser.finalize();
 

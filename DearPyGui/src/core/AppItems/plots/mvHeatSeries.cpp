@@ -23,15 +23,15 @@ namespace Marvel {
 		parser.addArg<mvPyDataType::Integer>("cols");
 
 
-		parser.addArg<mvPyDataType::Double>("scale_min", mvArgType::KEYWORD, "0.0");
-		parser.addArg<mvPyDataType::Double>("scale_max", mvArgType::KEYWORD, "1.0");
+		parser.addArg<mvPyDataType::Double>("scale_min", mvArgType::KEYWORD_ARG, "0.0");
+		parser.addArg<mvPyDataType::Double>("scale_max", mvArgType::KEYWORD_ARG, "1.0");
 
-		parser.addArg<mvPyDataType::FloatList>("bounds_min", mvArgType::KEYWORD, "(0.0, 0.0)");
-		parser.addArg<mvPyDataType::FloatList>("bounds_max", mvArgType::KEYWORD, "(1.0, 1.0)");
+		parser.addArg<mvPyDataType::FloatList>("bounds_min", mvArgType::KEYWORD_ARG, "(0.0, 0.0)");
+		parser.addArg<mvPyDataType::FloatList>("bounds_max", mvArgType::KEYWORD_ARG, "(1.0, 1.0)");
 
-		parser.addArg<mvPyDataType::String>("format", mvArgType::KEYWORD, "'%0.1f'");
+		parser.addArg<mvPyDataType::String>("format", mvArgType::KEYWORD_ARG, "'%0.1f'");
 
-		parser.addArg<mvPyDataType::Bool>("contribute_to_bounds", mvArgType::KEYWORD, "True");
+		parser.addArg<mvPyDataType::Bool>("contribute_to_bounds", mvArgType::KEYWORD_ARG, "True");
 
 		parser.finalize();
 

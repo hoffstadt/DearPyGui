@@ -22,6 +22,7 @@ static PyObject* parser(PyObject* self, PyObject* args, PyObject* kwargs)\
 	auto [parent, before] = mvAppItem::GetNameFromArgs(name, args, kwargs);\
 	auto item = CreateRef<mvItemTypeMap<(int)x>::type>(name);\
 	item->checkArgs(kwargs);\
+	item->handleSpecificRequiredArgs(args);\
 	item->handleSpecificPositionalArgs(args);\
 	item->handleKeywordArgs(kwargs);\
 	if(mvApp::GetApp()->getItemRegistry().addItemWithRuntimeChecks(item, parent.c_str(), before.c_str()))\

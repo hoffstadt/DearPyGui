@@ -13,6 +13,7 @@ set(MARVEL_SOURCES
 	"src/core/PythonUtilities/mvPythonParser.cpp"
 	"src/core/PythonUtilities/mvPythonExceptions.cpp"
 	"src/core/PythonUtilities/mvGlobalIntepreterLock.cpp"
+	"src/core/PythonUtilities/mvPythonTypeChecker.cpp"
 
 	"$<$<PLATFORM_ID:Windows>:src/platform/Windows/mvWindowsViewport.cpp>"
 	"$<$<PLATFORM_ID:Windows>:src/platform/Windows/mvUtilities.cpp>"

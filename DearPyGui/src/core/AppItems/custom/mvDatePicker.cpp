@@ -20,8 +20,8 @@ namespace Marvel {
 		parser.removeArg("label");
 		parser.removeArg("enabled");
 
-		parser.addArg<mvPyDataType::Dict>("default_value", mvArgType::KEYWORD, "{'month_day': 14, 'year':20, 'month':5}");
-		parser.addArg<mvPyDataType::Integer>("level", mvArgType::KEYWORD, "0", "0-day, 1-month, 2-year");
+		parser.addArg<mvPyDataType::Dict>("default_value", mvArgType::KEYWORD_ARG, "{'month_day': 14, 'year':20, 'month':5}");
+		parser.addArg<mvPyDataType::Integer>("level", mvArgType::KEYWORD_ARG, "0", "0-day, 1-month, 2-year");
 
 
 		parser.finalize();

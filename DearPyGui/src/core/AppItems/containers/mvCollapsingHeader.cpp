@@ -20,12 +20,12 @@ namespace Marvel {
 		parser.removeArg("callback_data");
 		parser.removeArg("enabled");
 
-		parser.addArg<mvPyDataType::Bool>("closable", mvArgType::KEYWORD, "False");
-		parser.addArg<mvPyDataType::Bool>("default_open", mvArgType::KEYWORD, "False");
-		parser.addArg<mvPyDataType::Bool>("open_on_double_click", mvArgType::KEYWORD, "False", "Need double-click to open node");
-		parser.addArg<mvPyDataType::Bool>("open_on_arrow", mvArgType::KEYWORD, "False", "Only open when clicking on the arrow part.");
-		parser.addArg<mvPyDataType::Bool>("leaf", mvArgType::KEYWORD, "False", "No collapsing, no arrow (use as a convenience for leaf nodes).");
-		parser.addArg<mvPyDataType::Bool>("bullet", mvArgType::KEYWORD, "False", "Display a bullet instead of arrow");
+		parser.addArg<mvPyDataType::Bool>("closable", mvArgType::KEYWORD_ARG, "False");
+		parser.addArg<mvPyDataType::Bool>("default_open", mvArgType::KEYWORD_ARG, "False");
+		parser.addArg<mvPyDataType::Bool>("open_on_double_click", mvArgType::KEYWORD_ARG, "False", "Need double-click to open node");
+		parser.addArg<mvPyDataType::Bool>("open_on_arrow", mvArgType::KEYWORD_ARG, "False", "Only open when clicking on the arrow part.");
+		parser.addArg<mvPyDataType::Bool>("leaf", mvArgType::KEYWORD_ARG, "False", "No collapsing, no arrow (use as a convenience for leaf nodes).");
+		parser.addArg<mvPyDataType::Bool>("bullet", mvArgType::KEYWORD_ARG, "False", "Display a bullet instead of arrow");
 
 		parser.finalize();
 

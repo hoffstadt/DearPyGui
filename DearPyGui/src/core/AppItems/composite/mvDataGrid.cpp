@@ -18,9 +18,9 @@ namespace Marvel {
 			parser.removeArg("label");
 			parser.removeArg("enabled");
 
-			parser.addArg<mvPyDataType::StringList>("headers", mvArgType::OPTIONAL_ARG);
+			parser.addArg<mvPyDataType::StringList>("headers", mvArgType::POSITIONAL_ARG);
 
-			parser.addArg<mvPyDataType::Bool>("hide_headers", mvArgType::KEYWORD, "False", "Hide headers of the table");
+			parser.addArg<mvPyDataType::Bool>("hide_headers", mvArgType::KEYWORD_ARG, "False", "Hide headers of the table");
 
 
 			parser.finalize();
@@ -30,118 +30,118 @@ namespace Marvel {
 
 		{
 			mvPythonParser parser(mvPyDataType::None);
-			parser.addArg<mvPyDataType::String>("data_grid", mvArgType::POSITIONAL);
-			parser.addArg<mvPyDataType::ListStrList>("data", mvArgType::POSITIONAL);
+			parser.addArg<mvPyDataType::String>("data_grid", mvArgType::REQUIRED_ARG);
+			parser.addArg<mvPyDataType::ListStrList>("data", mvArgType::REQUIRED_ARG);
 			parser.finalize();
 			parsers->insert({ "set_grid_data", parser });
 		}
 
 		{
 			mvPythonParser parser(mvPyDataType::ListStrList);
-			parser.addArg<mvPyDataType::String>("data_grid", mvArgType::POSITIONAL);
+			parser.addArg<mvPyDataType::String>("data_grid", mvArgType::REQUIRED_ARG);
 			parser.finalize();
 			parsers->insert({ "get_grid_data", parser });
 		}
 
 		{
 			mvPythonParser parser(mvPyDataType::None);
-			parser.addArg<mvPyDataType::String>("data_grid", mvArgType::POSITIONAL);
-			parser.addArg<mvPyDataType::StringList>("headers", mvArgType::POSITIONAL);
+			parser.addArg<mvPyDataType::String>("data_grid", mvArgType::REQUIRED_ARG);
+			parser.addArg<mvPyDataType::StringList>("headers", mvArgType::REQUIRED_ARG);
 			parser.finalize();
 			parsers->insert({ "set_grid_headers", parser });
 		}
 
 		{
 			mvPythonParser parser(mvPyDataType::ListStrList);
-			parser.addArg<mvPyDataType::String>("data_grid", mvArgType::POSITIONAL);
+			parser.addArg<mvPyDataType::String>("data_grid", mvArgType::REQUIRED_ARG);
 			parser.finalize();
 			parsers->insert({ "clear_data_grid", parser });
 		}
 
 		{
 			mvPythonParser parser(mvPyDataType::None);
-			parser.addArg<mvPyDataType::String>("data_grid", mvArgType::POSITIONAL);
-			parser.addArg<mvPyDataType::String>("name", mvArgType::POSITIONAL);
-			parser.addArg<mvPyDataType::StringList>("column", mvArgType::POSITIONAL);
+			parser.addArg<mvPyDataType::String>("data_grid", mvArgType::REQUIRED_ARG);
+			parser.addArg<mvPyDataType::String>("name", mvArgType::REQUIRED_ARG);
+			parser.addArg<mvPyDataType::StringList>("column", mvArgType::REQUIRED_ARG);
 			parser.finalize();
 			parsers->insert({ "add_grid_column", parser });
 		}
 
 		{
 			mvPythonParser parser(mvPyDataType::None);
-			parser.addArg<mvPyDataType::String>("data_grid", mvArgType::POSITIONAL);
-			parser.addArg<mvPyDataType::Integer>("column_index", mvArgType::POSITIONAL);
-			parser.addArg<mvPyDataType::String>("name", mvArgType::POSITIONAL);
-			parser.addArg<mvPyDataType::StringList>("column", mvArgType::POSITIONAL);
+			parser.addArg<mvPyDataType::String>("data_grid", mvArgType::REQUIRED_ARG);
+			parser.addArg<mvPyDataType::Integer>("column_index", mvArgType::REQUIRED_ARG);
+			parser.addArg<mvPyDataType::String>("name", mvArgType::REQUIRED_ARG);
+			parser.addArg<mvPyDataType::StringList>("column", mvArgType::REQUIRED_ARG);
 			parser.finalize();
 			parsers->insert({ "insert_grid_column", parser });
 		}
 
 		{
 			mvPythonParser parser(mvPyDataType::None);
-			parser.addArg<mvPyDataType::String>("data_grid", mvArgType::POSITIONAL);
-			parser.addArg<mvPyDataType::Integer>("column_index", mvArgType::POSITIONAL);
+			parser.addArg<mvPyDataType::String>("data_grid", mvArgType::REQUIRED_ARG);
+			parser.addArg<mvPyDataType::Integer>("column_index", mvArgType::REQUIRED_ARG);
 			parser.finalize();
 			parsers->insert({ "delete_grid_column", parser });
 		}
 
 		{
 			mvPythonParser parser(mvPyDataType::None);
-			parser.addArg<mvPyDataType::String>("data_grid", mvArgType::POSITIONAL);
-			parser.addArg<mvPyDataType::StringList>("row", mvArgType::POSITIONAL);
+			parser.addArg<mvPyDataType::String>("data_grid", mvArgType::REQUIRED_ARG);
+			parser.addArg<mvPyDataType::StringList>("row", mvArgType::REQUIRED_ARG);
 			parser.finalize();
 			parsers->insert({ "add_grid_row", parser });
 		}
 
 		{
 			mvPythonParser parser(mvPyDataType::None);
-			parser.addArg<mvPyDataType::String>("data_grid", mvArgType::POSITIONAL);
-			parser.addArg<mvPyDataType::Integer>("row_index", mvArgType::POSITIONAL);
-			parser.addArg<mvPyDataType::StringList>("row", mvArgType::POSITIONAL);
+			parser.addArg<mvPyDataType::String>("data_grid", mvArgType::REQUIRED_ARG);
+			parser.addArg<mvPyDataType::Integer>("row_index", mvArgType::REQUIRED_ARG);
+			parser.addArg<mvPyDataType::StringList>("row", mvArgType::REQUIRED_ARG);
 			parser.finalize();
 			parsers->insert({ "insert_grid_row", parser });
 		}
 
 		{
 			mvPythonParser parser(mvPyDataType::None);
-			parser.addArg<mvPyDataType::String>("data_grid", mvArgType::POSITIONAL);
-			parser.addArg<mvPyDataType::Integer>("row", mvArgType::POSITIONAL);
+			parser.addArg<mvPyDataType::String>("data_grid", mvArgType::REQUIRED_ARG);
+			parser.addArg<mvPyDataType::Integer>("row", mvArgType::REQUIRED_ARG);
 			parser.finalize();
 			parsers->insert({ "delete_grid_row", parser });
 		}
 
 		{
 			mvPythonParser parser(mvPyDataType::String);
-			parser.addArg<mvPyDataType::String>("data_grid", mvArgType::POSITIONAL);
-			parser.addArg<mvPyDataType::Integer>("row", mvArgType::POSITIONAL);
-			parser.addArg<mvPyDataType::Integer>("column", mvArgType::POSITIONAL);
+			parser.addArg<mvPyDataType::String>("data_grid", mvArgType::REQUIRED_ARG);
+			parser.addArg<mvPyDataType::Integer>("row", mvArgType::REQUIRED_ARG);
+			parser.addArg<mvPyDataType::Integer>("column", mvArgType::REQUIRED_ARG);
 			parser.finalize();
 			parsers->insert({ "delete_grid_row", parser });
 		}
 
 		{
 			mvPythonParser parser(mvPyDataType::String);
-			parser.addArg<mvPyDataType::String>("data_grid", mvArgType::POSITIONAL);
-			parser.addArg<mvPyDataType::Integer>("row", mvArgType::POSITIONAL);
-			parser.addArg<mvPyDataType::Integer>("column", mvArgType::POSITIONAL);
-			parser.addArg<mvPyDataType::String>("value", mvArgType::POSITIONAL);
+			parser.addArg<mvPyDataType::String>("data_grid", mvArgType::REQUIRED_ARG);
+			parser.addArg<mvPyDataType::Integer>("row", mvArgType::REQUIRED_ARG);
+			parser.addArg<mvPyDataType::Integer>("column", mvArgType::REQUIRED_ARG);
+			parser.addArg<mvPyDataType::String>("value", mvArgType::REQUIRED_ARG);
 			parser.finalize();
 			parsers->insert({ "set_grid_item", parser });
 		}
 
 		{
 			mvPythonParser parser(mvPyDataType::ListListInt);
-			parser.addArg<mvPyDataType::String>("data_grid", mvArgType::POSITIONAL);
+			parser.addArg<mvPyDataType::String>("data_grid", mvArgType::REQUIRED_ARG);
 			parser.finalize();
 			parsers->insert({ "get_grid_selections", parser });
 		}
 
 		{
 			mvPythonParser parser(mvPyDataType::String);
-			parser.addArg<mvPyDataType::String>("data_grid", mvArgType::POSITIONAL);
-			parser.addArg<mvPyDataType::Integer>("row", mvArgType::POSITIONAL);
-			parser.addArg<mvPyDataType::Integer>("column", mvArgType::POSITIONAL);
-			parser.addArg<mvPyDataType::Bool>("value", mvArgType::POSITIONAL);
+			parser.addArg<mvPyDataType::String>("data_grid", mvArgType::REQUIRED_ARG);
+			parser.addArg<mvPyDataType::Integer>("row", mvArgType::REQUIRED_ARG);
+			parser.addArg<mvPyDataType::Integer>("column", mvArgType::REQUIRED_ARG);
+			parser.addArg<mvPyDataType::Bool>("value", mvArgType::REQUIRED_ARG);
 			parser.finalize();
 			parsers->insert({ "set_grid_selection", parser });
 		}

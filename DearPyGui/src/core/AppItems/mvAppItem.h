@@ -235,6 +235,7 @@ namespace Marvel {
         void                                checkArgs(PyObject* dict);    
         void                                handleKeywordArgs(PyObject* dict);  // python dictionary acts as an out parameter 
         void                                getConfiguration(PyObject* dict);
+        virtual void                        handleSpecificRequiredArgs(PyObject* args) {}
         virtual void                        handleSpecificPositionalArgs(PyObject* args) {}
         virtual void                        handleSpecificKeywordArgs(PyObject* dict) {}
         virtual void                        getSpecificConfiguration(PyObject* dict) {}

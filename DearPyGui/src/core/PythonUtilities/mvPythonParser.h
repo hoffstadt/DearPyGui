@@ -18,8 +18,14 @@
 #include <vector>
 #include <map>
 #include <assert.h>
-#define PY_SSIZE_T_CLEAN
-#include <Python.h>
+
+// forward declare PyObject
+// as suggested on the python mailing list
+// http://mail.python.org/pipermail/python-dev/2003-August/037601.html
+#ifndef PyObject_HEAD
+struct _object;
+typedef _object PyObject;
+#endif
 
 namespace Marvel {
 
@@ -30,15 +36,18 @@ namespace Marvel {
     {
         None = 0, String, Integer, Float, Bool, StringList, FloatList,
         Object, IntList, Double, Callable, Dict, ListFloatList, 
-        ListStrList, ListListInt, Kwargs, Any
+        ListStrList, ListListInt, Any
     };
 
     enum class mvArgType
     {
-        POSITIONAL=0,
-        OPTIONAL_ARG,
-        KEYWORD
+        REQUIRED_ARG=0,
+        POSITIONAL_ARG,
+        KEYWORD_ARG
     };
+
+
+    const char* PythonDataTypeActual(mvPyDataType type);
 
     //-----------------------------------------------------------------------------
     // mvPythonDataElement
@@ -49,7 +58,7 @@ namespace Marvel {
         const char* name = "";
         const char* description = "";
         const char* default_value = "...";
-        mvArgType    arg_type = mvArgType::POSITIONAL;
+        mvArgType    arg_type = mvArgType::REQUIRED_ARG;
         bool         active = true;
 
         constexpr mvPythonDataElement(mvPyDataType type, const char* name, const char* description,
@@ -61,8 +70,6 @@ namespace Marvel {
         }
 
     };
-
-    const char* PythonDataTypeActual(mvPyDataType type);
 
     //-----------------------------------------------------------------------------
     // mvPythonParser
@@ -77,7 +84,7 @@ namespace Marvel {
         explicit mvPythonParser(mvPyDataType returnType = mvPyDataType::None, const char* about = "Undocumented function", const char* category = "App");
 
         template<mvPyDataType type>
-        void addArg(const char* name, mvArgType argType = mvArgType::POSITIONAL, const char* defaultValue = "...", const char* description="")
+        void addArg(const char* name, mvArgType argType = mvArgType::REQUIRED_ARG, const char* defaultValue = "...", const char* description="")
         {
             for (const auto& arg : m_staged_elements)
             {
@@ -92,17 +99,20 @@ namespace Marvel {
 
         void removeArg(const char* name);
 
+        bool verifyRequiredArguments(PyObject* args);
+        bool verifyPositionalArguments(PyObject* args);
+
         bool parse(PyObject* args, PyObject* kwargs, const char* message, ...);
 
-        [[nodiscard]] const char*        getDocumentation                () const { return m_documentation.c_str(); }
-        [[nodiscard]] const std::string& getCategory                     () const { return m_category; }
+        [[nodiscard]] const char*        getDocumentation         () const { return m_documentation.c_str(); }
+        [[nodiscard]] const std::string& getCategory              () const { return m_category; }
 
         void finalize();
 
     private:
 
         std::vector<mvPythonDataElement> m_staged_elements;
-        std::vector<mvPythonDataElement> m_positional_elements;
+        std::vector<mvPythonDataElement> m_required_elements;
         std::vector<mvPythonDataElement> m_optional_elements;
         std::vector<mvPythonDataElement> m_keyword_elements;
         std::vector<char>                m_formatstring;

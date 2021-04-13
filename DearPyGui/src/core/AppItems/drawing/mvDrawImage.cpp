@@ -24,10 +24,10 @@ namespace Marvel {
 		parser.addArg<mvPyDataType::FloatList>("pmin");
 		parser.addArg<mvPyDataType::FloatList>("pmax");
 
-		parser.addArg<mvPyDataType::FloatList>("uv_min", mvArgType::KEYWORD, "(0.0, 0.0)", "normalized texture coordinates");
-		parser.addArg<mvPyDataType::FloatList>("uv_max", mvArgType::KEYWORD, "(1.0, 1.0)", "normalized texture coordinates");
+		parser.addArg<mvPyDataType::FloatList>("uv_min", mvArgType::KEYWORD_ARG, "(0.0, 0.0)", "normalized texture coordinates");
+		parser.addArg<mvPyDataType::FloatList>("uv_max", mvArgType::KEYWORD_ARG, "(1.0, 1.0)", "normalized texture coordinates");
 
-		parser.addArg<mvPyDataType::IntList>("color", mvArgType::KEYWORD, "(255, 255, 255, 255)");
+		parser.addArg<mvPyDataType::IntList>("color", mvArgType::KEYWORD_ARG, "(255, 255, 255, 255)");
 
 
 		parser.finalize();

@@ -1,7 +1,4 @@
 #pragma once
-#define PY_SSIZE_T_CLEAN
-#include <Python.h>
-#include <time.h>
 
 namespace Marvel {
 
@@ -20,7 +17,7 @@ namespace Marvel {
 
 	private:
 
-		PyGILState_STATE m_gstate;
+		int m_gstate;
 
 	};
 

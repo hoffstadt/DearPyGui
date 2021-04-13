@@ -17,12 +17,12 @@ namespace Marvel {
 		parser.removeArg("callback_data");
 		parser.removeArg("enabled");
 
-		parser.addArg<mvPyDataType::Bool>("border", mvArgType::KEYWORD, "True");
-		parser.addArg<mvPyDataType::Bool>("autosize_x", mvArgType::KEYWORD, "False", "Autosize the window to fit it's items in the x.");
-		parser.addArg<mvPyDataType::Bool>("autosize_y", mvArgType::KEYWORD, "False", "Autosize the window to fit it's items in the y.");
-		parser.addArg<mvPyDataType::Bool>("no_scrollbar", mvArgType::KEYWORD, "False", " Disable scrollbars (window can still scroll with mouse or programmatically)");
-		parser.addArg<mvPyDataType::Bool>("horizontal_scrollbar", mvArgType::KEYWORD, "False", "Allow horizontal scrollbar to appear (off by default).");
-		parser.addArg<mvPyDataType::Bool>("menubar", mvArgType::KEYWORD, "False");
+		parser.addArg<mvPyDataType::Bool>("border", mvArgType::KEYWORD_ARG, "True");
+		parser.addArg<mvPyDataType::Bool>("autosize_x", mvArgType::KEYWORD_ARG, "False", "Autosize the window to fit it's items in the x.");
+		parser.addArg<mvPyDataType::Bool>("autosize_y", mvArgType::KEYWORD_ARG, "False", "Autosize the window to fit it's items in the y.");
+		parser.addArg<mvPyDataType::Bool>("no_scrollbar", mvArgType::KEYWORD_ARG, "False", " Disable scrollbars (window can still scroll with mouse or programmatically)");
+		parser.addArg<mvPyDataType::Bool>("horizontal_scrollbar", mvArgType::KEYWORD_ARG, "False", "Allow horizontal scrollbar to appear (off by default).");
+		parser.addArg<mvPyDataType::Bool>("menubar", mvArgType::KEYWORD_ARG, "False");
 
 		parser.finalize();
 

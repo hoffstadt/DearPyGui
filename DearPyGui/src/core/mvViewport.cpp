@@ -4,6 +4,9 @@
 #include <string>
 #include <array>
 
+#define PY_SSIZE_T_CLEAN
+#include <Python.h>
+
 namespace Marvel {
 
 	mvViewport::mvViewport(unsigned width, unsigned height, bool error) :
@@ -25,33 +28,33 @@ namespace Marvel {
 
 		{
 			mvPythonParser parser(mvPyDataType::None);
-			parser.addArg<mvPyDataType::String>("title", mvArgType::KEYWORD, "'Dear PyGui'");
+			parser.addArg<mvPyDataType::String>("title", mvArgType::KEYWORD_ARG, "'Dear PyGui'");
 
-			parser.addArg<mvPyDataType::String>("width", mvArgType::KEYWORD, "1280");
-			parser.addArg<mvPyDataType::String>("height", mvArgType::KEYWORD, "800");
-			parser.addArg<mvPyDataType::String>("x_pos", mvArgType::KEYWORD, "100");
-			parser.addArg<mvPyDataType::String>("y_pos", mvArgType::KEYWORD, "100");
-			parser.addArg<mvPyDataType::String>("min_width", mvArgType::KEYWORD, "250");
-			parser.addArg<mvPyDataType::String>("max_width", mvArgType::KEYWORD, "10000");
-			parser.addArg<mvPyDataType::String>("min_height", mvArgType::KEYWORD, "250");
-			parser.addArg<mvPyDataType::String>("max_height", mvArgType::KEYWORD, "10000");
+			parser.addArg<mvPyDataType::String>("width", mvArgType::KEYWORD_ARG, "1280");
+			parser.addArg<mvPyDataType::String>("height", mvArgType::KEYWORD_ARG, "800");
+			parser.addArg<mvPyDataType::String>("x_pos", mvArgType::KEYWORD_ARG, "100");
+			parser.addArg<mvPyDataType::String>("y_pos", mvArgType::KEYWORD_ARG, "100");
+			parser.addArg<mvPyDataType::String>("min_width", mvArgType::KEYWORD_ARG, "250");
+			parser.addArg<mvPyDataType::String>("max_width", mvArgType::KEYWORD_ARG, "10000");
+			parser.addArg<mvPyDataType::String>("min_height", mvArgType::KEYWORD_ARG, "250");
+			parser.addArg<mvPyDataType::String>("max_height", mvArgType::KEYWORD_ARG, "10000");
 
-			parser.addArg<mvPyDataType::Bool>("resizable", mvArgType::KEYWORD, "True");
-			parser.addArg<mvPyDataType::Bool>("vsync", mvArgType::KEYWORD, "True");
-			parser.addArg<mvPyDataType::Bool>("always_on_top", mvArgType::KEYWORD, "False");
-			parser.addArg<mvPyDataType::Bool>("maximized_box", mvArgType::KEYWORD, "True");
-			parser.addArg<mvPyDataType::Bool>("minimized_box", mvArgType::KEYWORD, "True");
-			parser.addArg<mvPyDataType::Bool>("border", mvArgType::KEYWORD, "True");
-			parser.addArg<mvPyDataType::Bool>("caption", mvArgType::KEYWORD, "True");
-			parser.addArg<mvPyDataType::Bool>("overlapped", mvArgType::KEYWORD, "True");
+			parser.addArg<mvPyDataType::Bool>("resizable", mvArgType::KEYWORD_ARG, "True");
+			parser.addArg<mvPyDataType::Bool>("vsync", mvArgType::KEYWORD_ARG, "True");
+			parser.addArg<mvPyDataType::Bool>("always_on_top", mvArgType::KEYWORD_ARG, "False");
+			parser.addArg<mvPyDataType::Bool>("maximized_box", mvArgType::KEYWORD_ARG, "True");
+			parser.addArg<mvPyDataType::Bool>("minimized_box", mvArgType::KEYWORD_ARG, "True");
+			parser.addArg<mvPyDataType::Bool>("border", mvArgType::KEYWORD_ARG, "True");
+			parser.addArg<mvPyDataType::Bool>("caption", mvArgType::KEYWORD_ARG, "True");
+			parser.addArg<mvPyDataType::Bool>("overlapped", mvArgType::KEYWORD_ARG, "True");
 			parser.finalize();
 			parsers->insert({ "create_viewport", parser });
 		}
 
 		{
 			mvPythonParser parser(mvPyDataType::None);
-			parser.addArg<mvPyDataType::Bool>("minimized", mvArgType::KEYWORD, "False");
-			parser.addArg<mvPyDataType::Bool>("maximized", mvArgType::KEYWORD, "False");
+			parser.addArg<mvPyDataType::Bool>("minimized", mvArgType::KEYWORD_ARG, "False");
+			parser.addArg<mvPyDataType::Bool>("maximized", mvArgType::KEYWORD_ARG, "False");
 			parser.finalize();
 			parsers->insert({ "show_viewport", parser });
 		}

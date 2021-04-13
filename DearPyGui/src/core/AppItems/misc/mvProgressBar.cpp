@@ -16,8 +16,8 @@ namespace Marvel {
 		parser.removeArg("callback_data");
 		parser.removeArg("enabled");
 
-		parser.addArg<mvPyDataType::String>("overlay", mvArgType::KEYWORD, "''", "overlayed text");
-		parser.addArg<mvPyDataType::Float>("default_value", mvArgType::KEYWORD, "0.0", "value from 0 to 1");
+		parser.addArg<mvPyDataType::String>("overlay", mvArgType::KEYWORD_ARG, "''", "overlayed text");
+		parser.addArg<mvPyDataType::Float>("default_value", mvArgType::KEYWORD_ARG, "0.0", "value from 0 to 1");
 
 
 		parser.finalize();
