@@ -58,12 +58,12 @@ namespace Marvel {
         MV_END_COLOR_CONSTANTS
 
         MV_START_STYLE_CONSTANTS
-            MV_ADD_CONSTANT(mvThemeStyle_DragFloat_Rounding,      0, 12),
-            MV_ADD_CONSTANT(mvThemeStyle_DragFloat_BorderSize,    0,  1),
-            MV_ADD_CONSTANT(mvThemeStyle_DragFloat_PaddingX,      4, 20),
-            MV_ADD_CONSTANT(mvThemeStyle_DragFloat_PaddingY,      3, 20),
-            MV_ADD_CONSTANT(mvThemeStyle_DragFloat_InnerSpacingX, 4, 20),
-            MV_ADD_CONSTANT(mvThemeStyle_DragFloat_InnerSpacingY, 4, 20),
+            MV_ADD_CONSTANT_F(mvThemeStyle_DragFloat_Rounding,      0, 12),
+            MV_ADD_CONSTANT_F(mvThemeStyle_DragFloat_BorderSize,    0,  1),
+            MV_ADD_CONSTANT_F(mvThemeStyle_DragFloat_PaddingX,      4, 20),
+            MV_ADD_CONSTANT_F(mvThemeStyle_DragFloat_PaddingY,      3, 20),
+            MV_ADD_CONSTANT_F(mvThemeStyle_DragFloat_InnerSpacingX, 4, 20),
+            MV_ADD_CONSTANT_F(mvThemeStyle_DragFloat_InnerSpacingY, 4, 20),
         MV_END_STYLE_CONSTANTS
 
     public:
@@ -131,12 +131,12 @@ namespace Marvel {
         MV_END_COLOR_CONSTANTS
 
         MV_START_STYLE_CONSTANTS
-            MV_ADD_CONSTANT(mvThemeStyle_DragInt_Rounding,      0, 12),
-            MV_ADD_CONSTANT(mvThemeStyle_DragInt_BorderSize,    0,  1),
-            MV_ADD_CONSTANT(mvThemeStyle_DragInt_PaddingX,      4, 20),
-            MV_ADD_CONSTANT(mvThemeStyle_DragInt_PaddingY,      3, 20),
-            MV_ADD_CONSTANT(mvThemeStyle_DragInt_InnerSpacingX, 4, 20),
-            MV_ADD_CONSTANT(mvThemeStyle_DragInt_InnerSpacingY, 4, 20),
+            MV_ADD_CONSTANT_F(mvThemeStyle_DragInt_Rounding,      0, 12),
+            MV_ADD_CONSTANT_F(mvThemeStyle_DragInt_BorderSize,    0,  1),
+            MV_ADD_CONSTANT_F(mvThemeStyle_DragInt_PaddingX,      4, 20),
+            MV_ADD_CONSTANT_F(mvThemeStyle_DragInt_PaddingY,      3, 20),
+            MV_ADD_CONSTANT_F(mvThemeStyle_DragInt_InnerSpacingX, 4, 20),
+            MV_ADD_CONSTANT_F(mvThemeStyle_DragInt_InnerSpacingY, 4, 20),
         MV_END_STYLE_CONSTANTS
 
     public:

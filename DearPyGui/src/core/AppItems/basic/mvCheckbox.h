@@ -44,12 +44,12 @@ namespace Marvel {
 		MV_END_COLOR_CONSTANTS
 
 		MV_START_STYLE_CONSTANTS
-			MV_ADD_CONSTANT(mvThemeStyle_Checkbox_BorderSize		, 0,  1),
-			MV_ADD_CONSTANT(mvThemeStyle_Checkbox_Rounding			, 0, 12),
-			MV_ADD_CONSTANT(mvThemeStyle_Checkbox_PaddingX			, 4, 20),
-			MV_ADD_CONSTANT(mvThemeStyle_Checkbox_PaddingY			, 3, 20),
-			MV_ADD_CONSTANT(mvThemeStyle_Checkbox_InnerItemSpacingX	, 4, 20),
-			MV_ADD_CONSTANT(mvThemeStyle_Checkbox_InnerItemSpacingY	, 4, 20),
+			MV_ADD_CONSTANT_F(mvThemeStyle_Checkbox_BorderSize		, 0,  1),
+			MV_ADD_CONSTANT_F(mvThemeStyle_Checkbox_Rounding			, 0, 12),
+			MV_ADD_CONSTANT_F(mvThemeStyle_Checkbox_PaddingX			, 4, 20),
+			MV_ADD_CONSTANT_F(mvThemeStyle_Checkbox_PaddingY			, 3, 20),
+			MV_ADD_CONSTANT_F(mvThemeStyle_Checkbox_InnerItemSpacingX	, 4, 20),
+			MV_ADD_CONSTANT_F(mvThemeStyle_Checkbox_InnerItemSpacingY	, 4, 20),
 		MV_END_STYLE_CONSTANTS
 
 	public:

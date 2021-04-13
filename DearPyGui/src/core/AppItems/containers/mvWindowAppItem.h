@@ -72,18 +72,18 @@ namespace Marvel {
 		MV_END_COLOR_CONSTANTS
 
 		MV_START_STYLE_CONSTANTS
-			MV_ADD_CONSTANT(mvThemeStyle_Window_BorderSize			, 1,    1),
-			MV_ADD_CONSTANT(mvThemeStyle_Window_Rounding			, 0,   12),
-			MV_ADD_CONSTANT(mvThemeStyle_Window_MinSizeX			,32,   50),
-			MV_ADD_CONSTANT(mvThemeStyle_Window_MinSizeY			,32,   50),
-			MV_ADD_CONSTANT(mvThemeStyle_Window_TitleAlignX			, 0,    1),
-			MV_ADD_CONSTANT(mvThemeStyle_Window_TitleAlignY			, 0.5,  1),
-			MV_ADD_CONSTANT(mvThemeStyle_Window_PaddingX			, 8,   20),
-			MV_ADD_CONSTANT(mvThemeStyle_Window_PaddingY			, 8,   20),
-			MV_ADD_CONSTANT(mvThemeStyle_Window_ItemSpacingX		, 8,   20),
-			MV_ADD_CONSTANT(mvThemeStyle_Window_ItemSpacingY		, 4,   20),
-			MV_ADD_CONSTANT(mvThemeStyle_Window_ScrollbarSize		,14,   20),
-			MV_ADD_CONSTANT(mvThemeStyle_Window_ScrollbarRounding	, 9,   12),
+			MV_ADD_CONSTANT_F(mvThemeStyle_Window_BorderSize			, 1,    1),
+			MV_ADD_CONSTANT_F(mvThemeStyle_Window_Rounding			, 0,   12),
+			MV_ADD_CONSTANT_F(mvThemeStyle_Window_MinSizeX			,32,   50),
+			MV_ADD_CONSTANT_F(mvThemeStyle_Window_MinSizeY			,32,   50),
+			MV_ADD_CONSTANT_F(mvThemeStyle_Window_TitleAlignX			, 0,    1),
+			MV_ADD_CONSTANT_F(mvThemeStyle_Window_TitleAlignY			, 0.5,  1),
+			MV_ADD_CONSTANT_F(mvThemeStyle_Window_PaddingX			, 8,   20),
+			MV_ADD_CONSTANT_F(mvThemeStyle_Window_PaddingY			, 8,   20),
+			MV_ADD_CONSTANT_F(mvThemeStyle_Window_ItemSpacingX		, 8,   20),
+			MV_ADD_CONSTANT_F(mvThemeStyle_Window_ItemSpacingY		, 4,   20),
+			MV_ADD_CONSTANT_F(mvThemeStyle_Window_ScrollbarSize		,14,   20),
+			MV_ADD_CONSTANT_F(mvThemeStyle_Window_ScrollbarRounding	, 9,   12),
 		MV_END_STYLE_CONSTANTS
 
 		enum class Status{ Normal, Transition, Dirty};

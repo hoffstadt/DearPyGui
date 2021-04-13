@@ -77,9 +77,9 @@ namespace Marvel {
 		// route mouse dragging event
 		for (int i = 0; i < 3; i++)
 		{
-			s_mouseDragging[i] = ImGui::IsMouseDragging(i, mvInput::getMouseDragThreshold());
+			s_mouseDragging[i] = ImGui::IsMouseDragging(i, (float)mvInput::getMouseDragThreshold());
 			
-			if (ImGui::IsMouseDragging(i, mvInput::getMouseDragThreshold()))
+			if (ImGui::IsMouseDragging(i, (float)mvInput::getMouseDragThreshold()))
 			{
 				mvInput::setMouseDragDelta({ ImGui::GetMouseDragDelta().x, ImGui::GetMouseDragDelta().y });
 				// TODO: send delta
@@ -149,13 +149,13 @@ namespace Marvel {
 
 	void mvInput::setMouseDragThreshold(float threshold)
 	{
-		s_mouseDragThreshold = threshold;
+		s_mouseDragThreshold = (int)threshold;
 	}
 
 	void mvInput::setMouseDragDelta(const mvVec2& delta)
 	{
-		s_mouseDragDelta.x = delta.x;
-		s_mouseDragDelta.y = delta.y;
+		s_mouseDragDelta.x = (int)delta.x;
+		s_mouseDragDelta.y = (int)delta.y;
 	}
 
 	int mvInput::getMouseDragThreshold()

@@ -71,17 +71,17 @@ namespace Marvel {
 		void cleanup()
 		{
 			if (libIDCount > 0)
-				ImGui::PopStyleColor(libIDCount);
+				ImGui::PopStyleColor((int)libIDCount);
 			libIDCount = 0;
 			if (StyleIDCount > 0)
-				ImGui::PopStyleVar(StyleIDCount);
+				ImGui::PopStyleVar((int)StyleIDCount);
 			StyleIDCount = 0;
 		}
 
 	private:
 
-		int libIDCount = 0;
-		int StyleIDCount = 0;
+		size_t libIDCount = 0;
+		size_t StyleIDCount = 0;
 
 	};
 }

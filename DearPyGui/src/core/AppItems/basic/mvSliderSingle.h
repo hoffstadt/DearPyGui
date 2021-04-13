@@ -62,14 +62,14 @@ namespace Marvel {
         MV_END_COLOR_CONSTANTS
 
         MV_START_STYLE_CONSTANTS
-            MV_ADD_CONSTANT(mvThemeStyle_SliderFloat_Rounding          , 0, 12),
-            MV_ADD_CONSTANT(mvThemeStyle_SliderFloat_BorderSize        , 0,  1),
-            MV_ADD_CONSTANT(mvThemeStyle_SliderFloat_PaddingX          , 4, 20),
-            MV_ADD_CONSTANT(mvThemeStyle_SliderFloat_PaddingY          , 3, 20),
-            MV_ADD_CONSTANT(mvThemeStyle_SliderFloat_InnerSpacingX     , 4, 20),
-            MV_ADD_CONSTANT(mvThemeStyle_SliderFloat_InnerSpacingY     , 4, 20),
-            MV_ADD_CONSTANT(mvThemeStyle_SliderFloat_GrabMinSize       ,10, 20),
-            MV_ADD_CONSTANT(mvThemeStyle_SliderFloat_GrabRounding      , 0, 12),
+            MV_ADD_CONSTANT_F(mvThemeStyle_SliderFloat_Rounding          , 0, 12),
+            MV_ADD_CONSTANT_F(mvThemeStyle_SliderFloat_BorderSize        , 0,  1),
+            MV_ADD_CONSTANT_F(mvThemeStyle_SliderFloat_PaddingX          , 4, 20),
+            MV_ADD_CONSTANT_F(mvThemeStyle_SliderFloat_PaddingY          , 3, 20),
+            MV_ADD_CONSTANT_F(mvThemeStyle_SliderFloat_InnerSpacingX     , 4, 20),
+            MV_ADD_CONSTANT_F(mvThemeStyle_SliderFloat_InnerSpacingY     , 4, 20),
+            MV_ADD_CONSTANT_F(mvThemeStyle_SliderFloat_GrabMinSize       ,10, 20),
+            MV_ADD_CONSTANT_F(mvThemeStyle_SliderFloat_GrabRounding      , 0, 12),
         MV_END_STYLE_CONSTANTS
 
     public:
@@ -142,14 +142,14 @@ namespace Marvel {
         MV_END_COLOR_CONSTANTS
 
         MV_START_STYLE_CONSTANTS
-            MV_ADD_CONSTANT(mvThemeStyle_SliderInt_Rounding        , 0, 12),
-            MV_ADD_CONSTANT(mvThemeStyle_SliderInt_BorderSize      , 0,  1),
-            MV_ADD_CONSTANT(mvThemeStyle_SliderInt_PaddingX        , 4, 20),
-            MV_ADD_CONSTANT(mvThemeStyle_SliderInt_PaddingY        , 3, 20),
-            MV_ADD_CONSTANT(mvThemeStyle_SliderInt_InnerSpacingX   , 4, 20),
-            MV_ADD_CONSTANT(mvThemeStyle_SliderInt_InnerSpacingY   , 4, 20),
-            MV_ADD_CONSTANT(mvThemeStyle_SliderInt_GrabMinSize     ,10, 20),
-            MV_ADD_CONSTANT(mvThemeStyle_SliderInt_GrabRounding    , 0, 12),
+            MV_ADD_CONSTANT_F(mvThemeStyle_SliderInt_Rounding        , 0, 12),
+            MV_ADD_CONSTANT_F(mvThemeStyle_SliderInt_BorderSize      , 0,  1),
+            MV_ADD_CONSTANT_F(mvThemeStyle_SliderInt_PaddingX        , 4, 20),
+            MV_ADD_CONSTANT_F(mvThemeStyle_SliderInt_PaddingY        , 3, 20),
+            MV_ADD_CONSTANT_F(mvThemeStyle_SliderInt_InnerSpacingX   , 4, 20),
+            MV_ADD_CONSTANT_F(mvThemeStyle_SliderInt_InnerSpacingY   , 4, 20),
+            MV_ADD_CONSTANT_F(mvThemeStyle_SliderInt_GrabMinSize     ,10, 20),
+            MV_ADD_CONSTANT_F(mvThemeStyle_SliderInt_GrabRounding    , 0, 12),
         MV_END_STYLE_CONSTANTS
 
     public:

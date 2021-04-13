@@ -63,16 +63,16 @@ namespace Marvel {
 		void cleanup()
 		{
 			if (libIDCount > 0)
-				ImPlot::PopStyleColor(libIDCount);
+				ImPlot::PopStyleColor((int)libIDCount);
 			libIDCount = 0;
 			if (StyleIDCount > 0)
-				ImPlot::PopStyleVar(StyleIDCount);
+				ImPlot::PopStyleVar((int)StyleIDCount);
 			StyleIDCount = 0;
 		}
 
 	private:
-		int libIDCount = 0;
-		int StyleIDCount = 0;
+		size_t libIDCount = 0;
+		size_t StyleIDCount = 0;
 
 	};
 }

@@ -105,7 +105,7 @@ namespace Marvel {
 
 		if (m_dirty_pos)
 		{
-			imnodes::SetNodeGridSpacePos((int)m_id, ImVec2(m_xpos, m_ypos));
+			imnodes::SetNodeGridSpacePos((int)m_id, ImVec2((float)m_xpos, (float)m_ypos));
 			m_dirty_pos = false;
 		}
 
@@ -140,8 +140,8 @@ namespace Marvel {
 		imnodes::EndNode();
 
 		ImVec2 pos = imnodes::GetNodeGridSpacePos((int)m_id);
-		m_xpos = pos.x;
-		m_ypos = pos.y;
+		m_xpos = (int)pos.x;
+		m_ypos = (int)pos.y;
 	}
 
 	void mvNode::setExtraConfigDict(PyObject* dict)

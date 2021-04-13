@@ -62,7 +62,7 @@ namespace Marvel {
 		mvFontScope fscope(this);
 
 		if (ImGui::BeginTable(m_name.c_str(), m_columns, m_flags, 
-			ImVec2(m_width, m_height), m_inner_width))
+			ImVec2((float)m_width, (float)m_height), (float)m_inner_width))
 		{
 
 			for (auto& item : m_children[0])
@@ -127,7 +127,7 @@ namespace Marvel {
 			return;
 
 		if (PyObject* item = PyDict_GetItemString(dict, "header_row")) m_tableHeader = ToBool(item);
-		if (PyObject* item = PyDict_GetItemString(dict, "inner_width")) m_inner_width = ToFloat(item);
+		if (PyObject* item = PyDict_GetItemString(dict, "inner_width")) m_inner_width = (int)ToFloat(item);
 
 		// helper for bit flipping
 		auto flagop = [dict](const char* keyword, int flag, int& flags)

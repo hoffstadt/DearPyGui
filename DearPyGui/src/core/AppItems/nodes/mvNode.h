@@ -1,8 +1,8 @@
 #pragma once
 #include "mvAppItem.h"
 #include "mvItemRegistry.h"
-#include <imnodes.h>
 #include <stdint.h>
+#include <imnodes.h>
 
 namespace Marvel {
 
@@ -48,10 +48,10 @@ namespace Marvel {
 		MV_END_COLOR_CONSTANTS
 
 		MV_START_STYLE_CONSTANTS
-			MV_ADD_CONSTANT(mvThemeStyle_Node_CornerRounding,		5, 20),
-			MV_ADD_CONSTANT(mvThemeStyle_Node_PaddingHorizontal,	8, 20),
-			MV_ADD_CONSTANT(mvThemeStyle_Node_PaddingVertical,		8, 20),
-			MV_ADD_CONSTANT(mvThemeStyle_Node_BorderThickness,		1, 20),
+			MV_ADD_CONSTANT_F(mvThemeStyle_Node_CornerRounding,		5, 20),
+			MV_ADD_CONSTANT_F(mvThemeStyle_Node_PaddingHorizontal,	8, 20),
+			MV_ADD_CONSTANT_F(mvThemeStyle_Node_PaddingVertical,		8, 20),
+			MV_ADD_CONSTANT_F(mvThemeStyle_Node_BorderThickness,		1, 20),
 
 		MV_END_STYLE_CONSTANTS
 

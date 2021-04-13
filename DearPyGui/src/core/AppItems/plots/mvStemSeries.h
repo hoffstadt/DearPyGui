@@ -32,9 +32,9 @@ namespace Marvel {
 		MV_END_COLOR_CONSTANTS
 
 		MV_START_STYLE_CONSTANTS
-		MV_ADD_CONSTANT(mvThemeStyle_Plot_Stem_Marker, ImPlotMarker_Diamond, 9),
-		MV_ADD_CONSTANT(mvThemeStyle_Plot_Stem_Size, 4.0f, 12),
-		MV_ADD_CONSTANT(mvThemeStyle_Plot_Stem_Weight, 1.0f, 12),
+		MV_ADD_CONSTANT_F(mvThemeStyle_Plot_Stem_Marker, ImPlotMarker_Diamond, 9),
+		MV_ADD_CONSTANT_F(mvThemeStyle_Plot_Stem_Size, 4.0f, 12),
+		MV_ADD_CONSTANT_F(mvThemeStyle_Plot_Stem_Weight, 1.0f, 12),
 		MV_END_STYLE_CONSTANTS
 
 	public:

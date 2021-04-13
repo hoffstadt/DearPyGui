@@ -54,16 +54,16 @@ namespace Marvel {
 		MV_END_COLOR_CONSTANTS
 
 		MV_START_STYLE_CONSTANTS
-			MV_ADD_CONSTANT(mvThemeStyle_ColorEdit_Rounding			    , 0, 12),
-			MV_ADD_CONSTANT(mvThemeStyle_ColorEdit_BorderSize			, 0,  1),
-			MV_ADD_CONSTANT(mvThemeStyle_ColorEdit_PopupRounding		, 0, 12),
-			MV_ADD_CONSTANT(mvThemeStyle_ColorEdit_PopupBorderSize		, 1,  1),
-			MV_ADD_CONSTANT(mvThemeStyle_ColorEdit_InnerSpacingX		, 4, 20),
-			MV_ADD_CONSTANT(mvThemeStyle_ColorEdit_InnerSpacingY		, 4, 20),
-			MV_ADD_CONSTANT(mvThemeStyle_ColorEdit_PopupPaddingX		, 8, 20),
-			MV_ADD_CONSTANT(mvThemeStyle_ColorEdit_PopupPaddingY		, 8, 20),
-			MV_ADD_CONSTANT(mvThemeStyle_ColorEdit_PaddingX			    , 4, 20),
-			MV_ADD_CONSTANT(mvThemeStyle_ColorEdit_PaddingY			    , 3, 20),
+			MV_ADD_CONSTANT_F(mvThemeStyle_ColorEdit_Rounding			    , 0, 12),
+			MV_ADD_CONSTANT_F(mvThemeStyle_ColorEdit_BorderSize			, 0,  1),
+			MV_ADD_CONSTANT_F(mvThemeStyle_ColorEdit_PopupRounding		, 0, 12),
+			MV_ADD_CONSTANT_F(mvThemeStyle_ColorEdit_PopupBorderSize		, 1,  1),
+			MV_ADD_CONSTANT_F(mvThemeStyle_ColorEdit_InnerSpacingX		, 4, 20),
+			MV_ADD_CONSTANT_F(mvThemeStyle_ColorEdit_InnerSpacingY		, 4, 20),
+			MV_ADD_CONSTANT_F(mvThemeStyle_ColorEdit_PopupPaddingX		, 8, 20),
+			MV_ADD_CONSTANT_F(mvThemeStyle_ColorEdit_PopupPaddingY		, 8, 20),
+			MV_ADD_CONSTANT_F(mvThemeStyle_ColorEdit_PaddingX			    , 4, 20),
+			MV_ADD_CONSTANT_F(mvThemeStyle_ColorEdit_PaddingY			    , 3, 20),
 		MV_END_STYLE_CONSTANTS
 
 	public:

@@ -69,8 +69,8 @@ namespace Marvel {
 		}
 
 	private:
-		int libIDCount = 0;
-		int StyleIDCount = 0;
+		size_t libIDCount = 0;
+		size_t StyleIDCount = 0;
 
 	};
 }

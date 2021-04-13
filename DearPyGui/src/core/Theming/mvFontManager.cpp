@@ -238,7 +238,7 @@ namespace Marvel {
 
 			builder.BuildRanges(&ranges);   // Build the final result (ordered ranges with all the unique characters submitted)
 
-			font.fontPtr = io.Fonts->AddFontFromFileTTF(font.file.c_str(), font.size, nullptr, ranges.Data);
+			font.fontPtr = io.Fonts->AddFontFromFileTTF(font.file.c_str(), (float)font.size, nullptr, ranges.Data);
 
 			if (font.fontPtr == nullptr)
 			{
@@ -416,7 +416,7 @@ namespace Marvel {
 		for (auto& item : custom_chars)
 			imgui_custom_chars.push_back((ImWchar)item);
 
-		mvApp::GetApp()->getFontManager().addFont(font, file, size, glyph_ranges, imgui_custom_chars, 
+		mvApp::GetApp()->getFontManager().addFont(font, file, (int)size, glyph_ranges, imgui_custom_chars, 
 			imgui_custom_ranges, custom_remaps);
 
 		return GetPyNone();

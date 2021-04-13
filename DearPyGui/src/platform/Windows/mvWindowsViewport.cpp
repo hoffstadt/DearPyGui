@@ -389,7 +389,7 @@ namespace Marvel {
 			if (lang_id==0x0412)
 				break;
 			auto& io = ImGui::GetIO();
-			DWORD wChar = wParam;
+			DWORD wChar = (DWORD)wParam;
 			if (wChar <= 127)
 			{
 				io.AddInputCharacter(wChar);
@@ -415,8 +415,10 @@ namespace Marvel {
 				BYTE high = (BYTE)((wChar & 0xFF00) >> 8);
 				if (previous_ime_char==0)
 					wChar = MAKEWORD(high, low);
-				else{
-					wChar = MAKEWORD(previous_ime_char, high, low);
+				else
+				{
+					//wChar = MAKEWORD(previous_ime_char, high, low);
+					wChar = MAKEWORD(previous_ime_char, high);
 					previous_ime_char=low;
 				}
 			}

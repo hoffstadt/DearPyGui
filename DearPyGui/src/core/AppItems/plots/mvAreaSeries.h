@@ -29,7 +29,7 @@ namespace Marvel {
 		MV_END_COLOR_CONSTANTS
 
 		MV_START_STYLE_CONSTANTS
-		MV_ADD_CONSTANT(mvThemeStyle_Plot_Area_Weight, 1.0f, 12),
+		MV_ADD_CONSTANT_F(mvThemeStyle_Plot_Area_Weight, 1.0f, 12),
 		MV_END_STYLE_CONSTANTS
 
 	public:

@@ -58,7 +58,7 @@ namespace Marvel {
 
 		xptr = &(*m_value.get())[0];
 
-		ImPlot::PlotVLines(m_label.c_str(), xptr->data(), xptr->size());
+		ImPlot::PlotVLines(m_label.c_str(), xptr->data(), (int)xptr->size());
 
 	}
 
@@ -138,7 +138,7 @@ namespace Marvel {
 
 		xptr = &(*m_value.get())[0];
 
-		ImPlot::PlotHLines(m_label.c_str(), xptr->data(), xptr->size());
+		ImPlot::PlotHLines(m_label.c_str(), xptr->data(), (int)xptr->size());
 
 	}
 
