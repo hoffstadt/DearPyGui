@@ -1,4 +1,5 @@
-#include "mvPython.h"
+#define PY_SSIZE_T_CLEAN
+#include <Python.h>
 #include "mvStdOutput.h"
 #include "mvModule_Core.h"
 #include "mvApp.h"

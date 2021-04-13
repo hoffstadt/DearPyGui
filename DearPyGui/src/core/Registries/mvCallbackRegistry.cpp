@@ -6,6 +6,9 @@
 #include "mvItemRegistry.h"
 #include "mvInput.h"
 #include "mvAppItemCommons.h"
+#include "mvGlobalIntepreterLock.h"
+#include "mvPythonExceptions.h"
+#include "mvPyObject.h"
 
 namespace Marvel {
 

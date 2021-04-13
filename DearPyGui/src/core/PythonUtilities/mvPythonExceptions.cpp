@@ -1,4 +1,7 @@
-#include "mvPython.h"
+#include "mvPythonExceptions.h"
+#define PY_SSIZE_T_CLEAN
+#include <Python.h>
+#include <frameobject.h>
 #include <string>
 
 namespace Marvel

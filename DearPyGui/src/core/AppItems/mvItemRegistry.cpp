@@ -4,6 +4,7 @@
 #include "mvItemRegistry.h"
 #include "mvAppItemCommons.h"
 #include "mvLog.h"
+#include "mvPythonExceptions.h"
 
 namespace Marvel {
 
