@@ -69,7 +69,7 @@ namespace Marvel {
 
 	}
 
-	void mvDragPoint::setExtraConfigDict(PyObject* dict)
+	void mvDragPoint::handleSpecificKeywordArgs(PyObject* dict)
 	{
 		if (dict == nullptr)
 			return;
@@ -80,7 +80,7 @@ namespace Marvel {
 
 	}
 
-	void mvDragPoint::getExtraConfigDict(PyObject* dict)
+	void mvDragPoint::getSpecificConfiguration(PyObject* dict)
 	{
 		if (dict == nullptr)
 			return;

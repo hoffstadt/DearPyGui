@@ -66,7 +66,7 @@ namespace Marvel {
 		ImGui::EndGroup();
 	}
 
-	void mvTreeNode::setExtraConfigDict(PyObject* dict)
+	void mvTreeNode::handleSpecificKeywordArgs(PyObject* dict)
 	{
 		if (dict == nullptr)
 			return;
@@ -86,7 +86,7 @@ namespace Marvel {
 		flagop("bullet", ImGuiTreeNodeFlags_Bullet, m_flags);
 	}
 
-	void mvTreeNode::getExtraConfigDict(PyObject* dict)
+	void mvTreeNode::getSpecificConfiguration(PyObject* dict)
 	{
 		if (dict == nullptr)
 			return;

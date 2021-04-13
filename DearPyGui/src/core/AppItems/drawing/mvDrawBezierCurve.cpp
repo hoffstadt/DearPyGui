@@ -58,7 +58,7 @@ namespace Marvel {
 		drawlist->AddBezierCubic(m_p1 + start, m_p2 + start, m_p3 + start, m_p4 + start, m_color, m_thickness);
 	}
 
-	void mvDrawBezierCurve::setExtraConfigDict(PyObject* dict)
+	void mvDrawBezierCurve::handleSpecificKeywordArgs(PyObject* dict)
 	{
 		if (dict == nullptr)
 			return;
@@ -72,7 +72,7 @@ namespace Marvel {
 		if (PyObject* item = PyDict_GetItemString(dict, "segments")) m_segments = ToInt(item);
 	}
 
-	void mvDrawBezierCurve::getExtraConfigDict(PyObject* dict)
+	void mvDrawBezierCurve::getSpecificConfiguration(PyObject* dict)
 	{
 		if (dict == nullptr)
 			return;

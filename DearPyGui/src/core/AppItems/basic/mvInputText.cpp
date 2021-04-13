@@ -84,7 +84,7 @@ namespace Marvel {
 
 	}
 
-	void mvInputText::setExtraConfigDict(PyObject* dict)
+	void mvInputText::handleSpecificKeywordArgs(PyObject* dict)
 	{
 		if (dict == nullptr)
 			return;
@@ -110,7 +110,7 @@ namespace Marvel {
 		flagop("tab_input", ImGuiInputTextFlags_AllowTabInput, m_flags);
 	}
 
-	void mvInputText::getExtraConfigDict(PyObject* dict)
+	void mvInputText::getSpecificConfiguration(PyObject* dict)
 	{
 		if (dict == nullptr)
 			return;

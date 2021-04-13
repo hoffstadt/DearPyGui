@@ -108,7 +108,7 @@ namespace Marvel {
 
 	}
 
-	void mvImageButton::setExtraConfigDict(PyObject* dict)
+	void mvImageButton::handleSpecificKeywordArgs(PyObject* dict)
 	{
 		if (dict == nullptr)
 			return;
@@ -129,7 +129,7 @@ namespace Marvel {
 		if (PyObject* item = PyDict_GetItemString(dict, "value")) m_value = ToString(item);
 	}
 
-	void mvImageButton::getExtraConfigDict(PyObject* dict)
+	void mvImageButton::getSpecificConfiguration(PyObject* dict)
 	{
 		if (dict == nullptr)
 			return;

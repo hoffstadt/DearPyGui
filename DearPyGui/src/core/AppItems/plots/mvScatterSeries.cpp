@@ -65,7 +65,7 @@ namespace Marvel {
 
 	}
 
-	void mvScatterSeries::setExtraConfigDict(PyObject* dict)
+	void mvScatterSeries::handleSpecificKeywordArgs(PyObject* dict)
 	{
 		if (dict == nullptr)
 			return;
@@ -84,7 +84,7 @@ namespace Marvel {
 		}
 	}
 
-	void mvScatterSeries::getExtraConfigDict(PyObject* dict)
+	void mvScatterSeries::getSpecificConfiguration(PyObject* dict)
 	{
 		if (dict == nullptr)
 			return;

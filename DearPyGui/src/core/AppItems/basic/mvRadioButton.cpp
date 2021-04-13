@@ -54,7 +54,7 @@ namespace Marvel {
 		ImGui::EndGroup();
 	}
 
-	void mvRadioButton::setExtraConfigDict(PyObject* dict)
+	void mvRadioButton::handleSpecificKeywordArgs(PyObject* dict)
 	{
 		if (dict == nullptr)
 			return;
@@ -63,7 +63,7 @@ namespace Marvel {
 		if (PyObject* item = PyDict_GetItemString(dict, "horizontal")) m_horizontal = ToBool(item);
 	}
 
-	void mvRadioButton::getExtraConfigDict(PyObject* dict)
+	void mvRadioButton::getSpecificConfiguration(PyObject* dict)
 	{
 		if (dict == nullptr)
 			return;

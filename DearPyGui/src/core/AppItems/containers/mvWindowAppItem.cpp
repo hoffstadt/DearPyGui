@@ -291,7 +291,7 @@ namespace Marvel {
 
 	}
 
-	void mvWindowAppItem::setExtraConfigDict(PyObject* dict)
+	void mvWindowAppItem::handleSpecificKeywordArgs(PyObject* dict)
 	{
 		if (dict == nullptr)
 			return;
@@ -354,7 +354,7 @@ namespace Marvel {
 
 	}
 
-	void mvWindowAppItem::getExtraConfigDict(PyObject* dict)
+	void mvWindowAppItem::getSpecificConfiguration(PyObject* dict)
 	{
 		if (dict == nullptr)
 			return;

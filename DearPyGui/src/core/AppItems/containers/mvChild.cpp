@@ -79,7 +79,7 @@ namespace Marvel {
 		ImGui::EndChild();
 	}
 
-	void mvChild::setExtraConfigDict(PyObject* dict)
+	void mvChild::handleSpecificKeywordArgs(PyObject* dict)
 	{
 		if (dict == nullptr)
 			return;
@@ -100,7 +100,7 @@ namespace Marvel {
 		flagop("menubar", ImGuiWindowFlags_MenuBar, m_windowflags);
 	}
 
-	void mvChild::getExtraConfigDict(PyObject* dict)
+	void mvChild::getSpecificConfiguration(PyObject* dict)
 	{
 		if (dict == nullptr)
 			return;

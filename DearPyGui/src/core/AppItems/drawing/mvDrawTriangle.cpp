@@ -59,7 +59,7 @@ namespace Marvel {
 		drawlist->AddTriangle(m_p1 + start, m_p2 + start, m_p3 + start, m_color, m_thickness);
 	}
 
-	void mvDrawTriangle::setExtraConfigDict(PyObject* dict)
+	void mvDrawTriangle::handleSpecificKeywordArgs(PyObject* dict)
 	{
 		if (dict == nullptr)
 			return;
@@ -73,7 +73,7 @@ namespace Marvel {
 
 	}
 
-	void mvDrawTriangle::getExtraConfigDict(PyObject* dict)
+	void mvDrawTriangle::getSpecificConfiguration(PyObject* dict)
 	{
 		if (dict == nullptr)
 			return;

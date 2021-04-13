@@ -129,7 +129,7 @@ namespace Marvel {
             mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), m_name, m_callback_data);
     }
 
-    void mvDragFloat::setExtraConfigDict(PyObject* dict)
+    void mvDragFloat::handleSpecificKeywordArgs(PyObject* dict)
     {
         if (dict == nullptr)
             return;
@@ -153,7 +153,7 @@ namespace Marvel {
 
     }
 
-    void mvDragFloat::getExtraConfigDict(PyObject* dict)
+    void mvDragFloat::getSpecificConfiguration(PyObject* dict)
     {
         if (dict == nullptr)
             return;
@@ -175,7 +175,7 @@ namespace Marvel {
 
     }
 
-    void mvDragInt::setExtraConfigDict(PyObject* dict)
+    void mvDragInt::handleSpecificKeywordArgs(PyObject* dict)
     {
         if (dict == nullptr)
             return;
@@ -198,7 +198,7 @@ namespace Marvel {
         flagop("no_input", ImGuiSliderFlags_NoInput, m_stor_flags);
     }
 
-    void mvDragInt::getExtraConfigDict(PyObject* dict)
+    void mvDragInt::getSpecificConfiguration(PyObject* dict)
     {
         if (dict == nullptr)
             return;

@@ -252,8 +252,8 @@ namespace Marvel {
 		const ImVec2&      getY2Limits       () const { return m_y2limits_actual; }
 		const ImVec2&      getY3Limits       () const { return m_y3limits_actual; }
 
-		void setExtraConfigDict(PyObject* dict) override;
-		void getExtraConfigDict(PyObject* dict) override;
+		void handleSpecificKeywordArgs(PyObject* dict) override;
+		void getSpecificConfiguration(PyObject* dict) override;
 		bool canChildBeAdded(mvAppItemType type) override;
 
 	private:

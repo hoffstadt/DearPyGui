@@ -665,7 +665,7 @@ namespace Marvel{
 		return m_cached_styles2;
 	}
 
-	void mvAppItem::checkConfigDict(PyObject* dict)
+	void mvAppItem::checkArgs(PyObject* dict)
 	{
 		if (dict == nullptr)
 			return;
@@ -732,7 +732,7 @@ namespace Marvel{
 		//}
 	}
 
-	void mvAppItem::setConfigDict(PyObject* dict)
+	void mvAppItem::handleKeywordArgs(PyObject* dict)
 	{
 		if (dict == nullptr)
 			return;
@@ -764,6 +764,7 @@ namespace Marvel{
 			setCallbackData(item);
 		}
 
+		handleSpecificKeywordArgs(dict);
 	}
 
 	std::pair<std::string, std::string> mvAppItem::GetNameFromArgs(std::string& name, PyObject* args, PyObject* kwargs)
@@ -791,7 +792,7 @@ namespace Marvel{
 		return std::make_pair(parent, before);
 	}
 
-	void mvAppItem::getConfigDict(PyObject* dict)
+	void mvAppItem::getConfiguration(PyObject* dict)
 	{
 		if (dict == nullptr)
 			return;
@@ -839,8 +840,8 @@ namespace Marvel{
 
 		if (appitem)
 		{
-			appitem->getConfigDict(pdict);
-			appitem->getExtraConfigDict(pdict);
+			appitem->getConfiguration(pdict);
+			appitem->getSpecificConfiguration(pdict);
 		}
 		else
 			ThrowPythonException(item + std::string(" item was not found"));
@@ -864,9 +865,8 @@ namespace Marvel{
 
 		if (appitem)
 		{
-			appitem->checkConfigDict(kwargs);
-			appitem->setConfigDict(kwargs);
-			appitem->setExtraConfigDict(kwargs);
+			appitem->checkArgs(kwargs);
+			appitem->handleKeywordArgs(kwargs);
 		}
 		else
 			ThrowPythonException(item + std::string(" item was not found"));

@@ -249,8 +249,8 @@ namespace Marvel {
 
 		void setWidth          (int width)      override;
 		void setHeight         (int height)     override;
-		void setExtraConfigDict(PyObject* dict) override;
-		void getExtraConfigDict(PyObject* dict) override;
+		void handleSpecificKeywordArgs(PyObject* dict) override;
+		void getSpecificConfiguration(PyObject* dict) override;
 
 	protected:
 

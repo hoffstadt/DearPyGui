@@ -58,7 +58,7 @@ namespace Marvel {
 		drawlist->AddQuad(m_p1 + start, m_p2 + start, m_p3 + start, m_p4 + start, m_color, m_thickness);
 	}
 
-	void mvDrawQuad::setExtraConfigDict(PyObject* dict)
+	void mvDrawQuad::handleSpecificKeywordArgs(PyObject* dict)
 	{
 		if (dict == nullptr)
 			return;
@@ -74,7 +74,7 @@ namespace Marvel {
 
 	}
 
-	void mvDrawQuad::getExtraConfigDict(PyObject* dict)
+	void mvDrawQuad::getSpecificConfiguration(PyObject* dict)
 	{
 		if (dict == nullptr)
 			return;

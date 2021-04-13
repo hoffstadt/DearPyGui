@@ -61,7 +61,7 @@ namespace Marvel {
 		drawlist->AddPolyline((const ImVec2*)const_cast<const mvVec2*>(points.data()), (int)m_points.size(), m_color, m_closed, m_thickness);
 	}
 
-	void mvDrawPolyline::setExtraConfigDict(PyObject* dict)
+	void mvDrawPolyline::handleSpecificKeywordArgs(PyObject* dict)
 	{
 		if (dict == nullptr)
 			return;
@@ -72,7 +72,7 @@ namespace Marvel {
 		if (PyObject* item = PyDict_GetItemString(dict, "thickness")) m_thickness = ToFloat(item);
 	}
 
-	void mvDrawPolyline::getExtraConfigDict(PyObject* dict)
+	void mvDrawPolyline::getSpecificConfiguration(PyObject* dict)
 	{
 		if (dict == nullptr)
 			return;

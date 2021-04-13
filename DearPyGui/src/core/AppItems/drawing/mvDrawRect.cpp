@@ -57,7 +57,7 @@ namespace Marvel {
 		drawlist->AddRect(m_pmin + start, m_pmax + start, m_color, m_rounding, ImDrawCornerFlags_All, m_thickness);
 	}
 
-	void mvDrawRect::setExtraConfigDict(PyObject* dict)
+	void mvDrawRect::handleSpecificKeywordArgs(PyObject* dict)
 	{
 		if (dict == nullptr)
 			return;
@@ -70,7 +70,7 @@ namespace Marvel {
 		if (PyObject* item = PyDict_GetItemString(dict, "thickness")) m_thickness = ToFloat(item);
 	}
 
-	void mvDrawRect::getExtraConfigDict(PyObject* dict)
+	void mvDrawRect::getSpecificConfiguration(PyObject* dict)
 	{
 		if (dict == nullptr)
 			return;

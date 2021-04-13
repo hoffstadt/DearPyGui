@@ -72,7 +72,7 @@ namespace Marvel {
 
 	}
 
-	void mvPieSeries::setExtraConfigDict(PyObject* dict)
+	void mvPieSeries::handleSpecificKeywordArgs(PyObject* dict)
 	{
 		if (dict == nullptr)
 			return;
@@ -103,7 +103,7 @@ namespace Marvel {
 
 	}
 
-	void mvPieSeries::getExtraConfigDict(PyObject* dict)
+	void mvPieSeries::getSpecificConfiguration(PyObject* dict)
 	{
 		if (dict == nullptr)
 			return;

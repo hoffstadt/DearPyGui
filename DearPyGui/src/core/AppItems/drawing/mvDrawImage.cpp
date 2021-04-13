@@ -114,7 +114,7 @@ namespace Marvel {
 			drawlist->AddImage(m_texture, m_pmin + start, m_pmax + start, m_uv_min, m_uv_max, m_color);
 	}
 
-	void mvDrawImage::setExtraConfigDict(PyObject* dict)
+	void mvDrawImage::handleSpecificKeywordArgs(PyObject* dict)
 	{
 		if (dict == nullptr)
 			return;
@@ -138,7 +138,7 @@ namespace Marvel {
 
 	}
 
-	void mvDrawImage::getExtraConfigDict(PyObject* dict)
+	void mvDrawImage::getSpecificConfiguration(PyObject* dict)
 	{
 		if (dict == nullptr)
 			return;

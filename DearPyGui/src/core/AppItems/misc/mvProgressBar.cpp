@@ -40,7 +40,7 @@ namespace Marvel {
 
 	}
 
-	void mvProgressBar::setExtraConfigDict(PyObject* dict)
+	void mvProgressBar::handleSpecificKeywordArgs(PyObject* dict)
 	{
 		if (dict == nullptr)
 			return;
@@ -48,7 +48,7 @@ namespace Marvel {
 		if (PyObject* item = PyDict_GetItemString(dict, "overlay")) m_overlay = ToString(item);
 	}
 
-	void mvProgressBar::getExtraConfigDict(PyObject* dict)
+	void mvProgressBar::getSpecificConfiguration(PyObject* dict)
 	{
 		if (dict == nullptr)
 			return;

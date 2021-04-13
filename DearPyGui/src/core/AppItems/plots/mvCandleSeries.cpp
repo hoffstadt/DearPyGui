@@ -157,7 +157,7 @@ namespace Marvel {
 
 	}
 
-	void mvCandleSeries::setExtraConfigDict(PyObject* dict)
+	void mvCandleSeries::handleSpecificKeywordArgs(PyObject* dict)
 	{
 		if (dict == nullptr)
 			return;
@@ -184,7 +184,7 @@ namespace Marvel {
 
 	}
 
-	void mvCandleSeries::getExtraConfigDict(PyObject* dict)
+	void mvCandleSeries::getSpecificConfiguration(PyObject* dict)
 	{
 		if (dict == nullptr)
 			return;

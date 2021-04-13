@@ -113,7 +113,7 @@ namespace Marvel {
 
 	}
 
-	void mvText::setExtraConfigDict(PyObject* dict)
+	void mvText::handleSpecificKeywordArgs(PyObject* dict)
 	{
 		if (dict == nullptr)
 			return;
@@ -124,7 +124,7 @@ namespace Marvel {
 
 	}
 
-	void mvText::getExtraConfigDict(PyObject* dict)
+	void mvText::getSpecificConfiguration(PyObject* dict)
 	{
 		if (dict == nullptr)
 			return;
@@ -134,7 +134,7 @@ namespace Marvel {
 		PyDict_SetItemString(dict, "bullet", ToPyBool(m_bullet));
 	}
 
-	void mvLabelText::setExtraConfigDict(PyObject* dict)
+	void mvLabelText::handleSpecificKeywordArgs(PyObject* dict)
 	{
 		if (dict == nullptr)
 			return;
@@ -142,7 +142,7 @@ namespace Marvel {
 		if (PyObject* item = PyDict_GetItemString(dict, "color")) m_color = ToColor(item);
 	}
 
-	void mvLabelText::getExtraConfigDict(PyObject* dict)
+	void mvLabelText::getSpecificConfiguration(PyObject* dict)
 	{
 		if (dict == nullptr)
 			return;

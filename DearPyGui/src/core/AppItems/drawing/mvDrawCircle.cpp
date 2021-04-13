@@ -63,7 +63,7 @@ namespace Marvel {
 
 	}
 
-	void mvDrawCircle::setExtraConfigDict(PyObject* dict)
+	void mvDrawCircle::handleSpecificKeywordArgs(PyObject* dict)
 	{
 		if (dict == nullptr)
 			return;
@@ -78,7 +78,7 @@ namespace Marvel {
 
 	}
 
-	void mvDrawCircle::getExtraConfigDict(PyObject* dict)
+	void mvDrawCircle::getSpecificConfiguration(PyObject* dict)
 	{
 		if (dict == nullptr)
 			return;

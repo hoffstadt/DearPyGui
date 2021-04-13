@@ -53,7 +53,7 @@ namespace Marvel {
 		drawlist->AddText(ImGui::GetFont(), (float)m_size, m_pos + start, m_color, m_text.c_str());
 	}
 
-	void mvDrawText::setExtraConfigDict(PyObject* dict)
+	void mvDrawText::handleSpecificKeywordArgs(PyObject* dict)
 	{
 		if (dict == nullptr)
 			return;
@@ -65,7 +65,7 @@ namespace Marvel {
 
 	}
 
-	void mvDrawText::getExtraConfigDict(PyObject* dict)
+	void mvDrawText::getSpecificConfiguration(PyObject* dict)
 	{
 		if (dict == nullptr)
 			return;

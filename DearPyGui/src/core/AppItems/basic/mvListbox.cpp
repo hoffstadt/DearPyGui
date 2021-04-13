@@ -41,7 +41,7 @@ namespace Marvel {
 			mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), m_name, m_callback_data);
 	}
 
-	void mvListbox::setExtraConfigDict(PyObject* dict)
+	void mvListbox::handleSpecificKeywordArgs(PyObject* dict)
 	{
 		if (dict == nullptr)
 			return;
@@ -56,7 +56,7 @@ namespace Marvel {
 		}
 	}
 
-	void mvListbox::getExtraConfigDict(PyObject* dict)
+	void mvListbox::getSpecificConfiguration(PyObject* dict)
 	{
 		if (dict == nullptr)
 			return;

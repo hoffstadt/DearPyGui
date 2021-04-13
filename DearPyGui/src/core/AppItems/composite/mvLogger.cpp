@@ -322,7 +322,7 @@ namespace Marvel {
 		LineOffsets.push_back(0);
 	}
 
-	void mvLoggerItem::setExtraConfigDict(PyObject* dict)
+	void mvLoggerItem::handleSpecificKeywordArgs(PyObject* dict)
 	{
 		if (dict == nullptr)
 			return;
@@ -344,7 +344,7 @@ namespace Marvel {
 
 	}
 
-	void mvLoggerItem::getExtraConfigDict(PyObject* dict)
+	void mvLoggerItem::getSpecificConfiguration(PyObject* dict)
 	{
 		if (dict == nullptr)
 			return;

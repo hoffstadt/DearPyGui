@@ -62,8 +62,8 @@ namespace Marvel {
 
 		void draw(ImDrawList* drawlist, float x, float y) override;
 
-		void setExtraConfigDict(PyObject* dict) override;
-		void getExtraConfigDict(PyObject* dict) override;
+		void handleSpecificKeywordArgs(PyObject* dict) override;
+		void getSpecificConfiguration(PyObject* dict) override;
 
 		void onChildAdd(mvRef<mvAppItem> item) override;
 		void onChildRemoved(mvRef<mvAppItem> item) override;

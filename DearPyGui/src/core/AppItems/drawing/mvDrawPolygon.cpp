@@ -130,7 +130,7 @@ namespace Marvel {
 		drawlist->AddPolyline((const ImVec2*)const_cast<const mvVec2*>(points.data()), (int)m_points.size(), m_color, false, m_thickness);
 	}
 
-	void mvDrawPolygon::setExtraConfigDict(PyObject* dict)
+	void mvDrawPolygon::handleSpecificKeywordArgs(PyObject* dict)
 	{
 		if (dict == nullptr)
 			return;
@@ -142,7 +142,7 @@ namespace Marvel {
 
 	}
 
-	void mvDrawPolygon::getExtraConfigDict(PyObject* dict)
+	void mvDrawPolygon::getSpecificConfiguration(PyObject* dict)
 	{
 		if (dict == nullptr)
 			return;

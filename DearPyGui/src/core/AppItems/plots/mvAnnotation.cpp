@@ -60,7 +60,7 @@ namespace Marvel {
 
 	}
 
-	void mvAnnotation::setExtraConfigDict(PyObject* dict)
+	void mvAnnotation::handleSpecificKeywordArgs(PyObject* dict)
 	{
 		if (dict == nullptr)
 			return;
@@ -71,7 +71,7 @@ namespace Marvel {
 
 	}
 
-	void mvAnnotation::getExtraConfigDict(PyObject* dict)
+	void mvAnnotation::getSpecificConfiguration(PyObject* dict)
 	{
 		if (dict == nullptr)
 			return;

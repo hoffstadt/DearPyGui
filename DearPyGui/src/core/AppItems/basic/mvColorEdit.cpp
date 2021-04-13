@@ -68,7 +68,7 @@ namespace Marvel {
 
 	}
 
-	void mvColorEdit::setExtraConfigDict(PyObject* dict)
+	void mvColorEdit::handleSpecificKeywordArgs(PyObject* dict)
 	{
 		if (dict == nullptr)
 			return;
@@ -126,7 +126,7 @@ namespace Marvel {
 
 	}
 
-	void mvColorEdit::getExtraConfigDict(PyObject* dict)
+	void mvColorEdit::getSpecificConfiguration(PyObject* dict)
 	{
 		if (dict == nullptr)
 			return;

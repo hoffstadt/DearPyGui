@@ -73,8 +73,8 @@ namespace Marvel {
 		void setEnabled(bool value) override;
 		void draw(ImDrawList* drawlist, float x, float y) override;
 
-		void setExtraConfigDict(PyObject* dict) override;
-		void getExtraConfigDict(PyObject* dict) override;
+		void handleSpecificKeywordArgs(PyObject* dict) override;
+		void getSpecificConfiguration(PyObject* dict) override;
 
 	private:
 
@@ -145,8 +145,8 @@ namespace Marvel {
 		void setEnabled(bool value) override;
 		void draw(ImDrawList* drawlist, float x, float y) override;
 
-		void setExtraConfigDict(PyObject* dict) override;
-		void getExtraConfigDict(PyObject* dict) override;
+		void handleSpecificKeywordArgs(PyObject* dict) override;
+		void getSpecificConfiguration(PyObject* dict) override;
 
 	private:
 

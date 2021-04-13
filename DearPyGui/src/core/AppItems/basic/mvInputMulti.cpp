@@ -230,7 +230,7 @@ namespace Marvel {
         }
     }
 
-    void mvInputIntMulti::setExtraConfigDict(PyObject* dict)
+    void mvInputIntMulti::handleSpecificKeywordArgs(PyObject* dict)
     {
         if (dict == nullptr)
             return;
@@ -246,7 +246,7 @@ namespace Marvel {
         if (PyObject* item = PyDict_GetItemString(dict, "size")) m_size = ToInt(item);
     }
 
-    void mvInputIntMulti::getExtraConfigDict(PyObject* dict)
+    void mvInputIntMulti::getSpecificConfiguration(PyObject* dict)
     {
         if (dict == nullptr)
             return;
@@ -260,7 +260,7 @@ namespace Marvel {
         PyDict_SetItemString(dict, "size", ToPyInt(m_size));
     }
 
-    void mvInputFloatMulti::setExtraConfigDict(PyObject* dict)
+    void mvInputFloatMulti::handleSpecificKeywordArgs(PyObject* dict)
     {
         if (dict == nullptr)
             return;
@@ -286,7 +286,7 @@ namespace Marvel {
 
     }
 
-    void mvInputFloatMulti::getExtraConfigDict(PyObject* dict)
+    void mvInputFloatMulti::getSpecificConfiguration(PyObject* dict)
     {
         if (dict == nullptr)
             return;
