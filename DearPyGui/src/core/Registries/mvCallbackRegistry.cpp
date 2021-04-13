@@ -221,7 +221,7 @@ namespace Marvel {
 			if (m_mouseWheelCallback)
 				submitCallback([=]() mutable
 				{
-					runCallback(m_mouseWheelCallback, active, ToPyInt(GetEFloat(event, "DELTA")));
+					runCallback(m_mouseWheelCallback, active, ToPyInt((int)GetEFloat(event, "DELTA")));
 				});
 			break;
 

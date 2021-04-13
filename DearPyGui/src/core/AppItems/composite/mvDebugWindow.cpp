@@ -188,7 +188,7 @@ namespace Marvel {
 				DebugItem("Global Mouse Position:", io.MousePos.x, io.MousePos.y);
 				DebugItem("Plot Mouse Position:", mvInput::getPlotMousePosition().x, mvInput::getPlotMousePosition().y);
 				DebugItem("Mouse Drag Delta:", mvInput::getMouseDragDelta().x, mvInput::getMouseDragDelta().y);
-				DebugItem("Mouse Drag Threshold:", mvInput::getMouseDragThreshold());
+				DebugItem("Mouse Drag Threshold:", (float)mvInput::getMouseDragThreshold());
 
 				ImGui::Spacing();
 				ImGui::Spacing();

@@ -43,11 +43,11 @@ namespace Marvel {
 		MV_END_COLOR_CONSTANTS
 
 		MV_START_STYLE_CONSTANTS
-			MV_ADD_CONSTANT(mvThemeStyle_RadioButton_BorderSize,    0,  1),
-			MV_ADD_CONSTANT(mvThemeStyle_RadioButton_PaddingX,      4, 20),
-			MV_ADD_CONSTANT(mvThemeStyle_RadioButton_PaddingY,      3, 20),
-			MV_ADD_CONSTANT(mvThemeStyle_RadioButton_InnerSpacingX, 4, 20),
-			MV_ADD_CONSTANT(mvThemeStyle_RadioButton_InnerSpacingY, 4, 20),
+			MV_ADD_CONSTANT_F(mvThemeStyle_RadioButton_BorderSize,    0,  1),
+			MV_ADD_CONSTANT_F(mvThemeStyle_RadioButton_PaddingX,      4, 20),
+			MV_ADD_CONSTANT_F(mvThemeStyle_RadioButton_PaddingY,      3, 20),
+			MV_ADD_CONSTANT_F(mvThemeStyle_RadioButton_InnerSpacingX, 4, 20),
+			MV_ADD_CONSTANT_F(mvThemeStyle_RadioButton_InnerSpacingY, 4, 20),
 		MV_END_STYLE_CONSTANTS
 
 	public:

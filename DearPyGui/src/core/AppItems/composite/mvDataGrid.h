@@ -85,12 +85,12 @@ namespace Marvel {
 		MV_END_COLOR_CONSTANTS
 
 		MV_START_STYLE_CONSTANTS
-			MV_ADD_CONSTANT(mvThemeStyle_DataGrid_CellPaddingX			, 4, 20),
-			MV_ADD_CONSTANT(mvThemeStyle_DataGrid_CellPaddingY			, 2, 20),
-			MV_ADD_CONSTANT(mvThemeStyle_DataGrid_ItemSpacingX			, 8, 20),
-			MV_ADD_CONSTANT(mvThemeStyle_DataGrid_ItemSpacingY			, 4, 20),
-			MV_ADD_CONSTANT(mvThemeStyle_DataGrid_ItemTextAlignX		, 0,  1),
-			MV_ADD_CONSTANT(mvThemeStyle_DataGrid_ItemTextAlignY		, 0,  1),
+			MV_ADD_CONSTANT_F(mvThemeStyle_DataGrid_CellPaddingX			, 4, 20),
+			MV_ADD_CONSTANT_F(mvThemeStyle_DataGrid_CellPaddingY			, 2, 20),
+			MV_ADD_CONSTANT_F(mvThemeStyle_DataGrid_ItemSpacingX			, 8, 20),
+			MV_ADD_CONSTANT_F(mvThemeStyle_DataGrid_ItemSpacingY			, 4, 20),
+			MV_ADD_CONSTANT_F(mvThemeStyle_DataGrid_ItemTextAlignX		, 0,  1),
+			MV_ADD_CONSTANT_F(mvThemeStyle_DataGrid_ItemTextAlignY		, 0,  1),
 		MV_END_STYLE_CONSTANTS
 
 	public:

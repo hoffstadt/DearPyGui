@@ -56,12 +56,12 @@ namespace Marvel {
 		MV_END_COLOR_CONSTANTS
 
 		MV_START_STYLE_CONSTANTS
-			MV_ADD_CONSTANT(mvThemeStyle_InputIntx_Rounding,		0, 12),
-			MV_ADD_CONSTANT(mvThemeStyle_InputIntx_BorderSize,		0,  1),
-			MV_ADD_CONSTANT(mvThemeStyle_InputIntx_PaddingX,		4, 20),
-			MV_ADD_CONSTANT(mvThemeStyle_InputIntx_PaddingY,		3, 20),
-			MV_ADD_CONSTANT(mvThemeStyle_InputIntx_InnerSpacingX,	4, 20),
-			MV_ADD_CONSTANT(mvThemeStyle_InputIntx_InnerSpacingY,	4, 20),
+			MV_ADD_CONSTANT_F(mvThemeStyle_InputIntx_Rounding,		0, 12),
+			MV_ADD_CONSTANT_F(mvThemeStyle_InputIntx_BorderSize,		0,  1),
+			MV_ADD_CONSTANT_F(mvThemeStyle_InputIntx_PaddingX,		4, 20),
+			MV_ADD_CONSTANT_F(mvThemeStyle_InputIntx_PaddingY,		3, 20),
+			MV_ADD_CONSTANT_F(mvThemeStyle_InputIntx_InnerSpacingX,	4, 20),
+			MV_ADD_CONSTANT_F(mvThemeStyle_InputIntx_InnerSpacingY,	4, 20),
 		MV_END_STYLE_CONSTANTS
 
 	public:
@@ -128,12 +128,12 @@ namespace Marvel {
 		MV_END_COLOR_CONSTANTS
 
 		MV_START_STYLE_CONSTANTS
-			MV_ADD_CONSTANT(mvThemeStyle_InputFloatx_Rounding,		0, 12),
-			MV_ADD_CONSTANT(mvThemeStyle_InputFloatx_BorderSize,	0,  1),
-			MV_ADD_CONSTANT(mvThemeStyle_InputFloatx_PaddingX,		4, 20),
-			MV_ADD_CONSTANT(mvThemeStyle_InputFloatx_PaddingY,		3, 20),
-			MV_ADD_CONSTANT(mvThemeStyle_InputFloatx_InnerSpacingX,	4, 20),
-			MV_ADD_CONSTANT(mvThemeStyle_InputFloatx_InnerSpacingY,	4, 20),
+			MV_ADD_CONSTANT_F(mvThemeStyle_InputFloatx_Rounding,		0, 12),
+			MV_ADD_CONSTANT_F(mvThemeStyle_InputFloatx_BorderSize,	0,  1),
+			MV_ADD_CONSTANT_F(mvThemeStyle_InputFloatx_PaddingX,		4, 20),
+			MV_ADD_CONSTANT_F(mvThemeStyle_InputFloatx_PaddingY,		3, 20),
+			MV_ADD_CONSTANT_F(mvThemeStyle_InputFloatx_InnerSpacingX,	4, 20),
+			MV_ADD_CONSTANT_F(mvThemeStyle_InputFloatx_InnerSpacingY,	4, 20),
 		MV_END_STYLE_CONSTANTS
 
 	public:

@@ -61,7 +61,7 @@ namespace Marvel {
 		xptr = &(*m_value.get())[0];
 		yptr = &(*m_value.get())[1];
 
-		ImPlot::PlotScatter(m_label.c_str(), xptr->data(), yptr->data(), xptr->size());
+		ImPlot::PlotScatter(m_label.c_str(), xptr->data(), yptr->data(), (int)xptr->size());
 
 	}
 

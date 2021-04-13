@@ -62,8 +62,8 @@ namespace Marvel {
 
 		if (ImPlot::DragPoint(m_label.c_str(), &dummyx, &dummyy, m_show_label, m_color, m_radius))
 		{
-			(*m_value.get())[0] = dummyx;
-			(*m_value.get())[1] = dummyy;
+			(*m_value.get())[0] = (float)dummyx;
+			(*m_value.get())[1] = (float)dummyy;
 			mvApp::GetApp()->getCallbackRegistry().addCallback(m_callback, m_name, nullptr);
 		}
 

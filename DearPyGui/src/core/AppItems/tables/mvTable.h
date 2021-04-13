@@ -52,8 +52,8 @@ namespace Marvel {
 		MV_END_COLOR_CONSTANTS
 
 		MV_START_STYLE_CONSTANTS
-			MV_ADD_CONSTANT(mvThemeStyle_Table_CellPaddingX, 4, 20),
-			MV_ADD_CONSTANT(mvThemeStyle_Table_CellPaddingY, 2, 20),
+			MV_ADD_CONSTANT_F(mvThemeStyle_Table_CellPaddingX, 4, 20),
+			MV_ADD_CONSTANT_F(mvThemeStyle_Table_CellPaddingY, 2, 20),
 		MV_END_STYLE_CONSTANTS
 
 	public:

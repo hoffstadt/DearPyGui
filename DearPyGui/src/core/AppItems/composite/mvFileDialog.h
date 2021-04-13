@@ -1,7 +1,10 @@
 #pragma once
 #include "mvTypeBases.h"
 #include "mvApp.h"
+
+#pragma warning(push, 0) 
 #include <ImGuiFileDialog.h>
+#pragma warning(pop)
 
 namespace Marvel {
 

@@ -389,14 +389,14 @@ namespace Marvel {
 			if (ImPlot::IsPlotHovered())
 				mvInput::setPlotMousePosition((float)ImPlot::GetPlotMousePos().x, (float)ImPlot::GetPlotMousePos().y);
 
-			m_xlimits_actual.x = ImPlot::GetPlotLimits().X.Min;
-			m_xlimits_actual.y = ImPlot::GetPlotLimits().X.Max;
-			m_ylimits_actual.x = ImPlot::GetPlotLimits().Y.Min;
-			m_ylimits_actual.y = ImPlot::GetPlotLimits().Y.Max;
-			m_y2limits_actual.x = ImPlot::GetPlotLimits(ImPlotYAxis_2).Y.Min;
-			m_y2limits_actual.y = ImPlot::GetPlotLimits(ImPlotYAxis_2).Y.Max;
-			m_y3limits_actual.x = ImPlot::GetPlotLimits(ImPlotYAxis_3).Y.Min;
-			m_y3limits_actual.y = ImPlot::GetPlotLimits(ImPlotYAxis_3).Y.Max;
+			m_xlimits_actual.x = (float)ImPlot::GetPlotLimits().X.Min;
+			m_xlimits_actual.y = (float)ImPlot::GetPlotLimits().X.Max;
+			m_ylimits_actual.x = (float)ImPlot::GetPlotLimits().Y.Min;
+			m_ylimits_actual.y = (float)ImPlot::GetPlotLimits().Y.Max;
+			m_y2limits_actual.x = (float)ImPlot::GetPlotLimits(ImPlotYAxis_2).Y.Min;
+			m_y2limits_actual.y = (float)ImPlot::GetPlotLimits(ImPlotYAxis_2).Y.Max;
+			m_y3limits_actual.x = (float)ImPlot::GetPlotLimits(ImPlotYAxis_3).Y.Min;
+			m_y3limits_actual.y = (float)ImPlot::GetPlotLimits(ImPlotYAxis_3).Y.Max;
 
 			ImPlot::PushPlotClipRect();
 			auto topleft = ImPlot::GetPlotPos();

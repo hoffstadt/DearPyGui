@@ -54,12 +54,12 @@ namespace Marvel {
 		MV_END_COLOR_CONSTANTS
 
 		MV_START_STYLE_CONSTANTS
-			MV_ADD_CONSTANT(mvThemeStyle_Button_Rounding	, 0    ,12),
-			MV_ADD_CONSTANT(mvThemeStyle_Button_BorderSize	, 0    , 1),
-			MV_ADD_CONSTANT(mvThemeStyle_Button_TextAlignX	, 0.5f , 1),
-			MV_ADD_CONSTANT(mvThemeStyle_Button_TextAlignY	, 0.5f , 1),
-			MV_ADD_CONSTANT(mvThemeStyle_Button_PaddingX	, 4    ,20),
-			MV_ADD_CONSTANT(mvThemeStyle_Button_PaddingY	, 3    ,20),
+			MV_ADD_CONSTANT_F(mvThemeStyle_Button_Rounding	, 0    ,12),
+			MV_ADD_CONSTANT_F(mvThemeStyle_Button_BorderSize	, 0    , 1),
+			MV_ADD_CONSTANT_F(mvThemeStyle_Button_TextAlignX	, 0.5f , 1),
+			MV_ADD_CONSTANT_F(mvThemeStyle_Button_TextAlignY	, 0.5f , 1),
+			MV_ADD_CONSTANT_F(mvThemeStyle_Button_PaddingX	, 4    ,20),
+			MV_ADD_CONSTANT_F(mvThemeStyle_Button_PaddingY	, 3    ,20),
 		MV_END_STYLE_CONSTANTS
 
 	public:

@@ -4,6 +4,7 @@
 #include <implot_internal.h>
 #include <array>
 #include "mvItemRegistry.h"
+#include "cpp.hint"
 
 //-----------------------------------------------------------------------------
 // mvTypeBases

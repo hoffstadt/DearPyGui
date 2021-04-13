@@ -168,7 +168,7 @@ namespace Marvel {
 		if (node1_id == 0 || node2_id == 0)
 			return;
 
-		addLink(node1_id, node2_id);
+		addLink((int)node1_id, (int)node2_id);
 
 		bool found = false;
 		for (const auto& link : m_linksStrings)

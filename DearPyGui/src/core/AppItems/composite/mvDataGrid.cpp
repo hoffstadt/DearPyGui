@@ -651,7 +651,7 @@ namespace Marvel {
 		mvImGuiThemeScope scope(this);
 		mvFontScope fscope(this);
 
-		if (ImGui::BeginTable(m_name.c_str(), m_columns,
+		if (ImGui::BeginTable(m_name.c_str(), (int)m_columns,
 			ImGuiTableFlags_Hideable | ImGuiTableFlags_Resizable | ImGuiTableFlags_RowBg | ImGuiTableFlags_Borders))
 		{
 			if (!m_hide_headers)
@@ -667,10 +667,10 @@ namespace Marvel {
 				ImGui::TableNextRow();
 				for (size_t j = 0; j < m_hashValues[i].size(); j++)
 				{
-					ImGui::TableSetColumnIndex(j);
-					if (ImGui::Selectable(m_hashValues[i][j].c_str(), m_selections[{i, j}]))
+					ImGui::TableSetColumnIndex((int)j);
+					if (ImGui::Selectable(m_hashValues[i][j].c_str(), m_selections[{(int)i, (int)j}]))
 					{
-						m_selections[{i, j}] = !m_selections[{i, j}];
+						m_selections[{(int)i, (int)j}] = !m_selections[{(int)i, (int)j}];
 						mvApp::GetApp()->getCallbackRegistry().addCallback(m_callback, 
 							m_name, m_callback_data);
 					}

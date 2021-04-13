@@ -61,20 +61,20 @@ namespace Marvel {
 		MV_END_COLOR_CONSTANTS
 
 		MV_START_STYLE_CONSTANTS
-			MV_ADD_CONSTANT(mvThemeStyle_Popup_BorderSize				, 1,    1),
-			MV_ADD_CONSTANT(mvThemeStyle_Popup_Rounding					, 0,   12),
-			MV_ADD_CONSTANT(mvThemeStyle_Popup_PaddingX					, 8,   20),
-			MV_ADD_CONSTANT(mvThemeStyle_Popup_PaddingY					, 8,   20),
-			MV_ADD_CONSTANT(mvThemeStyle_Popup_ItemSpacingX				, 8,   20),
-			MV_ADD_CONSTANT(mvThemeStyle_Popup_ItemSpacingY				, 4,   20),
-			MV_ADD_CONSTANT(mvThemeStyle_Popup_ModalRounding			, 0,   12),
-			MV_ADD_CONSTANT(mvThemeStyle_Popup_ModalBorderSize			, 1,    1),
-			MV_ADD_CONSTANT(mvThemeStyle_Popup_ModalTitleAlignX			, 0,    1),
-			MV_ADD_CONSTANT(mvThemeStyle_Popup_ModalTitleAlignY			, 0.5,  1),
-			MV_ADD_CONSTANT(mvThemeStyle_Popup_ModalMinSizeX			,32,   50),
-			MV_ADD_CONSTANT(mvThemeStyle_Popup_ModalMinSizeY			,32,   50),
-			MV_ADD_CONSTANT(mvThemeStyle_Popup_ModalScrollbarSize		,14,   20),
-			MV_ADD_CONSTANT(mvThemeStyle_Popup_ModalScrollbarRounding	, 9,   12),
+			MV_ADD_CONSTANT_F(mvThemeStyle_Popup_BorderSize				, 1,    1),
+			MV_ADD_CONSTANT_F(mvThemeStyle_Popup_Rounding					, 0,   12),
+			MV_ADD_CONSTANT_F(mvThemeStyle_Popup_PaddingX					, 8,   20),
+			MV_ADD_CONSTANT_F(mvThemeStyle_Popup_PaddingY					, 8,   20),
+			MV_ADD_CONSTANT_F(mvThemeStyle_Popup_ItemSpacingX				, 8,   20),
+			MV_ADD_CONSTANT_F(mvThemeStyle_Popup_ItemSpacingY				, 4,   20),
+			MV_ADD_CONSTANT_F(mvThemeStyle_Popup_ModalRounding			, 0,   12),
+			MV_ADD_CONSTANT_F(mvThemeStyle_Popup_ModalBorderSize			, 1,    1),
+			MV_ADD_CONSTANT_F(mvThemeStyle_Popup_ModalTitleAlignX			, 0,    1),
+			MV_ADD_CONSTANT_F(mvThemeStyle_Popup_ModalTitleAlignY			, 0.5,  1),
+			MV_ADD_CONSTANT_F(mvThemeStyle_Popup_ModalMinSizeX			,32,   50),
+			MV_ADD_CONSTANT_F(mvThemeStyle_Popup_ModalMinSizeY			,32,   50),
+			MV_ADD_CONSTANT_F(mvThemeStyle_Popup_ModalScrollbarSize		,14,   20),
+			MV_ADD_CONSTANT_F(mvThemeStyle_Popup_ModalScrollbarRounding	, 9,   12),
 		MV_END_STYLE_CONSTANTS
 
 	public:

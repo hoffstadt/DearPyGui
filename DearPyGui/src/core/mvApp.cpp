@@ -221,7 +221,7 @@ namespace Marvel {
 		const auto& results = mvInstrumentor::Get().getResults();
 
 		for (const auto& item : results)
-			buffers[item.first].AddPoint(t, item.second.count());
+			buffers[item.first].AddPoint(t, (float)item.second.count());
 
 		//ImGui::SetNextWindowFocus();
 		ImGui::SetNextWindowSize(ImVec2(500, 500), ImGuiCond_FirstUseEver);
