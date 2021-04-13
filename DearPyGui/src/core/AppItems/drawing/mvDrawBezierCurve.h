@@ -39,13 +39,13 @@ namespace Marvel {
 
 	private:
 
-		mvVec2  m_p1;
-		mvVec2  m_p2;
-		mvVec2  m_p3;
-		mvVec2  m_p4;
+		mvVec2  m_p1 = { 0.0f, 0.0f };
+		mvVec2  m_p2 = { 0.0f, 0.0f };
+		mvVec2  m_p3 = { 0.0f, 0.0f };
+		mvVec2  m_p4 = { 0.0f, 0.0f };
 		mvColor m_color;
-		float   m_thickness;
-		int     m_segments;
+		float   m_thickness = 0.0f;
+		int     m_segments = 0;
 
 	};
 

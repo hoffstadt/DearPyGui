@@ -474,8 +474,7 @@ namespace Marvel {
 		{
 			if (m_queryCallback)
 				Py_XDECREF(m_queryCallback);
-			if (item)
-				Py_XINCREF(item);
+			Py_XINCREF(item);
 			m_queryCallback = item;
 		}
 
