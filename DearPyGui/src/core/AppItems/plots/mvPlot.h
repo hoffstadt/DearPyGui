@@ -6,7 +6,6 @@
 #include <map>
 #include <utility>
 #include "mvCore.h"
-#include "mvPython.h"
 
 namespace Marvel {
 

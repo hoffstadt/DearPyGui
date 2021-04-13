@@ -14,6 +14,7 @@
 #include "mvAppItemState.h"
 #include "mvCallbackRegistry.h"
 #include "mvPythonTranslator.h"
+#include "cpp.hint"
 
 // forward declarations
 struct ImPlotTime;

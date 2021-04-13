@@ -18,6 +18,7 @@
 #include "mvStemSeries.h"
 #include "mvImPlotThemeScope.h"
 #include "mvFontScope.h"
+#include "mvPythonExceptions.h"
 
 namespace Marvel {
 

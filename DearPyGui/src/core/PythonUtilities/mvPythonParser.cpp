@@ -5,6 +5,7 @@
 #include <fstream>
 #include <utility>
 #include <ctime>
+#include <frameobject.h>
 
 namespace Marvel {
 

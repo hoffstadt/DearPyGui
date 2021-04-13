@@ -130,7 +130,7 @@ namespace Marvel {
 		std::vector<std::string>              m_headers;
 		std::vector<std::vector<std::string>> m_hashValues;
 		std::vector<std::vector<std::string>> m_values;
-		size_t                                m_columns;
+		size_t                                m_columns = 0;
 		bool                                  m_hide_headers;
 
 		// new table api items
