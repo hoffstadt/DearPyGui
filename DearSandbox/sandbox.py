@@ -9,7 +9,7 @@ set_log_level(0)
 show_logger()
 show_demo()
 
-create_viewport()
+create_viewport(small_icon="../../Resources/dpg_icon_small.ico", large_icon="../../Resources/dpg_icon_large.ico")
 setup_dearpygui()
 show_viewport()
 while(is_dearpygui_running()):
