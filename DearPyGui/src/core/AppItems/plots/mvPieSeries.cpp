@@ -95,7 +95,7 @@ namespace Marvel {
 				break;
 
 			case 3:
-				(*m_value)[3] = ToFloatVect(item);
+				(*m_value)[0] = ToFloatVect(item);
 				break;
 
 			case 4:

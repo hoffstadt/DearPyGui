@@ -21,7 +21,6 @@ namespace Marvel {
 
 		parser.addArg<mvPyDataType::FloatList>("default_value", mvArgType::KEYWORD_ARG, "(0.0, 0.0, 0.0, 0.0)");
 
-
 		parser.addArg<mvPyDataType::IntList>("color", mvArgType::KEYWORD_ARG, "(0, 0, 0, -255)");
 
 		parser.addArg<mvPyDataType::Float>("thickness", mvArgType::KEYWORD_ARG, "1.0");
@@ -60,7 +59,7 @@ namespace Marvel {
 
 		if (m_vertical)
 		{
-			if (ImPlot::DragLineX(m_label.c_str(), &dummy, m_show_label, m_color, m_thickness))
+			if (ImPlot::DragLineX(m_specificedlabel.c_str(), &dummy, m_show_label, m_color, m_thickness))
 			{
 				*m_value.get() = (float)dummy;
 				mvApp::GetApp()->getCallbackRegistry().addCallback(m_callback, m_name, nullptr);
@@ -68,7 +67,7 @@ namespace Marvel {
 		}
 		else
 		{
-			if (ImPlot::DragLineY(m_label.c_str(), &dummy, m_show_label, m_color, m_thickness))
+			if (ImPlot::DragLineY(m_specificedlabel.c_str(), &dummy, m_show_label, m_color, m_thickness))
 			{
 				*m_value.get() = (float)dummy;
 				mvApp::GetApp()->getCallbackRegistry().addCallback(m_callback, m_name, nullptr);

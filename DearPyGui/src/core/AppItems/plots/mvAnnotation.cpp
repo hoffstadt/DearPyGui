@@ -54,9 +54,9 @@ namespace Marvel {
 		mvFontScope fscope(this);
 
 		if (m_clamped)
-			ImPlot::AnnotateClamped((*m_value.get())[0], (*m_value.get())[1], m_pixOffset, m_color.toVec4(), m_label.c_str());
+			ImPlot::AnnotateClamped((*m_value.get())[0], (*m_value.get())[1], m_pixOffset, m_color.toVec4(), m_specificedlabel.c_str());
 		else
-			ImPlot::Annotate((*m_value.get())[0], (*m_value.get())[1], m_pixOffset, m_color.toVec4(), m_label.c_str());
+			ImPlot::Annotate((*m_value.get())[0], (*m_value.get())[1], m_pixOffset, m_color.toVec4(), m_specificedlabel.c_str());
 
 	}
 

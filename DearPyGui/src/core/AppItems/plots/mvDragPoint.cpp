@@ -60,7 +60,7 @@ namespace Marvel {
 		dummyx = (*m_value.get())[0];
 		dummyy = (*m_value.get())[1];
 
-		if (ImPlot::DragPoint(m_label.c_str(), &dummyx, &dummyy, m_show_label, m_color, m_radius))
+		if (ImPlot::DragPoint(m_specificedlabel.c_str(), &dummyx, &dummyy, m_show_label, m_color, m_radius))
 		{
 			(*m_value.get())[0] = (float)dummyx;
 			(*m_value.get())[1] = (float)dummyy;
