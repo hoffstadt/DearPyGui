@@ -150,9 +150,6 @@ set(MARVEL_SOURCES
 	# ImGuiFileDialog
 	"../Dependencies/ImGuiFileDialog/ImGuiFileDialog/ImGuiFileDialog.cpp"
 
-	# DearWidgets
-	"vendor/dearwidgets/dear_widgets.cpp"
-
 	# imgui
 	"../Dependencies/imgui/misc/freetype/imgui_freetype.cpp"
 	"../Dependencies/imgui/misc/cpp/imgui_stdlib.cpp"
@@ -175,7 +172,6 @@ set(MARVEL_INCLUDE_DIR
 	"vendor/implot"
 	"vendor/stb"
 	"vendor/imnodes"
-	"vendor/dearwidgets"
 	"src/"
 	"src/core"
 	"src/core/Modules"
