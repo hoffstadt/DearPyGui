@@ -80,7 +80,9 @@ namespace Marvel {
 
     public:
 
-        //mvPythonParser() = default;
+        static void GenerateStubFile(const std::string& file);
+
+    public:
 
         explicit mvPythonParser(mvPyDataType returnType = mvPyDataType::None, const char* about = "Undocumented function", const char* category = "App");
 
@@ -103,6 +105,7 @@ namespace Marvel {
         bool verifyRequiredArguments(PyObject* args);
         bool verifyPositionalArguments(PyObject* args);
         bool verifyArgumentCount(PyObject* args);
+        void addKwargs() { m_unspecifiedKwargs = true; }
 
         bool parse(PyObject* args, PyObject* kwargs, const char* message, ...);
 
@@ -121,9 +124,10 @@ namespace Marvel {
         std::vector<const char*>         m_keywords;
 
         std::string                      m_about;
-        mvPyDataType                     m_return;
+        mvPyDataType                     m_return = mvPyDataType::None;
         std::string                      m_documentation;
         std::string                      m_category;
+        bool                             m_unspecifiedKwargs = false;
 
     };
 

@@ -358,9 +358,9 @@ namespace Marvel {
 			parser.addArg<mvPyDataType::String>("file");
 			parser.addArg<mvPyDataType::Float>("size");
 			parser.addArg<mvPyDataType::String>("glyph_ranges", mvArgType::POSITIONAL_ARG, "''");
-			parser.addArg<mvPyDataType::IntList>("custom_glyph_chars", mvArgType::KEYWORD_ARG, "()");
-			parser.addArg<mvPyDataType::Object>("custom_glyph_ranges", mvArgType::KEYWORD_ARG, "()");
-			parser.addArg<mvPyDataType::Object>("char_remaps", mvArgType::KEYWORD_ARG, "");
+			parser.addArg<mvPyDataType::IntList>("custom_glyph_chars", mvArgType::KEYWORD_ARG, "[]");
+			parser.addArg<mvPyDataType::Object>("custom_glyph_ranges", mvArgType::KEYWORD_ARG, "[[]]");
+			parser.addArg<mvPyDataType::Object>("char_remaps", mvArgType::KEYWORD_ARG, "[[]]");
 			parser.finalize();
 			parsers->insert({ "add_font", parser });
 		}

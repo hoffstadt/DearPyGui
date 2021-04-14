@@ -29,6 +29,7 @@ namespace Marvel{
 		{
 			mvPythonParser parser(mvPyDataType::None);
 			parser.addArg<mvPyDataType::String>("item");
+			parser.addKwargs();
 			parser.finalize();
 			parsers->insert({ "configure_item", parser });
 		}

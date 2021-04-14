@@ -153,8 +153,9 @@ namespace Marvel {
 		case mvPyDataType::Dict:          return "dict";
 		case mvPyDataType::ListFloatList: return "List[List[float]]";
 		case mvPyDataType::ListStrList:   return "List[List[str]]";
+		case mvPyDataType::None:          return "None";
 		case mvPyDataType::Object:        return "Any";
-		default:                              return "";
+		default:                              return "Any";
 		}
 	}
 
@@ -303,6 +304,75 @@ namespace Marvel {
 		va_end(arguments);
 
 		return check;
+	}
+
+	void mvPythonParser::GenerateStubFile(const std::string& file)
+	{
+		const auto& commands = mvModule_Core::GetModuleParsers();
+
+		// current date/time based on current system
+		time_t now = time(0);
+
+		// convert now to string form
+		char* dt = ctime(&now);
+
+		std::ofstream stub;
+		stub.open(file);
+
+		stub << "from typing import List, Any, Callable\n";
+		stub << "from dearpygui.core import *\n\n";
+		stub << "##########################################################\n";
+		stub << "# This file is generated automatically by mvPythonParser #\n";
+		stub << "##########################################################\n\n";
+		stub << "# ~ Dear PyGui Version: " << mvApp::GetVersion() << "\n";
+
+		for (const auto& parser : commands)
+		{
+			stub << "def " << parser.first << "(";
+
+			bool first_arg = true;
+			for (const auto& args : parser.second.m_required_elements)
+			{
+				if (first_arg)
+					first_arg = false;
+				else
+					stub << ", ";
+				stub << args.name << PythonDataTypeString(args.type);
+			}
+
+			for (const auto& args : parser.second.m_optional_elements)
+			{
+				if (first_arg)
+					first_arg = false;
+				else
+					stub << ", ";
+				stub << args.name << PythonDataTypeString(args.type) << " =" << args.default_value;
+			}
+
+			if (!parser.second.m_keyword_elements.empty())
+			{
+				if (first_arg)
+					first_arg = false;
+				else
+					stub << ", ";
+
+				stub << "*";
+			}
+
+			for (const auto& args : parser.second.m_keyword_elements)
+				stub << ", " << args.name << ": " << PythonDataTypeActual(args.type) << " =" << args.default_value;
+
+			if (parser.second.m_unspecifiedKwargs)
+				stub << ", **kwargs";
+
+			stub << ") -> " << PythonDataTypeActual(parser.second.m_return) << ":";
+
+			stub << "\n\t\"\"\""<<parser.second.m_about.c_str() << "\"\"\"";
+
+			stub << "\n\t...\n\n";
+		}
+
+		stub.close();
 	}
 
 	//void mvPythonParser::buildDocumentation()
