@@ -271,6 +271,7 @@ namespace Marvel {
 
 		{
 			mvPythonParser parser(mvPyDataType::None);
+			parser.addArg<mvPyDataType::String>("viewport", mvArgType::KEYWORD_ARG, "''");
 			parser.finalize();
 			parsers->insert({ "setup_dearpygui", parser });
 		}
@@ -337,6 +338,13 @@ namespace Marvel {
 
 	PyObject* mvApp::setup_dearpygui(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
+
+		const char* viewport = "";
+
+		if (!(mvApp::GetApp()->getParsers())["setup_dearpygui"].parse(args, kwargs, __FUNCTION__,
+			&viewport))
+			return GetPyNone();
+
 		Py_BEGIN_ALLOW_THREADS;
 		mvLog::Init();
 
