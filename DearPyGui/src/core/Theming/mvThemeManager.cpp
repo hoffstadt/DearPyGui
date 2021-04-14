@@ -7,9 +7,11 @@
 
 namespace Marvel {
 
-	std::vector<std::tuple<std::string, long, mvColor*, mvColor*>>      mvThemeManager::s_acolors;
+	std::vector<std::tuple<std::string, long, mvColor*>>      mvThemeManager::s_acolors;
+	std::vector<std::tuple<std::string, long, mvColor*>>      mvThemeManager::s_adcolors;
 	std::vector<std::tuple<std::string, long, float*, float>>			mvThemeManager::s_astyles;
 	std::unordered_map<mvAppItemType, mvThemeColors>					mvThemeManager::s_colors;
+	std::unordered_map<mvAppItemType, mvThemeColors>					mvThemeManager::s_disabled_colors;
 	std::unordered_map<mvAppItemType, mvThemeStyles>					mvThemeManager::s_styles;
 
 	void mvThemeManager::InsertParser(std::map<std::string, mvPythonParser>* parsers)
@@ -55,6 +57,18 @@ namespace Marvel {
 			window->inValidateThemeColorCache();
 	}
 
+	void mvThemeManager::InValidateDisabledColorTheme()
+	{
+		auto& frontWindows = mvApp::GetApp()->getItemRegistry().getFrontWindows();
+		auto& backWindows = mvApp::GetApp()->getItemRegistry().getBackWindows();
+
+		for (auto& window : frontWindows)
+			window->inValidateThemeDisabledColorCache();
+
+		for (auto& window : backWindows)
+			window->inValidateThemeDisabledColorCache();
+	}
+
 	void mvThemeManager::InValidateStyleTheme()
 	{
 		auto& frontWindows = mvApp::GetApp()->getItemRegistry().getFrontWindows();
@@ -69,6 +83,7 @@ namespace Marvel {
 
 	mvThemeManager::mvThemeManager()
 	{
+		mvEventBus::Subscribe(this, SID("disabled_color_change"), mvEVT_CATEGORY_THEMES);
 		mvEventBus::Subscribe(this, SID("color_change"), mvEVT_CATEGORY_THEMES);
 		mvEventBus::Subscribe(this, SID("style_change"), mvEVT_CATEGORY_THEMES);
 	}
@@ -83,6 +98,7 @@ namespace Marvel {
 		mvEventDispatcher dispatcher(event);
 		dispatcher.dispatch(BIND_EVENT_METH(mvThemeManager::add_style), SID("style_change"));
 		dispatcher.dispatch(BIND_EVENT_METH(mvThemeManager::add_color), SID("color_change"));
+		dispatcher.dispatch(BIND_EVENT_METH(mvThemeManager::add_disabled_color), SID("disabled_color_change"));
 		return event.handled;
 	};
 
@@ -98,8 +114,7 @@ namespace Marvel {
 		//fills out the app's root theme if no item was given
 		if (widget.empty())
 		{
-			if (enabled) GetColors()[type][mvThemeConstant].first = color;
-			else GetColors()[type][mvThemeConstant].second = color;
+			GetColors()[type][mvThemeConstant] = color;
 			InValidateColorTheme();
 			return true;
 		}
@@ -110,10 +125,52 @@ namespace Marvel {
 		{
 			if (mvAppItem::DoesItemHaveFlag(item.get(), MV_ITEM_DESC_CONTAINER) || item->getType() == type)
 			{
-				if (enabled) item->getColors()[type][mvThemeConstant].first = color;
-				else item->getColors()[type][mvThemeConstant].second = color;
-
+				item->getColors()[type][mvThemeConstant] = color;
 				item->inValidateThemeColorCache();
+			}
+			else
+			{
+				mvApp::GetApp()->getCallbackRegistry().submitCallback([=]()
+					{
+						ThrowPythonException("Item type does not except this color constant.");
+					});
+			}
+		}
+		else
+		{
+			mvApp::GetApp()->getCallbackRegistry().submitCallback([=]()
+				{
+					ThrowPythonException("Item can not be found");
+				});
+		}
+		return true;
+	}
+
+	bool mvThemeManager::add_disabled_color(mvEvent& event)
+	{
+		static mvAppItemType type;
+		long mvThemeConstant = GetELong(event, "ID");
+		DecodeType(mvThemeConstant, &type);
+		mvColor color = GetEColor(event, "COLOR");
+		const std::string& widget = GetEString(event, "WIDGET");
+		bool enabled = GetEBool(event, "ENABLED");
+
+		//fills out the app's root theme if no item was given
+		if (widget.empty())
+		{
+			GetDisabledColors()[type][mvThemeConstant] = color;
+			InValidateDisabledColorTheme();
+			return true;
+		}
+
+		//check widget can take color and apply
+		mvRef<mvAppItem> item = mvApp::GetApp()->getItemRegistry().getItem(widget);
+		if (item)
+		{
+			if (mvAppItem::DoesItemHaveFlag(item.get(), MV_ITEM_DESC_CONTAINER) || item->getType() == type)
+			{
+				item->getDisabledColors()[type][mvThemeConstant] = color;
+				item->inValidateThemeDisabledColorCache();
 			}
 			else
 			{
@@ -222,7 +279,7 @@ namespace Marvel {
 				mvEventBus::Publish
 				(
 					mvEVT_CATEGORY_THEMES,
-					SID("color_change"),
+					SID("disabled_color_change"),
 					{
 						CreateEventArgument("WIDGET", std::string(item)),
 						CreateEventArgument("ID", constant),
