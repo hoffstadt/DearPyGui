@@ -1270,3 +1270,7 @@ def show_demo():
                 add_text("UNIX timestamps are seconds since 00:00:00 UTC on 1 January 1970", bullet=True)
                 plot_id = add_plot(label="Time Plot", y_axis_name="Days since 1970", height=400, xaxis_time=True)
                 add_line_series(timedatax, timedatay, label="Days", parent=plot_id)
+
+        with collapsing_header(label="New Widgets"):
+
+            add_3d_slider(label="3D Slider", scale=0.5)
