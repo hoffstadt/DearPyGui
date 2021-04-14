@@ -31,7 +31,7 @@ namespace Marvel {
 			mvPythonParser parser(mvPyDataType::None);
 			parser.addArg<mvPyDataType::String>("item");
 			parser.finalize();
-			parsers->insert({ "Closes a popup.", parser });
+			parsers->insert({ "close_popup", parser });
 		}
 	}
 
