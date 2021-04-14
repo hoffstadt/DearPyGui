@@ -72,6 +72,18 @@ namespace Marvel {
 
 	}
 
+	void mvWindowAppItem::onChildAdd(mvRef<mvAppItem> item)
+	{
+		if(item->getType() == mvAppItemType::mvMenuBar)
+			m_windowflags |= ImGuiWindowFlags_MenuBar;
+	}
+
+	void mvWindowAppItem::onChildRemoved(mvRef<mvAppItem> item)
+	{
+		if (item->getType() == mvAppItemType::mvMenuBar)
+			m_windowflags &= ~ImGuiWindowFlags_MenuBar;
+	}
+
 	void mvWindowAppItem::setWindowAsMainStatus(bool value)
 	{
 		m_mainWindow = value;

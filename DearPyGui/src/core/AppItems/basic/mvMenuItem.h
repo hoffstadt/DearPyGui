@@ -34,7 +34,7 @@ namespace Marvel {
 
 		MV_START_STYLE_CONSTANTS
 			MV_ADD_CONSTANT_F(mvGuiStyleVar_MenuItem_TextAlignX, 0, 1),
-			MV_ADD_CONSTANT_F(mvGuiStyleVar_MenuItem_TextAlignX, 0, 1),
+			MV_ADD_CONSTANT_F(mvGuiStyleVar_MenuItem_TextAlignY, 0, 1),
 		MV_END_STYLE_CONSTANTS
 
 	public:

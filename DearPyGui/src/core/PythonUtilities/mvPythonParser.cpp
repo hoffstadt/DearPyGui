@@ -233,6 +233,8 @@ namespace Marvel {
 		}
 		m_formatstring.push_back(0);
 		m_keywords.push_back(NULL);
+
+		buildDocumentation();
 	}
 
 	bool mvPythonParser::verifyRequiredArguments(PyObject* args)
@@ -375,41 +377,43 @@ namespace Marvel {
 		stub.close();
 	}
 
-	//void mvPythonParser::buildDocumentation()
-	//{
-	//	//std::string documentation = m_about + "\n\nReturn Type: " + m_return + "\n";
+	void mvPythonParser::buildDocumentation()
+	{
+		std::string documentation = m_about + "\n\nReturn Type: " + PythonDataTypeActual(m_return) + "\n";
 
-	//	//if (!m_elements.empty())
-	//	//	documentation = documentation + "\n\nParameters\n__________\n\n";
+		if (!m_required_elements.empty())
+			documentation += "\n\nRequired Arguments\n_______________\n\n";
 
-	//	//bool opfound = false;
-	//	//bool keyfound = false;
+		for (const auto& element : m_required_elements)
+		{
+			documentation += "\n* ";
+			documentation += element.name + std::string(PythonDataTypeString(element.type));
+			documentation += "\n\t\t" + std::string(element.description);
+		}
 
-	//	//for (auto& element : m_elements)
-	//	//{
-	//	//	if (element.type == mvPythonDataType::Optional)
-	//	//	{
-	//	//		if (opfound)
-	//	//			continue;
-	//	//		opfound = true;
-	//	//	}
+		if (!m_optional_elements.empty())
+			documentation += "\n\nOptional Arguments\n_______________\n\n";
 
-	//	//	if (element.type == mvPythonDataType::KeywordOnly)
-	//	//	{
-	//	//		if (keyfound)
-	//	//			continue;
-	//	//		keyfound = true;
-	//	//	}
+		for (const auto& element : m_optional_elements)
+		{
+			documentation += "\n* ";
+			documentation += element.name + std::string(PythonDataTypeString(element.type));
+			documentation += " = " + std::string(element.default_value);
+			documentation += "\n\t\t" + std::string(element.description);
+		}
 
-	//	//	if(element.type != mvPythonDataType::KeywordOnly && element.type != mvPythonDataType::Optional && (opfound || keyfound))
-	//	//		documentation = documentation + "* " + element.name + PythonDataTypeString(element.type) + " = " + element.default_value +
-	//	//			"\n\t" + element.description + "\n\n";
-	//	//	else
-	//	//		documentation = documentation + "* " + element.name + PythonDataTypeString(element.type) + 
-	//	//		"\n\t" + element.description + "\n\n";
-	//	//}
+		if (!m_keyword_elements.empty())
+			documentation += "\n\nKeyword Arguments\n_______________\n\n";
 
-	//	//m_documentation = std::move(documentation);
-	//}
+		for (const auto& element : m_keyword_elements)
+		{
+			documentation += "\n* ";
+			documentation += element.name + std::string(PythonDataTypeString(element.type));
+			documentation += " = " + std::string(element.default_value);
+			documentation += "\n\t\t" + std::string(element.description);
+		}
+
+		m_documentation = std::move(documentation);
+	}
 
 }

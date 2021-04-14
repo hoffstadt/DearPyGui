@@ -105,6 +105,8 @@ namespace Marvel {
 		void   setResizeCallback    (PyObject* callback);
 		bool  getWindowAsMainStatus() const { return m_mainWindow; }
 
+		void onChildAdd(mvRef<mvAppItem> item) override;
+		void onChildRemoved(mvRef<mvAppItem> item) override;
 		void handleSpecificKeywordArgs(PyObject* dict) override;
 		void getSpecificConfiguration(PyObject* dict) override;
 
