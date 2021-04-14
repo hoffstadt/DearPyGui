@@ -25,11 +25,14 @@ namespace Marvel {
 		MV_END_EXTRA_COMMANDS
 
 		static void InValidateColorTheme();
+		static void InValidateDisabledColorTheme();
 		static void InValidateStyleTheme();
 
-		static std::vector<std::tuple<std::string, long, mvColor*, mvColor*>>& GetColorsPtr() { return s_acolors; }
+		static std::vector<std::tuple<std::string, long, mvColor*>>& GetColorsPtr() { return s_acolors; }
+		static std::vector<std::tuple<std::string, long, mvColor*>>& GetDisabledColorsPtr() { return s_adcolors; }
 		static std::vector<std::tuple<std::string, long, float*, float>>& GetStylesPtr() { return s_astyles; }
 		static std::unordered_map<mvAppItemType, mvThemeColors>& GetColors() { return s_colors; }
+		static std::unordered_map<mvAppItemType, mvThemeColors>& GetDisabledColors() { return s_disabled_colors; }
 		static std::unordered_map<mvAppItemType, mvThemeStyles>& GetStyles() { return s_styles; }
 
 	public:
@@ -41,11 +44,14 @@ namespace Marvel {
 
 		bool onEvent(mvEvent& event) override;
 		bool add_color(mvEvent& event);
+		bool add_disabled_color(mvEvent& event);
 		bool add_style(mvEvent& event);
 
-		static std::vector<std::tuple<std::string, long, mvColor*, mvColor*>> s_acolors;
+		static std::vector<std::tuple<std::string, long, mvColor*>> s_acolors;
+		static std::vector<std::tuple<std::string, long, mvColor*>> s_adcolors;
 		static std::vector<std::tuple<std::string, long, float*, float>>      s_astyles;
 		static std::unordered_map<mvAppItemType, mvThemeColors>               s_colors;
+		static std::unordered_map<mvAppItemType, mvThemeColors>               s_disabled_colors;
 		static std::unordered_map<mvAppItemType, mvThemeStyles>               s_styles;
 
 	};
@@ -90,6 +96,57 @@ namespace Marvel {
 		}
 
 		for (auto& color : mvThemeManager::GetColors()[item->getType()])
+		{
+			// only apply if it wasn't found yet
+			if (!colors_found[color.first])
+			{
+				colors[color.first] = color.second;
+				colors_found[color.first] = true;
+			}
+		}
+
+	}
+
+	template<typename T>
+	void SearchAncestorTreeForDisabledColors(T* item, mvThemeColors& colors)
+	{
+		const std::vector<std::tuple<std::string, long, mvColor, mvColor>>& color_constants = T::GetColorConstants();
+
+		std::unordered_map<long, bool> colors_found;
+		for (const auto& color_pair : color_constants)
+			colors_found[std::get<1>(color_pair)] = false;
+
+		// check local colors and styles first
+		if (item->getDisabledColors().find(item->getType()) != item->getDisabledColors().end())
+		{
+			for (const auto& color : item->getDisabledColors()[item->getType()])
+			{
+				colors_found[color.first] = true;
+				colors[color.first] = color.second;
+			}
+		}
+
+		// search through ancestor tree for unfound colors
+		mvAppItem* widget = item;
+		while (!mvAppItem::DoesItemHaveFlag(widget, MV_ITEM_DESC_ROOT))
+		{
+			widget = widget->getParent();
+
+			if (widget->getDisabledColors().find(item->getType()) != widget->getDisabledColors().end())
+			{
+				for (const auto& color : widget->getDisabledColors()[item->getType()])
+				{
+					// only apply if it wasn't found yet
+					if (!colors_found[color.first])
+					{
+						colors[color.first] = color.second;
+						colors_found[color.first] = true;
+					}
+				}
+			}
+		}
+
+		for (auto& color : mvThemeManager::GetDisabledColors()[item->getType()])
 		{
 			// only apply if it wasn't found yet
 			if (!colors_found[color.first])

@@ -19,6 +19,7 @@ namespace Marvel {
 		{
 
 			mvThemeColors& colors = item->getCachedThemeColors();
+			mvThemeColors& disabled_colors = item->getCachedThemeDisabledColors();
 			std::unordered_map<ImGuiStyleVar, float>& styles = item->getCachedThemeStyles();
 			std::unordered_map<ImGuiStyleVar, float>& styles1 = item->getCachedThemeStyles1();
 			std::unordered_map<ImGuiStyleVar, float>& styles2 = item->getCachedThemeStyles2();
@@ -29,18 +30,38 @@ namespace Marvel {
 				item->setThemeColorCacheValid();
 			}
 
+			if (!item->isThemeDisabledColorCacheValid())
+			{
+				SearchAncestorTreeForDisabledColors<T>(item, disabled_colors);
+				item->setThemeDisabledColorCacheValid();
+			}
+
 			if (!item->isThemeStyleCacheValid())
 			{
 				SearchAncestorTreeForStyles<T>(item, styles, styles1, styles2);
 				item->setThemeStyleCacheValid();
 			}
 
-			libIDCount = colors.size();
+			if (item->isEnabled())
+				libIDCount = colors.size();
+			else
+				libIDCount = disabled_colors.size();
 			static int imColorID;
-			for (auto& color : colors)
+			if (item->isEnabled())
 			{
-				DecodelibID(color.first, &imColorID);
-				imnodes::PushColorStyle((imnodes::ColorStyle)imColorID, color.second.first);
+				for (auto& color : colors)
+				{
+					DecodelibID(color.first, &imColorID);
+					imnodes::PushColorStyle((imnodes::ColorStyle)imColorID, color.second);
+				}
+			}
+			else
+			{
+				for (auto& color : disabled_colors)
+				{
+					DecodelibID(color.first, &imColorID);
+					imnodes::PushColorStyle((imnodes::ColorStyle)imColorID, color.second);
+				}
 			}
 
 			StyleIDCount = styles.size();

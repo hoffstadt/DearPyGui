@@ -182,14 +182,14 @@ namespace Marvel {
 
                 ImGui::Separator();
 
-                for (auto& item : mvThemeManager::GetColorsPtr())
+                for (auto& item : mvThemeManager::GetDisabledColorsPtr())
                 {
                     if (!filter3.PassFilter(std::get<0>(item).c_str()))
                         continue;
 
                     ImGui::PushID(&item);
-                    if(ImGui::ColorEdit4("##color(disable)", *std::get<3>(item), ImGuiColorEditFlags_AlphaBar))
-                        mvThemeManager::InValidateColorTheme();
+                    if(ImGui::ColorEdit4("##color(disable)", *std::get<2>(item), ImGuiColorEditFlags_AlphaBar))
+                        mvThemeManager::InValidateDisabledColorTheme();
                     ImGui::SameLine();
                     ImGui::TextUnformatted(std::get<0>(item).c_str());
                     ImGui::PopID();
