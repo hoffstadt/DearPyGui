@@ -6,6 +6,10 @@ from dearpygui.core import *
 ##########################################################
 
 # ~ Dear PyGui Version: master
+def add_3d_slider(*, width: int =0, height: int =0, parent: str ='', before: str ='', label: str ='', source: str ='', callback: Callable =None, callback_data: Any =None, show: bool =True, enabled: bool =True, default_value: List[float] =(0.0, 0.0, 0.0, 0.0), max_x: float =100.0, max_y: float =100.0, max_z: float =100.0, min_x: float =0.0, min_y: float =0.0, min_z: float =0.0, scale: float =1.0) -> str:
+	"""Undocumented function"""
+	...
+
 def add_about_window(*, width: int =0, height: int =0, parent: str ='', before: str ='', label: str ='', source: str ='', callback: Callable =None, callback_data: Any =None, show: bool =True, enabled: bool =True, x_pos: int =200, y_pos: int =200, autosize: bool =False, no_resize: bool =False, no_title_bar: bool =False, no_move: bool =False, no_scrollbar: bool =False, no_collapse: bool =False, horizontal_scrollbar: bool =False, no_focus_on_appearing: bool =False, no_bring_to_front_on_focus: bool =False, no_close: bool =False, no_background: bool =False) -> str:
 	"""Undocumented function"""
 	...
@@ -382,7 +386,7 @@ def configure_viewport() -> None:
 	"""Undocumented function"""
 	...
 
-def create_viewport(*, title: str ='Dear PyGui', width: str =1280, height: str =800, x_pos: str =100, y_pos: str =100, min_width: str =250, max_width: str =10000, min_height: str =250, max_height: str =10000, resizable: bool =True, vsync: bool =True, always_on_top: bool =False, maximized_box: bool =True, minimized_box: bool =True, border: bool =True, caption: bool =True, overlapped: bool =True) -> None:
+def create_viewport(*, title: str ='Dear PyGui', small_icon: str ='', large_icon: str ='', width: str =1280, height: str =800, x_pos: str =100, y_pos: str =100, min_width: str =250, max_width: str =10000, min_height: str =250, max_height: str =10000, resizable: bool =True, vsync: bool =True, always_on_top: bool =False, maximized_box: bool =True, minimized_box: bool =True, border: bool =True, caption: bool =True, overlapped: bool =True) -> str:
 	"""Undocumented function"""
 	...
 
@@ -798,7 +802,7 @@ def set_yticks(plot : str, label_pairs : Any) -> None:
 	"""Undocumented function"""
 	...
 
-def setup_dearpygui() -> None:
+def setup_dearpygui(*, viewport: str ='') -> None:
 	"""Undocumented function"""
 	...
 
@@ -806,7 +810,7 @@ def show_logger() -> None:
 	"""Undocumented function"""
 	...
 
-def show_viewport(*, minimized: bool =False, maximized: bool =False) -> None:
+def show_viewport(viewport : str, *, minimized: bool =False, maximized: bool =False) -> None:
 	"""Undocumented function"""
 	...
 
