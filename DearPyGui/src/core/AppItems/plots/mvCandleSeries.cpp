@@ -117,6 +117,7 @@ namespace Marvel {
 	mvCandleSeries::mvCandleSeries(const std::string& name)
 		: mvSeriesBase(name)
 	{
+		m_contributeToBounds = true;
 	}
 
 	void mvCandleSeries::draw(ImDrawList* drawlist, float x, float y)

@@ -241,6 +241,97 @@ namespace Marvel {
 		m_height = -1;
 	}
 
+	void mvPlot::onChildAdd(mvRef<mvAppItem> item)
+	{
+		if (static_cast<mvSeriesBase*>(item.get())->doesSeriesContributeToBounds())
+			updateBounds();
+	}
+
+	void mvPlot::updateBounds()
+	{
+		bool first = true;
+		bool first_0 = true;
+		bool first_1 = true;
+		bool first_2 = true;
+		for (auto& series : m_children[1])
+		{
+			mvSeriesBase* child = static_cast<mvSeriesBase*>(series.get());
+			if (child->doesSeriesContributeToBounds())
+			{
+				const auto& x_maxMin = child->getMaxMin(0);
+				const auto& y_maxMin = child->getMaxMin(1);
+				ImPlotYAxis axis = child->getAxis();
+
+				if (first && !m_setXLimits)
+				{
+					m_xlimits.x = x_maxMin.second;
+					m_xlimits.y = x_maxMin.first;
+					first = false;
+				}
+				else if(!m_setXLimits)
+				{
+					if (x_maxMin.second < m_xlimits.x) m_xlimits.x = x_maxMin.second;
+					if (x_maxMin.first > m_xlimits.y) m_xlimits.y = x_maxMin.first;
+				}
+
+				switch (axis)
+				{
+				case ImPlotYAxis_1:
+				{
+					if (first_0 && !m_setYLimits)
+					{
+						m_ylimits.x = y_maxMin.second;
+						m_ylimits.y = y_maxMin.first;
+						first_0 = false;
+					}
+					else if(!m_setYLimits)
+					{
+						if (y_maxMin.second < m_ylimits.x) m_ylimits.x = y_maxMin.second;
+						if (y_maxMin.first > m_ylimits.y) m_ylimits.y = y_maxMin.first;
+					}
+					break;
+				}
+				case ImPlotYAxis_2:
+				{
+					if (first_1 && !m_setY2Limits)
+					{
+						m_y2limits.x = y_maxMin.second;
+						m_y2limits.y = y_maxMin.first;
+						first_1 = false;
+					}
+					else if(!m_setY2Limits)
+					{
+						if (y_maxMin.second < m_y2limits.x) m_y2limits.x = y_maxMin.second;
+						if (y_maxMin.first > m_y2limits.y) m_y2limits.y = y_maxMin.first;
+					}
+					break;
+				}
+				case ImPlotYAxis_3:
+				{
+					if (first_2 && !m_setY3Limits)
+					{
+						m_y3limits.x = y_maxMin.second;
+						m_y3limits.y = y_maxMin.first;
+						first_1 = false;
+					}
+					else if(!m_setY3Limits)
+					{
+						if (y_maxMin.second < m_y3limits.x) m_y3limits.x = y_maxMin.second;
+						if (y_maxMin.first > m_y3limits.y) m_y3limits.y = y_maxMin.first;
+					}
+					break;
+				}
+				default:
+					break;
+				}
+				
+
+			}
+		}
+
+		m_dirty = true;
+	}
+
 	bool mvPlot::canChildBeAdded(mvAppItemType type)
 	{
 		if (type == mvAppItemType::mvDragPoint) return true;
@@ -328,7 +419,8 @@ namespace Marvel {
 			ImPlot::SetNextPlotLimitsY(m_y3limits.x, m_y3limits.y, ImGuiCond_Always, ImPlotYAxis_3);
 
 		// resets automatic sizing when new data is added
-		if (m_dirty) m_dirty = false;
+		if (m_dirty) 
+			m_dirty = false;
 
 		if (!m_xlabels.empty())
 		{
@@ -349,6 +441,17 @@ namespace Marvel {
 			m_xflags, m_yflags, m_y2flags, m_y3flags))
 		{
 			ImPlot::PushColormap(m_colormap);
+
+			for (auto item : m_children[0])
+			{
+				// skip item if it's not shown
+				if (!item->m_show)
+					continue;
+
+				item->draw(drawlist, ImGui::GetCursorPosX(), ImGui::GetCursorPosY());
+
+				item->getState().update();
+			}
 
 			for (auto item : m_children[1])
 			{

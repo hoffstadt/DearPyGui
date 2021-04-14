@@ -35,6 +35,7 @@ namespace Marvel {
 	mvShadeSeries::mvShadeSeries(const std::string& name)
 		: mvSeriesBase(name)
 	{
+		m_contributeToBounds = true;
 	}
 
 	void mvShadeSeries::draw(ImDrawList* drawlist, float x, float y)
@@ -97,6 +98,8 @@ namespace Marvel {
 		for (auto& item : (*m_value)[2])
 			item = 0.0f;
 
+		resetMaxMins();
+		calculateMaxMins();
 	}
 
 	void mvShadeSeries::handleSpecificKeywordArgs(PyObject* dict)

@@ -33,6 +33,7 @@ namespace Marvel {
 	mvStemSeries::mvStemSeries(const std::string& name)
 		: mvSeriesBase(name)
 	{
+		m_contributeToBounds = true;
 	}
 
 	void mvStemSeries::draw(ImDrawList* drawlist, float x, float y)
@@ -87,6 +88,9 @@ namespace Marvel {
 				break;
 			}
 		}
+
+		resetMaxMins();
+		calculateMaxMins();
 	}
 
 	void mvStemSeries::handleSpecificKeywordArgs(PyObject* dict)

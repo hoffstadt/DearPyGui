@@ -211,6 +211,7 @@ namespace Marvel {
 
 		const std::pair<float, float>& getMaxMin(int i) const;
 		bool doesSeriesContributeToBounds() const { return m_contributeToBounds; }
+		ImPlotYAxis getAxis() const { return m_axis; }
 
 	protected:
 
@@ -227,7 +228,7 @@ namespace Marvel {
 			std::vector<float>{} });
 		std::vector<std::pair<float, float>>   m_maxMins;
 		bool                                   m_contributeToBounds = false;
-		ImPlotYAxis_                           m_axis = ImPlotYAxis_1;
+		ImPlotYAxis                           m_axis = ImPlotYAxis_1;
 	};
 
 	//-----------------------------------------------------------------------------

@@ -33,6 +33,7 @@ namespace Marvel {
 	mvStairSeries::mvStairSeries(const std::string& name)
 		: mvSeriesBase(name)
 	{
+		m_contributeToBounds = true;
 	}
 
 	void mvStairSeries::draw(ImDrawList* drawlist, float x, float y)
@@ -87,6 +88,9 @@ namespace Marvel {
 				break;
 			}
 		}
+
+		resetMaxMins();
+		calculateMaxMins();
 	}
 
 	void mvStairSeries::handleSpecificKeywordArgs(PyObject* dict)

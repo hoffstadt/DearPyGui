@@ -130,6 +130,8 @@ namespace Marvel {
 			}
 		}
 
+		resetMaxMins();
+		calculateMaxMins();
 	}
 
 	void mvImageSeries::handleSpecificKeywordArgs(PyObject* dict)

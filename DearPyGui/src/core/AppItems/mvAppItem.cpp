@@ -277,13 +277,16 @@ namespace Marvel{
 				else
 				{
 					// check children
-					for (auto& child : children)
+					for (auto& childslot : m_children)
 					{
-						if (mvAppItem::DoesItemHaveFlag(child.get(), MV_ITEM_DESC_CONTAINER))
+						for (auto& child : childslot)
 						{
-							// parent found
-							if (child->addRuntimeChild(parent, before, item))
-								return true;
+							if (mvAppItem::DoesItemHaveFlag(child.get(), MV_ITEM_DESC_CONTAINER))
+							{
+								// parent found
+								if (child->addRuntimeChild(parent, before, item))
+									return true;
+							}
 						}
 					}
 				}
@@ -294,13 +297,16 @@ namespace Marvel{
 				bool beforeFound = false;
 
 				// check children
-				for (auto& child : children)
+				for (auto& childslot : m_children)
 				{
-
-					if (child->m_name == before)
+					for (auto& child : childslot)
 					{
-						beforeFound = true;
-						break;
+
+						if (child->m_name == before)
+						{
+							beforeFound = true;
+							break;
+						}
 					}
 
 				}
@@ -365,16 +371,19 @@ namespace Marvel{
 			bool prevFound = false;
 
 			// check children
-			for (auto& child : children)
+			for (auto& childslot : m_children)
 			{
-
-				if (child->m_name == prev)
+				for (auto& child : childslot)
 				{
-					item->m_parentPtr = this;
-					prevFound = true;
-					break;
-				}
 
+					if (child->m_name == prev)
+					{
+						item->m_parentPtr = this;
+						prevFound = true;
+						break;
+					}
+
+				}
 			}
 
 			// prev item is in this container
@@ -400,13 +409,16 @@ namespace Marvel{
 
 
 			// check children
-			for (auto& child : children)
+			for (auto& childslot : m_children)
 			{
-				if (DoesItemHaveFlag(child.get(), MV_ITEM_DESC_CONTAINER))
+				for (auto& child : childslot)
 				{
-					// parent found
-					if (child->addChildAfter(prev, item))
-						return true;
+					if (DoesItemHaveFlag(child.get(), MV_ITEM_DESC_CONTAINER))
+					{
+						// parent found
+						if (child->addChildAfter(prev, item))
+							return true;
+					}
 				}
 			}
 

@@ -129,6 +129,7 @@ namespace Marvel {
 	mvAreaSeries::mvAreaSeries(const std::string& name)
 		: mvSeriesBase(name)
 	{
+		m_contributeToBounds = true;
 	}
 
 	void mvAreaSeries::draw(ImDrawList* drawlist, float x, float y)
