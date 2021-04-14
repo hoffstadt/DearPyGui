@@ -92,6 +92,7 @@ set(MARVEL_SOURCES
 	"src/core/AppItems/custom/mvTimePicker.cpp"
 	"src/core/AppItems/custom/mvTextEditor.cpp"
 	"src/core/AppItems/custom/mvColorMapScale.cpp"
+	"src/core/AppItems/custom/mvSlider3D.cpp"
 
 	"src/core/AppItems/drawing/mvDrawing.cpp"
 	"src/core/AppItems/drawing/mvDrawLine.cpp"
@@ -149,6 +150,9 @@ set(MARVEL_SOURCES
 	# ImGuiFileDialog
 	"../Dependencies/ImGuiFileDialog/ImGuiFileDialog/ImGuiFileDialog.cpp"
 
+	# DearWidgets
+	"vendor/dearwidgets/dear_widgets.cpp"
+
 	# imgui
 	"../Dependencies/imgui/misc/freetype/imgui_freetype.cpp"
 	"../Dependencies/imgui/misc/cpp/imgui_stdlib.cpp"
@@ -171,6 +175,7 @@ set(MARVEL_INCLUDE_DIR
 	"vendor/implot"
 	"vendor/stb"
 	"vendor/imnodes"
+	"vendor/dearwidgets"
 	"src/"
 	"src/core"
 	"src/core/Modules"
