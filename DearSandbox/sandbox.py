@@ -9,9 +9,9 @@ set_log_level(0)
 show_logger()
 show_demo()
 
-create_viewport(small_icon="../../Resources/dpg_icon_small.ico", large_icon="../../Resources/dpg_icon_large.ico")
-setup_dearpygui()
-show_viewport()
+vp = create_viewport(small_icon="../../Resources/dpg_icon_small.ico", large_icon="../../Resources/dpg_icon_large.ico")
+setup_dearpygui(viewport=vp)
+show_viewport(vp)
 while(is_dearpygui_running()):
     render_dearpygui_frame()   
 cleanup_dearpygui()
