@@ -42,7 +42,7 @@ namespace Marvel{
 			MV_CREATE_CONSTANT_PAIR(mvThemeCol_SimplePlot_Text,				mvColor(255, 255, 255, 255)),
 			MV_CREATE_CONSTANT_PAIR(mvThemeCol_SimplePlot_Border,			mvColor(110, 110, 128, 128)),
 			MV_CREATE_CONSTANT_PAIR(mvThemeCol_SimplePlot_BorderShadow,		mvColor(  0,   0,   0,   0)),
-			MV_CREATE_CONSTANT_PAIR(mvThemeCol_SimplePlot_Bg,				mvColor( 41,  74, 122, 138)),
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_SimplePlot_Bg,				mvColor_Primary(80)),
 			MV_CREATE_CONSTANT_PAIR(mvThemeCol_SimplePlot_PopupBg,			mvColor( 20,  20,  20, 240)),
 			MV_CREATE_CONSTANT_PAIR(mvThemeCol_SimplePlot_Lines,			mvColor(156, 156, 156, 255)),
 			MV_CREATE_CONSTANT_PAIR(mvThemeCol_SimplePlot_LinesHovered,		mvColor(255, 110,  89, 255)),

@@ -34,10 +34,10 @@ namespace Marvel {
 		MV_END_GENERAL_CONSTANTS
 
 		MV_START_COLOR_CONSTANTS
-			MV_ADD_CONSTANT(mvThemeCol_RadioButton_Text,			mvColor(255, 255, 255, 255), mvColor(128, 128, 128, 63)),
-			MV_ADD_CONSTANT(mvThemeCol_RadioButton_Bg,				mvColor(119,  25,  24, 138), mvColor(128, 128, 128, 63)),
-			MV_ADD_CONSTANT(mvThemeCol_RadioButton_BgHovered,		mvColor(255,  25,  24, 138), mvColor(128, 128, 128, 63)),
-			MV_ADD_CONSTANT(mvThemeCol_RadioButton_BgActive,		mvColor(255,  25,  24, 255), mvColor(128, 128, 128, 63)),
+			MV_ADD_CONSTANT(mvThemeCol_RadioButton_Text,            mvColor_TextBackground(255), mvColor(128, 128, 128, 63)),
+			MV_ADD_CONSTANT(mvThemeCol_RadioButton_Bg,				mvColor_Primary(138), mvColor(128, 128, 128, 63)),
+			MV_ADD_CONSTANT(mvThemeCol_RadioButton_BgHovered,		mvColor_Primary(200), mvColor(128, 128, 128, 63)),
+			MV_ADD_CONSTANT(mvThemeCol_RadioButton_BgActive,		mvColor_Primary(255), mvColor(128, 128, 128, 63)),
 			MV_ADD_CONSTANT(mvThemeCol_RadioButton_Border,			mvColor(110, 110, 128, 128), mvColor(128, 128, 128, 63)),
 			MV_ADD_CONSTANT(mvThemeCol_RadioButton_BorderShadow,	mvColor(  0,   0,   0,   0), mvColor(128, 128, 128, 63)),
 		MV_END_COLOR_CONSTANTS

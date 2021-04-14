@@ -38,7 +38,7 @@ namespace Marvel {
 		MV_START_COLOR_CONSTANTS
 			MV_ADD_CONSTANT(mvThemeCol_InputText_Text,			mvColor(255, 255, 255, 255), mvColor(128, 128, 128, 63)),
 			MV_ADD_CONSTANT(mvThemeCol_InputText_TextHighlight,	mvColor( 66, 150, 250,  89), mvColor(128, 128, 128, 63)),
-			MV_ADD_CONSTANT(mvThemeCol_InputText_Bg,			mvColor( 41,  74, 122, 138), mvColor(128, 128, 128, 63)),
+			MV_ADD_CONSTANT(mvThemeCol_InputText_Bg,			mvColor_Primary(80), mvColor(128, 128, 128, 63)),
 			MV_ADD_CONSTANT(mvThemeCol_InputText_Hint,			mvColor(128, 128, 128, 255), mvColor(128, 128, 128, 63)),
 			MV_ADD_CONSTANT(mvThemeCol_InputText_Border,		mvColor(110, 110, 128, 128), mvColor(128, 128, 128, 63)),
 			MV_ADD_CONSTANT(mvThemeCol_InputText_BorderShadow,	mvColor(  0,   0,   0,   0), mvColor(128, 128, 128, 63)),

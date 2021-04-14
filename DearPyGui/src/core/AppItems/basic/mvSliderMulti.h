@@ -52,7 +52,7 @@ namespace Marvel {
 
         MV_START_COLOR_CONSTANTS
             MV_ADD_CONSTANT(mvThemeCol_SliderFloatx_Text,          mvColor(255, 255, 255, 255), mvColor(128, 128, 128, 63)),
-            MV_ADD_CONSTANT(mvThemeCol_SliderFloatx_Bg,            mvColor( 41,  74, 122, 138), mvColor(128, 128, 128, 63)),
+            MV_ADD_CONSTANT(mvThemeCol_SliderFloatx_Bg,            mvColor_Primary(80), mvColor(128, 128, 128, 63)),
             MV_ADD_CONSTANT(mvThemeCol_SliderFloatx_BgHovered,     mvColor( 66, 150, 250, 102), mvColor(128, 128, 128, 63)),
             MV_ADD_CONSTANT(mvThemeCol_SliderFloatx_BgActive,      mvColor( 66, 150, 250, 171), mvColor(128, 128, 128, 63)),
             MV_ADD_CONSTANT(mvThemeCol_SliderFloatx_Grab,          mvColor( 61, 133, 224, 255), mvColor(128, 128, 128, 63)),
@@ -131,7 +131,7 @@ namespace Marvel {
 
         MV_START_COLOR_CONSTANTS
             MV_ADD_CONSTANT(mvThemeCol_SliderIntx_Text,         mvColor(255, 255, 255, 255), mvColor(128, 128, 128, 63)),
-            MV_ADD_CONSTANT(mvThemeCol_SliderIntx_Bg,           mvColor( 41,  74, 122, 138), mvColor(128, 128, 128, 63)),
+            MV_ADD_CONSTANT(mvThemeCol_SliderIntx_Bg,           mvColor_Primary(80), mvColor(128, 128, 128, 63)),
             MV_ADD_CONSTANT(mvThemeCol_SliderIntx_BgHovered,    mvColor( 66, 150, 250, 102), mvColor(128, 128, 128, 63)),
             MV_ADD_CONSTANT(mvThemeCol_SliderIntx_BgActive,     mvColor( 66, 150, 250, 171), mvColor(128, 128, 128, 63)),
             MV_ADD_CONSTANT(mvThemeCol_SliderIntx_Grab,         mvColor( 61, 133, 224, 255), mvColor(128, 128, 128, 63)),

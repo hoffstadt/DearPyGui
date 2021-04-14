@@ -34,17 +34,17 @@ namespace Marvel {
 		MV_END_GENERAL_CONSTANTS
 
 		MV_START_COLOR_CONSTANTS
-			MV_CREATE_CONSTANT_PAIR(mvThemeCol_CollapsingHeader_Text,			mvColor(255, 255, 255, 255)),
-			MV_CREATE_CONSTANT_PAIR(mvThemeCol_CollapsingHeader_Bg,				mvColor(119,  25,  24, 255)),
-			MV_CREATE_CONSTANT_PAIR(mvThemeCol_CollapsingHeader_BgHovered,		mvColor( 66, 150, 250, 204)),
-			MV_CREATE_CONSTANT_PAIR(mvThemeCol_CollapsingHeader_BgActive,		mvColor( 66, 150, 250, 255)),
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_CollapsingHeader_Text,           mvColor_TextBackground(255)),
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_CollapsingHeader_Bg,             mvColor_Primary(130)),
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_CollapsingHeader_BgHovered,      mvColor_Primary(220)),
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_CollapsingHeader_BgActive,       mvColor_Primary(255)),
 			MV_CREATE_CONSTANT_PAIR(mvThemeCol_CollapsingHeader_Border,			mvColor(110, 110, 128, 128)),
 			MV_CREATE_CONSTANT_PAIR(mvThemeCol_CollapsingHeader_BorderShadow,	mvColor(  0,   0,   0,   0)),
 		MV_END_COLOR_CONSTANTS
 
 		MV_START_STYLE_CONSTANTS
 			MV_ADD_CONSTANT_F(mvThemeStyle_CollapsingHeader_BorderSize	, 0,  1),
-			MV_ADD_CONSTANT_F(mvThemeStyle_CollapsingHeader_Rounding		, 0, 12),
+			MV_ADD_CONSTANT_F(mvThemeStyle_CollapsingHeader_Rounding		, 10, 12),
 			MV_ADD_CONSTANT_F(mvThemeStyle_CollapsingHeader_PaddingX		, 4, 20),
 			MV_ADD_CONSTANT_F(mvThemeStyle_CollapsingHeader_PaddingY		, 3, 20),
 			MV_ADD_CONSTANT_F(mvThemeStyle_CollapsingHeader_ItemSpacingX	, 8, 20),

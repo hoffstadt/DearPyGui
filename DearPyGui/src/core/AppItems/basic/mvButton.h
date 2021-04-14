@@ -45,10 +45,10 @@ namespace Marvel {
 		MV_END_GENERAL_CONSTANTS
 
 		MV_START_COLOR_CONSTANTS
-			MV_ADD_CONSTANT(mvThemeCol_Button_Text,         mvColor(255, 255, 255, 255), mvColor(128, 128, 128, 63)),
-			MV_ADD_CONSTANT(mvThemeCol_Button_Bg,           mvColor(119,  25,  24, 255), mvColor(128, 128, 128, 63)),
-			MV_ADD_CONSTANT(mvThemeCol_Button_Hovered,      mvColor(255,  64,  64, 143), mvColor(128, 128, 128, 63)),
-			MV_ADD_CONSTANT(mvThemeCol_Button_Active,       mvColor(181,  64,  64, 255), mvColor(128, 128, 128, 63)),
+			MV_ADD_CONSTANT(mvThemeCol_Button_Text,         mvColor_TextBackground(255), mvColor(128, 128, 128, 63)),
+			MV_ADD_CONSTANT(mvThemeCol_Button_Bg,           mvColor_Primary(138), mvColor(128, 128, 128, 63)),
+			MV_ADD_CONSTANT(mvThemeCol_Button_Hovered,      mvColor_Primary(200), mvColor(128, 128, 128, 63)),
+			MV_ADD_CONSTANT(mvThemeCol_Button_Active,       mvColor_Primary(255), mvColor(128, 128, 128, 63)),
 			MV_ADD_CONSTANT(mvThemeCol_Button_Border,       mvColor(110, 110, 128, 128), mvColor(128, 128, 128, 63)),
 			MV_ADD_CONSTANT(mvThemeCol_Button_BorderShadow, mvColor(  0,   0,   0,   0), mvColor(128, 128, 128, 63)),
 		MV_END_COLOR_CONSTANTS

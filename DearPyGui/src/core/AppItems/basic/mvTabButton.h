@@ -33,7 +33,7 @@ namespace Marvel {
 
 		MV_START_COLOR_CONSTANTS
 			MV_CREATE_CONSTANT_PAIR(mvThemeCol_TabButton_Text,		mvColor(255, 255, 255, 255)),
-			MV_CREATE_CONSTANT_PAIR(mvThemeCol_TabButton_Bg,		mvColor( 41,  74, 122, 138)),
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_TabButton_Bg,		mvColor_Primary(80)),
 			MV_CREATE_CONSTANT_PAIR(mvThemeCol_TabButton_BgHovered,	mvColor( 66, 150, 250, 102)),
 			MV_CREATE_CONSTANT_PAIR(mvThemeCol_TabButton_Border,	mvColor(110, 110, 128, 128)),
 			MV_CREATE_CONSTANT_PAIR(mvThemeCol_TabButton_PopupBg,	mvColor( 20,  20,  20, 240)),
