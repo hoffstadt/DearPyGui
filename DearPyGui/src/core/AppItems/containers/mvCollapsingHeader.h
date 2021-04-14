@@ -35,7 +35,7 @@ namespace Marvel {
 
 		MV_START_COLOR_CONSTANTS
 			MV_CREATE_CONSTANT_PAIR(mvThemeCol_CollapsingHeader_Text,			mvColor(255, 255, 255, 255)),
-			MV_CREATE_CONSTANT_PAIR(mvThemeCol_CollapsingHeader_Bg,				mvColor( 66, 150, 250, 79)),
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_CollapsingHeader_Bg,				mvColor(119,  25,  24, 255)),
 			MV_CREATE_CONSTANT_PAIR(mvThemeCol_CollapsingHeader_BgHovered,		mvColor( 66, 150, 250, 204)),
 			MV_CREATE_CONSTANT_PAIR(mvThemeCol_CollapsingHeader_BgActive,		mvColor( 66, 150, 250, 255)),
 			MV_CREATE_CONSTANT_PAIR(mvThemeCol_CollapsingHeader_Border,			mvColor(110, 110, 128, 128)),

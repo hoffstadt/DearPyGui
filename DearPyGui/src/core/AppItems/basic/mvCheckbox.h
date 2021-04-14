@@ -36,9 +36,9 @@ namespace Marvel {
 
 		MV_START_COLOR_CONSTANTS
 			MV_ADD_CONSTANT(mvThemeCol_CheckBox_Text,			mvColor(255, 255, 255, 255), mvColor(128, 128, 128, 63)),
-			MV_ADD_CONSTANT(mvThemeCol_CheckBox_Bg,				mvColor( 41,  74, 122, 138), mvColor(128, 128, 128, 63)),
-			MV_ADD_CONSTANT(mvThemeCol_CheckBox_BgHovered,		mvColor( 66, 150, 250, 102), mvColor(128, 128, 128, 63)),
-			MV_ADD_CONSTANT(mvThemeCol_CheckBox_BgActive,		mvColor( 66, 150, 250, 171), mvColor(128, 128, 128, 63)),
+			MV_ADD_CONSTANT(mvThemeCol_CheckBox_Bg,				mvColor(119,  25,  24, 138), mvColor(128, 128, 128, 63)),
+			MV_ADD_CONSTANT(mvThemeCol_CheckBox_BgHovered,		mvColor(255,  25,  24, 138), mvColor(128, 128, 128, 63)),
+			MV_ADD_CONSTANT(mvThemeCol_CheckBox_BgActive,		mvColor(255,  25,  24, 255), mvColor(128, 128, 128, 63)),
 			MV_ADD_CONSTANT(mvThemeCol_CheckBox_Border,			mvColor(110, 110, 128, 128), mvColor(128, 128, 128, 63)),
 			MV_ADD_CONSTANT(mvThemeCol_CheckBox_BorderShadow,	mvColor(  0,   0,   0,   0), mvColor(128, 128, 128, 63)),
 		MV_END_COLOR_CONSTANTS
