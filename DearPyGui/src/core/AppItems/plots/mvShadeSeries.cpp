@@ -20,7 +20,8 @@ namespace Marvel {
 
 		parser.addArg<mvPyDataType::FloatList>("x");
 		parser.addArg<mvPyDataType::FloatList>("y1");
-		parser.addArg<mvPyDataType::FloatList>("y2");
+
+		parser.addArg<mvPyDataType::FloatList>("y2", mvArgType::KEYWORD_ARG, "[]");
 
 		parser.addArg<mvPyDataType::Integer>("axis", mvArgType::KEYWORD_ARG, "0");
 
@@ -85,9 +86,6 @@ namespace Marvel {
 
 			case 1:
 				(*m_value)[1] = ToFloatVect(item);
-				break;
-
-			case 2:
 				(*m_value)[2] = ToFloatVect(item);
 				break;
 
@@ -95,6 +93,10 @@ namespace Marvel {
 				break;
 			}
 		}
+
+		for (auto& item : (*m_value)[2])
+			item = 0.0f;
+
 	}
 
 	void mvShadeSeries::handleSpecificKeywordArgs(PyObject* dict)

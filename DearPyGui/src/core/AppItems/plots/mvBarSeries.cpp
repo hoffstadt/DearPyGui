@@ -65,9 +65,9 @@ namespace Marvel {
 		yptr = &(*m_value.get())[1];
 
 		if (m_horizontal)
-			ImPlot::PlotBarsH(m_name.c_str(), xptr->data(), yptr->data(), (int)xptr->size(), m_weight);
+			ImPlot::PlotBarsH(m_label.c_str(), xptr->data(), yptr->data(), (int)xptr->size(), m_weight);
 		else
-			ImPlot::PlotBars(m_name.c_str(), xptr->data(), yptr->data(), (int)xptr->size(), m_weight);
+			ImPlot::PlotBars(m_label.c_str(), xptr->data(), yptr->data(), (int)xptr->size(), m_weight);
 
 	}
 

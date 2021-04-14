@@ -39,6 +39,7 @@ namespace Marvel {
 			parser.addArg<mvPyDataType::String>("y_axis_name", mvArgType::KEYWORD_ARG, "''");
 
 			// plot flags
+			parser.addArg<mvPyDataType::Bool>("no_title", mvArgType::KEYWORD_ARG, "False");
 			parser.addArg<mvPyDataType::Bool>("no_legend", mvArgType::KEYWORD_ARG, "False");
 			parser.addArg<mvPyDataType::Bool>("no_menus", mvArgType::KEYWORD_ARG, "False");
 			parser.addArg<mvPyDataType::Bool>("no_box_select", mvArgType::KEYWORD_ARG, "False");
@@ -486,6 +487,7 @@ namespace Marvel {
 		};
 
 		// plot flags
+		flagop("no_title",             ImPlotFlags_NoTitle,          m_flags);
 		flagop("no_legend",            ImPlotFlags_NoLegend,         m_flags);
 		flagop("no_menus",             ImPlotFlags_NoMenus,          m_flags);
 		flagop("no_box_select",        ImPlotFlags_NoBoxSelect,      m_flags);
@@ -553,6 +555,7 @@ namespace Marvel {
 		};
 
 		// plot flags
+		checkbitset("no_title",             ImPlotFlags_NoTitle,          m_flags);
 		checkbitset("no_legend",            ImPlotFlags_NoLegend,         m_flags);
 		checkbitset("no_menus",             ImPlotFlags_NoMenus,          m_flags);
 		checkbitset("no_box_select",        ImPlotFlags_NoBoxSelect,      m_flags);

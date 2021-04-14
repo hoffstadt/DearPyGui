@@ -69,9 +69,9 @@ namespace Marvel {
 		wptr = &(*m_value.get())[3];
 
 		if (m_horizontal)
-			ImPlot::PlotErrorBarsH(m_name.c_str(), xptr->data(), yptr->data(), zptr->data(), wptr->data(), (int)xptr->size());
+			ImPlot::PlotErrorBarsH(m_label.c_str(), xptr->data(), yptr->data(), zptr->data(), wptr->data(), (int)xptr->size());
 		else
-			ImPlot::PlotErrorBars(m_name.c_str(), xptr->data(), yptr->data(), zptr->data(), wptr->data(), (int)xptr->size());
+			ImPlot::PlotErrorBars(m_label.c_str(), xptr->data(), yptr->data(), zptr->data(), wptr->data(), (int)xptr->size());
 
 	}
 

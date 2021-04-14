@@ -53,7 +53,7 @@ namespace Marvel {
 		xptr = &(*m_value.get())[0];
 
 
-		ImPlot::PlotHeatmap(m_name.c_str(), xptr->data(), m_rows, m_cols, m_scale_min, m_scale_max,
+		ImPlot::PlotHeatmap(m_label.c_str(), xptr->data(), m_rows, m_cols, m_scale_min, m_scale_max,
 			m_format.c_str(), { m_bounds_min.x, m_bounds_min.y }, { m_bounds_max.x, m_bounds_max.y });
 
 	}
