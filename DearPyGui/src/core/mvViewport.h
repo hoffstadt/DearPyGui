@@ -73,6 +73,8 @@ namespace Marvel {
 		mvApp*            m_app     = nullptr;
 		bool              m_error   = false;
 		std::string       m_title = "DearPyGui";
+		std::string       m_small_icon;
+		std::string       m_large_icon;
 
 
 		// window modes
