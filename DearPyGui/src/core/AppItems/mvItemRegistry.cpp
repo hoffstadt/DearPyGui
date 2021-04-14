@@ -363,7 +363,6 @@ namespace Marvel {
 			if (addedItem)
 				break;
 		}
-
 		assert(addedItem);
 		return addedItem;
 	}

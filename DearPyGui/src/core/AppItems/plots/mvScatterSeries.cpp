@@ -33,6 +33,7 @@ namespace Marvel {
 	mvScatterSeries::mvScatterSeries(const std::string& name)
 		: mvSeriesBase(name)
 	{
+		m_contributeToBounds = true;
 	}
 
 	void mvScatterSeries::draw(ImDrawList* drawlist, float x, float y)

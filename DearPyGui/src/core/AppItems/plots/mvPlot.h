@@ -221,6 +221,8 @@ namespace Marvel {
 
 		mvPlot(const std::string& name);
 
+		void updateBounds();
+
 		// settings
 		void SetColorMap    (ImPlotColormap colormap);
 		void resetXTicks    ();
@@ -252,6 +254,7 @@ namespace Marvel {
 		const ImVec2&      getY2Limits       () const { return m_y2limits_actual; }
 		const ImVec2&      getY3Limits       () const { return m_y3limits_actual; }
 
+		void onChildAdd(mvRef<mvAppItem> item) override;
 		void handleSpecificKeywordArgs(PyObject* dict) override;
 		void getSpecificConfiguration(PyObject* dict) override;
 		bool canChildBeAdded(mvAppItemType type) override;

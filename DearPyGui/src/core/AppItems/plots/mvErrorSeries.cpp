@@ -36,6 +36,7 @@ namespace Marvel {
 	mvErrorSeries::mvErrorSeries(const std::string& name)
 		: mvSeriesBase(name)
 	{
+		m_contributeToBounds = true;
 	}
 
 	void mvErrorSeries::draw(ImDrawList* drawlist, float x, float y)

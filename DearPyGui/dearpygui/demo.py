@@ -1147,11 +1147,11 @@ def show_demo():
                 add_stem_series(stem_datax, stem_data2y, label="Data 2", parent=plot_id)
 
             with tree_node(label="Pie Charts"):
-                plot_id1 = add_plot(label="", no_mouse_pos=True, 
+                plot_id1 = add_plot(no_title=True, no_mouse_pos=True, 
                          xaxis_no_gridlines=True, xaxis_no_tick_marks=True, xaxis_no_tick_labels=True,
                          yaxis_no_gridlines=True, yaxis_no_tick_marks=True, yaxis_no_tick_labels=True, width=250, height=250)
                 add_same_line()
-                plot_id2 = add_plot(label="", no_mouse_pos=True, 
+                plot_id2 = add_plot(no_title=True, no_mouse_pos=True, 
                          xaxis_no_gridlines=True, xaxis_no_tick_marks=True, xaxis_no_tick_labels=True,
                          yaxis_no_gridlines=True, yaxis_no_tick_marks=True, yaxis_no_tick_labels=True, 
                          width=250, height=250)

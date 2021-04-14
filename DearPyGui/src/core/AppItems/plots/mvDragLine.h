@@ -4,7 +4,7 @@
 
 namespace Marvel {
 
-	MV_REGISTER_WIDGET(mvDragLine, MV_ITEM_DESC_DEFAULT, StorageValueTypes::Float, 1);
+	MV_REGISTER_WIDGET(mvDragLine, MV_ITEM_DESC_DEFAULT, StorageValueTypes::Float, 0);
 	class mvDragLine : public mvFloatPtrBase
 	{
 	public:
