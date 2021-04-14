@@ -20,7 +20,7 @@ namespace Marvel {
 	mvWindowsViewport::mvWindowsViewport(unsigned width, unsigned height, bool error)
 		: mvViewport(width, height, error)
 	{
-		m_clearColor = ImVec4(0.0f, 0.0f, 0.0f, 1.0f);
+		m_clearColor = ImVec4(0.0706f, 0.0706f, 0.0706f, 1.0f);
 	}
 
 	mvWindowsViewport::~mvWindowsViewport()

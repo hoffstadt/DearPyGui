@@ -50,7 +50,7 @@ namespace Marvel {
 		MV_START_COLOR_CONSTANTS
 			MV_ADD_CONSTANT(mvThemeCol_InputIntx_Text,			mvColor(255, 255, 255, 255), mvColor(128, 128, 128, 63)),
 			MV_ADD_CONSTANT(mvThemeCol_InputIntx_TextHighlight,	mvColor( 66, 150, 250,  89), mvColor(128, 128, 128, 63)),
-			MV_ADD_CONSTANT(mvThemeCol_InputIntx_Bg,			mvColor( 41,  74, 122, 138), mvColor(128, 128, 128, 63)),
+			MV_ADD_CONSTANT(mvThemeCol_InputIntx_Bg,			mvColor_Primary(80), mvColor(128, 128, 128, 63)),
 			MV_ADD_CONSTANT(mvThemeCol_InputIntx_Border,		mvColor(110, 110, 128, 128), mvColor(128, 128, 128, 63)),
 			MV_ADD_CONSTANT(mvThemeCol_InputIntx_BorderShadow,	mvColor(  0,   0,   0,   0), mvColor(128, 128, 128, 63)),
 		MV_END_COLOR_CONSTANTS
@@ -122,7 +122,7 @@ namespace Marvel {
 		MV_START_COLOR_CONSTANTS
 			MV_ADD_CONSTANT(mvThemeCol_InputFloatx_Text,          mvColor(255, 255, 255, 255), mvColor(128, 128, 128, 63)),
 			MV_ADD_CONSTANT(mvThemeCol_InputFloatx_TextHighlight, mvColor( 66, 150, 250,  89), mvColor(128, 128, 128, 63)),
-			MV_ADD_CONSTANT(mvThemeCol_InputFloatx_Bg,            mvColor( 41,  74, 122, 138), mvColor(128, 128, 128, 63)),
+			MV_ADD_CONSTANT(mvThemeCol_InputFloatx_Bg,            mvColor_Primary(80), mvColor(128, 128, 128, 63)),
 			MV_ADD_CONSTANT(mvThemeCol_InputFloatx_Border,        mvColor(110, 110, 128, 128), mvColor(128, 128, 128, 63)),
 			MV_ADD_CONSTANT(mvThemeCol_InputFloatx_BorderShadow,  mvColor(  0,   0,   0,   0), mvColor(128, 128, 128, 63)),
 		MV_END_COLOR_CONSTANTS

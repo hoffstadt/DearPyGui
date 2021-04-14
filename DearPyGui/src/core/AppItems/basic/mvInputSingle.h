@@ -55,7 +55,7 @@ namespace Marvel {
         MV_START_COLOR_CONSTANTS
             MV_ADD_CONSTANT(mvThemeCol_InputInt_Text,               mvColor(255, 255, 255, 255), mvColor(128, 128, 128, 63)),
             MV_ADD_CONSTANT(mvThemeCol_InputInt_TextHighlight,      mvColor( 66, 150, 250,  89), mvColor(128, 128, 128, 63)),
-            MV_ADD_CONSTANT(mvThemeCol_InputInt_Bg,                 mvColor( 41,  74, 122, 138), mvColor(128, 128, 128, 63)),
+            MV_ADD_CONSTANT(mvThemeCol_InputInt_Bg,                 mvColor_Primary(80), mvColor(128, 128, 128, 63)),
             MV_ADD_CONSTANT(mvThemeCol_InputInt_ButtonBg,           mvColor( 66, 150, 250, 102), mvColor(128, 128, 128, 63)),
             MV_ADD_CONSTANT(mvThemeCol_InputInt_ButtonBgHovered,    mvColor( 66, 150, 250, 255), mvColor(128, 128, 128, 63)),
             MV_ADD_CONSTANT(mvThemeCol_InputInt_ButtonBgActive,     mvColor( 15, 135, 250, 255), mvColor(128, 128, 128, 63)),
@@ -138,7 +138,7 @@ namespace Marvel {
         MV_START_COLOR_CONSTANTS
             MV_ADD_CONSTANT(mvThemeCol_InputFloat_Text,               mvColor(255, 255, 255, 255), mvColor(128, 128, 128, 63)),
             MV_ADD_CONSTANT(mvThemeCol_InputFloat_TextHighlight,      mvColor( 66, 150, 250,  89), mvColor(128, 128, 128, 63)),
-            MV_ADD_CONSTANT(mvThemeCol_InputFloat_Bg,                 mvColor( 41,  74, 122, 138), mvColor(128, 128, 128, 63)),
+            MV_ADD_CONSTANT(mvThemeCol_InputFloat_Bg,                 mvColor_Primary(80), mvColor(128, 128, 128, 63)),
             MV_ADD_CONSTANT(mvThemeCol_InputFloat_ButtonBg,           mvColor( 66, 150, 250, 102), mvColor(128, 128, 128, 63)),
             MV_ADD_CONSTANT(mvThemeCol_InputFloat_ButtonBgHovered,    mvColor( 66, 150, 250, 255), mvColor(128, 128, 128, 63)),
             MV_ADD_CONSTANT(mvThemeCol_InputFloat_ButtonBgActive,     mvColor( 15, 135, 250, 255), mvColor(128, 128, 128, 63)),

@@ -50,7 +50,7 @@ namespace Marvel {
 
         MV_START_COLOR_CONSTANTS
             MV_ADD_CONSTANT(mvThemeCol_DragFloat_Text,         mvColor(255, 255, 255, 255), mvColor(128, 128, 128, 63)),
-            MV_ADD_CONSTANT(mvThemeCol_DragFloat_Bg,           mvColor( 41,  74, 122, 138), mvColor(128, 128, 128, 63)),
+            MV_ADD_CONSTANT(mvThemeCol_DragFloat_Bg,           mvColor_Primary(80), mvColor(128, 128, 128, 63)),
             MV_ADD_CONSTANT(mvThemeCol_DragFloat_BgHovered,    mvColor( 66, 150, 250, 102), mvColor(128, 128, 128, 63)),
             MV_ADD_CONSTANT(mvThemeCol_DragFloat_BgActive,     mvColor( 66, 150, 250, 171), mvColor(128, 128, 128, 63)),
             MV_ADD_CONSTANT(mvThemeCol_DragFloat_Border,       mvColor(110, 110, 128, 128), mvColor(128, 128, 128, 63)),
@@ -123,7 +123,7 @@ namespace Marvel {
 
         MV_START_COLOR_CONSTANTS
             MV_ADD_CONSTANT(mvThemeCol_DragInt_Text,         mvColor(255, 255, 255, 255), mvColor(128, 128, 128, 63)),
-            MV_ADD_CONSTANT(mvThemeCol_DragInt_Bg,           mvColor( 41,  74, 122, 138), mvColor(128, 128, 128, 63)),
+            MV_ADD_CONSTANT(mvThemeCol_DragInt_Bg,           mvColor_Primary(80), mvColor(128, 128, 128, 63)),
             MV_ADD_CONSTANT(mvThemeCol_DragInt_BgHovered,    mvColor( 66, 150, 250, 102), mvColor(128, 128, 128, 63)),
             MV_ADD_CONSTANT(mvThemeCol_DragInt_BgActive,     mvColor( 66, 150, 250, 171), mvColor(128, 128, 128, 63)),
             MV_ADD_CONSTANT(mvThemeCol_DragInt_Border,       mvColor(110, 110, 128, 128), mvColor(128, 128, 128, 63)),

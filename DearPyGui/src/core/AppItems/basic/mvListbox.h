@@ -47,7 +47,7 @@ namespace Marvel {
 			MV_ADD_CONSTANT(mvThemeCol_Listbox_Selected,				mvColor( 60, 150, 250,  79), mvColor(128, 128, 128, 63)),
 			MV_ADD_CONSTANT(mvThemeCol_Listbox_Hovered,					mvColor( 66, 150, 250, 102), mvColor(128, 128, 128, 63)),
 			MV_ADD_CONSTANT(mvThemeCol_Listbox_Active,					mvColor( 66, 150, 250, 171), mvColor(128, 128, 128, 63)),
-			MV_ADD_CONSTANT(mvThemeCol_Listbox_Bg,						mvColor( 41,  74, 122, 138), mvColor(128, 128, 128, 63)),
+			MV_ADD_CONSTANT(mvThemeCol_Listbox_Bg,						mvColor_Primary(80), mvColor(128, 128, 128, 63)),
 			MV_ADD_CONSTANT(mvThemeCol_Listbox_Border,					mvColor(110, 110, 128, 128), mvColor(128, 128, 128, 63)),
 			MV_ADD_CONSTANT(mvThemeCol_Listbox_Scrollbar,				mvColor(  5,   5,   5, 135), mvColor(128, 128, 128, 63)),
 			MV_ADD_CONSTANT(mvThemeCol_Listbox_ScrollbarGrab,			mvColor( 79,  79,  79, 255), mvColor(128, 128, 128, 63)),

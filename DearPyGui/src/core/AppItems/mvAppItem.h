@@ -15,6 +15,7 @@
 #include "mvCallbackRegistry.h"
 #include "mvPythonTranslator.h"
 #include "cpp.hint"
+#include "mvPredefinedColors.h"
 
 // forward declarations
 struct ImPlotTime;
