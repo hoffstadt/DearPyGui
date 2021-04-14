@@ -58,7 +58,7 @@ namespace Marvel {
 			}
 			else
 			{
-				for (const auto& color : colors)
+				for (const auto& color : disabled_colors)
 				{
 					DecodelibID(color.first, &imColorID);
 					ImGui::PushStyleColor(imColorID, color.second.toVec4());
