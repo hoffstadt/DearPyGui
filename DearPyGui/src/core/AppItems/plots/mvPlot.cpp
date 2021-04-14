@@ -312,7 +312,7 @@ namespace Marvel {
 					{
 						m_y3limits.x = y_maxMin.second;
 						m_y3limits.y = y_maxMin.first;
-						first_1 = false;
+						first_2 = false;
 					}
 					else if(!m_setY3Limits)
 					{

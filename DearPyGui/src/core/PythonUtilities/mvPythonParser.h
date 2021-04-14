@@ -116,6 +116,10 @@ namespace Marvel {
 
     private:
 
+        void buildDocumentation();
+
+    private:
+
         std::vector<mvPythonDataElement> m_staged_elements;
         std::vector<mvPythonDataElement> m_required_elements;
         std::vector<mvPythonDataElement> m_optional_elements;
