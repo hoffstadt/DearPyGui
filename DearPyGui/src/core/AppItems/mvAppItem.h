@@ -54,6 +54,7 @@ namespace Marvel {
         mvErrorSeries, mvVLineSeries, mvHLineSeries, mvHeatSeries,
         mvImageSeries, mvPieSeries, mvShadeSeries, mvLabelSeries,
         mvCandleSeries, mvAreaSeries, mvColorMapScale, mvSlider3D,
+        mvKnobFloat,
         ItemTypeCount
     };
 
