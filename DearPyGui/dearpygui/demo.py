@@ -1273,4 +1273,9 @@ def show_demo():
 
         with collapsing_header(label="New Widgets"):
 
+            add_knob_float(label="K1")
+            add_same_line()
+            add_knob_float(label="K2", default_value=25.0)
+            add_same_line()
+            add_knob_float(label="K3", default_value=50.0)
             add_3d_slider(label="3D Slider", scale=0.5)

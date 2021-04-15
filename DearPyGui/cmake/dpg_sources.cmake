@@ -32,6 +32,8 @@ set(MARVEL_SOURCES
 	"src/core/mvProfiler.cpp"
 	"src/core/mvLog.cpp"
 
+	"src/core/CustomImGuiWidgets/mvKnobCustom.cpp"
+
 	"src/core/Theming/mvThemeManager.cpp"
 	"src/core/Theming/mvFontScope.cpp"
 	"src/core/Theming/mvFontManager.cpp"
@@ -93,6 +95,7 @@ set(MARVEL_SOURCES
 	"src/core/AppItems/custom/mvTextEditor.cpp"
 	"src/core/AppItems/custom/mvColorMapScale.cpp"
 	"src/core/AppItems/custom/mvSlider3D.cpp"
+	"src/core/AppItems/custom/mvKnob.cpp"
 
 	"src/core/AppItems/drawing/mvDrawing.cpp"
 	"src/core/AppItems/drawing/mvDrawLine.cpp"
@@ -174,6 +177,7 @@ set(MARVEL_INCLUDE_DIR
 	"vendor/imnodes"
 	"src/"
 	"src/core"
+	"src/core/CustomImGuiWidgets"
 	"src/core/Modules"
 	"src/core/AppItems"
 	"src/core/DrawCommands"

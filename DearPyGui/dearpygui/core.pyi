@@ -170,6 +170,10 @@ def add_input_text(*, id: str =..., width: int =0, height: int =0, parent: str =
 	"""Undocumented function"""
 	...
 
+def add_knob_float(*, width: int =0, height: int =0, parent: str ='', before: str ='', label: str ='', source: str ='', callback: Callable =None, callback_data: Any =None, show: bool =True, enabled: bool =True, default_value: float =0.0, min_value: float =0.0, max_value: float =100.0) -> str:
+	"""Undocumented function"""
+	...
+
 def add_label_text(*, width: int =0, height: int =0, parent: str ='', before: str ='', label: str ='', source: str ='', callback: Callable =None, callback_data: Any =None, show: bool =True, enabled: bool =True, default_value: str ='', color: List[float] =(-1, -1, -1, -1)) -> str:
 	"""Undocumented function"""
 	...
