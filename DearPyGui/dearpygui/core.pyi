@@ -186,6 +186,10 @@ def add_listbox(items : List[str] =(), *, width: int =0, height: int =0, parent:
 	"""Undocumented function"""
 	...
 
+def add_loading_indicator(*, width: int =0, height: int =0, parent: str ='', before: str ='', label: str ='', source: str ='', callback: Callable =None, callback_data: Any =None, show: bool =True, enabled: bool =True, style: int =0) -> str:
+	"""Undocumented function"""
+	...
+
 def add_logger(*, width: int =0, height: int =0, parent: str ='', before: str ='', label: str ='', source: str ='', callback: Callable =None, callback_data: Any =None, show: bool =True, enabled: bool =True, log_level: int =1, autosize_x: bool =False, autosize_y: bool =False, copy_button: bool =True, clear_button: bool =True, filter: bool =True, auto_scroll: bool =True, auto_scroll_button: bool =True) -> str:
 	"""Undocumented function"""
 	...
