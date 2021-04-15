@@ -427,6 +427,8 @@ namespace Marvel {
 		: 
 		mvAppItem(name)
 	{
+		m_width = 500;
+		m_height = 500;
 	}
 
 	void mvBaseWindowAppitem::addFlag(ImGuiWindowFlags flag) 
