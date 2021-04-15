@@ -140,12 +140,6 @@ namespace Marvel {
             
     private:
 
-        //-----------------------------------------------------------------------------
-        // Post Rendering Methods
-        //     - actually performs queued operations
-        //-----------------------------------------------------------------------------
-        void postProfile    ();
-
         mvApp();
         
     private:

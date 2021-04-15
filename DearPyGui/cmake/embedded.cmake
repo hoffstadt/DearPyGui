@@ -20,7 +20,6 @@ target_sources(coreemb PRIVATE ${MARVEL_SOURCES})
 if(WIN32)
 
 	add_definitions(-DWIN32)
-	add_definitions(-DMV_PROFILE)
 
 	# tell cmake where to find the python3x dlls
 	target_link_directories(coreemb PRIVATE "../Dependencies/cpython/PCbuild/amd64/")
