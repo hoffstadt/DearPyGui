@@ -214,7 +214,7 @@ def add_node(*, width: int =0, height: int =0, parent: str ='', before: str ='',
 	"""Undocumented function"""
 	...
 
-def add_node_attribute(*, width: int =0, height: int =0, parent: str ='', before: str ='', label: str ='', source: str ='', callback: Callable =None, callback_data: Any =None, show: bool =True, enabled: bool =True, output: bool =False, static: bool =False, shape: int =1) -> str:
+def add_node_attribute(*, width: int =0, height: int =0, parent: str ='', before: str ='', label: str ='', source: str ='', callback: Callable =None, callback_data: Any =None, show: bool =True, enabled: bool =True, output: bool =False, static: bool =False, shape: int =54000) -> str:
 	"""Undocumented function"""
 	...
 
@@ -222,7 +222,7 @@ def add_node_editor(*, width: int =0, height: int =0, parent: str ='', before: s
 	"""Undocumented function"""
 	...
 
-def add_node_link(node_editor : str, node_1 : str, node_2 : str) -> None:
+def add_node_link(node_editor : str, node_1 : str, node_2 : str, *, color: List[float] =(0, 0, 0, -255), hovered_color: List[float] =(0, 0, 0, -255)) -> None:
 	"""Undocumented function"""
 	...
 
@@ -270,7 +270,7 @@ def add_shade_series(x : List[float], y1 : List[float], *, width: int =0, height
 	"""Undocumented function"""
 	...
 
-def add_simple_plot(*, width: int =0, height: int =0, parent: str ='', before: str ='', label: str ='', source: str ='', callback: Callable =None, callback_data: Any =None, show: bool =True, enabled: bool =True, default_value: List[float] =(), overlay: str ='', histogram: bool =False, min_scale: float =0.0, max_scale: float =0.0) -> str:
+def add_simple_plot(*, width: int =0, height: int =0, parent: str ='', before: str ='', label: str ='', source: str ='', callback: Callable =None, callback_data: Any =None, show: bool =True, enabled: bool =True, default_value: List[float] =(), overlay: str ='', histogram: bool =False, autosize: bool =True, min_scale: float =0.0, max_scale: float =0.0) -> str:
 	"""Undocumented function"""
 	...
 

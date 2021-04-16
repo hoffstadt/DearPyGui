@@ -23,7 +23,7 @@ namespace Marvel {
 		MV_END_GENERAL_CONSTANTS
 
 		MV_START_COLOR_CONSTANTS
-			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Separator, mvColor(110, 110, 128, 128)),
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Separator, mvImGuiCol_Separator),
 		MV_END_COLOR_CONSTANTS
 
 		MV_START_STYLE_CONSTANTS

@@ -14,13 +14,13 @@ namespace Marvel {
 
 		MV_APPLY_WIDGET_REGISTRATION(mvAppItemType::mvTreeNode, add_tree_node)
 
-		MV_CREATE_CONSTANT(mvThemeCol_TreeNode_Text				, ImGuiCol_Text			, 0L);
-		MV_CREATE_CONSTANT(mvThemeCol_TreeNode_BgHovered		, ImGuiCol_HeaderHovered, 0L);
-		MV_CREATE_CONSTANT(mvThemeCol_TreeNode_BgActive			, ImGuiCol_HeaderActive	, 0L);
+		MV_CREATE_CONSTANT(mvThemeCol_TreeNode_Text, ImGuiCol_Text, 0L);
+		MV_CREATE_CONSTANT(mvThemeCol_TreeNode_BgHovered, ImGuiCol_HeaderHovered, 0L);
+		MV_CREATE_CONSTANT(mvThemeCol_TreeNode_BgActive, ImGuiCol_HeaderActive, 0L);
 
-		MV_CREATE_CONSTANT(mvThemeStyle_TreeNode_FramePaddingX	, ImGuiStyleVar_FramePadding	, 0L);
-		MV_CREATE_CONSTANT(mvThemeStyle_TreeNode_FramePaddingY	, ImGuiStyleVar_FramePadding	, 1L);
-		MV_CREATE_CONSTANT(mvThemeStyle_TreeNode_IndentSpacing	, ImGuiStyleVar_IndentSpacing	, 0L);
+		MV_CREATE_CONSTANT(mvThemeStyle_TreeNode_FramePaddingX, ImGuiStyleVar_FramePadding, 0L);
+		MV_CREATE_CONSTANT(mvThemeStyle_TreeNode_FramePaddingY, ImGuiStyleVar_FramePadding, 1L);
+		MV_CREATE_CONSTANT(mvThemeStyle_TreeNode_IndentSpacing, ImGuiStyleVar_IndentSpacing, 0L);
 
 		MV_START_EXTRA_COMMANDS
 		MV_END_EXTRA_COMMANDS
@@ -29,9 +29,9 @@ namespace Marvel {
 		MV_END_GENERAL_CONSTANTS
 
 		MV_START_COLOR_CONSTANTS
-			MV_CREATE_CONSTANT_PAIR(mvThemeCol_TreeNode_Text,		mvColor(255, 255, 255, 255)),
-			MV_CREATE_CONSTANT_PAIR(mvThemeCol_TreeNode_BgHovered,	mvColor( 66, 150, 250, 204)),
-			MV_CREATE_CONSTANT_PAIR(mvThemeCol_TreeNode_BgActive,	mvColor( 66, 150, 250, 255)),
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_TreeNode_Text, mvImGuiCol_Text),
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_TreeNode_BgHovered, mvImGuiCol_HeaderHovered),
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_TreeNode_BgActive, mvImGuiCol_ButtonHovered),
 		MV_END_COLOR_CONSTANTS
 
 		MV_START_STYLE_CONSTANTS

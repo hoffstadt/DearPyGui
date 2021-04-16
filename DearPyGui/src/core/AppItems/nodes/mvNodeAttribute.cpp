@@ -27,7 +27,7 @@ namespace Marvel {
 		parser.addArg<mvPyDataType::Bool>("output", mvArgType::KEYWORD_ARG, "False", "Set as output attribute");
 		parser.addArg<mvPyDataType::Bool>("static", mvArgType::KEYWORD_ARG, "False", "Set as static attribute");
 
-		parser.addArg<mvPyDataType::Integer>("shape", mvArgType::KEYWORD_ARG, "1", "Pin shape");
+		parser.addArg<mvPyDataType::Integer>("shape", mvArgType::KEYWORD_ARG, "54010", "Pin shape");
 
 		parser.finalize();
 
@@ -109,8 +109,6 @@ namespace Marvel {
 
 		if (PyObject* item = PyDict_GetItemString(dict, "output")) m_output = ToBool(item);
 		if (PyObject* item = PyDict_GetItemString(dict, "static")) m_static = ToBool(item);
-		if (PyObject* item = PyDict_GetItemString(dict, "shape")) m_shape = (imnodes::PinShape)ToInt(item);
-
 		if (PyObject* item = PyDict_GetItemString(dict, "shape"))
 		{
 			m_shape = (imnodes::PinShape)ToInt(item);

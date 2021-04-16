@@ -13,25 +13,25 @@ namespace Marvel {
 
 		MV_APPLY_WIDGET_REGISTRATION(mvAppItemType::mvButton, add_button)
 
-		MV_CREATE_CONSTANT(mvDir_None	, -1L, 0L);
-		MV_CREATE_CONSTANT(mvDir_Left	,  0L, 0L);
-		MV_CREATE_CONSTANT(mvDir_Right	,  1L, 0L);
-		MV_CREATE_CONSTANT(mvDir_Up		,  2L, 0L);
-		MV_CREATE_CONSTANT(mvDir_Down	,  3L, 0L);
+		MV_CREATE_CONSTANT(mvDir_None, ImGuiDir_None, 0L);
+		MV_CREATE_CONSTANT(mvDir_Left, ImGuiDir_Left, 0L);
+		MV_CREATE_CONSTANT(mvDir_Right, ImGuiDir_Right, 0L);
+		MV_CREATE_CONSTANT(mvDir_Up, ImGuiDir_Up, 0L);
+		MV_CREATE_CONSTANT(mvDir_Down, ImGuiDir_Down, 0L);
 
-		MV_CREATE_CONSTANT(mvThemeCol_Button_Text			, ImGuiCol_Text			, 0L);
-		MV_CREATE_CONSTANT(mvThemeCol_Button_Bg				, ImGuiCol_Button		, 0L);
-		MV_CREATE_CONSTANT(mvThemeCol_Button_Hovered		, ImGuiCol_ButtonHovered, 0L);
-		MV_CREATE_CONSTANT(mvThemeCol_Button_Active			, ImGuiCol_ButtonActive	, 0L);
-		MV_CREATE_CONSTANT(mvThemeCol_Button_Border			, ImGuiCol_Border		, 0L);
-		MV_CREATE_CONSTANT(mvThemeCol_Button_BorderShadow	, ImGuiCol_BorderShadow	, 0L);
+		MV_CREATE_CONSTANT(mvThemeCol_Button_Text, ImGuiCol_Text, 0L);
+		MV_CREATE_CONSTANT(mvThemeCol_Button_Bg, ImGuiCol_Button, 0L);
+		MV_CREATE_CONSTANT(mvThemeCol_Button_Hovered, ImGuiCol_ButtonHovered, 0L);
+		MV_CREATE_CONSTANT(mvThemeCol_Button_Active, ImGuiCol_ButtonActive, 0L);
+		MV_CREATE_CONSTANT(mvThemeCol_Button_Border, ImGuiCol_Border, 0L);
+		MV_CREATE_CONSTANT(mvThemeCol_Button_BorderShadow, ImGuiCol_BorderShadow, 0L);
 
-		MV_CREATE_CONSTANT(mvThemeStyle_Button_Rounding		, ImGuiStyleVar_FrameRounding	, 0L);
-		MV_CREATE_CONSTANT(mvThemeStyle_Button_BorderSize	, ImGuiStyleVar_FrameBorderSize	, 0L);
-		MV_CREATE_CONSTANT(mvThemeStyle_Button_TextAlignX	, ImGuiStyleVar_ButtonTextAlign	, 0L);
-		MV_CREATE_CONSTANT(mvThemeStyle_Button_TextAlignY	, ImGuiStyleVar_ButtonTextAlign	, 1L);
-		MV_CREATE_CONSTANT(mvThemeStyle_Button_PaddingX		, ImGuiStyleVar_FramePadding	, 0L);
-		MV_CREATE_CONSTANT(mvThemeStyle_Button_PaddingY		, ImGuiStyleVar_FramePadding	, 1L);
+		MV_CREATE_CONSTANT(mvThemeStyle_Button_Rounding, ImGuiStyleVar_FrameRounding, 0L);
+		MV_CREATE_CONSTANT(mvThemeStyle_Button_BorderSize, ImGuiStyleVar_FrameBorderSize, 0L);
+		MV_CREATE_CONSTANT(mvThemeStyle_Button_TextAlignX, ImGuiStyleVar_ButtonTextAlign, 0L);
+		MV_CREATE_CONSTANT(mvThemeStyle_Button_TextAlignY, ImGuiStyleVar_ButtonTextAlign, 1L);
+		MV_CREATE_CONSTANT(mvThemeStyle_Button_PaddingX, ImGuiStyleVar_FramePadding, 0L);
+		MV_CREATE_CONSTANT(mvThemeStyle_Button_PaddingY, ImGuiStyleVar_FramePadding, 1L);
 
 		MV_START_EXTRA_COMMANDS
 		MV_END_EXTRA_COMMANDS
@@ -45,21 +45,21 @@ namespace Marvel {
 		MV_END_GENERAL_CONSTANTS
 
 		MV_START_COLOR_CONSTANTS
-			MV_ADD_CONSTANT(mvThemeCol_Button_Text,         mvColor_TextBackground(255), mvColor(128, 128, 128, 63)),
-			MV_ADD_CONSTANT(mvThemeCol_Button_Bg,           mvColor_Primary(138), mvColor(128, 128, 128, 63)),
-			MV_ADD_CONSTANT(mvThemeCol_Button_Hovered,      mvColor_Primary(200), mvColor(128, 128, 128, 63)),
-			MV_ADD_CONSTANT(mvThemeCol_Button_Active,       mvColor_Primary(255), mvColor(128, 128, 128, 63)),
-			MV_ADD_CONSTANT(mvThemeCol_Button_Border,       mvColor(110, 110, 128, 128), mvColor(128, 128, 128, 63)),
-			MV_ADD_CONSTANT(mvThemeCol_Button_BorderShadow, mvColor(  0,   0,   0,   0), mvColor(128, 128, 128, 63)),
+			MV_ADD_CONSTANT(mvThemeCol_Button_Text, mvImGuiCol_Text, mvColor(128, 128, 128, 63)),
+			MV_ADD_CONSTANT(mvThemeCol_Button_Bg, mvImGuiCol_Button, mvColor(128, 128, 128, 63)),
+			MV_ADD_CONSTANT(mvThemeCol_Button_Hovered, mvImGuiCol_ButtonHovered, mvColor(128, 128, 128, 63)),
+			MV_ADD_CONSTANT(mvThemeCol_Button_Active, mvImGuiCol_ButtonActive, mvColor(128, 128, 128, 63)),
+			MV_ADD_CONSTANT(mvThemeCol_Button_Border, mvImGuiCol_Border, mvColor(128, 128, 128, 63)),
+			MV_ADD_CONSTANT(mvThemeCol_Button_BorderShadow, mvImGuiCol_BorderShadow, mvColor(128, 128, 128, 63)),
 		MV_END_COLOR_CONSTANTS
 
 		MV_START_STYLE_CONSTANTS
-			MV_ADD_CONSTANT_F(mvThemeStyle_Button_Rounding	, 6    ,12),
-			MV_ADD_CONSTANT_F(mvThemeStyle_Button_BorderSize	, 0    , 1),
-			MV_ADD_CONSTANT_F(mvThemeStyle_Button_TextAlignX	, 0.5f , 1),
-			MV_ADD_CONSTANT_F(mvThemeStyle_Button_TextAlignY	, 0.5f , 1),
-			MV_ADD_CONSTANT_F(mvThemeStyle_Button_PaddingX	, 4    ,20),
-			MV_ADD_CONSTANT_F(mvThemeStyle_Button_PaddingY	, 3    ,20),
+			MV_ADD_CONSTANT_F(mvThemeStyle_Button_Rounding, 0, 12),
+			MV_ADD_CONSTANT_F(mvThemeStyle_Button_BorderSize, 0, 1),
+			MV_ADD_CONSTANT_F(mvThemeStyle_Button_TextAlignX, 0.5f, 1),
+			MV_ADD_CONSTANT_F(mvThemeStyle_Button_TextAlignY, 0.5f, 1),
+			MV_ADD_CONSTANT_F(mvThemeStyle_Button_PaddingX, 4, 20),
+			MV_ADD_CONSTANT_F(mvThemeStyle_Button_PaddingY, 3, 20),
 		MV_END_STYLE_CONSTANTS
 
 	public:

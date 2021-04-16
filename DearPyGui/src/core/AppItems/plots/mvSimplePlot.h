@@ -39,24 +39,24 @@ namespace Marvel{
 		MV_END_GENERAL_CONSTANTS
 
 		MV_START_COLOR_CONSTANTS
-			MV_CREATE_CONSTANT_PAIR(mvThemeCol_SimplePlot_Text,				mvColor(255, 255, 255, 255)),
-			MV_CREATE_CONSTANT_PAIR(mvThemeCol_SimplePlot_Border,			mvColor(110, 110, 128, 128)),
-			MV_CREATE_CONSTANT_PAIR(mvThemeCol_SimplePlot_BorderShadow,		mvColor(  0,   0,   0,   0)),
-			MV_CREATE_CONSTANT_PAIR(mvThemeCol_SimplePlot_Bg,				mvColor_Primary(80)),
-			MV_CREATE_CONSTANT_PAIR(mvThemeCol_SimplePlot_PopupBg,			mvColor( 20,  20,  20, 240)),
-			MV_CREATE_CONSTANT_PAIR(mvThemeCol_SimplePlot_Lines,			mvColor(156, 156, 156, 255)),
-			MV_CREATE_CONSTANT_PAIR(mvThemeCol_SimplePlot_LinesHovered,		mvColor(255, 110,  89, 255)),
-			MV_CREATE_CONSTANT_PAIR(mvThemeCol_SimplePlot_Histogram,		mvColor(230, 179,   0, 255)),
-			MV_CREATE_CONSTANT_PAIR(mvThemeCol_SimplePlot_HistogramHovered, mvColor(255, 153,   0, 255)),
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_SimplePlot_Text, mvImGuiCol_Text),
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_SimplePlot_Border, mvImGuiCol_Border),
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_SimplePlot_BorderShadow, mvImGuiCol_BorderShadow),
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_SimplePlot_Bg, mvImGuiCol_FrameBg),
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_SimplePlot_PopupBg, mvImGuiCol_PopupBg),
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_SimplePlot_Lines, mvImGuiCol_PlotLines),
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_SimplePlot_LinesHovered, mvImGuiCol_PlotLinesHovered),
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_SimplePlot_Histogram, mvImGuiCol_PlotHistogram),
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_SimplePlot_HistogramHovered, mvImGuiCol_PlotHistogramHovered),
 		MV_END_COLOR_CONSTANTS
 
 		MV_START_STYLE_CONSTANTS
-			MV_ADD_CONSTANT_F(mvThemeStyle_SimplePlot_BorderSize			, 0,  1),
-			MV_ADD_CONSTANT_F(mvThemeStyle_SimplePlot_Rounding			, 0, 12),
-			MV_ADD_CONSTANT_F(mvThemeStyle_SimplePlot_PaddingX			, 8, 20),
-			MV_ADD_CONSTANT_F(mvThemeStyle_SimplePlot_PaddingY			, 4, 20),
-			MV_ADD_CONSTANT_F(mvThemeStyle_SimplePlot_InnerItemSpacingX	, 4, 20),
-			MV_ADD_CONSTANT_F(mvThemeStyle_SimplePlot_InnerItemSpacingY	, 4, 20),
+			MV_ADD_CONSTANT_F(mvThemeStyle_SimplePlot_BorderSize, 0,  1),
+			MV_ADD_CONSTANT_F(mvThemeStyle_SimplePlot_Rounding, 0, 12),
+			MV_ADD_CONSTANT_F(mvThemeStyle_SimplePlot_PaddingX, 8, 20),
+			MV_ADD_CONSTANT_F(mvThemeStyle_SimplePlot_PaddingY, 4, 20),
+			MV_ADD_CONSTANT_F(mvThemeStyle_SimplePlot_InnerItemSpacingX, 4, 20),
+			MV_ADD_CONSTANT_F(mvThemeStyle_SimplePlot_InnerItemSpacingY, 4, 20),
 		MV_END_STYLE_CONSTANTS
 
 	public:
@@ -66,6 +66,7 @@ namespace Marvel{
 		void draw(ImDrawList* drawlist, float x, float y) override;
 
 		void setValue(const std::vector<float>& value);
+		void setPyValue(PyObject* value) override;
 		[[nodiscard]] const std::vector<float>& getValue() const { return *m_value; }
 
 		void handleSpecificKeywordArgs(PyObject* dict) override;
@@ -77,6 +78,7 @@ namespace Marvel{
 		float              m_min = 0.0f;
 		float              m_max = 0.0f;
 		bool               m_histogram = false;
+		bool               m_autosize = true;
 
 	};
 
