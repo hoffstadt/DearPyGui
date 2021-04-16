@@ -123,6 +123,7 @@ set(MARVEL_SOURCES
 	"src/core/AppItems/nodes/mvNodeEditor.cpp"
 	"src/core/AppItems/nodes/mvNode.cpp"
 	"src/core/AppItems/nodes/mvNodeAttribute.cpp"
+	"src/core/AppItems/nodes/mvNodeLink.cpp"
 	
 	"src/core/AppItems/plots/mvPlot.cpp"
 	"src/core/AppItems/plots/mvAreaSeries.cpp"

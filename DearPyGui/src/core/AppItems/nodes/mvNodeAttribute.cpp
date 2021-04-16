@@ -42,16 +42,6 @@ namespace Marvel {
 		m_id = (int)reduced_address;
 	}
 
-	mvNodeAttribute::~mvNodeAttribute()
-	{
-		if (!m_delete)
-		{
-			if (m_parentPtr)
-				if (m_parentPtr->m_parentPtr)
-					static_cast<mvNodeEditor*>(m_parentPtr->m_parentPtr)->deleteLink(m_name, m_id, true);
-		}
-	}
-
 	bool mvNodeAttribute::isParentCompatible(mvAppItemType type)
 	{
 		if(type == mvAppItemType::mvNode)

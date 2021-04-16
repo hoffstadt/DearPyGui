@@ -97,3 +97,4 @@
 #include "nodes/mvNodeEditor.h"
 #include "nodes/mvNode.h"
 #include "nodes/mvNodeAttribute.h"
+#include "nodes/mvNodeLink.h"
