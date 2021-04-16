@@ -426,15 +426,14 @@ def show_demo():
                 demo_help("CTRL+click to enter value.")
                 add_slider_float(label="slider float", max_value=1.0, format="ratio = %.3f", callback=demo_log)
                 add_slider_int(label="slider angle", min_value=-360, max_value=360, format="%d deg", callback=demo_log)
-                add_color_edit(label="color edit 3", default_value=[255, 0, 51], callback=demo_log)
                 demo_help(
                         "Click on the colored square to open a color picker.\n"
                         "Click and hold to use drag and drop.\n"
                         "Right-click on the colored square to show options.\n"
                         "CTRL+click on individual component to input value.\n")
-                add_color_edit([102, 179, 0, 128], label="color edit 4", callback=demo_log)
+                add_color_edit([102, 179, 0, 128], label="color edit", callback=demo_log)
                 add_listbox(["Apple", "Banana", "Cherry", "Kiwi", "Mango", "Orange", "Pineapple", "Strawberry", "Watermelon"], label="listbox", num_items=4, callback=demo_log)
-
+                add_color_button(label="color button")
             with tree_node(label="Trees"):
                 with tree_node(label="Basic Trees"):
                     with tree_node(label="Child 0", default_open=True):
