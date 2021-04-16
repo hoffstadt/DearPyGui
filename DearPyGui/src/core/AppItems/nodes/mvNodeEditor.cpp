@@ -4,6 +4,7 @@
 #include "mvItemRegistry.h"
 #include "mvNode.h"
 #include "mvNodeAttribute.h"
+#include "mvNodeLink.h"
 #include "mvImGuiThemeScope.h"
 #include "mvImNodesThemeScope.h"
 #include "mvLog.h"
@@ -22,43 +23,14 @@ namespace Marvel {
 			parser.removeArg("label");
 			parser.removeArg("width");
 			parser.removeArg("height");
-			parser.removeArg("callback");
 			parser.removeArg("callback_data");
 			parser.removeArg("enabled");
 
-			parser.addArg<mvPyDataType::Callable>("link_callback", mvArgType::KEYWORD_ARG, "None", "Callback ran when a new link is created.");
 			parser.addArg<mvPyDataType::Callable>("delink_callback", mvArgType::KEYWORD_ARG, "None", "Callback ran when a link is detached.");
 
 			parser.finalize();
 
 			parsers->insert({ s_command, parser });
-		}
-
-		{
-			mvPythonParser parser(mvPyDataType::None);
-
-			parser.addArg<mvPyDataType::String>("node_editor");
-			parser.addArg<mvPyDataType::String>("node_1");
-			parser.addArg<mvPyDataType::String>("node_2");
-			
-			parser.addArg<mvPyDataType::FloatList>("color", mvArgType::KEYWORD_ARG, "(0, 0, 0, -255)");
-			parser.addArg<mvPyDataType::FloatList>("hovered_color", mvArgType::KEYWORD_ARG, "(0, 0, 0, -255)");
-
-			parser.finalize();
-
-			parsers->insert({ "add_node_link", parser });
-		}
-
-		{
-			mvPythonParser parser(mvPyDataType::None);
-
-			parser.addArg<mvPyDataType::String>("node_editor");
-			parser.addArg<mvPyDataType::String>("node_1");
-			parser.addArg<mvPyDataType::String>("node_2");
-
-			parser.finalize();
-
-			parsers->insert({ "delete_node_link", parser });
 		}
 
 		{
@@ -103,187 +75,32 @@ namespace Marvel {
 	{
 	}
 
-	mvNodeEditor::~mvNodeEditor()
-	{
-		m_delinkCallback = nullptr;
-		for (auto& child : m_children[1])
-		{
-			for (auto& grandchild : child->m_children[1])
-			{
-				((mvNodeAttribute*)grandchild.get())->markForDeletion();
-				deleteLink(grandchild->m_name, ((mvNodeAttribute*)grandchild.get())->getId(), true);
-			}
-
-		}
-	}
-
 	void mvNodeEditor::handleSpecificKeywordArgs(PyObject* dict)
 	{
 		if (dict == nullptr)
 			return;
 
-		if (PyObject* item = PyDict_GetItemString(dict, "link_callback"))
-		{
-			if (m_linkCallback)
-				Py_XDECREF(m_linkCallback);
-			
-			Py_XINCREF(item);
-			m_linkCallback = item;
-		}
-
 		if (PyObject* item = PyDict_GetItemString(dict, "delink_callback"))
 		{
+
 			if (m_delinkCallback)
 				Py_XDECREF(m_delinkCallback);
-
-			Py_XINCREF(item);
+			item = SanitizeCallback(item);
+			if (item)
+				Py_XINCREF(item);
 			m_delinkCallback = item;
 		}
 	}
 
 	bool mvNodeEditor::canChildBeAdded(mvAppItemType type)
 	{
-		if(type ==mvAppItemType::mvNode)
-			return true;
+		if(type ==mvAppItemType::mvNode) return true;
+		if(type ==mvAppItemType::mvNodeLink) return true;
 
 		mvThrowPythonError(1006, "Node editor children must be nodes only.");
 		MV_ITEM_REGISTRY_ERROR("Node editor children must be nodes only.");
 		assert(false);
 		return false;
-	}
-
-	void mvNodeEditor::addLink(const std::string& node1, const std::string& node2, mvColor color, mvColor hovered)
-	{
-		int64_t node1_id = 0;
-        int64_t node2_id = 0;
-
-		for (const auto& node : m_children[1])
-		{
-			for (const auto& attr : node->m_children[1])
-			{
-				if (attr->m_name == node1)
-					node1_id = static_cast<mvNodeAttribute*>(attr.get())->getId();
-				if (attr->m_name == node2)
-					node2_id = static_cast<mvNodeAttribute*>(attr.get())->getId();
-			}
-		}
-
-		if (node1_id == 0 || node2_id == 0)
-			return;
-
-		addLink((int)node1_id, (int)node2_id);
-
-		bool found = false;
-		for (const auto& link : m_linksStrings)
-		{
-			if (std::get<0>(link) == node1 && std::get<1>(link) == node2)
-				found = true;
-		}
-		if (!found)
-			m_linksStrings.push_back(std::make_tuple(node1, node2, color, hovered));
-
-		if(m_linkCallback)
-			mvApp::GetApp()->getCallbackRegistry().submitCallback([=]() {
-				PyObject* link = PyTuple_New(2);
-				PyTuple_SetItem(link, 0, ToPyString(node1));
-				PyTuple_SetItem(link, 1, ToPyString(node2));
-				mvApp::GetApp()->getCallbackRegistry().addCallback(m_linkCallback, m_name, link);
-				});
-
-	}
-
-	void mvNodeEditor::deleteLink(const std::string& node, int id, bool deletion)
-	{
-		int nodeid = id;
-
-		std::vector<std::pair<int, int>> oldLinks = m_links;
-		m_links.clear();
-		for (auto& link : oldLinks)
-		{
-			if (link.first == nodeid || link.second == nodeid)
-				continue;
-			m_links.push_back(link);
-		}
-
-		std::vector<std::tuple<std::string, std::string, mvColor, mvColor>> oldLinkStrings = m_linksStrings;
-		m_linksStrings.clear();
-		for (auto& link_string : oldLinkStrings)
-		{
-			if (std::get<0>(link_string) == node || std::get<1>(link_string) == node)
-				continue;
-			m_linksStrings.push_back(link_string);
-		}
-
-		if(m_delinkCallback && !deletion)
-			mvApp::GetApp()->getCallbackRegistry().submitCallback([=]() {
-				PyObject* link = PyTuple_New(1);
-				PyTuple_SetItem(link, 0, ToPyString(node));
-				mvApp::GetApp()->getCallbackRegistry().addCallback(m_delinkCallback, m_name, link);
-				});
-
-	}
-
-	void mvNodeEditor::deleteLink(const std::string& node1, const std::string& node2)
-	{
-		int node1_id = 0;
-		int node2_id = 0;
-
-		for (const auto& node : m_children[1])
-		{
-			for (const auto& attr : node->m_children[1])
-			{
-				if (attr->m_name == node1)
-					node1_id = static_cast<mvNodeAttribute*>(attr.get())->getId();
-				if (attr->m_name == node2)
-					node2_id = static_cast<mvNodeAttribute*>(attr.get())->getId();
-			}
-		}
-
-		if (node1_id == 0 || node2_id == 0)
-			return;
-
-		deleteLink(node1_id, node2_id);
-		std::vector<std::tuple<std::string, std::string, mvColor, mvColor>> oldLinkStrings = m_linksStrings;
-		m_linksStrings.clear();
-		for (auto& link_string : oldLinkStrings)
-		{
-			if (std::get<0>(link_string) == node1 && std::get<1>(link_string) == node2)
-				continue;
-			m_linksStrings.push_back(link_string);
-		}
-
-		if (m_delinkCallback)
-			mvApp::GetApp()->getCallbackRegistry().submitCallback([=]() {
-			PyObject* link = PyTuple_New(2);
-			PyTuple_SetItem(link, 0, ToPyString(node1));
-			PyTuple_SetItem(link, 1, ToPyString(node2));
-			mvApp::GetApp()->getCallbackRegistry().addCallback(m_delinkCallback, m_name, link);
-				});
-
-	}
-
-	void mvNodeEditor::addLink(int node1, int node2)
-	{
-		bool found = false;
-		for (const auto& link : m_links)
-		{
-			if (link.first == node1 && link.second == node2)
-				found = true;
-		}
-		if (!found)
-			m_links.push_back(std::make_pair(node1, node2));
-	}
-
-	void mvNodeEditor::deleteLink(int node1, int node2)
-	{
-		std::vector<std::pair<int, int>> oldLinks = m_links;
-		m_links.clear();
-		for (auto& link : oldLinks)
-		{
-			if (link.first == node1 && link.second == node2)
-				continue;
-			m_links.push_back(link);
-		}
 	}
 
 	std::vector<std::string> mvNodeEditor::getSelectedNodes() const
@@ -308,7 +125,6 @@ namespace Marvel {
 	void mvNodeEditor::draw(ImDrawList* drawlist, float x, float y)
 	{
 		ScopedID id;
-		imnodes::StyleColorsClassic();
 		mvImNodesThemeScope scope(this);
 		mvFontScope fscope(this);
 
@@ -332,23 +148,16 @@ namespace Marvel {
 		}
 
 		// build links
-		for (int i = 0; i < m_links.size(); i++)
+		for (auto item : m_children[0])
 		{
-			if (std::get<2>(m_linksStrings[i]).a >= 0)
-				imnodes::PushColorStyle(imnodes::ColorStyle::ColorStyle_Link, std::get<2>(m_linksStrings[i]));
-			if (std::get<3>(m_linksStrings[i]).a >= 0)
-				imnodes::PushColorStyle(imnodes::ColorStyle::ColorStyle_LinkHovered, std::get<3>(m_linksStrings[i]));
+			// skip item if it's not shown
+			if (!item->m_show)
+				continue;
 
-			imnodes::Link(i, m_links[i].first, m_links[i].second);
+			item->draw(drawlist, x, y);
 
-			if (std::get<2>(m_linksStrings[i]).a >= 0)
-				imnodes::PopColorStyle();
-			if (std::get<3>(m_linksStrings[i]).a >= 0)
-				imnodes::PopColorStyle();
+			item->getState().update();
 		}
-
-		//we do this so that the children dont get the theme
-		//scope.cleanup();
 
 		for (auto item : m_children[1])
 		{
@@ -367,7 +176,6 @@ namespace Marvel {
 
 		imnodes::EndNodeEditor();
 		imnodes::PopAttributeFlag();
-		
 
 		static int hovered_node_id;
 		for (auto& child : m_children[1])
@@ -426,103 +234,39 @@ namespace Marvel {
 						node2 = grandchild->m_name;
 				}
 			}
-			addLink(node1, node2);
+
+			if (m_callback)
+				mvApp::GetApp()->getCallbackRegistry().submitCallback([=]() {
+				PyObject* link = PyTuple_New(2);
+				PyTuple_SetItem(link, 0, ToPyString(node1));
+				PyTuple_SetItem(link, 1, ToPyString(node2));
+				mvApp::GetApp()->getCallbackRegistry().addCallback(m_callback, m_name, link);
+					});
 		}
 
 		static int destroyed_attr;
 		if (imnodes::IsLinkDestroyed(&destroyed_attr))
 		{
-			auto item = m_linksStrings[destroyed_attr];
-			deleteLink(std::get<0>(item), std::get<1>(item));
+			std::string name;
+			for (auto& item : m_children[0])
+			{
+				if (item->getType() == mvAppItemType::mvNodeLink)
+				{
+					if (static_cast<const mvNodeLink*>(item.get())->m_id == destroyed_attr)
+					{
+						name = item->m_name;
+						break;
+					}
+				}
+			}
+			if (m_delinkCallback)
+				mvApp::GetApp()->getCallbackRegistry().submitCallback([=]() {
+				PyObject* link = ToPyString(name);
+				mvApp::GetApp()->getCallbackRegistry().addCallback(m_delinkCallback, m_name, link);
+					});
 		}
 
-		m_state.setHovered(imnodes::IsEditorHovered());
-
-		
-	}
-
-	PyObject* mvNodeEditor::add_node_link(PyObject* self, PyObject* args, PyObject* kwargs)
-	{
-		const char* node_editor;
-		const char* node_1;
-		const char* node_2;
-		PyObject* color = PyList_New(4);
-		PyList_SetItem(color, 0, PyLong_FromLong(0));
-		PyList_SetItem(color, 1, PyLong_FromLong(0));
-		PyList_SetItem(color, 2, PyLong_FromLong(0));
-		PyList_SetItem(color, 3, PyLong_FromLong(-255));
-
-		PyObject* hovered = PyList_New(4);
-		PyList_SetItem(hovered, 0, PyLong_FromLong(0));
-		PyList_SetItem(hovered, 1, PyLong_FromLong(0));
-		PyList_SetItem(hovered, 2, PyLong_FromLong(0));
-		PyList_SetItem(hovered, 3, PyLong_FromLong(-255));
-
-
-		if (!(mvApp::GetApp()->getParsers())["add_node_link"].parse(args, kwargs, __FUNCTION__, &node_editor,
-			&node_1, &node_2, &color, &hovered))
-			return ToPyBool(false);
-
-		std::lock_guard<std::mutex> lk(mvApp::GetApp()->getMutex());
-		auto anode_editor = mvApp::GetApp()->getItemRegistry().getItem(node_editor);
-		if (anode_editor == nullptr)
-		{
-			std::string message = node_editor;
-			ThrowPythonException(message + " node_editor does not exist.");
-			return GetPyNone();
-		}
-
-		if (anode_editor->getType() != mvAppItemType::mvNodeEditor)
-		{
-			std::string message = node_editor;
-			ThrowPythonException(message + " is not a plot.");
-			return GetPyNone();
-		}
-
-		mvNodeEditor* editor = static_cast<mvNodeEditor*>(anode_editor.get());
-
-		mvColor mcolor = ToColor(color);
-		mvColor mhovered = ToColor(hovered);
-
-		editor->addLink(node_1, node_2, mcolor, mhovered);
-
-		return GetPyNone();
-
-	}
-
-	PyObject* mvNodeEditor::delete_node_link(PyObject* self, PyObject* args, PyObject* kwargs)
-	{
-		const char* node_editor;
-		const char* node_1;
-		const char* node_2;
-
-
-		if (!(mvApp::GetApp()->getParsers())["delete_node_link"].parse(args, kwargs, __FUNCTION__, &node_editor,
-			&node_1, &node_2))
-			return ToPyBool(false);
-
-		std::lock_guard<std::mutex> lk(mvApp::GetApp()->getMutex());
-		auto anode_editor = mvApp::GetApp()->getItemRegistry().getItem(node_editor);
-		if (anode_editor == nullptr)
-		{
-			std::string message = node_editor;
-			ThrowPythonException(message + " node_editor does not exist.");
-			return GetPyNone();
-		}
-
-		if (anode_editor->getType() != mvAppItemType::mvNodeEditor)
-		{
-			std::string message = node_editor;
-			ThrowPythonException(message + " is not a plot.");
-			return GetPyNone();
-		}
-
-		mvNodeEditor* editor = static_cast<mvNodeEditor*>(anode_editor.get());
-
-		editor->deleteLink(node_1, node_2);
-
-		return GetPyNone();
-
+		m_state.setHovered(imnodes::IsEditorHovered());	
 	}
 
 	PyObject* mvNodeEditor::get_selected_nodes(PyObject* self, PyObject* args, PyObject* kwargs)
@@ -583,46 +327,10 @@ namespace Marvel {
 		mvNodeEditor* editor = static_cast<mvNodeEditor*>(anode_editor.get());
 
 		auto& selected_links = editor->getSelectedLinks();
-		auto& links = editor->getLinks();
 
 		std::vector<std::pair<std::string, std::string>> selections;
-		for (auto& link : selected_links)
-			selections.push_back({ std::get<0>(links[link]),std::get<1>(links[link]) });
 
-		return ToPyList(selections);
-
-	}
-
-	PyObject* mvNodeEditor::get_links(PyObject* self, PyObject* args, PyObject* kwargs)
-	{
-		const char* node_editor;
-
-		if (!(mvApp::GetApp()->getParsers())["get_links"].parse(args, kwargs, __FUNCTION__, &node_editor))
-			return ToPyBool(false);
-
-		std::lock_guard<std::mutex> lk(mvApp::GetApp()->getMutex());
-		auto anode_editor = mvApp::GetApp()->getItemRegistry().getItem(node_editor);
-		if (anode_editor == nullptr)
-		{
-			std::string message = node_editor;
-			ThrowPythonException(message + " node_editor does not exist.");
-			return GetPyNone();
-		}
-
-		if (anode_editor->getType() != mvAppItemType::mvNodeEditor)
-		{
-			std::string message = node_editor;
-			ThrowPythonException(message + " is not a plot.");
-			return GetPyNone();
-		}
-
-		mvNodeEditor* editor = static_cast<mvNodeEditor*>(anode_editor.get());
-
-		auto& links = editor->getLinks();
-
-		std::vector<std::pair<std::string, std::string>> selections;
-		for (auto& link : links)
-			selections.push_back({ std::get<0>(link),std::get<1>(link) });
+		//TODO BROKE
 
 		return ToPyList(selections);
 

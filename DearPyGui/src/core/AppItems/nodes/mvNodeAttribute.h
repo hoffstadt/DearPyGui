@@ -26,6 +26,13 @@ namespace Marvel {
 		MV_CREATE_CONSTANT(mvNode_PinShape_Quad, imnodes::PinShape::PinShape_Quad, 0L);
 		MV_CREATE_CONSTANT(mvNode_PinShape_QuadFilled, imnodes::PinShape::PinShape_QuadFilled, 0L);
 
+		MV_CREATE_CONSTANT(mvThemeStyle_NodeAttr_PinCircleRadius, imnodes::StyleVar::StyleVar_PinCircleRadius, 0L);
+		MV_CREATE_CONSTANT(mvThemeStyle_NodeAttr_PinQuadSideLength, imnodes::StyleVar::StyleVar_PinQuadSideLength, 0L);
+		MV_CREATE_CONSTANT(mvThemeStyle_NodeAttr_PinTriangleSideLength, imnodes::StyleVar::StyleVar_PinTriangleSideLength, 0L);
+		MV_CREATE_CONSTANT(mvThemeStyle_NodeAttr_PinLineThickness, imnodes::StyleVar::StyleVar_PinLineThickness, 0L);
+		MV_CREATE_CONSTANT(mvThemeStyle_NodeAttr_PinHoverRadius, imnodes::StyleVar::StyleVar_PinHoverRadius, 0L);
+		MV_CREATE_CONSTANT(mvThemeStyle_NodeAttr_PinOffset, imnodes::StyleVar::StyleVar_PinOffset, 0L);
+
 		MV_START_EXTRA_COMMANDS
 		MV_END_EXTRA_COMMANDS
 
@@ -44,18 +51,22 @@ namespace Marvel {
 		MV_END_COLOR_CONSTANTS
 
 		MV_START_STYLE_CONSTANTS
+			MV_ADD_CONSTANT_F(mvThemeStyle_NodeAttr_PinCircleRadius, 5, 12),
+			MV_ADD_CONSTANT_F(mvThemeStyle_NodeAttr_PinQuadSideLength, 5, 12),
+			MV_ADD_CONSTANT_F(mvThemeStyle_NodeAttr_PinTriangleSideLength, 5, 12),
+			MV_ADD_CONSTANT_F(mvThemeStyle_NodeAttr_PinLineThickness, 3, 12),
+			MV_ADD_CONSTANT_F(mvThemeStyle_NodeAttr_PinHoverRadius, 5, 12),
+			MV_ADD_CONSTANT_F(mvThemeStyle_NodeAttr_PinOffset, 0, 12),
 		MV_END_STYLE_CONSTANTS
 
 	public:
 
 		mvNodeAttribute(const std::string& name);
-		~mvNodeAttribute();
 
 		void draw(ImDrawList* drawlist, float x, float y) override;
 		bool isParentCompatible(mvAppItemType type) override;
 
 		int getId() const {return m_id;}
-		void markForDeletion() { m_delete = true; }
 
 		void handleSpecificKeywordArgs(PyObject* dict) override;
 		void getSpecificConfiguration(PyObject* dict) override;
@@ -65,7 +76,6 @@ namespace Marvel {
 		bool m_output = false;
 		bool m_static = false;
 		imnodes::PinShape m_shape = imnodes::PinShape_CircleFilled;
-		bool m_delete = false; // specific delete instructions when node editor is deleted
 
 	};
 

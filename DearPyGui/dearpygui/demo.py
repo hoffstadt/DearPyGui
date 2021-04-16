@@ -1272,19 +1272,17 @@ def show_demo():
 
         with collapsing_header(label="Node Editor"):
 
-            def link_callback(sender, data):
-                print(data)
-
             add_text("Ctrl+Click to remove a link.", bullet=True)
 
-            with node_editor(link_callback=link_callback) as ne:
+            with node_editor(callback=lambda sender, data: add_node_link(data[0], data[1], parent=sender), 
+                             delink_callback=lambda sender, data: delete_item(data)):
 
                 with node(label="Node 1", x_pos=10, y_pos=10):
 
                     with node_attribute():
                         add_input_float(label="F1", width=150)
 
-                    with node_attribute(output=True) as na1:
+                    with node_attribute(output=True):
                         add_input_float(label="F2", width=150)
 
                 with node(label="Node 2", x_pos=300, y_pos=10):
@@ -1292,17 +1290,14 @@ def show_demo():
                     with node_attribute() as na2:
                         add_input_float(label="F3", width=200)
 
-                    with node_attribute(output=True) as na3:
+                    with node_attribute(output=True):
                         add_input_float(label="F4", width=200)
 
                 with node(label="Node 3", x_pos=25, y_pos=150):                   
-                    with node_attribute() as na4:
+                    with node_attribute():
                         add_input_text(label="T5", width=200)
                     with node_attribute(static=True): 
                         add_simple_plot(label="Node Plot", default_value=(0.3, 0.9, 2.5, 8.9), width=200, height=80, histogram=True)
-            
-                add_node_link(ne, na1, na2, color=(255, 0, 255, 255))
-                add_node_link(ne, na3, na4, color=(255, 255, 0, 255))
 
         with collapsing_header(label="New Widgets"):
 
