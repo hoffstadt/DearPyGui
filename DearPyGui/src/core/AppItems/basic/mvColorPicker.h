@@ -16,8 +16,8 @@ namespace Marvel {
 
 		MV_CREATE_CONSTANT(mvThemeCol_ColorPicker_Text			, ImGuiCol_Text				, 0L);
 		MV_CREATE_CONSTANT(mvThemeCol_ColorPicker_Bg			, ImGuiCol_FrameBg			, 0L);
-		MV_CREATE_CONSTANT(mvThemeCol_ColorPicker_BgHovered	, ImGuiCol_FrameBgHovered	, 0L);
-		MV_CREATE_CONSTANT(mvThemeCol_ColorPicker_BgActive		, ImGuiCol_FrameBgActive	, 0L);
+		MV_CREATE_CONSTANT(mvThemeCol_ColorPicker_Hovered		, ImGuiCol_FrameBgHovered	, 0L);
+		MV_CREATE_CONSTANT(mvThemeCol_ColorPicker_Active		, ImGuiCol_FrameBgActive	, 0L);
 		MV_CREATE_CONSTANT(mvThemeCol_ColorPicker_DragDrop		, ImGuiCol_DragDropTarget	, 0L);
 		MV_CREATE_CONSTANT(mvThemeCol_ColorPicker_Border		, ImGuiCol_Border			, 0L);
 		MV_CREATE_CONSTANT(mvThemeCol_ColorPicker_BorderShadow	, ImGuiCol_BorderShadow		, 0L);
@@ -42,8 +42,8 @@ namespace Marvel {
 		MV_START_COLOR_CONSTANTS
 			MV_ADD_CONSTANT(mvThemeCol_ColorPicker_Text		, mvColor(255, 255, 255, 255), mvColor(128, 128, 128, 63)),
 			MV_ADD_CONSTANT(mvThemeCol_ColorPicker_Bg			, mvColor_Primary(80), mvColor(128, 128, 128, 63)),
-			MV_ADD_CONSTANT(mvThemeCol_ColorPicker_BgHovered	, mvColor( 66, 150, 250, 102), mvColor(128, 128, 128, 63)),
-			MV_ADD_CONSTANT(mvThemeCol_ColorPicker_BgActive	, mvColor( 66, 150, 250, 171), mvColor(128, 128, 128, 63)),
+			MV_ADD_CONSTANT(mvThemeCol_ColorPicker_Hovered	, mvColor( 66, 150, 250, 102), mvColor(128, 128, 128, 63)),
+			MV_ADD_CONSTANT(mvThemeCol_ColorPicker_Active	, mvColor( 66, 150, 250, 171), mvColor(128, 128, 128, 63)),
 			MV_ADD_CONSTANT(mvThemeCol_ColorPicker_DragDrop	, mvColor(255, 255,   0, 230), mvColor(128, 128, 128, 63)),
 			MV_ADD_CONSTANT(mvThemeCol_ColorPicker_Border		, mvColor(110, 110, 128, 128), mvColor(128, 128, 128, 63)),
 			MV_ADD_CONSTANT(mvThemeCol_ColorPicker_BorderShadow, mvColor(  0,   0,   0,   0), mvColor(128, 128, 128, 63)),

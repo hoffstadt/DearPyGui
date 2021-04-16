@@ -17,7 +17,6 @@ namespace Marvel {
 		MV_CREATE_CONSTANT(mvThemeCol_ColorButton_Text			, ImGuiCol_Text				, 0L);
 		MV_CREATE_CONSTANT(mvThemeCol_ColorButton_Separator		, ImGuiCol_Separator		, 0L);
 		MV_CREATE_CONSTANT(mvThemeCol_ColorButton_PopupBg		, ImGuiCol_PopupBg			, 0L);
-		MV_CREATE_CONSTANT(mvThemeCol_ColorButton_DragDrop		, ImGuiCol_DragDropTarget	, 0L);
 		MV_CREATE_CONSTANT(mvThemeCol_ColorButton_Border		, ImGuiCol_Border			, 0L);
 		MV_CREATE_CONSTANT(mvThemeCol_ColorButton_BorderShadow	, ImGuiCol_BorderShadow		, 0L);
 
@@ -38,7 +37,6 @@ namespace Marvel {
 			MV_ADD_CONSTANT(mvThemeCol_ColorButton_Text			, mvColor(255, 255, 255, 255), mvColor(128, 128, 128, 63)),
 			MV_ADD_CONSTANT(mvThemeCol_ColorButton_Separator	, mvColor(110, 110, 128, 128), mvColor(128, 128, 128, 63)),
 			MV_ADD_CONSTANT(mvThemeCol_ColorButton_PopupBg		, mvColor( 20,  20,  20, 240), mvColor(128, 128, 128, 63)),
-			MV_ADD_CONSTANT(mvThemeCol_ColorButton_DragDrop		, mvColor(255, 255,   0, 230), mvColor(128, 128, 128, 63)),
 			MV_ADD_CONSTANT(mvThemeCol_ColorButton_Border		, mvColor(110, 110, 128, 128), mvColor(128, 128, 128, 63)),
 			MV_ADD_CONSTANT(mvThemeCol_ColorButton_BorderShadow	, mvColor(  0,   0,   0,   0), mvColor(128, 128, 128, 63)),
 		MV_END_COLOR_CONSTANTS

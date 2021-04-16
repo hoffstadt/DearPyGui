@@ -15,14 +15,14 @@ namespace Marvel {
 		MV_APPLY_WIDGET_REGISTRATION(mvAppItemType::mvCombo, add_combo)
 
 		MV_CREATE_CONSTANT(mvThemeCol_Combo_Text				, ImGuiCol_Text					, 0L);
-		MV_CREATE_CONSTANT(mvThemeCol_Combo_Selected			, ImGuiCol_Header				, 0L);
-		MV_CREATE_CONSTANT(mvThemeCol_Combo_Hovered				, ImGuiCol_HeaderHovered		, 0L);
-		MV_CREATE_CONSTANT(mvThemeCol_Combo_Active				, ImGuiCol_HeaderActive			, 0L);
 		MV_CREATE_CONSTANT(mvThemeCol_Combo_Bg					, ImGuiCol_FrameBg				, 0L);
-		MV_CREATE_CONSTANT(mvThemeCol_Combo_BgHovered			, ImGuiCol_FrameBgHovered		, 0L);
-		MV_CREATE_CONSTANT(mvThemeCol_Combo_DropBg				, ImGuiCol_PopupBg				, 0L);
-		MV_CREATE_CONSTANT(mvThemeCol_Combo_DropButtonBg		, ImGuiCol_Button				, 0L);
-		MV_CREATE_CONSTANT(mvThemeCol_Combo_DropButtonHovered	, ImGuiCol_ButtonHovered		, 0L);
+		MV_CREATE_CONSTANT(mvThemeCol_Combo_Hovered				, ImGuiCol_FrameBgHovered		, 0L);
+		MV_CREATE_CONSTANT(mvThemeCol_Combo_PopupBg				, ImGuiCol_PopupBg				, 0L);
+		MV_CREATE_CONSTANT(mvThemeCol_Combo_PopupSelected		, ImGuiCol_Header				, 0L);
+		MV_CREATE_CONSTANT(mvThemeCol_Combo_PopupHovered		, ImGuiCol_HeaderHovered		, 0L);
+		MV_CREATE_CONSTANT(mvThemeCol_Combo_PopupActive			, ImGuiCol_HeaderActive			, 0L);
+		MV_CREATE_CONSTANT(mvThemeCol_Combo_ButtonBg			, ImGuiCol_Button				, 0L);
+		MV_CREATE_CONSTANT(mvThemeCol_Combo_ButtonHovered		, ImGuiCol_ButtonHovered		, 0L);
 		MV_CREATE_CONSTANT(mvThemeCol_Combo_Scrollbar			, ImGuiCol_ScrollbarBg			, 0L);
 		MV_CREATE_CONSTANT(mvThemeCol_Combo_ScrollbarGrab		, ImGuiCol_ScrollbarGrab		, 0L);
 		MV_CREATE_CONSTANT(mvThemeCol_Combo_ScrollbarGrabHovered, ImGuiCol_ScrollbarGrabHovered	, 0L);
@@ -53,14 +53,14 @@ namespace Marvel {
 
 		MV_START_COLOR_CONSTANTS
 			MV_ADD_CONSTANT(mvThemeCol_Combo_Text,					mvColor(255, 255, 255, 255), mvColor(128, 128, 128, 63)),
-			MV_ADD_CONSTANT(mvThemeCol_Combo_Selected,				mvColor( 66, 150, 250, 171), mvColor(128, 128, 128, 63)),
-			MV_ADD_CONSTANT(mvThemeCol_Combo_Hovered,				mvColor( 41,  74,  74, 138), mvColor(128, 128, 128, 63)),
-			MV_ADD_CONSTANT(mvThemeCol_Combo_Active,				mvColor( 66, 150, 250, 171), mvColor(128, 128, 128, 63)),
 			MV_ADD_CONSTANT(mvThemeCol_Combo_Bg,					mvColor_Primary(80), mvColor(128, 128, 128, 63)),
-			MV_ADD_CONSTANT(mvThemeCol_Combo_BgHovered,				mvColor( 41,  74,  74, 138), mvColor(128, 128, 128, 63)),
-			MV_ADD_CONSTANT(mvThemeCol_Combo_DropBg,				mvColor( 20,  20,  20, 240), mvColor(128, 128, 128, 63)),
-			MV_ADD_CONSTANT(mvThemeCol_Combo_DropButtonBg,          mvColor_Primary(138), mvColor(128, 128, 128, 63)),
-			MV_ADD_CONSTANT(mvThemeCol_Combo_DropButtonHovered,     mvColor_Primary(200), mvColor(128, 128, 128, 63)),
+			MV_ADD_CONSTANT(mvThemeCol_Combo_Hovered,				mvColor( 41,  74,  74, 138), mvColor(128, 128, 128, 63)),
+			MV_ADD_CONSTANT(mvThemeCol_Combo_PopupBg,				mvColor( 20,  20,  20, 240), mvColor(128, 128, 128, 63)),
+			MV_ADD_CONSTANT(mvThemeCol_Combo_PopupSelected,			mvColor(66, 150, 250, 171), mvColor(128, 128, 128, 63)),
+			MV_ADD_CONSTANT(mvThemeCol_Combo_PopupHovered,			mvColor(41, 74, 74, 138), mvColor(128, 128, 128, 63)),
+			MV_ADD_CONSTANT(mvThemeCol_Combo_PopupActive,			mvColor(66, 150, 250, 171), mvColor(128, 128, 128, 63)),
+			MV_ADD_CONSTANT(mvThemeCol_Combo_ButtonBg,				mvColor_Primary(138), mvColor(128, 128, 128, 63)),
+			MV_ADD_CONSTANT(mvThemeCol_Combo_ButtonHovered,			mvColor_Primary(200), mvColor(128, 128, 128, 63)),
 			MV_ADD_CONSTANT(mvThemeCol_Combo_Scrollbar,             mvColor_Background(250), mvColor(128, 128, 128, 63)),
 			MV_ADD_CONSTANT(mvThemeCol_Combo_ScrollbarGrab,         mvColor_Surface(200), mvColor(128, 128, 128, 63)),
 			MV_ADD_CONSTANT(mvThemeCol_Combo_ScrollbarGrabHovered,  mvColor_Surface(250), mvColor(128, 128, 128, 63)),
