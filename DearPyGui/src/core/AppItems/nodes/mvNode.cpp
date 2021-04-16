@@ -114,7 +114,7 @@ namespace Marvel {
 		imnodes::BeginNode(m_id);
 
 		imnodes::BeginNodeTitleBar();
-		ImGui::TextUnformatted(m_label.c_str());
+		ImGui::TextUnformatted(m_specificedlabel.c_str());
 		imnodes::EndNodeTitleBar();
 
 		//we do this so that the children dont get the theme

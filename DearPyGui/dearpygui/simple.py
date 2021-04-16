@@ -304,7 +304,7 @@ def node(*args, label: str = "__DearPyGuiDefault", show: bool = True, draggable:
 
 @contextmanager
 def node_attribute(*args, show: bool = True, output: bool = False,
-         static: bool = False, parent: str = "", before: str = "", shape: int = 1, id:str=''):
+         static: bool = False, parent: str = "", before: str = "", shape: int = 54010, id:str=''):
     """Wraps add_node_attribute() and automates calling end().
 
     Args:

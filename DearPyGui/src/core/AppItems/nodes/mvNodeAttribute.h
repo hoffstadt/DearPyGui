@@ -16,15 +16,15 @@ namespace Marvel {
 
 		MV_APPLY_WIDGET_REGISTRATION(mvAppItemType::mvNodeAttribute, add_node_attribute)
 
-		MV_CREATE_CONSTANT(mvThemeCol_NodeAttr_Pin			, imnodes::ColorStyle::ColorStyle_Pin, 0L);
-		MV_CREATE_CONSTANT(mvThemeCol_NodeAttr_PinHovered	, imnodes::ColorStyle::ColorStyle_PinHovered, 0L);
+		MV_CREATE_CONSTANT(mvThemeCol_NodeAttr_Pin, imnodes::ColorStyle::ColorStyle_Pin, 0L);
+		MV_CREATE_CONSTANT(mvThemeCol_NodeAttr_PinHovered, imnodes::ColorStyle::ColorStyle_PinHovered, 0L);
 
-		MV_CREATE_CONSTANT(mvNode_PinShape_Circle			, imnodes::PinShape::PinShape_Circle		, 0L);
-		MV_CREATE_CONSTANT(mvNode_PinShape_CircleFilled		, imnodes::PinShape::PinShape_CircleFilled	, 0L);
-		MV_CREATE_CONSTANT(mvNode_PinShape_Triangle			, imnodes::PinShape::PinShape_Triangle		, 0L);
-		MV_CREATE_CONSTANT(mvNode_PinShape_TriangleFilled	, imnodes::PinShape::PinShape_TriangleFilled, 0L);
-		MV_CREATE_CONSTANT(mvNode_PinShape_Quad				, imnodes::PinShape::PinShape_Quad			, 0L);
-		MV_CREATE_CONSTANT(mvNode_PinShape_QuadFilled		, imnodes::PinShape::PinShape_QuadFilled	, 0L);
+		MV_CREATE_CONSTANT(mvNode_PinShape_Circle, imnodes::PinShape::PinShape_Circle, 0L);
+		MV_CREATE_CONSTANT(mvNode_PinShape_CircleFilled, imnodes::PinShape::PinShape_CircleFilled, 0L);
+		MV_CREATE_CONSTANT(mvNode_PinShape_Triangle, imnodes::PinShape::PinShape_Triangle, 0L);
+		MV_CREATE_CONSTANT(mvNode_PinShape_TriangleFilled, imnodes::PinShape::PinShape_TriangleFilled, 0L);
+		MV_CREATE_CONSTANT(mvNode_PinShape_Quad, imnodes::PinShape::PinShape_Quad, 0L);
+		MV_CREATE_CONSTANT(mvNode_PinShape_QuadFilled, imnodes::PinShape::PinShape_QuadFilled, 0L);
 
 		MV_START_EXTRA_COMMANDS
 		MV_END_EXTRA_COMMANDS
@@ -39,8 +39,8 @@ namespace Marvel {
 		MV_END_GENERAL_CONSTANTS
 
 		MV_START_COLOR_CONSTANTS
-			MV_CREATE_CONSTANT_PAIR(mvThemeCol_NodeAttr_Pin,        mvColor(53, 150, 250, 180)),
-			MV_CREATE_CONSTANT_PAIR(mvThemeCol_NodeAttr_PinHovered, mvColor(53, 150, 250, 255)),
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_NodeAttr_Pin, mvImGuiCol_Pin),
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_NodeAttr_PinHovered, mvImGuiCol_PinHovered),
 		MV_END_COLOR_CONSTANTS
 
 		MV_START_STYLE_CONSTANTS

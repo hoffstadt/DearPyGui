@@ -14,18 +14,18 @@ namespace Marvel {
 
 		MV_APPLY_WIDGET_REGISTRATION(mvAppItemType::mvProgressBar, add_progress_bar)
 
-		MV_CREATE_CONSTANT(mvThemeCol_ProgressBar_Text			, ImGuiCol_Text, 0L);
-		MV_CREATE_CONSTANT(mvThemeCol_ProgressBar_Bar			, ImGuiCol_PlotHistogram, 0L);
-		MV_CREATE_CONSTANT(mvThemeCol_ProgressBar_Bg			, ImGuiCol_FrameBg, 0L);
-		MV_CREATE_CONSTANT(mvThemeCol_ProgressBar_Border		, ImGuiCol_Border, 0L);
-		MV_CREATE_CONSTANT(mvThemeCol_ProgressBar_BorderShadow	, ImGuiCol_BorderShadow, 0L);
+		MV_CREATE_CONSTANT(mvThemeCol_ProgressBar_Text, ImGuiCol_Text, 0L);
+		MV_CREATE_CONSTANT(mvThemeCol_ProgressBar_Bar, ImGuiCol_PlotHistogram, 0L);
+		MV_CREATE_CONSTANT(mvThemeCol_ProgressBar_Bg, ImGuiCol_FrameBg, 0L);
+		MV_CREATE_CONSTANT(mvThemeCol_ProgressBar_Border, ImGuiCol_Border, 0L);
+		MV_CREATE_CONSTANT(mvThemeCol_ProgressBar_BorderShadow, ImGuiCol_BorderShadow, 0L);
 
-		MV_CREATE_CONSTANT(mvThemeStyle_ProgressBar_Rounding			, ImGuiStyleVar_FrameRounding	, 0L);
-		MV_CREATE_CONSTANT(mvThemeStyle_ProgressBar_BorderSize			, ImGuiStyleVar_FrameBorderSize	, 0L);
-		MV_CREATE_CONSTANT(mvThemeStyle_ProgressBar_PaddingX			, ImGuiStyleVar_FramePadding	, 0L);
-		MV_CREATE_CONSTANT(mvThemeStyle_ProgressBar_PaddingY			, ImGuiStyleVar_FramePadding	, 1L);
-		MV_CREATE_CONSTANT(mvThemeStyle_ProgressBar_InnerItemSpacingX	, ImGuiStyleVar_ItemInnerSpacing, 0L);
-		MV_CREATE_CONSTANT(mvThemeStyle_ProgressBar_InnerItemSpacingY	, ImGuiStyleVar_ItemInnerSpacing, 1L);
+		MV_CREATE_CONSTANT(mvThemeStyle_ProgressBar_Rounding, ImGuiStyleVar_FrameRounding	, 0L);
+		MV_CREATE_CONSTANT(mvThemeStyle_ProgressBar_BorderSize, ImGuiStyleVar_FrameBorderSize	, 0L);
+		MV_CREATE_CONSTANT(mvThemeStyle_ProgressBar_PaddingX, ImGuiStyleVar_FramePadding	, 0L);
+		MV_CREATE_CONSTANT(mvThemeStyle_ProgressBar_PaddingY, ImGuiStyleVar_FramePadding	, 1L);
+		MV_CREATE_CONSTANT(mvThemeStyle_ProgressBar_InnerItemSpacingX, ImGuiStyleVar_ItemInnerSpacing, 0L);
+		MV_CREATE_CONSTANT(mvThemeStyle_ProgressBar_InnerItemSpacingY, ImGuiStyleVar_ItemInnerSpacing, 1L);
 
 		MV_START_EXTRA_COMMANDS
 		MV_END_EXTRA_COMMANDS
@@ -34,18 +34,18 @@ namespace Marvel {
 		MV_END_GENERAL_CONSTANTS
 
 		MV_START_COLOR_CONSTANTS
-			MV_CREATE_CONSTANT_PAIR(mvThemeCol_ProgressBar_Text,			mvColor(255, 255, 255, 255)),
-			MV_CREATE_CONSTANT_PAIR(mvThemeCol_ProgressBar_Bar,				mvColor(230, 179,   0, 255)),
-			MV_CREATE_CONSTANT_PAIR(mvThemeCol_ProgressBar_Bg,				mvColor_Primary(80)),
-			MV_CREATE_CONSTANT_PAIR(mvThemeCol_ProgressBar_Border,			mvColor(110, 110, 128, 128)),
-			MV_CREATE_CONSTANT_PAIR(mvThemeCol_ProgressBar_BorderShadow,	mvColor(  0,   0,   0,   0)),
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_ProgressBar_Text, mvImGuiCol_Text),
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_ProgressBar_Bar, mvImGuiCol_PlotHistogram),
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_ProgressBar_Bg, mvImGuiCol_FrameBg),
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_ProgressBar_Border, mvImGuiCol_Border),
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_ProgressBar_BorderShadow, mvImGuiCol_BorderShadow),
 		MV_END_COLOR_CONSTANTS
 
 		MV_START_STYLE_CONSTANTS
-			MV_ADD_CONSTANT_F(mvThemeStyle_ProgressBar_BorderSize,        0, 1),
-			MV_ADD_CONSTANT_F(mvThemeStyle_ProgressBar_Rounding,          0, 12),
-			MV_ADD_CONSTANT_F(mvThemeStyle_ProgressBar_PaddingX,          8, 20),
-			MV_ADD_CONSTANT_F(mvThemeStyle_ProgressBar_PaddingY,          4, 20),
+			MV_ADD_CONSTANT_F(mvThemeStyle_ProgressBar_BorderSize,0, 1),
+			MV_ADD_CONSTANT_F(mvThemeStyle_ProgressBar_Rounding,0, 12),
+			MV_ADD_CONSTANT_F(mvThemeStyle_ProgressBar_PaddingX,8, 20),
+			MV_ADD_CONSTANT_F(mvThemeStyle_ProgressBar_PaddingY,4, 20),
 			MV_ADD_CONSTANT_F(mvThemeStyle_ProgressBar_InnerItemSpacingX, 4, 20),
 			MV_ADD_CONSTANT_F(mvThemeStyle_ProgressBar_InnerItemSpacingY, 4, 20),
 		MV_END_STYLE_CONSTANTS

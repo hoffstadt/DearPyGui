@@ -40,6 +40,9 @@ namespace Marvel {
 			parser.addArg<mvPyDataType::String>("node_editor");
 			parser.addArg<mvPyDataType::String>("node_1");
 			parser.addArg<mvPyDataType::String>("node_2");
+			
+			parser.addArg<mvPyDataType::FloatList>("color", mvArgType::KEYWORD_ARG, "(0, 0, 0, -255)");
+			parser.addArg<mvPyDataType::FloatList>("hovered_color", mvArgType::KEYWORD_ARG, "(0, 0, 0, -255)");
 
 			parser.finalize();
 
@@ -149,7 +152,7 @@ namespace Marvel {
 		return false;
 	}
 
-	void mvNodeEditor::addLink(const std::string& node1, const std::string& node2)
+	void mvNodeEditor::addLink(const std::string& node1, const std::string& node2, mvColor color, mvColor hovered)
 	{
 		int64_t node1_id = 0;
         int64_t node2_id = 0;
@@ -173,11 +176,11 @@ namespace Marvel {
 		bool found = false;
 		for (const auto& link : m_linksStrings)
 		{
-			if (link.first == node1 && link.second == node2)
+			if (std::get<0>(link) == node1 && std::get<1>(link) == node2)
 				found = true;
 		}
 		if (!found)
-			m_linksStrings.push_back(std::make_pair(node1, node2));
+			m_linksStrings.push_back(std::make_tuple(node1, node2, color, hovered));
 
 		if(m_linkCallback)
 			mvApp::GetApp()->getCallbackRegistry().submitCallback([=]() {
@@ -202,11 +205,11 @@ namespace Marvel {
 			m_links.push_back(link);
 		}
 
-		std::vector<std::pair<std::string, std::string>> oldLinkStrings = m_linksStrings;
+		std::vector<std::tuple<std::string, std::string, mvColor, mvColor>> oldLinkStrings = m_linksStrings;
 		m_linksStrings.clear();
 		for (auto& link_string : oldLinkStrings)
 		{
-			if (link_string.first == node || link_string.second == node)
+			if (std::get<0>(link_string) == node || std::get<1>(link_string) == node)
 				continue;
 			m_linksStrings.push_back(link_string);
 		}
@@ -240,11 +243,11 @@ namespace Marvel {
 			return;
 
 		deleteLink(node1_id, node2_id);
-		std::vector<std::pair<std::string, std::string>> oldLinkStrings = m_linksStrings;
+		std::vector<std::tuple<std::string, std::string, mvColor, mvColor>> oldLinkStrings = m_linksStrings;
 		m_linksStrings.clear();
 		for (auto& link_string : oldLinkStrings)
 		{
-			if (link_string.first == node1 && link_string.second == node2)
+			if (std::get<0>(link_string) == node1 && std::get<1>(link_string) == node2)
 				continue;
 			m_linksStrings.push_back(link_string);
 		}
@@ -329,8 +332,20 @@ namespace Marvel {
 		}
 
 		// build links
-		for(int i = 0; i<m_links.size(); i++)
+		for (int i = 0; i < m_links.size(); i++)
+		{
+			if (std::get<2>(m_linksStrings[i]).a >= 0)
+				imnodes::PushColorStyle(imnodes::ColorStyle::ColorStyle_Link, std::get<2>(m_linksStrings[i]));
+			if (std::get<3>(m_linksStrings[i]).a >= 0)
+				imnodes::PushColorStyle(imnodes::ColorStyle::ColorStyle_LinkHovered, std::get<3>(m_linksStrings[i]));
+
 			imnodes::Link(i, m_links[i].first, m_links[i].second);
+
+			if (std::get<2>(m_linksStrings[i]).a >= 0)
+				imnodes::PopColorStyle();
+			if (std::get<3>(m_linksStrings[i]).a >= 0)
+				imnodes::PopColorStyle();
+		}
 
 		//we do this so that the children dont get the theme
 		//scope.cleanup();
@@ -418,7 +433,7 @@ namespace Marvel {
 		if (imnodes::IsLinkDestroyed(&destroyed_attr))
 		{
 			auto item = m_linksStrings[destroyed_attr];
-			deleteLink(item.first, item.second);
+			deleteLink(std::get<0>(item), std::get<1>(item));
 		}
 
 		m_state.setHovered(imnodes::IsEditorHovered());
@@ -431,10 +446,21 @@ namespace Marvel {
 		const char* node_editor;
 		const char* node_1;
 		const char* node_2;
+		PyObject* color = PyList_New(4);
+		PyList_SetItem(color, 0, PyLong_FromLong(0));
+		PyList_SetItem(color, 1, PyLong_FromLong(0));
+		PyList_SetItem(color, 2, PyLong_FromLong(0));
+		PyList_SetItem(color, 3, PyLong_FromLong(-255));
+
+		PyObject* hovered = PyList_New(4);
+		PyList_SetItem(hovered, 0, PyLong_FromLong(0));
+		PyList_SetItem(hovered, 1, PyLong_FromLong(0));
+		PyList_SetItem(hovered, 2, PyLong_FromLong(0));
+		PyList_SetItem(hovered, 3, PyLong_FromLong(-255));
 
 
 		if (!(mvApp::GetApp()->getParsers())["add_node_link"].parse(args, kwargs, __FUNCTION__, &node_editor,
-			&node_1, &node_2))
+			&node_1, &node_2, &color, &hovered))
 			return ToPyBool(false);
 
 		std::lock_guard<std::mutex> lk(mvApp::GetApp()->getMutex());
@@ -455,7 +481,10 @@ namespace Marvel {
 
 		mvNodeEditor* editor = static_cast<mvNodeEditor*>(anode_editor.get());
 
-		editor->addLink(node_1, node_2);
+		mvColor mcolor = ToColor(color);
+		mvColor mhovered = ToColor(hovered);
+
+		editor->addLink(node_1, node_2, mcolor, mhovered);
 
 		return GetPyNone();
 
@@ -558,7 +587,7 @@ namespace Marvel {
 
 		std::vector<std::pair<std::string, std::string>> selections;
 		for (auto& link : selected_links)
-			selections.push_back(links[link]);
+			selections.push_back({ std::get<0>(links[link]),std::get<1>(links[link]) });
 
 		return ToPyList(selections);
 
@@ -591,7 +620,11 @@ namespace Marvel {
 
 		auto& links = editor->getLinks();
 
-		return ToPyList(links);
+		std::vector<std::pair<std::string, std::string>> selections;
+		for (auto& link : links)
+			selections.push_back({ std::get<0>(link),std::get<1>(link) });
+
+		return ToPyList(selections);
 
 	}
 

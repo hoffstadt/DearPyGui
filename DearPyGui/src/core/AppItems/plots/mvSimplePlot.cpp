@@ -18,6 +18,7 @@ namespace Marvel {
 		parser.addArg<mvPyDataType::String>("overlay", mvArgType::KEYWORD_ARG, "''", "overlays text (similar to a plot title)");
 
 		parser.addArg<mvPyDataType::Bool>("histogram", mvArgType::KEYWORD_ARG, "False");
+		parser.addArg<mvPyDataType::Bool>("autosize", mvArgType::KEYWORD_ARG, "True");
 		
 		parser.addArg<mvPyDataType::Float>("min_scale", mvArgType::KEYWORD_ARG, "0.0");
 		parser.addArg<mvPyDataType::Float>("max_scale", mvArgType::KEYWORD_ARG, "0.0");
@@ -48,10 +49,33 @@ namespace Marvel {
 		ImGui::PopID();
 	}
 
+	void mvSimplePlot::setPyValue(PyObject* value)
+	{
+		*m_value = ToFloatVect(value);
+
+		if (!m_autosize)
+			return;
+		if (!m_value->empty())
+		{
+			m_max = m_value->data()[0];
+			m_min = m_value->data()[0];
+
+			for (auto& item : *m_value)
+			{
+				if (item > m_max)
+					m_max = item;
+				if (item < m_min)
+					m_min = item;
+			}
+		}
+	}
+
 	void mvSimplePlot::setValue(const std::vector<float>& value)
 	{
 		*m_value = value;
 
+		if (!m_autosize)
+			return;
 		if (!value.empty())
 		{
 			m_max = m_value->data()[0];
@@ -76,6 +100,7 @@ namespace Marvel {
 		if (PyObject* item = PyDict_GetItemString(dict, "minscale")) m_min = ToFloat(item);
 		if (PyObject* item = PyDict_GetItemString(dict, "maxscale")) m_max = ToFloat(item);
 		if (PyObject* item = PyDict_GetItemString(dict, "histogram")) m_histogram = ToBool(item);
+		if (PyObject* item = PyDict_GetItemString(dict, "autosize")) m_autosize = ToBool(item);
 	}
 
 	void mvSimplePlot::getSpecificConfiguration(PyObject* dict)
@@ -87,6 +112,7 @@ namespace Marvel {
 		PyDict_SetItemString(dict, "minscale", ToPyFloat(m_min));
 		PyDict_SetItemString(dict, "maxscale", ToPyFloat(m_max));
 		PyDict_SetItemString(dict, "histogram", ToPyBool(m_histogram));
+		PyDict_SetItemString(dict, "autosize", ToPyBool(m_autosize));
 	}
 
 }

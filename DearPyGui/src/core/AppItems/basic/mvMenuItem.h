@@ -15,11 +15,11 @@ namespace Marvel {
 
 		MV_APPLY_WIDGET_REGISTRATION(mvAppItemType::mvMenuItem, add_menu_item)
 
-		MV_CREATE_CONSTANT(mvThemeCol_MenuItem_Text				, ImGuiCol_Text			, 0L);
-		MV_CREATE_CONSTANT(mvThemeCol_MenuItem_BgHovered		, ImGuiCol_HeaderHovered, 0L);
+		MV_CREATE_CONSTANT(mvThemeCol_MenuItem_Text, ImGuiCol_Text, 0L);
+		MV_CREATE_CONSTANT(mvThemeCol_MenuItem_BgHovered, ImGuiCol_HeaderHovered, 0L);
 
-		MV_CREATE_CONSTANT(mvGuiStyleVar_MenuItem_TextAlignX	, ImGuiStyleVar_SelectableTextAlign, 0L);
-		MV_CREATE_CONSTANT(mvGuiStyleVar_MenuItem_TextAlignY	, ImGuiStyleVar_SelectableTextAlign, 1L);
+		MV_CREATE_CONSTANT(mvGuiStyleVar_MenuItem_TextAlignX, ImGuiStyleVar_SelectableTextAlign, 0L);
+		MV_CREATE_CONSTANT(mvGuiStyleVar_MenuItem_TextAlignY, ImGuiStyleVar_SelectableTextAlign, 1L);
 
 		MV_START_EXTRA_COMMANDS
 		MV_END_EXTRA_COMMANDS
@@ -28,8 +28,8 @@ namespace Marvel {
 		MV_END_GENERAL_CONSTANTS
 
 		MV_START_COLOR_CONSTANTS
-			MV_ADD_CONSTANT(mvThemeCol_MenuItem_Text,		mvColor(255, 255, 255, 255), mvColor(128, 128, 128, 63)),
-			MV_ADD_CONSTANT(mvThemeCol_MenuItem_BgHovered,	mvColor( 66, 150, 250, 240), mvColor(128, 128, 128, 0)),
+			MV_ADD_CONSTANT(mvThemeCol_MenuItem_Text, mvImGuiCol_Text, mvColor(128, 128, 128, 63)),
+			MV_ADD_CONSTANT(mvThemeCol_MenuItem_BgHovered, mvImGuiCol_HeaderHovered, mvColor(128, 128, 128, 0)),
 		MV_END_COLOR_CONSTANTS
 
 		MV_START_STYLE_CONSTANTS

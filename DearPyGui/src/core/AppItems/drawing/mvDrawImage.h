@@ -50,7 +50,7 @@ namespace Marvel {
 		mvVec2		m_pmin = {0.0f, 0.0f};
 		mvVec2		m_uv_min = {0.0f, 0.0f};
 		mvVec2		m_uv_max = {1.0f, 1.0f};
-		mvColor		m_color = mvColor(255, 255, 255, 255);
+		mvColor		m_color = mvImGuiCol_Text;
 		void* m_texture = nullptr;
 
 	};

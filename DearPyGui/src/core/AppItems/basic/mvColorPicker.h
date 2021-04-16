@@ -14,24 +14,24 @@ namespace Marvel {
 
 		MV_APPLY_WIDGET_REGISTRATION(mvAppItemType::mvColorPicker, add_color_picker)
 
-		MV_CREATE_CONSTANT(mvThemeCol_ColorPicker_Text			, ImGuiCol_Text				, 0L);
-		MV_CREATE_CONSTANT(mvThemeCol_ColorPicker_Bg			, ImGuiCol_FrameBg			, 0L);
-		MV_CREATE_CONSTANT(mvThemeCol_ColorPicker_Hovered		, ImGuiCol_FrameBgHovered	, 0L);
-		MV_CREATE_CONSTANT(mvThemeCol_ColorPicker_Active		, ImGuiCol_FrameBgActive	, 0L);
-		MV_CREATE_CONSTANT(mvThemeCol_ColorPicker_DragDrop		, ImGuiCol_DragDropTarget	, 0L);
-		MV_CREATE_CONSTANT(mvThemeCol_ColorPicker_Border		, ImGuiCol_Border			, 0L);
-		MV_CREATE_CONSTANT(mvThemeCol_ColorPicker_BorderShadow	, ImGuiCol_BorderShadow		, 0L);
+		MV_CREATE_CONSTANT(mvThemeCol_ColorPicker_Text, ImGuiCol_Text, 0L);
+		MV_CREATE_CONSTANT(mvThemeCol_ColorPicker_Bg, ImGuiCol_FrameBg, 0L);
+		MV_CREATE_CONSTANT(mvThemeCol_ColorPicker_Hovered, ImGuiCol_FrameBgHovered, 0L);
+		MV_CREATE_CONSTANT(mvThemeCol_ColorPicker_Active, ImGuiCol_FrameBgActive, 0L);
+		MV_CREATE_CONSTANT(mvThemeCol_ColorPicker_DragDrop, ImGuiCol_DragDropTarget, 0L);
+		MV_CREATE_CONSTANT(mvThemeCol_ColorPicker_Border, ImGuiCol_Border, 0L);
+		MV_CREATE_CONSTANT(mvThemeCol_ColorPicker_BorderShadow, ImGuiCol_BorderShadow, 0L);
 
-		MV_CREATE_CONSTANT(mvThemeStyle_ColorPicker_Rounding		, ImGuiStyleVar_FrameRounding	, 0L);
-		MV_CREATE_CONSTANT(mvThemeStyle_ColorPicker_BorderSize		, ImGuiStyleVar_FrameBorderSize	, 0L);
-		MV_CREATE_CONSTANT(mvThemeStyle_ColorPicker_PopupRounding	, ImGuiStyleVar_PopupRounding	, 0L);
-		MV_CREATE_CONSTANT(mvThemeStyle_ColorPicker_PopupBorderSize, ImGuiStyleVar_PopupBorderSize	, 0L);
-		MV_CREATE_CONSTANT(mvThemeStyle_ColorPicker_InnerSpacingX	, ImGuiStyleVar_ItemInnerSpacing, 0L);
-		MV_CREATE_CONSTANT(mvThemeStyle_ColorPicker_InnerSpacingY	, ImGuiStyleVar_ItemInnerSpacing, 1L);
-		MV_CREATE_CONSTANT(mvThemeStyle_ColorPicker_PopupPaddingX	, ImGuiStyleVar_WindowPadding	, 0L);
-		MV_CREATE_CONSTANT(mvThemeStyle_ColorPicker_PopupPaddingY	, ImGuiStyleVar_WindowPadding	, 1L);
-		MV_CREATE_CONSTANT(mvThemeStyle_ColorPicker_PaddingX		, ImGuiStyleVar_FramePadding	, 0L);
-		MV_CREATE_CONSTANT(mvThemeStyle_ColorPicker_PaddingY		, ImGuiStyleVar_FramePadding	, 1L);
+		MV_CREATE_CONSTANT(mvThemeStyle_ColorPicker_Rounding, ImGuiStyleVar_FrameRounding, 0L);
+		MV_CREATE_CONSTANT(mvThemeStyle_ColorPicker_BorderSize, ImGuiStyleVar_FrameBorderSize, 0L);
+		MV_CREATE_CONSTANT(mvThemeStyle_ColorPicker_PopupRounding, ImGuiStyleVar_PopupRounding, 0L);
+		MV_CREATE_CONSTANT(mvThemeStyle_ColorPicker_PopupBorderSize, ImGuiStyleVar_PopupBorderSize, 0L);
+		MV_CREATE_CONSTANT(mvThemeStyle_ColorPicker_InnerSpacingX, ImGuiStyleVar_ItemInnerSpacing, 0L);
+		MV_CREATE_CONSTANT(mvThemeStyle_ColorPicker_InnerSpacingY, ImGuiStyleVar_ItemInnerSpacing, 1L);
+		MV_CREATE_CONSTANT(mvThemeStyle_ColorPicker_PopupPaddingX, ImGuiStyleVar_WindowPadding, 0L);
+		MV_CREATE_CONSTANT(mvThemeStyle_ColorPicker_PopupPaddingY, ImGuiStyleVar_WindowPadding, 1L);
+		MV_CREATE_CONSTANT(mvThemeStyle_ColorPicker_PaddingX, ImGuiStyleVar_FramePadding, 0L);
+		MV_CREATE_CONSTANT(mvThemeStyle_ColorPicker_PaddingY, ImGuiStyleVar_FramePadding, 1L);
 
 		MV_START_EXTRA_COMMANDS
 		MV_END_EXTRA_COMMANDS
@@ -40,13 +40,13 @@ namespace Marvel {
 		MV_END_GENERAL_CONSTANTS
 
 		MV_START_COLOR_CONSTANTS
-			MV_ADD_CONSTANT(mvThemeCol_ColorPicker_Text		, mvColor(255, 255, 255, 255), mvColor(128, 128, 128, 63)),
-			MV_ADD_CONSTANT(mvThemeCol_ColorPicker_Bg			, mvColor_Primary(80), mvColor(128, 128, 128, 63)),
-			MV_ADD_CONSTANT(mvThemeCol_ColorPicker_Hovered	, mvColor( 66, 150, 250, 102), mvColor(128, 128, 128, 63)),
-			MV_ADD_CONSTANT(mvThemeCol_ColorPicker_Active	, mvColor( 66, 150, 250, 171), mvColor(128, 128, 128, 63)),
-			MV_ADD_CONSTANT(mvThemeCol_ColorPicker_DragDrop	, mvColor(255, 255,   0, 230), mvColor(128, 128, 128, 63)),
-			MV_ADD_CONSTANT(mvThemeCol_ColorPicker_Border		, mvColor(110, 110, 128, 128), mvColor(128, 128, 128, 63)),
-			MV_ADD_CONSTANT(mvThemeCol_ColorPicker_BorderShadow, mvColor(  0,   0,   0,   0), mvColor(128, 128, 128, 63)),
+			MV_ADD_CONSTANT(mvThemeCol_ColorPicker_Text, mvImGuiCol_Text, mvColor(128, 128, 128, 63)),
+			MV_ADD_CONSTANT(mvThemeCol_ColorPicker_Bg, mvImGuiCol_FrameBg, mvColor(128, 128, 128, 63)),
+			MV_ADD_CONSTANT(mvThemeCol_ColorPicker_Hovered, mvImGuiCol_FrameBgHovered, mvColor(128, 128, 128, 63)),
+			MV_ADD_CONSTANT(mvThemeCol_ColorPicker_Active, mvImGuiCol_FrameBgActive, mvColor(128, 128, 128, 63)),
+			MV_ADD_CONSTANT(mvThemeCol_ColorPicker_DragDrop, mvImGuiCol_DragDropTarget, mvColor(128, 128, 128, 63)),
+			MV_ADD_CONSTANT(mvThemeCol_ColorPicker_Border, mvImGuiCol_Border, mvColor(128, 128, 128, 63)),
+			MV_ADD_CONSTANT(mvThemeCol_ColorPicker_BorderShadow, mvImGuiCol_BorderShadow, mvColor(128, 128, 128, 63)),
 		MV_END_COLOR_CONSTANTS
 
 		MV_START_STYLE_CONSTANTS

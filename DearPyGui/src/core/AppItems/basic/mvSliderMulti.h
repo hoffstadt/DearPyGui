@@ -26,23 +26,23 @@ namespace Marvel {
 
         MV_APPLY_WIDGET_REGISTRATION(mvAppItemType::mvSliderFloatMulti, add_slider_floatx)
 
-        MV_CREATE_CONSTANT(mvThemeCol_SliderFloatx_Text            , ImGuiCol_Text              , 0L);
-        MV_CREATE_CONSTANT(mvThemeCol_SliderFloatx_Bg              , ImGuiCol_FrameBg           , 0L);
-        MV_CREATE_CONSTANT(mvThemeCol_SliderFloatx_BgHovered       , ImGuiCol_FrameBgHovered    , 0L);
-        MV_CREATE_CONSTANT(mvThemeCol_SliderFloatx_BgActive        , ImGuiCol_FrameBgActive     , 0L);
-        MV_CREATE_CONSTANT(mvThemeCol_SliderFloatx_Grab            , ImGuiCol_SliderGrab        , 0L);
-        MV_CREATE_CONSTANT(mvThemeCol_SliderFloatx_GrabActive      , ImGuiCol_SliderGrabActive  , 0L);
-        MV_CREATE_CONSTANT(mvThemeCol_SliderFloatx_Border          , ImGuiCol_Border            , 0L);
-        MV_CREATE_CONSTANT(mvThemeCol_SliderFloatx_BorderShadow    , ImGuiCol_BorderShadow      , 0L);
+        MV_CREATE_CONSTANT(mvThemeCol_SliderFloatx_Text, ImGuiCol_Text, 0L);
+        MV_CREATE_CONSTANT(mvThemeCol_SliderFloatx_Bg, ImGuiCol_FrameBg, 0L);
+        MV_CREATE_CONSTANT(mvThemeCol_SliderFloatx_BgHovered, ImGuiCol_FrameBgHovered, 0L);
+        MV_CREATE_CONSTANT(mvThemeCol_SliderFloatx_BgActive, ImGuiCol_FrameBgActive, 0L);
+        MV_CREATE_CONSTANT(mvThemeCol_SliderFloatx_Grab, ImGuiCol_SliderGrab, 0L);
+        MV_CREATE_CONSTANT(mvThemeCol_SliderFloatx_GrabActive, ImGuiCol_SliderGrabActive , 0L);
+        MV_CREATE_CONSTANT(mvThemeCol_SliderFloatx_Border, ImGuiCol_Border, 0L);
+        MV_CREATE_CONSTANT(mvThemeCol_SliderFloatx_BorderShadow, ImGuiCol_BorderShadow, 0L);
 
-        MV_CREATE_CONSTANT(mvThemeStyle_SliderFloatx_Rounding      , ImGuiStyleVar_FrameRounding    , 0L);
-        MV_CREATE_CONSTANT(mvThemeStyle_SliderFloatx_BorderSize    , ImGuiStyleVar_FrameBorderSize  , 0L);
-        MV_CREATE_CONSTANT(mvThemeStyle_SliderFloatx_PaddingX      , ImGuiStyleVar_FramePadding     , 0L);
-        MV_CREATE_CONSTANT(mvThemeStyle_SliderFloatx_PaddingY      , ImGuiStyleVar_FramePadding     , 1L);
-        MV_CREATE_CONSTANT(mvThemeStyle_SliderFloatx_InnerSpacingX , ImGuiStyleVar_ItemInnerSpacing , 0L);
-        MV_CREATE_CONSTANT(mvThemeStyle_SliderFloatx_InnerSpacingY , ImGuiStyleVar_ItemInnerSpacing , 1L);
-        MV_CREATE_CONSTANT(mvThemeStyle_SliderFloatx_GrabMinSize   , ImGuiStyleVar_GrabMinSize      , 0L);
-        MV_CREATE_CONSTANT(mvThemeStyle_SliderFloatx_GrabRounding  , ImGuiStyleVar_GrabRounding     , 0L);
+        MV_CREATE_CONSTANT(mvThemeStyle_SliderFloatx_Rounding, ImGuiStyleVar_FrameRounding, 0L);
+        MV_CREATE_CONSTANT(mvThemeStyle_SliderFloatx_BorderSize, ImGuiStyleVar_FrameBorderSize, 0L);
+        MV_CREATE_CONSTANT(mvThemeStyle_SliderFloatx_PaddingX, ImGuiStyleVar_FramePadding, 0L);
+        MV_CREATE_CONSTANT(mvThemeStyle_SliderFloatx_PaddingY, ImGuiStyleVar_FramePadding, 1L);
+        MV_CREATE_CONSTANT(mvThemeStyle_SliderFloatx_InnerSpacingX, ImGuiStyleVar_ItemInnerSpacing, 0L);
+        MV_CREATE_CONSTANT(mvThemeStyle_SliderFloatx_InnerSpacingY, ImGuiStyleVar_ItemInnerSpacing, 1L);
+        MV_CREATE_CONSTANT(mvThemeStyle_SliderFloatx_GrabMinSize, ImGuiStyleVar_GrabMinSize, 0L);
+        MV_CREATE_CONSTANT(mvThemeStyle_SliderFloatx_GrabRounding , ImGuiStyleVar_GrabRounding, 0L);
 
 		MV_START_EXTRA_COMMANDS
 		MV_END_EXTRA_COMMANDS
@@ -51,25 +51,25 @@ namespace Marvel {
 		MV_END_GENERAL_CONSTANTS
 
         MV_START_COLOR_CONSTANTS
-            MV_ADD_CONSTANT(mvThemeCol_SliderFloatx_Text,          mvColor(255, 255, 255, 255), mvColor(128, 128, 128, 63)),
-            MV_ADD_CONSTANT(mvThemeCol_SliderFloatx_Bg,            mvColor_Primary(80), mvColor(128, 128, 128, 63)),
-            MV_ADD_CONSTANT(mvThemeCol_SliderFloatx_BgHovered,     mvColor( 66, 150, 250, 102), mvColor(128, 128, 128, 63)),
-            MV_ADD_CONSTANT(mvThemeCol_SliderFloatx_BgActive,      mvColor( 66, 150, 250, 171), mvColor(128, 128, 128, 63)),
-            MV_ADD_CONSTANT(mvThemeCol_SliderFloatx_Grab,          mvColor( 61, 133, 224, 255), mvColor(128, 128, 128, 63)),
-            MV_ADD_CONSTANT(mvThemeCol_SliderFloatx_GrabActive,    mvColor( 66, 150, 250, 255), mvColor(128, 128, 128, 63)),
-            MV_ADD_CONSTANT(mvThemeCol_SliderFloatx_Border,        mvColor(110, 110, 128, 128), mvColor(128, 128, 128, 63)),
-            MV_ADD_CONSTANT(mvThemeCol_SliderFloatx_BorderShadow,  mvColor(  0,   0,   0,   0), mvColor(128, 128, 128, 63)),
+            MV_ADD_CONSTANT(mvThemeCol_SliderFloatx_Text, mvImGuiCol_Text, mvColor(128, 128, 128, 63)),
+            MV_ADD_CONSTANT(mvThemeCol_SliderFloatx_Bg, mvImGuiCol_FrameBg, mvColor(128, 128, 128, 63)),
+            MV_ADD_CONSTANT(mvThemeCol_SliderFloatx_BgHovered, mvImGuiCol_FrameBgHovered, mvColor(128, 128, 128, 63)),
+            MV_ADD_CONSTANT(mvThemeCol_SliderFloatx_BgActive, mvImGuiCol_FrameBgActive, mvColor(128, 128, 128, 63)),
+            MV_ADD_CONSTANT(mvThemeCol_SliderFloatx_Grab, mvImGuiCol_SliderGrab, mvColor(128, 128, 128, 63)),
+            MV_ADD_CONSTANT(mvThemeCol_SliderFloatx_GrabActive, mvImGuiCol_ButtonHovered, mvColor(128, 128, 128, 63)),
+            MV_ADD_CONSTANT(mvThemeCol_SliderFloatx_Border, mvImGuiCol_Border, mvColor(128, 128, 128, 63)),
+            MV_ADD_CONSTANT(mvThemeCol_SliderFloatx_BorderShadow, mvImGuiCol_BorderShadow, mvColor(128, 128, 128, 63)),
         MV_END_COLOR_CONSTANTS
 
         MV_START_STYLE_CONSTANTS
-            MV_ADD_CONSTANT_F(mvThemeStyle_SliderFloatx_Rounding     , 0, 12),
-            MV_ADD_CONSTANT_F(mvThemeStyle_SliderFloatx_BorderSize   , 0,  1),
-            MV_ADD_CONSTANT_F(mvThemeStyle_SliderFloatx_PaddingX     , 4, 20),
-            MV_ADD_CONSTANT_F(mvThemeStyle_SliderFloatx_PaddingY     , 3, 20),
+            MV_ADD_CONSTANT_F(mvThemeStyle_SliderFloatx_Rounding, 0, 12),
+            MV_ADD_CONSTANT_F(mvThemeStyle_SliderFloatx_BorderSize, 0,  1),
+            MV_ADD_CONSTANT_F(mvThemeStyle_SliderFloatx_PaddingX, 4, 20),
+            MV_ADD_CONSTANT_F(mvThemeStyle_SliderFloatx_PaddingY, 3, 20),
             MV_ADD_CONSTANT_F(mvThemeStyle_SliderFloatx_InnerSpacingX, 4, 20),
             MV_ADD_CONSTANT_F(mvThemeStyle_SliderFloatx_InnerSpacingY, 4, 20),
-            MV_ADD_CONSTANT_F(mvThemeStyle_SliderFloatx_GrabMinSize  ,10, 20),
-            MV_ADD_CONSTANT_F(mvThemeStyle_SliderFloatx_GrabRounding , 0, 12),
+            MV_ADD_CONSTANT_F(mvThemeStyle_SliderFloatx_GrabMinSize,10, 20),
+            MV_ADD_CONSTANT_F(mvThemeStyle_SliderFloatx_GrabRounding, 0, 12),
         MV_END_STYLE_CONSTANTS
 
     public:
@@ -130,14 +130,14 @@ namespace Marvel {
 		MV_END_GENERAL_CONSTANTS
 
         MV_START_COLOR_CONSTANTS
-            MV_ADD_CONSTANT(mvThemeCol_SliderIntx_Text,         mvColor(255, 255, 255, 255), mvColor(128, 128, 128, 63)),
-            MV_ADD_CONSTANT(mvThemeCol_SliderIntx_Bg,           mvColor_Primary(80), mvColor(128, 128, 128, 63)),
-            MV_ADD_CONSTANT(mvThemeCol_SliderIntx_BgHovered,    mvColor( 66, 150, 250, 102), mvColor(128, 128, 128, 63)),
-            MV_ADD_CONSTANT(mvThemeCol_SliderIntx_BgActive,     mvColor( 66, 150, 250, 171), mvColor(128, 128, 128, 63)),
+            MV_ADD_CONSTANT(mvThemeCol_SliderIntx_Text,         mvImGuiCol_Text, mvColor(128, 128, 128, 63)),
+            MV_ADD_CONSTANT(mvThemeCol_SliderIntx_Bg,           mvImGuiCol_FrameBg, mvColor(128, 128, 128, 63)),
+            MV_ADD_CONSTANT(mvThemeCol_SliderIntx_BgHovered,    mvImGuiCol_FrameBgHovered, mvColor(128, 128, 128, 63)),
+            MV_ADD_CONSTANT(mvThemeCol_SliderIntx_BgActive,     mvImGuiCol_FrameBgActive, mvColor(128, 128, 128, 63)),
             MV_ADD_CONSTANT(mvThemeCol_SliderIntx_Grab,         mvColor( 61, 133, 224, 255), mvColor(128, 128, 128, 63)),
-            MV_ADD_CONSTANT(mvThemeCol_SliderIntx_GrabActive,   mvColor( 66, 150, 250, 255), mvColor(128, 128, 128, 63)),
-            MV_ADD_CONSTANT(mvThemeCol_SliderIntx_Border,       mvColor(110, 110, 128, 128), mvColor(128, 128, 128, 63)),
-            MV_ADD_CONSTANT(mvThemeCol_SliderIntx_BorderShadow, mvColor(  0,   0,   0,   0), mvColor(128, 128, 128, 63)),
+            MV_ADD_CONSTANT(mvThemeCol_SliderIntx_GrabActive,   mvImGuiCol_ButtonHovered, mvColor(128, 128, 128, 63)),
+            MV_ADD_CONSTANT(mvThemeCol_SliderIntx_Border,       mvImGuiCol_Border, mvColor(128, 128, 128, 63)),
+            MV_ADD_CONSTANT(mvThemeCol_SliderIntx_BorderShadow, mvImGuiCol_BorderShadow, mvColor(128, 128, 128, 63)),
         MV_END_COLOR_CONSTANTS
 
         MV_START_STYLE_CONSTANTS

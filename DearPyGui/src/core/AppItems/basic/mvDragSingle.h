@@ -49,19 +49,19 @@ namespace Marvel {
         MV_END_GENERAL_CONSTANTS
 
         MV_START_COLOR_CONSTANTS
-            MV_ADD_CONSTANT(mvThemeCol_DragFloat_Text,         mvColor(255, 255, 255, 255), mvColor(128, 128, 128, 63)),
-            MV_ADD_CONSTANT(mvThemeCol_DragFloat_Bg,           mvColor_Primary(80), mvColor(128, 128, 128, 63)),
-            MV_ADD_CONSTANT(mvThemeCol_DragFloat_BgHovered,    mvColor( 66, 150, 250, 102), mvColor(128, 128, 128, 63)),
-            MV_ADD_CONSTANT(mvThemeCol_DragFloat_BgActive,     mvColor( 66, 150, 250, 171), mvColor(128, 128, 128, 63)),
-            MV_ADD_CONSTANT(mvThemeCol_DragFloat_Border,       mvColor(110, 110, 128, 128), mvColor(128, 128, 128, 63)),
-            MV_ADD_CONSTANT(mvThemeCol_DragFloat_BorderShadow, mvColor(  0,   0,   0,   0), mvColor(128, 128, 128, 63)),
+            MV_ADD_CONSTANT(mvThemeCol_DragFloat_Text, mvImGuiCol_Text, mvColor(128, 128, 128, 63)),
+            MV_ADD_CONSTANT(mvThemeCol_DragFloat_Bg, mvImGuiCol_FrameBg, mvColor(128, 128, 128, 63)),
+            MV_ADD_CONSTANT(mvThemeCol_DragFloat_BgHovered, mvImGuiCol_FrameBgHovered, mvColor(128, 128, 128, 63)),
+            MV_ADD_CONSTANT(mvThemeCol_DragFloat_BgActive, mvImGuiCol_FrameBgActive, mvColor(128, 128, 128, 63)),
+            MV_ADD_CONSTANT(mvThemeCol_DragFloat_Border, mvImGuiCol_Border, mvColor(128, 128, 128, 63)),
+            MV_ADD_CONSTANT(mvThemeCol_DragFloat_BorderShadow, mvImGuiCol_BorderShadow, mvColor(128, 128, 128, 63)),
         MV_END_COLOR_CONSTANTS
 
         MV_START_STYLE_CONSTANTS
-            MV_ADD_CONSTANT_F(mvThemeStyle_DragFloat_Rounding,      0, 12),
-            MV_ADD_CONSTANT_F(mvThemeStyle_DragFloat_BorderSize,    0,  1),
-            MV_ADD_CONSTANT_F(mvThemeStyle_DragFloat_PaddingX,      4, 20),
-            MV_ADD_CONSTANT_F(mvThemeStyle_DragFloat_PaddingY,      3, 20),
+            MV_ADD_CONSTANT_F(mvThemeStyle_DragFloat_Rounding, 0, 12),
+            MV_ADD_CONSTANT_F(mvThemeStyle_DragFloat_BorderSize, 0,  1),
+            MV_ADD_CONSTANT_F(mvThemeStyle_DragFloat_PaddingX, 4, 20),
+            MV_ADD_CONSTANT_F(mvThemeStyle_DragFloat_PaddingY, 3, 20),
             MV_ADD_CONSTANT_F(mvThemeStyle_DragFloat_InnerSpacingX, 4, 20),
             MV_ADD_CONSTANT_F(mvThemeStyle_DragFloat_InnerSpacingY, 4, 20),
         MV_END_STYLE_CONSTANTS
@@ -122,12 +122,12 @@ namespace Marvel {
         MV_END_GENERAL_CONSTANTS
 
         MV_START_COLOR_CONSTANTS
-            MV_ADD_CONSTANT(mvThemeCol_DragInt_Text,         mvColor(255, 255, 255, 255), mvColor(128, 128, 128, 63)),
-            MV_ADD_CONSTANT(mvThemeCol_DragInt_Bg,           mvColor_Primary(80), mvColor(128, 128, 128, 63)),
-            MV_ADD_CONSTANT(mvThemeCol_DragInt_BgHovered,    mvColor( 66, 150, 250, 102), mvColor(128, 128, 128, 63)),
-            MV_ADD_CONSTANT(mvThemeCol_DragInt_BgActive,     mvColor( 66, 150, 250, 171), mvColor(128, 128, 128, 63)),
-            MV_ADD_CONSTANT(mvThemeCol_DragInt_Border,       mvColor(110, 110, 128, 128), mvColor(128, 128, 128, 63)),
-            MV_ADD_CONSTANT(mvThemeCol_DragInt_BorderShadow, mvColor(  0,   0,   0,   0), mvColor(128, 128, 128, 63)),
+            MV_ADD_CONSTANT(mvThemeCol_DragInt_Text,         mvImGuiCol_Text, mvColor(128, 128, 128, 63)),
+            MV_ADD_CONSTANT(mvThemeCol_DragInt_Bg,           mvImGuiCol_FrameBg, mvColor(128, 128, 128, 63)),
+            MV_ADD_CONSTANT(mvThemeCol_DragInt_BgHovered,    mvImGuiCol_FrameBgHovered, mvColor(128, 128, 128, 63)),
+            MV_ADD_CONSTANT(mvThemeCol_DragInt_BgActive,     mvImGuiCol_FrameBgActive, mvColor(128, 128, 128, 63)),
+            MV_ADD_CONSTANT(mvThemeCol_DragInt_Border,       mvImGuiCol_Border, mvColor(128, 128, 128, 63)),
+            MV_ADD_CONSTANT(mvThemeCol_DragInt_BorderShadow, mvImGuiCol_BorderShadow, mvColor(128, 128, 128, 63)),
         MV_END_COLOR_CONSTANTS
 
         MV_START_STYLE_CONSTANTS

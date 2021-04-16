@@ -524,14 +524,14 @@ def show_demo():
                     add_input_text(label="password (clear)", source=password, callback=demo_log)
 
             with tree_node(label="Simple Plot Widgets"):
-                add_simple_plot(label="Frame Times", value=[0.6, 0.1, 1.0, 0.5, 0.92, 0.1, 0.2])
-                add_simple_plot(label="Histogram", value=(0.6, 0.1, 1.0, 0.5, 0.92, 0.1, 0.2), height=80, histogram=True, minscale=0.0)
+                add_simple_plot(label="Frame Times", default_value=[0.6, 0.1, 1.0, 0.5, 0.92, 0.1, 0.2])
+                add_simple_plot(label="Histogram", default_value=(0.6, 0.1, 1.0, 0.5, 0.92, 0.1, 0.2), height=80, histogram=True, minscale=0.0)
 
                 data1 = []
                 for i in range(0, 70):
                     data1.append(cos(3.14*6*i/180))
-                add_simple_plot(label="Lines", value=data1, height=80)
-                add_simple_plot(label="Histogram", value=data1, height=80, histogram=True)
+                add_simple_plot(label="Lines", default_value=data1, height=80)
+                add_simple_plot(label="Histogram", default_value=data1, height=80, histogram=True)
                 add_progress_bar(label="Progress Bar", default_value=0.78, overlay="78%")
                 add_same_line()
                 add_text(default_value="Progress Bar")
@@ -1269,6 +1269,40 @@ def show_demo():
                 add_text("UNIX timestamps are seconds since 00:00:00 UTC on 1 January 1970", bullet=True)
                 plot_id = add_plot(label="Time Plot", y_axis_name="Days since 1970", height=400, xaxis_time=True)
                 add_line_series(timedatax, timedatay, label="Days", parent=plot_id)
+
+        with collapsing_header(label="Node Editor"):
+
+            def link_callback(sender, data):
+                print(data)
+
+            add_text("Ctrl+Click to remove a link.", bullet=True)
+
+            with node_editor(link_callback=link_callback) as ne:
+
+                with node(label="Node 1", x_pos=10, y_pos=10):
+
+                    with node_attribute():
+                        add_input_float(label="F1", width=150)
+
+                    with node_attribute(output=True) as na1:
+                        add_input_float(label="F2", width=150)
+
+                with node(label="Node 2", x_pos=300, y_pos=10):
+
+                    with node_attribute() as na2:
+                        add_input_float(label="F3", width=200)
+
+                    with node_attribute(output=True) as na3:
+                        add_input_float(label="F4", width=200)
+
+                with node(label="Node 3", x_pos=25, y_pos=150):                   
+                    with node_attribute() as na4:
+                        add_input_text(label="T5", width=200)
+                    with node_attribute(static=True): 
+                        add_simple_plot(label="Node Plot", default_value=(0.3, 0.9, 2.5, 8.9), width=200, height=80, histogram=True)
+            
+                add_node_link(ne, na1, na2, color=(255, 0, 255, 255))
+                add_node_link(ne, na3, na4, color=(255, 255, 0, 255))
 
         with collapsing_header(label="New Widgets"):
 

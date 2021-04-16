@@ -14,16 +14,16 @@ namespace Marvel {
 
 		MV_APPLY_WIDGET_REGISTRATION(mvAppItemType::mvTabButton, add_tab_button)
 
-		MV_CREATE_CONSTANT(mvThemeCol_TabButton_Text		, ImGuiCol_Text			, 0L);
-		MV_CREATE_CONSTANT(mvThemeCol_TabButton_Bg			, ImGuiCol_Tab			, 0L);
-		MV_CREATE_CONSTANT(mvThemeCol_TabButton_BgHovered	, ImGuiCol_TabHovered	, 0L);
-		MV_CREATE_CONSTANT(mvThemeCol_TabButton_Border		, ImGuiCol_Border		, 0L);
-		MV_CREATE_CONSTANT(mvThemeCol_TabButton_PopupBg		, ImGuiCol_PopupBg		, 0L);
+		MV_CREATE_CONSTANT(mvThemeCol_TabButton_Text, ImGuiCol_Text, 0L);
+		MV_CREATE_CONSTANT(mvThemeCol_TabButton_Bg, ImGuiCol_Tab, 0L);
+		MV_CREATE_CONSTANT(mvThemeCol_TabButton_BgHovered, ImGuiCol_TabHovered, 0L);
+		MV_CREATE_CONSTANT(mvThemeCol_TabButton_Border, ImGuiCol_Border, 0L);
+		MV_CREATE_CONSTANT(mvThemeCol_TabButton_PopupBg, ImGuiCol_PopupBg, 0L);
 
-		MV_CREATE_CONSTANT(mvThemeStyle_TabButton_Rounding		, ImGuiStyleVar_FrameRounding	, 0L);
-		MV_CREATE_CONSTANT(mvThemeStyle_TabButton_BorderSize	, ImGuiStyleVar_FrameBorderSize	, 0L);
-		MV_CREATE_CONSTANT(mvThemeStyle_TabButton_PaddingX		, ImGuiStyleVar_FramePadding	, 0L);
-		MV_CREATE_CONSTANT(mvThemeStyle_TabButton_PaddingY		, ImGuiStyleVar_FramePadding	, 1L);
+		MV_CREATE_CONSTANT(mvThemeStyle_TabButton_Rounding, ImGuiStyleVar_FrameRounding, 0L);
+		MV_CREATE_CONSTANT(mvThemeStyle_TabButton_BorderSize, ImGuiStyleVar_FrameBorderSize, 0L);
+		MV_CREATE_CONSTANT(mvThemeStyle_TabButton_PaddingX, ImGuiStyleVar_FramePadding, 0L);
+		MV_CREATE_CONSTANT(mvThemeStyle_TabButton_PaddingY, ImGuiStyleVar_FramePadding, 1L);
 
 		MV_START_EXTRA_COMMANDS
 		MV_END_EXTRA_COMMANDS
@@ -32,18 +32,18 @@ namespace Marvel {
 		MV_END_GENERAL_CONSTANTS
 
 		MV_START_COLOR_CONSTANTS
-			MV_CREATE_CONSTANT_PAIR(mvThemeCol_TabButton_Text,		mvColor(255, 255, 255, 255)),
-			MV_CREATE_CONSTANT_PAIR(mvThemeCol_TabButton_Bg,		mvColor_Primary(80)),
-			MV_CREATE_CONSTANT_PAIR(mvThemeCol_TabButton_BgHovered,	mvColor( 66, 150, 250, 102)),
-			MV_CREATE_CONSTANT_PAIR(mvThemeCol_TabButton_Border,	mvColor(110, 110, 128, 128)),
-			MV_CREATE_CONSTANT_PAIR(mvThemeCol_TabButton_PopupBg,	mvColor( 20,  20,  20, 240)),
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_TabButton_Text, mvImGuiCol_Text),
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_TabButton_Bg, mvImGuiCol_FrameBg),
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_TabButton_BgHovered,	mvImGuiCol_FrameBgHovered),
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_TabButton_Border, mvImGuiCol_Border),
+			MV_CREATE_CONSTANT_PAIR(mvThemeCol_TabButton_PopupBg, mvImGuiCol_PopupBg),
 		MV_END_COLOR_CONSTANTS
 
 		MV_START_STYLE_CONSTANTS
-			MV_ADD_CONSTANT_F(mvThemeStyle_TabButton_Rounding	, 0, 12),
-			MV_ADD_CONSTANT_F(mvThemeStyle_TabButton_BorderSize	, 0,  1),
-			MV_ADD_CONSTANT_F(mvThemeStyle_TabButton_PaddingX	, 4, 20),
-			MV_ADD_CONSTANT_F(mvThemeStyle_TabButton_PaddingY	, 3, 20),
+			MV_ADD_CONSTANT_F(mvThemeStyle_TabButton_Rounding, 0, 12),
+			MV_ADD_CONSTANT_F(mvThemeStyle_TabButton_BorderSize, 0,  1),
+			MV_ADD_CONSTANT_F(mvThemeStyle_TabButton_PaddingX, 4, 20),
+			MV_ADD_CONSTANT_F(mvThemeStyle_TabButton_PaddingY, 3, 20),
 		MV_END_STYLE_CONSTANTS
 
 	public:
