@@ -360,8 +360,8 @@ def show_demo():
                 
                 add_checkbox(label="checkbox", callback=demo_log)
                 add_radio_button(["radio a", "radio b", "radio c"], callback=demo_log, horizontal=True)
-                add_selectable(label="selectable", callback=demo_log)
-
+                selectme = add_selectable(label="selectable", callback=demo_log)
+                get_item_children(selectme)
                 # TODO: when items whose colors are set then disabled the disable color is not found so its clear
                 # probably because if you dont set disable at the item level when the searcher finds color it grabs an empty disable member
 

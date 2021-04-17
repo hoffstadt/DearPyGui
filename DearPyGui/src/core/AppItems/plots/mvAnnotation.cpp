@@ -75,6 +75,10 @@ namespace Marvel {
 	{
 		if (dict == nullptr)
 			return;
+		PyDict_SetItemString(dict, "color", ToPyColor(m_color));
+		PyDict_SetItemString(dict, "clamped", ToPyBool(m_clamped));
+		PyDict_SetItemString(dict, "offset", ToPyPair(m_pixOffset.x, m_pixOffset.y));
+
 	}
 
 }

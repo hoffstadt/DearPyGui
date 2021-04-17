@@ -149,6 +149,15 @@ namespace Marvel {
 	{
 		if (dict == nullptr)
 			return;
+
+		PyDict_SetItemString(dict, "axis", ToPyInt(m_axis));
+		PyDict_SetItemString(dict, "format", ToPyString(m_format));
+		PyDict_SetItemString(dict, "x", ToPyFloat(m_x));
+		PyDict_SetItemString(dict, "y", ToPyFloat(m_y));
+		PyDict_SetItemString(dict, "radius", ToPyFloat(m_radius));
+		PyDict_SetItemString(dict, "angle", ToPyFloat(m_radius));
+		PyDict_SetItemString(dict, "normalize", ToPyBool(m_normalize));
+		PyDict_SetItemString(dict, "labels", ToPyList(m_labels));
 	}
 
 }
