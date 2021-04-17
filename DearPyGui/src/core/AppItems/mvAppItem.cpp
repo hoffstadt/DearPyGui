@@ -870,7 +870,7 @@ namespace Marvel{
 	{
 		const char* item;
 
-		if (!(mvApp::GetApp()->getParsers())["get_item_children[1]"].parse(args, kwargs, __FUNCTION__, &item))
+		if (!(mvApp::GetApp()->getParsers())["get_item_children"].parse(args, kwargs, __FUNCTION__, &item))
 			return GetPyNone();
 
 		std::lock_guard<std::mutex> lk(mvApp::GetApp()->getMutex());
