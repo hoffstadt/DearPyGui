@@ -360,8 +360,8 @@ def show_demo():
                 
                 add_checkbox(label="checkbox", callback=demo_log)
                 add_radio_button(["radio a", "radio b", "radio c"], callback=demo_log, horizontal=True)
-                add_selectable(label="selectable", callback=demo_log)
-
+                selectme = add_selectable(label="selectable", callback=demo_log)
+                get_item_children(selectme)
                 # TODO: when items whose colors are set then disabled the disable color is not found so its clear
                 # probably because if you dont set disable at the item level when the searcher finds color it grabs an empty disable member
 
@@ -1309,3 +1309,17 @@ def show_demo():
                 add_loading_indicator()
                 add_loading_indicator(style=1)
             add_3d_slider(label="3D Slider", scale=0.5)
+
+    with window(id="extra"):
+        add_button()
+        add_button()
+        add_button()
+        add_button()
+        draw_circle((0, 0), 20, color=(0, 255, 0, 255))
+        infinite_x_data = [3, 5, 6, 7]
+        infinite_y_data = [3, 5, 6, 7]
+        plot = add_plot(label="Image Plot", height=400)
+        draw_circle((0, 0), 49, color=(255, 255, 0, 255), parent=plot)
+        add_vline_series(infinite_x_data, label="vertical", parent=plot)
+        add_hline_series(infinite_y_data, label="horizontal", parent=plot)
+    add_button(label="some button", parent="extra")

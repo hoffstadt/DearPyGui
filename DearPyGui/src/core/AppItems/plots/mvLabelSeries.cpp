@@ -123,6 +123,14 @@ namespace Marvel {
 	{
 		if (dict == nullptr)
 			return;
+
+		PyDict_SetItemString(dict, "axis", ToPyInt(m_axis));
+		PyDict_SetItemString(dict, "contribute_to_bounds", ToPyBool(m_contributeToBounds));
+		PyDict_SetItemString(dict, "vertical", ToPyBool(m_vertical));
+		PyDict_SetItemString(dict, "x_offset", ToPyInt(m_xoffset));
+		PyDict_SetItemString(dict, "y_offset", ToPyInt(m_yoffset));
+
+
 	}
 
 }
