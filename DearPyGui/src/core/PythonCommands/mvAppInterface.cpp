@@ -263,11 +263,7 @@ namespace Marvel {
 		}
 
 		std::lock_guard<std::mutex> lk(mvApp::GetApp()->getMutex());
-		if (mvApp::IsAppStarted())
-			mvApp::GetApp()->getTextureStorage().addTexture(name, fdata.data(), width, height, tformat);
-
-		else
-			mvApp::GetApp()->getTextureStorage().addDelayedTexture(name, fdata, width, height, tformat);
+		mvApp::GetApp()->getTextureStorage().addDelayedTexture(name, fdata, width, height, tformat);
 
 
 		return GetPyNone();

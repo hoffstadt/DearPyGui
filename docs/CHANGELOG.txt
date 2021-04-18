@@ -23,6 +23,15 @@ HOW TO UPDATE?
 - Please report any issue!
 
 ------------------------------------------------------------------------
+ VERSION 0.6.398
+------------------------------------------------------------------------
+Fixes:
+
+- Setting add_label_text color causes label text to change showing the hidden label name #803
+- Adding textures at runtime did not work for linux #687
+- Possible fix of "Lots of texture updates on MacOS cause crash" #743
+
+------------------------------------------------------------------------
  VERSION 0.6.365
 ------------------------------------------------------------------------
 Fixes:

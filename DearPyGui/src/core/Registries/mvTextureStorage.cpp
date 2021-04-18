@@ -27,8 +27,6 @@ namespace Marvel {
 
 	bool mvTextureStorage::onFirstFrame(mvEvent& event)
 	{
-		if (GetEInt(event, "FRAME") != 1)
-			return false;
 
 		for (auto& item : m_delayedTextures)
 		{
