@@ -398,6 +398,14 @@ namespace Marvel {
         if (dict == nullptr)
             return;
 
+		PyDict_SetItemString(dict, "max_x", ToPyFloat(m_maxX));
+		PyDict_SetItemString(dict, "max_y", ToPyFloat(m_maxY));
+		PyDict_SetItemString(dict, "max_z", ToPyFloat(m_maxZ));
+		PyDict_SetItemString(dict, "min_x", ToPyFloat(m_minX));
+		PyDict_SetItemString(dict, "min_y", ToPyFloat(m_minY));
+		PyDict_SetItemString(dict, "min_z", ToPyFloat(m_minZ));
+		PyDict_SetItemString(dict, "scale", ToPyFloat(m_scale));
+
     }
 
 }

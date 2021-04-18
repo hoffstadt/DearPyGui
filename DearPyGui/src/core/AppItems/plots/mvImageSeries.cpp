@@ -163,6 +163,14 @@ namespace Marvel {
 	{
 		if (dict == nullptr)
 			return;
+
+		PyDict_SetItemString(dict, "value", ToPyString(m_imagevalue));
+		PyDict_SetItemString(dict, "uv_min", ToPyPair(m_uv_min.x, m_uv_min.y));
+		PyDict_SetItemString(dict, "uv_max", ToPyPair(m_uv_max.x, m_uv_max.y));
+		PyDict_SetItemString(dict, "tint_color", ToPyColor(m_tintColor));
+		PyDict_SetItemString(dict, "contribute_to_bounds", ToPyBool(m_contributeToBounds));
+		PyDict_SetItemString(dict, "bounds_min", ToPyPair(m_bounds_min.x, m_bounds_min.y));
+		PyDict_SetItemString(dict, "bounds_max", ToPyPair(m_bounds_max.x, m_bounds_max.y));
 	}
 
 }

@@ -228,6 +228,13 @@ namespace Marvel {
 	{
 		if (dict == nullptr)
 			return;
+
+		PyDict_SetItemString(dict, "axis", ToPyInt(m_axis));
+		PyDict_SetItemString(dict, "contribute_to_bounds", ToPyBool(m_contributeToBounds));
+		PyDict_SetItemString(dict, "bull_color", ToPyColor(m_bullColor));
+		PyDict_SetItemString(dict, "bear_color", ToPyColor(m_bearColor));
+		PyDict_SetItemString(dict, "width", ToPyFloat(m_width));
+		PyDict_SetItemString(dict, "tooltip", ToPyBool(m_tooltip));
 	}
 
 }

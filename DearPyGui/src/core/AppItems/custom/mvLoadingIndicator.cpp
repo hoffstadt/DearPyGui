@@ -52,6 +52,8 @@ namespace Marvel {
         if (dict == nullptr)
             return;
 
+        PyDict_SetItemString(dict, "style", ToPyInt(m_style));
+
     }
 
 }

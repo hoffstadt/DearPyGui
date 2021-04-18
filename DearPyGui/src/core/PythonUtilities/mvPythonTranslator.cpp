@@ -130,6 +130,12 @@ namespace Marvel {
 		return Py_BuildValue("[ii]", x, y);
 	}
 
+	PyObject* ToPyPair(double x, double y)
+	{
+
+		return Py_BuildValue("[dd]", x, y);
+	}
+
 	PyObject* ToPyPair(const std::string& x, const std::string& y)
 	{
 		 
