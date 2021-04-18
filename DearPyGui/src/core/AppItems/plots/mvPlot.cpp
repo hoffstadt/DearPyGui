@@ -353,6 +353,18 @@ namespace Marvel {
 		if (type == mvAppItemType::mvCandleSeries) return true;
 		if (type == mvAppItemType::mvAreaSeries) return true;
 
+		if (type == mvAppItemType::mvDrawLine) return true;
+		if (type == mvAppItemType::mvDrawArrow) return true;
+		if (type == mvAppItemType::mvDrawTriangle) return true;
+		if (type == mvAppItemType::mvDrawCircle) return true;
+		if (type == mvAppItemType::mvDrawBezierCurve) return true;
+		if (type == mvAppItemType::mvDrawQuad) return true;
+		if (type == mvAppItemType::mvDrawRect) return true;
+		if (type == mvAppItemType::mvDrawText) return true;
+		if (type == mvAppItemType::mvDrawPolygon) return true;
+		if (type == mvAppItemType::mvDrawPolyline) return true;
+		if (type == mvAppItemType::mvDrawImage) return true;
+
 		mvThrowPythonError(1000, "Plot children must be compatible.");
 		MV_ITEM_REGISTRY_ERROR("Plot children must be compatible.");
 		assert(false);
@@ -447,9 +459,9 @@ namespace Marvel {
 				// skip item if it's not shown
 				if (!item->m_show)
 					continue;
-
-				item->draw(drawlist, ImGui::GetCursorPosX(), ImGui::GetCursorPosY());
-
+				ImPlot::PushPlotClipRect();
+				item->draw(drawlist, ImPlot::GetPlotPos().x, ImPlot::GetPlotPos().y);
+				ImPlot::PopPlotClipRect();
 				item->getState().update();
 			}
 
@@ -458,8 +470,9 @@ namespace Marvel {
 				// skip item if it's not shown
 				if (!item->m_show)
 					continue;
-
-				item->draw(drawlist, ImGui::GetCursorPosX(), ImGui::GetCursorPosY());
+				ImPlot::PushPlotClipRect();
+				item->draw(drawlist, ImPlot::GetPlotPos().x, ImPlot::GetPlotPos().y);
+				ImPlot::PopPlotClipRect();
 
 				item->getState().update();
 			}
@@ -502,10 +515,11 @@ namespace Marvel {
 			m_y3limits_actual.x = (float)ImPlot::GetPlotLimits(ImPlotYAxis_3).Y.Min;
 			m_y3limits_actual.y = (float)ImPlot::GetPlotLimits(ImPlotYAxis_3).Y.Max;
 
-			ImPlot::PushPlotClipRect();
-			auto topleft = ImPlot::GetPlotPos();
+			// shouldnt we just draw them when we draw widgets
+			//ImPlot::PushPlotClipRect();
+			//auto topleft = ImPlot::GetPlotPos();
 			//m_drawList->draw(ImPlot::GetPlotDrawList(), topleft.x, topleft.y);
-			ImPlot::PopPlotClipRect();
+			//ImPlot::PopPlotClipRect();
 
 			ImPlot::EndPlot();
 		}
