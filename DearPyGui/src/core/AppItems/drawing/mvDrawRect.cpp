@@ -42,6 +42,7 @@ namespace Marvel {
 	{
 		if (type == mvAppItemType::mvDrawing) return true;
 		if (type == mvAppItemType::mvWindowAppItem) return true;
+		if (type == mvAppItemType::mvPlot) return true;
 
 		mvThrowPythonError(1000, "Drawing item parent must be a drawing.");
 		MV_ITEM_REGISTRY_ERROR("Drawing item parent must be a drawing.");

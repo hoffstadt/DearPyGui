@@ -413,7 +413,7 @@ def show_demo():
                 add_input_int(label="input int", callback=demo_log)
                 add_input_float(label="input float", callback=demo_log)
                 add_input_float(label="input scientific", format="%e", callback=demo_log)
-                add_input_floatx(label="input floatx", callback=demo_log)
+                add_input_floatx(label="input floatx", callback=demo_log, default_value=[1,2,3,4])
                 add_drag_int(label="drag int", callback=demo_log)
                 demo_help(
                         "Click and drag to edit value.\n"
@@ -431,7 +431,8 @@ def show_demo():
                         "Click and hold to use drag and drop.\n"
                         "Right-click on the colored square to show options.\n"
                         "CTRL+click on individual component to input value.\n")
-                add_color_edit([102, 179, 0, 128], label="color edit", callback=demo_log)
+                add_color_edit((102, 179, 0, 128), label="color edit 4", callback=demo_log, uint8=True)
+                add_color_edit(default_value=(.5, 1, .25, .1), label="color edit 3", callback=demo_log, m_3component=True, uint8=True, floats=False)
                 add_listbox(["Apple", "Banana", "Cherry", "Kiwi", "Mango", "Orange", "Pineapple", "Strawberry", "Watermelon"], label="listbox", num_items=4, callback=demo_log)
                 add_color_button(label="color button")
             with tree_node(label="Trees"):
