@@ -459,13 +459,21 @@ namespace Marvel {
 				// skip item if it's not shown
 				if (!item->m_show)
 					continue;
-				ImPlot::PushPlotClipRect();
 				item->draw(drawlist, ImPlot::GetPlotPos().x, ImPlot::GetPlotPos().y);
-				ImPlot::PopPlotClipRect();
 				item->getState().update();
 			}
 
 			for (auto item : m_children[1])
+			{
+				// skip item if it's not shown
+				if (!item->m_show)
+					continue;
+				item->draw(drawlist, ImPlot::GetPlotPos().x, ImPlot::GetPlotPos().y);
+
+				item->getState().update();
+			}
+
+			for (auto item : m_children[2])
 			{
 				// skip item if it's not shown
 				if (!item->m_show)
