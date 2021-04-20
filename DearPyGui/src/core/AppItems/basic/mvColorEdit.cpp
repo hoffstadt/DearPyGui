@@ -33,6 +33,7 @@ namespace Marvel {
 		parser.addArg<mvPyDataType::Bool>("floats", mvArgType::KEYWORD_ARG, "False", "display values formatted as 0.0f..1.0f floats instead of 0..255 integers.");
 		parser.addArg<mvPyDataType::Bool>("input_rgb", mvArgType::KEYWORD_ARG, "False", "input and output data in RGB format.");
 		parser.addArg<mvPyDataType::Bool>("input_hsv", mvArgType::KEYWORD_ARG, "False", "input and output data in HSV format.");
+		parser.addArg<mvPyDataType::Bool>("m_3component", mvArgType::KEYWORD_ARG, "False", "displays color inputs withor without the alpha channel.");
 		
 		parser.finalize();
 
@@ -144,6 +145,8 @@ namespace Marvel {
 		conflictingflagop(DisplayTypeKeywords, DisplayTypeFlags, m_flags);
 		conflictingflagop(IOTypeKeywords, IOTypeFlags, m_flags);
 
+		if (PyObject* item = PyDict_GetItemString(dict, "m_3component")) m_3component = ToBool(item);
+
 	}
 
 	void mvColorEdit::getSpecificConfiguration(PyObject* dict)
@@ -175,6 +178,8 @@ namespace Marvel {
 		checkbitset("floats", ImGuiColorEditFlags_Float, m_flags);
 		checkbitset("input_rgb", ImGuiColorEditFlags_InputRGB, m_flags);
 		checkbitset("input_hsv", ImGuiColorEditFlags_InputHSV, m_flags);
+
+		PyDict_SetItemString(dict, "m_3component", ToPyBool(m_3component));
 	}
 
 }
