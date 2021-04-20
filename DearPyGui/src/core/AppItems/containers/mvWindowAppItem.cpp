@@ -259,8 +259,17 @@ namespace Marvel {
 
 		}
 
+		for (auto& item : m_children[2])
+		{
+			// skip item if it's not shown
+			if (!item->m_show)
+				continue;
 
+			item->draw(this_drawlist, startx, starty);
 
+			item->getState().update();
+
+		}
 
 		m_state.setVisible(true);
 		m_state.setHovered(ImGui::IsWindowHovered());
