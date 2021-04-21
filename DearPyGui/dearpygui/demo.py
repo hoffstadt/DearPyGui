@@ -1053,6 +1053,10 @@ def show_demo():
                 add_stair_series(sindatax, sindatay, label="0.5 + 0.5 * sin(x)", parent=plot_id)
                 add_stair_series(x2datax, x2datay, label="x^2", parent=plot_id)
 
+            #with tree_node(label="Area Plots"):
+                #add_area_series(x=[1,5,2.5],y=[0,0,2.5], fill=[255,50,100,190])
+            #TODO causes crash
+
             with tree_node(label="Shade Plots"):
 
                 stock_datax = []
@@ -1223,6 +1227,7 @@ def show_demo():
                 add_drag_line(label="dline1", color=[255, 0, 0, 255], parent=plot_id)
                 add_drag_line(label="dline2", color=[255, 255, 0, 255], vertical=False, parent=plot_id)
                 add_drag_point(label="dpoint1", color=[255, 0, 255, 255], parent=plot_id)
+                add_drag_point(label="dpoint2", color=[255, 0, 255, 255], parent=plot_id)
 
             with tree_node(label="Infinite Lines"):
 
