@@ -109,8 +109,17 @@ namespace Marvel {
 
         //auto blah = olddata[399];
         //*olddata = *data;
+        // 
+        BYTE* mappedData = reinterpret_cast<BYTE*>(mappedResource.pData);
+        BYTE* buffer = reinterpret_cast<BYTE*>(data.data());
+        for (UINT i = 0; i < height; ++i)
+        {
+            memcpy(mappedData, buffer, width * 4 * sizeof(float));
+            mappedData += mappedResource.RowPitch;
+            buffer += width * 4 * sizeof(float);
+        }
         //  Update the vertex buffer here.
-        memcpy(mappedResource.pData, data.data(), data.size()*sizeof(float));
+        //memcpy(mappedResource.pData, data.data(), data.size()*sizeof(float));
         //  Reenable GPU access to the vertex buffer data.
         m_d3dContext->Unmap(resource, 0);
 
