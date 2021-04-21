@@ -13,7 +13,7 @@ namespace Marvel {
 
 		static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
 
-		MV_APPLY_WIDGET_REGISTRATION(mvAppItemType::mvTexture, add_new_texture)
+		MV_APPLY_WIDGET_REGISTRATION(mvAppItemType::mvTexture, add_texture)
 
 		MV_START_EXTRA_COMMANDS
 		MV_END_EXTRA_COMMANDS
