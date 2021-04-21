@@ -55,7 +55,7 @@ namespace Marvel {
         mvImageSeries, mvPieSeries, mvShadeSeries, mvLabelSeries,
         mvCandleSeries, mvAreaSeries, mvColorMapScale, mvSlider3D,
         mvKnobFloat, mvLoadingIndicator, mvNodeLink, 
-        mvTextureContainer, mvTexture,
+        mvTextureContainer, mvStaticTexture, mvDynamicTexture,
         ItemTypeCount
     };
 
@@ -67,7 +67,7 @@ namespace Marvel {
         Series,
         Bool,
         String,
-        Time, Color
+        Time, Color, Texture
     };
 
     enum ItemDescriptionFlags
@@ -84,6 +84,7 @@ namespace Marvel {
         std::shared_ptr<float >,
         std::shared_ptr<std::array<float, 4>>,
         std::shared_ptr<std::vector<float>>,
+        std::shared_ptr<std::vector<int>>,
         std::shared_ptr<std::vector<std::vector<float>>>,
         std::shared_ptr<bool>,
         std::shared_ptr<std::string>,

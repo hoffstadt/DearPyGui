@@ -2,6 +2,8 @@
 
 #include "mvPlot.h"
 #include "mvEvents.h"
+#include "textures/mvStaticTexture.h"
+#include "textures/mvDynamicTexture.h"
 
 namespace Marvel {
 

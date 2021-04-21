@@ -4,7 +4,8 @@
 #include <array>
 #include "mvAppItem.h"
 #include "mvItemRegistry.h"
-#include "textures/mvTexture.h"
+#include "textures/mvStaticTexture.h"
+#include "textures/mvDynamicTexture.h"
 
 namespace Marvel {
 

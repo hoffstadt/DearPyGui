@@ -36,7 +36,13 @@ namespace Marvel {
 
 		if (m_texture)
 		{
-			void* texture = static_cast<mvTexture*>(m_texture.get())->getRawTexture();
+			void* texture = nullptr;
+
+			if (m_texture->getType() == mvAppItemType::mvStaticTexture)
+				texture = static_cast<mvStaticTexture*>(m_texture.get())->getRawTexture();
+			else
+				texture = static_cast<mvDynamicTexture*>(m_texture.get())->getRawTexture();
+
 			ImGui::PushID(m_name.c_str());
 			if (ImGui::ImageButton(texture, ImVec2((float)m_width, (float)m_height),
 				ImVec2(m_uv_min.x, m_uv_min.y), ImVec2(m_uv_max.x, m_uv_max.y), m_framePadding,

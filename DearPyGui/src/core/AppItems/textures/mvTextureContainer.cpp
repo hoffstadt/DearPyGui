@@ -1,7 +1,8 @@
 #include "mvTextureContainer.h"
 #include "mvPythonExceptions.h"
 #include "mvLog.h"
-#include "mvTexture.h"
+#include "mvStaticTexture.h"
+#include "mvDynamicTexture.h"
 
 namespace Marvel {
 
@@ -19,7 +20,7 @@ namespace Marvel {
 		:
 		mvAppItem(name)
 	{
-		m_children[1].push_back(std::make_shared<mvTexture>("INTERNAL_DPG_FONT_ATLAS"));
+		m_children[1].push_back(std::make_shared<mvStaticTexture>("INTERNAL_DPG_FONT_ATLAS"));
 		m_show = false;
 	}
 
@@ -36,7 +37,8 @@ namespace Marvel {
 
 	bool mvTextureContainer::canChildBeAdded(mvAppItemType type)
 	{
-		if (type == mvAppItemType::mvTexture) return true;
+		if (type == mvAppItemType::mvStaticTexture) return true;
+		if (type == mvAppItemType::mvDynamicTexture) return true;
 
 		mvThrowPythonError(1000, "Drawing children must be draw commands only.");
 		MV_ITEM_REGISTRY_ERROR("Drawing children must be draw commands only.");
@@ -60,7 +62,12 @@ namespace Marvel {
 			for (auto& texture : m_children[1])
 			{
 				bool status = false;
-				void* textureRaw = static_cast<mvTexture*>(texture.get())->getRawTexture();
+				void* textureRaw = nullptr;
+				if(texture->getType() == mvAppItemType::mvStaticTexture)
+					textureRaw = static_cast<mvStaticTexture*>(texture.get())->getRawTexture();
+				else
+					textureRaw = static_cast<mvDynamicTexture*>(texture.get())->getRawTexture();
+
 				ImGui::Image(textureRaw, ImVec2(25, 25));
 				ImGui::SameLine();
 				if (ImGui::Selectable(texture->m_name.c_str(), &status))
@@ -82,7 +89,11 @@ namespace Marvel {
 
 			ImGui::SameLine();
 
-			void* textureRaw = static_cast<mvTexture*>(m_children[1][selection].get())->getRawTexture();
+			void* textureRaw = nullptr;
+			if (m_children[1][selection]->getType() == mvAppItemType::mvStaticTexture)
+				textureRaw = static_cast<mvStaticTexture*>(m_children[1][selection].get())->getRawTexture();
+			else
+				textureRaw = static_cast<mvDynamicTexture*>(m_children[1][selection].get())->getRawTexture();
 
 			ImGui::Image(textureRaw, ImVec2((float)m_children[1][selection]->getWidth(), (float)m_children[1][selection]->getHeight()));
 

@@ -13,11 +13,15 @@
 
 namespace Marvel {
 
-	// new
+	// general
+	void FreeTexture(void* texture);
+	
+	// static textures
 	void* LoadTextureFromFile(const char* filename, int& width, int& height);
 	void* LoadTextureFromArray(unsigned width, unsigned height, float* data);
+
+	// dynamic textures
 	void* LoadTextureFromArrayDynamic(unsigned width, unsigned height, float* data);
 	void UpdateTexture(void* texture, unsigned width, unsigned height, std::vector<float>& data);
-	void FreeTexture(void* texture);
 
 }

@@ -4,7 +4,6 @@
 #include "mvApp.h"
 #include "mvItemRegistry.h"
 #include "mvImPlotThemeScope.h"
-#include "textures/mvTexture.h"
 
 namespace Marvel {
 
@@ -65,7 +64,12 @@ namespace Marvel {
 
 		if (m_texture)
 		{
-			void* texture = static_cast<mvTexture*>(m_texture.get())->getRawTexture();
+			void* texture = nullptr;
+
+			if (m_texture->getType() == mvAppItemType::mvStaticTexture)
+				texture = static_cast<mvStaticTexture*>(m_texture.get())->getRawTexture();
+			else
+				texture = static_cast<mvDynamicTexture*>(m_texture.get())->getRawTexture();
 			ImPlot::PlotImage(m_label.c_str(), texture, m_bounds_min, m_bounds_max, m_uv_min, m_uv_max, m_tintColor);
 		}
 

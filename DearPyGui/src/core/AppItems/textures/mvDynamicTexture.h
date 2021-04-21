@@ -5,15 +5,15 @@
 
 namespace Marvel {
 
-	MV_REGISTER_WIDGET(mvTexture, MV_ITEM_DESC_DEFAULT, StorageValueTypes::FloatVect, 1);
-	class mvTexture : public mvFloatVectPtrBase
+	MV_REGISTER_WIDGET(mvDynamicTexture, MV_ITEM_DESC_DEFAULT, StorageValueTypes::FloatVect, 1);
+	class mvDynamicTexture : public mvFloatVectPtrBase
 	{
 
 	public:
 
 		static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
 
-		MV_APPLY_WIDGET_REGISTRATION(mvAppItemType::mvTexture, add_texture)
+		MV_APPLY_WIDGET_REGISTRATION(mvAppItemType::mvDynamicTexture, add_dynamic_texture)
 
 		MV_START_EXTRA_COMMANDS
 		MV_END_EXTRA_COMMANDS
@@ -29,8 +29,8 @@ namespace Marvel {
 
 	public:
 
-		mvTexture(const std::string& name);
-		~mvTexture();
+		mvDynamicTexture(const std::string& name);
+		~mvDynamicTexture();
 
 		void draw(ImDrawList* drawlist, float x, float y) override;
 		bool isParentCompatible(mvAppItemType type) override;
@@ -40,16 +40,12 @@ namespace Marvel {
 		void setWidth(int width) override {}
 		void setHeight(int height) override {}
 
-
 		void* getRawTexture() { return m_texture; }
-		void markDirty() { m_dirty = true; }
 
 	private:
 
 		void* m_texture = nullptr;
 		bool  m_dirty = true;
-		bool  m_dynamic = false;
-
 
 	};
 

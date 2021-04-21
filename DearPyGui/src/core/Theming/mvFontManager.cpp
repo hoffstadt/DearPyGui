@@ -9,7 +9,7 @@
 #include "mvViewport.h"
 #include "mvPythonExceptions.h"
 #include <frameobject.h>
-#include "textures/mvTexture.h"
+#include "textures/mvStaticTexture.h"
 
 #define IM_MIN(A, B)            (((A) < (B)) ? (A) : (B))
 #define IM_MAX(A, B)            (((A) >= (B)) ? (A) : (B))
@@ -183,7 +183,7 @@ namespace Marvel {
 
 		m_dirty = true;
 		auto item = mvApp::GetApp()->getItemRegistry().getItem("INTERNAL_DPG_FONT_ATLAS");
-		static_cast<mvTexture*>(item.get())->markDirty();
+		static_cast<mvStaticTexture*>(item.get())->markDirty();
 	}
 
 	ImFont* mvFontManager::getFont(const std::string& font, int size)

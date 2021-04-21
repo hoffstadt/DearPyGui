@@ -14,7 +14,7 @@ for i in range(0, 10000):
     textdata.append(0)
     textdata.append(255/255)
     textdata.append(255/255)
-add_texture(100, 100, textdata, id="#statictexture", parent="TextureRegistry", dynamic=True)
+add_dynamic_texture(100, 100, textdata, id="#statictexture", parent="TextureRegistry")
 
 with window(label="Testing"):
     plot = add_plot(width=-1, height=-1, equal_aspects=True)
