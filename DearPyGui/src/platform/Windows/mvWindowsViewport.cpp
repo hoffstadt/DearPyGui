@@ -1,7 +1,6 @@
 #include "mvWindowsViewport.h"
 #include "mvAppLog.h"
 #include "mvFontManager.h"
-#include "mvTextureStorage.h"
 #include <implot.h>
 #include <imnodes.h>
 #include <cstdlib>
@@ -204,8 +203,8 @@ namespace Marvel {
 
 
 
-		if (!mvApp::GetApp()->getTextureStorage().isValid())
-			mvApp::GetApp()->getTextureStorage().refreshAtlas();
+		//if (!mvApp::GetApp()->getTextureStorage().isValid())
+		//	mvApp::GetApp()->getTextureStorage().refreshAtlas();
 	}
 
 	void mvWindowsViewport::renderFrame()

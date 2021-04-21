@@ -11,17 +11,14 @@
 #include <codecvt>
 #include <sstream>
 #include <filesystem>
-
 #include <iostream>
 
 namespace fs = std::filesystem;
 
 namespace Marvel {
 
-    bool LoadTextureFromArray(const char* name, float* data, unsigned width, unsigned height, mvTexture& storage, mvTextureFormat format)
+    void* LoadTextureFromArray(unsigned width, unsigned height, float* data)
     {
-
-        //auto out_srv = static_cast<ID3D11ShaderResourceView**>(storage.texture);
         ID3D11ShaderResourceView* out_srv = nullptr;
 
         // Create texture
@@ -36,7 +33,7 @@ namespace Marvel {
         desc.BindFlags = D3D11_BIND_SHADER_RESOURCE;
         desc.CPUAccessFlags = 0;
         desc.Format = DXGI_FORMAT_R32G32B32A32_FLOAT;
-        
+
         ID3D11Texture2D* pTexture = NULL;
         D3D11_SUBRESOURCE_DATA subResource;
         subResource.pSysMem = data;
@@ -55,16 +52,20 @@ namespace Marvel {
         mvWindowsViewport::getDevice()->CreateShaderResourceView(pTexture, &srvDesc, &out_srv);
         pTexture->Release();
 
-        storage.texture = out_srv;
-        storage.width = width;
-        storage.height = height;
-        storage.count = 1;
+        return out_srv;
+    }
 
-        return true;
+    void FreeTexture(void* texture)
+    {
+        ID3D11ShaderResourceView* out_srv = static_cast<ID3D11ShaderResourceView*>(texture);
+        if (out_srv)
+            auto count = out_srv->Release();
+
+        texture = nullptr;
     }
 
     // Simple helper function to load an image into a DX11 texture with common settings
-    bool LoadTextureFromFile(const char* filename, mvTexture& storage)
+    void* LoadTextureFromFile(const char* filename, int& width, int& height)
     {
 
         //auto out_srv = static_cast<ID3D11ShaderResourceView**>(storage.texture);
@@ -107,28 +108,11 @@ namespace Marvel {
         mvWindowsViewport::getDevice()->CreateShaderResourceView(pTexture, &srvDesc, &out_srv);
         pTexture->Release();
 
-        storage.texture = out_srv;
-        storage.width = image_width;
-        storage.height = image_height;
+        width = image_width;
+        height = image_height;
         stbi_image_free(image_data);
 
-        return true;
-    }
-
-    bool UnloadTexture(const std::string& filename)
-	{
-		// TODO : decide if cleanup is necessary
-		return true;
-	}
-
-    void FreeTexture(mvTexture& storage)
-    {
-        ID3D11ShaderResourceView* out_srv = static_cast<ID3D11ShaderResourceView*>(storage.texture);
-        if (out_srv)
-            auto count = out_srv->Release();
-
-        storage.texture = nullptr;
-        storage.count = 0;
+        return out_srv;
     }
 
 }

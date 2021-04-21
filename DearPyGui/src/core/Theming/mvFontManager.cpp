@@ -6,10 +6,10 @@
 #include "mvAppItem.h"
 #include "mvCore.h"
 #include "mvItemRegistry.h"
-#include "mvTextureStorage.h"
 #include "mvViewport.h"
 #include "mvPythonExceptions.h"
 #include <frameobject.h>
+#include "textures/mvTexture.h"
 
 #define IM_MIN(A, B)            (((A) < (B)) ? (A) : (B))
 #define IM_MAX(A, B)            (((A) >= (B)) ? (A) : (B))
@@ -182,7 +182,8 @@ namespace Marvel {
 		m_fonts.push_back(newFont);
 
 		m_dirty = true;
-		mvApp::GetApp()->getTextureStorage().scheduleRefresh();
+		auto item = mvApp::GetApp()->getItemRegistry().getItem("INTERNAL_DPG_FONT_ATLAS");
+		static_cast<mvTexture*>(item.get())->markDirty();
 	}
 
 	ImFont* mvFontManager::getFont(const std::string& font, int size)

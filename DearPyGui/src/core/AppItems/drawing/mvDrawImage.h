@@ -6,7 +6,7 @@
 namespace Marvel {
 
 	MV_REGISTER_WIDGET(mvDrawImage, MV_ITEM_DESC_DEFAULT, StorageValueTypes::None, 2);
-	class mvDrawImage : public mvAppItem, public mvEventHandler
+	class mvDrawImage : public mvAppItem
 	{
 	public:
 
@@ -29,10 +29,6 @@ namespace Marvel {
 	public:
 
 		mvDrawImage(const std::string& name);
-		~mvDrawImage() override;
-
-		bool onEvent(mvEvent& event) override;
-		bool onTextureDeleted(mvEvent& event);
 
 		void draw(ImDrawList* drawlist, float x, float y) override;
 		bool isParentCompatible(mvAppItemType type) override;
@@ -51,7 +47,7 @@ namespace Marvel {
 		mvVec2		m_uv_min = {0.0f, 0.0f};
 		mvVec2		m_uv_max = {1.0f, 1.0f};
 		mvColor		m_color = mvImGuiCol_Text;
-		void* m_texture = nullptr;
+		std::shared_ptr<mvAppItem> m_texture = nullptr;
 
 	};
 

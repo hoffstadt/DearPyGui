@@ -1,9 +1,9 @@
 #include "mvDrawImage.h"
 #include "mvLog.h"
 #include "mvItemRegistry.h"
-#include "mvTextureStorage.h"
 #include "mvApp.h"
 #include "mvPythonExceptions.h"
+#include "textures/mvTexture.h"
 
 namespace Marvel {
 
@@ -39,35 +39,8 @@ namespace Marvel {
 		:
 		mvAppItem(name)
 	{
-		mvEventBus::Subscribe(this, mvEVT_DELETE_TEXTURE);
 	}
 
-	mvDrawImage::~mvDrawImage()
-	{
-		mvEventBus::Publish(mvEVT_CATEGORY_TEXTURE, mvEVT_DEC_TEXTURE, { CreateEventArgument("NAME", m_file) });
-		mvEventBus::UnSubscribe(this);
-	}
-
-	bool mvDrawImage::onEvent(mvEvent& event)
-	{
-		mvEventDispatcher dispatcher(event);
-		dispatcher.dispatch(BIND_EVENT_METH(mvDrawImage::onTextureDeleted), mvEVT_DELETE_TEXTURE);
-
-		return event.handled;
-	}
-
-	bool mvDrawImage::onTextureDeleted(mvEvent& event)
-	{
-		std::string name = GetEString(event, "NAME");
-
-		if (name == m_file)
-		{
-			m_texture = nullptr;
-			return false;
-		}
-
-		return false;
-	}
 
 	bool mvDrawImage::isParentCompatible(mvAppItemType type)
 	{
@@ -84,35 +57,13 @@ namespace Marvel {
 	void mvDrawImage::draw(ImDrawList* drawlist, float x, float y)
 	{
 
-		if (m_texture == nullptr && !m_file.empty())
-		{
-
-			mvApp::GetApp()->getTextureStorage().addTexture(m_file);
-			mvTexture* texture = mvApp::GetApp()->getTextureStorage().getTexture(m_file);
-			if (texture == nullptr)
-			{
-				mvApp::GetApp()->getCallbackRegistry().submitCallback([&]()
-					{
-						PyErr_Format(PyExc_Exception,
-							"Image %s could not be found for draw_image. Check the path to the image "
-							"you provided.", m_file.c_str());
-						PyErr_Print();
-						m_file = "";
-					});
-				return;
-			}
-
-			m_texture = texture->texture;
-
-			if (m_width == 0) m_width = (int)((float)texture->width * (m_uv_max.x - m_uv_min.x));
-			if (m_height == 0) m_height = (int)((float)texture->height * (m_uv_max.y - m_uv_min.y));
-
-		}
-
 		mvVec2 start = { x, y };
 
 		if (m_texture)
-			drawlist->AddImage(m_texture, m_pmin + start, m_pmax + start, m_uv_min, m_uv_max, m_color);
+		{
+			void* texture = static_cast<mvTexture*>(m_texture.get())->getRawTexture();
+			drawlist->AddImage(texture, m_pmin + start, m_pmax + start, m_uv_min, m_uv_max, m_color);
+		}
 	}
 
 	void mvDrawImage::handleSpecificRequiredArgs(PyObject* dict)
@@ -126,8 +77,11 @@ namespace Marvel {
 			switch (i)
 			{
 			case 0:
+			{
 				m_file = ToString(item);
+				m_texture = mvApp::GetApp()->getItemRegistry().getItem(m_file);
 				break;
+			}
 
 			case 1:
 				m_pmax = ToVec2(item);
@@ -156,11 +110,6 @@ namespace Marvel {
 
 		if (PyObject* item = PyDict_GetItemString(dict, "file"))
 		{
-			if (m_file != ToString(item))
-			{
-				mvApp::GetApp()->getTextureStorage().decrementTexture(m_file);
-				m_texture = nullptr;
-			}
 			m_file = ToString(item);
 
 		}

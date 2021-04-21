@@ -1,5 +1,4 @@
 #include "mvImageButton.h"
-#include "mvTextureStorage.h"
 #include "mvApp.h"
 #include "mvItemRegistry.h"
 #include "mvImGuiThemeScope.h"
@@ -12,7 +11,7 @@ namespace Marvel {
 		mvPythonParser parser(mvPyDataType::String);
 		mvAppItem::AddCommonArgs(parser);
 
-		parser.addArg<mvPyDataType::String>("value", mvArgType::POSITIONAL_ARG, "''");
+		parser.addArg<mvPyDataType::String>("default_value");
 
 		parser.addArg<mvPyDataType::Integer>("frame_padding", mvArgType::KEYWORD_ARG, "-1");
 		
@@ -29,77 +28,17 @@ namespace Marvel {
 	mvImageButton::mvImageButton(const std::string& name)
 		: mvAppItem(name)
 	{
-		mvEventBus::Subscribe(this, mvEVT_DELETE_TEXTURE);
-	}
-
-	mvImageButton::~mvImageButton()
-	{
-		mvEventBus::Publish(mvEVT_CATEGORY_TEXTURE, mvEVT_DEC_TEXTURE, { CreateEventArgument("NAME", m_value) });
-		mvEventBus::UnSubscribe(this);
-	}
-
-	bool mvImageButton::onEvent(mvEvent& event)
-	{
-		mvEventDispatcher dispatcher(event);
-		dispatcher.dispatch(BIND_EVENT_METH(mvImageButton::onTextureDeleted), mvEVT_DELETE_TEXTURE);
-
-		return event.handled;
-	}
-
-	bool mvImageButton::onTextureDeleted(mvEvent& event)
-	{
-		std::string name = GetEString(event, "NAME");
-		
-		if (name == m_value)
-		{
-			m_texture = nullptr;
-			return true;
-		}
-
-		return false;
 	}
 
 	void mvImageButton::draw(ImDrawList* drawlist, float x, float y)
 	{
 		mvImGuiThemeScope scope(this);
 
-		if (m_texture == nullptr && !m_value.empty())
-		{
-			mvApp::GetApp()->getTextureStorage().addTexture(m_value);
-			mvTexture* texture = mvApp::GetApp()->getTextureStorage().getTexture(m_value);
-			if (texture == nullptr)
-			{
-				mvApp::GetApp()->getCallbackRegistry().submitCallback([&]()
-					{
-						PyErr_Format(PyExc_Exception,
-							"Image %s could not be found for add_image_button. Check the path to the image "
-							"you provided.", m_value.c_str());
-						PyErr_Print();
-						m_value = "";
-					});
-				return;
-			}
-			if (m_width == 0) m_width = (int)((float)texture->width * (m_uv_max.x - m_uv_min.x));
-			if (m_height == 0) m_height = (int)((float)texture->height * (m_uv_max.y - m_uv_min.y));
-
-			m_texture = texture->texture;
-		}
-
-		if (m_dirty)
-		{
-			mvTexture* texture = mvApp::GetApp()->getTextureStorage().getTexture(m_value);
-			if (texture)
-			{
-				m_width = (int)((float)texture->width * (m_uv_max.x - m_uv_min.x));
-				m_height = (int)((float)texture->height * (m_uv_max.y - m_uv_min.y));
-			}
-			m_dirty = false;
-		}
-
 		if (m_texture)
 		{
+			void* texture = static_cast<mvTexture*>(m_texture.get())->getRawTexture();
 			ImGui::PushID(m_name.c_str());
-			if (ImGui::ImageButton(m_texture, ImVec2((float)m_width, (float)m_height),
+			if (ImGui::ImageButton(texture, ImVec2((float)m_width, (float)m_height),
 				ImVec2(m_uv_min.x, m_uv_min.y), ImVec2(m_uv_max.x, m_uv_max.y), m_framePadding,
 				m_backgroundColor, m_tintColor))
 				mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), m_name, m_callback_data);
@@ -108,9 +47,9 @@ namespace Marvel {
 
 	}
 
-	void mvImageButton::handleSpecificPositionalArgs(PyObject* dict)
+	void mvImageButton::handleSpecificRequiredArgs(PyObject* dict)
 	{
-		if (!mvApp::GetApp()->getParsers()[s_command].verifyPositionalArguments(dict))
+		if (!mvApp::GetApp()->getParsers()[s_command].verifyRequiredArguments(dict))
 			return;
 
 		for (int i = 0; i < PyTuple_Size(dict); i++)
@@ -119,8 +58,11 @@ namespace Marvel {
 			switch (i)
 			{
 			case 0:
+			{
 				m_value = ToString(item);
+				m_texture = mvApp::GetApp()->getItemRegistry().getItem(m_value);
 				break;
+			}
 
 			default:
 				break;

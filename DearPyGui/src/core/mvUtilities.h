@@ -10,13 +10,12 @@
 
 #include <vector>
 #include <string>
-#include "mvTextureStorage.h"
 
 namespace Marvel {
 
-	bool        UnloadTexture       (const std::string& filename);
-	bool        LoadTextureFromArray(const char* name, float* data, unsigned width, unsigned height, mvTexture& storage, mvTextureFormat format);
-	bool        LoadTextureFromFile (const char* filename, mvTexture& storage);
-	void        FreeTexture         (mvTexture& storage);
+	// new
+	void* LoadTextureFromFile(const char* filename, int& width, int& height);
+	void* LoadTextureFromArray(unsigned width, unsigned height, float* data);
+	void FreeTexture(void* texture);
 
 }

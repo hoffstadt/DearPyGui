@@ -6,7 +6,7 @@
 namespace Marvel {
 
 	MV_REGISTER_WIDGET(mvImageSeries, MV_ITEM_DESC_DEFAULT, StorageValueTypes::Series, 1);
-	class mvImageSeries : public mvSeriesBase, public mvEventHandler
+	class mvImageSeries : public mvSeriesBase
 	{
 	public:
 
@@ -36,9 +36,6 @@ namespace Marvel {
 		void handleSpecificKeywordArgs(PyObject* dict) override;
 		void getSpecificConfiguration(PyObject* dict) override;
 
-		bool onEvent(mvEvent& event) override;
-		bool onTextureDeleted(mvEvent& event);
-
 	private:
 
 		std::string m_imagevalue;
@@ -47,7 +44,7 @@ namespace Marvel {
 		mvVec2	    m_uv_min = { 0.0f, 0.0f };
 		mvVec2	    m_uv_max = { 1.0f, 1.0f };
 		mvColor     m_tintColor = { 1.0f, 1.0f, 1.0f, 1.0f };
-		void*       m_texture = nullptr;
+		std::shared_ptr<mvAppItem> m_texture = nullptr;
 
 	};
 

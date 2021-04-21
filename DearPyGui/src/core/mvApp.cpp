@@ -13,7 +13,6 @@
 #include "mvFontManager.h"
 #include "mvThemeManager.h"
 #include "mvCallbackRegistry.h"
-#include "mvTextureStorage.h"
 #include "mvPythonTranslator.h"
 #include "mvPythonExceptions.h"
 #include <frameobject.h>
@@ -89,7 +88,6 @@ namespace Marvel {
 
 		// create managers
 		m_itemRegistry = CreateOwnedPtr<mvItemRegistry>();
-		m_textureStorage = CreateOwnedPtr<mvTextureStorage>();
 		m_themeManager = CreateOwnedPtr<mvThemeManager>();
         m_callbackRegistry = CreateOwnedPtr<mvCallbackRegistry>();
         m_fontManager = CreateOwnedPtr<mvFontManager>();
@@ -106,11 +104,6 @@ namespace Marvel {
 		return *m_itemRegistry; 
 	}
 
-	mvTextureStorage& mvApp::getTextureStorage() 
-	{ 
-		return *m_textureStorage; 
-	}
-
 	mvThemeManager& mvApp::getThemeManager()
 	{
 		return *m_themeManager;
@@ -124,8 +117,6 @@ namespace Marvel {
 	mvApp::~mvApp()
 	{
 		m_itemRegistry->clearRegistry();
-
-		mvApp::GetApp()->getTextureStorage().deleteAllTextures();
 
 		mvLog::Cleanup();
 	

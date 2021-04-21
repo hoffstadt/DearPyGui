@@ -6,7 +6,6 @@
 #include "mvFontManager.h"
 #include "mvItemRegistry.h"
 #include "mvImGuiThemeScope.h"
-#include "mvTextureStorage.h"
 #include <ImGuiFileDialog.h>
 #include <cstdlib>
 
@@ -31,7 +30,6 @@ namespace Marvel {
 		mvItemRegistry::FillExtraCommands(methods);
 		mvThemeManager::FillExtraCommands(methods);
 		mvFontManager::FillExtraCommands(methods);
-		mvTextureStorage::FillExtraCommands(methods);
 		mvCallbackRegistry::FillExtraCommands(methods);
 		mvInput::FillExtraCommands(methods);
 
@@ -59,7 +57,6 @@ namespace Marvel {
 			mvItemRegistry::InsertParser(&parsers);
 			mvThemeManager::InsertParser(&parsers);
 			mvFontManager::InsertParser(&parsers);
-			mvTextureStorage::InsertParser(&parsers);
 			mvCallbackRegistry::InsertParser(&parsers);
 			mvInput::InsertParser(&parsers);
 		}
@@ -74,7 +71,6 @@ namespace Marvel {
 		if (First_Run)
 		{
 			mvInput::InsertConstants(ModuleConstants);
-			mvTextureStorage::InsertConstants(ModuleConstants);
 
 			auto decodeType = [](long encoded_constant, mvAppItemType* type)
 			{

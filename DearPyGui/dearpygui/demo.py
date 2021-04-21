@@ -483,17 +483,18 @@ def show_demo():
                 add_image("INTERNAL_DPG_FONT_ATLAS")
                 add_text(default_value="Here is an image button using a portion of the font atlas")
                 demo_enable_disable()
-                add_image_button("INTERNAL_DPG_FONT_ATLAS",uv_max=[0.1, 0.1], callback=demo_log)
+                add_image_button("INTERNAL_DPG_FONT_ATLAS", width=100, height=100, uv_max=[0.1, 0.1], callback=demo_log)
                 add_same_line()
                 textdata = []
                 for i in range(0, 10000):
-                    textdata.append(255)
+                    textdata.append(255/255)
                     textdata.append(0)
-                    textdata.append(255)
-                    textdata.append(255)
+                    textdata.append(255/255)
+                    textdata.append(255/255)
                 # TODO: texture requires a name when it would be nice that it didnt
-                add_texture("#cooltexture", textdata, 100, 100, format=mvTEX_RGBA_INT)
-                add_image_button("#cooltexture", callback=demo_log)
+                #add_texture("#cooltexture", textdata, 100, 100, format=mvTEX_RGBA_INT)
+                add_new_texture(100, 100, textdata, id="#cooltexture", parent="TextureRegistry")
+                add_image_button("#cooltexture", width=100, height=100, callback=demo_log)
 
             with tree_node(label="Text Input"):
                 demo_enable_disable()
