@@ -452,6 +452,7 @@ namespace Marvel {
 			ImVec2((float)m_width, (float)m_height), m_flags,
 			m_xflags, m_yflags, m_y2flags, m_y3flags))
 		{
+			ImPlot::PushPlotClipRect();
 			ImPlot::PushColormap(m_colormap);
 
 			for (auto item : m_children[0])
@@ -473,17 +474,18 @@ namespace Marvel {
 				item->getState().update();
 			}
 
+			
 			for (auto item : m_children[2])
 			{
 				// skip item if it's not shown
 				if (!item->m_show)
 					continue;
-				ImPlot::PushPlotClipRect();
-				item->draw(drawlist, ImPlot::GetPlotPos().x, ImPlot::GetPlotPos().y);
-				ImPlot::PopPlotClipRect();
-
+				
+				item->draw(ImPlot::GetPlotDrawList(), ImPlot::GetPlotPos().x, ImPlot::GetPlotPos().y);
+				
 				item->getState().update();
 			}
+			
 
 			ImPlot::PopColormap();
 
@@ -523,12 +525,7 @@ namespace Marvel {
 			m_y3limits_actual.x = (float)ImPlot::GetPlotLimits(ImPlotYAxis_3).Y.Min;
 			m_y3limits_actual.y = (float)ImPlot::GetPlotLimits(ImPlotYAxis_3).Y.Max;
 
-			// shouldnt we just draw them when we draw widgets
-			//ImPlot::PushPlotClipRect();
-			//auto topleft = ImPlot::GetPlotPos();
-			//m_drawList->draw(ImPlot::GetPlotDrawList(), topleft.x, topleft.y);
-			//ImPlot::PopPlotClipRect();
-
+			ImPlot::PopPlotClipRect();
 			ImPlot::EndPlot();
 		}
 
