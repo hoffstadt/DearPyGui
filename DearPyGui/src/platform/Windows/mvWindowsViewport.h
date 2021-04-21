@@ -42,6 +42,8 @@ namespace Marvel {
 
 		static ID3D11Device* getDevice() { return s_pd3dDevice; }
 
+		static ID3D11DeviceContext* GetContext() {return s_pd3dDeviceContext;}
+
 		static LRESULT CALLBACK HandleMsgSetup(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) noexcept;
 
 		static LRESULT CALLBACK HandleMsgThunk(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) noexcept;

@@ -33,10 +33,14 @@ namespace Marvel {
 		~mvTexture();
 
 		void draw(ImDrawList* drawlist, float x, float y) override;
-
 		bool isParentCompatible(mvAppItemType type) override;
 		void handleSpecificRequiredArgs(PyObject* dict) override;
+		void handleSpecificKeywordArgs(PyObject* dict) override;
 		void getSpecificConfiguration(PyObject* dict) override;
+		void setWidth(int width) override {}
+		void setHeight(int height) override {}
+
+
 		void* getRawTexture() { return m_texture; }
 		void markDirty() { m_dirty = true; }
 
@@ -44,6 +48,7 @@ namespace Marvel {
 
 		void* m_texture = nullptr;
 		bool  m_dirty = true;
+		bool  m_dynamic = false;
 
 
 	};

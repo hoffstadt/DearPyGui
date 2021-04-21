@@ -84,11 +84,11 @@ namespace Marvel {
 			}
 
 			case 1:
-				m_pmax = ToVec2(item);
+				m_pmin = ToVec2(item);
 				break;
 
 			case 2:
-				m_pmin = ToVec2(item);
+				m_pmax = ToVec2(item);
 				break;
 
 			default:

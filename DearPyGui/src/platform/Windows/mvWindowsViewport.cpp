@@ -81,7 +81,7 @@ namespace Marvel {
 			if (hIcon) 
 			{
 				SendMessage(m_hwnd, WM_SETICON, ICON_SMALL, (LPARAM)hIcon);
-				SendMessage(GetWindow(m_hwnd, GW_OWNER), WM_SETICON, ICON_BIG, (LPARAM)hIcon);
+				SendMessage(GetWindow(m_hwnd, GW_OWNER), WM_SETICON, ICON_SMALL, (LPARAM)hIcon);
 			}
 		}
 

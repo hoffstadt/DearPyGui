@@ -25,6 +25,8 @@ namespace Marvel {
 		parser.addArg<mvPyDataType::Integer>("height");
 		parser.addArg<mvPyDataType::FloatList>("default_value");
 
+		parser.addArg<mvPyDataType::Bool>("dynamic", mvArgType::KEYWORD_ARG, "False");
+
 		parser.finalize();
 
 		parsers->insert({ s_command, parser });
@@ -56,7 +58,7 @@ namespace Marvel {
 
 	void mvTexture::draw(ImDrawList* drawlist, float x, float y)
 	{
-		if (!m_dirty)
+		if (!m_dirty && !m_dynamic)
 			return;
 
 		if (m_name == "INTERNAL_DPG_FONT_ATLAS")
@@ -65,8 +67,14 @@ namespace Marvel {
 			m_width = ImGui::GetIO().Fonts->TexWidth;
 			m_height = ImGui::GetIO().Fonts->TexHeight;
 		}
-		else
+		else if(m_dirty && !m_dynamic)
 			m_texture = LoadTextureFromArray(m_width, m_height, m_value->data());
+		else if (m_dirty)
+			m_texture = LoadTextureFromArrayDynamic(m_width, m_height, m_value->data());
+		else if (m_dynamic)
+		{
+			UpdateTexture(m_texture, m_width, m_height, *m_value);
+		}
 
 		m_dirty = false;
 	}
@@ -97,6 +105,15 @@ namespace Marvel {
 				break;
 			}
 		}
+	}
+
+	void mvTexture::handleSpecificKeywordArgs(PyObject* dict)
+	{
+		if (dict == nullptr)
+			return;
+
+		if (PyObject* item = PyDict_GetItemString(dict, "dynamic")) m_dynamic = ToBool(item);
+
 	}
 
 	void mvTexture::getSpecificConfiguration(PyObject* dict)
