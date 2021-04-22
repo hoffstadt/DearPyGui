@@ -11,6 +11,7 @@
 #include "imgui_impl_glfw.h"
 #include "imgui_impl_opengl3.h"
 #include <stdio.h>
+#include <stb_image.h>
 
 namespace Marvel {
 
@@ -69,6 +70,31 @@ namespace Marvel {
         m_window = glfwCreateWindow(m_actualWidth, m_actualHeight, m_title.c_str(), nullptr, nullptr);
         glfwSetWindowPos(m_window, m_xpos, m_ypos);
         glfwSetWindowSizeLimits(m_window, (int)m_minwidth, (int)m_minheight, (int)m_maxwidth, (int)m_maxheight);
+
+        std::vector<GLFWimage> images;
+
+        if(!m_small_icon.empty())
+        {
+            int image_width, image_height;
+            unsigned char* image_data = stbi_load(m_small_icon.c_str(), &image_width, &image_height, nullptr, 4);
+            if(image_data)
+            {
+                images.push_back({image_width, image_height, image_data});
+            }
+        }
+
+        if(!m_large_icon.empty())
+        {
+            int image_width, image_height;
+            unsigned char* image_data = stbi_load(m_large_icon.c_str(), &image_width, &image_height, nullptr, 4);
+            if(image_data)
+            {
+                images.push_back({image_width, image_height, image_data});
+            }
+        }
+
+        if(!images.empty())
+            glfwSetWindowIcon(m_window, images.size(), images.data());
 
         mvEventBus::Publish(mvEVT_CATEGORY_VIEWPORT, mvEVT_VIEWPORT_RESIZE, {
                 CreateEventArgument("actual_width", (int)m_actualWidth),
