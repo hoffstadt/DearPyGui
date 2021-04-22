@@ -151,7 +151,7 @@ namespace Marvel {
 		
 	    NSWindow *nswin = glfwGetCocoaWindow(m_window);
             if(nswin.isVisible && (nswin.occlusionState & NSWindowOcclusionStateVisible) == 0)
-                usleep(16u);
+                usleep(32000u);
 
             m_layer.displaySyncEnabled = mvApp::GetApp()->getVSync();
 
