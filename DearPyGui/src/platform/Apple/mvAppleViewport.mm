@@ -2,7 +2,6 @@
 #include "mvAppLog.h"
 #include <implot.h>
 #include "imnodes.h"
-#include "mvTextureStorage.h"
 #include "mvFontManager.h"
 
 #define GLFW_INCLUDE_NONE
@@ -235,9 +234,6 @@ namespace Marvel {
             ImGui_ImplMetal_NewFrame(m_renderPassDescriptor);
             ImGui_ImplGlfw_NewFrame();
             ImGui::NewFrame();
-
-            if(!mvApp::GetApp()->getTextureStorage().isValid())
-			    mvApp::GetApp()->getTextureStorage().refreshAtlas();
 
             if (m_error) 
             {
