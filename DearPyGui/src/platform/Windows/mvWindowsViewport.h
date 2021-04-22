@@ -56,7 +56,6 @@ namespace Marvel {
 		WNDCLASSEX m_wc;
 		MSG m_msg;
 		DWORD m_modes;
-		ImVec4 m_clearColor;
 
 	private:
 

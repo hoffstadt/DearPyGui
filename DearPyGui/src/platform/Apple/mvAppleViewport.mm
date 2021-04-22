@@ -206,7 +206,7 @@ namespace Marvel {
 
             NSWindow *nswin = glfwGetCocoaWindow(m_window);
             if(nswin.isVisible && (nswin.occlusionState & NSWindowOcclusionStateVisible) == 0)
-                usleep(16u);
+                usleep(32000u);
 
             m_layer.displaySyncEnabled = m_vsync;
 
@@ -220,10 +220,10 @@ namespace Marvel {
             m_height = (unsigned)height;
 
             id <MTLCommandBuffer> commandBuffer = [m_commandQueue commandBuffer];
-            m_renderPassDescriptor.colorAttachments[0].clearColor = MTLClearColorMake(m_clear_color[0],
-                                                                                      m_clear_color[1],
-                                                                                      m_clear_color[2],
-                                                                                      m_clear_color[3]);
+            m_renderPassDescriptor.colorAttachments[0].clearColor = MTLClearColorMake(m_clearColor.r,
+                                                                                      m_clearColor.g,
+                                                                                      m_clearColor.b,
+                                                                                      m_clearColor.a);
             m_renderPassDescriptor.colorAttachments[0].texture = drawable.texture;
             m_renderPassDescriptor.colorAttachments[0].loadAction = MTLLoadActionClear;
             m_renderPassDescriptor.colorAttachments[0].storeAction = MTLStoreActionStore;

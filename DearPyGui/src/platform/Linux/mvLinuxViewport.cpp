@@ -254,7 +254,7 @@ namespace Marvel {
         glfwGetFramebufferSize(m_window, &display_w, &display_h);
 
         glViewport(0, 0, display_w, display_h);
-        glClearColor(m_clear_color[0], m_clear_color[1], m_clear_color[2], m_clear_color[3]);
+        glClearColor(m_clearColor.r, m_clearColor.g, m_clearColor.b, m_clearColor.a);
         glClear(GL_COLOR_BUFFER_BIT);
         ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 

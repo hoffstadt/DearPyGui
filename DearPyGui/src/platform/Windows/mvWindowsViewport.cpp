@@ -19,7 +19,6 @@ namespace Marvel {
 	mvWindowsViewport::mvWindowsViewport(unsigned width, unsigned height, bool error)
 		: mvViewport(width, height, error)
 	{
-		m_clearColor = ImVec4(0.0706f, 0.0706f, 0.0706f, 1.0f);
 	}
 
 	mvWindowsViewport::~mvWindowsViewport()
@@ -226,12 +225,10 @@ namespace Marvel {
 	void mvWindowsViewport::postrender()
 	{
 
-		ImVec4 clear_color = m_clearColor;
-
 		// Rendering
 		ImGui::Render();
 		s_pd3dDeviceContext->OMSetRenderTargets(1, &s_mainRenderTargetView, nullptr);
-		s_pd3dDeviceContext->ClearRenderTargetView(s_mainRenderTargetView, (float*)&clear_color);
+		s_pd3dDeviceContext->ClearRenderTargetView(s_mainRenderTargetView, m_clearColor);
 		ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
 
 		//s_pSwapChain->Present(1, 0); // Present with vsync

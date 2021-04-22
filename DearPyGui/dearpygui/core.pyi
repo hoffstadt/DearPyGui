@@ -6,47 +6,47 @@ from dearpygui.core import *
 ##########################################################
 
 # ~ Dear PyGui Version: master
-def add_3d_slider(*, width: int =0, height: int =0, parent: str ='', before: str ='', label: str ='', source: str ='', callback: Callable =None, callback_data: Any =None, show: bool =True, enabled: bool =True, default_value: List[float] =(0.0, 0.0, 0.0, 0.0), max_x: float =100.0, max_y: float =100.0, max_z: float =100.0, min_x: float =0.0, min_y: float =0.0, min_z: float =0.0, scale: float =1.0) -> str:
+def add_3d_slider(*, id: str =..., width: int =0, height: int =0, parent: str ='', before: str ='', label: str ='', source: str ='', callback: Callable =None, callback_data: Any =None, show: bool =True, default_value: List[float] =(0.0, 0.0, 0.0, 0.0), max_x: float =100.0, max_y: float =100.0, max_z: float =100.0, min_x: float =0.0, min_y: float =0.0, min_z: float =0.0, scale: float =1.0) -> str:
 	"""Undocumented function"""
 	...
 
-def add_about_window(*, width: int =0, height: int =0, parent: str ='', before: str ='', label: str ='', source: str ='', callback: Callable =None, callback_data: Any =None, show: bool =True, enabled: bool =True, x_pos: int =200, y_pos: int =200, autosize: bool =False, no_resize: bool =False, no_title_bar: bool =False, no_move: bool =False, no_scrollbar: bool =False, no_collapse: bool =False, horizontal_scrollbar: bool =False, no_focus_on_appearing: bool =False, no_bring_to_front_on_focus: bool =False, no_close: bool =False, no_background: bool =False) -> str:
+def add_about_window(*, id: str =..., width: int =0, height: int =0, label: str ='', show: bool =True, x_pos: int =200, y_pos: int =200, autosize: bool =False, no_resize: bool =False, no_title_bar: bool =False, no_move: bool =False, no_scrollbar: bool =False, no_collapse: bool =False, horizontal_scrollbar: bool =False, no_focus_on_appearing: bool =False, no_bring_to_front_on_focus: bool =False, no_close: bool =False, no_background: bool =False) -> str:
 	"""Undocumented function"""
 	...
 
-def add_area_series(x : List[float], y : List[float], *, width: int =0, height: int =0, parent: str ='', before: str ='', label: str ='', source: str ='', callback: Callable =None, callback_data: Any =None, show: bool =True, enabled: bool =True, fill: List[int] =(0, 0, 0, -255), axis: int =0, contribute_to_bounds: bool =True) -> str:
+def add_area_series(x : List[float], y : List[float], *, id: str =..., parent: str ='', before: str ='', label: str ='', source: str ='', show: bool =True, fill: List[int] =(0, 0, 0, -255), axis: int =0, contribute_to_bounds: bool =True) -> str:
 	"""Undocumented function"""
 	...
 
-def add_bar_series(x : List[float], y : List[float], *, width: int =0, height: int =0, parent: str ='', before: str ='', label: str ='', source: str ='', callback: Callable =None, callback_data: Any =None, show: bool =True, enabled: bool =True, weight: float =1.0, axis: int =0, horizontal: bool =False, contribute_to_bounds: bool =True) -> str:
+def add_bar_series(x : List[float], y : List[float], *, id: str =..., parent: str ='', before: str ='', label: str ='', source: str ='', show: bool =True, weight: float =1.0, axis: int =0, horizontal: bool =False, contribute_to_bounds: bool =True) -> str:
 	"""Undocumented function"""
 	...
 
-def add_button(*, width: int =0, height: int =0, parent: str ='', before: str ='', label: str ='', source: str ='', callback: Callable =None, callback_data: Any =None, show: bool =True, enabled: bool =True, small: bool =False, arrow: bool =False, direction: int =0) -> str:
+def add_button(*, id: str =..., width: int =0, height: int =0, parent: str ='', before: str ='', label: str ='', callback: Callable =None, callback_data: Any =None, show: bool =True, enabled: bool =True, small: bool =False, arrow: bool =False, direction: int =0) -> str:
 	"""Undocumented function"""
 	...
 
-def add_candle_series(dates : List[float], opens : List[float], closes : List[float], lows : List[float], highs : List[float], *, width: int =0, height: int =0, parent: str ='', before: str ='', label: str ='', source: str ='', callback: Callable =None, callback_data: Any =None, show: bool =True, enabled: bool =True, bull_color: List[int] =(0, 255, 113, 255), bear_color: List[int] =(218, 13, 79, 255), axis: int =0, weight: int =0.25, contribute_to_bounds: bool =True, tooltip: bool =True) -> str:
+def add_candle_series(dates : List[float], opens : List[float], closes : List[float], lows : List[float], highs : List[float], *, id: str =..., parent: str ='', before: str ='', label: str ='', source: str ='', show: bool =True, bull_color: List[int] =(0, 255, 113, 255), bear_color: List[int] =(218, 13, 79, 255), axis: int =0, weight: int =0.25, contribute_to_bounds: bool =True, tooltip: bool =True) -> str:
 	"""Undocumented function"""
 	...
 
-def add_checkbox(*, width: int =0, height: int =0, parent: str ='', before: str ='', label: str ='', source: str ='', callback: Callable =None, callback_data: Any =None, show: bool =True, enabled: bool =True, default_value: bool =False) -> str:
+def add_checkbox(*, id: str =..., parent: str ='', before: str ='', label: str ='', source: str ='', callback: Callable =None, callback_data: Any =None, show: bool =True, enabled: bool =True, default_value: bool =False) -> str:
 	"""Undocumented function"""
 	...
 
-def add_child(*, width: int =0, height: int =0, parent: str ='', before: str ='', label: str ='', source: str ='', callback: Callable =None, callback_data: Any =None, show: bool =True, enabled: bool =True, border: bool =True, autosize_x: bool =False, autosize_y: bool =False, no_scrollbar: bool =False, horizontal_scrollbar: bool =False, menubar: bool =False) -> str:
+def add_child(*, id: str =..., width: int =0, height: int =0, parent: str ='', before: str ='', show: bool =True, border: bool =True, autosize_x: bool =False, autosize_y: bool =False, no_scrollbar: bool =False, horizontal_scrollbar: bool =False, menubar: bool =False) -> str:
 	"""Undocumented function"""
 	...
 
-def add_collapsing_header(*, width: int =0, height: int =0, parent: str ='', before: str ='', label: str ='', source: str ='', callback: Callable =None, callback_data: Any =None, show: bool =True, enabled: bool =True, closable: bool =False, default_open: bool =False, open_on_double_click: bool =False, open_on_arrow: bool =False, leaf: bool =False, bullet: bool =False) -> str:
+def add_collapsing_header(*, id: str =..., parent: str ='', before: str ='', label: str ='', show: bool =True, closable: bool =False, default_open: bool =False, open_on_double_click: bool =False, open_on_arrow: bool =False, leaf: bool =False, bullet: bool =False) -> str:
 	"""Undocumented function"""
 	...
 
-def add_color_button(default_value : List[int] =(0, 0, 0, 255), *, width: int =0, height: int =0, parent: str ='', before: str ='', label: str ='', source: str ='', callback: Callable =None, callback_data: Any =None, show: bool =True, enabled: bool =True, no_alpha: bool =False, no_border: bool =False, no_drag_drop: bool =False) -> str:
+def add_color_button(default_value : List[int] =(0, 0, 0, 255), *, id: str =..., width: int =0, height: int =0, parent: str ='', before: str ='', callback: Callable =None, callback_data: Any =None, show: bool =True, enabled: bool =True, no_alpha: bool =False, no_border: bool =False, no_drag_drop: bool =False) -> str:
 	"""Undocumented function"""
 	...
 
-def add_color_edit(default_value : List[int] =(0, 0, 0, 255), *, id: str =..., width: int =0, height: int =0, parent: str ='', before: str ='', label: str ='', source: str ='', callback: Callable =None, callback_data: Any =None, show: bool =True, enabled: bool =True, no_alpha: bool =False, no_picker: bool =False, no_options: bool =False, no_small_preview: bool =False, no_inputs: bool =False, no_tooltip: bool =False, no_label: bool =False, no_drag_drop: bool =False, alpha_bar: bool =False, alpha_preview: bool =False, alpha_preview_half: bool =False, display_rgb: bool =False, display_hsv: bool =False, display_hex: bool =False, uint8: bool =False, floats: bool =False, input_rgb: bool =False, input_hsv: bool =False) -> str:
+def add_color_edit(default_value : List[int] =(0, 0, 0, 255), *, id: str =..., width: int =0, height: int =0, parent: str ='', before: str ='', label: str ='', source: str ='', callback: Callable =None, callback_data: Any =None, show: bool =True, enabled: bool =True, no_alpha: bool =False, no_picker: bool =False, no_options: bool =False, no_small_preview: bool =False, no_inputs: bool =False, no_tooltip: bool =False, no_label: bool =False, no_drag_drop: bool =False, alpha_bar: bool =False, alpha_preview: bool =False, alpha_preview_half: bool =False, display_rgb: bool =False, display_hsv: bool =False, display_hex: bool =False, uint8: bool =False, floats: bool =False, input_rgb: bool =False, input_hsv: bool =False, m_3component: bool =False) -> str:
 	"""Undocumented function"""
 	...
 
@@ -54,63 +54,67 @@ def add_color_picker(default_value : List[int] =(0, 0, 0, 255), *, id: str =...,
 	"""Undocumented function"""
 	...
 
-def add_colormap_scale(*, width: int =0, height: int =0, parent: str ='', before: str ='', label: str ='', source: str ='', callback: Callable =None, callback_data: Any =None, show: bool =True, enabled: bool =True, default_value: int =0, min_scale: float =0.0, max_scale: float =1.0) -> str:
+def add_colormap_scale(*, id: str =..., width: int =0, height: int =0, parent: str ='', before: str ='', label: str ='', source: str ='', show: bool =True, default_value: int =0, min_scale: float =0.0, max_scale: float =1.0) -> str:
 	"""Undocumented function"""
 	...
 
-def add_combo(items : List[str] =(), *, width: int =0, height: int =0, parent: str ='', before: str ='', label: str ='', source: str ='', callback: Callable =None, callback_data: Any =None, show: bool =True, enabled: bool =True, default_value: str ='', popup_align_left: bool =False, height_small: bool =False, height_regular: bool =False, height_large: bool =False, height_largest: bool =False, no_arrow_button: bool =False, no_preview: bool =False) -> str:
+def add_combo(items : List[str] =(), *, id: str =..., width: int =0, parent: str ='', before: str ='', label: str ='', source: str ='', callback: Callable =None, callback_data: Any =None, show: bool =True, enabled: bool =True, default_value: str ='', popup_align_left: bool =False, height_small: bool =False, height_regular: bool =False, height_large: bool =False, height_largest: bool =False, no_arrow_button: bool =False, no_preview: bool =False) -> str:
 	"""Undocumented function"""
 	...
 
-def add_data_grid(headers : List[str] =..., *, width: int =0, height: int =0, parent: str ='', before: str ='', label: str ='', source: str ='', callback: Callable =None, callback_data: Any =None, show: bool =True, enabled: bool =True, hide_headers: bool =False) -> str:
+def add_data_grid(headers : List[str] =..., *, id: str =..., width: int =0, height: int =0, parent: str ='', before: str ='', callback: Callable =None, callback_data: Any =None, show: bool =True, hide_headers: bool =False) -> str:
 	"""Undocumented function"""
 	...
 
-def add_date_picker(*, width: int =0, height: int =0, parent: str ='', before: str ='', label: str ='', source: str ='', callback: Callable =None, callback_data: Any =None, show: bool =True, enabled: bool =True, default_value: dict ={'month_day': 14, 'year':20, 'month':5}, level: int =0) -> str:
+def add_date_picker(*, id: str =..., parent: str ='', before: str ='', callback: Callable =None, callback_data: Any =None, show: bool =True, default_value: dict ={'month_day': 14, 'year':20, 'month':5}, level: int =0) -> str:
 	"""Undocumented function"""
 	...
 
-def add_debug_window(*, width: int =0, height: int =0, parent: str ='', before: str ='', label: str ='', source: str ='', callback: Callable =None, callback_data: Any =None, show: bool =True, enabled: bool =True, x_pos: int =200, y_pos: int =200, autosize: bool =False, no_resize: bool =False, no_title_bar: bool =False, no_move: bool =False, no_scrollbar: bool =False, no_collapse: bool =False, horizontal_scrollbar: bool =False, no_focus_on_appearing: bool =False, no_bring_to_front_on_focus: bool =False, no_close: bool =False, no_background: bool =False) -> str:
+def add_debug_window(*, id: str =..., width: int =0, height: int =0, label: str ='', show: bool =True, x_pos: int =200, y_pos: int =200, autosize: bool =False, no_resize: bool =False, no_title_bar: bool =False, no_move: bool =False, no_scrollbar: bool =False, no_collapse: bool =False, horizontal_scrollbar: bool =False, no_focus_on_appearing: bool =False, no_bring_to_front_on_focus: bool =False, no_close: bool =False, no_background: bool =False) -> str:
 	"""Undocumented function"""
 	...
 
-def add_doc_window(*, width: int =0, height: int =0, parent: str ='', before: str ='', label: str ='', source: str ='', callback: Callable =None, callback_data: Any =None, show: bool =True, enabled: bool =True, x_pos: int =200, y_pos: int =200, autosize: bool =False, no_resize: bool =False, no_title_bar: bool =False, no_move: bool =False, no_scrollbar: bool =False, no_collapse: bool =False, horizontal_scrollbar: bool =False, no_focus_on_appearing: bool =False, no_bring_to_front_on_focus: bool =False, no_close: bool =False, no_background: bool =False) -> str:
+def add_doc_window(*, id: str =..., width: int =0, height: int =0, label: str ='', show: bool =True, x_pos: int =200, y_pos: int =200, autosize: bool =False, no_resize: bool =False, no_title_bar: bool =False, no_move: bool =False, no_scrollbar: bool =False, no_collapse: bool =False, horizontal_scrollbar: bool =False, no_focus_on_appearing: bool =False, no_bring_to_front_on_focus: bool =False, no_close: bool =False, no_background: bool =False) -> str:
 	"""Undocumented function"""
 	...
 
-def add_drag_float(*, width: int =0, height: int =0, parent: str ='', before: str ='', label: str ='', source: str ='', callback: Callable =None, callback_data: Any =None, show: bool =True, enabled: bool =True, default_value: float =0.0, size: int =4, format: str ='%0.3f', speed: float =1.0, min_value: float =0.0, max_value: float =100.0, no_input: bool =False, clamped: bool =False) -> str:
+def add_drag_float(*, id: str =..., width: int =0, parent: str ='', before: str ='', label: str ='', source: str ='', callback: Callable =None, callback_data: Any =None, show: bool =True, enabled: bool =True, default_value: float =0.0, size: int =4, format: str ='%0.3f', speed: float =1.0, min_value: float =0.0, max_value: float =100.0, no_input: bool =False, clamped: bool =False) -> str:
 	"""Undocumented function"""
 	...
 
-def add_drag_floatx(*, width: int =0, height: int =0, parent: str ='', before: str ='', label: str ='', source: str ='', callback: Callable =None, callback_data: Any =None, show: bool =True, enabled: bool =True, default_value: List[float] =(0.0, 0.0, 0.0, 0.0), size: int =4, format: str ='%0.3f', speed: float =1.0, min_value: float =0.0, max_value: float =100.0, no_input: bool =False, clamped: bool =False) -> str:
+def add_drag_floatx(*, id: str =..., width: int =0, parent: str ='', before: str ='', label: str ='', source: str ='', callback: Callable =None, callback_data: Any =None, show: bool =True, enabled: bool =True, default_value: List[float] =(0.0, 0.0, 0.0, 0.0), size: int =4, format: str ='%0.3f', speed: float =1.0, min_value: float =0.0, max_value: float =100.0, no_input: bool =False, clamped: bool =False) -> str:
 	"""Undocumented function"""
 	...
 
-def add_drag_int(*, width: int =0, height: int =0, parent: str ='', before: str ='', label: str ='', source: str ='', callback: Callable =None, callback_data: Any =None, show: bool =True, enabled: bool =True, default_value: int =0, size: int =4, format: str ='%d', speed: float =1.0, min_value: int =0, max_value: int =100, no_input: bool =False, clamped: bool =False) -> str:
+def add_drag_int(*, id: str =..., width: int =0, parent: str ='', before: str ='', label: str ='', source: str ='', callback: Callable =None, callback_data: Any =None, show: bool =True, enabled: bool =True, default_value: int =0, size: int =4, format: str ='%d', speed: float =1.0, min_value: int =0, max_value: int =100, no_input: bool =False, clamped: bool =False) -> str:
 	"""Undocumented function"""
 	...
 
-def add_drag_intx(*, width: int =0, height: int =0, parent: str ='', before: str ='', label: str ='', source: str ='', callback: Callable =None, callback_data: Any =None, show: bool =True, enabled: bool =True, default_value: List[int] =(0, 0, 0, 0), size: int =4, format: str ='%d', speed: float =1.0, min_value: int =0, max_value: int =100, no_input: bool =False, clamped: bool =False) -> str:
+def add_drag_intx(*, id: str =..., width: int =0, parent: str ='', before: str ='', label: str ='', source: str ='', callback: Callable =None, callback_data: Any =None, show: bool =True, enabled: bool =True, default_value: List[int] =(0, 0, 0, 0), size: int =4, format: str ='%d', speed: float =1.0, min_value: int =0, max_value: int =100, no_input: bool =False, clamped: bool =False) -> str:
 	"""Undocumented function"""
 	...
 
-def add_drag_line(*, width: int =0, height: int =0, parent: str ='', before: str ='', label: str ='', source: str ='', callback: Callable =None, callback_data: Any =None, show: bool =True, enabled: bool =True, default_value: List[float] =(0.0, 0.0, 0.0, 0.0), color: List[int] =(0, 0, 0, -255), thickness: float =1.0, show_label: bool =True, vertical: bool =True) -> str:
+def add_drag_line(*, id: str =..., parent: str ='', before: str ='', label: str ='', source: str ='', callback: Callable =None, show: bool =True, default_value: List[float] =(0.0, 0.0, 0.0, 0.0), color: List[int] =(0, 0, 0, -255), thickness: float =1.0, show_label: bool =True, vertical: bool =True) -> str:
 	"""Undocumented function"""
 	...
 
-def add_drag_point(*, width: int =0, height: int =0, parent: str ='', before: str ='', label: str ='', source: str ='', callback: Callable =None, callback_data: Any =None, show: bool =True, enabled: bool =True, default_value: List[float] =(0.0, 0.0, 0.0, 0.0), color: List[int] =(0, 0, 0, -255), thickness: float =1.0, show_label: bool =True) -> str:
+def add_drag_point(*, id: str =..., parent: str ='', before: str ='', label: str ='', source: str ='', callback: Callable =None, show: bool =True, default_value: List[float] =(0.0, 0.0, 0.0, 0.0), color: List[int] =(0, 0, 0, -255), thickness: float =1.0, show_label: bool =True) -> str:
 	"""Undocumented function"""
 	...
 
-def add_drawing(*, width: int =0, height: int =0, parent: str ='', before: str ='', label: str ='', source: str ='', callback: Callable =None, callback_data: Any =None, show: bool =True, enabled: bool =True) -> str:
+def add_drawing(*, id: str =..., width: int =0, height: int =0, parent: str ='', before: str ='', show: bool =True) -> str:
 	"""Undocumented function"""
 	...
 
-def add_dummy(*, width: int =0, height: int =0, parent: str ='', before: str ='', label: str ='', source: str ='', callback: Callable =None, callback_data: Any =None, show: bool =True, enabled: bool =True) -> str:
+def add_dummy(*, id: str =..., width: int =0, height: int =0, parent: str ='', before: str ='', show: bool =True) -> str:
 	"""Undocumented function"""
 	...
 
-def add_error_series(x : List[float], y : List[float], negative : List[float], positive : List[float], *, width: int =0, height: int =0, parent: str ='', before: str ='', label: str ='', source: str ='', callback: Callable =None, callback_data: Any =None, show: bool =True, enabled: bool =True, axis: int =0, contribute_to_bounds: bool =True, horizontal: bool =False) -> str:
+def add_dynamic_texture(width : int, height : int, default_value : List[float], *, id: str =..., parent: str ='') -> None:
+	"""Undocumented function"""
+	...
+
+def add_error_series(x : List[float], y : List[float], negative : List[float], positive : List[float], *, id: str =..., parent: str ='', before: str ='', label: str ='', source: str ='', show: bool =True, axis: int =0, contribute_to_bounds: bool =True, horizontal: bool =False) -> str:
 	"""Undocumented function"""
 	...
 
@@ -126,43 +130,43 @@ def add_grid_row(data_grid : str, row : List[str]) -> None:
 	"""Undocumented function"""
 	...
 
-def add_group(*, width: int =0, height: int =0, parent: str ='', before: str ='', label: str ='', source: str ='', callback: Callable =None, callback_data: Any =None, show: bool =True, enabled: bool =True, horizontal: bool =False, horizontal_spacing: float =-1) -> str:
+def add_group(*, id: str =..., width: int =0, parent: str ='', before: str ='', show: bool =True, horizontal: bool =False, horizontal_spacing: float =-1) -> str:
 	"""Undocumented function"""
 	...
 
-def add_heat_series(x : List[float], rows : int, cols : int, *, width: int =0, height: int =0, parent: str ='', before: str ='', label: str ='', source: str ='', callback: Callable =None, callback_data: Any =None, show: bool =True, enabled: bool =True, scale_min: float =0.0, scale_max: float =1.0, bounds_min: List[float] =(0.0, 0.0), bounds_max: List[float] =(1.0, 1.0), format: str ='%0.1f', contribute_to_bounds: bool =True) -> str:
+def add_heat_series(x : List[float], rows : int, cols : int, *, id: str =..., parent: str ='', before: str ='', label: str ='', source: str ='', show: bool =True, scale_min: float =0.0, scale_max: float =1.0, bounds_min: List[float] =(0.0, 0.0), bounds_max: List[float] =(1.0, 1.0), format: str ='%0.1f', contribute_to_bounds: bool =True) -> str:
 	"""Undocumented function"""
 	...
 
-def add_hline_series(x : List[float], *, width: int =0, height: int =0, parent: str ='', before: str ='', label: str ='', source: str ='', callback: Callable =None, callback_data: Any =None, show: bool =True, enabled: bool =True, axis: int =0, contribute_to_bounds: bool =True) -> str:
+def add_hline_series(x : List[float], *, id: str =..., parent: str ='', before: str ='', label: str ='', source: str ='', show: bool =True, axis: int =0, contribute_to_bounds: bool =True) -> str:
 	"""Undocumented function"""
 	...
 
-def add_image(value : str ='', *, width: int =0, height: int =0, parent: str ='', before: str ='', label: str ='', source: str ='', callback: Callable =None, callback_data: Any =None, show: bool =True, enabled: bool =True, tint_color: List[float] =(255, 255, 255, 255), border_color: List[float] =(0, 0, 0, 0), uv_min: List[float] =(0.0, 0.0), uv_max: List[float] =(1.0, 1.0)) -> str:
+def add_image(default_value : str, *, id: str =..., width: int =0, height: int =0, parent: str ='', before: str ='', label: str ='', source: str ='', show: bool =True, tint_color: List[float] =(255, 255, 255, 255), border_color: List[float] =(0, 0, 0, 0), uv_min: List[float] =(0.0, 0.0), uv_max: List[float] =(1.0, 1.0)) -> str:
 	"""Undocumented function"""
 	...
 
-def add_image_button(value : str ='', *, id: str =..., width: int =0, height: int =0, parent: str ='', before: str ='', label: str ='', source: str ='', callback: Callable =None, callback_data: Any =None, show: bool =True, enabled: bool =True, frame_padding: int =-1, tint_color: List[float] =(255, 255, 255, 255), background_color: List[float] =(0, 0, 0, 0), uv_min: List[float] =(0.0, 0.0), uv_max: List[float] =(1.0, 1.0)) -> str:
+def add_image_button(default_value : str, *, id: str =..., width: int =0, height: int =0, parent: str ='', before: str ='', label: str ='', source: str ='', callback: Callable =None, callback_data: Any =None, show: bool =True, enabled: bool =True, frame_padding: int =-1, tint_color: List[float] =(255, 255, 255, 255), background_color: List[float] =(0, 0, 0, 0), uv_min: List[float] =(0.0, 0.0), uv_max: List[float] =(1.0, 1.0)) -> str:
 	"""Undocumented function"""
 	...
 
-def add_image_series(value : str, bounds_min : List[float], bounds_max : List[float], *, width: int =0, height: int =0, parent: str ='', before: str ='', label: str ='', source: str ='', callback: Callable =None, callback_data: Any =None, show: bool =True, enabled: bool =True, uv_min: List[float] =(0.0, 0.0), uv_max: List[float] =(1.0, 1.0), tint_color: List[int] =(255, 255, 255, 255), axis: int =0, contribute_to_bounds: bool =True) -> str:
+def add_image_series(value : str, bounds_min : List[float], bounds_max : List[float], *, id: str =..., parent: str ='', before: str ='', label: str ='', source: str ='', show: bool =True, uv_min: List[float] =(0.0, 0.0), uv_max: List[float] =(1.0, 1.0), tint_color: List[int] =(255, 255, 255, 255), axis: int =0, contribute_to_bounds: bool =True) -> str:
 	"""Undocumented function"""
 	...
 
-def add_input_float(*, width: int =0, height: int =0, parent: str ='', before: str ='', label: str ='', source: str ='', callback: Callable =None, callback_data: Any =None, show: bool =True, enabled: bool =True, default_value: float =0.0, format: str ='%.3f', min_value: float =0.0, max_value: float =100.0, step: float =0.1, step_fast: float =1.0, size: int =4, min_clamped: bool =False, max_clamped: bool =False, on_enter: bool =False, readonly: bool =False) -> str:
+def add_input_float(*, id: str =..., width: int =0, parent: str ='', before: str ='', label: str ='', source: str ='', callback: Callable =None, callback_data: Any =None, show: bool =True, enabled: bool =True, default_value: float =0.0, format: str ='%.3f', min_value: float =0.0, max_value: float =100.0, step: float =0.1, step_fast: float =1.0, size: int =4, min_clamped: bool =False, max_clamped: bool =False, on_enter: bool =False, readonly: bool =False) -> str:
 	"""Undocumented function"""
 	...
 
-def add_input_floatx(*, width: int =0, height: int =0, parent: str ='', before: str ='', label: str ='', source: str ='', callback: Callable =None, callback_data: Any =None, show: bool =True, enabled: bool =True, default_value: List[float] =(0.0, 0.0, 0.0, 0.0), format: str ='%.3f', min_value: float =0.0, max_value: float =100.0, size: int =4, min_clamped: bool =False, max_clamped: bool =False, on_enter: bool =False, readonly: bool =False) -> str:
+def add_input_floatx(*, id: str =..., width: int =0, parent: str ='', before: str ='', label: str ='', source: str ='', callback: Callable =None, callback_data: Any =None, show: bool =True, enabled: bool =True, default_value: List[float] =(0.0, 0.0, 0.0, 0.0), format: str ='%.3f', min_value: float =0.0, max_value: float =100.0, size: int =4, min_clamped: bool =False, max_clamped: bool =False, on_enter: bool =False, readonly: bool =False) -> str:
 	"""Undocumented function"""
 	...
 
-def add_input_int(*, width: int =0, height: int =0, parent: str ='', before: str ='', label: str ='', source: str ='', callback: Callable =None, callback_data: Any =None, show: bool =True, enabled: bool =True, default_value: List[int] =(0, 0, 0, 0), min_value: int =0, max_value: int =100, size: int =4, step: int =1, step_fast: int =100, min_clamped: bool =False, max_clamped: bool =False, on_enter: bool =False, readonly: bool =False) -> str:
+def add_input_int(*, id: str =..., width: int =0, parent: str ='', before: str ='', label: str ='', source: str ='', callback: Callable =None, callback_data: Any =None, show: bool =True, enabled: bool =True, default_value: List[int] =(0, 0, 0, 0), min_value: int =0, max_value: int =100, size: int =4, step: int =1, step_fast: int =100, min_clamped: bool =False, max_clamped: bool =False, on_enter: bool =False, readonly: bool =False) -> str:
 	"""Undocumented function"""
 	...
 
-def add_input_intx(*, width: int =0, height: int =0, parent: str ='', before: str ='', label: str ='', source: str ='', callback: Callable =None, callback_data: Any =None, show: bool =True, enabled: bool =True, default_value: List[int] =(0, 0, 0, 0), min_value: int =0, max_value: int =100, size: int =4, min_clamped: bool =False, max_clamped: bool =False, on_enter: bool =False, readonly: bool =False) -> str:
+def add_input_intx(*, id: str =..., width: int =0, parent: str ='', before: str ='', label: str ='', source: str ='', callback: Callable =None, callback_data: Any =None, show: bool =True, enabled: bool =True, default_value: List[int] =(0, 0, 0, 0), min_value: int =0, max_value: int =100, size: int =4, min_clamped: bool =False, max_clamped: bool =False, on_enter: bool =False, readonly: bool =False) -> str:
 	"""Undocumented function"""
 	...
 
@@ -170,91 +174,91 @@ def add_input_text(*, id: str =..., width: int =0, height: int =0, parent: str =
 	"""Undocumented function"""
 	...
 
-def add_knob_float(*, width: int =0, height: int =0, parent: str ='', before: str ='', label: str ='', source: str ='', callback: Callable =None, callback_data: Any =None, show: bool =True, enabled: bool =True, default_value: float =0.0, min_value: float =0.0, max_value: float =100.0) -> str:
+def add_knob_float(*, id: str =..., width: int =0, height: int =0, parent: str ='', before: str ='', label: str ='', source: str ='', callback: Callable =None, callback_data: Any =None, show: bool =True, default_value: float =0.0, min_value: float =0.0, max_value: float =100.0) -> str:
 	"""Undocumented function"""
 	...
 
-def add_label_text(*, width: int =0, height: int =0, parent: str ='', before: str ='', label: str ='', source: str ='', callback: Callable =None, callback_data: Any =None, show: bool =True, enabled: bool =True, default_value: str ='', color: List[float] =(-1, -1, -1, -1)) -> str:
+def add_label_text(*, id: str =..., parent: str ='', before: str ='', label: str ='', source: str ='', show: bool =True, default_value: str ='', color: List[float] =(-1, -1, -1, -1)) -> str:
 	"""Undocumented function"""
 	...
 
-def add_line_series(x : List[float], y : List[float], *, width: int =0, height: int =0, parent: str ='', before: str ='', label: str ='', source: str ='', callback: Callable =None, callback_data: Any =None, show: bool =True, enabled: bool =True, axis: int =0, contribute_to_bounds: bool =True) -> str:
+def add_line_series(x : List[float], y : List[float], *, id: str =..., parent: str ='', before: str ='', label: str ='', source: str ='', show: bool =True, axis: int =0, contribute_to_bounds: bool =True) -> str:
 	"""Undocumented function"""
 	...
 
-def add_listbox(items : List[str] =(), *, width: int =0, height: int =0, parent: str ='', before: str ='', label: str ='', source: str ='', callback: Callable =None, callback_data: Any =None, show: bool =True, enabled: bool =True, default_value: int =0, num_items: int =3) -> str:
+def add_listbox(items : List[str] =(), *, id: str =..., width: int =0, parent: str ='', before: str ='', label: str ='', source: str ='', callback: Callable =None, callback_data: Any =None, show: bool =True, enabled: bool =True, default_value: int =0, num_items: int =3) -> str:
 	"""Undocumented function"""
 	...
 
-def add_loading_indicator(*, width: int =0, height: int =0, parent: str ='', before: str ='', label: str ='', source: str ='', callback: Callable =None, callback_data: Any =None, show: bool =True, enabled: bool =True, style: int =0) -> str:
+def add_loading_indicator(*, id: str =..., width: int =0, height: int =0, parent: str ='', before: str ='', label: str ='', show: bool =True, style: int =0) -> str:
 	"""Undocumented function"""
 	...
 
-def add_logger(*, width: int =0, height: int =0, parent: str ='', before: str ='', label: str ='', source: str ='', callback: Callable =None, callback_data: Any =None, show: bool =True, enabled: bool =True, log_level: int =1, autosize_x: bool =False, autosize_y: bool =False, copy_button: bool =True, clear_button: bool =True, filter: bool =True, auto_scroll: bool =True, auto_scroll_button: bool =True) -> str:
+def add_logger(*, id: str =..., width: int =0, height: int =0, parent: str ='', before: str ='', show: bool =True, log_level: int =1, autosize_x: bool =False, autosize_y: bool =False, copy_button: bool =True, clear_button: bool =True, filter: bool =True, auto_scroll: bool =True, auto_scroll_button: bool =True) -> str:
 	"""Undocumented function"""
 	...
 
-def add_menu(*, width: int =0, height: int =0, parent: str ='', before: str ='', label: str ='', source: str ='', callback: Callable =None, callback_data: Any =None, show: bool =True, enabled: bool =True) -> str:
+def add_menu(*, id: str =..., parent: str ='', before: str ='', label: str ='', show: bool =True, enabled: bool =True) -> str:
 	"""Undocumented function"""
 	...
 
-def add_menu_bar(*, width: int =0, height: int =0, parent: str ='', before: str ='', label: str ='', source: str ='', callback: Callable =None, callback_data: Any =None, show: bool =True, enabled: bool =True) -> str:
+def add_menu_bar(*, id: str =..., parent: str ='', show: bool =True) -> str:
 	"""Undocumented function"""
 	...
 
-def add_menu_item(*, width: int =0, height: int =0, parent: str ='', before: str ='', label: str ='', source: str ='', callback: Callable =None, callback_data: Any =None, show: bool =True, enabled: bool =True, default_value: bool =False, shortcut: str ='', check: bool =False) -> str:
+def add_menu_item(*, id: str =..., parent: str ='', before: str ='', label: str ='', callback: Callable =None, callback_data: Any =None, show: bool =True, enabled: bool =True, default_value: bool =False, shortcut: str ='', check: bool =False) -> str:
 	"""Undocumented function"""
 	...
 
-def add_metrics_window(*, width: int =0, height: int =0, parent: str ='', before: str ='', label: str ='', source: str ='', callback: Callable =None, callback_data: Any =None, show: bool =True, enabled: bool =True, x_pos: int =200, y_pos: int =200, autosize: bool =False, no_resize: bool =False, no_title_bar: bool =False, no_move: bool =False, no_scrollbar: bool =False, no_collapse: bool =False, horizontal_scrollbar: bool =False, no_focus_on_appearing: bool =False, no_bring_to_front_on_focus: bool =False, no_close: bool =False, no_background: bool =False) -> str:
+def add_metrics_window(*, id: str =..., width: int =0, height: int =0, label: str ='', show: bool =True, x_pos: int =200, y_pos: int =200, autosize: bool =False, no_resize: bool =False, no_title_bar: bool =False, no_move: bool =False, no_scrollbar: bool =False, no_collapse: bool =False, horizontal_scrollbar: bool =False, no_focus_on_appearing: bool =False, no_bring_to_front_on_focus: bool =False, no_close: bool =False, no_background: bool =False) -> str:
 	"""Undocumented function"""
 	...
 
-def add_node(*, width: int =0, height: int =0, parent: str ='', before: str ='', label: str ='', source: str ='', callback: Callable =None, callback_data: Any =None, show: bool =True, enabled: bool =True, draggable: bool =True, x_pos: int =100, y_pos: int =100) -> str:
+def add_node(*, id: str =..., parent: str ='', before: str ='', label: str ='', show: bool =True, draggable: bool =True, x_pos: int =100, y_pos: int =100) -> str:
 	"""Undocumented function"""
 	...
 
-def add_node_attribute(*, width: int =0, height: int =0, parent: str ='', before: str ='', label: str ='', source: str ='', callback: Callable =None, callback_data: Any =None, show: bool =True, enabled: bool =True, output: bool =False, static: bool =False, shape: int =54000) -> str:
+def add_node_attribute(*, id: str =..., parent: str ='', before: str ='', show: bool =True, output: bool =False, static: bool =False, shape: int =54010) -> str:
 	"""Undocumented function"""
 	...
 
-def add_node_editor(*, width: int =0, height: int =0, parent: str ='', before: str ='', label: str ='', source: str ='', callback: Callable =None, callback_data: Any =None, show: bool =True, enabled: bool =True, link_callback: Callable =None, delink_callback: Callable =None) -> str:
+def add_node_editor(*, id: str =..., parent: str ='', before: str ='', callback: Callable =None, show: bool =True, delink_callback: Callable =None) -> str:
 	"""Undocumented function"""
 	...
 
-def add_node_link(node_editor : str, node_1 : str, node_2 : str, *, color: List[float] =(0, 0, 0, -255), hovered_color: List[float] =(0, 0, 0, -255)) -> None:
+def add_node_link(node_1 : str, node_2 : str, *, id: str =..., parent: str ='', show: bool =True) -> str:
 	"""Undocumented function"""
 	...
 
-def add_pie_series(x : float, y : float, radius : float, values : List[float], labels : List[str], *, width: int =0, height: int =0, parent: str ='', before: str ='', label: str ='', source: str ='', callback: Callable =None, callback_data: Any =None, show: bool =True, enabled: bool =True, format: str ='%0.2f', angle: float =90.0, axis: int =0, normalize: bool =False, contribute_to_bounds: bool =True) -> str:
+def add_pie_series(x : float, y : float, radius : float, values : List[float], labels : List[str], *, id: str =..., parent: str ='', before: str ='', label: str ='', source: str ='', show: bool =True, format: str ='%0.2f', angle: float =90.0, axis: int =0, normalize: bool =False, contribute_to_bounds: bool =True) -> str:
 	"""Undocumented function"""
 	...
 
-def add_plot_annotation(*, width: int =0, height: int =0, parent: str ='', before: str ='', label: str ='', source: str ='', callback: Callable =None, callback_data: Any =None, show: bool =True, enabled: bool =True, default_value: List[float] =(0.0, 0.0), offset: List[float] =(0.0, 0.0), color: List[int] =(0, 0, 0, -255), clamped: bool =True) -> str:
+def add_plot_annotation(*, id: str =..., parent: str ='', before: str ='', label: str ='', source: str ='', show: bool =True, default_value: List[float] =(0.0, 0.0), offset: List[float] =(0.0, 0.0), color: List[int] =(0, 0, 0, -255), clamped: bool =True) -> str:
 	"""Undocumented function"""
 	...
 
-def add_plot_stack(*, width: int =0, height: int =0, parent: str ='', before: str ='', label: str ='', source: str ='', callback: Callable =None, callback_data: Any =None, show: bool =True, enabled: bool =True, query_callback: Callable =None, x_axis_name: str ='', y_axis_name: str ='', no_title: bool =False, no_legend: bool =False, no_menus: bool =False, no_box_select: bool =False, no_mouse_pos: bool =False, no_highlight: bool =False, no_child: bool =False, query: bool =False, crosshairs: bool =False, anti_aliased: bool =False, equal_aspects: bool =False, yaxis2: bool =False, yaxis3: bool =False, xaxis_no_gridlines: bool =False, xaxis_no_tick_marks: bool =False, xaxis_no_tick_labels: bool =False, xaxis_log_scale: bool =False, xaxis_time: bool =False, xaxis_invert: bool =False, xaxis_lock_min: bool =False, xaxis_lock_max: bool =False, yaxis_no_gridlines: bool =False, yaxis_no_tick_marks: bool =False, yaxis_no_tick_labels: bool =False, yaxis_log_scale: bool =False, yaxis_invert: bool =False, yaxis_lock_min: bool =False, yaxis_lock_max: bool =False, y2axis_no_gridlines: bool =False, y2axis_no_tick_marks: bool =False, y2axis_no_tick_labels: bool =False, y2axis_log_scale: bool =False, y2axis_invert: bool =False, y2axis_lock_min: bool =False, y2axis_lock_max: bool =False, y3axis_no_gridlines: bool =False, y3axis_no_tick_marks: bool =False, y3axis_no_tick_labels: bool =False, y3axis_log_scale: bool =False, y3axis_invert: bool =False, y3axis_lock_min: bool =False, y3axis_lock_max: bool =False) -> str:
+def add_plot_stack(*, id: str =..., width: int =0, height: int =0, parent: str ='', before: str ='', label: str ='', show: bool =True, query_callback: Callable =None, x_axis_name: str ='', y_axis_name: str ='', no_title: bool =False, no_legend: bool =False, no_menus: bool =False, no_box_select: bool =False, no_mouse_pos: bool =False, no_highlight: bool =False, no_child: bool =False, query: bool =False, crosshairs: bool =False, anti_aliased: bool =False, equal_aspects: bool =False, yaxis2: bool =False, yaxis3: bool =False, xaxis_no_gridlines: bool =False, xaxis_no_tick_marks: bool =False, xaxis_no_tick_labels: bool =False, xaxis_log_scale: bool =False, xaxis_time: bool =False, xaxis_invert: bool =False, xaxis_lock_min: bool =False, xaxis_lock_max: bool =False, yaxis_no_gridlines: bool =False, yaxis_no_tick_marks: bool =False, yaxis_no_tick_labels: bool =False, yaxis_log_scale: bool =False, yaxis_invert: bool =False, yaxis_lock_min: bool =False, yaxis_lock_max: bool =False, y2axis_no_gridlines: bool =False, y2axis_no_tick_marks: bool =False, y2axis_no_tick_labels: bool =False, y2axis_log_scale: bool =False, y2axis_invert: bool =False, y2axis_lock_min: bool =False, y2axis_lock_max: bool =False, y3axis_no_gridlines: bool =False, y3axis_no_tick_marks: bool =False, y3axis_no_tick_labels: bool =False, y3axis_log_scale: bool =False, y3axis_invert: bool =False, y3axis_lock_min: bool =False, y3axis_lock_max: bool =False) -> str:
 	"""Undocumented function"""
 	...
 
-def add_popup(*, width: int =0, height: int =0, parent: str ='', before: str ='', label: str ='', source: str ='', callback: Callable =None, callback_data: Any =None, show: bool =True, enabled: bool =True, mousebutton: int =1, modal: bool =False) -> str:
+def add_popup(*, id: str =..., width: int =0, height: int =0, parent: str ='', show: bool =True, mousebutton: int =1, modal: bool =False) -> str:
 	"""Undocumented function"""
 	...
 
-def add_progress_bar(*, width: int =0, height: int =0, parent: str ='', before: str ='', label: str ='', source: str ='', callback: Callable =None, callback_data: Any =None, show: bool =True, enabled: bool =True, overlay: str ='', default_value: float =0.0) -> str:
+def add_progress_bar(*, id: str =..., width: int =0, height: int =0, parent: str ='', before: str ='', label: str ='', source: str ='', show: bool =True, overlay: str ='', default_value: float =0.0) -> str:
 	"""Undocumented function"""
 	...
 
-def add_radio_button(items : int =(), *, width: int =0, height: int =0, parent: str ='', before: str ='', label: str ='', source: str ='', callback: Callable =None, callback_data: Any =None, show: bool =True, enabled: bool =True, default_value: int =0, horizontal: bool =False) -> str:
+def add_radio_button(items : int =(), *, id: str =..., parent: str ='', before: str ='', source: str ='', callback: Callable =None, callback_data: Any =None, show: bool =True, enabled: bool =True, default_value: int =0, horizontal: bool =False) -> str:
 	"""Undocumented function"""
 	...
 
-def add_same_line(*, width: int =0, height: int =0, parent: str ='', before: str ='', label: str ='', source: str ='', callback: Callable =None, callback_data: Any =None, show: bool =True, enabled: bool =True, xoffset: float =0.0, spacing: float =-1.0) -> str:
+def add_same_line(*, id: str =..., parent: str ='', before: str ='', show: bool =True, xoffset: float =0.0, spacing: float =-1.0) -> str:
 	"""Undocumented function"""
 	...
 
-def add_scatter_series(x : List[float], y : List[float], *, width: int =0, height: int =0, parent: str ='', before: str ='', label: str ='', source: str ='', callback: Callable =None, callback_data: Any =None, show: bool =True, enabled: bool =True, axis: int =0, contribute_to_bounds: bool =True) -> str:
+def add_scatter_series(x : List[float], y : List[float], *, id: str =..., parent: str ='', before: str ='', label: str ='', source: str ='', show: bool =True, axis: int =0, contribute_to_bounds: bool =True) -> str:
 	"""Undocumented function"""
 	...
 
@@ -262,15 +266,15 @@ def add_selectable(*, id: str =..., width: int =0, height: int =0, parent: str =
 	"""Undocumented function"""
 	...
 
-def add_separator(*, width: int =0, height: int =0, parent: str ='', before: str ='', label: str ='', source: str ='', callback: Callable =None, callback_data: Any =None, show: bool =True, enabled: bool =True) -> str:
+def add_separator(*, id: str =..., parent: str ='', before: str ='', show: bool =True) -> str:
 	"""Undocumented function"""
 	...
 
-def add_shade_series(x : List[float], y1 : List[float], *, width: int =0, height: int =0, parent: str ='', before: str ='', label: str ='', source: str ='', callback: Callable =None, callback_data: Any =None, show: bool =True, enabled: bool =True, y2: List[float] =[], axis: int =0, contribute_to_bounds: bool =True) -> str:
+def add_shade_series(x : List[float], y1 : List[float], *, id: str =..., parent: str ='', before: str ='', label: str ='', source: str ='', show: bool =True, y2: List[float] =[], axis: int =0, contribute_to_bounds: bool =True) -> str:
 	"""Undocumented function"""
 	...
 
-def add_simple_plot(*, width: int =0, height: int =0, parent: str ='', before: str ='', label: str ='', source: str ='', callback: Callable =None, callback_data: Any =None, show: bool =True, enabled: bool =True, default_value: List[float] =(), overlay: str ='', histogram: bool =False, autosize: bool =True, min_scale: float =0.0, max_scale: float =0.0) -> str:
+def add_simple_plot(*, id: str =..., width: int =0, height: int =0, parent: str ='', before: str ='', label: str ='', source: str ='', show: bool =True, default_value: List[float] =(), overlay: str ='', histogram: bool =False, autosize: bool =True, min_scale: float =0.0, max_scale: float =0.0) -> str:
 	"""Undocumented function"""
 	...
 
@@ -278,7 +282,7 @@ def add_slider_float(*, id: str =..., width: int =0, height: int =0, parent: str
 	"""Undocumented function"""
 	...
 
-def add_slider_floatx(*, width: int =0, height: int =0, parent: str ='', before: str ='', label: str ='', source: str ='', callback: Callable =None, callback_data: Any =None, show: bool =True, enabled: bool =True, default_value: List[float] =(0.0, 0.0, 0.0, 0.0), size: int =4, no_input: bool =False, clamped: bool =False, min_value: float =0.0, max_value: float =100.0, format: str ='%.3f') -> str:
+def add_slider_floatx(*, id: str =..., width: int =0, parent: str ='', before: str ='', label: str ='', source: str ='', callback: Callable =None, callback_data: Any =None, show: bool =True, enabled: bool =True, default_value: List[float] =(0.0, 0.0, 0.0, 0.0), size: int =4, no_input: bool =False, clamped: bool =False, min_value: float =0.0, max_value: float =100.0, format: str ='%.3f') -> str:
 	"""Undocumented function"""
 	...
 
@@ -286,79 +290,83 @@ def add_slider_int(*, id: str =..., width: int =0, height: int =0, parent: str =
 	"""Undocumented function"""
 	...
 
-def add_slider_intx(*, width: int =0, height: int =0, parent: str ='', before: str ='', label: str ='', source: str ='', callback: Callable =None, callback_data: Any =None, show: bool =True, enabled: bool =True, default_value: List[int] =(0, 0, 0, 0), size: int =4, no_input: bool =False, clamped: bool =False, min_value: int =0, max_value: int =100, format: str ='%d') -> str:
+def add_slider_intx(*, id: str =..., width: int =0, parent: str ='', before: str ='', label: str ='', source: str ='', callback: Callable =None, callback_data: Any =None, show: bool =True, enabled: bool =True, default_value: List[int] =(0, 0, 0, 0), size: int =4, no_input: bool =False, clamped: bool =False, min_value: int =0, max_value: int =100, format: str ='%d') -> str:
 	"""Undocumented function"""
 	...
 
-def add_spacing(*, width: int =0, height: int =0, parent: str ='', before: str ='', label: str ='', source: str ='', callback: Callable =None, callback_data: Any =None, show: bool =True, enabled: bool =True, count: int =1) -> str:
+def add_spacing(*, id: str =..., parent: str ='', before: str ='', show: bool =True, count: int =1) -> str:
 	"""Undocumented function"""
 	...
 
-def add_stair_series(x : List[float], y : List[float], *, width: int =0, height: int =0, parent: str ='', before: str ='', label: str ='', source: str ='', callback: Callable =None, callback_data: Any =None, show: bool =True, enabled: bool =True, axis: int =0, contribute_to_bounds: bool =True) -> str:
+def add_stair_series(x : List[float], y : List[float], *, id: str =..., parent: str ='', before: str ='', label: str ='', source: str ='', show: bool =True, axis: int =0, contribute_to_bounds: bool =True) -> str:
 	"""Undocumented function"""
 	...
 
-def add_stem_series(x : List[float], y : List[float], *, width: int =0, height: int =0, parent: str ='', before: str ='', label: str ='', source: str ='', callback: Callable =None, callback_data: Any =None, show: bool =True, enabled: bool =True, axis: int =0, contribute_to_bounds: bool =True) -> str:
+def add_static_texture(width : int, height : int, default_value : List[float], *, id: str =..., parent: str ='', file: str ='') -> None:
 	"""Undocumented function"""
 	...
 
-def add_style_window(*, width: int =0, height: int =0, parent: str ='', before: str ='', label: str ='', source: str ='', callback: Callable =None, callback_data: Any =None, show: bool =True, enabled: bool =True, x_pos: int =200, y_pos: int =200, autosize: bool =False, no_resize: bool =False, no_title_bar: bool =False, no_move: bool =False, no_scrollbar: bool =False, no_collapse: bool =False, horizontal_scrollbar: bool =False, no_focus_on_appearing: bool =False, no_bring_to_front_on_focus: bool =False, no_close: bool =False, no_background: bool =False) -> str:
+def add_stem_series(x : List[float], y : List[float], *, id: str =..., parent: str ='', before: str ='', label: str ='', source: str ='', show: bool =True, axis: int =0, contribute_to_bounds: bool =True) -> str:
 	"""Undocumented function"""
 	...
 
-def add_tab(*, width: int =0, height: int =0, parent: str ='', before: str ='', label: str ='', source: str ='', callback: Callable =None, callback_data: Any =None, show: bool =True, enabled: bool =True, closable: bool =False, no_reorder: bool =False, leading: bool =False, trailing: bool =False, no_tooltip: bool =False) -> str:
+def add_style_window(*, id: str =..., width: int =0, height: int =0, label: str ='', show: bool =True, x_pos: int =200, y_pos: int =200, autosize: bool =False, no_resize: bool =False, no_title_bar: bool =False, no_move: bool =False, no_scrollbar: bool =False, no_collapse: bool =False, horizontal_scrollbar: bool =False, no_focus_on_appearing: bool =False, no_bring_to_front_on_focus: bool =False, no_close: bool =False, no_background: bool =False) -> str:
 	"""Undocumented function"""
 	...
 
-def add_tab_bar(*, width: int =0, height: int =0, parent: str ='', before: str ='', label: str ='', source: str ='', callback: Callable =None, callback_data: Any =None, show: bool =True, enabled: bool =True, reorderable: bool =False) -> str:
+def add_tab(*, id: str =..., parent: str ='', before: str ='', label: str ='', show: bool =True, closable: bool =False, no_reorder: bool =False, leading: bool =False, trailing: bool =False, no_tooltip: bool =False) -> str:
 	"""Undocumented function"""
 	...
 
-def add_tab_button(*, width: int =0, height: int =0, parent: str ='', before: str ='', label: str ='', source: str ='', callback: Callable =None, callback_data: Any =None, show: bool =True, enabled: bool =True, no_reorder: bool =False, leading: bool =False, trailing: bool =False, no_tooltip: bool =False) -> str:
+def add_tab_bar(*, id: str =..., parent: str ='', before: str ='', callback: Callable =None, callback_data: Any =None, show: bool =True, reorderable: bool =False) -> str:
 	"""Undocumented function"""
 	...
 
-def add_table(*, width: int =0, height: int =0, parent: str ='', before: str ='', label: str ='', source: str ='', callback: Callable =None, callback_data: Any =None, show: bool =True, enabled: bool =True, header_row: bool =True, inner_width: int =0, policy: int =0, resizable: bool =False, reorderable: bool =False, hideable: bool =False, sortable: bool =False, context_menu_in_body: bool =False, row_background: bool =False, borders_innerH: bool =False, borders_outerH: bool =False, borders_innerV: bool =False, borders_outerV: bool =False, no_host_extendX: bool =False, no_host_extendY: bool =False, no_keep_columns_visible: bool =False, precise_widths: bool =False, no_clip: bool =False, pad_outerX: bool =False, no_pad_outerX: bool =False, no_pad_innerX: bool =False, scrollX: bool =False, scrollY: bool =False) -> str:
+def add_tab_button(*, id: str =..., parent: str ='', before: str ='', label: str ='', callback: Callable =None, callback_data: Any =None, show: bool =True, no_reorder: bool =False, leading: bool =False, trailing: bool =False, no_tooltip: bool =False) -> str:
 	"""Undocumented function"""
 	...
 
-def add_table_column(*, width: int =0, height: int =0, parent: str ='', before: str ='', label: str ='', source: str ='', callback: Callable =None, callback_data: Any =None, show: bool =True, enabled: bool =True, init_width_or_weight: bool =0.0, default_hide: bool =False, default_sort: bool =False, width_stretch: bool =False, width_fixed: bool =False, no_resize: bool =False, no_reorder: bool =False, no_hide: bool =False, no_clip: bool =False, no_sort: bool =False, no_sort_ascending: bool =False, no_sort_descending: bool =False, no_header_width: bool =False, prefer_sort_ascending: bool =False, prefer_sort_descending: bool =False, indent_enable: bool =False, indent_disable: bool =False) -> str:
+def add_table(*, id: str =..., width: int =0, height: int =0, parent: str ='', before: str ='', show: bool =True, header_row: bool =True, inner_width: int =0, policy: int =0, resizable: bool =False, reorderable: bool =False, hideable: bool =False, sortable: bool =False, context_menu_in_body: bool =False, row_background: bool =False, borders_innerH: bool =False, borders_outerH: bool =False, borders_innerV: bool =False, borders_outerV: bool =False, no_host_extendX: bool =False, no_host_extendY: bool =False, no_keep_columns_visible: bool =False, precise_widths: bool =False, no_clip: bool =False, pad_outerX: bool =False, no_pad_outerX: bool =False, no_pad_innerX: bool =False, scrollX: bool =False, scrollY: bool =False) -> str:
 	"""Undocumented function"""
 	...
 
-def add_table_next_column(*, width: int =0, height: int =0, parent: str ='', before: str ='', label: str ='', source: str ='', callback: Callable =None, callback_data: Any =None, show: bool =True, enabled: bool =True) -> str:
+def add_table_column(*, id: str =..., parent: str ='', before: str ='', show: bool =True, init_width_or_weight: bool =0.0, default_hide: bool =False, default_sort: bool =False, width_stretch: bool =False, width_fixed: bool =False, no_resize: bool =False, no_reorder: bool =False, no_hide: bool =False, no_clip: bool =False, no_sort: bool =False, no_sort_ascending: bool =False, no_sort_descending: bool =False, no_header_width: bool =False, prefer_sort_ascending: bool =False, prefer_sort_descending: bool =False, indent_enable: bool =False, indent_disable: bool =False) -> str:
 	"""Undocumented function"""
 	...
 
-def add_text(default_value : str ='', *, width: int =0, height: int =0, parent: str ='', before: str ='', label: str ='', source: str ='', callback: Callable =None, callback_data: Any =None, show: bool =True, enabled: bool =True, wrap: int =-1, bullet: bool =False, color: List[float] =(-1, -1, -1, -1)) -> str:
+def add_table_next_column(*, id: str =..., parent: str ='', before: str ='', show: bool =True) -> str:
 	"""Undocumented function"""
 	...
 
-def add_text_point(x : float, y : float, *, width: int =0, height: int =0, parent: str ='', before: str ='', label: str ='', source: str ='', callback: Callable =None, callback_data: Any =None, show: bool =True, enabled: bool =True, x_offset: int =..., y_offset: int =..., axis: int =0, contribute_to_bounds: bool =True, vertical: bool =False) -> str:
+def add_text(default_value : str ='', *, id: str =..., parent: str ='', before: str ='', source: str ='', show: bool =True, wrap: int =-1, bullet: bool =False, color: List[float] =(-1, -1, -1, -1)) -> str:
 	"""Undocumented function"""
 	...
 
-def add_texture(name : str, data : List[int], width : int, height : int, *, format: int =0) -> str:
+def add_text_point(x : float, y : float, *, id: str =..., parent: str ='', before: str ='', label: str ='', source: str ='', show: bool =True, x_offset: int =..., y_offset: int =..., axis: int =0, contribute_to_bounds: bool =True, vertical: bool =False) -> str:
 	"""Undocumented function"""
 	...
 
-def add_time_picker(*, width: int =0, height: int =0, parent: str ='', before: str ='', label: str ='', source: str ='', callback: Callable =None, callback_data: Any =None, show: bool =True, enabled: bool =True, default_value: dict ={'hour': 14, 'min': 32, 'sec': 23}, hour24: bool =False) -> str:
+def add_texture_container() -> None:
 	"""Undocumented function"""
 	...
 
-def add_tooltip(*, width: int =0, height: int =0, parent: str ='', before: str ='', label: str ='', source: str ='', callback: Callable =None, callback_data: Any =None, show: bool =True, enabled: bool =True) -> str:
+def add_time_picker(*, id: str =..., parent: str ='', before: str ='', callback: Callable =None, callback_data: Any =None, show: bool =True, default_value: dict ={'hour': 14, 'min': 32, 'sec': 23}, hour24: bool =False) -> str:
 	"""Undocumented function"""
 	...
 
-def add_tree_node(*, width: int =0, height: int =0, parent: str ='', before: str ='', label: str ='', source: str ='', callback: Callable =None, callback_data: Any =None, show: bool =True, enabled: bool =True, default_open: bool =False, open_on_double_click: bool =False, open_on_arrow: bool =False, leaf: bool =False, bullet: bool =False) -> str:
+def add_tooltip(*, id: str =..., show: bool =True) -> str:
 	"""Undocumented function"""
 	...
 
-def add_vline_series(x : List[float], *, width: int =0, height: int =0, parent: str ='', before: str ='', label: str ='', source: str ='', callback: Callable =None, callback_data: Any =None, show: bool =True, enabled: bool =True, axis: int =0, contribute_to_bounds: bool =True) -> str:
+def add_tree_node(*, id: str =..., parent: str ='', before: str ='', label: str ='', show: bool =True, default_open: bool =False, open_on_double_click: bool =False, open_on_arrow: bool =False, leaf: bool =False, bullet: bool =False) -> str:
 	"""Undocumented function"""
 	...
 
-def add_window(*, width: int =0, height: int =0, parent: str ='', before: str ='', label: str ='', source: str ='', callback: Callable =None, callback_data: Any =None, show: bool =True, enabled: bool =True, x_pos: int =200, y_pos: int =200, min_size: List[int] =[32, 32], max_size: List[int] =[30000, 30000], menubar: bool =False, collapsed: bool =False, autosize: bool =False, no_resize: bool =False, no_title_bar: bool =False, no_move: bool =False, no_scrollbar: bool =False, no_collapse: bool =False, horizontal_scrollbar: bool =False, no_focus_on_appearing: bool =False, no_bring_to_front_on_focus: bool =False, no_close: bool =False, no_background: bool =False, on_close: Callable =None) -> str:
+def add_vline_series(x : List[float], *, id: str =..., parent: str ='', before: str ='', label: str ='', source: str ='', show: bool =True, axis: int =0, contribute_to_bounds: bool =True) -> str:
+	"""Undocumented function"""
+	...
+
+def add_window(*, id: str =..., width: int =0, height: int =0, label: str ='', show: bool =True, x_pos: int =200, y_pos: int =200, min_size: List[int] =[32, 32], max_size: List[int] =[30000, 30000], menubar: bool =False, collapsed: bool =False, autosize: bool =False, no_resize: bool =False, no_title_bar: bool =False, no_move: bool =False, no_scrollbar: bool =False, no_collapse: bool =False, horizontal_scrollbar: bool =False, no_focus_on_appearing: bool =False, no_bring_to_front_on_focus: bool =False, no_close: bool =False, no_background: bool =False, on_close: Callable =None) -> str:
 	"""Undocumented function"""
 	...
 
@@ -394,11 +402,7 @@ def configure_viewport() -> None:
 	"""Undocumented function"""
 	...
 
-def create_viewport(*, title: str ='Dear PyGui', small_icon: str ='', large_icon: str ='', width: str =1280, height: str =800, x_pos: str =100, y_pos: str =100, min_width: str =250, max_width: str =10000, min_height: str =250, max_height: str =10000, resizable: bool =True, vsync: bool =True, always_on_top: bool =False, maximized_box: bool =True, minimized_box: bool =True, border: bool =True, caption: bool =True, overlapped: bool =True) -> str:
-	"""Undocumented function"""
-	...
-
-def decrement_texture(name : str) -> str:
+def create_viewport(*, title: str ='Dear PyGui', small_icon: str ='', large_icon: str ='', width: str =1280, height: str =800, x_pos: str =100, y_pos: str =100, min_width: str =250, max_width: str =10000, min_height: str =250, max_height: str =10000, resizable: bool =True, vsync: bool =True, always_on_top: bool =False, maximized_box: bool =True, minimized_box: bool =True, border: bool =True, caption: bool =True, overlapped: bool =True, clear_color: List[float] =(0.0, 0.0, 0.0, 1.0)) -> str:
 	"""Undocumented function"""
 	...
 
@@ -414,55 +418,51 @@ def delete_item(item : str, *, children_only: bool =False) -> None:
 	"""Undocumented function"""
 	...
 
-def delete_node_link(node_editor : str, node_1 : str, node_2 : str) -> None:
-	"""Undocumented function"""
-	...
-
 def does_item_exist(item : str) -> bool:
 	"""Undocumented function"""
 	...
 
-def draw_arrow(p1 : List[float], p2 : List[float], *, width: int =0, height: int =0, parent: str ='', before: str ='', label: str ='', source: str ='', callback: Callable =None, callback_data: Any =None, show: bool =True, enabled: bool =True, color: List[int] =(255, 255, 255, 255), thickness: float =1.0, size: int =4) -> str:
+def draw_arrow(p1 : List[float], p2 : List[float], *, id: str =..., parent: str ='', before: str ='', show: bool =True, color: List[int] =(255, 255, 255, 255), thickness: float =1.0, size: int =4) -> str:
 	"""Undocumented function"""
 	...
 
-def draw_bezier_curve(p1 : List[float], p2 : List[float], p3 : List[float], p4 : List[float], *, width: int =0, height: int =0, parent: str ='', before: str ='', label: str ='', source: str ='', callback: Callable =None, callback_data: Any =None, show: bool =True, enabled: bool =True, color: List[int] =(255, 255, 255, 255), thickness: float =1.0, size: int =4, segments: int =0) -> str:
+def draw_bezier_curve(p1 : List[float], p2 : List[float], p3 : List[float], p4 : List[float], *, id: str =..., parent: str ='', before: str ='', show: bool =True, color: List[int] =(255, 255, 255, 255), thickness: float =1.0, size: int =4, segments: int =0) -> str:
 	"""Undocumented function"""
 	...
 
-def draw_circle(center : List[float], radius : float, *, width: int =0, height: int =0, parent: str ='', before: str ='', label: str ='', source: str ='', callback: Callable =None, callback_data: Any =None, show: bool =True, enabled: bool =True, color: List[int] =(255, 255, 255, 255), fill: List[int] =(0, 0, 0, -255), thickness: float =1.0, size: int =4, segments: int =0) -> str:
+def draw_circle(center : List[float], radius : float, *, id: str =..., parent: str ='', before: str ='', show: bool =True, color: List[int] =(255, 255, 255, 255), fill: List[int] =(0, 0, 0, -255), thickness: float =1.0, size: int =4, segments: int =0) -> str:
 	"""Undocumented function"""
 	...
 
-def draw_image(file : str, pmin : List[float], pmax : List[float], *, width: int =0, height: int =0, parent: str ='', before: str ='', label: str ='', source: str ='', callback: Callable =None, callback_data: Any =None, show: bool =True, enabled: bool =True, uv_min: List[float] =(0.0, 0.0), uv_max: List[float] =(1.0, 1.0), color: List[int] =(255, 255, 255, 255)) -> str:
+def draw_image(file : str, pmin : List[float], pmax : List[float], *, id: str =..., parent: str ='', before: str ='', show: bool =True, uv_min: List[float] =(0.0, 0.0), uv_max: List[float] =(1.0, 1.0), color: List[int] =(255, 255, 255, 255)) -> str:
 	"""Undocumented function"""
 	...
 
-def draw_line(p1 : List[float], p2 : List[float], *, width: int =0, height: int =0, parent: str ='', before: str ='', label: str ='', source: str ='', callback: Callable =None, callback_data: Any =None, show: bool =True, enabled: bool =True, color: List[int] =(255, 255, 255, 255), thickness: float =1.0) -> str:
+def draw_line(p1 : List[float], p2 : List[float], *, id: str =..., parent: str ='', before: str ='', show: bool =True, color: List[int] =(255, 255, 255, 255), thickness: float =1.0) -> str:
 	"""Undocumented function"""
 	...
 
-def draw_polygon(points : List[List[float]], *, width: int =0, height: int =0, parent: str ='', before: str ='', label: str ='', source: str ='', callback: Callable =None, callback_data: Any =None, show: bool =True, enabled: bool =True, color: List[int] =(255, 255, 255, 255), fill: List[int] =(0, 0, 0, -255), thickness: float =1.0) -> str:
+def draw_polygon(points : List[List[float]], *, id: str =..., parent: str ='', before: str ='', show: bool =True, color: List[int] =(255, 255, 255, 255), fill: List[int] =(0, 0, 0, -255), thickness: float =1.0) -> str:
 	"""Undocumented function"""
 	...
 
-def draw_polyline(points : List[List[float]], *, width: int =0, height: int =0, parent: str ='', before: str ='', label: str ='', source: str ='', callback: Callable =None, callback_data: Any =None, show: bool =True, enabled: bool =True, closed: bool =False, color: List[int] =(255, 255, 255, 255), thickness: float =1.0) -> str:
+def draw_polyline(points : List[List[float]], *, id: str =..., parent: str ='', before: str ='', show: bool =True, closed: bool =False, color: List[int] =(255, 255, 255, 255), thickness: float =1.0) -> str:
 	"""Undocumented function"""
 	...
 
-def draw_quad(p1 : List[float], p2 : List[float], p3 : List[float], p4 : List[float], *, width: int =0, height: int =0, parent: str ='', before: str ='', label: str ='', source: str ='', callback: Callable =None, callback_data: Any =None, show: bool =True, enabled: bool =True, color: List[int] =(255, 255, 255, 255), fill: List[int] =(0, 0, 0, -255), thickness: float =1.0) -> str:
+def draw_quad(p1 : List[float], p2 : List[float], p3 : List[float], p4 : List[float], *, id: str =..., parent: str ='', before: str ='', show: bool =True, color: List[int] =(255, 255, 255, 255), fill: List[int] =(0, 0, 0, -255), thickness: float =1.0) -> str:
 	"""Undocumented function"""
 	...
 
-def draw_rectangle(pmin : List[float], pmax : List[float], *, width: int =0, height: int =0, parent: str ='', before: str ='', label: str ='', source: str ='', callback: Callable =None, callback_data: Any =None, show: bool =True, enabled: bool =True, color: List[int] =(255, 255, 255, 255), fill: List[int] =(0, 0, 0, -255), rounding: float =0.0, thickness: float =1.0) -> str:
+def draw_rectangle(pmin : List[float], pmax : List[float], *, id: str =..., parent: str ='', before: str ='', show: bool =True, color: List[int] =(255, 255, 255, 255), fill: List[int] =(0, 0, 0, -255), rounding: float =0.0, thickness: float =1.0) -> str:
 	"""Undocumented function"""
 	...
 
-def draw_text(pos : List[float], text : str, *, width: int =0, height: int =0, parent: str ='', before: str ='', label: str ='', source: str ='', callback: Callable =None, callback_data: Any =None, show: bool =True, enabled: bool =True, color: List[int] =(255, 255, 255, 255), size: int =10) -> str:
+def draw_text(pos : List[float], text : str, *, id: str =..., parent: str ='', before: str ='', show: bool =True, color: List[int] =(255, 255, 255, 255), size: int =10) -> str:
 	"""Undocumented function"""
 	...
 
-def draw_triangle(p1 : List[float], p2 : List[float], p3 : List[float], *, width: int =0, height: int =0, parent: str ='', before: str ='', label: str ='', source: str ='', callback: Callable =None, callback_data: Any =None, show: bool =True, enabled: bool =True, color: List[int] =(255, 255, 255, 255), fill: List[int] =(0, 0, 0, -255), thickness: float =1.0) -> str:
+def draw_triangle(p1 : List[float], p2 : List[float], p3 : List[float], *, id: str =..., parent: str ='', before: str ='', show: bool =True, color: List[int] =(255, 255, 255, 255), fill: List[int] =(0, 0, 0, -255), thickness: float =1.0) -> str:
 	"""Undocumented function"""
 	...
 

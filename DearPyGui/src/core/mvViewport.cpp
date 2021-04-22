@@ -49,6 +49,9 @@ namespace Marvel {
 			parser.addArg<mvPyDataType::Bool>("border", mvArgType::KEYWORD_ARG, "True");
 			parser.addArg<mvPyDataType::Bool>("caption", mvArgType::KEYWORD_ARG, "True");
 			parser.addArg<mvPyDataType::Bool>("overlapped", mvArgType::KEYWORD_ARG, "True");
+
+			parser.addArg<mvPyDataType::FloatList>("clear_color", mvArgType::KEYWORD_ARG, "(0, 0, 0, 255)");
+
 			parser.finalize();
 			parsers->insert({ "create_viewport", parser });
 		}
@@ -94,6 +97,7 @@ namespace Marvel {
 		if (dict == nullptr)
 			return;
 
+		if (PyObject* item = PyDict_GetItemString(dict, "clear_color")) m_clearColor = ToColor(item);
 		if (PyObject* item = PyDict_GetItemString(dict, "small_icon")) m_small_icon = ToString(item);
 		if (PyObject* item = PyDict_GetItemString(dict, "large_icon")) m_large_icon = ToString(item);
 		if (PyObject* item = PyDict_GetItemString(dict, "x_pos")) { m_posDirty = true;  m_xpos = ToInt(item);}
@@ -136,6 +140,11 @@ namespace Marvel {
 		int height = 800;
 		int x_pos = 100;
 		int y_pos = 100;
+		int min_width = 250;
+		int max_width = 10000;
+		int min_height = 250;
+		int max_height = 10000;
+
 		int resizable = true;
 		int vsync = true;
 		int always_on_top = true;
@@ -144,16 +153,19 @@ namespace Marvel {
 		int border = true;
 		int caption = true;
 		int overlapped = true;
-		int min_width = 250;
-		int max_width = 10000;
-		int min_height = 250;
-		int max_height = 10000;
+
+		PyObject* color = PyList_New(4);
+		PyList_SetItem(color, 0, PyFloat_FromDouble(0.0));
+		PyList_SetItem(color, 1, PyFloat_FromDouble(0.0));
+		PyList_SetItem(color, 2, PyFloat_FromDouble(0.0));
+		PyList_SetItem(color, 3, PyFloat_FromDouble(1.0));
 
 
 		if (!(mvApp::GetApp()->getParsers())["create_viewport"].parse(args, kwargs, __FUNCTION__,
-			&title, &small_icon, &large_icon, &width, &height, &x_pos, &y_pos, &resizable, &vsync, &always_on_top,
-			&maximized_box, &minimized_box, &border, &caption, &overlapped,
-			&min_width, &max_width, &min_height, &max_height))
+			&title, &small_icon, &large_icon, &width, &height, &x_pos, &y_pos, &min_width, &max_width, &min_height, &max_height ,
+			&resizable, &vsync, &always_on_top,
+			&maximized_box, &minimized_box, &border, &caption, &overlapped, &color
+			))
 			return GetPyNone();
 
 		mvViewport* viewport = CreateViewport(width, height, false);
