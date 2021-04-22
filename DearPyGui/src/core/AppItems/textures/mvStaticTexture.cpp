@@ -25,6 +25,8 @@ namespace Marvel {
 		parser.addArg<mvPyDataType::Integer>("height");
 		parser.addArg<mvPyDataType::FloatList>("default_value");
 
+		parser.addArg<mvPyDataType::String>("file", mvArgType::KEYWORD_ARG, "''");
+
 		parser.finalize();
 
 		parsers->insert({ s_command, parser });
@@ -39,7 +41,9 @@ namespace Marvel {
 
 	mvStaticTexture::~mvStaticTexture()
 	{
-		//UnloadTexture(m_name);
+		if (m_name == "INTERNAL_DPG_FONT_ATLAS")
+			return;
+		UnloadTexture(m_name);
 		FreeTexture(m_texture);
 	}
 
@@ -65,8 +69,13 @@ namespace Marvel {
 			m_width = ImGui::GetIO().Fonts->TexWidth;
 			m_height = ImGui::GetIO().Fonts->TexHeight;
 		}
+		else if (!m_file.empty())
+			m_texture = LoadTextureFromFile(m_file.c_str(), m_width, m_height);
 		else
 			m_texture = LoadTextureFromArray(m_width, m_height, m_value->data());
+
+		if (m_texture == nullptr)
+			m_state.setOk(false);
 
 
 		m_dirty = false;
@@ -105,6 +114,7 @@ namespace Marvel {
 		if (dict == nullptr)
 			return;
 
+		if (PyObject* item = PyDict_GetItemString(dict, "file")) m_file = ToString(item);
 	}
 
 	void mvStaticTexture::getSpecificConfiguration(PyObject* dict)

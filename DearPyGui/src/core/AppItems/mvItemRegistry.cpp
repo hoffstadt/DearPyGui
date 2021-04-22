@@ -500,6 +500,10 @@ namespace Marvel {
 		if (item == nullptr)
 			return false;
 
+		// check if item is ok
+		if (!item->getState().isOk())
+			return false;
+
 		//---------------------------------------------------------------------------
 		// STEP 0: check if an item with this name exists
 		//---------------------------------------------------------------------------

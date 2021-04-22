@@ -287,4 +287,10 @@ namespace Marvel {
         texture = nullptr;
     }
 
+    bool UnloadTexture(const std::string& filename)
+    {
+        // TODO : decide if cleanup is necessary
+        return true;
+    }
+
 }

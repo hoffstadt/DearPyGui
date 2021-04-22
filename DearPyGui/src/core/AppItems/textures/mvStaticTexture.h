@@ -45,8 +45,9 @@ namespace Marvel {
 
 	private:
 
-		void* m_texture = nullptr;
-		bool  m_dirty = true;
+		void*       m_texture = nullptr;
+		bool        m_dirty = true;
+		std::string m_file;
 
 	};
 

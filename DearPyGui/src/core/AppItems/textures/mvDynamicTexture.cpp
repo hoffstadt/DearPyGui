@@ -39,7 +39,7 @@ namespace Marvel {
 
 	mvDynamicTexture::~mvDynamicTexture()
 	{
-		//UnloadTexture(m_name);
+		UnloadTexture(m_name);
 		FreeTexture(m_texture);
 	}
 
@@ -60,6 +60,9 @@ namespace Marvel {
 		{
 
 			m_texture = LoadTextureFromArrayDynamic(m_width, m_height, m_value->data());
+
+			if (m_texture == nullptr)
+				m_state.setOk(false);
 
 			m_dirty = false;
 			return;

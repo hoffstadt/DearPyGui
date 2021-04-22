@@ -15,6 +15,7 @@ namespace Marvel {
 
 	// general
 	void FreeTexture(void* texture);
+	bool UnloadTexture(const std::string& filename);
 	
 	// static textures
 	void* LoadTextureFromFile(const char* filename, int& width, int& height);

@@ -36,6 +36,10 @@ namespace Marvel {
 
 		if (m_texture)
 		{
+
+			if (!m_texture->getState().isOk())
+				return;
+
 			void* texture = nullptr;
 
 			if (m_texture->getType() == mvAppItemType::mvStaticTexture)
@@ -67,7 +71,13 @@ namespace Marvel {
 			{
 				m_value = ToString(item);
 				m_texture = mvApp::GetApp()->getItemRegistry().getItem(m_value);
-				break;
+				if (m_texture)
+					break;
+				else
+				{
+					m_texture = std::make_shared<mvStaticTexture>(m_value);
+					break;
+				}
 			}
 
 			default:
