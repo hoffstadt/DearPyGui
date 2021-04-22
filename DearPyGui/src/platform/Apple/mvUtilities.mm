@@ -12,15 +12,14 @@
 
 // this is necessary to keep objective-c's reference counts
 // from reaching 0.
-static std::vector<std::pair<std::string, id<MTLTexture>>> g_textures;
+static std::vector<std::pair<id<MTLTexture>, id<MTLTexture>>> g_textures;
 
 namespace Marvel {
     
-    bool LoadTextureFromArray(const char* name, float* data, unsigned width, unsigned height, mvTexture& storage, mvTextureFormat format)
+    void* LoadTextureFromArray(unsigned width, unsigned height, float* data)
     {
 
         MTLTextureDescriptor *textureDescriptor = [MTLTextureDescriptor texture2DDescriptorWithPixelFormat:MTLPixelFormatRGBA32Float width:width height:height mipmapped:NO];
-
 
         textureDescriptor.usage = MTLTextureUsageShaderRead;
         textureDescriptor.storageMode = MTLStorageModeManaged;
@@ -28,22 +27,33 @@ namespace Marvel {
         id <MTLTexture> texture = [mvAppleViewport::GetDevice() newTextureWithDescriptor:textureDescriptor];
         [texture replaceRegion:MTLRegionMake2D(0, 0, width, height) mipmapLevel:0 withBytes:data bytesPerRow:width * 4 * 4];
 
-        g_textures.push_back({name, texture});
+        g_textures.push_back({texture, texture});
 
-        storage.texture = (__bridge void*)g_textures.back().second;
-        storage.width = width;
-        storage.height = height;
-
-        return true;
+        return (__bridge void*)g_textures.back().second;
     }
 
-    bool LoadTextureFromFile(const char* filename, mvTexture& storage)
+    void* LoadTextureFromArrayDynamic(unsigned width, unsigned height, float* data)
     {
-        int width, height;
+
+        MTLTextureDescriptor *textureDescriptor = [MTLTextureDescriptor texture2DDescriptorWithPixelFormat:MTLPixelFormatRGBA32Float width:width height:height mipmapped:NO];
+
+        textureDescriptor.usage = MTLTextureUsageShaderRead;
+        textureDescriptor.storageMode = MTLStorageModeManaged;
+
+        id <MTLTexture> texture = [mvAppleViewport::GetDevice() newTextureWithDescriptor:textureDescriptor];
+        [texture replaceRegion:MTLRegionMake2D(0, 0, width, height) mipmapLevel:0 withBytes:data bytesPerRow:width * 4 * 4];
+
+        g_textures.push_back({texture, texture});
+
+        return (__bridge void*)g_textures.back().second;
+    }
+
+    void* LoadTextureFromFile(const char* filename, int& width, int& height)
+    {
 
         unsigned char* image_data = stbi_load(filename, &width, &height, nullptr, 4);
         if (image_data == nullptr)
-            return false;
+            return nullptr;
 
         MTLTextureDescriptor *textureDescriptor = [MTLTextureDescriptor texture2DDescriptorWithPixelFormat:MTLPixelFormatRGBA8Unorm
                                                                                                      width:width
@@ -55,33 +65,35 @@ namespace Marvel {
         id <MTLTexture> texture = [mvAppleViewport::GetDevice() newTextureWithDescriptor:textureDescriptor];
         [texture replaceRegion:MTLRegionMake2D(0, 0, width, height) mipmapLevel:0 withBytes:image_data bytesPerRow:width * 4];
 
-        g_textures.push_back({filename, texture});
+        g_textures.push_back({texture, texture});
 
-        storage.texture = (__bridge void*)g_textures.back().second;
-        storage.width = width;
-        storage.height = height;
-
-        return true;
+        return (__bridge void*)g_textures.back().second;
     }
 
 	bool UnloadTexture(const std::string& filename)
 	{
-        std::vector<std::pair<std::string, id<MTLTexture>>> oldtextures = g_textures;
-        g_textures.clear();
-        for(auto& texture : oldtextures)
-        {
-            if(texture.first != filename)
-                g_textures.push_back(texture);
-        }
+
 		return true;
 	}
 
-    void FreeTexture(mvTexture& storage)
+    void FreeTexture(void* texture)
     {
-        id <MTLTexture> out_srv = (__bridge id <MTLTexture>)storage.texture;
+        id <MTLTexture> out_srv = (__bridge id <MTLTexture>)texture;
 
-        // ARC should take care of this but I'm not sure. This needs to be checked.
+        std::vector<std::pair<id<MTLTexture>, id<MTLTexture>>> oldtextures = g_textures;
+        g_textures.clear();
+        for(auto& texturepair : oldtextures)
+        {
+            if(texturepair.first != out_srv)
+                g_textures.push_back(texturepair);
+        }
 
+    }
+
+    void UpdateTexture(void* texture, unsigned width, unsigned height, std::vector<float>& data)
+    {
+        id <MTLTexture> out_srv = (__bridge id <MTLTexture>)texture;
+        [out_srv replaceRegion:MTLRegionMake2D(0, 0, width, height) mipmapLevel:0 withBytes:data.data() bytesPerRow:width * 4 * 4];
     }
 
 }

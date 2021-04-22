@@ -19,7 +19,7 @@ set(MARVEL_SOURCES
 	"$<$<PLATFORM_ID:Windows>:src/platform/Windows/mvUtilities.cpp>"
 
 	"$<$<PLATFORM_ID:Darwin>:src/platform/Apple/mvAppleViewport.mm>"
-	"$<$<PLATFORM_ID:Darwin>:src/platform/Apple/mvAppleUtilities.mm>"
+	"$<$<PLATFORM_ID:Darwin>:src/platform/Apple/mvUtilities.mm>"
 
 	"$<$<PLATFORM_ID:Linux>:src/platform/Linux/mvUtilities.cpp>"
 	"$<$<PLATFORM_ID:Linux>:src/platform/Linux/mvLinuxViewport.cpp>"
@@ -40,12 +40,15 @@ set(MARVEL_SOURCES
 	"src/core/Theming/mvFontManager.cpp"
 
 	"src/core/Registries/mvCallbackRegistry.cpp"
-	"src/core/Registries/mvTextureStorage.cpp"
 
 	"src/core/AppItems/mvAppItemState.cpp"
 	"src/core/AppItems/mvAppItem.cpp"
 	"src/core/AppItems/mvTypeBases.cpp"
 	"src/core/AppItems/mvItemRegistry.cpp"
+
+	"src/core/AppItems/textures/mvStaticTexture.cpp"
+	"src/core/AppItems/textures/mvDynamicTexture.cpp"
+	"src/core/AppItems/textures/mvTextureContainer.cpp"
 
 	"src/core/AppItems/basic/mvMenuItem.cpp"
 	"src/core/AppItems/basic/mvInputText.cpp"

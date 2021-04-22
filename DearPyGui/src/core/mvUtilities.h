@@ -10,13 +10,19 @@
 
 #include <vector>
 #include <string>
-#include "mvTextureStorage.h"
 
 namespace Marvel {
 
-	bool        UnloadTexture       (const std::string& filename);
-	bool        LoadTextureFromArray(const char* name, float* data, unsigned width, unsigned height, mvTexture& storage, mvTextureFormat format);
-	bool        LoadTextureFromFile (const char* filename, mvTexture& storage);
-	void        FreeTexture         (mvTexture& storage);
+	// general
+	void FreeTexture(void* texture);
+	bool UnloadTexture(const std::string& filename);
+	
+	// static textures
+	void* LoadTextureFromFile(const char* filename, int& width, int& height);
+	void* LoadTextureFromArray(unsigned width, unsigned height, float* data);
+
+	// dynamic textures
+	void* LoadTextureFromArrayDynamic(unsigned width, unsigned height, float* data);
+	void UpdateTexture(void* texture, unsigned width, unsigned height, std::vector<float>& data);
 
 }

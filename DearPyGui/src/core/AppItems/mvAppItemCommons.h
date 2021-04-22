@@ -1,5 +1,9 @@
 #pragma once
 
+#include "textures/mvStaticTexture.h"
+#include "textures/mvDynamicTexture.h"
+#include "textures/mvTextureContainer.h"
+
 #include "basic/mvInputText.h"
 #include "basic/mvRadioButton.h"
 #include "basic/mvListbox.h"
