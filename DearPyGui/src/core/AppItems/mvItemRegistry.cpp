@@ -102,6 +102,8 @@ namespace Marvel {
 		add_hidden_window(CreateRef<mvMetricsWindow>("metrics##standard"), "Metrics");
 		add_hidden_window(CreateRef<mvStyleWindow>("style##standard"), "Dear PyGui Style Editor");
 		add_hidden_window(CreateRef<mvFileDialog>(), "FileDialog");
+
+		m_frontWindows.push_back(CreateRef<mvTextureContainer>("TextureRegistry"));
 		
 	}
 
@@ -496,6 +498,10 @@ namespace Marvel {
 		MV_ITEM_REGISTRY_TRACE("Adding runtime item: " + item->m_name);
 
 		if (item == nullptr)
+			return false;
+
+		// check if item is ok
+		if (!item->getState().isOk())
 			return false;
 
 		//---------------------------------------------------------------------------

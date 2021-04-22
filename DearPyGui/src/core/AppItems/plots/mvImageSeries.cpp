@@ -4,7 +4,6 @@
 #include "mvApp.h"
 #include "mvItemRegistry.h"
 #include "mvImPlotThemeScope.h"
-#include "mvTextureStorage.h"
 
 namespace Marvel {
 
@@ -43,27 +42,6 @@ namespace Marvel {
 	{
 	}
 
-	bool mvImageSeries::onEvent(mvEvent& event)
-	{
-		mvEventDispatcher dispatcher(event);
-		dispatcher.dispatch(BIND_EVENT_METH(mvImageSeries::onTextureDeleted), mvEVT_DELETE_TEXTURE);
-
-		return event.handled;
-	}
-
-	bool mvImageSeries::onTextureDeleted(mvEvent& event)
-	{
-		std::string name = GetEString(event, "NAME");
-
-		if (name == m_imagevalue)
-		{
-			m_texture = nullptr;
-			return true;
-		}
-
-		return false;
-	}
-
 	void mvImageSeries::draw(ImDrawList* drawlist, float x, float y)
 	{
 		ScopedID id;
@@ -84,14 +62,19 @@ namespace Marvel {
 			break;
 		}
 
-		if (m_texture == nullptr)
-		{
-			mvApp::GetApp()->getTextureStorage().addTexture(m_imagevalue);
-			mvTexture* texture = mvApp::GetApp()->getTextureStorage().getTexture(m_imagevalue);
-			m_texture = texture->texture;
-		}
 		if (m_texture)
-			ImPlot::PlotImage(m_label.c_str(), m_texture, m_bounds_min, m_bounds_max, m_uv_min, m_uv_max, m_tintColor);
+		{
+			if (!m_texture->getState().isOk())
+				return;
+
+			void* texture = nullptr;
+
+			if (m_texture->getType() == mvAppItemType::mvStaticTexture)
+				texture = static_cast<mvStaticTexture*>(m_texture.get())->getRawTexture();
+			else
+				texture = static_cast<mvDynamicTexture*>(m_texture.get())->getRawTexture();
+			ImPlot::PlotImage(m_label.c_str(), texture, m_bounds_min, m_bounds_max, m_uv_min, m_uv_max, m_tintColor);
+		}
 
 	}
 
@@ -106,8 +89,17 @@ namespace Marvel {
 			switch (i)
 			{
 			case 0:
+			{
 				m_imagevalue = ToString(item);
-				break;
+				m_texture = mvApp::GetApp()->getItemRegistry().getItem(m_imagevalue);
+				if (m_texture)
+					break;
+				else
+				{
+					m_texture = std::make_shared<mvStaticTexture>(m_imagevalue);
+					break;
+				}
+			}
 
 			case 1:
 			{

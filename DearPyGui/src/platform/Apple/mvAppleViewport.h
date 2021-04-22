@@ -26,8 +26,6 @@ namespace Marvel {
 
     private:
 
-        float m_clear_color[4] = {0.45f, 0.55f, 0.60f, 1.00f};
-
         GLFWwindow *m_window;
         CAMetalLayer *m_layer;
         MTLRenderPassDescriptor *m_renderPassDescriptor;

@@ -54,7 +54,8 @@ namespace Marvel {
         mvErrorSeries, mvVLineSeries, mvHLineSeries, mvHeatSeries,
         mvImageSeries, mvPieSeries, mvShadeSeries, mvLabelSeries,
         mvCandleSeries, mvAreaSeries, mvColorMapScale, mvSlider3D,
-        mvKnobFloat, mvLoadingIndicator, mvNodeLink,
+        mvKnobFloat, mvLoadingIndicator, mvNodeLink, 
+        mvTextureContainer, mvStaticTexture, mvDynamicTexture,
         ItemTypeCount
     };
 
@@ -66,7 +67,7 @@ namespace Marvel {
         Series,
         Bool,
         String,
-        Time, Color
+        Time, Color, Texture
     };
 
     enum ItemDescriptionFlags
@@ -83,6 +84,7 @@ namespace Marvel {
         std::shared_ptr<float >,
         std::shared_ptr<std::array<float, 4>>,
         std::shared_ptr<std::vector<float>>,
+        std::shared_ptr<std::vector<int>>,
         std::shared_ptr<std::vector<std::vector<float>>>,
         std::shared_ptr<bool>,
         std::shared_ptr<std::string>,
@@ -129,6 +131,7 @@ namespace Marvel {
         friend class mvFontScope;
         friend class mvDrawing;
         friend class mvPlot;
+        friend class mvTextureContainer;
 
     public:
 
@@ -261,6 +264,8 @@ namespace Marvel {
         mvAppItemState&                     getState       () { return m_state; } 
         mvAppItem*                          getParent() { return m_parentPtr; }
         bool                                isEnabled() const { return m_enabled; }
+        int getWidth() const { return m_width; }
+        int getHeight() const { return m_height; }
 
         // theme get/set
         std::unordered_map<mvAppItemType, mvThemeColors>& getColors() { return m_colors; }

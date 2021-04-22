@@ -4,11 +4,13 @@
 #include <array>
 #include "mvAppItem.h"
 #include "mvItemRegistry.h"
+#include "textures/mvStaticTexture.h"
+#include "textures/mvDynamicTexture.h"
 
 namespace Marvel {
 
 	MV_REGISTER_WIDGET(mvImageButton, MV_ITEM_DESC_DEFAULT, StorageValueTypes::None, 1);
-	class mvImageButton : public mvAppItem, public mvEventHandler
+	class mvImageButton : public mvAppItem
 	{
 
 	public:
@@ -51,14 +53,9 @@ namespace Marvel {
 
 		mvImageButton(const std::string& name);
 
-		~mvImageButton() override;
-
-		bool onEvent(mvEvent& event) override;
-		bool onTextureDeleted(mvEvent& event);
-
 		void draw(ImDrawList* drawlist, float x, float y) override;
 
-		void handleSpecificPositionalArgs(PyObject* dict) override;
+		void handleSpecificRequiredArgs(PyObject* dict) override;
 		void handleSpecificKeywordArgs(PyObject* dict) override;
 		void getSpecificConfiguration(PyObject* dict) override;
 
@@ -69,9 +66,10 @@ namespace Marvel {
 		mvVec2	    m_uv_max = { 1.0f, 1.0f };
 		mvColor     m_tintColor = { 1.0f, 1.0f, 1.0f, 1.0f };
 		mvColor     m_backgroundColor = { 0.0f, 0.0f, 0.0f, 0.0f };
-		void*       m_texture = nullptr;
 		int         m_framePadding = -1;
 		bool        m_dirty = false;
+
+		std::shared_ptr<mvAppItem> m_texture = nullptr;
 
 	};
 

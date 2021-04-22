@@ -75,6 +75,7 @@ namespace Marvel {
 		std::string       m_title = "DearPyGui";
 		std::string       m_small_icon;
 		std::string       m_large_icon;
+		mvColor           m_clearColor = mvColor(0, 0, 0, 255);
 
 
 		// window modes

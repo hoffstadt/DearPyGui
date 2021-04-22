@@ -39,7 +39,6 @@ namespace Marvel {
     class mvThemeManager;
     class mvFontManager;
     class mvItemRegistry;
-    class mvTextureStorage;
     class mvCallbackRegistry;
     struct mvColor;
     enum class mvAppItemType;
@@ -108,7 +107,6 @@ namespace Marvel {
         // Managers
         //-----------------------------------------------------------------------------
         mvItemRegistry&          getItemRegistry    ();
-        mvTextureStorage&        getTextureStorage  ();
         mvCallbackRegistry&      getCallbackRegistry();
         mvThemeManager&          getThemeManager    ();
         mvFontManager&           getFontManager     ();
@@ -149,7 +147,6 @@ namespace Marvel {
 
         // managers
         mvOwnedPtr<mvItemRegistry>                     m_itemRegistry;
-        mvOwnedPtr<mvTextureStorage>                   m_textureStorage;
         mvOwnedPtr<mvThemeManager>                     m_themeManager;
         mvOwnedPtr<mvFontManager>                      m_fontManager;
         mvOwnedPtr<mvCallbackRegistry>                 m_callbackRegistry;
