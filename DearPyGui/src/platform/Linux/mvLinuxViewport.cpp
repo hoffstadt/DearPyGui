@@ -11,7 +11,6 @@
 #include "imgui_impl_glfw.h"
 #include "imgui_impl_opengl3.h"
 #include <stdio.h>
-#include "mvTextureStorage.h"
 
 namespace Marvel {
 
@@ -217,8 +216,6 @@ namespace Marvel {
         ImGui_ImplGlfw_NewFrame();
         ImGui::NewFrame();
 
-        if (!mvApp::GetApp()->getTextureStorage().isValid())
-            mvApp::GetApp()->getTextureStorage().refreshAtlas();
     }
 
     void mvLinuxViewport::postrender()
