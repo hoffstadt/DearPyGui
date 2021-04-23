@@ -506,15 +506,15 @@ def get_grid_selections(data_grid : str) -> Any:
 	"""Undocumented function"""
 	...
 
-def get_item_children(item : str) -> List[str]:
-	"""Undocumented function"""
-	...
-
 def get_item_configuration(item : str) -> dict:
 	"""Undocumented function"""
 	...
 
-def get_item_parent(item : str) -> str:
+def get_item_info(item : str) -> dict:
+	"""Undocumented function"""
+	...
+
+def get_item_state(item : str) -> dict:
 	"""Undocumented function"""
 	...
 

@@ -2,6 +2,11 @@
 
 #include "mvCore.h"
 
+#ifndef PyObject_HEAD
+struct _object;
+typedef _object PyObject;
+#endif
+
 namespace Marvel {
 
     // forward declarations
@@ -11,6 +16,8 @@ namespace Marvel {
     {
 
     public:
+
+        void getState(PyObject* dict);
 
         void reset();
         void update();
@@ -45,7 +52,6 @@ namespace Marvel {
         void          setRectMin             (mvVec2 value)      { m_rectMin = value; }
         void          setRectMax             (mvVec2 value)      { m_rectMax = value; }
         void          setRectSize            (mvVec2 value)      { m_rectSize = value; }
-        void          setParent              (mvAppItem* parent) { m_parent = parent; };
         void          setOk                  (bool value)        { m_ok = value; };
 
     private:
@@ -63,7 +69,6 @@ namespace Marvel {
         mvVec2     m_rectMin              = { 0.0f, 0.0f };
         mvVec2     m_rectMax              = { 0.0f, 0.0f };
         mvVec2     m_rectSize             = { 0.0f, 0.0f };
-        mvAppItem* m_parent               = nullptr;
         bool       m_ok                   = true;
 
     };

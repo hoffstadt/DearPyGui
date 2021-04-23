@@ -138,51 +138,19 @@ namespace Marvel {
         static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
 
         MV_CREATE_EXTRA_COMMAND(get_item_configuration);
+        MV_CREATE_EXTRA_COMMAND(get_item_state);
+        MV_CREATE_EXTRA_COMMAND(get_item_info);
         MV_CREATE_EXTRA_COMMAND(configure_item);
-        MV_CREATE_EXTRA_COMMAND(get_item_type);
         MV_CREATE_EXTRA_COMMAND(get_value);
         MV_CREATE_EXTRA_COMMAND(set_value);
-        MV_CREATE_EXTRA_COMMAND(is_item_hovered);
-        MV_CREATE_EXTRA_COMMAND(is_item_shown);
-        MV_CREATE_EXTRA_COMMAND(is_item_active);
-        MV_CREATE_EXTRA_COMMAND(is_item_focused);
-        MV_CREATE_EXTRA_COMMAND(is_item_clicked);
-        MV_CREATE_EXTRA_COMMAND(is_item_container);
-        MV_CREATE_EXTRA_COMMAND(is_item_visible);
-        MV_CREATE_EXTRA_COMMAND(is_item_edited);
-        MV_CREATE_EXTRA_COMMAND(is_item_activated);
-        MV_CREATE_EXTRA_COMMAND(is_item_deactivated);
-        MV_CREATE_EXTRA_COMMAND(is_item_deactivated_after_edit);
-        MV_CREATE_EXTRA_COMMAND(is_item_toggled_open);
-        MV_CREATE_EXTRA_COMMAND(get_item_rect_min);
-        MV_CREATE_EXTRA_COMMAND(get_item_rect_max);
-        MV_CREATE_EXTRA_COMMAND(get_item_rect_size);
-        MV_CREATE_EXTRA_COMMAND(get_item_parent);
-        MV_CREATE_EXTRA_COMMAND(get_item_children);
 
         MV_START_EXTRA_COMMANDS
             MV_ADD_EXTRA_COMMAND(get_item_configuration);
+            MV_ADD_EXTRA_COMMAND(get_item_state);
+            MV_ADD_EXTRA_COMMAND(get_item_info);
             MV_ADD_EXTRA_COMMAND(configure_item);
-            MV_ADD_EXTRA_COMMAND(get_item_type);
             MV_ADD_EXTRA_COMMAND(get_value);
             MV_ADD_EXTRA_COMMAND(set_value);
-            MV_ADD_EXTRA_COMMAND(is_item_hovered);
-            MV_ADD_EXTRA_COMMAND(is_item_shown);
-            MV_ADD_EXTRA_COMMAND(is_item_active);
-            MV_ADD_EXTRA_COMMAND(is_item_focused);
-            MV_ADD_EXTRA_COMMAND(is_item_clicked);
-            MV_ADD_EXTRA_COMMAND(is_item_container);
-            MV_ADD_EXTRA_COMMAND(is_item_visible);
-            MV_ADD_EXTRA_COMMAND(is_item_edited);
-            MV_ADD_EXTRA_COMMAND(is_item_activated);
-            MV_ADD_EXTRA_COMMAND(is_item_deactivated);
-            MV_ADD_EXTRA_COMMAND(is_item_deactivated_after_edit);
-            MV_ADD_EXTRA_COMMAND(is_item_toggled_open);
-            MV_ADD_EXTRA_COMMAND(get_item_rect_min);
-            MV_ADD_EXTRA_COMMAND(get_item_rect_max);
-            MV_ADD_EXTRA_COMMAND(get_item_rect_size);
-            MV_ADD_EXTRA_COMMAND(get_item_parent);
-            MV_ADD_EXTRA_COMMAND(get_item_children);
         MV_END_EXTRA_COMMANDS
 
         static bool DoesItemHaveFlag(mvAppItem* item, int flag);
@@ -237,6 +205,7 @@ namespace Marvel {
         virtual bool           canChildBeAdded   (mvAppItemType type) { return true; }
 
     
+        void                                getItemInfo(PyObject* dict);
         void                                checkArgs(PyObject* args, PyObject* kwargs);    
         void                                handleKeywordArgs(PyObject* dict);  // python dictionary acts as an out parameter 
         void                                getConfiguration(PyObject* dict);
@@ -264,8 +233,9 @@ namespace Marvel {
         mvAppItemState&                     getState       () { return m_state; } 
         mvAppItem*                          getParent() { return m_parentPtr; }
         bool                                isEnabled() const { return m_enabled; }
-        int getWidth() const { return m_width; }
-        int getHeight() const { return m_height; }
+        int                                 getWidth() const { return m_width; }
+        int                                 getHeight() const { return m_height; }
+        const std::string&                  getName() const { return m_name; }
 
         // theme get/set
         std::unordered_map<mvAppItemType, mvThemeColors>& getColors() { return m_colors; }

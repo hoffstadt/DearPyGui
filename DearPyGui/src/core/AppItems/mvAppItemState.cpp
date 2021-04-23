@@ -36,4 +36,26 @@ namespace Marvel {
 
     }
 
+    void mvAppItemState::getState(PyObject* dict)
+    {
+        if (dict == nullptr)
+            return;
+
+        PyDict_SetItemString(dict, "hovered", ToPyBool(m_hovered));
+        PyDict_SetItemString(dict, "active", ToPyBool(m_active));
+        PyDict_SetItemString(dict, "focused", ToPyBool(m_focused));
+        PyDict_SetItemString(dict, "clicked", ToPyBool(m_clicked));
+        PyDict_SetItemString(dict, "visible", ToPyBool(m_visible));
+        PyDict_SetItemString(dict, "edited", ToPyBool(m_edited));
+        PyDict_SetItemString(dict, "activated", ToPyBool(m_activated));
+        PyDict_SetItemString(dict, "deactivated", ToPyBool(m_deactivated));
+        PyDict_SetItemString(dict, "deactivated_after_edit", ToPyBool(m_deactivatedAfterEdit));
+        PyDict_SetItemString(dict, "toggled_open", ToPyBool(m_toggledOpen));
+        PyDict_SetItemString(dict, "ok", ToPyBool(m_ok));
+
+        PyDict_SetItemString(dict, "rect_min", ToPyMPair(m_rectMin.x, m_rectMin.y));
+        PyDict_SetItemString(dict, "rect_max", ToPyMPair(m_rectMax.x, m_rectMax.y));
+        PyDict_SetItemString(dict, "rect_size", ToPyMPair(m_rectSize.x, m_rectSize.y));
+    }
+
 }
