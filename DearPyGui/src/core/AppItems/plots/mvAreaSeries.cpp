@@ -15,16 +15,9 @@ namespace Marvel {
 		xptr = &(*m_value.get())[0];
 		yptr = &(*m_value.get())[1];
 
-		//ImPlotLimits limits = ImPlot::GetPlotLimits();
-
 		std::vector<ImVec2> points;
 		for (unsigned i = 0; i < xptr->size(); i++)
 		{
-			//float x = (*xptr)[i] > limits.X.Max ? (float)limits.X.Max : (float)(*xptr)[i];
-			//x = (*xptr)[i] < limits.X.Min ? (float)limits.X.Min : x;
-			//float y = (*yptr)[i] > limits.Y.Max ? (float)limits.Y.Max : (float)(*yptr)[i];
-			//y = (*yptr)[i] < limits.Y.Min ? (float)limits.Y.Min : y;
-			//auto p = ImPlot::PlotToPixels({ x, y });
 			auto p = ImPlot::PlotToPixels({ (float)(*xptr)[i], (float)(*yptr)[i] });
 			points.push_back(p);
 		}
@@ -32,34 +25,35 @@ namespace Marvel {
 		if (m_fill.r > 0.0f)
 		{
 			size_t i;
-			int y;
-			int miny, maxy;
-			int x1, y1;
-			int x2, y2;
+			double y;
+			double miny, maxy;
+			double x1, y1;
+			double x2, y2;
 			int ind1, ind2;
 			size_t ints;
 			size_t n = points.size();
 			int* polyints = new int[n];
+
+
+			/* Get plot Y range in pixels */
+			ImPlotLimits limits = ImPlot::GetPlotLimits();
+			auto upperLimitsPix = ImPlot::PlotToPixels({ limits.X.Max, limits.Y.Max });
+			auto lowerLimitsPix = ImPlot::PlotToPixels({ limits.X.Min, limits.Y.Min });
 
 			/* Determine Y range of data*/
 			miny = (int)points[0].y;
 			maxy = (int)points[0].y;
 			for (i = 1; i < n; i++)
 			{
-				miny = std::min(miny, (int)points[i].y);
-				maxy = std::max(maxy, (int)points[i].y);
+				miny = std::min((int)miny, (int)points[i].y);
+				maxy = std::max((int)maxy, (int)points[i].y);
 			}
-
-			/* Get plot y range in pixels */
-			ImPlotLimits limits = ImPlot::GetPlotLimits();
-			auto upperLimits = ImPlot::PlotToPixels({ (float)limits.X.Max, (float)limits.Y.Max });
-			auto lowerLimits = ImPlot::PlotToPixels({ (float)limits.X.Min, (float)limits.Y.Min });
 
 			/* Determine to clip scans based on plot bounds y or data bounds y
 			when the plot data is converted the min and max y invert (due to plot to graphics coord) 
 			so we comapre min with max and max with min*/
-			miny = std::max(miny, (int)upperLimits.y);
-			maxy = std::min(maxy, (int)lowerLimits.y);
+			miny = std::max((int)miny, (int)upperLimitsPix.y);
+			maxy = std::min((int)maxy, (int)lowerLimitsPix.y);
 
 			/* Draw, scanning y */
 			for (y = miny; y <= maxy; y++) {
