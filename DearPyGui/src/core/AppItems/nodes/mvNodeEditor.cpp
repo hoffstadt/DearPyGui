@@ -282,14 +282,14 @@ namespace Marvel {
 		if (anode_editor == nullptr)
 		{
 			std::string message = node_editor;
-			ThrowPythonException(message + " node_editor does not exist.");
+			mvThrowPythonError(1000, message + " node_editor does not exist.");
 			return GetPyNone();
 		}
 
 		if (anode_editor->getType() != mvAppItemType::mvNodeEditor)
 		{
 			std::string message = node_editor;
-			ThrowPythonException(message + " is not a plot.");
+			mvThrowPythonError(1000, message + " is not a plot.");
 			return GetPyNone();
 		}
 
@@ -313,14 +313,14 @@ namespace Marvel {
 		if (anode_editor == nullptr)
 		{
 			std::string message = node_editor;
-			ThrowPythonException(message + " node_editor does not exist.");
+			mvThrowPythonError(1000, message + " node_editor does not exist.");
 			return GetPyNone();
 		}
 
 		if (anode_editor->getType() != mvAppItemType::mvNodeEditor)
 		{
 			std::string message = node_editor;
-			ThrowPythonException(message + " is not a plot.");
+			mvThrowPythonError(1000, message + " is not a plot.");
 			return GetPyNone();
 		}
 
@@ -348,14 +348,14 @@ namespace Marvel {
 		if (anode_editor == nullptr)
 		{
 			std::string message = node_editor;
-			ThrowPythonException(message + " node_editor does not exist.");
+			mvThrowPythonError(1000, message + " node_editor does not exist.");
 			return GetPyNone();
 		}
 
 		if (anode_editor->getType() != mvAppItemType::mvNodeEditor)
 		{
 			std::string message = node_editor;
-			ThrowPythonException(message + " is not a plot.");
+			mvThrowPythonError(1000, message + " is not a plot.");
 			return GetPyNone();
 		}
 
@@ -378,14 +378,14 @@ namespace Marvel {
 		if (anode_editor == nullptr)
 		{
 			std::string message = node_editor;
-			ThrowPythonException(message + " node_editor does not exist.");
+			mvThrowPythonError(1000, message + " node_editor does not exist.");
 			return GetPyNone();
 		}
 
 		if (anode_editor->getType() != mvAppItemType::mvNodeEditor)
 		{
 			std::string message = node_editor;
-			ThrowPythonException(message + " is not a plot.");
+			mvThrowPythonError(1000, message + " is not a plot.");
 			return GetPyNone();
 		}
 

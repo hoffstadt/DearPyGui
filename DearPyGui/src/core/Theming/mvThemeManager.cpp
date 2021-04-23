@@ -132,7 +132,7 @@ namespace Marvel {
 			{
 				mvApp::GetApp()->getCallbackRegistry().submitCallback([=]()
 					{
-						ThrowPythonException("Item type does not except this color constant.");
+						mvThrowPythonError(1000, "Item type does not except this color constant.");
 					});
 			}
 		}
@@ -140,7 +140,7 @@ namespace Marvel {
 		{
 			mvApp::GetApp()->getCallbackRegistry().submitCallback([=]()
 				{
-					ThrowPythonException("Item can not be found");
+					mvThrowPythonError(1000, "Item can not be found");
 				});
 		}
 		return true;
@@ -176,7 +176,7 @@ namespace Marvel {
 			{
 				mvApp::GetApp()->getCallbackRegistry().submitCallback([=]()
 					{
-						ThrowPythonException("Item type does not except this color constant.");
+						mvThrowPythonError(1000, "Item type does not except this color constant.");
 					});
 			}
 		}
@@ -184,7 +184,7 @@ namespace Marvel {
 		{
 			mvApp::GetApp()->getCallbackRegistry().submitCallback([=]()
 				{
-					ThrowPythonException("Item can not be found");
+					mvThrowPythonError(1000, "Item can not be found");
 				});
 		}
 		return true;
@@ -219,7 +219,7 @@ namespace Marvel {
 			{
 				mvApp::GetApp()->getCallbackRegistry().submitCallback([=]()
 					{
-						ThrowPythonException("Item type does not except this style constant.");
+						mvThrowPythonError(1000, "Item type does not except this style constant.");
 					});
 			}
 		}
@@ -227,7 +227,7 @@ namespace Marvel {
 		{
 			mvApp::GetApp()->getCallbackRegistry().submitCallback([=]()
 				{
-					ThrowPythonException("Item can not be found");
+					mvThrowPythonError(1000, "Item can not be found");
 				});
 		}
 		return true;

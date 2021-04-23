@@ -299,7 +299,7 @@ namespace Marvel {
 		{
 			mvApp::GetApp()->getCallbackRegistry().submitCallback([=]()
 				{
-					ThrowPythonException("Item can not be found");
+					mvThrowPythonError(1000, "Item can not be found");
 				});
 		}
 		return true;
