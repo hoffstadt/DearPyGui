@@ -12,6 +12,8 @@ namespace Marvel {
 		static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
 
 		MV_APPLY_WIDGET_REGISTRATION(mvAppItemType::mvAnnotation, add_plot_annotation)
+		
+		MV_CREATE_CONSTANT(mvThemeCol_Plot_Annotation, ImPlotCol_MarkerOutline, 0L);
 
 		MV_START_EXTRA_COMMANDS
 		MV_END_EXTRA_COMMANDS
@@ -20,6 +22,7 @@ namespace Marvel {
 		MV_END_GENERAL_CONSTANTS
 
 		MV_START_COLOR_CONSTANTS
+			MV_ADD_CONSTANT(mvThemeCol_Plot_Annotation, mvColor(0, 0, 0, -255), mvColor(0, 0, 0, -255)),
 		MV_END_COLOR_CONSTANTS
 
 		MV_START_STYLE_CONSTANTS
