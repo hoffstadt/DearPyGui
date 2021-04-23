@@ -95,6 +95,12 @@ namespace Marvel {
 				if (item->m_width != 0)
 					ImGui::SetNextItemWidth((float)item->m_width);
 
+				if (item->m_focusNextFrame)
+				{
+					ImGui::SetKeyboardFocusHere();
+					item->m_focusNextFrame = false;
+				}
+
 				item->draw(drawlist, x, y);
 
 				item->getState().update();

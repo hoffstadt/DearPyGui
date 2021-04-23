@@ -483,6 +483,12 @@ namespace Marvel {
 			m_dirty_pos = false;
 		}
 
+		if (m_focusNextFrame)
+		{
+			ImGui::SetNextWindowFocus();
+			m_focusNextFrame = false;
+		}
+
 		if (!ImGui::Begin(m_label.c_str(), &m_show, m_windowflags))
 		{
 			ImGui::End();

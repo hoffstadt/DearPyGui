@@ -632,12 +632,12 @@ namespace Marvel {
 
 		if (item)
 		{
-			auto children0 = item->m_children[0];
-			auto children1 = item->m_children[1];
-			for (auto child : children0)
-				childList.emplace_back(child->m_name);
-			for (auto child : children1)
-				childList.emplace_back(child->m_name);
+			for (auto& children : item->m_children)
+			{
+				for (auto& child : children)
+					childList.emplace_back(child->m_name);
+			}
+
 		}
 		else
 		{

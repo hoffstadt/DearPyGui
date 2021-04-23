@@ -187,12 +187,6 @@ namespace Marvel {
 			m_dirty_pos = false;
 		}
 
-		else if (m_focusNextFrame)
-		{
-			ImGui::SetNextWindowFocus();
-			m_focusNextFrame = false;
-		}
-
 		if (m_dirty_size)
 		{
 			ImGui::SetNextWindowSize(ImVec2((float)m_width, (float)m_height));
@@ -206,6 +200,12 @@ namespace Marvel {
 		}
 
 		ImGui::SetNextWindowSizeConstraints(m_min_size, m_max_size);
+
+		if (m_focusNextFrame)
+		{
+			ImGui::SetNextWindowFocus();
+			m_focusNextFrame = false;
+		}
 
 		ScopedID id;
 		mvImGuiThemeScope scope(this);
@@ -252,6 +252,12 @@ namespace Marvel {
 			// set item width
 			if (item->m_width != 0)
 				ImGui::SetNextItemWidth((float)item->m_width);
+
+			if (item->m_focusNextFrame)
+			{
+				ImGui::SetKeyboardFocusHere();
+				item->m_focusNextFrame = false;
+			}
 
 			item->draw(this_drawlist, ImGui::GetCursorPosX(), ImGui::GetCursorPosY());
 

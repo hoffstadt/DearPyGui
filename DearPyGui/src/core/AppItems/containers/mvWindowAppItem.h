@@ -110,8 +110,6 @@ namespace Marvel {
 		void handleSpecificKeywordArgs(PyObject* dict) override;
 		void getSpecificConfiguration(PyObject* dict) override;
 
-		void   setFocusedNextFrame  () { m_focusNextFrame = true; }
-
 		~mvWindowAppItem();
 
 	private:
@@ -127,7 +125,6 @@ namespace Marvel {
 		bool                  m_dirty_pos = true;
 		bool                  m_dirty_size = true;
 		bool                  m_hasMenuBar = false;
-		bool                  m_focusNextFrame = false;
 		bool                  m_closing = true;
 		bool                  m_collapsedDirty = true;
 

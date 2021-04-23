@@ -59,7 +59,7 @@ namespace Marvel {
         ItemTypeCount
     };
 
-        enum class StorageValueTypes
+    enum class StorageValueTypes
     {
         None = 0,
         Int, Int4,
@@ -143,6 +143,7 @@ namespace Marvel {
         MV_CREATE_EXTRA_COMMAND(configure_item);
         MV_CREATE_EXTRA_COMMAND(get_value);
         MV_CREATE_EXTRA_COMMAND(set_value);
+        MV_CREATE_EXTRA_COMMAND(focus_item);
 
         MV_START_EXTRA_COMMANDS
             MV_ADD_EXTRA_COMMAND(get_item_configuration);
@@ -151,6 +152,7 @@ namespace Marvel {
             MV_ADD_EXTRA_COMMAND(configure_item);
             MV_ADD_EXTRA_COMMAND(get_value);
             MV_ADD_EXTRA_COMMAND(set_value);
+            MV_ADD_EXTRA_COMMAND(focus_item);
         MV_END_EXTRA_COMMANDS
 
         static bool DoesItemHaveFlag(mvAppItem* item, int flag);
@@ -236,6 +238,7 @@ namespace Marvel {
         int                                 getWidth() const { return m_width; }
         int                                 getHeight() const { return m_height; }
         const std::string&                  getName() const { return m_name; }
+        mvAppItem*                          getRoot() const;
 
         // theme get/set
         std::unordered_map<mvAppItemType, mvThemeColors>& getColors() { return m_colors; }
@@ -291,6 +294,7 @@ namespace Marvel {
     protected:
 
         mvAppItemState                m_state;
+        bool                          m_focusNextFrame = false;
 
         mvAppItem*                    m_parentPtr = nullptr;
         std::vector<mvRef<mvAppItem>> m_children[3] = { {}, {}, {} };
