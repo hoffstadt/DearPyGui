@@ -331,7 +331,7 @@ namespace Marvel {
 		{
 			if (data != nullptr)
 				Py_XDECREF(data);
-			ThrowPythonException("Callable not callable.");
+			mvThrowPythonError(1000, "Callable not callable.");
 			return;
 		}
 
@@ -343,7 +343,7 @@ namespace Marvel {
 
 		Py_XINCREF(data);
 
-		PyErr_Clear();
+		//PyErr_Clear();
 
 		PyObject* intermediateResult = nullptr;
 		if (PyCallable_Check(data))
@@ -353,7 +353,7 @@ namespace Marvel {
 			if (intermediateResult == nullptr)
 			{
 				PyErr_Print();
-				ThrowPythonException("Callable data failed");
+				mvThrowPythonError(1000, "Callable data failed");
 				intermediateResult = data;
 			}
 
@@ -364,7 +364,7 @@ namespace Marvel {
 		else
 			intermediateResult = data;
 
-		PyErr_Clear();
+		//PyErr_Clear();
 
 		PyObject* fc = PyObject_GetAttrString(callable, "__code__");
 		if (fc) {
@@ -390,7 +390,7 @@ namespace Marvel {
 					if (!result.isOk())
 					{
 						PyErr_Print();
-						ThrowPythonException("Callable failed");
+						mvThrowPythonError(1000, "Callable failed");
 					}
 
 				}
@@ -406,7 +406,7 @@ namespace Marvel {
 					if (!result.isOk())
 					{
 						PyErr_Print();
-						ThrowPythonException("Callable failed");
+						mvThrowPythonError(1000, "Callable failed");
 					}
 
 				}
@@ -421,7 +421,7 @@ namespace Marvel {
 					if (!result.isOk())
 					{
 						PyErr_Print();
-						ThrowPythonException("Callable failed");
+						mvThrowPythonError(1000, "Callable failed");
 					}
 				}
 				else
@@ -432,7 +432,7 @@ namespace Marvel {
 					if (!result.isOk())
 					{
 						PyErr_Print();
-						ThrowPythonException("Callable failed");
+						mvThrowPythonError(1000, "Callable failed");
 					}
 
 
@@ -708,7 +708,7 @@ namespace Marvel {
 		auto message = fut.get();
 
 		if (!message.empty())
-			ThrowPythonException(message);
+			mvThrowPythonError(1000, message);
 
 		return GetPyNone();
 	}

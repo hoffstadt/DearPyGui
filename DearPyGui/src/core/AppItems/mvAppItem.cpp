@@ -836,7 +836,7 @@ namespace Marvel{
 			appitem->getSpecificConfiguration(pdict);
 		}
 		else
-			ThrowPythonException(item + std::string(" item was not found"));
+			mvThrowPythonError(1000, item + std::string(" item was not found"));
 
 		return pdict;
 	}
@@ -861,7 +861,7 @@ namespace Marvel{
 			appitem->handleKeywordArgs(kwargs);
 		}
 		else
-			ThrowPythonException(item + std::string(" item was not found"));
+			mvThrowPythonError(1000, item + std::string(" item was not found"));
 
 		return GetPyNone();
 	}

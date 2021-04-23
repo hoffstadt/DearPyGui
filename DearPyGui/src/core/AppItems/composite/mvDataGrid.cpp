@@ -201,13 +201,13 @@ namespace Marvel {
 	{
 		if (column < 0 || row < 0)
 		{
-			ThrowPythonException("Data Grid index must be a positive integer.");
+			mvThrowPythonError(1000, "Data Grid index must be a positive integer.");
 			return false;
 		}
 
 		if (static_cast<size_t>(column) > m_columns + 1 || static_cast<size_t>(row) > m_values.size() + 1)
 		{
-			ThrowPythonException("Data Grid indices out of range.");
+			mvThrowPythonError(1000, "Data Grid indices out of range.");
 			return false;
 		}
 
@@ -607,7 +607,7 @@ namespace Marvel {
 
 		if (static_cast<size_t>(column) >= m_headers.size())
 		{
-			ThrowPythonException("Column to delete does not exist.");
+			mvThrowPythonError(1000, "Column to delete does not exist.");
 			return;
 		}
 
@@ -718,14 +718,14 @@ namespace Marvel {
 		if (item == nullptr)
 		{
 			std::string message = grid;
-			ThrowPythonException(message + " table does not exist.");
+			mvThrowPythonError(1000, message + " table does not exist.");
 			return GetPyNone();
 		}
 
 		if (item->getType() != mvAppItemType::mvDataGrid)
 		{
 			std::string message = grid;
-			ThrowPythonException(message + " is not a table.");
+			mvThrowPythonError(1000, message + " is not a table.");
 			return GetPyNone();
 		}
 
@@ -746,14 +746,14 @@ namespace Marvel {
 		if (item == nullptr)
 		{
 			std::string message = grid;
-			ThrowPythonException(message + " grid does not exist.");
+			mvThrowPythonError(1000, message + " grid does not exist.");
 			return GetPyNone();
 		}
 
 		if (item->getType() != mvAppItemType::mvDataGrid)
 		{
 			std::string message = grid;
-			ThrowPythonException(message + " is not a grid.");
+			mvThrowPythonError(1000, message + " is not a grid.");
 			return GetPyNone();
 		}
 
@@ -775,7 +775,7 @@ namespace Marvel {
 		if (item == nullptr)
 		{
 			std::string message = grid;
-			ThrowPythonException(message + " grid does not exist.");
+			mvThrowPythonError(1000, message + " grid does not exist.");
 			return GetPyNone();
 		}
 
@@ -799,14 +799,14 @@ namespace Marvel {
 		if (item == nullptr)
 		{
 			std::string message = grid;
-			ThrowPythonException(message + " grid does not exist.");
+			mvThrowPythonError(1000, message + " grid does not exist.");
 			return GetPyNone();
 		}
 
 		if (item->getType() != mvAppItemType::mvDataGrid)
 		{
 			std::string message = grid;
-			ThrowPythonException(message + " is not a grid.");
+			mvThrowPythonError(1000, message + " is not a grid.");
 			return GetPyNone();
 		}
 
@@ -830,14 +830,14 @@ namespace Marvel {
 		if (item == nullptr)
 		{
 			std::string message = grid;
-			ThrowPythonException(message + " grid does not exist.");
+			mvThrowPythonError(1000, message + " grid does not exist.");
 			return GetPyNone();
 		}
 
 		if (item->getType() != mvAppItemType::mvDataGrid)
 		{
 			std::string message = grid;
-			ThrowPythonException(message + " is not a grid.");
+			mvThrowPythonError(1000, message + " is not a grid.");
 			return GetPyNone();
 		}
 
@@ -862,14 +862,14 @@ namespace Marvel {
 		if (item == nullptr)
 		{
 			std::string message = grid;
-			ThrowPythonException(message + " grid does not exist.");
+			mvThrowPythonError(1000, message + " grid does not exist.");
 			return GetPyNone();
 		}
 
 		if (item->getType() != mvAppItemType::mvDataGrid)
 		{
 			std::string message = grid;
-			ThrowPythonException(message + " is not a grid.");
+			mvThrowPythonError(1000, message + " is not a grid.");
 			return GetPyNone();
 		}
 
@@ -891,14 +891,14 @@ namespace Marvel {
 		if (item == nullptr)
 		{
 			std::string message = grid;
-			ThrowPythonException(message + " grid does not exist.");
+			mvThrowPythonError(1000, message + " grid does not exist.");
 			return GetPyNone();
 		}
 
 		if (item->getType() != mvAppItemType::mvDataGrid)
 		{
 			std::string message = grid;
-			ThrowPythonException(message + " is not a grid.");
+			mvThrowPythonError(1000, message + " is not a grid.");
 			return GetPyNone();
 		}
 
@@ -922,14 +922,14 @@ namespace Marvel {
 		if (item == nullptr)
 		{
 			std::string message = grid;
-			ThrowPythonException(message + " grid does not exist.");
+			mvThrowPythonError(1000, message + " grid does not exist.");
 			return GetPyNone();
 		}
 
 		if (item->getType() != mvAppItemType::mvDataGrid)
 		{
 			std::string message = grid;
-			ThrowPythonException(message + " is not a grid.");
+			mvThrowPythonError(1000, message + " is not a grid.");
 			return GetPyNone();
 		}
 
@@ -953,14 +953,14 @@ namespace Marvel {
 		if (item == nullptr)
 		{
 			std::string message = grid;
-			ThrowPythonException(message + " table does not exist.");
+			mvThrowPythonError(1000, message + " table does not exist.");
 			return GetPyNone();
 		}
 
 		if (item->getType() != mvAppItemType::mvDataGrid)
 		{
 			std::string message = grid;
-			ThrowPythonException(message + " is not a table.");
+			mvThrowPythonError(1000, message + " is not a table.");
 			return GetPyNone();
 		}
 
@@ -987,14 +987,14 @@ namespace Marvel {
 		if (item == nullptr)
 		{
 			std::string message = grid;
-			ThrowPythonException(message + " grid does not exist.");
+			mvThrowPythonError(1000, message + " grid does not exist.");
 			return GetPyNone();
 		}
 
 		if (item->getType() != mvAppItemType::mvDataGrid)
 		{
 			std::string message = grid;
-			ThrowPythonException(message + " is not a grid.");
+			mvThrowPythonError(1000, message + " is not a grid.");
 			return GetPyNone();
 		}
 
@@ -1019,14 +1019,14 @@ namespace Marvel {
 		if (item == nullptr)
 		{
 			std::string message = grid;
-			ThrowPythonException(message + " grid does not exist.");
+			mvThrowPythonError(1000, message + " grid does not exist.");
 			return GetPyNone();
 		}
 
 		if (item->getType() != mvAppItemType::mvDataGrid)
 		{
 			std::string message = grid;
-			ThrowPythonException(message + " is not a grid.");
+			mvThrowPythonError(1000, message + " is not a grid.");
 			return GetPyNone();
 		}
 
@@ -1049,14 +1049,14 @@ namespace Marvel {
 		if (item == nullptr)
 		{
 			std::string message = grid;
-			ThrowPythonException(message + " grid does not exist.");
+			mvThrowPythonError(1000, message + " grid does not exist.");
 			return GetPyNone();
 		}
 
 		if (item->getType() != mvAppItemType::mvDataGrid)
 		{
 			std::string message = grid;
-			ThrowPythonException(message + " is not a grid.");
+			mvThrowPythonError(1000, message + " is not a grid.");
 			return GetPyNone();
 		}
 
@@ -1088,14 +1088,14 @@ namespace Marvel {
 		if (item == nullptr)
 		{
 			std::string message = grid;
-			ThrowPythonException(message + " grid does not exist.");
+			mvThrowPythonError(1000, message + " grid does not exist.");
 			return GetPyNone();
 		}
 
 		if (item->getType() != mvAppItemType::mvDataGrid)
 		{
 			std::string message = grid;
-			ThrowPythonException(message + " is not a grid.");
+			mvThrowPythonError(1000, message + " is not a grid.");
 			return GetPyNone();
 		}
 
@@ -1126,14 +1126,14 @@ namespace Marvel {
 		if (item == nullptr)
 		{
 			std::string message = grid;
-			ThrowPythonException(message + " grid does not exist.");
+			mvThrowPythonError(1000, message + " grid does not exist.");
 			return GetPyNone();
 		}
 
 		if (item->getType() != mvAppItemType::mvDataGrid)
 		{
 			std::string message = grid;
-			ThrowPythonException(message + " is not a grid.");
+			mvThrowPythonError(1000, message + " is not a grid.");
 			return GetPyNone();
 		}
 

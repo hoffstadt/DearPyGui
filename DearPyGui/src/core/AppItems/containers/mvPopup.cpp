@@ -158,7 +158,7 @@ namespace Marvel {
 		if (item == nullptr)
 		{
 			std::string message = popup;
-			ThrowPythonException(message + " popup does not exist.");
+			mvThrowPythonError(1000, message + " popup does not exist.");
 			return GetPyNone();
 		}
 
@@ -167,7 +167,7 @@ namespace Marvel {
 			pop = static_cast<mvPopup*>(item.get());
 		else
 		{
-			ThrowPythonException(std::string(popup) + " is not a popup.");
+			mvThrowPythonError(1000, std::string(popup) + " is not a popup.");
 			return GetPyNone();
 		}
 

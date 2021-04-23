@@ -15,7 +15,7 @@ namespace Marvel {
 
 		if (!PyList_Check(pyvalue))
 		{
-			ThrowPythonException("Python value error");
+			mvThrowPythonError(1000, "Python value error");
 			return;
 		}
 		
@@ -36,7 +36,7 @@ namespace Marvel {
 
 		if (!PyList_Check(pyvalue))
 		{
-			ThrowPythonException("Python value error");
+			mvThrowPythonError(1000, "Python value error");
 			return;
 		}
 
@@ -57,7 +57,7 @@ namespace Marvel {
 
 		if (!PyList_Check(pyvalue))
 		{
-			ThrowPythonException("Python value error");
+			mvThrowPythonError(1000, "Python value error");
 			return;
 		}
 
@@ -298,7 +298,7 @@ namespace Marvel {
 
 		if (!PyDict_Check(value))
 		{
-			ThrowPythonException(message);
+			mvThrowPythonError(1000, message);
 			return result;
 		}
 
@@ -325,7 +325,7 @@ namespace Marvel {
 
 		if (!PyLong_Check(value))
 		{
-			ThrowPythonException(message);
+			mvThrowPythonError(1000, message);
 			return 0;
 		}
 
@@ -340,7 +340,7 @@ namespace Marvel {
 
 		if (!PyNumber_Check(value))
 		{
-			ThrowPythonException(message);
+			mvThrowPythonError(1000, message);
 			return 0.0f;
 		}
 
@@ -355,7 +355,7 @@ namespace Marvel {
 
 		if (!PyBool_Check(value))
 		{
-			ThrowPythonException(message);
+			mvThrowPythonError(1000, message);
 			return false;
 		}
 
@@ -377,7 +377,7 @@ namespace Marvel {
 			PyObject* str = PyObject_Str(value);
 			if (str == nullptr)
 			{
-				ThrowPythonException(message);
+				mvThrowPythonError(1000, message);
 				return "";
 			}
 			result = _PyUnicode_AsString(str);
@@ -418,9 +418,9 @@ namespace Marvel {
 			return [](Py_buffer& bufferView, Py_ssize_t index) {return (float)*((char*)bufferView.buf + index); };
 		else
 		{
-			ThrowPythonException("Unknown buffer type.");
-			ThrowPythonException(bufferView.format);
-			ThrowPythonException("Currently supported buffer types f, d, l, B");
+			mvThrowPythonError(1000, "Unknown buffer type.");
+			mvThrowPythonError(1000, bufferView.format);
+			mvThrowPythonError(1000, "Currently supported buffer types f, d, l, B");
 			return nullptr;
 		}
 	}
@@ -455,9 +455,9 @@ namespace Marvel {
 			return [](Py_buffer& bufferView, Py_ssize_t index) {return (int)*((char*)bufferView.buf + index); };
 		else
 		{
-			ThrowPythonException("Unknown buffer type.");
-			ThrowPythonException(bufferView.format);
-			ThrowPythonException("Currently supported buffer types f, d, l, B");
+			mvThrowPythonError(1000, "Unknown buffer type.");
+			mvThrowPythonError(1000, bufferView.format);
+			mvThrowPythonError(1000, "Currently supported buffer types f, d, l, B");
 			return nullptr;
 		}
 	}
@@ -509,7 +509,7 @@ namespace Marvel {
 		}
 
 		else
-			ThrowPythonException(message);
+			mvThrowPythonError(1000, message);
 
 
 		return items;
@@ -558,7 +558,7 @@ namespace Marvel {
 		}
 
 		else
-			ThrowPythonException(message);
+			mvThrowPythonError(1000, message);
 
 
 		return items;
@@ -605,7 +605,7 @@ namespace Marvel {
 		}
 
 		else
-			ThrowPythonException(message);
+			mvThrowPythonError(1000, message);
 
 
 		return items;
@@ -709,7 +709,7 @@ namespace Marvel {
 		}
 
 		else
-			ThrowPythonException(message);
+			mvThrowPythonError(1000, message);
 
 		return items;
 	}
@@ -733,7 +733,7 @@ namespace Marvel {
 		}
 
 		else
-			ThrowPythonException(message);
+			mvThrowPythonError(1000, message);
 
 		return items;
 	}
@@ -747,19 +747,19 @@ namespace Marvel {
 
 		if (PyTuple_Check(value))
 		{
-			if (PyTuple_Size(value) != 2) ThrowPythonException(message);
+			if (PyTuple_Size(value) != 2) mvThrowPythonError(1000, message);
 			items.first = ToFloatVect(PyTuple_GetItem(value, 0), message);
 			items.second = ToFloatVect(PyTuple_GetItem(value, 1), message);
 		}
 		else if (PyList_Check(value))
 		{
-			if (PyList_Size(value) != 2) ThrowPythonException(message);
+			if (PyList_Size(value) != 2) mvThrowPythonError(1000, message);
 			items.first = ToFloatVect(PyList_GetItem(value, 0), message);
 			items.second = ToFloatVect(PyList_GetItem(value, 1), message);
 		}
 
 		else
-			ThrowPythonException(message);
+			mvThrowPythonError(1000, message);
 
 		return items;
 	}
@@ -783,7 +783,7 @@ namespace Marvel {
 		}
 
 		else
-			ThrowPythonException(message);
+			mvThrowPythonError(1000, message);
 
 		return items;
 	}
@@ -848,7 +848,7 @@ namespace Marvel {
 		}
 
 		else
-			ThrowPythonException(message);
+			mvThrowPythonError(1000, message);
 
 		return items;
 
@@ -906,7 +906,7 @@ namespace Marvel {
 		}
 
 		else
-			ThrowPythonException(message);
+			mvThrowPythonError(1000, message);
 
 		return items;
 	}

@@ -23,12 +23,12 @@ namespace Marvel {
 		mvRef<mvAppItem> item = mvApp::GetApp()->getItemRegistry().getItem(dataSource);
 		if (!item)
 		{
-			ThrowPythonException("Source item not found.");
+			mvThrowPythonError(1000, "Source item not found.");
 			return;
 		}
 		if (item->getValueType() != getValueType())
 		{
-			ThrowPythonException("Values types do not match");
+			mvThrowPythonError(1000, "Values types do not match");
 			return;
 		}
 		m_value = std::get<std::shared_ptr<int>>(item->getValue());
@@ -76,12 +76,12 @@ namespace Marvel {
 		mvRef<mvAppItem> item = mvApp::GetApp()->getItemRegistry().getItem(dataSource);
 		if (!item)
 		{
-			ThrowPythonException("Source item not found.");
+			mvThrowPythonError(1000, "Source item not found.");
 			return;
 		}
 		if (item->getValueType() != getValueType())
 		{
-			ThrowPythonException("Values types do not match");
+			mvThrowPythonError(1000, "Values types do not match");
 			return;
 		}
 		m_value = std::get<std::shared_ptr<std::array<int, 4>>>(item->getValue());
@@ -110,12 +110,12 @@ namespace Marvel {
 		mvRef<mvAppItem> item = mvApp::GetApp()->getItemRegistry().getItem(dataSource);
 		if (!item)
 		{
-			ThrowPythonException("Source item not found.");
+			mvThrowPythonError(1000, "Source item not found.");
 			return;
 		}
 		if (item->getValueType() != getValueType())
 		{
-			ThrowPythonException("Values types do not match");
+			mvThrowPythonError(1000, "Values types do not match");
 			return;
 		}
 		m_value = std::get<std::shared_ptr<float>>(item->getValue());
@@ -153,12 +153,12 @@ namespace Marvel {
 		mvRef<mvAppItem> item = mvApp::GetApp()->getItemRegistry().getItem(dataSource);
 		if (!item)
 		{
-			ThrowPythonException("Source item not found.");
+			mvThrowPythonError(1000, "Source item not found.");
 			return;
 		}
 		if (item->getValueType() != getValueType())
 		{
-			ThrowPythonException("Values types do not match");
+			mvThrowPythonError(1000, "Values types do not match");
 			return;
 		}
 		m_value = std::get<std::shared_ptr<std::array<float, 4>>>(item->getValue());
@@ -202,12 +202,12 @@ namespace Marvel {
 		mvRef<mvAppItem> item = mvApp::GetApp()->getItemRegistry().getItem(dataSource);
 		if (!item)
 		{
-			ThrowPythonException("Source item not found.");
+			mvThrowPythonError(1000, "Source item not found.");
 			return;
 		}
 		if (item->getValueType() != getValueType())
 		{
-			ThrowPythonException("Values types do not match");
+			mvThrowPythonError(1000, "Values types do not match");
 			return;
 		}
 		m_value = std::get<std::shared_ptr<std::array<float, 4>>>(item->getValue());
@@ -236,12 +236,12 @@ namespace Marvel {
 		mvRef<mvAppItem> item = mvApp::GetApp()->getItemRegistry().getItem(dataSource);
 		if (!item)
 		{
-			ThrowPythonException("Source item not found.");
+			mvThrowPythonError(1000, "Source item not found.");
 			return;
 		}
 		if (item->getValueType() != getValueType())
 		{
-			ThrowPythonException("Values types do not match");
+			mvThrowPythonError(1000, "Values types do not match");
 			return;
 		}
 		m_value = std::get<std::shared_ptr<bool>>(item->getValue());
@@ -270,12 +270,12 @@ namespace Marvel {
 		mvRef<mvAppItem> item = mvApp::GetApp()->getItemRegistry().getItem(dataSource);
 		if (!item)
 		{
-			ThrowPythonException("Source item not found.");
+			mvThrowPythonError(1000, "Source item not found.");
 			return;
 		}
 		if (item->getValueType() != getValueType())
 		{
-			ThrowPythonException("Values types do not match");
+			mvThrowPythonError(1000, "Values types do not match");
 			return;
 		}
 		m_value = std::get<std::shared_ptr<std::string>>(item->getValue());
@@ -325,12 +325,12 @@ namespace Marvel {
 		mvRef<mvAppItem> item = mvApp::GetApp()->getItemRegistry().getItem(dataSource);
 		if (!item)
 		{
-			ThrowPythonException("Source item not found.");
+			mvThrowPythonError(1000, "Source item not found.");
 			return;
 		}
 		if (item->getValueType() != getValueType())
 		{
-			ThrowPythonException("Values types do not match");
+			mvThrowPythonError(1000, "Values types do not match");
 			return;
 		}
 		m_value = std::get<std::shared_ptr<std::vector<float>>>(item->getValue());
@@ -361,12 +361,12 @@ namespace Marvel {
 		mvRef<mvAppItem> item = mvApp::GetApp()->getItemRegistry().getItem(dataSource);
 		if (!item)
 		{
-			ThrowPythonException("Source item not found.");
+			mvThrowPythonError(1000, "Source item not found.");
 			return;
 		}
 		if (item->getValueType() != getValueType())
 		{
-			ThrowPythonException("Values types do not match");
+			mvThrowPythonError(1000, "Values types do not match");
 			return;
 		}
 		m_value = std::get<std::shared_ptr<std::vector<std::vector<float>>>>(item->getValue());
