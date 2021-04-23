@@ -79,6 +79,12 @@ namespace Marvel {
 				if (*m_value == item->m_name && m_lastValue != *m_value)
 					static_cast<mvTab*>(item.get())->addFlag(ImGuiTabItemFlags_SetSelected);
 
+				if (item->m_focusNextFrame)
+				{
+					ImGui::SetKeyboardFocusHere();
+					item->m_focusNextFrame = false;
+				}
+
 				item->draw(drawlist, ImGui::GetCursorPosX(), ImGui::GetCursorPosY());
 
 				if (*m_value == item->m_name)

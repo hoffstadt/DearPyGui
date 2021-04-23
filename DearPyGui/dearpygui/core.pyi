@@ -474,6 +474,10 @@ def end() -> None:
 	"""Undocumented function"""
 	...
 
+def focus_item(item : str) -> None:
+	"""Undocumented function"""
+	...
+
 def get_active_window() -> str:
 	"""Undocumented function"""
 	...

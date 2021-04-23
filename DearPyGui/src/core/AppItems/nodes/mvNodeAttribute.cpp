@@ -69,7 +69,7 @@ namespace Marvel {
 		//we do this so that the children dont get the theme
 		//scope.cleanup();
 
-		for (auto item : m_children[1])
+		for (auto& item : m_children[1])
 		{
 			// skip item if it's not shown
 			if (!item->m_show)
@@ -78,6 +78,12 @@ namespace Marvel {
 			// set item width
 			if (item->m_width != 0)
 				ImGui::SetNextItemWidth((float)item->m_width);
+
+			if (item->m_focusNextFrame)
+			{
+				ImGui::SetKeyboardFocusHere();
+				item->m_focusNextFrame = false;
+			}
 
 			item->draw(drawlist, x, y);
 

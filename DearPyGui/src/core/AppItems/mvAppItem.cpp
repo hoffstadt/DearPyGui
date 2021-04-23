@@ -27,6 +27,13 @@ namespace Marvel{
 		}
 
 		{
+			mvPythonParser parser(mvPyDataType::None);
+			parser.addArg<mvPyDataType::String>("item");
+			parser.finalize();
+			parsers->insert({ "focus_item", parser });
+		}
+
+		{
 			mvPythonParser parser(mvPyDataType::Dict);
 			parser.addArg<mvPyDataType::String>("item");
 			parser.finalize();
@@ -95,6 +102,19 @@ namespace Marvel{
 		m_name = name;
 		m_label = name + " ###" + name;
 		m_specificedlabel = name;
+	}
+
+	mvAppItem* mvAppItem::getRoot() const
+	{
+		if (m_parentPtr)
+		{
+			mvAppItem* item = m_parentPtr;
+			while (!DoesItemHaveFlag(item, MV_ITEM_DESC_ROOT))
+				item = item->m_parentPtr;
+
+			return item;
+		}
+		return nullptr;
 	}
 
 	void mvAppItem::registerWindowFocusing()
@@ -870,6 +890,29 @@ namespace Marvel{
 			mvThrowPythonError(1000, item + std::string(" item was not found"));
 
 		return pdict;
+	}
+
+	PyObject* mvAppItem::focus_item(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		const char* item;
+
+		if (!(mvApp::GetApp()->getParsers())["focus_item"].parse(args, kwargs, __FUNCTION__, &item))
+			return GetPyNone();
+
+
+		std::lock_guard<std::mutex> lk(mvApp::GetApp()->getMutex());
+		auto appitem = mvApp::GetApp()->getItemRegistry().getItem(item);
+
+		if (appitem)
+		{
+			appitem->m_focusNextFrame = true;
+			if (auto parent = appitem->getRoot())
+				parent->m_focusNextFrame = true;
+		}
+		else
+			mvThrowPythonError(1000, item + std::string(" item was not found"));
+
+		return GetPyNone();
 	}
 
 	PyObject* mvAppItem::get_item_state(PyObject* self, PyObject* args, PyObject* kwargs)
