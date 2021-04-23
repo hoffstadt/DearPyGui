@@ -19,9 +19,6 @@ namespace Marvel {
 		parser.removeArg("callback_data");
 		parser.removeArg("enabled");
 
-		parser.addArg<mvPyDataType::Integer>("x_pos", mvArgType::KEYWORD_ARG, "200");
-		parser.addArg<mvPyDataType::Integer>("y_pos", mvArgType::KEYWORD_ARG, "200");
-
 		parser.addArg<mvPyDataType::IntList>("min_size", mvArgType::KEYWORD_ARG, "[32, 32]", "Minimum window size.");
 		parser.addArg<mvPyDataType::IntList>("max_size", mvArgType::KEYWORD_ARG, "[30000, 30000]", "Maximum window size.");
 
@@ -95,8 +92,8 @@ namespace Marvel {
 
 			if (m_hasMenuBar)
 				m_windowflags |= ImGuiWindowFlags_MenuBar;
-			m_oldxpos = m_xpos;
-			m_oldypos = m_ypos;
+			m_oldxpos = m_state.getItemPos().x;
+			m_oldypos = m_state.getItemPos().y;
 			m_oldWidth = m_width;
 			m_oldHeight = m_height;
 		}
@@ -106,22 +103,14 @@ namespace Marvel {
 			m_windowflags = m_oldWindowflags;
 			if (m_hasMenuBar)
 				m_windowflags |= ImGuiWindowFlags_MenuBar;
-			m_xpos = m_oldxpos;
-			m_ypos = m_oldypos;
+			m_state.setPos({ m_oldxpos , m_oldypos });
 			m_width = m_oldWidth;
 			m_height = m_oldHeight;
-			m_dirty_pos = true;
+			m_dirtyPos = true;
 			m_dirty_size = true;
 		}
 
 
-	}
-
-	void mvWindowAppItem::setWindowPos(float x, float y)
-	{
-		m_xpos = (int)x;
-		m_ypos = (int)y;
-		m_dirty_pos = true;
 	}
 
 	void mvWindowAppItem::setWidth(int width) 
@@ -140,13 +129,8 @@ namespace Marvel {
 	{
 		m_specificedlabel = value;
 		m_label = value + "###" + m_name;
-		m_dirty_pos = true;
+		m_dirtyPos = true;
 		m_dirty_size = true;
-	}
-
-	mvVec2 mvWindowAppItem::getWindowPos() const
-	{
-		return { (float)m_xpos, (float)m_ypos };
 	}
 
 	void mvWindowAppItem::setResizeCallback(PyObject* callback)
@@ -181,10 +165,10 @@ namespace Marvel {
 			ImGui::SetNextWindowSize(ImVec2((float)mvApp::GetApp()->getViewport()->getClientWidth(), (float)mvApp::GetApp()->getViewport()->getClientHeight()));
 		}
 
-		else if (m_dirty_pos)
+		else if (m_dirtyPos)
 		{
-			ImGui::SetNextWindowPos(ImVec2((float)m_xpos, (float)m_ypos));
-			m_dirty_pos = false;
+			ImGui::SetNextWindowPos(m_state.getItemPos());
+			m_dirtyPos = false;
 		}
 
 		if (m_dirty_size)
@@ -259,6 +243,13 @@ namespace Marvel {
 				item->m_focusNextFrame = false;
 			}
 
+			if (item->m_dirtyPos)
+			{
+				ImGui::SetCursorPos(item->getState().getItemPos());
+				item->m_dirtyPos = false;
+			}
+			item->getState().setPos({ ImGui::GetCursorPosX(), ImGui::GetCursorPosY() });
+
 			item->draw(this_drawlist, ImGui::GetCursorPosX(), ImGui::GetCursorPosY());
 
 			item->getState().update();
@@ -309,8 +300,7 @@ namespace Marvel {
 
 		}
 
-		m_xpos = (int)ImGui::GetWindowPos().x;
-		m_ypos = (int)ImGui::GetWindowPos().y;
+		m_state.setPos({ ImGui::GetWindowPos().x , ImGui::GetWindowPos().y });
 
 		ImGui::End();
 
@@ -322,9 +312,7 @@ namespace Marvel {
 	{
 		if (dict == nullptr)
 			return;
-		 
-		if (PyObject* item = PyDict_GetItemString(dict, "x_pos")) setWindowPos((float)ToInt(item), (float)m_ypos);
-		if (PyObject* item = PyDict_GetItemString(dict, "y_pos")) setWindowPos((float)m_xpos, (float)ToInt(item));
+
 		if (PyObject* item = PyDict_GetItemString(dict, "no_close")) m_no_close = ToBool(item);
 		if (PyObject* item = PyDict_GetItemString(dict, "collapsed"))
 		{
@@ -373,8 +361,8 @@ namespace Marvel {
 		flagop("menubar", ImGuiWindowFlags_MenuBar, m_windowflags);
 		flagop("no_background", ImGuiWindowFlags_NoBackground, m_windowflags);
 
-		m_oldxpos = m_xpos;
-		m_oldypos = m_ypos;
+		m_oldxpos = m_state.getItemPos().x;
+		m_oldypos = m_state.getItemPos().y;
 		m_oldWidth = m_width;
 		m_oldHeight = m_height;
 		m_oldWindowflags = m_windowflags;
@@ -386,8 +374,6 @@ namespace Marvel {
 		if (dict == nullptr)
 			return;
 		 
-		PyDict_SetItemString(dict, "x_pos", ToPyInt(m_xpos));
-		PyDict_SetItemString(dict, "y_pos", ToPyInt(m_ypos));
 		PyDict_SetItemString(dict, "no_close", ToPyBool(m_no_close));
 		PyDict_SetItemString(dict, "collapsed", ToPyBool(m_collapsed));
 		PyDict_SetItemString(dict, "min_size", ToPyPair(m_min_size.x, m_min_size.y));

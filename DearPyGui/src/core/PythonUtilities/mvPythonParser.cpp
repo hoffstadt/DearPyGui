@@ -293,17 +293,16 @@ namespace Marvel {
 		if (!PyArg_VaParseTupleAndKeywords(args, kwargs, m_formatstring.data(),
 			const_cast<char**>(m_keywords.data()), arguments))
 		{
-			PyErr_Print();
 			check = false;
-			mvAppLog::Show();
-			int line = PyFrame_GetLineNumber(PyEval_GetFrame());
-			PyObject* ex = PyErr_Format(PyExc_Exception,
-				"Error parsing DearPyGui %s command on line %d.", message, line);
-			PyErr_Print();
-			Py_XDECREF(ex);
 		}
 
 		va_end(arguments);
+
+		if (!check)
+		{
+			mvAppLog::Show();
+			mvThrowPythonError(1000, "Error parsing Dear PyGui command: " + std::string(message));
+		}
 
 		return check;
 	}

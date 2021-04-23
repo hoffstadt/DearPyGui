@@ -43,7 +43,7 @@ namespace Marvel {
 
 	mvPyObject::~mvPyObject()
 	{
-		if(!m_borrowed)
+		if(!m_borrowed && !m_del)
 			Py_XDECREF(m_rawObject);
 	}
 
@@ -55,6 +55,12 @@ namespace Marvel {
 	void mvPyObject::addRef()
 	{
 		Py_XINCREF(m_rawObject);
+	}
+
+	void mvPyObject::delRef()
+	{
+		Py_XDECREF(m_rawObject);
+		m_del = true;
 	}
 
 }

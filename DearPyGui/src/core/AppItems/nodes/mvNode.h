@@ -59,8 +59,6 @@ namespace Marvel {
 
 		mvNode(const std::string& name);
 
-		void setNodePos(float x, float y);
-
 		void draw(ImDrawList* drawlist, float x, float y) override;
 		bool isParentCompatible(mvAppItemType type) override;
 		bool canChildBeAdded(mvAppItemType type) override;
@@ -73,9 +71,6 @@ namespace Marvel {
 	private:
 
 	    int m_id = 0;
-		bool m_dirty_pos = true;
-		int m_xpos = 100;
-		int m_ypos = 100;
 		bool m_draggable = true;
 	};
 

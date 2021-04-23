@@ -144,6 +144,7 @@ namespace Marvel {
         MV_CREATE_EXTRA_COMMAND(get_value);
         MV_CREATE_EXTRA_COMMAND(set_value);
         MV_CREATE_EXTRA_COMMAND(focus_item);
+        MV_CREATE_EXTRA_COMMAND(set_item_pos);
 
         MV_START_EXTRA_COMMANDS
             MV_ADD_EXTRA_COMMAND(get_item_configuration);
@@ -153,6 +154,7 @@ namespace Marvel {
             MV_ADD_EXTRA_COMMAND(get_value);
             MV_ADD_EXTRA_COMMAND(set_value);
             MV_ADD_EXTRA_COMMAND(focus_item);
+            MV_ADD_EXTRA_COMMAND(set_item_pos);
         MV_END_EXTRA_COMMANDS
 
         static bool DoesItemHaveFlag(mvAppItem* item, int flag);
@@ -273,6 +275,7 @@ namespace Marvel {
         virtual void                        setEnabled                (bool value)              { m_enabled = value; }
         virtual void                        setDataSource             (const std::string& value){ m_source = value; }
         virtual void                        setLabel                  (const std::string& value); 
+        void                                setPos                    (const ImVec2& pos); 
 
     private:
 
@@ -295,6 +298,7 @@ namespace Marvel {
 
         mvAppItemState                m_state;
         bool                          m_focusNextFrame = false;
+        bool                          m_dirtyPos = false;
 
         mvAppItem*                    m_parentPtr = nullptr;
         std::vector<mvRef<mvAppItem>> m_children[3] = { {}, {}, {} };

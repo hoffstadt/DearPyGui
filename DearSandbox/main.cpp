@@ -1,6 +1,5 @@
 #define PY_SSIZE_T_CLEAN
 #include <Python.h>
-#include "mvStdOutput.h"
 #include "mvModule_Core.h"
 #include "mvApp.h"
 #include <Windows.h>
@@ -18,7 +17,7 @@ int main(int argc, char* argv[])
 
 #ifdef MV_RELEASE
 	HWND hWnd = GetConsoleWindow();
-	ShowWindow(hWnd, SW_HIDE);
+	ShowWindow(hWnd, SW_SHOW);
 	mvPythonParser::GenerateStubFile("../../DearPyGui/dearpygui/core.pyi");
 #else
 	HWND hWnd = GetConsoleWindow();
@@ -26,7 +25,7 @@ int main(int argc, char* argv[])
 #endif
 
 	// add our custom module
-	PyImport_AppendInittab("sandboxout", &PyInit_embOut);
+	//PyImport_AppendInittab("sandboxout", &PyInit_embOut);
 	PyImport_AppendInittab("core", &PyInit_core);
 
 	// set path and start the interpreter
@@ -46,11 +45,6 @@ int main(int argc, char* argv[])
 
 	PyObject* mmarvel = PyImport_ImportModule("core");
 
-	// import our custom module to capture stdout/stderr
-	PyObject* m = PyImport_ImportModule("sandboxout");
-	PySys_SetObject("stdout", m);
-	PySys_SetObject("stderr", m);
-
 	PyObject* pModule = PyImport_ImportModule("sandbox"); // new reference
 
 	// check if error occurred
@@ -61,17 +55,6 @@ int main(int argc, char* argv[])
 	}
 
 	else
-	{
 		PyErr_Print();
-
-		// create window
-		auto window = mvViewport::CreateViewport(1080, 
-			800, true);
-		window->show(false, false);
-		while (window->running())
-			window->renderFrame();
-		delete window;
-		delete mvApp::GetApp();
-	}
 	
 }

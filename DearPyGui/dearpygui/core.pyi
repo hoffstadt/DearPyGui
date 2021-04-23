@@ -214,7 +214,7 @@ def add_metrics_window(*, id: str =..., width: int =0, height: int =0, label: st
 	"""Undocumented function"""
 	...
 
-def add_node(*, id: str =..., parent: str ='', before: str ='', label: str ='', show: bool =True, draggable: bool =True, x_pos: int =100, y_pos: int =100) -> str:
+def add_node(*, id: str =..., parent: str ='', before: str ='', label: str ='', show: bool =True, draggable: bool =True) -> str:
 	"""Undocumented function"""
 	...
 
@@ -366,7 +366,7 @@ def add_vline_series(x : List[float], *, id: str =..., parent: str ='', before: 
 	"""Undocumented function"""
 	...
 
-def add_window(*, id: str =..., width: int =0, height: int =0, label: str ='', show: bool =True, x_pos: int =200, y_pos: int =200, min_size: List[int] =[32, 32], max_size: List[int] =[30000, 30000], menubar: bool =False, collapsed: bool =False, autosize: bool =False, no_resize: bool =False, no_title_bar: bool =False, no_move: bool =False, no_scrollbar: bool =False, no_collapse: bool =False, horizontal_scrollbar: bool =False, no_focus_on_appearing: bool =False, no_bring_to_front_on_focus: bool =False, no_close: bool =False, no_background: bool =False, on_close: Callable =None) -> str:
+def add_window(*, id: str =..., width: int =0, height: int =0, label: str ='', show: bool =True, min_size: List[int] =[32, 32], max_size: List[int] =[30000, 30000], menubar: bool =False, collapsed: bool =False, autosize: bool =False, no_resize: bool =False, no_title_bar: bool =False, no_move: bool =False, no_scrollbar: bool =False, no_collapse: bool =False, horizontal_scrollbar: bool =False, no_focus_on_appearing: bool =False, no_bring_to_front_on_focus: bool =False, no_close: bool =False, no_background: bool =False, on_close: Callable =None) -> str:
 	"""Undocumented function"""
 	...
 
@@ -711,6 +711,10 @@ def set_grid_item(data_grid : str, row : int, column : int, value : str) -> str:
 	...
 
 def set_grid_selection(data_grid : str, row : int, column : int, value : bool) -> str:
+	"""Undocumented function"""
+	...
+
+def set_item_pos(item : str, x : float, y : float) -> None:
 	"""Undocumented function"""
 	...
 

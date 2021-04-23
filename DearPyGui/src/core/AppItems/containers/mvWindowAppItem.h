@@ -96,11 +96,9 @@ namespace Marvel {
 		void   addFlag              (ImGuiWindowFlags flag) { m_windowflags |= flag; }
 		void   removeFlag           (ImGuiWindowFlags flag) { m_windowflags &= ~flag; }
 		void   setWindowAsMainStatus(bool value);
-		void   setWindowPos         (float x, float y);
 		void   setLabel             (const std::string& value) override;
 		void   setWidth             (int width) override;
 		void   setHeight            (int height) override;
-		mvVec2 getWindowPos         () const;
 		void   draw                 (ImDrawList* drawlist, float x, float y) override;
 		void   setResizeCallback    (PyObject* callback);
 		bool  getWindowAsMainStatus() const { return m_mainWindow; }
@@ -116,20 +114,17 @@ namespace Marvel {
 
 		ImGuiWindowFlags      m_windowflags = ImGuiWindowFlags_NoSavedSettings;
 		ImGuiWindowFlags      m_oldWindowflags = ImGuiWindowFlags_NoSavedSettings;
-		int                   m_oldxpos = 200;
-		int                   m_oldypos = 200;
+		float                 m_oldxpos = 200;
+		float                 m_oldypos = 200;
 		int                   m_oldWidth = 200;
 		int                   m_oldHeight = 200;
 		bool                  m_mainWindow = false;
-		PyObject*            m_resize_callback = nullptr;
-		bool                  m_dirty_pos = true;
+		PyObject*             m_resize_callback = nullptr;
 		bool                  m_dirty_size = true;
 		bool                  m_hasMenuBar = false;
 		bool                  m_closing = true;
 		bool                  m_collapsedDirty = true;
 
-		int        m_xpos = 200;
-		int        m_ypos = 200;
 		bool       m_autosize = false;
 		bool       m_no_resize = false;
 		bool       m_no_title_bar = false;
@@ -143,7 +138,7 @@ namespace Marvel {
 		bool       m_no_close = false;
 		bool       m_no_background = false;
 		bool       m_collapsed = false;
-		PyObject* m_on_close = nullptr;
+		PyObject*  m_on_close = nullptr;
 		mvVec2     m_min_size = { 32.0f, 32.0f };
 		mvVec2     m_max_size = { 30000.0f, 30000.0f };
 		

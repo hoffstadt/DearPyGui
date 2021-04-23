@@ -127,6 +127,7 @@ namespace Marvel {
 
 	void mvCallbackRegistry::runTasks()
 	{
+
 		while (!m_tasks.empty())
 		{
 			mvFunctionWrapper t;
@@ -332,6 +333,7 @@ namespace Marvel {
 			if (data != nullptr)
 				Py_XDECREF(data);
 			mvThrowPythonError(1000, "Callable not callable.");
+			PyErr_Print();
 			return;
 		}
 
@@ -353,13 +355,9 @@ namespace Marvel {
 			if (intermediateResult == nullptr)
 			{
 				PyErr_Print();
-				mvThrowPythonError(1000, "Callable data failed");
 				intermediateResult = data;
 			}
 
-			// check if error occurred
-			if (PyErr_Occurred())
-				PyErr_Print();
 		}
 		else
 			intermediateResult = data;
@@ -388,10 +386,7 @@ namespace Marvel {
 
 					// check if call succeeded
 					if (!result.isOk())
-					{
 						PyErr_Print();
-						mvThrowPythonError(1000, "Callable failed");
-					}
 
 				}
 				else if (count == 2)
@@ -402,12 +397,10 @@ namespace Marvel {
 
 					mvPyObject result(PyObject_CallObject(callable, pArgs));
 
+					pArgs.delRef();
 					// check if call succeeded
 					if (!result.isOk())
-					{
 						PyErr_Print();
-						mvThrowPythonError(1000, "Callable failed");
-					}
 
 				}
 				else if(count == 1)
@@ -419,10 +412,7 @@ namespace Marvel {
 
 					// check if call succeeded
 					if (!result.isOk())
-					{
 						PyErr_Print();
-						mvThrowPythonError(1000, "Callable failed");
-					}
 				}
 				else
 				{
@@ -430,18 +420,11 @@ namespace Marvel {
 
 					// check if call succeeded
 					if (!result.isOk())
-					{
 						PyErr_Print();
-						mvThrowPythonError(1000, "Callable failed");
-					}
 
 
 				}
 				Py_DECREF(ac);
-
-				// check if error occurred
-				if (PyErr_Occurred())
-					PyErr_Print();
 			}
 			Py_DECREF(fc);
 		}
