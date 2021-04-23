@@ -1054,6 +1054,11 @@ def show_demo():
                 add_stair_series(sindatax, sindatay, label="0.5 + 0.5 * sin(x)", parent=plot_id)
                 add_stair_series(x2datax, x2datay, label="x^2", parent=plot_id)
 
+            with tree_node(label="Area Plots"):
+                plot_id = add_plot(label="Area Plot", height=400)
+                add_area_series([1,5,3],[0,0,3], fill=[255,50,100,190], parent=plot_id)
+            
+
             with tree_node(label="Shade Plots"):
 
                 stock_datax = []
@@ -1210,8 +1215,10 @@ def show_demo():
                 add_line_series(x2datax, x2datay, label="Series 3", axis=2, parent=plot_id)
 
             with tree_node(label="Annotations"):
-                
+                scatter_data1x = [0.25, 0.25, 0.75, 0.75]
+                scatter_data1y = [0.25, 0.75, 0.75, 0.25]
                 plot_id = add_plot(label="Annotations", height=400)
+                add_scatter_series(scatter_data1x, scatter_data1y, parent=plot_id)
                 add_plot_annotation(label="BL", default_value=(0.25, 0.25), offset=(-15, 15), color=[255, 255, 0, 255], parent=plot_id)
                 add_plot_annotation(label="BR", default_value=(0.75, 0.25), offset=(15, 15), color=[255, 255, 0, 255], parent=plot_id)
                 add_plot_annotation(label="TR not clampled", default_value=(0.75, 0.75), offset=(-15, -15), color=[255, 255, 0, 255], clamped=False, parent=plot_id)
@@ -1224,6 +1231,7 @@ def show_demo():
                 add_drag_line(label="dline1", color=[255, 0, 0, 255], parent=plot_id)
                 add_drag_line(label="dline2", color=[255, 255, 0, 255], vertical=False, parent=plot_id)
                 add_drag_point(label="dpoint1", color=[255, 0, 255, 255], parent=plot_id)
+                add_drag_point(label="dpoint2", color=[255, 0, 255, 255], parent=plot_id)
 
             with tree_node(label="Infinite Lines"):
 
