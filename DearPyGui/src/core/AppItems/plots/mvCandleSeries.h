@@ -39,7 +39,7 @@ namespace Marvel {
 
 	private:
 
-		float m_width = 0.25f;
+		float m_weight = 0.25f;
 		bool m_tooltip = true;
 		mvColor m_bullColor = { 0, 255, 113, 255};
 		mvColor m_bearColor = { 218, 13, 79, 255 };

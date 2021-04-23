@@ -20,7 +20,7 @@ namespace Marvel {
 		parser.removeArg("callback_data");
 		parser.removeArg("enabled");
 
-		parser.addArg<mvPyDataType::FloatList>("default_value", mvArgType::KEYWORD_ARG, "(0.0, 0.0)");
+		parser.addArg<mvPyDataType::DoubleList>("default_value", mvArgType::KEYWORD_ARG, "(0.0, 0.0)");
 		parser.addArg<mvPyDataType::FloatList>("offset", mvArgType::KEYWORD_ARG, "(0.0, 0.0)");
 		
 		parser.addArg<mvPyDataType::IntList>("color", mvArgType::KEYWORD_ARG, "(0, 0, 0, -255)");
@@ -33,7 +33,7 @@ namespace Marvel {
 	}
 
 	mvAnnotation::mvAnnotation(const std::string& name)
-		: mvFloat4PtrBase(name)
+		: mvDouble4PtrBase(name)
 	{
 	}
 

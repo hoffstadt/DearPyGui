@@ -19,7 +19,7 @@ namespace Marvel {
 		parser.removeArg("callback_data");
 		parser.removeArg("enabled");
 
-		parser.addArg<mvPyDataType::FloatList>("default_value", mvArgType::KEYWORD_ARG, "(0.0, 0.0, 0.0, 0.0)");
+		parser.addArg<mvPyDataType::DoubleList>("default_value", mvArgType::KEYWORD_ARG, "(0.0, 0.0, 0.0, 0.0)");
 
 
 		parser.addArg<mvPyDataType::IntList>("color", mvArgType::KEYWORD_ARG, "(0, 0, 0, -255)");
@@ -35,7 +35,7 @@ namespace Marvel {
 	}
 
 	mvDragPoint::mvDragPoint(const std::string& name)
-		: mvFloat4PtrBase(name)
+		: mvDouble4PtrBase(name)
 	{
 	}
 
@@ -62,8 +62,8 @@ namespace Marvel {
 
 		if (ImPlot::DragPoint(m_specificedlabel.c_str(), &dummyx, &dummyy, m_show_label, m_color, m_radius))
 		{
-			(*m_value.get())[0] = (float)dummyx;
-			(*m_value.get())[1] = (float)dummyy;
+			(*m_value.get())[0] = dummyx;
+			(*m_value.get())[1] = dummyy;
 			mvApp::GetApp()->getCallbackRegistry().addCallback(m_callback, m_name, nullptr);
 		}
 

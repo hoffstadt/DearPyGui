@@ -18,8 +18,8 @@ namespace Marvel {
 		parser.removeArg("callback_data");
 		parser.removeArg("enabled");
 
-		parser.addArg<mvPyDataType::FloatList>("x");
-		parser.addArg<mvPyDataType::FloatList>("y");
+		parser.addArg<mvPyDataType::DoubleList>("x");
+		parser.addArg<mvPyDataType::DoubleList>("y");
 
 		parser.addArg<mvPyDataType::Float>("weight", mvArgType::KEYWORD_ARG, "1.0");
 
@@ -59,8 +59,8 @@ namespace Marvel {
 			break;
 		}
 
-		static const std::vector<float>* xptr;
-		static const std::vector<float>* yptr;
+		static const std::vector<double>* xptr;
+		static const std::vector<double>* yptr;
 
 		xptr = &(*m_value.get())[0];
 		yptr = &(*m_value.get())[1];
@@ -83,11 +83,11 @@ namespace Marvel {
 			switch (i)
 			{
 			case 0:
-				(*m_value)[0] = ToFloatVect(item);
+				(*m_value)[0] = ToDoubleVect(item);
 				break;
 
 			case 1:
-				(*m_value)[1] = ToFloatVect(item);
+				(*m_value)[1] = ToDoubleVect(item);
 				break;
 
 			default:
@@ -110,8 +110,8 @@ namespace Marvel {
 		if (PyObject* item = PyDict_GetItemString(dict, "weight")) m_weight= ToFloat(item);
 
 		bool valueChanged = false;
-		if (PyObject* item = PyDict_GetItemString(dict, "x")) { valueChanged = true; (*m_value)[0] = ToFloatVect(item); }
-		if (PyObject* item = PyDict_GetItemString(dict, "y")) { valueChanged = true; (*m_value)[1] = ToFloatVect(item); }
+		if (PyObject* item = PyDict_GetItemString(dict, "x")) { valueChanged = true; (*m_value)[0] = ToDoubleVect(item); }
+		if (PyObject* item = PyDict_GetItemString(dict, "y")) { valueChanged = true; (*m_value)[1] = ToDoubleVect(item); }
 
 		if (valueChanged)
 		{
