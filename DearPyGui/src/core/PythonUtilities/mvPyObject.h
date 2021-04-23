@@ -25,6 +25,7 @@ namespace Marvel {
 		~mvPyObject();
 
 		void addRef();
+		void delRef();
 		bool isOk() const { return m_ok; }
 
 		operator PyObject* ();
@@ -34,6 +35,7 @@ namespace Marvel {
 		PyObject* m_rawObject;
 		bool      m_borrowed;
 		bool      m_ok;
+		bool      m_del = false;
 
 	};
 

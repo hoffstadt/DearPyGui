@@ -66,7 +66,7 @@ def table(*args, header_row: bool = True, width: int = 0, height: int = 0, inner
         internal_dpg.end()
 
 @contextmanager
-def window(*args, width: int = 200, height: int = 200, x_pos: int = 200, y_pos: int = 200, autosize: bool = False,
+def window(*args, width: int = 200, height: int = 200, autosize: bool = False,
            no_resize: bool = False, no_title_bar: bool = False, no_move: bool = False, no_scrollbar: bool = False,
            no_collapse: bool = False, horizontal_scrollbar: bool = False, no_focus_on_appearing: bool = False,
            no_bring_to_front_on_focus: bool = False, menubar: bool = False, no_close: bool = False,
@@ -79,8 +79,6 @@ def window(*args, width: int = 200, height: int = 200, x_pos: int = 200, y_pos: 
             anything after "##" that occurs in the name will not be shown on screen.
         **width: Width of the item.
         **height: Height of the item.
-        **x_pos: x position the window will start at
-        **y_pos: y position the window will start at
         **autosize: Autosized the window to fit it's items.
         **no_resize: Allows for the window size to be changed or fixed
         **no_title_bar: Title name for the title bar of the window
@@ -105,7 +103,7 @@ def window(*args, width: int = 200, height: int = 200, x_pos: int = 200, y_pos: 
     """
     try:
         if label == "__DearPyGuiDefault":
-            yield internal_dpg.add_window(*args, width=width, height=height, x_pos=x_pos, y_pos=y_pos, autosize=autosize,
+            yield internal_dpg.add_window(*args, width=width, height=height, autosize=autosize,
                                           no_resize=no_resize, no_title_bar=no_title_bar, no_move=no_move,
                                           no_scrollbar=no_scrollbar, no_collapse=no_collapse,
                                           horizontal_scrollbar=horizontal_scrollbar,
@@ -115,7 +113,7 @@ def window(*args, width: int = 200, height: int = 200, x_pos: int = 200, y_pos: 
                                           show=show, collapsed=collapsed, on_close=on_close,
                                           min_size=min_size, max_size=max_size, id=id)
         else:
-            yield internal_dpg.add_window(*args, width=width, height=height, x_pos=x_pos, y_pos=y_pos, autosize=autosize,
+            yield internal_dpg.add_window(*args, width=width, height=height, autosize=autosize,
                                           no_resize=no_resize, no_title_bar=no_title_bar, no_move=no_move,
                                           no_scrollbar=no_scrollbar, no_collapse=no_collapse,
                                           horizontal_scrollbar=horizontal_scrollbar,

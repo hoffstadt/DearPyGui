@@ -243,10 +243,7 @@ namespace Marvel {
 
 			if (font.fontPtr == nullptr)
 			{
-				int line = PyFrame_GetLineNumber(PyEval_GetFrame());
-				PyErr_Format(PyExc_Exception,
-					"Font file %s could not be found.  %d c", font.file.c_str(), line);
-				PyErr_Print();
+				mvThrowPythonError(1000, "Font file could not be found");
 				io.Fonts->Build();
 			}
 

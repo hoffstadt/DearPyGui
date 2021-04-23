@@ -15,6 +15,7 @@
 #include "mvCallbackRegistry.h"
 #include "mvPythonTranslator.h"
 #include "mvPythonExceptions.h"
+#include "mvGlobalIntepreterLock.h"
 #include <frameobject.h>
 #include "mvModule_Core.h"
 #include "mvLog.h"
@@ -161,15 +162,7 @@ namespace Marvel {
 
 	bool mvApp::checkIfMainThread() const
 	{
-		if (std::this_thread::get_id() != m_mainThreadID)
-		{
-			int line = PyFrame_GetLineNumber(PyEval_GetFrame());
-			PyErr_Format(PyExc_Exception,
-				"DearPyGui command on line %d can not be called asynchronously", line);
-			PyErr_Print();
-			return false;
-		}
-		return true;
+		return std::this_thread::get_id() == m_mainThreadID;
 	}
 
 	std::map<std::string, mvPythonParser>& mvApp::getParsers()
@@ -303,8 +296,9 @@ namespace Marvel {
 
 	PyObject* mvApp::cleanup_dearpygui(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
+
 		Py_BEGIN_ALLOW_THREADS;
-		mvApp::GetApp()->cleanup();
+		mvApp::GetApp()->cleanup();	
 		mvApp::DeleteApp();
 		mvEventBus::Reset();
 		mvAppLog::Clear();

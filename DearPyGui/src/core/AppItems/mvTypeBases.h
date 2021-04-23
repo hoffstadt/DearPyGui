@@ -244,9 +244,7 @@ namespace Marvel {
 
 		void   addFlag     (ImGuiWindowFlags flag);
 		void   removeFlag  (ImGuiWindowFlags flag);
-		void   setWindowPos(float x, float y);
 		bool   prerender   ();
-		mvVec2 getWindowPos() const;
 
 		void setWidth          (int width)      override;
 		void setHeight         (int height)     override;
@@ -256,9 +254,6 @@ namespace Marvel {
 	protected:
 
 		ImGuiWindowFlags m_windowflags = ImGuiWindowFlags_NoSavedSettings;
-		int              m_xpos = 200;
-		int              m_ypos = 200;
-		bool             m_dirty_pos = true;
 		bool             m_dirty_size = true;
 		
 	};

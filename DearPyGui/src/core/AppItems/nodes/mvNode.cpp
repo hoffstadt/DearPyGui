@@ -49,9 +49,6 @@ namespace Marvel {
 
 		parser.addArg<mvPyDataType::Bool>("draggable", mvArgType::KEYWORD_ARG, "True");
 
-		parser.addArg<mvPyDataType::Integer>("x_pos", mvArgType::KEYWORD_ARG, "100");
-		parser.addArg<mvPyDataType::Integer>("y_pos", mvArgType::KEYWORD_ARG, "100");
-
 		parser.finalize();
 
 		parsers->insert({ s_command, parser });
@@ -90,23 +87,16 @@ namespace Marvel {
 		return false;
 	}
 
-	void mvNode::setNodePos(float x, float y)
-	{
-		m_xpos = (int)x;
-		m_ypos = (int)y;
-		m_dirty_pos = true;
-	}
-
 	void mvNode::draw(ImDrawList* drawlist, float x, float y)
 	{
 		ScopedID id;
 		mvImNodesThemeScope scope(this);
 		mvFontScope fscope(this);
 
-		if (m_dirty_pos)
+		if (m_dirtyPos)
 		{
-			imnodes::SetNodeGridSpacePos((int)m_id, ImVec2((float)m_xpos, (float)m_ypos));
-			m_dirty_pos = false;
+			imnodes::SetNodeGridSpacePos((int)m_id, m_state.getItemPos());
+			m_dirtyPos = false;
 		}
 
 		imnodes::SetNodeDraggable((int)m_id, m_draggable);
@@ -140,8 +130,7 @@ namespace Marvel {
 		imnodes::EndNode();
 
 		ImVec2 pos = imnodes::GetNodeGridSpacePos((int)m_id);
-		m_xpos = (int)pos.x;
-		m_ypos = (int)pos.y;
+		m_state.setPos({ pos.x , pos.y });
 	}
 
 	void mvNode::handleSpecificKeywordArgs(PyObject* dict)
@@ -149,8 +138,6 @@ namespace Marvel {
 		if (dict == nullptr)
 			return;
 
-		if (PyObject* item = PyDict_GetItemString(dict, "x_pos")) setNodePos((float)ToInt(item), (float)m_ypos);
-		if (PyObject* item = PyDict_GetItemString(dict, "y_pos")) setNodePos((float)m_xpos, (float)ToInt(item));
 		if (PyObject* item = PyDict_GetItemString(dict, "draggable")) m_draggable = ToBool(item);
 
 	}
@@ -159,9 +146,6 @@ namespace Marvel {
 	{
 		if (dict == nullptr)
 			return;
-
-		PyDict_SetItemString(dict, "x_pos", ToPyInt(m_xpos));
-		PyDict_SetItemString(dict, "y_pos", ToPyInt(m_ypos));	
 		PyDict_SetItemString(dict, "draggable", ToPyBool(m_draggable));	
 	}
 

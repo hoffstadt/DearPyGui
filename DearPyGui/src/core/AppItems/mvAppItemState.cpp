@@ -56,6 +56,7 @@ namespace Marvel {
         PyDict_SetItemString(dict, "rect_min", ToPyMPair(m_rectMin.x, m_rectMin.y));
         PyDict_SetItemString(dict, "rect_max", ToPyMPair(m_rectMax.x, m_rectMax.y));
         PyDict_SetItemString(dict, "rect_size", ToPyMPair(m_rectSize.x, m_rectSize.y));
+        PyDict_SetItemString(dict, "pos", ToPyMPair(m_pos.x, m_pos.y));
     }
 
 }

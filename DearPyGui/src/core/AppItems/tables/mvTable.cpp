@@ -101,6 +101,13 @@ namespace Marvel {
 					item->m_focusNextFrame = false;
 				}
 
+				if (item->m_dirtyPos)
+				{
+					ImGui::SetCursorPos(item->getState().getItemPos());
+					item->m_dirtyPos = false;
+				}
+				//item->getState().setPos({ ImGui::GetCursorPosX(), ImGui::GetCursorPosY() });
+
 				item->draw(drawlist, x, y);
 
 				item->getState().update();

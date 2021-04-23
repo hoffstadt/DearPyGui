@@ -70,6 +70,15 @@ namespace Marvel{
 			parsers->insert({ "set_value", parser });
 		}
 
+		{
+			mvPythonParser parser(mvPyDataType::None);
+			parser.addArg<mvPyDataType::String>("item");
+			parser.addArg<mvPyDataType::Float>("x");
+			parser.addArg<mvPyDataType::Float>("y");
+			parser.finalize();
+			parsers->insert({ "set_item_pos", parser });
+		}
+
 	}
 
 	bool mvAppItem::DoesItemHaveFlag(mvAppItem* item, int flag)
@@ -115,6 +124,12 @@ namespace Marvel{
 			return item;
 		}
 		return nullptr;
+	}
+
+	void mvAppItem::setPos(const ImVec2& pos)
+	{
+		m_dirtyPos = true;
+		m_state.setPos({ pos.x, pos.y });
 	}
 
 	void mvAppItem::registerWindowFocusing()
@@ -909,6 +924,27 @@ namespace Marvel{
 			if (auto parent = appitem->getRoot())
 				parent->m_focusNextFrame = true;
 		}
+		else
+			mvThrowPythonError(1000, item + std::string(" item was not found"));
+
+		return GetPyNone();
+	}
+
+	PyObject* mvAppItem::set_item_pos(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		const char* item;
+		float x, y;
+
+		if (!(mvApp::GetApp()->getParsers())["set_item_pos"].parse(args, kwargs, __FUNCTION__, 
+			&item, &x, &y))
+			return GetPyNone();
+
+
+		std::lock_guard<std::mutex> lk(mvApp::GetApp()->getMutex());
+		auto appitem = mvApp::GetApp()->getItemRegistry().getItem(item);
+
+		if (appitem)
+			appitem->setPos({ x, y });
 		else
 			mvThrowPythonError(1000, item + std::string(" item was not found"));
 
