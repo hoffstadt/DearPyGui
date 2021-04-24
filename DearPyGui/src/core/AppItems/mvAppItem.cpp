@@ -848,6 +848,12 @@ namespace Marvel{
 			PyDict_SetItemString(dict, "parent", ToPyString(m_parentPtr->getName()));
 		else
 			PyDict_SetItemString(dict, "parent", GetPyNone());
+
+		if(getDescFlags() == MV_ITEM_DESC_CONTAINER)
+			PyDict_SetItemString(dict, "container", ToPyBool(true));
+		else
+			PyDict_SetItemString(dict, "container", ToPyBool(false));
+
 	}
 
 	void mvAppItem::getConfiguration(PyObject* dict)

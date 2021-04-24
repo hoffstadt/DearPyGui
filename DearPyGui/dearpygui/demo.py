@@ -60,13 +60,8 @@ def demo_recursive_disable(sender, siblings, restart_index=0):
 
     Returns:
         None"""
-    parent = sender
-    parent = get_item_info(sender)["parent"]
-    parent = get_item_info(parent)["parent"]
-    print(get_item_info(sender)["parent"])
-    print(siblings)
     for i in range(restart_index,len(siblings)-1, 1):
-        if get_item_info(siblings[i])["type"] == 2:
+        if get_item_info(siblings[i])["container"]:
             siblings += get_item_info(siblings.pop(i))["children"]
             demo_recursive_disable(sender, siblings, i-1)
             return
