@@ -60,9 +60,14 @@ def demo_recursive_disable(sender, siblings, restart_index=0):
 
     Returns:
         None"""
+    parent = sender
+    parent = get_item_info(sender)["parent"]
+    parent = get_item_info(parent)["parent"]
+    print(get_item_info(sender)["parent"])
+    print(siblings)
     for i in range(restart_index,len(siblings)-1, 1):
-        if is_item_container(siblings[i]):
-            siblings += get_item_children(siblings.pop(i))
+        if get_item_info(siblings[i])["type"] == 2:
+            siblings += get_item_info(siblings.pop(i))["children"]
             demo_recursive_disable(sender, siblings, i-1)
             return
     siblings.remove(sender)
@@ -81,7 +86,7 @@ def demo_enable_disable():
 
     Returns:
         None"""
-    add_checkbox(label="Enable/Disable", default_value=True, callback=lambda sender: demo_recursive_disable(sender, get_item_children(get_item_parent(sender))))
+    add_checkbox(label="Enable/Disable", default_value=True, callback=lambda sender: demo_recursive_disable(sender,  get_item_info(get_item_info(sender)["parent"])["children"]))
     demo_help('This will toggle the keyword "enable" for any sibling widgets that allow enabled & disabled')
 
 def demo_config(sender, data):
@@ -282,7 +287,10 @@ def show_demo():
 
     #set_accelerator_callback(demo_accelerator_callback)
 
-    with window(id="Dear PyGui Demo", x_pos=100, y_pos=100, width=800, height=800, on_close=on_demo_close):
+   #TODO: should we be allowed to set x, y post on start, should these bee keywords or just use set_item_pos function?
+   #with window(id="Dear PyGui Demo", x=100, y=100, width=800, height=800, on_close=on_demo_close):
+
+    with window(id="Dear PyGui Demo", width=800, height=800, on_close=on_demo_close):
 
         with menu_bar():
 
