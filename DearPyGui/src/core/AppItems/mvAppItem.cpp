@@ -838,9 +838,9 @@ namespace Marvel{
 
 		auto children = mvApp::GetApp()->getItemRegistry().getItemChildren(m_name);
 		if (children.empty())
-			PyDict_SetItemString(dict, "children", ToPyList(children));
-		else
 			PyDict_SetItemString(dict, "children", GetPyNone());
+		else
+			PyDict_SetItemString(dict, "children", ToPyList(children));
 
 		PyDict_SetItemString(dict, "type", ToPyString(parserCommand));
 
