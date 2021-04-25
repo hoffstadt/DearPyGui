@@ -347,6 +347,27 @@ def show_demo():
                 add_checkbox(label="no_background", callback=demo_config, callback_data="Dear PyGui Demo")
                 add_checkbox(label="no_bring_to_front_on_focus", callback=demo_config, callback_data="Dear PyGui Demo")
         
+        with collapsing_header(label="Info"):
+            test = add_button(label="Info Tester", callback=demo_log)
+
+            # core and simple commands related to configuration
+            log_debug(get_item_configuration(test))
+            add_text(f"label: {get_item_label(test)}")
+            add_text(f"source: {get_item_source(test)}")
+            add_text(f"show: {is_item_shown(test)}")
+            add_text(f"enabled: {is_item_enabled(test)}")
+            add_text(f"width: {get_item_width(test)}")
+            add_text(f"height: {get_item_height(test)}")
+            add_text(f"callback: {get_item_callback(test)}")
+            add_text(f"callback_data: {get_item_callback_data(test)}")
+
+            # core and simple commands related to info
+            log_debug(get_item_info(test))
+            add_text(f"children: {get_item_children(test)}")
+            add_text(f"type: {get_item_type(test)}")
+            add_text(f"parent: {get_item_parent(test)}")
+            add_text(f"container: {is_item_container(test)}")
+
         with collapsing_header(label="Widgets"):
 
             with tree_node(label="Basic"):

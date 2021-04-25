@@ -557,7 +557,32 @@ def hide_item(item: str, *, children_only: bool = False):
         internal_dpg.configure_item(item, show=False)
 
 
-# item configure commands
+def is_item_shown(item: str) -> Union[bool, None]:
+    """Checks if item is shown.
+
+    Returns:
+        status as a bool
+    """
+    return internal_dpg.get_item_configuration(item)["height"]
+
+def is_item_enabled(item: str) -> Union[bool, None]:
+    """Checks if item is enabled.
+
+    Returns:
+        status as a bool
+    """
+    return internal_dpg.get_item_configuration(item)["enabled"]
+
+
+def is_item_container(item: str) -> Union[bool, None]:
+    """Checks if item is a container.
+
+    Returns:
+        status as a bool
+    """
+    return internal_dpg.get_item_info(item)["container"]
+
+
 def set_item_name(item: str, name: str):
     """Sets the item's name, anything after the characters "##" in the name will not be shown.
 
@@ -638,6 +663,57 @@ def get_item_height(item: str) -> Union[int, None]:
         height as a int or None
     """
     return internal_dpg.get_item_configuration(item)["height"]
+
+def get_item_callback(item: str) -> Union[str, None]:
+    """Gets the item's callback.
+
+    Returns:
+        callback as a string or None
+    """
+    return internal_dpg.get_item_configuration(item)["callback"]
+
+def get_item_callback_data(item: str) -> Union[Any, None]:
+    """Gets the item's callback data.
+
+    Returns:
+        callback data as a python object or None
+    """
+    return internal_dpg.get_item_configuration(item)["callback_data"]
+
+def get_item_source(item: str) -> Union[str, None]:
+    """Gets the item's source.
+
+    Returns:
+        source as a string or None
+    """
+    return internal_dpg.get_item_configuration(item)["source"]
+
+
+def get_item_parent(item: str) -> Union[str, None]:
+    """Gets the item's parent.
+
+    Returns:
+        parent as a string or None
+    """
+    return internal_dpg.get_item_info(item)["parent"]
+
+
+def get_item_children(item: str) -> Union[List[str], None]:
+    """Gets the item's children.
+
+    Returns:
+        children as a list of string or None
+    """
+    return internal_dpg.get_item_info(item)["children"]
+
+
+def get_item_type(item: str) -> Union[str]:
+    """Gets the item's type.
+
+    Returns:
+        type as a string or None
+    """
+    return internal_dpg.get_item_info(item)["type"]
 
 
 def set_drawing_size(drawing: str, width: int, height: int):
