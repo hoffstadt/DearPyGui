@@ -11,14 +11,6 @@ namespace Marvel{
 
 	void mvAppItem::InsertParser(std::map<std::string, mvPythonParser>* parsers)
 	{
-
-		{
-			mvPythonParser parser(mvPyDataType::String);
-			parser.addArg<mvPyDataType::String>("item");
-			parser.finalize();
-			parsers->insert({ "get_item_type", parser });
-		}
-
 		{
 			mvPythonParser parser(mvPyDataType::Dict);
 			parser.addArg<mvPyDataType::String>("item");
