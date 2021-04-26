@@ -11,17 +11,9 @@ namespace Marvel
 	void ThrowPythonException(const std::string& message)
 	{
 
-		std::string fullMessage = "Line: %d \t" + message;
+		std::string fullMessage = "Error: [%d] Message: \t" + message;
+		PyErr_Format(PyExc_Exception, fullMessage.c_str(), 1000);
 
-		int line = 0;
-		auto f = PyEval_GetFrame();
-		if (f)
-			line = PyFrame_GetLineNumber(f);
-		else
-			fullMessage.append(" || error occured in a callback");
-
-		PyErr_Format(PyExc_Exception, fullMessage.c_str(), line);
-		PyErr_Print();
 	}
 
 }
