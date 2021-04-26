@@ -522,10 +522,6 @@ def get_item_state(item : str) -> dict:
 	"""Undocumented function"""
 	...
 
-def get_item_type(item : str) -> str:
-	"""Undocumented function"""
-	...
-
 def get_links(node_editor : str) -> List[List[str]]:
 	"""Undocumented function"""
 	...

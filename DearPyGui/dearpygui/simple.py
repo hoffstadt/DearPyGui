@@ -563,7 +563,7 @@ def is_item_shown(item: str) -> Union[bool, None]:
     Returns:
         status as a bool
     """
-    return internal_dpg.get_item_configuration(item)["height"]
+    return internal_dpg.get_item_configuration(item)["show"]
 
 def is_item_enabled(item: str) -> Union[bool, None]:
     """Checks if item is enabled.
@@ -581,6 +581,101 @@ def is_item_container(item: str) -> Union[bool, None]:
         status as a bool
     """
     return internal_dpg.get_item_info(item)["container"]
+
+def is_item_hovered(item: str) -> Union[bool, None]:
+    """Checks if item is hovered.
+
+    Returns:
+        status as a bool
+    """
+    return internal_dpg.get_item_state(item)["hovered"]
+
+
+def is_item_active(item: str) -> Union[bool, None]:
+    """Checks if item is active.
+
+    Returns:
+        status as a bool
+    """
+    return internal_dpg.get_item_state(item)["active"]
+
+def is_item_focused(item: str) -> Union[bool, None]:
+    """Checks if item is focused.
+
+    Returns:
+        status as a bool
+    """
+    return internal_dpg.get_item_state(item)["focused"]
+
+def is_item_clicked(item: str) -> Union[bool, None]:
+    """Checks if item is clicked.
+
+    Returns:
+        status as a bool
+    """
+    return internal_dpg.get_item_state(item)["clicked"]
+
+def is_item_visible(item: str) -> Union[bool, None]:
+    """Checks if item is visible.
+
+    Returns:
+        status as a bool
+    """
+    return internal_dpg.get_item_state(item)["visible"]
+
+
+def is_item_edited(item: str) -> Union[bool, None]:
+    """Checks if item is edited.
+
+    Returns:
+        status as a bool
+    """
+    return internal_dpg.get_item_state(item)["edited"]
+
+
+def is_item_activated(item: str) -> Union[bool, None]:
+    """Checks if item is activated.
+
+    Returns:
+        status as a bool
+    """
+    return internal_dpg.get_item_state(item)["activated"]
+
+
+def is_item_deactivated(item: str) -> Union[bool, None]:
+    """Checks if item is deactivated.
+
+    Returns:
+        status as a bool
+    """
+    return internal_dpg.get_item_state(item)["deactivated"]
+
+
+def is_item_deactivated_after_edit(item: str) -> Union[bool, None]:
+    """Checks if item is deactivated_after_edit.
+
+    Returns:
+        status as a bool
+    """
+    return internal_dpg.get_item_state(item)["deactivated_after_edit"]
+
+
+def is_item_toggled_open(item: str) -> Union[bool, None]:
+    """Checks if item is toggled_open.
+
+    Returns:
+        status as a bool
+    """
+    return internal_dpg.get_item_state(item)["toggled_open"]
+
+
+def is_item_ok(item: str) -> Union[bool, None]:
+    """Checks if item is a ok.
+
+    Returns:
+        status as a bool
+    """
+    return internal_dpg.get_item_state(item)["ok"]
 
 
 def set_item_name(item: str, name: str):
@@ -714,6 +809,42 @@ def get_item_type(item: str) -> Union[str]:
         type as a string or None
     """
     return internal_dpg.get_item_info(item)["type"]
+
+
+def get_item_rect_size(item: str) -> Union[List[float]]:
+    """Gets the item's current size.
+
+    Returns:
+        size as a float list
+    """
+    return internal_dpg.get_item_state(item)["rect_size"]
+
+
+def get_item_rect_min(item: str) -> Union[float]:
+    """Gets the item's current rect_min.
+
+    Returns:
+        rect_min as a float
+    """
+    return internal_dpg.get_item_state(item)["rect_min"]
+
+
+def get_item_rect_max(item: str) -> Union[float]:
+    """Gets the item's current rect_max.
+
+    Returns:
+        rect_max as a float
+    """
+    return internal_dpg.get_item_state(item)["rect_max"]
+
+
+def get_item_pos(item: str) -> Union[float]:
+    """Gets the item's current pos.
+
+    Returns:
+        pos as a float
+    """
+    return internal_dpg.get_item_state(item)["pos"]
 
 
 def set_drawing_size(drawing: str, width: int, height: int):
