@@ -18,10 +18,10 @@ namespace Marvel {
 		parser.removeArg("callback_data");
 		parser.removeArg("enabled");
 
-		parser.addArg<mvPyDataType::FloatList>("x");
-		parser.addArg<mvPyDataType::FloatList>("y1");
+		parser.addArg<mvPyDataType::DoubleList>("x");
+		parser.addArg<mvPyDataType::DoubleList>("y1");
 
-		parser.addArg<mvPyDataType::FloatList>("y2", mvArgType::KEYWORD_ARG, "[]");
+		parser.addArg<mvPyDataType::DoubleList>("y2", mvArgType::KEYWORD_ARG, "[]");
 
 		parser.addArg<mvPyDataType::Integer>("axis", mvArgType::KEYWORD_ARG, "0");
 
@@ -58,9 +58,9 @@ namespace Marvel {
 			break;
 		}
 
-		static const std::vector<float>* xptr;
-		static const std::vector<float>* y1ptr;
-		static const std::vector<float>* y2ptr;
+		static const std::vector<double>* xptr;
+		static const std::vector<double>* y1ptr;
+		static const std::vector<double>* y2ptr;
 
 		xptr = &(*m_value.get())[0];
 		y1ptr = &(*m_value.get())[1];
@@ -82,12 +82,12 @@ namespace Marvel {
 			switch (i)
 			{
 			case 0:
-				(*m_value)[0] = ToFloatVect(item);
+				(*m_value)[0] = ToDoubleVect(item);
 				break;
 
 			case 1:
-				(*m_value)[1] = ToFloatVect(item);
-				(*m_value)[2] = ToFloatVect(item);
+				(*m_value)[1] = ToDoubleVect(item);
+				(*m_value)[2] = ToDoubleVect(item);
 				break;
 
 			default:
@@ -96,7 +96,7 @@ namespace Marvel {
 		}
 
 		for (auto& item : (*m_value)[2])
-			item = 0.0f;
+			item = 0.0;
 
 		resetMaxMins();
 		calculateMaxMins();
@@ -111,9 +111,9 @@ namespace Marvel {
 		if (PyObject* item = PyDict_GetItemString(dict, "contribute_to_bounds")) m_contributeToBounds = ToBool(item);
 
 		bool valueChanged = false;
-		if (PyObject* item = PyDict_GetItemString(dict, "x")) { valueChanged = true; (*m_value)[0] = ToFloatVect(item); }
-		if (PyObject* item = PyDict_GetItemString(dict, "y1")) { valueChanged = true; (*m_value)[1] = ToFloatVect(item); }
-		if (PyObject* item = PyDict_GetItemString(dict, "y2")) { valueChanged = true; (*m_value)[2] = ToFloatVect(item); }
+		if (PyObject* item = PyDict_GetItemString(dict, "x")) { valueChanged = true; (*m_value)[0] = ToDoubleVect(item); }
+		if (PyObject* item = PyDict_GetItemString(dict, "y1")) { valueChanged = true; (*m_value)[1] = ToDoubleVect(item); }
+		if (PyObject* item = PyDict_GetItemString(dict, "y2")) { valueChanged = true; (*m_value)[2] = ToDoubleVect(item); }
 
 		if (valueChanged)
 		{
@@ -121,7 +121,7 @@ namespace Marvel {
 			{
 				(*m_value)[2].clear();
 				for (auto& item : (*m_value)[1])
-					(*m_value)[2].push_back(0.0f);
+					(*m_value)[2].push_back(0.0);
 			}
 			resetMaxMins();
 			calculateMaxMins();

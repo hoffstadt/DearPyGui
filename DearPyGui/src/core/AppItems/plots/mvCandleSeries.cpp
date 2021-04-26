@@ -19,8 +19,8 @@ namespace Marvel {
         return -1;
     }
 
-    static void PlotCandlestick(const char* label_id, const float* xs, const float* opens,
-        const float* closes, const float* lows, const float* highs, int count,
+    static void PlotCandlestick(const char* label_id, const double* xs, const double* opens,
+        const double* closes, const double* lows, const double* highs, int count,
         bool tooltip, float width_percent, ImVec4 bullCol, ImVec4 bearCol) {
 
         // get ImGui window DrawList
@@ -40,7 +40,7 @@ namespace Marvel {
             draw_list->AddRectFilled(ImVec2(tool_l, tool_t), ImVec2(tool_r, tool_b), IM_COL32(128, 128, 128, 64));
             ImPlot::PopPlotClipRect();
             // find mouse location index
-            int idx = BinarySearch(xs, 0, count - 1, (float)mouse.x);
+            int idx = BinarySearch(xs, 0, count - 1, mouse.x);
             // render tool tip (won't be affected by plot clip rect)
             if (idx != -1) {
                 ImGui::BeginTooltip();
@@ -93,11 +93,11 @@ namespace Marvel {
 		parser.removeArg("callback_data");
 		parser.removeArg("enabled");
 
-		parser.addArg<mvPyDataType::FloatList>("dates");
-		parser.addArg<mvPyDataType::FloatList>("opens");
-		parser.addArg<mvPyDataType::FloatList>("closes");
-		parser.addArg<mvPyDataType::FloatList>("lows");
-		parser.addArg<mvPyDataType::FloatList>("highs");
+		parser.addArg<mvPyDataType::DoubleList>("dates");
+		parser.addArg<mvPyDataType::DoubleList>("opens");
+		parser.addArg<mvPyDataType::DoubleList>("closes");
+		parser.addArg<mvPyDataType::DoubleList>("lows");
+		parser.addArg<mvPyDataType::DoubleList>("highs");
 
 		parser.addArg<mvPyDataType::IntList>("bull_color", mvArgType::KEYWORD_ARG, "(0, 255, 113, 255)");
 		parser.addArg<mvPyDataType::IntList>("bear_color", mvArgType::KEYWORD_ARG, "(218, 13, 79, 255)");
@@ -140,11 +140,11 @@ namespace Marvel {
 			break;
 		}
 
-		static const std::vector<float>* datesptr;
-		static const std::vector<float>* openptr;
-		static const std::vector<float>* closeptr;
-		static const std::vector<float>* lowptr;
-		static const std::vector<float>* highptr;
+		static const std::vector<double>* datesptr;
+		static const std::vector<double>* openptr;
+		static const std::vector<double>* closeptr;
+		static const std::vector<double>* lowptr;
+		static const std::vector<double>* highptr;
 
 		datesptr = &(*m_value.get())[0];
 		openptr = &(*m_value.get())[1];
@@ -153,7 +153,7 @@ namespace Marvel {
 		highptr = &(*m_value.get())[4];
 
 		PlotCandlestick(m_label.c_str(), datesptr->data(), openptr->data(), closeptr->data(),
-			lowptr->data(), highptr->data(), (int)datesptr->size(), m_tooltip, m_width, m_bullColor,
+			lowptr->data(), highptr->data(), (int)datesptr->size(), m_tooltip, m_weight, m_bullColor,
 			m_bearColor);
 
 	}
@@ -169,23 +169,23 @@ namespace Marvel {
 			switch (i)
 			{
 			case 0:
-				(*m_value)[0] = ToFloatVect(item);
+				(*m_value)[0] = ToDoubleVect(item);
 				break;
 
 			case 1:
-				(*m_value)[1] = ToFloatVect(item);
+				(*m_value)[1] = ToDoubleVect(item);
 				break;
 
 			case 2:
-				(*m_value)[2] = ToFloatVect(item);
+				(*m_value)[2] = ToDoubleVect(item);
 				break;
 
 			case 3:
-				(*m_value)[3] = ToFloatVect(item);
+				(*m_value)[3] = ToDoubleVect(item);
 				break;
 
 			case 4:
-				(*m_value)[4] = ToFloatVect(item);
+				(*m_value)[4] = ToDoubleVect(item);
 				break;
 
 			default:
@@ -206,15 +206,15 @@ namespace Marvel {
 		if (PyObject* item = PyDict_GetItemString(dict, "contribute_to_bounds")) m_contributeToBounds = ToBool(item);
 		if (PyObject* item = PyDict_GetItemString(dict, "bull_color")) m_bullColor = ToColor(item);
 		if (PyObject* item = PyDict_GetItemString(dict, "bear_color")) m_bearColor = ToColor(item);
-		if (PyObject* item = PyDict_GetItemString(dict, "width")) m_width = ToFloat(item);
+		if (PyObject* item = PyDict_GetItemString(dict, "weight")) m_weight = ToFloat(item);
 		if (PyObject* item = PyDict_GetItemString(dict, "tooltip")) m_tooltip = ToBool(item);
 
 		bool valueChanged = false;
-		if (PyObject* item = PyDict_GetItemString(dict, "dates")) { valueChanged = true; (*m_value)[0] = ToFloatVect(item); }
-		if (PyObject* item = PyDict_GetItemString(dict, "opens")) { valueChanged = true; (*m_value)[1] = ToFloatVect(item); }
-		if (PyObject* item = PyDict_GetItemString(dict, "closes")) { valueChanged = true; (*m_value)[2] = ToFloatVect(item); }
-		if (PyObject* item = PyDict_GetItemString(dict, "lows")) { valueChanged = true; (*m_value)[3] = ToFloatVect(item); }
-		if (PyObject* item = PyDict_GetItemString(dict, "highs")) { valueChanged = true; (*m_value)[4] = ToFloatVect(item); }
+		if (PyObject* item = PyDict_GetItemString(dict, "dates")) { valueChanged = true; (*m_value)[0] = ToDoubleVect(item); }
+		if (PyObject* item = PyDict_GetItemString(dict, "opens")) { valueChanged = true; (*m_value)[1] = ToDoubleVect(item); }
+		if (PyObject* item = PyDict_GetItemString(dict, "closes")) { valueChanged = true; (*m_value)[2] = ToDoubleVect(item); }
+		if (PyObject* item = PyDict_GetItemString(dict, "lows")) { valueChanged = true; (*m_value)[3] = ToDoubleVect(item); }
+		if (PyObject* item = PyDict_GetItemString(dict, "highs")) { valueChanged = true; (*m_value)[4] = ToDoubleVect(item); }
 
 		if (valueChanged)
 		{
@@ -233,7 +233,7 @@ namespace Marvel {
 		PyDict_SetItemString(dict, "contribute_to_bounds", ToPyBool(m_contributeToBounds));
 		PyDict_SetItemString(dict, "bull_color", ToPyColor(m_bullColor));
 		PyDict_SetItemString(dict, "bear_color", ToPyColor(m_bearColor));
-		PyDict_SetItemString(dict, "width", ToPyFloat(m_width));
+		PyDict_SetItemString(dict, "weight", ToPyFloat(m_weight));
 		PyDict_SetItemString(dict, "tooltip", ToPyBool(m_tooltip));
 	}
 

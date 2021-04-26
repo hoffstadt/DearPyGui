@@ -19,7 +19,7 @@ namespace Marvel {
 		parser.removeArg("callback_data");
 		parser.removeArg("enabled");
 
-		parser.addArg<mvPyDataType::FloatList>("default_value", mvArgType::KEYWORD_ARG, "(0.0, 0.0, 0.0, 0.0)");
+		parser.addArg<mvPyDataType::DoubleList>("default_value", mvArgType::KEYWORD_ARG, "(0.0, 0.0, 0.0, 0.0)");
 
 		parser.addArg<mvPyDataType::IntList>("color", mvArgType::KEYWORD_ARG, "(0, 0, 0, -255)");
 
@@ -34,7 +34,7 @@ namespace Marvel {
 	}
 
 	mvDragLine::mvDragLine(const std::string& name)
-		: mvFloatPtrBase(name)
+		: mvDoublePtrBase(name)
 	{
 	}
 
@@ -54,22 +54,19 @@ namespace Marvel {
 		ScopedID id;
 		mvFontScope fscope(this);
 
-		static double dummy = 0.0;
-		dummy = *(float*)m_value.get();
+		
 
 		if (m_vertical)
 		{
-			if (ImPlot::DragLineX(m_specificedlabel.c_str(), &dummy, m_show_label, m_color, m_thickness))
+			if (ImPlot::DragLineX(m_specificedlabel.c_str(), m_value.get(), m_show_label, m_color, m_thickness))
 			{
-				*m_value.get() = (float)dummy;
 				mvApp::GetApp()->getCallbackRegistry().addCallback(m_callback, m_name, nullptr);
 			}
 		}
 		else
 		{
-			if (ImPlot::DragLineY(m_specificedlabel.c_str(), &dummy, m_show_label, m_color, m_thickness))
+			if (ImPlot::DragLineY(m_specificedlabel.c_str(), m_value.get(), m_show_label, m_color, m_thickness))
 			{
-				*m_value.get() = (float)dummy;
 				mvApp::GetApp()->getCallbackRegistry().addCallback(m_callback, m_name, nullptr);
 			}
 		}

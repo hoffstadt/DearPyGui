@@ -121,6 +121,40 @@ namespace Marvel {
 		m_value = std::get<std::shared_ptr<float>>(item->getValue());
 	}
 
+	mvDoublePtrBase::mvDoublePtrBase(const std::string& name)
+		: mvAppItem(name)
+	{
+	}
+
+	PyObject* mvDoublePtrBase::getPyValue()
+	{
+		return ToPyDouble(*m_value);
+	}
+
+	void mvDoublePtrBase::setPyValue(PyObject* value)
+	{
+		*m_value = ToDouble(value);
+	}
+
+	void mvDoublePtrBase::setDataSource(const std::string& dataSource)
+	{
+		if (dataSource == m_source) return;
+		m_source = dataSource;
+
+		mvRef<mvAppItem> item = mvApp::GetApp()->getItemRegistry().getItem(dataSource);
+		if (!item)
+		{
+			mvThrowPythonError(1000, "Source item not found.");
+			return;
+		}
+		if (item->getValueType() != getValueType())
+		{
+			mvThrowPythonError(1000, "Values types do not match");
+			return;
+		}
+		m_value = std::get<std::shared_ptr<double>>(item->getValue());
+	}
+
 	mvFloat4PtrBase::mvFloat4PtrBase(const std::string& name)
 		: mvAppItem(name)
 	{
@@ -162,6 +196,49 @@ namespace Marvel {
 			return;
 		}
 		m_value = std::get<std::shared_ptr<std::array<float, 4>>>(item->getValue());
+	}
+
+	mvDouble4PtrBase::mvDouble4PtrBase(const std::string& name)
+		: mvAppItem(name)
+	{
+	}
+
+	PyObject* mvDouble4PtrBase::getPyValue()
+	{
+		return ToPyFloatList(m_value->data(), 4);
+	}
+
+	void mvDouble4PtrBase::setPyValue(PyObject* value)
+	{
+		std::vector<double> temp = ToDoubleVect(value);
+		while (temp.size() < 4)
+			temp.push_back(0.0);
+		std::array<double, 4> temp_array;
+		for (int i = 0; i < temp_array.size(); i++)
+			temp_array[i] = temp[i];
+		if (m_value)
+			*m_value = temp_array;
+		else
+			m_value = std::make_shared<std::array<double, 4>>(temp_array);
+	}
+
+	void mvDouble4PtrBase::setDataSource(const std::string& dataSource)
+	{
+		if (dataSource == m_source) return;
+		m_source = dataSource;
+
+		mvRef<mvAppItem> item = mvApp::GetApp()->getItemRegistry().getItem(dataSource);
+		if (!item)
+		{
+			mvThrowPythonError(1000, "Source item not found.");
+			return;
+		}
+		if (item->getValueType() != getValueType())
+		{
+			mvThrowPythonError(1000, "Values types do not match");
+			return;
+		}
+		m_value = std::get<std::shared_ptr<std::array<double, 4>>>(item->getValue());
 	}
 
 	mvColorPtrBase::mvColorPtrBase(const std::string& name)
@@ -348,7 +425,7 @@ namespace Marvel {
 
 	void mvSeriesBase::setPyValue(PyObject* value)
 	{
-		*m_value = ToVectVectFloat(value);
+		*m_value = ToVectVectDouble(value);
 		resetMaxMins();
 		calculateMaxMins();
 	}
@@ -369,12 +446,12 @@ namespace Marvel {
 			mvThrowPythonError(1000, "Values types do not match");
 			return;
 		}
-		m_value = std::get<std::shared_ptr<std::vector<std::vector<float>>>>(item->getValue());
+		m_value = std::get<std::shared_ptr<std::vector<std::vector<double>>>>(item->getValue());
 		resetMaxMins();
 		calculateMaxMins();
 	}
 
-	const std::pair<float, float>& mvSeriesBase::getMaxMin(int i) const
+	const std::pair<double, double>& mvSeriesBase::getMaxMin(int i) const
 	{
 		assert(i < m_maxMins.size());
 
@@ -384,18 +461,18 @@ namespace Marvel {
 	void mvSeriesBase::calculateMaxMins()
 	{
 
-		static const std::vector<float>* xptr;
+		static const std::vector<double>* xptr;
 
 		for (auto& data : (*m_value.get()))
 		{
 			xptr = &data;
 			if (xptr->empty())
 			{
-				m_maxMins.emplace_back(0.0f, 0.0f);
+				m_maxMins.emplace_back(0.0, 0.0);
 				continue;
 			}
-			float maxValue = (*xptr)[0];
-			float minValue = (*xptr)[0];
+			double maxValue = (*xptr)[0];
+			double minValue = (*xptr)[0];
 
 			for (const auto& x : (*xptr))
 			{

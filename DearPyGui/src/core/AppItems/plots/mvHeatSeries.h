@@ -42,8 +42,8 @@ namespace Marvel {
 		double      m_scale_min = 0.0;
 		double      m_scale_max = 1.0;
 		std::string m_format = "%0.1f";
-		mvVec2      m_bounds_min = {0.0f, 0.0f};
-		mvVec2      m_bounds_max = {1.0f, 1.0f};
+		mvPlotPoint m_bounds_min = {0.0, 0.0};
+		mvPlotPoint m_bounds_max = {1.0, 1.0};
 
 	};
 

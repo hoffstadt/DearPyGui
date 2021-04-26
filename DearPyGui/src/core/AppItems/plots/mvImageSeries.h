@@ -41,8 +41,8 @@ namespace Marvel {
 	private:
 
 		std::string m_imagevalue;
-		ImPlotPoint m_bounds_min;
-		ImPlotPoint m_bounds_max;
+		mvPlotPoint m_bounds_min = {0.0, 0.0};
+		mvPlotPoint m_bounds_max = {0.0, 0.0};
 		mvVec2	    m_uv_min = { 0.0f, 0.0f };
 		mvVec2	    m_uv_max = { 1.0f, 1.0f };
 		mvColor     m_tintColor = { 1.0f, 1.0f, 1.0f, 1.0f };

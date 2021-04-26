@@ -18,7 +18,7 @@ namespace Marvel {
 		parser.removeArg("callback_data");
 		parser.removeArg("enabled");
 
-		parser.addArg<mvPyDataType::FloatList>("x");
+		parser.addArg<mvPyDataType::DoubleList>("x");
 		parser.addArg<mvPyDataType::Integer>("rows");
 		parser.addArg<mvPyDataType::Integer>("cols");
 
@@ -26,8 +26,8 @@ namespace Marvel {
 		parser.addArg<mvPyDataType::Double>("scale_min", mvArgType::KEYWORD_ARG, "0.0");
 		parser.addArg<mvPyDataType::Double>("scale_max", mvArgType::KEYWORD_ARG, "1.0");
 
-		parser.addArg<mvPyDataType::FloatList>("bounds_min", mvArgType::KEYWORD_ARG, "(0.0, 0.0)");
-		parser.addArg<mvPyDataType::FloatList>("bounds_max", mvArgType::KEYWORD_ARG, "(1.0, 1.0)");
+		parser.addArg<mvPyDataType::DoubleList>("bounds_min", mvArgType::KEYWORD_ARG, "(0.0, 0.0)");
+		parser.addArg<mvPyDataType::DoubleList>("bounds_max", mvArgType::KEYWORD_ARG, "(1.0, 1.0)");
 
 		parser.addArg<mvPyDataType::String>("format", mvArgType::KEYWORD_ARG, "'%0.1f'");
 
@@ -48,7 +48,7 @@ namespace Marvel {
 		ScopedID id;
 		mvImPlotThemeScope scope(this);
 
-		static const std::vector<float>* xptr;
+		static const std::vector<double>* xptr;
 
 		xptr = &(*m_value.get())[0];
 
@@ -69,7 +69,7 @@ namespace Marvel {
 			switch (i)
 			{
 			case 0:
-				(*m_value)[0] = ToFloatVect(item);
+				(*m_value)[0] = ToDoubleVect(item);
 				break;
 
 			case 1:
@@ -98,14 +98,14 @@ namespace Marvel {
 		if (PyObject* item = PyDict_GetItemString(dict, "format")) m_format = ToString(item);
 		if (PyObject* item = PyDict_GetItemString(dict, "rows")) m_rows = ToInt(item);
 		if (PyObject* item = PyDict_GetItemString(dict, "cols")) m_cols = ToInt(item);
-		if (PyObject* item = PyDict_GetItemString(dict, "bounds_min")) m_bounds_min = ToVec2(item);
-		if (PyObject* item = PyDict_GetItemString(dict, "bounds_max")) m_bounds_max = ToVec2(item);
-		if (PyObject* item = PyDict_GetItemString(dict, "scale_min")) m_scale_min = (double)ToFloat(item);
-		if (PyObject* item = PyDict_GetItemString(dict, "scale_max")) m_scale_max = (double)ToFloat(item);
+		if (PyObject* item = PyDict_GetItemString(dict, "bounds_min")) m_bounds_min = ToPoint(item);
+		if (PyObject* item = PyDict_GetItemString(dict, "bounds_max")) m_bounds_max = ToPoint(item);
+		if (PyObject* item = PyDict_GetItemString(dict, "scale_min")) m_scale_min = ToDouble(item);
+		if (PyObject* item = PyDict_GetItemString(dict, "scale_max")) m_scale_max = ToDouble(item);
 		if (PyObject* item = PyDict_GetItemString(dict, "contribute_to_bounds")) m_contributeToBounds = ToBool(item);
 
 		bool valueChanged = false;
-		if (PyObject* item = PyDict_GetItemString(dict, "x")) { valueChanged = true; (*m_value)[0] = ToFloatVect(item); }
+		if (PyObject* item = PyDict_GetItemString(dict, "x")) { valueChanged = true; (*m_value)[0] = ToDoubleVect(item); }
 
 		if (valueChanged)
 		{
@@ -125,8 +125,8 @@ namespace Marvel {
 		PyDict_SetItemString(dict, "cols", ToPyInt(m_cols));
 		PyDict_SetItemString(dict, "bounds_min", ToPyPair(m_bounds_min.x, m_bounds_min.y));
 		PyDict_SetItemString(dict, "bounds_max", ToPyPair(m_bounds_max.x, m_bounds_max.y));
-		PyDict_SetItemString(dict, "scale_min", ToPyFloat(m_scale_min));
-		PyDict_SetItemString(dict, "scale_max", ToPyFloat(m_scale_max));
+		PyDict_SetItemString(dict, "scale_min", ToPyDouble(m_scale_min));
+		PyDict_SetItemString(dict, "scale_max", ToPyDouble(m_scale_max));
 		PyDict_SetItemString(dict, "contribute_to_bounds", ToPyBool(m_contributeToBounds));
 	}
 

@@ -8,6 +8,7 @@
 //-----------------------------------------------------------------------------
 
 #include <imgui.h>
+#include <implot.h>
 #include <utility>
 #include <memory>
 #include <unordered_map>
@@ -82,6 +83,24 @@ namespace Marvel {
 
 		std::unique_ptr<impl_base> m_impl;
 
+	};
+
+	//-----------------------------------------------------------------------------
+	// mvPlotPoint
+	//-----------------------------------------------------------------------------
+	struct mvPlotPoint
+	{
+		double x, y;
+
+		operator ImPlotPoint()
+		{
+			return ImPlotPoint{ x, y };
+		}
+
+		mvPlotPoint operator+(const ImPlotPoint& other)
+		{
+			return mvPlotPoint{ x + other.x, y + other.y };
+		}
 	};
 
 	//-----------------------------------------------------------------------------

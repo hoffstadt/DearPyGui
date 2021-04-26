@@ -20,8 +20,8 @@ namespace Marvel {
 
 		parser.addArg<mvPyDataType::String>("value");
 
-		parser.addArg<mvPyDataType::FloatList>("bounds_min");
-		parser.addArg<mvPyDataType::FloatList>("bounds_max");
+		parser.addArg<mvPyDataType::DoubleList>("bounds_min");
+		parser.addArg<mvPyDataType::DoubleList>("bounds_max");
 
 		parser.addArg<mvPyDataType::FloatList>("uv_min", mvArgType::KEYWORD_ARG, "(0.0, 0.0)", "normalized texture coordinates");
 		parser.addArg<mvPyDataType::FloatList>("uv_max", mvArgType::KEYWORD_ARG, "(1.0, 1.0)", "normalized texture coordinates");
@@ -103,17 +103,17 @@ namespace Marvel {
 
 			case 1:
 			{
-				auto result = ToVec2(item);
-				m_bounds_min.x = (double)result.x;
-				m_bounds_min.y = (double)result.y;
+				auto result = ToPoint(item);
+				m_bounds_min.x = result.x;
+				m_bounds_min.y = result.y;
 				break;
 			}
 
 			case 2:
 			{
-				auto result = ToVec2(item);
-				m_bounds_max.x = (double)result.x;
-				m_bounds_max.y = (double)result.y;
+				auto result = ToPoint(item);
+				m_bounds_max.x = result.x;
+				m_bounds_max.y = result.y;
 				break;
 			}
 
@@ -138,15 +138,15 @@ namespace Marvel {
 		if (PyObject* item = PyDict_GetItemString(dict, "contribute_to_bounds")) m_contributeToBounds = ToBool(item);
 		if (PyObject* item = PyDict_GetItemString(dict, "bounds_min"))
 		{
-			auto result = ToVec2(item);
-			m_bounds_min.x = (double)result.x;
-			m_bounds_min.y = (double)result.y;
+			auto result = ToPoint(item);
+			m_bounds_min.x = result.x;
+			m_bounds_min.y = result.y;
 		}
 		if (PyObject* item = PyDict_GetItemString(dict, "bounds_max"))
 		{
-			auto result = ToVec2(item);
-			m_bounds_max.x = (double)result.x;
-			m_bounds_max.y = (double)result.y;
+			auto result = ToPoint(item);
+			m_bounds_max.x = result.x;
+			m_bounds_max.y = result.y;
 		}
 
 	}

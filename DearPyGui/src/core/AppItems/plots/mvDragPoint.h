@@ -4,8 +4,8 @@
 
 namespace Marvel {
 
-	MV_REGISTER_WIDGET(mvDragPoint, MV_ITEM_DESC_DEFAULT, StorageValueTypes::Float4, 0);
-	class mvDragPoint : public mvFloat4PtrBase
+	MV_REGISTER_WIDGET(mvDragPoint, MV_ITEM_DESC_DEFAULT, StorageValueTypes::Double4, 0);
+	class mvDragPoint : public mvDouble4PtrBase
 	{
 	public:
 
