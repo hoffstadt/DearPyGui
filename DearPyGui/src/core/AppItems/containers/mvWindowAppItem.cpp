@@ -35,6 +35,8 @@ namespace Marvel {
 		parser.addArg<mvPyDataType::Bool>("no_bring_to_front_on_focus", mvArgType::KEYWORD_ARG, "False", "Disable bringing window to front when taking focus (e.g. clicking on it or programmatically giving it focus)");
 		parser.addArg<mvPyDataType::Bool>("no_close", mvArgType::KEYWORD_ARG, "False");
 		parser.addArg<mvPyDataType::Bool>("no_background", mvArgType::KEYWORD_ARG, "False");
+		parser.addArg<mvPyDataType::Bool>("modal", mvArgType::KEYWORD_ARG, "False");
+		parser.addArg<mvPyDataType::Bool>("popup", mvArgType::KEYWORD_ARG, "False");
 
 		parser.addArg<mvPyDataType::Callable>("on_close", mvArgType::KEYWORD_ARG, "None", "Callback ran when window is closed");
 
@@ -195,13 +197,48 @@ namespace Marvel {
 		mvImGuiThemeScope scope(this);
 		mvFontScope fscope(this);
 
-		if (!ImGui::Begin(m_label.c_str(), m_no_close ? nullptr : &m_show, m_windowflags))
+		if (m_modal)
 		{
-			if (m_mainWindow)
-				ImGui::PopStyleVar();
+			if (m_popupInit)
+			{
+				ImGui::OpenPopup(m_label.c_str());
+				m_popupInit = false;
+			}
+			
+			if (!ImGui::BeginPopupModal(m_label.c_str(), m_no_close ? nullptr : &m_show, m_windowflags))
+			{
+				if (m_mainWindow)
+					ImGui::PopStyleVar();
+				return;
+			}
+		}
 
-			ImGui::End();
-			return;
+		else if (m_popup)
+		{
+			if (m_popupInit)
+			{
+				ImGui::OpenPopup(m_label.c_str());
+				m_popupInit = false;
+			}
+
+			if (!ImGui::BeginPopup(m_label.c_str(), m_windowflags))
+			{
+				if (m_mainWindow)
+					ImGui::PopStyleVar();
+				return;
+			}
+		}
+
+		else
+		{
+			if (!ImGui::Begin(m_label.c_str(), m_no_close ? nullptr : &m_show, m_windowflags))
+			{
+				if (m_mainWindow)
+					ImGui::PopStyleVar();
+
+				ImGui::End();
+				return;
+			}
 		}
 
 		ImDrawList* this_drawlist = ImGui::GetWindowDrawList();
@@ -310,10 +347,28 @@ namespace Marvel {
 
 	}
 
+	void mvWindowAppItem::show()
+	{
+		m_show = true;
+		m_popupInit = true;
+	}
+
 	void mvWindowAppItem::handleSpecificKeywordArgs(PyObject* dict)
 	{
 		if (dict == nullptr)
 			return;
+
+		if (PyObject* item = PyDict_GetItemString(dict, "modal"))
+		{
+			m_modal = ToBool(item);
+			m_popupInit = true;
+		}
+
+		if (PyObject* item = PyDict_GetItemString(dict, "popup"))
+		{
+			m_popup = ToBool(item);
+			m_popupInit = true;
+		}
 
 		if (PyObject* item = PyDict_GetItemString(dict, "no_close")) m_no_close = ToBool(item);
 		if (PyObject* item = PyDict_GetItemString(dict, "collapsed"))
@@ -376,6 +431,8 @@ namespace Marvel {
 		if (dict == nullptr)
 			return;
 		 
+		PyDict_SetItemString(dict, "modal", ToPyBool(m_modal));
+		PyDict_SetItemString(dict, "popup", ToPyBool(m_popup));
 		PyDict_SetItemString(dict, "no_close", ToPyBool(m_no_close));
 		PyDict_SetItemString(dict, "collapsed", ToPyBool(m_collapsed));
 		PyDict_SetItemString(dict, "min_size", ToPyPair(m_min_size.x, m_min_size.y));

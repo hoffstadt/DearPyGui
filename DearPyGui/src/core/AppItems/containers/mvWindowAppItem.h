@@ -103,6 +103,7 @@ namespace Marvel {
 		void   setResizeCallback    (PyObject* callback);
 		bool  getWindowAsMainStatus() const { return m_mainWindow; }
 
+		void show() override;
 		void onChildAdd(mvRef<mvAppItem> item) override;
 		void onChildRemoved(mvRef<mvAppItem> item) override;
 		void handleSpecificKeywordArgs(PyObject* dict) override;
@@ -124,6 +125,10 @@ namespace Marvel {
 		bool                  m_hasMenuBar = false;
 		bool                  m_closing = true;
 		bool                  m_collapsedDirty = true;
+		
+		bool                  m_modal = false;
+		bool                  m_popup = false;
+		bool                  m_popupInit = true;
 
 		bool       m_autosize = false;
 		bool       m_no_resize = false;

@@ -235,7 +235,7 @@ namespace Marvel {
 
         void                                setCallback    (PyObject* callback);
         void                                hide           () { m_show = false; }
-        void                                show           () { m_show = true; }
+        virtual void                        show           () { m_show = true; }
         void                                setCallbackData(PyObject* data);
 
         [[nodiscard]] bool                  isShown        () const { return m_show; }
