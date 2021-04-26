@@ -14,11 +14,11 @@ def add_about_window(*, id: str =..., width: int =0, height: int =0, label: str 
 	"""Undocumented function"""
 	...
 
-def add_area_series(x : unknown, y : unknown, *, id: str =..., parent: str ='', before: str ='', label: str ='', source: str ='', show: bool =True, fill: List[int] =(0, 0, 0, -255), axis: int =0, contribute_to_bounds: bool =True) -> str:
+def add_area_series(x : List[float], y : List[float], *, id: str =..., parent: str ='', before: str ='', label: str ='', source: str ='', show: bool =True, fill: List[int] =(0, 0, 0, -255), axis: int =0, contribute_to_bounds: bool =True) -> str:
 	"""Undocumented function"""
 	...
 
-def add_bar_series(x : unknown, y : unknown, *, id: str =..., parent: str ='', before: str ='', label: str ='', source: str ='', show: bool =True, weight: float =1.0, axis: int =0, horizontal: bool =False, contribute_to_bounds: bool =True) -> str:
+def add_bar_series(x : List[float], y : List[float], *, id: str =..., parent: str ='', before: str ='', label: str ='', source: str ='', show: bool =True, weight: float =1.0, axis: int =0, horizontal: bool =False, contribute_to_bounds: bool =True) -> str:
 	"""Undocumented function"""
 	...
 
@@ -26,7 +26,7 @@ def add_button(*, id: str =..., width: int =0, height: int =0, parent: str ='', 
 	"""Undocumented function"""
 	...
 
-def add_candle_series(dates : unknown, opens : unknown, closes : unknown, lows : unknown, highs : unknown, *, id: str =..., parent: str ='', before: str ='', label: str ='', source: str ='', show: bool =True, bull_color: List[int] =(0, 255, 113, 255), bear_color: List[int] =(218, 13, 79, 255), axis: int =0, weight: int =0.25, contribute_to_bounds: bool =True, tooltip: bool =True) -> str:
+def add_candle_series(dates : List[float], opens : List[float], closes : List[float], lows : List[float], highs : List[float], *, id: str =..., parent: str ='', before: str ='', label: str ='', source: str ='', show: bool =True, bull_color: List[int] =(0, 255, 113, 255), bear_color: List[int] =(218, 13, 79, 255), axis: int =0, weight: int =0.25, contribute_to_bounds: bool =True, tooltip: bool =True) -> str:
 	"""Undocumented function"""
 	...
 
@@ -114,7 +114,7 @@ def add_dynamic_texture(width : int, height : int, default_value : List[float], 
 	"""Undocumented function"""
 	...
 
-def add_error_series(x : unknown, y : unknown, negative : unknown, positive : unknown, *, id: str =..., parent: str ='', before: str ='', label: str ='', source: str ='', show: bool =True, axis: int =0, contribute_to_bounds: bool =True, horizontal: bool =False) -> str:
+def add_error_series(x : List[float], y : List[float], negative : List[float], positive : List[float], *, id: str =..., parent: str ='', before: str ='', label: str ='', source: str ='', show: bool =True, axis: int =0, contribute_to_bounds: bool =True, horizontal: bool =False) -> str:
 	"""Undocumented function"""
 	...
 
@@ -134,11 +134,11 @@ def add_group(*, id: str =..., width: int =0, parent: str ='', before: str ='', 
 	"""Undocumented function"""
 	...
 
-def add_heat_series(x : unknown, rows : int, cols : int, *, id: str =..., parent: str ='', before: str ='', label: str ='', source: str ='', show: bool =True, scale_min: float =0.0, scale_max: float =1.0, bounds_min: Any =(0.0, 0.0), bounds_max: Any =(1.0, 1.0), format: str ='%0.1f', contribute_to_bounds: bool =True) -> str:
+def add_heat_series(x : List[float], rows : int, cols : int, *, id: str =..., parent: str ='', before: str ='', label: str ='', source: str ='', show: bool =True, scale_min: float =0.0, scale_max: float =1.0, bounds_min: Any =(0.0, 0.0), bounds_max: Any =(1.0, 1.0), format: str ='%0.1f', contribute_to_bounds: bool =True) -> str:
 	"""Undocumented function"""
 	...
 
-def add_hline_series(x : unknown, *, id: str =..., parent: str ='', before: str ='', label: str ='', source: str ='', show: bool =True, axis: int =0, contribute_to_bounds: bool =True) -> str:
+def add_hline_series(x : List[float], *, id: str =..., parent: str ='', before: str ='', label: str ='', source: str ='', show: bool =True, axis: int =0, contribute_to_bounds: bool =True) -> str:
 	"""Undocumented function"""
 	...
 
@@ -150,7 +150,7 @@ def add_image_button(default_value : str, *, id: str =..., width: int =0, height
 	"""Undocumented function"""
 	...
 
-def add_image_series(value : str, bounds_min : unknown, bounds_max : unknown, *, id: str =..., parent: str ='', before: str ='', label: str ='', source: str ='', show: bool =True, uv_min: List[float] =(0.0, 0.0), uv_max: List[float] =(1.0, 1.0), tint_color: List[int] =(255, 255, 255, 255), axis: int =0, contribute_to_bounds: bool =True) -> str:
+def add_image_series(value : str, bounds_min : List[float], bounds_max : List[float], *, id: str =..., parent: str ='', before: str ='', label: str ='', source: str ='', show: bool =True, uv_min: List[float] =(0.0, 0.0), uv_max: List[float] =(1.0, 1.0), tint_color: List[int] =(255, 255, 255, 255), axis: int =0, contribute_to_bounds: bool =True) -> str:
 	"""Undocumented function"""
 	...
 
@@ -182,7 +182,7 @@ def add_label_text(*, id: str =..., parent: str ='', before: str ='', label: str
 	"""Undocumented function"""
 	...
 
-def add_line_series(x : unknown, y : unknown, *, id: str =..., parent: str ='', before: str ='', label: str ='', source: str ='', show: bool =True, axis: int =0, contribute_to_bounds: bool =True) -> str:
+def add_line_series(x : List[float], y : List[float], *, id: str =..., parent: str ='', before: str ='', label: str ='', source: str ='', show: bool =True, axis: int =0, contribute_to_bounds: bool =True) -> str:
 	"""Undocumented function"""
 	...
 
@@ -230,7 +230,7 @@ def add_node_link(node_1 : str, node_2 : str, *, id: str =..., parent: str ='', 
 	"""Undocumented function"""
 	...
 
-def add_pie_series(x : float, y : float, radius : float, values : unknown, labels : List[str], *, id: str =..., parent: str ='', before: str ='', label: str ='', source: str ='', show: bool =True, format: str ='%0.2f', angle: float =90.0, axis: int =0, normalize: bool =False, contribute_to_bounds: bool =True) -> str:
+def add_pie_series(x : float, y : float, radius : float, values : List[float], labels : List[str], *, id: str =..., parent: str ='', before: str ='', label: str ='', source: str ='', show: bool =True, format: str ='%0.2f', angle: float =90.0, axis: int =0, normalize: bool =False, contribute_to_bounds: bool =True) -> str:
 	"""Undocumented function"""
 	...
 
@@ -258,7 +258,7 @@ def add_same_line(*, id: str =..., parent: str ='', before: str ='', show: bool 
 	"""Undocumented function"""
 	...
 
-def add_scatter_series(x : unknown, y : unknown, *, id: str =..., parent: str ='', before: str ='', label: str ='', source: str ='', show: bool =True, axis: int =0, contribute_to_bounds: bool =True) -> str:
+def add_scatter_series(x : List[float], y : List[float], *, id: str =..., parent: str ='', before: str ='', label: str ='', source: str ='', show: bool =True, axis: int =0, contribute_to_bounds: bool =True) -> str:
 	"""Undocumented function"""
 	...
 
@@ -270,7 +270,7 @@ def add_separator(*, id: str =..., parent: str ='', before: str ='', show: bool 
 	"""Undocumented function"""
 	...
 
-def add_shade_series(x : unknown, y1 : unknown, *, id: str =..., parent: str ='', before: str ='', label: str ='', source: str ='', show: bool =True, y2: Any =[], axis: int =0, contribute_to_bounds: bool =True) -> str:
+def add_shade_series(x : List[float], y1 : List[float], *, id: str =..., parent: str ='', before: str ='', label: str ='', source: str ='', show: bool =True, y2: Any =[], axis: int =0, contribute_to_bounds: bool =True) -> str:
 	"""Undocumented function"""
 	...
 
@@ -298,7 +298,7 @@ def add_spacing(*, id: str =..., parent: str ='', before: str ='', show: bool =T
 	"""Undocumented function"""
 	...
 
-def add_stair_series(x : unknown, y : unknown, *, id: str =..., parent: str ='', before: str ='', label: str ='', source: str ='', show: bool =True, axis: int =0, contribute_to_bounds: bool =True) -> str:
+def add_stair_series(x : List[float], y : List[float], *, id: str =..., parent: str ='', before: str ='', label: str ='', source: str ='', show: bool =True, axis: int =0, contribute_to_bounds: bool =True) -> str:
 	"""Undocumented function"""
 	...
 
@@ -306,7 +306,7 @@ def add_static_texture(width : int, height : int, default_value : List[float], *
 	"""Undocumented function"""
 	...
 
-def add_stem_series(x : unknown, y : unknown, *, id: str =..., parent: str ='', before: str ='', label: str ='', source: str ='', show: bool =True, axis: int =0, contribute_to_bounds: bool =True) -> str:
+def add_stem_series(x : List[float], y : List[float], *, id: str =..., parent: str ='', before: str ='', label: str ='', source: str ='', show: bool =True, axis: int =0, contribute_to_bounds: bool =True) -> str:
 	"""Undocumented function"""
 	...
 
@@ -362,7 +362,7 @@ def add_tree_node(*, id: str =..., parent: str ='', before: str ='', label: str 
 	"""Undocumented function"""
 	...
 
-def add_vline_series(x : unknown, *, id: str =..., parent: str ='', before: str ='', label: str ='', source: str ='', show: bool =True, axis: int =0, contribute_to_bounds: bool =True) -> str:
+def add_vline_series(x : List[float], *, id: str =..., parent: str ='', before: str ='', label: str ='', source: str ='', show: bool =True, axis: int =0, contribute_to_bounds: bool =True) -> str:
 	"""Undocumented function"""
 	...
 
@@ -671,6 +671,10 @@ def open_file_dialog(*, callback: Callable =None) -> str:
 	...
 
 def render_dearpygui_frame() -> None:
+	"""Undocumented function"""
+	...
+
+def reset_pos(item : str) -> None:
 	"""Undocumented function"""
 	...
 

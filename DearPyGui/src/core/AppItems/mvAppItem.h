@@ -150,6 +150,7 @@ namespace Marvel {
         MV_CREATE_EXTRA_COMMAND(set_value);
         MV_CREATE_EXTRA_COMMAND(focus_item);
         MV_CREATE_EXTRA_COMMAND(set_item_pos);
+        MV_CREATE_EXTRA_COMMAND(reset_pos);
 
         MV_START_EXTRA_COMMANDS
             MV_ADD_EXTRA_COMMAND(get_item_configuration);
@@ -160,6 +161,7 @@ namespace Marvel {
             MV_ADD_EXTRA_COMMAND(set_value);
             MV_ADD_EXTRA_COMMAND(focus_item);
             MV_ADD_EXTRA_COMMAND(set_item_pos);
+            MV_ADD_EXTRA_COMMAND(reset_pos);
         MV_END_EXTRA_COMMANDS
 
         static bool DoesItemHaveFlag(mvAppItem* item, int flag);

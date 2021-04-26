@@ -84,15 +84,16 @@ namespace Marvel {
 						ImGui::SetKeyboardFocusHere();
 						item->m_focusNextFrame = false;
 					}
-
+					auto oldCursorPos = ImGui::GetCursorPos();
 					if (item->m_dirtyPos)
-					{
 						ImGui::SetCursorPos(item->getState().getItemPos());
-						item->m_dirtyPos = false;
-					}
+
 					item->getState().setPos({ ImGui::GetCursorPosX(), ImGui::GetCursorPosY() });
 
 					item->draw(drawlist, ImGui::GetCursorPosX(), ImGui::GetCursorPosY());
+
+					if (item->m_dirtyPos)
+						ImGui::SetCursorPos(oldCursorPos);
 
 					item->getState().update();
 				}
