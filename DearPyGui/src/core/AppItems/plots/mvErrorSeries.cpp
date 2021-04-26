@@ -18,10 +18,10 @@ namespace Marvel {
 		parser.removeArg("callback_data");
 		parser.removeArg("enabled");
 
-		parser.addArg<mvPyDataType::FloatList>("x");
-		parser.addArg<mvPyDataType::FloatList>("y");
-		parser.addArg<mvPyDataType::FloatList>("negative");
-		parser.addArg<mvPyDataType::FloatList>("positive");
+		parser.addArg<mvPyDataType::DoubleList>("x");
+		parser.addArg<mvPyDataType::DoubleList>("y");
+		parser.addArg<mvPyDataType::DoubleList>("negative");
+		parser.addArg<mvPyDataType::DoubleList>("positive");
 
 		parser.addArg<mvPyDataType::Integer>("axis", mvArgType::KEYWORD_ARG, "0");
 
@@ -59,10 +59,10 @@ namespace Marvel {
 			break;
 		}
 
-		static const std::vector<float>* xptr;
-		static const std::vector<float>* yptr;
-		static const std::vector<float>* zptr;
-		static const std::vector<float>* wptr;
+		static const std::vector<double>* xptr;
+		static const std::vector<double>* yptr;
+		static const std::vector<double>* zptr;
+		static const std::vector<double>* wptr;
 
 		xptr = &(*m_value.get())[0];
 		yptr = &(*m_value.get())[1];
@@ -87,19 +87,19 @@ namespace Marvel {
 			switch (i)
 			{
 			case 0:
-				(*m_value)[0] = ToFloatVect(item);
+				(*m_value)[0] = ToDoubleVect(item);
 				break;
 
 			case 1:
-				(*m_value)[1] = ToFloatVect(item);
+				(*m_value)[1] = ToDoubleVect(item);
 				break;
 
 			case 2:
-				(*m_value)[2] = ToFloatVect(item);
+				(*m_value)[2] = ToDoubleVect(item);
 				break;
 
 			case 3:
-				(*m_value)[3] = ToFloatVect(item);
+				(*m_value)[3] = ToDoubleVect(item);
 				break;
 
 			default:
@@ -121,10 +121,10 @@ namespace Marvel {
 		if (PyObject* item = PyDict_GetItemString(dict, "horizontal")) m_horizontal= ToBool(item);
 
 		bool valueChanged = false;
-		if (PyObject* item = PyDict_GetItemString(dict, "x")) { valueChanged = true; (*m_value)[0] = ToFloatVect(item); }
-		if (PyObject* item = PyDict_GetItemString(dict, "y")) { valueChanged = true; (*m_value)[1] = ToFloatVect(item); }
-		if (PyObject* item = PyDict_GetItemString(dict, "negative")) { valueChanged = true; (*m_value)[2] = ToFloatVect(item); }
-		if (PyObject* item = PyDict_GetItemString(dict, "positive")) { valueChanged = true; (*m_value)[3] = ToFloatVect(item); }
+		if (PyObject* item = PyDict_GetItemString(dict, "x")) { valueChanged = true; (*m_value)[0] = ToDoubleVect(item); }
+		if (PyObject* item = PyDict_GetItemString(dict, "y")) { valueChanged = true; (*m_value)[1] = ToDoubleVect(item); }
+		if (PyObject* item = PyDict_GetItemString(dict, "negative")) { valueChanged = true; (*m_value)[2] = ToDoubleVect(item); }
+		if (PyObject* item = PyDict_GetItemString(dict, "positive")) { valueChanged = true; (*m_value)[3] = ToDoubleVect(item); }
 
 		if (valueChanged)
 		{

@@ -18,8 +18,8 @@ namespace Marvel {
 		parser.removeArg("callback_data");
 		parser.removeArg("enabled");
 
-		parser.addArg<mvPyDataType::Float>("x");
-		parser.addArg<mvPyDataType::Float>("y");
+		parser.addArg<mvPyDataType::Double>("x");
+		parser.addArg<mvPyDataType::Double>("y");
 		parser.addArg<mvPyDataType::Integer>("x_offset", mvArgType::KEYWORD_ARG);
 		parser.addArg<mvPyDataType::Integer>("y_offset", mvArgType::KEYWORD_ARG);
 
@@ -58,8 +58,8 @@ namespace Marvel {
 			break;
 		}
 
-		static const std::vector<float>* xptr;
-		static const std::vector<float>* yptr;
+		static const std::vector<double>* xptr;
+		static const std::vector<double>* yptr;
 
 		xptr = &(*m_value.get())[0];
 		yptr = &(*m_value.get())[1];
@@ -80,11 +80,11 @@ namespace Marvel {
 			switch (i)
 			{
 			case 0:
-				(*m_value)[0] = ToFloatVect(item);
+				(*m_value)[0] = ToDoubleVect(item);
 				break;
 
 			case 1:
-				(*m_value)[1] = ToFloatVect(item);
+				(*m_value)[1] = ToDoubleVect(item);
 				break;
 
 			default:
@@ -108,8 +108,8 @@ namespace Marvel {
 		if (PyObject* item = PyDict_GetItemString(dict, "y_offset")) m_yoffset = ToInt(item);
 
 		bool valueChanged = false;
-		if (PyObject* item = PyDict_GetItemString(dict, "x")) { valueChanged = true; (*m_value)[0] = ToFloatVect(item); }
-		if (PyObject* item = PyDict_GetItemString(dict, "y")) { valueChanged = true; (*m_value)[1] = ToFloatVect(item); }
+		if (PyObject* item = PyDict_GetItemString(dict, "x")) { valueChanged = true; (*m_value)[0] = ToDoubleVect(item); }
+		if (PyObject* item = PyDict_GetItemString(dict, "y")) { valueChanged = true; (*m_value)[1] = ToDoubleVect(item); }
 
 		if (valueChanged)
 		{

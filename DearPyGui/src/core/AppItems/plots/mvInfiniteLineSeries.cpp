@@ -18,7 +18,7 @@ namespace Marvel {
 		parser.removeArg("callback_data");
 		parser.removeArg("enabled");
 
-		parser.addArg<mvPyDataType::FloatList>("x");
+		parser.addArg<mvPyDataType::DoubleList>("x");
 
 		parser.addArg<mvPyDataType::Integer>("axis", mvArgType::KEYWORD_ARG, "0");
 
@@ -54,7 +54,7 @@ namespace Marvel {
 			break;
 		}
 
-		static const std::vector<float>* xptr;
+		static const std::vector<double>* xptr;
 
 		xptr = &(*m_value.get())[0];
 
@@ -73,7 +73,7 @@ namespace Marvel {
 			switch (i)
 			{
 			case 0:
-				(*m_value)[0] = ToFloatVect(item);
+				(*m_value)[0] = ToDoubleVect(item);
 				break;
 
 			default:
@@ -94,7 +94,7 @@ namespace Marvel {
 		if (PyObject* item = PyDict_GetItemString(dict, "contribute_to_bounds")) m_contributeToBounds = ToBool(item);
 
 		bool valueChanged = false;
-		if (PyObject* item = PyDict_GetItemString(dict, "x")) { valueChanged = true; (*m_value)[0] = ToFloatVect(item); }
+		if (PyObject* item = PyDict_GetItemString(dict, "x")) { valueChanged = true; (*m_value)[0] = ToDoubleVect(item); }
 
 		if (valueChanged)
 		{
@@ -121,7 +121,7 @@ namespace Marvel {
 		parser.removeArg("callback_data");
 		parser.removeArg("enabled");
 
-		parser.addArg<mvPyDataType::FloatList>("x");
+		parser.addArg<mvPyDataType::DoubleList>("x");
 
 		parser.addArg<mvPyDataType::Integer>("axis", mvArgType::KEYWORD_ARG, "0");
 
@@ -157,7 +157,7 @@ namespace Marvel {
 			break;
 		}
 
-		static const std::vector<float>* xptr;
+		static const std::vector<double>* xptr;
 
 		xptr = &(*m_value.get())[0];
 
@@ -176,7 +176,7 @@ namespace Marvel {
 			switch (i)
 			{
 			case 0:
-				(*m_value)[0] = ToFloatVect(item);
+				(*m_value)[0] = ToDoubleVect(item);
 				break;
 
 			default:
@@ -197,7 +197,7 @@ namespace Marvel {
 		if (PyObject* item = PyDict_GetItemString(dict, "contribute_to_bounds")) m_contributeToBounds = ToBool(item);
 
 		bool valueChanged = false;
-		if (PyObject* item = PyDict_GetItemString(dict, "x")) { valueChanged = true; (*m_value)[0] = ToFloatVect(item); }
+		if (PyObject* item = PyDict_GetItemString(dict, "x")) { valueChanged = true; (*m_value)[0] = ToDoubleVect(item); }
 
 		if (valueChanged)
 		{

@@ -21,7 +21,7 @@ namespace Marvel {
 		parser.addArg<mvPyDataType::Double>("x");
 		parser.addArg<mvPyDataType::Double>("y");
 		parser.addArg<mvPyDataType::Double>("radius");
-		parser.addArg<mvPyDataType::FloatList>("values");
+		parser.addArg<mvPyDataType::DoubleList>("values");
 		parser.addArg<mvPyDataType::StringList>("labels");
 
 		parser.addArg<mvPyDataType::String>("format", mvArgType::KEYWORD_ARG, "'%0.2f'");
@@ -63,7 +63,7 @@ namespace Marvel {
 			break;
 		}
 
-		static const std::vector<float>* xptr;
+		static const std::vector<double>* xptr;
 
 		xptr = &(*m_value.get())[0];
 
@@ -83,19 +83,19 @@ namespace Marvel {
 			switch (i)
 			{
 			case 0:
-				m_x = ToFloat(item);
+				m_x = ToDouble(item);
 				break;
 
 			case 1:
-				m_y = ToFloat(item);
+				m_y = ToDouble(item);
 				break;
 
 			case 2:
-				m_radius = ToFloat(item);
+				m_radius = ToDouble(item);
 				break;
 
 			case 3:
-				(*m_value)[0] = ToFloatVect(item);
+				(*m_value)[0] = ToDoubleVect(item);
 				break;
 
 			case 4:
@@ -121,10 +121,10 @@ namespace Marvel {
 
 		if (PyObject* item = PyDict_GetItemString(dict, "axis")) m_axis = (ImPlotYAxis_)ToInt(item);
 		if (PyObject* item = PyDict_GetItemString(dict, "format")) m_format = ToString(item);
-		if (PyObject* item = PyDict_GetItemString(dict, "x")) m_x = ToFloat(item);
-		if (PyObject* item = PyDict_GetItemString(dict, "y")) m_y = ToFloat(item);
-		if (PyObject* item = PyDict_GetItemString(dict, "radius")) m_radius = ToFloat(item);
-		if (PyObject* item = PyDict_GetItemString(dict, "angle")) m_angle = ToFloat(item);
+		if (PyObject* item = PyDict_GetItemString(dict, "x")) m_x = ToDouble(item);
+		if (PyObject* item = PyDict_GetItemString(dict, "y")) m_y = ToDouble(item);
+		if (PyObject* item = PyDict_GetItemString(dict, "radius")) m_radius = ToDouble(item);
+		if (PyObject* item = PyDict_GetItemString(dict, "angle")) m_angle = ToDouble(item);
 		if (PyObject* item = PyDict_GetItemString(dict, "normalize")) m_normalize = ToBool(item);
 		if (PyObject* item = PyDict_GetItemString(dict, "labels"))
 		{
@@ -135,7 +135,7 @@ namespace Marvel {
 		}
 
 		bool valueChanged = false;
-		if (PyObject* item = PyDict_GetItemString(dict, "values")) { valueChanged = true; (*m_value)[0] = ToFloatVect(item); }
+		if (PyObject* item = PyDict_GetItemString(dict, "values")) { valueChanged = true; (*m_value)[0] = ToDoubleVect(item); }
 		if (valueChanged)
 		{
 			resetMaxMins();
@@ -152,10 +152,10 @@ namespace Marvel {
 
 		PyDict_SetItemString(dict, "axis", ToPyInt(m_axis));
 		PyDict_SetItemString(dict, "format", ToPyString(m_format));
-		PyDict_SetItemString(dict, "x", ToPyFloat(m_x));
-		PyDict_SetItemString(dict, "y", ToPyFloat(m_y));
-		PyDict_SetItemString(dict, "radius", ToPyFloat(m_radius));
-		PyDict_SetItemString(dict, "angle", ToPyFloat(m_radius));
+		PyDict_SetItemString(dict, "x", ToPyDouble(m_x));
+		PyDict_SetItemString(dict, "y", ToPyDouble(m_y));
+		PyDict_SetItemString(dict, "radius", ToPyDouble(m_radius));
+		PyDict_SetItemString(dict, "angle", ToPyDouble(m_angle));
 		PyDict_SetItemString(dict, "normalize", ToPyBool(m_normalize));
 		PyDict_SetItemString(dict, "labels", ToPyList(m_labels));
 	}

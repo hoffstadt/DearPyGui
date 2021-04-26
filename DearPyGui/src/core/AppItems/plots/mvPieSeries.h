@@ -39,7 +39,7 @@ namespace Marvel {
 
 		double m_x = 0.0;
 		double m_y = 0.0;
-		double m_radius = 0.5f;
+		double m_radius = 0.5;
 		bool m_normalize = true;
 		double m_angle = 90.0;
 		std::string m_format;

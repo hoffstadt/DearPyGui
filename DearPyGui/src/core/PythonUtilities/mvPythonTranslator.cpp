@@ -94,6 +94,12 @@ namespace Marvel {
 		return PyFloat_FromDouble(value);
 	}
 
+	PyObject* ToPyDouble(double value)
+	{
+
+		return PyFloat_FromDouble(value);
+	}
+
 	PyObject* ToPyInt(int value)
 	{
 		 
@@ -182,7 +188,28 @@ namespace Marvel {
 		return result;
 	}
 
+	PyObject* ToPyList(const std::vector<double>& value)
+	{
+
+		PyObject* result = PyList_New(value.size());
+
+		for (size_t i = 0; i < value.size(); ++i)
+			PyList_SetItem(result, i, PyFloat_FromDouble(value[i]));
+
+		return result;
+	}
+
 	PyObject* ToPyList(const std::vector<std::vector<float>>& value)
+	{
+		PyObject* result = PyList_New(value.size());
+
+		for (size_t i = 0; i < value.size(); ++i)
+			PyList_SetItem(result, i, ToPyList(value[i]));
+
+		return result;
+	}
+
+	PyObject* ToPyList(const std::vector<std::vector<double>>& value)
 	{
 		PyObject* result = PyList_New(value.size());
 
@@ -290,6 +317,18 @@ namespace Marvel {
 		return result;
 	}
 
+	PyObject* ToPyFloatList(double* value, int count)
+	{
+
+
+		PyObject* result = PyList_New(count);
+
+		for (int i = 0; i < count; ++i)
+			PyList_SetItem(result, i, PyFloat_FromDouble(value[i]));
+
+		return result;
+	}
+
 	tm ToTime(PyObject* value, const std::string& message)
 	{
 		tm result = {};
@@ -345,6 +384,21 @@ namespace Marvel {
 		}
 
 		return (float)PyFloat_AsDouble(value);
+	}
+
+	double ToDouble(PyObject* value, const std::string& message)
+	{
+		if (value == nullptr)
+			return 0.0;
+
+
+		if (!PyNumber_Check(value))
+		{
+			mvThrowPythonError(1000, message);
+			return 0.0;
+		}
+
+		return PyFloat_AsDouble(value);
 	}
 
 	bool ToBool(PyObject* value, const std::string& message)
@@ -564,6 +618,55 @@ namespace Marvel {
 		return items;
 	}
 
+	std::vector<double> ToDoubleVect(PyObject* value, const std::string& message)
+	{
+
+		std::vector<double> items;
+		if (value == nullptr)
+			return items;
+
+
+		if (PyTuple_Check(value))
+		{
+			for (Py_ssize_t i = 0; i < PyTuple_Size(value); ++i)
+			{
+				items.emplace_back(PyFloat_AsDouble(PyTuple_GetItem(value, i)));
+			}
+		}
+
+		else if (PyList_Check(value))
+		{
+			for (Py_ssize_t i = 0; i < PyList_Size(value); ++i)
+			{
+				items.emplace_back(PyFloat_AsDouble(PyList_GetItem(value, i)));
+			}
+		}
+
+		else if (PyObject_CheckBuffer(value))
+		{
+			Py_buffer buffer_info;
+
+			if (!PyObject_GetBuffer(value, &buffer_info,
+				PyBUF_CONTIG_RO | PyBUF_FORMAT))
+			{
+
+				auto BufferViewer = BufferViewFunctionsFloat(buffer_info);
+
+				for (Py_ssize_t i = 0; i < buffer_info.len / buffer_info.itemsize; ++i)
+				{
+					items.emplace_back(BufferViewer(buffer_info, i));
+				}
+			}
+			PyBuffer_Release(&buffer_info);
+		}
+
+		else
+			mvThrowPythonError(1000, message);
+
+
+		return items;
+	}
+
 	std::vector<std::string> ToStringVect(PyObject* value, const std::string& message)
 	{
 
@@ -643,6 +746,21 @@ namespace Marvel {
 		}
 
 		return mvColor{ color[0], color[1], color[2], color[3] };
+	}
+
+	mvPlotPoint ToPoint(PyObject* value, const std::string& message)
+	{
+		if (value == nullptr)
+			return { 0.0, 0.0 };
+
+		std::vector<double> result = ToDoubleVect(value, message);
+
+		if (result.size() > 1)
+			return { result[0], result[1] };
+		else if (result.size() == 1)
+			return { result[0], 0.0 };
+		else
+			return { 0.0, 0.0 };
 	}
 
 	mvVec2 ToVec2(PyObject* value, const std::string& message)
@@ -928,6 +1046,28 @@ namespace Marvel {
 		{
 			for (Py_ssize_t i = 0; i < PyList_Size(value); ++i)
 				items.emplace_back(ToFloatVect(PyList_GetItem(value, i), message));
+		}
+
+		return items;
+	}
+
+	std::vector<std::vector<double>> ToVectVectDouble(PyObject* value, const std::string& message)
+	{
+		std::vector<std::vector<double>> items;
+		if (value == nullptr)
+			return items;
+
+
+		if (PyTuple_Check(value))
+		{
+			for (Py_ssize_t i = 0; i < PyTuple_Size(value); ++i)
+				items.emplace_back(ToDoubleVect(PyTuple_GetItem(value, i), message));
+		}
+
+		else if (PyList_Check(value))
+		{
+			for (Py_ssize_t i = 0; i < PyList_Size(value); ++i)
+				items.emplace_back(ToDoubleVect(PyList_GetItem(value, i), message));
 		}
 
 		return items;

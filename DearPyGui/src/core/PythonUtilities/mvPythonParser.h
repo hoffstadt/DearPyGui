@@ -35,9 +35,11 @@ namespace Marvel {
     //-----------------------------------------------------------------------------
     enum class mvPyDataType
     {
-        None = 0, String, Integer, Float, Bool, StringList, FloatList,
-        Object, IntList, Double, Callable, Dict, ListFloatList, 
-        ListStrList, ListListInt, Any
+        None = 0, 
+        Integer, Float, Double, String, Bool, Object, Callable, Dict,
+        IntList, FloatList, DoubleList, StringList,
+        ListListInt, ListFloatList, ListDoubleList, ListStrList, 
+        Any
     };
 
     enum class mvArgType

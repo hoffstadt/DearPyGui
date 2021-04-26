@@ -73,6 +73,26 @@ namespace Marvel {
 	protected:
 
 		mvRef<float> m_value = CreateRef<float>(0.0f);
+		float  m_disabled_value = 0.0f;
+	};
+
+	//-----------------------------------------------------------------------------
+	// mvDoublePtrBase
+	//-----------------------------------------------------------------------------
+	class mvDoublePtrBase : public mvAppItem
+	{
+
+	public:
+
+		mvDoublePtrBase(const std::string& name);
+		void setDataSource(const std::string& dataSource) override;
+		mvValueVariant getValue() override { return m_value; }
+		PyObject* getPyValue() override;
+		void           setPyValue(PyObject* value) override;
+
+	protected:
+
+		mvRef<double> m_value = CreateRef<double>(0.0);
 		float  m_disabled_value = 0.0;
 	};
 
@@ -94,6 +114,26 @@ namespace Marvel {
 
 		mvRef<std::array<float, 4>> m_value = CreateRef<std::array<float, 4>>(std::array<float, 4>{0.0f, 0.0f, 0.0f, 0.0f});
 		float  m_disabled_value[4] {};
+	};
+
+	//-----------------------------------------------------------------------------
+	// mvDouble4PtrBase
+	//-----------------------------------------------------------------------------
+	class mvDouble4PtrBase : public mvAppItem
+	{
+
+	public:
+
+		mvDouble4PtrBase(const std::string& name);
+		void setDataSource(const std::string& dataSource) override;
+		mvValueVariant getValue() override { return m_value; }
+		PyObject* getPyValue() override;
+		void           setPyValue(PyObject* value) override;
+
+	protected:
+
+		mvRef<std::array<double, 4>> m_value = CreateRef<std::array<double, 4>>(std::array<double, 4>{0.0, 0.0, 0.0, 0.0});
+		double  m_disabled_value[4]{};
 	};
 
 	//-----------------------------------------------------------------------------
@@ -209,7 +249,7 @@ namespace Marvel {
 		void setPyValue(PyObject* value) override;
 		bool isParentCompatible(mvAppItemType type) override;
 
-		const std::pair<float, float>& getMaxMin(int i) const;
+		const std::pair<double, double>& getMaxMin(int i) const;
 		bool doesSeriesContributeToBounds() const { return m_contributeToBounds; }
 		ImPlotYAxis getAxis() const { return m_axis; }
 
@@ -220,13 +260,13 @@ namespace Marvel {
 
 	protected:
 
-		mvRef<std::vector<std::vector<float>>> m_value = CreateRef<std::vector<std::vector<float>>>(
-			std::vector<std::vector<float>>{ std::vector<float>{},
-			std::vector<float>{}, 
-			std::vector<float>{}, 
-			std::vector<float>{}, 
-			std::vector<float>{} });
-		std::vector<std::pair<float, float>>   m_maxMins;
+		mvRef<std::vector<std::vector<double>>> m_value = CreateRef<std::vector<std::vector<double>>>(
+			std::vector<std::vector<double>>{ std::vector<double>{},
+			std::vector<double>{},
+			std::vector<double>{},
+			std::vector<double>{},
+			std::vector<double>{} });
+		std::vector<std::pair<double, double>>   m_maxMins;
 		bool                                   m_contributeToBounds = false;
 		ImPlotYAxis                           m_axis = ImPlotYAxis_1;
 	};
