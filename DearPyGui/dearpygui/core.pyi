@@ -366,7 +366,7 @@ def add_vline_series(x : List[float], *, id: str =..., parent: str ='', before: 
 	"""Undocumented function"""
 	...
 
-def add_window(*, id: str =..., width: int =0, height: int =0, label: str ='', show: bool =True, min_size: List[int] =[32, 32], max_size: List[int] =[30000, 30000], menubar: bool =False, collapsed: bool =False, autosize: bool =False, no_resize: bool =False, no_title_bar: bool =False, no_move: bool =False, no_scrollbar: bool =False, no_collapse: bool =False, horizontal_scrollbar: bool =False, no_focus_on_appearing: bool =False, no_bring_to_front_on_focus: bool =False, no_close: bool =False, no_background: bool =False, on_close: Callable =None) -> str:
+def add_window(*, id: str =..., width: int =0, height: int =0, label: str ='', show: bool =True, min_size: List[int] =[32, 32], max_size: List[int] =[30000, 30000], menubar: bool =False, collapsed: bool =False, autosize: bool =False, no_resize: bool =False, no_title_bar: bool =False, no_move: bool =False, no_scrollbar: bool =False, no_collapse: bool =False, horizontal_scrollbar: bool =False, no_focus_on_appearing: bool =False, no_bring_to_front_on_focus: bool =False, no_close: bool =False, no_background: bool =False, modal: bool =False, popup: bool =False, on_close: Callable =None) -> str:
 	"""Undocumented function"""
 	...
 

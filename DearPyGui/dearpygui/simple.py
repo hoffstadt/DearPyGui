@@ -71,6 +71,7 @@ def window(*args, width: int = 200, height: int = 200, autosize: bool = False,
            no_collapse: bool = False, horizontal_scrollbar: bool = False, no_focus_on_appearing: bool = False,
            no_bring_to_front_on_focus: bool = False, menubar: bool = False, no_close: bool = False,
            no_background: bool = False, label: str = "__DearPyGuiDefault", show: bool = True, collapsed: bool = False,
+           modal: bool = False, popup: bool = False,
            on_close: Callable = None, min_size: List[int]=[32, 32], max_size: List[int] = [30000, 30000], id:str=''):
     """Wraps add_window() and automates calling end().
 
@@ -97,6 +98,8 @@ def window(*args, width: int = 200, height: int = 200, autosize: bool = False,
         **on_close: Callback ran when window is closed
         **min_size: Minimum window size
         **max_size: Maximum window size
+        **modal: Sets window to modal mode
+        **popup: Sets window to popup mode
 
     Returns:
         None
@@ -111,7 +114,8 @@ def window(*args, width: int = 200, height: int = 200, autosize: bool = False,
                                           no_bring_to_front_on_focus=no_bring_to_front_on_focus,
                                           menubar=menubar, no_close=no_close, no_background=no_background,
                                           show=show, collapsed=collapsed, on_close=on_close,
-                                          min_size=min_size, max_size=max_size, id=id)
+                                          min_size=min_size, max_size=max_size, id=id, modal=modal,
+                                          popup=popup)
         else:
             yield internal_dpg.add_window(*args, width=width, height=height, autosize=autosize,
                                           no_resize=no_resize, no_title_bar=no_title_bar, no_move=no_move,
@@ -122,7 +126,8 @@ def window(*args, width: int = 200, height: int = 200, autosize: bool = False,
                                           menubar=menubar, no_close=no_close,
                                           no_background=no_background, label=label, show=show, 
                                           collapsed=collapsed, on_close=on_close,
-                                          min_size=min_size, max_size=max_size, id=id)
+                                          min_size=min_size, max_size=max_size, id=id, modal=modal,
+                                          popup=popup)
     finally:
         internal_dpg.end()
 
