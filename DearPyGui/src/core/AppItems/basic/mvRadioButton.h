@@ -15,9 +15,10 @@ namespace Marvel {
 		MV_APPLY_WIDGET_REGISTRATION(mvAppItemType::mvRadioButton, add_radio_button)
 
 		MV_CREATE_CONSTANT(mvThemeCol_RadioButton_Text, ImGuiCol_Text, 0L);
+		MV_CREATE_CONSTANT(mvThemeCol_RadioButton_Mark, ImGuiCol_CheckMark, 0L);
 		MV_CREATE_CONSTANT(mvThemeCol_RadioButton_Bg, ImGuiCol_FrameBg, 0L);
 		MV_CREATE_CONSTANT(mvThemeCol_RadioButton_BgHovered, ImGuiCol_FrameBgHovered, 0L);
-		MV_CREATE_CONSTANT(mvThemeCol_RadioButton_BgActive, ImGuiCol_CheckMark, 0L);
+		MV_CREATE_CONSTANT(mvThemeCol_RadioButton_BgActive, ImGuiCol_FrameBgActive, 0L);
 		MV_CREATE_CONSTANT(mvThemeCol_RadioButton_Border, ImGuiCol_Border, 0L);
 		MV_CREATE_CONSTANT(mvThemeCol_RadioButton_BorderShadow, ImGuiCol_BorderShadow, 0L);
 
@@ -35,9 +36,10 @@ namespace Marvel {
 
 		MV_START_COLOR_CONSTANTS
 			MV_ADD_CONSTANT(mvThemeCol_RadioButton_Text, mvImGuiCol_Text, mvColor(128, 128, 128, 63)),
+			MV_ADD_CONSTANT(mvThemeCol_RadioButton_Mark, mvImGuiCol_CheckMark, mvColor(128, 128, 128, 63)),
 			MV_ADD_CONSTANT(mvThemeCol_RadioButton_Bg, mvImGuiCol_FrameBg, mvColor(128, 128, 128, 63)),
 			MV_ADD_CONSTANT(mvThemeCol_RadioButton_BgHovered, mvImGuiCol_FrameBgHovered, mvColor(128, 128, 128, 63)),
-			MV_ADD_CONSTANT(mvThemeCol_RadioButton_BgActive, mvImGuiCol_CheckMark, mvColor(128, 128, 128, 63)),
+			MV_ADD_CONSTANT(mvThemeCol_RadioButton_BgActive, mvImGuiCol_FrameBgActive, mvColor(128, 128, 128, 63)),
 			MV_ADD_CONSTANT(mvThemeCol_RadioButton_Border, mvImGuiCol_Border, mvColor(128, 128, 128, 63)),
 			MV_ADD_CONSTANT(mvThemeCol_RadioButton_BorderShadow, mvImGuiCol_BorderShadow, mvColor(128, 128, 128, 63)),
 		MV_END_COLOR_CONSTANTS
