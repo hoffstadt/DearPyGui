@@ -127,10 +127,12 @@ namespace Marvel {
 		case mvPyDataType::Bool:          return " : bool";
 		case mvPyDataType::StringList:    return " : List[str]";
 		case mvPyDataType::FloatList:     return " : List[float]";
+		case mvPyDataType::DoubleList:    return " : List[float]";
 		case mvPyDataType::IntList:       return " : List[int]";
 		case mvPyDataType::Callable:      return " : Callable";
 		case mvPyDataType::Dict:          return " : dict";
 		case mvPyDataType::ListFloatList: return " : List[List[float]]";
+		case mvPyDataType::ListDoubleList: return " : List[List[float]]";
 		case mvPyDataType::ListStrList:   return " : List[List[str]]";
 		case mvPyDataType::Object:        return " : Any";
 		default:                              return " : unknown";

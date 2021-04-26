@@ -65,14 +65,16 @@ namespace Marvel {
 				item->m_focusNextFrame = false;
 			}
 
+			auto oldCursorPos = ImGui::GetCursorPos();
 			if (item->m_dirtyPos)
-			{
 				ImGui::SetCursorPos(item->getState().getItemPos());
-				item->m_dirtyPos = false;
-			}
+
 			item->getState().setPos({ ImGui::GetCursorPosX(), ImGui::GetCursorPosY() });
 
 			item->draw(drawlist, ImGui::GetCursorPosX(), ImGui::GetCursorPosY());
+
+			if (item->m_dirtyPos)
+				ImGui::SetCursorPos(oldCursorPos);
 
 			if (m_horizontal)
 				ImGui::SameLine(0.0, m_hspacing);
