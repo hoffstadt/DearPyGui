@@ -38,7 +38,7 @@ namespace Marvel {
 	void mvNode::InsertParser(std::map<std::string, mvPythonParser>* parsers)
 	{
 
-		mvPythonParser parser(mvPyDataType::String);
+		mvPythonParser parser(mvPyDataType::String, "Undocumented function", { "Node Editor", "Widgets" });
 		mvAppItem::AddCommonArgs(parser);
 		parser.removeArg("source");
 		parser.removeArg("width");

@@ -13,7 +13,7 @@ namespace Marvel {
 
     void mvSliderFloat::InsertParser(std::map<std::string, mvPythonParser>* parsers)
     {
-        mvPythonParser parser(mvPyDataType::String);
+        mvPythonParser parser(mvPyDataType::String, "Undocumented function", { "Widgets" });
         mvAppItem::AddCommonArgs(parser);
 
         parser.addArg<mvPyDataType::Float>("default_value", mvArgType::KEYWORD_ARG, "0.0");
@@ -37,7 +37,7 @@ namespace Marvel {
 
     void mvSliderInt::InsertParser(std::map<std::string, mvPythonParser>* parsers)
     {
-        mvPythonParser parser(mvPyDataType::String);
+        mvPythonParser parser(mvPyDataType::String, "Undocumented function", { "Widgets" });
         mvAppItem::AddCommonArgs(parser);
 
         parser.addArg<mvPyDataType::Integer>("default_value", mvArgType::KEYWORD_ARG, "0");

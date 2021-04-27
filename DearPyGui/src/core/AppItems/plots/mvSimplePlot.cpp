@@ -8,7 +8,7 @@ namespace Marvel {
 	void mvSimplePlot::InsertParser(std::map<std::string, mvPythonParser>* parsers)
 	{
 
-		mvPythonParser parser(mvPyDataType::String);
+		mvPythonParser parser(mvPyDataType::String, "Undocumented function", { "Plotting", "Widgets" });
 		mvAppItem::AddCommonArgs(parser);
 		parser.removeArg("callback");
 		parser.removeArg("callback_data");

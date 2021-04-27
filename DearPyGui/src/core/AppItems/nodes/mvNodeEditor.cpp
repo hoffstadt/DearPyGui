@@ -17,7 +17,7 @@ namespace Marvel {
 	{
 
 		{
-			mvPythonParser parser(mvPyDataType::String);
+			mvPythonParser parser(mvPyDataType::String, "Undocumented function", { "Node Editor", "Widgets" });
 			mvAppItem::AddCommonArgs(parser);
 			parser.removeArg("source");
 			parser.removeArg("label");

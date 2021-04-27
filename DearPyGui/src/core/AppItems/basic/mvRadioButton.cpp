@@ -10,7 +10,7 @@ namespace Marvel {
 	void mvRadioButton::InsertParser(std::map<std::string, mvPythonParser>* parsers)
 	{
 
-		mvPythonParser parser(mvPyDataType::String);
+		mvPythonParser parser(mvPyDataType::String, "Undocumented function", { "Widgets" });
 		mvAppItem::AddCommonArgs(parser);
 		parser.removeArg("width");
 		parser.removeArg("height");

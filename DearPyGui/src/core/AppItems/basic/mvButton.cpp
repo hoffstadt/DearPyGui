@@ -11,7 +11,7 @@ namespace Marvel {
 	void mvButton::InsertParser(std::map<std::string, mvPythonParser>* parsers)
 	{
 
-		mvPythonParser parser(mvPyDataType::String);
+		mvPythonParser parser(mvPyDataType::String, "Undocumented function", { "Widgets" });
 		mvAppItem::AddCommonArgs(parser);
 		parser.removeArg("source");
 

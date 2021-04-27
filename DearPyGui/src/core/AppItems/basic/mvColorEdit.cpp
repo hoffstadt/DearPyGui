@@ -10,7 +10,7 @@ namespace Marvel {
 	void mvColorEdit::InsertParser(std::map<std::string, mvPythonParser>* parsers)
 	{
 
-		mvPythonParser parser(mvPyDataType::String);
+		mvPythonParser parser(mvPyDataType::String, "Undocumented function", { "Widgets" });
 		mvAppItem::AddCommonArgs(parser);
 
 		parser.addArg<mvPyDataType::IntList>("default_value", mvArgType::POSITIONAL_ARG, "(0, 0, 0, 255)");

@@ -161,7 +161,7 @@ namespace Marvel {
 		}
 	}
 
-	mvPythonParser::mvPythonParser(mvPyDataType returnType, const char* about, const char* category)
+	mvPythonParser::mvPythonParser(mvPyDataType returnType, const char* about, const std::vector<std::string>& category)
 		: m_about(about), m_return(returnType), m_category(category)
 	{
 

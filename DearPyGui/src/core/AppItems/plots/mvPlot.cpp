@@ -26,7 +26,7 @@ namespace Marvel {
 	{
 
 		{
-			mvPythonParser parser(mvPyDataType::String);
+			mvPythonParser parser(mvPyDataType::String, "Undocumented function", { "Plotting", "Widgets" });
 			mvAppItem::AddCommonArgs(parser);
 			parser.removeArg("source");
 			parser.removeArg("callback");
@@ -95,35 +95,35 @@ namespace Marvel {
 		}
 
 		{
-			mvPythonParser parser(mvPyDataType::Bool);
+			mvPythonParser parser(mvPyDataType::Bool, "Undocumented function", { "Plotting", "Widgets" });
 			parser.addArg<mvPyDataType::String>("plot");
 			parser.finalize();
 			parsers->insert({ "is_plot_queried", parser });
 		}
 
 		{
-			mvPythonParser parser(mvPyDataType::FloatList);
+			mvPythonParser parser(mvPyDataType::FloatList, "Undocumented function", { "Plotting", "Widgets" });
 			parser.addArg<mvPyDataType::String>("plot");
 			parser.finalize();
 			parsers->insert({ "get_plot_query_area", parser });
 		}
 
 		{
-			mvPythonParser parser(mvPyDataType::FloatList);
+			mvPythonParser parser(mvPyDataType::FloatList, "Undocumented function", { "Plotting", "Widgets" });
 			parser.addArg<mvPyDataType::String>("plot");
 			parser.finalize();
 			parsers->insert({ "get_plot_xlimits", parser });
 		}
 
 		{
-			mvPythonParser parser(mvPyDataType::FloatList);
+			mvPythonParser parser(mvPyDataType::FloatList, "Undocumented function", { "Plotting", "Widgets" });
 			parser.addArg<mvPyDataType::String>("plot");
 			parser.finalize();
 			parsers->insert({ "get_plot_ylimits", parser });
 		}
 
 		{
-			mvPythonParser parser(mvPyDataType::None);
+			mvPythonParser parser(mvPyDataType::None, "Undocumented function", { "Plotting", "Widgets" });
 			parser.addArg<mvPyDataType::String>("plot");
 			parser.addArg<mvPyDataType::Float>("xmin");
 			parser.addArg<mvPyDataType::Float>("xmax");
@@ -132,7 +132,7 @@ namespace Marvel {
 		}
 
 		{
-			mvPythonParser parser(mvPyDataType::None);
+			mvPythonParser parser(mvPyDataType::None, "Undocumented function", { "Plotting", "Widgets" });
 			parser.addArg<mvPyDataType::String>("plot");
 			parser.addArg<mvPyDataType::Float>("ymin");
 			parser.addArg<mvPyDataType::Float>("ymax");
@@ -141,35 +141,35 @@ namespace Marvel {
 		}
 
 		{
-			mvPythonParser parser(mvPyDataType::None);
+			mvPythonParser parser(mvPyDataType::None, "Undocumented function", { "Plotting", "Widgets" });
 			parser.addArg<mvPyDataType::String>("plot");
 			parser.finalize();
 			parsers->insert({ "set_plot_xlimits_auto", parser });
 		}
 
 		{
-			mvPythonParser parser(mvPyDataType::None);
+			mvPythonParser parser(mvPyDataType::None, "Undocumented function", { "Plotting", "Widgets" });
 			parser.addArg<mvPyDataType::String>("plot");
 			parser.finalize();
 			parsers->insert({ "set_plot_ylimits_auto", parser });
 		}
 
 		{
-			mvPythonParser parser(mvPyDataType::None);
+			mvPythonParser parser(mvPyDataType::None, "Undocumented function", { "Plotting", "Widgets" });
 			parser.addArg<mvPyDataType::String>("plot");
 			parser.finalize();
 			parsers->insert({ "reset_xticks", parser });
 		}
 
 		{
-			mvPythonParser parser(mvPyDataType::None);
+			mvPythonParser parser(mvPyDataType::None, "Undocumented function", { "Plotting", "Widgets" });
 			parser.addArg<mvPyDataType::String>("plot");
 			parser.finalize();
 			parsers->insert({ "reset_yticks", parser });
 		}
 
 		{
-			mvPythonParser parser(mvPyDataType::None);
+			mvPythonParser parser(mvPyDataType::None, "Undocumented function", { "Plotting", "Widgets" });
 			parser.addArg<mvPyDataType::String>("plot");
 			parser.addArg<mvPyDataType::Object>("label_pairs");
 			parser.finalize();
@@ -177,7 +177,7 @@ namespace Marvel {
 		}
 
 		{
-			mvPythonParser parser(mvPyDataType::None);
+			mvPythonParser parser(mvPyDataType::None, "Undocumented function", { "Plotting", "Widgets" });
 			parser.addArg<mvPyDataType::String>("plot");
 			parser.addArg<mvPyDataType::Object>("label_pairs");
 			parser.finalize();

@@ -8,7 +8,7 @@ namespace Marvel {
 	void mvImageButton::InsertParser(std::map<std::string, mvPythonParser>* parsers)
 	{
 
-		mvPythonParser parser(mvPyDataType::String);
+		mvPythonParser parser(mvPyDataType::String, "Undocumented function", { "Widgets" });
 		mvAppItem::AddCommonArgs(parser);
 
 		parser.addArg<mvPyDataType::String>("default_value");
