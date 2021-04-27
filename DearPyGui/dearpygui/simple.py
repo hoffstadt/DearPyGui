@@ -550,11 +550,34 @@ def hide_item(item: str, *, children_only: bool = False):
         None
     """
     if children_only:
-        children = internal_dpg.get_item_children(item)
+        children = get_item_children(item)
         for child in children:
             internal_dpg.configure_item(child, show=False)
     else:
         internal_dpg.configure_item(item, show=False)
+
+def enable_item(item: str):
+    """Enables the item.
+
+    Args:
+        **item: Item to enable.
+
+    Returns:
+        None
+    """
+    internal_dpg.configure_item(item, enabled=True)
+
+
+def disable_item(item: str):
+    """Disables the item.
+
+    Args:
+        **item: Item to disable.
+
+    Returns:
+        None
+    """
+    internal_dpg.configure_item(item, enable=False)
 
 
 def is_item_shown(item: str) -> Union[bool, None]:
@@ -699,7 +722,7 @@ def set_item_label(item: str, label: str):
 
     Args:
         item: Item label will be applied to.
-        label: Displayed name of the item.
+        label: Displayed name to be applied.
 
     Returns:
         None
@@ -707,12 +730,25 @@ def set_item_label(item: str, label: str):
     internal_dpg.configure_item(item, label=label)
 
 
+def set_item_source(item: str, source: str):
+    """Sets the item's value, to the source's value. Widget's value will now be "linked" to source's value.
+
+    Args:
+        item: Item to me linked.
+        source: Source to link to.
+
+    Returns:
+        None
+    """
+    internal_dpg.configure_item(item, source=source)
+
+
 def set_item_width(item: str, width: int):
     """Sets the item's width.
 
     Args:
         item: Item the Width will be applied to.
-        width: Width of the item. width to be applied.
+        width: Width to be applied.
 
     Returns:
         None
@@ -725,12 +761,37 @@ def set_item_height(item: str, height: int):
 
     Args:
         item: Item the Height will be applied to.
-        height: Height of the item. height to be applied.
+        height: Height to be applied.
 
     Returns:
         None
     """
     internal_dpg.configure_item(item, height=height)
+
+def set_item_callback(item: str, callback: Callable):
+    """Sets the item's callack.
+
+    Args:
+        item: Item the callback will be applied to.
+        callback: Callback to be applied.
+
+    Returns:
+        None
+    """
+    internal_dpg.configure_item(item, callback=callback)
+
+
+def set_item_callback_data(item: str, callback_data: Any):
+    """Sets the item's callack_data to any python object.
+
+    Args:
+        item: Item the callback will be applied to.
+        callback_data: Callback_data to be applied.
+
+    Returns:
+        None
+    """
+    internal_dpg.configure_item(item, callback_data=callback_data)
 
 
 def get_item_label(item: str) -> Union[str, None]:
@@ -811,7 +872,7 @@ def get_item_type(item: str) -> Union[str]:
     return internal_dpg.get_item_info(item)["type"]
 
 
-def get_item_rect_size(item: str) -> Union[List[float]]:
+def get_item_rect_size(item: str) -> Union[List[int]]:
     """Gets the item's current size.
 
     Returns:
@@ -820,7 +881,7 @@ def get_item_rect_size(item: str) -> Union[List[float]]:
     return internal_dpg.get_item_state(item)["rect_size"]
 
 
-def get_item_rect_min(item: str) -> Union[float]:
+def get_item_rect_min(item: str) -> Union[List[int]]:
     """Gets the item's current rect_min.
 
     Returns:
@@ -829,7 +890,7 @@ def get_item_rect_min(item: str) -> Union[float]:
     return internal_dpg.get_item_state(item)["rect_min"]
 
 
-def get_item_rect_max(item: str) -> Union[float]:
+def get_item_rect_max(item: str) -> Union[List[int]]:
     """Gets the item's current rect_max.
 
     Returns:
@@ -838,7 +899,7 @@ def get_item_rect_max(item: str) -> Union[float]:
     return internal_dpg.get_item_state(item)["rect_max"]
 
 
-def get_item_pos(item: str) -> Union[float]:
+def get_item_pos(item: str) -> Union[List[int]]:
     """Gets the item's current pos.
 
     Returns:
