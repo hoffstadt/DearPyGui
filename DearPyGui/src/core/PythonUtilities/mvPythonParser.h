@@ -86,7 +86,7 @@ namespace Marvel {
 
     public:
 
-        explicit mvPythonParser(mvPyDataType returnType = mvPyDataType::None, const char* about = "Undocumented function", const char* category = "App");
+        explicit mvPythonParser(mvPyDataType returnType = mvPyDataType::None, const char* about = "Undocumented function", const std::vector<std::string>& category = { "None" });
 
         template<mvPyDataType type>
         void addArg(const char* name, mvArgType argType = mvArgType::REQUIRED_ARG, const char* defaultValue = "...", const char* description="")
@@ -111,8 +111,8 @@ namespace Marvel {
 
         bool parse(PyObject* args, PyObject* kwargs, const char* message, ...);
 
-        [[nodiscard]] const char*        getDocumentation         () const { return m_documentation.c_str(); }
-        [[nodiscard]] const std::string& getCategory              () const { return m_category; }
+        [[nodiscard]] const char*                     getDocumentation         () const { return m_documentation.c_str(); }
+        [[nodiscard]] const std::vector<std::string>& getCategory              () const { return m_category; }
 
         void finalize();
 
@@ -132,7 +132,7 @@ namespace Marvel {
         std::string                      m_about;
         mvPyDataType                     m_return = mvPyDataType::None;
         std::string                      m_documentation;
-        std::string                      m_category;
+        std::vector<std::string>         m_category;
         bool                             m_unspecifiedKwargs = false;
 
     };

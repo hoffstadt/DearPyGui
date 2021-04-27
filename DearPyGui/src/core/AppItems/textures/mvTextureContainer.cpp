@@ -9,7 +9,7 @@ namespace Marvel {
 	void mvTextureContainer::InsertParser(std::map<std::string, mvPythonParser>* parsers)
 	{
 
-		mvPythonParser parser(mvPyDataType::None);
+		mvPythonParser parser(mvPyDataType::String, "Undocumented function", { "Textures", "Widgets" });
 
 		parser.finalize();
 

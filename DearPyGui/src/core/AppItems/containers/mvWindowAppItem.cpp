@@ -10,7 +10,7 @@ namespace Marvel {
 	void mvWindowAppItem::InsertParser(std::map<std::string, mvPythonParser>* parsers)
 	{
 
-		mvPythonParser parser(mvPyDataType::String);
+		mvPythonParser parser(mvPyDataType::String, "Undocumented function", { "Containers", "Widgets" });
 		mvAppItem::AddCommonArgs(parser);
 		parser.removeArg("parent");
 		parser.removeArg("before");
