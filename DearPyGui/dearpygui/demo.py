@@ -347,6 +347,49 @@ def show_demo():
                 add_checkbox(label="no_background", callback=demo_config, callback_data="Dear PyGui Demo")
                 add_checkbox(label="no_bring_to_front_on_focus", callback=demo_config, callback_data="Dear PyGui Demo")
         
+        with collapsing_header(label="Info"):
+
+            def log_status_config_state():
+                log_debug(get_item_configuration(test))
+                log_debug(get_item_info(test))
+                log_debug(get_item_state(test))
+
+            test = add_button(label="Info Tester", callback=log_status_config_state)
+
+            #simple commands related to configuration
+            add_text(f"label: {get_item_label(test)}")
+            add_text(f"source: {get_item_source(test)}")
+            add_text(f"show: {is_item_shown(test)}")
+            add_text(f"enabled: {is_item_enabled(test)}")
+            add_text(f"width: {get_item_width(test)}")
+            add_text(f"height: {get_item_height(test)}")
+            add_text(f"callback: {get_item_callback(test)}")
+            add_text(f"callback_data: {get_item_callback_data(test)}")
+
+            #simple commands related to info
+            info = get_item_info(test)
+            add_text(f"children: {get_item_children(test)}")
+            add_text(f"type: {get_item_type(test)}")
+            add_text(f"parent: {get_item_parent(test)}")
+            add_text(f"container: {is_item_container(test)}")
+
+            #simple commands related to state
+            add_text(f"hovered: {is_item_hovered(test)}")
+            add_text(f"active: {is_item_active(test)}")
+            add_text(f"focused: {is_item_focused(test)}")
+            add_text(f"clicked: {is_item_clicked(test)}")
+            add_text(f"visible: {is_item_visible(test)}")
+            add_text(f"edited: {is_item_edited(test)}")
+            add_text(f"activated: {is_item_activated(test)}")
+            add_text(f"deactivated: {is_item_deactivated(test)}")
+            add_text(f"deactivated_after_edit: {is_item_deactivated_after_edit(test)}")
+            add_text(f"toggled_open: {is_item_toggled_open(test)}")
+            add_text(f"ok: {is_item_ok(test)}")
+            add_text(f"rect_min: {get_item_rect_min(test)}")
+            add_text(f"rect_max: {get_item_rect_max(test)}")
+            add_text(f"rect_size: {get_item_rect_size(test)}")
+            add_text(f"pos: {get_item_pos(test)}")
+
         with collapsing_header(label="Widgets"):
 
             with tree_node(label="Basic"):
