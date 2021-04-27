@@ -555,14 +555,157 @@ def hide_item(item: str, *, children_only: bool = False):
         None
     """
     if children_only:
-        children = internal_dpg.get_item_children(item)
+        children = get_item_children(item)
         for child in children:
             internal_dpg.configure_item(child, show=False)
     else:
         internal_dpg.configure_item(item, show=False)
 
+def enable_item(item: str):
+    """Enables the item.
 
-# item configure commands
+    Args:
+        **item: Item to enable.
+
+    Returns:
+        None
+    """
+    internal_dpg.configure_item(item, enabled=True)
+
+
+def disable_item(item: str):
+    """Disables the item.
+
+    Args:
+        **item: Item to disable.
+
+    Returns:
+        None
+    """
+    internal_dpg.configure_item(item, enable=False)
+
+
+def is_item_shown(item: str) -> Union[bool, None]:
+    """Checks if item is shown.
+
+    Returns:
+        status as a bool
+    """
+    return internal_dpg.get_item_configuration(item)["show"]
+
+def is_item_enabled(item: str) -> Union[bool, None]:
+    """Checks if item is enabled.
+
+    Returns:
+        status as a bool
+    """
+    return internal_dpg.get_item_configuration(item)["enabled"]
+
+
+def is_item_container(item: str) -> Union[bool, None]:
+    """Checks if item is a container.
+
+    Returns:
+        status as a bool
+    """
+    return internal_dpg.get_item_info(item)["container"]
+
+def is_item_hovered(item: str) -> Union[bool, None]:
+    """Checks if item is hovered.
+
+    Returns:
+        status as a bool
+    """
+    return internal_dpg.get_item_state(item)["hovered"]
+
+
+def is_item_active(item: str) -> Union[bool, None]:
+    """Checks if item is active.
+
+    Returns:
+        status as a bool
+    """
+    return internal_dpg.get_item_state(item)["active"]
+
+def is_item_focused(item: str) -> Union[bool, None]:
+    """Checks if item is focused.
+
+    Returns:
+        status as a bool
+    """
+    return internal_dpg.get_item_state(item)["focused"]
+
+def is_item_clicked(item: str) -> Union[bool, None]:
+    """Checks if item is clicked.
+
+    Returns:
+        status as a bool
+    """
+    return internal_dpg.get_item_state(item)["clicked"]
+
+def is_item_visible(item: str) -> Union[bool, None]:
+    """Checks if item is visible.
+
+    Returns:
+        status as a bool
+    """
+    return internal_dpg.get_item_state(item)["visible"]
+
+
+def is_item_edited(item: str) -> Union[bool, None]:
+    """Checks if item is edited.
+
+    Returns:
+        status as a bool
+    """
+    return internal_dpg.get_item_state(item)["edited"]
+
+
+def is_item_activated(item: str) -> Union[bool, None]:
+    """Checks if item is activated.
+
+    Returns:
+        status as a bool
+    """
+    return internal_dpg.get_item_state(item)["activated"]
+
+
+def is_item_deactivated(item: str) -> Union[bool, None]:
+    """Checks if item is deactivated.
+
+    Returns:
+        status as a bool
+    """
+    return internal_dpg.get_item_state(item)["deactivated"]
+
+
+def is_item_deactivated_after_edit(item: str) -> Union[bool, None]:
+    """Checks if item is deactivated_after_edit.
+
+    Returns:
+        status as a bool
+    """
+    return internal_dpg.get_item_state(item)["deactivated_after_edit"]
+
+
+def is_item_toggled_open(item: str) -> Union[bool, None]:
+    """Checks if item is toggled_open.
+
+    Returns:
+        status as a bool
+    """
+    return internal_dpg.get_item_state(item)["toggled_open"]
+
+
+def is_item_ok(item: str) -> Union[bool, None]:
+    """Checks if item is a ok.
+
+    Returns:
+        status as a bool
+    """
+    return internal_dpg.get_item_state(item)["ok"]
+
+
 def set_item_name(item: str, name: str):
     """Sets the item's name, anything after the characters "##" in the name will not be shown.
 
@@ -584,7 +727,7 @@ def set_item_label(item: str, label: str):
 
     Args:
         item: Item label will be applied to.
-        label: Displayed name of the item.
+        label: Displayed name to be applied.
 
     Returns:
         None
@@ -592,12 +735,25 @@ def set_item_label(item: str, label: str):
     internal_dpg.configure_item(item, label=label)
 
 
+def set_item_source(item: str, source: str):
+    """Sets the item's value, to the source's value. Widget's value will now be "linked" to source's value.
+
+    Args:
+        item: Item to me linked.
+        source: Source to link to.
+
+    Returns:
+        None
+    """
+    internal_dpg.configure_item(item, source=source)
+
+
 def set_item_width(item: str, width: int):
     """Sets the item's width.
 
     Args:
         item: Item the Width will be applied to.
-        width: Width of the item. width to be applied.
+        width: Width to be applied.
 
     Returns:
         None
@@ -610,12 +766,37 @@ def set_item_height(item: str, height: int):
 
     Args:
         item: Item the Height will be applied to.
-        height: Height of the item. height to be applied.
+        height: Height to be applied.
 
     Returns:
         None
     """
     internal_dpg.configure_item(item, height=height)
+
+def set_item_callback(item: str, callback: Callable):
+    """Sets the item's callack.
+
+    Args:
+        item: Item the callback will be applied to.
+        callback: Callback to be applied.
+
+    Returns:
+        None
+    """
+    internal_dpg.configure_item(item, callback=callback)
+
+
+def set_item_callback_data(item: str, callback_data: Any):
+    """Sets the item's callack_data to any python object.
+
+    Args:
+        item: Item the callback will be applied to.
+        callback_data: Callback_data to be applied.
+
+    Returns:
+        None
+    """
+    internal_dpg.configure_item(item, callback_data=callback_data)
 
 
 def get_item_label(item: str) -> Union[str, None]:
@@ -643,6 +824,93 @@ def get_item_height(item: str) -> Union[int, None]:
         height as a int or None
     """
     return internal_dpg.get_item_configuration(item)["height"]
+
+def get_item_callback(item: str) -> Union[str, None]:
+    """Gets the item's callback.
+
+    Returns:
+        callback as a string or None
+    """
+    return internal_dpg.get_item_configuration(item)["callback"]
+
+def get_item_callback_data(item: str) -> Union[Any, None]:
+    """Gets the item's callback data.
+
+    Returns:
+        callback data as a python object or None
+    """
+    return internal_dpg.get_item_configuration(item)["callback_data"]
+
+def get_item_source(item: str) -> Union[str, None]:
+    """Gets the item's source.
+
+    Returns:
+        source as a string or None
+    """
+    return internal_dpg.get_item_configuration(item)["source"]
+
+
+def get_item_parent(item: str) -> Union[str, None]:
+    """Gets the item's parent.
+
+    Returns:
+        parent as a string or None
+    """
+    return internal_dpg.get_item_info(item)["parent"]
+
+
+def get_item_children(item: str) -> Union[List[str], None]:
+    """Gets the item's children.
+
+    Returns:
+        children as a list of string or None
+    """
+    return internal_dpg.get_item_info(item)["children"]
+
+
+def get_item_type(item: str) -> Union[str]:
+    """Gets the item's type.
+
+    Returns:
+        type as a string or None
+    """
+    return internal_dpg.get_item_info(item)["type"]
+
+
+def get_item_rect_size(item: str) -> Union[List[int]]:
+    """Gets the item's current size.
+
+    Returns:
+        size as a float list
+    """
+    return internal_dpg.get_item_state(item)["rect_size"]
+
+
+def get_item_rect_min(item: str) -> Union[List[int]]:
+    """Gets the item's current rect_min.
+
+    Returns:
+        rect_min as a float
+    """
+    return internal_dpg.get_item_state(item)["rect_min"]
+
+
+def get_item_rect_max(item: str) -> Union[List[int]]:
+    """Gets the item's current rect_max.
+
+    Returns:
+        rect_max as a float
+    """
+    return internal_dpg.get_item_state(item)["rect_max"]
+
+
+def get_item_pos(item: str) -> Union[List[int]]:
+    """Gets the item's current pos.
+
+    Returns:
+        pos as a float
+    """
+    return internal_dpg.get_item_state(item)["pos"]
 
 
 def set_drawing_size(drawing: str, width: int, height: int):
