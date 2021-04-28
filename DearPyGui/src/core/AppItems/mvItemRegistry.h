@@ -81,8 +81,7 @@ namespace Marvel {
         mvValueVariant                 getValue          (const std::string& name);
         mvRef<mvAppItem>               getItem           (const std::string& name);
         mvWindowAppItem*               getWindow         (const std::string& name);
-        std::vector<mvRef<mvAppItem>>& getFrontWindows   ()       { return m_frontWindows; }
-        std::vector<mvRef<mvAppItem>>& getBackWindows    ()       { return m_backWindows; }
+        std::vector<mvRef<mvAppItem>>& getRoots          ()       { return m_roots; }
         const std::string&             getActiveWindow   () const { return m_activeWindow; }
         bool                           addItemWithRuntimeChecks(mvRef<mvAppItem> item, const char* parent, const char* before);
         
@@ -112,10 +111,10 @@ namespace Marvel {
 
 	private:
 
-		std::stack<mvRef<mvAppItem>>  m_parents;      // parent stack, top of stack becomes widget's parent
-		std::vector<mvRef<mvAppItem>> m_frontWindows; // user added windows
-		std::vector<mvRef<mvAppItem>> m_backWindows;  // default "standard" windows (debug, style editor, etc.)
-        std::string                   m_activeWindow;
+		std::stack<mvRef<mvAppItem>>     m_parents;      // parent stack, top of stack becomes widget's parent
+		std::vector<mvRef<mvAppItem>>    m_roots;
+        std::string                      m_activeWindow;
+
 
 	};
 

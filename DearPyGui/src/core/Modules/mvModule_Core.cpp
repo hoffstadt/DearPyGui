@@ -8,6 +8,7 @@
 #include "mvImGuiThemeScope.h"
 #include <ImGuiFileDialog.h>
 #include <cstdlib>
+#include "mvToolManager.h"
 
 namespace Marvel {
 
@@ -24,6 +25,7 @@ namespace Marvel {
 				item_type::FillExtraCommands(methods);
 			});
 
+		mvToolManager::FillExtraCommands(methods);
 		mvViewport::FillExtraCommands(methods);
 		mvApp::FillExtraCommands(methods);
 		mvAppItem::FillExtraCommands(methods);
@@ -51,6 +53,7 @@ namespace Marvel {
 					item_type::InsertParser(&parsers);
 				});
 
+			mvToolManager::InsertParser(&parsers);
 			mvViewport::InsertParser(&parsers);
 			mvApp::InsertParser(&parsers);
 			mvAppItem::InsertParser(&parsers);
@@ -71,6 +74,7 @@ namespace Marvel {
 		if (First_Run)
 		{
 			mvInput::InsertConstants(ModuleConstants);
+			mvToolManager::InsertConstants(ModuleConstants);
 
 			auto decodeType = [](long encoded_constant, mvAppItemType* type)
 			{

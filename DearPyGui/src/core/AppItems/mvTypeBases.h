@@ -271,31 +271,4 @@ namespace Marvel {
 		ImPlotYAxis                           m_axis = ImPlotYAxis_1;
 	};
 
-	//-----------------------------------------------------------------------------
-	// mvBaseWindowAppitem
-	//-----------------------------------------------------------------------------
-	class mvBaseWindowAppitem : public mvAppItem
-	{
-
-	public:
-
-
-		mvBaseWindowAppitem(const std::string& name);
-
-		void   addFlag     (ImGuiWindowFlags flag);
-		void   removeFlag  (ImGuiWindowFlags flag);
-		bool   prerender   ();
-
-		void setWidth          (int width)      override;
-		void setHeight         (int height)     override;
-		void handleSpecificKeywordArgs(PyObject* dict) override;
-		void getSpecificConfiguration(PyObject* dict) override;
-
-	protected:
-
-		ImGuiWindowFlags m_windowflags = ImGuiWindowFlags_NoSavedSettings;
-		bool             m_dirty_size = true;
-		
-	};
-
 }

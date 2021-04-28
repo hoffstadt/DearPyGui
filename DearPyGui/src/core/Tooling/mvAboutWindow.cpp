@@ -1,57 +1,17 @@
 #include "mvAboutWindow.h"
-#include "mvTypeBases.h"
-#include "mvAppItem.h"
-#include "mvInput.h"
-#include "mvModule_Core.h"
 #include "mvApp.h"
-#include <string>
-#include "mvItemRegistry.h"
-#include "mvFontScope.h"
+
 
 namespace Marvel {
 
-    void mvAboutWindow::InsertParser(std::map<std::string, mvPythonParser>* parsers)
-    {
 
-        mvPythonParser parser(mvPyDataType::String);
-        mvAppItem::AddCommonArgs(parser);
-        parser.removeArg("parent");
-        parser.removeArg("before");
-        parser.removeArg("source");
-        parser.removeArg("callback");
-        parser.removeArg("callback_data");
-        parser.removeArg("enabled");
-
-        parser.addArg<mvPyDataType::Integer>("x_pos", mvArgType::KEYWORD_ARG, "200");
-        parser.addArg<mvPyDataType::Integer>("y_pos", mvArgType::KEYWORD_ARG, "200");
-
-        parser.addArg<mvPyDataType::Bool>("autosize", mvArgType::KEYWORD_ARG, "False", "Autosized the window to fit it's items.");
-        parser.addArg<mvPyDataType::Bool>("no_resize", mvArgType::KEYWORD_ARG, "False", "Allows for the window size to be changed or fixed");
-        parser.addArg<mvPyDataType::Bool>("no_title_bar", mvArgType::KEYWORD_ARG, "False", "Title name for the title bar of the window");
-        parser.addArg<mvPyDataType::Bool>("no_move", mvArgType::KEYWORD_ARG, "False", "Allows for the window's position to be changed or fixed");
-        parser.addArg<mvPyDataType::Bool>("no_scrollbar", mvArgType::KEYWORD_ARG, "False", " Disable scrollbars (window can still scroll with mouse or programmatically)");
-        parser.addArg<mvPyDataType::Bool>("no_collapse", mvArgType::KEYWORD_ARG, "False", "Disable user collapsing window by double-clicking on it");
-        parser.addArg<mvPyDataType::Bool>("horizontal_scrollbar", mvArgType::KEYWORD_ARG, "False", "Allow horizontal scrollbar to appear (off by default).");
-        parser.addArg<mvPyDataType::Bool>("no_focus_on_appearing", mvArgType::KEYWORD_ARG, "False", "Disable taking focus when transitioning from hidden to visible state");
-        parser.addArg<mvPyDataType::Bool>("no_bring_to_front_on_focus", mvArgType::KEYWORD_ARG, "False", "Disable bringing window to front when taking focus (e.g. clicking on it or programmatically giving it focus)");
-        parser.addArg<mvPyDataType::Bool>("no_close", mvArgType::KEYWORD_ARG, "False");
-        parser.addArg<mvPyDataType::Bool>("no_background", mvArgType::KEYWORD_ARG, "False");
-
-        parser.finalize();
-
-        parsers->insert({ s_command, parser });
-    }
-
-    mvAboutWindow::mvAboutWindow(const std::string& name)
-        : mvBaseWindowAppitem(name)
+    mvAboutWindow::mvAboutWindow()
     {
         m_windowflags = ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_NoSavedSettings;
     }
 
-    void mvAboutWindow::draw(ImDrawList* drawlist, float x, float y)
+    void mvAboutWindow::drawWidgets()
     {
-        if (!prerender())
-            return;
 
         ImGui::Text("Dear PyGui %s", mvApp::GetVersion());
         ImGui::Text("Dear ImGui %s", ImGui::GetVersion());
@@ -102,9 +62,9 @@ namespace Marvel {
             ImGui::Text("define: __cplusplus=%d", (int)__cplusplus);
             ImGui::Text("define: _WIN32");
             ImGui::Text("define: _WIN64");
-    #if defined (_WIN32)
+#if defined (_WIN32)
             ImGui::Text("define: _MSC_VER=%d", _MSC_VER);
-    #endif
+#endif
             ImGui::Separator();
             ImGui::Text("io.BackendPlatformName: %s", io.BackendPlatformName ? io.BackendPlatformName : "NULL");
             ImGui::Text("io.BackendRendererName: %s", io.BackendRendererName ? io.BackendRendererName : "NULL");
@@ -146,23 +106,6 @@ namespace Marvel {
             ImGui::EndChildFrame();
         }
 
-        if (ImGui::IsWindowFocused())
-        {
-
-            float titleBarHeight = ImGui::GetStyle().FramePadding.y * 2 + ImGui::GetFontSize();
-
-            // update mouse
-            ImVec2 mousePos = ImGui::GetMousePos();
-            float x = mousePos.x - ImGui::GetWindowPos().x;
-            float y = mousePos.y - ImGui::GetWindowPos().y - titleBarHeight;
-            mvInput::setMousePosition(x, y);
-
-            if (mvApp::GetApp()->getItemRegistry().getActiveWindow() != m_name)
-                mvEventBus::Publish(mvEVT_CATEGORY_ITEM, mvEVT_ACTIVE_WINDOW, { CreateEventArgument("WINDOW", m_name) });
-        }
-
-        ImGui::End();
-        
     }
 
 }

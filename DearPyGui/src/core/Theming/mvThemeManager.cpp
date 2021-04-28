@@ -47,37 +47,25 @@ namespace Marvel {
 
 	void mvThemeManager::InValidateColorTheme()
 	{
-		auto& frontWindows = mvApp::GetApp()->getItemRegistry().getFrontWindows();
-		auto& backWindows = mvApp::GetApp()->getItemRegistry().getBackWindows();
+		auto& frontWindows = mvApp::GetApp()->getItemRegistry().getRoots();
 
 		for (auto& window : frontWindows)
-			window->inValidateThemeColorCache();
-
-		for (auto& window : backWindows)
 			window->inValidateThemeColorCache();
 	}
 
 	void mvThemeManager::InValidateDisabledColorTheme()
 	{
-		auto& frontWindows = mvApp::GetApp()->getItemRegistry().getFrontWindows();
-		auto& backWindows = mvApp::GetApp()->getItemRegistry().getBackWindows();
+		auto& frontWindows = mvApp::GetApp()->getItemRegistry().getRoots();
 
 		for (auto& window : frontWindows)
-			window->inValidateThemeDisabledColorCache();
-
-		for (auto& window : backWindows)
 			window->inValidateThemeDisabledColorCache();
 	}
 
 	void mvThemeManager::InValidateStyleTheme()
 	{
-		auto& frontWindows = mvApp::GetApp()->getItemRegistry().getFrontWindows();
-		auto& backWindows = mvApp::GetApp()->getItemRegistry().getBackWindows();
+		auto& frontWindows = mvApp::GetApp()->getItemRegistry().getRoots();
 
 		for (auto& window : frontWindows)
-			window->inValidateThemeStyleCache();
-
-		for (auto& window : backWindows)
 			window->inValidateThemeStyleCache();
 	}
 

@@ -20,6 +20,7 @@
 #include "mvModule_Core.h"
 #include "mvLog.h"
 #include "mvEventMacros.h"
+#include "mvToolManager.h"
 
 namespace Marvel {
 
@@ -91,7 +92,6 @@ namespace Marvel {
 		m_itemRegistry = CreateOwnedPtr<mvItemRegistry>();
 		m_themeManager = CreateOwnedPtr<mvThemeManager>();
         m_callbackRegistry = CreateOwnedPtr<mvCallbackRegistry>();
-        m_fontManager = CreateOwnedPtr<mvFontManager>();
 
 	}
 
@@ -108,11 +108,6 @@ namespace Marvel {
 	mvThemeManager& mvApp::getThemeManager()
 	{
 		return *m_themeManager;
-	}
-
-	mvFontManager& mvApp::getFontManager()
-	{
-		return *m_fontManager;
 	}
 
 	mvApp::~mvApp()
@@ -136,7 +131,7 @@ namespace Marvel {
 		// update timing
 		m_deltaTime = ImGui::GetIO().DeltaTime;
 		m_time = ImGui::GetTime();
-		ImGui::GetIO().FontGlobalScale = m_fontManager->getGlobalFontScale();
+		ImGui::GetIO().FontGlobalScale = mvToolManager::GetFontManager().getGlobalFontScale();
 
 		if (m_dockingViewport)
 			ImGui::DockSpaceOverViewport();
@@ -147,6 +142,8 @@ namespace Marvel {
 
 		// route input callbacks
 		mvInput::CheckInputs();
+
+		mvToolManager::Draw();
 
 		//m_textureStorage->show_debugger();
 		//m_fontManager->show_debugger();

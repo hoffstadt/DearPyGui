@@ -6,12 +6,13 @@
 #include "mvEvents.h"
 #include "mvApp.h"
 #include "cpp.hint"
+#include "mvToolWindow.h"
 
 struct ImFont;
 
 namespace Marvel {
 
-	class mvFontManager : public mvEventHandler
+	class mvFontManager : public mvEventHandler, public mvToolWindow
 	{
 
 		struct Font
@@ -59,7 +60,12 @@ namespace Marvel {
 		float&  getGlobalFontScale() { return m_globalFontScale; }
 		void     setGlobalFontScale(float scale);
 
-		void show_debugger();
+		const char* getName() const override { return "mvFontManager"; }
+		const char* getTitle() const override { return "Font Manager"; }
+
+	protected:
+
+		void drawWidgets() override;
 
 	private:
 

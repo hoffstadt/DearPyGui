@@ -5,6 +5,7 @@
 #include <imnodes.h>
 #include <cstdlib>
 #include <ctime>
+#include "mvToolManager.h"
 
 // Forward declare message handler from imgui_impl_win32.cpp
 extern IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
@@ -188,11 +189,11 @@ namespace Marvel {
 			//continue;
 		}
 
-		if (mvApp::GetApp()->getFontManager().isInvalid())
+		if (mvToolManager::GetFontManager().isInvalid())
 		{
-			mvApp::GetApp()->getFontManager().rebuildAtlas();
+			mvToolManager::GetFontManager().rebuildAtlas();
 			ImGui_ImplDX11_InvalidateDeviceObjects();
-			mvApp::GetApp()->getFontManager().updateDefaultFont();
+			mvToolManager::GetFontManager().updateDefaultFont();
 		}
 
 		// Start the Dear ImGui frame

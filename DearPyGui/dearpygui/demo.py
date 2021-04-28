@@ -320,6 +320,7 @@ def show_demo():
                 add_menu_item(label="Show Documentation", callback=show_documentation)
                 add_menu_item(label="Show Debug", callback=show_debug)
                 add_menu_item(label="Show Style Editor", callback=show_style_editor)
+                add_menu_item(label="Show Font Manager", callback=show_font_manager)
 
         add_text(default_value=f'Dear PyGui says hello. ({get_dearpygui_version()})')
         add_text(default_value="This code for this demo can be found here: ")
@@ -538,7 +539,7 @@ def show_demo():
                     textdata.append(255/255)
                 # TODO: texture requires a name when it would be nice that it didnt
                 #add_texture("#cooltexture", textdata, 100, 100, format=mvTEX_RGBA_INT)
-                add_static_texture(100, 100, textdata, id="#cooltexture", parent="TextureRegistry")
+                add_static_texture(100, 100, textdata, id="#cooltexture", parent="mvTextureContainer")
                 add_image_button("#cooltexture", width=100, height=100, callback=demo_log)
 
             with tree_node(label="Text Input"):
@@ -832,13 +833,13 @@ def show_demo():
             with tree_node(id="File Selector##demo"):
                 def file_selected(sender, data):
                     log_info(data)
-                add_button(id="Select Python File##demo", callback = lambda sender, data: open_file_dialog(file_selected, ".*,.py"))
-                add_button(id="Select C++ File##demo", callback = lambda sender, data: open_file_dialog(file_selected, ".*,.cpp"))
+                add_button(id="Select Python File##demo", callback = lambda sender, data: open_file_dialog(callback=file_selected, extensions=".*,.py"))
+                add_button(id="Select C++ File##demo", callback = lambda sender, data: open_file_dialog(callback=file_selected, extensions=".*,.cpp"))
 
             with tree_node(id="Directory Selector##demo"):
                 def directory_selected(sender, data):
                     log_info(data)
-                add_button(id="Select Directory##demo", callback = lambda sender, data: select_directory_dialog(directory_selected))
+                add_button(id="Select Directory##demo", callback = lambda sender, data: select_directory_dialog(callback=directory_selected))
 
             with tree_node(id="Menus inside a regular window##demo"):
                 add_text("Below we are testing adding menu items to a regular window. It's rather unusual but should work")
