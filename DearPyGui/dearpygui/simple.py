@@ -945,7 +945,7 @@ def show_style_editor(sender: str="", data: Any=None) -> None:
     Returns:
         None
     """
-    internal_dpg.configure_item("style##standard", show=True)
+    internal_dpg.show_tool("mvStyleWindow")
 
 def show_metrics(sender: str="", data: Any=None) -> None:
     """Shows the standard metrics window
@@ -953,7 +953,7 @@ def show_metrics(sender: str="", data: Any=None) -> None:
     Returns:
         None
     """
-    internal_dpg.configure_item("metrics##standard", show=True)
+    internal_dpg.show_tool("mvMetricsWindow")
 
 def show_about(sender: str="", data: Any=None) -> None:
     """Shows the standard about window
@@ -961,7 +961,7 @@ def show_about(sender: str="", data: Any=None) -> None:
     Returns:
         None
     """
-    internal_dpg.configure_item("about##standard", show=True)
+    internal_dpg.show_tool("mvAboutWindow")
 
 def show_debug(sender: str="", data: Any=None) -> None:
     """Shows the standard debug window
@@ -969,7 +969,7 @@ def show_debug(sender: str="", data: Any=None) -> None:
     Returns:
         None
     """
-    internal_dpg.configure_item("debug##standard", show=True)
+    internal_dpg.show_tool("mvDebugWindow")
 
 def show_documentation(sender: str="", data: Any=None) -> None:
     """Shows the standard documentation window
@@ -977,4 +977,12 @@ def show_documentation(sender: str="", data: Any=None) -> None:
     Returns:
         None
     """
-    internal_dpg.configure_item("documentation##standard", show=True)
+    internal_dpg.show_tool("mvDocWindow")
+
+def show_font_manager(sender: str="", data: Any=None) -> None:
+    """Shows the standard documentation window
+
+    Returns:
+        None
+    """
+    internal_dpg.show_tool("mvFontManager")

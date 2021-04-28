@@ -10,10 +10,6 @@ def add_3d_slider(*, id: str =..., width: int =0, height: int =0, parent: str ='
 	"""Undocumented function"""
 	...
 
-def add_about_window(*, id: str =..., width: int =0, height: int =0, label: str ='', show: bool =True, x_pos: int =200, y_pos: int =200, autosize: bool =False, no_resize: bool =False, no_title_bar: bool =False, no_move: bool =False, no_scrollbar: bool =False, no_collapse: bool =False, horizontal_scrollbar: bool =False, no_focus_on_appearing: bool =False, no_bring_to_front_on_focus: bool =False, no_close: bool =False, no_background: bool =False) -> str:
-	"""Undocumented function"""
-	...
-
 def add_area_series(x : List[float], y : List[float], *, id: str =..., parent: str ='', before: str ='', label: str ='', source: str ='', show: bool =True, fill: List[int] =(0, 0, 0, -255), axis: int =0, contribute_to_bounds: bool =True) -> str:
 	"""Undocumented function"""
 	...
@@ -70,14 +66,6 @@ def add_date_picker(*, id: str =..., parent: str ='', before: str ='', callback:
 	"""Undocumented function"""
 	...
 
-def add_debug_window(*, id: str =..., width: int =0, height: int =0, label: str ='', show: bool =True, x_pos: int =200, y_pos: int =200, autosize: bool =False, no_resize: bool =False, no_title_bar: bool =False, no_move: bool =False, no_scrollbar: bool =False, no_collapse: bool =False, horizontal_scrollbar: bool =False, no_focus_on_appearing: bool =False, no_bring_to_front_on_focus: bool =False, no_close: bool =False, no_background: bool =False) -> str:
-	"""Undocumented function"""
-	...
-
-def add_doc_window(*, id: str =..., width: int =0, height: int =0, label: str ='', show: bool =True, x_pos: int =200, y_pos: int =200, autosize: bool =False, no_resize: bool =False, no_title_bar: bool =False, no_move: bool =False, no_scrollbar: bool =False, no_collapse: bool =False, horizontal_scrollbar: bool =False, no_focus_on_appearing: bool =False, no_bring_to_front_on_focus: bool =False, no_close: bool =False, no_background: bool =False) -> str:
-	"""Undocumented function"""
-	...
-
 def add_drag_float(*, id: str =..., width: int =0, parent: str ='', before: str ='', label: str ='', source: str ='', callback: Callable =None, callback_data: Any =None, show: bool =True, enabled: bool =True, default_value: float =0.0, size: int =4, format: str ='%0.3f', speed: float =1.0, min_value: float =0.0, max_value: float =100.0, no_input: bool =False, clamped: bool =False) -> str:
 	"""Undocumented function"""
 	...
@@ -110,7 +98,7 @@ def add_dummy(*, id: str =..., width: int =0, height: int =0, parent: str ='', b
 	"""Undocumented function"""
 	...
 
-def add_dynamic_texture(width : int, height : int, default_value : List[float], *, id: str =..., parent: str ='') -> None:
+def add_dynamic_texture(width : int, height : int, default_value : List[float], *, id: str =..., parent: str ='') -> str:
 	"""Undocumented function"""
 	...
 
@@ -210,10 +198,6 @@ def add_menu_item(*, id: str =..., parent: str ='', before: str ='', label: str 
 	"""Undocumented function"""
 	...
 
-def add_metrics_window(*, id: str =..., width: int =0, height: int =0, label: str ='', show: bool =True, x_pos: int =200, y_pos: int =200, autosize: bool =False, no_resize: bool =False, no_title_bar: bool =False, no_move: bool =False, no_scrollbar: bool =False, no_collapse: bool =False, horizontal_scrollbar: bool =False, no_focus_on_appearing: bool =False, no_bring_to_front_on_focus: bool =False, no_close: bool =False, no_background: bool =False) -> str:
-	"""Undocumented function"""
-	...
-
 def add_node(*, id: str =..., parent: str ='', before: str ='', label: str ='', show: bool =True, draggable: bool =True) -> str:
 	"""Undocumented function"""
 	...
@@ -302,15 +286,11 @@ def add_stair_series(x : List[float], y : List[float], *, id: str =..., parent: 
 	"""Undocumented function"""
 	...
 
-def add_static_texture(width : int, height : int, default_value : List[float], *, id: str =..., parent: str ='', file: str ='') -> None:
+def add_static_texture(width : int, height : int, default_value : List[float], *, id: str =..., parent: str ='', file: str ='') -> str:
 	"""Undocumented function"""
 	...
 
 def add_stem_series(x : List[float], y : List[float], *, id: str =..., parent: str ='', before: str ='', label: str ='', source: str ='', show: bool =True, axis: int =0, contribute_to_bounds: bool =True) -> str:
-	"""Undocumented function"""
-	...
-
-def add_style_window(*, id: str =..., width: int =0, height: int =0, label: str ='', show: bool =True, x_pos: int =200, y_pos: int =200, autosize: bool =False, no_resize: bool =False, no_title_bar: bool =False, no_move: bool =False, no_scrollbar: bool =False, no_collapse: bool =False, horizontal_scrollbar: bool =False, no_focus_on_appearing: bool =False, no_bring_to_front_on_focus: bool =False, no_close: bool =False, no_background: bool =False) -> str:
 	"""Undocumented function"""
 	...
 
@@ -346,7 +326,7 @@ def add_text_point(x : float, y : float, *, id: str =..., parent: str ='', befor
 	"""Undocumented function"""
 	...
 
-def add_texture_container() -> None:
+def add_texture_container(*, id: str =..., show: bool =True) -> str:
 	"""Undocumented function"""
 	...
 
@@ -662,7 +642,7 @@ def move_item_up(item : str) -> None:
 	"""Undocumented function"""
 	...
 
-def open_file_dialog(*, callback: Callable =None) -> str:
+def open_file_dialog(*, callback: Callable =None, extensions: str ='') -> str:
 	"""Undocumented function"""
 	...
 
@@ -679,6 +659,10 @@ def reset_xticks(plot : str) -> None:
 	...
 
 def reset_yticks(plot : str) -> None:
+	"""Undocumented function"""
+	...
+
+def select_directory_dialog(*, callback: Callable =None) -> str:
 	"""Undocumented function"""
 	...
 
@@ -823,6 +807,10 @@ def setup_dearpygui(*, viewport: str ='') -> None:
 	...
 
 def show_logger() -> None:
+	"""Undocumented function"""
+	...
+
+def show_tool(tool : str) -> str:
 	"""Undocumented function"""
 	...
 

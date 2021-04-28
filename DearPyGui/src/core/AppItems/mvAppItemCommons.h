@@ -70,11 +70,6 @@
 
 #include "composite/mvDataGrid.h"
 #include "composite/mvLogger.h"
-#include "composite/mvAboutWindow.h"
-#include "composite/mvDocWindow.h"
-#include "composite/mvDebugWindow.h"
-#include "composite/mvMetricsWindow.h"
-#include "composite/mvStyleWindow.h"
 #include "composite/mvFileDialog.h"
 
 #include "plots/mvPlot.h"

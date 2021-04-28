@@ -3,6 +3,7 @@
 #include <implot.h>
 #include "imnodes.h"
 #include "mvFontManager.h"
+#include "mvToolManager.h"
 
 #define GLFW_INCLUDE_NONE
 #define GLFW_EXPOSE_NATIVE_COCOA
@@ -196,11 +197,11 @@ namespace Marvel {
             // Generally you may always pass all inputs to dear imgui, and hide them from your application based on those two flags.
             glfwPollEvents();
 
-            if (mvApp::GetApp()->getFontManager().isInvalid())
+            if (mvToolManager::GetFontManager().isInvalid())
             {
-                mvApp::GetApp()->getFontManager().rebuildAtlas();
+                mvToolManager::GetFontManager().rebuildAtlas();
                 ImGui_ImplMetal_DestroyFontsTexture();
-                mvApp::GetApp()->getFontManager().updateDefaultFont();
+                mvToolManager::GetFontManager().updateDefaultFont();
                 ImGui_ImplMetal_CreateFontsTexture(device);
             }
 
