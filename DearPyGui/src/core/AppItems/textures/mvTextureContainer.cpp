@@ -10,6 +10,16 @@ namespace Marvel {
 	{
 
 		mvPythonParser parser(mvPyDataType::String, "Undocumented function", { "Textures", "Widgets" });
+		mvAppItem::AddCommonArgs(parser);
+		parser.removeArg("width");
+		parser.removeArg("height");
+		parser.removeArg("parent");
+		parser.removeArg("before");
+		parser.removeArg("label");
+		parser.removeArg("source");
+		parser.removeArg("callback");
+		parser.removeArg("callback_data");
+		parser.removeArg("enabled");
 
 		parser.finalize();
 
@@ -50,7 +60,7 @@ namespace Marvel {
 	void mvTextureContainer::show_debugger()
 	{
 		ImGui::SetNextWindowSize(ImVec2(500, 500), ImGuiCond_FirstUseEver);
-		if (ImGui::Begin("Texture Storage"))
+		if (ImGui::Begin(m_label.c_str()))
 		{
 
 			static int selection = 0;;

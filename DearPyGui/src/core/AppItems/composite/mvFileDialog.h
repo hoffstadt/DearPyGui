@@ -1,5 +1,6 @@
 #pragma once
-#include "mvTypeBases.h"
+
+#include "mvAppItem.h"
 #include "mvApp.h"
 
 #pragma warning(push, 0) 
@@ -8,8 +9,8 @@
 
 namespace Marvel {
 
-	MV_REGISTER_WIDGET(mvFileDialog, MV_ITEM_DESC_ROOT, StorageValueTypes::None, 1);
-	class mvFileDialog : public mvBaseWindowAppitem
+	MV_REGISTER_WIDGET(mvFileDialog, MV_ITEM_DESC_ROOT | MV_ITEM_DESC_NO_DELETE, StorageValueTypes::None, 1);
+	class mvFileDialog : public mvAppItem
 	{
 	public:
 
@@ -49,9 +50,18 @@ namespace Marvel {
 		bool prerender2 ();
 		void setCallback(PyObject* callback);
 
+		void addFlag(ImGuiWindowFlags flag);
+		void removeFlag(ImGuiWindowFlags flag);
+		void setWidth(int width)      override;
+		void setHeight(int height)     override;
+		void handleSpecificKeywordArgs(PyObject* dict) override;
+		void getSpecificConfiguration(PyObject* dict) override;
+
 	private:
 
 		PyObject*   m_callback2 = nullptr;
+		ImGuiWindowFlags m_windowflags = ImGuiWindowFlags_NoSavedSettings;
+		bool             m_dirty_size = true;
 	};
 
 }

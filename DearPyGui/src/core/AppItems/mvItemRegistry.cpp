@@ -5,6 +5,7 @@
 #include "mvAppItemCommons.h"
 #include "mvLog.h"
 #include "mvPythonExceptions.h"
+#include "mvToolManager.h"
 
 namespace Marvel {
 
@@ -90,20 +91,10 @@ namespace Marvel {
 		mvEventBus::Subscribe(this, mvEVT_RENDER);
 		mvEventBus::Subscribe(this, mvEVT_ACTIVE_WINDOW);
 
-		auto add_hidden_window = [&](mvRef<mvAppItem> item, const std::string& label) {
-			m_backWindows.push_back(item);
-			m_backWindows.back()->setLabel(label);
-			m_backWindows.back()->hide();
-		};
-
-		add_hidden_window(CreateRef<mvDocWindow>("documentation##standard"), "Core Documentation");
-		add_hidden_window(CreateRef<mvDebugWindow>("debug##standard"), "Dear PyGui Debug");
-		add_hidden_window(CreateRef<mvAboutWindow>("about##standard"), "About Dear PyGui");
-		add_hidden_window(CreateRef<mvMetricsWindow>("metrics##standard"), "Metrics");
-		add_hidden_window(CreateRef<mvStyleWindow>("style##standard"), "Dear PyGui Style Editor");
-		add_hidden_window(CreateRef<mvFileDialog>(), "FileDialog");
-
-		m_frontWindows.push_back(CreateRef<mvTextureContainer>("TextureRegistry"));
+		m_roots.push_back(CreateRef<mvFileDialog>());
+		m_roots.back()->setLabel("FileDialog");
+		m_roots.back()->hide();
+		//m_roots.push_back(CreateRef<mvTextureContainer>("mvTextureContainer"));
 		
 	}
 
@@ -135,42 +126,21 @@ namespace Marvel {
 		bool deletedItem = false;
 
 		// try to delete build-in item
-		for (auto& window : m_frontWindows)
+		for (auto& window : m_roots)
 		{
 			deletedItem = window->deleteChild(name);
 			if (deletedItem)
 				break;
 		}
 
-		// try to delete user added item
-		if (!deletedItem)
-		{
-			for (auto& window : m_backWindows)
-			{
-				deletedItem = window->deleteChild(name);
-				if (deletedItem)
-					break;
-			}
-		}
-
-		bool frontWindowDeleting = false;
-		bool backWindowDeleting = false;
+		bool rootDeleting = false;
 
 		// check if attempting to delete a window
-		for (auto& window : m_frontWindows)
+		for (auto& window : m_roots)
 		{
 			if (window->m_name == name)
 			{
-				frontWindowDeleting = true;
-				break;
-			}
-		}
-
-		for (auto& window : m_backWindows)
-		{
-			if (window->m_name == name)
-			{
-				backWindowDeleting = true;
+				rootDeleting = true;
 				break;
 			}
 		}
@@ -178,37 +148,20 @@ namespace Marvel {
 		// delete window and update window vector
 		// this should be changed to a different data
 		// structure
-		if (frontWindowDeleting)
+		if (rootDeleting)
 		{
-			std::vector<mvRef<mvAppItem>> oldwindows = m_frontWindows;
+			std::vector<mvRef<mvAppItem>> oldwindows = m_roots;
 
-			m_frontWindows.clear();
+			m_roots.clear();
 
 			for (auto& window : oldwindows)
 			{
-				if (window->m_name == name)
+				if (window->m_name == name && !mvAppItem::DoesItemHaveFlag(window.get(), MV_ITEM_DESC_NO_DELETE))
 				{
 					deletedItem = true;
 					continue;
 				}
-				m_frontWindows.push_back(window);
-			}
-		}
-
-		if (backWindowDeleting)
-		{
-			std::vector<mvRef<mvAppItem>> oldwindows = m_backWindows;
-
-			m_backWindows.clear();
-
-			for (auto& window : oldwindows)
-			{
-				if (window->m_name == name)
-				{
-					deletedItem = true;
-					continue;
-				}
-				m_backWindows.push_back(window);
+				m_roots.push_back(window);
 			}
 		}
 
@@ -232,7 +185,7 @@ namespace Marvel {
 
 		bool movedItem = false;
 
-		for (auto window : m_frontWindows)
+		for (auto window : m_roots)
 		{
 			child = window->stealChild(name);
 			if (child)
@@ -260,7 +213,7 @@ namespace Marvel {
 
 		bool movedItem = false;
 
-		for (auto window : m_frontWindows)
+		for (auto window : m_roots)
 		{
 			movedItem = window->moveChildUp(name);
 			if (movedItem)
@@ -285,7 +238,7 @@ namespace Marvel {
 
 		bool movedItem = false;
 
-		for (auto window : m_frontWindows)
+		for (auto window : m_roots)
 		{
 			movedItem = window->moveChildDown(name);
 			if (movedItem)
@@ -319,10 +272,7 @@ namespace Marvel {
 
 		MV_PROFILE_FUNCTION();
 
-		// resets app items states (i.e. hovered)
-		for (auto window : m_frontWindows)
-			window->draw(nullptr, 0.0f, 0.0f);
-		for (auto window : m_backWindows)
+		for (auto& window : m_roots)
 			window->draw(nullptr, 0.0f, 0.0f);
 
 		return false;
@@ -334,9 +284,7 @@ namespace Marvel {
 		MV_PROFILE_FUNCTION();
 
 		// resets app items states (i.e. hovered)
-		for (auto window : m_frontWindows)
-			window->resetState();
-		for (auto window : m_backWindows)
+		for (auto window : m_roots)
 			window->resetState();
 
 		return false;
@@ -359,7 +307,7 @@ namespace Marvel {
 		// add runtime items
 		bool addedItem = false;
 
-		for (auto window : m_frontWindows)
+		for (auto window : m_roots)
 		{
 			addedItem = window->addRuntimeChild(parent, before, item);
 			if (addedItem)
@@ -375,7 +323,7 @@ namespace Marvel {
 
 		bool addedItem = false;
 
-		for (auto& window : m_frontWindows)
+		for (auto& window : m_roots)
 		{
 			addedItem = window->addChildAfter(prev, item);
 			if (addedItem)
@@ -425,17 +373,7 @@ namespace Marvel {
 	{
 		mvRef<mvAppItem> item = nullptr;
 
-		for (auto window : m_frontWindows)
-		{
-			if (window->m_name == name)
-				return window;
-
-			auto child = window->getChild(name);
-			if (child)
-				return child;
-		}
-
-		for (auto window : m_backWindows)
+		for (auto& window : m_roots)
 		{
 			if (window->m_name == name)
 				return window;
@@ -482,15 +420,14 @@ namespace Marvel {
 	bool mvItemRegistry::addWindow(mvRef<mvAppItem> item)
 	{
 		MV_ITEM_REGISTRY_INFO("Adding window: " + item->m_name);
-		m_frontWindows.push_back(item);
+		m_roots.push_back(item);
 		return true;
 	}
 
 	void mvItemRegistry::clearRegistry()
 	{
 		MV_ITEM_REGISTRY_INFO("Clearing item registry.");
-		m_frontWindows.clear();
-		m_backWindows.clear();
+		m_roots.clear();
 	}
 
 	bool mvItemRegistry::addItemWithRuntimeChecks(mvRef<mvAppItem> item, const char* parent, const char* before)
@@ -541,7 +478,7 @@ namespace Marvel {
 		{
 			if (mvApp::IsAppStarted())
 			{
-				m_frontWindows.push_back(item);
+				m_roots.push_back(item);
 				return true;
 			}
 			return addWindow(item);
@@ -656,15 +593,22 @@ namespace Marvel {
 		// to help recursively retrieve children
 		std::function<void(mvRef<mvAppItem>)> ChildRetriever;
 		ChildRetriever = [&childList, &ChildRetriever](mvRef<mvAppItem> item) {
-			auto children0 = item->m_children[0];
-			auto children1 = item->m_children[1];
-			for (auto child : children0)
+			auto& children0 = item->m_children[0];
+			auto& children1 = item->m_children[1];
+			auto& children2 = item->m_children[2];
+			for (auto& child : children0)
 			{
 				childList.emplace_back(child->m_name);
 				if (mvAppItem::DoesItemHaveFlag(child.get(), MV_ITEM_DESC_CONTAINER))
 					ChildRetriever(child);
 			}
-			for (auto child : children1)
+			for (auto& child : children1)
+			{
+				childList.emplace_back(child->m_name);
+				if (mvAppItem::DoesItemHaveFlag(child.get(), MV_ITEM_DESC_CONTAINER))
+					ChildRetriever(child);
+			}
+			for (auto& child : children2)
 			{
 				childList.emplace_back(child->m_name);
 				if (mvAppItem::DoesItemHaveFlag(child.get(), MV_ITEM_DESC_CONTAINER))
@@ -673,12 +617,7 @@ namespace Marvel {
 
 		};
 
-		for (auto window : m_frontWindows)
-		{
-			childList.emplace_back(window->m_name);
-			ChildRetriever(window);
-		}
-		for (auto window : m_backWindows)
+		for (auto& window : m_roots)
 		{
 			childList.emplace_back(window->m_name);
 			ChildRetriever(window);
@@ -691,10 +630,7 @@ namespace Marvel {
 	{
 
 		std::vector<std::string> childList;
-		for (auto window : m_frontWindows)
-			childList.emplace_back(window->m_name);
-
-		for (auto window : m_backWindows)
+		for (auto& window : m_roots)
 			childList.emplace_back(window->m_name);
 
 		return childList;
@@ -719,7 +655,7 @@ namespace Marvel {
 		}
 
 		// reset other windows
-		for (auto window : m_frontWindows)
+		for (auto& window : m_roots)
 		{
 			if (window->m_name != name)
 				static_cast<mvWindowAppItem*>(window.get())->setWindowAsMainStatus(false);

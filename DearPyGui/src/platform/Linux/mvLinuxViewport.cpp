@@ -12,6 +12,7 @@
 #include "imgui_impl_opengl3.h"
 #include <stdio.h>
 #include <stb_image.h>
+#include "mvToolManager.h"
 
 namespace Marvel {
 
@@ -230,11 +231,11 @@ namespace Marvel {
         // Generally you may always pass all inputs to dear imgui, and hide them from your application based on those two flags.
         glfwPollEvents();
 
-        if (mvApp::GetApp()->getFontManager().isInvalid())
+        if (mvToolManager::GetFontManager().isInvalid())
         {
-            mvApp::GetApp()->getFontManager().rebuildAtlas();
+            mvToolManager::GetFontManager().rebuildAtlas();
             ImGui_ImplOpenGL3_DestroyDeviceObjects();
-            mvApp::GetApp()->getFontManager().updateDefaultFont();
+            mvToolManager::GetFontManager().updateDefaultFont();
         }
 
         // Start the Dear ImGui frame

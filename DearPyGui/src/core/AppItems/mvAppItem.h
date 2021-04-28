@@ -41,8 +41,7 @@ namespace Marvel {
         mvPlot, mvSimplePlot, mvDrawing, mvWindowAppItem,
         mvPopup, mvSelectable, mvTreeNode, mvProgressBar, mvDataGrid, mvDummy,
         mvImageButton, mvTimePicker, mvDatePicker, mvColorButton,
-        mvAboutWindow, mvDocWindow, mvDebugWindow, mvMetricsWindow,
-        mvStyleWindow, mvFileDialog, mvTabButton, mvLoggerItem,
+        mvFileDialog, mvTabButton, mvLoggerItem,
         mvNodeEditor, mvNode, mvNodeAttribute,
         mvTable, mvTableColumn, mvTableNextColumn,
         mvDrawLine, mvDrawArrow, mvDrawTriangle, mvDrawCircle, mvDrawBezierCurve,
@@ -77,6 +76,7 @@ namespace Marvel {
         MV_ITEM_DESC_ROOT        = 1 << 1,
         MV_ITEM_DESC_CONTAINER   = 1 << 2,
         MV_ITEM_DESC_AFTER       = 1 << 3,
+        MV_ITEM_DESC_NO_DELETE   = 1 << 4,
     };
 
     using mvValueVariant = std::variant<
