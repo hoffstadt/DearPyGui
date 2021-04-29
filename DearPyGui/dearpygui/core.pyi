@@ -338,7 +338,7 @@ def add_tooltip(*, id: str =..., show: bool =True) -> str:
 	"""Undocumented function"""
 	...
 
-def add_tree_node(*, id: str =..., parent: str ='', before: str ='', label: str ='', show: bool =True, default_open: bool =False, open_on_double_click: bool =False, open_on_arrow: bool =False, leaf: bool =False, bullet: bool =False) -> str:
+def add_tree_node(*, id: str =..., parent: str ='', before: str ='', label: str ='', show: bool =True, default_open: bool =False, open_on_double_click: bool =False, open_on_arrow: bool =False, leaf: bool =False, bullet: bool =False, selectable: bool =False) -> str:
 	"""Undocumented function"""
 	...
 

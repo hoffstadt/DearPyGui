@@ -43,6 +43,7 @@ set(MARVEL_SOURCES
 	"src/core/Tooling/mvMetricsWindow.cpp"
 	"src/core/Tooling/mvStyleWindow.cpp"
 	"src/core/Tooling/mvDebugWindow.cpp"
+	"src/core/Tooling/mvLayoutWindow.cpp"
 
 	"src/core/Registries/mvCallbackRegistry.cpp"
 
