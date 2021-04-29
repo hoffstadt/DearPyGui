@@ -1,4 +1,5 @@
 #include "mvFontManager.h"
+#include "mvToolManager.h"
 #include <imgui.h>
 #include <assert.h>
 #include <array>
@@ -143,13 +144,9 @@ namespace Marvel {
 
 	void mvFontManager::InValidateFontTheme()
 	{
-		auto& frontWindows = mvApp::GetApp()->getItemRegistry().getFrontWindows();
-		auto& backWindows = mvApp::GetApp()->getItemRegistry().getBackWindows();
+		auto& frontWindows = mvApp::GetApp()->getItemRegistry().getRoots();
 
 		for (auto& window : frontWindows)
-			window->inValidateThemeFontCache();
-
-		for (auto& window : backWindows)
 			window->inValidateThemeFontCache();
 	}
 
@@ -183,7 +180,8 @@ namespace Marvel {
 
 		m_dirty = true;
 		auto item = mvApp::GetApp()->getItemRegistry().getItem("INTERNAL_DPG_FONT_ATLAS");
-		static_cast<mvStaticTexture*>(item.get())->markDirty();
+		if(item)
+			static_cast<mvStaticTexture*>(item.get())->markDirty();
 	}
 
 	ImFont* mvFontManager::getFont(const std::string& font, int size)
@@ -302,45 +300,43 @@ namespace Marvel {
 		return true;
 	}
 
-	void mvFontManager::show_debugger()
+	void mvFontManager::drawWidgets()
 	{
-		if (ImGui::Begin("Font Manager"))
+
+		ShowCustomFontSelector("Fonts##Selector");
+
+		ImGuiIO& io = ImGui::GetIO();
+		ImFontAtlas* atlas = io.Fonts;
+		HelpMarker("Read FAQ and docs/FONTS.md for details on font loading.");
+		ImGui::PushItemWidth(120);
+		for (int i = 0; i < atlas->Fonts.Size; i++)
 		{
-			ShowCustomFontSelector("Fonts##Selector");
-
-			ImGuiIO& io = ImGui::GetIO();
-			ImFontAtlas* atlas = io.Fonts;
-			HelpMarker("Read FAQ and docs/FONTS.md for details on font loading.");
-			ImGui::PushItemWidth(120);
-			for (int i = 0; i < atlas->Fonts.Size; i++)
-			{
-				ImFont* font = atlas->Fonts[i];
-				ImGui::PushID(font);
-				NodeFont(font);
-				ImGui::PopID();
-			}
-			if (ImGui::TreeNode("Atlas texture", "Atlas texture (%dx%d pixels)", atlas->TexWidth, atlas->TexHeight))
-			{
-				ImVec4 tint_col = ImVec4(1.0f, 1.0f, 1.0f, 1.0f);
-				ImVec4 border_col = ImVec4(1.0f, 1.0f, 1.0f, 0.5f);
-				ImGui::Image(atlas->TexID, ImVec2((float)atlas->TexWidth, (float)atlas->TexHeight), ImVec2(0, 0), ImVec2(1, 1), tint_col, border_col);
-				ImGui::TreePop();
-			}
-
-			// Post-baking font scaling. Note that this is NOT the nice way of scaling fonts, read below.
-			// (we enforce hard clamping manually as by default DragFloat/SliderFloat allows CTRL+Click text to get out of bounds).
-			const float MIN_SCALE = 0.3f;
-			const float MAX_SCALE = 2.0f;
-			HelpMarker(
-				"Those are old settings provided for convenience.\n"
-				"However, the _correct_ way of scaling your UI is currently to reload your font at the designed size, "
-				"rebuild the font atlas, and call style.ScaleAllSizes() on a reference ImGuiStyle structure.\n"
-				"Using those settings here will give you poor quality results.");
-			if (ImGui::DragFloat("global scale", &getGlobalFontScale(), 0.005f, MIN_SCALE, MAX_SCALE, "%.2f")) // Scale everything
-				getGlobalFontScale() = IM_MAX(getGlobalFontScale(), MIN_SCALE);
-			ImGui::PopItemWidth();
+			ImFont* font = atlas->Fonts[i];
+			ImGui::PushID(font);
+			NodeFont(font);
+			ImGui::PopID();
 		}
-		ImGui::End();
+		if (ImGui::TreeNode("Atlas texture", "Atlas texture (%dx%d pixels)", atlas->TexWidth, atlas->TexHeight))
+		{
+			ImVec4 tint_col = ImVec4(1.0f, 1.0f, 1.0f, 1.0f);
+			ImVec4 border_col = ImVec4(1.0f, 1.0f, 1.0f, 0.5f);
+			ImGui::Image(atlas->TexID, ImVec2((float)atlas->TexWidth, (float)atlas->TexHeight), ImVec2(0, 0), ImVec2(1, 1), tint_col, border_col);
+			ImGui::TreePop();
+		}
+
+		// Post-baking font scaling. Note that this is NOT the nice way of scaling fonts, read below.
+		// (we enforce hard clamping manually as by default DragFloat/SliderFloat allows CTRL+Click text to get out of bounds).
+		const float MIN_SCALE = 0.3f;
+		const float MAX_SCALE = 2.0f;
+		HelpMarker(
+			"Those are old settings provided for convenience.\n"
+			"However, the _correct_ way of scaling your UI is currently to reload your font at the designed size, "
+			"rebuild the font atlas, and call style.ScaleAllSizes() on a reference ImGuiStyle structure.\n"
+			"Using those settings here will give you poor quality results.");
+		if (ImGui::DragFloat("global scale", &getGlobalFontScale(), 0.005f, MIN_SCALE, MAX_SCALE, "%.2f")) // Scale everything
+			getGlobalFontScale() = IM_MAX(getGlobalFontScale(), MIN_SCALE);
+		ImGui::PopItemWidth();
+
 	}
 
 	void mvFontManager::setGlobalFontScale(float scale)
@@ -414,7 +410,7 @@ namespace Marvel {
 		for (auto& item : custom_chars)
 			imgui_custom_chars.push_back((ImWchar)item);
 
-		mvApp::GetApp()->getFontManager().addFont(font, file, (int)size, glyph_ranges, imgui_custom_chars, 
+		mvToolManager::GetFontManager().addFont(font, file, (int)size, glyph_ranges, imgui_custom_chars,
 			imgui_custom_ranges, custom_remaps);
 
 		return GetPyNone();
@@ -453,13 +449,13 @@ namespace Marvel {
 			return GetPyNone();
 
 		std::lock_guard<std::mutex> lk(mvApp::GetApp()->getMutex());
-		mvApp::GetApp()->getFontManager().setGlobalFontScale(scale);
+		mvToolManager::GetFontManager().setGlobalFontScale(scale);
 
 		return GetPyNone();
 	}
 
 	PyObject* mvFontManager::get_global_font_scale(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
-		return ToPyFloat(mvApp::GetApp()->getFontManager().getGlobalFontScale());
+		return ToPyFloat(mvToolManager::GetFontManager().getGlobalFontScale());
 	}
 }

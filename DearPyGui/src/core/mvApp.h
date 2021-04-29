@@ -109,7 +109,6 @@ namespace Marvel {
         mvItemRegistry&          getItemRegistry    ();
         mvCallbackRegistry&      getCallbackRegistry();
         mvThemeManager&          getThemeManager    ();
-        mvFontManager&           getFontManager     ();
         
         //-----------------------------------------------------------------------------
         // App Settings
@@ -148,7 +147,6 @@ namespace Marvel {
         // managers
         mvOwnedPtr<mvItemRegistry>                     m_itemRegistry;
         mvOwnedPtr<mvThemeManager>                     m_themeManager;
-        mvOwnedPtr<mvFontManager>                      m_fontManager;
         mvOwnedPtr<mvCallbackRegistry>                 m_callbackRegistry;
 
                                                      

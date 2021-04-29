@@ -5,6 +5,9 @@ from dearpygui.demo import *
 add_font("google", "../../Resources/NotoSerifCJKjp-Medium.otf", 20)
 set_font("google", 20)
 
+add_texture_container(id="mvTextureContainer")
+end()
+
 set_log_level(0)
 show_logger()
 show_demo()

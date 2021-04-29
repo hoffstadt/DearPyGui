@@ -107,6 +107,7 @@ namespace Marvel {
 	{
 		if (m_color.r > 0.0f)
 		{
+			ImGui::AlignTextToFramePadding();
 			ImGui::PushStyleColor(ImGuiCol_Text, m_color.toVec4());
 
 			ImGui::TextUnformatted(m_value->c_str());

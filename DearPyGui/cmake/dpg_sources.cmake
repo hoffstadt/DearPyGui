@@ -5,9 +5,6 @@ set(MARVEL_SOURCES
 	"$<$<PLATFORM_ID:Linux>:src/core/Modules/mvModule_Core.cpp>"
 	"$<$<PLATFORM_ID:Darwin>:src/core/Modules/mvModule_Core.mm>"
 
-	"src/core/AppItems/composite/mvDebugWindow.cpp"
-	"src/core/AppItems/composite/mvDocWindow.cpp"
-
 	"src/core/PythonUtilities/mvPyObject.cpp"
 	"src/core/PythonUtilities/mvPythonTranslator.cpp"
 	"src/core/PythonUtilities/mvPythonParser.cpp"
@@ -38,6 +35,14 @@ set(MARVEL_SOURCES
 	"src/core/Theming/mvThemeManager.cpp"
 	"src/core/Theming/mvFontScope.cpp"
 	"src/core/Theming/mvFontManager.cpp"
+	
+	"src/core/Tooling/mvToolManager.cpp"
+	"src/core/Tooling/mvToolWindow.cpp"
+	"src/core/Tooling/mvAboutWindow.cpp"
+	"src/core/Tooling/mvDocWindow.cpp"
+	"src/core/Tooling/mvMetricsWindow.cpp"
+	"src/core/Tooling/mvStyleWindow.cpp"
+	"src/core/Tooling/mvDebugWindow.cpp"
 
 	"src/core/Registries/mvCallbackRegistry.cpp"
 
@@ -116,12 +121,8 @@ set(MARVEL_SOURCES
 	"src/core/AppItems/drawing/mvDrawImage.cpp"
 	
 	"src/core/AppItems/composite/mvFileDialog.cpp"
-	"src/core/AppItems/composite/mvAboutWindow.cpp"
 	"src/core/AppItems/composite/mvDataGrid.cpp"
 	"src/core/AppItems/composite/mvLogger.cpp"
-	"src/core/AppItems/composite/mvStyleWindow.cpp"
-	"src/core/AppItems/composite/mvMetricsWindow.cpp"
-	"src/core/AppItems/composite/mvAboutWindow.cpp"
 
 	"src/core/AppItems/nodes/mvNodeEditor.cpp"
 	"src/core/AppItems/nodes/mvNode.cpp"
@@ -191,6 +192,7 @@ set(MARVEL_INCLUDE_DIR
 	"src/core/PythonUtilities"
 	"src/core/Registries"
 	"src/core/Theming"
+	"src/core/Tooling"
 	"$<$<PLATFORM_ID:Windows>:${CMAKE_SOURCE_DIR}/DearPyGui/vendor/dirent/>"
 	"../Dependencies/ImGuiFileDialog/ImGuiFileDialog/"
 	"../Dependencies/spdlog/include/"

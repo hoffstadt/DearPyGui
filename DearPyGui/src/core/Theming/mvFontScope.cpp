@@ -2,6 +2,7 @@
 #include <imgui.h>
 #include "mvAppItem.h"
 #include "mvFontManager.h"
+#include "mvToolManager.h"
 
 namespace Marvel {
 
@@ -32,7 +33,7 @@ namespace Marvel {
 			}
 
 			if (font == nullptr)
-				font = mvApp::GetApp()->getFontManager().getFont("", 0);
+				font = mvToolManager::GetFontManager().getFont("", 0);
 
 			if (font)
 			{
