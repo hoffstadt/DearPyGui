@@ -12,7 +12,6 @@ namespace Marvel {
 		mvAppItem::AddCommonArgs(parser);
 		parser.removeArg("width");
 		parser.removeArg("height");
-		parser.removeArg("label");
 		parser.removeArg("callback");
 		parser.removeArg("callback_data");
 		parser.removeArg("enabled");
@@ -24,6 +23,8 @@ namespace Marvel {
 		parser.addArg<mvPyDataType::Bool>("bullet", mvArgType::KEYWORD_ARG, "False", "makes the text bulleted");
 
 		parser.addArg<mvPyDataType::FloatList>("color", mvArgType::KEYWORD_ARG, "(-1, -1, -1, -1)", "color of the text (rgba)");
+
+		parser.addArg<mvPyDataType::Bool>("show_label", mvArgType::KEYWORD_ARG, "False", "displays the label");
 
 		parser.finalize();
 
@@ -58,11 +59,17 @@ namespace Marvel {
 
 	void mvText::draw(ImDrawList* drawlist, float x, float y)
 	{
+		// this fixes the vertical text alignment issue according it DearImGui issue #2317
+		ImGui::AlignTextToFramePadding();
 		ScopedID id;
 		mvImGuiThemeScope scope(this);
 		mvFontScope fscope(this);
 
-		ImGui::AlignTextToFramePadding();
+		const ImGuiStyle& style = ImGui::GetStyle();
+		const float w = ImGui::CalcItemWidth();
+		const float textVertCenter = ImGui::GetCursorPosY();
+		const float valueEndX = ImGui::GetCursorPosX() + w;
+
 		if (m_color.r > 0.0f)
 			ImGui::PushStyleColor(ImGuiCol_Text, m_color.toVec4());
 
@@ -81,6 +88,13 @@ namespace Marvel {
 		if (m_color.r > 0.0f)
 			ImGui::PopStyleColor();
 
+		if (m_show_label)
+		{
+			ImGui::SameLine();
+			ImGui::SetCursorPos({ valueEndX + style.ItemInnerSpacing.x, textVertCenter });
+			ImGui::TextUnformatted(m_specificedlabel.c_str());
+		}
+
 	}
 
 	mvLabelText::mvLabelText(const std::string& name)
@@ -91,10 +105,8 @@ namespace Marvel {
 
 	void mvLabelText::draw(ImDrawList* drawlist, float x, float y)
 	{
-
 		if (m_color.r > 0.0f)
 		{
-			ImGui::AlignTextToFramePadding();
 			ImGui::PushStyleColor(ImGuiCol_Text, m_color.toVec4());
 
 			ImGui::TextUnformatted(m_value->c_str());
@@ -112,7 +124,6 @@ namespace Marvel {
 			mvImGuiThemeScope scope(this);
 			ImGui::LabelText(m_specificedlabel.c_str(), m_value->c_str());
 		}
-
 	}
 
 	void mvText::handleSpecificPositionalArgs(PyObject* dict)
@@ -143,6 +154,7 @@ namespace Marvel {
 		if (PyObject* item = PyDict_GetItemString(dict, "color")) m_color = ToColor(item);
 		if (PyObject* item = PyDict_GetItemString(dict, "wrap")) m_wrap = ToInt(item);
 		if (PyObject* item = PyDict_GetItemString(dict, "bullet")) m_bullet = ToBool(item);
+		if (PyObject* item = PyDict_GetItemString(dict, "show_label")) m_show_label = ToBool(item);
 
 	}
 
@@ -154,6 +166,7 @@ namespace Marvel {
 		PyDict_SetItemString(dict, "color", ToPyColor(m_color));
 		PyDict_SetItemString(dict, "wrap", ToPyInt(m_wrap));
 		PyDict_SetItemString(dict, "bullet", ToPyBool(m_bullet));
+		PyDict_SetItemString(dict, "show_label", ToPyBool(m_show_label));
 	}
 
 	void mvLabelText::handleSpecificKeywordArgs(PyObject* dict)
