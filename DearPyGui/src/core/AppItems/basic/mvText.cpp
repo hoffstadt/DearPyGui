@@ -31,25 +31,6 @@ namespace Marvel {
 		parsers->insert({ s_command, parser });
 	}
 
-	void mvLabelText::InsertParser(std::map<std::string, mvPythonParser>* parsers)
-	{
-
-		mvPythonParser parser(mvPyDataType::String, "Undocumented function", { "Widgets" });
-		mvAppItem::AddCommonArgs(parser);
-		parser.removeArg("width");
-		parser.removeArg("height");
-		parser.removeArg("callback");
-		parser.removeArg("callback_data");
-		parser.removeArg("enabled");
-
-		parser.addArg<mvPyDataType::String>("default_value", mvArgType::KEYWORD_ARG, "''");
-		parser.addArg<mvPyDataType::FloatList>("color", mvArgType::KEYWORD_ARG, "(-1, -1, -1, -1)", "color of the text (rgba)");
-
-		parser.finalize();
-
-		parsers->insert({ s_command, parser });
-	}
-
 	mvText::mvText(const std::string& name)
 		: 
 		mvStringPtrBase(name)
@@ -97,36 +78,6 @@ namespace Marvel {
 
 	}
 
-	mvLabelText::mvLabelText(const std::string& name)
-		: 
-		mvStringPtrBase(name)
-	{
-	}
-
-	void mvLabelText::draw(ImDrawList* drawlist, float x, float y)
-	{
-		if (m_color.r > 0.0f)
-		{
-			ImGui::AlignTextToFramePadding();
-			ImGui::PushStyleColor(ImGuiCol_Text, m_color.toVec4());
-
-			ImGui::TextUnformatted(m_value->c_str());
-
-			ImGui::PopStyleColor();
-
-			ImGui::SameLine();
-
-			mvImGuiThemeScope scope(this);
-			ImGui::TextUnformatted(m_specificedlabel.c_str());
-		}
-
-		else
-		{
-			mvImGuiThemeScope scope(this);
-			ImGui::LabelText(m_specificedlabel.c_str(), m_value->c_str());
-		}
-	}
-
 	void mvText::handleSpecificPositionalArgs(PyObject* dict)
 	{
 		if (!mvApp::GetApp()->getParsers()[s_command].verifyPositionalArguments(dict))
@@ -169,21 +120,4 @@ namespace Marvel {
 		PyDict_SetItemString(dict, "bullet", ToPyBool(m_bullet));
 		PyDict_SetItemString(dict, "show_label", ToPyBool(m_show_label));
 	}
-
-	void mvLabelText::handleSpecificKeywordArgs(PyObject* dict)
-	{
-		if (dict == nullptr)
-			return;
-		 
-		if (PyObject* item = PyDict_GetItemString(dict, "color")) m_color = ToColor(item);
-	}
-
-	void mvLabelText::getSpecificConfiguration(PyObject* dict)
-	{
-		if (dict == nullptr)
-			return;
-		 
-		PyDict_SetItemString(dict, "color", ToPyColor(m_color));
-	}
-
 }

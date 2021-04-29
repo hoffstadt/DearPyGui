@@ -444,7 +444,7 @@ def show_demo():
 
                 add_separator()
 
-                add_label_text(label="Label", default_value="Value")
+                add_text("Value", label="Label", show_label=True)
                 add_combo(["AAAA", "BBBB", "CCCC", "DDDD", "EEEE", "FFFF", "GGGG", "HHHH", "IIII", "JJJJ", "KKKK"], label="combo", default_value="AAAA", callback=demo_log)
                 add_input_text(label="input text", default_value="Hello, world!", callback=demo_log)
                 demo_help(

@@ -166,10 +166,6 @@ def add_knob_float(*, id: str =..., width: int =0, height: int =0, parent: str =
 	"""Undocumented function"""
 	...
 
-def add_label_text(*, id: str =..., parent: str ='', before: str ='', label: str ='', source: str ='', show: bool =True, default_value: str ='', color: List[float] =(-1, -1, -1, -1)) -> str:
-	"""Undocumented function"""
-	...
-
 def add_line_series(x : List[float], y : List[float], *, id: str =..., parent: str ='', before: str ='', label: str ='', source: str ='', show: bool =True, axis: int =0, contribute_to_bounds: bool =True) -> str:
 	"""Undocumented function"""
 	...
@@ -318,7 +314,7 @@ def add_table_next_column(*, id: str =..., parent: str ='', before: str ='', sho
 	"""Undocumented function"""
 	...
 
-def add_text(default_value : str ='', *, id: str =..., parent: str ='', before: str ='', source: str ='', show: bool =True, wrap: int =-1, bullet: bool =False, color: List[float] =(-1, -1, -1, -1)) -> str:
+def add_text(default_value : str ='', *, id: str =..., parent: str ='', before: str ='', label: str ='', source: str ='', show: bool =True, wrap: int =-1, bullet: bool =False, color: List[float] =(-1, -1, -1, -1), show_label: bool =False) -> str:
 	"""Undocumented function"""
 	...
 
@@ -338,7 +334,7 @@ def add_tooltip(*, id: str =..., show: bool =True) -> str:
 	"""Undocumented function"""
 	...
 
-def add_tree_node(*, id: str =..., parent: str ='', before: str ='', label: str ='', show: bool =True, default_open: bool =False, open_on_double_click: bool =False, open_on_arrow: bool =False, leaf: bool =False, bullet: bool =False) -> str:
+def add_tree_node(*, id: str =..., parent: str ='', before: str ='', label: str ='', show: bool =True, default_open: bool =False, open_on_double_click: bool =False, open_on_arrow: bool =False, leaf: bool =False, bullet: bool =False, selectable: bool =False) -> str:
 	"""Undocumented function"""
 	...
 
