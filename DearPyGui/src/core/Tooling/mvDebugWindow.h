@@ -21,10 +21,6 @@ namespace Marvel {
 
     private:
 
-        void renderItem(mvAppItem* item);
-
-        std::string m_selectedItem;
-        ImGuiID     m_selectedID = 0u;
         std::vector<std::pair<std::string, std::string>> m_commands;
 
     };

@@ -321,6 +321,7 @@ def show_demo():
                 add_menu_item(label="Show Debug", callback=show_debug)
                 add_menu_item(label="Show Style Editor", callback=show_style_editor)
                 add_menu_item(label="Show Font Manager", callback=show_font_manager)
+                add_menu_item(label="Show Layout", callback=show_layout)
 
         add_text(default_value=f'Dear PyGui says hello. ({get_dearpygui_version()})')
         add_text(default_value="This code for this demo can be found here: ")

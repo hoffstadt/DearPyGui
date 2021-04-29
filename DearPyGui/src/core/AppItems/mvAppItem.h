@@ -112,7 +112,7 @@ namespace Marvel {
         friend class mvApp;
         friend class mvItemRegistry;
         friend class mvAppItemState;
-        friend class mvDebugWindow;
+        friend class mvLayoutWindow;
 
         // items that need access to other items
         friend class mvMenuItem;

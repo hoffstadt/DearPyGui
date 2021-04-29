@@ -987,3 +987,11 @@ def show_font_manager(sender: str="", data: Any=None) -> None:
         None
     """
     internal_dpg.show_tool("mvFontManager")
+
+def show_layout(sender: str="", data: Any=None) -> None:
+    """Shows the standard documentation window
+
+    Returns:
+        None
+    """
+    internal_dpg.show_tool("mvLayoutWindow")

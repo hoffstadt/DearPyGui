@@ -6,6 +6,7 @@
 #include "mvStyleWindow.h"
 #include "mvDebugWindow.h"
 #include "mvFontManager.h"
+#include "mvLayoutWindow.h"
 
 namespace Marvel {
 
@@ -16,6 +17,7 @@ namespace Marvel {
 		std::make_shared<mvMetricsWindow>(),
 		std::make_shared<mvStyleWindow>(),
 		std::make_shared<mvDebugWindow>(),
+		std::make_shared<mvLayoutWindow>(),
 	};
 
 	mvFontManager& mvToolManager::GetFontManager()
