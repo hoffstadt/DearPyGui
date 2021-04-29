@@ -24,6 +24,7 @@ namespace Marvel {
 		parser.addArg<mvPyDataType::Bool>("open_on_arrow", mvArgType::KEYWORD_ARG, "False", "Only open when clicking on the arrow part.");
 		parser.addArg<mvPyDataType::Bool>("leaf", mvArgType::KEYWORD_ARG, "False", "No collapsing, no arrow (use as a convenience for leaf nodes).");
 		parser.addArg<mvPyDataType::Bool>("bullet", mvArgType::KEYWORD_ARG, "False", "Display a bullet instead of arrow");
+		parser.addArg<mvPyDataType::Bool>("selectable", mvArgType::KEYWORD_ARG, "False", "Makes the tree selectable");
 
 		parser.finalize();
 
@@ -41,44 +42,58 @@ namespace Marvel {
 		mvFontScope fscope(this);
 
 		ImGui::BeginGroup();
-		if (ImGui::TreeNodeEx(m_label.c_str(), m_flags))
+		
+		if (*m_value && m_selectable)
+			m_flags |= ImGuiTreeNodeFlags_Selected;
+		else
+			m_flags &= ~ImGuiTreeNodeFlags_Selected;
+
+		bool expanded = ImGui::TreeNodeEx(m_label.c_str(), m_flags);
+
+		if (ImGui::IsItemClicked())
+			*m_value = !*m_value;
+
+		if (!expanded)
 		{
-			//we do this so that the children dont get the theme
-			scope.cleanup();
-
-			for (auto& item : m_children[1])
-			{
-				// skip item if it's not shown
-				if (!item->m_show)
-					continue;
-
-				if (item->m_focusNextFrame)
-				{
-					ImGui::SetKeyboardFocusHere();
-					item->m_focusNextFrame = false;
-				}
-
-				auto oldCursorPos = ImGui::GetCursorPos();
-				if (item->m_dirtyPos)
-					ImGui::SetCursorPos(item->getState().getItemPos());
-
-				item->getState().setPos({ ImGui::GetCursorPosX(), ImGui::GetCursorPosY() });
-
-				// set item width
-				if (item->m_width != 0)
-					ImGui::SetNextItemWidth((float)item->m_width);
-
-				item->draw(drawlist, ImGui::GetCursorPosX(), ImGui::GetCursorPosY());
-
-				if(item->m_dirtyPos)
-					ImGui::SetCursorPos(oldCursorPos);
-
-				item->getState().update();
-			}
-			ImGui::TreePop();
+			ImGui::EndGroup();
+			return;
 		}
 
+		//we do this so that the children dont get the theme
+		scope.cleanup();
+
+		for (auto& item : m_children[1])
+		{
+			// skip item if it's not shown
+			if (!item->m_show)
+				continue;
+
+			if (item->m_focusNextFrame)
+			{
+				ImGui::SetKeyboardFocusHere();
+				item->m_focusNextFrame = false;
+			}
+
+			auto oldCursorPos = ImGui::GetCursorPos();
+			if (item->m_dirtyPos)
+				ImGui::SetCursorPos(item->getState().getItemPos());
+
+			item->getState().setPos({ ImGui::GetCursorPosX(), ImGui::GetCursorPosY() });
+
+			// set item width
+			if (item->m_width != 0)
+				ImGui::SetNextItemWidth((float)item->m_width);
+
+			item->draw(drawlist, ImGui::GetCursorPosX(), ImGui::GetCursorPosY());
+
+			if (item->m_dirtyPos)
+				ImGui::SetCursorPos(oldCursorPos);
+
+			item->getState().update();
+		}
+		ImGui::TreePop();
 		ImGui::EndGroup();
+
 	}
 
 	void mvTreeNode::handleSpecificKeywordArgs(PyObject* dict)
@@ -86,6 +101,7 @@ namespace Marvel {
 		if (dict == nullptr)
 			return;
 		 
+		if (PyObject* item = PyDict_GetItemString(dict, "selectable")) m_selectable = ToBool(item);
 
 		// helper for bit flipping
 		auto flagop = [dict](const char* keyword, int flag, int& flags)
@@ -106,6 +122,7 @@ namespace Marvel {
 		if (dict == nullptr)
 			return;
 		 
+		PyDict_SetItemString(dict, "selectable", ToPyBool(m_selectable));
 
 		// helper to check and set bit
 		auto checkbitset = [dict](const char* keyword, int flag, const int& flags)
