@@ -414,7 +414,8 @@ def tab(*args, closable: bool = False, label: str = "__DearPyGuiDefault", show: 
 @contextmanager
 def tree_node(*args, label: str = "__DearPyGuiDefault", show: bool = True, parent: str = "", 
               before: str = "", default_open: bool = False, open_on_double_click: bool = False, 
-              open_on_arrow: bool = False, leaf: bool = False, bullet: bool = False, id:str=''):
+              open_on_arrow: bool = False, leaf: bool = False, bullet: bool = False, id:str='',
+              selectable: bool = False):
     """Wraps add_tree_node() and automates calling end().
 
     Args:
@@ -439,13 +440,13 @@ def tree_node(*args, label: str = "__DearPyGuiDefault", show: bool = True, paren
                                              before=before, default_open=default_open, 
                                              open_on_double_click=open_on_double_click, 
                                              open_on_arrow=open_on_arrow,
-                                             leaf=leaf, bullet=bullet, id=id)
+                                             leaf=leaf, bullet=bullet, id=id, selectable=selectable)
         else:
             yield internal_dpg.add_tree_node(*args, show=show, parent=parent,
                                              before=before, default_open=default_open, 
                                              open_on_double_click=open_on_double_click, 
                                              open_on_arrow=open_on_arrow,
-                                             leaf=leaf, bullet=bullet, label=label, id=id)
+                                             leaf=leaf, bullet=bullet, label=label, id=id, selectable=selectable)
     finally:
         internal_dpg.end()
 
