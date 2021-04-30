@@ -766,7 +766,6 @@ namespace Marvel{
 			return;
 		}
 
-		if (PyObject* item = PyDict_GetItemString(dict, "name")) m_name = ToString(item);
 		if (PyObject* item = PyDict_GetItemString(dict, "label")) setLabel(ToString(item));
 		if (PyObject* item = PyDict_GetItemString(dict, "width")) setWidth(ToInt(item));
 		if (PyObject* item = PyDict_GetItemString(dict, "height")) setHeight(ToInt(item));
@@ -865,7 +864,6 @@ namespace Marvel{
 		if (dict == nullptr)
 			return;
 
-		PyDict_SetItemString(dict, "name", ToPyString(m_name));
 		PyDict_SetItemString(dict, "label", ToPyString(m_specificedlabel));
 		PyDict_SetItemString(dict, "source", ToPyString(m_source));
 		PyDict_SetItemString(dict, "show", ToPyBool(m_show));

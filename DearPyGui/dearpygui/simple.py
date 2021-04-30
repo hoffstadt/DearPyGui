@@ -707,22 +707,6 @@ def is_item_ok(item: str) -> Union[bool, None]:
     return internal_dpg.get_item_state(item)["ok"]
 
 
-def set_item_name(item: str, name: str):
-    """Sets the item's name, anything after the characters "##" in the name will not be shown.
-
-        If no label is specified then by default this will be the displayed label.
-
-    Args:
-        item: Item name will be applied to.
-        name: Unique name used to programmatically refer to the item. If label is unused this will be the label,
-            anything after "##" that occurs in the name will not be shown on screen.
-
-    Returns:
-        None
-    """
-    internal_dpg.configure_item(item, name=name)
-
-
 def set_item_label(item: str, label: str):
     """Sets the item's displayed label, anything after the characters "##" in the name will not be shown.
 
