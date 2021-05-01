@@ -6,7 +6,6 @@ add_font("google", "../../Resources/NotoSerifCJKjp-Medium.otf", 20)
 set_font("google", 20)
 
 add_texture_container(id="mvTextureContainer")
-end()
 
 show_demo()
 

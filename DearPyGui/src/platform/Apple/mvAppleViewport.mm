@@ -1,5 +1,4 @@
 #include "mvAppleViewport.h"
-#include "mvAppLog.h"
 #include <implot.h>
 #include "imnodes.h"
 #include "mvFontManager.h"
