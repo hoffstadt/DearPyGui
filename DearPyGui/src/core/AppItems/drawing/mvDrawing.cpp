@@ -32,6 +32,7 @@ namespace Marvel {
 
 	bool mvDrawing::canChildBeAdded(mvAppItemType type)
 	{
+		if (type == mvAppItemType::mvStagingContainer) return true;
 		if (type == mvAppItemType::mvDrawLine) return true;
 		if (type == mvAppItemType::mvDrawArrow) return true;
 		if (type == mvAppItemType::mvDrawTriangle) return true;

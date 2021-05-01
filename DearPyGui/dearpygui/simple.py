@@ -348,6 +348,26 @@ def node_editor(*args, show: bool = True, parent: str = "", before: str = "", ca
     finally:
         internal_dpg.pop_parent_stack()
 
+@contextmanager
+def staging_container(*args, id:str=''):
+    """Wraps add_menu_bar() and automates calling end().
+
+    Args:
+        name: Unique name used to programmatically refer to the item. If label is unused this will be the label,
+            anything after "##" that occurs in the name will not be shown on screen.
+        **show: Decides if the item is shown of not.
+        **parent: Parent this item will be added to. (runtime adding)
+        **before: This item will be displayed before the specified item in the parent. (runtime adding)
+
+    Returns:
+        None
+    """
+    try:
+        widget = internal_dpg.add_staging_container(id=id)
+        internal_dpg.push_parent_stack(widget)
+        yield widget
+    finally:
+        internal_dpg.pop_parent_stack()
 
 @contextmanager
 def tab_bar(*args, reorderable: bool = False, callback: Callable = None, callback_data: Any = None,  show: bool = True,

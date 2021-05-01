@@ -41,6 +41,7 @@ namespace Marvel {
 
 	bool mvDragPoint::isParentCompatible(mvAppItemType type)
 	{
+		if (type == mvAppItemType::mvStagingContainer) return true;
 		if (type == mvAppItemType::mvPlot)
 			return true;
 

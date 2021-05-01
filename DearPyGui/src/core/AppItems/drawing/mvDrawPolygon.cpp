@@ -38,6 +38,7 @@ namespace Marvel {
 
 	bool mvDrawPolygon::isParentCompatible(mvAppItemType type)
 	{
+		if (type == mvAppItemType::mvStagingContainer) return true;
 		if (type == mvAppItemType::mvDrawing) return true;
 		if (type == mvAppItemType::mvWindowAppItem) return true;
 		if (type == mvAppItemType::mvPlot) return true;

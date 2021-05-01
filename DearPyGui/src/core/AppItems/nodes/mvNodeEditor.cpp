@@ -94,6 +94,7 @@ namespace Marvel {
 
 	bool mvNodeEditor::canChildBeAdded(mvAppItemType type)
 	{
+		if (type == mvAppItemType::mvStagingContainer) return true;
 		if(type ==mvAppItemType::mvNode) return true;
 		if(type ==mvAppItemType::mvNodeLink) return true;
 

@@ -278,6 +278,10 @@ def add_spacing(*, id: str =..., parent: str ='', before: str ='', show: bool =T
 	"""Undocumented function"""
 	...
 
+def add_staging_container(*, id: str =...) -> str:
+	"""Undocumented function"""
+	...
+
 def add_stair_series(x : List[float], y : List[float], *, id: str =..., parent: str ='', before: str ='', label: str ='', source: str ='', show: bool =True, axis: int =0, contribute_to_bounds: bool =True) -> str:
 	"""Undocumented function"""
 	...
@@ -774,6 +778,10 @@ def set_resize_callback(callback : Callable, *, handler: str ='') -> str:
 	"""Undocumented function"""
 	...
 
+def set_staging_mode(mode : bool) -> None:
+	"""Undocumented function"""
+	...
+
 def set_start_callback(callback : Callable) -> str:
 	"""Undocumented function"""
 	...
@@ -819,6 +827,10 @@ def stop_dearpygui() -> None:
 	...
 
 def top_parent_stack() -> str:
+	"""Undocumented function"""
+	...
+
+def unstage_item(item : str) -> None:
 	"""Undocumented function"""
 	...
 
