@@ -1,6 +1,5 @@
 #include "mvModule_Core.h"
 #include "mvInput.h"
-#include "mvAppLog.h"
 #include "mvAppItemCommons.h"
 #include "mvViewport.h"
 #include "mvFontManager.h"

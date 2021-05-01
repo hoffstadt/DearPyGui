@@ -41,9 +41,9 @@ namespace Marvel {
 			MV_ADD_EXTRA_COMMAND(minimize_viewport)
 		MV_END_EXTRA_COMMANDS
 
-		static mvViewport* CreateViewport(unsigned width, unsigned height, bool error = false);
+		static mvViewport* CreateViewport(unsigned width, unsigned height);
 
-		mvViewport(unsigned width, unsigned height, bool error = false);
+		mvViewport(unsigned width, unsigned height);
 		virtual ~mvViewport() = default;
 
 		void setConfigDict(PyObject* dict);
@@ -71,7 +71,6 @@ namespace Marvel {
 
 		bool              m_running = true;
 		mvApp*            m_app     = nullptr;
-		bool              m_error   = false;
 		std::string       m_title = "DearPyGui";
 		std::string       m_small_icon;
 		std::string       m_large_icon;

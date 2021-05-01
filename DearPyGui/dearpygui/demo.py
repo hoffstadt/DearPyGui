@@ -129,7 +129,8 @@ def demo_log(sender):
     Returns:
         None
     """
-    log_debug(f"{sender} ran a callback its value is {get_value(sender)}")
+    #log_debug(f"{sender} ran a callback its value is {get_value(sender)}")
+    print(f"{sender} ran a callback its value is {get_value(sender)}")
 
 def demo_main_callback():
     """[INTERNAL DPG DEMO COMMAND]: This is a helper function that is intended to make the demo easier to read. not suggested for external use. 
@@ -314,7 +315,6 @@ def show_demo():
                     add_combo(["Yes", "No", "Maybe"], label="Combo")
 
             with menu(label="Tools"):
-                add_menu_item(label="Show Logger", callback=show_logger)
                 add_menu_item(label="Show About", callback=show_about)
                 add_menu_item(label="Show Metrics", callback=show_metrics)
                 add_menu_item(label="Show Documentation", callback=show_documentation)

@@ -13,7 +13,7 @@ namespace Marvel {
 
     public:
 
-        mvAppleViewport(unsigned width, unsigned height, bool error = false);
+        mvAppleViewport(unsigned width, unsigned height);
         ~mvAppleViewport();
 
         void show(bool minimized, bool maximized) override;

@@ -9,18 +9,10 @@
 
 namespace Marvel {
 
-	mvViewport::mvViewport(unsigned width, unsigned height, bool error) :
-		m_error(error), m_width(width), m_height(height)
+	mvViewport::mvViewport(unsigned width, unsigned height) :
+		m_width(width), m_height(height)
 	{
-
 		m_app = mvApp::GetApp();
-
-		if (m_error)
-		{
-			mvAppLog::ShowMain();
-			mvAppLog::setSize(width, height);
-		}
-
 	}
 
 	void mvViewport::InsertParser(std::map<std::string, mvPythonParser>* parsers)
@@ -168,7 +160,7 @@ namespace Marvel {
 			))
 			return GetPyNone();
 
-		mvViewport* viewport = CreateViewport(width, height, false);
+		mvViewport* viewport = CreateViewport(width, height);
 		viewport->setConfigDict(kwargs);
 
 		mvApp::GetApp()->setViewport(viewport);

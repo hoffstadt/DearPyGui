@@ -3,7 +3,6 @@
 #include "mvApp.h"
 #include "mvLog.h"
 #include "mvUtilities.h"
-#include "mvAppLog.h"
 #include "mvItemRegistry.h"
 #include "mvPythonExceptions.h"
 

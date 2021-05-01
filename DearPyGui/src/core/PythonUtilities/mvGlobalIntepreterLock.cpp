@@ -1,6 +1,5 @@
 #include "mvGlobalIntepreterLock.h"
 #include "mvApp.h"
-#include "mvAppLog.h"
 
 #define PY_SSIZE_T_CLEAN
 #include <Python.h>

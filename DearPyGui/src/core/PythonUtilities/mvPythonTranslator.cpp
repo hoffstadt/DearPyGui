@@ -1,6 +1,5 @@
 #include "mvPythonTranslator.h"
 #include "mvPythonExceptions.h"
-#include "mvAppLog.h"
 
 #define PY_SSIZE_T_CLEAN
 #include <Python.h>

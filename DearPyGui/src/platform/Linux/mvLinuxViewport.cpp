@@ -16,9 +16,9 @@
 
 namespace Marvel {
 
-    mvViewport* mvViewport::CreateViewport(unsigned int width, unsigned int height, bool error)
+    mvViewport* mvViewport::CreateViewport(unsigned int width, unsigned int height)
     {
-        return new mvLinuxViewport(width, height, error);
+        return new mvLinuxViewport(width, height);
     }
 
     static void glfw_error_callback(int error, const char* description)
@@ -41,8 +41,8 @@ namespace Marvel {
                     });
     }
 
-    mvLinuxViewport::mvLinuxViewport(unsigned width, unsigned height, bool error)
-		: mvViewport(width, height, error)
+    mvLinuxViewport::mvLinuxViewport(unsigned width, unsigned height)
+		: mvViewport(width, height)
 	{
 	}
 

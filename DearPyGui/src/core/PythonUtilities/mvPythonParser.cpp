@@ -1,7 +1,6 @@
 #include "mvPythonParser.h"
 #include "mvModule_Core.h"
 #include "mvApp.h"
-#include "mvAppLog.h"
 #include <fstream>
 #include <utility>
 #include <ctime>
@@ -301,10 +300,7 @@ namespace Marvel {
 		va_end(arguments);
 
 		if (!check)
-		{
-			mvAppLog::Show();
 			mvThrowPythonError(1000, "Error parsing Dear PyGui command: " + std::string(message));
-		}
 
 		return check;
 	}
