@@ -66,6 +66,7 @@ namespace Marvel {
 
 	bool mvNode::isParentCompatible(mvAppItemType type)
 	{
+		if (type == mvAppItemType::mvStagingContainer) return true;
 		if (type == mvAppItemType::mvNodeEditor)
 			return true;
 

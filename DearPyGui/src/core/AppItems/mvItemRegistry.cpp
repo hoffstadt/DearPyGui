@@ -19,6 +19,13 @@ namespace Marvel {
 		}
 
 		{
+			mvPythonParser parser(mvPyDataType::None);
+			parser.addArg<mvPyDataType::String>("item");
+			parser.finalize();
+			parsers->insert({ "unstage_item", parser });
+		}
+
+		{
 			mvPythonParser parser(mvPyDataType::Bool);
 			parser.addArg<mvPyDataType::String>("item");
 			parser.finalize();
@@ -56,6 +63,13 @@ namespace Marvel {
 			mvPythonParser parser(mvPyDataType::StringList);
 			parser.finalize();
 			parsers->insert({ "get_all_items", parser });
+		}
+
+		{
+			mvPythonParser parser(mvPyDataType::None);
+			parser.addArg<mvPyDataType::Bool>("mode");
+			parser.finalize();
+			parsers->insert({ "set_staging_mode", parser });
 		}
 
 		{
@@ -128,6 +142,17 @@ namespace Marvel {
 	{
 
 		MV_ITEM_REGISTRY_TRACE("Attempting to delete: " + name);
+
+		// check staging first
+		if (m_stagingArea.count(name) != 0)
+		{
+			if (childrenOnly)
+				m_stagingArea[name]->deleteChildren();
+			else
+				m_stagingArea.erase(name);
+			MV_ITEM_REGISTRY_INFO(name + " found and deleted.");
+			return true;
+		}
 
 		// delete item's children only
 		if(childrenOnly)
@@ -203,11 +228,17 @@ namespace Marvel {
 
 		bool movedItem = false;
 
-		for (auto window : m_roots)
+		for (auto& window : m_roots)
 		{
 			child = window->stealChild(name);
 			if (child)
 				break;
+		}
+
+		if (m_stagingArea.count(name) != 0)
+		{
+			child = m_stagingArea[name];
+			m_stagingArea.erase(name);
 		}
 
 		if (child == nullptr)
@@ -215,6 +246,7 @@ namespace Marvel {
 			mvThrowPythonError(1000, name + " not moved because it was not found");
 			MV_ITEM_REGISTRY_WARN("Could not move item, it was not found");
 		}
+
 
 		if (child)
 			addRuntimeItem(parent, before, child);
@@ -357,6 +389,11 @@ namespace Marvel {
 		m_parents.push(item);
 	}
 
+	void mvItemRegistry::setStagingMode(bool value)
+	{
+		m_staging = value;
+	}
+
 	mvRef<mvAppItem> mvItemRegistry::popParent()
 	{
 		if (m_parents.empty())
@@ -400,6 +437,9 @@ namespace Marvel {
 			if (child)
 				return child;
 		}
+
+		if(m_stagingArea.count(name) != 0)
+			return m_stagingArea[name];
 
 		//assert(false && "Item not found.");
 
@@ -472,7 +512,7 @@ namespace Marvel {
 
 		enum class AddTechnique
 		{
-			NONE, BEFORE, PARENT, STACK
+			NONE, STAGE, BEFORE, PARENT, STACK
 		};
 		AddTechnique technique = AddTechnique::NONE;
 
@@ -490,10 +530,22 @@ namespace Marvel {
 		}
 
 		//---------------------------------------------------------------------------
-		// STEP 2: handle window case
+		// STEP 2: handle root case
 		//---------------------------------------------------------------------------
 		if (mvAppItem::DoesItemHaveFlag(item.get(), MV_ITEM_DESC_ROOT))
 		{
+			if (m_staging)
+			{
+				m_stagingArea[item->getName()] = item;
+				return true;
+			}
+
+			else if (item->getType() == mvAppItemType::mvStagingContainer)
+			{
+				mvThrowPythonError(1000, "Staging container can only be adding in staging mode.");
+				return false;
+			}
+
 			if (mvApp::IsAppStarted())
 			{
 				m_roots.push_back(item);
@@ -517,6 +569,7 @@ namespace Marvel {
 			parentPtr = getItem(parent);
 			technique = AddTechnique::PARENT;
 		}
+
 		else
 		{
 			parentPtr = topParent();
@@ -528,6 +581,13 @@ namespace Marvel {
 		//---------------------------------------------------------------------------
 		if (parentPtr == nullptr)
 		{
+			if (m_staging)
+			{
+				m_stagingArea[item->getName()] = item;
+				technique = AddTechnique::STAGE;
+				return true;
+			}
+
 			mvThrowPythonError(1000, "Parent could not be deduced.");
 			MV_ITEM_REGISTRY_ERROR("Parent could not be deduced.");
 			assert(false);
@@ -668,7 +728,7 @@ namespace Marvel {
 		}
 		else
 		{
-			mvThrowPythonError(1000, "Window does not exists.");
+			mvThrowPythonError(1000, "Window does not exist.");
 			assert(false);
 		}
 
@@ -677,6 +737,32 @@ namespace Marvel {
 		{
 			if (window->m_name != name)
 				static_cast<mvWindowAppItem*>(window.get())->setWindowAsMainStatus(false);
+		}
+
+	}
+
+	void mvItemRegistry::unstageItem(const std::string& name)
+	{
+
+		if (m_stagingArea.count(name) != 0)
+		{
+			mvRef<mvAppItem> item = m_stagingArea[name];
+			m_stagingArea.erase(name);
+			if (item->getType() == mvAppItemType::mvStagingContainer)
+			{
+				for (auto& children : item->m_children)
+				{
+					for (auto& child : children)
+						addItemWithRuntimeChecks(child, "", "");
+				}
+			}
+			else
+				addItemWithRuntimeChecks(item, "", "");
+		}
+		else
+		{
+			mvThrowPythonError(1000, "Staged item does not exist.");
+			assert(false);
 		}
 
 	}
@@ -726,6 +812,18 @@ namespace Marvel {
 			}
 		}
 		return ToPyBool(false);
+	}
+
+	PyObject* mvItemRegistry::set_staging_mode(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		int mode;
+
+		if (!(mvApp::GetApp()->getParsers())["set_staging_mode"].parse(args, kwargs, __FUNCTION__, &mode))
+			return GetPyNone();
+
+		std::lock_guard<std::mutex> lk(mvApp::GetApp()->getMutex());
+		mvApp::GetApp()->getItemRegistry().setStagingMode((bool)mode);
+		return GetPyNone();
 	}
 
 	PyObject* mvItemRegistry::set_primary_window(PyObject* self, PyObject* args, PyObject* kwargs)
@@ -820,6 +918,20 @@ namespace Marvel {
 
 		std::lock_guard<std::mutex> lk(mvApp::GetApp()->getMutex());
 		mvApp::GetApp()->getItemRegistry().moveItemDown(item);
+
+		return GetPyNone();
+	}
+
+	PyObject* mvItemRegistry::unstage_item(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+
+		const char* item;
+
+		if (!(mvApp::GetApp()->getParsers())["unstage_item"].parse(args, kwargs, __FUNCTION__, &item))
+			return GetPyNone();
+
+		//std::lock_guard<std::mutex> lk(mvApp::GetApp()->getMutex());
+		mvApp::GetApp()->getItemRegistry().unstageItem(item);
 
 		return GetPyNone();
 	}

@@ -32,6 +32,7 @@
 #include "misc/mvSpacing.h"
 #include "misc/mvSeparator.h"
 
+#include "containers/mvStagingContainer.h"
 #include "containers/mvTreeNode.h"
 #include "containers/mvChild.h"
 #include "containers/mvGroup.h"

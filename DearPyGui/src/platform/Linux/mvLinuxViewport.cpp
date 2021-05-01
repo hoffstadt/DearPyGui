@@ -170,14 +170,7 @@ namespace Marvel {
         if(GImGui->CurrentWindow == nullptr)
             return;
 
-        if (m_error)
-        {
-            mvAppLog::setSize(m_width, m_height);
-            mvAppLog::render();
-        }
-
-        else
-            m_app->render();
+        m_app->render();
 
         postrender();
     }

@@ -235,13 +235,7 @@ namespace Marvel {
             ImGui_ImplGlfw_NewFrame();
             ImGui::NewFrame();
 
-            if (m_error) 
-            {
-                mvAppLog::setSize(m_width, m_height);
-                mvAppLog::render();
-            } 
-            else
-                m_app->render();
+            m_app->render();
 
             // Rendering
             ImGui::Render();

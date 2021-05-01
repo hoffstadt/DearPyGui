@@ -83,6 +83,7 @@ set(MARVEL_SOURCES
 	"src/core/AppItems/misc/mvDummy.cpp"
 	"src/core/AppItems/misc/mvSpacing.cpp"
 
+	"src/core/AppItems/containers/mvStagingContainer.cpp"
 	"src/core/AppItems/containers/mvCollapsingHeader.cpp"
 	"src/core/AppItems/containers/mvGroup.cpp"
 	"src/core/AppItems/containers/mvChild.cpp"
