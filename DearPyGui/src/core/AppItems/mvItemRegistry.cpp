@@ -661,7 +661,6 @@ namespace Marvel {
 				static_cast<mvWindowAppItem*>(window.get())->setWindowAsMainStatus(false);
 		}
 
-		mvAppLog::Focus();
 	}
 
 	PyObject* mvItemRegistry::end(PyObject* self, PyObject* args, PyObject* kwargs)

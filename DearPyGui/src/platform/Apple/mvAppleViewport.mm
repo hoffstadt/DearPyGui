@@ -20,9 +20,9 @@ namespace Marvel {
 
     id <MTLDevice> mvAppleViewport::device;
 
-    mvViewport* mvViewport::CreateViewport(unsigned width, unsigned height, bool error)
+    mvViewport* mvViewport::CreateViewport(unsigned width, unsigned height)
 	{
-		return new mvAppleViewport(width, height, error);
+		return new mvAppleViewport(width, height);
 	}
 
     static void window_close_callback(GLFWwindow* window)
@@ -46,8 +46,8 @@ namespace Marvel {
         fprintf(stderr, "Glfw Error %d: %s\n", error, description);
     }
 
-    mvAppleViewport::mvAppleViewport(unsigned width, unsigned height, bool error)
-        : mvViewport(width, height, error)
+    mvAppleViewport::mvAppleViewport(unsigned width, unsigned height)
+        : mvViewport(width, height)
     {
     }
 

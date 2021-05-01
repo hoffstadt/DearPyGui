@@ -309,7 +309,7 @@ namespace Marvel {
 		{
 			if (data != nullptr)
 				Py_XDECREF(data);
-			mvAppLog::LogWarning("[W0001] Too many callbacks already in the queue.");
+			assert(false);
 			return;
 		}
 

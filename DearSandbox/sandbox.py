@@ -8,8 +8,6 @@ set_font("google", 20)
 add_texture_container(id="mvTextureContainer")
 end()
 
-set_log_level(0)
-show_logger()
 show_demo()
 
 vp = create_viewport(small_icon="../../Resources/dpg_icon_small.ico", large_icon="../../Resources/dpg_icon_large.ico")

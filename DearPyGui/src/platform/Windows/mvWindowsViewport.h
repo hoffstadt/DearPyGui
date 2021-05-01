@@ -16,7 +16,7 @@ namespace Marvel {
 
 	public:
 
-		mvWindowsViewport(unsigned width, unsigned height, bool error = false);
+		mvWindowsViewport(unsigned width, unsigned height);
 		~mvWindowsViewport() override;
 
 		void show       (bool minimized, bool maximized) override;

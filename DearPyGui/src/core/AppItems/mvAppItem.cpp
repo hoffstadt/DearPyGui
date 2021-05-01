@@ -901,9 +901,6 @@ namespace Marvel{
 
 		PyObject* pdict = PyDict_New();
 
-		if (std::string(item) == "logger##standard")
-			mvAppLog::GetConfigDict(pdict);
-
 		if (appitem)
 		{
 			appitem->getConfiguration(pdict);
@@ -1027,12 +1024,6 @@ namespace Marvel{
 	{
 
 		std::string item = ToString(PyTuple_GetItem(args, 0));
-
-		if (std::string(item) == "logger##standard")
-		{
-			mvAppLog::SetConfigDict(kwargs);
-			return GetPyNone();
-		}
 
 		std::lock_guard<std::mutex> lk(mvApp::GetApp()->getMutex());
 		auto appitem = mvApp::GetApp()->getItemRegistry().getItem(item);
