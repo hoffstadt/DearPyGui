@@ -13,8 +13,8 @@ namespace Marvel {
 
         mvLayoutWindow();
 
-        const char* getName() const override { return "mvLayoutWindow"; }
-        const char* getTitle() const override { return "App Layout"; }
+        const char* getName() const override { return "mvItemRegistry"; }
+        const char* getTitle() const override { return "Item Registry"; }
 
     protected:
 

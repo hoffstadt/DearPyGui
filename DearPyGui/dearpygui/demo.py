@@ -20,9 +20,8 @@ def demo_help(message):
         None"""
     add_same_line()
     parent = add_text(color=[150, 150, 150], default_value="(?)")
-    add_tooltip(parent=parent)
-    add_text(default_value=message)
-    end()
+    t = add_tooltip(parent=parent)
+    add_text(default_value=message, parent=t)
 
 def demo_hsv_to_rgb(h: float, s: float, v: float) -> (float, float, float):
     """[INTERNAL DPG DEMO COMMAND]: This is a helper function that is intended to make the demo easier to read. not suggested for external use. 
@@ -321,7 +320,7 @@ def show_demo():
                 add_menu_item(label="Show Debug", callback=show_debug)
                 add_menu_item(label="Show Style Editor", callback=show_style_editor)
                 add_menu_item(label="Show Font Manager", callback=show_font_manager)
-                add_menu_item(label="Show Layout", callback=show_layout)
+                add_menu_item(label="Show Item Registry", callback=show_item_registry)
 
         add_text(default_value=f'Dear PyGui says hello. ({get_dearpygui_version()})')
         add_text(default_value="This code for this demo can be found here: ")
@@ -1015,7 +1014,7 @@ def show_demo():
 
         with collapsing_header(id="Drawings##demo"):
 
-            drawing = add_drawing(width=900, height=200) 
+            push_parent_stack(add_drawing(width=900, height=200) )
             draw_line((10, 10), (100, 100), color=(255, 0, 0, 255), thickness=1)
             draw_rectangle((0, 0), (900, 200), color=(255, 0, 0, 255), fill=(0, 0, 25, 255), rounding=12, thickness = 1.0) 
             draw_triangle((150, 10), (110, 100), (190, 100), color=(255, 255, 0, 255), thickness = 3.0)
@@ -1028,7 +1027,7 @@ def show_demo():
             draw_text((0, 0), "Origin", color=(255, 255, 0, 255), size=15)
             draw_polygon(((710, 10), (780, 50), (730, 75), (710, 10)), color=(255, 125, 0, 255), thickness=1.0, fill=(255, 125, 0, 50))
             draw_polyline(((810, 20), (835, 50), (890, 10)), color=(255, 255, 0, 255), thickness=1.0)
-            end()
+            pop_parent_stack()
 
         with collapsing_header(id="Plots##demo"):
 
@@ -1105,7 +1104,6 @@ def show_demo():
                 plot_id = add_plot(label="Area Plot", height=400)
                 add_area_series([1,5,3],[0,0,3], fill=[255,50,100,190], parent=plot_id)
             
-
             with tree_node(label="Shade Plots"):
 
                 stock_datax = []

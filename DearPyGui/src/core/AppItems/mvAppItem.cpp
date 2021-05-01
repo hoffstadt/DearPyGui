@@ -766,7 +766,13 @@ namespace Marvel{
 			return;
 		}
 
-		if (PyObject* item = PyDict_GetItemString(dict, "label")) setLabel(ToString(item));
+		if (PyObject* item = PyDict_GetItemString(dict, "label"))
+		{
+			const std::string label = ToString(item);
+			if(!label.empty())
+				setLabel(label);
+		}
+
 		if (PyObject* item = PyDict_GetItemString(dict, "width")) setWidth(ToInt(item));
 		if (PyObject* item = PyDict_GetItemString(dict, "height")) setHeight(ToInt(item));
 		if (PyObject* item = PyDict_GetItemString(dict, "show")) 

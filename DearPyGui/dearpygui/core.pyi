@@ -442,11 +442,11 @@ def draw_triangle(p1 : List[float], p2 : List[float], p3 : List[float], *, id: s
 	"""Undocumented function"""
 	...
 
-def enable_docking(*, shift: bool =True, dock_space: bool =False) -> None:
+def empty_parent_stack() -> str:
 	"""Undocumented function"""
 	...
 
-def end() -> None:
+def enable_docking(*, shift: bool =True, dock_space: bool =False) -> None:
 	"""Undocumented function"""
 	...
 
@@ -642,6 +642,14 @@ def open_file_dialog(*, callback: Callable =None, extensions: str ='') -> str:
 	"""Undocumented function"""
 	...
 
+def pop_parent_stack() -> str:
+	"""Undocumented function"""
+	...
+
+def push_parent_stack(item : str) -> bool:
+	"""Undocumented function"""
+	...
+
 def render_dearpygui_frame() -> None:
 	"""Undocumented function"""
 	...
@@ -711,10 +719,6 @@ def set_key_release_callback(callback : Callable) -> str:
 	...
 
 def set_log_level(level : int, *, logger: str ='') -> None:
-	"""Undocumented function"""
-	...
-
-def set_logger_window_title(title : str) -> None:
 	"""Undocumented function"""
 	...
 
@@ -802,10 +806,6 @@ def setup_dearpygui(*, viewport: str ='') -> None:
 	"""Undocumented function"""
 	...
 
-def show_logger() -> None:
-	"""Undocumented function"""
-	...
-
 def show_tool(tool : str) -> str:
 	"""Undocumented function"""
 	...
@@ -815,6 +815,10 @@ def show_viewport(viewport : str, *, minimized: bool =False, maximized: bool =Fa
 	...
 
 def stop_dearpygui() -> None:
+	"""Undocumented function"""
+	...
+
+def top_parent_stack() -> str:
 	"""Undocumented function"""
 	...
 

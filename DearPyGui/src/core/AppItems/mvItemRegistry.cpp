@@ -13,9 +13,28 @@ namespace Marvel {
 	{
 
 		{
-			mvPythonParser parser(mvPyDataType::None);
+			mvPythonParser parser(mvPyDataType::String);
 			parser.finalize();
-			parsers->insert({ "end", parser });
+			parsers->insert({ "pop_parent_stack", parser });
+		}
+
+		{
+			mvPythonParser parser(mvPyDataType::Bool);
+			parser.addArg<mvPyDataType::String>("item");
+			parser.finalize();
+			parsers->insert({ "push_parent_stack", parser });
+		}
+
+		{
+			mvPythonParser parser(mvPyDataType::String);
+			parser.finalize();
+			parsers->insert({ "top_parent_stack", parser });
+		}
+
+		{
+			mvPythonParser parser(mvPyDataType::String);
+			parser.finalize();
+			parsers->insert({ "empty_parent_stack", parser });
 		}
 
 		{
@@ -94,7 +113,6 @@ namespace Marvel {
 		m_roots.push_back(CreateRef<mvFileDialog>());
 		m_roots.back()->setLabel("FileDialog");
 		m_roots.back()->hide();
-		//m_roots.push_back(CreateRef<mvTextureContainer>("mvTextureContainer"));
 		
 	}
 
@@ -663,11 +681,51 @@ namespace Marvel {
 
 	}
 
-	PyObject* mvItemRegistry::end(PyObject* self, PyObject* args, PyObject* kwargs)
+	PyObject* mvItemRegistry::pop_parent_stack(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		std::lock_guard<std::mutex> lk(mvApp::GetApp()->getMutex());
-		mvApp::GetApp()->getItemRegistry().popParent();
+		auto item = mvApp::GetApp()->getItemRegistry().popParent();
+		if (item)
+			return ToPyString(item->getName());
+		else
+			return GetPyNone();
+	}
+
+	PyObject* mvItemRegistry::empty_parent_stack(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		std::lock_guard<std::mutex> lk(mvApp::GetApp()->getMutex());
+		mvApp::GetApp()->getItemRegistry().emptyParents();
 		return GetPyNone();
+	}
+
+	PyObject* mvItemRegistry::top_parent_stack(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		std::lock_guard<std::mutex> lk(mvApp::GetApp()->getMutex());
+		auto item = mvApp::GetApp()->getItemRegistry().topParent();
+		if (item)
+			return ToPyString(item->getName());
+		else
+			return GetPyNone();
+	}
+
+	PyObject* mvItemRegistry::push_parent_stack(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		const char* item;
+
+		if (!(mvApp::GetApp()->getParsers())["push_parent_stack"].parse(args, kwargs, __FUNCTION__, &item))
+			return GetPyNone();
+
+		std::lock_guard<std::mutex> lk(mvApp::GetApp()->getMutex());
+		auto parent = mvApp::GetApp()->getItemRegistry().getItem(item);
+		if (parent)
+		{
+			if (mvAppItem::DoesItemHaveFlag(parent.get(), MV_ITEM_DESC_CONTAINER))
+			{
+				mvApp::GetApp()->getItemRegistry().pushParent(parent);
+				return ToPyBool(true);
+			}
+		}
+		return ToPyBool(false);
 	}
 
 	PyObject* mvItemRegistry::set_primary_window(PyObject* self, PyObject* args, PyObject* kwargs)
