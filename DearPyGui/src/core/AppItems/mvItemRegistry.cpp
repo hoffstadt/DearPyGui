@@ -584,7 +584,6 @@ namespace Marvel {
 			if (m_staging)
 			{
 				m_stagingArea[item->getName()] = item;
-				technique = AddTechnique::STAGE;
 				return true;
 			}
 
