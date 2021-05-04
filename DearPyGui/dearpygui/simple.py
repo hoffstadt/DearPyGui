@@ -15,7 +15,7 @@ def table(*args, header_row: bool = True, width: int = 0, height: int = 0, inner
 		borders_innerV: bool = False, borders_outerV: bool = False, policy: int = 0, no_host_extendX: bool = False,
 		no_host_extendY: bool = False, no_keep_columns_visible: bool = False, precise_widths: bool = False, no_clip: bool = False,
 		pad_outerX: bool = False, no_pad_outerX: bool = False, no_pad_innerX: bool = False, scrollX: bool = False, scrollY: bool = False,
-        id:str=''):
+        id:str='', indent=-1):
     """Wraps add_table() and automates calling end().
 
     Args:
@@ -61,7 +61,7 @@ def table(*args, header_row: bool = True, width: int = 0, height: int = 0, inner
 		    borders_outerV = borders_outerV, policy = policy, no_host_extendX = no_host_extendX,
 		    no_host_extendY = no_host_extendY, no_keep_columns_visible = no_keep_columns_visible, precise_widths = precise_widths,
 		    no_clip = no_clip, pad_outerX = pad_outerX, no_pad_outerX = no_pad_outerX, no_pad_innerX = no_pad_innerX,
-		    scrollX = scrollX, scrollY = scrollY, id=id)
+		    scrollX = scrollX, scrollY = scrollY, id=id, indent=indent)
         internal_dpg.push_parent_stack(widget)
         yield widget
     finally:
@@ -127,7 +127,7 @@ def window(*args, width: int = 200, height: int = 200, autosize: bool = False,
 
 
 @contextmanager
-def menu_bar(*args, show: bool = True, parent: str = "", before: str = "", id:str=''):
+def menu_bar(*args, show: bool = True, parent: str = "", before: str = "", id:str='', indent=-1):
     """Wraps add_menu_bar() and automates calling end().
 
     Args:
@@ -141,7 +141,7 @@ def menu_bar(*args, show: bool = True, parent: str = "", before: str = "", id:st
         None
     """
     try:
-        widget = internal_dpg.add_menu_bar(*args, show=show, parent=parent, before=before, id=id)
+        widget = internal_dpg.add_menu_bar(*args, show=show, parent=parent, before=before, id=id, indent=indent)
         internal_dpg.push_parent_stack(widget)
         yield widget
     finally:
@@ -150,7 +150,7 @@ def menu_bar(*args, show: bool = True, parent: str = "", before: str = "", id:st
 
 @contextmanager
 def menu(*args, label: str = "", show: bool = True, parent: str = "",
-         before: str = "", enabled: bool = True, id:str=''):
+         before: str = "", enabled: bool = True, id:str='', indent=-1):
     """Wraps add_menu() and automates calling end().
 
     Args:
@@ -167,7 +167,7 @@ def menu(*args, label: str = "", show: bool = True, parent: str = "",
     """
     try: 
         widget = internal_dpg.add_menu(*args, label=label, show=show, parent=parent,
-                                    before=before, enabled=enabled, id=id)
+                                    before=before, enabled=enabled, id=id, indent=indent)
         internal_dpg.push_parent_stack(widget)
         yield widget
     finally:
@@ -177,7 +177,8 @@ def menu(*args, label: str = "", show: bool = True, parent: str = "",
 @contextmanager
 def child(*args, show: bool = True, parent: str = "", before: str = "", width: int = 0,
           height: int = 0, border: bool = True, autosize_x: bool = False, autosize_y: bool = False,
-          no_scrollbar: bool = False, horizontal_scrollbar: bool = False, menubar: bool = False, id:str=''):
+          no_scrollbar: bool = False, horizontal_scrollbar: bool = False, menubar: bool = False, id:str='', 
+          indent=-1):
     """Wraps add_child() and automates calling end().
 
     Args:
@@ -202,7 +203,7 @@ def child(*args, show: bool = True, parent: str = "", before: str = "", width: i
         widget = internal_dpg.add_child(*args, show=show, parent=parent, before=before, width=width,
                                      height=height, border=border, autosize_x=autosize_x, autosize_y=autosize_y,
                                      no_scrollbar=no_scrollbar, horizontal_scrollbar=horizontal_scrollbar,
-                                     menubar=menubar, id=id)
+                                     menubar=menubar, id=id, indent=indent)
         internal_dpg.push_parent_stack(widget)
         yield widget
     finally:
@@ -213,7 +214,7 @@ def child(*args, show: bool = True, parent: str = "", before: str = "", width: i
 def collapsing_header(*args, label: str = "", show: bool = True,
                      parent: str = "", before: str = "",closable: bool = False, 
                       default_open: bool = False, open_on_double_click: bool = False, open_on_arrow: bool = False, 
-                      leaf: bool = False, bullet: bool = False, id:str=''):
+                      leaf: bool = False, bullet: bool = False, id:str='', indent=-1):
     """Wraps add_collapsing_header() and automates calling end().
 
     Args:
@@ -238,7 +239,8 @@ def collapsing_header(*args, label: str = "", show: bool = True,
         widget = internal_dpg.add_collapsing_header(*args, show=show, label=label, parent=parent, before=before, 
                                                     closable=closable, default_open=default_open, 
                                                     open_on_double_click=open_on_double_click,
-                                                    open_on_arrow=open_on_arrow, leaf=leaf, bullet=bullet, id=id)
+                                                    open_on_arrow=open_on_arrow, leaf=leaf, bullet=bullet, id=id,
+                                                    indent=indent)
         internal_dpg.push_parent_stack(widget)
         yield widget
     finally:
@@ -247,7 +249,7 @@ def collapsing_header(*args, label: str = "", show: bool = True,
 
 @contextmanager
 def group(*args, show: bool = True, parent: str = "", before: str = "", width: int = 0,
-          horizontal: bool = False, horizontal_spacing: float = -1.0, id:str=''):
+          horizontal: bool = False, horizontal_spacing: float = -1.0, id:str='', indent=-1):
     """Wraps add_group() and automates calling end().
 
     Args:
@@ -265,7 +267,8 @@ def group(*args, show: bool = True, parent: str = "", before: str = "", width: i
     """
     try:
         widget = internal_dpg.add_group(*args, show=show, parent=parent, before=before, width=width,
-                                     horizontal=horizontal, horizontal_spacing=horizontal_spacing, id=id)
+                                     horizontal=horizontal, horizontal_spacing=horizontal_spacing, id=id,
+                                     indent=indent)
         internal_dpg.push_parent_stack(widget)
         yield widget
     finally:
@@ -300,7 +303,8 @@ def node(*args, label: str = "", show: bool = True, draggable: bool = True,
 
 @contextmanager
 def node_attribute(*args, show: bool = True, output: bool = False,
-         static: bool = False, parent: str = "", before: str = "", shape: int = 54010, id:str=''):
+         static: bool = False, parent: str = "", before: str = "", shape: int = 54010, id:str=''
+         , indent=-1):
     """Wraps add_node_attribute() and automates calling end().
 
     Args:
@@ -317,7 +321,8 @@ def node_attribute(*args, show: bool = True, output: bool = False,
     """
     try:
         widget = internal_dpg.add_node_attribute(*args, show=show, parent=parent, before=before, 
-                                                    output=output, static=static, shape=shape, id=id)
+                                                    output=output, static=static, shape=shape, id=id,
+                                                    indent=indent)
         internal_dpg.push_parent_stack(widget)
         yield widget
     finally:
@@ -371,7 +376,7 @@ def staging_container(*args, id:str=''):
 
 @contextmanager
 def tab_bar(*args, reorderable: bool = False, callback: Callable = None, callback_data: Any = None,  show: bool = True,
-            parent: str = "", before: str = "", id:str=''):
+            parent: str = "", before: str = "", id:str='', indent=-1):
     """Wraps add_tab_bar() and automates calling end().
 
     Args:
@@ -389,7 +394,7 @@ def tab_bar(*args, reorderable: bool = False, callback: Callable = None, callbac
     """
     try:
         widget = internal_dpg.add_tab_bar(*args, reorderable=reorderable, callback=callback, callback_data=callback_data,
-                                       show=show, parent=parent, before=before, id=id)
+                                       show=show, parent=parent, before=before, id=id, indent=indent)
         internal_dpg.push_parent_stack(widget)
         yield widget
     finally:
@@ -399,7 +404,7 @@ def tab_bar(*args, reorderable: bool = False, callback: Callable = None, callbac
 @contextmanager
 def tab(*args, closable: bool = False, label: str = "", show: bool = True,
         no_reorder: bool = False, leading: bool = False, trailing: bool = False, no_tooltip: bool = False,
-        parent: str = "", before: str = "", id:str=''):
+        parent: str = "", before: str = "", id:str='', indent=-1):
     """Wraps add_tab() and automates calling end().
 
     Args:
@@ -421,7 +426,7 @@ def tab(*args, closable: bool = False, label: str = "", show: bool = True,
     try:
         widget = internal_dpg.add_tab(*args, closable=closable, label=label, show=show, parent=parent,
                                     before=before, no_reorder=no_reorder, leading=leading, 
-                                    trailing=trailing, no_tooltip=no_tooltip, id=id)
+                                    trailing=trailing, no_tooltip=no_tooltip, id=id, indent=indent)
         internal_dpg.push_parent_stack(widget)
         yield widget
     finally:
@@ -432,7 +437,7 @@ def tab(*args, closable: bool = False, label: str = "", show: bool = True,
 def tree_node(*args, label: str = "", show: bool = True, parent: str = "", 
               before: str = "", default_open: bool = False, open_on_double_click: bool = False, 
               open_on_arrow: bool = False, leaf: bool = False, bullet: bool = False, id:str='',
-              selectable: bool = False):
+              selectable: bool = False, indent=-1):
     """Wraps add_tree_node() and automates calling end().
 
     Args:
@@ -456,7 +461,8 @@ def tree_node(*args, label: str = "", show: bool = True, parent: str = "",
                                             before=before, default_open=default_open, 
                                             open_on_double_click=open_on_double_click, 
                                             open_on_arrow=open_on_arrow,
-                                            leaf=leaf, bullet=bullet, label=label, id=id, selectable=selectable)
+                                            leaf=leaf, bullet=bullet, label=label, id=id, selectable=selectable,
+                                            indent=indent)
         internal_dpg.push_parent_stack(widget)
         yield widget
     finally:

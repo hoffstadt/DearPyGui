@@ -91,6 +91,7 @@ namespace Marvel{
 
 		parser.addArg<mvPyDataType::Integer>("width", mvArgType::KEYWORD_ARG, "0");
 		parser.addArg<mvPyDataType::Integer>("height", mvArgType::KEYWORD_ARG, "0");
+		parser.addArg<mvPyDataType::Integer>("indent", mvArgType::KEYWORD_ARG, "-1");
 
 		parser.addArg<mvPyDataType::String>("parent", mvArgType::KEYWORD_ARG, "''", "Parent to add this item to. (runtime adding)");
 		parser.addArg<mvPyDataType::String>("before", mvArgType::KEYWORD_ARG, "''", "This item will be displayed before the specified item in the parent.");
@@ -110,6 +111,44 @@ namespace Marvel{
 		m_name = name;
 		m_label = name + " ###" + name;
 		m_specificedlabel = name;
+	}
+
+	bool mvAppItem::preDraw()
+	{
+		if (!m_show)
+			return false;
+
+		if (m_focusNextFrame)
+		{
+			ImGui::SetKeyboardFocusHere();
+			m_focusNextFrame = false;
+		}
+
+		m_previousCursorPos = ImGui::GetCursorPos();
+		if (m_dirtyPos)
+			ImGui::SetCursorPos(m_state.getItemPos());
+
+		m_state.setPos({ ImGui::GetCursorPosX(), ImGui::GetCursorPosY() });
+
+		// set item width
+		if (m_width != 0)
+			ImGui::SetNextItemWidth((float)m_width);
+
+		if (m_indent > 0.0f)
+			ImGui::Indent(m_indent);
+
+		return true;
+	}
+
+	void mvAppItem::postDraw()
+	{
+		if (m_dirtyPos)
+			ImGui::SetCursorPos(m_previousCursorPos);
+
+		if(m_indent > 0.0f)
+			ImGui::Unindent(m_indent);
+
+		m_state.update();
 	}
 
 	mvAppItem* mvAppItem::getRoot() const
@@ -775,6 +814,7 @@ namespace Marvel{
 
 		if (PyObject* item = PyDict_GetItemString(dict, "width")) setWidth(ToInt(item));
 		if (PyObject* item = PyDict_GetItemString(dict, "height")) setHeight(ToInt(item));
+		if (PyObject* item = PyDict_GetItemString(dict, "indent")) m_indent = (float)ToInt(item);
 		if (PyObject* item = PyDict_GetItemString(dict, "show")) 
 		{
 			m_show = ToBool(item);
@@ -876,6 +916,7 @@ namespace Marvel{
 		PyDict_SetItemString(dict, "enabled", ToPyBool(m_enabled));
 		PyDict_SetItemString(dict, "width", ToPyInt(m_width));
 		PyDict_SetItemString(dict, "height", ToPyInt(m_height));
+		PyDict_SetItemString(dict, "indent", ToPyInt(m_indent));
 
 		if (m_callback)
 		{

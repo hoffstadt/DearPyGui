@@ -23,6 +23,7 @@ namespace Marvel {
 			parser.removeArg("label");
 			parser.removeArg("width");
 			parser.removeArg("height");
+			parser.removeArg("indent");
 			parser.removeArg("callback_data");
 			parser.removeArg("enabled");
 

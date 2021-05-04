@@ -455,7 +455,7 @@ namespace Marvel {
 			ImPlot::PushPlotClipRect();
 			ImPlot::PushColormap(m_colormap);
 
-			for (auto item : m_children[0])
+			for (auto& item : m_children[0])
 			{
 				// skip item if it's not shown
 				if (!item->m_show)
@@ -464,7 +464,7 @@ namespace Marvel {
 				item->getState().update();
 			}
 
-			for (auto item : m_children[1])
+			for (auto& item : m_children[1])
 			{
 				// skip item if it's not shown
 				if (!item->m_show)
@@ -475,7 +475,7 @@ namespace Marvel {
 			}
 
 			
-			for (auto item : m_children[2])
+			for (auto& item : m_children[2])
 			{
 				// skip item if it's not shown
 				if (!item->m_show)
