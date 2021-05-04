@@ -15,6 +15,7 @@ namespace Marvel {
 			parser.removeArg("source");
 			parser.removeArg("before");
 			parser.removeArg("label");
+			parser.removeArg("indent");
 			parser.removeArg("callback");
 			parser.removeArg("callback_data");
 			parser.removeArg("enabled");
@@ -71,31 +72,12 @@ namespace Marvel {
 
 				for (mvRef<mvAppItem> item : m_children[1])
 				{
-					// skip item if it's not shown
-					if (!item->m_show)
+					if (!item->preDraw())
 						continue;
-
-					// set item width
-					if (item->m_width != 0)
-						ImGui::SetNextItemWidth((float)item->m_width);
-
-					if (item->m_focusNextFrame)
-					{
-						ImGui::SetKeyboardFocusHere();
-						item->m_focusNextFrame = false;
-					}
-					auto oldCursorPos = ImGui::GetCursorPos();
-					if (item->m_dirtyPos)
-						ImGui::SetCursorPos(item->getState().getItemPos());
-
-					item->getState().setPos({ ImGui::GetCursorPosX(), ImGui::GetCursorPosY() });
 
 					item->draw(drawlist, ImGui::GetCursorPosX(), ImGui::GetCursorPosY());
 
-					if (item->m_dirtyPos)
-						ImGui::SetCursorPos(oldCursorPos);
-
-					item->getState().update();
+					item->postDraw();
 				}
 
 				ImGui::EndPopup();
