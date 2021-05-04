@@ -214,11 +214,11 @@ def add_pie_series(x : float, y : float, radius : float, values : List[float], l
 	"""Undocumented function"""
 	...
 
-def add_plot_annotation(*, id: str =..., parent: str ='', before: str ='', label: str ='', source: str ='', show: bool =True, default_value: Any =(0.0, 0.0), offset: List[float] =(0.0, 0.0), color: List[int] =(0, 0, 0, -255), clamped: bool =True) -> str:
+def add_plot(*, id: str =..., width: int =0, height: int =0, parent: str ='', before: str ='', label: str ='', show: bool =True, query_callback: Callable =None, x_axis_name: str ='', y_axis_name: str ='', no_title: bool =False, no_legend: bool =False, no_menus: bool =False, no_box_select: bool =False, no_mouse_pos: bool =False, no_highlight: bool =False, no_child: bool =False, query: bool =False, crosshairs: bool =False, anti_aliased: bool =False, equal_aspects: bool =False, yaxis2: bool =False, yaxis3: bool =False, xaxis_no_gridlines: bool =False, xaxis_no_tick_marks: bool =False, xaxis_no_tick_labels: bool =False, xaxis_log_scale: bool =False, xaxis_time: bool =False, xaxis_invert: bool =False, xaxis_lock_min: bool =False, xaxis_lock_max: bool =False, yaxis_no_gridlines: bool =False, yaxis_no_tick_marks: bool =False, yaxis_no_tick_labels: bool =False, yaxis_log_scale: bool =False, yaxis_invert: bool =False, yaxis_lock_min: bool =False, yaxis_lock_max: bool =False, y2axis_no_gridlines: bool =False, y2axis_no_tick_marks: bool =False, y2axis_no_tick_labels: bool =False, y2axis_log_scale: bool =False, y2axis_invert: bool =False, y2axis_lock_min: bool =False, y2axis_lock_max: bool =False, y3axis_no_gridlines: bool =False, y3axis_no_tick_marks: bool =False, y3axis_no_tick_labels: bool =False, y3axis_log_scale: bool =False, y3axis_invert: bool =False, y3axis_lock_min: bool =False, y3axis_lock_max: bool =False) -> str:
 	"""Undocumented function"""
 	...
 
-def add_plot_stack(*, id: str =..., width: int =0, height: int =0, parent: str ='', before: str ='', label: str ='', show: bool =True, query_callback: Callable =None, x_axis_name: str ='', y_axis_name: str ='', no_title: bool =False, no_legend: bool =False, no_menus: bool =False, no_box_select: bool =False, no_mouse_pos: bool =False, no_highlight: bool =False, no_child: bool =False, query: bool =False, crosshairs: bool =False, anti_aliased: bool =False, equal_aspects: bool =False, yaxis2: bool =False, yaxis3: bool =False, xaxis_no_gridlines: bool =False, xaxis_no_tick_marks: bool =False, xaxis_no_tick_labels: bool =False, xaxis_log_scale: bool =False, xaxis_time: bool =False, xaxis_invert: bool =False, xaxis_lock_min: bool =False, xaxis_lock_max: bool =False, yaxis_no_gridlines: bool =False, yaxis_no_tick_marks: bool =False, yaxis_no_tick_labels: bool =False, yaxis_log_scale: bool =False, yaxis_invert: bool =False, yaxis_lock_min: bool =False, yaxis_lock_max: bool =False, y2axis_no_gridlines: bool =False, y2axis_no_tick_marks: bool =False, y2axis_no_tick_labels: bool =False, y2axis_log_scale: bool =False, y2axis_invert: bool =False, y2axis_lock_min: bool =False, y2axis_lock_max: bool =False, y3axis_no_gridlines: bool =False, y3axis_no_tick_marks: bool =False, y3axis_no_tick_labels: bool =False, y3axis_log_scale: bool =False, y3axis_invert: bool =False, y3axis_lock_min: bool =False, y3axis_lock_max: bool =False) -> str:
+def add_plot_annotation(*, id: str =..., parent: str ='', before: str ='', label: str ='', source: str ='', show: bool =True, default_value: Any =(0.0, 0.0), offset: List[float] =(0.0, 0.0), color: List[int] =(0, 0, 0, -255), clamped: bool =True) -> str:
 	"""Undocumented function"""
 	...
 
@@ -819,6 +819,10 @@ def show_tool(tool : str) -> str:
 	...
 
 def show_viewport(viewport : str, *, minimized: bool =False, maximized: bool =False) -> None:
+	"""Undocumented function"""
+	...
+
+def stage_item(item : str) -> None:
 	"""Undocumented function"""
 	...
 

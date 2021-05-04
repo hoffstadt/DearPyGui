@@ -17,9 +17,8 @@ namespace Marvel {
 
 		static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
 
-		MV_APPLY_WIDGET_REGISTRATION(mvAppItemType::mvPlot, add_plot_stack)
+		MV_APPLY_WIDGET_REGISTRATION(mvAppItemType::mvPlot, add_plot)
 
-		MV_CREATE_EXTRA_COMMAND(add_plot);
 		MV_CREATE_EXTRA_COMMAND(reset_xticks);
 		MV_CREATE_EXTRA_COMMAND(reset_yticks);
 		MV_CREATE_EXTRA_COMMAND(set_xticks);
@@ -119,7 +118,6 @@ namespace Marvel {
 		MV_CREATE_CONSTANT(mvThemeStyle_Plot_PlotMinSizeY,			26L, 1L);
 
 		MV_START_EXTRA_COMMANDS
-			MV_ADD_EXTRA_COMMAND(add_plot);
 			MV_ADD_EXTRA_COMMAND(reset_xticks);
 			MV_ADD_EXTRA_COMMAND(reset_yticks);
 			MV_ADD_EXTRA_COMMAND(set_xticks);
