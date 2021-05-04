@@ -49,6 +49,7 @@ namespace Marvel {
         MV_CREATE_EXTRA_COMMAND(top_parent_stack);
         MV_CREATE_EXTRA_COMMAND(empty_parent_stack);
         MV_CREATE_EXTRA_COMMAND(set_staging_mode);
+        MV_CREATE_EXTRA_COMMAND(stage_item);
         MV_CREATE_EXTRA_COMMAND(unstage_item);
 
         MV_START_EXTRA_COMMANDS
@@ -66,6 +67,7 @@ namespace Marvel {
             MV_ADD_EXTRA_COMMAND(top_parent_stack);
             MV_ADD_EXTRA_COMMAND(empty_parent_stack);
             MV_ADD_EXTRA_COMMAND(set_staging_mode);
+            MV_ADD_EXTRA_COMMAND(stage_item);
             MV_ADD_EXTRA_COMMAND(unstage_item);
         MV_END_EXTRA_COMMANDS
 
@@ -102,6 +104,7 @@ namespace Marvel {
         std::vector<std::string>       getItemChildren   (const std::string& name);
         std::string                    getItemParentName (const std::string& name);
         void                           setPrimaryWindow  (const std::string& name, bool value);
+        void                           stageItem         (const std::string& name);
         void                           unstageItem       (const std::string& name);
         void                           setStagingMode    (bool value);
 

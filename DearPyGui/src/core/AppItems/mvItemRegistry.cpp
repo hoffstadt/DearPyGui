@@ -26,6 +26,13 @@ namespace Marvel {
 		}
 
 		{
+			mvPythonParser parser(mvPyDataType::None);
+			parser.addArg<mvPyDataType::String>("item");
+			parser.finalize();
+			parsers->insert({ "stage_item", parser });
+		}
+
+		{
 			mvPythonParser parser(mvPyDataType::Bool);
 			parser.addArg<mvPyDataType::String>("item");
 			parser.finalize();
@@ -766,6 +773,28 @@ namespace Marvel {
 
 	}
 
+	void mvItemRegistry::stageItem(const std::string& name)
+	{
+		mvRef<mvAppItem> child;
+
+		for (auto& window : m_roots)
+		{
+			child = window->stealChild(name);
+			if (child)
+				break;
+		}
+
+		if (child == nullptr)
+		{
+			mvThrowPythonError(1000, name + " not staged because it was not found");
+			MV_ITEM_REGISTRY_WARN("Could not stage item, it was not found");
+			return;
+		}
+
+		m_stagingArea[child->getName()] = child;
+
+	}
+
 	PyObject* mvItemRegistry::pop_parent_stack(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		std::lock_guard<std::mutex> lk(mvApp::GetApp()->getMutex());
@@ -931,6 +960,20 @@ namespace Marvel {
 
 		//std::lock_guard<std::mutex> lk(mvApp::GetApp()->getMutex());
 		mvApp::GetApp()->getItemRegistry().unstageItem(item);
+
+		return GetPyNone();
+	}
+
+	PyObject* mvItemRegistry::stage_item(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+
+		const char* item;
+
+		if (!(mvApp::GetApp()->getParsers())["stage_item"].parse(args, kwargs, __FUNCTION__, &item))
+			return GetPyNone();
+
+		//std::lock_guard<std::mutex> lk(mvApp::GetApp()->getMutex());
+		mvApp::GetApp()->getItemRegistry().stageItem(item);
 
 		return GetPyNone();
 	}

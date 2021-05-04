@@ -729,19 +729,6 @@ namespace Marvel {
 		checkbitset("y3axis_lock_max",       ImPlotAxisFlags_LockMax,      m_y3flags);
 	}
 
-	PyObject* mvPlot::add_plot(PyObject* self, PyObject* args, PyObject* kwargs)
-	{
-		static int i = 0; i++;
-		std::string name = std::string(std::string("$$DPG_ns") + s_internal_id + std::to_string(i));
-		auto [parent, before] = mvAppItem::GetNameFromArgs(name, args, kwargs);
-		auto item = CreateRef<mvPlot>(name);
-		item->checkArgs(args, kwargs);
-		item->handleSpecificPositionalArgs(args);
-		item->handleKeywordArgs(kwargs);
-		mvApp::GetApp()->getItemRegistry().addItemWithRuntimeChecks(item, parent.c_str(), before.c_str());
-		return ToPyString(name);
-	}
-
 	PyObject* mvPlot::reset_xticks(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		const char* plot;
