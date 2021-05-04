@@ -48,11 +48,9 @@ namespace Marvel {
 
                     for (auto item : mvThemeManager::GetStylesPtr())
                     {
-                        // Uncomment and replace with new command
-
-                        //ImGui::LogText("set_theme_item(mvGuiCol_%s, %i, %i, %i, %i)\r\n",
-                        //    name, (int)(round(col.x * 255.0f)), (int)(round(col.y * 255.0f)), (int)(round(col.z * 255.0f)),
-                        //    (int)(round(col.w * 255.0f)));
+                        ImGui::LogText("set_theme_style(%s, %.3f)\r\n",
+                            std::get<0>(item).c_str(),
+                            (float)round(std::get<3>(item)));
                     }
                     ImGui::LogFinish();
                 }
@@ -91,11 +89,12 @@ namespace Marvel {
 
                     for (auto item : mvThemeManager::GetColorsPtr())
                     {
-                        // Uncomment and replace with new command
-
-                        //ImGui::LogText("set_theme_item(mvGuiCol_%s, %i, %i, %i, %i)\r\n",
-                        //    name, (int)(round(col.x * 255.0f)), (int)(round(col.y * 255.0f)), (int)(round(col.z * 255.0f)),
-                        //    (int)(round(col.w * 255.0f)));
+                        ImGui::LogText("set_theme_color(%s, %i, %i, %i, %i)\r\n",
+                            std::get<0>(item).c_str(), 
+                            (int)(round(std::get<2>(item)->r * 255.0f)), 
+                            (int)(round(std::get<2>(item)->g * 255.0f)), 
+                            (int)(round(std::get<2>(item)->b * 255.0f)),
+                            (int)(round(std::get<2>(item)->a * 255.0f)));
                     }
                     ImGui::LogFinish();
                 }
@@ -133,11 +132,12 @@ namespace Marvel {
 
                     for (auto item : mvThemeManager::GetColorsPtr())
                     {
-                        // Uncomment and replace with new command
-
-                        //ImGui::LogText("set_theme_item(mvGuiCol_%s, %i, %i, %i, %i)\r\n",
-                        //    name, (int)(round(col.x * 255.0f)), (int)(round(col.y * 255.0f)), (int)(round(col.z * 255.0f)),
-                        //    (int)(round(col.w * 255.0f)));
+                        ImGui::LogText("set_theme_color_disabled(%s, %i, %i, %i, %i)\r\n",
+                            std::get<0>(item).c_str(),
+                            (int)(round(std::get<2>(item)->r * 255.0f)),
+                            (int)(round(std::get<2>(item)->g * 255.0f)),
+                            (int)(round(std::get<2>(item)->b * 255.0f)),
+                            (int)(round(std::get<2>(item)->a * 255.0f)));
                     }
                     ImGui::LogFinish();
                 }
