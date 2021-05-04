@@ -75,13 +75,6 @@ namespace Marvel {
 	mvApp::mvApp()
 	{
 
-		// info
-        mvAppLog::Clear();
-		mvAppLog::AddLog("[DearPyGui Version] %0s\n", mvApp::GetVersion());
-		mvAppLog::AddLog("[DearImGui Version] %0s\n", IMGUI_VERSION);
-        mvAppLog::AddLog("[Python Version] %0s\n", PY_VERSION);
-
-
 		m_mainThreadID = std::this_thread::get_id();
 
 #if defined(MV_DEBUG)
@@ -137,8 +130,6 @@ namespace Marvel {
 			ImGui::DockSpaceOverViewport();
 
 		mvEventBus::Publish(mvEVT_CATEGORY_APP, mvEVT_FRAME, {CreateEventArgument("FRAME", ImGui::GetFrameCount() )});
-
-		mvAppLog::render();
 
 		// route input callbacks
 		mvInput::CheckInputs();
@@ -298,7 +289,6 @@ namespace Marvel {
 		mvApp::GetApp()->cleanup();	
 		mvApp::DeleteApp();
 		mvEventBus::Reset();
-		mvAppLog::Clear();
 		Py_END_ALLOW_THREADS;
 
 		return GetPyNone();

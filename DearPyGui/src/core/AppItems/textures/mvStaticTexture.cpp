@@ -50,6 +50,7 @@ namespace Marvel {
 
 	bool mvStaticTexture::isParentCompatible(mvAppItemType type)
 	{
+		if (type == mvAppItemType::mvStagingContainer) return true;
 		if (type == mvAppItemType::mvTextureContainer) return true;
 
 		mvThrowPythonError(1000, "Drawing item parent must be a drawing.");

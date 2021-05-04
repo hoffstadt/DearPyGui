@@ -2,7 +2,6 @@
 #include <mutex>
 #include "mvThreadPool.h"
 #include "mvApp.h"
-#include "mvAppLog.h"
 #include "mvEvents.h"
 
 namespace Marvel {
@@ -104,7 +103,6 @@ namespace Marvel {
 
 			if (m_callCount > s_MaxNumberOfCalls)
 			{
-				mvAppLog::LogWarning("Too many callbacks already in the queue.");
 				return {};
 			}
 

@@ -766,8 +766,13 @@ namespace Marvel{
 			return;
 		}
 
-		if (PyObject* item = PyDict_GetItemString(dict, "name")) m_name = ToString(item);
-		if (PyObject* item = PyDict_GetItemString(dict, "label")) setLabel(ToString(item));
+		if (PyObject* item = PyDict_GetItemString(dict, "label"))
+		{
+			const std::string label = ToString(item);
+			if(!label.empty())
+				setLabel(label);
+		}
+
 		if (PyObject* item = PyDict_GetItemString(dict, "width")) setWidth(ToInt(item));
 		if (PyObject* item = PyDict_GetItemString(dict, "height")) setHeight(ToInt(item));
 		if (PyObject* item = PyDict_GetItemString(dict, "show")) 
@@ -865,7 +870,6 @@ namespace Marvel{
 		if (dict == nullptr)
 			return;
 
-		PyDict_SetItemString(dict, "name", ToPyString(m_name));
 		PyDict_SetItemString(dict, "label", ToPyString(m_specificedlabel));
 		PyDict_SetItemString(dict, "source", ToPyString(m_source));
 		PyDict_SetItemString(dict, "show", ToPyBool(m_show));
@@ -902,9 +906,6 @@ namespace Marvel{
 		auto appitem = mvApp::GetApp()->getItemRegistry().getItem(item);
 
 		PyObject* pdict = PyDict_New();
-
-		if (std::string(item) == "logger##standard")
-			mvAppLog::GetConfigDict(pdict);
 
 		if (appitem)
 		{
@@ -1029,12 +1030,6 @@ namespace Marvel{
 	{
 
 		std::string item = ToString(PyTuple_GetItem(args, 0));
-
-		if (std::string(item) == "logger##standard")
-		{
-			mvAppLog::SetConfigDict(kwargs);
-			return GetPyNone();
-		}
 
 		std::lock_guard<std::mutex> lk(mvApp::GetApp()->getMutex());
 		auto appitem = mvApp::GetApp()->getItemRegistry().getItem(item);

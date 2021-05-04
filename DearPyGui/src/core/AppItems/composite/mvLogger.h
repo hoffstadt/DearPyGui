@@ -32,8 +32,6 @@ namespace Marvel {
 		MV_CREATE_EXTRA_COMMAND(log_warning);
 		MV_CREATE_EXTRA_COMMAND(log_error);
 		MV_CREATE_EXTRA_COMMAND(clear_log);
-		static PyObject* show_logger(PyObject* self, PyObject* args);
-		MV_CREATE_EXTRA_COMMAND(set_logger_window_title);
 
 		MV_START_EXTRA_COMMANDS
 			MV_ADD_EXTRA_COMMAND(get_log_level);
@@ -44,8 +42,6 @@ namespace Marvel {
 			MV_ADD_EXTRA_COMMAND(log_warning);
 			MV_ADD_EXTRA_COMMAND(log_error);
 			MV_ADD_EXTRA_COMMAND(clear_log);
-			MV_ADD_EXTRA_COMMAND(show_logger);
-			MV_ADD_EXTRA_COMMAND(set_logger_window_title);
 		MV_END_EXTRA_COMMANDS
 
 		MV_START_GENERAL_CONSTANTS

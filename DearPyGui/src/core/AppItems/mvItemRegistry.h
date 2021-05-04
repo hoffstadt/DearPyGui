@@ -2,6 +2,7 @@
 
 #include <stack>
 #include <vector>
+#include <unordered_map>
 #include <queue>
 #include <string>
 #include <mutex>
@@ -43,7 +44,12 @@ namespace Marvel {
         MV_CREATE_EXTRA_COMMAND(get_all_items);
         MV_CREATE_EXTRA_COMMAND(get_active_window);
         MV_CREATE_EXTRA_COMMAND(set_primary_window);
-        MV_CREATE_EXTRA_COMMAND(end);
+        MV_CREATE_EXTRA_COMMAND(push_parent_stack);
+        MV_CREATE_EXTRA_COMMAND(pop_parent_stack);
+        MV_CREATE_EXTRA_COMMAND(top_parent_stack);
+        MV_CREATE_EXTRA_COMMAND(empty_parent_stack);
+        MV_CREATE_EXTRA_COMMAND(set_staging_mode);
+        MV_CREATE_EXTRA_COMMAND(unstage_item);
 
         MV_START_EXTRA_COMMANDS
             MV_ADD_EXTRA_COMMAND(move_item);
@@ -55,7 +61,12 @@ namespace Marvel {
             MV_ADD_EXTRA_COMMAND(get_all_items);
             MV_ADD_EXTRA_COMMAND(get_active_window);
             MV_ADD_EXTRA_COMMAND(set_primary_window);
-            MV_ADD_EXTRA_COMMAND(end);
+            MV_ADD_EXTRA_COMMAND(push_parent_stack);
+            MV_ADD_EXTRA_COMMAND(pop_parent_stack);
+            MV_ADD_EXTRA_COMMAND(top_parent_stack);
+            MV_ADD_EXTRA_COMMAND(empty_parent_stack);
+            MV_ADD_EXTRA_COMMAND(set_staging_mode);
+            MV_ADD_EXTRA_COMMAND(unstage_item);
         MV_END_EXTRA_COMMANDS
 
 	public:
@@ -91,6 +102,8 @@ namespace Marvel {
         std::vector<std::string>       getItemChildren   (const std::string& name);
         std::string                    getItemParentName (const std::string& name);
         void                           setPrimaryWindow  (const std::string& name, bool value);
+        void                           unstageItem       (const std::string& name);
+        void                           setStagingMode    (bool value);
 
         //-----------------------------------------------------------------------------
         // Parent stack operations
@@ -111,9 +124,11 @@ namespace Marvel {
 
 	private:
 
-		std::stack<mvRef<mvAppItem>>     m_parents;      // parent stack, top of stack becomes widget's parent
-		std::vector<mvRef<mvAppItem>>    m_roots;
-        std::string                      m_activeWindow;
+		std::stack<mvRef<mvAppItem>>                      m_parents;      // parent stack, top of stack becomes widget's parent
+		std::vector<mvRef<mvAppItem>>                     m_roots;
+        std::unordered_map<std::string, mvRef<mvAppItem>> m_stagingArea;
+        std::string                                       m_activeWindow;
+        bool                                              m_staging = false;
 
 
 	};

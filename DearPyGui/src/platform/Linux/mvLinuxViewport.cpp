@@ -1,6 +1,5 @@
 #include "mvLinuxViewport.h"
 #include "mvApp.h"
-#include "mvAppLog.h"
 #include "mvFontManager.h"
 #include <GL/gl3w.h>
 #include <GLFW/glfw3.h>
@@ -16,9 +15,9 @@
 
 namespace Marvel {
 
-    mvViewport* mvViewport::CreateViewport(unsigned int width, unsigned int height, bool error)
+    mvViewport* mvViewport::CreateViewport(unsigned int width, unsigned int height)
     {
-        return new mvLinuxViewport(width, height, error);
+        return new mvLinuxViewport(width, height);
     }
 
     static void glfw_error_callback(int error, const char* description)
@@ -41,8 +40,8 @@ namespace Marvel {
                     });
     }
 
-    mvLinuxViewport::mvLinuxViewport(unsigned width, unsigned height, bool error)
-		: mvViewport(width, height, error)
+    mvLinuxViewport::mvLinuxViewport(unsigned width, unsigned height)
+		: mvViewport(width, height)
 	{
 	}
 
@@ -171,14 +170,7 @@ namespace Marvel {
         if(GImGui->CurrentWindow == nullptr)
             return;
 
-        if (m_error)
-        {
-            mvAppLog::setSize(m_width, m_height);
-            mvAppLog::render();
-        }
-
-        else
-            m_app->render();
+        m_app->render();
 
         postrender();
     }

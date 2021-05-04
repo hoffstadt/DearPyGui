@@ -1,5 +1,4 @@
 #include "mvWindowsViewport.h"
-#include "mvAppLog.h"
 #include "mvFontManager.h"
 #include <implot.h>
 #include <imnodes.h>
@@ -12,13 +11,13 @@ extern IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg
 
 namespace Marvel {
 
-	mvViewport* mvViewport::CreateViewport(unsigned width, unsigned height, bool error)
+	mvViewport* mvViewport::CreateViewport(unsigned width, unsigned height)
 	{
-		return new mvWindowsViewport(width, height, error);
+		return new mvWindowsViewport(width, height);
 	}
 
-	mvWindowsViewport::mvWindowsViewport(unsigned width, unsigned height, bool error)
-		: mvViewport(width, height, error)
+	mvWindowsViewport::mvWindowsViewport(unsigned width, unsigned height)
+		: mvViewport(width, height)
 	{
 	}
 
@@ -210,16 +209,7 @@ namespace Marvel {
 	void mvWindowsViewport::renderFrame()
 	{
 		prerender();
-
-		if (m_error)
-		{
-			mvAppLog::setSize(m_width, m_height);
-			mvAppLog::render();
-		}
-
-		else
-			m_app->render();
-
+		m_app->render();
 		postrender();
 	}
 
@@ -232,17 +222,14 @@ namespace Marvel {
 		s_pd3dDeviceContext->ClearRenderTargetView(s_mainRenderTargetView, m_clearColor);
 		ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
 
-		//s_pSwapChain->Present(1, 0); // Present with vsync
-		//s_pSwapChain->Present(0, 0); // Present without vsync
-
 		static UINT presentFlags = 0;
-		if (s_pSwapChain->Present(m_vsync ? 1 : 0, presentFlags) == DXGI_STATUS_OCCLUDED) {
+		if (s_pSwapChain->Present(m_vsync ? 1 : 0, presentFlags) == DXGI_STATUS_OCCLUDED) 
+		{
 			presentFlags = DXGI_PRESENT_TEST;
 			Sleep(20);
 		}
-		else {
+		else
 			presentFlags = 0;
-		}
 	}
 
 	bool mvWindowsViewport::CreateDeviceD3D(HWND hWnd)
@@ -265,7 +252,6 @@ namespace Marvel {
 		sd.SwapEffect = DXGI_SWAP_EFFECT_DISCARD;
 
 		UINT createDeviceFlags = 0;
-		//createDeviceFlags |= D3D11_CREATE_DEVICE_DEBUG;
 		D3D_FEATURE_LEVEL featureLevel;
 		const D3D_FEATURE_LEVEL featureLevelArray[2] = { D3D_FEATURE_LEVEL_11_0, D3D_FEATURE_LEVEL_10_0, };
 		if (D3D11CreateDeviceAndSwapChain(nullptr, D3D_DRIVER_TYPE_HARDWARE, nullptr,

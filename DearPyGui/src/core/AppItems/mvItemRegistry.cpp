@@ -13,9 +13,35 @@ namespace Marvel {
 	{
 
 		{
-			mvPythonParser parser(mvPyDataType::None);
+			mvPythonParser parser(mvPyDataType::String);
 			parser.finalize();
-			parsers->insert({ "end", parser });
+			parsers->insert({ "pop_parent_stack", parser });
+		}
+
+		{
+			mvPythonParser parser(mvPyDataType::None);
+			parser.addArg<mvPyDataType::String>("item");
+			parser.finalize();
+			parsers->insert({ "unstage_item", parser });
+		}
+
+		{
+			mvPythonParser parser(mvPyDataType::Bool);
+			parser.addArg<mvPyDataType::String>("item");
+			parser.finalize();
+			parsers->insert({ "push_parent_stack", parser });
+		}
+
+		{
+			mvPythonParser parser(mvPyDataType::String);
+			parser.finalize();
+			parsers->insert({ "top_parent_stack", parser });
+		}
+
+		{
+			mvPythonParser parser(mvPyDataType::String);
+			parser.finalize();
+			parsers->insert({ "empty_parent_stack", parser });
 		}
 
 		{
@@ -37,6 +63,13 @@ namespace Marvel {
 			mvPythonParser parser(mvPyDataType::StringList);
 			parser.finalize();
 			parsers->insert({ "get_all_items", parser });
+		}
+
+		{
+			mvPythonParser parser(mvPyDataType::None);
+			parser.addArg<mvPyDataType::Bool>("mode");
+			parser.finalize();
+			parsers->insert({ "set_staging_mode", parser });
 		}
 
 		{
@@ -94,7 +127,6 @@ namespace Marvel {
 		m_roots.push_back(CreateRef<mvFileDialog>());
 		m_roots.back()->setLabel("FileDialog");
 		m_roots.back()->hide();
-		//m_roots.push_back(CreateRef<mvTextureContainer>("mvTextureContainer"));
 		
 	}
 
@@ -110,6 +142,17 @@ namespace Marvel {
 	{
 
 		MV_ITEM_REGISTRY_TRACE("Attempting to delete: " + name);
+
+		// check staging first
+		if (m_stagingArea.count(name) != 0)
+		{
+			if (childrenOnly)
+				m_stagingArea[name]->deleteChildren();
+			else
+				m_stagingArea.erase(name);
+			MV_ITEM_REGISTRY_INFO(name + " found and deleted.");
+			return true;
+		}
 
 		// delete item's children only
 		if(childrenOnly)
@@ -185,11 +228,17 @@ namespace Marvel {
 
 		bool movedItem = false;
 
-		for (auto window : m_roots)
+		for (auto& window : m_roots)
 		{
 			child = window->stealChild(name);
 			if (child)
 				break;
+		}
+
+		if (m_stagingArea.count(name) != 0)
+		{
+			child = m_stagingArea[name];
+			m_stagingArea.erase(name);
 		}
 
 		if (child == nullptr)
@@ -197,6 +246,7 @@ namespace Marvel {
 			mvThrowPythonError(1000, name + " not moved because it was not found");
 			MV_ITEM_REGISTRY_WARN("Could not move item, it was not found");
 		}
+
 
 		if (child)
 			addRuntimeItem(parent, before, child);
@@ -339,6 +389,11 @@ namespace Marvel {
 		m_parents.push(item);
 	}
 
+	void mvItemRegistry::setStagingMode(bool value)
+	{
+		m_staging = value;
+	}
+
 	mvRef<mvAppItem> mvItemRegistry::popParent()
 	{
 		if (m_parents.empty())
@@ -382,6 +437,9 @@ namespace Marvel {
 			if (child)
 				return child;
 		}
+
+		if(m_stagingArea.count(name) != 0)
+			return m_stagingArea[name];
 
 		//assert(false && "Item not found.");
 
@@ -454,7 +512,7 @@ namespace Marvel {
 
 		enum class AddTechnique
 		{
-			NONE, BEFORE, PARENT, STACK
+			NONE, STAGE, BEFORE, PARENT, STACK
 		};
 		AddTechnique technique = AddTechnique::NONE;
 
@@ -472,10 +530,22 @@ namespace Marvel {
 		}
 
 		//---------------------------------------------------------------------------
-		// STEP 2: handle window case
+		// STEP 2: handle root case
 		//---------------------------------------------------------------------------
 		if (mvAppItem::DoesItemHaveFlag(item.get(), MV_ITEM_DESC_ROOT))
 		{
+			if (m_staging)
+			{
+				m_stagingArea[item->getName()] = item;
+				return true;
+			}
+
+			else if (item->getType() == mvAppItemType::mvStagingContainer)
+			{
+				mvThrowPythonError(1000, "Staging container can only be adding in staging mode.");
+				return false;
+			}
+
 			if (mvApp::IsAppStarted())
 			{
 				m_roots.push_back(item);
@@ -499,6 +569,7 @@ namespace Marvel {
 			parentPtr = getItem(parent);
 			technique = AddTechnique::PARENT;
 		}
+
 		else
 		{
 			parentPtr = topParent();
@@ -510,6 +581,12 @@ namespace Marvel {
 		//---------------------------------------------------------------------------
 		if (parentPtr == nullptr)
 		{
+			if (m_staging)
+			{
+				m_stagingArea[item->getName()] = item;
+				return true;
+			}
+
 			mvThrowPythonError(1000, "Parent could not be deduced.");
 			MV_ITEM_REGISTRY_ERROR("Parent could not be deduced.");
 			assert(false);
@@ -650,7 +727,7 @@ namespace Marvel {
 		}
 		else
 		{
-			mvThrowPythonError(1000, "Window does not exists.");
+			mvThrowPythonError(1000, "Window does not exist.");
 			assert(false);
 		}
 
@@ -661,13 +738,90 @@ namespace Marvel {
 				static_cast<mvWindowAppItem*>(window.get())->setWindowAsMainStatus(false);
 		}
 
-		mvAppLog::Focus();
 	}
 
-	PyObject* mvItemRegistry::end(PyObject* self, PyObject* args, PyObject* kwargs)
+	void mvItemRegistry::unstageItem(const std::string& name)
+	{
+
+		if (m_stagingArea.count(name) != 0)
+		{
+			mvRef<mvAppItem> item = m_stagingArea[name];
+			m_stagingArea.erase(name);
+			if (item->getType() == mvAppItemType::mvStagingContainer)
+			{
+				for (auto& children : item->m_children)
+				{
+					for (auto& child : children)
+						addItemWithRuntimeChecks(child, "", "");
+				}
+			}
+			else
+				addItemWithRuntimeChecks(item, "", "");
+		}
+		else
+		{
+			mvThrowPythonError(1000, "Staged item does not exist.");
+			assert(false);
+		}
+
+	}
+
+	PyObject* mvItemRegistry::pop_parent_stack(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		std::lock_guard<std::mutex> lk(mvApp::GetApp()->getMutex());
-		mvApp::GetApp()->getItemRegistry().popParent();
+		auto item = mvApp::GetApp()->getItemRegistry().popParent();
+		if (item)
+			return ToPyString(item->getName());
+		else
+			return GetPyNone();
+	}
+
+	PyObject* mvItemRegistry::empty_parent_stack(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		std::lock_guard<std::mutex> lk(mvApp::GetApp()->getMutex());
+		mvApp::GetApp()->getItemRegistry().emptyParents();
+		return GetPyNone();
+	}
+
+	PyObject* mvItemRegistry::top_parent_stack(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		std::lock_guard<std::mutex> lk(mvApp::GetApp()->getMutex());
+		auto item = mvApp::GetApp()->getItemRegistry().topParent();
+		if (item)
+			return ToPyString(item->getName());
+		else
+			return GetPyNone();
+	}
+
+	PyObject* mvItemRegistry::push_parent_stack(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		const char* item;
+
+		if (!(mvApp::GetApp()->getParsers())["push_parent_stack"].parse(args, kwargs, __FUNCTION__, &item))
+			return GetPyNone();
+
+		std::lock_guard<std::mutex> lk(mvApp::GetApp()->getMutex());
+		auto parent = mvApp::GetApp()->getItemRegistry().getItem(item);
+		if (parent)
+		{
+			if (mvAppItem::DoesItemHaveFlag(parent.get(), MV_ITEM_DESC_CONTAINER))
+			{
+				mvApp::GetApp()->getItemRegistry().pushParent(parent);
+				return ToPyBool(true);
+			}
+		}
+		return ToPyBool(false);
+	}
+
+	PyObject* mvItemRegistry::set_staging_mode(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		int mode;
+
+		if (!(mvApp::GetApp()->getParsers())["set_staging_mode"].parse(args, kwargs, __FUNCTION__, &mode))
+			return GetPyNone();
+
+		std::lock_guard<std::mutex> lk(mvApp::GetApp()->getMutex());
+		mvApp::GetApp()->getItemRegistry().setStagingMode((bool)mode);
 		return GetPyNone();
 	}
 
@@ -763,6 +917,20 @@ namespace Marvel {
 
 		std::lock_guard<std::mutex> lk(mvApp::GetApp()->getMutex());
 		mvApp::GetApp()->getItemRegistry().moveItemDown(item);
+
+		return GetPyNone();
+	}
+
+	PyObject* mvItemRegistry::unstage_item(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+
+		const char* item;
+
+		if (!(mvApp::GetApp()->getParsers())["unstage_item"].parse(args, kwargs, __FUNCTION__, &item))
+			return GetPyNone();
+
+		//std::lock_guard<std::mutex> lk(mvApp::GetApp()->getMutex());
+		mvApp::GetApp()->getItemRegistry().unstageItem(item);
 
 		return GetPyNone();
 	}

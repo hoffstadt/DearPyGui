@@ -1,6 +1,5 @@
 #include "mvDataGrid.h"
 #include "mvApp.h"
-#include "mvAppLog.h"
 #include "mvItemRegistry.h"
 #include "mvImGuiThemeScope.h"
 #include "mvFontScope.h"

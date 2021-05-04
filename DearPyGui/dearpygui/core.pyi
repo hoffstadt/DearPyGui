@@ -278,6 +278,10 @@ def add_spacing(*, id: str =..., parent: str ='', before: str ='', show: bool =T
 	"""Undocumented function"""
 	...
 
+def add_staging_container(*, id: str =...) -> str:
+	"""Undocumented function"""
+	...
+
 def add_stair_series(x : List[float], y : List[float], *, id: str =..., parent: str ='', before: str ='', label: str ='', source: str ='', show: bool =True, axis: int =0, contribute_to_bounds: bool =True) -> str:
 	"""Undocumented function"""
 	...
@@ -442,11 +446,11 @@ def draw_triangle(p1 : List[float], p2 : List[float], p3 : List[float], *, id: s
 	"""Undocumented function"""
 	...
 
-def enable_docking(*, shift: bool =True, dock_space: bool =False) -> None:
+def empty_parent_stack() -> str:
 	"""Undocumented function"""
 	...
 
-def end() -> None:
+def enable_docking(*, shift: bool =True, dock_space: bool =False) -> None:
 	"""Undocumented function"""
 	...
 
@@ -642,6 +646,14 @@ def open_file_dialog(*, callback: Callable =None, extensions: str ='') -> str:
 	"""Undocumented function"""
 	...
 
+def pop_parent_stack() -> str:
+	"""Undocumented function"""
+	...
+
+def push_parent_stack(item : str) -> bool:
+	"""Undocumented function"""
+	...
+
 def render_dearpygui_frame() -> None:
 	"""Undocumented function"""
 	...
@@ -714,10 +726,6 @@ def set_log_level(level : int, *, logger: str ='') -> None:
 	"""Undocumented function"""
 	...
 
-def set_logger_window_title(title : str) -> None:
-	"""Undocumented function"""
-	...
-
 def set_mouse_click_callback(callback : Callable) -> str:
 	"""Undocumented function"""
 	...
@@ -770,6 +778,10 @@ def set_resize_callback(callback : Callable, *, handler: str ='') -> str:
 	"""Undocumented function"""
 	...
 
+def set_staging_mode(mode : bool) -> None:
+	"""Undocumented function"""
+	...
+
 def set_start_callback(callback : Callable) -> str:
 	"""Undocumented function"""
 	...
@@ -802,10 +814,6 @@ def setup_dearpygui(*, viewport: str ='') -> None:
 	"""Undocumented function"""
 	...
 
-def show_logger() -> None:
-	"""Undocumented function"""
-	...
-
 def show_tool(tool : str) -> str:
 	"""Undocumented function"""
 	...
@@ -815,6 +823,14 @@ def show_viewport(viewport : str, *, minimized: bool =False, maximized: bool =Fa
 	...
 
 def stop_dearpygui() -> None:
+	"""Undocumented function"""
+	...
+
+def top_parent_stack() -> str:
+	"""Undocumented function"""
+	...
+
+def unstage_item(item : str) -> None:
 	"""Undocumented function"""
 	...
 

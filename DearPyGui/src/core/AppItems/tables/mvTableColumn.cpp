@@ -58,6 +58,7 @@ namespace Marvel {
 
 	bool mvTableColumn::isParentCompatible(mvAppItemType type)
 	{
+		if (type == mvAppItemType::mvStagingContainer) return true;
 		if (type == mvAppItemType::mvTable)
 			return true;
 

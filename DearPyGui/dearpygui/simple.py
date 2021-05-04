@@ -54,7 +54,7 @@ def table(*args, header_row: bool = True, width: int = 0, height: int = 0, inner
         None
     """
     try:
-        yield internal_dpg.add_table(*args, header_row=header_row, width = width, height = height, inner_width = inner_width,
+        widget = internal_dpg.add_table(*args, header_row=header_row, width = width, height = height, inner_width = inner_width,
 		    show = show, parent = parent, before = before, resizable = resizable, reorderable = reorderable, hideable = hideable,
 		    sortable = sortable, context_menu_in_body = context_menu_in_body, row_background = row_background,
 		    borders_innerH = borders_innerH, borders_outerH = borders_outerH, borders_innerV = borders_innerV,
@@ -62,15 +62,17 @@ def table(*args, header_row: bool = True, width: int = 0, height: int = 0, inner
 		    no_host_extendY = no_host_extendY, no_keep_columns_visible = no_keep_columns_visible, precise_widths = precise_widths,
 		    no_clip = no_clip, pad_outerX = pad_outerX, no_pad_outerX = no_pad_outerX, no_pad_innerX = no_pad_innerX,
 		    scrollX = scrollX, scrollY = scrollY, id=id)
+        internal_dpg.push_parent_stack(widget)
+        yield widget
     finally:
-        internal_dpg.end()
+        internal_dpg.pop_parent_stack()
 
 @contextmanager
 def window(*args, width: int = 200, height: int = 200, autosize: bool = False,
            no_resize: bool = False, no_title_bar: bool = False, no_move: bool = False, no_scrollbar: bool = False,
            no_collapse: bool = False, horizontal_scrollbar: bool = False, no_focus_on_appearing: bool = False,
            no_bring_to_front_on_focus: bool = False, menubar: bool = False, no_close: bool = False,
-           no_background: bool = False, label: str = "__DearPyGuiDefault", show: bool = True, collapsed: bool = False,
+           no_background: bool = False, label: str = '', show: bool = True, collapsed: bool = False,
            modal: bool = False, popup: bool = False,
            on_close: Callable = None, min_size: List[int]=[32, 32], max_size: List[int] = [30000, 30000], id:str=''):
     """Wraps add_window() and automates calling end().
@@ -105,31 +107,23 @@ def window(*args, width: int = 200, height: int = 200, autosize: bool = False,
         None
     """
     try:
-        if label == "__DearPyGuiDefault":
-            yield internal_dpg.add_window(*args, width=width, height=height, autosize=autosize,
-                                          no_resize=no_resize, no_title_bar=no_title_bar, no_move=no_move,
-                                          no_scrollbar=no_scrollbar, no_collapse=no_collapse,
-                                          horizontal_scrollbar=horizontal_scrollbar,
-                                          no_focus_on_appearing=no_focus_on_appearing,
-                                          no_bring_to_front_on_focus=no_bring_to_front_on_focus,
-                                          menubar=menubar, no_close=no_close, no_background=no_background,
-                                          show=show, collapsed=collapsed, on_close=on_close,
-                                          min_size=min_size, max_size=max_size, id=id, modal=modal,
-                                          popup=popup)
-        else:
-            yield internal_dpg.add_window(*args, width=width, height=height, autosize=autosize,
-                                          no_resize=no_resize, no_title_bar=no_title_bar, no_move=no_move,
-                                          no_scrollbar=no_scrollbar, no_collapse=no_collapse,
-                                          horizontal_scrollbar=horizontal_scrollbar,
-                                          no_focus_on_appearing=no_focus_on_appearing,
-                                          no_bring_to_front_on_focus=no_bring_to_front_on_focus,
-                                          menubar=menubar, no_close=no_close,
-                                          no_background=no_background, label=label, show=show, 
-                                          collapsed=collapsed, on_close=on_close,
-                                          min_size=min_size, max_size=max_size, id=id, modal=modal,
-                                          popup=popup)
+
+        widget = internal_dpg.add_window(*args, width=width, height=height, autosize=autosize,
+                                        no_resize=no_resize, no_title_bar=no_title_bar, no_move=no_move,
+                                        no_scrollbar=no_scrollbar, no_collapse=no_collapse,
+                                        horizontal_scrollbar=horizontal_scrollbar,
+                                        no_focus_on_appearing=no_focus_on_appearing,
+                                        no_bring_to_front_on_focus=no_bring_to_front_on_focus,
+                                        menubar=menubar, no_close=no_close,
+                                        no_background=no_background, label=label, show=show, 
+                                        collapsed=collapsed, on_close=on_close,
+                                        min_size=min_size, max_size=max_size, id=id, modal=modal,
+                                        popup=popup)
+        internal_dpg.push_parent_stack(widget)
+        yield widget
+
     finally:
-        internal_dpg.end()
+        internal_dpg.pop_parent_stack()
 
 
 @contextmanager
@@ -147,13 +141,15 @@ def menu_bar(*args, show: bool = True, parent: str = "", before: str = "", id:st
         None
     """
     try:
-        yield internal_dpg.add_menu_bar(*args, show=show, parent=parent, before=before, id=id)
+        widget = internal_dpg.add_menu_bar(*args, show=show, parent=parent, before=before, id=id)
+        internal_dpg.push_parent_stack(widget)
+        yield widget
     finally:
-        internal_dpg.end()
+        internal_dpg.pop_parent_stack()
 
 
 @contextmanager
-def menu(*args, label: str = "__DearPyGuiDefault", show: bool = True, parent: str = "",
+def menu(*args, label: str = "", show: bool = True, parent: str = "",
          before: str = "", enabled: bool = True, id:str=''):
     """Wraps add_menu() and automates calling end().
 
@@ -170,13 +166,12 @@ def menu(*args, label: str = "__DearPyGuiDefault", show: bool = True, parent: st
         None
     """
     try: 
-        if label == "__DearPyGuiDefault":
-            yield internal_dpg.add_menu(*args, show=show, parent=parent, before=before, enabled=enabled, id=id)
-        else:
-            yield internal_dpg.add_menu(*args, label=label, show=show, parent=parent,
-                                        before=before, enabled=enabled, id=id)
+        widget = internal_dpg.add_menu(*args, label=label, show=show, parent=parent,
+                                    before=before, enabled=enabled, id=id)
+        internal_dpg.push_parent_stack(widget)
+        yield widget
     finally:
-        internal_dpg.end()
+        internal_dpg.pop_parent_stack()
 
 
 @contextmanager
@@ -204,16 +199,18 @@ def child(*args, show: bool = True, parent: str = "", before: str = "", width: i
         None
     """
     try: 
-        yield internal_dpg.add_child(*args, show=show, parent=parent, before=before, width=width,
+        widget = internal_dpg.add_child(*args, show=show, parent=parent, before=before, width=width,
                                      height=height, border=border, autosize_x=autosize_x, autosize_y=autosize_y,
                                      no_scrollbar=no_scrollbar, horizontal_scrollbar=horizontal_scrollbar,
                                      menubar=menubar, id=id)
+        internal_dpg.push_parent_stack(widget)
+        yield widget
     finally:
-        internal_dpg.end()
+        internal_dpg.pop_parent_stack()
 
 
 @contextmanager
-def collapsing_header(*args, label: str = "__DearPyGuiDefault", show: bool = True,
+def collapsing_header(*args, label: str = "", show: bool = True,
                      parent: str = "", before: str = "",closable: bool = False, 
                       default_open: bool = False, open_on_double_click: bool = False, open_on_arrow: bool = False, 
                       leaf: bool = False, bullet: bool = False, id:str=''):
@@ -238,18 +235,14 @@ def collapsing_header(*args, label: str = "__DearPyGuiDefault", show: bool = Tru
         None
     """
     try:
-        if label == "__DearPyGuiDefault":
-            yield internal_dpg.add_collapsing_header(*args, show=show, parent=parent, before=before, 
-                                                     closable=closable, default_open=default_open, 
-                                                     open_on_double_click=open_on_double_click,
-                                                     open_on_arrow=open_on_arrow, leaf=leaf, bullet=bullet, id=id)
-        else:
-            yield internal_dpg.add_collapsing_header(*args, show=show, label=label, parent=parent, before=before, 
-                                                     closable=closable, default_open=default_open, 
-                                                     open_on_double_click=open_on_double_click,
-                                                     open_on_arrow=open_on_arrow, leaf=leaf, bullet=bullet, id=id)
+        widget = internal_dpg.add_collapsing_header(*args, show=show, label=label, parent=parent, before=before, 
+                                                    closable=closable, default_open=default_open, 
+                                                    open_on_double_click=open_on_double_click,
+                                                    open_on_arrow=open_on_arrow, leaf=leaf, bullet=bullet, id=id)
+        internal_dpg.push_parent_stack(widget)
+        yield widget
     finally:
-        internal_dpg.end()
+        internal_dpg.pop_parent_stack()
 
 
 @contextmanager
@@ -271,13 +264,15 @@ def group(*args, show: bool = True, parent: str = "", before: str = "", width: i
         None
     """
     try:
-        yield internal_dpg.add_group(*args, show=show, parent=parent, before=before, width=width,
+        widget = internal_dpg.add_group(*args, show=show, parent=parent, before=before, width=width,
                                      horizontal=horizontal, horizontal_spacing=horizontal_spacing, id=id)
+        internal_dpg.push_parent_stack(widget)
+        yield widget
     finally:
-        internal_dpg.end()
+        internal_dpg.pop_parent_stack()
 
 @contextmanager
-def node(*args, label: str = "__DearPyGuiDefault", show: bool = True, draggable: bool = True,
+def node(*args, label: str = "", show: bool = True, draggable: bool = True,
          parent: str = "", before: str = "", x_pos: int = 100, y_pos: int = 100, id:str=''):
     """Wraps add_node() and automates calling end().
 
@@ -296,14 +291,12 @@ def node(*args, label: str = "__DearPyGuiDefault", show: bool = True, draggable:
         None
     """
     try:
-        if label == "__DearPyGuiDefault":
-            yield internal_dpg.add_node(*args, show=show, parent=parent, before=before, 
-                                                     draggable=draggable, x_pos=x_pos, y_pos=y_pos, id=id)
-        else:
-            yield internal_dpg.add_node(*args, label=label, show=show, parent=parent, before=before, 
-                                                     draggable=draggable, x_pos=x_pos, y_pos=y_pos, id=id)
+        widget = internal_dpg.add_node(*args, label=label, show=show, parent=parent, before=before, 
+                                                    draggable=draggable, x_pos=x_pos, y_pos=y_pos, id=id)
+        internal_dpg.push_parent_stack(widget)
+        yield widget
     finally:
-        internal_dpg.end()
+        internal_dpg.pop_parent_stack()
 
 @contextmanager
 def node_attribute(*args, show: bool = True, output: bool = False,
@@ -323,11 +316,12 @@ def node_attribute(*args, show: bool = True, output: bool = False,
         None
     """
     try:
-        yield internal_dpg.add_node_attribute(*args, show=show, parent=parent, before=before, 
+        widget = internal_dpg.add_node_attribute(*args, show=show, parent=parent, before=before, 
                                                     output=output, static=static, shape=shape, id=id)
-
+        internal_dpg.push_parent_stack(widget)
+        yield widget
     finally:
-        internal_dpg.end()
+        internal_dpg.pop_parent_stack()
 
 @contextmanager
 def node_editor(*args, show: bool = True, parent: str = "", before: str = "", callback: Callable = None, 
@@ -347,11 +341,33 @@ def node_editor(*args, show: bool = True, parent: str = "", before: str = "", ca
         None
     """
     try:
-        yield internal_dpg.add_node_editor(*args, show=show, parent=parent, before=before, 
+        widget = internal_dpg.add_node_editor(*args, show=show, parent=parent, before=before, 
                                            callback=callback, delink_callback=delink_callback, id=id)
+        internal_dpg.push_parent_stack(widget)
+        yield widget
     finally:
-        internal_dpg.end()
+        internal_dpg.pop_parent_stack()
 
+@contextmanager
+def staging_container(*args, id:str=''):
+    """Wraps add_menu_bar() and automates calling end().
+
+    Args:
+        name: Unique name used to programmatically refer to the item. If label is unused this will be the label,
+            anything after "##" that occurs in the name will not be shown on screen.
+        **show: Decides if the item is shown of not.
+        **parent: Parent this item will be added to. (runtime adding)
+        **before: This item will be displayed before the specified item in the parent. (runtime adding)
+
+    Returns:
+        None
+    """
+    try:
+        widget = internal_dpg.add_staging_container(id=id)
+        internal_dpg.push_parent_stack(widget)
+        yield widget
+    finally:
+        internal_dpg.pop_parent_stack()
 
 @contextmanager
 def tab_bar(*args, reorderable: bool = False, callback: Callable = None, callback_data: Any = None,  show: bool = True,
@@ -372,14 +388,16 @@ def tab_bar(*args, reorderable: bool = False, callback: Callable = None, callbac
         None
     """
     try:
-        yield internal_dpg.add_tab_bar(*args, reorderable=reorderable, callback=callback, callback_data=callback_data,
+        widget = internal_dpg.add_tab_bar(*args, reorderable=reorderable, callback=callback, callback_data=callback_data,
                                        show=show, parent=parent, before=before, id=id)
+        internal_dpg.push_parent_stack(widget)
+        yield widget
     finally:
-        internal_dpg.end()
+        internal_dpg.pop_parent_stack()
 
 
 @contextmanager
-def tab(*args, closable: bool = False, label: str = "__DearPyGuiDefault", show: bool = True,
+def tab(*args, closable: bool = False, label: str = "", show: bool = True,
         no_reorder: bool = False, leading: bool = False, trailing: bool = False, no_tooltip: bool = False,
         parent: str = "", before: str = "", id:str=''):
     """Wraps add_tab() and automates calling end().
@@ -401,18 +419,17 @@ def tab(*args, closable: bool = False, label: str = "__DearPyGuiDefault", show: 
         None
     """
     try:
-        if label == "__DearPyGuiDefault":
-            yield internal_dpg.add_tab(*args, closable=closable, show=show, parent=parent, before=before,
-                                       no_reorder=no_reorder, leading=leading, trailing=trailing, no_tooltip=no_tooltip, id=id)
-        else:
-            yield internal_dpg.add_tab(*args, closable=closable, label=label, show=show, parent=parent,
-                                       before=before, no_reorder=no_reorder, leading=leading, trailing=trailing, no_tooltip=no_tooltip, id=id)
+        widget = internal_dpg.add_tab(*args, closable=closable, label=label, show=show, parent=parent,
+                                    before=before, no_reorder=no_reorder, leading=leading, 
+                                    trailing=trailing, no_tooltip=no_tooltip, id=id)
+        internal_dpg.push_parent_stack(widget)
+        yield widget
     finally:
-        internal_dpg.end()
+        internal_dpg.pop_parent_stack()
 
 
 @contextmanager
-def tree_node(*args, label: str = "__DearPyGuiDefault", show: bool = True, parent: str = "", 
+def tree_node(*args, label: str = "", show: bool = True, parent: str = "", 
               before: str = "", default_open: bool = False, open_on_double_click: bool = False, 
               open_on_arrow: bool = False, leaf: bool = False, bullet: bool = False, id:str='',
               selectable: bool = False):
@@ -435,20 +452,15 @@ def tree_node(*args, label: str = "__DearPyGuiDefault", show: bool = True, paren
         None
     """
     try:
-        if label == "__DearPyGuiDefault":
-            yield internal_dpg.add_tree_node(*args, show=show, parent=parent,
-                                             before=before, default_open=default_open, 
-                                             open_on_double_click=open_on_double_click, 
-                                             open_on_arrow=open_on_arrow,
-                                             leaf=leaf, bullet=bullet, id=id, selectable=selectable)
-        else:
-            yield internal_dpg.add_tree_node(*args, show=show, parent=parent,
-                                             before=before, default_open=default_open, 
-                                             open_on_double_click=open_on_double_click, 
-                                             open_on_arrow=open_on_arrow,
-                                             leaf=leaf, bullet=bullet, label=label, id=id, selectable=selectable)
+        widget = internal_dpg.add_tree_node(*args, show=show, parent=parent,
+                                            before=before, default_open=default_open, 
+                                            open_on_double_click=open_on_double_click, 
+                                            open_on_arrow=open_on_arrow,
+                                            leaf=leaf, bullet=bullet, label=label, id=id, selectable=selectable)
+        internal_dpg.push_parent_stack(widget)
+        yield widget
     finally:
-        internal_dpg.end()
+        internal_dpg.pop_parent_stack()
 
 
 @contextmanager
@@ -467,9 +479,11 @@ def tooltip(*args, parent: str = "", before: str = "", show: bool = True, id:str
         None
     """
     try:
-        yield internal_dpg.add_tooltip(*args, parent=parent, before=before, show=show, id=id)
+        widget = internal_dpg.add_tooltip(*args, parent=parent, before=before, show=show, id=id)
+        internal_dpg.push_parent_stack(widget)
+        yield widget
     finally:
-        internal_dpg.end()
+        internal_dpg.pop_parent_stack()
 
 
 @contextmanager
@@ -494,10 +508,12 @@ def popup(*args, mousebutton: int = 1, modal: bool = False, parent: str = "",
         None
     """
     try:
-        yield internal_dpg.add_popup(*args, mousebutton=mousebutton, modal=modal, parent=parent,
+        widget = internal_dpg.add_popup(*args, mousebutton=mousebutton, modal=modal, parent=parent,
                                      before=before, width=width, height=height, show=show, id=id)
+        internal_dpg.push_parent_stack(widget)
+        yield widget
     finally:
-        internal_dpg.end()
+        internal_dpg.pop_parent_stack()
 
 ########################################################################################################################
 # Old Commands
@@ -705,22 +721,6 @@ def is_item_ok(item: str) -> Union[bool, None]:
         status as a bool
     """
     return internal_dpg.get_item_state(item)["ok"]
-
-
-def set_item_name(item: str, name: str):
-    """Sets the item's name, anything after the characters "##" in the name will not be shown.
-
-        If no label is specified then by default this will be the displayed label.
-
-    Args:
-        item: Item name will be applied to.
-        name: Unique name used to programmatically refer to the item. If label is unused this will be the label,
-            anything after "##" that occurs in the name will not be shown on screen.
-
-    Returns:
-        None
-    """
-    internal_dpg.configure_item(item, name=name)
 
 
 def set_item_label(item: str, label: str):
@@ -988,10 +988,10 @@ def show_font_manager(sender: str="", data: Any=None) -> None:
     """
     internal_dpg.show_tool("mvFontManager")
 
-def show_layout(sender: str="", data: Any=None) -> None:
+def show_item_registry(sender: str="", data: Any=None) -> None:
     """Shows the standard documentation window
 
     Returns:
         None
     """
-    internal_dpg.show_tool("mvLayoutWindow")
+    internal_dpg.show_tool("mvItemRegistry")

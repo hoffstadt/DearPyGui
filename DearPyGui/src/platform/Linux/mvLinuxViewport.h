@@ -11,7 +11,7 @@ namespace Marvel {
 
 	public:
 
-        mvLinuxViewport(unsigned width, unsigned height, bool error = false);
+        mvLinuxViewport(unsigned width, unsigned height);
 		~mvLinuxViewport();
 
 		void show(bool minimized, bool maximized) override;
