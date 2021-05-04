@@ -1011,7 +1011,7 @@ def show_demo():
 
         with collapsing_header(id="Drawings##demo"):
 
-            push_parent_stack(add_drawing(width=900, height=200) )
+            push_container_stack(add_drawing(width=900, height=200) )
             draw_line((10, 10), (100, 100), color=(255, 0, 0, 255), thickness=1)
             draw_rectangle((0, 0), (900, 200), color=(255, 0, 0, 255), fill=(0, 0, 25, 255), rounding=12, thickness = 1.0) 
             draw_triangle((150, 10), (110, 100), (190, 100), color=(255, 255, 0, 255), thickness = 3.0)
@@ -1024,7 +1024,7 @@ def show_demo():
             draw_text((0, 0), "Origin", color=(255, 255, 0, 255), size=15)
             draw_polygon(((710, 10), (780, 50), (730, 75), (710, 10)), color=(255, 125, 0, 255), thickness=1.0, fill=(255, 125, 0, 50))
             draw_polyline(((810, 20), (835, 50), (890, 10)), color=(255, 255, 0, 255), thickness=1.0)
-            pop_parent_stack()
+            pop_container_stack()
 
         with collapsing_header(id="Plots##demo"):
 
