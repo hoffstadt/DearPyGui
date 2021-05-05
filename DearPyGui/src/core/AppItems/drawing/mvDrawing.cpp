@@ -59,6 +59,8 @@ namespace Marvel {
 		m_startx = (float)ImGui::GetCursorScreenPos().x;
 		m_starty = (float)ImGui::GetCursorScreenPos().y;
 
+		ImDrawList* internal_drawlist = ImGui::GetWindowDrawList();
+
 		ImGui::PushClipRect({ m_startx, m_starty }, { m_startx + (float)m_width, m_starty + (float)m_height }, true);
 
 		for (auto& item : m_children[0])
@@ -67,7 +69,7 @@ namespace Marvel {
 			if (!item->m_show)
 				continue;
 
-			item->draw(drawlist, m_startx, m_starty);
+			item->draw(internal_drawlist, m_startx, m_starty);
 
 			item->getState().update();
 		}
@@ -78,7 +80,7 @@ namespace Marvel {
 			if (!item->m_show)
 				continue;
 
-			item->draw(drawlist, m_startx, m_starty);
+			item->draw(internal_drawlist, m_startx, m_starty);
 
 			item->getState().update();
 		}

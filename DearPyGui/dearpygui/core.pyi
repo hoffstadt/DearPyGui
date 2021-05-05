@@ -306,6 +306,10 @@ def add_table_next_column(*, id: str =..., indent: int =-1, parent: str ='', bef
 	"""Undocumented function"""
 	...
 
+def add_table_row(*, id: str =..., indent: int =-1, parent: str ='', before: str ='', show: bool =True) -> str:
+	"""Undocumented function"""
+	...
+
 def add_text(default_value : str ='', *, id: str =..., indent: int =-1, parent: str ='', before: str ='', label: str ='', source: str ='', show: bool =True, wrap: int =-1, bullet: bool =False, color: List[float] =(-1, -1, -1, -1), show_label: bool =False) -> str:
 	"""Undocumented function"""
 	...
@@ -615,6 +619,10 @@ def push_container_stack(item : str) -> bool:
 	...
 
 def render_dearpygui_frame() -> None:
+	"""Undocumented function"""
+	...
+
+def reorder_items(items : List[str], new_order : List[str]) -> None:
 	"""Undocumented function"""
 	...
 

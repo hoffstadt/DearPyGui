@@ -69,6 +69,16 @@ def table(*args, header_row: bool = True, width: int = 0, height: int = 0, inner
         internal_dpg.pop_container_stack()
 
 @contextmanager
+def table_row(*args, id:str=''):
+    try:
+        widget = internal_dpg.add_table_row(*args, id=id)
+        internal_dpg.push_container_stack(widget)
+        yield widget
+
+    finally:
+        internal_dpg.pop_container_stack()
+
+@contextmanager
 def window(*args, width: int = 200, height: int = 200, autosize: bool = False,
            no_resize: bool = False, no_title_bar: bool = False, no_move: bool = False, no_scrollbar: bool = False,
            no_collapse: bool = False, horizontal_scrollbar: bool = False, no_focus_on_appearing: bool = False,

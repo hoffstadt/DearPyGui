@@ -136,6 +136,24 @@ namespace Marvel {
 
 				item->postDraw();
 			}
+
+			ImGuiListClipper clipper;
+			clipper.Begin(m_children[2].size());
+			while (clipper.Step())
+			{
+				for (int row_n = clipper.DisplayStart; row_n < clipper.DisplayEnd; row_n++)
+				{
+					auto& item = m_children[2][row_n];
+					if (!item->preDraw())
+						continue;
+
+					ImGui::TableNextRow();
+					item->draw(drawlist, ImGui::GetCursorPosX(), ImGui::GetCursorPosY());
+
+					item->postDraw();
+				}
+			}
+
 			ImGui::EndTable();
 		}
 

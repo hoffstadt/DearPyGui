@@ -1009,6 +1009,23 @@ def show_demo():
                             if not (i == 9 and j == 2):
                                 add_table_next_column()
 
+            with tree_node(label="Rows"):
+
+                with table(header_row=True, no_host_extendX=True,
+                           borders_innerH=True, borders_outerH=True, borders_innerV=True,
+                           borders_outerV=True, context_menu_in_body=True, row_background=True,
+                           policy=mvTable_SizingFixedFit, height=500,
+                           scrollY=True):
+                    add_table_column(label="1")
+                    add_table_column(label="2")
+                    add_table_column(label="3")
+
+                    for i in range(0, 1000):
+                        with table_row():
+                            add_input_int(label=" ", step=0, width=-1)
+                            add_button(label=f"Cell {i}, 1")
+                            add_text(f"Cell {i}, 2")
+
             with tree_node(label="Sorting"):
 
                 add_checkbox(id="sort_multi##tables10##demo", default_value=False, callback=lambda sender:configure_item("table10##demo", sort_multi=get_value(sender)))
@@ -1064,13 +1081,13 @@ def show_demo():
                     add_table_column(id="Two##democolumns10")
                     add_table_column(id="three##democolumns10")
 
-                    for i in range(0, 100):
+                    for i in range(0, 1000):
                             add_input_int(label=" ", step=0, width=-1)
                             add_table_next_column()
                             add_text(f"Cell {i}, 1")
                             add_table_next_column()
-                            add_text(f"Cell {i}, 2")
-                            if i != 99:
+                            add_checkbox(label=f"Cell {i}, 2")
+                            if i != 999:
                                 add_table_next_column()
 
         with collapsing_header(id="Drawings##demo"):
