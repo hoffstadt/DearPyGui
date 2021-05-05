@@ -176,7 +176,7 @@ namespace Marvel {
 		ImVector<ImWchar> ranges;
 		ImFontGlyphRangesBuilder builder;
 
-		static ImFontAtlas atlas = ImFontAtlas();
+		static ImFontAtlas atlas;
 		if (rangeHint.empty())                                          builder.AddRanges(atlas.GetGlyphRangesDefault());
 		else if (rangeHint == std::string("korean"))                    builder.AddRanges(atlas.GetGlyphRangesKorean());
 		else if (rangeHint == std::string("japanese"))	                 builder.AddRanges(atlas.GetGlyphRangesJapanese());
