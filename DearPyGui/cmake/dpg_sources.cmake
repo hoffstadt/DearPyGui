@@ -99,6 +99,7 @@ set(MARVEL_SOURCES
 	"src/core/AppItems/tables/mvTable.cpp"
 	"src/core/AppItems/tables/mvTableColumn.cpp"
 	"src/core/AppItems/tables/mvTableNextColumn.cpp"
+	"src/core/AppItems/tables/mvTableRow.cpp"
 
 	"src/core/AppItems/custom/mvDatePicker.cpp"
 	"src/core/AppItems/custom/mvTimePicker.cpp"

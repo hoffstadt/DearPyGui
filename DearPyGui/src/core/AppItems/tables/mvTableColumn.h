@@ -8,6 +8,9 @@ namespace Marvel {
 	MV_REGISTER_WIDGET(mvTableColumn, MV_ITEM_DESC_DEFAULT, StorageValueTypes::None, 0);
 	class mvTableColumn : public mvAppItem
 	{
+		
+		// for access to ID
+		friend class mvTable;
 
 	public:
 
@@ -39,6 +42,7 @@ namespace Marvel {
 
 		ImGuiTableColumnFlags m_flags = 0;
 		float m_init_width_or_weight = 0.0f;
+		ImGuiID m_id = 0u;
 
 	};
 

@@ -48,6 +48,7 @@
 #include "tables/mvTable.h"
 #include "tables/mvTableColumn.h"
 #include "tables/mvTableNextColumn.h"
+#include "tables/mvTableRow.h"
 
 #include "drawing/mvDrawing.h"
 #include "drawing/mvDrawLine.h"
