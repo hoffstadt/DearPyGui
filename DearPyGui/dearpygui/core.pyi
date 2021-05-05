@@ -294,7 +294,7 @@ def add_tab_button(*, id: str =..., indent: int =-1, parent: str ='', before: st
 	"""Undocumented function"""
 	...
 
-def add_table(*, id: str =..., width: int =0, height: int =0, indent: int =-1, parent: str ='', before: str ='', show: bool =True, header_row: bool =True, inner_width: int =0, policy: int =0, resizable: bool =False, reorderable: bool =False, hideable: bool =False, sortable: bool =False, context_menu_in_body: bool =False, row_background: bool =False, borders_innerH: bool =False, borders_outerH: bool =False, borders_innerV: bool =False, borders_outerV: bool =False, no_host_extendX: bool =False, no_host_extendY: bool =False, no_keep_columns_visible: bool =False, precise_widths: bool =False, no_clip: bool =False, pad_outerX: bool =False, no_pad_outerX: bool =False, no_pad_innerX: bool =False, scrollX: bool =False, scrollY: bool =False) -> str:
+def add_table(*, id: str =..., width: int =0, height: int =0, indent: int =-1, parent: str ='', before: str ='', callback: Callable =None, show: bool =True, header_row: bool =True, inner_width: int =0, policy: int =0, sort_multi: bool =False, sort_tristate: bool =False, resizable: bool =False, reorderable: bool =False, hideable: bool =False, sortable: bool =False, context_menu_in_body: bool =False, row_background: bool =False, borders_innerH: bool =False, borders_outerH: bool =False, borders_innerV: bool =False, borders_outerV: bool =False, no_host_extendX: bool =False, no_host_extendY: bool =False, no_keep_columns_visible: bool =False, precise_widths: bool =False, no_clip: bool =False, pad_outerX: bool =False, no_pad_outerX: bool =False, no_pad_innerX: bool =False, scrollX: bool =False, scrollY: bool =False) -> str:
 	"""Undocumented function"""
 	...
 
@@ -766,7 +766,7 @@ def show_viewport(viewport : str, *, minimized: bool =False, maximized: bool =Fa
 	"""Undocumented function"""
 	...
 
-def stage_item(item : str) -> None:
+def stage_items(items : List[str]) -> None:
 	"""Undocumented function"""
 	...
 
@@ -778,7 +778,7 @@ def top_container_stack() -> str:
 	"""Undocumented function"""
 	...
 
-def unstage_item(item : str) -> None:
+def unstage_items(items : List[str]) -> None:
 	"""Undocumented function"""
 	...
 

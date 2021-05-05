@@ -49,8 +49,9 @@ namespace Marvel {
         MV_CREATE_EXTRA_COMMAND(top_container_stack);
         MV_CREATE_EXTRA_COMMAND(empty_container_stack);
         MV_CREATE_EXTRA_COMMAND(set_staging_mode);
-        MV_CREATE_EXTRA_COMMAND(stage_item);
-        MV_CREATE_EXTRA_COMMAND(unstage_item);
+        MV_CREATE_EXTRA_COMMAND(stage_items);
+        MV_CREATE_EXTRA_COMMAND(unstage_items);
+        MV_CREATE_EXTRA_COMMAND(reorder_items);
 
         MV_START_EXTRA_COMMANDS
             MV_ADD_EXTRA_COMMAND(move_item);
@@ -67,8 +68,9 @@ namespace Marvel {
             MV_ADD_EXTRA_COMMAND(top_container_stack);
             MV_ADD_EXTRA_COMMAND(empty_container_stack);
             MV_ADD_EXTRA_COMMAND(set_staging_mode);
-            MV_ADD_EXTRA_COMMAND(stage_item);
-            MV_ADD_EXTRA_COMMAND(unstage_item);
+            MV_ADD_EXTRA_COMMAND(stage_items);
+            MV_ADD_EXTRA_COMMAND(unstage_items);
+            MV_ADD_EXTRA_COMMAND(reorder_items);
         MV_END_EXTRA_COMMANDS
 
 	public:
@@ -99,14 +101,14 @@ namespace Marvel {
         bool                           addItemWithRuntimeChecks(mvRef<mvAppItem> item, const char* parent, const char* before);
         
         // called by python interface
-        std::vector<std::string>       getAllItems       ();
-        std::vector<std::string>       getWindows        ();
-        std::vector<std::string>       getItemChildren   (const std::string& name);
-        std::string                    getItemParentName (const std::string& name);
-        void                           setPrimaryWindow  (const std::string& name, bool value);
-        void                           stageItem         (const std::string& name);
-        void                           unstageItem       (const std::string& name);
-        void                           setStagingMode    (bool value);
+        std::vector<std::string>              getAllItems       ();
+        std::vector<std::string>              getWindows        ();
+        std::vector<std::vector<std::string>> getItemChildren   (const std::string& name);
+        std::string                           getItemParentName (const std::string& name);
+        void                                  setPrimaryWindow  (const std::string& name, bool value);
+        void                                  stageItem         (const std::string& name);
+        void                                  unstageItem       (const std::string& name);
+        void                                  setStagingMode    (bool value);
 
         //-----------------------------------------------------------------------------
         // Parent stack operations

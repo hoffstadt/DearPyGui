@@ -75,6 +75,12 @@ namespace Marvel {
 		int  m_inner_width = 0;
 		ImGuiTableFlags m_flags = 0;
 		bool m_tableHeader = true;
+
+		struct SortSpec 
+		{
+			std::string column;
+			int direction;
+		};
 		
 	};
 
