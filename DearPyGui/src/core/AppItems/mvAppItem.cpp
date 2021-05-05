@@ -719,8 +719,11 @@ namespace Marvel{
 		m_theme_font_dirty = true;
 		m_cached_font = nullptr;
 
-		for (auto& child : m_children[1])
-			child->inValidateThemeFontCache();
+		for (auto& childset : m_children)
+		{
+			for (auto& child : childset)
+				child->inValidateThemeFontCache();
+		}
 	}
 
 	void mvAppItem::setThemeColorCacheValid()

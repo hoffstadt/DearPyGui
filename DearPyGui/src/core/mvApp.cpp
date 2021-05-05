@@ -129,6 +129,7 @@ namespace Marvel {
 		if (m_dockingViewport)
 			ImGui::DockSpaceOverViewport();
 
+
 		mvEventBus::Publish(mvEVT_CATEGORY_APP, mvEVT_FRAME, {CreateEventArgument("FRAME", ImGui::GetFrameCount() )});
 
 		// route input callbacks

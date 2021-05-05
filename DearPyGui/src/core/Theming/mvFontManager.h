@@ -24,7 +24,7 @@ namespace Marvel {
 			std::string                         rangeHint;
 			int                                 size;
 			std::vector<ImWchar>                chars;
-			std::vector<std::array<ImWchar, 3>> fontGlyphRangeCustom;
+			ImVector<ImWchar>                   ranges;
 			std::vector<std::pair<int, int>>    charRemaps;
 		};
 

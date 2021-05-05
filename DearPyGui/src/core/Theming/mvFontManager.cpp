@@ -169,13 +169,31 @@ namespace Marvel {
 		newFont.key = font + std::to_string(size);
 		newFont.name = font;
 		newFont.file = file;
-		newFont.rangeHint = rangeHint;
 		newFont.size = size;
-		newFont.chars = chars;
-		newFont.fontGlyphRangeCustom = fontGlyphRangeCustom;
-		newFont.charRemaps = charRemaps;
 		newFont.fontPtr = nullptr;
+		newFont.charRemaps = charRemaps;
 
+		ImVector<ImWchar> ranges;
+		ImFontGlyphRangesBuilder builder;
+
+		static ImFontAtlas atlas = ImFontAtlas();
+		if (rangeHint.empty())                                          builder.AddRanges(atlas.GetGlyphRangesDefault());
+		else if (rangeHint == std::string("korean"))                    builder.AddRanges(atlas.GetGlyphRangesKorean());
+		else if (rangeHint == std::string("japanese"))	                 builder.AddRanges(atlas.GetGlyphRangesJapanese());
+		else if (rangeHint == std::string("chinese_full"))              builder.AddRanges(atlas.GetGlyphRangesChineseFull());
+		else if (rangeHint == std::string("chinese_simplified_common")) builder.AddRanges(atlas.GetGlyphRangesChineseSimplifiedCommon());
+		else if (rangeHint == std::string("cyrillic"))                  builder.AddRanges(atlas.GetGlyphRangesCyrillic());
+		else if (rangeHint == std::string("thai"))                      builder.AddRanges(atlas.GetGlyphRangesThai());
+		else if (rangeHint == std::string("vietnamese"))                builder.AddRanges(atlas.GetGlyphRangesVietnamese());
+		else { assert(false); }
+
+		for (const auto& range : fontGlyphRangeCustom)
+			builder.AddRanges(range.data());
+		for (const auto& charitem : chars)
+			builder.AddChar(charitem);
+
+		builder.BuildRanges(&ranges);   // Build the final result (ordered ranges with all the unique characters submitted)
+		newFont.ranges = ranges;
 		m_fonts.push_back(newFont);
 
 		m_dirty = true;
@@ -208,49 +226,24 @@ namespace Marvel {
 		io.Fonts->Clear();
 		io.FontDefault = io.Fonts->AddFontDefault();
 
-		// Add character ranges and merge into the previous font
-		// The ranges array is not copied by the AddFont* functions and is used lazily
-		// so ensure it is available at the time of building or calling GetTexDataAsRGBA32().
-		const ImWchar icons_ranges[] = { 0x0370, 0x03ff, 0 }; // Will not be copied by AddFont* so keep in scope.
-
 		for (auto& font : m_fonts)
 		{
-			ImVector<ImWchar> ranges;
-			ImFontGlyphRangesBuilder builder;
 
-			if (font.rangeHint.empty())                                          builder.AddRanges(io.Fonts->GetGlyphRangesDefault());
-			else if (font.rangeHint == std::string("korean"))                    builder.AddRanges(io.Fonts->GetGlyphRangesKorean());
-			else if (font.rangeHint == std::string("japanese"))	                 builder.AddRanges(io.Fonts->GetGlyphRangesJapanese());
-			else if (font.rangeHint == std::string("chinese_full"))              builder.AddRanges(io.Fonts->GetGlyphRangesChineseFull());
-			else if (font.rangeHint == std::string("chinese_simplified_common")) builder.AddRanges(io.Fonts->GetGlyphRangesChineseSimplifiedCommon());
-			else if (font.rangeHint == std::string("cyrillic"))                  builder.AddRanges(io.Fonts->GetGlyphRangesCyrillic());
-			else if (font.rangeHint == std::string("thai"))                      builder.AddRanges(io.Fonts->GetGlyphRangesThai());
-			else if (font.rangeHint == std::string("vietnamese"))                builder.AddRanges(io.Fonts->GetGlyphRangesVietnamese());
-			else io.Fonts->AddFontDefault();
-
-			builder.AddRanges(icons_ranges); // Add one of the default ranges
-
-			for (const auto& range : font.fontGlyphRangeCustom)
-				builder.AddRanges(range.data());
-			for (const auto& charitem : font.chars)
-				builder.AddChar(charitem);
-
-			builder.BuildRanges(&ranges);   // Build the final result (ordered ranges with all the unique characters submitted)
-
-			font.fontPtr = io.Fonts->AddFontFromFileTTF(font.file.c_str(), (float)font.size, nullptr, ranges.Data);
+			font.fontPtr = io.Fonts->AddFontFromFileTTF(font.file.c_str(), (float)font.size, nullptr, font.ranges.Data);
 
 			if (font.fontPtr == nullptr)
 			{
 				mvThrowPythonError(1000, "Font file could not be found");
 				io.Fonts->Build();
+				break;
 			}
 
 			for (auto& item : font.charRemaps)
 				font.fontPtr->AddRemapChar(item.first, item.second);
 
 			io.Fonts->Build();
+			
 		}
-
 		InValidateFontTheme();
 	}
 
@@ -389,8 +382,8 @@ namespace Marvel {
 		const char* file;
 		float size = 13.0f;
 		const char* glyph_ranges = "";
-		PyObject* custom_glyph_ranges = nullptr;
 		PyObject* custom_glyph_chars = nullptr;
+		PyObject* custom_glyph_ranges = nullptr;
 		PyObject* char_remaps = nullptr;
 
 		if (!(mvApp::GetApp()->getParsers())["add_font"].parse(args, kwargs, __FUNCTION__,
@@ -405,11 +398,13 @@ namespace Marvel {
 		std::vector<std::array<ImWchar, 3>> imgui_custom_ranges;
 		std::vector<ImWchar> imgui_custom_chars;
 
+		imgui_custom_ranges.push_back({ (ImWchar)0x0370, (ImWchar)0x03ff, 0 });
 		for (auto& item : custom_ranges)
 			imgui_custom_ranges.push_back({ (ImWchar)item.first, (ImWchar)item.second, 0 });
 		for (auto& item : custom_chars)
 			imgui_custom_chars.push_back((ImWchar)item);
 
+		std::lock_guard<std::mutex> lk(mvApp::GetApp()->getMutex());
 		mvToolManager::GetFontManager().addFont(font, file, (int)size, glyph_ranges, imgui_custom_chars,
 			imgui_custom_ranges, custom_remaps);
 
@@ -427,16 +422,19 @@ namespace Marvel {
 
 		std::lock_guard<std::mutex> lk(mvApp::GetApp()->getMutex());
 
-		mvEventBus::Publish
-		(
-			mvEVT_CATEGORY_THEMES,
-			SID("set_font"),
+		mvApp::GetApp()->getCallbackRegistry().submit([=]()
 			{
-				CreateEventArgument("WIDGET", std::string(item)),
-				CreateEventArgument("FONT", std::string(font)),
-				CreateEventArgument("SIZE", size)
-			}
-		);
+				mvEventBus::Publish
+				(
+					mvEVT_CATEGORY_THEMES,
+					SID("set_font"),
+					{
+						CreateEventArgument("WIDGET", std::string(item)),
+						CreateEventArgument("FONT", std::string(font)),
+						CreateEventArgument("SIZE", size)
+					}
+				);
+			});
 
 		return GetPyNone();
 	}
