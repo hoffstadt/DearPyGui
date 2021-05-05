@@ -58,10 +58,6 @@ def add_combo(items : List[str] =(), *, id: str =..., width: int =0, indent: int
 	"""Undocumented function"""
 	...
 
-def add_data_grid(headers : List[str] =..., *, id: str =..., width: int =0, height: int =0, indent: int =-1, parent: str ='', before: str ='', callback: Callable =None, callback_data: Any =None, show: bool =True, hide_headers: bool =False) -> str:
-	"""Undocumented function"""
-	...
-
 def add_date_picker(*, id: str =..., indent: int =-1, parent: str ='', before: str ='', callback: Callable =None, callback_data: Any =None, show: bool =True, default_value: dict ={'month_day': 14, 'year':20, 'month':5}, level: int =0) -> str:
 	"""Undocumented function"""
 	...
@@ -107,14 +103,6 @@ def add_error_series(x : List[float], y : List[float], negative : List[float], p
 	...
 
 def add_font(font : str, file : str, size : float, glyph_ranges : str ='', *, custom_glyph_chars: List[int] =[], custom_glyph_ranges: Any =[[]], char_remaps: Any =[[]]) -> None:
-	"""Undocumented function"""
-	...
-
-def add_grid_column(data_grid : str, name : str, column : List[str]) -> None:
-	"""Undocumented function"""
-	...
-
-def add_grid_row(data_grid : str, row : List[str]) -> None:
 	"""Undocumented function"""
 	...
 
@@ -354,10 +342,6 @@ def cleanup_dearpygui() -> None:
 	"""Undocumented function"""
 	...
 
-def clear_data_grid(data_grid : str) -> List[List[str]]:
-	"""Undocumented function"""
-	...
-
 def clear_log(*, logger: str ='') -> None:
 	"""Undocumented function"""
 	...
@@ -383,14 +367,6 @@ def configure_viewport() -> None:
 	...
 
 def create_viewport(*, title: str ='Dear PyGui', small_icon: str ='', large_icon: str ='', width: str =1280, height: str =800, x_pos: str =100, y_pos: str =100, min_width: str =250, max_width: str =10000, min_height: str =250, max_height: str =10000, resizable: bool =True, vsync: bool =True, always_on_top: bool =False, maximized_box: bool =True, minimized_box: bool =True, border: bool =True, caption: bool =True, overlapped: bool =True, clear_color: List[float] =(0, 0, 0, 255)) -> str:
-	"""Undocumented function"""
-	...
-
-def delete_grid_column(data_grid : str, column_index : int) -> None:
-	"""Undocumented function"""
-	...
-
-def delete_grid_row(data_grid : str, row : int) -> None:
 	"""Undocumented function"""
 	...
 
@@ -482,14 +458,6 @@ def get_global_font_scale() -> float:
 	"""Undocumented function"""
 	...
 
-def get_grid_data(data_grid : str) -> List[List[str]]:
-	"""Undocumented function"""
-	...
-
-def get_grid_selections(data_grid : str) -> Any:
-	"""Undocumented function"""
-	...
-
 def get_item_configuration(item : str) -> dict:
 	"""Undocumented function"""
 	...
@@ -551,14 +519,6 @@ def get_value(item : str) -> Any:
 	...
 
 def get_windows() -> List[str]:
-	"""Undocumented function"""
-	...
-
-def insert_grid_column(data_grid : str, column_index : int, name : str, column : List[str]) -> None:
-	"""Undocumented function"""
-	...
-
-def insert_grid_row(data_grid : str, row_index : int, row : List[str]) -> None:
 	"""Undocumented function"""
 	...
 
@@ -687,22 +647,6 @@ def set_font(font : str, size : float, *, item: str ='') -> None:
 	...
 
 def set_global_font_scale(scale : float) -> None:
-	"""Undocumented function"""
-	...
-
-def set_grid_data(data_grid : str, data : List[List[str]]) -> None:
-	"""Undocumented function"""
-	...
-
-def set_grid_headers(data_grid : str, headers : List[str]) -> None:
-	"""Undocumented function"""
-	...
-
-def set_grid_item(data_grid : str, row : int, column : int, value : str) -> str:
-	"""Undocumented function"""
-	...
-
-def set_grid_selection(data_grid : str, row : int, column : int, value : bool) -> str:
 	"""Undocumented function"""
 	...
 
