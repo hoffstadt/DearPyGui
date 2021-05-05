@@ -15,7 +15,7 @@ namespace Marvel {
 		{
 			mvPythonParser parser(mvPyDataType::String);
 			parser.finalize();
-			parsers->insert({ "pop_parent_stack", parser });
+			parsers->insert({ "pop_container_stack", parser });
 		}
 
 		{
@@ -36,19 +36,19 @@ namespace Marvel {
 			mvPythonParser parser(mvPyDataType::Bool);
 			parser.addArg<mvPyDataType::String>("item");
 			parser.finalize();
-			parsers->insert({ "push_parent_stack", parser });
+			parsers->insert({ "push_container_stack", parser });
 		}
 
 		{
 			mvPythonParser parser(mvPyDataType::String);
 			parser.finalize();
-			parsers->insert({ "top_parent_stack", parser });
+			parsers->insert({ "top_container_stack", parser });
 		}
 
 		{
 			mvPythonParser parser(mvPyDataType::String);
 			parser.finalize();
-			parsers->insert({ "empty_parent_stack", parser });
+			parsers->insert({ "empty_container_stack", parser });
 		}
 
 		{
@@ -393,7 +393,7 @@ namespace Marvel {
 
 	void mvItemRegistry::pushParent(mvRef<mvAppItem> item)
 	{
-		m_parents.push(item);
+		m_containers.push(item);
 	}
 
 	void mvItemRegistry::setStagingMode(bool value)
@@ -403,31 +403,31 @@ namespace Marvel {
 
 	mvRef<mvAppItem> mvItemRegistry::popParent()
 	{
-		if (m_parents.empty())
+		if (m_containers.empty())
 		{
-			mvThrowPythonError(1000, "No parent to pop.");
-			MV_ITEM_REGISTRY_WARN("No parent to pop.");
+			mvThrowPythonError(1000, "No container to pop.");
+			MV_ITEM_REGISTRY_WARN("No container to pop.");
 			assert(false);
 			return nullptr;
 		}
 
-		auto item = m_parents.top();
-		m_parents.pop();
+		auto item = m_containers.top();
+		m_containers.pop();
 		return item;
 	}
 
 	void mvItemRegistry::emptyParents()
 	{
-		while (!m_parents.empty())
-			m_parents.pop();
+		while (!m_containers.empty())
+			m_containers.pop();
 
-		MV_ITEM_REGISTRY_INFO("Parent stack emptied.");
+		MV_ITEM_REGISTRY_INFO("Container stack emptied.");
 	}
 
 	mvRef<mvAppItem> mvItemRegistry::topParent()
 	{
-		if (!m_parents.empty())
-			return m_parents.top();
+		if (!m_containers.empty())
+			return m_containers.top();
 		return nullptr;
 	}
 
@@ -530,9 +530,9 @@ namespace Marvel {
 		//---------------------------------------------------------------------------
 		if (mvAppItem::DoesItemHaveFlag(item.get(), MV_ITEM_DESC_ROOT) && topParent() != nullptr)
 		{
-			mvThrowPythonError(1000, "Parent stack not empty.");
+			mvThrowPythonError(1000, "Container stack not empty.");
 			emptyParents();
-			MV_ITEM_REGISTRY_ERROR("Parent stack not empty when adding " + item->m_name);
+			MV_ITEM_REGISTRY_ERROR("Container stack not empty when adding " + item->m_name);
 			assert(false);
 		}
 
@@ -795,7 +795,7 @@ namespace Marvel {
 
 	}
 
-	PyObject* mvItemRegistry::pop_parent_stack(PyObject* self, PyObject* args, PyObject* kwargs)
+	PyObject* mvItemRegistry::pop_container_stack(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		std::lock_guard<std::mutex> lk(mvApp::GetApp()->getMutex());
 		auto item = mvApp::GetApp()->getItemRegistry().popParent();
@@ -805,14 +805,14 @@ namespace Marvel {
 			return GetPyNone();
 	}
 
-	PyObject* mvItemRegistry::empty_parent_stack(PyObject* self, PyObject* args, PyObject* kwargs)
+	PyObject* mvItemRegistry::empty_container_stack(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		std::lock_guard<std::mutex> lk(mvApp::GetApp()->getMutex());
 		mvApp::GetApp()->getItemRegistry().emptyParents();
 		return GetPyNone();
 	}
 
-	PyObject* mvItemRegistry::top_parent_stack(PyObject* self, PyObject* args, PyObject* kwargs)
+	PyObject* mvItemRegistry::top_container_stack(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		std::lock_guard<std::mutex> lk(mvApp::GetApp()->getMutex());
 		auto item = mvApp::GetApp()->getItemRegistry().topParent();
@@ -822,11 +822,11 @@ namespace Marvel {
 			return GetPyNone();
 	}
 
-	PyObject* mvItemRegistry::push_parent_stack(PyObject* self, PyObject* args, PyObject* kwargs)
+	PyObject* mvItemRegistry::push_container_stack(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		const char* item;
 
-		if (!(mvApp::GetApp()->getParsers())["push_parent_stack"].parse(args, kwargs, __FUNCTION__, &item))
+		if (!(mvApp::GetApp()->getParsers())["push_container_stack"].parse(args, kwargs, __FUNCTION__, &item))
 			return GetPyNone();
 
 		std::lock_guard<std::mutex> lk(mvApp::GetApp()->getMutex());

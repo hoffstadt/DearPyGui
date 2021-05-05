@@ -37,7 +37,7 @@ namespace Marvel {
 	void mvTextureContainer::draw(ImDrawList* drawlist, float x, float y)
 	{
 
-		for (auto item : m_children[1])
+		for (auto& item : m_children[1])
 			item->draw(drawlist, ImGui::GetCursorPosX(), ImGui::GetCursorPosY());
 
 		if (m_show)

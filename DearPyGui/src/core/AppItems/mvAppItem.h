@@ -39,7 +39,7 @@ namespace Marvel {
         mvColorPicker, mvTooltip, mvCollapsingHeader,
         mvSeparator, mvCheckbox, mvListbox, mvText, mvCombo,
         mvPlot, mvSimplePlot, mvDrawing, mvWindowAppItem,
-        mvPopup, mvSelectable, mvTreeNode, mvProgressBar, mvDataGrid, mvDummy,
+        mvPopup, mvSelectable, mvTreeNode, mvProgressBar, mvDummy,
         mvImageButton, mvTimePicker, mvDatePicker, mvColorButton,
         mvFileDialog, mvTabButton, mvLoggerItem,
         mvNodeEditor, mvNode, mvNodeAttribute,
@@ -197,7 +197,9 @@ namespace Marvel {
         [[nodiscard]] virtual StorageValueTypes getValueType () const = 0;
 
         // actual immediate mode drawing instructions
+        virtual bool preDraw();
         virtual void draw(ImDrawList* drawlist, float x, float y) = 0;
+        virtual void postDraw();
 
         //-----------------------------------------------------------------------------
         // These methods handle setting the widget's value using PyObject*'s or
@@ -307,6 +309,7 @@ namespace Marvel {
         mvAppItemState                m_state;
         bool                          m_focusNextFrame = false;
         bool                          m_dirtyPos = false;
+        ImVec2                        m_previousCursorPos = { 0.0f, 0.0f };
 
         mvAppItem*                    m_parentPtr = nullptr;
         std::vector<mvRef<mvAppItem>> m_children[3] = { {}, {}, {} };
@@ -339,6 +342,7 @@ namespace Marvel {
         std::string    m_before = "";
         int            m_width = 0;
         int            m_height = 0;
+        float          m_indent = -1.0f;
         int            m_windowPosx = 0;
         int            m_windowPosy = 0;
         int            m_posx = 0;

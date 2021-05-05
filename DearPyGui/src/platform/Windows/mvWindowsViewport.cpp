@@ -5,6 +5,7 @@
 #include <cstdlib>
 #include <ctime>
 #include "mvToolManager.h"
+#include "mvItemRegistry.h"
 
 // Forward declare message handler from imgui_impl_win32.cpp
 extern IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
@@ -201,7 +202,10 @@ namespace Marvel {
 		ImGui::NewFrame();
 
 
-
+		//if (auto item = mvApp::GetApp()->getItemRegistry().getItem("INTERNAL_DPG_FONT_ATLAS"))
+		//{
+		//	static_cast<mvStaticTexture*>(item.get())->markDirty();
+		//}
 		//if (!mvApp::GetApp()->getTextureStorage().isValid())
 		//	mvApp::GetApp()->getTextureStorage().refreshAtlas();
 	}

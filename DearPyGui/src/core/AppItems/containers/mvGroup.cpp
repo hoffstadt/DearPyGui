@@ -51,35 +51,15 @@ namespace Marvel {
 			if (m_width != 0)
 				item->setWidth(m_width);
 
-			// skip item if it's not shown
-			if (!item->m_show)
+			if (!item->preDraw())
 				continue;
-
-			// set item width
-			if (item->m_width != 0)
-				ImGui::SetNextItemWidth((float)item->m_width);
-
-			if (item->m_focusNextFrame)
-			{
-				ImGui::SetKeyboardFocusHere();
-				item->m_focusNextFrame = false;
-			}
-
-			auto oldCursorPos = ImGui::GetCursorPos();
-			if (item->m_dirtyPos)
-				ImGui::SetCursorPos(item->getState().getItemPos());
-
-			item->getState().setPos({ ImGui::GetCursorPosX(), ImGui::GetCursorPosY() });
 
 			item->draw(drawlist, ImGui::GetCursorPosX(), ImGui::GetCursorPosY());
 
-			if (item->m_dirtyPos)
-				ImGui::SetCursorPos(oldCursorPos);
+			item->postDraw();
 
 			if (m_horizontal)
 				ImGui::SameLine(0.0, m_hspacing);
-
-			item->getState().update();
 		}
 
 		if (m_width != 0)

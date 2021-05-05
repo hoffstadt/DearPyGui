@@ -44,10 +44,10 @@ namespace Marvel {
         MV_CREATE_EXTRA_COMMAND(get_all_items);
         MV_CREATE_EXTRA_COMMAND(get_active_window);
         MV_CREATE_EXTRA_COMMAND(set_primary_window);
-        MV_CREATE_EXTRA_COMMAND(push_parent_stack);
-        MV_CREATE_EXTRA_COMMAND(pop_parent_stack);
-        MV_CREATE_EXTRA_COMMAND(top_parent_stack);
-        MV_CREATE_EXTRA_COMMAND(empty_parent_stack);
+        MV_CREATE_EXTRA_COMMAND(push_container_stack);
+        MV_CREATE_EXTRA_COMMAND(pop_container_stack);
+        MV_CREATE_EXTRA_COMMAND(top_container_stack);
+        MV_CREATE_EXTRA_COMMAND(empty_container_stack);
         MV_CREATE_EXTRA_COMMAND(set_staging_mode);
         MV_CREATE_EXTRA_COMMAND(stage_item);
         MV_CREATE_EXTRA_COMMAND(unstage_item);
@@ -62,10 +62,10 @@ namespace Marvel {
             MV_ADD_EXTRA_COMMAND(get_all_items);
             MV_ADD_EXTRA_COMMAND(get_active_window);
             MV_ADD_EXTRA_COMMAND(set_primary_window);
-            MV_ADD_EXTRA_COMMAND(push_parent_stack);
-            MV_ADD_EXTRA_COMMAND(pop_parent_stack);
-            MV_ADD_EXTRA_COMMAND(top_parent_stack);
-            MV_ADD_EXTRA_COMMAND(empty_parent_stack);
+            MV_ADD_EXTRA_COMMAND(push_container_stack);
+            MV_ADD_EXTRA_COMMAND(pop_container_stack);
+            MV_ADD_EXTRA_COMMAND(top_container_stack);
+            MV_ADD_EXTRA_COMMAND(empty_container_stack);
             MV_ADD_EXTRA_COMMAND(set_staging_mode);
             MV_ADD_EXTRA_COMMAND(stage_item);
             MV_ADD_EXTRA_COMMAND(unstage_item);
@@ -127,7 +127,7 @@ namespace Marvel {
 
 	private:
 
-		std::stack<mvRef<mvAppItem>>                      m_parents;      // parent stack, top of stack becomes widget's parent
+		std::stack<mvRef<mvAppItem>>                      m_containers;      // parent stack, top of stack becomes widget's parent
 		std::vector<mvRef<mvAppItem>>                     m_roots;
         std::unordered_map<std::string, mvRef<mvAppItem>> m_stagingArea;
         std::string                                       m_activeWindow;
