@@ -1009,6 +1009,87 @@ def show_demo():
                             if not (i == 9 and j == 2):
                                 add_table_next_column()
 
+            with tree_node(label="Rows"):
+
+                with table(header_row=True, no_host_extendX=True,
+                           borders_innerH=True, borders_outerH=True, borders_innerV=True,
+                           borders_outerV=True, context_menu_in_body=True, row_background=True,
+                           policy=mvTable_SizingFixedFit, height=500,
+                           scrollY=True):
+                    add_table_column(label="1")
+                    add_table_column(label="2")
+                    add_table_column(label="3")
+
+                    for i in range(0, 1000):
+                        with table_row():
+                            add_input_int(label=" ", step=0, width=-1)
+                            add_button(label=f"Cell {i}, 1")
+                            add_text(f"Cell {i}, 2")
+
+            with tree_node(label="Sorting"):
+
+                add_checkbox(id="sort_multi##tables10##demo", default_value=False, callback=lambda sender:configure_item("table10##demo", sort_multi=get_value(sender)))
+                add_checkbox(id="sort_tristate##tables10##demo", default_value=False, callback=lambda sender:configure_item("table10##demo", sort_tristate=get_value(sender)))
+
+                def sort_callback(sender, data):
+
+                    children = get_item_info(sender)["children"][1]
+                    
+                    oldList = []
+                    i = 0
+                    while i < len(children)-5:
+                        row = []
+                        row.append(children[i])
+                        row.append(children[i+1])
+                        row.append(children[i+2])
+                        row.append(children[i+3])
+                        row.append(children[i+4])
+                        row.append(children[i+5])
+                        oldList.append(row)
+                        i+=6
+                        
+                    def col1_sorter(e):
+                        return get_value(e[0])
+                    def col2_sorter(e):
+                        return get_value(e[2])
+
+                    reverse = False
+                    if data[0][1] < 0:
+                        reverse = True
+
+                    if data[0][0] == get_item_info(sender)["children"][0][0]:
+                        oldList.sort(key=col1_sorter, reverse=reverse)
+                    elif data[0][0] == get_item_info(sender)["children"][0][1]:
+                        oldList.sort(key=col2_sorter, reverse=reverse)
+
+                    single_list = []
+                    for row in oldList:
+                        for col in row:
+                            single_list.append(col)
+                        
+
+                    push_container_stack(sender)
+                    reorder_items(children, single_list)
+                    pop_container_stack()
+
+                with table(id="table10##demo", header_row=True, no_host_extendX=True,
+                           borders_innerH=True, borders_outerH=True, borders_innerV=True,
+                           borders_outerV=True, context_menu_in_body=True, row_background=True,
+                           policy=mvTable_SizingFixedFit, height=500, sortable=True, callback=sort_callback,
+                           scrollY=True):
+                    add_table_column(id="One##democolumns10")
+                    add_table_column(id="Two##democolumns10")
+                    add_table_column(id="three##democolumns10")
+
+                    for i in range(0, 1000):
+                            add_input_int(label=" ", step=0, width=-1)
+                            add_table_next_column()
+                            add_text(f"Cell {i}, 1")
+                            add_table_next_column()
+                            add_checkbox(label=f"Cell {i}, 2")
+                            if i != 999:
+                                add_table_next_column()
+
         with collapsing_header(id="Drawings##demo"):
 
             push_container_stack(add_drawing(width=900, height=200) )

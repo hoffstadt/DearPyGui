@@ -573,11 +573,11 @@ namespace Marvel{
 	{
 		mvRef<mvAppItem> stolenChild = nullptr;
 
-		auto operation = [&](std::vector<mvRef<mvAppItem>>& children)
+		for (auto& childset : m_children)
 		{
 			bool childfound = false;
 
-			for (auto& item : children)
+			for (auto& item : childset)
 			{
 				if (item->m_name == name)
 				{
@@ -595,9 +595,9 @@ namespace Marvel{
 
 			if (childfound)
 			{
-				std::vector<mvRef<mvAppItem>> oldchildren = children;
+				std::vector<mvRef<mvAppItem>> oldchildren = childset;
 
-				children.clear();
+				childset.clear();
 
 				for (auto& item : oldchildren)
 				{
@@ -608,18 +608,14 @@ namespace Marvel{
 						continue;
 					}
 
-					children.push_back(item);
+					childset.push_back(item);
 				}
+
+				return stolenChild;
 			}
 
-			return static_cast<mvRef<mvAppItem>>(CreateRef<mvButton>("Not possible"));
-		};
-
-
-		for (auto& childset : m_children)
-		{
-			if (operation(childset))
-				return stolenChild;
+			
+			//return static_cast<mvRef<mvAppItem>>(CreateRef<mvButton>("Not possible"));
 		}
 
 		return stolenChild;
@@ -892,7 +888,17 @@ namespace Marvel{
 		if (children.empty())
 			PyDict_SetItemString(dict, "children", GetPyNone());
 		else
-			PyDict_SetItemString(dict, "children", ToPyList(children));
+		{
+			PyObject* pyChildren = PyDict_New();
+			int i = 0;
+			for (const auto& slot : children)
+			{
+				//PyDict_SetItemString(pyChildren, std::to_string(i).c_str(), ToPyList(slot));
+				PyDict_SetItem(pyChildren, ToPyInt(i), ToPyList(slot));
+				i++;
+			}
+			PyDict_SetItemString(dict, "children", pyChildren);
+		}
 
 		PyDict_SetItemString(dict, "type", ToPyString(parserCommand));
 

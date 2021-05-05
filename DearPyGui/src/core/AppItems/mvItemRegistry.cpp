@@ -20,16 +20,24 @@ namespace Marvel {
 
 		{
 			mvPythonParser parser(mvPyDataType::None);
-			parser.addArg<mvPyDataType::String>("item");
+			parser.addArg<mvPyDataType::StringList>("items");
+			parser.addArg<mvPyDataType::StringList>("new_order");
 			parser.finalize();
-			parsers->insert({ "unstage_item", parser });
+			parsers->insert({ "reorder_items", parser });
 		}
 
 		{
 			mvPythonParser parser(mvPyDataType::None);
-			parser.addArg<mvPyDataType::String>("item");
+			parser.addArg<mvPyDataType::StringList>("items");
 			parser.finalize();
-			parsers->insert({ "stage_item", parser });
+			parsers->insert({ "unstage_items", parser });
+		}
+
+		{
+			mvPythonParser parser(mvPyDataType::None);
+			parser.addArg<mvPyDataType::StringList>("items");
+			parser.finalize();
+			parsers->insert({ "stage_items", parser });
 		}
 
 		{
@@ -523,7 +531,7 @@ namespace Marvel {
 		};
 		AddTechnique technique = AddTechnique::NONE;
 
-		std::lock_guard<std::mutex> lk(mvApp::GetApp()->getMutex());
+		//std::lock_guard<std::mutex> lk(mvApp::GetApp()->getMutex());
 
 		//---------------------------------------------------------------------------
 		// STEP 1: empty parent stack if mistakes were made
@@ -644,19 +652,21 @@ namespace Marvel {
 		return "";
 	}
 
-	std::vector<std::string> mvItemRegistry::getItemChildren(const std::string& name)
+	std::vector<std::vector<std::string>> mvItemRegistry::getItemChildren(const std::string& name)
 	{
 
 		mvRef<mvAppItem> item = getItem(name);
 
-		std::vector<std::string> childList;
+		std::vector<std::vector<std::string>> childList;
 
 		if (item)
 		{
 			for (auto& children : item->m_children)
 			{
+				std::vector<std::string> childSlot;
 				for (auto& child : children)
-					childList.emplace_back(child->m_name);
+					childSlot.emplace_back(child->m_name);
+				childList.push_back(childSlot);
 			}
 
 		}
@@ -950,30 +960,55 @@ namespace Marvel {
 		return GetPyNone();
 	}
 
-	PyObject* mvItemRegistry::unstage_item(PyObject* self, PyObject* args, PyObject* kwargs)
+	PyObject* mvItemRegistry::reorder_items(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 
-		const char* item;
+		PyObject* items = nullptr;
+		PyObject* new_order = nullptr;
 
-		if (!(mvApp::GetApp()->getParsers())["unstage_item"].parse(args, kwargs, __FUNCTION__, &item))
+		if (!(mvApp::GetApp()->getParsers())["reorder_items"].parse(args, kwargs, __FUNCTION__, 
+			&items, &new_order))
 			return GetPyNone();
 
-		//std::lock_guard<std::mutex> lk(mvApp::GetApp()->getMutex());
-		mvApp::GetApp()->getItemRegistry().unstageItem(item);
+		auto aitems = ToStringVect(items);
+		auto anew_order = ToStringVect(new_order);
+		std::lock_guard<std::mutex> lk(mvApp::GetApp()->getMutex());
+		for (const auto& item : aitems)
+			mvApp::GetApp()->getItemRegistry().stageItem(item);
+		for (const auto& item : anew_order)
+			mvApp::GetApp()->getItemRegistry().unstageItem(item);
+		return GetPyNone();
+	}
+
+	PyObject* mvItemRegistry::unstage_items(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+
+		PyObject* items = nullptr;
+
+		if (!(mvApp::GetApp()->getParsers())["unstage_items"].parse(args, kwargs, __FUNCTION__, &items))
+			return GetPyNone();
+
+		auto aitems = ToStringVect(items);
+		std::lock_guard<std::mutex> lk(mvApp::GetApp()->getMutex());
+		for(const auto& item : aitems)
+			mvApp::GetApp()->getItemRegistry().unstageItem(item);
+
 
 		return GetPyNone();
 	}
 
-	PyObject* mvItemRegistry::stage_item(PyObject* self, PyObject* args, PyObject* kwargs)
+	PyObject* mvItemRegistry::stage_items(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 
-		const char* item;
+		PyObject* items = nullptr;
 
-		if (!(mvApp::GetApp()->getParsers())["stage_item"].parse(args, kwargs, __FUNCTION__, &item))
+		if (!(mvApp::GetApp()->getParsers())["stage_items"].parse(args, kwargs, __FUNCTION__, &items))
 			return GetPyNone();
 
-		//std::lock_guard<std::mutex> lk(mvApp::GetApp()->getMutex());
-		mvApp::GetApp()->getItemRegistry().stageItem(item);
+		auto aitems = ToStringVect(items);
+		std::lock_guard<std::mutex> lk(mvApp::GetApp()->getMutex());
+		for (const auto& item : aitems)
+			mvApp::GetApp()->getItemRegistry().stageItem(item);
 
 		return GetPyNone();
 	}

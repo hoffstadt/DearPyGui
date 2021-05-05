@@ -137,16 +137,11 @@ namespace Marvel {
 
 		mvToolManager::Draw();
 
-		//m_textureStorage->show_debugger();
-		//m_fontManager->show_debugger();
-
         std::lock_guard<std::mutex> lk(m_mutex);
 		mvEventBus::Publish(mvEVT_CATEGORY_APP, mvEVT_PRE_RENDER);
 		mvEventBus::Publish(mvEVT_CATEGORY_APP, mvEVT_PRE_RENDER_RESET);
 		mvEventBus::Publish(mvEVT_CATEGORY_APP, mvEVT_RENDER);
 		mvEventBus::Publish(mvEVT_CATEGORY_APP, mvEVT_END_FRAME);
-
-        //mvEventBus::ShowDebug();
 	}
 
 	bool mvApp::checkIfMainThread() const
