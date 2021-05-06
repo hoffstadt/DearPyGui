@@ -1,5 +1,7 @@
 from dearpygui.core import *
 from dearpygui.simple import *
+from dearpygui.contexts import *
+from dearpygui.themes import *
 from math import sin, cos
 import random
 
