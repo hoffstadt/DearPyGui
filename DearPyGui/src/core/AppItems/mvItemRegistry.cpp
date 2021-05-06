@@ -20,7 +20,8 @@ namespace Marvel {
 
 		{
 			mvPythonParser parser(mvPyDataType::None);
-			parser.addArg<mvPyDataType::StringList>("items");
+			parser.addArg<mvPyDataType::String>("container");
+			parser.addArg<mvPyDataType::Integer>("slot");
 			parser.addArg<mvPyDataType::StringList>("new_order");
 			parser.finalize();
 			parsers->insert({ "reorder_items", parser });
@@ -349,7 +350,7 @@ namespace Marvel {
 		MV_PROFILE_FUNCTION();
 
 		// resets app items states (i.e. hovered)
-		for (auto window : m_roots)
+		for (auto& window : m_roots)
 			window->resetState();
 
 		return false;
@@ -963,20 +964,37 @@ namespace Marvel {
 	PyObject* mvItemRegistry::reorder_items(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 
-		PyObject* items = nullptr;
+		const char* container;
+		int slot = 0;
 		PyObject* new_order = nullptr;
 
 		if (!(mvApp::GetApp()->getParsers())["reorder_items"].parse(args, kwargs, __FUNCTION__, 
-			&items, &new_order))
+			&container, &slot, &new_order))
 			return GetPyNone();
 
-		auto aitems = ToStringVect(items);
 		auto anew_order = ToStringVect(new_order);
 		std::lock_guard<std::mutex> lk(mvApp::GetApp()->getMutex());
-		for (const auto& item : aitems)
-			mvApp::GetApp()->getItemRegistry().stageItem(item);
+
+		auto parent = mvApp::GetApp()->getItemRegistry().getItem(container);
+
+		std::vector<mvRef<mvAppItem>>& children = parent->getChildren(slot);
+
+		std::vector<mvRef<mvAppItem>> newchildren;
+		newchildren.reserve(children.size());
+
+		// todo: better sorting algorithm
 		for (const auto& item : anew_order)
-			mvApp::GetApp()->getItemRegistry().unstageItem(item);
+		{
+			for (auto& child : children)
+			{
+				if (child->getName() == item)
+				{
+					newchildren.emplace_back(child);
+					break;
+				}
+			}
+		}
+		children = newchildren;
 		return GetPyNone();
 	}
 

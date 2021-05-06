@@ -1036,22 +1036,34 @@ def show_demo():
                     children = get_item_info(sender)["children"][1]
                     
                     oldList = []
+                    col1 = []
+                    col2 = []
                     i = 0
+                    j = 0
                     while i < len(children)-5:
                         row = []
+
+                        col1.append(children[i])
+                        col2.append(children[i+2])
+
                         row.append(children[i])
                         row.append(children[i+1])
                         row.append(children[i+2])
                         row.append(children[i+3])
                         row.append(children[i+4])
                         row.append(children[i+5])
+                        row.append(j)
                         oldList.append(row)
                         i+=6
+                        j+=1
                         
+                    col1values = get_values(col1)
+                    col2values = get_values(col2)
+
                     def col1_sorter(e):
-                        return get_value(e[0])
+                        return col1values[e[6]]
                     def col2_sorter(e):
-                        return get_value(e[2])
+                        return col2values[e[6]]
 
                     reverse = False
                     if data[0][1] < 0:
@@ -1064,13 +1076,10 @@ def show_demo():
 
                     single_list = []
                     for row in oldList:
-                        for col in row:
-                            single_list.append(col)
+                        for cell in range(0, len(row)-1):
+                            single_list.append(row[cell])
                         
-
-                    push_container_stack(sender)
-                    reorder_items(children, single_list)
-                    pop_container_stack()
+                    reorder_items(sender, 1, single_list)
 
                 with table(id="table10##demo", header_row=True, no_host_extendX=True,
                            borders_innerH=True, borders_outerH=True, borders_innerV=True,
@@ -1081,7 +1090,7 @@ def show_demo():
                     add_table_column(id="Two##democolumns10")
                     add_table_column(id="three##democolumns10")
 
-                    for i in range(0, 1000):
+                    for i in range(0, 100):
                             add_input_int(label=" ", step=0, width=-1)
                             add_table_next_column()
                             add_text(f"Cell {i}, 1")
