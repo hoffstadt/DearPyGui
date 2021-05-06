@@ -1,5 +1,4 @@
 from dearpygui.core import *
-from dearpygui.simple import *
 from dearpygui.demo import *
 
 add_font("google", "../../Resources/NotoSerifCJKjp-Medium.otf", 20)

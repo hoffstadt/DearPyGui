@@ -50,7 +50,7 @@
 #include "tables/mvTableNextColumn.h"
 #include "tables/mvTableRow.h"
 
-#include "drawing/mvDrawing.h"
+#include "drawing/mvDrawlist.h"
 #include "drawing/mvDrawLine.h"
 #include "drawing/mvDrawArrow.h"
 #include "drawing/mvDrawTriangle.h"
@@ -62,6 +62,8 @@
 #include "drawing/mvDrawPolygon.h"
 #include "drawing/mvDrawPolyline.h"
 #include "drawing/mvDrawImage.h"
+#include "drawing/mvDrawLayer.h"
+#include "drawing/mvViewportDrawlist.h"
 
 #include "custom/mvTimePicker.h"
 #include "custom/mvDatePicker.h"

@@ -38,7 +38,7 @@ namespace Marvel {
         mvInputInt, mvColorEdit,
         mvColorPicker, mvTooltip, mvCollapsingHeader,
         mvSeparator, mvCheckbox, mvListbox, mvText, mvCombo,
-        mvPlot, mvSimplePlot, mvDrawing, mvWindowAppItem,
+        mvPlot, mvSimplePlot, mvDrawlist, mvWindowAppItem,
         mvPopup, mvSelectable, mvTreeNode, mvProgressBar, mvDummy,
         mvImageButton, mvTimePicker, mvDatePicker, mvColorButton,
         mvFileDialog, mvTabButton, mvLoggerItem,
@@ -55,7 +55,7 @@ namespace Marvel {
         mvCandleSeries, mvAreaSeries, mvColorMapScale, mvSlider3D,
         mvKnobFloat, mvLoadingIndicator, mvNodeLink, 
         mvTextureContainer, mvStaticTexture, mvDynamicTexture,
-        mvStagingContainer,
+        mvStagingContainer, mvDrawLayer, mvViewportDrawlist,
         ItemTypeCount
     };
 
@@ -135,9 +135,11 @@ namespace Marvel {
         friend class mvNodeAttribute;
         friend class mvFontManager;
         friend class mvFontScope;
-        friend class mvDrawing;
+        friend class mvDrawlist;
+        friend class mvDrawLayer;
         friend class mvPlot;
         friend class mvTextureContainer;
+        friend class mvViewportDrawlist;
 
     public:
 
@@ -148,6 +150,7 @@ namespace Marvel {
         MV_CREATE_EXTRA_COMMAND(get_item_info);
         MV_CREATE_EXTRA_COMMAND(configure_item);
         MV_CREATE_EXTRA_COMMAND(get_value);
+        MV_CREATE_EXTRA_COMMAND(get_values);
         MV_CREATE_EXTRA_COMMAND(set_value);
         MV_CREATE_EXTRA_COMMAND(focus_item);
         MV_CREATE_EXTRA_COMMAND(set_item_pos);
@@ -159,6 +162,7 @@ namespace Marvel {
             MV_ADD_EXTRA_COMMAND(get_item_info);
             MV_ADD_EXTRA_COMMAND(configure_item);
             MV_ADD_EXTRA_COMMAND(get_value);
+            MV_ADD_EXTRA_COMMAND(get_values);
             MV_ADD_EXTRA_COMMAND(set_value);
             MV_ADD_EXTRA_COMMAND(focus_item);
             MV_ADD_EXTRA_COMMAND(set_item_pos);
@@ -240,6 +244,9 @@ namespace Marvel {
         void                                hide           () { m_show = false; }
         virtual void                        show           () { m_show = true; }
         void                                setCallbackData(PyObject* data);
+
+        std::vector<mvRef<mvAppItem>>&      getChildren(int slot);
+        void                                setChildren(int slot, std::vector<mvRef<mvAppItem>> children);
 
         [[nodiscard]] bool                  isShown        () const { return m_show; }
         [[nodiscard]] PyObject*             getCallback    (bool ignore_enabled = true);  // returns the callback. If ignore_enable false and item is disabled then no callback will be returned.

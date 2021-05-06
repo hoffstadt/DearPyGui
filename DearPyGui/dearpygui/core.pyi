@@ -86,7 +86,11 @@ def add_drag_point(*, id: str =..., indent: int =-1, parent: str ='', before: st
 	"""Undocumented function"""
 	...
 
-def add_drawing(*, id: str =..., width: int =0, height: int =0, indent: int =-1, parent: str ='', before: str ='', show: bool =True) -> str:
+def add_draw_layer(*, id: str =..., parent: str ='', before: str ='', show: bool =True) -> str:
+	"""Undocumented function"""
+	...
+
+def add_drawlist(*, id: str =..., width: int =0, height: int =0, parent: str ='', before: str ='', show: bool =True) -> str:
 	"""Undocumented function"""
 	...
 
@@ -306,7 +310,7 @@ def add_table_next_column(*, id: str =..., indent: int =-1, parent: str ='', bef
 	"""Undocumented function"""
 	...
 
-def add_table_row(*, id: str =..., indent: int =-1, parent: str ='', before: str ='', show: bool =True) -> str:
+def add_table_row(*, id: str =..., parent: str ='', before: str ='', show: bool =True) -> str:
 	"""Undocumented function"""
 	...
 
@@ -331,6 +335,10 @@ def add_tooltip(*, id: str =..., show: bool =True) -> str:
 	...
 
 def add_tree_node(*, id: str =..., indent: int =-1, parent: str ='', before: str ='', label: str ='', show: bool =True, default_open: bool =False, open_on_double_click: bool =False, open_on_arrow: bool =False, leaf: bool =False, bullet: bool =False, selectable: bool =False) -> str:
+	"""Undocumented function"""
+	...
+
+def add_viewport_drawlist(*, id: str =..., width: int =0, height: int =0, show: bool =True, front: bool =True) -> str:
 	"""Undocumented function"""
 	...
 
@@ -522,6 +530,10 @@ def get_value(item : str) -> Any:
 	"""Undocumented function"""
 	...
 
+def get_values(items : List[str]) -> Any:
+	"""Undocumented function"""
+	...
+
 def get_windows() -> List[str]:
 	"""Undocumented function"""
 	...
@@ -622,7 +634,7 @@ def render_dearpygui_frame() -> None:
 	"""Undocumented function"""
 	...
 
-def reorder_items(items : List[str], new_order : List[str]) -> None:
+def reorder_items(container : str, slot : int, new_order : List[str]) -> None:
 	"""Undocumented function"""
 	...
 

@@ -55,6 +55,13 @@ namespace Marvel{
 		}
 
 		{
+			mvPythonParser parser(mvPyDataType::Any);
+			parser.addArg<mvPyDataType::StringList>("items");
+			parser.finalize();
+			parsers->insert({ "get_values", parser });
+		}
+
+		{
 			mvPythonParser parser(mvPyDataType::None);
 			parser.addArg<mvPyDataType::String>("item");
 			parser.addArg<mvPyDataType::Object>("value");
@@ -78,6 +85,16 @@ namespace Marvel{
 			parsers->insert({ "reset_pos", parser });
 		}
 
+	}
+
+	std::vector<mvRef<mvAppItem>>& mvAppItem::getChildren(int slot) 
+	{ 
+		return m_children[slot];
+	}
+
+	void mvAppItem::setChildren(int slot, std::vector<mvRef<mvAppItem>> children)
+	{
+		m_children[slot] = children;
 	}
 
 	bool mvAppItem::DoesItemHaveFlag(mvAppItem* item, int flag)
@@ -1108,7 +1125,29 @@ namespace Marvel{
 			return item->getPyValue();
 
 		return GetPyNone();
+	}
 
+	PyObject* mvAppItem::get_values(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		PyObject* items;
+
+		if (!(mvApp::GetApp()->getParsers())["get_values"].parse(args, kwargs, __FUNCTION__, &items))
+			return GetPyNone();
+
+		auto aitems = ToStringVect(items);
+		PyObject* pyvalues = PyList_New(aitems.size());
+
+		std::lock_guard<std::mutex> lk(mvApp::GetApp()->getMutex());
+		for (int i = 0; i<aitems.size(); i++)
+		{
+			auto item = mvApp::GetApp()->getItemRegistry().getItem(aitems[i]);
+			if (item)
+				PyList_SetItem(pyvalues, i, item->getPyValue());
+			else
+				PyList_SetItem(pyvalues, i, GetPyNone());
+		}
+
+		return pyvalues;
 	}
 
 	PyObject* mvAppItem::set_value(PyObject* self, PyObject* args, PyObject* kwargs)

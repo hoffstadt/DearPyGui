@@ -1,4 +1,4 @@
-#include "mvDrawing.h"
+#include "mvDrawlist.h"
 #include "mvApp.h"
 #include "mvInput.h"
 #include "mvItemRegistry.h"
@@ -11,28 +11,28 @@
 
 namespace Marvel {
 
-	void mvDrawing::InsertParser(std::map<std::string, mvPythonParser>* parsers)
+	void mvDrawlist::InsertParser(std::map<std::string, mvPythonParser>* parsers)
 	{
 
-		mvPythonParser parser(mvPyDataType::String, "Undocumented function", { "Drawing", "Widgets" });
+		mvPythonParser parser(mvPyDataType::String, "Undocumented function", { "Drawlist", "Widgets" });
 		mvAppItem::AddCommonArgs(parser);
 		parser.removeArg("source");
 		parser.removeArg("label");
 		parser.removeArg("callback");
 		parser.removeArg("callback_data");
 		parser.removeArg("enabled");
+		parser.removeArg("indent");
 		parser.finalize();
 		parsers->insert({ s_command, parser });
 	}
 
-	mvDrawing::mvDrawing(const std::string& name)
+	mvDrawlist::mvDrawlist(const std::string& name)
 		: mvAppItem(name)
 	{
 	}
 
-	bool mvDrawing::canChildBeAdded(mvAppItemType type)
+	bool mvDrawlist::canChildBeAdded(mvAppItemType type)
 	{
-		if (type == mvAppItemType::mvStagingContainer) return true;
 		if (type == mvAppItemType::mvDrawLine) return true;
 		if (type == mvAppItemType::mvDrawArrow) return true;
 		if (type == mvAppItemType::mvDrawTriangle) return true;
@@ -44,6 +44,7 @@ namespace Marvel {
 		if (type == mvAppItemType::mvDrawPolygon) return true;
 		if (type == mvAppItemType::mvDrawPolyline) return true;
 		if (type == mvAppItemType::mvDrawImage) return true;
+		if (type == mvAppItemType::mvDrawLayer) return true;
 
 		mvThrowPythonError(1000, "Drawing children must be draw commands only.");
 		MV_ITEM_REGISTRY_ERROR("Drawing children must be draw commands only.");
@@ -52,7 +53,7 @@ namespace Marvel {
 		return false;
 	}
 
-	void mvDrawing::draw(ImDrawList* drawlist, float x, float y)
+	void mvDrawlist::draw(ImDrawList* drawlist, float x, float y)
 	{
 		mvFontScope fscope(this);
 
@@ -62,17 +63,6 @@ namespace Marvel {
 		ImDrawList* internal_drawlist = ImGui::GetWindowDrawList();
 
 		ImGui::PushClipRect({ m_startx, m_starty }, { m_startx + (float)m_width, m_starty + (float)m_height }, true);
-
-		for (auto& item : m_children[0])
-		{
-			// skip item if it's not shown
-			if (!item->m_show)
-				continue;
-
-			item->draw(internal_drawlist, m_startx, m_starty);
-
-			item->getState().update();
-		}
 
 		for (auto& item : m_children[2])
 		{
