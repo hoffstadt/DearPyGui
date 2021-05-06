@@ -283,9 +283,6 @@ def show_demo():
 
     #set_accelerator_callback(demo_accelerator_callback)
 
-   #TODO: should we be allowed to set x, y post on start, should these bee keywords or just use set_item_pos function?
-   #with window(id="Dear PyGui Demo", x=100, y=100, width=800, height=800, on_close=on_demo_close):
-
     with window(id="Dear PyGui Demo", width=800, height=800, on_close=on_demo_close):
 
         with menu_bar():
@@ -832,8 +829,9 @@ def show_demo():
             with tree_node(id="File Selector##demo"):
                 def file_selected(sender, data):
                     log_info(data)
-                add_button(id="Select Python File##demo", callback = lambda sender, data: open_file_dialog(callback=file_selected, extensions=".*,.py"))
-                add_button(id="Select C++ File##demo", callback = lambda sender, data: open_file_dialog(callback=file_selected, extensions=".*,.cpp"))
+                add_button(label="Show File Dialog", callback=lambda: show_item(fd))
+                #add_button(id="Select Python File##demo", callback = lambda sender, data: open_file_dialog(callback=file_selected, extensions=".*,.py"))
+                #add_button(id="Select C++ File##demo", callback = lambda sender, data: open_file_dialog(callback=file_selected, extensions=".*,.cpp"))
 
             with tree_node(id="Directory Selector##demo"):
                 def directory_selected(sender, data):

@@ -26,7 +26,7 @@ namespace Marvel {
 		MV_START_STYLE_CONSTANTS
 		MV_END_STYLE_CONSTANTS
 
-			mvDrawlist(const std::string& name);
+		mvDrawlist(const std::string& name);
 
 		void draw(ImDrawList* drawlist, float x, float y) override;
 		bool canChildBeAdded(mvAppItemType type) override;

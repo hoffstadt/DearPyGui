@@ -139,10 +139,6 @@ namespace Marvel {
 		mvEventBus::Subscribe(this, mvEVT_PRE_RENDER_RESET);
 		mvEventBus::Subscribe(this, mvEVT_RENDER);
 		mvEventBus::Subscribe(this, mvEVT_ACTIVE_WINDOW);
-
-		m_roots.push_back(CreateRef<mvFileDialog>());
-		m_roots.back()->setLabel("FileDialog");
-		m_roots.back()->hide();
 		
 	}
 

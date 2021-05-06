@@ -51,7 +51,7 @@ namespace Marvel {
 		const float textVertCenter = ImGui::GetCursorPosY();
 		const float valueEndX = ImGui::GetCursorPosX() + w;
 
-		if (m_color.r > 0.0f)
+		if (m_color.r >= 0.0f)
 			ImGui::PushStyleColor(ImGuiCol_Text, m_color.toVec4());
 
 		if (m_wrap >= 0)
@@ -66,7 +66,7 @@ namespace Marvel {
 		if (m_wrap >= 0)
 			ImGui::PopTextWrapPos();
 
-		if (m_color.r > 0.0f)
+		if (m_color.r >= 0.0f)
 			ImGui::PopStyleColor();
 
 		if (m_show_label)

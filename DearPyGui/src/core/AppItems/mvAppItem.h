@@ -56,6 +56,7 @@ namespace Marvel {
         mvKnobFloat, mvLoadingIndicator, mvNodeLink, 
         mvTextureContainer, mvStaticTexture, mvDynamicTexture,
         mvStagingContainer, mvDrawLayer, mvViewportDrawlist,
+        mvFileExtension,
         ItemTypeCount
     };
 
