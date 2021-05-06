@@ -1,6 +1,16 @@
 #include "mvFileDialog.h"
+#include "mvFileExtension.h"
 #include "mvItemRegistry.h"
 #include "mvFontScope.h"
+#include "mvPythonExceptions.h"
+#include "mvLog.h"
+#include "mvImGuiThemeScope.h"
+
+static void Panel(const char* vFilter, IGFDUserDatas vUserDatas, bool* vCantContinue)
+{
+	static_cast<Marvel::mvFileDialog*>(vUserDatas)->drawPanel();
+	*vCantContinue = static_cast<Marvel::mvFileDialog*>(vUserDatas)->getContinueValue();
+}
 
 namespace Marvel {
 
@@ -8,37 +18,65 @@ namespace Marvel {
 	{
 		{
 			mvPythonParser parser(mvPyDataType::String);
-			parser.addArg<mvPyDataType::Callable>("callback", mvArgType::KEYWORD_ARG, "None", "function to call on completion");
-			parser.finalize();
-			parsers->insert({ "select_directory_dialog", parser });
-		}
+			mvAppItem::AddCommonArgs(parser);
+			parser.removeArg("indent");
+			parser.removeArg("source");
+			parser.removeArg("parent");
+			parser.removeArg("before");
+			parser.removeArg("source");
+			parser.removeArg("callback_data");
+			parser.removeArg("enabled");
 
-		{
-			mvPythonParser parser(mvPyDataType::String);
-			parser.addArg<mvPyDataType::Callable>("callback", mvArgType::KEYWORD_ARG, "None", "function to call on completion");
-			parser.addArg<mvPyDataType::String>("extensions", mvArgType::KEYWORD_ARG, "''", "filters items with extensions i.e '.*, .py'");
+			parser.addArg<mvPyDataType::String>("default_path", mvArgType::KEYWORD_ARG, "''");
+			parser.addArg<mvPyDataType::String>("default_filename", mvArgType::KEYWORD_ARG, "'.'");
+			parser.addArg<mvPyDataType::Integer>("file_count", mvArgType::KEYWORD_ARG, "0");
+			parser.addArg<mvPyDataType::Bool>("modal", mvArgType::KEYWORD_ARG, "False");
+			parser.addArg<mvPyDataType::Bool>("directory_selector", mvArgType::KEYWORD_ARG, "False");
+
 			parser.finalize();
 			parsers->insert({ s_command, parser });
 		}
 
+		{
+			mvPythonParser parser(mvPyDataType::Dict, "Undocumented function", { "Widgets" });
+			parser.addArg<mvPyDataType::String>("file_dialog");
+			parser.finalize();
+			parsers->insert({ "get_file_dialog_info", parser });
+		}
+
 	}
 
-	mvFileDialog::mvFileDialog() 
+	mvFileDialog::mvFileDialog(const std::string& name)
 		: 
-		mvAppItem("filedialog")
+		mvBoolPtrBase(name)
 	{
+		*m_value = true;
 		m_width = 500;
 		m_height = 500;
 	}
 
-	bool mvFileDialog::prerender2() 
-	{ 
-		return true; 
+	ImGuiFileDialog& mvFileDialog::getDialog()
+	{
+		return m_instance;
 	}
 
-	void mvFileDialog::setCallback(PyObject* callback)
-	{ 
-		m_callback2 = callback; 
+	void mvFileDialog::drawPanel()
+	{
+		ScopedID id;
+		mvImGuiThemeScope scope(this);
+		mvFontScope fscope(this);
+
+		for (auto& item : m_children[1])
+		{
+
+			if (!item->preDraw())
+				continue;
+
+			item->draw(ImGui::GetWindowDrawList(), ImGui::GetCursorPosX(), ImGui::GetCursorPosY());
+
+			item->postDraw();
+		}
+
 	}
 
 	void mvFileDialog::draw(ImDrawList* drawlist, float x, float y)
@@ -47,54 +85,65 @@ namespace Marvel {
 		if (!m_show)
 			return;
 
-		if (m_dirty_size)
-		{
-			ImGui::SetNextWindowSize(ImVec2((float)m_width, (float)m_height));
-			m_dirty_size = false;
-		}
-
-		if (m_dirtyPos)
-		{
-			ImGui::SetNextWindowPos(m_state.getItemPos());
-			m_dirtyPos = false;
-		}
-
-		if (m_focusNextFrame)
-		{
-			ImGui::SetNextWindowFocus();
-			m_focusNextFrame = false;
-		}
-
-		if (!ImGui::Begin(m_label.c_str(), &m_show, m_windowflags))
+		if (!ImGui::Begin(m_label.c_str(), &m_show, ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoSavedSettings))
 		{
 			ImGui::End();
 			return;
+		}
+
+		// extensions
+		if (m_dirtySettings)
+		{
+			m_filters.clear();
+			for (auto& item : m_children[0])
+			{
+				item->draw(drawlist, x, y);
+				m_filters.append(static_cast<mvFileExtension*>(item.get())->getFilter());
+				m_filters.append(",");
+			}
+
+			m_dirtySettings = false;
+		}
+
+
+		// ugly
+		if (m_children[1].empty())
+		{
+			if (m_modal)
+				m_instance.OpenModal(m_name.c_str(), m_label.c_str(), m_directory ? nullptr : m_filters.c_str(), m_defaultPath, m_defaultFilename, m_fileCount);
+			else
+				m_instance.OpenDialog(m_name.c_str(), m_label.c_str(), m_directory ? nullptr : m_filters.c_str(), m_defaultPath, m_defaultFilename, m_fileCount);
+		}
+		else
+		{
+
+			if (m_modal)
+				m_instance.OpenModal(m_name.c_str(), m_label.c_str(), m_directory ? nullptr : m_filters.c_str(), m_defaultPath, m_defaultFilename,
+					std::bind(&Panel, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3), 250.0f, m_fileCount, IGFDUserDatas(this));
+			else
+				m_instance.OpenDialog(m_name.c_str(), m_label.c_str(), m_directory ? nullptr : m_filters.c_str(), m_defaultPath, m_defaultFilename,
+					std::bind(&Panel, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3), 250.0f, m_fileCount, IGFDUserDatas(this));
 		}
 
 		{
 			mvFontScope fscope(this);
 
 			// display
-			if (ImGuiFileDialog::Instance()->Display("ChooseFileDlgKey", ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoSavedSettings, ImVec2(500, 600)))
+			if (m_instance.Display(m_name.c_str(), ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoSavedSettings, ImVec2(500, 600)))
 			{
 
 				// action if OK
-				if (ImGuiFileDialog::Instance()->IsOk())
+				if (m_instance.IsOk())
 				{
 					mvApp::GetApp()->getCallbackRegistry().submitCallback([&]()
 						{
-							mvApp::GetApp()->getCallbackRegistry().runCallback(m_callback2, "File Dialog", ToPyList({ ImGuiFileDialog::Instance()->GetCurrentPath(),
-								ImGuiFileDialog::Instance()->FileNameBuffer }));
-
-							// action
-							if (m_callback2)
-								Py_XDECREF(m_callback2);
-							m_callback2 = nullptr;
+							mvApp::GetApp()->getCallbackRegistry().runCallback(m_callback, m_name.c_str(), getInfoDict());
 						});
 
 				}
+
 				// close
-				ImGuiFileDialog::Instance()->Close();
+				m_instance.Close();
 				m_show = false;
 			}
 		}
@@ -102,99 +151,17 @@ namespace Marvel {
 		ImGui::End();
 	}
 
-	PyObject* mvFileDialog::select_directory_dialog(PyObject* self, PyObject* args, PyObject* kwargs)
-	{
-		PyObject* callback = nullptr;
-
-		if (!(mvApp::GetApp()->getParsers())["select_directory_dialog"].parse(args, kwargs, __FUNCTION__, &callback))
-			return GetPyNone();
-
-		if (callback)
-			Py_XINCREF(callback);
-
-		mvApp::GetApp()->getCallbackRegistry().submit([=]()
-			{
-				ImGuiFileDialog::Instance()->OpenModal("ChooseFileDlgKey", "Choose Directory", 0, ".");
-				auto window = mvApp::GetApp()->getItemRegistry().getItem("filedialog");
-				auto dialog = static_cast<mvFileDialog*>(window.get());
-				dialog->setCallback(callback);
-				window->show();
-			});
-
-		return GetPyNone();
-	}
-
-	PyObject* mvFileDialog::open_file_dialog(PyObject* self, PyObject* args, PyObject* kwargs)
-	{
-		PyObject* callback = nullptr;
-		const char* extensions = ".*";
-
-		if (!(mvApp::GetApp()->getParsers())["open_file_dialog"].parse(args, kwargs, __FUNCTION__,
-			&callback, &extensions))
-			return GetPyNone();
-
-		if (callback)
-			Py_XINCREF(callback);
-
-		mvApp::GetApp()->getCallbackRegistry().submit([=]()
-			{
-				ImGuiFileDialog::Instance()->OpenModal("ChooseFileDlgKey", "Choose File", extensions, ".");
-				auto window = mvApp::GetApp()->getItemRegistry().getItem("filedialog");
-				auto dialog = static_cast<mvFileDialog*>(window.get());
-
-				dialog->setCallback(callback);
-				window->show();
-			});
-
-		return GetPyNone();
-	}
-
-	void mvFileDialog::setWidth(int width)
-	{
-		m_width = width;
-		m_dirty_size = true;
-	}
-
-	void mvFileDialog::setHeight(int height)
-	{
-		m_height = height;
-		m_dirty_size = true;
-	}
-
 	void mvFileDialog::handleSpecificKeywordArgs(PyObject* dict)
 	{
 		if (dict == nullptr)
 			return;
 
-		// helper for bit flipping
-		auto flagop = [dict](const char* keyword, int flag, int& flags)
-		{
-			if (PyObject* item = PyDict_GetItemString(dict, keyword)) ToBool(item) ? flags |= flag : flags &= ~flag;
-		};
+		if (PyObject* item = PyDict_GetItemString(dict, "file_count")) m_fileCount = ToInt(item);
+		if (PyObject* item = PyDict_GetItemString(dict, "default_filename")) m_defaultFilename = ToString(item);
+		if (PyObject* item = PyDict_GetItemString(dict, "default_path")) m_defaultPath = ToString(item);
+		if (PyObject* item = PyDict_GetItemString(dict, "modal")) m_modal = ToBool(item);
+		if (PyObject* item = PyDict_GetItemString(dict, "directory_selector")) m_directory = ToBool(item);
 
-		// window flags
-		flagop("autosize", ImGuiWindowFlags_AlwaysAutoResize, m_windowflags);
-		flagop("no_move", ImGuiWindowFlags_NoMove, m_windowflags);
-		flagop("no_resize", ImGuiWindowFlags_NoResize, m_windowflags);
-		flagop("no_title_bar", ImGuiWindowFlags_NoTitleBar, m_windowflags);
-		flagop("no_scrollbar", ImGuiWindowFlags_NoScrollbar, m_windowflags);
-		flagop("no_collapse", ImGuiWindowFlags_NoCollapse, m_windowflags);
-		flagop("horizontal_scrollbar", ImGuiWindowFlags_HorizontalScrollbar, m_windowflags);
-		flagop("no_focus_on_appearing", ImGuiWindowFlags_NoFocusOnAppearing, m_windowflags);
-		flagop("no_bring_to_front_on_focus", ImGuiWindowFlags_NoBringToFrontOnFocus, m_windowflags);
-		flagop("menubar", ImGuiWindowFlags_MenuBar, m_windowflags);
-		flagop("no_background", ImGuiWindowFlags_NoBackground, m_windowflags);
-
-	}
-
-	void mvFileDialog::addFlag(ImGuiWindowFlags flag)
-	{
-		m_windowflags |= flag;
-	}
-
-	void mvFileDialog::removeFlag(ImGuiWindowFlags flag)
-	{
-		m_windowflags &= ~flag;
 	}
 
 	void mvFileDialog::getSpecificConfiguration(PyObject* dict)
@@ -202,24 +169,58 @@ namespace Marvel {
 		if (dict == nullptr)
 			return;
 
-		// helper to check and set bit
-		auto checkbitset = [dict](const char* keyword, int flag, const int& flags)
-		{
-			PyDict_SetItemString(dict, keyword, ToPyBool(flags & flag));
-		};
-
-		// window flags
-		checkbitset("autosize", ImGuiWindowFlags_AlwaysAutoResize, m_windowflags);
-		checkbitset("no_resize", ImGuiWindowFlags_NoResize, m_windowflags);
-		checkbitset("no_title_bar", ImGuiWindowFlags_NoTitleBar, m_windowflags);
-		checkbitset("no_move", ImGuiWindowFlags_NoMove, m_windowflags);
-		checkbitset("no_scrollbar", ImGuiWindowFlags_NoScrollbar, m_windowflags);
-		checkbitset("no_collapse", ImGuiWindowFlags_NoCollapse, m_windowflags);
-		checkbitset("horizontal_scrollbar", ImGuiWindowFlags_HorizontalScrollbar, m_windowflags);
-		checkbitset("no_focus_on_appearing", ImGuiWindowFlags_NoFocusOnAppearing, m_windowflags);
-		checkbitset("no_bring_to_front_on_focus", ImGuiWindowFlags_NoBringToFrontOnFocus, m_windowflags);
-		checkbitset("menubar", ImGuiWindowFlags_MenuBar, m_windowflags);
-		checkbitset("no_background", ImGuiWindowFlags_NoBackground, m_windowflags);
+		PyDict_SetItemString(dict, "file_count", ToPyInt(m_fileCount));
+		PyDict_SetItemString(dict, "default_filename", ToPyString(m_defaultFilename));
+		PyDict_SetItemString(dict, "default_path", ToPyString(m_defaultPath));
+		PyDict_SetItemString(dict, "modal", ToPyBool(m_modal));
+		PyDict_SetItemString(dict, "directory_selector", ToPyBool(m_directory));
 	}
 
+	PyObject* mvFileDialog::getInfoDict()
+	{
+		PyObject* dict = PyDict_New();
+
+		PyDict_SetItemString(dict, "file_path_name", ToPyString(m_instance.GetFilePathName()));
+		PyDict_SetItemString(dict, "file_name", ToPyString(m_instance.GetCurrentFileName()));
+		PyDict_SetItemString(dict, "file_name_buffer", ToPyString(m_instance.FileNameBuffer));
+		PyDict_SetItemString(dict, "current_path", ToPyString(m_instance.GetCurrentPath()));
+		PyDict_SetItemString(dict, "current_filter", ToPyString(m_instance.GetCurrentFilter()));
+
+		auto selections = m_instance.GetSelection();
+
+		PyObject* sel = PyDict_New();
+		for(auto& item : selections)
+			PyDict_SetItemString(sel, item.first.c_str(), ToPyString(item.second));
+		PyDict_SetItemString(dict, "selections", sel);
+
+		return dict;
+	}
+
+	PyObject* mvFileDialog::get_file_dialog_info(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		const char* file_dialog;
+
+		if (!(mvApp::GetApp()->getParsers())["get_file_dialog_info"].parse(args, kwargs, __FUNCTION__, &file_dialog))
+			return GetPyNone();
+
+		std::lock_guard<std::mutex> lk(mvApp::GetApp()->getMutex());
+		auto aplot = mvApp::GetApp()->getItemRegistry().getItem(file_dialog);
+		if (aplot == nullptr)
+		{
+			std::string message = file_dialog;
+			mvThrowPythonError(1000, message + " plot does not exist.");
+			return GetPyNone();
+		}
+
+		if (aplot->getType() != mvAppItemType::mvFileDialog)
+		{
+			std::string message = file_dialog;
+			mvThrowPythonError(1000, message + " is not a plot.");
+			return GetPyNone();
+		}
+
+		mvFileDialog* graph = static_cast<mvFileDialog*>(aplot.get());
+
+		return graph->getInfoDict();
+	}
 }

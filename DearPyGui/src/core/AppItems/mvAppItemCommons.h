@@ -74,6 +74,7 @@
 
 #include "composite/mvLogger.h"
 #include "composite/mvFileDialog.h"
+#include "composite/mvFileExtension.h"
 
 #include "plots/mvPlot.h"
 #include "plots/mvDragPoint.h"
