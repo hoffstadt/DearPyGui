@@ -1,37 +1,50 @@
-#include "mvDrawing.h"
-#include "mvApp.h"
-#include "mvInput.h"
-#include "mvItemRegistry.h"
-#include "mvImGuiThemeScope.h"
-#include "mvFontScope.h"
-#include "mvViewport.h"
-#include "mvAppItemCommons.h"
+#include "mvDrawLayer.h"
 #include "mvLog.h"
+#include "mvItemRegistry.h"
 #include "mvPythonExceptions.h"
 
 namespace Marvel {
 
-	void mvDrawing::InsertParser(std::map<std::string, mvPythonParser>* parsers)
+	void mvDrawLayer::InsertParser(std::map<std::string, mvPythonParser>* parsers)
 	{
 
 		mvPythonParser parser(mvPyDataType::String, "Undocumented function", { "Drawing", "Widgets" });
 		mvAppItem::AddCommonArgs(parser);
 		parser.removeArg("source");
+		parser.removeArg("width");
+		parser.removeArg("height");
 		parser.removeArg("label");
 		parser.removeArg("callback");
 		parser.removeArg("callback_data");
 		parser.removeArg("enabled");
 		parser.removeArg("indent");
+
 		parser.finalize();
+
 		parsers->insert({ s_command, parser });
 	}
 
-	mvDrawing::mvDrawing(const std::string& name)
-		: mvAppItem(name)
+	mvDrawLayer::mvDrawLayer(const std::string& name)
+		:
+		mvAppItem(name)
 	{
+
 	}
 
-	bool mvDrawing::canChildBeAdded(mvAppItemType type)
+	bool mvDrawLayer::isParentCompatible(mvAppItemType type)
+	{
+		if (type == mvAppItemType::mvStagingContainer) return true;
+		if (type == mvAppItemType::mvDrawing) return true;
+		if (type == mvAppItemType::mvWindowAppItem) return true;
+		if (type == mvAppItemType::mvPlot) return true;
+
+		mvThrowPythonError(1000, "Drawing item parent must be a drawing.");
+		MV_ITEM_REGISTRY_ERROR("Drawing item parent must be a drawing.");
+		assert(false);
+		return false;
+	}
+
+	bool mvDrawLayer::canChildBeAdded(mvAppItemType type)
 	{
 		if (type == mvAppItemType::mvDrawLine) return true;
 		if (type == mvAppItemType::mvDrawArrow) return true;
@@ -44,7 +57,6 @@ namespace Marvel {
 		if (type == mvAppItemType::mvDrawPolygon) return true;
 		if (type == mvAppItemType::mvDrawPolyline) return true;
 		if (type == mvAppItemType::mvDrawImage) return true;
-		if (type == mvAppItemType::mvDrawLayer) return true;
 
 		mvThrowPythonError(1000, "Drawing children must be draw commands only.");
 		MV_ITEM_REGISTRY_ERROR("Drawing children must be draw commands only.");
@@ -53,36 +65,17 @@ namespace Marvel {
 		return false;
 	}
 
-	void mvDrawing::draw(ImDrawList* drawlist, float x, float y)
+	void mvDrawLayer::draw(ImDrawList* drawlist, float x, float y)
 	{
-		mvFontScope fscope(this);
-
-		m_startx = (float)ImGui::GetCursorScreenPos().x;
-		m_starty = (float)ImGui::GetCursorScreenPos().y;
-
-		ImDrawList* internal_drawlist = ImGui::GetWindowDrawList();
-
-		ImGui::PushClipRect({ m_startx, m_starty }, { m_startx + (float)m_width, m_starty + (float)m_height }, true);
-
 		for (auto& item : m_children[2])
 		{
 			// skip item if it's not shown
 			if (!item->m_show)
 				continue;
 
-			item->draw(internal_drawlist, m_startx, m_starty);
+			item->draw(drawlist, x, y);
 
 			item->getState().update();
-		}
-
-		ImGui::PopClipRect();
-		ImGui::Dummy(ImVec2((float)m_width, (float)m_height));
-
-
-		if (ImGui::IsItemHovered())
-		{
-			ImVec2 mousepos = ImGui::GetMousePos();
-			mvInput::setDrawingMousePosition((float)mousepos.x- m_startx, (float)mousepos.y - m_starty);
 		}
 	}
 

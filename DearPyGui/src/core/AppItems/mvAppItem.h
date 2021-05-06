@@ -55,7 +55,7 @@ namespace Marvel {
         mvCandleSeries, mvAreaSeries, mvColorMapScale, mvSlider3D,
         mvKnobFloat, mvLoadingIndicator, mvNodeLink, 
         mvTextureContainer, mvStaticTexture, mvDynamicTexture,
-        mvStagingContainer,
+        mvStagingContainer, mvDrawLayer,
         ItemTypeCount
     };
 
@@ -136,6 +136,7 @@ namespace Marvel {
         friend class mvFontManager;
         friend class mvFontScope;
         friend class mvDrawing;
+        friend class mvDrawLayer;
         friend class mvPlot;
         friend class mvTextureContainer;
 
