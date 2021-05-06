@@ -62,6 +62,7 @@
 #include "drawing/mvDrawPolygon.h"
 #include "drawing/mvDrawPolyline.h"
 #include "drawing/mvDrawImage.h"
+#include "drawing/mvDrawLayer.h"
 
 #include "custom/mvTimePicker.h"
 #include "custom/mvDatePicker.h"

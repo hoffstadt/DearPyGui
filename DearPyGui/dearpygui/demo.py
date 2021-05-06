@@ -1020,7 +1020,7 @@ def show_demo():
                     add_table_column(label="2")
                     add_table_column(label="3")
 
-                    for i in range(0, 1000):
+                    for i in range(0, 100):
                         with table_row():
                             add_input_int(label=" ", step=0, width=-1)
                             add_button(label=f"Cell {i}, 1")
@@ -1092,20 +1092,20 @@ def show_demo():
 
         with collapsing_header(id="Drawings##demo"):
 
-            push_container_stack(add_drawing(width=900, height=200) )
-            draw_line((10, 10), (100, 100), color=(255, 0, 0, 255), thickness=1)
-            draw_rectangle((0, 0), (900, 200), color=(255, 0, 0, 255), fill=(0, 0, 25, 255), rounding=12, thickness = 1.0) 
-            draw_triangle((150, 10), (110, 100), (190, 100), color=(255, 255, 0, 255), thickness = 3.0)
-            draw_quad((210, 10), (290, 10), (290, 100), (210, 100), color=(255, 255, 0, 255), thickness = 3.0)
-            draw_circle((350, 60), 49, color=(255, 255, 0, 255))
-            draw_bezier_curve((410, 10), (450, 25), (410, 50), (490, 85), color=(255, 255, 0, 255), thickness = 2.0)
-            draw_arrow((510, 10), (590, 80), color=(255, 0, 0), size=4, thickness=1)
-            draw_image("INTERNAL_DPG_FONT_ATLAS", [610,10], [690, 80], uv_max=[0.1, 0.1])
-            draw_text((50, 300), "Some Text", color=(255, 255, 0, 255), size=15)
-            draw_text((0, 0), "Origin", color=(255, 255, 0, 255), size=15)
-            draw_polygon(((710, 10), (780, 50), (730, 75), (710, 10)), color=(255, 125, 0, 255), thickness=1.0, fill=(255, 125, 0, 50))
-            draw_polyline(((810, 20), (835, 50), (890, 10)), color=(255, 255, 0, 255), thickness=1.0)
-            pop_container_stack()
+            with drawing(width=900, height=200):
+                with draw_layer():
+                    draw_line((10, 10), (100, 100), color=(255, 0, 0, 255), thickness=1)
+                    draw_rectangle((0, 0), (900, 200), color=(255, 0, 0, 255), fill=(0, 0, 25, 255), rounding=12, thickness = 1.0) 
+                    draw_triangle((150, 10), (110, 100), (190, 100), color=(255, 255, 0, 255), thickness = 3.0)
+                    draw_quad((210, 10), (290, 10), (290, 100), (210, 100), color=(255, 255, 0, 255), thickness = 3.0)
+                    draw_circle((350, 60), 49, color=(255, 255, 0, 255))
+                    draw_bezier_curve((410, 10), (450, 25), (410, 50), (490, 85), color=(255, 255, 0, 255), thickness = 2.0)
+                    draw_arrow((510, 10), (590, 80), color=(255, 0, 0), size=4, thickness=1)
+                    draw_image("INTERNAL_DPG_FONT_ATLAS", [610,10], [690, 80], uv_max=[0.1, 0.1])
+                    draw_text((50, 300), "Some Text", color=(255, 255, 0, 255), size=15)
+                    draw_text((0, 0), "Origin", color=(255, 255, 0, 255), size=15)
+                    draw_polygon(((710, 10), (780, 50), (730, 75), (710, 10)), color=(255, 125, 0, 255), thickness=1.0, fill=(255, 125, 0, 50))
+                    draw_polyline(((810, 20), (835, 50), (890, 10)), color=(255, 255, 0, 255), thickness=1.0)
 
         with collapsing_header(id="Plots##demo"):
 

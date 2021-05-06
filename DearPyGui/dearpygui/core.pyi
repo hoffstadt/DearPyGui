@@ -86,7 +86,11 @@ def add_drag_point(*, id: str =..., indent: int =-1, parent: str ='', before: st
 	"""Undocumented function"""
 	...
 
-def add_drawing(*, id: str =..., width: int =0, height: int =0, indent: int =-1, parent: str ='', before: str ='', show: bool =True) -> str:
+def add_draw_layer(*, id: str =..., parent: str ='', before: str ='', show: bool =True) -> str:
+	"""Undocumented function"""
+	...
+
+def add_drawing(*, id: str =..., width: int =0, height: int =0, parent: str ='', before: str ='', show: bool =True) -> str:
 	"""Undocumented function"""
 	...
 
@@ -306,7 +310,7 @@ def add_table_next_column(*, id: str =..., indent: int =-1, parent: str ='', bef
 	"""Undocumented function"""
 	...
 
-def add_table_row(*, id: str =..., indent: int =-1, parent: str ='', before: str ='', show: bool =True) -> str:
+def add_table_row(*, id: str =..., parent: str ='', before: str ='', show: bool =True) -> str:
 	"""Undocumented function"""
 	...
 

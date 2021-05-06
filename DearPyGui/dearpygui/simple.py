@@ -69,9 +69,29 @@ def table(*args, header_row: bool = True, width: int = 0, height: int = 0, inner
         internal_dpg.pop_container_stack()
 
 @contextmanager
-def table_row(*args, id:str=''):
+def drawing(*args, id:str='', width: int = 0, height: int = 0, show: bool = True, parent: str = "", before: str = ""):
     try:
-        widget = internal_dpg.add_table_row(*args, id=id)
+        widget = internal_dpg.add_drawing(*args, id=id, width = width, height = height, show=show, parent=parent, before=before)
+        internal_dpg.push_container_stack(widget)
+        yield widget
+
+    finally:
+        internal_dpg.pop_container_stack()
+
+@contextmanager
+def table_row(*args, id:str='', show: bool = True, parent: str = "", before: str = ""):
+    try:
+        widget = internal_dpg.add_table_row(*args, id=id, show=show, parent=parent, before=before)
+        internal_dpg.push_container_stack(widget)
+        yield widget
+
+    finally:
+        internal_dpg.pop_container_stack()
+
+@contextmanager
+def draw_layer(*args, id:str='', show: bool = True, parent: str = "", before: str = ""):
+    try:
+        widget = internal_dpg.add_draw_layer(*args, id=id, show=show, parent=parent, before=before)
         internal_dpg.push_container_stack(widget)
         yield widget
 

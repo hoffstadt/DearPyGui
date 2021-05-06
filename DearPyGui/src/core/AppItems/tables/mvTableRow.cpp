@@ -21,6 +21,7 @@ namespace Marvel {
 		parser.removeArg("callback");
 		parser.removeArg("callback_data");
 		parser.removeArg("enabled");
+		parser.removeArg("indent");
 		parser.finalize();
 
 		parsers->insert({ s_command, parser });
