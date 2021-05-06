@@ -1,4 +1,4 @@
-#include "mvDrawing.h"
+#include "mvDrawlist.h"
 #include "mvApp.h"
 #include "mvInput.h"
 #include "mvItemRegistry.h"
@@ -11,10 +11,10 @@
 
 namespace Marvel {
 
-	void mvDrawing::InsertParser(std::map<std::string, mvPythonParser>* parsers)
+	void mvDrawlist::InsertParser(std::map<std::string, mvPythonParser>* parsers)
 	{
 
-		mvPythonParser parser(mvPyDataType::String, "Undocumented function", { "Drawing", "Widgets" });
+		mvPythonParser parser(mvPyDataType::String, "Undocumented function", { "Drawlist", "Widgets" });
 		mvAppItem::AddCommonArgs(parser);
 		parser.removeArg("source");
 		parser.removeArg("label");
@@ -26,12 +26,12 @@ namespace Marvel {
 		parsers->insert({ s_command, parser });
 	}
 
-	mvDrawing::mvDrawing(const std::string& name)
+	mvDrawlist::mvDrawlist(const std::string& name)
 		: mvAppItem(name)
 	{
 	}
 
-	bool mvDrawing::canChildBeAdded(mvAppItemType type)
+	bool mvDrawlist::canChildBeAdded(mvAppItemType type)
 	{
 		if (type == mvAppItemType::mvDrawLine) return true;
 		if (type == mvAppItemType::mvDrawArrow) return true;
@@ -53,7 +53,7 @@ namespace Marvel {
 		return false;
 	}
 
-	void mvDrawing::draw(ImDrawList* drawlist, float x, float y)
+	void mvDrawlist::draw(ImDrawList* drawlist, float x, float y)
 	{
 		mvFontScope fscope(this);
 

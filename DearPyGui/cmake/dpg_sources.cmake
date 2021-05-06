@@ -109,7 +109,7 @@ set(MARVEL_SOURCES
 	"src/core/AppItems/custom/mvKnob.cpp"
 	"src/core/AppItems/custom/mvLoadingIndicator.cpp"
 
-	"src/core/AppItems/drawing/mvDrawing.cpp"
+	"src/core/AppItems/drawing/mvDrawlist.cpp"
 	"src/core/AppItems/drawing/mvDrawLine.cpp"
 	"src/core/AppItems/drawing/mvDrawArrow.cpp"
 	"src/core/AppItems/drawing/mvDrawTriangle.cpp"
@@ -122,6 +122,7 @@ set(MARVEL_SOURCES
 	"src/core/AppItems/drawing/mvDrawPolyline.cpp"
 	"src/core/AppItems/drawing/mvDrawImage.cpp"
 	"src/core/AppItems/drawing/mvDrawLayer.cpp"
+	"src/core/AppItems/drawing/mvViewportDrawlist.cpp"
 	
 	"src/core/AppItems/composite/mvFileDialog.cpp"
 	"src/core/AppItems/composite/mvLogger.cpp"

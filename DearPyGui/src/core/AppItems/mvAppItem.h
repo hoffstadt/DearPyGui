@@ -38,7 +38,7 @@ namespace Marvel {
         mvInputInt, mvColorEdit,
         mvColorPicker, mvTooltip, mvCollapsingHeader,
         mvSeparator, mvCheckbox, mvListbox, mvText, mvCombo,
-        mvPlot, mvSimplePlot, mvDrawing, mvWindowAppItem,
+        mvPlot, mvSimplePlot, mvDrawlist, mvWindowAppItem,
         mvPopup, mvSelectable, mvTreeNode, mvProgressBar, mvDummy,
         mvImageButton, mvTimePicker, mvDatePicker, mvColorButton,
         mvFileDialog, mvTabButton, mvLoggerItem,
@@ -55,7 +55,7 @@ namespace Marvel {
         mvCandleSeries, mvAreaSeries, mvColorMapScale, mvSlider3D,
         mvKnobFloat, mvLoadingIndicator, mvNodeLink, 
         mvTextureContainer, mvStaticTexture, mvDynamicTexture,
-        mvStagingContainer, mvDrawLayer,
+        mvStagingContainer, mvDrawLayer, mvViewportDrawlist,
         ItemTypeCount
     };
 
@@ -135,10 +135,11 @@ namespace Marvel {
         friend class mvNodeAttribute;
         friend class mvFontManager;
         friend class mvFontScope;
-        friend class mvDrawing;
+        friend class mvDrawlist;
         friend class mvDrawLayer;
         friend class mvPlot;
         friend class mvTextureContainer;
+        friend class mvViewportDrawlist;
 
     public:
 

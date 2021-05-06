@@ -4,15 +4,15 @@
 
 namespace Marvel {
 
-	MV_REGISTER_WIDGET(mvDrawing, MV_ITEM_DESC_CONTAINER, StorageValueTypes::None, 1);
-	class mvDrawing : public mvAppItem
+	MV_REGISTER_WIDGET(mvDrawlist, MV_ITEM_DESC_CONTAINER, StorageValueTypes::None, 1);
+	class mvDrawlist : public mvAppItem
 	{
 
 	public:
 
 		static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
 
-		MV_APPLY_WIDGET_REGISTRATION(mvAppItemType::mvDrawing, add_drawing)
+		MV_APPLY_WIDGET_REGISTRATION(mvAppItemType::mvDrawlist, add_drawlist)
 
 		MV_START_EXTRA_COMMANDS
 		MV_END_EXTRA_COMMANDS
@@ -26,7 +26,7 @@ namespace Marvel {
 		MV_START_STYLE_CONSTANTS
 		MV_END_STYLE_CONSTANTS
 
-		mvDrawing(const std::string& name);
+			mvDrawlist(const std::string& name);
 
 		void draw(ImDrawList* drawlist, float x, float y) override;
 		bool canChildBeAdded(mvAppItemType type) override;
