@@ -526,6 +526,10 @@ def get_value(item : str) -> Any:
 	"""Undocumented function"""
 	...
 
+def get_values(items : List[str]) -> Any:
+	"""Undocumented function"""
+	...
+
 def get_windows() -> List[str]:
 	"""Undocumented function"""
 	...
@@ -626,7 +630,7 @@ def render_dearpygui_frame() -> None:
 	"""Undocumented function"""
 	...
 
-def reorder_items(items : List[str], new_order : List[str]) -> None:
+def reorder_items(container : str, slot : int, new_order : List[str]) -> None:
 	"""Undocumented function"""
 	...
 

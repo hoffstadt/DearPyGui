@@ -149,6 +149,7 @@ namespace Marvel {
         MV_CREATE_EXTRA_COMMAND(get_item_info);
         MV_CREATE_EXTRA_COMMAND(configure_item);
         MV_CREATE_EXTRA_COMMAND(get_value);
+        MV_CREATE_EXTRA_COMMAND(get_values);
         MV_CREATE_EXTRA_COMMAND(set_value);
         MV_CREATE_EXTRA_COMMAND(focus_item);
         MV_CREATE_EXTRA_COMMAND(set_item_pos);
@@ -160,6 +161,7 @@ namespace Marvel {
             MV_ADD_EXTRA_COMMAND(get_item_info);
             MV_ADD_EXTRA_COMMAND(configure_item);
             MV_ADD_EXTRA_COMMAND(get_value);
+            MV_ADD_EXTRA_COMMAND(get_values);
             MV_ADD_EXTRA_COMMAND(set_value);
             MV_ADD_EXTRA_COMMAND(focus_item);
             MV_ADD_EXTRA_COMMAND(set_item_pos);
@@ -241,6 +243,9 @@ namespace Marvel {
         void                                hide           () { m_show = false; }
         virtual void                        show           () { m_show = true; }
         void                                setCallbackData(PyObject* data);
+
+        std::vector<mvRef<mvAppItem>>&      getChildren(int slot);
+        void                                setChildren(int slot, std::vector<mvRef<mvAppItem>> children);
 
         [[nodiscard]] bool                  isShown        () const { return m_show; }
         [[nodiscard]] PyObject*             getCallback    (bool ignore_enabled = true);  // returns the callback. If ignore_enable false and item is disabled then no callback will be returned.
