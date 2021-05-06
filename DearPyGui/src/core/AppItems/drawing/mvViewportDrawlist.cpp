@@ -1,51 +1,42 @@
-#include "mvDrawLayer.h"
-#include "mvLog.h"
+#include "mvViewportDrawlist.h"
+#include "mvApp.h"
+#include "mvInput.h"
 #include "mvItemRegistry.h"
+#include "mvImGuiThemeScope.h"
+#include "mvFontScope.h"
+#include "mvViewport.h"
+#include "mvAppItemCommons.h"
+#include "mvLog.h"
 #include "mvPythonExceptions.h"
 
 namespace Marvel {
 
-	void mvDrawLayer::InsertParser(std::map<std::string, mvPythonParser>* parsers)
+	void mvViewportDrawlist::InsertParser(std::map<std::string, mvPythonParser>* parsers)
 	{
 
 		mvPythonParser parser(mvPyDataType::String, "Undocumented function", { "Drawlist", "Widgets" });
 		mvAppItem::AddCommonArgs(parser);
 		parser.removeArg("source");
-		parser.removeArg("width");
-		parser.removeArg("height");
 		parser.removeArg("label");
 		parser.removeArg("callback");
 		parser.removeArg("callback_data");
 		parser.removeArg("enabled");
 		parser.removeArg("indent");
+		parser.removeArg("parent");
+		parser.removeArg("before");
+
+		parser.addArg<mvPyDataType::Bool>("front", mvArgType::KEYWORD_ARG, "True");
 
 		parser.finalize();
-
 		parsers->insert({ s_command, parser });
 	}
 
-	mvDrawLayer::mvDrawLayer(const std::string& name)
-		:
-		mvAppItem(name)
+	mvViewportDrawlist::mvViewportDrawlist(const std::string& name)
+		: mvAppItem(name)
 	{
-
 	}
 
-	bool mvDrawLayer::isParentCompatible(mvAppItemType type)
-	{
-		if (type == mvAppItemType::mvStagingContainer) return true;
-		if (type == mvAppItemType::mvDrawlist) return true;
-		if (type == mvAppItemType::mvWindowAppItem) return true;
-		if (type == mvAppItemType::mvPlot) return true;
-		if (type == mvAppItemType::mvViewportDrawlist) return true;
-
-		mvThrowPythonError(1000, "Drawing item parent must be a drawing.");
-		MV_ITEM_REGISTRY_ERROR("Drawing item parent must be a drawing.");
-		assert(false);
-		return false;
-	}
-
-	bool mvDrawLayer::canChildBeAdded(mvAppItemType type)
+	bool mvViewportDrawlist::canChildBeAdded(mvAppItemType type)
 	{
 		if (type == mvAppItemType::mvDrawLine) return true;
 		if (type == mvAppItemType::mvDrawArrow) return true;
@@ -58,6 +49,7 @@ namespace Marvel {
 		if (type == mvAppItemType::mvDrawPolygon) return true;
 		if (type == mvAppItemType::mvDrawPolyline) return true;
 		if (type == mvAppItemType::mvDrawImage) return true;
+		if (type == mvAppItemType::mvDrawLayer) return true;
 
 		mvThrowPythonError(1000, "Drawing children must be draw commands only.");
 		MV_ITEM_REGISTRY_ERROR("Drawing children must be draw commands only.");
@@ -66,18 +58,40 @@ namespace Marvel {
 		return false;
 	}
 
-	void mvDrawLayer::draw(ImDrawList* drawlist, float x, float y)
+	void mvViewportDrawlist::draw(ImDrawList* drawlist, float x, float y)
 	{
+		mvFontScope fscope(this);
+
+		ImDrawList* internal_drawlist = m_front ? ImGui::GetForegroundDrawList() : ImGui::GetBackgroundDrawList();
+
 		for (auto& item : m_children[2])
 		{
 			// skip item if it's not shown
 			if (!item->m_show)
 				continue;
 
-			item->draw(drawlist, x, y);
+			item->draw(internal_drawlist, 0.0f, 0.0f);
 
 			item->getState().update();
 		}
+
+	}
+
+	void mvViewportDrawlist::handleSpecificKeywordArgs(PyObject* dict)
+	{
+		if (dict == nullptr)
+			return;
+
+		if (PyObject* item = PyDict_GetItemString(dict, "front")) m_front = ToBool(item);
+
+	}
+
+	void mvViewportDrawlist::getSpecificConfiguration(PyObject* dict)
+	{
+		if (dict == nullptr)
+			return;
+
+		PyDict_SetItemString(dict, "front", ToPyBool(m_front));
 	}
 
 }

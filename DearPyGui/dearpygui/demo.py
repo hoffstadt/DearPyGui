@@ -1099,9 +1099,9 @@ def show_demo():
                             if i != 999:
                                 add_table_next_column()
 
-        with collapsing_header(id="Drawings##demo"):
+        with collapsing_header(id="Drawlists##demo"):
 
-            with drawing(width=900, height=200):
+            with drawlist(width=900, height=200):
                 with draw_layer():
                     draw_line((10, 10), (100, 100), color=(255, 0, 0, 255), thickness=1)
                     draw_rectangle((0, 0), (900, 200), color=(255, 0, 0, 255), fill=(0, 0, 25, 255), rounding=12, thickness = 1.0) 

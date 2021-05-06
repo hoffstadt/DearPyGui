@@ -8,7 +8,7 @@ namespace Marvel {
 	void mvDrawPolyline::InsertParser(std::map<std::string, mvPythonParser>* parsers)
 	{
 
-		mvPythonParser parser(mvPyDataType::String, "Undocumented function", { "Drawing", "Widgets" });
+		mvPythonParser parser(mvPyDataType::String, "Undocumented function", { "Drawlist", "Widgets" });
 		mvAppItem::AddCommonArgs(parser);
 		parser.removeArg("source");
 		parser.removeArg("width");
@@ -41,10 +41,11 @@ namespace Marvel {
 	bool mvDrawPolyline::isParentCompatible(mvAppItemType type)
 	{
 		if (type == mvAppItemType::mvStagingContainer) return true;
-		if (type == mvAppItemType::mvDrawing) return true;
+		if (type == mvAppItemType::mvDrawlist) return true;
 		if (type == mvAppItemType::mvWindowAppItem) return true;
 		if (type == mvAppItemType::mvPlot) return true;
 		if (type == mvAppItemType::mvDrawLayer) return true;
+		if (type == mvAppItemType::mvViewportDrawlist) return true;
 
 		mvThrowPythonError(1000, "Drawing item parent must be a drawing.");
 		MV_ITEM_REGISTRY_ERROR("Drawing item parent must be a drawing.");
