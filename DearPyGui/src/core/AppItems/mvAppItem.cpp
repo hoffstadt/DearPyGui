@@ -181,6 +181,13 @@ namespace Marvel{
 		return nullptr;
 	}
 
+	void mvAppItem::setFont(const std::string& name, int size, ImFont* font) 
+	{
+		m_font = font; 
+		m_fontName = name;
+		m_fontSize = size;
+	}
+
 	void mvAppItem::setPos(const ImVec2& pos)
 	{
 		m_dirtyPos = true;
@@ -730,7 +737,7 @@ namespace Marvel{
 	void mvAppItem::inValidateThemeFontCache()
 	{
 		m_theme_font_dirty = true;
-		m_cached_font = nullptr;
+		m_cachefont = nullptr;
 
 		for (auto& childset : m_children)
 		{
@@ -757,11 +764,6 @@ namespace Marvel{
 	void mvAppItem::setThemeFontCacheValid()
 	{
 		m_theme_font_dirty = false;
-	}
-
-	ImFont* mvAppItem::getCachedFont()
-	{
-		return m_cached_font;
 	}
 
 	mvThemeColors& mvAppItem::getCachedThemeColors()

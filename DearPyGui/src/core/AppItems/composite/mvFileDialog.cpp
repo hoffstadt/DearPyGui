@@ -85,12 +85,6 @@ namespace Marvel {
 		if (!m_show)
 			return;
 
-		if (!ImGui::Begin(m_label.c_str(), &m_show, ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoSavedSettings))
-		{
-			ImGui::End();
-			return;
-		}
-
 		// extensions
 		if (m_dirtySettings)
 		{
@@ -147,8 +141,6 @@ namespace Marvel {
 				m_show = false;
 			}
 		}
-
-		ImGui::End();
 	}
 
 	void mvFileDialog::handleSpecificKeywordArgs(PyObject* dict)
