@@ -278,8 +278,11 @@ namespace Marvel {
         void                                      setThemeDisabledColorCacheValid();
         void                                      setThemeStyleCacheValid();
         void                                      setThemeFontCacheValid();
-        void                                      setFont(ImFont* font) { m_cached_font = font; }
-        ImFont*                                   getCachedFont();
+        void                                      setFont(const std::string& name, int size, ImFont* font);
+        ImFont*                                   getFont() { return m_cachefont; }
+        ImFont*                                   getCachedFont() { return m_font; }
+        const std::string&                        getFontName() const { return m_fontName; }
+        int                                       getFontSize() const { return m_fontSize; }
         mvThemeColors&                            getCachedThemeColors();
         mvThemeColors&                            getCachedThemeDisabledColors();
         std::unordered_map<ImGuiStyleVar, float>& getCachedThemeStyles();
@@ -340,7 +343,10 @@ namespace Marvel {
         std::unordered_map<ImGuiStyleVar, float> m_cached_styles2;
 
         // fonts
-        ImFont* m_cached_font = nullptr;
+        ImFont* m_font = nullptr;
+        ImFont* m_cachefont = nullptr;
+        std::string m_fontName = "";
+        int m_fontSize = 0;
 
         // config
         std::string    m_name = "";
