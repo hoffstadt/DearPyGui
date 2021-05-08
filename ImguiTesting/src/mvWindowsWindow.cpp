@@ -34,7 +34,7 @@ void mvWindowsWindow::show()
 	IMGUI_CHECKVERSION();
 	ImGui::CreateContext();
 	ImPlot::CreateContext();
-	imnodes::Initialize();
+	imnodes::CreateContext();
 	ImGuiIO& io = ImGui::GetIO(); (void)io;
 
 	io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
@@ -96,7 +96,7 @@ void mvWindowsWindow::cleanup()
 	// Cleanup
 	ImGui_ImplDX11_Shutdown();
 	ImGui_ImplWin32_Shutdown();
-	imnodes::Shutdown();
+	imnodes::DestroyContext();
 	ImPlot::DestroyContext();
 	ImGui::DestroyContext();
 

@@ -27,7 +27,7 @@ namespace Marvel {
 		// Cleanup
 		ImGui_ImplDX11_Shutdown();
 		ImGui_ImplWin32_Shutdown();
-		imnodes::Shutdown();
+		imnodes::DestroyContext();
 		ImPlot::DestroyContext();
 		ImGui::DestroyContext();
 
@@ -126,7 +126,7 @@ namespace Marvel {
 		IMGUI_CHECKVERSION();
 		ImGui::CreateContext();
 		ImPlot::CreateContext();
-		imnodes::Initialize();
+		imnodes::CreateContext();
 
 		ImGuiIO& io = ImGui::GetIO(); (void)io;
 		io.ConfigWindowsMoveFromTitleBarOnly = true;
