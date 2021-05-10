@@ -211,8 +211,8 @@ namespace Marvel {
 
 	protected:
 
-		mvRef<tm>         m_value = {};
-		mvRef<ImPlotTime> m_imvalue = {};
+		mvRef<tm>         m_value = CreateRef<tm>();
+		mvRef<ImPlotTime> m_imvalue = CreateRef<ImPlotTime>();
 	};
 
 	//-----------------------------------------------------------------------------

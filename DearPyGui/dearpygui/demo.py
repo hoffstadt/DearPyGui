@@ -325,6 +325,7 @@ def show_demo():
         add_text(default_value="https://github.com/hoffstadt/DearPyGui/blob/master/DearPyGui/dearpygui/demo.py")
 
         with collapsing_header(label="Window options"):
+
             with table(header_row=False):
                 add_table_column()
                 add_table_column()
@@ -345,6 +346,7 @@ def show_demo():
                 add_checkbox(label="no_bring_to_front_on_focus", callback=demo_config, callback_data="Dear PyGui Demo")
 
         with collapsing_header(label="Widgets"):
+
             with tree_node(label="Basic"):
 
                 demo_enable_disable()
@@ -433,6 +435,7 @@ def show_demo():
                 add_color_edit(default_value=(.5, 1, .25, .1), label="color edit 3", callback=demo_log, m_3component=True, uint8=True, floats=False)
                 add_listbox(["Apple", "Banana", "Cherry", "Kiwi", "Mango", "Orange", "Pineapple", "Strawberry", "Watermelon"], label="listbox", num_items=4, callback=demo_log)
                 add_color_button(label="color button")
+            
             with tree_node(label="Trees"):
                 with tree_node(label="Basic Trees"):
                     with tree_node(label="Child 0", default_open=True):
@@ -457,7 +460,7 @@ def show_demo():
                         add_button(label="button")
                 with tree_node(label="Advanced, with selectable nodes"):
                     demo_help("This is a more typical looking tree with selectable nodes.\n"
-                               "Click to select, CTRL+Click to toggle, click on arrows or double-click to open.")
+                                "Click to select, CTRL+Click to toggle, click on arrows or double-click to open.")
 
             with tree_node(label="Bullets"):
                 add_text(default_value="Bullet point 1", bullet=True)
@@ -596,6 +599,21 @@ def show_demo():
                     add_slider_float(label="", vertical=True, max_value=1.0, height=160, width=40)
                     add_slider_float(label="", vertical=True, max_value=1.0, height=160, width=40)
                     add_slider_float(label="", vertical=True, max_value=1.0, height=160, width=40)
+
+            with tree_node(label="Time/Date Widgets"):
+
+                add_time_picker(label="Time Picker", default_value={'hour': 14, 'min': 32, 'sec': 23})
+                add_separator()
+                with table(header_row=False):
+                    add_table_column()
+                    add_table_column()
+                    add_table_column()
+
+                    add_date_picker(label="Date Picker1", level=0, default_value={'month_day': 8, 'year':93, 'month':5})
+                    add_table_next_column()
+                    add_date_picker(label="Date Picker2", level=1, default_value={'month_day': 8, 'year':93, 'month':5})
+                    add_table_next_column()
+                    add_date_picker(label="Date Picker3", level=2, default_value={'month_day': 8, 'year':93, 'month':5})
 
             with tree_node(label="Item config/state/info"):
                 def log_status_config_state():
