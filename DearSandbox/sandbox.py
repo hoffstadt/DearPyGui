@@ -1,16 +1,12 @@
-from dearpygui.core import *
-from dearpygui.demo import *
+import dearpygui.core as dpg
+import dearpygui.simple as smpl
+from dearpygui.demo import show_demo
 
-add_font("google", "../../Resources/NotoSerifCJKjp-Medium.otf", 20)
-set_font("google", 20)
+dpg.add_font("google", "../../Resources/NotoSerifCJKjp-Medium.otf", 20)
+dpg.set_font("google", 20)
 
-add_texture_container(id="mvTextureContainer")
+dpg.add_texture_container(id="mvTextureContainer")
 
 show_demo()
 
-vp = create_viewport(small_icon="../../Resources/dpg_icon_small.ico", large_icon="../../Resources/dpg_icon_large.ico")
-setup_dearpygui(viewport=vp)
-show_viewport(vp)
-while(is_dearpygui_running()):
-    render_dearpygui_frame()   
-cleanup_dearpygui()
+smpl.start_dearpygui()
