@@ -124,16 +124,18 @@ namespace Marvel {
     {
 	ID3D11ShaderResourceView* out_srv = nullptr;
 
-        // Use STB to covert encoded buffer to a gl interpretable buffer
+        // Use STB to covert encoded buffer to a DX11/12 interpretable buffer
+	int image_width = 0;
+        int image_height = 0;
         unsigned char* data;
-	    memcpy(data, dataIn, sizeof(dataIn));
+	memcpy(data, dataIn, sizeof(dataIn));
         unsigned char* image_data = stbi_load_from_memory(data, len, &image_width, &image_height, NULL, 4);
 
 	// Create texture
 	D3D11_TEXTURE2D_DESC desc;
         ZeroMemory(&desc, sizeof(desc));
-        desc.Width = width;
-        desc.Height = height;
+        desc.Width = image_width;
+        desc.Height = image_height;
         desc.MipLevels = 1;
         desc.ArraySize = 1;
         desc.SampleDesc.Count = 1;
