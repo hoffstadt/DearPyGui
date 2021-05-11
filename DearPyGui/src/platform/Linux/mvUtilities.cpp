@@ -103,7 +103,6 @@ namespace Marvel {
     void* LoadTextureFromBytes(const char* data, int& width, int& height)
     {
 
-        // Load from file
         int image_width = 0;
         int image_height = 0;
         if (data == nullptr)
