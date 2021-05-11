@@ -76,7 +76,7 @@ namespace Marvel {
     {
 
 	// Use STB to covert encoded buffer to a gl interpretable buffer
-        unsigned char* image_data = stbi_load(data, len, &image_width, &image_height, NULL, 4);
+        unsigned char* image_data = stbi_load_from_memory(data, len, &width, &height, nullptr, 4);
         if (image_data == nullptr)
             return nullptr;
 
