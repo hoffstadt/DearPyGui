@@ -67,12 +67,14 @@ namespace Marvel {
         return out_srv;
     }
     
-    void* LoadTextureFromBytes(const char* data, int& width, int& height)
+    void* LoadTextureFromBytes(const char* data, int len, int& width, int& height)
     {
 
         //auto out_srv = static_cast<ID3D11ShaderResourceView**>(storage.texture);
         ID3D11ShaderResourceView* out_srv = nullptr;
 
+        // Use STB to covert encoded buffer to a gl interpretable buffer
+        unsigned char* image_data = stbi_load(data, len, &image_width, &image_height, NULL, 4);
         int image_width = 0;
         int image_height = 0;
         if (data == NULL)
@@ -93,7 +95,7 @@ namespace Marvel {
 
         ID3D11Texture2D* pTexture = NULL;
         D3D11_SUBRESOURCE_DATA subResource;
-        subResource.pSysMem = data;
+        subResource.pSysMem = image_data;
         subResource.SysMemPitch = desc.Width * 4;
         subResource.SysMemSlicePitch = 0;
         mvWindowsViewport::getDevice()->CreateTexture2D(&desc, &subResource, &pTexture);
@@ -110,6 +112,8 @@ namespace Marvel {
 
         width = image_width;
         height = image_height;
+        
+        stbi_image_free(image_data);
 
         return out_srv;
     }
