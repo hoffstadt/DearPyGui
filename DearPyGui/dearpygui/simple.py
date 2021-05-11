@@ -1,6 +1,14 @@
 from typing import List, Any, Callable, Union
 import dearpygui.core as internal_dpg
 
+def start_dearpygui():
+    vp = internal_dpg.create_viewport()
+    internal_dpg.setup_dearpygui(viewport=vp)
+    internal_dpg.show_viewport(vp)
+    while(internal_dpg.is_dearpygui_running()):
+        internal_dpg.render_dearpygui_frame()   
+    internal_dpg.cleanup_dearpygui()
+
 ########################################################################################################################
 # Old Commands
 ########################################################################################################################
