@@ -72,10 +72,12 @@ namespace Marvel {
         return (__bridge void*)g_textures.back().second;
     }
 
-    void* LoadTextureFromBytes(const char* data, int len, int& width, int& height)
+    void* LoadTextureFromBytes(const char* dataIn, int len, int& width, int& height)
     {
 
 	// Use STB to covert encoded buffer to a gl interpretable buffer
+	unsigned char* data;
+	memcpy(data, dataIn, sizeof(dataIn));
         unsigned char* image_data = stbi_load_from_memory(data, len, &width, &height, nullptr, 4);
         if (image_data == nullptr)
             return nullptr;
