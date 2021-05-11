@@ -283,6 +283,15 @@ def show_demo():
 
     #set_accelerator_callback(demo_accelerator_callback)
 
+    def demo_file_callback(sender, data):
+        print(sender)
+        print(data)
+
+    with file_dialog(id="Demo File Dialog", show=False, callback=demo_file_callback):
+        add_file_extension(".*", color=(255, 255, 255, 255))
+        add_file_extension(".cpp", color=(255, 255, 0, 255))
+        add_file_extension(".h", color=(255, 0, 255, 255))
+
     with window(id="Dear PyGui Demo", width=800, height=800, on_close=on_demo_close):
 
         with menu_bar():
@@ -845,16 +854,8 @@ def show_demo():
                     add_button(id="Cancel##modal##demo", width=75, callback=lambda sender, data: close_popup("Delete?"))
 
             with tree_node(id="File Selector##demo"):
-                def file_selected(sender, data):
-                    log_info(data)
-                add_button(label="Show File Dialog", callback=lambda: show_item(fd))
-                #add_button(id="Select Python File##demo", callback = lambda sender, data: open_file_dialog(callback=file_selected, extensions=".*,.py"))
-                #add_button(id="Select C++ File##demo", callback = lambda sender, data: open_file_dialog(callback=file_selected, extensions=".*,.cpp"))
 
-            with tree_node(id="Directory Selector##demo"):
-                def directory_selected(sender, data):
-                    log_info(data)
-                add_button(id="Select Directory##demo", callback = lambda sender, data: select_directory_dialog(callback=directory_selected))
+                add_button(label="Show File Dialog", callback=lambda: show_item("Demo File Dialog"))
 
             with tree_node(id="Menus inside a regular window##demo"):
                 add_text("Below we are testing adding menu items to a regular window. It's rather unusual but should work")

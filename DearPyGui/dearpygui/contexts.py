@@ -7,6 +7,20 @@ import dearpygui.core as internal_dpg
 ########################################################################################################################
 
 @contextmanager
+def file_dialog(*args, id:str='', width: int =0, height: int =0, label: str ='', callback: Callable =None, show: bool =True, 
+					default_path: str ='', default_filename: str ='.', file_count: int =0, modal: bool =False, directory_selector: bool =False):
+   
+   try:
+        widget = internal_dpg.add_file_dialog(*args, id=id, width=width, height=height, label=label, callback=callback, show=show,
+                                              default_path=default_path, default_filename=default_filename, file_count=file_count,
+                                              modal=modal, directory_selector=directory_selector)
+        internal_dpg.push_container_stack(widget)
+        yield widget
+   finally:
+        internal_dpg.pop_container_stack()
+
+
+@contextmanager
 def table(*args, header_row: bool = True, width: int = 0, height: int = 0, inner_width: int = 0, show: bool = True, parent: str = "",
 		before: str = "", resizable: bool = False, reorderable: bool = False, hideable: bool = False, sortable: bool = False,   
 		context_menu_in_body: bool = False, row_background: bool = False, borders_innerH: bool = False, borders_outerH: bool = False,
