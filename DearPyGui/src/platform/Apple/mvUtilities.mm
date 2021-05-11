@@ -66,9 +66,33 @@ namespace Marvel {
         [texture replaceRegion:MTLRegionMake2D(0, 0, width, height) mipmapLevel:0 withBytes:image_data bytesPerRow:width * 4];
 
         g_textures.push_back({texture, texture});
+	    
+	stbi_image_free(image_data);
 
         return (__bridge void*)g_textures.back().second;
     }
+
+    void* LoadTextureFromBytes(const char* data, int& width, int& height)
+    {
+
+        if (data == nullptr)
+            return nullptr;
+
+        MTLTextureDescriptor *textureDescriptor = [MTLTextureDescriptor texture2DDescriptorWithPixelFormat:MTLPixelFormatRGBA8Unorm
+                                                                                                     width:width
+                                                                                                    height:height
+                                                                                                 mipmapped:NO];
+        textureDescriptor.usage = MTLTextureUsageShaderRead;
+        textureDescriptor.storageMode = MTLStorageModeManaged;
+
+        id <MTLTexture> texture = [mvAppleViewport::GetDevice() newTextureWithDescriptor:textureDescriptor];
+        [texture replaceRegion:MTLRegionMake2D(0, 0, width, height) mipmapLevel:0 withBytes:data bytesPerRow:width * 4];
+
+        g_textures.push_back({texture, texture});
+
+        return (__bridge void*)g_textures.back().second;
+    }
+
 
 	bool UnloadTexture(const std::string& filename)
 	{
