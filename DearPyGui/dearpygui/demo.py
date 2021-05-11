@@ -753,13 +753,13 @@ def show_demo():
                 add_checkbox(id="rich##demo")
 
                 add_text("Lists:")
-                add_listbox(["AAAA", "BBBB", "CCCC", "DDDD"], default_value=0, width=100)
+                add_listbox(["AAAA", "BBBB", "CCCC", "DDDD"], default_value="AAAA", width=100)
                 add_same_line()
-                add_listbox(["AAAA", "BBBB", "CCCC", "DDDD"], default_value=1, width=100)
+                add_listbox(["AAAA", "BBBB", "CCCC", "DDDD"], default_value="BBBB", width=100)
                 add_same_line()
-                add_listbox(["AAAA", "BBBB", "CCCC", "DDDD"], default_value=2, width=100)
+                add_listbox(["AAAA", "BBBB", "CCCC", "DDDD"], default_value="CCCC", width=100)
                 add_same_line()
-                add_listbox(["AAAA", "BBBB", "CCCC", "DDDD"], default_value=3, width=100)
+                add_listbox(["AAAA", "BBBB", "CCCC", "DDDD"], default_value="DDDD", width=100)
                 
 
                 add_text("Spacing(100):")
