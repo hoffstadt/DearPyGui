@@ -100,6 +100,35 @@ namespace Marvel {
         return reinterpret_cast<void *>(image_texture);;
     }
 
+    void* LoadTextureFromBytes(const char* data, int& width, int& height)
+    {
+
+        // Load from file
+        int image_width = 0;
+        int image_height = 0;
+        if (data == nullptr)
+            return nullptr;
+
+        // Create a OpenGL texture identifier
+        GLuint image_texture;
+        glGenTextures(1, &image_texture);
+        glBindTexture(GL_TEXTURE_2D, image_texture);
+
+        // Setup filtering parameters for display
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+        // Upload pixels into texture
+        glPixelStorei(GL_UNPACK_ROW_LENGTH, 0);
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, image_width, image_height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
+
+        width = image_width;
+        height = image_height;
+
+        return reinterpret_cast<void *>(image_texture);;
+    }
+	
+
     bool UnloadTexture(const std::string& filename)
 	{
 		// TODO : decide if cleanup is necessary
