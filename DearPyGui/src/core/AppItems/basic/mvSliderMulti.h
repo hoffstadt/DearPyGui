@@ -53,8 +53,8 @@ namespace Marvel {
         MV_START_COLOR_CONSTANTS
             MV_ADD_CONSTANT(mvThemeCol_SliderFloatx_Text, mvImGuiCol_Text, mvColor(128, 128, 128, 63)),
             MV_ADD_CONSTANT(mvThemeCol_SliderFloatx_Bg, mvImGuiCol_FrameBg, mvColor(128, 128, 128, 63)),
-            MV_ADD_CONSTANT(mvThemeCol_SliderFloatx_BgHovered, mvImGuiCol_FrameBgHovered, mvColor(128, 128, 128, 63)),
-            MV_ADD_CONSTANT(mvThemeCol_SliderFloatx_BgActive, mvImGuiCol_FrameBgActive, mvColor(128, 128, 128, 63)),
+            MV_ADD_CONSTANT(mvThemeCol_SliderFloatx_BgHovered, mvImGuiCol_FrameBg, mvColor(128, 128, 128, 63)),
+            MV_ADD_CONSTANT(mvThemeCol_SliderFloatx_BgActive, mvImGuiCol_FrameBg, mvColor(128, 128, 128, 63)),
             MV_ADD_CONSTANT(mvThemeCol_SliderFloatx_Grab, mvImGuiCol_SliderGrab, mvColor(128, 128, 128, 63)),
             MV_ADD_CONSTANT(mvThemeCol_SliderFloatx_GrabActive, mvImGuiCol_SliderGrabActive, mvColor(128, 128, 128, 63)),
             MV_ADD_CONSTANT(mvThemeCol_SliderFloatx_Border, mvImGuiCol_Border, mvColor(128, 128, 128, 63)),
@@ -132,8 +132,8 @@ namespace Marvel {
         MV_START_COLOR_CONSTANTS
             MV_ADD_CONSTANT(mvThemeCol_SliderIntx_Text,         mvImGuiCol_Text, mvColor(128, 128, 128, 63)),
             MV_ADD_CONSTANT(mvThemeCol_SliderIntx_Bg,           mvImGuiCol_FrameBg, mvColor(128, 128, 128, 63)),
-            MV_ADD_CONSTANT(mvThemeCol_SliderIntx_BgHovered,    mvImGuiCol_FrameBgHovered, mvColor(128, 128, 128, 63)),
-            MV_ADD_CONSTANT(mvThemeCol_SliderIntx_BgActive,     mvImGuiCol_FrameBgActive, mvColor(128, 128, 128, 63)),
+            MV_ADD_CONSTANT(mvThemeCol_SliderIntx_BgHovered, mvImGuiCol_FrameBg, mvColor(128, 128, 128, 63)),
+            MV_ADD_CONSTANT(mvThemeCol_SliderIntx_BgActive, mvImGuiCol_FrameBg, mvColor(128, 128, 128, 63)),
             MV_ADD_CONSTANT(mvThemeCol_SliderIntx_Grab, mvImGuiCol_SliderGrab, mvColor(128, 128, 128, 63)),
             MV_ADD_CONSTANT(mvThemeCol_SliderIntx_GrabActive, mvImGuiCol_SliderGrabActive, mvColor(128, 128, 128, 63)),
             MV_ADD_CONSTANT(mvThemeCol_SliderIntx_Border,       mvImGuiCol_Border, mvColor(128, 128, 128, 63)),
