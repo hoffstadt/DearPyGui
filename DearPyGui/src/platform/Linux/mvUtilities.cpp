@@ -128,7 +128,44 @@ namespace Marvel {
         width = image_width;
         height = image_height;
 
+	stbi_image_free(image_data);
+
         return reinterpret_cast<void *>(image_texture);;
+    }
+
+    void* LoadTextureFromBytesDynamic(const char* dataIn, int len, int& width, int& height)
+    {
+	int image_width = 0;
+        int image_height = 0;
+	unsigned char* data;
+	memcpy(data, dataIn, sizeof(dataIn));
+	unsigned char* image_data = stbi_load_from_memory(data, len, &image_width, &image_height, nullptr, 4);
+        if (image_data == nullptr)
+            return nullptr;
+
+	// Create a OpenGL texture identifier
+        GLuint image_texture;
+        glGenTextures(1, &image_texture);
+        glBindTexture(GL_TEXTURE_2D, image_texture);
+
+        // Setup filtering parameters for display
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+        // Upload pixels into texture
+        glPixelStorei(GL_UNPACK_ROW_LENGTH, 0);
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_FLOAT, image_data);
+
+        GLuint pboid;
+        glGenBuffers(1, &pboid);
+        glBindBuffer(GL_PIXEL_UNPACK_BUFFER, pboid);
+        glBufferData(GL_PIXEL_UNPACK_BUFFER, width*height*4*sizeof(float), 0, GL_STREAM_DRAW);
+        glBindBuffer(GL_PIXEL_UNPACK_BUFFER, 0);
+        PBO_ids[image_texture] = pboid;
+
+	stbi_image_free(image_data);
+
+        return reinterpret_cast<void *>(image_texture);
     }
 	
 
