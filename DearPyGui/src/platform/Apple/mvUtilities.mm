@@ -97,6 +97,32 @@ namespace Marvel {
         return (__bridge void*)g_textures.back().second;
     }
 
+    // Static and Dynamic are synonymous on MacOS
+    void* LoadTextureFromBytesDynamic(const char* dataIn, int len, int& width, int& height)
+    {
+
+	// Use STB to covert encoded buffer to a gl interpretable buffer
+	unsigned char* data;
+	memcpy(data, dataIn, sizeof(dataIn));
+        unsigned char* image_data = stbi_load_from_memory(data, len, &width, &height, nullptr, 4);
+        if (image_data == nullptr)
+            return nullptr;
+
+        MTLTextureDescriptor *textureDescriptor = [MTLTextureDescriptor texture2DDescriptorWithPixelFormat:MTLPixelFormatRGBA8Unorm
+                                                                                                     width:width
+                                                                                                    height:height
+                                                                                                 mipmapped:NO];
+        textureDescriptor.usage = MTLTextureUsageShaderRead;
+        textureDescriptor.storageMode = MTLStorageModeManaged;
+
+        id <MTLTexture> texture = [mvAppleViewport::GetDevice() newTextureWithDescriptor:textureDescriptor];
+        [texture replaceRegion:MTLRegionMake2D(0, 0, width, height) mipmapLevel:0 withBytes:image_data bytesPerRow:width * 4];
+
+        g_textures.push_back({texture, texture});
+
+        return (__bridge void*)g_textures.back().second;
+    }
+
 
 	bool UnloadTexture(const std::string& filename)
 	{
