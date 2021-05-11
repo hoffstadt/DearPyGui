@@ -4,8 +4,8 @@
 
 namespace Marvel {
 
-	MV_REGISTER_WIDGET(mvListbox, MV_ITEM_DESC_DEFAULT, StorageValueTypes::Int, 1);
-	class mvListbox : public mvIntPtrBase
+	MV_REGISTER_WIDGET(mvListbox, MV_ITEM_DESC_DEFAULT, StorageValueTypes::String, 1);
+	class mvListbox : public mvStringPtrBase
 	{
 
 	public:
@@ -44,7 +44,7 @@ namespace Marvel {
 
 		MV_START_COLOR_CONSTANTS
 			MV_ADD_CONSTANT(mvThemeCol_Listbox_Text, mvImGuiCol_Text, mvColor(128, 128, 128, 63)),
-			MV_ADD_CONSTANT(mvThemeCol_Listbox_Selected, mvImGuiCol_Header, mvColor(128, 128, 128, 63)),
+			MV_ADD_CONSTANT(mvThemeCol_Listbox_Selected, mvImGuiCol_FrameBgHovered, mvColor(128, 128, 128, 63)),
 			MV_ADD_CONSTANT(mvThemeCol_Listbox_Hovered, mvImGuiCol_FrameBgHovered, mvColor(128, 128, 128, 63)),
 			MV_ADD_CONSTANT(mvThemeCol_Listbox_Active, mvImGuiCol_FrameBgActive, mvColor(128, 128, 128, 63)),
 			MV_ADD_CONSTANT(mvThemeCol_Listbox_Bg, mvImGuiCol_FrameBg, mvColor(128, 128, 128, 63)),
@@ -73,6 +73,7 @@ namespace Marvel {
 		mvListbox(const std::string& name);
 
 		void draw(ImDrawList* drawlist, float x, float y) override;
+		void setPyValue(PyObject* value) override;
 
 		void handleSpecificPositionalArgs(PyObject* dict) override;
 		void handleSpecificKeywordArgs(PyObject* dict) override;
@@ -80,9 +81,15 @@ namespace Marvel {
 
 	private:
 
+		void updateIndex();
+
+	private:
+
 		std::vector<std::string> m_names;
 		int                      m_itemsHeight = 3; // number of items to show (default -1)
 		std::vector<const char*> m_charNames;
+		int                      m_index = 0;
+		int                      m_disabledindex = 0;
 
 	};
 

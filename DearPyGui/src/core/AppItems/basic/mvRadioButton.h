@@ -4,8 +4,8 @@
 
 namespace Marvel {
 
-	MV_REGISTER_WIDGET(mvRadioButton, MV_ITEM_DESC_DEFAULT, StorageValueTypes::Int, 1);
-	class mvRadioButton : public mvIntPtrBase
+	MV_REGISTER_WIDGET(mvRadioButton, MV_ITEM_DESC_DEFAULT, StorageValueTypes::String, 1);
+	class mvRadioButton : public mvStringPtrBase
 	{
 
 	public:
@@ -57,6 +57,7 @@ namespace Marvel {
 		mvRadioButton(const std::string& name);
 
 		void draw(ImDrawList* drawlist, float x, float y) override;
+		void setPyValue(PyObject* value) override;
 
 		void handleSpecificPositionalArgs(PyObject* dict) override;
 		void handleSpecificKeywordArgs(PyObject* dict) override;
@@ -64,8 +65,14 @@ namespace Marvel {
 
 	private:
 
+		void updateIndex();
+
+	private:
+
 		std::vector<std::string> m_itemnames;
 		bool                     m_horizontal = false;
+		int                      m_index = 0;
+		int                      m_disabledindex = 0;
 	};
 
 }

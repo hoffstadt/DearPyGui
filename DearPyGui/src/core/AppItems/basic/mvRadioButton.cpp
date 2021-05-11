@@ -18,7 +18,7 @@ namespace Marvel {
 
 		parser.addArg<mvPyDataType::Integer>("items", mvArgType::POSITIONAL_ARG, "()");
 
-		parser.addArg<mvPyDataType::Integer>("default_value", mvArgType::KEYWORD_ARG, "0");
+		parser.addArg<mvPyDataType::String>("default_value", mvArgType::KEYWORD_ARG, "''");
 
 		parser.addArg<mvPyDataType::Bool>("horizontal", mvArgType::KEYWORD_ARG, "False");
 
@@ -28,8 +28,32 @@ namespace Marvel {
 	}
 
 	mvRadioButton::mvRadioButton(const std::string& name)
-		: mvIntPtrBase(name)
+		: mvStringPtrBase(name)
 	{
+	}
+
+	void mvRadioButton::setPyValue(PyObject* value)
+	{
+		*m_value = ToString(value);
+		updateIndex();
+	}
+
+	void mvRadioButton::updateIndex()
+	{
+		m_index = 0;
+		m_disabledindex = 0;
+
+		int index = 0;
+		for (const auto& name : m_itemnames)
+		{
+			if (name == *m_value)
+			{
+				m_index = index;
+				m_disabledindex = index;
+				break;
+			}
+			index++;
+		}
 	}
 
 	void mvRadioButton::draw(ImDrawList* drawlist, float x, float y)
@@ -41,15 +65,24 @@ namespace Marvel {
 		mvImGuiThemeScope scope(this);
 		mvFontScope fscope(this);
 
-		if (!m_enabled) m_disabled_value = *m_value;
+		if (!m_enabled)
+		{
+			m_disabled_value = *m_value;
+			m_disabledindex = m_index;
+		}
 
 		for (size_t i = 0; i < m_itemnames.size(); i++)
 		{
 			if (m_horizontal && i != 0)
 				ImGui::SameLine();
 
-			if (ImGui::RadioButton((m_itemnames[i] + "##" + m_name).c_str(), m_enabled ? m_value.get() : &m_disabled_value, (int)i))
+			if (ImGui::RadioButton((m_itemnames[i] + "##" + m_name).c_str(), m_enabled ? &m_index : &m_disabledindex, (int)i))
+			{
+				*m_value = m_name[m_index];
+				m_disabled_value = m_name[m_index];
 				mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), m_name, m_callback_data);
+			}
+
 		}
 
 		ImGui::EndGroup();
@@ -80,7 +113,11 @@ namespace Marvel {
 		if (dict == nullptr)
 			return;
 		 
-		if (PyObject* item = PyDict_GetItemString(dict, "items")) m_itemnames = ToStringVect(item);
+		if (PyObject* item = PyDict_GetItemString(dict, "items"))
+		{
+			m_itemnames = ToStringVect(item);
+			updateIndex();
+		}
 		if (PyObject* item = PyDict_GetItemString(dict, "horizontal")) m_horizontal = ToBool(item);
 	}
 
