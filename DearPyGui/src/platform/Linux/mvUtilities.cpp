@@ -100,12 +100,14 @@ namespace Marvel {
         return reinterpret_cast<void *>(image_texture);;
     }
 
-    void* LoadTextureFromBytes(const char* data, int& width, int& height)
+    void* LoadTextureFromBytes(const char* data, int len, int& width, int& height)
     {
-
+	
+	// Use STB to covert encoded buffer to a gl interpretable buffer
+        unsigned char* image_data = stbi_load(data, len, &image_width, &image_height, NULL, 4);
         int image_width = 0;
         int image_height = 0;
-        if (data == nullptr)
+        if (image_data == nullptr)
             return nullptr;
 
         // Create a OpenGL texture identifier
@@ -119,7 +121,7 @@ namespace Marvel {
 
         // Upload pixels into texture
         glPixelStorei(GL_UNPACK_ROW_LENGTH, 0);
-        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, image_width, image_height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, image_width, image_height, 0, GL_RGBA, GL_UNSIGNED_BYTE, image_data);
 
         width = image_width;
         height = image_height;
