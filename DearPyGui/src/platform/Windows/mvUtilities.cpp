@@ -67,7 +67,7 @@ namespace Marvel {
         return out_srv;
     }
     
-    void* LoadTextureFromBytes(const char* data, int len, int& width, int& height)
+    void* LoadTextureFromBytes(const char* dataIn, int len, int& width, int& height)
     {
 
         //auto out_srv = static_cast<ID3D11ShaderResourceView**>(storage.texture);
@@ -76,6 +76,8 @@ namespace Marvel {
         // Use STB to covert encoded buffer to a gl interpretable buffer
         int image_width = 0;
         int image_height = 0;
+        unsigned char* data;
+	    memcpy(data, dataIn, sizeof(dataIn));
         unsigned char* image_data = stbi_load_from_memory(data, len, &image_width, &image_height, NULL, 4);
         if (image_data == NULL)
             return false;
