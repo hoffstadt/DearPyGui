@@ -77,7 +77,7 @@ namespace Marvel {
         unsigned char* image_data = stbi_load(data, len, &image_width, &image_height, NULL, 4);
         int image_width = 0;
         int image_height = 0;
-        if (data == NULL)
+        if (image_data == NULL)
             return false;
 
         // Create texture
