@@ -188,7 +188,7 @@ namespace Marvel {
 		void setDataSource(const std::string& dataSource) override;
 		mvValueVariant getValue() override { return m_value; }
 		PyObject* getPyValue() override;
-		void           setPyValue(PyObject* value) override;
+		void      setPyValue(PyObject* value) override;
 
 	protected:
 
@@ -211,8 +211,8 @@ namespace Marvel {
 
 	protected:
 
-		mvRef<tm>         m_value = {};
-		mvRef<ImPlotTime> m_imvalue = {};
+		mvRef<tm>         m_value = CreateRef<tm>();
+		mvRef<ImPlotTime> m_imvalue = CreateRef<ImPlotTime>();
 	};
 
 	//-----------------------------------------------------------------------------

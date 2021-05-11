@@ -111,7 +111,7 @@ namespace Marvel {
         IMGUI_CHECKVERSION();
         ImGui::CreateContext();
         ImPlot::CreateContext();
-        imnodes::Initialize();
+        imnodes::CreateContext();
         ImGuiIO& io = ImGui::GetIO(); (void)io;
         io.ConfigWindowsMoveFromTitleBarOnly = true;
         io.IniFilename = nullptr;
@@ -139,7 +139,7 @@ namespace Marvel {
         // Cleanup
         ImGui_ImplOpenGL3_Shutdown();
         ImGui_ImplGlfw_Shutdown();
-        imnodes::Shutdown();
+        imnodes::DestroyContext();
         ImGui::DestroyContext();
 
         glfwDestroyWindow(m_window);

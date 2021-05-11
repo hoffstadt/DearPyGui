@@ -16,7 +16,7 @@ namespace Marvel {
 
 		parser.addArg<mvPyDataType::StringList>("items", mvArgType::POSITIONAL_ARG, "()");
 
-		parser.addArg<mvPyDataType::Integer>("default_value", mvArgType::KEYWORD_ARG, "0");
+		parser.addArg<mvPyDataType::String>("default_value", mvArgType::KEYWORD_ARG, "''");
 		parser.addArg<mvPyDataType::Integer>("num_items", mvArgType::KEYWORD_ARG, "3", "number of items to show");
 
 		parser.finalize();
@@ -25,8 +25,32 @@ namespace Marvel {
 	}
 
 	mvListbox::mvListbox(const std::string& name)
-		: mvIntPtrBase(name)
+		: mvStringPtrBase(name)
 	{
+	}
+
+	void mvListbox::setPyValue(PyObject* value)
+	{
+		*m_value = ToString(value);
+		updateIndex();
+	}
+
+	void mvListbox::updateIndex()
+	{
+		m_index = 0;
+		m_disabledindex = 0;
+
+		int index = 0;
+		for (const auto& name : m_names)
+		{
+			if (name == *m_value)
+			{
+				m_index = index;
+				m_disabledindex = index;
+				break;
+			}
+			index++;
+		}
 	}
 
 	void mvListbox::draw(ImDrawList* drawlist, float x, float y)
@@ -35,10 +59,18 @@ namespace Marvel {
 		mvImGuiThemeScope scope(this);
 		mvFontScope fscope(this);
 
-		if (!m_enabled) m_disabled_value = *m_value;
+		if (!m_enabled)
+		{
+			m_disabled_value = *m_value;
+			m_disabledindex = m_index;
+		}
 
-		if (ImGui::ListBox(m_label.c_str(), m_enabled ? m_value.get() : &m_disabled_value, m_charNames.data(), (int)m_names.size(), m_itemsHeight))
+		if (ImGui::ListBox(m_label.c_str(), m_enabled ? &m_index : &m_disabledindex, m_charNames.data(), (int)m_names.size(), m_itemsHeight))
+		{
+			*m_value = m_name[m_index];
+			m_disabled_value = m_name[m_index];
 			mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), m_name, m_callback_data);
+		}
 	}
 
 	void mvListbox::handleSpecificPositionalArgs(PyObject* dict)
@@ -76,6 +108,7 @@ namespace Marvel {
 			m_charNames.clear();
 			for (const std::string& item : m_names)
 				m_charNames.emplace_back(item.c_str());
+			updateIndex();
 		}
 	}
 

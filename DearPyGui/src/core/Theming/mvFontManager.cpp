@@ -11,6 +11,8 @@
 #include "mvPythonExceptions.h"
 #include <frameobject.h>
 #include "textures/mvStaticTexture.h"
+#include <CustomFont.cpp>
+#include <CustomFont.h>
 
 #define IM_MIN(A, B)            (((A) < (B)) ? (A) : (B))
 #define IM_MAX(A, B)            (((A) >= (B)) ? (A) : (B))
@@ -226,6 +228,11 @@ namespace Marvel {
 		io.Fonts->Clear();
 		io.FontDefault = io.Fonts->AddFontDefault();
 
+		//static const ImWchar icons_ranges[] = { ICON_MIN_IGFD, ICON_MAX_IGFD, 0 };
+		//ImFontConfig icons_config; icons_config.MergeMode = true; icons_config.PixelSnapH = true;
+		//ImGui::GetIO().Fonts->AddFontFromMemoryCompressedBase85TTF(FONT_ICON_BUFFER_NAME_IGFD, 15.0f, &icons_config, icons_ranges);
+		//io.Fonts->Build();
+
 		for (auto& font : m_fonts)
 		{
 
@@ -244,6 +251,7 @@ namespace Marvel {
 			io.Fonts->Build();
 			
 		}
+
 		InValidateFontTheme();
 	}
 
@@ -281,7 +289,7 @@ namespace Marvel {
 		if (item)
 		{
 			item->inValidateThemeFontCache();
-			item->setFont(getFont(font, size));
+			item->setFont(font, size, getFont(font, size));
 		}
 		else
 		{
@@ -417,11 +425,13 @@ namespace Marvel {
 		float size = 0;
 		const char* item = "";
 
-		if (!(mvApp::GetApp()->getParsers())["set_font"].parse(args, kwargs, __FUNCTION__, &font, &size, &item))
+		if (!(mvApp::GetApp()->getParsers())["set_font"].parse(args, kwargs, __FUNCTION__, 
+			&font, &size, &item))
 			return GetPyNone();
 
 		std::lock_guard<std::mutex> lk(mvApp::GetApp()->getMutex());
-
+		auto sitem = std::string(item);
+		auto sfont = std::string(font);
 		mvApp::GetApp()->getCallbackRegistry().submit([=]()
 			{
 				mvEventBus::Publish
@@ -429,8 +439,8 @@ namespace Marvel {
 					mvEVT_CATEGORY_THEMES,
 					SID("set_font"),
 					{
-						CreateEventArgument("WIDGET", std::string(item)),
-						CreateEventArgument("FONT", std::string(font)),
+						CreateEventArgument("WIDGET", sitem),
+						CreateEventArgument("FONT", sfont),
 						CreateEventArgument("SIZE", size)
 					}
 				);

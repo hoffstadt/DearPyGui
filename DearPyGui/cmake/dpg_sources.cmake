@@ -199,6 +199,7 @@ set(MARVEL_INCLUDE_DIR
 	"src/core/Tooling"
 	"$<$<PLATFORM_ID:Windows>:${CMAKE_SOURCE_DIR}/DearPyGui/vendor/dirent/>"
 	"../Dependencies/ImGuiFileDialog/ImGuiFileDialog/"
+	"../Dependencies/ImGuiFileDialog/"
 	"../Dependencies/spdlog/include/"
 	"../Dependencies/glfw/include/"
 	"../Dependencies/glfw/deps/"

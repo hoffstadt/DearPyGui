@@ -106,6 +106,14 @@ def add_error_series(x : List[float], y : List[float], negative : List[float], p
 	"""Undocumented function"""
 	...
 
+def add_file_dialog(*, id: str =..., width: int =0, height: int =0, label: str ='', callback: Callable =None, show: bool =True, default_path: str ='', default_filename: str ='.', file_count: int =0, modal: bool =False, directory_selector: bool =False) -> str:
+	"""Undocumented function"""
+	...
+
+def add_file_extension(extension : str, *, id: str =..., width: int =0, height: int =0, parent: str ='', before: str ='', label: str ='', custom_text: str ='', color: List[float] =(-255, 0, 0, 255)) -> str:
+	"""Undocumented function"""
+	...
+
 def add_font(font : str, file : str, size : float, glyph_ranges : str ='', *, custom_glyph_chars: List[int] =[], custom_glyph_ranges: Any =[[]], char_remaps: Any =[[]]) -> None:
 	"""Undocumented function"""
 	...
@@ -162,7 +170,7 @@ def add_line_series(x : List[float], y : List[float], *, id: str =..., indent: i
 	"""Undocumented function"""
 	...
 
-def add_listbox(items : List[str] =(), *, id: str =..., width: int =0, indent: int =-1, parent: str ='', before: str ='', label: str ='', source: str ='', callback: Callable =None, callback_data: Any =None, show: bool =True, enabled: bool =True, default_value: int =0, num_items: int =3) -> str:
+def add_listbox(items : List[str] =(), *, id: str =..., width: int =0, indent: int =-1, parent: str ='', before: str ='', label: str ='', source: str ='', callback: Callable =None, callback_data: Any =None, show: bool =True, enabled: bool =True, default_value: str ='', num_items: int =3) -> str:
 	"""Undocumented function"""
 	...
 
@@ -222,7 +230,7 @@ def add_progress_bar(*, id: str =..., width: int =0, height: int =0, indent: int
 	"""Undocumented function"""
 	...
 
-def add_radio_button(items : int =(), *, id: str =..., indent: int =-1, parent: str ='', before: str ='', source: str ='', callback: Callable =None, callback_data: Any =None, show: bool =True, enabled: bool =True, default_value: int =0, horizontal: bool =False) -> str:
+def add_radio_button(items : int =(), *, id: str =..., indent: int =-1, parent: str ='', before: str ='', source: str ='', callback: Callable =None, callback_data: Any =None, show: bool =True, enabled: bool =True, default_value: str ='', horizontal: bool =False) -> str:
 	"""Undocumented function"""
 	...
 
@@ -466,6 +474,10 @@ def get_drawing_mouse_pos() -> List[int]:
 	"""Undocumented function"""
 	...
 
+def get_file_dialog_info(file_dialog : str) -> dict:
+	"""Undocumented function"""
+	...
+
 def get_global_font_scale() -> float:
 	"""Undocumented function"""
 	...
@@ -618,10 +630,6 @@ def move_item_up(item : str) -> None:
 	"""Undocumented function"""
 	...
 
-def open_file_dialog(*, callback: Callable =None, extensions: str ='') -> str:
-	"""Undocumented function"""
-	...
-
 def pop_container_stack() -> str:
 	"""Undocumented function"""
 	...
@@ -647,10 +655,6 @@ def reset_xticks(plot : str) -> None:
 	...
 
 def reset_yticks(plot : str) -> None:
-	"""Undocumented function"""
-	...
-
-def select_directory_dialog(*, callback: Callable =None) -> str:
 	"""Undocumented function"""
 	...
 

@@ -370,12 +370,12 @@ namespace Marvel {
 	void mvTimePtrBase::setPyValue(PyObject* value)
 	{
 
-		if (m_value)
+		if (value)
 			*m_value = ToTime(value);
 		else
 			m_value = {};
 
-		ImPlot::GetGmtTime(*m_imvalue, m_value.get());
+		*m_imvalue = ImPlot::MkGmtTime(m_value.get());
 	}
 
 	mvFloatVectPtrBase::mvFloatVectPtrBase(const std::string& name)

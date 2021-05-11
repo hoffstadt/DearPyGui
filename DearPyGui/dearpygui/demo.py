@@ -283,6 +283,15 @@ def show_demo():
 
     #set_accelerator_callback(demo_accelerator_callback)
 
+    def demo_file_callback(sender, data):
+        print(sender)
+        print(data)
+
+    with file_dialog(id="Demo File Dialog", show=False, callback=demo_file_callback):
+        add_file_extension(".*", color=(255, 255, 255, 255))
+        add_file_extension(".cpp", color=(255, 255, 0, 255))
+        add_file_extension(".h", color=(255, 0, 255, 255))
+
     with window(id="Dear PyGui Demo", width=800, height=800, on_close=on_demo_close):
 
         with menu_bar():
@@ -325,6 +334,7 @@ def show_demo():
         add_text(default_value="https://github.com/hoffstadt/DearPyGui/blob/master/DearPyGui/dearpygui/demo.py")
 
         with collapsing_header(label="Window options"):
+
             with table(header_row=False):
                 add_table_column()
                 add_table_column()
@@ -345,6 +355,7 @@ def show_demo():
                 add_checkbox(label="no_bring_to_front_on_focus", callback=demo_config, callback_data="Dear PyGui Demo")
 
         with collapsing_header(label="Widgets"):
+
             with tree_node(label="Basic"):
 
                 demo_enable_disable()
@@ -433,6 +444,7 @@ def show_demo():
                 add_color_edit(default_value=(.5, 1, .25, .1), label="color edit 3", callback=demo_log, m_3component=True, uint8=True, floats=False)
                 add_listbox(["Apple", "Banana", "Cherry", "Kiwi", "Mango", "Orange", "Pineapple", "Strawberry", "Watermelon"], label="listbox", num_items=4, callback=demo_log)
                 add_color_button(label="color button")
+            
             with tree_node(label="Trees"):
                 with tree_node(label="Basic Trees"):
                     with tree_node(label="Child 0", default_open=True):
@@ -457,7 +469,7 @@ def show_demo():
                         add_button(label="button")
                 with tree_node(label="Advanced, with selectable nodes"):
                     demo_help("This is a more typical looking tree with selectable nodes.\n"
-                               "Click to select, CTRL+Click to toggle, click on arrows or double-click to open.")
+                                "Click to select, CTRL+Click to toggle, click on arrows or double-click to open.")
 
             with tree_node(label="Bullets"):
                 add_text(default_value="Bullet point 1", bullet=True)
@@ -597,6 +609,21 @@ def show_demo():
                     add_slider_float(label="", vertical=True, max_value=1.0, height=160, width=40)
                     add_slider_float(label="", vertical=True, max_value=1.0, height=160, width=40)
 
+            with tree_node(label="Time/Date Widgets"):
+
+                add_time_picker(label="Time Picker", default_value={'hour': 14, 'min': 32, 'sec': 23})
+                add_separator()
+                with table(header_row=False):
+                    add_table_column()
+                    add_table_column()
+                    add_table_column()
+
+                    add_date_picker(label="Date Picker1", level=0, default_value={'month_day': 8, 'year':93, 'month':5})
+                    add_table_next_column()
+                    add_date_picker(label="Date Picker2", level=1, default_value={'month_day': 8, 'year':93, 'month':5})
+                    add_table_next_column()
+                    add_date_picker(label="Date Picker3", level=2, default_value={'month_day': 8, 'year':93, 'month':5})
+
             with tree_node(label="Item config/state/info"):
                 def log_status_config_state():
                     log_debug(get_item_configuration(test))
@@ -735,13 +762,13 @@ def show_demo():
                 add_checkbox(id="rich##demo")
 
                 add_text("Lists:")
-                add_listbox(["AAAA", "BBBB", "CCCC", "DDDD"], default_value=0, width=100)
+                add_listbox(["AAAA", "BBBB", "CCCC", "DDDD"], default_value="AAAA", width=100)
                 add_same_line()
-                add_listbox(["AAAA", "BBBB", "CCCC", "DDDD"], default_value=1, width=100)
+                add_listbox(["AAAA", "BBBB", "CCCC", "DDDD"], default_value="BBBB", width=100)
                 add_same_line()
-                add_listbox(["AAAA", "BBBB", "CCCC", "DDDD"], default_value=2, width=100)
+                add_listbox(["AAAA", "BBBB", "CCCC", "DDDD"], default_value="CCCC", width=100)
                 add_same_line()
-                add_listbox(["AAAA", "BBBB", "CCCC", "DDDD"], default_value=3, width=100)
+                add_listbox(["AAAA", "BBBB", "CCCC", "DDDD"], default_value="DDDD", width=100)
                 
 
                 add_text("Spacing(100):")
@@ -827,16 +854,8 @@ def show_demo():
                     add_button(id="Cancel##modal##demo", width=75, callback=lambda sender, data: close_popup("Delete?"))
 
             with tree_node(id="File Selector##demo"):
-                def file_selected(sender, data):
-                    log_info(data)
-                add_button(label="Show File Dialog", callback=lambda: show_item(fd))
-                #add_button(id="Select Python File##demo", callback = lambda sender, data: open_file_dialog(callback=file_selected, extensions=".*,.py"))
-                #add_button(id="Select C++ File##demo", callback = lambda sender, data: open_file_dialog(callback=file_selected, extensions=".*,.cpp"))
 
-            with tree_node(id="Directory Selector##demo"):
-                def directory_selected(sender, data):
-                    log_info(data)
-                add_button(id="Select Directory##demo", callback = lambda sender, data: select_directory_dialog(callback=directory_selected))
+                add_button(label="Show File Dialog", callback=lambda: show_item("Demo File Dialog"))
 
             with tree_node(id="Menus inside a regular window##demo"):
                 add_text("Below we are testing adding menu items to a regular window. It's rather unusual but should work")

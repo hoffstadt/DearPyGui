@@ -9,6 +9,7 @@ namespace Marvel {
 	mvFontScope::mvFontScope(mvAppItem* item)
 	{
 
+		// cache is good
 		if (item->isThemeFontCacheValid())
 		{
 			ImFont* font = item->getCachedFont();
@@ -18,17 +19,34 @@ namespace Marvel {
 				m_valid = true;
 			}
 		}
+
+		// item has it's own font
+		else if (item->getFont())
+		{
+			item->setThemeFontCacheValid();
+		}
+
+		// item hasn't found its found yet
+		else if (!item->getFontName().empty())
+		{
+			ImFont* font = mvToolManager::GetFontManager().getFont(item->getFontName(), item->getFontSize());
+			item->setFont(item->getFontName(), item->getFontSize(), font);
+
+			if(font)
+				item->setThemeFontCacheValid();
+		}
+
+		// item doesn't have its own font
 		else
 		{
 			// search through ancestor tree for font
 			ImFont* font = nullptr;
 			mvAppItem* widget = item;
-			font = widget->getCachedFont();
 			while (!mvAppItem::DoesItemHaveFlag(widget, MV_ITEM_DESC_ROOT))
 			{
 				widget = widget->getParent();
 
-				if (font = widget->getCachedFont())
+				if (font = widget->getFont())
 					break;
 			}
 
@@ -38,11 +56,13 @@ namespace Marvel {
 			if (font)
 			{
 				ImGui::PushFont(font);
-				item->setFont(font);
+				item->setFont("", 0, font);
 				m_valid = true;
+				item->setThemeFontCacheValid();
 			}
 
-			item->setThemeFontCacheValid();
+			//assert(false && "no font found");
+			
 		}
 
 	}
