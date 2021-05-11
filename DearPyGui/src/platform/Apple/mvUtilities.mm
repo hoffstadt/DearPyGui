@@ -72,10 +72,12 @@ namespace Marvel {
         return (__bridge void*)g_textures.back().second;
     }
 
-    void* LoadTextureFromBytes(const char* data, int& width, int& height)
+    void* LoadTextureFromBytes(const char* data, int len, int& width, int& height)
     {
 
-        if (data == nullptr)
+	// Use STB to covert encoded buffer to a gl interpretable buffer
+        unsigned char* image_data = stbi_load(data, len, &image_width, &image_height, NULL, 4);
+        if (image_data == nullptr)
             return nullptr;
 
         MTLTextureDescriptor *textureDescriptor = [MTLTextureDescriptor texture2DDescriptorWithPixelFormat:MTLPixelFormatRGBA8Unorm
@@ -86,7 +88,7 @@ namespace Marvel {
         textureDescriptor.storageMode = MTLStorageModeManaged;
 
         id <MTLTexture> texture = [mvAppleViewport::GetDevice() newTextureWithDescriptor:textureDescriptor];
-        [texture replaceRegion:MTLRegionMake2D(0, 0, width, height) mipmapLevel:0 withBytes:data bytesPerRow:width * 4];
+        [texture replaceRegion:MTLRegionMake2D(0, 0, width, height) mipmapLevel:0 withBytes:image_data bytesPerRow:width * 4];
 
         g_textures.push_back({texture, texture});
 
