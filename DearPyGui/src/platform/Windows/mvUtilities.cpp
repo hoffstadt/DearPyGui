@@ -120,6 +120,50 @@ namespace Marvel {
         return out_srv;
     }
 
+    void* LoadTextureFromBytesDynamic(const char* dataIn, int len, int& width, int& height)
+    {
+	ID3D11ShaderResourceView* out_srv = nullptr;
+
+        // Use STB to covert encoded buffer to a gl interpretable buffer
+        unsigned char* data;
+	    memcpy(data, dataIn, sizeof(dataIn));
+        unsigned char* image_data = stbi_load_from_memory(data, len, &image_width, &image_height, NULL, 4);
+
+	// Create texture
+	D3D11_TEXTURE2D_DESC desc;
+        ZeroMemory(&desc, sizeof(desc));
+        desc.Width = width;
+        desc.Height = height;
+        desc.MipLevels = 1;
+        desc.ArraySize = 1;
+        desc.SampleDesc.Count = 1;
+        desc.Usage = D3D11_USAGE_DYNAMIC;
+        desc.BindFlags = D3D11_BIND_SHADER_RESOURCE;
+        desc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
+        desc.Format = DXGI_FORMAT_R32G32B32A32_FLOAT;
+
+        ID3D11Texture2D* pTexture = NULL;
+        D3D11_SUBRESOURCE_DATA subResource;
+        subResource.pSysMem = image_data;
+        subResource.SysMemPitch = desc.Width * 4 * 4;
+        subResource.SysMemSlicePitch = 0;
+        mvWindowsViewport::getDevice()->CreateTexture2D(&desc, &subResource, &pTexture);
+
+        // Create texture view
+        D3D11_SHADER_RESOURCE_VIEW_DESC srvDesc;
+        ZeroMemory(&srvDesc, sizeof(srvDesc));
+        srvDesc.Format = DXGI_FORMAT_R32G32B32A32_FLOAT;
+        srvDesc.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2D;
+        srvDesc.Texture2D.MipLevels = desc.MipLevels;
+        srvDesc.Texture2D.MostDetailedMip = 0;
+        mvWindowsViewport::getDevice()->CreateShaderResourceView(pTexture, &srvDesc, &out_srv);
+        pTexture->Release();
+
+	stbi_image_free(image_data);
+
+        return out_srv;
+    }
+
     void* LoadTextureFromArray(unsigned width, unsigned height, float* data)
     {
         ID3D11ShaderResourceView* out_srv = nullptr;
