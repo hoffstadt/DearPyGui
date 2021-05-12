@@ -1,3 +1,6 @@
+#!/bin/sh
+set -e
+
 cd ../Dependencies/cpython
 mkdir debug
 cd debug
@@ -6,9 +9,10 @@ make
 cd ../../..
 
 cd ..
-mkdir -p cmake-build-local
+rm -rf cmake-build-local
+mkdir cmake-build-local
 cd cmake-build-local
-rm -rf *
+
 cmake .. -DMVDIST_ONLY=True -DMVPY_VERSION=0 -DMVDPG_VERSION=local_build
 make -j
 cd ..
