@@ -62,10 +62,6 @@ namespace Marvel {
 
 	void mvFileDialog::drawPanel()
 	{
-		ScopedID id;
-		mvImGuiThemeScope scope(this);
-		mvFontScope fscope(this);
-
 		for (auto& item : m_children[1])
 		{
 
@@ -81,7 +77,9 @@ namespace Marvel {
 
 	void mvFileDialog::draw(ImDrawList* drawlist, float x, float y)
 	{
-
+		ScopedID id;
+		mvImGuiThemeScope scope(this);
+		mvFontScope fscope(this);
 		if (!m_show)
 			return;
 
@@ -99,7 +97,7 @@ namespace Marvel {
 			m_dirtySettings = false;
 		}
 
-
+		
 		// ugly
 		if (m_children[1].empty())
 		{
