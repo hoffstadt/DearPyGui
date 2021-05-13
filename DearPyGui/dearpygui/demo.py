@@ -329,6 +329,9 @@ def show_demo():
                 add_menu_item(label="Show Font Manager", callback=show_font_manager)
                 add_menu_item(label="Show Item Registry", callback=show_item_registry)
 
+            with menu(label="Theme"):
+                add_combo(["Dark", "Red", "Gold", "Classic", "Dark Grey", "Cherry"], id="themer", callback=lambda: set_theme(get_value("themer")))
+
         add_text(default_value=f'Dear PyGui says hello. ({get_dearpygui_version()})')
         add_text(default_value="This code for this demo can be found here: ")
         add_text(default_value="https://github.com/hoffstadt/DearPyGui/blob/master/DearPyGui/dearpygui/demo.py")
