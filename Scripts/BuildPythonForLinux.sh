@@ -7,6 +7,9 @@ while getopts 'j:' OPTION; do
         j)
             jobs="-j $OPTARG"
             ;;
+        ?)
+            exit 1
+            ;;
     esac
 done
 
