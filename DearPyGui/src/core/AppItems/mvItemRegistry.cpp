@@ -211,7 +211,7 @@ namespace Marvel {
 
 			for (auto& window : oldwindows)
 			{
-				if (window->m_name == name && !mvAppItem::DoesItemHaveFlag(window.get(), MV_ITEM_DESC_NO_DELETE))
+				if (window->m_name == name)
 				{
 					deletedItem = true;
 					continue;
