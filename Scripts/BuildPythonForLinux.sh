@@ -10,6 +10,7 @@ while getopts 'j:' OPTION; do
     esac
 done
 
+cd $(dirname $0) # Make sure we start in the Scripts directory
 cd ../Dependencies/cpython
 mkdir -p debug
 cd debug
