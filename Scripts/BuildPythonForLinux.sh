@@ -2,7 +2,7 @@
 set -e
 
 cd ../Dependencies/cpython
-mkdir debug
+mkdir -p debug
 cd debug
 ../configure --with-pydebug --enable-shared
 make 
