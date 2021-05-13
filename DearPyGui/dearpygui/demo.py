@@ -403,7 +403,7 @@ def show_demo():
                     parent = add_text(default_value="or me")
                     with tooltip(parent=parent):
                         add_text(default_value="I'm a fancy tooltip")
-                        add_simple_plot(label="Curve",value=[0.6, 0.1, 1.0, 0.5, 0.92, 0.1, 0.2])
+                        add_simple_plot(label="Curve",default_value=[0.6, 0.1, 1.0, 0.5, 0.92, 0.1, 0.2])
 
                 add_separator()
 
@@ -822,7 +822,7 @@ def show_demo():
         with collapsing_header(id="Tooltips##demo"):
             widget = add_text("Hover me for a fancy tooltip")
             with tooltip(id="tool_tip##tooltips", parent=widget):
-                add_simple_plot(id="Simpleplot##tooltips##demo", value=(0.3, 0.9, 2.5, 8.9), height = 80)
+                add_simple_plot(id="Simpleplot##tooltips##demo", default_value=(0.3, 0.9, 2.5, 8.9), height = 80)
 
         with collapsing_header(id="Popups, Modal windows, & Dialogs##demo"):
 
