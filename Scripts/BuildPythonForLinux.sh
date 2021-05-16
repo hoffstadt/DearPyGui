@@ -30,12 +30,13 @@ if [ "$1" = "release" ]; then
     configure_args=""
 fi
 
-mkdir -p $target
-cd $target
+# Build in build/ so cpython's .gitignore hides the build output
+mkdir -p "build/$target"
+cd "build/$target"
 
 # Reconfiguring is time-consuming. Skip if it's already been done
 if [ ! -f Makefile ]; then
-    ../configure $configure_args
+    ../../configure $configure_args
 fi
 
 make $jobs

@@ -49,9 +49,9 @@ jobs:
     - name: Build Python
       run: |
         cd Dependencies/cpython
-        mkdir debug
-        cd debug
-        ../configure --with-pydebug --enable-shared --prefix=$(pwd) LDFLAGS=-Wl,-rpath,$(pwd)
+        mkdir -p build/debug
+        cd build/debug
+        ../../configure --with-pydebug --enable-shared --prefix=$(pwd) LDFLAGS=-Wl,-rpath,$(pwd)
         make
         make install
 
@@ -85,9 +85,9 @@ jobs:
     - name: Build Python
       run: |
         cd Dependencies/cpython
-        mkdir debug
-        cd debug
-        ../configure --with-pydebug --enable-shared
+        mkdir -p build/debug
+        cd build/debug
+        ../../configure --with-pydebug --enable-shared
         make
 
     - name: Build DearPyGui

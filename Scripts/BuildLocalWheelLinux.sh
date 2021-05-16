@@ -16,7 +16,7 @@ done
 cd $(dirname $0) # Make sure we start in the Scripts directory
 
 # Build python first if it hasn't been already
-if [ ! -f ../Dependencies/cpython/release/python ]; then
+if [ ! -f ../Dependencies/cpython/build/release/python ]; then
     ./BuildPythonForLinux.sh release $jobs
 fi
 
