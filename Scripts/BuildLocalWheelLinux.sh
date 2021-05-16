@@ -28,7 +28,8 @@ fi
     cd cmake-build-local
 
     cmake .. -DMVDIST_ONLY=True -DMVPY_VERSION=0 -DMVDPG_VERSION=local_build
-    make $jobs
+    cd ..
+    cmake --build cmake-build-local --config Release $jobs
 )
 
 (
