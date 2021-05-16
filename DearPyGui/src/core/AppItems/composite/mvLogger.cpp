@@ -118,7 +118,7 @@ namespace Marvel {
 		ImGui::BeginGroup();
 
 		ImGui::PushID(this);
-		
+
 		// auto scroll button
 		if (m_autoScrollButton)
 		{
@@ -140,9 +140,13 @@ namespace Marvel {
 			ImGui::SameLine();
 		}
 
+		// Add a new line after the buttons only if required
+		if (m_autoScrollButton | m_clearButton | m_copyButton){
+			ImGui::NewLine();
+		}
+
 		if (m_filter)
 		{
-			ImGui::NewLine();
 			Filter.Draw("Filter", m_width-100.0f);
 		}
 
