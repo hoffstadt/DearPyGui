@@ -38,8 +38,7 @@ fi
 )
 
 (
-    mkdir -p Distribution
-    cd Distribution
+    cd ../Distribution
     python3 BuildPythonWheel.py ../cmake-build-local/DearPyGui/core.so 0
     python3 -m ensurepip
     python3 -m pip install --upgrade pip
