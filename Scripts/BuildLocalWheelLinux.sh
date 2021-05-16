@@ -2,7 +2,7 @@
 set -e
 
 # Allow user to set number of jobs when compiling
-while getopts 'j:' OPT; do
+while getopts 'j:' OPTION; do
     case "$OPTION" in
         j)
             jobs="-j $OPTARG"
