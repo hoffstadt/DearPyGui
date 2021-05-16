@@ -17,7 +17,7 @@ cd $(dirname $0) # Make sure we start in the Scripts directory
 
 # Build python first if it hasn't been already
 if [ ! -f ../Dependencies/cpython/debug/python ]; then
-    ./BuildPythonForLinux.sh
+    ./BuildPythonForLinux.sh $jobs
 fi
 
 # Use subshell for other build steps so directory changes stay contained
