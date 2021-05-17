@@ -42,10 +42,11 @@ fi
 
 (
     cd ../Distribution
-    python3 BuildPythonWheel.py ../cmake-build-local/DearPyGui/core.so 0
-    python3 -m ensurepip
-    python3 -m pip install --upgrade pip
-    python3 -m pip install twine --upgrade
-    python3 -m pip install wheel
-    python3 -m setup bdist_wheel --plat-name manylinux1_x86_64 --dist-dir ../dist
+    python='../Dependencies/cpython/build/release/python'
+    $python BuildPythonWheel.py ../cmake-build-local/DearPyGui/core.so 0
+    $python -m ensurepip
+    $python -m pip install --upgrade pip
+    $python -m pip install twine --upgrade
+    $python -m pip install wheel
+    $python -m setup bdist_wheel --plat-name manylinux1_x86_64 --dist-dir ../dist
 )
