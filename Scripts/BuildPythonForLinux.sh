@@ -11,6 +11,7 @@ while getopts 'j:' OPTION; do
             exit 1
             ;;
     esac
+    shift $(($OPTIND - 1))
 done
 
 cd $(dirname $0) # Make sure we start in the Scripts directory

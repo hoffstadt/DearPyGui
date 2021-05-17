@@ -22,7 +22,7 @@ fi
 
 # Build python first if it hasn't been already
 if [ ! -f ../Dependencies/cpython/build/debug/python ]; then
-    ./BuildPythonForLinux.sh debug $jobs
+    ./BuildPythonForLinux.sh $jobs debug
 fi
 
 cd ..

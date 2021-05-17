@@ -21,7 +21,7 @@ fi
 
 # Build python first if it hasn't been already
 if [ ! -f ../Dependencies/cpython/build/release/python ]; then
-    ./BuildPythonForLinux.sh release $jobs
+    ./BuildPythonForLinux.sh $jobs release
 fi
 
 # Use subshell for other build steps so directory changes stay contained
