@@ -15,6 +15,10 @@ done
 
 cd $(dirname $0) # Make sure we start in the Scripts directory
 
+if [ "$1" = "clean" ]; then
+    rm -rf ../cmake-build-local
+fi
+
 # Build python first if it hasn't been already
 if [ ! -f ../Dependencies/cpython/build/release/python ]; then
     ./BuildPythonForLinux.sh release $jobs
@@ -23,8 +27,7 @@ fi
 # Use subshell for other build steps so directory changes stay contained
 (
     cd ..
-    rm -rf cmake-build-local
-    mkdir cmake-build-local
+    mkdir -p cmake-build-local
     cd cmake-build-local
 
     cmake .. -DMVDIST_ONLY=True -DMVPY_VERSION=0 -DMVDPG_VERSION=local_build
