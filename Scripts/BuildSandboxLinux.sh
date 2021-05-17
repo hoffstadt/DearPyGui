@@ -14,19 +14,20 @@ while getopts 'j:' OPTION; do
 done
 
 cd $(dirname $0) # Make sure we start in the Scripts directory
-cd ../Dependencies/cpython
 
-# Run `./BuildPythonForLinux.sh clean` to clean up the build directory
 if [ "$1" = "clean" ]; then
-    rm -r debug
-else
-    mkdir -p debug
-    cd debug
-
-    # Reconfiguring is time-consuming. Skip if it's already been done
-    if [ ! -f Makefile ]; then
-        ../configure --with-pydebug --enable-shared
-    fi
-
-    make $jobs
+    rm -r ../cmake-build-debug
+    exit 0
 fi
+
+# Build python first if it hasn't been already
+if [ ! -f ../Dependencies/cpython/debug/python ]; then
+    ./BuildPythonForLinux.sh $jobs
+fi
+
+cd ..
+mkdir -p cmake-build-debug
+cd cmake-build-debug
+cmake ..
+cd ..
+cmake --build cmake-build-debug --config Debug $jobs
