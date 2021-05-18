@@ -2,9 +2,9 @@
 set -e
 
 cd ../Dependencies/cpython
-mkdir debug
-cd debug
-../configure --enable-shared
+mkdir build/debug
+cd build/debug
+../../configure --enable-shared
 make
 cd ../../..
 

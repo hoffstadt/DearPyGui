@@ -26,7 +26,7 @@ int main(int argc, char* argv[])
       nullptr);
 #else
   wchar_t *deco = Py_DecodeLocale(
-      "../../Dependencies/cpython/debug/build/lib.linux-x86_64-3.9-pydebug/:../"
+      "../../Dependencies/cpython/build/debug/build/lib.linux-x86_64-3.9-pydebug/:../"
       "../Dependencies/cpython/Lib/:../../DearPyGui:../../DearSandbox",
       nullptr);
 #endif

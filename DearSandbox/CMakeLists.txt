@@ -22,7 +22,7 @@ target_include_directories(DearSandbox
 
 	PRIVATE
 
-		"$<$<PLATFORM_ID:Linux>:${CMAKE_SOURCE_DIR}/Dependencies/cpython/debug/include/python3.9d/>"
+		"$<$<PLATFORM_ID:Linux>:${CMAKE_SOURCE_DIR}/Dependencies/cpython/build/debug/include/python3.9d/>"
 		"$<$<PLATFORM_ID:Windows>:${CMAKE_SOURCE_DIR}/Dependencies/cpython/PC/>"
 		"../Dependencies/spdlog/include"
 		"../Dependencies/imgui/"
@@ -37,7 +37,7 @@ target_include_directories(DearSandbox
 		"../DearPyGui/src/core/Registries"
 		"../DearPyGui/src/core/Theming"
 		"../Dependencies/cpython/"
-		"../Dependencies/cpython/debug/"
+		"../Dependencies/cpython/build/debug/"
 		"../Dependencies/cpython/Include/"
 )
 
@@ -75,17 +75,17 @@ elseif(APPLE)
 
 	set_property(TARGET DearSandbox APPEND_STRING PROPERTY COMPILE_FLAGS "-Wno-unused-result -Wsign-compare -Wunreachable-code -fno-common -dynamic -DNDEBUG -g -fwrapv -O3 -Wall -arch x86_64 -g")
 
-    target_link_directories(DearSandbox PRIVATE ../Dependencies/cpython/debug/lib)
+    target_link_directories(DearSandbox PRIVATE ../Dependencies/cpython/build/debug/lib)
 
 	target_link_libraries(DearSandbox PUBLIC coreemb -ldl "-framework CoreFoundation" "python3.9d")
 
-	file(GLOB PYTHON_LIBS_PATH "../Dependencies/cpython/debug/lib/python*")
+	file(GLOB PYTHON_LIBS_PATH "../Dependencies/cpython/build/debug/lib/python*")
 
 	add_compile_definitions(PYTHON_LIBS_PATH="${PYTHON_LIBS_PATH}")
 
 else() # Linux
 
-	target_link_directories(DearSandbox PRIVATE ../Dependencies/cpython/debug)
+	target_link_directories(DearSandbox PRIVATE ../Dependencies/cpython/build/debug)
 
 	target_link_libraries(DearSandbox
 
