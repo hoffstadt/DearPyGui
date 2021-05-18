@@ -21,8 +21,8 @@ if [ "$1" = "clean" ]; then
 fi
 
 # Build python first if it hasn't been already
-if [ ! -f ../Dependencies/cpython/debug/python ]; then
-    ./BuildPythonForLinux.sh $jobs
+if [ ! -f ../Dependencies/cpython/build/debug/python ]; then
+    ./BuildPythonForLinux.sh $jobs debug
 fi
 
 cd ..

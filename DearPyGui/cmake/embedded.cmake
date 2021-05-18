@@ -36,7 +36,7 @@ elseif(APPLE)
 	add_definitions(-DUNIX)
 
 	# tell cmake where to find the python3x dlls
-	target_link_directories(coreemb PRIVATE "../Dependencies/cpython/debug")
+	target_link_directories(coreemb PRIVATE "../Dependencies/cpython/build/debug")
 	
 	SET_PROPERTY(TARGET coreemb APPEND_STRING PROPERTY COMPILE_FLAGS "-fobjc-arc -Wunused-function -Wno-unused-result -Wsign-compare -Wunreachable-code -fno-common -dynamic -DNDEBUG -g -fwrapv -O3 -Wall -arch x86_64")
 	
@@ -65,7 +65,7 @@ else() # Linux
 	add_definitions(-DIMGUI_IMPL_OPENGL_LOADER_GL3W)
 
 	# tell cmake where to find the python3x dlls
-	target_link_directories(coreemb PRIVATE "../Dependencies/cpython/debug")
+	target_link_directories(coreemb PRIVATE "../Dependencies/cpython/build/debug")
 
 	set_property(TARGET coreemb APPEND_STRING PROPERTY COMPILE_FLAGS "-fPIC -Wno-unused-result -Wsign-compare -DNDEBUG -g -fwrapv -O3 -Wall")
 	

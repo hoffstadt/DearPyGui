@@ -79,7 +79,7 @@ elseif(MVPY_VERSION EQUAL 39)
 	)
 
 elseif(MVPY_VERSION EQUAL 0)
-	target_link_directories(core PRIVATE ../Dependencies/cpython/debug)
+	target_link_directories(core PRIVATE ../Dependencies/cpython/build/debug)
 
 	target_include_directories(core 
 		PRIVATE 

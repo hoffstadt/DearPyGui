@@ -37,9 +37,9 @@ jobs:
           sudo apt-get install xorg-dev
           sudo apt-get install libfreetype6-dev
           cd Dependencies/cpython
-          mkdir debug
-          cd debug
-          ../configure --with-pydebug --enable-shared
+          mkdir -p build/debug
+          cd build/debug
+          ../../configure --with-pydebug --enable-shared
           make
 
       - name: PVS-Studio static analysis
