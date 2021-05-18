@@ -210,6 +210,5 @@ set(MARVEL_INCLUDE_DIR
 	"../Dependencies/cpython/"
 	"../Dependencies/cpython/Include/"
 	"$<$<PLATFORM_ID:Windows>:${CMAKE_SOURCE_DIR}/Dependencies/cpython/PC/>"
-	"$<$<CONFIG:Debug>:${CMAKE_SOURCE_DIR}/Dependencies/cpython/build/debug/>"
-	"$<$<CONFIG:Release>:${CMAKE_SOURCE_DIR}/Dependencies/cpython/build/release/>"
+	"$<IF:$<CONFIG:Release>,${CMAKE_SOURCE_DIR}/Dependencies/cpython/build/release/,${CMAKE_SOURCE_DIR}/Dependencies/cpython/build/debug/>"
 )
