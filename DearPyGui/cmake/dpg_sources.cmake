@@ -209,6 +209,7 @@ set(MARVEL_INCLUDE_DIR
 	"../Dependencies/imgui/examples/libs/gl3w"
 	"../Dependencies/cpython/"
 	"../Dependencies/cpython/Include/"
+	"../Dependencies/cpython/build/debug/"
 	"$<$<PLATFORM_ID:Windows>:${CMAKE_SOURCE_DIR}/Dependencies/cpython/PC/>"
 	"$<IF:$<CONFIG:Release>,${CMAKE_SOURCE_DIR}/Dependencies/cpython/build/release/,${CMAKE_SOURCE_DIR}/Dependencies/cpython/build/debug/>"
 )
