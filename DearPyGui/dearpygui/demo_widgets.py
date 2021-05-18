@@ -1,5 +1,7 @@
 import dearpygui.core as dpg
 import dearpygui.contexts as cxt
+from dearpygui.common import _log, _config, _help, _hsv_to_rgb
+from math import sin, cos
 
 def show_demo():
 
