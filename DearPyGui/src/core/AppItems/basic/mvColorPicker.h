@@ -74,7 +74,7 @@ namespace Marvel {
 
 	private:
 
-		ImGuiColorEditFlags m_flags = ImGuiColorEditFlags_None;
+		ImGuiColorEditFlags m_flags = ImGuiColorEditFlags__OptionsDefault;
 
 		std::array<float, 4> m_default_value = { 0.0f, 0.0f, 0.0f, 1.0f };
 		bool                 m_no_alpha = false;

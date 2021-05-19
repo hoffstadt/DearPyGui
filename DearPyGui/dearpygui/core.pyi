@@ -90,7 +90,7 @@ def add_draw_layer(*, id: str =..., parent: str ='', before: str ='', show: bool
 	"""Undocumented function"""
 	...
 
-def add_drawlist(*, id: str =..., width: int =0, height: int =0, parent: str ='', before: str ='', show: bool =True) -> str:
+def add_drawlist(*, id: str =..., width: int =0, height: int =0, parent: str ='', before: str ='', callback: Callable =None, callback_data: Any =None, show: bool =True) -> str:
 	"""Undocumented function"""
 	...
 

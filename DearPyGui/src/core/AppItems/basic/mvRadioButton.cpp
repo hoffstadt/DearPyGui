@@ -78,8 +78,8 @@ namespace Marvel {
 
 			if (ImGui::RadioButton((m_itemnames[i] + "##" + m_name).c_str(), m_enabled ? &m_index : &m_disabledindex, (int)i))
 			{
-				*m_value = m_name[m_index];
-				m_disabled_value = m_name[m_index];
+				*m_value = m_itemnames[m_index];
+				m_disabled_value = m_itemnames[m_index];
 				mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), m_name, m_callback_data);
 			}
 

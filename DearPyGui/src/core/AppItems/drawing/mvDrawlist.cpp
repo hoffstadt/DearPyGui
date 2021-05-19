@@ -18,8 +18,6 @@ namespace Marvel {
 		mvAppItem::AddCommonArgs(parser);
 		parser.removeArg("source");
 		parser.removeArg("label");
-		parser.removeArg("callback");
-		parser.removeArg("callback_data");
 		parser.removeArg("enabled");
 		parser.removeArg("indent");
 		parser.finalize();
@@ -76,7 +74,9 @@ namespace Marvel {
 		}
 
 		ImGui::PopClipRect();
-		ImGui::Dummy(ImVec2((float)m_width, (float)m_height));
+
+		if (ImGui::InvisibleButton(m_name.c_str(), ImVec2((float)m_width, (float)m_height), ImGuiButtonFlags_MouseButtonLeft | ImGuiButtonFlags_MouseButtonRight | ImGuiButtonFlags_MouseButtonMiddle))
+			mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), m_name, m_callback_data);
 
 
 		if (ImGui::IsItemHovered())

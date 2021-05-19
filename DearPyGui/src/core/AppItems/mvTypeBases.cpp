@@ -247,23 +247,24 @@ namespace Marvel {
 
 	PyObject* mvColorPtrBase::getPyValue()
 	{
-		mvColor color = { 
-			m_value->data()[0], 
-			m_value->data()[1], 
-			m_value->data()[2], 
-			m_value->data()[3]
-		};
+		// nasty hack
+		int r = (int)(m_value->data()[0] * 255.0f * 255.0f);
+		int g = (int)(m_value->data()[1] * 255.0f * 255.0f);
+		int b = (int)(m_value->data()[2] * 255.0f * 255.0f);
+		int a = (int)(m_value->data()[3] * 255.0f * 255.0f);
+
+		auto color = mvColor(r, g, b, a);
 		return ToPyColor(color);
 	}
 
 	void mvColorPtrBase::setPyValue(PyObject* value)
 	{
-		std::vector<float> temp = ToFloatVect(value);
-		while (temp.size() < 4)
-			temp.push_back(0.0f);
+		mvColor color = ToColor(value);
 		std::array<float, 4> temp_array;
-		for (int i = 0; i < temp_array.size(); i++)
-			temp_array[i] = temp[i];
+		temp_array[0] = color.r;
+		temp_array[1] = color.g;
+		temp_array[2] = color.b;
+		temp_array[3] = color.a;
 		if (m_value)
 			*m_value = temp_array;
 		else

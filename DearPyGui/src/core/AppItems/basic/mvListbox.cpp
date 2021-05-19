@@ -67,8 +67,8 @@ namespace Marvel {
 
 		if (ImGui::ListBox(m_label.c_str(), m_enabled ? &m_index : &m_disabledindex, m_charNames.data(), (int)m_names.size(), m_itemsHeight))
 		{
-			*m_value = m_name[m_index];
-			m_disabled_value = m_name[m_index];
+			*m_value = m_names[m_index];
+			m_disabled_value = m_names[m_index];
 			mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), m_name, m_callback_data);
 		}
 	}

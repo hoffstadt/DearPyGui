@@ -27,7 +27,6 @@ namespace Marvel {
 
 		parser.addArg<mvPyDataType::Float>("thickness", mvArgType::KEYWORD_ARG, "1.0");
 
-		parser.addArg<mvPyDataType::Integer>("size", mvArgType::KEYWORD_ARG, "4");
 		parser.addArg<mvPyDataType::Integer>("segments", mvArgType::KEYWORD_ARG, "0");
 
 		parser.finalize();
