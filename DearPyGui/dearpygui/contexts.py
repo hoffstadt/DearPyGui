@@ -81,9 +81,11 @@ def table(*args, header_row: bool = True, width: int = 0, height: int = 0, inner
         internal_dpg.pop_container_stack()
 
 @contextmanager
-def drawlist(*args, id:str='', width: int = 0, height: int = 0, show: bool = True, parent: str = "", before: str = ""):
+def drawlist(*args, id:str='', width: int = 0, height: int = 0, show: bool = True, parent: str = "", before: str = "",
+             callback: Callable = None, callback_data: Any = None):
     try:
-        widget = internal_dpg.add_drawlist(*args, id=id, width = width, height = height, show=show, parent=parent, before=before)
+        widget = internal_dpg.add_drawlist(*args, id=id, width = width, height = height, show=show, parent=parent, before=before,
+                                           callback=callback, callback_data=callback_data)
         internal_dpg.push_container_stack(widget)
         yield widget
 

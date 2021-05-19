@@ -152,7 +152,7 @@ namespace Marvel {
 
 	protected:
 
-		mvRef<std::array<float, 4>> m_value = CreateRef<std::array<float, 4>>(std::array<float, 4>{0.0f, 0.0f, 0.0f, -1.0f});
+		mvRef<std::array<float, 4>> m_value = CreateRef<std::array<float, 4>>(std::array<float, 4>{0.0f, 0.0f, 0.0f, -255.0f});
 		float  m_disabled_value[4]{};
 	};
 

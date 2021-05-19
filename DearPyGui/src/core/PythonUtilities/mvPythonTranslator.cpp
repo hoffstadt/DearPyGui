@@ -528,7 +528,7 @@ namespace Marvel {
 			items.resize(PyTuple_Size(value));
 			for (Py_ssize_t i = 0; i < PyTuple_Size(value); ++i)
 			{
-				items.emplace_back(PyLong_AsLong(PyTuple_GetItem(value, i)));
+				items[i] = PyLong_AsLong(PyTuple_GetItem(value, i));
 			}
 		}
 
