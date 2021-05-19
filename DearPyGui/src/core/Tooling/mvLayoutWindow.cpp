@@ -1,4 +1,5 @@
 #include "mvLayoutWindow.h"
+#include <imnodes.h>
 #include "mvApp.h"
 #include "mvItemRegistry.h"
 
@@ -30,7 +31,7 @@ namespace Marvel {
         m_windowflags = ImGuiWindowFlags_NoSavedSettings;
     }
 
-    void mvLayoutWindow::renderNode(mvAppItem* item)
+    void mvLayoutWindow::renderTreeNode(mvAppItem* item)
     {
 
         // build up flags for current node
@@ -45,7 +46,10 @@ namespace Marvel {
         
         // processing for selecting node
         if (ImGui::IsItemClicked())
+        {
             m_selectedItem = item->m_name;
+            m_dirtyNodes = true;
+        }
 
         if (!mvAppItem::DoesItemHaveFlag(item, MV_ITEM_DESC_CONTAINER))
         {
@@ -67,7 +71,7 @@ namespace Marvel {
                 if (ImGui::TreeNodeEx(title.c_str(), childrenSet.empty() ? ImGuiTreeNodeFlags_Leaf : 0))
                 {
                     for (auto& children : childrenSet)
-                        renderNode(children.get());
+                        renderTreeNode(children.get());
                     ImGui::TreePop();
                 }
             }
@@ -76,6 +80,180 @@ namespace Marvel {
 
         ImGui::PopID();
 
+    }
+    
+    bool mvLayoutWindow::renderParentNode(mvAppItem* item, int nodeId, int slotId)
+    {
+
+        mvAppItem* parent = item->getParent();
+
+        if (parent == nullptr)
+            return false;
+
+        if (m_dirtyNodes)
+            imnodes::SetNodeGridSpacePos(nodeId, ImVec2(10.0f, 10.0f));
+
+        imnodes::BeginNode(nodeId);
+
+        imnodes::BeginNodeTitleBar();
+        ImGui::TextUnformatted(m_showLabels ? parent->m_specificedlabel.c_str() : parent->m_name.c_str());
+        imnodes::EndNodeTitleBar();
+
+        for (int i = 0; i < 3; i++)
+        {
+            if (i == item->getTarget())
+            {
+                imnodes::BeginOutputAttribute(slotId);
+                ImGui::Text("Child Slot %d", item->getTarget());
+                imnodes::EndOutputAttribute();
+            }
+            else
+            {
+                imnodes::BeginStaticAttribute(-1);
+                ImGui::Text("Child Slot %d", i);
+                imnodes::EndStaticAttribute();
+            }
+        }
+
+        imnodes::EndNode();
+
+        if (nodeId == m_selectedId)
+        {
+            m_selectedItem = parent->m_name;
+            m_selectedId = -2;
+        }
+
+        return true;
+    }
+
+    bool mvLayoutWindow::renderChildAttr(mvAppItem* item, int slot, int slotId)
+    {
+        if (item->getChildren(slot).empty())
+        {
+            imnodes::BeginStaticAttribute(slotId);
+            ImGui::Text("Child Slot %d", slot);
+            imnodes::EndStaticAttribute();
+        }
+        else
+        {
+            imnodes::BeginOutputAttribute(slotId);
+            ImGui::Text("Child Slot %d", slot);
+            imnodes::EndOutputAttribute();
+        }
+
+        return !item->getChildren(slot).empty();
+    }
+
+    void mvLayoutWindow::renderChildNodes(mvAppItem* item, int slot, int& link, int& node, int startAttrId, int parentAttrId)
+    {
+        int current_x = 500 + 200 * slot;
+        int current_y = 100;
+
+        for (int i = 0; i < item->getChildren(slot).size(); i++)
+        {
+            mvAppItem* child = item->getChildren(slot)[i].get();
+
+            imnodes::BeginNode(++node);
+
+            if (m_dirtyNodes)
+                imnodes::SetNodeGridSpacePos(node, ImVec2(current_x, current_y));
+
+            imnodes::BeginNodeTitleBar();
+            ImGui::TextUnformatted(m_showLabels ? child->m_specificedlabel.c_str() : child->m_name.c_str());
+            imnodes::EndNodeTitleBar();
+
+            imnodes::BeginInputAttribute(parentAttrId + i + 1);
+            ImGui::Text("Parent");
+            imnodes::EndInputAttribute();
+
+            if (node == m_selectedId)
+            {
+                m_selectedItem = child->m_name;
+                m_selectedId = -2;
+            }
+
+            imnodes::EndNode();
+
+            current_y += 70 + 10;
+
+            imnodes::Link(link++, parentAttrId, parentAttrId + i + 1);
+        }
+    }
+
+    void mvLayoutWindow::renderNode(mvAppItem* item)
+    {
+        // dummy ids
+        int linkId = 0;
+        int nodeId = 1000;
+        
+        // attribute ids
+        int parentParentAttrId = 2000;
+        int currentItemParentAttrId = 3000;        
+        int slot0AttrId = 4000;
+        int slot1AttrId = 5000;
+        int slot2AttrId = 6000;
+
+        imnodes::BeginNodeEditor();
+        imnodes::ClearNodeSelection();
+
+        bool hasParent = renderParentNode(item, ++nodeId, parentParentAttrId);
+
+        imnodes::PushColorStyle(imnodes::ColorStyle_NodeOutline, mvColor(0, 255, 0, 255));
+        imnodes::BeginNode(++nodeId);
+
+        if (m_dirtyNodes)
+            imnodes::SetNodeGridSpacePos(nodeId, ImVec2(100.0f, 300.0f));
+
+        imnodes::BeginNodeTitleBar();
+        ImGui::TextUnformatted(m_showLabels ? item->m_specificedlabel.c_str() : item->m_name.c_str());
+        imnodes::EndNodeTitleBar();
+
+        if (hasParent)
+        {
+            imnodes::BeginInputAttribute(currentItemParentAttrId);
+            ImGui::Text("Parent");
+            imnodes::EndInputAttribute();
+        }
+
+        bool hasSlot0Children = renderChildAttr(item, 0, slot0AttrId);
+        bool hasSlot1Children = renderChildAttr(item, 1, slot1AttrId);
+        bool hasSlot2Children = renderChildAttr(item, 2, slot2AttrId);
+
+        imnodes::EndNode();
+        imnodes::PopColorStyle();
+
+        if (nodeId == m_selectedId)
+        {
+            m_selectedItem = item->m_name;
+            m_selectedId = -1;
+        }
+
+        if (hasSlot0Children) renderChildNodes(item, 0, linkId, nodeId, slot0AttrId, slot0AttrId);
+        if (hasSlot1Children) renderChildNodes(item, 1, linkId, nodeId, slot1AttrId, slot1AttrId);
+        if (hasSlot2Children) renderChildNodes(item, 2, linkId, nodeId, slot2AttrId, slot2AttrId);
+
+        if(hasParent)
+            imnodes::Link(linkId++, parentParentAttrId, currentItemParentAttrId);
+
+        imnodes::EndNodeEditor();
+
+        if (imnodes::NumSelectedNodes() > 0)
+        {
+            int* selected_nodes = new int[imnodes::NumSelectedNodes()];
+            imnodes::GetSelectedNodes(selected_nodes);
+            m_selectedId = selected_nodes[0];
+            delete[] selected_nodes;
+        }
+
+        if (m_selectedId == -1)
+            m_dirtyNodes = false;
+        else if (m_selectedId == -2)
+        {
+            m_dirtyNodes = true;
+            m_selectedId = -1;
+        }
+        else
+            m_dirtyNodes = true;
     }
 
     void mvLayoutWindow::drawWidgets()
@@ -157,13 +335,22 @@ namespace Marvel {
         // right side
         ImGui::BeginGroup();
         ImGui::Checkbox("Show Label", &m_showLabels);
+        ImGui::SameLine();
+        ImGui::Checkbox("Node View", &m_nodeView);
 
-        ImGui::BeginChild("TreeChild", ImVec2(-1.0f, -1.0f), true);
+        if (m_nodeView)
+        {
+            renderNode(selectedItem.get());
+        }
+        else
+        {
+            ImGui::BeginChild("TreeChild", ImVec2(-1.0f, -1.0f), true);
 
-        for (auto& window : mvApp::GetApp()->getItemRegistry().getRoots())
-            renderNode(window.get());
+            for (auto& window : mvApp::GetApp()->getItemRegistry().getRoots())
+                renderTreeNode(window.get());
 
-        ImGui::EndChild();
+            ImGui::EndChild();
+        }
         ImGui::EndGroup();
     }
 
