@@ -166,37 +166,21 @@ namespace Marvel {
 
 	}
 
-	void mvPythonParser::removeArg(const char* name)
-	{
-		for (auto& arg : m_staged_elements)
-		{
-			if (strcmp(arg.name, name) == 0)
-			{
-				arg.active = false;
-				return;
-			}
-		}
-		assert(false);
-	}
-
 	void mvPythonParser::finalize()
 	{
 		for (auto& arg : m_staged_elements)
 		{
-			if (arg.active)
+			switch (arg.arg_type)
 			{
-				switch (arg.arg_type)
-				{
-				case mvArgType::REQUIRED_ARG:
-					m_required_elements.push_back(arg);
-					break;
-				case mvArgType::POSITIONAL_ARG:
-					m_optional_elements.push_back(arg);
-					break;
-				case mvArgType::KEYWORD_ARG:
-					m_keyword_elements.push_back(arg);
-					break;
-				}
+			case mvArgType::REQUIRED_ARG:
+				m_required_elements.push_back(arg);
+				break;
+			case mvArgType::POSITIONAL_ARG:
+				m_optional_elements.push_back(arg);
+				break;
+			case mvArgType::KEYWORD_ARG:
+				m_keyword_elements.push_back(arg);
+				break;
 			}
 		}
 		m_staged_elements.clear();

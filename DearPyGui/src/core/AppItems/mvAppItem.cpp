@@ -102,24 +102,21 @@ namespace Marvel{
 		return item->getDescFlags() & flag;
 	}
 
-	void mvAppItem::AddCommonArgs(mvPythonParser& parser)
+	void mvAppItem::AddCommonArgs(mvPythonParser& parser, CommonParserArgs args)
 	{
-		parser.addArg<mvPyDataType::String>("id", mvArgType::KEYWORD_ARG);
 
-		parser.addArg<mvPyDataType::Integer>("width", mvArgType::KEYWORD_ARG, "0");
-		parser.addArg<mvPyDataType::Integer>("height", mvArgType::KEYWORD_ARG, "0");
-		parser.addArg<mvPyDataType::Integer>("indent", mvArgType::KEYWORD_ARG, "-1");
-
-		parser.addArg<mvPyDataType::String>("parent", mvArgType::KEYWORD_ARG, "''", "Parent to add this item to. (runtime adding)");
-		parser.addArg<mvPyDataType::String>("before", mvArgType::KEYWORD_ARG, "''", "This item will be displayed before the specified item in the parent.");
-		parser.addArg<mvPyDataType::String>("label", mvArgType::KEYWORD_ARG, "''", "Overrides 'name' as label");
-		parser.addArg<mvPyDataType::String>("source", mvArgType::KEYWORD_ARG, "''", "Overrides 'name' as value storage key");
-		
-		parser.addArg<mvPyDataType::Callable>("callback", mvArgType::KEYWORD_ARG, "None", "Registers a callback");
-		parser.addArg<mvPyDataType::Object>("callback_data", mvArgType::KEYWORD_ARG, "None", "Callback data");
-
-		parser.addArg<mvPyDataType::Bool>("show", mvArgType::KEYWORD_ARG, "True", "Attempt to render");
-		parser.addArg<mvPyDataType::Bool>("enabled", mvArgType::KEYWORD_ARG, "True");
+		if(args & MV_PARSER_ARG_ID)            parser.addArg<mvPyDataType::String>("id", mvArgType::KEYWORD_ARG);
+		if(args & MV_PARSER_ARG_WIDTH)         parser.addArg<mvPyDataType::Integer>("width", mvArgType::KEYWORD_ARG, "0");
+		if(args & MV_PARSER_ARG_HEIGHT)        parser.addArg<mvPyDataType::Integer>("height", mvArgType::KEYWORD_ARG, "0");
+		if(args & MV_PARSER_ARG_INDENT)        parser.addArg<mvPyDataType::Integer>("indent", mvArgType::KEYWORD_ARG, "-1");
+		if(args & MV_PARSER_ARG_PARENT)        parser.addArg<mvPyDataType::String>("parent", mvArgType::KEYWORD_ARG, "''", "Parent to add this item to. (runtime adding)");
+		if(args & MV_PARSER_ARG_BEFORE)        parser.addArg<mvPyDataType::String>("before", mvArgType::KEYWORD_ARG, "''", "This item will be displayed before the specified item in the parent.");
+		if(args & MV_PARSER_ARG_LABEL)         parser.addArg<mvPyDataType::String>("label", mvArgType::KEYWORD_ARG, "''", "Overrides 'name' as label");
+		if(args & MV_PARSER_ARG_SOURCE)        parser.addArg<mvPyDataType::String>("source", mvArgType::KEYWORD_ARG, "''", "Overrides 'name' as value storage key");		
+		if(args & MV_PARSER_ARG_CALLBACK)      parser.addArg<mvPyDataType::Callable>("callback", mvArgType::KEYWORD_ARG, "None", "Registers a callback");
+		if(args & MV_PARSER_ARG_CALLBACK_DATA) parser.addArg<mvPyDataType::Object>("callback_data", mvArgType::KEYWORD_ARG, "None", "Callback data");
+		if(args & MV_PARSER_ARG_SHOW)          parser.addArg<mvPyDataType::Bool>("show", mvArgType::KEYWORD_ARG, "True", "Attempt to render");
+		if(args & MV_PARSER_ARG_ENABLED)       parser.addArg<mvPyDataType::Bool>("enabled", mvArgType::KEYWORD_ARG, "True");
 
 	}
 

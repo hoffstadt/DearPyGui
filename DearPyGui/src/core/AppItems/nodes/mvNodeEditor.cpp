@@ -18,14 +18,13 @@ namespace Marvel {
 
 		{
 			mvPythonParser parser(mvPyDataType::String, "Undocumented function", { "Node Editor", "Widgets" });
-			mvAppItem::AddCommonArgs(parser);
-			parser.removeArg("source");
-			parser.removeArg("label");
-			parser.removeArg("width");
-			parser.removeArg("height");
-			parser.removeArg("indent");
-			parser.removeArg("callback_data");
-			parser.removeArg("enabled");
+			mvAppItem::AddCommonArgs(parser, (CommonParserArgs)(
+				MV_PARSER_ARG_ID |
+				MV_PARSER_ARG_PARENT |
+				MV_PARSER_ARG_BEFORE |
+				MV_PARSER_ARG_CALLBACK |
+				MV_PARSER_ARG_SHOW)
+			);
 
 			parser.addArg<mvPyDataType::Callable>("delink_callback", mvArgType::KEYWORD_ARG, "None", "Callback ran when a link is detached.");
 

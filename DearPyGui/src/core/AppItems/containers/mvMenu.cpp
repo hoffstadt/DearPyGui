@@ -10,12 +10,15 @@ namespace Marvel {
 	{
 
 		mvPythonParser parser(mvPyDataType::String, "Undocumented function", { "Containers", "Widgets" });
-		mvAppItem::AddCommonArgs(parser);
-		parser.removeArg("source");
-		parser.removeArg("width");
-		parser.removeArg("height");
-		parser.removeArg("callback");
-		parser.removeArg("callback_data");
+		mvAppItem::AddCommonArgs(parser, (CommonParserArgs)(
+			MV_PARSER_ARG_ID |
+			MV_PARSER_ARG_INDENT |
+			MV_PARSER_ARG_PARENT |
+			MV_PARSER_ARG_BEFORE |
+			MV_PARSER_ARG_LABEL |
+			MV_PARSER_ARG_SHOW |
+			MV_PARSER_ARG_ENABLED)
+		);
 		parser.finalize();
 
 		parsers->insert({ s_command, parser });
