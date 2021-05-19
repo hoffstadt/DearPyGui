@@ -39,8 +39,8 @@ def show_demo():
                 dpg.add_button(arrow=True, direction=dpg.mvDir_Right, callback=lambda: dpg.set_value(widget, int(dpg.get_value(widget))+1))
                 widget = dpg.add_text("0")
 
-            widget = dpg.add_text("hover me")
-            with cxt.tooltip(parent=widget): # note that "parent" is the item the tooltip show's for
+            widget2 = dpg.add_text("hover me")
+            with cxt.tooltip(parent=widget2): # note that "parent" is the item the tooltip show's for
                 dpg.add_text("I'm a fancy tooltip")
 
             dpg.add_separator()
@@ -186,11 +186,11 @@ def show_demo():
                 values = [ 0.0, 0.60, 0.35, 0.9, 0.70, 0.20, 0.0 ]
 
                 for i in range(0, 7):
-                    widget = dpg.add_slider_float(label=" ", default_value=values[i], vertical=True, max_value=1.0, height=160)
-                    dpg.set_theme_color(dpg.mvThemeCol_SliderFloat_Bg, _hsv_to_rgb(i/7.0, 0.5, 0.5), item=widget)
-                    dpg.set_theme_color(dpg.mvThemeCol_SliderFloat_Grab, _hsv_to_rgb(i/7.0, 0.9, 0.9), item=widget)
-                    dpg.set_theme_color(dpg.mvThemeCol_SliderFloat_BgActive, _hsv_to_rgb(i/7.0, 0.7, 0.5), item=widget)
-                    dpg.set_theme_color(dpg.mvThemeCol_SliderFloat_BgHovered, _hsv_to_rgb(i/7.0, 0.6, 0.5), item=widget)
+                    widget3 = dpg.add_slider_float(label=" ", default_value=values[i], vertical=True, max_value=1.0, height=160)
+                    dpg.set_theme_color(dpg.mvThemeCol_SliderFloat_Bg, _hsv_to_rgb(i/7.0, 0.5, 0.5), item=widget3)
+                    dpg.set_theme_color(dpg.mvThemeCol_SliderFloat_Grab, _hsv_to_rgb(i/7.0, 0.9, 0.9), item=widget3)
+                    dpg.set_theme_color(dpg.mvThemeCol_SliderFloat_BgActive, _hsv_to_rgb(i/7.0, 0.7, 0.5), item=widget3)
+                    dpg.set_theme_color(dpg.mvThemeCol_SliderFloat_BgHovered, _hsv_to_rgb(i/7.0, 0.6, 0.5), item=widget3)
 
             dpg.add_same_line()
             with cxt.group():
