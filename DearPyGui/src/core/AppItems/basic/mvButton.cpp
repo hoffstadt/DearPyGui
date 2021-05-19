@@ -12,8 +12,19 @@ namespace Marvel {
 	{
 
 		mvPythonParser parser(mvPyDataType::String, "Undocumented function", { "Widgets" });
-		mvAppItem::AddCommonArgs(parser);
-		parser.removeArg("source");
+		mvAppItem::AddCommonArgs(parser,(CommonParserArgs)(
+			MV_PARSER_ARG_ID |
+			MV_PARSER_ARG_WIDTH |
+			MV_PARSER_ARG_HEIGHT |
+			MV_PARSER_ARG_INDENT |
+			MV_PARSER_ARG_PARENT |
+			MV_PARSER_ARG_BEFORE |
+			MV_PARSER_ARG_LABEL |
+			MV_PARSER_ARG_CALLBACK |
+			MV_PARSER_ARG_CALLBACK_DATA |
+			MV_PARSER_ARG_SHOW |
+			MV_PARSER_ARG_ENABLED)
+			);
 
 		parser.addArg<mvPyDataType::Bool>("small", mvArgType::KEYWORD_ARG, "False", "Small button, useful for embedding in text.");
 		parser.addArg<mvPyDataType::Bool>("arrow", mvArgType::KEYWORD_ARG, "False", "Arrow button, must use with direction");

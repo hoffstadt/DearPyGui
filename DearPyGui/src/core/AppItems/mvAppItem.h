@@ -80,6 +80,22 @@ namespace Marvel {
         MV_ITEM_DESC_AFTER       = 1 << 3,
     };
 
+    enum CommonParserArgs
+    {
+        MV_PARSER_ARG_ID,
+        MV_PARSER_ARG_WIDTH,
+        MV_PARSER_ARG_HEIGHT,
+        MV_PARSER_ARG_INDENT,
+        MV_PARSER_ARG_PARENT,
+        MV_PARSER_ARG_BEFORE,
+        MV_PARSER_ARG_LABEL,
+        MV_PARSER_ARG_SOURCE,
+        MV_PARSER_ARG_CALLBACK,
+        MV_PARSER_ARG_CALLBACK_DATA,
+        MV_PARSER_ARG_SHOW,
+        MV_PARSER_ARG_ENABLED      
+    };
+
     using mvValueVariant = std::variant<
         std::shared_ptr<int>,
         std::shared_ptr<float>,
@@ -171,7 +187,7 @@ namespace Marvel {
 
         static bool DoesItemHaveFlag(mvAppItem* item, int flag);
         static std::pair<std::string, std::string> GetNameFromArgs(std::string& name, PyObject* args, PyObject* kwargs);
-        static void AddCommonArgs(mvPythonParser& parser);
+        static void AddCommonArgs(mvPythonParser& parser, CommonParserArgs args);
 
     protected:
 

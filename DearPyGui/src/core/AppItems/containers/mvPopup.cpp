@@ -11,14 +11,13 @@ namespace Marvel {
 
 		{
 			mvPythonParser parser(mvPyDataType::String, "Undocumented function", { "Containers", "Widgets" });
-			mvAppItem::AddCommonArgs(parser);
-			parser.removeArg("source");
-			parser.removeArg("before");
-			parser.removeArg("label");
-			parser.removeArg("indent");
-			parser.removeArg("callback");
-			parser.removeArg("callback_data");
-			parser.removeArg("enabled");
+			mvAppItem::AddCommonArgs(parser, (CommonParserArgs)(
+				MV_PARSER_ARG_ID |
+				MV_PARSER_ARG_WIDTH |
+				MV_PARSER_ARG_HEIGHT |
+				MV_PARSER_ARG_PARENT |
+				MV_PARSER_ARG_SHOW)
+			);
 
 			parser.addArg<mvPyDataType::Integer>("mousebutton", mvArgType::KEYWORD_ARG, "1", "The mouse code that will trigger the popup.");
 			parser.addArg<mvPyDataType::Bool>("modal", mvArgType::KEYWORD_ARG, "False");

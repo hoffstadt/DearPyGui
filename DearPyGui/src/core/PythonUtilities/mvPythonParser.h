@@ -62,12 +62,11 @@ namespace Marvel {
         const char* description = "";
         const char* default_value = "...";
         mvArgType    arg_type = mvArgType::REQUIRED_ARG;
-        bool         active = true;
 
         constexpr mvPythonDataElement(mvPyDataType type, const char* name, const char* description,
-            const char* default_value, mvArgType arg_type, bool active)
+            const char* default_value, mvArgType arg_type)
             : type(type), name(name), description(description), default_value(default_value),
-            arg_type(arg_type), active(active)
+            arg_type(arg_type)
         {
 
         }
@@ -93,16 +92,15 @@ namespace Marvel {
         {
             for (const auto& arg : m_staged_elements)
             {
-                if (strcmp(arg.name, name) == 0 && arg.active)
+                if (strcmp(arg.name, name) == 0)
                 {
                     assert(false);
                     return;
                 }
             }
-            m_staged_elements.emplace_back(type, name, description, defaultValue, argType, true);
+            m_staged_elements.emplace_back(type, name, description, defaultValue, argType);
         }
 
-        void removeArg(const char* name);
 
         bool verifyRequiredArguments(PyObject* args);
         bool verifyPositionalArguments(PyObject* args);
