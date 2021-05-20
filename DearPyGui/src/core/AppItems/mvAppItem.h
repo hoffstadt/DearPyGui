@@ -82,18 +82,18 @@ namespace Marvel {
 
     enum CommonParserArgs
     {
-        MV_PARSER_ARG_ID,
-        MV_PARSER_ARG_WIDTH,
-        MV_PARSER_ARG_HEIGHT,
-        MV_PARSER_ARG_INDENT,
-        MV_PARSER_ARG_PARENT,
-        MV_PARSER_ARG_BEFORE,
-        MV_PARSER_ARG_LABEL,
-        MV_PARSER_ARG_SOURCE,
-        MV_PARSER_ARG_CALLBACK,
-        MV_PARSER_ARG_CALLBACK_DATA,
-        MV_PARSER_ARG_SHOW,
-        MV_PARSER_ARG_ENABLED      
+        MV_PARSER_ARG_ID            = 1 << 1,
+        MV_PARSER_ARG_WIDTH         = 1 << 2,
+        MV_PARSER_ARG_HEIGHT        = 1 << 3,
+        MV_PARSER_ARG_INDENT        = 1 << 4,
+        MV_PARSER_ARG_PARENT        = 1 << 5,
+        MV_PARSER_ARG_BEFORE        = 1 << 6,
+        MV_PARSER_ARG_LABEL         = 1 << 7,
+        MV_PARSER_ARG_SOURCE        = 1 << 8,
+        MV_PARSER_ARG_CALLBACK      = 1 << 9,
+        MV_PARSER_ARG_CALLBACK_DATA = 1 << 10,
+        MV_PARSER_ARG_SHOW          = 1 << 11,
+        MV_PARSER_ARG_ENABLED       = 1 << 12
     };
 
     using mvValueVariant = std::variant<
