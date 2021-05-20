@@ -49,13 +49,22 @@ namespace Marvel {
 			if (!m_texture->getState().isOk())
 				return;
 
+			// if width/height is not set by user, use texture dimensions
+			if (m_width == 0)
+					m_width = m_texture->getWidth();
+
+			if (m_height == 0)
+					m_height = m_texture->getHeight();
+
 			void* texture = nullptr;
 
 			if (m_texture->getType() == mvAppItemType::mvStaticTexture)
 				texture = static_cast<mvStaticTexture*>(m_texture.get())->getRawTexture();
 			else
 				texture = static_cast<mvDynamicTexture*>(m_texture.get())->getRawTexture();
-			ImGui::Image(texture, ImVec2((float)m_texture->getWidth(), (float)m_texture->getHeight()), ImVec2(m_uv_min.x, m_uv_min.y), ImVec2(m_uv_max.x, m_uv_max.y),
+
+			//ImGui::Image(texture, ImVec2((float)m_texture->getWidth(), (float)m_texture->getHeight()), ImVec2(m_uv_min.x, m_uv_min.y), ImVec2(m_uv_max.x, m_uv_max.y),
+			ImGui::Image(texture, ImVec2(m_width, m_height), ImVec2(m_uv_min.x, m_uv_min.y), ImVec2(m_uv_max.x, m_uv_max.y),
 				ImVec4((float)m_tintColor.r, (float)m_tintColor.g, (float)m_tintColor.b, (float)m_tintColor.a),
 				ImVec4((float)m_borderColor.r, (float)m_borderColor.g, (float)m_borderColor.b, (float)m_borderColor.a));
 
@@ -107,16 +116,8 @@ namespace Marvel {
 		if (dict == nullptr)
 			return;
 
-		if (PyObject* item = PyDict_GetItemString(dict, "uv_min"))
-		{
-			m_uv_min = ToVec2(item);
-			m_dirty = true;
-		}
-		if (PyObject* item = PyDict_GetItemString(dict, "uv_max"))
-		{
-			m_uv_max = ToVec2(item);
-			m_dirty = true;
-		}
+		if (PyObject* item = PyDict_GetItemString(dict, "uv_min")) m_uv_min = ToVec2(item);
+		if (PyObject* item = PyDict_GetItemString(dict, "uv_max")) m_uv_max = ToVec2(item);
 		if (PyObject* item = PyDict_GetItemString(dict, "tint_color")) m_tintColor = ToColor(item);
 		if (PyObject* item = PyDict_GetItemString(dict, "border_color")) m_borderColor = ToColor(item);
 	}

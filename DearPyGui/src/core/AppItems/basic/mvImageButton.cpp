@@ -53,6 +53,13 @@ namespace Marvel {
 			if (!m_texture->getState().isOk())
 				return;
 
+			// if width/height is not set by user, use texture dimensions
+			if (m_width == 0)
+				m_width = m_texture->getWidth();
+
+			if (m_height == 0)
+				m_height = m_texture->getHeight();
+
 			void* texture = nullptr;
 
 			if (m_texture->getType() == mvAppItemType::mvStaticTexture)
@@ -97,6 +104,8 @@ namespace Marvel {
 				break;
 			}
 		}
+
+		
 	}
 
 	void mvImageButton::handleSpecificKeywordArgs(PyObject* dict)
@@ -104,16 +113,8 @@ namespace Marvel {
 		if (dict == nullptr)
 			return;
 
-		if (PyObject* item = PyDict_GetItemString(dict, "uv_min"))
-		{
-			m_uv_min = ToVec2(item);
-			m_dirty = true;
-		}
-		if (PyObject* item = PyDict_GetItemString(dict, "uv_max"))
-		{
-			m_uv_max = ToVec2(item);
-			m_dirty = true;
-		}
+		if (PyObject* item = PyDict_GetItemString(dict, "uv_min")) m_uv_min = ToVec2(item);
+		if (PyObject* item = PyDict_GetItemString(dict, "uv_max")) m_uv_max = ToVec2(item);
 		if (PyObject* item = PyDict_GetItemString(dict, "tint_color")) m_tintColor = ToColor(item);
 		if (PyObject* item = PyDict_GetItemString(dict, "background_color")) m_backgroundColor = ToColor(item);
 		if (PyObject* item = PyDict_GetItemString(dict, "frame_padding")) m_framePadding = ToInt(item);

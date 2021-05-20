@@ -7,6 +7,7 @@
 #include "mvDebugWindow.h"
 #include "mvFontManager.h"
 #include "mvLayoutWindow.h"
+#include "mvProfiler.h"
 
 namespace Marvel {
 
@@ -43,6 +44,8 @@ namespace Marvel {
 
 	void mvToolManager::Draw()
 	{
+		MV_PROFILE_SCOPE("Tool rendering")
+
 		for (auto& tool : s_tools)
 			tool->draw();
 	}
