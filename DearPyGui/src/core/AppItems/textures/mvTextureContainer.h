@@ -35,10 +35,16 @@ namespace Marvel {
         void draw(ImDrawList* drawlist, float x, float y) override;
 
         bool canChildBeAdded(mvAppItemType type) override;
+        void onChildRemoved(mvRef<mvAppItem> item) override;
+        void onChildrenRemoved() override;
 
     private:
 
         void show_debugger();
+
+    private:
+
+        int m_selection = -1;
     };
 
 }

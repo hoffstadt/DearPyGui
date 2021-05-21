@@ -165,7 +165,7 @@ namespace Marvel {
 
 	bool mvCallbackRegistry::onEndFrame(mvEvent& event)
 	{
-		MV_PROFILE_FUNCTION()
+		MV_PROFILE_SCOPE("End Frame Tasks")
 
 		runTasks();
 		
@@ -174,7 +174,7 @@ namespace Marvel {
 
 	bool mvCallbackRegistry::onRender(mvEvent& event)
 	{
-		MV_PROFILE_FUNCTION()
+		MV_PROFILE_SCOPE("Begin Frame Tasks")
 
 		runTasks();
 	

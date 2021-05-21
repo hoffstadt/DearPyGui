@@ -49,7 +49,6 @@ namespace Marvel {
 		mvVec2	    m_uv_max = {1.0f, 1.0f};
 		mvColor     m_tintColor = {1.0f, 1.0f, 1.0f, 1.0f};
 		mvColor     m_borderColor = {0.0f, 0.0f, 0.0f, 0.0f};
-		bool        m_dirty = false;
 		std::shared_ptr<mvAppItem> m_texture = nullptr;
 
 	};
