@@ -269,6 +269,7 @@ namespace Marvel {
 
 	PyObject* mvApp::render_dearpygui_frame(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
+		MV_PROFILE_SCOPE("Frame")
 
 		Py_BEGIN_ALLOW_THREADS;
 		auto window = mvApp::GetApp()->getViewport();

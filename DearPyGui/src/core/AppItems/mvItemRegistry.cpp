@@ -332,7 +332,7 @@ namespace Marvel {
 	bool mvItemRegistry::onRender(mvEvent& event)
 	{
 
-		MV_PROFILE_FUNCTION();
+		MV_PROFILE_SCOPE("Rendering")
 
 		for (auto& window : m_roots)
 			window->draw(nullptr, 0.0f, 0.0f);
@@ -342,8 +342,6 @@ namespace Marvel {
 
 	bool mvItemRegistry::onPreRenderReset(mvEvent& event)
 	{
-
-		MV_PROFILE_FUNCTION();
 
 		// resets app items states (i.e. hovered)
 		for (auto& window : m_roots)

@@ -3,6 +3,7 @@
 #include "mvEventMacros.h"
 #include "mvEvents.h"
 #include "mvPythonTranslator.h"
+#include "mvProfiler.h"
 
 namespace Marvel {
 
@@ -26,6 +27,8 @@ namespace Marvel {
 
 	void mvInput::CheckInputs()
 	{
+
+		MV_PROFILE_SCOPE("Input Routing")
 
 		// update mouse
 		// mouse move event

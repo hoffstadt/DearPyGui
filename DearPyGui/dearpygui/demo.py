@@ -6,6 +6,7 @@ import dearpygui.demo_drawlist as drawlist
 import dearpygui.demo_nodes as nodes
 import dearpygui.demo_widgets as widgets
 import dearpygui.demo_layouts as layouts
+import dearpygui.demo_textures as textures
 from dearpygui.common import _log, _config, _help, _hsv_to_rgb
 
 def show_demo():
@@ -85,6 +86,8 @@ with cxt.window(id="Dear PyGui Demo", width=800, height=800, show=False) as demo
     widgets.show_demo()
 
     layouts.show_demo()
+
+    textures.show_demo()
 
     with cxt.collapsing_header(label="Popups & Modal Windows"):
         pass

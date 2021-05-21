@@ -67,7 +67,6 @@ namespace Marvel {
 		mvColor     m_tintColor = { 1.0f, 1.0f, 1.0f, 1.0f };
 		mvColor     m_backgroundColor = { 0.0f, 0.0f, 0.0f, 0.0f };
 		int         m_framePadding = -1;
-		bool        m_dirty = false;
 
 		std::shared_ptr<mvAppItem> m_texture = nullptr;
 

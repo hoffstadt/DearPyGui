@@ -6,6 +6,7 @@
 #include <ctime>
 #include "mvToolManager.h"
 #include "mvItemRegistry.h"
+#include "mvProfiler.h"
 
 // Forward declare message handler from imgui_impl_win32.cpp
 extern IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
@@ -153,6 +154,8 @@ namespace Marvel {
 
 	void mvWindowsViewport::prerender()
 	{
+		MV_PROFILE_SCOPE("Viewport prerender")
+
 		if (m_msg.message == WM_QUIT)
 			m_running = false;
 
@@ -219,6 +222,8 @@ namespace Marvel {
 
 	void mvWindowsViewport::postrender()
 	{
+
+		MV_PROFILE_SCOPE("Presentation")
 
 		// Rendering
 		ImGui::Render();
