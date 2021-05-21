@@ -85,6 +85,8 @@ with cxt.window(id="Dear PyGui Demo", width=800, height=800, show=False) as demo
 
     widgets.show_demo()
 
+    dpg.add_button(label="absolute pos", pos=[50,100])
+
     layouts.show_demo()
 
     textures.show_demo()
