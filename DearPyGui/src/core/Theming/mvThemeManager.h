@@ -4,6 +4,7 @@
 #include "mvEvents.h"
 #include "mvAppItem.h"
 #include "mvStyleWindow.h"
+#include "mvThemeColorGroup.h"
 
 namespace Marvel {
 
@@ -55,108 +56,6 @@ namespace Marvel {
 		static std::unordered_map<mvAppItemType, mvThemeStyles>               s_styles;
 
 	};
-
-	template<typename T>
-	void SearchAncestorTreeForColors(T* item, mvThemeColors& colors)
-	{
-		const std::vector<std::tuple<std::string, long, mvColor, mvColor>>& color_constants = T::GetColorConstants();
-
-		std::unordered_map<long, bool> colors_found;
-		for (const auto& color_pair : color_constants)
-			colors_found[std::get<1>(color_pair)] = false;
-
-		// check local colors and styles first
-		if (item->getColors().find(item->getType()) != item->getColors().end())
-		{
-			for (const auto& color : item->getColors()[item->getType()])
-			{
-				colors_found[color.first] = true;
-				colors[color.first] = color.second;
-			}
-		}
-
-		// search through ancestor tree for unfound colors
-		mvAppItem* widget = item;
-		while (!mvAppItem::DoesItemHaveFlag(widget, MV_ITEM_DESC_ROOT))
-		{
-			widget = widget->getParent();
-
-			if (widget->getColors().find(item->getType()) != widget->getColors().end())
-			{
-				for (const auto& color : widget->getColors()[item->getType()])
-				{
-					// only apply if it wasn't found yet
-					if (!colors_found[color.first])
-					{
-						colors[color.first] = color.second;
-						colors_found[color.first] = true;
-					}
-				}
-			}
-		}
-
-		for (auto& color : mvThemeManager::GetColors()[item->getType()])
-		{
-			// only apply if it wasn't found yet
-			if (!colors_found[color.first])
-			{
-				colors[color.first] = color.second;
-				colors_found[color.first] = true;
-			}
-		}
-
-	}
-
-	template<typename T>
-	void SearchAncestorTreeForDisabledColors(T* item, mvThemeColors& colors)
-	{
-		const std::vector<std::tuple<std::string, long, mvColor, mvColor>>& color_constants = T::GetColorConstants();
-
-		std::unordered_map<long, bool> colors_found;
-		for (const auto& color_pair : color_constants)
-			colors_found[std::get<1>(color_pair)] = false;
-
-		// check local colors and styles first
-		if (item->getDisabledColors().find(item->getType()) != item->getDisabledColors().end())
-		{
-			for (const auto& color : item->getDisabledColors()[item->getType()])
-			{
-				colors_found[color.first] = true;
-				colors[color.first] = color.second;
-			}
-		}
-
-		// search through ancestor tree for unfound colors
-		mvAppItem* widget = item;
-		while (!mvAppItem::DoesItemHaveFlag(widget, MV_ITEM_DESC_ROOT))
-		{
-			widget = widget->getParent();
-
-			if (widget->getDisabledColors().find(item->getType()) != widget->getDisabledColors().end())
-			{
-				for (const auto& color : widget->getDisabledColors()[item->getType()])
-				{
-					// only apply if it wasn't found yet
-					if (!colors_found[color.first])
-					{
-						colors[color.first] = color.second;
-						colors_found[color.first] = true;
-					}
-				}
-			}
-		}
-
-		for (auto& color : mvThemeManager::GetDisabledColors()[item->getType()])
-		{
-			// only apply if it wasn't found yet
-			if (!colors_found[color.first])
-			{
-				colors[color.first] = color.second;
-				colors_found[color.first] = true;
-			}
-		}
-
-	}
 
 	template<typename T>
 	void SearchAncestorTreeForStyles(T* item, std::unordered_map<ImGuiStyleVar, float>& styles, std::unordered_map<ImGuiStyleVar, float>& styles1, std::unordered_map<ImGuiStyleVar, float>& styles2)
