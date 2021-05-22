@@ -158,7 +158,7 @@ These include:
 * 🏆 [Anthony Doupe](https://github.com/Atlamillias) _Partner Sponsor_
 * 🏆 [Ray Heasman](https://github.com/rheasman) _Partner Sponsor_
 * 🏆 [Marco Studer](https://github.com/Mstpyt) _Partner Sponsor_
-* 🥇 [Caden Bloxham](https://github.com/cubic-unit) _Gold Sponsor_
+* 🥇 [Caden Bloxham](https://github.com/cbxm) _Gold Sponsor_
 * 🥇 [Michael Kadziela](https://github.com/Innominus) _Gold Sponsor_
 * 🥇 [Yan Zaretskiy](https://github.com/mindv0rtex) _Gold Sponsor_
 * 🥇 [Trinnik](https://github.com/Trinnik) _Gold Sponsor_
