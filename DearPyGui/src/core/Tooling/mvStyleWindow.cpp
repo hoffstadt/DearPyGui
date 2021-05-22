@@ -90,11 +90,12 @@ namespace Marvel {
                     for (auto item : mvThemeManager::GetColorsPtr())
                     {
                         ImGui::LogText("set_theme_color(%s, %i, %i, %i, %i)\r\n",
-                            std::get<0>(item).c_str(), 
-                            (int)(round(std::get<2>(item)->r * 255.0f)), 
-                            (int)(round(std::get<2>(item)->g * 255.0f)), 
-                            (int)(round(std::get<2>(item)->b * 255.0f)),
-                            (int)(round(std::get<2>(item)->a * 255.0f)));
+                            item->name.c_str(), 
+                            (int)(round(item->color.r * 255.0f)),
+                            (int)(round(item->color.g * 255.0f)),
+                            (int)(round(item->color.b * 255.0f)),
+                            (int)(round(item->color.a * 255.0f))
+                            );
                     }
                     ImGui::LogFinish();
                 }
@@ -106,14 +107,14 @@ namespace Marvel {
 
                 for (auto& item : mvThemeManager::GetColorsPtr())
                 {
-                    if (!filter2.PassFilter(std::get<0>(item).c_str()))
+                    if (!filter2.PassFilter(item->name.c_str()))
                         continue;
 
                     ImGui::PushID(&item);
-                    if (ImGui::ColorEdit4("##color", *std::get<2>(item), ImGuiColorEditFlags_AlphaBar))
+                    if (ImGui::ColorEdit4("##color", &item->color.r, ImGuiColorEditFlags_AlphaBar))
                         mvThemeManager::InValidateColorTheme();
                     ImGui::SameLine();
-                    ImGui::TextUnformatted(std::get<0>(item).c_str());
+                    ImGui::TextUnformatted(item->name.c_str());
                     ImGui::PopID();
                 }
 
@@ -130,14 +131,15 @@ namespace Marvel {
 
                     ImGui::LogToClipboard();
 
-                    for (auto item : mvThemeManager::GetColorsPtr())
+                    for (auto item : mvThemeManager::GetDisabledColorsPtr())
                     {
-                        ImGui::LogText("set_theme_color_disabled(%s, %i, %i, %i, %i)\r\n",
-                            std::get<0>(item).c_str(),
-                            (int)(round(std::get<2>(item)->r * 255.0f)),
-                            (int)(round(std::get<2>(item)->g * 255.0f)),
-                            (int)(round(std::get<2>(item)->b * 255.0f)),
-                            (int)(round(std::get<2>(item)->a * 255.0f)));
+                        ImGui::LogText("set_theme_color(%s, %i, %i, %i, %i)\r\n",
+                            item->name.c_str(),
+                            (int)(round(item->color.r * 255.0f)),
+                            (int)(round(item->color.g * 255.0f)),
+                            (int)(round(item->color.b * 255.0f)),
+                            (int)(round(item->color.a * 255.0f))
+                        );
                     }
                     ImGui::LogFinish();
                 }
@@ -149,14 +151,14 @@ namespace Marvel {
 
                 for (auto& item : mvThemeManager::GetDisabledColorsPtr())
                 {
-                    if (!filter3.PassFilter(std::get<0>(item).c_str()))
+                    if (!filter3.PassFilter(item->name.c_str()))
                         continue;
 
                     ImGui::PushID(&item);
-                    if (ImGui::ColorEdit4("##color(disable)", *std::get<2>(item), ImGuiColorEditFlags_AlphaBar))
+                    if (ImGui::ColorEdit4("##color(disable)", &item->color.r, ImGuiColorEditFlags_AlphaBar))
                         mvThemeManager::InValidateDisabledColorTheme();
                     ImGui::SameLine();
-                    ImGui::TextUnformatted(std::get<0>(item).c_str());
+                    ImGui::TextUnformatted(item->name.c_str());
                     ImGui::PopID();
                 }
 
