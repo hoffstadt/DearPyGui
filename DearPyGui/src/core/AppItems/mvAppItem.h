@@ -93,7 +93,8 @@ namespace Marvel {
         MV_PARSER_ARG_CALLBACK      = 1 << 9,
         MV_PARSER_ARG_CALLBACK_DATA = 1 << 10,
         MV_PARSER_ARG_SHOW          = 1 << 11,
-        MV_PARSER_ARG_ENABLED       = 1 << 12
+        MV_PARSER_ARG_ENABLED       = 1 << 12,
+        MV_PARSER_ARG_POS           = 1 << 13,
     };
 
     using mvValueVariant = std::variant<
