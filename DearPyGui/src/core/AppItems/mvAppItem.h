@@ -16,6 +16,7 @@
 #include "mvPythonTranslator.h"
 #include "cpp.hint"
 #include "mvDefaultTheme.h"
+#include "mvThemeColorGroup.h"
 
 // forward declarations
 struct ImPlotTime;
@@ -277,21 +278,17 @@ namespace Marvel {
         mvAppItem*                          getRoot() const;
 
         // theme get/set
-        std::unordered_map<mvAppItemType, mvThemeColors>& getColors() { return m_colors; }
-        std::unordered_map<mvAppItemType, mvThemeColors>& getDisabledColors() { return m_disabled_colors; }
+        mvThemeColorGroup& getColorGroup        ();
+        mvThemeColorGroup& getDisabledColorGroup();
         std::unordered_map<mvAppItemType, mvThemeStyles>& getStyles() { return m_styles; }
 
         // cached theming
-        bool                                      isThemeColorCacheValid() const;
-        bool                                      isThemeDisabledColorCacheValid() const;
         bool                                      isThemeStyleCacheValid() const;
         bool                                      isThemeFontCacheValid() const;
         void                                      inValidateThemeColorCache();
         void                                      inValidateThemeDisabledColorCache();
         void                                      inValidateThemeStyleCache();
         void                                      inValidateThemeFontCache();
-        void                                      setThemeColorCacheValid();
-        void                                      setThemeDisabledColorCacheValid();
         void                                      setThemeStyleCacheValid();
         void                                      setThemeFontCacheValid();
         void                                      setFont(const std::string& name, int size, ImFont* font);
@@ -299,8 +296,6 @@ namespace Marvel {
         ImFont*                                   getCachedFont() { return m_font; }
         const std::string&                        getFontName() const { return m_fontName; }
         int                                       getFontSize() const { return m_fontSize; }
-        mvThemeColors&                            getCachedThemeColors();
-        mvThemeColors&                            getCachedThemeDisabledColors();
         std::unordered_map<ImGuiStyleVar, float>& getCachedThemeStyles();
         std::unordered_map<ImGuiStyleVar, float>& getCachedThemeStyles1();
         std::unordered_map<ImGuiStyleVar, float>& getCachedThemeStyles2();
@@ -343,17 +338,20 @@ namespace Marvel {
 
         std::string                   m_label; // internal label
 
-        std::unordered_map<mvAppItemType, mvThemeColors> m_colors;
-        std::unordered_map<mvAppItemType, mvThemeColors> m_disabled_colors;
+        // new themes
+        mvThemeColorGroup m_colors         = mvThemeColorGroup(this);
+        mvThemeColorGroup m_disabledColors = mvThemeColorGroup(this);
+
+        // old themes
         std::unordered_map<mvAppItemType, mvThemeStyles> m_styles;
 
         // cached theming
-        bool                                     m_theme_color_dirty = true;
-        bool                                     m_theme_disabled_color_dirty = true;
+        //bool                                     m_theme_color_dirty = true;
+        //bool                                     m_theme_disabled_color_dirty = true;
         bool                                     m_theme_style_dirty = true;
         bool                                     m_theme_font_dirty = false;
-        mvThemeColors                            m_cached_colors;
-        mvThemeColors                            m_cached_disabled_colors;
+        //mvThemeColors                            m_cached_colors;
+        //mvThemeColors                            m_cached_disabled_colors;
         std::unordered_map<ImGuiStyleVar, float> m_cached_styles;
         std::unordered_map<ImGuiStyleVar, float> m_cached_styles1;
         std::unordered_map<ImGuiStyleVar, float> m_cached_styles2;

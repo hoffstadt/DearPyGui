@@ -17,24 +17,9 @@ namespace Marvel {
 
 		mvImNodesThemeScope(T* item)
 		{
-
-			mvThemeColors& colors = item->getCachedThemeColors();
-			mvThemeColors& disabled_colors = item->getCachedThemeDisabledColors();
 			std::unordered_map<ImGuiStyleVar, float>& styles = item->getCachedThemeStyles();
 			std::unordered_map<ImGuiStyleVar, float>& styles1 = item->getCachedThemeStyles1();
 			std::unordered_map<ImGuiStyleVar, float>& styles2 = item->getCachedThemeStyles2();
-
-			if (!item->isThemeColorCacheValid())
-			{
-				SearchAncestorTreeForColors<T>(item, colors);
-				item->setThemeColorCacheValid();
-			}
-
-			if (!item->isThemeDisabledColorCacheValid())
-			{
-				SearchAncestorTreeForDisabledColors<T>(item, disabled_colors);
-				item->setThemeDisabledColorCacheValid();
-			}
 
 			if (!item->isThemeStyleCacheValid())
 			{
@@ -42,25 +27,25 @@ namespace Marvel {
 				item->setThemeStyleCacheValid();
 			}
 
-			if (item->isEnabled())
-				libIDCount = colors.size();
-			else
-				libIDCount = disabled_colors.size();
+			// updates colors if cache is invalid (disabled and regular)
+			SearchAncestorsForColors(item);
+			libIDCount = GetCacheColorCount(item);
+
 			static int imColorID;
 			if (item->isEnabled())
 			{
-				for (auto& color : colors)
+				for (const auto& color : item->getColorGroup().getCachedColors())
 				{
-					DecodelibID(color.first, &imColorID);
-					imnodes::PushColorStyle((imnodes::ColorStyle)imColorID, color.second);
+					DecodelibID(color.constant, &imColorID);
+					imnodes::PushColorStyle((imnodes::ColorStyle)imColorID, mvColor::ConvertToUnsignedInt(color.color));
 				}
 			}
 			else
 			{
-				for (auto& color : disabled_colors)
+				for (const auto& color : item->getDisabledColorGroup().getCachedColors())
 				{
-					DecodelibID(color.first, &imColorID);
-					imnodes::PushColorStyle((imnodes::ColorStyle)imColorID, color.second);
+					DecodelibID(color.constant, &imColorID);
+					imnodes::PushColorStyle((imnodes::ColorStyle)imColorID, mvColor::ConvertToUnsignedInt(color.color));
 				}
 			}
 

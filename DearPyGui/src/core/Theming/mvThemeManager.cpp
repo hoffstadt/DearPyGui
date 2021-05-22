@@ -113,7 +113,7 @@ namespace Marvel {
 		{
 			if (mvAppItem::DoesItemHaveFlag(item.get(), MV_ITEM_DESC_CONTAINER) || item->getType() == type)
 			{
-				item->getColors()[type][mvThemeConstant] = color;
+				item->getColorGroup().addColor(mvThemeConstant, color);
 				item->inValidateThemeColorCache();
 			}
 			else
@@ -157,7 +157,7 @@ namespace Marvel {
 		{
 			if (mvAppItem::DoesItemHaveFlag(item.get(), MV_ITEM_DESC_CONTAINER) || item->getType() == type)
 			{
-				item->getDisabledColors()[type][mvThemeConstant] = color;
+				item->getDisabledColorGroup().addColor(mvThemeConstant, color);
 				item->inValidateThemeDisabledColorCache();
 			}
 			else

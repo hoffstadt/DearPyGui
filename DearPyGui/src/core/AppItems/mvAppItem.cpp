@@ -684,16 +684,6 @@ namespace Marvel{
 		
 	}
 
-	bool mvAppItem::isThemeColorCacheValid() const
-	{
-		return !m_theme_color_dirty;
-	}
-
-	bool mvAppItem::isThemeDisabledColorCacheValid() const
-	{
-		return !m_theme_disabled_color_dirty;
-	}
-
 	bool mvAppItem::isThemeStyleCacheValid() const
 	{
 		return !m_theme_style_dirty;
@@ -706,8 +696,8 @@ namespace Marvel{
 
 	void mvAppItem::inValidateThemeColorCache()
 	{
-		m_theme_color_dirty = true;
-		m_cached_colors.clear();
+
+		m_colors.invalidateCache();
 
 		for (auto& child : m_children[1])
 			child->inValidateThemeColorCache();
@@ -715,8 +705,7 @@ namespace Marvel{
 
 	void mvAppItem::inValidateThemeDisabledColorCache()
 	{
-		m_theme_disabled_color_dirty = true;
-		m_cached_disabled_colors.clear();
+		m_disabledColors.invalidateCache();
 
 		for (auto& child : m_children[1])
 			child->inValidateThemeDisabledColorCache();
@@ -744,16 +733,6 @@ namespace Marvel{
 		}
 	}
 
-	void mvAppItem::setThemeColorCacheValid()
-	{
-		m_theme_color_dirty = false;
-	}
-
-	void mvAppItem::setThemeDisabledColorCacheValid()
-	{
-		m_theme_disabled_color_dirty = false;
-	}
-
 	void mvAppItem::setThemeStyleCacheValid()
 	{
 		m_theme_style_dirty = false;
@@ -762,16 +741,6 @@ namespace Marvel{
 	void mvAppItem::setThemeFontCacheValid()
 	{
 		m_theme_font_dirty = false;
-	}
-
-	mvThemeColors& mvAppItem::getCachedThemeColors()
-	{
-		return m_cached_colors;
-	}
-
-	mvThemeColors& mvAppItem::getCachedThemeDisabledColors()
-	{
-		return m_cached_disabled_colors;
 	}
 
 	std::unordered_map<ImGuiStyleVar, float>& mvAppItem::getCachedThemeStyles()
@@ -1174,4 +1143,13 @@ namespace Marvel{
 		return GetPyNone();
 	}
 
+	mvThemeColorGroup& mvAppItem::getColorGroup() 
+	{ 
+		return m_colors; 
+	}
+
+	mvThemeColorGroup& mvAppItem::getDisabledColorGroup() 
+	{ 
+		return m_disabledColors; 
+	}
 }
