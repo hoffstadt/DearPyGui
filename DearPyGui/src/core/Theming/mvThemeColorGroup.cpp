@@ -45,7 +45,7 @@ namespace Marvel {
 		return true;
 	}
 
-	bool mvThemeColorGroup::addColor(long constant, mvColor color)
+	bool mvThemeColorGroup::addColor(const std::string& name, long constant, mvColor color)
 	{
 		if (doesColorExists(constant))
 		{
@@ -53,7 +53,7 @@ namespace Marvel {
 			return false;
 		}
 
-		m_colors.push_back({constant, color, m_parent, false});
+		m_colors.push_back({name, constant, color, m_parent, false});
 		return true;
 	}
 

@@ -1,6 +1,7 @@
 #pragma once
 
 #include <vector>
+#include <string>
 #include <unordered_map>
 #include "mvCore.h"
 
@@ -22,6 +23,7 @@ namespace Marvel {
 
 		struct mvThemeColor
 		{
+			std::string   name;
 			long          constant = 0L;
 			mvColor       color{};
 			mvAppItem*    parent = nullptr; // item where this color was found
@@ -37,7 +39,7 @@ namespace Marvel {
 		mvThemeColorGroup(mvAppItem* m_parent);
 
 		bool                             addColor(mvThemeColor color);           // add a color from another group
-		bool                             addColor(long constant, mvColor color); // add a new color
+		bool                             addColor(const std::string& name, long constant, mvColor color); // add a new color
 		std::vector<mvThemeColor>        getColorsByType(mvAppItemType type) const;
 
 		// caching
@@ -112,13 +114,14 @@ namespace Marvel {
 		}
 
 		// if any colors were not found, check theme manager
-		for (auto& color : disabled ? mvThemeManager::GetDisabledColors()[item->getType()] : mvThemeManager::GetColors()[item->getType()])
+		//for (auto& color : disabled ? mvThemeManager::GetDisabledColors()[item->getType()] : mvThemeManager::GetColors()[item->getType()])
+		for (auto& color : mvThemeManager::GetColorsByType(item->getType(), disabled))
 		{
 			// only apply if it wasn't found yet
-			if (!colors_found[color.first])
+			if (!colors_found[color.constant])
 			{
-				colorGroup.addColor({ color.first, color.second, nullptr, true });
-				colors_found[color.first] = true;
+				colorGroup.addColor(color);
+				colors_found[color.constant] = true;
 			}
 		}
 

@@ -8,6 +8,7 @@
 #include <ImGuiFileDialog.h>
 #include <cstdlib>
 #include "mvToolManager.h"
+#include "mvThemeColorGroup.h"
 
 namespace Marvel {
 
@@ -97,11 +98,8 @@ namespace Marvel {
 						mvColor color_disable = std::get<3>(item);
 						const std::string& name = std::get<0>(item);
 
-						mvThemeManager::GetColors()[type][mvThemeConstant] = color;
-						mvThemeManager::GetDisabledColors()[type][mvThemeConstant] = color_disable;
-						mvThemeManager::GetColorsPtr().push_back({name, mvThemeConstant, &mvThemeManager::GetColors()[type][mvThemeConstant]});
-						mvThemeManager::GetDisabledColorsPtr().push_back({name, mvThemeConstant, &mvThemeManager::GetDisabledColors()[type][mvThemeConstant]});
-
+						mvThemeManager::GetColors().push_back(mvThemeColorGroup::mvThemeColor{ name, mvThemeConstant, color, nullptr, true});
+						mvThemeManager::GetDisabledColors().push_back(mvThemeColorGroup::mvThemeColor{ name, mvThemeConstant, color_disable, nullptr, true});
 					}
 
 					// style constants
@@ -127,6 +125,14 @@ namespace Marvel {
 						ModuleConstants.push_back({ item.first, item.second });
 
 				});
+
+			// this must be performed after the default colors are filled
+			// so that vector reallocation doesn't invalidate the pointers
+			for (auto& color : mvThemeManager::GetColors())
+				mvThemeManager::GetColorsPtr().push_back(&color);
+			for (auto& color : mvThemeManager::GetDisabledColors())
+				mvThemeManager::GetDisabledColorsPtr().push_back(&color);
+
 		}
 
 		First_Run = false;

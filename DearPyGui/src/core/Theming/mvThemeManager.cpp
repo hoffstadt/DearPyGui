@@ -7,11 +7,11 @@
 
 namespace Marvel {
 
-	std::vector<std::tuple<std::string, long, mvColor*>>      mvThemeManager::s_acolors;
-	std::vector<std::tuple<std::string, long, mvColor*>>      mvThemeManager::s_adcolors;
+	std::vector<mvThemeColorGroup::mvThemeColor*>      mvThemeManager::s_acolors;
+	std::vector<mvThemeColorGroup::mvThemeColor*>      mvThemeManager::s_adcolors;
 	std::vector<std::tuple<std::string, long, float*, float>>			mvThemeManager::s_astyles;
-	std::unordered_map<mvAppItemType, mvThemeColors>					mvThemeManager::s_colors;
-	std::unordered_map<mvAppItemType, mvThemeColors>					mvThemeManager::s_disabled_colors;
+	std::vector<mvThemeColorGroup::mvThemeColor>					mvThemeManager::s_colors;
+	std::vector<mvThemeColorGroup::mvThemeColor>					mvThemeManager::s_disabled_colors;
 	std::unordered_map<mvAppItemType, mvThemeStyles>					mvThemeManager::s_styles;
 
 	void mvThemeManager::InsertParser(std::map<std::string, mvPythonParser>* parsers)
@@ -102,9 +102,17 @@ namespace Marvel {
 		//fills out the app's root theme if no item was given
 		if (widget.empty())
 		{
-			GetColors()[type][mvThemeConstant] = color;
-			InValidateColorTheme();
-			return true;
+			for (auto& existingColor : s_colors)
+			{
+				if (existingColor.constant == mvThemeConstant)
+				{
+					existingColor.color = color;
+					InValidateColorTheme();
+					return true;
+				}
+			}
+
+			assert(false && "color not found");
 		}
 
 		//check widget can take color and apply
@@ -113,7 +121,7 @@ namespace Marvel {
 		{
 			if (mvAppItem::DoesItemHaveFlag(item.get(), MV_ITEM_DESC_CONTAINER) || item->getType() == type)
 			{
-				item->getColorGroup().addColor(mvThemeConstant, color);
+				item->getColorGroup().addColor(GetNameFromConstant(mvThemeConstant), mvThemeConstant, color);
 				item->inValidateThemeColorCache();
 			}
 			else
@@ -146,9 +154,17 @@ namespace Marvel {
 		//fills out the app's root theme if no item was given
 		if (widget.empty())
 		{
-			GetDisabledColors()[type][mvThemeConstant] = color;
-			InValidateDisabledColorTheme();
-			return true;
+			for (auto& existingColor : s_disabled_colors)
+			{
+				if (existingColor.constant == mvThemeConstant)
+				{
+					existingColor.color = color;
+					InValidateDisabledColorTheme();
+					return true;
+				}
+			}
+
+			assert(false && "color not found");
 		}
 
 		//check widget can take color and apply
@@ -157,7 +173,7 @@ namespace Marvel {
 		{
 			if (mvAppItem::DoesItemHaveFlag(item.get(), MV_ITEM_DESC_CONTAINER) || item->getType() == type)
 			{
-				item->getDisabledColorGroup().addColor(mvThemeConstant, color);
+				item->getDisabledColorGroup().addColor(GetNameFromConstant(mvThemeConstant), mvThemeConstant, color);
 				item->inValidateThemeDisabledColorCache();
 			}
 			else
@@ -313,4 +329,30 @@ namespace Marvel {
 
 		return GetPyNone();
 	}
+
+	std::vector<mvThemeColorGroup::mvThemeColor> mvThemeManager::GetColorsByType(mvAppItemType type, bool disabled)
+	{
+		std::vector<mvThemeColorGroup::mvThemeColor> colors;
+
+		for (const auto& color : disabled ? s_disabled_colors : s_colors)
+		{
+			if ((mvAppItemType)mvThemeColorGroup::DecodeType(color.constant) == type)
+				colors.push_back(color);
+		}
+
+		return colors;
+	}
+
+	const std::string& mvThemeManager::GetNameFromConstant(long constant)
+	{
+		for (const auto& color : s_colors)
+		{
+			if (color.constant == constant)
+				return color.name;
+		}
+
+		assert(false);
+		return "";
+	}
+
 }
