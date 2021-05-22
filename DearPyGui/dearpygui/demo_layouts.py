@@ -1,4 +1,5 @@
 import dearpygui.core as dpg
+import dearpygui.simple as sdpg
 import dearpygui.contexts as cxt
 
 def show_demo():
@@ -17,8 +18,13 @@ def show_demo():
             dpg.add_button(label="Button 3", before="out of order button 1")
             dpg.add_button(label="Button 4", parent="out of order pack parent")
 
-        with cxt.tree_node(label="Absolute Position Placment"):
-            pass
+        with cxt.tree_node(id="Absolute Position Placment"):
+            dpg.add_button(label="Set Button 2 Pos", callback=lambda: dpg.set_item_pos(B2, x=50, y=125))
+            dpg.add_button(label="Reset Button 2 Pos", callback=lambda: dpg.reset_pos(B2))
+            dpg.add_button(label="Button 1", pos=[50,50], width=75, height=75)
+            B2 = dpg.add_button(label="Button 2", width=75, height=75)
+            dpg.add_button(label="Button 3")
+
 
         with cxt.tree_node(label="Containers"):
             with cxt.tree_node(label="Tree Nodes"):
@@ -46,13 +52,26 @@ def show_demo():
                     dpg.add_button(label="Button 3")
             with cxt.tree_node(label="Child windows"):
                 dpg.add_text("Child windows are basically embedded windows and provide much more structure and control of the containing items than groups.")
+                dpg.add_table_column()
+                dpg.add_table_column()
+                dpg.add_table_column()
+                dpg.add_checkbox(id="autosize_x##demo", callback=lambda sender, data: configure_item("testchild##demo", autosize_x=get_value(sender)))
+                dpg.add_checkbox(id="autosize_y##demo", callback=lambda sender, data: configure_item("testchild##demo", autosize_y=get_value(sender)))
+                dpg.add_table_next_column()
+                dpg.add_checkbox(id="menubar##childdemo", default_value=True, callback=lambda sender, data: configure_item("testchild##demo", menubar=get_value(sender)))
+                dpg.add_checkbox(id="no_scrollbar##childdemo", callback=lambda sender, data: configure_item("testchild##demo", no_scrollbar=get_value(sender)))
+                dpg.add_table_next_column()
+                dpg.add_checkbox(id="horizontal_scrollbar##childdemo", callback=lambda sender, data: configure_item("testchild##demo", horizontal_scrollbar=get_value(sender)))
+                dpg.add_checkbox(id="border##childdemo", default_value=True, callback=lambda sender, data: configure_item("testchild##demo", border=get_value(sender)))
+                with child(width=500, height=500):
+                    with menu_bar():
+                        with menu(id="Menu##testchild##demo"):
+                            pass
+                    for i in range(0, 100):
+                        add_text(default_value="A pretty long sentence if you really think about it. It's also pointless.")
                 with cxt.child(autosize_x=True, height=130, menubar=True):
                     with cxt.menu_bar():
                         dpg.add_menu(label="Menu Options")
-                    dpg.add_button(label="Button 1")
-                    dpg.add_button(label="Button 2")
-                    dpg.add_button(label="Button 3")
-                with cxt.child(border=False, width=100, height=100):
                     dpg.add_button(label="Button 1")
                     dpg.add_button(label="Button 2")
                     dpg.add_button(label="Button 3")
