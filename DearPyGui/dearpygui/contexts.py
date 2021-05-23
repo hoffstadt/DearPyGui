@@ -27,7 +27,7 @@ def table(*args, header_row: bool = True, width: int = 0, height: int = 0, inner
 		borders_innerV: bool = False, borders_outerV: bool = False, policy: int = 0, no_host_extendX: bool = False,
 		no_host_extendY: bool = False, no_keep_columns_visible: bool = False, precise_widths: bool = False, no_clip: bool = False,
 		pad_outerX: bool = False, no_pad_outerX: bool = False, no_pad_innerX: bool = False, scrollX: bool = False, scrollY: bool = False,
-        id:str='', indent=-1, callback: Callable = None, sort_multi: bool = False, sort_tristate: bool = False):
+        id:str='', indent=-1, callback: Callable = None, sort_multi: bool = False, sort_tristate: bool = False, pos=[]):
     """Wraps add_table() and automates calling end().
 
     Args:
@@ -61,6 +61,7 @@ def table(*args, header_row: bool = True, width: int = 0, height: int = 0, inner
 	        **no_pad_innerX: Disable inner padding between columns (double inner padding if BordersOuterV is on, single inner padding if BordersOuterV is off).
 	        **scollX: Enable horizontal scrolling. Require 'outer_size' parameter of BeginTable() to specify the container size. Changes default sizing policy. Because this create a child window, ScrollY is currently generally recommended when using ScrollX.
 	        **scollY: Enable horizontal vertical.
+	        **pos: Places the item relative to window coordinates, [0,0] is top left.
 
     Returns:
         None
@@ -74,7 +75,7 @@ def table(*args, header_row: bool = True, width: int = 0, height: int = 0, inner
 		    no_host_extendY = no_host_extendY, no_keep_columns_visible = no_keep_columns_visible, precise_widths = precise_widths,
 		    no_clip = no_clip, pad_outerX = pad_outerX, no_pad_outerX = no_pad_outerX, no_pad_innerX = no_pad_innerX,
 		    scrollX = scrollX, scrollY = scrollY, id=id, indent=indent, callback=callback, sort_multi=sort_multi,
-            sort_tristate=sort_tristate)
+            sort_tristate=sort_tristate, pos=pos)
         internal_dpg.push_container_stack(widget)
         yield widget
     finally:
@@ -250,6 +251,7 @@ def child(*args, show: bool = True, parent: str = "", before: str = "", width: i
         **no_scrollbar: Disable scrollbars (window can still scroll with mouse or programmatically)
         **horizontal_scrollbar: Allow horizontal scrollbar to appear (off by default)
         **menubar: adds a bar to add menus
+        **pos: Places the item relative to window coordinates, [0,0] is top left.
 
     Returns:
         None
@@ -285,6 +287,7 @@ def collapsing_header(*args, label: str = "", show: bool = True,
         **open_on_arrow: Only open when clicking on the arrow part.
         **leaf: No collapsing, no arrow (use as a convenience for leaf nodes).
         **bullet: Display a bullet instead of arrow.
+        **pos: Places the item relative to window coordinates, [0,0] is top left.
 
 
     Returns:
@@ -316,6 +319,7 @@ def group(*args, show: bool = True, parent: str = "", before: str = "", width: i
         **width: Width of the item.
         **horizontal: Adds the items on the same row by default.
         **horizontal_spacing: Decides the spacing for the items.
+        **pos: Places the item relative to window coordinates, [0,0] is top left.
 
     Returns:
         None
@@ -443,6 +447,7 @@ def tab_bar(*args, reorderable: bool = False, callback: Callable = None, callbac
         **show: Decides if the item is shown of not.
         **parent: Parent to add this item to. (runtime adding)
         **before: This item will be displayed before the specified item in the parent. (runtime adding)
+        **pos: Places the item relative to window coordinates, [0,0] is top left.
 
     Returns:
         None
@@ -507,6 +512,7 @@ def tree_node(*args, label: str = "", show: bool = True, parent: str = "",
         **open_on_arrow: Only open when clicking on the arrow part.
         **leaf: No collapsing, no arrow (use as a convenience for leaf nodes).
         **bullet: Display a bullet instead of arrow.
+        **pos: Places the item relative to window coordinates, [0,0] is top left.
 
     Returns:
         None
@@ -564,6 +570,7 @@ def popup(*args, mousebutton: int = 1, modal: bool = False, parent: str = "", po
         **width: Width of the item.
         **height: Height of the item.
         **show: Decides if the item is shown of not.
+        **pos: Places the item relative to window coordinates, [0,0] is top left.
 
     Returns:
         None

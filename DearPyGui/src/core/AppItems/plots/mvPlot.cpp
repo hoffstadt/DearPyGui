@@ -35,7 +35,8 @@ namespace Marvel {
 				MV_PARSER_ARG_PARENT |
 				MV_PARSER_ARG_BEFORE |
 				MV_PARSER_ARG_LABEL |
-				MV_PARSER_ARG_SHOW)
+				MV_PARSER_ARG_SHOW |
+				MV_PARSER_ARG_POS)
 			);
 
 			parser.addArg<mvPyDataType::Callable>("query_callback", mvArgType::KEYWORD_ARG, "None", "Callback ran when plot is queried");

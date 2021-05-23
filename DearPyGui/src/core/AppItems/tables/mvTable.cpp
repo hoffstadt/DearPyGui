@@ -21,7 +21,8 @@ namespace Marvel {
 			MV_PARSER_ARG_BEFORE |
 			MV_PARSER_ARG_SOURCE |
 			MV_PARSER_ARG_CALLBACK |
-			MV_PARSER_ARG_SHOW)
+			MV_PARSER_ARG_SHOW |
+			MV_PARSER_ARG_POS)
 		);
 
 		parser.addArg<mvPyDataType::Bool>("header_row", mvArgType::KEYWORD_ARG, "True", "show headers at the top of the columns");
