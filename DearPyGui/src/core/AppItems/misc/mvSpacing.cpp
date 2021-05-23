@@ -15,7 +15,7 @@ namespace Marvel {
 			MV_PARSER_ARG_SHOW)
 		);
 
-		parser.addArg<mvPyDataType::Integer>("count", mvArgType::KEYWORD_ARG, "1", "A cardinal direction");
+		parser.addArg<mvPyDataType::Integer>("count", mvArgType::KEYWORD_ARG, "1", "Number of spacings to add");
 
 		parser.finalize();
 

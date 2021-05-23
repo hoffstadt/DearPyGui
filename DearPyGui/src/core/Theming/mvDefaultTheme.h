@@ -44,10 +44,10 @@
 #define mvImGuiCol_ResizeGrip MV_BASE_COL_bgColor
 #define mvImGuiCol_ResizeGripHovered MV_BASE_COL_panelColor
 #define mvImGuiCol_ResizeGripActive MV_BASE_COL_lightBgColor
-#define mvImGuiCol_Tab MV_BASE_COL_bgColor
+#define mvImGuiCol_Tab MV_BASE_COL_panelColor
 #define mvImGuiCol_TabHovered MV_BASE_COL_panelHoverColor
 #define mvImGuiCol_TabActive MV_BASE_COL_panelActiveColor
-#define mvImGuiCol_TabUnfocused MV_BASE_COL_bgColor
+#define mvImGuiCol_TabUnfocused MV_BASE_COL_panelColor
 #define mvImGuiCol_TabUnfocusedActive MV_BASE_COL_panelActiveColor
 #define mvImGuiCol_DockingPreview MV_BASE_COL_panelActiveColor
 #define mvImGuiCol_DockingEmptyBg mvColor(51, 51, 51, 255)
