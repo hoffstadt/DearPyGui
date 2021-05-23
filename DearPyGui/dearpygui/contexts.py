@@ -83,10 +83,10 @@ def table(*args, header_row: bool = True, width: int = 0, height: int = 0, inner
 
 @contextmanager
 def drawlist(*args, id:str='', width: int = 0, height: int = 0, show: bool = True, parent: str = "", before: str = "",
-             callback: Callable = None, callback_data: Any = None):
+             callback: Callable = None, callback_data: Any = None, pos=[]):
     try:
         widget = internal_dpg.add_drawlist(*args, id=id, width = width, height = height, show=show, parent=parent, before=before,
-                                           callback=callback, callback_data=callback_data)
+                                           callback=callback, callback_data=callback_data, pos=pos)
         internal_dpg.push_container_stack(widget)
         yield widget
 
@@ -94,9 +94,9 @@ def drawlist(*args, id:str='', width: int = 0, height: int = 0, show: bool = Tru
         internal_dpg.pop_container_stack()
 
 @contextmanager
-def viewport_drawlist(*args, id:str='', front: bool = True, show: bool = True):
+def viewport_drawlist(*args, id:str='', front: bool = True, show: bool = True, pos=[]):
     try:
-        widget = internal_dpg.add_viewport_drawlist(*args, id=id, show=show, front=front)
+        widget = internal_dpg.add_viewport_drawlist(*args, id=id, show=show, front=front, pos=pos)
         internal_dpg.push_container_stack(widget)
         yield widget
 

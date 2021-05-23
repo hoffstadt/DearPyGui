@@ -24,7 +24,8 @@ namespace Marvel {
             MV_PARSER_ARG_BEFORE |
             MV_PARSER_ARG_LABEL |
             MV_PARSER_ARG_SOURCE |
-            MV_PARSER_ARG_SHOW)
+            MV_PARSER_ARG_SHOW |
+            MV_PARSER_ARG_POS)
         );
 
         parser.addArg<mvPyDataType::Integer>("default_value", mvArgType::KEYWORD_ARG, "0");
