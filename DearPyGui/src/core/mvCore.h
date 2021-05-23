@@ -208,7 +208,6 @@ namespace Marvel {
 		}
 	}
 
-	typedef std::unordered_map<long, mvColor> mvThemeColors;
 	typedef std::unordered_map<long, float> mvThemeStyles;
 
 	inline void DecodelibID(long encoded_constant, int* libID) { *libID = (int)((encoded_constant / 10) % 100); }

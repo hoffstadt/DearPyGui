@@ -684,11 +684,6 @@ namespace Marvel{
 		
 	}
 
-	bool mvAppItem::isThemeStyleCacheValid() const
-	{
-		return !m_theme_style_dirty;
-	}
-
 	bool mvAppItem::isThemeFontCacheValid() const
 	{
 		return !m_theme_font_dirty;
@@ -699,26 +694,33 @@ namespace Marvel{
 
 		m_colors.invalidateCache();
 
-		for (auto& child : m_children[1])
-			child->inValidateThemeColorCache();
+		for (auto& childset : m_children)
+		{
+			for (auto& child : childset)
+				child->inValidateThemeColorCache();
+		}
 	}
 
 	void mvAppItem::inValidateThemeDisabledColorCache()
 	{
 		m_disabledColors.invalidateCache();
 
-		for (auto& child : m_children[1])
-			child->inValidateThemeDisabledColorCache();
+		for (auto& childset : m_children)
+		{
+			for (auto& child : childset)
+				child->inValidateThemeDisabledColorCache();
+		}
 	}
 
 	void mvAppItem::inValidateThemeStyleCache()
 	{
-		m_theme_style_dirty = true;
-		m_cached_styles.clear();
-		m_cached_styles2.clear();
+		m_styles.invalidateCache();
 
-		for (auto& child : m_children[1])
-			child->inValidateThemeStyleCache();
+		for (auto& childset : m_children)
+		{
+			for (auto& child : childset)
+				child->inValidateThemeStyleCache();
+		}
 	}
 
 	void mvAppItem::inValidateThemeFontCache()
@@ -733,29 +735,9 @@ namespace Marvel{
 		}
 	}
 
-	void mvAppItem::setThemeStyleCacheValid()
-	{
-		m_theme_style_dirty = false;
-	}
-
 	void mvAppItem::setThemeFontCacheValid()
 	{
 		m_theme_font_dirty = false;
-	}
-
-	std::unordered_map<ImGuiStyleVar, float>& mvAppItem::getCachedThemeStyles()
-	{
-		return m_cached_styles;
-	}
-
-	std::unordered_map<ImGuiStyleVar, float>& mvAppItem::getCachedThemeStyles1()
-	{
-		return m_cached_styles1;
-	}
-
-	std::unordered_map<ImGuiStyleVar, float>& mvAppItem::getCachedThemeStyles2()
-	{
-		return m_cached_styles2;
 	}
 
 	void mvAppItem::checkArgs(PyObject* args, PyObject* kwargs)
@@ -1151,5 +1133,10 @@ namespace Marvel{
 	mvThemeColorGroup& mvAppItem::getDisabledColorGroup() 
 	{ 
 		return m_disabledColors; 
+	}
+
+	mvThemeStyleGroup& mvAppItem::getStyleGroup()
+	{
+		return m_styles;
 	}
 }

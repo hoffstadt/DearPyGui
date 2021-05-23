@@ -49,8 +49,8 @@ namespace Marvel {
                     for (auto item : mvThemeManager::GetStylesPtr())
                     {
                         ImGui::LogText("set_theme_style(%s, %.3f)\r\n",
-                            std::get<0>(item).c_str(),
-                            (float)round(std::get<3>(item)));
+                            item->name.c_str(),
+                            (float)round(item->value1));
                     }
                     ImGui::LogFinish();
                 }
@@ -62,14 +62,17 @@ namespace Marvel {
 
                 for (auto& item : mvThemeManager::GetStylesPtr())
                 {
-                    if (!filter1.PassFilter(std::get<0>(item).c_str()))
+                    if (!filter1.PassFilter(item->name.c_str()))
                         continue;
 
                     ImGui::PushID(&item);
-                    if (ImGui::SliderFloat("##style", std::get<2>(item), 0.0f, std::get<3>(item)))
+                    if (ImGui::SliderFloat("##style", &item->value1, 0.0f, item->maxValue))
+                    {
+                        item->value2 = item->value1;
                         mvThemeManager::InValidateStyleTheme();
+                    }
                     ImGui::SameLine();
-                    ImGui::TextUnformatted(std::get<0>(item).c_str());
+                    ImGui::TextUnformatted(item->name.c_str());
                     ImGui::PopID();
                 }
 

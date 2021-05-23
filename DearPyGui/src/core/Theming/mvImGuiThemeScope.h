@@ -16,20 +16,14 @@ namespace Marvel {
 
 		mvImGuiThemeScope(T* item)
 		{
-			std::unordered_map<ImGuiStyleVar, float>& styles = item->getCachedThemeStyles();
-			std::unordered_map<ImGuiStyleVar, float>& styles1 = item->getCachedThemeStyles1();
-			std::unordered_map<ImGuiStyleVar, float>& styles2 = item->getCachedThemeStyles2();
 
-			if (!item->isThemeStyleCacheValid())
-			{
-				SearchAncestorTreeForStyles<T>(item, styles, styles1, styles2);
-				item->setThemeStyleCacheValid();
-			}
-
-			// updates colors if cache is invalid (disabled and regular)
+			//-----------------------------------------------------------------------------
+			// colors
+			//-----------------------------------------------------------------------------
+			
+			// updates colors if cache is invalid and caches (disabled and regular)
 			SearchAncestorsForColors(item);
 			libIDCount = GetCacheColorCount(item);
-
 			static ImGuiCol imColorID;
 			if (item->isEnabled())
 			{
@@ -48,13 +42,25 @@ namespace Marvel {
 				}
 			}
 
-			// push styles2 and its matching style1 vect to ImGui then push the remaining float styles
-			StyleIDCount = styles2.size() + styles.size();
-			for (const auto& style : styles2)
-				ImGui::PushStyleVar(style.first, { styles1[style.first], styles2[style.first] });
+			//-----------------------------------------------------------------------------
+			// styles
+			//-----------------------------------------------------------------------------
+			
+			// updates styles if cache is invalid and caches
+			SearchAncestorsForStyles(item);
+			StyleIDCount = item->getStyleGroup().getCachedStyles().size() + item->getStyleGroup().getCachedStyles2().size();
+			static ImGuiStyleVar imstyleID;
+			for (const auto& style : item->getStyleGroup().getCachedStyles2())
+			{
+				DecodelibID(style.constant, &imstyleID);
+				ImGui::PushStyleVar(imstyleID, { style.value1, style.value2 });
+			}
 
-			for (const auto& style : styles)
-				ImGui::PushStyleVar(style.first, style.second);
+			for (const auto& style : item->getStyleGroup().getCachedStyles())
+			{
+				DecodelibID(style.constant, &imstyleID);
+				ImGui::PushStyleVar(imstyleID, style.value1);
+			}
 		}
 
 		~mvImGuiThemeScope()

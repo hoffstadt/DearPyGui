@@ -17,6 +17,7 @@
 #include "cpp.hint"
 #include "mvDefaultTheme.h"
 #include "mvThemeColorGroup.h"
+#include "mvThemeStyleGroup.h"
 
 // forward declarations
 struct ImPlotTime;
@@ -277,28 +278,33 @@ namespace Marvel {
         const std::string&                  getName() const { return m_name; }
         mvAppItem*                          getRoot() const;
 
-        // theme get/set
-        mvThemeColorGroup& getColorGroup        ();
-        mvThemeColorGroup& getDisabledColorGroup();
-        std::unordered_map<mvAppItemType, mvThemeStyles>& getStyles() { return m_styles; }
-
-        // cached theming
-        bool                                      isThemeStyleCacheValid() const;
-        bool                                      isThemeFontCacheValid() const;
+        // theme colors
+        mvThemeColorGroup&                        getColorGroup        ();
+        mvThemeColorGroup&                        getDisabledColorGroup();
         void                                      inValidateThemeColorCache();
         void                                      inValidateThemeDisabledColorCache();
+
+        // theme styles
+        mvThemeStyleGroup&                        getStyleGroup();
         void                                      inValidateThemeStyleCache();
+
+        //std::unordered_map<mvAppItemType, mvThemeStyles>& getStyles() { return m_styles; }
+        // cached theming
+        //bool                                      isThemeStyleCacheValid() const;
+        bool                                      isThemeFontCacheValid() const;
+
+        
         void                                      inValidateThemeFontCache();
-        void                                      setThemeStyleCacheValid();
+        //void                                      setThemeStyleCacheValid();
         void                                      setThemeFontCacheValid();
         void                                      setFont(const std::string& name, int size, ImFont* font);
         ImFont*                                   getFont() { return m_cachefont; }
         ImFont*                                   getCachedFont() { return m_font; }
         const std::string&                        getFontName() const { return m_fontName; }
         int                                       getFontSize() const { return m_fontSize; }
-        std::unordered_map<ImGuiStyleVar, float>& getCachedThemeStyles();
-        std::unordered_map<ImGuiStyleVar, float>& getCachedThemeStyles1();
-        std::unordered_map<ImGuiStyleVar, float>& getCachedThemeStyles2();
+        //std::unordered_map<ImGuiStyleVar, float>& getCachedThemeStyles();
+        //std::unordered_map<ImGuiStyleVar, float>& getCachedThemeStyles1();
+        //std::unordered_map<ImGuiStyleVar, float>& getCachedThemeStyles2();
 
     protected:
 
@@ -341,20 +347,15 @@ namespace Marvel {
         // new themes
         mvThemeColorGroup m_colors         = mvThemeColorGroup(this);
         mvThemeColorGroup m_disabledColors = mvThemeColorGroup(this);
+        mvThemeStyleGroup m_styles         = mvThemeStyleGroup(this);
 
         // old themes
-        std::unordered_map<mvAppItemType, mvThemeStyles> m_styles;
-
-        // cached theming
-        //bool                                     m_theme_color_dirty = true;
-        //bool                                     m_theme_disabled_color_dirty = true;
-        bool                                     m_theme_style_dirty = true;
+        //std::unordered_map<mvAppItemType, mvThemeStyles> m_styles;
+        //bool                                     m_theme_style_dirty = true;
         bool                                     m_theme_font_dirty = false;
-        //mvThemeColors                            m_cached_colors;
-        //mvThemeColors                            m_cached_disabled_colors;
-        std::unordered_map<ImGuiStyleVar, float> m_cached_styles;
-        std::unordered_map<ImGuiStyleVar, float> m_cached_styles1;
-        std::unordered_map<ImGuiStyleVar, float> m_cached_styles2;
+        //std::unordered_map<ImGuiStyleVar, float> m_cached_styles;
+        //std::unordered_map<ImGuiStyleVar, float> m_cached_styles1;
+        //std::unordered_map<ImGuiStyleVar, float> m_cached_styles2;
 
         // fonts
         ImFont* m_font = nullptr;
