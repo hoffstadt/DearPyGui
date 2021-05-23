@@ -7,12 +7,12 @@
 
 namespace Marvel {
 
-	std::vector<mvThemeColorGroup::mvThemeColor*>      mvThemeManager::s_acolors;
-	std::vector<mvThemeColorGroup::mvThemeColor*>      mvThemeManager::s_adcolors;
-	std::vector<std::tuple<std::string, long, float*, float>>			mvThemeManager::s_astyles;
-	std::vector<mvThemeColorGroup::mvThemeColor>					mvThemeManager::s_colors;
-	std::vector<mvThemeColorGroup::mvThemeColor>					mvThemeManager::s_disabled_colors;
-	std::unordered_map<mvAppItemType, mvThemeStyles>					mvThemeManager::s_styles;
+	std::vector<mvThemeColorGroup::mvThemeColor*> mvThemeManager::s_acolors;
+	std::vector<mvThemeColorGroup::mvThemeColor*> mvThemeManager::s_adcolors;
+	std::vector<mvThemeStyleGroup::mvThemeStyle*> mvThemeManager::s_astyles;
+	std::vector<mvThemeColorGroup::mvThemeColor>  mvThemeManager::s_colors;
+	std::vector<mvThemeColorGroup::mvThemeColor>  mvThemeManager::s_disabled_colors;
+	std::vector<mvThemeStyleGroup::mvThemeStyle>  mvThemeManager::s_styles;
 
 	void mvThemeManager::InsertParser(std::map<std::string, mvPythonParser>* parsers)
 	{
@@ -205,9 +205,18 @@ namespace Marvel {
 		//fills out the app's root theme if no item was given
 		if (widget.empty())
 		{
-			GetStyles()[type][mvThemeConstant] = style;
-			InValidateStyleTheme();
-			return true;
+			for (auto& existingStyle : s_styles)
+			{
+				if (existingStyle.constant == mvThemeConstant)
+				{
+					existingStyle.value1 = style;
+					existingStyle.value2 = style;
+					InValidateStyleTheme();
+					return true;
+				}
+			}
+
+			assert(false && "style not found");
 		}
 
 		//check widget can take style and apply
@@ -216,7 +225,7 @@ namespace Marvel {
 		{
 			if (mvAppItem::DoesItemHaveFlag(item.get(), MV_ITEM_DESC_CONTAINER) || item->getType() == type)
 			{
-				item->getStyles()[type][mvThemeConstant] = style;
+				item->getStyleGroup().addStyle(GetNameFromConstant(mvThemeConstant), mvThemeConstant, style, style);
 				item->inValidateThemeStyleCache();
 			}
 			else
@@ -343,12 +352,31 @@ namespace Marvel {
 		return colors;
 	}
 
+	std::vector<mvThemeStyleGroup::mvThemeStyle> mvThemeManager::GetStylesByType(mvAppItemType type)
+	{
+		std::vector<mvThemeStyleGroup::mvThemeStyle> styles;
+
+		for (const auto& style : s_styles)
+		{
+			if ((mvAppItemType)mvThemeColorGroup::DecodeType(style.constant) == type)
+				styles.push_back(style);
+		}
+
+		return styles;
+	}
+
 	const std::string& mvThemeManager::GetNameFromConstant(long constant)
 	{
 		for (const auto& color : s_colors)
 		{
 			if (color.constant == constant)
 				return color.name;
+		}
+
+		for (const auto& style : s_styles)
+		{
+			if (style.constant == constant)
+				return style.name;
 		}
 
 		assert(false);

@@ -9,6 +9,7 @@
 #include <cstdlib>
 #include "mvToolManager.h"
 #include "mvThemeColorGroup.h"
+#include "mvThemeStyleGroup.h"
 
 namespace Marvel {
 
@@ -114,10 +115,7 @@ namespace Marvel {
 						float max_val = std::get<3>(item);
 						const std::string& name = std::get<0>(item);
 
-						mvThemeManager::GetStyles()[type][mvThemeConstant] = default_val;
-						mvThemeManager::GetStylesPtr().push_back({ name, mvThemeConstant,
-							&mvThemeManager::GetStyles()[type][mvThemeConstant] , max_val});
-
+						mvThemeManager::GetStyles().push_back(mvThemeStyleGroup::mvThemeStyle{ name, mvThemeConstant, default_val, default_val, nullptr, true , false, max_val});
 					}
 
 					// general constants
@@ -132,6 +130,11 @@ namespace Marvel {
 				mvThemeManager::GetColorsPtr().push_back(&color);
 			for (auto& color : mvThemeManager::GetDisabledColors())
 				mvThemeManager::GetDisabledColorsPtr().push_back(&color);
+
+			// this must be performed after the default styles are filled
+			// so that vector reallocation doesn't invalidate the pointers
+			for (auto& style : mvThemeManager::GetStyles())
+				mvThemeManager::GetStylesPtr().push_back(&style);
 
 		}
 

@@ -17,17 +17,9 @@ namespace Marvel {
 		mvImPlotThemeScope(T* item)
 		{
 
-			std::unordered_map<ImGuiStyleVar, float>& styles = item->getCachedThemeStyles();
-			std::unordered_map<ImGuiStyleVar, float>& styles1 = item->getCachedThemeStyles1();
-			std::unordered_map<ImGuiStyleVar, float>& styles2 = item->getCachedThemeStyles2();
-
-
-
-			if (!item->isThemeStyleCacheValid())
-			{
-				SearchAncestorTreeForStyles<T>(item, styles, styles1, styles2);
-				item->setThemeStyleCacheValid();
-			}
+			//-----------------------------------------------------------------------------
+			// colors
+			//-----------------------------------------------------------------------------
 
 			// updates colors if cache is invalid (disabled and regular)
 			SearchAncestorsForColors(item);
@@ -51,16 +43,23 @@ namespace Marvel {
 				}
 			}
 
-			StyleIDCount = styles2.size() + styles.size();
-			for (const auto& style : styles2)
-				ImPlot::PushStyleVar((ImPlotStyleVar)style.first, { styles1[style.first], styles2[style.first] });
+			//-----------------------------------------------------------------------------
+			// styles
+			//-----------------------------------------------------------------------------
 
-			for (const auto& style : styles)
+			// updates styles if cache is invalid and caches
+			SearchAncestorsForStyles(item);
+			StyleIDCount = item->getStyleGroup().getCachedStyles().size() + item->getStyleGroup().getCachedStyles2().size();
+
+			for (const auto& style : item->getStyleGroup().getCachedStyles2())
+				ImPlot::PushStyleVar((ImPlotStyleVar)style.constant, { style.value1, style.value2 });
+
+			for (const auto& style : item->getStyleGroup().getCachedStyles())
 			{
-				if((ImPlotStyleVar)style.first == ImPlotStyleVar_Marker)
-					ImPlot::PushStyleVar((ImPlotStyleVar)style.first, (int)style.second);
+				if((ImPlotStyleVar)style.constant == ImPlotStyleVar_Marker)
+					ImPlot::PushStyleVar((ImPlotStyleVar)style.constant, (int)style.value1);
 				else
-					ImPlot::PushStyleVar((ImPlotStyleVar)style.first, style.second);
+					ImPlot::PushStyleVar((ImPlotStyleVar)style.constant, style.value1);
 			}
 		}
 

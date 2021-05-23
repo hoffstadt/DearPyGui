@@ -24,7 +24,7 @@ namespace Marvel {
 
 	bool mvThemeColorGroup::doesColorExists(long constant) const
 	{
-		for (const auto& color : m_colors)
+		for (const auto& color : m_cachedColors)
 		{
 			if (color.constant == constant)
 				return true;
@@ -41,7 +41,7 @@ namespace Marvel {
 			return false;
 		}
 
-		m_colors.push_back(color);
+		m_cachedColors.push_back(color);
 		return true;
 	}
 
@@ -72,7 +72,7 @@ namespace Marvel {
 
 	const std::vector<mvThemeColorGroup::mvThemeColor>& mvThemeColorGroup::getCachedColors() const
 	{
-		return m_colors;
+		return m_cachedColors;
 	}
 
 	bool mvThemeColorGroup::isCacheValid() const
@@ -85,6 +85,7 @@ namespace Marvel {
 		m_dirty = true;
 		m_cachedColors.clear();
 	}
+
 	void mvThemeColorGroup::setCacheValid()
 	{
 		m_dirty = false;

@@ -17,15 +17,10 @@ namespace Marvel {
 
 		mvImNodesThemeScope(T* item)
 		{
-			std::unordered_map<ImGuiStyleVar, float>& styles = item->getCachedThemeStyles();
-			std::unordered_map<ImGuiStyleVar, float>& styles1 = item->getCachedThemeStyles1();
-			std::unordered_map<ImGuiStyleVar, float>& styles2 = item->getCachedThemeStyles2();
 
-			if (!item->isThemeStyleCacheValid())
-			{
-				SearchAncestorTreeForStyles<T>(item, styles, styles1, styles2);
-				item->setThemeStyleCacheValid();
-			}
+			//-----------------------------------------------------------------------------
+			// colors
+			//-----------------------------------------------------------------------------
 
 			// updates colors if cache is invalid (disabled and regular)
 			SearchAncestorsForColors(item);
@@ -49,10 +44,16 @@ namespace Marvel {
 				}
 			}
 
-			StyleIDCount = styles.size();
+			//-----------------------------------------------------------------------------
+			// styles
+			//-----------------------------------------------------------------------------
 
-			for (const auto& style : styles)
-				imnodes::PushStyleVar((imnodes::StyleVar)style.first, style.second);
+			// updates styles if cache is invalid and caches
+			SearchAncestorsForStyles(item);
+			StyleIDCount = item->getStyleGroup().getCachedStyles().size() + item->getStyleGroup().getCachedStyles2().size();
+
+			for (const auto& style : item->getStyleGroup().getCachedStyles())
+				imnodes::PushStyleVar((imnodes::StyleVar)style.constant, style.value1);
 		}
 
 		~mvImNodesThemeScope()

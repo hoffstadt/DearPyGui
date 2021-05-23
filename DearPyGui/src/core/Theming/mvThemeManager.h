@@ -31,13 +31,14 @@ namespace Marvel {
 
 		static std::vector<mvThemeColorGroup::mvThemeColor*>& GetColorsPtr() { return s_acolors; }
 		static std::vector<mvThemeColorGroup::mvThemeColor*>& GetDisabledColorsPtr() { return s_adcolors; }
-		static std::vector<std::tuple<std::string, long, float*, float>>& GetStylesPtr() { return s_astyles; }
+		static std::vector<mvThemeStyleGroup::mvThemeStyle*>& GetStylesPtr() { return s_astyles; }
 		static std::vector<mvThemeColorGroup::mvThemeColor>& GetColors() { return s_colors; }
 		static std::vector<mvThemeColorGroup::mvThemeColor>& GetDisabledColors() { return s_disabled_colors; }
-		static std::unordered_map<mvAppItemType, mvThemeStyles>& GetStyles() { return s_styles; }
+		static std::vector<mvThemeStyleGroup::mvThemeStyle>& GetStyles() { return s_styles; }
 		static const std::string& GetNameFromConstant(long constant);
 
 		static std::vector<mvThemeColorGroup::mvThemeColor> GetColorsByType(mvAppItemType type, bool disabled);
+		static std::vector<mvThemeStyleGroup::mvThemeStyle> GetStylesByType(mvAppItemType type);
 
 	public:
 
@@ -53,88 +54,16 @@ namespace Marvel {
 
 		// new
 		static std::vector<mvThemeColorGroup::mvThemeColor> s_colors;
-		static std::vector<mvThemeColorGroup::mvThemeColor> s_disabled_colors;
-
 		static std::vector<mvThemeColorGroup::mvThemeColor*> s_acolors;
+
+		static std::vector<mvThemeColorGroup::mvThemeColor> s_disabled_colors;
 		static std::vector<mvThemeColorGroup::mvThemeColor*> s_adcolors;
 
-		//static std::vector<std::tuple<std::string, long, mvColor*>> s_acolors;
-		//static std::vector<std::tuple<std::string, long, mvColor*>> s_adcolors;
+		static std::vector<mvThemeStyleGroup::mvThemeStyle> s_styles;
+		static std::vector<mvThemeStyleGroup::mvThemeStyle*> s_astyles;
 
-		static std::vector<std::tuple<std::string, long, float*, float>>      s_astyles;
-
-		static std::unordered_map<mvAppItemType, mvThemeStyles>               s_styles;
-
+		//static std::unordered_map<mvAppItemType, mvThemeStyles>          s_styles;
+		//static std::vector<std::tuple<std::string, long, float*, float>> s_astyles;
 	};
-
-	template<typename T>
-	void SearchAncestorTreeForStyles(T* item, std::unordered_map<ImGuiStyleVar, float>& styles, std::unordered_map<ImGuiStyleVar, float>& styles1, std::unordered_map<ImGuiStyleVar, float>& styles2)
-	{
-
-		const std::vector<std::tuple<std::string, long, float, float>>& style_constants = T::GetStyleConstants();
-
-		// style is were we place all zero first position floats
-		// style2 is where we place a const that may have a second position for pushing ImVec2 constants
-		static int styleID;
-		std::unordered_map<long, bool> styles_found;
-		for (const auto& style_pair : style_constants)
-			styles_found[std::get<1>(style_pair)] = false;
-
-		if (item->getStyles().find(item->getType()) != item->getStyles().end())
-		{
-			for (const auto& style : item->getStyles()[item->getType()])
-			{
-				styles_found[style.first] = true;
-				DecodelibID(style.first, &styleID);
-				if (DecodeIndex(style.first) > 0)
-					styles2[styleID] = style.second;
-				else
-					styles1[styleID] = style.second;
-			}
-		}
-
-		// search through ancestor tree for unfound styles
-		mvAppItem* widget = item;
-		while (!mvAppItem::DoesItemHaveFlag(widget, MV_ITEM_DESC_ROOT))
-		{
-			widget = widget->getParent();
-
-			if (widget->getStyles().find(item->getType()) != widget->getStyles().end())
-			{
-				for (auto& style : widget->getStyles()[item->getType()])
-				{
-					// only apply if it wasn't found yet
-					if (!styles_found[style.first])
-					{
-						styles_found[style.first] = true;
-						DecodelibID(style.first, &styleID);
-						if (DecodeIndex(style.first) > 0)
-							styles2[styleID] = style.second;
-						else
-							styles1[styleID] = style.second;
-					}
-				}
-			}
-		}
-
-		for (auto& style : mvThemeManager::GetStyles()[item->getType()])
-		{
-			// only apply if it wasn't found yet
-			if (!styles_found[style.first])
-			{
-				styles_found[style.first] = true;
-				DecodelibID(style.first, &styleID);
-				if (DecodeIndex(style.first) > 0)
-					styles2[styleID] = style.second;
-				else
-					styles1[styleID] = style.second;
-			}
-		}
-
-		styles = styles1;
-
-		for (const auto& style : styles2)
-			styles.erase(style.first);
-	}
 
 }

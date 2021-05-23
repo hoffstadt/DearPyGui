@@ -35,6 +35,7 @@ set(MARVEL_SOURCES
 	"src/core/Theming/mvFontScope.cpp"
 	"src/core/Theming/mvFontManager.cpp"
 	"src/core/Theming/mvThemeColorGroup.cpp"
+	"src/core/Theming/mvThemeStyleGroup.cpp"
 	
 	"src/core/Tooling/mvToolManager.cpp"
 	"src/core/Tooling/mvToolWindow.cpp"

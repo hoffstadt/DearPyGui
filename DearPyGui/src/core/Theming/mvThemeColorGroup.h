@@ -77,7 +77,7 @@ namespace Marvel {
 			return;
 		}
 
-		// keep up with whether or not items are found
+		// keep up with whether colors are found or not
 		std::unordered_map<long, bool> colors_found;
 		for (const auto& color_pair : color_constants)
 			colors_found[std::get<1>(color_pair)] = false;
@@ -89,7 +89,10 @@ namespace Marvel {
 		for (const auto& color : localColorsForType)
 		{
 			if (colors_found.count(color.constant) > 0)
+			{
 				colors_found[color.constant] = true;
+				colorGroup.addColor(color);
+			}
 		}
 
 		// check ancestors for remaining colors
@@ -107,25 +110,26 @@ namespace Marvel {
 				// only update color if it wasn't found yet
 				if (!colors_found[color.constant])
 				{
-					colorGroup.addColor(color);
 					colors_found[color.constant] = true;
+					colorGroup.addColor(color);
 				}
 			}
 		}
 
 		// if any colors were not found, check theme manager
-		//for (auto& color : disabled ? mvThemeManager::GetDisabledColors()[item->getType()] : mvThemeManager::GetColors()[item->getType()])
 		for (auto& color : mvThemeManager::GetColorsByType(item->getType(), disabled))
 		{
 			// only apply if it wasn't found yet
 			if (!colors_found[color.constant])
 			{
-				colorGroup.addColor(color);
 				colors_found[color.constant] = true;
+				colorGroup.addColor(color);
 			}
 		}
 
-		// ensure all colors were handles
+		colorGroup.setCacheValid();
+
+		// ensure all colors were handled
 		for (const auto& color : colors_found)
 		{
 			if (!color.second)
@@ -133,7 +137,7 @@ namespace Marvel {
 				assert(false && "not all colors were found");
 				break;
 			}
-		}
+		}	
 	}
 
 }
