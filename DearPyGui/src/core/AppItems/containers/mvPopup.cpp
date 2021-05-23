@@ -16,7 +16,8 @@ namespace Marvel {
 				MV_PARSER_ARG_WIDTH |
 				MV_PARSER_ARG_HEIGHT |
 				MV_PARSER_ARG_PARENT |
-				MV_PARSER_ARG_SHOW)
+				MV_PARSER_ARG_SHOW |
+				MV_PARSER_ARG_POS)
 			);
 
 			parser.addArg<mvPyDataType::Integer>("mousebutton", mvArgType::KEYWORD_ARG, "1", "The mouse code that will trigger the popup.");

@@ -406,11 +406,11 @@ namespace Marvel {
 			return false;
 		 
 
-		if (!PyBool_Check(value))
-		{
-			mvThrowPythonError(1000, message);
-			return false;
-		}
+		//if (!PyBool_Check(value))
+		//{
+		//	mvThrowPythonError(1000, message);
+		//	return false;
+		//}
 
 		return PyLong_AsLong(value);
 	}

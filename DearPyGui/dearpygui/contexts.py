@@ -230,7 +230,7 @@ def menu(*args, label: str = "", show: bool = True, parent: str = "",
 
 
 @contextmanager
-def child(*args, show: bool = True, parent: str = "", before: str = "", width: int = 0,
+def child(*args, show: bool = True, parent: str = "", before: str = "", width: int = 0, pos=[],
           height: int = 0, border: bool = True, autosize_x: bool = False, autosize_y: bool = False,
           no_scrollbar: bool = False, horizontal_scrollbar: bool = False, menubar: bool = False, id:str='', 
           indent=-1):
@@ -258,7 +258,7 @@ def child(*args, show: bool = True, parent: str = "", before: str = "", width: i
         widget = internal_dpg.add_child(*args, show=show, parent=parent, before=before, width=width,
                                      height=height, border=border, autosize_x=autosize_x, autosize_y=autosize_y,
                                      no_scrollbar=no_scrollbar, horizontal_scrollbar=horizontal_scrollbar,
-                                     menubar=menubar, id=id, indent=indent)
+                                     menubar=menubar, id=id, indent=indent, pos=pos)
         internal_dpg.push_container_stack(widget)
         yield widget
     finally:
@@ -267,7 +267,7 @@ def child(*args, show: bool = True, parent: str = "", before: str = "", width: i
 
 @contextmanager
 def collapsing_header(*args, label: str = "", show: bool = True,
-                     parent: str = "", before: str = "",closable: bool = False, 
+                     parent: str = "", before: str = "",closable: bool = False, pos=[],
                       default_open: bool = False, open_on_double_click: bool = False, open_on_arrow: bool = False, 
                       leaf: bool = False, bullet: bool = False, id:str='', indent=-1):
     """Wraps add_collapsing_header() and automates calling end().
@@ -295,7 +295,7 @@ def collapsing_header(*args, label: str = "", show: bool = True,
                                                     closable=closable, default_open=default_open, 
                                                     open_on_double_click=open_on_double_click,
                                                     open_on_arrow=open_on_arrow, leaf=leaf, bullet=bullet, id=id,
-                                                    indent=indent)
+                                                    indent=indent, pos=pos)
         internal_dpg.push_container_stack(widget)
         yield widget
     finally:
@@ -303,7 +303,7 @@ def collapsing_header(*args, label: str = "", show: bool = True,
 
 
 @contextmanager
-def group(*args, show: bool = True, parent: str = "", before: str = "", width: int = 0,
+def group(*args, show: bool = True, parent: str = "", before: str = "", width: int = 0, pos=[],
           horizontal: bool = False, horizontal_spacing: float = -1.0, id:str='', indent=-1):
     """Wraps add_group() and automates calling end().
 
@@ -323,7 +323,7 @@ def group(*args, show: bool = True, parent: str = "", before: str = "", width: i
     try:
         widget = internal_dpg.add_group(*args, show=show, parent=parent, before=before, width=width,
                                      horizontal=horizontal, horizontal_spacing=horizontal_spacing, id=id,
-                                     indent=indent)
+                                     indent=indent, pos=pos)
         internal_dpg.push_container_stack(widget)
         yield widget
     finally:
@@ -431,7 +431,7 @@ def staging_container(*args, id:str=''):
 
 @contextmanager
 def tab_bar(*args, reorderable: bool = False, callback: Callable = None, callback_data: Any = None,  show: bool = True,
-            parent: str = "", before: str = "", id:str='', indent=-1):
+            parent: str = "", before: str = "", id:str='', indent=-1, pos=[]):
     """Wraps add_tab_bar() and automates calling end().
 
     Args:
@@ -449,7 +449,7 @@ def tab_bar(*args, reorderable: bool = False, callback: Callable = None, callbac
     """
     try:
         widget = internal_dpg.add_tab_bar(*args, reorderable=reorderable, callback=callback, callback_data=callback_data,
-                                       show=show, parent=parent, before=before, id=id, indent=indent)
+                                       show=show, parent=parent, before=before, id=id, indent=indent, pos=pos)
         internal_dpg.push_container_stack(widget)
         yield widget
     finally:
@@ -492,7 +492,7 @@ def tab(*args, closable: bool = False, label: str = "", show: bool = True,
 def tree_node(*args, label: str = "", show: bool = True, parent: str = "", 
               before: str = "", default_open: bool = False, open_on_double_click: bool = False, 
               open_on_arrow: bool = False, leaf: bool = False, bullet: bool = False, id:str='',
-              selectable: bool = False, indent=-1):
+              selectable: bool = False, indent=-1, pos=[]):
     """Wraps add_tree_node() and automates calling end().
 
     Args:
@@ -517,7 +517,7 @@ def tree_node(*args, label: str = "", show: bool = True, parent: str = "",
                                             open_on_double_click=open_on_double_click, 
                                             open_on_arrow=open_on_arrow,
                                             leaf=leaf, bullet=bullet, label=label, id=id, selectable=selectable,
-                                            indent=indent)
+                                            indent=indent, pos=pos)
         internal_dpg.push_container_stack(widget)
         yield widget
     finally:
@@ -548,7 +548,7 @@ def tooltip(*args, parent: str = "", before: str = "", show: bool = True, id:str
 
 
 @contextmanager
-def popup(*args, mousebutton: int = 1, modal: bool = False, parent: str = "", 
+def popup(*args, mousebutton: int = 1, modal: bool = False, parent: str = "", pos=[],
           before: str = "", width: int = 0, height: int = 0, show: bool = True, id:str=''):
     """Wraps add_popup() and automates calling end().
 
@@ -570,7 +570,7 @@ def popup(*args, mousebutton: int = 1, modal: bool = False, parent: str = "",
     """
     try:
         widget = internal_dpg.add_popup(*args, mousebutton=mousebutton, modal=modal, parent=parent,
-                                     before=before, width=width, height=height, show=show, id=id)
+                                     before=before, width=width, height=height, show=show, id=id, pos=pos)
         internal_dpg.push_container_stack(widget)
         yield widget
     finally:

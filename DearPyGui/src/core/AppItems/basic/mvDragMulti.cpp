@@ -25,7 +25,8 @@ namespace Marvel {
             MV_PARSER_ARG_CALLBACK |
             MV_PARSER_ARG_CALLBACK_DATA |
             MV_PARSER_ARG_SHOW |
-            MV_PARSER_ARG_ENABLED)
+            MV_PARSER_ARG_ENABLED |
+            MV_PARSER_ARG_POS)
         );
 
         parser.addArg<mvPyDataType::FloatList>("default_value", mvArgType::KEYWORD_ARG, "(0.0, 0.0, 0.0, 0.0)");
@@ -61,7 +62,8 @@ namespace Marvel {
             MV_PARSER_ARG_CALLBACK |
             MV_PARSER_ARG_CALLBACK_DATA |
             MV_PARSER_ARG_SHOW |
-            MV_PARSER_ARG_ENABLED)
+            MV_PARSER_ARG_ENABLED |
+            MV_PARSER_ARG_POS)
         );
 
         parser.addArg<mvPyDataType::IntList>("default_value", mvArgType::KEYWORD_ARG, "(0, 0, 0, 0)");
