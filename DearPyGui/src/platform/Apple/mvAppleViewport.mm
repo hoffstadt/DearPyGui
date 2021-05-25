@@ -117,9 +117,6 @@ namespace Marvel {
         if(mvApp::GetApp()->m_docking)
             io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
 
-        if (mvApp::GetApp()->m_dockingShiftOnly)
-            io.ConfigDockingWithShift = true;
-
         // Setup style
         ImGui::StyleColorsDark();
 
