@@ -111,10 +111,9 @@ namespace Marvel {
 	
 	}
 
-	void mvApp::turnOnDocking(bool shiftOnly, bool dockSpace)
+	void mvApp::turnOnDocking(bool dockSpace)
 	{ 
 		m_docking = true; 
-		m_dockingShiftOnly = shiftOnly; 
 		m_dockingViewport = dockSpace;
 	}
 
@@ -159,7 +158,6 @@ namespace Marvel {
 
 		{
 			mvPythonParser parser(mvPyDataType::None);
-			parser.addArg<mvPyDataType::Bool>("shift", mvArgType::KEYWORD_ARG, "True", "press shift for docking");
 			parser.addArg<mvPyDataType::Bool>("dock_space", mvArgType::KEYWORD_ARG, "False", "add explicit dockspace over viewport");
 			parser.finalize();
 			parsers->insert({ "enable_docking", parser });
@@ -218,16 +216,15 @@ namespace Marvel {
 
 	PyObject* mvApp::enable_docking(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
-		int shift_only = true;
 		int dockspace = false;
 
 		if (!(mvApp::GetApp()->getParsers())["enable_docking"].parse(args, kwargs, __FUNCTION__,
-			&shift_only, &dockspace))
+			&dockspace))
 			return GetPyNone();
 
 		mvApp::GetApp()->getCallbackRegistry().submit([=]()
 			{
-				mvApp::GetApp()->turnOnDocking(shift_only, dockspace);
+				mvApp::GetApp()->turnOnDocking(dockspace);
 			});
 
 		return GetPyNone();

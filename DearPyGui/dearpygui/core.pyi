@@ -18,7 +18,7 @@ def add_bar_series(x : List[float], y : List[float], *, id: str =..., parent: st
 	"""Undocumented function"""
 	...
 
-def add_button(*, id: str =..., width: int =0, height: int =0, indent: int =-1, parent: str ='', before: str ='', label: str ='', callback: Callable =None, callback_data: Any =None, show: bool =True, enabled: bool =True, small: bool =False, arrow: bool =False, direction: int =0) -> str:
+def add_button(*, id: str =..., width: int =0, height: int =0, indent: int =-1, parent: str ='', before: str ='', label: str ='', callback: Callable =None, callback_data: Any =None, show: bool =True, enabled: bool =True, pos: List[int] =[0,0], small: bool =False, arrow: bool =False, direction: int =0) -> str:
 	"""Undocumented function"""
 	...
 
@@ -446,7 +446,7 @@ def empty_container_stack() -> str:
 	"""Undocumented function"""
 	...
 
-def enable_docking(*, shift: bool =True, dock_space: bool =False) -> None:
+def enable_docking(*, dock_space: bool =False) -> None:
 	"""Undocumented function"""
 	...
 
