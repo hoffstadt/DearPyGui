@@ -17,8 +17,7 @@ namespace Marvel {
 		mvPythonParser parser(mvPyDataType::String, "Undocumented function", { "Drawlist", "Widgets" });
 		mvAppItem::AddCommonArgs(parser, (CommonParserArgs)(
 			MV_PARSER_ARG_ID |
-			MV_PARSER_ARG_SHOW |
-			MV_PARSER_ARG_POS)
+			MV_PARSER_ARG_SHOW)
 		);
 
 		parser.addArg<mvPyDataType::Bool>("front", mvArgType::KEYWORD_ARG, "True");
