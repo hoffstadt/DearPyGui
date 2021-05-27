@@ -17,7 +17,8 @@ namespace Marvel {
 			MV_PARSER_ARG_INDENT |
 			MV_PARSER_ARG_PARENT |
 			MV_PARSER_ARG_BEFORE |
-			MV_PARSER_ARG_SHOW)
+			MV_PARSER_ARG_SHOW |
+			MV_PARSER_ARG_POS)
 		);
 
 		parser.addArg<mvPyDataType::Bool>("border", mvArgType::KEYWORD_ARG, "True");
