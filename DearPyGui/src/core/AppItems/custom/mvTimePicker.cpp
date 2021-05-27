@@ -20,7 +20,8 @@ namespace Marvel {
 			MV_PARSER_ARG_BEFORE |
 			MV_PARSER_ARG_CALLBACK |
 			MV_PARSER_ARG_CALLBACK_DATA |
-			MV_PARSER_ARG_SHOW)
+			MV_PARSER_ARG_SHOW |
+			MV_PARSER_ARG_POS)
 		);
 
 		parser.addArg<mvPyDataType::Dict>("default_value", mvArgType::KEYWORD_ARG, "{'hour': 14, 'min': 32, 'sec': 23}");

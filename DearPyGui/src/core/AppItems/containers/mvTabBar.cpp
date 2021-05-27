@@ -19,7 +19,8 @@ namespace Marvel {
 			MV_PARSER_ARG_BEFORE |
 			MV_PARSER_ARG_CALLBACK |
 			MV_PARSER_ARG_CALLBACK_DATA |
-			MV_PARSER_ARG_SHOW)
+			MV_PARSER_ARG_SHOW |
+			MV_PARSER_ARG_POS)
 		);
 
 		parser.addArg<mvPyDataType::Bool>("reorderable", mvArgType::KEYWORD_ARG, "False", "allows for moveable tabs");

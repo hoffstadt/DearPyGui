@@ -27,7 +27,7 @@ def table(*args, header_row: bool = True, width: int = 0, height: int = 0, inner
 		borders_innerV: bool = False, borders_outerV: bool = False, policy: int = 0, no_host_extendX: bool = False,
 		no_host_extendY: bool = False, no_keep_columns_visible: bool = False, precise_widths: bool = False, no_clip: bool = False,
 		pad_outerX: bool = False, no_pad_outerX: bool = False, no_pad_innerX: bool = False, scrollX: bool = False, scrollY: bool = False,
-        id:str='', indent=-1, callback: Callable = None, sort_multi: bool = False, sort_tristate: bool = False):
+        id:str='', indent=-1, callback: Callable = None, sort_multi: bool = False, sort_tristate: bool = False, pos=[]):
     """Wraps add_table() and automates calling end().
 
     Args:
@@ -61,6 +61,7 @@ def table(*args, header_row: bool = True, width: int = 0, height: int = 0, inner
 	        **no_pad_innerX: Disable inner padding between columns (double inner padding if BordersOuterV is on, single inner padding if BordersOuterV is off).
 	        **scollX: Enable horizontal scrolling. Require 'outer_size' parameter of BeginTable() to specify the container size. Changes default sizing policy. Because this create a child window, ScrollY is currently generally recommended when using ScrollX.
 	        **scollY: Enable horizontal vertical.
+	        **pos: Places the item relative to window coordinates, [0,0] is top left.
 
     Returns:
         None
@@ -74,7 +75,7 @@ def table(*args, header_row: bool = True, width: int = 0, height: int = 0, inner
 		    no_host_extendY = no_host_extendY, no_keep_columns_visible = no_keep_columns_visible, precise_widths = precise_widths,
 		    no_clip = no_clip, pad_outerX = pad_outerX, no_pad_outerX = no_pad_outerX, no_pad_innerX = no_pad_innerX,
 		    scrollX = scrollX, scrollY = scrollY, id=id, indent=indent, callback=callback, sort_multi=sort_multi,
-            sort_tristate=sort_tristate)
+            sort_tristate=sort_tristate, pos=pos)
         internal_dpg.push_container_stack(widget)
         yield widget
     finally:
@@ -82,10 +83,10 @@ def table(*args, header_row: bool = True, width: int = 0, height: int = 0, inner
 
 @contextmanager
 def drawlist(*args, id:str='', width: int = 0, height: int = 0, show: bool = True, parent: str = "", before: str = "",
-             callback: Callable = None, callback_data: Any = None):
+             callback: Callable = None, callback_data: Any = None, pos=[]):
     try:
         widget = internal_dpg.add_drawlist(*args, id=id, width = width, height = height, show=show, parent=parent, before=before,
-                                           callback=callback, callback_data=callback_data)
+                                           callback=callback, callback_data=callback_data, pos=pos)
         internal_dpg.push_container_stack(widget)
         yield widget
 
@@ -95,7 +96,7 @@ def drawlist(*args, id:str='', width: int = 0, height: int = 0, show: bool = Tru
 @contextmanager
 def viewport_drawlist(*args, id:str='', front: bool = True, show: bool = True):
     try:
-        widget = internal_dpg.add_viewport_drawlist(*args, id=id, show=show, front=front)
+        widget = internal_dpg.add_viewport_drawlist(*args, id=id, show=show, front=fronts)
         internal_dpg.push_container_stack(widget)
         yield widget
 
@@ -230,7 +231,7 @@ def menu(*args, label: str = "", show: bool = True, parent: str = "",
 
 
 @contextmanager
-def child(*args, show: bool = True, parent: str = "", before: str = "", width: int = 0,
+def child(*args, show: bool = True, parent: str = "", before: str = "", width: int = 0, pos=[],
           height: int = 0, border: bool = True, autosize_x: bool = False, autosize_y: bool = False,
           no_scrollbar: bool = False, horizontal_scrollbar: bool = False, menubar: bool = False, id:str='', 
           indent=-1):
@@ -250,6 +251,7 @@ def child(*args, show: bool = True, parent: str = "", before: str = "", width: i
         **no_scrollbar: Disable scrollbars (window can still scroll with mouse or programmatically)
         **horizontal_scrollbar: Allow horizontal scrollbar to appear (off by default)
         **menubar: adds a bar to add menus
+        **pos: Places the item relative to window coordinates, [0,0] is top left.
 
     Returns:
         None
@@ -258,7 +260,7 @@ def child(*args, show: bool = True, parent: str = "", before: str = "", width: i
         widget = internal_dpg.add_child(*args, show=show, parent=parent, before=before, width=width,
                                      height=height, border=border, autosize_x=autosize_x, autosize_y=autosize_y,
                                      no_scrollbar=no_scrollbar, horizontal_scrollbar=horizontal_scrollbar,
-                                     menubar=menubar, id=id, indent=indent)
+                                     menubar=menubar, id=id, indent=indent, pos=pos)
         internal_dpg.push_container_stack(widget)
         yield widget
     finally:
@@ -267,7 +269,7 @@ def child(*args, show: bool = True, parent: str = "", before: str = "", width: i
 
 @contextmanager
 def collapsing_header(*args, label: str = "", show: bool = True,
-                     parent: str = "", before: str = "",closable: bool = False, 
+                     parent: str = "", before: str = "",closable: bool = False, pos=[],
                       default_open: bool = False, open_on_double_click: bool = False, open_on_arrow: bool = False, 
                       leaf: bool = False, bullet: bool = False, id:str='', indent=-1):
     """Wraps add_collapsing_header() and automates calling end().
@@ -285,6 +287,7 @@ def collapsing_header(*args, label: str = "", show: bool = True,
         **open_on_arrow: Only open when clicking on the arrow part.
         **leaf: No collapsing, no arrow (use as a convenience for leaf nodes).
         **bullet: Display a bullet instead of arrow.
+        **pos: Places the item relative to window coordinates, [0,0] is top left.
 
 
     Returns:
@@ -295,7 +298,7 @@ def collapsing_header(*args, label: str = "", show: bool = True,
                                                     closable=closable, default_open=default_open, 
                                                     open_on_double_click=open_on_double_click,
                                                     open_on_arrow=open_on_arrow, leaf=leaf, bullet=bullet, id=id,
-                                                    indent=indent)
+                                                    indent=indent, pos=pos)
         internal_dpg.push_container_stack(widget)
         yield widget
     finally:
@@ -303,7 +306,7 @@ def collapsing_header(*args, label: str = "", show: bool = True,
 
 
 @contextmanager
-def group(*args, show: bool = True, parent: str = "", before: str = "", width: int = 0,
+def group(*args, show: bool = True, parent: str = "", before: str = "", width: int = 0, pos=[],
           horizontal: bool = False, horizontal_spacing: float = -1.0, id:str='', indent=-1):
     """Wraps add_group() and automates calling end().
 
@@ -316,6 +319,7 @@ def group(*args, show: bool = True, parent: str = "", before: str = "", width: i
         **width: Width of the item.
         **horizontal: Adds the items on the same row by default.
         **horizontal_spacing: Decides the spacing for the items.
+        **pos: Places the item relative to window coordinates, [0,0] is top left.
 
     Returns:
         None
@@ -323,7 +327,7 @@ def group(*args, show: bool = True, parent: str = "", before: str = "", width: i
     try:
         widget = internal_dpg.add_group(*args, show=show, parent=parent, before=before, width=width,
                                      horizontal=horizontal, horizontal_spacing=horizontal_spacing, id=id,
-                                     indent=indent)
+                                     indent=indent, pos=pos)
         internal_dpg.push_container_stack(widget)
         yield widget
     finally:
@@ -431,7 +435,7 @@ def staging_container(*args, id:str=''):
 
 @contextmanager
 def tab_bar(*args, reorderable: bool = False, callback: Callable = None, callback_data: Any = None,  show: bool = True,
-            parent: str = "", before: str = "", id:str='', indent=-1):
+            parent: str = "", before: str = "", id:str='', indent=-1, pos=[]):
     """Wraps add_tab_bar() and automates calling end().
 
     Args:
@@ -443,13 +447,14 @@ def tab_bar(*args, reorderable: bool = False, callback: Callable = None, callbac
         **show: Decides if the item is shown of not.
         **parent: Parent to add this item to. (runtime adding)
         **before: This item will be displayed before the specified item in the parent. (runtime adding)
+        **pos: Places the item relative to window coordinates, [0,0] is top left.
 
     Returns:
         None
     """
     try:
         widget = internal_dpg.add_tab_bar(*args, reorderable=reorderable, callback=callback, callback_data=callback_data,
-                                       show=show, parent=parent, before=before, id=id, indent=indent)
+                                       show=show, parent=parent, before=before, id=id, indent=indent, pos=pos)
         internal_dpg.push_container_stack(widget)
         yield widget
     finally:
@@ -492,7 +497,7 @@ def tab(*args, closable: bool = False, label: str = "", show: bool = True,
 def tree_node(*args, label: str = "", show: bool = True, parent: str = "", 
               before: str = "", default_open: bool = False, open_on_double_click: bool = False, 
               open_on_arrow: bool = False, leaf: bool = False, bullet: bool = False, id:str='',
-              selectable: bool = False, indent=-1):
+              selectable: bool = False, indent=-1, pos=[]):
     """Wraps add_tree_node() and automates calling end().
 
     Args:
@@ -507,6 +512,7 @@ def tree_node(*args, label: str = "", show: bool = True, parent: str = "",
         **open_on_arrow: Only open when clicking on the arrow part.
         **leaf: No collapsing, no arrow (use as a convenience for leaf nodes).
         **bullet: Display a bullet instead of arrow.
+        **pos: Places the item relative to window coordinates, [0,0] is top left.
 
     Returns:
         None
@@ -517,7 +523,7 @@ def tree_node(*args, label: str = "", show: bool = True, parent: str = "",
                                             open_on_double_click=open_on_double_click, 
                                             open_on_arrow=open_on_arrow,
                                             leaf=leaf, bullet=bullet, label=label, id=id, selectable=selectable,
-                                            indent=indent)
+                                            indent=indent, pos=pos)
         internal_dpg.push_container_stack(widget)
         yield widget
     finally:
@@ -548,7 +554,7 @@ def tooltip(*args, parent: str = "", before: str = "", show: bool = True, id:str
 
 
 @contextmanager
-def popup(*args, mousebutton: int = 1, modal: bool = False, parent: str = "", 
+def popup(*args, mousebutton: int = 1, modal: bool = False, parent: str = "", pos=[],
           before: str = "", width: int = 0, height: int = 0, show: bool = True, id:str=''):
     """Wraps add_popup() and automates calling end().
 
@@ -564,13 +570,14 @@ def popup(*args, mousebutton: int = 1, modal: bool = False, parent: str = "",
         **width: Width of the item.
         **height: Height of the item.
         **show: Decides if the item is shown of not.
+        **pos: Places the item relative to window coordinates, [0,0] is top left.
 
     Returns:
         None
     """
     try:
         widget = internal_dpg.add_popup(*args, mousebutton=mousebutton, modal=modal, parent=parent,
-                                     before=before, width=width, height=height, show=show, id=id)
+                                     before=before, width=width, height=height, show=show, id=id, pos=pos)
         internal_dpg.push_container_stack(widget)
         yield widget
     finally:

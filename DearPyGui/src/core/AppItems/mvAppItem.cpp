@@ -117,7 +117,7 @@ namespace Marvel{
 		if(args & MV_PARSER_ARG_CALLBACK_DATA) parser.addArg<mvPyDataType::Object>("callback_data", mvArgType::KEYWORD_ARG, "None", "Callback data");
 		if(args & MV_PARSER_ARG_SHOW)          parser.addArg<mvPyDataType::Bool>("show", mvArgType::KEYWORD_ARG, "True", "Attempt to render");
 		if(args & MV_PARSER_ARG_ENABLED)       parser.addArg<mvPyDataType::Bool>("enabled", mvArgType::KEYWORD_ARG, "True");
-		if(args & MV_PARSER_ARG_POS)		   parser.addArg<mvPyDataType::IntList>("pos", mvArgType::KEYWORD_ARG, "[0,0]");
+		if(args & MV_PARSER_ARG_POS)		   parser.addArg<mvPyDataType::IntList>("pos", mvArgType::KEYWORD_ARG, "[]", "Places the item relative to window coordinates, [0,0] is top left.");
 
 	}
 
@@ -781,8 +781,11 @@ namespace Marvel{
 
 		if (PyObject* item = PyDict_GetItemString(dict, "width")) setWidth(ToInt(item));
 		if (PyObject* item = PyDict_GetItemString(dict, "height")) setHeight(ToInt(item));
-		if (PyObject* item = PyDict_GetItemString(dict, "pos"))
-			setPos(ToVec2(item));
+		if (PyObject* item = PyDict_GetItemString(dict, "pos")) {
+			std::vector<float> position = ToFloatVect(item);
+			if (!position.empty())
+				setPos(mvVec2{ position[0], position[1] });
+		}
 		if (PyObject* item = PyDict_GetItemString(dict, "indent")) m_indent = (float)ToInt(item);
 		if (PyObject* item = PyDict_GetItemString(dict, "show")) 
 		{
