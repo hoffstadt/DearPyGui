@@ -94,9 +94,9 @@ def drawlist(*args, id:str='', width: int = 0, height: int = 0, show: bool = Tru
         internal_dpg.pop_container_stack()
 
 @contextmanager
-def viewport_drawlist(*args, id:str='', front: bool = True, show: bool = True, pos=[]):
+def viewport_drawlist(*args, id:str='', front: bool = True, show: bool = True):
     try:
-        widget = internal_dpg.add_viewport_drawlist(*args, id=id, show=show, front=front, pos=pos)
+        widget = internal_dpg.add_viewport_drawlist(*args, id=id, show=show, front=fronts)
         internal_dpg.push_container_stack(widget)
         yield widget
 
