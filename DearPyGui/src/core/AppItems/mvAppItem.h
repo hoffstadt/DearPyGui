@@ -58,7 +58,9 @@ namespace Marvel {
         mvKnobFloat, mvLoadingIndicator, mvNodeLink, 
         mvTextureContainer, mvStaticTexture, mvDynamicTexture,
         mvStagingContainer, mvDrawLayer, mvViewportDrawlist,
-        mvFileExtension,
+        mvFileExtension, 
+        mvHandlerRegistry, mvKeyDownHandler, mvKeyPressHandler,
+        mvKeyReleaseHandler, mvMouseMoveHandler,
         ItemTypeCount
     };
 
@@ -330,7 +332,7 @@ namespace Marvel {
         ImVec2                        m_previousCursorPos = { 0.0f, 0.0f };
 
         mvAppItem*                    m_parentPtr = nullptr;
-        std::vector<mvRef<mvAppItem>> m_children[3] = { {}, {}, {} };
+        std::vector<mvRef<mvAppItem>> m_children[4] = { {}, {}, {}, {} };
 
         std::string                   m_label; // internal label
 

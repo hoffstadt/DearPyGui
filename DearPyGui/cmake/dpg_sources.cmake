@@ -27,6 +27,7 @@ set(MARVEL_SOURCES
 	"src/core/mvViewport.cpp"
 	"src/core/mvProfiler.cpp"
 	"src/core/mvLog.cpp"
+	"src/core/mvCallbackRegistry.cpp"
 
 	"src/core/CustomImGuiWidgets/mvKnobCustom.cpp"
 	"src/core/CustomImGuiWidgets/mvLoadingIndicatorCustom.cpp"
@@ -45,8 +46,6 @@ set(MARVEL_SOURCES
 	"src/core/Tooling/mvStyleWindow.cpp"
 	"src/core/Tooling/mvDebugWindow.cpp"
 	"src/core/Tooling/mvLayoutWindow.cpp"
-
-	"src/core/Registries/mvCallbackRegistry.cpp"
 
 	"src/core/AppItems/mvAppItemState.cpp"
 	"src/core/AppItems/mvAppItem.cpp"
@@ -154,6 +153,12 @@ set(MARVEL_SOURCES
 	"src/core/AppItems/plots/mvShadeSeries.cpp"
 	"src/core/AppItems/plots/mvLabelSeries.cpp"
 	"src/core/AppItems/plots/mvCandleSeries.cpp"
+
+	"src/core/AppItems/handlers/mvHandlerRegistry.cpp"
+	"src/core/AppItems/handlers/mvKeyDownHandler.cpp"
+	"src/core/AppItems/handlers/mvKeyPressHandler.cpp"
+	"src/core/AppItems/handlers/mvKeyReleaseHandler.cpp"
+	"src/core/AppItems/handlers/mvMouseMoveHandler.cpp"
 
 	# imnodes
 	"vendor/imnodes/imnodes.cpp"
