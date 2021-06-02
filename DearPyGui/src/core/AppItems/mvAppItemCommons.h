@@ -4,6 +4,12 @@
 #include "textures/mvDynamicTexture.h"
 #include "textures/mvTextureContainer.h"
 
+#include "handlers/mvHandlerRegistry.h"
+#include "handlers/mvKeyDownHandler.h"
+#include "handlers/mvKeyPressHandler.h"
+#include "handlers/mvKeyReleaseHandler.h"
+#include "handlers/mvMouseMoveHandler.h"
+
 #include "basic/mvInputText.h"
 #include "basic/mvRadioButton.h"
 #include "basic/mvListbox.h"

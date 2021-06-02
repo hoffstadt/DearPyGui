@@ -32,20 +32,6 @@ namespace Marvel {
 		{
 			mvPythonParser parser(mvPyDataType::String);
 			parser.addArg<mvPyDataType::Callable>("callback");
-			parser.finalize();
-			parsers->insert({ "set_accelerator_callback", parser });
-		}
-
-		{
-			mvPythonParser parser(mvPyDataType::String);
-			parser.addArg<mvPyDataType::Callable>("callback");
-			parser.finalize();
-			parsers->insert({ "set_mouse_move_callback", parser });
-		}
-
-		{
-			mvPythonParser parser(mvPyDataType::String);
-			parser.addArg<mvPyDataType::Callable>("callback");
 			parser.addArg<mvPyDataType::String>("handler", mvArgType::KEYWORD_ARG, "''");
 			parser.finalize();
 			parsers->insert({ "set_resize_callback", parser });
@@ -92,27 +78,6 @@ namespace Marvel {
 			parser.addArg<mvPyDataType::Callable>("callback");
 			parser.finalize();
 			parsers->insert({ "set_mouse_click_callback", parser });
-		}
-
-		{
-			mvPythonParser parser(mvPyDataType::String);
-			parser.addArg<mvPyDataType::Callable>("callback");
-			parser.finalize();
-			parsers->insert({ "set_key_down_callback", parser });
-		}
-
-		{
-			mvPythonParser parser(mvPyDataType::String);
-			parser.addArg<mvPyDataType::Callable>("callback");
-			parser.finalize();
-			parsers->insert({ "set_key_press_callback", parser });
-		}
-
-		{
-			mvPythonParser parser(mvPyDataType::String);
-			parser.addArg<mvPyDataType::Callable>("callback");
-			parser.finalize();
-			parsers->insert({ "set_key_release_callback", parser });
 		}
 
 	}
@@ -187,36 +152,6 @@ namespace Marvel {
 
 		switch (event.type)
 		{
-		case mvEVT_KEY_PRESS:
-			if(m_keyPressCallback)
-				submitCallback([=]() mutable
-				{
-					runCallback(m_acceleratorCallback, active, ToPyInt(GetEInt(event, "KEY")));
-					runCallback(m_keyPressCallback, active, ToPyInt(GetEInt(event, "KEY")));
-				});
-
-			break;
-
-		case mvEVT_KEY_DOWN:
-			if (m_keyDownCallback)
-				submitCallback([=]() mutable
-				{
-					runCallback(m_keyDownCallback, active, ToPyMPair(GetEInt(event, "KEY"), GetEFloat(event, "DURATION")));
-				});
-			if (m_acceleratorCallback)
-				submitCallback([=]() mutable
-					{
-						runCallback(m_acceleratorCallback, active, ToPyInt(GetEInt(event, "KEY")));
-					});
-			break;
-
-		case mvEVT_KEY_RELEASE:
-			if (m_keyReleaseCallback)
-				submitCallback([=]() mutable
-				{
-					runCallback(m_keyReleaseCallback, active, ToPyInt(GetEInt(event, "KEY")));
-				});
-			break;
 
 		case mvEVT_MOUSE_WHEEL:
 			if (m_mouseWheelCallback)
@@ -264,14 +199,6 @@ namespace Marvel {
 				submitCallback([=]() mutable
 				{
 					runCallback(m_mouseReleaseCallback, active, ToPyInt(GetEInt(event, "BUTTON")));
-				});
-			break;
-
-		case mvEVT_MOUSE_MOVE:
-			if (m_mouseMoveCallback)
-				submitCallback([=]() mutable
-				{
-					runCallback(m_mouseMoveCallback, active, ToPyPair(GetEFloat(event, "X"), GetEFloat(event, "Y")));
 				});
 			break;
 
@@ -462,21 +389,6 @@ namespace Marvel {
 		return GetPyNone();
 	}
 
-	PyObject* mvCallbackRegistry::set_accelerator_callback(PyObject* self, PyObject* args, PyObject* kwargs)
-	{
-		PyObject* callback;
-
-		if (!(mvApp::GetApp()->getParsers())["set_accelerator_callback"].parse(args, kwargs, __FUNCTION__, &callback))
-			return GetPyNone();
-
-		Py_XINCREF(callback);
-		mvApp::GetApp()->getCallbackRegistry().submit([=]()
-			{
-				mvApp::GetApp()->getCallbackRegistry().setAcceleratorCallback(callback);
-			});
-		return GetPyNone();
-	}
-
 	PyObject* mvCallbackRegistry::set_mouse_down_callback(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		PyObject* callback;
@@ -568,56 +480,6 @@ namespace Marvel {
 		return GetPyNone();
 	}
 
-	PyObject* mvCallbackRegistry::set_key_down_callback(PyObject* self, PyObject* args, PyObject* kwargs)
-	{
-		PyObject* callback;
-
-		if (!(mvApp::GetApp()->getParsers())["set_key_down_callback"].parse(args, kwargs, __FUNCTION__,
-			&callback))
-			return GetPyNone();
-		if (callback)
-			Py_XINCREF(callback);
-		mvApp::GetApp()->getCallbackRegistry().submit([=]()
-			{
-				mvApp::GetApp()->getCallbackRegistry().setKeyDownCallback(callback);
-			});
-
-		return GetPyNone();
-	}
-
-	PyObject* mvCallbackRegistry::set_key_press_callback(PyObject* self, PyObject* args, PyObject* kwargs)
-	{
-		PyObject* callback;
-
-		if (!(mvApp::GetApp()->getParsers())["set_key_press_callback"].parse(args, kwargs, __FUNCTION__,
-			&callback))
-			return GetPyNone();
-		if (callback)
-			Py_XINCREF(callback);
-		mvApp::GetApp()->getCallbackRegistry().submit([=]()
-			{
-				mvApp::GetApp()->getCallbackRegistry().setKeyPressCallback(callback);
-			});
-
-		return GetPyNone();
-	}
-
-	PyObject* mvCallbackRegistry::set_key_release_callback(PyObject* self, PyObject* args, PyObject* kwargs)
-	{
-		PyObject* callback;
-
-		if (!(mvApp::GetApp()->getParsers())["set_key_release_callback"].parse(args, kwargs, __FUNCTION__,
-			&callback))
-			return GetPyNone();
-		if (callback)
-			Py_XINCREF(callback);
-		mvApp::GetApp()->getCallbackRegistry().submit([=]()
-			{
-				mvApp::GetApp()->getCallbackRegistry().setKeyReleaseCallback(callback);
-			});
-		return GetPyNone();
-	}
-
 	PyObject* mvCallbackRegistry::set_mouse_wheel_callback(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		PyObject* callback;
@@ -630,23 +492,6 @@ namespace Marvel {
 		mvApp::GetApp()->getCallbackRegistry().submit([=]()
 			{
 				mvApp::GetApp()->getCallbackRegistry().setMouseWheelCallback(callback);
-			});
-
-		return GetPyNone();
-	}
-
-	PyObject* mvCallbackRegistry::set_mouse_move_callback(PyObject* self, PyObject* args, PyObject* kwargs)
-	{
-		PyObject* callback;
-
-		if (!(mvApp::GetApp()->getParsers())["set_mouse_move_callback"].parse(args, kwargs, __FUNCTION__,
-			&callback))
-			return GetPyNone();
-		if (callback)
-			Py_XINCREF(callback);
-		mvApp::GetApp()->getCallbackRegistry().submit([=]()
-			{
-				mvApp::GetApp()->getCallbackRegistry().setMouseMoveCallback(callback);
 			});
 
 		return GetPyNone();

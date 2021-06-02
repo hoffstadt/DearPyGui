@@ -7,6 +7,16 @@ import dearpygui.core as internal_dpg
 ########################################################################################################################
 
 @contextmanager
+def handler_registry(*args, id:str='', show: bool =True):
+   
+   try:
+        widget = internal_dpg.add_handler_registry(*args, id=id, show=show)
+        internal_dpg.push_container_stack(widget)
+        yield widget
+   finally:
+        internal_dpg.pop_container_stack()
+
+@contextmanager
 def file_dialog(*args, id:str='', width: int =0, height: int =0, label: str ='', callback: Callable =None, show: bool =True, 
 					default_path: str ='', default_filename: str ='.', file_count: int =0, modal: bool =False, directory_selector: bool =False):
    

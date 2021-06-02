@@ -31,32 +31,22 @@ namespace Marvel {
 		static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
 
 		MV_CREATE_EXTRA_COMMAND(set_start_callback);
-		MV_CREATE_EXTRA_COMMAND(set_accelerator_callback);
 		MV_CREATE_EXTRA_COMMAND(set_exit_callback);
-		MV_CREATE_EXTRA_COMMAND(set_mouse_move_callback);
 		MV_CREATE_EXTRA_COMMAND(set_mouse_drag_callback);
 		MV_CREATE_EXTRA_COMMAND(set_mouse_click_callback);
 		MV_CREATE_EXTRA_COMMAND(set_mouse_down_callback);
 		MV_CREATE_EXTRA_COMMAND(set_mouse_double_click_callback);
-		MV_CREATE_EXTRA_COMMAND(set_key_down_callback);
-		MV_CREATE_EXTRA_COMMAND(set_key_press_callback);
-		MV_CREATE_EXTRA_COMMAND(set_key_release_callback);
 		MV_CREATE_EXTRA_COMMAND(set_mouse_release_callback);
 		MV_CREATE_EXTRA_COMMAND(set_resize_callback);
 		MV_CREATE_EXTRA_COMMAND(set_mouse_wheel_callback);
 
 		MV_START_EXTRA_COMMANDS
 			MV_ADD_EXTRA_COMMAND(set_start_callback);
-			MV_ADD_EXTRA_COMMAND(set_accelerator_callback);
 			MV_ADD_EXTRA_COMMAND(set_exit_callback);
-			MV_ADD_EXTRA_COMMAND(set_mouse_move_callback);
 			MV_ADD_EXTRA_COMMAND(set_mouse_drag_callback);
 			MV_ADD_EXTRA_COMMAND(set_mouse_click_callback);
 			MV_ADD_EXTRA_COMMAND(set_mouse_down_callback);
 			MV_ADD_EXTRA_COMMAND(set_mouse_double_click_callback);
-			MV_ADD_EXTRA_COMMAND(set_key_down_callback);
-			MV_ADD_EXTRA_COMMAND(set_key_press_callback);
-			MV_ADD_EXTRA_COMMAND(set_key_release_callback);
 			MV_ADD_EXTRA_COMMAND(set_mouse_release_callback);
 			MV_ADD_EXTRA_COMMAND(set_resize_callback);
 			MV_ADD_EXTRA_COMMAND(set_mouse_wheel_callback);
@@ -121,19 +111,14 @@ namespace Marvel {
         // Callbacks
         //----------------------------------------------------------------------------- 
         void setResizeCallback          (PyObject* callback) { m_resizeCallback = SanitizeCallback(callback); }
-        void setMouseMoveCallback       (PyObject* callback) { m_mouseMoveCallback = SanitizeCallback(callback); }
         void setOnCloseCallback         (PyObject* callback) { m_onCloseCallback = SanitizeCallback(callback); }
         void setOnStartCallback         (PyObject* callback) { m_onStartCallback = SanitizeCallback(callback); }
-        void setAcceleratorCallback     (PyObject* callback) { m_acceleratorCallback = SanitizeCallback(callback); }
         void setMouseClickCallback      (PyObject* callback) { m_mouseClickCallback = SanitizeCallback(callback); }
         void setMouseDownCallback       (PyObject* callback) { m_mouseDownCallback = SanitizeCallback(callback); }
         void setMouseDoubleClickCallback(PyObject* callback) { m_mouseDoubleClickCallback = SanitizeCallback(callback); }
         void setMouseReleaseCallback    (PyObject* callback) { m_mouseReleaseCallback = SanitizeCallback(callback); }
         void setMouseWheelCallback      (PyObject* callback) { m_mouseWheelCallback = SanitizeCallback(callback); }
         void setMouseDragCallback       (PyObject* callback) { m_mouseDragCallback = SanitizeCallback(callback); }
-        void setKeyDownCallback         (PyObject* callback) { m_keyDownCallback = SanitizeCallback(callback); }
-        void setKeyPressCallback        (PyObject* callback) { m_keyPressCallback = SanitizeCallback(callback); }
-        void setKeyReleaseCallback      (PyObject* callback) { m_keyReleaseCallback = SanitizeCallback(callback); }
 
         [[nodiscard]] PyObject* getResizeCallback          (){ return m_resizeCallback; }
         [[nodiscard]] PyObject* getMouseReleaseCallback    (){ return m_mouseReleaseCallback; }
@@ -141,14 +126,9 @@ namespace Marvel {
         [[nodiscard]] PyObject* getMouseDownCallback       (){ return m_mouseDownCallback; }
         [[nodiscard]] PyObject* getMouseDoubleClickCallback(){ return m_mouseDoubleClickCallback; }
         [[nodiscard]] PyObject* getMouseDragCallback       (){ return m_mouseDragCallback; }
-        [[nodiscard]] PyObject* getKeyDownCallback         (){ return m_keyDownCallback; }
-        [[nodiscard]] PyObject* getKeyPressCallback        (){ return m_keyPressCallback; }
-        [[nodiscard]] PyObject* getKeyReleaseCallback      (){ return m_keyReleaseCallback; }
         [[nodiscard]] PyObject* getMouseWheelCallback      (){ return m_mouseWheelCallback; }
-        [[nodiscard]] PyObject* getMouseMoveCallback       (){ return m_mouseMoveCallback; }
         [[nodiscard]] PyObject* getOnCloseCallback         (){ return m_onCloseCallback; }
         [[nodiscard]] PyObject* getOnStartCallback         (){ return m_onStartCallback; }
-        [[nodiscard]] PyObject* getAcceleratorCallback     (){ return m_acceleratorCallback; }
 	
 	private:
 
@@ -165,14 +145,9 @@ namespace Marvel {
 		PyObject* m_mouseDoubleClickCallback = nullptr;
 		PyObject* m_mouseWheelCallback = nullptr;
 		PyObject* m_mouseDragCallback = nullptr;
-		PyObject* m_keyDownCallback = nullptr;
-		PyObject* m_keyPressCallback = nullptr;
-		PyObject* m_keyReleaseCallback = nullptr;
 		PyObject* m_resizeCallback = nullptr;
-		PyObject* m_mouseMoveCallback = nullptr;
 		PyObject* m_onCloseCallback = nullptr;
 		PyObject* m_onStartCallback = nullptr;
-		PyObject* m_acceleratorCallback = nullptr; // basically the same as the key press callback
 
 	};
 

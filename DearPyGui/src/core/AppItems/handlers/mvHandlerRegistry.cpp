@@ -1,0 +1,48 @@
+#include "mvHandlerRegistry.h"
+#include "mvPythonExceptions.h"
+#include "mvLog.h"
+
+namespace Marvel {
+
+	void mvHandlerRegistry::InsertParser(std::map<std::string, mvPythonParser>* parsers)
+	{
+
+		mvPythonParser parser(mvPyDataType::String, "Undocumented function", { "Textures", "Widgets" });
+		mvAppItem::AddCommonArgs(parser, (CommonParserArgs)(
+			MV_PARSER_ARG_ID |
+			MV_PARSER_ARG_SHOW)
+		);
+
+		parser.finalize();
+
+		parsers->insert({ s_command, parser });
+	}
+
+	mvHandlerRegistry::mvHandlerRegistry(const std::string& name)
+		:
+		mvAppItem(name)
+	{
+	}
+
+	void mvHandlerRegistry::draw(ImDrawList* drawlist, float x, float y)
+	{
+
+		for (auto& item : m_children[3])
+			item->draw(drawlist, ImGui::GetCursorPosX(), ImGui::GetCursorPosY());
+
+	}
+
+	bool mvHandlerRegistry::canChildBeAdded(mvAppItemType type)
+	{
+		if (type == mvAppItemType::mvKeyDownHandler) return true;
+		if (type == mvAppItemType::mvKeyPressHandler) return true;
+		if (type == mvAppItemType::mvKeyReleaseHandler) return true;
+		if (type == mvAppItemType::mvMouseMoveHandler) return true;
+
+		mvThrowPythonError(1000, "Drawing children must be draw commands only.");
+		MV_ITEM_REGISTRY_ERROR("Drawing children must be draw commands only.");
+		assert(false);
+
+		return false;
+	}
+}
