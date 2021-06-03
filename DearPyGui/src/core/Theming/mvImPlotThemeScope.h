@@ -49,17 +49,22 @@ namespace Marvel {
 
 			// updates styles if cache is invalid and caches
 			SearchAncestorsForStyles(item);
+			static ImPlotStyleVar imstyleID;
 			StyleIDCount = item->getStyleGroup().getCachedStyles().size() + item->getStyleGroup().getCachedStyles2().size();
 
 			for (const auto& style : item->getStyleGroup().getCachedStyles2())
-				ImPlot::PushStyleVar((ImPlotStyleVar)style.constant, { style.value1, style.value2 });
+			{
+				DecodelibID(style.constant, &imstyleID);
+				ImPlot::PushStyleVar(imstyleID, { style.value1, style.value2 });
+			}
 
 			for (const auto& style : item->getStyleGroup().getCachedStyles())
 			{
-				if((ImPlotStyleVar)style.constant == ImPlotStyleVar_Marker)
-					ImPlot::PushStyleVar((ImPlotStyleVar)style.constant, (int)style.value1);
+				DecodelibID(style.constant, &imstyleID);
+				if(imstyleID == ImPlotStyleVar_Marker)
+					ImPlot::PushStyleVar(imstyleID, (int)style.value1);
 				else
-					ImPlot::PushStyleVar((ImPlotStyleVar)style.constant, style.value1);
+					ImPlot::PushStyleVar(imstyleID, style.value1);
 			}
 		}
 
