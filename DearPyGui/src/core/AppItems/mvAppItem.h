@@ -62,7 +62,10 @@ namespace Marvel {
         mvHandlerRegistry, mvKeyDownHandler, mvKeyPressHandler,
         mvKeyReleaseHandler, mvMouseMoveHandler, mvMouseWheelHandler,
         mvMouseClickHandler, mvMouseDoubleClickHandler, mvMouseDownHandler,
-        mvMouseReleaseHandler, mvMouseDragHandler,
+        mvMouseReleaseHandler, mvMouseDragHandler, 
+        mvHoverHandler, mvActiveHandler, mvFocusHandler, mvVisibleHandler,
+        mvEditedHandler, mvActivatedHandler, mvDeactivatedHandler, mvDeactivatedAfterEditHandler,
+        mvToggledOpenHandler, mvClickedHandler,
         ItemTypeCount
     };
 
@@ -84,6 +87,7 @@ namespace Marvel {
         MV_ITEM_DESC_ROOT        = 1 << 1,
         MV_ITEM_DESC_CONTAINER   = 1 << 2,
         MV_ITEM_DESC_AFTER       = 1 << 3,
+        MV_ITEM_DESC_HANDLER     = 1 << 4,
     };
 
     enum CommonParserArgs

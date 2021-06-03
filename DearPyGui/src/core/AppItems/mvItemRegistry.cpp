@@ -335,7 +335,10 @@ namespace Marvel {
 		MV_PROFILE_SCOPE("Rendering")
 
 		for (auto& window : m_roots)
-			window->draw(nullptr, 0.0f, 0.0f);
+		{
+			if(window->m_show)
+				window->draw(nullptr, 0.0f, 0.0f);
+		}
 
 		return false;
 	}
@@ -501,6 +504,9 @@ namespace Marvel {
 	bool mvItemRegistry::addItemWithRuntimeChecks(mvRef<mvAppItem> item, const char* parent, const char* before)
 	{
 		MV_ITEM_REGISTRY_TRACE("Adding runtime item: " + item->m_name);
+
+		if (mvAppItem::DoesItemHaveFlag(item.get(), MV_ITEM_DESC_HANDLER))
+			parent = item->m_parent.c_str();
 
 		if (item == nullptr)
 			return false;
