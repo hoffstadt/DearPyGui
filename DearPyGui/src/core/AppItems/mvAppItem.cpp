@@ -113,8 +113,11 @@ namespace Marvel{
 		if(args & MV_PARSER_ARG_BEFORE)        parser.addArg<mvPyDataType::String>("before", mvArgType::KEYWORD_ARG, "''", "This item will be displayed before the specified item in the parent.");
 		if(args & MV_PARSER_ARG_LABEL)         parser.addArg<mvPyDataType::String>("label", mvArgType::KEYWORD_ARG, "''", "Overrides 'name' as label");
 		if(args & MV_PARSER_ARG_SOURCE)        parser.addArg<mvPyDataType::String>("source", mvArgType::KEYWORD_ARG, "''", "Overrides 'name' as value storage key");		
+		if(args & MV_PARSER_ARG_PAYLOAD_TYPE)  parser.addArg<mvPyDataType::String>("payload_type", mvArgType::KEYWORD_ARG, "'$$DPG_PAYLOAD'", "Overrides 'name' as value storage key");		
 		if(args & MV_PARSER_ARG_CALLBACK)      parser.addArg<mvPyDataType::Callable>("callback", mvArgType::KEYWORD_ARG, "None", "Registers a callback");
+		if(args & MV_PARSER_ARG_DRAG_CALLBACK) parser.addArg<mvPyDataType::Callable>("drag_callback", mvArgType::KEYWORD_ARG, "None", "Registers a drag callback for drag and drop");
 		if(args & MV_PARSER_ARG_CALLBACK_DATA) parser.addArg<mvPyDataType::Object>("callback_data", mvArgType::KEYWORD_ARG, "None", "Callback data");
+		if(args & MV_PARSER_ARG_DRAG_DATA)     parser.addArg<mvPyDataType::Object>("drag_data", mvArgType::KEYWORD_ARG, "None", "Drag data");
 		if(args & MV_PARSER_ARG_SHOW)          parser.addArg<mvPyDataType::Bool>("show", mvArgType::KEYWORD_ARG, "True", "Attempt to render");
 		if(args & MV_PARSER_ARG_ENABLED)       parser.addArg<mvPyDataType::Bool>("enabled", mvArgType::KEYWORD_ARG, "True");
 		if(args & MV_PARSER_ARG_POS)		   parser.addArg<mvPyDataType::IntList>("pos", mvArgType::KEYWORD_ARG, "[]", "Places the item relative to window coordinates, [0,0] is top left.");
@@ -164,6 +167,8 @@ namespace Marvel{
 		if(m_indent > 0.0f)
 			ImGui::Unindent(m_indent);
 
+		m_state.update();
+
 		// event handlers
 		for (auto& item : m_children[3])
 		{
@@ -173,7 +178,31 @@ namespace Marvel{
 			item->draw(nullptr, ImGui::GetCursorPosX(), ImGui::GetCursorPosY());
 		}
 
-		m_state.update();
+		// drag drop
+		for (auto& item : m_children[4])
+		{
+			if (!item->preDraw())
+				continue;
+
+			item->draw(nullptr, ImGui::GetCursorPosX(), ImGui::GetCursorPosY());
+		}
+
+		if (m_dropCallback)
+		{
+			ScopedID id;
+			if (ImGui::BeginDragDropTarget())
+			{
+				if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload(m_payloadType.c_str()))
+					mvApp::GetApp()->getCallbackRegistry().addCallback(getDropCallback(), m_name, m_dragData);
+
+				ImGui::EndDragDropTarget();
+			}
+		}
+	}
+
+	void mvAppItem::setPayloadType(const std::string& payloadType)
+	{
+		m_payloadType = payloadType;
 	}
 
 	mvAppItem* mvAppItem::getRoot() const
@@ -231,6 +260,30 @@ namespace Marvel{
 		m_callback = callback;
 	}
 
+	void mvAppItem::setDragCallback(PyObject* callback)
+	{
+
+		if (callback == Py_None)
+		{
+			m_dragCallback = nullptr;
+			return;
+		}
+
+		m_dragCallback = callback;
+	}
+
+	void mvAppItem::setDropCallback(PyObject* callback)
+	{
+
+		if (callback == Py_None)
+		{
+			m_dropCallback = nullptr;
+			return;
+		}
+
+		m_dropCallback = callback;
+	}
+
 	void mvAppItem::setCallbackData(PyObject* data)
 	{
 		if (data == Py_None)
@@ -239,6 +292,16 @@ namespace Marvel{
 			return;
 		}
 		m_callback_data = data;
+	}
+
+	void mvAppItem::setDragData(PyObject* data)
+	{
+		if (data == Py_None)
+		{
+			m_dragData = nullptr;
+			return;
+		}
+		m_dragData = data;
 	}
 
 	void mvAppItem::resetState()
@@ -448,6 +511,7 @@ namespace Marvel{
 			m_children[item->getTarget()].push_back(item);
 			onChildAdd(item);
 			item->m_parentPtr = this;
+			item->m_parent = m_name;
 			return true;
 		}
 
@@ -666,12 +730,9 @@ namespace Marvel{
 				if (item->m_name == name)
 					return item;
 
-				if (DoesItemHaveFlag(item.get(), MV_ITEM_DESC_CONTAINER))
-				{
-					auto child = item->getChild(name);
-					if (child)
-						return child;
-				}
+				auto child = item->getChild(name);
+				if (child)
+					return child;
 			}
 		}
 
@@ -807,6 +868,7 @@ namespace Marvel{
 			if (m_show)
 				show();
 		}
+		if (PyObject* item = PyDict_GetItemString(dict, "payload_type")) setPayloadType(ToString(item));
 		if (PyObject* item = PyDict_GetItemString(dict, "source")) setDataSource(ToString(item));
 		if (PyObject* item = PyDict_GetItemString(dict, "enabled")) setEnabled(ToBool(item));
 		if (PyObject* item = PyDict_GetItemString(dict, "default_value")) setPyValue(item);
@@ -820,6 +882,24 @@ namespace Marvel{
 			setCallback(item);
 		}
 
+		if (PyObject* item = PyDict_GetItemString(dict, "drag_callback"))
+		{
+			if (m_dragCallback)
+				Py_XDECREF(m_dragCallback);
+
+			Py_XINCREF(item);
+			setDragCallback(item);
+		}
+
+		if (PyObject* item = PyDict_GetItemString(dict, "drop_callback"))
+		{
+			if (m_dropCallback)
+				Py_XDECREF(m_dropCallback);
+
+			Py_XINCREF(item);
+			setDropCallback(item);
+		}
+
 		if (PyObject* item = PyDict_GetItemString(dict, "callback_data"))
 		{
 			if (m_callback_data)
@@ -827,6 +907,15 @@ namespace Marvel{
 			
 			Py_XINCREF(item);
 			setCallbackData(item);
+		}
+
+		if (PyObject* item = PyDict_GetItemString(dict, "drag_data"))
+		{
+			if (m_dragData)
+				Py_XDECREF(m_dragData);
+
+			Py_XINCREF(item);
+			setDragData(item);
 		}
 
 		handleSpecificKeywordArgs(dict);
@@ -906,6 +995,7 @@ namespace Marvel{
 		if (dict == nullptr)
 			return;
 
+		PyDict_SetItemString(dict, "payload_type", ToPyString(m_payloadType));
 		PyDict_SetItemString(dict, "label", ToPyString(m_specificedlabel));
 		PyDict_SetItemString(dict, "source", ToPyString(m_source));
 		PyDict_SetItemString(dict, "show", ToPyBool(m_show));
@@ -922,6 +1012,22 @@ namespace Marvel{
 		else
 			PyDict_SetItemString(dict, "callback", GetPyNone());
 
+		if (m_dropCallback)
+		{
+			Py_XINCREF(m_dropCallback);
+			PyDict_SetItemString(dict, "drop_callback", m_dropCallback);
+		}
+		else
+			PyDict_SetItemString(dict, "drop_callback", GetPyNone());
+
+		if (m_dragCallback)
+		{
+			Py_XINCREF(m_dragCallback);
+			PyDict_SetItemString(dict, "drag_callback", m_dragCallback);
+		}
+		else
+			PyDict_SetItemString(dict, "drag_callback", GetPyNone());
+
 		if (m_callback_data)
 		{
 			Py_XINCREF(m_callback_data);
@@ -929,6 +1035,14 @@ namespace Marvel{
 		}
 		else
 			PyDict_SetItemString(dict, "callback_data", GetPyNone());
+
+		if (m_dragData)
+		{
+			Py_XINCREF(m_dragData);
+			PyDict_SetItemString(dict, "drag_data", m_dragData);
+		}
+		else
+			PyDict_SetItemString(dict, "drag_data", GetPyNone());
 	}
 
 	PyObject* mvAppItem::get_item_configuration(PyObject* self, PyObject* args, PyObject* kwargs)

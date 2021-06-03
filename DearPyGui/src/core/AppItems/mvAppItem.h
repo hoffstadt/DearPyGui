@@ -65,7 +65,7 @@ namespace Marvel {
         mvMouseReleaseHandler, mvMouseDragHandler, 
         mvHoverHandler, mvActiveHandler, mvFocusHandler, mvVisibleHandler,
         mvEditedHandler, mvActivatedHandler, mvDeactivatedHandler, mvDeactivatedAfterEditHandler,
-        mvToggledOpenHandler, mvClickedHandler,
+        mvToggledOpenHandler, mvClickedHandler, mvDragPayload,
         ItemTypeCount
     };
 
@@ -105,6 +105,10 @@ namespace Marvel {
         MV_PARSER_ARG_SHOW          = 1 << 11,
         MV_PARSER_ARG_ENABLED       = 1 << 12,
         MV_PARSER_ARG_POS           = 1 << 13,
+        MV_PARSER_ARG_DROP_CALLBACK = 1 << 14,
+        MV_PARSER_ARG_DRAG_CALLBACK = 1 << 15,
+        MV_PARSER_ARG_DRAG_DATA     = 1 << 16,
+        MV_PARSER_ARG_PAYLOAD_TYPE  = 1 << 17,
     };
 
     using mvValueVariant = std::variant<
@@ -267,10 +271,14 @@ namespace Marvel {
         virtual void                        onChildRemoved(mvRef<mvAppItem> item) {}
         virtual void                        onChildrenRemoved() {}
 
+        void                                setPayloadType (const std::string& payloadType);
         void                                setCallback    (PyObject* callback);
+        void                                setDragCallback(PyObject* callback);
+        void                                setDropCallback(PyObject* callback);
         void                                hide           () { m_show = false; }
         virtual void                        show           () { m_show = true; }
         void                                setCallbackData(PyObject* data);
+        void                                setDragData    (PyObject* data);
 
         std::vector<mvRef<mvAppItem>>&      getChildren(int slot);
         void                                setChildren(int slot, std::vector<mvRef<mvAppItem>> children);
@@ -278,6 +286,9 @@ namespace Marvel {
         [[nodiscard]] bool                  isShown        () const { return m_show; }
         [[nodiscard]] PyObject*             getCallback    (bool ignore_enabled = true);  // returns the callback. If ignore_enable false and item is disabled then no callback will be returned.
         [[nodiscard]] PyObject*             getCallbackData()       { return m_callback_data; }
+        [[nodiscard]] PyObject*             getDragData()       { return m_dragData; }
+        [[nodiscard]] PyObject*             getDragCallback()       { return m_dragCallback; }
+        [[nodiscard]] PyObject*             getDropCallback()       { return m_dropCallback; }
         mvAppItemState&                     getState       () { return m_state; } 
         mvAppItem*                          getParent() { return m_parentPtr; }
         bool                                isEnabled() const { return m_enabled; }
@@ -338,7 +349,7 @@ namespace Marvel {
         ImVec2                        m_previousCursorPos = { 0.0f, 0.0f };
 
         mvAppItem*                    m_parentPtr = nullptr;
-        std::vector<mvRef<mvAppItem>> m_children[4] = { {}, {}, {}, {} };
+        std::vector<mvRef<mvAppItem>> m_children[5] = { {}, {}, {}, {}, {} };
 
         std::string                   m_label; // internal label
 
@@ -371,6 +382,12 @@ namespace Marvel {
         bool           m_enabled = true;
         PyObject*      m_callback = nullptr;
         PyObject*      m_callback_data = nullptr;
+
+        // drag & drop
+        PyObject* m_dragCallback = nullptr;
+        PyObject* m_dropCallback = nullptr;
+        PyObject* m_dragData     = nullptr;
+        std::string m_payloadType = "$$DPG_PAYLOAD";
 
     };
 
