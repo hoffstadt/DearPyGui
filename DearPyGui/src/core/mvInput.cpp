@@ -91,7 +91,7 @@ namespace Marvel {
 					CreateEventArgument("X", ImGui::GetMouseDragDelta().x),
 					CreateEventArgument("Y", ImGui::GetMouseDragDelta().y)
 					});
-				ImGui::ResetMouseDragDelta(i);
+				//ImGui::ResetMouseDragDelta(i);
 				break;
 			}
 			

@@ -28,7 +28,12 @@ namespace Marvel {
 	{
 
 		for (auto& item : m_children[3])
+		{
+			if (!item->preDraw())
+				continue;
+
 			item->draw(drawlist, ImGui::GetCursorPosX(), ImGui::GetCursorPosY());
+		}
 
 	}
 
@@ -38,6 +43,12 @@ namespace Marvel {
 		if (type == mvAppItemType::mvKeyPressHandler) return true;
 		if (type == mvAppItemType::mvKeyReleaseHandler) return true;
 		if (type == mvAppItemType::mvMouseMoveHandler) return true;
+		if (type == mvAppItemType::mvMouseWheelHandler) return true;
+		if (type == mvAppItemType::mvMouseClickHandler) return true;
+		if (type == mvAppItemType::mvMouseDoubleClickHandler) return true;
+		if (type == mvAppItemType::mvMouseDownHandler) return true;
+		if (type == mvAppItemType::mvMouseReleaseHandler) return true;
+		if (type == mvAppItemType::mvMouseDragHandler) return true;
 
 		mvThrowPythonError(1000, "Drawing children must be draw commands only.");
 		MV_ITEM_REGISTRY_ERROR("Drawing children must be draw commands only.");

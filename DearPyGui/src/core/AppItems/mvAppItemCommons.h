@@ -9,6 +9,12 @@
 #include "handlers/mvKeyPressHandler.h"
 #include "handlers/mvKeyReleaseHandler.h"
 #include "handlers/mvMouseMoveHandler.h"
+#include "handlers/mvMouseWheelHandler.h"
+#include "handlers/mvMouseClickHandler.h"
+#include "handlers/mvMouseDoubleClickHandler.h"
+#include "handlers/mvMouseDownHandler.h"
+#include "handlers/mvMouseReleaseHandler.h"
+#include "handlers/mvMouseDragHandler.h"
 
 #include "basic/mvInputText.h"
 #include "basic/mvRadioButton.h"

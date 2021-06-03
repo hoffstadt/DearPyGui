@@ -32,24 +32,12 @@ namespace Marvel {
 
 		MV_CREATE_EXTRA_COMMAND(set_start_callback);
 		MV_CREATE_EXTRA_COMMAND(set_exit_callback);
-		MV_CREATE_EXTRA_COMMAND(set_mouse_drag_callback);
-		MV_CREATE_EXTRA_COMMAND(set_mouse_click_callback);
-		MV_CREATE_EXTRA_COMMAND(set_mouse_down_callback);
-		MV_CREATE_EXTRA_COMMAND(set_mouse_double_click_callback);
-		MV_CREATE_EXTRA_COMMAND(set_mouse_release_callback);
 		MV_CREATE_EXTRA_COMMAND(set_resize_callback);
-		MV_CREATE_EXTRA_COMMAND(set_mouse_wheel_callback);
 
 		MV_START_EXTRA_COMMANDS
 			MV_ADD_EXTRA_COMMAND(set_start_callback);
 			MV_ADD_EXTRA_COMMAND(set_exit_callback);
-			MV_ADD_EXTRA_COMMAND(set_mouse_drag_callback);
-			MV_ADD_EXTRA_COMMAND(set_mouse_click_callback);
-			MV_ADD_EXTRA_COMMAND(set_mouse_down_callback);
-			MV_ADD_EXTRA_COMMAND(set_mouse_double_click_callback);
-			MV_ADD_EXTRA_COMMAND(set_mouse_release_callback);
 			MV_ADD_EXTRA_COMMAND(set_resize_callback);
-			MV_ADD_EXTRA_COMMAND(set_mouse_wheel_callback);
 		MV_END_EXTRA_COMMANDS
 
 	public:
@@ -59,7 +47,6 @@ namespace Marvel {
 		bool onEvent   (mvEvent& event) override;
 		bool onFrame   (mvEvent& event);
 		bool onEndFrame(mvEvent& event);
-		bool onInputs  (mvEvent& event);
 		bool onRender  (mvEvent& event);
 
 		void runTasks();
@@ -113,20 +100,8 @@ namespace Marvel {
         void setResizeCallback          (PyObject* callback) { m_resizeCallback = SanitizeCallback(callback); }
         void setOnCloseCallback         (PyObject* callback) { m_onCloseCallback = SanitizeCallback(callback); }
         void setOnStartCallback         (PyObject* callback) { m_onStartCallback = SanitizeCallback(callback); }
-        void setMouseClickCallback      (PyObject* callback) { m_mouseClickCallback = SanitizeCallback(callback); }
-        void setMouseDownCallback       (PyObject* callback) { m_mouseDownCallback = SanitizeCallback(callback); }
-        void setMouseDoubleClickCallback(PyObject* callback) { m_mouseDoubleClickCallback = SanitizeCallback(callback); }
-        void setMouseReleaseCallback    (PyObject* callback) { m_mouseReleaseCallback = SanitizeCallback(callback); }
-        void setMouseWheelCallback      (PyObject* callback) { m_mouseWheelCallback = SanitizeCallback(callback); }
-        void setMouseDragCallback       (PyObject* callback) { m_mouseDragCallback = SanitizeCallback(callback); }
 
         [[nodiscard]] PyObject* getResizeCallback          (){ return m_resizeCallback; }
-        [[nodiscard]] PyObject* getMouseReleaseCallback    (){ return m_mouseReleaseCallback; }
-        [[nodiscard]] PyObject* getMouseClickCallback      (){ return m_mouseClickCallback; }
-        [[nodiscard]] PyObject* getMouseDownCallback       (){ return m_mouseDownCallback; }
-        [[nodiscard]] PyObject* getMouseDoubleClickCallback(){ return m_mouseDoubleClickCallback; }
-        [[nodiscard]] PyObject* getMouseDragCallback       (){ return m_mouseDragCallback; }
-        [[nodiscard]] PyObject* getMouseWheelCallback      (){ return m_mouseWheelCallback; }
         [[nodiscard]] PyObject* getOnCloseCallback         (){ return m_onCloseCallback; }
         [[nodiscard]] PyObject* getOnStartCallback         (){ return m_onStartCallback; }
 	
@@ -139,12 +114,6 @@ namespace Marvel {
 		std::atomic<int> m_callCount = 0;
 
 		// input callbacks
-		PyObject* m_mouseDownCallback = nullptr;
-		PyObject* m_mouseClickCallback = nullptr;
-		PyObject* m_mouseReleaseCallback = nullptr;
-		PyObject* m_mouseDoubleClickCallback = nullptr;
-		PyObject* m_mouseWheelCallback = nullptr;
-		PyObject* m_mouseDragCallback = nullptr;
 		PyObject* m_resizeCallback = nullptr;
 		PyObject* m_onCloseCallback = nullptr;
 		PyObject* m_onStartCallback = nullptr;

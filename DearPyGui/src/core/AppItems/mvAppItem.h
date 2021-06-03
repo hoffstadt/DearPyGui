@@ -60,7 +60,9 @@ namespace Marvel {
         mvStagingContainer, mvDrawLayer, mvViewportDrawlist,
         mvFileExtension, 
         mvHandlerRegistry, mvKeyDownHandler, mvKeyPressHandler,
-        mvKeyReleaseHandler, mvMouseMoveHandler,
+        mvKeyReleaseHandler, mvMouseMoveHandler, mvMouseWheelHandler,
+        mvMouseClickHandler, mvMouseDoubleClickHandler, mvMouseDownHandler,
+        mvMouseReleaseHandler, mvMouseDragHandler,
         ItemTypeCount
     };
 
