@@ -96,4 +96,4 @@ jobs:
         cd cmake-build-debug
         cmake ..
         cd ..
-        cmake --build cmake-build-debug --config Debug -DCMAKE_BUILD_TYPE=Debug
+        cmake --build cmake-build-debug --config Debug
