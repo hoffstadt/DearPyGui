@@ -370,7 +370,7 @@ namespace Marvel {
 		// add runtime items
 		bool addedItem = false;
 
-		for (auto window : m_roots)
+		for (auto& window : m_roots)
 		{
 			addedItem = window->addRuntimeChild(parent, before, item);
 			if (addedItem)
@@ -505,7 +505,7 @@ namespace Marvel {
 	{
 		MV_ITEM_REGISTRY_TRACE("Adding runtime item: " + item->m_name);
 
-		if (mvAppItem::DoesItemHaveFlag(item.get(), MV_ITEM_DESC_HANDLER))
+		if (mvAppItem::DoesItemHaveFlag(item.get(), MV_ITEM_DESC_HANDLER) && !strcmp(parent, ""))
 			parent = item->m_parent.c_str();
 
 		if (item == nullptr)

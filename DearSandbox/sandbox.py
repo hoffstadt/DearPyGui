@@ -31,4 +31,20 @@ import dearpygui.demo as demo
 
 demo.show_demo()
 
+with cxt.window(label="Drag Drop Testing"):
+
+    def drag_callback(sender, data):
+        #print(sender, "\t", data)
+        dpg.set_value("source name", sender)
+
+    def drop_callback(sender, data):
+        print(sender, "\t", data)
+
+    b1 = dpg.add_button(label="Source Button", drag_callback=drag_callback, drag_data=5)
+    b2 = dpg.add_button(label="Target1 Button", drop_callback=drop_callback, drag_data=7)
+    b3 = dpg.add_button(label="Target2 Button", drop_callback=drop_callback, drag_data=8, payload_type="fishy")
+    
+    with cxt.drag_payload(parent=b1, payload_type="fishy"):
+        dpg.add_text("none", label="Source: ", id="source name")
+
 smpl.start_dearpygui()
