@@ -166,6 +166,17 @@ set(MARVEL_SOURCES
 	"src/core/AppItems/handlers/mvMouseReleaseHandler.cpp"
 	"src/core/AppItems/handlers/mvMouseDragHandler.cpp"
 
+	"src/core/AppItems/widget_handlers/mvHoverHandler.cpp"
+	"src/core/AppItems/widget_handlers/mvActiveHandler.cpp"
+	"src/core/AppItems/widget_handlers/mvFocusHandler.cpp"
+	"src/core/AppItems/widget_handlers/mvVisibleHandler.cpp"
+    "src/core/AppItems/widget_handlers/mvActivatedHandler.cpp"
+    "src/core/AppItems/widget_handlers/mvDeactivatedHandler.cpp"
+    "src/core/AppItems/widget_handlers/mvEditedHandler.cpp"
+    "src/core/AppItems/widget_handlers/mvDeactivatedAfterEditHandler.cpp"
+    "src/core/AppItems/widget_handlers/mvToggledOpenHandler.cpp"
+    "src/core/AppItems/widget_handlers/mvClickedHandler.cpp"
+
 	# imnodes
 	"vendor/imnodes/imnodes.cpp"
 

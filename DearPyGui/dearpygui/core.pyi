@@ -10,6 +10,14 @@ def add_3d_slider(*, id: str =..., width: int =0, height: int =0, indent: int =-
 	"""Undocumented function"""
 	...
 
+def add_activated_handler(parent : str, *, id: str =..., callback: Callable =None) -> str:
+	"""Undocumented function"""
+	...
+
+def add_active_handler(parent : str, *, id: str =..., callback: Callable =None) -> str:
+	"""Undocumented function"""
+	...
+
 def add_area_series(x : List[float], y : List[float], *, id: str =..., parent: str ='', before: str ='', label: str ='', source: str ='', show: bool =True, fill: List[int] =(0, 0, 0, -255), axis: int =0, contribute_to_bounds: bool =True) -> str:
 	"""Undocumented function"""
 	...
@@ -31,6 +39,10 @@ def add_checkbox(*, id: str =..., indent: int =-1, parent: str ='', before: str 
 	...
 
 def add_child(*, id: str =..., width: int =0, height: int =0, indent: int =-1, parent: str ='', before: str ='', show: bool =True, pos: List[int] =[], border: bool =True, autosize_x: bool =False, autosize_y: bool =False, no_scrollbar: bool =False, horizontal_scrollbar: bool =False, menubar: bool =False) -> str:
+	"""Undocumented function"""
+	...
+
+def add_clicked_handler(parent : str, button : int, *, id: str =..., callback: Callable =None) -> str:
 	"""Undocumented function"""
 	...
 
@@ -59,6 +71,14 @@ def add_combo(items : List[str] =(), *, id: str =..., width: int =0, indent: int
 	...
 
 def add_date_picker(*, id: str =..., indent: int =-1, parent: str ='', before: str ='', callback: Callable =None, callback_data: Any =None, show: bool =True, pos: List[int] =[], default_value: dict ={'month_day': 14, 'year':20, 'month':5}, level: int =0) -> str:
+	"""Undocumented function"""
+	...
+
+def add_deactivated_after_edit_handler(parent : str, *, id: str =..., callback: Callable =None) -> str:
+	"""Undocumented function"""
+	...
+
+def add_deactivated_handler(parent : str, *, id: str =..., callback: Callable =None) -> str:
 	"""Undocumented function"""
 	...
 
@@ -102,6 +122,10 @@ def add_dynamic_texture(width : int, height : int, default_value : List[float], 
 	"""Undocumented function"""
 	...
 
+def add_edited_handler(parent : str, *, id: str =..., callback: Callable =None) -> str:
+	"""Undocumented function"""
+	...
+
 def add_error_series(x : List[float], y : List[float], negative : List[float], positive : List[float], *, id: str =..., parent: str ='', before: str ='', label: str ='', source: str ='', show: bool =True, axis: int =0, contribute_to_bounds: bool =True, horizontal: bool =False) -> str:
 	"""Undocumented function"""
 	...
@@ -111,6 +135,10 @@ def add_file_dialog(*, id: str =..., width: int =0, height: int =0, label: str =
 	...
 
 def add_file_extension(extension : str, *, id: str =..., width: int =0, height: int =0, parent: str ='', before: str ='', label: str ='', custom_text: str ='', color: List[float] =(-255, 0, 0, 255)) -> str:
+	"""Undocumented function"""
+	...
+
+def add_focus_handler(parent : str, *, id: str =..., callback: Callable =None) -> str:
 	"""Undocumented function"""
 	...
 
@@ -131,6 +159,10 @@ def add_heat_series(x : List[float], rows : int, cols : int, *, id: str =..., pa
 	...
 
 def add_hline_series(x : List[float], *, id: str =..., parent: str ='', before: str ='', label: str ='', source: str ='', show: bool =True, axis: int =0, contribute_to_bounds: bool =True) -> str:
+	"""Undocumented function"""
+	...
+
+def add_hover_handler(parent : str, *, id: str =..., callback: Callable =None) -> str:
 	"""Undocumented function"""
 	...
 
@@ -382,6 +414,10 @@ def add_time_picker(*, id: str =..., indent: int =-1, parent: str ='', before: s
 	"""Undocumented function"""
 	...
 
+def add_toggled_open_handler(parent : str, *, id: str =..., callback: Callable =None) -> str:
+	"""Undocumented function"""
+	...
+
 def add_tooltip(*, id: str =..., show: bool =True) -> str:
 	"""Undocumented function"""
 	...
@@ -391,6 +427,10 @@ def add_tree_node(*, id: str =..., indent: int =-1, parent: str ='', before: str
 	...
 
 def add_viewport_drawlist(*, id: str =..., show: bool =True, front: bool =True) -> str:
+	"""Undocumented function"""
+	...
+
+def add_visible_handler(parent : str, *, id: str =..., callback: Callable =None) -> str:
 	"""Undocumented function"""
 	...
 

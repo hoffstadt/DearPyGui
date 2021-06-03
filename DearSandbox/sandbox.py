@@ -2,10 +2,10 @@ import dearpygui.core as dpg
 import dearpygui.simple as smpl
 import dearpygui.contexts as cxt
 
-with cxt.handler_registry():
+def event_handler(sender, data):
+    print(sender, "\t", data)
 
-    def event_handler(sender, data):
-        print(sender, "\t", data)
+with cxt.handler_registry(show=False):
 
     dpg.add_key_down_handler(dpg.mvKey_A, callback=event_handler)
     dpg.add_key_release_handler(dpg.mvKey_B, callback=event_handler)
@@ -16,7 +16,7 @@ with cxt.handler_registry():
     dpg.add_mouse_release_handler(-1, callback=event_handler)
     dpg.add_mouse_drag_handler(0, 10.0, callback=event_handler)
     dpg.add_mouse_down_handler(-1, callback=event_handler)
-    #dpg.add_mouse_move_handler(callback=event_handler)
+    dpg.add_mouse_move_handler(callback=event_handler)
     
 
 dpg.add_font("google", "../../Resources/NotoSerifCJKjp-Medium.otf", 20)

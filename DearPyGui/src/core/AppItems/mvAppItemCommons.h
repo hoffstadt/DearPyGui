@@ -16,6 +16,17 @@
 #include "handlers/mvMouseReleaseHandler.h"
 #include "handlers/mvMouseDragHandler.h"
 
+#include "widget_handlers/mvHoverHandler.h"
+#include "widget_handlers/mvFocusHandler.h"
+#include "widget_handlers/mvActiveHandler.h"
+#include "widget_handlers/mvVisibleHandler.h"
+#include "widget_handlers/mvActivatedHandler.h"
+#include "widget_handlers/mvDeactivatedHandler.h"
+#include "widget_handlers/mvEditedHandler.h"
+#include "widget_handlers/mvDeactivatedAfterEditHandler.h"
+#include "widget_handlers/mvToggledOpenHandler.h"
+#include "widget_handlers/mvClickedHandler.h"
+
 #include "basic/mvInputText.h"
 #include "basic/mvRadioButton.h"
 #include "basic/mvListbox.h"

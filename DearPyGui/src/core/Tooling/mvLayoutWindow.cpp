@@ -99,7 +99,7 @@ namespace Marvel {
         ImGui::TextUnformatted(m_showLabels ? parent->m_specificedlabel.c_str() : parent->m_name.c_str());
         imnodes::EndNodeTitleBar();
 
-        for (int i = 0; i < 3; i++)
+        for (int i = 0; i < 4; i++)
         {
             if (i == item->getTarget())
             {
@@ -192,6 +192,7 @@ namespace Marvel {
         int slot0AttrId = 4000;
         int slot1AttrId = 5000;
         int slot2AttrId = 6000;
+        int slot3AttrId = 7000;
 
         imnodes::BeginNodeEditor();
         imnodes::ClearNodeSelection();
@@ -218,6 +219,7 @@ namespace Marvel {
         bool hasSlot0Children = renderChildAttr(item, 0, slot0AttrId);
         bool hasSlot1Children = renderChildAttr(item, 1, slot1AttrId);
         bool hasSlot2Children = renderChildAttr(item, 2, slot2AttrId);
+        bool hasSlot3Children = renderChildAttr(item, 3, slot2AttrId);
 
         imnodes::EndNode();
         imnodes::PopColorStyle();
@@ -231,6 +233,7 @@ namespace Marvel {
         if (hasSlot0Children) renderChildNodes(item, 0, linkId, nodeId, slot0AttrId, slot0AttrId);
         if (hasSlot1Children) renderChildNodes(item, 1, linkId, nodeId, slot1AttrId, slot1AttrId);
         if (hasSlot2Children) renderChildNodes(item, 2, linkId, nodeId, slot2AttrId, slot2AttrId);
+        if (hasSlot3Children) renderChildNodes(item, 3, linkId, nodeId, slot3AttrId, slot3AttrId);
 
         if(hasParent)
             imnodes::Link(linkId++, parentParentAttrId, currentItemParentAttrId);

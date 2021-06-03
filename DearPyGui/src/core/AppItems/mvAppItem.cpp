@@ -157,11 +157,21 @@ namespace Marvel{
 
 	void mvAppItem::postDraw()
 	{
+
 		if (m_dirtyPos)
 			ImGui::SetCursorPos(m_previousCursorPos);
 
 		if(m_indent > 0.0f)
 			ImGui::Unindent(m_indent);
+
+		// event handlers
+		for (auto& item : m_children[3])
+		{
+			if (!item->preDraw())
+				continue;
+
+			item->draw(nullptr, ImGui::GetCursorPosX(), ImGui::GetCursorPosY());
+		}
 
 		m_state.update();
 	}
@@ -361,27 +371,17 @@ namespace Marvel{
 			//this is the container, add item to beginning.
 			if (before.empty())
 			{
-				if (parent == m_name)
-				{
-					children.push_back(item);
-					onChildAdd(item);
-					item->m_parentPtr = this;
-					return true;
-				}
 
-				else
+				// check children
+				for (auto& childslot : m_children)
 				{
-					// check children
-					for (auto& childslot : m_children)
+					for (auto& child : childslot)
 					{
-						for (auto& child : childslot)
+						if (mvAppItem::DoesItemHaveFlag(child.get(), MV_ITEM_DESC_CONTAINER) || mvAppItem::DoesItemHaveFlag(item.get(), MV_ITEM_DESC_HANDLER))
 						{
-							if (mvAppItem::DoesItemHaveFlag(child.get(), MV_ITEM_DESC_CONTAINER))
-							{
-								// parent found
-								if (child->addRuntimeChild(parent, before, item))
-									return true;
-							}
+							// parent found
+							if (child->addRuntimeChild(parent, before, item))
+								return true;
 						}
 					}
 				}
@@ -432,7 +432,7 @@ namespace Marvel{
 			// check children
 			for (auto& child : children)
 			{
-				if (mvAppItem::DoesItemHaveFlag(child.get(), MV_ITEM_DESC_CONTAINER))
+				if (mvAppItem::DoesItemHaveFlag(child.get(), MV_ITEM_DESC_CONTAINER) || mvAppItem::DoesItemHaveFlag(item.get(), MV_ITEM_DESC_HANDLER))
 				{
 					// parent found
 					if (child->addRuntimeChild(parent, before, item))
@@ -443,7 +443,21 @@ namespace Marvel{
 			return false;
 		};
 
-		return operation(m_children[item->getTarget()]);
+		if (m_name == parent)
+		{
+			m_children[item->getTarget()].push_back(item);
+			onChildAdd(item);
+			item->m_parentPtr = this;
+			return true;
+		}
+
+		for (auto& childset : m_children)
+		{
+			if (operation(childset))
+				return true;
+		}
+
+		return false;
 	}
 
 	bool mvAppItem::addItem(mvRef<mvAppItem> item)
