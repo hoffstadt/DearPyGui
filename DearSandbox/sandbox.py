@@ -10,6 +10,12 @@ with cxt.handler_registry():
     dpg.add_key_down_handler(dpg.mvKey_A, callback=event_handler)
     dpg.add_key_release_handler(dpg.mvKey_B, callback=event_handler)
     dpg.add_key_press_handler(dpg.mvKey_C, callback=event_handler)
+    dpg.add_mouse_wheel_handler(callback=event_handler)
+    dpg.add_mouse_click_handler(-1, callback=event_handler)
+    dpg.add_mouse_double_click_handler(-1, callback=event_handler)
+    dpg.add_mouse_release_handler(-1, callback=event_handler)
+    dpg.add_mouse_drag_handler(0, 10.0, callback=event_handler)
+    dpg.add_mouse_down_handler(-1, callback=event_handler)
     #dpg.add_mouse_move_handler(callback=event_handler)
     
 

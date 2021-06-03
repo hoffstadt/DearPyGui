@@ -210,7 +210,31 @@ def add_menu_item(*, id: str =..., indent: int =-1, parent: str ='', before: str
 	"""Undocumented function"""
 	...
 
+def add_mouse_click_handler(button : int, *, id: str =..., parent: str ='', callback: Callable =None) -> str:
+	"""Undocumented function"""
+	...
+
+def add_mouse_double_click_handler(button : int, *, id: str =..., parent: str ='', callback: Callable =None) -> str:
+	"""Undocumented function"""
+	...
+
+def add_mouse_down_handler(button : int, *, id: str =..., parent: str ='', callback: Callable =None) -> str:
+	"""Undocumented function"""
+	...
+
+def add_mouse_drag_handler(button : int, threshold : float, *, id: str =..., parent: str ='', callback: Callable =None) -> str:
+	"""Undocumented function"""
+	...
+
 def add_mouse_move_handler(*, id: str =..., parent: str ='', callback: Callable =None) -> str:
+	"""Undocumented function"""
+	...
+
+def add_mouse_release_handler(button : int, *, id: str =..., parent: str ='', callback: Callable =None) -> str:
+	"""Undocumented function"""
+	...
+
+def add_mouse_wheel_handler(*, id: str =..., parent: str ='', callback: Callable =None) -> str:
 	"""Undocumented function"""
 	...
 
@@ -695,30 +719,6 @@ def set_item_pos(item : str, x : float, y : float) -> None:
 	...
 
 def set_log_level(level : int, *, logger: str ='') -> None:
-	"""Undocumented function"""
-	...
-
-def set_mouse_click_callback(callback : Callable) -> str:
-	"""Undocumented function"""
-	...
-
-def set_mouse_double_click_callback(callback : Callable) -> str:
-	"""Undocumented function"""
-	...
-
-def set_mouse_down_callback(callback : Callable) -> str:
-	"""Undocumented function"""
-	...
-
-def set_mouse_drag_callback(callback : Callable, threshold : float) -> str:
-	"""Undocumented function"""
-	...
-
-def set_mouse_release_callback(callback : Callable) -> str:
-	"""Undocumented function"""
-	...
-
-def set_mouse_wheel_callback(callback : Callable) -> str:
 	"""Undocumented function"""
 	...
 

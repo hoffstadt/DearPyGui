@@ -1,4 +1,4 @@
-#include "mvMouseMoveHandler.h"
+#include "mvMouseWheelHandler.h"
 #include "mvLog.h"
 #include "mvItemRegistry.h"
 #include "mvPythonExceptions.h"
@@ -6,7 +6,7 @@
 
 namespace Marvel {
 
-	void mvMouseMoveHandler::InsertParser(std::map<std::string, mvPythonParser>* parsers)
+	void mvMouseWheelHandler::InsertParser(std::map<std::string, mvPythonParser>* parsers)
 	{
 
 		mvPythonParser parser(mvPyDataType::String, "Undocumented function", { "Textures", "Widgets" });
@@ -20,14 +20,14 @@ namespace Marvel {
 		parsers->insert({ s_command, parser });
 	}
 
-	mvMouseMoveHandler::mvMouseMoveHandler(const std::string& name)
+	mvMouseWheelHandler::mvMouseWheelHandler(const std::string& name)
 		:
 		mvAppItem(name)
 	{
 
 	}
 
-	bool mvMouseMoveHandler::isParentCompatible(mvAppItemType type)
+	bool mvMouseWheelHandler::isParentCompatible(mvAppItemType type)
 	{
 		if (type == mvAppItemType::mvStagingContainer) return true;
 		if (type == mvAppItemType::mvHandlerRegistry) return true;
@@ -38,23 +38,17 @@ namespace Marvel {
 		return false;
 	}
 
-	void mvMouseMoveHandler::draw(ImDrawList* drawlist, float x, float y)
+	void mvMouseWheelHandler::draw(ImDrawList* drawlist, float x, float y)
 	{
 
-		// update mouse
-		// mouse move event
-		ImVec2 mousepos = ImGui::GetMousePos();
-		if (ImGui::IsMousePosValid(&mousepos))
+		if (ImGui::GetIO().MouseWheel != 0.0f)
 		{
-			if (m_oldPos.x != mousepos.x || m_oldPos.y != mousepos.y)
-			{
-				m_oldPos = mousepos;
 
-				mvApp::GetApp()->getCallbackRegistry().submitCallback([=]()
-					{
-						mvApp::GetApp()->getCallbackRegistry().runCallback(getCallback(false), m_name, ToPyPair(mousepos.x, mousepos.y));
-					});
-			}
+			mvApp::GetApp()->getCallbackRegistry().submitCallback([=]()
+			{
+				mvApp::GetApp()->getCallbackRegistry().runCallback(getCallback(false), m_name, ToPyInt((int)ImGui::GetIO().MouseWheel));
+			});
+			
 		}
 	}
 }

@@ -159,6 +159,12 @@ set(MARVEL_SOURCES
 	"src/core/AppItems/handlers/mvKeyPressHandler.cpp"
 	"src/core/AppItems/handlers/mvKeyReleaseHandler.cpp"
 	"src/core/AppItems/handlers/mvMouseMoveHandler.cpp"
+	"src/core/AppItems/handlers/mvMouseWheelHandler.cpp"
+	"src/core/AppItems/handlers/mvMouseClickHandler.cpp"
+	"src/core/AppItems/handlers/mvMouseDoubleClickHandler.cpp"
+	"src/core/AppItems/handlers/mvMouseDownHandler.cpp"
+	"src/core/AppItems/handlers/mvMouseReleaseHandler.cpp"
+	"src/core/AppItems/handlers/mvMouseDragHandler.cpp"
 
 	# imnodes
 	"vendor/imnodes/imnodes.cpp"
