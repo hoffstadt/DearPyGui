@@ -16,6 +16,7 @@ namespace Marvel {
 			MV_PARSER_ARG_SHOW)
 		);
 
+		parser.addArg<mvPyDataType::Object>("drag_data", mvArgType::KEYWORD_ARG, "None", "Drag data");
 		parser.addArg<mvPyDataType::String>("payload_type", mvArgType::KEYWORD_ARG, "'$$DPG_PAYLOAD'");
 
 		parser.finalize();
@@ -35,11 +36,10 @@ namespace Marvel {
 
 		if (ImGui::BeginDragDropSource(ImGuiDragDropFlags_None))
 		{
-			static int preview = 7;
-			ImGui::SetDragDropPayload(m_payloadType.c_str(), &preview, sizeof(int));
+			ImGui::SetDragDropPayload(m_payloadType.c_str(), this, sizeof(mvDragPayload));
 
 			if(m_parentPtr->getDragCallback())
-				mvApp::GetApp()->getCallbackRegistry().addCallback(m_parentPtr->getDragCallback(), m_parent, m_parentPtr->getDragData());
+				mvApp::GetApp()->getCallbackRegistry().addCallback(m_parentPtr->getDragCallback(), m_parent, GetPyNone());
 
 			for (auto& childset : m_children)
 			{
@@ -65,6 +65,15 @@ namespace Marvel {
 			return;
 
 		if (PyObject* item = PyDict_GetItemString(dict, "payload_type")) m_payloadType = ToString(item);
+
+		if (PyObject* item = PyDict_GetItemString(dict, "drag_data"))
+		{
+			if (m_dragData)
+				Py_XDECREF(m_dragData);
+
+			Py_XINCREF(item);
+			m_dragData = item;
+		}
 	}
 
 	void mvDragPayload::getSpecificConfiguration(PyObject* dict)

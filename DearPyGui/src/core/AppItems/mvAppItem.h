@@ -107,8 +107,7 @@ namespace Marvel {
         MV_PARSER_ARG_POS           = 1 << 13,
         MV_PARSER_ARG_DROP_CALLBACK = 1 << 14,
         MV_PARSER_ARG_DRAG_CALLBACK = 1 << 15,
-        MV_PARSER_ARG_DRAG_DATA     = 1 << 16,
-        MV_PARSER_ARG_PAYLOAD_TYPE  = 1 << 17,
+        MV_PARSER_ARG_PAYLOAD_TYPE  = 1 << 16,
     };
 
     using mvValueVariant = std::variant<
@@ -278,7 +277,6 @@ namespace Marvel {
         void                                hide           () { m_show = false; }
         virtual void                        show           () { m_show = true; }
         void                                setCallbackData(PyObject* data);
-        void                                setDragData    (PyObject* data);
 
         std::vector<mvRef<mvAppItem>>&      getChildren(int slot);
         void                                setChildren(int slot, std::vector<mvRef<mvAppItem>> children);
@@ -286,7 +284,6 @@ namespace Marvel {
         [[nodiscard]] bool                  isShown        () const { return m_show; }
         [[nodiscard]] PyObject*             getCallback    (bool ignore_enabled = true);  // returns the callback. If ignore_enable false and item is disabled then no callback will be returned.
         [[nodiscard]] PyObject*             getCallbackData()       { return m_callback_data; }
-        [[nodiscard]] PyObject*             getDragData()       { return m_dragData; }
         [[nodiscard]] PyObject*             getDragCallback()       { return m_dragCallback; }
         [[nodiscard]] PyObject*             getDropCallback()       { return m_dropCallback; }
         mvAppItemState&                     getState       () { return m_state; } 
@@ -386,7 +383,6 @@ namespace Marvel {
         // drag & drop
         PyObject* m_dragCallback = nullptr;
         PyObject* m_dropCallback = nullptr;
-        PyObject* m_dragData     = nullptr;
         std::string m_payloadType = "$$DPG_PAYLOAD";
 
     };
