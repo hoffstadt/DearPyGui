@@ -35,19 +35,22 @@ dpg.add_static_texture(100, 100, [], parent="mvTextureContainer", file="INTERNAL
 
 #dpg.show_tool("mvItemRegistry")
 
-sindatax = []
-sindatay = []
-for i in range(0, 1000):
-    sindatax.append(i/1000)
-    sindatay.append(0.5 + 0.5*sin(50*i/1000))
-
-with cxt.window(label="Drag Drop Testing"):
+buttons = []
 
 
-    plot_id = dpg.add_plot(label="Line Plot", x_axis_name="x", y_axis_name="y", height=400)
-    yaxis1 = dpg.add_plot_yaxis(label="New Y1 axis", parent=plot_id)
-    #dpg.add_line_series(sindatax, sindatay, label="0.5 + 0.5 * sin(x)", parent=yaxis1)
-    dpg.add_histogram_series(sindatax, label="Histogram1", parent=yaxis1)
-    legend_id = dpg.add_plot_legend(parent=plot_id)
+
+with cxt.window(label="Testing Features", height = 500) as w:
+
+
+    for i in range(0, 100):
+        buttons.append(dpg.add_button(label=str(i)))
+
+with cxt.window(label="Testing Features2"):
+
+    dpg.add_button(label="Set yScroll 25", callback=lambda: dpg.configure_item(w, scroll_y=25.0))
+    dpg.add_button(label="Set yScroll 50", callback=lambda: dpg.configure_item(w, scroll_y=500.0))
+    dpg.add_button(label="print", callback=lambda: print(dpg.get_item_configuration(w)))
+    dpg.add_button(label="Track 75", callback=lambda: dpg.configure_item(buttons[75], tracked=True))
+    dpg.add_button(label="Untrack 75", callback=lambda: dpg.configure_item(buttons[75], tracked=False))
 
 smpl.start_dearpygui()

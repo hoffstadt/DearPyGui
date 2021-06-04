@@ -109,6 +109,7 @@ namespace Marvel {
         MV_PARSER_ARG_DROP_CALLBACK = 1 << 14,
         MV_PARSER_ARG_DRAG_CALLBACK = 1 << 15,
         MV_PARSER_ARG_PAYLOAD_TYPE  = 1 << 16,
+        MV_PARSER_ARG_TRACKED       = 1 << 17,
     };
 
     using mvValueVariant = std::variant<
@@ -402,6 +403,8 @@ namespace Marvel {
         bool           m_enabled = true;
         PyObject*      m_callback = nullptr;
         PyObject*      m_callback_data = nullptr;
+        bool           m_tracked = false;
+        float          m_trackOffset = 0.5f; // 0.0f:top, 0.5f:center, 1.0f:bottom
 
         // drag & drop
         PyObject* m_dragCallback = nullptr;
