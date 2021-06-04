@@ -20,17 +20,12 @@ namespace Marvel {
 		MV_APPLY_WIDGET_REGISTRATION(mvAppItemType::mvPlot, add_plot)
 
 		MV_CREATE_EXTRA_COMMAND(reset_xticks);
-		MV_CREATE_EXTRA_COMMAND(reset_yticks);
 		MV_CREATE_EXTRA_COMMAND(set_xticks);
-		MV_CREATE_EXTRA_COMMAND(set_yticks);
 		MV_CREATE_EXTRA_COMMAND(is_plot_queried);
 		MV_CREATE_EXTRA_COMMAND(get_plot_query_area);
 		MV_CREATE_EXTRA_COMMAND(set_plot_xlimits_auto);
-		MV_CREATE_EXTRA_COMMAND(set_plot_ylimits_auto);
 		MV_CREATE_EXTRA_COMMAND(set_plot_xlimits);
-		MV_CREATE_EXTRA_COMMAND(set_plot_ylimits);
 		MV_CREATE_EXTRA_COMMAND(get_plot_xlimits);
-		MV_CREATE_EXTRA_COMMAND(get_plot_ylimits);
 
 		//-----------------------------------------------------------------------------
 		// Plot Marker Specifications
@@ -65,9 +60,6 @@ namespace Marvel {
 		MV_CREATE_CONSTANT(mvThemeCol_Plot_FrameBg,					 5L, 0L);
 		MV_CREATE_CONSTANT(mvThemeCol_Plot_PlotBg,					 6L, 0L);
 		MV_CREATE_CONSTANT(mvThemeCol_Plot_PlotBorder,				 7L, 0L);
-		MV_CREATE_CONSTANT(mvThemeCol_Plot_LegendBg,					 8L, 0L);
-		MV_CREATE_CONSTANT(mvThemeCol_Plot_LegendBorder,				 9L, 0L);
-		MV_CREATE_CONSTANT(mvThemeCol_Plot_LegendText,				10L, 0L);
 		MV_CREATE_CONSTANT(mvThemeCol_Plot_TitleText,					11L, 0L);
 		MV_CREATE_CONSTANT(mvThemeCol_Plot_InlayText,					12L, 0L);
 		MV_CREATE_CONSTANT(mvThemeCol_Plot_XAxis,						13L, 0L);
@@ -100,12 +92,6 @@ namespace Marvel {
 		MV_CREATE_CONSTANT(mvThemeStyle_Plot_PlotPaddingY,			17L, 1L);
 		MV_CREATE_CONSTANT(mvThemeStyle_Plot_LabelPaddingX,			18L, 0L);
 		MV_CREATE_CONSTANT(mvThemeStyle_Plot_LabelPaddingY,			18L, 1L);
-		MV_CREATE_CONSTANT(mvThemeStyle_Plot_LegendPaddingX,			19L, 0L);
-		MV_CREATE_CONSTANT(mvThemeStyle_Plot_LegendPaddingY,			19L, 1L);
-		MV_CREATE_CONSTANT(mvThemeStyle_Plot_LegendInnerPaddingX,		20L, 0L);
-		MV_CREATE_CONSTANT(mvThemeStyle_Plot_LegendInnerPaddingY,		20L, 1L);
-		MV_CREATE_CONSTANT(mvThemeStyle_Plot_LegendSpacingX,			21L, 0L);
-		MV_CREATE_CONSTANT(mvThemeStyle_Plot_LegendSpacingY,			21L, 1L);
 		MV_CREATE_CONSTANT(mvThemeStyle_Plot_MousePosPaddingX,		22L, 0L);
 		MV_CREATE_CONSTANT(mvThemeStyle_Plot_MousePosPaddingY,		22L, 1L);
 		MV_CREATE_CONSTANT(mvThemeStyle_Plot_AnnotationPaddingX,		23L, 0L);
@@ -119,17 +105,12 @@ namespace Marvel {
 
 		MV_START_EXTRA_COMMANDS
 			MV_ADD_EXTRA_COMMAND(reset_xticks);
-			MV_ADD_EXTRA_COMMAND(reset_yticks);
 			MV_ADD_EXTRA_COMMAND(set_xticks);
-			MV_ADD_EXTRA_COMMAND(set_yticks);
 			MV_ADD_EXTRA_COMMAND(is_plot_queried);
 			MV_ADD_EXTRA_COMMAND(get_plot_query_area);
 			MV_ADD_EXTRA_COMMAND(set_plot_xlimits_auto);
-			MV_ADD_EXTRA_COMMAND(set_plot_ylimits_auto);
 			MV_ADD_EXTRA_COMMAND(set_plot_xlimits);
-			MV_ADD_EXTRA_COMMAND(set_plot_ylimits);
 			MV_ADD_EXTRA_COMMAND(get_plot_xlimits);
-			MV_ADD_EXTRA_COMMAND(get_plot_ylimits);
 		MV_END_EXTRA_COMMANDS
 
 		MV_START_GENERAL_CONSTANTS
@@ -161,9 +142,6 @@ namespace Marvel {
 			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Plot_FrameBg,      mvColor(255, 255, 255,  18)),
 			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Plot_PlotBg,       mvColor(  0,   0,   0, 128)),
 			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Plot_PlotBorder,   mvImGuiCol_Border),
-			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Plot_LegendBg,     mvColor( 20,  20,  20, 255)),
-			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Plot_LegendBorder, mvImGuiCol_Border),
-			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Plot_LegendText,   mvImGuiCol_Text),
 			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Plot_TitleText,    mvImGuiCol_Text),
 			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Plot_InlayText,    mvImGuiCol_Text),
 			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Plot_XAxis,        mvImGuiCol_Text),
@@ -199,12 +177,6 @@ namespace Marvel {
 			MV_ADD_CONSTANT_F(mvThemeStyle_Plot_PlotPaddingY,		  10,  10),
 			MV_ADD_CONSTANT_F(mvThemeStyle_Plot_LabelPaddingX,		   5,  10),
 			MV_ADD_CONSTANT_F(mvThemeStyle_Plot_LabelPaddingY,		   5,  10),
-			MV_ADD_CONSTANT_F(mvThemeStyle_Plot_LegendPaddingX,		  10,  20),
-			MV_ADD_CONSTANT_F(mvThemeStyle_Plot_LegendPaddingY,		  10,  20),
-			MV_ADD_CONSTANT_F(mvThemeStyle_Plot_LegendInnerPaddingX,	   5,  10),
-			MV_ADD_CONSTANT_F(mvThemeStyle_Plot_LegendInnerPaddingY,	   5,  10),
-			MV_ADD_CONSTANT_F(mvThemeStyle_Plot_LegendSpacingX,		   5,  10),
-			MV_ADD_CONSTANT_F(mvThemeStyle_Plot_LegendSpacingY,		   0,  10),
 			MV_ADD_CONSTANT_F(mvThemeStyle_Plot_MousePosPaddingX,	  10,  20),
 			MV_ADD_CONSTANT_F(mvThemeStyle_Plot_MousePosPaddingY,	  10,  20),
 			MV_ADD_CONSTANT_F(mvThemeStyle_Plot_AnnotationPaddingX,	   2,   4),
@@ -220,83 +192,61 @@ namespace Marvel {
 		mvPlot(const std::string& name);
 
 		void updateBounds();
+		void updateFlags();
+		void updateAxesNames();
 
 		// settings
 		void SetColorMap    (ImPlotColormap colormap);
 		void resetXTicks    ();
-		void resetYTicks    ();
 		void setXTicks      (const std::vector<std::string>& labels, const std::vector<double>& locations);
-		void setYTicks      (const std::vector<std::string>& labels, const std::vector<double>& locations);
 		void draw           (ImDrawList* drawlist, float x, float y) override;
 		void setXLimits     (float x_min, float x_max);
-		void setYLimits     (float y_min, float y_max);
-		void setY2Limits     (float y_min, float y_max);
-		void setY3Limits     (float y_min, float y_max);
-		void setXLimitsAuto ();
-		void setYLimitsAuto ();
-		void setY2LimitsAuto ();
-		void setY3LimitsAuto ();
+
+		void addFlag         (ImPlotFlags flag);
+		void removeFlag      (ImPlotFlags flag);
 
 		[[nodiscard]] bool isPlotQueried() const;
 		float* getPlotQueryArea();
 		
 		ImPlotFlags        getFlags         () const { return m_flags; }
 		ImPlotAxisFlags    getXFlags        () const { return m_xflags; }
-		ImPlotAxisFlags    getYFlags        () const { return m_yflags; }
-		ImPlotAxisFlags    getY2Flags        () const { return m_y2flags; }
-		ImPlotAxisFlags    getY3Flags        () const { return m_y3flags; }
 		const std::string& getXAxisName     () const { return m_xaxisName; }
-		const std::string& getYAxisName     () const { return m_yaxisName; }
 		const ImVec2&      getXLimits       () const { return m_xlimits_actual; }
-		const ImVec2&      getYLimits       () const { return m_ylimits_actual; }
-		const ImVec2&      getY2Limits       () const { return m_y2limits_actual; }
-		const ImVec2&      getY3Limits       () const { return m_y3limits_actual; }
 
+		void onChildRemoved(mvRef<mvAppItem> item) override;
 		void onChildAdd(mvRef<mvAppItem> item) override;
 		void handleSpecificKeywordArgs(PyObject* dict) override;
 		void getSpecificConfiguration(PyObject* dict) override;
 		bool canChildBeAdded(mvAppItemType type) override;
+		void postDraw() override;
 
 	private:
 
 		std::string                   m_xaxisName;
-		std::string                   m_yaxisName;
-		ImPlotFlags                   m_flags    = 0;
+		std::string                   m_y1axisName;
+		std::string                   m_y2axisName;
+		std::string                   m_y3axisName;
+		ImPlotFlags                   m_flags    = ImPlotFlags_NoLegend;
 		ImPlotAxisFlags               m_xflags  = 0;
 		ImPlotAxisFlags               m_yflags  = 0;
+		ImPlotAxisFlags               m_y1flags  = 0;
 		ImPlotAxisFlags               m_y2flags  = 0;
-		ImPlotAxisFlags               m_y3flags  = 0;
 
 		ImPlotColormap                m_colormap = ImPlotColormap_Deep;
 
 		bool                          m_setXLimits = false;
-		bool                          m_setYLimits = false;
 		bool                          m_equalAspectRatios = false;
 		ImVec2                        m_xlimits;
 		ImVec2                        m_xlimits_actual;
-		ImVec2                        m_ylimits;
-		ImVec2                        m_ylimits_actual;
-		PyObject*                    m_queryCallback = nullptr;
+
+		PyObject*                     m_queryCallback = nullptr;
 		bool                          m_queried = false;
 		float                         m_queryArea[4] = {0.0f , 0.0f, 0.0f, 0.0f};
 		bool                          m_dirty = false;
 		
 		std::vector<std::string>      m_xlabels;
-		std::vector<std::string>      m_ylabels;
 		std::vector<const char*>      m_xclabels; // to prevent conversion from string to char* every frame
-		std::vector<const char*>      m_yclabels; // to prevent conversion from string to char* every frame
 		std::vector<double>           m_xlabelLocations;
-		std::vector<double>           m_ylabelLocations;
-
-		// y axis 2
-		bool                          m_setY2Limits = false;
-		ImVec2                        m_y2limits;
-		ImVec2                        m_y2limits_actual;
-
-		// y axis 3
-		bool                          m_setY3Limits = false;
-		ImVec2                        m_y3limits;
-		ImVec2                        m_y3limits_actual;
 	};
 
 }

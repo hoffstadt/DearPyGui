@@ -342,6 +342,8 @@ namespace Marvel{
 
 					children[index] = upperitem;
 					children[index - 1] = loweritem;
+
+					updateLocations();
 				}
 
 				return true;
@@ -397,6 +399,8 @@ namespace Marvel{
 
 					children[index] = loweritem;
 					children[index + 1] = upperitem;
+
+					updateLocations();
 				}
 
 				return true;
@@ -423,9 +427,19 @@ namespace Marvel{
 
 		auto operation = [&](std::vector<mvRef<mvAppItem>>& children)
 		{
-			//this is the container, add item to beginning.
+			//this is the container, add item to end.
 			if (before.empty())
 			{
+
+				if (m_name == parent)
+				{
+					item->m_location = m_children[item->getTarget()].size();
+					m_children[item->getTarget()].push_back(item);
+					onChildAdd(item);
+					item->m_parentPtr = this;
+					item->m_parent = m_name;
+					return true;
+				}
 
 				// check children
 				for (auto& childslot : m_children)
@@ -442,6 +456,7 @@ namespace Marvel{
 				}
 			}
 
+			// this is the container, add item to beginning.
 			else
 			{
 				bool beforeFound = false;
@@ -469,7 +484,7 @@ namespace Marvel{
 					std::vector<mvRef<mvAppItem>> oldchildren = children;
 					children.clear();
 
-					for (auto child : oldchildren)
+					for (auto& child : oldchildren)
 					{
 						if (child->m_name == before)
 						{
@@ -479,6 +494,8 @@ namespace Marvel{
 						children.push_back(child);
 
 					}
+
+					updateLocations();
 
 					return true;
 				}
@@ -498,15 +515,6 @@ namespace Marvel{
 			return false;
 		};
 
-		if (m_name == parent)
-		{
-			m_children[item->getTarget()].push_back(item);
-			onChildAdd(item);
-			item->m_parentPtr = this;
-			item->m_parent = m_name;
-			return true;
-		}
-
 		for (auto& childset : m_children)
 		{
 			if (operation(childset))
@@ -518,7 +526,7 @@ namespace Marvel{
 
 	bool mvAppItem::addItem(mvRef<mvAppItem> item)
 	{
-
+		item->m_location = m_children[item->getTarget()].size();
 		m_children[item->getTarget()].push_back(item);
 		onChildAdd(item);
 
@@ -590,6 +598,7 @@ namespace Marvel{
 			return false;
 		};
 
+		// todo: fix this
 		return operation(m_children[item->getTarget()]);
 	}
 
@@ -642,10 +651,26 @@ namespace Marvel{
 		for (auto& childset : m_children)
 		{
 			if (operation(childset))
+			{
+				updateLocations();
 				return true;
+			}
 		}
 
 		return false;
+	}
+
+	void mvAppItem::updateLocations()
+	{
+		for (auto& childset : m_children)
+		{
+			int index = 0;
+			for (auto& child : childset)
+			{
+				child->m_location = index;
+				index++;
+			}
+		}
 	}
 
 	void mvAppItem::deleteChildren()
@@ -702,6 +727,8 @@ namespace Marvel{
 
 					childset.push_back(item);
 				}
+
+				updateLocations();
 
 				return stolenChild;
 			}
