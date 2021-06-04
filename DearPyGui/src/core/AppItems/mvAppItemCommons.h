@@ -122,6 +122,8 @@
 #include "plots/mvStairSeries.h"
 #include "plots/mvCandleSeries.h"
 #include "plots/mvInfiniteLineSeries.h"
+#include "plots/mvHistogramSeries.h"
+#include "plots/mv2dHistogramSeries.h"
 
 #include "nodes/mvNodeEditor.h"
 #include "nodes/mvNode.h"

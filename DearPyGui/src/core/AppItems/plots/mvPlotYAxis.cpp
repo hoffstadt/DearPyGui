@@ -178,6 +178,8 @@ namespace Marvel {
 		if (type == mvAppItemType::mvLabelSeries) return true;
 		if (type == mvAppItemType::mvCandleSeries) return true;
 		if (type == mvAppItemType::mvAreaSeries) return true;
+		if (type == mvAppItemType::mvHistogramSeries) return true;
+		if (type == mvAppItemType::mv2dHistogramSeries) return true;
 
 		mvThrowPythonError(1000, "Plot children must be compatible.");
 		MV_ITEM_REGISTRY_ERROR("Plot children must be compatible.");

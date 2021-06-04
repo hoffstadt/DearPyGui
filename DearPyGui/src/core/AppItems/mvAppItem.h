@@ -54,6 +54,7 @@ namespace Marvel {
         mvScatterSeries, mvStemSeries, mvStairSeries, mvBarSeries,
         mvErrorSeries, mvVLineSeries, mvHLineSeries, mvHeatSeries,
         mvImageSeries, mvPieSeries, mvShadeSeries, mvLabelSeries,
+        mvHistogramSeries, mv2dHistogramSeries,
         mvCandleSeries, mvAreaSeries, mvColorMapScale, mvSlider3D,
         mvKnobFloat, mvLoadingIndicator, mvNodeLink, 
         mvTextureContainer, mvStaticTexture, mvDynamicTexture,
@@ -186,6 +187,8 @@ namespace Marvel {
         friend class mvStemSeries;
         friend class mvTextureContainer;
         friend class mvViewportDrawlist;
+        friend class mvHistogramSeries;
+        friend class mv2dHistogramSeries;
        
     public:
 
