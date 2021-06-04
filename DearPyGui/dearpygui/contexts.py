@@ -7,10 +7,11 @@ import dearpygui.core as internal_dpg
 ########################################################################################################################
 
 @contextmanager
-def drag_payload(*args, id:str='', show: bool =True, parent: str='', payload_type: str='$$DPG_PAYLOAD'):
+def drag_payload(*args, id:str='', show: bool =True, parent: str='', payload_type: str='$$DPG_PAYLOAD', drag_data: Any = None):
    
    try:
-        widget = internal_dpg.add_drag_payload(*args, id=id, show=show, parent=parent, payload_type=payload_type)
+        widget = internal_dpg.add_drag_payload(*args, id=id, show=show, parent=parent, payload_type=payload_type,
+                                               drag_data=drag_data)
         internal_dpg.push_container_stack(widget)
         yield widget
    finally:

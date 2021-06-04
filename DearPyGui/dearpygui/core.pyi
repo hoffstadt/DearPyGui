@@ -26,7 +26,7 @@ def add_bar_series(x : List[float], y : List[float], *, id: str =..., parent: st
 	"""Undocumented function"""
 	...
 
-def add_button(*, id: str =..., width: int =0, height: int =0, indent: int =-1, parent: str ='', before: str ='', label: str ='', payload_type: str ='$$DPG_PAYLOAD', callback: Callable =None, drag_callback: Callable =None, callback_data: Any =None, drag_data: Any =None, show: bool =True, enabled: bool =True, pos: List[int] =[], small: bool =False, arrow: bool =False, direction: int =0) -> str:
+def add_button(*, id: str =..., width: int =0, height: int =0, indent: int =-1, parent: str ='', before: str ='', label: str ='', payload_type: str ='$$DPG_PAYLOAD', callback: Callable =None, drag_callback: Callable =None, callback_data: Any =None, show: bool =True, enabled: bool =True, pos: List[int] =[], small: bool =False, arrow: bool =False, direction: int =0) -> str:
 	"""Undocumented function"""
 	...
 
@@ -102,7 +102,7 @@ def add_drag_line(*, id: str =..., parent: str ='', before: str ='', label: str 
 	"""Undocumented function"""
 	...
 
-def add_drag_payload(*, id: str =..., parent: str ='', show: bool =True, payload_type: str ='$$DPG_PAYLOAD') -> str:
+def add_drag_payload(*, id: str =..., parent: str ='', show: bool =True, drag_data: Any =None, payload_type: str ='$$DPG_PAYLOAD') -> str:
 	"""Undocumented function"""
 	...
 
