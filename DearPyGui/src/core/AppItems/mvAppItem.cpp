@@ -120,6 +120,12 @@ namespace Marvel{
 		if(args & MV_PARSER_ARG_SHOW)          parser.addArg<mvPyDataType::Bool>("show", mvArgType::KEYWORD_ARG, "True", "Attempt to render");
 		if(args & MV_PARSER_ARG_ENABLED)       parser.addArg<mvPyDataType::Bool>("enabled", mvArgType::KEYWORD_ARG, "True");
 		if(args & MV_PARSER_ARG_POS)		   parser.addArg<mvPyDataType::IntList>("pos", mvArgType::KEYWORD_ARG, "[]", "Places the item relative to window coordinates, [0,0] is top left.");
+		
+		if (args & MV_PARSER_ARG_TRACKED)
+		{
+			parser.addArg<mvPyDataType::Bool>("tracked", mvArgType::KEYWORD_ARG, "False", "Scroll tracking");
+			parser.addArg<mvPyDataType::Float>("track_offset", mvArgType::KEYWORD_ARG, "0.5", "0.0f:top, 0.5f:center, 1.0f:bottom");
+		}
 
 	}
 
@@ -890,6 +896,8 @@ namespace Marvel{
 		if (PyObject* item = PyDict_GetItemString(dict, "payload_type")) setPayloadType(ToString(item));
 		if (PyObject* item = PyDict_GetItemString(dict, "source")) setDataSource(ToString(item));
 		if (PyObject* item = PyDict_GetItemString(dict, "enabled")) setEnabled(ToBool(item));
+		if (PyObject* item = PyDict_GetItemString(dict, "tracked")) m_tracked = ToBool(item);
+		if (PyObject* item = PyDict_GetItemString(dict, "track_offset")) m_trackOffset = ToFloat(item);
 		if (PyObject* item = PyDict_GetItemString(dict, "default_value")) setPyValue(item);
 
 		if (PyObject* item = PyDict_GetItemString(dict, "callback"))
@@ -1010,7 +1018,9 @@ namespace Marvel{
 		PyDict_SetItemString(dict, "source", ToPyString(m_source));
 		PyDict_SetItemString(dict, "show", ToPyBool(m_show));
 		PyDict_SetItemString(dict, "enabled", ToPyBool(m_enabled));
+		PyDict_SetItemString(dict, "tracked", ToPyBool(m_tracked));
 		PyDict_SetItemString(dict, "width", ToPyInt(m_width));
+		PyDict_SetItemString(dict, "track_offset", ToPyFloat(m_trackOffset));
 		PyDict_SetItemString(dict, "height", ToPyInt(m_height));
 		PyDict_SetItemString(dict, "indent", ToPyInt(m_indent));
 

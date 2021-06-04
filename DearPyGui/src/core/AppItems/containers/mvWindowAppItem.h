@@ -146,6 +146,14 @@ namespace Marvel {
 		PyObject*  m_on_close = nullptr;
 		mvVec2     m_min_size = { 32.0f, 32.0f };
 		mvVec2     m_max_size = { 30000.0f, 30000.0f };
+
+		// scroll info
+		float m_scrollX = 0.0f;
+		float m_scrollY = 0.0f;
+		float m_scrollMaxX = 0.0f;
+		float m_scrollMaxY = 0.0f;
+		bool  m_scrollXSet = false;
+		bool  m_scrollYSet = false;
 		
 	};
 
