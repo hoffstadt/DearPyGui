@@ -4,7 +4,7 @@
 
 namespace Marvel {
 
-	MV_REGISTER_WIDGET(mvAreaSeries, MV_ITEM_DESC_DEFAULT, StorageValueTypes::Series, 1);
+	MV_REGISTER_WIDGET(mvAreaSeries, MV_ITEM_DESC_DEFAULT | MV_ITEM_DESC_CONTAINER, StorageValueTypes::Series, 1);
 	class mvAreaSeries : public mvSeriesBase
 	{
 

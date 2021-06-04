@@ -30,8 +30,6 @@ namespace Marvel {
 
 		parser.addArg<mvPyDataType::Double>("angle", mvArgType::KEYWORD_ARG, "90.0");
 
-		parser.addArg<mvPyDataType::Integer>("axis", mvArgType::KEYWORD_ARG, "0");
-
 		parser.addArg<mvPyDataType::Bool>("normalize", mvArgType::KEYWORD_ARG, "False");
 		parser.addArg<mvPyDataType::Bool>("contribute_to_bounds", mvArgType::KEYWORD_ARG, "True");
 
@@ -50,27 +48,29 @@ namespace Marvel {
 		ScopedID id;
 		mvImPlotThemeScope scope(this);
 
-		switch (m_axis)
-		{
-		case ImPlotYAxis_1:
-			ImPlot::SetPlotYAxis(ImPlotYAxis_1);
-			break;
-		case ImPlotYAxis_2:
-			ImPlot::SetPlotYAxis(ImPlotYAxis_2);
-			break;
-		case ImPlotYAxis_3:
-			ImPlot::SetPlotYAxis(ImPlotYAxis_3);
-			break;
-		default:
-			break;
-		}
-
 		static const std::vector<double>* xptr;
 
 		xptr = &(*m_value.get())[0];
 
 		ImPlot::PlotPieChart(m_clabels.data(), xptr->data(), (int)m_labels.size(),
 			m_x, m_y, m_radius, m_normalize, m_format.c_str(), m_angle);
+
+		// Begin a popup for a legend entry.
+		if (ImPlot::BeginLegendPopup(m_label.c_str(), 1))
+		{
+			for (auto& childset : m_children)
+			{
+				for (auto& item : childset)
+				{
+					// skip item if it's not shown
+					if (!item->m_show)
+						continue;
+					item->draw(drawlist, ImPlot::GetPlotPos().x, ImPlot::GetPlotPos().y);
+					item->getState().update();
+				}
+			}
+			ImPlot::EndLegendPopup();
+		}
 
 	}
 
@@ -121,7 +121,6 @@ namespace Marvel {
 		if (dict == nullptr)
 			return;
 
-		if (PyObject* item = PyDict_GetItemString(dict, "axis")) m_axis = (ImPlotYAxis_)ToInt(item);
 		if (PyObject* item = PyDict_GetItemString(dict, "format")) m_format = ToString(item);
 		if (PyObject* item = PyDict_GetItemString(dict, "x")) m_x = ToDouble(item);
 		if (PyObject* item = PyDict_GetItemString(dict, "y")) m_y = ToDouble(item);
@@ -152,7 +151,6 @@ namespace Marvel {
 		if (dict == nullptr)
 			return;
 
-		PyDict_SetItemString(dict, "axis", ToPyInt(m_axis));
 		PyDict_SetItemString(dict, "format", ToPyString(m_format));
 		PyDict_SetItemString(dict, "x", ToPyDouble(m_x));
 		PyDict_SetItemString(dict, "y", ToPyDouble(m_y));

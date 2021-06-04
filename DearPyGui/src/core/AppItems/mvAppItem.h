@@ -58,7 +58,7 @@ namespace Marvel {
         mvKnobFloat, mvLoadingIndicator, mvNodeLink, 
         mvTextureContainer, mvStaticTexture, mvDynamicTexture,
         mvStagingContainer, mvDrawLayer, mvViewportDrawlist,
-        mvFileExtension, 
+        mvFileExtension, mvPlotLegend, mvPlotYAxis,
         mvHandlerRegistry, mvKeyDownHandler, mvKeyPressHandler,
         mvKeyReleaseHandler, mvMouseMoveHandler, mvMouseWheelHandler,
         mvMouseClickHandler, mvMouseDoubleClickHandler, mvMouseDownHandler,
@@ -168,9 +168,25 @@ namespace Marvel {
         friend class mvDrawlist;
         friend class mvDrawLayer;
         friend class mvPlot;
+        friend class mvPlotYAxis;
+        friend class mvLineSeries;
+        friend class mvAreaSeries;
+        friend class mvBarSeries;
+        friend class mvCandleSeries;
+        friend class mvErrorSeries;
+        friend class mvHeatSeries;
+        friend class mvImageSeries;
+        friend class mvVLineSeries;
+        friend class mvHLineSeries;
+        friend class mvLabelSeries;
+        friend class mvPieSeries;
+        friend class mvScatterSeries;
+        friend class mvShadeSeries;
+        friend class mvStairSeries;
+        friend class mvStemSeries;
         friend class mvTextureContainer;
         friend class mvViewportDrawlist;
-
+       
     public:
 
         static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
@@ -234,6 +250,7 @@ namespace Marvel {
         virtual bool preDraw();
         virtual void draw(ImDrawList* drawlist, float x, float y) = 0;
         virtual void postDraw();
+        virtual void customAction() {};
 
         //-----------------------------------------------------------------------------
         // These methods handle setting the widget's value using PyObject*'s or
@@ -274,9 +291,10 @@ namespace Marvel {
         void                                setCallback    (PyObject* callback);
         void                                setDragCallback(PyObject* callback);
         void                                setDropCallback(PyObject* callback);
-        void                                hide           () { m_show = false; }
+        virtual void                        hide           () { m_show = false; }
         virtual void                        show           () { m_show = true; }
         void                                setCallbackData(PyObject* data);
+        void                                updateLocations();
 
         std::vector<mvRef<mvAppItem>>&      getChildren(int slot);
         void                                setChildren(int slot, std::vector<mvRef<mvAppItem>> children);
@@ -293,6 +311,7 @@ namespace Marvel {
         int                                 getHeight() const { return m_height; }
         const std::string&                  getName() const { return m_name; }
         mvAppItem*                          getRoot() const;
+        int                                 getLocation() const { return m_location; }
 
         // theme colors
         mvThemeColorGroup&                        getColorGroup        ();
@@ -344,6 +363,7 @@ namespace Marvel {
         bool                          m_focusNextFrame = false;
         bool                          m_dirtyPos = false;
         ImVec2                        m_previousCursorPos = { 0.0f, 0.0f };
+        int                           m_location = -1;
 
         mvAppItem*                    m_parentPtr = nullptr;
         std::vector<mvRef<mvAppItem>> m_children[5] = { {}, {}, {}, {}, {} };
