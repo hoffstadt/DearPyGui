@@ -156,6 +156,8 @@ set(MARVEL_SOURCES
 	"src/core/AppItems/plots/mvShadeSeries.cpp"
 	"src/core/AppItems/plots/mvLabelSeries.cpp"
 	"src/core/AppItems/plots/mvCandleSeries.cpp"
+	"src/core/AppItems/plots/mvHistogramSeries.cpp"
+	"src/core/AppItems/plots/mv2dHistogramSeries.cpp"
 
 	"src/core/AppItems/handlers/mvHandlerRegistry.cpp"
 	"src/core/AppItems/handlers/mvKeyDownHandler.cpp"

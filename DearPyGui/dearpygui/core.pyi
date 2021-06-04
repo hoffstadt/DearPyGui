@@ -6,6 +6,10 @@ from dearpygui.core import *
 ##########################################################
 
 # ~ Dear PyGui Version: master
+def add_2d_histogram_series(x : List[float], y : List[float], *, id: str =..., parent: str ='', before: str ='', label: str ='', source: str ='', show: bool =True, xbins: int =-1, ybins: int =-1, xmin_range: float =0.0, xmax_range: float =1.0, ymin_range: float =0.0, ymax_range: float =1.0, density: bool =False, outliers: bool =True, contribute_to_bounds: bool =True) -> str:
+	"""Undocumented function"""
+	...
+
 def add_3d_slider(*, id: str =..., width: int =0, height: int =0, indent: int =-1, parent: str ='', before: str ='', label: str ='', source: str ='', callback: Callable =None, callback_data: Any =None, show: bool =True, pos: List[int] =[], default_value: List[float] =(0.0, 0.0, 0.0, 0.0), max_x: float =100.0, max_y: float =100.0, max_z: float =100.0, min_x: float =0.0, min_y: float =0.0, min_z: float =0.0, scale: float =1.0) -> str:
 	"""Undocumented function"""
 	...
@@ -159,6 +163,10 @@ def add_handler_registry(*, id: str =..., show: bool =True) -> str:
 	...
 
 def add_heat_series(x : List[float], rows : int, cols : int, *, id: str =..., parent: str ='', before: str ='', label: str ='', source: str ='', show: bool =True, scale_min: float =0.0, scale_max: float =1.0, bounds_min: Any =(0.0, 0.0), bounds_max: Any =(1.0, 1.0), format: str ='%0.1f', contribute_to_bounds: bool =True) -> str:
+	"""Undocumented function"""
+	...
+
+def add_histogram_series(x : List[float], *, id: str =..., parent: str ='', before: str ='', label: str ='', source: str ='', show: bool =True, bins: int =-1, bar_scale: float =1.0, min_range: float =0.0, max_range: float =1.0, cumlative: bool =False, density: bool =False, outliers: bool =True, contribute_to_bounds: bool =True) -> str:
 	"""Undocumented function"""
 	...
 
