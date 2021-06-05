@@ -99,7 +99,6 @@
 #include "custom/mvKnob.h"
 #include "custom/mvLoadingIndicator.h"
 
-#include "composite/mvLogger.h"
 #include "composite/mvFileDialog.h"
 #include "composite/mvFileExtension.h"
 

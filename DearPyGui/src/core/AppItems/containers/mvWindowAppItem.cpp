@@ -4,46 +4,94 @@
 #include "mvItemRegistry.h"
 #include "mvImGuiThemeScope.h"
 #include "mvFontScope.h"
+#include "mvLog.h"
+#include "mvPythonExceptions.h"
+#include "mvChild.h"
 
 namespace Marvel {
 
 	void mvWindowAppItem::InsertParser(std::map<std::string, mvPythonParser>* parsers)
 	{
+		{
+			mvPythonParser parser(mvPyDataType::String, "Undocumented function", { "Containers", "Widgets" });
+			mvAppItem::AddCommonArgs(parser, (CommonParserArgs)(
+				MV_PARSER_ARG_ID |
+				MV_PARSER_ARG_WIDTH |
+				MV_PARSER_ARG_HEIGHT |
+				MV_PARSER_ARG_INDENT |
+				MV_PARSER_ARG_LABEL |
+				MV_PARSER_ARG_SHOW)
+			);
 
-		mvPythonParser parser(mvPyDataType::String, "Undocumented function", { "Containers", "Widgets" });
-		mvAppItem::AddCommonArgs(parser, (CommonParserArgs)(
-			MV_PARSER_ARG_ID |
-			MV_PARSER_ARG_WIDTH |
-			MV_PARSER_ARG_HEIGHT |
-			MV_PARSER_ARG_INDENT |
-			MV_PARSER_ARG_LABEL |
-			MV_PARSER_ARG_SHOW)
-		);
+			parser.addArg<mvPyDataType::IntList>("min_size", mvArgType::KEYWORD_ARG, "[32, 32]", "Minimum window size.");
+			parser.addArg<mvPyDataType::IntList>("max_size", mvArgType::KEYWORD_ARG, "[30000, 30000]", "Maximum window size.");
 
-		parser.addArg<mvPyDataType::IntList>("min_size", mvArgType::KEYWORD_ARG, "[32, 32]", "Minimum window size.");
-		parser.addArg<mvPyDataType::IntList>("max_size", mvArgType::KEYWORD_ARG, "[30000, 30000]", "Maximum window size.");
+			parser.addArg<mvPyDataType::Bool>("menubar", mvArgType::KEYWORD_ARG, "False");
+			parser.addArg<mvPyDataType::Bool>("collapsed", mvArgType::KEYWORD_ARG, "False", "Collapse the window");
+			parser.addArg<mvPyDataType::Bool>("autosize", mvArgType::KEYWORD_ARG, "False", "Autosized the window to fit it's items.");
+			parser.addArg<mvPyDataType::Bool>("no_resize", mvArgType::KEYWORD_ARG, "False", "Allows for the window size to be changed or fixed");
+			parser.addArg<mvPyDataType::Bool>("no_title_bar", mvArgType::KEYWORD_ARG, "False", "Title name for the title bar of the window");
+			parser.addArg<mvPyDataType::Bool>("no_move", mvArgType::KEYWORD_ARG, "False", "Allows for the window's position to be changed or fixed");
+			parser.addArg<mvPyDataType::Bool>("no_scrollbar", mvArgType::KEYWORD_ARG, "False", " Disable scrollbars (window can still scroll with mouse or programmatically)");
+			parser.addArg<mvPyDataType::Bool>("no_collapse", mvArgType::KEYWORD_ARG, "False", "Disable user collapsing window by double-clicking on it");
+			parser.addArg<mvPyDataType::Bool>("horizontal_scrollbar", mvArgType::KEYWORD_ARG, "False", "Allow horizontal scrollbar to appear (off by default).");
+			parser.addArg<mvPyDataType::Bool>("no_focus_on_appearing", mvArgType::KEYWORD_ARG, "False", "Disable taking focus when transitioning from hidden to visible state");
+			parser.addArg<mvPyDataType::Bool>("no_bring_to_front_on_focus", mvArgType::KEYWORD_ARG, "False", "Disable bringing window to front when taking focus (e.g. clicking on it or programmatically giving it focus)");
+			parser.addArg<mvPyDataType::Bool>("no_close", mvArgType::KEYWORD_ARG, "False");
+			parser.addArg<mvPyDataType::Bool>("no_background", mvArgType::KEYWORD_ARG, "False");
+			parser.addArg<mvPyDataType::Bool>("modal", mvArgType::KEYWORD_ARG, "False");
+			parser.addArg<mvPyDataType::Bool>("popup", mvArgType::KEYWORD_ARG, "False");
 
-		parser.addArg<mvPyDataType::Bool>("menubar", mvArgType::KEYWORD_ARG, "False");
-		parser.addArg<mvPyDataType::Bool>("collapsed", mvArgType::KEYWORD_ARG, "False", "Collapse the window");
-		parser.addArg<mvPyDataType::Bool>("autosize", mvArgType::KEYWORD_ARG, "False", "Autosized the window to fit it's items.");
-		parser.addArg<mvPyDataType::Bool>("no_resize", mvArgType::KEYWORD_ARG, "False", "Allows for the window size to be changed or fixed");
-		parser.addArg<mvPyDataType::Bool>("no_title_bar", mvArgType::KEYWORD_ARG, "False", "Title name for the title bar of the window");
-		parser.addArg<mvPyDataType::Bool>("no_move", mvArgType::KEYWORD_ARG, "False", "Allows for the window's position to be changed or fixed");
-		parser.addArg<mvPyDataType::Bool>("no_scrollbar", mvArgType::KEYWORD_ARG, "False", " Disable scrollbars (window can still scroll with mouse or programmatically)");
-		parser.addArg<mvPyDataType::Bool>("no_collapse", mvArgType::KEYWORD_ARG, "False", "Disable user collapsing window by double-clicking on it");
-		parser.addArg<mvPyDataType::Bool>("horizontal_scrollbar", mvArgType::KEYWORD_ARG, "False", "Allow horizontal scrollbar to appear (off by default).");
-		parser.addArg<mvPyDataType::Bool>("no_focus_on_appearing", mvArgType::KEYWORD_ARG, "False", "Disable taking focus when transitioning from hidden to visible state");
-		parser.addArg<mvPyDataType::Bool>("no_bring_to_front_on_focus", mvArgType::KEYWORD_ARG, "False", "Disable bringing window to front when taking focus (e.g. clicking on it or programmatically giving it focus)");
-		parser.addArg<mvPyDataType::Bool>("no_close", mvArgType::KEYWORD_ARG, "False");
-		parser.addArg<mvPyDataType::Bool>("no_background", mvArgType::KEYWORD_ARG, "False");
-		parser.addArg<mvPyDataType::Bool>("modal", mvArgType::KEYWORD_ARG, "False");
-		parser.addArg<mvPyDataType::Bool>("popup", mvArgType::KEYWORD_ARG, "False");
+			parser.addArg<mvPyDataType::Callable>("on_close", mvArgType::KEYWORD_ARG, "None", "Callback ran when window is closed");
 
-		parser.addArg<mvPyDataType::Callable>("on_close", mvArgType::KEYWORD_ARG, "None", "Callback ran when window is closed");
+			parser.finalize();
 
-		parser.finalize();
+			parsers->insert({ s_command, parser });
+		}
 
-		parsers->insert({ s_command, parser });
+		{
+			mvPythonParser parser(mvPyDataType::None);
+			parser.addArg<mvPyDataType::String>("item");
+			parser.addArg<mvPyDataType::Float>("value");
+			parser.finalize();
+			parsers->insert({ "set_x_scroll", parser });
+		}
+
+		{
+			mvPythonParser parser(mvPyDataType::None);
+			parser.addArg<mvPyDataType::String>("item");
+			parser.addArg<mvPyDataType::Float>("value");
+			parser.finalize();
+			parsers->insert({ "set_y_scroll", parser });
+		}
+
+		{
+			mvPythonParser parser(mvPyDataType::Float);
+			parser.addArg<mvPyDataType::String>("item");
+			parser.finalize();
+			parsers->insert({ "get_x_scroll", parser });
+		}
+
+		{
+			mvPythonParser parser(mvPyDataType::Float);
+			parser.addArg<mvPyDataType::String>("item");
+			parser.finalize();
+			parsers->insert({ "get_y_scroll", parser });
+		}
+
+		{
+			mvPythonParser parser(mvPyDataType::Float);
+			parser.addArg<mvPyDataType::String>("item");
+			parser.finalize();
+			parsers->insert({ "get_x_scroll_max", parser });
+		}
+
+		{
+			mvPythonParser parser(mvPyDataType::Float);
+			parser.addArg<mvPyDataType::String>("item");
+			parser.finalize();
+			parsers->insert({ "get_y_scroll_max", parser });
+		}
 	}
 
 	mvWindowAppItem::mvWindowAppItem(const std::string& name, bool mainWindow)
@@ -291,13 +339,19 @@ namespace Marvel {
 
 		if (m_scrollXSet)
 		{
-			ImGui::SetScrollX(m_scrollX);
+			if (m_scrollX < 0.0f)
+				ImGui::SetScrollHereX(1.0f);
+			else
+				ImGui::SetScrollX(m_scrollX);
 			m_scrollXSet = false;
 		}
 
 		if (m_scrollYSet)
 		{
-			ImGui::SetScrollY(m_scrollY);
+			if (m_scrollY < 0.0f)
+				ImGui::SetScrollHereY(1.0f);
+			else
+				ImGui::SetScrollY(m_scrollY);
 			m_scrollYSet = false;
 		}
 
@@ -356,18 +410,6 @@ namespace Marvel {
 	{
 		if (dict == nullptr)
 			return;
-
-		if (PyObject* item = PyDict_GetItemString(dict, "scroll_x"))
-		{
-			m_scrollX = ToFloat(item);
-			m_scrollXSet = true;
-		}
-
-		if (PyObject* item = PyDict_GetItemString(dict, "scroll_y"))
-		{
-			m_scrollY = ToFloat(item);
-			m_scrollYSet = true;
-		}
 
 		if (PyObject* item = PyDict_GetItemString(dict, "modal"))
 		{
@@ -448,10 +490,6 @@ namespace Marvel {
 		PyDict_SetItemString(dict, "collapsed", ToPyBool(m_collapsed));
 		PyDict_SetItemString(dict, "min_size", ToPyPair(m_min_size.x, m_min_size.y));
 		PyDict_SetItemString(dict, "max_size", ToPyPair(m_min_size.x, m_min_size.y));
-		PyDict_SetItemString(dict, "scroll_x", ToPyFloat(m_scrollX));
-		PyDict_SetItemString(dict, "scroll_y", ToPyFloat(m_scrollY));
-		PyDict_SetItemString(dict, "scroll_x_max", ToPyFloat(m_scrollMaxX));
-		PyDict_SetItemString(dict, "scroll_y_max", ToPyFloat(m_scrollMaxY));
 
 		// helper to check and set bit
 		auto checkbitset = [dict](const char* keyword, int flag, const int& flags)
@@ -471,6 +509,256 @@ namespace Marvel {
 		checkbitset("no_bring_to_front_on_focus", ImGuiWindowFlags_NoBringToFrontOnFocus, m_windowflags);
 		checkbitset("menubar", ImGuiWindowFlags_MenuBar, m_windowflags);
 		checkbitset("no_background", ImGuiWindowFlags_NoBackground, m_windowflags);
+	}
+
+	PyObject* mvWindowAppItem::set_x_scroll(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+
+		const char* item;
+		float value;
+
+		if (!(mvApp::GetApp()->getParsers())["set_x_scroll"].parse(args, kwargs, __FUNCTION__,
+			&item, &value))
+			return GetPyNone();
+
+		std::lock_guard<std::mutex> lk(mvApp::GetApp()->getMutex());
+
+		auto window = mvApp::GetApp()->getItemRegistry().getItem(item);
+		if (window == nullptr)
+		{
+			std::string message = item;
+			mvThrowPythonError(1000, message + " window/child does not exist.");
+			return GetPyNone();
+		}
+
+		if (window->getType() == mvAppItemType::mvWindowAppItem)
+		{
+
+			auto pWindow = static_cast<mvWindowAppItem*>(window.get());
+
+			pWindow->m_scrollX = value;
+			pWindow->m_scrollXSet = true;
+		}
+		else if (window->getType() == mvAppItemType::mvChild)
+		{
+			auto pChild = static_cast<mvChild*>(window.get());
+
+			pChild->setScrollX(value);
+		}
+		else
+		{
+			std::string message = item;
+			mvThrowPythonError(1000, message + " is not a window/child.");
+		}
+		
+		return GetPyNone();
+	}
+
+	PyObject* mvWindowAppItem::set_y_scroll(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+
+		const char* item;
+		float value;
+
+		if (!(mvApp::GetApp()->getParsers())["set_y_scroll"].parse(args, kwargs, __FUNCTION__,
+			&item, &value))
+			return GetPyNone();
+
+		std::lock_guard<std::mutex> lk(mvApp::GetApp()->getMutex());
+
+		auto window = mvApp::GetApp()->getItemRegistry().getItem(item);
+		if (window == nullptr)
+		{
+			std::string message = item;
+			mvThrowPythonError(1000, message + " window/child does not exist.");
+			return GetPyNone();
+		}
+
+		if (window->getType() == mvAppItemType::mvWindowAppItem)
+		{
+
+			auto pWindow = static_cast<mvWindowAppItem*>(window.get());
+
+			pWindow->m_scrollY = value;
+			pWindow->m_scrollYSet = true;
+		}
+		else if (window->getType() == mvAppItemType::mvChild)
+		{
+			auto pChild = static_cast<mvChild*>(window.get());
+
+			pChild->setScrollY(value);
+		}
+		else
+		{
+			std::string message = item;
+			mvThrowPythonError(1000, message + " is not a window/child.");
+		}
+
+		return GetPyNone();
+	}
+
+	PyObject* mvWindowAppItem::get_x_scroll(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+
+		const char* item;
+
+		if (!(mvApp::GetApp()->getParsers())["get_x_scroll"].parse(args, kwargs, __FUNCTION__,
+			&item))
+			return GetPyNone();
+
+		std::lock_guard<std::mutex> lk(mvApp::GetApp()->getMutex());
+
+		auto window = mvApp::GetApp()->getItemRegistry().getItem(item);
+		if (window == nullptr)
+		{
+			std::string message = item;
+			mvThrowPythonError(1000, message + " window/child does not exist.");
+			return GetPyNone();
+		}
+
+		if (window->getType() == mvAppItemType::mvWindowAppItem)
+		{
+
+			auto pWindow = static_cast<mvWindowAppItem*>(window.get());
+
+			return ToPyFloat(pWindow->m_scrollX);
+		}
+		else if (window->getType() == mvAppItemType::mvChild)
+		{
+			auto pChild = static_cast<mvChild*>(window.get());
+
+			return ToPyFloat(pChild->getScrollX());
+		}
+		else
+		{
+			std::string message = item;
+			mvThrowPythonError(1000, message + " is not a window/child.");
+		}
+
+		return GetPyNone();
+	}
+
+	PyObject* mvWindowAppItem::get_y_scroll(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+
+		const char* item;
+
+		if (!(mvApp::GetApp()->getParsers())["get_y_scroll"].parse(args, kwargs, __FUNCTION__,
+			&item))
+			return GetPyNone();
+
+		std::lock_guard<std::mutex> lk(mvApp::GetApp()->getMutex());
+
+		auto window = mvApp::GetApp()->getItemRegistry().getItem(item);
+		if (window == nullptr)
+		{
+			std::string message = item;
+			mvThrowPythonError(1000, message + " window/child does not exist.");
+			return GetPyNone();
+		}
+
+		if (window->getType() == mvAppItemType::mvWindowAppItem)
+		{
+
+			auto pWindow = static_cast<mvWindowAppItem*>(window.get());
+
+			return ToPyFloat(pWindow->m_scrollY);
+		}
+		else if (window->getType() == mvAppItemType::mvChild)
+		{
+			auto pChild = static_cast<mvChild*>(window.get());
+
+			return ToPyFloat(pChild->getScrollY());
+		}
+		else
+		{
+			std::string message = item;
+			mvThrowPythonError(1000, message + " is not a window/child.");
+		}
+
+		return GetPyNone();
+	}
+
+	PyObject* mvWindowAppItem::get_x_scroll_max(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+
+		const char* item;
+
+		if (!(mvApp::GetApp()->getParsers())["get_x_scroll_max"].parse(args, kwargs, __FUNCTION__,
+			&item))
+			return GetPyNone();
+
+		std::lock_guard<std::mutex> lk(mvApp::GetApp()->getMutex());
+
+		auto window = mvApp::GetApp()->getItemRegistry().getItem(item);
+		if (window == nullptr)
+		{
+			std::string message = item;
+			mvThrowPythonError(1000, message + " window/child does not exist.");
+			return GetPyNone();
+		}
+
+		if (window->getType() == mvAppItemType::mvWindowAppItem)
+		{
+
+			auto pWindow = static_cast<mvWindowAppItem*>(window.get());
+
+			return ToPyFloat(pWindow->m_scrollMaxX);
+		}
+		else if (window->getType() == mvAppItemType::mvChild)
+		{
+			auto pChild = static_cast<mvChild*>(window.get());
+
+			return ToPyFloat(pChild->getScrollXMax());
+		}
+		else
+		{
+			std::string message = item;
+			mvThrowPythonError(1000, message + " is not a window/child.");
+		}
+
+		return GetPyNone();
+	}
+
+	PyObject* mvWindowAppItem::get_y_scroll_max(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+
+		const char* item;
+
+		if (!(mvApp::GetApp()->getParsers())["get_y_scroll_max"].parse(args, kwargs, __FUNCTION__,
+			&item))
+			return GetPyNone();
+
+		std::lock_guard<std::mutex> lk(mvApp::GetApp()->getMutex());
+
+		auto window = mvApp::GetApp()->getItemRegistry().getItem(item);
+		if (window == nullptr)
+		{
+			std::string message = item;
+			mvThrowPythonError(1000, message + " window/child does not exist.");
+			return GetPyNone();
+		}
+
+		if (window->getType() == mvAppItemType::mvWindowAppItem)
+		{
+
+			auto pWindow = static_cast<mvWindowAppItem*>(window.get());
+
+			return ToPyFloat(pWindow->m_scrollMaxY);
+		}
+		else if (window->getType() == mvAppItemType::mvChild)
+		{
+			auto pChild = static_cast<mvChild*>(window.get());
+
+			return ToPyFloat(pChild->getScrollYMax());
+		}
+		else
+		{
+			std::string message = item;
+			mvThrowPythonError(1000, message + " is not a window/child.");
+		}
+
+		return GetPyNone();
 	}
 
 }

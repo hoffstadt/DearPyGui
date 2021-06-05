@@ -367,6 +367,8 @@ namespace Marvel {
 
 	const std::string& mvThemeManager::GetNameFromConstant(long constant)
 	{
+		static std::string empty;
+
 		for (const auto& color : s_colors)
 		{
 			if (color.constant == constant)
@@ -380,7 +382,7 @@ namespace Marvel {
 		}
 
 		assert(false);
-		return "";
+		return empty;
 	}
 
 }
