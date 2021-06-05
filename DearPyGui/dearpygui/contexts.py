@@ -7,6 +7,30 @@ import dearpygui.core as internal_dpg
 ########################################################################################################################
 
 @contextmanager
+def clipper(*args, id:str='', show: bool =True, parent: str='', width: int = 0, before: str='',
+           indent:int=-1):
+   
+   try:
+        widget = internal_dpg.add_clipper(*args, id=id, show=show, parent=parent, width=width, before=before,
+                                         indent=indent)
+        internal_dpg.push_container_stack(widget)
+        yield widget
+   finally:
+        internal_dpg.pop_container_stack()
+
+@contextmanager
+def filter_set(*args, id:str='', show: bool =True, parent: str='', width: int = 0, before: str='',
+           indent:int=-1):
+   
+   try:
+        widget = internal_dpg.add_filter_set(*args, id=id, show=show, parent=parent, width=width, before=before,
+                                         indent=indent)
+        internal_dpg.push_container_stack(widget)
+        yield widget
+   finally:
+        internal_dpg.pop_container_stack()
+
+@contextmanager
 def drag_payload(*args, id:str='', show: bool =True, parent: str='', payload_type: str='$$DPG_PAYLOAD', drag_data: Any = None):
    
    try:
