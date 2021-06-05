@@ -160,7 +160,7 @@ namespace Marvel {
 					item->postDraw();
 				}
 			}
-
+			clipper.End();
 			ImGui::EndTable();
 		}
 

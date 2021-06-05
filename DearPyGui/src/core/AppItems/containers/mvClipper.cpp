@@ -51,7 +51,7 @@ namespace Marvel {
 				m_children[1][row_n]->postDraw();
 			}
 		}
-
+		clipper.End();
 		if (m_width != 0)
 			ImGui::PopItemWidth();
 	}
