@@ -130,7 +130,6 @@ set(MARVEL_SOURCES
 	
 	"src/core/AppItems/composite/mvFileDialog.cpp"
 	"src/core/AppItems/composite/mvFileExtension.cpp"
-	"src/core/AppItems/composite/mvLogger.cpp"
 
 	"src/core/AppItems/nodes/mvNodeEditor.cpp"
 	"src/core/AppItems/nodes/mvNode.cpp"

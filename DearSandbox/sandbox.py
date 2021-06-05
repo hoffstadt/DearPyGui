@@ -1,6 +1,7 @@
 import dearpygui.core as dpg
 import dearpygui.simple as smpl
 import dearpygui.contexts as cxt
+from dearpygui.logger import mvLogger
 from math import sin, cos
 import random
 
@@ -29,15 +30,38 @@ dpg.add_static_texture(100, 100, [], parent="mvTextureContainer", file="INTERNAL
 
 # temporary, just to ensure the font atlas is ready
 # for the demo.
-import dearpygui.demo as demo
+#import dearpygui.demo as demo
 
-demo.show_demo()
+#demo.show_demo()
 
 #dpg.show_tool("mvItemRegistry")
 
+logger = mvLogger()
+logger.log_level = 2
+logger.log("trace message boi")
+logger.log_debug("debug message boi")
+logger.log_info("info message boi")
+logger.log_warning("warning message boi")
+logger.log_error("error message boi")
+logger.log_critical("critical message boi")
+
 buttons = []
 
-with cxt.window(label="Testing Features", height = 500) as w:
+def add_logs():
+    
+    for i in range(0, 100):
+        logger.log(str(i) + "trace message boi")
+        logger.log_debug(str(i) + "debug message boi")
+        logger.log_info(str(i) + "info message boi")
+        logger.log_warning(str(i) + "warning message boi")
+        logger.log_error(str(i) + "error message boi")
+        logger.log_critical(str(i) + "critical message boi")
+
+
+
+with cxt.window(label="Testing Features", height = 500, show=True) as w:
+
+    dpg.add_button(label="Add Logs", callback=add_logs)
 
     filter_id = ''
     dpg.add_input_text(label="Filter Proxy", callback=lambda sender: dpg.set_value(filter_id, dpg.get_value(sender)))
@@ -53,7 +77,7 @@ with cxt.window(label="Testing Features", height = 500) as w:
             for i in range(0, 100):
                 buttons.append(dpg.add_button(label=str(i)))
 
-with cxt.window(label="Testing Features2"):
+with cxt.window(label="Testing Features2", show=False):
 
     def drag_callback(sender, data):
         dpg.set_value("source name", sender)

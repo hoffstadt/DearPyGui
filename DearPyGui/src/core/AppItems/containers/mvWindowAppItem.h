@@ -16,6 +16,13 @@ namespace Marvel {
 
 		MV_APPLY_WIDGET_REGISTRATION(mvAppItemType::mvWindowAppItem, add_window)
 
+		MV_CREATE_EXTRA_COMMAND(set_x_scroll);
+		MV_CREATE_EXTRA_COMMAND(set_y_scroll);
+		MV_CREATE_EXTRA_COMMAND(get_x_scroll);
+		MV_CREATE_EXTRA_COMMAND(get_y_scroll);
+		MV_CREATE_EXTRA_COMMAND(get_x_scroll_max);
+		MV_CREATE_EXTRA_COMMAND(get_y_scroll_max);
+
 		MV_CREATE_CONSTANT(mvThemeCol_Window_TitleText, ImGuiCol_Text, 0L);
 		MV_CREATE_CONSTANT(mvThemeCol_Window_TitleBg, ImGuiCol_TitleBg, 0L);
 		MV_CREATE_CONSTANT(mvThemeCol_Window_TitleBgActive, ImGuiCol_TitleBgActive, 0L);
@@ -47,6 +54,12 @@ namespace Marvel {
 		MV_CREATE_CONSTANT(mvThemeStyle_Window_ScrollbarRounding, ImGuiStyleVar_ScrollbarRounding, 0L);
 
 		MV_START_EXTRA_COMMANDS
+			MV_ADD_EXTRA_COMMAND(set_x_scroll);
+			MV_ADD_EXTRA_COMMAND(set_y_scroll);
+			MV_ADD_EXTRA_COMMAND(get_x_scroll);
+			MV_ADD_EXTRA_COMMAND(get_y_scroll);
+			MV_ADD_EXTRA_COMMAND(get_x_scroll_max);
+			MV_ADD_EXTRA_COMMAND(get_y_scroll_max)
 		MV_END_EXTRA_COMMANDS
 
 		MV_START_GENERAL_CONSTANTS
