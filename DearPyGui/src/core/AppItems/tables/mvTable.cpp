@@ -30,6 +30,8 @@ namespace Marvel {
 
 		parser.addArg<mvPyDataType::Integer>("inner_width", mvArgType::KEYWORD_ARG, "0");
 		parser.addArg<mvPyDataType::Integer>("policy", mvArgType::KEYWORD_ARG, "0");
+		parser.addArg<mvPyDataType::Integer>("freeze_rows", mvArgType::KEYWORD_ARG, "0");
+		parser.addArg<mvPyDataType::Integer>("freeze_columns", mvArgType::KEYWORD_ARG, "0");
 
 		parser.addArg<mvPyDataType::Bool>("sort_multi", mvArgType::KEYWORD_ARG, "False", "Hold shift when clicking headers to sort on multiple column.");
 		parser.addArg<mvPyDataType::Bool>("sort_tristate", mvArgType::KEYWORD_ARG, "False", "Allow no sorting, disable default sorting.");
@@ -76,6 +78,8 @@ namespace Marvel {
 			ImVec2((float)m_width, (float)m_height), (float)m_inner_width))
 		{
 
+			ImGui::TableSetupScrollFreeze(m_freezeRows, m_freezeColumns);
+
 			// columns
 			for (auto& item : m_children[0])
 			{
@@ -84,8 +88,8 @@ namespace Marvel {
 					continue;
 
 				// set item width
-				if (item->m_width != 0)
-					ImGui::SetNextItemWidth((float)item->m_width);
+				//if (item->m_width != 0)
+				//	ImGui::SetNextItemWidth((float)item->m_width);
 
 				item->draw(drawlist, ImGui::GetCursorPosX(), ImGui::GetCursorPosY());
 
@@ -144,24 +148,6 @@ namespace Marvel {
 
 				item->postDraw();
 			}
-
-			ImGuiListClipper clipper;
-			clipper.Begin(m_children[2].size());
-			while (clipper.Step())
-			{
-				for (int row_n = clipper.DisplayStart; row_n < clipper.DisplayEnd; row_n++)
-				{
-					auto& item = m_children[2][row_n];
-					if (!item->preDraw())
-						continue;
-
-					ImGui::TableNextRow();
-					item->draw(drawlist, ImGui::GetCursorPosX(), ImGui::GetCursorPosY());
-
-					item->postDraw();
-				}
-			}
-			clipper.End();
 			ImGui::EndTable();
 		}
 
@@ -189,6 +175,8 @@ namespace Marvel {
 		if (dict == nullptr)
 			return;
 
+		if (PyObject* item = PyDict_GetItemString(dict, "freeze_rows")) m_freezeRows = ToInt(item);
+		if (PyObject* item = PyDict_GetItemString(dict, "freeze_columns")) m_freezeColumns = ToInt(item);
 		if (PyObject* item = PyDict_GetItemString(dict, "header_row")) m_tableHeader = ToBool(item);
 		if (PyObject* item = PyDict_GetItemString(dict, "inner_width")) m_inner_width = (int)ToFloat(item);
 
@@ -223,6 +211,7 @@ namespace Marvel {
 
 		if (PyObject* item = PyDict_GetItemString(dict, "policy"))
 		{
+
 			int policy = ToInt(item);
 
 			// remove old flags
@@ -248,6 +237,8 @@ namespace Marvel {
 		if (dict == nullptr)
 			return;
 
+		PyDict_SetItemString(dict, "freeze_rows", ToPyInt(m_freezeRows));
+		PyDict_SetItemString(dict, "freeze_columns", ToPyInt(m_freezeColumns));
 		PyDict_SetItemString(dict, "inner_width", ToPyInt(m_inner_width));
 		PyDict_SetItemString(dict, "header_row", ToPyBool(m_tableHeader));
 

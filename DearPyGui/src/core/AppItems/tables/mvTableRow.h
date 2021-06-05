@@ -5,7 +5,7 @@
 
 namespace Marvel {
 
-	MV_REGISTER_WIDGET(mvTableRow, MV_ITEM_DESC_CONTAINER, StorageValueTypes::None, 2);
+	MV_REGISTER_WIDGET(mvTableRow, MV_ITEM_DESC_CONTAINER, StorageValueTypes::None, 1);
 	class mvTableRow : public mvAppItem
 	{
 
@@ -38,7 +38,6 @@ namespace Marvel {
 	private:
 
 		int m_id = 0;
-		bool m_draggable = true;
 	};
 
 }

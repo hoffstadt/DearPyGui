@@ -55,3 +55,4 @@ static PyMethodDef GetMethodDefinition(){return { s_command, (PyCFunction)parser
 #define MV_ADD_CONSTANT_F(x, y, z) {#x, x, (float)y, (float)z}
 #define MV_ENCODE_CONSTANT(z, i) s_internal_type*1000L+z*10L+i
 #define MV_CREATE_CONSTANT(y, z, i) static constexpr const long y = MV_ENCODE_CONSTANT(z, i);
+#define MV_CREATE_RAW_CONSTANT(y, z) static constexpr const long y = z;
