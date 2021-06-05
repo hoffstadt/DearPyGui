@@ -111,8 +111,8 @@ def show_demo():
 
         with cxt.tree_node(label="Text Input"):
 
-            dpg.add_checkbox(label="readonly", callback=_config, callback_data="Multi-line Text Input")
-            dpg.add_checkbox(label="on_enter", callback=_config, callback_data="Multi-line Text Input")
+            dpg.add_checkbox(label="readonly", callback=_config, user_data="Multi-line Text Input")
+            dpg.add_checkbox(label="on_enter", callback=_config, user_data="Multi-line Text Input")
             
             with cxt.tree_node(id="Multi-line Text Input"):
 

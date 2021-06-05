@@ -21,7 +21,7 @@ namespace Marvel {
 			MV_PARSER_ARG_BEFORE |
 			MV_PARSER_ARG_LABEL |
 			MV_PARSER_ARG_CALLBACK |
-			MV_PARSER_ARG_CALLBACK_DATA |
+			MV_PARSER_ARG_USER_DATA |
 			MV_PARSER_ARG_SHOW |
 			MV_PARSER_ARG_ENABLED |
 			MV_PARSER_ARG_FILTER |
@@ -56,20 +56,20 @@ namespace Marvel {
 		if (m_small_button)
 		{
 			if (ImGui::SmallButton(m_label.c_str()))
-				mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), m_name, m_callback_data);
+				mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), m_name, m_user_data, nullptr);
 			return;
 		}
 
 		if (m_arrow)
 		{
 			if (ImGui::ArrowButton(m_label.c_str(), m_direction))
-				mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), m_name, m_callback_data);
+				mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), m_name, nullptr, m_user_data);
 
 			return;
 		}
 
 		if (ImGui::Button(m_label.c_str(), ImVec2((float)m_width, (float)m_height)))
-			mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), m_name, m_callback_data);
+			mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), m_name, nullptr, m_user_data);
 
 	}
 

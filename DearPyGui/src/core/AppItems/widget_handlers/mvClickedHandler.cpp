@@ -50,7 +50,7 @@ namespace Marvel {
 				{
 					mvApp::GetApp()->getCallbackRegistry().submitCallback([=]()
 						{
-							mvApp::GetApp()->getCallbackRegistry().runCallback(getCallback(false), m_name, ToPyInt(i));
+							mvApp::GetApp()->getCallbackRegistry().runCallback(getCallback(false), m_name, ToPyInt(i), nullptr);
 						});
 				}
 			}
@@ -60,7 +60,7 @@ namespace Marvel {
 		{
 			mvApp::GetApp()->getCallbackRegistry().submitCallback([=]()
 				{
-					mvApp::GetApp()->getCallbackRegistry().runCallback(getCallback(false), m_name, GetPyNone());
+					mvApp::GetApp()->getCallbackRegistry().runCallback(getCallback(false), m_name, GetPyNone(), nullptr);
 				});
 		}
 	}

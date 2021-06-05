@@ -18,8 +18,13 @@ namespace Marvel {
 			MV_PARSER_ARG_LABEL |
 			MV_PARSER_ARG_SOURCE |
 			MV_PARSER_ARG_CALLBACK |
-			MV_PARSER_ARG_CALLBACK_DATA |
+			MV_PARSER_ARG_USER_DATA |
 			MV_PARSER_ARG_SHOW |
+			MV_PARSER_ARG_FILTER |
+			MV_PARSER_ARG_DROP_CALLBACK |
+			MV_PARSER_ARG_DRAG_CALLBACK |
+			MV_PARSER_ARG_PAYLOAD_TYPE |
+			MV_PARSER_ARG_TRACKED |
 			MV_PARSER_ARG_POS)
 		);
 
@@ -388,7 +393,7 @@ namespace Marvel {
         mvFontScope fscope(this);
 
         if(SliderScalar3D(m_specificedlabel.c_str(), &(*m_value)[0], &(*m_value)[1], &(*m_value)[2], m_minX, m_maxX, m_minY, m_maxY, m_minZ, m_maxZ, m_scale))
-            mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), m_name, m_callback_data);
+            mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), m_name, nullptr, m_user_data);
     }
 
     void mvSlider3D::handleSpecificKeywordArgs(PyObject* dict)

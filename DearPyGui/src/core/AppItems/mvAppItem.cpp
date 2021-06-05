@@ -116,7 +116,7 @@ namespace Marvel{
 		if(args & MV_PARSER_ARG_PAYLOAD_TYPE)  parser.addArg<mvPyDataType::String>("payload_type", mvArgType::KEYWORD_ARG, "'$$DPG_PAYLOAD'", "Overrides 'name' as value storage key");		
 		if(args & MV_PARSER_ARG_CALLBACK)      parser.addArg<mvPyDataType::Callable>("callback", mvArgType::KEYWORD_ARG, "None", "Registers a callback");
 		if(args & MV_PARSER_ARG_DRAG_CALLBACK) parser.addArg<mvPyDataType::Callable>("drag_callback", mvArgType::KEYWORD_ARG, "None", "Registers a drag callback for drag and drop");
-		if(args & MV_PARSER_ARG_CALLBACK_DATA) parser.addArg<mvPyDataType::Object>("callback_data", mvArgType::KEYWORD_ARG, "None", "Callback data");
+		if(args & MV_PARSER_ARG_USER_DATA)     parser.addArg<mvPyDataType::Object>("user_data", mvArgType::KEYWORD_ARG, "None", "User data for callbacks");
 		if(args & MV_PARSER_ARG_SHOW)          parser.addArg<mvPyDataType::Bool>("show", mvArgType::KEYWORD_ARG, "True", "Attempt to render");
 		if(args & MV_PARSER_ARG_ENABLED)       parser.addArg<mvPyDataType::Bool>("enabled", mvArgType::KEYWORD_ARG, "True");
 		if(args & MV_PARSER_ARG_POS)		   parser.addArg<mvPyDataType::IntList>("pos", mvArgType::KEYWORD_ARG, "[]", "Places the item relative to window coordinates, [0,0] is top left.");
@@ -201,7 +201,7 @@ namespace Marvel{
 				if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload(m_payloadType.c_str()))
 				{
 					auto payloadActual = static_cast<const mvDragPayload*>(payload->Data);
-					mvApp::GetApp()->getCallbackRegistry().addCallback(getDropCallback(), m_name, payloadActual->getDragData());
+					mvApp::GetApp()->getCallbackRegistry().addCallback(getDropCallback(), m_name, payloadActual->getDragData(), nullptr);
 				}
 
 				ImGui::EndDragDropTarget();
@@ -297,10 +297,10 @@ namespace Marvel{
 	{
 		if (data == Py_None)
 		{
-			m_callback_data = nullptr;
+			m_user_data = nullptr;
 			return;
 		}
-		m_callback_data = data;
+		m_user_data = data;
 	}
 
 	void mvAppItem::resetState()
@@ -777,8 +777,8 @@ namespace Marvel{
 		mvGlobalIntepreterLock gil;
 		if (m_callback)
 			Py_DECREF(m_callback);
-		if (m_callback_data)
-			Py_DECREF(m_callback_data);
+		if (m_user_data)
+			Py_DECREF(m_user_data);
 	}
 
 	PyObject* mvAppItem::getCallback(bool ignore_enabled)
@@ -936,8 +936,8 @@ namespace Marvel{
 
 		if (PyObject* item = PyDict_GetItemString(dict, "callback_data"))
 		{
-			if (m_callback_data)
-				Py_XDECREF(m_callback_data);
+			if (m_user_data)
+				Py_XDECREF(m_user_data);
 			
 			Py_XINCREF(item);
 			setCallbackData(item);
@@ -1056,13 +1056,13 @@ namespace Marvel{
 		else
 			PyDict_SetItemString(dict, "drag_callback", GetPyNone());
 
-		if (m_callback_data)
+		if (m_user_data)
 		{
-			Py_XINCREF(m_callback_data);
-			PyDict_SetItemString(dict, "callback_data", m_callback_data);
+			Py_XINCREF(m_user_data);
+			PyDict_SetItemString(dict, "user_data", m_user_data);
 		}
 		else
-			PyDict_SetItemString(dict, "callback_data", GetPyNone());
+			PyDict_SetItemString(dict, "user_data", GetPyNone());
 	}
 
 	PyObject* mvAppItem::get_item_configuration(PyObject* self, PyObject* args, PyObject* kwargs)

@@ -46,7 +46,7 @@ namespace Marvel {
 
 			mvApp::GetApp()->getCallbackRegistry().submitCallback([=]()
 			{
-				mvApp::GetApp()->getCallbackRegistry().runCallback(getCallback(false), m_name, ToPyInt((int)ImGui::GetIO().MouseWheel));
+				mvApp::GetApp()->getCallbackRegistry().runCallback(getCallback(false), m_name, ToPyInt((int)ImGui::GetIO().MouseWheel), nullptr);
 			});
 			
 		}

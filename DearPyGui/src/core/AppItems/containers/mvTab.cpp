@@ -6,6 +6,7 @@
 #include "mvFontScope.h"
 
 namespace Marvel {
+
 	void mvTab::InsertParser(std::map<std::string, mvPythonParser>* parsers)
 	{
 
@@ -16,6 +17,11 @@ namespace Marvel {
 			MV_PARSER_ARG_PARENT |
 			MV_PARSER_ARG_BEFORE |
 			MV_PARSER_ARG_LABEL |
+			MV_PARSER_ARG_FILTER |
+			MV_PARSER_ARG_DROP_CALLBACK |
+			MV_PARSER_ARG_DRAG_CALLBACK |
+			MV_PARSER_ARG_PAYLOAD_TYPE |
+			MV_PARSER_ARG_TRACKED |
 			MV_PARSER_ARG_SHOW)
 		);
 
@@ -78,7 +84,7 @@ namespace Marvel {
 
 			// run call back if it exists
 			if (parent->getSpecificValue() != m_name)
-				mvApp::GetApp()->getCallbackRegistry().addCallback(parent->getCallback(), m_name, parent->getCallbackData());
+				mvApp::GetApp()->getCallbackRegistry().addCallback(parent->getCallback(), m_name, nullptr, parent->getCallbackData());
 
 			parent->setValue(m_name);
 

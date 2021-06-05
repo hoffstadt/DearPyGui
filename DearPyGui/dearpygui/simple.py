@@ -281,17 +281,17 @@ def set_item_callback(item: str, callback: Callable):
     internal_dpg.configure_item(item, callback=callback)
 
 
-def set_item_callback_data(item: str, callback_data: Any):
+def set_item_user_data(item: str, user_data: Any):
     """Sets the item's callack_data to any python object.
 
     Args:
         item: Item the callback will be applied to.
-        callback_data: Callback_data to be applied.
+        user_data: Callback_data to be applied.
 
     Returns:
         None
     """
-    internal_dpg.configure_item(item, callback_data=callback_data)
+    internal_dpg.configure_item(item, user_data=user_data)
 
 
 def get_item_label(item: str) -> Union[str, None]:
@@ -328,13 +328,13 @@ def get_item_callback(item: str) -> Union[str, None]:
     """
     return internal_dpg.get_item_configuration(item)["callback"]
 
-def get_item_callback_data(item: str) -> Union[Any, None]:
+def get_item_user_data(item: str) -> Union[Any, None]:
     """Gets the item's callback data.
 
     Returns:
         callback data as a python object or None
     """
-    return internal_dpg.get_item_configuration(item)["callback_data"]
+    return internal_dpg.get_item_configuration(item)["user_data"]
 
 def get_item_source(item: str) -> Union[str, None]:
     """Gets the item's source.

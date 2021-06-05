@@ -21,9 +21,14 @@ namespace Marvel {
 			MV_PARSER_ARG_LABEL |
 			MV_PARSER_ARG_SOURCE |
 			MV_PARSER_ARG_CALLBACK |
-			MV_PARSER_ARG_CALLBACK_DATA |
+			MV_PARSER_ARG_USER_DATA |
 			MV_PARSER_ARG_SHOW |
 			MV_PARSER_ARG_ENABLED |
+			MV_PARSER_ARG_FILTER |
+			MV_PARSER_ARG_DROP_CALLBACK |
+			MV_PARSER_ARG_DRAG_CALLBACK |
+			MV_PARSER_ARG_PAYLOAD_TYPE |
+			MV_PARSER_ARG_TRACKED |
 			MV_PARSER_ARG_POS)
 		);
 
@@ -81,19 +86,19 @@ namespace Marvel {
 			if (m_multiline)
 			{
 				if (ImGui::InputTextMultiline(m_label.c_str(), m_value.get(), ImVec2((float)m_width, (float)m_height), m_flags))
-					mvApp::GetApp()->getCallbackRegistry().addCallback(m_callback, m_name, m_callback_data);
+					mvApp::GetApp()->getCallbackRegistry().addCallback(m_callback, m_name, nullptr, m_user_data);
 			}
 			else
 			{
 				if (ImGui::InputText(m_label.c_str(), m_value.get(), m_flags))
-					mvApp::GetApp()->getCallbackRegistry().addCallback(m_callback, m_name, m_callback_data);
+					mvApp::GetApp()->getCallbackRegistry().addCallback(m_callback, m_name, nullptr, m_user_data);
 			}
 		}
 
 		else
 		{
 			if (ImGui::InputTextWithHint(m_label.c_str(), m_hint.c_str(), m_value.get(), m_flags))
-				mvApp::GetApp()->getCallbackRegistry().addCallback(m_callback, m_name, m_callback_data);
+				mvApp::GetApp()->getCallbackRegistry().addCallback(m_callback, m_name, nullptr, m_user_data);
 		}
 
 	}
