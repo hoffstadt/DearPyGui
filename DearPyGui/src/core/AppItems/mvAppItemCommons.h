@@ -55,6 +55,8 @@
 #include "misc/mvSpacing.h"
 #include "misc/mvSeparator.h"
 
+#include "containers/mvFilterSet.h"
+#include "containers/mvClipper.h"
 #include "containers/mvStagingContainer.h"
 #include "containers/mvTreeNode.h"
 #include "containers/mvChild.h"
@@ -102,6 +104,8 @@
 #include "composite/mvFileExtension.h"
 
 #include "plots/mvPlot.h"
+#include "plots/mvPlotLegend.h"
+#include "plots/mvPlotYAxis.h"
 #include "plots/mvDragPoint.h"
 #include "plots/mvDragLine.h"
 #include "plots/mvAnnotation.h"
@@ -121,6 +125,8 @@
 #include "plots/mvStairSeries.h"
 #include "plots/mvCandleSeries.h"
 #include "plots/mvInfiniteLineSeries.h"
+#include "plots/mvHistogramSeries.h"
+#include "plots/mv2dHistogramSeries.h"
 
 #include "nodes/mvNodeEditor.h"
 #include "nodes/mvNode.h"

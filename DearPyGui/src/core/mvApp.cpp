@@ -53,7 +53,7 @@ namespace Marvel {
 	{ 
 
         GetApp()->getCallbackRegistry().stop();
-        GetApp()->getCallbackRegistry().addCallback(nullptr, "null", nullptr);
+        GetApp()->getCallbackRegistry().addCallback(nullptr, "null", nullptr, nullptr);
         GetApp()->m_future.get();
 		s_started = false; 
 		auto viewport = s_instance->getViewport();
@@ -65,7 +65,7 @@ namespace Marvel {
 	{
 		getCallbackRegistry().stop();
 
-		getCallbackRegistry().addCallback(nullptr, "null", nullptr);
+		getCallbackRegistry().addCallback(nullptr, "null", nullptr, nullptr);
       
 		m_future.get();
 		delete m_viewport;

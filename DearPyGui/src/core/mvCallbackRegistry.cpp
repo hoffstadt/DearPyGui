@@ -73,7 +73,7 @@ namespace Marvel {
 		switch (GetEInt(event, "FRAME"))
 		{
 		case 3:
-			addCallback(m_onStartCallback, "Main Application", nullptr);
+			addCallback(m_onStartCallback, "Main Application", nullptr, nullptr);
 			break;
 
 		default:
@@ -117,27 +117,29 @@ namespace Marvel {
 			m_callCount--;
 		}
 
-		runCallback(m_onCloseCallback, "Main Application", nullptr);
+		runCallback(m_onCloseCallback, "Main Application", nullptr, nullptr);
 		return true;
 	}
 
-	void mvCallbackRegistry::addCallback(PyObject* callable, const std::string& sender, PyObject* data)
+	void mvCallbackRegistry::addCallback(PyObject* callable, const std::string& sender, PyObject* app_data, PyObject* user_data)
 	{
 
 		if (m_callCount > s_MaxNumberOfCalls)
 		{
-			if (data != nullptr)
-				Py_XDECREF(data);
+			if (app_data != nullptr)
+				Py_XDECREF(app_data);
+			if (user_data != nullptr)
+				Py_XDECREF(user_data);
 			assert(false);
 			return;
 		}
 
 		submitCallback([=]() {
-			runCallback(callable, sender, data);
+			runCallback(callable, sender, app_data, user_data);
 			});
 	}
 
-	void mvCallbackRegistry::runCallback(PyObject* callable, const std::string& sender, PyObject* data)
+	void mvCallbackRegistry::runCallback(PyObject* callable, const std::string& sender, PyObject* app_data, PyObject* user_data)
 	{
 
 		if (callable == nullptr)
@@ -149,37 +151,45 @@ namespace Marvel {
 
 		if (!PyCallable_Check(callable))
 		{
-			if (data != nullptr)
-				Py_XDECREF(data);
+			if (app_data != nullptr)
+				Py_XDECREF(app_data);
+			if (user_data != nullptr)
+				Py_XDECREF(user_data);
 			mvThrowPythonError(1000, "Callable not callable.");
 			PyErr_Print();
 			return;
 		}
 
-		if (data == nullptr)
+		if (app_data == nullptr)
 		{
-			data = Py_None;
-			Py_XINCREF(data);
+			app_data = Py_None;
+			Py_XINCREF(app_data);
 		}
+		Py_XINCREF(app_data);
 
-		Py_XINCREF(data);
+		if (user_data == nullptr)
+		{
+			user_data = Py_None;
+			Py_XINCREF(user_data);
+		}
+		Py_XINCREF(user_data);
 
 		//PyErr_Clear();
 
 		PyObject* intermediateResult = nullptr;
-		if (PyCallable_Check(data))
+		if (PyCallable_Check(user_data))
 		{
-			intermediateResult = PyObject_CallObject(data, nullptr);
+			intermediateResult = PyObject_CallObject(user_data, nullptr);
 			// check if call succeeded
 			if (intermediateResult == nullptr)
 			{
 				PyErr_Print();
-				intermediateResult = data;
+				intermediateResult = user_data;
 			}
 
 		}
 		else
-			intermediateResult = data;
+			intermediateResult = user_data;
 
 		//PyErr_Clear();
 
@@ -192,13 +202,14 @@ namespace Marvel {
 				if (PyMethod_Check(callable))
 					count--;
 
-				if (count > 2)
+				if (count > 3)
 				{
 					mvPyObject pArgs(PyTuple_New(count));
 					PyTuple_SetItem(pArgs, 0, PyUnicode_FromString(sender.c_str()));
-					PyTuple_SetItem(pArgs, 1, intermediateResult); // steals data, so don't deref
+					PyTuple_SetItem(pArgs, 1, app_data); // steals data, so don't deref
+					PyTuple_SetItem(pArgs, 2, user_data); // steals data, so don't deref
 					
-					for (int i = 2; i < count; i++)
+					for (int i = 3; i < count; i++)
 						PyTuple_SetItem(pArgs, i, GetPyNone());
 
 					mvPyObject result(PyObject_CallObject(callable, pArgs));
@@ -208,11 +219,26 @@ namespace Marvel {
 						PyErr_Print();
 
 				}
+				else if (count == 3)
+				{
+					mvPyObject pArgs(PyTuple_New(3));
+					PyTuple_SetItem(pArgs, 0, PyUnicode_FromString(sender.c_str()));
+					PyTuple_SetItem(pArgs, 1, app_data); // steals data, so don't deref
+					PyTuple_SetItem(pArgs, 2, user_data); // steals data, so don't deref
+
+					mvPyObject result(PyObject_CallObject(callable, pArgs));
+
+					pArgs.delRef();
+					// check if call succeeded
+					if (!result.isOk())
+						PyErr_Print();
+
+				}
 				else if (count == 2)
 				{
 					mvPyObject pArgs(PyTuple_New(2));
 					PyTuple_SetItem(pArgs, 0, PyUnicode_FromString(sender.c_str()));
-					PyTuple_SetItem(pArgs, 1, intermediateResult); // steals data, so don't deref
+					PyTuple_SetItem(pArgs, 1, app_data); // steals data, so don't deref
 
 					mvPyObject result(PyObject_CallObject(callable, pArgs));
 

@@ -89,11 +89,11 @@ def demo_config(sender, data):
     """[INTERNAL DPG DEMO COMMAND]: This is a helper function that is intended to make the demo easier to read. Not suggested for external use. 
     If this command is appearing in your code consider importing demo as demo to prevent namespace polution.
 
-    Set the callback_data as the widget or list of widgets to be modified. Then the label of the sender will be the keyword modified.
+    Set the user_data as the widget or list of widgets to be modified. Then the label of the sender will be the keyword modified.
 
     Args:
         sender: is the widgets name that called the command.
-        data: data that is populated by callback_data. Item as string or items as list that the configuration will be applied to.
+        data: data that is populated by user_data. Item as string or items as list that the configuration will be applied to.
 
     Returns:
         None
@@ -343,19 +343,19 @@ def show_demo():
                 add_table_column()
                 add_table_column()
                 
-                add_checkbox(label="no_title_bar", callback=demo_config, callback_data="Dear PyGui Demo")
-                add_checkbox(label="no_scrollbar", callback=demo_config, callback_data="Dear PyGui Demo")
-                add_checkbox(label="menubar", callback=demo_config, callback_data="Dear PyGui Demo", default_value=True)
+                add_checkbox(label="no_title_bar", callback=demo_config, user_data="Dear PyGui Demo")
+                add_checkbox(label="no_scrollbar", callback=demo_config, user_data="Dear PyGui Demo")
+                add_checkbox(label="menubar", callback=demo_config, user_data="Dear PyGui Demo", default_value=True)
 
                 add_table_next_column()
-                add_checkbox(label="no_move", callback=demo_config, callback_data="Dear PyGui Demo")
-                add_checkbox(label="no_resize", callback=demo_config, callback_data="Dear PyGui Demo")
-                add_checkbox(label="no_collapse", callback=demo_config, callback_data="Dear PyGui Demo")
+                add_checkbox(label="no_move", callback=demo_config, user_data="Dear PyGui Demo")
+                add_checkbox(label="no_resize", callback=demo_config, user_data="Dear PyGui Demo")
+                add_checkbox(label="no_collapse", callback=demo_config, user_data="Dear PyGui Demo")
             
                 add_table_next_column()
-                add_checkbox(label="no_close", callback=demo_config, callback_data="Dear PyGui Demo")
-                add_checkbox(label="no_background", callback=demo_config, callback_data="Dear PyGui Demo")
-                add_checkbox(label="no_bring_to_front_on_focus", callback=demo_config, callback_data="Dear PyGui Demo")
+                add_checkbox(label="no_close", callback=demo_config, user_data="Dear PyGui Demo")
+                add_checkbox(label="no_background", callback=demo_config, user_data="Dear PyGui Demo")
+                add_checkbox(label="no_bring_to_front_on_focus", callback=demo_config, user_data="Dear PyGui Demo")
 
         with collapsing_header(label="Widgets"):
 
@@ -513,8 +513,8 @@ def show_demo():
 
             with tree_node(label="Text Input"):
                 demo_enable_disable()
-                add_checkbox(label="readonly", callback=demo_config, callback_data="Multi-line Text Input")
-                add_checkbox(label="on_enter", callback=demo_config, callback_data="Multi-line Text Input")
+                add_checkbox(label="readonly", callback=demo_config, user_data="Multi-line Text Input")
+                add_checkbox(label="on_enter", callback=demo_config, user_data="Multi-line Text Input")
                 with tree_node(id="Multi-line Text Input"):
                     add_input_text(multiline=True, default_value="/*\n"
                         " The Pentium F00F bug, shorthand for F0 0F C7 C8,\n"
@@ -643,7 +643,7 @@ def show_demo():
                 add_text(f"width: {get_item_width(test)}")
                 add_text(f"height: {get_item_height(test)}")
                 add_text(f"callback: {get_item_callback(test)}")
-                add_text(f"callback_data: {get_item_callback_data(test)}")
+                add_text(f"user_data: {get_item_user_data(test)}")
 
                 #simple commands related to info
                 info = get_item_info(test)

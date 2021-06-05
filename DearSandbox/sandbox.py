@@ -1,6 +1,8 @@
 import dearpygui.core as dpg
 import dearpygui.simple as smpl
 import dearpygui.contexts as cxt
+from math import sin, cos
+import random
 
 def event_handler(sender, data):
     print(sender, "\t", data)
@@ -31,7 +33,27 @@ import dearpygui.demo as demo
 
 demo.show_demo()
 
-with cxt.window(label="Drag Drop Testing"):
+#dpg.show_tool("mvItemRegistry")
+
+buttons = []
+
+with cxt.window(label="Testing Features", height = 500) as w:
+
+    filter_id = ''
+    dpg.add_input_text(label="Filter Proxy", callback=lambda sender: dpg.set_value(filter_id, dpg.get_value(sender)))
+
+    with cxt.child():
+        with cxt.filter_set() as filter_id:
+            for i in range(0, 100):
+                buttons.append(dpg.add_button(label=str(i), filter_key=str(i)))
+    
+    dpg.add_same_line()
+    with cxt.child(width=300):
+        with cxt.clipper():
+            for i in range(0, 100):
+                buttons.append(dpg.add_button(label=str(i)))
+
+with cxt.window(label="Testing Features2"):
 
     def drag_callback(sender, data):
         dpg.set_value("source name", sender)
@@ -41,9 +63,15 @@ with cxt.window(label="Drag Drop Testing"):
 
     b1 = dpg.add_button(label="Source Button", drag_callback=drag_callback)
     b2 = dpg.add_button(label="Target1 Button", drop_callback=drop_callback)
-    b3 = dpg.add_button(label="Target2 Button", drop_callback=drop_callback, payload_type="fishy")
+    b3 = dpg.add_button(label="Target2 Button", drop_callback=drop_callback, payload_type="csv_data")
     
-    with cxt.drag_payload(parent=b1, payload_type="fishy", drag_data=5):
+    with cxt.drag_payload(parent=b1, payload_type="csv_data", drag_data=5):
         dpg.add_text("none", label="Source: ", id="source name")
+
+    #dpg.add_button(label="Set yScroll 25", callback=lambda: dpg.configure_item(w, scroll_y=25.0))
+    #dpg.add_button(label="Set yScroll 50", callback=lambda: dpg.configure_item(w, scroll_y=500.0))
+    #dpg.add_button(label="print", callback=lambda: print(dpg.get_item_configuration(w)))
+    #dpg.add_button(label="Track 75", callback=lambda: dpg.configure_item(buttons[75], tracked=True))
+    #dpg.add_button(label="Untrack 75", callback=lambda: dpg.configure_item(buttons[75], tracked=False))
 
 smpl.start_dearpygui()

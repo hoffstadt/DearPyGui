@@ -25,8 +25,6 @@ namespace Marvel {
 		parser.addArg<mvPyDataType::DoubleList>("negative");
 		parser.addArg<mvPyDataType::DoubleList>("positive");
 
-		parser.addArg<mvPyDataType::Integer>("axis", mvArgType::KEYWORD_ARG, "0");
-
 		parser.addArg<mvPyDataType::Bool>("contribute_to_bounds", mvArgType::KEYWORD_ARG, "True");
 		parser.addArg<mvPyDataType::Bool>("horizontal", mvArgType::KEYWORD_ARG, "False");
 
@@ -46,21 +44,6 @@ namespace Marvel {
 		ScopedID id;
 		mvImPlotThemeScope scope(this);
 
-		switch (m_axis)
-		{
-		case ImPlotYAxis_1:
-			ImPlot::SetPlotYAxis(ImPlotYAxis_1);
-			break;
-		case ImPlotYAxis_2:
-			ImPlot::SetPlotYAxis(ImPlotYAxis_2);
-			break;
-		case ImPlotYAxis_3:
-			ImPlot::SetPlotYAxis(ImPlotYAxis_3);
-			break;
-		default:
-			break;
-		}
-
 		static const std::vector<double>* xptr;
 		static const std::vector<double>* yptr;
 		static const std::vector<double>* zptr;
@@ -76,6 +59,22 @@ namespace Marvel {
 		else
 			ImPlot::PlotErrorBars(m_label.c_str(), xptr->data(), yptr->data(), zptr->data(), wptr->data(), (int)xptr->size());
 
+		// Begin a popup for a legend entry.
+		if (ImPlot::BeginLegendPopup(m_label.c_str(), 1))
+		{
+			for (auto& childset : m_children)
+			{
+				for (auto& item : childset)
+				{
+					// skip item if it's not shown
+					if (!item->m_show)
+						continue;
+					item->draw(drawlist, ImPlot::GetPlotPos().x, ImPlot::GetPlotPos().y);
+					item->getState().update();
+				}
+			}
+			ImPlot::EndLegendPopup();
+		}
 	}
 
 	void mvErrorSeries::handleSpecificRequiredArgs(PyObject* dict)
@@ -118,7 +117,6 @@ namespace Marvel {
 		if (dict == nullptr)
 			return;
 
-		if (PyObject* item = PyDict_GetItemString(dict, "axis")) m_axis = (ImPlotYAxis_)ToInt(item);
 		if (PyObject* item = PyDict_GetItemString(dict, "contribute_to_bounds")) m_contributeToBounds = ToBool(item);
 		if (PyObject* item = PyDict_GetItemString(dict, "horizontal")) m_horizontal= ToBool(item);
 
@@ -141,7 +139,6 @@ namespace Marvel {
 		if (dict == nullptr)
 			return;
 
-		PyDict_SetItemString(dict, "axis", ToPyInt(m_axis));
 		PyDict_SetItemString(dict, "contribute_to_bounds", ToPyBool(m_contributeToBounds));
 		PyDict_SetItemString(dict, "horizontal", ToPyBool(m_horizontal));
 	}

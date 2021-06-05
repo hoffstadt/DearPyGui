@@ -7,7 +7,7 @@
 
 namespace Marvel {
 
-    MV_REGISTER_WIDGET(mvColorMapScale, MV_ITEM_DESC_DEFAULT, StorageValueTypes::Int, 1);
+    MV_REGISTER_WIDGET(mvColorMapScale, MV_ITEM_DESC_DEFAULT, StorageValueTypes::Int, 0);
     class mvColorMapScale : public mvIntPtrBase
     {
 

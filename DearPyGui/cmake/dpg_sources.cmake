@@ -97,6 +97,8 @@ set(MARVEL_SOURCES
 	"src/core/AppItems/containers/mvWindowAppItem.cpp"
 	"src/core/AppItems/containers/mvPopup.cpp"
 	"src/core/AppItems/containers/mvDragPayload.cpp"
+	"src/core/AppItems/containers/mvFilterSet.cpp"
+	"src/core/AppItems/containers/mvClipper.cpp"
 
 	"src/core/AppItems/tables/mvTable.cpp"
 	"src/core/AppItems/tables/mvTableColumn.cpp"
@@ -137,6 +139,8 @@ set(MARVEL_SOURCES
 	"src/core/AppItems/nodes/mvNodeLink.cpp"
 	
 	"src/core/AppItems/plots/mvPlot.cpp"
+	"src/core/AppItems/plots/mvPlotLegend.cpp"
+	"src/core/AppItems/plots/mvPlotYAxis.cpp"
 	"src/core/AppItems/plots/mvAreaSeries.cpp"
 	"src/core/AppItems/plots/mvDragPoint.cpp"
 	"src/core/AppItems/plots/mvDragLine.cpp"
@@ -155,6 +159,8 @@ set(MARVEL_SOURCES
 	"src/core/AppItems/plots/mvShadeSeries.cpp"
 	"src/core/AppItems/plots/mvLabelSeries.cpp"
 	"src/core/AppItems/plots/mvCandleSeries.cpp"
+	"src/core/AppItems/plots/mvHistogramSeries.cpp"
+	"src/core/AppItems/plots/mv2dHistogramSeries.cpp"
 
 	"src/core/AppItems/handlers/mvHandlerRegistry.cpp"
 	"src/core/AppItems/handlers/mvKeyDownHandler.cpp"

@@ -35,9 +35,9 @@ namespace Marvel {
         None = 0, mvSpacing, mvSameLine, mvInputText, mvButton,
         mvRadioButton, mvTabBar, mvTab, mvImage, mvMenuBar,
         mvMenu, mvMenuItem, mvGroup, mvChild,
-        mvSliderFloat, mvSliderInt,
+        mvSliderFloat, mvSliderInt, mvFilterSet,
         mvDragFloat, mvDragInt, mvInputFloat,
-        mvInputInt, mvColorEdit,
+        mvInputInt, mvColorEdit, mvClipper,
         mvColorPicker, mvTooltip, mvCollapsingHeader,
         mvSeparator, mvCheckbox, mvListbox, mvText, mvCombo,
         mvPlot, mvSimplePlot, mvDrawlist, mvWindowAppItem,
@@ -55,11 +55,12 @@ namespace Marvel {
         mvScatterSeries, mvStemSeries, mvStairSeries, mvBarSeries,
         mvErrorSeries, mvVLineSeries, mvHLineSeries, mvHeatSeries,
         mvImageSeries, mvPieSeries, mvShadeSeries, mvLabelSeries,
+        mvHistogramSeries, mv2dHistogramSeries,
         mvCandleSeries, mvAreaSeries, mvColorMapScale, mvSlider3D,
         mvKnobFloat, mvLoadingIndicator, mvNodeLink, 
         mvTextureContainer, mvStaticTexture, mvDynamicTexture,
         mvStagingContainer, mvDrawLayer, mvViewportDrawlist,
-        mvFileExtension, 
+        mvFileExtension, mvPlotLegend, mvPlotYAxis,
         mvHandlerRegistry, mvKeyDownHandler, mvKeyPressHandler,
         mvKeyReleaseHandler, mvMouseMoveHandler, mvMouseWheelHandler,
         mvMouseClickHandler, mvMouseDoubleClickHandler, mvMouseDownHandler,
@@ -102,13 +103,15 @@ namespace Marvel {
         MV_PARSER_ARG_LABEL         = 1 << 7,
         MV_PARSER_ARG_SOURCE        = 1 << 8,
         MV_PARSER_ARG_CALLBACK      = 1 << 9,
-        MV_PARSER_ARG_CALLBACK_DATA = 1 << 10,
+        MV_PARSER_ARG_USER_DATA     = 1 << 10,
         MV_PARSER_ARG_SHOW          = 1 << 11,
         MV_PARSER_ARG_ENABLED       = 1 << 12,
         MV_PARSER_ARG_POS           = 1 << 13,
         MV_PARSER_ARG_DROP_CALLBACK = 1 << 14,
         MV_PARSER_ARG_DRAG_CALLBACK = 1 << 15,
         MV_PARSER_ARG_PAYLOAD_TYPE  = 1 << 16,
+        MV_PARSER_ARG_TRACKED       = 1 << 17,
+        MV_PARSER_ARG_FILTER        = 1 << 18,
     };
 
     using mvValueVariant = std::variant<
@@ -169,9 +172,29 @@ namespace Marvel {
         friend class mvDrawlist;
         friend class mvDrawLayer;
         friend class mvPlot;
+        friend class mvPlotYAxis;
+        friend class mvLineSeries;
+        friend class mvAreaSeries;
+        friend class mvBarSeries;
+        friend class mvCandleSeries;
+        friend class mvErrorSeries;
+        friend class mvHeatSeries;
+        friend class mvImageSeries;
+        friend class mvVLineSeries;
+        friend class mvHLineSeries;
+        friend class mvLabelSeries;
+        friend class mvPieSeries;
+        friend class mvScatterSeries;
+        friend class mvShadeSeries;
+        friend class mvStairSeries;
+        friend class mvStemSeries;
         friend class mvTextureContainer;
         friend class mvViewportDrawlist;
-
+        friend class mvHistogramSeries;
+        friend class mv2dHistogramSeries;
+        friend class mvFilterSet;
+        friend class mvClipper;
+       
     public:
 
         static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
@@ -235,6 +258,7 @@ namespace Marvel {
         virtual bool preDraw();
         virtual void draw(ImDrawList* drawlist, float x, float y) = 0;
         virtual void postDraw();
+        virtual void customAction() {};
 
         //-----------------------------------------------------------------------------
         // These methods handle setting the widget's value using PyObject*'s or
@@ -275,16 +299,17 @@ namespace Marvel {
         void                                setCallback    (PyObject* callback);
         void                                setDragCallback(PyObject* callback);
         void                                setDropCallback(PyObject* callback);
-        void                                hide           () { m_show = false; }
+        virtual void                        hide           () { m_show = false; }
         virtual void                        show           () { m_show = true; }
         void                                setCallbackData(PyObject* data);
+        void                                updateLocations();
 
         std::vector<mvRef<mvAppItem>>&      getChildren(int slot);
         void                                setChildren(int slot, std::vector<mvRef<mvAppItem>> children);
 
         [[nodiscard]] bool                  isShown        () const { return m_show; }
         [[nodiscard]] PyObject*             getCallback    (bool ignore_enabled = true);  // returns the callback. If ignore_enable false and item is disabled then no callback will be returned.
-        [[nodiscard]] PyObject*             getCallbackData()       { return m_callback_data; }
+        [[nodiscard]] PyObject*             getCallbackData()       { return m_user_data; }
         [[nodiscard]] PyObject*             getDragCallback()       { return m_dragCallback; }
         [[nodiscard]] PyObject*             getDropCallback()       { return m_dropCallback; }
         mvAppItemState&                     getState       () { return m_state; } 
@@ -293,7 +318,9 @@ namespace Marvel {
         int                                 getWidth() const { return m_width; }
         int                                 getHeight() const { return m_height; }
         const std::string&                  getName() const { return m_name; }
+        const std::string&                  getFilter() const { return m_filter; }
         mvAppItem*                          getRoot() const;
+        int                                 getLocation() const { return m_location; }
 
         // theme colors
         mvThemeColorGroup&                        getColorGroup        ();
@@ -320,6 +347,7 @@ namespace Marvel {
         virtual void                        setEnabled                (bool value)              { m_enabled = value; }
         virtual void                        setDataSource             (const std::string& value){ m_source = value; }
         virtual void                        setLabel                  (const std::string& value); 
+        void                                setFilter                 (const std::string& value); 
         void                                setPos                    (const ImVec2& pos); 
 
     private:
@@ -345,6 +373,7 @@ namespace Marvel {
         bool                          m_focusNextFrame = false;
         bool                          m_dirtyPos = false;
         ImVec2                        m_previousCursorPos = { 0.0f, 0.0f };
+        int                           m_location = -1;
 
         mvAppItem*                    m_parentPtr = nullptr;
         std::vector<mvRef<mvAppItem>> m_children[5] = { {}, {}, {}, {}, {} };
@@ -369,6 +398,7 @@ namespace Marvel {
         std::string    m_specificedlabel = "__DearPyGuiDefault";
         std::string    m_parent = "";
         std::string    m_before = "";
+        std::string    m_filter = "";
         int            m_width = 0;
         int            m_height = 0;
         float          m_indent = -1.0f;
@@ -379,7 +409,9 @@ namespace Marvel {
         bool           m_show = true;
         bool           m_enabled = true;
         PyObject*      m_callback = nullptr;
-        PyObject*      m_callback_data = nullptr;
+        PyObject*      m_user_data = nullptr;
+        bool           m_tracked = false;
+        float          m_trackOffset = 0.5f; // 0.0f:top, 0.5f:center, 1.0f:bottom
 
         // drag & drop
         PyObject* m_dragCallback = nullptr;

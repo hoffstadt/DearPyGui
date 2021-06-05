@@ -22,6 +22,7 @@ namespace Marvel {
 			MV_PARSER_ARG_SOURCE |
 			MV_PARSER_ARG_CALLBACK |
 			MV_PARSER_ARG_SHOW |
+			MV_PARSER_ARG_FILTER |
 			MV_PARSER_ARG_POS)
 		);
 
@@ -99,7 +100,7 @@ namespace Marvel {
 				if (sorts_specs->SpecsDirty)
 				{
 					if (sorts_specs->SpecsCount == 0)
-						mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), m_name, nullptr);
+						mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), m_name, nullptr, nullptr);
 					else
 					{
 
@@ -124,7 +125,7 @@ namespace Marvel {
 								PyList_SetItem(pySingleSpec, 1, ToPyInt(specs[i].direction));
 								PyList_SetItem(pySpec, i, pySingleSpec);
 							}
-							mvApp::GetApp()->getCallbackRegistry().runCallback(getCallback(false), m_name, pySpec);
+							mvApp::GetApp()->getCallbackRegistry().runCallback(getCallback(false), m_name, pySpec, nullptr);
 							Py_XDECREF(pySpec);
 							});
 					}
@@ -160,7 +161,7 @@ namespace Marvel {
 					item->postDraw();
 				}
 			}
-
+			clipper.End();
 			ImGui::EndTable();
 		}
 

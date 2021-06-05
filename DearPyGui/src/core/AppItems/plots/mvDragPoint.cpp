@@ -69,7 +69,7 @@ namespace Marvel {
 		{
 			(*m_value.get())[0] = dummyx;
 			(*m_value.get())[1] = dummyy;
-			mvApp::GetApp()->getCallbackRegistry().addCallback(m_callback, m_name, nullptr);
+			mvApp::GetApp()->getCallbackRegistry().addCallback(m_callback, m_name, nullptr, nullptr);
 		}
 
 	}

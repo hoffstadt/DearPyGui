@@ -17,6 +17,11 @@ namespace Marvel {
 			MV_PARSER_ARG_BEFORE |
 			MV_PARSER_ARG_LABEL |
 			MV_PARSER_ARG_SHOW |
+			MV_PARSER_ARG_FILTER |
+			MV_PARSER_ARG_DROP_CALLBACK |
+			MV_PARSER_ARG_DRAG_CALLBACK |
+			MV_PARSER_ARG_PAYLOAD_TYPE |
+			MV_PARSER_ARG_TRACKED |
 			MV_PARSER_ARG_ENABLED)
 		);
 		parser.finalize();
@@ -40,7 +45,7 @@ namespace Marvel {
 		{
 
 			// set other menus's value false on same level
-			for (auto sibling : m_parentPtr->m_children[1])
+			for (auto& sibling : m_parentPtr->m_children[1])
 			{
 				// ensure sibling
 				if (sibling->getType() == mvAppItemType::mvMenu)

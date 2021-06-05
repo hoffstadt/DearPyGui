@@ -129,7 +129,7 @@ namespace Marvel {
 				{
 					mvApp::GetApp()->getCallbackRegistry().submitCallback([&]()
 						{
-							mvApp::GetApp()->getCallbackRegistry().runCallback(m_callback, m_name.c_str(), getInfoDict());
+							mvApp::GetApp()->getCallbackRegistry().runCallback(m_callback, m_name.c_str(), getInfoDict(), nullptr);
 						});
 
 				}

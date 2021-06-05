@@ -178,7 +178,7 @@ def show_demo():
             with cxt.group():
                 dpg.add_color_picker(label="Texture 1", default_value=(255, 0, 255, 255), 
                         no_side_preview=True, alpha_bar=True, width=200,
-                        callback=_update_dynamic_textures, callback_data=1)
+                        callback=_update_dynamic_textures, user_data=1)
                 dpg.add_text("Image Button")
                 dpg.add_image_button(demo_dynamic_texture_1, width=100, height=100)
 
@@ -187,19 +187,20 @@ def show_demo():
             with cxt.group():
                 dpg.add_color_picker(label="Texture 2", default_value=(255, 255, 0, 255), 
                                      no_side_preview=True, alpha_bar=True, width=200,
-                                     callback=_update_dynamic_textures, callback_data=2)
+                                     callback=_update_dynamic_textures, user_data=2)
                 dpg.add_text("Image")
                 dpg.add_image(demo_dynamic_texture_2)
 
         with cxt.tree_node(label="Image Series (plots)"):
 
             plot_id=dpg.add_plot(label="Image Plot", height=400)
-            dpg.add_image_series("INTERNAL_DPG_FONT_ATLAS", [300, 300], [400, 400], label="font atlas", parent=plot_id)
-            dpg.add_image_series(demo_static_texture_1, [0, 0], [100, 100], label="static 1", parent=plot_id)
-            dpg.add_image_series(demo_static_texture_2, [150, 150], [200, 200], label="static 2", parent=plot_id)
-            dpg.add_image_series(demo_static_texture_3, [200, -150], [300, -50], label="static 3", parent=plot_id)
-            dpg.add_image_series(demo_dynamic_texture_1, [-200, 100], [-100, 200], label="dynamic 1", parent=plot_id)
-            dpg.add_image_series(demo_dynamic_texture_2, [-200, -100], [-150, -50], label="dynamic 2", parent=plot_id)
+            yaxis_id = dpg.add_plot_yaxis(label="y axis", parent=plot_id)
+            dpg.add_image_series("INTERNAL_DPG_FONT_ATLAS", [300, 300], [400, 400], label="font atlas", parent=yaxis_id)
+            dpg.add_image_series(demo_static_texture_1, [0, 0], [100, 100], label="static 1", parent=yaxis_id)
+            dpg.add_image_series(demo_static_texture_2, [150, 150], [200, 200], label="static 2", parent=yaxis_id)
+            dpg.add_image_series(demo_static_texture_3, [200, -150], [300, -50], label="static 3", parent=yaxis_id)
+            dpg.add_image_series(demo_dynamic_texture_1, [-200, 100], [-100, 200], label="dynamic 1", parent=yaxis_id)
+            dpg.add_image_series(demo_dynamic_texture_2, [-200, -100], [-150, -50], label="dynamic 2", parent=yaxis_id)
 
         with cxt.tree_node(label="Drawlists"):
 

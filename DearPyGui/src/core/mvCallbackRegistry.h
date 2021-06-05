@@ -19,13 +19,6 @@ namespace Marvel {
 
 		static constexpr const int s_MaxNumberOfCalls = 50;
 
-		struct NewCallback
-		{
-			std::string sender;
-			PyObject* callback;   // name of function to run
-			PyObject* data;       // any data need by the function
-		};
-
 	public:
 
 		static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
@@ -51,8 +44,8 @@ namespace Marvel {
 
 		void runTasks();
 
-        void runCallback      (PyObject* callback, const std::string& sender, PyObject* data = nullptr);
-        void addCallback      (PyObject* callback, const std::string& sender, PyObject* data);
+        void runCallback      (PyObject* callback, const std::string& sender, PyObject* app_data, PyObject* user_data);
+        void addCallback      (PyObject* callback, const std::string& sender, PyObject* app_data, PyObject* user_data);
 		
 		bool runCallbacks();
 

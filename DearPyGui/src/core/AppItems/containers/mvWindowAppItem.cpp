@@ -153,7 +153,7 @@ namespace Marvel {
 			if (!m_closing)
 			{
 				m_closing = true;
-				mvApp::GetApp()->getCallbackRegistry().addCallback(m_on_close, m_name, nullptr);
+				mvApp::GetApp()->getCallbackRegistry().addCallback(m_on_close, m_name, nullptr, nullptr);
 
 			}
 			return;
@@ -271,6 +271,8 @@ namespace Marvel {
 				continue;
 
 			item->draw(drawlist, ImGui::GetCursorPosX(), ImGui::GetCursorPosY());
+			if(item->m_tracked)
+				ImGui::SetScrollHereY(m_trackOffset);
 
 			item->postDraw();
 		}
@@ -287,6 +289,23 @@ namespace Marvel {
 
 		}
 
+		if (m_scrollXSet)
+		{
+			ImGui::SetScrollX(m_scrollX);
+			m_scrollXSet = false;
+		}
+
+		if (m_scrollYSet)
+		{
+			ImGui::SetScrollY(m_scrollY);
+			m_scrollYSet = false;
+		}
+
+		m_scrollX = ImGui::GetScrollX();
+		m_scrollY = ImGui::GetScrollY();
+		m_scrollMaxX = ImGui::GetScrollMaxX();
+		m_scrollMaxY = ImGui::GetScrollMaxY();
+
 		m_state.setVisible(true);
 		m_state.setHovered(ImGui::IsWindowHovered());
 		m_state.setFocused(ImGui::IsWindowFocused());
@@ -297,7 +316,7 @@ namespace Marvel {
 		{
 			m_width = (int)ImGui::GetWindowWidth();
 			m_height = (int)ImGui::GetWindowHeight();
-			mvApp::GetApp()->getCallbackRegistry().addCallback(m_resize_callback, m_name, nullptr);
+			mvApp::GetApp()->getCallbackRegistry().addCallback(m_resize_callback, m_name, nullptr, nullptr);
 		}
 
 		m_width = (int)ImGui::GetWindowWidth();
@@ -337,6 +356,18 @@ namespace Marvel {
 	{
 		if (dict == nullptr)
 			return;
+
+		if (PyObject* item = PyDict_GetItemString(dict, "scroll_x"))
+		{
+			m_scrollX = ToFloat(item);
+			m_scrollXSet = true;
+		}
+
+		if (PyObject* item = PyDict_GetItemString(dict, "scroll_y"))
+		{
+			m_scrollY = ToFloat(item);
+			m_scrollYSet = true;
+		}
 
 		if (PyObject* item = PyDict_GetItemString(dict, "modal"))
 		{
@@ -417,6 +448,10 @@ namespace Marvel {
 		PyDict_SetItemString(dict, "collapsed", ToPyBool(m_collapsed));
 		PyDict_SetItemString(dict, "min_size", ToPyPair(m_min_size.x, m_min_size.y));
 		PyDict_SetItemString(dict, "max_size", ToPyPair(m_min_size.x, m_min_size.y));
+		PyDict_SetItemString(dict, "scroll_x", ToPyFloat(m_scrollX));
+		PyDict_SetItemString(dict, "scroll_y", ToPyFloat(m_scrollY));
+		PyDict_SetItemString(dict, "scroll_x_max", ToPyFloat(m_scrollMaxX));
+		PyDict_SetItemString(dict, "scroll_y_max", ToPyFloat(m_scrollMaxY));
 
 		// helper to check and set bit
 		auto checkbitset = [dict](const char* keyword, int flag, const int& flags)

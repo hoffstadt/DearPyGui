@@ -69,19 +69,19 @@ with cxt.window(id="Dear PyGui Demo", width=800, height=800, show=False) as demo
             dpg.add_table_column()
             dpg.add_table_column()
 
-            dpg.add_checkbox(label="no_title_bar", callback=_config, callback_data=demo_id)
-            dpg.add_checkbox(label="no_scrollbar", callback=_config, callback_data=demo_id)
-            dpg.add_checkbox(label="menubar", default_value=True, callback=_config, callback_data=demo_id)
+            dpg.add_checkbox(label="no_title_bar", callback=_config, user_data=demo_id)
+            dpg.add_checkbox(label="no_scrollbar", callback=_config, user_data=demo_id)
+            dpg.add_checkbox(label="menubar", default_value=True, callback=_config, user_data=demo_id)
 
             dpg.add_table_next_column()
-            dpg.add_checkbox(label="no_move", callback=_config, callback_data=demo_id)
-            dpg.add_checkbox(label="no_resize", callback=_config, callback_data=demo_id)
-            dpg.add_checkbox(label="no_collapse", callback=_config, callback_data=demo_id)
+            dpg.add_checkbox(label="no_move", callback=_config, user_data=demo_id)
+            dpg.add_checkbox(label="no_resize", callback=_config, user_data=demo_id)
+            dpg.add_checkbox(label="no_collapse", callback=_config, user_data=demo_id)
 
             dpg.add_table_next_column()
-            dpg.add_checkbox(label="no_close", callback=_config, callback_data=demo_id)
-            dpg.add_checkbox(label="no_background", callback=_config, callback_data=demo_id)
-            dpg.add_checkbox(label="no_bring_to_front_on_focus", callback=_config, callback_data=demo_id)
+            dpg.add_checkbox(label="no_close", callback=_config, user_data=demo_id)
+            dpg.add_checkbox(label="no_background", callback=_config, user_data=demo_id)
+            dpg.add_checkbox(label="no_bring_to_front_on_focus", callback=_config, user_data=demo_id)
 
     widgets.show_demo()
 

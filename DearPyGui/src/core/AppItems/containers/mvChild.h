@@ -77,6 +77,14 @@ namespace Marvel {
 		bool             m_autosize_y = false;
 		ImGuiWindowFlags m_windowflags = ImGuiWindowFlags_NoSavedSettings;
 
+		// scroll info
+		float m_scrollX = 0.0f;
+		float m_scrollY = 0.0f;
+		float m_scrollMaxX = 0.0f;
+		float m_scrollMaxY = 0.0f;
+		bool  m_scrollXSet = false;
+		bool  m_scrollYSet = false;
+
 	};
 
 }
