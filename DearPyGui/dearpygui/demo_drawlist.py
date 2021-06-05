@@ -29,10 +29,17 @@ def _switch_group(sender):
     if data == "Line":
         dpg.configure_item(line_group, show=True)
         dpg.configure_item(circle_group, show=False)
+        dpg.configure_item(ellipse_group, show=False)
 
     elif data == "Circle":
         dpg.configure_item(line_group, show=False)
         dpg.configure_item(circle_group, show=True)
+        dpg.configure_item(ellipse_group, show=False)
+
+    elif data == "Ellipse":
+        dpg.configure_item(line_group, show=False)
+        dpg.configure_item(circle_group, show=False)
+        dpg.configure_item(ellipse_group, show=True)
 
 
 def show_demo():
@@ -42,7 +49,7 @@ def show_demo():
         with cxt.group():
 
             dpg.add_radio_button(("Layer 1", "Layer 2", "Layer 3"), default_value="Layer 1", callback=lambda sender: _set_layer(dpg.get_value(sender)))
-            dpg.add_listbox(("Line", "Circle"), label="Draw Item", default_value="Line", width=100,
+            dpg.add_listbox(("Line", "Circle", "Ellipse"), label="Draw Item", default_value="Line", width=100,
                             callback=_switch_group)
 
             with cxt.group(width=200) as g:
@@ -66,6 +73,21 @@ def show_demo():
                 fill_input = dpg.add_color_picker(label="fill", default_value=(0, 0, 0, 0), alpha_bar=True)
                 dpg.add_button(label="Add", callback=lambda:dpg.draw_circle(dpg.get_value(center_input), dpg.get_value(radius_input), thickness=
                                                                           dpg.get_value(thickness_input), segments = dpg.get_value(seg_input),
+                                                                          color=dpg.get_value(color_input), fill=dpg.get_value(fill_input),
+                                                                          parent=current_layer))
+
+            with cxt.group(show=False, width=200) as g:
+                global ellipse_group
+                ellipse_group = g
+                pmin_input = dpg.add_input_intx(label="pmin", size=2, default_value=(50, 50))
+                pmax_input = dpg.add_input_intx(label="pmax", size=2, default_value=(60, 70))
+                width_input = dpg.add_input_int(label="width", default_value=20)
+                thickness_input = dpg.add_input_int(label="thickness", default_value=1)
+                seg_input = dpg.add_input_int(label="segments", default_value=0)
+                color_input = dpg.add_color_picker(label="color", default_value=(255, 255, 255, 255))
+                fill_input = dpg.add_color_picker(label="fill", default_value=(0, 0, 0, 0), alpha_bar=True)
+                dpg.add_button(label="Add", callback=lambda:dpg.draw_ellipse(dpg.get_value(pmin_input), dpg.get_value(pmax_input),
+                                                                          thickness=dpg.get_value(thickness_input), segments = dpg.get_value(seg_input),
                                                                           color=dpg.get_value(color_input), fill=dpg.get_value(fill_input),
                                                                           parent=current_layer))
 
