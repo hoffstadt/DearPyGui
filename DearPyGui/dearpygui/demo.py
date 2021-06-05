@@ -12,9 +12,6 @@ from dearpygui.common import _log, _config, _help, _hsv_to_rgb
 def show_demo():
     dpg.configure_item("Dear PyGui Demo", show=True)
 
-with cxt.window(label="Dear PyGui Demo Logger", width=500, height=500):
-    dpg.add_logger(id="Demo Logger", log_level=0, autosize_x=True, autosize_y=True)
-
 with cxt.window(id="Dear PyGui Demo", width=800, height=800, show=False) as demo_id:
     
     with cxt.menu_bar():

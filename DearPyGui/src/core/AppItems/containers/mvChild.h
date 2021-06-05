@@ -70,6 +70,13 @@ namespace Marvel {
 		void addFlag           (ImGuiWindowFlags flag);
 		void removeFlag        (ImGuiWindowFlags flag);
 
+		void setScrollX(float value) { m_scrollX = value; m_scrollXSet = true; }
+		void setScrollY(float value) { m_scrollY = value; m_scrollYSet = true; }
+		float getScrollX() const { return m_scrollX; }
+		float getScrollY() const { return m_scrollY; }
+		float getScrollXMax() const { return m_scrollMaxX; }
+		float getScrollYMax() const { return m_scrollMaxY; }
+
 	private:
 
 		bool             m_border     = true;

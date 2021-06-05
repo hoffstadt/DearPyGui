@@ -662,6 +662,22 @@ def get_windows() -> List[str]:
 	"""Undocumented function"""
 	...
 
+def get_x_scroll(item : str) -> float:
+	"""Undocumented function"""
+	...
+
+def get_x_scroll_max(item : str) -> float:
+	"""Undocumented function"""
+	...
+
+def get_y_scroll(item : str) -> float:
+	"""Undocumented function"""
+	...
+
+def get_y_scroll_max(item : str) -> float:
+	"""Undocumented function"""
+	...
+
 def is_dearpygui_running() -> bool:
 	"""Undocumented function"""
 	...
@@ -834,7 +850,15 @@ def set_value(item : str, value : Any) -> None:
 	"""Undocumented function"""
 	...
 
+def set_x_scroll(item : str, value : float) -> None:
+	"""Undocumented function"""
+	...
+
 def set_xticks(plot : str, label_pairs : Any) -> None:
+	"""Undocumented function"""
+	...
+
+def set_y_scroll(item : str, value : float) -> None:
 	"""Undocumented function"""
 	...
 

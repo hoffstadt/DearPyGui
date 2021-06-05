@@ -64,17 +64,7 @@ namespace Marvel {
 		//we do this so that the children dont get the theme
 		scope.cleanup();
 
-		if (m_scrollXSet)
-		{
-			ImGui::SetScrollX(m_scrollX);
-			m_scrollXSet = false;
-		}
 
-		if (m_scrollYSet)
-		{
-			ImGui::SetScrollY(m_scrollY);
-			m_scrollYSet = false;
-		}
 
 		for (auto& item : m_children[1])
 		{
@@ -87,6 +77,24 @@ namespace Marvel {
 				ImGui::SetScrollHereY(m_trackOffset);
 
 			item->postDraw();
+		}
+
+		if (m_scrollXSet)
+		{
+			if (m_scrollX < 0.0f)
+				ImGui::SetScrollHereX(1.0f);
+			else
+				ImGui::SetScrollX(m_scrollX);
+			m_scrollXSet = false;
+		}
+
+		if (m_scrollYSet)
+		{
+			if (m_scrollY < 0.0f)
+				ImGui::SetScrollHereY(1.0f);
+			else
+				ImGui::SetScrollY(m_scrollY);
+			m_scrollYSet = false;
 		}
 
 		// allows this item to have a render callback
@@ -107,18 +115,6 @@ namespace Marvel {
 	{
 		if (dict == nullptr)
 			return;
-
-		if (PyObject* item = PyDict_GetItemString(dict, "scroll_x"))
-		{
-			m_scrollX = ToFloat(item);
-			m_scrollXSet = true;
-		}
-
-		if (PyObject* item = PyDict_GetItemString(dict, "scroll_y"))
-		{
-			m_scrollY = ToFloat(item);
-			m_scrollYSet = true;
-		}
 		 
 		if (PyObject* item = PyDict_GetItemString(dict, "border")) m_border = ToBool(item);
 		if (PyObject* item = PyDict_GetItemString(dict, "autosize_x")) m_autosize_x = ToBool(item);
@@ -144,10 +140,6 @@ namespace Marvel {
 		PyDict_SetItemString(dict, "border", ToPyBool(m_border));
 		PyDict_SetItemString(dict, "autosize_x", ToPyBool(m_autosize_x));
 		PyDict_SetItemString(dict, "autosize_y", ToPyBool(m_autosize_y));
-		PyDict_SetItemString(dict, "scroll_x", ToPyFloat(m_scrollX));
-		PyDict_SetItemString(dict, "scroll_y", ToPyFloat(m_scrollY));
-		PyDict_SetItemString(dict, "scroll_x_max", ToPyFloat(m_scrollMaxX));
-		PyDict_SetItemString(dict, "scroll_y_max", ToPyFloat(m_scrollMaxY));
 
 		// helper for bit flipping
 		auto checkbitset = [dict](const char* keyword, int flag, const int& flags)

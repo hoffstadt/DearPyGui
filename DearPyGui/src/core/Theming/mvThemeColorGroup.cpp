@@ -49,7 +49,7 @@ namespace Marvel {
 	{
 		if (doesColorExists(constant))
 		{
-			assert(false && "color with this constant already exists");
+			//assert(false && "color with this constant already exists");
 			return false;
 		}
 
