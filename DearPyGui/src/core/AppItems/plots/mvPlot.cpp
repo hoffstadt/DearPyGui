@@ -42,6 +42,8 @@ namespace Marvel {
 				MV_PARSER_ARG_DROP_CALLBACK |
 				MV_PARSER_ARG_DRAG_CALLBACK |
 				MV_PARSER_ARG_PAYLOAD_TYPE |
+				MV_PARSER_ARG_FILTER |
+				MV_PARSER_ARG_TRACKED |
 				MV_PARSER_ARG_POS)
 			);
 
@@ -439,7 +441,7 @@ namespace Marvel {
 					PyTuple_SetItem(area, 1, PyFloat_FromDouble(m_queryArea[1]));
 					PyTuple_SetItem(area, 2, PyFloat_FromDouble(m_queryArea[2]));
 					PyTuple_SetItem(area, 3, PyFloat_FromDouble(m_queryArea[3]));
-					mvApp::GetApp()->getCallbackRegistry().addCallback(m_queryCallback, m_name, area);
+					mvApp::GetApp()->getCallbackRegistry().addCallback(m_queryCallback, m_name, area, nullptr);
 					});
 			}
 
@@ -460,7 +462,7 @@ namespace Marvel {
 					if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload(m_payloadType.c_str()))
 					{
 						auto payloadActual = static_cast<const mvDragPayload*>(payload->Data);
-						mvApp::GetApp()->getCallbackRegistry().addCallback(getDropCallback(), m_name, payloadActual->getDragData());
+						mvApp::GetApp()->getCallbackRegistry().addCallback(getDropCallback(), m_name, payloadActual->getDragData(), nullptr);
 					}
 
 					ImPlot::EndDragDropTarget();

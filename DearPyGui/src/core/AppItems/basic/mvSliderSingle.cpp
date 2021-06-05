@@ -24,9 +24,14 @@ namespace Marvel {
             MV_PARSER_ARG_LABEL |
             MV_PARSER_ARG_SOURCE |
             MV_PARSER_ARG_CALLBACK |
-            MV_PARSER_ARG_CALLBACK_DATA |
+            MV_PARSER_ARG_USER_DATA |
             MV_PARSER_ARG_SHOW |
             MV_PARSER_ARG_ENABLED |
+            MV_PARSER_ARG_FILTER |
+            MV_PARSER_ARG_DROP_CALLBACK |
+            MV_PARSER_ARG_DRAG_CALLBACK |
+            MV_PARSER_ARG_PAYLOAD_TYPE |
+            MV_PARSER_ARG_TRACKED |
             MV_PARSER_ARG_POS)
         );
 
@@ -62,9 +67,14 @@ namespace Marvel {
             MV_PARSER_ARG_LABEL |
             MV_PARSER_ARG_SOURCE |
             MV_PARSER_ARG_CALLBACK |
-            MV_PARSER_ARG_CALLBACK_DATA |
+            MV_PARSER_ARG_USER_DATA |
             MV_PARSER_ARG_SHOW |
             MV_PARSER_ARG_ENABLED |
+            MV_PARSER_ARG_FILTER |
+            MV_PARSER_ARG_DROP_CALLBACK |
+            MV_PARSER_ARG_DRAG_CALLBACK |
+            MV_PARSER_ARG_PAYLOAD_TYPE |
+            MV_PARSER_ARG_TRACKED |
             MV_PARSER_ARG_POS)
         );
 
@@ -124,13 +134,13 @@ namespace Marvel {
                 m_width = 20;
 
             if (ImGui::VSliderFloat(m_label.c_str(), ImVec2((float)m_width, (float)m_height), m_enabled ? m_value.get() : &m_disabled_value, m_min, m_max, m_format.c_str()))
-                mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), m_name, m_callback_data);
+                mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), m_name, nullptr, m_user_data);
 
         }
         else
         {
             if (ImGui::SliderFloat(m_label.c_str(), m_enabled ? m_value.get() : &m_disabled_value, m_min, m_max, m_format.c_str(), m_flags))
-                mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), m_name, m_callback_data);
+                mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), m_name, nullptr, m_user_data);
 
         }
     }
@@ -173,12 +183,12 @@ namespace Marvel {
                 m_width = 20;
 
             if (ImGui::VSliderInt(m_label.c_str(), ImVec2((float)m_width, (float)m_height), m_enabled ? m_value.get() : &m_disabled_value, m_min, m_max, m_format.c_str()))
-                mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), m_name, m_callback_data);
+                mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), m_name, nullptr, m_user_data);
         }
         else
         {
             if (ImGui::SliderInt(m_label.c_str(), m_enabled ? m_value.get() : &m_disabled_value, m_min, m_max, m_format.c_str(), m_flags))
-                mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), m_name, m_callback_data);
+                mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), m_name, nullptr, m_user_data);
 
         }
     }

@@ -178,7 +178,7 @@ def show_demo():
             with cxt.group():
                 dpg.add_color_picker(label="Texture 1", default_value=(255, 0, 255, 255), 
                         no_side_preview=True, alpha_bar=True, width=200,
-                        callback=_update_dynamic_textures, callback_data=1)
+                        callback=_update_dynamic_textures, user_data=1)
                 dpg.add_text("Image Button")
                 dpg.add_image_button(demo_dynamic_texture_1, width=100, height=100)
 
@@ -187,7 +187,7 @@ def show_demo():
             with cxt.group():
                 dpg.add_color_picker(label="Texture 2", default_value=(255, 255, 0, 255), 
                                      no_side_preview=True, alpha_bar=True, width=200,
-                                     callback=_update_dynamic_textures, callback_data=2)
+                                     callback=_update_dynamic_textures, user_data=2)
                 dpg.add_text("Image")
                 dpg.add_image(demo_dynamic_texture_2)
 

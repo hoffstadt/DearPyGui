@@ -128,10 +128,10 @@ def table(*args, header_row: bool = True, width: int = 0, height: int = 0, inner
 
 @contextmanager
 def drawlist(*args, id:str='', width: int = 0, height: int = 0, show: bool = True, parent: str = "", before: str = "",
-             callback: Callable = None, callback_data: Any = None, pos=[]):
+             callback: Callable = None, user_data: Any = None, pos=[]):
     try:
         widget = internal_dpg.add_drawlist(*args, id=id, width = width, height = height, show=show, parent=parent, before=before,
-                                           callback=callback, callback_data=callback_data, pos=pos)
+                                           callback=callback, user_data=user_data, pos=pos)
         internal_dpg.push_container_stack(widget)
         yield widget
 
@@ -479,7 +479,7 @@ def staging_container(*args, id:str=''):
         internal_dpg.pop_container_stack()
 
 @contextmanager
-def tab_bar(*args, reorderable: bool = False, callback: Callable = None, callback_data: Any = None,  show: bool = True,
+def tab_bar(*args, reorderable: bool = False, callback: Callable = None, user_data: Any = None,  show: bool = True,
             parent: str = "", before: str = "", id:str='', indent=-1, pos=[]):
     """Wraps add_tab_bar() and automates calling end().
 
@@ -488,7 +488,7 @@ def tab_bar(*args, reorderable: bool = False, callback: Callable = None, callbac
             anything after "##" that occurs in the name will not be shown on screen.
         **reorderable: Allows for moveable tabs.
         **callback: Registers a callback.
-        **callback_data: Callback data.
+        **user_data: Callback data.
         **show: Decides if the item is shown of not.
         **parent: Parent to add this item to. (runtime adding)
         **before: This item will be displayed before the specified item in the parent. (runtime adding)
@@ -498,7 +498,7 @@ def tab_bar(*args, reorderable: bool = False, callback: Callable = None, callbac
         None
     """
     try:
-        widget = internal_dpg.add_tab_bar(*args, reorderable=reorderable, callback=callback, callback_data=callback_data,
+        widget = internal_dpg.add_tab_bar(*args, reorderable=reorderable, callback=callback, user_data=user_data,
                                        show=show, parent=parent, before=before, id=id, indent=indent, pos=pos)
         internal_dpg.push_container_stack(widget)
         yield widget

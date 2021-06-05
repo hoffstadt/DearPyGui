@@ -81,7 +81,7 @@ namespace Marvel {
 	{
 		mvApp::GetApp()->getCallbackRegistry().addCallback(
 			mvApp::GetApp()->getCallbackRegistry().getResizeCallback(),
-			"Main Application", nullptr);
+			"Main Application", nullptr, nullptr);
 	}
 
 	void mvViewport::setConfigDict(PyObject* dict)

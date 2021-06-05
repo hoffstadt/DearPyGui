@@ -102,7 +102,7 @@ namespace Marvel {
         MV_PARSER_ARG_LABEL         = 1 << 7,
         MV_PARSER_ARG_SOURCE        = 1 << 8,
         MV_PARSER_ARG_CALLBACK      = 1 << 9,
-        MV_PARSER_ARG_CALLBACK_DATA = 1 << 10,
+        MV_PARSER_ARG_USER_DATA     = 1 << 10,
         MV_PARSER_ARG_SHOW          = 1 << 11,
         MV_PARSER_ARG_ENABLED       = 1 << 12,
         MV_PARSER_ARG_POS           = 1 << 13,
@@ -308,7 +308,7 @@ namespace Marvel {
 
         [[nodiscard]] bool                  isShown        () const { return m_show; }
         [[nodiscard]] PyObject*             getCallback    (bool ignore_enabled = true);  // returns the callback. If ignore_enable false and item is disabled then no callback will be returned.
-        [[nodiscard]] PyObject*             getCallbackData()       { return m_callback_data; }
+        [[nodiscard]] PyObject*             getCallbackData()       { return m_user_data; }
         [[nodiscard]] PyObject*             getDragCallback()       { return m_dragCallback; }
         [[nodiscard]] PyObject*             getDropCallback()       { return m_dropCallback; }
         mvAppItemState&                     getState       () { return m_state; } 
@@ -408,7 +408,7 @@ namespace Marvel {
         bool           m_show = true;
         bool           m_enabled = true;
         PyObject*      m_callback = nullptr;
-        PyObject*      m_callback_data = nullptr;
+        PyObject*      m_user_data = nullptr;
         bool           m_tracked = false;
         float          m_trackOffset = 0.5f; // 0.0f:top, 0.5f:center, 1.0f:bottom
 

@@ -17,8 +17,13 @@ namespace Marvel {
 			MV_PARSER_ARG_BEFORE |
 			MV_PARSER_ARG_LABEL |
 			MV_PARSER_ARG_CALLBACK |
-			MV_PARSER_ARG_CALLBACK_DATA |
+			MV_PARSER_ARG_USER_DATA |
 			MV_PARSER_ARG_SHOW |
+			MV_PARSER_ARG_FILTER |
+			MV_PARSER_ARG_DROP_CALLBACK |
+			MV_PARSER_ARG_DRAG_CALLBACK |
+			MV_PARSER_ARG_PAYLOAD_TYPE |
+			MV_PARSER_ARG_TRACKED |
 			MV_PARSER_ARG_ENABLED)
 		);
 
@@ -52,7 +57,7 @@ namespace Marvel {
 		// create menu item and see if its selected
 		if (ImGui::MenuItem(m_label.c_str(), m_shortcut.c_str(), m_check ? m_value.get() : nullptr, m_enabled))
 		{
-			mvApp::GetApp()->getCallbackRegistry().addCallback(m_callback, m_name, m_callback_data);
+			mvApp::GetApp()->getCallbackRegistry().addCallback(m_callback, m_name, nullptr, m_user_data);
 		}
 
 		ImGui::PopStyleColor();

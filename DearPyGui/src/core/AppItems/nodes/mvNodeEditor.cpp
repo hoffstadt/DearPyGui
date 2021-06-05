@@ -23,6 +23,11 @@ namespace Marvel {
 				MV_PARSER_ARG_PARENT |
 				MV_PARSER_ARG_BEFORE |
 				MV_PARSER_ARG_CALLBACK |
+				MV_PARSER_ARG_FILTER |
+				MV_PARSER_ARG_DROP_CALLBACK |
+				MV_PARSER_ARG_DRAG_CALLBACK |
+				MV_PARSER_ARG_PAYLOAD_TYPE |
+				MV_PARSER_ARG_TRACKED |
 				MV_PARSER_ARG_SHOW)
 			);
 
@@ -241,7 +246,7 @@ namespace Marvel {
 				PyObject* link = PyTuple_New(2);
 				PyTuple_SetItem(link, 0, ToPyString(node1));
 				PyTuple_SetItem(link, 1, ToPyString(node2));
-				mvApp::GetApp()->getCallbackRegistry().addCallback(m_callback, m_name, link);
+				mvApp::GetApp()->getCallbackRegistry().addCallback(m_callback, m_name, link, nullptr);
 					});
 		}
 
@@ -263,7 +268,7 @@ namespace Marvel {
 			if (m_delinkCallback)
 				mvApp::GetApp()->getCallbackRegistry().submitCallback([=]() {
 				PyObject* link = ToPyString(name);
-				mvApp::GetApp()->getCallbackRegistry().addCallback(m_delinkCallback, m_name, link);
+				mvApp::GetApp()->getCallbackRegistry().addCallback(m_delinkCallback, m_name, link, nullptr);
 					});
 		}
 

@@ -29,11 +29,11 @@ def show_demo():
         with cxt.tree_node(id="Grid Layout using Table API"):
             dpg.add_text("Tables can be used to layout items in an equally spaced grid pattern.")
             dpg.add_text("See tables section for more detail on tables.")
-            dpg.add_checkbox(label="resizable", callback=cmn._config, callback_data="layout_demo_table")
-            dpg.add_checkbox(label="borders_innerH", callback=cmn._config, callback_data="layout_demo_table", default_value=True)
-            dpg.add_checkbox(label="borders_outerH", callback=cmn._config, callback_data="layout_demo_table", default_value=True)
-            dpg.add_checkbox(label="borders_innerV", callback=cmn._config, callback_data="layout_demo_table", default_value=True)
-            dpg.add_checkbox(label="borders_outerV", callback=cmn._config, callback_data="layout_demo_table", default_value=True)
+            dpg.add_checkbox(label="resizable", callback=cmn._config, user_data="layout_demo_table")
+            dpg.add_checkbox(label="borders_innerH", callback=cmn._config, user_data="layout_demo_table", default_value=True)
+            dpg.add_checkbox(label="borders_outerH", callback=cmn._config, user_data="layout_demo_table", default_value=True)
+            dpg.add_checkbox(label="borders_innerV", callback=cmn._config, user_data="layout_demo_table", default_value=True)
+            dpg.add_checkbox(label="borders_outerV", callback=cmn._config, user_data="layout_demo_table", default_value=True)
             with cxt.table(id="layout_demo_table", header_row=False, borders_innerH=True, borders_outerH=True, borders_innerV=True, borders_outerV=True):
                 dpg.add_table_column()
                 dpg.add_table_column()
@@ -77,12 +77,12 @@ def show_demo():
             with cxt.tree_node(label="Child windows"):
                 dpg.add_text("Child windows are basically embedded windows and provide much more structure and control of the containing items than groups.")
                 with cxt.group(horizontal=True):
-                    dpg.add_checkbox(label="autosize_x", callback=cmn._config, callback_data="demo_layout_child")
-                    dpg.add_checkbox(label="autosize_y", callback=cmn._config, callback_data="demo_layout_child")
-                    dpg.add_checkbox(label="menubar", callback=cmn._config, callback_data="demo_layout_child")
-                    dpg.add_checkbox(label="no_scrollbar", callback=cmn._config, callback_data="demo_layout_child")
-                    dpg.add_checkbox(label="horizontal_scrollbar", callback=cmn._config, callback_data="demo_layout_child")
-                    dpg.add_checkbox(label="border", default_value=True, callback=cmn._config, callback_data="demo_layout_child")
+                    dpg.add_checkbox(label="autosize_x", callback=cmn._config, user_data="demo_layout_child")
+                    dpg.add_checkbox(label="autosize_y", callback=cmn._config, user_data="demo_layout_child")
+                    dpg.add_checkbox(label="menubar", callback=cmn._config, user_data="demo_layout_child")
+                    dpg.add_checkbox(label="no_scrollbar", callback=cmn._config, user_data="demo_layout_child")
+                    dpg.add_checkbox(label="horizontal_scrollbar", callback=cmn._config, user_data="demo_layout_child")
+                    dpg.add_checkbox(label="border", default_value=True, callback=cmn._config, user_data="demo_layout_child")
                 with cxt.child(id="demo_layout_child", width=200, height=200):
                     with cxt.menu_bar():
                         with cxt.menu(label="Menu"):

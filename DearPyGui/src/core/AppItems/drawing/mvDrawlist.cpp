@@ -22,8 +22,13 @@ namespace Marvel {
 			MV_PARSER_ARG_PARENT |
 			MV_PARSER_ARG_BEFORE |
 			MV_PARSER_ARG_CALLBACK |
-			MV_PARSER_ARG_CALLBACK_DATA |
+			MV_PARSER_ARG_USER_DATA |
 			MV_PARSER_ARG_SHOW |
+			MV_PARSER_ARG_FILTER |
+			MV_PARSER_ARG_DROP_CALLBACK |
+			MV_PARSER_ARG_DRAG_CALLBACK |
+			MV_PARSER_ARG_PAYLOAD_TYPE |
+			MV_PARSER_ARG_TRACKED |
 			MV_PARSER_ARG_POS)
 		);
 		parser.finalize();
@@ -82,7 +87,7 @@ namespace Marvel {
 		ImGui::PopClipRect();
 
 		if (ImGui::InvisibleButton(m_name.c_str(), ImVec2((float)m_width, (float)m_height), ImGuiButtonFlags_MouseButtonLeft | ImGuiButtonFlags_MouseButtonRight | ImGuiButtonFlags_MouseButtonMiddle))
-			mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), m_name, m_callback_data);
+			mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), m_name, nullptr, m_user_data);
 
 
 		if (ImGui::IsItemHovered())
