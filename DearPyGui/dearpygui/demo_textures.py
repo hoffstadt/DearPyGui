@@ -78,7 +78,7 @@ def _create_dynamic_textures():
     demo_dynamic_texture_1 = dpg.add_dynamic_texture(100, 100, texture_data1, parent=demo_texture_container)
     demo_dynamic_texture_2 = dpg.add_dynamic_texture(50, 50, texture_data2, parent=demo_texture_container)
 
-def _update_dynamic_textures(sender, data):
+def _update_dynamic_textures(sender, app_data, user_data):
 
     global demo_dynamic_texture_1, demo_dynamic_texture_2
 
@@ -88,7 +88,7 @@ def _update_dynamic_textures(sender, data):
     new_color[2] = new_color[2]/255
     new_color[3] = new_color[3]/255
 
-    if data == 1:
+    if user_data == 1:
         texture_data = []
         for i in range(0, 100*100):
             texture_data.append(new_color[0])
@@ -97,7 +97,7 @@ def _update_dynamic_textures(sender, data):
             texture_data.append(new_color[3])
         dpg.set_value(demo_dynamic_texture_1, texture_data)
 
-    elif data == 2:
+    elif user_data == 2:
         texture_data = []
         for i in range(0, 50*50):
             texture_data.append(new_color[0])

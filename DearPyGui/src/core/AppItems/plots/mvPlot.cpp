@@ -618,7 +618,7 @@ namespace Marvel {
 		if (!(mvApp::GetApp()->getParsers())["reset_xticks"].parse(args, kwargs, __FUNCTION__, &plot))
 			return GetPyNone();
 
-		std::lock_guard<std::mutex> lk(mvApp::GetApp()->getMutex());
+		if (!mvApp::s_manualMutexControl) std::lock_guard<std::mutex> lk(mvApp::s_mutex);
 		auto aplot = mvApp::GetApp()->getItemRegistry().getItem(plot);
 		if (aplot == nullptr)
 		{
@@ -651,7 +651,7 @@ namespace Marvel {
 
 		auto mlabel_pairs = ToVectPairStringFloat(label_pairs);
 
-		std::lock_guard<std::mutex> lk(mvApp::GetApp()->getMutex());
+		if (!mvApp::s_manualMutexControl) std::lock_guard<std::mutex> lk(mvApp::s_mutex);
 		auto aplot = mvApp::GetApp()->getItemRegistry().getItem(plot);
 		if (aplot == nullptr)
 		{
@@ -690,7 +690,7 @@ namespace Marvel {
 		if (!(mvApp::GetApp()->getParsers())["set_plot_xlimits_auto"].parse(args, kwargs, __FUNCTION__, &plot))
 			return GetPyNone();
 
-		std::lock_guard<std::mutex> lk(mvApp::GetApp()->getMutex());
+		if (!mvApp::s_manualMutexControl) std::lock_guard<std::mutex> lk(mvApp::s_mutex);
 		auto aplot = mvApp::GetApp()->getItemRegistry().getItem(plot);
 		if (aplot == nullptr)
 		{
@@ -722,7 +722,7 @@ namespace Marvel {
 		if (!(mvApp::GetApp()->getParsers())["set_plot_xlimits"].parse(args, kwargs, __FUNCTION__, &plot, &xmin, &xmax))
 			return GetPyNone();
 
-		std::lock_guard<std::mutex> lk(mvApp::GetApp()->getMutex());
+		if (!mvApp::s_manualMutexControl) std::lock_guard<std::mutex> lk(mvApp::s_mutex);
 		auto aplot = mvApp::GetApp()->getItemRegistry().getItem(plot);
 		if (aplot == nullptr)
 		{
@@ -752,7 +752,7 @@ namespace Marvel {
 		if (!(mvApp::GetApp()->getParsers())["is_plot_queried"].parse(args, kwargs, __FUNCTION__, &plot))
 			return GetPyNone();
 
-		std::lock_guard<std::mutex> lk(mvApp::GetApp()->getMutex());
+		if (!mvApp::s_manualMutexControl) std::lock_guard<std::mutex> lk(mvApp::s_mutex);
 		auto aplot = mvApp::GetApp()->getItemRegistry().getItem(plot);
 		if (aplot == nullptr)
 		{
@@ -780,7 +780,7 @@ namespace Marvel {
 		if (!(mvApp::GetApp()->getParsers())["get_plot_xlimits"].parse(args, kwargs, __FUNCTION__, &plot))
 			return GetPyNone();
 
-		std::lock_guard<std::mutex> lk(mvApp::GetApp()->getMutex());
+		if (!mvApp::s_manualMutexControl) std::lock_guard<std::mutex> lk(mvApp::s_mutex);
 		auto aplot = mvApp::GetApp()->getItemRegistry().getItem(plot);
 		if (aplot == nullptr)
 		{
@@ -809,7 +809,7 @@ namespace Marvel {
 		if (!(mvApp::GetApp()->getParsers())["get_plot_query_area"].parse(args, kwargs, __FUNCTION__, &plot))
 			return GetPyNone();
 
-		std::lock_guard<std::mutex> lk(mvApp::GetApp()->getMutex());
+		if (!mvApp::s_manualMutexControl) std::lock_guard<std::mutex> lk(mvApp::s_mutex);
 		auto aplot = mvApp::GetApp()->getItemRegistry().getItem(plot);
 		if (aplot == nullptr)
 		{

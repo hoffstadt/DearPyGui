@@ -193,7 +193,7 @@ namespace Marvel {
 		if (!(mvApp::GetApp()->getParsers())["get_file_dialog_info"].parse(args, kwargs, __FUNCTION__, &file_dialog))
 			return GetPyNone();
 
-		std::lock_guard<std::mutex> lk(mvApp::GetApp()->getMutex());
+		if (!mvApp::s_manualMutexControl) std::lock_guard<std::mutex> lk(mvApp::s_mutex);
 		auto aplot = mvApp::GetApp()->getItemRegistry().getItem(file_dialog);
 		if (aplot == nullptr)
 		{

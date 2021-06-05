@@ -112,7 +112,7 @@ namespace Marvel {
 
 		if (m_sizeDirty)
 		{
-			std::lock_guard<std::mutex> lk(mvApp::GetApp()->getMutex());
+			if (!mvApp::s_manualMutexControl) std::lock_guard<std::mutex> lk(mvApp::s_mutex);
 			mvEventBus::Publish(mvEVT_CATEGORY_VIEWPORT, mvEVT_VIEWPORT_RESIZE, {
 				CreateEventArgument("actual_width", m_actualWidth),
 				CreateEventArgument("actual_height", m_actualHeight),
@@ -197,7 +197,7 @@ namespace Marvel {
 
 	PyObject* mvViewport::maximize_viewport(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
-		std::lock_guard<std::mutex> lk(mvApp::GetApp()->getMutex());
+		if (!mvApp::s_manualMutexControl) std::lock_guard<std::mutex> lk(mvApp::s_mutex);
 		mvApp::GetApp()->getCallbackRegistry().submit([=]()
 			{
 				mvApp::GetApp()->getViewport()->maximize();
@@ -208,7 +208,7 @@ namespace Marvel {
 
 	PyObject* mvViewport::minimize_viewport(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
-		std::lock_guard<std::mutex> lk(mvApp::GetApp()->getMutex());
+		if (!mvApp::s_manualMutexControl) std::lock_guard<std::mutex> lk(mvApp::s_mutex);
 		mvApp::GetApp()->getCallbackRegistry().submit([=]()
 			{
 				mvApp::GetApp()->getViewport()->minimize();

@@ -147,7 +147,7 @@ namespace Marvel {
 		if (!(mvApp::GetApp()->getParsers())["close_popup"].parse(args, kwargs, __FUNCTION__, &popup))
 			return GetPyNone();
 
-		std::lock_guard<std::mutex> lk(mvApp::GetApp()->getMutex());
+		if (!mvApp::s_manualMutexControl) std::lock_guard<std::mutex> lk(mvApp::s_mutex);
 
 		auto item = mvApp::GetApp()->getItemRegistry().getItem(popup);
 

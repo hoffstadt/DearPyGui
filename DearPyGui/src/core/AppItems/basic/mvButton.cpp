@@ -56,7 +56,7 @@ namespace Marvel {
 		if (m_small_button)
 		{
 			if (ImGui::SmallButton(m_label.c_str()))
-				mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), m_name, m_user_data, nullptr);
+				mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), m_name, nullptr, m_user_data);
 			return;
 		}
 

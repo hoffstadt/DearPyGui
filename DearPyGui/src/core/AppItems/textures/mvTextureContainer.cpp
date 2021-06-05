@@ -24,7 +24,6 @@ namespace Marvel {
 		:
 		mvAppItem(name)
 	{
-		//m_children[1].push_back(std::make_shared<mvStaticTexture>("INTERNAL_DPG_FONT_ATLAS"));
 		m_show = false;
 	}
 

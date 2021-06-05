@@ -92,7 +92,7 @@ with cxt.window(id="Dear PyGui Demo", width=800, height=800, show=False) as demo
     with cxt.collapsing_header(label="Tooltips"):
         pass
 
-    tables.show_demo()
+    #tables.show_demo()
     drawlist.show_demo()
     plots.show_demo()
     nodes.show_demo()

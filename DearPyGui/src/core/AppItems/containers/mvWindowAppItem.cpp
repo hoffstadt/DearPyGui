@@ -521,7 +521,7 @@ namespace Marvel {
 			&item, &value))
 			return GetPyNone();
 
-		std::lock_guard<std::mutex> lk(mvApp::GetApp()->getMutex());
+		if (!mvApp::s_manualMutexControl) std::lock_guard<std::mutex> lk(mvApp::s_mutex);
 
 		auto window = mvApp::GetApp()->getItemRegistry().getItem(item);
 		if (window == nullptr)
@@ -564,7 +564,7 @@ namespace Marvel {
 			&item, &value))
 			return GetPyNone();
 
-		std::lock_guard<std::mutex> lk(mvApp::GetApp()->getMutex());
+		if (!mvApp::s_manualMutexControl) std::lock_guard<std::mutex> lk(mvApp::s_mutex);
 
 		auto window = mvApp::GetApp()->getItemRegistry().getItem(item);
 		if (window == nullptr)
@@ -606,7 +606,7 @@ namespace Marvel {
 			&item))
 			return GetPyNone();
 
-		std::lock_guard<std::mutex> lk(mvApp::GetApp()->getMutex());
+		if (!mvApp::s_manualMutexControl) std::lock_guard<std::mutex> lk(mvApp::s_mutex);
 
 		auto window = mvApp::GetApp()->getItemRegistry().getItem(item);
 		if (window == nullptr)
@@ -647,7 +647,7 @@ namespace Marvel {
 			&item))
 			return GetPyNone();
 
-		std::lock_guard<std::mutex> lk(mvApp::GetApp()->getMutex());
+		if (!mvApp::s_manualMutexControl) std::lock_guard<std::mutex> lk(mvApp::s_mutex);
 
 		auto window = mvApp::GetApp()->getItemRegistry().getItem(item);
 		if (window == nullptr)
@@ -688,7 +688,7 @@ namespace Marvel {
 			&item))
 			return GetPyNone();
 
-		std::lock_guard<std::mutex> lk(mvApp::GetApp()->getMutex());
+		if (!mvApp::s_manualMutexControl) std::lock_guard<std::mutex> lk(mvApp::s_mutex);
 
 		auto window = mvApp::GetApp()->getItemRegistry().getItem(item);
 		if (window == nullptr)
@@ -729,7 +729,7 @@ namespace Marvel {
 			&item))
 			return GetPyNone();
 
-		std::lock_guard<std::mutex> lk(mvApp::GetApp()->getMutex());
+		if (!mvApp::s_manualMutexControl) std::lock_guard<std::mutex> lk(mvApp::s_mutex);
 
 		auto window = mvApp::GetApp()->getItemRegistry().getItem(item);
 		if (window == nullptr)

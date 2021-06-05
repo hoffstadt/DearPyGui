@@ -30,9 +30,9 @@ dpg.add_static_texture(100, 100, [], parent="mvTextureContainer", file="INTERNAL
 
 # temporary, just to ensure the font atlas is ready
 # for the demo.
-#import dearpygui.demo as demo
+import dearpygui.demo as demo
 
-#demo.show_demo()
+demo.show_demo()
 
 #dpg.show_tool("mvItemRegistry")
 
@@ -47,8 +47,11 @@ logger.log_critical("critical message boi")
 
 buttons = []
 
-def add_logs():
-    
+def add_logs(sender, app_data, user_data):
+
+    if user_data:
+        dpg.lock_mutex()
+
     for i in range(0, 100):
         logger.log(str(i) + "trace message boi")
         logger.log_debug(str(i) + "debug message boi")
@@ -57,11 +60,16 @@ def add_logs():
         logger.log_error(str(i) + "error message boi")
         logger.log_critical(str(i) + "critical message boi")
 
+    if user_data:
+        dpg.unlock_mutex()
+    
+
 
 
 with cxt.window(label="Testing Features", height = 500, show=True) as w:
 
-    dpg.add_button(label="Add Logs", callback=add_logs)
+    dpg.add_button(label="Add Logs (auto mutex)", callback=add_logs, user_data=False)
+    dpg.add_button(label="Add Logs (manual mutex)", callback=add_logs, user_data=True)
 
     filter_id = ''
     dpg.add_input_text(label="Filter Proxy", callback=lambda sender: dpg.set_value(filter_id, dpg.get_value(sender)))

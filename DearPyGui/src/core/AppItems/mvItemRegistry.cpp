@@ -336,7 +336,7 @@ namespace Marvel {
 
 		for (auto& window : m_roots)
 		{
-			if(window->m_show)
+			if(window->m_show || mvAppItem::DoesItemHaveFlag(window.get(), MV_ITEM_DESC_ALWAYS_DRAW))
 				window->draw(nullptr, 0.0f, 0.0f);
 		}
 
@@ -532,7 +532,7 @@ namespace Marvel {
 		};
 		AddTechnique technique = AddTechnique::NONE;
 
-		//std::lock_guard<std::mutex> lk(mvApp::GetApp()->getMutex());
+		if (!mvApp::s_manualMutexControl) std::lock_guard<std::mutex> lk(mvApp::s_mutex);
 
 		//---------------------------------------------------------------------------
 		// STEP 1: empty parent stack if mistakes were made
@@ -808,7 +808,7 @@ namespace Marvel {
 
 	PyObject* mvItemRegistry::pop_container_stack(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
-		std::lock_guard<std::mutex> lk(mvApp::GetApp()->getMutex());
+		if (!mvApp::s_manualMutexControl) std::lock_guard<std::mutex> lk(mvApp::s_mutex);
 		auto item = mvApp::GetApp()->getItemRegistry().popParent();
 		if (item)
 			return ToPyString(item->getName());
@@ -818,14 +818,14 @@ namespace Marvel {
 
 	PyObject* mvItemRegistry::empty_container_stack(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
-		std::lock_guard<std::mutex> lk(mvApp::GetApp()->getMutex());
+		if (!mvApp::s_manualMutexControl) std::lock_guard<std::mutex> lk(mvApp::s_mutex);
 		mvApp::GetApp()->getItemRegistry().emptyParents();
 		return GetPyNone();
 	}
 
 	PyObject* mvItemRegistry::top_container_stack(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
-		std::lock_guard<std::mutex> lk(mvApp::GetApp()->getMutex());
+		if (!mvApp::s_manualMutexControl) std::lock_guard<std::mutex> lk(mvApp::s_mutex);
 		auto item = mvApp::GetApp()->getItemRegistry().topParent();
 		if (item)
 			return ToPyString(item->getName());
@@ -840,7 +840,7 @@ namespace Marvel {
 		if (!(mvApp::GetApp()->getParsers())["push_container_stack"].parse(args, kwargs, __FUNCTION__, &item))
 			return GetPyNone();
 
-		std::lock_guard<std::mutex> lk(mvApp::GetApp()->getMutex());
+		if (!mvApp::s_manualMutexControl) std::lock_guard<std::mutex> lk(mvApp::s_mutex);
 		auto parent = mvApp::GetApp()->getItemRegistry().getItem(item);
 		if (parent)
 		{
@@ -860,7 +860,7 @@ namespace Marvel {
 		if (!(mvApp::GetApp()->getParsers())["set_staging_mode"].parse(args, kwargs, __FUNCTION__, &mode))
 			return GetPyNone();
 
-		std::lock_guard<std::mutex> lk(mvApp::GetApp()->getMutex());
+		if (!mvApp::s_manualMutexControl) std::lock_guard<std::mutex> lk(mvApp::s_mutex);
 		mvApp::GetApp()->getItemRegistry().setStagingMode((bool)mode);
 		return GetPyNone();
 	}
@@ -873,7 +873,7 @@ namespace Marvel {
 		if (!(mvApp::GetApp()->getParsers())["set_primary_window"].parse(args, kwargs, __FUNCTION__, &item, &value))
 			return GetPyNone();
 
-		std::lock_guard<std::mutex> lk(mvApp::GetApp()->getMutex());
+		if (!mvApp::s_manualMutexControl) std::lock_guard<std::mutex> lk(mvApp::s_mutex);
 		mvApp::GetApp()->getItemRegistry().setPrimaryWindow(item, value);
 
 		return GetPyNone();
@@ -881,7 +881,7 @@ namespace Marvel {
 
 	PyObject* mvItemRegistry::get_active_window(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
-		std::lock_guard<std::mutex> lk(mvApp::GetApp()->getMutex());
+		if (!mvApp::s_manualMutexControl) std::lock_guard<std::mutex> lk(mvApp::s_mutex);
 		return ToPyString(mvApp::GetApp()->getItemRegistry().getActiveWindow());
 	}
 
@@ -896,7 +896,7 @@ namespace Marvel {
 			&item, &parent, &before))
 			return GetPyNone();
 
-		std::lock_guard<std::mutex> lk(mvApp::GetApp()->getMutex());
+		if (!mvApp::s_manualMutexControl) std::lock_guard<std::mutex> lk(mvApp::s_mutex);
 		mvApp::GetApp()->getItemRegistry().moveItem(item, parent, before);
 
 		return GetPyNone();
@@ -911,7 +911,7 @@ namespace Marvel {
 		if (!(mvApp::GetApp()->getParsers())["delete_item"].parse(args, kwargs, __FUNCTION__, &item, &childrenOnly))
 			return GetPyNone();
 
-		std::lock_guard<std::mutex> lk(mvApp::GetApp()->getMutex());
+		if (!mvApp::s_manualMutexControl) std::lock_guard<std::mutex> lk(mvApp::s_mutex);
 		mvApp::GetApp()->getItemRegistry().deleteItem(item, childrenOnly);
 
 		return GetPyNone();
@@ -926,7 +926,7 @@ namespace Marvel {
 		if (!(mvApp::GetApp()->getParsers())["does_item_exist"].parse(args, kwargs, __FUNCTION__, &item))
 			return GetPyNone();
 
-		std::lock_guard<std::mutex> lk(mvApp::GetApp()->getMutex());
+		if (!mvApp::s_manualMutexControl) std::lock_guard<std::mutex> lk(mvApp::s_mutex);
 		if (mvApp::GetApp()->getItemRegistry().getItem(item))
 			return ToPyBool(true);
 		return ToPyBool(false);
@@ -940,7 +940,7 @@ namespace Marvel {
 		if (!(mvApp::GetApp()->getParsers())["move_item_up"].parse(args, kwargs, __FUNCTION__, &item))
 			return GetPyNone();
 
-		std::lock_guard<std::mutex> lk(mvApp::GetApp()->getMutex());
+		if (!mvApp::s_manualMutexControl) std::lock_guard<std::mutex> lk(mvApp::s_mutex);
 		mvApp::GetApp()->getItemRegistry().moveItemUp(item);
 
 		return GetPyNone();
@@ -955,7 +955,7 @@ namespace Marvel {
 		if (!(mvApp::GetApp()->getParsers())["move_item_down"].parse(args, kwargs, __FUNCTION__, &item))
 			return GetPyNone();
 
-		std::lock_guard<std::mutex> lk(mvApp::GetApp()->getMutex());
+		if (!mvApp::s_manualMutexControl) std::lock_guard<std::mutex> lk(mvApp::s_mutex);
 		mvApp::GetApp()->getItemRegistry().moveItemDown(item);
 
 		return GetPyNone();
@@ -973,7 +973,7 @@ namespace Marvel {
 			return GetPyNone();
 
 		auto anew_order = ToStringVect(new_order);
-		std::lock_guard<std::mutex> lk(mvApp::GetApp()->getMutex());
+		if (!mvApp::s_manualMutexControl) std::lock_guard<std::mutex> lk(mvApp::s_mutex);
 
 		auto parent = mvApp::GetApp()->getItemRegistry().getItem(container);
 
@@ -1007,7 +1007,7 @@ namespace Marvel {
 			return GetPyNone();
 
 		auto aitems = ToStringVect(items);
-		std::lock_guard<std::mutex> lk(mvApp::GetApp()->getMutex());
+		if (!mvApp::s_manualMutexControl) std::lock_guard<std::mutex> lk(mvApp::s_mutex);
 		for(const auto& item : aitems)
 			mvApp::GetApp()->getItemRegistry().unstageItem(item);
 
@@ -1024,7 +1024,7 @@ namespace Marvel {
 			return GetPyNone();
 
 		auto aitems = ToStringVect(items);
-		std::lock_guard<std::mutex> lk(mvApp::GetApp()->getMutex());
+		if (!mvApp::s_manualMutexControl) std::lock_guard<std::mutex> lk(mvApp::s_mutex);
 		for (const auto& item : aitems)
 			mvApp::GetApp()->getItemRegistry().stageItem(item);
 
@@ -1034,14 +1034,14 @@ namespace Marvel {
 	PyObject* mvItemRegistry::get_all_items(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 
-		std::lock_guard<std::mutex> lk(mvApp::GetApp()->getMutex());
+		if (!mvApp::s_manualMutexControl) std::lock_guard<std::mutex> lk(mvApp::s_mutex);
 		return ToPyList(mvApp::GetApp()->getItemRegistry().getAllItems());
 	}
 
 	PyObject* mvItemRegistry::get_windows(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 
-		std::lock_guard<std::mutex> lk(mvApp::GetApp()->getMutex());
+		if (!mvApp::s_manualMutexControl) std::lock_guard<std::mutex> lk(mvApp::s_mutex);
 		return ToPyList(mvApp::GetApp()->getItemRegistry().getWindows());
 	}
 }

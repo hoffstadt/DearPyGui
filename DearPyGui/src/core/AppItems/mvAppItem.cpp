@@ -934,7 +934,7 @@ namespace Marvel{
 			setDropCallback(item);
 		}
 
-		if (PyObject* item = PyDict_GetItemString(dict, "callback_data"))
+		if (PyObject* item = PyDict_GetItemString(dict, "user_data"))
 		{
 			if (m_user_data)
 				Py_XDECREF(m_user_data);
@@ -1073,7 +1073,7 @@ namespace Marvel{
 			return GetPyNone();
 
 
-		std::lock_guard<std::mutex> lk(mvApp::GetApp()->getMutex());
+		if (!mvApp::s_manualMutexControl) std::lock_guard<std::mutex> lk(mvApp::s_mutex);
 		auto appitem = mvApp::GetApp()->getItemRegistry().getItem(item);
 
 		PyObject* pdict = PyDict_New();
@@ -1097,7 +1097,7 @@ namespace Marvel{
 			return GetPyNone();
 
 
-		std::lock_guard<std::mutex> lk(mvApp::GetApp()->getMutex());
+		if (!mvApp::s_manualMutexControl) std::lock_guard<std::mutex> lk(mvApp::s_mutex);
 		auto appitem = mvApp::GetApp()->getItemRegistry().getItem(item);
 
 		if (appitem)
@@ -1122,7 +1122,7 @@ namespace Marvel{
 			return GetPyNone();
 
 
-		std::lock_guard<std::mutex> lk(mvApp::GetApp()->getMutex());
+		if (!mvApp::s_manualMutexControl) std::lock_guard<std::mutex> lk(mvApp::s_mutex);
 		auto appitem = mvApp::GetApp()->getItemRegistry().getItem(item);
 
 		if (appitem)
@@ -1142,7 +1142,7 @@ namespace Marvel{
 			return GetPyNone();
 
 
-		std::lock_guard<std::mutex> lk(mvApp::GetApp()->getMutex());
+		if (!mvApp::s_manualMutexControl) std::lock_guard<std::mutex> lk(mvApp::s_mutex);
 		auto appitem = mvApp::GetApp()->getItemRegistry().getItem(item);
 
 		if (appitem)
@@ -1161,7 +1161,7 @@ namespace Marvel{
 			return GetPyNone();
 
 
-		std::lock_guard<std::mutex> lk(mvApp::GetApp()->getMutex());
+		if (!mvApp::s_manualMutexControl) std::lock_guard<std::mutex> lk(mvApp::s_mutex);
 		auto appitem = mvApp::GetApp()->getItemRegistry().getItem(item);
 
 		PyObject* pdict = PyDict_New();
@@ -1183,7 +1183,7 @@ namespace Marvel{
 			return GetPyNone();
 
 
-		std::lock_guard<std::mutex> lk(mvApp::GetApp()->getMutex());
+		if (!mvApp::s_manualMutexControl) std::lock_guard<std::mutex> lk(mvApp::s_mutex);
 		auto appitem = mvApp::GetApp()->getItemRegistry().getItem(item);
 
 		PyObject* pdict = PyDict_New();
@@ -1202,7 +1202,7 @@ namespace Marvel{
 
 		std::string item = ToString(PyTuple_GetItem(args, 0));
 
-		std::lock_guard<std::mutex> lk(mvApp::GetApp()->getMutex());
+		if (!mvApp::s_manualMutexControl) std::lock_guard<std::mutex> lk(mvApp::s_mutex);
 		auto appitem = mvApp::GetApp()->getItemRegistry().getItem(item);
 
 		if (appitem)
@@ -1223,7 +1223,7 @@ namespace Marvel{
 		if (!(mvApp::GetApp()->getParsers())["get_value"].parse(args, kwargs, __FUNCTION__, &name))
 			return GetPyNone();
 
-		std::lock_guard<std::mutex> lk(mvApp::GetApp()->getMutex());
+		if (!mvApp::s_manualMutexControl) std::lock_guard<std::mutex> lk(mvApp::s_mutex);
 		auto item = mvApp::GetApp()->getItemRegistry().getItem(name);
 		if (item)
 			return item->getPyValue();
@@ -1241,7 +1241,7 @@ namespace Marvel{
 		auto aitems = ToStringVect(items);
 		PyObject* pyvalues = PyList_New(aitems.size());
 
-		std::lock_guard<std::mutex> lk(mvApp::GetApp()->getMutex());
+		if (!mvApp::s_manualMutexControl) std::lock_guard<std::mutex> lk(mvApp::s_mutex);
 		for (int i = 0; i<aitems.size(); i++)
 		{
 			auto item = mvApp::GetApp()->getItemRegistry().getItem(aitems[i]);
@@ -1265,7 +1265,7 @@ namespace Marvel{
 		if (value)
 			Py_XINCREF(value);
 
-		std::lock_guard<std::mutex> lk(mvApp::GetApp()->getMutex());
+		if (!mvApp::s_manualMutexControl) std::lock_guard<std::mutex> lk(mvApp::s_mutex);
 
 		auto item = mvApp::GetApp()->getItemRegistry().getItem(name);
 		if (item)
