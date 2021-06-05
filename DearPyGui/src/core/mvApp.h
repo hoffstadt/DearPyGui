@@ -56,8 +56,17 @@ namespace Marvel {
 
     public:
 
+        static std::atomic_bool s_manualMutexControl;
+        static std::mutex  s_mutex;
+        static float  s_deltaTime; // time since last frame
+        static double s_time;  // total time since starting
+
+    public:
+
         static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
 
+        MV_CREATE_EXTRA_COMMAND(lock_mutex);
+        MV_CREATE_EXTRA_COMMAND(unlock_mutex);
         MV_CREATE_EXTRA_COMMAND(enable_docking);
         MV_CREATE_EXTRA_COMMAND(get_dearpygui_version);
         MV_CREATE_EXTRA_COMMAND(setup_dearpygui);
@@ -69,6 +78,8 @@ namespace Marvel {
         MV_CREATE_EXTRA_COMMAND(is_dearpygui_running);
 
         MV_START_EXTRA_COMMANDS
+            MV_ADD_EXTRA_COMMAND(lock_mutex);
+            MV_ADD_EXTRA_COMMAND(unlock_mutex);
             MV_ADD_EXTRA_COMMAND(enable_docking);
             MV_ADD_EXTRA_COMMAND(get_dearpygui_version);
             MV_ADD_EXTRA_COMMAND(setup_dearpygui);
@@ -93,6 +104,12 @@ namespace Marvel {
         static bool              IsAppStarted        () { return s_started; }
         static void              SetAppStopped       ();
         static void              StopApp             () { s_started = false; } // ugly
+
+        //-----------------------------------------------------------------------------
+        // Timing
+        //-----------------------------------------------------------------------------
+        static float                    GetDeltaTime() { return s_deltaTime; }
+        static double                   GetTotalTime() { return s_time; }
 
         void cleanup();
 
@@ -124,16 +141,9 @@ namespace Marvel {
         bool                     checkIfMainThread             () const;
 
         //-----------------------------------------------------------------------------
-        // Timing
-        //-----------------------------------------------------------------------------
-        float                    getDeltaTime() const { return m_deltaTime; }
-        double                   getTotalTime() const { return m_time; }
-
-        //-----------------------------------------------------------------------------
         // Other
         //-----------------------------------------------------------------------------
         std::map<std::string, mvPythonParser>& getParsers();
-        std::mutex& getMutex() const { return m_mutex; }
             
     private:
 
@@ -155,14 +165,10 @@ namespace Marvel {
         bool                                         m_dockingViewport  = false;
                                                      
         mvViewport*                                  m_viewport = nullptr;
-
-        // timing
-        float                        m_deltaTime = 0.0f; // time since last frame
-        double                       m_time      = 0.0;  // total time since starting
-        
+ 
         std::thread::id                  m_mainThreadID;
-        mutable std::mutex               m_mutex;
         std::future<bool>                m_future;
+        
 
     };
 

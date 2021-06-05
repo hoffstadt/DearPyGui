@@ -256,7 +256,7 @@ namespace Marvel {
 			return GetPyNone();
 
 		Py_XINCREF(color);
-		std::lock_guard<std::mutex> lk(mvApp::GetApp()->getMutex());
+		if (!mvApp::s_manualMutexControl) std::lock_guard<std::mutex> lk(mvApp::s_mutex);
 
 		mvEventBus::Publish
 		(
@@ -286,7 +286,7 @@ namespace Marvel {
 			return GetPyNone();
 
 		Py_XINCREF(color);
-		std::lock_guard<std::mutex> lk(mvApp::GetApp()->getMutex());
+		if (!mvApp::s_manualMutexControl) std::lock_guard<std::mutex> lk(mvApp::s_mutex);
 		mvApp::GetApp()->getCallbackRegistry().submit([=]()
 			{
 				mvEventBus::Publish
@@ -321,7 +321,7 @@ namespace Marvel {
 		if (!(mvApp::GetApp()->getParsers())["set_theme_style"].parse(args, kwargs, __FUNCTION__, &constant, &style, &item))
 			return GetPyNone();
 
-		std::lock_guard<std::mutex> lk(mvApp::GetApp()->getMutex());
+		if (!mvApp::s_manualMutexControl) std::lock_guard<std::mutex> lk(mvApp::s_mutex);
 		mvApp::GetApp()->getCallbackRegistry().submit([=]()
 			{
 				mvEventBus::Publish

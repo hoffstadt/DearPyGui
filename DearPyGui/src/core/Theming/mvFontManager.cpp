@@ -412,7 +412,7 @@ namespace Marvel {
 		for (auto& item : custom_chars)
 			imgui_custom_chars.push_back((ImWchar)item);
 
-		std::lock_guard<std::mutex> lk(mvApp::GetApp()->getMutex());
+		if (!mvApp::s_manualMutexControl) std::lock_guard<std::mutex> lk(mvApp::s_mutex);
 		mvToolManager::GetFontManager().addFont(font, file, (int)size, glyph_ranges, imgui_custom_chars,
 			imgui_custom_ranges, custom_remaps);
 
@@ -429,7 +429,7 @@ namespace Marvel {
 			&font, &size, &item))
 			return GetPyNone();
 
-		std::lock_guard<std::mutex> lk(mvApp::GetApp()->getMutex());
+		if (!mvApp::s_manualMutexControl) std::lock_guard<std::mutex> lk(mvApp::s_mutex);
 		auto sitem = std::string(item);
 		auto sfont = std::string(font);
 		mvApp::GetApp()->getCallbackRegistry().submit([=]()
@@ -456,7 +456,7 @@ namespace Marvel {
 		if (!(mvApp::GetApp()->getParsers())["set_global_font_scale"].parse(args, kwargs, __FUNCTION__, &scale))
 			return GetPyNone();
 
-		std::lock_guard<std::mutex> lk(mvApp::GetApp()->getMutex());
+		if (!mvApp::s_manualMutexControl) std::lock_guard<std::mutex> lk(mvApp::s_mutex);
 		mvToolManager::GetFontManager().setGlobalFontScale(scale);
 
 		return GetPyNone();

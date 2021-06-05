@@ -26,6 +26,10 @@ namespace Marvel {
 
 	mvApp* mvApp::s_instance = nullptr;
 	std::atomic_bool mvApp::s_started = false;
+	std::atomic_bool mvApp::s_manualMutexControl = false;
+	float mvApp::s_deltaTime = 0.0f;
+	double mvApp::s_time = 0.0;
+	std::mutex mvApp::s_mutex = {};
 
 	mvApp* mvApp::GetApp()
 	{
@@ -121,8 +125,8 @@ namespace Marvel {
 	{
 
 		// update timing
-		m_deltaTime = ImGui::GetIO().DeltaTime;
-		m_time = ImGui::GetTime();
+		s_deltaTime = ImGui::GetIO().DeltaTime;
+		s_time = ImGui::GetTime();
 		ImGui::GetIO().FontGlobalScale = mvToolManager::GetFontManager().getGlobalFontScale();
 
 		if (m_dockingViewport)
@@ -136,7 +140,7 @@ namespace Marvel {
 
 		mvToolManager::Draw();
 
-        std::lock_guard<std::mutex> lk(m_mutex);
+        std::lock_guard<std::mutex> lk(s_mutex);
 		mvEventBus::Publish(mvEVT_CATEGORY_APP, mvEVT_PRE_RENDER);
 		mvEventBus::Publish(mvEVT_CATEGORY_APP, mvEVT_PRE_RENDER_RESET);
 		mvEventBus::Publish(mvEVT_CATEGORY_APP, mvEVT_RENDER);
@@ -212,6 +216,22 @@ namespace Marvel {
 			parsers->insert({ "get_dearpygui_version", parser });
 		}
 
+	}
+
+	PyObject* mvApp::lock_mutex(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		mvApp::s_mutex.lock();
+		mvApp::s_manualMutexControl = true;
+
+		return GetPyNone();
+	}
+
+	PyObject* mvApp::unlock_mutex(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		mvApp::s_mutex.unlock();
+		mvApp::s_manualMutexControl = false;
+
+		return GetPyNone();
 	}
 
 	PyObject* mvApp::enable_docking(PyObject* self, PyObject* args, PyObject* kwargs)
@@ -299,14 +319,14 @@ namespace Marvel {
 
 	PyObject* mvApp::get_total_time(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
-		std::lock_guard<std::mutex> lk(mvApp::GetApp()->getMutex());
-		return ToPyFloat((float)mvApp::GetApp()->getTotalTime());
+		if(!mvApp::s_manualMutexControl) std::lock_guard<std::mutex> lk(mvApp::s_mutex);
+		return ToPyFloat((float)mvApp::s_time);
 	}
 
 	PyObject* mvApp::get_delta_time(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
-		std::lock_guard<std::mutex> lk(mvApp::GetApp()->getMutex());
-		return ToPyFloat(mvApp::GetApp()->getDeltaTime());
+		if (!mvApp::s_manualMutexControl) std::lock_guard<std::mutex> lk(mvApp::s_mutex);
+		return ToPyFloat(mvApp::s_deltaTime);
 
 	}
 
