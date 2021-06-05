@@ -35,9 +35,9 @@ namespace Marvel {
         None = 0, mvSpacing, mvSameLine, mvInputText, mvButton,
         mvRadioButton, mvTabBar, mvTab, mvImage, mvMenuBar,
         mvMenu, mvMenuItem, mvGroup, mvChild,
-        mvSliderFloat, mvSliderInt,
+        mvSliderFloat, mvSliderInt, mvFilterSet,
         mvDragFloat, mvDragInt, mvInputFloat,
-        mvInputInt, mvColorEdit,
+        mvInputInt, mvColorEdit, mvClipper,
         mvColorPicker, mvTooltip, mvCollapsingHeader,
         mvSeparator, mvCheckbox, mvListbox, mvText, mvCombo,
         mvPlot, mvSimplePlot, mvDrawlist, mvWindowAppItem,
@@ -110,6 +110,7 @@ namespace Marvel {
         MV_PARSER_ARG_DRAG_CALLBACK = 1 << 15,
         MV_PARSER_ARG_PAYLOAD_TYPE  = 1 << 16,
         MV_PARSER_ARG_TRACKED       = 1 << 17,
+        MV_PARSER_ARG_FILTER        = 1 << 18,
     };
 
     using mvValueVariant = std::variant<
@@ -190,6 +191,8 @@ namespace Marvel {
         friend class mvViewportDrawlist;
         friend class mvHistogramSeries;
         friend class mv2dHistogramSeries;
+        friend class mvFilterSet;
+        friend class mvClipper;
        
     public:
 
@@ -314,6 +317,7 @@ namespace Marvel {
         int                                 getWidth() const { return m_width; }
         int                                 getHeight() const { return m_height; }
         const std::string&                  getName() const { return m_name; }
+        const std::string&                  getFilter() const { return m_filter; }
         mvAppItem*                          getRoot() const;
         int                                 getLocation() const { return m_location; }
 
@@ -342,6 +346,7 @@ namespace Marvel {
         virtual void                        setEnabled                (bool value)              { m_enabled = value; }
         virtual void                        setDataSource             (const std::string& value){ m_source = value; }
         virtual void                        setLabel                  (const std::string& value); 
+        void                                setFilter                 (const std::string& value); 
         void                                setPos                    (const ImVec2& pos); 
 
     private:
@@ -392,6 +397,7 @@ namespace Marvel {
         std::string    m_specificedlabel = "__DearPyGuiDefault";
         std::string    m_parent = "";
         std::string    m_before = "";
+        std::string    m_filter = "";
         int            m_width = 0;
         int            m_height = 0;
         float          m_indent = -1.0f;

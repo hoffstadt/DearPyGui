@@ -120,6 +120,7 @@ namespace Marvel{
 		if(args & MV_PARSER_ARG_SHOW)          parser.addArg<mvPyDataType::Bool>("show", mvArgType::KEYWORD_ARG, "True", "Attempt to render");
 		if(args & MV_PARSER_ARG_ENABLED)       parser.addArg<mvPyDataType::Bool>("enabled", mvArgType::KEYWORD_ARG, "True");
 		if(args & MV_PARSER_ARG_POS)		   parser.addArg<mvPyDataType::IntList>("pos", mvArgType::KEYWORD_ARG, "[]", "Places the item relative to window coordinates, [0,0] is top left.");
+		if(args & MV_PARSER_ARG_FILTER)		   parser.addArg<mvPyDataType::String>("filter_key", mvArgType::KEYWORD_ARG, "''", "Used by filter widget");
 		
 		if (args & MV_PARSER_ARG_TRACKED)
 		{
@@ -692,6 +693,11 @@ namespace Marvel{
 		m_label = value + " ###" + m_name;
 	}
 
+	void mvAppItem::setFilter(const std::string& value)
+	{
+		m_filter = value;
+	}
+
 	mvRef<mvAppItem> mvAppItem::stealChild(const std::string& name)
 	{
 		mvRef<mvAppItem> stolenChild = nullptr;
@@ -893,6 +899,7 @@ namespace Marvel{
 			if (m_show)
 				show();
 		}
+		if (PyObject* item = PyDict_GetItemString(dict, "filter_key")) m_filter = ToString(item);
 		if (PyObject* item = PyDict_GetItemString(dict, "payload_type")) setPayloadType(ToString(item));
 		if (PyObject* item = PyDict_GetItemString(dict, "source")) setDataSource(ToString(item));
 		if (PyObject* item = PyDict_GetItemString(dict, "enabled")) setEnabled(ToBool(item));
@@ -1013,6 +1020,7 @@ namespace Marvel{
 		if (dict == nullptr)
 			return;
 
+		PyDict_SetItemString(dict, "filter_key", ToPyString(m_filter));
 		PyDict_SetItemString(dict, "payload_type", ToPyString(m_payloadType));
 		PyDict_SetItemString(dict, "label", ToPyString(m_specificedlabel));
 		PyDict_SetItemString(dict, "source", ToPyString(m_source));

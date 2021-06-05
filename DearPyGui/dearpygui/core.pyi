@@ -30,7 +30,7 @@ def add_bar_series(x : List[float], y : List[float], *, id: str =..., parent: st
 	"""Undocumented function"""
 	...
 
-def add_button(*, id: str =..., width: int =0, height: int =0, indent: int =-1, parent: str ='', before: str ='', label: str ='', payload_type: str ='$$DPG_PAYLOAD', callback: Callable =None, drag_callback: Callable =None, callback_data: Any =None, show: bool =True, enabled: bool =True, pos: List[int] =[], tracked: bool =False, track_offset: float =0.5, small: bool =False, arrow: bool =False, direction: int =0) -> str:
+def add_button(*, id: str =..., width: int =0, height: int =0, indent: int =-1, parent: str ='', before: str ='', label: str ='', payload_type: str ='$$DPG_PAYLOAD', callback: Callable =None, drag_callback: Callable =None, callback_data: Any =None, show: bool =True, enabled: bool =True, pos: List[int] =[], filter_key: str ='', tracked: bool =False, track_offset: float =0.5, small: bool =False, arrow: bool =False, direction: int =0) -> str:
 	"""Undocumented function"""
 	...
 
@@ -47,6 +47,10 @@ def add_child(*, id: str =..., width: int =0, height: int =0, indent: int =-1, p
 	...
 
 def add_clicked_handler(parent : str, button : int, *, id: str =..., callback: Callable =None) -> str:
+	"""Undocumented function"""
+	...
+
+def add_clipper(*, id: str =..., width: int =0, indent: int =-1, parent: str ='', before: str ='', show: bool =True) -> str:
 	"""Undocumented function"""
 	...
 
@@ -143,6 +147,10 @@ def add_file_dialog(*, id: str =..., width: int =0, height: int =0, label: str =
 	...
 
 def add_file_extension(extension : str, *, id: str =..., width: int =0, height: int =0, parent: str ='', before: str ='', label: str ='', custom_text: str ='', color: List[float] =(-255, 0, 0, 255)) -> str:
+	"""Undocumented function"""
+	...
+
+def add_filter_set(*, id: str =..., width: int =0, indent: int =-1, parent: str ='', before: str ='', show: bool =True) -> str:
 	"""Undocumented function"""
 	...
 

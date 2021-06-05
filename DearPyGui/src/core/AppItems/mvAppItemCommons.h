@@ -55,6 +55,8 @@
 #include "misc/mvSpacing.h"
 #include "misc/mvSeparator.h"
 
+#include "containers/mvFilterSet.h"
+#include "containers/mvClipper.h"
 #include "containers/mvStagingContainer.h"
 #include "containers/mvTreeNode.h"
 #include "containers/mvChild.h"
