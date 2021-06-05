@@ -32,6 +32,7 @@ namespace Marvel {
 
 	bool mvTableRow::isParentCompatible(mvAppItemType type)
 	{
+		if (type == mvAppItemType::mvClipper) return true;
 		if (type == mvAppItemType::mvStagingContainer) return true;
 		if (type == mvAppItemType::mvTable)
 			return true;
@@ -47,6 +48,8 @@ namespace Marvel {
 		ScopedID id;
 		mvImGuiThemeScope scope(this);
 		mvFontScope fscope(this);
+
+		ImGui::TableNextRow();
 
 		for (auto& item : m_children[1])
 		{

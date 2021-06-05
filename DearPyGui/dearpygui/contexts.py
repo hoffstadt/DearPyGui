@@ -72,7 +72,8 @@ def table(*args, header_row: bool = True, width: int = 0, height: int = 0, inner
 		borders_innerV: bool = False, borders_outerV: bool = False, policy: int = 0, no_host_extendX: bool = False,
 		no_host_extendY: bool = False, no_keep_columns_visible: bool = False, precise_widths: bool = False, no_clip: bool = False,
 		pad_outerX: bool = False, no_pad_outerX: bool = False, no_pad_innerX: bool = False, scrollX: bool = False, scrollY: bool = False,
-        id:str='', indent=-1, callback: Callable = None, sort_multi: bool = False, sort_tristate: bool = False, pos=[]):
+        id:str='', indent=-1, callback: Callable = None, sort_multi: bool = False, sort_tristate: bool = False, pos=[], freeze_rows:int = 0,
+        freeze_columns:int = 0):
     """Wraps add_table() and automates calling end().
 
     Args:
@@ -120,7 +121,7 @@ def table(*args, header_row: bool = True, width: int = 0, height: int = 0, inner
 		    no_host_extendY = no_host_extendY, no_keep_columns_visible = no_keep_columns_visible, precise_widths = precise_widths,
 		    no_clip = no_clip, pad_outerX = pad_outerX, no_pad_outerX = no_pad_outerX, no_pad_innerX = no_pad_innerX,
 		    scrollX = scrollX, scrollY = scrollY, id=id, indent=indent, callback=callback, sort_multi=sort_multi,
-            sort_tristate=sort_tristate, pos=pos)
+            sort_tristate=sort_tristate, pos=pos, freeze_rows=freeze_rows, freeze_columns=freeze_columns)
         internal_dpg.push_container_stack(widget)
         yield widget
     finally:

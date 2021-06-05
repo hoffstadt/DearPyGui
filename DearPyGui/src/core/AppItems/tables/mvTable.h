@@ -15,10 +15,10 @@ namespace Marvel {
 
 		MV_APPLY_WIDGET_REGISTRATION(mvAppItemType::mvTable, add_table)
 
-		MV_CREATE_CONSTANT(mvTable_SizingFixedFit, 8192L, 0L);
-		MV_CREATE_CONSTANT(mvTable_SizingFixedSame,	16384L, 0L);
-		MV_CREATE_CONSTANT(mvTable_SizingStretchProp, 24576L, 0L);
-		MV_CREATE_CONSTANT(mvTable_SizingStretchSame, 32768L, 0L);
+		MV_CREATE_RAW_CONSTANT(mvTable_SizingFixedFit, ImGuiTableFlags_SizingFixedFit);
+		MV_CREATE_RAW_CONSTANT(mvTable_SizingFixedSame, ImGuiTableFlags_SizingFixedSame);
+		MV_CREATE_RAW_CONSTANT(mvTable_SizingStretchProp, ImGuiTableFlags_SizingStretchProp);
+		MV_CREATE_RAW_CONSTANT(mvTable_SizingStretchSame, ImGuiTableFlags_SizingStretchSame);
 
 		MV_CREATE_CONSTANT(mvThemeCol_Table_HeaderBg, ImGuiCol_TableHeaderBg, 0L);
 		MV_CREATE_CONSTANT(mvThemeCol_Table_BorderStrong, ImGuiCol_TableBorderStrong, 0L);
@@ -73,6 +73,8 @@ namespace Marvel {
 
 		int  m_columns = 0;
 		int  m_inner_width = 0;
+		int  m_freezeRows = 0;
+		int  m_freezeColumns = 0;
 		ImGuiTableFlags m_flags = 0;
 		bool m_tableHeader = true;
 

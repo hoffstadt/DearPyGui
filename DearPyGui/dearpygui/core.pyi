@@ -246,10 +246,6 @@ def add_loading_indicator(*, id: str =..., width: int =0, height: int =0, indent
 	"""Undocumented function"""
 	...
 
-def add_logger(*, id: str =..., width: int =0, height: int =0, indent: int =-1, parent: str ='', before: str ='', show: bool =True, log_level: int =1, autosize_x: bool =False, autosize_y: bool =False, copy_button: bool =True, clear_button: bool =True, filter: bool =True, auto_scroll: bool =True, auto_scroll_button: bool =True) -> str:
-	"""Undocumented function"""
-	...
-
 def add_menu(*, id: str =..., indent: int =-1, parent: str ='', before: str ='', label: str ='', payload_type: str ='$$DPG_PAYLOAD', drag_callback: Callable =None, show: bool =True, enabled: bool =True, filter_key: str ='', tracked: bool =False, track_offset: float =0.5) -> str:
 	"""Undocumented function"""
 	...
@@ -410,7 +406,7 @@ def add_tab_button(*, id: str =..., indent: int =-1, parent: str ='', before: st
 	"""Undocumented function"""
 	...
 
-def add_table(*, id: str =..., width: int =0, height: int =0, indent: int =-1, parent: str ='', before: str ='', source: str ='', callback: Callable =None, show: bool =True, pos: List[int] =[], filter_key: str ='', header_row: bool =True, inner_width: int =0, policy: int =0, sort_multi: bool =False, sort_tristate: bool =False, resizable: bool =False, reorderable: bool =False, hideable: bool =False, sortable: bool =False, context_menu_in_body: bool =False, row_background: bool =False, borders_innerH: bool =False, borders_outerH: bool =False, borders_innerV: bool =False, borders_outerV: bool =False, no_host_extendX: bool =False, no_host_extendY: bool =False, no_keep_columns_visible: bool =False, precise_widths: bool =False, no_clip: bool =False, pad_outerX: bool =False, no_pad_outerX: bool =False, no_pad_innerX: bool =False, scrollX: bool =False, scrollY: bool =False) -> str:
+def add_table(*, id: str =..., width: int =0, height: int =0, indent: int =-1, parent: str ='', before: str ='', source: str ='', callback: Callable =None, show: bool =True, pos: List[int] =[], filter_key: str ='', header_row: bool =True, inner_width: int =0, policy: int =0, freeze_rows: int =0, freeze_columns: int =0, sort_multi: bool =False, sort_tristate: bool =False, resizable: bool =False, reorderable: bool =False, hideable: bool =False, sortable: bool =False, context_menu_in_body: bool =False, row_background: bool =False, borders_innerH: bool =False, borders_outerH: bool =False, borders_innerV: bool =False, borders_outerV: bool =False, no_host_extendX: bool =False, no_host_extendY: bool =False, no_keep_columns_visible: bool =False, precise_widths: bool =False, no_clip: bool =False, pad_outerX: bool =False, no_pad_outerX: bool =False, no_pad_innerX: bool =False, scrollX: bool =False, scrollY: bool =False) -> str:
 	"""Undocumented function"""
 	...
 
@@ -474,10 +470,6 @@ def cleanup_dearpygui() -> None:
 	"""Undocumented function"""
 	...
 
-def clear_log(*, logger: str ='') -> None:
-	"""Undocumented function"""
-	...
-
 def clear_selected_links(node_editor : str) -> None:
 	"""Undocumented function"""
 	...
@@ -519,6 +511,10 @@ def draw_bezier_curve(p1 : List[float], p2 : List[float], p3 : List[float], p4 :
 	...
 
 def draw_circle(center : List[float], radius : float, *, id: str =..., parent: str ='', before: str ='', show: bool =True, color: List[int] =(255, 255, 255, 255), fill: List[int] =(0, 0, 0, -255), thickness: float =1.0, segments: int =0) -> str:
+	"""Undocumented function"""
+	...
+
+def draw_ellipse(pmin : List[float], pmax : List[float], *, id: str =..., parent: str ='', before: str ='', show: bool =True, color: List[int] =(255, 255, 255, 255), fill: List[int] =(0, 0, 0, -255), thickness: float =1.0, segments: int =3) -> str:
 	"""Undocumented function"""
 	...
 
@@ -607,10 +603,6 @@ def get_item_state(item : str) -> dict:
 	...
 
 def get_links(node_editor : str) -> List[List[str]]:
-	"""Undocumented function"""
-	...
-
-def get_log_level(*, logger: str ='') -> int:
 	"""Undocumented function"""
 	...
 
@@ -718,26 +710,6 @@ def is_plot_queried(plot : str) -> bool:
 	"""Undocumented function"""
 	...
 
-def log(message : Any, *, level: int ='TRACE', logger: str ='') -> None:
-	"""Undocumented function"""
-	...
-
-def log_debug(message : Any, *, logger: str ='') -> None:
-	"""Undocumented function"""
-	...
-
-def log_error(message : Any, *, logger: str ='') -> None:
-	"""Undocumented function"""
-	...
-
-def log_info(message : Any, *, logger: str ='') -> None:
-	"""Undocumented function"""
-	...
-
-def log_warning(message : Any, *, logger: str ='') -> None:
-	"""Undocumented function"""
-	...
-
 def maximize_viewport() -> None:
 	"""Undocumented function"""
 	...
@@ -799,10 +771,6 @@ def set_global_font_scale(scale : float) -> None:
 	...
 
 def set_item_pos(item : str, x : float, y : float) -> None:
-	"""Undocumented function"""
-	...
-
-def set_log_level(level : int, *, logger: str ='') -> None:
 	"""Undocumented function"""
 	...
 
