@@ -81,6 +81,7 @@
 #include "drawing/mvDrawArrow.h"
 #include "drawing/mvDrawTriangle.h"
 #include "drawing/mvDrawCircle.h"
+#include "drawing/mvDrawEllipse.h"
 #include "drawing/mvDrawBezierCurve.h"
 #include "drawing/mvDrawQuad.h"
 #include "drawing/mvDrawRect.h"

@@ -118,6 +118,7 @@ set(MARVEL_SOURCES
 	"src/core/AppItems/drawing/mvDrawArrow.cpp"
 	"src/core/AppItems/drawing/mvDrawTriangle.cpp"
 	"src/core/AppItems/drawing/mvDrawCircle.cpp"
+	"src/core/AppItems/drawing/mvDrawEllipse.cpp"
 	"src/core/AppItems/drawing/mvDrawBezierCurve.cpp"
 	"src/core/AppItems/drawing/mvDrawQuad.cpp"
 	"src/core/AppItems/drawing/mvDrawRect.cpp"
