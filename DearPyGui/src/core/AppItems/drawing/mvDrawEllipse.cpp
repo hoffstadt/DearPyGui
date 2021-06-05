@@ -80,8 +80,10 @@ namespace Marvel {
 			point.y += y;
 		}
 
-		drawlist->AddPolyline((const ImVec2*)const_cast<const mvVec2*>(points.data()), (int)points.size(), m_color, false, m_thickness);
-
+		if(m_fill.r > 0.0f)
+			drawlist->AddConvexPolyFilled((const ImVec2*)const_cast<const mvVec2*>(points.data()), (int)points.size(), m_fill);
+		else
+			drawlist->AddPolyline((const ImVec2*)const_cast<const mvVec2*>(points.data()), (int)points.size(), m_color, false, m_thickness);
 	}
 
 	void mvDrawEllipse::handleSpecificRequiredArgs(PyObject* dict)
