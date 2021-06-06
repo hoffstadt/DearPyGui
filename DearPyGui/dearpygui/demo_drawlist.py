@@ -30,6 +30,7 @@ def show_demo():
     with cxt.collapsing_header(label="Drawlists"):
         with cxt.group(width=200) as inputs:
             layer = dpg.add_radio_button(default_value="Layer 1")
+            dpg.add_button(label="Clear Layer", callback=lambda: dpg.delete_item(layers[dpg.get_value(layer)], children_only=True))
             drawables = dpg.add_listbox(label="Draw Item", default_value="Line", width=100, callback=_switch_group)
 
             with cxt.group(width=200) as line:
