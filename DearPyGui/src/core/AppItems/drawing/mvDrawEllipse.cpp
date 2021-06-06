@@ -26,7 +26,7 @@ namespace Marvel {
 
 		parser.addArg<mvPyDataType::Float>("thickness", mvArgType::KEYWORD_ARG, "1.0");
 
-		parser.addArg<mvPyDataType::Integer>("segments", mvArgType::KEYWORD_ARG, "3");
+		parser.addArg<mvPyDataType::Integer>("segments", mvArgType::KEYWORD_ARG, "32");
 
 		parser.finalize();
 
@@ -62,13 +62,12 @@ namespace Marvel {
 			const float  height = m_pmax.y - m_pmin.y;
 			const float  cx = width / 2.0f + m_pmin.x;
 			const float  cy = height / 2.0f + m_pmin.y;
-			const float a_max = ((float)M_PI * 2.0f) * ((float)m_segments / (float)m_segments);
+			const float radian_inc = ((float)M_PI * 2.0f) / (float)m_segments;
 			std::vector<mvVec2> points;
 			points.reserve(m_segments + 1);
 			for (int i = 0; i <= m_segments; i++)
 			{
-				const float a = ((float)i / (float)m_segments) * a_max;
-				points.push_back(mvVec2{ cx  + cosf(a) * width, cy + sinf(a) * height });
+				points.push_back(mvVec2{ cx  + cosf(i*radian_inc) * width, cy + sinf(i * radian_inc) * height });
 			}
 			m_points = points;
 			m_dirty = false;
@@ -82,8 +81,8 @@ namespace Marvel {
 
 		if(m_fill.r > 0.0f)
 			drawlist->AddConvexPolyFilled((const ImVec2*)const_cast<const mvVec2*>(points.data()), (int)points.size(), m_fill);
-		else
-			drawlist->AddPolyline((const ImVec2*)const_cast<const mvVec2*>(points.data()), (int)points.size(), m_color, false, m_thickness);
+
+		drawlist->AddPolyline((const ImVec2*)const_cast<const mvVec2*>(points.data()), (int)points.size(), m_color, false, m_thickness);
 	}
 
 	void mvDrawEllipse::handleSpecificRequiredArgs(PyObject* dict)
