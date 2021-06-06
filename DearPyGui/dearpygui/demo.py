@@ -54,9 +54,9 @@ with cxt.window(id="Dear PyGui Demo", width=800, height=800, show=False) as demo
             dpg.add_menu_item(label="Show Font Manager", callback=lambda:dpg.show_tool("mvFontManager"))
             dpg.add_menu_item(label="Show Item Registry", callback=lambda:dpg.show_tool("mvItemRegistry"))
 
-    dpg.add_text(default_value=f'Dear PyGui says hello. ({dpg.get_dearpygui_version()})')
-    dpg.add_text(default_value="This code for this demo can be found here: ")
-    dpg.add_text(default_value="https://github.com/hoffstadt/DearPyGui/blob/master/DearPyGui/dearpygui/demo.py")
+    dpg.add_text(f'Dear PyGui says hello. ({dpg.get_dearpygui_version()})')
+    dpg.add_text("This code for this demo can be found here: ")
+    dpg.add_text("https://github.com/hoffstadt/DearPyGui/blob/master/DearPyGui/dearpygui/demo.py")
 
     with cxt.collapsing_header(label="Window Options"):
 

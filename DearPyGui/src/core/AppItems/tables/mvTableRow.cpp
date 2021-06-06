@@ -49,7 +49,8 @@ namespace Marvel {
 		mvImGuiThemeScope scope(this);
 		mvFontScope fscope(this);
 
-		ImGui::TableNextRow();
+		if(m_location != 0)
+			ImGui::TableNextRow();
 
 		for (auto& item : m_children[1])
 		{

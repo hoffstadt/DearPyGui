@@ -7,6 +7,14 @@ import dearpygui.core as internal_dpg
 ########################################################################################################################
 
 @contextmanager
+def mutex():
+   
+   try:
+        yield internal_dpg.lock_mutex()
+   finally:
+        internal_dpg.unlock_mutex()
+
+@contextmanager
 def clipper(*args, id:str='', show: bool =True, parent: str='', width: int = 0, before: str='',
            indent:int=-1):
    
@@ -229,7 +237,7 @@ def window(*args, width: int = 200, height: int = 200, autosize: bool = False,
 
 
 @contextmanager
-def menu_bar(*args, show: bool = True, parent: str = "", before: str = "", id:str='', indent=-1):
+def menu_bar(*args, show: bool = True, parent: str = "", id:str='', indent=-1):
     """Wraps add_menu_bar() and automates calling end().
 
     Args:
@@ -243,7 +251,7 @@ def menu_bar(*args, show: bool = True, parent: str = "", before: str = "", id:st
         None
     """
     try:
-        widget = internal_dpg.add_menu_bar(*args, show=show, parent=parent, before=before, id=id, indent=indent)
+        widget = internal_dpg.add_menu_bar(*args, show=show, parent=parent, id=id, indent=indent)
         internal_dpg.push_container_stack(widget)
         yield widget
     finally:

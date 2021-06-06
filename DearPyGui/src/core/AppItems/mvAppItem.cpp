@@ -116,6 +116,7 @@ namespace Marvel{
 		if(args & MV_PARSER_ARG_PAYLOAD_TYPE)  parser.addArg<mvPyDataType::String>("payload_type", mvArgType::KEYWORD_ARG, "'$$DPG_PAYLOAD'", "Overrides 'name' as value storage key");		
 		if(args & MV_PARSER_ARG_CALLBACK)      parser.addArg<mvPyDataType::Callable>("callback", mvArgType::KEYWORD_ARG, "None", "Registers a callback");
 		if(args & MV_PARSER_ARG_DRAG_CALLBACK) parser.addArg<mvPyDataType::Callable>("drag_callback", mvArgType::KEYWORD_ARG, "None", "Registers a drag callback for drag and drop");
+		if(args & MV_PARSER_ARG_DROP_CALLBACK) parser.addArg<mvPyDataType::Callable>("drop_callback", mvArgType::KEYWORD_ARG, "None", "Registers a drag callback for drag and drop");
 		if(args & MV_PARSER_ARG_USER_DATA)     parser.addArg<mvPyDataType::Object>("user_data", mvArgType::KEYWORD_ARG, "None", "User data for callbacks");
 		if(args & MV_PARSER_ARG_SHOW)          parser.addArg<mvPyDataType::Bool>("show", mvArgType::KEYWORD_ARG, "True", "Attempt to render");
 		if(args & MV_PARSER_ARG_ENABLED)       parser.addArg<mvPyDataType::Bool>("enabled", mvArgType::KEYWORD_ARG, "True");
@@ -866,6 +867,23 @@ namespace Marvel{
 	void mvAppItem::handleKeywordArgs(PyObject* dict)
 	{
 		if (dict == nullptr)
+			return;
+
+		mvAppItemType type = getType();
+		std::string parserCommand;
+
+		constexpr_for<1, (int)mvAppItemType::ItemTypeCount, 1>(
+			[&](auto i) {
+				using item_type = typename mvItemTypeMap<i>::type;
+				mvAppItemType ait = mvItemTypeReverseMap<item_type>::type;
+				if (getType() == ait)
+				{
+					parserCommand = item_type::s_command;
+					return;
+				}
+			});
+
+		if (mvApp::GetApp()->getParsers()[parserCommand].verifyKeywordArguments(dict))
 			return;
 
 		if (PyArg_ValidateKeywordArguments(dict) == 0)
