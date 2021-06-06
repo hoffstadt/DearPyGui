@@ -31,7 +31,7 @@ def show_demo():
         with cxt.group(width=200) as inputs:
             layer = dpg.add_radio_button(default_value="Layer 1")
             dpg.add_button(label="Clear Layer", callback=lambda: dpg.delete_item(layers[dpg.get_value(layer)], children_only=True))
-            drawables = dpg.add_listbox(label="Draw Item", default_value="Line", width=100, callback=_switch_group)
+            drawables = dpg.add_listbox(label="Draw Item", default_value="Line", width=100, num_items=5, callback=_switch_group)
 
             with cxt.group(width=200) as line:
                 draw_groups["line"] = line
@@ -78,8 +78,8 @@ def show_demo():
                     dpg.add_color_picker(label="color", default_value=(255, 255, 255, 255))
                 dpg.add_button(label="Add", callback=_draw, user_data=[dpg.draw_arrow, r, k, layer, False])
 
-            with cxt.group(width=200, show=False) as bezier_curve:
-                draw_groups["bezier curve"] = bezier_curve
+            with cxt.group(width=200, show=False) as bezier_cubic:
+                draw_groups["bezier cubic"] = bezier_cubic
                 with cxt.group() as r:
                     dpg.add_slider_intx(label="p1", size=2, default_value=(10, 10), max_value=800)
                     dpg.add_slider_intx(label="p2", size=2, default_value=(50, 10), max_value=800)
@@ -87,9 +87,21 @@ def show_demo():
                     dpg.add_slider_intx(label="p4", size=2, default_value=(100, 50), max_value=800)
                 with cxt.group() as k:
                     dpg.add_input_int(label="thickness", default_value=1)
-                    dpg.add_input_int(label="size", default_value=15)
+                    dpg.add_slider_int(label="segments", default_value=0)
                     dpg.add_color_picker(label="color", default_value=(255, 255, 255, 255))
-                dpg.add_button(label="Add", callback=_draw, user_data=[dpg.draw_bezier_curve, r, k, layer, False])
+                dpg.add_button(label="Add", callback=_draw, user_data=[dpg.draw_bezier_cubic, r, k, layer, False])
+
+            with cxt.group(width=200, show=False) as bezier_quadratic:
+                draw_groups["bezier quadratic"] = bezier_quadratic
+                with cxt.group() as r:
+                    dpg.add_slider_intx(label="p1", size=2, default_value=(10, 10), max_value=800)
+                    dpg.add_slider_intx(label="p2", size=2, default_value=(50, 30), max_value=800)
+                    dpg.add_slider_intx(label="p3", size=2, default_value=(10, 40), max_value=800)
+                with cxt.group() as k:
+                    dpg.add_input_int(label="thickness", default_value=1)
+                    dpg.add_slider_int(label="segments", default_value=0)
+                    dpg.add_color_picker(label="color", default_value=(255, 255, 255, 255))
+                dpg.add_button(label="Add", callback=_draw, user_data=[dpg.draw_bezier_quadratic, r, k, layer, False])
 
             with cxt.group(width=200, show=False) as polygon:
                 draw_groups["polygon"] = polygon

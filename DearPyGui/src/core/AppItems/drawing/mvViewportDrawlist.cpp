@@ -39,7 +39,8 @@ namespace Marvel {
 		if (type == mvAppItemType::mvDrawTriangle) return true;
 		if (type == mvAppItemType::mvDrawCircle) return true;
 		if (type == mvAppItemType::mvDrawEllipse) return true;
-		if (type == mvAppItemType::mvDrawBezierCurve) return true;
+		if (type == mvAppItemType::mvDrawBezierQuadratic) return true;
+		if (type == mvAppItemType::mvDrawBezierCubic) return true;
 		if (type == mvAppItemType::mvDrawQuad) return true;
 		if (type == mvAppItemType::mvDrawRect) return true;
 		if (type == mvAppItemType::mvDrawText) return true;
