@@ -469,19 +469,16 @@ namespace Marvel{
 				bool beforeFound = false;
 
 				// check children
-				for (auto& childslot : m_children)
+				for (auto& child : children)
 				{
-					for (auto& child : childslot)
+
+					if (child->m_name == before)
 					{
-
-						if (child->m_name == before)
-						{
-							beforeFound = true;
-							break;
-						}
+						beforeFound = true;
+						break;
 					}
-
 				}
+
 
 				// after item is in this container
 				if (beforeFound)

@@ -80,19 +80,19 @@ with cxt.window(id="Dear PyGui Demo", width=800, height=800, show=False) as demo
             dpg.add_checkbox(label="no_background", callback=_config, user_data=demo_id)
             dpg.add_checkbox(label="no_bring_to_front_on_focus", callback=_config, user_data=demo_id)
 
-    widgets.show_demo()
+    #widgets.show_demo()
 
-    layouts.show_demo()
+    #layouts.show_demo()
 
-    textures.show_demo()
+    #textures.show_demo()
 
-    with cxt.collapsing_header(label="Popups & Modal Windows"):
-        pass
+    #with cxt.collapsing_header(label="Popups & Modal Windows"):
+    #    pass
 
-    with cxt.collapsing_header(label="Tooltips"):
-        pass
+    #with cxt.collapsing_header(label="Tooltips"):
+    #    pass
 
-    #tables.show_demo()
-    drawlist.show_demo()
-    plots.show_demo()
-    nodes.show_demo()
+    tables.show_demo()
+    #drawlist.show_demo()
+    #plots.show_demo()
+    #nodes.show_demo()
