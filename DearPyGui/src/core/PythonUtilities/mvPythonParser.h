@@ -37,7 +37,7 @@ namespace Marvel {
     {
         None = 0, 
         Integer, Float, Double, String, Bool, Object, Callable, Dict,
-        IntList, FloatList, DoubleList, StringList,
+        IntList, FloatList, DoubleList, StringList, ListAny,
         ListListInt, ListFloatList, ListDoubleList, ListStrList, 
         Any
     };
@@ -104,6 +104,7 @@ namespace Marvel {
 
         bool verifyRequiredArguments(PyObject* args);
         bool verifyPositionalArguments(PyObject* args);
+        bool verifyKeywordArguments(PyObject* args);
         bool verifyArgumentCount(PyObject* args);
         void addKwargs() { m_unspecifiedKwargs = true; }
 

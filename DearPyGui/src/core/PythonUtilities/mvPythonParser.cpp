@@ -7,6 +7,7 @@
 #include <frameobject.h>
 #include "mvPythonTypeChecker.h"
 #include "mvPythonExceptions.h"
+#include "mvPythonTranslator.h"
 
 namespace Marvel {
 
@@ -119,21 +120,22 @@ namespace Marvel {
 	{
 		switch (type)
 		{
-		case mvPyDataType::String:        return " : str";
-		case mvPyDataType::Integer:       return " : int";
-		case mvPyDataType::Float:         return " : float";
-		case mvPyDataType::Double:        return " : float";
-		case mvPyDataType::Bool:          return " : bool";
-		case mvPyDataType::StringList:    return " : List[str]";
-		case mvPyDataType::FloatList:     return " : List[float]";
-		case mvPyDataType::DoubleList:    return " : List[float]";
-		case mvPyDataType::IntList:       return " : List[int]";
-		case mvPyDataType::Callable:      return " : Callable";
-		case mvPyDataType::Dict:          return " : dict";
-		case mvPyDataType::ListFloatList: return " : List[List[float]]";
+		case mvPyDataType::String:         return " : str";
+		case mvPyDataType::Integer:        return " : int";
+		case mvPyDataType::Float:          return " : float";
+		case mvPyDataType::Double:         return " : float";
+		case mvPyDataType::Bool:           return " : bool";
+		case mvPyDataType::StringList:     return " : List[str]";
+		case mvPyDataType::FloatList:      return " : List[float]";
+		case mvPyDataType::DoubleList:     return " : List[float]";
+		case mvPyDataType::IntList:        return " : List[int]";
+		case mvPyDataType::Callable:       return " : Callable";
+		case mvPyDataType::Dict:           return " : dict";
+		case mvPyDataType::ListAny:        return " : List[Any]";
+		case mvPyDataType::ListFloatList:  return " : List[List[float]]";
 		case mvPyDataType::ListDoubleList: return " : List[List[float]]";
-		case mvPyDataType::ListStrList:   return " : List[List[str]]";
-		case mvPyDataType::Object:        return " : Any";
+		case mvPyDataType::ListStrList:    return " : List[List[str]]";
+		case mvPyDataType::Object:         return " : Any";
 		default:                              return " : unknown";
 		}
 	}
@@ -237,6 +239,48 @@ namespace Marvel {
 	bool mvPythonParser::verifyPositionalArguments(PyObject* args)
 	{
 		return VerifyArguments((int)m_optional_elements.size(), args, m_optional_elements);
+	}
+
+	bool mvPythonParser::verifyKeywordArguments(PyObject* args)
+	{
+		if (args == nullptr)
+			return true;
+
+		if (!PyArg_ValidateKeywordArguments(args))
+			return false;
+
+		PyObject* keys = PyDict_Keys(args);
+
+		bool exists = false;
+		for (int i = 0; i < PyList_Size(keys); i++)
+		{
+			PyObject* item = PyList_GetItem(keys, i);
+			auto sitem = ToString(item);
+
+			bool found = false;
+			for (const auto& keyword : m_keyword_elements)
+			{
+				if (sitem == keyword.name)
+				{
+					found = true;
+					break;
+				}
+			}
+
+			if (found)
+				continue;
+			else
+			{
+				mvThrowPythonError(1000, sitem + " keyword does not exist.");
+				assert(false);
+				exists = false;
+				break;
+			}
+		}
+
+		Py_XDECREF(keys);
+
+		return exists;
 	}
 
 	bool mvPythonParser::verifyArgumentCount(PyObject* args)

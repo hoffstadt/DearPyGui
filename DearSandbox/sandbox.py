@@ -32,7 +32,7 @@ dpg.add_static_texture(100, 100, [], parent="mvTextureContainer", file="INTERNAL
 # for the demo.
 import dearpygui.demo as demo
 
-demo.show_demo()
+#demo.show_demo()
 
 #dpg.show_tool("mvItemRegistry")
 
@@ -52,7 +52,7 @@ def add_logs(sender, app_data, user_data):
     if user_data:
         dpg.lock_mutex()
 
-    for i in range(0, 100):
+    for i in range(0, 10):
         logger.log(str(i) + "trace message boi")
         logger.log_debug(str(i) + "debug message boi")
         logger.log_info(str(i) + "info message boi")

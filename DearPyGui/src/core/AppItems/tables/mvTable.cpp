@@ -137,7 +137,12 @@ namespace Marvel {
 				}
 			}
 
-			ImGui::TableNextColumn();
+			if (!m_children[1].empty())
+			{
+				if(m_children[1][0]->getType() != mvAppItemType::mvTableRow && m_children[1][0]->getType() != mvAppItemType::mvClipper)
+					ImGui::TableNextColumn();
+			}
+			
 
 			for (auto& item : m_children[1])
 			{
@@ -230,6 +235,9 @@ namespace Marvel {
 				m_flags |= ImGuiTableFlags_SizingStretchSame;
 
 		}
+
+		if (m_flags & ImGuiTableFlags_BordersInnerV)
+			m_flags &= ~ImGuiTableFlags_Resizable;
 }
 
 	void mvTable::getSpecificConfiguration(PyObject* dict)
