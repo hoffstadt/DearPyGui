@@ -60,7 +60,7 @@ environment:
       PYVER: 37
       PYLOC: "python"
       PYSTACK: "3.7"
-      PYFULLVERSION: "3.7.9"
+      PYFULLVERSION: "3.7.10"
     
     - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2019
       GENERATOR: "Visual Studio 16 2019"
@@ -86,7 +86,7 @@ environment:
       PYVER: 38
       PYLOC: "python"
       PYSTACK: "3.8"
-      PYFULLVERSION: "3.8.6"
+      PYFULLVERSION: "3.8.10"
 
     - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2019
       GENERATOR: "Visual Studio 16 2019"
@@ -112,7 +112,7 @@ environment:
       PYVER: 39
       PYLOC: "python"
       PYSTACK: "3.9"
-      PYFULLVERSION: "3.9.1"
+      PYFULLVERSION: "3.9.5"
 
     - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2019
       GENERATOR: "Visual Studio 16 2019"

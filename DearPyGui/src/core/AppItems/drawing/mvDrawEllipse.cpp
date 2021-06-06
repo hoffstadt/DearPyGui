@@ -62,7 +62,7 @@ namespace Marvel {
 			const float  height = m_pmax.y - m_pmin.y;
 			const float  cx = width / 2.0f + m_pmin.x;
 			const float  cy = height / 2.0f + m_pmin.y;
-			const float a_max = ((float)M_PI * 2.0f) * ((float)m_segments / (float)m_segments);
+			const float a_max = (float)M_PI * 2.0f;
 			std::vector<mvVec2> points;
 			points.reserve(m_segments + 1);
 			for (int i = 0; i <= m_segments; i++)
