@@ -60,8 +60,7 @@ namespace Marvel {
 	bool mvTableColumn::isParentCompatible(mvAppItemType type)
 	{
 		if (type == mvAppItemType::mvStagingContainer) return true;
-		if (type == mvAppItemType::mvTable)
-			return true;
+		if (type == mvAppItemType::mvTable) return true;
 
 		mvThrowPythonError(1000, "mvTableColumn parent must be a table.");
 		MV_ITEM_REGISTRY_ERROR("mvTableColumn parent must be a table.");

@@ -38,6 +38,7 @@ namespace Marvel {
         [[nodiscard]] mvVec2 getItemRectMax            () const { return m_rectMax; }
         [[nodiscard]] mvVec2 getItemRectSize           () const { return m_rectSize; }
         [[nodiscard]] mvVec2 getItemPos                () const { return m_pos; }
+        [[nodiscard]] mvVec2 getContextRegionAvail     () const { return m_contextRegionAvail; }
 
         // setters
         void          setHovered             (bool value)        { m_hovered = value; }
@@ -72,6 +73,7 @@ namespace Marvel {
         mvVec2     m_rectMax              = { 0.0f, 0.0f };
         mvVec2     m_rectSize             = { 0.0f, 0.0f };
         mvVec2     m_pos                  = { 0.0f, 0.0f };
+        mvVec2     m_contextRegionAvail   = { 0.0f, 0.0f };
         bool       m_ok                   = true;
 
     };
