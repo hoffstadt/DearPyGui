@@ -51,9 +51,12 @@ namespace Marvel {
 			// updates styles if cache is invalid and caches
 			SearchAncestorsForStyles(item);
 			StyleIDCount = item->getStyleGroup().getCachedStyles().size() + item->getStyleGroup().getCachedStyles2().size();
-
+			static int imstyleID;
 			for (const auto& style : item->getStyleGroup().getCachedStyles())
-				imnodes::PushStyleVar((imnodes::StyleVar)style.constant, style.value1);
+			{
+				DecodelibID(style.constant, &imstyleID);
+				imnodes::PushStyleVar((imnodes::StyleVar)imstyleID, style.value1);
+			}
 		}
 
 		~mvImNodesThemeScope()
