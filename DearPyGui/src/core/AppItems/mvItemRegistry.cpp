@@ -537,13 +537,16 @@ namespace Marvel {
 		//---------------------------------------------------------------------------
 		// STEP 1: empty parent stack if mistakes were made
 		//---------------------------------------------------------------------------
-		if (mvAppItem::DoesItemHaveFlag(item.get(), MV_ITEM_DESC_ROOT) && topParent() != nullptr)
-		{
-			mvThrowPythonError(1000, "Container stack not empty.");
-			emptyParents();
-			MV_ITEM_REGISTRY_ERROR("Container stack not empty when adding " + item->m_name);
-			assert(false);
-		}
+
+		// Not longer required
+
+		//if (mvAppItem::DoesItemHaveFlag(item.get(), MV_ITEM_DESC_ROOT) && topParent() != nullptr)
+		//{
+		//	mvThrowPythonError(1000, "Container stack not empty.");
+		//	emptyParents();
+		//	MV_ITEM_REGISTRY_ERROR("Container stack not empty when adding " + item->m_name);
+		//	assert(false);
+		//}
 
 		//---------------------------------------------------------------------------
 		// STEP 2: handle root case

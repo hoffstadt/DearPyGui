@@ -13,6 +13,7 @@ namespace Marvel {
 		mvAppItem::AddCommonArgs(parser, (CommonParserArgs)(
 			MV_PARSER_ARG_ID |
 			MV_PARSER_ARG_CALLBACK |
+			MV_PARSER_ARG_SHOW |
 			MV_PARSER_ARG_PARENT)
 		);
 
@@ -66,7 +67,7 @@ namespace Marvel {
 		}
 	}
 
-	void mvMouseReleaseHandler::handleSpecificRequiredArgs(PyObject* dict)
+	void mvMouseReleaseHandler::handleSpecificPositionalArgs(PyObject* dict)
 	{
 		if (!mvApp::GetApp()->getParsers()[s_command].verifyRequiredArguments(dict))
 			return;

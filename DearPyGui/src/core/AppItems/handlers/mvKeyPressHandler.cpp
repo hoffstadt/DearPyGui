@@ -13,6 +13,7 @@ namespace Marvel {
 		mvAppItem::AddCommonArgs(parser, (CommonParserArgs)(
 			MV_PARSER_ARG_ID |
 			MV_PARSER_ARG_CALLBACK |
+			MV_PARSER_ARG_SHOW |
 			MV_PARSER_ARG_PARENT)
 		);
 
@@ -66,9 +67,9 @@ namespace Marvel {
 		}
 	}
 
-	void mvKeyPressHandler::handleSpecificRequiredArgs(PyObject* dict)
+	void mvKeyPressHandler::handleSpecificPositionalArgs(PyObject* dict)
 	{
-		if (!mvApp::GetApp()->getParsers()[s_command].verifyRequiredArguments(dict))
+		if (!mvApp::GetApp()->getParsers()[s_command].verifyPositionalArguments(dict))
 			return;
 
 		for (int i = 0; i < PyTuple_Size(dict); i++)
