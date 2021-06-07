@@ -55,7 +55,7 @@ namespace Marvel {
 		std::vector<mvVec2> points = m_points;
 		for (auto& point : points)
 			point = point + start;
-
+		// TODO: Find a way to store lines and only calc new fill lines when dirty similar to ellipse
 		if (m_fill.r > 0.0f)
 		{
 			size_t i;

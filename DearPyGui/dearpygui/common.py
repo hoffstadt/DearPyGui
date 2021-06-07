@@ -9,14 +9,14 @@ def _help(message):
     with cxt.tooltip(parent=helper):
         dpg.add_text(default_value=message)
 
-def _log(sender, data):
+def _log(sender, app_data, user_data):
     dpg.log_debug(f"Sender was {sender}.", logger="Demo Logger")
-    dpg.log_debug(f"Data was {data}.", logger="Demo Logger")
+    dpg.log_debug(f"Data was {user_data}.", logger="Demo Logger")
 
-def _config(sender, data):
+def _config(sender, app_data, user_data):
 
     widget_type = dpg.get_item_info(sender)["type"]
-    items = data
+    items = user_data
     value = dpg.get_value(sender)
 
     if widget_type == "mvAppItemType::mvCheckbox":
@@ -25,7 +25,7 @@ def _config(sender, data):
     elif widget_type == "mvAppItemType::mvRadioButton":
         keyword = dpg.get_item_configuration(sender)["items"][value]
 
-    if isinstance(data, list):
+    if isinstance(user_data, list):
         for item in items:
             dpg.configure_item(item, **{keyword: value})
     else:
