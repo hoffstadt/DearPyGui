@@ -180,6 +180,8 @@ def show_demo():
                 dpg.add_checkbox(label="no_background", callback=_config, user_data=demo_id)
                 dpg.add_checkbox(label="no_bring_to_front_on_focus", callback=_config, user_data=demo_id)
 
+        widgets.show_demo()
+
         with cxt.collapsing_header(label="Textures & Images"):
         
             with cxt.tree_node(label="Help"):

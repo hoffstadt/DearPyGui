@@ -40,8 +40,9 @@ def show_demo():
                 widget = dpg.add_text("0")
 
             widget2 = dpg.add_text("hover me")
-            with cxt.tooltip(parent=widget2): # note that "parent" is the item the tooltip show's for
-                dpg.add_text("I'm a fancy tooltip")
+            # TODO: uncomment after tooltip is fixed
+            #with cxt.tooltip(parent=widget2): # note that "parent" is the item the tooltip show's for
+            #    dpg.add_text("I'm a fancy tooltip")
 
             dpg.add_separator()
 
@@ -81,8 +82,19 @@ def show_demo():
             dpg.add_color_edit((102, 179, 0, 128), label="color edit 4", callback=_log, uint8=True)
             dpg.add_color_edit(default_value=(.5, 1, .25, .1), label="color edit 3", callback=_log, m_3component=True, uint8=True, floats=False)
             dpg.add_listbox(("Apple", "Banana", "Cherry", "Kiwi", "Mango", "Orange", "Pineapple", "Strawberry", "Watermelon"), label="listbox", num_items=4, callback=_log)
-            dpg.add_color_button(label="color button")
+            dpg.add_color_button()
 
+        with cxt.tree_node(label="Combo"):
+            combo_id = dpg.add_combo(("A","B","C","D","E","F","G","H","I","J","K","L","M" "O","P","Q","R","S","T","U","V","W","X","Y","Z"), label="combo 1")
+            dpg.add_checkbox(label="popup_align_left",callback=_config, user_data=combo_id)
+            dpg.add_checkbox(label="no_arrow_button",callback=_config, user_data=combo_id)
+            dpg.add_checkbox(label="no_preview",callback=_config, user_data=combo_id)
+            dpg.add_radio_button(("height_small","height_regular","height_large","height_largest"), default_value="height_regular", callback=_config, user_data=combo_id)
+        with cxt.tree_node(label="List Boxes"):
+            listbox_1 = dpg.add_listbox(("A","B","C","D","E","F","G","H","I","J","K","L","M" "O","P","Q","R","S","T","U","V","W","X","Y","Z"), label="listbox 1 (full)")
+            listbox_2 = dpg.add_listbox(("A","B","C","D","E","F","G","H","I","J","K","L","M" "O","P","Q","R","S","T","U","V","W","X","Y","Z"), label="listbox 2", width=200)
+            dpg.add_input_int(label="num_items",callback=_config, user_data=[listbox_1, listbox_2], before = listbox_1)
+            dpg.add_slider_int(label="width", default_value=200, callback=_config, user_data=listbox_2, before = listbox_1, max_value=500)
         with cxt.tree_node(label="Bullets"):
 
             dpg.add_text("Bullet point 1", bullet=True)
@@ -145,7 +157,7 @@ def show_demo():
         with cxt.tree_node(label="Simple Plots"):
 
             dpg.add_simple_plot(label="Frame Times", default_value=[0.6, 0.1, 1.0, 0.5, 0.92, 0.1, 0.2])
-            dpg.add_simple_plot(label="Histogram", default_value=(0.6, 0.1, 1.0, 0.5, 0.92, 0.1, 0.2), height=80, histogram=True, minscale=0.0)
+            dpg.add_simple_plot(label="Histogram", default_value=(0.6, 0.1, 1.0, 0.5, 0.92, 0.1, 0.2), height=80, histogram=True, min_scale=0.0)
 
             data1 = []
             for i in range(0, 70):
@@ -209,7 +221,7 @@ def show_demo():
 
         with cxt.tree_node(label="Time/Date Widgets"):
 
-            dpg.add_time_picker(label="Time Picker", default_value={'hour': 14, 'min': 32, 'sec': 23})
+            dpg.add_time_picker(default_value={'hour': 14, 'min': 32, 'sec': 23})
             dpg.add_separator()
             
             with cxt.table(header_row=False):
@@ -218,11 +230,11 @@ def show_demo():
                 dpg.add_table_column()
                 dpg.add_table_column()
 
-                dpg.add_date_picker(label="Date Picker1", level=0, default_value={'month_day': 8, 'year':93, 'month':5})
+                dpg.add_date_picker(level=0, default_value={'month_day': 8, 'year':93, 'month':5})
                 dpg.add_table_next_column()
-                dpg.add_date_picker(label="Date Picker2", level=1, default_value={'month_day': 8, 'year':93, 'month':5})
+                dpg.add_date_picker(level=1, default_value={'month_day': 8, 'year':93, 'month':5})
                 dpg.add_table_next_column()
-                dpg.add_date_picker(label="Date Picker3", level=2, default_value={'month_day': 8, 'year':93, 'month':5})
+                dpg.add_date_picker(level=2, default_value={'month_day': 8, 'year':93, 'month':5})
 
         with cxt.tree_node(label="Loading Indicators"):
 
