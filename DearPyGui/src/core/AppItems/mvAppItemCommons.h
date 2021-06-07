@@ -105,7 +105,7 @@
 
 #include "plots/mvPlot.h"
 #include "plots/mvPlotLegend.h"
-#include "plots/mvPlotYAxis.h"
+#include "plots/mvPlotAxis.h"
 #include "plots/mvDragPoint.h"
 #include "plots/mvDragLine.h"
 #include "plots/mvAnnotation.h"

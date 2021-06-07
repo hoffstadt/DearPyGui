@@ -19,13 +19,8 @@ namespace Marvel {
 
 		MV_APPLY_WIDGET_REGISTRATION(mvAppItemType::mvPlot, add_plot)
 
-		MV_CREATE_EXTRA_COMMAND(reset_xticks);
-		MV_CREATE_EXTRA_COMMAND(set_xticks);
 		MV_CREATE_EXTRA_COMMAND(is_plot_queried);
 		MV_CREATE_EXTRA_COMMAND(get_plot_query_area);
-		MV_CREATE_EXTRA_COMMAND(set_plot_xlimits_auto);
-		MV_CREATE_EXTRA_COMMAND(set_plot_xlimits);
-		MV_CREATE_EXTRA_COMMAND(get_plot_xlimits);
 
 		//-----------------------------------------------------------------------------
 		// Plot Marker Specifications
@@ -104,13 +99,8 @@ namespace Marvel {
 		MV_CREATE_CONSTANT(mvThemeStyle_Plot_PlotMinSizeY,			26L, 1L);
 
 		MV_START_EXTRA_COMMANDS
-			MV_ADD_EXTRA_COMMAND(reset_xticks);
-			MV_ADD_EXTRA_COMMAND(set_xticks);
 			MV_ADD_EXTRA_COMMAND(is_plot_queried);
 			MV_ADD_EXTRA_COMMAND(get_plot_query_area);
-			MV_ADD_EXTRA_COMMAND(set_plot_xlimits_auto);
-			MV_ADD_EXTRA_COMMAND(set_plot_xlimits);
-			MV_ADD_EXTRA_COMMAND(get_plot_xlimits);
 		MV_END_EXTRA_COMMANDS
 
 		MV_START_GENERAL_CONSTANTS
@@ -191,27 +181,20 @@ namespace Marvel {
 
 		mvPlot(const std::string& name);
 
-		void updateBounds();
 		void updateFlags();
 		void updateAxesNames();
 
 		// settings
 		void SetColorMap    (ImPlotColormap colormap);
-		void resetXTicks    ();
-		void setXTicks      (const std::vector<std::string>& labels, const std::vector<double>& locations);
 		void draw           (ImDrawList* drawlist, float x, float y) override;
-		void setXLimits     (float x_min, float x_max);
 
 		void addFlag         (ImPlotFlags flag);
 		void removeFlag      (ImPlotFlags flag);
 
 		[[nodiscard]] bool isPlotQueried() const;
-		float* getPlotQueryArea();
+		double* getPlotQueryArea();
 		
 		ImPlotFlags        getFlags         () const { return m_flags; }
-		ImPlotAxisFlags    getXFlags        () const { return m_xflags; }
-		const std::string& getXAxisName     () const { return m_xaxisName; }
-		const ImVec2&      getXLimits       () const { return m_xlimits_actual; }
 
 		void onChildRemoved(mvRef<mvAppItem> item) override;
 		void onChildAdd(mvRef<mvAppItem> item) override;
@@ -234,19 +217,12 @@ namespace Marvel {
 
 		ImPlotColormap                m_colormap = ImPlotColormap_Deep;
 
-		bool                          m_setXLimits = false;
 		bool                          m_equalAspectRatios = false;
-		ImVec2                        m_xlimits;
-		ImVec2                        m_xlimits_actual;
 
-		PyObject*                     m_queryCallback = nullptr;
 		bool                          m_queried = false;
-		float                         m_queryArea[4] = {0.0f , 0.0f, 0.0f, 0.0f};
+		double                        m_queryArea[4] = {0.0, 0.0, 0.0, 0.0};
 		bool                          m_dirty = false;
-		
-		std::vector<std::string>      m_xlabels;
-		std::vector<const char*>      m_xclabels; // to prevent conversion from string to char* every frame
-		std::vector<double>           m_xlabelLocations;
+	
 	};
 
 }
