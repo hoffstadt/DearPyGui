@@ -4,10 +4,12 @@ from math import sin, cos
 
 def _help(message):
     """ Simple Helper """
-    dpg.add_same_line()
-    helper = dpg.add_text(color=[150, 150, 150], default_value="(?)")
-    with cxt.tooltip(parent=helper):
-        dpg.add_text(default_value=message)
+    pass
+# TODO: uncomment after tooltip is fixed
+    #dpg.add_same_line()
+    #helper = dpg.add_text(color=[150, 150, 150], default_value="(?)")
+    #with cxt.tooltip(parent=helper):
+    #    dpg.add_text(default_value=message)
 
 def _log(sender, app_data, user_data):
     dpg.log_debug(f"Sender was {sender}.", logger="Demo Logger")
@@ -17,13 +19,14 @@ def _config(sender, app_data, user_data):
 
     widget_type = dpg.get_item_info(sender)["type"]
     items = user_data
-    value = dpg.get_value(sender)
 
-    if widget_type == "mvAppItemType::mvCheckbox":
+    if widget_type == "mvAppItemType::mvRadioButton":
+        keyword = dpg.get_value(sender)
+        value = True
+
+    else:
         keyword = dpg.get_item_configuration(sender)["label"]
-
-    elif widget_type == "mvAppItemType::mvRadioButton":
-        keyword = dpg.get_item_configuration(sender)["items"][value]
+        value = dpg.get_value(sender)
 
     if isinstance(user_data, list):
         for item in items:
