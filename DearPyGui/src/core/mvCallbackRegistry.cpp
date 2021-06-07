@@ -328,13 +328,13 @@ namespace Marvel {
 					return std::string("");
 				}
 
-				mvRef<mvAppItem> item = mvApp::GetApp()->getItemRegistry().getItem(handler);
+				mvAppItem* item = mvApp::GetApp()->getItemRegistry().getItem(handler);
 
 				if (item)
 				{
-					if (mvAppItem::DoesItemHaveFlag(item.get(), MV_ITEM_DESC_ROOT))
+					if (mvAppItem::DoesItemHaveFlag(item, MV_ITEM_DESC_ROOT))
 					{
-						auto windowtype = static_cast<mvWindowAppItem*>(item.get());
+						auto windowtype = static_cast<mvWindowAppItem*>(item);
 						windowtype->setResizeCallback(callback);
 					}
 					else

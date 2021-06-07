@@ -60,10 +60,10 @@ namespace Marvel {
 			case 0:
 			{
 				std::string node1 = ToString(item);
-				mvRef<mvAppItem> node = mvApp::GetApp()->getItemRegistry().getItem(node1);
+				mvAppItem* node = mvApp::GetApp()->getItemRegistry().getItem(node1);
 				if (node->getType() == mvAppItemType::mvNodeAttribute)
 				{
-					m_id1 = static_cast<const mvNodeAttribute*>(node.get())->getId();
+					m_id1 = static_cast<const mvNodeAttribute*>(node)->getId();
 				}
 				else
 				{
@@ -78,10 +78,10 @@ namespace Marvel {
 			case 1:
 			{
 				std::string node2 = ToString(item);
-				mvRef<mvAppItem> node = mvApp::GetApp()->getItemRegistry().getItem(node2);
+				mvAppItem* node = mvApp::GetApp()->getItemRegistry().getItem(node2);
 				if (node->getType() == mvAppItemType::mvNodeAttribute)
 				{
-					m_id2 = static_cast<const mvNodeAttribute*>(node.get())->getId();
+					m_id2 = static_cast<const mvNodeAttribute*>(node)->getId();
 				}
 				else
 				{

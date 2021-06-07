@@ -499,7 +499,7 @@ namespace Marvel {
 			return GetPyNone();
 		}
 
-		mvPlot* graph = static_cast<mvPlot*>(aplot.get());
+		mvPlot* graph = static_cast<mvPlot*>(aplot);
 
 		return ToPyBool(graph->isPlotQueried());
 	}
@@ -527,7 +527,7 @@ namespace Marvel {
 			return GetPyNone();
 		}
 
-		mvPlot* graph = static_cast<mvPlot*>(aplot.get());
+		mvPlot* graph = static_cast<mvPlot*>(aplot);
 
 		double* result = graph->getPlotQueryArea();
 		return Py_BuildValue("(dddd)", result[0], result[1], result[2], result[3]);

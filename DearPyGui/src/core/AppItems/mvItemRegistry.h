@@ -100,7 +100,8 @@ namespace Marvel {
         bool                           moveItemDown      (const std::string& name);
         void                           clearRegistry     ();
         mvValueVariant                 getValue          (const std::string& name);
-        mvRef<mvAppItem>               getItem           (const std::string& name);
+        mvAppItem*                     getItem           (const std::string& name);
+        mvRef<mvAppItem>               getRefItem           (const std::string& name);
         mvWindowAppItem*               getWindow         (const std::string& name);
         std::vector<mvRef<mvAppItem>>& getRoots          ()       { return m_roots; }
         const std::string&             getActiveWindow   () const { return m_activeWindow; }
@@ -120,10 +121,10 @@ namespace Marvel {
         // Parent stack operations
         //     - used for automatic parent deduction
         //-----------------------------------------------------------------------------
-        void                           pushParent  (mvRef<mvAppItem> item); // pushes parent onto stack
+        void                           pushParent  (mvAppItem* item); // pushes parent onto stack
         void                           emptyParents();                      // empties parent stack
-        mvRef<mvAppItem>               popParent   ();                      // pop parent off stack and return it
-        mvRef<mvAppItem>               topParent   ();                      // returns top parent without popping
+        mvAppItem*                     popParent   ();                      // pop parent off stack and return it
+        mvAppItem*                     topParent   ();                      // returns top parent without popping
 
     private:
 
@@ -135,7 +136,7 @@ namespace Marvel {
 
 	private:
 
-		std::stack<mvRef<mvAppItem>>                      m_containers;      // parent stack, top of stack becomes widget's parent
+		std::stack<mvAppItem*>                            m_containers;      // parent stack, top of stack becomes widget's parent
 		std::vector<mvRef<mvAppItem>>                     m_roots;
         std::unordered_map<std::string, mvRef<mvAppItem>> m_stagingArea;
         std::string                                       m_activeWindow;

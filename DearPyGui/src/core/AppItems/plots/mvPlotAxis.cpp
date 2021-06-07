@@ -385,7 +385,7 @@ namespace Marvel {
 			return GetPyNone();
 		}
 
-		mvPlotAxis* graph = static_cast<mvPlotAxis*>(aplot.get());
+		mvPlotAxis* graph = static_cast<mvPlotAxis*>(aplot);
 
 		std::vector<std::string> labels;
 		std::vector<double> locations;
@@ -425,7 +425,7 @@ namespace Marvel {
 			return GetPyNone();
 		}
 
-		mvPlotAxis* graph = static_cast<mvPlotAxis*>(aplot.get());
+		mvPlotAxis* graph = static_cast<mvPlotAxis*>(aplot);
 
 		graph->setLimits(ymin, ymax);
 
@@ -455,7 +455,7 @@ namespace Marvel {
 			return GetPyNone();
 		}
 
-		mvPlotAxis* graph = static_cast<mvPlotAxis*>(aplot.get());
+		mvPlotAxis* graph = static_cast<mvPlotAxis*>(aplot);
 
 		const ImVec2& lim = graph->getYLimits();
 		return ToPyPair(lim.x, lim.y);
@@ -484,7 +484,7 @@ namespace Marvel {
 			return GetPyNone();
 		}
 
-		mvPlotAxis* graph = static_cast<mvPlotAxis*>(aplot.get());
+		mvPlotAxis* graph = static_cast<mvPlotAxis*>(aplot);
 
 		graph->resetYTicks();
 

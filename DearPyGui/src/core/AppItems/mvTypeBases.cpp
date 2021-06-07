@@ -19,7 +19,7 @@ namespace Marvel {
 		if (dataSource == m_source) return;
 		m_source = dataSource;
 
-		mvRef<mvAppItem> item = mvApp::GetApp()->getItemRegistry().getItem(dataSource);
+		mvAppItem* item = mvApp::GetApp()->getItemRegistry().getItem(dataSource);
 		if (!item)
 		{
 			mvThrowPythonError(1000, "Source item not found.");
@@ -72,7 +72,7 @@ namespace Marvel {
 		if (dataSource == m_source) return;
 		m_source = dataSource;
 
-		mvRef<mvAppItem> item = mvApp::GetApp()->getItemRegistry().getItem(dataSource);
+		mvAppItem* item = mvApp::GetApp()->getItemRegistry().getItem(dataSource);
 		if (!item)
 		{
 			mvThrowPythonError(1000, "Source item not found.");
@@ -106,7 +106,7 @@ namespace Marvel {
 		if (dataSource == m_source) return;
 		m_source = dataSource;
 
-		mvRef<mvAppItem> item = mvApp::GetApp()->getItemRegistry().getItem(dataSource);
+		mvAppItem* item = mvApp::GetApp()->getItemRegistry().getItem(dataSource);
 		if (!item)
 		{
 			mvThrowPythonError(1000, "Source item not found.");
@@ -140,7 +140,7 @@ namespace Marvel {
 		if (dataSource == m_source) return;
 		m_source = dataSource;
 
-		mvRef<mvAppItem> item = mvApp::GetApp()->getItemRegistry().getItem(dataSource);
+		mvAppItem* item = mvApp::GetApp()->getItemRegistry().getItem(dataSource);
 		if (!item)
 		{
 			mvThrowPythonError(1000, "Source item not found.");
@@ -183,7 +183,7 @@ namespace Marvel {
 		if (dataSource == m_source) return;
 		m_source = dataSource;
 
-		mvRef<mvAppItem> item = mvApp::GetApp()->getItemRegistry().getItem(dataSource);
+		mvAppItem* item = mvApp::GetApp()->getItemRegistry().getItem(dataSource);
 		if (!item)
 		{
 			mvThrowPythonError(1000, "Source item not found.");
@@ -226,7 +226,7 @@ namespace Marvel {
 		if (dataSource == m_source) return;
 		m_source = dataSource;
 
-		mvRef<mvAppItem> item = mvApp::GetApp()->getItemRegistry().getItem(dataSource);
+		mvAppItem* item = mvApp::GetApp()->getItemRegistry().getItem(dataSource);
 		if (!item)
 		{
 			mvThrowPythonError(1000, "Source item not found.");
@@ -276,7 +276,7 @@ namespace Marvel {
 		if (dataSource == m_source) return;
 		m_source = dataSource;
 
-		mvRef<mvAppItem> item = mvApp::GetApp()->getItemRegistry().getItem(dataSource);
+		mvAppItem* item = mvApp::GetApp()->getItemRegistry().getItem(dataSource);
 		if (!item)
 		{
 			mvThrowPythonError(1000, "Source item not found.");
@@ -310,7 +310,7 @@ namespace Marvel {
 		if (dataSource == m_source) return;
 		m_source = dataSource;
 
-		mvRef<mvAppItem> item = mvApp::GetApp()->getItemRegistry().getItem(dataSource);
+		mvAppItem* item = mvApp::GetApp()->getItemRegistry().getItem(dataSource);
 		if (!item)
 		{
 			mvThrowPythonError(1000, "Source item not found.");
@@ -344,7 +344,7 @@ namespace Marvel {
 		if (dataSource == m_source) return;
 		m_source = dataSource;
 
-		mvRef<mvAppItem> item = mvApp::GetApp()->getItemRegistry().getItem(dataSource);
+		mvAppItem* item = mvApp::GetApp()->getItemRegistry().getItem(dataSource);
 		if (!item)
 		{
 			mvThrowPythonError(1000, "Source item not found.");
@@ -399,7 +399,7 @@ namespace Marvel {
 		if (dataSource == m_source) return;
 		m_source = dataSource;
 
-		mvRef<mvAppItem> item = mvApp::GetApp()->getItemRegistry().getItem(dataSource);
+		mvAppItem* item = mvApp::GetApp()->getItemRegistry().getItem(dataSource);
 		if (!item)
 		{
 			mvThrowPythonError(1000, "Source item not found.");
@@ -435,7 +435,7 @@ namespace Marvel {
 		if (dataSource == m_source) return;
 		m_source = dataSource;
 
-		mvRef<mvAppItem> item = mvApp::GetApp()->getItemRegistry().getItem(dataSource);
+		mvAppItem* item = mvApp::GetApp()->getItemRegistry().getItem(dataSource);
 		if (!item)
 		{
 			mvThrowPythonError(1000, "Source item not found.");

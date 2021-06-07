@@ -101,7 +101,7 @@ namespace Marvel {
 			case 0:
 			{
 				m_value = ToString(item);
-				m_texture = mvApp::GetApp()->getItemRegistry().getItem(m_value);
+				m_texture = mvApp::GetApp()->getItemRegistry().getRefItem(m_value);
 				if(m_texture)
 					break;
 				else

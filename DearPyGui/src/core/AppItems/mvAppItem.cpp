@@ -750,8 +750,30 @@ namespace Marvel{
 		return stolenChild;
 	}
 
-	mvRef<mvAppItem> mvAppItem::getChild(const std::string& name)
+	mvAppItem* mvAppItem::getChild(const std::string& name)
 	{
+		if (m_name == name)
+			return this;
+
+		for (auto& childset : m_children)
+		{
+			for (auto& item : childset)
+			{
+				if (item->m_name == name)
+					return item.get();
+
+				auto child = item->getChild(name);
+				if (child)
+					return child;
+			}
+		}
+
+		return nullptr;
+	}
+
+	mvRef<mvAppItem> mvAppItem::getChildRef(const std::string& name)
+	{
+
 		for (auto& childset : m_children)
 		{
 			for (auto& item : childset)
@@ -759,7 +781,7 @@ namespace Marvel{
 				if (item->m_name == name)
 					return item;
 
-				auto child = item->getChild(name);
+				auto child = item->getChildRef(name);
 				if (child)
 					return child;
 			}
@@ -921,7 +943,10 @@ namespace Marvel{
 		if (PyObject* item = PyDict_GetItemString(dict, "source")) setDataSource(ToString(item));
 		if (PyObject* item = PyDict_GetItemString(dict, "enabled")) setEnabled(ToBool(item));
 		if (PyObject* item = PyDict_GetItemString(dict, "tracked")) m_tracked = ToBool(item);
-		if (PyObject* item = PyDict_GetItemString(dict, "track_offset")) m_trackOffset = ToFloat(item);
+		if (PyObject* item = PyDict_GetItemString(dict, "track_offset"))
+		{
+			m_trackOffset = ToFloat(item);
+		}
 		if (PyObject* item = PyDict_GetItemString(dict, "default_value")) setPyValue(item);
 
 		if (PyObject* item = PyDict_GetItemString(dict, "callback"))

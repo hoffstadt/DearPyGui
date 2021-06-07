@@ -209,7 +209,7 @@ namespace Marvel {
 			return GetPyNone();
 		}
 
-		mvFileDialog* graph = static_cast<mvFileDialog*>(aplot.get());
+		mvFileDialog* graph = static_cast<mvFileDialog*>(aplot);
 
 		return graph->getInfoDict();
 	}
