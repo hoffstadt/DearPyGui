@@ -5,21 +5,21 @@ from dearpygui.logger import mvLogger
 from math import sin, cos
 import random
 
-def event_handler(sender, data):
-    print(sender, "\t", data)
-
-with cxt.handler_registry(show=False):
-
-    dpg.add_key_down_handler(dpg.mvKey_A, callback=event_handler)
-    dpg.add_key_release_handler(dpg.mvKey_B, callback=event_handler)
-    dpg.add_key_press_handler(dpg.mvKey_C, callback=event_handler)
-    dpg.add_mouse_wheel_handler(callback=event_handler)
-    dpg.add_mouse_click_handler(-1, callback=event_handler)
-    dpg.add_mouse_double_click_handler(-1, callback=event_handler)
-    dpg.add_mouse_release_handler(-1, callback=event_handler)
-    dpg.add_mouse_drag_handler(0, 10.0, callback=event_handler)
-    dpg.add_mouse_down_handler(-1, callback=event_handler)
-    dpg.add_mouse_move_handler(callback=event_handler)
+#def event_handler(sender, data):
+#    print(sender, "\t", data)
+#
+#with cxt.handler_registry(show=False):
+#
+#    dpg.add_key_down_handler(dpg.mvKey_A, callback=event_handler)
+#    dpg.add_key_release_handler(dpg.mvKey_B, callback=event_handler)
+#    dpg.add_key_press_handler(dpg.mvKey_C, callback=event_handler)
+#    dpg.add_mouse_wheel_handler(callback=event_handler)
+#    dpg.add_mouse_click_handler(-1, callback=event_handler)
+#    dpg.add_mouse_double_click_handler(-1, callback=event_handler)
+#    dpg.add_mouse_release_handler(-1, callback=event_handler)
+#    dpg.add_mouse_drag_handler(0, 10.0, callback=event_handler)
+#    dpg.add_mouse_down_handler(-1, callback=event_handler)
+#    dpg.add_mouse_move_handler(callback=event_handler)
     
 
 dpg.add_font("google", "../../Resources/NotoSerifCJKjp-Medium.otf", 20)
@@ -36,32 +36,32 @@ demo.show_demo()
 
 #dpg.show_tool("mvItemRegistry")
 
-logger = mvLogger()
-logger.log_level = 2
-logger.log("trace message boi")
-logger.log_debug("debug message boi")
-logger.log_info("info message boi")
-logger.log_warning("warning message boi")
-logger.log_error("error message boi")
-logger.log_critical("critical message boi")
-
-buttons = []
-
-def add_logs(sender, app_data, user_data):
-
-    if user_data:
-        dpg.lock_mutex()
-
-    for i in range(0, 10):
-        logger.log(str(i) + "trace message boi")
-        logger.log_debug(str(i) + "debug message boi")
-        logger.log_info(str(i) + "info message boi")
-        logger.log_warning(str(i) + "warning message boi")
-        logger.log_error(str(i) + "error message boi")
-        logger.log_critical(str(i) + "critical message boi")
-
-    if user_data:
-        dpg.unlock_mutex()
+#logger = mvLogger()
+#logger.log_level = 2
+#logger.log("trace message boi")
+#logger.log_debug("debug message boi")
+#logger.log_info("info message boi")
+#logger.log_warning("warning message boi")
+#logger.log_error("error message boi")
+#logger.log_critical("critical message boi")
+#
+#buttons = []
+#
+#def add_logs(sender, app_data, user_data):
+#
+#    if user_data:
+#        dpg.lock_mutex()
+#
+#    for i in range(0, 10):
+#        logger.log(str(i) + "trace message boi")
+#        logger.log_debug(str(i) + "debug message boi")
+#        logger.log_info(str(i) + "info message boi")
+#        logger.log_warning(str(i) + "warning message boi")
+#        logger.log_error(str(i) + "error message boi")
+#        logger.log_critical(str(i) + "critical message boi")
+#
+#    if user_data:
+#        dpg.unlock_mutex()
     
 with cxt.window(label="Testing Features2", show=False):
 

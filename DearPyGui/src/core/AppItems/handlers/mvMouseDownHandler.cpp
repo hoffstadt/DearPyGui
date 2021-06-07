@@ -16,7 +16,7 @@ namespace Marvel {
 			MV_PARSER_ARG_PARENT)
 		);
 
-		parser.addArg<mvPyDataType::Integer>("button");
+		parser.addArg<mvPyDataType::Integer>("button", mvArgType::POSITIONAL_ARG, "-1");
 
 		parser.finalize();
 

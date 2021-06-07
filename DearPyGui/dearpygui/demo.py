@@ -1,6 +1,7 @@
 import dearpygui.core as dpg
 import dearpygui.contexts as cxt
 import dearpygui.demo_widgets as widgets
+from dearpygui.logger import mvLogger
 from dearpygui.common import _log, _config, _help, _hsv_to_rgb
 from math import sin, cos
 import random
@@ -110,6 +111,31 @@ def _update_dynamic_textures(sender, app_data, user_data):
         dpg.set_value(demo_dynamic_texture_2, texture_data)
 
 def show_demo():
+
+    logger = mvLogger()
+    logger.log_level = 0
+    logger.log("trace message boi")
+    logger.log_debug("debug message boi")
+    logger.log_info("info message boi")
+    logger.log_warning("warning message boi")
+    logger.log_error("error message boi")
+    logger.log_critical("critical message boi")
+
+    def event_handler(sender, data):
+        logger.log(f"{sender} '\t' {data}")
+
+    with cxt.handler_registry(show=False) as keyboard_handler:
+        key_down_handler = dpg.add_key_down_handler(-1, callback=event_handler)
+        key_release_handler = dpg.add_key_release_handler(-1, callback=event_handler)
+        key_press_handler = dpg.add_key_press_handler(-1, callback=event_handler)
+    with cxt.handler_registry(show=False) as mouse_handler:
+        mouse_wheel_handler = dpg.add_mouse_wheel_handler(callback=event_handler)
+        mouse_click_handler = dpg.add_mouse_click_handler(-1, callback=event_handler)
+        mouse_double_click_handler = dpg.add_mouse_double_click_handler(-1, callback=event_handler)
+        mouse_release_handler = dpg.add_mouse_release_handler(-1, callback=event_handler)
+        mouse_drag_handler = dpg.add_mouse_drag_handler(0, 10.0, callback=event_handler)
+        mouse_down_handler = dpg.add_mouse_down_handler(-1, callback=event_handler)
+        mouse_move_handler = dpg.add_mouse_move_handler(callback=event_handler)
 
     _create_static_textures()
     _create_dynamic_textures()
@@ -1574,4 +1600,21 @@ def show_demo():
                         dpg.add_text("Footer 2")
                         dpg.add_button(label="Footer 3", width=175)
 
+        with cxt.collapsing_header(label="Handler"):
+            # key handlers are assigned at top of file. handlers must be defined outside of containers
+            dpg.add_text("This will activate logging of all handlers.")
+            dpg.add_checkbox(label="show", default_value=False, callback=_config, user_data=[keyboard_handler, mouse_handler])
+            with cxt.tree_node(label="Keyboard Handlers"):
+                dpg.add_checkbox(label="show", default_value=False, callback=_config, user_data=keyboard_handler)
+                dpg.add_text("Key Down Handler")
+                dpg.add_button(label="Set Key to all", callback=lambda sender: dpg.configure_item(key_down_handler, key=-1))
+                dpg.add_button(label='Set Key to "A"', callback=lambda sender: dpg.configure_item(key_down_handler, key=dpg.mvKey_A))
+                dpg.add_text("Key Release Handler")
+                dpg.add_button(label="Set Key to all", callback=lambda sender: dpg.configure_item(key_release_handler, key=-1))
+                dpg.add_button(label='Set Key to "A"', callback=lambda sender: dpg.configure_item(key_release_handler, key=dpg.mvKey_A))
+            with cxt.tree_node(label="Mouse Handlers"):
+
+                #TODO: do we have ability to set multiple keys or CTRL+SHIFT+T ect...like three key triggers as previously acomplished with nested is_down functions?
+                #if so does it scale up to 6 key combinations?
+                #dpg.add_button(label='Set Key to "A or B"', callback=lambda sender: dpg.configure_item(key_down_handler, key=(dpg.mvKey_B, dpg.mvKey_A)))
 
