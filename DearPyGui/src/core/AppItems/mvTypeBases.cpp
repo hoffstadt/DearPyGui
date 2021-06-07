@@ -491,7 +491,7 @@ namespace Marvel {
 
 	bool mvSeriesBase::isParentCompatible(mvAppItemType type)
 	{
-		if (type == mvAppItemType::mvPlotYAxis) return true;
+		if (type == mvAppItemType::mvPlotAxis) return true;
 
 		mvThrowPythonError(1000, "Item's parent must be plot.");
 		MV_ITEM_REGISTRY_ERROR("Item's parent must be plot.");

@@ -111,7 +111,7 @@ namespace Marvel{
 		if(args & MV_PARSER_ARG_INDENT)        parser.addArg<mvPyDataType::Integer>("indent", mvArgType::KEYWORD_ARG, "-1");
 		if(args & MV_PARSER_ARG_PARENT)        parser.addArg<mvPyDataType::String>("parent", mvArgType::KEYWORD_ARG, "''", "Parent to add this item to. (runtime adding)");
 		if(args & MV_PARSER_ARG_BEFORE)        parser.addArg<mvPyDataType::String>("before", mvArgType::KEYWORD_ARG, "''", "This item will be displayed before the specified item in the parent.");
-		if(args & MV_PARSER_ARG_LABEL)         parser.addArg<mvPyDataType::String>("label", mvArgType::KEYWORD_ARG, "''", "Overrides 'name' as label");
+		if(args & MV_PARSER_ARG_LABEL)         parser.addArg<mvPyDataType::String>("label", mvArgType::KEYWORD_ARG, "None", "Overrides 'name' as label");
 		if(args & MV_PARSER_ARG_SOURCE)        parser.addArg<mvPyDataType::String>("source", mvArgType::KEYWORD_ARG, "''", "Overrides 'name' as value storage key");		
 		if(args & MV_PARSER_ARG_PAYLOAD_TYPE)  parser.addArg<mvPyDataType::String>("payload_type", mvArgType::KEYWORD_ARG, "'$$DPG_PAYLOAD'", "Overrides 'name' as value storage key");		
 		if(args & MV_PARSER_ARG_CALLBACK)      parser.addArg<mvPyDataType::Callable>("callback", mvArgType::KEYWORD_ARG, "None", "Registers a callback");
@@ -895,9 +895,11 @@ namespace Marvel{
 
 		if (PyObject* item = PyDict_GetItemString(dict, "label"))
 		{
-			const std::string label = ToString(item);
-			if(!label.empty())
+			if (item != Py_None)
+			{
+				const std::string label = ToString(item);
 				setLabel(label);
+			}
 		}
 
 		if (PyObject* item = PyDict_GetItemString(dict, "width")) setWidth(ToInt(item));

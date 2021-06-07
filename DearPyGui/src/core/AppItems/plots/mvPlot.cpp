@@ -20,7 +20,7 @@
 #include "mvImPlotThemeScope.h"
 #include "mvFontScope.h"
 #include "mvPythonExceptions.h"
-#include "mvPlotYAxis.h"
+#include "mvPlotAxis.h"
 #include "containers/mvDragPayload.h"
 
 namespace Marvel {
@@ -39,6 +39,8 @@ namespace Marvel {
 				MV_PARSER_ARG_BEFORE |
 				MV_PARSER_ARG_LABEL |
 				MV_PARSER_ARG_SHOW |
+				MV_PARSER_ARG_CALLBACK |
+				MV_PARSER_ARG_USER_DATA |
 				MV_PARSER_ARG_DROP_CALLBACK |
 				MV_PARSER_ARG_DRAG_CALLBACK |
 				MV_PARSER_ARG_PAYLOAD_TYPE |
@@ -46,8 +48,6 @@ namespace Marvel {
 				MV_PARSER_ARG_TRACKED |
 				MV_PARSER_ARG_POS)
 			);
-
-			parser.addArg<mvPyDataType::Callable>("query_callback", mvArgType::KEYWORD_ARG, "None", "Callback ran when plot is queried");
 
 			parser.addArg<mvPyDataType::String>("x_axis_name", mvArgType::KEYWORD_ARG, "''");
 			// plot flags
@@ -61,16 +61,6 @@ namespace Marvel {
 			parser.addArg<mvPyDataType::Bool>("crosshairs", mvArgType::KEYWORD_ARG, "False");
 			parser.addArg<mvPyDataType::Bool>("anti_aliased", mvArgType::KEYWORD_ARG, "False");
 			parser.addArg<mvPyDataType::Bool>("equal_aspects", mvArgType::KEYWORD_ARG, "False");
-
-			// x axis flags
-			parser.addArg<mvPyDataType::Bool>("xaxis_no_gridlines", mvArgType::KEYWORD_ARG, "False");
-			parser.addArg<mvPyDataType::Bool>("xaxis_no_tick_marks", mvArgType::KEYWORD_ARG, "False");
-			parser.addArg<mvPyDataType::Bool>("xaxis_no_tick_labels", mvArgType::KEYWORD_ARG, "False");
-			parser.addArg<mvPyDataType::Bool>("xaxis_log_scale", mvArgType::KEYWORD_ARG, "False");
-			parser.addArg<mvPyDataType::Bool>("xaxis_time", mvArgType::KEYWORD_ARG, "False");
-			parser.addArg<mvPyDataType::Bool>("xaxis_invert", mvArgType::KEYWORD_ARG, "False");
-			parser.addArg<mvPyDataType::Bool>("xaxis_lock_min", mvArgType::KEYWORD_ARG, "False");
-			parser.addArg<mvPyDataType::Bool>("xaxis_lock_max", mvArgType::KEYWORD_ARG, "False");
 
 			parser.finalize();
 			parsers->insert({ s_command, parser });
@@ -88,44 +78,6 @@ namespace Marvel {
 			parser.addArg<mvPyDataType::String>("plot");
 			parser.finalize();
 			parsers->insert({ "get_plot_query_area", parser });
-		}
-
-		{
-			mvPythonParser parser(mvPyDataType::FloatList, "Undocumented function", { "Plotting", "Widgets" });
-			parser.addArg<mvPyDataType::String>("plot");
-			parser.finalize();
-			parsers->insert({ "get_plot_xlimits", parser });
-		}
-
-		{
-			mvPythonParser parser(mvPyDataType::None, "Undocumented function", { "Plotting", "Widgets" });
-			parser.addArg<mvPyDataType::String>("plot");
-			parser.addArg<mvPyDataType::Float>("xmin");
-			parser.addArg<mvPyDataType::Float>("xmax");
-			parser.finalize();
-			parsers->insert({ "set_plot_xlimits", parser });
-		}
-
-		{
-			mvPythonParser parser(mvPyDataType::None, "Undocumented function", { "Plotting", "Widgets" });
-			parser.addArg<mvPyDataType::String>("plot");
-			parser.finalize();
-			parsers->insert({ "set_plot_xlimits_auto", parser });
-		}
-
-		{
-			mvPythonParser parser(mvPyDataType::None, "Undocumented function", { "Plotting", "Widgets" });
-			parser.addArg<mvPyDataType::String>("plot");
-			parser.finalize();
-			parsers->insert({ "reset_xticks", parser });
-		}
-
-		{
-			mvPythonParser parser(mvPyDataType::None, "Undocumented function", { "Plotting", "Widgets" });
-			parser.addArg<mvPyDataType::String>("plot");
-			parser.addArg<mvPyDataType::Object>("label_pairs");
-			parser.finalize();
-			parsers->insert({ "set_xticks", parser });
 		}
 
 	}
@@ -189,7 +141,7 @@ namespace Marvel {
 		if (item->getType() == mvAppItemType::mvPlotLegend)
 			m_flags &= ~ImPlotFlags_NoLegend;
 
-		if (item->getType() == mvAppItemType::mvPlotYAxis)
+		if (item->getType() == mvAppItemType::mvPlotAxis)
 		{
 			updateFlags();
 			updateAxesNames();
@@ -201,49 +153,27 @@ namespace Marvel {
 
 		if (item->getType() == mvAppItemType::mvPlotLegend)
 			m_flags |= ImPlotFlags_NoLegend;
-	}
 
-	void mvPlot::updateBounds()
-	{
-		bool first = true;
-		for (auto& axis : m_children[1])
-		{
-			for (auto& series : axis->m_children[1])
-			{
-				mvSeriesBase* child = static_cast<mvSeriesBase*>(series.get());
-				if (child->doesSeriesContributeToBounds())
-				{
-					const auto& x_maxMin = child->getMaxMin(0);
-					if (first && !m_setXLimits)
-					{
-						m_xlimits.x = x_maxMin.second;
-						m_xlimits.y = x_maxMin.first;
-						first = false;
-					}
-					else if (!m_setXLimits)
-					{
-						if (x_maxMin.second < m_xlimits.x) m_xlimits.x = x_maxMin.second;
-						if (x_maxMin.first > m_xlimits.y) m_xlimits.y = x_maxMin.first;
-					}
-				}
-			}
-		}
-
-		m_dirty = true;
+		if (item->getType() == mvAppItemType::mvPlotAxis)
+			updateFlags();
 	}
 
 	void mvPlot::updateFlags()
 	{
 		for (int i = 0; i < m_children[1].size(); i++)
 		{
-			auto child = static_cast<mvPlotYAxis*>(m_children[1][i].get());
+			auto child = static_cast<mvPlotAxis*>(m_children[1][i].get());
 			switch (i)
 			{
 			case(0):
-				m_yflags = child->getFlags();
+				m_xflags = child->getFlags();
 				break;
 
 			case(1):
+				m_yflags = child->getFlags();
+				break;
+
+			case(2):
 				m_y1flags = child->getFlags();
 				if (child->isShown())
 					addFlag(ImPlotFlags_YAxis2);
@@ -251,7 +181,7 @@ namespace Marvel {
 					removeFlag(ImPlotFlags_YAxis2);
 				break;
 
-			case(2):
+			case(3):
 				m_y2flags = child->getFlags();
 				if (child->isShown())
 					addFlag(ImPlotFlags_YAxis3);
@@ -269,6 +199,7 @@ namespace Marvel {
 
 	void mvPlot::updateAxesNames()
 	{
+		m_xaxisName = "";
 		m_y1axisName = "";
 		m_y2axisName = "";
 		m_y3axisName = "";
@@ -279,14 +210,18 @@ namespace Marvel {
 			switch (i)
 			{
 			case(0):
-				m_y1axisName = axis->m_specificedlabel;
+				m_xaxisName = axis->m_specificedlabel;
 				break;
 
 			case(1):
-				m_y2axisName = axis->m_specificedlabel;
+				m_y1axisName = axis->m_specificedlabel;
 				break;
 
 			case(2):
+				m_y2axisName = axis->m_specificedlabel;
+				break;
+
+			case(3):
 				m_y3axisName = axis->m_specificedlabel;
 				break;
 
@@ -301,7 +236,7 @@ namespace Marvel {
 	bool mvPlot::canChildBeAdded(mvAppItemType type)
 	{
 		if (type == mvAppItemType::mvPlotLegend) return true;
-		if (type == mvAppItemType::mvPlotYAxis) return true;
+		if (type == mvAppItemType::mvPlotAxis) return true;
 
 		if (type == mvAppItemType::mvDragPoint) return true;
 		if (type == mvAppItemType::mvDragLine) return true;
@@ -337,39 +272,10 @@ namespace Marvel {
 		}
 	}
 
-	void mvPlot::resetXTicks()
-	{
-		m_xlabels.clear();
-		m_xclabels.clear();
-		m_xlabelLocations.clear();
-	}
-
-	void mvPlot::setXTicks(const std::vector<std::string>& labels, const std::vector<double>& locations)
-	{
-		m_xlabels = labels;
-		m_xlabelLocations = locations;
-
-		for (const auto& item : m_xlabels)
-			m_xclabels.push_back(item.data());
-	}
-
 	void mvPlot::draw(ImDrawList* drawlist, float x, float y)
 	{
 
 		ImGui::PushID(m_colormap);
-
-		if (m_setXLimits || m_dirty)
-			ImPlot::SetNextPlotLimitsX(m_xlimits.x, m_xlimits.y, ImGuiCond_Always);
-
-		// resets automatic sizing when new data is added
-		if (m_dirty) 
-			m_dirty = false;
-
-		if (!m_xlabels.empty())
-		{
-			// TODO: Checks
-			ImPlot::SetNextPlotTicksX(m_xlabelLocations.data(), (int)m_xlabels.size(), m_xclabels.data());
-		}
 
 		// gives axes change to make changes to ticks, limits, etc.
 		for (auto& item : m_children[1])
@@ -428,14 +334,14 @@ namespace Marvel {
 
 			if (m_queried)
 			{
-				auto area = ImPlot::GetPlotQuery();
-				m_queryArea[0] = (float)area.X.Min;
-				m_queryArea[1] = (float)area.X.Max;
-				m_queryArea[2] = (float)area.Y.Min;
-				m_queryArea[3] = (float)area.Y.Max;
+				ImPlotLimits area = ImPlot::GetPlotQuery();
+				m_queryArea[0] = area.X.Min;
+				m_queryArea[1] = area.X.Max;
+				m_queryArea[2] = area.Y.Min;
+				m_queryArea[3] = area.Y.Max;
 			}
 
-			if (m_queryCallback != nullptr && m_queried)
+			if (m_callback != nullptr && m_queried)
 			{
 				mvApp::GetApp()->getCallbackRegistry().submitCallback([=]() {
 					PyObject* area = PyTuple_New(4);
@@ -443,15 +349,12 @@ namespace Marvel {
 					PyTuple_SetItem(area, 1, PyFloat_FromDouble(m_queryArea[1]));
 					PyTuple_SetItem(area, 2, PyFloat_FromDouble(m_queryArea[2]));
 					PyTuple_SetItem(area, 3, PyFloat_FromDouble(m_queryArea[3]));
-					mvApp::GetApp()->getCallbackRegistry().addCallback(m_queryCallback, m_name, area, nullptr);
+					mvApp::GetApp()->getCallbackRegistry().addCallback(m_callback, m_name, area, m_user_data);
 					});
 			}
 
 			if (ImPlot::IsPlotHovered())
 				mvInput::setPlotMousePosition((float)ImPlot::GetPlotMousePos().x, (float)ImPlot::GetPlotMousePos().y);
-
-			m_xlimits_actual.x = (float)ImPlot::GetPlotLimits().X.Min;
-			m_xlimits_actual.y = (float)ImPlot::GetPlotLimits().X.Max;
 
 			// todo: resolve clipping
 			//ImPlot::PopPlotClipRect();
@@ -477,18 +380,12 @@ namespace Marvel {
 		ImGui::PopID();
 	}
 
-	void mvPlot::setXLimits(float x_min, float x_max)
-	{
-		m_setXLimits = true;
-		m_xlimits = ImVec2(x_min, x_max);
-	}
-
 	bool mvPlot::isPlotQueried() const
 	{
 		return m_queried;
 	}
 
-	float* mvPlot::getPlotQueryArea()
+	double* mvPlot::getPlotQueryArea()
 	{
 		return m_queryArea;
 	}
@@ -510,14 +407,6 @@ namespace Marvel {
 
 		if (PyObject* item = PyDict_GetItemString(dict, "x_axis_name"))m_xaxisName = ToString(item);
 
-		if (PyObject* item = PyDict_GetItemString(dict, "query_callback"))
-		{
-			if (m_queryCallback)
-				Py_XDECREF(m_queryCallback);
-			Py_XINCREF(item);
-			m_queryCallback = item;
-		}
-
 		// helper for bit flipping
 		auto flagop = [dict](const char* keyword, int flag, int& flags)
 		{
@@ -535,18 +424,6 @@ namespace Marvel {
 		flagop("crosshairs",           ImPlotFlags_Crosshairs,       m_flags);
 		flagop("anti_aliased",         ImPlotFlags_AntiAliased,      m_flags);
 		flagop("equal_aspects",        ImPlotFlags_Equal,            m_flags);
-		flagop("yaxis2",               ImPlotFlags_YAxis2,           m_flags);
-		flagop("yaxis3",               ImPlotFlags_YAxis3,           m_flags);
-
-		// x axis flags
-		flagop("xaxis_no_gridlines",   ImPlotAxisFlags_NoGridLines,  m_xflags);
-		flagop("xaxis_no_tick_marks",  ImPlotAxisFlags_NoTickMarks,  m_xflags);
-		flagop("xaxis_no_tick_labels", ImPlotAxisFlags_NoTickLabels, m_xflags);
-		flagop("xaxis_log_scale",      ImPlotAxisFlags_LogScale,     m_xflags);
-		flagop("xaxis_time",           ImPlotAxisFlags_Time,         m_xflags);
-		flagop("xaxis_invert",         ImPlotAxisFlags_Invert,       m_xflags);
-		flagop("xaxis_lock_min",       ImPlotAxisFlags_LockMin,      m_xflags);
-		flagop("xaxis_lock_max",       ImPlotAxisFlags_LockMax,      m_xflags);
 
 	}
 
@@ -574,18 +451,6 @@ namespace Marvel {
 		checkbitset("crosshairs",           ImPlotFlags_Crosshairs,       m_flags);
 		checkbitset("anti_aliased",         ImPlotFlags_AntiAliased,      m_flags);
 		checkbitset("equal_aspects",        ImPlotFlags_Equal,            m_flags);
-		checkbitset("yaxis2",               ImPlotFlags_YAxis2,           m_flags);
-		checkbitset("yaxis3",               ImPlotFlags_YAxis3,           m_flags);
-
-		// x axis flags
-		checkbitset("xaxis_no_gridlines",   ImPlotAxisFlags_NoGridLines,  m_xflags);
-		checkbitset("xaxis_no_tick_marks",  ImPlotAxisFlags_NoTickMarks,  m_xflags);
-		checkbitset("xaxis_no_tick_labels", ImPlotAxisFlags_NoTickLabels, m_xflags);
-		checkbitset("xaxis_log_scale",      ImPlotAxisFlags_LogScale,     m_xflags);
-		checkbitset("xaxis_time",           ImPlotAxisFlags_Time,         m_xflags);
-		checkbitset("xaxis_invert",         ImPlotAxisFlags_Invert,       m_xflags);
-		checkbitset("xaxis_lock_min",       ImPlotAxisFlags_LockMin,      m_xflags);
-		checkbitset("xaxis_lock_max",       ImPlotAxisFlags_LockMax,      m_xflags);
 	}
 
 	void mvPlot::postDraw()
@@ -610,141 +475,6 @@ namespace Marvel {
 
 			item->draw(nullptr, ImGui::GetCursorPosX(), ImGui::GetCursorPosY());
 		}
-	}
-
-
-	PyObject* mvPlot::reset_xticks(PyObject* self, PyObject* args, PyObject* kwargs)
-	{
-		const char* plot;
-
-		if (!(mvApp::GetApp()->getParsers())["reset_xticks"].parse(args, kwargs, __FUNCTION__, &plot))
-			return GetPyNone();
-
-		if (!mvApp::s_manualMutexControl) std::lock_guard<std::mutex> lk(mvApp::s_mutex);
-		auto aplot = mvApp::GetApp()->getItemRegistry().getItem(plot);
-		if (aplot == nullptr)
-		{
-			std::string message = plot;
-			mvThrowPythonError(1000, message + " plot does not exist.");
-			return GetPyNone();
-		}
-
-		if (aplot->getType() != mvAppItemType::mvPlot)
-		{
-			std::string message = plot;
-			mvThrowPythonError(1000, message + " is not a plot.");
-			return GetPyNone();
-		}
-
-		mvPlot* graph = static_cast<mvPlot*>(aplot.get());
-
-		graph->resetXTicks();
-
-		return GetPyNone();
-	}
-
-	PyObject* mvPlot::set_xticks(PyObject* self, PyObject* args, PyObject* kwargs)
-	{
-		const char* plot;
-		PyObject* label_pairs;
-
-		if (!(mvApp::GetApp()->getParsers())["set_xticks"].parse(args, kwargs, __FUNCTION__, &plot, &label_pairs))
-			return GetPyNone();
-
-		auto mlabel_pairs = ToVectPairStringFloat(label_pairs);
-
-		if (!mvApp::s_manualMutexControl) std::lock_guard<std::mutex> lk(mvApp::s_mutex);
-		auto aplot = mvApp::GetApp()->getItemRegistry().getItem(plot);
-		if (aplot == nullptr)
-		{
-			std::string message = plot;
-			mvThrowPythonError(1000, message + " plot does not exist.");
-			return GetPyNone();
-		}
-
-		if (aplot->getType() != mvAppItemType::mvPlot)
-		{
-			std::string message = plot;
-			mvThrowPythonError(1000, message + " is not a plot.");
-			return GetPyNone();
-		}
-
-		mvPlot* graph = static_cast<mvPlot*>(aplot.get());
-
-		std::vector<std::string> labels;
-		std::vector<double> locations;
-
-		for (const auto& item : mlabel_pairs)
-		{
-			labels.emplace_back(item.first.c_str());
-			locations.emplace_back((double)item.second);
-		}
-		graph->setXTicks(labels, locations);
-
-
-		return GetPyNone();
-	}
-
-	PyObject* mvPlot::set_plot_xlimits_auto(PyObject* self, PyObject* args, PyObject* kwargs)
-	{
-		const char* plot;
-
-		if (!(mvApp::GetApp()->getParsers())["set_plot_xlimits_auto"].parse(args, kwargs, __FUNCTION__, &plot))
-			return GetPyNone();
-
-		if (!mvApp::s_manualMutexControl) std::lock_guard<std::mutex> lk(mvApp::s_mutex);
-		auto aplot = mvApp::GetApp()->getItemRegistry().getItem(plot);
-		if (aplot == nullptr)
-		{
-			std::string message = plot;
-			mvThrowPythonError(1000, message + " plot does not exist.");
-			return GetPyNone();
-		}
-
-		if (aplot->getType() != mvAppItemType::mvPlot)
-		{
-			std::string message = plot;
-			mvThrowPythonError(1000, message + " is not a plot.");
-			return GetPyNone();
-		}
-
-		mvPlot* graph = static_cast<mvPlot*>(aplot.get());
-
-		//graph->setXLimitsAuto();
-
-		return GetPyNone();
-	}
-
-	PyObject* mvPlot::set_plot_xlimits(PyObject* self, PyObject* args, PyObject* kwargs)
-	{
-		const char* plot;
-		float xmin;
-		float xmax;
-
-		if (!(mvApp::GetApp()->getParsers())["set_plot_xlimits"].parse(args, kwargs, __FUNCTION__, &plot, &xmin, &xmax))
-			return GetPyNone();
-
-		if (!mvApp::s_manualMutexControl) std::lock_guard<std::mutex> lk(mvApp::s_mutex);
-		auto aplot = mvApp::GetApp()->getItemRegistry().getItem(plot);
-		if (aplot == nullptr)
-		{
-			std::string message = plot;
-			mvThrowPythonError(1000, message + " plot does not exist.");
-			return GetPyNone();
-		}
-
-		if (aplot->getType() != mvAppItemType::mvPlot)
-		{
-			std::string message = plot;
-			mvThrowPythonError(1000, message + " is not a plot.");
-			return GetPyNone();
-		}
-
-		mvPlot* graph = static_cast<mvPlot*>(aplot.get());
-
-		graph->setXLimits(xmin, xmax);
-
-		return GetPyNone();
 	}
 
 	PyObject* mvPlot::is_plot_queried(PyObject* self, PyObject* args, PyObject* kwargs)
@@ -775,35 +505,6 @@ namespace Marvel {
 		return ToPyBool(graph->isPlotQueried());
 	}
 
-	PyObject* mvPlot::get_plot_xlimits(PyObject* self, PyObject* args, PyObject* kwargs)
-	{
-		const char* plot;
-
-		if (!(mvApp::GetApp()->getParsers())["get_plot_xlimits"].parse(args, kwargs, __FUNCTION__, &plot))
-			return GetPyNone();
-
-		if (!mvApp::s_manualMutexControl) std::lock_guard<std::mutex> lk(mvApp::s_mutex);
-		auto aplot = mvApp::GetApp()->getItemRegistry().getItem(plot);
-		if (aplot == nullptr)
-		{
-			std::string message = plot;
-			mvThrowPythonError(1000, message + " plot does not exist.");
-			return GetPyNone();
-		}
-
-		if (aplot->getType() != mvAppItemType::mvPlot)
-		{
-			std::string message = plot;
-			mvThrowPythonError(1000, message + " is not a plot.");
-			return GetPyNone();
-		}
-
-		mvPlot* graph = static_cast<mvPlot*>(aplot.get());
-
-		const ImVec2& lim = graph->getXLimits();
-		return ToPyPair(lim.x, lim.y);
-	}
-
 	PyObject* mvPlot::get_plot_query_area(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		const char* plot;
@@ -829,8 +530,8 @@ namespace Marvel {
 
 		mvPlot* graph = static_cast<mvPlot*>(aplot.get());
 
-		float* result = graph->getPlotQueryArea();
-		return Py_BuildValue("(ffff)", result[0], result[1], result[2], result[3]);
+		double* result = graph->getPlotQueryArea();
+		return Py_BuildValue("(dddd)", result[0], result[1], result[2], result[3]);
 	}
 
 }
