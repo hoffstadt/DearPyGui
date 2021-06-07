@@ -1,5 +1,5 @@
 #include <utility>
-#include "mvPlotYAxis.h"
+#include "mvPlotAxis.h"
 #include "mvApp.h"
 #include "mvItemRegistry.h"
 #include "mvImGuiThemeScope.h"
@@ -13,7 +13,7 @@
 
 namespace Marvel {
 
-	void mvPlotYAxis::InsertParser(std::map<std::string, mvPythonParser>* parsers)
+	void mvPlotAxis::InsertParser(std::map<std::string, mvPythonParser>* parsers)
 	{
 		{
 			mvPythonParser parser(mvPyDataType::String, "Undocumented function", { "Widgets" });
@@ -27,13 +27,15 @@ namespace Marvel {
 				MV_PARSER_ARG_SHOW)
 			);
 
-			parser.addArg<mvPyDataType::Bool>("yaxis_no_gridlines", mvArgType::KEYWORD_ARG, "False");
-			parser.addArg<mvPyDataType::Bool>("yaxis_no_tick_marks", mvArgType::KEYWORD_ARG, "False");
-			parser.addArg<mvPyDataType::Bool>("yaxis_no_tick_labels", mvArgType::KEYWORD_ARG, "False");
-			parser.addArg<mvPyDataType::Bool>("yaxis_log_scale", mvArgType::KEYWORD_ARG, "False");
-			parser.addArg<mvPyDataType::Bool>("yaxis_invert", mvArgType::KEYWORD_ARG, "False");
-			parser.addArg<mvPyDataType::Bool>("yaxis_lock_min", mvArgType::KEYWORD_ARG, "False");
-			parser.addArg<mvPyDataType::Bool>("yaxis_lock_max", mvArgType::KEYWORD_ARG, "False");
+			parser.addArg<mvPyDataType::Bool>("axis");
+			parser.addArg<mvPyDataType::Bool>("no_gridlines", mvArgType::KEYWORD_ARG, "False");
+			parser.addArg<mvPyDataType::Bool>("no_tick_marks", mvArgType::KEYWORD_ARG, "False");
+			parser.addArg<mvPyDataType::Bool>("no_tick_labels", mvArgType::KEYWORD_ARG, "False");
+			parser.addArg<mvPyDataType::Bool>("log_scale", mvArgType::KEYWORD_ARG, "False");
+			parser.addArg<mvPyDataType::Bool>("invert", mvArgType::KEYWORD_ARG, "False");
+			parser.addArg<mvPyDataType::Bool>("lock_min", mvArgType::KEYWORD_ARG, "False");
+			parser.addArg<mvPyDataType::Bool>("lock_max", mvArgType::KEYWORD_ARG, "False");
+			parser.addArg<mvPyDataType::Bool>("time", mvArgType::KEYWORD_ARG, "False");
 
 
 			parser.finalize();
@@ -43,62 +45,66 @@ namespace Marvel {
 
 		{
 			mvPythonParser parser(mvPyDataType::FloatList, "Undocumented function", { "Plotting", "Widgets" });
-			parser.addArg<mvPyDataType::String>("plot");
+			parser.addArg<mvPyDataType::String>("axis");
 			parser.finalize();
-			parsers->insert({ "get_plot_ylimits", parser });
+			parsers->insert({ "get_axis_limits", parser });
 		}
 
 		{
 			mvPythonParser parser(mvPyDataType::None, "Undocumented function", { "Plotting", "Widgets" });
-			parser.addArg<mvPyDataType::String>("plot");
+			parser.addArg<mvPyDataType::String>("axis");
 			parser.addArg<mvPyDataType::Float>("ymin");
 			parser.addArg<mvPyDataType::Float>("ymax");
 			parser.finalize();
-			parsers->insert({ "set_plot_ylimits", parser });
+			parsers->insert({ "set_axis_limits", parser });
 		}
 
 		{
 			mvPythonParser parser(mvPyDataType::None, "Undocumented function", { "Plotting", "Widgets" });
-			parser.addArg<mvPyDataType::String>("plot");
+			parser.addArg<mvPyDataType::String>("axis");
 			parser.finalize();
-			parsers->insert({ "reset_yticks", parser });
+			parsers->insert({ "reset_axis_ticks", parser });
 		}
 
 		{
 			mvPythonParser parser(mvPyDataType::None, "Undocumented function", { "Plotting", "Widgets" });
-			parser.addArg<mvPyDataType::String>("plot");
+			parser.addArg<mvPyDataType::String>("axis");
 			parser.addArg<mvPyDataType::Object>("label_pairs");
 			parser.finalize();
-			parsers->insert({ "set_yticks", parser });
+			parsers->insert({ "set_axis_ticks", parser });
 		}
 	}
 
-	mvPlotYAxis::mvPlotYAxis(const std::string& name)
+	mvPlotAxis::mvPlotAxis(const std::string& name)
 		: 
 		mvAppItem(name)
 	{
 	}
 
-	void mvPlotYAxis::customAction()
+	void mvPlotAxis::customAction()
 	{
-		if (m_setYLimits || m_dirty)
+		if (m_setLimits || m_dirty)
 		{
 			switch (m_location)
 			{
 			case(0):
-				ImPlot::SetNextPlotLimitsY(m_ylimits.x, m_ylimits.y, ImGuiCond_Always);
+				ImPlot::SetNextPlotLimitsX(m_limits.x, m_limits.y, ImGuiCond_Always);
 				break;
 
 			case(1):
-				ImPlot::SetNextPlotLimitsY(m_ylimits.x, m_ylimits.y, ImGuiCond_Always, ImPlotYAxis_2);
+				ImPlot::SetNextPlotLimitsY(m_limits.x, m_limits.y, ImGuiCond_Always);
 				break;
 
 			case(2):
-				ImPlot::SetNextPlotLimitsY(m_ylimits.x, m_ylimits.y, ImGuiCond_Always, ImPlotYAxis_3);
+				ImPlot::SetNextPlotLimitsY(m_limits.x, m_limits.y, ImGuiCond_Always, ImPlotYAxis_2);
+				break;
+
+			case(3):
+				ImPlot::SetNextPlotLimitsY(m_limits.x, m_limits.y, ImGuiCond_Always, ImPlotYAxis_3);
 				break;
 
 			default:
-				ImPlot::SetNextPlotLimitsY(m_ylimits.x, m_ylimits.y, ImGuiCond_Always);
+				ImPlot::SetNextPlotLimitsY(m_limits.x, m_limits.y, ImGuiCond_Always);
 				break;
 			}
 
@@ -106,20 +112,24 @@ namespace Marvel {
 			
 		}
 
-		if (!m_ylabels.empty())
+		if (!m_labels.empty())
 		{
 			// TODO: Checks
-			ImPlot::SetNextPlotTicksY(m_ylabelLocations.data(), (int)m_ylabels.size(), m_yclabels.data());
+			if(m_location == 0)
+				ImPlot::SetNextPlotTicksX(m_labelLocations.data(), (int)m_labels.size(), m_clabels.data());
+			else
+				ImPlot::SetNextPlotTicksY(m_labelLocations.data(), (int)m_labels.size(), m_clabels.data());
 		}
 	}
 
-	void mvPlotYAxis::draw(ImDrawList* drawlist, float x, float y)
+	void mvPlotAxis::draw(ImDrawList* drawlist, float x, float y)
 	{
 		mvImPlotThemeScope scope(this);
 		mvFontScope fscope(this);
 
 		// todo: add check
-		ImPlot::SetPlotYAxis(m_location);
+		if(m_axis != 0)
+			ImPlot::SetPlotYAxis(m_location-1);
 
 		for (auto& item : m_children[1])
 		{
@@ -131,12 +141,23 @@ namespace Marvel {
 			item->getState().update();
 		}
 
-		m_ylimits_actual.x = (float)ImPlot::GetPlotLimits(m_location).Y.Min;
-		m_ylimits_actual.y = (float)ImPlot::GetPlotLimits(m_location).Y.Max;
+		// x axis
+		if (m_axis == 0)
+		{
+			m_limits_actual.x = (float)ImPlot::GetPlotLimits(m_location).X.Min;
+			m_limits_actual.y = (float)ImPlot::GetPlotLimits(m_location).X.Max;
+		}
+
+		// y axis
+		else
+		{
+			m_limits_actual.x = (float)ImPlot::GetPlotLimits(m_location).Y.Min;
+			m_limits_actual.y = (float)ImPlot::GetPlotLimits(m_location).Y.Max;
+		}
 
 	}
 
-	bool mvPlotYAxis::isParentCompatible(mvAppItemType type)
+	bool mvPlotAxis::isParentCompatible(mvAppItemType type)
 	{
 		if (type == mvAppItemType::mvStagingContainer) return true;
 		if (type == mvAppItemType::mvPlot) return true;
@@ -147,21 +168,21 @@ namespace Marvel {
 		return false;
 	}
 
-	void mvPlotYAxis::hide()
+	void mvPlotAxis::hide()
 	{
 		if (auto plot = static_cast<mvPlot*>(m_parentPtr))
 			plot->addFlag(ImPlotFlags_NoLegend);
 		m_show = false;
 	}
 
-	void mvPlotYAxis::show()
+	void mvPlotAxis::show()
 	{
 		if (auto plot = static_cast<mvPlot*>(m_parentPtr))
 			plot->removeFlag(ImPlotFlags_NoLegend);
 		m_show = true;
 	}
 
-	bool mvPlotYAxis::canChildBeAdded(mvAppItemType type)
+	bool mvPlotAxis::canChildBeAdded(mvAppItemType type)
 	{
 
 		if (type == mvAppItemType::mvLineSeries) return true;
@@ -189,7 +210,7 @@ namespace Marvel {
 		return false;
 	}
 
-	void mvPlotYAxis::handleSpecificKeywordArgs(PyObject* dict)
+	void mvPlotAxis::handleSpecificKeywordArgs(PyObject* dict)
 	{
 		if (dict == nullptr)
 			return;
@@ -200,14 +221,15 @@ namespace Marvel {
 			if (PyObject* item = PyDict_GetItemString(dict, keyword)) ToBool(item) ? flags |= flag : flags &= ~flag;
 		};
 
-		// y axis flags
-		flagop("yaxis_no_gridlines", ImPlotAxisFlags_NoGridLines, m_flags);
-		flagop("yaxis_no_tick_marks", ImPlotAxisFlags_NoTickMarks, m_flags);
-		flagop("yaxis_no_tick_labels", ImPlotAxisFlags_NoTickLabels, m_flags);
-		flagop("yaxis_log_scale", ImPlotAxisFlags_LogScale, m_flags);
-		flagop("yaxis_invert", ImPlotAxisFlags_Invert, m_flags);
-		flagop("yaxis_lock_min", ImPlotAxisFlags_LockMin, m_flags);
-		flagop("yaxis_lock_max", ImPlotAxisFlags_LockMax, m_flags);
+		// axis flags
+		flagop("no_gridlines", ImPlotAxisFlags_NoGridLines, m_flags);
+		flagop("no_tick_marks", ImPlotAxisFlags_NoTickMarks, m_flags);
+		flagop("no_tick_labels", ImPlotAxisFlags_NoTickLabels, m_flags);
+		flagop("log_scale", ImPlotAxisFlags_LogScale, m_flags);
+		flagop("invert", ImPlotAxisFlags_Invert, m_flags);
+		flagop("lock_min", ImPlotAxisFlags_LockMin, m_flags);
+		flagop("lock_max", ImPlotAxisFlags_LockMax, m_flags);
+		flagop("time", ImPlotAxisFlags_Time, m_flags);
 
 		
 		if (m_parentPtr)
@@ -217,36 +239,53 @@ namespace Marvel {
 		}
 	}
 
-	void mvPlotYAxis::getSpecificConfiguration(PyObject* dict)
+	void mvPlotAxis::handleSpecificRequiredArgs(PyObject* dict)
+	{
+		if (!mvApp::GetApp()->getParsers()[s_command].verifyRequiredArguments(dict))
+			return;
+
+		for (int i = 0; i < PyTuple_Size(dict); i++)
+		{
+			PyObject* item = PyTuple_GetItem(dict, i);
+			switch (i)
+			{
+			case 0:
+				m_axis = ToInt(item);
+				if (m_axis > 1)
+					m_axis = 1;
+				break;
+
+			default:
+				break;
+			}
+		}
+	}
+
+	void mvPlotAxis::getSpecificConfiguration(PyObject* dict)
 	{
 		if (dict == nullptr)
 			return;
 	}
 
-	void mvPlotYAxis::setYLimits(float y_min, float y_max)
+	void mvPlotAxis::setLimits(float y_min, float y_max)
 	{
-		m_setYLimits = true;
-		m_ylimits = ImVec2(y_min, y_max);
+		m_setLimits = true;
+		m_limits = ImVec2(y_min, y_max);
 	}
 
-	void mvPlotYAxis::onChildAdd(mvRef<mvAppItem> item)
+	void mvPlotAxis::onChildAdd(mvRef<mvAppItem> item)
 	{
 		if (static_cast<mvSeriesBase*>(item.get())->doesSeriesContributeToBounds())
-		{
 			updateBounds();
-			static_cast<mvPlot*>(m_parentPtr)->updateBounds();
-		}
 
-		if (item->getType() == mvAppItemType::mvPlotLegend)
-			m_flags &= ~ImPlotFlags_NoLegend;
 	}
 
-	void mvPlotYAxis::onChildRemoved(mvRef<mvAppItem> item)
+	void mvPlotAxis::onChildRemoved(mvRef<mvAppItem> item)
 	{
 
 	}
 
-	void mvPlotYAxis::updateBounds()
+	void mvPlotAxis::updateBounds()
 	{
 		bool first = true;
 		for (auto& series : m_children[1])
@@ -256,16 +295,16 @@ namespace Marvel {
 			{
 				const auto& y_maxMin = child->getMaxMin(1);
 
-				if (first && !m_setYLimits)
+				if (first && !m_setLimits)
 				{
-					m_ylimits.x = y_maxMin.second;
-					m_ylimits.y = y_maxMin.first;
+					m_limits.x = y_maxMin.second;
+					m_limits.y = y_maxMin.first;
 					first = false;
 				}
-				else if (!m_setYLimits)
+				else if (!m_setLimits)
 				{
-					if (y_maxMin.second < m_ylimits.x) m_ylimits.x = y_maxMin.second;
-					if (y_maxMin.first > m_ylimits.y) m_ylimits.y = y_maxMin.first;
+					if (y_maxMin.second < m_limits.x) m_limits.x = y_maxMin.second;
+					if (y_maxMin.first > m_limits.y) m_limits.y = y_maxMin.first;
 				}
 			}
 		}
@@ -273,23 +312,23 @@ namespace Marvel {
 		m_dirty = true;
 	}
 
-	void mvPlotYAxis::resetYTicks()
+	void mvPlotAxis::resetYTicks()
 	{
-		m_ylabels.clear();
-		m_yclabels.clear();
-		m_ylabelLocations.clear();
+		m_labels.clear();
+		m_clabels.clear();
+		m_labelLocations.clear();
 	}
 
-	void mvPlotYAxis::setYTicks(const std::vector<std::string>& labels, const std::vector<double>& locations)
+	void mvPlotAxis::setYTicks(const std::vector<std::string>& labels, const std::vector<double>& locations)
 	{
-		m_ylabels = labels;
-		m_ylabelLocations = locations;
+		m_labels = labels;
+		m_labelLocations = locations;
 
-		for (const auto& item : m_ylabels)
-			m_yclabels.push_back(item.data());
+		for (const auto& item : m_labels)
+			m_clabels.push_back(item.data());
 	}
 
-	void mvPlotYAxis::postDraw()
+	void mvPlotAxis::postDraw()
 	{
 
 		m_state.update();
@@ -297,7 +336,17 @@ namespace Marvel {
 		if (m_dropCallback)
 		{
 			//ScopedID id;
-			if (ImPlot::BeginDragDropTargetY(m_location))
+			if (m_location == 0 && ImPlot::BeginDragDropTargetX())
+			{
+				if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload(m_payloadType.c_str()))
+				{
+					auto payloadActual = static_cast<const mvDragPayload*>(payload->Data);
+					mvApp::GetApp()->getCallbackRegistry().addCallback(getDropCallback(), m_name, payloadActual->getDragData(), nullptr);
+				}
+
+				ImPlot::EndDragDropTarget();
+			}
+			else if (ImPlot::BeginDragDropTargetY(m_location))
 			{
 				if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload(m_payloadType.c_str()))
 				{
@@ -310,12 +359,12 @@ namespace Marvel {
 		}
 	}
 
-	PyObject* mvPlotYAxis::set_yticks(PyObject* self, PyObject* args, PyObject* kwargs)
+	PyObject* mvPlotAxis::set_axis_ticks(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		const char* plot;
 		PyObject* label_pairs;
 
-		if (!(mvApp::GetApp()->getParsers())["set_yticks"].parse(args, kwargs, __FUNCTION__, &plot, &label_pairs))
+		if (!(mvApp::GetApp()->getParsers())["set_axis_ticks"].parse(args, kwargs, __FUNCTION__, &plot, &label_pairs))
 			return GetPyNone();
 
 		auto mlabel_pairs = ToVectPairStringFloat(label_pairs);
@@ -329,14 +378,14 @@ namespace Marvel {
 			return GetPyNone();
 		}
 
-		if (aplot->getType() != mvAppItemType::mvPlotYAxis)
+		if (aplot->getType() != mvAppItemType::mvPlotAxis)
 		{
 			std::string message = plot;
 			mvThrowPythonError(1000, message + " is not a plot.");
 			return GetPyNone();
 		}
 
-		mvPlotYAxis* graph = static_cast<mvPlotYAxis*>(aplot.get());
+		mvPlotAxis* graph = static_cast<mvPlotAxis*>(aplot.get());
 
 		std::vector<std::string> labels;
 		std::vector<double> locations;
@@ -351,43 +400,43 @@ namespace Marvel {
 		return GetPyNone();
 	}
 
-	PyObject* mvPlotYAxis::set_plot_ylimits(PyObject* self, PyObject* args, PyObject* kwargs)
+	PyObject* mvPlotAxis::set_axis_limits(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
-		const char* plot;
+		const char* axis;
 		float ymin;
 		float ymax;
 
-		if (!(mvApp::GetApp()->getParsers())["set_plot_ylimits"].parse(args, kwargs, __FUNCTION__, &plot, &ymin, &ymax))
+		if (!(mvApp::GetApp()->getParsers())["set_axis_limits"].parse(args, kwargs, __FUNCTION__, &axis, &ymin, &ymax))
 			return GetPyNone();
 
 		if (!mvApp::s_manualMutexControl) std::lock_guard<std::mutex> lk(mvApp::s_mutex);
-		auto aplot = mvApp::GetApp()->getItemRegistry().getItem(plot);
+		auto aplot = mvApp::GetApp()->getItemRegistry().getItem(axis);
 		if (aplot == nullptr)
 		{
-			std::string message = plot;
+			std::string message = axis;
 			mvThrowPythonError(1000, message + " plot does not exist.");
 			return GetPyNone();
 		}
 
-		if (aplot->getType() != mvAppItemType::mvPlotYAxis)
+		if (aplot->getType() != mvAppItemType::mvPlotAxis)
 		{
-			std::string message = plot;
+			std::string message = axis;
 			mvThrowPythonError(1000, message + " is not a plot.");
 			return GetPyNone();
 		}
 
-		mvPlotYAxis* graph = static_cast<mvPlotYAxis*>(aplot.get());
+		mvPlotAxis* graph = static_cast<mvPlotAxis*>(aplot.get());
 
-		graph->setYLimits(ymin, ymax);
+		graph->setLimits(ymin, ymax);
 
 		return GetPyNone();
 	}
 
-	PyObject* mvPlotYAxis::get_plot_ylimits(PyObject* self, PyObject* args, PyObject* kwargs)
+	PyObject* mvPlotAxis::get_axis_limits(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		const char* plot;
 
-		if (!(mvApp::GetApp()->getParsers())["get_plot_ylimits"].parse(args, kwargs, __FUNCTION__, &plot))
+		if (!(mvApp::GetApp()->getParsers())["get_axis_limits"].parse(args, kwargs, __FUNCTION__, &plot))
 			return GetPyNone();
 
 		if (!mvApp::s_manualMutexControl) std::lock_guard<std::mutex> lk(mvApp::s_mutex);
@@ -399,24 +448,24 @@ namespace Marvel {
 			return GetPyNone();
 		}
 
-		if (aplot->getType() != mvAppItemType::mvPlotYAxis)
+		if (aplot->getType() != mvAppItemType::mvPlotAxis)
 		{
 			std::string message = plot;
 			mvThrowPythonError(1000, message + " is not a plot.");
 			return GetPyNone();
 		}
 
-		mvPlotYAxis* graph = static_cast<mvPlotYAxis*>(aplot.get());
+		mvPlotAxis* graph = static_cast<mvPlotAxis*>(aplot.get());
 
 		const ImVec2& lim = graph->getYLimits();
 		return ToPyPair(lim.x, lim.y);
 	}
 
-	PyObject* mvPlotYAxis::reset_yticks(PyObject* self, PyObject* args, PyObject* kwargs)
+	PyObject* mvPlotAxis::reset_axis_ticks(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		const char* plot;
 
-		if (!(mvApp::GetApp()->getParsers())["reset_yticks"].parse(args, kwargs, __FUNCTION__, &plot))
+		if (!(mvApp::GetApp()->getParsers())["reset_axis_ticks"].parse(args, kwargs, __FUNCTION__, &plot))
 			return GetPyNone();
 
 		if (!mvApp::s_manualMutexControl) std::lock_guard<std::mutex> lk(mvApp::s_mutex);
@@ -428,14 +477,14 @@ namespace Marvel {
 			return GetPyNone();
 		}
 
-		if (aplot->getType() != mvAppItemType::mvPlotYAxis)
+		if (aplot->getType() != mvAppItemType::mvPlotAxis)
 		{
 			std::string message = plot;
 			mvThrowPythonError(1000, message + " is not a plot.");
 			return GetPyNone();
 		}
 
-		mvPlotYAxis* graph = static_cast<mvPlotYAxis*>(aplot.get());
+		mvPlotAxis* graph = static_cast<mvPlotAxis*>(aplot.get());
 
 		graph->resetYTicks();
 

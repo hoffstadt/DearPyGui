@@ -389,7 +389,7 @@ def group(*args, show: bool = True, parent: str = "", before: str = "", width: i
 
 @contextmanager
 def node(*args, label: str = "", show: bool = True, draggable: bool = True,
-         parent: str = "", before: str = "", id:str=''):
+         parent: str = "", before: str = "", id:str='', pos: List = [100, 100]):
     """Wraps add_node() and automates calling end().
 
     Args:
@@ -408,7 +408,7 @@ def node(*args, label: str = "", show: bool = True, draggable: bool = True,
     """
     try:
         widget = internal_dpg.add_node(*args, label=label, show=show, parent=parent, before=before, 
-                                                    draggable=draggable, id=id)
+                                                    draggable=draggable, id=id, pos=pos)
         internal_dpg.push_container_stack(widget)
         yield widget
     finally:

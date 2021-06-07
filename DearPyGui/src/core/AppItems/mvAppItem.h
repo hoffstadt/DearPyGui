@@ -60,7 +60,7 @@ namespace Marvel {
         mvKnobFloat, mvLoadingIndicator, mvNodeLink, 
         mvTextureContainer, mvStaticTexture, mvDynamicTexture,
         mvStagingContainer, mvDrawLayer, mvViewportDrawlist,
-        mvFileExtension, mvPlotLegend, mvPlotYAxis,
+        mvFileExtension, mvPlotLegend, mvPlotAxis,
         mvHandlerRegistry, mvKeyDownHandler, mvKeyPressHandler,
         mvKeyReleaseHandler, mvMouseMoveHandler, mvMouseWheelHandler,
         mvMouseClickHandler, mvMouseDoubleClickHandler, mvMouseDownHandler,
@@ -173,7 +173,7 @@ namespace Marvel {
         friend class mvDrawlist;
         friend class mvDrawLayer;
         friend class mvPlot;
-        friend class mvPlotYAxis;
+        friend class mvPlotAxis;
         friend class mvLineSeries;
         friend class mvAreaSeries;
         friend class mvBarSeries;

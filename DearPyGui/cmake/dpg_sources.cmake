@@ -140,7 +140,7 @@ set(MARVEL_SOURCES
 	
 	"src/core/AppItems/plots/mvPlot.cpp"
 	"src/core/AppItems/plots/mvPlotLegend.cpp"
-	"src/core/AppItems/plots/mvPlotYAxis.cpp"
+	"src/core/AppItems/plots/mvPlotAxis.cpp"
 	"src/core/AppItems/plots/mvAreaSeries.cpp"
 	"src/core/AppItems/plots/mvDragPoint.cpp"
 	"src/core/AppItems/plots/mvDragLine.cpp"

@@ -6,11 +6,11 @@ from dearpygui.core import *
 ##########################################################
 
 # ~ Dear PyGui Version: master
-def add_2d_histogram_series(x : List[float], y : List[float], *, id: str =..., parent: str ='', before: str ='', label: str ='', source: str ='', show: bool =True, xbins: int =-1, ybins: int =-1, xmin_range: float =0.0, xmax_range: float =1.0, ymin_range: float =0.0, ymax_range: float =1.0, density: bool =False, outliers: bool =True, contribute_to_bounds: bool =True) -> str:
+def add_2d_histogram_series(x : List[float], y : List[float], *, id: str =..., parent: str ='', before: str ='', label: str =None, source: str ='', show: bool =True, xbins: int =-1, ybins: int =-1, xmin_range: float =0.0, xmax_range: float =1.0, ymin_range: float =0.0, ymax_range: float =1.0, density: bool =False, outliers: bool =True, contribute_to_bounds: bool =True) -> str:
 	"""Undocumented function"""
 	...
 
-def add_3d_slider(*, id: str =..., width: int =0, height: int =0, indent: int =-1, parent: str ='', before: str ='', label: str ='', source: str ='', payload_type: str ='$$DPG_PAYLOAD', callback: Callable =None, drag_callback: Callable =None, drop_callback: Callable =None, user_data: Any =None, show: bool =True, pos: List[int] =[], filter_key: str ='', tracked: bool =False, track_offset: float =0.5, default_value: List[float] =(0.0, 0.0, 0.0, 0.0), max_x: float =100.0, max_y: float =100.0, max_z: float =100.0, min_x: float =0.0, min_y: float =0.0, min_z: float =0.0, scale: float =1.0) -> str:
+def add_3d_slider(*, id: str =..., width: int =0, height: int =0, indent: int =-1, parent: str ='', before: str ='', label: str =None, source: str ='', payload_type: str ='$$DPG_PAYLOAD', callback: Callable =None, drag_callback: Callable =None, drop_callback: Callable =None, user_data: Any =None, show: bool =True, pos: List[int] =[], filter_key: str ='', tracked: bool =False, track_offset: float =0.5, default_value: List[float] =(0.0, 0.0, 0.0, 0.0), max_x: float =100.0, max_y: float =100.0, max_z: float =100.0, min_x: float =0.0, min_y: float =0.0, min_z: float =0.0, scale: float =1.0) -> str:
 	"""Undocumented function"""
 	...
 
@@ -22,23 +22,23 @@ def add_active_handler(parent : str, *, id: str =..., callback: Callable =None) 
 	"""Undocumented function"""
 	...
 
-def add_area_series(x : List[float], y : List[float], *, id: str =..., parent: str ='', before: str ='', label: str ='', source: str ='', show: bool =True, fill: List[int] =(0, 0, 0, -255), contribute_to_bounds: bool =True) -> str:
+def add_area_series(x : List[float], y : List[float], *, id: str =..., parent: str ='', before: str ='', label: str =None, source: str ='', show: bool =True, fill: List[int] =(0, 0, 0, -255), contribute_to_bounds: bool =True) -> str:
 	"""Undocumented function"""
 	...
 
-def add_bar_series(x : List[float], y : List[float], *, id: str =..., parent: str ='', before: str ='', label: str ='', source: str ='', show: bool =True, weight: float =1.0, horizontal: bool =False, contribute_to_bounds: bool =True) -> str:
+def add_bar_series(x : List[float], y : List[float], *, id: str =..., parent: str ='', before: str ='', label: str =None, source: str ='', show: bool =True, weight: float =1.0, horizontal: bool =False, contribute_to_bounds: bool =True) -> str:
 	"""Undocumented function"""
 	...
 
-def add_button(*, id: str =..., width: int =0, height: int =0, indent: int =-1, parent: str ='', before: str ='', label: str ='', payload_type: str ='$$DPG_PAYLOAD', callback: Callable =None, drag_callback: Callable =None, drop_callback: Callable =None, user_data: Any =None, show: bool =True, enabled: bool =True, pos: List[int] =[], filter_key: str ='', tracked: bool =False, track_offset: float =0.5, small: bool =False, arrow: bool =False, direction: int =0) -> str:
+def add_button(*, id: str =..., width: int =0, height: int =0, indent: int =-1, parent: str ='', before: str ='', label: str =None, payload_type: str ='$$DPG_PAYLOAD', callback: Callable =None, drag_callback: Callable =None, drop_callback: Callable =None, user_data: Any =None, show: bool =True, enabled: bool =True, pos: List[int] =[], filter_key: str ='', tracked: bool =False, track_offset: float =0.5, small: bool =False, arrow: bool =False, direction: int =0) -> str:
 	"""Undocumented function"""
 	...
 
-def add_candle_series(dates : List[float], opens : List[float], closes : List[float], lows : List[float], highs : List[float], *, id: str =..., parent: str ='', before: str ='', label: str ='', source: str ='', show: bool =True, bull_color: List[int] =(0, 255, 113, 255), bear_color: List[int] =(218, 13, 79, 255), weight: int =0.25, contribute_to_bounds: bool =True, tooltip: bool =True) -> str:
+def add_candle_series(dates : List[float], opens : List[float], closes : List[float], lows : List[float], highs : List[float], *, id: str =..., parent: str ='', before: str ='', label: str =None, source: str ='', show: bool =True, bull_color: List[int] =(0, 255, 113, 255), bear_color: List[int] =(218, 13, 79, 255), weight: int =0.25, contribute_to_bounds: bool =True, tooltip: bool =True) -> str:
 	"""Undocumented function"""
 	...
 
-def add_checkbox(*, id: str =..., indent: int =-1, parent: str ='', before: str ='', label: str ='', source: str ='', payload_type: str ='$$DPG_PAYLOAD', callback: Callable =None, drag_callback: Callable =None, drop_callback: Callable =None, user_data: Any =None, show: bool =True, enabled: bool =True, pos: List[int] =[], filter_key: str ='', tracked: bool =False, track_offset: float =0.5, default_value: bool =False) -> str:
+def add_checkbox(*, id: str =..., indent: int =-1, parent: str ='', before: str ='', label: str =None, source: str ='', payload_type: str ='$$DPG_PAYLOAD', callback: Callable =None, drag_callback: Callable =None, drop_callback: Callable =None, user_data: Any =None, show: bool =True, enabled: bool =True, pos: List[int] =[], filter_key: str ='', tracked: bool =False, track_offset: float =0.5, default_value: bool =False) -> str:
 	"""Undocumented function"""
 	...
 
@@ -54,7 +54,7 @@ def add_clipper(*, id: str =..., width: int =0, indent: int =-1, parent: str =''
 	"""Undocumented function"""
 	...
 
-def add_collapsing_header(*, id: str =..., indent: int =-1, parent: str ='', before: str ='', label: str ='', payload_type: str ='$$DPG_PAYLOAD', drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, pos: List[int] =[], filter_key: str ='', tracked: bool =False, track_offset: float =0.5, closable: bool =False, default_open: bool =False, open_on_double_click: bool =False, open_on_arrow: bool =False, leaf: bool =False, bullet: bool =False) -> str:
+def add_collapsing_header(*, id: str =..., indent: int =-1, parent: str ='', before: str ='', label: str =None, payload_type: str ='$$DPG_PAYLOAD', drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, pos: List[int] =[], filter_key: str ='', tracked: bool =False, track_offset: float =0.5, closable: bool =False, default_open: bool =False, open_on_double_click: bool =False, open_on_arrow: bool =False, leaf: bool =False, bullet: bool =False) -> str:
 	"""Undocumented function"""
 	...
 
@@ -62,19 +62,19 @@ def add_color_button(default_value : List[int] =(0, 0, 0, 255), *, id: str =...,
 	"""Undocumented function"""
 	...
 
-def add_color_edit(default_value : List[int] =(0, 0, 0, 255), *, id: str =..., width: int =0, height: int =0, indent: int =-1, parent: str ='', before: str ='', label: str ='', source: str ='', payload_type: str ='$$DPG_PAYLOAD', callback: Callable =None, drag_callback: Callable =None, drop_callback: Callable =None, user_data: Any =None, show: bool =True, enabled: bool =True, pos: List[int] =[], filter_key: str ='', tracked: bool =False, track_offset: float =0.5, no_alpha: bool =False, no_picker: bool =False, no_options: bool =False, no_small_preview: bool =False, no_inputs: bool =False, no_tooltip: bool =False, no_label: bool =False, no_drag_drop: bool =False, alpha_bar: bool =False, alpha_preview: bool =False, alpha_preview_half: bool =False, display_rgb: bool =False, display_hsv: bool =False, display_hex: bool =False, uint8: bool =False, floats: bool =False, input_rgb: bool =False, input_hsv: bool =False, m_3component: bool =False) -> str:
+def add_color_edit(default_value : List[int] =(0, 0, 0, 255), *, id: str =..., width: int =0, height: int =0, indent: int =-1, parent: str ='', before: str ='', label: str =None, source: str ='', payload_type: str ='$$DPG_PAYLOAD', callback: Callable =None, drag_callback: Callable =None, drop_callback: Callable =None, user_data: Any =None, show: bool =True, enabled: bool =True, pos: List[int] =[], filter_key: str ='', tracked: bool =False, track_offset: float =0.5, no_alpha: bool =False, no_picker: bool =False, no_options: bool =False, no_small_preview: bool =False, no_inputs: bool =False, no_tooltip: bool =False, no_label: bool =False, no_drag_drop: bool =False, alpha_bar: bool =False, alpha_preview: bool =False, alpha_preview_half: bool =False, display_rgb: bool =False, display_hsv: bool =False, display_hex: bool =False, uint8: bool =False, floats: bool =False, input_rgb: bool =False, input_hsv: bool =False, m_3component: bool =False) -> str:
 	"""Undocumented function"""
 	...
 
-def add_color_picker(default_value : List[int] =(0, 0, 0, 255), *, id: str =..., width: int =0, height: int =0, indent: int =-1, parent: str ='', before: str ='', label: str ='', source: str ='', payload_type: str ='$$DPG_PAYLOAD', callback: Callable =None, drag_callback: Callable =None, drop_callback: Callable =None, user_data: Any =None, show: bool =True, enabled: bool =True, pos: List[int] =[], filter_key: str ='', tracked: bool =False, track_offset: float =0.5, no_alpha: bool =False, no_picker: bool =False, no_side_preview: bool =False, no_small_preview: bool =False, no_inputs: bool =False, no_tooltip: bool =False, no_label: bool =False, alpha_bar: bool =False, alpha_preview: bool =False, alpha_preview_half: bool =False, display_rgb: bool =False, display_hsv: bool =False, display_hex: bool =False, uint8: bool =False, floats: bool =False, input_rgb: bool =False, input_hsv: bool =False, picker_hue_bar: bool =False, picker_hue_wheel: bool =False) -> str:
+def add_color_picker(default_value : List[int] =(0, 0, 0, 255), *, id: str =..., width: int =0, height: int =0, indent: int =-1, parent: str ='', before: str ='', label: str =None, source: str ='', payload_type: str ='$$DPG_PAYLOAD', callback: Callable =None, drag_callback: Callable =None, drop_callback: Callable =None, user_data: Any =None, show: bool =True, enabled: bool =True, pos: List[int] =[], filter_key: str ='', tracked: bool =False, track_offset: float =0.5, no_alpha: bool =False, no_picker: bool =False, no_side_preview: bool =False, no_small_preview: bool =False, no_inputs: bool =False, no_tooltip: bool =False, no_label: bool =False, alpha_bar: bool =False, alpha_preview: bool =False, alpha_preview_half: bool =False, display_rgb: bool =False, display_hsv: bool =False, display_hex: bool =False, uint8: bool =False, floats: bool =False, input_rgb: bool =False, input_hsv: bool =False, picker_hue_bar: bool =False, picker_hue_wheel: bool =False) -> str:
 	"""Undocumented function"""
 	...
 
-def add_colormap_scale(*, id: str =..., width: int =0, height: int =0, indent: int =-1, parent: str ='', before: str ='', label: str ='', source: str ='', show: bool =True, pos: List[int] =[], default_value: int =0, min_scale: float =0.0, max_scale: float =1.0) -> str:
+def add_colormap_scale(*, id: str =..., width: int =0, height: int =0, indent: int =-1, parent: str ='', before: str ='', label: str =None, source: str ='', show: bool =True, pos: List[int] =[], default_value: int =0, min_scale: float =0.0, max_scale: float =1.0) -> str:
 	"""Undocumented function"""
 	...
 
-def add_combo(items : List[str] =(), *, id: str =..., width: int =0, indent: int =-1, parent: str ='', before: str ='', label: str ='', source: str ='', payload_type: str ='$$DPG_PAYLOAD', callback: Callable =None, drag_callback: Callable =None, drop_callback: Callable =None, user_data: Any =None, show: bool =True, enabled: bool =True, pos: List[int] =[], filter_key: str ='', tracked: bool =False, track_offset: float =0.5, default_value: str ='', popup_align_left: bool =False, height_small: bool =False, height_regular: bool =False, height_large: bool =False, height_largest: bool =False, no_arrow_button: bool =False, no_preview: bool =False) -> str:
+def add_combo(items : List[str] =(), *, id: str =..., width: int =0, indent: int =-1, parent: str ='', before: str ='', label: str =None, source: str ='', payload_type: str ='$$DPG_PAYLOAD', callback: Callable =None, drag_callback: Callable =None, drop_callback: Callable =None, user_data: Any =None, show: bool =True, enabled: bool =True, pos: List[int] =[], filter_key: str ='', tracked: bool =False, track_offset: float =0.5, default_value: str ='', popup_align_left: bool =False, height_small: bool =False, height_regular: bool =False, height_large: bool =False, height_largest: bool =False, no_arrow_button: bool =False, no_preview: bool =False) -> str:
 	"""Undocumented function"""
 	...
 
@@ -90,23 +90,23 @@ def add_deactivated_handler(parent : str, *, id: str =..., callback: Callable =N
 	"""Undocumented function"""
 	...
 
-def add_drag_float(*, id: str =..., width: int =0, indent: int =-1, parent: str ='', before: str ='', label: str ='', source: str ='', payload_type: str ='$$DPG_PAYLOAD', callback: Callable =None, drag_callback: Callable =None, drop_callback: Callable =None, user_data: Any =None, show: bool =True, enabled: bool =True, pos: List[int] =[], filter_key: str ='', tracked: bool =False, track_offset: float =0.5, default_value: float =0.0, size: int =4, format: str ='%0.3f', speed: float =1.0, min_value: float =0.0, max_value: float =100.0, no_input: bool =False, clamped: bool =False) -> str:
+def add_drag_float(*, id: str =..., width: int =0, indent: int =-1, parent: str ='', before: str ='', label: str =None, source: str ='', payload_type: str ='$$DPG_PAYLOAD', callback: Callable =None, drag_callback: Callable =None, drop_callback: Callable =None, user_data: Any =None, show: bool =True, enabled: bool =True, pos: List[int] =[], filter_key: str ='', tracked: bool =False, track_offset: float =0.5, default_value: float =0.0, size: int =4, format: str ='%0.3f', speed: float =1.0, min_value: float =0.0, max_value: float =100.0, no_input: bool =False, clamped: bool =False) -> str:
 	"""Undocumented function"""
 	...
 
-def add_drag_floatx(*, id: str =..., width: int =0, indent: int =-1, parent: str ='', before: str ='', label: str ='', source: str ='', payload_type: str ='$$DPG_PAYLOAD', callback: Callable =None, drag_callback: Callable =None, drop_callback: Callable =None, user_data: Any =None, show: bool =True, enabled: bool =True, pos: List[int] =[], filter_key: str ='', tracked: bool =False, track_offset: float =0.5, default_value: List[float] =(0.0, 0.0, 0.0, 0.0), size: int =4, format: str ='%0.3f', speed: float =1.0, min_value: float =0.0, max_value: float =100.0, no_input: bool =False, clamped: bool =False) -> str:
+def add_drag_floatx(*, id: str =..., width: int =0, indent: int =-1, parent: str ='', before: str ='', label: str =None, source: str ='', payload_type: str ='$$DPG_PAYLOAD', callback: Callable =None, drag_callback: Callable =None, drop_callback: Callable =None, user_data: Any =None, show: bool =True, enabled: bool =True, pos: List[int] =[], filter_key: str ='', tracked: bool =False, track_offset: float =0.5, default_value: List[float] =(0.0, 0.0, 0.0, 0.0), size: int =4, format: str ='%0.3f', speed: float =1.0, min_value: float =0.0, max_value: float =100.0, no_input: bool =False, clamped: bool =False) -> str:
 	"""Undocumented function"""
 	...
 
-def add_drag_int(*, id: str =..., width: int =0, indent: int =-1, parent: str ='', before: str ='', label: str ='', source: str ='', payload_type: str ='$$DPG_PAYLOAD', callback: Callable =None, drag_callback: Callable =None, drop_callback: Callable =None, user_data: Any =None, show: bool =True, enabled: bool =True, pos: List[int] =[], filter_key: str ='', tracked: bool =False, track_offset: float =0.5, default_value: int =0, size: int =4, format: str ='%d', speed: float =1.0, min_value: int =0, max_value: int =100, no_input: bool =False, clamped: bool =False) -> str:
+def add_drag_int(*, id: str =..., width: int =0, indent: int =-1, parent: str ='', before: str ='', label: str =None, source: str ='', payload_type: str ='$$DPG_PAYLOAD', callback: Callable =None, drag_callback: Callable =None, drop_callback: Callable =None, user_data: Any =None, show: bool =True, enabled: bool =True, pos: List[int] =[], filter_key: str ='', tracked: bool =False, track_offset: float =0.5, default_value: int =0, size: int =4, format: str ='%d', speed: float =1.0, min_value: int =0, max_value: int =100, no_input: bool =False, clamped: bool =False) -> str:
 	"""Undocumented function"""
 	...
 
-def add_drag_intx(*, id: str =..., width: int =0, indent: int =-1, parent: str ='', before: str ='', label: str ='', source: str ='', payload_type: str ='$$DPG_PAYLOAD', callback: Callable =None, drag_callback: Callable =None, drop_callback: Callable =None, user_data: Any =None, show: bool =True, enabled: bool =True, pos: List[int] =[], filter_key: str ='', tracked: bool =False, track_offset: float =0.5, default_value: List[int] =(0, 0, 0, 0), size: int =4, format: str ='%d', speed: float =1.0, min_value: int =0, max_value: int =100, no_input: bool =False, clamped: bool =False) -> str:
+def add_drag_intx(*, id: str =..., width: int =0, indent: int =-1, parent: str ='', before: str ='', label: str =None, source: str ='', payload_type: str ='$$DPG_PAYLOAD', callback: Callable =None, drag_callback: Callable =None, drop_callback: Callable =None, user_data: Any =None, show: bool =True, enabled: bool =True, pos: List[int] =[], filter_key: str ='', tracked: bool =False, track_offset: float =0.5, default_value: List[int] =(0, 0, 0, 0), size: int =4, format: str ='%d', speed: float =1.0, min_value: int =0, max_value: int =100, no_input: bool =False, clamped: bool =False) -> str:
 	"""Undocumented function"""
 	...
 
-def add_drag_line(*, id: str =..., parent: str ='', before: str ='', label: str ='', source: str ='', callback: Callable =None, show: bool =True, default_value: Any =(0.0, 0.0, 0.0, 0.0), color: List[int] =(0, 0, 0, -255), thickness: float =1.0, show_label: bool =True, vertical: bool =True) -> str:
+def add_drag_line(*, id: str =..., parent: str ='', before: str ='', label: str =None, source: str ='', callback: Callable =None, show: bool =True, default_value: Any =(0.0, 0.0, 0.0, 0.0), color: List[int] =(0, 0, 0, -255), thickness: float =1.0, show_label: bool =True, vertical: bool =True) -> str:
 	"""Undocumented function"""
 	...
 
@@ -114,7 +114,7 @@ def add_drag_payload(*, id: str =..., parent: str ='', show: bool =True, drag_da
 	"""Undocumented function"""
 	...
 
-def add_drag_point(*, id: str =..., parent: str ='', before: str ='', label: str ='', source: str ='', callback: Callable =None, show: bool =True, default_value: Any =(0.0, 0.0, 0.0, 0.0), color: List[int] =(0, 0, 0, -255), thickness: float =1.0, show_label: bool =True) -> str:
+def add_drag_point(*, id: str =..., parent: str ='', before: str ='', label: str =None, source: str ='', callback: Callable =None, show: bool =True, default_value: Any =(0.0, 0.0, 0.0, 0.0), color: List[int] =(0, 0, 0, -255), thickness: float =1.0, show_label: bool =True) -> str:
 	"""Undocumented function"""
 	...
 
@@ -138,15 +138,15 @@ def add_edited_handler(parent : str, *, id: str =..., callback: Callable =None) 
 	"""Undocumented function"""
 	...
 
-def add_error_series(x : List[float], y : List[float], negative : List[float], positive : List[float], *, id: str =..., parent: str ='', before: str ='', label: str ='', source: str ='', show: bool =True, contribute_to_bounds: bool =True, horizontal: bool =False) -> str:
+def add_error_series(x : List[float], y : List[float], negative : List[float], positive : List[float], *, id: str =..., parent: str ='', before: str ='', label: str =None, source: str ='', show: bool =True, contribute_to_bounds: bool =True, horizontal: bool =False) -> str:
 	"""Undocumented function"""
 	...
 
-def add_file_dialog(*, id: str =..., width: int =0, height: int =0, label: str ='', callback: Callable =None, show: bool =True, default_path: str ='', default_filename: str ='.', file_count: int =0, modal: bool =False, directory_selector: bool =False) -> str:
+def add_file_dialog(*, id: str =..., width: int =0, height: int =0, label: str =None, callback: Callable =None, show: bool =True, default_path: str ='', default_filename: str ='.', file_count: int =0, modal: bool =False, directory_selector: bool =False) -> str:
 	"""Undocumented function"""
 	...
 
-def add_file_extension(extension : str, *, id: str =..., width: int =0, height: int =0, parent: str ='', before: str ='', label: str ='', custom_text: str ='', color: List[float] =(-255, 0, 0, 255)) -> str:
+def add_file_extension(extension : str, *, id: str =..., width: int =0, height: int =0, parent: str ='', before: str ='', label: str =None, custom_text: str ='', color: List[float] =(-255, 0, 0, 255)) -> str:
 	"""Undocumented function"""
 	...
 
@@ -170,15 +170,15 @@ def add_handler_registry(*, id: str =..., show: bool =True) -> str:
 	"""Undocumented function"""
 	...
 
-def add_heat_series(x : List[float], rows : int, cols : int, *, id: str =..., parent: str ='', before: str ='', label: str ='', source: str ='', show: bool =True, scale_min: float =0.0, scale_max: float =1.0, bounds_min: Any =(0.0, 0.0), bounds_max: Any =(1.0, 1.0), format: str ='%0.1f', contribute_to_bounds: bool =True) -> str:
+def add_heat_series(x : List[float], rows : int, cols : int, *, id: str =..., parent: str ='', before: str ='', label: str =None, source: str ='', show: bool =True, scale_min: float =0.0, scale_max: float =1.0, bounds_min: Any =(0.0, 0.0), bounds_max: Any =(1.0, 1.0), format: str ='%0.1f', contribute_to_bounds: bool =True) -> str:
 	"""Undocumented function"""
 	...
 
-def add_histogram_series(x : List[float], *, id: str =..., parent: str ='', before: str ='', label: str ='', source: str ='', show: bool =True, bins: int =-1, bar_scale: float =1.0, min_range: float =0.0, max_range: float =1.0, cumlative: bool =False, density: bool =False, outliers: bool =True, contribute_to_bounds: bool =True) -> str:
+def add_histogram_series(x : List[float], *, id: str =..., parent: str ='', before: str ='', label: str =None, source: str ='', show: bool =True, bins: int =-1, bar_scale: float =1.0, min_range: float =0.0, max_range: float =1.0, cumlative: bool =False, density: bool =False, outliers: bool =True, contribute_to_bounds: bool =True) -> str:
 	"""Undocumented function"""
 	...
 
-def add_hline_series(x : List[float], *, id: str =..., parent: str ='', before: str ='', label: str ='', source: str ='', show: bool =True, contribute_to_bounds: bool =True) -> str:
+def add_hline_series(x : List[float], *, id: str =..., parent: str ='', before: str ='', label: str =None, source: str ='', show: bool =True, contribute_to_bounds: bool =True) -> str:
 	"""Undocumented function"""
 	...
 
@@ -186,35 +186,35 @@ def add_hover_handler(parent : str, *, id: str =..., callback: Callable =None) -
 	"""Undocumented function"""
 	...
 
-def add_image(default_value : str, *, id: str =..., width: int =0, height: int =0, indent: int =-1, parent: str ='', before: str ='', label: str ='', source: str ='', payload_type: str ='$$DPG_PAYLOAD', drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, pos: List[int] =[], filter_key: str ='', tracked: bool =False, track_offset: float =0.5, tint_color: List[float] =(255, 255, 255, 255), border_color: List[float] =(0, 0, 0, 0), uv_min: List[float] =(0.0, 0.0), uv_max: List[float] =(1.0, 1.0)) -> str:
+def add_image(default_value : str, *, id: str =..., width: int =0, height: int =0, indent: int =-1, parent: str ='', before: str ='', label: str =None, source: str ='', payload_type: str ='$$DPG_PAYLOAD', drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, pos: List[int] =[], filter_key: str ='', tracked: bool =False, track_offset: float =0.5, tint_color: List[float] =(255, 255, 255, 255), border_color: List[float] =(0, 0, 0, 0), uv_min: List[float] =(0.0, 0.0), uv_max: List[float] =(1.0, 1.0)) -> str:
 	"""Undocumented function"""
 	...
 
-def add_image_button(default_value : str, *, id: str =..., width: int =0, height: int =0, indent: int =-1, parent: str ='', before: str ='', label: str ='', source: str ='', payload_type: str ='$$DPG_PAYLOAD', callback: Callable =None, drag_callback: Callable =None, drop_callback: Callable =None, user_data: Any =None, show: bool =True, enabled: bool =True, pos: List[int] =[], filter_key: str ='', tracked: bool =False, track_offset: float =0.5, frame_padding: int =-1, tint_color: List[float] =(255, 255, 255, 255), background_color: List[float] =(0, 0, 0, 0), uv_min: List[float] =(0.0, 0.0), uv_max: List[float] =(1.0, 1.0)) -> str:
+def add_image_button(default_value : str, *, id: str =..., width: int =0, height: int =0, indent: int =-1, parent: str ='', before: str ='', label: str =None, source: str ='', payload_type: str ='$$DPG_PAYLOAD', callback: Callable =None, drag_callback: Callable =None, drop_callback: Callable =None, user_data: Any =None, show: bool =True, enabled: bool =True, pos: List[int] =[], filter_key: str ='', tracked: bool =False, track_offset: float =0.5, frame_padding: int =-1, tint_color: List[float] =(255, 255, 255, 255), background_color: List[float] =(0, 0, 0, 0), uv_min: List[float] =(0.0, 0.0), uv_max: List[float] =(1.0, 1.0)) -> str:
 	"""Undocumented function"""
 	...
 
-def add_image_series(value : str, bounds_min : List[float], bounds_max : List[float], *, id: str =..., parent: str ='', before: str ='', label: str ='', source: str ='', show: bool =True, uv_min: List[float] =(0.0, 0.0), uv_max: List[float] =(1.0, 1.0), tint_color: List[int] =(255, 255, 255, 255), contribute_to_bounds: bool =True) -> str:
+def add_image_series(value : str, bounds_min : List[float], bounds_max : List[float], *, id: str =..., parent: str ='', before: str ='', label: str =None, source: str ='', show: bool =True, uv_min: List[float] =(0.0, 0.0), uv_max: List[float] =(1.0, 1.0), tint_color: List[int] =(255, 255, 255, 255), contribute_to_bounds: bool =True) -> str:
 	"""Undocumented function"""
 	...
 
-def add_input_float(*, id: str =..., width: int =0, indent: int =-1, parent: str ='', before: str ='', label: str ='', source: str ='', payload_type: str ='$$DPG_PAYLOAD', callback: Callable =None, drag_callback: Callable =None, drop_callback: Callable =None, user_data: Any =None, show: bool =True, enabled: bool =True, pos: List[int] =[], filter_key: str ='', tracked: bool =False, track_offset: float =0.5, default_value: float =0.0, format: str ='%.3f', min_value: float =0.0, max_value: float =100.0, step: float =0.1, step_fast: float =1.0, size: int =4, min_clamped: bool =False, max_clamped: bool =False, on_enter: bool =False, readonly: bool =False) -> str:
+def add_input_float(*, id: str =..., width: int =0, indent: int =-1, parent: str ='', before: str ='', label: str =None, source: str ='', payload_type: str ='$$DPG_PAYLOAD', callback: Callable =None, drag_callback: Callable =None, drop_callback: Callable =None, user_data: Any =None, show: bool =True, enabled: bool =True, pos: List[int] =[], filter_key: str ='', tracked: bool =False, track_offset: float =0.5, default_value: float =0.0, format: str ='%.3f', min_value: float =0.0, max_value: float =100.0, step: float =0.1, step_fast: float =1.0, size: int =4, min_clamped: bool =False, max_clamped: bool =False, on_enter: bool =False, readonly: bool =False) -> str:
 	"""Undocumented function"""
 	...
 
-def add_input_floatx(*, id: str =..., width: int =0, indent: int =-1, parent: str ='', before: str ='', label: str ='', source: str ='', payload_type: str ='$$DPG_PAYLOAD', callback: Callable =None, drag_callback: Callable =None, drop_callback: Callable =None, user_data: Any =None, show: bool =True, enabled: bool =True, pos: List[int] =[], filter_key: str ='', tracked: bool =False, track_offset: float =0.5, default_value: List[float] =(0.0, 0.0, 0.0, 0.0), format: str ='%.3f', min_value: float =0.0, max_value: float =100.0, size: int =4, min_clamped: bool =False, max_clamped: bool =False, on_enter: bool =False, readonly: bool =False) -> str:
+def add_input_floatx(*, id: str =..., width: int =0, indent: int =-1, parent: str ='', before: str ='', label: str =None, source: str ='', payload_type: str ='$$DPG_PAYLOAD', callback: Callable =None, drag_callback: Callable =None, drop_callback: Callable =None, user_data: Any =None, show: bool =True, enabled: bool =True, pos: List[int] =[], filter_key: str ='', tracked: bool =False, track_offset: float =0.5, default_value: List[float] =(0.0, 0.0, 0.0, 0.0), format: str ='%.3f', min_value: float =0.0, max_value: float =100.0, size: int =4, min_clamped: bool =False, max_clamped: bool =False, on_enter: bool =False, readonly: bool =False) -> str:
 	"""Undocumented function"""
 	...
 
-def add_input_int(*, id: str =..., width: int =0, indent: int =-1, parent: str ='', before: str ='', label: str ='', source: str ='', payload_type: str ='$$DPG_PAYLOAD', callback: Callable =None, drag_callback: Callable =None, drop_callback: Callable =None, user_data: Any =None, show: bool =True, enabled: bool =True, pos: List[int] =[], filter_key: str ='', tracked: bool =False, track_offset: float =0.5, default_value: List[int] =(0, 0, 0, 0), min_value: int =0, max_value: int =100, size: int =4, step: int =1, step_fast: int =100, min_clamped: bool =False, max_clamped: bool =False, on_enter: bool =False, readonly: bool =False) -> str:
+def add_input_int(*, id: str =..., width: int =0, indent: int =-1, parent: str ='', before: str ='', label: str =None, source: str ='', payload_type: str ='$$DPG_PAYLOAD', callback: Callable =None, drag_callback: Callable =None, drop_callback: Callable =None, user_data: Any =None, show: bool =True, enabled: bool =True, pos: List[int] =[], filter_key: str ='', tracked: bool =False, track_offset: float =0.5, default_value: List[int] =(0, 0, 0, 0), min_value: int =0, max_value: int =100, size: int =4, step: int =1, step_fast: int =100, min_clamped: bool =False, max_clamped: bool =False, on_enter: bool =False, readonly: bool =False) -> str:
 	"""Undocumented function"""
 	...
 
-def add_input_intx(*, id: str =..., width: int =0, indent: int =-1, parent: str ='', before: str ='', label: str ='', source: str ='', payload_type: str ='$$DPG_PAYLOAD', callback: Callable =None, drag_callback: Callable =None, drop_callback: Callable =None, user_data: Any =None, show: bool =True, enabled: bool =True, pos: List[int] =[], filter_key: str ='', tracked: bool =False, track_offset: float =0.5, default_value: List[int] =(0, 0, 0, 0), min_value: int =0, max_value: int =100, size: int =4, min_clamped: bool =False, max_clamped: bool =False, on_enter: bool =False, readonly: bool =False) -> str:
+def add_input_intx(*, id: str =..., width: int =0, indent: int =-1, parent: str ='', before: str ='', label: str =None, source: str ='', payload_type: str ='$$DPG_PAYLOAD', callback: Callable =None, drag_callback: Callable =None, drop_callback: Callable =None, user_data: Any =None, show: bool =True, enabled: bool =True, pos: List[int] =[], filter_key: str ='', tracked: bool =False, track_offset: float =0.5, default_value: List[int] =(0, 0, 0, 0), min_value: int =0, max_value: int =100, size: int =4, min_clamped: bool =False, max_clamped: bool =False, on_enter: bool =False, readonly: bool =False) -> str:
 	"""Undocumented function"""
 	...
 
-def add_input_text(*, id: str =..., width: int =0, height: int =0, indent: int =-1, parent: str ='', before: str ='', label: str ='', source: str ='', payload_type: str ='$$DPG_PAYLOAD', callback: Callable =None, drag_callback: Callable =None, drop_callback: Callable =None, user_data: Any =None, show: bool =True, enabled: bool =True, pos: List[int] =[], filter_key: str ='', tracked: bool =False, track_offset: float =0.5, default_value: str ='', hint: str ='', multiline: bool =False, no_spaces: bool =False, uppercase: bool =False, tab_input: bool =False, decimal: bool =False, hexadecimal: bool =False, readonly: bool =False, password: bool =False, scientific: bool =False, on_enter: bool =False) -> str:
+def add_input_text(*, id: str =..., width: int =0, height: int =0, indent: int =-1, parent: str ='', before: str ='', label: str =None, source: str ='', payload_type: str ='$$DPG_PAYLOAD', callback: Callable =None, drag_callback: Callable =None, drop_callback: Callable =None, user_data: Any =None, show: bool =True, enabled: bool =True, pos: List[int] =[], filter_key: str ='', tracked: bool =False, track_offset: float =0.5, default_value: str ='', hint: str ='', multiline: bool =False, no_spaces: bool =False, uppercase: bool =False, tab_input: bool =False, decimal: bool =False, hexadecimal: bool =False, readonly: bool =False, password: bool =False, scientific: bool =False, on_enter: bool =False) -> str:
 	"""Undocumented function"""
 	...
 
@@ -230,23 +230,23 @@ def add_key_release_handler(key : int, *, id: str =..., parent: str ='', callbac
 	"""Undocumented function"""
 	...
 
-def add_knob_float(*, id: str =..., width: int =0, height: int =0, indent: int =-1, parent: str ='', before: str ='', label: str ='', source: str ='', payload_type: str ='$$DPG_PAYLOAD', callback: Callable =None, drag_callback: Callable =None, drop_callback: Callable =None, user_data: Any =None, show: bool =True, pos: List[int] =[], filter_key: str ='', tracked: bool =False, track_offset: float =0.5, default_value: float =0.0, min_value: float =0.0, max_value: float =100.0) -> str:
+def add_knob_float(*, id: str =..., width: int =0, height: int =0, indent: int =-1, parent: str ='', before: str ='', label: str =None, source: str ='', payload_type: str ='$$DPG_PAYLOAD', callback: Callable =None, drag_callback: Callable =None, drop_callback: Callable =None, user_data: Any =None, show: bool =True, pos: List[int] =[], filter_key: str ='', tracked: bool =False, track_offset: float =0.5, default_value: float =0.0, min_value: float =0.0, max_value: float =100.0) -> str:
 	"""Undocumented function"""
 	...
 
-def add_line_series(x : List[float], y : List[float], *, id: str =..., parent: str ='', before: str ='', label: str ='', source: str ='', show: bool =True, contribute_to_bounds: bool =True) -> str:
+def add_line_series(x : List[float], y : List[float], *, id: str =..., parent: str ='', before: str ='', label: str =None, source: str ='', show: bool =True, contribute_to_bounds: bool =True) -> str:
 	"""Undocumented function"""
 	...
 
-def add_listbox(items : List[str] =(), *, id: str =..., width: int =0, indent: int =-1, parent: str ='', before: str ='', label: str ='', source: str ='', payload_type: str ='$$DPG_PAYLOAD', callback: Callable =None, drag_callback: Callable =None, drop_callback: Callable =None, user_data: Any =None, show: bool =True, enabled: bool =True, pos: List[int] =[], filter_key: str ='', tracked: bool =False, track_offset: float =0.5, default_value: str ='', num_items: int =3) -> str:
+def add_listbox(items : List[str] =(), *, id: str =..., width: int =0, indent: int =-1, parent: str ='', before: str ='', label: str =None, source: str ='', payload_type: str ='$$DPG_PAYLOAD', callback: Callable =None, drag_callback: Callable =None, drop_callback: Callable =None, user_data: Any =None, show: bool =True, enabled: bool =True, pos: List[int] =[], filter_key: str ='', tracked: bool =False, track_offset: float =0.5, default_value: str ='', num_items: int =3) -> str:
 	"""Undocumented function"""
 	...
 
-def add_loading_indicator(*, id: str =..., width: int =0, height: int =0, indent: int =-1, parent: str ='', before: str ='', label: str ='', show: bool =True, pos: List[int] =[], style: int =0) -> str:
+def add_loading_indicator(*, id: str =..., width: int =0, height: int =0, indent: int =-1, parent: str ='', before: str ='', label: str =None, show: bool =True, pos: List[int] =[], style: int =0) -> str:
 	"""Undocumented function"""
 	...
 
-def add_menu(*, id: str =..., indent: int =-1, parent: str ='', before: str ='', label: str ='', payload_type: str ='$$DPG_PAYLOAD', drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, enabled: bool =True, filter_key: str ='', tracked: bool =False, track_offset: float =0.5) -> str:
+def add_menu(*, id: str =..., indent: int =-1, parent: str ='', before: str ='', label: str =None, payload_type: str ='$$DPG_PAYLOAD', drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, enabled: bool =True, filter_key: str ='', tracked: bool =False, track_offset: float =0.5) -> str:
 	"""Undocumented function"""
 	...
 
@@ -254,7 +254,7 @@ def add_menu_bar(*, id: str =..., indent: int =-1, parent: str ='', show: bool =
 	"""Undocumented function"""
 	...
 
-def add_menu_item(*, id: str =..., indent: int =-1, parent: str ='', before: str ='', label: str ='', payload_type: str ='$$DPG_PAYLOAD', callback: Callable =None, drag_callback: Callable =None, drop_callback: Callable =None, user_data: Any =None, show: bool =True, enabled: bool =True, filter_key: str ='', tracked: bool =False, track_offset: float =0.5, default_value: bool =False, shortcut: str ='', check: bool =False) -> str:
+def add_menu_item(*, id: str =..., indent: int =-1, parent: str ='', before: str ='', label: str =None, payload_type: str ='$$DPG_PAYLOAD', callback: Callable =None, drag_callback: Callable =None, drop_callback: Callable =None, user_data: Any =None, show: bool =True, enabled: bool =True, filter_key: str ='', tracked: bool =False, track_offset: float =0.5, default_value: bool =False, shortcut: str ='', check: bool =False) -> str:
 	"""Undocumented function"""
 	...
 
@@ -286,7 +286,7 @@ def add_mouse_wheel_handler(*, id: str =..., parent: str ='', callback: Callable
 	"""Undocumented function"""
 	...
 
-def add_node(*, id: str =..., parent: str ='', before: str ='', label: str ='', payload_type: str ='$$DPG_PAYLOAD', drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, filter_key: str ='', tracked: bool =False, track_offset: float =0.5, draggable: bool =True) -> str:
+def add_node(*, id: str =..., parent: str ='', before: str ='', label: str =None, payload_type: str ='$$DPG_PAYLOAD', drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, pos: List[int] =[], filter_key: str ='', tracked: bool =False, track_offset: float =0.5, draggable: bool =True) -> str:
 	"""Undocumented function"""
 	...
 
@@ -302,15 +302,19 @@ def add_node_link(node_1 : str, node_2 : str, *, id: str =..., parent: str ='', 
 	"""Undocumented function"""
 	...
 
-def add_pie_series(x : float, y : float, radius : float, values : List[float], labels : List[str], *, id: str =..., parent: str ='', before: str ='', label: str ='', source: str ='', show: bool =True, format: str ='%0.2f', angle: float =90.0, normalize: bool =False, contribute_to_bounds: bool =True) -> str:
+def add_pie_series(x : float, y : float, radius : float, values : List[float], labels : List[str], *, id: str =..., parent: str ='', before: str ='', label: str =None, source: str ='', show: bool =True, format: str ='%0.2f', angle: float =90.0, normalize: bool =False, contribute_to_bounds: bool =True) -> str:
 	"""Undocumented function"""
 	...
 
-def add_plot(*, id: str =..., width: int =0, height: int =0, indent: int =-1, parent: str ='', before: str ='', label: str ='', payload_type: str ='$$DPG_PAYLOAD', drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, pos: List[int] =[], filter_key: str ='', tracked: bool =False, track_offset: float =0.5, query_callback: Callable =None, x_axis_name: str ='', no_title: bool =False, no_menus: bool =False, no_box_select: bool =False, no_mouse_pos: bool =False, no_highlight: bool =False, no_child: bool =False, query: bool =False, crosshairs: bool =False, anti_aliased: bool =False, equal_aspects: bool =False, xaxis_no_gridlines: bool =False, xaxis_no_tick_marks: bool =False, xaxis_no_tick_labels: bool =False, xaxis_log_scale: bool =False, xaxis_time: bool =False, xaxis_invert: bool =False, xaxis_lock_min: bool =False, xaxis_lock_max: bool =False) -> str:
+def add_plot(*, id: str =..., width: int =0, height: int =0, indent: int =-1, parent: str ='', before: str ='', label: str =None, payload_type: str ='$$DPG_PAYLOAD', callback: Callable =None, drag_callback: Callable =None, drop_callback: Callable =None, user_data: Any =None, show: bool =True, pos: List[int] =[], filter_key: str ='', tracked: bool =False, track_offset: float =0.5, x_axis_name: str ='', no_title: bool =False, no_menus: bool =False, no_box_select: bool =False, no_mouse_pos: bool =False, no_highlight: bool =False, no_child: bool =False, query: bool =False, crosshairs: bool =False, anti_aliased: bool =False, equal_aspects: bool =False) -> str:
 	"""Undocumented function"""
 	...
 
-def add_plot_annotation(*, id: str =..., parent: str ='', before: str ='', label: str ='', source: str ='', show: bool =True, default_value: Any =(0.0, 0.0), offset: List[float] =(0.0, 0.0), color: List[int] =(0, 0, 0, -255), clamped: bool =True) -> str:
+def add_plot_annotation(*, id: str =..., parent: str ='', before: str ='', label: str =None, source: str ='', show: bool =True, default_value: Any =(0.0, 0.0), offset: List[float] =(0.0, 0.0), color: List[int] =(0, 0, 0, -255), clamped: bool =True) -> str:
+	"""Undocumented function"""
+	...
+
+def add_plot_axis(axis : bool, *, id: str =..., parent: str ='', label: str =None, payload_type: str ='$$DPG_PAYLOAD', drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, no_gridlines: bool =False, no_tick_marks: bool =False, no_tick_labels: bool =False, log_scale: bool =False, invert: bool =False, lock_min: bool =False, lock_max: bool =False, time: bool =False) -> str:
 	"""Undocumented function"""
 	...
 
@@ -318,15 +322,11 @@ def add_plot_legend(*, id: str =..., parent: str ='', payload_type: str ='$$DPG_
 	"""Undocumented function"""
 	...
 
-def add_plot_yaxis(*, id: str =..., parent: str ='', label: str ='', payload_type: str ='$$DPG_PAYLOAD', drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, yaxis_no_gridlines: bool =False, yaxis_no_tick_marks: bool =False, yaxis_no_tick_labels: bool =False, yaxis_log_scale: bool =False, yaxis_invert: bool =False, yaxis_lock_min: bool =False, yaxis_lock_max: bool =False) -> str:
-	"""Undocumented function"""
-	...
-
 def add_popup(*, id: str =..., width: int =0, height: int =0, parent: str ='', show: bool =True, pos: List[int] =[], mousebutton: int =1, modal: bool =False) -> str:
 	"""Undocumented function"""
 	...
 
-def add_progress_bar(*, id: str =..., width: int =0, height: int =0, indent: int =-1, parent: str ='', before: str ='', label: str ='', source: str ='', payload_type: str ='$$DPG_PAYLOAD', drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, pos: List[int] =[], filter_key: str ='', tracked: bool =False, track_offset: float =0.5, overlay: str ='', default_value: float =0.0) -> str:
+def add_progress_bar(*, id: str =..., width: int =0, height: int =0, indent: int =-1, parent: str ='', before: str ='', label: str =None, source: str ='', payload_type: str ='$$DPG_PAYLOAD', drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, pos: List[int] =[], filter_key: str ='', tracked: bool =False, track_offset: float =0.5, overlay: str ='', default_value: float =0.0) -> str:
 	"""Undocumented function"""
 	...
 
@@ -338,11 +338,11 @@ def add_same_line(*, id: str =..., parent: str ='', before: str ='', show: bool 
 	"""Undocumented function"""
 	...
 
-def add_scatter_series(x : List[float], y : List[float], *, id: str =..., parent: str ='', before: str ='', label: str ='', source: str ='', show: bool =True, contribute_to_bounds: bool =True) -> str:
+def add_scatter_series(x : List[float], y : List[float], *, id: str =..., parent: str ='', before: str ='', label: str =None, source: str ='', show: bool =True, contribute_to_bounds: bool =True) -> str:
 	"""Undocumented function"""
 	...
 
-def add_selectable(*, id: str =..., width: int =0, height: int =0, indent: int =-1, parent: str ='', before: str ='', label: str ='', source: str ='', payload_type: str ='$$DPG_PAYLOAD', callback: Callable =None, drag_callback: Callable =None, drop_callback: Callable =None, user_data: Any =None, show: bool =True, enabled: bool =True, pos: List[int] =[], filter_key: str ='', tracked: bool =False, track_offset: float =0.5, default_value: bool =False, span_columns: bool =False) -> str:
+def add_selectable(*, id: str =..., width: int =0, height: int =0, indent: int =-1, parent: str ='', before: str ='', label: str =None, source: str ='', payload_type: str ='$$DPG_PAYLOAD', callback: Callable =None, drag_callback: Callable =None, drop_callback: Callable =None, user_data: Any =None, show: bool =True, enabled: bool =True, pos: List[int] =[], filter_key: str ='', tracked: bool =False, track_offset: float =0.5, default_value: bool =False, span_columns: bool =False) -> str:
 	"""Undocumented function"""
 	...
 
@@ -350,27 +350,27 @@ def add_separator(*, id: str =..., indent: int =-1, parent: str ='', before: str
 	"""Undocumented function"""
 	...
 
-def add_shade_series(x : List[float], y1 : List[float], *, id: str =..., parent: str ='', before: str ='', label: str ='', source: str ='', show: bool =True, y2: Any =[], contribute_to_bounds: bool =True) -> str:
+def add_shade_series(x : List[float], y1 : List[float], *, id: str =..., parent: str ='', before: str ='', label: str =None, source: str ='', show: bool =True, y2: Any =[], contribute_to_bounds: bool =True) -> str:
 	"""Undocumented function"""
 	...
 
-def add_simple_plot(*, id: str =..., width: int =0, height: int =0, indent: int =-1, parent: str ='', before: str ='', label: str ='', source: str ='', payload_type: str ='$$DPG_PAYLOAD', drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, filter_key: str ='', tracked: bool =False, track_offset: float =0.5, default_value: List[float] =(), overlay: str ='', histogram: bool =False, autosize: bool =True, min_scale: float =0.0, max_scale: float =0.0) -> str:
+def add_simple_plot(*, id: str =..., width: int =0, height: int =0, indent: int =-1, parent: str ='', before: str ='', label: str =None, source: str ='', payload_type: str ='$$DPG_PAYLOAD', drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, filter_key: str ='', tracked: bool =False, track_offset: float =0.5, default_value: List[float] =(), overlay: str ='', histogram: bool =False, autosize: bool =True, min_scale: float =0.0, max_scale: float =0.0) -> str:
 	"""Undocumented function"""
 	...
 
-def add_slider_float(*, id: str =..., width: int =0, height: int =0, indent: int =-1, parent: str ='', before: str ='', label: str ='', source: str ='', payload_type: str ='$$DPG_PAYLOAD', callback: Callable =None, drag_callback: Callable =None, drop_callback: Callable =None, user_data: Any =None, show: bool =True, enabled: bool =True, pos: List[int] =[], filter_key: str ='', tracked: bool =False, track_offset: float =0.5, default_value: float =0.0, size: int =4, vertical: bool =False, no_input: bool =False, clamped: bool =False, min_value: float =0.0, max_value: float =100.0, format: str ='%.3f') -> str:
+def add_slider_float(*, id: str =..., width: int =0, height: int =0, indent: int =-1, parent: str ='', before: str ='', label: str =None, source: str ='', payload_type: str ='$$DPG_PAYLOAD', callback: Callable =None, drag_callback: Callable =None, drop_callback: Callable =None, user_data: Any =None, show: bool =True, enabled: bool =True, pos: List[int] =[], filter_key: str ='', tracked: bool =False, track_offset: float =0.5, default_value: float =0.0, size: int =4, vertical: bool =False, no_input: bool =False, clamped: bool =False, min_value: float =0.0, max_value: float =100.0, format: str ='%.3f') -> str:
 	"""Undocumented function"""
 	...
 
-def add_slider_floatx(*, id: str =..., width: int =0, indent: int =-1, parent: str ='', before: str ='', label: str ='', source: str ='', payload_type: str ='$$DPG_PAYLOAD', callback: Callable =None, drag_callback: Callable =None, drop_callback: Callable =None, user_data: Any =None, show: bool =True, enabled: bool =True, pos: List[int] =[], filter_key: str ='', tracked: bool =False, track_offset: float =0.5, default_value: List[float] =(0.0, 0.0, 0.0, 0.0), size: int =4, no_input: bool =False, clamped: bool =False, min_value: float =0.0, max_value: float =100.0, format: str ='%.3f') -> str:
+def add_slider_floatx(*, id: str =..., width: int =0, indent: int =-1, parent: str ='', before: str ='', label: str =None, source: str ='', payload_type: str ='$$DPG_PAYLOAD', callback: Callable =None, drag_callback: Callable =None, drop_callback: Callable =None, user_data: Any =None, show: bool =True, enabled: bool =True, pos: List[int] =[], filter_key: str ='', tracked: bool =False, track_offset: float =0.5, default_value: List[float] =(0.0, 0.0, 0.0, 0.0), size: int =4, no_input: bool =False, clamped: bool =False, min_value: float =0.0, max_value: float =100.0, format: str ='%.3f') -> str:
 	"""Undocumented function"""
 	...
 
-def add_slider_int(*, id: str =..., width: int =0, height: int =0, indent: int =-1, parent: str ='', before: str ='', label: str ='', source: str ='', payload_type: str ='$$DPG_PAYLOAD', callback: Callable =None, drag_callback: Callable =None, drop_callback: Callable =None, user_data: Any =None, show: bool =True, enabled: bool =True, pos: List[int] =[], filter_key: str ='', tracked: bool =False, track_offset: float =0.5, default_value: int =0, size: int =4, vertical: bool =False, no_input: bool =False, clamped: bool =False, min_value: int =0, max_value: int =100, format: str ='%d') -> str:
+def add_slider_int(*, id: str =..., width: int =0, height: int =0, indent: int =-1, parent: str ='', before: str ='', label: str =None, source: str ='', payload_type: str ='$$DPG_PAYLOAD', callback: Callable =None, drag_callback: Callable =None, drop_callback: Callable =None, user_data: Any =None, show: bool =True, enabled: bool =True, pos: List[int] =[], filter_key: str ='', tracked: bool =False, track_offset: float =0.5, default_value: int =0, size: int =4, vertical: bool =False, no_input: bool =False, clamped: bool =False, min_value: int =0, max_value: int =100, format: str ='%d') -> str:
 	"""Undocumented function"""
 	...
 
-def add_slider_intx(*, id: str =..., width: int =0, indent: int =-1, parent: str ='', before: str ='', label: str ='', source: str ='', payload_type: str ='$$DPG_PAYLOAD', callback: Callable =None, drag_callback: Callable =None, drop_callback: Callable =None, user_data: Any =None, show: bool =True, enabled: bool =True, pos: List[int] =[], filter_key: str ='', tracked: bool =False, track_offset: float =0.5, default_value: List[int] =(0, 0, 0, 0), size: int =4, no_input: bool =False, clamped: bool =False, min_value: int =0, max_value: int =100, format: str ='%d') -> str:
+def add_slider_intx(*, id: str =..., width: int =0, indent: int =-1, parent: str ='', before: str ='', label: str =None, source: str ='', payload_type: str ='$$DPG_PAYLOAD', callback: Callable =None, drag_callback: Callable =None, drop_callback: Callable =None, user_data: Any =None, show: bool =True, enabled: bool =True, pos: List[int] =[], filter_key: str ='', tracked: bool =False, track_offset: float =0.5, default_value: List[int] =(0, 0, 0, 0), size: int =4, no_input: bool =False, clamped: bool =False, min_value: int =0, max_value: int =100, format: str ='%d') -> str:
 	"""Undocumented function"""
 	...
 
@@ -382,7 +382,7 @@ def add_staging_container(*, id: str =...) -> str:
 	"""Undocumented function"""
 	...
 
-def add_stair_series(x : List[float], y : List[float], *, id: str =..., parent: str ='', before: str ='', label: str ='', source: str ='', show: bool =True, contribute_to_bounds: bool =True) -> str:
+def add_stair_series(x : List[float], y : List[float], *, id: str =..., parent: str ='', before: str ='', label: str =None, source: str ='', show: bool =True, contribute_to_bounds: bool =True) -> str:
 	"""Undocumented function"""
 	...
 
@@ -390,11 +390,11 @@ def add_static_texture(width : int, height : int, default_value : List[float], *
 	"""Undocumented function"""
 	...
 
-def add_stem_series(x : List[float], y : List[float], *, id: str =..., indent: int =-1, parent: str ='', before: str ='', label: str ='', source: str ='', show: bool =True, contribute_to_bounds: bool =True) -> str:
+def add_stem_series(x : List[float], y : List[float], *, id: str =..., indent: int =-1, parent: str ='', before: str ='', label: str =None, source: str ='', show: bool =True, contribute_to_bounds: bool =True) -> str:
 	"""Undocumented function"""
 	...
 
-def add_tab(*, id: str =..., indent: int =-1, parent: str ='', before: str ='', label: str ='', payload_type: str ='$$DPG_PAYLOAD', drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, filter_key: str ='', tracked: bool =False, track_offset: float =0.5, closable: bool =False, no_reorder: bool =False, leading: bool =False, trailing: bool =False, no_tooltip: bool =False) -> str:
+def add_tab(*, id: str =..., indent: int =-1, parent: str ='', before: str ='', label: str =None, payload_type: str ='$$DPG_PAYLOAD', drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, filter_key: str ='', tracked: bool =False, track_offset: float =0.5, closable: bool =False, no_reorder: bool =False, leading: bool =False, trailing: bool =False, no_tooltip: bool =False) -> str:
 	"""Undocumented function"""
 	...
 
@@ -402,7 +402,7 @@ def add_tab_bar(*, id: str =..., indent: int =-1, parent: str ='', before: str =
 	"""Undocumented function"""
 	...
 
-def add_tab_button(*, id: str =..., indent: int =-1, parent: str ='', before: str ='', label: str ='', payload_type: str ='$$DPG_PAYLOAD', callback: Callable =None, drag_callback: Callable =None, drop_callback: Callable =None, user_data: Any =None, show: bool =True, filter_key: str ='', tracked: bool =False, track_offset: float =0.5, no_reorder: bool =False, leading: bool =False, trailing: bool =False, no_tooltip: bool =False) -> str:
+def add_tab_button(*, id: str =..., indent: int =-1, parent: str ='', before: str ='', label: str =None, payload_type: str ='$$DPG_PAYLOAD', callback: Callable =None, drag_callback: Callable =None, drop_callback: Callable =None, user_data: Any =None, show: bool =True, filter_key: str ='', tracked: bool =False, track_offset: float =0.5, no_reorder: bool =False, leading: bool =False, trailing: bool =False, no_tooltip: bool =False) -> str:
 	"""Undocumented function"""
 	...
 
@@ -410,7 +410,7 @@ def add_table(*, id: str =..., width: int =0, height: int =0, indent: int =-1, p
 	"""Undocumented function"""
 	...
 
-def add_table_column(*, id: str =..., width: int =0, parent: str ='', before: str ='', label: str ='', show: bool =True, init_width_or_weight: bool =0.0, default_hide: bool =False, default_sort: bool =False, width_stretch: bool =False, width_fixed: bool =False, no_resize: bool =False, no_reorder: bool =False, no_hide: bool =False, no_clip: bool =False, no_sort: bool =False, no_sort_ascending: bool =False, no_sort_descending: bool =False, no_header_width: bool =False, prefer_sort_ascending: bool =False, prefer_sort_descending: bool =False, indent_enable: bool =False, indent_disable: bool =False) -> str:
+def add_table_column(*, id: str =..., width: int =0, parent: str ='', before: str ='', label: str =None, show: bool =True, init_width_or_weight: bool =0.0, default_hide: bool =False, default_sort: bool =False, width_stretch: bool =False, width_fixed: bool =False, no_resize: bool =False, no_reorder: bool =False, no_hide: bool =False, no_clip: bool =False, no_sort: bool =False, no_sort_ascending: bool =False, no_sort_descending: bool =False, no_header_width: bool =False, prefer_sort_ascending: bool =False, prefer_sort_descending: bool =False, indent_enable: bool =False, indent_disable: bool =False) -> str:
 	"""Undocumented function"""
 	...
 
@@ -422,11 +422,11 @@ def add_table_row(*, id: str =..., height: int =0, parent: str ='', before: str 
 	"""Undocumented function"""
 	...
 
-def add_text(default_value : str ='', *, id: str =..., indent: int =-1, parent: str ='', before: str ='', label: str ='', source: str ='', payload_type: str ='$$DPG_PAYLOAD', drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, pos: List[int] =[], filter_key: str ='', tracked: bool =False, track_offset: float =0.5, wrap: int =-1, bullet: bool =False, color: List[float] =(-1, -1, -1, -1), show_label: bool =False) -> str:
+def add_text(default_value : str ='', *, id: str =..., indent: int =-1, parent: str ='', before: str ='', label: str =None, source: str ='', payload_type: str ='$$DPG_PAYLOAD', drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, pos: List[int] =[], filter_key: str ='', tracked: bool =False, track_offset: float =0.5, wrap: int =-1, bullet: bool =False, color: List[float] =(-1, -1, -1, -1), show_label: bool =False) -> str:
 	"""Undocumented function"""
 	...
 
-def add_text_point(x : float, y : float, *, id: str =..., parent: str ='', before: str ='', label: str ='', source: str ='', show: bool =True, x_offset: int =..., y_offset: int =..., contribute_to_bounds: bool =True, vertical: bool =False) -> str:
+def add_text_point(x : float, y : float, *, id: str =..., parent: str ='', before: str ='', label: str =None, source: str ='', show: bool =True, x_offset: int =..., y_offset: int =..., contribute_to_bounds: bool =True, vertical: bool =False) -> str:
 	"""Undocumented function"""
 	...
 
@@ -446,7 +446,7 @@ def add_tooltip(*, id: str =..., show: bool =True) -> str:
 	"""Undocumented function"""
 	...
 
-def add_tree_node(*, id: str =..., indent: int =-1, parent: str ='', before: str ='', label: str ='', payload_type: str ='$$DPG_PAYLOAD', drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, pos: List[int] =[], filter_key: str ='', tracked: bool =False, track_offset: float =0.5, default_open: bool =False, open_on_double_click: bool =False, open_on_arrow: bool =False, leaf: bool =False, bullet: bool =False, selectable: bool =False) -> str:
+def add_tree_node(*, id: str =..., indent: int =-1, parent: str ='', before: str ='', label: str =None, payload_type: str ='$$DPG_PAYLOAD', drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, pos: List[int] =[], filter_key: str ='', tracked: bool =False, track_offset: float =0.5, default_open: bool =False, open_on_double_click: bool =False, open_on_arrow: bool =False, leaf: bool =False, bullet: bool =False, selectable: bool =False) -> str:
 	"""Undocumented function"""
 	...
 
@@ -458,11 +458,11 @@ def add_visible_handler(parent : str, *, id: str =..., callback: Callable =None)
 	"""Undocumented function"""
 	...
 
-def add_vline_series(x : List[float], *, id: str =..., parent: str ='', before: str ='', label: str ='', source: str ='', show: bool =True, contribute_to_bounds: bool =True) -> str:
+def add_vline_series(x : List[float], *, id: str =..., parent: str ='', before: str ='', label: str =None, source: str ='', show: bool =True, contribute_to_bounds: bool =True) -> str:
 	"""Undocumented function"""
 	...
 
-def add_window(*, id: str =..., width: int =0, height: int =0, indent: int =-1, label: str ='', show: bool =True, min_size: List[int] =[32, 32], max_size: List[int] =[30000, 30000], menubar: bool =False, collapsed: bool =False, autosize: bool =False, no_resize: bool =False, no_title_bar: bool =False, no_move: bool =False, no_scrollbar: bool =False, no_collapse: bool =False, horizontal_scrollbar: bool =False, no_focus_on_appearing: bool =False, no_bring_to_front_on_focus: bool =False, no_close: bool =False, no_background: bool =False, modal: bool =False, popup: bool =False, on_close: Callable =None) -> str:
+def add_window(*, id: str =..., width: int =0, height: int =0, indent: int =-1, label: str =None, show: bool =True, min_size: List[int] =[32, 32], max_size: List[int] =[30000, 30000], menubar: bool =False, collapsed: bool =False, autosize: bool =False, no_resize: bool =False, no_title_bar: bool =False, no_move: bool =False, no_scrollbar: bool =False, no_collapse: bool =False, horizontal_scrollbar: bool =False, no_focus_on_appearing: bool =False, no_bring_to_front_on_focus: bool =False, no_close: bool =False, no_background: bool =False, modal: bool =False, popup: bool =False, on_close: Callable =None) -> str:
 	"""Undocumented function"""
 	...
 
@@ -574,6 +574,10 @@ def get_all_items() -> List[str]:
 	"""Undocumented function"""
 	...
 
+def get_axis_limits(axis : str) -> List[float]:
+	"""Undocumented function"""
+	...
+
 def get_dearpygui_version() -> str:
 	"""Undocumented function"""
 	...
@@ -623,14 +627,6 @@ def get_plot_mouse_pos() -> List[int]:
 	...
 
 def get_plot_query_area(plot : str) -> List[float]:
-	"""Undocumented function"""
-	...
-
-def get_plot_xlimits(plot : str) -> List[float]:
-	"""Undocumented function"""
-	...
-
-def get_plot_ylimits(plot : str) -> List[float]:
 	"""Undocumented function"""
 	...
 
@@ -750,15 +746,19 @@ def reorder_items(container : str, slot : int, new_order : List[str]) -> None:
 	"""Undocumented function"""
 	...
 
+def reset_axis_ticks(axis : str) -> None:
+	"""Undocumented function"""
+	...
+
 def reset_pos(item : str) -> None:
 	"""Undocumented function"""
 	...
 
-def reset_xticks(plot : str) -> None:
+def set_axis_limits(axis : str, ymin : float, ymax : float) -> None:
 	"""Undocumented function"""
 	...
 
-def reset_yticks(plot : str) -> None:
+def set_axis_ticks(axis : str, label_pairs : Any) -> None:
 	"""Undocumented function"""
 	...
 
@@ -775,18 +775,6 @@ def set_global_font_scale(scale : float) -> None:
 	...
 
 def set_item_pos(item : str, x : float, y : float) -> None:
-	"""Undocumented function"""
-	...
-
-def set_plot_xlimits(plot : str, xmin : float, xmax : float) -> None:
-	"""Undocumented function"""
-	...
-
-def set_plot_xlimits_auto(plot : str) -> None:
-	"""Undocumented function"""
-	...
-
-def set_plot_ylimits(plot : str, ymin : float, ymax : float) -> None:
 	"""Undocumented function"""
 	...
 
@@ -826,15 +814,7 @@ def set_x_scroll(item : str, value : float) -> None:
 	"""Undocumented function"""
 	...
 
-def set_xticks(plot : str, label_pairs : Any) -> None:
-	"""Undocumented function"""
-	...
-
 def set_y_scroll(item : str, value : float) -> None:
-	"""Undocumented function"""
-	...
-
-def set_yticks(plot : str, label_pairs : Any) -> None:
 	"""Undocumented function"""
 	...
 
