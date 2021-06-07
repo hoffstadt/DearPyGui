@@ -506,7 +506,11 @@ def draw_arrow(p1 : List[float], p2 : List[float], *, id: str =..., parent: str 
 	"""Undocumented function"""
 	...
 
-def draw_bezier_curve(p1 : List[float], p2 : List[float], p3 : List[float], p4 : List[float], *, id: str =..., parent: str ='', before: str ='', show: bool =True, color: List[int] =(255, 255, 255, 255), thickness: float =1.0, size: int =4, segments: int =0) -> str:
+def draw_bezier_cubic(p1 : List[float], p2 : List[float], p3 : List[float], p4 : List[float], *, id: str =..., parent: str ='', before: str ='', show: bool =True, color: List[int] =(255, 255, 255, 255), thickness: float =1.0, size: int =4, segments: int =0) -> str:
+	"""Undocumented function"""
+	...
+
+def draw_bezier_quadratic(p1 : List[float], p2 : List[float], p3 : List[float], *, id: str =..., parent: str ='', before: str ='', show: bool =True, color: List[int] =(255, 255, 255, 255), thickness: float =1.0, size: int =4, segments: int =0) -> str:
 	"""Undocumented function"""
 	...
 
@@ -514,7 +518,7 @@ def draw_circle(center : List[float], radius : float, *, id: str =..., parent: s
 	"""Undocumented function"""
 	...
 
-def draw_ellipse(pmin : List[float], pmax : List[float], *, id: str =..., parent: str ='', before: str ='', show: bool =True, color: List[int] =(255, 255, 255, 255), fill: List[int] =(0, 0, 0, -255), thickness: float =1.0, segments: int =3) -> str:
+def draw_ellipse(pmin : List[float], pmax : List[float], *, id: str =..., parent: str ='', before: str ='', show: bool =True, color: List[int] =(255, 255, 255, 255), fill: List[int] =(0, 0, 0, -255), thickness: float =1.0, segments: int =32) -> str:
 	"""Undocumented function"""
 	...
 
