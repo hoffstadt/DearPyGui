@@ -284,13 +284,10 @@ namespace Marvel {
 					continue;
 			}
 
-			if(!found)
-			{
-				mvThrowPythonError(1000, sitem + " keyword does not exist.");
-				assert(false);
-				exists = false;
-				break;
-			}
+			mvThrowPythonError(1000, sitem + " keyword does not exist.");
+			assert(false);
+			exists = false;
+			break;
 		}
 
 		Py_XDECREF(keys);

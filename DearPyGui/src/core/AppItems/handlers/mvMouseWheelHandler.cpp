@@ -12,6 +12,7 @@ namespace Marvel {
 		mvPythonParser parser(mvPyDataType::String, "Undocumented function", { "Textures", "Widgets" });
 		mvAppItem::AddCommonArgs(parser, (CommonParserArgs)(
 			MV_PARSER_ARG_ID |
+			MV_PARSER_ARG_SHOW |
 			MV_PARSER_ARG_CALLBACK |
 			MV_PARSER_ARG_PARENT)
 		);
