@@ -13,6 +13,8 @@ namespace Marvel {
 		mvAppItem::AddCommonArgs(parser, (CommonParserArgs)(
 			MV_PARSER_ARG_ID |
 			MV_PARSER_ARG_CALLBACK |
+			MV_PARSER_ARG_USER_DATA |
+			MV_PARSER_ARG_SHOW |
 			MV_PARSER_ARG_PARENT)
 		);
 
@@ -52,7 +54,7 @@ namespace Marvel {
 				{
 					mvApp::GetApp()->getCallbackRegistry().submitCallback([=]()
 						{
-							mvApp::GetApp()->getCallbackRegistry().runCallback(getCallback(false), m_name, ToPyMPair(i, ImGui::GetIO().KeysDownDuration[i]), nullptr);
+							mvApp::GetApp()->getCallbackRegistry().runCallback(getCallback(false), m_name, ToPyMPair(i, ImGui::GetIO().KeysDownDuration[i]), m_user_data);
 						});
 				}
 			}
@@ -62,7 +64,7 @@ namespace Marvel {
 		{
 			mvApp::GetApp()->getCallbackRegistry().submitCallback([=]()
 				{
-					mvApp::GetApp()->getCallbackRegistry().runCallback(getCallback(false), m_name, ToPyFloat((ImGui::GetIO().KeysDownDuration[m_key])), nullptr);
+					mvApp::GetApp()->getCallbackRegistry().runCallback(getCallback(false), m_name, ToPyFloat((ImGui::GetIO().KeysDownDuration[m_key])), m_user_data);
 				});
 		}
 	}

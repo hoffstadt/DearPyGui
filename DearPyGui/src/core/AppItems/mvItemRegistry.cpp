@@ -14,6 +14,7 @@ namespace Marvel {
 
 		{
 			mvPythonParser parser(mvPyDataType::String);
+			parser.addArg<mvPyDataType::Integer>("count", mvArgType::POSITIONAL_ARG);
 			parser.finalize();
 			parsers->insert({ "pop_container_stack", parser });
 		}
@@ -52,6 +53,24 @@ namespace Marvel {
 			mvPythonParser parser(mvPyDataType::String);
 			parser.finalize();
 			parsers->insert({ "top_container_stack", parser });
+		}
+
+		{
+			mvPythonParser parser(mvPyDataType::String);
+			parser.finalize();
+			parsers->insert({ "last_item", parser });
+		}
+
+		{
+			mvPythonParser parser(mvPyDataType::String);
+			parser.finalize();
+			parsers->insert({ "last_container", parser });
+		}
+
+		{
+			mvPythonParser parser(mvPyDataType::String);
+			parser.finalize();
+			parsers->insert({ "last_root", parser });
 		}
 
 		{
@@ -515,8 +534,23 @@ namespace Marvel {
 		if (!item->getState().isOk())
 			return false;
 
+		
 		//---------------------------------------------------------------------------
-		// STEP 0: check if an item with this name exists
+		// STEP 0: updata "last" information
+		//---------------------------------------------------------------------------
+		if (mvAppItem::DoesItemHaveFlag(item.get(), MV_ITEM_DESC_ROOT))
+		{
+			m_lastRootAdded = item->getName();
+			m_lastContainerAdded = item->getName();
+		}
+		else if (mvAppItem::DoesItemHaveFlag(item.get(), MV_ITEM_DESC_CONTAINER))
+			m_lastContainerAdded = item->getName();
+
+		m_lastItemAdded = item->getName();
+
+
+		//---------------------------------------------------------------------------
+		// STEP 1: check if an item with this name exists
 		//---------------------------------------------------------------------------
 		if (getItem(item->m_name))
 		{
@@ -533,20 +567,6 @@ namespace Marvel {
 		AddTechnique technique = AddTechnique::NONE;
 
 		if (!mvApp::s_manualMutexControl) std::lock_guard<std::mutex> lk(mvApp::s_mutex);
-
-		//---------------------------------------------------------------------------
-		// STEP 1: empty parent stack if mistakes were made
-		//---------------------------------------------------------------------------
-
-		// Not longer required
-
-		//if (mvAppItem::DoesItemHaveFlag(item.get(), MV_ITEM_DESC_ROOT) && topParent() != nullptr)
-		//{
-		//	mvThrowPythonError(1000, "Container stack not empty.");
-		//	emptyParents();
-		//	MV_ITEM_REGISTRY_ERROR("Container stack not empty when adding " + item->m_name);
-		//	assert(false);
-		//}
 
 		//---------------------------------------------------------------------------
 		// STEP 2: handle root case
@@ -811,12 +831,34 @@ namespace Marvel {
 
 	PyObject* mvItemRegistry::pop_container_stack(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
-		if (!mvApp::s_manualMutexControl) std::lock_guard<std::mutex> lk(mvApp::s_mutex);
-		auto item = mvApp::GetApp()->getItemRegistry().popParent();
-		if (item)
-			return ToPyString(item->getName());
-		else
+		int count = 1;
+
+		if (!(mvApp::GetApp()->getParsers())["pop_container_stack"].parse(args, kwargs, __FUNCTION__, &count))
 			return GetPyNone();
+
+		if (!mvApp::s_manualMutexControl) std::lock_guard<std::mutex> lk(mvApp::s_mutex);
+
+		if (count < 2)
+		{
+			auto item = mvApp::GetApp()->getItemRegistry().popParent();
+			if (item)
+				return ToPyString(item->getName());
+			else
+				return GetPyNone();
+		}
+
+		std::vector<std::string> names;
+
+		for (int i = 0; i < count; i++)
+		{
+			auto item = mvApp::GetApp()->getItemRegistry().popParent();
+			if (item)
+				names.push_back(item->getName());
+			else
+				names.push_back("");
+		}
+
+		return ToPyList(names);
 	}
 
 	PyObject* mvItemRegistry::empty_container_stack(PyObject* self, PyObject* args, PyObject* kwargs)
@@ -834,6 +876,24 @@ namespace Marvel {
 			return ToPyString(item->getName());
 		else
 			return GetPyNone();
+	}
+
+	PyObject* mvItemRegistry::last_item(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		if (!mvApp::s_manualMutexControl) std::lock_guard<std::mutex> lk(mvApp::s_mutex);
+		return ToPyString(mvApp::GetApp()->getItemRegistry().m_lastItemAdded);
+	}
+
+	PyObject* mvItemRegistry::last_container(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		if (!mvApp::s_manualMutexControl) std::lock_guard<std::mutex> lk(mvApp::s_mutex);
+		return ToPyString(mvApp::GetApp()->getItemRegistry().m_lastContainerAdded);
+	}
+
+	PyObject* mvItemRegistry::last_root(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		if (!mvApp::s_manualMutexControl) std::lock_guard<std::mutex> lk(mvApp::s_mutex);
+		return ToPyString(mvApp::GetApp()->getItemRegistry().m_lastRootAdded);
 	}
 
 	PyObject* mvItemRegistry::push_container_stack(PyObject* self, PyObject* args, PyObject* kwargs)

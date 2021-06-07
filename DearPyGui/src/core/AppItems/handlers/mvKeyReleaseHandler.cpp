@@ -14,6 +14,7 @@ namespace Marvel {
 			MV_PARSER_ARG_ID |
 			MV_PARSER_ARG_CALLBACK |
 			MV_PARSER_ARG_SHOW |
+			MV_PARSER_ARG_USER_DATA |
 			MV_PARSER_ARG_PARENT)
 		);
 
@@ -52,7 +53,7 @@ namespace Marvel {
 				{
 					mvApp::GetApp()->getCallbackRegistry().submitCallback([=]()
 						{
-							mvApp::GetApp()->getCallbackRegistry().runCallback(getCallback(false), m_name, ToPyInt(i), nullptr);
+							mvApp::GetApp()->getCallbackRegistry().runCallback(getCallback(false), m_name, ToPyInt(i), m_user_data);
 						});
 				}
 			}
@@ -62,7 +63,7 @@ namespace Marvel {
 		{
 			mvApp::GetApp()->getCallbackRegistry().submitCallback([=]()
 				{
-					mvApp::GetApp()->getCallbackRegistry().runCallback(getCallback(false), m_name, nullptr, m_user_data);
+					mvApp::GetApp()->getCallbackRegistry().runCallback(getCallback(false), m_name, ToPyInt(m_key), m_user_data);
 				});
 		}
 	}

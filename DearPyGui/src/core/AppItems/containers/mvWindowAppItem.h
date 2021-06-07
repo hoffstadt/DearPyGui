@@ -6,7 +6,7 @@
 
 namespace Marvel {
 
-	MV_REGISTER_WIDGET(mvWindowAppItem, MV_ITEM_DESC_CONTAINER | MV_ITEM_DESC_ROOT, StorageValueTypes::None, 1);
+	MV_REGISTER_WIDGET(mvWindowAppItem, MV_ITEM_DESC_CONTAINER | MV_ITEM_DESC_ROOT | MV_ITEM_DESC_ALWAYS_DRAW, StorageValueTypes::None, 1);
 	class mvWindowAppItem : public mvAppItem
 	{
 

@@ -14,11 +14,11 @@ def add_3d_slider(*, id: str =..., width: int =0, height: int =0, indent: int =-
 	"""Undocumented function"""
 	...
 
-def add_activated_handler(parent : str, *, id: str =..., callback: Callable =None) -> str:
+def add_activated_handler(parent : str, *, id: str =..., callback: Callable =None, user_data: Any =None) -> str:
 	"""Undocumented function"""
 	...
 
-def add_active_handler(parent : str, *, id: str =..., callback: Callable =None) -> str:
+def add_active_handler(parent : str, *, id: str =..., callback: Callable =None, user_data: Any =None) -> str:
 	"""Undocumented function"""
 	...
 
@@ -46,7 +46,7 @@ def add_child(*, id: str =..., width: int =0, height: int =0, indent: int =-1, p
 	"""Undocumented function"""
 	...
 
-def add_clicked_handler(parent : str, button : int, *, id: str =..., callback: Callable =None) -> str:
+def add_clicked_handler(parent : str, button : int, *, id: str =..., callback: Callable =None, user_data: Any =None) -> str:
 	"""Undocumented function"""
 	...
 
@@ -82,11 +82,11 @@ def add_date_picker(*, id: str =..., indent: int =-1, parent: str ='', before: s
 	"""Undocumented function"""
 	...
 
-def add_deactivated_after_edit_handler(parent : str, *, id: str =..., callback: Callable =None) -> str:
+def add_deactivated_after_edit_handler(parent : str, *, id: str =..., callback: Callable =None, user_data: Any =None) -> str:
 	"""Undocumented function"""
 	...
 
-def add_deactivated_handler(parent : str, *, id: str =..., callback: Callable =None) -> str:
+def add_deactivated_handler(parent : str, *, id: str =..., callback: Callable =None, user_data: Any =None) -> str:
 	"""Undocumented function"""
 	...
 
@@ -134,7 +134,7 @@ def add_dynamic_texture(width : int, height : int, default_value : List[float], 
 	"""Undocumented function"""
 	...
 
-def add_edited_handler(parent : str, *, id: str =..., callback: Callable =None) -> str:
+def add_edited_handler(parent : str, *, id: str =..., callback: Callable =None, user_data: Any =None) -> str:
 	"""Undocumented function"""
 	...
 
@@ -154,7 +154,7 @@ def add_filter_set(*, id: str =..., width: int =0, indent: int =-1, parent: str 
 	"""Undocumented function"""
 	...
 
-def add_focus_handler(parent : str, *, id: str =..., callback: Callable =None) -> str:
+def add_focus_handler(parent : str, *, id: str =..., callback: Callable =None, user_data: Any =None) -> str:
 	"""Undocumented function"""
 	...
 
@@ -182,7 +182,7 @@ def add_hline_series(x : List[float], *, id: str =..., parent: str ='', before: 
 	"""Undocumented function"""
 	...
 
-def add_hover_handler(parent : str, *, id: str =..., callback: Callable =None) -> str:
+def add_hover_handler(parent : str, *, id: str =..., callback: Callable =None, user_data: Any =None) -> str:
 	"""Undocumented function"""
 	...
 
@@ -218,15 +218,15 @@ def add_input_text(*, id: str =..., width: int =0, height: int =0, indent: int =
 	"""Undocumented function"""
 	...
 
-def add_key_down_handler(key : int, *, id: str =..., parent: str ='', callback: Callable =None) -> str:
+def add_key_down_handler(key : int =-1, *, id: str =..., parent: str ='', callback: Callable =None, user_data: Any =None, show: bool =True) -> str:
 	"""Undocumented function"""
 	...
 
-def add_key_press_handler(key : int, *, id: str =..., parent: str ='', callback: Callable =None) -> str:
+def add_key_press_handler(key : int =-1, *, id: str =..., parent: str ='', callback: Callable =None, user_data: Any =None, show: bool =True) -> str:
 	"""Undocumented function"""
 	...
 
-def add_key_release_handler(key : int, *, id: str =..., parent: str ='', callback: Callable =None) -> str:
+def add_key_release_handler(key : int =-1, *, id: str =..., parent: str ='', callback: Callable =None, user_data: Any =None, show: bool =True) -> str:
 	"""Undocumented function"""
 	...
 
@@ -258,31 +258,31 @@ def add_menu_item(*, id: str =..., indent: int =-1, parent: str ='', before: str
 	"""Undocumented function"""
 	...
 
-def add_mouse_click_handler(button : int, *, id: str =..., parent: str ='', callback: Callable =None) -> str:
+def add_mouse_click_handler(button : int =-1, *, id: str =..., parent: str ='', callback: Callable =None, user_data: Any =None, show: bool =True) -> str:
 	"""Undocumented function"""
 	...
 
-def add_mouse_double_click_handler(button : int, *, id: str =..., parent: str ='', callback: Callable =None) -> str:
+def add_mouse_double_click_handler(button : int =-1, *, id: str =..., parent: str ='', callback: Callable =None, user_data: Any =None, show: bool =True) -> str:
 	"""Undocumented function"""
 	...
 
-def add_mouse_down_handler(button : int, *, id: str =..., parent: str ='', callback: Callable =None) -> str:
+def add_mouse_down_handler(button : int =-1, *, id: str =..., parent: str ='', callback: Callable =None, user_data: Any =None, show: bool =True) -> str:
 	"""Undocumented function"""
 	...
 
-def add_mouse_drag_handler(button : int, threshold : float, *, id: str =..., parent: str ='', callback: Callable =None) -> str:
+def add_mouse_drag_handler(button : int =-1, threshold : float =10.0, *, id: str =..., parent: str ='', callback: Callable =None, user_data: Any =None, show: bool =True) -> str:
 	"""Undocumented function"""
 	...
 
-def add_mouse_move_handler(*, id: str =..., parent: str ='', callback: Callable =None) -> str:
+def add_mouse_move_handler(*, id: str =..., parent: str ='', callback: Callable =None, user_data: Any =None, show: bool =True) -> str:
 	"""Undocumented function"""
 	...
 
-def add_mouse_release_handler(button : int, *, id: str =..., parent: str ='', callback: Callable =None) -> str:
+def add_mouse_release_handler(button : int =-1, *, id: str =..., parent: str ='', callback: Callable =None, user_data: Any =None, show: bool =True) -> str:
 	"""Undocumented function"""
 	...
 
-def add_mouse_wheel_handler(*, id: str =..., parent: str ='', callback: Callable =None) -> str:
+def add_mouse_wheel_handler(*, id: str =..., parent: str ='', callback: Callable =None, user_data: Any =None, show: bool =True) -> str:
 	"""Undocumented function"""
 	...
 
@@ -306,7 +306,7 @@ def add_pie_series(x : float, y : float, radius : float, values : List[float], l
 	"""Undocumented function"""
 	...
 
-def add_plot(*, id: str =..., width: int =0, height: int =0, indent: int =-1, parent: str ='', before: str ='', label: str =None, payload_type: str ='$$DPG_PAYLOAD', callback: Callable =None, drag_callback: Callable =None, drop_callback: Callable =None, user_data: Any =None, show: bool =True, pos: List[int] =[], filter_key: str ='', tracked: bool =False, track_offset: float =0.5, x_axis_name: str ='', no_title: bool =False, no_menus: bool =False, no_box_select: bool =False, no_mouse_pos: bool =False, no_highlight: bool =False, no_child: bool =False, query: bool =False, crosshairs: bool =False, anti_aliased: bool =False, equal_aspects: bool =False) -> str:
+def add_plot(*, id: str =..., width: int =0, height: int =0, indent: int =-1, parent: str ='', before: str ='', label: str =None, payload_type: str ='$$DPG_PAYLOAD', callback: Callable =None, drag_callback: Callable =None, drop_callback: Callable =None, user_data: Any =None, show: bool =True, pos: List[int] =[], filter_key: str ='', tracked: bool =False, track_offset: float =0.5, no_title: bool =False, no_menus: bool =False, no_box_select: bool =False, no_mouse_pos: bool =False, no_highlight: bool =False, no_child: bool =False, query: bool =False, crosshairs: bool =False, anti_aliased: bool =False, equal_aspects: bool =False) -> str:
 	"""Undocumented function"""
 	...
 
@@ -438,7 +438,7 @@ def add_time_picker(*, id: str =..., indent: int =-1, parent: str ='', before: s
 	"""Undocumented function"""
 	...
 
-def add_toggled_open_handler(parent : str, *, id: str =..., callback: Callable =None) -> str:
+def add_toggled_open_handler(parent : str, *, id: str =..., callback: Callable =None, user_data: Any =None) -> str:
 	"""Undocumented function"""
 	...
 
@@ -454,7 +454,7 @@ def add_viewport_drawlist(*, id: str =..., show: bool =True, filter_key: str =''
 	"""Undocumented function"""
 	...
 
-def add_visible_handler(parent : str, *, id: str =..., callback: Callable =None) -> str:
+def add_visible_handler(parent : str, *, id: str =..., callback: Callable =None, user_data: Any =None) -> str:
 	"""Undocumented function"""
 	...
 
@@ -462,7 +462,7 @@ def add_vline_series(x : List[float], *, id: str =..., parent: str ='', before: 
 	"""Undocumented function"""
 	...
 
-def add_window(*, id: str =..., width: int =0, height: int =0, indent: int =-1, label: str =None, show: bool =True, min_size: List[int] =[32, 32], max_size: List[int] =[30000, 30000], menubar: bool =False, collapsed: bool =False, autosize: bool =False, no_resize: bool =False, no_title_bar: bool =False, no_move: bool =False, no_scrollbar: bool =False, no_collapse: bool =False, horizontal_scrollbar: bool =False, no_focus_on_appearing: bool =False, no_bring_to_front_on_focus: bool =False, no_close: bool =False, no_background: bool =False, modal: bool =False, popup: bool =False, on_close: Callable =None) -> str:
+def add_window(*, id: str =..., width: int =0, height: int =0, indent: int =-1, label: str =None, user_data: Any =None, show: bool =True, min_size: List[int] =[32, 32], max_size: List[int] =[30000, 30000], menubar: bool =False, collapsed: bool =False, autosize: bool =False, no_resize: bool =False, no_title_bar: bool =False, no_move: bool =False, no_scrollbar: bool =False, no_collapse: bool =False, horizontal_scrollbar: bool =False, no_focus_on_appearing: bool =False, no_bring_to_front_on_focus: bool =False, no_close: bool =False, no_background: bool =False, modal: bool =False, popup: bool =False, on_close: Callable =None) -> str:
 	"""Undocumented function"""
 	...
 
@@ -674,15 +674,15 @@ def is_dearpygui_running() -> bool:
 	"""Undocumented function"""
 	...
 
-def is_key_down() -> bool:
+def is_key_down(key : int) -> bool:
 	"""Undocumented function"""
 	...
 
-def is_key_pressed() -> bool:
+def is_key_pressed(key : int) -> bool:
 	"""Undocumented function"""
 	...
 
-def is_key_released() -> bool:
+def is_key_released(key : int) -> bool:
 	"""Undocumented function"""
 	...
 
@@ -710,6 +710,18 @@ def is_plot_queried(plot : str) -> bool:
 	"""Undocumented function"""
 	...
 
+def last_container() -> str:
+	"""Undocumented function"""
+	...
+
+def last_item() -> str:
+	"""Undocumented function"""
+	...
+
+def last_root() -> str:
+	"""Undocumented function"""
+	...
+
 def maximize_viewport() -> None:
 	"""Undocumented function"""
 	...
@@ -730,7 +742,7 @@ def move_item_up(item : str) -> None:
 	"""Undocumented function"""
 	...
 
-def pop_container_stack() -> str:
+def pop_container_stack(count : int =...) -> str:
 	"""Undocumented function"""
 	...
 

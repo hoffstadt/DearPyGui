@@ -19,6 +19,7 @@ namespace Marvel {
 				MV_PARSER_ARG_WIDTH |
 				MV_PARSER_ARG_HEIGHT |
 				MV_PARSER_ARG_INDENT |
+				MV_PARSER_ARG_USER_DATA |
 				MV_PARSER_ARG_LABEL |
 				MV_PARSER_ARG_SHOW)
 			);
@@ -117,7 +118,6 @@ namespace Marvel {
 			if (callback)
 				Py_XDECREF(callback);
 			});
-
 	}
 
 	void mvWindowAppItem::onChildAdd(mvRef<mvAppItem> item)
@@ -201,7 +201,7 @@ namespace Marvel {
 			if (!m_closing)
 			{
 				m_closing = true;
-				mvApp::GetApp()->getCallbackRegistry().addCallback(m_on_close, m_name, nullptr, nullptr);
+				mvApp::GetApp()->getCallbackRegistry().addCallback(m_on_close, m_name, nullptr, m_user_data);
 
 			}
 			return;

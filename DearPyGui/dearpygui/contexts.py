@@ -182,7 +182,7 @@ def window(*args, width: int = 200, height: int = 200, autosize: bool = False,
            no_resize: bool = False, no_title_bar: bool = False, no_move: bool = False, no_scrollbar: bool = False,
            no_collapse: bool = False, horizontal_scrollbar: bool = False, no_focus_on_appearing: bool = False,
            no_bring_to_front_on_focus: bool = False, menubar: bool = False, no_close: bool = False,
-           no_background: bool = False, label: str = '', show: bool = True, collapsed: bool = False,
+           no_background: bool = False, label: str = None, show: bool = True, collapsed: bool = False,
            modal: bool = False, popup: bool = False,
            on_close: Callable = None, min_size: List[int]=[32, 32], max_size: List[int] = [30000, 30000], id:str=''):
     """Wraps add_window() and automates calling end().
@@ -259,7 +259,7 @@ def menu_bar(*args, show: bool = True, parent: str = "", id:str='', indent=-1):
 
 
 @contextmanager
-def menu(*args, label: str = "", show: bool = True, parent: str = "",
+def menu(*args, label: str = None, show: bool = True, parent: str = "",
          before: str = "", enabled: bool = True, id:str='', indent=-1):
     """Wraps add_menu() and automates calling end().
 
@@ -322,7 +322,7 @@ def child(*args, show: bool = True, parent: str = "", before: str = "", width: i
 
 
 @contextmanager
-def collapsing_header(*args, label: str = "", show: bool = True,
+def collapsing_header(*args, label: str = None, show: bool = True,
                      parent: str = "", before: str = "",closable: bool = False, pos=[],
                       default_open: bool = False, open_on_double_click: bool = False, open_on_arrow: bool = False, 
                       leaf: bool = False, bullet: bool = False, id:str='', indent=-1):
@@ -388,7 +388,7 @@ def group(*args, show: bool = True, parent: str = "", before: str = "", width: i
         internal_dpg.pop_container_stack()
 
 @contextmanager
-def node(*args, label: str = "", show: bool = True, draggable: bool = True,
+def node(*args, label: str = None, show: bool = True, draggable: bool = True,
          parent: str = "", before: str = "", id:str='', pos: List = [100, 100]):
     """Wraps add_node() and automates calling end().
 
@@ -516,7 +516,7 @@ def tab_bar(*args, reorderable: bool = False, callback: Callable = None, user_da
 
 
 @contextmanager
-def tab(*args, closable: bool = False, label: str = "", show: bool = True,
+def tab(*args, closable: bool = False, label: str = None, show: bool = True,
         no_reorder: bool = False, leading: bool = False, trailing: bool = False, no_tooltip: bool = False,
         parent: str = "", before: str = "", id:str='', indent=-1):
     """Wraps add_tab() and automates calling end().
@@ -548,7 +548,7 @@ def tab(*args, closable: bool = False, label: str = "", show: bool = True,
 
 
 @contextmanager
-def tree_node(*args, label: str = "", show: bool = True, parent: str = "", 
+def tree_node(*args, label: str = None, show: bool = True, parent: str = "", 
               before: str = "", default_open: bool = False, open_on_double_click: bool = False, 
               open_on_arrow: bool = False, leaf: bool = False, bullet: bool = False, id:str='',
               selectable: bool = False, indent=-1, pos=[]):
@@ -634,5 +634,30 @@ def popup(*args, mousebutton: int = 1, modal: bool = False, parent: str = "", po
                                      before=before, width=width, height=height, show=show, id=id, pos=pos)
         internal_dpg.push_container_stack(widget)
         yield widget
+    finally:
+        internal_dpg.pop_container_stack()
+
+@contextmanager
+def plot(*args, width: int = -1, height: int = 400, indent: int = 0, parent: str = "", before: str = "",
+          label: str = None, show: bool = True, callback: Callable = None, user_data: Any = None, drop_callback: Callable = None,
+          drag_callback: Callable = None, payload_type: Any = None, filter_key: str = "", tracked: bool = False, 
+          track_offset: float = 0.5, pos: List = [], id:str='',
+          no_title: bool = False, no_menus: bool = False, no_box_select: bool = False, no_mouse_pos: bool = False,
+          no_highlight: bool = False, no_child: bool = False, query: bool = False, crosshairs: bool = False,
+          anti_aliased: bool = False, equal_aspects: bool = False
+          ):
+
+    try:
+
+        widget = internal_dpg.add_plot(*args, width=width, height=height, indent=indent, parent=parent, before=before,
+                                       label=label, show=show, callback=callback, user_data=user_data, drop_callback=drop_callback,
+                                       drag_callback=drag_callback, payload_type=payload_type, filter_key=filter_key,
+                                       tracked=tracked, track_offset=track_offset, pos=pos, id=id,
+                                       no_title=no_title, no_menus=no_menus, no_box_select=no_box_select, no_mouse_pos=no_mouse_pos,
+                                       no_highlight=no_highlight, no_child=no_child, query=query, crosshairs=crosshairs,
+                                       anti_aliased=anti_aliased, equal_aspects=equal_aspects)
+        internal_dpg.push_container_stack(widget)
+        yield widget
+
     finally:
         internal_dpg.pop_container_stack()
