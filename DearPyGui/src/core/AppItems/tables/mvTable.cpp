@@ -236,8 +236,8 @@ namespace Marvel {
 
 		}
 
-		if (m_flags & ImGuiTableFlags_BordersInnerV)
-			m_flags &= ~ImGuiTableFlags_Resizable;
+		//if (m_flags & ImGuiTableFlags_BordersInnerV)
+		//	m_flags &= ~ImGuiTableFlags_Resizable;
 }
 
 	void mvTable::getSpecificConfiguration(PyObject* dict)

@@ -318,7 +318,7 @@ def add_plot_legend(*, id: str =..., parent: str ='', payload_type: str ='$$DPG_
 	"""Undocumented function"""
 	...
 
-def add_plot_yaxis(*, id: str =..., parent: str ='', payload_type: str ='$$DPG_PAYLOAD', drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, yaxis_no_gridlines: bool =False, yaxis_no_tick_marks: bool =False, yaxis_no_tick_labels: bool =False, yaxis_log_scale: bool =False, yaxis_invert: bool =False, yaxis_lock_min: bool =False, yaxis_lock_max: bool =False) -> str:
+def add_plot_yaxis(*, id: str =..., parent: str ='', label: str ='', payload_type: str ='$$DPG_PAYLOAD', drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, yaxis_no_gridlines: bool =False, yaxis_no_tick_marks: bool =False, yaxis_no_tick_labels: bool =False, yaxis_log_scale: bool =False, yaxis_invert: bool =False, yaxis_lock_min: bool =False, yaxis_lock_max: bool =False) -> str:
 	"""Undocumented function"""
 	...
 
@@ -418,7 +418,7 @@ def add_table_next_column(*, id: str =..., parent: str ='', before: str ='', sho
 	"""Undocumented function"""
 	...
 
-def add_table_row(*, id: str =..., parent: str ='', before: str ='', show: bool =True) -> str:
+def add_table_row(*, id: str =..., height: int =0, parent: str ='', before: str ='', show: bool =True) -> str:
 	"""Undocumented function"""
 	...
 

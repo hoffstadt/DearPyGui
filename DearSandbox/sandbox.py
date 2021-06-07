@@ -32,7 +32,7 @@ dpg.add_static_texture(100, 100, [], parent="mvTextureContainer", file="INTERNAL
 # for the demo.
 import dearpygui.demo as demo
 
-#demo.show_demo()
+demo.show_demo()
 
 #dpg.show_tool("mvItemRegistry")
 
@@ -63,28 +63,6 @@ def add_logs(sender, app_data, user_data):
     if user_data:
         dpg.unlock_mutex()
     
-
-
-
-with cxt.window(label="Testing Features", height = 500, show=True) as w:
-
-    dpg.add_button(label="Add Logs (auto mutex)", callback=add_logs, user_data=False)
-    dpg.add_button(label="Add Logs (manual mutex)", callback=add_logs, user_data=True)
-
-    filter_id = ''
-    dpg.add_input_text(label="Filter Proxy", callback=lambda sender: dpg.set_value(filter_id, dpg.get_value(sender)))
-
-    with cxt.child():
-        with cxt.filter_set() as filter_id:
-            for i in range(0, 100):
-                buttons.append(dpg.add_button(label=str(i), filter_key=str(i)))
-    
-    dpg.add_same_line()
-    with cxt.child(width=300):
-        with cxt.clipper():
-            for i in range(0, 100):
-                buttons.append(dpg.add_button(label=str(i)))
-
 with cxt.window(label="Testing Features2", show=False):
 
     def drag_callback(sender, data):

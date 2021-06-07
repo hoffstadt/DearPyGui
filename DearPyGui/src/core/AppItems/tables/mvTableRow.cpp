@@ -17,6 +17,7 @@ namespace Marvel {
 			MV_PARSER_ARG_ID |
 			MV_PARSER_ARG_PARENT |
 			MV_PARSER_ARG_BEFORE |
+			MV_PARSER_ARG_HEIGHT |
 			MV_PARSER_ARG_SHOW)
 		);
 		parser.finalize();
@@ -50,7 +51,7 @@ namespace Marvel {
 		mvFontScope fscope(this);
 
 		if(m_location != 0)
-			ImGui::TableNextRow();
+			ImGui::TableNextRow(0, m_height);
 
 		for (auto& item : m_children[1])
 		{

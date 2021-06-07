@@ -158,9 +158,9 @@ def viewport_drawlist(*args, id:str='', front: bool = True, show: bool = True):
         internal_dpg.pop_container_stack()
 
 @contextmanager
-def table_row(*args, id:str='', show: bool = True, parent: str = "", before: str = ""):
+def table_row(*args, id:str='', show: bool = True, parent: str = "", before: str = "", height: int = 0):
     try:
-        widget = internal_dpg.add_table_row(*args, id=id, show=show, parent=parent, before=before)
+        widget = internal_dpg.add_table_row(*args, id=id, show=show, parent=parent, before=before, height=height)
         internal_dpg.push_container_stack(widget)
         yield widget
 

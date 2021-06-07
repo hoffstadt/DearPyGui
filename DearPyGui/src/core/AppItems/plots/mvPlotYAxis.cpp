@@ -20,6 +20,7 @@ namespace Marvel {
 			mvAppItem::AddCommonArgs(parser, (CommonParserArgs)(
 				MV_PARSER_ARG_ID |
 				MV_PARSER_ARG_PARENT |
+				MV_PARSER_ARG_LABEL |
 				MV_PARSER_ARG_DROP_CALLBACK |
 				MV_PARSER_ARG_DRAG_CALLBACK |
 				MV_PARSER_ARG_PAYLOAD_TYPE |
