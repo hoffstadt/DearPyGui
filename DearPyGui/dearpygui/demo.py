@@ -905,7 +905,36 @@ def show_demo():
                 dpg.add_text("IMPORTANT: By default, anti-aliased lines are turned OFF.", bullet=True)
 
         with cxt.collapsing_header(label="Node Editor"):
-            pass
+
+            dpg.add_text("Ctrl+Click to remove a link.", bullet=True)
+
+            with cxt.node_editor(callback=lambda sender, app_data: dpg.add_node_link(data[0], data[1], parent=sender), 
+                             delink_callback=lambda sender, app_data: dpg.delete_item(app_data)):
+
+                #with cxt.node(label="Node 1", x_pos=10, y_pos=10):
+                with cxt.node(label="Node 1"):
+
+                    with cxt.node_attribute():
+                        dpg.add_input_float(label="F1", width=150)
+
+                    with cxt.node_attribute(output=True):
+                        dpg.add_input_float(label="F2", width=150)
+
+                #with cxt.node(label="Node 2", x_pos=300, y_pos=10):
+                with cxt.node(label="Node 2"):
+
+                    with cxt.node_attribute() as na2:
+                        dpg.add_input_float(label="F3", width=200)
+
+                    with cxt.node_attribute(output=True):
+                        dpg.add_input_float(label="F4", width=200)
+
+                #with cxt.node(label="Node 3", x_pos=25, y_pos=150):                  
+                with cxt.node(label="Node 3"):                  
+                    with cxt.node_attribute():
+                        dpg.add_input_text(label="T5", width=200)
+                    with cxt.node_attribute(static=True): 
+                        dpg.add_simple_plot(label="Node Plot", default_value=(0.3, 0.9, 2.5, 8.9), width=200, height=80, histogram=True)
 
         with cxt.collapsing_header(label= "Filtering"):
 

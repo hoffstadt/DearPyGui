@@ -271,6 +271,21 @@ namespace Marvel {
 				continue;
 			else
 			{
+				for (const auto& keyword : m_optional_elements)
+				{
+					if (sitem == keyword.name)
+					{
+						found = true;
+						break;
+					}
+				}
+
+				if (found)
+					continue;
+			}
+
+			if(!found)
+			{
 				mvThrowPythonError(1000, sitem + " keyword does not exist.");
 				assert(false);
 				exists = false;
