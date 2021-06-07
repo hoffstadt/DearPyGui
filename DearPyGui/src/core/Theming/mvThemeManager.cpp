@@ -116,10 +116,10 @@ namespace Marvel {
 		}
 
 		//check widget can take color and apply
-		mvRef<mvAppItem> item = mvApp::GetApp()->getItemRegistry().getItem(widget);
+		mvAppItem* item = mvApp::GetApp()->getItemRegistry().getItem(widget);
 		if (item)
 		{
-			if (mvAppItem::DoesItemHaveFlag(item.get(), MV_ITEM_DESC_CONTAINER) || item->getType() == type)
+			if (mvAppItem::DoesItemHaveFlag(item, MV_ITEM_DESC_CONTAINER) || item->getType() == type)
 			{
 				item->getColorGroup().addColor(GetNameFromConstant(mvThemeConstant), mvThemeConstant, color);
 				item->inValidateThemeColorCache();
@@ -168,10 +168,10 @@ namespace Marvel {
 		}
 
 		//check widget can take color and apply
-		mvRef<mvAppItem> item = mvApp::GetApp()->getItemRegistry().getItem(widget);
+		mvAppItem* item = mvApp::GetApp()->getItemRegistry().getItem(widget);
 		if (item)
 		{
-			if (mvAppItem::DoesItemHaveFlag(item.get(), MV_ITEM_DESC_CONTAINER) || item->getType() == type)
+			if (mvAppItem::DoesItemHaveFlag(item, MV_ITEM_DESC_CONTAINER) || item->getType() == type)
 			{
 				item->getDisabledColorGroup().addColor(GetNameFromConstant(mvThemeConstant), mvThemeConstant, color);
 				item->inValidateThemeDisabledColorCache();
@@ -220,10 +220,10 @@ namespace Marvel {
 		}
 
 		//check widget can take style and apply
-		mvRef<mvAppItem> item = mvApp::GetApp()->getItemRegistry().getItem(widget);
+		mvAppItem* item = mvApp::GetApp()->getItemRegistry().getItem(widget);
 		if (item)
 		{
-			if (mvAppItem::DoesItemHaveFlag(item.get(), MV_ITEM_DESC_CONTAINER) || item->getType() == type)
+			if (mvAppItem::DoesItemHaveFlag(item, MV_ITEM_DESC_CONTAINER) || item->getType() == type)
 			{
 				item->getStyleGroup().addStyle(GetNameFromConstant(mvThemeConstant), mvThemeConstant, style, style);
 				item->inValidateThemeStyleCache();

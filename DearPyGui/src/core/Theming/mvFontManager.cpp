@@ -201,7 +201,7 @@ namespace Marvel {
 		m_dirty = true;
 		auto item = mvApp::GetApp()->getItemRegistry().getItem("INTERNAL_DPG_FONT_ATLAS");
 		if(item)
-			static_cast<mvStaticTexture*>(item.get())->markDirty();
+			static_cast<mvStaticTexture*>(item)->markDirty();
 	}
 
 	ImFont* mvFontManager::getFont(const std::string& font, int size)
@@ -285,7 +285,7 @@ namespace Marvel {
 			return true;
 		}
 
-		mvRef<mvAppItem> item = mvApp::GetApp()->getItemRegistry().getItem(widget);
+		mvAppItem* item = mvApp::GetApp()->getItemRegistry().getItem(widget);
 		if (item)
 		{
 			item->inValidateThemeFontCache();

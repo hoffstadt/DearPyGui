@@ -87,7 +87,7 @@ namespace Marvel {
 			case 0:
 			{
 				m_file = ToString(item);
-				m_texture = mvApp::GetApp()->getItemRegistry().getItem(m_file);
+				m_texture = mvApp::GetApp()->getItemRegistry().getRefItem(m_file);
 				if (m_texture)
 					break;
 				else

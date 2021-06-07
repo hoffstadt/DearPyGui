@@ -163,7 +163,7 @@ namespace Marvel {
 
 	mvValueVariant mvItemRegistry::getValue(const std::string& name)
 	{
-		mvRef<mvAppItem> item = getItem(name);
+		mvAppItem* item = getItem(name);
 		if (item)
 			return item->getValue();
 		return nullptr;
@@ -416,7 +416,7 @@ namespace Marvel {
 		return addedItem;
 	}
 
-	void mvItemRegistry::pushParent(mvRef<mvAppItem> item)
+	void mvItemRegistry::pushParent(mvAppItem* item)
 	{
 		m_containers.push(item);
 	}
@@ -426,7 +426,7 @@ namespace Marvel {
 		m_staging = value;
 	}
 
-	mvRef<mvAppItem> mvItemRegistry::popParent()
+	mvAppItem* mvItemRegistry::popParent()
 	{
 		if (m_containers.empty())
 		{
@@ -449,14 +449,36 @@ namespace Marvel {
 		MV_ITEM_REGISTRY_INFO("Container stack emptied.");
 	}
 
-	mvRef<mvAppItem> mvItemRegistry::topParent()
+	mvAppItem* mvItemRegistry::topParent()
 	{
 		if (!m_containers.empty())
 			return m_containers.top();
 		return nullptr;
 	}
 
-	mvRef<mvAppItem> mvItemRegistry::getItem(const std::string& name)
+	mvAppItem* mvItemRegistry::getItem(const std::string& name)
+	{
+		mvRef<mvAppItem> item = nullptr;
+
+		for (auto& window : m_roots)
+		{
+			if (window->m_name == name)
+				return window.get();
+
+			auto child = window->getChild(name);
+			if (child)
+				return child;
+		}
+
+		if(m_stagingArea.count(name) != 0)
+			return m_stagingArea[name].get();
+
+		//assert(false && "Item not found.");
+
+		return nullptr;
+	}
+
+	mvRef<mvAppItem> mvItemRegistry::getRefItem(const std::string& name)
 	{
 		mvRef<mvAppItem> item = nullptr;
 
@@ -465,12 +487,12 @@ namespace Marvel {
 			if (window->m_name == name)
 				return window;
 
-			auto child = window->getChild(name);
+			auto child = window->getChildRef(name);
 			if (child)
 				return child;
 		}
 
-		if(m_stagingArea.count(name) != 0)
+		if (m_stagingArea.count(name) != 0)
 			return m_stagingArea[name];
 
 		//assert(false && "Item not found.");
@@ -481,7 +503,7 @@ namespace Marvel {
 	mvWindowAppItem* mvItemRegistry::getWindow(const std::string& name)
 	{
 
-		mvRef<mvAppItem> item = getItem(name);
+		mvAppItem* item = getItem(name);
 		if (item == nullptr)
 		{
 			assert(false && "Window not found.");
@@ -489,7 +511,7 @@ namespace Marvel {
 		}
 
 		if (item->getType() == mvAppItemType::mvWindowAppItem)
-			return static_cast<mvWindowAppItem*>(item.get());
+			return static_cast<mvWindowAppItem*>(item);
 
 		assert(false && "Item is not a window not found.");
 		return nullptr;
@@ -500,8 +522,8 @@ namespace Marvel {
 
 		MV_ITEM_REGISTRY_TRACE("Adding item: " + item->m_name);
 
-		mvRef<mvAppItem> parentitem = topParent();
-		item->m_parentPtr = parentitem.get();
+		mvAppItem* parentitem = topParent();
+		item->m_parentPtr = parentitem;
 		parentitem->addItem(item);
 
 		return true;
@@ -556,7 +578,7 @@ namespace Marvel {
 		{
 			mvThrowPythonError(1000, "Item must have a unique name.");
 			MV_ITEM_REGISTRY_WARN("Item must have a unique name.");
-			//assert(false);
+			assert(false);
 			return false;
 		}
 
@@ -596,10 +618,13 @@ namespace Marvel {
 		//---------------------------------------------------------------------------
 		// STEP 3: attempt to deduce parent
 		//---------------------------------------------------------------------------
-		mvRef<mvAppItem> parentPtr = nullptr;
+		mvAppItem* parentPtr = nullptr;
 		if (!std::string(before).empty())
 		{
-			parentPtr = getItem(before);
+
+			auto beforeItem = getItem(before);
+			if (beforeItem)
+				parentPtr = beforeItem->m_parentPtr;
 			technique = AddTechnique::BEFORE;
 		}
 
@@ -666,7 +691,7 @@ namespace Marvel {
 
 	std::string mvItemRegistry::getItemParentName(const std::string& name)
 	{
-		mvRef<mvAppItem> item = getItem(name);
+		mvAppItem* item = getItem(name);
 		if (item)
 			return item->m_parentPtr->m_name;
 		
@@ -679,7 +704,7 @@ namespace Marvel {
 	std::vector<std::vector<std::string>> mvItemRegistry::getItemChildren(const std::string& name)
 	{
 
-		mvRef<mvAppItem> item = getItem(name);
+		mvAppItem* item = getItem(name);
 
 		std::vector<std::vector<std::string>> childList;
 
@@ -907,7 +932,7 @@ namespace Marvel {
 		auto parent = mvApp::GetApp()->getItemRegistry().getItem(item);
 		if (parent)
 		{
-			if (mvAppItem::DoesItemHaveFlag(parent.get(), MV_ITEM_DESC_CONTAINER))
+			if (mvAppItem::DoesItemHaveFlag(parent, MV_ITEM_DESC_CONTAINER))
 			{
 				mvApp::GetApp()->getItemRegistry().pushParent(parent);
 				return ToPyBool(true);

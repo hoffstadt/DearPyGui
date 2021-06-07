@@ -124,7 +124,7 @@ namespace Marvel {
 		{
 			auto parentName = ToString(item);
 			auto parent = mvApp::GetApp()->getItemRegistry().getItem(parentName);
-			m_parentAddress = parent.get();
+			m_parentAddress = parent;
 		}
 		if (PyObject* item = PyDict_GetItemString(dict, "modal")) m_modal = ToBool(item);
 		if (PyObject* item = PyDict_GetItemString(dict, "mousebutton")) m_button = ToInt(item);
@@ -160,7 +160,7 @@ namespace Marvel {
 
 		mvPopup* pop;
 		if (item->getType() == mvAppItemType::mvPopup)
-			pop = static_cast<mvPopup*>(item.get());
+			pop = static_cast<mvPopup*>(item);
 		else
 		{
 			mvThrowPythonError(1000, std::string(popup) + " is not a popup.");

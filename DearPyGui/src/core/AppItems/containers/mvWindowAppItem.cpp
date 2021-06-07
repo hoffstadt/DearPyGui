@@ -320,7 +320,7 @@ namespace Marvel {
 
 			item->draw(drawlist, ImGui::GetCursorPosX(), ImGui::GetCursorPosY());
 			if(item->m_tracked)
-				ImGui::SetScrollHereY(m_trackOffset);
+				ImGui::SetScrollHereY(item->m_trackOffset);
 
 			item->postDraw();
 		}
@@ -534,14 +534,14 @@ namespace Marvel {
 		if (window->getType() == mvAppItemType::mvWindowAppItem)
 		{
 
-			auto pWindow = static_cast<mvWindowAppItem*>(window.get());
+			auto pWindow = static_cast<mvWindowAppItem*>(window);
 
 			pWindow->m_scrollX = value;
 			pWindow->m_scrollXSet = true;
 		}
 		else if (window->getType() == mvAppItemType::mvChild)
 		{
-			auto pChild = static_cast<mvChild*>(window.get());
+			auto pChild = static_cast<mvChild*>(window);
 
 			pChild->setScrollX(value);
 		}
@@ -577,14 +577,14 @@ namespace Marvel {
 		if (window->getType() == mvAppItemType::mvWindowAppItem)
 		{
 
-			auto pWindow = static_cast<mvWindowAppItem*>(window.get());
+			auto pWindow = static_cast<mvWindowAppItem*>(window);
 
 			pWindow->m_scrollY = value;
 			pWindow->m_scrollYSet = true;
 		}
 		else if (window->getType() == mvAppItemType::mvChild)
 		{
-			auto pChild = static_cast<mvChild*>(window.get());
+			auto pChild = static_cast<mvChild*>(window);
 
 			pChild->setScrollY(value);
 		}
@@ -619,13 +619,13 @@ namespace Marvel {
 		if (window->getType() == mvAppItemType::mvWindowAppItem)
 		{
 
-			auto pWindow = static_cast<mvWindowAppItem*>(window.get());
+			auto pWindow = static_cast<mvWindowAppItem*>(window);
 
 			return ToPyFloat(pWindow->m_scrollX);
 		}
 		else if (window->getType() == mvAppItemType::mvChild)
 		{
-			auto pChild = static_cast<mvChild*>(window.get());
+			auto pChild = static_cast<mvChild*>(window);
 
 			return ToPyFloat(pChild->getScrollX());
 		}
@@ -660,13 +660,13 @@ namespace Marvel {
 		if (window->getType() == mvAppItemType::mvWindowAppItem)
 		{
 
-			auto pWindow = static_cast<mvWindowAppItem*>(window.get());
+			auto pWindow = static_cast<mvWindowAppItem*>(window);
 
 			return ToPyFloat(pWindow->m_scrollY);
 		}
 		else if (window->getType() == mvAppItemType::mvChild)
 		{
-			auto pChild = static_cast<mvChild*>(window.get());
+			auto pChild = static_cast<mvChild*>(window);
 
 			return ToPyFloat(pChild->getScrollY());
 		}
@@ -701,13 +701,13 @@ namespace Marvel {
 		if (window->getType() == mvAppItemType::mvWindowAppItem)
 		{
 
-			auto pWindow = static_cast<mvWindowAppItem*>(window.get());
+			auto pWindow = static_cast<mvWindowAppItem*>(window);
 
 			return ToPyFloat(pWindow->m_scrollMaxX);
 		}
 		else if (window->getType() == mvAppItemType::mvChild)
 		{
-			auto pChild = static_cast<mvChild*>(window.get());
+			auto pChild = static_cast<mvChild*>(window);
 
 			return ToPyFloat(pChild->getScrollXMax());
 		}
@@ -742,13 +742,13 @@ namespace Marvel {
 		if (window->getType() == mvAppItemType::mvWindowAppItem)
 		{
 
-			auto pWindow = static_cast<mvWindowAppItem*>(window.get());
+			auto pWindow = static_cast<mvWindowAppItem*>(window);
 
 			return ToPyFloat(pWindow->m_scrollMaxY);
 		}
 		else if (window->getType() == mvAppItemType::mvChild)
 		{
-			auto pChild = static_cast<mvChild*>(window.get());
+			auto pChild = static_cast<mvChild*>(window);
 
 			return ToPyFloat(pChild->getScrollYMax());
 		}

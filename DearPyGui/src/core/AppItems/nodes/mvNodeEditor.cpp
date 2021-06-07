@@ -299,7 +299,7 @@ namespace Marvel {
 			return GetPyNone();
 		}
 
-		mvNodeEditor* editor = static_cast<mvNodeEditor*>(anode_editor.get());
+		mvNodeEditor* editor = static_cast<mvNodeEditor*>(anode_editor);
 
 		auto selected_nodes = editor->getSelectedNodes();
 
@@ -330,7 +330,7 @@ namespace Marvel {
 			return GetPyNone();
 		}
 
-		mvNodeEditor* editor = static_cast<mvNodeEditor*>(anode_editor.get());
+		mvNodeEditor* editor = static_cast<mvNodeEditor*>(anode_editor);
 
 		auto& selected_links = editor->getSelectedLinks();
 
@@ -365,7 +365,7 @@ namespace Marvel {
 			return GetPyNone();
 		}
 
-		mvNodeEditor* editor = static_cast<mvNodeEditor*>(anode_editor.get());
+		mvNodeEditor* editor = static_cast<mvNodeEditor*>(anode_editor);
 		editor->clearLinks();
 
 		return GetPyNone();
@@ -395,7 +395,7 @@ namespace Marvel {
 			return GetPyNone();
 		}
 
-		mvNodeEditor* editor = static_cast<mvNodeEditor*>(anode_editor.get());
+		mvNodeEditor* editor = static_cast<mvNodeEditor*>(anode_editor);
 		editor->clearNodes();
 
 		return GetPyNone();

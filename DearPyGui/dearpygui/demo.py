@@ -549,6 +549,307 @@ def show_demo():
 
                 dpg.add_3d_slider(label="3D Slider", scale=0.5)
 
+        with cxt.collapsing_header(label="Layout & Scrolling"):
+
+            with cxt.tree_node(label="Widgets Width"):
+                
+                dpg.add_text("Width=100")
+                dpg.add_drag_float(label="float", width=100)
+
+                dpg.add_text("Width=-100")
+                dpg.add_drag_float(label="float", width=-100)
+
+                dpg.add_text("Width=-1")
+                dpg.add_drag_float(label="float", width=-1)
+
+                dpg.add_text("group with width=75")
+                with cxt.group(width=75):
+                    dpg.add_drag_float(label="float")
+                    dpg.add_drag_float(label="float")
+                    dpg.add_drag_float(label="float")
+
+            with cxt.tree_node(label="Basic Horizontal Layout"):
+
+                dpg.add_text("(Use add_same_line(), to keep adding items to the right of the preceding item)", bullet=True)
+                dpg.add_text("Normal buttons")
+                dpg.add_same_line()
+                dpg.add_button(label="Banana")
+                dpg.add_same_line()
+                dpg.add_button(label="Apple")
+                dpg.add_same_line()
+                dpg.add_button(label="Corniflower")
+
+                dpg.add_text("Small buttons")
+                dpg.add_same_line()
+                dpg.add_button(label="Like this one", small=True)
+                dpg.add_same_line()
+                dpg.add_text("can fit within a text block")
+
+                dpg.add_text("Aligned")
+                dpg.add_same_line(xoffset=150)
+                dpg.add_text("x=150")
+                dpg.add_same_line(xoffset=300)
+                dpg.add_text("x=300")
+
+                dpg.add_text(default_value="Aligned")
+                dpg.add_same_line(xoffset=150)
+                dpg.add_button(label="x=150", small=True)
+                dpg.add_same_line(xoffset=300)
+                dpg.add_button(label="x=300", small=True)
+
+                dpg.add_checkbox(label="My")
+                dpg.add_same_line()
+                dpg.add_checkbox(label="Tailor")
+                dpg.add_same_line()
+                dpg.add_checkbox(label="is")
+                dpg.add_same_line()
+                dpg.add_checkbox(label="rich")
+
+                dpg.add_text("Lists:")
+                dpg.add_listbox(("AAAA", "BBBB", "CCCC", "DDDD"), default_value="AAAA", width=100, label="")
+                dpg.add_same_line()
+                dpg.add_listbox(("AAAA", "BBBB", "CCCC", "DDDD"), default_value="BBBB", width=100, label="")
+                dpg.add_same_line()
+                dpg.add_listbox(("AAAA", "BBBB", "CCCC", "DDDD"), default_value="CCCC", width=100, label="")
+                dpg.add_same_line()
+                dpg.add_listbox(("AAAA", "BBBB", "CCCC", "DDDD"), default_value="DDDD", width=100, label="")
+                
+                dpg.add_text("Spacing(100):")
+                dpg.add_button(label="A", width=50, height=50)
+                dpg.add_same_line(spacing=100)
+                dpg.add_button(label="B", width=50, height=50)
+
+            with cxt.tree_node(label="Ordered pack style"):
+                dpg.add_button(label="Button 1")
+                dpg.add_button(label="Button 2")
+                dpg.add_button(label="Button 3")
+
+            with cxt.tree_node(label="Out of order pack style"):
+                with cxt.child(id="out of order pack parent", width=100, height=50):
+                    pass
+                dpg.add_button(id="out of order button 1", label="Button 1")
+                dpg.add_button(label="Button 2")
+                dpg.add_button(label="Button 3", before="out of order button 1")
+                dpg.add_button(label="Button 4", parent="out of order pack parent")
+
+            with cxt.tree_node(id="Absolute Position Placement"):
+                dpg.add_button(label="Set Button 2 Pos", callback=lambda: dpg.set_item_pos(B2, x=50, y=125))
+                dpg.add_button(label="Reset Button 2 Pos", callback=lambda: dpg.reset_pos(B2))
+                dpg.add_button(label="Button 1", pos=[50,50], width=75, height=75)
+                B2 = dpg.add_button(label="Button 2", width=75, height=75)
+                dpg.add_button(label="Button 3")
+        
+            with cxt.tree_node(id="Grid Layout using Table API"):
+                dpg.add_text("Tables can be used to layout items in an equally spaced grid pattern.")
+                dpg.add_text("See tables section for more detail on tables.")
+                dpg.add_checkbox(label="resizable", callback=_config, user_data="layout_demo_table")
+                dpg.add_checkbox(label="borders_innerH", callback=_config, user_data="layout_demo_table", default_value=True)
+                dpg.add_checkbox(label="borders_outerH", callback=_config, user_data="layout_demo_table", default_value=True)
+                dpg.add_checkbox(label="borders_innerV", callback=_config, user_data="layout_demo_table", default_value=True)
+                dpg.add_checkbox(label="borders_outerV", callback=_config, user_data="layout_demo_table", default_value=True)
+                with cxt.table(id="layout_demo_table", header_row=False, borders_innerH=True, borders_outerH=True, borders_innerV=True, borders_outerV=True):
+                    dpg.add_table_column()
+                    dpg.add_table_column()
+                    dpg.add_table_column()
+                    dpg.add_button(label="Button 1")
+                    dpg.add_table_next_column()
+                    dpg.add_button(label="Button 2")
+                    dpg.add_table_next_column()
+                    dpg.add_button(label="Button 3")
+                    dpg.add_table_next_column()
+                    dpg.add_table_next_column()
+                    dpg.add_table_next_column()
+                    dpg.add_button(label="Button 4")
+                    dpg.add_table_next_column()
+                    dpg.add_button(label="Button 5")
+
+            with cxt.tree_node(label="Containers"):
+
+                with cxt.tree_node(label="Tree Nodes"):
+                    with cxt.tree_node(label="Tree Node (selectable)", selectable=True):
+                        dpg.add_button(label="Button 1")
+                        dpg.add_button(label="Button 2")
+                        dpg.add_button(label="Button 3")
+                    with cxt.tree_node(label="Tree Node (bullet)", bullet=True):
+                        dpg.add_button(label="Button 1")
+                        dpg.add_button(label="Button 2")
+                        dpg.add_button(label="Button 3")
+                
+                with cxt.tree_node(label="Groups"):
+                    dpg.add_text("Groups are used to control child items placement, width, and provide a hit box for things like is the set of items are hovered, ect...")
+                    with cxt.group(id="group 1", horizontal=True):
+                        dpg.add_button(label="Button 1")
+                        dpg.add_button(label="Button 2")
+                        dpg.add_button(label="Button 3")
+                    with cxt.group(width=150):
+                        dpg.add_button(label="Button 1")
+                        dpg.add_button(label="Button 2")
+                        dpg.add_button(label="Button 3")
+                    with cxt.group():
+                        dpg.add_button(label="Button 1")
+                        dpg.add_button(label="Button 2")
+                        dpg.add_button(label="Button 3")
+                
+                with cxt.tree_node(label="Child windows"):
+                    dpg.add_text("Child windows are basically embedded windows and provide much more structure and control of the containing items than groups.")
+                    with cxt.group(horizontal=True):
+                        dpg.add_checkbox(label="autosize_x", callback=_config, user_data="demo_layout_child")
+                        dpg.add_checkbox(label="autosize_y", callback=_config, user_data="demo_layout_child")
+                        dpg.add_checkbox(label="menubar", callback=_config, user_data="demo_layout_child")
+                        dpg.add_checkbox(label="no_scrollbar", callback=_config, user_data="demo_layout_child")
+                        dpg.add_checkbox(label="horizontal_scrollbar", callback=_config, user_data="demo_layout_child")
+                        dpg.add_checkbox(label="border", default_value=True, callback=_config, user_data="demo_layout_child")
+                    with cxt.child(id="demo_layout_child", width=200, height=200):
+                        with cxt.menu_bar():
+                            with cxt.menu(label="Menu"):
+                                pass
+                        for i in range(0, 20):
+                            dpg.add_text(default_value="A pretty long sentence if you really think about it. It's also pointless. we need this to be even longer")
+                    with cxt.child(autosize_x=True, height=130, menubar=True):
+                        with cxt.menu_bar():
+                            dpg.add_menu(label="Menu Options")
+                        dpg.add_button(label="Button 1")
+                        dpg.add_button(label="Button 2")
+                        dpg.add_button(label="Button 3")
+                    with cxt.child(width=100, height=150, horizontal_scrollbar=True):
+                        dpg.add_button(label="Button 1")
+                        dpg.add_button(label="Button 2")
+                        dpg.add_button(label="Button 3")
+                        dpg.add_button(label="Button 4", width=150)
+                        dpg.add_button(label="Button 5")
+                        dpg.add_button(label="Button 6")
+                    dpg.add_same_line()
+                    with cxt.child(width=100, height=110):
+                        dpg.add_button(label="Button 1")
+                        dpg.add_button(label="Button 2")
+                        dpg.add_button(label="Button 3")
+                
+                with cxt.tree_node(label="Collapsing Headers"):
+                    with cxt.collapsing_header(label="Collapsing Header"):
+                        dpg.add_button(label="Button 1")
+                        dpg.add_button(label="Button 2")
+                        dpg.add_button(label="Button 3")
+                    with cxt.collapsing_header(label="Collapsing Header (close)", closable=True):
+                        dpg.add_button(label="Button 1")
+                        dpg.add_button(label="Button 2")
+                        dpg.add_button(label="Button 3")
+                    with cxt.collapsing_header(label="Collapsing Header (bullet)", bullet=True):
+                        dpg.add_button(label="Button 1")
+                        dpg.add_button(label="Button 2")
+                        dpg.add_button(label="Button 3")
+                    with cxt.collapsing_header(label="Collapsing Header (leaf)", leaf=True):
+                        dpg.add_button(label="Button 1")
+                        dpg.add_button(label="Button 2")
+                        dpg.add_button(label="Button 3")
+                
+                with cxt.tree_node(label="Tabs"):
+
+                    with cxt.tree_node(label="Basic"):
+
+                        with cxt.tab_bar():
+                            
+                            with cxt.tab(label="Avocado"):
+                                dpg.add_text("This is the avocado tab!")
+                            
+                            with cxt.tab(label="Broccoli"):
+                                dpg.add_text("This is the broccoli tab!")
+
+                            with cxt.tab(label="Cucumber"):
+                                dpg.add_text("This is the cucumber tab!")
+
+                    with cxt.tree_node(label="Advanced"):
+
+                        with cxt.tab_bar() as tb:
+
+                            with cxt.tab(label="tab 1"):
+                                dpg.add_text("This is the tab 1!")
+
+                            with cxt.tab(label="tab 2") as t2:
+                                dpg.add_text("This is the tab 2!")
+
+                            with cxt.tab(label="tab 3"):
+                                dpg.add_text("This is the tab 3!")
+
+                            with cxt.tab(label="tab 4"):
+                                dpg.add_text("This is the tab 4!")
+
+                            tbb = dpg.add_tab_button(label="+")
+                            dpg.add_tab_button(label="?")
+
+                            dpg.add_checkbox(before=tb, label="tab bar reorderable", user_data=tb, callback=lambda s, a, u: dpg.configure_item(u, reorderable=dpg.get_value(s)))
+                            dpg.add_checkbox(before=tb, label="tab 2 no_reorder", user_data=t2, callback=lambda s, a, u: dpg.configure_item(u, no_reorder=dpg.get_value(s)))
+                            dpg.add_checkbox(before=tb, label="tab 2 leading", user_data=t2, callback=lambda s, a, u: dpg.configure_item(u, leading=dpg.get_value(s)))
+                            dpg.add_checkbox(before=tb, label="tab 2 trailing", user_data=t2, callback=lambda s, a, u: dpg.configure_item(u, trailing=dpg.get_value(s)))
+                            dpg.add_checkbox(before=tb, label="tab button trailing", user_data=tbb, callback=lambda s, a, u: dpg.configure_item(u, trailing=dpg.get_value(s)))
+                            dpg.add_checkbox(before=tb, label="tab button leading", user_data=tbb, callback=lambda s, a, u: dpg.configure_item(u, leading=dpg.get_value(s)))
+
+            with cxt.tree_node(label="Simple Layouts"):
+                dpg.add_text("Containers can be nested for advanced layout options")
+                with cxt.child(width=500, height=320):
+                    with cxt.menu_bar():
+                        dpg.add_menu(label="Menu Options")
+                    with cxt.child(autosize_x=True, height=95):
+                        with cxt.group(horizontal=True):
+                            dpg.add_button(label="Header 1", width=75, height=75)
+                            dpg.add_button(label="Header 2", width=75, height=75)
+                            dpg.add_button(label="Header 3", width=75, height=75)
+                    with cxt.child(autosize_x=True, height=175):
+                        with cxt.group(horizontal=True, width=0):
+                            with cxt.child(width=102, height=150):
+                                with cxt.tree_node(label="Nav 1"):
+                                    dpg.add_button(label="Button 1")
+                                with cxt.tree_node(label="Nav 2"):
+                                    dpg.add_button(label="Button 2")
+                                with cxt.tree_node(label="Nav 3"):
+                                    dpg.add_button(label="Button 3")
+                            with cxt.child(width=300, height=150):
+                                dpg.add_button(label="Button 1")
+                                dpg.add_button(label="Button 2")
+                                dpg.add_button(label="Button 3")
+                            with cxt.child(width=50, height=150):
+                                dpg.add_button(label="B1", width=25, height=25)
+                                dpg.add_button(label="B2", width=25, height=25)
+                                dpg.add_button(label="B3", width=25, height=25)
+                    with cxt.group(horizontal=True):
+                        dpg.add_button(label="Footer 1", width=175)
+                        dpg.add_text("Footer 2")
+                        dpg.add_button(label="Footer 3", width=175)
+
+            with cxt.tree_node(label="Scrolling"):
+
+                with cxt.table(header_row=False):
+
+                    dpg.add_table_column()
+                    dpg.add_table_column()
+                    dpg.add_table_column()
+                    dpg.add_table_column()
+                    dpg.add_table_column()
+
+                    children = []
+                    text_items = ("Top", "25%", "Center", "75%")
+                    track_items = (0.0, 0.25, 0.5, 0.75)
+
+                    for i in range(0, 4):
+                        dpg.add_text(text_items[i])
+                        with cxt.child(height=200):
+                            for j in range(0, 25):
+                                if j == 13:
+                                    dpg.add_text("Item " + str(j), color=(255, 255, 0), tracked=True, track_offset=track_items[i])
+                                else:
+                                    dpg.add_text("Item " + str(j))
+
+                        dpg.add_table_next_column()
+
+                    dpg.add_text("Bottom")
+                    with cxt.child(height=200):
+                        for i in range(0, 25):
+                            dpg.add_text("Item " + str(i))
+
+
+
+
+
+
         with cxt.collapsing_header(label="Textures & Images"):
         
             with cxt.tree_node(label="Help"):
@@ -1802,169 +2103,6 @@ def show_demo():
                 layers["Layer 3"] = dpg.add_draw_layer()
 
                 dpg.configure_item(layer, items=list(layers.keys()))
-
-        with cxt.collapsing_header(label="Layouts"):
-            with cxt.tree_node(label="Ordered pack style"):
-                dpg.add_button(label="Button 1")
-                dpg.add_button(label="Button 2")
-                dpg.add_button(label="Button 3")
-
-            with cxt.tree_node(label="Out of order pack style"):
-                with cxt.child(id="out of order pack parent", width=100, height=50):
-                    pass
-                dpg.add_button(id="out of order button 1", label="Button 1")
-                dpg.add_button(label="Button 2")
-                dpg.add_button(label="Button 3", before="out of order button 1")
-                dpg.add_button(label="Button 4", parent="out of order pack parent")
-
-            with cxt.tree_node(id="Absolute Position Placment"):
-                dpg.add_button(label="Set Button 2 Pos", callback=lambda: dpg.set_item_pos(B2, x=50, y=125))
-                dpg.add_button(label="Reset Button 2 Pos", callback=lambda: dpg.reset_pos(B2))
-                dpg.add_button(label="Button 1", pos=[50,50], width=75, height=75)
-                B2 = dpg.add_button(label="Button 2", width=75, height=75)
-                dpg.add_button(label="Button 3")
-        
-            with cxt.tree_node(id="Grid Layout using Table API"):
-                dpg.add_text("Tables can be used to layout items in an equally spaced grid pattern.")
-                dpg.add_text("See tables section for more detail on tables.")
-                dpg.add_checkbox(label="resizable", callback=_config, user_data="layout_demo_table")
-                dpg.add_checkbox(label="borders_innerH", callback=_config, user_data="layout_demo_table", default_value=True)
-                dpg.add_checkbox(label="borders_outerH", callback=_config, user_data="layout_demo_table", default_value=True)
-                dpg.add_checkbox(label="borders_innerV", callback=_config, user_data="layout_demo_table", default_value=True)
-                dpg.add_checkbox(label="borders_outerV", callback=_config, user_data="layout_demo_table", default_value=True)
-                with cxt.table(id="layout_demo_table", header_row=False, borders_innerH=True, borders_outerH=True, borders_innerV=True, borders_outerV=True):
-                    dpg.add_table_column()
-                    dpg.add_table_column()
-                    dpg.add_table_column()
-                    dpg.add_button(label="Button 1")
-                    dpg.add_table_next_column()
-                    dpg.add_button(label="Button 2")
-                    dpg.add_table_next_column()
-                    dpg.add_button(label="Button 3")
-                    dpg.add_table_next_column()
-                    dpg.add_table_next_column()
-                    dpg.add_table_next_column()
-                    dpg.add_button(label="Button 4")
-                    dpg.add_table_next_column()
-                    dpg.add_button(label="Button 5")
-
-            with cxt.tree_node(label="Containers"):
-                with cxt.tree_node(label="Tree Nodes"):
-                    with cxt.tree_node(label="Tree Node (selectable)", selectable=True):
-                        dpg.add_button(label="Button 1")
-                        dpg.add_button(label="Button 2")
-                        dpg.add_button(label="Button 3")
-                    with cxt.tree_node(label="Tree Node (bullet)", bullet=True):
-                        dpg.add_button(label="Button 1")
-                        dpg.add_button(label="Button 2")
-                        dpg.add_button(label="Button 3")
-                with cxt.tree_node(label="Groups"):
-                    dpg.add_text("Groups are used to control child items placement, width, and provide a hit box for things like is the set of items are hovered, ect...")
-                    with cxt.group(id="group 1", horizontal=True):
-                        dpg.add_button(label="Button 1")
-                        dpg.add_button(label="Button 2")
-                        dpg.add_button(label="Button 3")
-                    with cxt.group(width=150):
-                        dpg.add_button(label="Button 1")
-                        dpg.add_button(label="Button 2")
-                        dpg.add_button(label="Button 3")
-                    with cxt.group():
-                        dpg.add_button(label="Button 1")
-                        dpg.add_button(label="Button 2")
-                        dpg.add_button(label="Button 3")
-                with cxt.tree_node(label="Child windows"):
-                    dpg.add_text("Child windows are basically embedded windows and provide much more structure and control of the containing items than groups.")
-                    with cxt.group(horizontal=True):
-                        dpg.add_checkbox(label="autosize_x", callback=_config, user_data="demo_layout_child")
-                        dpg.add_checkbox(label="autosize_y", callback=_config, user_data="demo_layout_child")
-                        dpg.add_checkbox(label="menubar", callback=_config, user_data="demo_layout_child")
-                        dpg.add_checkbox(label="no_scrollbar", callback=_config, user_data="demo_layout_child")
-                        dpg.add_checkbox(label="horizontal_scrollbar", callback=_config, user_data="demo_layout_child")
-                        dpg.add_checkbox(label="border", default_value=True, callback=_config, user_data="demo_layout_child")
-                    with cxt.child(id="demo_layout_child", width=200, height=200):
-                        with cxt.menu_bar():
-                            with cxt.menu(label="Menu"):
-                                pass
-                        for i in range(0, 20):
-                            dpg.add_text(default_value="A pretty long sentence if you really think about it. It's also pointless. we need this to be even longer")
-                    with cxt.child(autosize_x=True, height=130, menubar=True):
-                        with cxt.menu_bar():
-                            dpg.add_menu(label="Menu Options")
-                        dpg.add_button(label="Button 1")
-                        dpg.add_button(label="Button 2")
-                        dpg.add_button(label="Button 3")
-                    with cxt.child(width=100, height=150, horizontal_scrollbar=True):
-                        dpg.add_button(label="Button 1")
-                        dpg.add_button(label="Button 2")
-                        dpg.add_button(label="Button 3")
-                        dpg.add_button(label="Button 4", width=150)
-                        dpg.add_button(label="Button 5")
-                        dpg.add_button(label="Button 6")
-                    dpg.add_same_line()
-                    with cxt.child(width=100, height=110):
-                        dpg.add_button(label="Button 1")
-                        dpg.add_button(label="Button 2")
-                        dpg.add_button(label="Button 3")
-                with cxt.tree_node(label="Collapsing Headers"):
-                    with cxt.collapsing_header(label="Collapsing Header"):
-                        dpg.add_button(label="Button 1")
-                        dpg.add_button(label="Button 2")
-                        dpg.add_button(label="Button 3")
-                    with cxt.collapsing_header(label="Collapsing Header (close)", closable=True):
-                        dpg.add_button(label="Button 1")
-                        dpg.add_button(label="Button 2")
-                        dpg.add_button(label="Button 3")
-                    with cxt.collapsing_header(label="Collapsing Header (bullet)", bullet=True):
-                        dpg.add_button(label="Button 1")
-                        dpg.add_button(label="Button 2")
-                        dpg.add_button(label="Button 3")
-                    with cxt.collapsing_header(label="Collapsing Header (leaf)", leaf=True):
-                        dpg.add_button(label="Button 1")
-                        dpg.add_button(label="Button 2")
-                        dpg.add_button(label="Button 3")
-                with cxt.tree_node(label="Tab Bar"):
-                    with cxt.tab_bar(reorderable=True)as tab_bar:
-                        with cxt.tab(label="Tab 1"):
-                            dpg.add_button(label="Tab 1 Button 1")
-                            dpg.add_button(label="Tab 1 Button 2")
-                            dpg.add_button(label="Tab 1 Button 3")
-                        with cxt.tab(label="Tab 2"):
-                            dpg.add_button(label="Tab 2 Button 1")
-                            dpg.add_button(label="Tab 2 Button 2")
-                            dpg.add_button(label="Tab 2 Button 3")
-                        dpg.add_tab_button(label="Tab Button", callback=lambda: dpg.add_tab(parent=tab_bar))
-
-            with cxt.tree_node(label="Simple Layouts"):
-                dpg.add_text("Containers can be nested for advanced layout options")
-                with cxt.child(width=500, height=320):
-                    with cxt.menu_bar():
-                        dpg.add_menu(label="Menu Options")
-                    with cxt.child(autosize_x=True, height=95):
-                        with cxt.group(horizontal=True):
-                            dpg.add_button(label="Header 1", width=75, height=75)
-                            dpg.add_button(label="Header 2", width=75, height=75)
-                            dpg.add_button(label="Header 3", width=75, height=75)
-                    with cxt.child(autosize_x=True, height=175):
-                        with cxt.group(horizontal=True, width=0):
-                            with cxt.child(width=102, height=150):
-                                with cxt.tree_node(label="Nav 1"):
-                                    dpg.add_button(label="Button 1")
-                                with cxt.tree_node(label="Nav 2"):
-                                    dpg.add_button(label="Button 2")
-                                with cxt.tree_node(label="Nav 3"):
-                                    dpg.add_button(label="Button 3")
-                            with cxt.child(width=300, height=150):
-                                dpg.add_button(label="Button 1")
-                                dpg.add_button(label="Button 2")
-                                dpg.add_button(label="Button 3")
-                            with cxt.child(width=50, height=150):
-                                dpg.add_button(label="B1", width=25, height=25)
-                                dpg.add_button(label="B2", width=25, height=25)
-                                dpg.add_button(label="B3", width=25, height=25)
-                    with cxt.group(horizontal=True):
-                        dpg.add_button(label="Footer 1", width=175)
-                        dpg.add_text("Footer 2")
-                        dpg.add_button(label="Footer 3", width=175)
 
         with cxt.collapsing_header(label="Handler"):
 

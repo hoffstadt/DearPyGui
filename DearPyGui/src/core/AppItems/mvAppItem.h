@@ -353,7 +353,8 @@ namespace Marvel {
 
     private:
 
-        mvRef<mvAppItem>                    getChild(const std::string& name);      // will return nullptr if not found
+        mvAppItem*                          getChild(const std::string& name);      // will return nullptr if not found
+        mvRef<mvAppItem>                    getChildRef(const std::string& name);      // will return nullptr if not found
 
         // runtime modifications
         bool                                addItem(mvRef<mvAppItem> item);

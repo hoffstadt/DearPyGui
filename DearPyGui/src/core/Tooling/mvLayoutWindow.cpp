@@ -269,7 +269,7 @@ namespace Marvel {
 		std::string parentName;
 
 		if (selectedItem == nullptr)
-			selectedItem = mvApp::GetApp()->getItemRegistry().getRoots()[0];
+			selectedItem = mvApp::GetApp()->getItemRegistry().getRoots()[0].get();
 
 		if (selectedItem->m_parentPtr)
 			parentName = selectedItem->m_parentPtr->m_name;
@@ -314,7 +314,7 @@ namespace Marvel {
 		DebugItem("Item Name:", m_selectedItem.c_str());
 		DebugItem("Item Label:", selectedItem->m_specificedlabel.c_str());
 		//DebugItem("Item Type:", selectedItem->getStringType().c_str());
-		DebugItem("Container:", mvAppItem::DoesItemHaveFlag(selectedItem.get(), MV_ITEM_DESC_CONTAINER) ? ts : fs);
+		DebugItem("Container:", mvAppItem::DoesItemHaveFlag(selectedItem, MV_ITEM_DESC_CONTAINER) ? ts : fs);
 		DebugItem("Item Parent:", parentName.c_str());
 		DebugItem("Item Width:", width.c_str());
 		DebugItem("Item Height:", height.c_str());
@@ -343,7 +343,7 @@ namespace Marvel {
 
         if (m_nodeView)
         {
-            renderNode(selectedItem.get());
+            renderNode(selectedItem);
         }
         else
         {
