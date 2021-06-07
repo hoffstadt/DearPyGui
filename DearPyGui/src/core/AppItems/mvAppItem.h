@@ -47,7 +47,7 @@ namespace Marvel {
         mvNodeEditor, mvNode, mvNodeAttribute,
         mvTable, mvTableColumn, mvTableNextColumn, mvTableRow,
         mvDrawLine, mvDrawArrow, mvDrawTriangle,
-        mvDrawCircle, mvDrawEllipse, mvDrawBezierCurve,
+        mvDrawCircle, mvDrawEllipse, mvDrawBezierCubic, mvDrawBezierQuadratic,
         mvDrawQuad, mvDrawRect, mvDrawText, mvDrawPolygon, mvDrawPolyline,
         mvDrawImage, mvDragFloatMulti, mvDragIntMulti, mvSliderFloatMulti,
         mvSliderIntMulti, mvInputIntMulti, mvInputFloatMulti,
