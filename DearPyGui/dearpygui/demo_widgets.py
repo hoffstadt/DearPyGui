@@ -90,19 +90,37 @@ def show_demo():
             dpg.add_checkbox(label="no_arrow_button",callback=_config, user_data=combo_id)
             dpg.add_checkbox(label="no_preview",callback=_config, user_data=combo_id)
             dpg.add_radio_button(("height_small","height_regular","height_large","height_largest"), default_value="height_regular", callback=_config, user_data=combo_id)
+        
         with cxt.tree_node(label="List Boxes"):
             listbox_1 = dpg.add_listbox(("A","B","C","D","E","F","G","H","I","J","K","L","M" "O","P","Q","R","S","T","U","V","W","X","Y","Z"), label="listbox 1 (full)")
             listbox_2 = dpg.add_listbox(("A","B","C","D","E","F","G","H","I","J","K","L","M" "O","P","Q","R","S","T","U","V","W","X","Y","Z"), label="listbox 2", width=200)
             dpg.add_input_int(label="num_items",callback=_config, user_data=[listbox_1, listbox_2], before = listbox_1)
             dpg.add_slider_int(label="width", default_value=200, callback=_config, user_data=listbox_2, before = listbox_1, max_value=500)
-        with cxt.tree_node(label="Bullets"):
+        
+        with cxt.tree_node(label="Selectables"):
+            with cxt.tree_node(label="Basic"):
+                dpg.add_selectable(label="1. I am selectable")
+                dpg.add_text("2. I am not selectable")
 
+            with cxt.tree_node(label="Selection State: Single"):
+                items = []
+                items.append(dpg.add_selectable(label="1. I am selectable"))
+                items.append(dpg.add_selectable(label="2. I am selectable"))
+                items.append(dpg.add_selectable(label="3. I am selectable"))
+                items.append(dpg.add_selectable(label="4. I am selectable"))
+                items.append(dpg.add_selectable(label="5. I am selectable"))
+                def _selection(sender, app_data, user_data):
+                    for item in user_data:
+                        if item != sender:
+                           dpg.set_value(item, False)
+                for item in items:
+                    dpg.configure_item(item, callback=_selection, user_data=items)
+
+        with cxt.tree_node(label="Bullets"):
             dpg.add_text("Bullet point 1", bullet=True)
             dpg.add_text("Bullet point 2\nbullet text can be\nOn multiple lines", bullet=True)
-
             with cxt.tree_node(label="Tree node"):
                 dpg.add_text("Another bullet point", bullet=True)
-
             dpg.add_text("1", bullet=True)
             dpg.add_same_line()
             dpg.add_button(label="Button", small=True)
