@@ -14,6 +14,7 @@ namespace Marvel {
 			MV_PARSER_ARG_ID |
 			MV_PARSER_ARG_CALLBACK |
 			MV_PARSER_ARG_SHOW |
+			MV_PARSER_ARG_USER_DATA |
 			MV_PARSER_ARG_PARENT)
 		);
 
@@ -57,7 +58,7 @@ namespace Marvel {
 					mvApp::GetApp()->getCallbackRegistry().submitCallback([=]()
 						{
 							mvApp::GetApp()->getCallbackRegistry().runCallback(getCallback(false), m_name, 
-								ToPyMTrip(i, ImGui::GetMouseDragDelta().x, ImGui::GetMouseDragDelta().y), nullptr);
+								ToPyMTrip(i, ImGui::GetMouseDragDelta().x, ImGui::GetMouseDragDelta().y), m_user_data);
 						});
 
 					ImGui::ResetMouseDragDelta(i);
@@ -70,7 +71,7 @@ namespace Marvel {
 			mvApp::GetApp()->getCallbackRegistry().submitCallback([=]()
 				{
 					mvApp::GetApp()->getCallbackRegistry().runCallback(getCallback(false), m_name, 
-						ToPyMTrip(m_button, ImGui::GetMouseDragDelta().x, ImGui::GetMouseDragDelta().y), nullptr);
+						ToPyMTrip(m_button, ImGui::GetMouseDragDelta().x, ImGui::GetMouseDragDelta().y), m_user_data);
 				});
 		}
 	}

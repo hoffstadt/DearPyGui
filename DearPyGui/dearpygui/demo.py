@@ -1,8 +1,6 @@
 import dearpygui.core as dpg
 import dearpygui.contexts as cxt
-import dearpygui.demo_widgets as widgets
 from dearpygui.logger import mvLogger
-from dearpygui.common import _log, _config, _help, _hsv_to_rgb
 from math import sin, cos
 import random
 
@@ -12,6 +10,85 @@ demo_static_texture_2 = ""
 demo_static_texture_3 = ""
 demo_dynamic_texture_1 = ""
 demo_dynamic_texture_2 = ""
+
+def _help(message):
+    """ Simple Helper """
+    pass
+
+def _log(sender, app_data, user_data):
+    #dpg.log_debug(f"Sender was {sender}.", logger="Demo Logger")
+    #dpg.log_debug(f"Data was {user_data}.", logger="Demo Logger")
+    print(f"Sender was {sender}.")
+    print(f"Data was {user_data}.")
+
+def _config(sender, app_data, user_data):
+
+    widget_type = dpg.get_item_info(sender)["type"]
+    items = user_data
+
+    if widget_type == "mvAppItemType::mvRadioButton":
+        keyword = dpg.get_value(sender)
+        value = True
+
+    else:
+        keyword = dpg.get_item_configuration(sender)["label"]
+        value = dpg.get_value(sender)
+
+    if isinstance(user_data, list):
+        for item in items:
+            dpg.configure_item(item, **{keyword: value})
+    else:
+        dpg.configure_item(items, **{keyword: value})
+
+def _add_config_options(item, columns, *names, **kwargs):
+    
+    if columns == 1:
+        if 'before' in kwargs:
+            for name in names:
+                dpg.add_checkbox(label=name, callback=_config, user_data=item, before=kwargs['before'], default_value=dpg.get_item_configuration(item)[name])
+        else:
+            for name in names:
+                dpg.add_checkbox(label=name, callback=_config, user_data=item, default_value=dpg.get_item_configuration(item)[name])
+
+    else:
+
+        if 'before' in kwargs:
+
+            with cxt.table(header_row=False, before=kwargs['before']):
+
+                for i in range(0, columns):
+                    dpg.add_table_column()
+
+                for i in range(0, len(names)-1):
+                    dpg.add_checkbox(label=names[i], callback=_config, user_data=item, default_value=dpg.get_item_configuration(item)[names[i]])
+                    dpg.add_table_next_column()
+                dpg.add_checkbox(label=names[-1], callback=_config, user_data=item, default_value=dpg.get_item_configuration(item)[names[-1]])
+
+        else:
+
+            with cxt.table(header_row=False):
+
+                for i in range(0, columns):
+                    dpg.add_table_column()
+
+                for i in range(0, len(names)-1):
+                    dpg.add_checkbox(label=names[i], callback=_config, user_data=item, default_value=dpg.get_item_configuration(item)[names[i]])
+                    dpg.add_table_next_column()
+                dpg.add_checkbox(label=names[-1], callback=_config, user_data=item, default_value=dpg.get_item_configuration(item)[names[-1]])
+
+def _add_config_option(item, default_value, *names):
+    dpg.add_radio_button(names, default_value=default_value, callback=_config, user_data=item)
+
+def _hsv_to_rgb(h, s, v):
+    if s == 0.0: return (v, v, v)
+    i = int(h*6.) # XXX assume int() truncates!
+    f = (h*6.)-i; p,q,t = v*(1.-s), v*(1.-s*f), v*(1.-s*(1.-f)); i%=6
+    if i == 0: return (255*v, 255*t, 255*p)
+    if i == 1: return (255*q, 255*v, 255*p)
+    if i == 2: return (255*p, 255*v, 255*t)
+    if i == 3: return (255*p, 255*q, 255*v)
+    if i == 4: return (255*t, 255*p, 255*v)
+    if i == 5: return (255*v, 255*p, 255*q)
 
 def _create_static_textures():
     
@@ -110,8 +187,12 @@ def _update_dynamic_textures(sender, app_data, user_data):
             texture_data.append(new_color[3])
         dpg.set_value(demo_dynamic_texture_2, texture_data)
 
+def _on_demo_close(sender, app_data, user_data):
+    dpg.delete_item(sender)
+
 def show_demo():
 
+    ## create a logger
     logger = mvLogger()
     logger.log_level = 0
     logger.log("trace message boi")
@@ -127,7 +208,7 @@ def show_demo():
     _create_static_textures()
     _create_dynamic_textures()
 
-    with cxt.window(id="Dear PyGui Demo", width=800, height=800) as demo_id:
+    with cxt.window(id="Dear PyGui Demo", width=800, height=800, on_close=_on_demo_close) as demo_id:
     
         with cxt.menu_bar():
 
@@ -175,27 +256,298 @@ def show_demo():
 
         with cxt.collapsing_header(label="Window Options"):
 
-            with cxt.table(header_row=False):
+            _add_config_options(demo_id, 3, 
+                                        "no_title_bar", "no_scrollbar", "menubar", 
+                                        "no_move", "no_resize", "no_collapse",
+                                        "no_close", "no_background", "no_bring_to_front_on_focus"
+                                        )
+  
+        with cxt.collapsing_header(label="Widgets"):
+        
+            with cxt.tree_node(label="Basic"):
 
-                dpg.add_table_column()
-                dpg.add_table_column()
-                dpg.add_table_column()
+                with cxt.group(horizontal=True):
+                    dpg.add_button(label="Button", callback=_log)
+                    dpg.add_button(label="Button", callback=_log, small=True)
+                    dpg.add_button(label="Button", callback=_log, arrow=True) # default direction is mvDir_Up
+                    dpg.add_button(label="Button", callback=_log, arrow=True, direction=dpg.mvDir_Left)
+                    dpg.add_button(label="Button", callback=_log, arrow=True, direction=dpg.mvDir_Right)
+                    dpg.add_button(label="Button", callback=_log, arrow=True, direction=dpg.mvDir_Down)
 
-                dpg.add_checkbox(label="no_title_bar", callback=_config, user_data=demo_id)
-                dpg.add_checkbox(label="no_scrollbar", callback=_config, user_data=demo_id)
-                dpg.add_checkbox(label="menubar", default_value=True, callback=_config, user_data=demo_id)
+                dpg.add_checkbox(label="checkbox", callback=_log)
+                dpg.add_radio_button(("radio a", "radio b", "radio c"), callback=_log, horizontal=True)
+                dpg.add_selectable(label="selectable", callback=_log)
 
-                dpg.add_table_next_column()
-                dpg.add_checkbox(label="no_move", callback=_config, user_data=demo_id)
-                dpg.add_checkbox(label="no_resize", callback=_config, user_data=demo_id)
-                dpg.add_checkbox(label="no_collapse", callback=_config, user_data=demo_id)
+                with cxt.group(horizontal=True):
 
-                dpg.add_table_next_column()
-                dpg.add_checkbox(label="no_close", callback=_config, user_data=demo_id)
-                dpg.add_checkbox(label="no_background", callback=_config, user_data=demo_id)
-                dpg.add_checkbox(label="no_bring_to_front_on_focus", callback=_config, user_data=demo_id)
+                    for i in range(0, 7):
+                        dpg.add_button(label="Click", callback=_log)
+                        dpg.set_theme_style(dpg.mvThemeStyle_Button_Rounding, i*5, item=dpg.last_item())
+                        dpg.set_theme_style(dpg.mvThemeStyle_Button_PaddingX, i*3, item=dpg.last_item())
+                        dpg.set_theme_style(dpg.mvThemeStyle_Button_PaddingY, i*3, item=dpg.last_item())
+                        dpg.set_theme_color(dpg.mvThemeCol_Button_Bg, _hsv_to_rgb(i/7.0, 0.6, 0.6), item=dpg.last_item())
+                        dpg.set_theme_color(dpg.mvThemeCol_Button_Active, _hsv_to_rgb(i/7.0, 0.8, 0.8), item=dpg.last_item())
+                        dpg.set_theme_color(dpg.mvThemeCol_Button_Hovered, _hsv_to_rgb(i/7.0, 0.7, 0.7), item=dpg.last_item())
 
-        widgets.show_demo()
+                with cxt.group(horizontal=True):
+
+                    dpg.add_text("Press a button: ")
+                    widget = dpg.add_text("0")
+                    dpg.add_button(arrow=True, direction=dpg.mvDir_Left, user_data=widget, callback=lambda s, a, u: dpg.set_value(u, int(dpg.get_value(u))-1))
+                    dpg.add_button(arrow=True, direction=dpg.mvDir_Right, user_data=widget, callback=lambda s, a, u: dpg.set_value(u, int(dpg.get_value(u))+1))
+
+                widget2 = dpg.add_text("hover me")
+                # TODO: uncomment after tooltip is fixed
+                #with cxt.tooltip(parent=widget2): # note that "parent" is the item the tooltip show's for
+                #    dpg.add_text("I'm a fancy tooltip")
+
+                dpg.add_separator()
+
+                dpg.add_text("Value", label="Label", show_label=True)
+                dpg.add_combo(("AAAA", "BBBB", "CCCC", "DDDD", "EEEE", "FFFF", "GGGG", "HHHH", "IIII", "JJJJ", "KKKK"), label="combo", default_value="AAAA", callback=_log)
+                dpg.add_input_text(label="input text", default_value="Hello, world!", callback=_log)
+                _help(
+                        "USER:\n"
+                        "Hold SHIFT or use mouse to select text.\n"
+                        "CTRL+Left/Right to word jump.\n"
+                        "CTRL+A or double-click to select all.\n"
+                        "CTRL+X,CTRL+C,CTRL+V clipboard.\n"
+                        "CTRL+Z,CTRL+Y undo/redo.\n"
+                        "ESCAPE to revert.\n\n")
+                dpg.add_input_text(label="input text (w/ hint)", hint="enter text here", callback=_log)
+                dpg.add_input_int(label="input int", callback=_log)
+                dpg.add_input_float(label="input float", callback=_log)
+                dpg.add_input_float(label="input scientific", format="%e", callback=_log)
+                dpg.add_input_floatx(label="input floatx", callback=_log, default_value=[1,2,3,4])
+                dpg.add_drag_int(label="drag int", callback=_log)
+                _help(
+                        "Click and drag to edit value.\n"
+                        "Hold SHIFT/ALT for faster/slower edit.\n"
+                        "Double-click or CTRL+click to input value.")
+                dpg.add_drag_int(label="drag int 0..100", format="%d%%", callback=_log)
+                dpg.add_drag_float(label="drag float", callback=_log)
+                dpg.add_drag_float(label="drag small float", default_value=0.0067, format="%.06f ns", callback=_log)
+                dpg.add_slider_int(label="slider int", max_value=3, callback=_log)
+                _help("CTRL+click to enter value.")
+                dpg.add_slider_float(label="slider float", max_value=1.0, format="ratio = %.3f", callback=_log)
+                dpg.add_slider_int(label="slider angle", min_value=-360, max_value=360, format="%d deg", callback=_log)
+                _help(
+                        "Click on the colored square to open a color picker.\n"
+                        "Click and hold to use drag and drop.\n"
+                        "Right-click on the colored square to show options.\n"
+                        "CTRL+click on individual component to input value.\n")
+                dpg.add_color_edit((102, 179, 0, 128), label="color edit 4", callback=_log, uint8=True)
+                dpg.add_color_edit(default_value=(.5, 1, .25, .1), label="color edit 3", callback=_log, m_3component=True, uint8=True, floats=False)
+                dpg.add_listbox(("Apple", "Banana", "Cherry", "Kiwi", "Mango", "Orange", "Pineapple", "Strawberry", "Watermelon"), label="listbox", num_items=4, callback=_log)
+                dpg.add_color_button()
+
+            with cxt.tree_node(label="Combo"):
+
+                items = ("A","B","C","D","E","F","G","H","I","J","K","L","M" "O","P","Q","R","S","T","U","V","W","X","Y","Z")
+                combo_id = dpg.add_combo(items, label="combo")
+
+                with cxt.table(header_row=False, before=dpg.last_item()):
+
+                    dpg.add_table_column()
+                    dpg.add_table_column()
+
+                    _add_config_options(combo_id, 1, "popup_align_left", "no_arrow_button", "no_preview")
+                    dpg.add_table_next_column()
+                    _add_config_option(combo_id, "height_regular", "height_small","height_regular","height_large","height_largest")
+   
+            with cxt.tree_node(label="List Boxes"):
+                items = ("A","B","C","D","E","F","G","H","I","J","K","L","M" "O","P","Q","R","S","T","U","V","W","X","Y","Z")
+                listbox_1 = dpg.add_listbox(items, label="listbox 1 (full)")
+                listbox_2 = dpg.add_listbox(items, label="listbox 2", width=200)
+                dpg.add_input_int(label="num_items",callback=_config, user_data=[listbox_1, listbox_2], before = listbox_1)
+                dpg.add_slider_int(label="width", default_value=200, callback=_config, user_data=listbox_2, before = listbox_1, max_value=500)
+        
+            with cxt.tree_node(label="Selectables"):
+                
+                with cxt.tree_node(label="Basic"):
+                    dpg.add_selectable(label="1. I am selectable")
+                    dpg.add_text("2. I am not selectable")
+
+                with cxt.tree_node(label="Selection State: Single"):
+
+                    def _selection(sender, app_data, user_data):
+                        for item in user_data:
+                            if item != sender:
+                               dpg.set_value(item, False)
+                    items = (
+                        dpg.add_selectable(label="1. I am selectable"),
+                        dpg.add_selectable(label="2. I am selectable"),
+                        dpg.add_selectable(label="3. I am selectable"),
+                        dpg.add_selectable(label="4. I am selectable"),
+                        dpg.add_selectable(label="5. I am selectable"),
+                        )
+
+                    for item in items:
+                        dpg.configure_item(item, callback=_selection, user_data=items)
+
+            with cxt.tree_node(label="Bullets"):
+
+                dpg.add_text("Bullet point 1", bullet=True)
+                dpg.add_text("Bullet point 2\nbullet text can be\nOn multiple lines", bullet=True)
+                with cxt.tree_node(label="Tree node"):
+                    dpg.add_text("Another bullet point", bullet=True)
+                dpg.add_text("1", bullet=True)
+                dpg.add_same_line()
+                dpg.add_button(label="Button", small=True)
+
+            with cxt.tree_node(label="Text"):
+
+                with cxt.tree_node(label="Colored Text"):
+                
+                    dpg.add_text("Pink", color=(255, 0, 255))
+                    dpg.add_text("Yellow", color=(255, 255, 0))
+
+                with cxt.tree_node(label="Word Wrapping"):
+
+                    paragraph1 = 'This text should automatically wrap on the edge of the window.The current implementation for the text wrapping follows simple rules suited for English and possibly other languages'
+                    paragraph2 = 'The lazy dong is a good dog. This paragraph should fit within the child. Testing a 1 character word. The quick brown fox jumps over the lazy dog.'
+
+                    dpg.add_text(paragraph1, wrap=0)
+                    widget_id = dpg.add_slider_int(label="wrap width", default_value=500, max_value=1000, 
+                                       callback=lambda s, a, u: dpg.configure_item(u, wrap=dpg.get_value(s)))
+                    dpg.add_text(paragraph2, wrap=500)
+                    dpg.configure_item(widget_id, user_data=dpg.last_item())
+
+            with cxt.tree_node(label="Text Input"):
+
+                with cxt.tree_node(id="Multi-line Text Input"):
+
+                    paragraph = """/*\n
+                        The Pentium F00F bug, shorthand for F0 0F C7 C8,\n
+                        the hexadecimal encoding of one offending instruction,\n
+                        more formally, the invalid operand with locked CMPXCHG8B\n
+                        instruction bug, is a design flaw in the majority of\n
+                        Intel Pentium, Pentium MMX, and Pentium OverDrive\n
+                        processors (all in the P5 microarchitecture).\n
+                        */\n\n
+                        label:\n
+                        \tlock cmpxchg8b eax\n"""
+
+                    dpg.add_input_text(label="input text", multiline=True, default_value=paragraph, height=300, callback=_log, tab_input=True)
+
+                    _add_config_options(dpg.last_item(), 1, 
+                            "readonly", "on_enter")
+
+                with cxt.tree_node(label="Filtered Text Input"):
+
+                    dpg.add_input_text(callback=_log, label="default")
+                    dpg.add_input_text(callback=_log, label="decimal", decimal=True)
+                    dpg.add_input_text(callback=_log, label="no blank", no_spaces=True)
+                    dpg.add_input_text(callback=_log, label="uppercase", uppercase=True)
+                    dpg.add_input_text(callback=_log, label="scientific", scientific=True)
+                    dpg.add_input_text(callback=_log, label="hexdecimal", hexadecimal=True)
+            
+                with cxt.tree_node(label="Password Input"):
+
+                    password = dpg.add_input_text(label="password", password=True, callback=_log)
+                    dpg.add_input_text(label="password (w/ hint)", password=True, hint="<password>", source=password, callback=_log)
+                    dpg.add_input_text(label="password (clear)", source=password, callback=_log)
+
+            with cxt.tree_node(label="Simple Plots"):
+
+                data = (0.6, 0.1, 1.0, 0.5, 0.92, 0.1, 0.2)
+                dpg.add_simple_plot(label="Frame Times", default_value=data)
+                dpg.add_simple_plot(label="Histogram", default_value=data, height=80, histogram=True, min_scale=0.0)
+
+                data1 = []
+                for i in range(0, 70):
+                    data1.append(cos(3.14*6*i/180))
+
+                dpg.add_simple_plot(label="Lines", default_value=data1, height=80)
+                dpg.add_simple_plot(label="Histogram", default_value=data1, height=80, histogram=True)
+                dpg.add_progress_bar(label="Progress Bar", default_value=0.78, overlay="78%")
+                dpg.add_same_line()
+                dpg.add_text("Progress Bar")
+                dpg.add_progress_bar(default_value=0.78, overlay="1367/1753")
+                dpg.set_theme_color(dpg.mvThemeCol_ProgressBar_Bar, (255,0,0, 255), item=dpg.last_item())
+
+            with cxt.tree_node(label="Multi-component Widgets"):
+
+                for i in range(2, 5):
+
+                    with cxt.group():
+                        float_source = dpg.add_input_floatx(label=f"input float {i}", min_value=0.0, max_value=100.0, size=i)
+                        dpg.add_drag_floatx(label=f"drag float {i}", source=float_source, size=i)
+                        dpg.add_slider_floatx(label=f"slider float {i}", source=float_source, size=i)
+
+                    with cxt.group():
+
+                        int_source = dpg.add_input_intx(label=f"input int {i}", min_value=0, max_value=100, size=i)
+                        dpg.add_drag_intx(label=f"drag int {i}", source=int_source, size=i)
+                        dpg.add_slider_intx(label=f"slider int {i}", source=int_source, size=i)
+            
+                    dpg.add_dummy(height=10)
+
+            with cxt.tree_node(label="Vertical Sliders"):
+
+                dpg.add_slider_int(label=" ", default_value=1, vertical=True, max_value=5, height=160)
+                dpg.add_same_line()
+
+                with cxt.group(horizontal=True):
+
+                    with cxt.group(horizontal=True):
+
+                        values = [ 0.0, 0.60, 0.35, 0.9, 0.70, 0.20, 0.0 ]
+
+                        for i in range(0, 7):
+                            dpg.add_slider_float(label=" ", default_value=values[i], vertical=True, max_value=1.0, height=160)
+                            dpg.set_theme_color(dpg.mvThemeCol_SliderFloat_Bg, _hsv_to_rgb(i/7.0, 0.5, 0.5), item=dpg.last_item())
+                            dpg.set_theme_color(dpg.mvThemeCol_SliderFloat_Grab, _hsv_to_rgb(i/7.0, 0.9, 0.9), item=dpg.last_item())
+                            dpg.set_theme_color(dpg.mvThemeCol_SliderFloat_BgActive, _hsv_to_rgb(i/7.0, 0.7, 0.5), item=dpg.last_item())
+                            dpg.set_theme_color(dpg.mvThemeCol_SliderFloat_BgHovered, _hsv_to_rgb(i/7.0, 0.6, 0.5), item=dpg.last_item())
+
+                    with cxt.group():
+                        for i in range(0, 3):
+                            with cxt.group(horizontal=True):
+                                values = [ 0.20, 0.80, 0.40, 0.25 ]
+                                for j in range(0, 4):
+                                    dpg.add_slider_float(label=" ", default_value=values[j], vertical=True, max_value=1.0, height=50)
+
+                    with cxt.group(horizontal=True):
+                        dpg.add_slider_float(label=" ", vertical=True, max_value=1.0, height=160, width=40)
+                        dpg.add_slider_float(label=" ", vertical=True, max_value=1.0, height=160, width=40)
+                        dpg.add_slider_float(label=" ", vertical=True, max_value=1.0, height=160, width=40)
+                        dpg.add_slider_float(label=" ", vertical=True, max_value=1.0, height=160, width=40)
+
+            with cxt.tree_node(label="Time/Date Widgets"):
+
+                dpg.add_time_picker(default_value={'hour': 14, 'min': 32, 'sec': 23})
+                dpg.add_separator()
+            
+                with cxt.table(header_row=False):
+
+                    dpg.add_table_column()
+                    dpg.add_table_column()
+                    dpg.add_table_column()
+
+                    dpg.add_date_picker(level=0, default_value={'month_day': 8, 'year':93, 'month':5})
+                    dpg.add_table_next_column()
+                    dpg.add_date_picker(level=1, default_value={'month_day': 8, 'year':93, 'month':5})
+                    dpg.add_table_next_column()
+                    dpg.add_date_picker(level=2, default_value={'month_day': 8, 'year':93, 'month':5})
+
+            with cxt.tree_node(label="Loading Indicators"):
+
+                dpg.add_loading_indicator()
+                dpg.add_same_line()
+                dpg.add_loading_indicator(style=1)
+
+            with cxt.tree_node(label="Knobs"):
+
+                with cxt.group(horizontal=True):
+
+                    dpg.add_knob_float(label="K1")
+                    dpg.add_knob_float(label="K2", default_value=25.0)
+                    dpg.add_knob_float(label="K3", default_value=50.0)
+
+            with cxt.tree_node(label="2D/3D Sliders"):
+
+                dpg.add_3d_slider(label="3D Slider", scale=0.5)
 
         with cxt.collapsing_header(label="Textures & Images"):
         
@@ -329,7 +681,7 @@ def show_demo():
 
                 with cxt.table(header_row=False, row_background=True,
                             borders_innerH=True, borders_outerH=True, borders_innerV=True,
-                            borders_outerV=True) as table_id:
+                            borders_outerV=True):
 
                     dpg.add_table_column(label="Header 1")
                     dpg.add_table_column(label="Header 2")
@@ -341,12 +693,9 @@ def show_demo():
                             if not (i == 4 and j == 2):
                                 dpg.add_table_next_column()
 
-                    dpg.add_checkbox(label="row_background", before=table_id, default_value=True, user_data=table_id, callback=lambda sender, app_data, user_data:dpg.configure_item(user_data, row_background=dpg.get_value(sender)))
-                    dpg.add_checkbox(label="borders_innerH", before=table_id, default_value=True, user_data=table_id, callback=lambda sender, app_data, user_data:dpg.configure_item(user_data, borders_innerH=dpg.get_value(sender)))
-                    dpg.add_checkbox(label="borders_innerV", before=table_id, default_value=True, user_data=table_id, callback=lambda sender, app_data, user_data:dpg.configure_item(user_data, borders_innerV=dpg.get_value(sender)))
-                    dpg.add_checkbox(label="borders_outerH", before=table_id, default_value=True, user_data=table_id, callback=lambda sender, app_data, user_data:dpg.configure_item(user_data, borders_outerH=dpg.get_value(sender)))
-                    dpg.add_checkbox(label="borders_outerV", before=table_id, default_value=True, user_data=table_id, callback=lambda sender, app_data, user_data:dpg.configure_item(user_data, borders_outerV=dpg.get_value(sender)))
-                    dpg.add_checkbox(label="header_row", before=table_id, user_data=table_id, callback=lambda sender, app_data, user_data:dpg.configure_item(user_data, header_row=dpg.get_value(sender)))
+                _add_config_options(dpg.last_container(), 2, 
+                                            "row_background", "borders_innerH", "borders_innerV", 
+                                            "borders_outerH", "borders_outerV", "header_row", before=dpg.last_container())
 
             with cxt.tree_node(label="Colors"):
                 dpg.add_text("Coming soon...")
@@ -354,7 +703,7 @@ def show_demo():
             with cxt.tree_node(label="Resizable, stretch"):
 
                 with cxt.table(header_row=False, resizable=True,
-                            borders_outerH=True, borders_innerV=True, borders_outerV=True) as table_id:
+                            borders_outerH=True, borders_innerV=True, borders_outerV=True):
 
                     dpg.add_table_column(label="Header 1")
                     dpg.add_table_column(label="Header 2")
@@ -366,15 +715,14 @@ def show_demo():
                             if not (i == 4 and j == 2):
                                 dpg.add_table_next_column()
 
-                dpg.add_checkbox(label="borders_innerV", before=table_id, default_value=True, user_data=table_id, callback=lambda sender, app_data, user_data:dpg.configure_item(user_data, borders_innerV=dpg.get_value(sender)))
-                dpg.add_checkbox(label="borders_outerV", before=table_id, default_value=True, user_data=table_id, callback=lambda sender, app_data, user_data:dpg.configure_item(user_data, borders_outerV=dpg.get_value(sender)))
-                dpg.add_checkbox(label="resizable", before=table_id, default_value=True, user_data=table_id, callback=lambda sender, app_data, user_data:dpg.configure_item(user_data, resizable=dpg.get_value(sender)))
+                _add_config_options(dpg.last_container(), 1, 
+                            "borders_innerV", "borders_outerV", "resizable", before=dpg.last_container())
 
             with cxt.tree_node(label="Resizable, fixed"):
 
                 dpg.add_text("Only available if scrollX/scrollY are disabled and stretch columns are not used")
                 with cxt.table(header_row=False, policy=dpg.mvTable_SizingFixedFit, resizable=True, no_host_extendX=False, 
-                            borders_innerV=True, borders_outerV=True,borders_outerH=True) as table_id:
+                            borders_innerV=True, borders_outerV=True,borders_outerH=True):
 
                     dpg.add_table_column(label="Header 1")
                     dpg.add_table_column(label="Header 2")
@@ -386,8 +734,8 @@ def show_demo():
                             if not (i == 4 and j == 2):
                                 dpg.add_table_next_column()
 
-                dpg.add_checkbox(label="no_host_extendX", before=table_id, user_data=table_id, callback=lambda sender, app_data, user_data:dpg.configure_item(user_data, no_host_extendX=dpg.get_value(sender)))
-
+                _add_config_options(dpg.last_container(), 1, "no_host_extendX", before=dpg.last_container())
+ 
             with cxt.tree_node(label="Resizable, mixed"):
 
                 with cxt.table(header_row=True, policy=dpg.mvTable_SizingFixedFit, row_background=True, reorderable=True, 
@@ -431,7 +779,7 @@ def show_demo():
                                 borders_innerH=True, borders_outerH=True, borders_innerV=True,
                                 borders_outerV=True, row_background=True, hideable=True, reorderable=True,
                                 resizable=True, sortable=True, policy=dpg.mvTable_SizingFixedFit,
-                                scrollX=True, scrollY=True) as table_id:
+                                scrollX=True, scrollY=True):
 
                     c1 = dpg.add_table_column(label="One", default_sort=True)
                     c2 = dpg.add_table_column(label="Two")
@@ -451,37 +799,36 @@ def show_demo():
                     dpg.add_text("Hello Three")
 
                 # options table
-                with cxt.table(header_row=False, before=table_id):
+                with cxt.table(header_row=False, show=True):
 
                     dpg.add_table_column()
                     dpg.add_table_column()
                     dpg.add_table_column()
 
-                    def add_option_column(column, item, value1, value2):
+                    options = (
+                        "default_hide", 
+                        "default_sort",
+                        "width_stretch",
+                        "width_fixed",
+                        "no_resize",
+                        "no_reorder",
+                        "no_hide",
+                        "no_clip",
+                        "no_sort",
+                        "no_sort_ascending",
+                        "no_sort_descending",
+                        "no_header_width",
+                        "prefer_sort_ascending",
+                        "prefer_sort_descending")
 
-                        dpg.add_text("'" + column + "'")
-                        dpg.add_checkbox(label="default_hide", default_value=value1, callback=lambda sender: dpg.configure_item(item, default_hide=dpg.get_value(sender)))
-                        dpg.add_checkbox(label="default_sort", default_value=value2, callback=lambda sender: dpg.configure_item(item, default_sort=dpg.get_value(sender)))
-                        dpg.add_checkbox(label="width_stretch", callback=lambda sender: dpg.configure_item(item, width_stretch=dpg.get_value(sender)))
-                        dpg.add_checkbox(label="width_fixed", callback=lambda sender: dpg.configure_item(item, width_fixed=dpg.get_value(sender)))
-                        dpg.add_checkbox(label="no_resize", callback=lambda sender: dpg.configure_item(item, no_resize=dpg.get_value(sender)))
-                        dpg.add_checkbox(label="no_reorder", callback=lambda sender: dpg.configure_item(item, no_reorder=dpg.get_value(sender)))
-                        dpg.add_checkbox(label="no_hide", callback=lambda sender: dpg.configure_item(item, no_hide=dpg.get_value(sender)))
-                        dpg.add_checkbox(label="no_clip", callback=lambda sender: dpg.configure_item(item, no_clip=dpg.get_value(sender)))
-                        dpg.add_checkbox(label="no_sort", callback=lambda sender: dpg.configure_item(item, no_sort=dpg.get_value(sender)))
-                        dpg.add_checkbox(label="no_sort_ascending", callback=lambda sender: dpg.configure_item(item, no_sort_ascending=dpg.get_value(sender)))
-                        dpg.add_checkbox(label="no_sort_descending", callback=lambda sender: dpg.configure_item(item, no_sort_descending=dpg.get_value(sender)))
-                        dpg.add_checkbox(label="no_header_width", callback=lambda sender: dpg.configure_item(item, no_header_width=dpg.get_value(sender)))
-                        dpg.add_checkbox(label="prefer_sort_ascending", callback=lambda sender: dpg.configure_item(item, prefer_sort_ascending=dpg.get_value(sender)))
-                        dpg.add_checkbox(label="prefer_sort_descending", callback=lambda sender: dpg.configure_item(item, prefer_sort_descending=dpg.get_value(sender)))
-                        dpg.add_checkbox(label="indent_enable", callback=lambda sender: dpg.configure_item(item, indent_enable=dpg.get_value(sender)))
-                        dpg.add_checkbox(label="indent_disable", callback=lambda sender: dpg.configure_item(item, indent_disable=dpg.get_value(sender)))
-
-                    add_option_column("One", c1, False, True)
+                    dpg.add_text("One")
+                    _add_config_options(c1, 1, *options)
                     dpg.add_table_next_column()
-                    add_option_column("Two", c2, False, False)
+                    dpg.add_text("Two")
+                    _add_config_options(c2, 1, *options)
                     dpg.add_table_next_column()
-                    add_option_column("Three", c3, True, False)
+                    dpg.add_text("Three")
+                    _add_config_options(c3, 1, *options)
 
             with cxt.tree_node(label="Columns widths"):
 
@@ -493,22 +840,16 @@ def show_demo():
                     dpg.add_table_column(label="Two")
                     dpg.add_table_column(label="Three")
 
-                    t11 = dpg.add_text("(w: 0.0f)")
-                    dpg.add_table_next_column()
-                    t22 = dpg.add_text("(w: 0.0f)")
-                    dpg.add_table_next_column()
-                    t33 = dpg.add_text("(w: 0.0f)")
-                    dpg.add_table_next_column()
+                    for i in range(0, 3):
+                        dpg.add_text("(w: 0.0f)")
+                        dpg.add_visible_handler(dpg.last_item(), user_data = dpg.last_item(), callback=lambda s, a, u:dpg.set_value(u, "(w: " + str(dpg.get_item_state(u)["content_region_avail"][0]) + ")"))
+                        dpg.add_table_next_column()
 
                     for i in range(0, 3):
                         for j in range(0, 3):
                             dpg.add_text(f"Hello {i}, {j}")
                             if not (i == 2 and j == 2):
                                 dpg.add_table_next_column()
-
-                    dpg.add_visible_handler(t11, callback=lambda:dpg.set_value(t11, "(w: " + str(dpg.get_item_state(t11)["content_region_avail"][0]) + ")"))
-                    dpg.add_visible_handler(t22, callback=lambda:dpg.set_value(t22, "(w: " + str(dpg.get_item_state(t22)["content_region_avail"][0]) + ")"))
-                    dpg.add_visible_handler(t33, callback=lambda:dpg.set_value(t33, "(w: " + str(dpg.get_item_state(t33)["content_region_avail"][0]) + ")"))
 
                 with cxt.table(header_row=False) as table_id:
 
@@ -517,14 +858,10 @@ def show_demo():
                     dpg.add_table_column(width_fixed=True, init_width_or_weight=300)
                     dpg.add_table_column(width_fixed=True, init_width_or_weight=400)
 
-                    t1 = dpg.add_text("(w: 0.0f)")
-                    dpg.add_table_next_column()
-                    t2 = dpg.add_text("(w: 0.0f)")
-                    dpg.add_table_next_column()
-                    t3 = dpg.add_text("(w: 0.0f)")
-                    dpg.add_table_next_column()
-                    t4 = dpg.add_text("(w: 0.0f)")
-                    dpg.add_table_next_column()
+                    for i in range(0, 4):
+                        dpg.add_text("(w: 0.0f)")
+                        dpg.add_visible_handler(dpg.last_item(), user_data=dpg.last_item(), callback=lambda s, a, u:dpg.set_value(u, "(w: " + str(dpg.get_item_state(u)["content_region_avail"][0]) + ")"))
+                        dpg.add_table_next_column()
 
                     for i in range(0, 4):
                         for j in range(0, 4):
@@ -532,15 +869,9 @@ def show_demo():
                             if not (i == 3 and j == 3):
                                 dpg.add_table_next_column()
 
-                    dpg.add_visible_handler(t1, callback=lambda:dpg.set_value(t1, "(w: " + str(dpg.get_item_state(t1)["content_region_avail"][0]) + ")"))
-                    dpg.add_visible_handler(t2, callback=lambda:dpg.set_value(t2, "(w: " + str(dpg.get_item_state(t2)["content_region_avail"][0]) + ")"))
-                    dpg.add_visible_handler(t3, callback=lambda:dpg.set_value(t3, "(w: " + str(dpg.get_item_state(t3)["content_region_avail"][0]) + ")"))
-                    dpg.add_visible_handler(t4, callback=lambda:dpg.set_value(t4, "(w: " + str(dpg.get_item_state(t4)["content_region_avail"][0]) + ")"))
+                _add_config_options(dpg.last_container(), 1, 
+                            "no_keep_columns_visible", "borders_innerV", "borders_outerV", before=dpg.last_container())
 
-                dpg.add_checkbox(label="no_keep_columns_visible", before=table_id, user_data=table_id, callback=lambda sender, app_data, user_data:dpg.configure_item(user_data, no_keep_columns_visible=dpg.get_value(sender)))
-                dpg.add_checkbox(label="borders_innerV", before=table_id, user_data=table_id, callback=lambda sender, app_data, user_data:dpg.configure_item(user_data, borders_innerV=dpg.get_value(sender)))
-                dpg.add_checkbox(label="borders_outerV", before=table_id, user_data=table_id, callback=lambda sender, app_data, user_data:dpg.configure_item(user_data, borders_outerV=dpg.get_value(sender)))
- 
             with cxt.tree_node(label="Row height"):
 
                 with cxt.table(header_row=False, borders_outerH=True, borders_outerV=True):
@@ -566,17 +897,14 @@ def show_demo():
                             if not (i == 4 and j == 2):
                                 dpg.add_table_next_column()
 
-                dpg.add_checkbox(label="pad_outerX", before=table_id, user_data=table_id, callback=lambda sender, app_data, user_data:dpg.configure_item(user_data, pad_outerX=dpg.get_value(sender)))
-                dpg.add_checkbox(label="no_pad_outerX", before=table_id, user_data=table_id, callback=lambda sender, app_data, user_data:dpg.configure_item(user_data, no_pad_outerX=dpg.get_value(sender)))
-                dpg.add_checkbox(label="no_pad_innerX", before=table_id, user_data=table_id, callback=lambda sender, app_data, user_data:dpg.configure_item(user_data, no_pad_innerX=dpg.get_value(sender)))
-                dpg.add_checkbox(label="borders_outerV", default_value=True, before=table_id, user_data=table_id, callback=lambda sender, app_data, user_data:dpg.configure_item(user_data, borders_outerV=dpg.get_value(sender)))
-                dpg.add_checkbox(label="borders_innerV", default_value=True, before=table_id, user_data=table_id, callback=lambda sender, app_data, user_data:dpg.configure_item(user_data, borders_innerV=dpg.get_value(sender)))
-                dpg.add_checkbox(label="header_row", before=table_id, user_data=table_id, callback=lambda sender, app_data, user_data:dpg.configure_item(user_data, header_row=dpg.get_value(sender)))
+                _add_config_options(dpg.last_container(), 3, 
+                                            "pad_outerX", "no_pad_outerX", "no_pad_innerX", 
+                                            "borders_outerV", "borders_innerV", "header_row", before=dpg.last_container())
 
             with cxt.tree_node(label="Reorderable, hideable, with headers"):
 
                 with cxt.table(header_row=True, resizable=True,
-                            hideable=True, reorderable=True) as table_id:
+                            hideable=True, reorderable=True):
 
                     dpg.add_table_column(label="One")
                     dpg.add_table_column(label="Two")
@@ -588,16 +916,15 @@ def show_demo():
                             if not (i == 4 and j == 2):
                                 dpg.add_table_next_column()
 
-                dpg.add_checkbox(label="hideable", default_value=True, before=table_id, user_data=table_id, callback=lambda sender, app_data, user_data:dpg.configure_item(user_data, hideable=dpg.get_value(sender)))
-                dpg.add_checkbox(label="reorderable", default_value=True, before=table_id, user_data=table_id, callback=lambda sender, app_data, user_data:dpg.configure_item(user_data, reorderable=dpg.get_value(sender)))
-                dpg.add_checkbox(label="resizable", default_value=True, before=table_id, user_data=table_id, callback=lambda sender, app_data, user_data:dpg.configure_item(user_data, resizable=dpg.get_value(sender)))
+                _add_config_options(dpg.last_container(), 3, 
+                                            "hideable", "reorderable", "resizable", before=dpg.last_container())
 
             with cxt.tree_node(label="Outer Size"):
 
                 with cxt.table(header_row=False, no_host_extendX=True,
                             borders_innerH=True, borders_outerH=True, borders_innerV=True,
                             borders_outerV=True, context_menu_in_body=True, row_background=True,
-                            policy=dpg.mvTable_SizingFixedFit, height=150) as table_id:
+                            policy=dpg.mvTable_SizingFixedFit, height=150):
                 
                     dpg.add_table_column(label="One")
                     dpg.add_table_column(label="Two")
@@ -609,9 +936,8 @@ def show_demo():
                             if not (i == 9 and j == 2):
                                 dpg.add_table_next_column()
 
-                dpg.add_checkbox(label="no_host_extendX", default_value=True, before=table_id, user_data=table_id, callback=lambda sender, app_data, user_data:dpg.configure_item(user_data, no_host_extendX=dpg.get_value(sender)))
-                dpg.add_checkbox(label="no_host_extendY", before=table_id, user_data=table_id, callback=lambda sender, app_data, user_data:dpg.configure_item(user_data, no_host_extendY=dpg.get_value(sender)))
-
+                _add_config_options(dpg.last_container(), 3, 
+                                            "no_host_extendX", "no_host_extendY", "resizable", before=dpg.last_container())
 
                 dpg.add_text("Using explicit size:")
                 with cxt.table(header_row=False, no_host_extendX=True,
@@ -722,7 +1048,7 @@ def show_demo():
 
                     dpg.pop_container_stack()
 
-                dpg.add_activated_handler(dpg.top_container_stack(), callback=on_open)
+                dpg.add_activated_handler(dpg.last_container(), callback=on_open)
 
             with cxt.tree_node(label="Sorting"):
 
@@ -802,13 +1128,13 @@ def show_demo():
                         # unlocking mutex, data can be added across multiple frames
                         dpg.unlock_mutex()
 
-                        for i in range(0, 1000):
+                        for i in range(0, 100):
                                 dpg.add_input_int(label=" ", step=0)
                                 dpg.add_table_next_column()
                                 dpg.add_text(f"Cell {i}, 1")
                                 dpg.add_table_next_column()
                                 dpg.add_checkbox(label=f"Cell {i}, 2")
-                                if i != 999:
+                                if i != 99:
                                     dpg.add_table_next_column()
 
                     dpg.add_checkbox(label="sort_multi", before=table_id, user_data=table_id, callback=lambda sender, app_data, user_data:dpg.configure_item(user_data, sort_multi=dpg.get_value(sender)))
@@ -816,7 +1142,7 @@ def show_demo():
 
                     dpg.pop_container_stack()
 
-                dpg.add_activated_handler(dpg.top_container_stack(), callback=on_open)
+                dpg.add_activated_handler(dpg.last_container(), callback=on_open)
 
             with cxt.tree_node(label="Sizing Policy"):
 
@@ -930,19 +1256,27 @@ def show_demo():
             with cxt.tree_node(label="Line Series"):
 
                 dpg.add_text("Anti-aliasing can be enabled from the plot's context menu (see Help).", bullet=True)
-                plot_id = dpg.add_plot(label="Line Series", height=400)
-                dpg.add_plot_legend(parent=plot_id)
-                dpg.add_plot_axis(dpg.mvXAxis, label="x", parent=plot_id)
-                axis_id = dpg.add_plot_axis(dpg.mvYAxis, label="y", parent=plot_id)
-                dpg.add_line_series(sindatax, sindatay, label="0.5 + 0.5 * sin(x)", parent=axis_id)
+                
+                # create plot
+                with cxt.plot(label="Line Series", height=400):
+
+                    # optionally create legend
+                    dpg.add_plot_legend()
+
+                    # REQUIRED: create x and y axes
+                    dpg.add_plot_axis(dpg.mvXAxis, label="x")
+                    dpg.add_plot_axis(dpg.mvYAxis, label="y")
+
+                    # series belong to a y axis
+                    dpg.add_line_series(sindatax, sindatay, label="0.5 + 0.5 * sin(x)", parent=dpg.last_item())
 
             with cxt.tree_node(label="Stair Series"):
 
-                plot_id = dpg.add_plot(label="Stair Plot", height=400)
-                dpg.add_plot_legend(parent=plot_id)
-                dpg.add_plot_axis(dpg.mvXAxis, label="x", parent=plot_id)
-                axis_id = dpg.add_plot_axis(dpg.mvYAxis, label="y", parent=plot_id)
-                dpg.add_stair_series(sindatax, sindatay, label="0.5 + 0.5 * sin(x)", parent=axis_id)
+                with cxt.plot(label="Stair Plot", height=400):
+                    dpg.add_plot_legend()
+                    dpg.add_plot_axis(dpg.mvXAxis, label="x")
+                    dpg.add_plot_axis(dpg.mvYAxis, label="y")
+                    dpg.add_stair_series(sindatax, sindatay, label="0.5 + 0.5 * sin(x)", parent=dpg.last_item())
 
             with cxt.tree_node(label="Shade Series"):
 
@@ -962,10 +1296,10 @@ def show_demo():
                     stock_data4.append(500 + 75*abs(random.random()))
                     stock_data5.append(600 + 75*abs(random.random()))
 
-                plot_id = dpg.add_plot(label="Stock Prices", height=400)
-                dpg.add_plot_legend(parent=plot_id)
-                dpg.add_plot_axis(dpg.mvXAxis, label="Days", parent=plot_id)
-                axis_id = dpg.add_plot_axis(dpg.mvYAxis, label="Price", parent=plot_id)
+                with cxt.plot(label="Stock Prices", height=400):
+                    dpg.add_plot_legend()
+                    dpg.add_plot_axis(dpg.mvXAxis, label="Days")
+                    dpg.add_plot_axis(dpg.mvYAxis, label="Price")
                 #dpg.add_line_series(stock_datax, stock_data1, label="Stock 1", color=[0, 0, 255, 255], parent=axis_id)
                 #dpg.add_line_series(stock_datax, stock_data2, label="Stock 2", color=[255, 0, 0, 255], parent=axis_id)
                 #dpg.add_line_series(stock_datax, stock_data3, label="Stock 3", color=[0, 255, 0, 255], parent=axis_id)
@@ -976,98 +1310,117 @@ def show_demo():
 
             with cxt.tree_node(label="Scatter Series"):
 
-                plot_id = dpg.add_plot(label="Scatter Series", height=400)
-                dpg.add_plot_legend(parent=plot_id)
-                dpg.add_plot_axis(dpg.mvXAxis, label="x", parent=plot_id)
-                axis_id = dpg.add_plot_axis(dpg.mvYAxis, label="y", parent=plot_id)
-                dpg.add_scatter_series(sindatax, sindatay, label="0.5 + 0.5 * sin(x)", parent=axis_id)
+                with cxt.plot(label="Scatter Series", height=400):
+                    dpg.add_plot_legend()
+                    dpg.add_plot_axis(dpg.mvXAxis, label="x")
+                    dpg.add_plot_axis(dpg.mvYAxis, label="y")
+                    dpg.add_scatter_series(sindatax, sindatay, label="0.5 + 0.5 * sin(x)", parent=dpg.last_item())
 
             with cxt.tree_node(label="Stem Series"):
 
-                plot_id = dpg.add_plot(label="Stem Series", height=400)
-                dpg.add_plot_legend(parent=plot_id)
-                dpg.add_plot_axis(dpg.mvXAxis, label="x", parent=plot_id)
-                axis_id = dpg.add_plot_axis(dpg.mvYAxis, label="y", parent=plot_id)
-                dpg.add_stem_series(sindatax, sindatay, label="0.5 + 0.5 * sin(x)", parent=axis_id)
+                with cxt.plot(label="Stem Series", height=400):
+                    dpg.add_plot_legend()
+                    dpg.add_plot_axis(dpg.mvXAxis, label="x")
+                    dpg.add_plot_axis(dpg.mvYAxis, label="y")
+                    dpg.add_stem_series(sindatax, sindatay, label="0.5 + 0.5 * sin(x)", parent=dpg.last_item())
 
             with cxt.tree_node(label="Bar Series"):
 
-                plot_id = dpg.add_plot(label="Bar Series", height=400)
-                dpg.add_plot_legend(parent=plot_id)
-                xaxis_id = dpg.add_plot_axis(dpg.mvXAxis, label="Student", no_gridlines=True, parent=plot_id)
-                yaxis_id = dpg.add_plot_axis(dpg.mvYAxis, label="Score", parent=plot_id)
-                dpg.set_axis_limits(xaxis_id, 9, 33)
-                dpg.set_axis_limits(yaxis_id, 0, 110)
-                dpg.set_axis_ticks(xaxis_id, [["S1", 11], ["S2", 21], ["S3", 31]])
+                with cxt.plot(label="Bar Series", height=400):
+                    dpg.add_plot_legend()
 
-                dpg.add_bar_series([10, 20, 30], [100, 75, 90], label="Final Exam", weight=1, parent=yaxis_id)
-                dpg.add_bar_series([11, 21, 31], [83, 75, 72], label="Midterm Exam", weight=1, parent=yaxis_id)
-                dpg.add_bar_series([12, 22, 32], [42, 68, 23], label="Course Grade", weight=1, parent=yaxis_id)
+                    # create x axis
+                    dpg.add_plot_axis(dpg.mvXAxis, label="Student", no_gridlines=True)
+                    dpg.set_axis_limits(dpg.last_item(), 9, 33)
+                    dpg.set_axis_ticks(dpg.last_item(), [["S1", 11], ["S2", 21], ["S3", 31]])
+                
+                    # create y axis
+                    yaxis_id = dpg.add_plot_axis(dpg.mvYAxis, label="Score")      
+                    dpg.set_axis_limits(yaxis_id, 0, 110)
+
+                    # add series to y axis
+                    dpg.add_bar_series([10, 20, 30], [100, 75, 90], label="Final Exam", weight=1, parent=yaxis_id)
+                    dpg.add_bar_series([11, 21, 31], [83, 75, 72], label="Midterm Exam", weight=1, parent=yaxis_id)
+                    dpg.add_bar_series([12, 22, 32], [42, 68, 23], label="Course Grade", weight=1, parent=yaxis_id)
 
             with cxt.tree_node(label="Area Series"):
 
-                plot_id = dpg.add_plot(label="Area Series", height=400)
-                dpg.add_plot_axis(dpg.mvXAxis, label="x", parent=plot_id)
-                axis_id = dpg.add_plot_axis(dpg.mvYAxis, label="y", parent=plot_id)
-                dpg.add_area_series([1,5,3],[0,0,3], fill=[255,50,100,190], parent=axis_id)
+                with cxt.plot(label="Area Series", height=400):
+                    dpg.add_plot_axis(dpg.mvXAxis, label="x")
+                    dpg.add_plot_axis(dpg.mvYAxis, label="y")
+                    dpg.add_area_series([1,5,3],[0,0,3], fill=[255,50,100,190], parent=dpg.last_item())
 
             with cxt.tree_node(label="Infinite Lines"):
 
                 infinite_x_data = (3, 5, 6, 7)
                 infinite_y_data = (3, 5, 6, 7)
 
-                plot_id = dpg.add_plot(label="Infinite Lines", height=400)
-                dpg.add_plot_legend(parent=plot_id)
-                dpg.add_plot_axis(dpg.mvXAxis, label="x", parent=plot_id)
-                axis_id = dpg.add_plot_axis(dpg.mvYAxis, label="y", parent=plot_id)
-                dpg.add_vline_series(infinite_x_data, label="vertical", parent=axis_id)
-                dpg.add_hline_series(infinite_y_data, label="horizontal", parent=axis_id)
+                with cxt.plot(label="Infinite Lines", height=400):
+                    dpg.add_plot_legend()
+                    dpg.add_plot_axis(dpg.mvXAxis, label="x")
+                    axis_id = dpg.add_plot_axis(dpg.mvYAxis, label="y")
+                    dpg.add_vline_series(infinite_x_data, label="vertical", parent=axis_id)
+                    dpg.add_hline_series(infinite_y_data, label="horizontal", parent=axis_id)
 
             with cxt.tree_node(label="Image Series"):
 
-                plot_id=dpg.add_plot(label="Image Plot", height=400)
-                dpg.add_plot_legend(parent=plot_id)
-                dpg.add_plot_axis(dpg.mvXAxis, label="x", parent=plot_id)
-                yaxis_id = dpg.add_plot_axis(dpg.mvYAxis, label="y axis", parent=plot_id)
-                dpg.add_image_series("INTERNAL_DPG_FONT_ATLAS", [300, 300], [400, 400], label="font atlas", parent=yaxis_id)
-                dpg.add_image_series(demo_static_texture_2, [150, 150], [200, 200], label="static 2", parent=yaxis_id)
-                dpg.add_image_series(demo_dynamic_texture_1, [-200, 100], [-100, 200], label="dynamic 1", parent=yaxis_id)
+                with cxt.plot(label="Image Plot", height=400):
+                    dpg.add_plot_legend()
+                    dpg.add_plot_axis(dpg.mvXAxis, label="x")
+                    yaxis_id = dpg.add_plot_axis(dpg.mvYAxis, label="y axis")
+                    dpg.add_image_series("INTERNAL_DPG_FONT_ATLAS", [300, 300], [400, 400], label="font atlas", parent=yaxis_id)
+                    dpg.add_image_series(demo_static_texture_2, [150, 150], [200, 200], label="static 2", parent=yaxis_id)
+                    dpg.add_image_series(demo_dynamic_texture_1, [-200, 100], [-100, 200], label="dynamic 1", parent=yaxis_id)
 
             with cxt.tree_node(label="Multi Axes Plot"):
 
-                plot_id = dpg.add_plot(label="Multi Axes Plot", height=400)
-                dpg.add_plot_legend(parent=plot_id)
-                dpg.add_plot_axis(dpg.mvXAxis, label="x", parent=plot_id)
-                axis1_id = dpg.add_plot_axis(dpg.mvYAxis, label="y1", parent=plot_id)
-                axis2_id = dpg.add_plot_axis(dpg.mvYAxis, label="y2", parent=plot_id)
-                axis3_id = dpg.add_plot_axis(dpg.mvYAxis, label="y3", parent=plot_id)
-                dpg.add_line_series(sindatax, sindatay, label="0.5 + 0.5 * sin(x)", parent=axis1_id)
-                dpg.add_line_series(sindatax, sindatay, label="0.5 + 0.5 * sin(x)", parent=axis2_id)
-                dpg.add_line_series(sindatax, sindatay, label="0.5 + 0.5 * sin(x)", parent=axis3_id)
+                with cxt.plot(label="Multi Axes Plot", height=400):
+
+                    dpg.add_plot_legend()
+
+                    # create x axis
+                    dpg.add_plot_axis(dpg.mvXAxis, label="x")
+
+                    # create y axis 1
+                    dpg.add_plot_axis(dpg.mvYAxis, label="y1")
+                    dpg.add_line_series(sindatax, sindatay, label="0.5 + 0.5 * sin(x)", parent=dpg.last_item())
+
+                    # create y axis 2
+                    dpg.add_plot_axis(dpg.mvYAxis, label="y2")
+                    dpg.add_line_series(sindatax, sindatay, label="0.5 + 0.5 * sin(x)", parent=dpg.last_item())
+                
+                    # create y axis 3
+                    dpg.add_plot_axis(dpg.mvYAxis, label="y3")
+                    dpg.add_line_series(sindatax, sindatay, label="0.5 + 0.5 * sin(x)", parent=dpg.last_item())
 
             with cxt.tree_node(label="Annotations"):
 
-                plot_id = dpg.add_plot(label="Annotations", height=400)
-                dpg.add_plot_legend(parent=plot_id)
-                dpg.add_plot_axis(dpg.mvXAxis, label="x", parent=plot_id)
-                axis_id = dpg.add_plot_axis(dpg.mvYAxis, label="y", parent=plot_id)
-                dpg.add_line_series(sindatax, sindatay, label="0.5 + 0.5 * sin(x)", parent=axis_id)
-                dpg.add_plot_annotation(label="BL", default_value=(0.25, 0.25), offset=(-15, 15), color=[255, 255, 0, 255], parent=plot_id)
-                dpg.add_plot_annotation(label="BR", default_value=(0.75, 0.25), offset=(15, 15), color=[255, 255, 0, 255], parent=plot_id)
-                dpg.add_plot_annotation(label="TR not clampled", default_value=(0.75, 0.75), offset=(-15, -15), color=[255, 255, 0, 255], clamped=False, parent=plot_id)
-                dpg.add_plot_annotation(label="TL", default_value=(0.25, 0.75), offset=(-15, -15), color=[255, 255, 0, 255], parent=plot_id)
-                dpg.add_plot_annotation(label="Center", default_value=(0.5, 0.5), color=[255, 255, 0, 255], parent=plot_id)
+                with cxt.plot(label="Annotations", height=400):
+
+                    dpg.add_plot_legend()
+                    dpg.add_plot_axis(dpg.mvXAxis, label="x")
+                    dpg.add_plot_axis(dpg.mvYAxis, label="y")
+                    dpg.add_line_series(sindatax, sindatay, label="0.5 + 0.5 * sin(x)", parent=dpg.last_item())
+
+                    # annotations belong to the plot NOT axis
+                    dpg.add_plot_annotation(label="BL", default_value=(0.25, 0.25), offset=(-15, 15), color=[255, 255, 0, 255])
+                    dpg.add_plot_annotation(label="BR", default_value=(0.75, 0.25), offset=(15, 15), color=[255, 255, 0, 255])
+                    dpg.add_plot_annotation(label="TR not clampled", default_value=(0.75, 0.75), offset=(-15, -15), color=[255, 255, 0, 255], clamped=False)
+                    dpg.add_plot_annotation(label="TL", default_value=(0.25, 0.75), offset=(-15, -15), color=[255, 255, 0, 255])
+                    dpg.add_plot_annotation(label="Center", default_value=(0.5, 0.5), color=[255, 255, 0, 255])
 
             with cxt.tree_node(label="Drag Lines/Points"):
 
-                plot_id = dpg.add_plot(label="Annotations", height=400)
-                dpg.add_plot_legend(parent=plot_id)
-                dpg.add_plot_axis(dpg.mvXAxis, label="x", parent=plot_id)
-                axis_id = dpg.add_plot_axis(dpg.mvYAxis, label="y", parent=plot_id)
-                dpg.add_drag_line(label="dline1", color=[255, 0, 0, 255], parent=plot_id)
-                dpg.add_drag_line(label="dline2", color=[255, 255, 0, 255], vertical=False, parent=plot_id)
-                dpg.add_drag_point(label="dpoint1", color=[255, 0, 255, 255], parent=plot_id)
-                dpg.add_drag_point(label="dpoint2", color=[255, 0, 255, 255], parent=plot_id)
+                with cxt.plot(label="Drag Lines/Points", height=400):
+                    dpg.add_plot_legend()
+                    dpg.add_plot_axis(dpg.mvXAxis, label="x")
+                    dpg.add_plot_axis(dpg.mvYAxis, label="y")
+
+                    # drag lines/points belong to the plot NOT axis
+                    dpg.add_drag_line(label="dline1", color=[255, 0, 0, 255])
+                    dpg.add_drag_line(label="dline2", color=[255, 255, 0, 255], vertical=False)
+                    dpg.add_drag_point(label="dpoint1", color=[255, 0, 255, 255])
+                    dpg.add_drag_point(label="dpoint2", color=[255, 0, 255, 255])
 
             with cxt.tree_node(label="Querying"):
 
@@ -1076,16 +1429,21 @@ def show_demo():
                     dpg.set_axis_limits(user_data[0], app_data[0], app_data[1])
                     dpg.set_axis_limits(user_data[1], app_data[2], app_data[3])
 
-                plot_id1 = dpg.add_plot(no_title=True, height=400, callback=query, query=True, no_menus=True)
-                plot_id2 = dpg.add_plot(no_title=True, height=400, no_menus=True)
-                xaxis_id1 = dpg.add_plot_axis(dpg.mvXAxis, label="x", parent=plot_id1)
-                xaxis_id2 = dpg.add_plot_axis(dpg.mvXAxis, label="x", parent=plot_id2)
-                yaxis_id1 = dpg.add_plot_axis(dpg.mvYAxis, label="y", parent=plot_id1)
-                yaxis_id2 = dpg.add_plot_axis(dpg.mvYAxis, label="y", parent=plot_id2)
-                dpg.configure_item(plot_id1, user_data=(xaxis_id2,yaxis_id2))
-                dpg.add_line_series(sindatax, sindatay, parent=yaxis_id1)
-                dpg.add_line_series(sindatax, sindatay, parent=yaxis_id2)
+                # plot 1
+                with cxt.plot(no_title=True, height=400, callback=query, query=True, no_menus=True) as plot_id:
+                    dpg.add_plot_axis(dpg.mvXAxis, label="x")
+                    dpg.add_plot_axis(dpg.mvYAxis, label="y")
+                    dpg.add_line_series(sindatax, sindatay, parent=dpg.last_item())
 
+                # plot 2
+                with cxt.plot(no_title=True, height=400, no_menus=True):          
+                    xaxis_id2 = dpg.add_plot_axis(dpg.mvXAxis, label="x")
+                    yaxis_id2 = dpg.add_plot_axis(dpg.mvYAxis, label="y")
+                    dpg.add_line_series(sindatax, sindatay, parent=yaxis_id2)
+
+                    # set plot 1 user data to axis so the query callback has access
+                    dpg.configure_item(plot_id, user_data=(xaxis_id2,yaxis_id2))
+                
             with cxt.tree_node(label="Time Series"):
 
                 timedatax = []
@@ -1099,10 +1457,11 @@ def show_demo():
                 
                 dpg.add_text("When time is enabled, x-axis values are interpreted as UNIX timestamps in seconds (e.g. 1599243545).", bullet=True)
                 dpg.add_text("UNIX timestamps are seconds since 00:00:00 UTC on 1 January 1970", bullet=True)
-                plot_id = dpg.add_plot(label="Time Plot", height=400)
-                dpg.add_plot_axis(dpg.mvXAxis, label="Date", parent=plot_id, time=True)
-                axis_id = dpg.add_plot_axis(dpg.mvYAxis, label="Days since 1970", parent=plot_id)
-                dpg.add_line_series(timedatax, timedatay, label="Days", parent=axis_id)
+                
+                with cxt.plot(label="Time Plot", height=400):
+                    dpg.add_plot_axis(dpg.mvXAxis, label="Date", time=True)
+                    dpg.add_plot_axis(dpg.mvYAxis, label="Days since 1970")
+                    dpg.add_line_series(timedatax, timedatay, label="Days", parent=dpg.last_item())
 
             with cxt.tree_node(label="Candle Stick Series"):
 
@@ -1112,45 +1471,64 @@ def show_demo():
                 lows = [1282.85,1315,1318.7,1309.6,1317.6,1312.9,1312.4,1319.1,1319,1321,1318.1,1321.3,1319.9,1312,1280.5,1276.15,1308,1309.9,1308.5,1312.3,1329.3,1333.1,1340.2,1347,1345.9,1338,1340.8,1335,1332,1337.9,1333,1336.8,1333.2,1329.9,1340.4,1323.85,1324.05,1349,1366.3,1351.2,1349.1,1352.4,1350.7,1344.3,1338.9,1316.3,1308.4,1306.9,1309.6,1306.7,1312.3,1315.4,1319,1327.2,1317.2,1320,1323,1328,1323,1327.8,1331.7,1335.3,1336.6,1331.8,1311.4,1310,1309.5,1308,1310.6,1302.8,1306.6,1313.7,1320,1322.8,1311,1312.1,1303.6,1293.9,1293.5,1291,1277.9,1294.1,1286,1289.1,1293.5,1296.9,1298,1299.6,1292.9,1285.1,1288.5,1296.3,1297.2,1298.4,1298.6,1302,1300.3,1312,1310.8,1301.9,1292,1291.1,1286.3,1289.2,1289.9,1297.4,1283.65,1283.25,1292.9,1295.9,1290.8,1304.2,1322.7,1336.1,1341,1343.5,1345.8,1340.3,1335.1,1341.5,1347.6,1352.8,1348.2,1353.7,1356.5,1373.3,1398,1414.7,1427,1416.4,1412.7,1420.1,1396.4,1398.8,1426.6,1412.85,1400.7,1406,1399.8,1404.4,1415.5,1417.2,1421.9,1415,1413.7,1428.1,1434,1435.7,1427.5,1429.4,1423.9,1425.6,1427.5,1434.8,1422.3,1412.1,1442.5,1448.8,1468.2,1484.3,1501.6,1506.2,1498.6,1488.9,1504.5,1518.3,1513.9,1503.3,1503,1506.5,1502.1,1503,1534.8,1535.3,1541.4,1528.6,1525.6,1535.25,1528.15,1528,1542.6,1514.3,1510.7,1505.5,1492.1,1492.9,1496.8,1493.1,1503.4,1500.9,1490.7,1496.3,1505.3,1505.3,1517.9,1507.4,1507.1,1493.3,1470.5,1465,1480.5,1501.7,1501.4,1493.3,1492.1,1505.1,1495.7,1478,1487.1,1480.8,1480.6,1487,1488.3,1484.8,1484,1490.7,1490.4,1503.1]
                 closes = [1283.35,1315.3,1326.1,1317.4,1321.5,1317.4,1323.5,1319.2,1321.3,1323.3,1319.7,1325.1,1323.6,1313.8,1282.05,1279.05,1314.2,1315.2,1310.8,1329.1,1334.5,1340.2,1340.5,1350,1347.1,1344.3,1344.6,1339.7,1339.4,1343.7,1337,1338.9,1340.1,1338.7,1346.8,1324.25,1329.55,1369.6,1372.5,1352.4,1357.6,1354.2,1353.4,1346,1341,1323.8,1311.9,1309.1,1312.2,1310.7,1324.3,1315.7,1322.4,1333.8,1319.4,1327.1,1325.8,1330.9,1325.8,1331.6,1336.5,1346.7,1339.2,1334.7,1313.3,1316.5,1312.4,1313.4,1313.3,1312.2,1313.7,1319.9,1326.3,1331.9,1311.3,1313.4,1309.4,1295.2,1294.7,1294.1,1277.9,1295.8,1291.2,1297.4,1297.7,1306.8,1299.4,1303.6,1302.2,1289.9,1299.2,1301.8,1303.6,1299.5,1303.2,1305.3,1319.5,1313.6,1315.1,1303.5,1293,1294.6,1290.4,1291.4,1302.7,1301,1284.15,1284.95,1294.3,1297.9,1304.1,1322.6,1339.3,1340.1,1344.9,1354,1357.4,1340.7,1342.7,1348.2,1355.1,1355.9,1354.2,1362.1,1360.1,1408.3,1411.2,1429.5,1430.1,1426.8,1423.4,1425.1,1400.8,1419.8,1432.9,1423.55,1412.1,1412.2,1412.8,1424.9,1419.3,1424.8,1426.1,1423.6,1435.9,1440.8,1439.4,1439.7,1434.5,1436.5,1427.5,1432.2,1433.3,1441.8,1437.8,1432.4,1457.5,1476.5,1484.2,1519.6,1509.5,1508.5,1517.2,1514.1,1527.8,1531.2,1523.6,1511.6,1515.7,1515.7,1508.5,1537.6,1537.2,1551.8,1549.1,1536.9,1529.4,1538.05,1535.15,1555.9,1560.4,1525.5,1515.5,1511.1,1499.2,1503.2,1507.4,1499.5,1511.5,1513.4,1515.8,1506.2,1515.1,1531.5,1540.2,1512.3,1515.2,1506.4,1472.9,1489,1507.9,1513.8,1512.9,1504.4,1503.9,1512.8,1500.9,1488.7,1497.6,1483.5,1494,1498.3,1494.1,1488.1,1487.5,1495.7,1504.7,1505.3]
 
-                plot_id = dpg.add_plot(label="Candle Series", height=400)
-                dpg.add_plot_legend(parent=plot_id)
-                dpg.add_plot_axis(dpg.mvXAxis, label="Day", time=True, parent=plot_id)
-                axis_id = dpg.add_plot_axis(dpg.mvYAxis, label="USD", parent=plot_id)
-                dpg.add_candle_series(dates, opens, closes, lows, highs, label="GOOGL", parent=axis_id)
+                with cxt.plot(label="Candle Series", height=400):
+                    dpg.add_plot_legend()
+                    dpg.add_plot_axis(dpg.mvXAxis, label="Day", time=True)
+                    dpg.add_plot_axis(dpg.mvYAxis, label="USD")
+                    dpg.add_candle_series(dates, opens, closes, lows, highs, label="GOOGL", parent=dpg.last_item())
 
             with cxt.tree_node(label="Heatmaps"):
 
-                plot_id = dpg.add_plot(label="Heat Series", no_mouse_pos=True, height=400)
-                dpg.add_plot_axis(dpg.mvXAxis, label="x", lock_min=True, lock_max=True, no_gridlines=True, no_tick_marks=True, parent=plot_id)
-                axis_id = dpg.add_plot_axis(dpg.mvYAxis, label="y", no_gridlines=True, no_tick_marks=True, lock_min=True, lock_max=True, parent=plot_id)
-
-                values = [0.8, 2.4, 2.5, 3.9, 0.0, 4.0, 0.0,
+                values = (0.8, 2.4, 2.5, 3.9, 0.0, 4.0, 0.0,
                           2.4, 0.0, 4.0, 1.0, 2.7, 0.0, 0.0,
                           1.1, 2.4, 0.8, 4.3, 1.9, 4.4, 0.0,
                           0.6, 0.0, 0.3, 0.0, 3.1, 0.0, 0.0,
                           0.7, 1.7, 0.6, 2.6, 2.2, 6.2, 0.0,
                           1.3, 1.2, 0.0, 0.0, 0.0, 3.2, 5.1,
-                          0.1, 2.0, 0.0, 1.4, 0.0, 1.9, 6.3]
-                dpg.add_heat_series(values, 7, 7, scale_min=0, scale_max=6, parent=axis_id)
+                          0.1, 2.0, 0.0, 1.4, 0.0, 1.9, 6.3)
+
+                with cxt.plot(label="Heat Series", no_mouse_pos=True, height=400):
+                    dpg.add_plot_axis(dpg.mvXAxis, label="x", lock_min=True, lock_max=True, no_gridlines=True, no_tick_marks=True)
+                    dpg.add_plot_axis(dpg.mvYAxis, label="y", no_gridlines=True, no_tick_marks=True, lock_min=True, lock_max=True)
+                    dpg.add_heat_series(values, 7, 7, scale_min=0, scale_max=6, parent=dpg.last_item())
 
             with cxt.tree_node(label="Pie Charts"):
 
-                plot_id1 = dpg.add_plot(no_title=True, no_mouse_pos=True, width=250, height=250)
+                # create plot 1
+                with cxt.plot(no_title=True, no_mouse_pos=True, width=250, height=250):
+
+                    # create legend
+                    dpg.add_plot_legend()
+
+                    # create x axis
+                    dpg.add_plot_axis(dpg.mvXAxis, label="", no_gridlines=True, no_tick_marks=True, no_tick_labels=True)
+                    dpg.set_axis_limits(dpg.last_item(), 0, 1)
+
+                    # create y axis
+                    dpg.add_plot_axis(dpg.mvYAxis, label="", no_gridlines=True, no_tick_marks=True, no_tick_labels=True)
+                    dpg.set_axis_limits(dpg.last_item(), 0, 1)
+
+                    # add data to y axis 1
+                    dpg.add_pie_series(0.5, 0.5, 0.5, [0.25, 0.30, 0.30], ["fish", "cow", "chicken"], parent=dpg.last_item())
+
                 dpg.add_same_line()
-                plot_id2 = dpg.add_plot(no_title=True, no_mouse_pos=True, width=250, height=250)
 
-                xaxis_id1 = dpg.add_plot_axis(dpg.mvXAxis, label="", no_gridlines=True, no_tick_marks=True, no_tick_labels=True, parent=plot_id1)
-                xaxis_id2 = dpg.add_plot_axis(dpg.mvXAxis, label="", no_gridlines=True, no_tick_marks=True, no_tick_labels=True, parent=plot_id2)
-                yaxis_id1 = dpg.add_plot_axis(dpg.mvYAxis, label="", no_gridlines=True, no_tick_marks=True, no_tick_labels=True, parent=plot_id1)
-                yaxis_id2 = dpg.add_plot_axis(dpg.mvYAxis, label="", no_gridlines=True, no_tick_marks=True, no_tick_labels=True, parent=plot_id2)
+                # plot 2
+                with cxt.plot(no_title=True, no_mouse_pos=True, width=250, height=250):
 
-                dpg.set_axis_limits(xaxis_id1, 0, 1)
-                dpg.set_axis_limits(xaxis_id2, 0, 1)
-                dpg.set_axis_limits(yaxis_id1, 0, 1)
-                dpg.set_axis_limits(yaxis_id2, 0, 1)
+                    # create legend
+                    dpg.add_plot_legend()
 
-                dpg.add_pie_series(0.5, 0.5, 0.5, [0.25, 0.30, 0.30], ["fish", "cow", "chicken"], parent=yaxis_id1)
-                dpg.add_pie_series(0.5, 0.5, 0.5, [1, 1, 2, 3, 5], ["A", "B", "C", "D", "E"], normalize=True, format="%.0f", parent=yaxis_id2)
+                    # create x axis
+                    dpg.add_plot_axis(dpg.mvXAxis, label="", no_gridlines=True, no_tick_marks=True, no_tick_labels=True)
+                    dpg.set_axis_limits(dpg.last_item(), 0, 1)
+
+                    # create y axis
+                    dpg.add_plot_axis(dpg.mvYAxis, label="", no_gridlines=True, no_tick_marks=True, no_tick_labels=True)
+                    dpg.set_axis_limits(dpg.last_item(), 0, 1)
+
+                    # add data to y axis 1
+                    dpg.add_pie_series(0.5, 0.5, 0.5, [1, 1, 2, 3, 5], ["A", "B", "C", "D", "E"], normalize=True, format="%.0f", parent=dpg.last_item())
 
             with cxt.tree_node(label="Error Series"):
 
@@ -1165,16 +1543,17 @@ def show_demo():
                 error2_pos = [0.4, 0.2, 0.4, 0.8, 0.6]
 
                 dpg.add_text("Anti-aliasing can be enabled from the plot's context menu (see Help).", bullet=True)
-                plot_id = dpg.add_plot(label="Error Series", height=400)
-                dpg.add_plot_legend(parent=plot_id)
-                dpg.add_plot_axis(dpg.mvXAxis, label="x", parent=plot_id)
-                axis_id = dpg.add_plot_axis(dpg.mvYAxis, label="y", parent=plot_id)
+               
+                with cxt.plot(label="Error Series", height=400):
+                    dpg.add_plot_legend()
+                    dpg.add_plot_axis(dpg.mvXAxis, label="x")
+                    axis_id = dpg.add_plot_axis(dpg.mvYAxis, label="y")
 
-                dpg.add_bar_series(error1_x, error1_y, label="Bar", weight=0.25, parent=axis_id)
-                dpg.add_error_series(error1_x, error1_y, error1_neg, error1_pos, label="Bar", parent=axis_id)
-                dpg.add_line_series(error2_x, error2_y, label="Line", parent=axis_id)
-                #dpg.add_error_series(error2_x, error2_y, error2_neg, error2_pos, label="Line", color=[0, 255, 0], parent=axis_id)
-                dpg.add_error_series(error2_x, error2_y, error2_neg, error2_pos, label="Line", parent=axis_id)
+                    dpg.add_bar_series(error1_x, error1_y, label="Bar", weight=0.25, parent=axis_id)
+                    dpg.add_error_series(error1_x, error1_y, error1_neg, error1_pos, label="Bar", parent=axis_id)
+                    dpg.add_line_series(error2_x, error2_y, label="Line", parent=axis_id)
+                    #dpg.add_error_series(error2_x, error2_y, error2_neg, error2_pos, label="Line", color=[0, 255, 0], parent=axis_id)
+                    dpg.add_error_series(error2_x, error2_y, error2_neg, error2_pos, label="Line", parent=axis_id)
 
         with cxt.collapsing_header(label="Node Editor"):
 
@@ -1224,7 +1603,7 @@ def show_demo():
                 dpg.add_text("abc.h", filter_key="abc.h", bullet=True)
                 dpg.add_text("hello, world", filter_key="hello, world", bullet=True)
 
-            dpg.add_input_text(label="Filter (inc, -exc)", before=filter_id, user_data=filter_id, callback=lambda sender, app_data, user_data: dpg.set_value(user_data, dpg.get_value(sender)))
+            dpg.add_input_text(label="Filter (inc, -exc)", before=dpg.last_container(), user_data=dpg.last_container(), callback=lambda s, a, u: dpg.set_value(u, dpg.get_value(s)))
 
         with cxt.collapsing_header(label="Drawing API"):
             draw_groups={}

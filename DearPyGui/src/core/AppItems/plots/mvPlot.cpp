@@ -49,7 +49,6 @@ namespace Marvel {
 				MV_PARSER_ARG_POS)
 			);
 
-			parser.addArg<mvPyDataType::String>("x_axis_name", mvArgType::KEYWORD_ARG, "''");
 			// plot flags
 			parser.addArg<mvPyDataType::Bool>("no_title", mvArgType::KEYWORD_ARG, "False");
 			parser.addArg<mvPyDataType::Bool>("no_menus", mvArgType::KEYWORD_ARG, "False");

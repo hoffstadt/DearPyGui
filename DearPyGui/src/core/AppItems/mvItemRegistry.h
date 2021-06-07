@@ -48,6 +48,9 @@ namespace Marvel {
         MV_CREATE_EXTRA_COMMAND(pop_container_stack);
         MV_CREATE_EXTRA_COMMAND(top_container_stack);
         MV_CREATE_EXTRA_COMMAND(empty_container_stack);
+        MV_CREATE_EXTRA_COMMAND(last_item);
+        MV_CREATE_EXTRA_COMMAND(last_container);
+        MV_CREATE_EXTRA_COMMAND(last_root);
         MV_CREATE_EXTRA_COMMAND(set_staging_mode);
         MV_CREATE_EXTRA_COMMAND(stage_items);
         MV_CREATE_EXTRA_COMMAND(unstage_items);
@@ -67,6 +70,9 @@ namespace Marvel {
             MV_ADD_EXTRA_COMMAND(pop_container_stack);
             MV_ADD_EXTRA_COMMAND(top_container_stack);
             MV_ADD_EXTRA_COMMAND(empty_container_stack);
+            MV_ADD_EXTRA_COMMAND(last_item);
+            MV_ADD_EXTRA_COMMAND(last_container);
+            MV_ADD_EXTRA_COMMAND(last_root);
             MV_ADD_EXTRA_COMMAND(set_staging_mode);
             MV_ADD_EXTRA_COMMAND(stage_items);
             MV_ADD_EXTRA_COMMAND(unstage_items);
@@ -134,6 +140,9 @@ namespace Marvel {
         std::unordered_map<std::string, mvRef<mvAppItem>> m_stagingArea;
         std::string                                       m_activeWindow;
         bool                                              m_staging = false;
+        std::string                                       m_lastItemAdded;
+        std::string                                       m_lastContainerAdded;
+        std::string                                       m_lastRootAdded;
 
 
 	};

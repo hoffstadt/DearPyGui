@@ -571,18 +571,21 @@ namespace Marvel {
 
 		{
 			mvPythonParser parser(mvPyDataType::Bool);
+			parser.addArg<mvPyDataType::Integer>("key");
 			parser.finalize();
 			parsers->insert({ "is_key_pressed", parser });
 		}
 
 		{
 			mvPythonParser parser(mvPyDataType::Bool);
+			parser.addArg<mvPyDataType::Integer>("key");
 			parser.finalize();
 			parsers->insert({ "is_key_released", parser });
 		}
 
 		{
 			mvPythonParser parser(mvPyDataType::Bool);
+			parser.addArg<mvPyDataType::Integer>("key");
 			parser.finalize();
 			parsers->insert({ "is_key_down", parser });
 		}
