@@ -858,8 +858,6 @@ def show_demo():
                         if i != 4:
                             dpg.add_table_next_column()
 
-
-
                 for i in range(0, 5):
                     dpg.add_text(text_items[i])
                     with cxt.child(height=50, horizontal_scrollbar=True, width=-200):
@@ -2305,3 +2303,44 @@ def show_demo():
                     dpg.add_input_int(label="Int Target", payload_type="ints", width=100, step=0, drop_callback=lambda s, a: dpg.set_value(s, a))
                     dpg.add_input_float(label="Float Target", payload_type="floats", width=100, step=0, drop_callback=lambda s, a: dpg.set_value(s, a))
 
+        with cxt.collapsing_header(label="Advanced"):
+
+            with cxt.tree_node(label="Help (READ ME FIRST)"):
+                dpg.add_text("These topics are for advanced users.", bullet=True)
+                dpg.add_text("Make sure you know what you are doing.", bullet=True)
+
+            with cxt.tree_node(label="Staging"):
+
+                dpg.add_text("DPG has a 'rendering' thread and a 'callback' thread.", bullet=True)
+
+
+            with cxt.tree_node(label="Manual Mutex Control"):
+
+                dpg.add_text("DPG has a 'rendering' thread and a 'callback' thread.", bullet=True)
+                dpg.add_text("Only 1 thread can hold the mutex.", bullet=True)
+                dpg.add_text("The rendering thread grabs the mutex right before drawing.", bullet=True)
+                dpg.add_text("The callback thread grabs the mutex when you call a DPG command.", bullet=True)
+                dpg.add_text("If a callback calls multiple DPG commands, they will most likely execute over a few frames.", bullet=True)
+                dpg.add_text("To ensure multiple commands run within the same frame, you can lock/unlock the mutex manually.", bullet=True)
+
+                def _callback_auto_mutex(sender, app_data, user_data):
+                    
+                    for i in range(0, 100):
+                        dpg.add_text("Item: " + str(i), parent=user_data)
+
+                def _callback_manual_mutex(sender, app_data, user_data):
+
+                    dpg.lock_mutex() # you could also use with cxt.mutex()
+                    for i in range(0, 100):
+                        dpg.add_text("Item: " + str(i), parent=user_data)
+                    dpg.unlock_mutex()
+
+                b1 = dpg.add_button(label="Added 100 items")
+                dpg.add_same_line()
+                b2 = dpg.add_button(label="Added 100 items (mutex)")
+                dpg.add_same_line()
+                b3 = dpg.add_button(label="Delete Items", callback=lambda s, a, u: dpg.delete_item(u, children_only=True))
+                dpg.add_child(height=500, width=-1)
+                dpg.configure_item(b1, user_data=dpg.last_item(), callback=_callback_auto_mutex)
+                dpg.configure_item(b2, user_data=dpg.last_item(), callback=_callback_manual_mutex)
+                dpg.configure_item(b3, user_data=dpg.last_item())
