@@ -1003,7 +1003,15 @@ def show_demo():
                     dpg.draw_image(demo_dynamic_texture_1, [200, 100], [300, 200])
 
         with cxt.collapsing_header(label="Popups & Modal Windows"):
-            pass
+            
+            with cxt.tree_node(label="File/Directory Selector"):
+
+                with cxt.file_dialog(label="Demo File Dialog", show=False):
+                    dpg.add_file_extension(".*", color=(255, 255, 255, 255))
+                    dpg.add_file_extension(".cpp", color=(255, 255, 0, 255))
+                    dpg.add_file_extension(".h", color=(255, 0, 255, 255))
+
+                dpg.add_button(label="Show File Selector", user_data=dpg.last_container(), callback=lambda s, a, u: dpg.configure_item(u, show=True))
 
         with cxt.collapsing_header(label="Tooltips"):
             pass
@@ -2266,25 +2274,129 @@ def show_demo():
                 dpg.add_same_line()
                 _add_config_options(mouse_handler, 1,"show")
 
-                with cxt.group(indent=20):
-                    dpg.add_text("Mouse Wheel Handler:")
-                    dpg.add_same_line()
-                    _add_config_options(mouse_wheel_handler, 1,"show")
-                    dpg.add_text("Mouse Click Handler:")
-                    dpg.add_same_line()
-                    _add_config_options(mouse_click_handler, 1,"show")
-                    dpg.add_text("Mouse Double Click Handler:")
-                    dpg.add_same_line()
-                    _add_config_options(mouse_double_click_handler, 1,"show")
-                    dpg.add_text("Mouse Release Handler:")
-                    dpg.add_same_line()
-                    _add_config_options(mouse_release_handler, 1,"show")
-                    dpg.add_text("Mouse Drag Handler:")
-                    dpg.add_same_line()
-                    _add_config_options(mouse_drag_handler, 1,"show")
-                    dpg.add_text("Mouse Down Handler:")
-                    dpg.add_same_line()
-                    _add_config_options(mouse_down_handler, 1,"show")
-                    dpg.add_text("Mouse Move Handler:")
-                    dpg.add_same_line()
-                    _add_config_options(mouse_move_handler, 1,"show")
+            with cxt.tree_node(label="Help"):
+
+                dpg.add_text("Adding a drag_payload to a widget makes it source.", bullet=True)
+                dpg.add_text("Adding a drop_callback to a widget makes it target.", bullet=True)
+                dpg.add_text("Compatibility is determined by the 'payload_type'.", bullet=True)
+                dpg.add_text("The 'payload_type' must be less than 32 characters.", bullet=True)
+                dpg.add_text("A 'drag_callback' can be used to notify a source during a DND event.", bullet=True)
+                dpg.add_text("A 'drag_payload' is a container. Its children are what is shown when dragging.", bullet=True)
+
+            with cxt.tree_node(label="Simple"):
+
+                with cxt.group():
+
+                    dpg.add_text("Int Sources:")
+
+                    dpg.add_button(label="Source 1: 25")
+                    with cxt.drag_payload(parent=dpg.last_item(), drag_data=25, payload_type="ints"):
+                        dpg.add_text("25")
+
+                    dpg.add_button(label="Source 2: 33")
+                    with cxt.drag_payload(parent=dpg.last_item(), drag_data=33, payload_type="ints"):
+                        dpg.add_text("33")
+
+                    dpg.add_button(label="Source 3: 111")
+                    with cxt.drag_payload(parent=dpg.last_item(), drag_data=111, payload_type="ints"):
+                        dpg.add_text("111")
+
+                dpg.add_same_line(xoffset=200)
+                with cxt.group():
+
+                    dpg.add_text("Float Sources:")
+                    dpg.add_button(label="Source 1: 43.7")
+                    with cxt.drag_payload(parent=dpg.last_item(), drag_data=43.7, payload_type="floats"):
+                        dpg.add_text("43.7")
+
+                    dpg.add_button(label="Source 2: 99.8")
+                    with cxt.drag_payload(parent=dpg.last_item(), drag_data=99.8, payload_type="floats"):
+                        dpg.add_text("99.8")
+
+                    dpg.add_button(label="Source 3: -23.4")
+                    with cxt.drag_payload(parent=dpg.last_item(), drag_data=-23.4, payload_type="floats"):
+                        dpg.add_text("-23.4")
+
+                dpg.add_same_line(xoffset=400)
+
+                with cxt.group():
+
+                    dpg.add_text("Targets:")
+
+                    dpg.add_input_int(label="Int Target", payload_type="ints", width=100, step=0, drop_callback=lambda s, a: dpg.set_value(s, a))
+                    dpg.add_input_float(label="Float Target", payload_type="floats", width=100, step=0, drop_callback=lambda s, a: dpg.set_value(s, a))
+
+        with cxt.collapsing_header(label="Advanced"):
+
+            with cxt.tree_node(label="Help (READ ME FIRST)"):
+                dpg.add_text("These topics are for advanced users.", bullet=True)
+                dpg.add_text("Make sure you know what you are doing.", bullet=True)
+
+            with cxt.tree_node(label="Staging"):
+
+                dpg.add_text("Staging can be used to create items without parents.", bullet=True)
+                dpg.add_text("Regular parent deduction rules still apply (but will stage if parent can't be deduced).", bullet=True)
+                dpg.add_text("Staging is toggled with 'set_staging_mode'.", bullet=True)
+                dpg.add_text("Staging can be useful for wrapping a set of items.", bullet=True)
+                dpg.add_text("You can use most DPG commands on staged items.", bullet=True)
+                dpg.add_text("You can stage any item.", bullet=True)
+                dpg.add_text("Items can be unstaged with 'move_item' and 'unstage_items'.", bullet=True)
+                dpg.add_text("A 'staging_container' is a special container that 'unpacks' itself when unstaged.", bullet=True)
+
+                def _unstage_items(sender, app_data, user_data):
+
+                    # push the child back onto the container stack
+                    dpg.push_container_stack(user_data[1])
+
+                    # this will 'unpack' the staging container (regular parent deduction rules apply)
+                    dpg.unstage_items((user_data[0], ))
+
+                    # pop the child back off the container stack
+                    dpg.pop_container_stack()
+
+                # turn on staging
+                dpg.set_staging_mode(True)
+
+                # when unstaging a stage_container, it 'unpacks' itself
+                with cxt.staging_container() as sc1:
+                    dpg.add_button(label="Staged Button 1")
+                    dpg.add_button(label="Staged Button 2")
+                    dpg.add_button(label="Staged Button 3")
+
+                # turn off staging
+                dpg.set_staging_mode(False)
+
+                ub1 = dpg.add_button(label="Unstage buttons", callback=_unstage_items)
+                child_id = dpg.add_child(height=200, width=200)
+                dpg.configure_item(ub1, user_data=[sc1, child_id])
+
+            with cxt.tree_node(label="Manual Mutex Control"):
+
+                dpg.add_text("DPG has a 'rendering' thread and a 'callback' thread.", bullet=True)
+                dpg.add_text("Only 1 thread can hold the mutex.", bullet=True)
+                dpg.add_text("The rendering thread grabs the mutex right before drawing.", bullet=True)
+                dpg.add_text("The callback thread grabs the mutex when you call a DPG command.", bullet=True)
+                dpg.add_text("If a callback calls multiple DPG commands, they will most likely execute over a few frames.", bullet=True)
+                dpg.add_text("To ensure multiple commands run within the same frame, you can lock/unlock the mutex manually.", bullet=True)
+
+                def _callback_auto_mutex(sender, app_data, user_data):
+                    
+                    for i in range(0, 100):
+                        dpg.add_text("Item: " + str(i), parent=user_data)
+
+                def _callback_manual_mutex(sender, app_data, user_data):
+
+                    dpg.lock_mutex() # you could also use with cxt.mutex()
+                    for i in range(0, 100):
+                        dpg.add_text("Item: " + str(i), parent=user_data)
+                    dpg.unlock_mutex()
+
+                b1 = dpg.add_button(label="Added 100 items")
+                dpg.add_same_line()
+                b2 = dpg.add_button(label="Added 100 items (mutex)")
+                dpg.add_same_line()
+                b3 = dpg.add_button(label="Delete Items", callback=lambda s, a, u: dpg.delete_item(u, children_only=True))
+                dpg.add_child(height=500, width=-1)
+                dpg.configure_item(b1, user_data=dpg.last_item(), callback=_callback_auto_mutex)
+                dpg.configure_item(b2, user_data=dpg.last_item(), callback=_callback_manual_mutex)
+                dpg.configure_item(b3, user_data=dpg.last_item())
