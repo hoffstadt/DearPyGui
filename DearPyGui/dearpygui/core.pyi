@@ -314,7 +314,7 @@ def add_plot_annotation(*, id: str =..., parent: str ='', before: str ='', label
 	"""Undocumented function"""
 	...
 
-def add_plot_axis(axis : bool, *, id: str =..., parent: str ='', label: str =None, payload_type: str ='$$DPG_PAYLOAD', drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, no_gridlines: bool =False, no_tick_marks: bool =False, no_tick_labels: bool =False, log_scale: bool =False, invert: bool =False, lock_min: bool =False, lock_max: bool =False, time: bool =False) -> str:
+def add_plot_axis(axis : int, *, id: str =..., parent: str ='', label: str =None, payload_type: str ='$$DPG_PAYLOAD', drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, no_gridlines: bool =False, no_tick_marks: bool =False, no_tick_labels: bool =False, log_scale: bool =False, invert: bool =False, lock_min: bool =False, lock_max: bool =False, time: bool =False) -> str:
 	"""Undocumented function"""
 	...
 
@@ -422,7 +422,7 @@ def add_table_row(*, id: str =..., height: int =0, parent: str ='', before: str 
 	"""Undocumented function"""
 	...
 
-def add_text(default_value : str ='', *, id: str =..., indent: int =-1, parent: str ='', before: str ='', label: str =None, source: str ='', payload_type: str ='$$DPG_PAYLOAD', drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, pos: List[int] =[], filter_key: str ='', tracked: bool =False, track_offset: float =0.5, wrap: int =-1, bullet: bool =False, color: List[float] =(-1, -1, -1, -1), show_label: bool =False) -> str:
+def add_text(default_value : str ='', *, id: str =..., indent: int =-1, parent: str ='', before: str ='', label: str =None, source: str ='', show: bool =True, pos: List[int] =[], filter_key: str ='', tracked: bool =False, track_offset: float =0.5, wrap: int =-1, bullet: bool =False, color: List[float] =(-1, -1, -1, -1), show_label: bool =False) -> str:
 	"""Undocumented function"""
 	...
 
