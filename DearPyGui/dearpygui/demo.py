@@ -1003,7 +1003,15 @@ def show_demo():
                     dpg.draw_image(demo_dynamic_texture_1, [200, 100], [300, 200])
 
         with cxt.collapsing_header(label="Popups & Modal Windows"):
-            pass
+            
+            with cxt.tree_node(label="File/Directory Selector"):
+
+                with cxt.file_dialog(label="Demo File Dialog", show=False):
+                    dpg.add_file_extension(".*", color=(255, 255, 255, 255))
+                    dpg.add_file_extension(".cpp", color=(255, 255, 0, 255))
+                    dpg.add_file_extension(".h", color=(255, 0, 255, 255))
+
+                dpg.add_button(label="Show File Selector", user_data=dpg.last_container(), callback=lambda s, a, u: dpg.configure_item(u, show=True))
 
         with cxt.collapsing_header(label="Tooltips"):
             pass
