@@ -2311,13 +2311,30 @@ def show_demo():
 
             with cxt.tree_node(label="Staging"):
 
+                dpg.add_text("Staging can be used to create items without parents.", bullet=True)
+                dpg.add_text("Regular parent deduction rules still apply (but will stage if parent can't be deduced).", bullet=True)
+                dpg.add_text("Staging is toggled with 'set_staging_mode'.", bullet=True)
+                dpg.add_text("Staging can be useful for wrapping a set of items.", bullet=True)
+                dpg.add_text("You can use most DPG commands on staged items.", bullet=True)
+                dpg.add_text("You can stage any item.", bullet=True)
+                dpg.add_text("Items can be unstaged with 'move_item' and 'unstage_items'.", bullet=True)
+                dpg.add_text("A 'staging_container' is a special container that 'unpacks' itself when unstaged.", bullet=True)
+
                 def _unstage_items(sender, app_data, user_data):
+
+                    # push the child back onto the container stack
                     dpg.push_container_stack(user_data[1])
+
+                    # this will 'unpack' the staging container (regular parent deduction rules apply)
                     dpg.unstage_items((user_data[0], ))
+
+                    # pop the child back off the container stack
                     dpg.pop_container_stack()
 
                 # turn on staging
                 dpg.set_staging_mode(True)
+
+                # when unstaging a stage_container, it 'unpacks' itself
                 with cxt.staging_container() as sc1:
                     dpg.add_button(label="Staged Button 1")
                     dpg.add_button(label="Staged Button 2")
@@ -2327,8 +2344,7 @@ def show_demo():
                 dpg.set_staging_mode(False)
 
                 ub1 = dpg.add_button(label="Unstage buttons", callback=_unstage_items)
-                child_id = dpg.add_child(height=500, width=-1)
-
+                child_id = dpg.add_child(height=200, width=200)
                 dpg.configure_item(ub1, user_data=[sc1, child_id])
 
             with cxt.tree_node(label="Manual Mutex Control"):
