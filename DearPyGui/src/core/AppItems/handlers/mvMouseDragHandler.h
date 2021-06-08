@@ -40,7 +40,7 @@ namespace Marvel {
 	private:
 
 		int   m_button = -1;
-		float m_threshold = 1.0f;
+		float m_threshold = 10.0f;
 
 	};
 
