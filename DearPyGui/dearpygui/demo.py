@@ -3,6 +3,7 @@ import dearpygui.contexts as cxt
 from dearpygui.logger import mvLogger
 from math import sin, cos
 import random
+import uuid
 
 demo_texture_container = dpg.add_texture_container()
 demo_static_texture_1 = ""
@@ -857,8 +858,6 @@ def show_demo():
                         if i != 4:
                             dpg.add_table_next_column()
 
-
-
                 for i in range(0, 5):
                     dpg.add_text(text_items[i])
                     with cxt.child(height=50, horizontal_scrollbar=True, width=-200):
@@ -902,9 +901,7 @@ def show_demo():
                 dpg.add_same_line()
                 dpg.add_text("0/0")
                 dpg.add_visible_handler(dpg.last_item(), user_data=[dpg.last_item(), dpg.last_container()], callback=_update_xscroll_info)
-
-
-                            
+                 
         with cxt.collapsing_header(label="Textures & Images"):
         
             with cxt.tree_node(label="Help"):
@@ -1910,6 +1907,71 @@ def show_demo():
                     dpg.add_line_series(error2_x, error2_y, label="Line", parent=axis_id)
                     #dpg.add_error_series(error2_x, error2_y, error2_neg, error2_pos, label="Line", color=[0, 255, 0], parent=axis_id)
                     dpg.add_error_series(error2_x, error2_y, error2_neg, error2_pos, label="Line", parent=axis_id)
+
+            with cxt.tree_node(label="Custom Context Menus"):
+
+                dpg.add_text("Right-click the series in the legend.", bullet=True)
+                dpg.add_text("Series are containers. Children will show up in the custom context menu.", bullet=True)
+                
+                # create plot
+                with cxt.plot(label="Line Series", height=400):
+
+                    dpg.add_plot_legend()
+
+                    dpg.add_plot_axis(dpg.mvXAxis, label="x")
+                    yaxis = dpg.add_plot_axis(dpg.mvYAxis, label="y")
+
+                    # series 1
+                    dpg.add_line_series(sindatax, sindatay, label="series 1", parent=yaxis)
+                    dpg.add_button(label="Delete Series 1", user_data = dpg.last_item(), parent=dpg.last_item(), callback=lambda s, a, u: dpg.delete_item(u))
+
+                    # series 2
+                    dpg.add_line_series(sindatax, sindatay, label="series 2", parent=yaxis)
+                    dpg.add_button(label="Delete Series 2", user_data = dpg.last_item(), parent=dpg.last_item(), callback=lambda s, a, u: dpg.delete_item(u))
+
+            with cxt.tree_node(label="Drag & Drop"):
+
+                sindatax = []
+                sindatay = []
+                for i in range(0, 100):
+                    sindatax.append(i/100)
+                    sindatay.append(0.5 + 0.5*sin(50*i/100))
+
+                with cxt.group():
+
+                    dpg.add_text("Sources:")
+
+                    dpg.add_button(label="Source 1")
+                    with cxt.drag_payload(parent=dpg.last_item(), drag_data=(sindatax, sindatay, "Source 1"), payload_type="plotting"):
+                        dpg.add_text("Source 1")
+                        dpg.add_simple_plot(label="", default_value=sindatay)
+
+                dpg.add_same_line()
+
+                def _legend_drop(sender, app_data, user_data):
+                    parent = dpg.get_item_info(sender)["parent"]
+                    yaxis2 = dpg.get_item_info(parent)["children"][1][2]
+                    dpg.add_line_series(app_data[0], app_data[1], label=app_data[2], parent=yaxis2)
+                    dpg.add_button(label="Delete Series", user_data = dpg.last_item(), parent=dpg.last_item(), callback=lambda s, a, u: dpg.delete_item(u))
+
+                def _plot_drop(sender, app_data, user_data):
+                    yaxis1 = dpg.get_item_info(sender)["children"][1][0]
+                    dpg.add_line_series(app_data[0], app_data[1], label=app_data[2], parent=yaxis1)
+                    dpg.add_button(label="Delete Series", user_data = dpg.last_item(), parent=dpg.last_item(), callback=lambda s, a, u: dpg.delete_item(u))
+
+                def _axis_drop(sender, app_data, user_data):
+                    dpg.add_line_series(app_data[0], app_data[1], label=app_data[2], parent=sender)
+                    dpg.add_button(label="Delete Series", user_data = dpg.last_item(), parent=dpg.last_item(), callback=lambda s, a, u: dpg.delete_item(u))
+
+                with cxt.plot(label="Drag/Drop Plot", height=400, drop_callback=_plot_drop, payload_type="plotting"):
+
+                    dpg.add_plot_legend(drop_callback=_legend_drop, payload_type="plotting")
+                    dpg.add_plot_axis(dpg.mvXAxis, label="x")
+
+                    # create y axes with drop callbacks
+                    dpg.add_plot_axis(dpg.mvYAxis, label="y1", drop_callback=_axis_drop, payload_type="plotting")
+                    dpg.add_plot_axis(dpg.mvYAxis, label="y2", drop_callback=_axis_drop, payload_type="plotting")
+                    dpg.add_plot_axis(dpg.mvYAxis, label="y3", drop_callback=_axis_drop, payload_type="plotting")
 
         with cxt.collapsing_header(label="Node Editor"):
 

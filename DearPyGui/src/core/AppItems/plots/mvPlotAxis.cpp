@@ -27,7 +27,7 @@ namespace Marvel {
 				MV_PARSER_ARG_SHOW)
 			);
 
-			parser.addArg<mvPyDataType::Bool>("axis");
+			parser.addArg<mvPyDataType::Integer>("axis");
 			parser.addArg<mvPyDataType::Bool>("no_gridlines", mvArgType::KEYWORD_ARG, "False");
 			parser.addArg<mvPyDataType::Bool>("no_tick_marks", mvArgType::KEYWORD_ARG, "False");
 			parser.addArg<mvPyDataType::Bool>("no_tick_labels", mvArgType::KEYWORD_ARG, "False");
@@ -129,7 +129,7 @@ namespace Marvel {
 
 		// todo: add check
 		if(m_axis != 0)
-			ImPlot::SetPlotYAxis(m_location-1);
+			ImPlot::SetPlotYAxis(m_location - 1);
 
 		for (auto& item : m_children[1])
 		{
@@ -144,15 +144,15 @@ namespace Marvel {
 		// x axis
 		if (m_axis == 0)
 		{
-			m_limits_actual.x = (float)ImPlot::GetPlotLimits(m_location).X.Min;
-			m_limits_actual.y = (float)ImPlot::GetPlotLimits(m_location).X.Max;
+			//m_limits_actual.x = (float)ImPlot::GetPlotLimits(m_location).X.Min;
+			//m_limits_actual.y = (float)ImPlot::GetPlotLimits(m_location).X.Max;
 		}
 
 		// y axis
 		else
 		{
-			m_limits_actual.x = (float)ImPlot::GetPlotLimits(m_location).Y.Min;
-			m_limits_actual.y = (float)ImPlot::GetPlotLimits(m_location).Y.Max;
+			m_limits_actual.x = (float)ImPlot::GetPlotLimits(m_location -1).Y.Min;
+			m_limits_actual.y = (float)ImPlot::GetPlotLimits(m_location -1).Y.Max;
 		}
 
 	}
@@ -277,7 +277,6 @@ namespace Marvel {
 	{
 		if (static_cast<mvSeriesBase*>(item.get())->doesSeriesContributeToBounds())
 			updateBounds();
-
 	}
 
 	void mvPlotAxis::onChildRemoved(mvRef<mvAppItem> item)
@@ -346,7 +345,7 @@ namespace Marvel {
 
 				ImPlot::EndDragDropTarget();
 			}
-			else if (ImPlot::BeginDragDropTargetY(m_location))
+			else if (ImPlot::BeginDragDropTargetY(m_location-1))
 			{
 				if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload(m_payloadType.c_str()))
 				{

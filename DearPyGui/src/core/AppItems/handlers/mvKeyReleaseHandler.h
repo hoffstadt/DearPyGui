@@ -39,7 +39,7 @@ namespace Marvel {
 
 	private:
 
-		int m_key = 0;
+		int m_key = -1;
 
 	};
 
