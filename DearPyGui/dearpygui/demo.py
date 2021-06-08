@@ -2311,8 +2311,25 @@ def show_demo():
 
             with cxt.tree_node(label="Staging"):
 
-                dpg.add_text("DPG has a 'rendering' thread and a 'callback' thread.", bullet=True)
+                def _unstage_items(sender, app_data, user_data):
+                    dpg.push_container_stack(user_data[1])
+                    dpg.unstage_items((user_data[0], ))
+                    dpg.pop_container_stack()
 
+                # turn on staging
+                dpg.set_staging_mode(True)
+                with cxt.staging_container() as sc1:
+                    dpg.add_button(label="Staged Button 1")
+                    dpg.add_button(label="Staged Button 2")
+                    dpg.add_button(label="Staged Button 3")
+
+                # turn off staging
+                dpg.set_staging_mode(False)
+
+                ub1 = dpg.add_button(label="Unstage buttons", callback=_unstage_items)
+                child_id = dpg.add_child(height=500, width=-1)
+
+                dpg.configure_item(ub1, user_data=[sc1, child_id])
 
             with cxt.tree_node(label="Manual Mutex Control"):
 
