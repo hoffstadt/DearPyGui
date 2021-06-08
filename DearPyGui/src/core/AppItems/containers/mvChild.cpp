@@ -64,8 +64,6 @@ namespace Marvel {
 		//we do this so that the children dont get the theme
 		scope.cleanup();
 
-
-
 		for (auto& item : m_children[1])
 		{
 
@@ -102,9 +100,6 @@ namespace Marvel {
 
 		// allows this item to have a render callback
 		registerWindowFocusing();
-
-		m_width = (int)ImGui::GetWindowWidth();
-		m_height = (int)ImGui::GetWindowHeight();
 
 		m_scrollX = ImGui::GetScrollX();
 		m_scrollY = ImGui::GetScrollY();
