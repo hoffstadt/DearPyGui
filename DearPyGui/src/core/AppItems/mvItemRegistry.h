@@ -101,7 +101,7 @@ namespace Marvel {
         void                           clearRegistry     ();
         mvValueVariant                 getValue          (const std::string& name);
         mvAppItem*                     getItem           (const std::string& name);
-        mvRef<mvAppItem>               getRefItem           (const std::string& name);
+        mvRef<mvAppItem>               getRefItem        (const std::string& name);
         mvWindowAppItem*               getWindow         (const std::string& name);
         std::vector<mvRef<mvAppItem>>& getRoots          ()       { return m_roots; }
         const std::string&             getActiveWindow   () const { return m_activeWindow; }

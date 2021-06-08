@@ -1224,7 +1224,6 @@ namespace Marvel{
 		if (!(mvApp::GetApp()->getParsers())["get_item_info"].parse(args, kwargs, __FUNCTION__, &item))
 			return GetPyNone();
 
-
 		if (!mvApp::s_manualMutexControl) std::lock_guard<std::mutex> lk(mvApp::s_mutex);
 		auto appitem = mvApp::GetApp()->getItemRegistry().getItem(item);
 

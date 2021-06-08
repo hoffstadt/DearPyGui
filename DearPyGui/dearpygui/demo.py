@@ -817,6 +817,20 @@ def show_demo():
 
             with cxt.tree_node(label="Scrolling"):
 
+                def _update_xscroll_info(sender, app_data, user_data):
+                    
+                    with cxt.mutex():
+                        x_scroll = dpg.get_x_scroll(user_data[1])
+                        max_scroll = dpg.get_x_scroll_max(user_data[1])
+                        dpg.set_value(user_data[0], str(x_scroll) + "/" + str(max_scroll))
+
+                def _update_yscroll_info(sender, app_data, user_data):
+                    
+                    with cxt.mutex():
+                        y_scroll = dpg.get_y_scroll(user_data[1])
+                        max_scroll = dpg.get_y_scroll_max(user_data[1])
+                        dpg.set_value(user_data[0], str(y_scroll) + "/" + str(max_scroll))
+
                 with cxt.table(header_row=False):
 
                     dpg.add_table_column()
@@ -826,10 +840,10 @@ def show_demo():
                     dpg.add_table_column()
 
                     children = []
-                    text_items = ("Top", "25%", "Center", "75%")
-                    track_items = (0.0, 0.25, 0.5, 0.75)
+                    text_items = ("Top", "25%", "Center", "75%", "Bottom")
+                    track_items = (0.0, 0.25, 0.5, 0.75, 1.0)
 
-                    for i in range(0, 4):
+                    for i in range(0, 5):
                         dpg.add_text(text_items[i])
                         with cxt.child(height=200):
                             for j in range(0, 25):
@@ -837,19 +851,60 @@ def show_demo():
                                     dpg.add_text("Item " + str(j), color=(255, 255, 0), tracked=True, track_offset=track_items[i])
                                 else:
                                     dpg.add_text("Item " + str(j))
-
-                        dpg.add_table_next_column()
-
-                    dpg.add_text("Bottom")
-                    with cxt.child(height=200):
-                        for i in range(0, 25):
-                            dpg.add_text("Item " + str(i))
+                        
+                        dpg.add_text("0/0")
+                        dpg.add_visible_handler(dpg.last_item(), user_data=[dpg.last_item(), dpg.last_container()], callback=_update_yscroll_info)
+                        if i != 4:
+                            dpg.add_table_next_column()
 
 
 
+                for i in range(0, 5):
+                    dpg.add_text(text_items[i])
+                    with cxt.child(height=50, horizontal_scrollbar=True, width=-200):
+                            for j in range(0, 25):
+                                if j == 13:
+                                    dpg.add_text("Item " + str(j), color=(255, 255, 0), tracked=True, track_offset=track_items[i])
+                                else:
+                                    dpg.add_text("Item " + str(j))
+                                if j != 24:
+                                    dpg.add_same_line()
+                    dpg.add_same_line()
+                    dpg.add_text("0/0")
+                    dpg.add_visible_handler(dpg.last_item(), user_data=[dpg.last_item(), dpg.last_container()], callback=_update_xscroll_info)
+
+                with cxt.child(height=50, horizontal_scrollbar=True, width=-200):
+                        for j in range(0, 25):
+                            dpg.add_text("Item " + str(j))
+                            if j != 24:
+                                dpg.add_same_line()
+
+                def _scroll_programmatically(sender, app_data, user_data):
+
+                    with cxt.mutex():
+                        x_scroll = dpg.get_x_scroll(user_data[1])
+                        max_scroll = dpg.get_x_scroll_max(user_data[1])
+                        if user_data[0] == "left" and x_scroll > 10:
+                            dpg.set_x_scroll(user_data[1], x_scroll-10)
+                        elif user_data[0] == "left":
+                            dpg.set_x_scroll(user_data[1], 0)
+
+                        if user_data[0] == "right" and x_scroll < max_scroll-10:
+                            dpg.set_x_scroll(user_data[1], x_scroll+10)
+                        elif user_data[0] == "right":
+                            dpg.set_x_scroll(user_data[1], max_scroll)
+
+                dpg.add_button(label="<<", small=True, user_data=["left", dpg.last_container()], callback=_scroll_programmatically)
+                dpg.add_same_line()
+                dpg.add_text("Scroll from code")
+                dpg.add_same_line()
+                dpg.add_button(label=">>", small=True, user_data=["right", dpg.last_container()], callback=_scroll_programmatically)
+                dpg.add_same_line()
+                dpg.add_text("0/0")
+                dpg.add_visible_handler(dpg.last_item(), user_data=[dpg.last_item(), dpg.last_container()], callback=_update_xscroll_info)
 
 
-
+                            
         with cxt.collapsing_header(label="Textures & Images"):
         
             with cxt.tree_node(label="Help"):
