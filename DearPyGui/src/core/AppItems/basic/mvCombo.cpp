@@ -47,9 +47,9 @@ namespace Marvel {
 		parsers->insert({ s_command, parser });
 	}
 
-	mvCombo::mvCombo(const std::string& name)
+	mvCombo::mvCombo(mvUUID uuid)
 		: 
-		mvStringPtrBase(name)
+		mvStringPtrBase(uuid)
 	{
 	}
 
@@ -71,7 +71,7 @@ namespace Marvel {
 				if (ImGui::Selectable((name).c_str(), is_selected))
 				{
 					if (m_enabled) { *m_value = name; }
-					mvApp::GetApp()->getCallbackRegistry().addCallback(m_callback, m_name, nullptr, m_user_data);
+					mvApp::GetApp()->getCallbackRegistry().addCallback(m_callback, m_uuid, nullptr, m_user_data);
 
 				}
 

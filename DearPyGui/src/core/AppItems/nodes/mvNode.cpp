@@ -60,8 +60,8 @@ namespace Marvel {
 		parsers->insert({ s_command, parser });
 	}
 
-	mvNode::mvNode(const std::string& name)
-		: mvAppItem(name)
+	mvNode::mvNode(mvUUID uuid)
+		: mvAppItem(uuid)
 	{
 		m_label = FindRenderedTextEnd(m_name.c_str());
 		m_specificedlabel = m_label;

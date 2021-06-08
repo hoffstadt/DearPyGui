@@ -29,8 +29,8 @@ namespace Marvel {
 		parsers->insert({ s_command, parser });
 	}
 
-	mvVLineSeries::mvVLineSeries(const std::string& name)
-		: mvSeriesBase(name)
+	mvVLineSeries::mvVLineSeries(mvUUID uuid)
+		: mvSeriesBase(uuid)
 	{
 	}
 
@@ -133,8 +133,8 @@ namespace Marvel {
 		parsers->insert({ s_command, parser });
 	}
 
-	mvHLineSeries::mvHLineSeries(const std::string& name)
-		: mvSeriesBase(name)
+	mvHLineSeries::mvHLineSeries(mvUUID uuid)
+		: mvSeriesBase(uuid)
 	{
 	}
 

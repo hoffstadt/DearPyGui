@@ -33,8 +33,8 @@ namespace Marvel {
 		parsers->insert({ s_command, parser });
 	}
 
-	mvLabelSeries::mvLabelSeries(const std::string& name)
-		: mvSeriesBase(name)
+	mvLabelSeries::mvLabelSeries(mvUUID uuid)
+		: mvSeriesBase(uuid)
 	{
 	}
 

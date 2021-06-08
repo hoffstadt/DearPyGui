@@ -63,8 +63,8 @@ namespace Marvel {
 		parsers->insert({ s_command, parser });
 	}
 
-	mvTable::mvTable(const std::string& name)
-		: mvAppItem(name)
+	mvTable::mvTable(mvUUID uuid)
+		: mvAppItem(uuid)
 	{
 	}
 

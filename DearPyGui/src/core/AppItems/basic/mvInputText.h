@@ -55,7 +55,7 @@ namespace Marvel {
 
 	public:
 
-		mvInputText(const std::string& name);
+		mvInputText(mvUUID uuid);
 
 		void setEnabled        (bool value)     override;
 		void draw(ImDrawList* drawlist, float x, float y) override;

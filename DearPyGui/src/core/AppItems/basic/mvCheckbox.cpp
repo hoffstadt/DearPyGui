@@ -37,9 +37,9 @@ namespace Marvel {
 		parsers->insert({ s_command, parser });
 	}
 
-	mvCheckbox::mvCheckbox(const std::string& name)
+	mvCheckbox::mvCheckbox(mvUUID uuid)
 		: 
-		mvBoolPtrBase(name)
+		mvBoolPtrBase(uuid)
 	{
 	}
 
@@ -52,7 +52,7 @@ namespace Marvel {
 		if (!m_enabled) m_disabled_value = *m_value;
 
 		if (ImGui::Checkbox(m_label.c_str(), m_enabled ? m_value.get() : &m_disabled_value))
-			mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), m_name, nullptr, m_user_data);
+			mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), m_uuid, nullptr, m_user_data);
 
 	}
 

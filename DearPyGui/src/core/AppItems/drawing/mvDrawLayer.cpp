@@ -21,9 +21,9 @@ namespace Marvel {
 		parsers->insert({ s_command, parser });
 	}
 
-	mvDrawLayer::mvDrawLayer(const std::string& name)
+	mvDrawLayer::mvDrawLayer(mvUUID uuid)
 		:
-		mvAppItem(name)
+		mvAppItem(uuid)
 	{
 
 	}

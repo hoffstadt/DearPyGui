@@ -44,8 +44,8 @@ namespace Marvel {
 
 		void runTasks();
 
-        void runCallback      (PyObject* callback, const std::string& sender, PyObject* app_data, PyObject* user_data);
-        void addCallback      (PyObject* callback, const std::string& sender, PyObject* app_data, PyObject* user_data);
+        void runCallback      (PyObject* callback, mvUUID sender, PyObject* app_data, PyObject* user_data);
+        void addCallback      (PyObject* callback, mvUUID sender, PyObject* app_data, PyObject* user_data);
 		
 		bool runCallbacks();
 

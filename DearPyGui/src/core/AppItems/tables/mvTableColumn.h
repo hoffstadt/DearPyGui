@@ -30,7 +30,7 @@ namespace Marvel {
 		MV_START_STYLE_CONSTANTS
 		MV_END_STYLE_CONSTANTS
 
-		mvTableColumn(const std::string& name);
+		mvTableColumn(mvUUID uuid);
 
 		void draw(ImDrawList* drawlist, float x, float y) override;
 		bool isParentCompatible(mvAppItemType type) override;

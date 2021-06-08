@@ -40,8 +40,8 @@ namespace Marvel {
 		parsers->insert({ s_command, parser });
 	}
 
-	mvHeatSeries::mvHeatSeries(const std::string& name)
-		: mvSeriesBase(name)
+	mvHeatSeries::mvHeatSeries(mvUUID uuid)
+		: mvSeriesBase(uuid)
 	{
 	}
 

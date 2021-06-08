@@ -31,9 +31,9 @@ namespace Marvel {
 
 	}
 
-	mvFileExtension::mvFileExtension(const std::string& name)
+	mvFileExtension::mvFileExtension(mvUUID uuid)
 		: 
-		mvAppItem(name)
+		mvAppItem(uuid)
 	{
 	}
 

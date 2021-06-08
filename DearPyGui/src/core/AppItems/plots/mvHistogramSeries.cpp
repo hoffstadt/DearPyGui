@@ -38,8 +38,8 @@ namespace Marvel {
 		parsers->insert({ s_command, parser });
 	}
 
-	mvHistogramSeries::mvHistogramSeries(const std::string& name)
-		: mvSeriesBase(name)
+	mvHistogramSeries::mvHistogramSeries(mvUUID uuid)
+		: mvSeriesBase(uuid)
 	{
 		m_contributeToBounds = true;
 	}

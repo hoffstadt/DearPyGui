@@ -39,8 +39,8 @@ namespace Marvel {
         parsers->insert({ s_command, parser });
     }
 
-    mvKnobFloat::mvKnobFloat(const std::string& name)
-        : mvFloatPtrBase(name)
+    mvKnobFloat::mvKnobFloat(mvUUID uuid)
+        : mvFloatPtrBase(uuid)
     {
     }
 

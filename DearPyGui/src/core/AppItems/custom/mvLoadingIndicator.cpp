@@ -28,8 +28,8 @@ namespace Marvel {
         parsers->insert({ s_command, parser });
     }
 
-    mvLoadingIndicator::mvLoadingIndicator(const std::string& name)
-        : mvAppItem(name)
+    mvLoadingIndicator::mvLoadingIndicator(mvUUID uuid)
+        : mvAppItem(uuid)
     {
     }
 

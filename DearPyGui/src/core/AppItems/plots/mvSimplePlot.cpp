@@ -40,7 +40,7 @@ namespace Marvel {
 		parsers->insert({ s_command, parser });
 	}
 
-	mvSimplePlot::mvSimplePlot(const std::string& name)
+	mvSimplePlot::mvSimplePlot(mvUUID uuid)
 		: mvFloatVectPtrBase(name)
 	{
 	}

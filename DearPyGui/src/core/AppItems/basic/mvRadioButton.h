@@ -54,7 +54,7 @@ namespace Marvel {
 
 	public:
 
-		mvRadioButton(const std::string& name);
+		mvRadioButton(mvUUID uuid);
 
 		void draw(ImDrawList* drawlist, float x, float y) override;
 		void setPyValue(PyObject* value) override;

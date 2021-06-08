@@ -41,9 +41,9 @@ namespace Marvel {
 		parsers->insert({ s_command, parser });
 	}
 
-	mvButton::mvButton(const std::string& name)
+	mvButton::mvButton(mvUUID uuid)
 		: 
-		mvAppItem(name)
+		mvAppItem(uuid)
 	{
 	}
 
@@ -56,20 +56,20 @@ namespace Marvel {
 		if (m_small_button)
 		{
 			if (ImGui::SmallButton(m_label.c_str()))
-				mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), m_name, nullptr, m_user_data);
+				mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), m_uuid, nullptr, m_user_data);
 			return;
 		}
 
 		if (m_arrow)
 		{
 			if (ImGui::ArrowButton(m_label.c_str(), m_direction))
-				mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), m_name, nullptr, m_user_data);
+				mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), m_uuid, nullptr, m_user_data);
 
 			return;
 		}
 
 		if (ImGui::Button(m_label.c_str(), ImVec2((float)m_width, (float)m_height)))
-			mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), m_name, nullptr, m_user_data);
+			mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), m_uuid, nullptr, m_user_data);
 
 	}
 

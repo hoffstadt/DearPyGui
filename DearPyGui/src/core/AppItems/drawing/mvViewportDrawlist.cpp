@@ -27,8 +27,8 @@ namespace Marvel {
 		parsers->insert({ s_command, parser });
 	}
 
-	mvViewportDrawlist::mvViewportDrawlist(const std::string& name)
-		: mvAppItem(name)
+	mvViewportDrawlist::mvViewportDrawlist(mvUUID uuid)
+		: mvAppItem(uuid)
 	{
 	}
 

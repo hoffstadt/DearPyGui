@@ -25,9 +25,9 @@ namespace Marvel {
 		parsers->insert({ s_command, parser });
 	}
 
-	mvMouseDownHandler::mvMouseDownHandler(const std::string& name)
+	mvMouseDownHandler::mvMouseDownHandler(mvUUID uuid)
 		:
-		mvAppItem(name)
+		mvAppItem(uuid)
 	{
 
 	}

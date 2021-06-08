@@ -33,9 +33,9 @@ namespace Marvel {
 		parsers->insert({ s_command, parser });
 	}
 
-	mvDrawBezierCubic::mvDrawBezierCubic(const std::string& name)
+	mvDrawBezierCubic::mvDrawBezierCubic(mvUUID uuid)
 		:
-		mvAppItem(name)
+		mvAppItem(uuid)
 	{
 	}
 

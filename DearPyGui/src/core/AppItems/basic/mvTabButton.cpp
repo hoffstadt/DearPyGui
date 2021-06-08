@@ -37,9 +37,9 @@ namespace Marvel {
 		parsers->insert({ s_command, parser });
 	}
 
-	mvTabButton::mvTabButton(const std::string& name)
+	mvTabButton::mvTabButton(mvUUID uuid)
 		:
-		mvAppItem(name)
+		mvAppItem(uuid)
 	{
 	}
 
@@ -50,7 +50,7 @@ namespace Marvel {
 		mvFontScope fscope(this);
 
 		if (ImGui::TabItemButton(m_label.c_str(), m_flags))
-			mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), m_name, nullptr, m_user_data);
+			mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), m_uuid, nullptr, m_user_data);
 
 	}
 

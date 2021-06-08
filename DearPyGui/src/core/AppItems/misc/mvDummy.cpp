@@ -26,8 +26,8 @@ namespace Marvel {
 	}
 
 
-	mvDummy::mvDummy(const std::string& name)
-		: mvAppItem(name)
+	mvDummy::mvDummy(mvUUID uuid)
+		: mvAppItem(uuid)
 	{
 	}
 

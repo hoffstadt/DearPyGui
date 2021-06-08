@@ -43,8 +43,8 @@ namespace Marvel {
         parsers->insert({ s_command, parser });
     }
 
-    mvSlider3D::mvSlider3D(const std::string& name)
-        : mvFloat4PtrBase(name)
+    mvSlider3D::mvSlider3D(mvUUID uuid)
+        : mvFloat4PtrBase(uuid)
     {
     }
 

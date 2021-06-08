@@ -27,7 +27,7 @@ namespace Marvel {
 
 	public:
 
-		mv2dHistogramSeries(const std::string& name);
+		mv2dHistogramSeries(mvUUID uuid);
 
 		void draw(ImDrawList* drawlist, float x, float y) override;
 

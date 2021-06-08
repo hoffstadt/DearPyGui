@@ -19,8 +19,8 @@ namespace Marvel {
 		parsers->insert({ s_command, parser });
 	}
 
-	mvStagingContainer::mvStagingContainer(const std::string& name)
-		: mvAppItem(name)
+	mvStagingContainer::mvStagingContainer(mvUUID uuid)
+		: mvAppItem(uuid)
 	{
 	}
 

@@ -33,9 +33,9 @@ namespace Marvel {
 		parsers->insert({ s_command, parser });
 	}
 
-	mvDrawEllipse::mvDrawEllipse(const std::string& name)
+	mvDrawEllipse::mvDrawEllipse(mvUUID uuid)
 		:
-		mvAppItem(name)
+		mvAppItem(uuid)
 	{
 	}
 

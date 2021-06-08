@@ -24,8 +24,8 @@ namespace Marvel {
 		parsers->insert({ s_command, parser });
 	}
 
-	mvFilterSet::mvFilterSet(const std::string& name)
-		: mvAppItem(name)
+	mvFilterSet::mvFilterSet(mvUUID uuid)
+		: mvAppItem(uuid)
 	{
 	}
 

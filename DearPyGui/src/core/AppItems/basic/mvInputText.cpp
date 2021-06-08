@@ -51,9 +51,9 @@ namespace Marvel {
 		parsers->insert({ s_command, parser });
 	}
 
-	mvInputText::mvInputText(const std::string& name)
+	mvInputText::mvInputText(mvUUID uuid)
 		: 
-		mvStringPtrBase(name)
+		mvStringPtrBase(uuid)
 	{
 	}
 
@@ -86,19 +86,19 @@ namespace Marvel {
 			if (m_multiline)
 			{
 				if (ImGui::InputTextMultiline(m_label.c_str(), m_value.get(), ImVec2((float)m_width, (float)m_height), m_flags))
-					mvApp::GetApp()->getCallbackRegistry().addCallback(m_callback, m_name, nullptr, m_user_data);
+					mvApp::GetApp()->getCallbackRegistry().addCallback(m_callback, m_uuid, nullptr, m_user_data);
 			}
 			else
 			{
 				if (ImGui::InputText(m_label.c_str(), m_value.get(), m_flags))
-					mvApp::GetApp()->getCallbackRegistry().addCallback(m_callback, m_name, nullptr, m_user_data);
+					mvApp::GetApp()->getCallbackRegistry().addCallback(m_callback, m_uuid, nullptr, m_user_data);
 			}
 		}
 
 		else
 		{
 			if (ImGui::InputTextWithHint(m_label.c_str(), m_hint.c_str(), m_value.get(), m_flags))
-				mvApp::GetApp()->getCallbackRegistry().addCallback(m_callback, m_name, nullptr, m_user_data);
+				mvApp::GetApp()->getCallbackRegistry().addCallback(m_callback, m_uuid, nullptr, m_user_data);
 		}
 
 	}

@@ -31,9 +31,9 @@ namespace Marvel {
 		parsers->insert({ s_command, parser });
 	}
 
-	mvPlotLegend::mvPlotLegend(const std::string& name)
+	mvPlotLegend::mvPlotLegend(mvUUID uuid)
 		: 
-		mvAppItem(name)
+		mvAppItem(uuid)
 	{
 	}
 

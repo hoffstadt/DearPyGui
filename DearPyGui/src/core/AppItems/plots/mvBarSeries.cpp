@@ -33,8 +33,8 @@ namespace Marvel {
 		parsers->insert({ s_command, parser });
 	}
 
-	mvBarSeries::mvBarSeries(const std::string& name)
-		: mvSeriesBase(name)
+	mvBarSeries::mvBarSeries(mvUUID uuid)
+		: mvSeriesBase(uuid)
 	{
 		m_contributeToBounds = true;
 	}

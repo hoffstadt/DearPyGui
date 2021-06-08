@@ -39,8 +39,8 @@ namespace Marvel {
 		parsers->insert({ s_command, parser });
 	}
 
-	mvSelectable::mvSelectable(const std::string& name)
-		: mvBoolPtrBase(name)
+	mvSelectable::mvSelectable(mvUUID uuid)
+		: mvBoolPtrBase(uuid)
 	{
 	}
 
@@ -66,7 +66,7 @@ namespace Marvel {
 		mvFontScope fscope(this);
 
 		if (ImGui::Selectable(m_label.c_str(), m_value.get(), m_flags, ImVec2((float)m_width, (float)m_height)))
-			mvApp::GetApp()->getCallbackRegistry().addCallback(m_callback, m_name, nullptr, m_user_data);
+			mvApp::GetApp()->getCallbackRegistry().addCallback(m_callback, m_uuid, nullptr, m_user_data);
 
 	}
 

@@ -34,7 +34,7 @@ namespace Marvel {
 
 	public:
 
-		explicit mvMenuBar(const std::string& name);
+		explicit mvMenuBar(mvUUID uuid);
 
 		bool isParentCompatible(mvAppItemType type) override;
 

@@ -25,8 +25,8 @@ namespace Marvel {
 		parsers->insert({ s_command, parser });
 	}
 
-	mvMenuBar::mvMenuBar(const std::string& name)
-			: mvBoolPtrBase(name)
+	mvMenuBar::mvMenuBar(mvUUID uuid)
+			: mvBoolPtrBase(uuid)
 		{
 
 			// TODO use code below to set item height when font and scale systems are done

@@ -26,18 +26,18 @@ namespace Marvel {
 		parsers->insert({ s_command, parser });
 	}
 
-	mvStaticTexture::mvStaticTexture(const std::string& name)
+	mvStaticTexture::mvStaticTexture(mvUUID uuid)
 		:
-		mvFloatVectPtrBase(name)
+		mvFloatVectPtrBase(uuid)
 	{
 
 	}
 
 	mvStaticTexture::~mvStaticTexture()
 	{
-		if (m_name == "INTERNAL_DPG_FONT_ATLAS")
+		if (m_uuid == MV_ATLAS_UUID)
 			return;
-		UnloadTexture(m_name);
+		//UnloadTexture(m_name);
 		FreeTexture(m_texture);
 	}
 
@@ -58,7 +58,7 @@ namespace Marvel {
 		if (!m_dirty)
 			return;
 
-		if (m_name == "INTERNAL_DPG_FONT_ATLAS")
+		if (m_uuid == MV_ATLAS_UUID)
 		{
 			m_texture = ImGui::GetIO().Fonts->TexID;
 			m_width = ImGui::GetIO().Fonts->TexWidth;

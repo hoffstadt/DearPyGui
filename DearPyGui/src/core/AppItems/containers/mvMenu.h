@@ -52,7 +52,7 @@ namespace Marvel {
 
 	public:
 
-		mvMenu(const std::string& name);
+		mvMenu(mvUUID uuid);
 
 		void draw(ImDrawList* drawlist, float x, float y) override;
 

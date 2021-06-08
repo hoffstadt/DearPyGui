@@ -24,8 +24,8 @@ namespace Marvel {
 	}
 
 
-	mvSeparator::mvSeparator(const std::string& name)
-		: mvAppItem(name)
+	mvSeparator::mvSeparator(mvUUID uuid)
+		: mvAppItem(uuid)
 	{
 	}
 

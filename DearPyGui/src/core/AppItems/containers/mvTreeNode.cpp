@@ -36,8 +36,8 @@ namespace Marvel {
 
 		parsers->insert({ s_command, parser });
 	}
-	mvTreeNode::mvTreeNode(const std::string& name)
-		: mvBoolPtrBase(name)
+	mvTreeNode::mvTreeNode(mvUUID uuid)
+		: mvBoolPtrBase(uuid)
 	{
 	}
 

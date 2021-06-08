@@ -25,9 +25,9 @@ namespace Marvel {
 		parsers->insert({ s_command, parser });
 	}
 
-	mvMouseDoubleClickHandler::mvMouseDoubleClickHandler(const std::string& name)
+	mvMouseDoubleClickHandler::mvMouseDoubleClickHandler(mvUUID uuid)
 		:
-		mvAppItem(name)
+		mvAppItem(uuid)
 	{
 
 	}

@@ -35,8 +35,8 @@ namespace Marvel {
 		parsers->insert({ s_command, parser });
 	}
 
-	mvDrawlist::mvDrawlist(const std::string& name)
-		: mvAppItem(name)
+	mvDrawlist::mvDrawlist(mvUUID uuid)
+		: mvAppItem(uuid)
 	{
 	}
 

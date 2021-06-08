@@ -92,8 +92,8 @@ namespace Marvel {
         parsers->insert({ s_command, parser });
     }
 
-    mvInputIntMulti::mvInputIntMulti(const std::string& name)
-        : mvInt4PtrBase(name)
+    mvInputIntMulti::mvInputIntMulti(mvUUID uuid)
+        : mvInt4PtrBase(uuid)
     {
         m_last_value = *m_value;
     }
@@ -173,13 +173,13 @@ namespace Marvel {
             if (m_last_value != *m_value)
             {
                 m_last_value = *m_value;
-                mvApp::GetApp()->getCallbackRegistry().addCallback(m_callback, m_name, nullptr, m_user_data);
+                mvApp::GetApp()->getCallbackRegistry().addCallback(m_callback, m_uuid, nullptr, m_user_data);
             }
         }
     }
 
-    mvInputFloatMulti::mvInputFloatMulti(const std::string& name)
-        : mvFloat4PtrBase(name)
+    mvInputFloatMulti::mvInputFloatMulti(mvUUID uuid)
+        : mvFloat4PtrBase(uuid)
     {
         m_last_value = *m_value;
     }
@@ -259,7 +259,7 @@ namespace Marvel {
             if (m_last_value != *m_value)
             {
                 m_last_value = *m_value;
-                mvApp::GetApp()->getCallbackRegistry().addCallback(m_callback, m_name, nullptr, m_user_data);
+                mvApp::GetApp()->getCallbackRegistry().addCallback(m_callback, m_uuid, nullptr, m_user_data);
             }
         }
     }

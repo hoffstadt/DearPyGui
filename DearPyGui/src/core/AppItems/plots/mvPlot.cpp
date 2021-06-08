@@ -128,8 +128,8 @@ namespace Marvel {
 		return true;
 	}
 
-	mvPlot::mvPlot(const std::string& name)
-		: mvAppItem(name)
+	mvPlot::mvPlot(mvUUID uuid)
+		: mvAppItem(uuid)
 	{
 		m_width = -1;
 		m_height = -1;

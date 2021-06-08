@@ -23,9 +23,9 @@ namespace Marvel {
 		parsers->insert({ s_command, parser });
 	}
 
-	mvFocusHandler::mvFocusHandler(const std::string& name)
+	mvFocusHandler::mvFocusHandler(mvUUID uuid)
 		:
-		mvAppItem(name)
+		mvAppItem(uuid)
 	{
 
 	}

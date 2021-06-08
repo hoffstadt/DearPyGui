@@ -31,9 +31,9 @@ namespace Marvel {
 
 	}
 
-	mvDrawTriangle::mvDrawTriangle(const std::string& name)
+	mvDrawTriangle::mvDrawTriangle(mvUUID uuid)
 		:
-		mvAppItem(name)
+		mvAppItem(uuid)
 	{
 	}
 

@@ -48,7 +48,7 @@ namespace Marvel {
 
 	public:
 
-		mvPlotLegend(const std::string& name);
+		mvPlotLegend(mvUUID uuid);
 
 		void draw(ImDrawList* drawlist, float x, float y) override;
 		bool isParentCompatible(mvAppItemType type) override;

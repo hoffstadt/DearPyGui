@@ -23,6 +23,7 @@ namespace Marvel {
 	using mvVariant = std::variant<
 		int,
 		long,
+		mvUUID,
 		std::string, 
 		bool, 
 		float, 
@@ -46,6 +47,7 @@ namespace Marvel {
 	long               GetELong  (mvEvent& event, const char* name);
 	float              GetEFloat (mvEvent& event, const char* name);
 	mvColor            GetEColor (mvEvent& event, const char* name);
+	mvUUID             GetEUUID (mvEvent& event, const char* name);
 
 	//-----------------------------------------------------------------------------
 	// mvEvent

@@ -24,8 +24,8 @@ namespace Marvel {
 		parsers->insert({ s_command, parser });
 	}
 
-	mvClipper::mvClipper(const std::string& name)
-		: mvAppItem(name)
+	mvClipper::mvClipper(mvUUID uuid)
+		: mvAppItem(uuid)
 	{
 	}
 

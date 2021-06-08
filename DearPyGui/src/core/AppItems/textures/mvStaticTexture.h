@@ -29,7 +29,7 @@ namespace Marvel {
 
 	public:
 
-		mvStaticTexture(const std::string& name);
+		mvStaticTexture(mvUUID uuid);
 		~mvStaticTexture();
 
 		void draw(ImDrawList* drawlist, float x, float y) override;

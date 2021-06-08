@@ -23,9 +23,9 @@ namespace Marvel {
 		parsers->insert({ s_command, parser });
 	}
 
-	mvToggledOpenHandler::mvToggledOpenHandler(const std::string& name)
+	mvToggledOpenHandler::mvToggledOpenHandler(mvUUID uuid)
 		:
-		mvAppItem(name)
+		mvAppItem(uuid)
 	{
 
 	}

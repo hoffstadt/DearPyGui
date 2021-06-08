@@ -24,8 +24,8 @@ namespace Marvel {
 		parsers->insert({ s_command, parser });
 	}
 
-	mvDragPayload::mvDragPayload(const std::string& name)
-		: mvAppItem(name)
+	mvDragPayload::mvDragPayload(mvUUID uuid)
+		: mvAppItem(uuid)
 	{
 	}
 

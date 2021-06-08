@@ -57,9 +57,9 @@ namespace Marvel {
 		parsers->insert({ s_command, parser });
 	}
 
-	mvColorPicker::mvColorPicker(const std::string& name)
+	mvColorPicker::mvColorPicker(mvUUID uuid)
 		: 
-		mvColorPtrBase(name)
+		mvColorPtrBase(uuid)
 	{
 	}
 
@@ -74,12 +74,12 @@ namespace Marvel {
 		if (m_3component)
 		{
 			if (ImGui::ColorPicker3(m_label.c_str(), m_enabled ? m_value->data() : &m_disabled_value[0], m_flags))
-				mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), m_name, nullptr, m_user_data);
+				mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), m_uuid, nullptr, m_user_data);
 		}
 		else
 		{
 			if (ImGui::ColorPicker4(m_label.c_str(), m_enabled ? m_value->data() : &m_disabled_value[0], m_flags))
-				mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), m_name, nullptr, m_user_data);
+				mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), m_uuid, nullptr, m_user_data);
 		}
 
 	}

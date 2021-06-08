@@ -32,9 +32,9 @@ namespace Marvel {
 		parsers->insert({ s_command, parser });
 	}
 
-	mvDrawCircle::mvDrawCircle(const std::string& name)
+	mvDrawCircle::mvDrawCircle(mvUUID uuid)
 		:
-		mvAppItem(name)
+		mvAppItem(uuid)
 	{
 	}
 

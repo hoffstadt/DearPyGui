@@ -20,9 +20,9 @@ namespace Marvel {
 		parsers->insert({ s_command, parser });
 	}
 
-	mvTooltip::mvTooltip(const std::string& name)
+	mvTooltip::mvTooltip(mvUUID uuid)
 		: 
-		mvBoolPtrBase(name)
+		mvBoolPtrBase(uuid)
 	{
 
 		// has to be showed that way it can check for hovering

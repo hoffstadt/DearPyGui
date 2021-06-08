@@ -35,8 +35,8 @@ namespace Marvel {
 		parsers->insert({ s_command, parser });
 	}
 
-	mvGroup::mvGroup(const std::string& name)
-		: mvAppItem(name)
+	mvGroup::mvGroup(mvUUID uuid)
+		: mvAppItem(uuid)
 	{
 	}
 

@@ -29,7 +29,7 @@ namespace Marvel {
 
 	public:
 
-		mvKeyPressHandler(const std::string& name);
+		mvKeyPressHandler(mvUUID uuid);
 
 		void draw(ImDrawList* drawlist, float x, float y) override;
 		bool isParentCompatible(mvAppItemType type) override;

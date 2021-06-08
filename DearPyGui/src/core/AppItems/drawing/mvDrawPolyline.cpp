@@ -30,9 +30,9 @@ namespace Marvel {
 		parsers->insert({ s_command, parser });
 	}
 
-	mvDrawPolyline::mvDrawPolyline(const std::string& name)
+	mvDrawPolyline::mvDrawPolyline(mvUUID uuid)
 		:
-		mvAppItem(name)
+		mvAppItem(uuid)
 	{
 	}
 

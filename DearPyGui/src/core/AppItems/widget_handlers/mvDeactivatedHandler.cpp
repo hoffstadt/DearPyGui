@@ -23,9 +23,9 @@ namespace Marvel {
 		parsers->insert({ s_command, parser });
 	}
 
-	mvDeactivatedHandler::mvDeactivatedHandler(const std::string& name)
+	mvDeactivatedHandler::mvDeactivatedHandler(mvUUID uuid)
 		:
-		mvAppItem(name)
+		mvAppItem(uuid)
 	{
 
 	}

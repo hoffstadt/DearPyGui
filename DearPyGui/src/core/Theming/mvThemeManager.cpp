@@ -20,7 +20,7 @@ namespace Marvel {
 			mvPythonParser parser(mvPyDataType::String);
 			parser.addArg<mvPyDataType::Integer>("constant");
 			parser.addArg<mvPyDataType::FloatList>("color");
-			parser.addArg<mvPyDataType::String>("item", mvArgType::KEYWORD_ARG, "''");
+			parser.addArg<mvPyDataType::UUID>("item", mvArgType::KEYWORD_ARG, "0");
 			parser.finalize();
 			parsers->insert({ "set_theme_color", parser });
 		}
@@ -29,7 +29,7 @@ namespace Marvel {
 			mvPythonParser parser(mvPyDataType::String);
 			parser.addArg<mvPyDataType::Integer>("constant");
 			parser.addArg<mvPyDataType::FloatList>("color");
-			parser.addArg<mvPyDataType::String>("item", mvArgType::KEYWORD_ARG, "''");
+			parser.addArg<mvPyDataType::UUID>("item", mvArgType::KEYWORD_ARG, "0");
 			parser.finalize();
 			parsers->insert({ "set_theme_color_disabled", parser });
 		}
@@ -38,7 +38,7 @@ namespace Marvel {
 			mvPythonParser parser(mvPyDataType::String);
 			parser.addArg<mvPyDataType::Integer>("constant");
 			parser.addArg<mvPyDataType::Float>("style");
-			parser.addArg<mvPyDataType::String>("item", mvArgType::KEYWORD_ARG, "''");
+			parser.addArg<mvPyDataType::UUID>("item", mvArgType::KEYWORD_ARG, "0");
 			parser.finalize();
 			parsers->insert({ "set_theme_style", parser });
 		}
@@ -96,11 +96,11 @@ namespace Marvel {
 		long mvThemeConstant = GetELong(event, "ID");
 		DecodeType(mvThemeConstant, &type);
 		mvColor color = GetEColor(event, "COLOR");
-		const std::string& widget = GetEString(event, "WIDGET");
+		mvUUID widget = GetEUUID(event, "WIDGET");
 		bool enabled = GetEBool(event, "ENABLED");
 
 		//fills out the app's root theme if no item was given
-		if (widget.empty())
+		if (widget == MV_INVALID_UUID)
 		{
 			for (auto& existingColor : s_colors)
 			{
@@ -148,11 +148,11 @@ namespace Marvel {
 		long mvThemeConstant = GetELong(event, "ID");
 		DecodeType(mvThemeConstant, &type);
 		mvColor color = GetEColor(event, "COLOR");
-		const std::string& widget = GetEString(event, "WIDGET");
+		mvUUID widget = GetEUUID(event, "WIDGET");
 		bool enabled = GetEBool(event, "ENABLED");
 
 		//fills out the app's root theme if no item was given
-		if (widget.empty())
+		if (widget == MV_INVALID_UUID)
 		{
 			for (auto& existingColor : s_disabled_colors)
 			{
@@ -200,10 +200,10 @@ namespace Marvel {
 		long mvThemeConstant = GetELong(event, "ID");
 		DecodeType(mvThemeConstant, &type);
 		float style = GetEFloat(event, "STYLE");
-		const std::string& widget = GetEString(event, "WIDGET");
+		mvUUID widget = GetEUUID(event, "WIDGET");
 
 		//fills out the app's root theme if no item was given
-		if (widget.empty())
+		if (widget == MV_INVALID_UUID)
 		{
 			for (auto& existingStyle : s_styles)
 			{
@@ -250,7 +250,7 @@ namespace Marvel {
 	{
 		long constant;
 		PyObject* color;
-		const char* item = "";
+		mvUUID item = MV_INVALID_UUID;
 
 		if (!(mvApp::GetApp()->getParsers())["set_theme_color"].parse(args, kwargs, __FUNCTION__, &constant, &color, &item))
 			return GetPyNone();
@@ -263,7 +263,7 @@ namespace Marvel {
 			mvEVT_CATEGORY_THEMES,
 			SID("color_change"),
 			{
-				CreateEventArgument("WIDGET", std::string(item)),
+				CreateEventArgument("WIDGET", item),
 				CreateEventArgument("ID", constant),
 				CreateEventArgument("COLOR", ToColor(color)),
 				CreateEventArgument("ENABLED", true)
@@ -280,7 +280,7 @@ namespace Marvel {
 	{
 		long constant;
 		PyObject* color;
-		const char* item = "";
+		mvUUID item = MV_INVALID_UUID;
 
 		if (!(mvApp::GetApp()->getParsers())["set_theme_color_disabled"].parse(args, kwargs, __FUNCTION__, &constant, &color, &item))
 			return GetPyNone();
@@ -294,7 +294,7 @@ namespace Marvel {
 					mvEVT_CATEGORY_THEMES,
 					SID("disabled_color_change"),
 					{
-						CreateEventArgument("WIDGET", std::string(item)),
+						CreateEventArgument("WIDGET", item),
 						CreateEventArgument("ID", constant),
 						CreateEventArgument("COLOR", ToColor(color)),
 						CreateEventArgument("ENABLED", false)
@@ -316,7 +316,7 @@ namespace Marvel {
 	{
 		long constant;
 		float style;
-		const char* item = "";
+		mvUUID item = MV_INVALID_UUID;
 
 		if (!(mvApp::GetApp()->getParsers())["set_theme_style"].parse(args, kwargs, __FUNCTION__, &constant, &style, &item))
 			return GetPyNone();
@@ -329,7 +329,7 @@ namespace Marvel {
 					mvEVT_CATEGORY_THEMES,
 					SID("style_change"),
 					{
-						CreateEventArgument("WIDGET", std::string(item)),
+						CreateEventArgument("WIDGET", item),
 						CreateEventArgument("ID", constant),
 						CreateEventArgument("STYLE", style)
 					}

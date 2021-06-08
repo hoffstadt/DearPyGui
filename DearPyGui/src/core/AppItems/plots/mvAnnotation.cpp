@@ -34,8 +34,8 @@ namespace Marvel {
 		parsers->insert({ s_command, parser });
 	}
 
-	mvAnnotation::mvAnnotation(const std::string& name)
-		: mvDouble4PtrBase(name)
+	mvAnnotation::mvAnnotation(mvUUID uuid)
+		: mvDouble4PtrBase(uuid)
 	{
 	}
 

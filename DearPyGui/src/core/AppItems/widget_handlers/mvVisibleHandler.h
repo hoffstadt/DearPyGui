@@ -29,7 +29,7 @@ namespace Marvel {
 
 	public:
 
-		mvVisibleHandler(const std::string& name);
+		mvVisibleHandler(mvUUID uuid);
 
 		void draw(ImDrawList* drawlist, float x, float y) override;
 		bool isParentCompatible(mvAppItemType type) override;

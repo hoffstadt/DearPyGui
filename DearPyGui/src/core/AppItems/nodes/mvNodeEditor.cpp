@@ -39,44 +39,44 @@ namespace Marvel {
 		}
 
 		{
-			mvPythonParser parser(mvPyDataType::StringList);
-			parser.addArg<mvPyDataType::String>("node_editor");
+			mvPythonParser parser(mvPyDataType::UUIDList);
+			parser.addArg<mvPyDataType::UUID>("node_editor");
 			parser.finalize();
 			parsers->insert({ "get_selected_nodes", parser });
 		}
 
 		{
 			mvPythonParser parser(mvPyDataType::ListStrList);
-			parser.addArg<mvPyDataType::String>("node_editor");
+			parser.addArg<mvPyDataType::UUID>("node_editor");
 			parser.finalize();
 			parsers->insert({ "get_selected_links", parser });
 		}
 
 		{
 			mvPythonParser parser(mvPyDataType::ListStrList);
-			parser.addArg<mvPyDataType::String>("node_editor");
+			parser.addArg<mvPyDataType::UUID>("node_editor");
 			parser.finalize();
 			parsers->insert({ "get_links", parser });
 		}
 
 		{
 			mvPythonParser parser(mvPyDataType::None);
-			parser.addArg<mvPyDataType::String>("node_editor");
+			parser.addArg<mvPyDataType::UUID>("node_editor");
 			parser.finalize();
 			parsers->insert({ "clear_selected_links", parser });
 		}
 
 		{
 			mvPythonParser parser(mvPyDataType::None);
-			parser.addArg<mvPyDataType::String>("node_editor");
+			parser.addArg<mvPyDataType::UUID>("node_editor");
 			parser.finalize();
 			parsers->insert({ "clear_selected_nodes", parser });
 		}
 
 	}
 
-	mvNodeEditor::mvNodeEditor(const std::string& name)
-		: mvAppItem(name)
+	mvNodeEditor::mvNodeEditor(mvUUID uuid)
+		: mvAppItem(uuid)
 	{
 	}
 
@@ -109,9 +109,9 @@ namespace Marvel {
 		return false;
 	}
 
-	std::vector<std::string> mvNodeEditor::getSelectedNodes() const
+	std::vector<mvUUID> mvNodeEditor::getSelectedNodes() const
 	{
-		std::vector<std::string> result;
+		std::vector<mvUUID> result;
 		for (const auto& item : m_selectedNodes)
 		{
 			for (const auto& child : m_children[1])
@@ -121,7 +121,7 @@ namespace Marvel {
 			    int i3 = i1 + i2;
 				//if (static_cast<mvNode*>(child.get())->getId() == item)
 				if (i1 == i2)
-					result.push_back(child->m_name);
+					result.push_back(child->m_uuid);
 			}
 		}
 
@@ -234,10 +234,10 @@ namespace Marvel {
 				for (const auto& grandchild : child->m_children[1])
 				{
 					if (static_cast<mvNodeAttribute*>(grandchild.get())->getId()== start_attr)
-						node1 = grandchild->m_name;
+						node1 = grandchild->m_uuid;
 
 					if (static_cast<mvNodeAttribute*>(grandchild.get())->getId() == end_attr)
-						node2 = grandchild->m_name;
+						node2 = grandchild->m_uuid;
 				}
 			}
 
@@ -246,29 +246,29 @@ namespace Marvel {
 				PyObject* link = PyTuple_New(2);
 				PyTuple_SetItem(link, 0, ToPyString(node1));
 				PyTuple_SetItem(link, 1, ToPyString(node2));
-				mvApp::GetApp()->getCallbackRegistry().addCallback(m_callback, m_name, link, nullptr);
+				mvApp::GetApp()->getCallbackRegistry().addCallback(m_callback, m_uuid, link, nullptr);
 					});
 		}
 
 		static int destroyed_attr;
 		if (imnodes::IsLinkDestroyed(&destroyed_attr))
 		{
-			std::string name;
+			mvUUID name;
 			for (auto& item : m_children[0])
 			{
 				if (item->getType() == mvAppItemType::mvNodeLink)
 				{
 					if (static_cast<const mvNodeLink*>(item.get())->m_id == destroyed_attr)
 					{
-						name = item->m_name;
+						name = item->m_uuid;
 						break;
 					}
 				}
 			}
 			if (m_delinkCallback)
 				mvApp::GetApp()->getCallbackRegistry().submitCallback([=]() {
-				PyObject* link = ToPyString(name);
-				mvApp::GetApp()->getCallbackRegistry().addCallback(m_delinkCallback, m_name, link, nullptr);
+				PyObject* link = ToPyUUID(name);
+				mvApp::GetApp()->getCallbackRegistry().addCallback(m_delinkCallback, m_uuid, link, nullptr);
 					});
 		}
 
@@ -277,7 +277,7 @@ namespace Marvel {
 
 	PyObject* mvNodeEditor::get_selected_nodes(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
-		const char* node_editor;
+		mvUUID node_editor;
 
 
 		if (!(mvApp::GetApp()->getParsers())["get_selected_nodes"].parse(args, kwargs, __FUNCTION__, &node_editor))
@@ -287,15 +287,13 @@ namespace Marvel {
 		auto anode_editor = mvApp::GetApp()->getItemRegistry().getItem(node_editor);
 		if (anode_editor == nullptr)
 		{
-			std::string message = node_editor;
-			mvThrowPythonError(1000, message + " node_editor does not exist.");
+			mvThrowPythonError(1000, std::to_string(node_editor) + " node_editor does not exist.");
 			return GetPyNone();
 		}
 
 		if (anode_editor->getType() != mvAppItemType::mvNodeEditor)
 		{
-			std::string message = node_editor;
-			mvThrowPythonError(1000, message + " is not a plot.");
+			mvThrowPythonError(1000, std::to_string(node_editor) + " is not a plot.");
 			return GetPyNone();
 		}
 
@@ -309,7 +307,7 @@ namespace Marvel {
 
 	PyObject* mvNodeEditor::get_selected_links(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
-		const char* node_editor;
+		mvUUID node_editor;
 
 		if (!(mvApp::GetApp()->getParsers())["get_selected_links"].parse(args, kwargs, __FUNCTION__, &node_editor))
 			return ToPyBool(false);
@@ -318,15 +316,13 @@ namespace Marvel {
 		auto anode_editor = mvApp::GetApp()->getItemRegistry().getItem(node_editor);
 		if (anode_editor == nullptr)
 		{
-			std::string message = node_editor;
-			mvThrowPythonError(1000, message + " node_editor does not exist.");
+			mvThrowPythonError(1000, std::to_string(node_editor) + " node_editor does not exist.");
 			return GetPyNone();
 		}
 
 		if (anode_editor->getType() != mvAppItemType::mvNodeEditor)
 		{
-			std::string message = node_editor;
-			mvThrowPythonError(1000, message + " is not a plot.");
+			mvThrowPythonError(1000, std::to_string(node_editor) + " is not a plot.");
 			return GetPyNone();
 		}
 
@@ -344,7 +340,7 @@ namespace Marvel {
 
 	PyObject* mvNodeEditor::clear_selected_links(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
-		const char* node_editor;
+		mvUUID node_editor;
 
 		if (!(mvApp::GetApp()->getParsers())["clear_selected_links"].parse(args, kwargs, __FUNCTION__, &node_editor))
 			return ToPyBool(false);
@@ -353,15 +349,13 @@ namespace Marvel {
 		auto anode_editor = mvApp::GetApp()->getItemRegistry().getItem(node_editor);
 		if (anode_editor == nullptr)
 		{
-			std::string message = node_editor;
-			mvThrowPythonError(1000, message + " node_editor does not exist.");
+			mvThrowPythonError(1000, std::to_string(node_editor) + " node_editor does not exist.");
 			return GetPyNone();
 		}
 
 		if (anode_editor->getType() != mvAppItemType::mvNodeEditor)
 		{
-			std::string message = node_editor;
-			mvThrowPythonError(1000, message + " is not a plot.");
+			mvThrowPythonError(1000, std::to_string(node_editor) + " is not a plot.");
 			return GetPyNone();
 		}
 
@@ -374,7 +368,7 @@ namespace Marvel {
 
 	PyObject* mvNodeEditor::clear_selected_nodes(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
-		const char* node_editor;
+		mvUUID node_editor;
 
 		if (!(mvApp::GetApp()->getParsers())["clear_selected_nodes"].parse(args, kwargs, __FUNCTION__, &node_editor))
 			return ToPyBool(false);
@@ -383,15 +377,13 @@ namespace Marvel {
 		auto anode_editor = mvApp::GetApp()->getItemRegistry().getItem(node_editor);
 		if (anode_editor == nullptr)
 		{
-			std::string message = node_editor;
-			mvThrowPythonError(1000, message + " node_editor does not exist.");
+			mvThrowPythonError(1000, std::to_string(node_editor) + " node_editor does not exist.");
 			return GetPyNone();
 		}
 
 		if (anode_editor->getType() != mvAppItemType::mvNodeEditor)
 		{
-			std::string message = node_editor;
-			mvThrowPythonError(1000, message + " is not a plot.");
+			mvThrowPythonError(1000, std::to_string(node_editor) + " is not a plot.");
 			return GetPyNone();
 		}
 

@@ -179,7 +179,7 @@ namespace Marvel {
 			MV_ADD_CONSTANT_F(mvThemeStyle_Plot_PlotMinSizeY,		 255, 510),
 		MV_END_STYLE_CONSTANTS
 
-		mvPlot(const std::string& name);
+		mvPlot(mvUUID uuid);
 
 		void updateFlags();
 		void updateAxesNames();

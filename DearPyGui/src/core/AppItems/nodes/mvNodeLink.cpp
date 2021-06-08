@@ -27,8 +27,8 @@ namespace Marvel {
 		parsers->insert({ s_command, parser });
 	}
 
-	mvNodeLink::mvNodeLink(const std::string& name)
-		: mvAppItem(name)
+	mvNodeLink::mvNodeLink(mvUUID uuid)
+		: mvAppItem(uuid)
 	{
 		int64_t address = (int64_t)this;
 		int64_t reduced_address = address % 2147483648;

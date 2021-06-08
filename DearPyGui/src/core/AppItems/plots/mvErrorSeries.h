@@ -35,7 +35,7 @@ namespace Marvel {
 
 	public:
 
-		mvErrorSeries(const std::string& name);
+		mvErrorSeries(mvUUID uuid);
 
 		void draw(ImDrawList* drawlist, float x, float y) override;
 

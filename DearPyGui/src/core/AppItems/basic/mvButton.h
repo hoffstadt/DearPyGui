@@ -64,7 +64,7 @@ namespace Marvel {
 
 	public:
 
-		mvButton(const std::string& name);
+		mvButton(mvUUID uuid);
 
 		void draw(ImDrawList* drawlist, float x, float y) override;
 

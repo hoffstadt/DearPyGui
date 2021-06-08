@@ -24,8 +24,8 @@ namespace Marvel {
 		parsers->insert({ s_command, parser });
 	}
 
-	mvTableNextColumn::mvTableNextColumn(const std::string& name)
-		: mvAppItem(name)
+	mvTableNextColumn::mvTableNextColumn(mvUUID uuid)
+		: mvAppItem(uuid)
 	{
 	}
 

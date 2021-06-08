@@ -29,9 +29,9 @@ namespace Marvel {
 		parsers->insert({ s_command, parser });
 	}
 
-	mvDrawArrow::mvDrawArrow(const std::string& name)
+	mvDrawArrow::mvDrawArrow(mvUUID uuid)
 		:
-		mvAppItem(name)
+		mvAppItem(uuid)
 	{
 		updatePoints();
 	}

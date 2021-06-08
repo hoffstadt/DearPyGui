@@ -25,9 +25,9 @@ namespace Marvel {
 		parsers->insert({ s_command, parser });
 	}
 
-	mvKeyPressHandler::mvKeyPressHandler(const std::string& name)
+	mvKeyPressHandler::mvKeyPressHandler(mvUUID uuid)
 		:
-		mvAppItem(name)
+		mvAppItem(uuid)
 	{
 
 	}

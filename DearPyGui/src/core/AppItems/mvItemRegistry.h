@@ -94,28 +94,27 @@ namespace Marvel {
         //-----------------------------------------------------------------------------
         // Widget Operations
         //-----------------------------------------------------------------------------
-        bool                           deleteItem        (const std::string& name, bool childrenOnly = false);
-        bool                           moveItem          (const std::string& name, const std::string& parent, const std::string& before);
-        bool                           moveItemUp        (const std::string& name);
-        bool                           moveItemDown      (const std::string& name);
+        bool                           deleteItem        (mvUUID uuid, bool childrenOnly = false);
+        bool                           moveItem          (mvUUID uuid, mvUUID parent, mvUUID before);
+        bool                           moveItemUp        (mvUUID uuid);
+        bool                           moveItemDown      (mvUUID uuid);
         void                           clearRegistry     ();
-        mvValueVariant                 getValue          (const std::string& name);
-        mvAppItem*                     getItem           (const std::string& name);
-        mvRef<mvAppItem>               getRefItem        (const std::string& name);
-        mvWindowAppItem*               getWindow         (const std::string& name);
+        mvValueVariant                 getValue          (mvUUID uuid);
+        mvAppItem*                     getItem           (mvUUID uuid);
+        mvRef<mvAppItem>               getRefItem        (mvUUID uuid);
+        mvWindowAppItem*               getWindow         (mvUUID uuid);
         std::vector<mvRef<mvAppItem>>& getRoots          ()       { return m_roots; }
-        const std::string&             getActiveWindow   () const { return m_activeWindow; }
-        bool                           addItemWithRuntimeChecks(mvRef<mvAppItem> item, const char* parent, const char* before);
+        mvUUID                         getActiveWindow   () const { return m_activeWindow; }
+        bool                           addItemWithRuntimeChecks(mvRef<mvAppItem> item, mvUUID parent, mvUUID before);
         
         // called by python interface
-        std::vector<std::string>              getAllItems       ();
-        std::vector<std::string>              getWindows        ();
-        std::vector<std::vector<std::string>> getItemChildren   (const std::string& name);
-        std::string                           getItemParentName (const std::string& name);
-        void                                  setPrimaryWindow  (const std::string& name, bool value);
-        void                                  stageItem         (const std::string& name);
-        void                                  unstageItem       (const std::string& name);
-        void                                  setStagingMode    (bool value);
+        std::vector<mvUUID>              getAllItems       ();
+        std::vector<mvUUID>              getWindows        ();
+        std::vector<std::vector<mvUUID>> getItemChildren   (mvUUID uuid);
+        void                            setPrimaryWindow  (mvUUID uuid, bool value);
+        void                            stageItem         (mvUUID uuid);
+        void                            unstageItem       (mvUUID uuid);
+        void                            setStagingMode    (bool value);
 
         //-----------------------------------------------------------------------------
         // Parent stack operations
@@ -129,21 +128,21 @@ namespace Marvel {
     private:
 
         bool                           addItem       (mvRef<mvAppItem> item);
-        bool                           addItemAfter  (const std::string& prev, mvRef<mvAppItem> item); // for popups/tooltips
+        bool                           addItemAfter  (mvUUID prev, mvRef<mvAppItem> item); // for popups/tooltips
         bool                           addWindow     (mvRef<mvAppItem> item);
-        bool                           addRuntimeItem(const std::string& parent, const std::string& before, mvRef<mvAppItem> item);
+        bool                           addRuntimeItem(mvUUID parent, mvUUID before, mvRef<mvAppItem> item);
 
 
 	private:
 
-		std::stack<mvAppItem*>                            m_containers;      // parent stack, top of stack becomes widget's parent
-		std::vector<mvRef<mvAppItem>>                     m_roots;
-        std::unordered_map<std::string, mvRef<mvAppItem>> m_stagingArea;
-        std::string                                       m_activeWindow;
-        bool                                              m_staging = false;
-        std::string                                       m_lastItemAdded;
-        std::string                                       m_lastContainerAdded;
-        std::string                                       m_lastRootAdded;
+		std::stack<mvAppItem*>                       m_containers;      // parent stack, top of stack becomes widget's parent
+		std::vector<mvRef<mvAppItem>>                m_roots;
+        std::unordered_map<mvUUID, mvRef<mvAppItem>> m_stagingArea;
+        mvUUID                                       m_activeWindow;
+        bool                                         m_staging = false;
+        mvUUID                                       m_lastItemAdded;
+        mvUUID                                       m_lastContainerAdded;
+        mvUUID                                       m_lastRootAdded;
 
 
 	};

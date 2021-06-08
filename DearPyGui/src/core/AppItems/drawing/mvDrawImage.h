@@ -30,7 +30,7 @@ namespace Marvel {
 
 	public:
 
-		mvDrawImage(const std::string& name);
+		mvDrawImage(mvUUID uuid);
 
 		void draw(ImDrawList* drawlist, float x, float y) override;
 		bool isParentCompatible(mvAppItemType type) override;

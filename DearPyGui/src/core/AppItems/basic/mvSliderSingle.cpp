@@ -96,8 +96,8 @@ namespace Marvel {
         parsers->insert({ s_command, parser });
     }
 
-    mvSliderFloat::mvSliderFloat(const std::string& name)
-        : mvFloatPtrBase(name)
+    mvSliderFloat::mvSliderFloat(mvUUID uuid)
+        : mvFloatPtrBase(uuid)
     {
     }
 
@@ -134,19 +134,19 @@ namespace Marvel {
                 m_width = 20;
 
             if (ImGui::VSliderFloat(m_label.c_str(), ImVec2((float)m_width, (float)m_height), m_enabled ? m_value.get() : &m_disabled_value, m_min, m_max, m_format.c_str()))
-                mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), m_name, nullptr, m_user_data);
+                mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), m_uuid, nullptr, m_user_data);
 
         }
         else
         {
             if (ImGui::SliderFloat(m_label.c_str(), m_enabled ? m_value.get() : &m_disabled_value, m_min, m_max, m_format.c_str(), m_flags))
-                mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), m_name, nullptr, m_user_data);
+                mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), m_uuid, nullptr, m_user_data);
 
         }
     }
 
-    mvSliderInt::mvSliderInt(const std::string& name)
-        : mvIntPtrBase(name)
+    mvSliderInt::mvSliderInt(mvUUID uuid)
+        : mvIntPtrBase(uuid)
     {
     }
 
@@ -183,12 +183,12 @@ namespace Marvel {
                 m_width = 20;
 
             if (ImGui::VSliderInt(m_label.c_str(), ImVec2((float)m_width, (float)m_height), m_enabled ? m_value.get() : &m_disabled_value, m_min, m_max, m_format.c_str()))
-                mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), m_name, nullptr, m_user_data);
+                mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), m_uuid, nullptr, m_user_data);
         }
         else
         {
             if (ImGui::SliderInt(m_label.c_str(), m_enabled ? m_value.get() : &m_disabled_value, m_min, m_max, m_format.c_str(), m_flags))
-                mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), m_name, nullptr, m_user_data);
+                mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), m_uuid, nullptr, m_user_data);
 
         }
     }

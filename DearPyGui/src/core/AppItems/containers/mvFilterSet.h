@@ -28,7 +28,7 @@ namespace Marvel {
 
 	public:
 
-		mvFilterSet(const std::string& name);
+		mvFilterSet(mvUUID uuid);
 
 		void draw(ImDrawList* drawlist, float x, float y) override;
 		void setPyValue(PyObject* value) override;

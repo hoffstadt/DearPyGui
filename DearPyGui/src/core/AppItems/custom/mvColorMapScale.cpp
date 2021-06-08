@@ -38,8 +38,8 @@ namespace Marvel {
         parsers->insert({ s_command, parser });
     }
 
-    mvColorMapScale::mvColorMapScale(const std::string& name)
-        : mvIntPtrBase(name)
+    mvColorMapScale::mvColorMapScale(mvUUID uuid)
+        : mvIntPtrBase(uuid)
     {
     }
 

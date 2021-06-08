@@ -38,8 +38,8 @@ namespace Marvel {
 		parsers->insert({ s_command, parser });
 	}
 
-	mvDragPoint::mvDragPoint(const std::string& name)
-		: mvDouble4PtrBase(name)
+	mvDragPoint::mvDragPoint(mvUUID uuid)
+		: mvDouble4PtrBase(uuid)
 	{
 	}
 

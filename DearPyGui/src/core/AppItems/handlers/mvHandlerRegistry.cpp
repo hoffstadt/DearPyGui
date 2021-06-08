@@ -18,9 +18,9 @@ namespace Marvel {
 		parsers->insert({ s_command, parser });
 	}
 
-	mvHandlerRegistry::mvHandlerRegistry(const std::string& name)
+	mvHandlerRegistry::mvHandlerRegistry(mvUUID uuid)
 		:
-		mvAppItem(name)
+		mvAppItem(uuid)
 	{
 	}
 

@@ -28,7 +28,7 @@ namespace Marvel {
 
 	public:
 
-		mvLoadingIndicator(const std::string& name);
+		mvLoadingIndicator(mvUUID uuid);
 
 		void draw(ImDrawList* drawlist, float x, float y) override;
 

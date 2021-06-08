@@ -24,8 +24,8 @@ namespace Marvel {
 
 	public:
 
-		mvIntPtrBase(const std::string& name);
-		void setDataSource(const std::string& dataSource) override;
+		mvIntPtrBase(mvUUID uuid);
+		void setDataSource(mvUUID dataSource) override;
 		mvValueVariant getValue() override { return m_value; }
 		PyObject*      getPyValue() override;
 		void           setPyValue(PyObject* value) override;
@@ -44,8 +44,8 @@ namespace Marvel {
 
 	public:
 
-		mvInt4PtrBase(const std::string& name);
-		void setDataSource(const std::string& dataSource) override;
+		mvInt4PtrBase(mvUUID uuid);
+		void setDataSource(mvUUID dataSource) override;
 		mvValueVariant getValue() override { return m_value; }
 		PyObject* getPyValue() override;
 		void           setPyValue(PyObject* value) override;
@@ -64,8 +64,8 @@ namespace Marvel {
 
 	public:
 
-		mvFloatPtrBase(const std::string& name);
-		void setDataSource(const std::string& dataSource) override;
+		mvFloatPtrBase(mvUUID uuid);
+		void setDataSource(mvUUID dataSource) override;
 		mvValueVariant getValue() override { return m_value; }
 		PyObject* getPyValue() override;
 		void           setPyValue(PyObject* value) override;
@@ -84,8 +84,8 @@ namespace Marvel {
 
 	public:
 
-		mvDoublePtrBase(const std::string& name);
-		void setDataSource(const std::string& dataSource) override;
+		mvDoublePtrBase(mvUUID uuid);
+		void setDataSource(mvUUID dataSource) override;
 		mvValueVariant getValue() override { return m_value; }
 		PyObject* getPyValue() override;
 		void           setPyValue(PyObject* value) override;
@@ -104,8 +104,8 @@ namespace Marvel {
 
 	public:
 
-		mvFloat4PtrBase(const std::string& name);
-		void setDataSource(const std::string& dataSource) override;
+		mvFloat4PtrBase(mvUUID uuid);
+		void setDataSource(mvUUID dataSource) override;
 		mvValueVariant getValue() override { return m_value; }
 		PyObject* getPyValue() override;
 		void           setPyValue(PyObject* value) override;
@@ -124,8 +124,8 @@ namespace Marvel {
 
 	public:
 
-		mvDouble4PtrBase(const std::string& name);
-		void setDataSource(const std::string& dataSource) override;
+		mvDouble4PtrBase(mvUUID uuid);
+		void setDataSource(mvUUID dataSource) override;
 		mvValueVariant getValue() override { return m_value; }
 		PyObject* getPyValue() override;
 		void           setPyValue(PyObject* value) override;
@@ -144,8 +144,8 @@ namespace Marvel {
 
 	public:
 
-		mvColorPtrBase(const std::string& name);
-		void setDataSource(const std::string& dataSource) override;
+		mvColorPtrBase(mvUUID uuid);
+		void setDataSource(mvUUID dataSource) override;
 		mvValueVariant getValue() override { return m_value; }
 		PyObject* getPyValue() override;
 		void           setPyValue(PyObject* value) override;
@@ -164,8 +164,8 @@ namespace Marvel {
 
 	public:
 
-		mvBoolPtrBase(const std::string& name);
-		void setDataSource(const std::string& dataSource) override;
+		mvBoolPtrBase(mvUUID uuid);
+		void setDataSource(mvUUID dataSource) override;
 		mvValueVariant getValue() override { return m_value; }
 		PyObject* getPyValue() override;
 		void           setPyValue(PyObject* value) override;
@@ -184,8 +184,8 @@ namespace Marvel {
 
 	public:
 
-		mvStringPtrBase(const std::string& name);
-		void setDataSource(const std::string& dataSource) override;
+		mvStringPtrBase(mvUUID uuid);
+		void setDataSource(mvUUID dataSource) override;
 		mvValueVariant getValue() override { return m_value; }
 		PyObject* getPyValue() override;
 		void      setPyValue(PyObject* value) override;
@@ -204,7 +204,7 @@ namespace Marvel {
 
 	public:
 
-		mvTimePtrBase(const std::string& name);
+		mvTimePtrBase(mvUUID uuid);
 		mvValueVariant getValue() override { return m_value; }
 		PyObject* getPyValue() override;
 		void           setPyValue(PyObject* value) override;
@@ -223,8 +223,8 @@ namespace Marvel {
 
 	public:
 
-		mvFloatVectPtrBase(const std::string& name);
-		void setDataSource(const std::string& dataSource) override;
+		mvFloatVectPtrBase(mvUUID uuid);
+		void setDataSource(mvUUID dataSource) override;
 		mvValueVariant getValue() override { return m_value; }
 		PyObject* getPyValue() override;
 		void           setPyValue(PyObject* value) override;
@@ -242,8 +242,8 @@ namespace Marvel {
 
 	public:
 
-		mvSeriesBase(const std::string& name);
-		void setDataSource(const std::string& dataSource) override;
+		mvSeriesBase(mvUUID uuid);
+		void setDataSource(mvUUID dataSource) override;
 		mvValueVariant getValue() override { return m_value; }
 		PyObject* getPyValue() override;
 		void setPyValue(PyObject* value) override;

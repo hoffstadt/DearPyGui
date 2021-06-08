@@ -38,7 +38,8 @@ namespace Marvel {
         None = 0, 
         Integer, Float, Double, String, Bool, Object, Callable, Dict,
         IntList, FloatList, DoubleList, StringList, ListAny,
-        ListListInt, ListFloatList, ListDoubleList, ListStrList, 
+        ListListInt, ListFloatList, ListDoubleList, ListStrList, UUID,
+        UUIDList,
         Any
     };
 

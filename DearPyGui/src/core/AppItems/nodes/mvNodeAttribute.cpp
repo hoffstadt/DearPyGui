@@ -38,8 +38,8 @@ namespace Marvel {
 		parsers->insert({ s_command, parser });
 	}
 
-	mvNodeAttribute::mvNodeAttribute(const std::string& name)
-		: mvAppItem(name)
+	mvNodeAttribute::mvNodeAttribute(mvUUID uuid)
+		: mvAppItem(uuid)
 	{
 		int64_t address = (int64_t)this;
 		int64_t reduced_address = address % 2147483648;

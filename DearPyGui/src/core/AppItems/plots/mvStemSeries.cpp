@@ -31,8 +31,8 @@ namespace Marvel {
 		parsers->insert({ s_command, parser });
 	}
 
-	mvStemSeries::mvStemSeries(const std::string& name)
-		: mvSeriesBase(name)
+	mvStemSeries::mvStemSeries(mvUUID uuid)
+		: mvSeriesBase(uuid)
 	{
 		m_contributeToBounds = true;
 	}

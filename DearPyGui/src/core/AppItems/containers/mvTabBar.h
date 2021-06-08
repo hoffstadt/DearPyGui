@@ -35,7 +35,7 @@ namespace Marvel {
 
 	public:
 
-		mvTabBar(const std::string& name);
+		mvTabBar(mvUUID uuid);
 
 		bool canChildBeAdded(mvAppItemType type) override;
 

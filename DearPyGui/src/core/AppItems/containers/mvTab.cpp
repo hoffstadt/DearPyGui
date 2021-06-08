@@ -35,9 +35,9 @@ namespace Marvel {
 
 		parsers->insert({ s_command, parser });
 	}
-	mvTab::mvTab(const std::string& name)
+	mvTab::mvTab(mvUUID uuid)
 		: 
-		mvBoolPtrBase(name)
+		mvBoolPtrBase(uuid)
 	{
 	}
 
@@ -73,7 +73,7 @@ namespace Marvel {
 		{
 
 			// set other tab's value false
-			for (auto child : parent->m_children[1])
+			for (auto& child : parent->m_children[1])
 			{
 				if (child->getType() == mvAppItemType::mvTab)
 					*((mvTab*)child.get())->m_value = false;

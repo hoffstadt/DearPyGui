@@ -37,8 +37,8 @@ namespace Marvel {
 		parsers->insert({ s_command, parser });
 	}
 
-	mvImageSeries::mvImageSeries(const std::string& name)
-		: mvSeriesBase(name)
+	mvImageSeries::mvImageSeries(mvUUID uuid)
+		: mvSeriesBase(uuid)
 	{
 	}
 

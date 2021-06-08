@@ -29,8 +29,8 @@ namespace Marvel {
 		parsers->insert({ s_command, parser });
 	}
 
-	mvMenu::mvMenu(const std::string& name)
-			: mvBoolPtrBase(name)
+	mvMenu::mvMenu(mvUUID uuid)
+			: mvBoolPtrBase(uuid)
 	{
 	}
 

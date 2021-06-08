@@ -60,7 +60,7 @@ namespace Marvel {
 		float&  getGlobalFontScale() { return m_globalFontScale; }
 		void     setGlobalFontScale(float scale);
 
-		const char* getName() const override { return "mvFontManager"; }
+		mvUUID getUUID() const override { return MV_TOOL_FONT_UUID; }
 		const char* getTitle() const override { return "Font Manager"; }
 
 	protected:

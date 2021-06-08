@@ -38,8 +38,8 @@ namespace Marvel {
 		parsers->insert({ s_command, parser });
 	}
 
-	mvChild::mvChild(const std::string& name)
-		: mvBoolPtrBase(name)
+	mvChild::mvChild(mvUUID uuid)
+		: mvBoolPtrBase(uuid)
 	{
 	}
 

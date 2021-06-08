@@ -154,7 +154,7 @@ namespace Marvel {
 
 	public:
 
-		mvFileDialog(const std::string& name);
+		mvFileDialog(mvUUID uuid);
 
 		void draw(ImDrawList* drawlist, float x, float y) override;
 		void drawPanel();

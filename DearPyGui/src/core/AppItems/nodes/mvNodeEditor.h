@@ -58,13 +58,13 @@ namespace Marvel {
 
 	public:
 
-		mvNodeEditor(const std::string& name);
+		mvNodeEditor(mvUUID uuid);
 
 		void handleSpecificKeywordArgs(PyObject* dict) override;
 
 		bool canChildBeAdded(mvAppItemType type) override;
 
-		std::vector<std::string> getSelectedNodes() const;
+		std::vector<mvUUID> getSelectedNodes() const;
 		const std::vector<int>& getSelectedLinks() const { return m_selectedLinks; }
 		void clearNodes() { m_clearNodes = true; }
 		void clearLinks() { m_clearLinks = true; }

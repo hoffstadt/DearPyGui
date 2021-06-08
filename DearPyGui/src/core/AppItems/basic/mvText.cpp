@@ -37,11 +37,11 @@ namespace Marvel {
 		parsers->insert({ s_command, parser });
 	}
 
-	mvText::mvText(const std::string& name)
+	mvText::mvText(mvUUID uuid)
 		: 
-		mvStringPtrBase(name)
+		mvStringPtrBase(uuid)
 	{
-		*m_value = name;
+		*m_value = "Not Specified";
 	}
 
 	void mvText::draw(ImDrawList* drawlist, float x, float y)

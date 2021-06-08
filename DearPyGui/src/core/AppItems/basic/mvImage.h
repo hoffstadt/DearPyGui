@@ -31,7 +31,7 @@ namespace Marvel {
 		MV_START_STYLE_CONSTANTS
 		MV_END_STYLE_CONSTANTS
 
-		mvImage(const std::string& name);
+		mvImage(mvUUID uuid);
 
 		void draw(ImDrawList* drawlist, float x, float y) override;
 
@@ -39,12 +39,12 @@ namespace Marvel {
 		void handleSpecificKeywordArgs(PyObject* dict) override;
 		void getSpecificConfiguration(PyObject* dict) override;
 
-		void               setValue          (const std::string& value);
-		const std::string& getValue          () const;
+		void   setValue          (mvUUID value);
+		mvUUID getValue          () const;
 
 	private:
 
-		std::string m_value;
+		mvUUID      m_value;
 		mvVec2	    m_uv_min = {0.0f, 0.0f};
 		mvVec2	    m_uv_max = {1.0f, 1.0f};
 		mvColor     m_tintColor = {1.0f, 1.0f, 1.0f, 1.0f};

@@ -24,8 +24,8 @@ namespace Marvel {
 	}
 
 
-	mvSameLine::mvSameLine(const std::string& name)
-		: mvAppItem(name)
+	mvSameLine::mvSameLine(mvUUID uuid)
+		: mvAppItem(uuid)
 	{
 	}
 

@@ -13,28 +13,28 @@ namespace Marvel{
 	{
 		{
 			mvPythonParser parser(mvPyDataType::Dict);
-			parser.addArg<mvPyDataType::String>("item");
+			parser.addArg<mvPyDataType::UUID>("item");
 			parser.finalize();
 			parsers->insert({ "get_item_configuration", parser });
 		}
 
 		{
 			mvPythonParser parser(mvPyDataType::None);
-			parser.addArg<mvPyDataType::String>("item");
+			parser.addArg<mvPyDataType::UUID>("item");
 			parser.finalize();
 			parsers->insert({ "focus_item", parser });
 		}
 
 		{
 			mvPythonParser parser(mvPyDataType::Dict);
-			parser.addArg<mvPyDataType::String>("item");
+			parser.addArg<mvPyDataType::UUID>("item");
 			parser.finalize();
 			parsers->insert({ "get_item_state", parser });
 		}
 
 		{
 			mvPythonParser parser(mvPyDataType::None);
-			parser.addArg<mvPyDataType::String>("item");
+			parser.addArg<mvPyDataType::UUID>("item");
 			parser.addKwargs();
 			parser.finalize();
 			parsers->insert({ "configure_item", parser });
@@ -42,28 +42,28 @@ namespace Marvel{
 
 		{
 			mvPythonParser parser(mvPyDataType::Dict);
-			parser.addArg<mvPyDataType::String>("item");
+			parser.addArg<mvPyDataType::UUID>("item");
 			parser.finalize();
 			parsers->insert({ "get_item_info", parser });
 		}
 
 		{
 			mvPythonParser parser(mvPyDataType::Any);
-			parser.addArg<mvPyDataType::String>("item");
+			parser.addArg<mvPyDataType::UUID>("item");
 			parser.finalize();
 			parsers->insert({ "get_value", parser });
 		}
 
 		{
 			mvPythonParser parser(mvPyDataType::Any);
-			parser.addArg<mvPyDataType::StringList>("items");
+			parser.addArg<mvPyDataType::UUIDList>("items");
 			parser.finalize();
 			parsers->insert({ "get_values", parser });
 		}
 
 		{
 			mvPythonParser parser(mvPyDataType::None);
-			parser.addArg<mvPyDataType::String>("item");
+			parser.addArg<mvPyDataType::UUID>("item");
 			parser.addArg<mvPyDataType::Object>("value");
 			parser.finalize();
 			parsers->insert({ "set_value", parser });
@@ -71,7 +71,7 @@ namespace Marvel{
 
 		{
 			mvPythonParser parser(mvPyDataType::None);
-			parser.addArg<mvPyDataType::String>("item");
+			parser.addArg<mvPyDataType::UUID>("item");
 			parser.addArg<mvPyDataType::Float>("x");
 			parser.addArg<mvPyDataType::Float>("y");
 			parser.finalize();
@@ -80,7 +80,7 @@ namespace Marvel{
 
 		{
 			mvPythonParser parser(mvPyDataType::None);
-			parser.addArg<mvPyDataType::String>("item");
+			parser.addArg<mvPyDataType::UUID>("item");
 			parser.finalize();
 			parsers->insert({ "reset_pos", parser });
 		}
@@ -105,14 +105,14 @@ namespace Marvel{
 	void mvAppItem::AddCommonArgs(mvPythonParser& parser, CommonParserArgs args)
 	{
 
-		if(args & MV_PARSER_ARG_ID)            parser.addArg<mvPyDataType::String>("id", mvArgType::KEYWORD_ARG);
+		if(args & MV_PARSER_ARG_ID)            parser.addArg<mvPyDataType::UUID>("id", mvArgType::KEYWORD_ARG);
 		if(args & MV_PARSER_ARG_WIDTH)         parser.addArg<mvPyDataType::Integer>("width", mvArgType::KEYWORD_ARG, "0");
 		if(args & MV_PARSER_ARG_HEIGHT)        parser.addArg<mvPyDataType::Integer>("height", mvArgType::KEYWORD_ARG, "0");
 		if(args & MV_PARSER_ARG_INDENT)        parser.addArg<mvPyDataType::Integer>("indent", mvArgType::KEYWORD_ARG, "-1");
-		if(args & MV_PARSER_ARG_PARENT)        parser.addArg<mvPyDataType::String>("parent", mvArgType::KEYWORD_ARG, "''", "Parent to add this item to. (runtime adding)");
-		if(args & MV_PARSER_ARG_BEFORE)        parser.addArg<mvPyDataType::String>("before", mvArgType::KEYWORD_ARG, "''", "This item will be displayed before the specified item in the parent.");
+		if(args & MV_PARSER_ARG_PARENT)        parser.addArg<mvPyDataType::UUID>("parent", mvArgType::KEYWORD_ARG, "0", "Parent to add this item to. (runtime adding)");
+		if(args & MV_PARSER_ARG_BEFORE)        parser.addArg<mvPyDataType::UUID>("before", mvArgType::KEYWORD_ARG, "0", "This item will be displayed before the specified item in the parent.");
 		if(args & MV_PARSER_ARG_LABEL)         parser.addArg<mvPyDataType::String>("label", mvArgType::KEYWORD_ARG, "None", "Overrides 'name' as label");
-		if(args & MV_PARSER_ARG_SOURCE)        parser.addArg<mvPyDataType::String>("source", mvArgType::KEYWORD_ARG, "''", "Overrides 'name' as value storage key");		
+		if(args & MV_PARSER_ARG_SOURCE)        parser.addArg<mvPyDataType::UUID>("source", mvArgType::KEYWORD_ARG, "0", "Overrides 'name' as value storage key");
 		if(args & MV_PARSER_ARG_PAYLOAD_TYPE)  parser.addArg<mvPyDataType::String>("payload_type", mvArgType::KEYWORD_ARG, "'$$DPG_PAYLOAD'", "Overrides 'name' as value storage key");		
 		if(args & MV_PARSER_ARG_CALLBACK)      parser.addArg<mvPyDataType::Callable>("callback", mvArgType::KEYWORD_ARG, "None", "Registers a callback");
 		if(args & MV_PARSER_ARG_DRAG_CALLBACK) parser.addArg<mvPyDataType::Callable>("drag_callback", mvArgType::KEYWORD_ARG, "None", "Registers a drag callback for drag and drop");
@@ -131,11 +131,129 @@ namespace Marvel{
 
 	}
 
-	mvAppItem::mvAppItem(const std::string& name)
+	mvUUID mvAppItem::GenerateUUID()
 	{
-		m_name = name;
-		m_label = name + " ###" + name;
-		m_specificedlabel = name;
+		static mvUUID id = MV_START_UUID;
+		return ++id;
+	}
+
+	mvAppItem::mvAppItem(mvUUID uuid)
+	{
+		m_uuid = uuid;
+		m_label = "label";
+	}
+
+	bool  mvAppItem::moveChildUp(mvUUID uuid)
+	{
+		bool found = false;
+		int index = 0;
+
+		auto operation = [&](std::vector<mvRef<mvAppItem>>& children)
+		{
+			// check children
+			for (size_t i = 0; i < children.size(); i++)
+			{
+
+				if (children[i]->m_uuid == uuid)
+				{
+					found = true;
+					index = (int)i;
+					break;
+				}
+
+				if (mvAppItem::DoesItemHaveFlag(children[i].get(), MV_ITEM_DESC_CONTAINER))
+				{
+					found = children[i]->moveChildUp(uuid);
+					if (found)
+						return true;
+				}
+
+			}
+
+			if (found)
+			{
+				if (index > 0)
+				{
+					auto upperitem = children[index - 1];
+					auto loweritem = children[index];
+
+					children[index] = upperitem;
+					children[index - 1] = loweritem;
+
+					updateLocations();
+				}
+
+				return true;
+			}
+
+			return false;
+		};
+
+		for (auto& childset : m_children)
+		{
+			if (operation(childset))
+				return true;
+		}
+
+		return false;
+
+
+	}
+
+	bool  mvAppItem::moveChildDown(mvUUID uuid)
+	{
+		bool found = false;
+		size_t index = 0;
+
+		auto operation = [&](std::vector<mvRef<mvAppItem>>& children)
+		{
+			// check children
+			for (size_t i = 0; i < children.size(); i++)
+			{
+
+				if (children[i]->m_uuid == uuid)
+				{
+					found = true;
+					index = i;
+					break;
+				}
+
+				if (mvAppItem::DoesItemHaveFlag(children[i].get(), MV_ITEM_DESC_CONTAINER))
+				{
+					found = children[i]->moveChildDown(uuid);
+					if (found)
+						return true;
+				}
+
+			}
+
+			if (found)
+			{
+				if (index < children.size() - 1)
+				{
+					auto& upperitem = children[index];
+					auto& loweritem = children[index + 1];
+
+					children[index] = loweritem;
+					children[index + 1] = upperitem;
+
+					updateLocations();
+				}
+
+				return true;
+			}
+
+			return false;
+		};
+
+		for (auto& childset : m_children)
+		{
+			if (operation(childset))
+				return true;
+		}
+
+		return false;
+
 	}
 
 	bool mvAppItem::preDraw()
@@ -202,7 +320,7 @@ namespace Marvel{
 				if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload(m_payloadType.c_str()))
 				{
 					auto payloadActual = static_cast<const mvDragPayload*>(payload->Data);
-					mvApp::GetApp()->getCallbackRegistry().addCallback(getDropCallback(), m_name, payloadActual->getDragData(), nullptr);
+					mvApp::GetApp()->getCallbackRegistry().addCallback(getDropCallback(), m_uuid, payloadActual->getDragData(), nullptr);
 				}
 
 				ImGui::EndDragDropTarget();
@@ -252,8 +370,8 @@ namespace Marvel{
 			float y = mousePos.y - ImGui::GetWindowPos().y;
 			mvInput::setMousePosition(x, y);
 
-			if (mvApp::GetApp()->getItemRegistry().getActiveWindow() != m_name)
-				mvEventBus::Publish(mvEVT_CATEGORY_ITEM, mvEVT_ACTIVE_WINDOW, { CreateEventArgument("WINDOW", m_name) });
+			if (mvApp::GetApp()->getItemRegistry().getActiveWindow() != m_uuid)
+				mvEventBus::Publish(mvEVT_CATEGORY_ITEM, mvEVT_ACTIVE_WINDOW, { CreateEventArgument("WINDOW", m_uuid) });
 
 		}
 	}
@@ -314,138 +432,25 @@ namespace Marvel{
 		}
 	}
 
-	bool  mvAppItem::moveChildUp(const std::string& name)
+	bool mvAppItem::addRuntimeChild(mvUUID parent, mvUUID before, mvRef<mvAppItem> item)
 	{
-		bool found = false;
-		int index = 0;
-
-		auto operation = [&](std::vector<mvRef<mvAppItem>>& children)
-		{
-			// check children
-			for (size_t i = 0; i < children.size(); i++)
-			{
-
-				if (children[i]->m_name == name)
-				{
-					found = true;
-					index = (int)i;
-					break;
-				}
-
-				if (mvAppItem::DoesItemHaveFlag(children[i].get(), MV_ITEM_DESC_CONTAINER))
-				{
-					found = children[i]->moveChildUp(name);
-					if (found)
-						return true;
-				}
-
-			}
-
-			if (found)
-			{
-				if (index > 0)
-				{
-					auto upperitem = children[index - 1];
-					auto loweritem = children[index];
-
-					children[index] = upperitem;
-					children[index - 1] = loweritem;
-
-					updateLocations();
-				}
-
-				return true;
-			}
-
-			return false;
-		};
-
-		for (auto& childset : m_children)
-		{
-			if (operation(childset))
-				return true;
-		}
-
-		return false;
-
-
-	}
-
-	bool  mvAppItem::moveChildDown(const std::string& name)
-	{
-		bool found = false;
-		size_t index = 0;
-
-		auto operation = [&](std::vector<mvRef<mvAppItem>>& children)
-		{
-			// check children
-			for (size_t i = 0; i < children.size(); i++)
-			{
-
-				if (children[i]->m_name == name)
-				{
-					found = true;
-					index = i;
-					break;
-				}
-
-				if (mvAppItem::DoesItemHaveFlag(children[i].get(), MV_ITEM_DESC_CONTAINER))
-				{
-					found = children[i]->moveChildDown(name);
-					if (found)
-						return true;
-				}
-
-			}
-
-			if (found)
-			{
-				if (index < children.size() - 1)
-				{
-					auto upperitem = children[index];
-					auto loweritem = children[index + 1];
-
-					children[index] = loweritem;
-					children[index + 1] = upperitem;
-
-					updateLocations();
-				}
-
-				return true;
-			}
-
-			return false;
-		};
-
-		for (auto& childset : m_children)
-		{
-			if (operation(childset))
-				return true;
-		}
-
-		return false;
-
-	}
-
-	bool mvAppItem::addRuntimeChild(const std::string& parent, const std::string& before, mvRef<mvAppItem> item)
-	{
-		if (before.empty() && parent.empty())
+		if (before == 0 && parent == 0)
 			return false;
 
 
 		auto operation = [&](std::vector<mvRef<mvAppItem>>& children)
 		{
 			//this is the container, add item to end.
-			if (before.empty())
+			if (before == 0)
 			{
 
-				if (m_name == parent)
+				if (m_uuid == parent)
 				{
 					item->m_location = m_children[item->getTarget()].size();
 					m_children[item->getTarget()].push_back(item);
 					onChildAdd(item);
 					item->m_parentPtr = this;
-					item->m_parent = m_name;
+					item->m_parent = m_uuid;
 					return true;
 				}
 
@@ -473,7 +478,7 @@ namespace Marvel{
 				for (auto& child : children)
 				{
 
-					if (child->m_name == before)
+					if (child->m_uuid == before)
 					{
 						beforeFound = true;
 						break;
@@ -491,7 +496,7 @@ namespace Marvel{
 
 					for (auto& child : oldchildren)
 					{
-						if (child->m_name == before)
+						if (child->m_uuid == before)
 						{
 							children.push_back(item);
 							onChildAdd(item);
@@ -538,9 +543,9 @@ namespace Marvel{
 		return true;
 	}
 
-	bool mvAppItem::addChildAfter(const std::string& prev, mvRef<mvAppItem> item)
+	bool mvAppItem::addChildAfter(mvUUID prev, mvRef<mvAppItem> item)
 	{
-		if (prev.empty())
+		if (prev == 0)
 			return false;
 
 
@@ -554,7 +559,7 @@ namespace Marvel{
 				for (auto& child : childslot)
 				{
 
-					if (child->m_name == prev)
+					if (child->m_uuid == prev)
 					{
 						item->m_parentPtr = this;
 						prevFound = true;
@@ -575,7 +580,7 @@ namespace Marvel{
 				for (auto& child : oldchildren)
 				{
 					children.push_back(child);
-					if (child->m_name == prev)
+					if (child->m_uuid == prev)
 					{
 						children.push_back(item);
 						onChildAdd(item);
@@ -607,7 +612,7 @@ namespace Marvel{
 		return operation(m_children[item->getTarget()]);
 	}
 
-	bool mvAppItem::deleteChild(const std::string& name)
+	bool mvAppItem::deleteChild(mvUUID uuid)
 	{
 
 		auto operation = [&](std::vector<mvRef<mvAppItem>>& children)
@@ -617,7 +622,7 @@ namespace Marvel{
 
 			for (auto& item : children)
 			{
-				if (item->m_name == name)
+				if (item->m_uuid == uuid)
 				{
 					childfound = true;
 					break;
@@ -625,7 +630,7 @@ namespace Marvel{
 
 				if (DoesItemHaveFlag(item.get(), MV_ITEM_DESC_CONTAINER))
 				{
-					itemDeleted = item->deleteChild(name);
+					itemDeleted = item->deleteChild(uuid);
 					if (itemDeleted)
 						break;
 				}
@@ -639,7 +644,7 @@ namespace Marvel{
 
 				for (auto& item : oldchildren)
 				{
-					if (item->m_name == name)
+					if (item->m_uuid == uuid)
 					{
 						itemDeleted = true;
 						onChildRemoved(item);
@@ -688,7 +693,7 @@ namespace Marvel{
 	void mvAppItem::setLabel(const std::string& value)
 	{
 		m_specificedlabel = value;
-		m_label = value + " ###" + m_name;
+		//m_label = value + " ###" + m_name;
 	}
 
 	void mvAppItem::setFilter(const std::string& value)
@@ -696,7 +701,7 @@ namespace Marvel{
 		m_filter = value;
 	}
 
-	mvRef<mvAppItem> mvAppItem::stealChild(const std::string& name)
+	mvRef<mvAppItem> mvAppItem::stealChild(mvUUID uuid)
 	{
 		mvRef<mvAppItem> stolenChild = nullptr;
 
@@ -706,7 +711,7 @@ namespace Marvel{
 
 			for (auto& item : childset)
 			{
-				if (item->m_name == name)
+				if (item->m_uuid == uuid)
 				{
 					childfound = true;
 					break;
@@ -714,7 +719,7 @@ namespace Marvel{
 
 				if (DoesItemHaveFlag(item.get(), MV_ITEM_DESC_CONTAINER))
 				{
-					stolenChild = item->stealChild(name);
+					stolenChild = item->stealChild(uuid);
 					if (stolenChild)
 						return stolenChild;
 				}
@@ -728,7 +733,7 @@ namespace Marvel{
 
 				for (auto& item : oldchildren)
 				{
-					if (item->m_name == name)
+					if (item->m_uuid == uuid)
 					{
 						stolenChild = item;
 						onChildRemoved(item);
@@ -743,26 +748,26 @@ namespace Marvel{
 				return stolenChild;
 			}
 
-			
+
 			//return static_cast<mvRef<mvAppItem>>(CreateRef<mvButton>("Not possible"));
 		}
 
 		return stolenChild;
 	}
 
-	mvAppItem* mvAppItem::getChild(const std::string& name)
+	mvAppItem* mvAppItem::getChild(mvUUID uuid)
 	{
-		if (m_name == name)
+		if (m_uuid == uuid)
 			return this;
 
 		for (auto& childset : m_children)
 		{
 			for (auto& item : childset)
 			{
-				if (item->m_name == name)
+				if (item->m_uuid == uuid)
 					return item.get();
 
-				auto child = item->getChild(name);
+				auto child = item->getChild(uuid);
 				if (child)
 					return child;
 			}
@@ -771,17 +776,17 @@ namespace Marvel{
 		return nullptr;
 	}
 
-	mvRef<mvAppItem> mvAppItem::getChildRef(const std::string& name)
+	mvRef<mvAppItem> mvAppItem::getChildRef(mvUUID uuid)
 	{
 
 		for (auto& childset : m_children)
 		{
 			for (auto& item : childset)
 			{
-				if (item->m_name == name)
+				if (item->m_uuid == uuid)
 					return item;
 
-				auto child = item->getChildRef(name);
+				auto child = item->getChildRef(uuid);
 				if (child)
 					return child;
 			}
@@ -940,7 +945,7 @@ namespace Marvel{
 		}
 		if (PyObject* item = PyDict_GetItemString(dict, "filter_key")) m_filter = ToString(item);
 		if (PyObject* item = PyDict_GetItemString(dict, "payload_type")) setPayloadType(ToString(item));
-		if (PyObject* item = PyDict_GetItemString(dict, "source")) setDataSource(ToString(item));
+		if (PyObject* item = PyDict_GetItemString(dict, "source")) setDataSource(ToUUID(item));
 		if (PyObject* item = PyDict_GetItemString(dict, "enabled")) setEnabled(ToBool(item));
 		if (PyObject* item = PyDict_GetItemString(dict, "tracked")) m_tracked = ToBool(item);
 		if (PyObject* item = PyDict_GetItemString(dict, "track_offset"))
@@ -988,20 +993,20 @@ namespace Marvel{
 		handleSpecificKeywordArgs(dict);
 	}
 
-	std::pair<std::string, std::string> mvAppItem::GetNameFromArgs(std::string& name, PyObject* args, PyObject* kwargs)
+	std::pair<mvUUID, mvUUID> mvAppItem::GetNameFromArgs(mvUUID& name, PyObject* args, PyObject* kwargs)
 	{
 
-		std::string parent;
-		std::string before;
+		mvUUID parent = 0;
+		mvUUID before = 0;
 
 		if (kwargs)
 		{
-			if (PyObject* item = PyDict_GetItemString(kwargs, "parent")) parent = ToString(item);
-			if (PyObject* item = PyDict_GetItemString(kwargs, "before")) before = ToString(item);
+			if (PyObject* item = PyDict_GetItemString(kwargs, "parent")) parent = ToUUID(item);
+			if (PyObject* item = PyDict_GetItemString(kwargs, "before")) before = ToUUID(item);
 			if (PyObject* item = PyDict_GetItemString(kwargs, "id"))
 			{
-				auto id = ToString(item);
-				if (!id.empty())
+				auto id = ToUUID(item);
+				if (id > 0)
 					name = id;
 			};
 		}
@@ -1027,7 +1032,7 @@ namespace Marvel{
 				}
 			});
 
-		auto children = mvApp::GetApp()->getItemRegistry().getItemChildren(m_name);
+		auto children = mvApp::GetApp()->getItemRegistry().getItemChildren(m_uuid);
 		if (children.empty())
 			PyDict_SetItemString(dict, "children", GetPyNone());
 		else
@@ -1046,7 +1051,7 @@ namespace Marvel{
 		PyDict_SetItemString(dict, "type", ToPyString(parserCommand));
 
 		if (m_parentPtr)
-			PyDict_SetItemString(dict, "parent", ToPyString(m_parentPtr->getName()));
+			PyDict_SetItemString(dict, "parent", ToPyUUID(m_parentPtr->getUUID()));
 		else
 			PyDict_SetItemString(dict, "parent", GetPyNone());
 
@@ -1065,7 +1070,7 @@ namespace Marvel{
 		PyDict_SetItemString(dict, "filter_key", ToPyString(m_filter));
 		PyDict_SetItemString(dict, "payload_type", ToPyString(m_payloadType));
 		PyDict_SetItemString(dict, "label", ToPyString(m_specificedlabel));
-		PyDict_SetItemString(dict, "source", ToPyString(m_source));
+		PyDict_SetItemString(dict, "source", ToPyUUID(m_source));
 		PyDict_SetItemString(dict, "show", ToPyBool(m_show));
 		PyDict_SetItemString(dict, "enabled", ToPyBool(m_enabled));
 		PyDict_SetItemString(dict, "tracked", ToPyBool(m_tracked));
@@ -1109,7 +1114,7 @@ namespace Marvel{
 
 	PyObject* mvAppItem::get_item_configuration(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
-		const char* item;
+		mvUUID item;
 
 		if (!(mvApp::GetApp()->getParsers())["get_item_configuration"].parse(args, kwargs, __FUNCTION__, &item))
 			return GetPyNone();
@@ -1126,14 +1131,14 @@ namespace Marvel{
 			appitem->getSpecificConfiguration(pdict);
 		}
 		else
-			mvThrowPythonError(1000, item + std::string(" item was not found"));
+			mvThrowPythonError(1000, std::to_string(item) + std::string(" item was not found"));
 
 		return pdict;
 	}
 
 	PyObject* mvAppItem::focus_item(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
-		const char* item;
+		mvUUID item;
 
 		if (!(mvApp::GetApp()->getParsers())["focus_item"].parse(args, kwargs, __FUNCTION__, &item))
 			return GetPyNone();
@@ -1149,14 +1154,14 @@ namespace Marvel{
 				parent->m_focusNextFrame = true;
 		}
 		else
-			mvThrowPythonError(1000, item + std::string(" item was not found"));
+			mvThrowPythonError(1000, std::to_string(item) + std::string(" item was not found"));
 
 		return GetPyNone();
 	}
 
 	PyObject* mvAppItem::set_item_pos(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
-		const char* item;
+		mvUUID item;
 		float x, y;
 
 		if (!(mvApp::GetApp()->getParsers())["set_item_pos"].parse(args, kwargs, __FUNCTION__, 
@@ -1170,14 +1175,14 @@ namespace Marvel{
 		if (appitem)
 			appitem->setPos({ x, y });
 		else
-			mvThrowPythonError(1000, item + std::string(" item was not found"));
+			mvThrowPythonError(1000, std::to_string(item) + std::string(" item was not found"));
 
 		return GetPyNone();
 	}
 
 	PyObject* mvAppItem::reset_pos(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
-		const char* item;
+		mvUUID item;
 
 		if (!(mvApp::GetApp()->getParsers())["reset_pos"].parse(args, kwargs, __FUNCTION__,
 			&item))
@@ -1190,14 +1195,14 @@ namespace Marvel{
 		if (appitem)
 			appitem->m_dirtyPos = false;
 		else
-			mvThrowPythonError(1000, item + std::string(" item was not found"));
+			mvThrowPythonError(1000, std::to_string(item) + std::string(" item was not found"));
 
 		return GetPyNone();
 	}
 
 	PyObject* mvAppItem::get_item_state(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
-		const char* item;
+		mvUUID item;
 
 		if (!(mvApp::GetApp()->getParsers())["get_item_state"].parse(args, kwargs, __FUNCTION__, &item))
 			return GetPyNone();
@@ -1212,14 +1217,14 @@ namespace Marvel{
 			appitem->getState().getState(pdict);
 
 		else
-			mvThrowPythonError(1000, item + std::string(" item was not found"));
+			mvThrowPythonError(1000, std::to_string(item) + std::string(" item was not found"));
 
 		return pdict;
 	}
 
 	PyObject* mvAppItem::get_item_info(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
-		const char* item;
+		mvUUID item;
 
 		if (!(mvApp::GetApp()->getParsers())["get_item_info"].parse(args, kwargs, __FUNCTION__, &item))
 			return GetPyNone();
@@ -1233,7 +1238,7 @@ namespace Marvel{
 			appitem->getItemInfo(pdict);
 
 		else
-			mvThrowPythonError(1000, item + std::string(" item was not found"));
+			mvThrowPythonError(1000, std::to_string(item) + std::string(" item was not found"));
 
 		return pdict;
 	}
@@ -1241,7 +1246,7 @@ namespace Marvel{
 	PyObject* mvAppItem::configure_item(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 
-		std::string item = ToString(PyTuple_GetItem(args, 0));
+		auto item = ToUUID(PyTuple_GetItem(args, 0));
 
 		if (!mvApp::s_manualMutexControl) std::lock_guard<std::mutex> lk(mvApp::s_mutex);
 		auto appitem = mvApp::GetApp()->getItemRegistry().getItem(item);
@@ -1252,14 +1257,14 @@ namespace Marvel{
 			appitem->handleKeywordArgs(kwargs);
 		}
 		else
-			mvThrowPythonError(1000, item + std::string(" item was not found"));
+			mvThrowPythonError(1000, std::to_string(item) + std::string(" item was not found"));
 
 		return GetPyNone();
 	}
 
 	PyObject* mvAppItem::get_value(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
-		const char* name;
+		mvUUID name;
 
 		if (!(mvApp::GetApp()->getParsers())["get_value"].parse(args, kwargs, __FUNCTION__, &name))
 			return GetPyNone();
@@ -1279,7 +1284,7 @@ namespace Marvel{
 		if (!(mvApp::GetApp()->getParsers())["get_values"].parse(args, kwargs, __FUNCTION__, &items))
 			return GetPyNone();
 
-		auto aitems = ToStringVect(items);
+		auto aitems = ToUUIDVect(items);
 		PyObject* pyvalues = PyList_New(aitems.size());
 
 		if (!mvApp::s_manualMutexControl) std::lock_guard<std::mutex> lk(mvApp::s_mutex);
@@ -1297,7 +1302,7 @@ namespace Marvel{
 
 	PyObject* mvAppItem::set_value(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
-		const char* name;
+		mvUUID name;
 		PyObject* value;
 
 		if (!(mvApp::GetApp()->getParsers())["set_value"].parse(args, kwargs, __FUNCTION__, &name, &value))

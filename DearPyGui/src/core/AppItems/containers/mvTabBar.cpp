@@ -35,9 +35,9 @@ namespace Marvel {
 		parsers->insert({ s_command, parser });
 	}
 
-	mvTabBar::mvTabBar(const std::string& name)
+	mvTabBar::mvTabBar(mvUUID uuid)
 		:
-		mvStringPtrBase(name)
+		mvStringPtrBase(uuid)
 	{
 	}
 

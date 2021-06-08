@@ -28,9 +28,9 @@ namespace Marvel {
 		parsers->insert({ s_command, parser });
 	}
 
-	mvDrawText::mvDrawText(const std::string& name)
+	mvDrawText::mvDrawText(mvUUID uuid)
 		:
-		mvAppItem(name)
+		mvAppItem(uuid)
 	{
 	}
 

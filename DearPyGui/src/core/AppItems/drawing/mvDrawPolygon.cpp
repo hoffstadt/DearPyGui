@@ -28,9 +28,9 @@ namespace Marvel {
 		parsers->insert({ s_command, parser });
 	}
 
-	mvDrawPolygon::mvDrawPolygon(const std::string& name)
+	mvDrawPolygon::mvDrawPolygon(mvUUID uuid)
 		:
-		mvAppItem(name)
+		mvAppItem(uuid)
 	{
 	}
 

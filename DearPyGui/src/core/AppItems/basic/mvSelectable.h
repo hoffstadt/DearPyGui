@@ -46,7 +46,7 @@ namespace Marvel {
 
 	public:
 
-		mvSelectable(const std::string& name);
+		mvSelectable(mvUUID uuid);
 
 		void setEnabled(bool value)     override;
 		void draw(ImDrawList* drawlist, float x, float y)               override;

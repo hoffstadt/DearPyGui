@@ -38,8 +38,8 @@ namespace Marvel {
 		parsers->insert({ s_command, parser });
 	}
 
-	mvDatePicker::mvDatePicker(const std::string& name)
-		: mvTimePtrBase(name)
+	mvDatePicker::mvDatePicker(mvUUID uuid)
+		: mvTimePtrBase(uuid)
 	{
 	}
 

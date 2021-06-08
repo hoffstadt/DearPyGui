@@ -114,8 +114,8 @@ namespace Marvel {
 		parsers->insert({ s_command, parser });
 	}
 
-	mvCandleSeries::mvCandleSeries(const std::string& name)
-		: mvSeriesBase(name)
+	mvCandleSeries::mvCandleSeries(mvUUID uuid)
+		: mvSeriesBase(uuid)
 	{
 		m_contributeToBounds = true;
 	}

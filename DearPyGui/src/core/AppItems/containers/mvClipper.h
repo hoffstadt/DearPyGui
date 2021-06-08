@@ -28,7 +28,7 @@ namespace Marvel {
 
 	public:
 
-		mvClipper(const std::string& name);
+		mvClipper(mvUUID uuid);
 
 		void draw(ImDrawList* drawlist, float x, float y) override;
 

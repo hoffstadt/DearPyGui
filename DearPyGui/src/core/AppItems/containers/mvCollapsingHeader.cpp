@@ -38,8 +38,8 @@ namespace Marvel {
 		parsers->insert({ s_command, parser });
 	}
 
-	mvCollapsingHeader::mvCollapsingHeader(const std::string& name)
-		: mvBoolPtrBase(name)
+	mvCollapsingHeader::mvCollapsingHeader(mvUUID uuid)
+		: mvBoolPtrBase(uuid)
 	{
 	}
 

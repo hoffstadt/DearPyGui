@@ -75,9 +75,9 @@ namespace Marvel {
 		}
 	}
 
-	mvPlotAxis::mvPlotAxis(const std::string& name)
+	mvPlotAxis::mvPlotAxis(mvUUID uuid)
 		: 
-		mvAppItem(name)
+		mvAppItem(uuid)
 	{
 	}
 

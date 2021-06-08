@@ -38,8 +38,8 @@ namespace Marvel {
 		parsers->insert({ s_command, parser });
 	}
 
-	mvProgressBar::mvProgressBar(const std::string& name)
-		: mvFloatPtrBase(name)
+	mvProgressBar::mvProgressBar(mvUUID uuid)
+		: mvFloatPtrBase(uuid)
 	{
 	}
 

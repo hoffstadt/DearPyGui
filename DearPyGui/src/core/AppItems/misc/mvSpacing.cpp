@@ -24,8 +24,8 @@ namespace Marvel {
 	}
 
 
-	mvSpacing::mvSpacing(const std::string& name)
-		: mvIntPtrBase(name)
+	mvSpacing::mvSpacing(mvUUID uuid)
+		: mvIntPtrBase(uuid)
 	{
 	}
 

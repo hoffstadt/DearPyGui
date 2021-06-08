@@ -20,9 +20,9 @@ namespace Marvel {
 		parsers->insert({ s_command, parser });
 	}
 
-	mvTextureContainer::mvTextureContainer(const std::string& name)
+	mvTextureContainer::mvTextureContainer(mvUUID uuid)
 		:
-		mvAppItem(name)
+		mvAppItem(uuid)
 	{
 		m_show = false;
 	}
@@ -84,7 +84,7 @@ namespace Marvel {
 
 				ImGui::Image(textureRaw, ImVec2(25, 25));
 				ImGui::SameLine();
-				if (ImGui::Selectable(texture->m_name.c_str(), &status))
+				if (ImGui::Selectable(texture->m_label.c_str(), &status))
 					m_selection = index;
 
 				++index;
@@ -117,7 +117,7 @@ namespace Marvel {
 				if (ImPlot::BeginPlot("##texture plot", 0, 0, ImVec2(-1, -1),
 					ImPlotFlags_NoTitle | ImPlotFlags_NoLegend | ImPlotFlags_NoMenus | ImPlotFlags_Equal))
 				{
-					ImPlot::PlotImage(m_children[1][m_selection]->m_name.c_str(), textureRaw, ImPlotPoint(0.0, 0.0),
+					ImPlot::PlotImage(m_children[1][m_selection]->m_label.c_str(), textureRaw, ImPlotPoint(0.0, 0.0),
 						ImPlotPoint(m_children[1][m_selection]->getWidth(), m_children[1][m_selection]->getHeight()));
 					ImPlot::EndPlot();
 				}

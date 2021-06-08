@@ -24,16 +24,15 @@ namespace Marvel {
 		parsers->insert({ s_command, parser });
 	}
 
-	mvDynamicTexture::mvDynamicTexture(const std::string& name)
+	mvDynamicTexture::mvDynamicTexture(mvUUID uuid)
 		:
-		mvFloatVectPtrBase(name)
+		mvFloatVectPtrBase(uuid)
 	{
 
 	}
 
 	mvDynamicTexture::~mvDynamicTexture()
 	{
-		UnloadTexture(m_name);
 		FreeTexture(m_texture);
 	}
 
