@@ -46,32 +46,32 @@ namespace Marvel {
 
 	void mvMouseDragHandler::draw(ImDrawList* drawlist, float x, float y)
 	{
-		if (ImGui::IsMouseReleased(m_button))
-			ImGui::ResetMouseDragDelta(m_button);
-
 		if (m_button == -1)
 		{
 			for (int i = 0; i < IM_ARRAYSIZE(ImGui::GetIO().MouseDown); i++)
 			{
+				if (ImGui::IsMouseReleased(i))
+					ImGui::ResetMouseDragDelta(i);
+
 				if (ImGui::IsMouseDragging(i, m_threshold))
 				{
 					mvApp::GetApp()->getCallbackRegistry().submitCallback([=]()
 						{
 							mvApp::GetApp()->getCallbackRegistry().runCallback(getCallback(false), m_name, 
-								ToPyMTrip(i, ImGui::GetMouseDragDelta().x, ImGui::GetMouseDragDelta().y), m_user_data);
+								ToPyMTrip(i, ImGui::GetMouseDragDelta(i).x, ImGui::GetMouseDragDelta(i).y), m_user_data);
 						});
-
-					ImGui::ResetMouseDragDelta(i);
 				}
 			}
 		}
 
 		else if (ImGui::IsMouseDragging(m_button, m_threshold))
 		{
+			if (ImGui::IsMouseReleased(m_button))
+				ImGui::ResetMouseDragDelta(m_button);
 			mvApp::GetApp()->getCallbackRegistry().submitCallback([=]()
 				{
 					mvApp::GetApp()->getCallbackRegistry().runCallback(getCallback(false), m_name, 
-						ToPyMTrip(m_button, ImGui::GetMouseDragDelta().x, ImGui::GetMouseDragDelta().y), m_user_data);
+						ToPyMTrip(m_button, ImGui::GetMouseDragDelta(m_button).x, ImGui::GetMouseDragDelta(m_button).y), m_user_data);
 				});
 		}
 	}
@@ -112,5 +112,8 @@ namespace Marvel {
 	{
 		if (dict == nullptr)
 			return;
+
+		PyDict_SetItemString(dict, "button", ToPyInt(m_button));
+		PyDict_SetItemString(dict, "threshold", ToPyFloat(m_threshold));
 	}
 }

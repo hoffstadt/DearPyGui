@@ -2229,8 +2229,7 @@ def show_demo():
 
                 dpg.configure_item(layer, items=list(layers.keys()))
 
-        with cxt.collapsing_header(label="Handler"):
-
+        with cxt.collapsing_header(label="Handler & Polling"):
 
             with cxt.handler_registry(show=False) as keyboard_handler:
                 key_down_handler = dpg.add_key_down_handler(callback=event_handler)
@@ -2242,23 +2241,56 @@ def show_demo():
                 mouse_click_handler = dpg.add_mouse_click_handler(callback=event_handler)
                 mouse_double_click_handler = dpg.add_mouse_double_click_handler(callback=event_handler)
                 mouse_release_handler = dpg.add_mouse_release_handler(callback=event_handler)
-                mouse_drag_handler = dpg.add_mouse_drag_handler(0, 10.0, callback=event_handler)
+                mouse_drag_handler = dpg.add_mouse_drag_handler(callback=event_handler)
                 mouse_down_handler = dpg.add_mouse_down_handler(callback=event_handler)
                 mouse_move_handler = dpg.add_mouse_move_handler(callback=event_handler)
+            dpg.add_text("Logger Window:")
+            dpg.add_same_line()
+            _add_config_options(logger.window_id, 1,"show")
+            message = "Handlers are placed into handler registries. Handler registry and handler must be shown for the handler submit the callback. Show turns on and off handler registries. Must show handler registry then individual handlers can be shown."
+            dpg.add_text(message, wrap=0)
 
-            dpg.add_text("This will activate logging of all handlers.")
-            dpg.add_checkbox(label="show", default_value=False, callback=_config, user_data=[keyboard_handler, mouse_handler])
-            with cxt.tree_node(label="Keyboard Handlers"):
-                dpg.add_checkbox(label="show", default_value=False, callback=_config, user_data=keyboard_handler)
-                dpg.add_text("Key Down Handler")
-                dpg.add_button(label="Set Key to all", callback=lambda sender: dpg.configure_item(key_down_handler, key=-1))
-                dpg.add_button(label='Set Key to "A"', callback=lambda sender: dpg.configure_item(key_down_handler, key=dpg.mvKey_A))
-                dpg.add_text("Key Release Handler")
-                dpg.add_button(label="Set Key to all", callback=lambda sender: dpg.configure_item(key_release_handler, key=-1))
-                dpg.add_button(label='Set Key to "A"', callback=lambda sender: dpg.configure_item(key_release_handler, key=dpg.mvKey_A))
+            with cxt.tree_node(label="Keyboard"):
+                dpg.add_text("Keyboard Handler Registry:")
+                dpg.add_same_line()
+                _add_config_options(keyboard_handler, 1,"show")
+                key_constants={"All": -1, "dpg.mvKey_Shift": dpg.mvKey_Shift, "dpg.mvKey_0":dpg.mvKey_0, "dpg.mvKey_A":dpg.mvKey_A}
+                with cxt.tree_node(label="Key Down Handler:"):
+                    _add_config_options(key_down_handler, 1,"show")
+                    dpg.add_combo(list(key_constants.keys()), label="key", default_value="All", callback=lambda sender: dpg.configure_item(key_down_handler, key=key_constants[dpg.get_value(sender)]))
+                with cxt.tree_node(label="Key Release Handler:"):
+                    _add_config_options(key_release_handler, 1,"show")
+                    dpg.add_combo(list(key_constants.keys()), label="key", default_value="All", callback=lambda sender: dpg.configure_item(key_release_handler, key=key_constants[dpg.get_value(sender)]))
+                with cxt.tree_node(label="Key Press Handler:"):
+                    _add_config_options(key_press_handler, 1,"show")
+                    dpg.add_combo(list(key_constants.keys()), label="key", default_value="All", callback=lambda sender: dpg.configure_item(key_press_handler, key=key_constants[dpg.get_value(sender)]))
+            with cxt.tree_node(label="Mouse"):
+                dpg.add_text("Mouse Handler Registry:")
+                dpg.add_same_line()
+                _add_config_options(mouse_handler, 1,"show")
+                mouse_constants={"All": -1, "dpg.mvMouseButton_Left": dpg.mvMouseButton_Left, "dpg.mvMouseButton_Right":dpg.mvMouseButton_Right, "dpg.mvMouseButton_Middle":dpg.mvMouseButton_Middle, "dpg.mvMouseButton_X1":dpg.mvMouseButton_X1, "dpg.mvMouseButton_X2":dpg.mvMouseButton_X2}
+                with cxt.tree_node(label="Mouse Wheel Handler:"):
+                    _add_config_options(mouse_wheel_handler, 1,"show")
+                with cxt.tree_node(label="Mouse Move Handler:"):
+                    _add_config_options(mouse_move_handler, 1,"show")
+                with cxt.tree_node(label="Mouse Click Handler:"):
+                    _add_config_options(mouse_click_handler, 1,"show")
+                    dpg.add_combo(list(mouse_constants.keys()), label="button", default_value="All", callback=lambda sender: dpg.configure_item(mouse_click_handler, button=mouse_constants[dpg.get_value(sender)]))
+                with cxt.tree_node(label="Mouse Double Click Handler:"):
+                    _add_config_options(mouse_double_click_handler, 1,"show")
+                    dpg.add_combo(list(mouse_constants.keys()), label="button", default_value="All", callback=lambda sender: dpg.configure_item(mouse_double_click_handler, button=mouse_constants[dpg.get_value(sender)]))
+                with cxt.tree_node(label="Mouse Release Handler:"):
+                    _add_config_options(mouse_release_handler, 1,"show")
+                    dpg.add_combo(list(mouse_constants.keys()), label="button", default_value="All", callback=lambda sender: dpg.configure_item(mouse_release_handler, button=mouse_constants[dpg.get_value(sender)]))
+                with cxt.tree_node(label="Mouse Drag Handler:"):
+                    _add_config_options(mouse_drag_handler, 1,"show")
+                    dpg.add_input_float(label="threshold", default_value=10.0, callback=_config, user_data=mouse_drag_handler)
+                    dpg.add_combo(list(mouse_constants.keys()), label="button", default_value="All", callback=lambda sender: dpg.configure_item(mouse_drag_handler, button=mouse_constants[dpg.get_value(sender)]))
+                with cxt.tree_node(label="Mouse Down Handler:"):
+                    _add_config_options(mouse_down_handler, 1,"show")
+                    dpg.add_combo(list(mouse_constants.keys()), label="button", default_value="All", callback=lambda sender: dpg.configure_item(mouse_down_handler, button=mouse_constants[dpg.get_value(sender)]))
 
         with cxt.collapsing_header(label="Drag & Drop"):
-
             with cxt.tree_node(label="Help"):
 
                 dpg.add_text("Adding a drag_payload to a widget makes it source.", bullet=True)
@@ -2315,7 +2347,7 @@ def show_demo():
 
             with cxt.tree_node(label="Help (READ ME FIRST)"):
                 dpg.add_text("These topics are for advanced users.", bullet=True)
-                dpg.add_text("Make sure you know what you are doing.", bullet=True)
+                dpg.add_text("Make sure you know what you are doing.", bullet=True) #Can we remove this?
 
             with cxt.tree_node(label="Staging"):
 

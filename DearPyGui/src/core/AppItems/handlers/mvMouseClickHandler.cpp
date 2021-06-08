@@ -100,6 +100,8 @@ namespace Marvel {
 	{
 		if (dict == nullptr)
 			return;
+
+		PyDict_SetItemString(dict, "button", ToPyInt(m_button));
 	}
 
 }
