@@ -39,7 +39,7 @@ namespace Marvel {
 
 	private:
 
-		int m_button = 0;
+		int m_button = -1;
 
 	};
 
