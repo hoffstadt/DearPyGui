@@ -19,7 +19,7 @@ namespace Marvel {
 		);
 
 		parser.addArg<mvPyDataType::Integer>("button", mvArgType::POSITIONAL_ARG, "-1");
-		parser.addArg<mvPyDataType::Float>("threshold", mvArgType::POSITIONAL_ARG, "10.0");
+		parser.addArg<mvPyDataType::Float>("threshold", mvArgType::POSITIONAL_ARG, "1.0");
 
 		parser.finalize();
 
@@ -112,5 +112,8 @@ namespace Marvel {
 	{
 		if (dict == nullptr)
 			return;
+
+		PyDict_SetItemString(dict, "button", ToPyInt(m_button));
+		PyDict_SetItemString(dict, "threshold", ToPyFloat(m_threshold));
 	}
 }

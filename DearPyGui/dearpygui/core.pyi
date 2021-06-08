@@ -270,7 +270,7 @@ def add_mouse_down_handler(button : int =-1, *, id: str =..., parent: str ='', c
 	"""Undocumented function"""
 	...
 
-def add_mouse_drag_handler(button : int =-1, threshold : float =10.0, *, id: str =..., parent: str ='', callback: Callable =None, user_data: Any =None, show: bool =True) -> str:
+def add_mouse_drag_handler(button : int =-1, threshold : float =1.0, *, id: str =..., parent: str ='', callback: Callable =None, user_data: Any =None, show: bool =True) -> str:
 	"""Undocumented function"""
 	...
 
