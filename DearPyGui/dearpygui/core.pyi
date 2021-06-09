@@ -790,6 +790,10 @@ def set_global_font_scale(scale : float) -> None:
 	"""Undocumented function"""
 	...
 
+def set_item_children(item : int, source : int, slot : int) -> dict:
+	"""Undocumented function"""
+	...
+
 def set_item_pos(item : int, x : float, y : float) -> None:
 	"""Undocumented function"""
 	...

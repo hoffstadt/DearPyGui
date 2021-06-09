@@ -19,6 +19,15 @@ namespace Marvel{
 		}
 
 		{
+			mvPythonParser parser(mvPyDataType::Dict);
+			parser.addArg<mvPyDataType::UUID>("item");
+			parser.addArg<mvPyDataType::UUID>("source");
+			parser.addArg<mvPyDataType::Integer>("slot");
+			parser.finalize();
+			parsers->insert({ "set_item_children", parser });
+		}
+
+		{
 			mvPythonParser parser(mvPyDataType::None);
 			parser.addArg<mvPyDataType::UUID>("item");
 			parser.finalize();
@@ -692,7 +701,10 @@ namespace Marvel{
 	void mvAppItem::deleteChildren()
 	{
 		for (auto& childset : m_children)
+		{
 			childset.clear();
+			childset.shrink_to_fit();
+		}
 		onChildrenRemoved();
 	}
 
@@ -1164,6 +1176,52 @@ namespace Marvel{
 		}
 		else
 			mvThrowPythonError(1000, std::to_string(item) + std::string(" item was not found"));
+
+		return GetPyNone();
+	}
+
+	PyObject* mvAppItem::set_item_children(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		mvUUID item;
+		mvUUID source;
+		int slot;
+
+		if (!(mvApp::GetApp()->getParsers())["set_item_children"].parse(args, kwargs, __FUNCTION__,
+			&item, &source, &slot))
+			return GetPyNone();
+
+		if (!mvApp::s_manualMutexControl) std::lock_guard<std::mutex> lk(mvApp::s_mutex);
+		auto appitem = mvApp::GetApp()->getItemRegistry().getItem(item);
+		
+		auto& staging = mvApp::GetApp()->getItemRegistry().getStaging();
+
+		if (staging.count(source) == 0)
+		{
+			mvThrowPythonError(1000, std::to_string(item) + std::string(" item was not found"));
+			assert(false);
+			return GetPyNone();
+		}
+
+		mvRef<mvAppItem> staging_container = staging[source];
+		
+		if (appitem)
+		{
+			auto& oldChildren = appitem->getChildren(slot);
+			oldChildren.reserve(staging_container->m_children[slot].size());
+			oldChildren = std::move(staging_container->m_children[slot]);
+			for (auto& child : oldChildren)
+			{
+				child->m_parent = item;
+				child->m_parentPtr = appitem;
+			}
+
+			appitem->updateLocations();
+			
+		}
+		else
+			mvThrowPythonError(1000, std::to_string(item) + std::string(" item was not found"));
+
+		staging.erase(source);
 
 		return GetPyNone();
 	}

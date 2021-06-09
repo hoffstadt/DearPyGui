@@ -392,17 +392,37 @@ namespace Marvel {
 	{
 		//MV_ITEM_REGISTRY_TRACE("Attempting to add new widget: ", item->m_name);
 
-		// add runtime items
-		bool addedItem = false;
+
+		if (m_stagingArea.count(parent) != 0)
+		{
+			m_stagingArea[parent]->addItem(item);
+			return true;
+		}
+
+		else if (m_stagingArea.count(before) != 0)
+		{
+			m_stagingArea[before]->addItem(item);
+			return true;
+		}
+
+		if (m_staging)
+		{
+			for (auto& stagingItem : m_stagingArea)
+			{
+				if (stagingItem.second->addRuntimeChild(parent, before, item))
+					return true;
+			}
+
+		}
 
 		for (auto& window : m_roots)
 		{
-			addedItem = window->addRuntimeChild(parent, before, item);
-			if (addedItem)
-				break;
+			if(window->addRuntimeChild(parent, before, item))
+				return true;
 		}
-		assert(addedItem);
-		return addedItem;
+
+		assert(false);
+		return false;
 	}
 
 	bool mvItemRegistry::addItemAfter(mvUUID prev, mvRef<mvAppItem> item)
@@ -471,6 +491,23 @@ namespace Marvel {
 		{
 			if (m_cachedContainersID[i] == uuid)
 				return m_cachedContainersPTR[i];
+			if (m_cachedItemsID[i] == uuid)
+				return m_cachedItemsPTR[i];
+		}
+
+		if (m_stagingArea.count(uuid) != 0)
+			return m_stagingArea[uuid].get();
+
+		if (m_staging)
+		{
+			for (auto& stagingItem : m_stagingArea)
+			{
+				if (auto child = stagingItem.second->getChild(uuid))
+				{
+					return child;
+				}
+			}
+
 		}
 
 		for (auto& window : m_roots)
@@ -482,11 +519,6 @@ namespace Marvel {
 			if (child)
 				return child;
 		}
-
-		if(m_stagingArea.count(uuid) != 0)
-			return m_stagingArea[uuid].get();
-
-		//assert(false && "Item not found.");
 
 		return nullptr;
 	}
@@ -563,7 +595,12 @@ namespace Marvel {
 			{
 				m_cachedContainersID[i] = 0;
 				m_cachedContainersPTR[i] = nullptr;
-				break;
+			}
+
+			if (m_cachedItemsID[i] == uuid)
+			{
+				m_cachedItemsID[i] = 0;
+				m_cachedItemsPTR[i] = nullptr;
 			}
 		}
 	}
@@ -590,11 +627,6 @@ namespace Marvel {
 		{
 			m_lastRootAdded = item->getUUID();
 			m_lastContainerAdded = item->getUUID();
-			m_cachedContainersID[m_cachedContainerIndex] = item->getUUID();
-			m_cachedContainersPTR[m_cachedContainerIndex] = item.get();
-			m_cachedContainerIndex++;
-			if (m_cachedContainerIndex == CachedContainerCount)
-				m_cachedContainerIndex = 0;
 		}
 		else if (mvAppItem::DoesItemHaveFlag(item.get(), MV_ITEM_DESC_CONTAINER))
 		{
@@ -607,7 +639,11 @@ namespace Marvel {
 		}
 
 		m_lastItemAdded = item->getUUID();
-
+		m_cachedItemsID[m_cachedItemsIndex] = item->getUUID();
+		m_cachedItemsPTR[m_cachedItemsIndex] = item.get();
+		m_cachedItemsIndex++;
+		if (m_cachedItemsIndex == CachedContainerCount)
+			m_cachedItemsIndex = 0;
 
 		//---------------------------------------------------------------------------
 		// STEP 1: check if an item with this name exists (NO LONGER NEEDED)
@@ -717,13 +753,13 @@ namespace Marvel {
 		// STEP 8: handle "before" and "after" style adding
 		//---------------------------------------------------------------------------
 		if (technique == AddTechnique::BEFORE || technique == AddTechnique::PARENT)
-			return addRuntimeItem(parent, before, item); // same for run/compile time
+			return parentPtr->addRuntimeChild(parent, before, item); // same for run/compile time
 
 		//---------------------------------------------------------------------------
 		// STEP 9: handle "stack" style adding
 		//---------------------------------------------------------------------------
 		if(mvApp::IsAppStarted())
-			return addRuntimeItem(parentPtr->getUUID(), 0, item);
+			return parentPtr->addRuntimeChild(parentPtr->getUUID(), 0, item);
 		return addItem(item);
 	}
 
