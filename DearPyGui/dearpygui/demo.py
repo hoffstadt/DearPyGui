@@ -2335,6 +2335,8 @@ def show_demo():
                 dpg.add_text("If a callback calls multiple DPG commands, they will most likely execute over a few frames.", bullet=True)
                 dpg.add_text("To ensure multiple commands run within the same frame, you can lock/unlock the mutex manually.", bullet=True)
 
+                staged_container = dpg.generate_uuid()
+
                 def _callback_auto_mutex(sender, app_data, user_data):
                     
                     for i in range(0, 100):
@@ -2343,13 +2345,19 @@ def show_demo():
                 def _callback_manual_mutex(sender, app_data, user_data):
 
                     dpg.lock_mutex() # you could also use with cxt.mutex()
+                    dpg.set_staging_mode(True)
+                    dpg.push_container_stack(dpg.add_staging_container(id=staged_container))
                     for i in range(0, 100):
-                        dpg.add_text("Item: " + str(i), parent=user_data)
+                        dpg.add_text("Item: " + str(i))
+                    dpg.set_staging_mode(False)
+                    dpg.pop_container_stack()
                     dpg.unlock_mutex()
 
-                b1 = dpg.add_button(label="Added 100 items")
+                    dpg.set_item_children(user_data, staged_container, 1)
+
+                b1 = dpg.add_button(label="Add 100 items")
                 dpg.add_same_line()
-                b2 = dpg.add_button(label="Added 100 items (mutex)")
+                b2 = dpg.add_button(label="Add 100 items (mutex)")
                 dpg.add_same_line()
                 b3 = dpg.add_button(label="Delete Items", callback=lambda s, a, u: dpg.delete_item(u, children_only=True))
                 dpg.add_child(height=500, width=-1)

@@ -33,7 +33,7 @@ namespace Marvel {
 
     public:
 
-        static constexpr int CachedContainerCount = 10;
+        static constexpr int CachedContainerCount = 25;
 
         static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
 
@@ -118,6 +118,7 @@ namespace Marvel {
         void                            stageItem         (mvUUID uuid);
         void                            unstageItem       (mvUUID uuid);
         void                            setStagingMode    (bool value);
+        std::unordered_map<mvUUID, mvRef<mvAppItem>>& getStaging() { return m_stagingArea; }
 
         //-----------------------------------------------------------------------------
         // Parent stack operations
@@ -142,9 +143,12 @@ namespace Marvel {
         mvUUID                                       m_lastItemAdded = 0;
         mvUUID                                       m_lastContainerAdded = 0;
         mvUUID                                       m_lastRootAdded = 0;
+        mvUUID                                       m_cachedItemsID[CachedContainerCount];
+        mvAppItem*                                   m_cachedItemsPTR[CachedContainerCount];
         mvUUID                                       m_cachedContainersID[CachedContainerCount];
         mvAppItem*                                   m_cachedContainersPTR[CachedContainerCount];
         int                                          m_cachedContainerIndex = 0;
+        int                                          m_cachedItemsIndex = 0;
 
 		std::stack<mvAppItem*>                       m_containers;      // parent stack, top of stack becomes widget's parent
 		std::vector<mvRef<mvAppItem>>                m_roots;
