@@ -114,6 +114,7 @@ namespace Marvel {
         MV_PARSER_ARG_PAYLOAD_TYPE  = 1 << 16,
         MV_PARSER_ARG_TRACKED       = 1 << 17,
         MV_PARSER_ARG_FILTER        = 1 << 18,
+        MV_PARSER_ARG_SEARCH_DELAY  = 1 << 19,
     };
 
     using mvValueVariant = std::variant<
@@ -422,6 +423,8 @@ namespace Marvel {
         PyObject*      m_user_data = nullptr;
         bool           m_tracked = false;
         float          m_trackOffset = 0.5f; // 0.0f:top, 0.5f:center, 1.0f:bottom
+        bool           m_searchLast = false;
+        bool           m_searchDelayed = false;
 
         // drag & drop
         PyObject* m_dragCallback = nullptr;

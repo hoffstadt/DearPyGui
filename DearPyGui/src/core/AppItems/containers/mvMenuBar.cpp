@@ -18,6 +18,7 @@ namespace Marvel {
 			MV_PARSER_ARG_ID |
 			MV_PARSER_ARG_INDENT |
 			MV_PARSER_ARG_PARENT |
+			MV_PARSER_ARG_SEARCH_DELAY |
 			MV_PARSER_ARG_SHOW)
 		);
 		parser.finalize();
