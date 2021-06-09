@@ -484,6 +484,25 @@ namespace Marvel {
 		return nullptr;
 	}
 
+	void mvItemRegistry::cacheItem(mvAppItem* item)
+	{
+		if (mvAppItem::DoesItemHaveFlag(item, MV_ITEM_DESC_CONTAINER))
+		{
+		m_cachedContainersID[m_cachedContainerIndex] = item->getUUID();
+		m_cachedContainersPTR[m_cachedContainerIndex] = item;
+		m_cachedContainerIndex++;
+		if (m_cachedContainerIndex == CachedContainerCount)
+			m_cachedContainerIndex = 0;
+		}
+
+		m_lastItemAdded = item->getUUID();
+		m_cachedItemsID[m_cachedItemsIndex] = item->getUUID();
+		m_cachedItemsPTR[m_cachedItemsIndex] = item;
+		m_cachedItemsIndex++;
+		if (m_cachedItemsIndex == CachedContainerCount)
+			m_cachedItemsIndex = 0;
+	}
+
 	void mvItemRegistry::delaySearch(mvAppItem* item)
 	{
 		m_delayedSearch.push_back(item);
@@ -493,7 +512,7 @@ namespace Marvel {
 	{
 		mvRef<mvAppItem> item = nullptr;
 
-		// check container cache first
+		// check cache first
 		for (int i = 0; i < CachedContainerCount; i++)
 		{
 			if (m_cachedContainersID[i] == uuid)
@@ -512,6 +531,7 @@ namespace Marvel {
 				if (auto child = stagingItem.second->getChild(uuid))
 				{
 					m_delayedSearch.clear();
+					cacheItem(child);
 					return child;
 				}
 			}
@@ -521,11 +541,15 @@ namespace Marvel {
 		for (auto& window : m_roots)
 		{
 			if (window->m_uuid == uuid)
+			{
+				cacheItem(window.get());
 				return window.get();
+			}
 
 			auto child = window->getChild(uuid);
 			if (child)
 			{
+				cacheItem(child);
 				m_delayedSearch.clear();
 				return child;
 			}
@@ -536,6 +560,7 @@ namespace Marvel {
 			auto child = delayedItem->getChild(uuid);
 			if (child)
 			{
+				cacheItem(child);
 				m_delayedSearch.clear();
 				return child;
 			}
@@ -652,21 +677,11 @@ namespace Marvel {
 			m_lastContainerAdded = item->getUUID();
 		}
 		else if (mvAppItem::DoesItemHaveFlag(item.get(), MV_ITEM_DESC_CONTAINER))
-		{
 			m_lastContainerAdded = item->getUUID();
-			m_cachedContainersID[m_cachedContainerIndex] = item->getUUID();
-			m_cachedContainersPTR[m_cachedContainerIndex] = item.get();
-			m_cachedContainerIndex++;
-			if (m_cachedContainerIndex == CachedContainerCount)
-				m_cachedContainerIndex = 0;
-		}
 
 		m_lastItemAdded = item->getUUID();
-		m_cachedItemsID[m_cachedItemsIndex] = item->getUUID();
-		m_cachedItemsPTR[m_cachedItemsIndex] = item.get();
-		m_cachedItemsIndex++;
-		if (m_cachedItemsIndex == CachedContainerCount)
-			m_cachedItemsIndex = 0;
+
+		cacheItem(item.get());
 
 		//---------------------------------------------------------------------------
 		// STEP 1: check if an item with this name exists (NO LONGER NEEDED)
