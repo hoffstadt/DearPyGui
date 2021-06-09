@@ -40,7 +40,7 @@ namespace Marvel {
 
 	private:
 
-		mvUUID m_imagevalue;
+		mvUUID m_imagevalue = 0;
 		mvPlotPoint m_bounds_min = {0.0, 0.0};
 		mvPlotPoint m_bounds_max = {0.0, 0.0};
 		mvVec2	    m_uv_min = { 0.0f, 0.0f };

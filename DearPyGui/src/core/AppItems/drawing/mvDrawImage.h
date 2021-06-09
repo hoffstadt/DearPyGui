@@ -43,7 +43,7 @@ namespace Marvel {
 	private:
 
 
-		mvUUID      m_file;
+		mvUUID      m_file = 0;
 		mvVec2		m_pmax = {0.0f, 0.0f};
 		mvVec2		m_pmin = {0.0f, 0.0f};
 		mvVec2		m_uv_min = {0.0f, 0.0f};

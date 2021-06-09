@@ -254,7 +254,7 @@ namespace Marvel {
 		static int destroyed_attr;
 		if (imnodes::IsLinkDestroyed(&destroyed_attr))
 		{
-			mvUUID name;
+			mvUUID name = 0;
 			for (auto& item : m_children[0])
 			{
 				if (item->getType() == mvAppItemType::mvNodeLink)
