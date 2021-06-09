@@ -107,6 +107,7 @@ namespace Marvel {
 	{
 		switch (type)
 		{
+		case mvPyDataType::UUID:       return 'K';
 		case mvPyDataType::String:     return 's';
 		case mvPyDataType::Integer:    return 'i';
 		case mvPyDataType::Float:      return 'f';
@@ -121,6 +122,7 @@ namespace Marvel {
 		switch (type)
 		{
 		case mvPyDataType::String:         return " : str";
+		case mvPyDataType::UUID:           return " : int";
 		case mvPyDataType::Integer:        return " : int";
 		case mvPyDataType::Float:          return " : float";
 		case mvPyDataType::Double:         return " : float";
@@ -145,6 +147,7 @@ namespace Marvel {
 		switch (type)
 		{
 		case mvPyDataType::String:        return "str";
+		case mvPyDataType::UUID:          return "int";
 		case mvPyDataType::Integer:       return "int";
 		case mvPyDataType::Float:         return "float";
 		case mvPyDataType::Double:        return "float";
@@ -152,6 +155,7 @@ namespace Marvel {
 		case mvPyDataType::StringList:    return "List[str]";
 		case mvPyDataType::FloatList:     return "List[float]";
 		case mvPyDataType::IntList:       return "List[int]";
+		case mvPyDataType::UUIDList:       return "List[int]";
 		case mvPyDataType::Callable:      return "Callable";
 		case mvPyDataType::Dict:          return "dict";
 		case mvPyDataType::ListFloatList: return "List[List[float]]";

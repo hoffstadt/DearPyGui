@@ -8,7 +8,7 @@ namespace Marvel {
     void mvLoadingIndicator::InsertParser(std::map<std::string, mvPythonParser>* parsers)
     {
 
-        mvPythonParser parser(mvPyDataType::String);
+        mvPythonParser parser(mvPyDataType::UUID);
         mvAppItem::AddCommonArgs(parser, (CommonParserArgs)(
             MV_PARSER_ARG_ID |
             MV_PARSER_ARG_WIDTH |
@@ -28,14 +28,14 @@ namespace Marvel {
         parsers->insert({ s_command, parser });
     }
 
-    mvLoadingIndicator::mvLoadingIndicator(const std::string& name)
-        : mvAppItem(name)
+    mvLoadingIndicator::mvLoadingIndicator(mvUUID uuid)
+        : mvAppItem(uuid)
     {
     }
 
     void mvLoadingIndicator::draw(ImDrawList* drawlist, float x, float y)
     {
-        ScopedID id;
+        ScopedID id(m_uuid);
         mvImGuiThemeScope scope(this);
         mvFontScope fscope(this);
 

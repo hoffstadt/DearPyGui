@@ -14,7 +14,7 @@ namespace Marvel {
 	void mvNodeAttribute::InsertParser(std::map<std::string, mvPythonParser>* parsers)
 	{
 
-		mvPythonParser parser(mvPyDataType::String, "Undocumented function", { "Node Editor", "Widgets" });
+		mvPythonParser parser(mvPyDataType::UUID, "Undocumented function", { "Node Editor", "Widgets" });
 		mvAppItem::AddCommonArgs(parser, (CommonParserArgs)(
 			MV_PARSER_ARG_ID |
 			MV_PARSER_ARG_INDENT |
@@ -38,8 +38,8 @@ namespace Marvel {
 		parsers->insert({ s_command, parser });
 	}
 
-	mvNodeAttribute::mvNodeAttribute(const std::string& name)
-		: mvAppItem(name)
+	mvNodeAttribute::mvNodeAttribute(mvUUID uuid)
+		: mvAppItem(uuid)
 	{
 		int64_t address = (int64_t)this;
 		int64_t reduced_address = address % 2147483648;
@@ -60,7 +60,7 @@ namespace Marvel {
 
 	void mvNodeAttribute::draw(ImDrawList* drawlist, float x, float y)
 	{
-		ScopedID id;
+		ScopedID id(m_uuid);
 		mvImNodesThemeScope scope(this);
 		mvFontScope fscope(this);
 

@@ -9,7 +9,7 @@ namespace Marvel {
 	void mvMenu::InsertParser(std::map<std::string, mvPythonParser>* parsers)
 	{
 
-		mvPythonParser parser(mvPyDataType::String, "Undocumented function", { "Containers", "Widgets" });
+		mvPythonParser parser(mvPyDataType::UUID, "Undocumented function", { "Containers", "Widgets" });
 		mvAppItem::AddCommonArgs(parser, (CommonParserArgs)(
 			MV_PARSER_ARG_ID |
 			MV_PARSER_ARG_INDENT |
@@ -29,14 +29,14 @@ namespace Marvel {
 		parsers->insert({ s_command, parser });
 	}
 
-	mvMenu::mvMenu(const std::string& name)
-			: mvBoolPtrBase(name)
+	mvMenu::mvMenu(mvUUID uuid)
+			: mvBoolPtrBase(uuid)
 	{
 	}
 
 	void mvMenu::draw(ImDrawList* drawlist, float x, float y)
 	{
-		ScopedID id;
+		ScopedID id(m_uuid);
 		mvImGuiThemeScope scope(this);
 		mvFontScope fscope(this);
 

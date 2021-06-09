@@ -9,7 +9,7 @@ namespace Marvel {
 
 	void mvDragPayload::InsertParser(std::map<std::string, mvPythonParser>* parsers)
 	{
-		mvPythonParser parser(mvPyDataType::String, "Undocumented function", { "Containers", "Widgets" });
+		mvPythonParser parser(mvPyDataType::UUID, "Undocumented function", { "Containers", "Widgets" });
 		mvAppItem::AddCommonArgs(parser, (CommonParserArgs)(
 			MV_PARSER_ARG_ID |
 			MV_PARSER_ARG_PARENT |
@@ -24,8 +24,8 @@ namespace Marvel {
 		parsers->insert({ s_command, parser });
 	}
 
-	mvDragPayload::mvDragPayload(const std::string& name)
-		: mvAppItem(name)
+	mvDragPayload::mvDragPayload(mvUUID uuid)
+		: mvAppItem(uuid)
 	{
 	}
 

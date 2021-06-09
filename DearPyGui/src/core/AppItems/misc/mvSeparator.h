@@ -31,7 +31,7 @@ namespace Marvel {
 
 	public:
 
-		mvSeparator(const std::string& name);
+		mvSeparator(mvUUID uuid);
 
 		void draw(ImDrawList* drawlist, float x, float y) override;
 

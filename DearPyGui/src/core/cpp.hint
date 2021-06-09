@@ -17,16 +17,15 @@ int getDescFlags() const override { return mvItemTypeMap<(int)x>::flags; }\
 StorageValueTypes getValueType() const override { return mvItemTypeMap<(int)x>::value_type; }\
 static PyObject* parser(PyObject* self, PyObject* args, PyObject* kwargs)\
 {\
-	static int i = 0; i++;\
-	std::string name = std::string(std::string("$$DPG_") + s_internal_id + std::string("__") + std::to_string(i));\
-	auto [parent, before] = mvAppItem::GetNameFromArgs(name, args, kwargs);\
-	auto item = CreateRef<mvItemTypeMap<(int)x>::type>(name);\
+	mvUUID id = mvAppItem::GenerateUUID();\
+	auto [parent, before] = mvAppItem::GetNameFromArgs(id, args, kwargs);\
+	auto item = CreateRef<mvItemTypeMap<(int)x>::type>(id);\
 	item->checkArgs(args, kwargs);\
 	item->handleSpecificRequiredArgs(args);\
 	item->handleSpecificPositionalArgs(args);\
 	item->handleKeywordArgs(kwargs);\
-	mvApp::GetApp()->getItemRegistry().addItemWithRuntimeChecks(item, parent.c_str(), before.c_str());\
-	return ToPyString(name);\
+	mvApp::GetApp()->getItemRegistry().addItemWithRuntimeChecks(item, parent, before);\
+	return ToPyUUID(id);\
 }\
 static PyMethodDef GetMethodDefinition(){return { s_command, (PyCFunction)parser, METH_VARARGS | METH_KEYWORDS, mvApp::GetApp()->getParsers()[s_command].getDocumentation() };}
 

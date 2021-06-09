@@ -12,7 +12,7 @@ namespace Marvel {
 	void mvDatePicker::InsertParser(std::map<std::string, mvPythonParser>* parsers)
 	{
 
-		mvPythonParser parser(mvPyDataType::String);
+		mvPythonParser parser(mvPyDataType::UUID);
 		mvAppItem::AddCommonArgs(parser, (CommonParserArgs)(
 			MV_PARSER_ARG_ID |
 			MV_PARSER_ARG_INDENT |
@@ -38,21 +38,21 @@ namespace Marvel {
 		parsers->insert({ s_command, parser });
 	}
 
-	mvDatePicker::mvDatePicker(const std::string& name)
-		: mvTimePtrBase(name)
+	mvDatePicker::mvDatePicker(mvUUID uuid)
+		: mvTimePtrBase(uuid)
 	{
 	}
 
 	void mvDatePicker::draw(ImDrawList* drawlist, float x, float y)
 	{
-		ScopedID id;
+		ScopedID id(m_uuid);
 		mvImGuiThemeScope scope(this);
 		mvFontScope fscope(this);
 
-		if (ImPlot::ShowDatePicker(m_name.c_str(), &m_level, m_imvalue.get(), m_imvalue.get()))
+		if (ImPlot::ShowDatePicker(m_label.c_str(), &m_level, m_imvalue.get(), m_imvalue.get()))
 		{
 			ImPlot::GetGmtTime(*m_imvalue, m_value.get());
-			mvApp::GetApp()->getCallbackRegistry().addCallback(m_callback, m_name, nullptr, m_user_data);
+			mvApp::GetApp()->getCallbackRegistry().addCallback(m_callback, m_uuid, nullptr, m_user_data);
 		}
 
 	}

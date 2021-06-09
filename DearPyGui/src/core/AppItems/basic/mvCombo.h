@@ -88,7 +88,7 @@ namespace Marvel {
 
 	public:
 
-		mvCombo(const std::string& name);
+		mvCombo(mvUUID uuid);
 
 		void draw(ImDrawList* drawlist, float x, float y) override;
 

@@ -16,7 +16,7 @@ namespace Marvel {
 	void mvPlotLegend::InsertParser(std::map<std::string, mvPythonParser>* parsers)
 	{
 
-		mvPythonParser parser(mvPyDataType::String, "Undocumented function", { "Widgets" });
+		mvPythonParser parser(mvPyDataType::UUID, "Undocumented function", { "Widgets" });
 		mvAppItem::AddCommonArgs(parser, (CommonParserArgs)(
 			MV_PARSER_ARG_ID |
 			MV_PARSER_ARG_PARENT |
@@ -31,9 +31,9 @@ namespace Marvel {
 		parsers->insert({ s_command, parser });
 	}
 
-	mvPlotLegend::mvPlotLegend(const std::string& name)
+	mvPlotLegend::mvPlotLegend(mvUUID uuid)
 		: 
-		mvAppItem(name)
+		mvAppItem(uuid)
 	{
 	}
 
@@ -75,13 +75,13 @@ namespace Marvel {
 
 		if (m_dropCallback)
 		{
-			//ScopedID id;
+			//ScopedID id(m_uuid);
 			if (ImPlot::BeginDragDropTargetLegend())
 			{
 				if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload(m_payloadType.c_str()))
 				{
 					auto payloadActual = static_cast<const mvDragPayload*>(payload->Data);
-					mvApp::GetApp()->getCallbackRegistry().addCallback(getDropCallback(), m_name, payloadActual->getDragData(), nullptr);
+					mvApp::GetApp()->getCallbackRegistry().addCallback(getDropCallback(), m_uuid, payloadActual->getDragData(), nullptr);
 				}
 
 				ImPlot::EndDragDropTarget();

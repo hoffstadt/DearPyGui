@@ -27,7 +27,7 @@ namespace Marvel{
 
 		static void Draw();
 
-		static void ShowTool(const std::string& name);
+		static void ShowTool(mvUUID name);
 
 		static mvFontManager& GetFontManager();
 

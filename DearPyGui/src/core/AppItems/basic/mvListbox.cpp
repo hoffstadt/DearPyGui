@@ -10,7 +10,7 @@ namespace Marvel {
 	void mvListbox::InsertParser(std::map<std::string, mvPythonParser>* parsers)
 	{
 
-		mvPythonParser parser(mvPyDataType::String, "Undocumented function", { "Widgets" });
+		mvPythonParser parser(mvPyDataType::UUID, "Undocumented function", { "Widgets" });
 		mvAppItem::AddCommonArgs(parser, (CommonParserArgs)(
 			MV_PARSER_ARG_ID |
 			MV_PARSER_ARG_WIDTH |
@@ -41,8 +41,8 @@ namespace Marvel {
 		parsers->insert({ s_command, parser });
 	}
 
-	mvListbox::mvListbox(const std::string& name)
-		: mvStringPtrBase(name)
+	mvListbox::mvListbox(mvUUID uuid)
+		: mvStringPtrBase(uuid)
 	{
 	}
 
@@ -72,7 +72,7 @@ namespace Marvel {
 
 	void mvListbox::draw(ImDrawList* drawlist, float x, float y)
 	{
-		ScopedID id;
+		ScopedID id(m_uuid);
 		mvImGuiThemeScope scope(this);
 		mvFontScope fscope(this);
 
@@ -86,7 +86,7 @@ namespace Marvel {
 		{
 			*m_value = m_names[m_index];
 			m_disabled_value = m_names[m_index];
-			mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), m_name, nullptr, m_user_data);
+			mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), m_uuid, nullptr, m_user_data);
 		}
 	}
 

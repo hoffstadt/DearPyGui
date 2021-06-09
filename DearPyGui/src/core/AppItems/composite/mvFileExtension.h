@@ -29,7 +29,7 @@ namespace Marvel {
 
 	public:
 
-		mvFileExtension(const std::string& name);
+		mvFileExtension(mvUUID uuid);
 
 		void draw(ImDrawList* drawlist, float x, float y) override;
 

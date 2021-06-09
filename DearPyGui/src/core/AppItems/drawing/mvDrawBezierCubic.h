@@ -28,7 +28,7 @@ namespace Marvel {
 
 	public:
 
-		mvDrawBezierCubic(const std::string& name);
+		mvDrawBezierCubic(mvUUID uuid);
 
 		void draw(ImDrawList* drawlist, float x, float y) override;
 		bool isParentCompatible(mvAppItemType type) override;

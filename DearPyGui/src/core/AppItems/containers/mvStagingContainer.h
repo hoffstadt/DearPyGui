@@ -28,7 +28,7 @@ namespace Marvel {
 
 	public:
 
-		mvStagingContainer(const std::string& name);
+		mvStagingContainer(mvUUID uuid);
 
 		void draw(ImDrawList* drawlist, float x, float y) override {}
 

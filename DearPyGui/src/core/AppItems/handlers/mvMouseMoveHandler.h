@@ -29,7 +29,7 @@ namespace Marvel {
 
 	public:
 
-		mvMouseMoveHandler(const std::string& name);
+		mvMouseMoveHandler(mvUUID uuid);
 
 		void draw(ImDrawList* drawlist, float x, float y) override;
 		bool isParentCompatible(mvAppItemType type) override;

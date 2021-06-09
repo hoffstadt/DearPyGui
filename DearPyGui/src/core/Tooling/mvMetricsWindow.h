@@ -11,7 +11,7 @@ namespace Marvel {
 
         mvMetricsWindow();
 
-        const char* getName() const override { return "mvMetricsWindow"; }
+        mvUUID getUUID() const override { return MV_TOOL_METRICS_UUID; }
         const char* getTitle() const override { return "Metrics"; }
 
     protected:

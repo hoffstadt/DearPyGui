@@ -74,7 +74,7 @@ namespace Marvel {
 
     public:
 
-        mvSliderFloatMulti(const std::string& name);
+        mvSliderFloatMulti(mvUUID uuid);
         
         void setEnabled(bool value) override;
         void draw(ImDrawList* drawlist, float x, float y) override;
@@ -153,7 +153,7 @@ namespace Marvel {
 
     public:
 
-        mvSliderIntMulti(const std::string& name);
+        mvSliderIntMulti(mvUUID uuid);
         
         void setEnabled(bool value) override;
         void draw(ImDrawList* drawlist, float x, float y) override;

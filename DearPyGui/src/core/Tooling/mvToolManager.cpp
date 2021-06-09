@@ -35,7 +35,7 @@ namespace Marvel {
 
 		mvPythonParser parser(mvPyDataType::String);
 
-		parser.addArg<mvPyDataType::String>("tool");
+		parser.addArg<mvPyDataType::UUID>("tool");
 
 		parser.finalize();
 
@@ -50,11 +50,11 @@ namespace Marvel {
 			tool->draw();
 	}
 
-	void mvToolManager::ShowTool(const std::string& name)
+	void mvToolManager::ShowTool(mvUUID name)
 	{
 		for (auto& tool : s_tools)
 		{
-			if (std::string(tool->getName()) == name)
+			if (tool->getUUID() == name)
 			{
 				tool->m_show = true;
 				return;
@@ -64,7 +64,7 @@ namespace Marvel {
 
 	PyObject* mvToolManager::show_tool(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
-		const char* tool;
+		mvUUID tool;
 
 		if (!(mvApp::GetApp()->getParsers())["show_tool"].parse(args, kwargs, __FUNCTION__,
 			&tool))

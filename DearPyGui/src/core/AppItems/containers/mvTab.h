@@ -52,7 +52,7 @@ namespace Marvel {
 
 	public:
 
-		mvTab(const std::string& name);
+		mvTab(mvUUID uuid);
 
 		void draw(ImDrawList* drawlist, float x, float y) override;
 		void addFlag   (ImGuiTabItemFlags flag);

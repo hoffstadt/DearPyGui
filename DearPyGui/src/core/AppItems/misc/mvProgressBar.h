@@ -52,7 +52,7 @@ namespace Marvel {
 
 	public:
 
-		mvProgressBar(const std::string& name);
+		mvProgressBar(mvUUID uuid);
 
 		void draw(ImDrawList* drawlist, float x, float y) override;
 

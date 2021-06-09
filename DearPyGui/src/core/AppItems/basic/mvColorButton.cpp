@@ -9,7 +9,7 @@ namespace Marvel {
 
 	void mvColorButton::InsertParser(std::map<std::string, mvPythonParser>* parsers)
 	{
-		mvPythonParser parser(mvPyDataType::String, "Undocumented function", { "Widgets" });
+		mvPythonParser parser(mvPyDataType::UUID, "Undocumented function", { "Widgets" });
 		mvAppItem::AddCommonArgs(parser, (CommonParserArgs)(
 			MV_PARSER_ARG_ID |
 			MV_PARSER_ARG_WIDTH |
@@ -40,22 +40,22 @@ namespace Marvel {
 		parsers->insert({ s_command, parser });
 	}
 
-	mvColorButton::mvColorButton(const std::string& name)
+	mvColorButton::mvColorButton(mvUUID uuid)
 		: 
-		mvColorPtrBase(name)
+		mvColorPtrBase(uuid)
 	{
 	}
 
 	void mvColorButton::draw(ImDrawList* drawlist, float x, float y)
 	{
-		ScopedID id;
+		ScopedID id(m_uuid);
 		mvImGuiThemeScope scope(this);
 		mvFontScope fscope(this);
 
 		ImVec4 col = { (*m_value)[0], (*m_value)[1], (*m_value)[2], (*m_value)[3] };
 
 		if (ImGui::ColorButton(m_label.c_str(), col, m_flags, ImVec2((float)m_width, (float)m_height)))
-			mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), m_name, nullptr, m_user_data);
+			mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), m_uuid, nullptr, m_user_data);
 
 	}
 

@@ -31,7 +31,7 @@ namespace Marvel {
 
     public:
 
-        mvSlider3D(const std::string& name);
+        mvSlider3D(mvUUID uuid);
 
         void draw(ImDrawList* drawlist, float x, float y) override;
 

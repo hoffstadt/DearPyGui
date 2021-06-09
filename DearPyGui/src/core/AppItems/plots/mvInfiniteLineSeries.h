@@ -44,7 +44,7 @@ namespace Marvel {
 
 	public:
 
-		mvVLineSeries(const std::string& name);
+		mvVLineSeries(mvUUID uuid);
 
 		void draw(ImDrawList* drawlist, float x, float y) override;
 
@@ -86,7 +86,7 @@ namespace Marvel {
 
 	public:
 
-		mvHLineSeries(const std::string& name);
+		mvHLineSeries(mvUUID uuid);
 
 		void draw(ImDrawList* drawlist, float x, float y) override;
 

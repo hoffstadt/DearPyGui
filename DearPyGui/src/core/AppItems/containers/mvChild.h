@@ -60,7 +60,7 @@ namespace Marvel {
 
 	public:
 
-		mvChild(const std::string& name);
+		mvChild(mvUUID uuid);
 
 		void draw(ImDrawList* drawlist, float x, float y)               override;
 

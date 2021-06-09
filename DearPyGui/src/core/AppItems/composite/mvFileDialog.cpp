@@ -17,7 +17,7 @@ namespace Marvel {
 	void mvFileDialog::InsertParser(std::map<std::string, mvPythonParser>* parsers)
 	{
 		{
-			mvPythonParser parser(mvPyDataType::String);
+			mvPythonParser parser(mvPyDataType::UUID);
 			mvAppItem::AddCommonArgs(parser, (CommonParserArgs)(
 				MV_PARSER_ARG_ID |
 				MV_PARSER_ARG_WIDTH |
@@ -39,16 +39,16 @@ namespace Marvel {
 
 		{
 			mvPythonParser parser(mvPyDataType::Dict, "Undocumented function", { "Widgets" });
-			parser.addArg<mvPyDataType::String>("file_dialog");
+			parser.addArg<mvPyDataType::UUID>("file_dialog");
 			parser.finalize();
 			parsers->insert({ "get_file_dialog_info", parser });
 		}
 
 	}
 
-	mvFileDialog::mvFileDialog(const std::string& name)
+	mvFileDialog::mvFileDialog(mvUUID uuid)
 		: 
-		mvBoolPtrBase(name)
+		mvBoolPtrBase(uuid)
 	{
 		*m_value = true;
 		m_width = 500;
@@ -77,68 +77,68 @@ namespace Marvel {
 
 	void mvFileDialog::draw(ImDrawList* drawlist, float x, float y)
 	{
-		ScopedID id;
-		mvImGuiThemeScope scope(this);
-		mvFontScope fscope(this);
-		if (!m_show)
-			return;
+		//ScopedID id(m_uuid);
+		//mvImGuiThemeScope scope(this);
+		//mvFontScope fscope(this);
+		//if (!m_show)
+		//	return;
 
-		// extensions
-		if (m_dirtySettings)
-		{
-			m_filters.clear();
-			for (auto& item : m_children[0])
-			{
-				item->draw(drawlist, x, y);
-				m_filters.append(static_cast<mvFileExtension*>(item.get())->getFilter());
-				m_filters.append(",");
-			}
+		//// extensions
+		//if (m_dirtySettings)
+		//{
+		//	m_filters.clear();
+		//	for (auto& item : m_children[0])
+		//	{
+		//		item->draw(drawlist, x, y);
+		//		m_filters.append(static_cast<mvFileExtension*>(item.get())->getFilter());
+		//		m_filters.append(",");
+		//	}
 
-			m_dirtySettings = false;
-		}
+		//	m_dirtySettings = false;
+		//}
 
-		
-		// ugly
-		if (m_children[1].empty())
-		{
-			if (m_modal)
-				m_instance.OpenModal(m_name.c_str(), m_label.c_str(), m_directory ? nullptr : m_filters.c_str(), m_defaultPath, m_defaultFilename, m_fileCount);
-			else
-				m_instance.OpenDialog(m_name.c_str(), m_label.c_str(), m_directory ? nullptr : m_filters.c_str(), m_defaultPath, m_defaultFilename, m_fileCount);
-		}
-		else
-		{
+		//
+		//// ugly
+		//if (m_children[1].empty())
+		//{
+		//	if (m_modal)
+		//		m_instance.OpenModal(m_name.c_str(), m_label.c_str(), m_directory ? nullptr : m_filters.c_str(), m_defaultPath, m_defaultFilename, m_fileCount);
+		//	else
+		//		m_instance.OpenDialog(m_name.c_str(), m_label.c_str(), m_directory ? nullptr : m_filters.c_str(), m_defaultPath, m_defaultFilename, m_fileCount);
+		//}
+		//else
+		//{
 
-			if (m_modal)
-				m_instance.OpenModal(m_name.c_str(), m_label.c_str(), m_directory ? nullptr : m_filters.c_str(), m_defaultPath, m_defaultFilename,
-					std::bind(&Panel, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3), 250.0f, m_fileCount, IGFDUserDatas(this));
-			else
-				m_instance.OpenDialog(m_name.c_str(), m_label.c_str(), m_directory ? nullptr : m_filters.c_str(), m_defaultPath, m_defaultFilename,
-					std::bind(&Panel, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3), 250.0f, m_fileCount, IGFDUserDatas(this));
-		}
+		//	if (m_modal)
+		//		m_instance.OpenModal(m_name.c_str(), m_label.c_str(), m_directory ? nullptr : m_filters.c_str(), m_defaultPath, m_defaultFilename,
+		//			std::bind(&Panel, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3), 250.0f, m_fileCount, IGFDUserDatas(this));
+		//	else
+		//		m_instance.OpenDialog(m_name.c_str(), m_label.c_str(), m_directory ? nullptr : m_filters.c_str(), m_defaultPath, m_defaultFilename,
+		//			std::bind(&Panel, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3), 250.0f, m_fileCount, IGFDUserDatas(this));
+		//}
 
-		{
-			mvFontScope fscope(this);
+		//{
+		//	mvFontScope fscope(this);
 
-			// display
-			if (m_instance.Display(m_name.c_str(), ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoSavedSettings, ImVec2(500, 600)))
-			{
+		//	// display
+		//	if (m_instance.Display(m_name.c_str(), ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoSavedSettings, ImVec2(500, 600)))
+		//	{
 
-				// action if OK
-				if (m_instance.IsOk())
-				{
-					mvApp::GetApp()->getCallbackRegistry().submitCallback([&]()
-						{
-							mvApp::GetApp()->getCallbackRegistry().runCallback(m_callback, m_name.c_str(), getInfoDict(), nullptr);
-						});
+		//		// action if OK
+		//		if (m_instance.IsOk())
+		//		{
+		//			mvApp::GetApp()->getCallbackRegistry().submitCallback([&]()
+		//				{
+		//					mvApp::GetApp()->getCallbackRegistry().runCallback(m_callback, m_name.c_str(), getInfoDict(), nullptr);
+		//				});
 
-				}
+		//		}
 
-				// close
-				m_instance.Close();
-				m_show = false;
-			}
-		}
+		//		// close
+		//		m_instance.Close();
+		//		m_show = false;
+		//	}
+		//}
 	}
 
 	void mvFileDialog::handleSpecificKeywordArgs(PyObject* dict)
@@ -188,7 +188,7 @@ namespace Marvel {
 
 	PyObject* mvFileDialog::get_file_dialog_info(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
-		const char* file_dialog;
+		mvUUID file_dialog;
 
 		if (!(mvApp::GetApp()->getParsers())["get_file_dialog_info"].parse(args, kwargs, __FUNCTION__, &file_dialog))
 			return GetPyNone();
@@ -197,15 +197,13 @@ namespace Marvel {
 		auto aplot = mvApp::GetApp()->getItemRegistry().getItem(file_dialog);
 		if (aplot == nullptr)
 		{
-			std::string message = file_dialog;
-			mvThrowPythonError(1000, message + " plot does not exist.");
+			mvThrowPythonError(1000, std::to_string(file_dialog) + " plot does not exist.");
 			return GetPyNone();
 		}
 
 		if (aplot->getType() != mvAppItemType::mvFileDialog)
 		{
-			std::string message = file_dialog;
-			mvThrowPythonError(1000, message + " is not a plot.");
+			mvThrowPythonError(1000, std::to_string(file_dialog) + " is not a plot.");
 			return GetPyNone();
 		}
 

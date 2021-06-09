@@ -8,7 +8,7 @@ namespace Marvel {
 
 	void mvDummy::InsertParser(std::map<std::string, mvPythonParser>* parsers)
 	{
-		mvPythonParser parser(mvPyDataType::String);
+		mvPythonParser parser(mvPyDataType::UUID);
 		mvAppItem::AddCommonArgs(parser, (CommonParserArgs)(
 			MV_PARSER_ARG_ID |
 			MV_PARSER_ARG_WIDTH |
@@ -26,8 +26,8 @@ namespace Marvel {
 	}
 
 
-	mvDummy::mvDummy(const std::string& name)
-		: mvAppItem(name)
+	mvDummy::mvDummy(mvUUID uuid)
+		: mvAppItem(uuid)
 	{
 	}
 

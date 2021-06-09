@@ -13,7 +13,7 @@ namespace Marvel {
 	void mvWindowAppItem::InsertParser(std::map<std::string, mvPythonParser>* parsers)
 	{
 		{
-			mvPythonParser parser(mvPyDataType::String, "Undocumented function", { "Containers", "Widgets" });
+			mvPythonParser parser(mvPyDataType::UUID, "Undocumented function", { "Containers", "Widgets" });
 			mvAppItem::AddCommonArgs(parser, (CommonParserArgs)(
 				MV_PARSER_ARG_ID |
 				MV_PARSER_ARG_WIDTH |
@@ -52,7 +52,7 @@ namespace Marvel {
 
 		{
 			mvPythonParser parser(mvPyDataType::None);
-			parser.addArg<mvPyDataType::String>("item");
+			parser.addArg<mvPyDataType::UUID>("item");
 			parser.addArg<mvPyDataType::Float>("value");
 			parser.finalize();
 			parsers->insert({ "set_x_scroll", parser });
@@ -60,7 +60,7 @@ namespace Marvel {
 
 		{
 			mvPythonParser parser(mvPyDataType::None);
-			parser.addArg<mvPyDataType::String>("item");
+			parser.addArg<mvPyDataType::UUID>("item");
 			parser.addArg<mvPyDataType::Float>("value");
 			parser.finalize();
 			parsers->insert({ "set_y_scroll", parser });
@@ -68,35 +68,35 @@ namespace Marvel {
 
 		{
 			mvPythonParser parser(mvPyDataType::Float);
-			parser.addArg<mvPyDataType::String>("item");
+			parser.addArg<mvPyDataType::UUID>("item");
 			parser.finalize();
 			parsers->insert({ "get_x_scroll", parser });
 		}
 
 		{
 			mvPythonParser parser(mvPyDataType::Float);
-			parser.addArg<mvPyDataType::String>("item");
+			parser.addArg<mvPyDataType::UUID>("item");
 			parser.finalize();
 			parsers->insert({ "get_y_scroll", parser });
 		}
 
 		{
 			mvPythonParser parser(mvPyDataType::Float);
-			parser.addArg<mvPyDataType::String>("item");
+			parser.addArg<mvPyDataType::UUID>("item");
 			parser.finalize();
 			parsers->insert({ "get_x_scroll_max", parser });
 		}
 
 		{
 			mvPythonParser parser(mvPyDataType::Float);
-			parser.addArg<mvPyDataType::String>("item");
+			parser.addArg<mvPyDataType::UUID>("item");
 			parser.finalize();
 			parsers->insert({ "get_y_scroll_max", parser });
 		}
 	}
 
-	mvWindowAppItem::mvWindowAppItem(const std::string& name, bool mainWindow)
-		: mvAppItem(name), m_mainWindow(mainWindow)
+	mvWindowAppItem::mvWindowAppItem(mvUUID uuid, bool mainWindow)
+		: mvAppItem(uuid), m_mainWindow(mainWindow)
 	{
 
 		m_width = 500;
@@ -179,7 +179,7 @@ namespace Marvel {
 	void mvWindowAppItem::setLabel(const std::string& value)
 	{
 		m_specificedlabel = value;
-		m_label = value + "###" + m_name;
+		m_label = value + "###" + std::to_string(m_uuid);
 		m_dirtyPos = true;
 		m_dirty_size = true;
 	}
@@ -201,7 +201,7 @@ namespace Marvel {
 			if (!m_closing)
 			{
 				m_closing = true;
-				mvApp::GetApp()->getCallbackRegistry().addCallback(m_on_close, m_name, nullptr, m_user_data);
+				mvApp::GetApp()->getCallbackRegistry().addCallback(m_on_close, m_uuid, nullptr, m_user_data);
 
 			}
 			return;
@@ -242,7 +242,7 @@ namespace Marvel {
 			m_focusNextFrame = false;
 		}
 
-		ScopedID id;
+		ScopedID id(m_uuid);
 		mvImGuiThemeScope scope(this);
 		mvFontScope fscope(this);
 
@@ -370,7 +370,7 @@ namespace Marvel {
 		{
 			m_width = (int)ImGui::GetWindowWidth();
 			m_height = (int)ImGui::GetWindowHeight();
-			mvApp::GetApp()->getCallbackRegistry().addCallback(m_resize_callback, m_name, nullptr, nullptr);
+			mvApp::GetApp()->getCallbackRegistry().addCallback(m_resize_callback, m_uuid, nullptr, nullptr);
 		}
 
 		m_width = (int)ImGui::GetWindowWidth();
@@ -387,8 +387,8 @@ namespace Marvel {
 			float y = mousePos.y - ImGui::GetWindowPos().y - titleBarHeight;
 			mvInput::setMousePosition(x, y);
 
-			if (mvApp::GetApp()->getItemRegistry().getActiveWindow() != m_name)
-				mvEventBus::Publish(mvEVT_CATEGORY_ITEM, mvEVT_ACTIVE_WINDOW, { CreateEventArgument("WINDOW", m_name) });
+			if (mvApp::GetApp()->getItemRegistry().getActiveWindow() != m_uuid)
+				mvEventBus::Publish(mvEVT_CATEGORY_ITEM, mvEVT_ACTIVE_WINDOW, { CreateEventArgument("WINDOW", m_uuid) });
 
 		}
 
@@ -514,7 +514,7 @@ namespace Marvel {
 	PyObject* mvWindowAppItem::set_x_scroll(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 
-		const char* item;
+		mvUUID item;
 		float value;
 
 		if (!(mvApp::GetApp()->getParsers())["set_x_scroll"].parse(args, kwargs, __FUNCTION__,
@@ -526,8 +526,7 @@ namespace Marvel {
 		auto window = mvApp::GetApp()->getItemRegistry().getItem(item);
 		if (window == nullptr)
 		{
-			std::string message = item;
-			mvThrowPythonError(1000, message + " window/child does not exist.");
+			mvThrowPythonError(1000, std::to_string(item) + " window/child does not exist.");
 			return GetPyNone();
 		}
 
@@ -547,8 +546,7 @@ namespace Marvel {
 		}
 		else
 		{
-			std::string message = item;
-			mvThrowPythonError(1000, message + " is not a window/child.");
+			mvThrowPythonError(1000, std::to_string(item) + " is not a window/child.");
 		}
 		
 		return GetPyNone();
@@ -557,7 +555,7 @@ namespace Marvel {
 	PyObject* mvWindowAppItem::set_y_scroll(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 
-		const char* item;
+		mvUUID item;
 		float value;
 
 		if (!(mvApp::GetApp()->getParsers())["set_y_scroll"].parse(args, kwargs, __FUNCTION__,
@@ -569,8 +567,7 @@ namespace Marvel {
 		auto window = mvApp::GetApp()->getItemRegistry().getItem(item);
 		if (window == nullptr)
 		{
-			std::string message = item;
-			mvThrowPythonError(1000, message + " window/child does not exist.");
+			mvThrowPythonError(1000, std::to_string(item) + " window/child does not exist.");
 			return GetPyNone();
 		}
 
@@ -590,8 +587,7 @@ namespace Marvel {
 		}
 		else
 		{
-			std::string message = item;
-			mvThrowPythonError(1000, message + " is not a window/child.");
+			mvThrowPythonError(1000, std::to_string(item) + " is not a window/child.");
 		}
 
 		return GetPyNone();
@@ -600,7 +596,7 @@ namespace Marvel {
 	PyObject* mvWindowAppItem::get_x_scroll(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 
-		const char* item;
+		mvUUID item;
 
 		if (!(mvApp::GetApp()->getParsers())["get_x_scroll"].parse(args, kwargs, __FUNCTION__,
 			&item))
@@ -611,8 +607,7 @@ namespace Marvel {
 		auto window = mvApp::GetApp()->getItemRegistry().getItem(item);
 		if (window == nullptr)
 		{
-			std::string message = item;
-			mvThrowPythonError(1000, message + " window/child does not exist.");
+			mvThrowPythonError(1000, std::to_string(item) + " window/child does not exist.");
 			return GetPyNone();
 		}
 
@@ -631,8 +626,7 @@ namespace Marvel {
 		}
 		else
 		{
-			std::string message = item;
-			mvThrowPythonError(1000, message + " is not a window/child.");
+			mvThrowPythonError(1000, std::to_string(item) + " is not a window/child.");
 		}
 
 		return GetPyNone();
@@ -641,7 +635,7 @@ namespace Marvel {
 	PyObject* mvWindowAppItem::get_y_scroll(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 
-		const char* item;
+		mvUUID item;
 
 		if (!(mvApp::GetApp()->getParsers())["get_y_scroll"].parse(args, kwargs, __FUNCTION__,
 			&item))
@@ -652,8 +646,7 @@ namespace Marvel {
 		auto window = mvApp::GetApp()->getItemRegistry().getItem(item);
 		if (window == nullptr)
 		{
-			std::string message = item;
-			mvThrowPythonError(1000, message + " window/child does not exist.");
+			mvThrowPythonError(1000, std::to_string(item) + " window/child does not exist.");
 			return GetPyNone();
 		}
 
@@ -672,8 +665,7 @@ namespace Marvel {
 		}
 		else
 		{
-			std::string message = item;
-			mvThrowPythonError(1000, message + " is not a window/child.");
+			mvThrowPythonError(1000, std::to_string(item) + " is not a window/child.");
 		}
 
 		return GetPyNone();
@@ -682,7 +674,7 @@ namespace Marvel {
 	PyObject* mvWindowAppItem::get_x_scroll_max(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 
-		const char* item;
+		mvUUID item;
 
 		if (!(mvApp::GetApp()->getParsers())["get_x_scroll_max"].parse(args, kwargs, __FUNCTION__,
 			&item))
@@ -693,8 +685,7 @@ namespace Marvel {
 		auto window = mvApp::GetApp()->getItemRegistry().getItem(item);
 		if (window == nullptr)
 		{
-			std::string message = item;
-			mvThrowPythonError(1000, message + " window/child does not exist.");
+			mvThrowPythonError(1000, std::to_string(item) + " window/child does not exist.");
 			return GetPyNone();
 		}
 
@@ -713,8 +704,7 @@ namespace Marvel {
 		}
 		else
 		{
-			std::string message = item;
-			mvThrowPythonError(1000, message + " is not a window/child.");
+			mvThrowPythonError(1000, std::to_string(item) + " is not a window/child.");
 		}
 
 		return GetPyNone();
@@ -723,7 +713,7 @@ namespace Marvel {
 	PyObject* mvWindowAppItem::get_y_scroll_max(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 
-		const char* item;
+		mvUUID item;
 
 		if (!(mvApp::GetApp()->getParsers())["get_y_scroll_max"].parse(args, kwargs, __FUNCTION__,
 			&item))
@@ -734,8 +724,7 @@ namespace Marvel {
 		auto window = mvApp::GetApp()->getItemRegistry().getItem(item);
 		if (window == nullptr)
 		{
-			std::string message = item;
-			mvThrowPythonError(1000, message + " window/child does not exist.");
+			mvThrowPythonError(1000, std::to_string(item) + " window/child does not exist.");
 			return GetPyNone();
 		}
 
@@ -754,8 +743,7 @@ namespace Marvel {
 		}
 		else
 		{
-			std::string message = item;
-			mvThrowPythonError(1000, message + " is not a window/child.");
+			mvThrowPythonError(1000, std::to_string(item) + " is not a window/child.");
 		}
 
 		return GetPyNone();

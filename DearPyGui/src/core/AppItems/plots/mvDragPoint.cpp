@@ -12,7 +12,7 @@ namespace Marvel {
 	void mvDragPoint::InsertParser(std::map<std::string, mvPythonParser>* parsers)
 	{
 
-		mvPythonParser parser(mvPyDataType::String, "Undocumented function", { "Plotting", "Widgets" });
+		mvPythonParser parser(mvPyDataType::UUID, "Undocumented function", { "Plotting", "Widgets" });
 		mvAppItem::AddCommonArgs(parser, (CommonParserArgs)(
 			MV_PARSER_ARG_ID |
 			MV_PARSER_ARG_PARENT |
@@ -38,8 +38,8 @@ namespace Marvel {
 		parsers->insert({ s_command, parser });
 	}
 
-	mvDragPoint::mvDragPoint(const std::string& name)
-		: mvDouble4PtrBase(name)
+	mvDragPoint::mvDragPoint(mvUUID uuid)
+		: mvDouble4PtrBase(uuid)
 	{
 	}
 
@@ -57,7 +57,7 @@ namespace Marvel {
 
 	void mvDragPoint::draw(ImDrawList* drawlist, float x, float y)
 	{
-		ScopedID id;
+		ScopedID id(m_uuid);
 		mvFontScope fscope(this);
 
 		static double dummyx = (*m_value.get())[0];
@@ -69,7 +69,7 @@ namespace Marvel {
 		{
 			(*m_value.get())[0] = dummyx;
 			(*m_value.get())[1] = dummyy;
-			mvApp::GetApp()->getCallbackRegistry().addCallback(m_callback, m_name, nullptr, nullptr);
+			mvApp::GetApp()->getCallbackRegistry().addCallback(m_callback, m_uuid, nullptr, nullptr);
 		}
 
 	}

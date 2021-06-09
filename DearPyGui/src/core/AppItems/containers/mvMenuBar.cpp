@@ -13,7 +13,7 @@ namespace Marvel {
 	void mvMenuBar::InsertParser(std::map<std::string, mvPythonParser>* parsers)
 	{
 
-		mvPythonParser parser(mvPyDataType::String, "Undocumented function", { "Containers", "Widgets" });
+		mvPythonParser parser(mvPyDataType::UUID, "Undocumented function", { "Containers", "Widgets" });
 		mvAppItem::AddCommonArgs(parser, (CommonParserArgs)(
 			MV_PARSER_ARG_ID |
 			MV_PARSER_ARG_INDENT |
@@ -25,8 +25,8 @@ namespace Marvel {
 		parsers->insert({ s_command, parser });
 	}
 
-	mvMenuBar::mvMenuBar(const std::string& name)
-			: mvBoolPtrBase(name)
+	mvMenuBar::mvMenuBar(mvUUID uuid)
+			: mvBoolPtrBase(uuid)
 		{
 
 			// TODO use code below to set item height when font and scale systems are done

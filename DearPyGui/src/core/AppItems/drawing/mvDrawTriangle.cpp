@@ -8,7 +8,7 @@ namespace Marvel {
 	void mvDrawTriangle::InsertParser(std::map<std::string, mvPythonParser>* parsers)
 	{
 
-		mvPythonParser parser(mvPyDataType::String, "Undocumented function", { "Drawlist", "Widgets" });
+		mvPythonParser parser(mvPyDataType::UUID, "Undocumented function", { "Drawlist", "Widgets" });
 		mvAppItem::AddCommonArgs(parser, (CommonParserArgs)(
 			MV_PARSER_ARG_ID |
 			MV_PARSER_ARG_PARENT |
@@ -31,9 +31,9 @@ namespace Marvel {
 
 	}
 
-	mvDrawTriangle::mvDrawTriangle(const std::string& name)
+	mvDrawTriangle::mvDrawTriangle(mvUUID uuid)
 		:
-		mvAppItem(name)
+		mvAppItem(uuid)
 	{
 	}
 

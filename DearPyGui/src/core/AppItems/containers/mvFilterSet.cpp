@@ -9,7 +9,7 @@ namespace Marvel {
 
 	void mvFilterSet::InsertParser(std::map<std::string, mvPythonParser>* parsers)
 	{
-		mvPythonParser parser(mvPyDataType::String, "Undocumented function", { "Containers", "Widgets" });
+		mvPythonParser parser(mvPyDataType::UUID, "Undocumented function", { "Containers", "Widgets" });
 		mvAppItem::AddCommonArgs(parser, (CommonParserArgs)(
 			MV_PARSER_ARG_ID |
 			MV_PARSER_ARG_WIDTH |
@@ -24,8 +24,8 @@ namespace Marvel {
 		parsers->insert({ s_command, parser });
 	}
 
-	mvFilterSet::mvFilterSet(const std::string& name)
-		: mvAppItem(name)
+	mvFilterSet::mvFilterSet(mvUUID uuid)
+		: mvAppItem(uuid)
 	{
 	}
 
@@ -54,7 +54,7 @@ namespace Marvel {
 
 	void mvFilterSet::draw(ImDrawList* drawlist, float x, float y)
 	{
-		ScopedID id;
+		ScopedID id(m_uuid);
 		mvFontScope fscope(this);
 
 		if (m_width != 0)

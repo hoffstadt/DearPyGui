@@ -51,7 +51,7 @@ namespace Marvel {
 
 	public:
 
-		mvImageButton(const std::string& name);
+		mvImageButton(mvUUID uuid);
 
 		void draw(ImDrawList* drawlist, float x, float y) override;
 
@@ -61,7 +61,7 @@ namespace Marvel {
 
 	private:
 
-		std::string m_value;
+		mvUUID      m_value;
 		mvVec2	    m_uv_min = { 0.0f, 0.0f };
 		mvVec2	    m_uv_max = { 1.0f, 1.0f };
 		mvColor     m_tintColor = { 1.0f, 1.0f, 1.0f, 1.0f };

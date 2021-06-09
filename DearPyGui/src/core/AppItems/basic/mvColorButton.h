@@ -52,7 +52,7 @@ namespace Marvel {
 
 	public:
 
-		mvColorButton(const std::string& name);
+		mvColorButton(mvUUID uuid);
 
 		void draw(ImDrawList* drawlist, float x, float y) override;
 

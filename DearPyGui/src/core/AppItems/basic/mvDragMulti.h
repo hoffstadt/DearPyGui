@@ -68,7 +68,7 @@ namespace Marvel {
 
 	public:
 
-		mvDragFloatMulti(const std::string& name);
+		mvDragFloatMulti(mvUUID uuid);
 
 		void setEnabled(bool value) override;
 		void draw(ImDrawList* drawlist, float x, float y) override;
@@ -140,7 +140,7 @@ namespace Marvel {
 
 	public:
 
-		mvDragIntMulti(const std::string& name);
+		mvDragIntMulti(mvUUID uuid);
 
 		void setEnabled(bool value) override;
 		void draw(ImDrawList* drawlist, float x, float y) override;

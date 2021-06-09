@@ -209,9 +209,21 @@ namespace Marvel {
 	}
 
 	typedef std::unordered_map<long, float> mvThemeStyles;
+	typedef unsigned long long mvUUID;
 
 	inline void DecodelibID(long encoded_constant, int* libID) { *libID = (int)((encoded_constant / 10) % 100); }
 	inline int  DecodeIndex(long encoded_constant) { return (int)(encoded_constant % 10); }
 }
 
 #define MV_DEFAULT_COLOR Marvel::mvColor(1.0f, 1.0f, 1.0f, 1.0f)
+#define MV_INVALID_UUID 0
+#define MV_APP_UUID 1
+#define MV_ATLAS_UUID 2
+#define MV_TOOL_ABOUT_UUID 3
+#define MV_TOOL_DEBUG_UUID 4
+#define MV_TOOL_DOC_UUID 5
+#define MV_TOOL_ITEM_REGISTRY_UUID 6
+#define MV_TOOL_METRICS_UUID 7
+#define MV_TOOL_STYLE_UUID 8
+#define MV_TOOL_FONT_UUID 9
+#define MV_START_UUID MV_TOOL_FONT_UUID+1

@@ -57,7 +57,7 @@ namespace Marvel {
 
 	public:
 
-		mvNode(const std::string& name);
+		mvNode(mvUUID uuid);
 
 		void draw(ImDrawList* drawlist, float x, float y) override;
 		bool isParentCompatible(mvAppItemType type) override;

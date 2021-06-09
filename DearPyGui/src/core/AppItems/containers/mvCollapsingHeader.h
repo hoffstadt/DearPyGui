@@ -53,7 +53,7 @@ namespace Marvel {
 
 	public:
 
-		mvCollapsingHeader(const std::string& name);
+		mvCollapsingHeader(mvUUID uuid);
 
 		void draw(ImDrawList* drawlist, float x, float y)               override;
 

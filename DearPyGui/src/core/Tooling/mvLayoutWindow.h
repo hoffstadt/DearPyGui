@@ -13,7 +13,7 @@ namespace Marvel {
 
         mvLayoutWindow();
 
-        const char* getName() const override { return "mvItemRegistry"; }
+        mvUUID getUUID() const override { return MV_TOOL_ITEM_REGISTRY_UUID; }
         const char* getTitle() const override { return "Item Registry"; }
 
     protected:
@@ -31,7 +31,7 @@ namespace Marvel {
 
         void renderTreeNode(mvAppItem* item);
 
-        std::string m_selectedItem;
+        mvUUID m_selectedItem;
         bool m_showLabels = false;
         bool m_nodeView = false;
         bool m_dirtyNodes = true;

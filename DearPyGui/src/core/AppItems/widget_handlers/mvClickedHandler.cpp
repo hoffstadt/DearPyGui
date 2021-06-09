@@ -9,7 +9,7 @@ namespace Marvel {
 	void mvClickedHandler::InsertParser(std::map<std::string, mvPythonParser>* parsers)
 	{
 
-		mvPythonParser parser(mvPyDataType::String, "Undocumented function", { "Textures", "Widgets" });
+		mvPythonParser parser(mvPyDataType::UUID, "Undocumented function", { "Textures", "Widgets" });
 		mvAppItem::AddCommonArgs(parser, (CommonParserArgs)(
 			MV_PARSER_ARG_ID |
 			MV_PARSER_ARG_USER_DATA |
@@ -24,9 +24,9 @@ namespace Marvel {
 		parsers->insert({ s_command, parser });
 	}
 
-	mvClickedHandler::mvClickedHandler(const std::string& name)
+	mvClickedHandler::mvClickedHandler(mvUUID uuid)
 		:
-		mvAppItem(name)
+		mvAppItem(uuid)
 	{
 
 	}
@@ -51,7 +51,7 @@ namespace Marvel {
 				{
 					mvApp::GetApp()->getCallbackRegistry().submitCallback([=]()
 						{
-							mvApp::GetApp()->getCallbackRegistry().runCallback(getCallback(false), m_name, ToPyInt(i), m_user_data);
+							mvApp::GetApp()->getCallbackRegistry().runCallback(getCallback(false), m_uuid, ToPyInt(i), m_user_data);
 						});
 				}
 			}
@@ -61,7 +61,7 @@ namespace Marvel {
 		{
 			mvApp::GetApp()->getCallbackRegistry().submitCallback([=]()
 				{
-					mvApp::GetApp()->getCallbackRegistry().runCallback(getCallback(false), m_name, ToPyInt(m_button), m_user_data);
+					mvApp::GetApp()->getCallbackRegistry().runCallback(getCallback(false), m_uuid, ToPyInt(m_button), m_user_data);
 				});
 		}
 	}
@@ -77,7 +77,7 @@ namespace Marvel {
 			switch (i)
 			{
 			case 0:
-				m_parent = ToString(item);
+				m_parent = ToUUID(item);
 				break;
 			
 			case 1:

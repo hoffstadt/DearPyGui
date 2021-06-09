@@ -68,7 +68,7 @@ namespace Marvel {
 
 	public:
 
-		mvColorEdit(const std::string& name);
+		mvColorEdit(mvUUID uuid);
 
 		void draw(ImDrawList* drawlist, float x, float y) override;
 

@@ -10,7 +10,7 @@ namespace Marvel {
 	void mvRadioButton::InsertParser(std::map<std::string, mvPythonParser>* parsers)
 	{
 
-		mvPythonParser parser(mvPyDataType::String, "Undocumented function", { "Widgets" });
+		mvPythonParser parser(mvPyDataType::UUID, "Undocumented function", { "Widgets" });
 		mvAppItem::AddCommonArgs(parser, (CommonParserArgs)(
 			MV_PARSER_ARG_ID |
 			MV_PARSER_ARG_INDENT |
@@ -40,8 +40,8 @@ namespace Marvel {
 		parsers->insert({ s_command, parser });
 	}
 
-	mvRadioButton::mvRadioButton(const std::string& name)
-		: mvStringPtrBase(name)
+	mvRadioButton::mvRadioButton(mvUUID uuid)
+		: mvStringPtrBase(uuid)
 	{
 	}
 
@@ -74,7 +74,7 @@ namespace Marvel {
 
 		ImGui::BeginGroup();
 
-		ScopedID id;
+		ScopedID id(m_uuid);
 		mvImGuiThemeScope scope(this);
 		mvFontScope fscope(this);
 
@@ -89,11 +89,11 @@ namespace Marvel {
 			if (m_horizontal && i != 0)
 				ImGui::SameLine();
 
-			if (ImGui::RadioButton((m_itemnames[i] + "##" + m_name).c_str(), m_enabled ? &m_index : &m_disabledindex, (int)i))
+			if (ImGui::RadioButton(m_itemnames[i].c_str(), m_enabled ? &m_index : &m_disabledindex, (int)i))
 			{
 				*m_value = m_itemnames[m_index];
 				m_disabled_value = m_itemnames[m_index];
-				mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), m_name, nullptr, m_user_data);
+				mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), m_uuid, nullptr, m_user_data);
 			}
 
 		}

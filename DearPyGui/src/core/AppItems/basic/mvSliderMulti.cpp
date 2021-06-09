@@ -14,7 +14,7 @@ namespace Marvel {
 
     void mvSliderFloatMulti::InsertParser(std::map<std::string, mvPythonParser>* parsers)
     {
-        mvPythonParser parser(mvPyDataType::String, "Undocumented function", { "Widgets" });
+        mvPythonParser parser(mvPyDataType::UUID, "Undocumented function", { "Widgets" });
         mvAppItem::AddCommonArgs(parser, (CommonParserArgs)(
             MV_PARSER_ARG_ID |
             MV_PARSER_ARG_WIDTH |
@@ -55,7 +55,7 @@ namespace Marvel {
     void mvSliderIntMulti::InsertParser(std::map<std::string, mvPythonParser>* parsers)
     {
 
-        mvPythonParser parser(mvPyDataType::String, "Undocumented function", { "Widgets" });
+        mvPythonParser parser(mvPyDataType::UUID, "Undocumented function", { "Widgets" });
         mvAppItem::AddCommonArgs(parser, (CommonParserArgs)(
             MV_PARSER_ARG_ID |
             MV_PARSER_ARG_WIDTH |
@@ -94,8 +94,8 @@ namespace Marvel {
 
     }
 
-    mvSliderFloatMulti::mvSliderFloatMulti(const std::string& name)
-        : mvFloat4PtrBase(name)
+    mvSliderFloatMulti::mvSliderFloatMulti(mvUUID uuid)
+        : mvFloat4PtrBase(uuid)
     {
     }
 
@@ -118,7 +118,7 @@ namespace Marvel {
 
     void mvSliderFloatMulti::draw(ImDrawList* drawlist, float x, float y)
     {
-        ScopedID id;
+        ScopedID id(m_uuid);
         mvImGuiThemeScope scope(this);
         mvFontScope fscope(this);
 
@@ -128,23 +128,23 @@ namespace Marvel {
         {
         case 2:
             if (ImGui::SliderFloat2(m_label.c_str(), m_enabled ? m_value->data() : &m_disabled_value[0], m_min, m_max, m_format.c_str(), m_flags))
-                mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), m_name, nullptr, m_user_data);
+                mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), m_uuid, nullptr, m_user_data);
             break;
         case 3:
             if (ImGui::SliderFloat3(m_label.c_str(), m_enabled ? m_value->data() : &m_disabled_value[0], m_min, m_max, m_format.c_str(), m_flags))
-                mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), m_name, nullptr, m_user_data);
+                mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), m_uuid, nullptr, m_user_data);
             break;
         case 4:
             if (ImGui::SliderFloat4(m_label.c_str(), m_enabled ? m_value->data() : &m_disabled_value[0], m_min, m_max, m_format.c_str(), m_flags))
-                mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), m_name, nullptr, m_user_data);
+                mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), m_uuid, nullptr, m_user_data);
             break;
         default:
             break;
         }
     }
 
-    mvSliderIntMulti::mvSliderIntMulti(const std::string& name)
-        : mvInt4PtrBase(name)
+    mvSliderIntMulti::mvSliderIntMulti(mvUUID uuid)
+        : mvInt4PtrBase(uuid)
     {
     }
 
@@ -167,7 +167,7 @@ namespace Marvel {
 
     void mvSliderIntMulti::draw(ImDrawList* drawlist, float x, float y)
     {
-        ScopedID id;
+        ScopedID id(m_uuid);
         mvImGuiThemeScope scope(this);
         mvFontScope fscope(this);
 
@@ -177,15 +177,15 @@ namespace Marvel {
         {
         case 2:
             if (ImGui::SliderInt2(m_label.c_str(), m_enabled ? m_value->data() : &m_disabled_value[0], m_min, m_max, m_format.c_str(), m_flags))
-                mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), m_name, nullptr, m_user_data);
+                mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), m_uuid, nullptr, m_user_data);
             break;
         case 3:
             if (ImGui::SliderInt3(m_label.c_str(), m_enabled ? m_value->data() : &m_disabled_value[0], m_min, m_max, m_format.c_str(), m_flags))
-                mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), m_name, nullptr, m_user_data);
+                mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), m_uuid, nullptr, m_user_data);
             break;
         case 4:
             if (ImGui::SliderInt4(m_label.c_str(), m_enabled ? m_value->data() : &m_disabled_value[0], m_min, m_max, m_format.c_str(), m_flags))
-                mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), m_name, nullptr, m_user_data);
+                mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), m_uuid, nullptr, m_user_data);
             break;
         default:
             break;

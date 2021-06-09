@@ -41,8 +41,8 @@ namespace Marvel {
             float y = mousePos.y - ImGui::GetWindowPos().y - titleBarHeight;
             mvInput::setMousePosition(x, y);
 
-            if (mvApp::GetApp()->getItemRegistry().getActiveWindow() != getName())
-                mvEventBus::Publish(mvEVT_CATEGORY_ITEM, mvEVT_ACTIVE_WINDOW, { CreateEventArgument("WINDOW", std::string(getName())) });
+            if (mvApp::GetApp()->getItemRegistry().getActiveWindow() != getUUID())
+                mvEventBus::Publish(mvEVT_CATEGORY_ITEM, mvEVT_ACTIVE_WINDOW, { CreateEventArgument("WINDOW", getUUID()) });
         }
 
         ImGui::End();

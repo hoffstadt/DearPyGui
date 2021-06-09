@@ -45,7 +45,7 @@ namespace Marvel {
 
 	public:
 
-		mvTooltip(const std::string& name);
+		mvTooltip(mvUUID uuid);
 
 		void draw(ImDrawList* drawlist, float x, float y) override;
 

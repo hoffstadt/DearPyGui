@@ -2,6 +2,7 @@
 
 #include <string>
 #include <imgui.h>
+#include "mvCore.h"
 
 namespace Marvel {
 
@@ -12,7 +13,7 @@ namespace Marvel {
 
     public:
 
-        virtual const char* getName() const = 0;
+        virtual mvUUID getUUID() const = 0;
         virtual const char* getTitle() const = 0;
 
         void draw();

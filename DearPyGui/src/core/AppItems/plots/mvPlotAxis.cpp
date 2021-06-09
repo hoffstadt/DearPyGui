@@ -16,7 +16,7 @@ namespace Marvel {
 	void mvPlotAxis::InsertParser(std::map<std::string, mvPythonParser>* parsers)
 	{
 		{
-			mvPythonParser parser(mvPyDataType::String, "Undocumented function", { "Widgets" });
+			mvPythonParser parser(mvPyDataType::UUID, "Undocumented function", { "Widgets" });
 			mvAppItem::AddCommonArgs(parser, (CommonParserArgs)(
 				MV_PARSER_ARG_ID |
 				MV_PARSER_ARG_PARENT |
@@ -45,14 +45,14 @@ namespace Marvel {
 
 		{
 			mvPythonParser parser(mvPyDataType::FloatList, "Undocumented function", { "Plotting", "Widgets" });
-			parser.addArg<mvPyDataType::String>("axis");
+			parser.addArg<mvPyDataType::UUID>("axis");
 			parser.finalize();
 			parsers->insert({ "get_axis_limits", parser });
 		}
 
 		{
 			mvPythonParser parser(mvPyDataType::None, "Undocumented function", { "Plotting", "Widgets" });
-			parser.addArg<mvPyDataType::String>("axis");
+			parser.addArg<mvPyDataType::UUID>("axis");
 			parser.addArg<mvPyDataType::Float>("ymin");
 			parser.addArg<mvPyDataType::Float>("ymax");
 			parser.finalize();
@@ -61,23 +61,23 @@ namespace Marvel {
 
 		{
 			mvPythonParser parser(mvPyDataType::None, "Undocumented function", { "Plotting", "Widgets" });
-			parser.addArg<mvPyDataType::String>("axis");
+			parser.addArg<mvPyDataType::UUID>("axis");
 			parser.finalize();
 			parsers->insert({ "reset_axis_ticks", parser });
 		}
 
 		{
 			mvPythonParser parser(mvPyDataType::None, "Undocumented function", { "Plotting", "Widgets" });
-			parser.addArg<mvPyDataType::String>("axis");
+			parser.addArg<mvPyDataType::UUID>("axis");
 			parser.addArg<mvPyDataType::Object>("label_pairs");
 			parser.finalize();
 			parsers->insert({ "set_axis_ticks", parser });
 		}
 	}
 
-	mvPlotAxis::mvPlotAxis(const std::string& name)
+	mvPlotAxis::mvPlotAxis(mvUUID uuid)
 		: 
-		mvAppItem(name)
+		mvAppItem(uuid)
 	{
 	}
 
@@ -334,13 +334,13 @@ namespace Marvel {
 
 		if (m_dropCallback)
 		{
-			//ScopedID id;
+			//ScopedID id(m_uuid);
 			if (m_location == 0 && ImPlot::BeginDragDropTargetX())
 			{
 				if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload(m_payloadType.c_str()))
 				{
 					auto payloadActual = static_cast<const mvDragPayload*>(payload->Data);
-					mvApp::GetApp()->getCallbackRegistry().addCallback(getDropCallback(), m_name, payloadActual->getDragData(), nullptr);
+					mvApp::GetApp()->getCallbackRegistry().addCallback(getDropCallback(), m_uuid, payloadActual->getDragData(), nullptr);
 				}
 
 				ImPlot::EndDragDropTarget();
@@ -350,7 +350,7 @@ namespace Marvel {
 				if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload(m_payloadType.c_str()))
 				{
 					auto payloadActual = static_cast<const mvDragPayload*>(payload->Data);
-					mvApp::GetApp()->getCallbackRegistry().addCallback(getDropCallback(), m_name, payloadActual->getDragData(), nullptr);
+					mvApp::GetApp()->getCallbackRegistry().addCallback(getDropCallback(), m_uuid, payloadActual->getDragData(), nullptr);
 				}
 
 				ImPlot::EndDragDropTarget();
@@ -360,7 +360,7 @@ namespace Marvel {
 
 	PyObject* mvPlotAxis::set_axis_ticks(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
-		const char* plot;
+		mvUUID plot;
 		PyObject* label_pairs;
 
 		if (!(mvApp::GetApp()->getParsers())["set_axis_ticks"].parse(args, kwargs, __FUNCTION__, &plot, &label_pairs))
@@ -372,15 +372,13 @@ namespace Marvel {
 		auto aplot = mvApp::GetApp()->getItemRegistry().getItem(plot);
 		if (aplot == nullptr)
 		{
-			std::string message = plot;
-			mvThrowPythonError(1000, message + " plot does not exist.");
+			mvThrowPythonError(1000, std::to_string(plot) + " plot does not exist.");
 			return GetPyNone();
 		}
 
 		if (aplot->getType() != mvAppItemType::mvPlotAxis)
 		{
-			std::string message = plot;
-			mvThrowPythonError(1000, message + " is not a plot.");
+			mvThrowPythonError(1000, std::to_string(plot) + " is not a plot.");
 			return GetPyNone();
 		}
 
@@ -401,7 +399,7 @@ namespace Marvel {
 
 	PyObject* mvPlotAxis::set_axis_limits(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
-		const char* axis;
+		mvUUID axis;
 		float ymin;
 		float ymax;
 
@@ -412,15 +410,13 @@ namespace Marvel {
 		auto aplot = mvApp::GetApp()->getItemRegistry().getItem(axis);
 		if (aplot == nullptr)
 		{
-			std::string message = axis;
-			mvThrowPythonError(1000, message + " plot does not exist.");
+			mvThrowPythonError(1000, std::to_string(axis) + " plot does not exist.");
 			return GetPyNone();
 		}
 
 		if (aplot->getType() != mvAppItemType::mvPlotAxis)
 		{
-			std::string message = axis;
-			mvThrowPythonError(1000, message + " is not a plot.");
+			mvThrowPythonError(1000, std::to_string(axis) + " is not a plot.");
 			return GetPyNone();
 		}
 
@@ -433,7 +429,7 @@ namespace Marvel {
 
 	PyObject* mvPlotAxis::get_axis_limits(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
-		const char* plot;
+		mvUUID plot;
 
 		if (!(mvApp::GetApp()->getParsers())["get_axis_limits"].parse(args, kwargs, __FUNCTION__, &plot))
 			return GetPyNone();
@@ -442,15 +438,13 @@ namespace Marvel {
 		auto aplot = mvApp::GetApp()->getItemRegistry().getItem(plot);
 		if (aplot == nullptr)
 		{
-			std::string message = plot;
-			mvThrowPythonError(1000, message + " plot does not exist.");
+			mvThrowPythonError(1000, std::to_string(plot) + " plot does not exist.");
 			return GetPyNone();
 		}
 
 		if (aplot->getType() != mvAppItemType::mvPlotAxis)
 		{
-			std::string message = plot;
-			mvThrowPythonError(1000, message + " is not a plot.");
+			mvThrowPythonError(1000, std::to_string(plot) + " is not a plot.");
 			return GetPyNone();
 		}
 
@@ -462,7 +456,7 @@ namespace Marvel {
 
 	PyObject* mvPlotAxis::reset_axis_ticks(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
-		const char* plot;
+		mvUUID plot;
 
 		if (!(mvApp::GetApp()->getParsers())["reset_axis_ticks"].parse(args, kwargs, __FUNCTION__, &plot))
 			return GetPyNone();
@@ -471,15 +465,13 @@ namespace Marvel {
 		auto aplot = mvApp::GetApp()->getItemRegistry().getItem(plot);
 		if (aplot == nullptr)
 		{
-			std::string message = plot;
-			mvThrowPythonError(1000, message + " plot does not exist.");
+			mvThrowPythonError(1000, std::to_string(plot) + " plot does not exist.");
 			return GetPyNone();
 		}
 
 		if (aplot->getType() != mvAppItemType::mvPlotAxis)
 		{
-			std::string message = plot;
-			mvThrowPythonError(1000, message + " is not a plot.");
+			mvThrowPythonError(1000, std::to_string(plot) + " is not a plot.");
 			return GetPyNone();
 		}
 

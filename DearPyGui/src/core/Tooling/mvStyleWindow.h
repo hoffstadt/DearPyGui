@@ -11,7 +11,7 @@ namespace Marvel {
 
         mvStyleWindow();
 
-        const char* getName() const override { return "mvStyleWindow"; }
+        mvUUID getUUID() const override { return MV_TOOL_STYLE_UUID; }
         const char* getTitle() const override { return "Style Editor"; }
 
     protected:

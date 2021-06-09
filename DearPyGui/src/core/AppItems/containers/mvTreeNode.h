@@ -42,7 +42,7 @@ namespace Marvel {
 
 	public:
 
-		mvTreeNode(const std::string& name);
+		mvTreeNode(mvUUID uuid);
 
 		void draw(ImDrawList* drawlist, float x, float y) override;
 
