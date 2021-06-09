@@ -499,4 +499,37 @@ namespace Marvel {
 		return false;
 	}
 
+	mvUUIDPtrBase::mvUUIDPtrBase(mvUUID uuid)
+		: mvAppItem(uuid)
+	{
+	}
+
+	PyObject* mvUUIDPtrBase::getPyValue()
+	{
+		return ToPyUUID(*m_value);
+	}
+
+	void mvUUIDPtrBase::setPyValue(PyObject* value)
+	{
+		*m_value = ToUUID(value);
+	}
+
+	void mvUUIDPtrBase::setDataSource(mvUUID dataSource)
+	{
+		if (dataSource == m_source) return;
+		m_source = dataSource;
+
+		mvAppItem* item = mvApp::GetApp()->getItemRegistry().getItem(dataSource);
+		if (!item)
+		{
+			mvThrowPythonError(1000, "Source item not found.");
+			return;
+		}
+		if (item->getValueType() != getValueType())
+		{
+			mvThrowPythonError(1000, "Values types do not match");
+			return;
+		}
+		m_value = std::get<std::shared_ptr<mvUUID>>(item->getValue());
+	}
 }

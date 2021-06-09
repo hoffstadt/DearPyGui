@@ -17,7 +17,7 @@ namespace Marvel {
 	{
 
 		{
-			mvPythonParser parser(mvPyDataType::String, "Undocumented function", { "Node Editor", "Widgets" });
+			mvPythonParser parser(mvPyDataType::UUID, "Undocumented function", { "Node Editor", "Widgets" });
 			mvAppItem::AddCommonArgs(parser, (CommonParserArgs)(
 				MV_PARSER_ARG_ID |
 				MV_PARSER_ARG_PARENT |
@@ -130,7 +130,7 @@ namespace Marvel {
 
 	void mvNodeEditor::draw(ImDrawList* drawlist, float x, float y)
 	{
-		ScopedID id;
+		ScopedID id(m_uuid);
 		mvImNodesThemeScope scope(this);
 		mvFontScope fscope(this);
 
@@ -154,7 +154,7 @@ namespace Marvel {
 		}
 
 		// build links
-		for (auto item : m_children[0])
+		for (auto& item : m_children[0])
 		{
 			// skip item if it's not shown
 			if (!item->m_show)
@@ -165,7 +165,7 @@ namespace Marvel {
 			item->getState().update();
 		}
 
-		for (auto item : m_children[1])
+		for (auto& item : m_children[1])
 		{
 			// skip item if it's not shown
 			if (!item->m_show)
@@ -228,7 +228,7 @@ namespace Marvel {
 		static int start_attr, end_attr;
 		if (imnodes::IsLinkCreated(&start_attr, &end_attr))
 		{
-			std::string node1, node2;
+			mvUUID node1, node2;
 			for (const auto& child : m_children[1])
 			{
 				for (const auto& grandchild : child->m_children[1])
@@ -244,8 +244,8 @@ namespace Marvel {
 			if (m_callback)
 				mvApp::GetApp()->getCallbackRegistry().submitCallback([=]() {
 				PyObject* link = PyTuple_New(2);
-				PyTuple_SetItem(link, 0, ToPyString(node1));
-				PyTuple_SetItem(link, 1, ToPyString(node2));
+				PyTuple_SetItem(link, 0, ToPyUUID(node1));
+				PyTuple_SetItem(link, 1, ToPyUUID(node2));
 				mvApp::GetApp()->getCallbackRegistry().addCallback(m_callback, m_uuid, link, nullptr);
 					});
 		}

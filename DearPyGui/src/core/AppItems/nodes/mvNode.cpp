@@ -38,7 +38,7 @@ namespace Marvel {
 	void mvNode::InsertParser(std::map<std::string, mvPythonParser>* parsers)
 	{
 
-		mvPythonParser parser(mvPyDataType::String, "Undocumented function", { "Node Editor", "Widgets" });
+		mvPythonParser parser(mvPyDataType::UUID, "Undocumented function", { "Node Editor", "Widgets" });
 		mvAppItem::AddCommonArgs(parser, (CommonParserArgs)(
 			MV_PARSER_ARG_ID |
 			MV_PARSER_ARG_PARENT |
@@ -63,7 +63,7 @@ namespace Marvel {
 	mvNode::mvNode(mvUUID uuid)
 		: mvAppItem(uuid)
 	{
-		m_label = FindRenderedTextEnd(m_name.c_str());
+		m_label = FindRenderedTextEnd(m_label.c_str());
 		m_specificedlabel = m_label;
         int64_t address = (int64_t)this;
         int64_t reduced_address = address % 2147483648;
@@ -96,7 +96,7 @@ namespace Marvel {
 
 	void mvNode::draw(ImDrawList* drawlist, float x, float y)
 	{
-		ScopedID id;
+		ScopedID id(m_uuid);
 		mvImNodesThemeScope scope(this);
 		mvFontScope fscope(this);
 
@@ -117,7 +117,7 @@ namespace Marvel {
 		//we do this so that the children dont get the theme
 		scope.cleanup();
 
-		for (auto item : m_children[1])
+		for (auto& item : m_children[1])
 		{
 			// skip item if it's not shown
 			if (!item->m_show)

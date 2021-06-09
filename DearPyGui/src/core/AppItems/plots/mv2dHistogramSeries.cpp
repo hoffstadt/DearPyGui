@@ -10,7 +10,7 @@ namespace Marvel {
 	void mv2dHistogramSeries::InsertParser(std::map<std::string, mvPythonParser>* parsers)
 	{
 
-		mvPythonParser parser(mvPyDataType::String, "Undocumented function", { "Plotting", "Widgets" });
+		mvPythonParser parser(mvPyDataType::UUID, "Undocumented function", { "Plotting", "Widgets" });
 		mvAppItem::AddCommonArgs(parser, (CommonParserArgs)(
 			MV_PARSER_ARG_ID |
 			MV_PARSER_ARG_PARENT |
@@ -48,7 +48,7 @@ namespace Marvel {
 
 	void mv2dHistogramSeries::draw(ImDrawList* drawlist, float x, float y)
 	{
-		ScopedID id;
+		ScopedID id(m_uuid);
 		mvImPlotThemeScope scope(this);
 
 		static const std::vector<double>* xptr;

@@ -6,11 +6,11 @@ import random
 import uuid
 
 demo_texture_container = dpg.add_texture_container()
-demo_static_texture_1 = ""
-demo_static_texture_2 = ""
-demo_static_texture_3 = ""
-demo_dynamic_texture_1 = ""
-demo_dynamic_texture_2 = ""
+demo_static_texture_1 = dpg.generate_uuid()
+demo_static_texture_2 = dpg.generate_uuid()
+demo_static_texture_3 = dpg.generate_uuid()
+demo_dynamic_texture_1 = dpg.generate_uuid()
+demo_dynamic_texture_2 = dpg.generate_uuid()
 
 def _help(message):
     """ Simple Helper """
@@ -92,9 +92,7 @@ def _hsv_to_rgb(h, s, v):
     if i == 5: return (255*v, 255*p, 255*q)
 
 def _create_static_textures():
-    
-    global demo_static_texture_1, demo_static_texture_2, demo_static_texture_3
-
+   
     ## create static textures
     texture_data1 = []
     for i in range(0, 100*100):
@@ -134,14 +132,12 @@ def _create_static_textures():
             texture_data3.append(0)
             texture_data3.append(255/255)
 
-    demo_static_texture_1 = dpg.add_static_texture(100, 100, texture_data1, parent=demo_texture_container)
-    demo_static_texture_2 = dpg.add_static_texture(50, 50, texture_data2, parent=demo_texture_container)
-    demo_static_texture_3 = dpg.add_static_texture(100, 100, texture_data3, parent=demo_texture_container)
+    dpg.add_static_texture(100, 100, texture_data1, parent=demo_texture_container, id=demo_static_texture_1)
+    dpg.add_static_texture(50, 50, texture_data2, parent=demo_texture_container, id=demo_static_texture_2)
+    dpg.add_static_texture(100, 100, texture_data3, parent=demo_texture_container, id=demo_static_texture_3)
 
 def _create_dynamic_textures():
     
-    global demo_dynamic_texture_1, demo_dynamic_texture_2
-
     ## create dynamic textures
     texture_data1 = []
     for i in range(0, 100*100):
@@ -157,12 +153,10 @@ def _create_dynamic_textures():
         texture_data2.append(0)
         texture_data2.append(255/255)
 
-    demo_dynamic_texture_1 = dpg.add_dynamic_texture(100, 100, texture_data1, parent=demo_texture_container)
-    demo_dynamic_texture_2 = dpg.add_dynamic_texture(50, 50, texture_data2, parent=demo_texture_container)
+    dpg.add_dynamic_texture(100, 100, texture_data1, parent=demo_texture_container, id=demo_dynamic_texture_1)
+    dpg.add_dynamic_texture(50, 50, texture_data2, parent=demo_texture_container, id=demo_dynamic_texture_2)
 
 def _update_dynamic_textures(sender, app_data, user_data):
-
-    global demo_dynamic_texture_1, demo_dynamic_texture_2
 
     new_color = dpg.get_value(sender)
     new_color[0] = new_color[0]/255
@@ -209,7 +203,7 @@ def show_demo():
     _create_static_textures()
     _create_dynamic_textures()
 
-    with cxt.window(id="Dear PyGui Demo", width=800, height=800, on_close=_on_demo_close) as demo_id:
+    with cxt.window(label="Dear PyGui Demo", width=800, height=800, on_close=_on_demo_close) as demo_id:
     
         with cxt.menu_bar():
 
@@ -243,13 +237,13 @@ def show_demo():
 
             with cxt.menu(label="Tools"):
 
-                dpg.add_menu_item(label="Show About", callback=lambda:dpg.show_tool("mvAboutWindow"))
-                dpg.add_menu_item(label="Show Metrics", callback=lambda:dpg.show_tool("mvMetricsWindow"))
-                dpg.add_menu_item(label="Show Documentation", callback=lambda:dpg.show_tool("mvDocWindow"))
-                dpg.add_menu_item(label="Show Debug", callback=lambda:dpg.show_tool("mvDebugWindow"))
-                dpg.add_menu_item(label="Show Style Editor", callback=lambda:dpg.show_tool("mvStyleWindow"))
-                dpg.add_menu_item(label="Show Font Manager", callback=lambda:dpg.show_tool("mvFontManager"))
-                dpg.add_menu_item(label="Show Item Registry", callback=lambda:dpg.show_tool("mvItemRegistry"))
+                dpg.add_menu_item(label="Show About", callback=lambda:dpg.show_tool(dpg.mvTool_About))
+                dpg.add_menu_item(label="Show Metrics", callback=lambda:dpg.show_tool(dpg.mvTool_Metrics))
+                dpg.add_menu_item(label="Show Documentation", callback=lambda:dpg.show_tool(dpg.mvTool_Doc))
+                dpg.add_menu_item(label="Show Debug", callback=lambda:dpg.show_tool(dpg.mvTool_Debug))
+                dpg.add_menu_item(label="Show Style Editor", callback=lambda:dpg.show_tool(dpg.mvTool_Style))
+                dpg.add_menu_item(label="Show Font Manager", callback=lambda:dpg.show_tool(dpg.mvTool_Font))
+                dpg.add_menu_item(label="Show Item Registry", callback=lambda:dpg.show_tool(dpg.mvTool_ItemRegistry))
 
         dpg.add_text(f'Dear PyGui says hello. ({dpg.get_dearpygui_version()})')
         dpg.add_text("This code for this demo can be found here: ")
@@ -416,7 +410,7 @@ def show_demo():
 
             with cxt.tree_node(label="Text Input"):
 
-                with cxt.tree_node(id="Multi-line Text Input"):
+                with cxt.tree_node(label="Multi-line Text Input"):
 
                     paragraph = """/*\n
                         The Pentium F00F bug, shorthand for F0 0F C7 C8,\n
@@ -625,30 +619,23 @@ def show_demo():
                 dpg.add_button(label="Button 2")
                 dpg.add_button(label="Button 3")
 
-            with cxt.tree_node(label="Out of order pack style"):
-                with cxt.child(id="out of order pack parent", width=100, height=50):
-                    pass
-                dpg.add_button(id="out of order button 1", label="Button 1")
-                dpg.add_button(label="Button 2")
-                dpg.add_button(label="Button 3", before="out of order button 1")
-                dpg.add_button(label="Button 4", parent="out of order pack parent")
-
-            with cxt.tree_node(id="Absolute Position Placement"):
+            with cxt.tree_node(label="Absolute Position Placement"):
                 dpg.add_button(label="Set Button 2 Pos", callback=lambda: dpg.set_item_pos(B2, x=50, y=125))
                 dpg.add_button(label="Reset Button 2 Pos", callback=lambda: dpg.reset_pos(B2))
                 dpg.add_button(label="Button 1", pos=[50,50], width=75, height=75)
                 B2 = dpg.add_button(label="Button 2", width=75, height=75)
                 dpg.add_button(label="Button 3")
         
-            with cxt.tree_node(id="Grid Layout using Table API"):
+            with cxt.tree_node(label="Grid Layout using Table API"):
+                layout_demo_table = dpg.generate_uuid()
                 dpg.add_text("Tables can be used to layout items in an equally spaced grid pattern.")
                 dpg.add_text("See tables section for more detail on tables.")
-                dpg.add_checkbox(label="resizable", callback=_config, user_data="layout_demo_table")
-                dpg.add_checkbox(label="borders_innerH", callback=_config, user_data="layout_demo_table", default_value=True)
-                dpg.add_checkbox(label="borders_outerH", callback=_config, user_data="layout_demo_table", default_value=True)
-                dpg.add_checkbox(label="borders_innerV", callback=_config, user_data="layout_demo_table", default_value=True)
-                dpg.add_checkbox(label="borders_outerV", callback=_config, user_data="layout_demo_table", default_value=True)
-                with cxt.table(id="layout_demo_table", header_row=False, borders_innerH=True, borders_outerH=True, borders_innerV=True, borders_outerV=True):
+                dpg.add_checkbox(label="resizable", callback=_config, user_data=layout_demo_table)
+                dpg.add_checkbox(label="borders_innerH", callback=_config, user_data=layout_demo_table, default_value=True)
+                dpg.add_checkbox(label="borders_outerH", callback=_config, user_data=layout_demo_table, default_value=True)
+                dpg.add_checkbox(label="borders_innerV", callback=_config, user_data=layout_demo_table, default_value=True)
+                dpg.add_checkbox(label="borders_outerV", callback=_config, user_data=layout_demo_table, default_value=True)
+                with cxt.table(id=layout_demo_table, header_row=False, borders_innerH=True, borders_outerH=True, borders_innerV=True, borders_outerV=True):
                     dpg.add_table_column()
                     dpg.add_table_column()
                     dpg.add_table_column()
@@ -678,7 +665,7 @@ def show_demo():
                 
                 with cxt.tree_node(label="Groups"):
                     dpg.add_text("Groups are used to control child items placement, width, and provide a hit box for things like is the set of items are hovered, ect...")
-                    with cxt.group(id="group 1", horizontal=True):
+                    with cxt.group(horizontal=True):
                         dpg.add_button(label="Button 1")
                         dpg.add_button(label="Button 2")
                         dpg.add_button(label="Button 3")
@@ -692,15 +679,16 @@ def show_demo():
                         dpg.add_button(label="Button 3")
                 
                 with cxt.tree_node(label="Child windows"):
+                    demo_layout_child = dpg.generate_uuid()
                     dpg.add_text("Child windows are basically embedded windows and provide much more structure and control of the containing items than groups.")
                     with cxt.group(horizontal=True):
-                        dpg.add_checkbox(label="autosize_x", callback=_config, user_data="demo_layout_child")
-                        dpg.add_checkbox(label="autosize_y", callback=_config, user_data="demo_layout_child")
-                        dpg.add_checkbox(label="menubar", callback=_config, user_data="demo_layout_child")
-                        dpg.add_checkbox(label="no_scrollbar", callback=_config, user_data="demo_layout_child")
-                        dpg.add_checkbox(label="horizontal_scrollbar", callback=_config, user_data="demo_layout_child")
-                        dpg.add_checkbox(label="border", default_value=True, callback=_config, user_data="demo_layout_child")
-                    with cxt.child(id="demo_layout_child", width=200, height=200):
+                        dpg.add_checkbox(label="autosize_x", callback=_config, user_data=demo_layout_child)
+                        dpg.add_checkbox(label="autosize_y", callback=_config, user_data=demo_layout_child)
+                        dpg.add_checkbox(label="menubar", callback=_config, user_data=demo_layout_child)
+                        dpg.add_checkbox(label="no_scrollbar", callback=_config, user_data=demo_layout_child)
+                        dpg.add_checkbox(label="horizontal_scrollbar", callback=_config, user_data=demo_layout_child)
+                        dpg.add_checkbox(label="border", default_value=True, callback=_config, user_data=demo_layout_child)
+                    with cxt.child(id=demo_layout_child, width=200, height=200):
                         with cxt.menu_bar():
                             with cxt.menu(label="Menu"):
                                 pass
@@ -956,7 +944,7 @@ def show_demo():
                         dpg.add_text("Image (2x texture size)")
                         dpg.add_image(demo_static_texture_3, width=200, height=200)
 
-                dpg.add_image("INTERNAL_DPG_FONT_ATLAS")
+                dpg.add_image(dpg.mvFontAtlas)
 
             with cxt.tree_node(label="Dynamic Textures"):
 
@@ -988,7 +976,7 @@ def show_demo():
                 dpg.add_plot_legend(parent=plot_id)
                 dpg.add_plot_axis(dpg.mvXAxis, label="x axis", parent=plot_id)
                 yaxis_id = dpg.add_plot_axis(dpg.mvYAxis, label="y axis", parent=plot_id)
-                dpg.add_image_series("INTERNAL_DPG_FONT_ATLAS", [300, 300], [400, 400], label="font atlas", parent=yaxis_id)
+                dpg.add_image_series(dpg.mvFontAtlas, [300, 300], [400, 400], label="font atlas", parent=yaxis_id)
                 dpg.add_image_series(demo_static_texture_1, [0, 0], [100, 100], label="static 1", parent=yaxis_id)
                 dpg.add_image_series(demo_static_texture_2, [150, 150], [200, 200], label="static 2", parent=yaxis_id)
                 dpg.add_image_series(demo_static_texture_3, [200, -150], [300, -50], label="static 3", parent=yaxis_id)
@@ -1318,102 +1306,72 @@ def show_demo():
 
             with cxt.tree_node(label="Scrolling, Clipping"):
 
-                def on_open(sender, app_data, user_data):
+                # without clipping
+                dpg.add_text("Without Clipper")
+                with cxt.table(header_row=True, no_host_extendX=True,
+                            borders_innerH=True, borders_outerH=True, borders_innerV=True,
+                            borders_outerV=True, context_menu_in_body=True, row_background=True,
+                            policy=dpg.mvTable_SizingFixedFit, height=300,
+                            scrollY=True):
 
-                    first_item_id = "$$DEMO_Table_Scrolling, Clipping"
+                    dpg.add_table_column(label="1")
+                    dpg.add_table_column(label="2")
+                    dpg.add_table_column(label="3")
 
-                    if dpg.does_item_exist(first_item_id):
-                        return
+                    for i in range(0, 25):
+                        with cxt.table_row():
+                            dpg.add_input_int(label=" ", step=0)
+                            dpg.add_button(label=f"Cell {i}, 1")
+                            dpg.add_text(f"Cell {i}, 2")
 
-                    dpg.push_container_stack(dpg.get_item_info(sender)["parent"])
+                # with clipping
+                dpg.add_text("Using Clipper")
+                with cxt.table(header_row=True, no_host_extendX=True,
+                            borders_innerH=True, borders_outerH=True, borders_innerV=True,
+                            borders_outerV=True, context_menu_in_body=True, row_background=True,
+                            policy=dpg.mvTable_SizingFixedFit, height=300,
+                            scrollY=True):
 
-                    # locking mutex to ensure the table and columns are added in the same frame
-                    dpg.lock_mutex()
+                    dpg.add_table_column(label="1")
+                    dpg.add_table_column(label="2")
+                    dpg.add_table_column(label="3")
 
-                    # without clipping
-                    dpg.add_text("Without Clipper", id=first_item_id)
-                    with cxt.table(header_row=True, no_host_extendX=True,
-                                borders_innerH=True, borders_outerH=True, borders_innerV=True,
-                                borders_outerV=True, context_menu_in_body=True, row_background=True,
-                                policy=dpg.mvTable_SizingFixedFit, height=300,
-                                scrollY=True):
-
-                        dpg.add_table_column(label="1")
-                        dpg.add_table_column(label="2")
-                        dpg.add_table_column(label="3")
-
-                        # unlocking mutex, data can be added across multiple frames
-                        dpg.unlock_mutex()
-
-                        for i in range(0, 100):
+                    for i in range(0, 25):
+                        with cxt.clipper():
                             with cxt.table_row():
                                 dpg.add_input_int(label=" ", step=0)
                                 dpg.add_button(label=f"Cell {i}, 1")
                                 dpg.add_text(f"Cell {i}, 2")
+                dpg.add_checkbox(label="resizable", before=table_id, default_value=True, user_data=table_id, callback=lambda sender, app_data, user_data:dpg.configure_item(user_data, resizable=dpg.get_value(sender)))
 
-                    # locking mutex to ensure the table and columns are added in the same frame
-                    dpg.lock_mutex()
+                # Freezing rows/columns
+                dpg.add_text("Freezing rows/columns")
+                with cxt.table(header_row=True, borders_innerH=True, borders_outerH=True, borders_innerV=True,
+                            borders_outerV=True, row_background=True, height=300, freeze_rows=1, freeze_columns=1,
+                            scrollY=True, scrollX=True, policy=dpg.mvTable_SizingFixedFit):
 
-                    # with clipping
-                    dpg.add_text("Using Clipper")
-                    with cxt.table(header_row=True, no_host_extendX=True,
-                                borders_innerH=True, borders_outerH=True, borders_innerV=True,
-                                borders_outerV=True, context_menu_in_body=True, row_background=True,
-                                policy=dpg.mvTable_SizingFixedFit, height=300,
-                                scrollY=True):
+                    dpg.add_table_column(label="1", width=50)
+                    dpg.add_table_column(label="2", width=50)
+                    dpg.add_table_column(label="3", width=50)
+                    dpg.add_table_column(label="4", width=50)
+                    dpg.add_table_column(label="5", width=50)
+                    dpg.add_table_column(label="6", width=50)
+                    dpg.add_table_column(label="7", width=50)
 
-                        dpg.add_table_column(label="1")
-                        dpg.add_table_column(label="2")
-                        dpg.add_table_column(label="3")
+                    for i in range(0, 25):
+                            with cxt.table_row():
+                                dpg.add_text(f"Cell {i}, 0")
+                                dpg.add_button(label=f"Cell {i}, 1")
+                                dpg.add_text(f"Cell {i}, 2")
+                                dpg.add_text(f"Cell {i}, 3")
+                                dpg.add_text(f"Cell {i}, 4")
+                                dpg.add_text(f"Cell {i}, 5")
+                                dpg.add_text(f"Cell {i}, 6")
 
-                        # unlocking mutex, data can be added across multiple frames
-                        dpg.unlock_mutex()
-
-                        for i in range(0, 100):
-                            with cxt.clipper():
-                                with cxt.table_row():
-                                    dpg.add_input_int(label=" ", step=0)
-                                    dpg.add_button(label=f"Cell {i}, 1")
-                                    dpg.add_text(f"Cell {i}, 2")
-                    dpg.add_checkbox(label="resizable", before=table_id, default_value=True, user_data=table_id, callback=lambda sender, app_data, user_data:dpg.configure_item(user_data, resizable=dpg.get_value(sender)))
-
-                    # locking mutex to ensure the table and columns are added in the same frame
-                    dpg.lock_mutex()
-
-                    # Freezing rows/columns
-                    dpg.add_text("Freezing rows/columns")
-                    with cxt.table(header_row=True, borders_innerH=True, borders_outerH=True, borders_innerV=True,
-                                borders_outerV=True, row_background=True, height=300, freeze_rows=1, freeze_columns=1,
-                                scrollY=True, scrollX=True, policy=dpg.mvTable_SizingFixedFit):
-
-                        dpg.add_table_column(label="1", width=50)
-                        dpg.add_table_column(label="2", width=50)
-                        dpg.add_table_column(label="3", width=50)
-                        dpg.add_table_column(label="4", width=50)
-                        dpg.add_table_column(label="5", width=50)
-                        dpg.add_table_column(label="6", width=50)
-                        dpg.add_table_column(label="7", width=50)
-
-                        # unlocking mutex, data can be added across multiple frames
-                        dpg.unlock_mutex()
-
-                        for i in range(0, 100):
-                                with cxt.table_row():
-                                    dpg.add_text(f"Cell {i}, 0")
-                                    dpg.add_button(label=f"Cell {i}, 1")
-                                    dpg.add_text(f"Cell {i}, 2")
-                                    dpg.add_text(f"Cell {i}, 3")
-                                    dpg.add_text(f"Cell {i}, 4")
-                                    dpg.add_text(f"Cell {i}, 5")
-                                    dpg.add_text(f"Cell {i}, 6")
-
-                    dpg.pop_container_stack()
-
-                dpg.add_activated_handler(dpg.last_container(), callback=on_open)
 
             with cxt.tree_node(label="Sorting"):
 
-                def sort_callback(sender, app_data):
+                def sort_callback(sender, app_data, user_data):
 
                     children = dpg.get_item_info(sender)["children"][1]
                     
@@ -1463,47 +1421,28 @@ def show_demo():
                         
                     dpg.reorder_items(sender, 1, single_list)
 
-                def on_open(sender, app_data, user_data):
+                dpg.add_text("Sorting")
+                with cxt.table(header_row=True, no_host_extendX=True,
+                            borders_innerH=True, borders_outerH=True, borders_innerV=True,
+                            borders_outerV=True, context_menu_in_body=True, row_background=True,
+                            policy=dpg.mvTable_SizingFixedFit, height=500, sortable=True, callback=sort_callback,
+                            scrollY=True) as table_id:
 
-                    first_item_id = "$$DEMO_Table_Sorting"
+                    dpg.add_table_column(label="One")
+                    dpg.add_table_column(label="Two")
+                    dpg.add_table_column(label="Three")
 
-                    if dpg.does_item_exist(first_item_id):
-                        return
-
-                    dpg.push_container_stack(dpg.get_item_info(sender)["parent"])
-
-                    # locking mutex to ensure the table and columns are added in the same frame
-                    dpg.lock_mutex()
-
-                    dpg.add_text("Sorting", id=first_item_id)
-                    with cxt.table(header_row=True, no_host_extendX=True,
-                                borders_innerH=True, borders_outerH=True, borders_innerV=True,
-                                borders_outerV=True, context_menu_in_body=True, row_background=True,
-                                policy=dpg.mvTable_SizingFixedFit, height=500, sortable=True, callback=sort_callback,
-                                scrollY=True) as table_id:
-
-                        dpg.add_table_column(label="One")
-                        dpg.add_table_column(label="Two")
-                        dpg.add_table_column(label="Three")
-
-                        # unlocking mutex, data can be added across multiple frames
-                        dpg.unlock_mutex()
-
-                        for i in range(0, 100):
-                                dpg.add_input_int(label=" ", step=0)
+                    for i in range(0, 25):
+                            dpg.add_input_int(label=" ", step=0)
+                            dpg.add_table_next_column()
+                            dpg.add_text(f"Cell {i}, 1")
+                            dpg.add_table_next_column()
+                            dpg.add_checkbox(label=f"Cell {i}, 2")
+                            if i != 25:
                                 dpg.add_table_next_column()
-                                dpg.add_text(f"Cell {i}, 1")
-                                dpg.add_table_next_column()
-                                dpg.add_checkbox(label=f"Cell {i}, 2")
-                                if i != 99:
-                                    dpg.add_table_next_column()
 
-                    dpg.add_checkbox(label="sort_multi", before=table_id, user_data=table_id, callback=lambda sender, app_data, user_data:dpg.configure_item(user_data, sort_multi=dpg.get_value(sender)))
-                    dpg.add_checkbox(label="sort_tristate", before=table_id, user_data=table_id, callback=lambda sender, app_data, user_data:dpg.configure_item(user_data, sort_tristate=dpg.get_value(sender)))
-
-                    dpg.pop_container_stack()
-
-                dpg.add_activated_handler(dpg.last_container(), callback=on_open)
+                dpg.add_checkbox(label="sort_multi", before=table_id, user_data=table_id, callback=lambda sender, app_data, user_data:dpg.configure_item(user_data, sort_multi=dpg.get_value(sender)))
+                dpg.add_checkbox(label="sort_tristate", before=table_id, user_data=table_id, callback=lambda sender, app_data, user_data:dpg.configure_item(user_data, sort_tristate=dpg.get_value(sender)))
 
             with cxt.tree_node(label="Sizing Policy"):
 
@@ -1729,7 +1668,7 @@ def show_demo():
                     dpg.add_plot_legend()
                     dpg.add_plot_axis(dpg.mvXAxis, label="x")
                     yaxis_id = dpg.add_plot_axis(dpg.mvYAxis, label="y axis")
-                    dpg.add_image_series("INTERNAL_DPG_FONT_ATLAS", [300, 300], [400, 400], label="font atlas", parent=yaxis_id)
+                    dpg.add_image_series(2, [300, 300], [400, 400], label="font atlas", parent=yaxis_id)
                     dpg.add_image_series(demo_static_texture_2, [150, 150], [200, 200], label="static 2", parent=yaxis_id)
                     dpg.add_image_series(demo_dynamic_texture_1, [-200, 100], [-100, 200], label="dynamic 1", parent=yaxis_id)
 
@@ -2209,7 +2148,7 @@ def show_demo():
                 with cxt.group(width=200, show=False) as image:
                     draw_groups["image"] = image
                     with cxt.group() as r:
-                        dpg.add_input_text(label="file", default_value="INTERNAL_DPG_FONT_ATLAS")
+                        #dpg.add_input_text(label="file", default_value="INTERNAL_DPG_FONT_ATLAS")
                         dpg.add_slider_intx(label="pmin", size=2, default_value=(50, 50), max_value=800)
                         dpg.add_slider_intx(label="pmax", size=2, default_value=(300, 300), max_value=800)
                     with cxt.group() as k:
@@ -2221,7 +2160,7 @@ def show_demo():
                 dpg.configure_item(drawables, items=list(draw_groups.keys()))
             dpg.add_same_line()
 
-            with cxt.drawlist(id="drawlist_demo", width=800, height=500):
+            with cxt.drawlist(width=800, height=500):
                 dpg.draw_rectangle((0, 0), (800, 500), color=(100, 100, 100, 250), thickness=2)
                 layers["Layer 1"] = dpg.add_draw_layer()
                 layers["Layer 2"] = dpg.add_draw_layer()

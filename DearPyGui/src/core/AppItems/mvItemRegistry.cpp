@@ -55,7 +55,7 @@ namespace Marvel {
 		}
 
 		{
-			mvPythonParser parser(mvPyDataType::String);
+			mvPythonParser parser(mvPyDataType::UUID);
 			parser.finalize();
 			parsers->insert({ "last_item", parser });
 		}
@@ -157,6 +157,13 @@ namespace Marvel {
 		mvEventBus::Subscribe(this, mvEVT_PRE_RENDER_RESET);
 		mvEventBus::Subscribe(this, mvEVT_RENDER);
 		mvEventBus::Subscribe(this, mvEVT_ACTIVE_WINDOW);
+
+		// prefill cached containers
+		for (int i = 0; i < CachedContainerCount; i++)
+		{
+			m_cachedContainersID[i] = 0;
+			m_cachedContainersPTR[i] = nullptr;
+		}
 		
 	}
 
@@ -459,6 +466,13 @@ namespace Marvel {
 	{
 		mvRef<mvAppItem> item = nullptr;
 
+		// check container cache first
+		for (int i = 0; i < CachedContainerCount; i++)
+		{
+			if (m_cachedContainersID[i] == uuid)
+				return m_cachedContainersPTR[i];
+		}
+
 		for (auto& window : m_roots)
 		{
 			if (window->m_uuid == uuid)
@@ -541,6 +555,19 @@ namespace Marvel {
 		m_roots.clear();
 	}
 
+	void mvItemRegistry::cleanUpItem(mvUUID uuid)
+	{
+		for (int i = 0; i < CachedContainerCount; i++)
+		{
+			if (m_cachedContainersID[i] == uuid)
+			{
+				m_cachedContainersID[i] = 0;
+				m_cachedContainersPTR[i] = nullptr;
+				break;
+			}
+		}
+	}
+
 	bool mvItemRegistry::addItemWithRuntimeChecks(mvRef<mvAppItem> item, mvUUID parent, mvUUID before)
 	{
 		//MV_ITEM_REGISTRY_TRACE("Adding runtime item: " + item->m_name);
@@ -563,23 +590,35 @@ namespace Marvel {
 		{
 			m_lastRootAdded = item->getUUID();
 			m_lastContainerAdded = item->getUUID();
+			m_cachedContainersID[m_cachedContainerIndex] = item->getUUID();
+			m_cachedContainersPTR[m_cachedContainerIndex] = item.get();
+			m_cachedContainerIndex++;
+			if (m_cachedContainerIndex == CachedContainerCount)
+				m_cachedContainerIndex = 0;
 		}
 		else if (mvAppItem::DoesItemHaveFlag(item.get(), MV_ITEM_DESC_CONTAINER))
+		{
 			m_lastContainerAdded = item->getUUID();
+			m_cachedContainersID[m_cachedContainerIndex] = item->getUUID();
+			m_cachedContainersPTR[m_cachedContainerIndex] = item.get();
+			m_cachedContainerIndex++;
+			if (m_cachedContainerIndex == CachedContainerCount)
+				m_cachedContainerIndex = 0;
+		}
 
 		m_lastItemAdded = item->getUUID();
 
 
 		//---------------------------------------------------------------------------
-		// STEP 1: check if an item with this name exists
+		// STEP 1: check if an item with this name exists (NO LONGER NEEDED)
 		//---------------------------------------------------------------------------
-		if (getItem(item->getUUID()))
-		{
-			mvThrowPythonError(1000, "Item must have a unique name.");
-			MV_ITEM_REGISTRY_WARN("Item must have a unique name.");
-			assert(false);
-			return false;
-		}
+		//if (getItem(item->getUUID()))
+		//{
+		//	mvThrowPythonError(1000, "Item must have a unique name.");
+		//	MV_ITEM_REGISTRY_WARN("Item must have a unique name.");
+		//	assert(false);
+		//	return false;
+		//}
 
 		enum class AddTechnique
 		{

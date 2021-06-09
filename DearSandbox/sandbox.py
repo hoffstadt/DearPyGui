@@ -6,8 +6,14 @@ import dearpygui.demo as demo
 dpg.add_font("google", "../../Resources/NotoSerifCJKjp-Medium.otf", 20)
 dpg.set_font("google", 20)
 
-dpg.add_texture_container(id="mvTextureContainer")
-dpg.add_static_texture(100, 100, [], parent="mvTextureContainer", file="INTERNAL_DPG_FONT_ATLAS", id="INTERNAL_DPG_FONT_ATLAS")
+main_texture_container = dpg.generate_uuid()
+
+dpg.add_texture_container(id=main_texture_container)
+dpg.add_static_texture(100, 100, [], parent=main_texture_container, file=dpg.mvFontAtlas, id=dpg.mvFontAtlas)
+
+with cxt.window(label="New IDs"):
+
+    dpg.add_button(label="Press me")
 
 demo.show_demo()
 

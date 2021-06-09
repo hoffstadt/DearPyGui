@@ -11,7 +11,7 @@ namespace Marvel {
 	void mvTable::InsertParser(std::map<std::string, mvPythonParser>* parsers)
 	{
 
-		mvPythonParser parser(mvPyDataType::String, "Undocumented function", { "Tables", "Widgets" });
+		mvPythonParser parser(mvPyDataType::UUID, "Undocumented function", { "Tables", "Widgets" });
 		mvAppItem::AddCommonArgs(parser, (CommonParserArgs)(
 			MV_PARSER_ARG_ID |
 			MV_PARSER_ARG_WIDTH |
@@ -66,15 +66,16 @@ namespace Marvel {
 	mvTable::mvTable(mvUUID uuid)
 		: mvAppItem(uuid)
 	{
+		m_label = "table" + std::to_string(uuid);
 	}
 
 	void mvTable::draw(ImDrawList* drawlist, float x, float y)
 	{
-		ScopedID id;
+		ScopedID id(m_uuid);
 		mvImGuiThemeScope scope(this);
 		mvFontScope fscope(this);
 
-		if (ImGui::BeginTable(m_name.c_str(), m_columns, m_flags, 
+		if (ImGui::BeginTable(m_label.c_str(), m_columns, m_flags, 
 			ImVec2((float)m_width, (float)m_height), (float)m_inner_width))
 		{
 
@@ -104,14 +105,14 @@ namespace Marvel {
 				if (sorts_specs->SpecsDirty)
 				{
 					if (sorts_specs->SpecsCount == 0)
-						mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), m_name, nullptr, nullptr);
+						mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), m_uuid, nullptr, nullptr);
 					else
 					{
 
 						// generate id map for columns
-						std::unordered_map<ImGuiID, std::string> idMap;
+						std::unordered_map<ImGuiID, mvUUID> idMap;
 						for (int i = 0; i < m_children[0].size(); i++)
-							idMap[static_cast<mvTableColumn*>(m_children[0][i].get())->m_id] = m_children[0][i]->getName();
+							idMap[static_cast<mvTableColumn*>(m_children[0][i].get())->m_id] = m_children[0][i]->getUUID();
 
 						std::vector<SortSpec> specs;
 						for (int i = 0; i < sorts_specs->SpecsCount; i++)
@@ -125,11 +126,11 @@ namespace Marvel {
 							for (int i = 0; i < specs.size(); i++)
 							{
 								PyObject* pySingleSpec = PyList_New(2);
-								PyList_SetItem(pySingleSpec, 0, ToPyString(specs[i].column));
+								PyList_SetItem(pySingleSpec, 0, ToPyUUID(specs[i].column));
 								PyList_SetItem(pySingleSpec, 1, ToPyInt(specs[i].direction));
 								PyList_SetItem(pySpec, i, pySingleSpec);
 							}
-							mvApp::GetApp()->getCallbackRegistry().runCallback(getCallback(false), m_name, pySpec, nullptr);
+							mvApp::GetApp()->getCallbackRegistry().runCallback(getCallback(false), m_uuid, pySpec, m_user_data);
 							Py_XDECREF(pySpec);
 							});
 					}

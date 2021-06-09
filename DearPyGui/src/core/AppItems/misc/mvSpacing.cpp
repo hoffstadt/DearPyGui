@@ -6,7 +6,7 @@ namespace Marvel {
 	void mvSpacing::InsertParser(std::map<std::string, mvPythonParser>* parsers)
 	{
 
-		mvPythonParser parser(mvPyDataType::String);
+		mvPythonParser parser(mvPyDataType::UUID);
 		mvAppItem::AddCommonArgs(parser, (CommonParserArgs)(
 			MV_PARSER_ARG_ID |
 			MV_PARSER_ARG_INDENT |

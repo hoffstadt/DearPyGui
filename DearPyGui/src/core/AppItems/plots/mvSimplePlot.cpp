@@ -8,7 +8,7 @@ namespace Marvel {
 	void mvSimplePlot::InsertParser(std::map<std::string, mvPythonParser>* parsers)
 	{
 
-		mvPythonParser parser(mvPyDataType::String, "Undocumented function", { "Plotting", "Widgets" });
+		mvPythonParser parser(mvPyDataType::UUID, "Undocumented function", { "Plotting", "Widgets" });
 		mvAppItem::AddCommonArgs(parser, (CommonParserArgs)(
 			MV_PARSER_ARG_ID |
 			MV_PARSER_ARG_WIDTH |
@@ -41,7 +41,7 @@ namespace Marvel {
 	}
 
 	mvSimplePlot::mvSimplePlot(mvUUID uuid)
-		: mvFloatVectPtrBase(name)
+		: mvFloatVectPtrBase(uuid)
 	{
 	}
 

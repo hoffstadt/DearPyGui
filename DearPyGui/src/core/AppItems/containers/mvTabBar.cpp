@@ -11,7 +11,7 @@ namespace Marvel {
 
 	void mvTabBar::InsertParser(std::map<std::string, mvPythonParser>* parsers)
 	{
-		mvPythonParser parser(mvPyDataType::String, "Undocumented function", { "Containers", "Widgets" });
+		mvPythonParser parser(mvPyDataType::UUID, "Undocumented function", { "Containers", "Widgets" });
 		mvAppItem::AddCommonArgs(parser, (CommonParserArgs)(
 			MV_PARSER_ARG_ID |
 			MV_PARSER_ARG_INDENT |
@@ -37,7 +37,7 @@ namespace Marvel {
 
 	mvTabBar::mvTabBar(mvUUID uuid)
 		:
-		mvStringPtrBase(uuid)
+		mvUUIDPtrBase(uuid)
 	{
 	}
 
@@ -54,19 +54,19 @@ namespace Marvel {
 		return false;
 	}
 
-	std::string& mvTabBar::getSpecificValue()
+	mvUUID mvTabBar::getSpecificValue()
 	{
 		return m_uiValue;
 	}
 
-	void mvTabBar::setValue(const std::string& value)
+	void mvTabBar::setValue(mvUUID value)
 	{
 		m_uiValue = value;
 	}
 
 	void mvTabBar::draw(ImDrawList* drawlist, float x, float y)
 	{
-		ScopedID id;
+		ScopedID id(m_uuid);
 		mvImGuiThemeScope scope(this);
 		mvFontScope fscope(this);
 		ImGui::BeginGroup();
@@ -81,14 +81,14 @@ namespace Marvel {
 				if (!item->preDraw())
 					continue;
 
-				if (*m_value == item->m_name && m_lastValue != *m_value)
+				if (*m_value == item->m_uuid && m_lastValue != *m_value)
 					static_cast<mvTab*>(item.get())->addFlag(ImGuiTabItemFlags_SetSelected);
 
 				item->draw(drawlist, ImGui::GetCursorPosX(), ImGui::GetCursorPosY());
 
 				item->postDraw();
 
-				if (*m_value == item->m_name)
+				if (*m_value == item->m_uuid)
 					static_cast<mvTab*>(item.get())->removeFlag(ImGuiTabItemFlags_SetSelected);
 			}
 

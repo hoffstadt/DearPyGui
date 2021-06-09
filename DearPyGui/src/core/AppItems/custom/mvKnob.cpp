@@ -8,7 +8,7 @@ namespace Marvel {
     void mvKnobFloat::InsertParser(std::map<std::string, mvPythonParser>* parsers)
     {
 
-        mvPythonParser parser(mvPyDataType::String);
+        mvPythonParser parser(mvPyDataType::UUID);
         mvAppItem::AddCommonArgs(parser, (CommonParserArgs)(
             MV_PARSER_ARG_ID |
             MV_PARSER_ARG_WIDTH |
@@ -46,12 +46,12 @@ namespace Marvel {
 
     void mvKnobFloat::draw(ImDrawList* drawlist, float x, float y)
     {
-        ScopedID id;
+        ScopedID id(m_uuid);
         mvImGuiThemeScope scope(this);
         mvFontScope fscope(this);
 
         if (KnobFloat(m_specificedlabel.c_str(), m_value.get(), m_min, m_max, m_step))
-            mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), m_name, nullptr, m_user_data);
+            mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), m_uuid, nullptr, m_user_data);
     }
 
     void mvKnobFloat::handleSpecificKeywordArgs(PyObject* dict)

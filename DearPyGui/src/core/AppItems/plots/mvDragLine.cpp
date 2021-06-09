@@ -12,7 +12,7 @@ namespace Marvel {
 	void mvDragLine::InsertParser(std::map<std::string, mvPythonParser>* parsers)
 	{
 
-		mvPythonParser parser(mvPyDataType::String, "Undocumented function", { "Plotting", "Widgets" });
+		mvPythonParser parser(mvPyDataType::UUID, "Undocumented function", { "Plotting", "Widgets" });
 		mvAppItem::AddCommonArgs(parser, (CommonParserArgs)(
 			MV_PARSER_ARG_ID |
 			MV_PARSER_ARG_PARENT |
@@ -56,7 +56,7 @@ namespace Marvel {
 
 	void mvDragLine::draw(ImDrawList* drawlist, float x, float y)
 	{
-		ScopedID id;
+		ScopedID id(m_uuid);
 		mvFontScope fscope(this);
 
 		
@@ -65,14 +65,14 @@ namespace Marvel {
 		{
 			if (ImPlot::DragLineX(m_specificedlabel.c_str(), m_value.get(), m_show_label, m_color, m_thickness))
 			{
-				mvApp::GetApp()->getCallbackRegistry().addCallback(m_callback, m_name, nullptr, nullptr);
+				mvApp::GetApp()->getCallbackRegistry().addCallback(m_callback, m_uuid, nullptr, nullptr);
 			}
 		}
 		else
 		{
 			if (ImPlot::DragLineY(m_specificedlabel.c_str(), m_value.get(), m_show_label, m_color, m_thickness))
 			{
-				mvApp::GetApp()->getCallbackRegistry().addCallback(m_callback, m_name, nullptr, nullptr);
+				mvApp::GetApp()->getCallbackRegistry().addCallback(m_callback, m_uuid, nullptr, nullptr);
 			}
 		}
 

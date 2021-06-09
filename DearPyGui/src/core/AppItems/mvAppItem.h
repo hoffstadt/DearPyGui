@@ -80,6 +80,7 @@ namespace Marvel {
         Series,
         Bool,
         String,
+        UUID,
         Time, Color, Texture
     };
 
@@ -116,6 +117,7 @@ namespace Marvel {
     };
 
     using mvValueVariant = std::variant<
+        std::shared_ptr<mvUUID>,
         std::shared_ptr<int>,
         std::shared_ptr<float>,
         std::shared_ptr<double>,
@@ -210,6 +212,7 @@ namespace Marvel {
         MV_CREATE_EXTRA_COMMAND(focus_item);
         MV_CREATE_EXTRA_COMMAND(set_item_pos);
         MV_CREATE_EXTRA_COMMAND(reset_pos);
+        MV_CREATE_EXTRA_COMMAND(generate_uuid);
 
         MV_START_EXTRA_COMMANDS
             MV_ADD_EXTRA_COMMAND(get_item_configuration);
@@ -222,6 +225,7 @@ namespace Marvel {
             MV_ADD_EXTRA_COMMAND(focus_item);
             MV_ADD_EXTRA_COMMAND(set_item_pos);
             MV_ADD_EXTRA_COMMAND(reset_pos);
+            MV_ADD_EXTRA_COMMAND(generate_uuid);
         MV_END_EXTRA_COMMANDS
 
         static bool DoesItemHaveFlag(mvAppItem* item, int flag);
@@ -235,12 +239,12 @@ namespace Marvel {
             {
                 ScopedID() { ImGui::PushID(this); }
                 ScopedID(void* id) { ImGui::PushID(id); }
+                ScopedID(mvUUID id) { ImGui::PushID((int)id); }
                 ~ScopedID() { ImGui::PopID(); }
             };
 
     public:
 
-        mvAppItem(const std::string& name);
         mvAppItem(mvUUID uuid);
         mvAppItem(const mvAppItem& other) = delete; // copy constructor
         mvAppItem(mvAppItem&& other)      = delete; // move constructor

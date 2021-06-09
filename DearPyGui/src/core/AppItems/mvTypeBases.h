@@ -197,6 +197,26 @@ namespace Marvel {
 	};
 
 	//-----------------------------------------------------------------------------
+	// mvUUIDPtrBase
+	//-----------------------------------------------------------------------------
+	class mvUUIDPtrBase : public mvAppItem
+	{
+
+	public:
+
+		mvUUIDPtrBase(mvUUID uuid);
+		void setDataSource(mvUUID dataSource) override;
+		mvValueVariant getValue() override { return m_value; }
+		PyObject* getPyValue() override;
+		void      setPyValue(PyObject* value) override;
+
+	protected:
+
+		mvRef<mvUUID> m_value = CreateRef<mvUUID>(0);
+		mvUUID  m_disabled_value = 0;
+	};
+
+	//-----------------------------------------------------------------------------
 	// mvTimePtrBase
 	//-----------------------------------------------------------------------------
 	class mvTimePtrBase : public mvAppItem

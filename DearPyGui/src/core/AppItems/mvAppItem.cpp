@@ -33,6 +33,12 @@ namespace Marvel{
 		}
 
 		{
+			mvPythonParser parser(mvPyDataType::UUID);
+			parser.finalize();
+			parsers->insert({ "generate_uuid", parser });
+		}
+
+		{
 			mvPythonParser parser(mvPyDataType::None);
 			parser.addArg<mvPyDataType::UUID>("item");
 			parser.addKwargs();
@@ -314,7 +320,7 @@ namespace Marvel{
 
 		if (m_dropCallback)
 		{
-			ScopedID id;
+			ScopedID id(m_uuid);
 			if (ImGui::BeginDragDropTarget())
 			{
 				if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload(m_payloadType.c_str()))
@@ -694,6 +700,7 @@ namespace Marvel{
 	{
 		m_specificedlabel = value;
 		//m_label = value + " ###" + m_name;
+		m_label = value + "";
 	}
 
 	void mvAppItem::setFilter(const std::string& value)
@@ -804,6 +811,8 @@ namespace Marvel{
 			Py_DECREF(m_callback);
 		if (m_user_data)
 			Py_DECREF(m_user_data);
+
+		mvApp::GetApp()->getItemRegistry().cleanUpItem(m_uuid);
 	}
 
 	PyObject* mvAppItem::getCallback(bool ignore_enabled)
@@ -1041,7 +1050,7 @@ namespace Marvel{
 			int i = 0;
 			for (const auto& slot : children)
 			{
-				//PyDict_SetItemString(pyChildren, std::to_string(i).c_str(), ToPyList(slot));
+				PyDict_SetItemString(pyChildren, std::to_string(i).c_str(), ToPyList(slot));
 				PyDict_SetItem(pyChildren, ToPyInt(i), ToPyList(slot));
 				i++;
 			}
@@ -1320,6 +1329,11 @@ namespace Marvel{
 		Py_XDECREF(value);
 
 		return GetPyNone();
+	}
+
+	PyObject* mvAppItem::generate_uuid(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		return ToPyUUID(mvAppItem::GenerateUUID());
 	}
 
 	mvThemeColorGroup& mvAppItem::getColorGroup() 

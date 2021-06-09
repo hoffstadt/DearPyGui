@@ -80,7 +80,7 @@ namespace Marvel {
 
 		struct SortSpec 
 		{
-			std::string column;
+			mvUUID column;
 			int direction;
 		};
 		

@@ -17,7 +17,7 @@ namespace Marvel {
 	void mvFileDialog::InsertParser(std::map<std::string, mvPythonParser>* parsers)
 	{
 		{
-			mvPythonParser parser(mvPyDataType::String);
+			mvPythonParser parser(mvPyDataType::UUID);
 			mvAppItem::AddCommonArgs(parser, (CommonParserArgs)(
 				MV_PARSER_ARG_ID |
 				MV_PARSER_ARG_WIDTH |
@@ -77,7 +77,7 @@ namespace Marvel {
 
 	void mvFileDialog::draw(ImDrawList* drawlist, float x, float y)
 	{
-		//ScopedID id;
+		//ScopedID id(m_uuid);
 		//mvImGuiThemeScope scope(this);
 		//mvFontScope fscope(this);
 		//if (!m_show)

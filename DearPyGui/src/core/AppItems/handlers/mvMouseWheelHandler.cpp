@@ -9,7 +9,7 @@ namespace Marvel {
 	void mvMouseWheelHandler::InsertParser(std::map<std::string, mvPythonParser>* parsers)
 	{
 
-		mvPythonParser parser(mvPyDataType::String, "Undocumented function", { "Textures", "Widgets" });
+		mvPythonParser parser(mvPyDataType::UUID, "Undocumented function", { "Textures", "Widgets" });
 		mvAppItem::AddCommonArgs(parser, (CommonParserArgs)(
 			MV_PARSER_ARG_ID |
 			MV_PARSER_ARG_SHOW |
@@ -48,7 +48,7 @@ namespace Marvel {
 
 			mvApp::GetApp()->getCallbackRegistry().submitCallback([=]()
 			{
-				mvApp::GetApp()->getCallbackRegistry().runCallback(getCallback(false), m_name, ToPyInt((int)ImGui::GetIO().MouseWheel), m_user_data);
+				mvApp::GetApp()->getCallbackRegistry().runCallback(getCallback(false), m_uuid, ToPyInt((int)ImGui::GetIO().MouseWheel), m_user_data);
 			});
 			
 		}
