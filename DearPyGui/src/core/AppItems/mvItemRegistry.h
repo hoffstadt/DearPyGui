@@ -108,6 +108,7 @@ namespace Marvel {
         std::vector<mvRef<mvAppItem>>& getRoots          ()       { return m_roots; }
         mvUUID                         getActiveWindow   () const { return m_activeWindow; }
         bool                           addItemWithRuntimeChecks(mvRef<mvAppItem> item, mvUUID parent, mvUUID before);
+        void                           cacheItem(mvAppItem* item);
         void                           cleanUpItem(mvUUID uuid);
         
         // called by python interface
