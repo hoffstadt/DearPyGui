@@ -8,7 +8,6 @@
 #include <chrono>
 #include "mvProfiler.h"
 #include <implot.h>
-#include "mvEventListener.h"
 #include "mvItemRegistry.h"
 #include "mvFontManager.h"
 #include "mvThemeManager.h"
@@ -78,18 +77,10 @@ namespace Marvel {
 
 	mvApp::mvApp()
 	{
-
-		m_mainThreadID = std::this_thread::get_id();
-
-#if defined(MV_DEBUG)
-		new mvEventListener();
-#endif // MV_PROFILE
-
 		// create managers
 		m_itemRegistry = CreateOwnedPtr<mvItemRegistry>();
 		m_themeManager = CreateOwnedPtr<mvThemeManager>();
         m_callbackRegistry = CreateOwnedPtr<mvCallbackRegistry>();
-
 	}
 
     mvCallbackRegistry& mvApp::getCallbackRegistry()
@@ -145,11 +136,6 @@ namespace Marvel {
 		mvEventBus::Publish(mvEVT_CATEGORY_APP, mvEVT_PRE_RENDER_RESET);
 		mvEventBus::Publish(mvEVT_CATEGORY_APP, mvEVT_RENDER);
 		mvEventBus::Publish(mvEVT_CATEGORY_APP, mvEVT_END_FRAME);
-	}
-
-	bool mvApp::checkIfMainThread() const
-	{
-		return std::this_thread::get_id() == m_mainThreadID;
 	}
 
 	std::map<std::string, mvPythonParser>& mvApp::getParsers()

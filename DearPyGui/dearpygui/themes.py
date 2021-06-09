@@ -1,4 +1,5 @@
 from dearpygui.core import *
+
 def set_theme(theme) -> None:
     if theme == "Dark":
         set_theme_color(mvThemeCol_InputText_Text, [255, 255, 255, 255])

@@ -57,11 +57,9 @@ namespace Marvel {
     public:
 
         static std::atomic_bool s_manualMutexControl;
-        static std::mutex  s_mutex;
-        static float  s_deltaTime; // time since last frame
-        static double s_time;  // total time since starting
-
-    public:
+        static std::mutex       s_mutex;
+        static float            s_deltaTime; // time since last frame
+        static double           s_time;  // total time since starting
 
         static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
 
@@ -91,59 +89,54 @@ namespace Marvel {
             MV_ADD_EXTRA_COMMAND(is_dearpygui_running);
         MV_END_EXTRA_COMMANDS
 
+        //-----------------------------------------------------------------------------
+        // General
+        //-----------------------------------------------------------------------------
+        static mvApp*      GetApp       ();
+        static void        DeleteApp    ();
+        static const char* GetVersion   () { return MV_SANDBOX_VERSION; }
+        static bool        IsAppStarted () { return s_started; }
+        static void        SetAppStopped();
+        static void        StopApp      () { s_started = false; } // ugly
+
+        //-----------------------------------------------------------------------------
+        // Timing
+        //-----------------------------------------------------------------------------
+        static float  GetDeltaTime() { return s_deltaTime; }
+        static double GetTotalTime() { return s_time; }
+
     public:
 
         mvApp          (const mvApp& other) = delete;
         mvApp          (mvApp&& other)      = delete;
         mvApp operator=(const mvApp& other) = delete;
         mvApp operator=(mvApp&& other)      = delete;
-
-        static mvApp*            GetApp              ();
-        static void              DeleteApp           ();
-        static const char*       GetVersion          () { return MV_SANDBOX_VERSION; }
-        static bool              IsAppStarted        () { return s_started; }
-        static void              SetAppStopped       ();
-        static void              StopApp             () { s_started = false; } // ugly
-
-        //-----------------------------------------------------------------------------
-        // Timing
-        //-----------------------------------------------------------------------------
-        static float                    GetDeltaTime() { return s_deltaTime; }
-        static double                   GetTotalTime() { return s_time; }
-
-        void cleanup();
-
         ~mvApp();
 
         //-----------------------------------------------------------------------------
         // Rendering
         //-----------------------------------------------------------------------------
-        void                     render          (); // actual render loop          
+        void render(); // actual render loop          
 
         //-----------------------------------------------------------------------------
         // Managers
         //-----------------------------------------------------------------------------
-        mvItemRegistry&          getItemRegistry    ();
-        mvCallbackRegistry&      getCallbackRegistry();
-        mvThemeManager&          getThemeManager    ();
+        mvItemRegistry&     getItemRegistry    ();
+        mvCallbackRegistry& getCallbackRegistry();
+        mvThemeManager&     getThemeManager    ();
         
         //-----------------------------------------------------------------------------
         // App Settings
         //-----------------------------------------------------------------------------
-        void                     turnOnDocking     (bool dockSpace);	
-        void                     setViewport       (mvViewport* viewport) { m_viewport = viewport; }
-        
-        mvViewport*              getViewport       ()       { return m_viewport; }
-
-        //-----------------------------------------------------------------------------
-        // Concurrency
-        //-----------------------------------------------------------------------------      
-        bool                     checkIfMainThread             () const;
+        void        turnOnDocking(bool dockSpace);	
+        void        setViewport  (mvViewport* viewport) { m_viewport = viewport; }
+        mvViewport* getViewport  ()       { return m_viewport; }
 
         //-----------------------------------------------------------------------------
         // Other
         //-----------------------------------------------------------------------------
         std::map<std::string, mvPythonParser>& getParsers();
+        void                                   cleanup();
             
     private:
 
@@ -151,25 +144,21 @@ namespace Marvel {
         
     private:
 
-        static mvApp* s_instance;
+        static mvApp*           s_instance;
         static std::atomic_bool s_started;
 
         // managers
-        mvOwnedPtr<mvItemRegistry>                     m_itemRegistry;
-        mvOwnedPtr<mvThemeManager>                     m_themeManager;
-        mvOwnedPtr<mvCallbackRegistry>                 m_callbackRegistry;
-
-                                                     
+        mvOwnedPtr<mvItemRegistry>     m_itemRegistry;
+        mvOwnedPtr<mvThemeManager>     m_themeManager;
+        mvOwnedPtr<mvCallbackRegistry> m_callbackRegistry;
+                                         
         // docking                                   
-        bool                                         m_docking          = false;
-        bool                                         m_dockingViewport  = false;
-                                                     
-        mvViewport*                                  m_viewport = nullptr;
- 
-        std::thread::id                  m_mainThreadID;
-        std::future<bool>                m_future;
+        bool m_docking          = false;
+        bool m_dockingViewport  = false;
+                    
+        mvViewport*       m_viewport = nullptr;
+        std::future<bool> m_future;
         
-
     };
 
 }

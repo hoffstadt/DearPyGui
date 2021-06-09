@@ -41,40 +41,40 @@ namespace Marvel {
         [[nodiscard]] mvVec2 getContextRegionAvail     () const { return m_contextRegionAvail; }
 
         // setters
-        void          setHovered             (bool value)        { m_hovered = value; }
-        void          setActive              (bool value)        { m_active = value; }
-        void          setFocused             (bool value)        { m_focused = value; }
-        void          setClicked             (bool value)        { m_clicked = value; }
-        void          setVisible             (bool value)        { m_visible = value; }
-        void          setEdited              (bool value)        { m_edited = value; }
-        void          setActivated           (bool value)        { m_activated = value; }
-        void          setDeactivated         (bool value)        { m_deactivated = value; }
-        void          setDeactivatedAfterEdit(bool value)        { m_deactivatedAfterEdit = value; }
-        void          setToggledOpen         (bool value)        { m_toggledOpen = value; }
-        void          setRectMin             (mvVec2 value)      { m_rectMin = value; }
-        void          setRectMax             (mvVec2 value)      { m_rectMax = value; }
-        void          setRectSize            (mvVec2 value)      { m_rectSize = value; }
-        void          setPos                 (mvVec2 value)      { m_pos = value; }
-        void          setOk                  (bool value)        { m_ok = value; };
+        void setHovered             (bool value)  { m_hovered = value; }
+        void setActive              (bool value)  { m_active = value; }
+        void setFocused             (bool value)  { m_focused = value; }
+        void setClicked             (bool value)  { m_clicked = value; }
+        void setVisible             (bool value)  { m_visible = value; }
+        void setEdited              (bool value)  { m_edited = value; }
+        void setActivated           (bool value)  { m_activated = value; }
+        void setDeactivated         (bool value)  { m_deactivated = value; }
+        void setDeactivatedAfterEdit(bool value)  { m_deactivatedAfterEdit = value; }
+        void setToggledOpen         (bool value)  { m_toggledOpen = value; }
+        void setRectMin             (mvVec2 value){ m_rectMin = value; }
+        void setRectMax             (mvVec2 value){ m_rectMax = value; }
+        void setRectSize            (mvVec2 value){ m_rectSize = value; }
+        void setPos                 (mvVec2 value){ m_pos = value; }
+        void setOk                  (bool value)  { m_ok = value; };
 
     private:
 
-        bool       m_hovered              = false;
-        bool       m_active               = false;
-        bool       m_focused              = false;
-        bool       m_clicked              = false;
-        bool       m_visible              = false;
-        bool       m_edited               = false;
-        bool       m_activated            = false;
-        bool       m_deactivated          = false;
-        bool       m_deactivatedAfterEdit = false;
-        bool       m_toggledOpen          = false;
-        mvVec2     m_rectMin              = { 0.0f, 0.0f };
-        mvVec2     m_rectMax              = { 0.0f, 0.0f };
-        mvVec2     m_rectSize             = { 0.0f, 0.0f };
-        mvVec2     m_pos                  = { 0.0f, 0.0f };
-        mvVec2     m_contextRegionAvail   = { 0.0f, 0.0f };
-        bool       m_ok                   = true;
+        bool   m_hovered              = false;
+        bool   m_active               = false;
+        bool   m_focused              = false;
+        bool   m_clicked              = false;
+        bool   m_visible              = false;
+        bool   m_edited               = false;
+        bool   m_activated            = false;
+        bool   m_deactivated          = false;
+        bool   m_deactivatedAfterEdit = false;
+        bool   m_toggledOpen          = false;
+        mvVec2 m_rectMin              = { 0.0f, 0.0f };
+        mvVec2 m_rectMax              = { 0.0f, 0.0f };
+        mvVec2 m_rectSize             = { 0.0f, 0.0f };
+        mvVec2 m_pos                  = { 0.0f, 0.0f };
+        mvVec2 m_contextRegionAvail   = { 0.0f, 0.0f };
+        bool   m_ok                   = true;
 
     };
 }

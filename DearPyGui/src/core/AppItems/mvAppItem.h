@@ -74,13 +74,9 @@ namespace Marvel {
     enum class StorageValueTypes
     {
         None = 0,
-        Int, Int4,
-        Float, Float4, FloatVect, 
+        Int, Int4, Float, Float4, FloatVect, 
         Double, Double4, DoubleVect,
-        Series,
-        Bool,
-        String,
-        UUID,
+        Series, Bool, String, UUID,
         Time, Color, Texture
     };
 
@@ -117,6 +113,7 @@ namespace Marvel {
         MV_PARSER_ARG_SEARCH_DELAY  = 1 << 19,
     };
 
+    // todo: remove this nonsense (relic of CPP interface idea)
     using mvValueVariant = std::variant<
         std::shared_ptr<mvUUID>,
         std::shared_ptr<int>,
@@ -153,6 +150,7 @@ namespace Marvel {
         friend class mvAppItemState;
         friend class mvLayoutWindow;
 
+        // todo: remove this, I was lazy
         // items that need access to other items
         friend class mvMenuItem;
         friend class mvCollapsingHeader;
@@ -231,16 +229,24 @@ namespace Marvel {
             MV_ADD_EXTRA_COMMAND(set_item_children);
         MV_END_EXTRA_COMMANDS
 
+        //-----------------------------------------------------------------------------
+        // Helpers
+        //-----------------------------------------------------------------------------
         static bool DoesItemHaveFlag(mvAppItem* item, int flag);
+
+        // retrieves parent, before, uuid from user input when creating an item
         static std::pair<mvUUID, mvUUID> GetNameFromArgs(mvUUID& name, PyObject* args, PyObject* kwargs);
+
+        // adds the common app item arguments (label, id, etc.)
         static void AddCommonArgs(mvPythonParser& parser, CommonParserArgs args);
+
+        // generates UUID: used by users and internally
         static mvUUID GenerateUUID();
 
     protected:
 
             struct ScopedID
             {
-                ScopedID() { ImGui::PushID(this); }
                 ScopedID(void* id) { ImGui::PushID(id); }
                 ScopedID(mvUUID id) { ImGui::PushID((int)id); }
                 ~ScopedID() { ImGui::PopID(); }
@@ -268,6 +274,11 @@ namespace Marvel {
         virtual bool preDraw();
         virtual void draw(ImDrawList* drawlist, float x, float y) = 0;
         virtual void postDraw();
+
+        //-----------------------------------------------------------------------------
+        // usually used for iterating through items and performing an action
+        // other than drawing.
+        //-----------------------------------------------------------------------------
         virtual void customAction() {};
 
         //-----------------------------------------------------------------------------
@@ -284,31 +295,72 @@ namespace Marvel {
         //   - isParentCompatible -> will the parent accept the current item
         //   - canChildBeAdded -> will the current item accept the incoming child
         //-----------------------------------------------------------------------------
-        virtual bool           isParentCompatible(mvAppItemType type) { return true; }
-        virtual bool           canChildBeAdded   (mvAppItemType type) { return true; }
+        virtual bool isParentCompatible(mvAppItemType type) { return true; }
+        virtual bool canChildBeAdded   (mvAppItemType type) { return true; }
 
-    
-        void                                getItemInfo(PyObject* dict);
-        void                                checkArgs(PyObject* args, PyObject* kwargs);    
-        void                                handleKeywordArgs(PyObject* dict);  // python dictionary acts as an out parameter 
-        void                                getConfiguration(PyObject* dict);
-        virtual void                        handleSpecificRequiredArgs(PyObject* args) {}
-        virtual void                        handleSpecificPositionalArgs(PyObject* args) {}
-        virtual void                        handleSpecificKeywordArgs(PyObject* dict) {}
-        virtual void                        getSpecificConfiguration(PyObject* dict) {}
+        // used to check arguments, get/set configurations
+        void getItemInfo      (PyObject* dict);
+        void checkArgs        (PyObject* args, PyObject* kwargs);    
+        void handleKeywordArgs(PyObject* dict);  // python dictionary acts as an out parameter 
+        void getConfiguration (PyObject* dict);
+
+        // used by derived items to register their arguments
+        virtual void handleSpecificRequiredArgs  (PyObject* args) {}
+        virtual void handleSpecificPositionalArgs(PyObject* args) {}
+        virtual void handleSpecificKeywordArgs   (PyObject* dict) {} // called by handleKeywordArgs
+        virtual void getSpecificConfiguration    (PyObject* dict) {}
 
         //-----------------------------------------------------------------------------
         // These methods can be optionally overridden if your widget needs to be
         // notified when children are added/removed (i.e. tables, node editor)
         //-----------------------------------------------------------------------------
-        virtual void                        onChildAdd    (mvRef<mvAppItem> item) {}
-        virtual void                        onChildRemoved(mvRef<mvAppItem> item) {}
-        virtual void                        onChildrenRemoved() {}
+        virtual void onChildAdd    (mvRef<mvAppItem> item) {}
+        virtual void onChildRemoved(mvRef<mvAppItem> item) {}
+        virtual void onChildrenRemoved() {}
 
-        void                                setPayloadType (const std::string& payloadType);
-        void                                setCallback    (PyObject* callback);
-        void                                setDragCallback(PyObject* callback);
-        void                                setDropCallback(PyObject* callback);
+        //-----------------------------------------------------------------------------
+        // callbacks
+        //-----------------------------------------------------------------------------
+        void                    setCallback(PyObject* callback);
+        [[nodiscard]] PyObject* getCallback(bool ignore_enabled = true);  // returns the callback. If ignore_enable false and item is disabled then no callback will be returned.
+        [[nodiscard]] PyObject* getCallbackData() { return m_user_data; }
+
+        //-----------------------------------------------------------------------------
+        // drag & drop
+        //-----------------------------------------------------------------------------
+        void                    setPayloadType (const std::string& payloadType);
+        void                    setDragCallback(PyObject* callback);
+        void                    setDropCallback(PyObject* callback);
+        [[nodiscard]] PyObject* getDragCallback() { return m_dragCallback; }
+        [[nodiscard]] PyObject* getDropCallback() { return m_dropCallback; }
+
+        //-----------------------------------------------------------------------------
+        // themes: colors
+        //-----------------------------------------------------------------------------
+        mvThemeColorGroup& getColorGroup();
+        mvThemeColorGroup& getDisabledColorGroup();
+        void               inValidateThemeColorCache();
+        void               inValidateThemeDisabledColorCache();
+
+        //-----------------------------------------------------------------------------
+        // themes: styles
+        //-----------------------------------------------------------------------------
+        mvThemeStyleGroup& getStyleGroup();
+        void               inValidateThemeStyleCache();
+
+        //-----------------------------------------------------------------------------
+        // themes: fonts
+        //-----------------------------------------------------------------------------
+        bool               isThemeFontCacheValid   () const;
+        void               inValidateThemeFontCache();
+        void               setThemeFontCacheValid  ();
+        void               setFont                 (const std::string& name, int size, ImFont* font);
+        ImFont*            getFont                 () { return m_cachefont; }
+        ImFont*            getCachedFont           () { return m_font; }
+        const std::string& getFontName             () const { return m_fontName; }
+        int                getFontSize() const { return m_fontSize; }
+
+       
         virtual void                        hide           () { m_show = false; }
         virtual void                        show           () { m_show = true; }
         void                                setCallbackData(PyObject* data);
@@ -318,10 +370,8 @@ namespace Marvel {
         void                                setChildren(int slot, std::vector<mvRef<mvAppItem>> children);
 
         [[nodiscard]] bool                  isShown        () const { return m_show; }
-        [[nodiscard]] PyObject*             getCallback    (bool ignore_enabled = true);  // returns the callback. If ignore_enable false and item is disabled then no callback will be returned.
-        [[nodiscard]] PyObject*             getCallbackData()       { return m_user_data; }
-        [[nodiscard]] PyObject*             getDragCallback()       { return m_dragCallback; }
-        [[nodiscard]] PyObject*             getDropCallback()       { return m_dropCallback; }
+
+
         mvAppItemState&                     getState       () { return m_state; } 
         mvAppItem*                          getParent() { return m_parentPtr; }
         bool                                isEnabled() const { return m_enabled; }
@@ -332,103 +382,86 @@ namespace Marvel {
         mvAppItem*                          getRoot() const;
         int                                 getLocation() const { return m_location; }
 
-        // theme colors
-        mvThemeColorGroup&                        getColorGroup        ();
-        mvThemeColorGroup&                        getDisabledColorGroup();
-        void                                      inValidateThemeColorCache();
-        void                                      inValidateThemeDisabledColorCache();
-
-        // theme styles
-        mvThemeStyleGroup&                        getStyleGroup();
-        void                                      inValidateThemeStyleCache();
-        bool                                      isThemeFontCacheValid() const;
-        void                                      inValidateThemeFontCache();
-        void                                      setThemeFontCacheValid();
-        void                                      setFont(const std::string& name, int size, ImFont* font);
-        ImFont*                                   getFont() { return m_cachefont; }
-        ImFont*                                   getCachedFont() { return m_font; }
-        const std::string&                        getFontName() const { return m_fontName; }
-        int                                       getFontSize() const { return m_fontSize; }
-
     protected:
 
-        virtual void                        setWidth                  (int width)               { m_width = width; }
-        virtual void                        setHeight                 (int height)              { m_height = height; }
-        virtual void                        setEnabled                (bool value)              { m_enabled = value; }
-        virtual void                        setDataSource             (mvUUID value)            { m_source = value; }
-        virtual void                        setLabel                  (const std::string& value); 
-        void                                setFilter                 (const std::string& value); 
-        void                                setPos                    (const ImVec2& pos); 
+        virtual void setWidth     (int width)               { m_width = width; }
+        virtual void setHeight    (int height)              { m_height = height; }
+        virtual void setEnabled   (bool value)              { m_enabled = value; }
+        virtual void setDataSource(mvUUID value)            { m_source = value; }
+        virtual void setLabel     (const std::string& value); 
+        void         setFilter    (const std::string& value); 
+        void         setPos       (const ImVec2& pos); 
 
     private:
 
-        mvAppItem*                          getChild(mvUUID uuid);      // will return nullptr if not found
-        mvRef<mvAppItem>                    getChildRef(mvUUID uuid);      // will return nullptr if not found
+        mvAppItem*       getChild(mvUUID uuid);      // will return nullptr if not found
+        mvRef<mvAppItem> getChildRef(mvUUID uuid);      // will return nullptr if not found
 
         // runtime modifications
-        bool                                addItem(mvRef<mvAppItem> item);
-        bool                                addRuntimeChild(mvUUID parent, mvUUID before, mvRef<mvAppItem> item);
-        bool                                addChildAfter(mvUUID prev, mvRef<mvAppItem> item);
-        bool                                deleteChild(mvUUID uuid);
-        void                                deleteChildren();
-        bool                                moveChildUp(mvUUID uuid);
-        bool                                moveChildDown(mvUUID uuid);
-        void                                resetState();
-        void                                registerWindowFocusing(); // only useful for imgui window types
-        mvRef<mvAppItem>                    stealChild(mvUUID uuid); // steals a child (used for moving)
+        bool             addItem(mvRef<mvAppItem> item);
+        bool             addRuntimeChild(mvUUID parent, mvUUID before, mvRef<mvAppItem> item);
+        bool             addChildAfter(mvUUID prev, mvRef<mvAppItem> item);
+        bool             deleteChild(mvUUID uuid);
+        void             deleteChildren();
+        bool             moveChildUp(mvUUID uuid);
+        bool             moveChildDown(mvUUID uuid);
+        void             resetState();
+        void             registerWindowFocusing(); // only useful for imgui window types
+        mvRef<mvAppItem> stealChild(mvUUID uuid); // steals a child (used for moving)
 
        
     protected:
 
-        mvUUID                        m_uuid = 0;
-        mvAppItemState                m_state;
-        bool                          m_focusNextFrame = false;
-        bool                          m_dirtyPos = false;
-        ImVec2                        m_previousCursorPos = { 0.0f, 0.0f };
-        int                           m_location = -1;
+        mvUUID         m_uuid = 0;
+        mvAppItemState m_state;
+        bool           m_focusNextFrame = false;
+        bool           m_dirtyPos = false;
+        ImVec2         m_previousCursorPos = { 0.0f, 0.0f };
+        int            m_location = -1;
+        std::string    m_label; // internal label
 
         mvAppItem*                    m_parentPtr = nullptr;
         std::vector<mvRef<mvAppItem>> m_children[5] = { {}, {}, {}, {}, {} };
 
-        std::string                   m_label; // internal label
-
-        // new themes
+        // themes: colors
         mvThemeColorGroup m_colors         = mvThemeColorGroup(this);
         mvThemeColorGroup m_disabledColors = mvThemeColorGroup(this);
-        mvThemeStyleGroup m_styles         = mvThemeStyleGroup(this);
-        bool              m_theme_font_dirty = false;
 
-        // fonts
-        ImFont* m_font = nullptr;
-        ImFont* m_cachefont = nullptr;
+        // themes: styles
+        mvThemeStyleGroup m_styles = mvThemeStyleGroup(this);
+        
+        // themes: fonts
+        ImFont*     m_font = nullptr;
+        ImFont*     m_cachefont = nullptr;
         std::string m_fontName = "";
-        int m_fontSize = 0;
+        int         m_fontSize = 0;
+        bool        m_theme_font_dirty = false;
 
         // config
-        mvUUID         m_source = 0;
-        std::string    m_specificedlabel = "__DearPyGuiDefault";
-        mvUUID         m_parent = 0;
-        mvUUID         m_before = 0;
-        std::string    m_filter = "";
-        int            m_width = 0;
-        int            m_height = 0;
-        float          m_indent = -1.0f;
-        int            m_windowPosx = 0;
-        int            m_windowPosy = 0;
-        int            m_posx = 0;
-        int            m_posy = 0;
-        bool           m_show = true;
-        bool           m_enabled = true;
-        PyObject*      m_callback = nullptr;
-        PyObject*      m_user_data = nullptr;
-        bool           m_tracked = false;
-        float          m_trackOffset = 0.5f; // 0.0f:top, 0.5f:center, 1.0f:bottom
-        bool           m_searchLast = false;
-        bool           m_searchDelayed = false;
+        mvUUID      m_source = 0;
+        std::string m_specificedlabel = "__DearPyGuiDefault";
+        mvUUID      m_parent = 0;
+        mvUUID      m_before = 0;
+        std::string m_filter = "";
+        int         m_width = 0;
+        int         m_height = 0;
+        float       m_indent = -1.0f;
+        int         m_windowPosx = 0;
+        int         m_windowPosy = 0;
+        int         m_posx = 0;
+        int         m_posy = 0;
+        bool        m_show = true;
+        bool        m_enabled = true;
+        PyObject*   m_callback = nullptr;
+        PyObject*   m_user_data = nullptr;
+        bool        m_tracked = false;
+        float       m_trackOffset = 0.5f; // 0.0f:top, 0.5f:center, 1.0f:bottom
+        bool        m_searchLast = false;
+        bool        m_searchDelayed = false;
 
         // drag & drop
-        PyObject* m_dragCallback = nullptr;
-        PyObject* m_dropCallback = nullptr;
+        PyObject*   m_dragCallback = nullptr;
+        PyObject*   m_dropCallback = nullptr;
         std::string m_payloadType = "$$DPG_PAYLOAD";
 
     };
