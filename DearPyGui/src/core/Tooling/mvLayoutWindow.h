@@ -31,7 +31,7 @@ namespace Marvel {
 
         void renderTreeNode(mvAppItem* item);
 
-        mvUUID m_selectedItem;
+        mvUUID m_selectedItem = 0;
         bool m_showLabels = false;
         bool m_nodeView = false;
         bool m_dirtyNodes = true;

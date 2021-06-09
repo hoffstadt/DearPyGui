@@ -265,7 +265,7 @@ namespace Marvel {
         static char fs[6] = "False";
 
 		auto selectedItem = mvApp::GetApp()->getItemRegistry().getItem(m_selectedItem);
-		std::string parentName;
+		mvUUID parentName;
 
 		if (selectedItem == nullptr)
 			selectedItem = mvApp::GetApp()->getItemRegistry().getRoots()[0].get();
@@ -313,7 +313,7 @@ namespace Marvel {
 		DebugItem("Item Label:", selectedItem->m_specificedlabel.c_str());
 		//DebugItem("Item Type:", selectedItem->getStringType().c_str());
 		DebugItem("Container:", mvAppItem::DoesItemHaveFlag(selectedItem, MV_ITEM_DESC_CONTAINER) ? ts : fs);
-		DebugItem("Item Parent:", parentName.c_str());
+		//DebugItem("Item Parent:", parentName.c_str());
 		DebugItem("Item Width:", width.c_str());
 		DebugItem("Item Height:", height.c_str());
 		DebugItem("Item Size x:", sizex.c_str());
