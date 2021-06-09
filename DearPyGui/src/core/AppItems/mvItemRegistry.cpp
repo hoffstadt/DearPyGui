@@ -163,6 +163,8 @@ namespace Marvel {
 		{
 			m_cachedContainersID[i] = 0;
 			m_cachedContainersPTR[i] = nullptr;
+			m_cachedItemsID[i] = 0;
+			m_cachedItemsPTR[i] = nullptr;
 		}
 		
 	}
@@ -482,6 +484,11 @@ namespace Marvel {
 		return nullptr;
 	}
 
+	void mvItemRegistry::delaySearch(mvAppItem* item)
+	{
+		m_delayedSearch.push_back(item);
+	}
+
 	mvAppItem* mvItemRegistry::getItem(mvUUID uuid)
 	{
 		mvRef<mvAppItem> item = nullptr;
@@ -504,6 +511,7 @@ namespace Marvel {
 			{
 				if (auto child = stagingItem.second->getChild(uuid))
 				{
+					m_delayedSearch.clear();
 					return child;
 				}
 			}
@@ -517,8 +525,23 @@ namespace Marvel {
 
 			auto child = window->getChild(uuid);
 			if (child)
+			{
+				m_delayedSearch.clear();
 				return child;
+			}
 		}
+
+		for (auto delayedItem : m_delayedSearch)
+		{
+			auto child = delayedItem->getChild(uuid);
+			if (child)
+			{
+				m_delayedSearch.clear();
+				return child;
+			}
+		}
+
+		m_delayedSearch.clear();
 
 		return nullptr;
 	}

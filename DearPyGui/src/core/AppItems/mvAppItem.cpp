@@ -137,6 +137,7 @@ namespace Marvel{
 		if(args & MV_PARSER_ARG_ENABLED)       parser.addArg<mvPyDataType::Bool>("enabled", mvArgType::KEYWORD_ARG, "True");
 		if(args & MV_PARSER_ARG_POS)		   parser.addArg<mvPyDataType::IntList>("pos", mvArgType::KEYWORD_ARG, "[]", "Places the item relative to window coordinates, [0,0] is top left.");
 		if(args & MV_PARSER_ARG_FILTER)		   parser.addArg<mvPyDataType::String>("filter_key", mvArgType::KEYWORD_ARG, "''", "Used by filter widget");
+		if(args & MV_PARSER_ARG_SEARCH_DELAY)   parser.addArg<mvPyDataType::String>("delay_search", mvArgType::KEYWORD_ARG, "False", "Used by filter widget");
 		
 		if (args & MV_PARSER_ARG_TRACKED)
 		{
@@ -776,8 +777,21 @@ namespace Marvel{
 
 	mvAppItem* mvAppItem::getChild(mvUUID uuid)
 	{
+
 		if (m_uuid == uuid)
 			return this;
+
+		if (m_searchLast)
+		{
+			if (m_searchDelayed)
+				m_searchDelayed = false;
+			else
+			{
+				m_searchDelayed = true;
+				mvApp::GetApp()->getItemRegistry().delaySearch(this);
+				return nullptr;
+			}
+		}
 
 		for (auto& childset : m_children)
 		{
@@ -969,6 +983,7 @@ namespace Marvel{
 		if (PyObject* item = PyDict_GetItemString(dict, "source")) setDataSource(ToUUID(item));
 		if (PyObject* item = PyDict_GetItemString(dict, "enabled")) setEnabled(ToBool(item));
 		if (PyObject* item = PyDict_GetItemString(dict, "tracked")) m_tracked = ToBool(item);
+		if (PyObject* item = PyDict_GetItemString(dict, "delay_search")) m_searchLast = ToBool(item);
 		if (PyObject* item = PyDict_GetItemString(dict, "track_offset"))
 		{
 			m_trackOffset = ToFloat(item);

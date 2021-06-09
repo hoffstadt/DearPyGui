@@ -118,7 +118,10 @@ namespace Marvel {
         void                            stageItem         (mvUUID uuid);
         void                            unstageItem       (mvUUID uuid);
         void                            setStagingMode    (bool value);
+
+        // hacky
         std::unordered_map<mvUUID, mvRef<mvAppItem>>& getStaging() { return m_stagingArea; }
+        void delaySearch(mvAppItem* item);
 
         //-----------------------------------------------------------------------------
         // Parent stack operations
@@ -155,6 +158,7 @@ namespace Marvel {
         std::unordered_map<mvUUID, mvRef<mvAppItem>> m_stagingArea;
         mvUUID                                       m_activeWindow = 0;
         bool                                         m_staging = false;
+        std::vector<mvAppItem*>                      m_delayedSearch;
 
 
 

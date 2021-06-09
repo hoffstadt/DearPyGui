@@ -16,11 +16,11 @@ def mutex():
 
 @contextmanager
 def clipper(*args, id:int=0, show: bool =True, parent: int=0, width: int = 0, before: int=0,
-           indent:int=-1):
+           indent:int=-1, delay_search: bool = False):
    
    try:
         widget = internal_dpg.add_clipper(*args, id=id, show=show, parent=parent, width=width, before=before,
-                                         indent=indent)
+                                         indent=indent, delay_search=delay_search)
         internal_dpg.push_container_stack(widget)
         yield widget
    finally:
@@ -28,11 +28,11 @@ def clipper(*args, id:int=0, show: bool =True, parent: int=0, width: int = 0, be
 
 @contextmanager
 def filter_set(*args, id:int=0, show: bool =True, parent: int=0, width: int = 0, before: int=0,
-           indent:int=-1):
+           indent:int=-1, delay_search: bool = False):
    
    try:
         widget = internal_dpg.add_filter_set(*args, id=id, show=show, parent=parent, width=width, before=before,
-                                         indent=indent)
+                                         indent=indent, delay_search=delay_search)
         internal_dpg.push_container_stack(widget)
         yield widget
    finally:
@@ -81,7 +81,7 @@ def table(*args, header_row: bool = True, width: int = 0, height: int = 0, inner
 		no_host_extendY: bool = False, no_keep_columns_visible: bool = False, precise_widths: bool = False, no_clip: bool = False,
 		pad_outerX: bool = False, no_pad_outerX: bool = False, no_pad_innerX: bool = False, scrollX: bool = False, scrollY: bool = False,
         id:int=0, indent=-1, callback: Callable = None, sort_multi: bool = False, sort_tristate: bool = False, pos=[], freeze_rows:int = 0,
-        freeze_columns:int = 0):
+        freeze_columns:int = 0, delay_search: bool = False):
     """Wraps add_table() and automates calling end().
 
     Args:
@@ -129,7 +129,7 @@ def table(*args, header_row: bool = True, width: int = 0, height: int = 0, inner
 		    no_host_extendY = no_host_extendY, no_keep_columns_visible = no_keep_columns_visible, precise_widths = precise_widths,
 		    no_clip = no_clip, pad_outerX = pad_outerX, no_pad_outerX = no_pad_outerX, no_pad_innerX = no_pad_innerX,
 		    scrollX = scrollX, scrollY = scrollY, id=id, indent=indent, callback=callback, sort_multi=sort_multi,
-            sort_tristate=sort_tristate, pos=pos, freeze_rows=freeze_rows, freeze_columns=freeze_columns)
+            sort_tristate=sort_tristate, pos=pos, freeze_rows=freeze_rows, freeze_columns=freeze_columns, delay_search=delay_search)
         internal_dpg.push_container_stack(widget)
         yield widget
     finally:
@@ -137,10 +137,10 @@ def table(*args, header_row: bool = True, width: int = 0, height: int = 0, inner
 
 @contextmanager
 def drawlist(*args, id:int=0, width: int = 0, height: int = 0, show: bool = True, parent: int = 0, before: int = 0,
-             callback: Callable = None, user_data: Any = None, pos=[]):
+             callback: Callable = None, user_data: Any = None, pos=[], delay_search: bool = False):
     try:
         widget = internal_dpg.add_drawlist(*args, id=id, width = width, height = height, show=show, parent=parent, before=before,
-                                           callback=callback, user_data=user_data, pos=pos)
+                                           callback=callback, user_data=user_data, pos=pos, delay_search=delay_search)
         internal_dpg.push_container_stack(widget)
         yield widget
 
@@ -148,9 +148,9 @@ def drawlist(*args, id:int=0, width: int = 0, height: int = 0, show: bool = True
         internal_dpg.pop_container_stack()
 
 @contextmanager
-def viewport_drawlist(*args, id:int=0, front: bool = True, show: bool = True):
+def viewport_drawlist(*args, id:int=0, front: bool = True, show: bool = True, delay_search: bool = False):
     try:
-        widget = internal_dpg.add_viewport_drawlist(*args, id=id, show=show, front=fronts)
+        widget = internal_dpg.add_viewport_drawlist(*args, id=id, show=show, front=fronts, delay_search=delay_search)
         internal_dpg.push_container_stack(widget)
         yield widget
 
@@ -184,7 +184,7 @@ def window(*args, width: int = 200, height: int = 200, autosize: bool = False,
            no_bring_to_front_on_focus: bool = False, menubar: bool = False, no_close: bool = False,
            no_background: bool = False, label: str = None, show: bool = True, collapsed: bool = False,
            modal: bool = False, popup: bool = False,
-           on_close: Callable = None, min_size: List[int]=[32, 32], max_size: List[int] = [30000, 30000], id:int=0):
+           on_close: Callable = None, min_size: List[int]=[32, 32], max_size: List[int] = [30000, 30000], id:int=0, delay_search: bool = False):
     """Wraps add_window() and automates calling end().
 
     Args:
@@ -228,7 +228,7 @@ def window(*args, width: int = 200, height: int = 200, autosize: bool = False,
                                         no_background=no_background, label=label, show=show, 
                                         collapsed=collapsed, on_close=on_close,
                                         min_size=min_size, max_size=max_size, id=id, modal=modal,
-                                        popup=popup)
+                                        popup=popup, delay_search=delay_search)
         internal_dpg.push_container_stack(widget)
         yield widget
 
@@ -237,7 +237,7 @@ def window(*args, width: int = 200, height: int = 200, autosize: bool = False,
 
 
 @contextmanager
-def menu_bar(*args, show: bool = True, parent: int = 0, id:int=0, indent=-1):
+def menu_bar(*args, show: bool = True, parent: int = 0, id:int=0, indent=-1, delay_search: bool = False):
     """Wraps add_menu_bar() and automates calling end().
 
     Args:
@@ -251,7 +251,7 @@ def menu_bar(*args, show: bool = True, parent: int = 0, id:int=0, indent=-1):
         None
     """
     try:
-        widget = internal_dpg.add_menu_bar(*args, show=show, parent=parent, id=id, indent=indent)
+        widget = internal_dpg.add_menu_bar(*args, show=show, parent=parent, id=id, indent=indent, delay_search=delay_search)
         internal_dpg.push_container_stack(widget)
         yield widget
     finally:
@@ -260,7 +260,7 @@ def menu_bar(*args, show: bool = True, parent: int = 0, id:int=0, indent=-1):
 
 @contextmanager
 def menu(*args, label: str = None, show: bool = True, parent: int = 0,
-         before: int = 0, enabled: bool = True, id:int=0, indent=-1):
+         before: int = 0, enabled: bool = True, id:int=0, indent=-1, delay_search: bool = False):
     """Wraps add_menu() and automates calling end().
 
     Args:
@@ -277,7 +277,7 @@ def menu(*args, label: str = None, show: bool = True, parent: int = 0,
     """
     try: 
         widget = internal_dpg.add_menu(*args, label=label, show=show, parent=parent,
-                                    before=before, enabled=enabled, id=id, indent=indent)
+                                    before=before, enabled=enabled, id=id, indent=indent, delay_search=delay_search)
         internal_dpg.push_container_stack(widget)
         yield widget
     finally:
@@ -288,7 +288,7 @@ def menu(*args, label: str = None, show: bool = True, parent: int = 0,
 def child(*args, show: bool = True, parent: int = 0, before: int = 0, width: int = 0, pos=[],
           height: int = 0, border: bool = True, autosize_x: bool = False, autosize_y: bool = False,
           no_scrollbar: bool = False, horizontal_scrollbar: bool = False, menubar: bool = False, id:int=0, 
-          indent=-1):
+          indent=-1, delay_search: bool = False):
     """Wraps add_child() and automates calling end().
 
     Args:
@@ -314,7 +314,7 @@ def child(*args, show: bool = True, parent: int = 0, before: int = 0, width: int
         widget = internal_dpg.add_child(*args, show=show, parent=parent, before=before, width=width,
                                      height=height, border=border, autosize_x=autosize_x, autosize_y=autosize_y,
                                      no_scrollbar=no_scrollbar, horizontal_scrollbar=horizontal_scrollbar,
-                                     menubar=menubar, id=id, indent=indent, pos=pos)
+                                     menubar=menubar, id=id, indent=indent, pos=pos, delay_search=delay_search)
         internal_dpg.push_container_stack(widget)
         yield widget
     finally:
@@ -325,7 +325,7 @@ def child(*args, show: bool = True, parent: int = 0, before: int = 0, width: int
 def collapsing_header(*args, label: str = None, show: bool = True,
                      parent: int = 0, before: int = 0,closable: bool = False, pos=[],
                       default_open: bool = False, open_on_double_click: bool = False, open_on_arrow: bool = False, 
-                      leaf: bool = False, bullet: bool = False, id:int=0, indent=-1):
+                      leaf: bool = False, bullet: bool = False, id:int=0, indent=-1, delay_search: bool = False):
     """Wraps add_collapsing_header() and automates calling end().
 
     Args:
@@ -352,7 +352,7 @@ def collapsing_header(*args, label: str = None, show: bool = True,
                                                     closable=closable, default_open=default_open, 
                                                     open_on_double_click=open_on_double_click,
                                                     open_on_arrow=open_on_arrow, leaf=leaf, bullet=bullet, id=id,
-                                                    indent=indent, pos=pos)
+                                                    indent=indent, pos=pos, delay_search=delay_search)
         internal_dpg.push_container_stack(widget)
         yield widget
     finally:
@@ -361,7 +361,7 @@ def collapsing_header(*args, label: str = None, show: bool = True,
 
 @contextmanager
 def group(*args, show: bool = True, parent: int = 0, before: int = 0, width: int = 0, pos=[],
-          horizontal: bool = False, horizontal_spacing: float = -1.0, id:int=0, indent=-1):
+          horizontal: bool = False, horizontal_spacing: float = -1.0, id:int=0, indent=-1, delay_search: bool = False):
     """Wraps add_group() and automates calling end().
 
     Args:
@@ -381,7 +381,7 @@ def group(*args, show: bool = True, parent: int = 0, before: int = 0, width: int
     try:
         widget = internal_dpg.add_group(*args, show=show, parent=parent, before=before, width=width,
                                      horizontal=horizontal, horizontal_spacing=horizontal_spacing, id=id,
-                                     indent=indent, pos=pos)
+                                     indent=indent, pos=pos, delay_search=delay_search)
         internal_dpg.push_container_stack(widget)
         yield widget
     finally:
@@ -389,7 +389,7 @@ def group(*args, show: bool = True, parent: int = 0, before: int = 0, width: int
 
 @contextmanager
 def node(*args, label: str = None, show: bool = True, draggable: bool = True,
-         parent: int = 0, before: int = 0, id:int=0, pos: List = [100, 100]):
+         parent: int = 0, before: int = 0, id:int=0, pos: List = [100, 100], delay_search: bool = False):
     """Wraps add_node() and automates calling end().
 
     Args:
@@ -408,7 +408,7 @@ def node(*args, label: str = None, show: bool = True, draggable: bool = True,
     """
     try:
         widget = internal_dpg.add_node(*args, label=label, show=show, parent=parent, before=before, 
-                                                    draggable=draggable, id=id, pos=pos)
+                                                    draggable=draggable, id=id, pos=pos, delay_search=delay_search)
         internal_dpg.push_container_stack(widget)
         yield widget
     finally:
@@ -443,7 +443,7 @@ def node_attribute(*args, show: bool = True, output: bool = False,
 
 @contextmanager
 def node_editor(*args, show: bool = True, parent: int = 0, before: int = 0, callback: Callable = None, 
-                delink_callback: Callable = None, id:int=0):
+                delink_callback: Callable = None, id:int=0, delay_search: bool = False):
     """Wraps add_node_editor() and automates calling end().
 
     Args:
@@ -459,7 +459,7 @@ def node_editor(*args, show: bool = True, parent: int = 0, before: int = 0, call
         None
     """
     try:
-        widget = internal_dpg.add_node_editor(*args, show=show, parent=parent, before=before, 
+        widget = internal_dpg.add_node_editor(*args, show=show, parent=parent, before=before, delay_search=delay_search,
                                            callback=callback, delink_callback=delink_callback, id=id)
         internal_dpg.push_container_stack(widget)
         yield widget
@@ -489,7 +489,7 @@ def staging_container(*args, id:int=0):
 
 @contextmanager
 def tab_bar(*args, reorderable: bool = False, callback: Callable = None, user_data: Any = None,  show: bool = True,
-            parent: int = 0, before: int = 0, id:int=0, indent=-1, pos=[]):
+            parent: int = 0, before: int = 0, id:int=0, indent=-1, pos=[], delay_search: bool = False):
     """Wraps add_tab_bar() and automates calling end().
 
     Args:
@@ -508,7 +508,8 @@ def tab_bar(*args, reorderable: bool = False, callback: Callable = None, user_da
     """
     try:
         widget = internal_dpg.add_tab_bar(*args, reorderable=reorderable, callback=callback, user_data=user_data,
-                                       show=show, parent=parent, before=before, id=id, indent=indent, pos=pos)
+                                       show=show, parent=parent, before=before, id=id, indent=indent, pos=pos
+                                       , delay_search=delay_search)
         internal_dpg.push_container_stack(widget)
         yield widget
     finally:
@@ -518,7 +519,7 @@ def tab_bar(*args, reorderable: bool = False, callback: Callable = None, user_da
 @contextmanager
 def tab(*args, closable: bool = False, label: str = None, show: bool = True,
         no_reorder: bool = False, leading: bool = False, trailing: bool = False, no_tooltip: bool = False,
-        parent: int = 0, before: int = 0, id:int=0, indent=-1):
+        parent: int = 0, before: int = 0, id:int=0, indent=-1, delay_search: bool = False):
     """Wraps add_tab() and automates calling end().
 
     Args:
@@ -540,7 +541,8 @@ def tab(*args, closable: bool = False, label: str = None, show: bool = True,
     try:
         widget = internal_dpg.add_tab(*args, closable=closable, label=label, show=show, parent=parent,
                                     before=before, no_reorder=no_reorder, leading=leading, 
-                                    trailing=trailing, no_tooltip=no_tooltip, id=id, indent=indent)
+                                    trailing=trailing, no_tooltip=no_tooltip, id=id, indent=indent,
+                                    delay_search=delay_search)
         internal_dpg.push_container_stack(widget)
         yield widget
     finally:
@@ -551,7 +553,7 @@ def tab(*args, closable: bool = False, label: str = None, show: bool = True,
 def tree_node(*args, label: str = None, show: bool = True, parent: int = 0, 
               before: int = 0, default_open: bool = False, open_on_double_click: bool = False, 
               open_on_arrow: bool = False, leaf: bool = False, bullet: bool = False, id:int=0,
-              selectable: bool = False, indent=-1, pos=[]):
+              selectable: bool = False, indent=-1, pos=[], delay_search: bool = False):
     """Wraps add_tree_node() and automates calling end().
 
     Args:
@@ -577,7 +579,7 @@ def tree_node(*args, label: str = None, show: bool = True, parent: int = 0,
                                             open_on_double_click=open_on_double_click, 
                                             open_on_arrow=open_on_arrow,
                                             leaf=leaf, bullet=bullet, label=label, id=id, selectable=selectable,
-                                            indent=indent, pos=pos)
+                                            indent=indent, pos=pos, delay_search=delay_search)
         internal_dpg.push_container_stack(widget)
         yield widget
     finally:
@@ -644,7 +646,7 @@ def plot(*args, width: int = -1, height: int = 400, indent: int = 0, parent: int
           track_offset: float = 0.5, pos: List = [], id:int=0,
           no_title: bool = False, no_menus: bool = False, no_box_select: bool = False, no_mouse_pos: bool = False,
           no_highlight: bool = False, no_child: bool = False, query: bool = False, crosshairs: bool = False,
-          anti_aliased: bool = False, equal_aspects: bool = False
+          anti_aliased: bool = False, equal_aspects: bool = False, delay_search: bool = False
           ):
 
     try:
@@ -655,7 +657,7 @@ def plot(*args, width: int = -1, height: int = 400, indent: int = 0, parent: int
                                        tracked=tracked, track_offset=track_offset, pos=pos, id=id,
                                        no_title=no_title, no_menus=no_menus, no_box_select=no_box_select, no_mouse_pos=no_mouse_pos,
                                        no_highlight=no_highlight, no_child=no_child, query=query, crosshairs=crosshairs,
-                                       anti_aliased=anti_aliased, equal_aspects=equal_aspects)
+                                       anti_aliased=anti_aliased, equal_aspects=equal_aspects, delay_search=delay_search)
         internal_dpg.push_container_stack(widget)
         yield widget
 
