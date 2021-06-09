@@ -87,4 +87,3 @@ namespace Marvel {
 #define MV_PROFILE_END_SESSION() ::Marvel::mvInstrumentor::Get().EndSession()
 #define MV_PROFILE_SCOPE(name) ::Marvel::mvInstrumentationTimer timer##__LINE__(name);
 #define MV_PROFILE_FUNCTION() MV_PROFILE_SCOPE(__func__)
-//#define MV_PROFILE_FUNCTION() MV_PROFILE_SCOPE(__FUNCSIG__)

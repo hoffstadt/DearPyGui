@@ -73,32 +73,31 @@ namespace Marvel {
 
 	public:
 
-		static void          setMousePosition       (float x, float y);
-		static void          setGlobalMousePosition (float x, float y);
-		static void          setPlotMousePosition   (float x, float y);
-		static void          setDrawingMousePosition(float x, float y);
-		static void          setMouseDragThreshold  (float threshold);
-		static void          setMouseDragDelta      (const mvVec2& delta);
-
-		static int           getMouseDragThreshold  ();
-		static mvVec2        getMouseDragDelta      ();
-		static mvVec2        getMousePosition       ();
-		static mvVec2        getGlobalMousePosition ();
-		static mvVec2        getPlotMousePosition   ();
-		static mvVec2        getDrawingMousePosition();
-
-		static bool          isMouseDragging           (int button, float threshold);
-		static bool          isMouseButtonDown         (int button);
-		static bool          isMouseButtonClicked      (int button);
-		static bool          isMouseButtonDoubleClicked(int button);
-		static bool          isMouseButtonReleased     (int button);
-		static bool          isKeyDown                 (int keycode);
-		static bool          isKeyPressed              (int keycode);
-		static bool          isKeyReleased             (int keycode);
-		
-		static void          InsertConstants(std::vector<std::pair<std::string, long>>& constants);
-
-		static void          CheckInputs();
+		static void   setMousePosition       (float x, float y);
+		static void   setGlobalMousePosition (float x, float y);
+		static void   setPlotMousePosition   (float x, float y);
+		static void   setDrawingMousePosition(float x, float y);
+		static void   setMouseDragThreshold  (float threshold);
+		static void   setMouseDragDelta      (const mvVec2& delta);
+					  
+		static int    getMouseDragThreshold  ();
+		static mvVec2 getMouseDragDelta      ();
+		static mvVec2 getMousePosition       ();
+		static mvVec2 getGlobalMousePosition ();
+		static mvVec2 getPlotMousePosition   ();
+		static mvVec2 getDrawingMousePosition();
+					  
+		static bool   isMouseDragging           (int button, float threshold);
+		static bool   isMouseButtonDown         (int button);
+		static bool   isMouseButtonClicked      (int button);
+		static bool   isMouseButtonDoubleClicked(int button);
+		static bool   isMouseButtonReleased     (int button);
+		static bool   isKeyDown                 (int keycode);
+		static bool   isKeyPressed              (int keycode);
+		static bool   isKeyReleased             (int keycode);
+					  
+		static void   InsertConstants(std::vector<std::pair<std::string, long>>& constants);
+		static void   CheckInputs();
 
 	private:
 

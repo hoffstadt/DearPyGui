@@ -88,10 +88,10 @@ namespace Marvel {
         //-----------------------------------------------------------------------------
         // Event Handling
         //-----------------------------------------------------------------------------
-        bool                           onEvent         (mvEvent& event) override;
-        bool                           onRender        (mvEvent& event);
-        bool                           onPreRenderReset(mvEvent& event);                     
-        bool                           onActiveWindow  (mvEvent& event);                     
+        bool onEvent         (mvEvent& event) override;
+        bool onRender        (mvEvent& event);
+        bool onPreRenderReset(mvEvent& event);                     
+        bool onActiveWindow  (mvEvent& event);                     
 
         //-----------------------------------------------------------------------------
         // Widget Operations
@@ -115,10 +115,10 @@ namespace Marvel {
         std::vector<mvUUID>              getAllItems       ();
         std::vector<mvUUID>              getWindows        ();
         std::vector<std::vector<mvUUID>> getItemChildren   (mvUUID uuid);
-        void                            setPrimaryWindow  (mvUUID uuid, bool value);
-        void                            stageItem         (mvUUID uuid);
-        void                            unstageItem       (mvUUID uuid);
-        void                            setStagingMode    (bool value);
+        void                             setPrimaryWindow  (mvUUID uuid, bool value);
+        void                             stageItem         (mvUUID uuid);
+        void                             unstageItem       (mvUUID uuid);
+        void                             setStagingMode    (bool value);
 
         // hacky
         std::unordered_map<mvUUID, mvRef<mvAppItem>>& getStaging() { return m_stagingArea; }
@@ -128,17 +128,17 @@ namespace Marvel {
         // Parent stack operations
         //     - used for automatic parent deduction
         //-----------------------------------------------------------------------------
-        void                           pushParent  (mvAppItem* item); // pushes parent onto stack
-        void                           emptyParents();                      // empties parent stack
-        mvAppItem*                     popParent   ();                      // pop parent off stack and return it
-        mvAppItem*                     topParent   ();                      // returns top parent without popping
+        void       pushParent  (mvAppItem* item); // pushes parent onto stack
+        void       emptyParents();                      // empties parent stack
+        mvAppItem* popParent   ();                      // pop parent off stack and return it
+        mvAppItem* topParent   ();                      // returns top parent without popping
 
     private:
 
-        bool                           addItem       (mvRef<mvAppItem> item);
-        bool                           addItemAfter  (mvUUID prev, mvRef<mvAppItem> item); // for popups/tooltips
-        bool                           addWindow     (mvRef<mvAppItem> item);
-        bool                           addRuntimeItem(mvUUID parent, mvUUID before, mvRef<mvAppItem> item);
+        bool addItem       (mvRef<mvAppItem> item);
+        bool addItemAfter  (mvUUID prev, mvRef<mvAppItem> item); // for popups/tooltips
+        bool addWindow     (mvRef<mvAppItem> item);
+        bool addRuntimeItem(mvUUID parent, mvUUID before, mvRef<mvAppItem> item);
 
 
 	private:

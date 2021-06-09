@@ -13,4 +13,3 @@ It's mostly a bunch of personal notes, probably incomplete. Feel free to query i
 - mvPythonTranslator: make commands more consistent, more like ToPyPairII
 - add_texture: fix alpha channel mess
 - mac: handle retina display nonsense
-- tables: add automatic placement of columns

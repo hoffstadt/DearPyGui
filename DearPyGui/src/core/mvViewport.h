@@ -69,40 +69,40 @@ namespace Marvel {
 
 	protected:
 
-		bool              m_running = true;
-		mvApp*            m_app     = nullptr;
-		std::string       m_title = "DearPyGui";
-		std::string       m_small_icon;
-		std::string       m_large_icon;
-		mvColor           m_clearColor = mvColor(0, 0, 0, 255);
+		bool        m_running = true;
+		mvApp*      m_app     = nullptr;
+		std::string m_title = "DearPyGui";
+		std::string m_small_icon;
+		std::string m_large_icon;
+		mvColor     m_clearColor = mvColor(0, 0, 0, 255);
 
 
 		// window modes
-		bool              m_modesDirty = false;
-		bool              m_vsync = true;
-		bool              m_resizable = true;
-		bool              m_alwaysOnTop = false;
-		bool              m_maximizeBox = true;
-		bool              m_minimizeBox = true;
-		bool              m_border = true;
-		bool              m_caption = true;
-		bool              m_overlapped = true;
+		bool m_modesDirty = false;
+		bool m_vsync = true;
+		bool m_resizable = true;
+		bool m_alwaysOnTop = false;
+		bool m_maximizeBox = true;
+		bool m_minimizeBox = true;
+		bool m_border = true;
+		bool m_caption = true;
+		bool m_overlapped = true;
 
 		// position/size
-		bool              m_sizeDirty = false;
-		bool              m_posDirty = false;
-		unsigned          m_width;
-		unsigned          m_minwidth = 250;
-		unsigned          m_maxwidth = 10000;
-		unsigned          m_height;
-		unsigned          m_minheight = 250;
-		unsigned          m_maxheight = 10000;
-		int               m_actualWidth = 1280;
-		int               m_actualHeight = 800;
-		int               m_clientWidth = 1280;
-		int               m_clientHeight = 800;
-		int               m_xpos = 100;
-		int               m_ypos = 100;
+		bool     m_sizeDirty = false;
+		bool     m_posDirty = false;
+		unsigned m_width;
+		unsigned m_minwidth = 250;
+		unsigned m_maxwidth = 10000;
+		unsigned m_height;
+		unsigned m_minheight = 250;
+		unsigned m_maxheight = 10000;
+		int      m_actualWidth = 1280;
+		int      m_actualHeight = 800;
+		int      m_clientWidth = 1280;
+		int      m_clientHeight = 800;
+		int      m_xpos = 100;
+		int      m_ypos = 100;
 		
 
 	};

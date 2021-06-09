@@ -37,19 +37,17 @@ namespace Marvel {
 
 		mvCallbackRegistry();
 
+		// event handling
 		bool onEvent   (mvEvent& event) override;
 		bool onFrame   (mvEvent& event);
 		bool onEndFrame(mvEvent& event);
 		bool onRender  (mvEvent& event);
 
-		void runTasks();
-
-        void runCallback      (PyObject* callback, mvUUID sender, PyObject* app_data, PyObject* user_data);
-        void addCallback      (PyObject* callback, mvUUID sender, PyObject* app_data, PyObject* user_data);
-		
+		void runTasks    ();
+        void runCallback (PyObject* callback, mvUUID sender, PyObject* app_data, PyObject* user_data);
+        void addCallback (PyObject* callback, mvUUID sender, PyObject* app_data, PyObject* user_data);
 		bool runCallbacks();
-
-		void stop() { m_running = false; }
+		void stop        () { m_running = false; }
 
 		template<typename F, typename ...Args>
 		std::future<typename std::invoke_result<F, Args...>::type> submit(F f)
@@ -90,23 +88,22 @@ namespace Marvel {
 		//-----------------------------------------------------------------------------
         // Callbacks
         //----------------------------------------------------------------------------- 
-        void setResizeCallback          (PyObject* callback) { m_resizeCallback = SanitizeCallback(callback); }
-        void setOnCloseCallback         (PyObject* callback) { m_onCloseCallback = SanitizeCallback(callback); }
-        void setOnStartCallback         (PyObject* callback) { m_onStartCallback = SanitizeCallback(callback); }
+        void setResizeCallback (PyObject* callback) { m_resizeCallback = SanitizeCallback(callback); }
+        void setOnCloseCallback(PyObject* callback) { m_onCloseCallback = SanitizeCallback(callback); }
+        void setOnStartCallback(PyObject* callback) { m_onStartCallback = SanitizeCallback(callback); }
 
-        [[nodiscard]] PyObject* getResizeCallback          (){ return m_resizeCallback; }
-        [[nodiscard]] PyObject* getOnCloseCallback         (){ return m_onCloseCallback; }
-        [[nodiscard]] PyObject* getOnStartCallback         (){ return m_onStartCallback; }
+        [[nodiscard]] PyObject* getResizeCallback (){ return m_resizeCallback; }
+        [[nodiscard]] PyObject* getOnCloseCallback(){ return m_onCloseCallback; }
+        [[nodiscard]] PyObject* getOnStartCallback(){ return m_onStartCallback; }
 	
 	private:
 
-		// new callback system
 		mvQueue<mvFunctionWrapper> m_tasks;
 		mvQueue<mvFunctionWrapper> m_calls;
-		std::atomic<bool> m_running;
-		std::atomic<int> m_callCount = 0;
+		std::atomic<bool>          m_running;
+		std::atomic<int>           m_callCount = 0;
 
-		// input callbacks
+		// callbacks
 		PyObject* m_resizeCallback = nullptr;
 		PyObject* m_onCloseCallback = nullptr;
 		PyObject* m_onStartCallback = nullptr;

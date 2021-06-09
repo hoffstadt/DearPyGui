@@ -24,5 +24,4 @@ namespace Marvel {
 	// dynamic textures
 	void* LoadTextureFromArrayDynamic(unsigned width, unsigned height, float* data);
 	void UpdateTexture(void* texture, unsigned width, unsigned height, std::vector<float>& data);
-
 }
