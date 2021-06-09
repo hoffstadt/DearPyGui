@@ -199,7 +199,7 @@ namespace Marvel {
 		m_fonts.push_back(newFont);
 
 		m_dirty = true;
-		auto item = mvApp::GetApp()->getItemRegistry().getItem("INTERNAL_DPG_FONT_ATLAS");
+		auto item = mvApp::GetApp()->getItemRegistry().getItem(MV_ATLAS_UUID);
 		if(item)
 			static_cast<mvStaticTexture*>(item)->markDirty();
 	}
@@ -272,11 +272,11 @@ namespace Marvel {
 
 	bool mvFontManager::onSetFont(mvEvent& event)
 	{
-		const std::string& widget = GetEString(event, "WIDGET");
+		mvUUID widget = GetEUUID(event, "WIDGET");
 		const std::string& font = GetEString(event, "FONT");
 		int size = (int)GetEFloat(event, "SIZE");
 
-		if (widget.empty())
+		if (widget == MV_INVALID_UUID)
 		{
 			InValidateFontTheme();
 			m_font = getFont(font, size);
@@ -364,7 +364,7 @@ namespace Marvel {
 			mvPythonParser parser(mvPyDataType::None);
 			parser.addArg<mvPyDataType::String>("font");
 			parser.addArg<mvPyDataType::Float>("size");
-			parser.addArg<mvPyDataType::String>("item", mvArgType::KEYWORD_ARG, "''");
+			parser.addArg<mvPyDataType::UUID>("item", mvArgType::KEYWORD_ARG, "0");
 			parser.finalize();
 			parsers->insert({ "set_font", parser });
 		}
@@ -423,14 +423,13 @@ namespace Marvel {
 	{
 		const char* font = "";
 		float size = 0;
-		const char* item = "";
+		mvUUID item = 0;
 
 		if (!(mvApp::GetApp()->getParsers())["set_font"].parse(args, kwargs, __FUNCTION__, 
 			&font, &size, &item))
 			return GetPyNone();
 
 		if (!mvApp::s_manualMutexControl) std::lock_guard<std::mutex> lk(mvApp::s_mutex);
-		auto sitem = std::string(item);
 		auto sfont = std::string(font);
 		mvApp::GetApp()->getCallbackRegistry().submit([=]()
 			{
@@ -439,7 +438,7 @@ namespace Marvel {
 					mvEVT_CATEGORY_THEMES,
 					SID("set_font"),
 					{
-						CreateEventArgument("WIDGET", sitem),
+						CreateEventArgument("WIDGET", item),
 						CreateEventArgument("FONT", sfont),
 						CreateEventArgument("SIZE", size)
 					}

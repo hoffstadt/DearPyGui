@@ -9,7 +9,7 @@ namespace Marvel {
 	void mvMouseDragHandler::InsertParser(std::map<std::string, mvPythonParser>* parsers)
 	{
 
-		mvPythonParser parser(mvPyDataType::String, "Undocumented function", { "Textures", "Widgets" });
+		mvPythonParser parser(mvPyDataType::UUID, "Undocumented function", { "Textures", "Widgets" });
 		mvAppItem::AddCommonArgs(parser, (CommonParserArgs)(
 			MV_PARSER_ARG_ID |
 			MV_PARSER_ARG_CALLBACK |
@@ -26,9 +26,9 @@ namespace Marvel {
 		parsers->insert({ s_command, parser });
 	}
 
-	mvMouseDragHandler::mvMouseDragHandler(const std::string& name)
+	mvMouseDragHandler::mvMouseDragHandler(mvUUID uuid)
 		:
-		mvAppItem(name)
+		mvAppItem(uuid)
 	{
 
 	}
@@ -57,7 +57,7 @@ namespace Marvel {
 				{
 					mvApp::GetApp()->getCallbackRegistry().submitCallback([=]()
 						{
-							mvApp::GetApp()->getCallbackRegistry().runCallback(getCallback(false), m_name, 
+							mvApp::GetApp()->getCallbackRegistry().runCallback(getCallback(false), m_uuid,
 								ToPyMTrip(i, ImGui::GetMouseDragDelta(i).x, ImGui::GetMouseDragDelta(i).y), m_user_data);
 						});
 				}
@@ -70,7 +70,7 @@ namespace Marvel {
 				ImGui::ResetMouseDragDelta(m_button);
 			mvApp::GetApp()->getCallbackRegistry().submitCallback([=]()
 				{
-					mvApp::GetApp()->getCallbackRegistry().runCallback(getCallback(false), m_name, 
+					mvApp::GetApp()->getCallbackRegistry().runCallback(getCallback(false), m_uuid,
 						ToPyMTrip(m_button, ImGui::GetMouseDragDelta(m_button).x, ImGui::GetMouseDragDelta(m_button).y), m_user_data);
 				});
 		}

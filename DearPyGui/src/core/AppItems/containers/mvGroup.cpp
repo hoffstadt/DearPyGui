@@ -10,7 +10,7 @@ namespace Marvel {
 	void mvGroup::InsertParser(std::map<std::string, mvPythonParser>* parsers)
 	{
 
-		mvPythonParser parser(mvPyDataType::String, "Undocumented function", { "Containers", "Widgets" });
+		mvPythonParser parser(mvPyDataType::UUID, "Undocumented function", { "Containers", "Widgets" });
 		mvAppItem::AddCommonArgs(parser, (CommonParserArgs)(
 			MV_PARSER_ARG_ID |
 			MV_PARSER_ARG_WIDTH |
@@ -35,8 +35,8 @@ namespace Marvel {
 		parsers->insert({ s_command, parser });
 	}
 
-	mvGroup::mvGroup(const std::string& name)
-		: mvAppItem(name)
+	mvGroup::mvGroup(mvUUID uuid)
+		: mvAppItem(uuid)
 	{
 	}
 

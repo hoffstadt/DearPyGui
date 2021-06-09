@@ -76,7 +76,7 @@ namespace Marvel {
 
     public:
 
-        mvInputInt(const std::string& name);
+        mvInputInt(mvUUID uuid);
         
         void setEnabled(bool value) override;
         void draw(ImDrawList* drawlist, float x, float y) override;
@@ -159,7 +159,7 @@ namespace Marvel {
 
     public:
 
-        mvInputFloat(const std::string& name);
+        mvInputFloat(mvUUID uuid);
         
         void setEnabled(bool value) override;
         void draw(ImDrawList* drawlist, float x, float y) override;

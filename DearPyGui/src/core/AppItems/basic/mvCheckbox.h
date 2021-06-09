@@ -56,7 +56,7 @@ namespace Marvel {
 
 	public:
 
-		mvCheckbox(const std::string& name);
+		mvCheckbox(mvUUID uuid);
 
 		void draw(ImDrawList* drawlist, float x, float y) override;
 

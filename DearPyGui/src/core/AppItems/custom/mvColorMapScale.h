@@ -31,7 +31,7 @@ namespace Marvel {
 
     public:
 
-        mvColorMapScale(const std::string& name);
+        mvColorMapScale(mvUUID uuid);
 
         void draw(ImDrawList* drawlist, float x, float y) override;
 

@@ -105,6 +105,12 @@ namespace Marvel {
 		return PyLong_FromLong(value);
 	}
 
+	PyObject* ToPyUUID(mvUUID value)
+	{
+
+		return Py_BuildValue("K", value);
+	}
+
 	PyObject* ToPyBool(bool value)
 	{
 		 
@@ -155,6 +161,18 @@ namespace Marvel {
 
 		for (size_t i = 0; i < value.size(); ++i)
 			PyList_SetItem(result, i, PyLong_FromLong(value[i]));
+
+		return result;
+	}
+
+	PyObject* ToPyList(const std::vector<mvUUID>& value)
+	{
+
+
+		PyObject* result = PyList_New(value.size());
+
+		for (size_t i = 0; i < value.size(); ++i)
+			PyList_SetItem(result, i, Py_BuildValue("K", value[i]));
 
 		return result;
 	}
@@ -370,6 +388,21 @@ namespace Marvel {
 		return PyLong_AsLong(value);
 	}
 
+	mvUUID ToUUID(PyObject* value, const std::string& message)
+	{
+		if (value == nullptr)
+			return 0;
+
+
+		if (!PyLong_Check(value))
+		{
+			mvThrowPythonError(1000, message);
+			return 0;
+		}
+
+		return PyLong_AsUnsignedLongLong(value);
+	}
+
 	float ToFloat(PyObject* value, const std::string& message)
 	{
 		if (value == nullptr)
@@ -559,6 +592,39 @@ namespace Marvel {
 			}
 
 			PyBuffer_Release(&buffer_info);
+		}
+
+		else
+			mvThrowPythonError(1000, message);
+
+
+		return items;
+	}
+
+	std::vector<mvUUID> ToUUIDVect(PyObject* value, const std::string& message)
+	{
+
+		std::vector<mvUUID> items;
+		if (value == nullptr)
+			return items;
+
+
+		if (PyTuple_Check(value))
+		{
+			items.resize(PyTuple_Size(value));
+			for (Py_ssize_t i = 0; i < PyTuple_Size(value); ++i)
+			{
+				items[i] = PyLong_AsUnsignedLongLong(PyTuple_GetItem(value, i));
+			}
+		}
+
+		else if (PyList_Check(value))
+		{
+			items.resize(PyList_Size(value));
+			for (Py_ssize_t i = 0; i < PyList_Size(value); ++i)
+			{
+				items[i] = PyLong_AsUnsignedLongLong(PyList_GetItem(value, i));
+			}
 		}
 
 		else

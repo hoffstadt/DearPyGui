@@ -13,7 +13,7 @@ namespace Marvel {
     void mvDragFloatMulti::InsertParser(std::map<std::string, mvPythonParser>* parsers)
     {
 
-        mvPythonParser parser(mvPyDataType::String, "Undocumented function", { "Widgets" });
+        mvPythonParser parser(mvPyDataType::UUID, "Undocumented function", { "Widgets" });
         mvAppItem::AddCommonArgs(parser, (CommonParserArgs)(
             MV_PARSER_ARG_ID |
             MV_PARSER_ARG_WIDTH |
@@ -55,7 +55,7 @@ namespace Marvel {
     void mvDragIntMulti::InsertParser(std::map<std::string, mvPythonParser>* parsers)
     {
 
-        mvPythonParser parser(mvPyDataType::String, "Undocumented function", { "Widgets" });
+        mvPythonParser parser(mvPyDataType::UUID, "Undocumented function", { "Widgets" });
         mvAppItem::AddCommonArgs(parser, (CommonParserArgs)(
             MV_PARSER_ARG_ID |
             MV_PARSER_ARG_WIDTH |
@@ -95,14 +95,14 @@ namespace Marvel {
         parsers->insert({ s_command, parser });
     }
 
-    mvDragFloatMulti::mvDragFloatMulti(const std::string& name)
-        : mvFloat4PtrBase(name)
+    mvDragFloatMulti::mvDragFloatMulti(mvUUID uuid)
+        : mvFloat4PtrBase(uuid)
     {
     }
 
     void mvDragFloatMulti::draw(ImDrawList* drawlist, float x, float y)
     {
-        ScopedID id;
+        ScopedID id(m_uuid);
         mvImGuiThemeScope scope(this);
         mvFontScope fscope(this);
 
@@ -112,15 +112,15 @@ namespace Marvel {
         {
         case 2:
             if (ImGui::DragFloat2(m_label.c_str(), m_enabled ? m_value->data() : &m_disabled_value[0], m_speed, m_min, m_max, m_format.c_str(), m_flags))
-                mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), m_name, nullptr, m_user_data);
+                mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), m_uuid, nullptr, m_user_data);
             break;
         case 3:
             if (ImGui::DragFloat3(m_label.c_str(), m_enabled ? m_value->data() : &m_disabled_value[0], m_speed, m_min, m_max, m_format.c_str(), m_flags))
-                mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), m_name, nullptr, m_user_data);
+                mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), m_uuid, nullptr, m_user_data);
             break;
         case 4:
             if (ImGui::DragFloat4(m_label.c_str(), m_enabled ? m_value->data() : &m_disabled_value[0], m_speed, m_min, m_max, m_format.c_str(), m_flags))
-                mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), m_name, nullptr, m_user_data);
+                mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), m_uuid, nullptr, m_user_data);
             break;
         default:
             break;
@@ -194,14 +194,14 @@ namespace Marvel {
 
     }
 
-    mvDragIntMulti::mvDragIntMulti(const std::string& name)
-        : mvInt4PtrBase(name)
+    mvDragIntMulti::mvDragIntMulti(mvUUID uuid)
+        : mvInt4PtrBase(uuid)
     {
     }
 
     void mvDragIntMulti::draw(ImDrawList* drawlist, float x, float y)
     {
-        ScopedID id;
+        ScopedID id(m_uuid);
         mvImGuiThemeScope scope(this);
         mvFontScope fscope(this);
 
@@ -211,15 +211,15 @@ namespace Marvel {
         {
         case 2:
             if (ImGui::DragInt2(m_label.c_str(), m_enabled ? m_value->data() : &m_disabled_value[0], m_speed, m_min, m_max, m_format.c_str(), m_flags))
-                mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), m_name, nullptr, m_user_data);
+                mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), m_uuid, nullptr, m_user_data);
             break;
         case 3:
             if (ImGui::DragInt3(m_label.c_str(), m_enabled ? m_value->data() : &m_disabled_value[0], m_speed, m_min, m_max, m_format.c_str(), m_flags))
-                mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), m_name, nullptr, m_user_data);
+                mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), m_uuid, nullptr, m_user_data);
             break;
         case 4:
             if (ImGui::DragInt4(m_label.c_str(), m_enabled ? m_value->data() : &m_disabled_value[0], m_speed, m_min, m_max, m_format.c_str(), m_flags))
-                mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), m_name, nullptr, m_user_data);
+                mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), m_uuid, nullptr, m_user_data);
             break;
         default:
             break;

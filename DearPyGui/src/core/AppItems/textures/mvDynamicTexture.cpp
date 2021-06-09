@@ -9,7 +9,7 @@ namespace Marvel {
 	void mvDynamicTexture::InsertParser(std::map<std::string, mvPythonParser>* parsers)
 	{
 
-		mvPythonParser parser(mvPyDataType::String, "Undocumented function", { "Textures", "Widgets" });
+		mvPythonParser parser(mvPyDataType::UUID, "Undocumented function", { "Textures", "Widgets" });
 		mvAppItem::AddCommonArgs(parser, (CommonParserArgs)(
 			MV_PARSER_ARG_ID |
 			MV_PARSER_ARG_PARENT)
@@ -24,16 +24,15 @@ namespace Marvel {
 		parsers->insert({ s_command, parser });
 	}
 
-	mvDynamicTexture::mvDynamicTexture(const std::string& name)
+	mvDynamicTexture::mvDynamicTexture(mvUUID uuid)
 		:
-		mvFloatVectPtrBase(name)
+		mvFloatVectPtrBase(uuid)
 	{
 
 	}
 
 	mvDynamicTexture::~mvDynamicTexture()
 	{
-		UnloadTexture(m_name);
 		FreeTexture(m_texture);
 	}
 

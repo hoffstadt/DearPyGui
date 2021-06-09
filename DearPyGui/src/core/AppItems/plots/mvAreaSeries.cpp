@@ -109,7 +109,7 @@ namespace Marvel {
 	void mvAreaSeries::InsertParser(std::map<std::string, mvPythonParser>* parsers)
 	{
 
-		mvPythonParser parser(mvPyDataType::String, "Undocumented function", { "Plotting", "Widgets" });
+		mvPythonParser parser(mvPyDataType::UUID, "Undocumented function", { "Plotting", "Widgets" });
 		mvAppItem::AddCommonArgs(parser, (CommonParserArgs)(
 			MV_PARSER_ARG_ID |
 			MV_PARSER_ARG_PARENT |
@@ -131,15 +131,15 @@ namespace Marvel {
 		parsers->insert({ s_command, parser });
 	}
 
-	mvAreaSeries::mvAreaSeries(const std::string& name)
-		: mvSeriesBase(name)
+	mvAreaSeries::mvAreaSeries(mvUUID uuid)
+		: mvSeriesBase(uuid)
 	{
 		m_contributeToBounds = true;
 	}
 
 	void mvAreaSeries::draw(ImDrawList* drawlist, float x, float y)
 	{
-		ScopedID id;
+		ScopedID id(m_uuid);
 		mvImPlotThemeScope scope(this);
 
 		static const std::vector<double>* xptr;

@@ -36,18 +36,17 @@ namespace Marvel {
 
         // build up flags for current node
         const auto node_flags = ImGuiTreeNodeFlags_OpenOnArrow
-            | ((item->getName() == m_selectedItem) ? ImGuiTreeNodeFlags_Selected : 0)
+            | ((item->getUUID() == m_selectedItem) ? ImGuiTreeNodeFlags_Selected : 0)
             | (mvAppItem::DoesItemHaveFlag(item, MV_ITEM_DESC_CONTAINER) ? 0 : ImGuiTreeNodeFlags_Leaf);
 
         // render this node
         ImGui::PushID(item);
-        const auto expanded = ImGui::TreeNodeEx(m_showLabels ? item->m_specificedlabel.c_str() : 
-            item->m_name.c_str(), node_flags);
+        const auto expanded = ImGui::TreeNodeEx(item->m_specificedlabel.c_str(), node_flags);
         
         // processing for selecting node
         if (ImGui::IsItemClicked())
         {
-            m_selectedItem = item->m_name;
+            m_selectedItem = item->m_uuid;
             m_dirtyNodes = true;
         }
 
@@ -96,7 +95,7 @@ namespace Marvel {
         imnodes::BeginNode(nodeId);
 
         imnodes::BeginNodeTitleBar();
-        ImGui::TextUnformatted(m_showLabels ? parent->m_specificedlabel.c_str() : parent->m_name.c_str());
+        ImGui::TextUnformatted(parent->m_specificedlabel.c_str());
         imnodes::EndNodeTitleBar();
 
         for (int i = 0; i < 4; i++)
@@ -119,7 +118,7 @@ namespace Marvel {
 
         if (nodeId == m_selectedId)
         {
-            m_selectedItem = parent->m_name;
+            m_selectedItem = parent->m_uuid;
             m_selectedId = -2;
         }
 
@@ -159,7 +158,7 @@ namespace Marvel {
                 imnodes::SetNodeGridSpacePos(node, ImVec2(current_x, current_y));
 
             imnodes::BeginNodeTitleBar();
-            ImGui::TextUnformatted(m_showLabels ? child->m_specificedlabel.c_str() : child->m_name.c_str());
+            ImGui::TextUnformatted(child->m_specificedlabel.c_str());
             imnodes::EndNodeTitleBar();
 
             imnodes::BeginInputAttribute(parentAttrId + i + 1);
@@ -168,7 +167,7 @@ namespace Marvel {
 
             if (node == m_selectedId)
             {
-                m_selectedItem = child->m_name;
+                m_selectedItem = child->m_uuid;
                 m_selectedId = -2;
             }
 
@@ -206,7 +205,7 @@ namespace Marvel {
             imnodes::SetNodeGridSpacePos(nodeId, ImVec2(100.0f, 300.0f));
 
         imnodes::BeginNodeTitleBar();
-        ImGui::TextUnformatted(m_showLabels ? item->m_specificedlabel.c_str() : item->m_name.c_str());
+        ImGui::TextUnformatted(item->m_specificedlabel.c_str());
         imnodes::EndNodeTitleBar();
 
         if (hasParent)
@@ -226,7 +225,7 @@ namespace Marvel {
 
         if (nodeId == m_selectedId)
         {
-            m_selectedItem = item->m_name;
+            m_selectedItem = item->m_uuid;
             m_selectedId = -1;
         }
 
@@ -272,7 +271,7 @@ namespace Marvel {
 			selectedItem = mvApp::GetApp()->getItemRegistry().getRoots()[0].get();
 
 		if (selectedItem->m_parentPtr)
-			parentName = selectedItem->m_parentPtr->m_name;
+			parentName = selectedItem->m_parentPtr->m_uuid;
 
 		std::string width = std::to_string(selectedItem->m_width);
 		std::string height = std::to_string(selectedItem->m_height);
@@ -300,7 +299,7 @@ namespace Marvel {
 			mvApp::GetApp()->getCallbackRegistry().submitCallback([&]()
 				{
 					mvApp::GetApp()->getItemRegistry().deleteItem(m_selectedItem, false);
-					m_selectedItem = "";
+					m_selectedItem = 0;
 				});
 		}
 		ImGui::SameLine();
@@ -311,7 +310,6 @@ namespace Marvel {
 			mvApp::GetApp()->getItemRegistry().getItem(m_selectedItem)->hide();
 
 		ImGui::PushItemWidth(200);
-		DebugItem("Item Name:", m_selectedItem.c_str());
 		DebugItem("Item Label:", selectedItem->m_specificedlabel.c_str());
 		//DebugItem("Item Type:", selectedItem->getStringType().c_str());
 		DebugItem("Container:", mvAppItem::DoesItemHaveFlag(selectedItem, MV_ITEM_DESC_CONTAINER) ? ts : fs);

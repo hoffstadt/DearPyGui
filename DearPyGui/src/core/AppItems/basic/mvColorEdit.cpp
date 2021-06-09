@@ -10,7 +10,7 @@ namespace Marvel {
 	void mvColorEdit::InsertParser(std::map<std::string, mvPythonParser>* parsers)
 	{
 
-		mvPythonParser parser(mvPyDataType::String, "Undocumented function", { "Widgets" });
+		mvPythonParser parser(mvPyDataType::UUID, "Undocumented function", { "Widgets" });
 		mvAppItem::AddCommonArgs(parser, (CommonParserArgs)(
 			MV_PARSER_ARG_ID |
 			MV_PARSER_ARG_WIDTH |
@@ -60,15 +60,15 @@ namespace Marvel {
 	
 	}
 
-	mvColorEdit::mvColorEdit(const std::string& name)
+	mvColorEdit::mvColorEdit(mvUUID uuid)
 		: 
-		mvColorPtrBase(name)
+		mvColorPtrBase(uuid)
 	{
 	}
 
 	void mvColorEdit::draw(ImDrawList* drawlist, float x, float y)
 	{
-		ScopedID id;
+		ScopedID id(m_uuid);
 		mvImGuiThemeScope scope(this);
 		mvFontScope fscope(this);
 
@@ -77,12 +77,12 @@ namespace Marvel {
 		if (m_3component)
 		{
 			if (ImGui::ColorEdit3(m_label.c_str(), m_enabled ? m_value->data() : &m_disabled_value[0], m_flags))
-				mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), m_name, nullptr, m_user_data);
+				mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), m_uuid, nullptr, m_user_data);
 		}
 		else
 		{
 			if (ImGui::ColorEdit4(m_label.c_str(), m_enabled ? m_value->data() : &m_disabled_value[0], m_flags))
-				mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), m_name, nullptr, m_user_data);
+				mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), m_uuid, nullptr, m_user_data);
 		}
 
 

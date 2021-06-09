@@ -39,7 +39,7 @@ namespace Marvel {
 
 	public:
 
-		explicit mvMenuItem(const std::string& name);
+		explicit mvMenuItem(mvUUID uuid);
 
 		void draw(ImDrawList* drawlist, float x, float y) override;
 

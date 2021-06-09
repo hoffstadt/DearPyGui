@@ -29,7 +29,7 @@ namespace Marvel {
 
 	public:
 
-		mvTableNextColumn(const std::string& name);
+		mvTableNextColumn(mvUUID uuid);
 
 		bool isParentCompatible(mvAppItemType type) override;
 

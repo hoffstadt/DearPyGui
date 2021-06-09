@@ -12,23 +12,23 @@ namespace Marvel {
 	void mvNodeLink::InsertParser(std::map<std::string, mvPythonParser>* parsers)
 	{
 
-		mvPythonParser parser(mvPyDataType::String, "Undocumented function", { "Node Editor", "Widgets" });
+		mvPythonParser parser(mvPyDataType::UUID, "Undocumented function", { "Node Editor", "Widgets" });
 		mvAppItem::AddCommonArgs(parser, (CommonParserArgs)(
 			MV_PARSER_ARG_ID |
 			MV_PARSER_ARG_PARENT |
 			MV_PARSER_ARG_SHOW)
 		);
 
-		parser.addArg<mvPyDataType::String>("node_1");
-		parser.addArg<mvPyDataType::String>("node_2");
+		parser.addArg<mvPyDataType::UUID>("node_1");
+		parser.addArg<mvPyDataType::UUID>("node_2");
 
 		parser.finalize();
 
 		parsers->insert({ s_command, parser });
 	}
 
-	mvNodeLink::mvNodeLink(const std::string& name)
-		: mvAppItem(name)
+	mvNodeLink::mvNodeLink(mvUUID uuid)
+		: mvAppItem(uuid)
 	{
 		int64_t address = (int64_t)this;
 		int64_t reduced_address = address % 2147483648;
@@ -59,7 +59,7 @@ namespace Marvel {
 			{
 			case 0:
 			{
-				std::string node1 = ToString(item);
+				mvUUID node1 = ToUUID(item);
 				mvAppItem* node = mvApp::GetApp()->getItemRegistry().getItem(node1);
 				if (node->getType() == mvAppItemType::mvNodeAttribute)
 				{
@@ -77,7 +77,7 @@ namespace Marvel {
 
 			case 1:
 			{
-				std::string node2 = ToString(item);
+				mvUUID node2 = ToUUID(item);
 				mvAppItem* node = mvApp::GetApp()->getItemRegistry().getItem(node2);
 				if (node->getType() == mvAppItemType::mvNodeAttribute)
 				{
@@ -101,7 +101,7 @@ namespace Marvel {
 
 	void mvNodeLink::draw(ImDrawList* drawlist, float x, float y)
 	{
-		ScopedID id;
+		ScopedID id(m_uuid);
 		mvImNodesThemeScope scope(this);
 		
 		imnodes::Link(m_id, m_id1, m_id2);

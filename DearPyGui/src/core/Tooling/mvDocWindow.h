@@ -13,7 +13,7 @@ namespace Marvel {
 
         mvDocWindow();
 
-        const char* getName() const override { return "mvDocWindow"; }
+		mvUUID getUUID() const override { return MV_TOOL_DOC_UUID; }
         const char* getTitle() const override { return "Core Documentation"; }
 
     protected:

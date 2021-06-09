@@ -9,7 +9,7 @@ namespace Marvel {
 	void mvDrawImage::InsertParser(std::map<std::string, mvPythonParser>* parsers)
 	{
 
-		mvPythonParser parser(mvPyDataType::String, "Undocumented function", { "Drawlist", "Widgets" });
+		mvPythonParser parser(mvPyDataType::UUID, "Undocumented function", { "Drawlist", "Widgets" });
 		mvAppItem::AddCommonArgs(parser, (CommonParserArgs)(
 			MV_PARSER_ARG_ID |
 			MV_PARSER_ARG_PARENT |
@@ -32,9 +32,9 @@ namespace Marvel {
 		parsers->insert({ s_command, parser });
 	}
 
-	mvDrawImage::mvDrawImage(const std::string& name)
+	mvDrawImage::mvDrawImage(mvUUID uuid)
 		:
-		mvAppItem(name)
+		mvAppItem(uuid)
 	{
 	}
 
@@ -86,7 +86,7 @@ namespace Marvel {
 			{
 			case 0:
 			{
-				m_file = ToString(item);
+				m_file = ToUUID(item);
 				m_texture = mvApp::GetApp()->getItemRegistry().getRefItem(m_file);
 				if (m_texture)
 					break;
@@ -124,7 +124,7 @@ namespace Marvel {
 
 		if (PyObject* item = PyDict_GetItemString(dict, "file"))
 		{
-			m_file = ToString(item);
+			m_file = ToUUID(item);
 
 		}
 
@@ -140,7 +140,7 @@ namespace Marvel {
 		PyDict_SetItemString(dict, "uv_min", ToPyPair(m_uv_min.x, m_uv_min.y));
 		PyDict_SetItemString(dict, "uv_max", ToPyPair(m_uv_max.x, m_uv_max.y));
 		PyDict_SetItemString(dict, "color", ToPyColor(m_color));
-		PyDict_SetItemString(dict, "file", ToPyString(m_file));
+		PyDict_SetItemString(dict, "file", ToPyUUID(m_file));
 	}
 
 }

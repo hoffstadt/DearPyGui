@@ -12,7 +12,7 @@ namespace Marvel {
 	void mvTimePicker::InsertParser(std::map<std::string, mvPythonParser>* parsers)
 	{
 
-		mvPythonParser parser(mvPyDataType::String);
+		mvPythonParser parser(mvPyDataType::UUID);
 		mvAppItem::AddCommonArgs(parser, (CommonParserArgs)(
 			MV_PARSER_ARG_ID |
 			MV_PARSER_ARG_INDENT |
@@ -37,24 +37,24 @@ namespace Marvel {
 		parsers->insert({ s_command, parser });
 	}
 
-	mvTimePicker::mvTimePicker(const std::string& name)
+	mvTimePicker::mvTimePicker(mvUUID uuid)
 		: 
-		mvTimePtrBase(name)
+		mvTimePtrBase(uuid)
 	{
 	}
 
 	void mvTimePicker::draw(ImDrawList* drawlist, float x, float y)
 	{
-		ScopedID id;
+		ScopedID id(m_uuid);
 		mvImGuiThemeScope scope(this);
 		mvFontScope fscope(this);
 
 		ImPlot::GetStyle().Use24HourClock = m_hour24;
 
-		if (ImPlot::ShowTimePicker(m_name.c_str(), m_imvalue.get()))
+		if (ImPlot::ShowTimePicker(m_label.c_str(), m_imvalue.get()))
 		{
 			ImPlot::GetGmtTime(*m_imvalue, m_value.get());
-			mvApp::GetApp()->getCallbackRegistry().addCallback(m_callback, m_name, nullptr, m_user_data);
+			mvApp::GetApp()->getCallbackRegistry().addCallback(m_callback, m_uuid, nullptr, m_user_data);
 		}
 
 	}

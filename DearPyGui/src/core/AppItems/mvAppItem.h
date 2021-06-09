@@ -80,6 +80,7 @@ namespace Marvel {
         Series,
         Bool,
         String,
+        UUID,
         Time, Color, Texture
     };
 
@@ -116,6 +117,7 @@ namespace Marvel {
     };
 
     using mvValueVariant = std::variant<
+        std::shared_ptr<mvUUID>,
         std::shared_ptr<int>,
         std::shared_ptr<float>,
         std::shared_ptr<double>,
@@ -210,6 +212,7 @@ namespace Marvel {
         MV_CREATE_EXTRA_COMMAND(focus_item);
         MV_CREATE_EXTRA_COMMAND(set_item_pos);
         MV_CREATE_EXTRA_COMMAND(reset_pos);
+        MV_CREATE_EXTRA_COMMAND(generate_uuid);
 
         MV_START_EXTRA_COMMANDS
             MV_ADD_EXTRA_COMMAND(get_item_configuration);
@@ -222,11 +225,13 @@ namespace Marvel {
             MV_ADD_EXTRA_COMMAND(focus_item);
             MV_ADD_EXTRA_COMMAND(set_item_pos);
             MV_ADD_EXTRA_COMMAND(reset_pos);
+            MV_ADD_EXTRA_COMMAND(generate_uuid);
         MV_END_EXTRA_COMMANDS
 
         static bool DoesItemHaveFlag(mvAppItem* item, int flag);
-        static std::pair<std::string, std::string> GetNameFromArgs(std::string& name, PyObject* args, PyObject* kwargs);
+        static std::pair<mvUUID, mvUUID> GetNameFromArgs(mvUUID& name, PyObject* args, PyObject* kwargs);
         static void AddCommonArgs(mvPythonParser& parser, CommonParserArgs args);
+        static mvUUID GenerateUUID();
 
     protected:
 
@@ -234,12 +239,13 @@ namespace Marvel {
             {
                 ScopedID() { ImGui::PushID(this); }
                 ScopedID(void* id) { ImGui::PushID(id); }
+                ScopedID(mvUUID id) { ImGui::PushID((int)id); }
                 ~ScopedID() { ImGui::PopID(); }
             };
 
     public:
 
-        mvAppItem(const std::string& name);
+        mvAppItem(mvUUID uuid);
         mvAppItem(const mvAppItem& other) = delete; // copy constructor
         mvAppItem(mvAppItem&& other)      = delete; // move constructor
 
@@ -318,7 +324,7 @@ namespace Marvel {
         bool                                isEnabled() const { return m_enabled; }
         int                                 getWidth() const { return m_width; }
         int                                 getHeight() const { return m_height; }
-        const std::string&                  getName() const { return m_name; }
+        mvUUID                              getUUID() const { return m_uuid; }
         const std::string&                  getFilter() const { return m_filter; }
         mvAppItem*                          getRoot() const;
         int                                 getLocation() const { return m_location; }
@@ -346,31 +352,32 @@ namespace Marvel {
         virtual void                        setWidth                  (int width)               { m_width = width; }
         virtual void                        setHeight                 (int height)              { m_height = height; }
         virtual void                        setEnabled                (bool value)              { m_enabled = value; }
-        virtual void                        setDataSource             (const std::string& value){ m_source = value; }
+        virtual void                        setDataSource             (mvUUID value)            { m_source = value; }
         virtual void                        setLabel                  (const std::string& value); 
         void                                setFilter                 (const std::string& value); 
         void                                setPos                    (const ImVec2& pos); 
 
     private:
 
-        mvAppItem*                          getChild(const std::string& name);      // will return nullptr if not found
-        mvRef<mvAppItem>                    getChildRef(const std::string& name);      // will return nullptr if not found
+        mvAppItem*                          getChild(mvUUID uuid);      // will return nullptr if not found
+        mvRef<mvAppItem>                    getChildRef(mvUUID uuid);      // will return nullptr if not found
 
         // runtime modifications
         bool                                addItem(mvRef<mvAppItem> item);
-        bool                                addRuntimeChild(const std::string& parent, const std::string& before, mvRef<mvAppItem> item);
-        bool                                addChildAfter(const std::string& prev, mvRef<mvAppItem> item);
-        bool                                deleteChild(const std::string& name);
+        bool                                addRuntimeChild(mvUUID parent, mvUUID before, mvRef<mvAppItem> item);
+        bool                                addChildAfter(mvUUID prev, mvRef<mvAppItem> item);
+        bool                                deleteChild(mvUUID uuid);
         void                                deleteChildren();
-        bool                                moveChildUp(const std::string& name);
-        bool                                moveChildDown(const std::string& name);
+        bool                                moveChildUp(mvUUID uuid);
+        bool                                moveChildDown(mvUUID uuid);
         void                                resetState();
         void                                registerWindowFocusing(); // only useful for imgui window types
-        mvRef<mvAppItem>                    stealChild(const std::string& name); // steals a child (used for moving)
+        mvRef<mvAppItem>                    stealChild(mvUUID uuid); // steals a child (used for moving)
 
        
     protected:
 
+        mvUUID                        m_uuid = 0;
         mvAppItemState                m_state;
         bool                          m_focusNextFrame = false;
         bool                          m_dirtyPos = false;
@@ -395,11 +402,10 @@ namespace Marvel {
         int m_fontSize = 0;
 
         // config
-        std::string    m_name = "";
-        std::string    m_source = "";
+        mvUUID         m_source = 0;
         std::string    m_specificedlabel = "__DearPyGuiDefault";
-        std::string    m_parent = "";
-        std::string    m_before = "";
+        mvUUID         m_parent = 0;
+        mvUUID         m_before = 0;
         std::string    m_filter = "";
         int            m_width = 0;
         int            m_height = 0;

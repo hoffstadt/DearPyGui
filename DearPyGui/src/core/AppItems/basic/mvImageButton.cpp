@@ -8,7 +8,7 @@ namespace Marvel {
 	void mvImageButton::InsertParser(std::map<std::string, mvPythonParser>* parsers)
 	{
 
-		mvPythonParser parser(mvPyDataType::String, "Undocumented function", { "Widgets" });
+		mvPythonParser parser(mvPyDataType::UUID, "Undocumented function", { "Widgets" });
 		mvAppItem::AddCommonArgs(parser, (CommonParserArgs)(
 			MV_PARSER_ARG_ID |
 			MV_PARSER_ARG_WIDTH |
@@ -30,7 +30,7 @@ namespace Marvel {
 			MV_PARSER_ARG_POS)
 		);
 
-		parser.addArg<mvPyDataType::String>("default_value");
+		parser.addArg<mvPyDataType::UUID>("default_value");
 
 		parser.addArg<mvPyDataType::Integer>("frame_padding", mvArgType::KEYWORD_ARG, "-1");
 		
@@ -44,8 +44,8 @@ namespace Marvel {
 		parsers->insert({ s_command, parser });
 	}
 
-	mvImageButton::mvImageButton(const std::string& name)
-		: mvAppItem(name)
+	mvImageButton::mvImageButton(mvUUID uuid)
+		: mvAppItem(uuid)
 	{
 	}
 
@@ -73,11 +73,11 @@ namespace Marvel {
 			else
 				texture = static_cast<mvDynamicTexture*>(m_texture.get())->getRawTexture();
 
-			ImGui::PushID(m_name.c_str());
+			ImGui::PushID(m_uuid);
 			if (ImGui::ImageButton(texture, ImVec2((float)m_width, (float)m_height),
 				ImVec2(m_uv_min.x, m_uv_min.y), ImVec2(m_uv_max.x, m_uv_max.y), m_framePadding,
 				m_backgroundColor, m_tintColor))
-				mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), m_name, nullptr, m_user_data);
+				mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), m_uuid, nullptr, m_user_data);
 			ImGui::PopID();
 		}
 
@@ -95,7 +95,7 @@ namespace Marvel {
 			{
 			case 0:
 			{
-				m_value = ToString(item);
+				m_value = ToUUID(item);
 				m_texture = mvApp::GetApp()->getItemRegistry().getRefItem(m_value);
 				if (m_texture)
 					break;
@@ -124,7 +124,7 @@ namespace Marvel {
 		if (PyObject* item = PyDict_GetItemString(dict, "tint_color")) m_tintColor = ToColor(item);
 		if (PyObject* item = PyDict_GetItemString(dict, "background_color")) m_backgroundColor = ToColor(item);
 		if (PyObject* item = PyDict_GetItemString(dict, "frame_padding")) m_framePadding = ToInt(item);
-		if (PyObject* item = PyDict_GetItemString(dict, "value")) m_value = ToString(item);
+		if (PyObject* item = PyDict_GetItemString(dict, "value")) m_value = ToUUID(item);
 	}
 
 	void mvImageButton::getSpecificConfiguration(PyObject* dict)
@@ -137,7 +137,7 @@ namespace Marvel {
 		PyDict_SetItemString(dict, "tint_color", ToPyColor(m_tintColor));
 		PyDict_SetItemString(dict, "background_color", ToPyColor(m_backgroundColor));
 		PyDict_SetItemString(dict, "frame_padding", ToPyInt(m_framePadding));
-		PyDict_SetItemString(dict, "value", ToPyString(m_value));
+		PyDict_SetItemString(dict, "value", ToPyUUID(m_value));
 	}
 
 }

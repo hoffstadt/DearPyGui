@@ -7,7 +7,7 @@ namespace Marvel {
 	void mvHandlerRegistry::InsertParser(std::map<std::string, mvPythonParser>* parsers)
 	{
 
-		mvPythonParser parser(mvPyDataType::String, "Undocumented function", { "Textures", "Widgets" });
+		mvPythonParser parser(mvPyDataType::UUID, "Undocumented function", { "Textures", "Widgets" });
 		mvAppItem::AddCommonArgs(parser, (CommonParserArgs)(
 			MV_PARSER_ARG_ID |
 			MV_PARSER_ARG_SHOW)
@@ -18,9 +18,9 @@ namespace Marvel {
 		parsers->insert({ s_command, parser });
 	}
 
-	mvHandlerRegistry::mvHandlerRegistry(const std::string& name)
+	mvHandlerRegistry::mvHandlerRegistry(mvUUID uuid)
 		:
-		mvAppItem(name)
+		mvAppItem(uuid)
 	{
 	}
 

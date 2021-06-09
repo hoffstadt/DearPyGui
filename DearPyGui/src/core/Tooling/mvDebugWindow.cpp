@@ -78,7 +78,7 @@ namespace Marvel {
 				ImGui::BeginGroup();
 
 				auto mousepos = mvInput::getMousePosition();
-				DebugItem("Active Window: ", mvApp::GetApp()->getItemRegistry().getActiveWindow().c_str());
+				//DebugItem("Active Window: ", mvApp::GetApp()->getItemRegistry().getActiveWindow().c_str());
 				DebugItem("Local Mouse Position:", mousepos.x, mousepos.y);
 				DebugItem("Global Mouse Position:", io.MousePos.x, io.MousePos.y);
 				DebugItem("Plot Mouse Position:", mvInput::getPlotMousePosition().x, mvInput::getPlotMousePosition().y);

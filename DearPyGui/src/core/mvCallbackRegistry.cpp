@@ -32,7 +32,7 @@ namespace Marvel {
 		{
 			mvPythonParser parser(mvPyDataType::String);
 			parser.addArg<mvPyDataType::Callable>("callback");
-			parser.addArg<mvPyDataType::String>("handler", mvArgType::KEYWORD_ARG, "''");
+			parser.addArg<mvPyDataType::UUID>("handler", mvArgType::KEYWORD_ARG, "''");
 			parser.finalize();
 			parsers->insert({ "set_resize_callback", parser });
 		}
@@ -73,7 +73,7 @@ namespace Marvel {
 		switch (GetEInt(event, "FRAME"))
 		{
 		case 3:
-			addCallback(m_onStartCallback, "Main Application", nullptr, nullptr);
+			addCallback(m_onStartCallback, 0, nullptr, nullptr);
 			break;
 
 		default:
@@ -117,11 +117,11 @@ namespace Marvel {
 			m_callCount--;
 		}
 
-		runCallback(m_onCloseCallback, "Main Application", nullptr, nullptr);
+		runCallback(m_onCloseCallback, 0, nullptr, nullptr);
 		return true;
 	}
 
-	void mvCallbackRegistry::addCallback(PyObject* callable, const std::string& sender, PyObject* app_data, PyObject* user_data)
+	void mvCallbackRegistry::addCallback(PyObject* callable, mvUUID sender, PyObject* app_data, PyObject* user_data)
 	{
 
 		if (m_callCount > s_MaxNumberOfCalls)
@@ -139,7 +139,7 @@ namespace Marvel {
 			});
 	}
 
-	void mvCallbackRegistry::runCallback(PyObject* callable, const std::string& sender, PyObject* app_data, PyObject* user_data)
+	void mvCallbackRegistry::runCallback(PyObject* callable, mvUUID sender, PyObject* app_data, PyObject* user_data)
 	{
 
 		if (callable == nullptr)
@@ -205,7 +205,7 @@ namespace Marvel {
 				if (count > 3)
 				{
 					mvPyObject pArgs(PyTuple_New(count));
-					PyTuple_SetItem(pArgs, 0, PyUnicode_FromString(sender.c_str()));
+					PyTuple_SetItem(pArgs, 0, ToPyUUID(sender));
 					PyTuple_SetItem(pArgs, 1, app_data); // steals data, so don't deref
 					PyTuple_SetItem(pArgs, 2, user_data); // steals data, so don't deref
 					
@@ -222,7 +222,7 @@ namespace Marvel {
 				else if (count == 3)
 				{
 					mvPyObject pArgs(PyTuple_New(3));
-					PyTuple_SetItem(pArgs, 0, PyUnicode_FromString(sender.c_str()));
+					PyTuple_SetItem(pArgs, 0, ToPyUUID(sender));
 					PyTuple_SetItem(pArgs, 1, app_data); // steals data, so don't deref
 					PyTuple_SetItem(pArgs, 2, user_data); // steals data, so don't deref
 
@@ -237,7 +237,7 @@ namespace Marvel {
 				else if (count == 2)
 				{
 					mvPyObject pArgs(PyTuple_New(2));
-					PyTuple_SetItem(pArgs, 0, PyUnicode_FromString(sender.c_str()));
+					PyTuple_SetItem(pArgs, 0, ToPyUUID(sender));
 					PyTuple_SetItem(pArgs, 1, app_data); // steals data, so don't deref
 
 					mvPyObject result(PyObject_CallObject(callable, pArgs));
@@ -251,7 +251,7 @@ namespace Marvel {
 				else if(count == 1)
 				{
 					mvPyObject pArgs(PyTuple_New(1));
-					PyTuple_SetItem(pArgs, 0, PyUnicode_FromString(sender.c_str()));
+					PyTuple_SetItem(pArgs, 0, ToPyUUID(sender));
 
 					mvPyObject result(PyObject_CallObject(callable, pArgs));
 
@@ -310,7 +310,7 @@ namespace Marvel {
 	PyObject* mvCallbackRegistry::set_resize_callback(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		PyObject* callback = nullptr;
-		const char* handler = "";
+		mvUUID handler = 0;
 
 		if (!(mvApp::GetApp()->getParsers())["set_resize_callback"].parse(args, kwargs, __FUNCTION__,
 			&callback, &handler))
@@ -322,7 +322,7 @@ namespace Marvel {
 		auto fut = mvApp::GetApp()->getCallbackRegistry().submit([=]()
 			{
 
-				if (std::string(handler).empty())
+				if (handler == 0)
 				{
 					mvApp::GetApp()->getCallbackRegistry().setResizeCallback(callback);
 					return std::string("");

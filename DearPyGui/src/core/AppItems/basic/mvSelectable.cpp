@@ -9,7 +9,7 @@ namespace Marvel {
 
 	void mvSelectable::InsertParser(std::map<std::string, mvPythonParser>* parsers)
 	{
-		mvPythonParser parser(mvPyDataType::String, "Undocumented function", { "Widgets" });
+		mvPythonParser parser(mvPyDataType::UUID, "Undocumented function", { "Widgets" });
 		mvAppItem::AddCommonArgs(parser, (CommonParserArgs)(
 			MV_PARSER_ARG_ID |
 			MV_PARSER_ARG_WIDTH |
@@ -39,8 +39,8 @@ namespace Marvel {
 		parsers->insert({ s_command, parser });
 	}
 
-	mvSelectable::mvSelectable(const std::string& name)
-		: mvBoolPtrBase(name)
+	mvSelectable::mvSelectable(mvUUID uuid)
+		: mvBoolPtrBase(uuid)
 	{
 	}
 
@@ -61,12 +61,12 @@ namespace Marvel {
 	void mvSelectable::draw(ImDrawList* drawlist, float x, float y)
 	{
 
-		ScopedID id;
+		ScopedID id(m_uuid);
 		mvImGuiThemeScope scope(this);
 		mvFontScope fscope(this);
 
 		if (ImGui::Selectable(m_label.c_str(), m_value.get(), m_flags, ImVec2((float)m_width, (float)m_height)))
-			mvApp::GetApp()->getCallbackRegistry().addCallback(m_callback, m_name, nullptr, m_user_data);
+			mvApp::GetApp()->getCallbackRegistry().addCallback(m_callback, m_uuid, nullptr, m_user_data);
 
 	}
 

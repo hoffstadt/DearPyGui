@@ -10,7 +10,7 @@ namespace Marvel {
 	void mvImageSeries::InsertParser(std::map<std::string, mvPythonParser>* parsers)
 	{
 
-		mvPythonParser parser(mvPyDataType::String, "Undocumented function", { "Plotting", "Widgets" });
+		mvPythonParser parser(mvPyDataType::UUID, "Undocumented function", { "Plotting", "Widgets" });
 		mvAppItem::AddCommonArgs(parser, (CommonParserArgs)(
 			MV_PARSER_ARG_ID |
 			MV_PARSER_ARG_PARENT |
@@ -20,7 +20,7 @@ namespace Marvel {
 			MV_PARSER_ARG_SHOW)
 		);
 
-		parser.addArg<mvPyDataType::String>("value");
+		parser.addArg<mvPyDataType::UUID>("value");
 
 		parser.addArg<mvPyDataType::DoubleList>("bounds_min");
 		parser.addArg<mvPyDataType::DoubleList>("bounds_max");
@@ -37,14 +37,14 @@ namespace Marvel {
 		parsers->insert({ s_command, parser });
 	}
 
-	mvImageSeries::mvImageSeries(const std::string& name)
-		: mvSeriesBase(name)
+	mvImageSeries::mvImageSeries(mvUUID uuid)
+		: mvSeriesBase(uuid)
 	{
 	}
 
 	void mvImageSeries::draw(ImDrawList* drawlist, float x, float y)
 	{
-		ScopedID id;
+		ScopedID id(m_uuid);
 		mvImPlotThemeScope scope(this);
 
 		if (m_texture)
@@ -92,7 +92,7 @@ namespace Marvel {
 			{
 			case 0:
 			{
-				m_imagevalue = ToString(item);
+				m_imagevalue = ToUUID(item);
 				m_texture = mvApp::GetApp()->getItemRegistry().getRefItem(m_imagevalue);
 				if (m_texture)
 					break;
@@ -133,7 +133,7 @@ namespace Marvel {
 		if (dict == nullptr)
 			return;
 
-		if (PyObject* item = PyDict_GetItemString(dict, "value")) m_imagevalue = ToString(item);
+		if (PyObject* item = PyDict_GetItemString(dict, "value")) m_imagevalue = ToUUID(item);
 		if (PyObject* item = PyDict_GetItemString(dict, "uv_min")) m_uv_min = ToVec2(item);
 		if (PyObject* item = PyDict_GetItemString(dict, "uv_max")) m_uv_max = ToVec2(item);
 		if (PyObject* item = PyDict_GetItemString(dict, "tint_color")) m_tintColor = ToColor(item);
@@ -158,7 +158,7 @@ namespace Marvel {
 		if (dict == nullptr)
 			return;
 
-		PyDict_SetItemString(dict, "value", ToPyString(m_imagevalue));
+		PyDict_SetItemString(dict, "value", ToPyUUID(m_imagevalue));
 		PyDict_SetItemString(dict, "uv_min", ToPyPair(m_uv_min.x, m_uv_min.y));
 		PyDict_SetItemString(dict, "uv_max", ToPyPair(m_uv_max.x, m_uv_max.y));
 		PyDict_SetItemString(dict, "tint_color", ToPyColor(m_tintColor));

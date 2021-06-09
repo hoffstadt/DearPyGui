@@ -10,7 +10,7 @@ namespace Marvel {
 	void mvTab::InsertParser(std::map<std::string, mvPythonParser>* parsers)
 	{
 
-		mvPythonParser parser(mvPyDataType::String, "Undocumented function", { "Containers", "Widgets" });
+		mvPythonParser parser(mvPyDataType::UUID, "Undocumented function", { "Containers", "Widgets" });
 		mvAppItem::AddCommonArgs(parser, (CommonParserArgs)(
 			MV_PARSER_ARG_ID |
 			MV_PARSER_ARG_INDENT |
@@ -35,9 +35,9 @@ namespace Marvel {
 
 		parsers->insert({ s_command, parser });
 	}
-	mvTab::mvTab(const std::string& name)
+	mvTab::mvTab(mvUUID uuid)
 		: 
-		mvBoolPtrBase(name)
+		mvBoolPtrBase(uuid)
 	{
 	}
 
@@ -53,7 +53,7 @@ namespace Marvel {
 
 	void mvTab::draw(ImDrawList* drawlist, float x, float y)
 	{
-		ScopedID id;
+		ScopedID id(m_uuid);
 		mvImGuiThemeScope scope(this);
 		mvFontScope fscope(this);
 
@@ -61,10 +61,10 @@ namespace Marvel {
 		auto parent = (mvTabBar*)m_parentPtr;
 
 		// check if this is first tab
-		if (parent->getSpecificValue().empty())
+		if (parent->getSpecificValue() == 0)
 		{
 			// set mvTabBar value to the first tab name
-			parent->setValue(m_name);
+			parent->setValue(m_uuid);
 			*m_value = true;
 		}
 
@@ -73,7 +73,7 @@ namespace Marvel {
 		{
 
 			// set other tab's value false
-			for (auto child : parent->m_children[1])
+			for (auto& child : parent->m_children[1])
 			{
 				if (child->getType() == mvAppItemType::mvTab)
 					*((mvTab*)child.get())->m_value = false;
@@ -83,10 +83,10 @@ namespace Marvel {
 			*m_value = true;
 
 			// run call back if it exists
-			if (parent->getSpecificValue() != m_name)
-				mvApp::GetApp()->getCallbackRegistry().addCallback(parent->getCallback(), m_name, nullptr, parent->getCallbackData());
+			if (parent->getSpecificValue() != m_uuid)
+				mvApp::GetApp()->getCallbackRegistry().addCallback(parent->getCallback(), m_uuid, nullptr, parent->getCallbackData());
 
-			parent->setValue(m_name);
+			parent->setValue(m_uuid);
 
 			//we do this so that the children dont get the theme
 			scope.cleanup();

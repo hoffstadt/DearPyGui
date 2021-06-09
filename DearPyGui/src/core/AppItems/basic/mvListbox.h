@@ -70,7 +70,7 @@ namespace Marvel {
 
 	public:
 
-		mvListbox(const std::string& name);
+		mvListbox(mvUUID uuid);
 
 		void draw(ImDrawList* drawlist, float x, float y) override;
 		void setPyValue(PyObject* value) override;

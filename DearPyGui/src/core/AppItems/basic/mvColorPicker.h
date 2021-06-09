@@ -64,7 +64,7 @@ namespace Marvel {
 
 	public:
 
-		mvColorPicker(const std::string& name);
+		mvColorPicker(mvUUID uuid);
 
 		void draw(ImDrawList* drawlist, float x, float y) override;
 

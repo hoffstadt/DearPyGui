@@ -12,7 +12,7 @@ namespace Marvel {
 
     void mvInputIntMulti::InsertParser(std::map<std::string, mvPythonParser>* parsers)
     {
-        mvPythonParser parser(mvPyDataType::String, "Undocumented function", { "Widgets" });
+        mvPythonParser parser(mvPyDataType::UUID, "Undocumented function", { "Widgets" });
         mvAppItem::AddCommonArgs(parser, (CommonParserArgs)(
             MV_PARSER_ARG_ID |
             MV_PARSER_ARG_WIDTH |
@@ -52,7 +52,7 @@ namespace Marvel {
     void mvInputFloatMulti::InsertParser(std::map<std::string, mvPythonParser>* parsers)
     {
 
-        mvPythonParser parser(mvPyDataType::String, "Undocumented function", { "Widgets" });
+        mvPythonParser parser(mvPyDataType::UUID, "Undocumented function", { "Widgets" });
         mvAppItem::AddCommonArgs(parser, (CommonParserArgs)(
             MV_PARSER_ARG_ID |
             MV_PARSER_ARG_WIDTH |
@@ -92,8 +92,8 @@ namespace Marvel {
         parsers->insert({ s_command, parser });
     }
 
-    mvInputIntMulti::mvInputIntMulti(const std::string& name)
-        : mvInt4PtrBase(name)
+    mvInputIntMulti::mvInputIntMulti(mvUUID uuid)
+        : mvInt4PtrBase(uuid)
     {
         m_last_value = *m_value;
     }
@@ -118,7 +118,7 @@ namespace Marvel {
 
     void mvInputIntMulti::draw(ImDrawList* drawlist, float x, float y)
     {
-        ScopedID id;
+        ScopedID id(m_uuid);
         mvImGuiThemeScope scope(this);
         mvFontScope fscope(this);
 
@@ -173,13 +173,13 @@ namespace Marvel {
             if (m_last_value != *m_value)
             {
                 m_last_value = *m_value;
-                mvApp::GetApp()->getCallbackRegistry().addCallback(m_callback, m_name, nullptr, m_user_data);
+                mvApp::GetApp()->getCallbackRegistry().addCallback(m_callback, m_uuid, nullptr, m_user_data);
             }
         }
     }
 
-    mvInputFloatMulti::mvInputFloatMulti(const std::string& name)
-        : mvFloat4PtrBase(name)
+    mvInputFloatMulti::mvInputFloatMulti(mvUUID uuid)
+        : mvFloat4PtrBase(uuid)
     {
         m_last_value = *m_value;
     }
@@ -204,7 +204,7 @@ namespace Marvel {
 
     void mvInputFloatMulti::draw(ImDrawList* drawlist, float x, float y)
     {
-        ScopedID id;
+        ScopedID id(m_uuid);
         mvImGuiThemeScope scope(this);
         mvFontScope fscope(this);
 
@@ -259,7 +259,7 @@ namespace Marvel {
             if (m_last_value != *m_value)
             {
                 m_last_value = *m_value;
-                mvApp::GetApp()->getCallbackRegistry().addCallback(m_callback, m_name, nullptr, m_user_data);
+                mvApp::GetApp()->getCallbackRegistry().addCallback(m_callback, m_uuid, nullptr, m_user_data);
             }
         }
     }

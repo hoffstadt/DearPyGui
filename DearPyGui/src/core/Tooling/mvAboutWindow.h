@@ -11,7 +11,7 @@ namespace Marvel {
 
         mvAboutWindow();
 
-        const char* getName() const override { return "mvAboutWindow"; }
+        mvUUID getUUID() const override { return MV_TOOL_ABOUT_UUID; }
         const char* getTitle() const override { return "About Dear PyGui"; }
 
     protected:

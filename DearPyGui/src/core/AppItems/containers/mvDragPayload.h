@@ -29,7 +29,7 @@ namespace Marvel {
 
 	public:
 
-		mvDragPayload(const std::string& name);
+		mvDragPayload(mvUUID uuid);
 
 		void draw(ImDrawList* drawlist, float x, float y) override;
 		void handleSpecificKeywordArgs(PyObject* dict) override;

@@ -9,7 +9,7 @@ namespace Marvel {
 	void mvVisibleHandler::InsertParser(std::map<std::string, mvPythonParser>* parsers)
 	{
 
-		mvPythonParser parser(mvPyDataType::String, "Undocumented function", { "Textures", "Widgets" });
+		mvPythonParser parser(mvPyDataType::UUID, "Undocumented function", { "Textures", "Widgets" });
 		mvAppItem::AddCommonArgs(parser, (CommonParserArgs)(
 			MV_PARSER_ARG_ID |
 			MV_PARSER_ARG_USER_DATA |
@@ -23,9 +23,9 @@ namespace Marvel {
 		parsers->insert({ s_command, parser });
 	}
 
-	mvVisibleHandler::mvVisibleHandler(const std::string& name)
+	mvVisibleHandler::mvVisibleHandler(mvUUID uuid)
 		:
-		mvAppItem(name)
+		mvAppItem(uuid)
 	{
 
 	}
@@ -47,7 +47,7 @@ namespace Marvel {
 		{
 			mvApp::GetApp()->getCallbackRegistry().submitCallback([=]()
 				{
-					mvApp::GetApp()->getCallbackRegistry().runCallback(getCallback(false), m_name, GetPyNone(), m_user_data);
+					mvApp::GetApp()->getCallbackRegistry().runCallback(getCallback(false), m_uuid, GetPyNone(), m_user_data);
 				});
 		}
 	}
@@ -63,7 +63,7 @@ namespace Marvel {
 			switch (i)
 			{
 			case 0:
-				m_parent = ToString(item);
+				m_parent = ToUUID(item);
 				break;
 
 			default:

@@ -5,7 +5,7 @@
 namespace Marvel {
 
 	MV_REGISTER_WIDGET(mvTabBar, MV_ITEM_DESC_CONTAINER, StorageValueTypes::String, 1);
-	class mvTabBar : public mvStringPtrBase
+	class mvTabBar : public mvUUIDPtrBase
 	{
 
 	public:
@@ -35,12 +35,12 @@ namespace Marvel {
 
 	public:
 
-		mvTabBar(const std::string& name);
+		mvTabBar(mvUUID uuid);
 
 		bool canChildBeAdded(mvAppItemType type) override;
 
-		std::string& getSpecificValue();
-		void         setValue(const std::string& value);
+		mvUUID getSpecificValue();
+		void         setValue(mvUUID value);
 		void         draw(ImDrawList* drawlist, float x, float y)               override;
 
 		void handleSpecificKeywordArgs(PyObject* dict) override;
@@ -49,8 +49,8 @@ namespace Marvel {
 	private:
 
 		ImGuiTabBarFlags m_flags = ImGuiTabBarFlags_None;
-		std::string      m_lastValue;
-		std::string      m_uiValue; // value suggested from UI
+		mvUUID      m_lastValue;
+		mvUUID      m_uiValue; // value suggested from UI
 
 	};
 

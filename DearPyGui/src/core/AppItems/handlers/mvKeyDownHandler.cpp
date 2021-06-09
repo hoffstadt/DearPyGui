@@ -9,7 +9,7 @@ namespace Marvel {
 	void mvKeyDownHandler::InsertParser(std::map<std::string, mvPythonParser>* parsers)
 	{
 
-		mvPythonParser parser(mvPyDataType::String, "Undocumented function", { "Textures", "Widgets" });
+		mvPythonParser parser(mvPyDataType::UUID, "Undocumented function", { "Textures", "Widgets" });
 		mvAppItem::AddCommonArgs(parser, (CommonParserArgs)(
 			MV_PARSER_ARG_ID |
 			MV_PARSER_ARG_CALLBACK |
@@ -25,9 +25,9 @@ namespace Marvel {
 		parsers->insert({ s_command, parser });
 	}
 
-	mvKeyDownHandler::mvKeyDownHandler(const std::string& name)
+	mvKeyDownHandler::mvKeyDownHandler(mvUUID uuid)
 		:
-		mvAppItem(name)
+		mvAppItem(uuid)
 	{
 
 	}
@@ -54,7 +54,7 @@ namespace Marvel {
 				{
 					mvApp::GetApp()->getCallbackRegistry().submitCallback([=]()
 						{
-							mvApp::GetApp()->getCallbackRegistry().runCallback(getCallback(false), m_name, ToPyMPair(i, ImGui::GetIO().KeysDownDuration[i]), m_user_data);
+							mvApp::GetApp()->getCallbackRegistry().runCallback(getCallback(false), m_uuid, ToPyMPair(i, ImGui::GetIO().KeysDownDuration[i]), m_user_data);
 						});
 				}
 			}
@@ -64,7 +64,7 @@ namespace Marvel {
 		{
 			mvApp::GetApp()->getCallbackRegistry().submitCallback([=]()
 				{
-					mvApp::GetApp()->getCallbackRegistry().runCallback(getCallback(false), m_name, ToPyFloat((ImGui::GetIO().KeysDownDuration[m_key])), m_user_data);
+					mvApp::GetApp()->getCallbackRegistry().runCallback(getCallback(false), m_uuid, ToPyFloat((ImGui::GetIO().KeysDownDuration[m_key])), m_user_data);
 				});
 		}
 	}

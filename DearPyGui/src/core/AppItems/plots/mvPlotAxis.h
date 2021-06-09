@@ -42,7 +42,7 @@ namespace Marvel {
 
 	public:
 
-		mvPlotAxis(const std::string& name);
+		mvPlotAxis(mvUUID uuid);
 
 		void draw(ImDrawList* drawlist, float x, float y) override;
 		void customAction() override;

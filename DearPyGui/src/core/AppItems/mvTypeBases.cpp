@@ -8,13 +8,13 @@
 
 namespace Marvel {
 
-	mvIntPtrBase::mvIntPtrBase(const std::string& name)
+	mvIntPtrBase::mvIntPtrBase(mvUUID uuid)
 		: 
-		mvAppItem(name)
+		mvAppItem(uuid)
 	{
 	}
 
-	void mvIntPtrBase::setDataSource(const std::string& dataSource)
+	void mvIntPtrBase::setDataSource(mvUUID dataSource)
 	{
 		if (dataSource == m_source) return;
 		m_source = dataSource;
@@ -43,8 +43,8 @@ namespace Marvel {
 		*m_value = ToInt(value);
 	}
 
-	mvInt4PtrBase::mvInt4PtrBase(const std::string& name)
-		: mvAppItem(name)
+	mvInt4PtrBase::mvInt4PtrBase(mvUUID uuid)
+		: mvAppItem(uuid)
 	{
 	}
 
@@ -67,7 +67,7 @@ namespace Marvel {
 			m_value = std::make_shared<std::array<int, 4>>(temp_array);
 	}
 
-	void mvInt4PtrBase::setDataSource(const std::string& dataSource)
+	void mvInt4PtrBase::setDataSource(mvUUID dataSource)
 	{
 		if (dataSource == m_source) return;
 		m_source = dataSource;
@@ -86,8 +86,8 @@ namespace Marvel {
 		m_value = std::get<std::shared_ptr<std::array<int, 4>>>(item->getValue());
 	}
 
-	mvFloatPtrBase::mvFloatPtrBase(const std::string& name)
-		: mvAppItem(name)
+	mvFloatPtrBase::mvFloatPtrBase(mvUUID uuid)
+		: mvAppItem(uuid)
 	{
 	}
 
@@ -101,7 +101,7 @@ namespace Marvel {
 		*m_value = ToFloat(value);
 	}
 
-	void mvFloatPtrBase::setDataSource(const std::string& dataSource)
+	void mvFloatPtrBase::setDataSource(mvUUID dataSource)
 	{
 		if (dataSource == m_source) return;
 		m_source = dataSource;
@@ -120,8 +120,8 @@ namespace Marvel {
 		m_value = std::get<std::shared_ptr<float>>(item->getValue());
 	}
 
-	mvDoublePtrBase::mvDoublePtrBase(const std::string& name)
-		: mvAppItem(name)
+	mvDoublePtrBase::mvDoublePtrBase(mvUUID uuid)
+		: mvAppItem(uuid)
 	{
 	}
 
@@ -135,7 +135,7 @@ namespace Marvel {
 		*m_value = ToDouble(value);
 	}
 
-	void mvDoublePtrBase::setDataSource(const std::string& dataSource)
+	void mvDoublePtrBase::setDataSource(mvUUID dataSource)
 	{
 		if (dataSource == m_source) return;
 		m_source = dataSource;
@@ -154,8 +154,8 @@ namespace Marvel {
 		m_value = std::get<std::shared_ptr<double>>(item->getValue());
 	}
 
-	mvFloat4PtrBase::mvFloat4PtrBase(const std::string& name)
-		: mvAppItem(name)
+	mvFloat4PtrBase::mvFloat4PtrBase(mvUUID uuid)
+		: mvAppItem(uuid)
 	{
 	}
 
@@ -178,7 +178,7 @@ namespace Marvel {
 			m_value = std::make_shared<std::array<float, 4>>(temp_array);
 	}
 
-	void mvFloat4PtrBase::setDataSource(const std::string& dataSource)
+	void mvFloat4PtrBase::setDataSource(mvUUID dataSource)
 	{
 		if (dataSource == m_source) return;
 		m_source = dataSource;
@@ -197,8 +197,8 @@ namespace Marvel {
 		m_value = std::get<std::shared_ptr<std::array<float, 4>>>(item->getValue());
 	}
 
-	mvDouble4PtrBase::mvDouble4PtrBase(const std::string& name)
-		: mvAppItem(name)
+	mvDouble4PtrBase::mvDouble4PtrBase(mvUUID uuid)
+		: mvAppItem(uuid)
 	{
 	}
 
@@ -221,7 +221,7 @@ namespace Marvel {
 			m_value = std::make_shared<std::array<double, 4>>(temp_array);
 	}
 
-	void mvDouble4PtrBase::setDataSource(const std::string& dataSource)
+	void mvDouble4PtrBase::setDataSource(mvUUID dataSource)
 	{
 		if (dataSource == m_source) return;
 		m_source = dataSource;
@@ -240,8 +240,8 @@ namespace Marvel {
 		m_value = std::get<std::shared_ptr<std::array<double, 4>>>(item->getValue());
 	}
 
-	mvColorPtrBase::mvColorPtrBase(const std::string& name)
-		: mvAppItem(name)
+	mvColorPtrBase::mvColorPtrBase(mvUUID uuid)
+		: mvAppItem(uuid)
 	{
 	}
 
@@ -271,7 +271,7 @@ namespace Marvel {
 			m_value = std::make_shared<std::array<float, 4>>(temp_array);
 	}
 
-	void mvColorPtrBase::setDataSource(const std::string& dataSource)
+	void mvColorPtrBase::setDataSource(mvUUID dataSource)
 	{
 		if (dataSource == m_source) return;
 		m_source = dataSource;
@@ -290,8 +290,8 @@ namespace Marvel {
 		m_value = std::get<std::shared_ptr<std::array<float, 4>>>(item->getValue());
 	}
 
-	mvBoolPtrBase::mvBoolPtrBase(const std::string& name)
-		: mvAppItem(name)
+	mvBoolPtrBase::mvBoolPtrBase(mvUUID uuid)
+		: mvAppItem(uuid)
 	{
 	}
 
@@ -305,7 +305,7 @@ namespace Marvel {
 		*m_value = ToBool(value);
 	}
 
-	void mvBoolPtrBase::setDataSource(const std::string& dataSource)
+	void mvBoolPtrBase::setDataSource(mvUUID dataSource)
 	{
 		if (dataSource == m_source) return;
 		m_source = dataSource;
@@ -324,8 +324,8 @@ namespace Marvel {
 		m_value = std::get<std::shared_ptr<bool>>(item->getValue());
 	}
 
-	mvStringPtrBase::mvStringPtrBase(const std::string& name)
-		: mvAppItem(name)
+	mvStringPtrBase::mvStringPtrBase(mvUUID uuid)
+		: mvAppItem(uuid)
 	{
 	}
 
@@ -339,7 +339,7 @@ namespace Marvel {
 		*m_value = ToString(value);
 	}
 
-	void mvStringPtrBase::setDataSource(const std::string& dataSource)
+	void mvStringPtrBase::setDataSource(mvUUID dataSource)
 	{
 		if (dataSource == m_source) return;
 		m_source = dataSource;
@@ -358,8 +358,8 @@ namespace Marvel {
 		m_value = std::get<std::shared_ptr<std::string>>(item->getValue());
 	}
 
-	mvTimePtrBase::mvTimePtrBase(const std::string& name)
-		: mvAppItem(name)
+	mvTimePtrBase::mvTimePtrBase(mvUUID uuid)
+		: mvAppItem(uuid)
 	{
 	}
 
@@ -379,8 +379,8 @@ namespace Marvel {
 		*m_imvalue = ImPlot::MkGmtTime(m_value.get());
 	}
 
-	mvFloatVectPtrBase::mvFloatVectPtrBase(const std::string& name)
-		: mvAppItem(name)
+	mvFloatVectPtrBase::mvFloatVectPtrBase(mvUUID uuid)
+		: mvAppItem(uuid)
 	{
 	}
 
@@ -394,7 +394,7 @@ namespace Marvel {
 		*m_value = ToFloatVect(value);
 	}
 
-	void mvFloatVectPtrBase::setDataSource(const std::string& dataSource)
+	void mvFloatVectPtrBase::setDataSource(mvUUID dataSource)
 	{
 		if (dataSource == m_source) return;
 		m_source = dataSource;
@@ -413,8 +413,8 @@ namespace Marvel {
 		m_value = std::get<std::shared_ptr<std::vector<float>>>(item->getValue());
 	}
 
-	mvSeriesBase::mvSeriesBase(const std::string& name)
-		: mvAppItem(name)
+	mvSeriesBase::mvSeriesBase(mvUUID uuid)
+		: mvAppItem(uuid)
 	{
 	}
 
@@ -430,7 +430,7 @@ namespace Marvel {
 		calculateMaxMins();
 	}
 
-	void mvSeriesBase::setDataSource(const std::string& dataSource)
+	void mvSeriesBase::setDataSource(mvUUID dataSource)
 	{
 		if (dataSource == m_source) return;
 		m_source = dataSource;
@@ -499,4 +499,37 @@ namespace Marvel {
 		return false;
 	}
 
+	mvUUIDPtrBase::mvUUIDPtrBase(mvUUID uuid)
+		: mvAppItem(uuid)
+	{
+	}
+
+	PyObject* mvUUIDPtrBase::getPyValue()
+	{
+		return ToPyUUID(*m_value);
+	}
+
+	void mvUUIDPtrBase::setPyValue(PyObject* value)
+	{
+		*m_value = ToUUID(value);
+	}
+
+	void mvUUIDPtrBase::setDataSource(mvUUID dataSource)
+	{
+		if (dataSource == m_source) return;
+		m_source = dataSource;
+
+		mvAppItem* item = mvApp::GetApp()->getItemRegistry().getItem(dataSource);
+		if (!item)
+		{
+			mvThrowPythonError(1000, "Source item not found.");
+			return;
+		}
+		if (item->getValueType() != getValueType())
+		{
+			mvThrowPythonError(1000, "Values types do not match");
+			return;
+		}
+		m_value = std::get<std::shared_ptr<mvUUID>>(item->getValue());
+	}
 }

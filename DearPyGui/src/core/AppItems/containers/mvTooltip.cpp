@@ -9,7 +9,7 @@ namespace Marvel {
 	void mvTooltip::InsertParser(std::map<std::string, mvPythonParser>* parsers)
 	{
 
-		mvPythonParser parser(mvPyDataType::String, "Undocumented function", { "Containers", "Widgets" });
+		mvPythonParser parser(mvPyDataType::UUID, "Undocumented function", { "Containers", "Widgets" });
 		mvAppItem::AddCommonArgs(parser, (CommonParserArgs)(
 			MV_PARSER_ARG_ID |
 			MV_PARSER_ARG_SHOW)
@@ -20,9 +20,9 @@ namespace Marvel {
 		parsers->insert({ s_command, parser });
 	}
 
-	mvTooltip::mvTooltip(const std::string& name)
+	mvTooltip::mvTooltip(mvUUID uuid)
 		: 
-		mvBoolPtrBase(name)
+		mvBoolPtrBase(uuid)
 	{
 
 		// has to be showed that way it can check for hovering

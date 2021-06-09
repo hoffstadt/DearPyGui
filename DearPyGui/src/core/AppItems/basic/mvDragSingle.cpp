@@ -12,7 +12,7 @@ namespace Marvel {
 
     void mvDragFloat::InsertParser(std::map<std::string, mvPythonParser>* parsers)
     {
-        mvPythonParser parser(mvPyDataType::String, "Undocumented function", { "Widgets" });
+        mvPythonParser parser(mvPyDataType::UUID, "Undocumented function", { "Widgets" });
         mvAppItem::AddCommonArgs(parser, (CommonParserArgs)(
             MV_PARSER_ARG_ID |
             MV_PARSER_ARG_WIDTH |
@@ -53,7 +53,7 @@ namespace Marvel {
 
     void mvDragInt::InsertParser(std::map<std::string, mvPythonParser>* parsers)
     {
-        mvPythonParser parser(mvPyDataType::String, "Undocumented function", { "Widgets" });
+        mvPythonParser parser(mvPyDataType::UUID, "Undocumented function", { "Widgets" });
         mvAppItem::AddCommonArgs(parser, (CommonParserArgs)(
             MV_PARSER_ARG_ID |
             MV_PARSER_ARG_WIDTH |
@@ -93,8 +93,8 @@ namespace Marvel {
         parsers->insert({ s_command, parser });
     }
 
-    mvDragFloat::mvDragFloat(const std::string& name)
-        : mvFloatPtrBase(name)
+    mvDragFloat::mvDragFloat(mvUUID uuid)
+        : mvFloatPtrBase(uuid)
     {
     }
 
@@ -118,19 +118,19 @@ namespace Marvel {
 
     void mvDragFloat::draw(ImDrawList* drawlist, float x, float y)
     {
-        ScopedID id;
+        ScopedID id(m_uuid);
         mvImGuiThemeScope scope(this);
         mvFontScope fscope(this);
 
         if (!m_enabled) m_disabled_value = *m_value;
 
         if (ImGui::DragFloat(m_label.c_str(), m_enabled ? m_value.get() : &m_disabled_value, m_speed, m_min, m_max, m_format.c_str(), m_flags))
-            mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), m_name, nullptr, m_user_data);
+            mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), m_uuid, nullptr, m_user_data);
 
     }
 
-    mvDragInt::mvDragInt(const std::string& name)
-        : mvIntPtrBase(name)
+    mvDragInt::mvDragInt(mvUUID uuid)
+        : mvIntPtrBase(uuid)
     {
     }
 
@@ -153,14 +153,14 @@ namespace Marvel {
 
     void mvDragInt::draw(ImDrawList* drawlist, float x, float y)
     {
-        ScopedID id;
+        ScopedID id(m_uuid);
         mvImGuiThemeScope scope(this);
         mvFontScope fscope(this);
 
         if (!m_enabled) m_disabled_value = *m_value;
 
         if (ImGui::DragInt(m_label.c_str(), m_enabled ? m_value.get() : &m_disabled_value, m_speed, m_min, m_max, m_format.c_str(), m_flags))
-            mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), m_name, nullptr, m_user_data);
+            mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), m_uuid, nullptr, m_user_data);
     }
 
     void mvDragFloat::handleSpecificKeywordArgs(PyObject* dict)

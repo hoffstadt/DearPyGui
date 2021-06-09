@@ -31,7 +31,7 @@ namespace Marvel {
 
     public:
 
-        mvTextureContainer(const std::string& name);
+        mvTextureContainer(mvUUID uuid);
 
         void draw(ImDrawList* drawlist, float x, float y) override;
 

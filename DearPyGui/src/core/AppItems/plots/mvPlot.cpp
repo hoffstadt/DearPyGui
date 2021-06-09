@@ -29,7 +29,7 @@ namespace Marvel {
 	{
 
 		{
-			mvPythonParser parser(mvPyDataType::String, "Undocumented function", { "Plotting", "Widgets" });
+			mvPythonParser parser(mvPyDataType::UUID, "Undocumented function", { "Plotting", "Widgets" });
 			mvAppItem::AddCommonArgs(parser, (CommonParserArgs)(
 				MV_PARSER_ARG_ID |
 				MV_PARSER_ARG_WIDTH |
@@ -67,14 +67,14 @@ namespace Marvel {
 
 		{
 			mvPythonParser parser(mvPyDataType::Bool, "Undocumented function", { "Plotting", "Widgets" });
-			parser.addArg<mvPyDataType::String>("plot");
+			parser.addArg<mvPyDataType::UUID>("plot");
 			parser.finalize();
 			parsers->insert({ "is_plot_queried", parser });
 		}
 
 		{
 			mvPythonParser parser(mvPyDataType::FloatList, "Undocumented function", { "Plotting", "Widgets" });
-			parser.addArg<mvPyDataType::String>("plot");
+			parser.addArg<mvPyDataType::UUID>("plot");
 			parser.finalize();
 			parsers->insert({ "get_plot_query_area", parser });
 		}
@@ -128,8 +128,8 @@ namespace Marvel {
 		return true;
 	}
 
-	mvPlot::mvPlot(const std::string& name)
-		: mvAppItem(name)
+	mvPlot::mvPlot(mvUUID uuid)
+		: mvAppItem(uuid)
 	{
 		m_width = -1;
 		m_height = -1;
@@ -348,7 +348,7 @@ namespace Marvel {
 					PyTuple_SetItem(area, 1, PyFloat_FromDouble(m_queryArea[1]));
 					PyTuple_SetItem(area, 2, PyFloat_FromDouble(m_queryArea[2]));
 					PyTuple_SetItem(area, 3, PyFloat_FromDouble(m_queryArea[3]));
-					mvApp::GetApp()->getCallbackRegistry().addCallback(m_callback, m_name, area, m_user_data);
+					mvApp::GetApp()->getCallbackRegistry().addCallback(m_callback, m_uuid, area, m_user_data);
 					});
 			}
 
@@ -360,13 +360,13 @@ namespace Marvel {
 
 			if (m_dropCallback)
 			{
-				ScopedID id;
+				ScopedID id(m_uuid);
 				if (ImPlot::BeginDragDropTarget())
 				{
 					if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload(m_payloadType.c_str()))
 					{
 						auto payloadActual = static_cast<const mvDragPayload*>(payload->Data);
-						mvApp::GetApp()->getCallbackRegistry().addCallback(getDropCallback(), m_name, payloadActual->getDragData(), nullptr);
+						mvApp::GetApp()->getCallbackRegistry().addCallback(getDropCallback(), m_uuid, payloadActual->getDragData(), nullptr);
 					}
 
 					ImPlot::EndDragDropTarget();
@@ -478,7 +478,7 @@ namespace Marvel {
 
 	PyObject* mvPlot::is_plot_queried(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
-		const char* plot;
+		mvUUID plot;
 
 		if (!(mvApp::GetApp()->getParsers())["is_plot_queried"].parse(args, kwargs, __FUNCTION__, &plot))
 			return GetPyNone();
@@ -487,15 +487,13 @@ namespace Marvel {
 		auto aplot = mvApp::GetApp()->getItemRegistry().getItem(plot);
 		if (aplot == nullptr)
 		{
-			std::string message = plot;
-			mvThrowPythonError(1000, message + " plot does not exist.");
+			mvThrowPythonError(1000, std::to_string(plot) + " plot does not exist.");
 			return GetPyNone();
 		}
 
 		if (aplot->getType() != mvAppItemType::mvPlot)
 		{
-			std::string message = plot;
-			mvThrowPythonError(1000, message + " is not a plot.");
+			mvThrowPythonError(1000, std::to_string(plot) + " is not a plot.");
 			return GetPyNone();
 		}
 
@@ -506,7 +504,7 @@ namespace Marvel {
 
 	PyObject* mvPlot::get_plot_query_area(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
-		const char* plot;
+		mvUUID plot;
 
 		if (!(mvApp::GetApp()->getParsers())["get_plot_query_area"].parse(args, kwargs, __FUNCTION__, &plot))
 			return GetPyNone();
@@ -515,15 +513,13 @@ namespace Marvel {
 		auto aplot = mvApp::GetApp()->getItemRegistry().getItem(plot);
 		if (aplot == nullptr)
 		{
-			std::string message = plot;
-			mvThrowPythonError(1000, message + " plot does not exist.");
+			mvThrowPythonError(1000, std::to_string(plot) + " plot does not exist.");
 			return GetPyNone();
 		}
 
 		if (aplot->getType() != mvAppItemType::mvPlot)
 		{
-			std::string message = plot;
-			mvThrowPythonError(1000, message + " is not a plot.");
+			mvThrowPythonError(1000, std::to_string(plot) + " is not a plot.");
 			return GetPyNone();
 		}
 

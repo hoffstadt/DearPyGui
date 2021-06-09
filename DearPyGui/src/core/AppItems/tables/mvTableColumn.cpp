@@ -13,7 +13,7 @@ namespace Marvel {
 	{
 
 
-		mvPythonParser parser(mvPyDataType::String, "Undocumented function", { "Tables", "Widgets" });
+		mvPythonParser parser(mvPyDataType::UUID, "Undocumented function", { "Tables", "Widgets" });
 		mvAppItem::AddCommonArgs(parser, (CommonParserArgs)(
 			MV_PARSER_ARG_ID |
 			MV_PARSER_ARG_PARENT |
@@ -46,14 +46,14 @@ namespace Marvel {
 		parsers->insert({ s_command, parser });
 	}
 
-	mvTableColumn::mvTableColumn(const std::string& name)
-		: mvAppItem(name)
+	mvTableColumn::mvTableColumn(mvUUID uuid)
+		: mvAppItem(uuid)
 	{
 	}
 
 	void mvTableColumn::draw(ImDrawList* drawlist, float x, float y)
 	{
-		m_id = ImGui::GetID(m_name.c_str());
+		m_id = m_uuid;
 		ImGui::TableSetupColumn(m_label.c_str(), m_flags, m_init_width_or_weight, m_id);
 	}
 

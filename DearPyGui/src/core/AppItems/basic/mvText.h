@@ -41,7 +41,7 @@ namespace Marvel {
 
 	public:
 
-		mvText(const std::string& name);
+		mvText(mvUUID uuid);
 
 		void draw(ImDrawList* drawlist, float x, float y) override;
 

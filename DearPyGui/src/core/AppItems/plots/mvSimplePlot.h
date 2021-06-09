@@ -61,7 +61,7 @@ namespace Marvel{
 
 	public:
 
-		mvSimplePlot(const std::string& name);
+		mvSimplePlot(mvUUID uuid);
 
 		void draw(ImDrawList* drawlist, float x, float y) override;
 

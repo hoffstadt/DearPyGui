@@ -31,7 +31,7 @@ namespace Marvel {
 
     public:
 
-        mvKnobFloat(const std::string& name);
+        mvKnobFloat(mvUUID uuid);
 
         void draw(ImDrawList* drawlist, float x, float y) override;
 

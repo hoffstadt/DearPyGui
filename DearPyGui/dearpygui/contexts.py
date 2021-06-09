@@ -15,7 +15,7 @@ def mutex():
         internal_dpg.unlock_mutex()
 
 @contextmanager
-def clipper(*args, id:str='', show: bool =True, parent: str='', width: int = 0, before: str='',
+def clipper(*args, id:int=0, show: bool =True, parent: int=0, width: int = 0, before: int=0,
            indent:int=-1):
    
    try:
@@ -27,7 +27,7 @@ def clipper(*args, id:str='', show: bool =True, parent: str='', width: int = 0, 
         internal_dpg.pop_container_stack()
 
 @contextmanager
-def filter_set(*args, id:str='', show: bool =True, parent: str='', width: int = 0, before: str='',
+def filter_set(*args, id:int=0, show: bool =True, parent: int=0, width: int = 0, before: int=0,
            indent:int=-1):
    
    try:
@@ -39,7 +39,7 @@ def filter_set(*args, id:str='', show: bool =True, parent: str='', width: int = 
         internal_dpg.pop_container_stack()
 
 @contextmanager
-def drag_payload(*args, id:str='', show: bool =True, parent: str='', payload_type: str='$$DPG_PAYLOAD', drag_data: Any = None):
+def drag_payload(*args, id:int=0, show: bool =True, parent: int=0, payload_type: str='$$DPG_PAYLOAD', drag_data: Any = None):
    
    try:
         widget = internal_dpg.add_drag_payload(*args, id=id, show=show, parent=parent, payload_type=payload_type,
@@ -50,7 +50,7 @@ def drag_payload(*args, id:str='', show: bool =True, parent: str='', payload_typ
         internal_dpg.pop_container_stack()
 
 @contextmanager
-def handler_registry(*args, id:str='', show: bool =True):
+def handler_registry(*args, id:int=0, show: bool =True):
    
    try:
         widget = internal_dpg.add_handler_registry(*args, id=id, show=show)
@@ -60,7 +60,7 @@ def handler_registry(*args, id:str='', show: bool =True):
         internal_dpg.pop_container_stack()
 
 @contextmanager
-def file_dialog(*args, id:str='', width: int =0, height: int =0, label: str ='', callback: Callable =None, show: bool =True, 
+def file_dialog(*args, id:int=0, width: int =0, height: int =0, label: str ='', callback: Callable =None, show: bool =True, 
 					default_path: str ='', default_filename: str ='.', file_count: int =0, modal: bool =False, directory_selector: bool =False):
    
    try:
@@ -74,13 +74,13 @@ def file_dialog(*args, id:str='', width: int =0, height: int =0, label: str ='',
 
 
 @contextmanager
-def table(*args, header_row: bool = True, width: int = 0, height: int = 0, inner_width: int = 0, show: bool = True, parent: str = "",
-		before: str = "", resizable: bool = False, reorderable: bool = False, hideable: bool = False, sortable: bool = False,   
+def table(*args, header_row: bool = True, width: int = 0, height: int = 0, inner_width: int = 0, show: bool = True, parent: int = 0,
+		before: int = 0, resizable: bool = False, reorderable: bool = False, hideable: bool = False, sortable: bool = False,   
 		context_menu_in_body: bool = False, row_background: bool = False, borders_innerH: bool = False, borders_outerH: bool = False,
 		borders_innerV: bool = False, borders_outerV: bool = False, policy: int = 0, no_host_extendX: bool = False,
 		no_host_extendY: bool = False, no_keep_columns_visible: bool = False, precise_widths: bool = False, no_clip: bool = False,
 		pad_outerX: bool = False, no_pad_outerX: bool = False, no_pad_innerX: bool = False, scrollX: bool = False, scrollY: bool = False,
-        id:str='', indent=-1, callback: Callable = None, sort_multi: bool = False, sort_tristate: bool = False, pos=[], freeze_rows:int = 0,
+        id:int=0, indent=-1, callback: Callable = None, sort_multi: bool = False, sort_tristate: bool = False, pos=[], freeze_rows:int = 0,
         freeze_columns:int = 0):
     """Wraps add_table() and automates calling end().
 
@@ -136,7 +136,7 @@ def table(*args, header_row: bool = True, width: int = 0, height: int = 0, inner
         internal_dpg.pop_container_stack()
 
 @contextmanager
-def drawlist(*args, id:str='', width: int = 0, height: int = 0, show: bool = True, parent: str = "", before: str = "",
+def drawlist(*args, id:int=0, width: int = 0, height: int = 0, show: bool = True, parent: int = 0, before: int = 0,
              callback: Callable = None, user_data: Any = None, pos=[]):
     try:
         widget = internal_dpg.add_drawlist(*args, id=id, width = width, height = height, show=show, parent=parent, before=before,
@@ -148,7 +148,7 @@ def drawlist(*args, id:str='', width: int = 0, height: int = 0, show: bool = Tru
         internal_dpg.pop_container_stack()
 
 @contextmanager
-def viewport_drawlist(*args, id:str='', front: bool = True, show: bool = True):
+def viewport_drawlist(*args, id:int=0, front: bool = True, show: bool = True):
     try:
         widget = internal_dpg.add_viewport_drawlist(*args, id=id, show=show, front=fronts)
         internal_dpg.push_container_stack(widget)
@@ -158,7 +158,7 @@ def viewport_drawlist(*args, id:str='', front: bool = True, show: bool = True):
         internal_dpg.pop_container_stack()
 
 @contextmanager
-def table_row(*args, id:str='', show: bool = True, parent: str = "", before: str = "", height: int = 0):
+def table_row(*args, id:int=0, show: bool = True, parent: int = 0, before: int = 0, height: int = 0):
     try:
         widget = internal_dpg.add_table_row(*args, id=id, show=show, parent=parent, before=before, height=height)
         internal_dpg.push_container_stack(widget)
@@ -168,7 +168,7 @@ def table_row(*args, id:str='', show: bool = True, parent: str = "", before: str
         internal_dpg.pop_container_stack()
 
 @contextmanager
-def draw_layer(*args, id:str='', show: bool = True, parent: str = "", before: str = ""):
+def draw_layer(*args, id:int=0, show: bool = True, parent: int = 0, before: int = 0):
     try:
         widget = internal_dpg.add_draw_layer(*args, id=id, show=show, parent=parent, before=before)
         internal_dpg.push_container_stack(widget)
@@ -184,7 +184,7 @@ def window(*args, width: int = 200, height: int = 200, autosize: bool = False,
            no_bring_to_front_on_focus: bool = False, menubar: bool = False, no_close: bool = False,
            no_background: bool = False, label: str = None, show: bool = True, collapsed: bool = False,
            modal: bool = False, popup: bool = False,
-           on_close: Callable = None, min_size: List[int]=[32, 32], max_size: List[int] = [30000, 30000], id:str=''):
+           on_close: Callable = None, min_size: List[int]=[32, 32], max_size: List[int] = [30000, 30000], id:int=0):
     """Wraps add_window() and automates calling end().
 
     Args:
@@ -237,7 +237,7 @@ def window(*args, width: int = 200, height: int = 200, autosize: bool = False,
 
 
 @contextmanager
-def menu_bar(*args, show: bool = True, parent: str = "", id:str='', indent=-1):
+def menu_bar(*args, show: bool = True, parent: int = 0, id:int=0, indent=-1):
     """Wraps add_menu_bar() and automates calling end().
 
     Args:
@@ -259,8 +259,8 @@ def menu_bar(*args, show: bool = True, parent: str = "", id:str='', indent=-1):
 
 
 @contextmanager
-def menu(*args, label: str = None, show: bool = True, parent: str = "",
-         before: str = "", enabled: bool = True, id:str='', indent=-1):
+def menu(*args, label: str = None, show: bool = True, parent: int = 0,
+         before: int = 0, enabled: bool = True, id:int=0, indent=-1):
     """Wraps add_menu() and automates calling end().
 
     Args:
@@ -285,9 +285,9 @@ def menu(*args, label: str = None, show: bool = True, parent: str = "",
 
 
 @contextmanager
-def child(*args, show: bool = True, parent: str = "", before: str = "", width: int = 0, pos=[],
+def child(*args, show: bool = True, parent: int = 0, before: int = 0, width: int = 0, pos=[],
           height: int = 0, border: bool = True, autosize_x: bool = False, autosize_y: bool = False,
-          no_scrollbar: bool = False, horizontal_scrollbar: bool = False, menubar: bool = False, id:str='', 
+          no_scrollbar: bool = False, horizontal_scrollbar: bool = False, menubar: bool = False, id:int=0, 
           indent=-1):
     """Wraps add_child() and automates calling end().
 
@@ -323,9 +323,9 @@ def child(*args, show: bool = True, parent: str = "", before: str = "", width: i
 
 @contextmanager
 def collapsing_header(*args, label: str = None, show: bool = True,
-                     parent: str = "", before: str = "",closable: bool = False, pos=[],
+                     parent: int = 0, before: int = 0,closable: bool = False, pos=[],
                       default_open: bool = False, open_on_double_click: bool = False, open_on_arrow: bool = False, 
-                      leaf: bool = False, bullet: bool = False, id:str='', indent=-1):
+                      leaf: bool = False, bullet: bool = False, id:int=0, indent=-1):
     """Wraps add_collapsing_header() and automates calling end().
 
     Args:
@@ -360,8 +360,8 @@ def collapsing_header(*args, label: str = None, show: bool = True,
 
 
 @contextmanager
-def group(*args, show: bool = True, parent: str = "", before: str = "", width: int = 0, pos=[],
-          horizontal: bool = False, horizontal_spacing: float = -1.0, id:str='', indent=-1):
+def group(*args, show: bool = True, parent: int = 0, before: int = 0, width: int = 0, pos=[],
+          horizontal: bool = False, horizontal_spacing: float = -1.0, id:int=0, indent=-1):
     """Wraps add_group() and automates calling end().
 
     Args:
@@ -389,7 +389,7 @@ def group(*args, show: bool = True, parent: str = "", before: str = "", width: i
 
 @contextmanager
 def node(*args, label: str = None, show: bool = True, draggable: bool = True,
-         parent: str = "", before: str = "", id:str='', pos: List = [100, 100]):
+         parent: int = 0, before: int = 0, id:int=0, pos: List = [100, 100]):
     """Wraps add_node() and automates calling end().
 
     Args:
@@ -416,7 +416,7 @@ def node(*args, label: str = None, show: bool = True, draggable: bool = True,
 
 @contextmanager
 def node_attribute(*args, show: bool = True, output: bool = False,
-         static: bool = False, parent: str = "", before: str = "", shape: int = 54010, id:str=''
+         static: bool = False, parent: int = 0, before: int = 0, shape: int = 54010, id:int=0
          , indent=-1):
     """Wraps add_node_attribute() and automates calling end().
 
@@ -442,8 +442,8 @@ def node_attribute(*args, show: bool = True, output: bool = False,
         internal_dpg.pop_container_stack()
 
 @contextmanager
-def node_editor(*args, show: bool = True, parent: str = "", before: str = "", callback: Callable = None, 
-                delink_callback: Callable = None, id:str=''):
+def node_editor(*args, show: bool = True, parent: int = 0, before: int = 0, callback: Callable = None, 
+                delink_callback: Callable = None, id:int=0):
     """Wraps add_node_editor() and automates calling end().
 
     Args:
@@ -467,7 +467,7 @@ def node_editor(*args, show: bool = True, parent: str = "", before: str = "", ca
         internal_dpg.pop_container_stack()
 
 @contextmanager
-def staging_container(*args, id:str=''):
+def staging_container(*args, id:int=0):
     """Wraps add_menu_bar() and automates calling end().
 
     Args:
@@ -489,7 +489,7 @@ def staging_container(*args, id:str=''):
 
 @contextmanager
 def tab_bar(*args, reorderable: bool = False, callback: Callable = None, user_data: Any = None,  show: bool = True,
-            parent: str = "", before: str = "", id:str='', indent=-1, pos=[]):
+            parent: int = 0, before: int = 0, id:int=0, indent=-1, pos=[]):
     """Wraps add_tab_bar() and automates calling end().
 
     Args:
@@ -518,7 +518,7 @@ def tab_bar(*args, reorderable: bool = False, callback: Callable = None, user_da
 @contextmanager
 def tab(*args, closable: bool = False, label: str = None, show: bool = True,
         no_reorder: bool = False, leading: bool = False, trailing: bool = False, no_tooltip: bool = False,
-        parent: str = "", before: str = "", id:str='', indent=-1):
+        parent: int = 0, before: int = 0, id:int=0, indent=-1):
     """Wraps add_tab() and automates calling end().
 
     Args:
@@ -548,9 +548,9 @@ def tab(*args, closable: bool = False, label: str = None, show: bool = True,
 
 
 @contextmanager
-def tree_node(*args, label: str = None, show: bool = True, parent: str = "", 
-              before: str = "", default_open: bool = False, open_on_double_click: bool = False, 
-              open_on_arrow: bool = False, leaf: bool = False, bullet: bool = False, id:str='',
+def tree_node(*args, label: str = None, show: bool = True, parent: int = 0, 
+              before: int = 0, default_open: bool = False, open_on_double_click: bool = False, 
+              open_on_arrow: bool = False, leaf: bool = False, bullet: bool = False, id:int=0,
               selectable: bool = False, indent=-1, pos=[]):
     """Wraps add_tree_node() and automates calling end().
 
@@ -585,7 +585,7 @@ def tree_node(*args, label: str = None, show: bool = True, parent: str = "",
 
 
 @contextmanager
-def tooltip(*args, parent: str = "", before: str = "", show: bool = True, id:str=''):
+def tooltip(*args, parent: int = 0, before: int = 0, show: bool = True, id:int=0):
     """Wraps add_tooltip() and automates calling end().
 
     Args:
@@ -608,8 +608,8 @@ def tooltip(*args, parent: str = "", before: str = "", show: bool = True, id:str
 
 
 @contextmanager
-def popup(*args, mousebutton: int = 1, modal: bool = False, parent: str = "", pos=[],
-          before: str = "", width: int = 0, height: int = 0, show: bool = True, id:str=''):
+def popup(*args, mousebutton: int = 1, modal: bool = False, parent: int = 0, pos=[],
+          before: int = 0, width: int = 0, height: int = 0, show: bool = True, id:int=0):
     """Wraps add_popup() and automates calling end().
 
     Args:
@@ -638,10 +638,10 @@ def popup(*args, mousebutton: int = 1, modal: bool = False, parent: str = "", po
         internal_dpg.pop_container_stack()
 
 @contextmanager
-def plot(*args, width: int = -1, height: int = 400, indent: int = 0, parent: str = "", before: str = "",
+def plot(*args, width: int = -1, height: int = 400, indent: int = 0, parent: int = 0, before: int = 0,
           label: str = None, show: bool = True, callback: Callable = None, user_data: Any = None, drop_callback: Callable = None,
           drag_callback: Callable = None, payload_type: Any = None, filter_key: str = "", tracked: bool = False, 
-          track_offset: float = 0.5, pos: List = [], id:str='',
+          track_offset: float = 0.5, pos: List = [], id:int=0,
           no_title: bool = False, no_menus: bool = False, no_box_select: bool = False, no_mouse_pos: bool = False,
           no_highlight: bool = False, no_child: bool = False, query: bool = False, crosshairs: bool = False,
           anti_aliased: bool = False, equal_aspects: bool = False

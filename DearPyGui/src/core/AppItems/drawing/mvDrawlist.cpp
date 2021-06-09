@@ -14,7 +14,7 @@ namespace Marvel {
 	void mvDrawlist::InsertParser(std::map<std::string, mvPythonParser>* parsers)
 	{
 
-		mvPythonParser parser(mvPyDataType::String, "Undocumented function", { "Drawlist", "Widgets" });
+		mvPythonParser parser(mvPyDataType::UUID, "Undocumented function", { "Drawlist", "Widgets" });
 		mvAppItem::AddCommonArgs(parser, (CommonParserArgs)(
 			MV_PARSER_ARG_ID |
 			MV_PARSER_ARG_WIDTH |
@@ -35,8 +35,8 @@ namespace Marvel {
 		parsers->insert({ s_command, parser });
 	}
 
-	mvDrawlist::mvDrawlist(const std::string& name)
-		: mvAppItem(name)
+	mvDrawlist::mvDrawlist(mvUUID uuid)
+		: mvAppItem(uuid)
 	{
 	}
 
@@ -87,8 +87,8 @@ namespace Marvel {
 
 		ImGui::PopClipRect();
 
-		if (ImGui::InvisibleButton(m_name.c_str(), ImVec2((float)m_width, (float)m_height), ImGuiButtonFlags_MouseButtonLeft | ImGuiButtonFlags_MouseButtonRight | ImGuiButtonFlags_MouseButtonMiddle))
-			mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), m_name, nullptr, m_user_data);
+		if (ImGui::InvisibleButton(m_label.c_str(), ImVec2((float)m_width, (float)m_height), ImGuiButtonFlags_MouseButtonLeft | ImGuiButtonFlags_MouseButtonRight | ImGuiButtonFlags_MouseButtonMiddle))
+			mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), m_uuid, nullptr, m_user_data);
 
 
 		if (ImGui::IsItemHovered())
