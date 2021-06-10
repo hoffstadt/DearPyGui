@@ -587,7 +587,7 @@ def tree_node(*args, label: str = None, show: bool = True, parent: int = 0,
 
 
 @contextmanager
-def tooltip(*args, parent: int = 0, before: int = 0, show: bool = True, id:int=0):
+def tooltip(*args, show: bool = True, id:int=0):
     """Wraps add_tooltip() and automates calling end().
 
     Args:
@@ -602,7 +602,7 @@ def tooltip(*args, parent: int = 0, before: int = 0, show: bool = True, id:int=0
         None
     """
     try:
-        widget = internal_dpg.add_tooltip(*args, parent=parent, before=before, show=show, id=id)
+        widget = internal_dpg.add_tooltip(*args, show=show, id=id)
         internal_dpg.push_container_stack(widget)
         yield widget
     finally:
@@ -611,7 +611,7 @@ def tooltip(*args, parent: int = 0, before: int = 0, show: bool = True, id:int=0
 
 @contextmanager
 def popup(*args, mousebutton: int = 1, modal: bool = False, parent: int = 0, pos=[],
-          before: int = 0, width: int = 0, height: int = 0, show: bool = True, id:int=0):
+          width: int = 0, height: int = 0, show: bool = True, id:int=0):
     """Wraps add_popup() and automates calling end().
 
     Args:
@@ -633,7 +633,7 @@ def popup(*args, mousebutton: int = 1, modal: bool = False, parent: int = 0, pos
     """
     try:
         widget = internal_dpg.add_popup(*args, mousebutton=mousebutton, modal=modal, parent=parent,
-                                     before=before, width=width, height=height, show=show, id=id, pos=pos)
+                                     width=width, height=height, show=show, id=id, pos=pos)
         internal_dpg.push_container_stack(widget)
         yield widget
     finally:

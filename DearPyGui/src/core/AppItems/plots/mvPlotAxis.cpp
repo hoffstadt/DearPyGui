@@ -185,29 +185,31 @@ namespace Marvel {
 	bool mvPlotAxis::canChildBeAdded(mvAppItemType type)
 	{
 
-		if (type == mvAppItemType::mvLineSeries) return true;
-		if (type == mvAppItemType::mvVLineSeries) return true;
-		if (type == mvAppItemType::mvHLineSeries) return true;
-		if (type == mvAppItemType::mvScatterSeries) return true;
-		if (type == mvAppItemType::mvStemSeries) return true;
-		if (type == mvAppItemType::mvStairSeries) return true;
-		if (type == mvAppItemType::mvBarSeries) return true;
-		if (type == mvAppItemType::mvErrorSeries) return true;
-		if (type == mvAppItemType::mvHeatSeries) return true;
-		if (type == mvAppItemType::mvImageSeries) return true;
-		if (type == mvAppItemType::mvPieSeries) return true;
-		if (type == mvAppItemType::mvShadeSeries) return true;
-		if (type == mvAppItemType::mvLabelSeries) return true;
-		if (type == mvAppItemType::mvCandleSeries) return true;
-		if (type == mvAppItemType::mvAreaSeries) return true;
-		if (type == mvAppItemType::mvHistogramSeries) return true;
-		if (type == mvAppItemType::mv2dHistogramSeries) return true;
+		//if (type == mvAppItemType::mvLineSeries) return true;
+		//if (type == mvAppItemType::mvVLineSeries) return true;
+		//if (type == mvAppItemType::mvHLineSeries) return true;
+		//if (type == mvAppItemType::mvScatterSeries) return true;
+		//if (type == mvAppItemType::mvStemSeries) return true;
+		//if (type == mvAppItemType::mvStairSeries) return true;
+		//if (type == mvAppItemType::mvBarSeries) return true;
+		//if (type == mvAppItemType::mvErrorSeries) return true;
+		//if (type == mvAppItemType::mvHeatSeries) return true;
+		//if (type == mvAppItemType::mvImageSeries) return true;
+		//if (type == mvAppItemType::mvPieSeries) return true;
+		//if (type == mvAppItemType::mvShadeSeries) return true;
+		//if (type == mvAppItemType::mvLabelSeries) return true;
+		//if (type == mvAppItemType::mvCandleSeries) return true;
+		//if (type == mvAppItemType::mvAreaSeries) return true;
+		//if (type == mvAppItemType::mvHistogramSeries) return true;
+		//if (type == mvAppItemType::mv2dHistogramSeries) return true;
 
-		mvThrowPythonError(1000, "Plot children must be compatible.");
-		MV_ITEM_REGISTRY_ERROR("Plot children must be compatible.");
-		assert(false);
+		//mvThrowPythonError(1000, "Plot children must be compatible.");
+		//MV_ITEM_REGISTRY_ERROR("Plot children must be compatible.");
+		//assert(false);
 
-		return false;
+		//return false;
+
+		return true;
 	}
 
 	void mvPlotAxis::handleSpecificKeywordArgs(PyObject* dict)

@@ -1079,7 +1079,6 @@ namespace Marvel{
 			int i = 0;
 			for (const auto& slot : children)
 			{
-				PyDict_SetItemString(pyChildren, std::to_string(i).c_str(), ToPyList(slot));
 				PyDict_SetItem(pyChildren, ToPyInt(i), ToPyList(slot));
 				i++;
 			}
