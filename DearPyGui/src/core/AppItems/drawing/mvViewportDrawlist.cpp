@@ -2,8 +2,6 @@
 #include "mvApp.h"
 #include "mvInput.h"
 #include "mvItemRegistry.h"
-//#include "mvImGuiThemeScope.h"
-//#include "mvFontScope.h"
 #include "mvViewport.h"
 #include "mvAppItemCommons.h"
 #include "mvLog.h"
@@ -59,7 +57,6 @@ namespace Marvel {
 
 	void mvViewportDrawlist::draw(ImDrawList* drawlist, float x, float y)
 	{
-		//mvFontScope fscope(this);
 
 		ImDrawList* internal_drawlist = m_front ? ImGui::GetForegroundDrawList() : ImGui::GetBackgroundDrawList();
 

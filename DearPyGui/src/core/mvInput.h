@@ -42,33 +42,33 @@ namespace Marvel {
 
 		static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
 
-		MV_CREATE_EXTRA_COMMAND(get_drawing_mouse_pos);
-		MV_CREATE_EXTRA_COMMAND(is_mouse_button_dragging);
-		MV_CREATE_EXTRA_COMMAND(is_mouse_button_down);
-		MV_CREATE_EXTRA_COMMAND(is_mouse_button_clicked);
-		MV_CREATE_EXTRA_COMMAND(is_mouse_button_double_clicked);
-		MV_CREATE_EXTRA_COMMAND(is_mouse_button_released);
-		MV_CREATE_EXTRA_COMMAND(get_mouse_drag_delta);
-		MV_CREATE_EXTRA_COMMAND(get_mouse_pos);
-		MV_CREATE_EXTRA_COMMAND(get_plot_mouse_pos);
-		MV_CREATE_EXTRA_COMMAND(is_key_pressed);
-		MV_CREATE_EXTRA_COMMAND(is_key_released);
-		MV_CREATE_EXTRA_COMMAND(is_key_down);
+		MV_CREATE_COMMAND(get_drawing_mouse_pos);
+		MV_CREATE_COMMAND(is_mouse_button_dragging);
+		MV_CREATE_COMMAND(is_mouse_button_down);
+		MV_CREATE_COMMAND(is_mouse_button_clicked);
+		MV_CREATE_COMMAND(is_mouse_button_double_clicked);
+		MV_CREATE_COMMAND(is_mouse_button_released);
+		MV_CREATE_COMMAND(get_mouse_drag_delta);
+		MV_CREATE_COMMAND(get_mouse_pos);
+		MV_CREATE_COMMAND(get_plot_mouse_pos);
+		MV_CREATE_COMMAND(is_key_pressed);
+		MV_CREATE_COMMAND(is_key_released);
+		MV_CREATE_COMMAND(is_key_down);
 
-		MV_START_EXTRA_COMMANDS
-			MV_ADD_EXTRA_COMMAND(get_drawing_mouse_pos);
-			MV_ADD_EXTRA_COMMAND(is_mouse_button_dragging);
-			MV_ADD_EXTRA_COMMAND(is_mouse_button_down);
-			MV_ADD_EXTRA_COMMAND(is_mouse_button_clicked);
-			MV_ADD_EXTRA_COMMAND(is_mouse_button_double_clicked);
-			MV_ADD_EXTRA_COMMAND(is_mouse_button_released);
-			MV_ADD_EXTRA_COMMAND(get_mouse_drag_delta);
-			MV_ADD_EXTRA_COMMAND(get_mouse_pos);
-			MV_ADD_EXTRA_COMMAND(get_plot_mouse_pos);
-			MV_ADD_EXTRA_COMMAND(is_key_pressed);
-			MV_ADD_EXTRA_COMMAND(is_key_released);
-			MV_ADD_EXTRA_COMMAND(is_key_down);
-		MV_END_EXTRA_COMMANDS
+		MV_START_COMMANDS
+			MV_ADD_COMMAND(get_drawing_mouse_pos);
+			MV_ADD_COMMAND(is_mouse_button_dragging);
+			MV_ADD_COMMAND(is_mouse_button_down);
+			MV_ADD_COMMAND(is_mouse_button_clicked);
+			MV_ADD_COMMAND(is_mouse_button_double_clicked);
+			MV_ADD_COMMAND(is_mouse_button_released);
+			MV_ADD_COMMAND(get_mouse_drag_delta);
+			MV_ADD_COMMAND(get_mouse_pos);
+			MV_ADD_COMMAND(get_plot_mouse_pos);
+			MV_ADD_COMMAND(is_key_pressed);
+			MV_ADD_COMMAND(is_key_released);
+			MV_ADD_COMMAND(is_key_down);
+		MV_END_COMMANDS
 
 
 	public:

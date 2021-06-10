@@ -2,8 +2,6 @@
 #include "mvInput.h"
 #include "mvApp.h"
 #include "mvItemRegistry.h"
-//#include "mvImGuiThemeScope.h"
-//#include "mvFontScope.h"
 
 namespace Marvel {
 
@@ -57,13 +55,8 @@ namespace Marvel {
 	void mvChild::draw(ImDrawList* drawlist, float x, float y)
 	{
 		ScopedID id(m_uuid);
-		//mvImGuiThemeScope scope(this);
-		//mvFontScope fscope(this);
 
 		ImGui::BeginChild(m_label.c_str(), ImVec2(m_autosize_x ? 0 : (float)m_width, m_autosize_y ? 0 : (float)m_height), m_border, m_windowflags);
-
-		//we do this so that the children dont get the theme
-		//scope.cleanup();
 
 		for (auto& item : m_children[1])
 		{

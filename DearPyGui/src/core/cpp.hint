@@ -30,28 +30,15 @@ static PyObject* parser(PyObject* self, PyObject* args, PyObject* kwargs)\
 static PyMethodDef GetMethodDefinition(){return { s_command, (PyCFunction)parser, METH_VARARGS | METH_KEYWORDS, mvApp::GetApp()->getParsers()[s_command].getDocumentation() };}
 
 
-#define MV_CREATE_EXTRA_COMMAND(x) static PyObject* x(PyObject* self, PyObject* args, PyObject* kwargs)
-#define MV_START_EXTRA_COMMANDS static void FillExtraCommands(std::vector<PyMethodDef>& methods){ 
-#define MV_ADD_EXTRA_COMMAND(x) methods.push_back({ #x, (PyCFunction)x, METH_VARARGS | METH_KEYWORDS, mvApp::GetApp()->getParsers()[#x].getDocumentation() });
-#define MV_END_EXTRA_COMMANDS }
+#define MV_CREATE_COMMAND(x) static PyObject* x(PyObject* self, PyObject* args, PyObject* kwargs)
+#define MV_START_COMMANDS static void FillExtraCommands(std::vector<PyMethodDef>& methods){ 
+#define MV_ADD_COMMAND(x) methods.push_back({ #x, (PyCFunction)x, METH_VARARGS | METH_KEYWORDS, mvApp::GetApp()->getParsers()[#x].getDocumentation() });
+#define MV_END_COMMANDS }
 
-#define MV_START_GENERAL_CONSTANTS public: static const std::vector<std::pair<std::string, long>>& GetGeneralConstants()\
+#define MV_START_CONSTANTS public: static const std::vector<std::pair<std::string, long>>& GetGeneralConstants()\
 {static std::vector<std::pair<std::string, long>> constants ={
 
-#define MV_END_GENERAL_CONSTANTS };return constants;}
+#define MV_END_CONSTANTS };return constants;}
 
-#define MV_START_COLOR_CONSTANTS public: static const std::vector<std::tuple<std::string, long, mvColor, mvColor>>& GetColorConstants()\
-{static std::vector<std::tuple<std::string, long, mvColor, mvColor>> constants ={
-
-#define MV_END_COLOR_CONSTANTS };return constants;}
-#define MV_START_STYLE_CONSTANTS public: static const std::vector<std::tuple<std::string, long, float, float>>& GetStyleConstants()\
-{static std::vector<std::tuple<std::string, long, float, float>> constants ={
-
-#define MV_END_STYLE_CONSTANTS };return constants;}
-#define MV_ADD_GENERAL_CONSTANT(x) {#x, x}
-#define MV_CREATE_CONSTANT_PAIR(x, y) {#x, x, y, y}
-#define MV_ADD_CONSTANT(x, y, z) {#x, x, y, z}
-#define MV_ADD_CONSTANT_F(x, y, z) {#x, x, (float)y, (float)z}
-#define MV_ENCODE_CONSTANT(z, i) s_internal_type*1000L+z*10L+i
-#define MV_CREATE_CONSTANT(y, z, i) static constexpr const long y = MV_ENCODE_CONSTANT(z, i);
-#define MV_CREATE_RAW_CONSTANT(y, z) static constexpr const long y = z;
+#define MV_ADD_CONSTANT(x) {#x, x}
+#define MV_CREATE_CONSTANT(y, z) static constexpr const long y = z;

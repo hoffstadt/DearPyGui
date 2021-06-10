@@ -2,9 +2,6 @@
 #include "mvInput.h"
 #include "mvApp.h"
 #include "mvItemRegistry.h"
-//#include "mvImGuiThemeScope.h"
-//#include "mvFontScope.h"
-
 namespace Marvel {
 
 	void mvGroup::InsertParser(std::map<std::string, mvPythonParser>* parsers)
@@ -43,16 +40,11 @@ namespace Marvel {
 
 	void mvGroup::draw(ImDrawList* drawlist, float x, float y)
 	{
-		//mvImGuiThemeScope scope(this);
-		//mvFontScope fscope(this);
 
 		if (m_width != 0)
 			ImGui::PushItemWidth((float)m_width);
 
 		ImGui::BeginGroup();
-
-		//we do this so that the children dont get the theme
-		//scope.cleanup();
 
 		for (auto& item : m_children[1])
 		{

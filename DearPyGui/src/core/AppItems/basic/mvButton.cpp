@@ -3,8 +3,6 @@
 #include "mvCore.h"
 #include "mvApp.h"
 #include "mvItemRegistry.h"
-//#include "mvImGuiThemeScope.h"
-//#include "mvFontScope.h"
 
 namespace Marvel {
 
@@ -50,8 +48,6 @@ namespace Marvel {
 	void mvButton::draw(ImDrawList* drawlist, float x, float y)
 	{
 		ScopedID id(m_uuid);
-		////mvImGuiThemeScope scope(this);
-		//mvFontScope fscope(this);
 
 		if (m_small_button)
 		{
@@ -84,7 +80,6 @@ namespace Marvel {
 		if (PyObject* item = PyDict_GetItemString(dict, "direction"))
 		{
 			m_direction = ToInt(item);
-			DecodelibID(m_direction, &m_direction);
 		}
 
 	}
@@ -96,7 +91,7 @@ namespace Marvel {
 
 		PyDict_SetItemString(dict, "small", ToPyBool(m_small_button));
 		PyDict_SetItemString(dict, "arrow", ToPyBool(m_arrow));
-		PyDict_SetItemString(dict, "direction", ToPyInt(MV_ENCODE_CONSTANT(m_direction, 0)));
+		PyDict_SetItemString(dict, "direction", ToPyInt(m_direction));
 	}
 
 }

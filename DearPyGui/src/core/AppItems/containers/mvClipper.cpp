@@ -2,8 +2,6 @@
 #include "mvInput.h"
 #include "mvApp.h"
 #include "mvItemRegistry.h"
-//#include "mvImGuiThemeScope.h"
-//#include "mvFontScope.h"
 
 namespace Marvel {
 
@@ -33,7 +31,6 @@ namespace Marvel {
 	void mvClipper::draw(ImDrawList* drawlist, float x, float y)
 	{
 		ScopedID id(m_uuid);
-		//mvFontScope fscope(this);
 
 		if (m_width != 0)
 			ImGui::PushItemWidth((float)m_width);

@@ -1,7 +1,5 @@
 #include "mvPopup.h"
 #include "mvItemRegistry.h"
-//#include "mvImGuiThemeScope.h"
-//#include "mvFontScope.h"
 #include "mvPythonExceptions.h"
 
 namespace Marvel {
@@ -56,8 +54,6 @@ namespace Marvel {
 	{
 
 		ScopedID id(m_parentAddress);
-		////mvImGuiThemeScope scope(this);
-		//mvFontScope fscope(this);
 
 		if (m_modal)
 		{
@@ -72,9 +68,6 @@ namespace Marvel {
 					ImGui::CloseCurrentPopup();
 					m_close = false;
 				}
-
-				//we do this so that the children dont get the theme
-				////scope.cleanup();
 
 				for (mvRef<mvAppItem> item : m_children[1])
 				{

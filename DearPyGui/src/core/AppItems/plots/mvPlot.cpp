@@ -17,10 +17,9 @@
 #include "mvShadeSeries.h"
 #include "mvStairSeries.h"
 #include "mvStemSeries.h"
-//#include "mvImPlotThemeScope.h"
-//#include "mvFontScope.h"
 #include "mvPythonExceptions.h"
 #include "mvPlotAxis.h"
+#include "themes/mvTheme.h"
 #include "containers/mvDragPayload.h"
 
 namespace Marvel {
@@ -457,6 +456,16 @@ namespace Marvel {
 	{
 
 		m_state.update();
+
+		if (m_font)
+		{
+			ImGui::PopFont();
+		}
+
+		if (m_theme)
+		{
+			static_cast<mvTheme*>(m_theme.get())->customAction();
+		}
 
 		// event handlers
 		for (auto& item : m_children[3])

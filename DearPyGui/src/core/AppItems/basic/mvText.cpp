@@ -1,8 +1,6 @@
 #include "mvText.h"
 #include "mvApp.h"
 #include "mvItemRegistry.h"
-//#include "mvImGuiThemeScope.h"
-//#include "mvFontScope.h"
 
 namespace Marvel {
 
@@ -48,9 +46,6 @@ namespace Marvel {
 	{
 		// this fixes the vertical text alignment issue according it DearImGui issue #2317
 		ImGui::AlignTextToFramePadding();
-		//ScopedID id(m_uuid);
-		////mvImGuiThemeScope scope(this);
-		//mvFontScope fscope(this);
 
 		const ImGuiStyle& style = ImGui::GetStyle();
 		const float w = ImGui::CalcItemWidth();

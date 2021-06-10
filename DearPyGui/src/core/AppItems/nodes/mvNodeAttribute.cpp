@@ -122,7 +122,6 @@ namespace Marvel {
 		if (PyObject* item = PyDict_GetItemString(dict, "shape"))
 		{
 			m_shape = (imnodes::PinShape)ToInt(item);
-			DecodelibID(m_shape, (int*)&m_shape);
 		}
 	}
 
@@ -133,7 +132,7 @@ namespace Marvel {
 
 		PyDict_SetItemString(dict, "output", ToPyBool(m_output));
 		PyDict_SetItemString(dict, "static", ToPyBool(m_static));
-		PyDict_SetItemString(dict, "shape", ToPyInt(MV_ENCODE_CONSTANT((int)m_shape, 0)));
+		PyDict_SetItemString(dict, "shape", ToPyInt((int)m_shape));
 	}
 
 }

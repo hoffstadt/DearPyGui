@@ -20,6 +20,24 @@ class mvLogger:
         self.child_id = dpg.add_child(parent=self.window_id, autosize_x=True, autosize_y=True)
         self.filter_id = dpg.add_filter_set(parent=self.child_id)
 
+        with cxt.theme() as self.trace_theme:
+            dpg.add_theme_color(dpg.mvThemeCol_Text, (0, 255, 0, 255))
+
+        with cxt.theme() as self.debug_theme:
+            dpg.add_theme_color(dpg.mvThemeCol_Text, (64, 128, 255, 255))
+
+        with cxt.theme() as self.info_theme:
+            dpg.add_theme_color(dpg.mvThemeCol_Text, (255, 255, 255, 255))
+
+        with cxt.theme() as self.warning_theme:
+            dpg.add_theme_color(dpg.mvThemeCol_Text, (255, 255, 0, 255))
+
+        with cxt.theme() as self.error_theme:
+            dpg.add_theme_color(dpg.mvThemeCol_Text, (255, 0, 0, 255))
+
+        with cxt.theme() as self.critical_theme:
+            dpg.add_theme_color(dpg.mvThemeCol_Text, (255, 0, 0, 255))
+
     def auto_scroll(self, value):
         self._auto_scroll = value
 
@@ -28,28 +46,28 @@ class mvLogger:
         if level < self.log_level:
             return
 
-        color = [255, 255, 255, 255]
+        theme = self.info_theme
 
         if level == 0:
             message = "[TRACE]\t\t" + message
-            color = [0, 255, 0, 255]
+            theme = self.trace_theme
         elif level == 1:
             message = "[DEBUG]\t\t" + message
-            color = [64, 128, 255, 255]
+            theme = self.debug_theme
         elif level == 2:
             message = "[INFO]\t\t" + message
         elif level == 3:
             message = "[WARNING]\t\t" + message
-            color = [255, 255, 0, 255]
+            theme = self.warning_theme
         elif level == 4:
             message = "[ERROR]\t\t" + message
-            color = [255, 0, 0, 255]
+            theme = self.error_theme
         elif level == 5:
             message = "[CRITICAL]\t\t" + message
-            color = [255, 0, 0, 255]
+            theme = self.critical_theme
 
         new_log = dpg.add_text(message, parent=self.filter_id, filter_key=message)
-        #dpg.set_theme_color(dpg.mvThemeCol_Text_Text, color, item=new_log)
+        dpg.set_item_theme(new_log, theme)
         if self._auto_scroll:
             scroll_max = dpg.get_y_scroll_max(self.child_id)
             dpg.set_y_scroll(self.child_id, -1.0)
