@@ -2,12 +2,9 @@
 #include "mvPlotLegend.h"
 #include "mvApp.h"
 #include "mvItemRegistry.h"
-//#include "mvImGuiThemeScope.h"
-//#include "mvFontScope.h"
 #include "mvLog.h"
+#include "themes/mvTheme.h"
 #include "mvPythonExceptions.h"
-//#include "mvImPlotThemeScope.h"
-//#include "mvFontScope.h"
 #include "mvPlot.h"
 #include "containers/mvDragPayload.h"
 
@@ -39,8 +36,6 @@ namespace Marvel {
 
 	void mvPlotLegend::draw(ImDrawList* drawlist, float x, float y)
 	{
-		//mvImPlotThemeScope scope(this);
-		//mvFontScope fscope(this);
 	}
 
 	bool mvPlotLegend::isParentCompatible(mvAppItemType type)
@@ -72,6 +67,16 @@ namespace Marvel {
 	{
 
 		m_state.update();
+
+		if (m_font)
+		{
+			ImGui::PopFont();
+		}
+
+		if (m_theme)
+		{
+			static_cast<mvTheme*>(m_theme.get())->customAction();
+		}
 
 		if (m_dropCallback)
 		{

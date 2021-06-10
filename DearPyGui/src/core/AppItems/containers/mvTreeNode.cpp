@@ -2,10 +2,9 @@
 #include "core/mvInput.h"
 #include "mvApp.h"
 #include "mvItemRegistry.h"
-//#include "mvImGuiThemeScope.h"
-//#include "mvFontScope.h"
 
 namespace Marvel {
+
 	void mvTreeNode::InsertParser(std::map<std::string, mvPythonParser>* parsers)
 	{
 
@@ -45,8 +44,6 @@ namespace Marvel {
 	void mvTreeNode::draw(ImDrawList* drawlist, float x, float y)
 	{
 		ScopedID id(m_uuid);
-		//mvImGuiThemeScope scope(this);
-		//mvFontScope fscope(this);
 
 		ImGui::BeginGroup();
 		
@@ -65,9 +62,6 @@ namespace Marvel {
 			ImGui::EndGroup();
 			return;
 		}
-
-		//we do this so that the children dont get the theme
-		//scope.cleanup();
 
 		for (auto& item : m_children[1])
 		{

@@ -1,10 +1,8 @@
 #include "mvFileDialog.h"
 #include "mvFileExtension.h"
 #include "mvItemRegistry.h"
-//#include "mvFontScope.h"
 #include "mvPythonExceptions.h"
 #include "mvLog.h"
-//#include "mvImGuiThemeScope.h"
 
 static void Panel(const char* vFilter, IGFDUserDatas vUserDatas, bool* vCantContinue)
 {
@@ -84,8 +82,7 @@ namespace Marvel {
 	void mvFileDialog::draw(ImDrawList* drawlist, float x, float y)
 	{
 		ScopedID id(m_uuid);
-		//mvImGuiThemeScope scope(this);
-		//mvFontScope fscope(this);
+
 		if (!m_show)
 			return;
 

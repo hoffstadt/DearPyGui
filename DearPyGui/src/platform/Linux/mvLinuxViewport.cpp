@@ -225,7 +225,6 @@ namespace Marvel {
         {
             mvToolManager::GetFontManager().rebuildAtlas();
             ImGui_ImplOpenGL3_DestroyDeviceObjects();
-            mvToolManager::GetFontManager().updateDefaultFont();
         }
 
         // Start the Dear ImGui frame

@@ -2,9 +2,6 @@
 #include "mvRadioButton.h"
 #include "mvApp.h"
 #include "mvItemRegistry.h"
-//#include "mvImGuiThemeScope.h"
-//#include "mvFontScope.h"
-
 namespace Marvel {
 
 	void mvRadioButton::InsertParser(std::map<std::string, mvPythonParser>* parsers)
@@ -75,8 +72,6 @@ namespace Marvel {
 		ImGui::BeginGroup();
 
 		ScopedID id(m_uuid);
-		////mvImGuiThemeScope scope(this);
-		//mvFontScope fscope(this);
 
 		if (!m_enabled)
 		{

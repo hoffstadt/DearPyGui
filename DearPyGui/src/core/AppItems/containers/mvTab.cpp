@@ -2,8 +2,6 @@
 #include "mvTabBar.h"
 #include "mvApp.h"
 #include "mvItemRegistry.h"
-//#include "mvImGuiThemeScope.h"
-//#include "mvFontScope.h"
 
 namespace Marvel {
 
@@ -55,8 +53,6 @@ namespace Marvel {
 	void mvTab::draw(ImDrawList* drawlist, float x, float y)
 	{
 		ScopedID id(m_uuid);
-		//mvImGuiThemeScope scope(this);
-		//mvFontScope fscope(this);
 
 		// cast parent to mvTabBar
 		auto parent = (mvTabBar*)m_parentPtr;
@@ -88,9 +84,6 @@ namespace Marvel {
 				mvApp::GetApp()->getCallbackRegistry().addCallback(parent->getCallback(), m_uuid, nullptr, parent->getCallbackData());
 
 			parent->setValue(m_uuid);
-
-			//we do this so that the children dont get the theme
-			//scope.cleanup();
 
 			for (auto& item : m_children[1])
 			{
