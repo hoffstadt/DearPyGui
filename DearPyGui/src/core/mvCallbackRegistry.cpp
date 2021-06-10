@@ -32,7 +32,6 @@ namespace Marvel {
 		{
 			mvPythonParser parser(mvPyDataType::String);
 			parser.addArg<mvPyDataType::Callable>("callback");
-			parser.addArg<mvPyDataType::UUID>("handler", mvArgType::KEYWORD_ARG, "''");
 			parser.finalize();
 			parsers->insert({ "set_resize_callback", parser });
 		}
@@ -313,36 +312,17 @@ namespace Marvel {
 	PyObject* mvCallbackRegistry::set_resize_callback(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		PyObject* callback = nullptr;
-		mvUUID handler = 0;
 
 		if (!(mvApp::GetApp()->getParsers())["set_resize_callback"].parse(args, kwargs, __FUNCTION__,
-			&callback, &handler))
+			&callback))
 			return GetPyNone();
+
 		if (callback)
 			Py_XINCREF(callback);
 
-
 		auto fut = mvApp::GetApp()->getCallbackRegistry().submit([=]()
 			{
-
-				if (handler == 0)
-				{
-					mvApp::GetApp()->getCallbackRegistry().setResizeCallback(callback);
-					return std::string("");
-				}
-
-				mvAppItem* item = mvApp::GetApp()->getItemRegistry().getItem(handler);
-
-				if (item)
-				{
-					if (mvAppItem::DoesItemHaveFlag(item, MV_ITEM_DESC_ROOT))
-					{
-						auto windowtype = static_cast<mvWindowAppItem*>(item);
-						windowtype->setResizeCallback(callback);
-					}
-					else
-						return std::string("Resize callback can only be set for window items");
-				}
+				mvApp::GetApp()->getCallbackRegistry().setResizeCallback(callback);
 				return std::string("");
 			});
 

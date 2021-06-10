@@ -2,7 +2,7 @@
 #include "mvApp.h"
 #include "mvItemRegistry.h"
 #include "mvImGuiThemeScope.h"
-#include "mvFontScope.h"
+//#include "mvFontScope.h"
 
 namespace Marvel {
 
@@ -15,6 +15,7 @@ namespace Marvel {
 			MV_PARSER_ARG_SHOW)
 		);
 
+		parser.addArg<mvPyDataType::String>("parent");
 		parser.finalize();
 
 		parsers->insert({ s_command, parser });
@@ -36,7 +37,7 @@ namespace Marvel {
 		if (ImGui::IsItemHovered())
 		{
 			mvImGuiThemeScope scope(this);
-			mvFontScope fscope(this);
+			//mvFontScope fscope(this);
 			ImGui::BeginTooltip();
 
 			//we do this so that the children dont get the theme
@@ -55,6 +56,26 @@ namespace Marvel {
 			ImGui::EndTooltip();
 		}
 
+	}
+
+	void mvTooltip::handleSpecificRequiredArgs(PyObject* dict)
+	{
+		if (!mvApp::GetApp()->getParsers()[s_command].verifyRequiredArguments(dict))
+			return;
+
+		for (int i = 0; i < PyTuple_Size(dict); i++)
+		{
+			PyObject* item = PyTuple_GetItem(dict, i);
+			switch (i)
+			{
+			case 0:
+				m_parent = ToUUID(item);
+				break;
+
+			default:
+				break;
+			}
+		}
 	}
 
 }

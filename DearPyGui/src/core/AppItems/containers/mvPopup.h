@@ -84,7 +84,7 @@ namespace Marvel {
 		void closePopup();
 
 		void draw(ImDrawList* drawlist, float x, float y) override;
-
+		void setLabel(const std::string& value) override;
 		void handleSpecificKeywordArgs(PyObject* dict) override;
 		void getSpecificConfiguration(PyObject* dict) override;
 

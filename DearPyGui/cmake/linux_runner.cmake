@@ -75,7 +75,7 @@ elseif(MVPY_VERSION EQUAL 38)
 		PRIVATE 
 			"-fPIC -lcrypt -lpthread -ldl  -lutil -lm"
 			GL
-			freetype
+			#freetype
 			glfw
 			python3.8
 	)

@@ -158,7 +158,11 @@ def add_focus_handler(parent : str, *, id: int =..., callback: Callable =None, u
 	"""Undocumented function"""
 	...
 
-def add_font(font : str, file : str, size : float, glyph_ranges : str ='', *, custom_glyph_chars: List[int] =[], custom_glyph_ranges: Any =[[]], char_remaps: Any =[[]]) -> None:
+def add_font(file : str, size : int, *, id: int =..., parent: int =0) -> int:
+	"""Undocumented function"""
+	...
+
+def add_font_registry(*, id: int =..., show: bool =True) -> int:
 	"""Undocumented function"""
 	...
 
@@ -334,6 +338,10 @@ def add_radio_button(items : int =(), *, id: int =..., indent: int =-1, parent: 
 	"""Undocumented function"""
 	...
 
+def add_resize_handler(parent : str, *, id: int =..., callback: Callable =None, user_data: Any =None) -> int:
+	"""Undocumented function"""
+	...
+
 def add_same_line(*, id: int =..., parent: int =0, before: int =0, show: bool =True, xoffset: float =0.0, spacing: float =-1.0) -> int:
 	"""Undocumented function"""
 	...
@@ -442,7 +450,7 @@ def add_toggled_open_handler(parent : str, *, id: int =..., callback: Callable =
 	"""Undocumented function"""
 	...
 
-def add_tooltip(*, id: int =..., show: bool =True) -> int:
+def add_tooltip(parent : str, *, id: int =..., show: bool =True) -> int:
 	"""Undocumented function"""
 	...
 
@@ -802,7 +810,7 @@ def set_primary_window(window : int, value : bool) -> None:
 	"""Undocumented function"""
 	...
 
-def set_resize_callback(callback : Callable, *, handler: int ='') -> str:
+def set_resize_callback(callback : Callable) -> str:
 	"""Undocumented function"""
 	...
 

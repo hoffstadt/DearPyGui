@@ -1,7 +1,7 @@
 #include "mvKnob.h"
 #include "mvKnobCustom.h"
 #include "mvImGuiThemeScope.h"
-#include "mvFontScope.h"
+//#include "mvFontScope.h"
 
 namespace Marvel {
 
@@ -48,7 +48,7 @@ namespace Marvel {
     {
         ScopedID id(m_uuid);
         mvImGuiThemeScope scope(this);
-        mvFontScope fscope(this);
+        //mvFontScope fscope(this);
 
         if (KnobFloat(m_specificedlabel.c_str(), m_value.get(), m_min, m_max, m_step))
             mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), m_uuid, nullptr, m_user_data);

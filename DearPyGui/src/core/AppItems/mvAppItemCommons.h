@@ -17,6 +17,7 @@
 #include "handlers/mvMouseDragHandler.h"
 
 #include "widget_handlers/mvHoverHandler.h"
+#include "widget_handlers/mvResizeHandler.h"
 #include "widget_handlers/mvFocusHandler.h"
 #include "widget_handlers/mvActiveHandler.h"
 #include "widget_handlers/mvVisibleHandler.h"
@@ -132,3 +133,6 @@
 #include "nodes/mvNode.h"
 #include "nodes/mvNodeAttribute.h"
 #include "nodes/mvNodeLink.h"
+
+#include "fonts/mvFont.h"
+#include "fonts/mvFontRegistry.h"

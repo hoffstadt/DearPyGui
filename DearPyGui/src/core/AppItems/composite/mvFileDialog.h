@@ -159,6 +159,7 @@ namespace Marvel {
 		void draw(ImDrawList* drawlist, float x, float y) override;
 		void drawPanel();
 
+		void setLabel(const std::string& value) override;
 		void handleSpecificKeywordArgs(PyObject* dict) override;
 		void getSpecificConfiguration(PyObject* dict) override;
 

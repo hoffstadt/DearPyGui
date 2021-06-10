@@ -6,7 +6,7 @@
 #include <string>
 #include "mvItemRegistry.h"
 #include "mvImGuiThemeScope.h"
-#include "mvFontScope.h"
+//#include "mvFontScope.h"
 #include <implot.h>
 
 namespace Marvel {
@@ -47,7 +47,7 @@ namespace Marvel {
     {
         ScopedID id(m_uuid);
         mvImGuiThemeScope scope(this);
-        mvFontScope fscope(this);
+        //mvFontScope fscope(this);
 
         ImPlot::ColormapScale(m_label.c_str(), m_scale_min, m_scale_max, ImVec2((float)m_width, (float)m_height), *m_value);
     }
