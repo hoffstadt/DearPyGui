@@ -35,7 +35,6 @@ namespace Marvel {
 		: 
 		mvAppItem(uuid)
 	{
-		m_libType = mvLibType::MV_IMPLOT;
 	}
 
 	void mvPlotLegend::draw(ImDrawList* drawlist, float x, float y)

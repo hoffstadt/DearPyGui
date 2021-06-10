@@ -158,7 +158,7 @@ def add_focus_handler(parent : str, *, id: int =..., callback: Callable =None, u
 	"""Undocumented function"""
 	...
 
-def add_font(file : str, size : int, *, id: int =..., parent: int =0) -> int:
+def add_font(file : str, size : int, *, id: int =..., parent: int =0, default_font: bool =False) -> int:
 	"""Undocumented function"""
 	...
 
@@ -439,6 +439,18 @@ def add_text_point(x : float, y : float, *, id: int =..., parent: int =0, before
 	...
 
 def add_texture_container(*, id: int =..., show: bool =True) -> int:
+	"""Undocumented function"""
+	...
+
+def add_theme(*, id: int =..., label: str =None, default_theme: bool =False) -> int:
+	"""Undocumented function"""
+	...
+
+def add_theme_color(target : int =0, default_value : List[int] =(0, 0, 0, 255), *, id: int =..., parent: int =0, label: str =None, category: int =0) -> int:
+	"""Undocumented function"""
+	...
+
+def add_theme_style(target : int =0, x : float =1.0, y : float =-1.0, *, id: int =..., parent: int =0, label: str =None, category: int =0) -> int:
 	"""Undocumented function"""
 	...
 
@@ -790,10 +802,6 @@ def set_exit_callback(callback : Callable) -> str:
 	"""Undocumented function"""
 	...
 
-def set_font(font : str, size : float, *, item: int =0) -> None:
-	"""Undocumented function"""
-	...
-
 def set_global_font_scale(scale : float) -> None:
 	"""Undocumented function"""
 	...
@@ -802,7 +810,15 @@ def set_item_children(item : int, source : int, slot : int) -> dict:
 	"""Undocumented function"""
 	...
 
+def set_item_font(item : int, font : int) -> None:
+	"""Undocumented function"""
+	...
+
 def set_item_pos(item : int, x : float, y : float) -> None:
+	"""Undocumented function"""
+	...
+
+def set_item_theme(item : int, theme : int) -> None:
 	"""Undocumented function"""
 	...
 
@@ -819,18 +835,6 @@ def set_staging_mode(mode : bool) -> None:
 	...
 
 def set_start_callback(callback : Callable) -> str:
-	"""Undocumented function"""
-	...
-
-def set_theme_color(constant : int, color : List[float], *, item: int =0) -> str:
-	"""Undocumented function"""
-	...
-
-def set_theme_color_disabled(constant : int, color : List[float], *, item: int =0) -> str:
-	"""Undocumented function"""
-	...
-
-def set_theme_style(constant : int, style : float, *, item: int =0) -> str:
 	"""Undocumented function"""
 	...
 

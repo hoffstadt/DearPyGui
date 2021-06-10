@@ -24,8 +24,6 @@ namespace Marvel {
 
 		MV_APPLY_WIDGET_REGISTRATION(mvAppItemType::mvText, add_text)
 
-		MV_CREATE_CONSTANT(mvThemeCol_Text_Text, ImGuiCol_Text, 0L);
-
 		MV_START_EXTRA_COMMANDS
 		MV_END_EXTRA_COMMANDS
 
@@ -33,7 +31,6 @@ namespace Marvel {
 		MV_END_GENERAL_CONSTANTS
 
 		MV_START_COLOR_CONSTANTS
-			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Text_Text, mvImGuiCol_Text)
 		MV_END_COLOR_CONSTANTS
 
 		MV_START_STYLE_CONSTANTS

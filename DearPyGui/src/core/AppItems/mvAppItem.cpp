@@ -320,7 +320,6 @@ namespace Marvel{
 
 		if (m_theme)
 		{
-			static_cast<mvTheme*>(m_theme.get())->setLibType(m_libType);
 			static_cast<mvTheme*>(m_theme.get())->draw(nullptr, 0.0f, 0.0f);
 		}
 

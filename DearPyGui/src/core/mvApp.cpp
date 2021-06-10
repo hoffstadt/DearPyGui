@@ -19,6 +19,7 @@
 #include "mvLog.h"
 #include "mvEventMacros.h"
 #include "mvToolManager.h"
+#include <imnodes.h>
 
 namespace Marvel {
 
@@ -38,6 +39,89 @@ namespace Marvel {
 
 		s_instance = new mvApp();
 		return s_instance;
+	}
+
+	void mvApp::SetDefaultTheme()
+	{
+		ImGuiStyle* style = &ImGui::GetStyle();
+		ImVec4* colors = style->Colors;
+
+		colors[ImGuiCol_Text] = MV_BASE_COL_textColor;
+		colors[ImGuiCol_TextDisabled] = MV_BASE_COL_textDisabledColor;
+		colors[ImGuiCol_WindowBg] = mvImGuiCol_WindowBg;
+		colors[ImGuiCol_ChildBg] = mvImGuiCol_ChildBg;
+		colors[ImGuiCol_PopupBg] = mvImGuiCol_PopupBg;
+		colors[ImGuiCol_Border] = mvImGuiCol_Border;
+		colors[ImGuiCol_BorderShadow] = mvImGuiCol_BorderShadow;
+		colors[ImGuiCol_FrameBg] = mvImGuiCol_FrameBg;
+		colors[ImGuiCol_FrameBgHovered] = mvImGuiCol_FrameBgHovered;
+		colors[ImGuiCol_FrameBgActive] = mvImGuiCol_FrameBgActive;
+		colors[ImGuiCol_TitleBg] = mvImGuiCol_TitleBg;
+		colors[ImGuiCol_TitleBgActive] = mvImGuiCol_TitleBgActive;
+		colors[ImGuiCol_TitleBgCollapsed] = mvImGuiCol_TitleBgCollapsed;
+		colors[ImGuiCol_MenuBarBg] = mvImGuiCol_MenuBarBg;
+		colors[ImGuiCol_ScrollbarBg] = mvImGuiCol_ScrollbarBg;
+		colors[ImGuiCol_ScrollbarGrab] = mvImGuiCol_ScrollbarGrab;
+		colors[ImGuiCol_ScrollbarGrabHovered] = mvImGuiCol_ScrollbarGrabHovered;
+		colors[ImGuiCol_ScrollbarGrabActive] = mvImGuiCol_ScrollbarGrabActive;
+		colors[ImGuiCol_CheckMark] = mvImGuiCol_CheckMark;
+		colors[ImGuiCol_SliderGrab] = mvImGuiCol_SliderGrab;
+		colors[ImGuiCol_SliderGrabActive] = mvImGuiCol_SliderGrabActive;
+		colors[ImGuiCol_Button] = mvImGuiCol_Button;
+		colors[ImGuiCol_ButtonHovered] = mvImGuiCol_ButtonHovered;
+		colors[ImGuiCol_ButtonActive] = mvImGuiCol_ButtonActive;
+		colors[ImGuiCol_Header] = mvImGuiCol_Header;
+		colors[ImGuiCol_HeaderHovered] = mvImGuiCol_HeaderHovered;
+		colors[ImGuiCol_HeaderActive] = mvImGuiCol_HeaderActive;
+		colors[ImGuiCol_Separator] = mvImGuiCol_Separator;
+		colors[ImGuiCol_SeparatorHovered] = mvImGuiCol_SeparatorHovered;
+		colors[ImGuiCol_SeparatorActive] = mvImGuiCol_SeparatorActive;
+		colors[ImGuiCol_ResizeGrip] = mvImGuiCol_ResizeGrip;
+		colors[ImGuiCol_ResizeGripHovered] = mvImGuiCol_ResizeGripHovered;
+		colors[ImGuiCol_ResizeGripActive] = mvImGuiCol_ResizeGripHovered;
+		colors[ImGuiCol_Tab] = mvImGuiCol_Tab;
+		colors[ImGuiCol_TabHovered] = mvImGuiCol_TabHovered;
+		colors[ImGuiCol_TabActive] = mvImGuiCol_TabActive;
+		colors[ImGuiCol_TabUnfocused] = mvImGuiCol_TabUnfocused;
+		colors[ImGuiCol_TabUnfocusedActive] = mvImGuiCol_TabUnfocusedActive;
+		colors[ImGuiCol_DockingPreview] = mvImGuiCol_DockingPreview;
+		colors[ImGuiCol_DockingEmptyBg] = mvImGuiCol_DockingEmptyBg;
+		colors[ImGuiCol_PlotLines] = mvImGuiCol_PlotLines;
+		colors[ImGuiCol_PlotLinesHovered] = mvImGuiCol_PlotLinesHovered;
+		colors[ImGuiCol_PlotHistogram] = mvImGuiCol_PlotHistogram;
+		colors[ImGuiCol_PlotHistogramHovered] = mvImGuiCol_PlotHistogramHovered;
+		colors[ImGuiCol_TableHeaderBg] = mvImGuiCol_TableHeaderBg;
+		colors[ImGuiCol_TableBorderStrong] = mvImGuiCol_TableBorderStrong;   // Prefer using Alpha=1.0 here
+		colors[ImGuiCol_TableBorderLight] = mvImGuiCol_TableBorderLight;   // Prefer using Alpha=1.0 here
+		colors[ImGuiCol_TableRowBg] = mvImGuiCol_TableRowBg;
+		colors[ImGuiCol_TableRowBgAlt] = mvImGuiCol_TableRowBgAlt;
+		colors[ImGuiCol_TextSelectedBg] = mvImGuiCol_TextSelectedBg;
+		colors[ImGuiCol_DragDropTarget] = mvImGuiCol_DragDropTarget;
+		colors[ImGuiCol_NavHighlight] = mvImGuiCol_NavHighlight;
+		colors[ImGuiCol_NavWindowingHighlight] = mvImGuiCol_NavWindowingHighlight;
+		colors[ImGuiCol_NavWindowingDimBg] = mvImGuiCol_NavWindowingDimBg;
+		colors[ImGuiCol_ModalWindowDimBg] = mvImGuiCol_ModalWindowDimBg;
+
+		//ImPlotContext* implotcontext = ImPlot::GetCurrentContext();
+		//implotcontext->Scales.Colors[] = ;
+
+		imnodes::GetStyle().colors[imnodes::ColorStyle_NodeBackground] = mvColor::ConvertToUnsignedInt(mvColor(62, 62, 62, 255));
+		imnodes::GetStyle().colors[imnodes::ColorStyle_NodeBackgroundHovered] = mvColor::ConvertToUnsignedInt(mvColor(75, 75, 75, 255));
+		imnodes::GetStyle().colors[imnodes::ColorStyle_NodeBackgroundSelected] = mvColor::ConvertToUnsignedInt(mvColor(75, 75, 75, 255));
+		imnodes::GetStyle().colors[imnodes::ColorStyle_NodeOutline] = mvColor::ConvertToUnsignedInt(mvColor(100, 100, 100, 255));
+		imnodes::GetStyle().colors[imnodes::ColorStyle_TitleBar] = mvColor::ConvertToUnsignedInt(mvImGuiCol_TitleBg);
+		imnodes::GetStyle().colors[imnodes::ColorStyle_TitleBarHovered] = mvColor::ConvertToUnsignedInt(mvImGuiCol_TitleBgActive);
+		imnodes::GetStyle().colors[imnodes::ColorStyle_TitleBarSelected] = mvColor::ConvertToUnsignedInt(mvImGuiCol_TitleBgCollapsed);
+		imnodes::GetStyle().colors[imnodes::ColorStyle_Link] = mvColor::ConvertToUnsignedInt(mvColor(255, 255, 255, 200));
+		imnodes::GetStyle().colors[imnodes::ColorStyle_LinkHovered] = mvColor::ConvertToUnsignedInt(mvColor(66, 150, 250, 255));
+		imnodes::GetStyle().colors[imnodes::ColorStyle_LinkSelected] = mvColor::ConvertToUnsignedInt(mvColor(66, 150, 250, 255));
+		imnodes::GetStyle().colors[imnodes::ColorStyle_Pin] = mvColor::ConvertToUnsignedInt(mvColor(199, 199, 41, 255));
+		imnodes::GetStyle().colors[imnodes::ColorStyle_PinHovered] = mvColor::ConvertToUnsignedInt(mvColor(255, 255, 50, 255));
+		imnodes::GetStyle().colors[imnodes::ColorStyle_BoxSelector] = mvColor::ConvertToUnsignedInt(mvColor(61, 133, 224, 30));
+		imnodes::GetStyle().colors[imnodes::ColorStyle_BoxSelectorOutline] = mvColor::ConvertToUnsignedInt(mvColor(61, 133, 224, 150));
+		imnodes::GetStyle().colors[imnodes::ColorStyle_GridBackground] = mvColor::ConvertToUnsignedInt(mvColor(35, 35, 35, 255));
+		imnodes::GetStyle().colors[imnodes::ColorStyle_GridLine] = mvColor::ConvertToUnsignedInt(mvColor(0, 0, 0, 255));
+
 	}
 
 	void mvApp::DeleteApp()
@@ -120,6 +204,7 @@ namespace Marvel {
 
 		mvEventBus::Publish(mvEVT_CATEGORY_APP, mvEVT_FRAME, {CreateEventArgument("FRAME", ImGui::GetFrameCount() )});
 
+
 		// route input callbacks
 		mvInput::CheckInputs();
 
@@ -130,6 +215,7 @@ namespace Marvel {
 		mvEventBus::Publish(mvEVT_CATEGORY_APP, mvEVT_PRE_RENDER_RESET);
 		mvEventBus::Publish(mvEVT_CATEGORY_APP, mvEVT_RENDER);
 		mvEventBus::Publish(mvEVT_CATEGORY_APP, mvEVT_END_FRAME);
+
 	}
 
 	std::map<std::string, mvPythonParser>& mvApp::getParsers()

@@ -139,3 +139,4 @@
 
 #include "themes/mvTheme.h"
 #include "themes/mvThemeColor.h"
+#include "themes/mvThemeStyle.h"

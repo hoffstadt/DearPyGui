@@ -98,6 +98,7 @@ namespace Marvel {
         static bool        IsAppStarted () { return s_started; }
         static void        SetAppStopped();
         static void        StopApp      () { s_started = false; } // ugly
+        static void        SetDefaultTheme();
 
         //-----------------------------------------------------------------------------
         // Timing

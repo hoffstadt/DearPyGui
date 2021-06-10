@@ -82,6 +82,7 @@ set(MARVEL_SOURCES
 
 	"src/core/AppItems/themes/mvTheme.cpp"
 	"src/core/AppItems/themes/mvThemeColor.cpp"
+	"src/core/AppItems/themes/mvThemeStyle.cpp"
 
 	"src/core/AppItems/containers/mvStagingContainer.cpp"
 	"src/core/AppItems/containers/mvCollapsingHeader.cpp"

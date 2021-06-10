@@ -79,7 +79,6 @@ namespace Marvel {
 		: 
 		mvAppItem(uuid)
 	{
-		m_libType = mvLibType::MV_IMPLOT;
 	}
 
 	void mvPlotAxis::customAction()

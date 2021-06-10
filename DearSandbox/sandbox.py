@@ -8,14 +8,16 @@ with cxt.font_registry():
     fonty2 = dpg.add_font("../../Resources/Retron2000.ttf", 13)
 
 with cxt.theme() as theme1:
+    dpg.add_theme_style(11, 3.0)
     dpg.add_theme_color(21, (255, 255, 0))
+    
 
 main_texture_container = dpg.generate_uuid()
 
 dpg.add_texture_container(id=main_texture_container)
 dpg.add_static_texture(100, 100, [], parent=main_texture_container, file=dpg.mvFontAtlas, id=dpg.mvFontAtlas)
 
-#demo.show_demo()
+demo.show_demo()
 
 with cxt.window(label="Testing font") as targeting:
 

@@ -134,7 +134,6 @@ namespace Marvel {
 	{
 		m_width = -1;
 		m_height = -1;
-		m_libType = mvLibType::MV_IMPLOT;
 	}
 
 	void mvPlot::onChildAdd(mvRef<mvAppItem> item)

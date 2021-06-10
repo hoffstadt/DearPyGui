@@ -34,6 +34,7 @@ namespace Marvel {
 
 	bool mvTheme::canChildBeAdded(mvAppItemType type)
 	{
+		if (type == mvAppItemType::mvThemeStyle) return true;
 		if (type == mvAppItemType::mvThemeColor) return true;
 		mvThrowPythonError(1000, "Item's parent must be plot.");
 		MV_ITEM_REGISTRY_ERROR("Item's parent must be plot.");

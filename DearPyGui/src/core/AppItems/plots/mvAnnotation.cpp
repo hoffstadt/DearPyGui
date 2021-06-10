@@ -37,7 +37,6 @@ namespace Marvel {
 	mvAnnotation::mvAnnotation(mvUUID uuid)
 		: mvDouble4PtrBase(uuid)
 	{
-		m_libType = mvLibType::MV_IMPLOT;
 	}
 
 	bool mvAnnotation::isParentCompatible(mvAppItemType type)

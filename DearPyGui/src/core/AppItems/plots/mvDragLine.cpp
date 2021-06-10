@@ -40,7 +40,6 @@ namespace Marvel {
 	mvDragLine::mvDragLine(mvUUID uuid)
 		: mvDoublePtrBase(uuid)
 	{
-		m_libType = mvLibType::MV_IMPLOT;
 	}
 
 	bool mvDragLine::isParentCompatible(mvAppItemType type)

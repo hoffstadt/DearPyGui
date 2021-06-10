@@ -25,36 +25,6 @@ namespace Marvel {
 		MV_CREATE_EXTRA_COMMAND(get_x_scroll_max);
 		MV_CREATE_EXTRA_COMMAND(get_y_scroll_max);
 
-		MV_CREATE_CONSTANT(mvThemeCol_Window_TitleText, ImGuiCol_Text, 0L);
-		MV_CREATE_CONSTANT(mvThemeCol_Window_TitleBg, ImGuiCol_TitleBg, 0L);
-		MV_CREATE_CONSTANT(mvThemeCol_Window_TitleBgActive, ImGuiCol_TitleBgActive, 0L);
-		MV_CREATE_CONSTANT(mvThemeCol_Window_TitleBgCollapsed, ImGuiCol_TitleBgCollapsed, 0L);
-		MV_CREATE_CONSTANT(mvThemeCol_Window_MenuBar, ImGuiCol_MenuBarBg, 0L);
-		MV_CREATE_CONSTANT(mvThemeCol_Window_Bg, ImGuiCol_WindowBg, 0L);
-		MV_CREATE_CONSTANT(mvThemeCol_Window_Scrollbar, ImGuiCol_ScrollbarBg, 0L);
-		MV_CREATE_CONSTANT(mvThemeCol_Window_ScrollbarGrab, ImGuiCol_ScrollbarGrab, 0L);
-		MV_CREATE_CONSTANT(mvThemeCol_Window_ScrollbarGrabHovered, ImGuiCol_ScrollbarGrabHovered, 0L);
-		MV_CREATE_CONSTANT(mvThemeCol_Window_ScrollbarGrabActive, ImGuiCol_ScrollbarGrabActive, 0L);
-		MV_CREATE_CONSTANT(mvThemeCol_Window_ResizeBorder, ImGuiCol_SeparatorActive, 0L);
-		MV_CREATE_CONSTANT(mvThemeCol_Window_ResizeGrip, ImGuiCol_ResizeGrip, 0L);
-		MV_CREATE_CONSTANT(mvThemeCol_Window_ResizeGripHovered, ImGuiCol_ResizeGripHovered, 0L);
-		MV_CREATE_CONSTANT(mvThemeCol_Window_ResizeGripActive, ImGuiCol_ResizeGripActive, 0L);
-		MV_CREATE_CONSTANT(mvThemeCol_Window_Border, ImGuiCol_Border, 0L);
-		MV_CREATE_CONSTANT(mvThemeCol_Window_BorderShadow, ImGuiCol_BorderShadow, 0L);
-
-		MV_CREATE_CONSTANT(mvThemeStyle_Window_BorderSize, ImGuiStyleVar_WindowBorderSize, 0L);
-		MV_CREATE_CONSTANT(mvThemeStyle_Window_Rounding, ImGuiStyleVar_WindowRounding, 0L);
-		MV_CREATE_CONSTANT(mvThemeStyle_Window_MinSizeX, ImGuiStyleVar_WindowMinSize, 0L);
-		MV_CREATE_CONSTANT(mvThemeStyle_Window_MinSizeY, ImGuiStyleVar_WindowMinSize, 1L);
-		MV_CREATE_CONSTANT(mvThemeStyle_Window_TitleAlignX, ImGuiStyleVar_WindowTitleAlign, 0L);
-		MV_CREATE_CONSTANT(mvThemeStyle_Window_TitleAlignY, ImGuiStyleVar_WindowTitleAlign, 1L);
-		MV_CREATE_CONSTANT(mvThemeStyle_Window_PaddingX, ImGuiStyleVar_WindowPadding, 0L);
-		MV_CREATE_CONSTANT(mvThemeStyle_Window_PaddingY, ImGuiStyleVar_WindowPadding, 1L);
-		MV_CREATE_CONSTANT(mvThemeStyle_Window_ItemSpacingX, ImGuiStyleVar_ItemSpacing, 0L);
-		MV_CREATE_CONSTANT(mvThemeStyle_Window_ItemSpacingY, ImGuiStyleVar_ItemSpacing, 1L);
-		MV_CREATE_CONSTANT(mvThemeStyle_Window_ScrollbarSize, ImGuiStyleVar_ScrollbarSize , 0L);
-		MV_CREATE_CONSTANT(mvThemeStyle_Window_ScrollbarRounding, ImGuiStyleVar_ScrollbarRounding, 0L);
-
 		MV_START_EXTRA_COMMANDS
 			MV_ADD_EXTRA_COMMAND(set_x_scroll);
 			MV_ADD_EXTRA_COMMAND(set_y_scroll);
@@ -68,37 +38,9 @@ namespace Marvel {
 		MV_END_GENERAL_CONSTANTS
 
 		MV_START_COLOR_CONSTANTS
-			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Window_TitleText, mvImGuiCol_Text),
-			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Window_TitleBg, mvImGuiCol_TitleBg),
-			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Window_TitleBgActive, mvImGuiCol_TitleBgActive),
-			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Window_TitleBgCollapsed, mvImGuiCol_TitleBgCollapsed),
-			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Window_MenuBar, mvImGuiCol_MenuBarBg),
-			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Window_Bg, mvImGuiCol_WindowBg),
-			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Window_Scrollbar, mvImGuiCol_ScrollbarBg),
-			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Window_ScrollbarGrab, mvImGuiCol_ScrollbarGrab),
-			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Window_ScrollbarGrabHovered, mvImGuiCol_ScrollbarGrabHovered),
-			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Window_ScrollbarGrabActive, mvImGuiCol_ScrollbarGrabActive),
-			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Window_ResizeBorder, mvImGuiCol_SeparatorActive),
-			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Window_ResizeGrip, mvImGuiCol_ResizeGrip),
-			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Window_ResizeGripHovered, mvImGuiCol_ResizeGripHovered),
-			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Window_ResizeGripActive, mvImGuiCol_ResizeGripActive),
-			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Window_Border, mvImGuiCol_Border),
-			MV_CREATE_CONSTANT_PAIR(mvThemeCol_Window_BorderShadow, mvImGuiCol_BorderShadow),
 		MV_END_COLOR_CONSTANTS
 
 		MV_START_STYLE_CONSTANTS
-			MV_ADD_CONSTANT_F(mvThemeStyle_Window_BorderSize, 1, 1),
-			MV_ADD_CONSTANT_F(mvThemeStyle_Window_Rounding, 0, 12),
-			MV_ADD_CONSTANT_F(mvThemeStyle_Window_MinSizeX, 32, 50),
-			MV_ADD_CONSTANT_F(mvThemeStyle_Window_MinSizeY, 32, 50),
-			MV_ADD_CONSTANT_F(mvThemeStyle_Window_TitleAlignX, 0.5, 1),
-			MV_ADD_CONSTANT_F(mvThemeStyle_Window_TitleAlignY, 0.5, 1),
-			MV_ADD_CONSTANT_F(mvThemeStyle_Window_PaddingX, 8, 20),
-			MV_ADD_CONSTANT_F(mvThemeStyle_Window_PaddingY, 8, 20),
-			MV_ADD_CONSTANT_F(mvThemeStyle_Window_ItemSpacingX, 8, 20),
-			MV_ADD_CONSTANT_F(mvThemeStyle_Window_ItemSpacingY, 4, 20),
-			MV_ADD_CONSTANT_F(mvThemeStyle_Window_ScrollbarSize, 16, 20),
-			MV_ADD_CONSTANT_F(mvThemeStyle_Window_ScrollbarRounding, 0, 12),
 		MV_END_STYLE_CONSTANTS
 
 		enum class Status{ Normal, Transition, Dirty};

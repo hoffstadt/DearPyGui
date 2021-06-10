@@ -138,6 +138,7 @@ namespace Marvel {
 
 		// Setup Dear ImGui style
 		ImGui::StyleColorsDark();
+		mvApp::SetDefaultTheme();
 
 		// Setup Platform/Renderer bindings
 		ImGui_ImplWin32_Init(m_hwnd);
