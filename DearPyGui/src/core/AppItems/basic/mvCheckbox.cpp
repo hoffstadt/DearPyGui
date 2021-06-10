@@ -3,7 +3,7 @@
 #include "mvApp.h"
 #include "mvItemRegistry.h"
 #include "mvImGuiThemeScope.h"
-#include "mvFontScope.h"
+//#include "mvFontScope.h"
 
 namespace Marvel {
 
@@ -47,7 +47,7 @@ namespace Marvel {
 	{
 		ScopedID id(m_uuid);
 		mvImGuiThemeScope scope(this);
-		mvFontScope fscope(this);
+		//mvFontScope fscope(this);
 
 		if (!m_enabled) m_disabled_value = *m_value;
 

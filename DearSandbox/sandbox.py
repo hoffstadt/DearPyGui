@@ -3,8 +3,9 @@ import dearpygui.simple as smpl
 import dearpygui.contexts as cxt
 import dearpygui.demo as demo
 
-dpg.add_font("google", "../../Resources/NotoSerifCJKjp-Medium.otf", 20)
-dpg.set_font("google", 20)
+with cxt.font_registry():
+    dpg.add_font("../../Resources/NotoSerifCJKjp-Medium.otf", 20)
+    #dpg.set_font("google", 20)
 
 main_texture_container = dpg.generate_uuid()
 

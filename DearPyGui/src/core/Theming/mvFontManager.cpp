@@ -167,41 +167,41 @@ namespace Marvel {
 		const std::vector<std::pair<int, int>>& charRemaps)
 	{
 
-		Font newFont = {};
-		newFont.key = font + std::to_string(size);
-		newFont.name = font;
-		newFont.file = file;
-		newFont.size = size;
-		newFont.fontPtr = nullptr;
-		newFont.charRemaps = charRemaps;
+		//Font newFont = {};
+		//newFont.key = font + std::to_string(size);
+		//newFont.name = font;
+		//newFont.file = file;
+		//newFont.size = size;
+		//newFont.fontPtr = nullptr;
+		//newFont.charRemaps = charRemaps;
 
-		ImVector<ImWchar> ranges;
-		ImFontGlyphRangesBuilder builder;
+		//ImVector<ImWchar> ranges;
+		//ImFontGlyphRangesBuilder builder;
 
-		static ImFontAtlas atlas;
-		if (rangeHint.empty())                                          builder.AddRanges(atlas.GetGlyphRangesDefault());
-		else if (rangeHint == std::string("korean"))                    builder.AddRanges(atlas.GetGlyphRangesKorean());
-		else if (rangeHint == std::string("japanese"))	                 builder.AddRanges(atlas.GetGlyphRangesJapanese());
-		else if (rangeHint == std::string("chinese_full"))              builder.AddRanges(atlas.GetGlyphRangesChineseFull());
-		else if (rangeHint == std::string("chinese_simplified_common")) builder.AddRanges(atlas.GetGlyphRangesChineseSimplifiedCommon());
-		else if (rangeHint == std::string("cyrillic"))                  builder.AddRanges(atlas.GetGlyphRangesCyrillic());
-		else if (rangeHint == std::string("thai"))                      builder.AddRanges(atlas.GetGlyphRangesThai());
-		else if (rangeHint == std::string("vietnamese"))                builder.AddRanges(atlas.GetGlyphRangesVietnamese());
-		else { assert(false); }
+		//static ImFontAtlas atlas;
+		//if (rangeHint.empty())                                          builder.AddRanges(atlas.GetGlyphRangesDefault());
+		//else if (rangeHint == std::string("korean"))                    builder.AddRanges(atlas.GetGlyphRangesKorean());
+		//else if (rangeHint == std::string("japanese"))	                 builder.AddRanges(atlas.GetGlyphRangesJapanese());
+		//else if (rangeHint == std::string("chinese_full"))              builder.AddRanges(atlas.GetGlyphRangesChineseFull());
+		//else if (rangeHint == std::string("chinese_simplified_common")) builder.AddRanges(atlas.GetGlyphRangesChineseSimplifiedCommon());
+		//else if (rangeHint == std::string("cyrillic"))                  builder.AddRanges(atlas.GetGlyphRangesCyrillic());
+		//else if (rangeHint == std::string("thai"))                      builder.AddRanges(atlas.GetGlyphRangesThai());
+		//else if (rangeHint == std::string("vietnamese"))                builder.AddRanges(atlas.GetGlyphRangesVietnamese());
+		//else { assert(false); }
 
-		for (const auto& range : fontGlyphRangeCustom)
-			builder.AddRanges(range.data());
-		for (const auto& charitem : chars)
-			builder.AddChar(charitem);
+		//for (const auto& range : fontGlyphRangeCustom)
+		//	builder.AddRanges(range.data());
+		//for (const auto& charitem : chars)
+		//	builder.AddChar(charitem);
 
-		builder.BuildRanges(&ranges);   // Build the final result (ordered ranges with all the unique characters submitted)
-		newFont.ranges = ranges;
-		m_fonts.push_back(newFont);
+		//builder.BuildRanges(&ranges);   // Build the final result (ordered ranges with all the unique characters submitted)
+		//newFont.ranges = ranges;
+		//m_fonts.push_back(newFont);
 
-		m_dirty = true;
-		auto item = mvApp::GetApp()->getItemRegistry().getItem(MV_ATLAS_UUID);
-		if(item)
-			static_cast<mvStaticTexture*>(item)->markDirty();
+		//m_dirty = true;
+		//auto item = mvApp::GetApp()->getItemRegistry().getItem(MV_ATLAS_UUID);
+		//if(item)
+		//	static_cast<mvStaticTexture*>(item)->markDirty();
 	}
 
 	ImFont* mvFontManager::getFont(const std::string& font, int size)
@@ -224,35 +224,46 @@ namespace Marvel {
 
 	void mvFontManager::rebuildAtlas()
 	{
-		ImGuiIO& io = ImGui::GetIO();
-		io.Fonts->Clear();
-		io.FontDefault = io.Fonts->AddFontDefault();
+		auto& roots = mvApp::GetApp()->getItemRegistry().getRoots();
 
-		//static const ImWchar icons_ranges[] = { ICON_MIN_IGFD, ICON_MAX_IGFD, 0 };
-		//ImFontConfig icons_config; icons_config.MergeMode = true; icons_config.PixelSnapH = true;
-		//ImGui::GetIO().Fonts->AddFontFromMemoryCompressedBase85TTF(FONT_ICON_BUFFER_NAME_IGFD, 15.0f, &icons_config, icons_ranges);
-		//io.Fonts->Build();
-
-		for (auto& font : m_fonts)
+		for (auto& root : roots)
 		{
-
-			font.fontPtr = io.Fonts->AddFontFromFileTTF(font.file.c_str(), (float)font.size, nullptr, font.ranges.Data);
-
-			if (font.fontPtr == nullptr)
+			if (root->getType() == mvAppItemType::mvFontRegistry)
 			{
-				mvThrowPythonError(1000, "Font file could not be found");
-				io.Fonts->Build();
+				root->customAction();
 				break;
 			}
-
-			for (auto& item : font.charRemaps)
-				font.fontPtr->AddRemapChar(item.first, item.second);
-
-			io.Fonts->Build();
-			
 		}
 
-		InValidateFontTheme();
+		//ImGuiIO& io = ImGui::GetIO();
+		//io.Fonts->Clear();
+		//io.FontDefault = io.Fonts->AddFontDefault();
+
+		////static const ImWchar icons_ranges[] = { ICON_MIN_IGFD, ICON_MAX_IGFD, 0 };
+		////ImFontConfig icons_config; icons_config.MergeMode = true; icons_config.PixelSnapH = true;
+		////ImGui::GetIO().Fonts->AddFontFromMemoryCompressedBase85TTF(FONT_ICON_BUFFER_NAME_IGFD, 15.0f, &icons_config, icons_ranges);
+		////io.Fonts->Build();
+
+		//for (auto& font : m_fonts)
+		//{
+
+		//	font.fontPtr = io.Fonts->AddFontFromFileTTF(font.file.c_str(), (float)font.size, nullptr, font.ranges.Data);
+
+		//	if (font.fontPtr == nullptr)
+		//	{
+		//		mvThrowPythonError(1000, "Font file could not be found");
+		//		io.Fonts->Build();
+		//		break;
+		//	}
+
+		//	for (auto& item : font.charRemaps)
+		//		font.fontPtr->AddRemapChar(item.first, item.second);
+
+		//	io.Fonts->Build();
+		//	
+		//}
+
+		//InValidateFontTheme();
 	}
 
 	void mvFontManager::updateDefaultFont()
@@ -347,18 +358,18 @@ namespace Marvel {
 
 	void mvFontManager::InsertParser(std::map<std::string, mvPythonParser>* parsers)
 	{
-		{
-			mvPythonParser parser(mvPyDataType::None);
-			parser.addArg<mvPyDataType::String>("font");
-			parser.addArg<mvPyDataType::String>("file");
-			parser.addArg<mvPyDataType::Float>("size");
-			parser.addArg<mvPyDataType::String>("glyph_ranges", mvArgType::POSITIONAL_ARG, "''");
-			parser.addArg<mvPyDataType::IntList>("custom_glyph_chars", mvArgType::KEYWORD_ARG, "[]");
-			parser.addArg<mvPyDataType::Object>("custom_glyph_ranges", mvArgType::KEYWORD_ARG, "[[]]");
-			parser.addArg<mvPyDataType::Object>("char_remaps", mvArgType::KEYWORD_ARG, "[[]]");
-			parser.finalize();
-			parsers->insert({ "add_font", parser });
-		}
+		//{
+		//	mvPythonParser parser(mvPyDataType::None);
+		//	parser.addArg<mvPyDataType::String>("font");
+		//	parser.addArg<mvPyDataType::String>("file");
+		//	parser.addArg<mvPyDataType::Float>("size");
+		//	parser.addArg<mvPyDataType::String>("glyph_ranges", mvArgType::POSITIONAL_ARG, "''");
+		//	parser.addArg<mvPyDataType::IntList>("custom_glyph_chars", mvArgType::KEYWORD_ARG, "[]");
+		//	parser.addArg<mvPyDataType::Object>("custom_glyph_ranges", mvArgType::KEYWORD_ARG, "[[]]");
+		//	parser.addArg<mvPyDataType::Object>("char_remaps", mvArgType::KEYWORD_ARG, "[[]]");
+		//	parser.finalize();
+		//	parsers->insert({ "add_font", parser });
+		//}
 
 		{
 			mvPythonParser parser(mvPyDataType::None);
@@ -384,40 +395,40 @@ namespace Marvel {
 
 	}
 
-	PyObject* mvFontManager::add_font(PyObject* self, PyObject* args, PyObject* kwargs)
-	{
-		const char* font;
-		const char* file;
-		float size = 13.0f;
-		const char* glyph_ranges = "";
-		PyObject* custom_glyph_chars = nullptr;
-		PyObject* custom_glyph_ranges = nullptr;
-		PyObject* char_remaps = nullptr;
+	//PyObject* mvFontManager::add_font(PyObject* self, PyObject* args, PyObject* kwargs)
+	//{
+	//	const char* font;
+	//	const char* file;
+	//	float size = 13.0f;
+	//	const char* glyph_ranges = "";
+	//	PyObject* custom_glyph_chars = nullptr;
+	//	PyObject* custom_glyph_ranges = nullptr;
+	//	PyObject* char_remaps = nullptr;
 
-		if (!(mvApp::GetApp()->getParsers())["add_font"].parse(args, kwargs, __FUNCTION__,
-			&font, &file, &size, &glyph_ranges, &custom_glyph_chars, &custom_glyph_ranges,
-			&char_remaps))
-			return GetPyNone();
+	//	if (!(mvApp::GetApp()->getParsers())["add_font"].parse(args, kwargs, __FUNCTION__,
+	//		&font, &file, &size, &glyph_ranges, &custom_glyph_chars, &custom_glyph_ranges,
+	//		&char_remaps))
+	//		return GetPyNone();
 
-		std::vector<int> custom_chars = ToIntVect(custom_glyph_chars);
-		std::vector<std::pair<int, int>> custom_ranges = ToVectInt2(custom_glyph_ranges);
-		std::vector<std::pair<int, int>> custom_remaps = ToVectInt2(char_remaps);
+	//	std::vector<int> custom_chars = ToIntVect(custom_glyph_chars);
+	//	std::vector<std::pair<int, int>> custom_ranges = ToVectInt2(custom_glyph_ranges);
+	//	std::vector<std::pair<int, int>> custom_remaps = ToVectInt2(char_remaps);
 
-		std::vector<std::array<ImWchar, 3>> imgui_custom_ranges;
-		std::vector<ImWchar> imgui_custom_chars;
+	//	std::vector<std::array<ImWchar, 3>> imgui_custom_ranges;
+	//	std::vector<ImWchar> imgui_custom_chars;
 
-		imgui_custom_ranges.push_back({ (ImWchar)0x0370, (ImWchar)0x03ff, 0 });
-		for (auto& item : custom_ranges)
-			imgui_custom_ranges.push_back({ (ImWchar)item.first, (ImWchar)item.second, 0 });
-		for (auto& item : custom_chars)
-			imgui_custom_chars.push_back((ImWchar)item);
+	//	imgui_custom_ranges.push_back({ (ImWchar)0x0370, (ImWchar)0x03ff, 0 });
+	//	for (auto& item : custom_ranges)
+	//		imgui_custom_ranges.push_back({ (ImWchar)item.first, (ImWchar)item.second, 0 });
+	//	for (auto& item : custom_chars)
+	//		imgui_custom_chars.push_back((ImWchar)item);
 
-		if (!mvApp::s_manualMutexControl) std::lock_guard<std::mutex> lk(mvApp::s_mutex);
-		mvToolManager::GetFontManager().addFont(font, file, (int)size, glyph_ranges, imgui_custom_chars,
-			imgui_custom_ranges, custom_remaps);
+	//	if (!mvApp::s_manualMutexControl) std::lock_guard<std::mutex> lk(mvApp::s_mutex);
+	//	mvToolManager::GetFontManager().addFont(font, file, (int)size, glyph_ranges, imgui_custom_chars,
+	//		imgui_custom_ranges, custom_remaps);
 
-		return GetPyNone();
-	}
+	//	return GetPyNone();
+	//}
 
 	PyObject* mvFontManager::set_font(PyObject* self, PyObject* args, PyObject* kwargs)
 	{

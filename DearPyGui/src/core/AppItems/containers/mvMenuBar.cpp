@@ -5,7 +5,7 @@
 #include "mvImGuiThemeScope.h"
 #include "containers/mvWindowAppItem.h"
 #include "containers/mvChild.h"
-#include "mvFontScope.h"
+//#include "mvFontScope.h"
 #include "mvPythonExceptions.h"
 
 namespace Marvel {
@@ -40,7 +40,7 @@ namespace Marvel {
 	void mvMenuBar::draw(ImDrawList* drawlist, float x, float y)
 	{
 		mvImGuiThemeScope scope(this);
-		mvFontScope fscope(this);
+		//mvFontScope fscope(this);
 
 		if (ImGui::BeginMenuBar())
 		{

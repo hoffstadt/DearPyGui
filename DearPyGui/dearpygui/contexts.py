@@ -15,6 +15,16 @@ def mutex():
         internal_dpg.unlock_mutex()
 
 @contextmanager
+def font_registry(*args, id:int=0, show: bool =True):
+   
+   try:
+        widget = internal_dpg.add_font_registry(*args, id=id, show=show)
+        internal_dpg.push_container_stack(widget)
+        yield widget
+   finally:
+        internal_dpg.pop_container_stack()
+
+@contextmanager
 def clipper(*args, id:int=0, show: bool =True, parent: int=0, width: int = 0, before: int=0,
            indent:int=-1, delay_search: bool = False):
    

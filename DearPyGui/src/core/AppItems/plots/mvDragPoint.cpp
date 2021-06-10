@@ -4,7 +4,7 @@
 #include "mvApp.h"
 #include "mvLog.h"
 #include "mvItemRegistry.h"
-#include "mvFontScope.h"
+//#include "mvFontScope.h"
 #include "mvPythonExceptions.h"
 
 namespace Marvel {
@@ -58,7 +58,7 @@ namespace Marvel {
 	void mvDragPoint::draw(ImDrawList* drawlist, float x, float y)
 	{
 		ScopedID id(m_uuid);
-		mvFontScope fscope(this);
+		//mvFontScope fscope(this);
 
 		static double dummyx = (*m_value.get())[0];
 		static double dummyy = (*m_value.get())[1];

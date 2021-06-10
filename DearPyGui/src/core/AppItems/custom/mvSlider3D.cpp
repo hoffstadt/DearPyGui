@@ -1,6 +1,6 @@
 #include "mvSlider3D.h"
 #include "mvImGuiThemeScope.h"
-#include "mvFontScope.h"
+//#include "mvFontScope.h"
 
 namespace Marvel {
 
@@ -390,7 +390,7 @@ namespace Marvel {
     {
         ScopedID id(m_uuid);
         mvImGuiThemeScope scope(this);
-        mvFontScope fscope(this);
+        //mvFontScope fscope(this);
 
         if(SliderScalar3D(m_specificedlabel.c_str(), &(*m_value)[0], &(*m_value)[1], &(*m_value)[2], m_minX, m_maxX, m_minY, m_maxY, m_minZ, m_maxZ, m_scale))
             mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), m_uuid, nullptr, m_user_data);

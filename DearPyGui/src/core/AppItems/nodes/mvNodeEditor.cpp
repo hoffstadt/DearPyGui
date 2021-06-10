@@ -8,7 +8,7 @@
 #include "mvImGuiThemeScope.h"
 #include "mvImNodesThemeScope.h"
 #include "mvLog.h"
-#include "mvFontScope.h"
+//#include "mvFontScope.h"
 #include "mvPythonExceptions.h"
 
 namespace Marvel {
@@ -133,7 +133,7 @@ namespace Marvel {
 	{
 		ScopedID id(m_uuid);
 		mvImNodesThemeScope scope(this);
-		mvFontScope fscope(this);
+		//mvFontScope fscope(this);
 
 		imnodes::PushAttributeFlag(imnodes::AttributeFlags_EnableLinkDetachWithDragClick);
 

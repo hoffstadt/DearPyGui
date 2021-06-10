@@ -4,7 +4,7 @@
 #include "mvApp.h"
 #include "mvLog.h"
 #include "mvItemRegistry.h"
-#include "mvFontScope.h"
+//#include "mvFontScope.h"
 #include "mvPythonExceptions.h"
 
 namespace Marvel {
@@ -54,7 +54,7 @@ namespace Marvel {
 	void mvAnnotation::draw(ImDrawList* drawlist, float x, float y)
 	{
 		ScopedID id(m_uuid);
-		mvFontScope fscope(this);
+		//mvFontScope fscope(this);
 
 		if (m_clamped)
 			ImPlot::AnnotateClamped((*m_value.get())[0], (*m_value.get())[1], m_pixOffset, m_color.toVec4(), m_specificedlabel.c_str());

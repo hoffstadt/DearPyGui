@@ -158,7 +158,11 @@ def add_focus_handler(parent : str, *, id: int =..., callback: Callable =None, u
 	"""Undocumented function"""
 	...
 
-def add_font(font : str, file : str, size : float, glyph_ranges : str ='', *, custom_glyph_chars: List[int] =[], custom_glyph_ranges: Any =[[]], char_remaps: Any =[[]]) -> None:
+def add_font(file : str, size : int, *, id: int =..., parent: int =0) -> int:
+	"""Undocumented function"""
+	...
+
+def add_font_registry(*, id: int =..., show: bool =True) -> int:
 	"""Undocumented function"""
 	...
 

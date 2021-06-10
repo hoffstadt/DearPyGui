@@ -6,7 +6,7 @@
 #include <string>
 #include "mvItemRegistry.h"
 #include "mvImGuiThemeScope.h"
-#include "mvFontScope.h"
+//#include "mvFontScope.h"
 
 namespace Marvel {
 
@@ -126,7 +126,7 @@ namespace Marvel {
     {
         ScopedID id(m_uuid);
         mvImGuiThemeScope scope(this);
-        mvFontScope fscope(this);
+        //mvFontScope fscope(this);
 
         if (ImGui::InputInt(m_label.c_str(), m_value.get(), m_step, m_step_fast, m_flags))
         {
@@ -186,7 +186,7 @@ namespace Marvel {
     {
         ScopedID id(m_uuid);
         mvImGuiThemeScope scope(this);
-        mvFontScope fscope(this);
+        //mvFontScope fscope(this);
 
         if (ImGui::InputFloat(m_label.c_str(), m_value.get(), m_step, m_step_fast, m_format.c_str(), m_flags))
         {
