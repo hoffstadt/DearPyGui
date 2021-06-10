@@ -9,7 +9,7 @@ namespace Marvel {
 	void mvMenuItem::InsertParser(std::map<std::string, mvPythonParser>* parsers)
 	{
 
-		mvPythonParser parser(mvPyDataType::UUID, "Undocumented function", { "Widgets" });
+		mvPythonParser parser(mvPyDataType::UUID, "Adds a menu item to an existing menu.", { "Widgets" });
 		mvAppItem::AddCommonArgs(parser, (CommonParserArgs)(
 			MV_PARSER_ARG_ID |
 			MV_PARSER_ARG_INDENT |

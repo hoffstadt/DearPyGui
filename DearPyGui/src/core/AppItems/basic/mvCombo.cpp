@@ -10,7 +10,7 @@ namespace Marvel {
 	void mvCombo::InsertParser(std::map<std::string, mvPythonParser>* parsers)
 	{
 
-		mvPythonParser parser(mvPyDataType::UUID, "Undocumented function", { "Widgets" });
+		mvPythonParser parser(mvPyDataType::UUID, "Adds a combo dropdown.", { "Widgets" });
 		mvAppItem::AddCommonArgs(parser, (CommonParserArgs)(
 			MV_PARSER_ARG_ID |
 			MV_PARSER_ARG_WIDTH |
@@ -34,13 +34,13 @@ namespace Marvel {
 		parser.addArg<mvPyDataType::StringList>("items", mvArgType::POSITIONAL_ARG, "()");
 
 		parser.addArg<mvPyDataType::String>("default_value", mvArgType::KEYWORD_ARG, "''");
-		parser.addArg<mvPyDataType::Bool>("popup_align_left", mvArgType::KEYWORD_ARG, "False", "Align the popup toward the left by default");
-		parser.addArg<mvPyDataType::Bool>("height_small", mvArgType::KEYWORD_ARG, "False", "Max ~4 items visible");
-		parser.addArg<mvPyDataType::Bool>("height_regular", mvArgType::KEYWORD_ARG, "False", "Max ~8 items visible");
-		parser.addArg<mvPyDataType::Bool>("height_large", mvArgType::KEYWORD_ARG, "False", "Max ~20 items visible");
-		parser.addArg<mvPyDataType::Bool>("height_largest", mvArgType::KEYWORD_ARG, "False", "As many items visible as possible");
-		parser.addArg<mvPyDataType::Bool>("no_arrow_button", mvArgType::KEYWORD_ARG, "False", "Display on the preview box without the square arrow button");
-		parser.addArg<mvPyDataType::Bool>("no_preview", mvArgType::KEYWORD_ARG, "False", "Display only a square arrow button");
+		parser.addArg<mvPyDataType::Bool>("popup_align_left", mvArgType::KEYWORD_ARG, "False", "Align the popup toward the left by default.");
+		parser.addArg<mvPyDataType::Bool>("height_small", mvArgType::KEYWORD_ARG, "False", "Max ~4 items visible.");
+		parser.addArg<mvPyDataType::Bool>("height_regular", mvArgType::KEYWORD_ARG, "False", "Max ~8 items visible.");
+		parser.addArg<mvPyDataType::Bool>("height_large", mvArgType::KEYWORD_ARG, "False", "Max ~20 items visible.");
+		parser.addArg<mvPyDataType::Bool>("height_largest", mvArgType::KEYWORD_ARG, "False", "As many items visible as possible.");
+		parser.addArg<mvPyDataType::Bool>("no_arrow_button", mvArgType::KEYWORD_ARG, "False", "Display the preview box without the square arrow button.");
+		parser.addArg<mvPyDataType::Bool>("no_preview", mvArgType::KEYWORD_ARG, "False", "Display only the square arrow button.");
 
 		parser.finalize();
 

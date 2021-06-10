@@ -9,7 +9,7 @@ namespace Marvel {
 
 	void mvSelectable::InsertParser(std::map<std::string, mvPythonParser>* parsers)
 	{
-		mvPythonParser parser(mvPyDataType::UUID, "Undocumented function", { "Widgets" });
+		mvPythonParser parser(mvPyDataType::UUID, "Adds a selectable.", { "Widgets" });
 		mvAppItem::AddCommonArgs(parser, (CommonParserArgs)(
 			MV_PARSER_ARG_ID |
 			MV_PARSER_ARG_WIDTH |
@@ -32,7 +32,7 @@ namespace Marvel {
 		);
 
 		parser.addArg<mvPyDataType::Bool>("default_value", mvArgType::KEYWORD_ARG, "False");
-		parser.addArg<mvPyDataType::Bool>("span_columns", mvArgType::KEYWORD_ARG, "False", "span all columns");
+		parser.addArg<mvPyDataType::Bool>("span_columns", mvArgType::KEYWORD_ARG, "False", "Span the width of all columns if placed in a table.");
 
 		parser.finalize();
 

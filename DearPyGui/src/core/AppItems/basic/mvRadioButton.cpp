@@ -10,7 +10,7 @@ namespace Marvel {
 	void mvRadioButton::InsertParser(std::map<std::string, mvPythonParser>* parsers)
 	{
 
-		mvPythonParser parser(mvPyDataType::UUID, "Undocumented function", { "Widgets" });
+		mvPythonParser parser(mvPyDataType::UUID, "Adds a set of radio buttons. If items is empty, nothing will be shown.", { "Widgets" });
 		mvAppItem::AddCommonArgs(parser, (CommonParserArgs)(
 			MV_PARSER_ARG_ID |
 			MV_PARSER_ARG_INDENT |

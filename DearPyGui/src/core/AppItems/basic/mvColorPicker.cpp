@@ -9,7 +9,7 @@ namespace Marvel {
 
 	void mvColorPicker::InsertParser(std::map<std::string, mvPythonParser>* parsers)
 	{
-		mvPythonParser parser(mvPyDataType::UUID, "Undocumented function", { "Widgets" });
+		mvPythonParser parser(mvPyDataType::UUID, "Adds an RGB color picker. Click and drag the color square to copy the color and drop on any other color widget to apply. Right Click allows the style of the color picker to be changed.", { "Widgets" });
 		mvAppItem::AddCommonArgs(parser, (CommonParserArgs)(
 			MV_PARSER_ARG_ID |
 			MV_PARSER_ARG_WIDTH |
@@ -32,25 +32,25 @@ namespace Marvel {
 		);
 
 		parser.addArg<mvPyDataType::IntList>("default_value", mvArgType::POSITIONAL_ARG, "(0, 0, 0, 255)");
-		parser.addArg<mvPyDataType::Bool>("no_alpha", mvArgType::KEYWORD_ARG, "False", "ignore Alpha component");
-		parser.addArg<mvPyDataType::Bool>("no_picker", mvArgType::KEYWORD_ARG, "False", "disable picker when clicking on colored square.");
-		parser.addArg<mvPyDataType::Bool>("no_side_preview", mvArgType::KEYWORD_ARG, "False", "disable bigger color preview on right side of the picker, use small colored square preview instead , unless small preview is also hidden");
-		parser.addArg<mvPyDataType::Bool>("no_small_preview", mvArgType::KEYWORD_ARG, "False", "disable colored square preview next to the inputs. (e.g. to show only the inputs). This only displays if the side preview is not shown.");
-		parser.addArg<mvPyDataType::Bool>("no_inputs", mvArgType::KEYWORD_ARG, "False", "disable inputs sliders/text widgets (e.g. to show only the small preview colored square)");
-		parser.addArg<mvPyDataType::Bool>("no_tooltip", mvArgType::KEYWORD_ARG, "False", "disable tooltip when hovering the preview.");
-		parser.addArg<mvPyDataType::Bool>("no_label", mvArgType::KEYWORD_ARG, "False", "disable display of inline text label");
-		parser.addArg<mvPyDataType::Bool>("alpha_bar", mvArgType::KEYWORD_ARG, "False", "show vertical alpha bar/gradient in picker.");
-		parser.addArg<mvPyDataType::Bool>("alpha_preview", mvArgType::KEYWORD_ARG, "False", "display preview as a transparent color over a checkerboard, instead of opaque.");
-		parser.addArg<mvPyDataType::Bool>("alpha_preview_half", mvArgType::KEYWORD_ARG, "False", "display half opaque / half checkerboard, instead of opaque.");
-		parser.addArg<mvPyDataType::Bool>("display_rgb", mvArgType::KEYWORD_ARG, "False", "override _display_ type among RGB/HSV/Hex.");
-		parser.addArg<mvPyDataType::Bool>("display_hsv", mvArgType::KEYWORD_ARG, "False", "override _display_ type among RGB/HSV/Hex.");
-		parser.addArg<mvPyDataType::Bool>("display_hex", mvArgType::KEYWORD_ARG, "False", "override _display_ type among RGB/HSV/Hex.");
-		parser.addArg<mvPyDataType::Bool>("uint8", mvArgType::KEYWORD_ARG, "False", "display values formatted as 0..255");
-		parser.addArg<mvPyDataType::Bool>("floats", mvArgType::KEYWORD_ARG, "False", "display values formatted as 0.0f..1.0f floats instead of 0..255 integers.");
-		parser.addArg<mvPyDataType::Bool>("input_rgb", mvArgType::KEYWORD_ARG, "False", "input and output data in RGB format.");
-		parser.addArg<mvPyDataType::Bool>("input_hsv", mvArgType::KEYWORD_ARG, "False", "input and output data in HSV format.");
-		parser.addArg<mvPyDataType::Bool>("picker_hue_bar", mvArgType::KEYWORD_ARG, "False", "bar for Hue, rectangle for Sat/Value");
-		parser.addArg<mvPyDataType::Bool>("picker_hue_wheel", mvArgType::KEYWORD_ARG, "False", "wheel for Hue, triangle for Sat/Value.");
+		parser.addArg<mvPyDataType::Bool>("no_alpha", mvArgType::KEYWORD_ARG, "False", "Ignore Alpha component.");
+		parser.addArg<mvPyDataType::Bool>("no_picker", mvArgType::KEYWORD_ARG, "False", "Disable picker popup when color square is clicked.");
+		parser.addArg<mvPyDataType::Bool>("no_side_preview", mvArgType::KEYWORD_ARG, "False", "Disable bigger color preview on right side of the picker, use small colored square preview instead , unless small preview is also hidden.");
+		parser.addArg<mvPyDataType::Bool>("no_small_preview", mvArgType::KEYWORD_ARG, "False", "Disable colored square preview next to the inputs. (e.g. to show only the inputs). This only displays if the side preview is not shown.");
+		parser.addArg<mvPyDataType::Bool>("no_inputs", mvArgType::KEYWORD_ARG, "False", "Disable inputs sliders/text widgets. (e.g. to show only the small preview colored square)");
+		parser.addArg<mvPyDataType::Bool>("no_tooltip", mvArgType::KEYWORD_ARG, "False", "Disable tooltip when hovering the preview.");
+		parser.addArg<mvPyDataType::Bool>("no_label", mvArgType::KEYWORD_ARG, "False", "Disable display of inline text label.");
+		parser.addArg<mvPyDataType::Bool>("alpha_bar", mvArgType::KEYWORD_ARG, "False", "Show vertical alpha bar/gradient in picker.");
+		parser.addArg<mvPyDataType::Bool>("alpha_preview", mvArgType::KEYWORD_ARG, "False", "Display preview as a transparent color over a checkerboard, instead of opaque.");
+		parser.addArg<mvPyDataType::Bool>("alpha_preview_half", mvArgType::KEYWORD_ARG, "False", "Display half opaque / half checkerboard, instead of opaque.");
+		parser.addArg<mvPyDataType::Bool>("display_rgb", mvArgType::KEYWORD_ARG, "False", "Override _display_ type among RGB/HSV/Hex.");
+		parser.addArg<mvPyDataType::Bool>("display_hsv", mvArgType::KEYWORD_ARG, "False", "Override _display_ type among RGB/HSV/Hex.");
+		parser.addArg<mvPyDataType::Bool>("display_hex", mvArgType::KEYWORD_ARG, "False", "Override _display_ type among RGB/HSV/Hex.");
+		parser.addArg<mvPyDataType::Bool>("uint8", mvArgType::KEYWORD_ARG, "False", "Display values formatted as 0..255.");
+		parser.addArg<mvPyDataType::Bool>("floats", mvArgType::KEYWORD_ARG, "False", "Display values formatted as 0.0..1.0 floats instead of 0..255 integers.");
+		parser.addArg<mvPyDataType::Bool>("input_rgb", mvArgType::KEYWORD_ARG, "False", "Input and output data in RGB format.");
+		parser.addArg<mvPyDataType::Bool>("input_hsv", mvArgType::KEYWORD_ARG, "False", "Input and output data in HSV format.");
+		parser.addArg<mvPyDataType::Bool>("picker_hue_bar", mvArgType::KEYWORD_ARG, "False", "Bar for Hue, rectangle for Sat/Value.");
+		parser.addArg<mvPyDataType::Bool>("picker_hue_wheel", mvArgType::KEYWORD_ARG, "False", "Wheel for Hue, triangle for Sat/Value.");
 		
 		parser.finalize();
 

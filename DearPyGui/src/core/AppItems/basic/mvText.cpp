@@ -8,7 +8,7 @@ namespace Marvel {
 
 	void mvText::InsertParser(std::map<std::string, mvPythonParser>* parsers)
 	{
-		mvPythonParser parser(mvPyDataType::UUID, "Undocumented function", { "Widgets" });
+		mvPythonParser parser(mvPyDataType::UUID, "Adds text.", { "Widgets" });
 		mvAppItem::AddCommonArgs(parser, (CommonParserArgs)(
 			MV_PARSER_ARG_ID |
 			MV_PARSER_ARG_INDENT |
@@ -24,13 +24,13 @@ namespace Marvel {
 
 		parser.addArg<mvPyDataType::String>("default_value", mvArgType::POSITIONAL_ARG, "''");
 
-		parser.addArg<mvPyDataType::Integer>("wrap", mvArgType::KEYWORD_ARG, "-1", "number of characters until wraping");
+		parser.addArg<mvPyDataType::Integer>("wrap", mvArgType::KEYWORD_ARG, "-1", "Number of characters until wraping.");
 
-		parser.addArg<mvPyDataType::Bool>("bullet", mvArgType::KEYWORD_ARG, "False", "makes the text bulleted");
+		parser.addArg<mvPyDataType::Bool>("bullet", mvArgType::KEYWORD_ARG, "False", "Makes the text bulleted.");
 
-		parser.addArg<mvPyDataType::FloatList>("color", mvArgType::KEYWORD_ARG, "(-1, -1, -1, -1)", "color of the text (rgba)");
+		parser.addArg<mvPyDataType::FloatList>("color", mvArgType::KEYWORD_ARG, "(-1, -1, -1, -1)", "Color of the text (rgba).");
 
-		parser.addArg<mvPyDataType::Bool>("show_label", mvArgType::KEYWORD_ARG, "False", "displays the label");
+		parser.addArg<mvPyDataType::Bool>("show_label", mvArgType::KEYWORD_ARG, "False", "Displays the label.");
 
 		parser.finalize();
 
