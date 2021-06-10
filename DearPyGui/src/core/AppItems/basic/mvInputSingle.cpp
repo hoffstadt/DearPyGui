@@ -32,7 +32,7 @@ namespace Marvel {
             MV_PARSER_ARG_POS)
         );
 
-        parser.addArg<mvPyDataType::IntList>("Adds input for int.", mvArgType::KEYWORD_ARG, "(0, 0, 0, 0)");
+        parser.addArg<mvPyDataType::IntList>("default_value", mvArgType::KEYWORD_ARG, "(0, 0, 0, 0)");
 
         parser.addArg<mvPyDataType::Integer>("min_value", mvArgType::KEYWORD_ARG, "0");
         parser.addArg<mvPyDataType::Integer>("max_value", mvArgType::KEYWORD_ARG, "100");

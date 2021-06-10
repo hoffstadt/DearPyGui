@@ -8,7 +8,7 @@ namespace Marvel {
 	{
 
 		{
-			mvPythonParser parser(mvPyDataType::UUID, "Undocumented function", { "Containers", "Widgets" });
+			mvPythonParser parser(mvPyDataType::UUID, "Adds a popup window for an item. This command must come immediately after the item the popup is for. Must be followed by a call to end.", { "Containers", "Widgets" });
 			mvAppItem::AddCommonArgs(parser, (CommonParserArgs)(
 				MV_PARSER_ARG_ID |
 				MV_PARSER_ARG_WIDTH |
