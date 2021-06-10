@@ -23,11 +23,11 @@ def add_active_handler(parent : str, *, id: int =..., callback: Callable =None, 
 	...
 
 def add_area_series(x : List[float], y : List[float], *, id: int =..., parent: int =0, before: int =0, label: str =None, source: int =0, show: bool =True, fill: List[int] =(0, 0, 0, -255), contribute_to_bounds: bool =True) -> int:
-	"""Undocumented function"""
+	"""Adds an area series to a plot."""
 	...
 
 def add_bar_series(x : List[float], y : List[float], *, id: int =..., parent: int =0, before: int =0, label: str =None, source: int =0, show: bool =True, weight: float =1.0, horizontal: bool =False, contribute_to_bounds: bool =True) -> int:
-	"""Undocumented function"""
+	"""Adds a bar series to a plot."""
 	...
 
 def add_button(*, id: int =..., width: int =0, height: int =0, indent: int =-1, parent: int =0, before: int =0, label: str =None, payload_type: str ='$$DPG_PAYLOAD', callback: Callable =None, drag_callback: Callable =None, drop_callback: Callable =None, user_data: Any =None, show: bool =True, enabled: bool =True, pos: List[int] =[], filter_key: str ='', tracked: bool =False, track_offset: float =0.5, small: bool =False, arrow: bool =False, direction: int =0) -> int:
@@ -35,7 +35,7 @@ def add_button(*, id: int =..., width: int =0, height: int =0, indent: int =-1, 
 	...
 
 def add_candle_series(dates : List[float], opens : List[float], closes : List[float], lows : List[float], highs : List[float], *, id: int =..., parent: int =0, before: int =0, label: str =None, source: int =0, show: bool =True, bull_color: List[int] =(0, 255, 113, 255), bear_color: List[int] =(218, 13, 79, 255), weight: int =0.25, contribute_to_bounds: bool =True, tooltip: bool =True) -> int:
-	"""Undocumented function"""
+	"""Adds a candle series to a plot."""
 	...
 
 def add_checkbox(*, id: int =..., indent: int =-1, parent: int =0, before: int =0, label: str =None, source: int =0, payload_type: str ='$$DPG_PAYLOAD', callback: Callable =None, drag_callback: Callable =None, drop_callback: Callable =None, user_data: Any =None, show: bool =True, enabled: bool =True, pos: List[int] =[], filter_key: str ='', tracked: bool =False, track_offset: float =0.5, default_value: bool =False) -> int:
@@ -107,7 +107,7 @@ def add_drag_intx(*, id: int =..., width: int =0, indent: int =-1, parent: int =
 	...
 
 def add_drag_line(*, id: int =..., parent: int =0, before: int =0, label: str =None, source: int =0, callback: Callable =None, show: bool =True, default_value: Any =(0.0, 0.0, 0.0, 0.0), color: List[int] =(0, 0, 0, -255), thickness: float =1.0, show_label: bool =True, vertical: bool =True) -> int:
-	"""Undocumented function"""
+	"""Adds a drag line to a plot."""
 	...
 
 def add_drag_payload(*, id: int =..., parent: int =0, show: bool =True, drag_data: Any =None, payload_type: str ='$$DPG_PAYLOAD') -> int:
@@ -115,7 +115,7 @@ def add_drag_payload(*, id: int =..., parent: int =0, show: bool =True, drag_dat
 	...
 
 def add_drag_point(*, id: int =..., parent: int =0, before: int =0, label: str =None, source: int =0, callback: Callable =None, show: bool =True, default_value: Any =(0.0, 0.0, 0.0, 0.0), color: List[int] =(0, 0, 0, -255), thickness: float =1.0, show_label: bool =True) -> int:
-	"""Undocumented function"""
+	"""Adds a drag point to a plot."""
 	...
 
 def add_draw_layer(*, id: int =..., parent: int =0, before: int =0, show: bool =True) -> int:
@@ -139,7 +139,7 @@ def add_edited_handler(parent : str, *, id: int =..., callback: Callable =None, 
 	...
 
 def add_error_series(x : List[float], y : List[float], negative : List[float], positive : List[float], *, id: int =..., parent: int =0, before: int =0, label: str =None, source: int =0, show: bool =True, contribute_to_bounds: bool =True, horizontal: bool =False) -> int:
-	"""Undocumented function"""
+	"""Adds an error series to a plot."""
 	...
 
 def add_file_dialog(*, id: int =..., width: int =0, height: int =0, label: str =None, callback: Callable =None, show: bool =True, default_path: str ='', default_filename: str ='.', file_count: int =0, modal: bool =False, directory_selector: bool =False) -> int:
@@ -175,15 +175,15 @@ def add_handler_registry(*, id: int =..., show: bool =True) -> int:
 	...
 
 def add_heat_series(x : List[float], rows : int, cols : int, *, id: int =..., parent: int =0, before: int =0, label: str =None, source: int =0, show: bool =True, scale_min: float =0.0, scale_max: float =1.0, bounds_min: Any =(0.0, 0.0), bounds_max: Any =(1.0, 1.0), format: str ='%0.1f', contribute_to_bounds: bool =True) -> int:
-	"""Undocumented function"""
+	"""Adds a heat series to a plot."""
 	...
 
 def add_histogram_series(x : List[float], *, id: int =..., parent: int =0, before: int =0, label: str =None, source: int =0, show: bool =True, bins: int =-1, bar_scale: float =1.0, min_range: float =0.0, max_range: float =1.0, cumlative: bool =False, density: bool =False, outliers: bool =True, contribute_to_bounds: bool =True) -> int:
-	"""Undocumented function"""
+	"""Adds a histogram series to a plot."""
 	...
 
 def add_hline_series(x : List[float], *, id: int =..., parent: int =0, before: int =0, label: str =None, source: int =0, show: bool =True, contribute_to_bounds: bool =True) -> int:
-	"""Undocumented function"""
+	"""Adds a infinite horizontal line series to a plot."""
 	...
 
 def add_hover_handler(parent : str, *, id: int =..., callback: Callable =None, user_data: Any =None) -> int:
@@ -199,7 +199,7 @@ def add_image_button(default_value : int, *, id: int =..., width: int =0, height
 	...
 
 def add_image_series(value : int, bounds_min : List[float], bounds_max : List[float], *, id: int =..., parent: int =0, before: int =0, label: str =None, source: int =0, show: bool =True, uv_min: List[float] =(0.0, 0.0), uv_max: List[float] =(1.0, 1.0), tint_color: List[int] =(255, 255, 255, 255), contribute_to_bounds: bool =True) -> int:
-	"""Undocumented function"""
+	"""Adds a image series to a plot."""
 	...
 
 def add_input_float(*, id: int =..., width: int =0, indent: int =-1, parent: int =0, before: int =0, label: str =None, source: int =0, payload_type: str ='$$DPG_PAYLOAD', callback: Callable =None, drag_callback: Callable =None, drop_callback: Callable =None, user_data: Any =None, show: bool =True, enabled: bool =True, pos: List[int] =[], filter_key: str ='', tracked: bool =False, track_offset: float =0.5, default_value: float =0.0, format: str ='%.3f', min_value: float =0.0, max_value: float =100.0, step: float =0.1, step_fast: float =1.0, min_clamped: bool =False, max_clamped: bool =False, on_enter: bool =False, readonly: bool =False) -> int:
@@ -291,19 +291,19 @@ def add_mouse_wheel_handler(*, id: int =..., parent: int =0, callback: Callable 
 	...
 
 def add_node(*, id: int =..., parent: int =0, before: int =0, label: str =None, payload_type: str ='$$DPG_PAYLOAD', drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, pos: List[int] =[], filter_key: str ='', delay_search: str =False, tracked: bool =False, track_offset: float =0.5, draggable: bool =True) -> int:
-	"""Undocumented function"""
+	"""Adds a node to a node editor."""
 	...
 
 def add_node_attribute(*, id: int =..., indent: int =-1, parent: int =0, before: int =0, payload_type: str ='$$DPG_PAYLOAD', drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, filter_key: str ='', tracked: bool =False, track_offset: float =0.5, output: bool =False, static: bool =False, shape: int =54010) -> int:
-	"""Undocumented function"""
+	"""Adds a node attribute."""
 	...
 
 def add_node_editor(*, id: int =..., parent: int =0, before: int =0, payload_type: str ='$$DPG_PAYLOAD', callback: Callable =None, drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, filter_key: str ='', delay_search: str =False, tracked: bool =False, track_offset: float =0.5, delink_callback: Callable =None) -> int:
-	"""Undocumented function"""
+	"""Adds a node editor."""
 	...
 
 def add_node_link(node_1 : int, node_2 : int, *, id: int =..., parent: int =0, show: bool =True) -> int:
-	"""Undocumented function"""
+	"""Adds a node link between nodes."""
 	...
 
 def add_pie_series(x : float, y : float, radius : float, values : List[float], labels : List[str], *, id: int =..., parent: int =0, before: int =0, label: str =None, source: int =0, show: bool =True, format: str ='%0.2f', angle: float =90.0, normalize: bool =False, contribute_to_bounds: bool =True) -> int:
@@ -315,7 +315,7 @@ def add_plot(*, id: int =..., width: int =0, height: int =0, indent: int =-1, pa
 	...
 
 def add_plot_annotation(*, id: int =..., parent: int =0, before: int =0, label: str =None, source: int =0, show: bool =True, default_value: Any =(0.0, 0.0), offset: List[float] =(0.0, 0.0), color: List[int] =(0, 0, 0, -255), clamped: bool =True) -> int:
-	"""Undocumented function"""
+	"""Adds an annotation to a plot."""
 	...
 
 def add_plot_axis(axis : int, *, id: int =..., parent: int =0, label: str =None, payload_type: str ='$$DPG_PAYLOAD', drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, no_gridlines: bool =False, no_tick_marks: bool =False, no_tick_labels: bool =False, log_scale: bool =False, invert: bool =False, lock_min: bool =False, lock_max: bool =False, time: bool =False) -> int:
@@ -331,7 +331,7 @@ def add_popup(*, id: int =..., width: int =0, height: int =0, parent: int =0, sh
 	...
 
 def add_progress_bar(*, id: int =..., width: int =0, height: int =0, indent: int =-1, parent: int =0, before: int =0, label: str =None, source: int =0, payload_type: str ='$$DPG_PAYLOAD', drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, pos: List[int] =[], filter_key: str ='', tracked: bool =False, track_offset: float =0.5, overlay: str ='', default_value: float =0.0) -> int:
-	"""Undocumented function"""
+	"""Adds a progress bar."""
 	...
 
 def add_radio_button(items : int =(), *, id: int =..., indent: int =-1, parent: int =0, before: int =0, source: int =0, payload_type: str ='$$DPG_PAYLOAD', callback: Callable =None, drag_callback: Callable =None, drop_callback: Callable =None, user_data: Any =None, show: bool =True, enabled: bool =True, pos: List[int] =[], filter_key: str ='', tracked: bool =False, track_offset: float =0.5, default_value: str ='', horizontal: bool =False) -> int:
@@ -343,7 +343,7 @@ def add_resize_handler(parent : str, *, id: int =..., callback: Callable =None, 
 	...
 
 def add_same_line(*, id: int =..., parent: int =0, before: int =0, show: bool =True, xoffset: float =0.0, spacing: float =-1.0) -> int:
-	"""Undocumented function"""
+	"""Places a widget on the same line as the previous widget. Can also be used for horizontal spacing."""
 	...
 
 def add_scatter_series(x : List[float], y : List[float], *, id: int =..., parent: int =0, before: int =0, label: str =None, source: int =0, show: bool =True, contribute_to_bounds: bool =True) -> int:
@@ -355,7 +355,7 @@ def add_selectable(*, id: int =..., width: int =0, height: int =0, indent: int =
 	...
 
 def add_separator(*, id: int =..., indent: int =-1, parent: int =0, before: int =0, show: bool =True, pos: List[int] =[]) -> int:
-	"""Undocumented function"""
+	"""Adds a horizontal line."""
 	...
 
 def add_shade_series(x : List[float], y1 : List[float], *, id: int =..., parent: int =0, before: int =0, label: str =None, source: int =0, show: bool =True, y2: Any =[], contribute_to_bounds: bool =True) -> int:
@@ -383,7 +383,7 @@ def add_slider_intx(*, id: int =..., width: int =0, indent: int =-1, parent: int
 	...
 
 def add_spacing(*, id: int =..., indent: int =-1, parent: int =0, before: int =0, show: bool =True, pos: List[int] =[], count: int =1) -> int:
-	"""Undocumented function"""
+	"""Adds vertical spacing."""
 	...
 
 def add_staging_container(*, id: int =...) -> int:
@@ -479,7 +479,7 @@ def add_visible_handler(parent : str, *, id: int =..., callback: Callable =None,
 	...
 
 def add_vline_series(x : List[float], *, id: int =..., parent: int =0, before: int =0, label: str =None, source: int =0, show: bool =True, contribute_to_bounds: bool =True) -> int:
-	"""Undocumented function"""
+	"""Adds a infinite vertical line series to a plot."""
 	...
 
 def add_window(*, id: int =..., width: int =0, height: int =0, indent: int =-1, label: str =None, user_data: Any =None, show: bool =True, delay_search: str =False, min_size: List[int] =[32, 32], max_size: List[int] =[30000, 30000], menubar: bool =False, collapsed: bool =False, autosize: bool =False, no_resize: bool =False, no_title_bar: bool =False, no_move: bool =False, no_scrollbar: bool =False, no_collapse: bool =False, horizontal_scrollbar: bool =False, no_focus_on_appearing: bool =False, no_bring_to_front_on_focus: bool =False, no_close: bool =False, no_background: bool =False, modal: bool =False, popup: bool =False, on_close: Callable =None) -> int:
