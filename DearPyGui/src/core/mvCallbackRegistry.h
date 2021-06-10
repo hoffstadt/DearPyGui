@@ -23,15 +23,15 @@ namespace Marvel {
 
 		static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
 
-		MV_CREATE_EXTRA_COMMAND(set_start_callback);
-		MV_CREATE_EXTRA_COMMAND(set_exit_callback);
-		MV_CREATE_EXTRA_COMMAND(set_resize_callback);
+		MV_CREATE_COMMAND(set_start_callback);
+		MV_CREATE_COMMAND(set_exit_callback);
+		MV_CREATE_COMMAND(set_resize_callback);
 
-		MV_START_EXTRA_COMMANDS
-			MV_ADD_EXTRA_COMMAND(set_start_callback);
-			MV_ADD_EXTRA_COMMAND(set_exit_callback);
-			MV_ADD_EXTRA_COMMAND(set_resize_callback);
-		MV_END_EXTRA_COMMANDS
+		MV_START_COMMANDS
+			MV_ADD_COMMAND(set_start_callback);
+			MV_ADD_COMMAND(set_exit_callback);
+			MV_ADD_COMMAND(set_resize_callback);
+		MV_END_COMMANDS
 
 	public:
 

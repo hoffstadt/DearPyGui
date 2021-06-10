@@ -26,17 +26,11 @@ namespace Marvel {
 
         MV_APPLY_WIDGET_REGISTRATION(mvAppItemType::mvSliderFloat, add_slider_float)
 
-		MV_START_EXTRA_COMMANDS
-		MV_END_EXTRA_COMMANDS
+		MV_START_COMMANDS
+		MV_END_COMMANDS
 
-		MV_START_GENERAL_CONSTANTS
-		MV_END_GENERAL_CONSTANTS
-
-        MV_START_COLOR_CONSTANTS
-        MV_END_COLOR_CONSTANTS
-
-        MV_START_STYLE_CONSTANTS
-        MV_END_STYLE_CONSTANTS
+		MV_START_CONSTANTS
+		MV_END_CONSTANTS
 
     public:
 
@@ -72,51 +66,11 @@ namespace Marvel {
  
         MV_APPLY_WIDGET_REGISTRATION(mvAppItemType::mvSliderInt, add_slider_int)
 
-        MV_CREATE_CONSTANT(mvThemeCol_SliderInt_Text                , ImGuiCol_Text              , 0L);
-        MV_CREATE_CONSTANT(mvThemeCol_SliderInt_Bg                  , ImGuiCol_FrameBg           , 0L);
-        MV_CREATE_CONSTANT(mvThemeCol_SliderInt_BgHovered           , ImGuiCol_FrameBgHovered    , 0L);
-        MV_CREATE_CONSTANT(mvThemeCol_SliderInt_BgActive            , ImGuiCol_FrameBgActive     , 0L);
-        MV_CREATE_CONSTANT(mvThemeCol_SliderInt_Grab                , ImGuiCol_SliderGrab        , 0L);
-        MV_CREATE_CONSTANT(mvThemeCol_SliderInt_GrabActive          , ImGuiCol_SliderGrabActive  , 0L);
-        MV_CREATE_CONSTANT(mvThemeCol_SliderInt_Border              , ImGuiCol_Border            , 0L);
-        MV_CREATE_CONSTANT(mvThemeCol_SliderInt_BorderShadow        , ImGuiCol_BorderShadow      , 0L);
+		MV_START_COMMANDS
+		MV_END_COMMANDS
 
-        MV_CREATE_CONSTANT(mvThemeStyle_SliderInt_Rounding          , ImGuiStyleVar_FrameRounding    , 0L);
-        MV_CREATE_CONSTANT(mvThemeStyle_SliderInt_BorderSize        , ImGuiStyleVar_FrameBorderSize  , 0L);
-        MV_CREATE_CONSTANT(mvThemeStyle_SliderInt_PaddingX          , ImGuiStyleVar_FramePadding     , 0L);
-        MV_CREATE_CONSTANT(mvThemeStyle_SliderInt_PaddingY          , ImGuiStyleVar_FramePadding     , 1L);
-        MV_CREATE_CONSTANT(mvThemeStyle_SliderInt_InnerSpacingX     , ImGuiStyleVar_ItemInnerSpacing , 0L);
-        MV_CREATE_CONSTANT(mvThemeStyle_SliderInt_InnerSpacingY     , ImGuiStyleVar_ItemInnerSpacing , 1L);
-        MV_CREATE_CONSTANT(mvThemeStyle_SliderInt_GrabMinSize       , ImGuiStyleVar_GrabMinSize      , 0L);
-        MV_CREATE_CONSTANT(mvThemeStyle_SliderInt_GrabRounding      , ImGuiStyleVar_GrabRounding     , 0L);
-
-		MV_START_EXTRA_COMMANDS
-		MV_END_EXTRA_COMMANDS
-
-		MV_START_GENERAL_CONSTANTS
-		MV_END_GENERAL_CONSTANTS
-
-        MV_START_COLOR_CONSTANTS
-            MV_ADD_CONSTANT(mvThemeCol_SliderInt_Text,             mvImGuiCol_Text, mvColor(128, 128, 128, 63)),
-            MV_ADD_CONSTANT(mvThemeCol_SliderInt_Bg,               mvImGuiCol_FrameBg, mvColor(128, 128, 128, 63)),
-            MV_ADD_CONSTANT(mvThemeCol_SliderInt_BgHovered, mvImGuiCol_FrameBg, mvColor(128, 128, 128, 63)),
-            MV_ADD_CONSTANT(mvThemeCol_SliderInt_BgActive, mvImGuiCol_FrameBg, mvColor(128, 128, 128, 63)),
-            MV_ADD_CONSTANT(mvThemeCol_SliderInt_Grab, mvImGuiCol_SliderGrab, mvColor(128, 128, 128, 63)),
-            MV_ADD_CONSTANT(mvThemeCol_SliderInt_GrabActive, mvImGuiCol_SliderGrabActive, mvColor(128, 128, 128, 63)),
-            MV_ADD_CONSTANT(mvThemeCol_SliderInt_Border,           mvImGuiCol_Border, mvColor(128, 128, 128, 63)),
-            MV_ADD_CONSTANT(mvThemeCol_SliderInt_BorderShadow,     mvImGuiCol_BorderShadow, mvColor(128, 128, 128, 63)),
-        MV_END_COLOR_CONSTANTS
-
-        MV_START_STYLE_CONSTANTS
-            MV_ADD_CONSTANT_F(mvThemeStyle_SliderInt_Rounding        , 0, 12),
-            MV_ADD_CONSTANT_F(mvThemeStyle_SliderInt_BorderSize      , 0,  1),
-            MV_ADD_CONSTANT_F(mvThemeStyle_SliderInt_PaddingX        , 4, 20),
-            MV_ADD_CONSTANT_F(mvThemeStyle_SliderInt_PaddingY        , 3, 20),
-            MV_ADD_CONSTANT_F(mvThemeStyle_SliderInt_InnerSpacingX   , 4, 20),
-            MV_ADD_CONSTANT_F(mvThemeStyle_SliderInt_InnerSpacingY   , 4, 20),
-            MV_ADD_CONSTANT_F(mvThemeStyle_SliderInt_GrabMinSize     ,10, 20),
-            MV_ADD_CONSTANT_F(mvThemeStyle_SliderInt_GrabRounding    , 0, 12),
-        MV_END_STYLE_CONSTANTS
+		MV_START_CONSTANTS
+		MV_END_CONSTANTS
 
     public:
 
