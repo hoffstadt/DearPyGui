@@ -169,7 +169,7 @@ namespace Marvel {
             MV_ADD_CONSTANT(mvThemeCol_PlotHistogram),
             MV_ADD_CONSTANT(mvThemeCol_PlotHistogramHovered),
             MV_ADD_CONSTANT(mvThemeCol_TableHeaderBg),
-            MV_ADD_CONSTANT(mvThemeCol_TableBorderStrong, ),
+            MV_ADD_CONSTANT(mvThemeCol_TableBorderStrong),
             MV_ADD_CONSTANT(mvThemeCol_TableBorderLight),
             MV_ADD_CONSTANT(mvThemeCol_TableRowBg),
             MV_ADD_CONSTANT(mvThemeCol_TableRowBgAlt),
