@@ -298,7 +298,10 @@ namespace Marvel{
 	bool mvAppItem::preDraw()
 	{
 		if (!m_show)
-			return false;
+		{
+			if(!DoesItemHaveFlag(this, MV_ITEM_DESC_ALWAYS_DRAW))
+				return false;
+		}
 
 		if (m_focusNextFrame)
 		{
