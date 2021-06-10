@@ -2,11 +2,11 @@
 #include "mvPlotLegend.h"
 #include "mvApp.h"
 #include "mvItemRegistry.h"
-#include "mvImGuiThemeScope.h"
+//#include "mvImGuiThemeScope.h"
 //#include "mvFontScope.h"
 #include "mvLog.h"
 #include "mvPythonExceptions.h"
-#include "mvImPlotThemeScope.h"
+//#include "mvImPlotThemeScope.h"
 //#include "mvFontScope.h"
 #include "mvPlot.h"
 #include "containers/mvDragPayload.h"
@@ -39,7 +39,7 @@ namespace Marvel {
 
 	void mvPlotLegend::draw(ImDrawList* drawlist, float x, float y)
 	{
-		mvImPlotThemeScope scope(this);
+		//mvImPlotThemeScope scope(this);
 		//mvFontScope fscope(this);
 	}
 

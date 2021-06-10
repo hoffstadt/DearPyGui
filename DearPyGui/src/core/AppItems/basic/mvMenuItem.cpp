@@ -1,7 +1,7 @@
 #include "mvMenuItem.h"
 #include "mvApp.h"
 #include "mvItemRegistry.h"
-#include "mvImGuiThemeScope.h"
+//#include "mvImGuiThemeScope.h"
 //#include "mvFontScope.h"
 
 namespace Marvel {
@@ -46,7 +46,7 @@ namespace Marvel {
 	void mvMenuItem::draw(ImDrawList* drawlist, float x, float y)
 	{
 		ScopedID id(m_uuid);
-		mvImGuiThemeScope scope(this);
+		////mvImGuiThemeScope scope(this);
 		//mvFontScope fscope(this);
 
 		// This is ugly and goes against our style system but its the only widget that ImGui chooses to push teh disable color for us

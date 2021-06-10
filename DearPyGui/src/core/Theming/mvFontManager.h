@@ -12,36 +12,22 @@ struct ImFont;
 
 namespace Marvel {
 
-	class mvFontManager : public mvEventHandler, public mvToolWindow
+	class mvFontManager : public mvToolWindow
 	{
 		friend class mvFont;
-		struct Font
-		{
-			std::string                         key;
-			std::string                         name;
-			ImFont*                             fontPtr;
-			std::string                         file;
-			std::string                         rangeHint;
-			int                                 size;
-			std::vector<ImWchar>                chars;
-			ImVector<ImWchar>                   ranges;
-			std::vector<std::pair<int, int>>    charRemaps;
-		};
 
 	public:
-
-		static void InValidateFontTheme();
 
 		static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
 
 		//MV_CREATE_EXTRA_COMMAND(add_font);
-		MV_CREATE_EXTRA_COMMAND(set_font);
+		//MV_CREATE_EXTRA_COMMAND(set_font);
 		MV_CREATE_EXTRA_COMMAND(get_global_font_scale);
 		MV_CREATE_EXTRA_COMMAND(set_global_font_scale);
 
 		MV_START_EXTRA_COMMANDS
 			//MV_ADD_EXTRA_COMMAND(add_font);
-			MV_ADD_EXTRA_COMMAND(set_font);
+			//MV_ADD_EXTRA_COMMAND(set_font);
 			MV_ADD_EXTRA_COMMAND(get_global_font_scale);
 			MV_ADD_EXTRA_COMMAND(set_global_font_scale);
 		MV_END_EXTRA_COMMANDS
@@ -69,18 +55,9 @@ namespace Marvel {
 
 	private:
 
-		bool onEvent(mvEvent& event) override;
-		bool onSetFont(mvEvent& event);
-
-	private:
-
-		std::vector<Font> m_fonts;
-		bool              m_dirty = false;
-		
 		// default
 		ImFont*           m_font = nullptr;
-		std::string       m_fontName;
-		int               m_size = 13;
+		bool              m_dirty = false;
 		float             m_globalFontScale = 1.0f;
 
 	};

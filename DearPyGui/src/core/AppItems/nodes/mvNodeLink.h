@@ -18,10 +18,6 @@ namespace Marvel {
 
 		MV_APPLY_WIDGET_REGISTRATION(mvAppItemType::mvNodeLink, add_node_link)
 
-		MV_CREATE_CONSTANT(mvThemeCol_NodeEditor_Link, imnodes::ColorStyle::ColorStyle_Link, 0L);
-		MV_CREATE_CONSTANT(mvThemeCol_NodeEditor_LinkHovered, imnodes::ColorStyle::ColorStyle_LinkHovered, 0L);
-		MV_CREATE_CONSTANT(mvThemeCol_NodeEditor_LinkSelected, imnodes::ColorStyle::ColorStyle_LinkSelected, 0L);
-
 		MV_START_EXTRA_COMMANDS
 		MV_END_EXTRA_COMMANDS
 
@@ -29,9 +25,6 @@ namespace Marvel {
 		MV_END_GENERAL_CONSTANTS
 
 		MV_START_COLOR_CONSTANTS
-			MV_CREATE_CONSTANT_PAIR(mvThemeCol_NodeEditor_Link, mvImGuiCol_Link),
-			MV_CREATE_CONSTANT_PAIR(mvThemeCol_NodeEditor_LinkHovered, mvImGuiCol_LinkHovered),
-			MV_CREATE_CONSTANT_PAIR(mvThemeCol_NodeEditor_LinkSelected, mvImGuiCol_LinkSelected),
 		MV_END_COLOR_CONSTANTS
 
 		MV_START_STYLE_CONSTANTS

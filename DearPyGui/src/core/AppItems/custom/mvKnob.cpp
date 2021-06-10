@@ -1,6 +1,6 @@
 #include "mvKnob.h"
 #include "mvKnobCustom.h"
-#include "mvImGuiThemeScope.h"
+//#include "mvImGuiThemeScope.h"
 //#include "mvFontScope.h"
 
 namespace Marvel {
@@ -47,7 +47,7 @@ namespace Marvel {
     void mvKnobFloat::draw(ImDrawList* drawlist, float x, float y)
     {
         ScopedID id(m_uuid);
-        mvImGuiThemeScope scope(this);
+        //mvImGuiThemeScope scope(this);
         //mvFontScope fscope(this);
 
         if (KnobFloat(m_specificedlabel.c_str(), m_value.get(), m_min, m_max, m_step))

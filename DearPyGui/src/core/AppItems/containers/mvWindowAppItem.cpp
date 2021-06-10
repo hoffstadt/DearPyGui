@@ -2,7 +2,7 @@
 #include "mvInput.h"
 #include "mvViewport.h"
 #include "mvItemRegistry.h"
-#include "mvImGuiThemeScope.h"
+//#include "mvImGuiThemeScope.h"
 //#include "mvFontScope.h"
 #include "mvLog.h"
 #include "mvPythonExceptions.h"
@@ -239,7 +239,7 @@ namespace Marvel {
 		}
 
 		ScopedID id(m_uuid);
-		mvImGuiThemeScope scope(this);
+		//mvImGuiThemeScope scope(this);
 		//mvFontScope fscope(this);
 
 		if (m_modal)
@@ -292,7 +292,7 @@ namespace Marvel {
 		float starty = (float)ImGui::GetCursorScreenPos().y;
 
 		//we do this so that the children dont get the theme
-		scope.cleanup();
+		//scope.cleanup();
 
 		if (m_mainWindow)
 			ImGui::PopStyleVar();

@@ -98,6 +98,7 @@ namespace Marvel {
         static bool        IsAppStarted () { return s_started; }
         static void        SetAppStopped();
         static void        StopApp      () { s_started = false; } // ugly
+        static void        SetDefaultTheme();
 
         //-----------------------------------------------------------------------------
         // Timing
@@ -123,7 +124,6 @@ namespace Marvel {
         //-----------------------------------------------------------------------------
         mvItemRegistry&     getItemRegistry    ();
         mvCallbackRegistry& getCallbackRegistry();
-        mvThemeManager&     getThemeManager    ();
         
         //-----------------------------------------------------------------------------
         // App Settings
@@ -149,7 +149,7 @@ namespace Marvel {
 
         // managers
         mvOwnedPtr<mvItemRegistry>     m_itemRegistry;
-        mvOwnedPtr<mvThemeManager>     m_themeManager;
+        //mvOwnedPtr<mvThemeManager>     m_themeManager;
         mvOwnedPtr<mvCallbackRegistry> m_callbackRegistry;
                                          
         // docking                                   

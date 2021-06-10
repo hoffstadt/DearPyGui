@@ -28,20 +28,6 @@ namespace Marvel {
 
         MV_APPLY_WIDGET_REGISTRATION(mvAppItemType::mvDragFloat, add_drag_float)
 
-        MV_CREATE_CONSTANT(mvThemeCol_DragFloat_Text,           ImGuiCol_Text,              0L);
-        MV_CREATE_CONSTANT(mvThemeCol_DragFloat_Bg,             ImGuiCol_FrameBg,           0L);
-        MV_CREATE_CONSTANT(mvThemeCol_DragFloat_BgHovered,      ImGuiCol_FrameBgHovered,    0L);
-        MV_CREATE_CONSTANT(mvThemeCol_DragFloat_BgActive,       ImGuiCol_FrameBgActive,     0L);
-        MV_CREATE_CONSTANT(mvThemeCol_DragFloat_Border,         ImGuiCol_Border,            0L);
-        MV_CREATE_CONSTANT(mvThemeCol_DragFloat_BorderShadow,   ImGuiCol_BorderShadow,      0L);
-
-        MV_CREATE_CONSTANT(mvThemeStyle_DragFloat_Rounding,         ImGuiStyleVar_FrameRounding,    0L);
-        MV_CREATE_CONSTANT(mvThemeStyle_DragFloat_BorderSize,       ImGuiStyleVar_FrameBorderSize,  0L);
-        MV_CREATE_CONSTANT(mvThemeStyle_DragFloat_PaddingX,         ImGuiStyleVar_FramePadding,     0L);
-        MV_CREATE_CONSTANT(mvThemeStyle_DragFloat_PaddingY,         ImGuiStyleVar_FramePadding,     1L);
-        MV_CREATE_CONSTANT(mvThemeStyle_DragFloat_InnerSpacingX,    ImGuiStyleVar_ItemInnerSpacing, 0L);
-        MV_CREATE_CONSTANT(mvThemeStyle_DragFloat_InnerSpacingY,    ImGuiStyleVar_ItemInnerSpacing, 1L);
-
         MV_START_EXTRA_COMMANDS
         MV_END_EXTRA_COMMANDS
 
@@ -49,21 +35,9 @@ namespace Marvel {
         MV_END_GENERAL_CONSTANTS
 
         MV_START_COLOR_CONSTANTS
-            MV_ADD_CONSTANT(mvThemeCol_DragFloat_Text, mvImGuiCol_Text, mvColor(128, 128, 128, 63)),
-            MV_ADD_CONSTANT(mvThemeCol_DragFloat_Bg, mvImGuiCol_FrameBg, mvColor(128, 128, 128, 63)),
-            MV_ADD_CONSTANT(mvThemeCol_DragFloat_BgHovered, mvImGuiCol_FrameBgHovered, mvColor(128, 128, 128, 63)),
-            MV_ADD_CONSTANT(mvThemeCol_DragFloat_BgActive, mvImGuiCol_FrameBgActive, mvColor(128, 128, 128, 63)),
-            MV_ADD_CONSTANT(mvThemeCol_DragFloat_Border, mvImGuiCol_Border, mvColor(128, 128, 128, 63)),
-            MV_ADD_CONSTANT(mvThemeCol_DragFloat_BorderShadow, mvImGuiCol_BorderShadow, mvColor(128, 128, 128, 63)),
         MV_END_COLOR_CONSTANTS
 
         MV_START_STYLE_CONSTANTS
-            MV_ADD_CONSTANT_F(mvThemeStyle_DragFloat_Rounding, 0, 12),
-            MV_ADD_CONSTANT_F(mvThemeStyle_DragFloat_BorderSize, 0,  1),
-            MV_ADD_CONSTANT_F(mvThemeStyle_DragFloat_PaddingX, 4, 20),
-            MV_ADD_CONSTANT_F(mvThemeStyle_DragFloat_PaddingY, 3, 20),
-            MV_ADD_CONSTANT_F(mvThemeStyle_DragFloat_InnerSpacingX, 4, 20),
-            MV_ADD_CONSTANT_F(mvThemeStyle_DragFloat_InnerSpacingY, 4, 20),
         MV_END_STYLE_CONSTANTS
 
     public:
@@ -101,20 +75,6 @@ namespace Marvel {
 
         MV_APPLY_WIDGET_REGISTRATION(mvAppItemType::mvDragInt, add_drag_int)
 
-        MV_CREATE_CONSTANT(mvThemeCol_DragInt_Text,         0L, 0L);
-        MV_CREATE_CONSTANT(mvThemeCol_DragInt_Bg,           7L, 0L);
-        MV_CREATE_CONSTANT(mvThemeCol_DragInt_BgHovered,    8L, 0L);
-        MV_CREATE_CONSTANT(mvThemeCol_DragInt_BgActive,     9L, 0L);
-        MV_CREATE_CONSTANT(mvThemeCol_DragInt_Border,       5L, 0L);
-        MV_CREATE_CONSTANT(mvThemeCol_DragInt_BorderShadow, 6L, 0L);
-
-        MV_CREATE_CONSTANT(mvThemeStyle_DragInt_Rounding,      11L, 0L);
-        MV_CREATE_CONSTANT(mvThemeStyle_DragInt_BorderSize,    12L, 0L);
-        MV_CREATE_CONSTANT(mvThemeStyle_DragInt_PaddingX,      10L, 0L);
-        MV_CREATE_CONSTANT(mvThemeStyle_DragInt_PaddingY,      10L, 1L);
-        MV_CREATE_CONSTANT(mvThemeStyle_DragInt_InnerSpacingX, 14L, 0L);
-        MV_CREATE_CONSTANT(mvThemeStyle_DragInt_InnerSpacingY, 14L, 1L);
-
         MV_START_EXTRA_COMMANDS
         MV_END_EXTRA_COMMANDS
 
@@ -122,21 +82,9 @@ namespace Marvel {
         MV_END_GENERAL_CONSTANTS
 
         MV_START_COLOR_CONSTANTS
-            MV_ADD_CONSTANT(mvThemeCol_DragInt_Text,         mvImGuiCol_Text, mvColor(128, 128, 128, 63)),
-            MV_ADD_CONSTANT(mvThemeCol_DragInt_Bg,           mvImGuiCol_FrameBg, mvColor(128, 128, 128, 63)),
-            MV_ADD_CONSTANT(mvThemeCol_DragInt_BgHovered,    mvImGuiCol_FrameBgHovered, mvColor(128, 128, 128, 63)),
-            MV_ADD_CONSTANT(mvThemeCol_DragInt_BgActive,     mvImGuiCol_FrameBgActive, mvColor(128, 128, 128, 63)),
-            MV_ADD_CONSTANT(mvThemeCol_DragInt_Border,       mvImGuiCol_Border, mvColor(128, 128, 128, 63)),
-            MV_ADD_CONSTANT(mvThemeCol_DragInt_BorderShadow, mvImGuiCol_BorderShadow, mvColor(128, 128, 128, 63)),
         MV_END_COLOR_CONSTANTS
 
         MV_START_STYLE_CONSTANTS
-            MV_ADD_CONSTANT_F(mvThemeStyle_DragInt_Rounding,      0, 12),
-            MV_ADD_CONSTANT_F(mvThemeStyle_DragInt_BorderSize,    0,  1),
-            MV_ADD_CONSTANT_F(mvThemeStyle_DragInt_PaddingX,      4, 20),
-            MV_ADD_CONSTANT_F(mvThemeStyle_DragInt_PaddingY,      3, 20),
-            MV_ADD_CONSTANT_F(mvThemeStyle_DragInt_InnerSpacingX, 4, 20),
-            MV_ADD_CONSTANT_F(mvThemeStyle_DragInt_InnerSpacingY, 4, 20),
         MV_END_STYLE_CONSTANTS
 
     public:

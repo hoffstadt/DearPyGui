@@ -2,7 +2,7 @@
 #include "mvApp.h"
 #include "mvLog.h"
 #include "mvItemRegistry.h"
-#include "mvImGuiThemeScope.h"
+//#include "mvImGuiThemeScope.h"
 #include "mvTab.h"
 //#include "mvFontScope.h"
 #include "mvPythonExceptions.h"
@@ -68,14 +68,14 @@ namespace Marvel {
 	void mvTabBar::draw(ImDrawList* drawlist, float x, float y)
 	{
 		ScopedID id(m_uuid);
-		mvImGuiThemeScope scope(this);
+		//mvImGuiThemeScope scope(this);
 		//mvFontScope fscope(this);
 		ImGui::BeginGroup();
 
 		if (ImGui::BeginTabBar(m_label.c_str(), m_flags))
 		{
 			//we do this so that the children dont get the theme
-			scope.cleanup();
+			//scope.cleanup();
 			for (auto& item : m_children[1])
 			{
 

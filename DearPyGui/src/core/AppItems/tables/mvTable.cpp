@@ -2,7 +2,7 @@
 #include "mvApp.h"
 #include "mvLog.h"
 #include "mvItemRegistry.h"
-#include "mvImGuiThemeScope.h"
+//#include "mvImGuiThemeScope.h"
 //#include "mvFontScope.h"
 #include "mvTableColumn.h"
 
@@ -73,7 +73,7 @@ namespace Marvel {
 	void mvTable::draw(ImDrawList* drawlist, float x, float y)
 	{
 		ScopedID id(m_uuid);
-		mvImGuiThemeScope scope(this);
+		//mvImGuiThemeScope scope(this);
 		//mvFontScope fscope(this);
 
 		if (ImGui::BeginTable(m_label.c_str(), m_columns, m_flags, 

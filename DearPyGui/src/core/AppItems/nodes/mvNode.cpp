@@ -3,7 +3,7 @@
 #include "mvApp.h"
 #include "mvLog.h"
 #include "mvItemRegistry.h"
-#include "mvImNodesThemeScope.h"
+//#include "mvImNodesThemeScope.h"
 //#include "mvFontScope.h"
 #include "mvPythonExceptions.h"
 
@@ -98,7 +98,7 @@ namespace Marvel {
 	void mvNode::draw(ImDrawList* drawlist, float x, float y)
 	{
 		ScopedID id(m_uuid);
-		mvImNodesThemeScope scope(this);
+		//mvImNodesThemeScope scope(this);
 		//mvFontScope fscope(this);
 
 		if (m_dirtyPos)
@@ -116,7 +116,7 @@ namespace Marvel {
 		imnodes::EndNodeTitleBar();
 
 		//we do this so that the children dont get the theme
-		scope.cleanup();
+		//scope.cleanup();
 
 		for (auto& item : m_children[1])
 		{

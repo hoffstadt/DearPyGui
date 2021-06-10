@@ -271,13 +271,14 @@ def show_demo():
                 with cxt.group(horizontal=True):
 
                     for i in range(0, 7):
-                        dpg.add_button(label="Click", callback=_log, user_data=logger)
-                        dpg.set_theme_style(dpg.mvThemeStyle_Button_Rounding, i*5, item=dpg.last_item())
-                        dpg.set_theme_style(dpg.mvThemeStyle_Button_PaddingX, i*3, item=dpg.last_item())
-                        dpg.set_theme_style(dpg.mvThemeStyle_Button_PaddingY, i*3, item=dpg.last_item())
-                        dpg.set_theme_color(dpg.mvThemeCol_Button_Bg, _hsv_to_rgb(i/7.0, 0.6, 0.6), item=dpg.last_item())
-                        dpg.set_theme_color(dpg.mvThemeCol_Button_Active, _hsv_to_rgb(i/7.0, 0.8, 0.8), item=dpg.last_item())
-                        dpg.set_theme_color(dpg.mvThemeCol_Button_Hovered, _hsv_to_rgb(i/7.0, 0.7, 0.7), item=dpg.last_item())
+                        dpg.add_button(label="Click", callback=_log)
+                        #dpg.set_theme_style(dpg.mvThemeStyle_Button_Rounding, i*5, item=dpg.last_item())
+                        #dpg.set_theme_style(dpg.mvThemeStyle_Button_PaddingX, i*3, item=dpg.last_item())
+                        #dpg.set_theme_style(dpg.mvThemeStyle_Button_PaddingY, i*3, item=dpg.last_item())
+                        #dpg.set_theme_color(dpg.mvThemeCol_Button_Bg, _hsv_to_rgb(i/7.0, 0.6, 0.6), item=dpg.last_item())
+                        #dpg.set_theme_color(dpg.mvThemeCol_Button_Active, _hsv_to_rgb(i/7.0, 0.8, 0.8), item=dpg.last_item())
+                        #dpg.set_theme_color(dpg.mvThemeCol_Button_Hovered, _hsv_to_rgb(i/7.0, 0.7, 0.7), item=dpg.last_item())
+
 
                 with cxt.group(horizontal=True):
 
@@ -454,7 +455,7 @@ def show_demo():
                 dpg.add_same_line()
                 dpg.add_text("Progress Bar")
                 dpg.add_progress_bar(default_value=0.78, overlay="1367/1753")
-                dpg.set_theme_color(dpg.mvThemeCol_ProgressBar_Bar, (255,0,0, 255), item=dpg.last_item())
+                #dpg.set_theme_color(dpg.mvThemeCol_ProgressBar_Bar, (255,0,0, 255), item=dpg.last_item())
 
             with cxt.tree_node(label="Multi-component Widgets"):
 
@@ -486,10 +487,10 @@ def show_demo():
 
                         for i in range(0, 7):
                             dpg.add_slider_float(label=" ", default_value=values[i], vertical=True, max_value=1.0, height=160)
-                            dpg.set_theme_color(dpg.mvThemeCol_SliderFloat_Bg, _hsv_to_rgb(i/7.0, 0.5, 0.5), item=dpg.last_item())
-                            dpg.set_theme_color(dpg.mvThemeCol_SliderFloat_Grab, _hsv_to_rgb(i/7.0, 0.9, 0.9), item=dpg.last_item())
-                            dpg.set_theme_color(dpg.mvThemeCol_SliderFloat_BgActive, _hsv_to_rgb(i/7.0, 0.7, 0.5), item=dpg.last_item())
-                            dpg.set_theme_color(dpg.mvThemeCol_SliderFloat_BgHovered, _hsv_to_rgb(i/7.0, 0.6, 0.5), item=dpg.last_item())
+                            #dpg.set_theme_color(dpg.mvThemeCol_SliderFloat_Bg, _hsv_to_rgb(i/7.0, 0.5, 0.5), item=dpg.last_item())
+                            #dpg.set_theme_color(dpg.mvThemeCol_SliderFloat_Grab, _hsv_to_rgb(i/7.0, 0.9, 0.9), item=dpg.last_item())
+                            #dpg.set_theme_color(dpg.mvThemeCol_SliderFloat_BgActive, _hsv_to_rgb(i/7.0, 0.7, 0.5), item=dpg.last_item())
+                            #dpg.set_theme_color(dpg.mvThemeCol_SliderFloat_BgHovered, _hsv_to_rgb(i/7.0, 0.6, 0.5), item=dpg.last_item())
 
                     with cxt.group():
                         for i in range(0, 3):

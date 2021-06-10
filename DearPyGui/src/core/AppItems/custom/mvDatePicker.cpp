@@ -4,7 +4,7 @@
 #include <implot_internal.h>
 #include <misc/cpp/imgui_stdlib.h>
 #include "mvItemRegistry.h"
-#include "mvImGuiThemeScope.h"
+//#include "mvImGuiThemeScope.h"
 //#include "mvFontScope.h"
 
 namespace Marvel {
@@ -46,7 +46,7 @@ namespace Marvel {
 	void mvDatePicker::draw(ImDrawList* drawlist, float x, float y)
 	{
 		ScopedID id(m_uuid);
-		mvImGuiThemeScope scope(this);
+		//mvImGuiThemeScope scope(this);
 		//mvFontScope fscope(this);
 
 		if (ImPlot::ShowDatePicker(m_label.c_str(), &m_level, m_imvalue.get(), m_imvalue.get()))

@@ -5,8 +5,8 @@
 #include "mvNode.h"
 #include "mvNodeAttribute.h"
 #include "mvNodeLink.h"
-#include "mvImGuiThemeScope.h"
-#include "mvImNodesThemeScope.h"
+//#include "mvImGuiThemeScope.h"
+//#include "mvImNodesThemeScope.h"
 #include "mvLog.h"
 //#include "mvFontScope.h"
 #include "mvPythonExceptions.h"
@@ -132,7 +132,7 @@ namespace Marvel {
 	void mvNodeEditor::draw(ImDrawList* drawlist, float x, float y)
 	{
 		ScopedID id(m_uuid);
-		mvImNodesThemeScope scope(this);
+		//mvImNodesThemeScope scope(this);
 		//mvFontScope fscope(this);
 
 		imnodes::PushAttributeFlag(imnodes::AttributeFlags_EnableLinkDetachWithDragClick);

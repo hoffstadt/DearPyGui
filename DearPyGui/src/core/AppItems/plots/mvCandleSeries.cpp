@@ -2,7 +2,7 @@
 #include "mvCore.h"
 #include "mvApp.h"
 #include "mvItemRegistry.h"
-#include "mvImPlotThemeScope.h"
+//#include "mvImPlotThemeScope.h"
 
 namespace Marvel {
 
@@ -123,7 +123,7 @@ namespace Marvel {
 	void mvCandleSeries::draw(ImDrawList* drawlist, float x, float y)
 	{
 		ScopedID id(m_uuid);
-		mvImPlotThemeScope scope(this);
+		//mvImPlotThemeScope scope(this);
 
 		static const std::vector<double>* datesptr;
 		static const std::vector<double>* openptr;

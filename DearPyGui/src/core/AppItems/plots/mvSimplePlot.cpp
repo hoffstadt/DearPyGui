@@ -1,6 +1,6 @@
 #include "mvSimplePlot.h"
 #include "mvItemRegistry.h"
-#include "mvImGuiThemeScope.h"
+//#include "mvImGuiThemeScope.h"
 //#include "mvFontScope.h"
 
 namespace Marvel {
@@ -48,7 +48,7 @@ namespace Marvel {
 	void mvSimplePlot::draw(ImDrawList* drawlist, float x, float y)
 	{
 		ImGui::PushID(this);
-		mvImGuiThemeScope scope(this);
+		//mvImGuiThemeScope scope(this);
 		//mvFontScope fscope(this);
 
 		if (m_histogram)
