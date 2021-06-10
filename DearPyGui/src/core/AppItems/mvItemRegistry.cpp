@@ -500,7 +500,6 @@ namespace Marvel {
 			m_cachedContainerIndex = 0;
 		}
 
-		m_lastItemAdded = item->getUUID();
 		m_cachedItemsID[m_cachedItemsIndex] = item->getUUID();
 		m_cachedItemsPTR[m_cachedItemsIndex] = item;
 		m_cachedItemsIndex++;

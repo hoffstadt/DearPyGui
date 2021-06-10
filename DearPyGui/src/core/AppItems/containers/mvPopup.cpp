@@ -41,6 +41,12 @@ namespace Marvel {
 	{
 	}
 
+	void mvPopup::setLabel(const std::string& value)
+	{
+		m_specificedlabel = value;
+		m_label = value + "###" + std::to_string(m_uuid);
+	}
+
 	void mvPopup::closePopup()
 	{
 		m_close = true;
@@ -49,70 +55,70 @@ namespace Marvel {
 	void mvPopup::draw(ImDrawList* drawlist, float x, float y)
 	{
 
-		//ScopedID id(m_parentAddress);
-		//mvImGuiThemeScope scope(this);
-		//mvFontScope fscope(this);
+		ScopedID id(m_parentAddress);
+		mvImGuiThemeScope scope(this);
+		mvFontScope fscope(this);
 
-		//if (m_modal)
-		//{
-		//	if (ImGui::IsItemHovered() && ImGui::IsMouseReleased(m_button))
-		//		ImGui::OpenPopup(m_name.c_str());
+		if (m_modal)
+		{
+			if (ImGui::IsItemHovered() && ImGui::IsMouseReleased(m_button))
+				ImGui::OpenPopup(m_label.c_str());
 
-		//	if (ImGui::BeginPopupModal(m_name.c_str(), nullptr, ImGuiWindowFlags_AlwaysAutoResize))
-		//	{
+			if (ImGui::BeginPopupModal(m_label.c_str(), nullptr, ImGuiWindowFlags_AlwaysAutoResize))
+			{
 
-		//		if (m_close)
-		//		{
-		//			ImGui::CloseCurrentPopup();
-		//			m_close = false;
-		//		}
+				if (m_close)
+				{
+					ImGui::CloseCurrentPopup();
+					m_close = false;
+				}
 
-		//		//we do this so that the children dont get the theme
-		//		scope.cleanup();
+				//we do this so that the children dont get the theme
+				scope.cleanup();
 
-		//		for (mvRef<mvAppItem> item : m_children[1])
-		//		{
-		//			if (!item->preDraw())
-		//				continue;
+				for (mvRef<mvAppItem> item : m_children[1])
+				{
+					if (!item->preDraw())
+						continue;
 
-		//			item->draw(drawlist, ImGui::GetCursorPosX(), ImGui::GetCursorPosY());
+					item->draw(drawlist, ImGui::GetCursorPosX(), ImGui::GetCursorPosY());
 
-		//			item->postDraw();
-		//		}
+					item->postDraw();
+				}
 
-		//		ImGui::EndPopup();
-		//	}
-		//}
+				ImGui::EndPopup();
+			}
+		}
 
-		//else
-		//{
-		//	if (ImGui::BeginPopupContextItem(m_name.c_str(), m_button))
-		//	{
+		else
+		{
+			if (ImGui::BeginPopupContextItem(m_label.c_str(), m_button))
+			{
 
-		//		//we do this so that the children dont get the theme
-		//		scope.cleanup();
+				//we do this so that the children dont get the theme
+				scope.cleanup();
 
-		//		for (mvRef<mvAppItem> item : m_children[1])
-		//		{
-		//			// skip item if it's not shown
-		//			if (!item->m_show)
-		//				continue;
+				for (mvRef<mvAppItem> item : m_children[1])
+				{
+					// skip item if it's not shown
+					if (!item->m_show)
+						continue;
 
-		//			// set item width
-		//			if (item->m_width > 0)
-		//				ImGui::SetNextItemWidth((float)item->m_width);
+					// set item width
+					if (item->m_width > 0)
+						ImGui::SetNextItemWidth((float)item->m_width);
 
-		//			item->draw(drawlist, x, y);
+					item->draw(drawlist, x, y);
 
-		//			item->getState().update();
-		//		}
+					item->getState().update();
+				}
 
-		//		// allows this item to have a render callback
-		//		registerWindowFocusing();
+				// allows this item to have a render callback
+				registerWindowFocusing();
 
-		//		ImGui::EndPopup();
-		//	}
-		//}
+				ImGui::EndPopup();
+			}
+		}
 	}
 
 	void mvPopup::handleSpecificKeywordArgs(PyObject* dict)

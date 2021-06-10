@@ -19,66 +19,66 @@ environment:
 
   matrix:
 
-    #- APPVEYOR_BUILD_WORKER_IMAGE: macos-mojave
-    #  ARCH: "x64"
-    #  CONFIG: Release
-    #  PYVER: 36
-    #  PYLOC: "python"
-    #  PYSTACK: "3.6"
-    #  PYFULLVERSION: "3.6.12"
-    #  MACOS: "true"
+    - APPVEYOR_BUILD_WORKER_IMAGE: macos-mojave
+      ARCH: "x64"
+      CONFIG: Release
+      PYVER: 36
+      PYLOC: "python"
+      PYSTACK: "3.6"
+      PYFULLVERSION: "3.6.12"
+      MACOS: "true"
     
-    #- APPVEYOR_BUILD_WORKER_IMAGE: Ubuntu
-    #  ARCH: "x64"
-    #  CONFIG: Release
-    #  PYVER: 36
-    #  PYLOC: "python"
-    #  PYSTACK: "3.6"
-    #  PYFULLVERSION: "3.6.12"
+    - APPVEYOR_BUILD_WORKER_IMAGE: Ubuntu
+      ARCH: "x64"
+      CONFIG: Release
+      PYVER: 36
+      PYLOC: "python"
+      PYSTACK: "3.6"
+      PYFULLVERSION: "3.6.12"
     
-    #- APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2019
-    #  GENERATOR: "Visual Studio 16 2019"
-    #  ARCH: "x64"
-    #  CONFIG: Release
-    #  PYVER: 36
-    #  PYLOC: "C:/Python36-x64/python.exe"
-    #  PYSTACK: "3.6"
-    #  PYFULLVERSION: "3.6.12"
+    - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2019
+      GENERATOR: "Visual Studio 16 2019"
+      ARCH: "x64"
+      CONFIG: Release
+      PYVER: 36
+      PYLOC: "C:/Python36-x64/python.exe"
+      PYSTACK: "3.6"
+      PYFULLVERSION: "3.6.12"
     
-    #- APPVEYOR_BUILD_WORKER_IMAGE: macos-mojave
-    #  ARCH: "x64"
-    #  CONFIG: Release
-    #  PYVER: 37
-    #  PYLOC: "python"
-    #  PYSTACK: "3.7"
-    #  PYFULLVERSION: "3.7.9"
-    #  MACOS: "true"
+    - APPVEYOR_BUILD_WORKER_IMAGE: macos-mojave
+      ARCH: "x64"
+      CONFIG: Release
+      PYVER: 37
+      PYLOC: "python"
+      PYSTACK: "3.7"
+      PYFULLVERSION: "3.7.9"
+      MACOS: "true"
     
-    #- APPVEYOR_BUILD_WORKER_IMAGE: Ubuntu
-    #  ARCH: "x64"
-    #  CONFIG: Release
-    #  PYVER: 37
-    #  PYLOC: "python"
-    #  PYSTACK: "3.7"
-    #  PYFULLVERSION: "3.7.10"
+    - APPVEYOR_BUILD_WORKER_IMAGE: Ubuntu
+      ARCH: "x64"
+      CONFIG: Release
+      PYVER: 37
+      PYLOC: "python"
+      PYSTACK: "3.7"
+      PYFULLVERSION: "3.7.10"
     
-    #- APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2019
-    #  GENERATOR: "Visual Studio 16 2019"
-    #  ARCH: "x64"
-    #  CONFIG: Release
-    #  PYVER: 37
-    #  PYLOC: "C:/Python37-x64/python.exe"
-    #  PYSTACK: "3.7"
-    #  PYFULLVERSION: "3.7.9"
+    - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2019
+      GENERATOR: "Visual Studio 16 2019"
+      ARCH: "x64"
+      CONFIG: Release
+      PYVER: 37
+      PYLOC: "C:/Python37-x64/python.exe"
+      PYSTACK: "3.7"
+      PYFULLVERSION: "3.7.9"
     
-    #- APPVEYOR_BUILD_WORKER_IMAGE: macos-mojave
-    #  ARCH: "x64"
-    #  CONFIG: Release
-    #  PYVER: 38
-    #  PYLOC: "python"
-    #  PYSTACK: "3.8"
-    #  PYFULLVERSION: "3.8.6"
-    #  MACOS: "true"
+    - APPVEYOR_BUILD_WORKER_IMAGE: macos-mojave
+      ARCH: "x64"
+      CONFIG: Release
+      PYVER: 38
+      PYLOC: "python"
+      PYSTACK: "3.8"
+      PYFULLVERSION: "3.8.6"
+      MACOS: "true"
     
     - APPVEYOR_BUILD_WORKER_IMAGE: Ubuntu
       ARCH: "x64"
@@ -88,41 +88,41 @@ environment:
       PYSTACK: "3.8"
       PYFULLVERSION: "3.8.10"
 
-    #- APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2019
-    #  GENERATOR: "Visual Studio 16 2019"
-    #  ARCH: "x64"
-    #  CONFIG: Release
-    #  PYVER: 38
-    #  PYLOC: "C:/Python38-x64/python.exe"
-    #  PYSTACK: "3.8"
-    #  PYFULLVERSION: "3.8.5"
+    - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2019
+      GENERATOR: "Visual Studio 16 2019"
+      ARCH: "x64"
+      CONFIG: Release
+      PYVER: 38
+      PYLOC: "C:/Python38-x64/python.exe"
+      PYSTACK: "3.8"
+      PYFULLVERSION: "3.8.5"
 
-    #- APPVEYOR_BUILD_WORKER_IMAGE: macos-mojave
-    #  ARCH: "x64"
-    #  CONFIG: Release
-    #  PYVER: 39
-    #  PYLOC: "python"
-    #  PYSTACK: "3.9"
-    #  PYFULLVERSION: "3.9.1"
-    #  MACOS: "true"
+    - APPVEYOR_BUILD_WORKER_IMAGE: macos-mojave
+      ARCH: "x64"
+      CONFIG: Release
+      PYVER: 39
+      PYLOC: "python"
+      PYSTACK: "3.9"
+      PYFULLVERSION: "3.9.1"
+      MACOS: "true"
     
-    #- APPVEYOR_BUILD_WORKER_IMAGE: Ubuntu
-    #  ARCH: "x64"
-    #  CONFIG: Release
-    #  PYVER: 39
-    #  PYLOC: "python"
-    #  PYSTACK: "3.9"
-    #  PYFULLVERSION: "3.9.5"
+    - APPVEYOR_BUILD_WORKER_IMAGE: Ubuntu
+      ARCH: "x64"
+      CONFIG: Release
+      PYVER: 39
+      PYLOC: "python"
+      PYSTACK: "3.9"
+      PYFULLVERSION: "3.9.5"
 
-    #- APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2019
-    #  GENERATOR: "Visual Studio 16 2019"
-    #  ARCH: "x64"
-    #  CONFIG: Release
-    #  PYVER: 39
-    #  PYLOC: "C:/Python39-x64/python.exe"
-    #  PYSTACK: "3.9"
-    #  PYFULLVERSION: "3.9.0"
-    #  PYDOCRUN: "true"
+    - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2019
+      GENERATOR: "Visual Studio 16 2019"
+      ARCH: "x64"
+      CONFIG: Release
+      PYVER: 39
+      PYLOC: "C:/Python39-x64/python.exe"
+      PYSTACK: "3.9"
+      PYFULLVERSION: "3.9.0"
+      PYDOCRUN: "true"
 
 matrix:
   fast_finish: true

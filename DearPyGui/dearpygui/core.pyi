@@ -446,7 +446,7 @@ def add_toggled_open_handler(parent : str, *, id: int =..., callback: Callable =
 	"""Undocumented function"""
 	...
 
-def add_tooltip(*, id: int =..., show: bool =True) -> int:
+def add_tooltip(parent : str, *, id: int =..., show: bool =True) -> int:
 	"""Undocumented function"""
 	...
 

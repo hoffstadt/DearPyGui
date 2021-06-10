@@ -992,17 +992,48 @@ def show_demo():
 
         with cxt.collapsing_header(label="Popups & Modal Windows"):
             
+            with cxt.tree_node(label="Popups"):
+
+                dpg.add_text("When a popup is active, it inhibits interacting with windows that are behind the popup. Clicking outside the popup closes it.")
+                b = dpg.add_button(label="Select..")
+                dpg.add_same_line()
+                t = dpg.add_text("<None>")
+                with cxt.popup(parent=b):
+                    dpg.add_text("Aquariam")
+                    dpg.add_separator()
+                    dpg.add_selectable(label="Bream", user_data=[t, "Bream"], callback=lambda s, a, u: dpg.set_value(u[0], u[1]))
+                    dpg.add_selectable(label="Haddock", user_data=[t, "Haddock"], callback=lambda s, a, u: dpg.set_value(u[0], u[1]))
+                    dpg.add_selectable(label="Mackerel", user_data=[t, "Mackerel"], callback=lambda s, a, u: dpg.set_value(u[0], u[1]))
+                    dpg.add_selectable(label="Pollock", user_data=[t, "Pollock"], callback=lambda s, a, u: dpg.set_value(u[0], u[1]))
+                    dpg.add_selectable(label="Tilefish", user_data=[t, "Tilefish"], callback=lambda s, a, u: dpg.set_value(u[0], u[1]))
+
+            with cxt.tree_node(label="Modals"):
+                dpg.add_text("Modal windows are like popups but the user cannot close them by clicking outside.")
+                dpg.add_button(label="Delete..")
+                with cxt.popup(parent=dpg.last_item(), modal=True) as p:
+                    dpg.add_text("All those beautiful files will be deleted.\nThis operation cannot be undone!")
+                    dpg.add_separator()
+                    dpg.add_checkbox(label="Don't ask me next time")
+                    dpg.add_button(label="OK", user_data=p, width=75, callback=lambda s, a, u: dpg.close_popup(u))
+                    dpg.add_same_line()
+                    dpg.add_button(label="Cancel", user_data=p, width=75, callback=lambda s, a, u: dpg.close_popup(u))
+
             with cxt.tree_node(label="File/Directory Selector"):
 
-                with cxt.file_dialog(label="Demo File Dialog", show=False):
+                with cxt.file_dialog(label="Demo File Dialog", show=False, callback=lambda s, a, u : print(s, a, u)):
                     dpg.add_file_extension(".*", color=(255, 255, 255, 255))
                     dpg.add_file_extension(".cpp", color=(255, 255, 0, 255))
                     dpg.add_file_extension(".h", color=(255, 0, 255, 255))
+                    dpg.add_file_extension(".py", color=(0, 255, 0, 255))
+                    #dpg.add_button(label="Button on file dialog")
 
                 dpg.add_button(label="Show File Selector", user_data=dpg.last_container(), callback=lambda s, a, u: dpg.configure_item(u, show=True))
 
         with cxt.collapsing_header(label="Tooltips"):
-            pass
+
+            dpg.add_text("Hover me for a fancy tooltip")
+            with cxt.tooltip(dpg.last_item()):
+                dpg.add_simple_plot(label="", default_value=(0.3, 0.9, 2.5, 8.9), height = 80)
 
         with cxt.collapsing_header(label="Tables"):
 
@@ -1911,7 +1942,6 @@ def show_demo():
                     dpg.add_button(label="Delete Series", user_data = dpg.last_item(), parent=dpg.last_item(), callback=lambda s, a, u: dpg.delete_item(u))
 
                 with cxt.plot(label="Drag/Drop Plot", height=400, drop_callback=_plot_drop, payload_type="plotting"):
-
                     dpg.add_plot_legend(drop_callback=_legend_drop, payload_type="plotting")
                     dpg.add_plot_axis(dpg.mvXAxis, label="x")
 

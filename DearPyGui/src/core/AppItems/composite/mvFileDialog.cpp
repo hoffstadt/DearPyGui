@@ -60,6 +60,12 @@ namespace Marvel {
 		return m_instance;
 	}
 
+	void mvFileDialog::setLabel(const std::string& value)
+	{
+		m_specificedlabel = value;
+		m_label = value + "###" + std::to_string(m_uuid);
+	}
+
 	void mvFileDialog::drawPanel()
 	{
 		for (auto& item : m_children[1])
@@ -77,68 +83,68 @@ namespace Marvel {
 
 	void mvFileDialog::draw(ImDrawList* drawlist, float x, float y)
 	{
-		//ScopedID id(m_uuid);
-		//mvImGuiThemeScope scope(this);
-		//mvFontScope fscope(this);
-		//if (!m_show)
-		//	return;
+		ScopedID id(m_uuid);
+		mvImGuiThemeScope scope(this);
+		mvFontScope fscope(this);
+		if (!m_show)
+			return;
 
-		//// extensions
-		//if (m_dirtySettings)
-		//{
-		//	m_filters.clear();
-		//	for (auto& item : m_children[0])
-		//	{
-		//		item->draw(drawlist, x, y);
-		//		m_filters.append(static_cast<mvFileExtension*>(item.get())->getFilter());
-		//		m_filters.append(",");
-		//	}
+		// extensions
+		if (m_dirtySettings)
+		{
+			m_filters.clear();
+			for (auto& item : m_children[0])
+			{
+				item->draw(drawlist, x, y);
+				m_filters.append(static_cast<mvFileExtension*>(item.get())->getFilter());
+				m_filters.append(",");
+			}
 
-		//	m_dirtySettings = false;
-		//}
+			m_dirtySettings = false;
+		}
 
-		//
-		//// ugly
-		//if (m_children[1].empty())
-		//{
-		//	if (m_modal)
-		//		m_instance.OpenModal(m_name.c_str(), m_label.c_str(), m_directory ? nullptr : m_filters.c_str(), m_defaultPath, m_defaultFilename, m_fileCount);
-		//	else
-		//		m_instance.OpenDialog(m_name.c_str(), m_label.c_str(), m_directory ? nullptr : m_filters.c_str(), m_defaultPath, m_defaultFilename, m_fileCount);
-		//}
-		//else
-		//{
+		
+		// ugly
+		if (m_children[1].empty())
+		{
+			if (m_modal)
+				m_instance.OpenModal(m_label.c_str(), m_label.c_str(), m_directory ? nullptr : m_filters.c_str(), m_defaultPath, m_defaultFilename, m_fileCount);
+			else
+				m_instance.OpenDialog(m_label.c_str(), m_label.c_str(), m_directory ? nullptr : m_filters.c_str(), m_defaultPath, m_defaultFilename, m_fileCount);
+		}
+		else
+		{
 
-		//	if (m_modal)
-		//		m_instance.OpenModal(m_name.c_str(), m_label.c_str(), m_directory ? nullptr : m_filters.c_str(), m_defaultPath, m_defaultFilename,
-		//			std::bind(&Panel, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3), 250.0f, m_fileCount, IGFDUserDatas(this));
-		//	else
-		//		m_instance.OpenDialog(m_name.c_str(), m_label.c_str(), m_directory ? nullptr : m_filters.c_str(), m_defaultPath, m_defaultFilename,
-		//			std::bind(&Panel, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3), 250.0f, m_fileCount, IGFDUserDatas(this));
-		//}
+			if (m_modal)
+				m_instance.OpenModal(m_label.c_str(), m_label.c_str(), m_directory ? nullptr : m_filters.c_str(), m_defaultPath, m_defaultFilename,
+					std::bind(&Panel, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3), 250.0f, m_fileCount, IGFDUserDatas(this));
+			else
+				m_instance.OpenDialog(m_label.c_str(), m_label.c_str(), m_directory ? nullptr : m_filters.c_str(), m_defaultPath, m_defaultFilename,
+					std::bind(&Panel, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3), 250.0f, m_fileCount, IGFDUserDatas(this));
+		}
 
-		//{
-		//	mvFontScope fscope(this);
+		{
+			mvFontScope fscope(this);
 
-		//	// display
-		//	if (m_instance.Display(m_name.c_str(), ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoSavedSettings, ImVec2(500, 600)))
-		//	{
+			// display
+			if (m_instance.Display(m_label.c_str(), ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoSavedSettings, ImVec2(500, 600)))
+			{
 
-		//		// action if OK
-		//		if (m_instance.IsOk())
-		//		{
-		//			mvApp::GetApp()->getCallbackRegistry().submitCallback([&]()
-		//				{
-		//					mvApp::GetApp()->getCallbackRegistry().runCallback(m_callback, m_name.c_str(), getInfoDict(), nullptr);
-		//				});
+				// action if OK
+				if (m_instance.IsOk())
+				{
+					mvApp::GetApp()->getCallbackRegistry().submitCallback([&]()
+						{
+							mvApp::GetApp()->getCallbackRegistry().runCallback(m_callback, m_uuid, getInfoDict(), nullptr);
+						});
 
-		//		}
+				}
 
-		//		// close
-		//		m_instance.Close();
-		//		m_show = false;
-		//	}
-		//}
+				// close
+				m_instance.Close();
+				m_show = false;
+			}
+		}
 	}
 
 	void mvFileDialog::handleSpecificKeywordArgs(PyObject* dict)
