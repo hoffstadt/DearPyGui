@@ -334,6 +334,10 @@ def add_radio_button(items : int =(), *, id: int =..., indent: int =-1, parent: 
 	"""Undocumented function"""
 	...
 
+def add_resize_handler(parent : str, *, id: int =..., callback: Callable =None, user_data: Any =None) -> int:
+	"""Undocumented function"""
+	...
+
 def add_same_line(*, id: int =..., parent: int =0, before: int =0, show: bool =True, xoffset: float =0.0, spacing: float =-1.0) -> int:
 	"""Undocumented function"""
 	...
@@ -802,7 +806,7 @@ def set_primary_window(window : int, value : bool) -> None:
 	"""Undocumented function"""
 	...
 
-def set_resize_callback(callback : Callable, *, handler: int ='') -> str:
+def set_resize_callback(callback : Callable) -> str:
 	"""Undocumented function"""
 	...
 

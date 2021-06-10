@@ -71,14 +71,14 @@ environment:
     #  PYSTACK: "3.7"
     #  PYFULLVERSION: "3.7.9"
     
-    - APPVEYOR_BUILD_WORKER_IMAGE: macos-mojave
-      ARCH: "x64"
-      CONFIG: Release
-      PYVER: 38
-      PYLOC: "python"
-      PYSTACK: "3.8"
-      PYFULLVERSION: "3.8.6"
-      MACOS: "true"
+    #- APPVEYOR_BUILD_WORKER_IMAGE: macos-mojave
+    #  ARCH: "x64"
+    #  CONFIG: Release
+    #  PYVER: 38
+    #  PYLOC: "python"
+    #  PYSTACK: "3.8"
+    #  PYFULLVERSION: "3.8.6"
+    #  MACOS: "true"
     
     - APPVEYOR_BUILD_WORKER_IMAGE: Ubuntu
       ARCH: "x64"
@@ -88,14 +88,14 @@ environment:
       PYSTACK: "3.8"
       PYFULLVERSION: "3.8.10"
 
-    - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2019
-      GENERATOR: "Visual Studio 16 2019"
-      ARCH: "x64"
-      CONFIG: Release
-      PYVER: 38
-      PYLOC: "C:/Python38-x64/python.exe"
-      PYSTACK: "3.8"
-      PYFULLVERSION: "3.8.5"
+    #- APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2019
+    #  GENERATOR: "Visual Studio 16 2019"
+    #  ARCH: "x64"
+    #  CONFIG: Release
+    #  PYVER: 38
+    #  PYLOC: "C:/Python38-x64/python.exe"
+    #  PYSTACK: "3.8"
+    #  PYFULLVERSION: "3.8.5"
 
     #- APPVEYOR_BUILD_WORKER_IMAGE: macos-mojave
     #  ARCH: "x64"

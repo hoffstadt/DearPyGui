@@ -105,16 +105,16 @@ namespace Marvel {
 
 		mvWindowAppItem(mvUUID uuid, bool mainWindow = false);
 
-		void   addMenuBar           () { m_hasMenuBar = true; }
-		void   addFlag              (ImGuiWindowFlags flag) { m_windowflags |= flag; }
-		void   removeFlag           (ImGuiWindowFlags flag) { m_windowflags &= ~flag; }
-		void   setWindowAsMainStatus(bool value);
-		void   setLabel             (const std::string& value) override;
-		void   setWidth             (int width) override;
-		void   setHeight            (int height) override;
-		void   draw                 (ImDrawList* drawlist, float x, float y) override;
-		void   setResizeCallback    (PyObject* callback);
-		bool  getWindowAsMainStatus() const { return m_mainWindow; }
+		void addMenuBar           () { m_hasMenuBar = true; }
+		void addFlag              (ImGuiWindowFlags flag) { m_windowflags |= flag; }
+		void removeFlag           (ImGuiWindowFlags flag) { m_windowflags &= ~flag; }
+		void setWindowAsMainStatus(bool value);
+		void setLabel             (const std::string& value) override;
+		void setWidth             (int width) override;
+		void setHeight            (int height) override;
+		void draw                 (ImDrawList* drawlist, float x, float y) override;
+		bool getWindowAsMainStatus() const { return m_mainWindow; }
+		bool isResized            () const { return m_resized; }
 
 		void show() override;
 		void onChildAdd(mvRef<mvAppItem> item) override;
@@ -133,12 +133,11 @@ namespace Marvel {
 		int                   m_oldWidth = 200;
 		int                   m_oldHeight = 200;
 		bool                  m_mainWindow = false;
-		PyObject*             m_resize_callback = nullptr;
 		bool                  m_dirty_size = true;
 		bool                  m_hasMenuBar = false;
 		bool                  m_closing = true;
 		bool                  m_collapsedDirty = true;
-		
+		bool                  m_resized = false;
 		bool                  m_modal = false;
 		bool                  m_popup = false;
 		bool                  m_popupInit = true;
