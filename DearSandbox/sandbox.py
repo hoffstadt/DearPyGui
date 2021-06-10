@@ -5,10 +5,6 @@ import dearpygui.demo as demo
 
 with cxt.font_registry():
     dpg.add_font("../../Resources/NotoSerifCJKjp-Medium.otf", 20, default_font=True)
-
-with cxt.theme() as theme1:
-    dpg.add_theme_style(11, 3.0)
-    dpg.add_theme_color(21, (255, 255, 0))
     
 
 main_texture_container = dpg.generate_uuid()
