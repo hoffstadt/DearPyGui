@@ -35,6 +35,22 @@ namespace Marvel{
 		}
 
 		{
+			mvPythonParser parser(mvPyDataType::None);
+			parser.addArg<mvPyDataType::UUID>("item");
+			parser.addArg<mvPyDataType::UUID>("font");
+			parser.finalize();
+			parsers->insert({ "set_item_font", parser });
+		}
+
+		{
+			mvPythonParser parser(mvPyDataType::None);
+			parser.addArg<mvPyDataType::UUID>("item");
+			parser.addArg<mvPyDataType::UUID>("theme");
+			parser.finalize();
+			parsers->insert({ "set_item_theme", parser });
+		}
+
+		{
 			mvPythonParser parser(mvPyDataType::Dict);
 			parser.addArg<mvPyDataType::UUID>("item");
 			parser.finalize();
@@ -296,6 +312,18 @@ namespace Marvel{
 		if (m_indent > 0.0f)
 			ImGui::Indent(m_indent);
 
+		if (m_font)
+		{
+			ImFont* fontptr = static_cast<mvFont*>(m_font.get())->getFontPtr();
+			ImGui::PushFont(fontptr);
+		}
+
+		if (m_theme)
+		{
+			static_cast<mvTheme*>(m_theme.get())->setLibType(m_libType);
+			static_cast<mvTheme*>(m_theme.get())->draw(nullptr, 0.0f, 0.0f);
+		}
+
 		return true;
 	}
 
@@ -309,6 +337,16 @@ namespace Marvel{
 			ImGui::Unindent(m_indent);
 
 		m_state.update();
+
+		if (m_font)
+		{
+			ImGui::PopFont();
+		}
+
+		if (m_theme)
+		{
+			static_cast<mvTheme*>(m_theme.get())->customAction();
+		}
 
 		// event handlers
 		for (auto& item : m_children[3])
@@ -360,13 +398,6 @@ namespace Marvel{
 			return item;
 		}
 		return nullptr;
-	}
-
-	void mvAppItem::setFont(const std::string& name, int size, ImFont* font) 
-	{
-		m_font = font; 
-		m_fontName = name;
-		m_fontSize = size;
 	}
 
 	void mvAppItem::setPos(const ImVec2& pos)
@@ -852,62 +883,6 @@ namespace Marvel{
 		
 	}
 
-	bool mvAppItem::isThemeFontCacheValid() const
-	{
-		return !m_theme_font_dirty;
-	}
-
-	void mvAppItem::inValidateThemeColorCache()
-	{
-
-		m_colors.invalidateCache();
-
-		for (auto& childset : m_children)
-		{
-			for (auto& child : childset)
-				child->inValidateThemeColorCache();
-		}
-	}
-
-	void mvAppItem::inValidateThemeDisabledColorCache()
-	{
-		m_disabledColors.invalidateCache();
-
-		for (auto& childset : m_children)
-		{
-			for (auto& child : childset)
-				child->inValidateThemeDisabledColorCache();
-		}
-	}
-
-	void mvAppItem::inValidateThemeStyleCache()
-	{
-		m_styles.invalidateCache();
-
-		for (auto& childset : m_children)
-		{
-			for (auto& child : childset)
-				child->inValidateThemeStyleCache();
-		}
-	}
-
-	void mvAppItem::inValidateThemeFontCache()
-	{
-		m_theme_font_dirty = true;
-		m_cachefont = nullptr;
-
-		for (auto& childset : m_children)
-		{
-			for (auto& child : childset)
-				child->inValidateThemeFontCache();
-		}
-	}
-
-	void mvAppItem::setThemeFontCacheValid()
-	{
-		m_theme_font_dirty = false;
-	}
-
 	void mvAppItem::checkArgs(PyObject* args, PyObject* kwargs)
 	{
 		mvAppItemType type = getType();
@@ -1263,6 +1238,54 @@ namespace Marvel{
 		return GetPyNone();
 	}
 
+	PyObject* mvAppItem::set_item_font(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		mvUUID item;
+		mvUUID font;
+
+		if (!(mvApp::GetApp()->getParsers())["set_item_font"].parse(args, kwargs, __FUNCTION__,
+			&item, &font))
+			return GetPyNone();
+
+
+		if (!mvApp::s_manualMutexControl) std::lock_guard<std::mutex> lk(mvApp::s_mutex);
+		auto appitem = mvApp::GetApp()->getItemRegistry().getItem(item);
+		auto appfont = mvApp::GetApp()->getItemRegistry().getRefItem(font);
+
+		if (appitem && appfont)
+		{
+			appitem->m_font = appfont;
+		}
+		else
+			mvThrowPythonError(1000, std::to_string(item) + std::string(" item was not found"));
+
+		return GetPyNone();
+	}
+
+	PyObject* mvAppItem::set_item_theme(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		mvUUID item;
+		mvUUID theme;
+
+		if (!(mvApp::GetApp()->getParsers())["set_item_theme"].parse(args, kwargs, __FUNCTION__,
+			&item, &theme))
+			return GetPyNone();
+
+
+		if (!mvApp::s_manualMutexControl) std::lock_guard<std::mutex> lk(mvApp::s_mutex);
+		auto appitem = mvApp::GetApp()->getItemRegistry().getItem(item);
+		auto apptheme = mvApp::GetApp()->getItemRegistry().getRefItem(theme);
+
+		if (appitem && apptheme)
+		{
+			appitem->m_theme = apptheme;
+		}
+		else
+			mvThrowPythonError(1000, std::to_string(item) + std::string(" item was not found"));
+
+		return GetPyNone();
+	}
+
 	PyObject* mvAppItem::reset_pos(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		mvUUID item;
@@ -1410,18 +1433,4 @@ namespace Marvel{
 		return ToPyUUID(mvAppItem::GenerateUUID());
 	}
 
-	mvThemeColorGroup& mvAppItem::getColorGroup() 
-	{ 
-		return m_colors; 
-	}
-
-	mvThemeColorGroup& mvAppItem::getDisabledColorGroup() 
-	{ 
-		return m_disabledColors; 
-	}
-
-	mvThemeStyleGroup& mvAppItem::getStyleGroup()
-	{
-		return m_styles;
-	}
 }

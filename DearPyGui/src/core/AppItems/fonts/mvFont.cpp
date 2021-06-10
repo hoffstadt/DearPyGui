@@ -20,6 +20,7 @@ namespace Marvel {
 
 		parser.addArg<mvPyDataType::String>("file");
 		parser.addArg<mvPyDataType::Integer>("size");
+		parser.addArg<mvPyDataType::Bool>("default_font", mvArgType::KEYWORD_ARG, "False");
 
 		parser.finalize();
 
@@ -64,7 +65,8 @@ namespace Marvel {
 
 		io.Fonts->Build();
 
-		io.FontDefault = m_fontPtr;
+		if(m_default)
+			io.FontDefault = m_fontPtr;
 	}
 
 	void mvFont::draw(ImDrawList* drawlist, float x, float y)
@@ -128,6 +130,23 @@ namespace Marvel {
 				break;
 			}
 		}
+	}
+
+	void mvFont::handleSpecificKeywordArgs(PyObject* dict)
+	{
+		if (dict == nullptr)
+			return;
+
+		if (PyObject* item = PyDict_GetItemString(dict, "default_font")) m_default = ToBool(item);
+
+	}
+
+	void mvFont::getSpecificConfiguration(PyObject* dict)
+	{
+		if (dict == nullptr)
+			return;
+
+		PyDict_SetItemString(dict, "default_font", ToPyBool(m_default));
 	}
 
 }

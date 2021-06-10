@@ -1,7 +1,7 @@
 #include "mvSeparator.h"
 #include "mvItemRegistry.h"
-#include "mvImGuiThemeScope.h"
-#include "mvImGuiThemeScope.h"
+//#include "mvImGuiThemeScope.h"
+//#include "mvImGuiThemeScope.h"
 
 namespace Marvel {
 
@@ -31,7 +31,7 @@ namespace Marvel {
 
 	void mvSeparator::draw(ImDrawList* drawlist, float x, float y)
 	{
-		mvImGuiThemeScope scope(this);
+		//mvImGuiThemeScope scope(this);
 
 		ImGui::Separator();
 

@@ -4,12 +4,10 @@
 #include "mvViewport.h"
 #include "mvFontManager.h"
 #include "mvItemRegistry.h"
-#include "mvImGuiThemeScope.h"
+//#include "mvImGuiThemeScope.h"
 #include <ImGuiFileDialog.h>
 #include <cstdlib>
 #include "mvToolManager.h"
-#include "mvThemeColorGroup.h"
-#include "mvThemeStyleGroup.h"
 
 namespace Marvel {
 
@@ -31,7 +29,6 @@ namespace Marvel {
 		mvApp::FillExtraCommands(methods);
 		mvAppItem::FillExtraCommands(methods);
 		mvItemRegistry::FillExtraCommands(methods);
-		mvThemeManager::FillExtraCommands(methods);
 		mvFontManager::FillExtraCommands(methods);
 		mvCallbackRegistry::FillExtraCommands(methods);
 		mvInput::FillExtraCommands(methods);
@@ -59,7 +56,6 @@ namespace Marvel {
 			mvApp::InsertParser(&parsers);
 			mvAppItem::InsertParser(&parsers);
 			mvItemRegistry::InsertParser(&parsers);
-			mvThemeManager::InsertParser(&parsers);
 			mvFontManager::InsertParser(&parsers);
 			mvCallbackRegistry::InsertParser(&parsers);
 			mvInput::InsertParser(&parsers);
@@ -87,54 +83,11 @@ namespace Marvel {
 
 					using item_type = typename mvItemTypeMap<i>::type;
 
-					// color constants
-					for (const auto& item : item_type::GetColorConstants())
-					{
-						ModuleConstants.push_back({ std::get<0>(item), std::get<1>(item) });
-
-						static mvAppItemType type;
-						long mvThemeConstant = std::get<1>(item);
-						decodeType(mvThemeConstant, &type);
-						mvColor color = std::get<2>(item);
-						mvColor color_disable = std::get<3>(item);
-						const std::string& name = std::get<0>(item);
-
-						mvThemeManager::GetColors().push_back(mvThemeColorGroup::mvThemeColor{ name, mvThemeConstant, color, nullptr, true});
-						mvThemeManager::GetDisabledColors().push_back(mvThemeColorGroup::mvThemeColor{ name, mvThemeConstant, color_disable, nullptr, true});
-					}
-
-					// style constants
-					for (const auto& item : item_type::GetStyleConstants())
-					{
-						ModuleConstants.push_back({ std::get<0>(item), std::get<1>(item) });
-
-						static mvAppItemType type;
-						long mvThemeConstant = std::get<1>(item);
-						decodeType(mvThemeConstant, &type);
-						float default_val = std::get<2>(item);
-						float max_val = std::get<3>(item);
-						const std::string& name = std::get<0>(item);
-
-						mvThemeManager::GetStyles().push_back(mvThemeStyleGroup::mvThemeStyle{ name, mvThemeConstant, default_val, default_val, nullptr, true , false, max_val});
-					}
-
 					// general constants
 					for (const auto& item : item_type::GetGeneralConstants())
 						ModuleConstants.push_back({ item.first, item.second });
 
 				});
-
-			// this must be performed after the default colors are filled
-			// so that vector reallocation doesn't invalidate the pointers
-			for (auto& color : mvThemeManager::GetColors())
-				mvThemeManager::GetColorsPtr().push_back(&color);
-			for (auto& color : mvThemeManager::GetDisabledColors())
-				mvThemeManager::GetDisabledColorsPtr().push_back(&color);
-
-			// this must be performed after the default styles are filled
-			// so that vector reallocation doesn't invalidate the pointers
-			for (auto& style : mvThemeManager::GetStyles())
-				mvThemeManager::GetStylesPtr().push_back(&style);
 
 		}
 

@@ -2,7 +2,7 @@
 #include "mvSelectable.h"
 #include "mvApp.h"
 #include "mvItemRegistry.h"
-#include "mvImGuiThemeScope.h"
+//#include "mvImGuiThemeScope.h"
 //#include "mvFontScope.h"
 
 namespace Marvel {
@@ -62,7 +62,7 @@ namespace Marvel {
 	{
 
 		ScopedID id(m_uuid);
-		mvImGuiThemeScope scope(this);
+		////mvImGuiThemeScope scope(this);
 		//mvFontScope fscope(this);
 
 		if (ImGui::Selectable(m_label.c_str(), m_value.get(), m_flags, ImVec2((float)m_width, (float)m_height)))

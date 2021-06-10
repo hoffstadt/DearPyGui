@@ -1,7 +1,7 @@
 #include "mvTooltip.h"
 #include "mvApp.h"
 #include "mvItemRegistry.h"
-#include "mvImGuiThemeScope.h"
+//#include "mvImGuiThemeScope.h"
 //#include "mvFontScope.h"
 
 namespace Marvel {
@@ -36,12 +36,12 @@ namespace Marvel {
 	{
 		if (ImGui::IsItemHovered())
 		{
-			mvImGuiThemeScope scope(this);
+			//mvImGuiThemeScope scope(this);
 			//mvFontScope fscope(this);
 			ImGui::BeginTooltip();
 
 			//we do this so that the children dont get the theme
-			scope.cleanup();
+			////scope.cleanup();
 
 			for (auto& item : m_children[1])
 			{

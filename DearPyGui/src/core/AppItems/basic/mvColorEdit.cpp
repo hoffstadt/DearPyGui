@@ -2,7 +2,7 @@
 #include "mvApp.h"
 #include <array>
 #include "mvItemRegistry.h"
-#include "mvImGuiThemeScope.h"
+//#include "mvImGuiThemeScope.h"
 //#include "mvFontScope.h"
 
 namespace Marvel {
@@ -69,7 +69,7 @@ namespace Marvel {
 	void mvColorEdit::draw(ImDrawList* drawlist, float x, float y)
 	{
 		ScopedID id(m_uuid);
-		mvImGuiThemeScope scope(this);
+		////mvImGuiThemeScope scope(this);
 		//mvFontScope fscope(this);
 
 		if (!m_enabled) std::copy(m_value->data(), m_value->data() + 4, m_disabled_value);

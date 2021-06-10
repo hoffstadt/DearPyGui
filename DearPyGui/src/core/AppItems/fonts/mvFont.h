@@ -35,12 +35,16 @@ namespace Marvel {
 		void customAction() override;
 		bool isParentCompatible(mvAppItemType type) override;
 		void handleSpecificRequiredArgs(PyObject* dict) override;
+		void handleSpecificKeywordArgs(PyObject* dict) override;
+		void getSpecificConfiguration(PyObject* dict) override;
+		ImFont* getFontPtr() { return m_fontPtr; }
 
 	private:
 
 		// config
 		std::string m_file;
 		float       m_size = 13.0f;
+		bool        m_default = false;
 
 		// finalized
 		ImFont* m_fontPtr = nullptr;

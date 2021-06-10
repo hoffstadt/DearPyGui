@@ -2,7 +2,7 @@
 #include "mvInput.h"
 #include "mvApp.h"
 #include "mvItemRegistry.h"
-#include "mvImGuiThemeScope.h"
+//#include "mvImGuiThemeScope.h"
 //#include "mvFontScope.h"
 
 namespace Marvel {
@@ -47,7 +47,7 @@ namespace Marvel {
 	void mvCollapsingHeader::draw(ImDrawList* drawlist, float x, float y)
 	{
 		ScopedID id(m_uuid);
-		mvImGuiThemeScope scope(this);
+		//mvImGuiThemeScope scope(this);
 		//mvFontScope fscope(this);
 
 		bool* toggle = nullptr;
@@ -56,7 +56,7 @@ namespace Marvel {
 		*m_value = ImGui::CollapsingHeader(m_label.c_str(), toggle, m_flags);
 
 		//we do this so that the children dont get the theme
-		scope.cleanup();
+		////scope.cleanup();
 
 		if (*m_value)
 		{
