@@ -63,7 +63,7 @@ namespace Marvel {
 		{
 			mvApp::GetApp()->getCallbackRegistry().submitCallback([=]()
 				{
-					mvApp::GetApp()->getCallbackRegistry().runCallback(getCallback(false), m_uuid, ToPyFloat((ImGui::GetIO().MouseDownDuration[m_button])), m_user_data);
+					mvApp::GetApp()->getCallbackRegistry().runCallback(getCallback(false), m_uuid, ToPyMPair(m_button, ImGui::GetIO().MouseDownDuration[m_button]), m_user_data);
 				});
 		}
 	}

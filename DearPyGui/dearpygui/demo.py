@@ -16,12 +16,6 @@ def _help(message):
     """ Simple Helper """
     pass
 
-def _log(sender, app_data, user_data):
-    #dpg.log_debug(f"Sender was {sender}.", logger="Demo Logger")
-    #dpg.log_debug(f"Data was {user_data}.", logger="Demo Logger")
-    print(f"Sender was {sender}.")
-    print(f"Data was {user_data}.")
-
 def _config(sender, app_data, user_data):
 
     widget_type = dpg.get_item_info(sender)["type"]
@@ -197,8 +191,9 @@ def show_demo():
     logger.log_error("error message boi")
     logger.log_critical("critical message boi")
 
-    def event_handler(sender, data):
-        logger.log(f"{sender} '\t' {data}")
+    def _log(sender, app_data, user_data):
+        sender.log(f"Sender was {sender}.")
+        sender.log(f"Data was {user_data}.")
 
     _create_static_textures()
     _create_dynamic_textures()
@@ -223,9 +218,9 @@ def show_demo():
 
                 with cxt.menu(label="Settings"):
 
-                    dpg.add_menu_item(label="Option 1", callback=_log)
-                    dpg.add_menu_item(label="Option 2", check=True, callback=_log)
-                    dpg.add_menu_item(label="Option 3", check=True, default_value=True, callback=_log)
+                    dpg.add_menu_item(label="Option 1", callback=_log, user_data=logger)
+                    dpg.add_menu_item(label="Option 2", check=True, callback=_log, user_data=logger)
+                    dpg.add_menu_item(label="Option 3", check=True, default_value=True, callback=_log, user_data=logger)
 
                     with cxt.child(height=60, autosize_x=True, delay_search=True):
                         for i in range(0, 10):
@@ -262,21 +257,21 @@ def show_demo():
             with cxt.tree_node(label="Basic"):
 
                 with cxt.group(horizontal=True):
-                    dpg.add_button(label="Button", callback=_log)
-                    dpg.add_button(label="Button", callback=_log, small=True)
-                    dpg.add_button(label="Button", callback=_log, arrow=True) # default direction is mvDir_Up
-                    dpg.add_button(label="Button", callback=_log, arrow=True, direction=dpg.mvDir_Left)
-                    dpg.add_button(label="Button", callback=_log, arrow=True, direction=dpg.mvDir_Right)
-                    dpg.add_button(label="Button", callback=_log, arrow=True, direction=dpg.mvDir_Down)
+                    dpg.add_button(label="Button", callback=_log, user_data=logger)
+                    dpg.add_button(label="Button", callback=_log, user_data=logger, small=True)
+                    dpg.add_button(label="Button", callback=_log, user_data=logger, arrow=True) # default direction is mvDir_Up
+                    dpg.add_button(label="Button", callback=_log, user_data=logger, arrow=True, direction=dpg.mvDir_Left)
+                    dpg.add_button(label="Button", callback=_log, user_data=logger, arrow=True, direction=dpg.mvDir_Right)
+                    dpg.add_button(label="Button", callback=_log, user_data=logger, arrow=True, direction=dpg.mvDir_Down)
 
-                dpg.add_checkbox(label="checkbox", callback=_log)
-                dpg.add_radio_button(("radio a", "radio b", "radio c"), callback=_log, horizontal=True)
-                dpg.add_selectable(label="selectable", callback=_log)
+                dpg.add_checkbox(label="checkbox", callback=_log, user_data=logger)
+                dpg.add_radio_button(("radio a", "radio b", "radio c"), callback=_log, user_data=logger, horizontal=True)
+                dpg.add_selectable(label="selectable", callback=_log, user_data=logger)
 
                 with cxt.group(horizontal=True):
 
                     for i in range(0, 7):
-                        dpg.add_button(label="Click", callback=_log)
+                        dpg.add_button(label="Click", callback=_log, user_data=logger)
                         dpg.set_theme_style(dpg.mvThemeStyle_Button_Rounding, i*5, item=dpg.last_item())
                         dpg.set_theme_style(dpg.mvThemeStyle_Button_PaddingX, i*3, item=dpg.last_item())
                         dpg.set_theme_style(dpg.mvThemeStyle_Button_PaddingY, i*3, item=dpg.last_item())
@@ -299,8 +294,8 @@ def show_demo():
                 dpg.add_separator()
 
                 dpg.add_text("Value", label="Label", show_label=True)
-                dpg.add_combo(("AAAA", "BBBB", "CCCC", "DDDD", "EEEE", "FFFF", "GGGG", "HHHH", "IIII", "JJJJ", "KKKK"), label="combo", default_value="AAAA", callback=_log)
-                dpg.add_input_text(label="input text", default_value="Hello, world!", callback=_log)
+                dpg.add_combo(("AAAA", "BBBB", "CCCC", "DDDD", "EEEE", "FFFF", "GGGG", "HHHH", "IIII", "JJJJ", "KKKK"), label="combo", default_value="AAAA", callback=_log, user_data=logger)
+                dpg.add_input_text(label="input text", default_value="Hello, world!", callback=_log, user_data=logger)
                 _help(
                         "USER:\n"
                         "Hold SHIFT or use mouse to select text.\n"
@@ -309,31 +304,31 @@ def show_demo():
                         "CTRL+X,CTRL+C,CTRL+V clipboard.\n"
                         "CTRL+Z,CTRL+Y undo/redo.\n"
                         "ESCAPE to revert.\n\n")
-                dpg.add_input_text(label="input text (w/ hint)", hint="enter text here", callback=_log)
-                dpg.add_input_int(label="input int", callback=_log)
-                dpg.add_input_float(label="input float", callback=_log)
-                dpg.add_input_float(label="input scientific", format="%e", callback=_log)
-                dpg.add_input_floatx(label="input floatx", callback=_log, default_value=[1,2,3,4])
-                dpg.add_drag_int(label="drag int", callback=_log)
+                dpg.add_input_text(label="input text (w/ hint)", hint="enter text here", callback=_log, user_data=logger)
+                dpg.add_input_int(label="input int", callback=_log, user_data=logger)
+                dpg.add_input_float(label="input float", callback=_log, user_data=logger)
+                dpg.add_input_float(label="input scientific", format="%e", callback=_log, user_data=logger)
+                dpg.add_input_floatx(label="input floatx", callback=_log, user_data=logger, default_value=[1,2,3,4])
+                dpg.add_drag_int(label="drag int", callback=_log, user_data=logger)
                 _help(
                         "Click and drag to edit value.\n"
                         "Hold SHIFT/ALT for faster/slower edit.\n"
                         "Double-click or CTRL+click to input value.")
-                dpg.add_drag_int(label="drag int 0..100", format="%d%%", callback=_log)
-                dpg.add_drag_float(label="drag float", callback=_log)
-                dpg.add_drag_float(label="drag small float", default_value=0.0067, format="%.06f ns", callback=_log)
-                dpg.add_slider_int(label="slider int", max_value=3, callback=_log)
+                dpg.add_drag_int(label="drag int 0..100", format="%d%%", callback=_log, user_data=logger)
+                dpg.add_drag_float(label="drag float", callback=_log, user_data=logger)
+                dpg.add_drag_float(label="drag small float", default_value=0.0067, format="%.06f ns", callback=_log, user_data=logger)
+                dpg.add_slider_int(label="slider int", max_value=3, callback=_log, user_data=logger)
                 _help("CTRL+click to enter value.")
-                dpg.add_slider_float(label="slider float", max_value=1.0, format="ratio = %.3f", callback=_log)
-                dpg.add_slider_int(label="slider angle", min_value=-360, max_value=360, format="%d deg", callback=_log)
+                dpg.add_slider_float(label="slider float", max_value=1.0, format="ratio = %.3f", callback=_log, user_data=logger)
+                dpg.add_slider_int(label="slider angle", min_value=-360, max_value=360, format="%d deg", callback=_log, user_data=logger)
                 _help(
                         "Click on the colored square to open a color picker.\n"
                         "Click and hold to use drag and drop.\n"
                         "Right-click on the colored square to show options.\n"
                         "CTRL+click on individual component to input value.\n")
-                dpg.add_color_edit((102, 179, 0, 128), label="color edit 4", callback=_log, uint8=True)
-                dpg.add_color_edit(default_value=(.5, 1, .25, .1), label="color edit 3", callback=_log, m_3component=True, uint8=True, floats=False)
-                dpg.add_listbox(("Apple", "Banana", "Cherry", "Kiwi", "Mango", "Orange", "Pineapple", "Strawberry", "Watermelon"), label="listbox", num_items=4, callback=_log)
+                dpg.add_color_edit((102, 179, 0, 128), label="color edit 4", callback=_log, user_data=logger, uint8=True)
+                dpg.add_color_edit(default_value=(.5, 1, .25, .1), label="color edit 3", callback=_log, user_data=logger, m_3component=True, uint8=True, floats=False)
+                dpg.add_listbox(("Apple", "Banana", "Cherry", "Kiwi", "Mango", "Orange", "Pineapple", "Strawberry", "Watermelon"), label="listbox", num_items=4, callback=_log, user_data=logger)
                 dpg.add_color_button()
 
             with cxt.tree_node(label="Combo"):
@@ -423,25 +418,25 @@ def show_demo():
                         label:\n
                         \tlock cmpxchg8b eax\n"""
 
-                    dpg.add_input_text(label="input text", multiline=True, default_value=paragraph, height=300, callback=_log, tab_input=True)
+                    dpg.add_input_text(label="input text", multiline=True, default_value=paragraph, height=300, callback=_log, user_data=logger, tab_input=True)
 
                     _add_config_options(dpg.last_item(), 1, 
                             "readonly", "on_enter")
 
                 with cxt.tree_node(label="Filtered Text Input"):
 
-                    dpg.add_input_text(callback=_log, label="default")
-                    dpg.add_input_text(callback=_log, label="decimal", decimal=True)
-                    dpg.add_input_text(callback=_log, label="no blank", no_spaces=True)
-                    dpg.add_input_text(callback=_log, label="uppercase", uppercase=True)
-                    dpg.add_input_text(callback=_log, label="scientific", scientific=True)
-                    dpg.add_input_text(callback=_log, label="hexdecimal", hexadecimal=True)
+                    dpg.add_input_text(callback=_log, user_data=logger, label="default")
+                    dpg.add_input_text(callback=_log, user_data=logger, label="decimal", decimal=True)
+                    dpg.add_input_text(callback=_log, user_data=logger, label="no blank", no_spaces=True)
+                    dpg.add_input_text(callback=_log, user_data=logger, label="uppercase", uppercase=True)
+                    dpg.add_input_text(callback=_log, user_data=logger, label="scientific", scientific=True)
+                    dpg.add_input_text(callback=_log, user_data=logger, label="hexdecimal", hexadecimal=True)
             
                 with cxt.tree_node(label="Password Input"):
 
-                    password = dpg.add_input_text(label="password", password=True, callback=_log)
-                    dpg.add_input_text(label="password (w/ hint)", password=True, hint="<password>", source=password, callback=_log)
-                    dpg.add_input_text(label="password (clear)", source=password, callback=_log)
+                    password = dpg.add_input_text(label="password", password=True, callback=_log, user_data=logger)
+                    dpg.add_input_text(label="password (w/ hint)", password=True, hint="<password>", source=password, callback=_log, user_data=logger)
+                    dpg.add_input_text(label="password (clear)", source=password, callback=_log, user_data=logger)
 
             with cxt.tree_node(label="Simple Plots"):
 
@@ -2168,66 +2163,86 @@ def show_demo():
 
                 dpg.configure_item(layer, items=list(layers.keys()))
 
-        with cxt.collapsing_header(label="Handler & Polling"):
+        with cxt.collapsing_header(label="Inputs & Widget Events"):
 
+            def _set_activator(sender, app_data, user_data):
+                keyword = dpg.get_item_configuration(sender)["label"]
+                constant = user_data[0][dpg.get_value(sender)]
+                for item in user_data[1]:
+                    dpg.configure_item(item, **{keyword: constant})
+
+            key_constants={"All": -1, "dpg.mvKey_Shift": dpg.mvKey_Shift, "dpg.mvKey_0":dpg.mvKey_0, "dpg.mvKey_A":dpg.mvKey_A}
             with cxt.handler_registry(show=False) as keyboard_handler:
-                key_down_handler = dpg.add_key_down_handler(callback=event_handler)
-                key_release_handler = dpg.add_key_release_handler(callback=event_handler)
-                key_press_handler = dpg.add_key_press_handler(callback=event_handler)
+                k_down = dpg.add_key_down_handler()
+                k_release = dpg.add_key_release_handler()
+                k_press = dpg.add_key_press_handler()
 
+            mouse_constants={"All": -1, "dpg.mvMouseButton_Left": dpg.mvMouseButton_Left, "dpg.mvMouseButton_Right":dpg.mvMouseButton_Right, "dpg.mvMouseButton_Middle":dpg.mvMouseButton_Middle, "dpg.mvMouseButton_X1":dpg.mvMouseButton_X1, "dpg.mvMouseButton_X2":dpg.mvMouseButton_X2}
             with cxt.handler_registry(show=False) as mouse_handler:
-                mouse_wheel_handler = dpg.add_mouse_wheel_handler(callback=event_handler)
-                mouse_click_handler = dpg.add_mouse_click_handler(callback=event_handler)
-                mouse_double_click_handler = dpg.add_mouse_double_click_handler(callback=event_handler)
-                mouse_release_handler = dpg.add_mouse_release_handler(callback=event_handler)
-                mouse_drag_handler = dpg.add_mouse_drag_handler(callback=event_handler)
-                mouse_down_handler = dpg.add_mouse_down_handler(callback=event_handler)
-                mouse_move_handler = dpg.add_mouse_move_handler(callback=event_handler)
-            dpg.add_text("Logger Window:")
-            dpg.add_same_line()
-            _add_config_options(logger.window_id, 1,"show")
-            message = "Handlers are placed into handler registries. Handler registry and handler must be shown for the handler submit the callback. Show turns on and off handler registries. Must show handler registry then individual handlers can be shown."
-            dpg.add_text(message, wrap=0)
+                m_wheel = dpg.add_mouse_wheel_handler()
+                m_click = dpg.add_mouse_click_handler()
+                m_double_click = dpg.add_mouse_double_click_handler()
+                m_release = dpg.add_mouse_release_handler()
+                m_drag = dpg.add_mouse_drag_handler()
+                m_down = dpg.add_mouse_down_handler()
+                m_move = dpg.add_mouse_move_handler()
 
             with cxt.tree_node(label="Keyboard"):
-                dpg.add_text("Keyboard Handler Registry:")
+                dpg.add_text("Toggle Keyboard Events")
                 dpg.add_same_line()
                 _add_config_options(keyboard_handler, 1,"show")
-                key_constants={"All": -1, "dpg.mvKey_Shift": dpg.mvKey_Shift, "dpg.mvKey_0":dpg.mvKey_0, "dpg.mvKey_A":dpg.mvKey_A}
-                with cxt.tree_node(label="Key Down Handler:"):
-                    _add_config_options(key_down_handler, 1,"show")
-                    dpg.add_combo(list(key_constants.keys()), label="key", default_value="All", callback=lambda sender: dpg.configure_item(key_down_handler, key=key_constants[dpg.get_value(sender)]))
-                with cxt.tree_node(label="Key Release Handler:"):
-                    _add_config_options(key_release_handler, 1,"show")
-                    dpg.add_combo(list(key_constants.keys()), label="key", default_value="All", callback=lambda sender: dpg.configure_item(key_release_handler, key=key_constants[dpg.get_value(sender)]))
-                with cxt.tree_node(label="Key Press Handler:"):
-                    _add_config_options(key_press_handler, 1,"show")
-                    dpg.add_combo(list(key_constants.keys()), label="key", default_value="All", callback=lambda sender: dpg.configure_item(key_press_handler, key=key_constants[dpg.get_value(sender)]))
+
+                dpg.add_combo(list(key_constants.keys()), label="key", default_value="All", callback=_set_activator, user_data=(key_constants, [k_down, k_release, k_press]))
+                kh_down = dpg.add_text("key id:  seconds:", label="Key Down Handler:", show_label=True)
+                kh_release = dpg.add_text("key id:", label="Key Release Handler:", show_label=True)
+                kh_press = dpg.add_text("key id:", label="Key Press Handler:", show_label=True)
+
             with cxt.tree_node(label="Mouse"):
-                dpg.add_text("Mouse Handler Registry:")
+                dpg.add_text("Toggle Mouse Events")
                 dpg.add_same_line()
                 _add_config_options(mouse_handler, 1,"show")
-                mouse_constants={"All": -1, "dpg.mvMouseButton_Left": dpg.mvMouseButton_Left, "dpg.mvMouseButton_Right":dpg.mvMouseButton_Right, "dpg.mvMouseButton_Middle":dpg.mvMouseButton_Middle, "dpg.mvMouseButton_X1":dpg.mvMouseButton_X1, "dpg.mvMouseButton_X2":dpg.mvMouseButton_X2}
-                with cxt.tree_node(label="Mouse Wheel Handler:"):
-                    _add_config_options(mouse_wheel_handler, 1,"show")
-                with cxt.tree_node(label="Mouse Move Handler:"):
-                    _add_config_options(mouse_move_handler, 1,"show")
-                with cxt.tree_node(label="Mouse Click Handler:"):
-                    _add_config_options(mouse_click_handler, 1,"show")
-                    dpg.add_combo(list(mouse_constants.keys()), label="button", default_value="All", callback=lambda sender: dpg.configure_item(mouse_click_handler, button=mouse_constants[dpg.get_value(sender)]))
-                with cxt.tree_node(label="Mouse Double Click Handler:"):
-                    _add_config_options(mouse_double_click_handler, 1,"show")
-                    dpg.add_combo(list(mouse_constants.keys()), label="button", default_value="All", callback=lambda sender: dpg.configure_item(mouse_double_click_handler, button=mouse_constants[dpg.get_value(sender)]))
-                with cxt.tree_node(label="Mouse Release Handler:"):
-                    _add_config_options(mouse_release_handler, 1,"show")
-                    dpg.add_combo(list(mouse_constants.keys()), label="button", default_value="All", callback=lambda sender: dpg.configure_item(mouse_release_handler, button=mouse_constants[dpg.get_value(sender)]))
-                with cxt.tree_node(label="Mouse Drag Handler:"):
-                    _add_config_options(mouse_drag_handler, 1,"show")
-                    dpg.add_input_float(label="threshold", default_value=10.0, callback=_config, user_data=mouse_drag_handler)
-                    dpg.add_combo(list(mouse_constants.keys()), label="button", default_value="All", callback=lambda sender: dpg.configure_item(mouse_drag_handler, button=mouse_constants[dpg.get_value(sender)]))
-                with cxt.tree_node(label="Mouse Down Handler:"):
-                    _add_config_options(mouse_down_handler, 1,"show")
-                    dpg.add_combo(list(mouse_constants.keys()), label="button", default_value="All", callback=lambda sender: dpg.configure_item(mouse_down_handler, button=mouse_constants[dpg.get_value(sender)]))
+                dpg.add_combo(list(mouse_constants.keys()), label="button", default_value="All", callback=_set_activator, user_data=(mouse_constants, [m_click, m_double_click, m_release, m_drag, m_down]))
+                mh_click = dpg.add_text("mouse id:", label="Mouse Click Handler", show_label=True)
+                mh_double = dpg.add_text("mouse id:", label="Mouse Double Click Handler", show_label=True)
+                mh_down = dpg.add_text("mouse id:  seconds:", label="Mouse Down Handler", show_label=True)
+                mh_release = dpg.add_text("mouse id:", label="Mouse Release Handler", show_label=True)
+                mh_wheel = dpg.add_text("mouse id:", label="Mouse Wheel Handler", show_label=True)
+                mh_move = dpg.add_text("mouse pos:", label="Mouse Move Handler", show_label=True)
+                mh_drag = dpg.add_text("mouse id:  delta:", label="Mouse Drag Handler", show_label=True)
+
+            with cxt.tree_node(label="Widget"):
+                dpg.add_text("Event Handlers can also be used for widget states like, active, activated, deactivated, clicked, edited,focused, hocerd, toggled open and visible", wrap=0)
+
+
+            def event_handler(sender, data):
+                type=dpg.get_item_info(sender)["type"]
+                logger.log(f"{sender} '\t' {type} '\t' {data}")
+                if type=="mvAppItemType::mvKeyDownHandler":
+                    dpg.set_value(kh_down, f"Key id: {data[0]}, Seconds:{data[1]}")
+                elif type=="mvAppItemType::mvKeyReleaseHandler":
+                    dpg.set_value(kh_release, f"Key id: {data}")
+                elif type=="mvAppItemType::mvKeyPressHandler":
+                    dpg.set_value(kh_press, f"Key id: {data} + Shift: {dpg.is_key_down(dpg.mvKey_Shift)}")
+                elif type=="mvAppItemType::mvMouseClickHandler":
+                     dpg.set_value(mh_click, f"Mouse id: {data} + Shift: {dpg.is_key_down(dpg.mvKey_Shift)}")
+                elif type=="mvAppItemType::mvMouseDoubleClickHandler":
+                    dpg.set_value(mh_double, f"Mouse id: {data}")
+                elif type=="mvAppItemType::mvMouseDownHandler":
+                    dpg.set_value(mh_down, f"Mouse id: {data[0]}, Seconds:{data[1]}")
+                elif type=="mvAppItemType::mvMouseReleaseHandler":
+                    dpg.set_value(mh_release, f"Mouse id: {data}")
+                elif type=="mvAppItemType::mvMouseWheelHandler":
+                    dpg.set_value(mh_wheel, f"Mouse id: {data}")
+                elif type=="mvAppItemType::mvMouseMoveHandler":
+                    dpg.set_value(mh_move, f"Mouse pos: {data}")
+                elif type=="mvAppItemType::mvMouseDragHandler":
+                    dpg.set_value(mh_drag, f"Mouse id: {data[0]}, Delta:{[data[1], data[2]]}")
+
+            for handler in dpg.get_item_info(keyboard_handler)["children"][3]:
+                dpg.configure_item(handler, callback=event_handler)
+
+            for handler in dpg.get_item_info(mouse_handler)["children"][3]:
+                dpg.configure_item(handler, callback=event_handler)
 
         with cxt.collapsing_header(label="Drag & Drop"):
             with cxt.tree_node(label="Help"):
