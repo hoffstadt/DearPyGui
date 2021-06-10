@@ -3,7 +3,6 @@
 #include "mvCore.h"
 #include "mvApp.h"
 #include "mvItemRegistry.h"
-//#include "mvImPlotThemeScope.h"
 
 namespace Marvel {
 
@@ -15,7 +14,6 @@ namespace Marvel {
 			MV_PARSER_ARG_ID |
 			MV_PARSER_ARG_PARENT |
 			MV_PARSER_ARG_BEFORE |
-			MV_PARSER_ARG_LABEL |
 			MV_PARSER_ARG_SOURCE |
 			MV_PARSER_ARG_SHOW)
 		);

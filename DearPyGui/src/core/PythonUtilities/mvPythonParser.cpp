@@ -35,15 +35,7 @@ namespace Marvel {
 				break;
 
 			case mvPyDataType::Long:
-				if (!isPyObject_Int(obj))
-					return false;
-				break;
-
 			case mvPyDataType::UUID:
-				if (!isPyObject_Int(obj))
-					return false;
-				break;
-
 			case mvPyDataType::Integer:
 				if (!isPyObject_Int(obj))
 					return false;

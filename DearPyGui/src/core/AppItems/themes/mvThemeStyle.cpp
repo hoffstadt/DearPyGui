@@ -16,11 +16,10 @@ namespace Marvel {
 		mvPythonParser parser(mvPyDataType::UUID, "Undocumented function", { "Widgets" });
 		mvAppItem::AddCommonArgs(parser, (CommonParserArgs)(
 			MV_PARSER_ARG_ID |
-			MV_PARSER_ARG_PARENT |
-			MV_PARSER_ARG_LABEL)
+			MV_PARSER_ARG_PARENT)
 		);
 
-		parser.addArg<mvPyDataType::Integer>("target", mvArgType::POSITIONAL_ARG, "0");
+		parser.addArg<mvPyDataType::Long>("target", mvArgType::POSITIONAL_ARG, "0");
 		parser.addArg<mvPyDataType::Float>("x", mvArgType::POSITIONAL_ARG, "1.0");
 		parser.addArg<mvPyDataType::Float>("y", mvArgType::POSITIONAL_ARG, "-1.0");
 		parser.addArg<mvPyDataType::Integer>("category", mvArgType::KEYWORD_ARG, "0");
@@ -50,14 +49,14 @@ namespace Marvel {
 	{
 		if (m_libType == mvLibType::MV_IMGUI)
 		{
-			if(m_y < 0.0f)
+			if(!m_twoComponent)
 				ImGui::PushStyleVar(m_targetStyle, m_x);
 			else
 				ImGui::PushStyleVar(m_targetStyle, { m_x, m_y });
 		}
 		else if (m_libType == mvLibType::MV_IMPLOT)
 		{
-			if (m_y < 0.0f)
+			if (!m_twoComponent)
 				ImPlot::PushStyleVar(m_targetStyle, m_x);
 			else
 				ImPlot::PushStyleVar(m_targetStyle, { m_x, m_y });
@@ -87,8 +86,74 @@ namespace Marvel {
 			switch (i)
 			{
 			case 0:
+			{
 				m_targetStyle = ToInt(item);
+				if (m_libType == mvLibType::MV_IMGUI)
+				{
+					switch (m_targetStyle)
+					{
+					case(ImGuiStyleVar_WindowPadding): m_twoComponent = true; break;
+					case(ImGuiStyleVar_WindowMinSize): m_twoComponent = true; break;
+					case(ImGuiStyleVar_WindowTitleAlign): m_twoComponent = true; break;
+					case(ImGuiStyleVar_FramePadding): m_twoComponent = true; break;
+					case(ImGuiStyleVar_ItemSpacing): m_twoComponent = true; break;
+					case(ImGuiStyleVar_ItemInnerSpacing): m_twoComponent = true; break;
+					case(ImGuiStyleVar_CellPadding): m_twoComponent = true; break;
+					case(ImGuiStyleVar_ButtonTextAlign): m_twoComponent = true; break;
+					case(ImGuiStyleVar_SelectableTextAlign): m_twoComponent = true; break;
+					default: break;
+					}
+
+					if (m_targetStyle >= ImGuiStyleVar_COUNT || m_targetStyle < 0)
+					{
+						m_state.setOk(false);
+						mvThrowPythonError(1000, "Item's parent must be plot.");
+						MV_ITEM_REGISTRY_ERROR("Item's parent must be plot.");
+					}
+				}
+
+				else if (m_libType == mvLibType::MV_IMPLOT)
+				{
+					switch (m_targetStyle)
+					{
+					case(ImPlotStyleVar_MajorTickLen): m_twoComponent = true; break;
+					case(ImPlotStyleVar_MinorTickLen): m_twoComponent = true; break;
+					case(ImPlotStyleVar_MajorTickSize): m_twoComponent = true; break;
+					case(ImPlotStyleVar_MinorTickSize): m_twoComponent = true; break;
+					case(ImPlotStyleVar_MajorGridSize): m_twoComponent = true; break;
+					case(ImPlotStyleVar_MinorGridSize): m_twoComponent = true; break;
+					case(ImPlotStyleVar_PlotPadding): m_twoComponent = true; break;
+					case(ImPlotStyleVar_LabelPadding): m_twoComponent = true; break;
+					case(ImPlotStyleVar_LegendPadding): m_twoComponent = true; break;
+					case(ImPlotStyleVar_LegendInnerPadding): m_twoComponent = true; break;
+					case(ImPlotStyleVar_LegendSpacing): m_twoComponent = true; break;
+					case(ImPlotStyleVar_MousePosPadding): m_twoComponent = true; break;
+					case(ImPlotStyleVar_AnnotationPadding): m_twoComponent = true; break;
+					case(ImPlotStyleVar_FitPadding): m_twoComponent = true; break;
+					case(ImPlotStyleVar_PlotDefaultSize): m_twoComponent = true; break;
+					case(ImPlotStyleVar_PlotMinSize): m_twoComponent = true; break;
+					default: break;
+					}
+
+					if (m_targetStyle >= ImPlotStyleVar_COUNT || m_targetStyle < 0)
+					{
+						m_state.setOk(false);
+						mvThrowPythonError(1000, "Item's parent must be plot.");
+						MV_ITEM_REGISTRY_ERROR("Item's parent must be plot.");
+					}
+				}
+
+				else if (m_libType == mvLibType::MV_IMPLOT)
+				{
+					if (m_targetStyle >= 14 || m_targetStyle < 0)
+					{
+						m_state.setOk(false);
+						mvThrowPythonError(1000, "Item's parent must be plot.");
+						MV_ITEM_REGISTRY_ERROR("Item's parent must be plot.");
+					}
+				}
 				break;
+			}
 
 			case 1:
 				m_x = ToFloat(item);
@@ -110,6 +175,71 @@ namespace Marvel {
 			return;
 
 		if (PyObject* item = PyDict_GetItemString(dict, "category")) m_libType = (mvLibType)ToInt(item);
+
+		if (m_libType == mvLibType::MV_IMGUI)
+		{
+			switch (m_targetStyle)
+			{
+			case(ImGuiStyleVar_WindowPadding): m_twoComponent = true; break;
+			case(ImGuiStyleVar_WindowMinSize): m_twoComponent = true; break;
+			case(ImGuiStyleVar_WindowTitleAlign): m_twoComponent = true; break;
+			case(ImGuiStyleVar_FramePadding): m_twoComponent = true; break;
+			case(ImGuiStyleVar_ItemSpacing): m_twoComponent = true; break;
+			case(ImGuiStyleVar_ItemInnerSpacing): m_twoComponent = true; break;
+			case(ImGuiStyleVar_CellPadding): m_twoComponent = true; break;
+			case(ImGuiStyleVar_ButtonTextAlign): m_twoComponent = true; break;
+			case(ImGuiStyleVar_SelectableTextAlign): m_twoComponent = true; break;
+			default: break;
+			}
+
+			if (m_targetStyle >= ImGuiStyleVar_COUNT || m_targetStyle < 0)
+			{
+				m_state.setOk(false);
+				mvThrowPythonError(1000, "Item's parent must be plot.");
+				MV_ITEM_REGISTRY_ERROR("Item's parent must be plot.");
+			}
+		}
+
+		else if (m_libType == mvLibType::MV_IMPLOT)
+		{
+			switch (m_targetStyle)
+			{
+			case(ImPlotStyleVar_MajorTickLen): m_twoComponent = true; break;
+			case(ImPlotStyleVar_MinorTickLen): m_twoComponent = true; break;
+			case(ImPlotStyleVar_MajorTickSize): m_twoComponent = true; break;
+			case(ImPlotStyleVar_MinorTickSize): m_twoComponent = true; break;
+			case(ImPlotStyleVar_MajorGridSize): m_twoComponent = true; break;
+			case(ImPlotStyleVar_MinorGridSize): m_twoComponent = true; break;
+			case(ImPlotStyleVar_PlotPadding): m_twoComponent = true; break;
+			case(ImPlotStyleVar_LabelPadding): m_twoComponent = true; break;
+			case(ImPlotStyleVar_LegendPadding): m_twoComponent = true; break;
+			case(ImPlotStyleVar_LegendInnerPadding): m_twoComponent = true; break;
+			case(ImPlotStyleVar_LegendSpacing): m_twoComponent = true; break;
+			case(ImPlotStyleVar_MousePosPadding): m_twoComponent = true; break;
+			case(ImPlotStyleVar_AnnotationPadding): m_twoComponent = true; break;
+			case(ImPlotStyleVar_FitPadding): m_twoComponent = true; break;
+			case(ImPlotStyleVar_PlotDefaultSize): m_twoComponent = true; break;
+			case(ImPlotStyleVar_PlotMinSize): m_twoComponent = true; break;
+			default: break;
+			}
+
+			if (m_targetStyle >= ImPlotStyleVar_COUNT || m_targetStyle < 0)
+			{
+				m_state.setOk(false);
+				mvThrowPythonError(1000, "Item's parent must be plot.");
+				MV_ITEM_REGISTRY_ERROR("Item's parent must be plot.");
+			}
+		}
+
+		else if (m_libType == mvLibType::MV_IMPLOT)
+		{
+			if (m_targetStyle >= 14 || m_targetStyle < 0)
+			{
+				m_state.setOk(false);
+				mvThrowPythonError(1000, "Item's parent must be plot.");
+				MV_ITEM_REGISTRY_ERROR("Item's parent must be plot.");
+			}
+		}
 	}
 
 }

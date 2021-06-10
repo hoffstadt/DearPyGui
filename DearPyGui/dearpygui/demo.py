@@ -273,7 +273,6 @@ def show_demo():
                     for i in range(0, 7):
 
                         with cxt.theme() as theme:
-                            dpg.add_theme_style(11, 3.0)
                             dpg.add_theme_color(dpg.mvThemeCol_Button, _hsv_to_rgb(i/7.0, 0.6, 0.6))
                             dpg.add_theme_color(dpg.mvThemeCol_ButtonActive, _hsv_to_rgb(i/7.0, 0.8, 0.8))
                             dpg.add_theme_color(dpg.mvThemeCol_ButtonHovered, _hsv_to_rgb(i/7.0, 0.7, 0.7))

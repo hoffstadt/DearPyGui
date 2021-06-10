@@ -51,6 +51,14 @@ namespace Marvel{
 		}
 
 		{
+			mvPythonParser parser(mvPyDataType::None);
+			parser.addArg<mvPyDataType::UUID>("item");
+			parser.addArg<mvPyDataType::UUID>("theme");
+			parser.finalize();
+			parsers->insert({ "set_item_disabled_theme", parser });
+		}
+
+		{
 			mvPythonParser parser(mvPyDataType::Dict);
 			parser.addArg<mvPyDataType::UUID>("item");
 			parser.finalize();
@@ -135,14 +143,13 @@ namespace Marvel{
 
 	void mvAppItem::AddCommonArgs(mvPythonParser& parser, CommonParserArgs args)
 	{
-
+		parser.addArg<mvPyDataType::String>("label", mvArgType::KEYWORD_ARG, "None", "Overrides 'name' as label");
 		if(args & MV_PARSER_ARG_ID)            parser.addArg<mvPyDataType::UUID>("id", mvArgType::KEYWORD_ARG);
 		if(args & MV_PARSER_ARG_WIDTH)         parser.addArg<mvPyDataType::Integer>("width", mvArgType::KEYWORD_ARG, "0");
 		if(args & MV_PARSER_ARG_HEIGHT)        parser.addArg<mvPyDataType::Integer>("height", mvArgType::KEYWORD_ARG, "0");
 		if(args & MV_PARSER_ARG_INDENT)        parser.addArg<mvPyDataType::Integer>("indent", mvArgType::KEYWORD_ARG, "-1");
 		if(args & MV_PARSER_ARG_PARENT)        parser.addArg<mvPyDataType::UUID>("parent", mvArgType::KEYWORD_ARG, "0", "Parent to add this item to. (runtime adding)");
 		if(args & MV_PARSER_ARG_BEFORE)        parser.addArg<mvPyDataType::UUID>("before", mvArgType::KEYWORD_ARG, "0", "This item will be displayed before the specified item in the parent.");
-		if(args & MV_PARSER_ARG_LABEL)         parser.addArg<mvPyDataType::String>("label", mvArgType::KEYWORD_ARG, "None", "Overrides 'name' as label");
 		if(args & MV_PARSER_ARG_SOURCE)        parser.addArg<mvPyDataType::UUID>("source", mvArgType::KEYWORD_ARG, "0", "Overrides 'name' as value storage key");
 		if(args & MV_PARSER_ARG_PAYLOAD_TYPE)  parser.addArg<mvPyDataType::String>("payload_type", mvArgType::KEYWORD_ARG, "'$$DPG_PAYLOAD'", "Overrides 'name' as value storage key");		
 		if(args & MV_PARSER_ARG_CALLBACK)      parser.addArg<mvPyDataType::Callable>("callback", mvArgType::KEYWORD_ARG, "None", "Registers a callback");
@@ -318,9 +325,21 @@ namespace Marvel{
 			ImGui::PushFont(fontptr);
 		}
 
-		if (m_theme)
+
+		if (m_enabled)
 		{
-			static_cast<mvTheme*>(m_theme.get())->draw(nullptr, 0.0f, 0.0f);
+			if (m_theme)
+			{
+				static_cast<mvTheme*>(m_theme.get())->draw(nullptr, 0.0f, 0.0f);
+			}
+		}
+		else
+		{
+
+			if (m_disabledTheme)
+			{
+				static_cast<mvTheme*>(m_disabledTheme.get())->draw(nullptr, 0.0f, 0.0f);
+			}
 		}
 
 		return true;
@@ -342,9 +361,20 @@ namespace Marvel{
 			ImGui::PopFont();
 		}
 
-		if (m_theme)
+		if (m_enabled)
 		{
-			static_cast<mvTheme*>(m_theme.get())->customAction();
+			if (m_theme)
+			{
+				static_cast<mvTheme*>(m_theme.get())->customAction();
+			}
+		}
+		else
+		{
+
+			if (m_disabledTheme)
+			{
+				static_cast<mvTheme*>(m_disabledTheme.get())->customAction();
+			}
 		}
 
 		// event handlers
@@ -1066,6 +1096,21 @@ namespace Marvel{
 		else
 			PyDict_SetItemString(dict, "parent", GetPyNone());
 
+		if (m_theme)
+			PyDict_SetItemString(dict, "theme", ToPyUUID(m_theme->getUUID()));
+		else
+			PyDict_SetItemString(dict, "theme", GetPyNone());
+
+		if (m_font)
+			PyDict_SetItemString(dict, "font", ToPyUUID(m_font->getUUID()));
+		else
+			PyDict_SetItemString(dict, "font", GetPyNone());
+
+		if (m_disabledTheme)
+			PyDict_SetItemString(dict, "disabled_theme", ToPyUUID(m_disabledTheme->getUUID()));
+		else
+			PyDict_SetItemString(dict, "disabled_theme", GetPyNone());
+
 		if(getDescFlags() == MV_ITEM_DESC_CONTAINER)
 			PyDict_SetItemString(dict, "container", ToPyBool(true));
 		else
@@ -1270,14 +1315,63 @@ namespace Marvel{
 			&item, &theme))
 			return GetPyNone();
 
+		if (!mvApp::s_manualMutexControl) std::lock_guard<std::mutex> lk(mvApp::s_mutex);
+		auto appitem = mvApp::GetApp()->getItemRegistry().getItem(item);
+
+		if (appitem)
+		{
+			if (theme == 0)
+			{
+				appitem->m_theme = nullptr;
+				return GetPyNone();
+			}
+
+			auto apptheme = mvApp::GetApp()->getItemRegistry().getRefItem(theme);
+
+			if (apptheme)
+			{
+				appitem->m_theme = apptheme;
+				return GetPyNone();
+			}
+			else
+				mvThrowPythonError(1000, std::to_string(item) + std::string(" theme item was not found"));
+		}
+		else
+			mvThrowPythonError(1000, std::to_string(item) + std::string(" item was not found"));
+
+		return GetPyNone();
+	}
+
+	PyObject* mvAppItem::set_item_disabled_theme(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		mvUUID item;
+		mvUUID theme;
+
+		if (!(mvApp::GetApp()->getParsers())["set_item_disabled_theme"].parse(args, kwargs, __FUNCTION__,
+			&item, &theme))
+			return GetPyNone();
+
 
 		if (!mvApp::s_manualMutexControl) std::lock_guard<std::mutex> lk(mvApp::s_mutex);
 		auto appitem = mvApp::GetApp()->getItemRegistry().getItem(item);
-		auto apptheme = mvApp::GetApp()->getItemRegistry().getRefItem(theme);
 
-		if (appitem && apptheme)
+		if (appitem)
 		{
-			appitem->m_theme = apptheme;
+			if (theme == 0)
+			{
+				appitem->m_theme = nullptr;
+				return GetPyNone();
+			}
+
+			auto apptheme = mvApp::GetApp()->getItemRegistry().getRefItem(theme);
+
+			if (apptheme)
+			{
+				appitem->m_disabledTheme = apptheme;
+				return GetPyNone();
+			}
+			else
+				mvThrowPythonError(1000, std::to_string(item) + std::string(" disabled theme item was not found"));
 		}
 		else
 			mvThrowPythonError(1000, std::to_string(item) + std::string(" item was not found"));

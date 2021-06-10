@@ -4,7 +4,6 @@
 #include <implot.h>
 #include <imnodes.h>
 #include "mvItemRegistry.h"
-//#include "mvImGuiThemeScope.h"
 #include "mvLog.h"
 #include "mvPythonExceptions.h"
 
@@ -16,12 +15,11 @@ namespace Marvel {
 		mvPythonParser parser(mvPyDataType::UUID, "Undocumented function", { "Widgets" });
 		mvAppItem::AddCommonArgs(parser, (CommonParserArgs)(
 			MV_PARSER_ARG_ID |
-			MV_PARSER_ARG_PARENT |
-			MV_PARSER_ARG_LABEL)
+			MV_PARSER_ARG_PARENT)
 		);
 
-		parser.addArg<mvPyDataType::Integer>("target", mvArgType::POSITIONAL_ARG, "0");
-		parser.addArg<mvPyDataType::IntList>("default_value", mvArgType::POSITIONAL_ARG, "(0, 0, 0, 255)");
+		parser.addArg<mvPyDataType::Long>("target", mvArgType::POSITIONAL_ARG, "0");
+		parser.addArg<mvPyDataType::IntList>("value", mvArgType::POSITIONAL_ARG, "(0, 0, 0, 255)");
 		parser.addArg<mvPyDataType::Integer>("category", mvArgType::KEYWORD_ARG, "0");
 
 		parser.finalize();
@@ -95,6 +93,41 @@ namespace Marvel {
 			return;
 
 		if (PyObject* item = PyDict_GetItemString(dict, "category")) m_libType = (mvLibType)ToInt(item);
+		if (PyObject* item = PyDict_GetItemString(dict, "value")) m_color = ToColor(item);
+
+		if (m_libType == mvLibType::MV_IMGUI)
+		{
+
+			if (m_targetColor >= ImGuiCol_COUNT || m_targetColor < 0)
+			{
+				m_state.setOk(false);
+				mvThrowPythonError(1000, "Item's parent must be plot.");
+				MV_ITEM_REGISTRY_ERROR("Item's parent must be plot.");
+				assert(false);
+			}
+		}
+
+		else if (m_libType == mvLibType::MV_IMPLOT)
+		{
+			if (m_targetColor >= ImPlotCol_COUNT || m_targetColor < 0)
+			{
+				m_state.setOk(false);
+				mvThrowPythonError(1000, "Item's parent must be plot.");
+				MV_ITEM_REGISTRY_ERROR("Item's parent must be plot.");
+				assert(false);
+			}
+		}
+
+		else if (m_libType == mvLibType::MV_IMPLOT)
+		{
+			if (m_targetColor >= imnodes::ColorStyle_Count || m_targetColor < 0)
+			{
+				m_state.setOk(false);
+				mvThrowPythonError(1000, "Item's parent must be plot.");
+				MV_ITEM_REGISTRY_ERROR("Item's parent must be plot.");
+				assert(false);
+			}
+		}
 	}
 
 }

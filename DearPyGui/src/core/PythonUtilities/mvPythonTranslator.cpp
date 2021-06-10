@@ -415,6 +415,11 @@ namespace Marvel {
 			return 0.0f;
 		}
 
+		if (PyLong_Check(value))
+		{
+			return PyLong_AsLong(value);
+		}
+
 		return (float)PyFloat_AsDouble(value);
 	}
 
