@@ -38,7 +38,7 @@ namespace Marvel {
 	void mvNode::InsertParser(std::map<std::string, mvPythonParser>* parsers)
 	{
 
-		mvPythonParser parser(mvPyDataType::UUID, "Undocumented function", { "Node Editor", "Widgets" });
+		mvPythonParser parser(mvPyDataType::UUID, "Adds a node to a node editor.", { "Node Editor", "Widgets" });
 		mvAppItem::AddCommonArgs(parser, (CommonParserArgs)(
 			MV_PARSER_ARG_ID |
 			MV_PARSER_ARG_PARENT |
@@ -54,7 +54,7 @@ namespace Marvel {
 			MV_PARSER_ARG_SHOW)
 		);
 
-		parser.addArg<mvPyDataType::Bool>("draggable", mvArgType::KEYWORD_ARG, "True");
+		parser.addArg<mvPyDataType::Bool>("draggable", mvArgType::KEYWORD_ARG, "True", "Allow node to be draggable.");
 
 		parser.finalize();
 

@@ -12,7 +12,7 @@ namespace Marvel {
 	void mvDrawlist::InsertParser(std::map<std::string, mvPythonParser>* parsers)
 	{
 
-		mvPythonParser parser(mvPyDataType::UUID, "Undocumented function", { "Drawlist", "Widgets" });
+		mvPythonParser parser(mvPyDataType::UUID, "A container that can hold drawings commands.", { "Drawlist", "Widgets" });
 		mvAppItem::AddCommonArgs(parser, (CommonParserArgs)(
 			MV_PARSER_ARG_ID |
 			MV_PARSER_ARG_WIDTH |

@@ -119,15 +119,15 @@ def add_drag_point(*, id: int =..., parent: int =0, before: int =0, label: str =
 	...
 
 def add_draw_layer(*, id: int =..., parent: int =0, before: int =0, show: bool =True) -> int:
-	"""Undocumented function"""
+	"""Creates a layer that can be drawn to."""
 	...
 
 def add_drawlist(*, id: int =..., width: int =0, height: int =0, parent: int =0, before: int =0, payload_type: str ='$$DPG_PAYLOAD', callback: Callable =None, drag_callback: Callable =None, drop_callback: Callable =None, user_data: Any =None, show: bool =True, pos: List[int] =[], filter_key: str ='', delay_search: str =False, tracked: bool =False, track_offset: float =0.5) -> int:
-	"""Undocumented function"""
+	"""A container that can hold drawings commands."""
 	...
 
 def add_dummy(*, id: int =..., width: int =0, height: int =0, indent: int =-1, parent: int =0, before: int =0, show: bool =True, pos: List[int] =[]) -> int:
-	"""Undocumented function"""
+	"""Adds a spacer or 'dummy' object."""
 	...
 
 def add_dynamic_texture(width : int, height : int, default_value : List[float], *, id: int =..., parent: int =0) -> int:
@@ -471,7 +471,7 @@ def add_tree_node(*, id: int =..., indent: int =-1, parent: int =0, before: int 
 	...
 
 def add_viewport_drawlist(*, id: int =..., show: bool =True, filter_key: str ='', delay_search: str =False, front: bool =True) -> int:
-	"""Undocumented function"""
+	"""Draws a quad on a drawing."""
 	...
 
 def add_visible_handler(parent : str, *, id: int =..., callback: Callable =None, user_data: Any =None) -> int:
@@ -523,55 +523,55 @@ def does_item_exist(item : int) -> bool:
 	...
 
 def draw_arrow(p1 : List[float], p2 : List[float], *, id: int =..., parent: int =0, before: int =0, show: bool =True, color: List[int] =(255, 255, 255, 255), thickness: float =1.0, size: int =4) -> int:
-	"""Undocumented function"""
+	"""Draws an arrow on a drawing."""
 	...
 
 def draw_bezier_cubic(p1 : List[float], p2 : List[float], p3 : List[float], p4 : List[float], *, id: int =..., parent: int =0, before: int =0, show: bool =True, color: List[int] =(255, 255, 255, 255), thickness: float =1.0, size: int =4, segments: int =0) -> int:
-	"""Undocumented function"""
+	"""Draws a cubic bezier curve on a drawing."""
 	...
 
 def draw_bezier_quadratic(p1 : List[float], p2 : List[float], p3 : List[float], *, id: int =..., parent: int =0, before: int =0, show: bool =True, color: List[int] =(255, 255, 255, 255), thickness: float =1.0, size: int =4, segments: int =0) -> int:
-	"""Undocumented function"""
+	"""Draws a quadratic bezier curve on a drawing."""
 	...
 
 def draw_circle(center : List[float], radius : float, *, id: int =..., parent: int =0, before: int =0, show: bool =True, color: List[int] =(255, 255, 255, 255), fill: List[int] =(0, 0, 0, -255), thickness: float =1.0, segments: int =0) -> int:
-	"""Undocumented function"""
+	"""Draws a circle on a drawing."""
 	...
 
 def draw_ellipse(pmin : List[float], pmax : List[float], *, id: int =..., parent: int =0, before: int =0, show: bool =True, color: List[int] =(255, 255, 255, 255), fill: List[int] =(0, 0, 0, -255), thickness: float =1.0, segments: int =32) -> int:
-	"""Undocumented function"""
+	"""Draws an ellipse on a drawing."""
 	...
 
 def draw_image(file : str, pmin : List[float], pmax : List[float], *, id: int =..., parent: int =0, before: int =0, show: bool =True, uv_min: List[float] =(0.0, 0.0), uv_max: List[float] =(1.0, 1.0), color: List[int] =(255, 255, 255, 255)) -> int:
-	"""Undocumented function"""
+	"""Draws an image on a drawing. p_min (top-left) and p_max (bottom-right) represent corners of the rectangle the image will be drawn to.Setting the p_min equal to the p_max will sraw the image to with 1:1 scale.uv_min and uv_max represent the normalized texture coordinates of the original image that will be shown. Using (0.0,0.0)->(1.0,1.0) texturecoordinates will generally display the entire texture."""
 	...
 
 def draw_line(p1 : List[float], p2 : List[float], *, id: int =..., parent: int =0, before: int =0, show: bool =True, color: List[int] =(255, 255, 255, 255), thickness: float =1.0) -> int:
-	"""Undocumented function"""
+	"""Draws a line on a drawing."""
 	...
 
 def draw_polygon(points : List[List[float]], *, id: int =..., parent: int =0, before: int =0, show: bool =True, color: List[int] =(255, 255, 255, 255), fill: List[int] =(0, 0, 0, -255), thickness: float =1.0) -> int:
-	"""Undocumented function"""
+	"""Draws a polygon on a drawing."""
 	...
 
 def draw_polyline(points : List[List[float]], *, id: int =..., parent: int =0, before: int =0, show: bool =True, closed: bool =False, color: List[int] =(255, 255, 255, 255), thickness: float =1.0) -> int:
-	"""Undocumented function"""
+	"""Draws lines on a drawing."""
 	...
 
 def draw_quad(p1 : List[float], p2 : List[float], p3 : List[float], p4 : List[float], *, id: int =..., parent: int =0, before: int =0, show: bool =True, color: List[int] =(255, 255, 255, 255), fill: List[int] =(0, 0, 0, -255), thickness: float =1.0) -> int:
-	"""Undocumented function"""
+	"""Draws a quad on a drawing."""
 	...
 
 def draw_rectangle(pmin : List[float], pmax : List[float], *, id: int =..., parent: int =0, before: int =0, show: bool =True, color: List[int] =(255, 255, 255, 255), fill: List[int] =(0, 0, 0, -255), rounding: float =0.0, thickness: float =1.0) -> int:
-	"""Undocumented function"""
+	"""Draws a rectangle on a drawing."""
 	...
 
 def draw_text(pos : List[float], text : str, *, id: int =..., parent: int =0, before: int =0, show: bool =True, color: List[int] =(255, 255, 255, 255), size: int =10) -> int:
-	"""Undocumented function"""
+	"""Draws a text on a drawing."""
 	...
 
 def draw_triangle(p1 : List[float], p2 : List[float], p3 : List[float], *, id: int =..., parent: int =0, before: int =0, show: bool =True, color: List[int] =(255, 255, 255, 255), fill: List[int] =(0, 0, 0, -255), thickness: float =1.0) -> int:
-	"""Undocumented function"""
+	"""Draws a triangle on a drawing."""
 	...
 
 def empty_container_stack() -> None:

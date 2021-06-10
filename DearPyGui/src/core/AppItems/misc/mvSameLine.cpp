@@ -7,7 +7,7 @@ namespace Marvel {
 	void mvSameLine::InsertParser(std::map<std::string, mvPythonParser>* parsers)
 	{
 
-		mvPythonParser parser(mvPyDataType::UUID);
+		mvPythonParser parser(mvPyDataType::UUID, "Places a widget on the same line as the previous widget. Can also be used for horizontal spacing.");
 		mvAppItem::AddCommonArgs(parser, (CommonParserArgs)(
 			MV_PARSER_ARG_ID |
 			MV_PARSER_ARG_PARENT |
