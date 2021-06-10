@@ -185,11 +185,6 @@ namespace Marvel {
 		m_dirty_size = true;
 	}
 
-	void mvWindowAppItem::setResizeCallback(PyObject* callback)
-	{
-		m_resize_callback = callback;
-	}
-
 	void mvWindowAppItem::draw(ImDrawList* drawlist, float x, float y)
 	{
 		// shouldn't have to do this but do. Fix later
@@ -371,7 +366,7 @@ namespace Marvel {
 		{
 			m_width = (int)ImGui::GetWindowWidth();
 			m_height = (int)ImGui::GetWindowHeight();
-			mvApp::GetApp()->getCallbackRegistry().addCallback(m_resize_callback, m_uuid, nullptr, nullptr);
+			m_resized = true;
 		}
 
 		m_width = (int)ImGui::GetWindowWidth();
@@ -398,7 +393,7 @@ namespace Marvel {
 		ImGui::End();
 
 		m_collapsed = ImGui::IsWindowCollapsed();
-
+		m_resized = false;
 	}
 
 	void mvWindowAppItem::show()

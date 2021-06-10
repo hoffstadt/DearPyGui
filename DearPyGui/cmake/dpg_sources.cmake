@@ -184,6 +184,7 @@ set(MARVEL_SOURCES
     "src/core/AppItems/widget_handlers/mvDeactivatedAfterEditHandler.cpp"
     "src/core/AppItems/widget_handlers/mvToggledOpenHandler.cpp"
     "src/core/AppItems/widget_handlers/mvClickedHandler.cpp"
+	"src/core/AppItems/widget_handlers/mvResizeHandler.cpp"
 
 	# imnodes
 	"vendor/imnodes/imnodes.cpp"
@@ -197,17 +198,18 @@ set(MARVEL_SOURCES
 	"../Dependencies/ImGuiFileDialog/ImGuiFileDialog/ImGuiFileDialog.cpp"
 
 	# imgui
-	"../Dependencies/imgui/misc/freetype/imgui_freetype.cpp"
 	"../Dependencies/imgui/misc/cpp/imgui_stdlib.cpp"
 	"../Dependencies/imgui/imgui.cpp"
 	"../Dependencies/imgui/imgui_demo.cpp"
 	"../Dependencies/imgui/imgui_draw.cpp"
 	"../Dependencies/imgui/imgui_widgets.cpp"
 	"../Dependencies/imgui/imgui_tables.cpp"
+	"$<$<PLATFORM_ID:Windows>:../Dependencies/imgui/misc/freetype/imgui_freetype.cpp>"
 	"$<$<PLATFORM_ID:Windows>:../Dependencies/imgui/backends/imgui_impl_win32.cpp>"
 	"$<$<PLATFORM_ID:Windows>:../Dependencies/imgui/backends/imgui_impl_dx11.cpp>"
 	"$<$<PLATFORM_ID:Darwin>:../Dependencies/imgui/backends/imgui_impl_metal.mm>"
 	"$<$<PLATFORM_ID:Darwin>:../Dependencies/imgui/backends/imgui_impl_glfw.cpp>"
+	"$<$<PLATFORM_ID:Darwin>:../Dependencies/imgui/misc/freetype/imgui_freetype.cpp>"
 	"$<$<PLATFORM_ID:Linux>:../Dependencies/imgui/examples/libs/gl3w/GL/gl3w.c>"
 	"$<$<PLATFORM_ID:Linux>:../Dependencies/imgui/backends/imgui_impl_glfw.cpp>"
 	"$<$<PLATFORM_ID:Linux>:../Dependencies/imgui/backends/imgui_impl_opengl3.cpp>"

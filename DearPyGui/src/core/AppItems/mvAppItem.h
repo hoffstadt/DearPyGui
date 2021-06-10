@@ -67,7 +67,7 @@ namespace Marvel {
         mvMouseReleaseHandler, mvMouseDragHandler, 
         mvHoverHandler, mvActiveHandler, mvFocusHandler, mvVisibleHandler,
         mvEditedHandler, mvActivatedHandler, mvDeactivatedHandler, mvDeactivatedAfterEditHandler,
-        mvToggledOpenHandler, mvClickedHandler, mvDragPayload,
+        mvToggledOpenHandler, mvClickedHandler, mvDragPayload, mvResizeHandler,
         ItemTypeCount
     };
 
