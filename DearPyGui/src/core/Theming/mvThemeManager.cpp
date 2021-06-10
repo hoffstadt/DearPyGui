@@ -18,7 +18,7 @@ namespace Marvel {
 	{
 		{
 			mvPythonParser parser(mvPyDataType::String);
-			parser.addArg<mvPyDataType::Integer>("constant");
+			parser.addArg<mvPyDataType::Long>("constant");
 			parser.addArg<mvPyDataType::FloatList>("color");
 			parser.addArg<mvPyDataType::UUID>("item", mvArgType::KEYWORD_ARG, "0");
 			parser.finalize();
@@ -27,7 +27,7 @@ namespace Marvel {
 
 		{
 			mvPythonParser parser(mvPyDataType::String);
-			parser.addArg<mvPyDataType::Integer>("constant");
+			parser.addArg<mvPyDataType::Long>("constant");
 			parser.addArg<mvPyDataType::FloatList>("color");
 			parser.addArg<mvPyDataType::UUID>("item", mvArgType::KEYWORD_ARG, "0");
 			parser.finalize();
@@ -36,7 +36,7 @@ namespace Marvel {
 
 		{
 			mvPythonParser parser(mvPyDataType::String);
-			parser.addArg<mvPyDataType::Integer>("constant");
+			parser.addArg<mvPyDataType::Long>("constant");
 			parser.addArg<mvPyDataType::Float>("style");
 			parser.addArg<mvPyDataType::UUID>("item", mvArgType::KEYWORD_ARG, "0");
 			parser.finalize();

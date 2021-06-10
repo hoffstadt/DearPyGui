@@ -175,6 +175,8 @@ namespace Marvel {
 		Py_XINCREF(user_data);
 
 		//PyErr_Clear();
+		if (PyErr_Occurred())
+			PyErr_Print();
 
 		PyObject* intermediateResult = nullptr;
 		if (PyCallable_Check(user_data))
@@ -191,7 +193,8 @@ namespace Marvel {
 		else
 			intermediateResult = user_data;
 
-		//PyErr_Clear();
+		if (PyErr_Occurred())
+			PyErr_Print();
 
 		PyObject* fc = PyObject_GetAttrString(callable, "__code__");
 		if (fc) {
