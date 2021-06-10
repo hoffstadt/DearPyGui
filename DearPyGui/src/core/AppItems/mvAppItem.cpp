@@ -838,7 +838,9 @@ namespace Marvel{
 		if (m_user_data)
 			Py_DECREF(m_user_data);
 
-		mvApp::GetApp()->getItemRegistry().cleanUpItem(m_uuid);
+		// in case item registry is destroyed
+		if(mvApp::IsAppStarted())
+			mvApp::GetApp()->getItemRegistry().cleanUpItem(m_uuid);
 	}
 
 	PyObject* mvAppItem::getCallback(bool ignore_enabled)

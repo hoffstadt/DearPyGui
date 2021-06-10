@@ -34,6 +34,16 @@ namespace Marvel {
 					return false;
 				break;
 
+			case mvPyDataType::Long:
+				if (!isPyObject_Int(obj))
+					return false;
+				break;
+
+			case mvPyDataType::UUID:
+				if (!isPyObject_Int(obj))
+					return false;
+				break;
+
 			case mvPyDataType::Integer:
 				if (!isPyObject_Int(obj))
 					return false;
@@ -107,13 +117,14 @@ namespace Marvel {
 	{
 		switch (type)
 		{
-		case mvPyDataType::UUID:       return 'K';
-		case mvPyDataType::String:     return 's';
-		case mvPyDataType::Integer:    return 'i';
-		case mvPyDataType::Float:      return 'f';
-		case mvPyDataType::Double:     return 'd';
-		case mvPyDataType::Bool:       return 'p';
-		default:                       return 'O';
+		case mvPyDataType::UUID:    return 'K';
+		case mvPyDataType::Long:    return 'l';
+		case mvPyDataType::String:  return 's';
+		case mvPyDataType::Integer: return 'i';
+		case mvPyDataType::Float:   return 'f';
+		case mvPyDataType::Double:  return 'd';
+		case mvPyDataType::Bool:    return 'p';
+		default:                    return 'O';
 		}
 	}
 
@@ -124,6 +135,7 @@ namespace Marvel {
 		case mvPyDataType::String:         return " : str";
 		case mvPyDataType::UUID:           return " : int";
 		case mvPyDataType::Integer:        return " : int";
+		case mvPyDataType::Long:           return " : int";
 		case mvPyDataType::Float:          return " : float";
 		case mvPyDataType::Double:         return " : float";
 		case mvPyDataType::Bool:           return " : bool";
@@ -149,13 +161,14 @@ namespace Marvel {
 		case mvPyDataType::String:        return "str";
 		case mvPyDataType::UUID:          return "int";
 		case mvPyDataType::Integer:       return "int";
+		case mvPyDataType::Long:          return "int";
 		case mvPyDataType::Float:         return "float";
 		case mvPyDataType::Double:        return "float";
 		case mvPyDataType::Bool:          return "bool";
 		case mvPyDataType::StringList:    return "List[str]";
 		case mvPyDataType::FloatList:     return "List[float]";
 		case mvPyDataType::IntList:       return "List[int]";
-		case mvPyDataType::UUIDList:       return "List[int]";
+		case mvPyDataType::UUIDList:      return "List[int]";
 		case mvPyDataType::Callable:      return "Callable";
 		case mvPyDataType::Dict:          return "dict";
 		case mvPyDataType::ListFloatList: return "List[List[float]]";
