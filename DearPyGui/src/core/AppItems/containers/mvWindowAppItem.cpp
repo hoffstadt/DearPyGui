@@ -393,7 +393,6 @@ namespace Marvel {
 		ImGui::End();
 
 		m_collapsed = ImGui::IsWindowCollapsed();
-		m_resized = false;
 	}
 
 	void mvWindowAppItem::show()
