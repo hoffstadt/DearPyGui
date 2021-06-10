@@ -21,7 +21,7 @@ shutil.copy(script_dir + "/../DearPyGui/dearpygui/core.pyi", script_dir + "/dear
 shutil.copy(script_dir + "/../DearPyGui/dearpygui/simple.py", script_dir + "/dearpygui")
 shutil.copy(script_dir + "/../DearPyGui/dearpygui/logger.py", script_dir + "/dearpygui")
 shutil.copy(script_dir + "/../DearPyGui/dearpygui/contexts.py", script_dir + "/dearpygui")
-shutil.copy(script_dir + "/../DearPyGui/dearpygui/themes.py", script_dir + "/dearpygui")
+#shutil.copy(script_dir + "/../DearPyGui/dearpygui/themes.py", script_dir + "/dearpygui")
 shutil.copy(script_dir + "/../DearPyGui/dearpygui/demo.py", script_dir + "/dearpygui")
 shutil.copy(script_dir + "/../Distribution/vcruntime140_1.dll", script_dir + "/dearpygui")
 

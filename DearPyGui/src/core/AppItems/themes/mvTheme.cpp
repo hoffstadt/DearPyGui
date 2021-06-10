@@ -2,7 +2,6 @@
 #include "mvApp.h"
 #include <array>
 #include "mvItemRegistry.h"
-//#include "mvImGuiThemeScope.h"
 #include "mvLog.h"
 #include "mvPythonExceptions.h"
 
@@ -13,8 +12,7 @@ namespace Marvel {
 
 		mvPythonParser parser(mvPyDataType::UUID, "Undocumented function", { "Widgets" });
 		mvAppItem::AddCommonArgs(parser, (CommonParserArgs)(
-			MV_PARSER_ARG_ID |
-			MV_PARSER_ARG_LABEL)
+			MV_PARSER_ARG_ID)
 		);
 
 		parser.addArg<mvPyDataType::Bool>("default_theme", mvArgType::KEYWORD_ARG, "False");

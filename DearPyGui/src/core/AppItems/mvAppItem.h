@@ -97,19 +97,18 @@ namespace Marvel {
         MV_PARSER_ARG_INDENT        = 1 << 4,
         MV_PARSER_ARG_PARENT        = 1 << 5,
         MV_PARSER_ARG_BEFORE        = 1 << 6,
-        MV_PARSER_ARG_LABEL         = 1 << 7,
-        MV_PARSER_ARG_SOURCE        = 1 << 8,
-        MV_PARSER_ARG_CALLBACK      = 1 << 9,
-        MV_PARSER_ARG_USER_DATA     = 1 << 10,
-        MV_PARSER_ARG_SHOW          = 1 << 11,
-        MV_PARSER_ARG_ENABLED       = 1 << 12,
-        MV_PARSER_ARG_POS           = 1 << 13,
-        MV_PARSER_ARG_DROP_CALLBACK = 1 << 14,
-        MV_PARSER_ARG_DRAG_CALLBACK = 1 << 15,
-        MV_PARSER_ARG_PAYLOAD_TYPE  = 1 << 16,
-        MV_PARSER_ARG_TRACKED       = 1 << 17,
-        MV_PARSER_ARG_FILTER        = 1 << 18,
-        MV_PARSER_ARG_SEARCH_DELAY  = 1 << 19,
+        MV_PARSER_ARG_SOURCE        = 1 << 7,
+        MV_PARSER_ARG_CALLBACK      = 1 << 8,
+        MV_PARSER_ARG_USER_DATA     = 1 << 9,
+        MV_PARSER_ARG_SHOW          = 1 << 10,
+        MV_PARSER_ARG_ENABLED       = 1 << 11,
+        MV_PARSER_ARG_POS           = 1 << 12,
+        MV_PARSER_ARG_DROP_CALLBACK = 1 << 13,
+        MV_PARSER_ARG_DRAG_CALLBACK = 1 << 14,
+        MV_PARSER_ARG_PAYLOAD_TYPE  = 1 << 15,
+        MV_PARSER_ARG_TRACKED       = 1 << 16,
+        MV_PARSER_ARG_FILTER        = 1 << 17,
+        MV_PARSER_ARG_SEARCH_DELAY  = 1 << 18,
     };
 
     enum class mvLibType {
@@ -220,6 +219,7 @@ namespace Marvel {
         MV_CREATE_COMMAND(set_item_children);
         MV_CREATE_COMMAND(set_item_font);
         MV_CREATE_COMMAND(set_item_theme);
+        MV_CREATE_COMMAND(set_item_disabled_theme);
 
         MV_START_COMMANDS
             MV_ADD_COMMAND(get_item_configuration);
@@ -236,6 +236,8 @@ namespace Marvel {
             MV_ADD_COMMAND(set_item_children);
             MV_ADD_COMMAND(set_item_font);
             MV_ADD_COMMAND(set_item_theme);
+            MV_ADD_COMMAND(set_item_theme);
+            MV_ADD_COMMAND(set_item_disabled_theme);
         MV_END_COMMANDS
 
         //-----------------------------------------------------------------------------
@@ -410,6 +412,7 @@ namespace Marvel {
 
         // theme
         mvRef<mvAppItem> m_theme = nullptr;
+        mvRef<mvAppItem> m_disabledTheme = nullptr;
 
         // config
         mvUUID      m_source = 0;

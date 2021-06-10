@@ -15,7 +15,6 @@ namespace Marvel {
 			MV_PARSER_ARG_ID |
 			MV_PARSER_ARG_PARENT |
 			MV_PARSER_ARG_BEFORE |
-			MV_PARSER_ARG_LABEL |
 			MV_PARSER_ARG_SOURCE |
 			MV_PARSER_ARG_SHOW)
 		);
@@ -119,7 +118,6 @@ namespace Marvel {
 			MV_PARSER_ARG_ID |
 			MV_PARSER_ARG_PARENT |
 			MV_PARSER_ARG_BEFORE |
-			MV_PARSER_ARG_LABEL |
 			MV_PARSER_ARG_SOURCE |
 			MV_PARSER_ARG_SHOW)
 		);
@@ -141,7 +139,6 @@ namespace Marvel {
 	void mvHLineSeries::draw(ImDrawList* drawlist, float x, float y)
 	{
 		ScopedID id(m_uuid);
-		//mvImPlotThemeScope scope(this);
 
 		static const std::vector<double>* xptr;
 

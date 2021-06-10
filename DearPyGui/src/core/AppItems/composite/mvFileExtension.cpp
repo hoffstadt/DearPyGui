@@ -15,8 +15,7 @@ namespace Marvel {
 				MV_PARSER_ARG_WIDTH |
 				MV_PARSER_ARG_HEIGHT |
 				MV_PARSER_ARG_PARENT |
-				MV_PARSER_ARG_BEFORE |
-				MV_PARSER_ARG_LABEL)
+				MV_PARSER_ARG_BEFORE)
 			);
 
 			parser.addArg<mvPyDataType::String>("extension");
