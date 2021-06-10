@@ -159,12 +159,7 @@ build_script:
   - sh: git submodule update --init --recursive ./Dependencies/glfw
   - sh: mkdir cmake-build-release
   - sh: cd cmake-build-release
-  - sh: |
-      if [ "$MACOS" = "" ]; then
-          cmake .. -DMVDIST_ONLY=True -DMVPY_VERSION=${PYVER} -DMVDPG_VERSION=${APPVEYOR_BUILD_VERSION} -DBUILD_SHARED_LIBS:BOOL=true
-      else
-          cmake .. -DMVDIST_ONLY=True -DMVPY_VERSION=${PYVER} -DMVDPG_VERSION=${APPVEYOR_BUILD_VERSION}
-      fi
+  - sh: cmake .. -DMVDIST_ONLY=True -DMVPY_VERSION=${PYVER} -DMVDPG_VERSION=${APPVEYOR_BUILD_VERSION}
   - sh: cd ..
   - sh: cmake --build cmake-build-release --config "${CONFIG}"
 

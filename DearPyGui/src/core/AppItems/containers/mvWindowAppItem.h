@@ -10,6 +10,8 @@ namespace Marvel {
 	class mvWindowAppItem : public mvAppItem
 	{
 
+		friend class mvResizeHandler;
+
 	public:
 
 		static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
@@ -114,7 +116,6 @@ namespace Marvel {
 		void setHeight            (int height) override;
 		void draw                 (ImDrawList* drawlist, float x, float y) override;
 		bool getWindowAsMainStatus() const { return m_mainWindow; }
-		bool isResized            () const { return m_resized; }
 
 		void show() override;
 		void onChildAdd(mvRef<mvAppItem> item) override;

@@ -22,17 +22,17 @@ target_sources(PureImgui
 		"../DearPyGui/vendor/implot/implot_demo.cpp"
 
 		# imgui
-		"../Dependencies/imgui/misc/freetype/imgui_freetype.cpp"
 		"../Dependencies/imgui/imgui.cpp"
 		"../Dependencies/imgui/imgui_demo.cpp"
 		"../Dependencies/imgui/imgui_draw.cpp"
 		"../Dependencies/imgui/imgui_widgets.cpp"
 		"../Dependencies/imgui/imgui_tables.cpp"
+		"$<$<PLATFORM_ID:Windows>:../Dependencies/imgui/misc/freetype/imgui_freetype.cpp>"
 		"$<$<PLATFORM_ID:Windows>:../Dependencies/imgui/backends/imgui_impl_win32.cpp>"
 		"$<$<PLATFORM_ID:Windows>:../Dependencies/imgui/backends/imgui_impl_dx11.cpp>"
 		"$<$<PLATFORM_ID:Darwin>:../Dependencies/imgui/backends/imgui_impl_metal.mm>"
 		"$<$<PLATFORM_ID:Darwin>:../Dependencies/imgui/backends/imgui_impl_glfw.cpp>"
-
+		"$<$<PLATFORM_ID:Darwin>:../Dependencies/imgui/misc/freetype/imgui_freetype.cpp>"
 		"$<$<PLATFORM_ID:Linux>:../Dependencies/imgui/examples/libs/gl3w/GL/gl3w.c>"
 		"$<$<PLATFORM_ID:Linux>:../Dependencies/imgui/backends/imgui_impl_glfw.cpp>"
 		"$<$<PLATFORM_ID:Linux>:../Dependencies/imgui/backends/imgui_impl_opengl3.cpp>"
