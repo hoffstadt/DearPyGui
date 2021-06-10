@@ -3,7 +3,7 @@
 #include "mvApp.h"
 #include "mvItemRegistry.h"
 #include "mvImGuiThemeScope.h"
-#include "mvFontScope.h"
+//#include "mvFontScope.h"
 
 namespace Marvel {
 
@@ -44,7 +44,7 @@ namespace Marvel {
 	void mvGroup::draw(ImDrawList* drawlist, float x, float y)
 	{
 		mvImGuiThemeScope scope(this);
-		mvFontScope fscope(this);
+		//mvFontScope fscope(this);
 
 		if (m_width != 0)
 			ImGui::PushItemWidth((float)m_width);

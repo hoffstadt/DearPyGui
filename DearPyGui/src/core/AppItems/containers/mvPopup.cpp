@@ -1,7 +1,7 @@
 #include "mvPopup.h"
 #include "mvItemRegistry.h"
 #include "mvImGuiThemeScope.h"
-#include "mvFontScope.h"
+//#include "mvFontScope.h"
 #include "mvPythonExceptions.h"
 
 namespace Marvel {
@@ -57,7 +57,7 @@ namespace Marvel {
 
 		ScopedID id(m_parentAddress);
 		mvImGuiThemeScope scope(this);
-		mvFontScope fscope(this);
+		//mvFontScope fscope(this);
 
 		if (m_modal)
 		{

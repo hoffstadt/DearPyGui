@@ -133,3 +133,6 @@
 #include "nodes/mvNode.h"
 #include "nodes/mvNodeAttribute.h"
 #include "nodes/mvNodeLink.h"
+
+#include "fonts/mvFont.h"
+#include "fonts/mvFontRegistry.h"

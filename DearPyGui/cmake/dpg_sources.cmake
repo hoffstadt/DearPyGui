@@ -33,7 +33,6 @@ set(MARVEL_SOURCES
 	"src/core/CustomImGuiWidgets/mvLoadingIndicatorCustom.cpp"
 
 	"src/core/Theming/mvThemeManager.cpp"
-	"src/core/Theming/mvFontScope.cpp"
 	"src/core/Theming/mvFontManager.cpp"
 	"src/core/Theming/mvThemeColorGroup.cpp"
 	"src/core/Theming/mvThemeStyleGroup.cpp"
@@ -137,6 +136,9 @@ set(MARVEL_SOURCES
 	"src/core/AppItems/nodes/mvNode.cpp"
 	"src/core/AppItems/nodes/mvNodeAttribute.cpp"
 	"src/core/AppItems/nodes/mvNodeLink.cpp"
+
+	"src/core/AppItems/fonts/mvFontRegistry.cpp"
+	"src/core/AppItems/fonts/mvFont.cpp"
 	
 	"src/core/AppItems/plots/mvPlot.cpp"
 	"src/core/AppItems/plots/mvPlotLegend.cpp"

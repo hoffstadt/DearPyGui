@@ -1,7 +1,7 @@
 #include "mvFileExtension.h"
 #include "mvFileDialog.h"
 #include "mvItemRegistry.h"
-#include "mvFontScope.h"
+//#include "mvFontScope.h"
 #include "mvPythonExceptions.h"
 #include "mvLog.h"
 

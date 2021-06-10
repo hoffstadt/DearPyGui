@@ -18,7 +18,7 @@
 #include "mvStairSeries.h"
 #include "mvStemSeries.h"
 #include "mvImPlotThemeScope.h"
-#include "mvFontScope.h"
+//#include "mvFontScope.h"
 #include "mvPythonExceptions.h"
 #include "mvPlotAxis.h"
 #include "containers/mvDragPayload.h"
@@ -287,7 +287,7 @@ namespace Marvel {
 		}
 
 		mvImPlotThemeScope scope(this);
-		mvFontScope fscope(this);
+		//mvFontScope fscope(this);
 
 		if (ImPlot::BeginPlot(m_label.c_str(), m_xaxisName.empty() ? nullptr : m_xaxisName.c_str(), m_y1axisName.empty() ? nullptr : m_y1axisName.c_str(),
 			ImVec2((float)m_width, (float)m_height), m_flags,

@@ -2,7 +2,7 @@
 #include "mvApp.h"
 #include "mvItemRegistry.h"
 #include "mvImGuiThemeScope.h"
-#include "mvFontScope.h"
+//#include "mvFontScope.h"
 
 namespace Marvel {
 
@@ -47,7 +47,7 @@ namespace Marvel {
 	{
 		ScopedID id(m_uuid);
 		mvImGuiThemeScope scope(this);
-		mvFontScope fscope(this);
+		//mvFontScope fscope(this);
 
 		// This is ugly and goes against our style system but its the only widget that ImGui chooses to push teh disable color for us
 		// so we have to map our text disable color to the system text disable color, or we can create a new constant which goes agains our 

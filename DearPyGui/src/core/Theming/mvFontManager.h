@@ -14,7 +14,7 @@ namespace Marvel {
 
 	class mvFontManager : public mvEventHandler, public mvToolWindow
 	{
-
+		friend class mvFont;
 		struct Font
 		{
 			std::string                         key;
@@ -34,13 +34,13 @@ namespace Marvel {
 
 		static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
 
-		MV_CREATE_EXTRA_COMMAND(add_font);
+		//MV_CREATE_EXTRA_COMMAND(add_font);
 		MV_CREATE_EXTRA_COMMAND(set_font);
 		MV_CREATE_EXTRA_COMMAND(get_global_font_scale);
 		MV_CREATE_EXTRA_COMMAND(set_global_font_scale);
 
 		MV_START_EXTRA_COMMANDS
-			MV_ADD_EXTRA_COMMAND(add_font);
+			//MV_ADD_EXTRA_COMMAND(add_font);
 			MV_ADD_EXTRA_COMMAND(set_font);
 			MV_ADD_EXTRA_COMMAND(get_global_font_scale);
 			MV_ADD_EXTRA_COMMAND(set_global_font_scale);

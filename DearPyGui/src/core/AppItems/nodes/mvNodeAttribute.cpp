@@ -6,7 +6,7 @@
 #include "mvItemRegistry.h"
 #include "mvNodeEditor.h"
 #include "mvImNodesThemeScope.h"
-#include "mvFontScope.h"
+//#include "mvFontScope.h"
 #include "mvPythonExceptions.h"
 
 namespace Marvel {
@@ -62,7 +62,7 @@ namespace Marvel {
 	{
 		ScopedID id(m_uuid);
 		mvImNodesThemeScope scope(this);
-		mvFontScope fscope(this);
+		//mvFontScope fscope(this);
 
 		if (m_static)
 			imnodes::BeginStaticAttribute((int)m_id);

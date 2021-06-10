@@ -1,7 +1,7 @@
 #include "mvFileDialog.h"
 #include "mvFileExtension.h"
 #include "mvItemRegistry.h"
-#include "mvFontScope.h"
+//#include "mvFontScope.h"
 #include "mvPythonExceptions.h"
 #include "mvLog.h"
 #include "mvImGuiThemeScope.h"
@@ -85,7 +85,7 @@ namespace Marvel {
 	{
 		ScopedID id(m_uuid);
 		mvImGuiThemeScope scope(this);
-		mvFontScope fscope(this);
+		//mvFontScope fscope(this);
 		if (!m_show)
 			return;
 
@@ -124,7 +124,7 @@ namespace Marvel {
 		}
 
 		{
-			mvFontScope fscope(this);
+			//mvFontScope fscope(this);
 
 			// display
 			if (m_instance.Display(m_label.c_str(), ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoSavedSettings, ImVec2(500, 600)))

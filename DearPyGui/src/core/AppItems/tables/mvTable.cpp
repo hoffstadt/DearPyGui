@@ -3,7 +3,7 @@
 #include "mvLog.h"
 #include "mvItemRegistry.h"
 #include "mvImGuiThemeScope.h"
-#include "mvFontScope.h"
+//#include "mvFontScope.h"
 #include "mvTableColumn.h"
 
 namespace Marvel {
@@ -74,7 +74,7 @@ namespace Marvel {
 	{
 		ScopedID id(m_uuid);
 		mvImGuiThemeScope scope(this);
-		mvFontScope fscope(this);
+		//mvFontScope fscope(this);
 
 		if (ImGui::BeginTable(m_label.c_str(), m_columns, m_flags, 
 			ImVec2((float)m_width, (float)m_height), (float)m_inner_width))
