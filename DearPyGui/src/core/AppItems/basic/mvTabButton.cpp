@@ -2,9 +2,7 @@
 #include "mvApp.h"
 #include "mvLog.h"
 #include "mvItemRegistry.h"
-//#include "mvImGuiThemeScope.h"
 #include "mvPythonExceptions.h"
-//#include "mvFontScope.h"
 
 namespace Marvel {
 
@@ -46,8 +44,6 @@ namespace Marvel {
 	void mvTabButton::draw(ImDrawList* drawlist, float x, float y)
 	{
 		ScopedID id(m_uuid);
-		////mvImGuiThemeScope scope(this);
-		//mvFontScope fscope(this);
 
 		if (ImGui::TabItemButton(m_label.c_str(), m_flags))
 			mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), m_uuid, nullptr, m_user_data);

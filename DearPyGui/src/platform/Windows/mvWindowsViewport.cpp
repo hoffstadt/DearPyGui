@@ -194,7 +194,6 @@ namespace Marvel {
 		{
 			mvToolManager::GetFontManager().rebuildAtlas();
 			ImGui_ImplDX11_InvalidateDeviceObjects();
-			mvToolManager::GetFontManager().updateDefaultFont();
 		}
 
 		// Start the Dear ImGui frame
@@ -202,13 +201,6 @@ namespace Marvel {
 		ImGui_ImplWin32_NewFrame();
 		ImGui::NewFrame();
 
-
-		//if (auto item = mvApp::GetApp()->getItemRegistry().getItem("INTERNAL_DPG_FONT_ATLAS"))
-		//{
-		//	static_cast<mvStaticTexture*>(item.get())->markDirty();
-		//}
-		//if (!mvApp::GetApp()->getTextureStorage().isValid())
-		//	mvApp::GetApp()->getTextureStorage().refreshAtlas();
 	}
 
 	void mvWindowsViewport::renderFrame()

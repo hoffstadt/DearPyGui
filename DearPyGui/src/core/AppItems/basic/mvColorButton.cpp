@@ -2,8 +2,6 @@
 #include "mvApp.h"
 #include <array>
 #include "mvItemRegistry.h"
-//#include "mvImGuiThemeScope.h"
-//#include "mvFontScope.h"
 
 namespace Marvel {
 
@@ -49,8 +47,6 @@ namespace Marvel {
 	void mvColorButton::draw(ImDrawList* drawlist, float x, float y)
 	{
 		ScopedID id(m_uuid);
-		////mvImGuiThemeScope scope(this);
-		//mvFontScope fscope(this);
 
 		ImVec4 col = { (*m_value)[0], (*m_value)[1], (*m_value)[2], (*m_value)[3] };
 

@@ -55,7 +55,7 @@
 #define mvImGuiCol_PlotLinesHovered MV_BASE_COL_panelHoverColor
 #define mvImGuiCol_PlotHistogram MV_BASE_COL_panelActiveColor
 #define mvImGuiCol_PlotHistogramHovered MV_BASE_COL_panelHoverColor
-#define mvImGuiCol_DragDropTarget MV_BASE_COL_bgColor
+#define mvImGuiCol_DragDropTarget mvColor(255, 255, 0, 179)
 #define mvImGuiCol_NavHighlight MV_BASE_COL_bgColor
 #define mvImGuiCol_NavWindowingHighlight mvColor(255, 255, 255, 179)
 #define mvImGuiCol_NavWindowingDimBg mvColor(204, 204, 204, 51)

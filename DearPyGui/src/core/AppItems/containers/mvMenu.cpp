@@ -1,8 +1,6 @@
 #include "mvMenu.h"
 #include "mvApp.h"
 #include "mvItemRegistry.h"
-//#include "mvImGuiThemeScope.h"
-//#include "mvFontScope.h"
 
 namespace Marvel {
 
@@ -38,8 +36,6 @@ namespace Marvel {
 	void mvMenu::draw(ImDrawList* drawlist, float x, float y)
 	{
 		ScopedID id(m_uuid);
-		//mvImGuiThemeScope scope(this);
-		//mvFontScope fscope(this);
 
 		// create menu and see if its selected
 		if (ImGui::BeginMenu(m_label.c_str(), m_enabled))
@@ -55,9 +51,6 @@ namespace Marvel {
 
 			// set current menu value true
 			*m_value = true;
-
-			//we do this so that the children dont get the theme
-			//scope.cleanup();
 
 			for (auto& item : m_children[1])
 			{

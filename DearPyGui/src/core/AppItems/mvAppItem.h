@@ -440,6 +440,4 @@ namespace Marvel {
 
     };
 
-    inline void DecodeType(long encoded_constant, mvAppItemType* type) { *type = (mvAppItemType)(encoded_constant / 1000); }
-
 }
