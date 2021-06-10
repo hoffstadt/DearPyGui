@@ -63,31 +63,31 @@ namespace Marvel {
 
         static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
 
-        MV_CREATE_EXTRA_COMMAND(lock_mutex);
-        MV_CREATE_EXTRA_COMMAND(unlock_mutex);
-        MV_CREATE_EXTRA_COMMAND(enable_docking);
-        MV_CREATE_EXTRA_COMMAND(get_dearpygui_version);
-        MV_CREATE_EXTRA_COMMAND(setup_dearpygui);
-        MV_CREATE_EXTRA_COMMAND(render_dearpygui_frame);
-        MV_CREATE_EXTRA_COMMAND(cleanup_dearpygui);
-        MV_CREATE_EXTRA_COMMAND(get_delta_time);
-        MV_CREATE_EXTRA_COMMAND(get_total_time);
-        MV_CREATE_EXTRA_COMMAND(stop_dearpygui);
-        MV_CREATE_EXTRA_COMMAND(is_dearpygui_running);
+        MV_CREATE_COMMAND(lock_mutex);
+        MV_CREATE_COMMAND(unlock_mutex);
+        MV_CREATE_COMMAND(enable_docking);
+        MV_CREATE_COMMAND(get_dearpygui_version);
+        MV_CREATE_COMMAND(setup_dearpygui);
+        MV_CREATE_COMMAND(render_dearpygui_frame);
+        MV_CREATE_COMMAND(cleanup_dearpygui);
+        MV_CREATE_COMMAND(get_delta_time);
+        MV_CREATE_COMMAND(get_total_time);
+        MV_CREATE_COMMAND(stop_dearpygui);
+        MV_CREATE_COMMAND(is_dearpygui_running);
 
-        MV_START_EXTRA_COMMANDS
-            MV_ADD_EXTRA_COMMAND(lock_mutex);
-            MV_ADD_EXTRA_COMMAND(unlock_mutex);
-            MV_ADD_EXTRA_COMMAND(enable_docking);
-            MV_ADD_EXTRA_COMMAND(get_dearpygui_version);
-            MV_ADD_EXTRA_COMMAND(setup_dearpygui);
-            MV_ADD_EXTRA_COMMAND(render_dearpygui_frame);
-            MV_ADD_EXTRA_COMMAND(cleanup_dearpygui);
-            MV_ADD_EXTRA_COMMAND(get_delta_time);
-            MV_ADD_EXTRA_COMMAND(get_total_time);
-            MV_ADD_EXTRA_COMMAND(stop_dearpygui);
-            MV_ADD_EXTRA_COMMAND(is_dearpygui_running);
-        MV_END_EXTRA_COMMANDS
+        MV_START_COMMANDS
+            MV_ADD_COMMAND(lock_mutex);
+            MV_ADD_COMMAND(unlock_mutex);
+            MV_ADD_COMMAND(enable_docking);
+            MV_ADD_COMMAND(get_dearpygui_version);
+            MV_ADD_COMMAND(setup_dearpygui);
+            MV_ADD_COMMAND(render_dearpygui_frame);
+            MV_ADD_COMMAND(cleanup_dearpygui);
+            MV_ADD_COMMAND(get_delta_time);
+            MV_ADD_COMMAND(get_total_time);
+            MV_ADD_COMMAND(stop_dearpygui);
+            MV_ADD_COMMAND(is_dearpygui_running);
+        MV_END_COMMANDS
 
         //-----------------------------------------------------------------------------
         // General

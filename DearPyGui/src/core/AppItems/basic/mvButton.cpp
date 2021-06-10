@@ -96,7 +96,7 @@ namespace Marvel {
 
 		PyDict_SetItemString(dict, "small", ToPyBool(m_small_button));
 		PyDict_SetItemString(dict, "arrow", ToPyBool(m_arrow));
-		PyDict_SetItemString(dict, "direction", ToPyInt(MV_ENCODE_CONSTANT(m_direction, 0)));
+		PyDict_SetItemString(dict, "direction", ToPyInt(m_direction));
 	}
 
 }

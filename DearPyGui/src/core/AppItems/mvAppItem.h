@@ -206,37 +206,37 @@ namespace Marvel {
 
         static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
 
-        MV_CREATE_EXTRA_COMMAND(get_item_configuration);
-        MV_CREATE_EXTRA_COMMAND(get_item_state);
-        MV_CREATE_EXTRA_COMMAND(get_item_info);
-        MV_CREATE_EXTRA_COMMAND(configure_item);
-        MV_CREATE_EXTRA_COMMAND(get_value);
-        MV_CREATE_EXTRA_COMMAND(get_values);
-        MV_CREATE_EXTRA_COMMAND(set_value);
-        MV_CREATE_EXTRA_COMMAND(focus_item);
-        MV_CREATE_EXTRA_COMMAND(set_item_pos);
-        MV_CREATE_EXTRA_COMMAND(reset_pos);
-        MV_CREATE_EXTRA_COMMAND(generate_uuid);
-        MV_CREATE_EXTRA_COMMAND(set_item_children);
-        MV_CREATE_EXTRA_COMMAND(set_item_font);
-        MV_CREATE_EXTRA_COMMAND(set_item_theme);
+        MV_CREATE_COMMAND(get_item_configuration);
+        MV_CREATE_COMMAND(get_item_state);
+        MV_CREATE_COMMAND(get_item_info);
+        MV_CREATE_COMMAND(configure_item);
+        MV_CREATE_COMMAND(get_value);
+        MV_CREATE_COMMAND(get_values);
+        MV_CREATE_COMMAND(set_value);
+        MV_CREATE_COMMAND(focus_item);
+        MV_CREATE_COMMAND(set_item_pos);
+        MV_CREATE_COMMAND(reset_pos);
+        MV_CREATE_COMMAND(generate_uuid);
+        MV_CREATE_COMMAND(set_item_children);
+        MV_CREATE_COMMAND(set_item_font);
+        MV_CREATE_COMMAND(set_item_theme);
 
-        MV_START_EXTRA_COMMANDS
-            MV_ADD_EXTRA_COMMAND(get_item_configuration);
-            MV_ADD_EXTRA_COMMAND(get_item_state);
-            MV_ADD_EXTRA_COMMAND(get_item_info);
-            MV_ADD_EXTRA_COMMAND(configure_item);
-            MV_ADD_EXTRA_COMMAND(get_value);
-            MV_ADD_EXTRA_COMMAND(get_values);
-            MV_ADD_EXTRA_COMMAND(set_value);
-            MV_ADD_EXTRA_COMMAND(focus_item);
-            MV_ADD_EXTRA_COMMAND(set_item_pos);
-            MV_ADD_EXTRA_COMMAND(reset_pos);
-            MV_ADD_EXTRA_COMMAND(generate_uuid);
-            MV_ADD_EXTRA_COMMAND(set_item_children);
-            MV_ADD_EXTRA_COMMAND(set_item_font);
-            MV_ADD_EXTRA_COMMAND(set_item_theme);
-        MV_END_EXTRA_COMMANDS
+        MV_START_COMMANDS
+            MV_ADD_COMMAND(get_item_configuration);
+            MV_ADD_COMMAND(get_item_state);
+            MV_ADD_COMMAND(get_item_info);
+            MV_ADD_COMMAND(configure_item);
+            MV_ADD_COMMAND(get_value);
+            MV_ADD_COMMAND(get_values);
+            MV_ADD_COMMAND(set_value);
+            MV_ADD_COMMAND(focus_item);
+            MV_ADD_COMMAND(set_item_pos);
+            MV_ADD_COMMAND(reset_pos);
+            MV_ADD_COMMAND(generate_uuid);
+            MV_ADD_COMMAND(set_item_children);
+            MV_ADD_COMMAND(set_item_font);
+            MV_ADD_COMMAND(set_item_theme);
+        MV_END_COMMANDS
 
         //-----------------------------------------------------------------------------
         // Helpers

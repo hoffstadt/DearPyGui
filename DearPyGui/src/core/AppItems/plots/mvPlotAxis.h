@@ -14,31 +14,25 @@ namespace Marvel {
 
 		MV_APPLY_WIDGET_REGISTRATION(mvAppItemType::mvPlotAxis, add_plot_axis)
 
-		MV_CREATE_RAW_CONSTANT(mvXAxis, 0);
-		MV_CREATE_RAW_CONSTANT(mvYAxis, 1);
+		MV_CREATE_CONSTANT(mvXAxis, 0);
+		MV_CREATE_CONSTANT(mvYAxis, 1);
 
-		MV_CREATE_EXTRA_COMMAND(reset_axis_ticks);
-		MV_CREATE_EXTRA_COMMAND(set_axis_ticks);
-		MV_CREATE_EXTRA_COMMAND(set_axis_limits);
-		MV_CREATE_EXTRA_COMMAND(get_axis_limits);
+		MV_CREATE_COMMAND(reset_axis_ticks);
+		MV_CREATE_COMMAND(set_axis_ticks);
+		MV_CREATE_COMMAND(set_axis_limits);
+		MV_CREATE_COMMAND(get_axis_limits);
 
-		MV_START_EXTRA_COMMANDS
-			MV_ADD_EXTRA_COMMAND(reset_axis_ticks);
-			MV_ADD_EXTRA_COMMAND(set_axis_ticks);
-			MV_ADD_EXTRA_COMMAND(set_axis_limits);
-			MV_ADD_EXTRA_COMMAND(get_axis_limits);
-		MV_END_EXTRA_COMMANDS
+		MV_START_COMMANDS
+			MV_ADD_COMMAND(reset_axis_ticks);
+			MV_ADD_COMMAND(set_axis_ticks);
+			MV_ADD_COMMAND(set_axis_limits);
+			MV_ADD_COMMAND(get_axis_limits);
+		MV_END_COMMANDS
 
-		MV_START_GENERAL_CONSTANTS
-			MV_ADD_GENERAL_CONSTANT(mvXAxis),
-			MV_ADD_GENERAL_CONSTANT(mvYAxis)
-		MV_END_GENERAL_CONSTANTS
-
-		MV_START_COLOR_CONSTANTS
-		MV_END_COLOR_CONSTANTS
-
-		MV_START_STYLE_CONSTANTS
-		MV_END_STYLE_CONSTANTS
+		MV_START_CONSTANTS
+			MV_ADD_CONSTANT(mvXAxis),
+			MV_ADD_CONSTANT(mvYAxis)
+		MV_END_CONSTANTS
 
 	public:
 

@@ -15,26 +15,20 @@ namespace Marvel {
 
 		MV_APPLY_WIDGET_REGISTRATION(mvAppItemType::mvTable, add_table)
 
-		MV_CREATE_RAW_CONSTANT(mvTable_SizingFixedFit, ImGuiTableFlags_SizingFixedFit);
-		MV_CREATE_RAW_CONSTANT(mvTable_SizingFixedSame, ImGuiTableFlags_SizingFixedSame);
-		MV_CREATE_RAW_CONSTANT(mvTable_SizingStretchProp, ImGuiTableFlags_SizingStretchProp);
-		MV_CREATE_RAW_CONSTANT(mvTable_SizingStretchSame, ImGuiTableFlags_SizingStretchSame);
+		MV_CREATE_CONSTANT(mvTable_SizingFixedFit, ImGuiTableFlags_SizingFixedFit);
+		MV_CREATE_CONSTANT(mvTable_SizingFixedSame, ImGuiTableFlags_SizingFixedSame);
+		MV_CREATE_CONSTANT(mvTable_SizingStretchProp, ImGuiTableFlags_SizingStretchProp);
+		MV_CREATE_CONSTANT(mvTable_SizingStretchSame, ImGuiTableFlags_SizingStretchSame);
 
-		MV_START_EXTRA_COMMANDS
-		MV_END_EXTRA_COMMANDS
+		MV_START_COMMANDS
+		MV_END_COMMANDS
 
-		MV_START_GENERAL_CONSTANTS
-			MV_ADD_GENERAL_CONSTANT(mvTable_SizingFixedFit),
-			MV_ADD_GENERAL_CONSTANT(mvTable_SizingFixedSame),
-			MV_ADD_GENERAL_CONSTANT(mvTable_SizingStretchProp),
-			MV_ADD_GENERAL_CONSTANT(mvTable_SizingStretchSame)
-		MV_END_GENERAL_CONSTANTS
-
-		MV_START_COLOR_CONSTANTS
-		MV_END_COLOR_CONSTANTS
-
-		MV_START_STYLE_CONSTANTS
-		MV_END_STYLE_CONSTANTS
+		MV_START_CONSTANTS
+			MV_ADD_CONSTANT(mvTable_SizingFixedFit),
+			MV_ADD_CONSTANT(mvTable_SizingFixedSame),
+			MV_ADD_CONSTANT(mvTable_SizingStretchProp),
+			MV_ADD_CONSTANT(mvTable_SizingStretchSame)
+		MV_END_CONSTANTS
 
 	public:
 

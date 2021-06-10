@@ -180,7 +180,7 @@ namespace Marvel {
 	bool mvItemRegistry::deleteItem(mvUUID uuid, bool childrenOnly)
 	{
 
-		MV_ITEM_REGISTRY_TRACE("Attempting to delete: " + uuid);
+		MV_ITEM_REGISTRY_TRACE("Attempting to delete: " + std::to_string(uuid));
 
 		// check staging first
 		if (m_stagingArea.count(uuid) != 0)
@@ -189,7 +189,7 @@ namespace Marvel {
 				m_stagingArea[uuid]->deleteChildren();
 			else
 				m_stagingArea.erase(uuid);
-			MV_ITEM_REGISTRY_INFO(uuid + " found and deleted.");
+			MV_ITEM_REGISTRY_INFO(std::to_string(uuid) + " found and deleted.");
 			return true;
 		}
 
@@ -249,10 +249,10 @@ namespace Marvel {
 
 		if (deletedItem)
 		{
-			MV_ITEM_REGISTRY_INFO(uuid + " found and deleted.");
+			MV_ITEM_REGISTRY_INFO(std::to_string(uuid) + " found and deleted.");
 		}
 		else
-			mvThrowPythonError(1001, uuid + " not deleted because it was not found");
+			mvThrowPythonError(1001, std::to_string(uuid) + " not deleted because it was not found");
 
 		assert(deletedItem && "Item to delete not found");
 		return deletedItem;
@@ -261,7 +261,7 @@ namespace Marvel {
 	bool mvItemRegistry::moveItem(mvUUID uuid, mvUUID parent, mvUUID before)
 	{
 
-		MV_ITEM_REGISTRY_TRACE("Attempting to move: " + uuid);
+		MV_ITEM_REGISTRY_TRACE("Attempting to move: " + std::to_string(uuid));
 
 		mvRef<mvAppItem> child = nullptr;
 
@@ -298,7 +298,7 @@ namespace Marvel {
 	bool mvItemRegistry::moveItemUp(mvUUID uuid)
 	{
 
-		MV_ITEM_REGISTRY_TRACE("Attempting to move: " + uuid);
+		MV_ITEM_REGISTRY_TRACE("Attempting to move: " + std::to_string(uuid));
 
 		bool movedItem = false;
 
@@ -323,7 +323,7 @@ namespace Marvel {
 	bool mvItemRegistry::moveItemDown(mvUUID uuid)
 	{
 
-		MV_ITEM_REGISTRY_TRACE("Attempting to move: " + uuid);
+		MV_ITEM_REGISTRY_TRACE("Attempting to move: " + std::to_string(uuid));
 
 		bool movedItem = false;
 
@@ -336,7 +336,7 @@ namespace Marvel {
 
 		if (!movedItem)
 		{
-			mvThrowPythonError(1000, uuid + " not moved because it was not found");
+			mvThrowPythonError(1000, std::to_string(uuid) + " not moved because it was not found");
 			MV_ITEM_REGISTRY_WARN("Could not move item, it was not found");
 		}
 
