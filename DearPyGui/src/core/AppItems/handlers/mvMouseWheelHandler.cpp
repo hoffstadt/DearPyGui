@@ -42,13 +42,13 @@ namespace Marvel {
 
 	void mvMouseWheelHandler::draw(ImDrawList* drawlist, float x, float y)
 	{
-
-		if (ImGui::GetIO().MouseWheel != 0.0f)
+		int wheel = (int)ImGui::GetIO().MouseWheel;
+		if (wheel)
 		{
 
 			mvApp::GetApp()->getCallbackRegistry().submitCallback([=]()
 			{
-				mvApp::GetApp()->getCallbackRegistry().runCallback(getCallback(false), m_uuid, ToPyInt((int)ImGui::GetIO().MouseWheel), m_user_data);
+				mvApp::GetApp()->getCallbackRegistry().runCallback(getCallback(false), m_uuid, ToPyInt(wheel), m_user_data);
 			});
 			
 		}
