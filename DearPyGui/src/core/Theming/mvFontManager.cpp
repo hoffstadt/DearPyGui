@@ -144,17 +144,9 @@ static void ShowCustomFontSelector(const char* label)
 
 namespace Marvel {
 
-	void mvFontManager::InValidateFontTheme()
-	{
-		auto& frontWindows = mvApp::GetApp()->getItemRegistry().getRoots();
-
-		for (auto& window : frontWindows)
-			window->inValidateThemeFontCache();
-	}
-
 	mvFontManager::mvFontManager()
 	{
-		mvEventBus::Subscribe(this, SID("set_font"), mvEVT_CATEGORY_THEMES);
+		//mvEventBus::Subscribe(this, SID("set_font"), mvEVT_CATEGORY_THEMES);
 	}
 
 	bool mvFontManager::isInvalid() const
@@ -207,16 +199,16 @@ namespace Marvel {
 	ImFont* mvFontManager::getFont(const std::string& font, int size)
 	{
 
-		if (font.empty())
-			return m_font;
+		//if (font.empty())
+		//	return m_font;
 
-		std::string key = font + std::to_string(size);
+		//std::string key = font + std::to_string(size);
 
-		for (auto& Font : m_fonts)
-		{
-			if (Font.key == key)
-				return Font.fontPtr;
-		}
+		//for (auto& Font : m_fonts)
+		//{
+		//	if (Font.key == key)
+		//		return Font.fontPtr;
+		//}
 
 		assert(false);
 		return nullptr;
@@ -268,49 +260,49 @@ namespace Marvel {
 
 	void mvFontManager::updateDefaultFont()
 	{
-		m_font = getFont(m_fontName, m_size);
-		m_dirty = false;
-		ImGuiIO& io = ImGui::GetIO();
-		io.FontDefault = m_font;
+		//m_font = getFont(m_fontName, m_size);
+		//m_dirty = false;
+		//ImGuiIO& io = ImGui::GetIO();
+		//io.FontDefault = m_font;
 	}
 
-	bool mvFontManager::onEvent(mvEvent& event)
-	{
-		mvEventDispatcher dispatcher(event);
-		dispatcher.dispatch(BIND_EVENT_METH(mvFontManager::onSetFont), SID("set_font"));
-		return event.handled;
-	};
+	//bool mvFontManager::onEvent(mvEvent& event)
+	//{
+	//	mvEventDispatcher dispatcher(event);
+	//	dispatcher.dispatch(BIND_EVENT_METH(mvFontManager::onSetFont), SID("set_font"));
+	//	return event.handled;
+	//};
 
-	bool mvFontManager::onSetFont(mvEvent& event)
-	{
-		mvUUID widget = GetEUUID(event, "WIDGET");
-		const std::string& font = GetEString(event, "FONT");
-		int size = (int)GetEFloat(event, "SIZE");
+	//bool mvFontManager::onSetFont(mvEvent& event)
+	//{
+	//	mvUUID widget = GetEUUID(event, "WIDGET");
+	//	const std::string& font = GetEString(event, "FONT");
+	//	int size = (int)GetEFloat(event, "SIZE");
 
-		if (widget == MV_INVALID_UUID)
-		{
-			InValidateFontTheme();
-			m_font = getFont(font, size);
-			m_size = size;
-			m_fontName = font;
-			return true;
-		}
+	//	if (widget == MV_INVALID_UUID)
+	//	{
+	//		InValidateFontTheme();
+	//		m_font = getFont(font, size);
+	//		m_size = size;
+	//		m_fontName = font;
+	//		return true;
+	//	}
 
-		mvAppItem* item = mvApp::GetApp()->getItemRegistry().getItem(widget);
-		if (item)
-		{
-			item->inValidateThemeFontCache();
-			item->setFont(font, size, getFont(font, size));
-		}
-		else
-		{
-			mvApp::GetApp()->getCallbackRegistry().submitCallback([=]()
-				{
-					mvThrowPythonError(1000, "Item can not be found");
-				});
-		}
-		return true;
-	}
+	//	mvAppItem* item = mvApp::GetApp()->getItemRegistry().getItem(widget);
+	//	if (item)
+	//	{
+	//		item->inValidateThemeFontCache();
+	//		item->setFont(font, size, getFont(font, size));
+	//	}
+	//	else
+	//	{
+	//		mvApp::GetApp()->getCallbackRegistry().submitCallback([=]()
+	//			{
+	//				mvThrowPythonError(1000, "Item can not be found");
+	//			});
+	//	}
+	//	return true;
+	//}
 
 	void mvFontManager::drawWidgets()
 	{
@@ -371,14 +363,14 @@ namespace Marvel {
 		//	parsers->insert({ "add_font", parser });
 		//}
 
-		{
-			mvPythonParser parser(mvPyDataType::None);
-			parser.addArg<mvPyDataType::String>("font");
-			parser.addArg<mvPyDataType::Float>("size");
-			parser.addArg<mvPyDataType::UUID>("item", mvArgType::KEYWORD_ARG, "0");
-			parser.finalize();
-			parsers->insert({ "set_font", parser });
-		}
+		//{
+		//	mvPythonParser parser(mvPyDataType::None);
+		//	parser.addArg<mvPyDataType::String>("font");
+		//	parser.addArg<mvPyDataType::Float>("size");
+		//	parser.addArg<mvPyDataType::UUID>("item", mvArgType::KEYWORD_ARG, "0");
+		//	parser.finalize();
+		//	parsers->insert({ "set_font", parser });
+		//}
 
 		{
 			mvPythonParser parser(mvPyDataType::None);
@@ -430,34 +422,34 @@ namespace Marvel {
 	//	return GetPyNone();
 	//}
 
-	PyObject* mvFontManager::set_font(PyObject* self, PyObject* args, PyObject* kwargs)
-	{
-		const char* font = "";
-		float size = 0;
-		mvUUID item = 0;
+	//PyObject* mvFontManager::set_font(PyObject* self, PyObject* args, PyObject* kwargs)
+	//{
+	//	const char* font = "";
+	//	float size = 0;
+	//	mvUUID item = 0;
 
-		if (!(mvApp::GetApp()->getParsers())["set_font"].parse(args, kwargs, __FUNCTION__, 
-			&font, &size, &item))
-			return GetPyNone();
+	//	if (!(mvApp::GetApp()->getParsers())["set_font"].parse(args, kwargs, __FUNCTION__, 
+	//		&font, &size, &item))
+	//		return GetPyNone();
 
-		if (!mvApp::s_manualMutexControl) std::lock_guard<std::mutex> lk(mvApp::s_mutex);
-		auto sfont = std::string(font);
-		mvApp::GetApp()->getCallbackRegistry().submit([=]()
-			{
-				mvEventBus::Publish
-				(
-					mvEVT_CATEGORY_THEMES,
-					SID("set_font"),
-					{
-						CreateEventArgument("WIDGET", item),
-						CreateEventArgument("FONT", sfont),
-						CreateEventArgument("SIZE", size)
-					}
-				);
-			});
+	//	if (!mvApp::s_manualMutexControl) std::lock_guard<std::mutex> lk(mvApp::s_mutex);
+	//	auto sfont = std::string(font);
+	//	mvApp::GetApp()->getCallbackRegistry().submit([=]()
+	//		{
+	//			mvEventBus::Publish
+	//			(
+	//				mvEVT_CATEGORY_THEMES,
+	//				SID("set_font"),
+	//				{
+	//					CreateEventArgument("WIDGET", item),
+	//					CreateEventArgument("FONT", sfont),
+	//					CreateEventArgument("SIZE", size)
+	//				}
+	//			);
+	//		});
 
-		return GetPyNone();
-	}
+	//	return GetPyNone();
+	//}
 
 	PyObject* mvFontManager::set_global_font_scale(PyObject* self, PyObject* args, PyObject* kwargs)
 	{

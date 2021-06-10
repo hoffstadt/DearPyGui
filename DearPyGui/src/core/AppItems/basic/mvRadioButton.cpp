@@ -2,7 +2,7 @@
 #include "mvRadioButton.h"
 #include "mvApp.h"
 #include "mvItemRegistry.h"
-#include "mvImGuiThemeScope.h"
+//#include "mvImGuiThemeScope.h"
 //#include "mvFontScope.h"
 
 namespace Marvel {
@@ -75,7 +75,7 @@ namespace Marvel {
 		ImGui::BeginGroup();
 
 		ScopedID id(m_uuid);
-		mvImGuiThemeScope scope(this);
+		////mvImGuiThemeScope scope(this);
 		//mvFontScope fscope(this);
 
 		if (!m_enabled)

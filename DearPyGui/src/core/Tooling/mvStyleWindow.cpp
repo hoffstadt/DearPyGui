@@ -1,6 +1,5 @@
 #include "mvStyleWindow.h"
 #include "mvApp.h"
-#include "mvThemeManager.h"
 
 // Helper to display a little (?) mark which shows a tooltip when hovered.
 // In your own code you may want to display an actual icon if you are using a merged icon fonts (see docs/FONTS.md)
@@ -46,12 +45,12 @@ namespace Marvel {
 
                     ImGui::LogToClipboard();
 
-                    for (auto item : mvThemeManager::GetStylesPtr())
-                    {
-                        ImGui::LogText("set_theme_style(%s, %.3f)\r\n",
-                            item->name.c_str(),
-                            (float)round(item->value1));
-                    }
+                    //for (auto item : mvThemeManager::GetStylesPtr())
+                    //{
+                    //    ImGui::LogText("set_theme_style(%s, %.3f)\r\n",
+                    //        item->name.c_str(),
+                    //        (float)round(item->value1));
+                    //}
                     ImGui::LogFinish();
                 }
 
@@ -60,21 +59,21 @@ namespace Marvel {
 
                 ImGui::Separator();
 
-                for (auto& item : mvThemeManager::GetStylesPtr())
-                {
-                    if (!filter1.PassFilter(item->name.c_str()))
-                        continue;
+                //for (auto& item : mvThemeManager::GetStylesPtr())
+                //{
+                //    if (!filter1.PassFilter(item->name.c_str()))
+                //        continue;
 
-                    ImGui::PushID(&item);
-                    if (ImGui::SliderFloat("##style", &item->value1, 0.0f, item->maxValue))
-                    {
-                        item->value2 = item->value1;
-                        mvThemeManager::InValidateStyleTheme();
-                    }
-                    ImGui::SameLine();
-                    ImGui::TextUnformatted(item->name.c_str());
-                    ImGui::PopID();
-                }
+                //    ImGui::PushID(&item);
+                //    if (ImGui::SliderFloat("##style", &item->value1, 0.0f, item->maxValue))
+                //    {
+                //        item->value2 = item->value1;
+                //        mvThemeManager::InValidateStyleTheme();
+                //    }
+                //    ImGui::SameLine();
+                //    ImGui::TextUnformatted(item->name.c_str());
+                //    ImGui::PopID();
+                //}
 
                 ImGui::EndTabItem();
             }
@@ -90,16 +89,16 @@ namespace Marvel {
 
                     ImGui::LogToClipboard();
 
-                    for (auto item : mvThemeManager::GetColorsPtr())
-                    {
-                        ImGui::LogText("set_theme_color(%s, %i, %i, %i, %i)\r\n",
-                            item->name.c_str(), 
-                            (int)(round(item->color.r * 255.0f)),
-                            (int)(round(item->color.g * 255.0f)),
-                            (int)(round(item->color.b * 255.0f)),
-                            (int)(round(item->color.a * 255.0f))
-                            );
-                    }
+                    //for (auto item : mvThemeManager::GetColorsPtr())
+                    //{
+                    //    ImGui::LogText("set_theme_color(%s, %i, %i, %i, %i)\r\n",
+                    //        item->name.c_str(), 
+                    //        (int)(round(item->color.r * 255.0f)),
+                    //        (int)(round(item->color.g * 255.0f)),
+                    //        (int)(round(item->color.b * 255.0f)),
+                    //        (int)(round(item->color.a * 255.0f))
+                    //        );
+                    //}
                     ImGui::LogFinish();
                 }
 
@@ -108,18 +107,18 @@ namespace Marvel {
 
                 ImGui::Separator();
 
-                for (auto& item : mvThemeManager::GetColorsPtr())
-                {
-                    if (!filter2.PassFilter(item->name.c_str()))
-                        continue;
+                //for (auto& item : mvThemeManager::GetColorsPtr())
+                //{
+                //    if (!filter2.PassFilter(item->name.c_str()))
+                //        continue;
 
-                    ImGui::PushID(&item);
-                    if (ImGui::ColorEdit4("##color", &item->color.r, ImGuiColorEditFlags_AlphaBar))
-                        mvThemeManager::InValidateColorTheme();
-                    ImGui::SameLine();
-                    ImGui::TextUnformatted(item->name.c_str());
-                    ImGui::PopID();
-                }
+                //    ImGui::PushID(&item);
+                //    if (ImGui::ColorEdit4("##color", &item->color.r, ImGuiColorEditFlags_AlphaBar))
+                //        mvThemeManager::InValidateColorTheme();
+                //    ImGui::SameLine();
+                //    ImGui::TextUnformatted(item->name.c_str());
+                //    ImGui::PopID();
+                //}
 
                 ImGui::EndTabItem();
             }
@@ -134,16 +133,16 @@ namespace Marvel {
 
                     ImGui::LogToClipboard();
 
-                    for (auto item : mvThemeManager::GetDisabledColorsPtr())
-                    {
-                        ImGui::LogText("set_theme_color(%s, %i, %i, %i, %i)\r\n",
-                            item->name.c_str(),
-                            (int)(round(item->color.r * 255.0f)),
-                            (int)(round(item->color.g * 255.0f)),
-                            (int)(round(item->color.b * 255.0f)),
-                            (int)(round(item->color.a * 255.0f))
-                        );
-                    }
+                    //for (auto item : mvThemeManager::GetDisabledColorsPtr())
+                    //{
+                    //    ImGui::LogText("set_theme_color(%s, %i, %i, %i, %i)\r\n",
+                    //        item->name.c_str(),
+                    //        (int)(round(item->color.r * 255.0f)),
+                    //        (int)(round(item->color.g * 255.0f)),
+                    //        (int)(round(item->color.b * 255.0f)),
+                    //        (int)(round(item->color.a * 255.0f))
+                    //    );
+                    //}
                     ImGui::LogFinish();
                 }
 
@@ -152,18 +151,18 @@ namespace Marvel {
 
                 ImGui::Separator();
 
-                for (auto& item : mvThemeManager::GetDisabledColorsPtr())
-                {
-                    if (!filter3.PassFilter(item->name.c_str()))
-                        continue;
+                //for (auto& item : mvThemeManager::GetDisabledColorsPtr())
+                //{
+                //    if (!filter3.PassFilter(item->name.c_str()))
+                //        continue;
 
-                    ImGui::PushID(&item);
-                    if (ImGui::ColorEdit4("##color(disable)", &item->color.r, ImGuiColorEditFlags_AlphaBar))
-                        mvThemeManager::InValidateDisabledColorTheme();
-                    ImGui::SameLine();
-                    ImGui::TextUnformatted(item->name.c_str());
-                    ImGui::PopID();
-                }
+                //    ImGui::PushID(&item);
+                //    if (ImGui::ColorEdit4("##color(disable)", &item->color.r, ImGuiColorEditFlags_AlphaBar))
+                //        mvThemeManager::InValidateDisabledColorTheme();
+                //    ImGui::SameLine();
+                //    ImGui::TextUnformatted(item->name.c_str());
+                //    ImGui::PopID();
+                //}
 
                 ImGui::EndTabItem();
             }

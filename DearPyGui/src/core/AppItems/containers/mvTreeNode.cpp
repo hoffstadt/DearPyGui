@@ -2,7 +2,7 @@
 #include "core/mvInput.h"
 #include "mvApp.h"
 #include "mvItemRegistry.h"
-#include "mvImGuiThemeScope.h"
+//#include "mvImGuiThemeScope.h"
 //#include "mvFontScope.h"
 
 namespace Marvel {
@@ -45,7 +45,7 @@ namespace Marvel {
 	void mvTreeNode::draw(ImDrawList* drawlist, float x, float y)
 	{
 		ScopedID id(m_uuid);
-		mvImGuiThemeScope scope(this);
+		//mvImGuiThemeScope scope(this);
 		//mvFontScope fscope(this);
 
 		ImGui::BeginGroup();
@@ -67,7 +67,7 @@ namespace Marvel {
 		}
 
 		//we do this so that the children dont get the theme
-		scope.cleanup();
+		//scope.cleanup();
 
 		for (auto& item : m_children[1])
 		{

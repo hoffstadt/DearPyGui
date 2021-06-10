@@ -2,7 +2,7 @@
 #include "mvApp.h"
 #include "mvLog.h"
 #include "mvItemRegistry.h"
-#include "mvImGuiThemeScope.h"
+//#include "mvImGuiThemeScope.h"
 #include "containers/mvWindowAppItem.h"
 #include "containers/mvChild.h"
 //#include "mvFontScope.h"
@@ -39,13 +39,13 @@ namespace Marvel {
 
 	void mvMenuBar::draw(ImDrawList* drawlist, float x, float y)
 	{
-		mvImGuiThemeScope scope(this);
+		//mvImGuiThemeScope scope(this);
 		//mvFontScope fscope(this);
 
 		if (ImGui::BeginMenuBar())
 		{
 			//we do this so that the children dont get the theme
-			scope.cleanup();
+			//scope.cleanup();
 
 			for (auto& item : m_children[1])
 			{

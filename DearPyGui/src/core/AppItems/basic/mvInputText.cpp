@@ -2,7 +2,7 @@
 #include <misc/cpp/imgui_stdlib.h>
 #include <utility>
 #include "mvItemRegistry.h"
-#include "mvImGuiThemeScope.h"
+//#include "mvImGuiThemeScope.h"
 //#include "mvFontScope.h"
 
 namespace Marvel {
@@ -75,7 +75,7 @@ namespace Marvel {
 	void mvInputText::draw(ImDrawList* drawlist, float x, float y)
 	{
 		ScopedID id(m_uuid);
-		mvImGuiThemeScope scope(this);
+		////mvImGuiThemeScope scope(this);
 		//mvFontScope fscope(this);
 
 		if (m_multiline)

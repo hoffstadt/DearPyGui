@@ -32,10 +32,7 @@ set(MARVEL_SOURCES
 	"src/core/CustomImGuiWidgets/mvKnobCustom.cpp"
 	"src/core/CustomImGuiWidgets/mvLoadingIndicatorCustom.cpp"
 
-	"src/core/Theming/mvThemeManager.cpp"
 	"src/core/Theming/mvFontManager.cpp"
-	"src/core/Theming/mvThemeColorGroup.cpp"
-	"src/core/Theming/mvThemeStyleGroup.cpp"
 	
 	"src/core/Tooling/mvToolManager.cpp"
 	"src/core/Tooling/mvToolWindow.cpp"
@@ -82,6 +79,9 @@ set(MARVEL_SOURCES
 	"src/core/AppItems/misc/mvSeparator.cpp"
 	"src/core/AppItems/misc/mvDummy.cpp"
 	"src/core/AppItems/misc/mvSpacing.cpp"
+
+	"src/core/AppItems/themes/mvTheme.cpp"
+	"src/core/AppItems/themes/mvThemeColor.cpp"
 
 	"src/core/AppItems/containers/mvStagingContainer.cpp"
 	"src/core/AppItems/containers/mvCollapsingHeader.cpp"

@@ -416,6 +416,7 @@ namespace Marvel {
 	mvSeriesBase::mvSeriesBase(mvUUID uuid)
 		: mvAppItem(uuid)
 	{
+		m_libType = mvLibType::MV_IMPLOT;
 	}
 
 	PyObject* mvSeriesBase::getPyValue()

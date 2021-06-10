@@ -17,7 +17,7 @@
 #include "mvShadeSeries.h"
 #include "mvStairSeries.h"
 #include "mvStemSeries.h"
-#include "mvImPlotThemeScope.h"
+//#include "mvImPlotThemeScope.h"
 //#include "mvFontScope.h"
 #include "mvPythonExceptions.h"
 #include "mvPlotAxis.h"
@@ -134,6 +134,7 @@ namespace Marvel {
 	{
 		m_width = -1;
 		m_height = -1;
+		m_libType = mvLibType::MV_IMPLOT;
 	}
 
 	void mvPlot::onChildAdd(mvRef<mvAppItem> item)
@@ -286,7 +287,7 @@ namespace Marvel {
 			item->customAction();
 		}
 
-		mvImPlotThemeScope scope(this);
+		//mvImPlotThemeScope scope(this);
 		//mvFontScope fscope(this);
 
 		if (ImPlot::BeginPlot(m_label.c_str(), m_xaxisName.empty() ? nullptr : m_xaxisName.c_str(), m_y1axisName.empty() ? nullptr : m_y1axisName.c_str(),

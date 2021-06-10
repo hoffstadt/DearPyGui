@@ -10,7 +10,6 @@
 #include <implot.h>
 #include "mvItemRegistry.h"
 #include "mvFontManager.h"
-#include "mvThemeManager.h"
 #include "mvCallbackRegistry.h"
 #include "mvPythonTranslator.h"
 #include "mvPythonExceptions.h"
@@ -79,7 +78,7 @@ namespace Marvel {
 	{
 		// create managers
 		m_itemRegistry = CreateOwnedPtr<mvItemRegistry>();
-		m_themeManager = CreateOwnedPtr<mvThemeManager>();
+		//m_themeManager = CreateOwnedPtr<mvThemeManager>();
         m_callbackRegistry = CreateOwnedPtr<mvCallbackRegistry>();
 	}
 
@@ -91,11 +90,6 @@ namespace Marvel {
 	mvItemRegistry& mvApp::getItemRegistry() 
 	{ 
 		return *m_itemRegistry; 
-	}
-
-	mvThemeManager& mvApp::getThemeManager()
-	{
-		return *m_themeManager;
 	}
 
 	mvApp::~mvApp()

@@ -1,7 +1,7 @@
 #include "mvImage.h"
 #include "mvItemRegistry.h"
 #include "mvApp.h"
-#include "mvImGuiThemeScope.h"
+//#include "mvImGuiThemeScope.h"
 
 namespace Marvel {
 

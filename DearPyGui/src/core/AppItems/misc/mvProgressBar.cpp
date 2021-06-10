@@ -2,7 +2,7 @@
 #include "mvProgressBar.h"
 #include "mvApp.h"
 #include "mvItemRegistry.h"
-#include "mvImGuiThemeScope.h"
+//#include "mvImGuiThemeScope.h"
 //#include "mvFontScope.h"
 
 namespace Marvel {
@@ -46,7 +46,7 @@ namespace Marvel {
 	void mvProgressBar::draw(ImDrawList* drawlist, float x, float y)
 	{
 		ScopedID id(m_uuid);
-		mvImGuiThemeScope scope(this);
+		////mvImGuiThemeScope scope(this);
 		//mvFontScope fscope(this);
 
 		ImGui::ProgressBar(*m_value, ImVec2((float)m_width, (float)m_height), m_overlay.c_str());

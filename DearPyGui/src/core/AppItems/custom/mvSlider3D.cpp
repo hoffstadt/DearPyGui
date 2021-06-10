@@ -1,5 +1,5 @@
 #include "mvSlider3D.h"
-#include "mvImGuiThemeScope.h"
+//#include "mvImGuiThemeScope.h"
 //#include "mvFontScope.h"
 
 namespace Marvel {
@@ -389,7 +389,7 @@ namespace Marvel {
     void mvSlider3D::draw(ImDrawList* drawlist, float x, float y)
     {
         ScopedID id(m_uuid);
-        mvImGuiThemeScope scope(this);
+        //mvImGuiThemeScope scope(this);
         //mvFontScope fscope(this);
 
         if(SliderScalar3D(m_specificedlabel.c_str(), &(*m_value)[0], &(*m_value)[1], &(*m_value)[2], m_minX, m_maxX, m_minY, m_maxY, m_minZ, m_maxZ, m_scale))

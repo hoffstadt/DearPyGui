@@ -15,6 +15,16 @@ def mutex():
         internal_dpg.unlock_mutex()
 
 @contextmanager
+def theme(*args, id:int=0, default_theme: bool = False):
+   
+   try:
+        widget = internal_dpg.add_theme(*args, id=id, default_theme=default_theme)
+        internal_dpg.push_container_stack(widget)
+        yield widget
+   finally:
+        internal_dpg.pop_container_stack()
+
+@contextmanager
 def font_registry(*args, id:int=0, show: bool =True):
    
    try:

@@ -2,7 +2,7 @@
 #include "mvCombo.h"
 #include "mvApp.h"
 #include "mvItemRegistry.h"
-#include "mvImGuiThemeScope.h"
+//#include "mvImGuiThemeScope.h"
 //#include "mvFontScope.h"
 
 namespace Marvel {
@@ -57,7 +57,7 @@ namespace Marvel {
 	{
 
 		ScopedID id(m_uuid);
-		mvImGuiThemeScope scope(this);
+		////mvImGuiThemeScope scope(this);
 		//mvFontScope fscope(this);
 
 		static std::vector<std::string> disabled_items{};

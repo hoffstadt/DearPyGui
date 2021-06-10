@@ -4,7 +4,7 @@
 #include "mvLog.h"
 #include "mvNodeAttribute.h"
 #include "mvItemRegistry.h"
-#include "mvImNodesThemeScope.h"
+//#include "mvImNodesThemeScope.h"
 #include "mvPythonExceptions.h"
 
 namespace Marvel {
@@ -33,6 +33,7 @@ namespace Marvel {
 		int64_t address = (int64_t)this;
 		int64_t reduced_address = address % 2147483648;
 		m_id = (int)reduced_address;
+		m_libType = mvLibType::MV_IMNODES;
 	}
 
 	bool mvNodeLink::isParentCompatible(mvAppItemType type)
@@ -102,7 +103,7 @@ namespace Marvel {
 	void mvNodeLink::draw(ImDrawList* drawlist, float x, float y)
 	{
 		ScopedID id(m_uuid);
-		mvImNodesThemeScope scope(this);
+		//mvImNodesThemeScope scope(this);
 		
 		imnodes::Link(m_id, m_id1, m_id2);
 	}

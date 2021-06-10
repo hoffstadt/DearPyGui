@@ -16,8 +16,6 @@
 #include "mvPythonTranslator.h"
 #include "cpp.hint"
 #include "mvDefaultTheme.h"
-#include "mvThemeColorGroup.h"
-#include "mvThemeStyleGroup.h"
 
 // forward declarations
 struct ImPlotTime;
@@ -68,7 +66,7 @@ namespace Marvel {
         mvHoverHandler, mvActiveHandler, mvFocusHandler, mvVisibleHandler,
         mvEditedHandler, mvActivatedHandler, mvDeactivatedHandler, mvDeactivatedAfterEditHandler,
         mvToggledOpenHandler, mvClickedHandler, mvDragPayload, mvResizeHandler,
-        mvFont, mvFontRegistry,
+        mvFont, mvFontRegistry, mvTheme, mvThemeColor,
         ItemTypeCount
     };
 
@@ -112,6 +110,12 @@ namespace Marvel {
         MV_PARSER_ARG_TRACKED       = 1 << 17,
         MV_PARSER_ARG_FILTER        = 1 << 18,
         MV_PARSER_ARG_SEARCH_DELAY  = 1 << 19,
+    };
+
+    enum class mvLibType {
+        MV_IMGUI,
+        MV_IMPLOT,
+        MV_IMNODES
     };
 
     // todo: remove this nonsense (relic of CPP interface idea)
@@ -214,6 +218,8 @@ namespace Marvel {
         MV_CREATE_EXTRA_COMMAND(reset_pos);
         MV_CREATE_EXTRA_COMMAND(generate_uuid);
         MV_CREATE_EXTRA_COMMAND(set_item_children);
+        MV_CREATE_EXTRA_COMMAND(set_item_font);
+        MV_CREATE_EXTRA_COMMAND(set_item_theme);
 
         MV_START_EXTRA_COMMANDS
             MV_ADD_EXTRA_COMMAND(get_item_configuration);
@@ -228,6 +234,8 @@ namespace Marvel {
             MV_ADD_EXTRA_COMMAND(reset_pos);
             MV_ADD_EXTRA_COMMAND(generate_uuid);
             MV_ADD_EXTRA_COMMAND(set_item_children);
+            MV_ADD_EXTRA_COMMAND(set_item_font);
+            MV_ADD_EXTRA_COMMAND(set_item_theme);
         MV_END_EXTRA_COMMANDS
 
         //-----------------------------------------------------------------------------
@@ -335,33 +343,6 @@ namespace Marvel {
         [[nodiscard]] PyObject* getDragCallback() { return m_dragCallback; }
         [[nodiscard]] PyObject* getDropCallback() { return m_dropCallback; }
 
-        //-----------------------------------------------------------------------------
-        // themes: colors
-        //-----------------------------------------------------------------------------
-        mvThemeColorGroup& getColorGroup();
-        mvThemeColorGroup& getDisabledColorGroup();
-        void               inValidateThemeColorCache();
-        void               inValidateThemeDisabledColorCache();
-
-        //-----------------------------------------------------------------------------
-        // themes: styles
-        //-----------------------------------------------------------------------------
-        mvThemeStyleGroup& getStyleGroup();
-        void               inValidateThemeStyleCache();
-
-        //-----------------------------------------------------------------------------
-        // themes: fonts
-        //-----------------------------------------------------------------------------
-        bool               isThemeFontCacheValid   () const;
-        void               inValidateThemeFontCache();
-        void               setThemeFontCacheValid  ();
-        void               setFont                 (const std::string& name, int size, ImFont* font);
-        ImFont*            getFont                 () { return m_cachefont; }
-        ImFont*            getCachedFont           () { return m_font; }
-        const std::string& getFontName             () const { return m_fontName; }
-        int                getFontSize() const { return m_fontSize; }
-
-       
         virtual void                        hide           () { m_show = false; }
         virtual void                        show           () { m_show = true; }
         void                                setCallbackData(PyObject* data);
@@ -420,23 +401,16 @@ namespace Marvel {
         ImVec2         m_previousCursorPos = { 0.0f, 0.0f };
         int            m_location = -1;
         std::string    m_label; // internal label
+        mvLibType      m_libType = mvLibType::MV_IMGUI;
 
         mvAppItem*                    m_parentPtr = nullptr;
         std::vector<mvRef<mvAppItem>> m_children[5] = { {}, {}, {}, {}, {} };
 
-        // themes: colors
-        mvThemeColorGroup m_colors         = mvThemeColorGroup(this);
-        mvThemeColorGroup m_disabledColors = mvThemeColorGroup(this);
+        // font
+        mvRef<mvAppItem> m_font = nullptr;
 
-        // themes: styles
-        mvThemeStyleGroup m_styles = mvThemeStyleGroup(this);
-        
-        // themes: fonts
-        ImFont*     m_font = nullptr;
-        ImFont*     m_cachefont = nullptr;
-        std::string m_fontName = "";
-        int         m_fontSize = 0;
-        bool        m_theme_font_dirty = false;
+        // theme
+        mvRef<mvAppItem> m_theme = nullptr;
 
         // config
         mvUUID      m_source = 0;
