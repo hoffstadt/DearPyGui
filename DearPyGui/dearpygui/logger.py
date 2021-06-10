@@ -49,7 +49,7 @@ class mvLogger:
             color = [255, 0, 0, 255]
 
         new_log = dpg.add_text(message, parent=self.filter_id, filter_key=message)
-        dpg.set_theme_color(dpg.mvThemeCol_Text_Text, color, item=new_log)
+        #dpg.set_theme_color(dpg.mvThemeCol_Text_Text, color, item=new_log)
         if self._auto_scroll:
             scroll_max = dpg.get_y_scroll_max(self.child_id)
             dpg.set_y_scroll(self.child_id, -1.0)

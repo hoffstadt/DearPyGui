@@ -34,14 +34,11 @@ namespace Marvel {
 		void draw(ImDrawList* drawlist, float x, float y) override;
 		void customAction() override;
 		bool canChildBeAdded(mvAppItemType type) override;
-		void setLibType(mvLibType libType) { m_libType = libType; }
 		void handleSpecificKeywordArgs(PyObject* dict) override;
 
 	private:
 
 		bool m_defaultTheme = false;
-		mvLibType m_libType = mvLibType::MV_IMGUI;
-
 	};
 
 }

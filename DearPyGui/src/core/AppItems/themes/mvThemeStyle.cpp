@@ -1,4 +1,4 @@
-#include "mvThemeColor.h"
+#include "mvThemeStyle.h"
 #include "mvApp.h"
 #include <array>
 #include <implot.h>
@@ -10,7 +10,7 @@
 
 namespace Marvel {
 
-	void mvThemeColor::InsertParser(std::map<std::string, mvPythonParser>* parsers)
+	void mvThemeStyle::InsertParser(std::map<std::string, mvPythonParser>* parsers)
 	{
 
 		mvPythonParser parser(mvPyDataType::UUID, "Undocumented function", { "Widgets" });
@@ -21,7 +21,8 @@ namespace Marvel {
 		);
 
 		parser.addArg<mvPyDataType::Integer>("target", mvArgType::POSITIONAL_ARG, "0");
-		parser.addArg<mvPyDataType::IntList>("default_value", mvArgType::POSITIONAL_ARG, "(0, 0, 0, 255)");
+		parser.addArg<mvPyDataType::Float>("x", mvArgType::POSITIONAL_ARG, "1.0");
+		parser.addArg<mvPyDataType::Float>("y", mvArgType::POSITIONAL_ARG, "-1.0");
 		parser.addArg<mvPyDataType::Integer>("category", mvArgType::KEYWORD_ARG, "0");
 
 		parser.finalize();
@@ -30,13 +31,13 @@ namespace Marvel {
 
 	}
 
-	mvThemeColor::mvThemeColor(mvUUID uuid)
+	mvThemeStyle::mvThemeStyle(mvUUID uuid)
 		:
 		mvAppItem(uuid)
 	{
 	}
 
-	bool mvThemeColor::isParentCompatible(mvAppItemType type)
+	bool mvThemeStyle::isParentCompatible(mvAppItemType type)
 	{
 		if (type == mvAppItemType::mvTheme) return true;
 		mvThrowPythonError(1000, "Item's parent must be plot.");
@@ -45,27 +46,37 @@ namespace Marvel {
 		return false;
 	}
 
-	void mvThemeColor::draw(ImDrawList* drawlist, float x, float y)
+	void mvThemeStyle::draw(ImDrawList* drawlist, float x, float y)
 	{
 		if (m_libType == mvLibType::MV_IMGUI)
-			ImGui::PushStyleColor(m_targetColor, m_color.toVec4());
+		{
+			if(m_y < 0.0f)
+				ImGui::PushStyleVar(m_targetStyle, m_x);
+			else
+				ImGui::PushStyleVar(m_targetStyle, { m_x, m_y });
+		}
 		else if (m_libType == mvLibType::MV_IMPLOT)
-			ImPlot::PushStyleColor(m_targetColor,m_color.toVec4());
+		{
+			if (m_y < 0.0f)
+				ImPlot::PushStyleVar(m_targetStyle, m_x);
+			else
+				ImPlot::PushStyleVar(m_targetStyle, { m_x, m_y });
+		}
 		else if (m_libType == mvLibType::MV_IMNODES)
-			imnodes::PushColorStyle((imnodes::ColorStyle)m_targetColor, mvColor::ConvertToUnsignedInt(m_color));
+			imnodes::PushStyleVar((imnodes::StyleVar)m_targetStyle, m_x);
 	}
 
-	void mvThemeColor::customAction()
+	void mvThemeStyle::customAction()
 	{
 		if (m_libType == mvLibType::MV_IMGUI)
-			ImGui::PopStyleColor();
+			ImGui::PopStyleVar();
 		else if (m_libType == mvLibType::MV_IMPLOT)
-			ImPlot::PopStyleColor();
+			ImPlot::PopStyleVar();
 		else if (m_libType == mvLibType::MV_IMNODES)
-			imnodes::PopColorStyle();
+			imnodes::PopStyleVar();
 	}
 
-	void mvThemeColor::handleSpecificPositionalArgs(PyObject* dict)
+	void mvThemeStyle::handleSpecificPositionalArgs(PyObject* dict)
 	{
 		if (!mvApp::GetApp()->getParsers()[s_command].verifyPositionalArguments(dict))
 			return;
@@ -76,11 +87,15 @@ namespace Marvel {
 			switch (i)
 			{
 			case 0:
-				m_targetColor = ToInt(item);
+				m_targetStyle = ToInt(item);
 				break;
 
 			case 1:
-				m_color = ToColor(item);
+				m_x = ToFloat(item);
+				break;
+
+			case 2:
+				m_y = ToFloat(item);
 				break;
 
 			default:
@@ -89,7 +104,7 @@ namespace Marvel {
 		}
 	}
 
-	void mvThemeColor::handleSpecificKeywordArgs(PyObject* dict)
+	void mvThemeStyle::handleSpecificKeywordArgs(PyObject* dict)
 	{
 		if (dict == nullptr)
 			return;

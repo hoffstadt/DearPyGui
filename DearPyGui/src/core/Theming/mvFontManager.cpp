@@ -227,6 +227,8 @@ namespace Marvel {
 			}
 		}
 
+		m_dirty = false;
+
 		//ImGuiIO& io = ImGui::GetIO();
 		//io.Fonts->Clear();
 		//io.FontDefault = io.Fonts->AddFontDefault();

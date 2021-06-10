@@ -41,7 +41,6 @@ namespace Marvel {
 	mvDragPoint::mvDragPoint(mvUUID uuid)
 		: mvDouble4PtrBase(uuid)
 	{
-		m_libType = mvLibType::MV_IMPLOT;
 	}
 
 	bool mvDragPoint::isParentCompatible(mvAppItemType type)

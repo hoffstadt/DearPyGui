@@ -121,6 +121,7 @@ namespace Marvel {
 
         // Setup style
         ImGui::StyleColorsDark();
+        mvApp::SetDefaultTheme();
 
         // Setup Platform/Renderer bindings
         ImGui_ImplGlfw_InitForOpenGL(m_window, true);

@@ -66,7 +66,7 @@ namespace Marvel {
         mvHoverHandler, mvActiveHandler, mvFocusHandler, mvVisibleHandler,
         mvEditedHandler, mvActivatedHandler, mvDeactivatedHandler, mvDeactivatedAfterEditHandler,
         mvToggledOpenHandler, mvClickedHandler, mvDragPayload, mvResizeHandler,
-        mvFont, mvFontRegistry, mvTheme, mvThemeColor,
+        mvFont, mvFontRegistry, mvTheme, mvThemeColor, mvThemeStyle,
         ItemTypeCount
     };
 
@@ -401,7 +401,6 @@ namespace Marvel {
         ImVec2         m_previousCursorPos = { 0.0f, 0.0f };
         int            m_location = -1;
         std::string    m_label; // internal label
-        mvLibType      m_libType = mvLibType::MV_IMGUI;
 
         mvAppItem*                    m_parentPtr = nullptr;
         std::vector<mvRef<mvAppItem>> m_children[5] = { {}, {}, {}, {}, {} };

@@ -14,9 +14,6 @@ namespace Marvel {
 
 		MV_APPLY_WIDGET_REGISTRATION(mvAppItemType::mvGroup, add_group)
 
-		MV_CREATE_CONSTANT(mvThemeStyle_Group_ItemSpacingX, ImGuiStyleVar_ItemSpacing, 0L);
-		MV_CREATE_CONSTANT(mvThemeStyle_Group_ItemSpacingY, ImGuiStyleVar_ItemSpacing, 1L);
-
 		MV_START_EXTRA_COMMANDS
 		MV_END_EXTRA_COMMANDS
 
@@ -27,8 +24,6 @@ namespace Marvel {
 		MV_END_COLOR_CONSTANTS
 
 		MV_START_STYLE_CONSTANTS
-			MV_ADD_CONSTANT_F(mvThemeStyle_Group_ItemSpacingX, 8, 20),
-			MV_ADD_CONSTANT_F(mvThemeStyle_Group_ItemSpacingY, 4, 20),
 		MV_END_STYLE_CONSTANTS
 
 	public:

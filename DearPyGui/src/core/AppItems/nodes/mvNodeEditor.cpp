@@ -79,7 +79,6 @@ namespace Marvel {
 	mvNodeEditor::mvNodeEditor(mvUUID uuid)
 		: mvAppItem(uuid)
 	{
-		m_libType = mvLibType::MV_IMNODES;
 	}
 
 	void mvNodeEditor::handleSpecificKeywordArgs(PyObject* dict)
