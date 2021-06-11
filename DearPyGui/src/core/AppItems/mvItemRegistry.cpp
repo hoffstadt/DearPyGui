@@ -1043,6 +1043,9 @@ namespace Marvel {
 		mvUUID item;
 		int value;
 
+		if (!mvApp::GetApp()->getParsers()["set_primary_window"].verifyRequiredArguments(args))
+			return GetPyNone();
+
 		if (!(mvApp::GetApp()->getParsers())["set_primary_window"].parse(args, kwargs, __FUNCTION__, &item, &value))
 			return GetPyNone();
 

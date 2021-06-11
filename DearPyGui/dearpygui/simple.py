@@ -440,7 +440,7 @@ def show_style_editor(sender: str="", data: Any=None) -> None:
     Returns:
         None
     """
-    internal_dpg.show_tool("mvStyleWindow")
+    internal_dpg.show_tool(internal_dpg.mvTool_Style)
 
 def show_metrics(sender: str="", data: Any=None) -> None:
     """Shows the standard metrics window
@@ -448,7 +448,7 @@ def show_metrics(sender: str="", data: Any=None) -> None:
     Returns:
         None
     """
-    internal_dpg.show_tool("mvMetricsWindow")
+    internal_dpg.show_tool(internal_dpg.mvTool_Metrics)
 
 def show_about(sender: str="", data: Any=None) -> None:
     """Shows the standard about window
@@ -456,7 +456,7 @@ def show_about(sender: str="", data: Any=None) -> None:
     Returns:
         None
     """
-    internal_dpg.show_tool("mvAboutWindow")
+    internal_dpg.show_tool(internal_dpg.mvTool_About)
 
 def show_debug(sender: str="", data: Any=None) -> None:
     """Shows the standard debug window
@@ -464,7 +464,7 @@ def show_debug(sender: str="", data: Any=None) -> None:
     Returns:
         None
     """
-    internal_dpg.show_tool("mvDebugWindow")
+    internal_dpg.show_tool(internal_dpg.mvTool_Debug)
 
 def show_documentation(sender: str="", data: Any=None) -> None:
     """Shows the standard documentation window
@@ -472,7 +472,7 @@ def show_documentation(sender: str="", data: Any=None) -> None:
     Returns:
         None
     """
-    internal_dpg.show_tool("mvDocWindow")
+    internal_dpg.show_tool(internal_dpg.mvTool_Doc)
 
 def show_font_manager(sender: str="", data: Any=None) -> None:
     """Shows the standard documentation window
@@ -480,7 +480,7 @@ def show_font_manager(sender: str="", data: Any=None) -> None:
     Returns:
         None
     """
-    internal_dpg.show_tool("mvFontManager")
+    internal_dpg.show_tool(internal_dpg.mvTool_Font)
 
 def show_item_registry(sender: str="", data: Any=None) -> None:
     """Shows the standard documentation window
@@ -488,4 +488,4 @@ def show_item_registry(sender: str="", data: Any=None) -> None:
     Returns:
         None
     """
-    internal_dpg.show_tool("mvItemRegistry")
+    internal_dpg.show_tool(internal_dpg.mvTool_ItemRegistry)
