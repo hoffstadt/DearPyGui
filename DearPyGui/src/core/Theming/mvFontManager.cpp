@@ -166,6 +166,13 @@ namespace Marvel {
 
 	}
 
+	void mvFontManager::updateAtlas()
+	{
+		auto item = mvApp::GetApp()->getItemRegistry().getItem(MV_ATLAS_UUID);
+		if (item)
+			static_cast<mvStaticTexture*>(item)->markDirty();
+	}
+
 	void mvFontManager::drawWidgets()
 	{
 

@@ -31,6 +31,7 @@ namespace Marvel {
 	public:
 
 		void    rebuildAtlas();
+		void    updateAtlas();
 		bool    isInvalid() const;
 		float&  getGlobalFontScale() { return m_globalFontScale; }
 		void     setGlobalFontScale(float scale);

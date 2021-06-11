@@ -102,9 +102,6 @@ namespace Marvel {
 		colors[ImGuiCol_NavWindowingDimBg] = mvImGuiCol_NavWindowingDimBg;
 		colors[ImGuiCol_ModalWindowDimBg] = mvImGuiCol_ModalWindowDimBg;
 
-		//ImPlotContext* implotcontext = ImPlot::GetCurrentContext();
-		//implotcontext->Scales.Colors[] = ;
-
 		imnodes::GetStyle().colors[imnodes::ColorStyle_NodeBackground] = mvColor::ConvertToUnsignedInt(mvColor(62, 62, 62, 255));
 		imnodes::GetStyle().colors[imnodes::ColorStyle_NodeBackgroundHovered] = mvColor::ConvertToUnsignedInt(mvColor(75, 75, 75, 255));
 		imnodes::GetStyle().colors[imnodes::ColorStyle_NodeBackgroundSelected] = mvColor::ConvertToUnsignedInt(mvColor(75, 75, 75, 255));

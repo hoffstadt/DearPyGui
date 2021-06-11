@@ -118,7 +118,7 @@ namespace Marvel {
 			}
 		}
 
-		else if (m_libType == mvLibType::MV_IMPLOT)
+		else if (m_libType == mvLibType::MV_IMNODES)
 		{
 			if (m_targetColor >= imnodes::ColorStyle_Count || m_targetColor < 0)
 			{

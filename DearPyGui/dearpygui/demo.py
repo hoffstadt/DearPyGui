@@ -5,7 +5,7 @@ from math import sin, cos
 import random
 import uuid
 
-demo_texture_container = dpg.add_texture_container()
+demo_texture_container = dpg.add_texture_container(label="Demo Texture Container")
 demo_static_texture_1 = dpg.generate_uuid()
 demo_static_texture_2 = dpg.generate_uuid()
 demo_static_texture_3 = dpg.generate_uuid()
@@ -126,9 +126,9 @@ def _create_static_textures():
             texture_data3.append(0)
             texture_data3.append(255/255)
 
-    dpg.add_static_texture(100, 100, texture_data1, parent=demo_texture_container, id=demo_static_texture_1)
-    dpg.add_static_texture(50, 50, texture_data2, parent=demo_texture_container, id=demo_static_texture_2)
-    dpg.add_static_texture(100, 100, texture_data3, parent=demo_texture_container, id=demo_static_texture_3)
+    dpg.add_static_texture(100, 100, texture_data1, parent=demo_texture_container, id=demo_static_texture_1, label="Static Texture 1")
+    dpg.add_static_texture(50, 50, texture_data2, parent=demo_texture_container, id=demo_static_texture_2, label="Static Texture 2")
+    dpg.add_static_texture(100, 100, texture_data3, parent=demo_texture_container, id=demo_static_texture_3, label="Static Texture 3")
 
 def _create_dynamic_textures():
     
