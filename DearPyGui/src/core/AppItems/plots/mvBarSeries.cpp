@@ -10,7 +10,7 @@ namespace Marvel {
 	void mvBarSeries::InsertParser(std::map<std::string, mvPythonParser>* parsers)
 	{
 
-		mvPythonParser parser(mvPyDataType::UUID, "Undocumented function", { "Plotting", "Widgets" });
+		mvPythonParser parser(mvPyDataType::UUID, "Adds a bar series to a plot.", { "Plotting", "Widgets" });
 		mvAppItem::AddCommonArgs(parser, (CommonParserArgs)(
 			MV_PARSER_ARG_ID |
 			MV_PARSER_ARG_PARENT |

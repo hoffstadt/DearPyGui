@@ -9,7 +9,7 @@ namespace Marvel {
 	void mvKeyDownHandler::InsertParser(std::map<std::string, mvPythonParser>* parsers)
 	{
 
-		mvPythonParser parser(mvPyDataType::UUID, "Undocumented function", { "Textures", "Widgets" });
+		mvPythonParser parser(mvPyDataType::UUID, "Adds a handler which runs a given callback when the specified key is down. Parent must be a handler registry.", { "Textures", "Widgets" });
 		mvAppItem::AddCommonArgs(parser, (CommonParserArgs)(
 			MV_PARSER_ARG_ID |
 			MV_PARSER_ARG_CALLBACK |
@@ -18,7 +18,7 @@ namespace Marvel {
 			MV_PARSER_ARG_PARENT)
 		);
 
-		parser.addArg<mvPyDataType::Integer>("key", mvArgType::POSITIONAL_ARG, "-1");
+		parser.addArg<mvPyDataType::Integer>("key", mvArgType::POSITIONAL_ARG, "-1", "Submits callback for all keys");
 
 		parser.finalize();
 
