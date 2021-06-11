@@ -70,7 +70,10 @@ namespace Marvel {
 			m_texture = LoadTextureFromArray(m_width, m_height, m_value->data());
 
 		if (m_texture == nullptr)
+		{
 			m_state.setOk(false);
+			mvThrowPythonError(1000, "Texture (using file) can not be found.");
+		}
 
 
 		m_dirty = false;

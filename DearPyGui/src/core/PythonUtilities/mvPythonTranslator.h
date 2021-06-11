@@ -72,7 +72,7 @@ namespace Marvel {
 	mvVec2      ToVec2  (PyObject* value, const std::string& message = "Type must be a list or tuple of floats.");
 	mvVec4      ToVec4  (PyObject* value, const std::string& message = "Type must be a list or tuple of floats.");
 	std::string ToString(PyObject* value, const std::string& message = "Type must be a string.");
-	mvUUID      ToUUID  (PyObject* value, const std::string& message = "Type must be a string.");
+	mvUUID      ToUUID  (PyObject* value, const std::string& message = "Type must be a UUID.");
 	tm          ToTime  (PyObject* value, const std::string& message = "Type must be a dict");
 
 	std::vector<mvVec2>                              ToVectVec2           (PyObject* value, const std::string& message = "Type must be a list/tuple of list/tuple.");
