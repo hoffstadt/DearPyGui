@@ -239,6 +239,8 @@ namespace Marvel {
 		if ((size_t)PyTuple_Size(args) < m_required_elements.size())
 		{
 			assert(false && "Not enough arguments provided");
+			mvThrowPythonError(1000, "Not enough arguments provided. Expected: " + 
+				std::to_string(m_required_elements.size()) + " Recieved: " + std::to_string((size_t)PyTuple_Size(args)));
 			return false;
 		}
 

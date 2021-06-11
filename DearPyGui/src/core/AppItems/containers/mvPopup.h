@@ -33,6 +33,7 @@ namespace Marvel {
 		void setLabel(const std::string& value) override;
 		void handleSpecificKeywordArgs(PyObject* dict) override;
 		void getSpecificConfiguration(PyObject* dict) override;
+		bool isParentCompatible(mvAppItemType type) override;
 
 	private:
 

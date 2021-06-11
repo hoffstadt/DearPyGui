@@ -37,6 +37,7 @@ namespace Marvel {
 	mvPopup::mvPopup(mvUUID uuid)
 		: mvBoolPtrBase(uuid)
 	{
+		m_label = "Popup###" + std::to_string(m_uuid);
 	}
 
 	void mvPopup::setLabel(const std::string& value)
@@ -112,6 +113,18 @@ namespace Marvel {
 				ImGui::EndPopup();
 			}
 		}
+	}
+
+	bool mvPopup::isParentCompatible(mvAppItemType type)
+	{
+
+		if (type == mvAppItemType::mvWindowAppItem)
+		{
+			mvThrowPythonError(1000, "Popups can not be added to windows.");
+			return false;
+		}
+
+		return true;
 	}
 
 	void mvPopup::handleSpecificKeywordArgs(PyObject* dict)
