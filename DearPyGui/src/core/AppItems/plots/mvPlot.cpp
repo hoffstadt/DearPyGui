@@ -284,9 +284,6 @@ namespace Marvel {
 			item->customAction();
 		}
 
-		//mvImPlotThemeScope scope(this);
-		//mvFontScope fscope(this);
-
 		if (ImPlot::BeginPlot(m_label.c_str(), m_xaxisName.empty() ? nullptr : m_xaxisName.c_str(), m_y1axisName.empty() ? nullptr : m_y1axisName.c_str(),
 			ImVec2((float)m_width, (float)m_height), m_flags,
 			m_xflags, m_yflags, m_y1flags, m_y2flags, m_y2axisName.empty() ? nullptr : m_y2axisName.c_str(), m_y3axisName.empty() ? nullptr : m_y3axisName.c_str()))
@@ -371,6 +368,10 @@ namespace Marvel {
 					ImPlot::EndDragDropTarget();
 				}
 			}
+
+			// update state
+			auto context = ImPlot::GetCurrentContext();
+			m_flags = context->CurrentPlot->Flags;
 
 			ImPlot::EndPlot();
 		}
