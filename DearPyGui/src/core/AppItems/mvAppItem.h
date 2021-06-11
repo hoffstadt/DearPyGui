@@ -112,7 +112,7 @@ namespace Marvel {
     };
 
     enum class mvLibType {
-        MV_IMGUI,
+        MV_IMGUI = 0,
         MV_IMPLOT,
         MV_IMNODES
     };

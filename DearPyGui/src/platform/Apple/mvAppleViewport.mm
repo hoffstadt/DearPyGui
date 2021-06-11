@@ -198,6 +198,7 @@ namespace Marvel {
             {
                 mvToolManager::GetFontManager().rebuildAtlas();
                 ImGui_ImplMetal_DestroyFontsTexture();
+                mvToolManager::GetFontManager().updateAtlas();
                 ImGui_ImplMetal_CreateFontsTexture(device);
             }
 

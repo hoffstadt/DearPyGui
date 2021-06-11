@@ -4,7 +4,6 @@
 #include "mvLog.h"
 #include "mvNodeAttribute.h"
 #include "mvItemRegistry.h"
-//#include "mvImNodesThemeScope.h"
 #include "mvPythonExceptions.h"
 
 namespace Marvel {
@@ -102,7 +101,6 @@ namespace Marvel {
 	void mvNodeLink::draw(ImDrawList* drawlist, float x, float y)
 	{
 		ScopedID id(m_uuid);
-		//mvImNodesThemeScope scope(this);
 		
 		imnodes::Link(m_id, m_id1, m_id2);
 	}

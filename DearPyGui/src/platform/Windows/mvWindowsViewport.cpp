@@ -194,6 +194,7 @@ namespace Marvel {
 		{
 			mvToolManager::GetFontManager().rebuildAtlas();
 			ImGui_ImplDX11_InvalidateDeviceObjects();
+			mvToolManager::GetFontManager().updateAtlas();
 		}
 
 		// Start the Dear ImGui frame

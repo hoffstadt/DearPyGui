@@ -335,8 +335,6 @@ namespace Marvel {
 
         // right side
         ImGui::BeginGroup();
-        ImGui::Checkbox("Show Label", &m_showLabels);
-        ImGui::SameLine();
         ImGui::Checkbox("Node View", &m_nodeView);
 
         if (m_nodeView)

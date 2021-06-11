@@ -149,7 +149,6 @@ namespace Marvel {
 
         // managers
         mvOwnedPtr<mvItemRegistry>     m_itemRegistry;
-        //mvOwnedPtr<mvThemeManager>     m_themeManager;
         mvOwnedPtr<mvCallbackRegistry> m_callbackRegistry;
                                          
         // docking                                   

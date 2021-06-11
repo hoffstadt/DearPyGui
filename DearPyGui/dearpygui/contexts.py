@@ -275,7 +275,7 @@ def node(*args, label: str = None, show: bool = True, draggable: bool = True,
 
 @contextmanager
 def node_attribute(*args, show: bool = True, output: bool = False, label:str=None,
-         static: bool = False, parent: int = 0, before: int = 0, shape: int = 54010, id:int=0
+         static: bool = False, parent: int = 0, before: int = 0, shape: int = 0, id:int=0
          , indent: int=-1):
 
     try:

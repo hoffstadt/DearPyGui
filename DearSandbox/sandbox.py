@@ -9,7 +9,7 @@ with cxt.font_registry():
 
 main_texture_container = dpg.generate_uuid()
 
-dpg.add_texture_container(id=main_texture_container)
+dpg.add_texture_container(id=main_texture_container, label="Main texture container")
 dpg.add_static_texture(100, 100, [], parent=main_texture_container, file=dpg.mvFontAtlas, id=dpg.mvFontAtlas)
 
 demo.show_demo()

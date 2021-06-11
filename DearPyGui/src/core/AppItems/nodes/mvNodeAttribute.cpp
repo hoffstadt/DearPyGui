@@ -31,7 +31,7 @@ namespace Marvel {
 		parser.addArg<mvPyDataType::Bool>("output", mvArgType::KEYWORD_ARG, "False", "Set as output attribute.");
 		parser.addArg<mvPyDataType::Bool>("static", mvArgType::KEYWORD_ARG, "False", "Set as static attribute.");
 
-		parser.addArg<mvPyDataType::Integer>("shape", mvArgType::KEYWORD_ARG, "54010", "Pin shape");
+		parser.addArg<mvPyDataType::Integer>("shape", mvArgType::KEYWORD_ARG, "0", "Pin shape");
 
 		parser.finalize();
 
@@ -61,8 +61,6 @@ namespace Marvel {
 	void mvNodeAttribute::draw(ImDrawList* drawlist, float x, float y)
 	{
 		ScopedID id(m_uuid);
-		//mvImNodesThemeScope scope(this);
-		//mvFontScope fscope(this);
 
 		if (m_static)
 			imnodes::BeginStaticAttribute((int)m_id);
@@ -70,9 +68,6 @@ namespace Marvel {
 			imnodes::BeginOutputAttribute((int)m_id, m_shape);
 		else
 			imnodes::BeginInputAttribute((int)m_id, m_shape);
-
-		//we do this so that the children dont get the theme
-		////scope.cleanup();
 
 		for (auto& item : m_children[1])
 		{
