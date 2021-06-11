@@ -209,7 +209,7 @@ namespace Marvel {
 					mvPyObject pArgs(PyTuple_New(count));
 					PyTuple_SetItem(pArgs, 0, ToPyUUID(sender));
 					PyTuple_SetItem(pArgs, 1, app_data); // steals data, so don't deref
-					PyTuple_SetItem(pArgs, 2, user_data); // steals data, so don't deref
+					PyTuple_SetItem(pArgs, 2, intermediateResult); // steals data, so don't deref
 					
 					for (int i = 3; i < count; i++)
 						PyTuple_SetItem(pArgs, i, GetPyNone());
@@ -226,7 +226,7 @@ namespace Marvel {
 					mvPyObject pArgs(PyTuple_New(3));
 					PyTuple_SetItem(pArgs, 0, ToPyUUID(sender));
 					PyTuple_SetItem(pArgs, 1, app_data); // steals data, so don't deref
-					PyTuple_SetItem(pArgs, 2, user_data); // steals data, so don't deref
+					PyTuple_SetItem(pArgs, 2, intermediateResult); // steals data, so don't deref
 
 					mvPyObject result(PyObject_CallObject(callable, pArgs));
 

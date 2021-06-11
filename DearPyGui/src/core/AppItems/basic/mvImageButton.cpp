@@ -1,6 +1,7 @@
 #include "mvImageButton.h"
 #include "mvApp.h"
 #include "mvItemRegistry.h"
+#include "mvPythonExceptions.h"
 
 namespace Marvel {
 
@@ -98,7 +99,7 @@ namespace Marvel {
 					break;
 				else
 				{
-					m_texture = std::make_shared<mvStaticTexture>(m_value);
+					mvThrowPythonError(1000, "Texture not found.");
 					break;
 				}
 			}

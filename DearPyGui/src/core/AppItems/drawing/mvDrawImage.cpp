@@ -92,7 +92,7 @@ namespace Marvel {
 					break;
 				else
 				{
-					m_texture = std::make_shared<mvStaticTexture>(m_file);
+					mvThrowPythonError(1000, "Texture not found.");
 					break;
 				}
 			}

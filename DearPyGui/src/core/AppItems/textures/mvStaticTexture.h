@@ -33,7 +33,7 @@ namespace Marvel {
 		void getSpecificConfiguration(PyObject* dict) override;
 		void setWidth(int width) override {}
 		void setHeight(int height) override {}
-
+		void setFile(const std::string& file) { m_file = file; m_dirty = true; }
 		void* getRawTexture() { return m_texture; }
 		void markDirty() { m_dirty = true; }
 

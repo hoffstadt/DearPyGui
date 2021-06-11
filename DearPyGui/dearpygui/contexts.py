@@ -368,6 +368,16 @@ def tooltip(*args, show: bool = True, id:int=0, label:str=None):
     finally:
         internal_dpg.pop_container_stack()
 
+@contextmanager
+def texture_container(*args, show: bool = False, id:int=0, label:str=None):
+
+    try:
+        widget = internal_dpg.add_texture_container(*args, show=show, id=id, label=label)
+        internal_dpg.push_container_stack(widget)
+        yield widget
+    finally:
+        internal_dpg.pop_container_stack()
+
 
 @contextmanager
 def popup(*args, mousebutton: int = 1, modal: bool = False, parent: int = 0, pos=[],
