@@ -1822,7 +1822,8 @@ def show_demo():
                           0.7, 1.7, 0.6, 2.6, 2.2, 6.2, 0.0,
                           1.3, 1.2, 0.0, 0.0, 0.0, 3.2, 5.1,
                           0.1, 2.0, 0.0, 1.4, 0.0, 1.9, 6.3)
-
+                dpg.add_colormap_scale(min_scale=0, max_scale=6, height=400)
+                dpg.add_same_line()
                 with cxt.plot(label="Heat Series", no_mouse_pos=True, height=400):
                     dpg.add_plot_axis(dpg.mvXAxis, label="x", lock_min=True, lock_max=True, no_gridlines=True, no_tick_marks=True)
                     dpg.add_plot_axis(dpg.mvYAxis, label="y", no_gridlines=True, no_tick_marks=True, lock_min=True, lock_max=True)

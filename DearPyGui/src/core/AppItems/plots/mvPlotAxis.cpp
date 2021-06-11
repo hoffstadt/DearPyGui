@@ -120,8 +120,6 @@ namespace Marvel {
 
 	void mvPlotAxis::draw(ImDrawList* drawlist, float x, float y)
 	{
-		//mvImPlotThemeScope scope(this);
-		//mvFontScope fscope(this);
 
 		// todo: add check
 		if(m_axis != 0)
@@ -150,6 +148,9 @@ namespace Marvel {
 			m_limits_actual.x = (float)ImPlot::GetPlotLimits(m_location -1).Y.Min;
 			m_limits_actual.y = (float)ImPlot::GetPlotLimits(m_location -1).Y.Max;
 		}
+
+		auto context = ImPlot::GetCurrentContext();
+		//m_flags = context->CurrentPlot->CurrentYAxis.Flags
 
 	}
 

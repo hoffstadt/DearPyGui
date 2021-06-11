@@ -322,7 +322,7 @@ def add_plot_axis(axis : int, *, label: str =None, id: int =..., parent: int =0,
 	"""Adds a plot legend to a plot."""
 	...
 
-def add_plot_legend(*, label: str =None, id: int =..., parent: int =0, payload_type: str ='$$DPG_PAYLOAD', drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True) -> int:
+def add_plot_legend(*, label: str =None, id: int =..., parent: int =0, payload_type: str ='$$DPG_PAYLOAD', drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, location: int =5, horizontal: bool =False, outside: bool =False) -> int:
 	"""Adds a plot legend to a plot."""
 	...
 

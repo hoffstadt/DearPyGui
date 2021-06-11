@@ -23,6 +23,10 @@ namespace Marvel {
 			MV_PARSER_ARG_SHOW)
 		);
 
+		parser.addArg<mvPyDataType::Integer>("location", mvArgType::KEYWORD_ARG, "5", "location, mvPlot_Location_*");
+		parser.addArg<mvPyDataType::Bool>("horizontal", mvArgType::KEYWORD_ARG, "False");
+		parser.addArg<mvPyDataType::Bool>("outside", mvArgType::KEYWORD_ARG, "False");
+
 		parser.finalize();
 
 		parsers->insert({ s_command, parser });
@@ -36,6 +40,7 @@ namespace Marvel {
 
 	void mvPlotLegend::draw(ImDrawList* drawlist, float x, float y)
 	{
+		ImPlot::SetLegendLocation(m_legendLocation, m_horizontal ? ImPlotOrientation_Horizontal : ImPlotOrientation_Vertical, m_outside);
 	}
 
 	bool mvPlotLegend::isParentCompatible(mvAppItemType type)
@@ -63,6 +68,16 @@ namespace Marvel {
 		m_show = true;
 	}
 
+	void mvPlotLegend::handleSpecificKeywordArgs(PyObject* dict)
+	{
+		if (dict == nullptr)
+			return;
+
+		if (PyObject* item = PyDict_GetItemString(dict, "location")) m_location = ToInt(item);
+		if (PyObject* item = PyDict_GetItemString(dict, "horizontal")) m_horizontal = ToBool(item);
+		if (PyObject* item = PyDict_GetItemString(dict, "outside")) m_outside = ToBool(item);
+	}
+
 	void mvPlotLegend::postDraw()
 	{
 
@@ -80,7 +95,6 @@ namespace Marvel {
 
 		if (m_dropCallback)
 		{
-			//ScopedID id(m_uuid);
 			if (ImPlot::BeginDragDropTargetLegend())
 			{
 				if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload(m_payloadType.c_str()))
