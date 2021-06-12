@@ -33,7 +33,7 @@ namespace Marvel {
 			mvPythonParser parser(mvPyDataType::String);
 			parser.addArg<mvPyDataType::Callable>("callback");
 			parser.finalize();
-			parsers->insert({ "set_resize_callback", parser });
+			parsers->insert({ "set_viewport_resize_callback", parser });
 		}
 
 	}
@@ -309,11 +309,11 @@ namespace Marvel {
 		return GetPyNone();
 	}
 
-	PyObject* mvCallbackRegistry::set_resize_callback(PyObject* self, PyObject* args, PyObject* kwargs)
+	PyObject* mvCallbackRegistry::set_viewport_resize_callback(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		PyObject* callback = nullptr;
 
-		if (!(mvApp::GetApp()->getParsers())["set_resize_callback"].parse(args, kwargs, __FUNCTION__,
+		if (!(mvApp::GetApp()->getParsers())["set_viewport_resize_callback"].parse(args, kwargs, __FUNCTION__,
 			&callback))
 			return GetPyNone();
 

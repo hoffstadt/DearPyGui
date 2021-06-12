@@ -366,6 +366,11 @@ namespace Marvel {
 					cheight = crect.bottom - crect.top;
 				}
 
+				m_actualWidth = awidth;
+				m_actualHeight = aheight;
+				m_clientWidth = cwidth;
+				m_clientHeight = cheight;
+
 				onResizeEvent();
 
 				// I believe this are only used for the error logger

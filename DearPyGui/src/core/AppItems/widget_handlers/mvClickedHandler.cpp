@@ -16,7 +16,7 @@ namespace Marvel {
 			MV_PARSER_ARG_CALLBACK)
 		);
 
-		parser.addArg<mvPyDataType::String>("parent");
+		parser.addArg<mvPyDataType::UUID>("parent");
 		parser.addArg<mvPyDataType::Integer>("button");
 
 		parser.finalize();

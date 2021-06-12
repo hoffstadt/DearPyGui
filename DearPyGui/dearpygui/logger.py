@@ -1,7 +1,6 @@
 import dearpygui.core as dpg
 import dearpygui.contexts as cxt
 
-
 class mvLogger:
 
     def __init__(self):
@@ -10,6 +9,8 @@ class mvLogger:
         self._auto_scroll = True
         self.filter_id = None
         self.window_id = dpg.add_window(label="mvLogger")
+        self.count = 0
+        self.flush_count = 1000
 
         with cxt.group(horizontal=True, parent=self.window_id):
             dpg.add_checkbox(label="Auto-scroll", default_value=True, callback=lambda sender:self.auto_scroll(dpg.get_value(sender)))
@@ -45,6 +46,11 @@ class mvLogger:
 
         if level < self.log_level:
             return
+
+        self.count+=1
+
+        if self.count > self.flush_count:
+            self.clear_log()
 
         theme = self.info_theme
 
@@ -91,4 +97,5 @@ class mvLogger:
         self._log(message, 5)
 
     def clear_log(self):
-        pass
+        dpg.delete_item(self.filter_id, children_only=True)
+        self.count = 0

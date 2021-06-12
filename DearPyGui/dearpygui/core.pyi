@@ -14,11 +14,11 @@ def add_3d_slider(*, label: str =None, id: int =..., width: int =0, height: int 
 	"""Undocumented function"""
 	...
 
-def add_activated_handler(parent : str, *, label: str =None, id: int =..., callback: Callable =None, user_data: Any =None) -> int:
+def add_activated_handler(parent : int, *, label: str =None, id: int =..., callback: Callable =None, user_data: Any =None) -> int:
 	"""Adds a handler which runs a given callback when the specified item is activated."""
 	...
 
-def add_active_handler(parent : str, *, label: str =None, id: int =..., callback: Callable =None, user_data: Any =None) -> int:
+def add_active_handler(parent : int, *, label: str =None, id: int =..., callback: Callable =None, user_data: Any =None) -> int:
 	"""Adds a handler which runs a given callback when the specified item is active."""
 	...
 
@@ -46,7 +46,7 @@ def add_child(*, label: str =None, id: int =..., width: int =0, height: int =0, 
 	"""Adds an embedded child window. Will show scrollbars when items do not fit. Must be followed by a call to end."""
 	...
 
-def add_clicked_handler(parent : str, button : int, *, label: str =None, id: int =..., callback: Callable =None, user_data: Any =None) -> int:
+def add_clicked_handler(parent : int, button : int, *, label: str =None, id: int =..., callback: Callable =None, user_data: Any =None) -> int:
 	"""Adds a handler which runs a given callback when the specified item is clicked."""
 	...
 
@@ -82,11 +82,11 @@ def add_date_picker(*, label: str =None, id: int =..., indent: int =-1, parent: 
 	"""Undocumented function"""
 	...
 
-def add_deactivated_after_edit_handler(parent : str, *, label: str =None, id: int =..., callback: Callable =None, user_data: Any =None) -> int:
+def add_deactivated_after_edit_handler(parent : int, *, label: str =None, id: int =..., callback: Callable =None, user_data: Any =None) -> int:
 	"""Adds a handler which runs a given callback when the specified item is deactivated after edit."""
 	...
 
-def add_deactivated_handler(parent : str, *, label: str =None, id: int =..., callback: Callable =None, user_data: Any =None) -> int:
+def add_deactivated_handler(parent : int, *, label: str =None, id: int =..., callback: Callable =None, user_data: Any =None) -> int:
 	"""Adds a handler which runs a given callback when the specified item is deactivated."""
 	...
 
@@ -134,7 +134,7 @@ def add_dynamic_texture(width : int, height : int, default_value : List[float], 
 	"""Undocumented function"""
 	...
 
-def add_edited_handler(parent : str, *, label: str =None, id: int =..., callback: Callable =None, user_data: Any =None) -> int:
+def add_edited_handler(parent : int, *, label: str =None, id: int =..., callback: Callable =None, user_data: Any =None) -> int:
 	"""Adds a handler which runs a given callback when the specified item is edited."""
 	...
 
@@ -154,7 +154,7 @@ def add_filter_set(*, label: str =None, id: int =..., width: int =0, indent: int
 	"""Helper to parse and apply text filters (e.g. aaaaa[, bbbbb][, ccccc])"""
 	...
 
-def add_focus_handler(parent : str, *, label: str =None, id: int =..., callback: Callable =None, user_data: Any =None) -> int:
+def add_focus_handler(parent : int, *, label: str =None, id: int =..., callback: Callable =None, user_data: Any =None) -> int:
 	"""Adds a handler which runs a given callback when the specified item is focused."""
 	...
 
@@ -186,19 +186,19 @@ def add_hline_series(x : List[float], *, label: str =None, id: int =..., parent:
 	"""Adds a infinite horizontal line series to a plot."""
 	...
 
-def add_hover_handler(parent : str, *, label: str =None, id: int =..., callback: Callable =None, user_data: Any =None) -> int:
+def add_hover_handler(parent : int, *, label: str =None, id: int =..., callback: Callable =None, user_data: Any =None) -> int:
 	"""Adds a handler which runs a given callback when the specified item is hovered."""
 	...
 
-def add_image(default_value : str, *, label: str =None, id: int =..., width: int =0, height: int =0, indent: int =-1, parent: int =0, before: int =0, source: int =0, payload_type: str ='$$DPG_PAYLOAD', drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, pos: List[int] =[], filter_key: str ='', tracked: bool =False, track_offset: float =0.5, tint_color: List[float] =(255, 255, 255, 255), border_color: List[float] =(0, 0, 0, 0), uv_min: List[float] =(0.0, 0.0), uv_max: List[float] =(1.0, 1.0)) -> int:
+def add_image(texture_id : int, *, label: str =None, id: int =..., width: int =0, height: int =0, indent: int =-1, parent: int =0, before: int =0, source: int =0, payload_type: str ='$$DPG_PAYLOAD', drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, pos: List[int] =[], filter_key: str ='', tracked: bool =False, track_offset: float =0.5, tint_color: List[float] =(255, 255, 255, 255), border_color: List[float] =(0, 0, 0, 0), uv_min: List[float] =(0.0, 0.0), uv_max: List[float] =(1.0, 1.0)) -> int:
 	"""Adds an image. uv_min and uv_max represent the normalized texture coordinates of the original image that will be shown. Using range (0.0,0.0)->(1.0,1.0) for texture coordinates will generally display the entire texture."""
 	...
 
-def add_image_button(default_value : int, *, label: str =None, id: int =..., width: int =0, height: int =0, indent: int =-1, parent: int =0, before: int =0, source: int =0, payload_type: str ='$$DPG_PAYLOAD', callback: Callable =None, drag_callback: Callable =None, drop_callback: Callable =None, user_data: Any =None, show: bool =True, enabled: bool =True, pos: List[int] =[], filter_key: str ='', tracked: bool =False, track_offset: float =0.5, frame_padding: int =-1, tint_color: List[float] =(255, 255, 255, 255), background_color: List[float] =(0, 0, 0, 0), uv_min: List[float] =(0.0, 0.0), uv_max: List[float] =(1.0, 1.0)) -> int:
+def add_image_button(texture_id : int, *, label: str =None, id: int =..., width: int =0, height: int =0, indent: int =-1, parent: int =0, before: int =0, source: int =0, payload_type: str ='$$DPG_PAYLOAD', callback: Callable =None, drag_callback: Callable =None, drop_callback: Callable =None, user_data: Any =None, show: bool =True, enabled: bool =True, pos: List[int] =[], filter_key: str ='', tracked: bool =False, track_offset: float =0.5, frame_padding: int =-1, tint_color: List[float] =(255, 255, 255, 255), background_color: List[float] =(0, 0, 0, 0), uv_min: List[float] =(0.0, 0.0), uv_max: List[float] =(1.0, 1.0)) -> int:
 	"""Adds an image button. uv_min and uv_max represent the normalized texture coordinates of the original image that will be shown. Using range (0.0,0.0)->(1.0,1.0) texture coordinates will generally display the entire texture"""
 	...
 
-def add_image_series(value : int, bounds_min : List[float], bounds_max : List[float], *, label: str =None, id: int =..., parent: int =0, before: int =0, source: int =0, show: bool =True, uv_min: List[float] =(0.0, 0.0), uv_max: List[float] =(1.0, 1.0), tint_color: List[int] =(255, 255, 255, 255), contribute_to_bounds: bool =True) -> int:
+def add_image_series(texture_id : int, bounds_min : List[float], bounds_max : List[float], *, label: str =None, id: int =..., parent: int =0, before: int =0, source: int =0, show: bool =True, uv_min: List[float] =(0.0, 0.0), uv_max: List[float] =(1.0, 1.0), tint_color: List[int] =(255, 255, 255, 255), contribute_to_bounds: bool =True) -> int:
 	"""Adds a image series to a plot."""
 	...
 
@@ -338,7 +338,7 @@ def add_radio_button(items : int =(), *, label: str =None, id: int =..., indent:
 	"""Adds a set of radio buttons. If items is empty, nothing will be shown."""
 	...
 
-def add_resize_handler(parent : str, *, label: str =None, id: int =..., callback: Callable =None, user_data: Any =None) -> int:
+def add_resize_handler(parent : int, *, label: str =None, id: int =..., callback: Callable =None, user_data: Any =None) -> int:
 	"""Adds a handler which runs a given callback when the specified item is resized."""
 	...
 
@@ -458,7 +458,7 @@ def add_time_picker(*, label: str =None, id: int =..., indent: int =-1, parent: 
 	"""Undocumented function"""
 	...
 
-def add_toggled_open_handler(parent : str, *, label: str =None, id: int =..., callback: Callable =None, user_data: Any =None) -> int:
+def add_toggled_open_handler(parent : int, *, label: str =None, id: int =..., callback: Callable =None, user_data: Any =None) -> int:
 	"""Adds a handler which runs a given callback when the specified item is toggled open."""
 	...
 
@@ -474,7 +474,7 @@ def add_viewport_drawlist(*, label: str =None, id: int =..., show: bool =True, f
 	"""Draws a quad on a drawing."""
 	...
 
-def add_visible_handler(parent : str, *, label: str =None, id: int =..., callback: Callable =None, user_data: Any =None) -> int:
+def add_visible_handler(parent : int, *, label: str =None, id: int =..., callback: Callable =None, user_data: Any =None) -> int:
 	"""Adds a handler which runs a given callback when the specified item is visible."""
 	...
 
@@ -542,7 +542,7 @@ def draw_ellipse(pmin : List[float], pmax : List[float], *, label: str =None, id
 	"""Draws an ellipse on a drawing."""
 	...
 
-def draw_image(file : str, pmin : List[float], pmax : List[float], *, label: str =None, id: int =..., parent: int =0, before: int =0, show: bool =True, uv_min: List[float] =(0.0, 0.0), uv_max: List[float] =(1.0, 1.0), color: List[int] =(255, 255, 255, 255)) -> int:
+def draw_image(texture_id : int, pmin : List[float], pmax : List[float], *, label: str =None, id: int =..., parent: int =0, before: int =0, show: bool =True, uv_min: List[float] =(0.0, 0.0), uv_max: List[float] =(1.0, 1.0), color: List[int] =(255, 255, 255, 255)) -> int:
 	"""Draws an image on a drawing. p_min (top-left) and p_max (bottom-right) represent corners of the rectangle the image will be drawn to.Setting the p_min equal to the p_max will sraw the image to with 1:1 scale.uv_min and uv_max represent the normalized texture coordinates of the original image that will be shown. Using (0.0,0.0)->(1.0,1.0) texturecoordinates will generally display the entire texture."""
 	...
 
@@ -830,10 +830,6 @@ def set_primary_window(window : int, value : bool) -> None:
 	"""Undocumented function"""
 	...
 
-def set_resize_callback(callback : Callable) -> str:
-	"""Undocumented function"""
-	...
-
 def set_staging_mode(mode : bool) -> None:
 	"""Undocumented function"""
 	...
@@ -843,6 +839,10 @@ def set_start_callback(callback : Callable) -> str:
 	...
 
 def set_value(item : int, value : Any) -> None:
+	"""Undocumented function"""
+	...
+
+def set_viewport_resize_callback(callback : Callable) -> str:
 	"""Undocumented function"""
 	...
 

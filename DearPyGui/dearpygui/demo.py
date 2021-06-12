@@ -2204,7 +2204,7 @@ def show_demo():
 
                 dpg.configure_item(layer, items=list(layers.keys()))
 
-        with cxt.collapsing_header(label="Inputs & Widget Events"):
+        with cxt.collapsing_header(label="Inputs & Events"):
 
             def _set_activator(sender, app_data, user_data):
                 keyword = dpg.get_item_configuration(sender)["label"]
@@ -2252,8 +2252,21 @@ def show_demo():
                 mh_drag = dpg.add_text("mouse id:  delta:", label="Mouse Drag Handler", show_label=True)
 
             with cxt.tree_node(label="Widget"):
-                dpg.add_text("Event Handlers can also be used for widget states like, active, activated, deactivated, clicked, edited,focused, hocerd, toggled open and visible", wrap=0)
+                dpg.add_text("Interact with following widgets and check logger!")
+                dpg.add_text("Note: Only the click, hover are added. Others are commented out. Check the code!")
+                cb = dpg.add_checkbox(label="Check me!")
 
+                # all of the handlers for widgets except resize which is for windows only
+                dpg.add_clicked_handler(cb, 0, callback=lambda s, a, u: logger.log(f"clicked_handler: {s} '\t' {a} '\t' {u}"))
+                dpg.add_hover_handler(cb, callback=lambda s, a, u: logger.log(f"hover_handler: {s} '\t' {a} '\t' {u}"))
+                #dpg.add_activated_handler(widget_id, callback=lambda s, a, u: logger.log(f"activated_handler: {s} '\t' {a} '\t' {u}"))
+                #dpg.add_active_handler(widget_id, callback=lambda s, a, u: logger.log(f"active_handler: {s} '\t' {a} '\t' {u}"))
+                #dpg.add_deactivated_after_edit_handler(widget_id, callback=lambda s, a, u: logger.log(f"deactivated_after_edit_handler: {s} '\t' {a} '\t' {u}"))
+                #dpg.add_deactivated_handler(widget_id, callback=lambda s, a, u: logger.log(f"deactivated_handler: {s} '\t' {a} '\t' {u}"))
+                #dpg.add_edited_handler(widget_id, callback=lambda s, a, u: logger.log(f"edited_handler: {s} '\t' {a} '\t' {u}"))
+                #dpg.add_focus_handler(widget_id, callback=lambda s, a, u: logger.log(f"focus_handler: {s} '\t' {a} '\t' {u}"))
+                #dpg.add_toggled_open_handler(widget_id, callback=lambda s, a, u: logger.log(f"toggled_open_handler: {s} '\t' {a} '\t' {u}"))
+                #dpg.add_visible_handler(widget_id, callback=lambda s, a, u: logger.log(f"visible_handler: {s} '\t' {a} '\t' {u}"))
 
             def event_handler(sender, data):
                 type=dpg.get_item_info(sender)["type"]

@@ -79,9 +79,15 @@ namespace Marvel {
 
 	void mvViewport::onResizeEvent()
 	{
-		mvApp::GetApp()->getCallbackRegistry().addCallback(
-			mvApp::GetApp()->getCallbackRegistry().getResizeCallback(),
-			0, nullptr, nullptr);
+		mvApp::GetApp()->getCallbackRegistry().submitCallback([=]() {
+			PyObject* dimensions = PyTuple_New(4);
+			PyTuple_SetItem(dimensions, 0, PyLong_FromLong(m_actualWidth));
+			PyTuple_SetItem(dimensions, 1, PyLong_FromLong(m_actualHeight));
+			PyTuple_SetItem(dimensions, 2, PyLong_FromLong(m_clientWidth));
+			PyTuple_SetItem(dimensions, 3, PyLong_FromLong(m_clientHeight));
+			mvApp::GetApp()->getCallbackRegistry().addCallback(
+				mvApp::GetApp()->getCallbackRegistry().getResizeCallback(), MV_APP_UUID, dimensions, nullptr);
+			});
 	}
 
 	void mvViewport::setConfigDict(PyObject* dict)

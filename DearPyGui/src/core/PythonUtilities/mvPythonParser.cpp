@@ -235,6 +235,7 @@ namespace Marvel {
 
 	bool mvPythonParser::verifyRequiredArguments(PyObject* args)
 	{
+
 		// ensure enough args were provided
 		if ((size_t)PyTuple_Size(args) < m_required_elements.size())
 		{
@@ -255,7 +256,7 @@ namespace Marvel {
 	bool mvPythonParser::verifyKeywordArguments(PyObject* args)
 	{
 		if (args == nullptr)
-			return true;
+			return false;
 
 		if (!PyArg_ValidateKeywordArguments(args))
 			return false;
