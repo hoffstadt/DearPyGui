@@ -26,7 +26,7 @@ namespace Marvel {
 			MV_PARSER_ARG_POS)
 		);
 
-		parser.addArg<mvPyDataType::String>("default_value");
+		parser.addArg<mvPyDataType::UUID>("texture_id");
 		
 		parser.addArg<mvPyDataType::FloatList>("tint_color", mvArgType::KEYWORD_ARG, "(255, 255, 255, 255)");
 		parser.addArg<mvPyDataType::FloatList>("border_color", mvArgType::KEYWORD_ARG, "(0, 0, 0, 0)");
@@ -51,6 +51,9 @@ namespace Marvel {
 
 		if (m_texture)
 		{
+			if (m_internalTexture)
+				m_texture->draw(drawlist, x, y);
+
 			if (!m_texture->getState().isOk())
 				return;
 
@@ -68,7 +71,6 @@ namespace Marvel {
 			else
 				texture = static_cast<mvDynamicTexture*>(m_texture.get())->getRawTexture();
 
-			//ImGui::Image(texture, ImVec2((float)m_texture->getWidth(), (float)m_texture->getHeight()), ImVec2(m_uv_min.x, m_uv_min.y), ImVec2(m_uv_max.x, m_uv_max.y),
 			ImGui::Image(texture, ImVec2(m_width, m_height), ImVec2(m_uv_min.x, m_uv_min.y), ImVec2(m_uv_max.x, m_uv_max.y),
 				ImVec4((float)m_tintColor.r, (float)m_tintColor.g, (float)m_tintColor.b, (float)m_tintColor.a),
 				ImVec4((float)m_borderColor.r, (float)m_borderColor.g, (float)m_borderColor.b, (float)m_borderColor.a));
@@ -79,12 +81,12 @@ namespace Marvel {
 
 	void mvImage::setValue(mvUUID value)
 	{ 
-		m_value = value; 
+		m_textureUUID = value;
 	}
 
 	mvUUID mvImage::getValue() const
 	{ 
-		return m_value; 
+		return m_textureUUID;
 	}
 
 	void mvImage::handleSpecificRequiredArgs(PyObject* dict)
@@ -99,10 +101,16 @@ namespace Marvel {
 			{
 			case 0:
 			{
-				m_value = ToUUID(item);
-				m_texture = mvApp::GetApp()->getItemRegistry().getRefItem(m_value);
-				if(m_texture)
+				m_textureUUID = ToUUID(item);
+				m_texture = mvApp::GetApp()->getItemRegistry().getRefItem(m_textureUUID);
+				if (m_texture)
 					break;
+				else if (m_textureUUID == MV_ATLAS_UUID)
+				{
+					m_texture = std::make_shared<mvStaticTexture>(m_textureUUID);
+					m_internalTexture = true;
+					break;
+				}
 				else
 				{
 					mvThrowPythonError(1000, "Texture not found.");
@@ -136,7 +144,7 @@ namespace Marvel {
 		PyDict_SetItemString(dict, "uv_max", ToPyPair(m_uv_max.x, m_uv_max.y));
 		PyDict_SetItemString(dict, "tint_color", ToPyColor(m_tintColor));
 		PyDict_SetItemString(dict, "border_color", ToPyColor(m_borderColor));
-		PyDict_SetItemString(dict, "value", ToPyUUID(m_value));
+		PyDict_SetItemString(dict, "texture_id", ToPyUUID(m_textureUUID));
 	}
 
 }

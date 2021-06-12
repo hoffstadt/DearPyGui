@@ -29,7 +29,7 @@ namespace Marvel {
 			MV_PARSER_ARG_POS)
 		);
 
-		parser.addArg<mvPyDataType::UUID>("default_value");
+		parser.addArg<mvPyDataType::UUID>("texture_id");
 
 		parser.addArg<mvPyDataType::Integer>("frame_padding", mvArgType::KEYWORD_ARG, "-1");
 		
@@ -53,6 +53,9 @@ namespace Marvel {
 
 		if (m_texture)
 		{
+
+			if (m_internalTexture)
+				m_texture->draw(drawlist, x, y);
 
 			if (!m_texture->getState().isOk())
 				return;
@@ -93,10 +96,16 @@ namespace Marvel {
 			{
 			case 0:
 			{
-				m_value = ToUUID(item);
-				m_texture = mvApp::GetApp()->getItemRegistry().getRefItem(m_value);
+				m_textureUUID = ToUUID(item);
+				m_texture = mvApp::GetApp()->getItemRegistry().getRefItem(m_textureUUID);
 				if (m_texture)
 					break;
+				else if (m_textureUUID == MV_ATLAS_UUID)
+				{
+					m_texture = std::make_shared<mvStaticTexture>(m_textureUUID);
+					m_internalTexture = true;
+					break;
+				}
 				else
 				{
 					mvThrowPythonError(1000, "Texture not found.");
@@ -122,7 +131,6 @@ namespace Marvel {
 		if (PyObject* item = PyDict_GetItemString(dict, "tint_color")) m_tintColor = ToColor(item);
 		if (PyObject* item = PyDict_GetItemString(dict, "background_color")) m_backgroundColor = ToColor(item);
 		if (PyObject* item = PyDict_GetItemString(dict, "frame_padding")) m_framePadding = ToInt(item);
-		if (PyObject* item = PyDict_GetItemString(dict, "value")) m_value = ToUUID(item);
 	}
 
 	void mvImageButton::getSpecificConfiguration(PyObject* dict)
@@ -135,7 +143,7 @@ namespace Marvel {
 		PyDict_SetItemString(dict, "tint_color", ToPyColor(m_tintColor));
 		PyDict_SetItemString(dict, "background_color", ToPyColor(m_backgroundColor));
 		PyDict_SetItemString(dict, "frame_padding", ToPyInt(m_framePadding));
-		PyDict_SetItemString(dict, "value", ToPyUUID(m_value));
+		PyDict_SetItemString(dict, "texture_id", ToPyUUID(m_textureUUID));
 	}
 
 }

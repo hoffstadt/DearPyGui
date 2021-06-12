@@ -408,32 +408,6 @@ def get_item_pos(item: str) -> Union[List[int]]:
     return internal_dpg.get_item_state(item)["pos"]
 
 
-def set_drawing_size(drawing: str, width: int, height: int):
-    """Sets the drawing's size, width and height.
-
-    Args:
-        drawing: Drawing that will be set.
-        width: x axis width to set
-        height: y axis height to set
-
-    Returns:
-        None
-    """
-    internal_dpg.configure_item(drawing, width=width, height=height)
-
-
-def get_drawing_size(drawing: str) -> Union[List[int], None]:
-    """Gets the drawing's scale.
-
-    Args:
-        drawing: Drawing that will be set.
-
-    Returns:
-        list as [width, height] or None
-    """
-    config = internal_dpg.get_item_configuration(drawing)
-    return [config["width"], config["height"]]
-
 def show_style_editor(sender: str="", data: Any=None) -> None:
     """Shows the standard style editor window
 
