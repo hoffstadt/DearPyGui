@@ -19,7 +19,7 @@ namespace Marvel {
 			MV_PARSER_ARG_SHOW)
 		);
 
-		parser.addArg<mvPyDataType::UUID>("value");
+		parser.addArg<mvPyDataType::UUID>("texture_id");
 
 		parser.addArg<mvPyDataType::DoubleList>("bounds_min");
 		parser.addArg<mvPyDataType::DoubleList>("bounds_max");
@@ -44,10 +44,12 @@ namespace Marvel {
 	void mvImageSeries::draw(ImDrawList* drawlist, float x, float y)
 	{
 		ScopedID id(m_uuid);
-		//mvImPlotThemeScope scope(this);
 
 		if (m_texture)
 		{
+			if (m_internalTexture)
+				m_texture->draw(drawlist, x, y);
+
 			if (!m_texture->getState().isOk())
 				return;
 
@@ -91,10 +93,16 @@ namespace Marvel {
 			{
 			case 0:
 			{
-				m_imagevalue = ToUUID(item);
-				m_texture = mvApp::GetApp()->getItemRegistry().getRefItem(m_imagevalue);
+				m_textureUUID = ToUUID(item);
+				m_texture = mvApp::GetApp()->getItemRegistry().getRefItem(m_textureUUID);
 				if (m_texture)
 					break;
+				else if (m_textureUUID == MV_ATLAS_UUID)
+				{
+					m_texture = std::make_shared<mvStaticTexture>(m_textureUUID);
+					m_internalTexture = true;
+					break;
+				}
 				else
 				{
 					mvThrowPythonError(1000, "Texture not found.");
@@ -132,7 +140,6 @@ namespace Marvel {
 		if (dict == nullptr)
 			return;
 
-		if (PyObject* item = PyDict_GetItemString(dict, "value")) m_imagevalue = ToUUID(item);
 		if (PyObject* item = PyDict_GetItemString(dict, "uv_min")) m_uv_min = ToVec2(item);
 		if (PyObject* item = PyDict_GetItemString(dict, "uv_max")) m_uv_max = ToVec2(item);
 		if (PyObject* item = PyDict_GetItemString(dict, "tint_color")) m_tintColor = ToColor(item);
@@ -157,7 +164,7 @@ namespace Marvel {
 		if (dict == nullptr)
 			return;
 
-		PyDict_SetItemString(dict, "value", ToPyUUID(m_imagevalue));
+		PyDict_SetItemString(dict, "texture_id", ToPyUUID(m_textureUUID));
 		PyDict_SetItemString(dict, "uv_min", ToPyPair(m_uv_min.x, m_uv_min.y));
 		PyDict_SetItemString(dict, "uv_max", ToPyPair(m_uv_max.x, m_uv_max.y));
 		PyDict_SetItemString(dict, "tint_color", ToPyColor(m_tintColor));
