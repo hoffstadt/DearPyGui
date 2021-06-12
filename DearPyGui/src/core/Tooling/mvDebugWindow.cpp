@@ -45,7 +45,7 @@ namespace Marvel {
 
 		static char ts[6] = "True";
 		static char fs[6] = "False";
-		static std::string commandstring = "set_theme(\"Light\")";
+		static std::string commandstring = "";
 
 		ImGuiIO& io = ImGui::GetIO();
 

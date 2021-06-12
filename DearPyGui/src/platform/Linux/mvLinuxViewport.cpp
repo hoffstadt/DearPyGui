@@ -32,12 +32,12 @@ namespace Marvel {
 
     static void window_size_callback(GLFWwindow* window, int width, int height)
     {
-        mvEventBus::Publish(mvEVT_CATEGORY_VIEWPORT, mvEVT_VIEWPORT_RESIZE, {
-            CreateEventArgument("actual_width", width),
-            CreateEventArgument("actual_height", height),
-            CreateEventArgument("client_width", width),
-            CreateEventArgument("client_height", height)
-                    });
+        m_actualWidth = width;
+        m_actualHeight = height;
+        m_clientWidth = width;
+        m_clientHeight = height;
+
+        onResizeEvent();
     }
 
     mvLinuxViewport::mvLinuxViewport(unsigned width, unsigned height)

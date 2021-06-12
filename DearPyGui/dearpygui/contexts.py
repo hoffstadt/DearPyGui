@@ -250,7 +250,7 @@ def collapsing_header(*args, label: str = None, show: bool = True,
 
 @contextmanager
 def group(*args, show: bool = True, parent: int = 0, before: int = 0, width: int = 0, pos=[], label:str=None,
-          horizontal: bool = False, horizontal_spacing: float = -1.0, id:int=0, indent=-1, delay_search: bool = False):
+          horizontal: bool = False, horizontal_spacing: float = -1.0, id:int=0, indent:int=-1, delay_search: bool = False):
 
     try:
         widget = internal_dpg.add_group(*args, show=show, parent=parent, before=before, width=width,
