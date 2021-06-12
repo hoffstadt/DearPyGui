@@ -63,6 +63,10 @@ namespace Marvel {
 		bool running() const { return m_running; }
 
 		// for use by primary window
+		void setActualWidth(int width) { m_actualWidth = width; }
+		void setActualHeight(int height) { m_actualHeight = height; }
+		void setClientWidth(int width) { m_clientWidth = width; }
+		void setClientHeight(int height) { m_clientHeight = height; }
 		int getClientWidth() const { return (int)m_clientWidth; }
 		int getClientHeight() const { return (int)m_clientHeight; }
 		void onResizeEvent();
