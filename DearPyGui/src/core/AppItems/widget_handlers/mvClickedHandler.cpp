@@ -17,7 +17,9 @@ namespace Marvel {
 		);
 
 		parser.addArg<mvPyDataType::UUID>("parent");
-		parser.addArg<mvPyDataType::Integer>("button");
+
+		parser.addArg<mvPyDataType::Integer>("button", mvArgType::POSITIONAL_ARG, "-1", "Submits callback for all mouse buttons");
+
 
 		parser.finalize();
 
@@ -88,5 +90,21 @@ namespace Marvel {
 				break;
 			}
 		}
+	}
+
+	void mvClickedHandler::handleSpecificKeywordArgs(PyObject* dict)
+	{
+		if (dict == nullptr)
+			return;
+
+		if (PyObject* item = PyDict_GetItemString(dict, "button")) m_button = ToInt(item);
+	}
+
+	void mvClickedHandler::getSpecificConfiguration(PyObject* dict)
+	{
+		if (dict == nullptr)
+			return;
+
+		PyDict_SetItemString(dict, "button", ToPyInt(m_button));
 	}
 }
