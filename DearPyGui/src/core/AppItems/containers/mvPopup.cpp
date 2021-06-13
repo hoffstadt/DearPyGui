@@ -19,7 +19,7 @@ namespace Marvel {
 			);
 
 			parser.addArg<mvPyDataType::Integer>("mousebutton", mvArgType::KEYWORD_ARG, "1", "The mouse code that will trigger the popup.");
-			parser.addArg<mvPyDataType::Bool>("modal", mvArgType::KEYWORD_ARG, "False");
+			parser.addArg<mvPyDataType::Bool>("modal", mvArgType::KEYWORD_ARG, "False", "Fills area behind window according to the theme and disables user ability to interact with anything except the window.");
 
 			parser.finalize();
 

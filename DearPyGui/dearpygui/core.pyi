@@ -46,7 +46,7 @@ def add_child(*, label: str =None, id: int =..., width: int =0, height: int =0, 
 	"""Adds an embedded child window. Will show scrollbars when items do not fit. Must be followed by a call to end."""
 	...
 
-def add_clicked_handler(parent : int, button : int, *, label: str =None, id: int =..., callback: Callable =None, user_data: Any =None) -> int:
+def add_clicked_handler(parent : int, button : int =-1, *, label: str =None, id: int =..., callback: Callable =None, user_data: Any =None) -> int:
 	"""Adds a handler which runs a given callback when the specified item is clicked."""
 	...
 
