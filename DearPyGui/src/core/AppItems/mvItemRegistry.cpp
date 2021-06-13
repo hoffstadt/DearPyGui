@@ -904,7 +904,7 @@ namespace Marvel {
 		// reset other windows
 		for (auto& window : m_roots)
 		{
-			if (window->m_uuid != uuid)
+			if (window->m_uuid != uuid && window->getType() == mvAppItemType::mvWindowAppItem)
 				static_cast<mvWindowAppItem*>(window.get())->setWindowAsMainStatus(false);
 		}
 
