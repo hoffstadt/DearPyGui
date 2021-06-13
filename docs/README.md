@@ -6,7 +6,6 @@
 
 </a>
 
-
 <sub>(This library is available under a free and permissive license however, if you Enjoy _Dear PyGui_ please consider becoming a [Sponsor](https://github.com/hoffstadt/DearPyGui/wiki/Sponsors))</sub>
 
 ![Python Version](https://img.shields.io/pypi/pyversions/dearpygui)
