@@ -28,6 +28,8 @@ namespace Marvel {
 		void draw(ImDrawList* drawlist, float x, float y) override;
 		bool isParentCompatible(mvAppItemType type) override;
 		void handleSpecificRequiredArgs(PyObject* dict) override;
+		void handleSpecificKeywordArgs(PyObject* dict) override;
+		void getSpecificConfiguration(PyObject* dict) override;
 
 	private:
 
