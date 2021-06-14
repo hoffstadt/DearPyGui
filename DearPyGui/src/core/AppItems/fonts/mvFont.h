@@ -44,12 +44,6 @@ namespace Marvel {
 		ImFont* m_fontPtr = nullptr;
 		ImVector<ImWchar> m_ranges;
 
-		// widgets
-
-		//std::string                         m_rangeHint;
-		//std::vector<ImWchar>                m_chars;
-		//std::vector<std::pair<int, int>>    m_charRemaps;
-
 	};
 
 }

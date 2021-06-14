@@ -6,7 +6,10 @@
 #include "textures/mvStaticTexture.h"
 #include "mvToolManager.h"
 #include "mvFontRangeHint.h"
+#include "mvFontRange.h"
 #include "mvFontManager.h"
+#include "mvFontChars.h"
+#include "mvCharRemap.h"
 
 namespace Marvel {
 
@@ -68,17 +71,28 @@ namespace Marvel {
 
 		if(m_default)
 			io.FontDefault = m_fontPtr;
+
+		// check ranges
+		for (const auto& range : m_children[3])
+		{
+			const auto rangePtr = static_cast<const mvCharRemap*>(range.get());
+
+			m_fontPtr->AddRemapChar(rangePtr->getSourceChar(), rangePtr->getTargetChar());
+		}
 	}
 
 	void mvFont::draw(ImDrawList* drawlist, float x, float y)
 	{
 
-		ImVector<ImWchar> ranges;
+		//ImVector<ImWchar> ranges;
 		ImFontGlyphRangesBuilder builder;
 
 		static ImFontAtlas atlas;
 
 		// check hints
+		if(m_children[0].empty())
+			builder.AddRanges(atlas.GetGlyphRangesDefault());
+
 		for (const auto& hint : m_children[0])
 		{
 			int hintSelection = static_cast<mvFontRangeHint*>(hint.get())->getHint();
@@ -112,17 +126,24 @@ namespace Marvel {
 
 		}
 
-		// handled by custom ranges
-		//for (const auto& range : fontGlyphRangeCustom)
-		//	builder.AddRanges(range.data());
+		// check ranges
+		for (const auto& range : m_children[1])
+		{
+			const auto rangePtr = static_cast<const mvFontRange*>(range.get());
 
-		// handled by custom chars
-		//for (const auto& charitem : chars)
-		//	builder.AddChar(charitem);
-		builder.BuildRanges(&ranges);   // Build the final result (ordered ranges with all the unique characters submitted)
-		
-		//newFont.ranges = ranges;
-		//m_fonts.push_back(newFont);
+			builder.AddRanges(rangePtr->getRange().data());
+		}
+
+		// check chars
+		for (const auto& range : m_children[2])
+		{
+			const auto rangePtr = static_cast<const mvFontChars*>(range.get());
+
+			for (const auto& specificChar : rangePtr->getCharacters())
+				builder.AddChar(specificChar);
+		}
+
+		builder.BuildRanges(&m_ranges);   // Build the final result (ordered ranges with all the unique characters submitted)
 
 		//m_dirty = true;
 		auto item = mvApp::GetApp()->getItemRegistry().getItem(MV_ATLAS_UUID);
