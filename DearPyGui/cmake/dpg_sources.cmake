@@ -50,7 +50,7 @@ set(MARVEL_SOURCES
 
 	"src/core/AppItems/textures/mvStaticTexture.cpp"
 	"src/core/AppItems/textures/mvDynamicTexture.cpp"
-	"src/core/AppItems/textures/mvTextureContainer.cpp"
+	"src/core/AppItems/textures/mvTextureRegistry.cpp"
 
 	"src/core/AppItems/basic/mvMenuItem.cpp"
 	"src/core/AppItems/basic/mvInputText.cpp"

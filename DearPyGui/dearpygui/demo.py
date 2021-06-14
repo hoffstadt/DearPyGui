@@ -5,7 +5,7 @@ from math import sin, cos
 import random
 import uuid
 
-demo_texture_container = dpg.add_texture_container(label="Demo Texture Container")
+demo_texture_container = dpg.add_texture_registry(label="Demo Texture Container")
 demo_static_texture_1 = dpg.generate_uuid()
 demo_static_texture_2 = dpg.generate_uuid()
 demo_static_texture_3 = dpg.generate_uuid()

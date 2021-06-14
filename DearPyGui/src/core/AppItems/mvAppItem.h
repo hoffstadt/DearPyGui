@@ -56,7 +56,7 @@ namespace Marvel {
         mvHistogramSeries, mv2dHistogramSeries,
         mvCandleSeries, mvAreaSeries, mvColorMapScale, mvSlider3D,
         mvKnobFloat, mvLoadingIndicator, mvNodeLink, 
-        mvTextureContainer, mvStaticTexture, mvDynamicTexture,
+        mvTextureRegistry, mvStaticTexture, mvDynamicTexture,
         mvStagingContainer, mvDrawLayer, mvViewportDrawlist,
         mvFileExtension, mvPlotLegend, mvPlotAxis,
         mvHandlerRegistry, mvKeyDownHandler, mvKeyPressHandler,
@@ -194,7 +194,7 @@ namespace Marvel {
         friend class mvShadeSeries;
         friend class mvStairSeries;
         friend class mvStemSeries;
-        friend class mvTextureContainer;
+        friend class mvTextureRegistry;
         friend class mvViewportDrawlist;
         friend class mvHistogramSeries;
         friend class mv2dHistogramSeries;

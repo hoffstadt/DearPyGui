@@ -1,4 +1,4 @@
-#include "mvTextureContainer.h"
+#include "mvTextureRegistry.h"
 #include "mvPythonExceptions.h"
 #include "mvLog.h"
 #include "mvStaticTexture.h"
@@ -6,7 +6,7 @@
 
 namespace Marvel {
 
-	void mvTextureContainer::InsertParser(std::map<std::string, mvPythonParser>* parsers)
+	void mvTextureRegistry::InsertParser(std::map<std::string, mvPythonParser>* parsers)
 	{
 
 		mvPythonParser parser(mvPyDataType::UUID, "Undocumented function", { "Textures", "Widgets" });
@@ -20,14 +20,14 @@ namespace Marvel {
 		parsers->insert({ s_command, parser });
 	}
 
-	mvTextureContainer::mvTextureContainer(mvUUID uuid)
+	mvTextureRegistry::mvTextureRegistry(mvUUID uuid)
 		:
 		mvAppItem(uuid)
 	{
 		m_show = false;
 	}
 
-	void mvTextureContainer::draw(ImDrawList* drawlist, float x, float y)
+	void mvTextureRegistry::draw(ImDrawList* drawlist, float x, float y)
 	{
 
 		for (auto& item : m_children[1])
@@ -38,7 +38,7 @@ namespace Marvel {
 
 	}
 
-	bool mvTextureContainer::canChildBeAdded(mvAppItemType type)
+	bool mvTextureRegistry::canChildBeAdded(mvAppItemType type)
 	{
 		if (type == mvAppItemType::mvStaticTexture) return true;
 		if (type == mvAppItemType::mvDynamicTexture) return true;
@@ -50,17 +50,17 @@ namespace Marvel {
 		return false;
 	}
 
-	void mvTextureContainer::onChildRemoved(mvRef<mvAppItem> item)
+	void mvTextureRegistry::onChildRemoved(mvRef<mvAppItem> item)
 	{
 		m_selection = -1;
 	}
 
-	void mvTextureContainer::onChildrenRemoved()
+	void mvTextureRegistry::onChildrenRemoved()
 	{
 		m_selection = -1;
 	}
 
-	void mvTextureContainer::show_debugger()
+	void mvTextureRegistry::show_debugger()
 	{
 		ImGui::PushID(this);
 

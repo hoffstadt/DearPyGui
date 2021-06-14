@@ -6,16 +6,16 @@
 
 namespace Marvel {
 
-    MV_REGISTER_WIDGET(mvTextureContainer, MV_ITEM_DESC_ROOT | MV_ITEM_DESC_CONTAINER | MV_ITEM_DESC_ALWAYS_DRAW, 
+    MV_REGISTER_WIDGET(mvTextureRegistry, MV_ITEM_DESC_ROOT | MV_ITEM_DESC_CONTAINER | MV_ITEM_DESC_ALWAYS_DRAW,
         StorageValueTypes::None, 1);
-    class mvTextureContainer : public mvAppItem
+    class mvTextureRegistry : public mvAppItem
     {
 
     public:
 
         static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
 
-        MV_APPLY_WIDGET_REGISTRATION(mvAppItemType::mvTextureContainer, add_texture_container)
+        MV_APPLY_WIDGET_REGISTRATION(mvAppItemType::mvTextureRegistry, add_texture_registry)
 
         MV_START_COMMANDS
         MV_END_COMMANDS
@@ -25,7 +25,7 @@ namespace Marvel {
 
     public:
 
-        mvTextureContainer(mvUUID uuid);
+        mvTextureRegistry(mvUUID uuid);
 
         void draw(ImDrawList* drawlist, float x, float y) override;
 
