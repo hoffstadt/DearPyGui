@@ -38,6 +38,10 @@ def add_candle_series(dates : List[float], opens : List[float], closes : List[fl
 	"""Adds a candle series to a plot."""
 	...
 
+def add_char_remap(source : int, target : int, *, label: str =None, id: int =..., parent: int =0) -> int:
+	"""Undocumented function"""
+	...
+
 def add_checkbox(*, label: str =None, id: int =..., indent: int =-1, parent: int =0, before: int =0, source: int =0, payload_type: str ='$$DPG_PAYLOAD', callback: Callable =None, drag_callback: Callable =None, drop_callback: Callable =None, user_data: Any =None, show: bool =True, enabled: bool =True, pos: List[int] =[], filter_key: str ='', tracked: bool =False, track_offset: float =0.5, default_value: bool =False) -> int:
 	"""Adds a checkbox."""
 	...
@@ -159,6 +163,14 @@ def add_focus_handler(parent : int, *, label: str =None, id: int =..., callback:
 	...
 
 def add_font(file : str, size : int, *, label: str =None, id: int =..., parent: int =0, default_font: bool =False) -> int:
+	"""Undocumented function"""
+	...
+
+def add_font_chars(chars : List[int], *, label: str =None, id: int =..., parent: int =0) -> int:
+	"""Undocumented function"""
+	...
+
+def add_font_range(first_char : int, last_char : int, *, label: str =None, id: int =..., parent: int =0) -> int:
 	"""Undocumented function"""
 	...
 
