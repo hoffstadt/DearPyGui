@@ -35,6 +35,16 @@ def font_registry(*args, id:int=0, show: bool =True, label:str=None):
         internal_dpg.pop_container_stack()
 
 @contextmanager
+def font(*args, id:int=0, parent: int = 0, label:str=None, default_font:bool = False):
+   
+   try:
+        widget = internal_dpg.add_font(*args, id=id, parent=parent, label=label, default_font=default_font)
+        internal_dpg.push_container_stack(widget)
+        yield widget
+   finally:
+        internal_dpg.pop_container_stack()
+
+@contextmanager
 def clipper(*args, id:int=0, show: bool =True, parent: int=0, width: int = 0, before: int=0,
            indent:int=-1, delay_search: bool = False, label:str=None):
    

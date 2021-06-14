@@ -5,6 +5,7 @@
 #include "mvUtilities.h"
 #include "textures/mvStaticTexture.h"
 #include "mvToolManager.h"
+#include "mvFontRangeHint.h"
 #include "mvFontManager.h"
 
 namespace Marvel {
@@ -77,16 +78,39 @@ namespace Marvel {
 
 		static ImFontAtlas atlas;
 
-		// handled by range hints
-		//if (rangeHint.empty())                                          builder.AddRanges(atlas.GetGlyphRangesDefault());
-		//else if (rangeHint == std::string("korean"))                    builder.AddRanges(atlas.GetGlyphRangesKorean());
-		//else if (rangeHint == std::string("japanese"))	                 builder.AddRanges(atlas.GetGlyphRangesJapanese());
-		//else if (rangeHint == std::string("chinese_full"))              builder.AddRanges(atlas.GetGlyphRangesChineseFull());
-		//else if (rangeHint == std::string("chinese_simplified_common")) builder.AddRanges(atlas.GetGlyphRangesChineseSimplifiedCommon());
-		//else if (rangeHint == std::string("cyrillic"))                  builder.AddRanges(atlas.GetGlyphRangesCyrillic());
-		//else if (rangeHint == std::string("thai"))                      builder.AddRanges(atlas.GetGlyphRangesThai());
-		//else if (rangeHint == std::string("vietnamese"))                builder.AddRanges(atlas.GetGlyphRangesVietnamese());
-		//else { assert(false); }
+		// check hints
+		for (const auto& hint : m_children[0])
+		{
+			int hintSelection = static_cast<mvFontRangeHint*>(hint.get())->getHint();
+
+			switch (hintSelection)
+			{
+			case 1:
+				builder.AddRanges(atlas.GetGlyphRangesJapanese());
+				break;
+			case 2:
+				builder.AddRanges(atlas.GetGlyphRangesKorean());
+				break;
+			case 3:
+				builder.AddRanges(atlas.GetGlyphRangesChineseFull());
+				break;
+			case 4:
+				builder.AddRanges(atlas.GetGlyphRangesChineseSimplifiedCommon());
+				break;
+			case 5:
+				builder.AddRanges(atlas.GetGlyphRangesCyrillic());
+				break;
+			case 6:
+				builder.AddRanges(atlas.GetGlyphRangesThai());
+				break;
+			case 7:
+				builder.AddRanges(atlas.GetGlyphRangesVietnamese());
+				break;
+			default:
+				builder.AddRanges(atlas.GetGlyphRangesDefault());
+			}
+
+		}
 
 		// handled by custom ranges
 		//for (const auto& range : fontGlyphRangeCustom)

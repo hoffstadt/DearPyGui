@@ -162,6 +162,10 @@ def add_font(file : str, size : int, *, label: str =None, id: int =..., parent: 
 	"""Undocumented function"""
 	...
 
+def add_font_range_hint(hint : int, *, label: str =None, id: int =..., parent: int =0) -> int:
+	"""Undocumented function"""
+	...
+
 def add_font_registry(*, label: str =None, id: int =..., show: bool =True) -> int:
 	"""Undocumented function"""
 	...
