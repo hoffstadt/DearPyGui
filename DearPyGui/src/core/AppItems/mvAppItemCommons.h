@@ -136,6 +136,7 @@
 
 #include "fonts/mvFont.h"
 #include "fonts/mvFontRegistry.h"
+#include "fonts/mvFontRangeHint.h"
 
 #include "themes/mvTheme.h"
 #include "themes/mvThemeColor.h"
