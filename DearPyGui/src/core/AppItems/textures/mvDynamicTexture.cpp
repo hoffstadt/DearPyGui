@@ -40,7 +40,7 @@ namespace Marvel {
 	bool mvDynamicTexture::isParentCompatible(mvAppItemType type)
 	{
 		if (type == mvAppItemType::mvStagingContainer) return true;
-		if (type == mvAppItemType::mvTextureContainer) return true;
+		if (type == mvAppItemType::mvTextureRegistry) return true;
 
 		mvThrowPythonError(1000, "Drawing item parent must be a drawing.");
 		MV_ITEM_REGISTRY_ERROR("Drawing item parent must be a drawing.");

@@ -2,7 +2,7 @@
 
 #include "textures/mvStaticTexture.h"
 #include "textures/mvDynamicTexture.h"
-#include "textures/mvTextureContainer.h"
+#include "textures/mvTextureRegistry.h"
 
 #include "handlers/mvHandlerRegistry.h"
 #include "handlers/mvKeyDownHandler.h"

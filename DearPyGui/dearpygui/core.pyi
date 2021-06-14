@@ -438,7 +438,7 @@ def add_text_point(x : float, y : float, *, label: str =None, id: int =..., pare
 	"""Adds a labels series to a plot."""
 	...
 
-def add_texture_container(*, label: str =None, id: int =..., show: bool =True) -> int:
+def add_texture_registry(*, label: str =None, id: int =..., show: bool =True) -> int:
 	"""Undocumented function"""
 	...
 

@@ -701,10 +701,10 @@ def tooltip(*args, label: str=None, id: int=0, show: bool = True, ) -> int:
         internal_dpg.pop_container_stack()
 
 @contextmanager
-def texture_container(*args, show: bool = False, id:int=0, label:str=None):
+def texture_registry(*args, show: bool = False, id:int=0, label:str=None):
 
     try:
-        widget = internal_dpg.add_texture_container(*args, show=show, id=id, label=label)
+        widget = internal_dpg.add_texture_registry(*args, show=show, id=id, label=label)
         internal_dpg.push_container_stack(widget)
         yield widget
     finally:
