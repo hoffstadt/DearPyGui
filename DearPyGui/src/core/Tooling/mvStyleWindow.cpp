@@ -1,5 +1,6 @@
 #include "mvStyleWindow.h"
 #include "mvApp.h"
+#include "imnodes.h"
 
 // Play it nice with Windows users (Update: May 2018, Notepad now supports Unix-style carriage returns!)
 #ifdef _WIN32
@@ -159,6 +160,21 @@ namespace Marvel {
                 ImGui::SliderFloat2("MousePosPadding", (float*)&plotstyle.MousePosPadding, 0.0f, 20.0f, "%.0f");
                 ImGui::SliderFloat2("AnnotationPadding", (float*)&plotstyle.AnnotationPadding, 0.0f, 5.0f, "%.0f");
                 ImGui::SliderFloat2("FitPadding", (float*)&plotstyle.FitPadding, 0, 0.2f, "%.2f");
+                ImGui::Text("Nodes");
+                ImGui::SliderFloat("mvNodeStyleVar_GridSpacing", &imnodes::GetStyle().grid_spacing, 0.0f, 32.0f, "%.0f");
+                ImGui::SliderFloat("mvNodeStyleVar_NodeCornerRounding", &imnodes::GetStyle().node_corner_rounding, 0.0f, 10.0f, "%.0f");
+                ImGui::SliderFloat("mvNodeStyleVar_NodePaddingHorizontal", &imnodes::GetStyle().node_padding_horizontal, 0.0f, 10.0f, "%.0f");
+                ImGui::SliderFloat("mvNodeStyleVar_NodePaddingVertical", &imnodes::GetStyle().node_padding_vertical, 0.0f, 10.0f, "%.0f");
+                ImGui::SliderFloat("mvNodeStyleVar_NodeBorderThickness", &imnodes::GetStyle().node_border_thickness, 0.0f, 10.0f, "%.0f");
+                ImGui::SliderFloat("mvNodeStyleVar_LinkThickness", &imnodes::GetStyle().link_thickness, 0.0f, 10.0f, "%.0f");
+                ImGui::SliderFloat("mvNodeStyleVar_LinkLineSegmentsPerLength", &imnodes::GetStyle().link_line_segments_per_length, 0.0f, 10.0f, "%.0f");
+                ImGui::SliderFloat("mvNodeStyleVar_LinkHoverDistance", &imnodes::GetStyle().link_hover_distance, 0.0f, 10.0f, "%.0f");
+                ImGui::SliderFloat("mvNodeStyleVar_PinCircleRadius", &imnodes::GetStyle().pin_circle_radius, 0.0f, 10.0f, "%.0f");
+                ImGui::SliderFloat("mvNodeStyleVar_PinQuadSideLength", &imnodes::GetStyle().pin_quad_side_length, 0.0f, 10.0f, "%.0f");
+                ImGui::SliderFloat("mvNodeStyleVar_PinTriangleSideLength", &imnodes::GetStyle().pin_triangle_side_length, 0.0f, 10.0f, "%.0f");
+                ImGui::SliderFloat("mvNodeStyleVar_PinLineThickness", &imnodes::GetStyle().pin_line_thickness, 0.0f, 10.0f, "%.0f");
+                ImGui::SliderFloat("mvNodeStyleVar_PinHoverRadius", &imnodes::GetStyle().pin_hover_radius, 0.0f, 10.0f, "%.0f");
+                ImGui::SliderFloat("mvNodeStyleVar_PinOffset", &imnodes::GetStyle().pin_offset, 0.0f, 10.0f, "%.0f");
 
                 ImGui::EndTabItem();
             }
@@ -213,18 +229,58 @@ namespace Marvel {
 
                     ImGui::PopID();
                 }
+
                 for (int i = 0; i < ImPlotCol_COUNT; i++)
                 {
                     const char* name = ImPlot::GetStyleColorName(i);
                     if (!filter.PassFilter(name))
                         continue;
                     ImGui::PushID(i);
-                    ImGui::ColorEdit4("##color123", (float*)&plotstyle.Colors[i], ImGuiColorEditFlags_AlphaBar | alpha_flags);
+                    ImGui::ColorEdit4("##color123", (float*)&plotstyle.Colors[i].x, ImGuiColorEditFlags_AlphaBar | alpha_flags);
                     ImGui::SameLine(0.0f, style.ItemInnerSpacing.x);
                     ImGui::Text("mvPlotCol_%s", name);
 
                     ImGui::PopID();
                 }
+
+                // imnodes
+                static std::string imnodesNames[16] = {
+                    "mvNodeCol_NodeBackground",
+                    "mvNodeCol_NodeBackgroundHovered",
+                    "mvNodeCol_NodeBackgroundSelected",
+                    "mvNodeCol_NodeOutline",
+                    "mvNodeCol_TitleBar",
+                    "mvNodeCol_TitleBarHovered",
+                    "mvNodeCol_TitleBarSelected",
+                    "mvNodeCol_Link",
+                    "mvNodeCol_LinkHovered",
+                    "mvNodeCol_LinkSelected",
+                    "mvNodeCol_Pin",
+                    "mvNodeCol_PinHovered",
+                    "mvNodeCol_BoxSelector",
+                    "mvNodeCol_BoxSelectorOutline",
+                    "mvNodeCol_GridBackground",
+                    "mvNodeCol_GridLine"
+                };
+
+                for (int i = 0; i < imnodes::ColorStyle_Count; i++)
+                {
+                    const char* name = imnodesNames[i].c_str();
+                    if (!filter.PassFilter(name))
+                        continue;
+                    ImGui::PushID(i);
+                    ImVec4 color = ImGui::ColorConvertU32ToFloat4(imnodes::GetStyle().colors[i]);
+                    if (ImGui::ColorEdit4("##color1234", (float*)&color.x, ImGuiColorEditFlags_AlphaBar | alpha_flags))
+                    {
+                        imnodes::GetStyle().colors[i] = ImGui::ColorConvertFloat4ToU32(color);
+                    }
+
+                    ImGui::SameLine(0.0f, style.ItemInnerSpacing.x);
+                    ImGui::Text("%s", name);
+
+                    ImGui::PopID();
+                }
+
                 ImGui::PopItemWidth();
                 ImGui::EndChild();
 
