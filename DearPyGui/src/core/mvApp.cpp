@@ -224,57 +224,57 @@ namespace Marvel {
 	{
 
 		{
-			mvPythonParser parser(mvPyDataType::None);
+			mvPythonParser parser(mvPyDataType::None, "Undocumented", { "General" });
 			parser.addArg<mvPyDataType::Bool>("dock_space", mvArgType::KEYWORD_ARG, "False", "add explicit dockspace over viewport");
 			parser.finalize();
 			parsers->insert({ "enable_docking", parser });
 		}
 
 		{
-			mvPythonParser parser(mvPyDataType::Bool);
+			mvPythonParser parser(mvPyDataType::Bool, "Undocumented", { "General" });
 			parser.finalize();
 			parsers->insert({ "is_dearpygui_running", parser });
 		}
 
 		{
-			mvPythonParser parser(mvPyDataType::None);
+			mvPythonParser parser(mvPyDataType::None, "Undocumented", { "General" });
 			parser.addArg<mvPyDataType::String>("viewport", mvArgType::KEYWORD_ARG, "''");
 			parser.finalize();
 			parsers->insert({ "setup_dearpygui", parser });
 		}
 
 		{
-			mvPythonParser parser(mvPyDataType::None);
+			mvPythonParser parser(mvPyDataType::None, "Undocumented", { "General" });
 			parser.finalize();
 			parsers->insert({ "render_dearpygui_frame", parser });
 		}
 
 		{
-			mvPythonParser parser(mvPyDataType::None);
+			mvPythonParser parser(mvPyDataType::None, "Undocumented", { "General" });
 			parser.finalize();
 			parsers->insert({ "cleanup_dearpygui", parser });
 		}
 
 		{
-			mvPythonParser parser(mvPyDataType::None);
+			mvPythonParser parser(mvPyDataType::None, "Undocumented", { "General" });
 			parser.finalize();
 			parsers->insert({ "stop_dearpygui", parser });
 		}
 
 		{
-			mvPythonParser parser(mvPyDataType::Float);
+			mvPythonParser parser(mvPyDataType::Float, "Undocumented", { "General" });
 			parser.finalize();
 			parsers->insert({ "get_total_time", parser });
 		}
 
 		{
-			mvPythonParser parser(mvPyDataType::Float);
+			mvPythonParser parser(mvPyDataType::Float, "Undocumented", { "General" });
 			parser.finalize();
 			parsers->insert({ "get_delta_time", parser });
 		}
 
 		{
-			mvPythonParser parser(mvPyDataType::String);
+			mvPythonParser parser(mvPyDataType::String, "Undocumented", { "General" });
 			parser.finalize();
 			parsers->insert({ "get_dearpygui_version", parser });
 		}

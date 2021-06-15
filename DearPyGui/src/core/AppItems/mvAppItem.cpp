@@ -12,14 +12,14 @@ namespace Marvel{
 	void mvAppItem::InsertParser(std::map<std::string, mvPythonParser>* parsers)
 	{
 		{
-			mvPythonParser parser(mvPyDataType::Dict);
+			mvPythonParser parser(mvPyDataType::Dict, "Undocumented", { "App Item Operations" });
 			parser.addArg<mvPyDataType::UUID>("item");
 			parser.finalize();
 			parsers->insert({ "get_item_configuration", parser });
 		}
 
 		{
-			mvPythonParser parser(mvPyDataType::Dict);
+			mvPythonParser parser(mvPyDataType::Dict, "Undocumented", { "App Item Operations" });
 			parser.addArg<mvPyDataType::UUID>("item");
 			parser.addArg<mvPyDataType::UUID>("source");
 			parser.addArg<mvPyDataType::Integer>("slot");
@@ -28,14 +28,14 @@ namespace Marvel{
 		}
 
 		{
-			mvPythonParser parser(mvPyDataType::None);
+			mvPythonParser parser(mvPyDataType::None, "Undocumented", { "App Item Operations" });
 			parser.addArg<mvPyDataType::UUID>("item");
 			parser.finalize();
 			parsers->insert({ "focus_item", parser });
 		}
 
 		{
-			mvPythonParser parser(mvPyDataType::None);
+			mvPythonParser parser(mvPyDataType::None, "Undocumented", { "Fonts", "App Item Operations" });
 			parser.addArg<mvPyDataType::UUID>("item");
 			parser.addArg<mvPyDataType::UUID>("font");
 			parser.finalize();
@@ -43,7 +43,7 @@ namespace Marvel{
 		}
 
 		{
-			mvPythonParser parser(mvPyDataType::None);
+			mvPythonParser parser(mvPyDataType::None, "Undocumented", { "Themes", "App Item Operations" });
 			parser.addArg<mvPyDataType::UUID>("item");
 			parser.addArg<mvPyDataType::UUID>("theme");
 			parser.finalize();
@@ -51,7 +51,7 @@ namespace Marvel{
 		}
 
 		{
-			mvPythonParser parser(mvPyDataType::None);
+			mvPythonParser parser(mvPyDataType::None, "Undocumented", { "Themes", "App Item Operations" });
 			parser.addArg<mvPyDataType::UUID>("item");
 			parser.addArg<mvPyDataType::UUID>("theme");
 			parser.finalize();
@@ -59,20 +59,20 @@ namespace Marvel{
 		}
 
 		{
-			mvPythonParser parser(mvPyDataType::Dict);
+			mvPythonParser parser(mvPyDataType::Dict, "Undocumented", { "App Item Operations" });
 			parser.addArg<mvPyDataType::UUID>("item");
 			parser.finalize();
 			parsers->insert({ "get_item_state", parser });
 		}
 
 		{
-			mvPythonParser parser(mvPyDataType::UUID);
+			mvPythonParser parser(mvPyDataType::UUID, "Undocumented", { "General" });
 			parser.finalize();
 			parsers->insert({ "generate_uuid", parser });
 		}
 
 		{
-			mvPythonParser parser(mvPyDataType::None);
+			mvPythonParser parser(mvPyDataType::None, "Undocumented", { "App Item Operations" });
 			parser.addArg<mvPyDataType::UUID>("item");
 			parser.addKwargs();
 			parser.finalize();
@@ -80,28 +80,28 @@ namespace Marvel{
 		}
 
 		{
-			mvPythonParser parser(mvPyDataType::Dict);
+			mvPythonParser parser(mvPyDataType::Dict, "Undocumented", { "App Item Operations" });
 			parser.addArg<mvPyDataType::UUID>("item");
 			parser.finalize();
 			parsers->insert({ "get_item_info", parser });
 		}
 
 		{
-			mvPythonParser parser(mvPyDataType::Any);
+			mvPythonParser parser(mvPyDataType::Any, "Undocumented", { "App Item Operations" });
 			parser.addArg<mvPyDataType::UUID>("item");
 			parser.finalize();
 			parsers->insert({ "get_value", parser });
 		}
 
 		{
-			mvPythonParser parser(mvPyDataType::Any);
+			mvPythonParser parser(mvPyDataType::Any, "Undocumented", { "App Item Operations" });
 			parser.addArg<mvPyDataType::UUIDList>("items");
 			parser.finalize();
 			parsers->insert({ "get_values", parser });
 		}
 
 		{
-			mvPythonParser parser(mvPyDataType::None);
+			mvPythonParser parser(mvPyDataType::None, "Undocumented", { "App Item Operations" });
 			parser.addArg<mvPyDataType::UUID>("item");
 			parser.addArg<mvPyDataType::Object>("value");
 			parser.finalize();
@@ -109,7 +109,7 @@ namespace Marvel{
 		}
 
 		{
-			mvPythonParser parser(mvPyDataType::None);
+			mvPythonParser parser(mvPyDataType::None, "Undocumented", { "App Item Operations" });
 			parser.addArg<mvPyDataType::UUID>("item");
 			parser.addArg<mvPyDataType::Float>("x");
 			parser.addArg<mvPyDataType::Float>("y");
@@ -118,7 +118,7 @@ namespace Marvel{
 		}
 
 		{
-			mvPythonParser parser(mvPyDataType::None);
+			mvPythonParser parser(mvPyDataType::None, "Undocumented", { "App Item Operations" });
 			parser.addArg<mvPyDataType::UUID>("item");
 			parser.finalize();
 			parsers->insert({ "reset_pos", parser });

@@ -10,7 +10,7 @@ namespace Marvel {
 	void mvTimePicker::InsertParser(std::map<std::string, mvPythonParser>* parsers)
 	{
 
-		mvPythonParser parser(mvPyDataType::UUID);
+		mvPythonParser parser(mvPyDataType::UUID, "Undocumented", { "Widgets" });
 		mvAppItem::AddCommonArgs(parser, (CommonParserArgs)(
 			MV_PARSER_ARG_ID |
 			MV_PARSER_ARG_INDENT |

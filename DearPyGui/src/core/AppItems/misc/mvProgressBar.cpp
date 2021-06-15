@@ -10,7 +10,7 @@ namespace Marvel {
 	void mvProgressBar::InsertParser(std::map<std::string, mvPythonParser>* parsers)
 	{
 
-		mvPythonParser parser(mvPyDataType::UUID, "Adds a progress bar.");
+		mvPythonParser parser(mvPyDataType::UUID, "Adds a progress bar.", { "Widgets" });
 		mvAppItem::AddCommonArgs(parser, (CommonParserArgs)(
 			MV_PARSER_ARG_ID |
 			MV_PARSER_ARG_WIDTH |

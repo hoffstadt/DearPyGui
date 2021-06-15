@@ -19,7 +19,7 @@ namespace Marvel {
 	{
 
 		{
-			mvPythonParser parser(mvPyDataType::String);
+			mvPythonParser parser(mvPyDataType::String, "Undocumented", { "General" });
 			parser.addArg<mvPyDataType::String>("title", mvArgType::KEYWORD_ARG, "'Dear PyGui'");
 			parser.addArg<mvPyDataType::String>("small_icon", mvArgType::KEYWORD_ARG, "''");
 			parser.addArg<mvPyDataType::String>("large_icon", mvArgType::KEYWORD_ARG, "''");
@@ -49,7 +49,7 @@ namespace Marvel {
 		}
 
 		{
-			mvPythonParser parser(mvPyDataType::None);
+			mvPythonParser parser(mvPyDataType::None, "Undocumented", { "General" });
 			parser.addArg<mvPyDataType::String>("viewport");
 			parser.addArg<mvPyDataType::Bool>("minimized", mvArgType::KEYWORD_ARG, "False");
 			parser.addArg<mvPyDataType::Bool>("maximized", mvArgType::KEYWORD_ARG, "False");
@@ -58,19 +58,19 @@ namespace Marvel {
 		}
 
 		{
-			mvPythonParser parser(mvPyDataType::None);
+			mvPythonParser parser(mvPyDataType::None, "Undocumented", { "General" });
 			parser.finalize();
 			parsers->insert({ "configure_viewport", parser });
 		}
 
 		{
-			mvPythonParser parser(mvPyDataType::None);
+			mvPythonParser parser(mvPyDataType::None, "Undocumented", { "General" });
 			parser.finalize();
 			parsers->insert({ "maximize_viewport", parser });
 		}
 
 		{
-			mvPythonParser parser(mvPyDataType::None);
+			mvPythonParser parser(mvPyDataType::None, "Undocumented", { "General" });
 			parser.finalize();
 			parsers->insert({ "minimize_viewport", parser });
 		}

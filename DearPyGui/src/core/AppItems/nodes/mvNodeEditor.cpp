@@ -17,7 +17,7 @@ namespace Marvel {
 	{
 
 		{
-			mvPythonParser parser(mvPyDataType::UUID, "Adds a node editor.", { "Node Editor", "Widgets" });
+			mvPythonParser parser(mvPyDataType::UUID, "Adds a node editor.", { "Node Editor", "Containers", "Widgets" });
 			mvAppItem::AddCommonArgs(parser, (CommonParserArgs)(
 				MV_PARSER_ARG_ID |
 				MV_PARSER_ARG_PARENT |
@@ -40,35 +40,35 @@ namespace Marvel {
 		}
 
 		{
-			mvPythonParser parser(mvPyDataType::UUIDList);
+			mvPythonParser parser(mvPyDataType::UUIDList, "Undocumented", { "Node Editor" });
 			parser.addArg<mvPyDataType::UUID>("node_editor");
 			parser.finalize();
 			parsers->insert({ "get_selected_nodes", parser });
 		}
 
 		{
-			mvPythonParser parser(mvPyDataType::ListStrList);
+			mvPythonParser parser(mvPyDataType::ListStrList, "Undocumented", { "Node Editor" });
 			parser.addArg<mvPyDataType::UUID>("node_editor");
 			parser.finalize();
 			parsers->insert({ "get_selected_links", parser });
 		}
 
 		{
-			mvPythonParser parser(mvPyDataType::ListStrList);
+			mvPythonParser parser(mvPyDataType::ListStrList, "Undocumented", { "Node Editor" });
 			parser.addArg<mvPyDataType::UUID>("node_editor");
 			parser.finalize();
 			parsers->insert({ "get_links", parser });
 		}
 
 		{
-			mvPythonParser parser(mvPyDataType::None);
+			mvPythonParser parser(mvPyDataType::None, "Undocumented", { "Node Editor" });
 			parser.addArg<mvPyDataType::UUID>("node_editor");
 			parser.finalize();
 			parsers->insert({ "clear_selected_links", parser });
 		}
 
 		{
-			mvPythonParser parser(mvPyDataType::None);
+			mvPythonParser parser(mvPyDataType::None, "Undocumented", { "Node Editor" });
 			parser.addArg<mvPyDataType::UUID>("node_editor");
 			parser.finalize();
 			parsers->insert({ "clear_selected_nodes", parser });

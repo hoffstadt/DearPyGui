@@ -11,7 +11,7 @@ def add_2d_histogram_series(x : List[float], y : List[float], *, label: str =Non
 	...
 
 def add_3d_slider(*, label: str =None, id: int =..., width: int =0, height: int =0, indent: int =-1, parent: int =0, before: int =0, source: int =0, payload_type: str ='$$DPG_PAYLOAD', callback: Callable =None, drag_callback: Callable =None, drop_callback: Callable =None, user_data: Any =None, show: bool =True, pos: List[int] =[], filter_key: str ='', tracked: bool =False, track_offset: float =0.5, default_value: List[float] =(0.0, 0.0, 0.0, 0.0), max_x: float =100.0, max_y: float =100.0, max_z: float =100.0, min_x: float =0.0, min_y: float =0.0, min_z: float =0.0, scale: float =1.0) -> int:
-	"""Undocumented function"""
+	"""Undocumented"""
 	...
 
 def add_activated_handler(parent : int, *, label: str =None, id: int =..., callback: Callable =None, user_data: Any =None) -> int:
@@ -75,7 +75,7 @@ def add_color_picker(default_value : List[int] =(0, 0, 0, 255), *, label: str =N
 	...
 
 def add_colormap_scale(*, label: str =None, id: int =..., width: int =0, height: int =0, indent: int =-1, parent: int =0, before: int =0, source: int =0, show: bool =True, pos: List[int] =[], default_value: int =0, min_scale: float =0.0, max_scale: float =1.0) -> int:
-	"""Undocumented function"""
+	"""Undocumented"""
 	...
 
 def add_combo(items : List[str] =(), *, label: str =None, id: int =..., width: int =0, indent: int =-1, parent: int =0, before: int =0, source: int =0, payload_type: str ='$$DPG_PAYLOAD', callback: Callable =None, drag_callback: Callable =None, drop_callback: Callable =None, user_data: Any =None, show: bool =True, enabled: bool =True, pos: List[int] =[], filter_key: str ='', tracked: bool =False, track_offset: float =0.5, default_value: str ='', popup_align_left: bool =False, height_small: bool =False, height_regular: bool =False, height_large: bool =False, height_largest: bool =False, no_arrow_button: bool =False, no_preview: bool =False) -> int:
@@ -83,7 +83,7 @@ def add_combo(items : List[str] =(), *, label: str =None, id: int =..., width: i
 	...
 
 def add_date_picker(*, label: str =None, id: int =..., indent: int =-1, parent: int =0, before: int =0, payload_type: str ='$$DPG_PAYLOAD', callback: Callable =None, drag_callback: Callable =None, drop_callback: Callable =None, user_data: Any =None, show: bool =True, pos: List[int] =[], filter_key: str ='', tracked: bool =False, track_offset: float =0.5, default_value: dict ={'month_day': 14, 'year':20, 'month':5}, level: int =0) -> int:
-	"""Undocumented function"""
+	"""Undocumented"""
 	...
 
 def add_deactivated_after_edit_handler(parent : int, *, label: str =None, id: int =..., callback: Callable =None, user_data: Any =None) -> int:
@@ -147,11 +147,11 @@ def add_error_series(x : List[float], y : List[float], negative : List[float], p
 	...
 
 def add_file_dialog(*, label: str =None, id: int =..., width: int =0, height: int =0, callback: Callable =None, show: bool =True, default_path: str ='', default_filename: str ='.', file_count: int =0, modal: bool =False, directory_selector: bool =False) -> int:
-	"""Undocumented function"""
+	"""Undocumented Function"""
 	...
 
 def add_file_extension(extension : str, *, label: str =None, id: int =..., width: int =0, height: int =0, parent: int =0, before: int =0, custom_text: str ='', color: List[float] =(-255, 0, 0, 255)) -> int:
-	"""Undocumented function"""
+	"""Undocumented Function"""
 	...
 
 def add_filter_set(*, label: str =None, id: int =..., width: int =0, indent: int =-1, parent: int =0, before: int =0, show: bool =True, delay_search: str =False) -> int:
@@ -251,7 +251,7 @@ def add_key_release_handler(key : int =-1, *, label: str =None, id: int =..., pa
 	...
 
 def add_knob_float(*, label: str =None, id: int =..., width: int =0, height: int =0, indent: int =-1, parent: int =0, before: int =0, source: int =0, payload_type: str ='$$DPG_PAYLOAD', callback: Callable =None, drag_callback: Callable =None, drop_callback: Callable =None, user_data: Any =None, show: bool =True, pos: List[int] =[], filter_key: str ='', tracked: bool =False, track_offset: float =0.5, default_value: float =0.0, min_value: float =0.0, max_value: float =100.0) -> int:
-	"""Undocumented function"""
+	"""Undocumented"""
 	...
 
 def add_line_series(x : List[float], y : List[float], *, label: str =None, id: int =..., parent: int =0, before: int =0, source: int =0, show: bool =True, contribute_to_bounds: bool =True) -> int:
@@ -263,7 +263,7 @@ def add_listbox(items : List[str] =(), *, label: str =None, id: int =..., width:
 	...
 
 def add_loading_indicator(*, label: str =None, id: int =..., width: int =0, height: int =0, indent: int =-1, parent: int =0, before: int =0, show: bool =True, pos: List[int] =[], style: int =0) -> int:
-	"""Undocumented function"""
+	"""Undocumented"""
 	...
 
 def add_menu(*, label: str =None, id: int =..., indent: int =-1, parent: int =0, before: int =0, payload_type: str ='$$DPG_PAYLOAD', drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, enabled: bool =True, filter_key: str ='', delay_search: str =False, tracked: bool =False, track_offset: float =0.5) -> int:
@@ -471,7 +471,7 @@ def add_theme_style(target : int =0, x : float =1.0, y : float =-1.0, *, label: 
 	...
 
 def add_time_picker(*, label: str =None, id: int =..., indent: int =-1, parent: int =0, before: int =0, payload_type: str ='$$DPG_PAYLOAD', callback: Callable =None, drag_callback: Callable =None, drop_callback: Callable =None, user_data: Any =None, show: bool =True, pos: List[int] =[], filter_key: str ='', tracked: bool =False, track_offset: float =0.5, default_value: dict ={'hour': 14, 'min': 32, 'sec': 23}, hour24: bool =False) -> int:
-	"""Undocumented function"""
+	"""Undocumented"""
 	...
 
 def add_toggled_open_handler(parent : int, *, label: str =None, id: int =..., callback: Callable =None, user_data: Any =None) -> int:
@@ -503,15 +503,15 @@ def add_window(*, label: str =None, id: int =..., width: int =0, height: int =0,
 	...
 
 def cleanup_dearpygui() -> None:
-	"""Undocumented function"""
+	"""Undocumented"""
 	...
 
 def clear_selected_links(node_editor : int) -> None:
-	"""Undocumented function"""
+	"""Undocumented"""
 	...
 
 def clear_selected_nodes(node_editor : int) -> None:
-	"""Undocumented function"""
+	"""Undocumented"""
 	...
 
 def close_popup(item : int) -> None:
@@ -519,23 +519,23 @@ def close_popup(item : int) -> None:
 	...
 
 def configure_item(item : int, **kwargs) -> None:
-	"""Undocumented function"""
+	"""Undocumented"""
 	...
 
 def configure_viewport() -> None:
-	"""Undocumented function"""
+	"""Undocumented"""
 	...
 
 def create_viewport(*, title: str ='Dear PyGui', small_icon: str ='', large_icon: str ='', width: str =1280, height: str =800, x_pos: str =100, y_pos: str =100, min_width: str =250, max_width: str =10000, min_height: str =250, max_height: str =10000, resizable: bool =True, vsync: bool =True, always_on_top: bool =False, maximized_box: bool =True, minimized_box: bool =True, border: bool =True, caption: bool =True, overlapped: bool =True, clear_color: List[float] =(0, 0, 0, 255)) -> str:
-	"""Undocumented function"""
+	"""Undocumented"""
 	...
 
 def delete_item(item : int, *, children_only: bool =False) -> None:
-	"""Undocumented function"""
+	"""Undocumented"""
 	...
 
 def does_item_exist(item : int) -> bool:
-	"""Undocumented function"""
+	"""Undocumented"""
 	...
 
 def draw_arrow(p1 : List[float], p2 : List[float], *, label: str =None, id: int =..., parent: int =0, before: int =0, show: bool =True, color: List[int] =(255, 255, 255, 255), thickness: float =1.0, size: int =4) -> int:
@@ -591,27 +591,27 @@ def draw_triangle(p1 : List[float], p2 : List[float], p3 : List[float], *, label
 	...
 
 def empty_container_stack() -> None:
-	"""Undocumented function"""
+	"""Undocumented"""
 	...
 
 def enable_docking(*, dock_space: bool =False) -> None:
-	"""Undocumented function"""
+	"""Undocumented"""
 	...
 
 def focus_item(item : int) -> None:
-	"""Undocumented function"""
+	"""Undocumented"""
 	...
 
 def generate_uuid() -> int:
-	"""Undocumented function"""
+	"""Undocumented"""
 	...
 
 def get_active_window() -> int:
-	"""Undocumented function"""
+	"""Undocumented"""
 	...
 
 def get_all_items() -> List[int]:
-	"""Undocumented function"""
+	"""Undocumented"""
 	...
 
 def get_axis_limits(axis : int) -> List[float]:
@@ -619,15 +619,15 @@ def get_axis_limits(axis : int) -> List[float]:
 	...
 
 def get_dearpygui_version() -> str:
-	"""Undocumented function"""
+	"""Undocumented"""
 	...
 
 def get_delta_time() -> float:
-	"""Undocumented function"""
+	"""Undocumented"""
 	...
 
 def get_drawing_mouse_pos() -> List[int]:
-	"""Undocumented function"""
+	"""Undocumented"""
 	...
 
 def get_file_dialog_info(file_dialog : int) -> dict:
@@ -639,31 +639,31 @@ def get_global_font_scale() -> float:
 	...
 
 def get_item_configuration(item : int) -> dict:
-	"""Undocumented function"""
+	"""Undocumented"""
 	...
 
 def get_item_info(item : int) -> dict:
-	"""Undocumented function"""
+	"""Undocumented"""
 	...
 
 def get_item_state(item : int) -> dict:
-	"""Undocumented function"""
+	"""Undocumented"""
 	...
 
 def get_links(node_editor : int) -> List[List[str]]:
-	"""Undocumented function"""
+	"""Undocumented"""
 	...
 
 def get_mouse_drag_delta() -> float:
-	"""Undocumented function"""
+	"""Undocumented"""
 	...
 
 def get_mouse_pos(*, local: bool =True) -> List[int]:
-	"""Undocumented function"""
+	"""Undocumented"""
 	...
 
 def get_plot_mouse_pos() -> List[int]:
-	"""Undocumented function"""
+	"""Undocumented"""
 	...
 
 def get_plot_query_area(plot : int) -> List[float]:
@@ -671,27 +671,27 @@ def get_plot_query_area(plot : int) -> List[float]:
 	...
 
 def get_selected_links(node_editor : int) -> List[List[str]]:
-	"""Undocumented function"""
+	"""Undocumented"""
 	...
 
 def get_selected_nodes(node_editor : int) -> List[int]:
-	"""Undocumented function"""
+	"""Undocumented"""
 	...
 
 def get_total_time() -> float:
-	"""Undocumented function"""
+	"""Undocumented"""
 	...
 
 def get_value(item : int) -> Any:
-	"""Undocumented function"""
+	"""Undocumented"""
 	...
 
 def get_values(items : unknown) -> Any:
-	"""Undocumented function"""
+	"""Undocumented"""
 	...
 
 def get_windows() -> List[int]:
-	"""Undocumented function"""
+	"""Undocumented"""
 	...
 
 def get_x_scroll(item : int) -> float:
@@ -711,39 +711,39 @@ def get_y_scroll_max(item : int) -> float:
 	...
 
 def is_dearpygui_running() -> bool:
-	"""Undocumented function"""
+	"""Undocumented"""
 	...
 
 def is_key_down(key : int) -> bool:
-	"""Undocumented function"""
+	"""Undocumented"""
 	...
 
 def is_key_pressed(key : int) -> bool:
-	"""Undocumented function"""
+	"""Undocumented"""
 	...
 
 def is_key_released(key : int) -> bool:
-	"""Undocumented function"""
+	"""Undocumented"""
 	...
 
 def is_mouse_button_clicked(button : int) -> bool:
-	"""Undocumented function"""
+	"""Undocumented"""
 	...
 
 def is_mouse_button_double_clicked(button : int) -> bool:
-	"""Undocumented function"""
+	"""Undocumented"""
 	...
 
 def is_mouse_button_down(button : int) -> bool:
-	"""Undocumented function"""
+	"""Undocumented"""
 	...
 
 def is_mouse_button_dragging(button : int, threshold : float) -> bool:
-	"""Undocumented function"""
+	"""Undocumented"""
 	...
 
 def is_mouse_button_released(button : int) -> bool:
-	"""Undocumented function"""
+	"""Undocumented"""
 	...
 
 def is_plot_queried(plot : int) -> bool:
@@ -751,51 +751,51 @@ def is_plot_queried(plot : int) -> bool:
 	...
 
 def last_container() -> int:
-	"""Undocumented function"""
+	"""Undocumented"""
 	...
 
 def last_item() -> int:
-	"""Undocumented function"""
+	"""Undocumented"""
 	...
 
 def last_root() -> int:
-	"""Undocumented function"""
+	"""Undocumented"""
 	...
 
 def maximize_viewport() -> None:
-	"""Undocumented function"""
+	"""Undocumented"""
 	...
 
 def minimize_viewport() -> None:
-	"""Undocumented function"""
+	"""Undocumented"""
 	...
 
 def move_item(item : int, *, parent: int =0, before: int =0) -> None:
-	"""Undocumented function"""
+	"""Undocumented"""
 	...
 
 def move_item_down(item : int) -> None:
-	"""Undocumented function"""
+	"""Undocumented"""
 	...
 
 def move_item_up(item : int) -> None:
-	"""Undocumented function"""
+	"""Undocumented"""
 	...
 
 def pop_container_stack() -> int:
-	"""Undocumented function"""
+	"""Undocumented"""
 	...
 
 def push_container_stack(item : int) -> bool:
-	"""Undocumented function"""
+	"""Undocumented"""
 	...
 
 def render_dearpygui_frame() -> None:
-	"""Undocumented function"""
+	"""Undocumented"""
 	...
 
 def reorder_items(container : int, slot : int, new_order : unknown) -> None:
-	"""Undocumented function"""
+	"""Undocumented"""
 	...
 
 def reset_axis_ticks(axis : int) -> None:
@@ -803,7 +803,7 @@ def reset_axis_ticks(axis : int) -> None:
 	...
 
 def reset_pos(item : int) -> None:
-	"""Undocumented function"""
+	"""Undocumented"""
 	...
 
 def set_axis_limits(axis : int, ymin : float, ymax : float) -> None:
@@ -823,31 +823,31 @@ def set_global_font_scale(scale : float) -> None:
 	...
 
 def set_item_children(item : int, source : int, slot : int) -> dict:
-	"""Undocumented function"""
+	"""Undocumented"""
 	...
 
 def set_item_disabled_theme(item : int, theme : int) -> None:
-	"""Undocumented function"""
+	"""Undocumented"""
 	...
 
 def set_item_font(item : int, font : int) -> None:
-	"""Undocumented function"""
+	"""Undocumented"""
 	...
 
 def set_item_pos(item : int, x : float, y : float) -> None:
-	"""Undocumented function"""
+	"""Undocumented"""
 	...
 
 def set_item_theme(item : int, theme : int) -> None:
-	"""Undocumented function"""
+	"""Undocumented"""
 	...
 
 def set_primary_window(window : int, value : bool) -> None:
-	"""Undocumented function"""
+	"""Undocumented"""
 	...
 
 def set_staging_mode(mode : bool) -> None:
-	"""Undocumented function"""
+	"""Undocumented"""
 	...
 
 def set_start_callback(callback : Callable) -> str:
@@ -855,7 +855,7 @@ def set_start_callback(callback : Callable) -> str:
 	...
 
 def set_value(item : int, value : Any) -> None:
-	"""Undocumented function"""
+	"""Undocumented"""
 	...
 
 def set_viewport_resize_callback(callback : Callable) -> str:
@@ -871,7 +871,7 @@ def set_y_scroll(item : int, value : float) -> None:
 	...
 
 def setup_dearpygui(*, viewport: str ='') -> None:
-	"""Undocumented function"""
+	"""Undocumented"""
 	...
 
 def show_tool(tool : int) -> str:
@@ -879,22 +879,22 @@ def show_tool(tool : int) -> str:
 	...
 
 def show_viewport(viewport : str, *, minimized: bool =False, maximized: bool =False) -> None:
-	"""Undocumented function"""
+	"""Undocumented"""
 	...
 
 def stage_items(items : unknown) -> None:
-	"""Undocumented function"""
+	"""Undocumented"""
 	...
 
 def stop_dearpygui() -> None:
-	"""Undocumented function"""
+	"""Undocumented"""
 	...
 
 def top_container_stack() -> int:
-	"""Undocumented function"""
+	"""Undocumented"""
 	...
 
 def unstage_items(items : unknown) -> None:
-	"""Undocumented function"""
+	"""Undocumented"""
 	...
 

@@ -507,32 +507,32 @@ namespace Marvel {
 	{
 
 		{
-			mvPythonParser parser(mvPyDataType::IntList);
+			mvPythonParser parser(mvPyDataType::IntList, "Undocumented", { "Input Polling" });
 			parser.addArg<mvPyDataType::Bool>("local", mvArgType::KEYWORD_ARG, "True");
 			parser.finalize();
 			parsers->insert({ "get_mouse_pos", parser });
 		}
 
 		{
-			mvPythonParser parser(mvPyDataType::IntList);
+			mvPythonParser parser(mvPyDataType::IntList, "Undocumented", { "Input Polling" });
 			parser.finalize();
 			parsers->insert({ "get_plot_mouse_pos", parser });
 		}
 
 		{
-			mvPythonParser parser(mvPyDataType::IntList);
+			mvPythonParser parser(mvPyDataType::IntList, "Undocumented", { "Input Polling" });
 			parser.finalize();
 			parsers->insert({ "get_drawing_mouse_pos", parser });
 		}
 
 		{
-			mvPythonParser parser(mvPyDataType::Float);
+			mvPythonParser parser(mvPyDataType::Float, "Undocumented", { "Input Polling" });
 			parser.finalize();
 			parsers->insert({ "get_mouse_drag_delta", parser });
 		}
 
 		{
-			mvPythonParser parser(mvPyDataType::Bool);
+			mvPythonParser parser(mvPyDataType::Bool, "Undocumented", { "Input Polling" });
 			parser.addArg<mvPyDataType::Integer>("button");
 			parser.addArg<mvPyDataType::Float>("threshold");
 			parser.finalize();
@@ -540,14 +540,14 @@ namespace Marvel {
 		}
 
 		{
-			mvPythonParser parser(mvPyDataType::Bool);
+			mvPythonParser parser(mvPyDataType::Bool, "Undocumented", { "Input Polling" });
 			parser.addArg<mvPyDataType::Integer>("button");
 			parser.finalize();
 			parsers->insert({ "is_mouse_button_down", parser });
 		}
 
 		{
-			mvPythonParser parser(mvPyDataType::Bool);
+			mvPythonParser parser(mvPyDataType::Bool, "Undocumented", { "Input Polling" });
 			parser.addArg<mvPyDataType::Integer>("button");
 			parser.finalize();
 			parsers->insert({ "is_mouse_button_clicked", parser });
@@ -555,7 +555,7 @@ namespace Marvel {
 
 
 		{
-			mvPythonParser parser(mvPyDataType::Bool);
+			mvPythonParser parser(mvPyDataType::Bool, "Undocumented", { "Input Polling" });
 			parser.addArg<mvPyDataType::Integer>("button");
 			parser.finalize();
 			parsers->insert({ "is_mouse_button_released", parser });
@@ -563,28 +563,28 @@ namespace Marvel {
 
 
 		{
-			mvPythonParser parser(mvPyDataType::Bool);
+			mvPythonParser parser(mvPyDataType::Bool, "Undocumented", { "Input Polling" });
 			parser.addArg<mvPyDataType::Integer>("button");
 			parser.finalize();
 			parsers->insert({ "is_mouse_button_double_clicked", parser });
 		}
 
 		{
-			mvPythonParser parser(mvPyDataType::Bool);
+			mvPythonParser parser(mvPyDataType::Bool, "Undocumented", { "Input Polling" });
 			parser.addArg<mvPyDataType::Integer>("key");
 			parser.finalize();
 			parsers->insert({ "is_key_pressed", parser });
 		}
 
 		{
-			mvPythonParser parser(mvPyDataType::Bool);
+			mvPythonParser parser(mvPyDataType::Bool, "Undocumented", { "Input Polling" });
 			parser.addArg<mvPyDataType::Integer>("key");
 			parser.finalize();
 			parsers->insert({ "is_key_released", parser });
 		}
 
 		{
-			mvPythonParser parser(mvPyDataType::Bool);
+			mvPythonParser parser(mvPyDataType::Bool, "Undocumented", { "Input Polling" });
 			parser.addArg<mvPyDataType::Integer>("key");
 			parser.finalize();
 			parsers->insert({ "is_key_down", parser });

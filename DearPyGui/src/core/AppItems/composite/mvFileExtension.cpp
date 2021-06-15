@@ -9,7 +9,7 @@ namespace Marvel {
 	void mvFileExtension::InsertParser(std::map<std::string, mvPythonParser>* parsers)
 	{
 		{
-			mvPythonParser parser(mvPyDataType::UUID);
+			mvPythonParser parser(mvPyDataType::UUID, "Undocumented Function", { "File Dialog"});
 			mvAppItem::AddCommonArgs(parser, (CommonParserArgs)(
 				MV_PARSER_ARG_ID |
 				MV_PARSER_ARG_WIDTH |

@@ -8,7 +8,7 @@ namespace Marvel {
 	void mvFontRegistry::InsertParser(std::map<std::string, mvPythonParser>* parsers)
 	{
 
-		mvPythonParser parser(mvPyDataType::UUID, "Undocumented function", { "Textures", "Widgets" });
+		mvPythonParser parser(mvPyDataType::UUID, "Undocumented function", { "Fonts", "Containers" });
 		mvAppItem::AddCommonArgs(parser, (CommonParserArgs)(
 			MV_PARSER_ARG_ID |
 			MV_PARSER_ARG_SHOW)

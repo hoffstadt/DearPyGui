@@ -109,7 +109,7 @@ namespace Marvel {
 	void mvAreaSeries::InsertParser(std::map<std::string, mvPythonParser>* parsers)
 	{
 
-		mvPythonParser parser(mvPyDataType::UUID, "Adds an area series to a plot.", { "Plotting", "Widgets" });
+		mvPythonParser parser(mvPyDataType::UUID, "Adds an area series to a plot.", { "Plotting", "Containers", "Widgets" });
 		mvAppItem::AddCommonArgs(parser, (CommonParserArgs)(
 			MV_PARSER_ARG_ID |
 			MV_PARSER_ARG_PARENT |

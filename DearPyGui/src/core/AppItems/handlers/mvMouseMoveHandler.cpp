@@ -9,7 +9,7 @@ namespace Marvel {
 	void mvMouseMoveHandler::InsertParser(std::map<std::string, mvPythonParser>* parsers)
 	{
 
-		mvPythonParser parser(mvPyDataType::UUID, "Adds a handler which runs a given callback when the mouse is moved. Parent must be a handler registry.", { "Textures", "Widgets" });
+		mvPythonParser parser(mvPyDataType::UUID, "Adds a handler which runs a given callback when the mouse is moved. Parent must be a handler registry.", { "Events", "Widgets" });
 		mvAppItem::AddCommonArgs(parser, (CommonParserArgs)(
 			MV_PARSER_ARG_ID |
 			MV_PARSER_ARG_SHOW |
