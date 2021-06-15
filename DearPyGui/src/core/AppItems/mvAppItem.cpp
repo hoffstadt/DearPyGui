@@ -1299,15 +1299,22 @@ namespace Marvel{
 		auto appitem = mvApp::GetApp()->getItemRegistry().getItem(item);
 		auto appfont = mvApp::GetApp()->getItemRegistry().getRefItem(font);
 
-		if (appfont == 0)
+		if (appitem)
 		{
-			appitem->m_font = nullptr;
-			return GetPyNone();
-		}
+			if (font == 0)
+			{
+				appitem->m_font = nullptr;
+				return GetPyNone();
+			}
 
-		if (appitem && appfont)
-		{
-			appitem->m_font = appfont;
+			if (appfont)
+			{
+				appitem->m_font = appfont;
+			}
+			else
+			{
+				mvThrowPythonError(1000, std::to_string(item) + std::string(" font was not found"));
+			}
 		}
 		else
 			mvThrowPythonError(1000, std::to_string(item) + std::string(" item was not found"));
