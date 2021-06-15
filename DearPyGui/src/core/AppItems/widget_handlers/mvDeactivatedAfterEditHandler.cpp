@@ -9,7 +9,7 @@ namespace Marvel {
 	void mvDeactivatedAfterEditHandler::InsertParser(std::map<std::string, mvPythonParser>* parsers)
 	{
 
-		mvPythonParser parser(mvPyDataType::UUID, "Adds a handler which runs a given callback when the specified item is deactivated after edit.", { "Textures", "Widgets" });
+		mvPythonParser parser(mvPyDataType::UUID, "Adds a handler which runs a given callback when the specified item is deactivated after edit.", { "Events", "Widgets" });
 		mvAppItem::AddCommonArgs(parser, (CommonParserArgs)(
 			MV_PARSER_ARG_ID |
 			MV_PARSER_ARG_USER_DATA |

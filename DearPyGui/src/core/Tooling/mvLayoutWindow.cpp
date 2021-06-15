@@ -333,9 +333,20 @@ namespace Marvel {
 		ImGui::PopItemWidth();
 		ImGui::SameLine();
 
-        // right side
         ImGui::BeginGroup();
-        ImGui::Checkbox("Node View", &m_nodeView);
+        ImGui::Checkbox("mvFileDialog", &m_fileDialog);
+        ImGui::Checkbox("mvStagingContainer", &m_staging);
+        ImGui::Checkbox("mvWindowAppItem", &m_window);
+        ImGui::Checkbox("mvViewportDrawlist", &m_viewport);
+        ImGui::Checkbox("mvFontRegistry", &m_font);
+        ImGui::Checkbox("mvHandlerRegistry", &m_handler);
+        ImGui::Checkbox("mvTextureRegistry", &m_texture);
+        ImGui::Checkbox("mvTheme", &m_theme);
+        ImGui::EndGroup();
+
+        ImGui::SameLine();
+
+        // right side
 
         if (m_nodeView)
         {
@@ -346,11 +357,41 @@ namespace Marvel {
             ImGui::BeginChild("TreeChild", ImVec2(-1.0f, -1.0f), true);
 
             for (auto& window : mvApp::GetApp()->getItemRegistry().getRoots())
+            {
+                if (window->getType() == mvAppItemType::mvFileDialog && !m_fileDialog)
+                    continue;
+
+                if (window->getType() == mvAppItemType::mvStagingContainer && !m_staging)
+                    continue;
+
+                if (window->getType() == mvAppItemType::mvWindowAppItem && !m_window)
+                    continue;
+
+                if (window->getType() == mvAppItemType::mvViewportDrawlist && !m_viewport)
+                    continue;
+
+                if (window->getType() == mvAppItemType::mvFontRegistry && !m_font)
+                    continue;
+
+                if (window->getType() == mvAppItemType::mvHandlerRegistry && !m_handler)
+                    continue;
+
+                if (window->getType() == mvAppItemType::mvTextureRegistry && !m_texture)
+                    continue;
+
+                if (window->getType() == mvAppItemType::mvTheme && !m_theme)
+                    continue;
+
                 renderTreeNode(window.get());
+            }
 
             ImGui::EndChild();
         }
-        ImGui::EndGroup();
+
+        ImGui::SameLine();
+
+
+
     }
 
 }

@@ -10,7 +10,7 @@ namespace Marvel {
 	void mvVLineSeries::InsertParser(std::map<std::string, mvPythonParser>* parsers)
 	{
 
-		mvPythonParser parser(mvPyDataType::UUID, "Adds a infinite vertical line series to a plot.", { "Plotting", "Widgets" });
+		mvPythonParser parser(mvPyDataType::UUID, "Adds a infinite vertical line series to a plot.", { "Plotting", "Containers", "Widgets" });
 		mvAppItem::AddCommonArgs(parser, (CommonParserArgs)(
 			MV_PARSER_ARG_ID |
 			MV_PARSER_ARG_PARENT |
@@ -113,7 +113,7 @@ namespace Marvel {
 	void mvHLineSeries::InsertParser(std::map<std::string, mvPythonParser>* parsers)
 	{
 
-		mvPythonParser parser(mvPyDataType::UUID, "Adds a infinite horizontal line series to a plot.");
+		mvPythonParser parser(mvPyDataType::UUID, "Adds a infinite horizontal line series to a plot.", { "Plotting", "Containers", "Widgets" });
 		mvAppItem::AddCommonArgs(parser, (CommonParserArgs)(
 			MV_PARSER_ARG_ID |
 			MV_PARSER_ARG_PARENT |

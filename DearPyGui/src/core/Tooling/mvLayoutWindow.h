@@ -35,6 +35,16 @@ namespace Marvel {
         bool m_nodeView = false;
         bool m_dirtyNodes = true;
         int m_selectedId = -1;
+        
+        // filter root types
+        bool m_fileDialog = false;
+        bool m_staging= false;
+        bool m_window= true;
+        bool m_viewport= false;
+        bool m_font= false;
+        bool m_handler= false;
+        bool m_texture= false;
+        bool m_theme= false;
 
     };
 

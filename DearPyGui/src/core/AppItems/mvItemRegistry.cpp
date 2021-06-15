@@ -13,13 +13,13 @@ namespace Marvel {
 	{
 
 		{
-			mvPythonParser parser(mvPyDataType::UUID);
+			mvPythonParser parser(mvPyDataType::UUID, "Undocumented", { "Item Registry" });
 			parser.finalize();
 			parsers->insert({ "pop_container_stack", parser });
 		}
 
 		{
-			mvPythonParser parser(mvPyDataType::None);
+			mvPythonParser parser(mvPyDataType::None, "Undocumented", { "Item Registry" });
 			parser.addArg<mvPyDataType::UUID>("container");
 			parser.addArg<mvPyDataType::Integer>("slot");
 			parser.addArg<mvPyDataType::UUIDList>("new_order");
@@ -28,58 +28,58 @@ namespace Marvel {
 		}
 
 		{
-			mvPythonParser parser(mvPyDataType::None);
+			mvPythonParser parser(mvPyDataType::None, "Undocumented", { "Item Registry" });
 			parser.addArg<mvPyDataType::UUIDList>("items");
 			parser.finalize();
 			parsers->insert({ "unstage_items", parser });
 		}
 
 		{
-			mvPythonParser parser(mvPyDataType::None);
+			mvPythonParser parser(mvPyDataType::None, "Undocumented", { "Item Registry" });
 			parser.addArg<mvPyDataType::UUIDList>("items");
 			parser.finalize();
 			parsers->insert({ "stage_items", parser });
 		}
 
 		{
-			mvPythonParser parser(mvPyDataType::Bool);
+			mvPythonParser parser(mvPyDataType::Bool, "Undocumented", { "Item Registry" });
 			parser.addArg<mvPyDataType::UUID>("item");
 			parser.finalize();
 			parsers->insert({ "push_container_stack", parser });
 		}
 
 		{
-			mvPythonParser parser(mvPyDataType::UUID);
+			mvPythonParser parser(mvPyDataType::UUID, "Undocumented", { "Item Registry" });
 			parser.finalize();
 			parsers->insert({ "top_container_stack", parser });
 		}
 
 		{
-			mvPythonParser parser(mvPyDataType::UUID);
+			mvPythonParser parser(mvPyDataType::UUID, "Undocumented", { "Item Registry" });
 			parser.finalize();
 			parsers->insert({ "last_item", parser });
 		}
 
 		{
-			mvPythonParser parser(mvPyDataType::UUID);
+			mvPythonParser parser(mvPyDataType::UUID, "Undocumented", { "Item Registry" });
 			parser.finalize();
 			parsers->insert({ "last_container", parser });
 		}
 
 		{
-			mvPythonParser parser(mvPyDataType::UUID);
+			mvPythonParser parser(mvPyDataType::UUID, "Undocumented", { "Item Registry" });
 			parser.finalize();
 			parsers->insert({ "last_root", parser });
 		}
 
 		{
-			mvPythonParser parser(mvPyDataType::None);
+			mvPythonParser parser(mvPyDataType::None, "Undocumented", { "Item Registry" });
 			parser.finalize();
 			parsers->insert({ "empty_container_stack", parser });
 		}
 
 		{
-			mvPythonParser parser(mvPyDataType::None);
+			mvPythonParser parser(mvPyDataType::None, "Undocumented", { "Item Registry" });
 			parser.addArg<mvPyDataType::UUID>("item");
 			parser.addArg<mvPyDataType::UUID>("parent", mvArgType::KEYWORD_ARG, "0");
 			parser.addArg<mvPyDataType::UUID>("before", mvArgType::KEYWORD_ARG, "0");
@@ -88,26 +88,26 @@ namespace Marvel {
 		}
 
 		{
-			mvPythonParser parser(mvPyDataType::UUIDList);
+			mvPythonParser parser(mvPyDataType::UUIDList, "Undocumented", { "Item Registry" });
 			parser.finalize();
 			parsers->insert({ "get_windows", parser });
 		}
 
 		{
-			mvPythonParser parser(mvPyDataType::UUIDList);
+			mvPythonParser parser(mvPyDataType::UUIDList, "Undocumented", { "Item Registry" });
 			parser.finalize();
 			parsers->insert({ "get_all_items", parser });
 		}
 
 		{
-			mvPythonParser parser(mvPyDataType::None);
+			mvPythonParser parser(mvPyDataType::None, "Undocumented", { "Item Registry" });
 			parser.addArg<mvPyDataType::Bool>("mode");
 			parser.finalize();
 			parsers->insert({ "set_staging_mode", parser });
 		}
 
 		{
-			mvPythonParser parser(mvPyDataType::None);
+			mvPythonParser parser(mvPyDataType::None, "Undocumented", { "Item Registry" });
 			parser.addArg<mvPyDataType::UUID>("item");
 			parser.addArg<mvPyDataType::Bool>("children_only", mvArgType::KEYWORD_ARG, "False");
 			parser.finalize();
@@ -115,34 +115,34 @@ namespace Marvel {
 		}
 
 		{
-			mvPythonParser parser(mvPyDataType::Bool);
+			mvPythonParser parser(mvPyDataType::Bool, "Undocumented", { "Item Registry" });
 			parser.addArg<mvPyDataType::UUID>("item");
 			parser.finalize();
 			parsers->insert({ "does_item_exist", parser });
 		}
 
 		{
-			mvPythonParser parser(mvPyDataType::None);
+			mvPythonParser parser(mvPyDataType::None, "Undocumented", { "Item Registry" });
 			parser.addArg<mvPyDataType::UUID>("item");
 			parser.finalize();
 			parsers->insert({ "move_item_up", parser });
 		}
 
 		{
-			mvPythonParser parser(mvPyDataType::None);
+			mvPythonParser parser(mvPyDataType::None, "Undocumented", { "Item Registry" });
 			parser.addArg<mvPyDataType::UUID>("item");
 			parser.finalize();
 			parsers->insert({ "move_item_down", parser });
 		}
 
 		{
-			mvPythonParser parser(mvPyDataType::UUID);
+			mvPythonParser parser(mvPyDataType::UUID, "Undocumented", { "Item Registry" });
 			parser.finalize();
 			parsers->insert({ "get_active_window", parser });
 		}
 
 		{
-			mvPythonParser parser(mvPyDataType::None);
+			mvPythonParser parser(mvPyDataType::None, "Undocumented", { "Item Registry" });
 			parser.addArg<mvPyDataType::UUID>("window");
 			parser.addArg<mvPyDataType::Bool>("value");
 			parser.finalize();
