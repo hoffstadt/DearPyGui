@@ -184,7 +184,7 @@ on_success:
         {
           cd ..
           cd ..
-          git clone -b gh-pages --single-branch https://github.com/hoffstadt/dpg-test-py-docs
+          git clone -b gh-pages --single-branch "https://github.com/hoffstadt/dpg-test-py-docs"
           Add-Content -Path "$HOME\.git-credentials" -Value "https://$($env:git_token):x-oauth-basic@github.com`n" -NoNewline
           C:\Python39-x64\python.exe -m pip install C:\projects\dearpygui\dist\dearpygui-$env:APPVEYOR_BUILD_VERSION-cp39-cp39-win_amd64.whl
           C:\Python39-x64\python.exe -m pip install pdoc3
