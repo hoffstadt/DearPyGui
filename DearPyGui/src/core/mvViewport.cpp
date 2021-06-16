@@ -64,6 +64,13 @@ namespace Marvel {
 		}
 
 		{
+			mvPythonParser parser(mvPyDataType::Dict, "Undocumented", { "General" });
+			parser.addArg<mvPyDataType::UUID>("item");
+			parser.finalize();
+			parsers->insert({ "get_viewport_configuration", parser });
+		}
+
+		{
 			mvPythonParser parser(mvPyDataType::None, "Undocumented", { "General" });
 			parser.finalize();
 			parsers->insert({ "maximize_viewport", parser });
@@ -127,6 +134,50 @@ namespace Marvel {
 				});
 		}
 
+	}
+
+	void mvViewport::getConfigDict(PyObject* dict)
+	{
+		if (dict == nullptr)
+			return;
+
+		PyDict_SetItemString(dict, "clear_color", ToPyColor(m_clearColor));
+		PyDict_SetItemString(dict, "small_icon",  ToPyString(m_small_icon));
+		PyDict_SetItemString(dict, "large_icon", ToPyString(m_large_icon));
+		PyDict_SetItemString(dict, "x_pos", ToPyInt(m_xpos));
+		PyDict_SetItemString(dict, "y_pos", ToPyInt(m_ypos));
+		PyDict_SetItemString(dict, "width", ToPyInt(m_actualWidth));
+		PyDict_SetItemString(dict, "height", ToPyInt(m_actualHeight));
+		PyDict_SetItemString(dict, "client_width", ToPyInt(m_clientWidth));
+		PyDict_SetItemString(dict, "client_height", ToPyInt(m_clientHeight));
+		PyDict_SetItemString(dict, "resizable", ToPyBool(m_resizable));
+		PyDict_SetItemString(dict, "vsync", ToPyBool(m_vsync));
+		PyDict_SetItemString(dict, "min_width",  ToPyInt(m_minwidth ));
+		PyDict_SetItemString(dict, "max_width",  ToPyInt(m_maxwidth ));
+		PyDict_SetItemString(dict, "min_height", ToPyInt(m_minheight));
+		PyDict_SetItemString(dict, "max_height", ToPyInt(m_maxheight));
+		PyDict_SetItemString(dict, "always_on_top", ToPyBool(m_alwaysOnTop));
+		PyDict_SetItemString(dict, "maximized_box", ToPyBool(m_maximizeBox));
+		PyDict_SetItemString(dict, "minimized_box", ToPyBool(m_minimizeBox));
+		PyDict_SetItemString(dict, "border", ToPyBool(m_border));
+		PyDict_SetItemString(dict, "title", ToPyString(m_title));
+		PyDict_SetItemString(dict, "caption", ToPyBool(m_caption));
+		PyDict_SetItemString(dict, "overlapped", ToPyBool(m_overlapped));
+
+	}
+
+	PyObject* mvViewport::get_viewport_configuration(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+
+		if (!mvApp::s_manualMutexControl) std::lock_guard<std::mutex> lk(mvApp::s_mutex);
+
+		PyObject* pdict = PyDict_New();
+
+		mvViewport* viewport = mvApp::GetApp()->getViewport();
+		if (viewport)
+			viewport->getConfigDict(pdict);
+
+		return pdict;
 	}
 
 	PyObject* mvViewport::create_viewport(PyObject* self, PyObject* args, PyObject* kwargs)

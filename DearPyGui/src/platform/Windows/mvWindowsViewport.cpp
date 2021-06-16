@@ -345,6 +345,11 @@ namespace Marvel {
 			break;
 		}
 
+		case WM_MOVE:
+			m_xpos = (int)(short)LOWORD(lParam);   // horizontal position 
+			m_ypos = (int)(short)HIWORD(lParam);   // vertical position 
+			break;
+
 		case WM_SIZE:
 			if (s_pd3dDevice != nullptr && wParam != SIZE_MINIMIZED)
 			{

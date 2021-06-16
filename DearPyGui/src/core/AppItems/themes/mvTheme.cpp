@@ -63,7 +63,7 @@ namespace Marvel {
 		if (dict == nullptr)
 			return;
 
-		if (PyObject* item = PyDict_GetItemString(dict, "default_theme")) m_defaultTheme = ToBool(item);
+		if (PyObject* item = PyDict_GetItemString(dict, "default_theme")) m_show = ToBool(item);
 
 	}
 

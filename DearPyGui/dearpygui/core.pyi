@@ -682,6 +682,10 @@ def get_values(items : unknown) -> Any:
 	"""Undocumented"""
 	...
 
+def get_viewport_configuration(item : int) -> dict:
+	"""Undocumented"""
+	...
+
 def get_windows() -> List[int]:
 	"""Undocumented"""
 	...

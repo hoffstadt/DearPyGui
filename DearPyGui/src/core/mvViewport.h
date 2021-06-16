@@ -28,6 +28,7 @@ namespace Marvel {
         MV_CREATE_COMMAND(show_viewport);
         MV_CREATE_COMMAND(create_viewport);
         MV_CREATE_COMMAND(configure_viewport);
+        MV_CREATE_COMMAND(get_viewport_configuration);
         
 		// viewport operations
         MV_CREATE_COMMAND(maximize_viewport);
@@ -39,6 +40,7 @@ namespace Marvel {
 			MV_ADD_COMMAND(configure_viewport)
 			MV_ADD_COMMAND(maximize_viewport)
 			MV_ADD_COMMAND(minimize_viewport)
+			MV_ADD_COMMAND(get_viewport_configuration)
 		MV_END_COMMANDS
 
 		static mvViewport* CreateViewport(unsigned width, unsigned height);
@@ -46,6 +48,7 @@ namespace Marvel {
 		mvViewport(unsigned width, unsigned height);
 		virtual ~mvViewport() = default;
 
+		void getConfigDict(PyObject* dict);
 		void setConfigDict(PyObject* dict);
 
 		virtual void invalidateObjects() {}
