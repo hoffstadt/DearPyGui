@@ -59,7 +59,7 @@
 #define mvImGuiCol_NavHighlight MV_BASE_COL_bgColor
 #define mvImGuiCol_NavWindowingHighlight mvColor(255, 255, 255, 179)
 #define mvImGuiCol_NavWindowingDimBg mvColor(204, 204, 204, 51)
-#define mvImGuiCol_ModalWindowDimBg MV_BASE_COL_bgColor
+#define mvImGuiCol_ModalWindowDimBg mvColor(37, 37, 38, 150)
 
 #define mvImGuiCol_NodeBackground mvColor(62, 62, 62, 255)
 #define mvImGuiCol_NodeBackgroundHovered mvColor(75, 75, 75, 255)

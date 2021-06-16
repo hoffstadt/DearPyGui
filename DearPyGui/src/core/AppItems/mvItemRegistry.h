@@ -57,6 +57,8 @@ namespace Marvel {
         MV_CREATE_COMMAND(stage_items);
         MV_CREATE_COMMAND(unstage_items);
         MV_CREATE_COMMAND(reorder_items);
+        MV_CREATE_COMMAND(show_imgui_demo);
+        MV_CREATE_COMMAND(show_implot_demo);
 
         MV_START_COMMANDS
             MV_ADD_COMMAND(move_item);
@@ -79,6 +81,8 @@ namespace Marvel {
             MV_ADD_COMMAND(stage_items);
             MV_ADD_COMMAND(unstage_items);
             MV_ADD_COMMAND(reorder_items);
+            MV_ADD_COMMAND(show_imgui_demo);
+            MV_ADD_COMMAND(show_implot_demo);
         MV_END_COMMANDS
 
 	public:
@@ -160,6 +164,8 @@ namespace Marvel {
         mvUUID                                       m_activeWindow = 0;
         bool                                         m_staging = false;
         std::vector<mvAppItem*>                      m_delayedSearch;
+        bool                                         m_showImGuiDebug = false;
+        bool                                         m_showImPlotDebug = false;
 
 
 

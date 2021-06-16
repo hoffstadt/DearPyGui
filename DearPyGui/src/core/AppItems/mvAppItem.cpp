@@ -986,6 +986,8 @@ namespace Marvel{
 			m_show = ToBool(item);
 			if (m_show)
 				show();
+			else
+				hide();
 		}
 		if (PyObject* item = PyDict_GetItemString(dict, "filter_key")) m_filter = ToString(item);
 		if (PyObject* item = PyDict_GetItemString(dict, "payload_type")) setPayloadType(ToString(item));

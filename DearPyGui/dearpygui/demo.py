@@ -177,6 +177,7 @@ def _update_dynamic_textures(sender, app_data, user_data):
         dpg.set_value(demo_dynamic_texture_2, texture_data)
 
 def _on_demo_close(sender, app_data, user_data):
+    print(sender)
     dpg.delete_item(sender)
 
 def show_demo():
@@ -239,6 +240,8 @@ def show_demo():
                 dpg.add_menu_item(label="Show Style Editor", callback=lambda:dpg.show_tool(dpg.mvTool_Style))
                 dpg.add_menu_item(label="Show Font Manager", callback=lambda:dpg.show_tool(dpg.mvTool_Font))
                 dpg.add_menu_item(label="Show Item Registry", callback=lambda:dpg.show_tool(dpg.mvTool_ItemRegistry))
+                dpg.add_menu_item(label="Show ImGui Demo", callback=lambda:dpg.show_imgui_demo())
+                dpg.add_menu_item(label="Show ImPlot Demo", callback=lambda:dpg.show_implot_demo())
 
         dpg.add_text(f'Dear PyGui says hello. ({dpg.get_dearpygui_version()})')
         dpg.add_text("This code for this demo can be found here: ")
@@ -1003,7 +1006,7 @@ def show_demo():
                 b = dpg.add_button(label="Select..")
                 dpg.add_same_line()
                 t = dpg.add_text("<None>")
-                with cxt.popup(parent=b):
+                with cxt.popup(b):
                     dpg.add_text("Aquariam")
                     dpg.add_separator()
                     dpg.add_selectable(label="Bream", user_data=[t, "Bream"], callback=lambda s, a, u: dpg.set_value(u[0], u[1]))
@@ -1015,13 +1018,13 @@ def show_demo():
             with cxt.tree_node(label="Modals"):
                 dpg.add_text("Modal windows are like popups but the user cannot close them by clicking outside.")
                 dpg.add_button(label="Delete..")
-                with cxt.popup(parent=dpg.last_item(), modal=True) as p:
+                with cxt.popup(dpg.last_item(), modal=True, mousebutton=dpg.mvMouseButton_Left) as modal_id:
                     dpg.add_text("All those beautiful files will be deleted.\nThis operation cannot be undone!")
                     dpg.add_separator()
                     dpg.add_checkbox(label="Don't ask me next time")
-                    dpg.add_button(label="OK", user_data=p, width=75, callback=lambda s, a, u: dpg.close_popup(u))
+                    dpg.add_button(label="OK", width=75, callback=lambda: dpg.configure_item(modal_id, show=False))
                     dpg.add_same_line()
-                    dpg.add_button(label="Cancel", user_data=p, width=75, callback=lambda s, a, u: dpg.close_popup(u))
+                    dpg.add_button(label="Cancel", width=75, callback=lambda: dpg.configure_item(modal_id, show=False))
 
             with cxt.tree_node(label="File/Directory Selector"):
 

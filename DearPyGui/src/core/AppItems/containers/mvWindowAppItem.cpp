@@ -184,22 +184,7 @@ namespace Marvel {
 
 	void mvWindowAppItem::draw(ImDrawList* drawlist, float x, float y)
 	{
-		// shouldn't have to do this but do. Fix later
-		if (!m_show)
-		{
-			m_state.setHovered(false);
-			m_state.setFocused(false);
-			m_state.setActivated(false);
-			m_state.setVisible(false);
-			if (!m_closing)
-			{
-				m_closing = true;
-				mvApp::GetApp()->getCallbackRegistry().addCallback(m_on_close, m_uuid, nullptr, m_user_data);
-
-			}
-			return;
-		}
-		m_closing = false;
+		ScopedID id(m_uuid);
 
 		if (m_mainWindow)
 		{
@@ -234,8 +219,6 @@ namespace Marvel {
 			ImGui::SetNextWindowFocus();
 			m_focusNextFrame = false;
 		}
-
-		ScopedID id(m_uuid);
 
 		if (m_modal)
 		{
@@ -382,15 +365,34 @@ namespace Marvel {
 
 		m_state.setPos({ ImGui::GetWindowPos().x , ImGui::GetWindowPos().y });
 
-		ImGui::End();
+		if (m_popup || m_modal)
+			ImGui::EndPopup();
+		else
+			ImGui::End();
 
 		m_collapsed = ImGui::IsWindowCollapsed();
+
+		if (!m_show)
+			hide();
 	}
 
 	void mvWindowAppItem::show()
 	{
 		m_show = true;
 		m_popupInit = true;
+	}
+
+	void mvWindowAppItem::hide()
+	{
+		// shouldn't have to do this but do. Fix later
+		m_show = false;
+		m_state.setHovered(false);
+		m_state.setFocused(false);
+		m_state.setActivated(false);
+		m_state.setVisible(false);
+
+		mvApp::GetApp()->getCallbackRegistry().addCallback(m_on_close, m_uuid, nullptr, m_user_data);
+
 	}
 
 	void mvWindowAppItem::handleSpecificKeywordArgs(PyObject* dict)

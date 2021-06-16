@@ -19,100 +19,100 @@ environment:
 
   matrix:
 
-    #- APPVEYOR_BUILD_WORKER_IMAGE: macos-mojave
-    #  ARCH: "x64"
-    #  CONFIG: Release
-    #  PYVER: 36
-    #  PYLOC: "python"
-    #  PYSTACK: "3.6"
-    #  PYFULLVERSION: "3.6.12"
-    #  MACOS: "true"
+    - APPVEYOR_BUILD_WORKER_IMAGE: macos-mojave
+      ARCH: "x64"
+      CONFIG: Release
+      PYVER: 36
+      PYLOC: "python"
+      PYSTACK: "3.6"
+      PYFULLVERSION: "3.6.12"
+      MACOS: "true"
     
-    #- APPVEYOR_BUILD_WORKER_IMAGE: Ubuntu
-    #  ARCH: "x64"
-    #  CONFIG: Release
-    #  PYVER: 36
-    #  PYLOC: "python"
-    #  PYSTACK: "3.6"
-    #  PYFULLVERSION: "3.6.12"
+    - APPVEYOR_BUILD_WORKER_IMAGE: Ubuntu
+      ARCH: "x64"
+      CONFIG: Release
+      PYVER: 36
+      PYLOC: "python"
+      PYSTACK: "3.6"
+      PYFULLVERSION: "3.6.12"
     
-    #- APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2019
-    #  GENERATOR: "Visual Studio 16 2019"
-    #  ARCH: "x64"
-    #  CONFIG: Release
-    #  PYVER: 36
-    #  PYLOC: "C:/Python36-x64/python.exe"
-    #  PYSTACK: "3.6"
-    #  PYFULLVERSION: "3.6.12"
+    - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2019
+      GENERATOR: "Visual Studio 16 2019"
+      ARCH: "x64"
+      CONFIG: Release
+      PYVER: 36
+      PYLOC: "C:/Python36-x64/python.exe"
+      PYSTACK: "3.6"
+      PYFULLVERSION: "3.6.12"
     
-    #- APPVEYOR_BUILD_WORKER_IMAGE: macos-mojave
-    #  ARCH: "x64"
-    #  CONFIG: Release
-    #  PYVER: 37
-    #  PYLOC: "python"
-    #  PYSTACK: "3.7"
-    #  PYFULLVERSION: "3.7.9"
-    #  MACOS: "true"
+    - APPVEYOR_BUILD_WORKER_IMAGE: macos-mojave
+      ARCH: "x64"
+      CONFIG: Release
+      PYVER: 37
+      PYLOC: "python"
+      PYSTACK: "3.7"
+      PYFULLVERSION: "3.7.9"
+      MACOS: "true"
     
-    #- APPVEYOR_BUILD_WORKER_IMAGE: Ubuntu
-    #  ARCH: "x64"
-    #  CONFIG: Release
-    #  PYVER: 37
-    #  PYLOC: "python"
-    #  PYSTACK: "3.7"
-    #  PYFULLVERSION: "3.7.10"
+    - APPVEYOR_BUILD_WORKER_IMAGE: Ubuntu
+      ARCH: "x64"
+      CONFIG: Release
+      PYVER: 37
+      PYLOC: "python"
+      PYSTACK: "3.7"
+      PYFULLVERSION: "3.7.10"
     
-    #- APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2019
-    #  GENERATOR: "Visual Studio 16 2019"
-    #  ARCH: "x64"
-    #  CONFIG: Release
-    #  PYVER: 37
-    #  PYLOC: "C:/Python37-x64/python.exe"
-    #  PYSTACK: "3.7"
-    #  PYFULLVERSION: "3.7.9"
+    - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2019
+      GENERATOR: "Visual Studio 16 2019"
+      ARCH: "x64"
+      CONFIG: Release
+      PYVER: 37
+      PYLOC: "C:/Python37-x64/python.exe"
+      PYSTACK: "3.7"
+      PYFULLVERSION: "3.7.9"
     
-    #- APPVEYOR_BUILD_WORKER_IMAGE: macos-mojave
-    #  ARCH: "x64"
-    #  CONFIG: Release
-    #  PYVER: 38
-    #  PYLOC: "python"
-    #  PYSTACK: "3.8"
-    #  PYFULLVERSION: "3.8.6"
-    #  MACOS: "true"
+    - APPVEYOR_BUILD_WORKER_IMAGE: macos-mojave
+      ARCH: "x64"
+      CONFIG: Release
+      PYVER: 38
+      PYLOC: "python"
+      PYSTACK: "3.8"
+      PYFULLVERSION: "3.8.6"
+      MACOS: "true"
     
-    #- APPVEYOR_BUILD_WORKER_IMAGE: Ubuntu
-    #  ARCH: "x64"
-    #  CONFIG: Release
-    #  PYVER: 38
-    #  PYLOC: "python"
-    #  PYSTACK: "3.8"
-    #  PYFULLVERSION: "3.8.10"
+    - APPVEYOR_BUILD_WORKER_IMAGE: Ubuntu
+      ARCH: "x64"
+      CONFIG: Release
+      PYVER: 38
+      PYLOC: "python"
+      PYSTACK: "3.8"
+      PYFULLVERSION: "3.8.10"
 
-    #- APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2019
-    #  GENERATOR: "Visual Studio 16 2019"
-    #  ARCH: "x64"
-    #  CONFIG: Release
-    #  PYVER: 38
-    #  PYLOC: "C:/Python38-x64/python.exe"
-    #  PYSTACK: "3.8"
-    #  PYFULLVERSION: "3.8.5"
+    - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2019
+      GENERATOR: "Visual Studio 16 2019"
+      ARCH: "x64"
+      CONFIG: Release
+      PYVER: 38
+      PYLOC: "C:/Python38-x64/python.exe"
+      PYSTACK: "3.8"
+      PYFULLVERSION: "3.8.5"
 
-    #- APPVEYOR_BUILD_WORKER_IMAGE: macos-mojave
-    #  ARCH: "x64"
-    #  CONFIG: Release
-    #  PYVER: 39
-    #  PYLOC: "python"
-    #  PYSTACK: "3.9"
-    #  PYFULLVERSION: "3.9.1"
-    #  MACOS: "true"
+    - APPVEYOR_BUILD_WORKER_IMAGE: macos-mojave
+      ARCH: "x64"
+      CONFIG: Release
+      PYVER: 39
+      PYLOC: "python"
+      PYSTACK: "3.9"
+      PYFULLVERSION: "3.9.1"
+      MACOS: "true"
     
-    #- APPVEYOR_BUILD_WORKER_IMAGE: Ubuntu
-    #  ARCH: "x64"
-    #  CONFIG: Release
-    #  PYVER: 39
-    #  PYLOC: "python"
-    #  PYSTACK: "3.9"
-    #  PYFULLVERSION: "3.9.5"
+    - APPVEYOR_BUILD_WORKER_IMAGE: Ubuntu
+      ARCH: "x64"
+      CONFIG: Release
+      PYVER: 39
+      PYLOC: "python"
+      PYSTACK: "3.9"
+      PYFULLVERSION: "3.9.5"
 
     - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2019
       GENERATOR: "Visual Studio 16 2019"
@@ -173,30 +173,8 @@ on_success:
   - cmd: call %PYLOC% -m pip install twine
   - cmd: call %PYLOC% -m pip install wheel
   - cmd: call %PYLOC% -m setup bdist_wheel --plat-name win_amd64 --dist-dir C:/projects/dearpygui/dist
-  #- cmd: if "%APPVEYOR_REPO_COMMIT_MESSAGE:(test)=%" neq "%APPVEYOR_REPO_COMMIT_MESSAGE%" call %PYLOC% -m twine upload --repository testpypi C:/projects/dearpygui/dist/* -u RaylockLLC -p %pypi_password% --skip-existing
+  - cmd: if "%APPVEYOR_REPO_COMMIT_MESSAGE:(test)=%" neq "%APPVEYOR_REPO_COMMIT_MESSAGE%" call %PYLOC% -m twine upload --repository testpypi C:/projects/dearpygui/dist/* -u RaylockLLC -p %pypi_password% --skip-existing
   - cmd: if "%APPVEYOR_REPO_COMMIT_MESSAGE:(release)=%" neq "%APPVEYOR_REPO_COMMIT_MESSAGE%" call %PYLOC% -m twine upload C:/projects/dearpygui/dist/* -u RaylockLLC -p %pypi_password% --skip-existing
-  
-  #  # deploy test docs
-  - ps: |
-      if ( $env:APPVEYOR_REPO_COMMIT_MESSAGE -like "*(test)*" )
-      {
-        if ( $env:PYDOCRUN -like "*true*" )
-        {
-          cd ..
-          cd ..
-          git clone -b gh-pages --single-branch "https://github.com/hoffstadt/dpg-test-py-docs"
-          Add-Content -Path "$HOME\.git-credentials" -Value "https://$($env:git_token):x-oauth-basic@github.com`n" -NoNewline
-          C:\Python39-x64\python.exe -m pip install C:\projects\dearpygui\dist\dearpygui-$env:APPVEYOR_BUILD_VERSION-cp39-cp39-win_amd64.whl
-          C:\Python39-x64\python.exe -m pip install pdoc3
-          C:\Python39-x64\python.exe -m pdoc --html dearpygui -f
-          C:\Python39-x64\python.exe html_script.py
-          git config --global credential.helper store
-          git config --global user.email "jonathanhoffstadt@yahoo.com"
-          git config --global user.name "Jonathan Hoffstadt"
-          git commit -a -m "Update Docs for $env:APPVEYOR_BUILD_VERSION"
-          git push origin gh-pages -q
-        }
-      }
       
   # deploy docs
   - ps: |

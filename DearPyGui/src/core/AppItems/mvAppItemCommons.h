@@ -69,7 +69,6 @@
 #include "containers/mvMenuBar.h"
 #include "containers/mvTooltip.h"
 #include "containers/mvWindowAppItem.h"
-#include "containers/mvPopup.h"
 #include "containers/mvDragPayload.h"
 
 #include "tables/mvTable.h"
