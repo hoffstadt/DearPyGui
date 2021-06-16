@@ -51,6 +51,8 @@ namespace Marvel {
 		void setWidth             (int width) override;
 		void setHeight            (int height) override;
 		void draw                 (ImDrawList* drawlist, float x, float y) override;
+		bool preDraw                 () override;
+		void postDraw                 () override;
 		bool getWindowAsMainStatus() const { return m_mainWindow; }
 
 		void show() override;
