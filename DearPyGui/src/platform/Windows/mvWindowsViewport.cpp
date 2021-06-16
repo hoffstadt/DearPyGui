@@ -53,6 +53,10 @@ namespace Marvel {
 
 		if (m_border) m_modes |= WS_THICKFRAME;
 		if (m_caption) m_modes |= WS_CAPTION;
+		else
+		{
+			m_modes &= ~( WS_CAPTION | WS_BORDER | WS_THICKFRAME );
+		}
 		if (m_minimizeBox) m_modes |= WS_MINIMIZEBOX;
 		if (m_maximizeBox) m_modes |= WS_MAXIMIZEBOX;
 		if (m_overlapped) m_modes |= WS_OVERLAPPED | WS_SYSMENU;
