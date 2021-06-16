@@ -5,6 +5,8 @@
 #include "mvLog.h"
 #include "mvPythonExceptions.h"
 #include "mvChild.h"
+#include "fonts/mvFont.h"
+#include "themes/mvTheme.h"
 
 namespace Marvel {
 
@@ -128,6 +130,83 @@ namespace Marvel {
 	{
 		if (item->getType() == mvAppItemType::mvMenuBar)
 			m_windowflags &= ~ImGuiWindowFlags_MenuBar;
+	}
+
+	bool mvWindowAppItem::preDraw()
+	{
+		if (!m_show)
+		{
+			if (!DoesItemHaveFlag(this, MV_ITEM_DESC_ALWAYS_DRAW))
+				return false;
+		}
+
+		if (m_focusNextFrame)
+		{
+			ImGui::SetKeyboardFocusHere();
+			m_focusNextFrame = false;
+		}
+
+		if (m_font)
+		{
+			ImFont* fontptr = static_cast<mvFont*>(m_font.get())->getFontPtr();
+			ImGui::PushFont(fontptr);
+		}
+
+
+		if (m_enabled)
+		{
+			if (m_theme)
+			{
+				static_cast<mvTheme*>(m_theme.get())->draw(nullptr, 0.0f, 0.0f);
+			}
+		}
+		else
+		{
+
+			if (m_disabledTheme)
+			{
+				static_cast<mvTheme*>(m_disabledTheme.get())->draw(nullptr, 0.0f, 0.0f);
+			}
+		}
+
+		return true;
+	}
+
+	void mvWindowAppItem::postDraw()
+	{
+
+		m_state.update();
+
+		if (m_font)
+		{
+			ImGui::PopFont();
+		}
+
+		if (m_enabled)
+		{
+			if (m_theme)
+			{
+				static_cast<mvTheme*>(m_theme.get())->customAction();
+			}
+		}
+		else
+		{
+
+			if (m_disabledTheme)
+			{
+				static_cast<mvTheme*>(m_disabledTheme.get())->customAction();
+			}
+		}
+
+		// event handlers
+		for (auto& item : m_children[3])
+		{
+			if (!item->preDraw())
+				continue;
+
+			item->draw(nullptr, ImGui::GetCursorPosX(), ImGui::GetCursorPosY());
+		}
+
 	}
 
 	void mvWindowAppItem::setWindowAsMainStatus(bool value)
