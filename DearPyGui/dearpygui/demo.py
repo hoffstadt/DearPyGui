@@ -193,8 +193,7 @@ def show_demo():
     logger.log_critical("critical message boi")
 
     def _log(sender, app_data, user_data):
-        sender.log(f"Sender was {sender}.")
-        sender.log(f"Data was {user_data}.")
+        pass
 
     _create_static_textures()
     _create_dynamic_textures()
