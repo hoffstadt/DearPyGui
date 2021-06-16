@@ -233,6 +233,8 @@ namespace Marvel {
 
             m_app->render();
 
+            glfwGetWindowPos(m_window, &m_xpos, &m_ypos);
+
             // Rendering
             ImGui::Render();
             ImGui_ImplMetal_RenderDrawData(ImGui::GetDrawData(), commandBuffer, m_renderEncoder);

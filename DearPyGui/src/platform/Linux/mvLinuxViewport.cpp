@@ -236,6 +236,8 @@ namespace Marvel {
 
     void mvLinuxViewport::postrender()
     {
+        glfwGetWindowPos(m_window, &m_xpos, &m_ypos);
+
         glfwSwapInterval(m_vsync ? 1 : 0); // Enable vsync
 
         // Rendering
