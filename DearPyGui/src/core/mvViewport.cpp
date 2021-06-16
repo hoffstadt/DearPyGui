@@ -24,14 +24,14 @@ namespace Marvel {
 			parser.addArg<mvPyDataType::String>("small_icon", mvArgType::KEYWORD_ARG, "''");
 			parser.addArg<mvPyDataType::String>("large_icon", mvArgType::KEYWORD_ARG, "''");
 
-			parser.addArg<mvPyDataType::String>("width", mvArgType::KEYWORD_ARG, "1280");
-			parser.addArg<mvPyDataType::String>("height", mvArgType::KEYWORD_ARG, "800");
-			parser.addArg<mvPyDataType::String>("x_pos", mvArgType::KEYWORD_ARG, "100");
-			parser.addArg<mvPyDataType::String>("y_pos", mvArgType::KEYWORD_ARG, "100");
-			parser.addArg<mvPyDataType::String>("min_width", mvArgType::KEYWORD_ARG, "250");
-			parser.addArg<mvPyDataType::String>("max_width", mvArgType::KEYWORD_ARG, "10000");
-			parser.addArg<mvPyDataType::String>("min_height", mvArgType::KEYWORD_ARG, "250");
-			parser.addArg<mvPyDataType::String>("max_height", mvArgType::KEYWORD_ARG, "10000");
+			parser.addArg<mvPyDataType::Integer>("width", mvArgType::KEYWORD_ARG, "1280");
+			parser.addArg<mvPyDataType::Integer>("height", mvArgType::KEYWORD_ARG, "800");
+			parser.addArg<mvPyDataType::Integer>("x_pos", mvArgType::KEYWORD_ARG, "100");
+			parser.addArg<mvPyDataType::Integer>("y_pos", mvArgType::KEYWORD_ARG, "100");
+			parser.addArg<mvPyDataType::Integer>("min_width", mvArgType::KEYWORD_ARG, "250");
+			parser.addArg<mvPyDataType::Integer>("max_width", mvArgType::KEYWORD_ARG, "10000");
+			parser.addArg<mvPyDataType::Integer>("min_height", mvArgType::KEYWORD_ARG, "250");
+			parser.addArg<mvPyDataType::Integer>("max_height", mvArgType::KEYWORD_ARG, "10000");
 
 			parser.addArg<mvPyDataType::Bool>("resizable", mvArgType::KEYWORD_ARG, "True");
 			parser.addArg<mvPyDataType::Bool>("vsync", mvArgType::KEYWORD_ARG, "True");
