@@ -20,6 +20,18 @@ namespace Marvel {
 
 		{
 			mvPythonParser parser(mvPyDataType::None, "Undocumented", { "Item Registry" });
+			parser.finalize();
+			parsers->insert({ "show_imgui_demo", parser });
+		}
+
+		{
+			mvPythonParser parser(mvPyDataType::None, "Undocumented", { "Item Registry" });
+			parser.finalize();
+			parsers->insert({ "show_implot_demo", parser });
+		}
+
+		{
+			mvPythonParser parser(mvPyDataType::None, "Undocumented", { "Item Registry" });
 			parser.addArg<mvPyDataType::UUID>("container");
 			parser.addArg<mvPyDataType::Integer>("slot");
 			parser.addArg<mvPyDataType::UUIDList>("new_order");
@@ -282,7 +294,7 @@ namespace Marvel {
 
 		if (child == nullptr)
 		{
-			mvThrowPythonError(1000, uuid + " not moved because it was not found");
+			mvThrowPythonError(1000, std::to_string(uuid) + " not moved because it was not found");
 			MV_ITEM_REGISTRY_WARN("Could not move item, it was not found");
 		}
 
@@ -311,7 +323,7 @@ namespace Marvel {
 
 		if (!movedItem)
 		{
-			mvThrowPythonError(1000, uuid + " not moved because it was not found");
+			mvThrowPythonError(1000, std::to_string(uuid) + " not moved because it was not found");
 			MV_ITEM_REGISTRY_WARN("Could not move item, it was not found");
 		}
 
@@ -361,6 +373,11 @@ namespace Marvel {
 
 		MV_PROFILE_SCOPE("Rendering")
 
+		if(m_showImGuiDebug)
+			ImGui::ShowDemoWindow(&m_showImGuiDebug);
+		if(m_showImPlotDebug)
+			ImPlot::ShowDemoWindow(&m_showImPlotDebug);
+
 		for (auto& window : m_roots)
 		{
 			if (!window->preDraw())
@@ -390,7 +407,7 @@ namespace Marvel {
 
 		m_activeWindow = GetEUUID(event, "WINDOW");
 
-		MV_ITEM_REGISTRY_INFO("Active window changed to: " + m_activeWindow);
+		MV_ITEM_REGISTRY_INFO("Active window changed to: " + std::to_string(m_activeWindow));
 
 		return false;
 	}
@@ -949,7 +966,7 @@ namespace Marvel {
 
 		if (child == nullptr)
 		{
-			mvThrowPythonError(1000, uuid + " not staged because it was not found");
+			mvThrowPythonError(1000, std::to_string(uuid) + " not staged because it was not found");
 			MV_ITEM_REGISTRY_WARN("Could not stage item, it was not found");
 			return;
 		}
@@ -1212,6 +1229,22 @@ namespace Marvel {
 
 		if (!mvApp::s_manualMutexControl) std::lock_guard<std::mutex> lk(mvApp::s_mutex);
 		return ToPyList(mvApp::GetApp()->getItemRegistry().getAllItems());
+	}
+
+	PyObject* mvItemRegistry::show_imgui_demo(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+
+		if (!mvApp::s_manualMutexControl) std::lock_guard<std::mutex> lk(mvApp::s_mutex);
+		mvApp::GetApp()->getItemRegistry().m_showImGuiDebug = true;
+		return GetPyNone();
+	}
+
+	PyObject* mvItemRegistry::show_implot_demo(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+
+		if (!mvApp::s_manualMutexControl) std::lock_guard<std::mutex> lk(mvApp::s_mutex);
+		mvApp::GetApp()->getItemRegistry().m_showImPlotDebug = true;
+		return GetPyNone();
 	}
 
 	PyObject* mvItemRegistry::get_windows(PyObject* self, PyObject* args, PyObject* kwargs)

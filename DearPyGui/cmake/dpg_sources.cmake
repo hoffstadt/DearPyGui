@@ -95,7 +95,6 @@ set(MARVEL_SOURCES
 	"src/core/AppItems/containers/mvMenuBar.cpp"
 	"src/core/AppItems/containers/mvTreeNode.cpp"
 	"src/core/AppItems/containers/mvWindowAppItem.cpp"
-	"src/core/AppItems/containers/mvPopup.cpp"
 	"src/core/AppItems/containers/mvDragPayload.cpp"
 	"src/core/AppItems/containers/mvFilterSet.cpp"
 	"src/core/AppItems/containers/mvClipper.cpp"

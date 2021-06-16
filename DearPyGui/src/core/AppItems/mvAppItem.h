@@ -39,7 +39,7 @@ namespace Marvel {
         mvColorPicker, mvTooltip, mvCollapsingHeader,
         mvSeparator, mvCheckbox, mvListbox, mvText, mvCombo,
         mvPlot, mvSimplePlot, mvDrawlist, mvWindowAppItem,
-        mvPopup, mvSelectable, mvTreeNode, mvProgressBar, mvDummy,
+        mvSelectable, mvTreeNode, mvProgressBar, mvDummy,
         mvImageButton, mvTimePicker, mvDatePicker, mvColorButton,
         mvFileDialog, mvTabButton,
         mvNodeEditor, mvNode, mvNodeAttribute,
@@ -167,7 +167,6 @@ namespace Marvel {
         friend class mvMenu;
         friend class mvWindow;
         friend class mvTooltip;
-        friend class mvPopup;
         friend class mvTreeNode;
         friend class mvWindowAppItem;
         friend class mvTable;

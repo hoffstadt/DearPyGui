@@ -342,10 +342,6 @@ def add_plot_legend(*, label: str =None, id: int =..., parent: int =0, payload_t
 	"""Adds a plot legend to a plot."""
 	...
 
-def add_popup(*, label: str =None, id: int =..., width: int =0, height: int =0, parent: int =0, show: bool =True, pos: List[int] =[], mousebutton: int =1, modal: bool =False) -> int:
-	"""Adds a popup window for an item. This command must come immediately after the item the popup is for. Must be followed by a call to end."""
-	...
-
 def add_progress_bar(*, label: str =None, id: int =..., width: int =0, height: int =0, indent: int =-1, parent: int =0, before: int =0, source: int =0, payload_type: str ='$$DPG_PAYLOAD', drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, pos: List[int] =[], filter_key: str ='', tracked: bool =False, track_offset: float =0.5, overlay: str ='', default_value: float =0.0) -> int:
 	"""Adds a progress bar."""
 	...
@@ -512,10 +508,6 @@ def clear_selected_links(node_editor : int) -> None:
 
 def clear_selected_nodes(node_editor : int) -> None:
 	"""Undocumented"""
-	...
-
-def close_popup(item : int) -> None:
-	"""Undocumented function"""
 	...
 
 def configure_item(item : int, **kwargs) -> None:
@@ -871,6 +863,14 @@ def set_y_scroll(item : int, value : float) -> None:
 	...
 
 def setup_dearpygui(*, viewport: str ='') -> None:
+	"""Undocumented"""
+	...
+
+def show_imgui_demo() -> None:
+	"""Undocumented"""
+	...
+
+def show_implot_demo() -> None:
 	"""Undocumented"""
 	...
 

@@ -720,33 +720,19 @@ def texture_registry(*args, show: bool = False, id:int=0, label:str=None):
     finally:
         internal_dpg.pop_container_stack()
 
-
 @contextmanager
-def popup(*args, label: str = None, id: int=0, width: int = 200, height: int = 200, parent: int = 0,  show: bool = True, pos: List[int] = [],
-         mousebutton: int = 1, modal: bool = False) -> int:
-    """Wraps add_group() and automates calling end().
-
-    Args:
-        **label: Overrides 'id' as label.
-        **id: Unique id used to programmatically refer to the item. If label is unused this will be the label.
-        **width: Width of the item.
-        **height: Height of the item.
-        **parent: Parent this item will be added to. (runtime adding)
-        **show: Attempt to render widget.
-        **pos: Places the item relative to window coordinates, [0,0] is top left.
-        **mousebutton: The mouse code that will trigger the popup.
-        **modal: Fills area behind window according to the theme and disables user ability to interact with 
-            anything except the window.
-
-    Returns:
-        UUID as int
-    """
-
+def popup(parent: int, mousebutton: int = internal_dpg.mvMouseButton_Right, modal: bool = False) -> int:
+    
     try:
-        widget = internal_dpg.add_popup(*args, label=label, id=id, width=width, height=height, parent=parent, show=show,
-                                     mousebutton=mousebutton, modal=modal)
-        internal_dpg.push_container_stack(widget)
-        yield widget
+        _internal_popup_id = internal_dpg.generate_uuid()
+        internal_dpg.add_clicked_handler(parent, mousebutton, callback=lambda: internal_dpg.configure_item(_internal_popup_id, show=True))
+        if modal:
+            internal_dpg.add_window(modal=True, show=False, id=_internal_popup_id, autosize=True)
+        else:
+            internal_dpg.add_window(popup=True, show=False, id=_internal_popup_id, autosize=True)
+        internal_dpg.push_container_stack(internal_dpg.last_container())
+        yield _internal_popup_id
+
     finally:
         internal_dpg.pop_container_stack()
 
