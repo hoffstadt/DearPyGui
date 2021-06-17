@@ -672,6 +672,7 @@ namespace Marvel {
 			{
 
 				auto BufferViewer = BufferViewFunctionsFloat(buffer_info);
+				items.reserve(buffer_info.len / buffer_info.itemsize);
 
 				for (Py_ssize_t i = 0; i < buffer_info.len / buffer_info.itemsize; ++i)
 				{

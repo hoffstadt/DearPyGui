@@ -340,16 +340,9 @@ def show_demo():
             with cxt.tree_node(label="Combo"):
 
                 items = ("A","B","C","D","E","F","G","H","I","J","K","L","M" "O","P","Q","R","S","T","U","V","W","X","Y","Z")
-                combo_id = dpg.add_combo(items, label="combo")
-
-                with cxt.table(header_row=False, before=dpg.last_item()):
-
-                    dpg.add_table_column()
-                    dpg.add_table_column()
-
-                    _add_config_options(combo_id, 1, "popup_align_left", "no_arrow_button", "no_preview")
-                    dpg.add_table_next_column()
-                    _add_config_option(combo_id, "height_regular", "height_small","height_regular","height_large","height_largest")
+                combo_id = dpg.add_combo(items, label="combo", height_mode=dpg.mvComboHeight_Small)
+                _add_config_options(combo_id, 1, "popup_align_left", "no_arrow_button", "no_preview")
+                #dpg.add_table_next_column()
    
             with cxt.tree_node(label="List Boxes"):
                 items = ("A","B","C","D","E","F","G","H","I","J","K","L","M" "O","P","Q","R","S","T","U","V","W","X","Y","Z")
@@ -772,12 +765,12 @@ def show_demo():
                             tbb = dpg.add_tab_button(label="+")
                             dpg.add_tab_button(label="?")
 
-                            dpg.add_checkbox(before=tb, label="tab bar reorderable", user_data=tb, callback=lambda s, a, u: dpg.configure_item(u, reorderable=dpg.get_value(s)))
-                            dpg.add_checkbox(before=tb, label="tab 2 no_reorder", user_data=t2, callback=lambda s, a, u: dpg.configure_item(u, no_reorder=dpg.get_value(s)))
-                            dpg.add_checkbox(before=tb, label="tab 2 leading", user_data=t2, callback=lambda s, a, u: dpg.configure_item(u, leading=dpg.get_value(s)))
-                            dpg.add_checkbox(before=tb, label="tab 2 trailing", user_data=t2, callback=lambda s, a, u: dpg.configure_item(u, trailing=dpg.get_value(s)))
-                            dpg.add_checkbox(before=tb, label="tab button trailing", user_data=tbb, callback=lambda s, a, u: dpg.configure_item(u, trailing=dpg.get_value(s)))
-                            dpg.add_checkbox(before=tb, label="tab button leading", user_data=tbb, callback=lambda s, a, u: dpg.configure_item(u, leading=dpg.get_value(s)))
+                            #dpg.add_checkbox(before=tb, label="tab bar reorderable", user_data=tb, callback=lambda s, a, u: dpg.configure_item(u, reorderable=dpg.get_value(s)))
+                            #dpg.add_checkbox(before=tb, label="tab 2 no_reorder", user_data=t2, callback=lambda s, a, u: dpg.configure_item(u, no_reorder=dpg.get_value(s)))
+                            #dpg.add_checkbox(before=tb, label="tab 2 leading", user_data=t2, callback=lambda s, a, u: dpg.configure_item(u, leading=dpg.get_value(s)))
+                            #dpg.add_checkbox(before=tb, label="tab 2 trailing", user_data=t2, callback=lambda s, a, u: dpg.configure_item(u, trailing=dpg.get_value(s)))
+                            #dpg.add_checkbox(before=tb, label="tab button trailing", user_data=tbb, callback=lambda s, a, u: dpg.configure_item(u, trailing=dpg.get_value(s)))
+                            #dpg.add_checkbox(before=tb, label="tab button leading", user_data=tbb, callback=lambda s, a, u: dpg.configure_item(u, leading=dpg.get_value(s)))
 
             with cxt.tree_node(label="Simple Layouts"):
                 dpg.add_text("Containers can be nested for advanced layout options")
@@ -1970,7 +1963,7 @@ def show_demo():
                     with cxt.node_attribute():
                         dpg.add_input_float(label="F1", width=150)
 
-                    with cxt.node_attribute(output=True):
+                    with cxt.node_attribute(attribute_type=dpg.mvNode_Attr_Output):
                         dpg.add_input_float(label="F2", width=150)
 
                 with cxt.node(label="Node 2", pos=[300, 10]):
@@ -1978,13 +1971,13 @@ def show_demo():
                     with cxt.node_attribute() as na2:
                         dpg.add_input_float(label="F3", width=200)
 
-                    with cxt.node_attribute(output=True):
+                    with cxt.node_attribute(attribute_type=dpg.mvNode_Attr_Output):
                         dpg.add_input_float(label="F4", width=200)
 
                 with cxt.node(label="Node 3", pos=[25, 150]):                                  
                     with cxt.node_attribute():
                         dpg.add_input_text(label="T5", width=200)
-                    with cxt.node_attribute(static=True): 
+                    with cxt.node_attribute(attribute_type=dpg.mvNode_Attr_Static): 
                         dpg.add_simple_plot(label="Node Plot", default_value=(0.3, 0.9, 2.5, 8.9), width=200, height=80, histogram=True)
 
         with cxt.collapsing_header(label= "Filtering"):

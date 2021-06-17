@@ -24,10 +24,9 @@ namespace Marvel {
 		);
 
 		parser.addArg<mvPyDataType::Bool>("closable", mvArgType::KEYWORD_ARG, "False", "Creates a button on the tab that can hide the tab.");
-		parser.addArg<mvPyDataType::Bool>("no_reorder", mvArgType::KEYWORD_ARG, "False", "Disable reordering this tab or having another tab cross over this tab.");
-		parser.addArg<mvPyDataType::Bool>("leading", mvArgType::KEYWORD_ARG, "False", "Enforce the tab position to the left of the tab bar (after the tab list popup button).");
-		parser.addArg<mvPyDataType::Bool>("trailing", mvArgType::KEYWORD_ARG, "False", "Enforce the tab position to the right of the tab bar (before the scrolling buttons).");
 		parser.addArg<mvPyDataType::Bool>("no_tooltip", mvArgType::KEYWORD_ARG, "False", "Disable tooltip for the given tab.");
+		
+		parser.addArg<mvPyDataType::Bool>("order_mode", mvArgType::KEYWORD_ARG, "0");
 
 		parser.finalize();
 
@@ -106,20 +105,29 @@ namespace Marvel {
 		 
 		if (PyObject* item = PyDict_GetItemString(dict, "closable")) m_closable = ToBool(item);
 
-		// helper for bit flipping
-		auto flagop = [dict](const char* keyword, int flag, int& flags)
+
+		if (PyObject* item = PyDict_GetItemString(dict, "order_mode"))
 		{
-			if (PyObject* item = PyDict_GetItemString(dict, keyword)) ToBool(item) ? flags |= flag : flags &= ~flag;
-		};
+			long order_mode = ToUUID(item);
 
-		// window flags
-		flagop("no_reorder", ImGuiTabItemFlags_NoReorder, m_flags);
-		flagop("leading", ImGuiTabItemFlags_Leading, m_flags);
-		flagop("trailing", ImGuiTabItemFlags_Trailing, m_flags);
-		flagop("no_tooltip", ImGuiTabItemFlags_NoTooltip, m_flags);
+			if (order_mode == (long)mvTab::TabOrdering::mvTabOrder_Fixed)
+				m_flags = ImGuiTabItemFlags_NoReorder;
+			else if (order_mode == (long)mvTab::TabOrdering::mvTabOrder_Leading)
+				m_flags = ImGuiTabItemFlags_Leading;
+			else if (order_mode == (long)mvTab::TabOrdering::mvTabOrder_Trailing)
+				m_flags = ImGuiTabItemFlags_Trailing;
+			else
+				m_flags = ImGuiTabItemFlags_None;
+		}
 
-		if (m_flags & ImGuiTabItemFlags_Leading && m_flags & ImGuiTabItemFlags_Trailing)
-			m_flags &= ~ImGuiTabItemFlags_Leading;
+		if (PyObject* item = PyDict_GetItemString(dict, "no_tooltip"))
+		{
+			bool value = ToBool(item);
+			if (value)
+				m_flags |= ImGuiTabItemFlags_NoTooltip;
+			else
+				m_flags &= ~ImGuiTabItemFlags_NoTooltip;
+		}
 
 	}
 
@@ -136,11 +144,16 @@ namespace Marvel {
 			PyDict_SetItemString(dict, keyword, ToPyBool(flags & flag));
 		};
 
-		// window flags
-		checkbitset("no_reorder", ImGuiTabBarFlags_Reorderable, m_flags);
-		checkbitset("leading", ImGuiTabItemFlags_Leading, m_flags);
-		checkbitset("trailing", ImGuiTabItemFlags_Trailing, m_flags);
 		checkbitset("no_tooltip", ImGuiTabItemFlags_NoTooltip, m_flags);
+
+		if(m_flags & ImGuiTabItemFlags_Leading)
+			PyDict_SetItemString(dict, "order_mode", ToPyUUID((long)mvTab::TabOrdering::mvTabOrder_Leading));
+		else if (m_flags & ImGuiTabItemFlags_Trailing)
+			PyDict_SetItemString(dict, "order_mode", ToPyUUID((long)mvTab::TabOrdering::mvTabOrder_Trailing));
+		else if (m_flags & ImGuiTabBarFlags_Reorderable)
+			PyDict_SetItemString(dict, "order_mode", ToPyUUID((long)mvTab::TabOrdering::mvTabOrder_Reorderable));
+		else
+			PyDict_SetItemString(dict, "order_mode", ToPyUUID((long)mvTab::TabOrdering::mvTabOrder_Fixed));
 
 	}
 

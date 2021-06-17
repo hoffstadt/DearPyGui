@@ -475,7 +475,7 @@ def node(*args, label: str = None, id: int=0, parent: int = 0, before: int = 0,
 def node_attribute(*args, label: str = None, id: int=0, indent: int = -1, parent: int = 0, before: int = 0,
                    payload_type: str = '$$DPG_PAYLOAD', drag_callback: Callable = None, drop_callback: Callable = None, show: bool = True,
                    filter_key: str = '', tracked: bool = False, track_offset: float = 0.5, 
-                   output: bool = False, static: bool = False, shape: int = 0,) -> int:
+                   attribute_type: int = internal_dpg.mvNode_Attr_Input, shape: int = 0) -> int:
     """Wraps add_node_attribute() and automates calling end().
 
     Args:
@@ -503,7 +503,7 @@ def node_attribute(*args, label: str = None, id: int=0, indent: int = -1, parent
         widget = internal_dpg.add_node_attribute(*args, label=label, id=id, indent=indent, parent=parent, before=before, payload_type=payload_type, 
                                        drag_callback=drag_callback, drop_callback=drop_callback, show=show, filter_key=filter_key, 
                                        tracked=tracked, track_offset=track_offset, 
-                                       output=output, static=static, shape=shape)
+                                       attribute_type=attribute_type, shape=shape)
         internal_dpg.push_container_stack(widget)
         yield widget
     finally:
@@ -603,7 +603,7 @@ def tab_bar(*args, label: str = None, id: int=0, indent: int = -1, parent: int =
 def tab(*args, label: str = None, id: int=0, indent: int = -1, parent: int = 0, before: int = 0, payload_type: str = '$$DPG_PAYLOAD', 
         drag_callback: Callable = None, drop_callback: Callable = None, show: bool = True, filter_key: str = '', delay_search: bool = False, 
         tracked: bool = False, track_offset: float = 0.5, 
-        closable: bool = False, no_reorder: bool = False, leading: bool = False, trailing: bool = False, no_tooltip: bool = False) -> int:
+        closable: bool = False, order_mode: int = internal_dpg.mvTabOrder_Reorderable, no_tooltip: bool = False) -> int:
     """Wraps add_tab() and automates calling end().
 
     Args:
@@ -635,7 +635,7 @@ def tab(*args, label: str = None, id: int=0, indent: int = -1, parent: int = 0, 
         widget = internal_dpg.add_tab(*args, label=label, id=id, indent=indent, parent=parent, before=before, payload_type=payload_type,
                                       drag_callback=drag_callback, drop_callback=drop_callback, show=show, filter_key=filter_key, 
                                       delay_search=delay_search, tracked=tracked, track_offset=track_offset, 
-                                      closable=closable, no_reorder=no_reorder, leading=leading, trailing=trailing, no_tooltip=no_tooltip)
+                                      closable=closable, order_mode=order_mode, no_tooltip=no_tooltip)
         internal_dpg.push_container_stack(widget)
         yield widget
     finally:
