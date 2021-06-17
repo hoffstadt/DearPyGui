@@ -332,8 +332,8 @@ def show_demo():
                         "Click and hold to use drag and drop.\n"
                         "Right-click on the colored square to show options.\n"
                         "CTRL+click on individual component to input value.\n")
-                dpg.add_color_edit((102, 179, 0, 128), label="color edit 4", callback=_log, user_data=logger, uint8=True)
-                dpg.add_color_edit(default_value=(.5, 1, .25, .1), label="color edit 3", callback=_log, user_data=logger, m_3component=True, uint8=True, floats=False)
+                dpg.add_color_edit((102, 179, 0, 128), label="color edit 4", callback=_log, user_data=logger)
+                dpg.add_color_edit(default_value=(.5, 1, .25, .1), label="color edit 4", callback=_log, user_data=logger)
                 dpg.add_listbox(("Apple", "Banana", "Cherry", "Kiwi", "Mango", "Orange", "Pineapple", "Strawberry", "Watermelon"), label="listbox", num_items=4, callback=_log, user_data=logger)
                 dpg.add_color_button()
 
@@ -342,7 +342,138 @@ def show_demo():
                 items = ("A","B","C","D","E","F","G","H","I","J","K","L","M" "O","P","Q","R","S","T","U","V","W","X","Y","Z")
                 combo_id = dpg.add_combo(items, label="combo", height_mode=dpg.mvComboHeight_Small)
                 _add_config_options(combo_id, 1, "popup_align_left", "no_arrow_button", "no_preview")
-                #dpg.add_table_next_column()
+
+            with cxt.tree_node(label="Color Picker & Edit"):
+
+                _color_picker_id = dpg.generate_uuid()
+                _color_edit_id = dpg.generate_uuid()
+
+                def _color_picker_configs(sender, app_data, user_data):
+
+                    value = dpg.get_value(sender)
+
+                    _old_config = dpg.get_item_configuration(user_data)
+
+                    if user_data ==_color_picker_id:
+                        picker_mode = _old_config["picker_mode"]
+                    else:
+                        display_mode = _old_config["display_mode"]
+                    alpha_preview = _old_config["alpha_preview"]
+                    display_type = _old_config["display_type"]
+                    input_mode = _old_config["input_mode"]
+
+                    # picker_mode
+                    if value == "mvColorPicker_bar":
+                        picker_mode=dpg.mvColorPicker_bar
+                    elif value == "mvColorPicker_wheel":
+                        picker_mode = dpg.mvColorPicker_wheel
+
+                    # alpha_preview
+                    elif value == "mvColorEdit_AlphaPreviewNone":
+                        alpha_preview=dpg.mvColorEdit_AlphaPreviewNone
+                    elif value == "mvColorEdit_AlphaPreview":
+                        alpha_preview = dpg.mvColorEdit_AlphaPreview
+                    elif value == "mvColorEdit_AlphaPreviewHalf":
+                        alpha_preview = dpg.mvColorEdit_AlphaPreviewHalf
+
+                    # display_type
+                    elif value == "mvColorEdit_uint8":
+                        display_type=dpg.mvColorEdit_uint8
+                    elif value == "mvColorEdit_float":
+                        display_type = dpg.mvColorEdit_float
+
+                    # display_type
+                    elif value == "mvColorEdit_uint8":
+                        display_type=dpg.mvColorEdit_uint8
+                    elif value == "mvColorEdit_float":
+                        display_type = dpg.mvColorEdit_float
+
+                    # display_mode
+                    elif value == "mvColorEdit_rgb":
+                        display_mode=dpg.mvColorEdit_rgb
+                    elif value == "mvColorEdit_hsv":
+                        display_mode = dpg.mvColorEdit_hsv
+                    elif value == "mvColorEdit_hex":
+                        display_mode = dpg.mvColorEdit_hex
+
+                    if user_data ==_color_picker_id:
+                        dpg.configure_item(user_data, 
+                                           picker_mode=picker_mode, 
+                                           alpha_preview=alpha_preview,
+                                           display_type=display_type,
+                                           input_mode=input_mode
+                                           )
+                    else:
+                        dpg.configure_item(user_data, 
+                                           alpha_preview=alpha_preview,
+                                           display_type=display_type,
+                                           input_mode=input_mode,
+                                           display_mode=display_mode
+                                           )
+
+                dpg.add_text("Color Picker")
+
+                _before_id = dpg.add_text("picker_mode:")
+                dpg.add_same_line()
+                dpg.add_radio_button(("mvColorPicker_bar", "mvColorPicker_wheel"), callback=_color_picker_configs, 
+                                     user_data=_color_picker_id, horizontal=True)
+
+                dpg.add_text("alpha_preview:")
+                dpg.add_same_line()
+                dpg.add_radio_button(("mvColorEdit_AlphaPreviewNone", "mvColorEdit_AlphaPreview", "mvColorEdit_AlphaPreviewHalf"), callback=_color_picker_configs, 
+                                     user_data=_color_picker_id, horizontal=True)
+
+                dpg.add_text("display_type:")
+                dpg.add_same_line()
+                dpg.add_radio_button(("mvColorEdit_uint8", "mvColorEdit_float"), callback=_color_picker_configs, 
+                                     user_data=_color_picker_id, horizontal=True)
+
+                dpg.add_text("input_mode:")
+                dpg.add_same_line()
+                dpg.add_radio_button(("mvColorEdit_input_rgb", "mvColorEdit_input_hsv"), callback=_color_picker_configs, 
+                                     user_data=_color_picker_id, horizontal=True)
+
+                dpg.add_color_picker((255, 0, 255, 255), label="Color Picker", 
+                        width=200, id=_color_picker_id)
+
+                _add_config_options(_color_picker_id, 3, 
+                                    "no_alpha", "no_side_preview", "display_rgb",
+                                    "display_hsv", "display_hex",
+                                    "no_small_preview", "no_inputs", "no_tooltip",
+                                    "no_label", "alpha_bar", before=_before_id)
+
+                dpg.add_separator()
+
+                dpg.add_text("Color Edit")
+
+                _before_id = dpg.add_text("alpha_preview:")
+                dpg.add_same_line()
+                dpg.add_radio_button(("mvColorEdit_AlphaPreviewNone", "mvColorEdit_AlphaPreview", "mvColorEdit_AlphaPreviewHalf"), callback=_color_picker_configs, 
+                                     user_data=_color_edit_id, horizontal=True)
+
+                dpg.add_text("display_type:")
+                dpg.add_same_line()
+                dpg.add_radio_button(("mvColorEdit_uint8", "mvColorEdit_float"), callback=_color_picker_configs, 
+                                     user_data=_color_edit_id, horizontal=True)
+
+                dpg.add_text("display_mode:")
+                dpg.add_same_line()
+                dpg.add_radio_button(("mvColorEdit_rgb", "mvColorEdit_hsv", "mvColorEdit_hex"), callback=_color_picker_configs, 
+                                     user_data=_color_edit_id, horizontal=True)
+
+                dpg.add_text("input_mode:")
+                dpg.add_same_line()
+                dpg.add_radio_button(("mvColorEdit_input_rgb", "mvColorEdit_input_hsv"), callback=_color_picker_configs, 
+                                     user_data=_color_edit_id, horizontal=True)
+
+                dpg.add_color_edit((255, 0, 255, 255), label="Color Edit", 
+                        width=200, id=_color_edit_id)
+
+                _add_config_options(_color_edit_id, 3, 
+                                    "no_alpha", "no_picker",
+                                    "no_options", "no_inputs", "no_small_preview",
+                                    "no_tooltip", "no_label", 
+                                    "no_drag_drop", "alpha_bar", before=_before_id)
    
             with cxt.tree_node(label="List Boxes"):
                 items = ("A","B","C","D","E","F","G","H","I","J","K","L","M" "O","P","Q","R","S","T","U","V","W","X","Y","Z")

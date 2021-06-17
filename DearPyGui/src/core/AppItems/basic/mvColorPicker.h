@@ -14,10 +14,15 @@ namespace Marvel {
 
 		MV_APPLY_WIDGET_REGISTRATION(mvAppItemType::mvColorPicker, add_color_picker)
 
+		MV_CREATE_CONSTANT(mvColorPicker_bar, ImGuiColorEditFlags_PickerHueBar);
+		MV_CREATE_CONSTANT(mvColorPicker_wheel, ImGuiColorEditFlags_PickerHueWheel);
+
 		MV_START_COMMANDS
 		MV_END_COMMANDS
 
 		MV_START_CONSTANTS
+			MV_ADD_CONSTANT(mvColorPicker_bar),
+			MV_ADD_CONSTANT(mvColorPicker_wheel)
 		MV_END_CONSTANTS
 
 	public:
@@ -42,18 +47,6 @@ namespace Marvel {
 		bool                 m_no_label = false;
 		bool                 m_no_side_preview = false;
 		bool                 m_alpha_bar = false;
-		bool                 m_alpha_preview = false;
-		bool                 m_alpha_preview_half = false;
-		bool                 m_display_rgb = false;
-		bool                 m_display_hsv = false;
-		bool                 m_display_hex = false;
-		bool                 m_uint8 = false;
-		bool                 m_floats = false;
-		bool                 m_picker_hue_bar = false;
-		bool                 m_picker_hue_wheel = false;
-		bool                 m_input_rgb = false;
-		bool                 m_input_hsv = false;
-		bool                 m_3component = false;
 
 	};
 
