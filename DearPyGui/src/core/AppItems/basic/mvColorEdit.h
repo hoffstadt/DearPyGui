@@ -14,10 +14,34 @@ namespace Marvel {
 
 		MV_APPLY_WIDGET_REGISTRATION(mvAppItemType::mvColorEdit, add_color_edit)
 
+		MV_CREATE_CONSTANT(mvColorEdit_AlphaPreviewNone, 0);
+		MV_CREATE_CONSTANT(mvColorEdit_AlphaPreview, ImGuiColorEditFlags_AlphaPreview);
+		MV_CREATE_CONSTANT(mvColorEdit_AlphaPreviewHalf, ImGuiColorEditFlags_AlphaPreviewHalf);
+
+		MV_CREATE_CONSTANT(mvColorEdit_uint8, ImGuiColorEditFlags_Uint8);
+		MV_CREATE_CONSTANT(mvColorEdit_float, ImGuiColorEditFlags_Float);
+			
+		MV_CREATE_CONSTANT(mvColorEdit_rgb, ImGuiColorEditFlags_DisplayRGB);
+		MV_CREATE_CONSTANT(mvColorEdit_hsv, ImGuiColorEditFlags_DisplayHSV);
+		MV_CREATE_CONSTANT(mvColorEdit_hex, ImGuiColorEditFlags_DisplayHex);
+
+		MV_CREATE_CONSTANT(mvColorEdit_input_rgb, ImGuiColorEditFlags_InputRGB);
+		MV_CREATE_CONSTANT(mvColorEdit_input_hsv, ImGuiColorEditFlags_InputHSV);
+
 		MV_START_COMMANDS
 		MV_END_COMMANDS
 
 		MV_START_CONSTANTS
+			MV_ADD_CONSTANT(mvColorEdit_AlphaPreviewNone),
+			MV_ADD_CONSTANT(mvColorEdit_AlphaPreview),
+			MV_ADD_CONSTANT(mvColorEdit_AlphaPreviewHalf),
+			MV_ADD_CONSTANT(mvColorEdit_uint8),
+			MV_ADD_CONSTANT(mvColorEdit_float),
+			MV_ADD_CONSTANT(mvColorEdit_rgb),
+			MV_ADD_CONSTANT(mvColorEdit_hsv),
+			MV_ADD_CONSTANT(mvColorEdit_hex),
+			MV_ADD_CONSTANT(mvColorEdit_input_rgb),
+			MV_ADD_CONSTANT(mvColorEdit_input_hsv)
 		MV_END_CONSTANTS
 
 	public:
@@ -32,7 +56,7 @@ namespace Marvel {
 
 	private:
 
-		ImGuiColorEditFlags m_flags = ImGuiColorEditFlags_None;
+		ImGuiColorEditFlags m_flags = ImGuiColorEditFlags__OptionsDefault;
 
 
 		std::array<float, 4> m_default_value = { 0.0f, 0.0f, 0.0f, 1.0f };
@@ -45,16 +69,6 @@ namespace Marvel {
 		bool                 m_no_label = false;
 		bool                 m_no_drag_drop = false;
 		bool                 m_alpha_bar = false;
-		bool                 m_alpha_preview = false;
-		bool                 m_alpha_preview_half = false;
-		bool                 m_display_rgb = false;
-		bool                 m_display_hsv = false;
-		bool                 m_display_hex = false;
-		bool                 m_uint8 = false;
-		bool                 m_floats = false;
-		bool                 m_input_rgb = false;
-		bool                 m_input_hsv = false;
-		bool                 m_3component = false;
 
 	};
 

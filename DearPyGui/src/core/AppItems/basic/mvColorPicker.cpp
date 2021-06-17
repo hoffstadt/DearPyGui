@@ -30,25 +30,21 @@ namespace Marvel {
 
 		parser.addArg<mvPyDataType::IntList>("default_value", mvArgType::POSITIONAL_ARG, "(0, 0, 0, 255)");
 		parser.addArg<mvPyDataType::Bool>("no_alpha", mvArgType::KEYWORD_ARG, "False", "Ignore Alpha component.");
-		parser.addArg<mvPyDataType::Bool>("no_picker", mvArgType::KEYWORD_ARG, "False", "Disable picker popup when color square is clicked.");
 		parser.addArg<mvPyDataType::Bool>("no_side_preview", mvArgType::KEYWORD_ARG, "False", "Disable bigger color preview on right side of the picker, use small colored square preview instead , unless small preview is also hidden.");
 		parser.addArg<mvPyDataType::Bool>("no_small_preview", mvArgType::KEYWORD_ARG, "False", "Disable colored square preview next to the inputs. (e.g. to show only the inputs). This only displays if the side preview is not shown.");
 		parser.addArg<mvPyDataType::Bool>("no_inputs", mvArgType::KEYWORD_ARG, "False", "Disable inputs sliders/text widgets. (e.g. to show only the small preview colored square)");
 		parser.addArg<mvPyDataType::Bool>("no_tooltip", mvArgType::KEYWORD_ARG, "False", "Disable tooltip when hovering the preview.");
 		parser.addArg<mvPyDataType::Bool>("no_label", mvArgType::KEYWORD_ARG, "False", "Disable display of inline text label.");
 		parser.addArg<mvPyDataType::Bool>("alpha_bar", mvArgType::KEYWORD_ARG, "False", "Show vertical alpha bar/gradient in picker.");
-		parser.addArg<mvPyDataType::Bool>("alpha_preview", mvArgType::KEYWORD_ARG, "False", "Display preview as a transparent color over a checkerboard, instead of opaque.");
-		parser.addArg<mvPyDataType::Bool>("alpha_preview_half", mvArgType::KEYWORD_ARG, "False", "Display half opaque / half checkerboard, instead of opaque.");
 		parser.addArg<mvPyDataType::Bool>("display_rgb", mvArgType::KEYWORD_ARG, "False", "Override _display_ type among RGB/HSV/Hex.");
 		parser.addArg<mvPyDataType::Bool>("display_hsv", mvArgType::KEYWORD_ARG, "False", "Override _display_ type among RGB/HSV/Hex.");
 		parser.addArg<mvPyDataType::Bool>("display_hex", mvArgType::KEYWORD_ARG, "False", "Override _display_ type among RGB/HSV/Hex.");
-		parser.addArg<mvPyDataType::Bool>("uint8", mvArgType::KEYWORD_ARG, "False", "Display values formatted as 0..255.");
-		parser.addArg<mvPyDataType::Bool>("floats", mvArgType::KEYWORD_ARG, "False", "Display values formatted as 0.0..1.0 floats instead of 0..255 integers.");
-		parser.addArg<mvPyDataType::Bool>("input_rgb", mvArgType::KEYWORD_ARG, "False", "Input and output data in RGB format.");
-		parser.addArg<mvPyDataType::Bool>("input_hsv", mvArgType::KEYWORD_ARG, "False", "Input and output data in HSV format.");
-		parser.addArg<mvPyDataType::Bool>("picker_hue_bar", mvArgType::KEYWORD_ARG, "False", "Bar for Hue, rectangle for Sat/Value.");
-		parser.addArg<mvPyDataType::Bool>("picker_hue_wheel", mvArgType::KEYWORD_ARG, "False", "Wheel for Hue, triangle for Sat/Value.");
-		
+
+		parser.addArg<mvPyDataType::Long>("picker_mode", mvArgType::KEYWORD_ARG, "33554432", "mvColorPicker_bar or mvColorPicker_wheel");
+		parser.addArg<mvPyDataType::Long>("alpha_preview", mvArgType::KEYWORD_ARG, "0", "mvColorEdit_AlphaPreviewNone, mvColorEdit_AlphaPreview, or mvColorEdit_AlphaPreviewHalf");
+		parser.addArg<mvPyDataType::Long>("display_type", mvArgType::KEYWORD_ARG, "8388608", "mvColorEdit_uint8 or mvColorEdit_float");
+		parser.addArg<mvPyDataType::Long>("input_mode", mvArgType::KEYWORD_ARG, "134217728", "mvColorEdit_input_rgb or mvColorEdit_input_hsv");
+
 		parser.finalize();
 
 		parsers->insert({ s_command, parser });
@@ -66,16 +62,8 @@ namespace Marvel {
 
 		if (!m_enabled) std::copy(m_value->data(), m_value->data() + 4, m_disabled_value);
 
-		if (m_3component)
-		{
-			if (ImGui::ColorPicker3(m_label.c_str(), m_enabled ? m_value->data() : &m_disabled_value[0], m_flags))
-				mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), m_uuid, nullptr, m_user_data);
-		}
-		else
-		{
-			if (ImGui::ColorPicker4(m_label.c_str(), m_enabled ? m_value->data() : &m_disabled_value[0], m_flags))
-				mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), m_uuid, nullptr, m_user_data);
-		}
+		if (ImGui::ColorPicker4(m_label.c_str(), m_enabled ? m_value->data() : &m_disabled_value[0], m_flags))
+			mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), m_uuid, nullptr, m_user_data);
 
 	}
 
@@ -110,22 +98,6 @@ namespace Marvel {
 			if (PyObject* item = PyDict_GetItemString(dict, keyword)) ToBool(item) ? flags |= flag : flags &= ~flag;
 		};
 
-		auto conflictingflagop = [dict](const std::vector<std::string>& keywords, std::vector<int> flags, int& mflags)
-		{
-
-			for (size_t i = 0; i < keywords.size(); i++)
-			{
-				if (PyObject* item = PyDict_GetItemString(dict, keywords[i].c_str()))
-				{
-					//turning all conflicting flags false
-					for (const auto& flag : flags) mflags &= ~flag;
-					//writing only the first conflicting flag
-					ToBool(item) ? mflags |= flags[i] : mflags &= ~flags[i];
-					break;
-				}
-			}
-
-		};
 
 		flagop("no_alpha", ImGuiColorEditFlags_NoAlpha, m_flags);
 		flagop("no_small_preview", ImGuiColorEditFlags_NoSmallPreview, m_flags);
@@ -138,22 +110,83 @@ namespace Marvel {
 		flagop("display_hsv", ImGuiColorEditFlags_DisplayHSV, m_flags);
 		flagop("display_hex", ImGuiColorEditFlags_DisplayHex, m_flags);
 
-		static std::vector<std::string> AlphaPreviewKeywords{ "alpha_preview", "alpha_preview_half" };
-		static std::vector<int> AlphaPreviewFlags{ ImGuiColorEditFlags_AlphaPreview, ImGuiColorEditFlags_AlphaPreviewHalf };
+		if (PyObject* item = PyDict_GetItemString(dict, "picker_mode"))
+		{
+			long mode = ToUUID(item);
 
-		static std::vector<std::string> DisplayValueTypeKeywords{ "uint8", "floats" };
-		static std::vector<int> DisplayValueTypeFlags{ ImGuiColorEditFlags_Uint8, ImGuiColorEditFlags_Float };
+			// reset target flags
+			m_flags &= ~ImGuiColorEditFlags_PickerHueBar;
+			m_flags &= ~ImGuiColorEditFlags_PickerHueWheel;
 
-		static std::vector<std::string> PickerTypeKeywords{ "picker_hue_bar", "picker_hue_wheel" };
-		static std::vector<int> PickerTypeFlags{ ImGuiColorEditFlags_PickerHueBar, ImGuiColorEditFlags_PickerHueWheel };
+			switch (mode)
+			{
+			case ImGuiColorEditFlags_PickerHueWheel:
+				m_flags |= ImGuiColorEditFlags_PickerHueWheel;
+				break;
+			default:
+				m_flags |= ImGuiColorEditFlags_PickerHueBar;
+				break;
+			}
+		}
 
-		static std::vector<std::string> IOTypeKeywords{ "input_rgb", "input_hsv" };
-		static std::vector<int> IOTypeFlags{ ImGuiColorEditFlags_InputRGB, ImGuiColorEditFlags_InputHSV };
+		if (PyObject* item = PyDict_GetItemString(dict, "alpha_preview"))
+		{
+			long mode = ToUUID(item);
 
-		conflictingflagop(AlphaPreviewKeywords, AlphaPreviewFlags, m_flags);
-		conflictingflagop(DisplayValueTypeKeywords, DisplayValueTypeFlags, m_flags);
-		conflictingflagop(PickerTypeKeywords, PickerTypeFlags, m_flags);
-		conflictingflagop(IOTypeKeywords, IOTypeFlags, m_flags);
+			// reset target flags
+			m_flags &= ~ImGuiColorEditFlags_AlphaPreview;
+			m_flags &= ~ImGuiColorEditFlags_AlphaPreviewHalf;
+
+			switch (mode)
+			{
+			case ImGuiColorEditFlags_AlphaPreview:
+				m_flags |= ImGuiColorEditFlags_AlphaPreview;
+				break;
+			case ImGuiColorEditFlags_AlphaPreviewHalf:
+				m_flags |= ImGuiColorEditFlags_AlphaPreviewHalf;
+				break;
+			default:
+				break;
+			}
+		}
+
+		if (PyObject* item = PyDict_GetItemString(dict, "display_type"))
+		{
+			long mode = ToUUID(item);
+
+			// reset target flags
+			m_flags &= ~ImGuiColorEditFlags_Uint8;
+			m_flags &= ~ImGuiColorEditFlags_Float;
+
+			switch (mode)
+			{
+			case ImGuiColorEditFlags_Float:
+				m_flags |= ImGuiColorEditFlags_Float;
+				break;
+			default:
+				m_flags |= ImGuiColorEditFlags_Uint8;
+				break;
+			}
+		}
+
+		if (PyObject* item = PyDict_GetItemString(dict, "input_mode"))
+		{
+			long mode = ToUUID(item);
+
+			// reset target flags
+			m_flags &= ~ImGuiColorEditFlags_InputRGB;
+			m_flags &= ~ImGuiColorEditFlags_InputHSV;
+
+			switch (mode)
+			{
+			case ImGuiColorEditFlags_InputHSV:
+				m_flags |= ImGuiColorEditFlags_InputHSV;
+				break;
+			default:
+				m_flags |= ImGuiColorEditFlags_InputRGB;
+				break;
+			}
+		}
 
 	}
 
@@ -175,17 +208,35 @@ namespace Marvel {
 		checkbitset("no_label", ImGuiColorEditFlags_NoLabel, m_flags);
 		checkbitset("no_side_preview", ImGuiColorEditFlags_NoSidePreview, m_flags);
 		checkbitset("alpha_bar", ImGuiColorEditFlags_AlphaBar, m_flags);
-		checkbitset("alpha_preview", ImGuiColorEditFlags_AlphaPreview, m_flags);
-		checkbitset("alpha_preview_half", ImGuiColorEditFlags_AlphaPreviewHalf, m_flags);
 		checkbitset("display_rgb", ImGuiColorEditFlags_DisplayRGB, m_flags);
 		checkbitset("display_hsv", ImGuiColorEditFlags_DisplayHSV, m_flags);
 		checkbitset("display_hex", ImGuiColorEditFlags_DisplayHex, m_flags);
-		checkbitset("unit8", ImGuiColorEditFlags_Uint8, m_flags);
-		checkbitset("floats", ImGuiColorEditFlags_Float, m_flags);
-		checkbitset("picker_hue_bar", ImGuiColorEditFlags_PickerHueBar, m_flags);
-		checkbitset("picker_hue_wheel", ImGuiColorEditFlags_PickerHueWheel, m_flags);
-		checkbitset("input_rgb", ImGuiColorEditFlags_InputRGB, m_flags);
-		checkbitset("input_hsv", ImGuiColorEditFlags_InputHSV, m_flags);
+
+		// input_mode
+		if (m_flags & ImGuiColorEditFlags_InputRGB)
+			PyDict_SetItemString(dict, "input_mode", ToPyUUID(ImGuiColorEditFlags_InputRGB));
+		else if (m_flags & ImGuiColorEditFlags_InputHSV)
+			PyDict_SetItemString(dict, "input_mode", ToPyUUID(ImGuiColorEditFlags_InputHSV));
+
+		// alpha_preview
+		if (m_flags & ImGuiColorEditFlags_AlphaPreview)
+			PyDict_SetItemString(dict, "alpha_preview", ToPyUUID(ImGuiColorEditFlags_AlphaPreview));
+		else if (m_flags & ImGuiColorEditFlags_AlphaPreviewHalf)
+			PyDict_SetItemString(dict, "alpha_preview", ToPyUUID(ImGuiColorEditFlags_AlphaPreviewHalf));
+		else
+			PyDict_SetItemString(dict, "alpha_preview", ToPyUUID(0));
+
+		// display_type
+		if (m_flags & ImGuiColorEditFlags_Uint8)
+			PyDict_SetItemString(dict, "display_type", ToPyUUID(ImGuiColorEditFlags_Uint8));
+		else if (m_flags & ImGuiColorEditFlags_Float)
+			PyDict_SetItemString(dict, "display_type", ToPyUUID(ImGuiColorEditFlags_Float));
+
+		// picker_mode
+		if (m_flags & ImGuiColorEditFlags_PickerHueWheel)
+			PyDict_SetItemString(dict, "picker_mode", ToPyUUID(ImGuiColorEditFlags_PickerHueWheel));
+		else if (m_flags & ImGuiColorEditFlags_PickerHueBar)
+			PyDict_SetItemString(dict, "picker_mode", ToPyUUID(ImGuiColorEditFlags_PickerHueBar));
 	}
 
 }
