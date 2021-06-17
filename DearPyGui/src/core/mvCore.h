@@ -188,6 +188,11 @@ namespace Marvel {
 			return { r, g, b, a };
 		}
 
+		operator ImVec4*()
+		{
+			return (ImVec4*)&r;
+		}
+
 		const ImVec4 toVec4() const
 		{
 			return { r, g, b, a };

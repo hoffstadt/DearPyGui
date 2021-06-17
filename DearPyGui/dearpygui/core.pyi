@@ -262,7 +262,7 @@ def add_listbox(items : List[str] =(), *, label: str =None, id: int =..., width:
 	"""Adds a listbox."""
 	...
 
-def add_loading_indicator(*, label: str =None, id: int =..., width: int =0, height: int =0, indent: int =-1, parent: int =0, before: int =0, show: bool =True, pos: List[int] =[], style: int =0) -> int:
+def add_loading_indicator(*, label: str =None, id: int =..., width: int =0, height: int =0, indent: int =-1, parent: int =0, before: int =0, show: bool =True, pos: List[int] =[], style: int =0, circle_count: int =8, speed: float =1.0, radius: float =3.0, thickness: float =1.0, color: List[int] =(51, 51, 55, 255), secondary_color: List[int] =(29, 151, 236, 103)) -> int:
 	"""Undocumented"""
 	...
 
