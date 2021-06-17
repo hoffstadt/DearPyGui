@@ -31,7 +31,13 @@ namespace Marvel {
 
 	private:
 
-		int m_style = 0;
+		int     m_style = 0;
+		int     m_circleCount = 8;
+		float   m_radius = 3.0f;
+		float   m_speed = 1.0f;
+		float   m_thickness = 1.0f;
+		mvColor m_mainColor = mvColor(51, 51, 55, 255);
+		mvColor m_optionalColor = mvColor(29, 151, 236, 103);
 
 	};
 
