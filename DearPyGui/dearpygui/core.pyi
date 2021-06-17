@@ -78,7 +78,7 @@ def add_colormap_scale(*, label: str =None, id: int =..., width: int =0, height:
 	"""Undocumented"""
 	...
 
-def add_combo(items : List[str] =(), *, label: str =None, id: int =..., width: int =0, indent: int =-1, parent: int =0, before: int =0, source: int =0, payload_type: str ='$$DPG_PAYLOAD', callback: Callable =None, drag_callback: Callable =None, drop_callback: Callable =None, user_data: Any =None, show: bool =True, enabled: bool =True, pos: List[int] =[], filter_key: str ='', tracked: bool =False, track_offset: float =0.5, default_value: str ='', popup_align_left: bool =False, height_small: bool =False, height_regular: bool =False, height_large: bool =False, height_largest: bool =False, no_arrow_button: bool =False, no_preview: bool =False) -> int:
+def add_combo(items : List[str] =(), *, label: str =None, id: int =..., width: int =0, indent: int =-1, parent: int =0, before: int =0, source: int =0, payload_type: str ='$$DPG_PAYLOAD', callback: Callable =None, drag_callback: Callable =None, drop_callback: Callable =None, user_data: Any =None, show: bool =True, enabled: bool =True, pos: List[int] =[], filter_key: str ='', tracked: bool =False, track_offset: float =0.5, default_value: str ='', popup_align_left: bool =False, no_arrow_button: bool =False, no_preview: bool =False, height_mode: int =1) -> int:
 	"""Adds a combo dropdown."""
 	...
 
@@ -310,7 +310,7 @@ def add_node(*, label: str =None, id: int =..., parent: int =0, before: int =0, 
 	"""Adds a node to a node editor."""
 	...
 
-def add_node_attribute(*, label: str =None, id: int =..., indent: int =-1, parent: int =0, before: int =0, payload_type: str ='$$DPG_PAYLOAD', drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, filter_key: str ='', tracked: bool =False, track_offset: float =0.5, output: bool =False, static: bool =False, shape: int =0) -> int:
+def add_node_attribute(*, label: str =None, id: int =..., indent: int =-1, parent: int =0, before: int =0, payload_type: str ='$$DPG_PAYLOAD', drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, filter_key: str ='', tracked: bool =False, track_offset: float =0.5, attribute_type: int =0, shape: int =0) -> int:
 	"""Adds a node attribute."""
 	...
 
@@ -414,7 +414,7 @@ def add_stem_series(x : List[float], y : List[float], *, label: str =None, id: i
 	"""Adds a stem series to a plot."""
 	...
 
-def add_tab(*, label: str =None, id: int =..., indent: int =-1, parent: int =0, before: int =0, payload_type: str ='$$DPG_PAYLOAD', drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, filter_key: str ='', delay_search: str =False, tracked: bool =False, track_offset: float =0.5, closable: bool =False, no_reorder: bool =False, leading: bool =False, trailing: bool =False, no_tooltip: bool =False) -> int:
+def add_tab(*, label: str =None, id: int =..., indent: int =-1, parent: int =0, before: int =0, payload_type: str ='$$DPG_PAYLOAD', drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, filter_key: str ='', delay_search: str =False, tracked: bool =False, track_offset: float =0.5, closable: bool =False, no_tooltip: bool =False, order_mode: bool =0) -> int:
 	"""Adds a tab to a tab bar. Must be closed with thes end command."""
 	...
 

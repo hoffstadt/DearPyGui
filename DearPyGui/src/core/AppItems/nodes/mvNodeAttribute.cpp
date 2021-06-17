@@ -28,9 +28,7 @@ namespace Marvel {
 			MV_PARSER_ARG_SHOW)
 		);
 
-		parser.addArg<mvPyDataType::Bool>("output", mvArgType::KEYWORD_ARG, "False", "Set as output attribute.");
-		parser.addArg<mvPyDataType::Bool>("static", mvArgType::KEYWORD_ARG, "False", "Set as static attribute.");
-
+		parser.addArg<mvPyDataType::Long>("attribute_type", mvArgType::KEYWORD_ARG, "0", "mvNode_Attr_Input, mvNode_Attr_Output, or mvNode_Attr_Static");
 		parser.addArg<mvPyDataType::Integer>("shape", mvArgType::KEYWORD_ARG, "0", "Pin shape");
 
 		parser.finalize();
@@ -62,9 +60,9 @@ namespace Marvel {
 	{
 		ScopedID id(m_uuid);
 
-		if (m_static)
+		if (m_attrType == mvNodeAttribute::AttributeType::mvAttr_Static)
 			imnodes::BeginStaticAttribute((int)m_id);
-		else if(m_output)
+		else if(m_attrType == mvNodeAttribute::AttributeType::mvAttr_Output)
 			imnodes::BeginOutputAttribute((int)m_id, m_shape);
 		else
 			imnodes::BeginInputAttribute((int)m_id, m_shape);
@@ -99,9 +97,9 @@ namespace Marvel {
 			item->getState().update();
 		}
 
-		if (m_static)
+		if (m_attrType == mvNodeAttribute::AttributeType::mvAttr_Static)
 			imnodes::EndStaticAttribute();
-		else if (m_output)
+		else if (m_attrType == mvNodeAttribute::AttributeType::mvAttr_Output)
 			imnodes::EndOutputAttribute();
 		else
 			imnodes::EndInputAttribute();
@@ -112,8 +110,7 @@ namespace Marvel {
 		if (dict == nullptr)
 			return;
 
-		if (PyObject* item = PyDict_GetItemString(dict, "output")) m_output = ToBool(item);
-		if (PyObject* item = PyDict_GetItemString(dict, "static")) m_static = ToBool(item);
+		if (PyObject* item = PyDict_GetItemString(dict, "attribute_type")) m_attrType = (mvNodeAttribute::AttributeType)ToUUID(item);
 		if (PyObject* item = PyDict_GetItemString(dict, "shape"))
 		{
 			m_shape = (imnodes::PinShape)ToInt(item);
@@ -125,8 +122,7 @@ namespace Marvel {
 		if (dict == nullptr)
 			return;
 
-		PyDict_SetItemString(dict, "output", ToPyBool(m_output));
-		PyDict_SetItemString(dict, "static", ToPyBool(m_static));
+		PyDict_SetItemString(dict, "attribute_type", ToPyUUID((long)m_attrType));
 		PyDict_SetItemString(dict, "shape", ToPyInt((int)m_shape));
 	}
 

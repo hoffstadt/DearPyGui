@@ -10,6 +10,12 @@ namespace Marvel {
 	class mvNodeAttribute : public mvAppItem
 	{
 
+		enum class AttributeType { 
+			mvAttr_Input = 0L, 
+			mvAttr_Output, 
+			mvAttr_Static
+		};
+
 	public:
 
 		static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
@@ -23,6 +29,10 @@ namespace Marvel {
 		MV_CREATE_CONSTANT(mvNode_PinShape_Quad, imnodes::PinShape::PinShape_Quad);
 		MV_CREATE_CONSTANT(mvNode_PinShape_QuadFilled, imnodes::PinShape::PinShape_QuadFilled);
 
+		MV_CREATE_CONSTANT(mvNode_Attr_Input, 0L);
+		MV_CREATE_CONSTANT(mvNode_Attr_Output, 1L);
+		MV_CREATE_CONSTANT(mvNode_Attr_Static, 2L);
+
 		MV_START_COMMANDS
 		MV_END_COMMANDS
 
@@ -32,7 +42,10 @@ namespace Marvel {
 			MV_ADD_CONSTANT(mvNode_PinShape_Triangle),
 			MV_ADD_CONSTANT(mvNode_PinShape_TriangleFilled),
 			MV_ADD_CONSTANT(mvNode_PinShape_Quad),
-			MV_ADD_CONSTANT(mvNode_PinShape_QuadFilled)
+			MV_ADD_CONSTANT(mvNode_PinShape_QuadFilled),
+			MV_ADD_CONSTANT(mvNode_Attr_Input),
+			MV_ADD_CONSTANT(mvNode_Attr_Output),
+			MV_ADD_CONSTANT(mvNode_Attr_Static)
 		MV_END_CONSTANTS
 
 	public:
@@ -49,8 +62,7 @@ namespace Marvel {
 
 	private:
         int m_id = 0;
-		bool m_output = false;
-		bool m_static = false;
+		AttributeType m_attrType = AttributeType::mvAttr_Input;
 		imnodes::PinShape m_shape = imnodes::PinShape_CircleFilled;
 
 	};
