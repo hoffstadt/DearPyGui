@@ -209,6 +209,7 @@ namespace Marvel {
         MV_CREATE_COMMAND(get_item_state);
         MV_CREATE_COMMAND(get_item_info);
         MV_CREATE_COMMAND(configure_item);
+        MV_CREATE_COMMAND(get_item_types);
         MV_CREATE_COMMAND(get_value);
         MV_CREATE_COMMAND(get_values);
         MV_CREATE_COMMAND(set_value);
@@ -220,8 +221,11 @@ namespace Marvel {
         MV_CREATE_COMMAND(set_item_font);
         MV_CREATE_COMMAND(set_item_theme);
         MV_CREATE_COMMAND(set_item_disabled_theme);
+        MV_CREATE_COMMAND(set_item_type_theme);
+        MV_CREATE_COMMAND(set_item_type_disabled_theme);
 
         MV_START_COMMANDS
+            MV_ADD_COMMAND(get_item_types);
             MV_ADD_COMMAND(get_item_configuration);
             MV_ADD_COMMAND(get_item_state);
             MV_ADD_COMMAND(get_item_info);
@@ -236,8 +240,9 @@ namespace Marvel {
             MV_ADD_COMMAND(set_item_children);
             MV_ADD_COMMAND(set_item_font);
             MV_ADD_COMMAND(set_item_theme);
-            MV_ADD_COMMAND(set_item_theme);
             MV_ADD_COMMAND(set_item_disabled_theme);
+            MV_ADD_COMMAND(set_item_type_theme);
+            MV_ADD_COMMAND(set_item_type_disabled_theme);
         MV_END_COMMANDS
 
         //-----------------------------------------------------------------------------
@@ -276,6 +281,8 @@ namespace Marvel {
         //   - MV_REGISTER_WIDGET
         //   - MV_APPLY_WIDGET_REGISTRATION
         //-----------------------------------------------------------------------------
+        [[nodiscard]] virtual mvRef<mvAppItem>  getClassDisabledTheme() const = 0;
+        [[nodiscard]] virtual mvRef<mvAppItem>  getClassTheme() const = 0;
         [[nodiscard]] virtual mvAppItemType     getType      () const = 0;
         [[nodiscard]] virtual int               getDescFlags () const = 0;
         [[nodiscard]] virtual int               getTarget    () const = 0; // which child slot

@@ -155,6 +155,10 @@ namespace Marvel {
 
 		if (m_enabled)
 		{
+			if (auto classTheme = getClassTheme())
+			{
+				static_cast<mvTheme*>(classTheme.get())->draw(nullptr, 0.0f, 0.0f);
+			}
 			if (m_theme)
 			{
 				static_cast<mvTheme*>(m_theme.get())->draw(nullptr, 0.0f, 0.0f);
@@ -162,6 +166,11 @@ namespace Marvel {
 		}
 		else
 		{
+
+			if (auto classTheme = getClassDisabledTheme())
+			{
+				static_cast<mvTheme*>(classTheme.get())->draw(nullptr, 0.0f, 0.0f);
+			}
 
 			if (m_disabledTheme)
 			{
@@ -184,6 +193,11 @@ namespace Marvel {
 
 		if (m_enabled)
 		{
+			if (auto classTheme = getClassTheme())
+			{
+				static_cast<mvTheme*>(classTheme.get())->customAction();
+			}
+
 			if (m_theme)
 			{
 				static_cast<mvTheme*>(m_theme.get())->customAction();
@@ -191,7 +205,10 @@ namespace Marvel {
 		}
 		else
 		{
-
+			if (auto classTheme = getClassDisabledTheme())
+			{
+				static_cast<mvTheme*>(classTheme.get())->customAction();
+			}
 			if (m_disabledTheme)
 			{
 				static_cast<mvTheme*>(m_disabledTheme.get())->customAction();
