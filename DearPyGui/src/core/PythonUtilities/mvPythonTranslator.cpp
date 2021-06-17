@@ -497,7 +497,13 @@ namespace Marvel {
 			return [](Py_buffer& bufferView, Py_ssize_t index) {return (float)*((long*)bufferView.buf + index); };
 
 		else if (strcmp(bufferView.format, "L") == 0)
+			return [](Py_buffer& bufferView, Py_ssize_t index) {return (float)*((long long*)bufferView.buf + index); };
+
+		else if (strcmp(bufferView.format, "k") == 0)
 			return [](Py_buffer& bufferView, Py_ssize_t index) {return (float)*((unsigned long*)bufferView.buf + index); };
+
+		else if (strcmp(bufferView.format, "K") == 0)
+			return [](Py_buffer& bufferView, Py_ssize_t index) {return (float)*((unsigned long long*)bufferView.buf + index); };
 
 		else if (strcmp(bufferView.format, "B") == 0)
 			return [](Py_buffer& bufferView, Py_ssize_t index) {return (float)*((unsigned char*)bufferView.buf + index); };
@@ -534,7 +540,13 @@ namespace Marvel {
 			return [](Py_buffer& bufferView, Py_ssize_t index) {return (int)*((long*)bufferView.buf + index); };
 
 		else if (strcmp(bufferView.format, "L") == 0)
+			return [](Py_buffer& bufferView, Py_ssize_t index) {return (int)*((long long*)bufferView.buf + index); };
+
+		else if (strcmp(bufferView.format, "k") == 0)
 			return [](Py_buffer& bufferView, Py_ssize_t index) {return (int)*((unsigned long*)bufferView.buf + index); };
+
+		else if (strcmp(bufferView.format, "K") == 0)
+			return [](Py_buffer& bufferView, Py_ssize_t index) {return (int)*((unsigned long long*)bufferView.buf + index); };
 
 		else if (strcmp(bufferView.format, "B") == 0)
 			return [](Py_buffer& bufferView, Py_ssize_t index) {return (int)*((unsigned char*)bufferView.buf + index); };
