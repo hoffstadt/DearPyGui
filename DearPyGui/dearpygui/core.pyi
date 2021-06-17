@@ -642,6 +642,10 @@ def get_item_state(item : int) -> dict:
 	"""Undocumented"""
 	...
 
+def get_item_types() -> dict:
+	"""Undocumented"""
+	...
+
 def get_links(node_editor : int) -> List[List[str]]:
 	"""Undocumented"""
 	...
@@ -835,6 +839,14 @@ def set_item_pos(item : int, x : float, y : float) -> None:
 	...
 
 def set_item_theme(item : int, theme : int) -> None:
+	"""Undocumented"""
+	...
+
+def set_item_type_disabled_theme(item : int, theme : int) -> None:
+	"""Undocumented"""
+	...
+
+def set_item_type_theme(item : int, theme : int) -> None:
 	"""Undocumented"""
 	...
 

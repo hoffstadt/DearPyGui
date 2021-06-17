@@ -4,7 +4,6 @@
 #include "mvViewport.h"
 #include "mvFontManager.h"
 #include "mvItemRegistry.h"
-//#include "mvImGuiThemeScope.h"
 #include <ImGuiFileDialog.h>
 #include <cstdlib>
 #include "mvToolManager.h"
@@ -73,17 +72,11 @@ namespace Marvel {
 			mvInput::InsertConstants(ModuleConstants);
 			mvToolManager::InsertConstants(ModuleConstants);
 
-			auto decodeType = [](long encoded_constant, mvAppItemType* type)
-			{
-				*type = (mvAppItemType)(encoded_constant / 1000);
-			};
-
 			constexpr_for<1, (int)mvAppItemType::ItemTypeCount, 1>(
 				[&](auto i) {
 
 					using item_type = typename mvItemTypeMap<i>::type;
-
-					// general constants
+					ModuleConstants.push_back({ std::string(mvItemTypeMap<i>::s_class), item_type::s_internal_type });
 					for (const auto& item : item_type::GetGeneralConstants())
 						ModuleConstants.push_back({ item.first, item.second });
 
