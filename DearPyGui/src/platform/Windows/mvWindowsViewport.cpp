@@ -383,7 +383,10 @@ namespace Marvel {
 				m_height = (UINT)HIWORD(lParam);
 
 				CleanupRenderTarget();
-				s_pSwapChain->ResizeBuffers(0, (UINT)LOWORD(lParam), (UINT)HIWORD(lParam), DXGI_FORMAT_UNKNOWN, 0);
+				if(m_border && m_caption)
+					s_pSwapChain->ResizeBuffers(0, (UINT)LOWORD(lParam), (UINT)HIWORD(lParam), DXGI_FORMAT_UNKNOWN, 0);
+				else
+					s_pSwapChain->ResizeBuffers(0, (UINT)awidth, (UINT)aheight, DXGI_FORMAT_UNKNOWN, 0);
 				CreateRenderTarget();
 			}
 			return 0;
