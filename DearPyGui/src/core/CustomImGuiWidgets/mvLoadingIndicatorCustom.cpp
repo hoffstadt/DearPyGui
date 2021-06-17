@@ -48,7 +48,7 @@ namespace Marvel {
             color.x = pOptionalMainColor->x * growth + pOptionalBackdropColor->x * (1.0f - growth);
             color.y = pOptionalMainColor->y * growth + pOptionalBackdropColor->y * (1.0f - growth);
             color.z = pOptionalMainColor->z * growth + pOptionalBackdropColor->z * (1.0f - growth);
-            color.w = 1.0f;
+            color.w = pOptionalMainColor->w * growth + pOptionalBackdropColor->w * (1.0f - growth);
             float grown_circle_radius = circle_radius * (1.0f + growth);
             int num_segments = (int)(base_num_segments * grown_circle_radius);
             if (num_segments < 4) num_segments = 4;
