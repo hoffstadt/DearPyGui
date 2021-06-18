@@ -147,6 +147,11 @@ namespace Marvel {
 			return true;
 		}
 
+		else if (PyObject_CheckBuffer(obj))
+		{
+			return true;
+		}
+
 		return false;
 	}
 
@@ -202,6 +207,11 @@ namespace Marvel {
 				return isPyObject_Int(item);
 			}
 
+			return true;
+		}
+
+		else if (PyObject_CheckBuffer(obj))
+		{
 			return true;
 		}
 
