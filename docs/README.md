@@ -80,18 +80,18 @@ Using _Dear PyGui_ is a simple as creating a python script like the one below:
 
 Code:
 ```Python
-from dearpygui import core, simple
+import dearpygui.dearpygui as dpg
 
-def save_callback(sender, data):
+def save_callback():
     print("Save Clicked")
 
-with simple.window("Example Window"):
-    core.add_text("Hello world")
-    core.add_button("Save", callback=save_callback)
-    core.add_input_text("string")
-    core.add_slider_float("float")
+with dpg.window("Example Window"):
+    dpg.add_text("Hello world")
+    dpg.add_button(label="Save", callback=save_callback)
+    dpg.add_input_text(label="string")
+    dpg.add_slider_float(label="float")
 
-core.start_dearpygui()
+dpg.start_dearpygui()
 ```
 Result:
 <BR>![BasicUsageExample](https://github.com/hoffstadt/DearPyGui/blob/assets/BasicUsageExample1.PNG?raw=true)
