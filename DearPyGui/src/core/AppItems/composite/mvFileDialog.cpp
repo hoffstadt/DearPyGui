@@ -21,6 +21,7 @@ namespace Marvel {
 				MV_PARSER_ARG_WIDTH |
 				MV_PARSER_ARG_HEIGHT |
 				MV_PARSER_ARG_CALLBACK |
+				MV_PARSER_ARG_USER_DATA |
 				MV_PARSER_ARG_SHOW)
 			);
 
@@ -131,7 +132,7 @@ namespace Marvel {
 				{
 					mvApp::GetApp()->getCallbackRegistry().submitCallback([&]()
 						{
-							mvApp::GetApp()->getCallbackRegistry().runCallback(m_callback, m_uuid, getInfoDict(), nullptr);
+							mvApp::GetApp()->getCallbackRegistry().runCallback(m_callback, m_uuid, getInfoDict(), m_user_data);
 						});
 
 				}
