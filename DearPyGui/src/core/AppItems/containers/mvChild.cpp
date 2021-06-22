@@ -7,7 +7,10 @@ namespace Marvel {
 
 	void mvChild::InsertParser(std::map<std::string, mvPythonParser>* parsers)
 	{
-		mvPythonParser parser(mvPyDataType::UUID, "Adds an embedded child window. Will show scrollbars when items do not fit. Must be followed by a call to end.", { "Containers", "Widgets" });
+		mvPythonParser parser(mvPyDataType::UUID,
+			"Adds an embedded child window. Will show scrollbars when items do not fit. Must be followed by a call to end.", 
+			{ "Containers", "Widgets" },
+			true);
 		mvAppItem::AddCommonArgs(parser, (CommonParserArgs)(
 			MV_PARSER_ARG_ID |
 			MV_PARSER_ARG_WIDTH |

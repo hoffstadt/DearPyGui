@@ -5,10 +5,7 @@
 #include "mvNode.h"
 #include "mvNodeAttribute.h"
 #include "mvNodeLink.h"
-//#include "mvImGuiThemeScope.h"
-//#include "mvImNodesThemeScope.h"
 #include "mvLog.h"
-//#include "mvFontScope.h"
 #include "mvPythonExceptions.h"
 
 namespace Marvel {
@@ -17,7 +14,7 @@ namespace Marvel {
 	{
 
 		{
-			mvPythonParser parser(mvPyDataType::UUID, "Adds a node editor.", { "Node Editor", "Containers", "Widgets" });
+			mvPythonParser parser(mvPyDataType::UUID, "Adds a node editor.", { "Node Editor", "Containers", "Widgets" }, true);
 			mvAppItem::AddCommonArgs(parser, (CommonParserArgs)(
 				MV_PARSER_ARG_ID |
 				MV_PARSER_ARG_PARENT |

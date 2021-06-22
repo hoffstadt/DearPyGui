@@ -1,5 +1,4 @@
-import dearpygui.core as dpg
-import dearpygui.contexts as cxt
+import dearpygui.dearpygui as dpg
 
 class mvLogger:
 
@@ -12,7 +11,7 @@ class mvLogger:
         self.count = 0
         self.flush_count = 1000
 
-        with cxt.group(horizontal=True, parent=self.window_id):
+        with dpg.group(horizontal=True, parent=self.window_id):
             dpg.add_checkbox(label="Auto-scroll", default_value=True, callback=lambda sender:self.auto_scroll(dpg.get_value(sender)))
             dpg.add_button(label="Clear", callback=lambda: dpg.delete_item(self.filter_id, children_only=True))
 
@@ -21,22 +20,22 @@ class mvLogger:
         self.child_id = dpg.add_child(parent=self.window_id, autosize_x=True, autosize_y=True)
         self.filter_id = dpg.add_filter_set(parent=self.child_id)
 
-        with cxt.theme() as self.trace_theme:
+        with dpg.theme() as self.trace_theme:
             dpg.add_theme_color(dpg.mvThemeCol_Text, (0, 255, 0, 255))
 
-        with cxt.theme() as self.debug_theme:
+        with dpg.theme() as self.debug_theme:
             dpg.add_theme_color(dpg.mvThemeCol_Text, (64, 128, 255, 255))
 
-        with cxt.theme() as self.info_theme:
+        with dpg.theme() as self.info_theme:
             dpg.add_theme_color(dpg.mvThemeCol_Text, (255, 255, 255, 255))
 
-        with cxt.theme() as self.warning_theme:
+        with dpg.theme() as self.warning_theme:
             dpg.add_theme_color(dpg.mvThemeCol_Text, (255, 255, 0, 255))
 
-        with cxt.theme() as self.error_theme:
+        with dpg.theme() as self.error_theme:
             dpg.add_theme_color(dpg.mvThemeCol_Text, (255, 0, 0, 255))
 
-        with cxt.theme() as self.critical_theme:
+        with dpg.theme() as self.critical_theme:
             dpg.add_theme_color(dpg.mvThemeCol_Text, (255, 0, 0, 255))
 
     def auto_scroll(self, value):

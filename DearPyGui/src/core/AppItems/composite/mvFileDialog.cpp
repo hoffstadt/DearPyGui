@@ -15,7 +15,7 @@ namespace Marvel {
 	void mvFileDialog::InsertParser(std::map<std::string, mvPythonParser>* parsers)
 	{
 		{
-			mvPythonParser parser(mvPyDataType::UUID, "Undocumented Function", { "Containers", "Widgets", "File Dialog" });
+			mvPythonParser parser(mvPyDataType::UUID, "Undocumented Function", { "Containers", "Widgets", "File Dialog" }, true);
 			mvAppItem::AddCommonArgs(parser, (CommonParserArgs)(
 				MV_PARSER_ARG_ID |
 				MV_PARSER_ARG_WIDTH |

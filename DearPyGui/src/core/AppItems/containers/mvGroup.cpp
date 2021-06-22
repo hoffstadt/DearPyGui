@@ -7,7 +7,9 @@ namespace Marvel {
 	void mvGroup::InsertParser(std::map<std::string, mvPythonParser>* parsers)
 	{
 
-		mvPythonParser parser(mvPyDataType::UUID, "Creates a group that other widgets can belong to. The group allows item commands to be issued for all of its members. Must be closed with the end command.", { "Containers", "Widgets" });
+		mvPythonParser parser(mvPyDataType::UUID, 
+			"Creates a group that other widgets can belong to. The group allows item commands to be issued for all of its members. Must be closed with the end command.", 
+			{ "Containers", "Widgets" }, true);
 		mvAppItem::AddCommonArgs(parser, (CommonParserArgs)(
 			MV_PARSER_ARG_ID |
 			MV_PARSER_ARG_WIDTH |

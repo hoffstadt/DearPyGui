@@ -1,5 +1,25 @@
 from typing import List, Any, Callable, Union
+from contextlib import contextmanager
 import dearpygui.core as internal_dpg
+
+########################################################################################################################
+# User API
+#
+#    * Sections
+#      - Helper Commands
+#      - Container Context Managers
+#      - Core Wrappings
+#      - Constants
+#
+########################################################################################################################
+
+########################################################################################################################
+# Helper Commands
+########################################################################################################################
+
+def configure_item(item : int, **kwargs) -> None:
+	"""Undocumented"""
+	internal_dpg.configure_item(item, **kwargs)
 
 def start_dearpygui():
     vp = internal_dpg.create_viewport()
@@ -9,10 +29,29 @@ def start_dearpygui():
         internal_dpg.render_dearpygui_frame()   
     internal_dpg.cleanup_dearpygui()
 
-########################################################################################################################
-# Old Commands
-########################################################################################################################
+@contextmanager
+def mutex():
+   
+   try:
+        yield internal_dpg.lock_mutex()
+   finally:
+        internal_dpg.unlock_mutex()
 
+@contextmanager
+def popup(parent: int, mousebutton: int = internal_dpg.mvMouseButton_Right, modal: bool = False) -> int:
+    
+    try:
+        _internal_popup_id = internal_dpg.generate_uuid()
+        internal_dpg.add_clicked_handler(parent, mousebutton, callback=lambda: internal_dpg.configure_item(_internal_popup_id, show=True))
+        if modal:
+            internal_dpg.add_window(modal=True, show=False, id=_internal_popup_id, autosize=True)
+        else:
+            internal_dpg.add_window(popup=True, show=False, id=_internal_popup_id, autosize=True)
+        internal_dpg.push_container_stack(internal_dpg.last_container())
+        yield _internal_popup_id
+
+    finally:
+        internal_dpg.pop_container_stack()
 
 # window configure
 def set_window_pos(window: str, x: int, y: int):

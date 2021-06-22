@@ -18,7 +18,7 @@ int main(int argc, char* argv[])
 #ifdef MV_RELEASE
 	HWND hWnd = GetConsoleWindow();
 	ShowWindow(hWnd, SW_SHOW);
-	mvPythonParser::GenerateStubFile("../../DearPyGui/dearpygui/core.pyi");
+	mvPythonParser::GenerateDearPyGuiFile("../../DearPyGui/dearpygui");
 #else
 	HWND hWnd = GetConsoleWindow();
 	ShowWindow(hWnd, SW_SHOW);	
