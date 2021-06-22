@@ -2,8 +2,6 @@
 #include "mvApp.h"
 #include "mvLog.h"
 #include "mvItemRegistry.h"
-//#include "mvImGuiThemeScope.h"
-//#include "mvFontScope.h"
 #include "mvTableColumn.h"
 
 namespace Marvel {
@@ -141,7 +139,9 @@ namespace Marvel {
 
 			if (!m_children[1].empty())
 			{
-				if(m_children[1][0]->getType() != mvAppItemType::mvTableRow && m_children[1][0]->getType() != mvAppItemType::mvClipper)
+				if(m_children[1][0]->getType() != mvAppItemType::mvTableRow && 
+					m_children[1][0]->getType() != mvAppItemType::mvClipper &&
+					m_children[1][0]->getType() != mvAppItemType::mvFilterSet)
 					ImGui::TableNextColumn();
 			}
 			

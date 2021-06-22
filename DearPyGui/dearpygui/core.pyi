@@ -438,7 +438,7 @@ def add_table_next_column(*, label: str =None, id: int =..., parent: int =0, bef
 	"""Undocumented function"""
 	...
 
-def add_table_row(*, label: str =None, id: int =..., height: int =0, parent: int =0, before: int =0, show: bool =True) -> int:
+def add_table_row(*, label: str =None, id: int =..., height: int =0, parent: int =0, before: int =0, show: bool =True, filter_key: str ='') -> int:
 	"""Undocumented function"""
 	...
 
