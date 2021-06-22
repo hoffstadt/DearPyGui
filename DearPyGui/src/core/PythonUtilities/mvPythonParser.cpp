@@ -676,7 +676,7 @@ namespace Marvel {
 		auto& constants = mvModule_Core::GetSubModuleConstants();
 
 		for(auto& item : constants)
-			stub << item.first << "=" << std::to_string(item.second) << "\n";
+			stub << item.first << "=internal_dpg." << item.first << "\n";
 
 		stub.close();
 	}
