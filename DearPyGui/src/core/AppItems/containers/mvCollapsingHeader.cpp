@@ -8,7 +8,7 @@ namespace Marvel {
 	void mvCollapsingHeader::InsertParser(std::map<std::string, mvPythonParser>* parsers)
 	{
 
-		mvPythonParser parser(mvPyDataType::UUID, "Adds a collapsing header to add items to. Must be closed with the end command.", { "Containers", "Widgets" });
+		mvPythonParser parser(mvPyDataType::UUID, "Adds a collapsing header to add items to. Must be closed with the end command.", { "Containers", "Widgets" }, true);
 		mvAppItem::AddCommonArgs(parser, (CommonParserArgs)(
 			MV_PARSER_ARG_ID |
 			MV_PARSER_ARG_INDENT |

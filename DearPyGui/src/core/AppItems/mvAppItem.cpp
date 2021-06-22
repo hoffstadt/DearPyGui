@@ -97,6 +97,7 @@ namespace Marvel{
 			mvPythonParser parser(mvPyDataType::None, "Undocumented", { "App Item Operations" });
 			parser.addArg<mvPyDataType::UUID>("item");
 			parser.addKwargs();
+			parser.makeInternal();
 			parser.finalize();
 			parsers->insert({ "configure_item", parser });
 		}
@@ -166,7 +167,7 @@ namespace Marvel{
 	void mvAppItem::AddCommonArgs(mvPythonParser& parser, CommonParserArgs args)
 	{
 		parser.addArg<mvPyDataType::String>("label", mvArgType::KEYWORD_ARG, "None", "Overrides 'name' as label.");
-		if(args & MV_PARSER_ARG_ID)            parser.addArg<mvPyDataType::UUID>("id", mvArgType::KEYWORD_ARG, "...", "Unique id used to programmatically refer to the item.If label is unused this will be the label.");
+		if(args & MV_PARSER_ARG_ID)            parser.addArg<mvPyDataType::UUID>("id", mvArgType::KEYWORD_ARG, "0", "Unique id used to programmatically refer to the item.If label is unused this will be the label.");
 		if(args & MV_PARSER_ARG_WIDTH)         parser.addArg<mvPyDataType::Integer>("width", mvArgType::KEYWORD_ARG, "0", "Width of the item.");
 		if(args & MV_PARSER_ARG_HEIGHT)        parser.addArg<mvPyDataType::Integer>("height", mvArgType::KEYWORD_ARG, "0", "Height of the item.");
 		if(args & MV_PARSER_ARG_INDENT)        parser.addArg<mvPyDataType::Integer>("indent", mvArgType::KEYWORD_ARG, "-1", "Offsets the widget to the right the specified number multiplied by the indent style.");

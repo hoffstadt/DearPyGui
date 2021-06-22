@@ -7,7 +7,7 @@ namespace Marvel {
 
 	void mvFilterSet::InsertParser(std::map<std::string, mvPythonParser>* parsers)
 	{
-		mvPythonParser parser(mvPyDataType::UUID, "Helper to parse and apply text filters (e.g. aaaaa[, bbbbb][, ccccc])", { "Containers", "Widgets" });
+		mvPythonParser parser(mvPyDataType::UUID, "Helper to parse and apply text filters (e.g. aaaaa[, bbbbb][, ccccc])", { "Containers", "Widgets" }, true);
 		mvAppItem::AddCommonArgs(parser, (CommonParserArgs)(
 			MV_PARSER_ARG_ID |
 			MV_PARSER_ARG_WIDTH |

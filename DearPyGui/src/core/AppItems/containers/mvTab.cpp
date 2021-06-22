@@ -8,7 +8,7 @@ namespace Marvel {
 	void mvTab::InsertParser(std::map<std::string, mvPythonParser>* parsers)
 	{
 
-		mvPythonParser parser(mvPyDataType::UUID, "Adds a tab to a tab bar. Must be closed with thes end command.", { "Containers", "Widgets" });
+		mvPythonParser parser(mvPyDataType::UUID, "Adds a tab to a tab bar. Must be closed with thes end command.", { "Containers", "Widgets" }, true);
 		mvAppItem::AddCommonArgs(parser, (CommonParserArgs)(
 			MV_PARSER_ARG_ID |
 			MV_PARSER_ARG_INDENT |

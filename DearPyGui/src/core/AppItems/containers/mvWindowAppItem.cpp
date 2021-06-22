@@ -13,7 +13,7 @@ namespace Marvel {
 	void mvWindowAppItem::InsertParser(std::map<std::string, mvPythonParser>* parsers)
 	{
 		{
-			mvPythonParser parser(mvPyDataType::UUID, "Creates a new window for following items to be added to.", { "Containers", "Widgets" });
+			mvPythonParser parser(mvPyDataType::UUID, "Creates a new window for following items to be added to.", { "Containers", "Widgets" }, true);
 			mvAppItem::AddCommonArgs(parser, (CommonParserArgs)(
 				MV_PARSER_ARG_ID |
 				MV_PARSER_ARG_WIDTH |

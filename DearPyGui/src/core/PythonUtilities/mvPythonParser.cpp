@@ -1,4 +1,5 @@
 #include "mvPythonParser.h"
+#include "mvAppItemCommons.h"
 #include "mvModule_Core.h"
 #include "mvApp.h"
 #include <fstream>
@@ -135,6 +136,7 @@ namespace Marvel {
 		case mvPyDataType::FloatList:      return " : List[float]";
 		case mvPyDataType::DoubleList:     return " : List[float]";
 		case mvPyDataType::IntList:        return " : List[int]";
+		case mvPyDataType::UUIDList:       return " : List[int]";
 		case mvPyDataType::Callable:       return " : Callable";
 		case mvPyDataType::Dict:           return " : dict";
 		case mvPyDataType::ListAny:        return " : List[Any]";
@@ -171,8 +173,8 @@ namespace Marvel {
 		}
 	}
 
-	mvPythonParser::mvPythonParser(mvPyDataType returnType, const char* about, const std::vector<std::string>& category)
-		: m_about(about), m_return(returnType), m_category(category)
+	mvPythonParser::mvPythonParser(mvPyDataType returnType, const char* about, const std::vector<std::string>& category, bool createContextManager)
+		: m_about(about), m_return(returnType), m_category(category), m_createContextManager(createContextManager)
 	{
 
 	}
@@ -380,7 +382,7 @@ namespace Marvel {
 		char* dt = ctime(&now);
 
 		std::ofstream stub;
-		stub.open(file);
+		stub.open(file + "/core.pyi");
 
 		stub << "from typing import List, Any, Callable\n";
 		stub << "from dearpygui.core import *\n\n";
@@ -434,6 +436,247 @@ namespace Marvel {
 
 			stub << "\n\t...\n\n";
 		}
+
+		stub.close();
+	}
+
+	void mvPythonParser::GenerateCoreFile(const std::string& file)
+	{
+		const auto& commands = mvModule_Core::GetModuleParsers();
+
+		// current date/time based on current system
+		time_t now = time(0);
+
+		// convert now to string form
+		char* dt = ctime(&now);
+
+		std::ofstream stub;
+		stub.open(file + "/_core.py");
+
+		for (const auto& parser : commands)
+		{
+			if (parser.second.m_internal)
+				continue;
+
+			stub << "def " << parser.first << "(";
+
+			bool first_arg = true;
+			for (const auto& args : parser.second.m_required_elements)
+			{
+				if (first_arg)
+					first_arg = false;
+				else
+					stub << ", ";
+				stub << args.name << PythonDataTypeString(args.type);
+			}
+
+			for (const auto& args : parser.second.m_optional_elements)
+			{
+				if (first_arg)
+					first_arg = false;
+				else
+					stub << ", ";
+				stub << args.name << PythonDataTypeString(args.type) << " =" << args.default_value;
+			}
+
+			if (!parser.second.m_keyword_elements.empty())
+			{
+				if (first_arg)
+					first_arg = false;
+				else
+					stub << ", ";
+
+				stub << "*";
+			}
+
+			for (const auto& args : parser.second.m_keyword_elements)
+				stub << ", " << args.name << ": " << PythonDataTypeActual(args.type) << " =" << args.default_value;
+
+			if (parser.second.m_unspecifiedKwargs)
+				stub << ", **kwargs";
+
+			stub << ") -> " << PythonDataTypeActual(parser.second.m_return) << ":";
+
+			stub << "\n\t\"\"\"" << parser.second.m_about.c_str() << "\"\"\"";
+
+			stub << "\n\treturn internal_dpg." << parser.first << "(";
+
+			first_arg = true;
+			for (const auto& args : parser.second.m_required_elements)
+			{
+				if (first_arg)
+					first_arg = false;
+				else
+					stub << ", ";
+				stub << args.name;
+			}
+
+			for (const auto& args : parser.second.m_optional_elements)
+			{
+				if (first_arg)
+					first_arg = false;
+				else
+					stub << ", ";
+				stub << args.name << "=" << args.name;
+			}
+
+			for (const auto& args : parser.second.m_keyword_elements)
+			{
+				if (first_arg)
+					first_arg = false;
+				else
+					stub << ", ";
+				stub << args.name << "=" << args.name;
+			}
+
+			stub << ")\n\n";
+		}
+
+		stub.close();
+	}
+
+	void mvPythonParser::GenerateContextsFile(const std::string& file)
+	{
+		const auto& commands = mvModule_Core::GetModuleParsers();
+
+		// current date/time based on current system
+		time_t now = time(0);
+
+		// convert now to string form
+		char* dt = ctime(&now);
+
+		std::ofstream stub;
+		stub.open(file + "/_contexts.py");
+
+		for (const auto& parser : commands)
+		{
+			if (!parser.second.m_createContextManager)
+				continue;
+
+			stub << "@contextmanager\n";
+			stub << "def " << parser.first.substr(4) << "(";
+
+			bool first_arg = true;
+			for (const auto& args : parser.second.m_required_elements)
+			{
+				if (first_arg)
+					first_arg = false;
+				else
+					stub << ", ";
+				stub << args.name << PythonDataTypeString(args.type);
+			}
+
+			for (const auto& args : parser.second.m_optional_elements)
+			{
+				if (first_arg)
+					first_arg = false;
+				else
+					stub << ", ";
+				stub << args.name << PythonDataTypeString(args.type) << " =" << args.default_value;
+			}
+
+			if (!parser.second.m_keyword_elements.empty())
+			{
+				if (first_arg)
+					first_arg = false;
+				else
+					stub << ", ";
+
+				stub << "*";
+			}
+
+			for (const auto& args : parser.second.m_keyword_elements)
+				stub << ", " << args.name << ": " << PythonDataTypeActual(args.type) << " =" << args.default_value;
+
+			if (parser.second.m_unspecifiedKwargs)
+				stub << ", **kwargs";
+
+			stub << ") -> " << PythonDataTypeActual(parser.second.m_return) << ":";
+
+			stub << "\n\t\"\"\"" << parser.second.m_about.c_str() << "\"\"\"";
+
+			stub << "\n\ttry:";
+			stub << "\n\t\twidget = internal_dpg." << parser.first << "(";
+
+			first_arg = true;
+			for (const auto& args : parser.second.m_required_elements)
+			{
+				if (first_arg)
+					first_arg = false;
+				else
+					stub << ", ";
+				stub << args.name;
+			}
+
+			for (const auto& args : parser.second.m_optional_elements)
+			{
+				if (first_arg)
+					first_arg = false;
+				else
+					stub << ", ";
+				stub << args.name << "=" << args.name;
+			}
+
+			for (const auto& args : parser.second.m_keyword_elements)
+			{
+				if (first_arg)
+					first_arg = false;
+				else
+					stub << ", ";
+				stub << args.name << "=" << args.name;
+			}
+
+			stub << ")\n";
+			stub << "\t\tinternal_dpg.push_container_stack(widget)\n";
+			stub << "\t\tyield widget\n";
+			stub << "\tfinally:\n";
+			stub << "\t\tinternal_dpg.pop_container_stack()\n";
+
+		}
+
+		stub.close();
+	}
+
+	void mvPythonParser::GenerateDearPyGuiFile(const std::string& file)
+	{
+		GenerateStubFile("../../DearPyGui/dearpygui");
+		GenerateCoreFile("../../DearPyGui/dearpygui");
+		GenerateContextsFile("../../DearPyGui/dearpygui");
+
+		std::ofstream stub;
+		stub.open(file + "/dearpygui.py");
+
+		std::ifstream inputStream1(file + "/_header.py");
+
+		for (std::string line; std::getline(inputStream1, line);)
+			stub << line << "\n";
+
+		stub << "\n##########################################################\n";
+		stub << "# Container Context Managers\n";
+		stub << "##########################################################\n\n";
+
+		std::ifstream inputStream2(file + "/_contexts.py");
+
+		for (std::string line; std::getline(inputStream2, line);)
+			stub << line << "\n";
+
+		stub << "\n##########################################################\n";
+		stub << "# Core Wrappings\n";
+		stub << "##########################################################\n\n";
+
+		std::ifstream inputStream3(file + "/_core.py");
+
+		for (std::string line; std::getline(inputStream3, line);)
+			stub << line << "\n";
+
+		stub << "\n##########################################################\n";
+		stub << "# Constants #\n";
+		stub << "##########################################################\n\n";
+
+		auto& constants = mvModule_Core::GetSubModuleConstants();
+
+		for(auto& item : constants)
+			stub << item.first << "=" << std::to_string(item.second) << "\n";
 
 		stub.close();
 	}

@@ -83,10 +83,16 @@ namespace Marvel {
     public:
 
         static void GenerateStubFile(const std::string& file);
+        static void GenerateCoreFile(const std::string& file);
+        static void GenerateContextsFile(const std::string& file);
+        static void GenerateDearPyGuiFile(const std::string& file);
 
     public:
 
-        explicit mvPythonParser(mvPyDataType returnType = mvPyDataType::None, const char* about = "Undocumented function", const std::vector<std::string>& category = { "None" });
+        explicit mvPythonParser(mvPyDataType returnType = mvPyDataType::None, 
+            const char* about = "Undocumented function", 
+            const std::vector<std::string>& category = { "None" },
+            bool createContextManager = false);
 
         template<mvPyDataType type>
         void addArg(const char* name, mvArgType argType = mvArgType::REQUIRED_ARG, const char* defaultValue = "...", const char* description="")
@@ -108,6 +114,7 @@ namespace Marvel {
         bool verifyKeywordArguments(PyObject* args);
         bool verifyArgumentCount(PyObject* args);
         void addKwargs() { m_unspecifiedKwargs = true; }
+        void makeInternal() { m_internal = true; }
 
         bool parse(PyObject* args, PyObject* kwargs, const char* message, ...);
 
@@ -134,6 +141,8 @@ namespace Marvel {
         std::string                      m_documentation;
         std::vector<std::string>         m_category;
         bool                             m_unspecifiedKwargs = false;
+        bool                             m_createContextManager = false;
+        bool                             m_internal = false;
 
     };
 

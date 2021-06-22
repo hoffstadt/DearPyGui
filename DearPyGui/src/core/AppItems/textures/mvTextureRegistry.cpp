@@ -9,11 +9,12 @@ namespace Marvel {
 	void mvTextureRegistry::InsertParser(std::map<std::string, mvPythonParser>* parsers)
 	{
 
-		mvPythonParser parser(mvPyDataType::UUID, "Undocumented function", { "Textures", "Widgets" });
+		mvPythonParser parser(mvPyDataType::UUID, "Undocumented function", { "Textures", "Widgets" }, true);
 		mvAppItem::AddCommonArgs(parser, (CommonParserArgs)(
-			MV_PARSER_ARG_ID |
-			MV_PARSER_ARG_SHOW)
+			MV_PARSER_ARG_ID)
 		);
+
+		parser.addArg<mvPyDataType::Bool>("show", mvArgType::KEYWORD_ARG, "False", "Attempt to render widget.");
 
 		parser.finalize();
 
