@@ -1498,12 +1498,12 @@ def show_demo():
                     dpg.add_table_column(label="2")
                     dpg.add_table_column(label="3")
 
-                    for i in range(0, 25):
-                        with cxt.clipper():
-                            with cxt.table_row():
-                                dpg.add_input_int(label=" ", step=0)
-                                dpg.add_button(label=f"Cell {i}, 1")
-                                dpg.add_text(f"Cell {i}, 2")
+                    with cxt.clipper():
+                        for i in range(0, 25):
+                                with cxt.table_row():
+                                    dpg.add_input_int(label=" ", step=0)
+                                    dpg.add_button(label=f"Cell {i}, 1")
+                                    dpg.add_text(f"Cell {i}, 2")
                 dpg.add_checkbox(label="resizable", before=table_id, default_value=True, user_data=table_id, callback=lambda sender, app_data, user_data:dpg.configure_item(user_data, resizable=dpg.get_value(sender)))
 
                 # Freezing rows/columns
@@ -1530,6 +1530,29 @@ def show_demo():
                                 dpg.add_text(f"Cell {i}, 5")
                                 dpg.add_text(f"Cell {i}, 6")
 
+            with cxt.tree_node(label="Filtering"):
+
+                # with filtering
+                dpg.add_text("Using Filter (column 3)")
+                _filter_table_id = dpg.generate_uuid()
+                dpg.add_input_text(label="Filter (inc, -exc)", user_data=_filter_table_id, callback=lambda s, a, u: dpg.set_value(u, dpg.get_value(s)))
+                with cxt.table(header_row=True, no_host_extendX=True, delay_search=True,
+                            borders_innerH=True, borders_outerH=True, borders_innerV=True,
+                            borders_outerV=True, context_menu_in_body=True, row_background=True,
+                            policy=dpg.mvTable_SizingFixedFit, height=300,
+                            scrollY=True):
+
+                    dpg.add_table_column(label="1")
+                    dpg.add_table_column(label="2")
+                    dpg.add_table_column(label="3")
+
+                    with cxt.filter_set(id=_filter_table_id):
+                        for i in range(0, 25):
+                                with cxt.table_row(filter_key=f"Cell {i}, 1"):
+                                    dpg.add_input_int(label=" ", step=0)
+                                    dpg.add_button(label=f"Cell {i}, 1")
+                                    dpg.add_text(f"Cell {i}, 2")
+                dpg.add_checkbox(label="resizable", before=table_id, default_value=True, user_data=table_id, callback=lambda sender, app_data, user_data:dpg.configure_item(user_data, resizable=dpg.get_value(sender)))
 
             with cxt.tree_node(label="Sorting"):
 
@@ -2118,7 +2141,6 @@ def show_demo():
                         "  \"xxx\"         display lines containing \"xxx\"\n"
                         "  \"xxx,yyy\"  display lines containing \"xxx\" or \"yyy\"\n"
                         "  \"-xxx\"        hide lines containing \"xxx\"")
-
 
             with cxt.filter_set() as filter_id:
                 dpg.add_text("aaa1.c", filter_key="aaa1.c", bullet=True)

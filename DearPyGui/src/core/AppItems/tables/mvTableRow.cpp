@@ -3,8 +3,6 @@
 #include "mvCore.h"
 #include "mvLog.h"
 #include "mvItemRegistry.h"
-//#include "mvImGuiThemeScope.h"
-//#include "mvFontScope.h"
 #include "mvPythonExceptions.h"
 
 namespace Marvel {
@@ -18,6 +16,7 @@ namespace Marvel {
 			MV_PARSER_ARG_PARENT |
 			MV_PARSER_ARG_BEFORE |
 			MV_PARSER_ARG_HEIGHT |
+			MV_PARSER_ARG_FILTER |
 			MV_PARSER_ARG_SHOW)
 		);
 		parser.finalize();
@@ -35,6 +34,7 @@ namespace Marvel {
 	{
 		if (type == mvAppItemType::mvClipper) return true;
 		if (type == mvAppItemType::mvStagingContainer) return true;
+		if (type == mvAppItemType::mvFilterSet) return true;
 		if (type == mvAppItemType::mvTable)
 			return true;
 
@@ -47,8 +47,6 @@ namespace Marvel {
 	void mvTableRow::draw(ImDrawList* drawlist, float x, float y)
 	{
 		ScopedID id(m_uuid);
-		//mvImGuiThemeScope scope(this);
-		//mvFontScope fscope(this);
 
 		if(m_location != 0)
 			ImGui::TableNextRow(0, m_height);
