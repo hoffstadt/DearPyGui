@@ -176,8 +176,8 @@ on_success:
   - cmd: call %PYLOC% -m pip install twine
   - cmd: call %PYLOC% -m pip install wheel
   - cmd: call %PYLOC% -m setup bdist_wheel --plat-name win_amd64 --dist-dir C:/projects/dearpygui/dist
-  - cmd: if "%APPVEYOR_REPO_COMMIT_MESSAGE:(test)=%" neq "%APPVEYOR_REPO_COMMIT_MESSAGE%" call %PYLOC% -m twine upload --repository testpypi C:/projects/dearpygui/dist/* -u RaylockLLC -p %pypi_password% --skip-existing
-  - cmd: if "%APPVEYOR_REPO_COMMIT_MESSAGE:(release)=%" neq "%APPVEYOR_REPO_COMMIT_MESSAGE%" call %PYLOC% -m twine upload C:/projects/dearpygui/dist/* -u RaylockLLC -p %pypi_password% --skip-existing
+  - cmd: if "%APPVEYOR_REPO_COMMIT_MESSAGE:(test pypi)=%" neq "%APPVEYOR_REPO_COMMIT_MESSAGE%" call %PYLOC% -m twine upload --repository testpypi C:/projects/dearpygui/dist/* -u RaylockLLC -p %pypi_password% --skip-existing
+  - cmd: if "%APPVEYOR_REPO_COMMIT_MESSAGE:(pypi)=%" neq "%APPVEYOR_REPO_COMMIT_MESSAGE%" call %PYLOC% -m twine upload C:/projects/dearpygui/dist/* -u RaylockLLC -p %pypi_password% --skip-existing
       
   #  # deploy test docs
   - ps: |
