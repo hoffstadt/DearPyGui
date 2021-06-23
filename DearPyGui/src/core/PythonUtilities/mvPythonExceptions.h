@@ -4,6 +4,9 @@
 
 namespace Marvel
 {
+	// forward declarations
+	class mvAppItem;
+
 	enum class mvErrorCode
 	{
 		mvNone                = 1000,
@@ -19,9 +22,6 @@ namespace Marvel
 		mvStagingModeOff      = 1010,
 		mvParentNotDeduced    = 1011,
 	};
-
-	// forward declaration
-	class mvAppItem;
 
 	void mvThrowPythonError(mvErrorCode code, const std::string& message);
 	void mvThrowPythonError(mvErrorCode code, const std::string& command, const std::string& message, mvAppItem* item);
