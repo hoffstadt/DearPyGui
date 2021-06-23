@@ -2,6 +2,7 @@
 #include "mvTabBar.h"
 #include "mvApp.h"
 #include "mvItemRegistry.h"
+#include "mvPythonExceptions.h"
 
 namespace Marvel {
 
@@ -46,6 +47,18 @@ namespace Marvel {
 	void mvTab::removeFlag(ImGuiTabItemFlags flag)
 	{
 		m_flags &= ~flag;
+	}
+
+	bool mvTab::isParentCompatible(mvAppItemType type)
+	{
+		if (type == mvAppItemType::mvTabBar) return true;
+		if (type == mvAppItemType::mvStagingContainer) return true;
+
+		mvThrowPythonError(mvErrorCode::mvIncompatibleParent, s_command,
+			"Incompatible parent. Acceptable parents include: tab bar, staging container.", this);
+
+		assert(false);
+		return false;
 	}
 
 	void mvTab::draw(ImDrawList* drawlist, float x, float y)

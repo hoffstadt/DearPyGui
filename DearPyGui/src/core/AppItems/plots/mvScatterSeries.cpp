@@ -3,7 +3,7 @@
 #include "mvCore.h"
 #include "mvApp.h"
 #include "mvItemRegistry.h"
-//#include "mvImPlotThemeScope.h"
+#include "mvPythonExceptions.h"
 
 namespace Marvel {
 
@@ -35,10 +35,20 @@ namespace Marvel {
 		m_contributeToBounds = true;
 	}
 
+	bool mvScatterSeries::isParentCompatible(mvAppItemType type)
+	{
+		if (type == mvAppItemType::mvPlotAxis) return true;
+
+		mvThrowPythonError(mvErrorCode::mvIncompatibleParent, s_command,
+			"Incompatible parent. Acceptable parents include: plot axis", this);
+
+		assert(false);
+		return false;
+	}
+
 	void mvScatterSeries::draw(ImDrawList* drawlist, float x, float y)
 	{
 		ScopedID id(m_uuid);
-		//mvImPlotThemeScope scope(this);
 
 		static const std::vector<double>* xptr;
 		static const std::vector<double>* yptr;

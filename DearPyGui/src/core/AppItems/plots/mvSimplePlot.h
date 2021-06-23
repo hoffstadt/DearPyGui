@@ -30,7 +30,6 @@ namespace Marvel{
 		void setValue(const std::vector<float>& value);
 		void setPyValue(PyObject* value) override;
 		[[nodiscard]] const std::vector<float>& getValue() const { return *m_value; }
-
 		void handleSpecificKeywordArgs(PyObject* dict) override;
 		void getSpecificConfiguration(PyObject* dict) override;
 

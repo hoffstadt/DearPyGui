@@ -154,7 +154,7 @@ namespace Marvel {
 				Py_XDECREF(app_data);
 			if (user_data != nullptr)
 				Py_XDECREF(user_data);
-			mvThrowPythonError(1000, "Callable not callable.");
+			mvThrowPythonError(mvErrorCode::mvNone, "Callable not callable.");
 			PyErr_Print();
 			return;
 		}
@@ -329,7 +329,7 @@ namespace Marvel {
 		auto message = fut.get();
 
 		if (!message.empty())
-			mvThrowPythonError(1000, message);
+			mvThrowPythonError(mvErrorCode::mvNone, message);
 
 		return GetPyNone();
 	}

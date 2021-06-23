@@ -22,12 +22,14 @@ namespace Marvel {
 		mvAppItem* item = mvApp::GetApp()->getItemRegistry().getItem(dataSource);
 		if (!item)
 		{
-			mvThrowPythonError(1000, "Source item not found.");
+			mvThrowPythonError(mvErrorCode::mvSourceNotFound, "set_value",
+				"Source item not found: " + std::to_string(dataSource), this);
 			return;
 		}
 		if (item->getValueType() != getValueType())
 		{
-			mvThrowPythonError(1000, "Values types do not match");
+			mvThrowPythonError(mvErrorCode::mvSourceNotCompatible, "set_value",
+				"Values types do not match: " + std::to_string(dataSource), this);
 			return;
 		}
 		m_value = std::get<std::shared_ptr<int>>(item->getValue());
@@ -75,12 +77,14 @@ namespace Marvel {
 		mvAppItem* item = mvApp::GetApp()->getItemRegistry().getItem(dataSource);
 		if (!item)
 		{
-			mvThrowPythonError(1000, "Source item not found.");
+			mvThrowPythonError(mvErrorCode::mvSourceNotFound, "set_value",
+				"Source item not found: " + std::to_string(dataSource), this);
 			return;
 		}
 		if (item->getValueType() != getValueType())
 		{
-			mvThrowPythonError(1000, "Values types do not match");
+			mvThrowPythonError(mvErrorCode::mvSourceNotCompatible, "set_value",
+				"Values types do not match: " + std::to_string(dataSource), this);
 			return;
 		}
 		m_value = std::get<std::shared_ptr<std::array<int, 4>>>(item->getValue());
@@ -109,12 +113,14 @@ namespace Marvel {
 		mvAppItem* item = mvApp::GetApp()->getItemRegistry().getItem(dataSource);
 		if (!item)
 		{
-			mvThrowPythonError(1000, "Source item not found.");
+			mvThrowPythonError(mvErrorCode::mvSourceNotFound, "set_value",
+				"Source item not found: " + std::to_string(dataSource), this);
 			return;
 		}
 		if (item->getValueType() != getValueType())
 		{
-			mvThrowPythonError(1000, "Values types do not match");
+			mvThrowPythonError(mvErrorCode::mvSourceNotCompatible, "set_value",
+				"Values types do not match: " + std::to_string(dataSource), this);
 			return;
 		}
 		m_value = std::get<std::shared_ptr<float>>(item->getValue());
@@ -143,12 +149,14 @@ namespace Marvel {
 		mvAppItem* item = mvApp::GetApp()->getItemRegistry().getItem(dataSource);
 		if (!item)
 		{
-			mvThrowPythonError(1000, "Source item not found.");
+			mvThrowPythonError(mvErrorCode::mvSourceNotFound, "set_value",
+				"Source item not found: " + std::to_string(dataSource), this);
 			return;
 		}
 		if (item->getValueType() != getValueType())
 		{
-			mvThrowPythonError(1000, "Values types do not match");
+			mvThrowPythonError(mvErrorCode::mvSourceNotCompatible, "set_value",
+				"Values types do not match: " + std::to_string(dataSource), this);
 			return;
 		}
 		m_value = std::get<std::shared_ptr<double>>(item->getValue());
@@ -186,12 +194,14 @@ namespace Marvel {
 		mvAppItem* item = mvApp::GetApp()->getItemRegistry().getItem(dataSource);
 		if (!item)
 		{
-			mvThrowPythonError(1000, "Source item not found.");
+			mvThrowPythonError(mvErrorCode::mvSourceNotFound, "set_value",
+				"Source item not found: " + std::to_string(dataSource), this);
 			return;
 		}
 		if (item->getValueType() != getValueType())
 		{
-			mvThrowPythonError(1000, "Values types do not match");
+			mvThrowPythonError(mvErrorCode::mvSourceNotCompatible, "set_value",
+				"Values types do not match: " + std::to_string(dataSource), this);
 			return;
 		}
 		m_value = std::get<std::shared_ptr<std::array<float, 4>>>(item->getValue());
@@ -229,12 +239,14 @@ namespace Marvel {
 		mvAppItem* item = mvApp::GetApp()->getItemRegistry().getItem(dataSource);
 		if (!item)
 		{
-			mvThrowPythonError(1000, "Source item not found.");
+			mvThrowPythonError(mvErrorCode::mvSourceNotFound, "set_value",
+				"Source item not found: " + std::to_string(dataSource), this);
 			return;
 		}
 		if (item->getValueType() != getValueType())
 		{
-			mvThrowPythonError(1000, "Values types do not match");
+			mvThrowPythonError(mvErrorCode::mvSourceNotCompatible, "set_value",
+				"Values types do not match: " + std::to_string(dataSource), this);
 			return;
 		}
 		m_value = std::get<std::shared_ptr<std::array<double, 4>>>(item->getValue());
@@ -279,12 +291,14 @@ namespace Marvel {
 		mvAppItem* item = mvApp::GetApp()->getItemRegistry().getItem(dataSource);
 		if (!item)
 		{
-			mvThrowPythonError(1000, "Source item not found.");
+			mvThrowPythonError(mvErrorCode::mvSourceNotFound, "set_value",
+				"Source item not found: " + std::to_string(dataSource), this);
 			return;
 		}
 		if (item->getValueType() != getValueType())
 		{
-			mvThrowPythonError(1000, "Values types do not match");
+			mvThrowPythonError(mvErrorCode::mvSourceNotCompatible, "set_value",
+				"Values types do not match: " + std::to_string(dataSource), this);
 			return;
 		}
 		m_value = std::get<std::shared_ptr<std::array<float, 4>>>(item->getValue());
@@ -313,12 +327,14 @@ namespace Marvel {
 		mvAppItem* item = mvApp::GetApp()->getItemRegistry().getItem(dataSource);
 		if (!item)
 		{
-			mvThrowPythonError(1000, "Source item not found.");
+			mvThrowPythonError(mvErrorCode::mvSourceNotFound, "set_value",
+				"Source item not found: " + std::to_string(dataSource), this);
 			return;
 		}
 		if (item->getValueType() != getValueType())
 		{
-			mvThrowPythonError(1000, "Values types do not match");
+			mvThrowPythonError(mvErrorCode::mvSourceNotCompatible, "set_value",
+				"Values types do not match: " + std::to_string(dataSource), this);
 			return;
 		}
 		m_value = std::get<std::shared_ptr<bool>>(item->getValue());
@@ -347,12 +363,14 @@ namespace Marvel {
 		mvAppItem* item = mvApp::GetApp()->getItemRegistry().getItem(dataSource);
 		if (!item)
 		{
-			mvThrowPythonError(1000, "Source item not found.");
+			mvThrowPythonError(mvErrorCode::mvSourceNotFound, "set_value",
+				"Source item not found: " + std::to_string(dataSource), this);
 			return;
 		}
 		if (item->getValueType() != getValueType())
 		{
-			mvThrowPythonError(1000, "Values types do not match");
+			mvThrowPythonError(mvErrorCode::mvSourceNotCompatible, "set_value",
+				"Values types do not match: " + std::to_string(dataSource), this);
 			return;
 		}
 		m_value = std::get<std::shared_ptr<std::string>>(item->getValue());
@@ -402,12 +420,14 @@ namespace Marvel {
 		mvAppItem* item = mvApp::GetApp()->getItemRegistry().getItem(dataSource);
 		if (!item)
 		{
-			mvThrowPythonError(1000, "Source item not found.");
+			mvThrowPythonError(mvErrorCode::mvSourceNotFound, "set_value",
+				"Source item not found: " + std::to_string(dataSource), this);
 			return;
 		}
 		if (item->getValueType() != getValueType())
 		{
-			mvThrowPythonError(1000, "Values types do not match");
+			mvThrowPythonError(mvErrorCode::mvSourceNotCompatible, "set_value",
+				"Values types do not match: " + std::to_string(dataSource), this);
 			return;
 		}
 		m_value = std::get<std::shared_ptr<std::vector<float>>>(item->getValue());
@@ -438,12 +458,14 @@ namespace Marvel {
 		mvAppItem* item = mvApp::GetApp()->getItemRegistry().getItem(dataSource);
 		if (!item)
 		{
-			mvThrowPythonError(1000, "Source item not found.");
+			mvThrowPythonError(mvErrorCode::mvSourceNotFound, "set_value",
+				"Source item not found: " + std::to_string(dataSource), this);
 			return;
 		}
 		if (item->getValueType() != getValueType())
 		{
-			mvThrowPythonError(1000, "Values types do not match");
+			mvThrowPythonError(mvErrorCode::mvSourceNotCompatible, "set_value",
+				"Values types do not match: " + std::to_string(dataSource), this);
 			return;
 		}
 		m_value = std::get<std::shared_ptr<std::vector<std::vector<double>>>>(item->getValue());
@@ -489,16 +511,6 @@ namespace Marvel {
 		m_maxMins.clear();
 	}
 
-	bool mvSeriesBase::isParentCompatible(mvAppItemType type)
-	{
-		if (type == mvAppItemType::mvPlotAxis) return true;
-
-		mvThrowPythonError(1000, "Item's parent must be plot.");
-		MV_ITEM_REGISTRY_ERROR("Item's parent must be plot.");
-		assert(false);
-		return false;
-	}
-
 	mvUUIDPtrBase::mvUUIDPtrBase(mvUUID uuid)
 		: mvAppItem(uuid)
 	{
@@ -522,12 +534,14 @@ namespace Marvel {
 		mvAppItem* item = mvApp::GetApp()->getItemRegistry().getItem(dataSource);
 		if (!item)
 		{
-			mvThrowPythonError(1000, "Source item not found.");
+			mvThrowPythonError(mvErrorCode::mvSourceNotFound, "set_value",
+				"Source item not found: " + std::to_string(dataSource), this);
 			return;
 		}
 		if (item->getValueType() != getValueType())
 		{
-			mvThrowPythonError(1000, "Values types do not match");
+			mvThrowPythonError(mvErrorCode::mvSourceNotCompatible, "set_value",
+				"Values types do not match: " + std::to_string(dataSource), this);
 			return;
 		}
 		m_value = std::get<std::shared_ptr<mvUUID>>(item->getValue());

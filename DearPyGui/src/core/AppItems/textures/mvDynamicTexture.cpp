@@ -42,7 +42,9 @@ namespace Marvel {
 		if (type == mvAppItemType::mvStagingContainer) return true;
 		if (type == mvAppItemType::mvTextureRegistry) return true;
 
-		mvThrowPythonError(1000, "Drawing item parent must be a drawing.");
+		mvThrowPythonError(mvErrorCode::mvIncompatibleParent, s_command,
+			"Incompatible parent. Acceptable parents include: mvTextureRegistry, mvStagingContainer.", this);
+
 		MV_ITEM_REGISTRY_ERROR("Drawing item parent must be a drawing.");
 		assert(false);
 		return false;

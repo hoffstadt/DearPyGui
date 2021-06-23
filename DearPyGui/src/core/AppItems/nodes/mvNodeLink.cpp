@@ -37,10 +37,11 @@ namespace Marvel {
 	bool mvNodeLink::isParentCompatible(mvAppItemType type)
 	{
 		if (type == mvAppItemType::mvStagingContainer) return true;
-		if (type == mvAppItemType::mvNodeEditor)
-			return true;
+		if (type == mvAppItemType::mvNodeEditor) return true;
 
-		mvThrowPythonError(1000, "Node link parent must be node editor.");
+		mvThrowPythonError(mvErrorCode::mvIncompatibleParent, s_command,
+			"Incompatible parent. Acceptable parents include: node editor, staging container", this);
+
 		MV_ITEM_REGISTRY_ERROR("Node link parent must be node editor.");
 		assert(false);
 		return false;
@@ -66,7 +67,8 @@ namespace Marvel {
 				}
 				else
 				{
-					mvThrowPythonError(1000, "Nodes must be nodes. duh");
+					mvThrowPythonError(mvErrorCode::mvIncompatibleType, s_command,
+						"Incompatible type. Expected types include: mvNode", node);
 					MV_ITEM_REGISTRY_ERROR("Nodes must be nodes. duh");
 					assert(false);
 					return;
@@ -84,7 +86,8 @@ namespace Marvel {
 				}
 				else
 				{
-					mvThrowPythonError(1000, "Nodes must be nodes. duh");
+					mvThrowPythonError(mvErrorCode::mvIncompatibleType, s_command,
+						"Incompatible type. Expected types include: mvNode", node);
 					MV_ITEM_REGISTRY_ERROR("Nodes must be nodes. duh");
 					assert(false);
 					return;

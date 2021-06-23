@@ -43,7 +43,8 @@ namespace Marvel {
 	{
 		if (type == mvAppItemType::mvFontRegistry) return true;
 
-		mvThrowPythonError(1000, "Drawing item parent must be a drawing.");
+		mvThrowPythonError(mvErrorCode::mvIncompatibleParent, s_command,
+			"Incompatible parent. Acceptable parents include: font registry", this);
 		MV_ITEM_REGISTRY_ERROR("Drawing item parent must be a drawing.");
 		assert(false);
 		return false;
@@ -58,7 +59,7 @@ namespace Marvel {
 
 		if (m_fontPtr == nullptr)
 		{
-			mvThrowPythonError(1000, "Font file could not be found");
+			mvThrowPythonError(mvErrorCode::mvNone, "Font file could not be found");
 			io.Fonts->Build();
 			return;
 		}

@@ -41,6 +41,17 @@ namespace Marvel {
 	{
 	}
 
+	bool mvImageSeries::isParentCompatible(mvAppItemType type)
+	{
+		if (type == mvAppItemType::mvPlotAxis) return true;
+
+		mvThrowPythonError(mvErrorCode::mvIncompatibleParent, s_command,
+			"Incompatible parent. Acceptable parents include: plot axis", this);
+
+		assert(false);
+		return false;
+	}
+
 	void mvImageSeries::draw(ImDrawList* drawlist, float x, float y)
 	{
 		ScopedID id(m_uuid);
@@ -105,7 +116,7 @@ namespace Marvel {
 				}
 				else
 				{
-					mvThrowPythonError(1000, "Texture not found.");
+					mvThrowPythonError(mvErrorCode::mvTextureNotFound, s_command, "Texture not found.", this);
 					break;
 				}
 			}

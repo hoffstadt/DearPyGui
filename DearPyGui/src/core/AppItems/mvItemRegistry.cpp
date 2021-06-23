@@ -264,7 +264,8 @@ namespace Marvel {
 			MV_ITEM_REGISTRY_INFO(std::to_string(uuid) + " found and deleted.");
 		}
 		else
-			mvThrowPythonError(1001, std::to_string(uuid) + " not deleted because it was not found");
+			mvThrowPythonError(mvErrorCode::mvItemNotFound, "delete_item",
+				"Item not found: " + std::to_string(uuid), nullptr);
 
 		assert(deletedItem && "Item to delete not found");
 		return deletedItem;
@@ -294,7 +295,8 @@ namespace Marvel {
 
 		if (child == nullptr)
 		{
-			mvThrowPythonError(1000, std::to_string(uuid) + " not moved because it was not found");
+			mvThrowPythonError(mvErrorCode::mvItemNotFound, "move_item",
+				"Item not found: " + std::to_string(uuid), nullptr);
 			MV_ITEM_REGISTRY_WARN("Could not move item, it was not found");
 		}
 
@@ -323,7 +325,8 @@ namespace Marvel {
 
 		if (!movedItem)
 		{
-			mvThrowPythonError(1000, std::to_string(uuid) + " not moved because it was not found");
+			mvThrowPythonError(mvErrorCode::mvItemNotFound, "move_item",
+				"Item not found: " + std::to_string(uuid), nullptr);
 			MV_ITEM_REGISTRY_WARN("Could not move item, it was not found");
 		}
 
@@ -348,7 +351,8 @@ namespace Marvel {
 
 		if (!movedItem)
 		{
-			mvThrowPythonError(1000, std::to_string(uuid) + " not moved because it was not found");
+			mvThrowPythonError(mvErrorCode::mvItemNotFound, "move_item",
+				"Item not found: " + std::to_string(uuid), nullptr);
 			MV_ITEM_REGISTRY_WARN("Could not move item, it was not found");
 		}
 
@@ -491,7 +495,7 @@ namespace Marvel {
 	{
 		if (m_containers.empty())
 		{
-			mvThrowPythonError(1000, "No container to pop.");
+			mvThrowPythonError(mvErrorCode::mvContainerStackEmpty, "No container to pop.");
 			MV_ITEM_REGISTRY_WARN("No container to pop.");
 			assert(false);
 			return nullptr;
@@ -720,7 +724,7 @@ namespace Marvel {
 		//---------------------------------------------------------------------------
 		//if (getItem(item->getUUID()))
 		//{
-		//	mvThrowPythonError(1000, "Item must have a unique name.");
+		//	mvThrowPythonEr1ror(mvErrorCode::mvNon1e, "Item must have a unique name.");
 		//	MV_ITEM_REGISTRY_WARN("Item must have a unique name.");
 		//	assert(false);
 		//	return false;
@@ -747,7 +751,7 @@ namespace Marvel {
 
 			else if (item->getType() == mvAppItemType::mvStagingContainer)
 			{
-				mvThrowPythonError(1000, "Staging container can only be adding in staging mode.");
+				mvThrowPythonError(mvErrorCode::mvStagingModeOff, "Staging container can only be adding in staging mode.");
 				return false;
 			}
 
@@ -795,7 +799,7 @@ namespace Marvel {
 				return true;
 			}
 
-			mvThrowPythonError(1000, "Parent could not be deduced.");
+			mvThrowPythonError(mvErrorCode::mvParentNotDeduced, "add_*", "Parent could not be deduced.", item.get());
 			MV_ITEM_REGISTRY_ERROR("Parent could not be deduced.");
 			assert(false);
 			return false;
@@ -853,7 +857,8 @@ namespace Marvel {
 		}
 		else
 		{
-			mvThrowPythonError(1000, uuid + ": item not found");
+			mvThrowPythonError(mvErrorCode::mvItemNotFound, "get_item_children",
+				"Item not found: " + std::to_string(uuid), nullptr);
 			assert(false && "Item not found.");
 		}
 
@@ -925,7 +930,8 @@ namespace Marvel {
 		}
 		else
 		{
-			mvThrowPythonError(1000, "Window does not exist.");
+			mvThrowPythonError(mvErrorCode::mvItemNotFound, "set_primary_window",
+				"Item not found: " + std::to_string(uuid), nullptr);
 			assert(false);
 		}
 
@@ -958,7 +964,8 @@ namespace Marvel {
 		}
 		else
 		{
-			mvThrowPythonError(1000, "Staged item does not exist.");
+			mvThrowPythonError(mvErrorCode::mvItemNotFound, "unstage_item",
+				"Staged item not found: " + std::to_string(uuid), nullptr);
 			assert(false);
 		}
 
@@ -977,7 +984,8 @@ namespace Marvel {
 
 		if (child == nullptr)
 		{
-			mvThrowPythonError(1000, std::to_string(uuid) + " not staged because it was not found");
+			mvThrowPythonError(mvErrorCode::mvItemNotFound, "stage_item",
+				"Item not found: " + std::to_string(uuid), nullptr);
 			MV_ITEM_REGISTRY_WARN("Could not stage item, it was not found");
 			return;
 		}

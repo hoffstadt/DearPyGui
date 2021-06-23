@@ -3,6 +3,7 @@
 #include "mvCore.h"
 #include "mvApp.h"
 #include "mvItemRegistry.h"
+#include "mvPythonExceptions.h"
 
 namespace Marvel {
 
@@ -32,6 +33,17 @@ namespace Marvel {
 		: mvSeriesBase(uuid)
 	{
 		m_contributeToBounds = true;
+	}
+
+	bool mvLineSeries::isParentCompatible(mvAppItemType type)
+	{
+		if (type == mvAppItemType::mvPlotAxis) return true;
+
+		mvThrowPythonError(mvErrorCode::mvIncompatibleParent, s_command,
+			"Incompatible parent. Acceptable parents include: plot axis", this);
+
+		assert(false);
+		return false;
 	}
 
 	void mvLineSeries::draw(ImDrawList* drawlist, float x, float y)

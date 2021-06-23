@@ -35,7 +35,7 @@ namespace Marvel {
 		mvVLineSeries(mvUUID uuid);
 
 		void draw(ImDrawList* drawlist, float x, float y) override;
-
+		bool isParentCompatible(mvAppItemType type) override;
 		void handleSpecificRequiredArgs(PyObject* args) override;
 		void handleSpecificKeywordArgs(PyObject* dict) override;
 		void getSpecificConfiguration(PyObject* dict) override;
@@ -65,7 +65,7 @@ namespace Marvel {
 		mvHLineSeries(mvUUID uuid);
 
 		void draw(ImDrawList* drawlist, float x, float y) override;
-
+		bool isParentCompatible(mvAppItemType type) override;
 		void handleSpecificRequiredArgs(PyObject* args) override;
 		void handleSpecificKeywordArgs(PyObject* dict) override;
 		void getSpecificConfiguration(PyObject* dict) override;

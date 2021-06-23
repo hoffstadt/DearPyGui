@@ -37,7 +37,10 @@ namespace Marvel {
 	bool mvThemeColor::isParentCompatible(mvAppItemType type)
 	{
 		if (type == mvAppItemType::mvTheme) return true;
-		mvThrowPythonError(1000, "Item's parent must be plot.");
+
+		mvThrowPythonError(mvErrorCode::mvIncompatibleParent, s_command,
+			"Incompatible parent. Acceptable parents include: mvTheme", this);
+
 		MV_ITEM_REGISTRY_ERROR("Item's parent must be plot.");
 		assert(false);
 		return false;
@@ -101,7 +104,7 @@ namespace Marvel {
 			if (m_targetColor >= ImGuiCol_COUNT || m_targetColor < 0)
 			{
 				m_state.setOk(false);
-				mvThrowPythonError(1000, "Item's parent must be plot.");
+				mvThrowPythonError(mvErrorCode::mvNone, "");
 				MV_ITEM_REGISTRY_ERROR("Item's parent must be plot.");
 				assert(false);
 			}
@@ -112,7 +115,7 @@ namespace Marvel {
 			if (m_targetColor >= ImPlotCol_COUNT || m_targetColor < 0)
 			{
 				m_state.setOk(false);
-				mvThrowPythonError(1000, "Item's parent must be plot.");
+				mvThrowPythonError(mvErrorCode::mvNone, "");
 				MV_ITEM_REGISTRY_ERROR("Item's parent must be plot.");
 				assert(false);
 			}
@@ -123,7 +126,7 @@ namespace Marvel {
 			if (m_targetColor >= imnodes::ColorStyle_Count || m_targetColor < 0)
 			{
 				m_state.setOk(false);
-				mvThrowPythonError(1000, "Item's parent must be plot.");
+				mvThrowPythonError(mvErrorCode::mvNone, "");
 				MV_ITEM_REGISTRY_ERROR("Item's parent must be plot.");
 				assert(false);
 			}
