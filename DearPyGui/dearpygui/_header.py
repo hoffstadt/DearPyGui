@@ -394,10 +394,10 @@ def get_item_parent(item: str) -> Union[str, None]:
 
 
 def get_item_children(item: str) -> Union[List[str], None]:
-    """Gets the item's children.
+    """Provides access to the item's children slots.
 
     Returns:
-        children as a list of string or None
+        A 2-D tuple of children slots ex. ((child_slot_1),(child_slot_2),(child_slot_3),...)
     """
     return internal_dpg.get_item_info(item)["children"]
 
