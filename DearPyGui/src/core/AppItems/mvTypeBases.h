@@ -267,7 +267,6 @@ namespace Marvel {
 		mvValueVariant getValue() override { return m_value; }
 		PyObject* getPyValue() override;
 		void setPyValue(PyObject* value) override;
-		bool isParentCompatible(mvAppItemType type) override;
 
 		const std::pair<double, double>& getMaxMin(int i) const;
 		bool doesSeriesContributeToBounds() const { return m_contributeToBounds; }

@@ -46,7 +46,9 @@ namespace Marvel {
 		if (type == mvAppItemType::mvTab)return true;
 		if (type == mvAppItemType::mvTabButton)return true;
 
-		mvThrowPythonError(1000, "TabBar children must be tabs or tab buttons.");
+		mvThrowPythonError(mvErrorCode::mvIncompatibleChild, s_command,
+			"Incompatible child. Acceptable children include: tab, tab button", this);
+
 		MV_ITEM_REGISTRY_ERROR("TabBar children must be tabs or tab buttons.");
 		assert(false);
 

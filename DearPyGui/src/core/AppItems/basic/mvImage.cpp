@@ -113,7 +113,7 @@ namespace Marvel {
 				}
 				else
 				{
-					mvThrowPythonError(1000, "Texture not found.");
+					mvThrowPythonError(mvErrorCode::mvTextureNotFound, s_command, "Texture not found.", this);
 					break;
 				}
 			}

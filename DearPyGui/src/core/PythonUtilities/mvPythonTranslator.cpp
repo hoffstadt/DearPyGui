@@ -14,7 +14,7 @@ namespace Marvel {
 
 		if (!PyList_Check(pyvalue))
 		{
-			mvThrowPythonError(1000, "Python value error");
+			mvThrowPythonError(mvErrorCode::mvWrongType, "Python value error");
 			return;
 		}
 		
@@ -35,7 +35,7 @@ namespace Marvel {
 
 		if (!PyList_Check(pyvalue))
 		{
-			mvThrowPythonError(1000, "Python value error");
+			mvThrowPythonError(mvErrorCode::mvWrongType, "Python value error");
 			return;
 		}
 
@@ -56,7 +56,7 @@ namespace Marvel {
 
 		if (!PyList_Check(pyvalue))
 		{
-			mvThrowPythonError(1000, "Python value error");
+			mvThrowPythonError(mvErrorCode::mvWrongType, "Python value error");
 			return;
 		}
 
@@ -354,7 +354,7 @@ namespace Marvel {
 
 		if (!PyDict_Check(value))
 		{
-			mvThrowPythonError(1000, message);
+			mvThrowPythonError(mvErrorCode::mvWrongType, "Python value error. Must be dict/time.");
 			return result;
 		}
 
@@ -381,7 +381,7 @@ namespace Marvel {
 
 		if (!PyLong_Check(value))
 		{
-			mvThrowPythonError(1000, message);
+			mvThrowPythonError(mvErrorCode::mvWrongType, "Python value error. Must be int.");
 			return 0;
 		}
 
@@ -396,7 +396,7 @@ namespace Marvel {
 
 		if (!PyLong_Check(value))
 		{
-			mvThrowPythonError(1000, message);
+			mvThrowPythonError(mvErrorCode::mvWrongType, "Python value error. Must be int.");
 			return 0;
 		}
 
@@ -411,7 +411,7 @@ namespace Marvel {
 
 		if (!PyNumber_Check(value))
 		{
-			mvThrowPythonError(1000, message);
+			mvThrowPythonError(mvErrorCode::mvWrongType, "Python value error. Must be float.");
 			return 0.0f;
 		}
 
@@ -431,8 +431,7 @@ namespace Marvel {
 
 		if (!PyNumber_Check(value))
 		{
-
-			mvThrowPythonError(1000, message);
+			mvThrowPythonError(mvErrorCode::mvWrongType, "Python value error. Must be float.");
 			return 0.0;
 		}
 
@@ -447,7 +446,7 @@ namespace Marvel {
 
 		if (!PyBool_Check(value))
 		{
-			mvThrowPythonError(1000, message);
+			mvThrowPythonError(mvErrorCode::mvWrongType, "Python value error. Must be bool.");
 			return false;
 		}
 
@@ -469,7 +468,7 @@ namespace Marvel {
 			PyObject* str = PyObject_Str(value);
 			if (str == nullptr)
 			{
-				mvThrowPythonError(1000, message);
+				mvThrowPythonError(mvErrorCode::mvWrongType, "Python value error. Must be string.");
 				return "";
 			}
 			result = _PyUnicode_AsString(str);
@@ -516,9 +515,9 @@ namespace Marvel {
 			return [](Py_buffer& bufferView, Py_ssize_t index) {return (float)*((char*)bufferView.buf + index); };
 		else
 		{
-			mvThrowPythonError(1000, "Unknown buffer type.");
-			mvThrowPythonError(1000, bufferView.format);
-			mvThrowPythonError(1000, "Currently supported buffer types f, d, l, B");
+			mvThrowPythonError(mvErrorCode::mvWrongType, "Unknown buffer type.");
+			mvThrowPythonError(mvErrorCode::mvWrongType, bufferView.format);
+			mvThrowPythonError(mvErrorCode::mvWrongType, "Currently supported buffer types f, d, l, B");
 			return nullptr;
 		}
 	}
@@ -559,9 +558,9 @@ namespace Marvel {
 			return [](Py_buffer& bufferView, Py_ssize_t index) {return (int)*((char*)bufferView.buf + index); };
 		else
 		{
-			mvThrowPythonError(1000, "Unknown buffer type.");
-			mvThrowPythonError(1000, bufferView.format);
-			mvThrowPythonError(1000, "Currently supported buffer types f, d, l, B");
+			mvThrowPythonError(mvErrorCode::mvWrongType, "Unknown buffer type.");
+			mvThrowPythonError(mvErrorCode::mvWrongType, bufferView.format);
+			mvThrowPythonError(mvErrorCode::mvWrongType, "Currently supported buffer types f, d, l, B");
 			return nullptr;
 		}
 	}
@@ -613,7 +612,7 @@ namespace Marvel {
 		}
 
 		else
-			mvThrowPythonError(1000, message);
+			mvThrowPythonError(mvErrorCode::mvWrongType, "Python value error. Must be List[int].");
 
 
 		return items;
@@ -646,7 +645,7 @@ namespace Marvel {
 		}
 
 		else
-			mvThrowPythonError(1000, message);
+			mvThrowPythonError(mvErrorCode::mvWrongType, "Python value error. Must be List[int].");
 
 
 		return items;
@@ -696,7 +695,7 @@ namespace Marvel {
 		}
 
 		else
-			mvThrowPythonError(1000, message);
+			mvThrowPythonError(mvErrorCode::mvWrongType, "Python value error. Must be List[float].");
 
 
 		return items;
@@ -745,7 +744,7 @@ namespace Marvel {
 		}
 
 		else
-			mvThrowPythonError(1000, message);
+			mvThrowPythonError(mvErrorCode::mvWrongType, "Python value error. Must be List[float].");
 
 
 		return items;
@@ -792,7 +791,7 @@ namespace Marvel {
 		}
 
 		else
-			mvThrowPythonError(1000, message);
+			mvThrowPythonError(mvErrorCode::mvWrongType, "Python value error. Must be List[str].");
 
 
 		return items;
@@ -911,7 +910,7 @@ namespace Marvel {
 		}
 
 		else
-			mvThrowPythonError(1000, message);
+			mvThrowPythonError(mvErrorCode::mvWrongType, "Python value error. Must be List[List[str, str]].");
 
 		return items;
 	}
@@ -935,7 +934,7 @@ namespace Marvel {
 		}
 
 		else
-			mvThrowPythonError(1000, message);
+			mvThrowPythonError(mvErrorCode::mvWrongType, "Python value error. Must be List[List[int, int]].");
 
 		return items;
 	}
@@ -949,19 +948,19 @@ namespace Marvel {
 
 		if (PyTuple_Check(value))
 		{
-			if (PyTuple_Size(value) != 2) mvThrowPythonError(1000, message);
+			if (PyTuple_Size(value) != 2) mvThrowPythonError(mvErrorCode::mvNone, message);
 			items.first = ToFloatVect(PyTuple_GetItem(value, 0), message);
 			items.second = ToFloatVect(PyTuple_GetItem(value, 1), message);
 		}
 		else if (PyList_Check(value))
 		{
-			if (PyList_Size(value) != 2) mvThrowPythonError(1000, message);
+			if (PyList_Size(value) != 2) mvThrowPythonError(mvErrorCode::mvNone, message);
 			items.first = ToFloatVect(PyList_GetItem(value, 0), message);
 			items.second = ToFloatVect(PyList_GetItem(value, 1), message);
 		}
 
 		else
-			mvThrowPythonError(1000, message);
+			mvThrowPythonError(mvErrorCode::mvWrongType, message);
 
 		return items;
 	}
@@ -985,7 +984,7 @@ namespace Marvel {
 		}
 
 		else
-			mvThrowPythonError(1000, message);
+			mvThrowPythonError(mvErrorCode::mvWrongType, message);
 
 		return items;
 	}
@@ -1050,7 +1049,7 @@ namespace Marvel {
 		}
 
 		else
-			mvThrowPythonError(1000, message);
+			mvThrowPythonError(mvErrorCode::mvWrongType, message);
 
 		return items;
 
@@ -1108,7 +1107,7 @@ namespace Marvel {
 		}
 
 		else
-			mvThrowPythonError(1000, message);
+			mvThrowPythonError(mvErrorCode::mvWrongType, message);
 
 		return items;
 	}

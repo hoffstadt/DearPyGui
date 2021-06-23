@@ -39,7 +39,10 @@ namespace Marvel {
 	bool mvThemeStyle::isParentCompatible(mvAppItemType type)
 	{
 		if (type == mvAppItemType::mvTheme) return true;
-		mvThrowPythonError(1000, "Item's parent must be plot.");
+
+		mvThrowPythonError(mvErrorCode::mvIncompatibleParent, s_command,
+			"Incompatible parent. Acceptable parents include: mvTheme", this);
+
 		MV_ITEM_REGISTRY_ERROR("Item's parent must be plot.");
 		assert(false);
 		return false;
@@ -107,7 +110,7 @@ namespace Marvel {
 					if (m_targetStyle >= ImGuiStyleVar_COUNT || m_targetStyle < 0)
 					{
 						m_state.setOk(false);
-						mvThrowPythonError(1000, "Item's parent must be plot.");
+						mvThrowPythonError(mvErrorCode::mvNone, "");
 						MV_ITEM_REGISTRY_ERROR("Item's parent must be plot.");
 					}
 				}
@@ -138,7 +141,7 @@ namespace Marvel {
 					if (m_targetStyle >= ImPlotStyleVar_COUNT || m_targetStyle < 0)
 					{
 						m_state.setOk(false);
-						mvThrowPythonError(1000, "Item's parent must be plot.");
+						mvThrowPythonError(mvErrorCode::mvNone, "");
 						MV_ITEM_REGISTRY_ERROR("Item's parent must be plot.");
 					}
 				}
@@ -148,7 +151,7 @@ namespace Marvel {
 					if (m_targetStyle >= 14 || m_targetStyle < 0)
 					{
 						m_state.setOk(false);
-						mvThrowPythonError(1000, "Item's parent must be plot.");
+						mvThrowPythonError(mvErrorCode::mvNone, "");
 						MV_ITEM_REGISTRY_ERROR("Item's parent must be plot.");
 					}
 				}
@@ -195,7 +198,7 @@ namespace Marvel {
 			if (m_targetStyle >= ImGuiStyleVar_COUNT || m_targetStyle < 0)
 			{
 				m_state.setOk(false);
-				mvThrowPythonError(1000, "Item's parent must be plot.");
+				mvThrowPythonError(mvErrorCode::mvNone, "");
 				MV_ITEM_REGISTRY_ERROR("Item's parent must be plot.");
 			}
 		}
@@ -226,7 +229,7 @@ namespace Marvel {
 			if (m_targetStyle >= ImPlotStyleVar_COUNT || m_targetStyle < 0)
 			{
 				m_state.setOk(false);
-				mvThrowPythonError(1000, "Item's parent must be plot.");
+				mvThrowPythonError(mvErrorCode::mvNone, "");
 				MV_ITEM_REGISTRY_ERROR("Item's parent must be plot.");
 			}
 		}
@@ -236,7 +239,7 @@ namespace Marvel {
 			if (m_targetStyle >= 14 || m_targetStyle < 0)
 			{
 				m_state.setOk(false);
-				mvThrowPythonError(1000, "Item's parent must be plot.");
+				mvThrowPythonError(mvErrorCode::mvNone, "");
 				MV_ITEM_REGISTRY_ERROR("Item's parent must be plot.");
 			}
 		}

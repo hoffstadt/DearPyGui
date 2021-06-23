@@ -5,8 +5,6 @@
 #include "mvLog.h"
 #include "mvItemRegistry.h"
 #include "mvNodeEditor.h"
-//#include "mvImNodesThemeScope.h"
-//#include "mvFontScope.h"
 #include "mvPythonExceptions.h"
 
 namespace Marvel {
@@ -47,10 +45,11 @@ namespace Marvel {
 	bool mvNodeAttribute::isParentCompatible(mvAppItemType type)
 	{
 		if (type == mvAppItemType::mvStagingContainer) return true;
-		if(type == mvAppItemType::mvNode)
-			return true;
+		if(type == mvAppItemType::mvNode) return true;
 		
-		mvThrowPythonError(1000, "Node attribute parent must be node.");
+		mvThrowPythonError(mvErrorCode::mvIncompatibleParent, s_command,
+			"Incompatible parent. Acceptable parents include: node, staging container", this);
+
 		MV_ITEM_REGISTRY_ERROR("Node attribute parent must be node.");
 		assert(false);
 		return false;

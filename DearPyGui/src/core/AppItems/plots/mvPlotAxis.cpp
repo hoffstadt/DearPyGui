@@ -159,7 +159,9 @@ namespace Marvel {
 		if (type == mvAppItemType::mvStagingContainer) return true;
 		if (type == mvAppItemType::mvPlot) return true;
 
-		mvThrowPythonError(1000, "Drawing item parent must be a drawing.");
+		mvThrowPythonError(mvErrorCode::mvIncompatibleParent, s_command,
+			"Incompatible parent. Acceptable parents include: plot, staging container", this);
+
 		MV_ITEM_REGISTRY_ERROR("Drawing item parent must be a drawing.");
 		assert(false);
 		return false;
@@ -181,31 +183,6 @@ namespace Marvel {
 
 	bool mvPlotAxis::canChildBeAdded(mvAppItemType type)
 	{
-
-		//if (type == mvAppItemType::mvLineSeries) return true;
-		//if (type == mvAppItemType::mvVLineSeries) return true;
-		//if (type == mvAppItemType::mvHLineSeries) return true;
-		//if (type == mvAppItemType::mvScatterSeries) return true;
-		//if (type == mvAppItemType::mvStemSeries) return true;
-		//if (type == mvAppItemType::mvStairSeries) return true;
-		//if (type == mvAppItemType::mvBarSeries) return true;
-		//if (type == mvAppItemType::mvErrorSeries) return true;
-		//if (type == mvAppItemType::mvHeatSeries) return true;
-		//if (type == mvAppItemType::mvImageSeries) return true;
-		//if (type == mvAppItemType::mvPieSeries) return true;
-		//if (type == mvAppItemType::mvShadeSeries) return true;
-		//if (type == mvAppItemType::mvLabelSeries) return true;
-		//if (type == mvAppItemType::mvCandleSeries) return true;
-		//if (type == mvAppItemType::mvAreaSeries) return true;
-		//if (type == mvAppItemType::mvHistogramSeries) return true;
-		//if (type == mvAppItemType::mv2dHistogramSeries) return true;
-
-		//mvThrowPythonError(1000, "Plot children must be compatible.");
-		//MV_ITEM_REGISTRY_ERROR("Plot children must be compatible.");
-		//assert(false);
-
-		//return false;
-
 		return true;
 	}
 
@@ -381,13 +358,15 @@ namespace Marvel {
 		auto aplot = mvApp::GetApp()->getItemRegistry().getItem(plot);
 		if (aplot == nullptr)
 		{
-			mvThrowPythonError(1000, std::to_string(plot) + " plot does not exist.");
+			mvThrowPythonError(mvErrorCode::mvItemNotFound, "set_axis_ticks",
+				"Item not found: " + std::to_string(plot), nullptr);
 			return GetPyNone();
 		}
 
 		if (aplot->getType() != mvAppItemType::mvPlotAxis)
 		{
-			mvThrowPythonError(1000, std::to_string(plot) + " is not a plot.");
+			mvThrowPythonError(mvErrorCode::mvIncompatibleType, "set_axis_ticks",
+				"Incompatible type. Expected types include: mvPlotAxis", aplot);
 			return GetPyNone();
 		}
 
@@ -419,13 +398,15 @@ namespace Marvel {
 		auto aplot = mvApp::GetApp()->getItemRegistry().getItem(axis);
 		if (aplot == nullptr)
 		{
-			mvThrowPythonError(1000, std::to_string(axis) + " plot does not exist.");
+			mvThrowPythonError(mvErrorCode::mvItemNotFound, "set_axis_limits",
+				"Item not found: " + std::to_string(axis), nullptr);
 			return GetPyNone();
 		}
 
 		if (aplot->getType() != mvAppItemType::mvPlotAxis)
 		{
-			mvThrowPythonError(1000, std::to_string(axis) + " is not a plot.");
+			mvThrowPythonError(mvErrorCode::mvIncompatibleType, "set_axis_limits",
+				"Incompatible type. Expected types include: mvPlotAxis", aplot);
 			return GetPyNone();
 		}
 
@@ -447,13 +428,15 @@ namespace Marvel {
 		auto aplot = mvApp::GetApp()->getItemRegistry().getItem(plot);
 		if (aplot == nullptr)
 		{
-			mvThrowPythonError(1000, std::to_string(plot) + " plot does not exist.");
+			mvThrowPythonError(mvErrorCode::mvItemNotFound, "get_axis_limits",
+				"Item not found: " + std::to_string(plot), nullptr);
 			return GetPyNone();
 		}
 
 		if (aplot->getType() != mvAppItemType::mvPlotAxis)
 		{
-			mvThrowPythonError(1000, std::to_string(plot) + " is not a plot.");
+			mvThrowPythonError(mvErrorCode::mvIncompatibleType, "get_axis_limits",
+				"Incompatible type. Expected types include: mvPlotAxis", aplot);
 			return GetPyNone();
 		}
 
@@ -474,13 +457,15 @@ namespace Marvel {
 		auto aplot = mvApp::GetApp()->getItemRegistry().getItem(plot);
 		if (aplot == nullptr)
 		{
-			mvThrowPythonError(1000, std::to_string(plot) + " plot does not exist.");
+			mvThrowPythonError(mvErrorCode::mvItemNotFound, "reset_axis_ticks",
+				"Item not found: " + std::to_string(plot), nullptr);
 			return GetPyNone();
 		}
 
 		if (aplot->getType() != mvAppItemType::mvPlotAxis)
 		{
-			mvThrowPythonError(1000, std::to_string(plot) + " is not a plot.");
+			mvThrowPythonError(mvErrorCode::mvIncompatibleType, "reset_axis_ticks",
+				"Incompatible type. Expected types include: mvPlotAxis", aplot);
 			return GetPyNone();
 		}
 

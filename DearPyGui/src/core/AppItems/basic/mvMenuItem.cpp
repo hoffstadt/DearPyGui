@@ -44,7 +44,7 @@ namespace Marvel {
 	{
 		ScopedID id(m_uuid);
 
-		// This is ugly and goes against our style system but its the only widget that ImGui chooses to push teh disable color for us
+		// This is ugly and goes against our style system but its the only widget that ImGui chooses to push the disable color for us
 		// so we have to map our text disable color to the system text disable color, or we can create a new constant which goes agains our 
 		// constants. 
 		ImGui::PushStyleColor(ImGuiCol_TextDisabled, ImGui::GetStyleColorVec4(ImGuiCol_Text));

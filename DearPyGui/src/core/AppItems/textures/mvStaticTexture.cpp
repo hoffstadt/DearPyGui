@@ -47,7 +47,9 @@ namespace Marvel {
 		if (type == mvAppItemType::mvStagingContainer) return true;
 		if (type == mvAppItemType::mvTextureRegistry) return true;
 
-		mvThrowPythonError(1000, "Drawing item parent must be a drawing.");
+		mvThrowPythonError(mvErrorCode::mvIncompatibleParent, s_command,
+			"Incompatible parent. Acceptable parents include: mvTextureRegistry, mvStagingContainer.", this);
+
 		MV_ITEM_REGISTRY_ERROR("Drawing item parent must be a drawing.");
 		assert(false);
 		return false;
@@ -72,7 +74,8 @@ namespace Marvel {
 		if (m_texture == nullptr)
 		{
 			m_state.setOk(false);
-			mvThrowPythonError(1000, "Texture (using file) can not be found.");
+			mvThrowPythonError(mvErrorCode::mvItemNotFound, "get_selected_nodes",
+				"Texture item (using file) can not be found: " + m_file, this);
 		}
 
 

@@ -48,7 +48,9 @@ namespace Marvel {
 		if (type == mvAppItemType::mvDrawLayer) return true;
 		if (type == mvAppItemType::mvViewportDrawlist) return true;
 
-		mvThrowPythonError(1000, "Drawing item parent must be a drawing.");
+		mvThrowPythonError(mvErrorCode::mvIncompatibleParent, s_command,
+			"Incompatible parent. Acceptable parents include: staging container, drawlist, layer, window, plot, viewport drawlist.", this);
+
 		MV_ITEM_REGISTRY_ERROR("Drawing item parent must be a drawing.");
 		assert(false);
 		return false;

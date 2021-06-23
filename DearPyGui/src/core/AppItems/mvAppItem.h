@@ -370,6 +370,7 @@ namespace Marvel {
         int                                 getHeight() const { return m_height; }
         mvUUID                              getUUID() const { return m_uuid; }
         const std::string&                  getFilter() const { return m_filter; }
+        const std::string&                  getSpecifiedLabel() const { return m_specificedlabel; }
         mvAppItem*                          getRoot() const;
         int                                 getLocation() const { return m_location; }
 

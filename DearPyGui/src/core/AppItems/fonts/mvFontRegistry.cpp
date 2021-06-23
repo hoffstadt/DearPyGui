@@ -55,7 +55,8 @@ namespace Marvel {
 	{
 		if (type == mvAppItemType::mvFont) return true;
 
-		mvThrowPythonError(1000, "Drawing children must be draw commands only.");
+		mvThrowPythonError(mvErrorCode::mvIncompatibleChild, s_command,
+			"Incompatible child. Acceptable children include: mvFont", this);
 		MV_ITEM_REGISTRY_ERROR("Drawing children must be draw commands only.");
 		assert(false);
 

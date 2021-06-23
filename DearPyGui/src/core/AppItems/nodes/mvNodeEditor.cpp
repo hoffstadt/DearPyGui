@@ -97,11 +97,11 @@ namespace Marvel {
 
 	bool mvNodeEditor::canChildBeAdded(mvAppItemType type)
 	{
-		if (type == mvAppItemType::mvStagingContainer) return true;
 		if(type ==mvAppItemType::mvNode) return true;
 		if(type ==mvAppItemType::mvNodeLink) return true;
 
-		mvThrowPythonError(1006, "Node editor children must be nodes only.");
+		mvThrowPythonError(mvErrorCode::mvIncompatibleChild, s_command,
+			"Incompatible child. Acceptable children include: mvNode, mvNodeLink", this);
 		MV_ITEM_REGISTRY_ERROR("Node editor children must be nodes only.");
 		assert(false);
 		return false;
@@ -283,13 +283,15 @@ namespace Marvel {
 		auto anode_editor = mvApp::GetApp()->getItemRegistry().getItem(node_editor);
 		if (anode_editor == nullptr)
 		{
-			mvThrowPythonError(1000, std::to_string(node_editor) + " node_editor does not exist.");
+			mvThrowPythonError(mvErrorCode::mvItemNotFound, "get_selected_nodes",
+				"Item not found: " + std::to_string(node_editor), nullptr);
 			return GetPyNone();
 		}
 
 		if (anode_editor->getType() != mvAppItemType::mvNodeEditor)
 		{
-			mvThrowPythonError(1000, std::to_string(node_editor) + " is not a plot.");
+			mvThrowPythonError(mvErrorCode::mvIncompatibleType, "get_selected_nodes",
+				"Incompatible type. Expected types include: mvNodeEditor", anode_editor);
 			return GetPyNone();
 		}
 
@@ -312,13 +314,15 @@ namespace Marvel {
 		auto anode_editor = mvApp::GetApp()->getItemRegistry().getItem(node_editor);
 		if (anode_editor == nullptr)
 		{
-			mvThrowPythonError(1000, std::to_string(node_editor) + " node_editor does not exist.");
+			mvThrowPythonError(mvErrorCode::mvItemNotFound, "get_selected_links",
+				"Item not found: " + std::to_string(node_editor), nullptr);
 			return GetPyNone();
 		}
 
 		if (anode_editor->getType() != mvAppItemType::mvNodeEditor)
 		{
-			mvThrowPythonError(1000, std::to_string(node_editor) + " is not a plot.");
+			mvThrowPythonError(mvErrorCode::mvIncompatibleType, "get_selected_links",
+				"Incompatible type. Expected types include: mvNodeEditor", anode_editor);
 			return GetPyNone();
 		}
 
@@ -345,13 +349,15 @@ namespace Marvel {
 		auto anode_editor = mvApp::GetApp()->getItemRegistry().getItem(node_editor);
 		if (anode_editor == nullptr)
 		{
-			mvThrowPythonError(1000, std::to_string(node_editor) + " node_editor does not exist.");
+			mvThrowPythonError(mvErrorCode::mvItemNotFound, "clear_selected_links",
+				"Item not found: " + std::to_string(node_editor), nullptr);
 			return GetPyNone();
 		}
 
 		if (anode_editor->getType() != mvAppItemType::mvNodeEditor)
 		{
-			mvThrowPythonError(1000, std::to_string(node_editor) + " is not a plot.");
+			mvThrowPythonError(mvErrorCode::mvIncompatibleType, "clear_selected_links",
+				"Incompatible type. Expected types include: mvNodeEditor", anode_editor);
 			return GetPyNone();
 		}
 
@@ -373,13 +379,15 @@ namespace Marvel {
 		auto anode_editor = mvApp::GetApp()->getItemRegistry().getItem(node_editor);
 		if (anode_editor == nullptr)
 		{
-			mvThrowPythonError(1000, std::to_string(node_editor) + " node_editor does not exist.");
+			mvThrowPythonError(mvErrorCode::mvItemNotFound, "clear_selected_nodes",
+				"Item not found: " + std::to_string(node_editor), nullptr);
 			return GetPyNone();
 		}
 
 		if (anode_editor->getType() != mvAppItemType::mvNodeEditor)
 		{
-			mvThrowPythonError(1000, std::to_string(node_editor) + " is not a plot.");
+			mvThrowPythonError(mvErrorCode::mvIncompatibleType, "clear_selected_nodes",
+				"Incompatible type. Expected types include: mvNodeEditor", anode_editor);
 			return GetPyNone();
 		}
 

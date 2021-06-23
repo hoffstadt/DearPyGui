@@ -3,6 +3,7 @@
 #include "mvCore.h"
 #include "mvApp.h"
 #include "mvItemRegistry.h"
+#include "mvPythonExceptions.h"
 
 namespace Marvel {
 
@@ -41,10 +42,20 @@ namespace Marvel {
 	{
 	}
 
+	bool mvPieSeries::isParentCompatible(mvAppItemType type)
+	{
+		if (type == mvAppItemType::mvPlotAxis) return true;
+
+		mvThrowPythonError(mvErrorCode::mvIncompatibleParent, s_command,
+			"Incompatible parent. Acceptable parents include: plot axis", this);
+
+		assert(false);
+		return false;
+	}
+
 	void mvPieSeries::draw(ImDrawList* drawlist, float x, float y)
 	{
 		ScopedID id(m_uuid);
-		//mvImPlotThemeScope scope(this);
 
 		static const std::vector<double>* xptr;
 

@@ -4,7 +4,6 @@
 #include "mvApp.h"
 #include "mvLog.h"
 #include "mvItemRegistry.h"
-//#include "mvFontScope.h"
 #include "mvPythonExceptions.h"
 
 namespace Marvel {
@@ -41,10 +40,11 @@ namespace Marvel {
 	bool mvAnnotation::isParentCompatible(mvAppItemType type)
 	{
 		if (type == mvAppItemType::mvStagingContainer) return true;
-		if (type == mvAppItemType::mvPlot)
-			return true;
+		if (type == mvAppItemType::mvPlot) return true;
 
-		mvThrowPythonError(1000, "Item's parent must be plot.");
+		mvThrowPythonError(mvErrorCode::mvIncompatibleParent, s_command,
+			"Incompatible parent. Acceptable parents include: plot, staging container", this);
+
 		MV_ITEM_REGISTRY_ERROR("Item's parent must be plot.");
 		assert(false);
 		return false;
@@ -53,7 +53,6 @@ namespace Marvel {
 	void mvAnnotation::draw(ImDrawList* drawlist, float x, float y)
 	{
 		ScopedID id(m_uuid);
-		//mvFontScope fscope(this);
 
 		if (m_clamped)
 			ImPlot::AnnotateClamped((*m_value.get())[0], (*m_value.get())[1], m_pixOffset, m_color.toVec4(), m_specificedlabel.c_str());

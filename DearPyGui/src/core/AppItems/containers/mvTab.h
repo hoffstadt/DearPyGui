@@ -43,7 +43,7 @@ namespace Marvel {
 		void draw(ImDrawList* drawlist, float x, float y) override;
 		void addFlag   (ImGuiTabItemFlags flag);
 		void removeFlag(ImGuiTabItemFlags flag);
-
+		bool isParentCompatible(mvAppItemType type) override;
 		void handleSpecificKeywordArgs(PyObject* dict) override;
 		void getSpecificConfiguration(PyObject* dict) override;
 

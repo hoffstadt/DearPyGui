@@ -10,7 +10,7 @@ build:
 skip_tags: true
 
 only_commits:
-  message: /\[appveyor\]/
+  message: /\b(\[appveyor\]|\[pypi\]|\[test pypi\])\b/
 
 environment:
 

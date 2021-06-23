@@ -61,7 +61,9 @@ namespace Marvel {
 		if (type == mvAppItemType::mvStagingContainer) return true;
 		if (type == mvAppItemType::mvTable) return true;
 
-		mvThrowPythonError(1000, "mvTableColumn parent must be a table.");
+		mvThrowPythonError(mvErrorCode::mvIncompatibleParent, s_command,
+			"Incompatible parent. Acceptable parents include: table, staging container.", this);
+
 		MV_ITEM_REGISTRY_ERROR("mvTableColumn parent must be a table.");
 		assert(false);
 		return false;

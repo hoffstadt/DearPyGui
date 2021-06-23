@@ -34,7 +34,7 @@ namespace Marvel {
 	{
 		return true;
 
-		//mvThrowPythonError(1000, "Drawing item parent must be a drawing.");
+		//mvThrowPythonError(mvErrorCode::mvN1one, "Drawing item parent must be a drawing.");
 		//MV_ITEM_REGISTRY_ERROR("Drawing item parent must be a drawing.");
 		//assert(false);
 		//return false;

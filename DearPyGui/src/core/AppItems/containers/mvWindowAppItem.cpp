@@ -611,7 +611,8 @@ namespace Marvel {
 		auto window = mvApp::GetApp()->getItemRegistry().getItem(item);
 		if (window == nullptr)
 		{
-			mvThrowPythonError(1000, std::to_string(item) + " window/child does not exist.");
+			mvThrowPythonError(mvErrorCode::mvItemNotFound, "set_x_scroll",
+				"Item not found: " + std::to_string(item), nullptr);
 			return GetPyNone();
 		}
 
@@ -631,7 +632,8 @@ namespace Marvel {
 		}
 		else
 		{
-			mvThrowPythonError(1000, std::to_string(item) + " is not a window/child.");
+			mvThrowPythonError(mvErrorCode::mvIncompatibleType, "set_x_scroll",
+				"Incompatible type. Expected types include: mvWindowAppItem, mvChild", window);
 		}
 		
 		return GetPyNone();
@@ -652,7 +654,8 @@ namespace Marvel {
 		auto window = mvApp::GetApp()->getItemRegistry().getItem(item);
 		if (window == nullptr)
 		{
-			mvThrowPythonError(1000, std::to_string(item) + " window/child does not exist.");
+			mvThrowPythonError(mvErrorCode::mvItemNotFound, "set_y_scroll",
+				"Item not found: " + std::to_string(item), nullptr);
 			return GetPyNone();
 		}
 
@@ -672,7 +675,8 @@ namespace Marvel {
 		}
 		else
 		{
-			mvThrowPythonError(1000, std::to_string(item) + " is not a window/child.");
+			mvThrowPythonError(mvErrorCode::mvIncompatibleType, "set_y_scroll",
+				"Incompatible type. Expected types include: mvWindowAppItem, mvChild", window);
 		}
 
 		return GetPyNone();
@@ -692,7 +696,8 @@ namespace Marvel {
 		auto window = mvApp::GetApp()->getItemRegistry().getItem(item);
 		if (window == nullptr)
 		{
-			mvThrowPythonError(1000, std::to_string(item) + " window/child does not exist.");
+			mvThrowPythonError(mvErrorCode::mvItemNotFound, "get_x_scroll",
+				"Item not found: " + std::to_string(item), nullptr);
 			return GetPyNone();
 		}
 
@@ -711,7 +716,8 @@ namespace Marvel {
 		}
 		else
 		{
-			mvThrowPythonError(1000, std::to_string(item) + " is not a window/child.");
+			mvThrowPythonError(mvErrorCode::mvIncompatibleType, "get_x_scroll",
+				"Incompatible type. Expected types include: mvWindowAppItem, mvChild", window);
 		}
 
 		return GetPyNone();
@@ -731,7 +737,8 @@ namespace Marvel {
 		auto window = mvApp::GetApp()->getItemRegistry().getItem(item);
 		if (window == nullptr)
 		{
-			mvThrowPythonError(1000, std::to_string(item) + " window/child does not exist.");
+			mvThrowPythonError(mvErrorCode::mvItemNotFound, s_command,
+				"Item not found: " + std::to_string(item), nullptr);
 			return GetPyNone();
 		}
 
@@ -750,7 +757,8 @@ namespace Marvel {
 		}
 		else
 		{
-			mvThrowPythonError(1000, std::to_string(item) + " is not a window/child.");
+			mvThrowPythonError(mvErrorCode::mvIncompatibleType, "get_y_scroll",
+				"Incompatible type. Expected types include: mvWindowAppItem, mvChild", window);
 		}
 
 		return GetPyNone();
@@ -770,7 +778,8 @@ namespace Marvel {
 		auto window = mvApp::GetApp()->getItemRegistry().getItem(item);
 		if (window == nullptr)
 		{
-			mvThrowPythonError(1000, std::to_string(item) + " window/child does not exist.");
+			mvThrowPythonError(mvErrorCode::mvItemNotFound, s_command,
+				"Item not found: " + std::to_string(item), nullptr);
 			return GetPyNone();
 		}
 
@@ -789,7 +798,8 @@ namespace Marvel {
 		}
 		else
 		{
-			mvThrowPythonError(1000, std::to_string(item) + " is not a window/child.");
+			mvThrowPythonError(mvErrorCode::mvIncompatibleType, "get_x_scroll_max",
+				"Incompatible type. Expected types include: mvWindowAppItem, mvChild", window);
 		}
 
 		return GetPyNone();
@@ -809,7 +819,8 @@ namespace Marvel {
 		auto window = mvApp::GetApp()->getItemRegistry().getItem(item);
 		if (window == nullptr)
 		{
-			mvThrowPythonError(1000, std::to_string(item) + " window/child does not exist.");
+			mvThrowPythonError(mvErrorCode::mvItemNotFound, s_command,
+				"Item not found: " + std::to_string(item), nullptr);
 			return GetPyNone();
 		}
 
@@ -828,7 +839,8 @@ namespace Marvel {
 		}
 		else
 		{
-			mvThrowPythonError(1000, std::to_string(item) + " is not a window/child.");
+			mvThrowPythonError(mvErrorCode::mvIncompatibleType, "set_y_scroll_max",
+				"Incompatible type. Expected types include: mvWindowAppItem, mvChild", window);
 		}
 
 		return GetPyNone();

@@ -1001,7 +1001,7 @@ namespace Marvel{
 		if (PyArg_ValidateKeywordArguments(dict) == 0)
 		{
 			assert(false);
-			mvThrowPythonError(1000, "Dictionary keywords must be strings");
+			mvThrowPythonError(mvErrorCode::mvNone, "Dictionary keywords must be strings");
 			return;
 		}
 
@@ -1233,7 +1233,8 @@ namespace Marvel{
 			appitem->getSpecificConfiguration(pdict);
 		}
 		else
-			mvThrowPythonError(1000, std::to_string(item) + std::string(" item was not found"));
+			mvThrowPythonError(mvErrorCode::mvItemNotFound, "get_item_configuration",
+				"Item not found: " + std::to_string(item), nullptr);
 
 		return pdict;
 	}
@@ -1256,7 +1257,8 @@ namespace Marvel{
 				parent->m_focusNextFrame = true;
 		}
 		else
-			mvThrowPythonError(1000, std::to_string(item) + std::string(" item was not found"));
+			mvThrowPythonError(mvErrorCode::mvItemNotFound, "focus_item",
+				"Item not found: " + std::to_string(item), nullptr);
 
 		return GetPyNone();
 	}
@@ -1278,7 +1280,8 @@ namespace Marvel{
 
 		if (staging.count(source) == 0)
 		{
-			mvThrowPythonError(1000, std::to_string(item) + std::string(" item was not found"));
+			mvThrowPythonError(mvErrorCode::mvItemNotFound, "set_item_children",
+				"Source item not found: " + std::to_string(item), nullptr);
 			assert(false);
 			return GetPyNone();
 		}
@@ -1300,7 +1303,8 @@ namespace Marvel{
 			
 		}
 		else
-			mvThrowPythonError(1000, std::to_string(item) + std::string(" item was not found"));
+			mvThrowPythonError(mvErrorCode::mvItemNotFound, "set_item_children",
+				"Item not found: " + std::to_string(item), nullptr);
 
 		staging.erase(source);
 
@@ -1323,7 +1327,8 @@ namespace Marvel{
 		if (appitem)
 			appitem->setPos({ x, y });
 		else
-			mvThrowPythonError(1000, std::to_string(item) + std::string(" item was not found"));
+			mvThrowPythonError(mvErrorCode::mvItemNotFound, "set_item_pos",
+				"Item not found: " + std::to_string(item), nullptr);
 
 		return GetPyNone();
 	}
@@ -1356,11 +1361,13 @@ namespace Marvel{
 			}
 			else
 			{
-				mvThrowPythonError(1000, std::to_string(item) + std::string(" font was not found"));
+				mvThrowPythonError(mvErrorCode::mvItemNotFound, "set_item_font",
+					"Font item not found: " + std::to_string(item), nullptr);
 			}
 		}
 		else
-			mvThrowPythonError(1000, std::to_string(item) + std::string(" item was not found"));
+			mvThrowPythonError(mvErrorCode::mvItemNotFound, "set_item_font",
+				"Item not found: " + std::to_string(item), nullptr);
 
 		return GetPyNone();
 	}
@@ -1393,10 +1400,12 @@ namespace Marvel{
 				return GetPyNone();
 			}
 			else
-				mvThrowPythonError(1000, std::to_string(item) + std::string(" theme item was not found"));
+				mvThrowPythonError(mvErrorCode::mvItemNotFound, "set_item_theme",
+					"Theme item not found: " + std::to_string(item), nullptr);
 		}
 		else
-			mvThrowPythonError(1000, std::to_string(item) + std::string(" item was not found"));
+			mvThrowPythonError(mvErrorCode::mvItemNotFound, "set_item_theme",
+				"Item not found: " + std::to_string(item), nullptr);
 
 		return GetPyNone();
 	}
@@ -1430,10 +1439,12 @@ namespace Marvel{
 				return GetPyNone();
 			}
 			else
-				mvThrowPythonError(1000, std::to_string(item) + std::string(" disabled theme item was not found"));
+				mvThrowPythonError(mvErrorCode::mvItemNotFound, "set_item_disabled_theme",
+					"Disabled theme item not found: " + std::to_string(item), nullptr);
 		}
 		else
-			mvThrowPythonError(1000, std::to_string(item) + std::string(" item was not found"));
+			mvThrowPythonError(mvErrorCode::mvItemNotFound, "set_item_disabled_theme",
+				"Item not found: " + std::to_string(item), nullptr);
 
 		return GetPyNone();
 	}
@@ -1453,7 +1464,8 @@ namespace Marvel{
 		if (appitem)
 			appitem->m_dirtyPos = false;
 		else
-			mvThrowPythonError(1000, std::to_string(item) + std::string(" item was not found"));
+			mvThrowPythonError(mvErrorCode::mvItemNotFound, "reset_pos",
+				"Item not found: " + std::to_string(item), nullptr);
 
 		return GetPyNone();
 	}
@@ -1475,7 +1487,8 @@ namespace Marvel{
 			appitem->getState().getState(pdict);
 
 		else
-			mvThrowPythonError(1000, std::to_string(item) + std::string(" item was not found"));
+			mvThrowPythonError(mvErrorCode::mvItemNotFound, "get_item_state",
+				"Item not found: " + std::to_string(item), nullptr);
 
 		return pdict;
 	}
@@ -1511,7 +1524,8 @@ namespace Marvel{
 			appitem->getItemInfo(pdict);
 
 		else
-			mvThrowPythonError(1000, std::to_string(item) + std::string(" item was not found"));
+			mvThrowPythonError(mvErrorCode::mvItemNotFound, "get_item_info",
+				"Item not found: " + std::to_string(item), nullptr);
 
 		return pdict;
 	}
@@ -1530,7 +1544,8 @@ namespace Marvel{
 			appitem->handleKeywordArgs(kwargs);
 		}
 		else
-			mvThrowPythonError(1000, std::to_string(item) + std::string(" item was not found"));
+			mvThrowPythonError(mvErrorCode::mvItemNotFound, "configure_item",
+				"Item not found: " + std::to_string(item), nullptr);
 
 		return GetPyNone();
 	}
@@ -1567,7 +1582,11 @@ namespace Marvel{
 			if (item)
 				PyList_SetItem(pyvalues, i, item->getPyValue());
 			else
+			{
+				mvThrowPythonError(mvErrorCode::mvItemNotFound, "get_values",
+					"Item not found: " + std::to_string(aitems[i]), nullptr);
 				PyList_SetItem(pyvalues, i, GetPyNone());
+			}
 		}
 
 		return pyvalues;
@@ -1589,6 +1608,11 @@ namespace Marvel{
 		auto item = mvApp::GetApp()->getItemRegistry().getItem(name);
 		if (item)
 			item->setPyValue(value);
+		else
+		{
+			mvThrowPythonError(mvErrorCode::mvItemNotFound, "set_value",
+				"Item not found: " + std::to_string(name), nullptr);
+		}
 
 		Py_XDECREF(value);
 
@@ -1611,6 +1635,7 @@ namespace Marvel{
 
 		if (!mvApp::s_manualMutexControl) std::lock_guard<std::mutex> lk(mvApp::s_mutex);
 
+		// reset
 		if (theme == 0)
 		{
 			constexpr_for<1, (int)mvAppItemType::ItemTypeCount, 1>(
@@ -1634,7 +1659,8 @@ namespace Marvel{
 			}
 			else
 			{
-				mvThrowPythonError(1000, std::to_string(item) + std::string(" theme item was not found"));
+				mvThrowPythonError(mvErrorCode::mvItemNotFound, "set_item_type_theme",
+					"Theme item not found: " + std::to_string(item), nullptr);;
 			}
 		}
 
@@ -1652,6 +1678,7 @@ namespace Marvel{
 
 		if (!mvApp::s_manualMutexControl) std::lock_guard<std::mutex> lk(mvApp::s_mutex);
 
+		// reset
 		if (theme == 0)
 		{
 			constexpr_for<1, (int)mvAppItemType::ItemTypeCount, 1>(
@@ -1675,7 +1702,8 @@ namespace Marvel{
 			}
 			else
 			{
-				mvThrowPythonError(1000, std::to_string(item) + std::string(" disabled theme item was not found"));
+				mvThrowPythonError(mvErrorCode::mvItemNotFound, "set_item_type_disabled_theme",
+					"Disabled theme item not found: " + std::to_string(item), nullptr);
 			}
 		}
 

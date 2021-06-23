@@ -242,7 +242,7 @@ namespace Marvel {
 		if ((size_t)PyTuple_Size(args) < m_required_elements.size())
 		{
 			assert(false && "Not enough arguments provided");
-			mvThrowPythonError(1000, "Not enough arguments provided. Expected: " + 
+			mvThrowPythonError(mvErrorCode::mvNone, "Not enough arguments provided. Expected: " + 
 				std::to_string(m_required_elements.size()) + " Recieved: " + std::to_string((size_t)PyTuple_Size(args)));
 			return false;
 		}
@@ -310,7 +310,7 @@ namespace Marvel {
 			if (found)
 				continue;
 
-			mvThrowPythonError(1000, sitem + " keyword does not exist.");
+			mvThrowPythonError(mvErrorCode::mvNone, sitem + " keyword does not exist.");
 			assert(false);
 			exists = false;
 			break;
@@ -327,7 +327,7 @@ namespace Marvel {
 			return true;
 		if (args == nullptr)
 		{
-			mvThrowPythonError(1000, "This command has a minimum number of arguments of " + std::to_string(m_required_elements.size()));
+			mvThrowPythonError(mvErrorCode::mvNone, "This command has a minimum number of arguments of " + std::to_string(m_required_elements.size()));
 			return false;
 		}
 
@@ -337,13 +337,13 @@ namespace Marvel {
 
 		if (numberOfArgs > possibleArgs)
 		{
-			mvThrowPythonError(1000, "This command has a maximum number of arguments of " + std::to_string(possibleArgs) +
+			mvThrowPythonError(mvErrorCode::mvNone, "This command has a maximum number of arguments of " + std::to_string(possibleArgs) +
 				" but recieved " + std::to_string(numberOfArgs));
 			return false;
 		}
 		if (numberOfArgs < minArgs)
 		{
-			mvThrowPythonError(1000, "This command has a minimum number of arguments of " + std::to_string(minArgs) +
+			mvThrowPythonError(mvErrorCode::mvNone, "This command has a minimum number of arguments of " + std::to_string(minArgs) +
 				" but only recieved " + std::to_string(numberOfArgs));
 			return false;
 		}
@@ -366,7 +366,7 @@ namespace Marvel {
 		va_end(arguments);
 
 		if (!check)
-			mvThrowPythonError(1000, "Error parsing Dear PyGui command: " + std::string(message));
+			mvThrowPythonError(mvErrorCode::mvNone, "Error parsing Dear PyGui command: " + std::string(message));
 
 		return check;
 	}

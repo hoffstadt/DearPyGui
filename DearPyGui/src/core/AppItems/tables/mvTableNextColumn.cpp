@@ -2,8 +2,6 @@
 #include "mvApp.h"
 #include "mvLog.h"
 #include "mvItemRegistry.h"
-//#include "mvImGuiThemeScope.h"
-//#include "mvFontScope.h"
 #include "mvPythonExceptions.h"
 
 namespace Marvel {
@@ -37,10 +35,11 @@ namespace Marvel {
 	bool mvTableNextColumn::isParentCompatible(mvAppItemType type)
 	{
 		if (type == mvAppItemType::mvStagingContainer) return true;
-		if (type == mvAppItemType::mvTable)
-			return true;
+		if (type == mvAppItemType::mvTable) return true;
 
-		mvThrowPythonError(1000, "mvTableNextColumn parent must be a table.");
+		mvThrowPythonError(mvErrorCode::mvIncompatibleParent, s_command,
+			"Incompatible parent. Acceptable parents include: table, staging container.", this);
+
 		MV_ITEM_REGISTRY_ERROR("mvTableNextColumn parent must be a table.");
 		assert(false);
 		return false;

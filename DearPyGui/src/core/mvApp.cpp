@@ -332,7 +332,7 @@ namespace Marvel {
 
 		if (mvApp::IsAppStarted())
 		{
-			mvThrowPythonError(1000, "Cannot call \"setup_dearpygui\" while a Dear PyGUI app is already running.");
+			mvThrowPythonError(mvErrorCode::mvNone, "Cannot call \"setup_dearpygui\" while a Dear PyGUI app is already running.");
 			return GetPyNone();
 		}
 

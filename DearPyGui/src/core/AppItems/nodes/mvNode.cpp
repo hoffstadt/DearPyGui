@@ -3,8 +3,6 @@
 #include "mvApp.h"
 #include "mvLog.h"
 #include "mvItemRegistry.h"
-//#include "mvImNodesThemeScope.h"
-//#include "mvFontScope.h"
 #include "mvPythonExceptions.h"
 
 namespace Marvel {
@@ -73,10 +71,10 @@ namespace Marvel {
 	bool mvNode::isParentCompatible(mvAppItemType type)
 	{
 		if (type == mvAppItemType::mvStagingContainer) return true;
-		if (type == mvAppItemType::mvNodeEditor)
-			return true;
+		if (type == mvAppItemType::mvNodeEditor) return true;
 
-		mvThrowPythonError(1000, "Node parent must be node editor.");
+		mvThrowPythonError(mvErrorCode::mvIncompatibleParent, s_command,
+			"Incompatible parent. Acceptable parents include: node editor, staging container", this);
 		MV_ITEM_REGISTRY_ERROR("Node parent must be node editor.");
 		assert(false);
 		return false;
@@ -84,10 +82,11 @@ namespace Marvel {
 
 	bool mvNode::canChildBeAdded(mvAppItemType type)
 	{
-		if(type == mvAppItemType::mvNodeAttribute)
-			return true;
+		if(type == mvAppItemType::mvNodeAttribute) return true;
 
-		mvThrowPythonError(1000, "Node children must be node attributes only.");
+		mvThrowPythonError(mvErrorCode::mvIncompatibleChild, s_command,
+			"Incompatible child. Acceptable children include: mvNodeAttribute", this);
+
 		MV_ITEM_REGISTRY_ERROR("Node children must be node attributes only.");
 		assert(false);
 

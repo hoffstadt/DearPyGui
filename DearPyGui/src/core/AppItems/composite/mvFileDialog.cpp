@@ -200,13 +200,13 @@ namespace Marvel {
 		auto aplot = mvApp::GetApp()->getItemRegistry().getItem(file_dialog);
 		if (aplot == nullptr)
 		{
-			mvThrowPythonError(1000, std::to_string(file_dialog) + " plot does not exist.");
+			mvThrowPythonError(mvErrorCode::mvNone, std::to_string(file_dialog) + " plot does not exist.");
 			return GetPyNone();
 		}
 
 		if (aplot->getType() != mvAppItemType::mvFileDialog)
 		{
-			mvThrowPythonError(1000, std::to_string(file_dialog) + " is not a plot.");
+			mvThrowPythonError(mvErrorCode::mvNone, std::to_string(file_dialog) + " is not a plot.");
 			return GetPyNone();
 		}
 

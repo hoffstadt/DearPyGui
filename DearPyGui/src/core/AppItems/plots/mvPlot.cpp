@@ -80,53 +80,6 @@ namespace Marvel {
 
 	}
 
-	static bool CheckList(const char* plot, PyObject* list)
-	{
-		if (!PyList_Check(list))
-		{
-			mvThrowPythonError(1000, std::string(plot) + " add area series requires a list of floats.");
-			return false;
-		}
-		return true;
-	}
-
-	static bool CheckIfPlotOk(const char* name, mvAppItem* plot)
-	{
-		if (plot == nullptr)
-		{
-			mvThrowPythonError(1000, std::string(name) + " plot does not exist.");
-			return false;
-		}
-
-		if (plot->getType() != mvAppItemType::mvPlot)
-		{
-			mvThrowPythonError(1000, std::string(name) + " is not a plot.");
-			return false;
-		}
-		return true;
-	}
-
-	static bool Check2ArraySizes(const char* name, const std::vector<float>* first, const std::vector<float>* second)
-	{
-		if (second == nullptr)
-			return true;
-
-		return first->size() == second->size();
-	}
-
-	static bool CheckArraySizes(const char* name, const std::vector<const std::vector<float>*>& arrays)
-	{
-		for (size_t i = 0; i < arrays.size() - 1; i++)
-		{
-			if (!Check2ArraySizes(name, arrays[i], arrays[i + 1]))
-			{
-				mvThrowPythonError(1000, std::string(name) + " data list must be the same size.");
-				return false;
-			}
-		}
-		return true;
-	}
-
 	mvPlot::mvPlot(mvUUID uuid)
 		: mvAppItem(uuid)
 	{
@@ -254,7 +207,9 @@ namespace Marvel {
 		if (type == mvAppItemType::mvDrawPolyline) return true;
 		if (type == mvAppItemType::mvDrawImage) return true;
 
-		mvThrowPythonError(1000, "Plot children must be compatible.");
+		mvThrowPythonError(mvErrorCode::mvIncompatibleChild, s_command,
+			"Incompatible child. Acceptable children include: mvDraw*, mvDragPoint, mvDragLine, mvAnnotation, mvPlotLegend, mvPlotAxis", this);
+
 		MV_ITEM_REGISTRY_ERROR("Plot children must be compatible.");
 		assert(false);
 
@@ -497,13 +452,15 @@ namespace Marvel {
 		auto aplot = mvApp::GetApp()->getItemRegistry().getItem(plot);
 		if (aplot == nullptr)
 		{
-			mvThrowPythonError(1000, std::to_string(plot) + " plot does not exist.");
+			mvThrowPythonError(mvErrorCode::mvItemNotFound, "is_plot_queried",
+				"Item not found: " + std::to_string(plot), nullptr);
 			return GetPyNone();
 		}
 
 		if (aplot->getType() != mvAppItemType::mvPlot)
 		{
-			mvThrowPythonError(1000, std::to_string(plot) + " is not a plot.");
+			mvThrowPythonError(mvErrorCode::mvIncompatibleType, "is_plot_queried",
+				"Incompatible type. Expected types include: mvPlot", aplot);
 			return GetPyNone();
 		}
 
@@ -523,13 +480,15 @@ namespace Marvel {
 		auto aplot = mvApp::GetApp()->getItemRegistry().getItem(plot);
 		if (aplot == nullptr)
 		{
-			mvThrowPythonError(1000, std::to_string(plot) + " plot does not exist.");
+			mvThrowPythonError(mvErrorCode::mvItemNotFound, "get_plot_query_area",
+				"Item not found: " + std::to_string(plot), nullptr);
 			return GetPyNone();
 		}
 
 		if (aplot->getType() != mvAppItemType::mvPlot)
 		{
-			mvThrowPythonError(1000, std::to_string(plot) + " is not a plot.");
+			mvThrowPythonError(mvErrorCode::mvIncompatibleType, "is_plot_queried",
+				"Incompatible type. Expected types include: mvPlot", aplot);
 			return GetPyNone();
 		}
 
