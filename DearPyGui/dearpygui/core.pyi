@@ -750,6 +750,10 @@ def is_plot_queried(plot : int) -> bool:
 	"""Undocumented function"""
 	...
 
+def is_viewport_created() -> bool:
+	"""Undocumented"""
+	...
+
 def last_container() -> int:
 	"""Undocumented"""
 	...
@@ -831,10 +835,6 @@ def set_item_disabled_theme(item : int, theme : int) -> None:
 	...
 
 def set_item_font(item : int, font : int) -> None:
-	"""Undocumented"""
-	...
-
-def set_item_pos(item : int, x : float, y : float) -> None:
 	"""Undocumented"""
 	...
 

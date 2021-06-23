@@ -3,10 +3,17 @@ from contextlib import contextmanager
 import dearpygui.core as internal_dpg
 
 ########################################################################################################################
-# User API
+# User API Index
 #
 #    * Sections
 #      - Helper Commands
+#      - Tool Commands
+#      - Information Commands
+#      - Configuration Getter Commands
+#      - Configuration Setter Commands
+#      - State Commands
+#      - Viewport Setter Commands
+#      - Viewport Getter Commands
 #      - Container Context Managers
 #      - Core Wrappings
 #      - Constants
@@ -18,16 +25,35 @@ import dearpygui.core as internal_dpg
 ########################################################################################################################
 
 def configure_item(item : int, **kwargs) -> None:
-	"""Undocumented"""
+	"""Configures an item after creation."""
 	internal_dpg.configure_item(item, **kwargs)
 
-def start_dearpygui():
+
+def setup_viewport():
+    """Prepares viewport. If not called, start_dearpygui will automatically call this.
+
+    Returns:
+        None
+    """
     vp = internal_dpg.create_viewport()
     internal_dpg.setup_dearpygui(viewport=vp)
     internal_dpg.show_viewport(vp)
+
+
+def start_dearpygui():
+    """Prepares viewport (if not done already). sets up, cleans up, and runs main event loop.
+
+    Returns:
+        None
+    """
+
+    if not internal_dpg.is_viewport_created():
+        setup_viewport()
+
     while(internal_dpg.is_dearpygui_running()):
         internal_dpg.render_dearpygui_frame()   
     internal_dpg.cleanup_dearpygui()
+
 
 @contextmanager
 def mutex():
@@ -36,6 +62,7 @@ def mutex():
         yield internal_dpg.lock_mutex()
    finally:
         internal_dpg.unlock_mutex()
+
 
 @contextmanager
 def popup(parent: int, mousebutton: int = internal_dpg.mvMouseButton_Right, modal: bool = False) -> int:
@@ -53,65 +80,147 @@ def popup(parent: int, mousebutton: int = internal_dpg.mvMouseButton_Right, moda
     finally:
         internal_dpg.pop_container_stack()
 
-# window configure
-def set_window_pos(window: str, x: int, y: int):
-    """Sets the top left corner of the window to the specified position.
+########################################################################################################################
+# Tool Commands
+########################################################################################################################
 
-    Args:
-        window: window to position
-        x: The x position.
-        y: The y position.
+def show_style_editor() -> None:
+    """Shows the standard style editor window
 
     Returns:
         None
     """
-    internal_dpg.configure_item(window, x_pos=x, y_pos=y)
+    internal_dpg.show_tool(internal_dpg.mvTool_Style)
 
 
-def get_window_pos(window: str) -> Union[List[int], None]:
-    """Gets the top left corner of the window to the specified position.
-
-    Args:
-        window: window to retrieve position
-        x: The x position.
-        y: The y position.
-
-    Returns:
-        list as [x,y] or None
-    """
-    config = internal_dpg.get_item_configuration(window)
-    return [config["x_pos"], config["y_pos"]]
-
-
-def show_item(item: str):
-    """Shows the item.
-
-    Args:
-        item: Item to show.
+def show_metrics() -> None:
+    """Shows the standard metrics window
 
     Returns:
         None
     """
-    internal_dpg.configure_item(item, show=True)
+    internal_dpg.show_tool(internal_dpg.mvTool_Metrics)
 
 
-def hide_item(item: str, *, children_only: bool = False):
-    """Hides the item.
-
-    Args:
-        **item: Item to hide.
+def show_about() -> None:
+    """Shows the standard about window
 
     Returns:
         None
     """
-    if children_only:
-        children = get_item_children(item)
-        for child in children:
-            internal_dpg.configure_item(child, show=False)
-    else:
-        internal_dpg.configure_item(item, show=False)
+    internal_dpg.show_tool(internal_dpg.mvTool_About)
 
-def enable_item(item: str):
+
+def show_debug() -> None:
+    """Shows the standard debug window
+
+    Returns:
+        None
+    """
+    internal_dpg.show_tool(internal_dpg.mvTool_Debug)
+
+
+def show_documentation() -> None:
+    """Shows the standard documentation window
+
+    Returns:
+        None
+    """
+    internal_dpg.show_tool(internal_dpg.mvTool_Doc)
+
+
+def show_font_manager() -> None:
+    """Shows the standard documentation window
+
+    Returns:
+        None
+    """
+    internal_dpg.show_tool(internal_dpg.mvTool_Font)
+
+
+def show_item_registry() -> None:
+    """Shows the standard documentation window
+
+    Returns:
+        None
+    """
+    internal_dpg.show_tool(internal_dpg.mvTool_ItemRegistry)
+
+
+########################################################################################################################
+# Information Commands
+########################################################################################################################
+
+def is_item_container(item: int) -> Union[bool, None]:
+    """Checks if item is a container.
+
+    Returns:
+        status as a bool
+    """
+    return internal_dpg.get_item_info(item)["container"]
+
+
+def get_item_parent(item: int) -> Union[int, None]:
+    """Gets the item's parent.
+
+    Returns:
+        parent as a int or None
+    """
+    return internal_dpg.get_item_info(item)["parent"]
+
+
+def get_item_children(item: int , slot: int = -1) -> Union[List[int], None]:
+    """Provides access to the item's children slots.
+
+    Returns:
+        A 2-D tuple of children slots ex. ((child_slot_1),(child_slot_2),(child_slot_3),...) or a single slot if slot is used.
+    """
+    if slot < 0 or slot > 4:
+        return internal_dpg.get_item_info(item)["children"]
+    return internal_dpg.get_item_info(item)["children"][slot]
+
+
+def get_item_type(item: int) -> Union[str]:
+    """Gets the item's type.
+
+    Returns:
+        type as a string or None
+    """
+    return internal_dpg.get_item_info(item)["type"]
+
+
+def get_item_theme(item: int) -> int:
+    """Gets the item's theme.
+
+    Returns:
+        theme's uuid
+    """
+    return internal_dpg.get_item_info(item)["theme"]
+
+
+def get_item_theme(item: int) -> int:
+    """Gets the item's font.
+
+    Returns:
+        font's uuid
+    """
+    return internal_dpg.get_item_info(item)["font"]
+
+
+def get_item_disabled_theme(item: int) -> int:
+    """Gets the item's disabled theme.
+
+    Returns:
+        theme's uuid
+    """
+    return internal_dpg.get_item_info(item)["disabled_theme"]
+
+
+########################################################################################################################
+# Configuration Setter Commands
+########################################################################################################################
+
+def enable_item(item: int):
     """Enables the item.
 
     Args:
@@ -123,7 +232,7 @@ def enable_item(item: str):
     internal_dpg.configure_item(item, enabled=True)
 
 
-def disable_item(item: str):
+def disable_item(item: int):
     """Disables the item.
 
     Args:
@@ -135,128 +244,7 @@ def disable_item(item: str):
     internal_dpg.configure_item(item, enable=False)
 
 
-def is_item_shown(item: str) -> Union[bool, None]:
-    """Checks if item is shown.
-
-    Returns:
-        status as a bool
-    """
-    return internal_dpg.get_item_configuration(item)["show"]
-
-def is_item_enabled(item: str) -> Union[bool, None]:
-    """Checks if item is enabled.
-
-    Returns:
-        status as a bool
-    """
-    return internal_dpg.get_item_configuration(item)["enabled"]
-
-
-def is_item_container(item: str) -> Union[bool, None]:
-    """Checks if item is a container.
-
-    Returns:
-        status as a bool
-    """
-    return internal_dpg.get_item_info(item)["container"]
-
-def is_item_hovered(item: str) -> Union[bool, None]:
-    """Checks if item is hovered.
-
-    Returns:
-        status as a bool
-    """
-    return internal_dpg.get_item_state(item)["hovered"]
-
-
-def is_item_active(item: str) -> Union[bool, None]:
-    """Checks if item is active.
-
-    Returns:
-        status as a bool
-    """
-    return internal_dpg.get_item_state(item)["active"]
-
-def is_item_focused(item: str) -> Union[bool, None]:
-    """Checks if item is focused.
-
-    Returns:
-        status as a bool
-    """
-    return internal_dpg.get_item_state(item)["focused"]
-
-def is_item_clicked(item: str) -> Union[bool, None]:
-    """Checks if item is clicked.
-
-    Returns:
-        status as a bool
-    """
-    return internal_dpg.get_item_state(item)["clicked"]
-
-def is_item_visible(item: str) -> Union[bool, None]:
-    """Checks if item is visible.
-
-    Returns:
-        status as a bool
-    """
-    return internal_dpg.get_item_state(item)["visible"]
-
-
-def is_item_edited(item: str) -> Union[bool, None]:
-    """Checks if item is edited.
-
-    Returns:
-        status as a bool
-    """
-    return internal_dpg.get_item_state(item)["edited"]
-
-
-def is_item_activated(item: str) -> Union[bool, None]:
-    """Checks if item is activated.
-
-    Returns:
-        status as a bool
-    """
-    return internal_dpg.get_item_state(item)["activated"]
-
-
-def is_item_deactivated(item: str) -> Union[bool, None]:
-    """Checks if item is deactivated.
-
-    Returns:
-        status as a bool
-    """
-    return internal_dpg.get_item_state(item)["deactivated"]
-
-
-def is_item_deactivated_after_edit(item: str) -> Union[bool, None]:
-    """Checks if item is deactivated_after_edit.
-
-    Returns:
-        status as a bool
-    """
-    return internal_dpg.get_item_state(item)["deactivated_after_edit"]
-
-
-def is_item_toggled_open(item: str) -> Union[bool, None]:
-    """Checks if item is toggled_open.
-
-    Returns:
-        status as a bool
-    """
-    return internal_dpg.get_item_state(item)["toggled_open"]
-
-
-def is_item_ok(item: str) -> Union[bool, None]:
-    """Checks if item is a ok.
-
-    Returns:
-        status as a bool
-    """
-    return internal_dpg.get_item_state(item)["ok"]
-
-
-def set_item_label(item: str, label: str):
+def set_item_label(item: int, label: str):
     """Sets the item's displayed label, anything after the characters "##" in the name will not be shown.
 
     Args:
@@ -269,7 +257,7 @@ def set_item_label(item: str, label: str):
     internal_dpg.configure_item(item, label=label)
 
 
-def set_item_source(item: str, source: str):
+def set_item_source(item: int, source: int):
     """Sets the item's value, to the source's value. Widget's value will now be "linked" to source's value.
 
     Args:
@@ -280,6 +268,19 @@ def set_item_source(item: str, source: str):
         None
     """
     internal_dpg.configure_item(item, source=source)
+
+
+def set_item_pos(item: str, pos: List[float]):
+    """Sets the item's position.
+
+    Args:
+        item: Item the Width will be applied to.
+        width: Width to be applied.
+
+    Returns:
+        None
+    """
+    internal_dpg.configure_item(item, pos=pos)
 
 
 def set_item_width(item: str, width: int):
@@ -295,7 +296,7 @@ def set_item_width(item: str, width: int):
     internal_dpg.configure_item(item, width=width)
 
 
-def set_item_height(item: str, height: int):
+def set_item_height(item: int, height: int):
     """Sets the item's height.
 
     Args:
@@ -307,7 +308,47 @@ def set_item_height(item: str, height: int):
     """
     internal_dpg.configure_item(item, height=height)
 
-def set_item_callback(item: str, callback: Callable):
+
+def set_item_indent(item: int, indent: int):
+    """Sets the item's indent.
+
+    Args:
+        item: Item the Height will be applied to.
+        height: Height to be applied.
+
+    Returns:
+        None
+    """
+    internal_dpg.configure_item(item, indent=indent)
+
+
+def set_item_track_offset(item: int, offset: float):
+    """Sets the item's track offset.
+
+    Args:
+        item: Item the Height will be applied to.
+        height: Height to be applied.
+
+    Returns:
+        None
+    """
+    internal_dpg.configure_item(item, track_offset=offset)
+
+
+def set_item_payload_type(item: int, payload_type: str):
+    """Sets the item's payload type.
+
+    Args:
+        item: Item the Height will be applied to.
+        height: Height to be applied.
+
+    Returns:
+        None
+    """
+    internal_dpg.configure_item(item, payload_type=str)
+
+
+def set_item_callback(item: int, callback: Callable):
     """Sets the item's callack.
 
     Args:
@@ -320,7 +361,59 @@ def set_item_callback(item: str, callback: Callable):
     internal_dpg.configure_item(item, callback=callback)
 
 
-def set_item_user_data(item: str, user_data: Any):
+def set_item_drag_callback(item: int, callback: Callable):
+    """Sets the item's drag callack.
+
+    Args:
+        item: Item the callback will be applied to.
+        callback: Callback to be applied.
+
+    Returns:
+        None
+    """
+    internal_dpg.configure_item(item, drag_callback=callback)
+
+
+def set_item_drop_callback(item: int, callback: Callable):
+    """Sets the item's drop callack.
+
+    Args:
+        item: Item the callback will be applied to.
+        callback: Callback to be applied.
+
+    Returns:
+        None
+    """
+    internal_dpg.configure_item(item, drop_callback=callback)
+
+
+def track_item(item: int):
+    """Track item in scroll region.
+
+    Args:
+        item: Item the callback will be applied to.
+        callback: Callback to be applied.
+
+    Returns:
+        None
+    """
+    internal_dpg.configure_item(item, tracked=True)
+
+
+def untrack_item(item: int):
+    """Track item in scroll region.
+
+    Args:
+        item: Item the callback will be applied to.
+        callback: Callback to be applied.
+
+    Returns:
+        None
+    """
+    internal_dpg.configure_item(item, tracked=False)
+
+
+def set_item_user_data(item: int, user_data: Any):
     """Sets the item's callack_data to any python object.
 
     Args:
@@ -333,7 +426,40 @@ def set_item_user_data(item: str, user_data: Any):
     internal_dpg.configure_item(item, user_data=user_data)
 
 
-def get_item_label(item: str) -> Union[str, None]:
+def show_item(item: int):
+    """Shows the item.
+
+    Args:
+        item: Item to show.
+
+    Returns:
+        None
+    """
+    internal_dpg.configure_item(item, show=True)
+
+
+def hide_item(item: int, *, children_only: bool = False):
+    """Hides the item.
+
+    Args:
+        **item: Item to hide.
+
+    Returns:
+        None
+    """
+    if children_only:
+        children = get_item_children(item)
+        for child in children:
+            internal_dpg.configure_item(child, show=False)
+    else:
+        internal_dpg.configure_item(item, show=False)
+
+
+########################################################################################################################
+# Configuration Getter Commands
+########################################################################################################################
+
+def get_item_label(item: int) -> Union[str, None]:
     """Gets the item's label.
 
     Returns:
@@ -342,7 +468,52 @@ def get_item_label(item: str) -> Union[str, None]:
     return internal_dpg.get_item_configuration(item)["label"]
 
 
-def get_item_width(item: str) -> Union[int, None]:
+def get_item_filter_key(item: int) -> Union[str, None]:
+    """Gets the item's filter key.
+
+    Returns:
+        filter key as a string or None
+    """
+    return internal_dpg.get_item_configuration(item)["filter_key"]
+
+
+def is_item_tracked(item: int) -> Union[bool, None]:
+    """Checks if item is tracked.
+
+    Returns:
+        tracked as a bool or None
+    """
+    return internal_dpg.get_item_configuration(item)["tracked"]
+
+
+def is_item_search_delayed(item: int) -> Union[bool, None]:
+    """Checks if item is search delayed.
+
+    Returns:
+        tracked as a bool or None
+    """
+    return internal_dpg.get_item_configuration(item)["delay_search"]
+
+
+def get_item_indent(item: int) -> Union[int, None]:
+    """Gets the item's indent.
+
+    Returns:
+        indent as a int or None
+    """
+    return internal_dpg.get_item_configuration(item)["indent"]
+
+
+def get_item_track_offset(item: int) -> Union[float, None]:
+    """Gets the item's track offset.
+
+    Returns:
+        track offset as a int or None
+    """
+    return internal_dpg.get_item_configuration(item)["track_offset"]
+
+
+def get_item_width(item: int) -> Union[int, None]:
     """Gets the item's width.
 
     Returns:
@@ -351,7 +522,7 @@ def get_item_width(item: str) -> Union[int, None]:
     return internal_dpg.get_item_configuration(item)["width"]
 
 
-def get_item_height(item: str) -> Union[int, None]:
+def get_item_height(item: int) -> Union[int, None]:
     """Gets the item's height.
 
     Returns:
@@ -359,7 +530,8 @@ def get_item_height(item: str) -> Union[int, None]:
     """
     return internal_dpg.get_item_configuration(item)["height"]
 
-def get_item_callback(item: str) -> Union[str, None]:
+
+def get_item_callback(item: int) -> Union[str, None]:
     """Gets the item's callback.
 
     Returns:
@@ -367,7 +539,26 @@ def get_item_callback(item: str) -> Union[str, None]:
     """
     return internal_dpg.get_item_configuration(item)["callback"]
 
-def get_item_user_data(item: str) -> Union[Any, None]:
+
+def get_item_drag_callback(item: int) -> Union[str, None]:
+    """Gets the item's drag callback.
+
+    Returns:
+        callback as a string or None
+    """
+    return internal_dpg.get_item_configuration(item)["drag_callback"]
+
+
+def get_item_drop_callback(item: int) -> Union[str, None]:
+    """Gets the item's drop callback.
+
+    Returns:
+        callback as a string or None
+    """
+    return internal_dpg.get_item_configuration(item)["drop_callback"]
+
+
+def get_item_user_data(item: int) -> Union[Any, None]:
     """Gets the item's callback data.
 
     Returns:
@@ -375,7 +566,8 @@ def get_item_user_data(item: str) -> Union[Any, None]:
     """
     return internal_dpg.get_item_configuration(item)["user_data"]
 
-def get_item_source(item: str) -> Union[str, None]:
+
+def get_item_source(item: int) -> Union[str, None]:
     """Gets the item's source.
 
     Returns:
@@ -384,121 +576,518 @@ def get_item_source(item: str) -> Union[str, None]:
     return internal_dpg.get_item_configuration(item)["source"]
 
 
-def get_item_parent(item: str) -> Union[str, None]:
-    """Gets the item's parent.
+########################################################################################################################
+# State Commands
+########################################################################################################################
+
+def is_item_hovered(item: int) -> Union[bool, None]:
+    """Checks if item is hovered.
 
     Returns:
-        parent as a string or None
+        status as a bool
     """
-    return internal_dpg.get_item_info(item)["parent"]
+    return internal_dpg.get_item_state(item)["hovered"]
 
 
-def get_item_children(item: str) -> Union[List[str], None]:
-    """Gets the item's children.
+def is_item_active(item: int) -> Union[bool, None]:
+    """Checks if item is active.
 
     Returns:
-        children as a list of string or None
+        status as a bool
     """
-    return internal_dpg.get_item_info(item)["children"]
+    return internal_dpg.get_item_state(item)["active"]
 
 
-def get_item_type(item: str) -> Union[str]:
-    """Gets the item's type.
+def is_item_focused(item: int) -> Union[bool, None]:
+    """Checks if item is focused.
 
     Returns:
-        type as a string or None
+        status as a bool
     """
-    return internal_dpg.get_item_info(item)["type"]
+    return internal_dpg.get_item_state(item)["focused"]
 
 
-def get_item_rect_size(item: str) -> Union[List[int]]:
-    """Gets the item's current size.
+def is_item_clicked(item: int) -> Union[bool, None]:
+    """Checks if item is clicked.
 
     Returns:
-        size as a float list
+        status as a bool
     """
-    return internal_dpg.get_item_state(item)["rect_size"]
+    return internal_dpg.get_item_state(item)["clicked"]
 
 
-def get_item_rect_min(item: str) -> Union[List[int]]:
-    """Gets the item's current rect_min.
+def is_item_visible(item: int) -> Union[bool, None]:
+    """Checks if item is visible.
 
     Returns:
-        rect_min as a float
+        status as a bool
     """
-    return internal_dpg.get_item_state(item)["rect_min"]
+    return internal_dpg.get_item_state(item)["visible"]
 
 
-def get_item_rect_max(item: str) -> Union[List[int]]:
-    """Gets the item's current rect_max.
+def is_item_edited(item: int) -> Union[bool, None]:
+    """Checks if item is edited.
 
     Returns:
-        rect_max as a float
+        status as a bool
     """
-    return internal_dpg.get_item_state(item)["rect_max"]
+    return internal_dpg.get_item_state(item)["edited"]
 
 
-def get_item_pos(item: str) -> Union[List[int]]:
-    """Gets the item's current pos.
+def is_item_activated(item: int) -> Union[bool, None]:
+    """Checks if item is activated.
 
     Returns:
-        pos as a float
+        status as a bool
     """
-    return internal_dpg.get_item_state(item)["pos"]
+    return internal_dpg.get_item_state(item)["activated"]
 
 
-def show_style_editor(sender: str="", data: Any=None) -> None:
-    """Shows the standard style editor window
+def is_item_deactivated(item: int) -> Union[bool, None]:
+    """Checks if item is deactivated.
+
+    Returns:
+        status as a bool
+    """
+    return internal_dpg.get_item_state(item)["deactivated"]
+
+
+def is_item_deactivated_after_edit(item: int) -> Union[bool, None]:
+    """Checks if item is deactivated_after_edit.
+
+    Returns:
+        status as a bool
+    """
+    return internal_dpg.get_item_state(item)["deactivated_after_edit"]
+
+
+def is_item_toggled_open(item: int) -> Union[bool, None]:
+    """Checks if item is toggled_open.
+
+    Returns:
+        status as a bool
+    """
+    return internal_dpg.get_item_state(item)["toggled_open"]
+
+
+def is_item_ok(item: int) -> Union[bool, None]:
+    """Checks if item is a ok.
+
+    Returns:
+        status as a bool
+    """
+    return internal_dpg.get_item_state(item)["ok"]
+
+
+def is_item_shown(item: int) -> Union[bool, None]:
+    """Checks if item is shown.
+
+    Returns:
+        status as a bool
+    """
+    return internal_dpg.get_item_configuration(item)["show"]
+
+
+def is_item_enabled(item: int) -> Union[bool, None]:
+    """Checks if item is enabled.
+
+    Returns:
+        status as a bool
+    """
+    return internal_dpg.get_item_configuration(item)["enabled"]
+
+
+def get_item_pos(item: int) -> List[int]:
+    """Returns item's position.
+
+    Returns:
+        position
+    """
+    return internal_dpg.get_item_configuration(item)["pos"]
+
+
+def get_available_content_region(item: int) -> List[int]:
+    """Returns item's available content region.
+
+    Returns:
+        position
+    """
+    return internal_dpg.get_item_configuration(item)["content_region_avail"]
+
+
+def get_item_rect_size(item: int) -> List[int]:
+    """Returns item's available content region.
+
+    Returns:
+        position
+    """
+    return internal_dpg.get_item_configuration(item)["rect_size"]
+
+
+def get_item_rect_min(item: int) -> List[int]:
+    """Returns item's minimum content region.
+
+    Returns:
+        position
+    """
+    return internal_dpg.get_item_configuration(item)["rect_min"]
+
+
+def get_item_rect_max(item: int) -> List[int]:
+    """Returns item's maximum content region.
+
+    Returns:
+        position
+    """
+    return internal_dpg.get_item_configuration(item)["rect_max"]
+
+
+########################################################################################################################
+# Viewport Setter Commands
+########################################################################################################################
+
+def set_viewport_clear_color(color: List[int]):
+    """Sets the viewport's clear color.
 
     Returns:
         None
     """
-    internal_dpg.show_tool(internal_dpg.mvTool_Style)
+    internal_dpg.configure_viewport(item, clear_color=color)
 
-def show_metrics(sender: str="", data: Any=None) -> None:
-    """Shows the standard metrics window
 
-    Returns:
-        None
-    """
-    internal_dpg.show_tool(internal_dpg.mvTool_Metrics)
-
-def show_about(sender: str="", data: Any=None) -> None:
-    """Shows the standard about window
+def set_viewport_small_icon(icon: str):
+    """Sets the viewport's small icon. Must be ico for windows.
 
     Returns:
         None
     """
-    internal_dpg.show_tool(internal_dpg.mvTool_About)
+    internal_dpg.configure_viewport(item, small_icon=icon)
 
-def show_debug(sender: str="", data: Any=None) -> None:
-    """Shows the standard debug window
 
-    Returns:
-        None
-    """
-    internal_dpg.show_tool(internal_dpg.mvTool_Debug)
-
-def show_documentation(sender: str="", data: Any=None) -> None:
-    """Shows the standard documentation window
+def set_viewport_large_icon(icon: str):
+    """Sets the viewport's small icon. Must be ico for windows.
 
     Returns:
         None
     """
-    internal_dpg.show_tool(internal_dpg.mvTool_Doc)
+    internal_dpg.configure_viewport(item, large_icon=icon)
 
-def show_font_manager(sender: str="", data: Any=None) -> None:
-    """Shows the standard documentation window
 
-    Returns:
-        None
-    """
-    internal_dpg.show_tool(internal_dpg.mvTool_Font)
-
-def show_item_registry(sender: str="", data: Any=None) -> None:
-    """Shows the standard documentation window
+def set_viewport_pos(pos: List[float]):
+    """Sets the viewport's position.
 
     Returns:
         None
     """
-    internal_dpg.show_tool(internal_dpg.mvTool_ItemRegistry)
+    internal_dpg.configure_viewport(item, pos=pos)
+
+
+def set_viewport_width(width: int):
+    """Sets the viewport's width.
+
+    Returns:
+        None
+    """
+    internal_dpg.configure_viewport(item, width=width)
+
+
+def set_viewport_height(height: int):
+    """Sets the viewport's height.
+
+    Returns:
+        None
+    """
+    internal_dpg.configure_viewport(item, height=height)
+
+
+def set_viewport_min_width(width: int):
+    """Sets the viewport's minimum width.
+
+    Returns:
+        None
+    """
+    internal_dpg.configure_viewport(item, min_width=width)
+
+
+def set_viewport_max_width(width: int):
+    """Sets the viewport's max width.
+
+    Returns:
+        None
+    """
+    internal_dpg.configure_viewport(item, max_width=width)
+
+
+def set_viewport_min_height(height: int):
+    """Sets the viewport's minimum height.
+
+    Returns:
+        None
+    """
+    internal_dpg.configure_viewport(item, min_height=width)
+
+
+def set_viewport_max_height(height: int):
+    """Sets the viewport's max width.
+
+    Returns:
+        None
+    """
+    internal_dpg.configure_viewport(item, max_height=height)
+
+
+def set_viewport_title(title: str):
+    """Sets the viewport's title.
+
+    Returns:
+        None
+    """
+    internal_dpg.configure_viewport(item, title=title)
+
+
+def set_viewport_always_top(value: bool):
+    """Sets the viewport always on top.
+
+    Returns:
+        None
+    """
+    internal_dpg.configure_viewport(item, always_on_top=value)
+
+
+def set_viewport_resizable(value: bool):
+    """Sets the viewport resizable.
+
+    Returns:
+        None
+    """
+    internal_dpg.configure_viewport(item, resizable=value)
+
+def set_viewport_vsync(value: bool):
+    """Sets the viewport vsync.
+
+    Returns:
+        None
+    """
+    internal_dpg.configure_viewport(item, vsync=value)
+
+
+def set_viewport_border(value: bool):
+    """Sets the viewport border.
+
+    Returns:
+        None
+    """
+    internal_dpg.configure_viewport(item, border=value)
+
+
+def set_viewport_caption(value: bool):
+    """Sets the viewport caption.
+
+    Returns:
+        None
+    """
+    internal_dpg.configure_viewport(item, caption=value)
+
+
+def set_viewport_overlapped(value: bool):
+    """Sets the viewport overlapped.
+
+    Returns:
+        None
+    """
+    internal_dpg.configure_viewport(item, overlapped=value)
+
+
+def set_viewport_maximized_box(value: bool):
+    """Sets the viewport maximized box.
+
+    Returns:
+        None
+    """
+    internal_dpg.configure_viewport(item, maximized_box=value)
+
+
+def set_viewport_minimized_box(value: bool):
+    """Sets the viewport minimized box.
+
+    Returns:
+        None
+    """
+    internal_dpg.configure_viewport(item, minimized_box=value)
+
+
+########################################################################################################################
+# Viewport Getter Commands
+########################################################################################################################
+
+def get_viewport_clear_color() ->List[int]:
+    """Gets the viewport's clear color.
+
+    Returns:
+        List[int]
+    """
+    return internal_dpg.internal_dpg.get_viewport_configuration()["clear_color"]
+
+
+def get_viewport_pos() ->List[float]:
+    """Gets the viewport's position.
+
+    Returns:
+        viewport position.
+    """
+    config = internal_dpg.get_viewport_configuration()
+    x_pos = config["x_pos"]
+    y_pos = config["y_pos"]
+    return [x_pos, y_pos]
+
+
+def get_viewport_width() -> int:
+    """Gets the viewport's width.
+
+    Returns:
+        viewport width
+    """
+    return internal_dpg.get_viewport_configuration()["width"]
+
+
+def get_viewport_client_width() -> int:
+    """Gets the viewport's client width.
+
+    Returns:
+        viewport width
+    """
+    return internal_dpg.get_viewport_configuration()["client_width"]
+
+
+def get_viewport_client_height() -> int:
+    """Gets the viewport's client height.
+
+    Returns:
+        viewport width
+    """
+    return internal_dpg.get_viewport_configuration()["client_height"]
+
+
+def get_viewport_height() -> int:
+    """Gets the viewport's height.
+
+    Returns:
+        int
+    """
+    return internal_dpg.get_viewport_configuration()["height"]
+
+
+def get_viewport_min_width() -> int:
+    """Gets the viewport's minimum width.
+
+    Returns:
+        int
+    """
+    return internal_dpg.get_viewport_configuration()["min_width"]
+
+
+def get_viewport_max_width() -> int:
+    """Gets the viewport's max width.
+
+    Returns:
+        int
+    """
+    return internal_dpg.get_viewport_configuration()["max_width"]
+
+
+def get_viewport_min_height() -> int:
+    """Gets the viewport's minimum height.
+
+    Returns:
+        int
+    """
+    return internal_dpg.get_viewport_configuration()["min_height"]
+
+
+def get_viewport_max_height() -> int:
+    """Gets the viewport's max width.
+
+    Returns:
+        int
+    """
+    return internal_dpg.get_viewport_configuration()["max_height"]
+
+
+def get_viewport_title() -> str:
+    """Gets the viewport's title.
+
+    Returns:
+        str
+    """
+    return internal_dpg.get_viewport_configuration()["title"]
+
+
+def is_viewport_always_top() -> bool:
+    """Checks the viewport always on top flag.
+
+    Returns:
+        bool
+    """
+    return internal_dpg.get_viewport_configuration()["always_on_top"]
+
+
+def is_viewport_resizable() -> bool:
+    """Checks the viewport resizable flag.
+
+    Returns:
+        bool
+    """
+    return internal_dpg.get_viewport_configuration()["resizable"]
+
+def is_viewport_vsync_on() -> bool:
+    """Checks the viewport vsync flag.
+
+    Returns:
+        bool
+    """
+    return internal_dpg.get_viewport_configuration()["vsync"]
+
+
+def get_viewport_border() -> bool:
+    """Checks the viewport border flag.
+
+    Returns:
+        bool
+    """
+    return internal_dpg.get_viewport_configuration()["border"]
+
+
+def is_viewport_caption_on() -> bool:
+    """Checks the viewport caption flag.
+
+    Returns:
+        bool
+    """
+    return internal_dpg.get_viewport_configuration()["caption"]
+
+
+def is_viewport_overlapped_on() -> bool:
+    """Checks the viewport overlapped flag.
+
+    Returns:
+        bool
+    """
+    return internal_dpg.get_viewport_configuration()["overlapped"]
+
+
+def is_viewport_maximized_box_on() -> bool:
+    """Checks the viewport maximized box flag.
+
+    Returns:
+        bool
+    """
+    return internal_dpg.get_viewport_configuration()["maximized_box"]
+
+
+def is_viewport_minimized_box_on() -> bool:
+    """Checks the viewport minimized box flag.
+
+    Returns:
+        bool
+    """
+    return internal_dpg.get_viewport_configuration()["minimized_box"]

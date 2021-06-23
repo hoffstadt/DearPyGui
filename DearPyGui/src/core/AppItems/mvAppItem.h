@@ -214,7 +214,6 @@ namespace Marvel {
         MV_CREATE_COMMAND(get_values);
         MV_CREATE_COMMAND(set_value);
         MV_CREATE_COMMAND(focus_item);
-        MV_CREATE_COMMAND(set_item_pos);
         MV_CREATE_COMMAND(reset_pos);
         MV_CREATE_COMMAND(generate_uuid);
         MV_CREATE_COMMAND(set_item_children);
@@ -234,7 +233,6 @@ namespace Marvel {
             MV_ADD_COMMAND(get_values);
             MV_ADD_COMMAND(set_value);
             MV_ADD_COMMAND(focus_item);
-            MV_ADD_COMMAND(set_item_pos);
             MV_ADD_COMMAND(reset_pos);
             MV_ADD_COMMAND(generate_uuid);
             MV_ADD_COMMAND(set_item_children);

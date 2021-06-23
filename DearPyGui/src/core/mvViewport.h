@@ -29,6 +29,7 @@ namespace Marvel {
         MV_CREATE_COMMAND(create_viewport);
         MV_CREATE_COMMAND(configure_viewport);
         MV_CREATE_COMMAND(get_viewport_configuration);
+        MV_CREATE_COMMAND(is_viewport_created);
         
 		// viewport operations
         MV_CREATE_COMMAND(maximize_viewport);
@@ -41,6 +42,7 @@ namespace Marvel {
 			MV_ADD_COMMAND(maximize_viewport)
 			MV_ADD_COMMAND(minimize_viewport)
 			MV_ADD_COMMAND(get_viewport_configuration)
+			MV_ADD_COMMAND(is_viewport_created)
 		MV_END_COMMANDS
 
 		static mvViewport* CreateViewport(unsigned width, unsigned height);

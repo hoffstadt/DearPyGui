@@ -71,6 +71,12 @@ namespace Marvel {
 		}
 
 		{
+			mvPythonParser parser(mvPyDataType::Bool, "Undocumented", { "General" });
+			parser.finalize();
+			parsers->insert({ "is_viewport_created", parser });
+		}
+
+		{
 			mvPythonParser parser(mvPyDataType::None, "Undocumented", { "General" });
 			parser.finalize();
 			parsers->insert({ "maximize_viewport", parser });
@@ -178,6 +184,18 @@ namespace Marvel {
 			viewport->getConfigDict(pdict);
 
 		return pdict;
+	}
+
+	PyObject* mvViewport::is_viewport_created(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+
+		if (!mvApp::s_manualMutexControl) std::lock_guard<std::mutex> lk(mvApp::s_mutex);
+
+		mvViewport* viewport = mvApp::GetApp()->getViewport();
+		if (viewport)
+			return ToPyBool(true);
+
+		return ToPyBool(false);
 	}
 
 	PyObject* mvViewport::create_viewport(PyObject* self, PyObject* args, PyObject* kwargs)
