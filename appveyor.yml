@@ -9,6 +9,9 @@ build:
 # Do not build on tags
 skip_tags: true
 
+only_commits:
+  message: /\[appveyor\]/
+
 environment:
 
   pypi_password:
@@ -178,7 +181,7 @@ on_success:
       
   #  # deploy test docs
   - ps: |
-      if ( $env:APPVEYOR_REPO_COMMIT_MESSAGE -like "*(test)*" )
+      if ( $env:APPVEYOR_REPO_COMMIT_MESSAGE -like "*(test pypi)*" )
       {
         if ( $env:PYDOCRUN -like "*true*" )
         {
@@ -200,7 +203,7 @@ on_success:
 
   # deploy docs
   - ps: |
-      if ( $env:APPVEYOR_REPO_COMMIT_MESSAGE -like "*(release)*" )
+      if ( $env:APPVEYOR_REPO_COMMIT_MESSAGE -like "*(pypi)*" )
       {
         if ( $env:PYDOCRUN -like "*true*" )
         {
@@ -227,10 +230,10 @@ on_success:
         ${PYLOC} -m pip install twine --upgrade
         ${PYLOC} -m pip install wheel
         ${PYLOC} -m setup bdist_wheel --plat-name manylinux1_x86_64 --dist-dir /home/appveyor/projects/dearpygui/dist
-        if [[ "${APPVEYOR_REPO_COMMIT_MESSAGE}" == *"(test)"* ]]; then
+        if [[ "${APPVEYOR_REPO_COMMIT_MESSAGE}" == *"(test pypi)"* ]]; then
             ${PYLOC} -m twine upload --repository testpypi /home/appveyor/projects/dearpygui/dist/* -u RaylockLLC -p ${pypi_password} --skip-existing
         fi
-        if [[ "${APPVEYOR_REPO_COMMIT_MESSAGE}" == *"(release)"* ]]; then
+        if [[ "${APPVEYOR_REPO_COMMIT_MESSAGE}" == *"(pypi)"* ]]; then
             ${PYLOC} -m twine upload --repository testpypi /home/appveyor/projects/dearpygui/dist/* -u RaylockLLC -p ${pypi_password} --skip-existing
             ${PYLOC} -m twine upload /home/appveyor/projects/dearpygui/dist/* -u RaylockLLC -p ${pypi_password} --skip-existing
         fi
@@ -239,10 +242,10 @@ on_success:
         ${PYLOC} -m pip install twine --upgrade
         ${PYLOC} -m pip install wheel
         ${PYLOC} -m setup bdist_wheel --plat-name macosx-10.6-x86_64 --dist-dir /Users/appveyor/projects/dearpygui/dist
-        if [[ "${APPVEYOR_REPO_COMMIT_MESSAGE}" == *"(test)"* ]]; then
+        if [[ "${APPVEYOR_REPO_COMMIT_MESSAGE}" == *"(test pypi)"* ]]; then
             ${PYLOC} -m twine upload --repository testpypi /Users/appveyor/projects/dearpygui/dist/* -u RaylockLLC -p ${pypi_password} --skip-existing
         fi
-        if [[ "${APPVEYOR_REPO_COMMIT_MESSAGE}" == *"(release)"* ]]; then
+        if [[ "${APPVEYOR_REPO_COMMIT_MESSAGE}" == *"(pypi)"* ]]; then
             ${PYLOC} -m twine upload --repository testpypi /Users/appveyor/projects/dearpygui/dist/* -u RaylockLLC -p ${pypi_password} --skip-existing
             ${PYLOC} -m twine upload /Users/appveyor/projects/dearpygui/dist/* -u RaylockLLC -p ${pypi_password} --skip-existing
         fi
