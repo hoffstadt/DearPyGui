@@ -9,8 +9,8 @@ jobs:
     runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v1
-        with:
-          fetch-depth: 1
+        #with:
+        #  fetch-depth: 1
 
       - name: Retrieve submodules
         run: git submodule update --init --recursive
