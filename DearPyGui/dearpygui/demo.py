@@ -17,7 +17,7 @@ def _help(message):
 
 def _config(sender, app_data, user_data):
 
-    widget_type = dpg.get_item_info(sender)["type"]
+    widget_type = dpg.get_item_type(sender)
     items = user_data
 
     if widget_type == "mvAppItemType::mvRadioButton":
@@ -25,7 +25,7 @@ def _config(sender, app_data, user_data):
         value = True
 
     else:
-        keyword = dpg.get_item_configuration(sender)["label"]
+        keyword = dpg.get_item_label(sender)
         value = dpg.get_value(sender)
 
     if isinstance(user_data, list):
@@ -2169,7 +2169,7 @@ def show_demo():
                 for item in dpg.get_item_info(user_data[1])["children"][1]:
                     args.append(dpg.get_value(item))
                 for item in dpg.get_item_info(user_data[2])["children"][1]:
-                    kwargs[dpg.get_item_configuration(item)["label"]] = dpg.get_value(item)
+                    kwargs[dpg.get_item_label(item)] = dpg.get_value(item)
 
                 # If a drawing command needs to take in a list of points dont unpack args with *
                 points = []
@@ -2354,7 +2354,7 @@ def show_demo():
         with dpg.collapsing_header(label="Inputs & Events"):
 
             def _set_activator(sender, app_data, user_data):
-                keyword = dpg.get_item_configuration(sender)["label"]
+                keyword = dpg.get_item_label(sender)
                 constant = user_data[0][dpg.get_value(sender)]
                 for item in user_data[1]:
                     dpg.configure_item(item, **{keyword: constant})
@@ -2440,10 +2440,10 @@ def show_demo():
                     dpg.set_value(mh_drag, f"Mouse id: {data[0]}, Delta:{[data[1], data[2]]}")
 
             for handler in dpg.get_item_info(keyboard_handler)["children"][3]:
-                dpg.configure_item(handler, callback=event_handler)
+                dpg.set_item_callback(handler, event_handler)
 
             for handler in dpg.get_item_info(mouse_handler)["children"][3]:
-                dpg.configure_item(handler, callback=event_handler)
+                dpg.set_item_callback(handler, event_handler)
 
         with dpg.collapsing_header(label="Drag & Drop"):
             with dpg.tree_node(label="Help"):
@@ -2540,7 +2540,7 @@ def show_demo():
 
                 ub1 = dpg.add_button(label="Unstage buttons", callback=_unstage_items)
                 child_id = dpg.add_child(height=200, width=200)
-                dpg.configure_item(ub1, user_data=[sc1, child_id])
+                dpg.set_item_user_data(ub1, [sc1, child_id])
 
             with dpg.tree_node(label="Manual Mutex Control"):
 

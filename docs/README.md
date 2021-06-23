@@ -91,6 +91,7 @@ with dpg.window("Example Window"):
     dpg.add_input_text(label="string")
     dpg.add_slider_float(label="float")
 
+dpg.setup_viewport()
 dpg.start_dearpygui()
 ```
 Result:

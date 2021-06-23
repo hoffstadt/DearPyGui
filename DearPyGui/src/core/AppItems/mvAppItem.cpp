@@ -134,15 +134,6 @@ namespace Marvel{
 		{
 			mvPythonParser parser(mvPyDataType::None, "Undocumented", { "App Item Operations" });
 			parser.addArg<mvPyDataType::UUID>("item");
-			parser.addArg<mvPyDataType::Float>("x");
-			parser.addArg<mvPyDataType::Float>("y");
-			parser.finalize();
-			parsers->insert({ "set_item_pos", parser });
-		}
-
-		{
-			mvPythonParser parser(mvPyDataType::None, "Undocumented", { "App Item Operations" });
-			parser.addArg<mvPyDataType::UUID>("item");
 			parser.finalize();
 			parsers->insert({ "reset_pos", parser });
 		}
@@ -1307,28 +1298,6 @@ namespace Marvel{
 				"Item not found: " + std::to_string(item), nullptr);
 
 		staging.erase(source);
-
-		return GetPyNone();
-	}
-
-	PyObject* mvAppItem::set_item_pos(PyObject* self, PyObject* args, PyObject* kwargs)
-	{
-		mvUUID item;
-		float x, y;
-
-		if (!(mvApp::GetApp()->getParsers())["set_item_pos"].parse(args, kwargs, __FUNCTION__, 
-			&item, &x, &y))
-			return GetPyNone();
-
-
-		if (!mvApp::s_manualMutexControl) std::lock_guard<std::mutex> lk(mvApp::s_mutex);
-		auto appitem = mvApp::GetApp()->getItemRegistry().getItem(item);
-
-		if (appitem)
-			appitem->setPos({ x, y });
-		else
-			mvThrowPythonError(mvErrorCode::mvItemNotFound, "set_item_pos",
-				"Item not found: " + std::to_string(item), nullptr);
 
 		return GetPyNone();
 	}
