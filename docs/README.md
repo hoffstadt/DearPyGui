@@ -65,10 +65,10 @@ Ensure you have at least Python 3.6 64bit.
 - Internal Documentation: Run the `show_documentation` command from within the library to view a reference guide. 
 - Complete Demo: You can also view a mostly complete showcase of _Dear PyGui_ by running:
 ```python
-from dearpygui.core import start_dearpygui
+import dearpygui.dearpygui as dpg
 from dearpygui.demo import show_demo
 show_demo()
-start_dearpygui()
+dpg.start_dearpygui()
 ```
 
 
