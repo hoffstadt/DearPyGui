@@ -7,7 +7,7 @@ namespace Marvel {
 	void mvMenuItem::InsertParser(std::map<std::string, mvPythonParser>* parsers)
 	{
 
-		mvPythonParser parser(mvPyDataType::UUID, "Adds a menu item to an existing menu.", { "Widgets" });
+		mvPythonParser parser(mvPyDataType::UUID, "Adds a menu item to an existing menu. Menu items act similar to selectables.", { "Widgets" });
 		mvAppItem::AddCommonArgs(parser, (CommonParserArgs)(
 			MV_PARSER_ARG_ID |
 			MV_PARSER_ARG_INDENT |
@@ -26,9 +26,9 @@ namespace Marvel {
 
 		parser.addArg<mvPyDataType::Bool>("default_value", mvArgType::KEYWORD_ARG, "False");
 
-		parser.addArg<mvPyDataType::String>("shortcut", mvArgType::KEYWORD_ARG, "''", "Adds a shortcut.");
+		parser.addArg<mvPyDataType::String>("shortcut", mvArgType::KEYWORD_ARG, "''", "Displays text on the menu item. Typically used to show a shortcut key command.");
 
-		parser.addArg<mvPyDataType::Bool>("check", mvArgType::KEYWORD_ARG, "False", "Makes menu item with checkmark.");
+		parser.addArg<mvPyDataType::Bool>("check", mvArgType::KEYWORD_ARG, "False", "Displays a checkmark on the menu item when it is selected.");
 
 		parser.finalize();
 

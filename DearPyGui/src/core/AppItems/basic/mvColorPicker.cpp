@@ -7,7 +7,7 @@ namespace Marvel {
 
 	void mvColorPicker::InsertParser(std::map<std::string, mvPythonParser>* parsers)
 	{
-		mvPythonParser parser(mvPyDataType::UUID, "Adds an RGB color picker. Click and drag the color square to copy the color and drop on any other color widget to apply. Right Click allows the style of the color picker to be changed.", { "Widgets" });
+		mvPythonParser parser(mvPyDataType::UUID, "Adds an RGB color picker. Right click the color picker for options. Click and drag the color preview to copy the color and drop on any other color widget to apply. Right Click allows the style of the color picker to be changed.", { "Widgets" });
 		mvAppItem::AddCommonArgs(parser, (CommonParserArgs)(
 			MV_PARSER_ARG_ID |
 			MV_PARSER_ARG_WIDTH |

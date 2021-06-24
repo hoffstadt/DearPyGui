@@ -6,7 +6,7 @@ namespace Marvel {
 
 	void mvText::InsertParser(std::map<std::string, mvPythonParser>* parsers)
 	{
-		mvPythonParser parser(mvPyDataType::UUID, "Adds text.", { "Widgets" });
+		mvPythonParser parser(mvPyDataType::UUID, "Adds text. Text can have an optional label that will display to the right of the text.", { "Widgets" });
 		mvAppItem::AddCommonArgs(parser, (CommonParserArgs)(
 			MV_PARSER_ARG_ID |
 			MV_PARSER_ARG_INDENT |
@@ -21,7 +21,7 @@ namespace Marvel {
 
 		parser.addArg<mvPyDataType::String>("default_value", mvArgType::POSITIONAL_ARG, "''");
 
-		parser.addArg<mvPyDataType::Integer>("wrap", mvArgType::KEYWORD_ARG, "-1", "Number of pixels until wrapping.");
+		parser.addArg<mvPyDataType::Integer>("wrap", mvArgType::KEYWORD_ARG, "-1", "Number of pixels until wrapping starts.");
 
 		parser.addArg<mvPyDataType::Bool>("bullet", mvArgType::KEYWORD_ARG, "False", "Makes the text bulleted.");
 
