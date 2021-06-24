@@ -68,6 +68,9 @@ namespace Marvel {
         mvToggledOpenHandler, mvClickedHandler, mvDragPayload, mvResizeHandler,
         mvFont, mvFontRegistry, mvTheme, mvThemeColor, mvThemeStyle,
         mvFontRangeHint, mvFontRange, mvFontChars, mvCharRemap,
+        mvValueRegistry, mvIntValue, mvFloatValue, mvFloat4Value,
+        mvInt4Value, mvBoolValue, mvStringValue, mvDoubleValue, mvDouble4Value,
+        mvColorValue, mvFloatVectValue, mvSeriesValue,
         ItemTypeCount
     };
 

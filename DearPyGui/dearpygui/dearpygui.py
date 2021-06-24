@@ -1820,6 +1820,22 @@ def tree_node(*, label: str =None, id: int =0, indent: int =-1, parent: int =0, 
 	finally:
 		internal_dpg.pop_container_stack()
 @contextmanager
+def value_registry(*, label: str =None, id: int =0) -> int:
+	"""
+	Undocumented function
+	Args:
+		**label (str): Overrides 'name' as label.
+		**id (int): Unique id used to programmatically refer to the item.If label is unused this will be the label.
+	Yields:
+		int
+	"""
+	try:
+		widget = internal_dpg.add_value_registry(label=label, id=id)
+		internal_dpg.push_container_stack(widget)
+		yield widget
+	finally:
+		internal_dpg.pop_container_stack()
+@contextmanager
 def viewport_drawlist(*, label: str =None, id: int =0, show: bool =True, filter_key: str ='', delay_search: str =False, front: bool =True) -> int:
 	"""
 	Draws a quad on a drawing.
@@ -2017,6 +2033,21 @@ def add_bar_series(x : List[float], y : List[float], *, label: str =None, id: in
 	"""
 
 	return internal_dpg.add_bar_series(x, y, label=label, id=id, parent=parent, before=before, source=source, show=show, weight=weight, horizontal=horizontal, contribute_to_bounds=contribute_to_bounds)
+
+def add_bool_value(*, label: str =None, id: int =0, parent: int =0, source: int =0, default_value: bool =False) -> int:
+	"""
+	Undocumented
+	Args:
+		**label (str): Overrides 'name' as label.
+		**id (int): Unique id used to programmatically refer to the item.If label is unused this will be the label.
+		**parent (int): Parent to add this item to. (runtime adding)
+		**source (int): Overrides 'id' as value storage key.
+		**default_value (bool): 
+	Returns:
+		int
+	"""
+
+	return internal_dpg.add_bool_value(label=label, id=id, parent=parent, source=source, default_value=default_value)
 
 def add_button(*, label: str =None, id: int =0, width: int =0, height: int =0, indent: int =-1, parent: int =0, before: int =0, payload_type: str ='$$DPG_PAYLOAD', callback: Callable =None, drag_callback: Callable =None, drop_callback: Callable =None, user_data: Any =None, show: bool =True, enabled: bool =True, pos: List[int] =[], filter_key: str ='', tracked: bool =False, track_offset: float =0.5, small: bool =False, arrow: bool =False, direction: int =0) -> int:
 	"""
@@ -2333,6 +2364,21 @@ def add_color_picker(default_value : List[int] =(0, 0, 0, 255), *, label: str =N
 
 	return internal_dpg.add_color_picker(default_value, label=label, id=id, width=width, height=height, indent=indent, parent=parent, before=before, source=source, payload_type=payload_type, callback=callback, drag_callback=drag_callback, drop_callback=drop_callback, user_data=user_data, show=show, enabled=enabled, pos=pos, filter_key=filter_key, tracked=tracked, track_offset=track_offset, no_alpha=no_alpha, no_side_preview=no_side_preview, no_small_preview=no_small_preview, no_inputs=no_inputs, no_tooltip=no_tooltip, no_label=no_label, alpha_bar=alpha_bar, display_rgb=display_rgb, display_hsv=display_hsv, display_hex=display_hex, picker_mode=picker_mode, alpha_preview=alpha_preview, display_type=display_type, input_mode=input_mode)
 
+def add_color_value(*, label: str =None, id: int =0, parent: int =0, source: int =0, default_value: List[float] =(0.0, 0.0, 0.0, 0.0)) -> int:
+	"""
+	Undocumented
+	Args:
+		**label (str): Overrides 'name' as label.
+		**id (int): Unique id used to programmatically refer to the item.If label is unused this will be the label.
+		**parent (int): Parent to add this item to. (runtime adding)
+		**source (int): Overrides 'id' as value storage key.
+		**default_value (List[float]): 
+	Returns:
+		int
+	"""
+
+	return internal_dpg.add_color_value(label=label, id=id, parent=parent, source=source, default_value=default_value)
+
 def add_colormap_scale(*, label: str =None, id: int =0, width: int =0, height: int =0, indent: int =-1, parent: int =0, before: int =0, source: int =0, show: bool =True, pos: List[int] =[], default_value: int =0, min_scale: float =0.0, max_scale: float =1.0) -> int:
 	"""
 	Undocumented
@@ -2446,6 +2492,36 @@ def add_deactivated_handler(parent : int, *, label: str =None, id: int =0, callb
 	"""
 
 	return internal_dpg.add_deactivated_handler(parent, label=label, id=id, callback=callback, user_data=user_data)
+
+def add_double4_value(*, label: str =None, id: int =0, parent: int =0, source: int =0, default_value: Any =(0.0, 0.0, 0.0, 0.0)) -> int:
+	"""
+	Undocumented
+	Args:
+		**label (str): Overrides 'name' as label.
+		**id (int): Unique id used to programmatically refer to the item.If label is unused this will be the label.
+		**parent (int): Parent to add this item to. (runtime adding)
+		**source (int): Overrides 'id' as value storage key.
+		**default_value (Any): 
+	Returns:
+		int
+	"""
+
+	return internal_dpg.add_double4_value(label=label, id=id, parent=parent, source=source, default_value=default_value)
+
+def add_double_value(*, label: str =None, id: int =0, parent: int =0, source: int =0, default_value: float =0.0) -> int:
+	"""
+	Undocumented
+	Args:
+		**label (str): Overrides 'name' as label.
+		**id (int): Unique id used to programmatically refer to the item.If label is unused this will be the label.
+		**parent (int): Parent to add this item to. (runtime adding)
+		**source (int): Overrides 'id' as value storage key.
+		**default_value (float): 
+	Returns:
+		int
+	"""
+
+	return internal_dpg.add_double_value(label=label, id=id, parent=parent, source=source, default_value=default_value)
 
 def add_drag_float(*, label: str =None, id: int =0, width: int =0, indent: int =-1, parent: int =0, before: int =0, source: int =0, payload_type: str ='$$DPG_PAYLOAD', callback: Callable =None, drag_callback: Callable =None, drop_callback: Callable =None, user_data: Any =None, show: bool =True, enabled: bool =True, pos: List[int] =[], filter_key: str ='', tracked: bool =False, track_offset: float =0.5, default_value: float =0.0, format: str ='%0.3f', speed: float =1.0, min_value: float =0.0, max_value: float =100.0, no_input: bool =False, clamped: bool =False) -> int:
 	"""
@@ -2820,6 +2896,51 @@ def add_filter_set(*, label: str =None, id: int =0, width: int =0, indent: int =
 	"""
 
 	return internal_dpg.add_filter_set(label=label, id=id, width=width, indent=indent, parent=parent, before=before, show=show, delay_search=delay_search)
+
+def add_float4_value(*, label: str =None, id: int =0, parent: int =0, source: int =0, default_value: List[float] =(0.0, 0.0, 0.0, 0.0)) -> int:
+	"""
+	Undocumented
+	Args:
+		**label (str): Overrides 'name' as label.
+		**id (int): Unique id used to programmatically refer to the item.If label is unused this will be the label.
+		**parent (int): Parent to add this item to. (runtime adding)
+		**source (int): Overrides 'id' as value storage key.
+		**default_value (List[float]): 
+	Returns:
+		int
+	"""
+
+	return internal_dpg.add_float4_value(label=label, id=id, parent=parent, source=source, default_value=default_value)
+
+def add_float_value(*, label: str =None, id: int =0, parent: int =0, source: int =0, default_value: float =0.0) -> int:
+	"""
+	Undocumented
+	Args:
+		**label (str): Overrides 'name' as label.
+		**id (int): Unique id used to programmatically refer to the item.If label is unused this will be the label.
+		**parent (int): Parent to add this item to. (runtime adding)
+		**source (int): Overrides 'id' as value storage key.
+		**default_value (float): 
+	Returns:
+		int
+	"""
+
+	return internal_dpg.add_float_value(label=label, id=id, parent=parent, source=source, default_value=default_value)
+
+def add_float_vect_value(*, label: str =None, id: int =0, parent: int =0, source: int =0, default_value: List[float] =()) -> int:
+	"""
+	Undocumented
+	Args:
+		**label (str): Overrides 'name' as label.
+		**id (int): Unique id used to programmatically refer to the item.If label is unused this will be the label.
+		**parent (int): Parent to add this item to. (runtime adding)
+		**source (int): Overrides 'id' as value storage key.
+		**default_value (List[float]): 
+	Returns:
+		int
+	"""
+
+	return internal_dpg.add_float_vect_value(label=label, id=id, parent=parent, source=source, default_value=default_value)
 
 def add_focus_handler(parent : int, *, label: str =None, id: int =0, callback: Callable =None, user_data: Any =None) -> int:
 	"""
@@ -3308,6 +3429,36 @@ def add_input_text(*, label: str =None, id: int =0, width: int =0, height: int =
 	"""
 
 	return internal_dpg.add_input_text(label=label, id=id, width=width, height=height, indent=indent, parent=parent, before=before, source=source, payload_type=payload_type, callback=callback, drag_callback=drag_callback, drop_callback=drop_callback, user_data=user_data, show=show, enabled=enabled, pos=pos, filter_key=filter_key, tracked=tracked, track_offset=track_offset, default_value=default_value, hint=hint, multiline=multiline, no_spaces=no_spaces, uppercase=uppercase, tab_input=tab_input, decimal=decimal, hexadecimal=hexadecimal, readonly=readonly, password=password, scientific=scientific, on_enter=on_enter)
+
+def add_int4_value(*, label: str =None, id: int =0, parent: int =0, source: int =0, default_value: List[int] =(0, 0, 0, 0)) -> int:
+	"""
+	Undocumented
+	Args:
+		**label (str): Overrides 'name' as label.
+		**id (int): Unique id used to programmatically refer to the item.If label is unused this will be the label.
+		**parent (int): Parent to add this item to. (runtime adding)
+		**source (int): Overrides 'id' as value storage key.
+		**default_value (List[int]): 
+	Returns:
+		int
+	"""
+
+	return internal_dpg.add_int4_value(label=label, id=id, parent=parent, source=source, default_value=default_value)
+
+def add_int_value(*, label: str =None, id: int =0, parent: int =0, source: int =0, default_value: int =0) -> int:
+	"""
+	Undocumented
+	Args:
+		**label (str): Overrides 'name' as label.
+		**id (int): Unique id used to programmatically refer to the item.If label is unused this will be the label.
+		**parent (int): Parent to add this item to. (runtime adding)
+		**source (int): Overrides 'id' as value storage key.
+		**default_value (int): 
+	Returns:
+		int
+	"""
+
+	return internal_dpg.add_int_value(label=label, id=id, parent=parent, source=source, default_value=default_value)
 
 def add_key_down_handler(key : int =-1, *, label: str =None, id: int =0, parent: int =0, callback: Callable =None, user_data: Any =None, show: bool =True) -> int:
 	"""
@@ -4027,6 +4178,21 @@ def add_separator(*, label: str =None, id: int =0, indent: int =-1, parent: int 
 
 	return internal_dpg.add_separator(label=label, id=id, indent=indent, parent=parent, before=before, show=show, pos=pos)
 
+def add_series_value(*, label: str =None, id: int =0, parent: int =0, source: int =0, default_value: Any =()) -> int:
+	"""
+	Undocumented
+	Args:
+		**label (str): Overrides 'name' as label.
+		**id (int): Unique id used to programmatically refer to the item.If label is unused this will be the label.
+		**parent (int): Parent to add this item to. (runtime adding)
+		**source (int): Overrides 'id' as value storage key.
+		**default_value (Any): 
+	Returns:
+		int
+	"""
+
+	return internal_dpg.add_series_value(label=label, id=id, parent=parent, source=source, default_value=default_value)
+
 def add_shade_series(x : List[float], y1 : List[float], *, label: str =None, id: int =0, parent: int =0, before: int =0, source: int =0, show: bool =True, y2: Any =[], contribute_to_bounds: bool =True) -> int:
 	"""
 	Adds a shade series to a plot.
@@ -4305,6 +4471,21 @@ def add_stem_series(x : List[float], y : List[float], *, label: str =None, id: i
 	"""
 
 	return internal_dpg.add_stem_series(x, y, label=label, id=id, indent=indent, parent=parent, before=before, source=source, show=show, contribute_to_bounds=contribute_to_bounds)
+
+def add_string_value(*, label: str =None, id: int =0, parent: int =0, source: int =0, default_value: str ='') -> int:
+	"""
+	Undocumented
+	Args:
+		**label (str): Overrides 'name' as label.
+		**id (int): Unique id used to programmatically refer to the item.If label is unused this will be the label.
+		**parent (int): Parent to add this item to. (runtime adding)
+		**source (int): Overrides 'id' as value storage key.
+		**default_value (str): 
+	Returns:
+		int
+	"""
+
+	return internal_dpg.add_string_value(label=label, id=id, parent=parent, source=source, default_value=default_value)
 
 def add_tab(*, label: str =None, id: int =0, indent: int =-1, parent: int =0, before: int =0, payload_type: str ='$$DPG_PAYLOAD', drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, filter_key: str ='', delay_search: str =False, tracked: bool =False, track_offset: float =0.5, closable: bool =False, no_tooltip: bool =False, order_mode: bool =0) -> int:
 	"""
@@ -4694,6 +4875,18 @@ def add_tree_node(*, label: str =None, id: int =0, indent: int =-1, parent: int 
 	"""
 
 	return internal_dpg.add_tree_node(label=label, id=id, indent=indent, parent=parent, before=before, payload_type=payload_type, drag_callback=drag_callback, drop_callback=drop_callback, show=show, pos=pos, filter_key=filter_key, delay_search=delay_search, tracked=tracked, track_offset=track_offset, default_open=default_open, open_on_double_click=open_on_double_click, open_on_arrow=open_on_arrow, leaf=leaf, bullet=bullet, selectable=selectable)
+
+def add_value_registry(*, label: str =None, id: int =0) -> int:
+	"""
+	Undocumented function
+	Args:
+		**label (str): Overrides 'name' as label.
+		**id (int): Unique id used to programmatically refer to the item.If label is unused this will be the label.
+	Returns:
+		int
+	"""
+
+	return internal_dpg.add_value_registry(label=label, id=id)
 
 def add_viewport_drawlist(*, label: str =None, id: int =0, show: bool =True, filter_key: str ='', delay_search: str =False, front: bool =True) -> int:
 	"""
@@ -6593,3 +6786,15 @@ mvFontRangeHint_Vietnamese=internal_dpg.mvFontRangeHint_Vietnamese
 mvFontRange=internal_dpg.mvFontRange
 mvFontChars=internal_dpg.mvFontChars
 mvCharRemap=internal_dpg.mvCharRemap
+mvValueRegistry=internal_dpg.mvValueRegistry
+mvIntValue=internal_dpg.mvIntValue
+mvFloatValue=internal_dpg.mvFloatValue
+mvFloat4Value=internal_dpg.mvFloat4Value
+mvInt4Value=internal_dpg.mvInt4Value
+mvBoolValue=internal_dpg.mvBoolValue
+mvStringValue=internal_dpg.mvStringValue
+mvDoubleValue=internal_dpg.mvDoubleValue
+mvDouble4Value=internal_dpg.mvDouble4Value
+mvColorValue=internal_dpg.mvColorValue
+mvFloatVectValue=internal_dpg.mvFloatVectValue
+mvSeriesValue=internal_dpg.mvSeriesValue
