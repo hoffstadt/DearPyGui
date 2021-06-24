@@ -8,7 +8,7 @@ namespace Marvel {
 	void mvListbox::InsertParser(std::map<std::string, mvPythonParser>* parsers)
 	{
 
-		mvPythonParser parser(mvPyDataType::UUID, "Adds a listbox.", { "Widgets" });
+		mvPythonParser parser(mvPyDataType::UUID, "Adds a listbox. If height is not large enought to show all items a scroll bar will appear.", { "Widgets" });
 		mvAppItem::AddCommonArgs(parser, (CommonParserArgs)(
 			MV_PARSER_ARG_ID |
 			MV_PARSER_ARG_WIDTH |
@@ -28,7 +28,7 @@ namespace Marvel {
 			MV_PARSER_ARG_POS)
 		);
 
-		parser.addArg<mvPyDataType::StringList>("items", mvArgType::POSITIONAL_ARG, "()");
+		parser.addArg<mvPyDataType::StringList>("items", mvArgType::POSITIONAL_ARG, "()", "A tuple of items to be shown in the listbox. Can consist of any combination of types.");
 
 		parser.addArg<mvPyDataType::String>("default_value", mvArgType::KEYWORD_ARG, "''");
 		parser.addArg<mvPyDataType::Integer>("num_items", mvArgType::KEYWORD_ARG, "3", "Expands the height of the listbox to show specified number of items.");

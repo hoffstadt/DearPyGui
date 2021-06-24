@@ -30,18 +30,18 @@ namespace Marvel {
 		);
 
 		parser.addArg<mvPyDataType::String>("default_value", mvArgType::KEYWORD_ARG, "''");
-		parser.addArg<mvPyDataType::String>("hint", mvArgType::KEYWORD_ARG, "''");
+		parser.addArg<mvPyDataType::String>("hint", mvArgType::KEYWORD_ARG, "''", "Displayed only when value is empty string. Will reappear if input value is set to empty string. Will not show if default value is anything other than default empty string.");
 
-		parser.addArg<mvPyDataType::Bool>("multiline", mvArgType::KEYWORD_ARG, "False");
+		parser.addArg<mvPyDataType::Bool>("multiline", mvArgType::KEYWORD_ARG, "False", "Allows for multiline text input.");
 		parser.addArg<mvPyDataType::Bool>("no_spaces", mvArgType::KEYWORD_ARG, "False", "Filter out spaces and tabs.");
-		parser.addArg<mvPyDataType::Bool>("uppercase", mvArgType::KEYWORD_ARG, "False");
+		parser.addArg<mvPyDataType::Bool>("uppercase", mvArgType::KEYWORD_ARG, "False", "Automatically make all inputs uppercase.");
 		parser.addArg<mvPyDataType::Bool>("tab_input", mvArgType::KEYWORD_ARG, "False", "Allows tabs to be input instead of changing widget focus.");
-		parser.addArg<mvPyDataType::Bool>("decimal", mvArgType::KEYWORD_ARG, "False", "Allow 0123456789.+-*/");
-		parser.addArg<mvPyDataType::Bool>("hexadecimal", mvArgType::KEYWORD_ARG, "False", "Allow 0123456789ABCDEFabcdef");
-		parser.addArg<mvPyDataType::Bool>("readonly", mvArgType::KEYWORD_ARG, "False");
+		parser.addArg<mvPyDataType::Bool>("decimal", mvArgType::KEYWORD_ARG, "False", "Only allow 0123456789.+-*/");
+		parser.addArg<mvPyDataType::Bool>("hexadecimal", mvArgType::KEYWORD_ARG, "False", "Only allow 0123456789ABCDEFabcdef");
+		parser.addArg<mvPyDataType::Bool>("readonly", mvArgType::KEYWORD_ARG, "False", "Activates read only mode.");
 		parser.addArg<mvPyDataType::Bool>("password", mvArgType::KEYWORD_ARG, "False", "Password mode, display all characters as '*'.");
-		parser.addArg<mvPyDataType::Bool>("scientific", mvArgType::KEYWORD_ARG, "False", "Allow 0123456789.+-*/eE (Scientific notation input)");
-		parser.addArg<mvPyDataType::Bool>("on_enter", mvArgType::KEYWORD_ARG, "False", "Only runs callback on enter.");
+		parser.addArg<mvPyDataType::Bool>("scientific", mvArgType::KEYWORD_ARG, "False", "Only allow 0123456789.+-*/eE (Scientific notation input)");
+		parser.addArg<mvPyDataType::Bool>("on_enter", mvArgType::KEYWORD_ARG, "False", "Only runs callback on enter key press.");
 
 		parser.finalize();
 
