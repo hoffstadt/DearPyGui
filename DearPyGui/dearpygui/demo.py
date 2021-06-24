@@ -1102,7 +1102,7 @@ def show_demo():
 
             with dpg.tree_node(label="Image Series (plots)"):
 
-                plot_id=dpg.add_plot(label="Image Plot", height=400)
+                plot_id=dpg.add_plot(label="Image Plot", height=400, width=-1)
                 dpg.add_plot_legend(parent=plot_id)
                 dpg.add_plot_axis(dpg.mvXAxis, label="x axis", parent=plot_id)
                 yaxis_id = dpg.add_plot_axis(dpg.mvYAxis, label="y axis", parent=plot_id)
@@ -1742,7 +1742,7 @@ def show_demo():
                 dpg.add_text("Anti-aliasing can be enabled from the plot's context menu (see Help).", bullet=True)
                 
                 # create plot
-                with dpg.plot(label="Line Series", height=400):
+                with dpg.plot(label="Line Series", height=400, width=-1):
 
                     # optionally create legend
                     dpg.add_plot_legend()
@@ -1756,7 +1756,7 @@ def show_demo():
 
             with dpg.tree_node(label="Stair Series"):
 
-                with dpg.plot(label="Stair Plot", height=400):
+                with dpg.plot(label="Stair Plot", height=400, width=-1):
                     dpg.add_plot_legend()
                     dpg.add_plot_axis(dpg.mvXAxis, label="x")
                     dpg.add_plot_axis(dpg.mvYAxis, label="y")
@@ -1780,7 +1780,7 @@ def show_demo():
                     stock_data4.append(500 + 75*abs(random.random()))
                     stock_data5.append(600 + 75*abs(random.random()))
 
-                with dpg.plot(label="Stock Prices", height=400):
+                with dpg.plot(label="Stock Prices", height=400, width=-1):
                     dpg.add_plot_legend()
                     dpg.add_plot_axis(dpg.mvXAxis, label="Days")
                     dpg.add_plot_axis(dpg.mvYAxis, label="Price")
@@ -1794,7 +1794,7 @@ def show_demo():
 
             with dpg.tree_node(label="Scatter Series"):
 
-                with dpg.plot(label="Scatter Series", height=400):
+                with dpg.plot(label="Scatter Series", height=400, width=-1):
                     dpg.add_plot_legend()
                     dpg.add_plot_axis(dpg.mvXAxis, label="x")
                     dpg.add_plot_axis(dpg.mvYAxis, label="y")
@@ -1802,7 +1802,7 @@ def show_demo():
 
             with dpg.tree_node(label="Stem Series"):
 
-                with dpg.plot(label="Stem Series", height=400):
+                with dpg.plot(label="Stem Series", height=400, width=-1):
                     dpg.add_plot_legend()
                     dpg.add_plot_axis(dpg.mvXAxis, label="x")
                     dpg.add_plot_axis(dpg.mvYAxis, label="y")
@@ -1810,7 +1810,7 @@ def show_demo():
 
             with dpg.tree_node(label="Bar Series"):
 
-                with dpg.plot(label="Bar Series", height=400):
+                with dpg.plot(label="Bar Series", height=400, width=-1):
                     dpg.add_plot_legend()
 
                     # create x axis
@@ -1829,7 +1829,7 @@ def show_demo():
 
             with dpg.tree_node(label="Area Series"):
 
-                with dpg.plot(label="Area Series", height=400):
+                with dpg.plot(label="Area Series", height=400, width=-1):
                     dpg.add_plot_axis(dpg.mvXAxis, label="x")
                     dpg.add_plot_axis(dpg.mvYAxis, label="y")
                     dpg.add_area_series([1,5,3],[0,0,3], fill=[255,50,100,190], parent=dpg.last_item())
@@ -1839,7 +1839,7 @@ def show_demo():
                 infinite_x_data = (3, 5, 6, 7)
                 infinite_y_data = (3, 5, 6, 7)
 
-                with dpg.plot(label="Infinite Lines", height=400):
+                with dpg.plot(label="Infinite Lines", height=400, width=-1):
                     dpg.add_plot_legend()
                     dpg.add_plot_axis(dpg.mvXAxis, label="x")
                     axis_id = dpg.add_plot_axis(dpg.mvYAxis, label="y")
@@ -1848,7 +1848,7 @@ def show_demo():
 
             with dpg.tree_node(label="Image Series"):
 
-                with dpg.plot(label="Image Plot", height=400):
+                with dpg.plot(label="Image Plot", height=400, width=-1):
                     dpg.add_plot_legend()
                     dpg.add_plot_axis(dpg.mvXAxis, label="x")
                     yaxis_id = dpg.add_plot_axis(dpg.mvYAxis, label="y axis")
@@ -1858,7 +1858,7 @@ def show_demo():
 
             with dpg.tree_node(label="Multi Axes Plot"):
 
-                with dpg.plot(label="Multi Axes Plot", height=400):
+                with dpg.plot(label="Multi Axes Plot", height=400, width=-1):
 
                     dpg.add_plot_legend()
 
@@ -1879,7 +1879,7 @@ def show_demo():
 
             with dpg.tree_node(label="Annotations"):
 
-                with dpg.plot(label="Annotations", height=400):
+                with dpg.plot(label="Annotations", height=400, width=-1):
 
                     dpg.add_plot_legend()
                     dpg.add_plot_axis(dpg.mvXAxis, label="x")
@@ -1895,7 +1895,7 @@ def show_demo():
 
             with dpg.tree_node(label="Drag Lines/Points"):
 
-                with dpg.plot(label="Drag Lines/Points", height=400):
+                with dpg.plot(label="Drag Lines/Points", height=400, width=-1):
                     dpg.add_plot_legend()
                     dpg.add_plot_axis(dpg.mvXAxis, label="x")
                     dpg.add_plot_axis(dpg.mvYAxis, label="y")
@@ -1914,13 +1914,13 @@ def show_demo():
                     dpg.set_axis_limits(user_data[1], app_data[2], app_data[3])
 
                 # plot 1
-                with dpg.plot(no_title=True, height=400, callback=query, query=True, no_menus=True) as plot_id:
+                with dpg.plot(no_title=True, height=400, callback=query, query=True, no_menus=True, width=-1) as plot_id:
                     dpg.add_plot_axis(dpg.mvXAxis, label="x")
                     dpg.add_plot_axis(dpg.mvYAxis, label="y")
                     dpg.add_line_series(sindatax, sindatay, parent=dpg.last_item())
 
                 # plot 2
-                with dpg.plot(no_title=True, height=400, no_menus=True):          
+                with dpg.plot(no_title=True, height=400, no_menus=True, width=-1):          
                     xaxis_id2 = dpg.add_plot_axis(dpg.mvXAxis, label="x")
                     yaxis_id2 = dpg.add_plot_axis(dpg.mvYAxis, label="y")
                     dpg.add_line_series(sindatax, sindatay, parent=yaxis_id2)
@@ -1942,7 +1942,7 @@ def show_demo():
                 dpg.add_text("When time is enabled, x-axis values are interpreted as UNIX timestamps in seconds (e.g. 1599243545).", bullet=True)
                 dpg.add_text("UNIX timestamps are seconds since 00:00:00 UTC on 1 January 1970", bullet=True)
                 
-                with dpg.plot(label="Time Plot", height=400):
+                with dpg.plot(label="Time Plot", height=400, width=-1):
                     dpg.add_plot_axis(dpg.mvXAxis, label="Date", time=True)
                     dpg.add_plot_axis(dpg.mvYAxis, label="Days since 1970")
                     dpg.add_line_series(timedatax, timedatay, label="Days", parent=dpg.last_item())
@@ -1955,7 +1955,7 @@ def show_demo():
                 lows = [1282.85,1315,1318.7,1309.6,1317.6,1312.9,1312.4,1319.1,1319,1321,1318.1,1321.3,1319.9,1312,1280.5,1276.15,1308,1309.9,1308.5,1312.3,1329.3,1333.1,1340.2,1347,1345.9,1338,1340.8,1335,1332,1337.9,1333,1336.8,1333.2,1329.9,1340.4,1323.85,1324.05,1349,1366.3,1351.2,1349.1,1352.4,1350.7,1344.3,1338.9,1316.3,1308.4,1306.9,1309.6,1306.7,1312.3,1315.4,1319,1327.2,1317.2,1320,1323,1328,1323,1327.8,1331.7,1335.3,1336.6,1331.8,1311.4,1310,1309.5,1308,1310.6,1302.8,1306.6,1313.7,1320,1322.8,1311,1312.1,1303.6,1293.9,1293.5,1291,1277.9,1294.1,1286,1289.1,1293.5,1296.9,1298,1299.6,1292.9,1285.1,1288.5,1296.3,1297.2,1298.4,1298.6,1302,1300.3,1312,1310.8,1301.9,1292,1291.1,1286.3,1289.2,1289.9,1297.4,1283.65,1283.25,1292.9,1295.9,1290.8,1304.2,1322.7,1336.1,1341,1343.5,1345.8,1340.3,1335.1,1341.5,1347.6,1352.8,1348.2,1353.7,1356.5,1373.3,1398,1414.7,1427,1416.4,1412.7,1420.1,1396.4,1398.8,1426.6,1412.85,1400.7,1406,1399.8,1404.4,1415.5,1417.2,1421.9,1415,1413.7,1428.1,1434,1435.7,1427.5,1429.4,1423.9,1425.6,1427.5,1434.8,1422.3,1412.1,1442.5,1448.8,1468.2,1484.3,1501.6,1506.2,1498.6,1488.9,1504.5,1518.3,1513.9,1503.3,1503,1506.5,1502.1,1503,1534.8,1535.3,1541.4,1528.6,1525.6,1535.25,1528.15,1528,1542.6,1514.3,1510.7,1505.5,1492.1,1492.9,1496.8,1493.1,1503.4,1500.9,1490.7,1496.3,1505.3,1505.3,1517.9,1507.4,1507.1,1493.3,1470.5,1465,1480.5,1501.7,1501.4,1493.3,1492.1,1505.1,1495.7,1478,1487.1,1480.8,1480.6,1487,1488.3,1484.8,1484,1490.7,1490.4,1503.1]
                 closes = [1283.35,1315.3,1326.1,1317.4,1321.5,1317.4,1323.5,1319.2,1321.3,1323.3,1319.7,1325.1,1323.6,1313.8,1282.05,1279.05,1314.2,1315.2,1310.8,1329.1,1334.5,1340.2,1340.5,1350,1347.1,1344.3,1344.6,1339.7,1339.4,1343.7,1337,1338.9,1340.1,1338.7,1346.8,1324.25,1329.55,1369.6,1372.5,1352.4,1357.6,1354.2,1353.4,1346,1341,1323.8,1311.9,1309.1,1312.2,1310.7,1324.3,1315.7,1322.4,1333.8,1319.4,1327.1,1325.8,1330.9,1325.8,1331.6,1336.5,1346.7,1339.2,1334.7,1313.3,1316.5,1312.4,1313.4,1313.3,1312.2,1313.7,1319.9,1326.3,1331.9,1311.3,1313.4,1309.4,1295.2,1294.7,1294.1,1277.9,1295.8,1291.2,1297.4,1297.7,1306.8,1299.4,1303.6,1302.2,1289.9,1299.2,1301.8,1303.6,1299.5,1303.2,1305.3,1319.5,1313.6,1315.1,1303.5,1293,1294.6,1290.4,1291.4,1302.7,1301,1284.15,1284.95,1294.3,1297.9,1304.1,1322.6,1339.3,1340.1,1344.9,1354,1357.4,1340.7,1342.7,1348.2,1355.1,1355.9,1354.2,1362.1,1360.1,1408.3,1411.2,1429.5,1430.1,1426.8,1423.4,1425.1,1400.8,1419.8,1432.9,1423.55,1412.1,1412.2,1412.8,1424.9,1419.3,1424.8,1426.1,1423.6,1435.9,1440.8,1439.4,1439.7,1434.5,1436.5,1427.5,1432.2,1433.3,1441.8,1437.8,1432.4,1457.5,1476.5,1484.2,1519.6,1509.5,1508.5,1517.2,1514.1,1527.8,1531.2,1523.6,1511.6,1515.7,1515.7,1508.5,1537.6,1537.2,1551.8,1549.1,1536.9,1529.4,1538.05,1535.15,1555.9,1560.4,1525.5,1515.5,1511.1,1499.2,1503.2,1507.4,1499.5,1511.5,1513.4,1515.8,1506.2,1515.1,1531.5,1540.2,1512.3,1515.2,1506.4,1472.9,1489,1507.9,1513.8,1512.9,1504.4,1503.9,1512.8,1500.9,1488.7,1497.6,1483.5,1494,1498.3,1494.1,1488.1,1487.5,1495.7,1504.7,1505.3]
 
-                with dpg.plot(label="Candle Series", height=400):
+                with dpg.plot(label="Candle Series", height=400, width=-1):
                     dpg.add_plot_legend()
                     dpg.add_plot_axis(dpg.mvXAxis, label="Day", time=True)
                     dpg.add_plot_axis(dpg.mvYAxis, label="USD")
@@ -1972,7 +1972,7 @@ def show_demo():
                           0.1, 2.0, 0.0, 1.4, 0.0, 1.9, 6.3)
                 dpg.add_colormap_scale(min_scale=0, max_scale=6, height=400)
                 dpg.add_same_line()
-                with dpg.plot(label="Heat Series", no_mouse_pos=True, height=400):
+                with dpg.plot(label="Heat Series", no_mouse_pos=True, height=400, width=-1):
                     dpg.add_plot_axis(dpg.mvXAxis, label="x", lock_min=True, lock_max=True, no_gridlines=True, no_tick_marks=True)
                     dpg.add_plot_axis(dpg.mvYAxis, label="y", no_gridlines=True, no_tick_marks=True, lock_min=True, lock_max=True)
                     dpg.add_heat_series(values, 7, 7, scale_min=0, scale_max=6, parent=dpg.last_item())
@@ -2029,7 +2029,7 @@ def show_demo():
 
                 dpg.add_text("Anti-aliasing can be enabled from the plot's context menu (see Help).", bullet=True)
                
-                with dpg.plot(label="Error Series", height=400):
+                with dpg.plot(label="Error Series", height=400, width=-1):
                     dpg.add_plot_legend()
                     dpg.add_plot_axis(dpg.mvXAxis, label="x")
                     axis_id = dpg.add_plot_axis(dpg.mvYAxis, label="y")
@@ -2046,7 +2046,7 @@ def show_demo():
                 dpg.add_text("Series are containers. Children will show up in the custom context menu.", bullet=True)
                 
                 # create plot
-                with dpg.plot(label="Line Series", height=400):
+                with dpg.plot(label="Line Series", height=400, width=-1):
 
                     dpg.add_plot_legend()
 
@@ -2095,7 +2095,7 @@ def show_demo():
                     dpg.add_line_series(app_data[0], app_data[1], label=app_data[2], parent=sender)
                     dpg.add_button(label="Delete Series", user_data = dpg.last_item(), parent=dpg.last_item(), callback=lambda s, a, u: dpg.delete_item(u))
 
-                with dpg.plot(label="Drag/Drop Plot", height=400, drop_callback=_plot_drop, payload_type="plotting"):
+                with dpg.plot(label="Drag/Drop Plot", height=400, width=-1, drop_callback=_plot_drop, payload_type="plotting"):
                     dpg.add_plot_legend(drop_callback=_legend_drop, payload_type="plotting")
                     dpg.add_plot_axis(dpg.mvXAxis, label="x")
 

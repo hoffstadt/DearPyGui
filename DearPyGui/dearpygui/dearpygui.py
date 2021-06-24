@@ -1277,7 +1277,7 @@ def drawlist(*, label: str =None, id: int =0, width: int =0, height: int =0, par
 @contextmanager
 def file_dialog(*, label: str =None, id: int =0, width: int =0, height: int =0, callback: Callable =None, user_data: Any =None, show: bool =True, default_path: str ='', default_filename: str ='.', file_count: int =0, modal: bool =False, directory_selector: bool =False) -> int:
 	"""
-	Undocumented Function
+	Displays a file or directory selector depending on keywords. Displays a file dialog by default.
 	Args:
 		**label (str): Overrides 'name' as label.
 		**id (int): Unique id used to programmatically refer to the item.If label is unused this will be the label.
@@ -1286,11 +1286,11 @@ def file_dialog(*, label: str =None, id: int =0, width: int =0, height: int =0, 
 		**callback (Callable): Registers a callback.
 		**user_data (Any): User data for callbacks.
 		**show (bool): Attempt to render widget.
-		**default_path (str): 
+		**default_path (str): Path that the file dialog will default to when opened.
 		**default_filename (str): 
 		**file_count (int): 
-		**modal (bool): 
-		**directory_selector (bool): 
+		**modal (bool): Forces user interaction with the file selector.
+		**directory_selector (bool): Shows only directory/paths as options. Allows selection of directory/paths only.
 	Yields:
 		int
 	"""
@@ -2269,7 +2269,7 @@ def add_color_button(default_value : List[int] =(0, 0, 0, 255), *, label: str =N
 		**tracked (bool): Scroll tracking
 		**track_offset (float): 0.0f:top, 0.5f:center, 1.0f:bottom
 		**no_alpha (bool): Ignore Alpha component.
-		**no_border (bool): Disable border.
+		**no_border (bool): Disable border around the image.
 		**no_drag_drop (bool): Disable display of inline text label.
 	Returns:
 		int
@@ -2279,7 +2279,7 @@ def add_color_button(default_value : List[int] =(0, 0, 0, 255), *, label: str =N
 
 def add_color_edit(default_value : List[int] =(0, 0, 0, 255), *, label: str =None, id: int =0, width: int =0, height: int =0, indent: int =-1, parent: int =0, before: int =0, source: int =0, payload_type: str ='$$DPG_PAYLOAD', callback: Callable =None, drag_callback: Callable =None, drop_callback: Callable =None, user_data: Any =None, show: bool =True, enabled: bool =True, pos: List[int] =[], filter_key: str ='', tracked: bool =False, track_offset: float =0.5, no_alpha: bool =False, no_picker: bool =False, no_options: bool =False, no_small_preview: bool =False, no_inputs: bool =False, no_tooltip: bool =False, no_label: bool =False, no_drag_drop: bool =False, alpha_bar: bool =False, alpha_preview: int =0, display_mode: int =1048576, display_type: int =8388608, input_mode: int =134217728) -> int:
 	"""
-	Adds an RGBA color editor. Click and draging the color square will copy the color to be applied on any other color widget.
+	Adds an RGBA color editor. Click the small color preview will provide a color picker. Click and draging the small color preview will copy the color to be applied on any other color widget.
 	Args:
 		*default_value (List[int]): 
 		**label (str): Overrides 'name' as label.
@@ -2322,7 +2322,7 @@ def add_color_edit(default_value : List[int] =(0, 0, 0, 255), *, label: str =Non
 
 def add_color_picker(default_value : List[int] =(0, 0, 0, 255), *, label: str =None, id: int =0, width: int =0, height: int =0, indent: int =-1, parent: int =0, before: int =0, source: int =0, payload_type: str ='$$DPG_PAYLOAD', callback: Callable =None, drag_callback: Callable =None, drop_callback: Callable =None, user_data: Any =None, show: bool =True, enabled: bool =True, pos: List[int] =[], filter_key: str ='', tracked: bool =False, track_offset: float =0.5, no_alpha: bool =False, no_side_preview: bool =False, no_small_preview: bool =False, no_inputs: bool =False, no_tooltip: bool =False, no_label: bool =False, alpha_bar: bool =False, display_rgb: bool =False, display_hsv: bool =False, display_hex: bool =False, picker_mode: int =33554432, alpha_preview: int =0, display_type: int =8388608, input_mode: int =134217728) -> int:
 	"""
-	Adds an RGB color picker. Click and drag the color square to copy the color and drop on any other color widget to apply. Right Click allows the style of the color picker to be changed.
+	Adds an RGB color picker. Right click the color picker for options. Click and drag the color preview to copy the color and drop on any other color widget to apply. Right Click allows the style of the color picker to be changed.
 	Args:
 		*default_value (List[int]): 
 		**label (str): Overrides 'name' as label.
@@ -2404,9 +2404,9 @@ def add_colormap_scale(*, label: str =None, id: int =0, width: int =0, height: i
 
 def add_combo(items : List[str] =(), *, label: str =None, id: int =0, width: int =0, indent: int =-1, parent: int =0, before: int =0, source: int =0, payload_type: str ='$$DPG_PAYLOAD', callback: Callable =None, drag_callback: Callable =None, drop_callback: Callable =None, user_data: Any =None, show: bool =True, enabled: bool =True, pos: List[int] =[], filter_key: str ='', tracked: bool =False, track_offset: float =0.5, default_value: str ='', popup_align_left: bool =False, no_arrow_button: bool =False, no_preview: bool =False, height_mode: int =1) -> int:
 	"""
-	Adds a combo dropdown.
+	Adds a combo dropdown that allows a user to select a single option from a drop down window.
 	Args:
-		*items (List[str]): 
+		*items (List[str]): A tuple of items to be shown in the drop down window. Can consist of any combination of types.
 		**label (str): Overrides 'name' as label.
 		**id (int): Unique id used to programmatically refer to the item.If label is unused this will be the label.
 		**width (int): Width of the item.
@@ -2426,7 +2426,7 @@ def add_combo(items : List[str] =(), *, label: str =None, id: int =0, width: int
 		**tracked (bool): Scroll tracking
 		**track_offset (float): 0.0f:top, 0.5f:center, 1.0f:bottom
 		**default_value (str): 
-		**popup_align_left (bool): Align the popup toward the left by default.
+		**popup_align_left (bool): Align the popup toward the left.
 		**no_arrow_button (bool): Display the preview box without the square arrow button.
 		**no_preview (bool): Display only the square arrow button.
 		**height_mode (int): mvComboHeight_Small, _Regular, _Large, _Largest
@@ -2548,8 +2548,8 @@ def add_drag_float(*, label: str =None, id: int =0, width: int =0, indent: int =
 		**default_value (float): 
 		**format (str): 
 		**speed (float): 
-		**min_value (float): 
-		**max_value (float): 
+		**min_value (float): Limits the Drag input but CTRL+Click can still be below value.
+		**max_value (float): Limits the Drag input but CTRL+Click can still be above value.
 		**no_input (bool): Disable CTRL+Click or Enter key allowing to input text directly into the widget.
 		**clamped (bool): Clamp value to min/max bounds when input manually with CTRL+Click. By default CTRL+Click allows going out of bounds.
 	Returns:
@@ -2584,8 +2584,8 @@ def add_drag_floatx(*, label: str =None, id: int =0, width: int =0, indent: int 
 		**size (int): Number of components
 		**format (str): 
 		**speed (float): 
-		**min_value (float): 
-		**max_value (float): 
+		**min_value (float): Limits the Drag input but CTRL+Click can still be below value.
+		**max_value (float): Limits the Drag input but CTRL+Click can still be above value.
 		**no_input (bool): Disable CTRL+Click or Enter key allowing to input text directly into the widget.
 		**clamped (bool): Clamp value to min/max bounds when input manually with CTRL+Click. By default CTRL+Click allows going out of bounds.
 	Returns:
@@ -2619,8 +2619,8 @@ def add_drag_int(*, label: str =None, id: int =0, width: int =0, indent: int =-1
 		**default_value (int): 
 		**format (str): 
 		**speed (float): 
-		**min_value (int): 
-		**max_value (int): 
+		**min_value (int): Limits the Drag input but CTRL+Click can still be below value.
+		**max_value (int): Limits the Drag input but CTRL+Click can still be above value.
 		**no_input (bool): Disable CTRL+Click or Enter key allowing to input text directly into the widget.
 		**clamped (bool): Clamp value to min/max bounds when input manually with CTRL+Click. By default CTRL+Click allows going out of bounds.
 	Returns:
@@ -2655,8 +2655,8 @@ def add_drag_intx(*, label: str =None, id: int =0, width: int =0, indent: int =-
 		**size (int): Number of components.
 		**format (str): 
 		**speed (float): 
-		**min_value (int): 
-		**max_value (int): 
+		**min_value (int): Limits the Drag input but CTRL+Click can still be below value.
+		**max_value (int): Limits the Drag input but CTRL+Click can still be above value.
 		**no_input (bool): Disable CTRL+Click or Enter key allowing to input text directly into the widget.
 		**clamped (bool): Clamp value to min/max bounds when input manually with CTRL+Click. By default CTRL+Click allows going out of bounds.
 	Returns:
@@ -2840,7 +2840,7 @@ def add_error_series(x : List[float], y : List[float], negative : List[float], p
 
 def add_file_dialog(*, label: str =None, id: int =0, width: int =0, height: int =0, callback: Callable =None, user_data: Any =None, show: bool =True, default_path: str ='', default_filename: str ='.', file_count: int =0, modal: bool =False, directory_selector: bool =False) -> int:
 	"""
-	Undocumented Function
+	Displays a file or directory selector depending on keywords. Displays a file dialog by default.
 	Args:
 		**label (str): Overrides 'name' as label.
 		**id (int): Unique id used to programmatically refer to the item.If label is unused this will be the label.
@@ -2849,11 +2849,11 @@ def add_file_dialog(*, label: str =None, id: int =0, width: int =0, height: int 
 		**callback (Callable): Registers a callback.
 		**user_data (Any): User data for callbacks.
 		**show (bool): Attempt to render widget.
-		**default_path (str): 
+		**default_path (str): Path that the file dialog will default to when opened.
 		**default_filename (str): 
 		**file_count (int): 
-		**modal (bool): 
-		**directory_selector (bool): 
+		**modal (bool): Forces user interaction with the file selector.
+		**directory_selector (bool): Shows only directory/paths as options. Allows selection of directory/paths only.
 	Returns:
 		int
 	"""
@@ -3154,7 +3154,7 @@ def add_hover_handler(parent : int, *, label: str =None, id: int =0, callback: C
 
 def add_image(texture_id : int, *, label: str =None, id: int =0, width: int =0, height: int =0, indent: int =-1, parent: int =0, before: int =0, source: int =0, payload_type: str ='$$DPG_PAYLOAD', drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, pos: List[int] =[], filter_key: str ='', tracked: bool =False, track_offset: float =0.5, tint_color: List[float] =(255, 255, 255, 255), border_color: List[float] =(0, 0, 0, 0), uv_min: List[float] =(0.0, 0.0), uv_max: List[float] =(1.0, 1.0)) -> int:
 	"""
-	Adds an image. uv_min and uv_max represent the normalized texture coordinates of the original image that will be shown. Using range (0.0,0.0)->(1.0,1.0) for texture coordinates will generally display the entire texture.
+	Adds an image from a specified texture. uv_min and uv_max represent the normalized texture coordinates of the original image that will be shown. Using range (0.0,0.0)->(1.0,1.0) for texture coordinates will generally display the entire texture.
 	Args:
 		texture_id (int): 
 		**label (str): Overrides 'name' as label.
@@ -3173,10 +3173,10 @@ def add_image(texture_id : int, *, label: str =None, id: int =0, width: int =0, 
 		**filter_key (str): Used by filter widget.
 		**tracked (bool): Scroll tracking
 		**track_offset (float): 0.0f:top, 0.5f:center, 1.0f:bottom
-		**tint_color (List[float]): 
-		**border_color (List[float]): 
-		**uv_min (List[float]): Normalized texture coordinates.
-		**uv_max (List[float]): Normalized texture coordinates.
+		**tint_color (List[float]): Applies a color tint to the entire texture.
+		**border_color (List[float]): Displays a border of the specified color around the texture.
+		**uv_min (List[float]): Normalized texture coordinates min point.
+		**uv_max (List[float]): Normalized texture coordinates max point.
 	Returns:
 		int
 	"""
@@ -3185,7 +3185,7 @@ def add_image(texture_id : int, *, label: str =None, id: int =0, width: int =0, 
 
 def add_image_button(texture_id : int, *, label: str =None, id: int =0, width: int =0, height: int =0, indent: int =-1, parent: int =0, before: int =0, source: int =0, payload_type: str ='$$DPG_PAYLOAD', callback: Callable =None, drag_callback: Callable =None, drop_callback: Callable =None, user_data: Any =None, show: bool =True, enabled: bool =True, pos: List[int] =[], filter_key: str ='', tracked: bool =False, track_offset: float =0.5, frame_padding: int =-1, tint_color: List[float] =(255, 255, 255, 255), background_color: List[float] =(0, 0, 0, 0), uv_min: List[float] =(0.0, 0.0), uv_max: List[float] =(1.0, 1.0)) -> int:
 	"""
-	Adds an image button. uv_min and uv_max represent the normalized texture coordinates of the original image that will be shown. Using range (0.0,0.0)->(1.0,1.0) texture coordinates will generally display the entire texture
+	Adds an button with a texture. uv_min and uv_max represent the normalized texture coordinates of the original image that will be shown. Using range (0.0,0.0)->(1.0,1.0) texture coordinates will generally display the entire texture
 	Args:
 		texture_id (int): 
 		**label (str): Overrides 'name' as label.
@@ -3208,10 +3208,10 @@ def add_image_button(texture_id : int, *, label: str =None, id: int =0, width: i
 		**tracked (bool): Scroll tracking
 		**track_offset (float): 0.0f:top, 0.5f:center, 1.0f:bottom
 		**frame_padding (int): 
-		**tint_color (List[float]): Normalized texture coordinates.
-		**background_color (List[float]): Normalized texture coordinates.
-		**uv_min (List[float]): Normalized texture coordinates.
-		**uv_max (List[float]): Normalized texture coordinates.
+		**tint_color (List[float]): Applies a color tint to the entire texture.
+		**background_color (List[float]): Displays a border of the specified color around the texture.
+		**uv_min (List[float]): Normalized texture coordinates min point.
+		**uv_max (List[float]): Normalized texture coordinates max point.
 	Returns:
 		int
 	"""
@@ -3243,7 +3243,7 @@ def add_image_series(texture_id : int, bounds_min : List[float], bounds_max : Li
 
 def add_input_float(*, label: str =None, id: int =0, width: int =0, indent: int =-1, parent: int =0, before: int =0, source: int =0, payload_type: str ='$$DPG_PAYLOAD', callback: Callable =None, drag_callback: Callable =None, drop_callback: Callable =None, user_data: Any =None, show: bool =True, enabled: bool =True, pos: List[int] =[], filter_key: str ='', tracked: bool =False, track_offset: float =0.5, default_value: float =0.0, format: str ='%.3f', min_value: float =0.0, max_value: float =100.0, step: float =0.1, step_fast: float =1.0, min_clamped: bool =False, max_clamped: bool =False, on_enter: bool =False, readonly: bool =False) -> int:
 	"""
-	Adds input for int.
+	Adds input for integers. Step buttons can be turned on or off.
 	Args:
 		**label (str): Overrides 'name' as label.
 		**id (int): Unique id used to programmatically refer to the item.If label is unused this will be the label.
@@ -3265,14 +3265,14 @@ def add_input_float(*, label: str =None, id: int =0, width: int =0, indent: int 
 		**track_offset (float): 0.0f:top, 0.5f:center, 1.0f:bottom
 		**default_value (float): 
 		**format (str): 
-		**min_value (float): 
-		**max_value (float): 
-		**step (float): 
-		**step_fast (float): 
+		**min_value (float): Value for lower limit of input. By default this limits the step buttons. Use clamped to limit manual input.
+		**max_value (float): Value for upper limit of input. By default this limits the step buttons. Use clamped to limit manual input.
+		**step (float): Increment to change value by when the step buttons are pressed. Setting this to a value of 0 or smaller will turn off step buttons.
+		**step_fast (float): After holding the step buttons for extended time the increments will switch to this value.
 		**min_clamped (bool): Activates and deactivates min_value.
 		**max_clamped (bool): Activates and deactivates max_value.
-		**on_enter (bool): Only runs callback on enter
-		**readonly (bool): 
+		**on_enter (bool): Only runs callback on enter key press.
+		**readonly (bool): Activates a read only mode for the input.
 	Returns:
 		int
 	"""
@@ -3303,13 +3303,13 @@ def add_input_floatx(*, label: str =None, id: int =0, width: int =0, indent: int
 		**track_offset (float): 0.0f:top, 0.5f:center, 1.0f:bottom
 		**default_value (List[float]): 
 		**format (str): 
-		**min_value (float): 
-		**max_value (float): 
+		**min_value (float): Value for lower limit of input for each cell. Use clamped to turn on.
+		**max_value (float): Value for upper limit of input for each cell. Use clamped to turn on.
 		**size (int): Number of components.
 		**min_clamped (bool): Activates and deactivates min_value.
 		**max_clamped (bool): Activates and deactivates max_value.
-		**on_enter (bool): Only runs callback on enter.
-		**readonly (bool): 
+		**on_enter (bool): Only runs callback on enter key press.
+		**readonly (bool): Activates a read only mode for the inputs.
 	Returns:
 		int
 	"""
@@ -3318,7 +3318,7 @@ def add_input_floatx(*, label: str =None, id: int =0, width: int =0, indent: int
 
 def add_input_int(*, label: str =None, id: int =0, width: int =0, indent: int =-1, parent: int =0, before: int =0, source: int =0, payload_type: str ='$$DPG_PAYLOAD', callback: Callable =None, drag_callback: Callable =None, drop_callback: Callable =None, user_data: Any =None, show: bool =True, enabled: bool =True, pos: List[int] =[], filter_key: str ='', tracked: bool =False, track_offset: float =0.5, default_value: List[int] =0, min_value: int =0, max_value: int =100, step: int =1, step_fast: int =100, min_clamped: bool =False, max_clamped: bool =False, on_enter: bool =False, readonly: bool =False) -> int:
 	"""
-	Adds input for float.
+	Adds input for float. Step buttons can be turned on or off.
 	Args:
 		**label (str): Overrides 'name' as label.
 		**id (int): Unique id used to programmatically refer to the item.If label is unused this will be the label.
@@ -3339,14 +3339,14 @@ def add_input_int(*, label: str =None, id: int =0, width: int =0, indent: int =-
 		**tracked (bool): Scroll tracking
 		**track_offset (float): 0.0f:top, 0.5f:center, 1.0f:bottom
 		**default_value (List[int]): 
-		**min_value (int): 
-		**max_value (int): 
-		**step (int): 
-		**step_fast (int): 
+		**min_value (int): Value for lower limit of input. By default this limits the step buttons. Use clamped to limit manual input.
+		**max_value (int): Value for upper limit of input. By default this limits the step buttons. Use clamped to limit manual input.
+		**step (int): Increment to change value by when the step buttons are pressed. Setting this to a value of 0 or smaller will turn off step buttons.
+		**step_fast (int): After holding the step buttons for extended time the increments will switch to this value.
 		**min_clamped (bool): Activates and deactivates min_value.
 		**max_clamped (bool): Activates and deactivates max_value.
-		**on_enter (bool): Only runs callback on enter.
-		**readonly (bool): 
+		**on_enter (bool): Only runs callback on enter key press.
+		**readonly (bool): Activates a read only mode for the input.
 	Returns:
 		int
 	"""
@@ -3376,13 +3376,13 @@ def add_input_intx(*, label: str =None, id: int =0, width: int =0, indent: int =
 		**tracked (bool): Scroll tracking
 		**track_offset (float): 0.0f:top, 0.5f:center, 1.0f:bottom
 		**default_value (List[int]): 
-		**min_value (int): 
-		**max_value (int): 
+		**min_value (int): Value for lower limit of input for each cell. Use clamped to turn on.
+		**max_value (int): Value for upper limit of input for each cell. Use clamped to turn on.
 		**size (int): Number of components.
 		**min_clamped (bool): Activates and deactivates min_value.
 		**max_clamped (bool): Activates and deactivates max_value.
 		**on_enter (bool): Only runs callback on enter.
-		**readonly (bool): 
+		**readonly (bool): Activates a read only mode for the inputs.
 	Returns:
 		int
 	"""
@@ -3413,17 +3413,17 @@ def add_input_text(*, label: str =None, id: int =0, width: int =0, height: int =
 		**tracked (bool): Scroll tracking
 		**track_offset (float): 0.0f:top, 0.5f:center, 1.0f:bottom
 		**default_value (str): 
-		**hint (str): 
-		**multiline (bool): 
+		**hint (str): Displayed only when value is empty string. Will reappear if input value is set to empty string. Will not show if default value is anything other than default empty string.
+		**multiline (bool): Allows for multiline text input.
 		**no_spaces (bool): Filter out spaces and tabs.
-		**uppercase (bool): 
+		**uppercase (bool): Automatically make all inputs uppercase.
 		**tab_input (bool): Allows tabs to be input instead of changing widget focus.
-		**decimal (bool): Allow 0123456789.+-*/
-		**hexadecimal (bool): Allow 0123456789ABCDEFabcdef
-		**readonly (bool): 
+		**decimal (bool): Only allow 0123456789.+-*/
+		**hexadecimal (bool): Only allow 0123456789ABCDEFabcdef
+		**readonly (bool): Activates read only mode.
 		**password (bool): Password mode, display all characters as '*'.
-		**scientific (bool): Allow 0123456789.+-*/eE (Scientific notation input)
-		**on_enter (bool): Only runs callback on enter.
+		**scientific (bool): Only allow 0123456789.+-*/eE (Scientific notation input)
+		**on_enter (bool): Only runs callback on enter key press.
 	Returns:
 		int
 	"""
@@ -3563,9 +3563,9 @@ def add_line_series(x : List[float], y : List[float], *, label: str =None, id: i
 
 def add_listbox(items : List[str] =(), *, label: str =None, id: int =0, width: int =0, indent: int =-1, parent: int =0, before: int =0, source: int =0, payload_type: str ='$$DPG_PAYLOAD', callback: Callable =None, drag_callback: Callable =None, drop_callback: Callable =None, user_data: Any =None, show: bool =True, enabled: bool =True, pos: List[int] =[], filter_key: str ='', tracked: bool =False, track_offset: float =0.5, default_value: str ='', num_items: int =3) -> int:
 	"""
-	Adds a listbox.
+	Adds a listbox. If height is not large enought to show all items a scroll bar will appear.
 	Args:
-		*items (List[str]): 
+		*items (List[str]): A tuple of items to be shown in the listbox. Can consist of any combination of types.
 		**label (str): Overrides 'name' as label.
 		**id (int): Unique id used to programmatically refer to the item.If label is unused this will be the label.
 		**width (int): Width of the item.
@@ -3660,7 +3660,7 @@ def add_menu_bar(*, label: str =None, id: int =0, indent: int =-1, parent: int =
 
 def add_menu_item(*, label: str =None, id: int =0, indent: int =-1, parent: int =0, before: int =0, payload_type: str ='$$DPG_PAYLOAD', callback: Callable =None, drag_callback: Callable =None, drop_callback: Callable =None, user_data: Any =None, show: bool =True, enabled: bool =True, filter_key: str ='', tracked: bool =False, track_offset: float =0.5, default_value: bool =False, shortcut: str ='', check: bool =False) -> int:
 	"""
-	Adds a menu item to an existing menu.
+	Adds a menu item to an existing menu. Menu items act similar to selectables.
 	Args:
 		**label (str): Overrides 'name' as label.
 		**id (int): Unique id used to programmatically refer to the item.If label is unused this will be the label.
@@ -3678,8 +3678,8 @@ def add_menu_item(*, label: str =None, id: int =0, indent: int =-1, parent: int 
 		**tracked (bool): Scroll tracking
 		**track_offset (float): 0.0f:top, 0.5f:center, 1.0f:bottom
 		**default_value (bool): 
-		**shortcut (str): Adds a shortcut.
-		**check (bool): Makes menu item with checkmark.
+		**shortcut (str): Displays text on the menu item. Typically used to show a shortcut key command.
+		**check (bool): Displays a checkmark on the menu item when it is selected.
 	Returns:
 		int
 	"""
@@ -4051,9 +4051,9 @@ def add_progress_bar(*, label: str =None, id: int =0, width: int =0, height: int
 
 def add_radio_button(items : int =(), *, label: str =None, id: int =0, indent: int =-1, parent: int =0, before: int =0, source: int =0, payload_type: str ='$$DPG_PAYLOAD', callback: Callable =None, drag_callback: Callable =None, drop_callback: Callable =None, user_data: Any =None, show: bool =True, enabled: bool =True, pos: List[int] =[], filter_key: str ='', tracked: bool =False, track_offset: float =0.5, default_value: str ='', horizontal: bool =False) -> int:
 	"""
-	Adds a set of radio buttons. If items is empty, nothing will be shown.
+	Adds a set of radio buttons. If items keyword is empty, nothing will be shown.
 	Args:
-		*items (int): 
+		*items (int): A tuple of items to be shown as radio options. Can consist of any combination of types.
 		**label (str): Overrides 'name' as label.
 		**id (int): Unique id used to programmatically refer to the item.If label is unused this will be the label.
 		**indent (int): Offsets the widget to the right the specified number multiplied by the indent style.
@@ -4072,7 +4072,7 @@ def add_radio_button(items : int =(), *, label: str =None, id: int =0, indent: i
 		**tracked (bool): Scroll tracking
 		**track_offset (float): 0.0f:top, 0.5f:center, 1.0f:bottom
 		**default_value (str): 
-		**horizontal (bool): 
+		**horizontal (bool): Displays the radio options horizontally.
 	Returns:
 		int
 	"""
@@ -4271,8 +4271,8 @@ def add_slider_float(*, label: str =None, id: int =0, width: int =0, height: int
 		**vertical (bool): Sets orientation to vertical.
 		**no_input (bool): Disable CTRL+Click or Enter key allowing to input text directly into the widget.
 		**clamped (bool): Clamp value to min/max bounds when input manually with CTRL+Click. By default CTRL+Click allows going out of bounds.
-		**min_value (float): 
-		**max_value (float): 
+		**min_value (float): Limits the Drag input but CTRL+Click can still be below value.
+		**max_value (float): Limits the Drag input but CTRL+Click can still be above value.
 		**format (str): 
 	Returns:
 		int
@@ -4303,11 +4303,11 @@ def add_slider_floatx(*, label: str =None, id: int =0, width: int =0, indent: in
 		**tracked (bool): Scroll tracking
 		**track_offset (float): 0.0f:top, 0.5f:center, 1.0f:bottom
 		**default_value (List[float]): 
-		**size (int): number of components
+		**size (int): Number of components.
 		**no_input (bool): Disable CTRL+Click or Enter key allowing to input text directly into the widget.
 		**clamped (bool): Clamp value to min/max bounds when input manually with CTRL+Click. By default CTRL+Click allows going out of bounds.
-		**min_value (float): 
-		**max_value (float): 
+		**min_value (float): Limits the Drag input but CTRL+Click can still be below value.
+		**max_value (float): Limits the Drag input but CTRL+Click can still be above value.
 		**format (str): 
 	Returns:
 		int
@@ -4342,8 +4342,8 @@ def add_slider_int(*, label: str =None, id: int =0, width: int =0, height: int =
 		**vertical (bool): Sets orientation to vertical.
 		**no_input (bool): Disable CTRL+Click or Enter key allowing to input text directly into the widget.
 		**clamped (bool): Clamp value to min/max bounds when input manually with CTRL+Click. By default CTRL+Click allows going out of bounds.
-		**min_value (int): 
-		**max_value (int): 
+		**min_value (int): Limits the Drag input but CTRL+Click can still be below value.
+		**max_value (int): Limits the Drag input but CTRL+Click can still be above value.
 		**format (str): 
 	Returns:
 		int
@@ -4377,8 +4377,8 @@ def add_slider_intx(*, label: str =None, id: int =0, width: int =0, indent: int 
 		**size (int): number of components
 		**no_input (bool): Disable CTRL+Click or Enter key allowing to input text directly into the widget.
 		**clamped (bool): Clamp value to min/max bounds when input manually with CTRL+Click. By default CTRL+Click allows going out of bounds.
-		**min_value (int): 
-		**max_value (int): 
+		**min_value (int): Limits the Drag input but CTRL+Click can still be below value.
+		**max_value (int): Limits the Drag input but CTRL+Click can still be above value.
 		**format (str): 
 	Returns:
 		int
@@ -4685,7 +4685,7 @@ def add_table_row(*, label: str =None, id: int =0, height: int =0, parent: int =
 
 def add_text(default_value : str ='', *, label: str =None, id: int =0, indent: int =-1, parent: int =0, before: int =0, source: int =0, show: bool =True, pos: List[int] =[], filter_key: str ='', tracked: bool =False, track_offset: float =0.5, wrap: int =-1, bullet: bool =False, color: List[float] =(-1, -1, -1, -1), show_label: bool =False) -> int:
 	"""
-	Adds text.
+	Adds text. Text can have an optional label that will display to the right of the text.
 	Args:
 		*default_value (str): 
 		**label (str): Overrides 'name' as label.
@@ -4699,7 +4699,7 @@ def add_text(default_value : str ='', *, label: str =None, id: int =0, indent: i
 		**filter_key (str): Used by filter widget.
 		**tracked (bool): Scroll tracking
 		**track_offset (float): 0.0f:top, 0.5f:center, 1.0f:bottom
-		**wrap (int): Number of pixels until wrapping.
+		**wrap (int): Number of pixels until wrapping starts.
 		**bullet (bool): Makes the text bulleted.
 		**color (List[float]): Color of the text (rgba).
 		**show_label (bool): Displays the label.
