@@ -30,7 +30,7 @@ def add_bar_series(x : List[float], y : List[float], *, label: str =None, id: in
 	"""Adds a bar series to a plot."""
 	...
 
-def add_bool_value(*, label: str =None, id: int =0, parent: int =0, source: int =0, default_value: bool =False) -> int:
+def add_bool_value(*, label: str =None, id: int =0, source: int =0, default_value: bool =False, parent: int =internal_dpg.mvReservedUUID_3) -> int:
 	"""Undocumented"""
 	...
 
@@ -78,7 +78,7 @@ def add_color_picker(default_value : List[int] =(0, 0, 0, 255), *, label: str =N
 	"""Adds an RGB color picker. Right click the color picker for options. Click and drag the color preview to copy the color and drop on any other color widget to apply. Right Click allows the style of the color picker to be changed."""
 	...
 
-def add_color_value(*, label: str =None, id: int =0, parent: int =0, source: int =0, default_value: List[float] =(0.0, 0.0, 0.0, 0.0)) -> int:
+def add_color_value(*, label: str =None, id: int =0, source: int =0, default_value: List[float] =(0.0, 0.0, 0.0, 0.0), parent: int =internal_dpg.mvReservedUUID_3) -> int:
 	"""Undocumented"""
 	...
 
@@ -102,11 +102,11 @@ def add_deactivated_handler(parent : int, *, label: str =None, id: int =0, callb
 	"""Adds a handler which runs a given callback when the specified item is deactivated."""
 	...
 
-def add_double4_value(*, label: str =None, id: int =0, parent: int =0, source: int =0, default_value: Any =(0.0, 0.0, 0.0, 0.0)) -> int:
+def add_double4_value(*, label: str =None, id: int =0, source: int =0, default_value: Any =(0.0, 0.0, 0.0, 0.0), parent: int =internal_dpg.mvReservedUUID_3) -> int:
 	"""Undocumented"""
 	...
 
-def add_double_value(*, label: str =None, id: int =0, parent: int =0, source: int =0, default_value: float =0.0) -> int:
+def add_double_value(*, label: str =None, id: int =0, source: int =0, default_value: float =0.0, parent: int =internal_dpg.mvReservedUUID_3) -> int:
 	"""Undocumented"""
 	...
 
@@ -150,7 +150,7 @@ def add_dummy(*, label: str =None, id: int =0, width: int =0, height: int =0, in
 	"""Adds a spacer or 'dummy' object."""
 	...
 
-def add_dynamic_texture(width : int, height : int, default_value : List[float], *, label: str =None, id: int =0, parent: int =0) -> int:
+def add_dynamic_texture(width : int, height : int, default_value : List[float], *, label: str =None, id: int =0, parent: int =internal_dpg.mvReservedUUID_2) -> int:
 	"""Undocumented function"""
 	...
 
@@ -174,15 +174,15 @@ def add_filter_set(*, label: str =None, id: int =0, width: int =0, indent: int =
 	"""Helper to parse and apply text filters (e.g. aaaaa[, bbbbb][, ccccc])"""
 	...
 
-def add_float4_value(*, label: str =None, id: int =0, parent: int =0, source: int =0, default_value: List[float] =(0.0, 0.0, 0.0, 0.0)) -> int:
+def add_float4_value(*, label: str =None, id: int =0, source: int =0, default_value: List[float] =(0.0, 0.0, 0.0, 0.0), parent: int =internal_dpg.mvReservedUUID_3) -> int:
 	"""Undocumented"""
 	...
 
-def add_float_value(*, label: str =None, id: int =0, parent: int =0, source: int =0, default_value: float =0.0) -> int:
+def add_float_value(*, label: str =None, id: int =0, source: int =0, default_value: float =0.0, parent: int =internal_dpg.mvReservedUUID_3) -> int:
 	"""Undocumented"""
 	...
 
-def add_float_vect_value(*, label: str =None, id: int =0, parent: int =0, source: int =0, default_value: List[float] =()) -> int:
+def add_float_vect_value(*, label: str =None, id: int =0, source: int =0, default_value: List[float] =(), parent: int =internal_dpg.mvReservedUUID_3) -> int:
 	"""Undocumented"""
 	...
 
@@ -190,7 +190,7 @@ def add_focus_handler(parent : int, *, label: str =None, id: int =0, callback: C
 	"""Adds a handler which runs a given callback when the specified item is focused."""
 	...
 
-def add_font(file : str, size : int, *, label: str =None, id: int =0, parent: int =0, default_font: bool =False) -> int:
+def add_font(file : str, size : int, *, label: str =None, id: int =0, default_font: bool =False, parent: int =internal_dpg.mvReservedUUID_0) -> int:
 	"""Undocumented function"""
 	...
 
@@ -266,23 +266,23 @@ def add_input_text(*, label: str =None, id: int =0, width: int =0, height: int =
 	"""Adds input for text."""
 	...
 
-def add_int4_value(*, label: str =None, id: int =0, parent: int =0, source: int =0, default_value: List[int] =(0, 0, 0, 0)) -> int:
+def add_int4_value(*, label: str =None, id: int =0, source: int =0, default_value: List[int] =(0, 0, 0, 0), parent: int =internal_dpg.mvReservedUUID_3) -> int:
 	"""Undocumented"""
 	...
 
-def add_int_value(*, label: str =None, id: int =0, parent: int =0, source: int =0, default_value: int =0) -> int:
+def add_int_value(*, label: str =None, id: int =0, source: int =0, default_value: int =0, parent: int =internal_dpg.mvReservedUUID_3) -> int:
 	"""Undocumented"""
 	...
 
-def add_key_down_handler(key : int =-1, *, label: str =None, id: int =0, parent: int =0, callback: Callable =None, user_data: Any =None, show: bool =True) -> int:
+def add_key_down_handler(key : int =-1, *, label: str =None, id: int =0, callback: Callable =None, user_data: Any =None, show: bool =True, parent: int =internal_dpg.mvReservedUUID_1) -> int:
 	"""Adds a handler which runs a given callback when the specified key is down. Parent must be a handler registry."""
 	...
 
-def add_key_press_handler(key : int =-1, *, label: str =None, id: int =0, parent: int =0, callback: Callable =None, user_data: Any =None, show: bool =True) -> int:
+def add_key_press_handler(key : int =-1, *, label: str =None, id: int =0, callback: Callable =None, user_data: Any =None, show: bool =True, parent: int =internal_dpg.mvReservedUUID_1) -> int:
 	"""Adds a handler which runs a given callback when the specified key is pressed. Parent must be a handler registry."""
 	...
 
-def add_key_release_handler(key : int =-1, *, label: str =None, id: int =0, parent: int =0, callback: Callable =None, user_data: Any =None, show: bool =True) -> int:
+def add_key_release_handler(key : int =-1, *, label: str =None, id: int =0, callback: Callable =None, user_data: Any =None, show: bool =True, parent: int =internal_dpg.mvReservedUUID_1) -> int:
 	"""Adds a handler which runs a given callback when the specified key is released. Parent must be a handler registry."""
 	...
 
@@ -314,31 +314,31 @@ def add_menu_item(*, label: str =None, id: int =0, indent: int =-1, parent: int 
 	"""Adds a menu item to an existing menu. Menu items act similar to selectables."""
 	...
 
-def add_mouse_click_handler(button : int =-1, *, label: str =None, id: int =0, parent: int =0, callback: Callable =None, user_data: Any =None, show: bool =True) -> int:
+def add_mouse_click_handler(button : int =-1, *, label: str =None, id: int =0, callback: Callable =None, user_data: Any =None, show: bool =True, parent: int =internal_dpg.mvReservedUUID_1) -> int:
 	"""Adds a handler which runs a given callback when the specified mouse button is clicked. Parent must be a handler registry."""
 	...
 
-def add_mouse_double_click_handler(button : int =-1, *, label: str =None, id: int =0, parent: int =0, callback: Callable =None, user_data: Any =None, show: bool =True) -> int:
+def add_mouse_double_click_handler(button : int =-1, *, label: str =None, id: int =0, callback: Callable =None, user_data: Any =None, show: bool =True, parent: int =internal_dpg.mvReservedUUID_1) -> int:
 	"""Adds a handler which runs a given callback when the specified mouse button is double clicked. Parent must be a handler registry."""
 	...
 
-def add_mouse_down_handler(button : int =-1, *, label: str =None, id: int =0, parent: int =0, callback: Callable =None, user_data: Any =None, show: bool =True) -> int:
+def add_mouse_down_handler(button : int =-1, *, label: str =None, id: int =0, callback: Callable =None, user_data: Any =None, show: bool =True, parent: int =internal_dpg.mvReservedUUID_1) -> int:
 	"""Adds a handler which runs a given callback when the specified mouse button is down. Parent must be a handler registry."""
 	...
 
-def add_mouse_drag_handler(button : int =-1, threshold : float =10.0, *, label: str =None, id: int =0, parent: int =0, callback: Callable =None, user_data: Any =None, show: bool =True) -> int:
+def add_mouse_drag_handler(button : int =-1, threshold : float =10.0, *, label: str =None, id: int =0, callback: Callable =None, user_data: Any =None, show: bool =True, parent: int =internal_dpg.mvReservedUUID_1) -> int:
 	"""Adds a handler which runs a given callback when the specified mouse button is clicked and dragged a set threshold. Parent must be a handler registry."""
 	...
 
-def add_mouse_move_handler(*, label: str =None, id: int =0, parent: int =0, callback: Callable =None, user_data: Any =None, show: bool =True) -> int:
+def add_mouse_move_handler(*, label: str =None, id: int =0, callback: Callable =None, user_data: Any =None, show: bool =True, parent: int =internal_dpg.mvReservedUUID_1) -> int:
 	"""Adds a handler which runs a given callback when the mouse is moved. Parent must be a handler registry."""
 	...
 
-def add_mouse_release_handler(button : int =-1, *, label: str =None, id: int =0, parent: int =0, callback: Callable =None, user_data: Any =None, show: bool =True) -> int:
+def add_mouse_release_handler(button : int =-1, *, label: str =None, id: int =0, callback: Callable =None, user_data: Any =None, show: bool =True, parent: int =internal_dpg.mvReservedUUID_1) -> int:
 	"""Adds a handler which runs a given callback when the specified mouse button is released. Parent must be a handler registry."""
 	...
 
-def add_mouse_wheel_handler(*, label: str =None, id: int =0, parent: int =0, callback: Callable =None, user_data: Any =None, show: bool =True) -> int:
+def add_mouse_wheel_handler(*, label: str =None, id: int =0, callback: Callable =None, user_data: Any =None, show: bool =True, parent: int =internal_dpg.mvReservedUUID_1) -> int:
 	"""Adds a handler which runs a given callback when the vertical mouse wheel is scrolled. Parent must be a handler registry."""
 	...
 
@@ -406,7 +406,7 @@ def add_separator(*, label: str =None, id: int =0, indent: int =-1, parent: int 
 	"""Adds a horizontal line."""
 	...
 
-def add_series_value(*, label: str =None, id: int =0, parent: int =0, source: int =0, default_value: Any =()) -> int:
+def add_series_value(*, label: str =None, id: int =0, source: int =0, default_value: Any =(), parent: int =internal_dpg.mvReservedUUID_3) -> int:
 	"""Undocumented"""
 	...
 
@@ -446,7 +446,7 @@ def add_stair_series(x : List[float], y : List[float], *, label: str =None, id: 
 	"""Adds a stair series to a plot."""
 	...
 
-def add_static_texture(width : int, height : int, default_value : List[float], *, label: str =None, id: int =0, parent: int =0, file: str ='') -> int:
+def add_static_texture(width : int, height : int, default_value : List[float], *, label: str =None, id: int =0, file: str ='', parent: int =internal_dpg.mvReservedUUID_2) -> int:
 	"""Undocumented function"""
 	...
 
@@ -454,7 +454,7 @@ def add_stem_series(x : List[float], y : List[float], *, label: str =None, id: i
 	"""Adds a stem series to a plot."""
 	...
 
-def add_string_value(*, label: str =None, id: int =0, parent: int =0, source: int =0, default_value: str ='') -> int:
+def add_string_value(*, label: str =None, id: int =0, source: int =0, default_value: str ='', parent: int =internal_dpg.mvReservedUUID_3) -> int:
 	"""Undocumented"""
 	...
 
@@ -643,7 +643,7 @@ def focus_item(item : int) -> None:
 	...
 
 def generate_uuid() -> int:
-	"""Undocumented"""
+	"""Generate a new UUID"""
 	...
 
 def get_active_window() -> int:
@@ -814,6 +814,10 @@ def last_root() -> int:
 	"""Undocumented"""
 	...
 
+def lock_mutex() -> None:
+	"""Undocumented"""
+	...
+
 def maximize_viewport() -> None:
 	"""Undocumented"""
 	...
@@ -955,6 +959,10 @@ def stop_dearpygui() -> None:
 	...
 
 def top_container_stack() -> int:
+	"""Undocumented"""
+	...
+
+def unlock_mutex() -> None:
 	"""Undocumented"""
 	...
 

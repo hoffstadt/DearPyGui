@@ -776,16 +776,31 @@ namespace Marvel {
 			technique = AddTechnique::BEFORE;
 		}
 
-		else if (parent > 0)
+		else if (parent > MV_RESERVED_UUID_start + MV_RESERVED_UUIDs)
 		{
 			parentPtr = getItem(parent);
 			technique = AddTechnique::PARENT;
 		}
 
-		else
+		else if (parent == 0)
 		{
 			parentPtr = topParent();
 			technique = AddTechnique::STACK;
+		}
+
+		// reserved uuid case
+		else
+		{
+			parentPtr = getItem(parent);
+			if(parentPtr)
+				technique = AddTechnique::PARENT;
+
+			// revert to stack operation (reserved uuid not used)
+			else
+			{
+				parentPtr = topParent();
+				technique = AddTechnique::STACK;
+			}
 		}
 
 		//---------------------------------------------------------------------------

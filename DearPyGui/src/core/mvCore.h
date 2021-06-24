@@ -218,6 +218,8 @@ namespace Marvel {
 }
 
 #define MV_DEFAULT_COLOR Marvel::mvColor(1.0f, 1.0f, 1.0f, 1.0f)
+
+// UUIDs (+ reserved uuids)
 #define MV_INVALID_UUID 0
 #define MV_APP_UUID 1
 #define MV_ATLAS_UUID 2
@@ -228,4 +230,6 @@ namespace Marvel {
 #define MV_TOOL_METRICS_UUID 7
 #define MV_TOOL_STYLE_UUID 8
 #define MV_TOOL_FONT_UUID 9
-#define MV_START_UUID MV_TOOL_FONT_UUID+1
+#define MV_RESERVED_UUIDs 10
+#define MV_RESERVED_UUID_start MV_TOOL_FONT_UUID+1
+#define MV_START_UUID MV_TOOL_FONT_UUID+MV_RESERVED_UUIDs+1
