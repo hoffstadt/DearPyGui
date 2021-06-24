@@ -45,6 +45,7 @@ namespace Marvel {
         bool m_handler= false;
         bool m_texture= false;
         bool m_theme= false;
+        bool m_values= false;
 
     };
 
