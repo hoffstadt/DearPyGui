@@ -27,7 +27,7 @@ namespace Marvel {
 	void mvHandlerRegistry::draw(ImDrawList* drawlist, float x, float y)
 	{
 
-		for (auto& item : m_children[3])
+		for (auto& item : m_children[1])
 		{
 			if (!item->preDraw())
 				continue;

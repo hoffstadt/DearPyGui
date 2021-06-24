@@ -2439,10 +2439,10 @@ def show_demo():
                 elif type=="mvAppItemType::mvMouseDragHandler":
                     dpg.set_value(mh_drag, f"Mouse id: {data[0]}, Delta:{[data[1], data[2]]}")
 
-            for handler in dpg.get_item_info(keyboard_handler)["children"][3]:
+            for handler in dpg.get_item_children(keyboard_handler, 1):
                 dpg.set_item_callback(handler, event_handler)
 
-            for handler in dpg.get_item_info(mouse_handler)["children"][3]:
+            for handler in dpg.get_item_children(mouse_handler, 1):
                 dpg.set_item_callback(handler, event_handler)
 
         with dpg.collapsing_header(label="Drag & Drop"):

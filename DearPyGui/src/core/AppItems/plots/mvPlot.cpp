@@ -246,6 +246,7 @@ namespace Marvel {
 			//ImPlot::PushPlotClipRect();
 			ImPlot::PushColormap(m_colormap);
 
+			// legend, drag point and lines
 			for (auto& item : m_children[0])
 			{
 				// skip item if it's not shown
@@ -256,6 +257,7 @@ namespace Marvel {
 				item->postDraw();
 			}
 
+			// series
 			for (auto& item : m_children[1])
 			{
 				// skip item if it's not shown
@@ -266,6 +268,7 @@ namespace Marvel {
 				item->postDraw();
 			}
 
+			// drawings
 			for (auto& item : m_children[2])
 			{
 				// skip item if it's not shown

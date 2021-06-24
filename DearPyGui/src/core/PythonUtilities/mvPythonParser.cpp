@@ -537,7 +537,7 @@ namespace Marvel {
 					first_arg = false;
 				else
 					stub << ", ";
-				stub << args.name << "=" << args.name;
+				stub << args.name;
 			}
 
 			for (const auto& args : parser.second.m_keyword_elements)
