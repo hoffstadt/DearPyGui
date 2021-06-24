@@ -7,7 +7,7 @@ namespace Marvel {
 	void mvRadioButton::InsertParser(std::map<std::string, mvPythonParser>* parsers)
 	{
 
-		mvPythonParser parser(mvPyDataType::UUID, "Adds a set of radio buttons. If items is empty, nothing will be shown.", { "Widgets" });
+		mvPythonParser parser(mvPyDataType::UUID, "Adds a set of radio buttons. If items keyword is empty, nothing will be shown.", { "Widgets" });
 		mvAppItem::AddCommonArgs(parser, (CommonParserArgs)(
 			MV_PARSER_ARG_ID |
 			MV_PARSER_ARG_INDENT |
@@ -26,11 +26,11 @@ namespace Marvel {
 			MV_PARSER_ARG_POS)
 		);
 
-		parser.addArg<mvPyDataType::Integer>("items", mvArgType::POSITIONAL_ARG, "()");
+		parser.addArg<mvPyDataType::Integer>("items", mvArgType::POSITIONAL_ARG, "()", "A tuple of items to be shown as radio options. Can consist of any combination of types.");
 
 		parser.addArg<mvPyDataType::String>("default_value", mvArgType::KEYWORD_ARG, "''");
 
-		parser.addArg<mvPyDataType::Bool>("horizontal", mvArgType::KEYWORD_ARG, "False");
+		parser.addArg<mvPyDataType::Bool>("horizontal", mvArgType::KEYWORD_ARG, "False", "Displays the radio options horizontally.");
 
 		parser.finalize();
 
