@@ -237,6 +237,19 @@ namespace Marvel {
 		}
 
 		{
+			mvPythonParser parser(mvPyDataType::None, "Use dpg.ini file.", { "General" });
+			parser.finalize();
+			parsers->insert({ "use_init_file", parser });
+		}
+
+		{
+			mvPythonParser parser(mvPyDataType::None, "Load dpg.ini file.", { "General" });
+			parser.addArg<mvPyDataType::String>("file");
+			parser.finalize();
+			parsers->insert({ "load_init_file", parser });
+		}
+
+		{
 			mvPythonParser parser(mvPyDataType::UUID, "Generate a new UUID", { "General" });
 			parser.finalize();
 			parsers->insert({ "generate_uuid", parser });
@@ -303,6 +316,26 @@ namespace Marvel {
 			parsers->insert({ "get_dearpygui_version", parser });
 		}
 
+	}
+
+	PyObject* mvApp::use_init_file(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		mvApp::GetApp()->useIniFile();
+
+		return GetPyNone();
+	}
+
+	PyObject* mvApp::load_init_file(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		const char* file;
+
+		if (!(mvApp::GetApp()->getParsers())["load_init_file"].parse(args, kwargs, __FUNCTION__,
+			&file))
+			return GetPyNone();
+
+		mvApp::GetApp()->loadIniFile(file);
+
+		return GetPyNone();
 	}
 
 	PyObject* mvApp::lock_mutex(PyObject* self, PyObject* args, PyObject* kwargs)

@@ -814,6 +814,10 @@ def last_root() -> int:
 	"""Undocumented"""
 	...
 
+def load_init_file(file : str) -> None:
+	"""Load dpg.ini file."""
+	...
+
 def lock_mutex() -> None:
 	"""Undocumented"""
 	...
@@ -968,5 +972,9 @@ def unlock_mutex() -> None:
 
 def unstage_items(items : List[int]) -> None:
 	"""Undocumented"""
+	...
+
+def use_init_file() -> None:
+	"""Use dpg.ini file."""
 	...
 

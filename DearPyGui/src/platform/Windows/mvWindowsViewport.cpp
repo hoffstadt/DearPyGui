@@ -131,7 +131,16 @@ namespace Marvel {
 
 		ImGuiIO& io = ImGui::GetIO(); (void)io;
 		io.ConfigWindowsMoveFromTitleBarOnly = true;
-		io.IniFilename = nullptr;
+		if (mvApp::GetApp()->m_loadIniFile)
+		{
+			ImGui::LoadIniSettingsFromDisk(mvApp::GetApp()->m_iniFile.c_str());
+		}
+		{
+			if (mvApp::GetApp()->m_iniFile.empty())
+				io.IniFilename = nullptr;
+			else
+				io.IniFilename = mvApp::GetApp()->m_iniFile.c_str();
+		}
 
 		if(mvApp::GetApp()->m_docking)
 			io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;

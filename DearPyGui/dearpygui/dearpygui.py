@@ -5833,6 +5833,17 @@ def last_root() -> int:
 
 	return internal_dpg.last_root()
 
+def load_init_file(file : str) -> None:
+	"""
+	Load dpg.ini file.
+	Args:
+		file (str): 
+	Returns:
+		None
+	"""
+
+	return internal_dpg.load_init_file(file)
+
 def lock_mutex() -> None:
 	"""
 	Undocumented
@@ -6271,6 +6282,16 @@ def unstage_items(items : List[int]) -> None:
 	"""
 
 	return internal_dpg.unstage_items(items)
+
+def use_init_file() -> None:
+	"""
+	Use dpg.ini file.
+	Args:
+	Returns:
+		None
+	"""
+
+	return internal_dpg.use_init_file()
 
 
 ##########################################################
