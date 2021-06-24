@@ -29,6 +29,14 @@ def configure_item(item : int, **kwargs) -> None:
 	internal_dpg.configure_item(item, **kwargs)
 
 
+def setup_registries() -> None:
+    """Adds default registries for fonts, handlers, textures, and values."""
+    internal_dpg.add_font_registry(id=internal_dpg.mvReservedUUID_0)
+    internal_dpg.add_handler_registry(id=internal_dpg.mvReservedUUID_1)
+    internal_dpg.add_texture_registry(id=internal_dpg.mvReservedUUID_2)
+    internal_dpg.add_value_registry(id=internal_dpg.mvReservedUUID_3)
+
+
 def setup_viewport():
     """Prepares viewport. If not called, start_dearpygui will automatically call this.
 

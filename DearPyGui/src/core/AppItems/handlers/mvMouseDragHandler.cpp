@@ -14,13 +14,12 @@ namespace Marvel {
 			MV_PARSER_ARG_ID |
 			MV_PARSER_ARG_CALLBACK |
 			MV_PARSER_ARG_SHOW |
-			MV_PARSER_ARG_USER_DATA |
-			MV_PARSER_ARG_PARENT)
+			MV_PARSER_ARG_USER_DATA)
 		);
 
 		parser.addArg<mvPyDataType::Integer>("button", mvArgType::POSITIONAL_ARG, "-1", "Submits callback for all mouse buttons");
 		parser.addArg<mvPyDataType::Float>("threshold", mvArgType::POSITIONAL_ARG, "10.0", "The threshold the mouse must be dragged before the callback is ran");
-
+		parser.addArg<mvPyDataType::UUID>("parent", mvArgType::KEYWORD_ARG, "internal_dpg.mvReservedUUID_1", "Parent to add this item to. (runtime adding)");
 		parser.finalize();
 
 		parsers->insert({ s_command, parser });

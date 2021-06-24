@@ -74,6 +74,7 @@ namespace Marvel {
         MV_CREATE_COMMAND(get_total_time);
         MV_CREATE_COMMAND(stop_dearpygui);
         MV_CREATE_COMMAND(is_dearpygui_running);
+        MV_CREATE_COMMAND(generate_uuid);
 
         MV_START_COMMANDS
             MV_ADD_COMMAND(lock_mutex);
@@ -87,6 +88,7 @@ namespace Marvel {
             MV_ADD_COMMAND(get_total_time);
             MV_ADD_COMMAND(stop_dearpygui);
             MV_ADD_COMMAND(is_dearpygui_running);
+            MV_ADD_COMMAND(generate_uuid);
         MV_END_COMMANDS
 
         //-----------------------------------------------------------------------------
@@ -99,6 +101,9 @@ namespace Marvel {
         static void        SetAppStopped();
         static void        StopApp      () { s_started = false; } // ugly
         static void        SetDefaultTheme();
+
+        // generates UUID: used by users and internally
+        static mvUUID GenerateUUID();
 
         //-----------------------------------------------------------------------------
         // Timing
@@ -146,6 +151,7 @@ namespace Marvel {
 
         static mvApp*           s_instance;
         static std::atomic_bool s_started;
+        static mvUUID           s_id; // current ID
 
         // managers
         mvOwnedPtr<mvItemRegistry>     m_itemRegistry;

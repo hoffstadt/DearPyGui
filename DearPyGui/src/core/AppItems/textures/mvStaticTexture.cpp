@@ -11,8 +11,7 @@ namespace Marvel {
 
 		mvPythonParser parser(mvPyDataType::UUID, "Undocumented function", { "Textures", "Widgets" });
 		mvAppItem::AddCommonArgs(parser, (CommonParserArgs)(
-			MV_PARSER_ARG_ID |
-			MV_PARSER_ARG_PARENT)
+			MV_PARSER_ARG_ID)
 		);
 
 		parser.addArg<mvPyDataType::Integer>("width");
@@ -20,7 +19,7 @@ namespace Marvel {
 		parser.addArg<mvPyDataType::FloatList>("default_value");
 
 		parser.addArg<mvPyDataType::String>("file", mvArgType::KEYWORD_ARG, "''");
-
+		parser.addArg<mvPyDataType::UUID>("parent", mvArgType::KEYWORD_ARG, "internal_dpg.mvReservedUUID_2", "Parent to add this item to. (runtime adding)");
 		parser.finalize();
 
 		parsers->insert({ s_command, parser });

@@ -82,6 +82,13 @@ namespace Marvel {
 
 				});
 
+			int j = 0;
+			for (int i = MV_RESERVED_UUID_start; i < MV_RESERVED_UUID_start+MV_RESERVED_UUIDs; i++)
+			{
+				ModuleConstants.push_back({"mvReservedUUID_" + std::to_string(j), (long)i});
+				j++;
+			}
+
 		}
 
 		First_Run = false;

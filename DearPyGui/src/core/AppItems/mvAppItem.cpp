@@ -88,12 +88,6 @@ namespace Marvel{
 		}
 
 		{
-			mvPythonParser parser(mvPyDataType::UUID, "Undocumented", { "General" });
-			parser.finalize();
-			parsers->insert({ "generate_uuid", parser });
-		}
-
-		{
 			mvPythonParser parser(mvPyDataType::None, "Undocumented", { "App Item Operations" });
 			parser.addArg<mvPyDataType::UUID>("item");
 			parser.addKwargs();
@@ -182,12 +176,6 @@ namespace Marvel{
 			parser.addArg<mvPyDataType::Float>("track_offset", mvArgType::KEYWORD_ARG, "0.5", "0.0f:top, 0.5f:center, 1.0f:bottom");
 		}
 
-	}
-
-	mvUUID mvAppItem::GenerateUUID()
-	{
-		static mvUUID id = MV_START_UUID;
-		return ++id;
 	}
 
 	mvAppItem::mvAppItem(mvUUID uuid)
@@ -1590,11 +1578,6 @@ namespace Marvel{
 		Py_XDECREF(value);
 
 		return GetPyNone();
-	}
-
-	PyObject* mvAppItem::generate_uuid(PyObject* self, PyObject* args, PyObject* kwargs)
-	{
-		return ToPyUUID(mvAppItem::GenerateUUID());
 	}
 
 	PyObject* mvAppItem::set_item_type_theme(PyObject* self, PyObject* args, PyObject* kwargs)

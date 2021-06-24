@@ -29,6 +29,7 @@ namespace Marvel {
 	float mvApp::s_deltaTime = 0.0f;
 	double mvApp::s_time = 0.0;
 	std::mutex mvApp::s_mutex = {};
+	mvUUID mvApp::s_id = MV_START_UUID;
 
 	mvApp* mvApp::GetApp()
 	{
@@ -39,6 +40,11 @@ namespace Marvel {
 
 		s_instance = new mvApp();
 		return s_instance;
+	}
+
+	mvUUID mvApp::GenerateUUID()
+	{
+		return ++s_id;
 	}
 
 	void mvApp::SetDefaultTheme()
@@ -231,6 +237,24 @@ namespace Marvel {
 		}
 
 		{
+			mvPythonParser parser(mvPyDataType::UUID, "Generate a new UUID", { "General" });
+			parser.finalize();
+			parsers->insert({ "generate_uuid", parser });
+		}
+
+		{
+			mvPythonParser parser(mvPyDataType::None, "Undocumented", { "General" });
+			parser.finalize();
+			parsers->insert({ "lock_mutex", parser });
+		}
+
+		{
+			mvPythonParser parser(mvPyDataType::None, "Undocumented", { "General" });
+			parser.finalize();
+			parsers->insert({ "unlock_mutex", parser });
+		}
+
+		{
 			mvPythonParser parser(mvPyDataType::Bool, "Undocumented", { "General" });
 			parser.finalize();
 			parsers->insert({ "is_dearpygui_running", parser });
@@ -398,4 +422,8 @@ namespace Marvel {
 		return ToPyString(mvApp::GetApp()->GetVersion());
 	}
 
+	PyObject* mvApp::generate_uuid(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		return ToPyUUID(mvApp::GenerateUUID());
+	}
 }

@@ -21,7 +21,7 @@ mvRef<mvAppItem> getClassTheme() const override { return s_class_theme; }\
 mvRef<mvAppItem> getClassDisabledTheme() const override { return s_class_disabled_theme; }\
 static PyObject* parser(PyObject* self, PyObject* args, PyObject* kwargs)\
 {\
-	mvUUID id = mvAppItem::GenerateUUID();\
+	mvUUID id = mvApp::GenerateUUID();\
 	auto [parent, before] = mvAppItem::GetNameFromArgs(id, args, kwargs);\
 	auto item = CreateRef<mvItemTypeMap<(int)x>::type>(id);\
 	item->checkArgs(args, kwargs);\

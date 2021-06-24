@@ -45,6 +45,14 @@ def configure_item(item : int, **kwargs) -> None:
 	internal_dpg.configure_item(item, **kwargs)
 
 
+def setup_registries() -> None:
+    """Adds default registries for fonts, handlers, textures, and values."""
+    internal_dpg.add_font_registry(id=internal_dpg.mvReservedUUID_0)
+    internal_dpg.add_handler_registry(id=internal_dpg.mvReservedUUID_1)
+    internal_dpg.add_texture_registry(id=internal_dpg.mvReservedUUID_2)
+    internal_dpg.add_value_registry(id=internal_dpg.mvReservedUUID_3)
+
+
 def setup_viewport():
     """Prepares viewport. If not called, start_dearpygui will automatically call this.
 
@@ -1323,7 +1331,7 @@ def filter_set(*, label: str =None, id: int =0, width: int =0, indent: int =-1, 
 	finally:
 		internal_dpg.pop_container_stack()
 @contextmanager
-def font(file : str, size : int, *, label: str =None, id: int =0, parent: int =0, default_font: bool =False) -> int:
+def font(file : str, size : int, *, label: str =None, id: int =0, default_font: bool =False, parent: int =internal_dpg.mvReservedUUID_0) -> int:
 	"""
 	Undocumented function
 	Args:
@@ -1331,13 +1339,13 @@ def font(file : str, size : int, *, label: str =None, id: int =0, parent: int =0
 		size (int): 
 		**label (str): Overrides 'name' as label.
 		**id (int): Unique id used to programmatically refer to the item.If label is unused this will be the label.
-		**parent (int): Parent to add this item to. (runtime adding)
 		**default_font (bool): 
+		**parent (int): Parent to add this item to. (runtime adding)
 	Yields:
 		int
 	"""
 	try:
-		widget = internal_dpg.add_font(file, size, label=label, id=id, parent=parent, default_font=default_font)
+		widget = internal_dpg.add_font(file, size, label=label, id=id, default_font=default_font, parent=parent)
 		internal_dpg.push_container_stack(widget)
 		yield widget
 	finally:
@@ -2034,20 +2042,20 @@ def add_bar_series(x : List[float], y : List[float], *, label: str =None, id: in
 
 	return internal_dpg.add_bar_series(x, y, label=label, id=id, parent=parent, before=before, source=source, show=show, weight=weight, horizontal=horizontal, contribute_to_bounds=contribute_to_bounds)
 
-def add_bool_value(*, label: str =None, id: int =0, parent: int =0, source: int =0, default_value: bool =False) -> int:
+def add_bool_value(*, label: str =None, id: int =0, source: int =0, default_value: bool =False, parent: int =internal_dpg.mvReservedUUID_3) -> int:
 	"""
 	Undocumented
 	Args:
 		**label (str): Overrides 'name' as label.
 		**id (int): Unique id used to programmatically refer to the item.If label is unused this will be the label.
-		**parent (int): Parent to add this item to. (runtime adding)
 		**source (int): Overrides 'id' as value storage key.
 		**default_value (bool): 
+		**parent (int): Parent to add this item to. (runtime adding)
 	Returns:
 		int
 	"""
 
-	return internal_dpg.add_bool_value(label=label, id=id, parent=parent, source=source, default_value=default_value)
+	return internal_dpg.add_bool_value(label=label, id=id, source=source, default_value=default_value, parent=parent)
 
 def add_button(*, label: str =None, id: int =0, width: int =0, height: int =0, indent: int =-1, parent: int =0, before: int =0, payload_type: str ='$$DPG_PAYLOAD', callback: Callable =None, drag_callback: Callable =None, drop_callback: Callable =None, user_data: Any =None, show: bool =True, enabled: bool =True, pos: List[int] =[], filter_key: str ='', tracked: bool =False, track_offset: float =0.5, small: bool =False, arrow: bool =False, direction: int =0) -> int:
 	"""
@@ -2364,20 +2372,20 @@ def add_color_picker(default_value : List[int] =(0, 0, 0, 255), *, label: str =N
 
 	return internal_dpg.add_color_picker(default_value, label=label, id=id, width=width, height=height, indent=indent, parent=parent, before=before, source=source, payload_type=payload_type, callback=callback, drag_callback=drag_callback, drop_callback=drop_callback, user_data=user_data, show=show, enabled=enabled, pos=pos, filter_key=filter_key, tracked=tracked, track_offset=track_offset, no_alpha=no_alpha, no_side_preview=no_side_preview, no_small_preview=no_small_preview, no_inputs=no_inputs, no_tooltip=no_tooltip, no_label=no_label, alpha_bar=alpha_bar, display_rgb=display_rgb, display_hsv=display_hsv, display_hex=display_hex, picker_mode=picker_mode, alpha_preview=alpha_preview, display_type=display_type, input_mode=input_mode)
 
-def add_color_value(*, label: str =None, id: int =0, parent: int =0, source: int =0, default_value: List[float] =(0.0, 0.0, 0.0, 0.0)) -> int:
+def add_color_value(*, label: str =None, id: int =0, source: int =0, default_value: List[float] =(0.0, 0.0, 0.0, 0.0), parent: int =internal_dpg.mvReservedUUID_3) -> int:
 	"""
 	Undocumented
 	Args:
 		**label (str): Overrides 'name' as label.
 		**id (int): Unique id used to programmatically refer to the item.If label is unused this will be the label.
-		**parent (int): Parent to add this item to. (runtime adding)
 		**source (int): Overrides 'id' as value storage key.
 		**default_value (List[float]): 
+		**parent (int): Parent to add this item to. (runtime adding)
 	Returns:
 		int
 	"""
 
-	return internal_dpg.add_color_value(label=label, id=id, parent=parent, source=source, default_value=default_value)
+	return internal_dpg.add_color_value(label=label, id=id, source=source, default_value=default_value, parent=parent)
 
 def add_colormap_scale(*, label: str =None, id: int =0, width: int =0, height: int =0, indent: int =-1, parent: int =0, before: int =0, source: int =0, show: bool =True, pos: List[int] =[], default_value: int =0, min_scale: float =0.0, max_scale: float =1.0) -> int:
 	"""
@@ -2493,35 +2501,35 @@ def add_deactivated_handler(parent : int, *, label: str =None, id: int =0, callb
 
 	return internal_dpg.add_deactivated_handler(parent, label=label, id=id, callback=callback, user_data=user_data)
 
-def add_double4_value(*, label: str =None, id: int =0, parent: int =0, source: int =0, default_value: Any =(0.0, 0.0, 0.0, 0.0)) -> int:
+def add_double4_value(*, label: str =None, id: int =0, source: int =0, default_value: Any =(0.0, 0.0, 0.0, 0.0), parent: int =internal_dpg.mvReservedUUID_3) -> int:
 	"""
 	Undocumented
 	Args:
 		**label (str): Overrides 'name' as label.
 		**id (int): Unique id used to programmatically refer to the item.If label is unused this will be the label.
-		**parent (int): Parent to add this item to. (runtime adding)
 		**source (int): Overrides 'id' as value storage key.
 		**default_value (Any): 
+		**parent (int): Parent to add this item to. (runtime adding)
 	Returns:
 		int
 	"""
 
-	return internal_dpg.add_double4_value(label=label, id=id, parent=parent, source=source, default_value=default_value)
+	return internal_dpg.add_double4_value(label=label, id=id, source=source, default_value=default_value, parent=parent)
 
-def add_double_value(*, label: str =None, id: int =0, parent: int =0, source: int =0, default_value: float =0.0) -> int:
+def add_double_value(*, label: str =None, id: int =0, source: int =0, default_value: float =0.0, parent: int =internal_dpg.mvReservedUUID_3) -> int:
 	"""
 	Undocumented
 	Args:
 		**label (str): Overrides 'name' as label.
 		**id (int): Unique id used to programmatically refer to the item.If label is unused this will be the label.
-		**parent (int): Parent to add this item to. (runtime adding)
 		**source (int): Overrides 'id' as value storage key.
 		**default_value (float): 
+		**parent (int): Parent to add this item to. (runtime adding)
 	Returns:
 		int
 	"""
 
-	return internal_dpg.add_double_value(label=label, id=id, parent=parent, source=source, default_value=default_value)
+	return internal_dpg.add_double_value(label=label, id=id, source=source, default_value=default_value, parent=parent)
 
 def add_drag_float(*, label: str =None, id: int =0, width: int =0, indent: int =-1, parent: int =0, before: int =0, source: int =0, payload_type: str ='$$DPG_PAYLOAD', callback: Callable =None, drag_callback: Callable =None, drop_callback: Callable =None, user_data: Any =None, show: bool =True, enabled: bool =True, pos: List[int] =[], filter_key: str ='', tracked: bool =False, track_offset: float =0.5, default_value: float =0.0, format: str ='%0.3f', speed: float =1.0, min_value: float =0.0, max_value: float =100.0, no_input: bool =False, clamped: bool =False) -> int:
 	"""
@@ -2785,7 +2793,7 @@ def add_dummy(*, label: str =None, id: int =0, width: int =0, height: int =0, in
 
 	return internal_dpg.add_dummy(label=label, id=id, width=width, height=height, indent=indent, parent=parent, before=before, show=show, pos=pos)
 
-def add_dynamic_texture(width : int, height : int, default_value : List[float], *, label: str =None, id: int =0, parent: int =0) -> int:
+def add_dynamic_texture(width : int, height : int, default_value : List[float], *, label: str =None, id: int =0, parent: int =internal_dpg.mvReservedUUID_2) -> int:
 	"""
 	Undocumented function
 	Args:
@@ -2897,50 +2905,50 @@ def add_filter_set(*, label: str =None, id: int =0, width: int =0, indent: int =
 
 	return internal_dpg.add_filter_set(label=label, id=id, width=width, indent=indent, parent=parent, before=before, show=show, delay_search=delay_search)
 
-def add_float4_value(*, label: str =None, id: int =0, parent: int =0, source: int =0, default_value: List[float] =(0.0, 0.0, 0.0, 0.0)) -> int:
+def add_float4_value(*, label: str =None, id: int =0, source: int =0, default_value: List[float] =(0.0, 0.0, 0.0, 0.0), parent: int =internal_dpg.mvReservedUUID_3) -> int:
 	"""
 	Undocumented
 	Args:
 		**label (str): Overrides 'name' as label.
 		**id (int): Unique id used to programmatically refer to the item.If label is unused this will be the label.
-		**parent (int): Parent to add this item to. (runtime adding)
 		**source (int): Overrides 'id' as value storage key.
 		**default_value (List[float]): 
+		**parent (int): Parent to add this item to. (runtime adding)
 	Returns:
 		int
 	"""
 
-	return internal_dpg.add_float4_value(label=label, id=id, parent=parent, source=source, default_value=default_value)
+	return internal_dpg.add_float4_value(label=label, id=id, source=source, default_value=default_value, parent=parent)
 
-def add_float_value(*, label: str =None, id: int =0, parent: int =0, source: int =0, default_value: float =0.0) -> int:
+def add_float_value(*, label: str =None, id: int =0, source: int =0, default_value: float =0.0, parent: int =internal_dpg.mvReservedUUID_3) -> int:
 	"""
 	Undocumented
 	Args:
 		**label (str): Overrides 'name' as label.
 		**id (int): Unique id used to programmatically refer to the item.If label is unused this will be the label.
-		**parent (int): Parent to add this item to. (runtime adding)
 		**source (int): Overrides 'id' as value storage key.
 		**default_value (float): 
+		**parent (int): Parent to add this item to. (runtime adding)
 	Returns:
 		int
 	"""
 
-	return internal_dpg.add_float_value(label=label, id=id, parent=parent, source=source, default_value=default_value)
+	return internal_dpg.add_float_value(label=label, id=id, source=source, default_value=default_value, parent=parent)
 
-def add_float_vect_value(*, label: str =None, id: int =0, parent: int =0, source: int =0, default_value: List[float] =()) -> int:
+def add_float_vect_value(*, label: str =None, id: int =0, source: int =0, default_value: List[float] =(), parent: int =internal_dpg.mvReservedUUID_3) -> int:
 	"""
 	Undocumented
 	Args:
 		**label (str): Overrides 'name' as label.
 		**id (int): Unique id used to programmatically refer to the item.If label is unused this will be the label.
-		**parent (int): Parent to add this item to. (runtime adding)
 		**source (int): Overrides 'id' as value storage key.
 		**default_value (List[float]): 
+		**parent (int): Parent to add this item to. (runtime adding)
 	Returns:
 		int
 	"""
 
-	return internal_dpg.add_float_vect_value(label=label, id=id, parent=parent, source=source, default_value=default_value)
+	return internal_dpg.add_float_vect_value(label=label, id=id, source=source, default_value=default_value, parent=parent)
 
 def add_focus_handler(parent : int, *, label: str =None, id: int =0, callback: Callable =None, user_data: Any =None) -> int:
 	"""
@@ -2957,7 +2965,7 @@ def add_focus_handler(parent : int, *, label: str =None, id: int =0, callback: C
 
 	return internal_dpg.add_focus_handler(parent, label=label, id=id, callback=callback, user_data=user_data)
 
-def add_font(file : str, size : int, *, label: str =None, id: int =0, parent: int =0, default_font: bool =False) -> int:
+def add_font(file : str, size : int, *, label: str =None, id: int =0, default_font: bool =False, parent: int =internal_dpg.mvReservedUUID_0) -> int:
 	"""
 	Undocumented function
 	Args:
@@ -2965,13 +2973,13 @@ def add_font(file : str, size : int, *, label: str =None, id: int =0, parent: in
 		size (int): 
 		**label (str): Overrides 'name' as label.
 		**id (int): Unique id used to programmatically refer to the item.If label is unused this will be the label.
-		**parent (int): Parent to add this item to. (runtime adding)
 		**default_font (bool): 
+		**parent (int): Parent to add this item to. (runtime adding)
 	Returns:
 		int
 	"""
 
-	return internal_dpg.add_font(file, size, label=label, id=id, parent=parent, default_font=default_font)
+	return internal_dpg.add_font(file, size, label=label, id=id, default_font=default_font, parent=parent)
 
 def add_font_chars(chars : List[int], *, label: str =None, id: int =0, parent: int =0) -> int:
 	"""
@@ -3430,86 +3438,86 @@ def add_input_text(*, label: str =None, id: int =0, width: int =0, height: int =
 
 	return internal_dpg.add_input_text(label=label, id=id, width=width, height=height, indent=indent, parent=parent, before=before, source=source, payload_type=payload_type, callback=callback, drag_callback=drag_callback, drop_callback=drop_callback, user_data=user_data, show=show, enabled=enabled, pos=pos, filter_key=filter_key, tracked=tracked, track_offset=track_offset, default_value=default_value, hint=hint, multiline=multiline, no_spaces=no_spaces, uppercase=uppercase, tab_input=tab_input, decimal=decimal, hexadecimal=hexadecimal, readonly=readonly, password=password, scientific=scientific, on_enter=on_enter)
 
-def add_int4_value(*, label: str =None, id: int =0, parent: int =0, source: int =0, default_value: List[int] =(0, 0, 0, 0)) -> int:
+def add_int4_value(*, label: str =None, id: int =0, source: int =0, default_value: List[int] =(0, 0, 0, 0), parent: int =internal_dpg.mvReservedUUID_3) -> int:
 	"""
 	Undocumented
 	Args:
 		**label (str): Overrides 'name' as label.
 		**id (int): Unique id used to programmatically refer to the item.If label is unused this will be the label.
-		**parent (int): Parent to add this item to. (runtime adding)
 		**source (int): Overrides 'id' as value storage key.
 		**default_value (List[int]): 
+		**parent (int): Parent to add this item to. (runtime adding)
 	Returns:
 		int
 	"""
 
-	return internal_dpg.add_int4_value(label=label, id=id, parent=parent, source=source, default_value=default_value)
+	return internal_dpg.add_int4_value(label=label, id=id, source=source, default_value=default_value, parent=parent)
 
-def add_int_value(*, label: str =None, id: int =0, parent: int =0, source: int =0, default_value: int =0) -> int:
+def add_int_value(*, label: str =None, id: int =0, source: int =0, default_value: int =0, parent: int =internal_dpg.mvReservedUUID_3) -> int:
 	"""
 	Undocumented
 	Args:
 		**label (str): Overrides 'name' as label.
 		**id (int): Unique id used to programmatically refer to the item.If label is unused this will be the label.
-		**parent (int): Parent to add this item to. (runtime adding)
 		**source (int): Overrides 'id' as value storage key.
 		**default_value (int): 
+		**parent (int): Parent to add this item to. (runtime adding)
 	Returns:
 		int
 	"""
 
-	return internal_dpg.add_int_value(label=label, id=id, parent=parent, source=source, default_value=default_value)
+	return internal_dpg.add_int_value(label=label, id=id, source=source, default_value=default_value, parent=parent)
 
-def add_key_down_handler(key : int =-1, *, label: str =None, id: int =0, parent: int =0, callback: Callable =None, user_data: Any =None, show: bool =True) -> int:
+def add_key_down_handler(key : int =-1, *, label: str =None, id: int =0, callback: Callable =None, user_data: Any =None, show: bool =True, parent: int =internal_dpg.mvReservedUUID_1) -> int:
 	"""
 	Adds a handler which runs a given callback when the specified key is down. Parent must be a handler registry.
 	Args:
 		*key (int): Submits callback for all keys
 		**label (str): Overrides 'name' as label.
 		**id (int): Unique id used to programmatically refer to the item.If label is unused this will be the label.
-		**parent (int): Parent to add this item to. (runtime adding)
 		**callback (Callable): Registers a callback.
 		**user_data (Any): User data for callbacks.
 		**show (bool): Attempt to render widget.
+		**parent (int): Parent to add this item to. (runtime adding)
 	Returns:
 		int
 	"""
 
-	return internal_dpg.add_key_down_handler(key, label=label, id=id, parent=parent, callback=callback, user_data=user_data, show=show)
+	return internal_dpg.add_key_down_handler(key, label=label, id=id, callback=callback, user_data=user_data, show=show, parent=parent)
 
-def add_key_press_handler(key : int =-1, *, label: str =None, id: int =0, parent: int =0, callback: Callable =None, user_data: Any =None, show: bool =True) -> int:
+def add_key_press_handler(key : int =-1, *, label: str =None, id: int =0, callback: Callable =None, user_data: Any =None, show: bool =True, parent: int =internal_dpg.mvReservedUUID_1) -> int:
 	"""
 	Adds a handler which runs a given callback when the specified key is pressed. Parent must be a handler registry.
 	Args:
 		*key (int): Submits callback for all keys
 		**label (str): Overrides 'name' as label.
 		**id (int): Unique id used to programmatically refer to the item.If label is unused this will be the label.
-		**parent (int): Parent to add this item to. (runtime adding)
 		**callback (Callable): Registers a callback.
 		**user_data (Any): User data for callbacks.
 		**show (bool): Attempt to render widget.
+		**parent (int): Parent to add this item to. (runtime adding)
 	Returns:
 		int
 	"""
 
-	return internal_dpg.add_key_press_handler(key, label=label, id=id, parent=parent, callback=callback, user_data=user_data, show=show)
+	return internal_dpg.add_key_press_handler(key, label=label, id=id, callback=callback, user_data=user_data, show=show, parent=parent)
 
-def add_key_release_handler(key : int =-1, *, label: str =None, id: int =0, parent: int =0, callback: Callable =None, user_data: Any =None, show: bool =True) -> int:
+def add_key_release_handler(key : int =-1, *, label: str =None, id: int =0, callback: Callable =None, user_data: Any =None, show: bool =True, parent: int =internal_dpg.mvReservedUUID_1) -> int:
 	"""
 	Adds a handler which runs a given callback when the specified key is released. Parent must be a handler registry.
 	Args:
 		*key (int): Submits callback for all keys
 		**label (str): Overrides 'name' as label.
 		**id (int): Unique id used to programmatically refer to the item.If label is unused this will be the label.
-		**parent (int): Parent to add this item to. (runtime adding)
 		**callback (Callable): Registers a callback.
 		**user_data (Any): User data for callbacks.
 		**show (bool): Attempt to render widget.
+		**parent (int): Parent to add this item to. (runtime adding)
 	Returns:
 		int
 	"""
 
-	return internal_dpg.add_key_release_handler(key, label=label, id=id, parent=parent, callback=callback, user_data=user_data, show=show)
+	return internal_dpg.add_key_release_handler(key, label=label, id=id, callback=callback, user_data=user_data, show=show, parent=parent)
 
 def add_knob_float(*, label: str =None, id: int =0, width: int =0, height: int =0, indent: int =-1, parent: int =0, before: int =0, source: int =0, payload_type: str ='$$DPG_PAYLOAD', callback: Callable =None, drag_callback: Callable =None, drop_callback: Callable =None, user_data: Any =None, show: bool =True, pos: List[int] =[], filter_key: str ='', tracked: bool =False, track_offset: float =0.5, default_value: float =0.0, min_value: float =0.0, max_value: float =100.0) -> int:
 	"""
@@ -3686,58 +3694,58 @@ def add_menu_item(*, label: str =None, id: int =0, indent: int =-1, parent: int 
 
 	return internal_dpg.add_menu_item(label=label, id=id, indent=indent, parent=parent, before=before, payload_type=payload_type, callback=callback, drag_callback=drag_callback, drop_callback=drop_callback, user_data=user_data, show=show, enabled=enabled, filter_key=filter_key, tracked=tracked, track_offset=track_offset, default_value=default_value, shortcut=shortcut, check=check)
 
-def add_mouse_click_handler(button : int =-1, *, label: str =None, id: int =0, parent: int =0, callback: Callable =None, user_data: Any =None, show: bool =True) -> int:
+def add_mouse_click_handler(button : int =-1, *, label: str =None, id: int =0, callback: Callable =None, user_data: Any =None, show: bool =True, parent: int =internal_dpg.mvReservedUUID_1) -> int:
 	"""
 	Adds a handler which runs a given callback when the specified mouse button is clicked. Parent must be a handler registry.
 	Args:
 		*button (int): Submits callback for all mouse buttons
 		**label (str): Overrides 'name' as label.
 		**id (int): Unique id used to programmatically refer to the item.If label is unused this will be the label.
-		**parent (int): Parent to add this item to. (runtime adding)
 		**callback (Callable): Registers a callback.
 		**user_data (Any): User data for callbacks.
 		**show (bool): Attempt to render widget.
+		**parent (int): Parent to add this item to. (runtime adding)
 	Returns:
 		int
 	"""
 
-	return internal_dpg.add_mouse_click_handler(button, label=label, id=id, parent=parent, callback=callback, user_data=user_data, show=show)
+	return internal_dpg.add_mouse_click_handler(button, label=label, id=id, callback=callback, user_data=user_data, show=show, parent=parent)
 
-def add_mouse_double_click_handler(button : int =-1, *, label: str =None, id: int =0, parent: int =0, callback: Callable =None, user_data: Any =None, show: bool =True) -> int:
+def add_mouse_double_click_handler(button : int =-1, *, label: str =None, id: int =0, callback: Callable =None, user_data: Any =None, show: bool =True, parent: int =internal_dpg.mvReservedUUID_1) -> int:
 	"""
 	Adds a handler which runs a given callback when the specified mouse button is double clicked. Parent must be a handler registry.
 	Args:
 		*button (int): Submits callback for all mouse buttons
 		**label (str): Overrides 'name' as label.
 		**id (int): Unique id used to programmatically refer to the item.If label is unused this will be the label.
-		**parent (int): Parent to add this item to. (runtime adding)
 		**callback (Callable): Registers a callback.
 		**user_data (Any): User data for callbacks.
 		**show (bool): Attempt to render widget.
+		**parent (int): Parent to add this item to. (runtime adding)
 	Returns:
 		int
 	"""
 
-	return internal_dpg.add_mouse_double_click_handler(button, label=label, id=id, parent=parent, callback=callback, user_data=user_data, show=show)
+	return internal_dpg.add_mouse_double_click_handler(button, label=label, id=id, callback=callback, user_data=user_data, show=show, parent=parent)
 
-def add_mouse_down_handler(button : int =-1, *, label: str =None, id: int =0, parent: int =0, callback: Callable =None, user_data: Any =None, show: bool =True) -> int:
+def add_mouse_down_handler(button : int =-1, *, label: str =None, id: int =0, callback: Callable =None, user_data: Any =None, show: bool =True, parent: int =internal_dpg.mvReservedUUID_1) -> int:
 	"""
 	Adds a handler which runs a given callback when the specified mouse button is down. Parent must be a handler registry.
 	Args:
 		*button (int): Submits callback for all mouse buttons
 		**label (str): Overrides 'name' as label.
 		**id (int): Unique id used to programmatically refer to the item.If label is unused this will be the label.
-		**parent (int): Parent to add this item to. (runtime adding)
 		**callback (Callable): Registers a callback.
 		**user_data (Any): User data for callbacks.
 		**show (bool): Attempt to render widget.
+		**parent (int): Parent to add this item to. (runtime adding)
 	Returns:
 		int
 	"""
 
-	return internal_dpg.add_mouse_down_handler(button, label=label, id=id, parent=parent, callback=callback, user_data=user_data, show=show)
+	return internal_dpg.add_mouse_down_handler(button, label=label, id=id, callback=callback, user_data=user_data, show=show, parent=parent)
 
-def add_mouse_drag_handler(button : int =-1, threshold : float =10.0, *, label: str =None, id: int =0, parent: int =0, callback: Callable =None, user_data: Any =None, show: bool =True) -> int:
+def add_mouse_drag_handler(button : int =-1, threshold : float =10.0, *, label: str =None, id: int =0, callback: Callable =None, user_data: Any =None, show: bool =True, parent: int =internal_dpg.mvReservedUUID_1) -> int:
 	"""
 	Adds a handler which runs a given callback when the specified mouse button is clicked and dragged a set threshold. Parent must be a handler registry.
 	Args:
@@ -3745,64 +3753,64 @@ def add_mouse_drag_handler(button : int =-1, threshold : float =10.0, *, label: 
 		*threshold (float): The threshold the mouse must be dragged before the callback is ran
 		**label (str): Overrides 'name' as label.
 		**id (int): Unique id used to programmatically refer to the item.If label is unused this will be the label.
-		**parent (int): Parent to add this item to. (runtime adding)
 		**callback (Callable): Registers a callback.
 		**user_data (Any): User data for callbacks.
 		**show (bool): Attempt to render widget.
+		**parent (int): Parent to add this item to. (runtime adding)
 	Returns:
 		int
 	"""
 
-	return internal_dpg.add_mouse_drag_handler(button, threshold, label=label, id=id, parent=parent, callback=callback, user_data=user_data, show=show)
+	return internal_dpg.add_mouse_drag_handler(button, threshold, label=label, id=id, callback=callback, user_data=user_data, show=show, parent=parent)
 
-def add_mouse_move_handler(*, label: str =None, id: int =0, parent: int =0, callback: Callable =None, user_data: Any =None, show: bool =True) -> int:
+def add_mouse_move_handler(*, label: str =None, id: int =0, callback: Callable =None, user_data: Any =None, show: bool =True, parent: int =internal_dpg.mvReservedUUID_1) -> int:
 	"""
 	Adds a handler which runs a given callback when the mouse is moved. Parent must be a handler registry.
 	Args:
 		**label (str): Overrides 'name' as label.
 		**id (int): Unique id used to programmatically refer to the item.If label is unused this will be the label.
-		**parent (int): Parent to add this item to. (runtime adding)
 		**callback (Callable): Registers a callback.
 		**user_data (Any): User data for callbacks.
 		**show (bool): Attempt to render widget.
+		**parent (int): Parent to add this item to. (runtime adding)
 	Returns:
 		int
 	"""
 
-	return internal_dpg.add_mouse_move_handler(label=label, id=id, parent=parent, callback=callback, user_data=user_data, show=show)
+	return internal_dpg.add_mouse_move_handler(label=label, id=id, callback=callback, user_data=user_data, show=show, parent=parent)
 
-def add_mouse_release_handler(button : int =-1, *, label: str =None, id: int =0, parent: int =0, callback: Callable =None, user_data: Any =None, show: bool =True) -> int:
+def add_mouse_release_handler(button : int =-1, *, label: str =None, id: int =0, callback: Callable =None, user_data: Any =None, show: bool =True, parent: int =internal_dpg.mvReservedUUID_1) -> int:
 	"""
 	Adds a handler which runs a given callback when the specified mouse button is released. Parent must be a handler registry.
 	Args:
 		*button (int): Submits callback for all mouse buttons
 		**label (str): Overrides 'name' as label.
 		**id (int): Unique id used to programmatically refer to the item.If label is unused this will be the label.
-		**parent (int): Parent to add this item to. (runtime adding)
 		**callback (Callable): Registers a callback.
 		**user_data (Any): User data for callbacks.
 		**show (bool): Attempt to render widget.
+		**parent (int): Parent to add this item to. (runtime adding)
 	Returns:
 		int
 	"""
 
-	return internal_dpg.add_mouse_release_handler(button, label=label, id=id, parent=parent, callback=callback, user_data=user_data, show=show)
+	return internal_dpg.add_mouse_release_handler(button, label=label, id=id, callback=callback, user_data=user_data, show=show, parent=parent)
 
-def add_mouse_wheel_handler(*, label: str =None, id: int =0, parent: int =0, callback: Callable =None, user_data: Any =None, show: bool =True) -> int:
+def add_mouse_wheel_handler(*, label: str =None, id: int =0, callback: Callable =None, user_data: Any =None, show: bool =True, parent: int =internal_dpg.mvReservedUUID_1) -> int:
 	"""
 	Adds a handler which runs a given callback when the vertical mouse wheel is scrolled. Parent must be a handler registry.
 	Args:
 		**label (str): Overrides 'name' as label.
 		**id (int): Unique id used to programmatically refer to the item.If label is unused this will be the label.
-		**parent (int): Parent to add this item to. (runtime adding)
 		**callback (Callable): Registers a callback.
 		**user_data (Any): User data for callbacks.
 		**show (bool): Attempt to render widget.
+		**parent (int): Parent to add this item to. (runtime adding)
 	Returns:
 		int
 	"""
 
-	return internal_dpg.add_mouse_wheel_handler(label=label, id=id, parent=parent, callback=callback, user_data=user_data, show=show)
+	return internal_dpg.add_mouse_wheel_handler(label=label, id=id, callback=callback, user_data=user_data, show=show, parent=parent)
 
 def add_node(*, label: str =None, id: int =0, parent: int =0, before: int =0, payload_type: str ='$$DPG_PAYLOAD', drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, pos: List[int] =[], filter_key: str ='', delay_search: str =False, tracked: bool =False, track_offset: float =0.5, draggable: bool =True) -> int:
 	"""
@@ -4178,20 +4186,20 @@ def add_separator(*, label: str =None, id: int =0, indent: int =-1, parent: int 
 
 	return internal_dpg.add_separator(label=label, id=id, indent=indent, parent=parent, before=before, show=show, pos=pos)
 
-def add_series_value(*, label: str =None, id: int =0, parent: int =0, source: int =0, default_value: Any =()) -> int:
+def add_series_value(*, label: str =None, id: int =0, source: int =0, default_value: Any =(), parent: int =internal_dpg.mvReservedUUID_3) -> int:
 	"""
 	Undocumented
 	Args:
 		**label (str): Overrides 'name' as label.
 		**id (int): Unique id used to programmatically refer to the item.If label is unused this will be the label.
-		**parent (int): Parent to add this item to. (runtime adding)
 		**source (int): Overrides 'id' as value storage key.
 		**default_value (Any): 
+		**parent (int): Parent to add this item to. (runtime adding)
 	Returns:
 		int
 	"""
 
-	return internal_dpg.add_series_value(label=label, id=id, parent=parent, source=source, default_value=default_value)
+	return internal_dpg.add_series_value(label=label, id=id, source=source, default_value=default_value, parent=parent)
 
 def add_shade_series(x : List[float], y1 : List[float], *, label: str =None, id: int =0, parent: int =0, before: int =0, source: int =0, show: bool =True, y2: Any =[], contribute_to_bounds: bool =True) -> int:
 	"""
@@ -4435,7 +4443,7 @@ def add_stair_series(x : List[float], y : List[float], *, label: str =None, id: 
 
 	return internal_dpg.add_stair_series(x, y, label=label, id=id, parent=parent, before=before, source=source, show=show, contribute_to_bounds=contribute_to_bounds)
 
-def add_static_texture(width : int, height : int, default_value : List[float], *, label: str =None, id: int =0, parent: int =0, file: str ='') -> int:
+def add_static_texture(width : int, height : int, default_value : List[float], *, label: str =None, id: int =0, file: str ='', parent: int =internal_dpg.mvReservedUUID_2) -> int:
 	"""
 	Undocumented function
 	Args:
@@ -4444,13 +4452,13 @@ def add_static_texture(width : int, height : int, default_value : List[float], *
 		default_value (List[float]): 
 		**label (str): Overrides 'name' as label.
 		**id (int): Unique id used to programmatically refer to the item.If label is unused this will be the label.
-		**parent (int): Parent to add this item to. (runtime adding)
 		**file (str): 
+		**parent (int): Parent to add this item to. (runtime adding)
 	Returns:
 		int
 	"""
 
-	return internal_dpg.add_static_texture(width, height, default_value, label=label, id=id, parent=parent, file=file)
+	return internal_dpg.add_static_texture(width, height, default_value, label=label, id=id, file=file, parent=parent)
 
 def add_stem_series(x : List[float], y : List[float], *, label: str =None, id: int =0, indent: int =-1, parent: int =0, before: int =0, source: int =0, show: bool =True, contribute_to_bounds: bool =True) -> int:
 	"""
@@ -4472,20 +4480,20 @@ def add_stem_series(x : List[float], y : List[float], *, label: str =None, id: i
 
 	return internal_dpg.add_stem_series(x, y, label=label, id=id, indent=indent, parent=parent, before=before, source=source, show=show, contribute_to_bounds=contribute_to_bounds)
 
-def add_string_value(*, label: str =None, id: int =0, parent: int =0, source: int =0, default_value: str ='') -> int:
+def add_string_value(*, label: str =None, id: int =0, source: int =0, default_value: str ='', parent: int =internal_dpg.mvReservedUUID_3) -> int:
 	"""
 	Undocumented
 	Args:
 		**label (str): Overrides 'name' as label.
 		**id (int): Unique id used to programmatically refer to the item.If label is unused this will be the label.
-		**parent (int): Parent to add this item to. (runtime adding)
 		**source (int): Overrides 'id' as value storage key.
 		**default_value (str): 
+		**parent (int): Parent to add this item to. (runtime adding)
 	Returns:
 		int
 	"""
 
-	return internal_dpg.add_string_value(label=label, id=id, parent=parent, source=source, default_value=default_value)
+	return internal_dpg.add_string_value(label=label, id=id, source=source, default_value=default_value, parent=parent)
 
 def add_tab(*, label: str =None, id: int =0, indent: int =-1, parent: int =0, before: int =0, payload_type: str ='$$DPG_PAYLOAD', drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, filter_key: str ='', delay_search: str =False, tracked: bool =False, track_offset: float =0.5, closable: bool =False, no_tooltip: bool =False, order_mode: bool =0) -> int:
 	"""
@@ -5370,7 +5378,7 @@ def focus_item(item : int) -> None:
 
 def generate_uuid() -> int:
 	"""
-	Undocumented
+	Generate a new UUID
 	Args:
 	Returns:
 		int
@@ -5825,6 +5833,16 @@ def last_root() -> int:
 
 	return internal_dpg.last_root()
 
+def lock_mutex() -> None:
+	"""
+	Undocumented
+	Args:
+	Returns:
+		None
+	"""
+
+	return internal_dpg.lock_mutex()
+
 def maximize_viewport() -> None:
 	"""
 	Undocumented
@@ -6232,6 +6250,16 @@ def top_container_stack() -> int:
 	"""
 
 	return internal_dpg.top_container_stack()
+
+def unlock_mutex() -> None:
+	"""
+	Undocumented
+	Args:
+	Returns:
+		None
+	"""
+
+	return internal_dpg.unlock_mutex()
 
 def unstage_items(items : List[int]) -> None:
 	"""
@@ -6798,3 +6826,13 @@ mvDouble4Value=internal_dpg.mvDouble4Value
 mvColorValue=internal_dpg.mvColorValue
 mvFloatVectValue=internal_dpg.mvFloatVectValue
 mvSeriesValue=internal_dpg.mvSeriesValue
+mvReservedUUID_0=internal_dpg.mvReservedUUID_0
+mvReservedUUID_1=internal_dpg.mvReservedUUID_1
+mvReservedUUID_2=internal_dpg.mvReservedUUID_2
+mvReservedUUID_3=internal_dpg.mvReservedUUID_3
+mvReservedUUID_4=internal_dpg.mvReservedUUID_4
+mvReservedUUID_5=internal_dpg.mvReservedUUID_5
+mvReservedUUID_6=internal_dpg.mvReservedUUID_6
+mvReservedUUID_7=internal_dpg.mvReservedUUID_7
+mvReservedUUID_8=internal_dpg.mvReservedUUID_8
+mvReservedUUID_9=internal_dpg.mvReservedUUID_9

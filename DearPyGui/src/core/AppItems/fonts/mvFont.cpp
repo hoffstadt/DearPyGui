@@ -18,13 +18,14 @@ namespace Marvel {
 
 		mvPythonParser parser(mvPyDataType::UUID, "Undocumented function", { "Fonts", "Containers" }, true);
 		mvAppItem::AddCommonArgs(parser, (CommonParserArgs)(
-			MV_PARSER_ARG_ID |
-			MV_PARSER_ARG_PARENT)
+			MV_PARSER_ARG_ID)
 		);
 
 		parser.addArg<mvPyDataType::String>("file");
 		parser.addArg<mvPyDataType::Integer>("size");
 		parser.addArg<mvPyDataType::Bool>("default_font", mvArgType::KEYWORD_ARG, "False");
+
+		parser.addArg<mvPyDataType::UUID>("parent", mvArgType::KEYWORD_ARG, "internal_dpg.mvReservedUUID_0", "Parent to add this item to. (runtime adding)");
 
 		parser.finalize();
 

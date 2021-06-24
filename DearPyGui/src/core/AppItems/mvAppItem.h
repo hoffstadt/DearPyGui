@@ -218,7 +218,6 @@ namespace Marvel {
         MV_CREATE_COMMAND(set_value);
         MV_CREATE_COMMAND(focus_item);
         MV_CREATE_COMMAND(reset_pos);
-        MV_CREATE_COMMAND(generate_uuid);
         MV_CREATE_COMMAND(set_item_children);
         MV_CREATE_COMMAND(set_item_font);
         MV_CREATE_COMMAND(set_item_theme);
@@ -237,7 +236,6 @@ namespace Marvel {
             MV_ADD_COMMAND(set_value);
             MV_ADD_COMMAND(focus_item);
             MV_ADD_COMMAND(reset_pos);
-            MV_ADD_COMMAND(generate_uuid);
             MV_ADD_COMMAND(set_item_children);
             MV_ADD_COMMAND(set_item_font);
             MV_ADD_COMMAND(set_item_theme);
@@ -256,9 +254,6 @@ namespace Marvel {
 
         // adds the common app item arguments (label, id, etc.)
         static void AddCommonArgs(mvPythonParser& parser, CommonParserArgs args);
-
-        // generates UUID: used by users and internally
-        static mvUUID GenerateUUID();
 
     protected:
 

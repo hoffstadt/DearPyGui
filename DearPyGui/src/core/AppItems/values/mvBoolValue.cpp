@@ -13,12 +13,11 @@ namespace Marvel {
         mvPythonParser parser(mvPyDataType::UUID, "Undocumented", { "Widgets", "Values"});
         mvAppItem::AddCommonArgs(parser, (CommonParserArgs)(
             MV_PARSER_ARG_ID |
-            MV_PARSER_ARG_PARENT |
             MV_PARSER_ARG_SOURCE)
         );
 
         parser.addArg<mvPyDataType::Bool>("default_value", mvArgType::KEYWORD_ARG, "False");
-
+        parser.addArg<mvPyDataType::UUID>("parent", mvArgType::KEYWORD_ARG, "internal_dpg.mvReservedUUID_3", "Parent to add this item to. (runtime adding)");
         parser.finalize();
 
         parsers->insert({ s_command, parser });
