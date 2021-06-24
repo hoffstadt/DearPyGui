@@ -101,7 +101,7 @@ namespace Marvel {
 		}
 
 		
-		// ugly
+		// without panel
 		if (m_children[1].empty())
 		{
 			if (m_modal)
@@ -109,6 +109,8 @@ namespace Marvel {
 			else
 				m_instance.OpenDialog(m_label.c_str(), m_label.c_str(), m_directory ? nullptr : m_filters.c_str(), m_defaultPath, m_defaultFilename, m_fileCount);
 		}
+
+		// with panel
 		else
 		{
 

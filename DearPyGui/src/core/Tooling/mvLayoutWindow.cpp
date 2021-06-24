@@ -342,6 +342,7 @@ namespace Marvel {
         ImGui::Checkbox("mvHandlerRegistry", &m_handler);
         ImGui::Checkbox("mvTextureRegistry", &m_texture);
         ImGui::Checkbox("mvTheme", &m_theme);
+        ImGui::Checkbox("mvValueRegistry", &m_values);
         ImGui::EndGroup();
 
         ImGui::SameLine();
@@ -380,6 +381,9 @@ namespace Marvel {
                     continue;
 
                 if (window->getType() == mvAppItemType::mvTheme && !m_theme)
+                    continue;
+
+                if (window->getType() == mvAppItemType::mvValueRegistry && !m_values)
                     continue;
 
                 renderTreeNode(window.get());

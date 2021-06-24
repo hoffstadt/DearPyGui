@@ -1,5 +1,18 @@
 #pragma once
 
+#include "values/mvValueRegistry.h"
+#include "values/mvIntValue.h"
+#include "values/mvInt4Value.h"
+#include "values/mvBoolValue.h"
+#include "values/mvFloatValue.h"
+#include "values/mvFloat4Value.h"
+#include "values/mvStringValue.h"
+#include "values/mvDoubleValue.h"
+#include "values/mvDouble4Value.h"
+#include "values/mvColorValue.h"
+#include "values/mvFloatVectValue.h"
+#include "values/mvSeriesValue.h"
+
 #include "textures/mvStaticTexture.h"
 #include "textures/mvDynamicTexture.h"
 #include "textures/mvTextureRegistry.h"

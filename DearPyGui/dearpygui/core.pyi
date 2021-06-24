@@ -30,6 +30,10 @@ def add_bar_series(x : List[float], y : List[float], *, label: str =None, id: in
 	"""Adds a bar series to a plot."""
 	...
 
+def add_bool_value(*, label: str =None, id: int =0, parent: int =0, source: int =0, default_value: bool =False) -> int:
+	"""Undocumented"""
+	...
+
 def add_button(*, label: str =None, id: int =0, width: int =0, height: int =0, indent: int =-1, parent: int =0, before: int =0, payload_type: str ='$$DPG_PAYLOAD', callback: Callable =None, drag_callback: Callable =None, drop_callback: Callable =None, user_data: Any =None, show: bool =True, enabled: bool =True, pos: List[int] =[], filter_key: str ='', tracked: bool =False, track_offset: float =0.5, small: bool =False, arrow: bool =False, direction: int =0) -> int:
 	"""Adds a button."""
 	...
@@ -74,6 +78,10 @@ def add_color_picker(default_value : List[int] =(0, 0, 0, 255), *, label: str =N
 	"""Adds an RGB color picker. Click and drag the color square to copy the color and drop on any other color widget to apply. Right Click allows the style of the color picker to be changed."""
 	...
 
+def add_color_value(*, label: str =None, id: int =0, parent: int =0, source: int =0, default_value: List[float] =(0.0, 0.0, 0.0, 0.0)) -> int:
+	"""Undocumented"""
+	...
+
 def add_colormap_scale(*, label: str =None, id: int =0, width: int =0, height: int =0, indent: int =-1, parent: int =0, before: int =0, source: int =0, show: bool =True, pos: List[int] =[], default_value: int =0, min_scale: float =0.0, max_scale: float =1.0) -> int:
 	"""Undocumented"""
 	...
@@ -92,6 +100,14 @@ def add_deactivated_after_edit_handler(parent : int, *, label: str =None, id: in
 
 def add_deactivated_handler(parent : int, *, label: str =None, id: int =0, callback: Callable =None, user_data: Any =None) -> int:
 	"""Adds a handler which runs a given callback when the specified item is deactivated."""
+	...
+
+def add_double4_value(*, label: str =None, id: int =0, parent: int =0, source: int =0, default_value: Any =(0.0, 0.0, 0.0, 0.0)) -> int:
+	"""Undocumented"""
+	...
+
+def add_double_value(*, label: str =None, id: int =0, parent: int =0, source: int =0, default_value: float =0.0) -> int:
+	"""Undocumented"""
 	...
 
 def add_drag_float(*, label: str =None, id: int =0, width: int =0, indent: int =-1, parent: int =0, before: int =0, source: int =0, payload_type: str ='$$DPG_PAYLOAD', callback: Callable =None, drag_callback: Callable =None, drop_callback: Callable =None, user_data: Any =None, show: bool =True, enabled: bool =True, pos: List[int] =[], filter_key: str ='', tracked: bool =False, track_offset: float =0.5, default_value: float =0.0, format: str ='%0.3f', speed: float =1.0, min_value: float =0.0, max_value: float =100.0, no_input: bool =False, clamped: bool =False) -> int:
@@ -156,6 +172,18 @@ def add_file_extension(extension : str, *, label: str =None, id: int =0, width: 
 
 def add_filter_set(*, label: str =None, id: int =0, width: int =0, indent: int =-1, parent: int =0, before: int =0, show: bool =True, delay_search: str =False) -> int:
 	"""Helper to parse and apply text filters (e.g. aaaaa[, bbbbb][, ccccc])"""
+	...
+
+def add_float4_value(*, label: str =None, id: int =0, parent: int =0, source: int =0, default_value: List[float] =(0.0, 0.0, 0.0, 0.0)) -> int:
+	"""Undocumented"""
+	...
+
+def add_float_value(*, label: str =None, id: int =0, parent: int =0, source: int =0, default_value: float =0.0) -> int:
+	"""Undocumented"""
+	...
+
+def add_float_vect_value(*, label: str =None, id: int =0, parent: int =0, source: int =0, default_value: List[float] =()) -> int:
+	"""Undocumented"""
 	...
 
 def add_focus_handler(parent : int, *, label: str =None, id: int =0, callback: Callable =None, user_data: Any =None) -> int:
@@ -236,6 +264,14 @@ def add_input_intx(*, label: str =None, id: int =0, width: int =0, indent: int =
 
 def add_input_text(*, label: str =None, id: int =0, width: int =0, height: int =0, indent: int =-1, parent: int =0, before: int =0, source: int =0, payload_type: str ='$$DPG_PAYLOAD', callback: Callable =None, drag_callback: Callable =None, drop_callback: Callable =None, user_data: Any =None, show: bool =True, enabled: bool =True, pos: List[int] =[], filter_key: str ='', tracked: bool =False, track_offset: float =0.5, default_value: str ='', hint: str ='', multiline: bool =False, no_spaces: bool =False, uppercase: bool =False, tab_input: bool =False, decimal: bool =False, hexadecimal: bool =False, readonly: bool =False, password: bool =False, scientific: bool =False, on_enter: bool =False) -> int:
 	"""Adds input for text."""
+	...
+
+def add_int4_value(*, label: str =None, id: int =0, parent: int =0, source: int =0, default_value: List[int] =(0, 0, 0, 0)) -> int:
+	"""Undocumented"""
+	...
+
+def add_int_value(*, label: str =None, id: int =0, parent: int =0, source: int =0, default_value: int =0) -> int:
+	"""Undocumented"""
 	...
 
 def add_key_down_handler(key : int =-1, *, label: str =None, id: int =0, parent: int =0, callback: Callable =None, user_data: Any =None, show: bool =True) -> int:
@@ -370,6 +406,10 @@ def add_separator(*, label: str =None, id: int =0, indent: int =-1, parent: int 
 	"""Adds a horizontal line."""
 	...
 
+def add_series_value(*, label: str =None, id: int =0, parent: int =0, source: int =0, default_value: Any =()) -> int:
+	"""Undocumented"""
+	...
+
 def add_shade_series(x : List[float], y1 : List[float], *, label: str =None, id: int =0, parent: int =0, before: int =0, source: int =0, show: bool =True, y2: Any =[], contribute_to_bounds: bool =True) -> int:
 	"""Adds a shade series to a plot."""
 	...
@@ -412,6 +452,10 @@ def add_static_texture(width : int, height : int, default_value : List[float], *
 
 def add_stem_series(x : List[float], y : List[float], *, label: str =None, id: int =0, indent: int =-1, parent: int =0, before: int =0, source: int =0, show: bool =True, contribute_to_bounds: bool =True) -> int:
 	"""Adds a stem series to a plot."""
+	...
+
+def add_string_value(*, label: str =None, id: int =0, parent: int =0, source: int =0, default_value: str ='') -> int:
+	"""Undocumented"""
 	...
 
 def add_tab(*, label: str =None, id: int =0, indent: int =-1, parent: int =0, before: int =0, payload_type: str ='$$DPG_PAYLOAD', drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, filter_key: str ='', delay_search: str =False, tracked: bool =False, track_offset: float =0.5, closable: bool =False, no_tooltip: bool =False, order_mode: bool =0) -> int:
@@ -480,6 +524,10 @@ def add_tooltip(parent : str, *, label: str =None, id: int =0, show: bool =True)
 
 def add_tree_node(*, label: str =None, id: int =0, indent: int =-1, parent: int =0, before: int =0, payload_type: str ='$$DPG_PAYLOAD', drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, pos: List[int] =[], filter_key: str ='', delay_search: str =False, tracked: bool =False, track_offset: float =0.5, default_open: bool =False, open_on_double_click: bool =False, open_on_arrow: bool =False, leaf: bool =False, bullet: bool =False, selectable: bool =False) -> int:
 	"""Adds a tree node to add items to. Must be closed with the end command."""
+	...
+
+def add_value_registry(*, label: str =None, id: int =0) -> int:
+	"""Undocumented function"""
 	...
 
 def add_viewport_drawlist(*, label: str =None, id: int =0, show: bool =True, filter_key: str ='', delay_search: str =False, front: bool =True) -> int:

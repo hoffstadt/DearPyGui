@@ -1031,7 +1031,11 @@ namespace Marvel{
 		{
 			m_trackOffset = ToFloat(item);
 		}
-		if (PyObject* item = PyDict_GetItemString(dict, "default_value")) setPyValue(item);
+		if (PyObject* item = PyDict_GetItemString(dict, "default_value"))
+		{
+			if(m_source == 0)
+				setPyValue(item);
+		}
 
 		if (PyObject* item = PyDict_GetItemString(dict, "callback"))
 		{

@@ -192,6 +192,19 @@ set(MARVEL_SOURCES
     "src/core/AppItems/widget_handlers/mvClickedHandler.cpp"
 	"src/core/AppItems/widget_handlers/mvResizeHandler.cpp"
 
+	"src/core/AppItems/values/mvValueRegistry.cpp"
+	"src/core/AppItems/values/mvIntValue.cpp"
+	"src/core/AppItems/values/mvBoolValue.cpp"
+	"src/core/AppItems/values/mvInt4Value.cpp"
+	"src/core/AppItems/values/mvFloatValue.cpp"
+	"src/core/AppItems/values/mvFloat4Value.cpp"
+	"src/core/AppItems/values/mvStringValue.cpp"
+	"src/core/AppItems/values/mvDoubleValue.cpp"
+	"src/core/AppItems/values/mvDouble4Value.cpp"
+	"src/core/AppItems/values/mvColorValue.cpp"
+	"src/core/AppItems/values/mvFloatVectValue.cpp"
+	"src/core/AppItems/values/mvSeriesValue.cpp"
+
 	# imnodes
 	"vendor/imnodes/imnodes.cpp"
 

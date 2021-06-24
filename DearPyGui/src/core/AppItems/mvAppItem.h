@@ -68,6 +68,9 @@ namespace Marvel {
         mvToggledOpenHandler, mvClickedHandler, mvDragPayload, mvResizeHandler,
         mvFont, mvFontRegistry, mvTheme, mvThemeColor, mvThemeStyle,
         mvFontRangeHint, mvFontRange, mvFontChars, mvCharRemap,
+        mvValueRegistry, mvIntValue, mvFloatValue, mvFloat4Value,
+        mvInt4Value, mvBoolValue, mvStringValue, mvDoubleValue, mvDouble4Value,
+        mvColorValue, mvFloatVectValue, mvSeriesValue,
         ItemTypeCount
     };
 
@@ -411,6 +414,14 @@ namespace Marvel {
         std::string    m_label; // internal label
 
         mvAppItem*                    m_parentPtr = nullptr;
+
+        // slots
+        //   * 0 : mvFileExtension, mvFontRangeHint, mvNodeLink, mvAnnotation
+        //         mvDragLine, mvDragPoint, mvLegend, mvTableColumn
+        //   * 1 : Most widgets
+        //   * 2 : Draw Commands
+        //   * 3 : Widget Handlers
+        //   * 4 : mvDragPayload
         std::vector<mvRef<mvAppItem>> m_children[5] = { {}, {}, {}, {}, {} };
 
         // font
