@@ -74,11 +74,16 @@ namespace Marvel {
 			io.FontDefault = m_fontPtr;
 
 		// check ranges
-		for (const auto& range : m_children[3])
+		for (const auto& range : m_children[1])
 		{
-			const auto rangePtr = static_cast<const mvCharRemap*>(range.get());
 
-			m_fontPtr->AddRemapChar(rangePtr->getSourceChar(), rangePtr->getTargetChar());
+			if (range->getType() == mvAppItemType::mvCharRemap)
+			{
+				const auto rangePtr = static_cast<const mvCharRemap*>(range.get());
+
+				m_fontPtr->AddRemapChar(rangePtr->getSourceChar(), rangePtr->getTargetChar());
+			}
+
 		}
 	}
 
@@ -127,21 +132,22 @@ namespace Marvel {
 
 		}
 
-		// check ranges
+		// check ranges and chars
 		for (const auto& range : m_children[1])
 		{
-			const auto rangePtr = static_cast<const mvFontRange*>(range.get());
+			if (range->getType() == mvAppItemType::mvFontRange)
+			{
+				const auto rangePtr = static_cast<const mvFontRange*>(range.get());
+				builder.AddRanges(rangePtr->getRange().data());
+			}
 
-			builder.AddRanges(rangePtr->getRange().data());
-		}
+			else if (range->getType() == mvAppItemType::mvFontChars)
+			{
+				const auto rangePtr = static_cast<const mvFontChars*>(range.get());
 
-		// check chars
-		for (const auto& range : m_children[2])
-		{
-			const auto rangePtr = static_cast<const mvFontChars*>(range.get());
-
-			for (const auto& specificChar : rangePtr->getCharacters())
-				builder.AddChar(specificChar);
+				for (const auto& specificChar : rangePtr->getCharacters())
+					builder.AddChar(specificChar);
+			}
 		}
 
 		builder.BuildRanges(&m_ranges);   // Build the final result (ordered ranges with all the unique characters submitted)
