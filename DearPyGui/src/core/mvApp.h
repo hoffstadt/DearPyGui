@@ -75,6 +75,8 @@ namespace Marvel {
         MV_CREATE_COMMAND(stop_dearpygui);
         MV_CREATE_COMMAND(is_dearpygui_running);
         MV_CREATE_COMMAND(generate_uuid);
+        MV_CREATE_COMMAND(use_init_file);
+        MV_CREATE_COMMAND(load_init_file);
 
         MV_START_COMMANDS
             MV_ADD_COMMAND(lock_mutex);
@@ -89,6 +91,8 @@ namespace Marvel {
             MV_ADD_COMMAND(stop_dearpygui);
             MV_ADD_COMMAND(is_dearpygui_running);
             MV_ADD_COMMAND(generate_uuid);
+            MV_ADD_COMMAND(use_init_file);
+            MV_ADD_COMMAND(load_init_file);
         MV_END_COMMANDS
 
         //-----------------------------------------------------------------------------
@@ -133,6 +137,8 @@ namespace Marvel {
         //-----------------------------------------------------------------------------
         // App Settings
         //-----------------------------------------------------------------------------
+        void        useIniFile() { m_iniFile = "dpg.ini"; m_useIniFile = true; }
+        void        loadIniFile(const std::string& file) { m_iniFile = file; m_loadIniFile = true; }
         void        turnOnDocking(bool dockSpace);	
         void        setViewport  (mvViewport* viewport) { m_viewport = viewport; }
         mvViewport* getViewport  ()       { return m_viewport; }
@@ -160,6 +166,11 @@ namespace Marvel {
         // docking                                   
         bool m_docking          = false;
         bool m_dockingViewport  = false;
+
+        // ini file
+        std::string m_iniFile;
+        bool m_loadIniFile = false;
+        bool m_useIniFile = false;
                     
         mvViewport*       m_viewport = nullptr;
         std::future<bool> m_future;
