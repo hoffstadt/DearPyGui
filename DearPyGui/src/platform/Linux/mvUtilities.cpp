@@ -70,6 +70,35 @@ namespace Marvel {
         return reinterpret_cast<void *>(image_texture);
     }
 
+    void* LoadTextureFromArrayRaw(unsigned width, unsigned height, float* data, int components)
+    {
+
+        // Create a OpenGL texture identifier
+        GLuint image_texture;
+        glGenTextures(1, &image_texture);
+        glBindTexture(GL_TEXTURE_2D, image_texture);
+
+        // Setup filtering parameters for display
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+        // Upload pixels into texture
+        glPixelStorei(GL_UNPACK_ROW_LENGTH, 0);
+        if(components == 4)
+            glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_FLOAT, data);
+        else
+            glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_FLOAT, data);
+
+        GLuint pboid;
+        glGenBuffers(1, &pboid);
+        glBindBuffer(GL_PIXEL_UNPACK_BUFFER, pboid);
+        glBufferData(GL_PIXEL_UNPACK_BUFFER, width * height * components * sizeof(float), 0, GL_STREAM_DRAW);
+        glBindBuffer(GL_PIXEL_UNPACK_BUFFER, 0);
+        PBO_ids[image_texture] = pboid;
+
+        return reinterpret_cast<void*>(image_texture);
+    }
+
     void* LoadTextureFromFile(const char* filename, int& width, int& height)
     {
 
@@ -151,6 +180,55 @@ namespace Marvel {
         {
             // update data directly on the mapped buffer
             UpdatePixels(ptr, data.data(), data.size());
+
+            glUnmapBuffer(GL_PIXEL_UNPACK_BUFFER);  // release pointer to mapping buffer
+        }
+
+        ///////////////////////////////////////////////////
+
+        // it is good idea to release PBOs with ID 0 after use.
+        // Once bound with 0, all pixel operations behave normal ways.
+        glBindBuffer(GL_PIXEL_UNPACK_BUFFER, 0);
+    }
+
+    void UpdateRawTexture(void* texture, unsigned width, unsigned height, float* data, int components)
+    {
+        auto textureId = (GLuint)(size_t)texture;
+
+        // start to copy from PBO to texture object ///////
+
+        // bind the texture and PBO
+        glBindTexture(GL_TEXTURE_2D, textureId);
+        glBindBuffer(GL_PIXEL_UNPACK_BUFFER, PBO_ids[textureId]);
+
+        // copy pixels from PBO to texture object
+        // Use offset instead of ponter.
+        if(components == 4)
+            glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, width, height, GL_RGBA, GL_FLOAT, 0);
+        else
+            glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, width, height, GL_RGB, GL_FLOAT, 0);
+
+        ///////////////////////////////////////////////////
+
+        // start to modify pixel values ///////////////////
+
+        // bind PBO to update pixel values
+        glBindBuffer(GL_PIXEL_UNPACK_BUFFER, PBO_ids[textureId]);
+
+        // map the buffer object into client's memory
+        // Note that glMapBuffer() causes sync issue.
+        // If GPU is working with this buffer, glMapBuffer() will wait(stall)
+        // for GPU to finish its job. To avoid waiting (stall), you can call
+        // first glBufferData() with NULL pointer before glMapBuffer().
+        // If you do that, the previous data in PBO will be discarded and
+        // glMapBuffer() returns a new allocated pointer immediately
+        // even if GPU is still working with the previous data.
+        glBufferData(GL_PIXEL_UNPACK_BUFFER, width * height * components * sizeof(float), 0, GL_STREAM_DRAW);
+        GLubyte* ptr = (GLubyte*)glMapBuffer(GL_PIXEL_UNPACK_BUFFER, GL_WRITE_ONLY);
+        if (ptr)
+        {
+            // update data directly on the mapped buffer
+            UpdatePixels(ptr, data, width*height*components);
 
             glUnmapBuffer(GL_PIXEL_UNPACK_BUFFER);  // release pointer to mapping buffer
         }

@@ -70,7 +70,7 @@ namespace Marvel {
         mvFontRangeHint, mvFontRange, mvFontChars, mvCharRemap,
         mvValueRegistry, mvIntValue, mvFloatValue, mvFloat4Value,
         mvInt4Value, mvBoolValue, mvStringValue, mvDoubleValue, mvDouble4Value,
-        mvColorValue, mvFloatVectValue, mvSeriesValue,
+        mvColorValue, mvFloatVectValue, mvSeriesValue, mvRawTexture,
         ItemTypeCount
     };
 

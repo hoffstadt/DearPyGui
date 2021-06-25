@@ -4087,6 +4087,23 @@ def add_radio_button(items : int =(), *, label: str =None, id: int =0, indent: i
 
 	return internal_dpg.add_radio_button(items, label=label, id=id, indent=indent, parent=parent, before=before, source=source, payload_type=payload_type, callback=callback, drag_callback=drag_callback, drop_callback=drop_callback, user_data=user_data, show=show, enabled=enabled, pos=pos, filter_key=filter_key, tracked=tracked, track_offset=track_offset, default_value=default_value, horizontal=horizontal)
 
+def add_raw_texture(width : int, height : int, default_value : List[float], *, label: str =None, id: int =0, format: int =internal_dpg.mvFormat_Float_rgba, parent: int =internal_dpg.mvReservedUUID_2) -> int:
+	"""
+	Undocumented function
+	Args:
+		width (int): 
+		height (int): 
+		default_value (List[float]): 
+		**label (str): Overrides 'name' as label.
+		**id (int): Unique id used to programmatically refer to the item.If label is unused this will be the label.
+		**format (int): Data format.
+		**parent (int): Parent to add this item to. (runtime adding)
+	Returns:
+		int
+	"""
+
+	return internal_dpg.add_raw_texture(width, height, default_value, label=label, id=id, format=format, parent=parent)
+
 def add_resize_handler(parent : int, *, label: str =None, id: int =0, callback: Callable =None, user_data: Any =None) -> int:
 	"""
 	Adds a handler which runs a given callback when the specified item is resized.
@@ -6829,6 +6846,9 @@ mvDouble4Value=internal_dpg.mvDouble4Value
 mvColorValue=internal_dpg.mvColorValue
 mvFloatVectValue=internal_dpg.mvFloatVectValue
 mvSeriesValue=internal_dpg.mvSeriesValue
+mvRawTexture=internal_dpg.mvRawTexture
+mvFormat_Float_rgba=internal_dpg.mvFormat_Float_rgba
+mvFormat_Float_rgb=internal_dpg.mvFormat_Float_rgb
 mvReservedUUID_0=internal_dpg.mvReservedUUID_0
 mvReservedUUID_1=internal_dpg.mvReservedUUID_1
 mvReservedUUID_2=internal_dpg.mvReservedUUID_2

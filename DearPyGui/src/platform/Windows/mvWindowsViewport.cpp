@@ -269,6 +269,15 @@ namespace Marvel {
 			return false;
 
 		CreateRenderTarget();
+
+		//UINT support1;
+		//s_pd3dDevice->CheckFormatSupport(DXGI_FORMAT_R8G8B8A8_SINT, &support1);
+		//if (support1 & D3D11_FORMAT_SUPPORT_TEXTURE2D)
+		//{
+		//	int a = 5;
+		//}
+
+
 		return true;
 	}
 

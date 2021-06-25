@@ -68,6 +68,8 @@ namespace Marvel {
 
 			if (m_texture->getType() == mvAppItemType::mvStaticTexture)
 				texture = static_cast<mvStaticTexture*>(m_texture.get())->getRawTexture();
+			else if (m_texture->getType() == mvAppItemType::mvRawTexture)
+				texture = static_cast<mvRawTexture*>(m_texture.get())->getRawTexture();
 			else
 				texture = static_cast<mvDynamicTexture*>(m_texture.get())->getRawTexture();
 

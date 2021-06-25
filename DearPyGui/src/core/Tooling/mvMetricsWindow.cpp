@@ -101,9 +101,11 @@ namespace Marvel {
             ImPlot::PlotShaded("Low FPS", fps_x, fps_30, 2, INFINITY);
             ImPlot::PopStyleColor();
 
-            ImPlot::PlotLine("Frame", &buffers["Frame"].Data[0].x, &buffers["Frame"].Data[0].y, buffers["Frame"].Data.size(), buffers["Frame"].Offset, 2 * sizeof(float));
-            ImPlot::PlotLine("Presentation", &buffers["Presentation"].Data[0].x, &buffers["Presentation"].Data[0].y, buffers["Presentation"].Data.size(), buffers["Presentation"].Offset, 2 * sizeof(float));
-
+            if (!buffers["Frame"].Data.empty())
+            {
+                ImPlot::PlotLine("Frame", &buffers["Frame"].Data[0].x, &buffers["Frame"].Data[0].y, buffers["Frame"].Data.size(), buffers["Frame"].Offset, 2 * sizeof(float));
+                ImPlot::PlotLine("Presentation", &buffers["Presentation"].Data[0].x, &buffers["Presentation"].Data[0].y, buffers["Presentation"].Data.size(), buffers["Presentation"].Offset, 2 * sizeof(float));
+            }
             ImPlot::EndPlot();
         }
         ImPlot::PopStyleColor(3);
