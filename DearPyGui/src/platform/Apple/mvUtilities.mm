@@ -48,12 +48,9 @@ namespace Marvel {
         return (__bridge void*)g_textures.back().second;
     }
 
-        void* LoadTextureFromArrayRaw(unsigned width, unsigned height, float* data, int components)
+    void* LoadTextureFromArrayRaw(unsigned width, unsigned height, float* data, int components)
     {
-        if(components == 4)
-            MTLTextureDescriptor *textureDescriptor = [MTLTextureDescriptor texture2DDescriptorWithPixelFormat:MTLPixelFormatRGBA32Float width:width height:height mipmapped:NO];
-        else
-            MTLTextureDescriptor *textureDescriptor = [MTLTextureDescriptor texture2DDescriptorWithPixelFormat:MTLPixelFormatRGBA32Float width:width height:height mipmapped:NO];
+        MTLTextureDescriptor *textureDescriptor = [MTLTextureDescriptor texture2DDescriptorWithPixelFormat:MTLPixelFormatRGBA32Float width:width height:height mipmapped:NO];
 
         textureDescriptor.usage = MTLTextureUsageShaderRead;
         textureDescriptor.storageMode = MTLStorageModeManaged;
