@@ -48,6 +48,24 @@ namespace Marvel {
         return (__bridge void*)g_textures.back().second;
     }
 
+        void* LoadTextureFromArrayRaw(unsigned width, unsigned height, float* data, int components)
+    {
+        if(components == 4)
+            MTLTextureDescriptor *textureDescriptor = [MTLTextureDescriptor texture2DDescriptorWithPixelFormat:MTLPixelFormatRGBA32Float width:width height:height mipmapped:NO];
+        else
+            MTLTextureDescriptor *textureDescriptor = [MTLTextureDescriptor texture2DDescriptorWithPixelFormat:MTLPixelFormatRGBA32Float width:width height:height mipmapped:NO];
+
+        textureDescriptor.usage = MTLTextureUsageShaderRead;
+        textureDescriptor.storageMode = MTLStorageModeManaged;
+
+        id <MTLTexture> texture = [mvAppleViewport::GetDevice() newTextureWithDescriptor:textureDescriptor];
+        [texture replaceRegion:MTLRegionMake2D(0, 0, width, height) mipmapLevel:0 withBytes:data bytesPerRow:width * 4 * 4];
+
+        g_textures.push_back({texture, texture});
+
+        return (__bridge void*)g_textures.back().second;
+    }
+
     void* LoadTextureFromFile(const char* filename, int& width, int& height)
     {
 
@@ -94,6 +112,12 @@ namespace Marvel {
     {
         id <MTLTexture> out_srv = (__bridge id <MTLTexture>)texture;
         [out_srv replaceRegion:MTLRegionMake2D(0, 0, width, height) mipmapLevel:0 withBytes:data.data() bytesPerRow:width * 4 * 4];
+    }
+
+        void UpdateRawTexture(void* texture, unsigned width, unsigned height, float* data, int components)
+    {
+        id <MTLTexture> out_srv = (__bridge id <MTLTexture>)texture;
+        [out_srv replaceRegion:MTLRegionMake2D(0, 0, width, height) mipmapLevel:0 withBytes:data bytesPerRow:width * components * 4];
     }
 
 }

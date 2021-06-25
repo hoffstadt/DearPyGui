@@ -15,6 +15,7 @@
 
 #include "textures/mvStaticTexture.h"
 #include "textures/mvDynamicTexture.h"
+#include "textures/mvRawTexture.h"
 #include "textures/mvTextureRegistry.h"
 
 #include "handlers/mvHandlerRegistry.h"

@@ -386,6 +386,10 @@ def add_radio_button(items : int =(), *, label: str =None, id: int =0, indent: i
 	"""Adds a set of radio buttons. If items keyword is empty, nothing will be shown."""
 	...
 
+def add_raw_texture(width : int, height : int, default_value : List[float], *, label: str =None, id: int =0, format: int =internal_dpg.mvFormat_Float_rgba, parent: int =internal_dpg.mvReservedUUID_2) -> int:
+	"""Undocumented function"""
+	...
+
 def add_resize_handler(parent : int, *, label: str =None, id: int =0, callback: Callable =None, user_data: Any =None) -> int:
 	"""Adds a handler which runs a given callback when the specified item is resized."""
 	...

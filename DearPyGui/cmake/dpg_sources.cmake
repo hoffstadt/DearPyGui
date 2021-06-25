@@ -48,6 +48,7 @@ set(MARVEL_SOURCES
 	"src/core/AppItems/mvTypeBases.cpp"
 	"src/core/AppItems/mvItemRegistry.cpp"
 
+	"src/core/AppItems/textures/mvRawTexture.cpp"
 	"src/core/AppItems/textures/mvStaticTexture.cpp"
 	"src/core/AppItems/textures/mvDynamicTexture.cpp"
 	"src/core/AppItems/textures/mvTextureRegistry.cpp"

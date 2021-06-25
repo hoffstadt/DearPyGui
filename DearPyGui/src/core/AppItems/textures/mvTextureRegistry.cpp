@@ -43,6 +43,7 @@ namespace Marvel {
 	{
 		if (type == mvAppItemType::mvStaticTexture) return true;
 		if (type == mvAppItemType::mvDynamicTexture) return true;
+		if (type == mvAppItemType::mvRawTexture) return true;
 
 		mvThrowPythonError(mvErrorCode::mvIncompatibleChild, s_command,
 			"Incompatible child. Acceptable children include: mvStaticTexture, mvDynamicTexture", this);
