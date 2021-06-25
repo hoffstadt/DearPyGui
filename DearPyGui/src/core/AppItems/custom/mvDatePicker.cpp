@@ -10,7 +10,7 @@ namespace Marvel {
 	void mvDatePicker::InsertParser(std::map<std::string, mvPythonParser>* parsers)
 	{
 
-		mvPythonParser parser(mvPyDataType::UUID, "Undocumented", { "Widgets" });
+		mvPythonParser parser(mvPyDataType::UUID, "Creates a date picker.", { "Widgets" });
 		mvAppItem::AddCommonArgs(parser, (CommonParserArgs)(
 			MV_PARSER_ARG_ID |
 			MV_PARSER_ARG_INDENT |
@@ -28,7 +28,7 @@ namespace Marvel {
 		);
 
 		parser.addArg<mvPyDataType::Dict>("default_value", mvArgType::KEYWORD_ARG, "{'month_day': 14, 'year':20, 'month':5}");
-		parser.addArg<mvPyDataType::Integer>("level", mvArgType::KEYWORD_ARG, "0", "0-day, 1-month, 2-year");
+		parser.addArg<mvPyDataType::Integer>("level", mvArgType::KEYWORD_ARG, "0", "Use avaliable constants. mvDatePickerLevel_Day, mvDatePickerLevel_Month, mvDatePickerLevel_Year");
 
 
 		parser.finalize();
@@ -58,7 +58,10 @@ namespace Marvel {
 		if (dict == nullptr)
 			return;
 		 
-		if (PyObject* item = PyDict_GetItemString(dict, "level")) m_level = ToInt(item);
+		if (PyObject* item = PyDict_GetItemString(dict, "level")) {
+			m_level = ToUUID(item);
+			if (m_level > 2) m_level = 0;
+		}
 	}
 
 	void mvDatePicker::getSpecificConfiguration(PyObject* dict)
@@ -66,7 +69,7 @@ namespace Marvel {
 		if (dict == nullptr)
 			return;
 		 
-		PyDict_SetItemString(dict, "level", ToPyInt(m_level));
+		PyDict_SetItemString(dict, "level", ToPyUUID((long)m_level));
 	}
 
 }

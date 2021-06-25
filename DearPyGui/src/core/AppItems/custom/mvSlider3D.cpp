@@ -5,7 +5,7 @@ namespace Marvel {
     void mvSlider3D::InsertParser(std::map<std::string, mvPythonParser>* parsers)
     {
 
-        mvPythonParser parser(mvPyDataType::UUID, "Undocumented", { "Widgets" });
+        mvPythonParser parser(mvPyDataType::UUID, "Adds a 3D box slider that allows a 3d point to be show in 2d represented cube space.", { "Widgets" });
 		mvAppItem::AddCommonArgs(parser, (CommonParserArgs)(
 			MV_PARSER_ARG_ID |
 			MV_PARSER_ARG_WIDTH |
@@ -27,13 +27,13 @@ namespace Marvel {
 
         parser.addArg<mvPyDataType::FloatList>("default_value", mvArgType::KEYWORD_ARG, "(0.0, 0.0, 0.0, 0.0)");
 
-        parser.addArg<mvPyDataType::Float>("max_x", mvArgType::KEYWORD_ARG, "100.0");
-        parser.addArg<mvPyDataType::Float>("max_y", mvArgType::KEYWORD_ARG, "100.0");
-        parser.addArg<mvPyDataType::Float>("max_z", mvArgType::KEYWORD_ARG, "100.0");
-        parser.addArg<mvPyDataType::Float>("min_x", mvArgType::KEYWORD_ARG, "0.0");
-        parser.addArg<mvPyDataType::Float>("min_y", mvArgType::KEYWORD_ARG, "0.0");
-        parser.addArg<mvPyDataType::Float>("min_z", mvArgType::KEYWORD_ARG, "0.0");
-        parser.addArg<mvPyDataType::Float>("scale", mvArgType::KEYWORD_ARG, "1.0");
+        parser.addArg<mvPyDataType::Float>("max_x", mvArgType::KEYWORD_ARG, "100.0", "Applies upper limit to slider.");
+        parser.addArg<mvPyDataType::Float>("max_y", mvArgType::KEYWORD_ARG, "100.0", "Applies upper limit to slider.");
+        parser.addArg<mvPyDataType::Float>("max_z", mvArgType::KEYWORD_ARG, "100.0", "Applies upper limit to slider.");
+        parser.addArg<mvPyDataType::Float>("min_x", mvArgType::KEYWORD_ARG, "0.0", "Applies lower limit to slider.");
+        parser.addArg<mvPyDataType::Float>("min_y", mvArgType::KEYWORD_ARG, "0.0", "Applies lower limit to slider.");
+        parser.addArg<mvPyDataType::Float>("min_z", mvArgType::KEYWORD_ARG, "0.0", "Applies lower limit to slider.");
+        parser.addArg<mvPyDataType::Float>("scale", mvArgType::KEYWORD_ARG, "1.0", "Size of the widget.");
 
         parser.finalize();
 

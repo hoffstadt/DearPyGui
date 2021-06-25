@@ -6,7 +6,7 @@ namespace Marvel {
     void mvLoadingIndicator::InsertParser(std::map<std::string, mvPythonParser>* parsers)
     {
 
-        mvPythonParser parser(mvPyDataType::UUID, "Undocumented", { "Widgets" });
+        mvPythonParser parser(mvPyDataType::UUID, "Adds a rotating anamated loding symbol.", { "Widgets" });
         mvAppItem::AddCommonArgs(parser, (CommonParserArgs)(
             MV_PARSER_ARG_ID |
             MV_PARSER_ARG_WIDTH |
@@ -18,13 +18,13 @@ namespace Marvel {
             MV_PARSER_ARG_POS)
         );
 
-        parser.addArg<mvPyDataType::Integer>("style", mvArgType::KEYWORD_ARG, "0");
-        parser.addArg<mvPyDataType::Integer>("circle_count", mvArgType::KEYWORD_ARG, "8");
-        parser.addArg<mvPyDataType::Float>("speed", mvArgType::KEYWORD_ARG, "1.0");
-        parser.addArg<mvPyDataType::Float>("radius", mvArgType::KEYWORD_ARG, "3.0");
-        parser.addArg<mvPyDataType::Float>("thickness", mvArgType::KEYWORD_ARG, "1.0");
-        parser.addArg<mvPyDataType::IntList>("color", mvArgType::KEYWORD_ARG, "(51, 51, 55, 255)");
-        parser.addArg<mvPyDataType::IntList>("secondary_color", mvArgType::KEYWORD_ARG, "(29, 151, 236, 103)");
+        parser.addArg<mvPyDataType::Integer>("style", mvArgType::KEYWORD_ARG, "0", "0 is rotating dots style, 1 is rotating bar style.");
+        parser.addArg<mvPyDataType::Integer>("circle_count", mvArgType::KEYWORD_ARG, "8", "Number of dots show if dots or size of circle if circle.");
+        parser.addArg<mvPyDataType::Float>("speed", mvArgType::KEYWORD_ARG, "1.0", "Speed the anamation will rotate.");
+        parser.addArg<mvPyDataType::Float>("radius", mvArgType::KEYWORD_ARG, "3.0", "Radius size of the loading indicator.");
+        parser.addArg<mvPyDataType::Float>("thickness", mvArgType::KEYWORD_ARG, "1.0", "Thickness of the circles or line.");
+        parser.addArg<mvPyDataType::IntList>("color", mvArgType::KEYWORD_ARG, "(51, 51, 55, 255)", "Color of the growing center circle.");
+        parser.addArg<mvPyDataType::IntList>("secondary_color", mvArgType::KEYWORD_ARG, "(29, 151, 236, 103)", "Background of the dots in dot mode.");
 
         parser.finalize();
 
