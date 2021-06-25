@@ -8,5 +8,4 @@ with dpg.font("../../Resources/NotoSerifCJKjp-Medium.otf", 20, default_font=True
 
 demo.show_demo()
 
-dpg.use_init_file()
 dpg.start_dearpygui()
