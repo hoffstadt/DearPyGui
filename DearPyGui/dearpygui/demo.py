@@ -184,12 +184,12 @@ def show_demo():
     ## create a logger
     logger = mvLogger()
     logger.log_level = 0
-    logger.log("trace message boi")
-    logger.log_debug("debug message boi")
-    logger.log_info("info message boi")
-    logger.log_warning("warning message boi")
-    logger.log_error("error message boi")
-    logger.log_critical("critical message boi")
+    logger.log("trace message")
+    logger.log_debug("debug message")
+    logger.log_info("info message")
+    logger.log_warning("warning message")
+    logger.log_error("error message")
+    logger.log_critical("critical message")
 
     def _log(sender, app_data, user_data):
         pass
@@ -197,7 +197,7 @@ def show_demo():
     _create_static_textures()
     _create_dynamic_textures()
 
-    with dpg.window(label="Dear PyGui Demo", width=800, height=800, on_close=_on_demo_close) as demo_id:
+    with dpg.window(label="Dear PyGui Demo", width=800, height=800, on_close=_on_demo_close, pos=(100, 100)) as demo_id:
     
         with dpg.menu_bar():
 

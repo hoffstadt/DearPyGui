@@ -1492,7 +1492,7 @@ def node(*, label: str =None, id: int =0, parent: int =0, before: int =0, payloa
 	finally:
 		internal_dpg.pop_container_stack()
 @contextmanager
-def node_attribute(*, label: str =None, id: int =0, indent: int =-1, parent: int =0, before: int =0, payload_type: str ='$$DPG_PAYLOAD', drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, filter_key: str ='', tracked: bool =False, track_offset: float =0.5, attribute_type: int =0, shape: int =0) -> int:
+def node_attribute(*, label: str =None, id: int =0, indent: int =-1, parent: int =0, before: int =0, payload_type: str ='$$DPG_PAYLOAD', drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, filter_key: str ='', tracked: bool =False, track_offset: float =0.5, attribute_type: int =0, shape: int =1) -> int:
 	"""
 	Adds a node attribute.
 	Args:
@@ -1864,7 +1864,7 @@ def viewport_drawlist(*, label: str =None, id: int =0, show: bool =True, filter_
 	finally:
 		internal_dpg.pop_container_stack()
 @contextmanager
-def window(*, label: str =None, id: int =0, width: int =0, height: int =0, indent: int =-1, user_data: Any =None, show: bool =True, delay_search: str =False, min_size: List[int] =[32, 32], max_size: List[int] =[30000, 30000], menubar: bool =False, collapsed: bool =False, autosize: bool =False, no_resize: bool =False, no_title_bar: bool =False, no_move: bool =False, no_scrollbar: bool =False, no_collapse: bool =False, horizontal_scrollbar: bool =False, no_focus_on_appearing: bool =False, no_bring_to_front_on_focus: bool =False, no_close: bool =False, no_background: bool =False, modal: bool =False, popup: bool =False, on_close: Callable =None) -> int:
+def window(*, label: str =None, id: int =0, width: int =0, height: int =0, indent: int =-1, user_data: Any =None, show: bool =True, pos: List[int] =[], delay_search: str =False, min_size: List[int] =[100, 100], max_size: List[int] =[30000, 30000], menubar: bool =False, collapsed: bool =False, autosize: bool =False, no_resize: bool =False, no_title_bar: bool =False, no_move: bool =False, no_scrollbar: bool =False, no_collapse: bool =False, horizontal_scrollbar: bool =False, no_focus_on_appearing: bool =False, no_bring_to_front_on_focus: bool =False, no_close: bool =False, no_background: bool =False, modal: bool =False, popup: bool =False, on_close: Callable =None) -> int:
 	"""
 	Creates a new window for following items to be added to.
 	Args:
@@ -1875,6 +1875,7 @@ def window(*, label: str =None, id: int =0, width: int =0, height: int =0, inden
 		**indent (int): Offsets the widget to the right the specified number multiplied by the indent style.
 		**user_data (Any): User data for callbacks.
 		**show (bool): Attempt to render widget.
+		**pos (List[int]): Places the item relative to window coordinates, [0,0] is top left.
 		**delay_search (str): Delays searching container for specified items until the end of the app. Possible optimization when a container has many children that are not accessed often.
 		**min_size (List[int]): Minimum window size.
 		**max_size (List[int]): Maximum window size.
@@ -1898,7 +1899,7 @@ def window(*, label: str =None, id: int =0, width: int =0, height: int =0, inden
 		int
 	"""
 	try:
-		widget = internal_dpg.add_window(label=label, id=id, width=width, height=height, indent=indent, user_data=user_data, show=show, delay_search=delay_search, min_size=min_size, max_size=max_size, menubar=menubar, collapsed=collapsed, autosize=autosize, no_resize=no_resize, no_title_bar=no_title_bar, no_move=no_move, no_scrollbar=no_scrollbar, no_collapse=no_collapse, horizontal_scrollbar=horizontal_scrollbar, no_focus_on_appearing=no_focus_on_appearing, no_bring_to_front_on_focus=no_bring_to_front_on_focus, no_close=no_close, no_background=no_background, modal=modal, popup=popup, on_close=on_close)
+		widget = internal_dpg.add_window(label=label, id=id, width=width, height=height, indent=indent, user_data=user_data, show=show, pos=pos, delay_search=delay_search, min_size=min_size, max_size=max_size, menubar=menubar, collapsed=collapsed, autosize=autosize, no_resize=no_resize, no_title_bar=no_title_bar, no_move=no_move, no_scrollbar=no_scrollbar, no_collapse=no_collapse, horizontal_scrollbar=horizontal_scrollbar, no_focus_on_appearing=no_focus_on_appearing, no_bring_to_front_on_focus=no_bring_to_front_on_focus, no_close=no_close, no_background=no_background, modal=modal, popup=popup, on_close=on_close)
 		internal_dpg.push_container_stack(widget)
 		yield widget
 	finally:
@@ -3836,7 +3837,7 @@ def add_node(*, label: str =None, id: int =0, parent: int =0, before: int =0, pa
 
 	return internal_dpg.add_node(label=label, id=id, parent=parent, before=before, payload_type=payload_type, drag_callback=drag_callback, drop_callback=drop_callback, show=show, pos=pos, filter_key=filter_key, delay_search=delay_search, tracked=tracked, track_offset=track_offset, draggable=draggable)
 
-def add_node_attribute(*, label: str =None, id: int =0, indent: int =-1, parent: int =0, before: int =0, payload_type: str ='$$DPG_PAYLOAD', drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, filter_key: str ='', tracked: bool =False, track_offset: float =0.5, attribute_type: int =0, shape: int =0) -> int:
+def add_node_attribute(*, label: str =None, id: int =0, indent: int =-1, parent: int =0, before: int =0, payload_type: str ='$$DPG_PAYLOAD', drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, filter_key: str ='', tracked: bool =False, track_offset: float =0.5, attribute_type: int =0, shape: int =1) -> int:
 	"""
 	Adds a node attribute.
 	Args:
@@ -4962,7 +4963,7 @@ def add_vline_series(x : List[float], *, label: str =None, id: int =0, parent: i
 
 	return internal_dpg.add_vline_series(x, label=label, id=id, parent=parent, before=before, source=source, show=show, contribute_to_bounds=contribute_to_bounds)
 
-def add_window(*, label: str =None, id: int =0, width: int =0, height: int =0, indent: int =-1, user_data: Any =None, show: bool =True, delay_search: str =False, min_size: List[int] =[32, 32], max_size: List[int] =[30000, 30000], menubar: bool =False, collapsed: bool =False, autosize: bool =False, no_resize: bool =False, no_title_bar: bool =False, no_move: bool =False, no_scrollbar: bool =False, no_collapse: bool =False, horizontal_scrollbar: bool =False, no_focus_on_appearing: bool =False, no_bring_to_front_on_focus: bool =False, no_close: bool =False, no_background: bool =False, modal: bool =False, popup: bool =False, on_close: Callable =None) -> int:
+def add_window(*, label: str =None, id: int =0, width: int =0, height: int =0, indent: int =-1, user_data: Any =None, show: bool =True, pos: List[int] =[], delay_search: str =False, min_size: List[int] =[100, 100], max_size: List[int] =[30000, 30000], menubar: bool =False, collapsed: bool =False, autosize: bool =False, no_resize: bool =False, no_title_bar: bool =False, no_move: bool =False, no_scrollbar: bool =False, no_collapse: bool =False, horizontal_scrollbar: bool =False, no_focus_on_appearing: bool =False, no_bring_to_front_on_focus: bool =False, no_close: bool =False, no_background: bool =False, modal: bool =False, popup: bool =False, on_close: Callable =None) -> int:
 	"""
 	Creates a new window for following items to be added to.
 	Args:
@@ -4973,6 +4974,7 @@ def add_window(*, label: str =None, id: int =0, width: int =0, height: int =0, i
 		**indent (int): Offsets the widget to the right the specified number multiplied by the indent style.
 		**user_data (Any): User data for callbacks.
 		**show (bool): Attempt to render widget.
+		**pos (List[int]): Places the item relative to window coordinates, [0,0] is top left.
 		**delay_search (str): Delays searching container for specified items until the end of the app. Possible optimization when a container has many children that are not accessed often.
 		**min_size (List[int]): Minimum window size.
 		**max_size (List[int]): Maximum window size.
@@ -4996,7 +4998,7 @@ def add_window(*, label: str =None, id: int =0, width: int =0, height: int =0, i
 		int
 	"""
 
-	return internal_dpg.add_window(label=label, id=id, width=width, height=height, indent=indent, user_data=user_data, show=show, delay_search=delay_search, min_size=min_size, max_size=max_size, menubar=menubar, collapsed=collapsed, autosize=autosize, no_resize=no_resize, no_title_bar=no_title_bar, no_move=no_move, no_scrollbar=no_scrollbar, no_collapse=no_collapse, horizontal_scrollbar=horizontal_scrollbar, no_focus_on_appearing=no_focus_on_appearing, no_bring_to_front_on_focus=no_bring_to_front_on_focus, no_close=no_close, no_background=no_background, modal=modal, popup=popup, on_close=on_close)
+	return internal_dpg.add_window(label=label, id=id, width=width, height=height, indent=indent, user_data=user_data, show=show, pos=pos, delay_search=delay_search, min_size=min_size, max_size=max_size, menubar=menubar, collapsed=collapsed, autosize=autosize, no_resize=no_resize, no_title_bar=no_title_bar, no_move=no_move, no_scrollbar=no_scrollbar, no_collapse=no_collapse, horizontal_scrollbar=horizontal_scrollbar, no_focus_on_appearing=no_focus_on_appearing, no_bring_to_front_on_focus=no_bring_to_front_on_focus, no_close=no_close, no_background=no_background, modal=modal, popup=popup, on_close=on_close)
 
 def cleanup_dearpygui() -> None:
 	"""

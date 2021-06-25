@@ -7,7 +7,7 @@ class mvLogger:
         self.log_level = 0
         self._auto_scroll = True
         self.filter_id = None
-        self.window_id = dpg.add_window(label="mvLogger")
+        self.window_id = dpg.add_window(label="mvLogger", pos=(200, 200), width=500, height=500)
         self.count = 0
         self.flush_count = 1000
 

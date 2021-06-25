@@ -21,10 +21,11 @@ namespace Marvel {
 				MV_PARSER_ARG_INDENT |
 				MV_PARSER_ARG_USER_DATA |
 				MV_PARSER_ARG_SEARCH_DELAY |
-				MV_PARSER_ARG_SHOW)
+				MV_PARSER_ARG_SHOW |
+				MV_PARSER_ARG_POS)
 			);
 
-			parser.addArg<mvPyDataType::IntList>("min_size", mvArgType::KEYWORD_ARG, "[32, 32]", "Minimum window size.");
+			parser.addArg<mvPyDataType::IntList>("min_size", mvArgType::KEYWORD_ARG, "[100, 100]", "Minimum window size.");
 			parser.addArg<mvPyDataType::IntList>("max_size", mvArgType::KEYWORD_ARG, "[30000, 30000]", "Maximum window size.");
 
 			parser.addArg<mvPyDataType::Bool>("menubar", mvArgType::KEYWORD_ARG, "False", "Shows or hides the menubar.");
