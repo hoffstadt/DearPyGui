@@ -346,7 +346,7 @@ def add_node(*, label: str =None, id: int =0, parent: int =0, before: int =0, pa
 	"""Adds a node to a node editor."""
 	...
 
-def add_node_attribute(*, label: str =None, id: int =0, indent: int =-1, parent: int =0, before: int =0, payload_type: str ='$$DPG_PAYLOAD', drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, filter_key: str ='', tracked: bool =False, track_offset: float =0.5, attribute_type: int =0, shape: int =0) -> int:
+def add_node_attribute(*, label: str =None, id: int =0, indent: int =-1, parent: int =0, before: int =0, payload_type: str ='$$DPG_PAYLOAD', drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, filter_key: str ='', tracked: bool =False, track_offset: float =0.5, attribute_type: int =0, shape: int =1) -> int:
 	"""Adds a node attribute."""
 	...
 
@@ -546,7 +546,7 @@ def add_vline_series(x : List[float], *, label: str =None, id: int =0, parent: i
 	"""Adds a infinite vertical line series to a plot."""
 	...
 
-def add_window(*, label: str =None, id: int =0, width: int =0, height: int =0, indent: int =-1, user_data: Any =None, show: bool =True, delay_search: str =False, min_size: List[int] =[32, 32], max_size: List[int] =[30000, 30000], menubar: bool =False, collapsed: bool =False, autosize: bool =False, no_resize: bool =False, no_title_bar: bool =False, no_move: bool =False, no_scrollbar: bool =False, no_collapse: bool =False, horizontal_scrollbar: bool =False, no_focus_on_appearing: bool =False, no_bring_to_front_on_focus: bool =False, no_close: bool =False, no_background: bool =False, modal: bool =False, popup: bool =False, on_close: Callable =None) -> int:
+def add_window(*, label: str =None, id: int =0, width: int =0, height: int =0, indent: int =-1, user_data: Any =None, show: bool =True, pos: List[int] =[], delay_search: str =False, min_size: List[int] =[100, 100], max_size: List[int] =[30000, 30000], menubar: bool =False, collapsed: bool =False, autosize: bool =False, no_resize: bool =False, no_title_bar: bool =False, no_move: bool =False, no_scrollbar: bool =False, no_collapse: bool =False, horizontal_scrollbar: bool =False, no_focus_on_appearing: bool =False, no_bring_to_front_on_focus: bool =False, no_close: bool =False, no_background: bool =False, modal: bool =False, popup: bool =False, on_close: Callable =None) -> int:
 	"""Creates a new window for following items to be added to."""
 	...
 
