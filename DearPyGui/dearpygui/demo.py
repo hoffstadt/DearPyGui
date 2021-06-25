@@ -650,11 +650,11 @@ def show_demo():
                     dpg.add_table_column()
                     dpg.add_table_column()
 
-                    dpg.add_date_picker(level=0, default_value={'month_day': 8, 'year':93, 'month':5})
+                    dpg.add_date_picker(level=dpg.mvDatePickerLevel_Day, default_value={'month_day': 8, 'year':93, 'month':5})
                     dpg.add_table_next_column()
-                    dpg.add_date_picker(level=1, default_value={'month_day': 8, 'year':93, 'month':5})
+                    dpg.add_date_picker(level=dpg.mvDatePickerLevel_Month, default_value={'month_day': 8, 'year':93, 'month':5})
                     dpg.add_table_next_column()
-                    dpg.add_date_picker(level=2, default_value={'month_day': 8, 'year':93, 'month':5})
+                    dpg.add_date_picker(level=dpg.mvDatePickerLevel_Year, default_value={'month_day': 8, 'year':93, 'month':5})
 
             with dpg.tree_node(label="Loading Indicators"):
 

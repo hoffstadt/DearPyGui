@@ -9,7 +9,7 @@ namespace Marvel {
 	void mvFileExtension::InsertParser(std::map<std::string, mvPythonParser>* parsers)
 	{
 		{
-			mvPythonParser parser(mvPyDataType::UUID, "Undocumented Function", { "File Dialog"});
+			mvPythonParser parser(mvPyDataType::UUID, "Creates a file extension filter option in the file dialog. Only works when the parent is a file dialog.", { "File Dialog"});
 			mvAppItem::AddCommonArgs(parser, (CommonParserArgs)(
 				MV_PARSER_ARG_ID |
 				MV_PARSER_ARG_WIDTH |
@@ -18,8 +18,8 @@ namespace Marvel {
 				MV_PARSER_ARG_BEFORE)
 			);
 
-			parser.addArg<mvPyDataType::String>("extension");
-			parser.addArg<mvPyDataType::String>("custom_text", mvArgType::KEYWORD_ARG, "''");
+			parser.addArg<mvPyDataType::String>("extension", mvArgType::REQUIRED_ARG, "*", "Extension that will show as an when the parent is a file dialog.");
+			parser.addArg<mvPyDataType::String>("custom_text", mvArgType::KEYWORD_ARG, "''", "Replaces the displayed text in the drop down for this extension.");
 			parser.addArg<mvPyDataType::FloatList>("color", mvArgType::KEYWORD_ARG, "(-255, 0, 0, 255)");
 
 			//parser.addArg<mvPyDataType::Callable>("callback", mvArgType::KEYWORD_ARG, "None", "function to call on completion");
@@ -42,7 +42,7 @@ namespace Marvel {
 
 		mvThrowPythonError(mvErrorCode::mvIncompatibleParent, s_command,
 			"Incompatible parent. Acceptable parents include: file dialog, staging container.", this);
-		MV_ITEM_REGISTRY_ERROR("Drawing item parent must be a drawing.");
+		MV_ITEM_REGISTRY_ERROR("File dialog extension parent must be a file dialog.");
 		assert(false);
 		return false;
 	}
