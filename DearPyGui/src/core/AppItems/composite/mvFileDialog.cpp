@@ -26,8 +26,8 @@ namespace Marvel {
 			);
 
 			parser.addArg<mvPyDataType::String>("default_path", mvArgType::KEYWORD_ARG, "''", "Path that the file dialog will default to when opened.");
-			parser.addArg<mvPyDataType::String>("default_filename", mvArgType::KEYWORD_ARG, "'.'");
-			parser.addArg<mvPyDataType::Integer>("file_count", mvArgType::KEYWORD_ARG, "0");
+			parser.addArg<mvPyDataType::String>("default_filename", mvArgType::KEYWORD_ARG, "'.'", "Default name that will show in the file name input.");
+			parser.addArg<mvPyDataType::Integer>("file_count", mvArgType::KEYWORD_ARG, "0", "Number of visible files in the dialog.");
 			parser.addArg<mvPyDataType::Bool>("modal", mvArgType::KEYWORD_ARG, "False", "Forces user interaction with the file selector.");
 			parser.addArg<mvPyDataType::Bool>("directory_selector", mvArgType::KEYWORD_ARG, "False", "Shows only directory/paths as options. Allows selection of directory/paths only.");
 
