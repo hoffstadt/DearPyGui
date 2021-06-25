@@ -11,7 +11,7 @@ def add_2d_histogram_series(x : List[float], y : List[float], *, label: str =Non
 	...
 
 def add_3d_slider(*, label: str =None, id: int =0, width: int =0, height: int =0, indent: int =-1, parent: int =0, before: int =0, source: int =0, payload_type: str ='$$DPG_PAYLOAD', callback: Callable =None, drag_callback: Callable =None, drop_callback: Callable =None, user_data: Any =None, show: bool =True, pos: List[int] =[], filter_key: str ='', tracked: bool =False, track_offset: float =0.5, default_value: List[float] =(0.0, 0.0, 0.0, 0.0), max_x: float =100.0, max_y: float =100.0, max_z: float =100.0, min_x: float =0.0, min_y: float =0.0, min_z: float =0.0, scale: float =1.0) -> int:
-	"""Undocumented"""
+	"""Adds a 3D box slider that allows a 3d point to be show in 2d represented cube space."""
 	...
 
 def add_activated_handler(parent : int, *, label: str =None, id: int =0, callback: Callable =None, user_data: Any =None) -> int:
@@ -59,7 +59,7 @@ def add_clicked_handler(parent : int, button : int =-1, *, label: str =None, id:
 	...
 
 def add_clipper(*, label: str =None, id: int =0, width: int =0, indent: int =-1, parent: int =0, before: int =0, show: bool =True, delay_search: str =False) -> int:
-	"""Helper to manually clip large list of items."""
+	"""Helper to manually clip large list of items. Increases performance by not searching or drawing widgets outside of the clipped region."""
 	...
 
 def add_collapsing_header(*, label: str =None, id: int =0, indent: int =-1, parent: int =0, before: int =0, payload_type: str ='$$DPG_PAYLOAD', drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, pos: List[int] =[], filter_key: str ='', delay_search: str =False, tracked: bool =False, track_offset: float =0.5, closable: bool =False, default_open: bool =False, open_on_double_click: bool =False, open_on_arrow: bool =False, leaf: bool =False, bullet: bool =False) -> int:
@@ -91,7 +91,7 @@ def add_combo(items : List[str] =(), *, label: str =None, id: int =0, width: int
 	...
 
 def add_date_picker(*, label: str =None, id: int =0, indent: int =-1, parent: int =0, before: int =0, payload_type: str ='$$DPG_PAYLOAD', callback: Callable =None, drag_callback: Callable =None, drop_callback: Callable =None, user_data: Any =None, show: bool =True, pos: List[int] =[], filter_key: str ='', tracked: bool =False, track_offset: float =0.5, default_value: dict ={'month_day': 14, 'year':20, 'month':5}, level: int =0) -> int:
-	"""Undocumented"""
+	"""Creates a date picker."""
 	...
 
 def add_deactivated_after_edit_handler(parent : int, *, label: str =None, id: int =0, callback: Callable =None, user_data: Any =None) -> int:
@@ -167,7 +167,7 @@ def add_file_dialog(*, label: str =None, id: int =0, width: int =0, height: int 
 	...
 
 def add_file_extension(extension : str, *, label: str =None, id: int =0, width: int =0, height: int =0, parent: int =0, before: int =0, custom_text: str ='', color: List[float] =(-255, 0, 0, 255)) -> int:
-	"""Undocumented Function"""
+	"""Creates a file extension filter option in the file dialog. Only works when the parent is a file dialog."""
 	...
 
 def add_filter_set(*, label: str =None, id: int =0, width: int =0, indent: int =-1, parent: int =0, before: int =0, show: bool =True, delay_search: str =False) -> int:
@@ -287,7 +287,7 @@ def add_key_release_handler(key : int =-1, *, label: str =None, id: int =0, call
 	...
 
 def add_knob_float(*, label: str =None, id: int =0, width: int =0, height: int =0, indent: int =-1, parent: int =0, before: int =0, source: int =0, payload_type: str ='$$DPG_PAYLOAD', callback: Callable =None, drag_callback: Callable =None, drop_callback: Callable =None, user_data: Any =None, show: bool =True, pos: List[int] =[], filter_key: str ='', tracked: bool =False, track_offset: float =0.5, default_value: float =0.0, min_value: float =0.0, max_value: float =100.0) -> int:
-	"""Undocumented"""
+	"""Adds a knob that rotates based of change in x mouse position."""
 	...
 
 def add_line_series(x : List[float], y : List[float], *, label: str =None, id: int =0, parent: int =0, before: int =0, source: int =0, show: bool =True, contribute_to_bounds: bool =True) -> int:
@@ -299,7 +299,7 @@ def add_listbox(items : List[str] =(), *, label: str =None, id: int =0, width: i
 	...
 
 def add_loading_indicator(*, label: str =None, id: int =0, width: int =0, height: int =0, indent: int =-1, parent: int =0, before: int =0, show: bool =True, pos: List[int] =[], style: int =0, circle_count: int =8, speed: float =1.0, radius: float =3.0, thickness: float =1.0, color: List[int] =(51, 51, 55, 255), secondary_color: List[int] =(29, 151, 236, 103)) -> int:
-	"""Undocumented"""
+	"""Adds a rotating anamated loding symbol."""
 	...
 
 def add_menu(*, label: str =None, id: int =0, indent: int =-1, parent: int =0, before: int =0, payload_type: str ='$$DPG_PAYLOAD', drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, enabled: bool =True, filter_key: str ='', delay_search: str =False, tracked: bool =False, track_offset: float =0.5) -> int:
@@ -511,7 +511,7 @@ def add_theme_style(target : int =0, x : float =1.0, y : float =-1.0, *, label: 
 	...
 
 def add_time_picker(*, label: str =None, id: int =0, indent: int =-1, parent: int =0, before: int =0, payload_type: str ='$$DPG_PAYLOAD', callback: Callable =None, drag_callback: Callable =None, drop_callback: Callable =None, user_data: Any =None, show: bool =True, pos: List[int] =[], filter_key: str ='', tracked: bool =False, track_offset: float =0.5, default_value: dict ={'hour': 14, 'min': 32, 'sec': 23}, hour24: bool =False) -> int:
-	"""Undocumented"""
+	"""Adds a time picker."""
 	...
 
 def add_toggled_open_handler(parent : int, *, label: str =None, id: int =0, callback: Callable =None, user_data: Any =None) -> int:
@@ -531,7 +531,7 @@ def add_value_registry(*, label: str =None, id: int =0) -> int:
 	...
 
 def add_viewport_drawlist(*, label: str =None, id: int =0, show: bool =True, filter_key: str ='', delay_search: str =False, front: bool =True) -> int:
-	"""Draws a quad on a drawing."""
+	"""Undocumented function."""
 	...
 
 def add_visible_handler(parent : int, *, label: str =None, id: int =0, callback: Callable =None, user_data: Any =None) -> int:
@@ -814,10 +814,6 @@ def last_root() -> int:
 	"""Undocumented"""
 	...
 
-def load_init_file(file : str) -> None:
-	"""Load dpg.ini file."""
-	...
-
 def lock_mutex() -> None:
 	"""Undocumented"""
 	...
@@ -972,9 +968,5 @@ def unlock_mutex() -> None:
 
 def unstage_items(items : List[int]) -> None:
 	"""Undocumented"""
-	...
-
-def use_init_file() -> None:
-	"""Use dpg.ini file."""
 	...
 

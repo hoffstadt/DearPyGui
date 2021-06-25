@@ -1159,7 +1159,7 @@ def child(*, label: str =None, id: int =0, width: int =0, height: int =0, indent
 @contextmanager
 def clipper(*, label: str =None, id: int =0, width: int =0, indent: int =-1, parent: int =0, before: int =0, show: bool =True, delay_search: str =False) -> int:
 	"""
-	Helper to manually clip large list of items.
+	Helper to manually clip large list of items. Increases performance by not searching or drawing widgets outside of the clipped region.
 	Args:
 		**label (str): Overrides 'name' as label.
 		**id (int): Unique id used to programmatically refer to the item.If label is unused this will be the label.
@@ -1197,8 +1197,8 @@ def collapsing_header(*, label: str =None, id: int =0, indent: int =-1, parent: 
 		**delay_search (str): Delays searching container for specified items until the end of the app. Possible optimization when a container has many children that are not accessed often.
 		**tracked (bool): Scroll tracking
 		**track_offset (float): 0.0f:top, 0.5f:center, 1.0f:bottom
-		**closable (bool): 
-		**default_open (bool): 
+		**closable (bool): Adds the ability to hide this widget by pressing the (x) in the top right of widget.
+		**default_open (bool): Sets the collapseable header open by default.
 		**open_on_double_click (bool): Need double-click to open node.
 		**open_on_arrow (bool): Only open when clicking on the arrow part.
 		**leaf (bool): No collapsing, no arrow (use as a convenience for leaf nodes).
@@ -1295,8 +1295,8 @@ def file_dialog(*, label: str =None, id: int =0, width: int =0, height: int =0, 
 		**user_data (Any): User data for callbacks.
 		**show (bool): Attempt to render widget.
 		**default_path (str): Path that the file dialog will default to when opened.
-		**default_filename (str): 
-		**file_count (int): 
+		**default_filename (str): Default name that will show in the file name input.
+		**file_count (int): Number of visible files in the dialog.
 		**modal (bool): Forces user interaction with the file selector.
 		**directory_selector (bool): Shows only directory/paths as options. Allows selection of directory/paths only.
 	Yields:
@@ -1625,7 +1625,7 @@ def tab(*, label: str =None, id: int =0, indent: int =-1, parent: int =0, before
 		**track_offset (float): 0.0f:top, 0.5f:center, 1.0f:bottom
 		**closable (bool): Creates a button on the tab that can hide the tab.
 		**no_tooltip (bool): Disable tooltip for the given tab.
-		**order_mode (bool): 
+		**order_mode (bool): set using a constant: mvTabOrder_Reorderable: allows reordering, mvTabOrder_Fixed: fixed ordering, mvTabOrder_Leading: adds tab to front, mvTabOrder_Trailing: adds tab to back
 	Yields:
 		int
 	"""
@@ -1656,7 +1656,7 @@ def tab_bar(*, label: str =None, id: int =0, indent: int =-1, parent: int =0, be
 		**delay_search (str): Delays searching container for specified items until the end of the app. Possible optimization when a container has many children that are not accessed often.
 		**tracked (bool): Scroll tracking
 		**track_offset (float): 0.0f:top, 0.5f:center, 1.0f:bottom
-		**reorderable (bool): Allows for moveable tabs.
+		**reorderable (bool): Allows for the user to change the order of the tabs.
 	Yields:
 		int
 	"""
@@ -1812,7 +1812,7 @@ def tree_node(*, label: str =None, id: int =0, indent: int =-1, parent: int =0, 
 		**delay_search (str): Delays searching container for specified items until the end of the app. Possible optimization when a container has many children that are not accessed often.
 		**tracked (bool): Scroll tracking
 		**track_offset (float): 0.0f:top, 0.5f:center, 1.0f:bottom
-		**default_open (bool): 
+		**default_open (bool): Sets the tree node open by default.
 		**open_on_double_click (bool): Need double-click to open node.
 		**open_on_arrow (bool): Only open when clicking on the arrow part.
 		**leaf (bool): No collapsing, no arrow (use as a convenience for leaf nodes).
@@ -1846,7 +1846,7 @@ def value_registry(*, label: str =None, id: int =0) -> int:
 @contextmanager
 def viewport_drawlist(*, label: str =None, id: int =0, show: bool =True, filter_key: str ='', delay_search: str =False, front: bool =True) -> int:
 	"""
-	Draws a quad on a drawing.
+	Undocumented function.
 	Args:
 		**label (str): Overrides 'name' as label.
 		**id (int): Unique id used to programmatically refer to the item.If label is unused this will be the label.
@@ -1878,7 +1878,7 @@ def window(*, label: str =None, id: int =0, width: int =0, height: int =0, inden
 		**delay_search (str): Delays searching container for specified items until the end of the app. Possible optimization when a container has many children that are not accessed often.
 		**min_size (List[int]): Minimum window size.
 		**max_size (List[int]): Maximum window size.
-		**menubar (bool): 
+		**menubar (bool): Shows or hides the menubar.
 		**collapsed (bool): Collapse the window.
 		**autosize (bool): Autosized the window to fit it's items.
 		**no_resize (bool): Allows for the window size to be changed or fixed.
@@ -1937,7 +1937,7 @@ def add_2d_histogram_series(x : List[float], y : List[float], *, label: str =Non
 
 def add_3d_slider(*, label: str =None, id: int =0, width: int =0, height: int =0, indent: int =-1, parent: int =0, before: int =0, source: int =0, payload_type: str ='$$DPG_PAYLOAD', callback: Callable =None, drag_callback: Callable =None, drop_callback: Callable =None, user_data: Any =None, show: bool =True, pos: List[int] =[], filter_key: str ='', tracked: bool =False, track_offset: float =0.5, default_value: List[float] =(0.0, 0.0, 0.0, 0.0), max_x: float =100.0, max_y: float =100.0, max_z: float =100.0, min_x: float =0.0, min_y: float =0.0, min_z: float =0.0, scale: float =1.0) -> int:
 	"""
-	Undocumented
+	Adds a 3D box slider that allows a 3d point to be show in 2d represented cube space.
 	Args:
 		**label (str): Overrides 'name' as label.
 		**id (int): Unique id used to programmatically refer to the item.If label is unused this will be the label.
@@ -1958,13 +1958,13 @@ def add_3d_slider(*, label: str =None, id: int =0, width: int =0, height: int =0
 		**tracked (bool): Scroll tracking
 		**track_offset (float): 0.0f:top, 0.5f:center, 1.0f:bottom
 		**default_value (List[float]): 
-		**max_x (float): 
-		**max_y (float): 
-		**max_z (float): 
-		**min_x (float): 
-		**min_y (float): 
-		**min_z (float): 
-		**scale (float): 
+		**max_x (float): Applies upper limit to slider.
+		**max_y (float): Applies upper limit to slider.
+		**max_z (float): Applies upper limit to slider.
+		**min_x (float): Applies lower limit to slider.
+		**min_y (float): Applies lower limit to slider.
+		**min_z (float): Applies lower limit to slider.
+		**scale (float): Size of the widget.
 	Returns:
 		int
 	"""
@@ -2207,7 +2207,7 @@ def add_clicked_handler(parent : int, button : int =-1, *, label: str =None, id:
 
 def add_clipper(*, label: str =None, id: int =0, width: int =0, indent: int =-1, parent: int =0, before: int =0, show: bool =True, delay_search: str =False) -> int:
 	"""
-	Helper to manually clip large list of items.
+	Helper to manually clip large list of items. Increases performance by not searching or drawing widgets outside of the clipped region.
 	Args:
 		**label (str): Overrides 'name' as label.
 		**id (int): Unique id used to programmatically refer to the item.If label is unused this will be the label.
@@ -2241,8 +2241,8 @@ def add_collapsing_header(*, label: str =None, id: int =0, indent: int =-1, pare
 		**delay_search (str): Delays searching container for specified items until the end of the app. Possible optimization when a container has many children that are not accessed often.
 		**tracked (bool): Scroll tracking
 		**track_offset (float): 0.0f:top, 0.5f:center, 1.0f:bottom
-		**closable (bool): 
-		**default_open (bool): 
+		**closable (bool): Adds the ability to hide this widget by pressing the (x) in the top right of widget.
+		**default_open (bool): Sets the collapseable header open by default.
 		**open_on_double_click (bool): Need double-click to open node.
 		**open_on_arrow (bool): Only open when clicking on the arrow part.
 		**leaf (bool): No collapsing, no arrow (use as a convenience for leaf nodes).
@@ -2446,7 +2446,7 @@ def add_combo(items : List[str] =(), *, label: str =None, id: int =0, width: int
 
 def add_date_picker(*, label: str =None, id: int =0, indent: int =-1, parent: int =0, before: int =0, payload_type: str ='$$DPG_PAYLOAD', callback: Callable =None, drag_callback: Callable =None, drop_callback: Callable =None, user_data: Any =None, show: bool =True, pos: List[int] =[], filter_key: str ='', tracked: bool =False, track_offset: float =0.5, default_value: dict ={'month_day': 14, 'year':20, 'month':5}, level: int =0) -> int:
 	"""
-	Undocumented
+	Creates a date picker.
 	Args:
 		**label (str): Overrides 'name' as label.
 		**id (int): Unique id used to programmatically refer to the item.If label is unused this will be the label.
@@ -2464,7 +2464,7 @@ def add_date_picker(*, label: str =None, id: int =0, indent: int =-1, parent: in
 		**tracked (bool): Scroll tracking
 		**track_offset (float): 0.0f:top, 0.5f:center, 1.0f:bottom
 		**default_value (dict): 
-		**level (int): 0-day, 1-month, 2-year
+		**level (int): Use avaliable constants. mvDatePickerLevel_Day, mvDatePickerLevel_Month, mvDatePickerLevel_Year
 	Returns:
 		int
 	"""
@@ -2858,8 +2858,8 @@ def add_file_dialog(*, label: str =None, id: int =0, width: int =0, height: int 
 		**user_data (Any): User data for callbacks.
 		**show (bool): Attempt to render widget.
 		**default_path (str): Path that the file dialog will default to when opened.
-		**default_filename (str): 
-		**file_count (int): 
+		**default_filename (str): Default name that will show in the file name input.
+		**file_count (int): Number of visible files in the dialog.
 		**modal (bool): Forces user interaction with the file selector.
 		**directory_selector (bool): Shows only directory/paths as options. Allows selection of directory/paths only.
 	Returns:
@@ -2870,16 +2870,16 @@ def add_file_dialog(*, label: str =None, id: int =0, width: int =0, height: int 
 
 def add_file_extension(extension : str, *, label: str =None, id: int =0, width: int =0, height: int =0, parent: int =0, before: int =0, custom_text: str ='', color: List[float] =(-255, 0, 0, 255)) -> int:
 	"""
-	Undocumented Function
+	Creates a file extension filter option in the file dialog. Only works when the parent is a file dialog.
 	Args:
-		extension (str): 
+		extension (str): Extension that will show as an when the parent is a file dialog.
 		**label (str): Overrides 'name' as label.
 		**id (int): Unique id used to programmatically refer to the item.If label is unused this will be the label.
 		**width (int): Width of the item.
 		**height (int): Height of the item.
 		**parent (int): Parent to add this item to. (runtime adding)
 		**before (int): This item will be displayed before the specified item in the parent.
-		**custom_text (str): 
+		**custom_text (str): Replaces the displayed text in the drop down for this extension.
 		**color (List[float]): 
 	Returns:
 		int
@@ -3521,7 +3521,7 @@ def add_key_release_handler(key : int =-1, *, label: str =None, id: int =0, call
 
 def add_knob_float(*, label: str =None, id: int =0, width: int =0, height: int =0, indent: int =-1, parent: int =0, before: int =0, source: int =0, payload_type: str ='$$DPG_PAYLOAD', callback: Callable =None, drag_callback: Callable =None, drop_callback: Callable =None, user_data: Any =None, show: bool =True, pos: List[int] =[], filter_key: str ='', tracked: bool =False, track_offset: float =0.5, default_value: float =0.0, min_value: float =0.0, max_value: float =100.0) -> int:
 	"""
-	Undocumented
+	Adds a knob that rotates based of change in x mouse position.
 	Args:
 		**label (str): Overrides 'name' as label.
 		**id (int): Unique id used to programmatically refer to the item.If label is unused this will be the label.
@@ -3542,8 +3542,8 @@ def add_knob_float(*, label: str =None, id: int =0, width: int =0, height: int =
 		**tracked (bool): Scroll tracking
 		**track_offset (float): 0.0f:top, 0.5f:center, 1.0f:bottom
 		**default_value (float): 
-		**min_value (float): 
-		**max_value (float): 
+		**min_value (float): Applies lower limit to value.
+		**max_value (float): Applies upper limit to value.
 	Returns:
 		int
 	"""
@@ -3602,7 +3602,7 @@ def add_listbox(items : List[str] =(), *, label: str =None, id: int =0, width: i
 
 def add_loading_indicator(*, label: str =None, id: int =0, width: int =0, height: int =0, indent: int =-1, parent: int =0, before: int =0, show: bool =True, pos: List[int] =[], style: int =0, circle_count: int =8, speed: float =1.0, radius: float =3.0, thickness: float =1.0, color: List[int] =(51, 51, 55, 255), secondary_color: List[int] =(29, 151, 236, 103)) -> int:
 	"""
-	Undocumented
+	Adds a rotating anamated loding symbol.
 	Args:
 		**label (str): Overrides 'name' as label.
 		**id (int): Unique id used to programmatically refer to the item.If label is unused this will be the label.
@@ -3613,13 +3613,13 @@ def add_loading_indicator(*, label: str =None, id: int =0, width: int =0, height
 		**before (int): This item will be displayed before the specified item in the parent.
 		**show (bool): Attempt to render widget.
 		**pos (List[int]): Places the item relative to window coordinates, [0,0] is top left.
-		**style (int): 
-		**circle_count (int): 
-		**speed (float): 
-		**radius (float): 
-		**thickness (float): 
-		**color (List[int]): 
-		**secondary_color (List[int]): 
+		**style (int): 0 is rotating dots style, 1 is rotating bar style.
+		**circle_count (int): Number of dots show if dots or size of circle if circle.
+		**speed (float): Speed the anamation will rotate.
+		**radius (float): Radius size of the loading indicator.
+		**thickness (float): Thickness of the circles or line.
+		**color (List[int]): Color of the growing center circle.
+		**secondary_color (List[int]): Background of the dots in dot mode.
 	Returns:
 		int
 	"""
@@ -4514,7 +4514,7 @@ def add_tab(*, label: str =None, id: int =0, indent: int =-1, parent: int =0, be
 		**track_offset (float): 0.0f:top, 0.5f:center, 1.0f:bottom
 		**closable (bool): Creates a button on the tab that can hide the tab.
 		**no_tooltip (bool): Disable tooltip for the given tab.
-		**order_mode (bool): 
+		**order_mode (bool): set using a constant: mvTabOrder_Reorderable: allows reordering, mvTabOrder_Fixed: fixed ordering, mvTabOrder_Leading: adds tab to front, mvTabOrder_Trailing: adds tab to back
 	Returns:
 		int
 	"""
@@ -4541,7 +4541,7 @@ def add_tab_bar(*, label: str =None, id: int =0, indent: int =-1, parent: int =0
 		**delay_search (str): Delays searching container for specified items until the end of the app. Possible optimization when a container has many children that are not accessed often.
 		**tracked (bool): Scroll tracking
 		**track_offset (float): 0.0f:top, 0.5f:center, 1.0f:bottom
-		**reorderable (bool): Allows for moveable tabs.
+		**reorderable (bool): Allows for the user to change the order of the tabs.
 	Returns:
 		int
 	"""
@@ -4800,7 +4800,7 @@ def add_theme_style(target : int =0, x : float =1.0, y : float =-1.0, *, label: 
 
 def add_time_picker(*, label: str =None, id: int =0, indent: int =-1, parent: int =0, before: int =0, payload_type: str ='$$DPG_PAYLOAD', callback: Callable =None, drag_callback: Callable =None, drop_callback: Callable =None, user_data: Any =None, show: bool =True, pos: List[int] =[], filter_key: str ='', tracked: bool =False, track_offset: float =0.5, default_value: dict ={'hour': 14, 'min': 32, 'sec': 23}, hour24: bool =False) -> int:
 	"""
-	Undocumented
+	Adds a time picker.
 	Args:
 		**label (str): Overrides 'name' as label.
 		**id (int): Unique id used to programmatically refer to the item.If label is unused this will be the label.
@@ -4872,7 +4872,7 @@ def add_tree_node(*, label: str =None, id: int =0, indent: int =-1, parent: int 
 		**delay_search (str): Delays searching container for specified items until the end of the app. Possible optimization when a container has many children that are not accessed often.
 		**tracked (bool): Scroll tracking
 		**track_offset (float): 0.0f:top, 0.5f:center, 1.0f:bottom
-		**default_open (bool): 
+		**default_open (bool): Sets the tree node open by default.
 		**open_on_double_click (bool): Need double-click to open node.
 		**open_on_arrow (bool): Only open when clicking on the arrow part.
 		**leaf (bool): No collapsing, no arrow (use as a convenience for leaf nodes).
@@ -4898,7 +4898,7 @@ def add_value_registry(*, label: str =None, id: int =0) -> int:
 
 def add_viewport_drawlist(*, label: str =None, id: int =0, show: bool =True, filter_key: str ='', delay_search: str =False, front: bool =True) -> int:
 	"""
-	Draws a quad on a drawing.
+	Undocumented function.
 	Args:
 		**label (str): Overrides 'name' as label.
 		**id (int): Unique id used to programmatically refer to the item.If label is unused this will be the label.
@@ -4959,7 +4959,7 @@ def add_window(*, label: str =None, id: int =0, width: int =0, height: int =0, i
 		**delay_search (str): Delays searching container for specified items until the end of the app. Possible optimization when a container has many children that are not accessed often.
 		**min_size (List[int]): Minimum window size.
 		**max_size (List[int]): Maximum window size.
-		**menubar (bool): 
+		**menubar (bool): Shows or hides the menubar.
 		**collapsed (bool): Collapse the window.
 		**autosize (bool): Autosized the window to fit it's items.
 		**no_resize (bool): Allows for the window size to be changed or fixed.
@@ -5833,17 +5833,6 @@ def last_root() -> int:
 
 	return internal_dpg.last_root()
 
-def load_init_file(file : str) -> None:
-	"""
-	Load dpg.ini file.
-	Args:
-		file (str): 
-	Returns:
-		None
-	"""
-
-	return internal_dpg.load_init_file(file)
-
 def lock_mutex() -> None:
 	"""
 	Undocumented
@@ -6282,16 +6271,6 @@ def unstage_items(items : List[int]) -> None:
 	"""
 
 	return internal_dpg.unstage_items(items)
-
-def use_init_file() -> None:
-	"""
-	Use dpg.ini file.
-	Args:
-	Returns:
-		None
-	"""
-
-	return internal_dpg.use_init_file()
 
 
 ##########################################################

@@ -236,18 +236,18 @@ namespace Marvel {
 			parsers->insert({ "enable_docking", parser });
 		}
 
-		{
-			mvPythonParser parser(mvPyDataType::None, "Use dpg.ini file.", { "General" });
-			parser.finalize();
-			parsers->insert({ "use_init_file", parser });
-		}
+		//{
+		//	mvPythonParser parser(mvPyDataType::None, "Use dpg.ini file.", { "General" });
+		//	parser.finalize();
+		//	parsers->insert({ "use_init_file", parser });
+		//}
 
-		{
-			mvPythonParser parser(mvPyDataType::None, "Load dpg.ini file.", { "General" });
-			parser.addArg<mvPyDataType::String>("file");
-			parser.finalize();
-			parsers->insert({ "load_init_file", parser });
-		}
+		//{
+		//	mvPythonParser parser(mvPyDataType::None, "Load dpg.ini file.", { "General" });
+		//	parser.addArg<mvPyDataType::String>("file");
+		//	parser.finalize();
+		//	parsers->insert({ "load_init_file", parser });
+		//}
 
 		{
 			mvPythonParser parser(mvPyDataType::UUID, "Generate a new UUID", { "General" });
