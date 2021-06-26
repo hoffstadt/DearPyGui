@@ -28,7 +28,7 @@ namespace Marvel {
 		);
 
 		parser.addArg<mvPyDataType::Dict>("default_value", mvArgType::KEYWORD_ARG, "{'hour': 14, 'min': 32, 'sec': 23}");
-		parser.addArg<mvPyDataType::Bool>("hour24", mvArgType::KEYWORD_ARG, "False", "show 24 hour clock");
+		parser.addArg<mvPyDataType::Bool>("hour24", mvArgType::KEYWORD_ARG, "False", "Show 24 hour clock instead of 12 hour.");
 
 		parser.finalize();
 

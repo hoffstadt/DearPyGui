@@ -16,16 +16,15 @@ namespace Marvel {
 			MV_PARSER_ARG_SHOW)
 		);
 
-		parser.addArg<mvPyDataType::FloatList>("p1");
-		parser.addArg<mvPyDataType::FloatList>("p2");
-		parser.addArg<mvPyDataType::FloatList>("p3");
+		parser.addArg<mvPyDataType::FloatList>("p1", mvArgType::REQUIRED_ARG, "...", "First point in curve.");
+		parser.addArg<mvPyDataType::FloatList>("p2", mvArgType::REQUIRED_ARG, "...", "Second point in curve.");
+		parser.addArg<mvPyDataType::FloatList>("p3", mvArgType::REQUIRED_ARG, "...", "Third point in curve.");
 
 		parser.addArg<mvPyDataType::IntList>("color", mvArgType::KEYWORD_ARG, "(255, 255, 255, 255)");
 
 		parser.addArg<mvPyDataType::Float>("thickness", mvArgType::KEYWORD_ARG, "1.0");
 
-		parser.addArg<mvPyDataType::Integer>("size", mvArgType::KEYWORD_ARG, "4");
-		parser.addArg<mvPyDataType::Integer>("segments", mvArgType::KEYWORD_ARG, "0");
+		parser.addArg<mvPyDataType::Integer>("segments", mvArgType::KEYWORD_ARG, "0", "Number of segments to approximate bezier curve.");
 
 		parser.finalize();
 

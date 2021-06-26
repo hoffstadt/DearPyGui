@@ -26,8 +26,8 @@ namespace Marvel {
 			MV_PARSER_ARG_SHOW)
 		);
 
-		parser.addArg<mvPyDataType::Long>("attribute_type", mvArgType::KEYWORD_ARG, "0", "mvNode_Attr_Input, mvNode_Attr_Output, or mvNode_Attr_Static");
-		parser.addArg<mvPyDataType::Integer>("shape", mvArgType::KEYWORD_ARG, "1", "Pin shape");
+		parser.addArg<mvPyDataType::Long>("attribute_type", mvArgType::KEYWORD_ARG, "0", "mvNode_Attr_Input, mvNode_Attr_Output, or mvNode_Attr_Static.");
+		parser.addArg<mvPyDataType::Integer>("shape", mvArgType::KEYWORD_ARG, "1", "Pin shape.");
 
 		parser.finalize();
 

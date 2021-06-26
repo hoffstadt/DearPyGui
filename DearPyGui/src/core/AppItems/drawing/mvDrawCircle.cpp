@@ -25,7 +25,7 @@ namespace Marvel {
 
 		parser.addArg<mvPyDataType::Float>("thickness", mvArgType::KEYWORD_ARG, "1.0");
 
-		parser.addArg<mvPyDataType::Integer>("segments", mvArgType::KEYWORD_ARG, "0");
+		parser.addArg<mvPyDataType::Integer>("segments", mvArgType::KEYWORD_ARG, "0", "Number of segments to approximate circle.");
 
 		parser.finalize();
 

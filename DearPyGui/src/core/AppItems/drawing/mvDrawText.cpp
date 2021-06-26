@@ -16,8 +16,8 @@ namespace Marvel {
 			MV_PARSER_ARG_SHOW)
 		);
 
-		parser.addArg<mvPyDataType::FloatList>("pos");
-		parser.addArg<mvPyDataType::String>("text");
+		parser.addArg<mvPyDataType::FloatList>("pos", mvArgType::REQUIRED_ARG, "...", "Top left point of bounding text rectangle.");
+		parser.addArg<mvPyDataType::String>("text", mvArgType::REQUIRED_ARG, "...", "Text to draw.");
 
 		parser.addArg<mvPyDataType::IntList>("color", mvArgType::KEYWORD_ARG, "(255, 255, 255, 255)");
 
