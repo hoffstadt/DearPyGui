@@ -1816,7 +1816,7 @@ def show_demo():
                     # create x axis
                     dpg.add_plot_axis(dpg.mvXAxis, label="Student", no_gridlines=True)
                     dpg.set_axis_limits(dpg.last_item(), 9, 33)
-                    dpg.set_axis_ticks(dpg.last_item(), [["S1", 11], ["S2", 21], ["S3", 31]])
+                    dpg.set_axis_ticks(dpg.last_item(), (("S1", 11), ("S2", 21), ("S3", 31)))
                 
                     # create y axis
                     yaxis_id = dpg.add_plot_axis(dpg.mvYAxis, label="Score")      

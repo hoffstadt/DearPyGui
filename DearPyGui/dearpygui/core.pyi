@@ -126,7 +126,7 @@ def add_drag_intx(*, label: str =None, id: int =0, width: int =0, indent: int =-
 	"""Adds drag input for a set of int values up to 4. CTRL+Click to directly modify the value."""
 	...
 
-def add_drag_line(*, label: str =None, id: int =0, parent: int =0, before: int =0, source: int =0, callback: Callable =None, show: bool =True, default_value: Any =0.0, color: List[int] =(0, 0, 0, -255), thickness: float =1.0, show_label: bool =True, vertical: bool =True) -> int:
+def add_drag_line(*, label: str =None, id: int =0, parent: int =0, before: int =0, source: int =0, callback: Callable =None, user_data: Any =None, show: bool =True, default_value: Any =0.0, color: List[int] =(0, 0, 0, -255), thickness: float =1.0, show_label: bool =True, vertical: bool =True) -> int:
 	"""Adds a drag line to a plot."""
 	...
 
@@ -134,7 +134,7 @@ def add_drag_payload(*, label: str =None, id: int =0, parent: int =0, show: bool
 	"""User data payload for drag and drop operations."""
 	...
 
-def add_drag_point(*, label: str =None, id: int =0, parent: int =0, before: int =0, source: int =0, callback: Callable =None, show: bool =True, default_value: Any =(0.0, 0.0), color: List[int] =(0, 0, 0, -255), thickness: float =1.0, show_label: bool =True) -> int:
+def add_drag_point(*, label: str =None, id: int =0, parent: int =0, before: int =0, source: int =0, callback: Callable =None, user_data: Any =None, show: bool =True, default_value: Any =(0.0, 0.0), color: List[int] =(0, 0, 0, -255), thickness: float =1.0, show_label: bool =True) -> int:
 	"""Adds a drag point to a plot."""
 	...
 
@@ -642,6 +642,10 @@ def enable_docking(*, dock_space: bool =False) -> None:
 	"""Undocumented"""
 	...
 
+def fit_axis_data(axis : int) -> None:
+	"""Undocumented function"""
+	...
+
 def focus_item(item : int) -> None:
 	"""Undocumented"""
 	...
@@ -867,6 +871,10 @@ def reset_pos(item : int) -> None:
 	...
 
 def set_axis_limits(axis : int, ymin : float, ymax : float) -> None:
+	"""Undocumented function"""
+	...
+
+def set_axis_limits_auto(axis : int) -> None:
 	"""Undocumented function"""
 	...
 

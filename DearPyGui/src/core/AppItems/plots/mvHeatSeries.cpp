@@ -42,6 +42,7 @@ namespace Marvel {
 	mvHeatSeries::mvHeatSeries(mvUUID uuid)
 		: mvSeriesBase(uuid)
 	{
+		m_contributeToBounds = true;
 	}
 
 	bool mvHeatSeries::isParentCompatible(mvAppItemType type)
@@ -113,6 +114,8 @@ namespace Marvel {
 			}
 		}
 
+		(*m_value)[1].push_back(m_bounds_min.y);
+		(*m_value)[1].push_back(m_bounds_max.y);
 		resetMaxMins();
 		calculateMaxMins();
 	}
@@ -136,6 +139,8 @@ namespace Marvel {
 
 		if (valueChanged)
 		{
+			(*m_value)[1].push_back(m_bounds_min.y);
+			(*m_value)[1].push_back(m_bounds_max.y);
 			resetMaxMins();
 			calculateMaxMins();
 		}

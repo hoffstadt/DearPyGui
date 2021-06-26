@@ -20,13 +20,17 @@ namespace Marvel {
 		MV_CREATE_COMMAND(reset_axis_ticks);
 		MV_CREATE_COMMAND(set_axis_ticks);
 		MV_CREATE_COMMAND(set_axis_limits);
+		MV_CREATE_COMMAND(set_axis_limits_auto);
 		MV_CREATE_COMMAND(get_axis_limits);
+		MV_CREATE_COMMAND(fit_axis_data);
 
 		MV_START_COMMANDS
 			MV_ADD_COMMAND(reset_axis_ticks);
 			MV_ADD_COMMAND(set_axis_ticks);
 			MV_ADD_COMMAND(set_axis_limits);
+			MV_ADD_COMMAND(set_axis_limits_auto);
 			MV_ADD_COMMAND(get_axis_limits);
+			MV_ADD_COMMAND(fit_axis_data);
 		MV_END_COMMANDS
 
 		MV_START_CONSTANTS
@@ -53,9 +57,10 @@ namespace Marvel {
 		void setYTicks(const std::vector<std::string>& labels, const std::vector<double>& locations);
 		void resetYTicks();
 		void postDraw() override;
+		void fitAxisData();
 
 		void setLimits(float y_min, float y_max);
-		void setYLimitsAuto();
+		void setLimitsAuto();
 
 		ImPlotAxisFlags getFlags() const { return m_flags; }
 		const ImVec2& getYLimits() const { return m_limits_actual; }

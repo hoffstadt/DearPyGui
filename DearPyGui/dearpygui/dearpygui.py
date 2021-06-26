@@ -2674,7 +2674,7 @@ def add_drag_intx(*, label: str =None, id: int =0, width: int =0, indent: int =-
 
 	return internal_dpg.add_drag_intx(label=label, id=id, width=width, indent=indent, parent=parent, before=before, source=source, payload_type=payload_type, callback=callback, drag_callback=drag_callback, drop_callback=drop_callback, user_data=user_data, show=show, enabled=enabled, pos=pos, filter_key=filter_key, tracked=tracked, track_offset=track_offset, default_value=default_value, size=size, format=format, speed=speed, min_value=min_value, max_value=max_value, no_input=no_input, clamped=clamped)
 
-def add_drag_line(*, label: str =None, id: int =0, parent: int =0, before: int =0, source: int =0, callback: Callable =None, show: bool =True, default_value: Any =0.0, color: List[int] =(0, 0, 0, -255), thickness: float =1.0, show_label: bool =True, vertical: bool =True) -> int:
+def add_drag_line(*, label: str =None, id: int =0, parent: int =0, before: int =0, source: int =0, callback: Callable =None, user_data: Any =None, show: bool =True, default_value: Any =0.0, color: List[int] =(0, 0, 0, -255), thickness: float =1.0, show_label: bool =True, vertical: bool =True) -> int:
 	"""
 	Adds a drag line to a plot.
 	Args:
@@ -2684,6 +2684,7 @@ def add_drag_line(*, label: str =None, id: int =0, parent: int =0, before: int =
 		**before (int): This item will be displayed before the specified item in the parent.
 		**source (int): Overrides 'id' as value storage key.
 		**callback (Callable): Registers a callback.
+		**user_data (Any): User data for callbacks.
 		**show (bool): Attempt to render widget.
 		**default_value (Any): 
 		**color (List[int]): 
@@ -2694,7 +2695,7 @@ def add_drag_line(*, label: str =None, id: int =0, parent: int =0, before: int =
 		int
 	"""
 
-	return internal_dpg.add_drag_line(label=label, id=id, parent=parent, before=before, source=source, callback=callback, show=show, default_value=default_value, color=color, thickness=thickness, show_label=show_label, vertical=vertical)
+	return internal_dpg.add_drag_line(label=label, id=id, parent=parent, before=before, source=source, callback=callback, user_data=user_data, show=show, default_value=default_value, color=color, thickness=thickness, show_label=show_label, vertical=vertical)
 
 def add_drag_payload(*, label: str =None, id: int =0, parent: int =0, show: bool =True, drag_data: Any =None, payload_type: str ='$$DPG_PAYLOAD') -> int:
 	"""
@@ -2712,7 +2713,7 @@ def add_drag_payload(*, label: str =None, id: int =0, parent: int =0, show: bool
 
 	return internal_dpg.add_drag_payload(label=label, id=id, parent=parent, show=show, drag_data=drag_data, payload_type=payload_type)
 
-def add_drag_point(*, label: str =None, id: int =0, parent: int =0, before: int =0, source: int =0, callback: Callable =None, show: bool =True, default_value: Any =(0.0, 0.0), color: List[int] =(0, 0, 0, -255), thickness: float =1.0, show_label: bool =True) -> int:
+def add_drag_point(*, label: str =None, id: int =0, parent: int =0, before: int =0, source: int =0, callback: Callable =None, user_data: Any =None, show: bool =True, default_value: Any =(0.0, 0.0), color: List[int] =(0, 0, 0, -255), thickness: float =1.0, show_label: bool =True) -> int:
 	"""
 	Adds a drag point to a plot.
 	Args:
@@ -2722,6 +2723,7 @@ def add_drag_point(*, label: str =None, id: int =0, parent: int =0, before: int 
 		**before (int): This item will be displayed before the specified item in the parent.
 		**source (int): Overrides 'id' as value storage key.
 		**callback (Callable): Registers a callback.
+		**user_data (Any): User data for callbacks.
 		**show (bool): Attempt to render widget.
 		**default_value (Any): 
 		**color (List[int]): 
@@ -2731,7 +2733,7 @@ def add_drag_point(*, label: str =None, id: int =0, parent: int =0, before: int 
 		int
 	"""
 
-	return internal_dpg.add_drag_point(label=label, id=id, parent=parent, before=before, source=source, callback=callback, show=show, default_value=default_value, color=color, thickness=thickness, show_label=show_label)
+	return internal_dpg.add_drag_point(label=label, id=id, parent=parent, before=before, source=source, callback=callback, user_data=user_data, show=show, default_value=default_value, color=color, thickness=thickness, show_label=show_label)
 
 def add_draw_layer(*, label: str =None, id: int =0, parent: int =0, before: int =0, show: bool =True) -> int:
 	"""
@@ -5384,6 +5386,17 @@ def enable_docking(*, dock_space: bool =False) -> None:
 
 	return internal_dpg.enable_docking(dock_space=dock_space)
 
+def fit_axis_data(axis : int) -> None:
+	"""
+	Undocumented function
+	Args:
+		axis (int): 
+	Returns:
+		None
+	"""
+
+	return internal_dpg.fit_axis_data(axis)
+
 def focus_item(item : int) -> None:
 	"""
 	Undocumented
@@ -5995,6 +6008,17 @@ def set_axis_limits(axis : int, ymin : float, ymax : float) -> None:
 	"""
 
 	return internal_dpg.set_axis_limits(axis, ymin, ymax)
+
+def set_axis_limits_auto(axis : int) -> None:
+	"""
+	Undocumented function
+	Args:
+		axis (int): 
+	Returns:
+		None
+	"""
+
+	return internal_dpg.set_axis_limits_auto(axis)
 
 def set_axis_ticks(axis : int, label_pairs : Any) -> None:
 	"""
