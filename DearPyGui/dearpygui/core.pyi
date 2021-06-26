@@ -83,7 +83,7 @@ def add_color_value(*, label: str =None, id: int =0, source: int =0, default_val
 	...
 
 def add_colormap_scale(*, label: str =None, id: int =0, width: int =0, height: int =0, indent: int =-1, parent: int =0, before: int =0, source: int =0, show: bool =True, pos: List[int] =[], default_value: int =0, min_scale: float =0.0, max_scale: float =1.0) -> int:
-	"""Undocumented"""
+	"""Adds a legend that pairs values with colors. This is typically used with a heat series. """
 	...
 
 def add_combo(items : List[str] =(), *, label: str =None, id: int =0, width: int =0, indent: int =-1, parent: int =0, before: int =0, source: int =0, payload_type: str ='$$DPG_PAYLOAD', callback: Callable =None, drag_callback: Callable =None, drop_callback: Callable =None, user_data: Any =None, show: bool =True, enabled: bool =True, pos: List[int] =[], filter_key: str ='', tracked: bool =False, track_offset: float =0.5, default_value: str ='', popup_align_left: bool =False, no_arrow_button: bool =False, no_preview: bool =False, height_mode: int =1) -> int:
@@ -139,11 +139,11 @@ def add_drag_point(*, label: str =None, id: int =0, parent: int =0, before: int 
 	...
 
 def add_draw_layer(*, label: str =None, id: int =0, parent: int =0, before: int =0, show: bool =True) -> int:
-	"""Creates a layer that can be drawn to."""
+	"""Creates a layer that can be drawn to. Useful for grouping drawing items."""
 	...
 
 def add_drawlist(*, label: str =None, id: int =0, width: int =0, height: int =0, parent: int =0, before: int =0, payload_type: str ='$$DPG_PAYLOAD', callback: Callable =None, drag_callback: Callable =None, drop_callback: Callable =None, user_data: Any =None, show: bool =True, pos: List[int] =[], filter_key: str ='', delay_search: str =False, tracked: bool =False, track_offset: float =0.5) -> int:
-	"""A container that can hold drawings commands."""
+	"""A container widget that is used to present draw items or layers. Layers and draw items should be added to this widget as children."""
 	...
 
 def add_dummy(*, label: str =None, id: int =0, width: int =0, height: int =0, indent: int =-1, parent: int =0, before: int =0, show: bool =True, pos: List[int] =[]) -> int:
@@ -219,7 +219,7 @@ def add_handler_registry(*, label: str =None, id: int =0, show: bool =True) -> i
 	...
 
 def add_heat_series(x : List[float], rows : int, cols : int, *, label: str =None, id: int =0, parent: int =0, before: int =0, source: int =0, show: bool =True, scale_min: float =0.0, scale_max: float =1.0, bounds_min: Any =(0.0, 0.0), bounds_max: Any =(1.0, 1.0), format: str ='%0.1f', contribute_to_bounds: bool =True) -> int:
-	"""Adds a heat series to a plot."""
+	"""Adds a heat series to a plot. Typically a color scale widget is also added to show the legend."""
 	...
 
 def add_histogram_series(x : List[float], *, label: str =None, id: int =0, parent: int =0, before: int =0, source: int =0, show: bool =True, bins: int =-1, bar_scale: float =1.0, min_range: float =0.0, max_range: float =1.0, cumlative: bool =False, density: bool =False, outliers: bool =True, contribute_to_bounds: bool =True) -> int:
@@ -535,7 +535,7 @@ def add_value_registry(*, label: str =None, id: int =0) -> int:
 	...
 
 def add_viewport_drawlist(*, label: str =None, id: int =0, show: bool =True, filter_key: str ='', delay_search: str =False, front: bool =True) -> int:
-	"""Undocumented function."""
+	"""A container that is used to present draw items or layers directly to the viewport. By default this will draw to the back of teh viewport. Layers and draw items should be added to this widget as children."""
 	...
 
 def add_visible_handler(parent : int, *, label: str =None, id: int =0, callback: Callable =None, user_data: Any =None) -> int:
@@ -586,11 +586,11 @@ def draw_arrow(p1 : List[float], p2 : List[float], *, label: str =None, id: int 
 	"""Draws an arrow on a drawing."""
 	...
 
-def draw_bezier_cubic(p1 : List[float], p2 : List[float], p3 : List[float], p4 : List[float], *, label: str =None, id: int =0, parent: int =0, before: int =0, show: bool =True, color: List[int] =(255, 255, 255, 255), thickness: float =1.0, size: int =4, segments: int =0) -> int:
+def draw_bezier_cubic(p1 : List[float], p2 : List[float], p3 : List[float], p4 : List[float], *, label: str =None, id: int =0, parent: int =0, before: int =0, show: bool =True, color: List[int] =(255, 255, 255, 255), thickness: float =1.0, segments: int =0) -> int:
 	"""Draws a cubic bezier curve on a drawing."""
 	...
 
-def draw_bezier_quadratic(p1 : List[float], p2 : List[float], p3 : List[float], *, label: str =None, id: int =0, parent: int =0, before: int =0, show: bool =True, color: List[int] =(255, 255, 255, 255), thickness: float =1.0, size: int =4, segments: int =0) -> int:
+def draw_bezier_quadratic(p1 : List[float], p2 : List[float], p3 : List[float], *, label: str =None, id: int =0, parent: int =0, before: int =0, show: bool =True, color: List[int] =(255, 255, 255, 255), thickness: float =1.0, segments: int =0) -> int:
 	"""Draws a quadratic bezier curve on a drawing."""
 	...
 
@@ -611,11 +611,11 @@ def draw_line(p1 : List[float], p2 : List[float], *, label: str =None, id: int =
 	...
 
 def draw_polygon(points : List[List[float]], *, label: str =None, id: int =0, parent: int =0, before: int =0, show: bool =True, color: List[int] =(255, 255, 255, 255), fill: List[int] =(0, 0, 0, -255), thickness: float =1.0) -> int:
-	"""Draws a polygon on a drawing."""
+	"""Draws a polygon on a drawing. First and and last point should be the same to close teh polygone."""
 	...
 
 def draw_polyline(points : List[List[float]], *, label: str =None, id: int =0, parent: int =0, before: int =0, show: bool =True, closed: bool =False, color: List[int] =(255, 255, 255, 255), thickness: float =1.0) -> int:
-	"""Draws lines on a drawing."""
+	"""Draws connected lines on a drawing from points."""
 	...
 
 def draw_quad(p1 : List[float], p2 : List[float], p3 : List[float], p4 : List[float], *, label: str =None, id: int =0, parent: int =0, before: int =0, show: bool =True, color: List[int] =(255, 255, 255, 255), fill: List[int] =(0, 0, 0, -255), thickness: float =1.0) -> int:
