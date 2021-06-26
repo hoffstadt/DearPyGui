@@ -1235,7 +1235,7 @@ def drag_payload(*, label: str =None, id: int =0, parent: int =0, show: bool =Tr
 @contextmanager
 def draw_layer(*, label: str =None, id: int =0, parent: int =0, before: int =0, show: bool =True) -> int:
 	"""
-	Creates a layer that can be drawn to.
+	Creates a layer that can be drawn to. Useful for grouping drawing items.
 	Args:
 		**label (str): Overrides 'name' as label.
 		**id (int): Unique id used to programmatically refer to the item.If label is unused this will be the label.
@@ -1254,7 +1254,7 @@ def draw_layer(*, label: str =None, id: int =0, parent: int =0, before: int =0, 
 @contextmanager
 def drawlist(*, label: str =None, id: int =0, width: int =0, height: int =0, parent: int =0, before: int =0, payload_type: str ='$$DPG_PAYLOAD', callback: Callable =None, drag_callback: Callable =None, drop_callback: Callable =None, user_data: Any =None, show: bool =True, pos: List[int] =[], filter_key: str ='', delay_search: str =False, tracked: bool =False, track_offset: float =0.5) -> int:
 	"""
-	A container that can hold drawings commands.
+	A container widget that is used to present draw items or layers. Layers and draw items should be added to this widget as children.
 	Args:
 		**label (str): Overrides 'name' as label.
 		**id (int): Unique id used to programmatically refer to the item.If label is unused this will be the label.
@@ -1508,8 +1508,8 @@ def node_attribute(*, label: str =None, id: int =0, indent: int =-1, parent: int
 		**filter_key (str): Used by filter widget.
 		**tracked (bool): Scroll tracking
 		**track_offset (float): 0.0f:top, 0.5f:center, 1.0f:bottom
-		**attribute_type (int): mvNode_Attr_Input, mvNode_Attr_Output, or mvNode_Attr_Static
-		**shape (int): Pin shape
+		**attribute_type (int): mvNode_Attr_Input, mvNode_Attr_Output, or mvNode_Attr_Static.
+		**shape (int): Pin shape.
 	Yields:
 		int
 	"""
@@ -1846,14 +1846,14 @@ def value_registry(*, label: str =None, id: int =0) -> int:
 @contextmanager
 def viewport_drawlist(*, label: str =None, id: int =0, show: bool =True, filter_key: str ='', delay_search: str =False, front: bool =True) -> int:
 	"""
-	Undocumented function.
+	A container that is used to present draw items or layers directly to the viewport. By default this will draw to the back of teh viewport. Layers and draw items should be added to this widget as children.
 	Args:
 		**label (str): Overrides 'name' as label.
 		**id (int): Unique id used to programmatically refer to the item.If label is unused this will be the label.
 		**show (bool): Attempt to render widget.
 		**filter_key (str): Used by filter widget.
 		**delay_search (str): Delays searching container for specified items until the end of the app. Possible optimization when a container has many children that are not accessed often.
-		**front (bool): 
+		**front (bool): Draws to the front of the view port instead of the back.
 	Yields:
 		int
 	"""
@@ -2390,7 +2390,7 @@ def add_color_value(*, label: str =None, id: int =0, source: int =0, default_val
 
 def add_colormap_scale(*, label: str =None, id: int =0, width: int =0, height: int =0, indent: int =-1, parent: int =0, before: int =0, source: int =0, show: bool =True, pos: List[int] =[], default_value: int =0, min_scale: float =0.0, max_scale: float =1.0) -> int:
 	"""
-	Undocumented
+	Adds a legend that pairs values with colors. This is typically used with a heat series. 
 	Args:
 		**label (str): Overrides 'name' as label.
 		**id (int): Unique id used to programmatically refer to the item.If label is unused this will be the label.
@@ -2403,8 +2403,8 @@ def add_colormap_scale(*, label: str =None, id: int =0, width: int =0, height: i
 		**show (bool): Attempt to render widget.
 		**pos (List[int]): Places the item relative to window coordinates, [0,0] is top left.
 		**default_value (int): 
-		**min_scale (float): 
-		**max_scale (float): 
+		**min_scale (float): Sets the min number of the color scale. Typically is the same as the min scale from the heat series.
+		**max_scale (float): Sets the max number of the color scale. Typically is the same as the max scale from the heat series.
 	Returns:
 		int
 	"""
@@ -2737,7 +2737,7 @@ def add_drag_point(*, label: str =None, id: int =0, parent: int =0, before: int 
 
 def add_draw_layer(*, label: str =None, id: int =0, parent: int =0, before: int =0, show: bool =True) -> int:
 	"""
-	Creates a layer that can be drawn to.
+	Creates a layer that can be drawn to. Useful for grouping drawing items.
 	Args:
 		**label (str): Overrides 'name' as label.
 		**id (int): Unique id used to programmatically refer to the item.If label is unused this will be the label.
@@ -2752,7 +2752,7 @@ def add_draw_layer(*, label: str =None, id: int =0, parent: int =0, before: int 
 
 def add_drawlist(*, label: str =None, id: int =0, width: int =0, height: int =0, parent: int =0, before: int =0, payload_type: str ='$$DPG_PAYLOAD', callback: Callable =None, drag_callback: Callable =None, drop_callback: Callable =None, user_data: Any =None, show: bool =True, pos: List[int] =[], filter_key: str ='', delay_search: str =False, tracked: bool =False, track_offset: float =0.5) -> int:
 	"""
-	A container that can hold drawings commands.
+	A container widget that is used to present draw items or layers. Layers and draw items should be added to this widget as children.
 	Args:
 		**label (str): Overrides 'name' as label.
 		**id (int): Unique id used to programmatically refer to the item.If label is unused this will be the label.
@@ -3082,7 +3082,7 @@ def add_handler_registry(*, label: str =None, id: int =0, show: bool =True) -> i
 
 def add_heat_series(x : List[float], rows : int, cols : int, *, label: str =None, id: int =0, parent: int =0, before: int =0, source: int =0, show: bool =True, scale_min: float =0.0, scale_max: float =1.0, bounds_min: Any =(0.0, 0.0), bounds_max: Any =(1.0, 1.0), format: str ='%0.1f', contribute_to_bounds: bool =True) -> int:
 	"""
-	Adds a heat series to a plot.
+	Adds a heat series to a plot. Typically a color scale widget is also added to show the legend.
 	Args:
 		x (Any): 
 		rows (int): 
@@ -3093,8 +3093,8 @@ def add_heat_series(x : List[float], rows : int, cols : int, *, label: str =None
 		**before (int): This item will be displayed before the specified item in the parent.
 		**source (int): Overrides 'id' as value storage key.
 		**show (bool): Attempt to render widget.
-		**scale_min (float): 
-		**scale_max (float): 
+		**scale_min (float): Sets the color scale min. Typically paired with the color scale widget scale_min.
+		**scale_max (float): Sets the color scale max. Typically paired with the color scale widget scale_max.
 		**bounds_min (Any): 
 		**bounds_max (Any): 
 		**format (str): 
@@ -3855,8 +3855,8 @@ def add_node_attribute(*, label: str =None, id: int =0, indent: int =-1, parent:
 		**filter_key (str): Used by filter widget.
 		**tracked (bool): Scroll tracking
 		**track_offset (float): 0.0f:top, 0.5f:center, 1.0f:bottom
-		**attribute_type (int): mvNode_Attr_Input, mvNode_Attr_Output, or mvNode_Attr_Static
-		**shape (int): Pin shape
+		**attribute_type (int): mvNode_Attr_Input, mvNode_Attr_Output, or mvNode_Attr_Static.
+		**shape (int): Pin shape.
 	Returns:
 		int
 	"""
@@ -4052,8 +4052,8 @@ def add_progress_bar(*, label: str =None, id: int =0, width: int =0, height: int
 		**filter_key (str): Used by filter widget.
 		**tracked (bool): Scroll tracking
 		**track_offset (float): 0.0f:top, 0.5f:center, 1.0f:bottom
-		**overlay (str): overlayed text
-		**default_value (float): value from 0 to 1
+		**overlay (str): Overlayed text.
+		**default_value (float): Normalized value to fill the bar from 0.0 to 1.0.
 	Returns:
 		int
 	"""
@@ -4131,8 +4131,8 @@ def add_same_line(*, label: str =None, id: int =0, parent: int =0, before: int =
 		**parent (int): Parent to add this item to. (runtime adding)
 		**before (int): This item will be displayed before the specified item in the parent.
 		**show (bool): Attempt to render widget.
-		**xoffset (float): offset from containing window
-		**spacing (float): offset from previous widget
+		**xoffset (float): Offset from containing window.
+		**spacing (float): Offset from previous widget.
 	Returns:
 		int
 	"""
@@ -4425,7 +4425,7 @@ def add_spacing(*, label: str =None, id: int =0, indent: int =-1, parent: int =0
 		**before (int): This item will be displayed before the specified item in the parent.
 		**show (bool): Attempt to render widget.
 		**pos (List[int]): Places the item relative to window coordinates, [0,0] is top left.
-		**count (int): Number of spacings to add
+		**count (int): Number of spacings to add the size is dependant on the curret style.
 	Returns:
 		int
 	"""
@@ -4838,7 +4838,7 @@ def add_time_picker(*, label: str =None, id: int =0, indent: int =-1, parent: in
 		**tracked (bool): Scroll tracking
 		**track_offset (float): 0.0f:top, 0.5f:center, 1.0f:bottom
 		**default_value (dict): 
-		**hour24 (bool): show 24 hour clock
+		**hour24 (bool): Show 24 hour clock instead of 12 hour.
 	Returns:
 		int
 	"""
@@ -4918,14 +4918,14 @@ def add_value_registry(*, label: str =None, id: int =0) -> int:
 
 def add_viewport_drawlist(*, label: str =None, id: int =0, show: bool =True, filter_key: str ='', delay_search: str =False, front: bool =True) -> int:
 	"""
-	Undocumented function.
+	A container that is used to present draw items or layers directly to the viewport. By default this will draw to the back of teh viewport. Layers and draw items should be added to this widget as children.
 	Args:
 		**label (str): Overrides 'name' as label.
 		**id (int): Unique id used to programmatically refer to the item.If label is unused this will be the label.
 		**show (bool): Attempt to render widget.
 		**filter_key (str): Used by filter widget.
 		**delay_search (str): Delays searching container for specified items until the end of the app. Possible optimization when a container has many children that are not accessed often.
-		**front (bool): 
+		**front (bool): Draws to the front of the view port instead of the back.
 	Returns:
 		int
 	"""
@@ -5101,8 +5101,8 @@ def draw_arrow(p1 : List[float], p2 : List[float], *, label: str =None, id: int 
 	"""
 	Draws an arrow on a drawing.
 	Args:
-		p1 (List[float]): 
-		p2 (List[float]): 
+		p1 (List[float]): Arrow tip.
+		p2 (List[float]): Arrow tail.
 		**label (str): Overrides 'name' as label.
 		**id (int): Unique id used to programmatically refer to the item.If label is unused this will be the label.
 		**parent (int): Parent to add this item to. (runtime adding)
@@ -5117,14 +5117,14 @@ def draw_arrow(p1 : List[float], p2 : List[float], *, label: str =None, id: int 
 
 	return internal_dpg.draw_arrow(p1, p2, label=label, id=id, parent=parent, before=before, show=show, color=color, thickness=thickness, size=size)
 
-def draw_bezier_cubic(p1 : List[float], p2 : List[float], p3 : List[float], p4 : List[float], *, label: str =None, id: int =0, parent: int =0, before: int =0, show: bool =True, color: List[int] =(255, 255, 255, 255), thickness: float =1.0, size: int =4, segments: int =0) -> int:
+def draw_bezier_cubic(p1 : List[float], p2 : List[float], p3 : List[float], p4 : List[float], *, label: str =None, id: int =0, parent: int =0, before: int =0, show: bool =True, color: List[int] =(255, 255, 255, 255), thickness: float =1.0, segments: int =0) -> int:
 	"""
 	Draws a cubic bezier curve on a drawing.
 	Args:
-		p1 (List[float]): 
-		p2 (List[float]): 
-		p3 (List[float]): 
-		p4 (List[float]): 
+		p1 (List[float]): First point in curve.
+		p2 (List[float]): Second point in curve.
+		p3 (List[float]): Third point in curve.
+		p4 (List[float]): Fourth point in curve.
 		**label (str): Overrides 'name' as label.
 		**id (int): Unique id used to programmatically refer to the item.If label is unused this will be the label.
 		**parent (int): Parent to add this item to. (runtime adding)
@@ -5132,21 +5132,20 @@ def draw_bezier_cubic(p1 : List[float], p2 : List[float], p3 : List[float], p4 :
 		**show (bool): Attempt to render widget.
 		**color (List[int]): 
 		**thickness (float): 
-		**size (int): 
-		**segments (int): 
+		**segments (int): Number of segments to approximate bezier curve.
 	Returns:
 		int
 	"""
 
-	return internal_dpg.draw_bezier_cubic(p1, p2, p3, p4, label=label, id=id, parent=parent, before=before, show=show, color=color, thickness=thickness, size=size, segments=segments)
+	return internal_dpg.draw_bezier_cubic(p1, p2, p3, p4, label=label, id=id, parent=parent, before=before, show=show, color=color, thickness=thickness, segments=segments)
 
-def draw_bezier_quadratic(p1 : List[float], p2 : List[float], p3 : List[float], *, label: str =None, id: int =0, parent: int =0, before: int =0, show: bool =True, color: List[int] =(255, 255, 255, 255), thickness: float =1.0, size: int =4, segments: int =0) -> int:
+def draw_bezier_quadratic(p1 : List[float], p2 : List[float], p3 : List[float], *, label: str =None, id: int =0, parent: int =0, before: int =0, show: bool =True, color: List[int] =(255, 255, 255, 255), thickness: float =1.0, segments: int =0) -> int:
 	"""
 	Draws a quadratic bezier curve on a drawing.
 	Args:
-		p1 (List[float]): 
-		p2 (List[float]): 
-		p3 (List[float]): 
+		p1 (List[float]): First point in curve.
+		p2 (List[float]): Second point in curve.
+		p3 (List[float]): Third point in curve.
 		**label (str): Overrides 'name' as label.
 		**id (int): Unique id used to programmatically refer to the item.If label is unused this will be the label.
 		**parent (int): Parent to add this item to. (runtime adding)
@@ -5154,13 +5153,12 @@ def draw_bezier_quadratic(p1 : List[float], p2 : List[float], p3 : List[float], 
 		**show (bool): Attempt to render widget.
 		**color (List[int]): 
 		**thickness (float): 
-		**size (int): 
-		**segments (int): 
+		**segments (int): Number of segments to approximate bezier curve.
 	Returns:
 		int
 	"""
 
-	return internal_dpg.draw_bezier_quadratic(p1, p2, p3, label=label, id=id, parent=parent, before=before, show=show, color=color, thickness=thickness, size=size, segments=segments)
+	return internal_dpg.draw_bezier_quadratic(p1, p2, p3, label=label, id=id, parent=parent, before=before, show=show, color=color, thickness=thickness, segments=segments)
 
 def draw_circle(center : List[float], radius : float, *, label: str =None, id: int =0, parent: int =0, before: int =0, show: bool =True, color: List[int] =(255, 255, 255, 255), fill: List[int] =(0, 0, 0, -255), thickness: float =1.0, segments: int =0) -> int:
 	"""
@@ -5176,7 +5174,7 @@ def draw_circle(center : List[float], radius : float, *, label: str =None, id: i
 		**color (List[int]): 
 		**fill (List[int]): 
 		**thickness (float): 
-		**segments (int): 
+		**segments (int): Number of segments to approximate circle.
 	Returns:
 		int
 	"""
@@ -5187,8 +5185,8 @@ def draw_ellipse(pmin : List[float], pmax : List[float], *, label: str =None, id
 	"""
 	Draws an ellipse on a drawing.
 	Args:
-		pmin (List[float]): 
-		pmax (List[float]): 
+		pmin (List[float]): Min point of bounding rectangle.
+		pmax (List[float]): Max point of bounding rectangle.
 		**label (str): Overrides 'name' as label.
 		**id (int): Unique id used to programmatically refer to the item.If label is unused this will be the label.
 		**parent (int): Parent to add this item to. (runtime adding)
@@ -5197,7 +5195,7 @@ def draw_ellipse(pmin : List[float], pmax : List[float], *, label: str =None, id
 		**color (List[int]): 
 		**fill (List[int]): 
 		**thickness (float): 
-		**segments (int): 
+		**segments (int): Number of segments to approximate bezier curve.
 	Returns:
 		int
 	"""
@@ -5209,15 +5207,15 @@ def draw_image(texture_id : int, pmin : List[float], pmax : List[float], *, labe
 	Draws an image on a drawing. p_min (top-left) and p_max (bottom-right) represent corners of the rectangle the image will be drawn to.Setting the p_min equal to the p_max will sraw the image to with 1:1 scale.uv_min and uv_max represent the normalized texture coordinates of the original image that will be shown. Using (0.0,0.0)->(1.0,1.0) texturecoordinates will generally display the entire texture.
 	Args:
 		texture_id (int): 
-		pmin (List[float]): 
-		pmax (List[float]): 
+		pmin (List[float]): Point of to start drawing texture.
+		pmax (List[float]): Point to complete drawing texture.
 		**label (str): Overrides 'name' as label.
 		**id (int): Unique id used to programmatically refer to the item.If label is unused this will be the label.
 		**parent (int): Parent to add this item to. (runtime adding)
 		**before (int): This item will be displayed before the specified item in the parent.
 		**show (bool): Attempt to render widget.
-		**uv_min (List[float]): normalized texture coordinates
-		**uv_max (List[float]): normalized texture coordinates
+		**uv_min (List[float]): Normalized coordinates on texture that will be drawn.
+		**uv_max (List[float]): Normalized coordinates on texture that will be drawn.
 		**color (List[int]): 
 	Returns:
 		int
@@ -5229,8 +5227,8 @@ def draw_line(p1 : List[float], p2 : List[float], *, label: str =None, id: int =
 	"""
 	Draws a line on a drawing.
 	Args:
-		p1 (List[float]): 
-		p2 (List[float]): 
+		p1 (List[float]): Start of line.
+		p2 (List[float]): End of line.
 		**label (str): Overrides 'name' as label.
 		**id (int): Unique id used to programmatically refer to the item.If label is unused this will be the label.
 		**parent (int): Parent to add this item to. (runtime adding)
@@ -5246,7 +5244,7 @@ def draw_line(p1 : List[float], p2 : List[float], *, label: str =None, id: int =
 
 def draw_polygon(points : List[List[float]], *, label: str =None, id: int =0, parent: int =0, before: int =0, show: bool =True, color: List[int] =(255, 255, 255, 255), fill: List[int] =(0, 0, 0, -255), thickness: float =1.0) -> int:
 	"""
-	Draws a polygon on a drawing.
+	Draws a polygon on a drawing. First and and last point should be the same to close teh polygone.
 	Args:
 		points (List[List[float]]): 
 		**label (str): Overrides 'name' as label.
@@ -5265,7 +5263,7 @@ def draw_polygon(points : List[List[float]], *, label: str =None, id: int =0, pa
 
 def draw_polyline(points : List[List[float]], *, label: str =None, id: int =0, parent: int =0, before: int =0, show: bool =True, closed: bool =False, color: List[int] =(255, 255, 255, 255), thickness: float =1.0) -> int:
 	"""
-	Draws lines on a drawing.
+	Draws connected lines on a drawing from points.
 	Args:
 		points (List[List[float]]): 
 		**label (str): Overrides 'name' as label.
@@ -5273,7 +5271,7 @@ def draw_polyline(points : List[List[float]], *, label: str =None, id: int =0, p
 		**parent (int): Parent to add this item to. (runtime adding)
 		**before (int): This item will be displayed before the specified item in the parent.
 		**show (bool): Attempt to render widget.
-		**closed (bool): 
+		**closed (bool): Will close the polyline by returning to the first point.
 		**color (List[int]): 
 		**thickness (float): 
 	Returns:
@@ -5308,8 +5306,8 @@ def draw_rectangle(pmin : List[float], pmax : List[float], *, label: str =None, 
 	"""
 	Draws a rectangle on a drawing.
 	Args:
-		pmin (List[float]): 
-		pmax (List[float]): 
+		pmin (List[float]): Min point of bounding rectangle.
+		pmax (List[float]): Max point of bounding rectangle.
 		**label (str): Overrides 'name' as label.
 		**id (int): Unique id used to programmatically refer to the item.If label is unused this will be the label.
 		**parent (int): Parent to add this item to. (runtime adding)
@@ -5317,7 +5315,7 @@ def draw_rectangle(pmin : List[float], pmax : List[float], *, label: str =None, 
 		**show (bool): Attempt to render widget.
 		**color (List[int]): 
 		**fill (List[int]): 
-		**rounding (float): 
+		**rounding (float): Number of pixels of the radius that will round the corners of the rectangle.
 		**thickness (float): 
 	Returns:
 		int
@@ -5329,8 +5327,8 @@ def draw_text(pos : List[float], text : str, *, label: str =None, id: int =0, pa
 	"""
 	Draws a text on a drawing.
 	Args:
-		pos (List[float]): 
-		text (str): 
+		pos (List[float]): Top left point of bounding text rectangle.
+		text (str): Text to draw.
 		**label (str): Overrides 'name' as label.
 		**id (int): Unique id used to programmatically refer to the item.If label is unused this will be the label.
 		**parent (int): Parent to add this item to. (runtime adding)
