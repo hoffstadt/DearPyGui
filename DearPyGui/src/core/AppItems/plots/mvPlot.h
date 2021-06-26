@@ -125,6 +125,11 @@ namespace Marvel {
 		bool                          m_queried = false;
 		double                        m_queryArea[4] = {0.0, 0.0, 0.0, 0.0};
 		bool                          m_dirty = false;
+
+		bool m_fitDirty = false;
+		bool m_axisfitDirty[4] = { false, false, false, false };
+
+		friend class mvPlotAxis;
 	
 	};
 

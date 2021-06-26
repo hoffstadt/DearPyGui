@@ -83,6 +83,7 @@ namespace Marvel {
 	mvPlot::mvPlot(mvUUID uuid)
 		: mvAppItem(uuid)
 	{
+		m_label = "Plot###" + std::to_string(m_uuid);
 		m_width = -1;
 		m_height = -1;
 	}
@@ -239,9 +240,23 @@ namespace Marvel {
 			item->customAction();
 		}
 
-		if (ImPlot::BeginPlot(m_label.c_str(), m_xaxisName.empty() ? nullptr : m_xaxisName.c_str(), m_y1axisName.empty() ? nullptr : m_y1axisName.c_str(),
-			ImVec2((float)m_width, (float)m_height), m_flags,
-			m_xflags, m_yflags, m_y1flags, m_y2flags, m_y2axisName.empty() ? nullptr : m_y2axisName.c_str(), m_y3axisName.empty() ? nullptr : m_y3axisName.c_str()))
+		if (m_fitDirty)
+		{
+			ImPlot::FitNextPlotAxes(m_axisfitDirty[0], m_axisfitDirty[1], m_axisfitDirty[2], m_axisfitDirty[3]);
+			m_fitDirty = false;
+			m_axisfitDirty[0] = false;
+			m_axisfitDirty[1] = false;
+			m_axisfitDirty[2] = false;
+			m_axisfitDirty[3] = false;
+		}
+
+		if (ImPlot::BeginPlot(m_label.c_str(), 
+			m_xaxisName.empty() ? nullptr : m_xaxisName.c_str(), 
+			m_y1axisName.empty() ? nullptr : m_y1axisName.c_str(),
+			ImVec2((float)m_width, (float)m_height), 
+			m_flags, m_xflags, m_yflags, m_y1flags, m_y2flags, 
+			m_y2axisName.empty() ? nullptr : m_y2axisName.c_str(), 
+			m_y3axisName.empty() ? nullptr : m_y3axisName.c_str()))
 		{
 			//ImPlot::PushPlotClipRect();
 			ImPlot::PushColormap(m_colormap);

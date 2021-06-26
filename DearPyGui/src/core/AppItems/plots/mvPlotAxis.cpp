@@ -59,6 +59,20 @@ namespace Marvel {
 			mvPythonParser parser(mvPyDataType::None, "Undocumented function", { "Plotting", "Widgets" });
 			parser.addArg<mvPyDataType::UUID>("axis");
 			parser.finalize();
+			parsers->insert({ "set_axis_limits_auto", parser });
+		}
+
+		{
+			mvPythonParser parser(mvPyDataType::None, "Undocumented function", { "Plotting", "Widgets" });
+			parser.addArg<mvPyDataType::UUID>("axis");
+			parser.finalize();
+			parsers->insert({ "fit_axis_data", parser });
+		}
+
+		{
+			mvPythonParser parser(mvPyDataType::None, "Undocumented function", { "Plotting", "Widgets" });
+			parser.addArg<mvPyDataType::UUID>("axis");
+			parser.finalize();
 			parsers->insert({ "reset_axis_ticks", parser });
 		}
 
@@ -138,8 +152,8 @@ namespace Marvel {
 		// x axis
 		if (m_axis == 0)
 		{
-			//m_limits_actual.x = (float)ImPlot::GetPlotLimits(m_location).X.Min;
-			//m_limits_actual.y = (float)ImPlot::GetPlotLimits(m_location).X.Max;
+			m_limits_actual.x = (float)ImPlot::GetPlotLimits(m_location).X.Min;
+			m_limits_actual.y = (float)ImPlot::GetPlotLimits(m_location).X.Max;
 		}
 
 		// y axis
@@ -165,6 +179,12 @@ namespace Marvel {
 		MV_ITEM_REGISTRY_ERROR("Drawing item parent must be a drawing.");
 		assert(false);
 		return false;
+	}
+
+	void mvPlotAxis::fitAxisData()
+	{
+		static_cast<mvPlot*>(m_parentPtr)->m_fitDirty = true;
+		static_cast<mvPlot*>(m_parentPtr)->m_axisfitDirty[m_location] = true;
 	}
 
 	void mvPlotAxis::hide()
@@ -249,10 +269,17 @@ namespace Marvel {
 		m_limits = ImVec2(y_min, y_max);
 	}
 
+	void mvPlotAxis::setLimitsAuto()
+	{
+		m_setLimits = false;
+	}
+
 	void mvPlotAxis::onChildAdd(mvRef<mvAppItem> item)
 	{
 		if (static_cast<mvSeriesBase*>(item.get())->doesSeriesContributeToBounds())
+		{
 			updateBounds();
+		}
 	}
 
 	void mvPlotAxis::onChildRemoved(mvRef<mvAppItem> item)
@@ -413,6 +440,66 @@ namespace Marvel {
 		mvPlotAxis* graph = static_cast<mvPlotAxis*>(aplot);
 
 		graph->setLimits(ymin, ymax);
+
+		return GetPyNone();
+	}
+
+	PyObject* mvPlotAxis::set_axis_limits_auto(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		mvUUID axis;
+
+		if (!(mvApp::GetApp()->getParsers())["set_axis_limits_auto"].parse(args, kwargs, __FUNCTION__, &axis))
+			return GetPyNone();
+
+		if (!mvApp::s_manualMutexControl) std::lock_guard<std::mutex> lk(mvApp::s_mutex);
+		auto aplot = mvApp::GetApp()->getItemRegistry().getItem(axis);
+		if (aplot == nullptr)
+		{
+			mvThrowPythonError(mvErrorCode::mvItemNotFound, "set_axis_limits",
+				"Item not found: " + std::to_string(axis), nullptr);
+			return GetPyNone();
+		}
+
+		if (aplot->getType() != mvAppItemType::mvPlotAxis)
+		{
+			mvThrowPythonError(mvErrorCode::mvIncompatibleType, "set_axis_limits",
+				"Incompatible type. Expected types include: mvPlotAxis", aplot);
+			return GetPyNone();
+		}
+
+		mvPlotAxis* graph = static_cast<mvPlotAxis*>(aplot);
+
+		graph->setLimitsAuto();
+
+		return GetPyNone();
+	}
+
+	PyObject* mvPlotAxis::fit_axis_data(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		mvUUID axis;
+
+		if (!(mvApp::GetApp()->getParsers())["fit_axis_data"].parse(args, kwargs, __FUNCTION__, &axis))
+			return GetPyNone();
+
+		if (!mvApp::s_manualMutexControl) std::lock_guard<std::mutex> lk(mvApp::s_mutex);
+		auto aplot = mvApp::GetApp()->getItemRegistry().getItem(axis);
+		if (aplot == nullptr)
+		{
+			mvThrowPythonError(mvErrorCode::mvItemNotFound, "fit_axis_data",
+				"Item not found: " + std::to_string(axis), nullptr);
+			return GetPyNone();
+		}
+
+		if (aplot->getType() != mvAppItemType::mvPlotAxis)
+		{
+			mvThrowPythonError(mvErrorCode::mvIncompatibleType, "fit_axis_data",
+				"Incompatible type. Expected types include: mvPlotAxis", aplot);
+			return GetPyNone();
+		}
+
+		mvPlotAxis* graph = static_cast<mvPlotAxis*>(aplot);
+
+		graph->fitAxisData();
 
 		return GetPyNone();
 	}

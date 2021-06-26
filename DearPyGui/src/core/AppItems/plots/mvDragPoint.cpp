@@ -18,6 +18,7 @@ namespace Marvel {
 			MV_PARSER_ARG_BEFORE |
 			MV_PARSER_ARG_SOURCE |
 			MV_PARSER_ARG_CALLBACK |
+			MV_PARSER_ARG_USER_DATA |
 			MV_PARSER_ARG_SHOW)
 		);
 
@@ -66,7 +67,7 @@ namespace Marvel {
 		{
 			(*m_value.get())[0] = dummyx;
 			(*m_value.get())[1] = dummyy;
-			mvApp::GetApp()->getCallbackRegistry().addCallback(m_callback, m_uuid, nullptr, nullptr);
+			mvApp::GetApp()->getCallbackRegistry().addCallback(m_callback, m_uuid, nullptr, m_user_data);
 		}
 
 	}
