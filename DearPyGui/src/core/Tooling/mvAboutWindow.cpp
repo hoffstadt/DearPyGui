@@ -30,6 +30,7 @@ namespace Marvel {
         ImGui::BulletText("Anthony Doupe");
         ImGui::BulletText("Ray Heasman");
         ImGui::BulletText("Marco Studer");
+        ImGui::BulletText("Scripts");
         ImGui::Separator();
         ImGui::TextColored(ImGui::GetStyleColorVec4(ImGuiCol_PlotHistogramHovered), "ImPlot");
         ImGui::Text("ImPlot Author Evan Pezent.");

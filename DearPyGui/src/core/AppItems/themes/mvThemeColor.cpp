@@ -20,7 +20,7 @@ namespace Marvel {
 
 		parser.addArg<mvPyDataType::Long>("target", mvArgType::POSITIONAL_ARG, "0");
 		parser.addArg<mvPyDataType::IntList>("value", mvArgType::POSITIONAL_ARG, "(0, 0, 0, 255)");
-		parser.addArg<mvPyDataType::Integer>("category", mvArgType::KEYWORD_ARG, "0");
+		parser.addArg<mvPyDataType::Integer>("category", mvArgType::KEYWORD_ARG, "0", "Options include mvThemeCat_Core, mvThemeCat_Plots, mvThemeCat_Nodes.");
 
 		parser.finalize();
 
@@ -104,7 +104,7 @@ namespace Marvel {
 			if (m_targetColor >= ImGuiCol_COUNT || m_targetColor < 0)
 			{
 				m_state.setOk(false);
-				mvThrowPythonError(mvErrorCode::mvNone, "");
+				mvThrowPythonError(mvErrorCode::mvNone, "Style target out of range.");
 				MV_ITEM_REGISTRY_ERROR("Item's parent must be plot.");
 				assert(false);
 			}
@@ -115,7 +115,7 @@ namespace Marvel {
 			if (m_targetColor >= ImPlotCol_COUNT || m_targetColor < 0)
 			{
 				m_state.setOk(false);
-				mvThrowPythonError(mvErrorCode::mvNone, "");
+				mvThrowPythonError(mvErrorCode::mvNone, "Style target out of range.");
 				MV_ITEM_REGISTRY_ERROR("Item's parent must be plot.");
 				assert(false);
 			}
@@ -126,7 +126,7 @@ namespace Marvel {
 			if (m_targetColor >= imnodes::ColorStyle_Count || m_targetColor < 0)
 			{
 				m_state.setOk(false);
-				mvThrowPythonError(mvErrorCode::mvNone, "");
+				mvThrowPythonError(mvErrorCode::mvNone, "Style target out of range.");
 				MV_ITEM_REGISTRY_ERROR("Item's parent must be plot.");
 				assert(false);
 			}

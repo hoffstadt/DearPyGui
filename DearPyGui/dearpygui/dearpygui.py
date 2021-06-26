@@ -695,7 +695,7 @@ def is_item_toggled_open(item: int) -> Union[bool, None]:
 
 
 def is_item_ok(item: int) -> Union[bool, None]:
-    """Checks if item is a ok.
+    """Checks if item is ok and can be used.
 
     Returns:
         status as a bool
@@ -4794,7 +4794,7 @@ def add_theme_color(target : int =0, value : List[int] =(0, 0, 0, 255), *, label
 		**label (str): Overrides 'name' as label.
 		**id (int): Unique id used to programmatically refer to the item.If label is unused this will be the label.
 		**parent (int): Parent to add this item to. (runtime adding)
-		**category (int): 
+		**category (int): Options include mvThemeCat_Core, mvThemeCat_Plots, mvThemeCat_Nodes.
 	Returns:
 		int
 	"""
@@ -4811,7 +4811,7 @@ def add_theme_style(target : int =0, x : float =1.0, y : float =-1.0, *, label: 
 		**label (str): Overrides 'name' as label.
 		**id (int): Unique id used to programmatically refer to the item.If label is unused this will be the label.
 		**parent (int): Parent to add this item to. (runtime adding)
-		**category (int): 
+		**category (int): Options include mvThemeCat_Core, mvThemeCat_Plots, mvThemeCat_Nodes.
 	Returns:
 		int
 	"""
@@ -6684,6 +6684,9 @@ mvResizeHandler=internal_dpg.mvResizeHandler
 mvFont=internal_dpg.mvFont
 mvFontRegistry=internal_dpg.mvFontRegistry
 mvTheme=internal_dpg.mvTheme
+mvThemeCat_Core=internal_dpg.mvThemeCat_Core
+mvThemeCat_Plots=internal_dpg.mvThemeCat_Plots
+mvThemeCat_Nodes=internal_dpg.mvThemeCat_Nodes
 mvThemeColor=internal_dpg.mvThemeColor
 mvThemeCol_Text=internal_dpg.mvThemeCol_Text
 mvThemeCol_TextDisabled=internal_dpg.mvThemeCol_TextDisabled

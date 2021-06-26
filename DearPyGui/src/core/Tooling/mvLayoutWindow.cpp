@@ -311,7 +311,7 @@ namespace Marvel {
 
 		ImGui::PushItemWidth(200);
 		DebugItem("Item Label:", selectedItem->m_specificedlabel.c_str());
-		//DebugItem("Item Type:", selectedItem->getStringType().c_str());
+		DebugItem("Item ID:", std::to_string(selectedItem->getUUID()).c_str());
 		DebugItem("Container:", mvAppItem::DoesItemHaveFlag(selectedItem, MV_ITEM_DESC_CONTAINER) ? ts : fs);
 		//DebugItem("Item Parent:", parentName.c_str());
 		DebugItem("Item Width:", width.c_str());
