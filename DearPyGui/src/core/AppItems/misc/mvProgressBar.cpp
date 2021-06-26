@@ -28,8 +28,8 @@ namespace Marvel {
 			MV_PARSER_ARG_POS)
 		);
 
-		parser.addArg<mvPyDataType::String>("overlay", mvArgType::KEYWORD_ARG, "''", "overlayed text");
-		parser.addArg<mvPyDataType::Float>("default_value", mvArgType::KEYWORD_ARG, "0.0", "value from 0 to 1");
+		parser.addArg<mvPyDataType::String>("overlay", mvArgType::KEYWORD_ARG, "''", "Overlayed text.");
+		parser.addArg<mvPyDataType::Float>("default_value", mvArgType::KEYWORD_ARG, "0.0", "Normalized value to fill the bar from 0.0 to 1.0.");
 
 
 		parser.finalize();

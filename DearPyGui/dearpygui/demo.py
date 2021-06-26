@@ -1973,9 +1973,9 @@ def show_demo():
                 dpg.add_colormap_scale(min_scale=0, max_scale=6, height=400)
                 dpg.add_same_line()
                 with dpg.plot(label="Heat Series", no_mouse_pos=True, height=400, width=-1):
-                    dpg.add_plot_axis(dpg.mvXAxis, label="x", lock_min=True, lock_max=True, no_gridlines=True, no_tick_marks=True)
-                    dpg.add_plot_axis(dpg.mvYAxis, label="y", no_gridlines=True, no_tick_marks=True, lock_min=True, lock_max=True)
-                    dpg.add_heat_series(values, 7, 7, scale_min=0, scale_max=6, parent=dpg.last_item())
+                    dpg.add_plot_axis(dpg.mvXAxis, label="x", no_gridlines=True, no_tick_marks=True)
+                    dpg.add_plot_axis(dpg.mvYAxis, label="y", no_gridlines=True, no_tick_marks=True)
+                    dpg.add_heat_series(values, 7, 7, scale_min=0, scale_max=6, parent=dpg.last_item(), contribute_to_bounds=True)
 
             with dpg.tree_node(label="Pie Charts"):
 

@@ -8,7 +8,7 @@ namespace Marvel {
 	void mvDrawPolygon::InsertParser(std::map<std::string, mvPythonParser>* parsers)
 	{
 
-		mvPythonParser parser(mvPyDataType::UUID, "Draws a polygon on a drawing.", { "Drawlist", "Widgets" });
+		mvPythonParser parser(mvPyDataType::UUID, "Draws a polygon on a drawing. First and and last point should be the same to close teh polygone.", { "Drawlist", "Widgets" });
 		mvAppItem::AddCommonArgs(parser, (CommonParserArgs)(
 			MV_PARSER_ARG_ID |
 			MV_PARSER_ARG_PARENT |

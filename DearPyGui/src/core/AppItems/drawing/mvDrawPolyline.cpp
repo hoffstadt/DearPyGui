@@ -8,7 +8,7 @@ namespace Marvel {
 	void mvDrawPolyline::InsertParser(std::map<std::string, mvPythonParser>* parsers)
 	{
 
-		mvPythonParser parser(mvPyDataType::UUID, "Draws lines on a drawing.", { "Drawlist", "Widgets" });
+		mvPythonParser parser(mvPyDataType::UUID, "Draws connected lines on a drawing from points.", { "Drawlist", "Widgets" });
 		mvAppItem::AddCommonArgs(parser, (CommonParserArgs)(
 			MV_PARSER_ARG_ID |
 			MV_PARSER_ARG_PARENT |
@@ -18,7 +18,7 @@ namespace Marvel {
 
 		parser.addArg<mvPyDataType::ListFloatList>("points");
 
-		parser.addArg<mvPyDataType::Bool>("closed", mvArgType::KEYWORD_ARG, "False");
+		parser.addArg<mvPyDataType::Bool>("closed", mvArgType::KEYWORD_ARG, "False", "Will close the polyline by returning to the first point.");
 
 		parser.addArg<mvPyDataType::IntList>("color", mvArgType::KEYWORD_ARG, "(255, 255, 255, 255)");
 

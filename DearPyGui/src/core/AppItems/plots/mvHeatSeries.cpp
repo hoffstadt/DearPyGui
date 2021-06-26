@@ -10,7 +10,7 @@ namespace Marvel {
 	void mvHeatSeries::InsertParser(std::map<std::string, mvPythonParser>* parsers)
 	{
 
-		mvPythonParser parser(mvPyDataType::UUID, "Adds a heat series to a plot.", { "Plotting", "Containers", "Widgets" });
+		mvPythonParser parser(mvPyDataType::UUID, "Adds a heat series to a plot. Typically a color scale widget is also added to show the legend.", { "Plotting", "Containers", "Widgets" });
 		mvAppItem::AddCommonArgs(parser, (CommonParserArgs)(
 			MV_PARSER_ARG_ID |
 			MV_PARSER_ARG_PARENT |
@@ -24,8 +24,8 @@ namespace Marvel {
 		parser.addArg<mvPyDataType::Integer>("cols");
 
 
-		parser.addArg<mvPyDataType::Double>("scale_min", mvArgType::KEYWORD_ARG, "0.0");
-		parser.addArg<mvPyDataType::Double>("scale_max", mvArgType::KEYWORD_ARG, "1.0");
+		parser.addArg<mvPyDataType::Double>("scale_min", mvArgType::KEYWORD_ARG, "0.0", "Sets the color scale min. Typically paired with the color scale widget scale_min.");
+		parser.addArg<mvPyDataType::Double>("scale_max", mvArgType::KEYWORD_ARG, "1.0", "Sets the color scale max. Typically paired with the color scale widget scale_max.");
 
 		parser.addArg<mvPyDataType::DoubleList>("bounds_min", mvArgType::KEYWORD_ARG, "(0.0, 0.0)");
 		parser.addArg<mvPyDataType::DoubleList>("bounds_max", mvArgType::KEYWORD_ARG, "(1.0, 1.0)");

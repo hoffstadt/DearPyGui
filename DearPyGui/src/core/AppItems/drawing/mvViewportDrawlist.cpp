@@ -12,7 +12,7 @@ namespace Marvel {
 	void mvViewportDrawlist::InsertParser(std::map<std::string, mvPythonParser>* parsers)
 	{
 
-		mvPythonParser parser(mvPyDataType::UUID, "Undocumented function.", { "Drawlist", "Containers", "Widgets"}, true);
+		mvPythonParser parser(mvPyDataType::UUID, "A container that is used to present draw items or layers directly to the viewport. By default this will draw to the back of teh viewport. Layers and draw items should be added to this widget as children.", { "Drawlist", "Containers", "Widgets"}, true);
 		mvAppItem::AddCommonArgs(parser, (CommonParserArgs)(
 			MV_PARSER_ARG_ID |
 			MV_PARSER_ARG_FILTER |
@@ -20,7 +20,7 @@ namespace Marvel {
 			MV_PARSER_ARG_SHOW)
 		);
 
-		parser.addArg<mvPyDataType::Bool>("front", mvArgType::KEYWORD_ARG, "True");
+		parser.addArg<mvPyDataType::Bool>("front", mvArgType::KEYWORD_ARG, "True", "Draws to the front of the view port instead of the back.");
 
 		parser.finalize();
 		parsers->insert({ s_command, parser });

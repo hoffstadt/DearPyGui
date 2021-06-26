@@ -16,7 +16,7 @@ namespace Marvel {
 			MV_PARSER_ARG_POS)
 		);
 
-		parser.addArg<mvPyDataType::Integer>("count", mvArgType::KEYWORD_ARG, "1", "Number of spacings to add");
+		parser.addArg<mvPyDataType::Integer>("count", mvArgType::KEYWORD_ARG, "1", "Number of spacings to add the size is dependant on the curret style.");
 
 		parser.finalize();
 
