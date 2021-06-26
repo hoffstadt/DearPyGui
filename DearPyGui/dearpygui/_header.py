@@ -679,7 +679,7 @@ def is_item_toggled_open(item: int) -> Union[bool, None]:
 
 
 def is_item_ok(item: int) -> Union[bool, None]:
-    """Checks if item is a ok.
+    """Checks if item is ok and can be used.
 
     Returns:
         status as a bool

@@ -144,7 +144,7 @@ namespace Marvel {
 				ImGui::PopItemWidth();
 				if (ImGui::Button("Run##debug"))
 				{
-					std::string command = "from dearpygui.core import *\nfrom dearpygui.simple import *\nfrom dearpygui.demo import *\n" + commandstring;
+					std::string command = "from dearpygui.dearpygui import *\nfrom dearpygui.demo import *\n" + commandstring;
 					mvApp::GetApp()->getCallbackRegistry().submitCallback([=]() {
 						PyRun_SimpleString(command.c_str());
 						});

@@ -15,10 +15,17 @@ namespace Marvel {
 
 		MV_APPLY_WIDGET_REGISTRATION(mvAppItemType::mvTheme, add_theme)
 
+		MV_CREATE_CONSTANT(mvThemeCat_Core, 0);
+		MV_CREATE_CONSTANT(mvThemeCat_Plots, 1);
+		MV_CREATE_CONSTANT(mvThemeCat_Nodes, 2);
+
 		MV_START_COMMANDS
 		MV_END_COMMANDS
 
 		MV_START_CONSTANTS
+			MV_ADD_CONSTANT(mvThemeCat_Core),
+			MV_ADD_CONSTANT(mvThemeCat_Plots),
+			MV_ADD_CONSTANT(mvThemeCat_Nodes),
 		MV_END_CONSTANTS
 
 	public:

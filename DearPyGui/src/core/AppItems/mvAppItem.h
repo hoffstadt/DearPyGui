@@ -117,8 +117,8 @@ namespace Marvel {
 
     enum class mvLibType {
         MV_IMGUI = 0,
-        MV_IMPLOT,
-        MV_IMNODES
+        MV_IMPLOT = 1,
+        MV_IMNODES = 2
     };
 
     // todo: remove this nonsense (relic of CPP interface idea)
