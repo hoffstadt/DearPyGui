@@ -15,8 +15,8 @@ namespace Marvel {
 			MV_PARSER_ARG_SHOW)
 		);
 
-		parser.addArg<mvPyDataType::Float>("xoffset", mvArgType::KEYWORD_ARG, "0.0", "offset from containing window");
-		parser.addArg<mvPyDataType::Float>("spacing", mvArgType::KEYWORD_ARG, "-1.0", "offset from previous widget");
+		parser.addArg<mvPyDataType::Float>("xoffset", mvArgType::KEYWORD_ARG, "0.0", "Offset from containing window.");
+		parser.addArg<mvPyDataType::Float>("spacing", mvArgType::KEYWORD_ARG, "-1.0", "Offset from previous widget.");
 
 		parser.finalize();
 

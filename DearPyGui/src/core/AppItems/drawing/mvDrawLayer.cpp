@@ -8,7 +8,7 @@ namespace Marvel {
 	void mvDrawLayer::InsertParser(std::map<std::string, mvPythonParser>* parsers)
 	{
 
-		mvPythonParser parser(mvPyDataType::UUID, "Creates a layer that can be drawn to.", { "Drawlist", "Widgets" }, true);
+		mvPythonParser parser(mvPyDataType::UUID, "Creates a layer that can be drawn to. Useful for grouping drawing items.", { "Drawlist", "Widgets" }, true);
 		mvAppItem::AddCommonArgs(parser, (CommonParserArgs)(
 			MV_PARSER_ARG_ID |
 			MV_PARSER_ARG_PARENT |
