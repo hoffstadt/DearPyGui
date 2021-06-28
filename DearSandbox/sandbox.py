@@ -8,4 +8,7 @@ with dpg.font("../../Resources/NotoSerifCJKjp-Medium.otf", 20, default_font=True
 
 demo.show_demo()
 
+with dpg.window(label="tutorial"):
+    dpg.add_button(label="Press me")
+
 dpg.start_dearpygui()

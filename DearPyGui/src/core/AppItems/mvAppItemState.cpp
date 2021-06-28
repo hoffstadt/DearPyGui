@@ -41,23 +41,24 @@ namespace Marvel {
         if (dict == nullptr)
             return;
 
-        PyDict_SetItemString(dict, "hovered", ToPyBool(m_hovered));
-        PyDict_SetItemString(dict, "active", ToPyBool(m_active));
-        PyDict_SetItemString(dict, "focused", ToPyBool(m_focused));
-        PyDict_SetItemString(dict, "clicked", ToPyBool(m_clicked));
-        PyDict_SetItemString(dict, "visible", ToPyBool(m_visible));
-        PyDict_SetItemString(dict, "edited", ToPyBool(m_edited));
-        PyDict_SetItemString(dict, "activated", ToPyBool(m_activated));
-        PyDict_SetItemString(dict, "deactivated", ToPyBool(m_deactivated));
-        PyDict_SetItemString(dict, "deactivated_after_edit", ToPyBool(m_deactivatedAfterEdit));
-        PyDict_SetItemString(dict, "toggled_open", ToPyBool(m_toggledOpen));
         PyDict_SetItemString(dict, "ok", ToPyBool(m_ok));
-
-        PyDict_SetItemString(dict, "rect_min", ToPyPairII(m_rectMin.x, m_rectMin.y));
-        PyDict_SetItemString(dict, "rect_max", ToPyPairII(m_rectMax.x, m_rectMax.y));
-        PyDict_SetItemString(dict, "rect_size", ToPyPairII(m_rectSize.x, m_rectSize.y));
-        PyDict_SetItemString(dict, "content_region_avail", ToPyPairII(m_contextRegionAvail.x, m_contextRegionAvail.y));
         PyDict_SetItemString(dict, "pos", ToPyPairII(m_pos.x, m_pos.y));
+
+        if(m_applicableState & MV_STATE_HOVER) PyDict_SetItemString(dict, "hovered", ToPyBool(m_hovered));
+        if(m_applicableState & MV_STATE_ACTIVE) PyDict_SetItemString(dict, "active", ToPyBool(m_active));
+        if(m_applicableState & MV_STATE_FOCUSED) PyDict_SetItemString(dict, "focused", ToPyBool(m_focused));
+        if(m_applicableState & MV_STATE_CLICKED) PyDict_SetItemString(dict, "clicked", ToPyBool(m_clicked));
+        if(m_applicableState & MV_STATE_VISIBLE) PyDict_SetItemString(dict, "visible", ToPyBool(m_visible));
+        if(m_applicableState & MV_STATE_EDITED) PyDict_SetItemString(dict, "edited", ToPyBool(m_edited));
+        if(m_applicableState & MV_STATE_ACTIVATED) PyDict_SetItemString(dict, "activated", ToPyBool(m_activated));
+        if(m_applicableState & MV_STATE_DEACTIVATED) PyDict_SetItemString(dict, "deactivated", ToPyBool(m_deactivated));
+        if(m_applicableState & MV_STATE_DEACTIVATEDAE) PyDict_SetItemString(dict, "deactivated_after_edit", ToPyBool(m_deactivatedAfterEdit));
+        if(m_applicableState & MV_STATE_TOGGLED_OPEN) PyDict_SetItemString(dict, "toggled_open", ToPyBool(m_toggledOpen));
+        if(m_applicableState & MV_STATE_RECT_MIN) PyDict_SetItemString(dict, "rect_min", ToPyPairII(m_rectMin.x, m_rectMin.y));
+        if(m_applicableState & MV_STATE_RECT_MAX) PyDict_SetItemString(dict, "rect_max", ToPyPairII(m_rectMax.x, m_rectMax.y));
+        if(m_applicableState & MV_STATE_RECT_SIZE) PyDict_SetItemString(dict, "rect_size", ToPyPairII(m_rectSize.x, m_rectSize.y));
+        if(m_applicableState & MV_STATE_CONT_AVAIL) PyDict_SetItemString(dict, "content_region_avail", ToPyPairII(m_contextRegionAvail.x, m_contextRegionAvail.y));
+
     }
 
 }
