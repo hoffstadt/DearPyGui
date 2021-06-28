@@ -44,6 +44,10 @@ def configure_item(item : int, **kwargs) -> None:
 	"""Configures an item after creation."""
 	internal_dpg.configure_item(item, **kwargs)
 
+def configure_item(item : int, **kwargs) -> None:
+	"""Configures a viewport after creation."""
+	internal_dpg.configure_viewport(item, **kwargs)
+
 
 def setup_registries() -> None:
     """Adds default registries for fonts, handlers, textures, and values."""
@@ -776,7 +780,7 @@ def set_viewport_clear_color(color: List[int]):
     Returns:
         None
     """
-    internal_dpg.configure_viewport(item, clear_color=color)
+    internal_dpg.configure_viewport(0, clear_color=color)
 
 
 def set_viewport_small_icon(icon: str):
@@ -785,7 +789,7 @@ def set_viewport_small_icon(icon: str):
     Returns:
         None
     """
-    internal_dpg.configure_viewport(item, small_icon=icon)
+    internal_dpg.configure_viewport(0, small_icon=icon)
 
 
 def set_viewport_large_icon(icon: str):
@@ -794,7 +798,7 @@ def set_viewport_large_icon(icon: str):
     Returns:
         None
     """
-    internal_dpg.configure_viewport(item, large_icon=icon)
+    internal_dpg.configure_viewport(0, large_icon=icon)
 
 
 def set_viewport_pos(pos: List[float]):
@@ -803,7 +807,7 @@ def set_viewport_pos(pos: List[float]):
     Returns:
         None
     """
-    internal_dpg.configure_viewport(item, pos=pos)
+    internal_dpg.configure_viewport(0, pos=pos)
 
 
 def set_viewport_width(width: int):
@@ -812,7 +816,7 @@ def set_viewport_width(width: int):
     Returns:
         None
     """
-    internal_dpg.configure_viewport(item, width=width)
+    internal_dpg.configure_viewport(0, width=width)
 
 
 def set_viewport_height(height: int):
@@ -821,7 +825,7 @@ def set_viewport_height(height: int):
     Returns:
         None
     """
-    internal_dpg.configure_viewport(item, height=height)
+    internal_dpg.configure_viewport(0, height=height)
 
 
 def set_viewport_min_width(width: int):
@@ -830,7 +834,7 @@ def set_viewport_min_width(width: int):
     Returns:
         None
     """
-    internal_dpg.configure_viewport(item, min_width=width)
+    internal_dpg.configure_viewport(0, min_width=width)
 
 
 def set_viewport_max_width(width: int):
@@ -839,7 +843,7 @@ def set_viewport_max_width(width: int):
     Returns:
         None
     """
-    internal_dpg.configure_viewport(item, max_width=width)
+    internal_dpg.configure_viewport(0, max_width=width)
 
 
 def set_viewport_min_height(height: int):
@@ -848,7 +852,7 @@ def set_viewport_min_height(height: int):
     Returns:
         None
     """
-    internal_dpg.configure_viewport(item, min_height=width)
+    internal_dpg.configure_viewport(0, min_height=width)
 
 
 def set_viewport_max_height(height: int):
@@ -857,7 +861,7 @@ def set_viewport_max_height(height: int):
     Returns:
         None
     """
-    internal_dpg.configure_viewport(item, max_height=height)
+    internal_dpg.configure_viewport(0, max_height=height)
 
 
 def set_viewport_title(title: str):
@@ -866,7 +870,7 @@ def set_viewport_title(title: str):
     Returns:
         None
     """
-    internal_dpg.configure_viewport(item, title=title)
+    internal_dpg.configure_viewport(0, title=title)
 
 
 def set_viewport_always_top(value: bool):
@@ -875,7 +879,7 @@ def set_viewport_always_top(value: bool):
     Returns:
         None
     """
-    internal_dpg.configure_viewport(item, always_on_top=value)
+    internal_dpg.configure_viewport(0, always_on_top=value)
 
 
 def set_viewport_resizable(value: bool):
@@ -884,7 +888,7 @@ def set_viewport_resizable(value: bool):
     Returns:
         None
     """
-    internal_dpg.configure_viewport(item, resizable=value)
+    internal_dpg.configure_viewport(0, resizable=value)
 
 def set_viewport_vsync(value: bool):
     """Sets the viewport vsync.
@@ -892,7 +896,7 @@ def set_viewport_vsync(value: bool):
     Returns:
         None
     """
-    internal_dpg.configure_viewport(item, vsync=value)
+    internal_dpg.configure_viewport(0, vsync=value)
 
 
 def set_viewport_border(value: bool):
@@ -901,7 +905,7 @@ def set_viewport_border(value: bool):
     Returns:
         None
     """
-    internal_dpg.configure_viewport(item, border=value)
+    internal_dpg.configure_viewport(0, border=value)
 
 
 def set_viewport_caption(value: bool):
@@ -910,7 +914,7 @@ def set_viewport_caption(value: bool):
     Returns:
         None
     """
-    internal_dpg.configure_viewport(item, caption=value)
+    internal_dpg.configure_viewport(0, caption=value)
 
 
 def set_viewport_overlapped(value: bool):
@@ -919,7 +923,7 @@ def set_viewport_overlapped(value: bool):
     Returns:
         None
     """
-    internal_dpg.configure_viewport(item, overlapped=value)
+    internal_dpg.configure_viewport(0, overlapped=value)
 
 
 def set_viewport_maximized_box(value: bool):
@@ -928,7 +932,7 @@ def set_viewport_maximized_box(value: bool):
     Returns:
         None
     """
-    internal_dpg.configure_viewport(item, maximized_box=value)
+    internal_dpg.configure_viewport(0, maximized_box=value)
 
 
 def set_viewport_minimized_box(value: bool):
@@ -937,7 +941,7 @@ def set_viewport_minimized_box(value: bool):
     Returns:
         None
     """
-    internal_dpg.configure_viewport(item, minimized_box=value)
+    internal_dpg.configure_viewport(0, minimized_box=value)
 
 
 ########################################################################################################################
@@ -5034,19 +5038,9 @@ def clear_selected_nodes(node_editor : int) -> None:
 
 	return internal_dpg.clear_selected_nodes(node_editor)
 
-def configure_viewport() -> None:
-	"""
-	Undocumented
-	Args:
-	Returns:
-		None
-	"""
-
-	return internal_dpg.configure_viewport()
-
 def create_viewport(*, title: str ='Dear PyGui', small_icon: str ='', large_icon: str ='', width: int =1280, height: int =800, x_pos: int =100, y_pos: int =100, min_width: int =250, max_width: int =10000, min_height: int =250, max_height: int =10000, resizable: bool =True, vsync: bool =True, always_on_top: bool =False, maximized_box: bool =True, minimized_box: bool =True, border: bool =True, caption: bool =True, overlapped: bool =True, clear_color: List[float] =(0, 0, 0, 255)) -> str:
 	"""
-	Undocumented
+	Creates a viewport.
 	Args:
 		**title (str): 
 		**small_icon (str): 
@@ -5650,7 +5644,7 @@ def get_values(items : List[int]) -> Any:
 
 def get_viewport_configuration(item : int) -> dict:
 	"""
-	Undocumented
+	Returns viewport configuration.
 	Args:
 		item (int): 
 	Returns:
@@ -5825,7 +5819,7 @@ def is_plot_queried(plot : int) -> bool:
 
 def is_viewport_created() -> bool:
 	"""
-	Undocumented
+	Checks if a viewport has been created.
 	Args:
 	Returns:
 		bool
@@ -5875,7 +5869,7 @@ def lock_mutex() -> None:
 
 def maximize_viewport() -> None:
 	"""
-	Undocumented
+	Maximizes the viewport.
 	Args:
 	Returns:
 		None
@@ -5885,7 +5879,7 @@ def maximize_viewport() -> None:
 
 def minimize_viewport() -> None:
 	"""
-	Undocumented
+	Minimizes the viewport.
 	Args:
 	Returns:
 		None
@@ -6250,7 +6244,7 @@ def show_tool(tool : int) -> str:
 
 def show_viewport(viewport : str, *, minimized: bool =False, maximized: bool =False) -> None:
 	"""
-	Undocumented
+	Shows the viewport
 	Args:
 		viewport (str): 
 		**minimized (bool): 

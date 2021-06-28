@@ -19,7 +19,7 @@ namespace Marvel {
 	{
 
 		{
-			mvPythonParser parser(mvPyDataType::String, "Undocumented", { "General" });
+			mvPythonParser parser(mvPyDataType::String, "Creates a viewport.", { "General" });
 			parser.addArg<mvPyDataType::String>("title", mvArgType::KEYWORD_ARG, "'Dear PyGui'");
 			parser.addArg<mvPyDataType::String>("small_icon", mvArgType::KEYWORD_ARG, "''");
 			parser.addArg<mvPyDataType::String>("large_icon", mvArgType::KEYWORD_ARG, "''");
@@ -49,7 +49,7 @@ namespace Marvel {
 		}
 
 		{
-			mvPythonParser parser(mvPyDataType::None, "Undocumented", { "General" });
+			mvPythonParser parser(mvPyDataType::None, "Shows the viewport", { "General" });
 			parser.addArg<mvPyDataType::String>("viewport");
 			parser.addArg<mvPyDataType::Bool>("minimized", mvArgType::KEYWORD_ARG, "False");
 			parser.addArg<mvPyDataType::Bool>("maximized", mvArgType::KEYWORD_ARG, "False");
@@ -58,32 +58,35 @@ namespace Marvel {
 		}
 
 		{
-			mvPythonParser parser(mvPyDataType::None, "Undocumented", { "General" });
+			mvPythonParser parser(mvPyDataType::None, "Configures the viewport.", { "General" });
+			parser.addArg<mvPyDataType::UUID>("item");
+			parser.addKwargs();
+			parser.makeInternal();
 			parser.finalize();
 			parsers->insert({ "configure_viewport", parser });
 		}
 
 		{
-			mvPythonParser parser(mvPyDataType::Dict, "Undocumented", { "General" });
+			mvPythonParser parser(mvPyDataType::Dict, "Returns viewport configuration.", { "General" });
 			parser.addArg<mvPyDataType::UUID>("item");
 			parser.finalize();
 			parsers->insert({ "get_viewport_configuration", parser });
 		}
 
 		{
-			mvPythonParser parser(mvPyDataType::Bool, "Undocumented", { "General" });
+			mvPythonParser parser(mvPyDataType::Bool, "Checks if a viewport has been created.", { "General" });
 			parser.finalize();
 			parsers->insert({ "is_viewport_created", parser });
 		}
 
 		{
-			mvPythonParser parser(mvPyDataType::None, "Undocumented", { "General" });
+			mvPythonParser parser(mvPyDataType::None, "Maximizes the viewport.", { "General" });
 			parser.finalize();
 			parsers->insert({ "maximize_viewport", parser });
 		}
 
 		{
-			mvPythonParser parser(mvPyDataType::None, "Undocumented", { "General" });
+			mvPythonParser parser(mvPyDataType::None, "Minimizes the viewport.", { "General" });
 			parser.finalize();
 			parsers->insert({ "minimize_viewport", parser });
 		}

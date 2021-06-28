@@ -566,12 +566,12 @@ def configure_item(item : int, **kwargs) -> None:
 	"""Undocumented"""
 	...
 
-def configure_viewport() -> None:
-	"""Undocumented"""
+def configure_viewport(item : int, **kwargs) -> None:
+	"""Configures the viewport."""
 	...
 
 def create_viewport(*, title: str ='Dear PyGui', small_icon: str ='', large_icon: str ='', width: int =1280, height: int =800, x_pos: int =100, y_pos: int =100, min_width: int =250, max_width: int =10000, min_height: int =250, max_height: int =10000, resizable: bool =True, vsync: bool =True, always_on_top: bool =False, maximized_box: bool =True, minimized_box: bool =True, border: bool =True, caption: bool =True, overlapped: bool =True, clear_color: List[float] =(0, 0, 0, 255)) -> str:
-	"""Undocumented"""
+	"""Creates a viewport."""
 	...
 
 def delete_item(item : int, *, children_only: bool =False) -> None:
@@ -743,7 +743,7 @@ def get_values(items : List[int]) -> Any:
 	...
 
 def get_viewport_configuration(item : int) -> dict:
-	"""Undocumented"""
+	"""Returns viewport configuration."""
 	...
 
 def get_windows() -> List[int]:
@@ -807,7 +807,7 @@ def is_plot_queried(plot : int) -> bool:
 	...
 
 def is_viewport_created() -> bool:
-	"""Undocumented"""
+	"""Checks if a viewport has been created."""
 	...
 
 def last_container() -> int:
@@ -827,11 +827,11 @@ def lock_mutex() -> None:
 	...
 
 def maximize_viewport() -> None:
-	"""Undocumented"""
+	"""Maximizes the viewport."""
 	...
 
 def minimize_viewport() -> None:
-	"""Undocumented"""
+	"""Minimizes the viewport."""
 	...
 
 def move_item(item : int, *, parent: int =0, before: int =0) -> None:
@@ -959,7 +959,7 @@ def show_tool(tool : int) -> str:
 	...
 
 def show_viewport(viewport : str, *, minimized: bool =False, maximized: bool =False) -> None:
-	"""Undocumented"""
+	"""Shows the viewport"""
 	...
 
 def stage_items(items : List[int]) -> None:
