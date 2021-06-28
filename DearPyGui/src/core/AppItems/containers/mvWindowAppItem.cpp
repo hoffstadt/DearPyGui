@@ -123,7 +123,7 @@ namespace Marvel {
 
 	void mvWindowAppItem::onChildAdd(mvRef<mvAppItem> item)
 	{
-		if(item->getType() == mvAppItemType::mvMenuBar)
+		if (item->getType() == mvAppItemType::mvMenuBar)
 			m_windowflags |= ImGuiWindowFlags_MenuBar;
 	}
 
@@ -236,7 +236,7 @@ namespace Marvel {
 			m_windowflags = ImGuiWindowFlags_NoBringToFrontOnFocus | ImGuiWindowFlags_NoSavedSettings
 				| ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoTitleBar;
 
-			if (m_hasMenuBar)
+			if (m_oldWindowflags & ImGuiWindowFlags_MenuBar)
 				m_windowflags |= ImGuiWindowFlags_MenuBar;
 			m_oldxpos = m_state.getItemPos().x;
 			m_oldypos = m_state.getItemPos().y;
@@ -247,7 +247,7 @@ namespace Marvel {
 		{
 			m_focusNextFrame = true;
 			m_windowflags = m_oldWindowflags;
-			if (m_hasMenuBar)
+			if (m_oldWindowflags & ImGuiWindowFlags_MenuBar)
 				m_windowflags |= ImGuiWindowFlags_MenuBar;
 			m_state.setPos({ m_oldxpos , m_oldypos });
 			m_width = m_oldWidth;

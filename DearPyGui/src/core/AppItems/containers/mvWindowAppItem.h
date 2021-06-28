@@ -43,7 +43,6 @@ namespace Marvel {
 
 		mvWindowAppItem(mvUUID uuid, bool mainWindow = false);
 
-		void addMenuBar           () { m_hasMenuBar = true; }
 		void addFlag              (ImGuiWindowFlags flag) { m_windowflags |= flag; }
 		void removeFlag           (ImGuiWindowFlags flag) { m_windowflags &= ~flag; }
 		void setWindowAsMainStatus(bool value);
@@ -74,7 +73,6 @@ namespace Marvel {
 		int                   m_oldHeight = 200;
 		bool                  m_mainWindow = false;
 		bool                  m_dirty_size = true;
-		bool                  m_hasMenuBar = false;
 		bool                  m_closing = true;
 		bool                  m_collapsedDirty = true;
 		bool                  m_resized = false;
