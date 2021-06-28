@@ -12,6 +12,26 @@ namespace Marvel {
     // forward declarations
     class mvAppItem;
 
+    enum mvStateItems
+    {
+        MV_STATE_HOVER          = 1 << 1,
+        MV_STATE_ACTIVE         = 1 << 2,
+        MV_STATE_FOCUSED        = 1 << 3,
+        MV_STATE_CLICKED        = 1 << 4,
+        MV_STATE_VISIBLE        = 1 << 5,
+        MV_STATE_EDITED         = 1 << 6,
+        MV_STATE_ACTIVATED      = 1 << 7,
+        MV_STATE_DEACTIVATED    = 1 << 8,
+        MV_STATE_DEACTIVATEDAE  = 1 << 9,
+        MV_STATE_TOGGLED_OPEN   = 1 << 10,
+        MV_STATE_RECT_MIN       = 1 << 11,
+        MV_STATE_RECT_MAX       = 1 << 12,
+        MV_STATE_RECT_SIZE      = 1 << 13,
+        MV_STATE_CONT_AVAIL     = 1 << 14,
+        MV_STATE_ALL = MV_STATE_HOVER |MV_STATE_ACTIVE |MV_STATE_FOCUSED |MV_STATE_CLICKED |MV_STATE_VISIBLE |MV_STATE_EDITED |MV_STATE_ACTIVATED |MV_STATE_DEACTIVATED |MV_STATE_DEACTIVATEDAE |
+        MV_STATE_TOGGLED_OPEN | MV_STATE_RECT_MIN |MV_STATE_RECT_MAX |MV_STATE_RECT_SIZE |MV_STATE_CONT_AVAIL
+    };
+
     class mvAppItemState
     {
 
@@ -57,8 +77,9 @@ namespace Marvel {
         void setPos                 (mvVec2 value){ m_pos = value; }
         void setOk                  (bool value)  { m_ok = value; };
 
-    private:
+    public:
 
+        int    m_applicableState      = MV_STATE_ALL;
         bool   m_hovered              = false;
         bool   m_active               = false;
         bool   m_focused              = false;
