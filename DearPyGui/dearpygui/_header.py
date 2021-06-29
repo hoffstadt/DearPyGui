@@ -164,6 +164,14 @@ def show_item_registry() -> None:
 # Information Commands
 ########################################################################################################################
 
+def get_item_slot(item: int) -> Union[int, None]:
+    """Returns an items target slot.
+
+    Returns:
+        slot as a int
+    """
+    return internal_dpg.get_item_info(item)["target"]
+
 def is_item_container(item: int) -> Union[bool, None]:
     """Checks if item is a container.
 
@@ -211,7 +219,7 @@ def get_item_theme(item: int) -> int:
     return internal_dpg.get_item_info(item)["theme"]
 
 
-def get_item_theme(item: int) -> int:
+def get_item_font(item: int) -> int:
     """Gets the item's font.
 
     Returns:
