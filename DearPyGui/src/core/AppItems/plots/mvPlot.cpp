@@ -272,7 +272,7 @@ namespace Marvel {
 				item->postDraw();
 			}
 
-			// series
+			// axes
 			for (auto& item : m_children[1])
 			{
 				// skip item if it's not shown

@@ -140,14 +140,7 @@ namespace Marvel {
 			ImPlot::SetPlotYAxis(m_location - 1);
 
 		for (auto& item : m_children[1])
-		{
-			// skip item if it's not shown
-			if (!item->m_show)
-				continue;
 			item->draw(drawlist, ImPlot::GetPlotPos().x, ImPlot::GetPlotPos().y);
-
-			item->getState().update();
-		}
 
 		// x axis
 		if (m_axis == 0)
