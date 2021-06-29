@@ -35,7 +35,7 @@ namespace Marvel {
 		parser.addArg<mvPyDataType::Bool>("no_sort_ascending", mvArgType::KEYWORD_ARG, "False", "Disable ability to sort in the ascending direction.");
 		parser.addArg<mvPyDataType::Bool>("no_sort_descending", mvArgType::KEYWORD_ARG, "False", "Disable ability to sort in the descending direction.");
 		parser.addArg<mvPyDataType::Bool>("no_header_width", mvArgType::KEYWORD_ARG, "False", "Disable header text width contribution to automatic column width.");
-		parser.addArg<mvPyDataType::Bool>("prefer_sort_ascending", mvArgType::KEYWORD_ARG, "False", "Make the initial sort direction Ascending when first sorting on this column (default).");
+		parser.addArg<mvPyDataType::Bool>("prefer_sort_ascending", mvArgType::KEYWORD_ARG, "True", "Make the initial sort direction Ascending when first sorting on this column (default).");
 		parser.addArg<mvPyDataType::Bool>("prefer_sort_descending", mvArgType::KEYWORD_ARG, "False", "Make the initial sort direction Descending when first sorting on this column.");
 		parser.addArg<mvPyDataType::Bool>("indent_enable", mvArgType::KEYWORD_ARG, "False", "Use current Indent value when entering cell (default for column 0).");
 		parser.addArg<mvPyDataType::Bool>("indent_disable", mvArgType::KEYWORD_ARG, "False", "Ignore current Indent value when entering cell (default for columns > 0). Indentation changes _within_ the cell will still be honored.");
