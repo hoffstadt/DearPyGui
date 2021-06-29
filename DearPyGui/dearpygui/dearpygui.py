@@ -270,7 +270,7 @@ def disable_item(item: int):
     Returns:
         None
     """
-    internal_dpg.configure_item(item, enable=False)
+    internal_dpg.configure_item(item, enabled=False)
 
 
 def set_item_label(item: int, label: str):

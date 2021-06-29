@@ -59,7 +59,12 @@ namespace Marvel {
 		else if (m_libType == mvLibType::MV_IMPLOT)
 		{
 			if (!m_twoComponent)
-				ImPlot::PushStyleVar(m_targetStyle, m_x);
+			{
+				if(m_targetStyle == ImPlotStyleVar_Marker)
+					ImPlot::PushStyleVar(m_targetStyle, (int)m_x);
+				else
+					ImPlot::PushStyleVar(m_targetStyle, m_x);
+			}
 			else
 				ImPlot::PushStyleVar(m_targetStyle, { m_x, m_y });
 		}
@@ -134,7 +139,9 @@ namespace Marvel {
 					case(ImPlotStyleVar_FitPadding): m_twoComponent = true; break;
 					case(ImPlotStyleVar_PlotDefaultSize): m_twoComponent = true; break;
 					case(ImPlotStyleVar_PlotMinSize): m_twoComponent = true; break;
-					default: break;
+					default: 
+						m_twoComponent = false;
+						break;
 					}
 
 					if (m_targetStyle >= ImPlotStyleVar_COUNT || m_targetStyle < 0)
@@ -222,7 +229,9 @@ namespace Marvel {
 			case(ImPlotStyleVar_FitPadding): m_twoComponent = true; break;
 			case(ImPlotStyleVar_PlotDefaultSize): m_twoComponent = true; break;
 			case(ImPlotStyleVar_PlotMinSize): m_twoComponent = true; break;
-			default: break;
+			default:
+				m_twoComponent = false;
+				break;
 			}
 
 			if (m_targetStyle >= ImPlotStyleVar_COUNT || m_targetStyle < 0)

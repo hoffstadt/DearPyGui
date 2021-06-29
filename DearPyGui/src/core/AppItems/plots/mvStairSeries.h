@@ -23,6 +23,10 @@ namespace Marvel {
 
 		mvStairSeries(mvUUID uuid);
 
+		// overriding until we can remove these
+		bool preDraw() override { return true; }
+		void postDraw() override {}
+
 		void draw(ImDrawList* drawlist, float x, float y) override;
 		bool isParentCompatible(mvAppItemType type) override;
 		void handleSpecificRequiredArgs(PyObject* args) override;

@@ -4,6 +4,9 @@
 #include "mvApp.h"
 #include "mvItemRegistry.h"
 #include "mvPythonExceptions.h"
+#include "AppItems/fonts/mvFont.h"
+#include "AppItems/themes/mvTheme.h"
+#include "AppItems/containers/mvDragPayload.h"
 
 namespace Marvel {
 
@@ -50,34 +53,89 @@ namespace Marvel {
 
 	void mvShadeSeries::draw(ImDrawList* drawlist, float x, float y)
 	{
-		ScopedID id(m_uuid);
 
-		static const std::vector<double>* xptr;
-		static const std::vector<double>* y1ptr;
-		static const std::vector<double>* y2ptr;
+		//-----------------------------------------------------------------------------
+		// pre draw
+		//-----------------------------------------------------------------------------
+		if (!m_show)
+			return;
 
-		xptr = &(*m_value.get())[0];
-		y1ptr = &(*m_value.get())[1];
-		y2ptr = &(*m_value.get())[2];
-
-		ImPlot::PlotShaded(m_label.c_str(), xptr->data(), y1ptr->data(),
-			y2ptr->data(), (int)xptr->size());
-
-		// Begin a popup for a legend entry.
-		if (ImPlot::BeginLegendPopup(m_label.c_str(), 1))
+		// push font if a font object is attached
+		if (m_font)
 		{
-			for (auto& childset : m_children)
+			ImFont* fontptr = static_cast<mvFont*>(m_font.get())->getFontPtr();
+			ImGui::PushFont(fontptr);
+		}
+
+		// handle enabled theming
+		if (m_enabled)
+		{
+			// push class theme (if it exists)
+			if (auto classTheme = getClassTheme())
+				static_cast<mvTheme*>(classTheme.get())->draw(nullptr, 0.0f, 0.0f);
+
+			// push item theme (if it exists)
+			if (m_theme)
+				static_cast<mvTheme*>(m_theme.get())->draw(nullptr, 0.0f, 0.0f);
+		}
+
+		//-----------------------------------------------------------------------------
+		// draw
+		//-----------------------------------------------------------------------------
+		{
+			ScopedID id(m_uuid);
+
+			static const std::vector<double>* xptr;
+			static const std::vector<double>* y1ptr;
+			static const std::vector<double>* y2ptr;
+
+			xptr = &(*m_value.get())[0];
+			y1ptr = &(*m_value.get())[1];
+			y2ptr = &(*m_value.get())[2];
+
+			ImPlot::PlotShaded(m_label.c_str(), xptr->data(), y1ptr->data(),
+				y2ptr->data(), (int)xptr->size());
+
+			// Begin a popup for a legend entry.
+			if (ImPlot::BeginLegendPopup(m_label.c_str(), 1))
 			{
-				for (auto& item : childset)
+				for (auto& childset : m_children)
 				{
-					// skip item if it's not shown
-					if (!item->m_show)
-						continue;
-					item->draw(drawlist, ImPlot::GetPlotPos().x, ImPlot::GetPlotPos().y);
-					item->getState().update();
+					for (auto& item : childset)
+					{
+						// skip item if it's not shown
+						if (!item->m_show)
+							continue;
+						item->draw(drawlist, ImPlot::GetPlotPos().x, ImPlot::GetPlotPos().y);
+						item->getState().update();
+					}
 				}
+				ImPlot::EndLegendPopup();
 			}
-			ImPlot::EndLegendPopup();
+		}
+
+		//-----------------------------------------------------------------------------
+		// update state
+		//   * only update if applicable
+		//-----------------------------------------------------------------------------
+
+
+		//-----------------------------------------------------------------------------
+		// post draw
+		//-----------------------------------------------------------------------------
+		// 
+		// pop font off stack
+		if (m_font)
+			ImGui::PopFont();
+
+		// handle popping styles
+		if (m_enabled)
+		{
+			if (auto classTheme = getClassTheme())
+				static_cast<mvTheme*>(classTheme.get())->customAction();
+
+			if (m_theme)
+				static_cast<mvTheme*>(m_theme.get())->customAction();
 		}
 
 	}

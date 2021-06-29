@@ -1716,9 +1716,11 @@ def show_demo():
 
             sindatax = []
             sindatay = []
+            cosdatay = []
             for i in range(0, 100):
                 sindatax.append(i/100)
                 sindatay.append(0.5 + 0.5*sin(50*i/100))
+                cosdatay.append(0.5 + 0.75*cos(50*i/100))
         
             with dpg.tree_node(label="Help"):
 
@@ -1780,17 +1782,39 @@ def show_demo():
                     stock_data4.append(500 + 75*abs(random.random()))
                     stock_data5.append(600 + 75*abs(random.random()))
 
+                with dpg.theme() as stock_theme1:
+                    dpg.add_theme_color(dpg.mvPlotCol_Line, (0, 0, 255), category=dpg.mvThemeCat_Plots)
+                    dpg.add_theme_color(dpg.mvPlotCol_Fill, (0, 0, 255, 64), category=dpg.mvThemeCat_Plots)
+
+                with dpg.theme() as stock_theme2:
+                    dpg.add_theme_color(dpg.mvPlotCol_Line, (255, 0, 0), category=dpg.mvThemeCat_Plots)
+                    dpg.add_theme_color(dpg.mvPlotCol_Fill, (255, 0, 0, 64), category=dpg.mvThemeCat_Plots)
+
+                with dpg.theme() as stock_theme3:
+                    dpg.add_theme_color(dpg.mvPlotCol_Line, (0, 255, 0), category=dpg.mvThemeCat_Plots)
+                    dpg.add_theme_color(dpg.mvPlotCol_Fill, (0, 255, 0, 64), category=dpg.mvThemeCat_Plots)
+
+                with dpg.theme() as stock_theme4:
+                    dpg.add_theme_color(dpg.mvPlotCol_Fill, (255, 255, 100, 64), category=dpg.mvThemeCat_Plots)
+
                 with dpg.plot(label="Stock Prices", height=400, width=-1):
                     dpg.add_plot_legend()
                     dpg.add_plot_axis(dpg.mvXAxis, label="Days")
-                    dpg.add_plot_axis(dpg.mvYAxis, label="Price")
-                #dpg.add_line_series(stock_datax, stock_data1, label="Stock 1", color=[0, 0, 255, 255], parent=axis_id)
-                #dpg.add_line_series(stock_datax, stock_data2, label="Stock 2", color=[255, 0, 0, 255], parent=axis_id)
-                #dpg.add_line_series(stock_datax, stock_data3, label="Stock 3", color=[0, 255, 0, 255], parent=axis_id)
-                #dpg.add_shade_series(stock_datax, stock_data1, label="Stock 1", fill=[0, 0, 255, 64], parent=axis_id)
-                #dpg.add_shade_series(stock_datax, stock_data2, label="Stock 2", fill=[255, 0, 0, 64], parent=axis_id)
-                #dpg.add_shade_series(stock_datax, stock_data3, label="Stock 3", y2=stock_datay2, fill=[0, 255, 0, 64], parent=axis_id)
-                #dpg.add_shade_series(stock_datax, stock_data5, y2=stock_data4, label="Shade between lines", fill=[255, 255, 100, 64], parent=axis_id)
+                    yaxis = dpg.add_plot_axis(dpg.mvYAxis, label="Price")
+                    dpg.add_line_series(stock_datax, stock_data1, label="Stock 1", parent=yaxis)
+                    dpg.set_item_theme(dpg.last_item(), stock_theme1)
+                    dpg.add_line_series(stock_datax, stock_data2, label="Stock 2", parent=yaxis)
+                    dpg.set_item_theme(dpg.last_item(), stock_theme2)
+                    dpg.add_line_series(stock_datax, stock_data3, label="Stock 3", parent=yaxis)
+                    dpg.set_item_theme(dpg.last_item(), stock_theme3)
+                    dpg.add_shade_series(stock_datax, stock_data1, label="Stock 1", parent=yaxis)
+                    dpg.set_item_theme(dpg.last_item(), stock_theme1)
+                    dpg.add_shade_series(stock_datax, stock_data2, label="Stock 2", parent=yaxis)
+                    dpg.set_item_theme(dpg.last_item(), stock_theme2)
+                    dpg.add_shade_series(stock_datax, stock_data3, label="Stock 3", y2=stock_datay2, parent=yaxis)
+                    dpg.set_item_theme(dpg.last_item(), stock_theme3)
+                    dpg.add_shade_series(stock_datax, stock_data5, y2=stock_data4, label="Shade between lines", parent=yaxis)
+                    dpg.set_item_theme(dpg.last_item(), stock_theme4)
 
             with dpg.tree_node(label="Scatter Series"):
 
@@ -1802,11 +1826,17 @@ def show_demo():
 
             with dpg.tree_node(label="Stem Series"):
 
+                with dpg.theme() as stem_theme1:
+                    dpg.add_theme_color(dpg.mvPlotCol_Line, (0, 255, 0), category=dpg.mvThemeCat_Plots)
+                    dpg.add_theme_style(dpg.mvPlotStyleVar_Marker, dpg.mvPlotMarker_Diamond, category=dpg.mvThemeCat_Plots)
+
                 with dpg.plot(label="Stem Series", height=400, width=-1):
                     dpg.add_plot_legend()
                     dpg.add_plot_axis(dpg.mvXAxis, label="x")
-                    dpg.add_plot_axis(dpg.mvYAxis, label="y")
-                    dpg.add_stem_series(sindatax, sindatay, label="0.5 + 0.5 * sin(x)", parent=dpg.last_item())
+                    yaxis = dpg.add_plot_axis(dpg.mvYAxis, label="y")
+                    dpg.add_stem_series(sindatax, sindatay, label="0.5 + 0.5 * sin(x)", parent=yaxis)
+                    dpg.add_stem_series(sindatax, cosdatay, label="0.5 + 0.75 * cos(x)", parent=yaxis)
+                    dpg.set_item_theme(dpg.last_item(), stem_theme1)
 
             with dpg.tree_node(label="Bar Series"):
 
