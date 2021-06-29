@@ -28,7 +28,8 @@ def configure_item(item : int, **kwargs) -> None:
 	"""Configures an item after creation."""
 	internal_dpg.configure_item(item, **kwargs)
 
-def configure_item(item : int, **kwargs) -> None:
+
+def configure_viewport(item : int, **kwargs) -> None:
 	"""Configures a viewport after creation."""
 	internal_dpg.configure_viewport(item, **kwargs)
 
