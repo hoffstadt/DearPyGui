@@ -51,6 +51,10 @@ namespace Marvel {
 				PyBUF_CONTIG_RO | PyBUF_FORMAT))
 			{
 				m_value = buffer_info.buf;
+				if (m_value == nullptr)
+				{
+					mvThrowPythonError(mvErrorCode::mvTextureNotFound, s_command, "Texture data not valid", this);
+				}
 			}
 			PyBuffer_Release(&buffer_info);
 		}
@@ -80,6 +84,9 @@ namespace Marvel {
 		if (m_dirty)
 		{
 
+			if (m_value == nullptr)
+				return;
+
 			if(m_componentType == ComponentType::MV_FLOAT_COMPONENT)
 				m_texture = LoadTextureFromArrayRaw(m_width, m_height, (float*)m_value, m_components);
 
@@ -98,7 +105,10 @@ namespace Marvel {
 	void mvRawTexture::handleSpecificRequiredArgs(PyObject* dict)
 	{
 		if (!mvApp::GetApp()->getParsers()[s_command].verifyRequiredArguments(dict))
+		{
+			mvThrowPythonError(mvErrorCode::mvTextureNotFound, s_command, "Texture data not valid", this);
 			return;
+		}
 
 		for (int i = 0; i < PyTuple_Size(dict); i++)
 		{
