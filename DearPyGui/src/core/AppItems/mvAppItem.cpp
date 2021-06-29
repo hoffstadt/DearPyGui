@@ -1119,6 +1119,7 @@ namespace Marvel{
 		}
 
 		PyDict_SetItemString(dict, "type", ToPyString(parserCommand));
+		PyDict_SetItemString(dict, "target", ToPyInt(getTarget()));
 
 		if (m_parentPtr)
 			PyDict_SetItemString(dict, "parent", ToPyUUID(m_parentPtr->getUUID()));
