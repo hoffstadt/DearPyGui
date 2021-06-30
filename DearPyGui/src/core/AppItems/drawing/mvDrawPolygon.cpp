@@ -58,7 +58,10 @@ namespace Marvel {
 		for (auto& point : points)
 			point = point + start;
 		// TODO: Find a way to store lines and only calc new fill lines when dirty similar to ellipse
-		if (m_fill.r > 0.0f)
+		drawlist->AddPolyline((const ImVec2*)const_cast<const mvVec2*>(points.data()), (int)m_points.size(), m_color, false, m_thickness);
+		if (m_fill.r < 0.0f)
+			return;
+
 		{
 			size_t i;
 			int y;
@@ -130,8 +133,6 @@ namespace Marvel {
 			}
 			delete[] polyints;
 		}
-
-		drawlist->AddPolyline((const ImVec2*)const_cast<const mvVec2*>(points.data()), (int)m_points.size(), m_color, false, m_thickness);
 	}
 
 	void mvDrawPolygon::handleSpecificRequiredArgs(PyObject* dict)

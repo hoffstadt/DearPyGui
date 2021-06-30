@@ -20,6 +20,18 @@ We generally fold multiple commits pertaining to the same topic as a single entr
 - Read the `Breaking Changes` section (here in the changelog).
 - Please report any issue!
 
-## VERSION 0.8.x
+## VERSION 0.8.10
 
-Decorated log: https://github.com/hoffstadt/DearPyGui/releases/tag/v0.8.x
+### New
+* added `get_item_slot(...)`
+
+### Fixes
+* fixed primary window menubar not showing
+* fixed configure item not working (caused #971)
+* fixed `disable_item` #972
+* fixed plot themes not working
+* fixed unwarned crash caused by incorrect raw_texture data
+* fixed `get_item_font(...)`
+* fixed `delete_item(...)` for widget handlers
+* fixed Mac OS directory change isses #967, #697
+* fixed draw item fill color issues #983
