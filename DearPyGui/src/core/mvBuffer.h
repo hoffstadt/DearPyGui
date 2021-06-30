@@ -65,7 +65,7 @@ namespace Marvel {
             sizeof(PymvBuffer),           /* tp_basicsize */
             0,                            /* tp_itemsize */
             (destructor)PymvBuffer_dealloc,/* tp_dealloc */
-            0,                            /* tp_vectorcall_offset */
+            0,                            /* tp_vectorcall_offset, tp_print in 3.6, 3.7 */
             0,                            /* tp_getattr */
             0,                            /* tp_setattr */
             0,                            /* tp_as_async */
@@ -107,7 +107,7 @@ namespace Marvel {
             0,                            /* tp_weeklist */
             0,                            /* tp_del */
             0,                            /* tp_version_tag */
-            0,                            /* tp_finalize */
-            0,                            /* tp_vectorcall */
+            0                            /* tp_finalize */
+            //0,                            /* tp_vectorcall */
     };
 }
