@@ -6,7 +6,7 @@
 
 </a>
 
-<sub>(This library is available under a free and permissive license however, if you Enjoy _Dear PyGui_ please consider becoming a [Sponsor](https://github.com/hoffstadt/DearPyGui/wiki/Sponsors))</sub>
+<h6 align="center">(This library is available under a free and permissive license however, if you Enjoy <i>Dear PyGui</i> please consider becoming a <a href="https://github.com/hoffstadt/DearPyGui/wiki/Sponsors">Sponsor</a>)</h6>
 
 ![Python Version](https://img.shields.io/pypi/pyversions/dearpygui)
 [![PYPI](https://img.shields.io/pypi/v/dearpygui)](https://pypi.org/project/dearpygui/)
