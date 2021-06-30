@@ -1,4 +1,5 @@
 #include "mvFont.h"
+#include <fstream>
 #include "mvLog.h"
 #include "mvItemRegistry.h"
 #include "mvPythonExceptions.h"
@@ -53,6 +54,9 @@ namespace Marvel {
 
 	void mvFont::customAction()
 	{
+		if (!m_state.isOk())
+			return;
+
 		ImGuiIO& io = ImGui::GetIO();
 
 		m_fontPtr = io.Fonts->AddFontFromFileTTF(m_file.c_str(), m_size, 
@@ -91,7 +95,9 @@ namespace Marvel {
 	void mvFont::draw(ImDrawList* drawlist, float x, float y)
 	{
 
-		//ImVector<ImWchar> ranges;
+		if (!m_state.isOk())
+			return;
+
 		ImFontGlyphRangesBuilder builder;
 
 		static ImFontAtlas atlas;
@@ -172,8 +178,19 @@ namespace Marvel {
 			switch (i)
 			{
 			case 0:
+			{
 				m_file = ToString(item);
+				std::ifstream ifile;
+				ifile.open(m_file);
+				if (ifile)
+					ifile.close();
+				else
+				{
+					m_state.setOk(false);
+					mvThrowPythonError(mvErrorCode::mvNone, "Font file could not be found");
+				}
 				break;
+			}
 
 			case 1:
 				m_size = ToFloat(item);
