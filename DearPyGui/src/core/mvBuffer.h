@@ -28,9 +28,6 @@ namespace Marvel {
     /* This function returns the string representation of our object */
     PyObject* PymvBuffer_str(PymvBuffer* self);
 
-    /* tools to print the array */
-    char* stringify(mvBuffer* a, int nmax);
-
     /* Here is the buffer interface function */
     int PymvBuffer_getbuffer(PyObject* obj, Py_buffer* view, int flags);
 
