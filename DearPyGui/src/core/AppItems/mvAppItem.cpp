@@ -695,12 +695,9 @@ namespace Marvel{
 			{
 				for (auto& child : childslot)
 				{
-					if (DoesItemHaveFlag(child.get(), MV_ITEM_DESC_CONTAINER))
-					{
-						// parent found
-						if (child->addChildAfter(prev, item))
-							return true;
-					}
+					// parent found
+					if (child->addChildAfter(prev, item))
+						return true;
 				}
 			}
 
@@ -727,12 +724,9 @@ namespace Marvel{
 					break;
 				}
 
-				if (DoesItemHaveFlag(item.get(), MV_ITEM_DESC_CONTAINER))
-				{
-					itemDeleted = item->deleteChild(uuid);
-					if (itemDeleted)
-						break;
-				}
+				itemDeleted = item->deleteChild(uuid);
+				if (itemDeleted)
+					break;
 			}
 
 			if (childfound)
