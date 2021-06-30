@@ -2,7 +2,6 @@ import dearpygui.dearpygui as dpg
 from dearpygui.logger import mvLogger
 from math import sin, cos
 import random
-import uuid
 
 demo_texture_container = dpg.add_texture_registry(label="Demo Texture Container")
 demo_static_texture_1 = dpg.generate_uuid()
