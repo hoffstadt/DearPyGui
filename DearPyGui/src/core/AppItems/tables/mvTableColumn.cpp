@@ -22,7 +22,7 @@ namespace Marvel {
 			MV_PARSER_ARG_SHOW)
 		);
 
-		parser.addArg<mvPyDataType::Bool>("init_width_or_weight", mvArgType::KEYWORD_ARG, "0.0");
+		parser.addArg<mvPyDataType::Float>("init_width_or_weight", mvArgType::KEYWORD_ARG, "0.0");
 		parser.addArg<mvPyDataType::Bool>("default_hide", mvArgType::KEYWORD_ARG, "False", "Default as a hidden/disabled column.");
 		parser.addArg<mvPyDataType::Bool>("default_sort", mvArgType::KEYWORD_ARG, "False", "Default as a sorting column.");
 		parser.addArg<mvPyDataType::Bool>("width_stretch", mvArgType::KEYWORD_ARG, "False", "Column will stretch. Preferable with horizontal scrolling disabled (default if table sizing policy is _SizingStretchSame or _SizingStretchProp).");

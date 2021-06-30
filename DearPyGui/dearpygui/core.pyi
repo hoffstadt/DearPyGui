@@ -478,7 +478,7 @@ def add_table(*, label: str =None, id: int =0, width: int =0, height: int =0, in
 	"""Undocumented function"""
 	...
 
-def add_table_column(*, label: str =None, id: int =0, width: int =0, parent: int =0, before: int =0, show: bool =True, init_width_or_weight: bool =0.0, default_hide: bool =False, default_sort: bool =False, width_stretch: bool =False, width_fixed: bool =False, no_resize: bool =False, no_reorder: bool =False, no_hide: bool =False, no_clip: bool =False, no_sort: bool =False, no_sort_ascending: bool =False, no_sort_descending: bool =False, no_header_width: bool =False, prefer_sort_ascending: bool =True, prefer_sort_descending: bool =False, indent_enable: bool =False, indent_disable: bool =False) -> int:
+def add_table_column(*, label: str =None, id: int =0, width: int =0, parent: int =0, before: int =0, show: bool =True, init_width_or_weight: float =0.0, default_hide: bool =False, default_sort: bool =False, width_stretch: bool =False, width_fixed: bool =False, no_resize: bool =False, no_reorder: bool =False, no_hide: bool =False, no_clip: bool =False, no_sort: bool =False, no_sort_ascending: bool =False, no_sort_descending: bool =False, no_header_width: bool =False, prefer_sort_ascending: bool =True, prefer_sort_descending: bool =False, indent_enable: bool =False, indent_disable: bool =False) -> int:
 	"""Undocumented function"""
 	...
 
