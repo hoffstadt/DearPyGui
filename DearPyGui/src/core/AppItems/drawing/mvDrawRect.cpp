@@ -56,9 +56,10 @@ namespace Marvel {
 	void mvDrawRect::draw(ImDrawList* drawlist, float x, float y)
 	{
 		mvVec2 start = { x, y };
-		if (m_fill.r > 0.0f)
-			drawlist->AddRectFilled(m_pmin + start, m_pmax + start, m_fill, m_rounding, ImDrawCornerFlags_All);
 		drawlist->AddRect(m_pmin + start, m_pmax + start, m_color, m_rounding, ImDrawCornerFlags_All, m_thickness);
+		if (m_fill.r < 0.0f)
+			return;
+		drawlist->AddRectFilled(m_pmin + start, m_pmax + start, m_fill, m_rounding, ImDrawCornerFlags_All);
 	}
 
 	void mvDrawRect::handleSpecificRequiredArgs(PyObject* dict)

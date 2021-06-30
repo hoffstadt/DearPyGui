@@ -57,9 +57,10 @@ namespace Marvel {
 	void mvDrawQuad::draw(ImDrawList* drawlist, float x, float y)
 	{
 		mvVec2 start = { x, y };
-		if (m_fill.r > 0.0f)
-			drawlist->AddQuadFilled(m_p1 + start, m_p2 + start, m_p3 + start, m_p4 + start, m_fill);
 		drawlist->AddQuad(m_p1 + start, m_p2 + start, m_p3 + start, m_p4 + start, m_color, m_thickness);
+		if (m_fill.r < 0.0f)
+			return;
+		drawlist->AddQuadFilled(m_p1 + start, m_p2 + start, m_p3 + start, m_p4 + start, m_fill);
 	}
 
 	void mvDrawQuad::handleSpecificRequiredArgs(PyObject* dict)
