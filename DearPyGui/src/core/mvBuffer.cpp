@@ -1,4 +1,5 @@
 #include "mvBuffer.h"
+#include <string>
 
 namespace Marvel {
 
@@ -41,25 +42,22 @@ namespace Marvel {
 		Py_TYPE(self)->tp_free((PyObject*)self);
 	}
 
-	char* stringify(mvBuffer* a, int nmax) 
-	{
-		char* output = (char*)malloc(nmax * 20);
-		int pos = sprintf(&output[0], "[");
-
-		for (int k = 0; k < a->length && k < nmax; k++) {
-			pos += sprintf(&output[pos], " %f", a->data[k]);
-		}
-		if (a->length > nmax)
-			pos += sprintf(&output[pos], "...");
-		sprintf(&output[pos], " ]");
-		return output;
-	}
-
 	PyObject* PymvBuffer_str(PymvBuffer* self)
 	{
-		char* s = stringify(&self->arr, 10);
-		PyObject* ret = PyUnicode_FromString(s);
-		free(s);
+		std::string result = "[ ";
+
+		for (int i = 0; i < 10; i++)
+		{
+			if (self->arr.length == i)
+				break;
+
+			result += std::to_string(self->arr.data[i]) + " ";
+		}
+
+		result +=  " ... ]";
+
+		PyObject* ret = PyUnicode_FromString(result.c_str());
+
 		return ret;
 	}
 
