@@ -67,6 +67,7 @@ namespace Marvel {
 
         // Setup window
         glfwSetErrorCallback(glfw_error_callback);
+        glfwInitHint(GLFW_COCOA_CHDIR_RESOURCES, GLFW_FALSE);
         glfwInit();
 
         if (!m_resizable)
@@ -85,7 +86,6 @@ namespace Marvel {
         // Create window with graphics context
         glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
         glfwWindowHint(GLFW_COCOA_RETINA_FRAMEBUFFER, GLFW_FALSE);
-        glfwWindowHint(GLFW_COCOA_CHDIR_RESOURCES, GLFW_FALSE);
         m_window = glfwCreateWindow((int)m_actualWidth, (int)m_actualHeight, m_title.c_str(), nullptr, nullptr);
         glfwSetWindowPos(m_window, m_xpos, m_ypos);
         glfwSetWindowSizeLimits(m_window, (int)m_minwidth, (int)m_minheight, (int)m_maxwidth, (int)m_maxheight);
