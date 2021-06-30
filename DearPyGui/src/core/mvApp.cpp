@@ -20,6 +20,8 @@
 #include "mvEventMacros.h"
 #include "mvToolManager.h"
 #include <imnodes.h>
+#include <stb_image.h>
+#include "mvBuffer.h"
 
 namespace Marvel {
 
@@ -250,68 +252,75 @@ namespace Marvel {
 		//}
 
 		{
+			mvPythonParser parser(mvPyDataType::Object, "Loads an image. Returns width, height, channels, mvBuffer", { "Textures", "Widgets" });
+			parser.addArg<mvPyDataType::String>("file");
+			parser.finalize();
+			parsers->insert({ "load_image", parser });
+		}
+
+		{
 			mvPythonParser parser(mvPyDataType::UUID, "Generate a new UUID", { "General" });
 			parser.finalize();
 			parsers->insert({ "generate_uuid", parser });
 		}
 
 		{
-			mvPythonParser parser(mvPyDataType::None, "Undocumented", { "General" });
+			mvPythonParser parser(mvPyDataType::None, "Locks mutex", { "General" });
 			parser.finalize();
 			parsers->insert({ "lock_mutex", parser });
 		}
 
 		{
-			mvPythonParser parser(mvPyDataType::None, "Undocumented", { "General" });
+			mvPythonParser parser(mvPyDataType::None, "Unlocks mutex", { "General" });
 			parser.finalize();
 			parsers->insert({ "unlock_mutex", parser });
 		}
 
 		{
-			mvPythonParser parser(mvPyDataType::Bool, "Undocumented", { "General" });
+			mvPythonParser parser(mvPyDataType::Bool, "Checks if dearpygui is running.", { "General" });
 			parser.finalize();
 			parsers->insert({ "is_dearpygui_running", parser });
 		}
 
 		{
-			mvPythonParser parser(mvPyDataType::None, "Undocumented", { "General" });
+			mvPythonParser parser(mvPyDataType::None, "Sets up dearpygui", { "General" });
 			parser.addArg<mvPyDataType::String>("viewport", mvArgType::KEYWORD_ARG, "''");
 			parser.finalize();
 			parsers->insert({ "setup_dearpygui", parser });
 		}
 
 		{
-			mvPythonParser parser(mvPyDataType::None, "Undocumented", { "General" });
+			mvPythonParser parser(mvPyDataType::None, "Renders a dearpygui frame.", { "General" });
 			parser.finalize();
 			parsers->insert({ "render_dearpygui_frame", parser });
 		}
 
 		{
-			mvPythonParser parser(mvPyDataType::None, "Undocumented", { "General" });
+			mvPythonParser parser(mvPyDataType::None, "Cleans up dearpygui.", { "General" });
 			parser.finalize();
 			parsers->insert({ "cleanup_dearpygui", parser });
 		}
 
 		{
-			mvPythonParser parser(mvPyDataType::None, "Undocumented", { "General" });
+			mvPythonParser parser(mvPyDataType::None, "Stops dearpygui.", { "General" });
 			parser.finalize();
 			parsers->insert({ "stop_dearpygui", parser });
 		}
 
 		{
-			mvPythonParser parser(mvPyDataType::Float, "Undocumented", { "General" });
+			mvPythonParser parser(mvPyDataType::Float, "Returns total time since Dear PyGui has started.", { "General" });
 			parser.finalize();
 			parsers->insert({ "get_total_time", parser });
 		}
 
 		{
-			mvPythonParser parser(mvPyDataType::Float, "Undocumented", { "General" });
+			mvPythonParser parser(mvPyDataType::Float, "Returns time since last frame.", { "General" });
 			parser.finalize();
 			parsers->insert({ "get_delta_time", parser });
 		}
 
 		{
-			mvPythonParser parser(mvPyDataType::String, "Undocumented", { "General" });
+			mvPythonParser parser(mvPyDataType::String, "Returns the dearpygui version.", { "General" });
 			parser.finalize();
 			parsers->insert({ "get_dearpygui_version", parser });
 		}
@@ -368,6 +377,37 @@ namespace Marvel {
 			});
 
 		return GetPyNone();
+	}
+
+	PyObject* mvApp::load_image(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		const char* file;
+
+		if (!(mvApp::GetApp()->getParsers())["load_image"].parse(args, kwargs, __FUNCTION__,
+			&file))
+			return GetPyNone();
+
+		// Load from disk into a raw RGBA buffer
+		int image_width = 0;
+		int image_height = 0;
+		float* image_data = stbi_loadf(file, &image_width, &image_height, NULL, 4);
+		if (image_data == NULL)
+			return GetPyNone();
+
+		PyObject* newbuffer = nullptr;
+		PymvBuffer* newbufferview = nullptr;
+		newbufferview = PyObject_New(PymvBuffer, &PymvBufferType);
+		newbufferview->arr.length = image_width * image_height * 4;
+		newbufferview->arr.data = (float*)image_data;
+		newbuffer = PyObject_Init((PyObject*)newbufferview, &PymvBufferType);
+
+		PyObject* result = PyTuple_New(4);
+		PyTuple_SetItem(result, 0, Py_BuildValue("i", image_width));
+		PyTuple_SetItem(result, 1, Py_BuildValue("i", image_height));
+		PyTuple_SetItem(result, 2, PyLong_FromLong(4));
+		PyTuple_SetItem(result, 3, newbuffer);
+
+		return result;
 	}
 
 	PyObject* mvApp::is_dearpygui_running(PyObject* self, PyObject* args, PyObject* kwargs)

@@ -450,7 +450,7 @@ def add_stair_series(x : List[float], y : List[float], *, label: str =None, id: 
 	"""Adds a stair series to a plot."""
 	...
 
-def add_static_texture(width : int, height : int, default_value : List[float], *, label: str =None, id: int =0, file: str ='', parent: int =internal_dpg.mvReservedUUID_2) -> int:
+def add_static_texture(width : int, height : int, default_value : List[float], *, label: str =None, id: int =0, parent: int =internal_dpg.mvReservedUUID_2) -> int:
 	"""Undocumented function"""
 	...
 
@@ -551,7 +551,7 @@ def add_window(*, label: str =None, id: int =0, width: int =0, height: int =0, i
 	...
 
 def cleanup_dearpygui() -> None:
-	"""Undocumented"""
+	"""Cleans up dearpygui."""
 	...
 
 def clear_selected_links(node_editor : int) -> None:
@@ -667,11 +667,11 @@ def get_axis_limits(axis : int) -> List[float]:
 	...
 
 def get_dearpygui_version() -> str:
-	"""Undocumented"""
+	"""Returns the dearpygui version."""
 	...
 
 def get_delta_time() -> float:
-	"""Undocumented"""
+	"""Returns time since last frame."""
 	...
 
 def get_drawing_mouse_pos() -> List[int]:
@@ -731,7 +731,7 @@ def get_selected_nodes(node_editor : int) -> List[int]:
 	...
 
 def get_total_time() -> float:
-	"""Undocumented"""
+	"""Returns total time since Dear PyGui has started."""
 	...
 
 def get_value(item : int) -> Any:
@@ -767,7 +767,7 @@ def get_y_scroll_max(item : int) -> float:
 	...
 
 def is_dearpygui_running() -> bool:
-	"""Undocumented"""
+	"""Checks if dearpygui is running."""
 	...
 
 def is_key_down(key : int) -> bool:
@@ -822,8 +822,12 @@ def last_root() -> int:
 	"""Undocumented"""
 	...
 
+def load_image(file : str) -> Any:
+	"""Loads an image. Returns width, height, channels, mvBuffer"""
+	...
+
 def lock_mutex() -> None:
-	"""Undocumented"""
+	"""Locks mutex"""
 	...
 
 def maximize_viewport() -> None:
@@ -855,7 +859,7 @@ def push_container_stack(item : int) -> bool:
 	...
 
 def render_dearpygui_frame() -> None:
-	"""Undocumented"""
+	"""Renders a dearpygui frame."""
 	...
 
 def reorder_items(container : int, slot : int, new_order : List[int]) -> None:
@@ -943,7 +947,7 @@ def set_y_scroll(item : int, value : float) -> None:
 	...
 
 def setup_dearpygui(*, viewport: str ='') -> None:
-	"""Undocumented"""
+	"""Sets up dearpygui"""
 	...
 
 def show_imgui_demo() -> None:
@@ -967,7 +971,7 @@ def stage_items(items : List[int]) -> None:
 	...
 
 def stop_dearpygui() -> None:
-	"""Undocumented"""
+	"""Stops dearpygui."""
 	...
 
 def top_container_stack() -> int:
@@ -975,7 +979,7 @@ def top_container_stack() -> int:
 	...
 
 def unlock_mutex() -> None:
-	"""Undocumented"""
+	"""Unlocks mutex"""
 	...
 
 def unstage_items(items : List[int]) -> None:

@@ -52,6 +52,7 @@ namespace Marvel {
 
 	private:
 
+		PyObject*     m_buffer = nullptr;
 		void*         m_value = nullptr;
 		void*         m_texture = nullptr;
 		bool          m_dirty = true;
