@@ -35,13 +35,11 @@ the following platforms:
 In the same manner Dear ImGui provides a simple way to create tools for game developers, _Dear PyGui_ provides a 
 simple way for python developers to **create quick and powerful GUIs for scripts**.
 
-| [Installing](#installation) - [Usage](#usage) - [Resources](#Resources) - [Support](#support) |
+| [Installing](#installation) - [Usage](#usage) - [Resources](#resources) - [Support](#support) |
 :----------------------------------------------------------: |
-| [Features](#some-features) - [Sponsors](#sponsors) - [Credits](#credits) - [License](#license)|
+| [Features](#features) - [Sponsors](#sponsors) - [Credits](#credits) - [License](#license)|
 
-### Installation
-
----
+## Installation
 
 Ensure you have at least Python 3.6 64bit.
  ```
@@ -51,9 +49,7 @@ Ensure you have at least Python 3.6 64bit.
  ```
  
 
-### Resources
-
- ---
+## Resources
  
  [![Chat on Discord](https://img.shields.io/discord/736279277242417272?logo=discord)](https://discord.gg/tyE7Gu4)
 [![Reddit](https://img.shields.io/reddit/subreddit-subscribers/dearpygui?label=r%2Fdearpygui)](https://www.reddit.com/r/DearPyGui/)
@@ -72,9 +68,7 @@ dpg.start_dearpygui()
 ```
 
 
-### Usage
-
- ---
+## Usage
  
 Using _Dear PyGui_ is a simple as creating a python script like the one below:
 
@@ -98,9 +92,7 @@ Result:
 <BR>![BasicUsageExample](https://github.com/hoffstadt/DearPyGui/blob/assets/BasicUsageExample1.PNG?raw=true)
  
 
-### Some Features
-
----
+## Features
 
 #### Plotting/Graphing
 _Dear PyGui_ includes a plotting API ([ImPlot](https://github.com/epezent/implot) Wrapping)
@@ -129,16 +121,14 @@ _Dear PyGui_ includes several tools to help developers with _DearPyGui_ app deve
 <BR>![BasicUsageExample](https://github.com/hoffstadt/DearPyGui/blob/assets/tools.png?raw=true)
 
 
-### Support
+## Support
 
 If you are having issues or want to help, here are some places you can go:
 - [Github Discussions](https://github.com/hoffstadt/DearPyGui/discussions/)
 - [Discord Forum](https://discord.gg/tyE7Gu4)
 - [Reddit](https://www.reddit.com/r/DearPyGui/)
 
-### Sponsors
-
----
+## Sponsors
 
 ![GitHub Sponsors](https://img.shields.io/github/sponsors/hoffstadt?label=Github%20Sponsors)
 ![Open Collective](https://img.shields.io/opencollective/sponsors/dearpygui?label=Open%20Collective%20Sponsors)
@@ -168,9 +158,7 @@ Thank you to all other [sponsors](https://github.com/hoffstadt/DearPyGui/wiki/Sp
 
 <a href="https://www.buymeacoffee.com/DearPyGui"><img src="https://img.buymeacoffee.com/button-api/?text=Buy us a coffee&emoji=&slug=DearPyGui&button_colour=FFDD00&font_colour=000000&font_family=Cookie&outline_colour=000000&coffee_colour=ffffff"></a>
 
-### Credits
-
----
+## Credits
 
 Developed by [Jonathan Hoffstadt](https://github.com/hoffstadt), [Preston Cothren](https://github.com/Pcothren), and every direct or indirect contributor.
 
@@ -180,8 +168,6 @@ Developed by [Jonathan Hoffstadt](https://github.com/hoffstadt), [Preston Cothre
 
 [Johann Muszynski](https://github.com/Nelarius) for all of his work on [imnodes](https://github.com/Nelarius/imnodes).
 
-### License
-
----
+## License
 
 _Dear PyGui_ is licensed under the [MIT License](https://github.com/hoffstadt/DearPyGui/blob/master/LICENSE).
