@@ -17,6 +17,7 @@
 from typing import List, Any, Callable, Union
 from contextlib import contextmanager
 import dearpygui.core as internal_dpg
+from dearpygui.core import mvBuffer
 
 ########################################################################################################################
 # User API Index
@@ -4477,7 +4478,7 @@ def add_stair_series(x : List[float], y : List[float], *, label: str =None, id: 
 
 	return internal_dpg.add_stair_series(x, y, label=label, id=id, parent=parent, before=before, source=source, show=show, contribute_to_bounds=contribute_to_bounds)
 
-def add_static_texture(width : int, height : int, default_value : List[float], *, label: str =None, id: int =0, file: str ='', parent: int =internal_dpg.mvReservedUUID_2) -> int:
+def add_static_texture(width : int, height : int, default_value : List[float], *, label: str =None, id: int =0, parent: int =internal_dpg.mvReservedUUID_2) -> int:
 	"""
 	Undocumented function
 	Args:
@@ -4486,13 +4487,12 @@ def add_static_texture(width : int, height : int, default_value : List[float], *
 		default_value (List[float]): 
 		**label (str): Overrides 'name' as label.
 		**id (int): Unique id used to programmatically refer to the item.If label is unused this will be the label.
-		**file (str): 
 		**parent (int): Parent to add this item to. (runtime adding)
 	Returns:
 		int
 	"""
 
-	return internal_dpg.add_static_texture(width, height, default_value, label=label, id=id, file=file, parent=parent)
+	return internal_dpg.add_static_texture(width, height, default_value, label=label, id=id, parent=parent)
 
 def add_stem_series(x : List[float], y : List[float], *, label: str =None, id: int =0, indent: int =-1, parent: int =0, before: int =0, source: int =0, show: bool =True, contribute_to_bounds: bool =True) -> int:
 	"""
@@ -5018,7 +5018,7 @@ def add_window(*, label: str =None, id: int =0, width: int =0, height: int =0, i
 
 def cleanup_dearpygui() -> None:
 	"""
-	Undocumented
+	Cleans up dearpygui.
 	Args:
 	Returns:
 		None
@@ -5453,7 +5453,7 @@ def get_axis_limits(axis : int) -> List[float]:
 
 def get_dearpygui_version() -> str:
 	"""
-	Undocumented
+	Returns the dearpygui version.
 	Args:
 	Returns:
 		str
@@ -5463,7 +5463,7 @@ def get_dearpygui_version() -> str:
 
 def get_delta_time() -> float:
 	"""
-	Undocumented
+	Returns time since last frame.
 	Args:
 	Returns:
 		float
@@ -5622,7 +5622,7 @@ def get_selected_nodes(node_editor : int) -> List[int]:
 
 def get_total_time() -> float:
 	"""
-	Undocumented
+	Returns total time since Dear PyGui has started.
 	Args:
 	Returns:
 		float
@@ -5719,7 +5719,7 @@ def get_y_scroll_max(item : int) -> float:
 
 def is_dearpygui_running() -> bool:
 	"""
-	Undocumented
+	Checks if dearpygui is running.
 	Args:
 	Returns:
 		bool
@@ -5867,9 +5867,20 @@ def last_root() -> int:
 
 	return internal_dpg.last_root()
 
+def load_image(file : str) -> Any:
+	"""
+	Loads an image. Returns width, height, channels, mvBuffer
+	Args:
+		file (str): 
+	Returns:
+		Any
+	"""
+
+	return internal_dpg.load_image(file)
+
 def lock_mutex() -> None:
 	"""
-	Undocumented
+	Locks mutex
 	Args:
 	Returns:
 		None
@@ -5955,7 +5966,7 @@ def push_container_stack(item : int) -> bool:
 
 def render_dearpygui_frame() -> None:
 	"""
-	Undocumented
+	Renders a dearpygui frame.
 	Args:
 	Returns:
 		None
@@ -6212,7 +6223,7 @@ def set_y_scroll(item : int, value : float) -> None:
 
 def setup_dearpygui(*, viewport: str ='') -> None:
 	"""
-	Undocumented
+	Sets up dearpygui
 	Args:
 		**viewport (str): 
 	Returns:
@@ -6278,7 +6289,7 @@ def stage_items(items : List[int]) -> None:
 
 def stop_dearpygui() -> None:
 	"""
-	Undocumented
+	Stops dearpygui.
 	Args:
 	Returns:
 		None
@@ -6298,7 +6309,7 @@ def top_container_stack() -> int:
 
 def unlock_mutex() -> None:
 	"""
-	Undocumented
+	Unlocks mutex
 	Args:
 	Returns:
 		None

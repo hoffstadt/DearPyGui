@@ -20,10 +20,14 @@ We generally fold multiple commits pertaining to the same topic as a single entr
 - Read the `Breaking Changes` section (here in the changelog).
 - Please report any issue!
 
-## VERSION 0.8.10
+## VERSION 0.8.11
+
+### Breaking Changes
+* removed `file` keyword from `add_static_texture`. See wiki.
 
 ### New
 * added `get_item_slot(...)`
+* added `load_image(...)`
 
 ### Fixes
 * fixed primary window menubar not showing

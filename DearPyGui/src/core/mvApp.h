@@ -77,6 +77,7 @@ namespace Marvel {
         MV_CREATE_COMMAND(generate_uuid);
         MV_CREATE_COMMAND(use_init_file);
         MV_CREATE_COMMAND(load_init_file);
+        MV_CREATE_COMMAND(load_image);
 
         MV_START_COMMANDS
             MV_ADD_COMMAND(lock_mutex);
@@ -93,6 +94,7 @@ namespace Marvel {
             MV_ADD_COMMAND(generate_uuid);
             MV_ADD_COMMAND(use_init_file);
             MV_ADD_COMMAND(load_init_file);
+            MV_ADD_COMMAND(load_image);
         MV_END_COMMANDS
 
         //-----------------------------------------------------------------------------

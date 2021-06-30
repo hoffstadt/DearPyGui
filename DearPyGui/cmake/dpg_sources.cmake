@@ -21,6 +21,7 @@ set(MARVEL_SOURCES
 	"$<$<PLATFORM_ID:Linux>:src/platform/Linux/mvUtilities.cpp>"
 	"$<$<PLATFORM_ID:Linux>:src/platform/Linux/mvLinuxViewport.cpp>"
 
+	"src/core/mvBuffer.cpp"
 	"src/core/mvEvents.cpp"
 	"src/core/mvApp.cpp"
 	"src/core/mvInput.cpp"

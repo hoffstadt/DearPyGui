@@ -3,6 +3,7 @@
 #include "mvItemRegistry.h"
 #include "mvPythonExceptions.h"
 #include "mvUtilities.h"
+#include "mvGlobalIntepreterLock.h"
 
 namespace Marvel {
 
@@ -57,12 +58,18 @@ namespace Marvel {
 				}
 			}
 			PyBuffer_Release(&buffer_info);
+
+			Py_XINCREF(value);
+			m_buffer = value;
 		}
 	}
 
 	mvRawTexture::~mvRawTexture()
 	{
 		FreeTexture(m_texture);
+		
+		mvGlobalIntepreterLock gil;
+		Py_XDECREF(m_buffer);
 	}
 
 

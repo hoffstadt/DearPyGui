@@ -7,6 +7,7 @@
 #include <ImGuiFileDialog.h>
 #include <cstdlib>
 #include "mvToolManager.h"
+#include "mvBuffer.h"
 
 namespace Marvel {
 
@@ -103,6 +104,9 @@ namespace Marvel {
 		};
 
 		PyObject* m;
+		PymvBufferType.tp_new = PyType_GenericNew;
+		if (PyType_Ready(&PymvBufferType) < 0)
+			return NULL;
 
 		m = PyModule_Create(&dearpyguiModule);
 		if (m == NULL)
@@ -122,6 +126,9 @@ namespace Marvel {
 			Py_DECREF(m);
 			return NULL;
 		}
+
+		Py_INCREF(&PymvBufferType);
+		PyModule_AddObject(m, "mvBuffer", (PyObject*)&PymvBufferType);
 
 		return m;
 	}
