@@ -33,5 +33,7 @@ We generally fold multiple commits pertaining to the same topic as a single entr
 * fixed unwarned crash caused by incorrect raw_texture data
 * fixed `get_item_font(...)`
 * fixed `delete_item(...)` for widget handlers
-* fixed Mac OS directory change isses #967, #697
+* fixed Mac OS directory change isses #967, #697, #974
 * fixed draw item fill color issues #983
+* fixed seg fault when font file not located #974
+* fixed seg fault when image file not located #963

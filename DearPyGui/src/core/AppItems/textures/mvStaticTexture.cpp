@@ -3,6 +3,7 @@
 #include "mvItemRegistry.h"
 #include "mvPythonExceptions.h"
 #include "mvUtilities.h"
+#include <fstream>
 
 namespace Marvel {
 
@@ -57,6 +58,9 @@ namespace Marvel {
 	void mvStaticTexture::draw(ImDrawList* drawlist, float x, float y)
 	{
 		if (!m_dirty)
+			return;
+
+		if (!m_state.isOk())
 			return;
 
 		if (m_uuid == MV_ATLAS_UUID)
@@ -114,7 +118,22 @@ namespace Marvel {
 		if (dict == nullptr)
 			return;
 
-		if (PyObject* item = PyDict_GetItemString(dict, "file")) m_file = ToString(item);
+		if (PyObject* item = PyDict_GetItemString(dict, "file"))
+		{
+			m_file = ToString(item);
+			if (!m_file.empty())
+			{
+				std::ifstream ifile;
+				ifile.open(m_file);
+				if (ifile)
+					ifile.close();
+				else
+				{
+					m_state.setOk(false);
+					mvThrowPythonError(mvErrorCode::mvNone, "Static texture image file could not be found");
+				}
+			}
+		}
 	}
 
 	void mvStaticTexture::getSpecificConfiguration(PyObject* dict)
