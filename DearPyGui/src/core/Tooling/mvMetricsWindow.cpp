@@ -80,6 +80,7 @@ namespace Marvel {
 
         static ImPlotAxisFlags rt_axis = ImPlotAxisFlags_NoTickLabels | ImPlotAxisFlags_NoGridLines | ImPlotAxisFlags_NoTickMarks;
         ImPlot::SetNextPlotLimitsX(t - history, t, ImGuiCond_Always);
+        ImPlot::FitNextPlotAxes(false);
         if (ImPlot::BeginPlot("##Scrolling1", nullptr, nullptr, ImVec2(-1, 200), 0, rt_axis, ImPlotAxisFlags_NoGridLines | ImPlotAxisFlags_LockMin))
         {
             static float fps_h[2] = { 0.0f, 0.0f };
@@ -112,6 +113,7 @@ namespace Marvel {
 
         ImPlot::PushStyleColor(ImPlotCol_PlotBorder, ImVec4(0.0f, 0.0f, 0.0f, 0.0f));
         ImPlot::SetNextPlotLimitsX(t - history, t, ImGuiCond_Always);
+        ImPlot::FitNextPlotAxes(false);
         if (ImPlot::BeginPlot("##Scrolling2", nullptr, nullptr, ImVec2(-1, -1), 0, rt_axis, 0 | ImPlotAxisFlags_LockMin))
         {
 
