@@ -27,6 +27,9 @@ We generally fold multiple commits pertaining to the same topic as a single entr
 * node editor callback now sends through user_data
 * added `category` keyword to node attributes
 
+### Fixes
+* fixed primary window hiding other window menubars on start
+
 ## VERSION 0.8.13
 
 ### Fixes
