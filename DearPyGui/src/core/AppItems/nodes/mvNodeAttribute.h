@@ -64,6 +64,7 @@ namespace Marvel {
         int m_id = 1;
 		AttributeType m_attrType = AttributeType::mvAttr_Input;
 		imnodes::PinShape m_shape = imnodes::PinShape_CircleFilled;
+		std::string m_category = "general";
 
 	};
 
