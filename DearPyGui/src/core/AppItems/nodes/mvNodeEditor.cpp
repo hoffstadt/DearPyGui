@@ -229,7 +229,7 @@ namespace Marvel {
 			{
 				for (const auto& grandchild : child->m_children[1])
 				{
-					if (static_cast<mvNodeAttribute*>(grandchild.get())->getId()== start_attr)
+					if (static_cast<mvNodeAttribute*>(grandchild.get())->getId() == start_attr)
 						node1 = grandchild->m_uuid;
 
 					if (static_cast<mvNodeAttribute*>(grandchild.get())->getId() == end_attr)
@@ -242,7 +242,7 @@ namespace Marvel {
 				PyObject* link = PyTuple_New(2);
 				PyTuple_SetItem(link, 0, ToPyUUID(node1));
 				PyTuple_SetItem(link, 1, ToPyUUID(node2));
-				mvApp::GetApp()->getCallbackRegistry().addCallback(m_callback, m_uuid, link, nullptr);
+				mvApp::GetApp()->getCallbackRegistry().addCallback(m_callback, m_uuid, link, m_user_data);
 					});
 		}
 
@@ -264,7 +264,7 @@ namespace Marvel {
 			if (m_delinkCallback)
 				mvApp::GetApp()->getCallbackRegistry().submitCallback([=]() {
 				PyObject* link = ToPyUUID(name);
-				mvApp::GetApp()->getCallbackRegistry().addCallback(m_delinkCallback, m_uuid, link, nullptr);
+				mvApp::GetApp()->getCallbackRegistry().addCallback(m_delinkCallback, m_uuid, link, m_user_data);
 					});
 		}
 
