@@ -246,8 +246,10 @@ namespace Marvel {
 		else
 		{
 			m_focusNextFrame = true;
+			if (m_windowflags & ImGuiWindowFlags_MenuBar)
+				m_oldWindowflags |= ImGuiWindowFlags_MenuBar;
 			m_windowflags = m_oldWindowflags;
-			if (m_oldWindowflags & ImGuiWindowFlags_MenuBar)
+			if (m_windowflags & ImGuiWindowFlags_MenuBar)
 				m_windowflags |= ImGuiWindowFlags_MenuBar;
 			m_state.setPos({ m_oldxpos , m_oldypos });
 			m_width = m_oldWidth;
