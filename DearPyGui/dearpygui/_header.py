@@ -726,7 +726,7 @@ def get_item_pos(item: int) -> List[int]:
     Returns:
         position
     """
-    return internal_dpg.get_item_configuration(item)["pos"]
+    return internal_dpg.get_item_state(item)["pos"]
 
 
 def get_available_content_region(item: int) -> List[int]:
@@ -735,7 +735,7 @@ def get_available_content_region(item: int) -> List[int]:
     Returns:
         position
     """
-    return internal_dpg.get_item_configuration(item)["content_region_avail"]
+    return internal_dpg.get_item_state(item)["content_region_avail"]
 
 
 def get_item_rect_size(item: int) -> List[int]:
@@ -744,7 +744,7 @@ def get_item_rect_size(item: int) -> List[int]:
     Returns:
         position
     """
-    return internal_dpg.get_item_configuration(item)["rect_size"]
+    return internal_dpg.get_item_state(item)["rect_size"]
 
 
 def get_item_rect_min(item: int) -> List[int]:
@@ -753,7 +753,7 @@ def get_item_rect_min(item: int) -> List[int]:
     Returns:
         position
     """
-    return internal_dpg.get_item_configuration(item)["rect_min"]
+    return internal_dpg.get_item_state(item)["rect_min"]
 
 
 def get_item_rect_max(item: int) -> List[int]:
@@ -762,7 +762,7 @@ def get_item_rect_max(item: int) -> List[int]:
     Returns:
         position
     """
-    return internal_dpg.get_item_configuration(item)["rect_max"]
+    return internal_dpg.get_item_state(item)["rect_max"]
 
 
 ########################################################################################################################

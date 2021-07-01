@@ -20,6 +20,17 @@ We generally fold multiple commits pertaining to the same topic as a single entr
 - Read the `Breaking Changes` section (here in the changelog).
 - Please report any issue!
 
+## VERSION 0.8.13
+
+### Fixes
+* fixed `add_spacing` "count" issue #988
+* fixed `get_item_pos`
+* fixed `get_available_content_region`
+* fixed `get_item_rect_size`
+* fixed `get_item_rect_min`
+* fixed `get_item_rect_max`
+* metrics plots autoscale now #992
+
 ## VERSION 0.8.12
 
 ### Breaking Changes

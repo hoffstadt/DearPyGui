@@ -35,4 +35,25 @@ namespace Marvel {
 			ImGui::Spacing();
 	}
 
+	void mvSpacing::handleSpecificKeywordArgs(PyObject* dict)
+	{
+		if (dict == nullptr)
+			return;
+
+		if (PyObject* item = PyDict_GetItemString(dict, "count"))
+		{
+			*m_value = ToInt(item);
+		}
+
+
+	}
+
+	void mvSpacing::getSpecificConfiguration(PyObject* dict)
+	{
+		if (dict == nullptr)
+			return;
+
+		PyDict_SetItemString(dict, "count", ToPyBool(*m_value));
+	}
+
 }
