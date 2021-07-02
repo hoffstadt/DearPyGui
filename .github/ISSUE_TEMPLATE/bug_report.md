@@ -13,11 +13,13 @@ assignees: ''
 
 3. FOR FIRST-TIME USERS ISSUES,  please use the [Discord server](https://discord.gg/tyE7Gu4).
 
-4. PLEASE MAKE SURE that you have: read the FAQ; explored the examples; searched among Issues; and read the link provided in (1) (2).
+4. REMOVE ALL 3RD PARTY LIBRARIES.
 
-5. Be mindful that messages are being sent to the e-mail box of "Watching" users. Try to proof-read your messages before sending them. Edits are not seen by those users.
+5. PLEASE MAKE SURE that you have: read the FAQ; explored the examples; searched among Issues; and read the link provided in (1) (2).
 
-6. Delete points 1-6 and PLEASE FILL THE TEMPLATE BELOW before submitting your issue or we will immediately close it.
+6. Be mindful that messages are being sent to the e-mail box of "Watching" users. Try to proof-read your messages before sending them. Edits are not seen by those users.
+
+7. Delete points 1-7 and PLEASE FILL THE TEMPLATE BELOW before submitting your issue or we will immediately close it.
 
 Thank you!
 
@@ -52,7 +54,12 @@ XXX _(you can drag files here)_
 
 ```python
 # Here's some code anyone can copy and paste to reproduce your issue
-add_button("Example Bug")
+import dearpygui.dearpygui as dpg
+
+with dpg.window(label="tutorial"):
+    dpg.add_button(label="Press me")
+
 more_code_to_explain_my_issue()
-start_dearpygui()
+
+dpg.start_dearpygui()
 ```
