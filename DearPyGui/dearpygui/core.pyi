@@ -307,7 +307,7 @@ def add_menu(*, label: str =None, id: int =0, indent: int =-1, parent: int =0, b
 	...
 
 def add_menu_bar(*, label: str =None, id: int =0, indent: int =-1, parent: int =0, show: bool =True, delay_search: str =False, user_data: Any =None) -> int:
-	"""Adds a menu bar to a window. Must be followed by a call to end."""
+	"""Adds a menu bar to a window."""
 	...
 
 def add_menu_item(*, label: str =None, id: int =0, indent: int =-1, parent: int =0, before: int =0, payload_type: str ='$$DPG_PAYLOAD', callback: Callable =None, drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, enabled: bool =True, filter_key: str ='', tracked: bool =False, track_offset: float =0.5, user_data: Any =None, default_value: bool =False, shortcut: str ='', check: bool =False) -> int:
@@ -536,6 +536,10 @@ def add_value_registry(*, label: str =None, id: int =0, user_data: Any =None) ->
 
 def add_viewport_drawlist(*, label: str =None, id: int =0, show: bool =True, filter_key: str ='', delay_search: str =False, user_data: Any =None, front: bool =True) -> int:
 	"""A container that is used to present draw items or layers directly to the viewport. By default this will draw to the back of teh viewport. Layers and draw items should be added to this widget as children."""
+	...
+
+def add_viewport_menu_bar(*, label: str =None, id: int =0, indent: int =-1, parent: int =0, show: bool =True, delay_search: str =False, user_data: Any =None) -> int:
+	"""Adds a menu bar to the viewport."""
 	...
 
 def add_visible_handler(parent : int, *, label: str =None, id: int =0, callback: Callable =None, user_data: Any =None) -> int:

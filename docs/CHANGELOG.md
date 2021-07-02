@@ -23,6 +23,7 @@ We generally fold multiple commits pertaining to the same topic as a single entr
 ## VERSION 0.8.14
 
 ### New
+* added `add_viewport_menu_bar(...)`
 * added `split_frame(...)`
 * added `get_frame_count(...)`
 * added `user_data` to every app item
