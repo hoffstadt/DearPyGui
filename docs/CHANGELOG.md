@@ -20,6 +20,11 @@ We generally fold multiple commits pertaining to the same topic as a single entr
 - Read the `Breaking Changes` section (here in the changelog).
 - Please report any issue!
 
+## VERSION 0.8.x
+
+### Fixes
+* fixed `move_item_down` issue #1006
+
 ## VERSION 0.8.14
 
 ### New
