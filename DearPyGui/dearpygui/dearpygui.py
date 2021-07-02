@@ -1950,7 +1950,7 @@ def window(*, label: str =None, id: int =0, width: int =0, height: int =0, inden
 # Core Wrappings
 ##########################################################
 
-def add_2d_histogram_series(x : List[float], y : List[float], *, label: str =None, id: int =0, parent: int =0, before: int =0, source: int =0, show: bool =True, user_data: Any =None, xbins: int =-1, ybins: int =-1, xmin_range: float =0.0, xmax_range: float =1.0, ymin_range: float =0.0, ymax_range: float =1.0, density: bool =False, outliers: bool =True, contribute_to_bounds: bool =True) -> int:
+def add_2d_histogram_series(x : List[float], y : List[float], *, label: str =None, id: int =0, parent: int =0, before: int =0, source: int =0, show: bool =True, user_data: Any =None, xbins: int =-1, ybins: int =-1, xmin_range: float =0.0, xmax_range: float =1.0, ymin_range: float =0.0, ymax_range: float =1.0, density: bool =False, outliers: bool =True) -> int:
 	"""
 	Undocumented function
 	Args:
@@ -1971,12 +1971,11 @@ def add_2d_histogram_series(x : List[float], y : List[float], *, label: str =Non
 		**ymax_range (float): 
 		**density (bool): 
 		**outliers (bool): 
-		**contribute_to_bounds (bool): 
 	Returns:
 		int
 	"""
 
-	return internal_dpg.add_2d_histogram_series(x, y, label=label, id=id, parent=parent, before=before, source=source, show=show, user_data=user_data, xbins=xbins, ybins=ybins, xmin_range=xmin_range, xmax_range=xmax_range, ymin_range=ymin_range, ymax_range=ymax_range, density=density, outliers=outliers, contribute_to_bounds=contribute_to_bounds)
+	return internal_dpg.add_2d_histogram_series(x, y, label=label, id=id, parent=parent, before=before, source=source, show=show, user_data=user_data, xbins=xbins, ybins=ybins, xmin_range=xmin_range, xmax_range=xmax_range, ymin_range=ymin_range, ymax_range=ymax_range, density=density, outliers=outliers)
 
 def add_3d_slider(*, label: str =None, id: int =0, width: int =0, height: int =0, indent: int =-1, parent: int =0, before: int =0, source: int =0, payload_type: str ='$$DPG_PAYLOAD', callback: Callable =None, drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, pos: List[int] =[], filter_key: str ='', tracked: bool =False, track_offset: float =0.5, user_data: Any =None, default_value: List[float] =(0.0, 0.0, 0.0, 0.0), max_x: float =100.0, max_y: float =100.0, max_z: float =100.0, min_x: float =0.0, min_y: float =0.0, min_z: float =0.0, scale: float =1.0) -> int:
 	"""
@@ -2065,7 +2064,7 @@ def add_area_series(x : List[float], y : List[float], *, label: str =None, id: i
 
 	return internal_dpg.add_area_series(x, y, label=label, id=id, parent=parent, before=before, source=source, show=show, user_data=user_data, fill=fill, contribute_to_bounds=contribute_to_bounds)
 
-def add_bar_series(x : List[float], y : List[float], *, label: str =None, id: int =0, parent: int =0, before: int =0, source: int =0, show: bool =True, user_data: Any =None, weight: float =1.0, horizontal: bool =False, contribute_to_bounds: bool =True) -> int:
+def add_bar_series(x : List[float], y : List[float], *, label: str =None, id: int =0, parent: int =0, before: int =0, source: int =0, show: bool =True, user_data: Any =None, weight: float =1.0, horizontal: bool =False) -> int:
 	"""
 	Adds a bar series to a plot.
 	Args:
@@ -2080,12 +2079,11 @@ def add_bar_series(x : List[float], y : List[float], *, label: str =None, id: in
 		**user_data (Any): User data for callbacks.
 		**weight (float): 
 		**horizontal (bool): 
-		**contribute_to_bounds (bool): 
 	Returns:
 		int
 	"""
 
-	return internal_dpg.add_bar_series(x, y, label=label, id=id, parent=parent, before=before, source=source, show=show, user_data=user_data, weight=weight, horizontal=horizontal, contribute_to_bounds=contribute_to_bounds)
+	return internal_dpg.add_bar_series(x, y, label=label, id=id, parent=parent, before=before, source=source, show=show, user_data=user_data, weight=weight, horizontal=horizontal)
 
 def add_bool_value(*, label: str =None, id: int =0, source: int =0, user_data: Any =None, default_value: bool =False, parent: int =internal_dpg.mvReservedUUID_3) -> int:
 	"""
@@ -2134,7 +2132,7 @@ def add_button(*, label: str =None, id: int =0, width: int =0, height: int =0, i
 
 	return internal_dpg.add_button(label=label, id=id, width=width, height=height, indent=indent, parent=parent, before=before, payload_type=payload_type, callback=callback, drag_callback=drag_callback, drop_callback=drop_callback, show=show, enabled=enabled, pos=pos, filter_key=filter_key, tracked=tracked, track_offset=track_offset, user_data=user_data, small=small, arrow=arrow, direction=direction)
 
-def add_candle_series(dates : List[float], opens : List[float], closes : List[float], lows : List[float], highs : List[float], *, label: str =None, id: int =0, parent: int =0, before: int =0, source: int =0, show: bool =True, user_data: Any =None, bull_color: List[int] =(0, 255, 113, 255), bear_color: List[int] =(218, 13, 79, 255), weight: int =0.25, contribute_to_bounds: bool =True, tooltip: bool =True) -> int:
+def add_candle_series(dates : List[float], opens : List[float], closes : List[float], lows : List[float], highs : List[float], *, label: str =None, id: int =0, parent: int =0, before: int =0, source: int =0, show: bool =True, user_data: Any =None, bull_color: List[int] =(0, 255, 113, 255), bear_color: List[int] =(218, 13, 79, 255), weight: int =0.25, tooltip: bool =True) -> int:
 	"""
 	Adds a candle series to a plot.
 	Args:
@@ -2153,13 +2151,12 @@ def add_candle_series(dates : List[float], opens : List[float], closes : List[fl
 		**bull_color (List[int]): 
 		**bear_color (List[int]): 
 		**weight (int): 
-		**contribute_to_bounds (bool): 
 		**tooltip (bool): 
 	Returns:
 		int
 	"""
 
-	return internal_dpg.add_candle_series(dates, opens, closes, lows, highs, label=label, id=id, parent=parent, before=before, source=source, show=show, user_data=user_data, bull_color=bull_color, bear_color=bear_color, weight=weight, contribute_to_bounds=contribute_to_bounds, tooltip=tooltip)
+	return internal_dpg.add_candle_series(dates, opens, closes, lows, highs, label=label, id=id, parent=parent, before=before, source=source, show=show, user_data=user_data, bull_color=bull_color, bear_color=bear_color, weight=weight, tooltip=tooltip)
 
 def add_char_remap(source : int, target : int, *, label: str =None, id: int =0, parent: int =0, user_data: Any =None) -> int:
 	"""
@@ -3304,7 +3301,7 @@ def add_image_button(texture_id : int, *, label: str =None, id: int =0, width: i
 
 	return internal_dpg.add_image_button(texture_id, label=label, id=id, width=width, height=height, indent=indent, parent=parent, before=before, source=source, payload_type=payload_type, callback=callback, drag_callback=drag_callback, drop_callback=drop_callback, show=show, enabled=enabled, pos=pos, filter_key=filter_key, tracked=tracked, track_offset=track_offset, user_data=user_data, frame_padding=frame_padding, tint_color=tint_color, background_color=background_color, uv_min=uv_min, uv_max=uv_max)
 
-def add_image_series(texture_id : int, bounds_min : List[float], bounds_max : List[float], *, label: str =None, id: int =0, parent: int =0, before: int =0, source: int =0, show: bool =True, user_data: Any =None, uv_min: List[float] =(0.0, 0.0), uv_max: List[float] =(1.0, 1.0), tint_color: List[int] =(255, 255, 255, 255), contribute_to_bounds: bool =True) -> int:
+def add_image_series(texture_id : int, bounds_min : List[float], bounds_max : List[float], *, label: str =None, id: int =0, parent: int =0, before: int =0, source: int =0, show: bool =True, user_data: Any =None, uv_min: List[float] =(0.0, 0.0), uv_max: List[float] =(1.0, 1.0), tint_color: List[int] =(255, 255, 255, 255)) -> int:
 	"""
 	Adds a image series to a plot.
 	Args:
@@ -3321,12 +3318,11 @@ def add_image_series(texture_id : int, bounds_min : List[float], bounds_max : Li
 		**uv_min (List[float]): normalized texture coordinates
 		**uv_max (List[float]): normalized texture coordinates
 		**tint_color (List[int]): 
-		**contribute_to_bounds (bool): 
 	Returns:
 		int
 	"""
 
-	return internal_dpg.add_image_series(texture_id, bounds_min, bounds_max, label=label, id=id, parent=parent, before=before, source=source, show=show, user_data=user_data, uv_min=uv_min, uv_max=uv_max, tint_color=tint_color, contribute_to_bounds=contribute_to_bounds)
+	return internal_dpg.add_image_series(texture_id, bounds_min, bounds_max, label=label, id=id, parent=parent, before=before, source=source, show=show, user_data=user_data, uv_min=uv_min, uv_max=uv_max, tint_color=tint_color)
 
 def add_input_float(*, label: str =None, id: int =0, width: int =0, indent: int =-1, parent: int =0, before: int =0, source: int =0, payload_type: str ='$$DPG_PAYLOAD', callback: Callable =None, drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, enabled: bool =True, pos: List[int] =[], filter_key: str ='', tracked: bool =False, track_offset: float =0.5, user_data: Any =None, default_value: float =0.0, format: str ='%.3f', min_value: float =0.0, max_value: float =100.0, step: float =0.1, step_fast: float =1.0, min_clamped: bool =False, max_clamped: bool =False, on_enter: bool =False, readonly: bool =False) -> int:
 	"""
@@ -3631,7 +3627,7 @@ def add_knob_float(*, label: str =None, id: int =0, width: int =0, height: int =
 
 	return internal_dpg.add_knob_float(label=label, id=id, width=width, height=height, indent=indent, parent=parent, before=before, source=source, payload_type=payload_type, callback=callback, drag_callback=drag_callback, drop_callback=drop_callback, show=show, pos=pos, filter_key=filter_key, tracked=tracked, track_offset=track_offset, user_data=user_data, default_value=default_value, min_value=min_value, max_value=max_value)
 
-def add_line_series(x : List[float], y : List[float], *, label: str =None, id: int =0, parent: int =0, before: int =0, source: int =0, show: bool =True, user_data: Any =None, contribute_to_bounds: bool =True) -> int:
+def add_line_series(x : List[float], y : List[float], *, label: str =None, id: int =0, parent: int =0, before: int =0, source: int =0, show: bool =True, user_data: Any =None) -> int:
 	"""
 	Adds a line series to a plot.
 	Args:
@@ -3644,12 +3640,11 @@ def add_line_series(x : List[float], y : List[float], *, label: str =None, id: i
 		**source (int): Overrides 'id' as value storage key.
 		**show (bool): Attempt to render widget.
 		**user_data (Any): User data for callbacks.
-		**contribute_to_bounds (bool): 
 	Returns:
 		int
 	"""
 
-	return internal_dpg.add_line_series(x, y, label=label, id=id, parent=parent, before=before, source=source, show=show, user_data=user_data, contribute_to_bounds=contribute_to_bounds)
+	return internal_dpg.add_line_series(x, y, label=label, id=id, parent=parent, before=before, source=source, show=show, user_data=user_data)
 
 def add_listbox(items : List[str] =(), *, label: str =None, id: int =0, width: int =0, indent: int =-1, parent: int =0, before: int =0, source: int =0, payload_type: str ='$$DPG_PAYLOAD', callback: Callable =None, drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, enabled: bool =True, pos: List[int] =[], filter_key: str ='', tracked: bool =False, track_offset: float =0.5, user_data: Any =None, default_value: str ='', num_items: int =3) -> int:
 	"""
@@ -3990,7 +3985,7 @@ def add_node_link(node_1 : int, node_2 : int, *, label: str =None, id: int =0, p
 
 	return internal_dpg.add_node_link(node_1, node_2, label=label, id=id, parent=parent, show=show, user_data=user_data)
 
-def add_pie_series(x : float, y : float, radius : float, values : List[float], labels : List[str], *, label: str =None, id: int =0, parent: int =0, before: int =0, source: int =0, show: bool =True, user_data: Any =None, format: str ='%0.2f', angle: float =90.0, normalize: bool =False, contribute_to_bounds: bool =True) -> int:
+def add_pie_series(x : float, y : float, radius : float, values : List[float], labels : List[str], *, label: str =None, id: int =0, parent: int =0, before: int =0, source: int =0, show: bool =True, user_data: Any =None, format: str ='%0.2f', angle: float =90.0, normalize: bool =False) -> int:
 	"""
 	Adds a pie series to a plot.
 	Args:
@@ -4009,12 +4004,11 @@ def add_pie_series(x : float, y : float, radius : float, values : List[float], l
 		**format (str): 
 		**angle (float): 
 		**normalize (bool): 
-		**contribute_to_bounds (bool): 
 	Returns:
 		int
 	"""
 
-	return internal_dpg.add_pie_series(x, y, radius, values, labels, label=label, id=id, parent=parent, before=before, source=source, show=show, user_data=user_data, format=format, angle=angle, normalize=normalize, contribute_to_bounds=contribute_to_bounds)
+	return internal_dpg.add_pie_series(x, y, radius, values, labels, label=label, id=id, parent=parent, before=before, source=source, show=show, user_data=user_data, format=format, angle=angle, normalize=normalize)
 
 def add_plot(*, label: str =None, id: int =0, width: int =0, height: int =0, indent: int =-1, parent: int =0, before: int =0, payload_type: str ='$$DPG_PAYLOAD', callback: Callable =None, drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, pos: List[int] =[], filter_key: str ='', delay_search: str =False, tracked: bool =False, track_offset: float =0.5, user_data: Any =None, no_title: bool =False, no_menus: bool =False, no_box_select: bool =False, no_mouse_pos: bool =False, no_highlight: bool =False, no_child: bool =False, query: bool =False, crosshairs: bool =False, anti_aliased: bool =False, equal_aspects: bool =False) -> int:
 	"""
@@ -4233,7 +4227,7 @@ def add_same_line(*, label: str =None, id: int =0, parent: int =0, before: int =
 
 	return internal_dpg.add_same_line(label=label, id=id, parent=parent, before=before, show=show, user_data=user_data, xoffset=xoffset, spacing=spacing)
 
-def add_scatter_series(x : List[float], y : List[float], *, label: str =None, id: int =0, parent: int =0, before: int =0, source: int =0, show: bool =True, user_data: Any =None, contribute_to_bounds: bool =True) -> int:
+def add_scatter_series(x : List[float], y : List[float], *, label: str =None, id: int =0, parent: int =0, before: int =0, source: int =0, show: bool =True, user_data: Any =None) -> int:
 	"""
 	Adds a scatter series to a plot.
 	Args:
@@ -4246,12 +4240,11 @@ def add_scatter_series(x : List[float], y : List[float], *, label: str =None, id
 		**source (int): Overrides 'id' as value storage key.
 		**show (bool): Attempt to render widget.
 		**user_data (Any): User data for callbacks.
-		**contribute_to_bounds (bool): 
 	Returns:
 		int
 	"""
 
-	return internal_dpg.add_scatter_series(x, y, label=label, id=id, parent=parent, before=before, source=source, show=show, user_data=user_data, contribute_to_bounds=contribute_to_bounds)
+	return internal_dpg.add_scatter_series(x, y, label=label, id=id, parent=parent, before=before, source=source, show=show, user_data=user_data)
 
 def add_selectable(*, label: str =None, id: int =0, width: int =0, height: int =0, indent: int =-1, parent: int =0, before: int =0, source: int =0, payload_type: str ='$$DPG_PAYLOAD', callback: Callable =None, drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, enabled: bool =True, pos: List[int] =[], filter_key: str ='', tracked: bool =False, track_offset: float =0.5, user_data: Any =None, default_value: bool =False, span_columns: bool =False) -> int:
 	"""
@@ -4318,7 +4311,7 @@ def add_series_value(*, label: str =None, id: int =0, source: int =0, user_data:
 
 	return internal_dpg.add_series_value(label=label, id=id, source=source, user_data=user_data, default_value=default_value, parent=parent)
 
-def add_shade_series(x : List[float], y1 : List[float], *, label: str =None, id: int =0, parent: int =0, before: int =0, source: int =0, show: bool =True, user_data: Any =None, y2: Any =[], contribute_to_bounds: bool =True) -> int:
+def add_shade_series(x : List[float], y1 : List[float], *, label: str =None, id: int =0, parent: int =0, before: int =0, source: int =0, show: bool =True, user_data: Any =None, y2: Any =[]) -> int:
 	"""
 	Adds a shade series to a plot.
 	Args:
@@ -4332,12 +4325,11 @@ def add_shade_series(x : List[float], y1 : List[float], *, label: str =None, id:
 		**show (bool): Attempt to render widget.
 		**user_data (Any): User data for callbacks.
 		**y2 (Any): 
-		**contribute_to_bounds (bool): 
 	Returns:
 		int
 	"""
 
-	return internal_dpg.add_shade_series(x, y1, label=label, id=id, parent=parent, before=before, source=source, show=show, user_data=user_data, y2=y2, contribute_to_bounds=contribute_to_bounds)
+	return internal_dpg.add_shade_series(x, y1, label=label, id=id, parent=parent, before=before, source=source, show=show, user_data=user_data, y2=y2)
 
 def add_simple_plot(*, label: str =None, id: int =0, width: int =0, height: int =0, indent: int =-1, parent: int =0, before: int =0, source: int =0, payload_type: str ='$$DPG_PAYLOAD', drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, filter_key: str ='', tracked: bool =False, track_offset: float =0.5, user_data: Any =None, default_value: List[float] =(), overlay: str ='', histogram: bool =False, autosize: bool =True, min_scale: float =0.0, max_scale: float =0.0) -> int:
 	"""
@@ -4545,7 +4537,7 @@ def add_staging_container(*, label: str =None, id: int =0, user_data: Any =None)
 
 	return internal_dpg.add_staging_container(label=label, id=id, user_data=user_data)
 
-def add_stair_series(x : List[float], y : List[float], *, label: str =None, id: int =0, parent: int =0, before: int =0, source: int =0, show: bool =True, user_data: Any =None, contribute_to_bounds: bool =True) -> int:
+def add_stair_series(x : List[float], y : List[float], *, label: str =None, id: int =0, parent: int =0, before: int =0, source: int =0, show: bool =True, user_data: Any =None) -> int:
 	"""
 	Adds a stair series to a plot.
 	Args:
@@ -4558,12 +4550,11 @@ def add_stair_series(x : List[float], y : List[float], *, label: str =None, id: 
 		**source (int): Overrides 'id' as value storage key.
 		**show (bool): Attempt to render widget.
 		**user_data (Any): User data for callbacks.
-		**contribute_to_bounds (bool): 
 	Returns:
 		int
 	"""
 
-	return internal_dpg.add_stair_series(x, y, label=label, id=id, parent=parent, before=before, source=source, show=show, user_data=user_data, contribute_to_bounds=contribute_to_bounds)
+	return internal_dpg.add_stair_series(x, y, label=label, id=id, parent=parent, before=before, source=source, show=show, user_data=user_data)
 
 def add_static_texture(width : int, height : int, default_value : List[float], *, label: str =None, id: int =0, user_data: Any =None, parent: int =internal_dpg.mvReservedUUID_2) -> int:
 	"""
@@ -4582,7 +4573,7 @@ def add_static_texture(width : int, height : int, default_value : List[float], *
 
 	return internal_dpg.add_static_texture(width, height, default_value, label=label, id=id, user_data=user_data, parent=parent)
 
-def add_stem_series(x : List[float], y : List[float], *, label: str =None, id: int =0, indent: int =-1, parent: int =0, before: int =0, source: int =0, show: bool =True, user_data: Any =None, contribute_to_bounds: bool =True) -> int:
+def add_stem_series(x : List[float], y : List[float], *, label: str =None, id: int =0, indent: int =-1, parent: int =0, before: int =0, source: int =0, show: bool =True, user_data: Any =None) -> int:
 	"""
 	Adds a stem series to a plot.
 	Args:
@@ -4596,12 +4587,11 @@ def add_stem_series(x : List[float], y : List[float], *, label: str =None, id: i
 		**source (int): Overrides 'id' as value storage key.
 		**show (bool): Attempt to render widget.
 		**user_data (Any): User data for callbacks.
-		**contribute_to_bounds (bool): 
 	Returns:
 		int
 	"""
 
-	return internal_dpg.add_stem_series(x, y, label=label, id=id, indent=indent, parent=parent, before=before, source=source, show=show, user_data=user_data, contribute_to_bounds=contribute_to_bounds)
+	return internal_dpg.add_stem_series(x, y, label=label, id=id, indent=indent, parent=parent, before=before, source=source, show=show, user_data=user_data)
 
 def add_string_value(*, label: str =None, id: int =0, source: int =0, user_data: Any =None, default_value: str ='', parent: int =internal_dpg.mvReservedUUID_3) -> int:
 	"""
@@ -4847,7 +4837,7 @@ def add_text(default_value : str ='', *, label: str =None, id: int =0, indent: i
 
 	return internal_dpg.add_text(default_value, label=label, id=id, indent=indent, parent=parent, before=before, source=source, show=show, pos=pos, filter_key=filter_key, tracked=tracked, track_offset=track_offset, user_data=user_data, wrap=wrap, bullet=bullet, color=color, show_label=show_label)
 
-def add_text_point(x : float, y : float, *, label: str =None, id: int =0, parent: int =0, before: int =0, source: int =0, show: bool =True, user_data: Any =None, x_offset: int =..., y_offset: int =..., contribute_to_bounds: bool =True, vertical: bool =False) -> int:
+def add_text_point(x : float, y : float, *, label: str =None, id: int =0, parent: int =0, before: int =0, source: int =0, show: bool =True, user_data: Any =None, x_offset: int =..., y_offset: int =..., vertical: bool =False) -> int:
 	"""
 	Adds a labels series to a plot.
 	Args:
@@ -4862,13 +4852,12 @@ def add_text_point(x : float, y : float, *, label: str =None, id: int =0, parent
 		**user_data (Any): User data for callbacks.
 		**x_offset (int): 
 		**y_offset (int): 
-		**contribute_to_bounds (bool): 
 		**vertical (bool): 
 	Returns:
 		int
 	"""
 
-	return internal_dpg.add_text_point(x, y, label=label, id=id, parent=parent, before=before, source=source, show=show, user_data=user_data, x_offset=x_offset, y_offset=y_offset, contribute_to_bounds=contribute_to_bounds, vertical=vertical)
+	return internal_dpg.add_text_point(x, y, label=label, id=id, parent=parent, before=before, source=source, show=show, user_data=user_data, x_offset=x_offset, y_offset=y_offset, vertical=vertical)
 
 def add_texture_registry(*, label: str =None, id: int =0, user_data: Any =None, show: bool =False) -> int:
 	"""
@@ -5066,7 +5055,7 @@ def add_visible_handler(parent : int, *, label: str =None, id: int =0, callback:
 
 	return internal_dpg.add_visible_handler(parent, label=label, id=id, callback=callback, user_data=user_data)
 
-def add_vline_series(x : List[float], *, label: str =None, id: int =0, parent: int =0, before: int =0, source: int =0, show: bool =True, user_data: Any =None, contribute_to_bounds: bool =True) -> int:
+def add_vline_series(x : List[float], *, label: str =None, id: int =0, parent: int =0, before: int =0, source: int =0, show: bool =True, user_data: Any =None) -> int:
 	"""
 	Adds a infinite vertical line series to a plot.
 	Args:
@@ -5078,12 +5067,11 @@ def add_vline_series(x : List[float], *, label: str =None, id: int =0, parent: i
 		**source (int): Overrides 'id' as value storage key.
 		**show (bool): Attempt to render widget.
 		**user_data (Any): User data for callbacks.
-		**contribute_to_bounds (bool): 
 	Returns:
 		int
 	"""
 
-	return internal_dpg.add_vline_series(x, label=label, id=id, parent=parent, before=before, source=source, show=show, user_data=user_data, contribute_to_bounds=contribute_to_bounds)
+	return internal_dpg.add_vline_series(x, label=label, id=id, parent=parent, before=before, source=source, show=show, user_data=user_data)
 
 def add_window(*, label: str =None, id: int =0, width: int =0, height: int =0, indent: int =-1, show: bool =True, pos: List[int] =[], delay_search: str =False, user_data: Any =None, min_size: List[int] =[100, 100], max_size: List[int] =[30000, 30000], menubar: bool =False, collapsed: bool =False, autosize: bool =False, no_resize: bool =False, no_title_bar: bool =False, no_move: bool =False, no_scrollbar: bool =False, no_collapse: bool =False, horizontal_scrollbar: bool =False, no_focus_on_appearing: bool =False, no_bring_to_front_on_focus: bool =False, no_close: bool =False, no_background: bool =False, modal: bool =False, popup: bool =False, on_close: Callable =None) -> int:
 	"""
@@ -5509,7 +5497,7 @@ def enable_docking(*, dock_space: bool =False) -> None:
 
 def fit_axis_data(axis : int) -> None:
 	"""
-	Undocumented function
+	Sets the axis boundries max and min in the data series currently on the plot.
 	Args:
 		axis (int): 
 	Returns:
@@ -5561,7 +5549,7 @@ def get_all_items() -> List[int]:
 
 def get_axis_limits(axis : int) -> List[float]:
 	"""
-	Undocumented function
+	Gets the specified axis limits.
 	Args:
 		axis (int): 
 	Returns:
@@ -5708,7 +5696,7 @@ def get_plot_mouse_pos() -> List[int]:
 
 def get_plot_query_area(plot : int) -> List[float]:
 	"""
-	Undocumented function
+	Returns the last/current query area of the plot. (Requires plot 'query' kwarg to be enabled)
 	Args:
 		plot (int): 
 	Returns:
@@ -5937,7 +5925,7 @@ def is_mouse_button_released(button : int) -> bool:
 
 def is_plot_queried(plot : int) -> bool:
 	"""
-	Undocumented function
+	Returns true if the plot is currently being queried. (Requires plot 'query' kwarg to be enabled)
 	Args:
 		plot (int): 
 	Returns:
@@ -6108,7 +6096,7 @@ def reorder_items(container : int, slot : int, new_order : List[int]) -> None:
 
 def reset_axis_ticks(axis : int) -> None:
 	"""
-	Undocumented function
+	Removes the and manually set axis ticks and applys the default auto axis ticks.
 	Args:
 		axis (int): 
 	Returns:
@@ -6130,7 +6118,7 @@ def reset_pos(item : int) -> None:
 
 def set_axis_limits(axis : int, ymin : float, ymax : float) -> None:
 	"""
-	Undocumented function
+	Sets limits on the axis for pan and zoom.
 	Args:
 		axis (int): 
 		ymin (float): 
@@ -6143,7 +6131,7 @@ def set_axis_limits(axis : int, ymin : float, ymax : float) -> None:
 
 def set_axis_limits_auto(axis : int) -> None:
 	"""
-	Undocumented function
+	Removes all limits on specified axis.
 	Args:
 		axis (int): 
 	Returns:
@@ -6154,10 +6142,10 @@ def set_axis_limits_auto(axis : int) -> None:
 
 def set_axis_ticks(axis : int, label_pairs : Any) -> None:
 	"""
-	Undocumented function
+	Replaces axis ticks with 'label_pairs' argument
 	Args:
 		axis (int): 
-		label_pairs (Any): 
+		label_pairs (Any): Tuples of label and value in the form '((label, axis_value), (label, axis_value), ...)'
 	Returns:
 		None
 	"""

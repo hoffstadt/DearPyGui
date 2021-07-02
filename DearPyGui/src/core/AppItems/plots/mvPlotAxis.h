@@ -53,7 +53,6 @@ namespace Marvel {
 		void getSpecificConfiguration(PyObject* dict) override;
 		void hide() override;
 		void show() override;
-		void updateBounds();
 		void setYTicks(const std::vector<std::string>& labels, const std::vector<double>& locations);
 		void resetYTicks();
 		void postDraw() override;

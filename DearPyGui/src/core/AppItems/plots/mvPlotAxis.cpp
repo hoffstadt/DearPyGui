@@ -269,42 +269,10 @@ namespace Marvel {
 
 	void mvPlotAxis::onChildAdd(mvRef<mvAppItem> item)
 	{
-		if (static_cast<mvSeriesBase*>(item.get())->doesSeriesContributeToBounds())
-		{
-			updateBounds();
-		}
 	}
 
 	void mvPlotAxis::onChildRemoved(mvRef<mvAppItem> item)
 	{
-
-	}
-
-	void mvPlotAxis::updateBounds()
-	{
-		bool first = true;
-		for (auto& series : m_children[1])
-		{
-			mvSeriesBase* child = static_cast<mvSeriesBase*>(series.get());
-			if (child->doesSeriesContributeToBounds())
-			{
-				const auto& y_maxMin = child->getMaxMin(1);
-
-				if (first && !m_setLimits)
-				{
-					m_limits.x = y_maxMin.second;
-					m_limits.y = y_maxMin.first;
-					first = false;
-				}
-				else if (!m_setLimits)
-				{
-					if (y_maxMin.second < m_limits.x) m_limits.x = y_maxMin.second;
-					if (y_maxMin.first > m_limits.y) m_limits.y = y_maxMin.first;
-				}
-			}
-		}
-
-		m_dirty = true;
 	}
 
 	void mvPlotAxis::resetYTicks()

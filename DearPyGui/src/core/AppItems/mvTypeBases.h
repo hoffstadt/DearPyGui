@@ -268,13 +268,6 @@ namespace Marvel {
 		PyObject* getPyValue() override;
 		void setPyValue(PyObject* value) override;
 
-		const std::pair<double, double>& getMaxMin(int i) const;
-		bool doesSeriesContributeToBounds() const { return m_contributeToBounds; }
-
-	protected:
-
-		void calculateMaxMins();
-		void resetMaxMins();
 
 	protected:
 
@@ -284,8 +277,6 @@ namespace Marvel {
 			std::vector<double>{},
 			std::vector<double>{},
 			std::vector<double>{} });
-		std::vector<std::pair<double, double>>   m_maxMins;
-		bool                                   m_contributeToBounds = false;
 	};
 
 }

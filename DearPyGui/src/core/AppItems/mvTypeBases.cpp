@@ -446,8 +446,6 @@ namespace Marvel {
 	void mvSeriesBase::setPyValue(PyObject* value)
 	{
 		*m_value = ToVectVectDouble(value);
-		resetMaxMins();
-		calculateMaxMins();
 	}
 
 	void mvSeriesBase::setDataSource(mvUUID dataSource)
@@ -469,46 +467,6 @@ namespace Marvel {
 			return;
 		}
 		m_value = std::get<std::shared_ptr<std::vector<std::vector<double>>>>(item->getValue());
-		resetMaxMins();
-		calculateMaxMins();
-	}
-
-	const std::pair<double, double>& mvSeriesBase::getMaxMin(int i) const
-	{
-		assert(i < m_maxMins.size());
-
-		return m_maxMins[i];
-	}
-
-	void mvSeriesBase::calculateMaxMins()
-	{
-
-		static const std::vector<double>* xptr;
-
-		for (auto& data : (*m_value.get()))
-		{
-			xptr = &data;
-			if (xptr->empty())
-			{
-				m_maxMins.emplace_back(0.0, 0.0);
-				continue;
-			}
-			double maxValue = (*xptr)[0];
-			double minValue = (*xptr)[0];
-
-			for (const auto& x : (*xptr))
-			{
-				if (x > maxValue) maxValue = x;
-				if (x < minValue) minValue = x;
-			}
-
-			m_maxMins.emplace_back(maxValue, minValue);
-		}
-	}
-
-	void mvSeriesBase::resetMaxMins()
-	{
-		m_maxMins.clear();
 	}
 
 	mvUUIDPtrBase::mvUUIDPtrBase(mvUUID uuid)
