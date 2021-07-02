@@ -65,14 +65,14 @@ namespace Marvel {
 		}
 
 		{
-			mvPythonParser parser(mvPyDataType::Bool, "Undocumented function", { "Plotting", "Widgets" });
+			mvPythonParser parser(mvPyDataType::Bool, "Returns true if the plot is currently being queried. (Requires plot 'query' kwarg to be enabled)", { "Plotting", "Widgets" });
 			parser.addArg<mvPyDataType::UUID>("plot");
 			parser.finalize();
 			parsers->insert({ "is_plot_queried", parser });
 		}
 
 		{
-			mvPythonParser parser(mvPyDataType::FloatList, "Undocumented function", { "Plotting", "Widgets" });
+			mvPythonParser parser(mvPyDataType::FloatList, "Returns the last/current query area of the plot. (Requires plot 'query' kwarg to be enabled)", { "Plotting", "Widgets" });
 			parser.addArg<mvPyDataType::UUID>("plot");
 			parser.finalize();
 			parsers->insert({ "get_plot_query_area", parser });

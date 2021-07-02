@@ -40,14 +40,14 @@ namespace Marvel {
 		}
 
 		{
-			mvPythonParser parser(mvPyDataType::FloatList, "Undocumented function", { "Plotting", "Widgets" });
+			mvPythonParser parser(mvPyDataType::FloatList, "Gets the specified axis limits.", { "Plotting", "Widgets" });
 			parser.addArg<mvPyDataType::UUID>("axis");
 			parser.finalize();
 			parsers->insert({ "get_axis_limits", parser });
 		}
 
 		{
-			mvPythonParser parser(mvPyDataType::None, "Undocumented function", { "Plotting", "Widgets" });
+			mvPythonParser parser(mvPyDataType::None, "Sets limits on the axis for pan and zoom.", { "Plotting", "Widgets" });
 			parser.addArg<mvPyDataType::UUID>("axis");
 			parser.addArg<mvPyDataType::Float>("ymin");
 			parser.addArg<mvPyDataType::Float>("ymax");
@@ -56,30 +56,30 @@ namespace Marvel {
 		}
 
 		{
-			mvPythonParser parser(mvPyDataType::None, "Undocumented function", { "Plotting", "Widgets" });
+			mvPythonParser parser(mvPyDataType::None, "Removes all limits on specified axis.", { "Plotting", "Widgets" });
 			parser.addArg<mvPyDataType::UUID>("axis");
 			parser.finalize();
 			parsers->insert({ "set_axis_limits_auto", parser });
 		}
 
 		{
-			mvPythonParser parser(mvPyDataType::None, "Undocumented function", { "Plotting", "Widgets" });
+			mvPythonParser parser(mvPyDataType::None, "Sets the axis boundries max and min in the data series currently on the plot.", { "Plotting", "Widgets" });
 			parser.addArg<mvPyDataType::UUID>("axis");
 			parser.finalize();
 			parsers->insert({ "fit_axis_data", parser });
 		}
 
 		{
-			mvPythonParser parser(mvPyDataType::None, "Undocumented function", { "Plotting", "Widgets" });
+			mvPythonParser parser(mvPyDataType::None, "Removes the and manually set axis ticks and applys the default auto axis ticks.", { "Plotting", "Widgets" });
 			parser.addArg<mvPyDataType::UUID>("axis");
 			parser.finalize();
 			parsers->insert({ "reset_axis_ticks", parser });
 		}
 
 		{
-			mvPythonParser parser(mvPyDataType::None, "Undocumented function", { "Plotting", "Widgets" });
+			mvPythonParser parser(mvPyDataType::None, "Replaces axis ticks with 'label_pairs' argument", { "Plotting", "Widgets" });
 			parser.addArg<mvPyDataType::UUID>("axis");
-			parser.addArg<mvPyDataType::Object>("label_pairs");
+			parser.addArg<mvPyDataType::Object>("label_pairs", mvArgType::REQUIRED_ARG, "...", "Tuples of label and value in the form '((label, axis_value), (label, axis_value), ...)'");
 			parser.finalize();
 			parsers->insert({ "set_axis_ticks", parser });
 		}
