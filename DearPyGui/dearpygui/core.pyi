@@ -682,6 +682,10 @@ def get_file_dialog_info(file_dialog : int) -> dict:
 	"""Undocumented function"""
 	...
 
+def get_frame_count() -> int:
+	"""Get frame count."""
+	...
+
 def get_global_font_scale() -> float:
 	"""Undocumented function"""
 	...
@@ -964,6 +968,10 @@ def show_tool(tool : int) -> str:
 
 def show_viewport(viewport : str, *, minimized: bool =False, maximized: bool =False) -> None:
 	"""Shows the viewport"""
+	...
+
+def split_frame(*, delay: int =32) -> None:
+	"""Waits one frame."""
 	...
 
 def stage_items(items : List[int]) -> None:

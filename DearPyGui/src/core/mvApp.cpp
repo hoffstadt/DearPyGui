@@ -20,6 +20,7 @@
 #include "mvEventMacros.h"
 #include "mvToolManager.h"
 #include <imnodes.h>
+#include <thread>
 #include <stb_image.h>
 #include "mvBuffer.h"
 
@@ -28,7 +29,9 @@ namespace Marvel {
 	mvApp* mvApp::s_instance = nullptr;
 	std::atomic_bool mvApp::s_started = false;
 	std::atomic_bool mvApp::s_manualMutexControl = false;
+	std::atomic_bool mvApp::s_waitOneFrame = false;
 	float mvApp::s_deltaTime = 0.0f;
+	int mvApp::s_frame = 0;
 	double mvApp::s_time = 0.0;
 	std::mutex mvApp::s_mutex = {};
 	mvUUID mvApp::s_id = MV_START_UUID;
@@ -201,6 +204,8 @@ namespace Marvel {
 		// update timing
 		s_deltaTime = ImGui::GetIO().DeltaTime;
 		s_time = ImGui::GetTime();
+		s_frame = ImGui::GetFrameCount();
+
 		ImGui::GetIO().FontGlobalScale = mvToolManager::GetFontManager().getGlobalFontScale();
 
 		if (m_dockingViewport)
@@ -215,12 +220,16 @@ namespace Marvel {
 
 		mvToolManager::Draw();
 
-        std::lock_guard<std::mutex> lk(s_mutex);
-		mvEventBus::Publish(mvEVT_CATEGORY_APP, mvEVT_PRE_RENDER);
-		mvEventBus::Publish(mvEVT_CATEGORY_APP, mvEVT_PRE_RENDER_RESET);
-		mvEventBus::Publish(mvEVT_CATEGORY_APP, mvEVT_RENDER);
-		mvEventBus::Publish(mvEVT_CATEGORY_APP, mvEVT_END_FRAME);
+		{
+			std::lock_guard<std::mutex> lk(s_mutex);
+			mvEventBus::Publish(mvEVT_CATEGORY_APP, mvEVT_PRE_RENDER);
+			mvEventBus::Publish(mvEVT_CATEGORY_APP, mvEVT_PRE_RENDER_RESET);
+			mvEventBus::Publish(mvEVT_CATEGORY_APP, mvEVT_RENDER);
+			mvEventBus::Publish(mvEVT_CATEGORY_APP, mvEVT_END_FRAME);
+		}
 
+		if (s_waitOneFrame == true)
+			s_waitOneFrame = false;
 	}
 
 	std::map<std::string, mvPythonParser>& mvApp::getParsers()
@@ -250,6 +259,19 @@ namespace Marvel {
 		//	parser.finalize();
 		//	parsers->insert({ "load_init_file", parser });
 		//}
+
+		{
+			mvPythonParser parser(mvPyDataType::None, "Waits one frame.", { "General" });
+			parser.addArg<mvPyDataType::Integer>("delay", mvArgType::KEYWORD_ARG, "32", "Minimal delay in in milliseconds");
+			parser.finalize();
+			parsers->insert({ "split_frame", parser });
+		}
+
+		{
+			mvPythonParser parser(mvPyDataType::Integer, "Get frame count.", { "General"});
+			parser.finalize();
+			parsers->insert({ "get_frame_count", parser });
+		}
 
 		{
 			mvPythonParser parser(mvPyDataType::Object, "Loads an image. Returns width, height, channels, mvBuffer", { "Textures", "Widgets" });
@@ -347,6 +369,24 @@ namespace Marvel {
 		return GetPyNone();
 	}
 
+	PyObject* mvApp::split_frame(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		int delay = 32;
+
+		if (!(mvApp::GetApp()->getParsers())["split_frame"].parse(args, kwargs, __FUNCTION__,
+			&delay))
+			return GetPyNone();
+
+		if (!mvApp::s_manualMutexControl) std::lock_guard<std::mutex> lk(mvApp::s_mutex);
+		Py_BEGIN_ALLOW_THREADS;
+		mvApp::s_waitOneFrame = true;
+		while (s_waitOneFrame)
+			std::this_thread::sleep_for(std::chrono::milliseconds(delay));
+		Py_END_ALLOW_THREADS;
+
+		return GetPyNone();
+	}
+
 	PyObject* mvApp::lock_mutex(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		mvApp::s_mutex.lock();
@@ -361,6 +401,18 @@ namespace Marvel {
 		mvApp::s_manualMutexControl = false;
 
 		return GetPyNone();
+	}
+
+	PyObject* mvApp::get_frame_count(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		int frame = 0;
+
+		if (!(mvApp::GetApp()->getParsers())["get_frame_count"].parse(args, kwargs, __FUNCTION__,
+			&frame))
+			return GetPyNone();
+
+		if (!mvApp::s_manualMutexControl) std::lock_guard<std::mutex> lk(mvApp::s_mutex);
+		return ToPyInt(mvApp::s_frame);
 	}
 
 	PyObject* mvApp::enable_docking(PyObject* self, PyObject* args, PyObject* kwargs)

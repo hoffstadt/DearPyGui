@@ -5611,6 +5611,16 @@ def get_file_dialog_info(file_dialog : int) -> dict:
 
 	return internal_dpg.get_file_dialog_info(file_dialog)
 
+def get_frame_count() -> int:
+	"""
+	Get frame count.
+	Args:
+	Returns:
+		int
+	"""
+
+	return internal_dpg.get_frame_count()
+
 def get_global_font_scale() -> float:
 	"""
 	Undocumented function
@@ -6394,6 +6404,17 @@ def show_viewport(viewport : str, *, minimized: bool =False, maximized: bool =Fa
 	"""
 
 	return internal_dpg.show_viewport(viewport, minimized=minimized, maximized=maximized)
+
+def split_frame(*, delay: int =32) -> None:
+	"""
+	Waits one frame.
+	Args:
+		**delay (int): Minimal delay in in milliseconds
+	Returns:
+		None
+	"""
+
+	return internal_dpg.split_frame(delay=delay)
 
 def stage_items(items : List[int]) -> None:
 	"""
