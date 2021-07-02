@@ -136,7 +136,6 @@ namespace Marvel {
 	mvAreaSeries::mvAreaSeries(mvUUID uuid)
 		: mvSeriesBase(uuid)
 	{
-		m_contributeToBounds = true;
 	}
 
 	bool mvAreaSeries::isParentCompatible(mvAppItemType type)
@@ -263,9 +262,6 @@ namespace Marvel {
 				break;
 			}
 		}
-
-		resetMaxMins();
-		calculateMaxMins();
 	}
 
 	void mvAreaSeries::handleSpecificKeywordArgs(PyObject* dict)
@@ -273,18 +269,10 @@ namespace Marvel {
 		if (dict == nullptr)
 			return;
 
-		if (PyObject* item = PyDict_GetItemString(dict, "contribute_to_bounds")) m_contributeToBounds = ToBool(item);
 		if (PyObject* item = PyDict_GetItemString(dict, "fill")) m_fill = ToColor(item);
 
-		bool valueChanged = false;
-		if (PyObject* item = PyDict_GetItemString(dict, "x")) { valueChanged = true; (*m_value)[0] = ToDoubleVect(item); }
-		if (PyObject* item = PyDict_GetItemString(dict, "y")) { valueChanged = true; (*m_value)[1] = ToDoubleVect(item); }
-
-		if (valueChanged)
-		{
-			resetMaxMins();
-			calculateMaxMins();
-		}
+		if (PyObject* item = PyDict_GetItemString(dict, "x")) { (*m_value)[0] = ToDoubleVect(item); }
+		if (PyObject* item = PyDict_GetItemString(dict, "y")) { (*m_value)[1] = ToDoubleVect(item); }
 
 	}
 
@@ -293,7 +281,6 @@ namespace Marvel {
 		if (dict == nullptr)
 			return;
 
-		PyDict_SetItemString(dict, "contribute_to_bounds", ToPyBool(m_contributeToBounds));
 		PyDict_SetItemString(dict, "fill", ToPyColor(m_fill));
 
 	}

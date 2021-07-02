@@ -6,7 +6,7 @@ from dearpygui.core import *
 ##########################################################
 
 # ~ Dear PyGui Version: master
-def add_2d_histogram_series(x : List[float], y : List[float], *, label: str =None, id: int =0, parent: int =0, before: int =0, source: int =0, show: bool =True, user_data: Any =None, xbins: int =-1, ybins: int =-1, xmin_range: float =0.0, xmax_range: float =1.0, ymin_range: float =0.0, ymax_range: float =1.0, density: bool =False, outliers: bool =True, contribute_to_bounds: bool =True) -> int:
+def add_2d_histogram_series(x : List[float], y : List[float], *, label: str =None, id: int =0, parent: int =0, before: int =0, source: int =0, show: bool =True, user_data: Any =None, xbins: int =-1, ybins: int =-1, xmin_range: float =0.0, xmax_range: float =1.0, ymin_range: float =0.0, ymax_range: float =1.0, density: bool =False, outliers: bool =True) -> int:
 	"""Undocumented function"""
 	...
 
@@ -26,7 +26,7 @@ def add_area_series(x : List[float], y : List[float], *, label: str =None, id: i
 	"""Adds an area series to a plot."""
 	...
 
-def add_bar_series(x : List[float], y : List[float], *, label: str =None, id: int =0, parent: int =0, before: int =0, source: int =0, show: bool =True, user_data: Any =None, weight: float =1.0, horizontal: bool =False, contribute_to_bounds: bool =True) -> int:
+def add_bar_series(x : List[float], y : List[float], *, label: str =None, id: int =0, parent: int =0, before: int =0, source: int =0, show: bool =True, user_data: Any =None, weight: float =1.0, horizontal: bool =False) -> int:
 	"""Adds a bar series to a plot."""
 	...
 
@@ -38,7 +38,7 @@ def add_button(*, label: str =None, id: int =0, width: int =0, height: int =0, i
 	"""Adds a button."""
 	...
 
-def add_candle_series(dates : List[float], opens : List[float], closes : List[float], lows : List[float], highs : List[float], *, label: str =None, id: int =0, parent: int =0, before: int =0, source: int =0, show: bool =True, user_data: Any =None, bull_color: List[int] =(0, 255, 113, 255), bear_color: List[int] =(218, 13, 79, 255), weight: int =0.25, contribute_to_bounds: bool =True, tooltip: bool =True) -> int:
+def add_candle_series(dates : List[float], opens : List[float], closes : List[float], lows : List[float], highs : List[float], *, label: str =None, id: int =0, parent: int =0, before: int =0, source: int =0, show: bool =True, user_data: Any =None, bull_color: List[int] =(0, 255, 113, 255), bear_color: List[int] =(218, 13, 79, 255), weight: int =0.25, tooltip: bool =True) -> int:
 	"""Adds a candle series to a plot."""
 	...
 
@@ -242,7 +242,7 @@ def add_image_button(texture_id : int, *, label: str =None, id: int =0, width: i
 	"""Adds an button with a texture. uv_min and uv_max represent the normalized texture coordinates of the original image that will be shown. Using range (0.0,0.0)->(1.0,1.0) texture coordinates will generally display the entire texture"""
 	...
 
-def add_image_series(texture_id : int, bounds_min : List[float], bounds_max : List[float], *, label: str =None, id: int =0, parent: int =0, before: int =0, source: int =0, show: bool =True, user_data: Any =None, uv_min: List[float] =(0.0, 0.0), uv_max: List[float] =(1.0, 1.0), tint_color: List[int] =(255, 255, 255, 255), contribute_to_bounds: bool =True) -> int:
+def add_image_series(texture_id : int, bounds_min : List[float], bounds_max : List[float], *, label: str =None, id: int =0, parent: int =0, before: int =0, source: int =0, show: bool =True, user_data: Any =None, uv_min: List[float] =(0.0, 0.0), uv_max: List[float] =(1.0, 1.0), tint_color: List[int] =(255, 255, 255, 255)) -> int:
 	"""Adds a image series to a plot."""
 	...
 
@@ -290,7 +290,7 @@ def add_knob_float(*, label: str =None, id: int =0, width: int =0, height: int =
 	"""Adds a knob that rotates based of change in x mouse position."""
 	...
 
-def add_line_series(x : List[float], y : List[float], *, label: str =None, id: int =0, parent: int =0, before: int =0, source: int =0, show: bool =True, user_data: Any =None, contribute_to_bounds: bool =True) -> int:
+def add_line_series(x : List[float], y : List[float], *, label: str =None, id: int =0, parent: int =0, before: int =0, source: int =0, show: bool =True, user_data: Any =None) -> int:
 	"""Adds a line series to a plot."""
 	...
 
@@ -358,7 +358,7 @@ def add_node_link(node_1 : int, node_2 : int, *, label: str =None, id: int =0, p
 	"""Adds a node link between nodes."""
 	...
 
-def add_pie_series(x : float, y : float, radius : float, values : List[float], labels : List[str], *, label: str =None, id: int =0, parent: int =0, before: int =0, source: int =0, show: bool =True, user_data: Any =None, format: str ='%0.2f', angle: float =90.0, normalize: bool =False, contribute_to_bounds: bool =True) -> int:
+def add_pie_series(x : float, y : float, radius : float, values : List[float], labels : List[str], *, label: str =None, id: int =0, parent: int =0, before: int =0, source: int =0, show: bool =True, user_data: Any =None, format: str ='%0.2f', angle: float =90.0, normalize: bool =False) -> int:
 	"""Adds a pie series to a plot."""
 	...
 
@@ -398,7 +398,7 @@ def add_same_line(*, label: str =None, id: int =0, parent: int =0, before: int =
 	"""Places a widget on the same line as the previous widget. Can also be used for horizontal spacing."""
 	...
 
-def add_scatter_series(x : List[float], y : List[float], *, label: str =None, id: int =0, parent: int =0, before: int =0, source: int =0, show: bool =True, user_data: Any =None, contribute_to_bounds: bool =True) -> int:
+def add_scatter_series(x : List[float], y : List[float], *, label: str =None, id: int =0, parent: int =0, before: int =0, source: int =0, show: bool =True, user_data: Any =None) -> int:
 	"""Adds a scatter series to a plot."""
 	...
 
@@ -414,7 +414,7 @@ def add_series_value(*, label: str =None, id: int =0, source: int =0, user_data:
 	"""Undocumented"""
 	...
 
-def add_shade_series(x : List[float], y1 : List[float], *, label: str =None, id: int =0, parent: int =0, before: int =0, source: int =0, show: bool =True, user_data: Any =None, y2: Any =[], contribute_to_bounds: bool =True) -> int:
+def add_shade_series(x : List[float], y1 : List[float], *, label: str =None, id: int =0, parent: int =0, before: int =0, source: int =0, show: bool =True, user_data: Any =None, y2: Any =[]) -> int:
 	"""Adds a shade series to a plot."""
 	...
 
@@ -446,7 +446,7 @@ def add_staging_container(*, label: str =None, id: int =0, user_data: Any =None)
 	"""Undocumented function"""
 	...
 
-def add_stair_series(x : List[float], y : List[float], *, label: str =None, id: int =0, parent: int =0, before: int =0, source: int =0, show: bool =True, user_data: Any =None, contribute_to_bounds: bool =True) -> int:
+def add_stair_series(x : List[float], y : List[float], *, label: str =None, id: int =0, parent: int =0, before: int =0, source: int =0, show: bool =True, user_data: Any =None) -> int:
 	"""Adds a stair series to a plot."""
 	...
 
@@ -454,7 +454,7 @@ def add_static_texture(width : int, height : int, default_value : List[float], *
 	"""Undocumented function"""
 	...
 
-def add_stem_series(x : List[float], y : List[float], *, label: str =None, id: int =0, indent: int =-1, parent: int =0, before: int =0, source: int =0, show: bool =True, user_data: Any =None, contribute_to_bounds: bool =True) -> int:
+def add_stem_series(x : List[float], y : List[float], *, label: str =None, id: int =0, indent: int =-1, parent: int =0, before: int =0, source: int =0, show: bool =True, user_data: Any =None) -> int:
 	"""Adds a stem series to a plot."""
 	...
 
@@ -494,7 +494,7 @@ def add_text(default_value : str ='', *, label: str =None, id: int =0, indent: i
 	"""Adds text. Text can have an optional label that will display to the right of the text."""
 	...
 
-def add_text_point(x : float, y : float, *, label: str =None, id: int =0, parent: int =0, before: int =0, source: int =0, show: bool =True, user_data: Any =None, x_offset: int =..., y_offset: int =..., contribute_to_bounds: bool =True, vertical: bool =False) -> int:
+def add_text_point(x : float, y : float, *, label: str =None, id: int =0, parent: int =0, before: int =0, source: int =0, show: bool =True, user_data: Any =None, x_offset: int =..., y_offset: int =..., vertical: bool =False) -> int:
 	"""Adds a labels series to a plot."""
 	...
 
@@ -542,7 +542,7 @@ def add_visible_handler(parent : int, *, label: str =None, id: int =0, callback:
 	"""Adds a handler which runs a given callback when the specified item is visible."""
 	...
 
-def add_vline_series(x : List[float], *, label: str =None, id: int =0, parent: int =0, before: int =0, source: int =0, show: bool =True, user_data: Any =None, contribute_to_bounds: bool =True) -> int:
+def add_vline_series(x : List[float], *, label: str =None, id: int =0, parent: int =0, before: int =0, source: int =0, show: bool =True, user_data: Any =None) -> int:
 	"""Adds a infinite vertical line series to a plot."""
 	...
 
@@ -643,7 +643,7 @@ def enable_docking(*, dock_space: bool =False) -> None:
 	...
 
 def fit_axis_data(axis : int) -> None:
-	"""Undocumented function"""
+	"""Sets the axis boundries max and min in the data series currently on the plot."""
 	...
 
 def focus_item(item : int) -> None:
@@ -663,7 +663,7 @@ def get_all_items() -> List[int]:
 	...
 
 def get_axis_limits(axis : int) -> List[float]:
-	"""Undocumented function"""
+	"""Gets the specified axis limits."""
 	...
 
 def get_dearpygui_version() -> str:
@@ -723,7 +723,7 @@ def get_plot_mouse_pos() -> List[int]:
 	...
 
 def get_plot_query_area(plot : int) -> List[float]:
-	"""Undocumented function"""
+	"""Returns the last/current query area of the plot. (Requires plot 'query' kwarg to be enabled)"""
 	...
 
 def get_selected_links(node_editor : int) -> List[List[str]]:
@@ -807,7 +807,7 @@ def is_mouse_button_released(button : int) -> bool:
 	...
 
 def is_plot_queried(plot : int) -> bool:
-	"""Undocumented function"""
+	"""Returns true if the plot is currently being queried. (Requires plot 'query' kwarg to be enabled)"""
 	...
 
 def is_viewport_created() -> bool:
@@ -871,7 +871,7 @@ def reorder_items(container : int, slot : int, new_order : List[int]) -> None:
 	...
 
 def reset_axis_ticks(axis : int) -> None:
-	"""Undocumented function"""
+	"""Removes the and manually set axis ticks and applys the default auto axis ticks."""
 	...
 
 def reset_pos(item : int) -> None:
@@ -879,15 +879,15 @@ def reset_pos(item : int) -> None:
 	...
 
 def set_axis_limits(axis : int, ymin : float, ymax : float) -> None:
-	"""Undocumented function"""
+	"""Sets limits on the axis for pan and zoom."""
 	...
 
 def set_axis_limits_auto(axis : int) -> None:
-	"""Undocumented function"""
+	"""Removes all limits on specified axis."""
 	...
 
 def set_axis_ticks(axis : int, label_pairs : Any) -> None:
-	"""Undocumented function"""
+	"""Replaces axis ticks with 'label_pairs' argument"""
 	...
 
 def set_exit_callback(callback : Callable) -> str:

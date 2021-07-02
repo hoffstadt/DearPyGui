@@ -28,7 +28,6 @@ namespace Marvel {
 		parser.addArg<mvPyDataType::Float>("weight", mvArgType::KEYWORD_ARG, "1.0");
 
 		parser.addArg<mvPyDataType::Bool>("horizontal", mvArgType::KEYWORD_ARG, "False");
-		parser.addArg<mvPyDataType::Bool>("contribute_to_bounds", mvArgType::KEYWORD_ARG, "True");
 
 		parser.finalize();
 
@@ -38,7 +37,6 @@ namespace Marvel {
 	mvBarSeries::mvBarSeries(mvUUID uuid)
 		: mvSeriesBase(uuid)
 	{
-		m_contributeToBounds = true;
 	}
 
 	bool mvBarSeries::isParentCompatible(mvAppItemType type)
@@ -162,9 +160,6 @@ namespace Marvel {
 				break;
 			}
 		}
-
-		resetMaxMins();
-		calculateMaxMins();
 	}
 
 	void mvBarSeries::handleSpecificKeywordArgs(PyObject* dict)
@@ -172,19 +167,11 @@ namespace Marvel {
 		if (dict == nullptr)
 			return;
 
-		if (PyObject* item = PyDict_GetItemString(dict, "contribute_to_bounds")) m_contributeToBounds = ToBool(item);
 		if (PyObject* item = PyDict_GetItemString(dict, "horizontal")) m_horizontal= ToBool(item);
 		if (PyObject* item = PyDict_GetItemString(dict, "weight")) m_weight= ToFloat(item);
 
-		bool valueChanged = false;
-		if (PyObject* item = PyDict_GetItemString(dict, "x")) { valueChanged = true; (*m_value)[0] = ToDoubleVect(item); }
-		if (PyObject* item = PyDict_GetItemString(dict, "y")) { valueChanged = true; (*m_value)[1] = ToDoubleVect(item); }
-
-		if (valueChanged)
-		{
-			resetMaxMins();
-			calculateMaxMins();
-		}
+		if (PyObject* item = PyDict_GetItemString(dict, "x")) { (*m_value)[0] = ToDoubleVect(item); }
+		if (PyObject* item = PyDict_GetItemString(dict, "y")) { (*m_value)[1] = ToDoubleVect(item); }
 
 	}
 
@@ -193,7 +180,6 @@ namespace Marvel {
 		if (dict == nullptr)
 			return;
 
-		PyDict_SetItemString(dict, "contribute_to_bounds", ToPyBool(m_contributeToBounds));
 		PyDict_SetItemString(dict, "horizontal", ToPyBool(m_horizontal));
 		PyDict_SetItemString(dict, "weight", ToPyFloat(m_weight));
 	}

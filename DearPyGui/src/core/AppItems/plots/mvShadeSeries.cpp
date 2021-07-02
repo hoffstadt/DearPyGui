@@ -27,8 +27,6 @@ namespace Marvel {
 
 		parser.addArg<mvPyDataType::DoubleList>("y2", mvArgType::KEYWORD_ARG, "[]");
 
-		parser.addArg<mvPyDataType::Bool>("contribute_to_bounds", mvArgType::KEYWORD_ARG, "True");
-
 		parser.finalize();
 
 		parsers->insert({ s_command, parser });
@@ -37,7 +35,6 @@ namespace Marvel {
 	mvShadeSeries::mvShadeSeries(mvUUID uuid)
 		: mvSeriesBase(uuid)
 	{
-		m_contributeToBounds = true;
 	}
 
 	bool mvShadeSeries::isParentCompatible(mvAppItemType type)
@@ -166,17 +163,12 @@ namespace Marvel {
 
 		for (auto& item : (*m_value)[2])
 			item = 0.0;
-
-		resetMaxMins();
-		calculateMaxMins();
 	}
 
 	void mvShadeSeries::handleSpecificKeywordArgs(PyObject* dict)
 	{
 		if (dict == nullptr)
 			return;
-
-		if (PyObject* item = PyDict_GetItemString(dict, "contribute_to_bounds")) m_contributeToBounds = ToBool(item);
 
 		bool valueChanged = false;
 		if (PyObject* item = PyDict_GetItemString(dict, "x")) { valueChanged = true; (*m_value)[0] = ToDoubleVect(item); }
@@ -191,8 +183,6 @@ namespace Marvel {
 				for (auto& item : (*m_value)[1])
 					(*m_value)[2].push_back(0.0);
 			}
-			resetMaxMins();
-			calculateMaxMins();
 		}
 	}
 
@@ -200,8 +190,6 @@ namespace Marvel {
 	{
 		if (dict == nullptr)
 			return;
-
-		PyDict_SetItemString(dict, "contribute_to_bounds", ToPyBool(m_contributeToBounds));
 	}
 
 }

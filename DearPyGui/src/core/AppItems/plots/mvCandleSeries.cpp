@@ -108,7 +108,6 @@ namespace Marvel {
 
 		parser.addArg<mvPyDataType::Integer>("weight", mvArgType::KEYWORD_ARG, "0.25");
 
-		parser.addArg<mvPyDataType::Bool>("contribute_to_bounds", mvArgType::KEYWORD_ARG, "True");
 		parser.addArg<mvPyDataType::Bool>("tooltip", mvArgType::KEYWORD_ARG, "True");
 
 		parser.finalize();
@@ -119,7 +118,6 @@ namespace Marvel {
 	mvCandleSeries::mvCandleSeries(mvUUID uuid)
 		: mvSeriesBase(uuid)
 	{
-		m_contributeToBounds = true;
 	}
 
 	bool mvCandleSeries::isParentCompatible(mvAppItemType type)
@@ -261,9 +259,6 @@ namespace Marvel {
 				break;
 			}
 		}
-
-		resetMaxMins();
-		calculateMaxMins();
 	}
 
 	void mvCandleSeries::handleSpecificKeywordArgs(PyObject* dict)
@@ -271,24 +266,16 @@ namespace Marvel {
 		if (dict == nullptr)
 			return;
 
-		if (PyObject* item = PyDict_GetItemString(dict, "contribute_to_bounds")) m_contributeToBounds = ToBool(item);
 		if (PyObject* item = PyDict_GetItemString(dict, "bull_color")) m_bullColor = ToColor(item);
 		if (PyObject* item = PyDict_GetItemString(dict, "bear_color")) m_bearColor = ToColor(item);
 		if (PyObject* item = PyDict_GetItemString(dict, "weight")) m_weight = ToFloat(item);
 		if (PyObject* item = PyDict_GetItemString(dict, "tooltip")) m_tooltip = ToBool(item);
 
-		bool valueChanged = false;
-		if (PyObject* item = PyDict_GetItemString(dict, "dates")) { valueChanged = true; (*m_value)[0] = ToDoubleVect(item); }
-		if (PyObject* item = PyDict_GetItemString(dict, "opens")) { valueChanged = true; (*m_value)[1] = ToDoubleVect(item); }
-		if (PyObject* item = PyDict_GetItemString(dict, "closes")) { valueChanged = true; (*m_value)[2] = ToDoubleVect(item); }
-		if (PyObject* item = PyDict_GetItemString(dict, "lows")) { valueChanged = true; (*m_value)[3] = ToDoubleVect(item); }
-		if (PyObject* item = PyDict_GetItemString(dict, "highs")) { valueChanged = true; (*m_value)[4] = ToDoubleVect(item); }
-
-		if (valueChanged)
-		{
-			resetMaxMins();
-			calculateMaxMins();
-		}
+		if (PyObject* item = PyDict_GetItemString(dict, "dates")) { (*m_value)[0] = ToDoubleVect(item); }
+		if (PyObject* item = PyDict_GetItemString(dict, "opens")) { (*m_value)[1] = ToDoubleVect(item); }
+		if (PyObject* item = PyDict_GetItemString(dict, "closes")) { (*m_value)[2] = ToDoubleVect(item); }
+		if (PyObject* item = PyDict_GetItemString(dict, "lows")) { (*m_value)[3] = ToDoubleVect(item); }
+		if (PyObject* item = PyDict_GetItemString(dict, "highs")) { (*m_value)[4] = ToDoubleVect(item); }
 
 	}
 
@@ -297,7 +284,6 @@ namespace Marvel {
 		if (dict == nullptr)
 			return;
 
-		PyDict_SetItemString(dict, "contribute_to_bounds", ToPyBool(m_contributeToBounds));
 		PyDict_SetItemString(dict, "bull_color", ToPyColor(m_bullColor));
 		PyDict_SetItemString(dict, "bear_color", ToPyColor(m_bearColor));
 		PyDict_SetItemString(dict, "weight", ToPyFloat(m_weight));

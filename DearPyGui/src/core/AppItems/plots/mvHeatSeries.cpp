@@ -45,7 +45,6 @@ namespace Marvel {
 	mvHeatSeries::mvHeatSeries(mvUUID uuid)
 		: mvSeriesBase(uuid)
 	{
-		m_contributeToBounds = true;
 	}
 
 	bool mvHeatSeries::isParentCompatible(mvAppItemType type)
@@ -174,8 +173,6 @@ namespace Marvel {
 
 		(*m_value)[1].push_back(m_bounds_min.y);
 		(*m_value)[1].push_back(m_bounds_max.y);
-		resetMaxMins();
-		calculateMaxMins();
 	}
 
 	void mvHeatSeries::handleSpecificKeywordArgs(PyObject* dict)
@@ -190,7 +187,6 @@ namespace Marvel {
 		if (PyObject* item = PyDict_GetItemString(dict, "bounds_max")) m_bounds_max = ToPoint(item);
 		if (PyObject* item = PyDict_GetItemString(dict, "scale_min")) m_scale_min = ToDouble(item);
 		if (PyObject* item = PyDict_GetItemString(dict, "scale_max")) m_scale_max = ToDouble(item);
-		if (PyObject* item = PyDict_GetItemString(dict, "contribute_to_bounds")) m_contributeToBounds = ToBool(item);
 
 		bool valueChanged = false;
 		if (PyObject* item = PyDict_GetItemString(dict, "x")) { valueChanged = true; (*m_value)[0] = ToDoubleVect(item); }
@@ -199,8 +195,6 @@ namespace Marvel {
 		{
 			(*m_value)[1].push_back(m_bounds_min.y);
 			(*m_value)[1].push_back(m_bounds_max.y);
-			resetMaxMins();
-			calculateMaxMins();
 		}
 
 	}
@@ -217,7 +211,6 @@ namespace Marvel {
 		PyDict_SetItemString(dict, "bounds_max", ToPyPair(m_bounds_max.x, m_bounds_max.y));
 		PyDict_SetItemString(dict, "scale_min", ToPyDouble(m_scale_min));
 		PyDict_SetItemString(dict, "scale_max", ToPyDouble(m_scale_max));
-		PyDict_SetItemString(dict, "contribute_to_bounds", ToPyBool(m_contributeToBounds));
 	}
 
 }

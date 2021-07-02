@@ -33,7 +33,6 @@ namespace Marvel {
 		parser.addArg<mvPyDataType::Double>("angle", mvArgType::KEYWORD_ARG, "90.0");
 
 		parser.addArg<mvPyDataType::Bool>("normalize", mvArgType::KEYWORD_ARG, "False");
-		parser.addArg<mvPyDataType::Bool>("contribute_to_bounds", mvArgType::KEYWORD_ARG, "True");
 
 		parser.finalize();
 
@@ -178,9 +177,6 @@ namespace Marvel {
 				break;
 			}
 		}
-
-		resetMaxMins();
-		calculateMaxMins();
 	}
 
 	void mvPieSeries::handleSpecificKeywordArgs(PyObject* dict)
@@ -202,13 +198,7 @@ namespace Marvel {
 				m_clabels.push_back(label.c_str());
 		}
 
-		bool valueChanged = false;
-		if (PyObject* item = PyDict_GetItemString(dict, "values")) { valueChanged = true; (*m_value)[0] = ToDoubleVect(item); }
-		if (valueChanged)
-		{
-			resetMaxMins();
-			calculateMaxMins();
-		}
+		if (PyObject* item = PyDict_GetItemString(dict, "values")) { (*m_value)[0] = ToDoubleVect(item); }
 
 
 	}
