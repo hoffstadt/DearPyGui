@@ -56,10 +56,12 @@ namespace Marvel {
 
     public:
 
+        static std::atomic_bool s_waitOneFrame;
         static std::atomic_bool s_manualMutexControl;
         static std::mutex       s_mutex;
         static float            s_deltaTime; // time since last frame
         static double           s_time;  // total time since starting
+        static int              s_frame;  // frame count
 
         static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
 
@@ -78,6 +80,8 @@ namespace Marvel {
         MV_CREATE_COMMAND(use_init_file);
         MV_CREATE_COMMAND(load_init_file);
         MV_CREATE_COMMAND(load_image);
+        MV_CREATE_COMMAND(split_frame);
+        MV_CREATE_COMMAND(get_frame_count);
 
         MV_START_COMMANDS
             MV_ADD_COMMAND(lock_mutex);
@@ -95,6 +99,8 @@ namespace Marvel {
             MV_ADD_COMMAND(use_init_file);
             MV_ADD_COMMAND(load_init_file);
             MV_ADD_COMMAND(load_image);
+            MV_ADD_COMMAND(split_frame);
+            MV_ADD_COMMAND(get_frame_count);
         MV_END_COMMANDS
 
         //-----------------------------------------------------------------------------

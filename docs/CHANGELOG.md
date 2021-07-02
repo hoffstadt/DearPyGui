@@ -23,6 +23,8 @@ We generally fold multiple commits pertaining to the same topic as a single entr
 ## VERSION 0.8.14
 
 ### New
+* added `split_frame(...)`
+* added `get_frame_count(...)`
 * added `user_data` to every app item
 * node editor callback now sends through user_data
 * added `category` keyword to node attributes
