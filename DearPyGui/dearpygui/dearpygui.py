@@ -1472,7 +1472,7 @@ def menu(*, label: str =None, id: int =0, indent: int =-1, parent: int =0, befor
 @contextmanager
 def menu_bar(*, label: str =None, id: int =0, indent: int =-1, parent: int =0, show: bool =True, delay_search: str =False, user_data: Any =None) -> int:
 	"""
-	Adds a menu bar to a window. Must be followed by a call to end.
+	Adds a menu bar to a window.
 	Args:
 		**label (str): Overrides 'name' as label.
 		**id (int): Unique id used to programmatically refer to the item.If label is unused this will be the label.
@@ -1900,6 +1900,27 @@ def viewport_drawlist(*, label: str =None, id: int =0, show: bool =True, filter_
 	"""
 	try:
 		widget = internal_dpg.add_viewport_drawlist(label=label, id=id, show=show, filter_key=filter_key, delay_search=delay_search, user_data=user_data, front=front)
+		internal_dpg.push_container_stack(widget)
+		yield widget
+	finally:
+		internal_dpg.pop_container_stack()
+@contextmanager
+def viewport_menu_bar(*, label: str =None, id: int =0, indent: int =-1, parent: int =0, show: bool =True, delay_search: str =False, user_data: Any =None) -> int:
+	"""
+	Adds a menu bar to the viewport.
+	Args:
+		**label (str): Overrides 'name' as label.
+		**id (int): Unique id used to programmatically refer to the item.If label is unused this will be the label.
+		**indent (int): Offsets the widget to the right the specified number multiplied by the indent style.
+		**parent (int): Parent to add this item to. (runtime adding)
+		**show (bool): Attempt to render widget.
+		**delay_search (str): Delays searching container for specified items until the end of the app. Possible optimization when a container has many children that are not accessed often.
+		**user_data (Any): User data for callbacks.
+	Yields:
+		int
+	"""
+	try:
+		widget = internal_dpg.add_viewport_menu_bar(label=label, id=id, indent=indent, parent=parent, show=show, delay_search=delay_search, user_data=user_data)
 		internal_dpg.push_container_stack(widget)
 		yield widget
 	finally:
@@ -3731,7 +3752,7 @@ def add_menu(*, label: str =None, id: int =0, indent: int =-1, parent: int =0, b
 
 def add_menu_bar(*, label: str =None, id: int =0, indent: int =-1, parent: int =0, show: bool =True, delay_search: str =False, user_data: Any =None) -> int:
 	"""
-	Adds a menu bar to a window. Must be followed by a call to end.
+	Adds a menu bar to a window.
 	Args:
 		**label (str): Overrides 'name' as label.
 		**id (int): Unique id used to programmatically refer to the item.If label is unused this will be the label.
@@ -5039,6 +5060,23 @@ def add_viewport_drawlist(*, label: str =None, id: int =0, show: bool =True, fil
 	"""
 
 	return internal_dpg.add_viewport_drawlist(label=label, id=id, show=show, filter_key=filter_key, delay_search=delay_search, user_data=user_data, front=front)
+
+def add_viewport_menu_bar(*, label: str =None, id: int =0, indent: int =-1, parent: int =0, show: bool =True, delay_search: str =False, user_data: Any =None) -> int:
+	"""
+	Adds a menu bar to the viewport.
+	Args:
+		**label (str): Overrides 'name' as label.
+		**id (int): Unique id used to programmatically refer to the item.If label is unused this will be the label.
+		**indent (int): Offsets the widget to the right the specified number multiplied by the indent style.
+		**parent (int): Parent to add this item to. (runtime adding)
+		**show (bool): Attempt to render widget.
+		**delay_search (str): Delays searching container for specified items until the end of the app. Possible optimization when a container has many children that are not accessed often.
+		**user_data (Any): User data for callbacks.
+	Returns:
+		int
+	"""
+
+	return internal_dpg.add_viewport_menu_bar(label=label, id=id, indent=indent, parent=parent, show=show, delay_search=delay_search, user_data=user_data)
 
 def add_visible_handler(parent : int, *, label: str =None, id: int =0, callback: Callable =None, user_data: Any =None) -> int:
 	"""
@@ -6637,6 +6675,7 @@ mvTabOrder_Leading=internal_dpg.mvTabOrder_Leading
 mvTabOrder_Trailing=internal_dpg.mvTabOrder_Trailing
 mvImage=internal_dpg.mvImage
 mvMenuBar=internal_dpg.mvMenuBar
+mvViewportMenuBar=internal_dpg.mvViewportMenuBar
 mvMenu=internal_dpg.mvMenu
 mvMenuItem=internal_dpg.mvMenuItem
 mvGroup=internal_dpg.mvGroup

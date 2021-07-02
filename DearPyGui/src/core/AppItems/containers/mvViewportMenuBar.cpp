@@ -1,4 +1,4 @@
-#include "mvMenuBar.h"
+#include "mvViewportMenuBar.h"
 #include "mvApp.h"
 #include "mvLog.h"
 #include "mvItemRegistry.h"
@@ -8,10 +8,10 @@
 
 namespace Marvel {
 
-	void mvMenuBar::InsertParser(std::map<std::string, mvPythonParser>* parsers)
+	void mvViewportMenuBar::InsertParser(std::map<std::string, mvPythonParser>* parsers)
 	{
 
-		mvPythonParser parser(mvPyDataType::UUID, "Adds a menu bar to a window.", { "Containers", "Widgets" }, true);
+		mvPythonParser parser(mvPyDataType::UUID, "Adds a menu bar to the viewport.", { "Containers", "Widgets" }, true);
 		mvAppItem::AddCommonArgs(parser, (CommonParserArgs)(
 			MV_PARSER_ARG_ID |
 			MV_PARSER_ARG_INDENT |
@@ -24,8 +24,8 @@ namespace Marvel {
 		parsers->insert({ s_command, parser });
 	}
 
-	mvMenuBar::mvMenuBar(mvUUID uuid)
-			: mvBoolPtrBase(uuid)
+	mvViewportMenuBar::mvViewportMenuBar(mvUUID uuid)
+			: mvAppItem(uuid)
 		{
 
 			// TODO use code below to set item height when font and scale systems are done
@@ -35,10 +35,10 @@ namespace Marvel {
 			m_height = 21;
 		}
 
-	void mvMenuBar::draw(ImDrawList* drawlist, float x, float y)
+	void mvViewportMenuBar::draw(ImDrawList* drawlist, float x, float y)
 	{
 
-		if (ImGui::BeginMenuBar())
+		if (ImGui::BeginMainMenuBar())
 		{
 
 			for (auto& item : m_children[1])
@@ -50,22 +50,8 @@ namespace Marvel {
 
 				item->postDraw();
 			}
-			ImGui::EndMenuBar();
+			ImGui::EndMainMenuBar();
 		}
-	}
-
-	bool mvMenuBar::isParentCompatible(mvAppItemType type)
-	{
-		if (type == mvAppItemType::mvWindowAppItem) return true;
-		if (type == mvAppItemType::mvChild) return true;
-		if (type == mvAppItemType::mvStagingContainer) return true;
-
-		mvThrowPythonError(mvErrorCode::mvIncompatibleParent, s_command,
-			"Incompatible parent. Acceptable parents include: window, child, staging container.", this);
-
-		MV_ITEM_REGISTRY_ERROR("Menubar parent must be a window or child.");
-		assert(false);
-		return false;
 	}
 
 }

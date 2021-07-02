@@ -84,6 +84,7 @@
 #include "containers/mvTooltip.h"
 #include "containers/mvWindowAppItem.h"
 #include "containers/mvDragPayload.h"
+#include "containers/mvViewportMenuBar.h"
 
 #include "tables/mvTable.h"
 #include "tables/mvTableColumn.h"
