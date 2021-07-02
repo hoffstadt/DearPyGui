@@ -3347,7 +3347,7 @@ def add_image_series(texture_id : int, bounds_min : List[float], bounds_max : Li
 
 def add_input_float(*, label: str =None, id: int =0, width: int =0, indent: int =-1, parent: int =0, before: int =0, source: int =0, payload_type: str ='$$DPG_PAYLOAD', callback: Callable =None, drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, enabled: bool =True, pos: List[int] =[], filter_key: str ='', tracked: bool =False, track_offset: float =0.5, user_data: Any =None, default_value: float =0.0, format: str ='%.3f', min_value: float =0.0, max_value: float =100.0, step: float =0.1, step_fast: float =1.0, min_clamped: bool =False, max_clamped: bool =False, on_enter: bool =False, readonly: bool =False) -> int:
 	"""
-	Adds input for integers. Step buttons can be turned on or off.
+	Adds input for floats. Step buttons can be turned on or off.
 	Args:
 		**label (str): Overrides 'name' as label.
 		**id (int): Unique id used to programmatically refer to the item.If label is unused this will be the label.
@@ -3420,9 +3420,9 @@ def add_input_floatx(*, label: str =None, id: int =0, width: int =0, indent: int
 
 	return internal_dpg.add_input_floatx(label=label, id=id, width=width, indent=indent, parent=parent, before=before, source=source, payload_type=payload_type, callback=callback, drag_callback=drag_callback, drop_callback=drop_callback, show=show, enabled=enabled, pos=pos, filter_key=filter_key, tracked=tracked, track_offset=track_offset, user_data=user_data, default_value=default_value, format=format, min_value=min_value, max_value=max_value, size=size, min_clamped=min_clamped, max_clamped=max_clamped, on_enter=on_enter, readonly=readonly)
 
-def add_input_int(*, label: str =None, id: int =0, width: int =0, indent: int =-1, parent: int =0, before: int =0, source: int =0, payload_type: str ='$$DPG_PAYLOAD', callback: Callable =None, drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, enabled: bool =True, pos: List[int] =[], filter_key: str ='', tracked: bool =False, track_offset: float =0.5, user_data: Any =None, default_value: List[int] =0, min_value: int =0, max_value: int =100, step: int =1, step_fast: int =100, min_clamped: bool =False, max_clamped: bool =False, on_enter: bool =False, readonly: bool =False) -> int:
+def add_input_int(*, label: str =None, id: int =0, width: int =0, indent: int =-1, parent: int =0, before: int =0, source: int =0, payload_type: str ='$$DPG_PAYLOAD', callback: Callable =None, drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, enabled: bool =True, pos: List[int] =[], filter_key: str ='', tracked: bool =False, track_offset: float =0.5, user_data: Any =None, default_value: int =0, min_value: int =0, max_value: int =100, step: int =1, step_fast: int =100, min_clamped: bool =False, max_clamped: bool =False, on_enter: bool =False, readonly: bool =False) -> int:
 	"""
-	Adds input for float. Step buttons can be turned on or off.
+	Adds input for an int. Step buttons can be turned on or off.
 	Args:
 		**label (str): Overrides 'name' as label.
 		**id (int): Unique id used to programmatically refer to the item.If label is unused this will be the label.
@@ -3442,7 +3442,7 @@ def add_input_int(*, label: str =None, id: int =0, width: int =0, indent: int =-
 		**tracked (bool): Scroll tracking
 		**track_offset (float): 0.0f:top, 0.5f:center, 1.0f:bottom
 		**user_data (Any): User data for callbacks.
-		**default_value (List[int]): 
+		**default_value (int): 
 		**min_value (int): Value for lower limit of input. By default this limits the step buttons. Use clamped to limit manual input.
 		**max_value (int): Value for upper limit of input. By default this limits the step buttons. Use clamped to limit manual input.
 		**step (int): Increment to change value by when the step buttons are pressed. Setting this to a value of 0 or smaller will turn off step buttons.

@@ -24,8 +24,12 @@ We generally fold multiple commits pertaining to the same topic as a single entr
 
 ### Fixes
 * fixed `move_item_down` issue #1006
+* fixed documentation errors #1007
 
 ## VERSION 0.8.14
+
+### Breaking Changes
+* Removed update_bounds keyword from plot series. Use fit_axis_data(...)
 
 ### New
 * added `add_viewport_menu_bar(...)`
