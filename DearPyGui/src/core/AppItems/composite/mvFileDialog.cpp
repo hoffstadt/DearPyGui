@@ -21,7 +21,6 @@ namespace Marvel {
 				MV_PARSER_ARG_WIDTH |
 				MV_PARSER_ARG_HEIGHT |
 				MV_PARSER_ARG_CALLBACK |
-				MV_PARSER_ARG_USER_DATA |
 				MV_PARSER_ARG_SHOW)
 			);
 
