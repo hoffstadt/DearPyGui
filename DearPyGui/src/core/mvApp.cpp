@@ -378,6 +378,7 @@ namespace Marvel {
 			return GetPyNone();
 
 		if (!mvApp::s_manualMutexControl) std::lock_guard<std::mutex> lk(mvApp::s_mutex);
+
 		Py_BEGIN_ALLOW_THREADS;
 		mvApp::s_waitOneFrame = true;
 		while (s_waitOneFrame)
