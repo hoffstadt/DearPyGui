@@ -273,8 +273,8 @@ namespace Marvel{
 			{
 				if (index < children.size() - 1)
 				{
-					auto& upperitem = children[index];
-					auto& loweritem = children[index + 1];
+					auto upperitem = children[index];
+					auto loweritem = children[index + 1];
 
 					children[index] = loweritem;
 					children[index + 1] = upperitem;
