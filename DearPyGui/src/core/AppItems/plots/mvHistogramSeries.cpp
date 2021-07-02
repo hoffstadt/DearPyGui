@@ -43,7 +43,6 @@ namespace Marvel {
 	mvHistogramSeries::mvHistogramSeries(mvUUID uuid)
 		: mvSeriesBase(uuid)
 	{
-		m_contributeToBounds = true;
 	}
 
 	bool mvHistogramSeries::isParentCompatible(mvAppItemType type)
@@ -161,9 +160,6 @@ namespace Marvel {
 				break;
 			}
 		}
-
-		resetMaxMins();
-		calculateMaxMins();
 	}
 
 	void mvHistogramSeries::handleSpecificKeywordArgs(PyObject* dict)
@@ -171,23 +167,14 @@ namespace Marvel {
 		if (dict == nullptr)
 			return;
 
-		if (PyObject* item = PyDict_GetItemString(dict, "contribute_to_bounds")) m_contributeToBounds = ToBool(item);
-
-		bool valueChanged = false;
-		if (PyObject* item = PyDict_GetItemString(dict, "x")) { valueChanged = true; (*m_value)[0] = ToDoubleVect(item); }
-		if (PyObject* item = PyDict_GetItemString(dict, "bins")) { valueChanged = true; m_bins = ToInt(item); }
-		if (PyObject* item = PyDict_GetItemString(dict, "bar_scale")) { valueChanged = true; m_barScale = ToFloat(item); }
-		if (PyObject* item = PyDict_GetItemString(dict, "min_range")) { valueChanged = true; m_min = ToDouble(item); }
-		if (PyObject* item = PyDict_GetItemString(dict, "max_range")) { valueChanged = true; m_max = ToDouble(item); }
-		if (PyObject* item = PyDict_GetItemString(dict, "cumlative")) { valueChanged = true; m_cumlative = ToBool(item); }
-		if (PyObject* item = PyDict_GetItemString(dict, "density")) { valueChanged = true; m_density = ToBool(item); }
-		if (PyObject* item = PyDict_GetItemString(dict, "outliers")) { valueChanged = true; m_outliers = ToBool(item); }
-
-		if (valueChanged)
-		{
-			resetMaxMins();
-			calculateMaxMins();
-		}
+		if (PyObject* item = PyDict_GetItemString(dict, "x")) { (*m_value)[0] = ToDoubleVect(item); }
+		if (PyObject* item = PyDict_GetItemString(dict, "bins")) { m_bins = ToInt(item); }
+		if (PyObject* item = PyDict_GetItemString(dict, "bar_scale")) { m_barScale = ToFloat(item); }
+		if (PyObject* item = PyDict_GetItemString(dict, "min_range")) { m_min = ToDouble(item); }
+		if (PyObject* item = PyDict_GetItemString(dict, "max_range")) { m_max = ToDouble(item); }
+		if (PyObject* item = PyDict_GetItemString(dict, "cumlative")) { m_cumlative = ToBool(item); }
+		if (PyObject* item = PyDict_GetItemString(dict, "density")) { m_density = ToBool(item); }
+		if (PyObject* item = PyDict_GetItemString(dict, "outliers")) { m_outliers = ToBool(item); }
 
 	}
 
@@ -195,8 +182,6 @@ namespace Marvel {
 	{
 		if (dict == nullptr)
 			return;
-
-		PyDict_SetItemString(dict, "contribute_to_bounds", ToPyBool(m_contributeToBounds));
 	}
 
 }

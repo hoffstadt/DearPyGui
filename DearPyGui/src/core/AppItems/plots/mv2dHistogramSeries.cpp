@@ -35,8 +35,6 @@ namespace Marvel {
 		parser.addArg<mvPyDataType::Bool>("density", mvArgType::KEYWORD_ARG, "False");
 		parser.addArg<mvPyDataType::Bool>("outliers", mvArgType::KEYWORD_ARG, "True");
 
-		parser.addArg<mvPyDataType::Bool>("contribute_to_bounds", mvArgType::KEYWORD_ARG, "True");
-
 		parser.finalize();
 
 		parsers->insert({ s_command, parser });
@@ -45,7 +43,6 @@ namespace Marvel {
 	mv2dHistogramSeries::mv2dHistogramSeries(mvUUID uuid)
 		: mvSeriesBase(uuid)
 	{
-		m_contributeToBounds = true;
 	}
 
 	bool mv2dHistogramSeries::isParentCompatible(mvAppItemType type)
@@ -165,9 +162,6 @@ namespace Marvel {
 				break;
 			}
 		}
-
-		resetMaxMins();
-		calculateMaxMins();
 	}
 
 	void mv2dHistogramSeries::handleSpecificKeywordArgs(PyObject* dict)
@@ -175,24 +169,15 @@ namespace Marvel {
 		if (dict == nullptr)
 			return;
 
-		if (PyObject* item = PyDict_GetItemString(dict, "contribute_to_bounds")) m_contributeToBounds = ToBool(item);
-
-		bool valueChanged = false;
-		if (PyObject* item = PyDict_GetItemString(dict, "x")) { valueChanged = true; (*m_value)[0] = ToDoubleVect(item); }
-		if (PyObject* item = PyDict_GetItemString(dict, "xbins")) { valueChanged = true; m_xbins = ToInt(item); }
-		if (PyObject* item = PyDict_GetItemString(dict, "ybins")) { valueChanged = true; m_ybins = ToInt(item); }
-		if (PyObject* item = PyDict_GetItemString(dict, "xmin_range")) { valueChanged = true; m_xmin = ToDouble(item); }
-		if (PyObject* item = PyDict_GetItemString(dict, "xmax_range")) { valueChanged = true; m_xmax = ToDouble(item); }
-		if (PyObject* item = PyDict_GetItemString(dict, "ymin_range")) { valueChanged = true; m_ymin = ToDouble(item); }
-		if (PyObject* item = PyDict_GetItemString(dict, "ymax_range")) { valueChanged = true; m_ymax = ToDouble(item); }
-		if (PyObject* item = PyDict_GetItemString(dict, "density")) { valueChanged = true; m_density = ToBool(item); }
-		if (PyObject* item = PyDict_GetItemString(dict, "outliers")) { valueChanged = true; m_outliers = ToBool(item); }
-
-		if (valueChanged)
-		{
-			resetMaxMins();
-			calculateMaxMins();
-		}
+		if (PyObject* item = PyDict_GetItemString(dict, "x")) { (*m_value)[0] = ToDoubleVect(item); }
+		if (PyObject* item = PyDict_GetItemString(dict, "xbins")) { m_xbins = ToInt(item); }
+		if (PyObject* item = PyDict_GetItemString(dict, "ybins")) { m_ybins = ToInt(item); }
+		if (PyObject* item = PyDict_GetItemString(dict, "xmin_range")) { m_xmin = ToDouble(item); }
+		if (PyObject* item = PyDict_GetItemString(dict, "xmax_range")) { m_xmax = ToDouble(item); }
+		if (PyObject* item = PyDict_GetItemString(dict, "ymin_range")) { m_ymin = ToDouble(item); }
+		if (PyObject* item = PyDict_GetItemString(dict, "ymax_range")) { m_ymax = ToDouble(item); }
+		if (PyObject* item = PyDict_GetItemString(dict, "density")) { m_density = ToBool(item); }
+		if (PyObject* item = PyDict_GetItemString(dict, "outliers")) { m_outliers = ToBool(item); }
 
 	}
 
@@ -200,8 +185,6 @@ namespace Marvel {
 	{
 		if (dict == nullptr)
 			return;
-
-		PyDict_SetItemString(dict, "contribute_to_bounds", ToPyBool(m_contributeToBounds));
 	}
 
 }
