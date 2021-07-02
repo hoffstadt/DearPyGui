@@ -234,7 +234,6 @@ on_success:
             ${PYLOC} -m twine upload --repository testpypi /home/appveyor/projects/dearpygui/dist/* -u RaylockLLC -p ${pypi_password} --skip-existing
         fi
         if [[ "${APPVEYOR_REPO_COMMIT_MESSAGE}" == *"(pypi)"* ]]; then
-            ${PYLOC} -m twine upload --repository testpypi /home/appveyor/projects/dearpygui/dist/* -u RaylockLLC -p ${pypi_password} --skip-existing
             ${PYLOC} -m twine upload /home/appveyor/projects/dearpygui/dist/* -u RaylockLLC -p ${pypi_password} --skip-existing
         fi
       else
@@ -246,7 +245,6 @@ on_success:
             ${PYLOC} -m twine upload --repository testpypi /Users/appveyor/projects/dearpygui/dist/* -u RaylockLLC -p ${pypi_password} --skip-existing
         fi
         if [[ "${APPVEYOR_REPO_COMMIT_MESSAGE}" == *"(pypi)"* ]]; then
-            ${PYLOC} -m twine upload --repository testpypi /Users/appveyor/projects/dearpygui/dist/* -u RaylockLLC -p ${pypi_password} --skip-existing
             ${PYLOC} -m twine upload /Users/appveyor/projects/dearpygui/dist/* -u RaylockLLC -p ${pypi_password} --skip-existing
         fi
       fi
