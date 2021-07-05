@@ -578,7 +578,7 @@ def create_viewport(*, title: str ='Dear PyGui', small_icon: str ='', large_icon
 	"""Creates a viewport."""
 	...
 
-def delete_item(item : int, *, children_only: bool =False) -> None:
+def delete_item(item : int, *, children_only: bool =False, slot: int =-1) -> None:
 	"""Undocumented"""
 	...
 

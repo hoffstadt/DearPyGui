@@ -390,7 +390,7 @@ namespace Marvel {
         bool             addRuntimeChild(mvUUID parent, mvUUID before, mvRef<mvAppItem> item);
         bool             addChildAfter(mvUUID prev, mvRef<mvAppItem> item);
         bool             deleteChild(mvUUID uuid);
-        void             deleteChildren();
+        void             deleteChildren(int slot = -1);
         bool             moveChildUp(mvUUID uuid);
         bool             moveChildDown(mvUUID uuid);
         void             resetState();
