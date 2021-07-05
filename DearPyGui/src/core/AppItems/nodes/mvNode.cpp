@@ -96,8 +96,6 @@ namespace Marvel {
 	void mvNode::draw(ImDrawList* drawlist, float x, float y)
 	{
 		ScopedID id(m_uuid);
-		//mvImNodesThemeScope scope(this);
-		//mvFontScope fscope(this);
 
 		if (m_dirtyPos)
 		{

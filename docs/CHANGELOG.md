@@ -25,6 +25,7 @@ We generally fold multiple commits pertaining to the same topic as a single entr
 ### Fixes
 * fixed `move_item_down` issue #1006
 * fixed documentation errors #1007
+* fixed per-node theming issue #1012
 
 ## VERSION 0.8.14
 
