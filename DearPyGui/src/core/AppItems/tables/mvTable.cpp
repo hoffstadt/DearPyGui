@@ -71,8 +71,6 @@ namespace Marvel {
 	void mvTable::draw(ImDrawList* drawlist, float x, float y)
 	{
 		ScopedID id(m_uuid);
-		//mvImGuiThemeScope scope(this);
-		//mvFontScope fscope(this);
 
 		if (ImGui::BeginTable(m_label.c_str(), m_columns, m_flags, 
 			ImVec2((float)m_width, (float)m_height), (float)m_inner_width))
@@ -174,7 +172,7 @@ namespace Marvel {
 
 	void mvTable::onChildrenRemoved()
 	{
-		m_columns = 0;
+		m_columns = m_children[0].size();
 	}
 
 	void mvTable::handleSpecificKeywordArgs(PyObject* dict)

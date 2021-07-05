@@ -5210,17 +5210,18 @@ def create_viewport(*, title: str ='Dear PyGui', small_icon: str ='', large_icon
 
 	return internal_dpg.create_viewport(title=title, small_icon=small_icon, large_icon=large_icon, width=width, height=height, x_pos=x_pos, y_pos=y_pos, min_width=min_width, max_width=max_width, min_height=min_height, max_height=max_height, resizable=resizable, vsync=vsync, always_on_top=always_on_top, maximized_box=maximized_box, minimized_box=minimized_box, border=border, caption=caption, overlapped=overlapped, clear_color=clear_color)
 
-def delete_item(item : int, *, children_only: bool =False) -> None:
+def delete_item(item : int, *, children_only: bool =False, slot: int =-1) -> None:
 	"""
 	Undocumented
 	Args:
 		item (int): 
 		**children_only (bool): 
+		**slot (int): 
 	Returns:
 		None
 	"""
 
-	return internal_dpg.delete_item(item, children_only=children_only)
+	return internal_dpg.delete_item(item, children_only=children_only, slot=slot)
 
 def does_item_exist(item : int) -> bool:
 	"""

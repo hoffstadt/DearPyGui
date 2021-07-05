@@ -777,12 +777,20 @@ namespace Marvel{
 		}
 	}
 
-	void mvAppItem::deleteChildren()
+	void mvAppItem::deleteChildren(int slot)
 	{
-		for (auto& childset : m_children)
+		if (slot < 0)
 		{
-			childset.clear();
-			childset.shrink_to_fit();
+			for (auto& childset : m_children)
+			{
+				childset.clear();
+				childset.shrink_to_fit();
+			}
+		}
+		else if (slot < 5)
+		{
+			m_children[slot].clear();
+			m_children[slot].shrink_to_fit();
 		}
 		onChildrenRemoved();
 	}
