@@ -207,6 +207,18 @@ namespace Marvel {
 		if (type == mvAppItemType::mvDrawPolyline) return true;
 		if (type == mvAppItemType::mvDrawImage) return true;
 
+		if (type == mvAppItemType::mvActivatedHandler) return true;
+		if (type == mvAppItemType::mvActivatedHandler) return true;
+		if (type == mvAppItemType::mvClickedHandler) return true;
+		if (type == mvAppItemType::mvDeactivatedAfterEditHandler) return true;
+		if (type == mvAppItemType::mvDeactivatedHandler) return true;
+		if (type == mvAppItemType::mvEditedHandler) return true;
+		if (type == mvAppItemType::mvFocusHandler) return true;
+		if (type == mvAppItemType::mvHoverHandler) return true;
+		if (type == mvAppItemType::mvResizeHandler) return true;
+		if (type == mvAppItemType::mvToggledOpenHandler) return true;
+		if (type == mvAppItemType::mvVisibleHandler) return true;
+
 		mvThrowPythonError(mvErrorCode::mvIncompatibleChild, s_command,
 			"Incompatible child. Acceptable children include: mvDraw*, mvDragPoint, mvDragLine, mvAnnotation, mvPlotLegend, mvPlotAxis", this);
 

@@ -44,6 +44,17 @@ namespace Marvel {
 	{
 		if (type == mvAppItemType::mvTab)return true;
 		if (type == mvAppItemType::mvTabButton)return true;
+		if (type == mvAppItemType::mvActivatedHandler) return true;
+		if (type == mvAppItemType::mvActiveHandler) return true;
+		if (type == mvAppItemType::mvClickedHandler) return true;
+		if (type == mvAppItemType::mvDeactivatedAfterEditHandler) return true;
+		if (type == mvAppItemType::mvDeactivatedHandler) return true;
+		if (type == mvAppItemType::mvEditedHandler) return true;
+		if (type == mvAppItemType::mvFocusHandler) return true;
+		if (type == mvAppItemType::mvHoverHandler) return true;
+		if (type == mvAppItemType::mvResizeHandler) return true;
+		if (type == mvAppItemType::mvToggledOpenHandler) return true;
+		if (type == mvAppItemType::mvVisibleHandler) return true;
 
 		mvThrowPythonError(mvErrorCode::mvIncompatibleChild, s_command,
 			"Incompatible child. Acceptable children include: tab, tab button", this);

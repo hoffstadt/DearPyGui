@@ -92,6 +92,17 @@ namespace Marvel {
 	{
 		if(type ==mvAppItemType::mvNode) return true;
 		if(type ==mvAppItemType::mvNodeLink) return true;
+		if (type == mvAppItemType::mvActivatedHandler) return true;
+		if (type == mvAppItemType::mvActivatedHandler) return true;
+		if (type == mvAppItemType::mvClickedHandler) return true;
+		if (type == mvAppItemType::mvDeactivatedAfterEditHandler) return true;
+		if (type == mvAppItemType::mvDeactivatedHandler) return true;
+		if (type == mvAppItemType::mvEditedHandler) return true;
+		if (type == mvAppItemType::mvFocusHandler) return true;
+		if (type == mvAppItemType::mvHoverHandler) return true;
+		if (type == mvAppItemType::mvResizeHandler) return true;
+		if (type == mvAppItemType::mvToggledOpenHandler) return true;
+		if (type == mvAppItemType::mvVisibleHandler) return true;
 
 		mvThrowPythonError(mvErrorCode::mvIncompatibleChild, s_command,
 			"Incompatible child. Acceptable children include: mvNode, mvNodeLink", this);
@@ -144,15 +155,7 @@ namespace Marvel {
 
 		// build links
 		for (auto& item : m_children[0])
-		{
-			// skip item if it's not shown
-			if (!item->m_show)
-				continue;
-
 			item->draw(drawlist, x, y);
-
-			item->getState().update();
-		}
 
 		for (auto& item : m_children[1])
 		{
@@ -172,6 +175,10 @@ namespace Marvel {
 		imnodes::EndNodeEditor();
 		imnodes::PopAttributeFlag();
 
+		// post draw for links
+		for (auto& item : m_children[0])
+			item->customAction();
+
 		static int hovered_node_id;
 		for (auto& child : m_children[1])
 		{
@@ -181,15 +188,6 @@ namespace Marvel {
 			child->getState().setRectSize({ size.x, size.y });
 			child->getState().setRectMin({ size.x, size.y });
 			child->getState().setRectMax({ size.x, size.y });
-		}
-
-		if (imnodes::IsNodeHovered(&hovered_node_id))
-		{
-			for (auto& child : m_children[1])
-			{
-				if (static_cast<mvNode*>(child.get())->getId() == hovered_node_id)
-					child->getState().setHovered(true);
-			}
 		}
 		
 		m_selectedNodes.clear();
