@@ -23,6 +23,7 @@ We generally fold multiple commits pertaining to the same topic as a single entr
 ## VERSION 0.8.17
 
 ### Fixes
+* fixed multiple connections from same attribute issue #1022
 * fixed `per-node theming` (popping was not occuring)
 * removed `get_links(...)` #1021
 
