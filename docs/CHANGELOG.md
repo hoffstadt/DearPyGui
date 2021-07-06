@@ -20,6 +20,14 @@ We generally fold multiple commits pertaining to the same topic as a single entr
 - Read the `Breaking Changes` section (here in the changelog).
 - Please report any issue!
 
+## VERSION 0.8.17
+
+### Fixes
+* fixed `per-node theming` (popping was not occuring)
+
+### Fixes
+* fixed `move_item_down` issue #1006
+
 ## VERSION 0.8.16
 
 ### New

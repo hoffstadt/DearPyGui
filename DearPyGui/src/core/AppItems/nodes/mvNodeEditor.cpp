@@ -173,7 +173,7 @@ namespace Marvel {
 
 			item->draw(drawlist, x, y);
 
-			item->getState().update();
+			item->postDraw();
 		}
 
 		imnodes::EndNodeEditor();
