@@ -710,10 +710,6 @@ def get_item_types() -> dict:
 	"""Undocumented"""
 	...
 
-def get_links(node_editor : int) -> List[List[str]]:
-	"""Undocumented"""
-	...
-
 def get_mouse_drag_delta() -> float:
 	"""Undocumented"""
 	...

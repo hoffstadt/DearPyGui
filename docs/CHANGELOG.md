@@ -24,6 +24,7 @@ We generally fold multiple commits pertaining to the same topic as a single entr
 
 ### Fixes
 * fixed `per-node theming` (popping was not occuring)
+* removed `get_links(...)` #1021
 
 ### Fixes
 * fixed `move_item_down` issue #1006
