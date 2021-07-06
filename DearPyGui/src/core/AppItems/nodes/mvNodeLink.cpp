@@ -5,6 +5,9 @@
 #include "mvNodeAttribute.h"
 #include "mvItemRegistry.h"
 #include "mvPythonExceptions.h"
+#include "AppItems/fonts/mvFont.h"
+#include "AppItems/themes/mvTheme.h"
+#include "AppItems/containers/mvDragPayload.h"
 
 namespace Marvel {
 
@@ -101,11 +104,71 @@ namespace Marvel {
 		}
 	}
 
+	void mvNodeLink::customAction()
+	{
+		//-----------------------------------------------------------------------------
+		// update state
+		//   * only update if applicable
+		//-----------------------------------------------------------------------------
+		m_state.m_hovered = imnodes::IsLinkHovered(&m_id);
+		m_state.m_visible = ImGui::IsItemVisible();
+		m_state.m_active = imnodes::IsLinkStarted(&m_id);
+		m_state.m_deactivated = imnodes::IsLinkDropped(&m_id);
+
+		// pop class themes
+		if (auto classTheme = getClassTheme())
+			static_cast<mvTheme*>(classTheme.get())->customAction();
+
+		// pop item themes
+		if (m_theme)
+			static_cast<mvTheme*>(m_theme.get())->customAction();
+
+		// event handlers
+		for (auto& item : m_children[3])
+		{
+			if (!item->preDraw())
+				continue;
+
+			item->draw(nullptr, ImGui::GetCursorPosX(), ImGui::GetCursorPosY());
+		}
+	}
+
 	void mvNodeLink::draw(ImDrawList* drawlist, float x, float y)
 	{
+
+		//-----------------------------------------------------------------------------
+		// pre draw
+		//-----------------------------------------------------------------------------
+
+		// show/hide
+		if (!m_show)
+			return;
+
+		// set item width
+		if (m_width != 0)
+			ImGui::SetNextItemWidth((float)m_width);
+
+		// handle class theming
+		if (auto classTheme = getClassTheme())
+			static_cast<mvTheme*>(classTheme.get())->draw(nullptr, 0.0f, 0.0f);
+
+		// handle item theming
+		if (m_theme)
+			static_cast<mvTheme*>(m_theme.get())->draw(nullptr, 0.0f, 0.0f);
+
+		//-----------------------------------------------------------------------------
+		// draw
+		//-----------------------------------------------------------------------------
 		ScopedID id(m_uuid);
-		
+
 		imnodes::Link(m_id, m_id1, m_id2);
+
+		//-----------------------------------------------------------------------------
+		// post draw
+		//-----------------------------------------------------------------------------
+
+		// check custom action
+
 	}
 
 }

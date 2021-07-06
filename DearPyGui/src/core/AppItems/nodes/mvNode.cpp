@@ -4,6 +4,9 @@
 #include "mvLog.h"
 #include "mvItemRegistry.h"
 #include "mvPythonExceptions.h"
+#include "AppItems/fonts/mvFont.h"
+#include "AppItems/themes/mvTheme.h"
+#include "AppItems/containers/mvDragPayload.h"
 
 namespace Marvel {
 
@@ -82,7 +85,12 @@ namespace Marvel {
 
 	bool mvNode::canChildBeAdded(mvAppItemType type)
 	{
-		if(type == mvAppItemType::mvNodeAttribute) return true;
+		if (type == mvAppItemType::mvNodeAttribute) return true;
+
+		if (type == mvAppItemType::mvActiveHandler) return true;
+		if (type == mvAppItemType::mvClickedHandler) return true;
+		if (type == mvAppItemType::mvHoverHandler) return true;
+		if (type == mvAppItemType::mvVisibleHandler) return true;
 
 		mvThrowPythonError(mvErrorCode::mvIncompatibleChild, s_command,
 			"Incompatible child. Acceptable children include: mvNodeAttribute", this);
@@ -95,46 +103,142 @@ namespace Marvel {
 
 	void mvNode::draw(ImDrawList* drawlist, float x, float y)
 	{
-		ScopedID id(m_uuid);
 
-		if (m_dirtyPos)
+		//-----------------------------------------------------------------------------
+		// pre draw
+		//-----------------------------------------------------------------------------
+
+		// show/hide
+		if (!m_show)
+			return;
+
+		// set item width
+		if (m_width != 0)
+			ImGui::SetNextItemWidth((float)m_width);
+
+		// indent (for children
+		if (m_indent > 0.0f)
+			ImGui::Indent(m_indent);
+
+		// push font if a font object is attached
+		if (m_font)
 		{
-			imnodes::SetNodeGridSpacePos((int)m_id, m_state.getItemPos());
-			m_dirtyPos = false;
+			ImFont* fontptr = static_cast<mvFont*>(m_font.get())->getFontPtr();
+			ImGui::PushFont(fontptr);
 		}
 
-		imnodes::SetNodeDraggable((int)m_id, m_draggable);
+		// handle class theming
+		if (auto classTheme = getClassTheme())
+			static_cast<mvTheme*>(classTheme.get())->draw(nullptr, 0.0f, 0.0f);
 
-		imnodes::BeginNode(m_id);
+		// handle item theming
+		if (m_theme)
+			static_cast<mvTheme*>(m_theme.get())->draw(nullptr, 0.0f, 0.0f);
 
-		imnodes::BeginNodeTitleBar();
-		ImGui::TextUnformatted(m_specificedlabel.c_str());
-		imnodes::EndNodeTitleBar();
-
-		//we do this so that the children dont get the theme
-		//scope.cleanup();
-
-		for (auto& item : m_children[1])
+		//-----------------------------------------------------------------------------
+		// draw
+		//-----------------------------------------------------------------------------
 		{
-			// skip item if it's not shown
-			if (!item->m_show)
+			ScopedID id(m_uuid);
+
+			if (m_dirtyPos)
+			{
+				imnodes::SetNodeGridSpacePos((int)m_id, m_state.getItemPos());
+				m_dirtyPos = false;
+			}
+
+			imnodes::SetNodeDraggable((int)m_id, m_draggable);
+
+			imnodes::BeginNode(m_id);
+
+			imnodes::BeginNodeTitleBar();
+			ImGui::TextUnformatted(m_specificedlabel.c_str());
+			imnodes::EndNodeTitleBar();
+
+			for (auto& item : m_children[1])
+			{
+				// skip item if it's not shown
+				if (!item->m_show)
+					continue;
+
+				// set item width
+				if (item->m_width != 0)
+					ImGui::SetNextItemWidth((float)item->m_width);
+
+				item->draw(drawlist, x, y);
+
+				auto& state = item->getState();
+				state.setActive(imnodes::IsAttributeActive());
+
+			}
+
+			imnodes::EndNode();
+		}
+
+		//-----------------------------------------------------------------------------
+		// post draw
+		//-----------------------------------------------------------------------------
+
+		//-----------------------------------------------------------------------------
+		// update state
+		//   * only update if applicable
+		//-----------------------------------------------------------------------------
+		ImVec2 pos = imnodes::GetNodeGridSpacePos((int)m_id);
+		m_state.m_hovered = ImGui::IsItemHovered();
+		m_state.m_clicked = ImGui::IsItemClicked();
+		m_state.m_visible = ImGui::IsItemVisible();
+		m_state.m_active = imnodes::IsAnyAttributeActive();
+
+		m_state.setPos({ pos.x , pos.y });
+
+		// undo indents
+		if (m_indent > 0.0f)
+			ImGui::Unindent(m_indent);
+
+		// pop font off stack
+		if (m_font)
+			ImGui::PopFont();
+
+		// pop class themes
+		if (auto classTheme = getClassTheme())
+			static_cast<mvTheme*>(classTheme.get())->customAction();
+
+		// pop item themes
+		if (m_theme)
+			static_cast<mvTheme*>(m_theme.get())->customAction();
+
+		// event handlers
+		for (auto& item : m_children[3])
+		{
+			if (!item->preDraw())
 				continue;
 
-			// set item width
-			if (item->m_width != 0)
-				ImGui::SetNextItemWidth((float)item->m_width);
-
-			item->draw(drawlist, x, y);
-
-			auto& state = item->getState();
-			state.setActive(imnodes::IsAttributeActive());
-
+			item->draw(nullptr, ImGui::GetCursorPosX(), ImGui::GetCursorPosY());
 		}
 
-		imnodes::EndNode();
+		// drag drop
+		for (auto& item : m_children[4])
+		{
+			if (!item->preDraw())
+				continue;
 
-		ImVec2 pos = imnodes::GetNodeGridSpacePos((int)m_id);
-		m_state.setPos({ pos.x , pos.y });
+			item->draw(nullptr, ImGui::GetCursorPosX(), ImGui::GetCursorPosY());
+		}
+
+		if (m_dropCallback)
+		{
+			ScopedID id(m_uuid);
+			if (ImGui::BeginDragDropTarget())
+			{
+				if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload(m_payloadType.c_str()))
+				{
+					auto payloadActual = static_cast<const mvDragPayload*>(payload->Data);
+					mvApp::GetApp()->getCallbackRegistry().addCallback(getDropCallback(), m_uuid, payloadActual->getDragData(), nullptr);
+				}
+
+				ImGui::EndDragDropTarget();
+			}
+		}
 	}
 
 	void mvNode::handleSpecificKeywordArgs(PyObject* dict)
