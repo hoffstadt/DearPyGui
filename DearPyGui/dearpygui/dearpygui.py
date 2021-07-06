@@ -5701,17 +5701,6 @@ def get_item_types() -> dict:
 
 	return internal_dpg.get_item_types()
 
-def get_links(node_editor : int) -> List[List[str]]:
-	"""
-	Undocumented
-	Args:
-		node_editor (int): 
-	Returns:
-		List[List[str]]
-	"""
-
-	return internal_dpg.get_links(node_editor)
-
 def get_mouse_drag_delta() -> float:
 	"""
 	Undocumented

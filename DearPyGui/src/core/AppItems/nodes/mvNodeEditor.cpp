@@ -51,13 +51,6 @@ namespace Marvel {
 		}
 
 		{
-			mvPythonParser parser(mvPyDataType::ListStrList, "Undocumented", { "Node Editor" });
-			parser.addArg<mvPyDataType::UUID>("node_editor");
-			parser.finalize();
-			parsers->insert({ "get_links", parser });
-		}
-
-		{
 			mvPythonParser parser(mvPyDataType::None, "Undocumented", { "Node Editor" });
 			parser.addArg<mvPyDataType::UUID>("node_editor");
 			parser.finalize();
