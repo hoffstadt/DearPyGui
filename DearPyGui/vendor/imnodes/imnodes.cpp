@@ -1035,7 +1035,7 @@ namespace imnodes
             // This may result in a link detach via click and drag.
             if (editor.click_interaction_type == ClickInteractionType_LinkCreation)
             {
-                if ((g->hovered_pin_flags & AttributeFlags_EnableLinkDetachWithDragClick) != 0)
+                if ((g->hovered_pin_flags & AttributeFlags_EnableLinkDetachWithDragClick) == 0)
                 {
                     begin_link_detach(editor, link_idx, g->hovered_pin_idx.value());
                     editor.click_interaction_state.link_creation.link_creation_type =
