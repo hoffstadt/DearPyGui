@@ -58,6 +58,7 @@ namespace Marvel {
 	{
 		if (type == mvAppItemType::mvWindowAppItem) return true;
 		if (type == mvAppItemType::mvChild) return true;
+		if (type == mvAppItemType::mvNodeEditor) return true;
 		if (type == mvAppItemType::mvStagingContainer) return true;
 
 		mvThrowPythonError(mvErrorCode::mvIncompatibleParent, s_command,
