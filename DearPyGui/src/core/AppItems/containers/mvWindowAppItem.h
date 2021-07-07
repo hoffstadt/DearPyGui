@@ -43,6 +43,10 @@ namespace Marvel {
 
 		mvWindowAppItem(mvUUID uuid, bool mainWindow = false);
 
+		// overriding until we can remove these
+		bool preDraw() override { return true; }
+		void postDraw() override {}
+
 		void addFlag              (ImGuiWindowFlags flag) { m_windowflags |= flag; }
 		void removeFlag           (ImGuiWindowFlags flag) { m_windowflags &= ~flag; }
 		void setWindowAsMainStatus(bool value);
@@ -50,8 +54,6 @@ namespace Marvel {
 		void setWidth             (int width) override;
 		void setHeight            (int height) override;
 		void draw                 (ImDrawList* drawlist, float x, float y) override;
-		bool preDraw                 () override;
-		void postDraw                 () override;
 		bool getWindowAsMainStatus() const { return m_mainWindow; }
 
 		void show() override;
