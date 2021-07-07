@@ -57,8 +57,14 @@ namespace Marvel {
 
 	void mvDrawBezierCubic::draw(ImDrawList* drawlist, float x, float y)
 	{
-		mvVec2 start = { x, y };
-		drawlist->AddBezierCubic(m_p1 + start, m_p2 + start, m_p3 + start, m_p4 + start, m_color, m_thickness, m_segments);
+		if (ImPlot::GetCurrentContext()->CurrentPlot)
+			drawlist->AddBezierCubic(ImPlot::PlotToPixels(m_p1), ImPlot::PlotToPixels(m_p2), ImPlot::PlotToPixels(m_p3),
+				ImPlot::PlotToPixels(m_p4), m_color, m_thickness, m_segments);
+		else
+		{
+			mvVec2 start = { x, y };
+			drawlist->AddBezierCubic(m_p1 + start, m_p2 + start, m_p3 + start, m_p4 + start, m_color, m_thickness, m_segments);
+		}
 	}
 
 	void mvDrawBezierCubic::handleSpecificRequiredArgs(PyObject* dict)

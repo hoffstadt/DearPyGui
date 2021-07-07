@@ -269,7 +269,7 @@ namespace Marvel {
 			m_y2axisName.empty() ? nullptr : m_y2axisName.c_str(), 
 			m_y3axisName.empty() ? nullptr : m_y3axisName.c_str()))
 		{
-			//ImPlot::PushPlotClipRect();
+			ImPlot::PushPlotClipRect();
 			ImPlot::PushColormap(m_colormap);
 
 			// legend, drag point and lines
@@ -301,7 +301,8 @@ namespace Marvel {
 				if (!item->m_show)
 					continue;
 				
-				item->draw(ImPlot::GetPlotDrawList(), ImPlot::GetPlotPos().x, ImPlot::GetPlotPos().y);
+				//item->draw(ImPlot::GetPlotDrawList(), ImPlot::GetPlotPos().x, ImPlot::GetPlotPos().y);
+				item->draw(ImPlot::GetPlotDrawList(), 0.0f, 0.0f);
 				
 				item->getState().update();
 			}
@@ -336,7 +337,7 @@ namespace Marvel {
 				mvInput::setPlotMousePosition((float)ImPlot::GetPlotMousePos().x, (float)ImPlot::GetPlotMousePos().y);
 
 			// todo: resolve clipping
-			//ImPlot::PopPlotClipRect();
+			ImPlot::PopPlotClipRect();
 
 			if (m_dropCallback)
 			{

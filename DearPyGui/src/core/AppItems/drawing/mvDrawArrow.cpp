@@ -91,10 +91,20 @@ namespace Marvel {
 
 	void mvDrawArrow::draw(ImDrawList* drawlist, float x, float y)
 	{
-		mvVec2 start = { x, y };
-		drawlist->AddLine(m_p1 + start, m_p2 + start, m_color, m_thickness);
-		drawlist->AddTriangle(m_points[0] + start, m_points[1] + start, m_points[2] + start, m_color, m_thickness);
-		drawlist->AddTriangleFilled(m_points[0] + start, m_points[1] + start, m_points[2] + start, m_color);
+		
+		if (ImPlot::GetCurrentContext()->CurrentPlot)
+		{
+			drawlist->AddLine(ImPlot::PlotToPixels(m_p1), ImPlot::PlotToPixels(m_p2), m_color, m_thickness);
+			drawlist->AddTriangle(ImPlot::PlotToPixels(m_points[0]), ImPlot::PlotToPixels(m_points[1]), ImPlot::PlotToPixels(m_points[2]), m_color, m_thickness);
+			drawlist->AddTriangleFilled(ImPlot::PlotToPixels(m_points[0]), ImPlot::PlotToPixels(m_points[1]), ImPlot::PlotToPixels(m_points[2]), m_color);
+		}
+		else
+		{
+			mvVec2 start = { x, y };
+			drawlist->AddLine(m_p1 + start, m_p2 + start, m_color, m_thickness);
+			drawlist->AddTriangle(m_points[0] + start, m_points[1] + start, m_points[2] + start, m_color, m_thickness);
+			drawlist->AddTriangleFilled(m_points[0] + start, m_points[1] + start, m_points[2] + start, m_color);
+		}
 	}
 
 	void mvDrawArrow::handleSpecificRequiredArgs(PyObject* dict)

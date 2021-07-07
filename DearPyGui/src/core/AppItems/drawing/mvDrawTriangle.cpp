@@ -56,11 +56,21 @@ namespace Marvel {
 
 	void mvDrawTriangle::draw(ImDrawList* drawlist, float x, float y)
 	{
-		mvVec2 start = { x, y };
-		drawlist->AddTriangle(m_p1 + start, m_p2 + start, m_p3 + start, m_color, m_thickness);
-		if (m_fill.r < 0.0f)
-			return;
-		drawlist->AddTriangleFilled(m_p1 + start, m_p2 + start, m_p3 + start, m_fill);
+		if (ImPlot::GetCurrentContext()->CurrentPlot)
+		{
+			drawlist->AddTriangle(ImPlot::PlotToPixels(m_p1), ImPlot::PlotToPixels(m_p2), ImPlot::PlotToPixels(m_p3), m_color, m_thickness);
+			if (m_fill.r < 0.0f)
+				return;
+			drawlist->AddTriangleFilled(ImPlot::PlotToPixels(m_p1), ImPlot::PlotToPixels(m_p2), ImPlot::PlotToPixels(m_p3), m_fill);
+		}
+		else
+		{
+			mvVec2 start = { x, y };
+			drawlist->AddTriangle(m_p1 + start, m_p2 + start, m_p3 + start, m_color, m_thickness);
+			if (m_fill.r < 0.0f)
+				return;
+			drawlist->AddTriangleFilled(m_p1 + start, m_p2 + start, m_p3 + start, m_fill);
+		}
 	}
 
 	void mvDrawTriangle::handleSpecificRequiredArgs(PyObject* dict)

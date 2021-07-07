@@ -53,8 +53,14 @@ namespace Marvel {
 	void mvDrawLine::draw(ImDrawList* drawlist, float x, float y)
 	{
 
-		mvVec2 start = { x, y };
-		drawlist->AddLine(m_p1 + start, m_p2 + start, m_color, m_thickness);
+		
+		if(ImPlot::GetCurrentContext()->CurrentPlot)
+			drawlist->AddLine(ImPlot::PlotToPixels(m_p1), ImPlot::PlotToPixels(m_p2), m_color, m_thickness);
+		else
+		{
+			ImVec2 start = { x, y };
+			drawlist->AddLine(m_p1 + start, m_p2 + start, m_color, m_thickness);
+		}
 
 	}
 

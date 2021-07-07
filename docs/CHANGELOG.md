@@ -22,6 +22,9 @@ We generally fold multiple commits pertaining to the same topic as a single entr
 
 ## VERSION 0.8.17
 
+### New
+* drawing items on plots are now in plot space #1011
+
 ### Fixes
 * fixed no_focus_on_appear window flag #1026
 * fixed widget handlers issue for nodes #1025
