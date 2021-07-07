@@ -27,7 +27,8 @@ int main()
 
         ImGui::Begin("Testing");
 
-        ImGui::Button("Blah");
+        // replace with another widget
+        ImGui::Button("Test widget");
 
         bool m_hovered = ImGui::IsItemHovered();
         bool m_active = ImGui::IsItemActive();
