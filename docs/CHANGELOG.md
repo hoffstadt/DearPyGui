@@ -20,7 +20,7 @@ We generally fold multiple commits pertaining to the same topic as a single entr
 - Read the `Breaking Changes` section (here in the changelog).
 - Please report any issue!
 
-## VERSION 0.8.17
+## VERSION 0.8.19
 
 ### New
 * drawing items on plots are now in plot space #1011

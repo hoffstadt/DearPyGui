@@ -193,6 +193,9 @@ namespace Marvel {
 		// pre draw
 		//-----------------------------------------------------------------------------
 
+		if (!m_show)
+			return;
+
 		if (m_focusNextFrame)
 		{
 			ImGui::SetNextWindowFocus();
