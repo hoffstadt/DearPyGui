@@ -110,10 +110,10 @@ namespace Marvel {
 		// update state
 		//   * only update if applicable
 		//-----------------------------------------------------------------------------
-		m_state.m_hovered = imnodes::IsLinkHovered(&m_id);
+		//m_state.m_hovered = imnodes::IsLinkHovered(&m_id);
 		m_state.m_visible = ImGui::IsItemVisible();
-		m_state.m_active = imnodes::IsLinkStarted(&m_id);
-		m_state.m_deactivated = imnodes::IsLinkDropped(&m_id);
+		//m_state.m_active = imnodes::IsLinkStarted(&m_id);
+		//m_state.m_deactivated = imnodes::IsLinkDropped(&m_id);
 
 		// pop class themes
 		if (auto classTheme = getClassTheme())
