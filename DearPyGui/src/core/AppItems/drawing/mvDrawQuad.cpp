@@ -56,11 +56,23 @@ namespace Marvel {
 
 	void mvDrawQuad::draw(ImDrawList* drawlist, float x, float y)
 	{
-		mvVec2 start = { x, y };
-		drawlist->AddQuad(m_p1 + start, m_p2 + start, m_p3 + start, m_p4 + start, m_color, m_thickness);
-		if (m_fill.r < 0.0f)
-			return;
-		drawlist->AddQuadFilled(m_p1 + start, m_p2 + start, m_p3 + start, m_p4 + start, m_fill);
+		if (ImPlot::GetCurrentContext()->CurrentPlot)
+		{
+			drawlist->AddQuad(ImPlot::PlotToPixels(m_p1), ImPlot::PlotToPixels(m_p2), ImPlot::PlotToPixels(m_p3),
+				ImPlot::PlotToPixels(m_p4), m_color, m_thickness);
+			if (m_fill.r < 0.0f)
+				return;
+			drawlist->AddQuadFilled(ImPlot::PlotToPixels(m_p1), ImPlot::PlotToPixels(m_p2), ImPlot::PlotToPixels(m_p3),
+				ImPlot::PlotToPixels(m_p4), m_fill);
+		}
+		else
+		{
+			mvVec2 start = { x, y };
+			drawlist->AddQuad(m_p1 + start, m_p2 + start, m_p3 + start, m_p4 + start, m_color, m_thickness);
+			if (m_fill.r < 0.0f)
+				return;
+			drawlist->AddQuadFilled(m_p1 + start, m_p2 + start, m_p3 + start, m_p4 + start, m_fill);
+		}
 	}
 
 	void mvDrawQuad::handleSpecificRequiredArgs(PyObject* dict)

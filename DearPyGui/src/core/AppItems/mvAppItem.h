@@ -16,9 +16,7 @@
 #include "mvPythonTranslator.h"
 #include "cpp.hint"
 #include "mvDefaultTheme.h"
-
-// forward declarations
-struct ImPlotTime;
+#include <implot_internal.h>
 
 namespace Marvel {
 

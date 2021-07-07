@@ -115,6 +115,11 @@ namespace Marvel {
 			return ImVec2{ x, y };
 		}
 
+		operator ImPlotPoint()
+		{
+			return ImPlotPoint{ (double)x, (double)y };
+		}
+
 		mvVec2 operator+(const ImVec2& other)
 		{
 			return mvVec2{ x + other.x, y + other.y };

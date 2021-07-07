@@ -55,8 +55,20 @@ namespace Marvel {
 	{
 		mvVec2 start = { x, y };
 		std::vector<mvVec2> points = m_points;
-		for (auto& point : points)
-			point = point + start;
+		if (ImPlot::GetCurrentContext()->CurrentPlot)
+		{
+			for (auto& point : points)
+			{
+				ImVec2 impoint = ImPlot::PlotToPixels(point);
+				point.x = impoint.x;
+				point.y = impoint.y;
+			}
+		}
+		else
+		{
+			for (auto& point : points)
+				point = point + start;
+		}
 		// TODO: Find a way to store lines and only calc new fill lines when dirty similar to ellipse
 		drawlist->AddPolyline((const ImVec2*)const_cast<const mvVec2*>(points.data()), (int)m_points.size(), m_color, false, m_thickness);
 		if (m_fill.r < 0.0f)
@@ -127,8 +139,14 @@ namespace Marvel {
 
 				for (i = 0; i < ints; i += 2)
 				{
-					drawlist->AddLine({ (float)polyints[i] + start.x, (float)y + start.y },
-						{ (float)polyints[i + 1] + start.x, (float)y + start.y }, m_fill, m_thickness);
+					if (ImPlot::GetCurrentContext()->CurrentPlot)
+						drawlist->AddLine(ImPlot::PlotToPixels({ (float)polyints[i], (float)y }),
+							ImPlot::PlotToPixels({ (float)polyints[i + 1], (float)y}), m_fill, m_thickness);
+					else
+					{
+						drawlist->AddLine({ (float)polyints[i] + start.x, (float)y + start.y },
+							{ (float)polyints[i + 1] + start.x, (float)y + start.y }, m_fill, m_thickness);
+					}
 				}
 			}
 			delete[] polyints;

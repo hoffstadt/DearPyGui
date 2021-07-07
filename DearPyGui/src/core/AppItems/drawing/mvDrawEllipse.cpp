@@ -76,9 +76,22 @@ namespace Marvel {
 		}
 
 		std::vector<mvVec2> points = m_points;
-		for (auto& point : points) {
-			point.x += x;
-			point.y += y;
+		if (ImPlot::GetCurrentContext()->CurrentPlot)
+		{
+			for (auto& point : points)
+			{
+				ImVec2 impoint = ImPlot::PlotToPixels(point);
+				point.x = impoint.x;
+				point.y = impoint.y;
+			}
+		}
+		else
+		{
+			for (auto& point : points) 
+			{
+				point.x += x;
+				point.y += y;
+			}
 		}
 
 		drawlist->AddPolyline((const ImVec2*)const_cast<const mvVec2*>(points.data()), (int)points.size(), m_color, false, m_thickness);

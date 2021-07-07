@@ -77,7 +77,10 @@ namespace Marvel {
 			else
 				texture = static_cast<mvDynamicTexture*>(m_texture.get())->getRawTexture();
 
-			drawlist->AddImage(texture, m_pmin + start, m_pmax + start, m_uv_min, m_uv_max, m_color);
+			if (ImPlot::GetCurrentContext()->CurrentPlot)
+				drawlist->AddImage(texture, ImPlot::PlotToPixels(m_pmin), ImPlot::PlotToPixels(m_pmax), m_uv_min, m_uv_max, m_color);
+			else
+				drawlist->AddImage(texture, m_pmin + start, m_pmax + start, m_uv_min, m_uv_max, m_color);
 		}
 	}
 
