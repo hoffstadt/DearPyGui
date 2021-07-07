@@ -208,7 +208,7 @@ namespace Marvel {
 		if (type == mvAppItemType::mvDrawImage) return true;
 
 		if (type == mvAppItemType::mvActivatedHandler) return true;
-		if (type == mvAppItemType::mvActivatedHandler) return true;
+		if (type == mvAppItemType::mvActiveHandler) return true;
 		if (type == mvAppItemType::mvClickedHandler) return true;
 		if (type == mvAppItemType::mvDeactivatedAfterEditHandler) return true;
 		if (type == mvAppItemType::mvDeactivatedHandler) return true;

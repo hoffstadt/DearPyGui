@@ -132,100 +132,6 @@ namespace Marvel {
 			m_windowflags &= ~ImGuiWindowFlags_MenuBar;
 	}
 
-	bool mvWindowAppItem::preDraw()
-	{
-		if (!m_show)
-		{
-			if (!DoesItemHaveFlag(this, MV_ITEM_DESC_ALWAYS_DRAW))
-				return false;
-		}
-
-		if (m_focusNextFrame)
-		{
-			ImGui::SetKeyboardFocusHere();
-			m_focusNextFrame = false;
-		}
-
-		if (m_font)
-		{
-			ImFont* fontptr = static_cast<mvFont*>(m_font.get())->getFontPtr();
-			ImGui::PushFont(fontptr);
-		}
-
-
-		if (m_enabled)
-		{
-			if (auto classTheme = getClassTheme())
-			{
-				static_cast<mvTheme*>(classTheme.get())->draw(nullptr, 0.0f, 0.0f);
-			}
-			if (m_theme)
-			{
-				static_cast<mvTheme*>(m_theme.get())->draw(nullptr, 0.0f, 0.0f);
-			}
-		}
-		else
-		{
-
-			if (auto classTheme = getClassDisabledTheme())
-			{
-				static_cast<mvTheme*>(classTheme.get())->draw(nullptr, 0.0f, 0.0f);
-			}
-
-			if (m_disabledTheme)
-			{
-				static_cast<mvTheme*>(m_disabledTheme.get())->draw(nullptr, 0.0f, 0.0f);
-			}
-		}
-
-		return true;
-	}
-
-	void mvWindowAppItem::postDraw()
-	{
-
-		m_state.update();
-
-		if (m_font)
-		{
-			ImGui::PopFont();
-		}
-
-		if (m_enabled)
-		{
-			if (auto classTheme = getClassTheme())
-			{
-				static_cast<mvTheme*>(classTheme.get())->customAction();
-			}
-
-			if (m_theme)
-			{
-				static_cast<mvTheme*>(m_theme.get())->customAction();
-			}
-		}
-		else
-		{
-			if (auto classTheme = getClassDisabledTheme())
-			{
-				static_cast<mvTheme*>(classTheme.get())->customAction();
-			}
-			if (m_disabledTheme)
-			{
-				static_cast<mvTheme*>(m_disabledTheme.get())->customAction();
-			}
-		}
-
-		// event handlers
-		for (auto& item : m_children[3])
-		{
-			if (!item->preDraw())
-				continue;
-
-			item->draw(nullptr, ImGui::GetCursorPosX(), ImGui::GetCursorPosY());
-		}
-
-	}
-
 	void mvWindowAppItem::setWindowAsMainStatus(bool value)
 	{
 		m_mainWindow = value;
@@ -282,6 +188,37 @@ namespace Marvel {
 
 	void mvWindowAppItem::draw(ImDrawList* drawlist, float x, float y)
 	{
+
+		//-----------------------------------------------------------------------------
+		// pre draw
+		//-----------------------------------------------------------------------------
+
+		if (m_focusNextFrame)
+		{
+			ImGui::SetNextWindowFocus();
+			m_focusNextFrame = false;
+		}
+
+		// handle fonts
+		if (m_font)
+		{
+			ImFont* fontptr = static_cast<mvFont*>(m_font.get())->getFontPtr();
+			ImGui::PushFont(fontptr);
+		}
+
+		// handle class theming
+		if (auto classTheme = getClassTheme())
+			static_cast<mvTheme*>(classTheme.get())->draw(nullptr, 0.0f, 0.0f);
+
+		// handle item theming
+		if (m_theme)
+			static_cast<mvTheme*>(m_theme.get())->draw(nullptr, 0.0f, 0.0f);
+
+
+		//-----------------------------------------------------------------------------
+		// draw
+		//-----------------------------------------------------------------------------
+
 		ScopedID id(m_uuid);
 
 		if (m_mainWindow)
@@ -311,12 +248,6 @@ namespace Marvel {
 		}
 
 		ImGui::SetNextWindowSizeConstraints(m_min_size, m_max_size);
-
-		if (m_focusNextFrame)
-		{
-			ImGui::SetNextWindowFocus();
-			m_focusNextFrame = false;
-		}
 
 		if (m_modal)
 		{
@@ -406,6 +337,22 @@ namespace Marvel {
 
 		}
 
+		//-----------------------------------------------------------------------------
+		// post draw
+		//-----------------------------------------------------------------------------
+
+		// pop font from stack
+		if (m_font)
+			ImGui::PopFont();
+
+		// pop class theme
+		if (auto classTheme = getClassTheme())
+			static_cast<mvTheme*>(classTheme.get())->customAction();
+
+		// pop item theme
+		if (m_theme)
+			static_cast<mvTheme*>(m_theme.get())->customAction();
+
 		if (m_scrollXSet)
 		{
 			if (m_scrollX < 0.0f)
@@ -445,6 +392,7 @@ namespace Marvel {
 		m_width = (int)ImGui::GetWindowWidth();
 		m_height = (int)ImGui::GetWindowHeight();
 
+		// update active window
 		if (m_state.isItemFocused())
 		{
 
@@ -472,6 +420,15 @@ namespace Marvel {
 
 		if (!m_show)
 			hide();
+
+		// event handlers
+		for (auto& item : m_children[3])
+		{
+			if (!item->preDraw())
+				continue;
+
+			item->draw(nullptr, ImGui::GetCursorPosX(), ImGui::GetCursorPosY());
+		}
 	}
 
 	void mvWindowAppItem::show()

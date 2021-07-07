@@ -388,7 +388,7 @@ namespace Marvel {
 			if (!root->preDraw())
 				continue;
 
-			if(root->m_show || mvAppItem::DoesItemHaveFlag(root.get(), MV_ITEM_DESC_ALWAYS_DRAW))
+			if(root->m_show || mvAppItem::DoesItemHaveFlag(root.get(), MV_ITEM_DESC_ALWAYS_DRAW) || root->getType() == mvAppItemType::mvWindowAppItem)
 				root->draw(nullptr, 0.0f, 0.0f);
 
 			root->postDraw();
