@@ -72,6 +72,7 @@ namespace Marvel {
 	mvNodeEditor::mvNodeEditor(mvUUID uuid)
 		: mvAppItem(uuid)
 	{
+		m_label = "NodeEditor###" + std::to_string(m_uuid);
 	}
 
 	void mvNodeEditor::handleSpecificKeywordArgs(PyObject* dict)
@@ -173,7 +174,7 @@ namespace Marvel {
 
 		for (auto& item : m_children[1])
 		{
-
+			// skip nodes
 			if (item->getType() != mvAppItemType::mvMenuBar)
 				continue;
 
@@ -214,9 +215,10 @@ namespace Marvel {
 		for (auto& item : m_children[0])
 			item->draw(drawlist, x, y);
 
+		// draw nodes
 		for (auto& item : m_children[1])
 		{
-
+			// skip menu bars
 			if (item->getType() != mvAppItemType::mvNode)
 				continue;
 
@@ -279,6 +281,11 @@ namespace Marvel {
 			mvUUID node1, node2;
 			for (const auto& child : m_children[1])
 			{
+
+				// skip menu bars
+				if (child->getType() != mvAppItemType::mvNode)
+					continue;
+
 				for (const auto& grandchild : child->m_children[1])
 				{
 					if (static_cast<mvNodeAttribute*>(grandchild.get())->getId() == start_attr)
