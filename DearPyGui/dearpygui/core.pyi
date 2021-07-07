@@ -350,7 +350,7 @@ def add_node_attribute(*, label: str =None, id: int =0, indent: int =-1, parent:
 	"""Adds a node attribute."""
 	...
 
-def add_node_editor(*, label: str =None, id: int =0, parent: int =0, before: int =0, payload_type: str ='$$DPG_PAYLOAD', callback: Callable =None, drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, filter_key: str ='', delay_search: str =False, tracked: bool =False, track_offset: float =0.5, user_data: Any =None, delink_callback: Callable =None) -> int:
+def add_node_editor(*, label: str =None, id: int =0, width: int =0, height: int =0, parent: int =0, before: int =0, payload_type: str ='$$DPG_PAYLOAD', callback: Callable =None, drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, filter_key: str ='', delay_search: str =False, tracked: bool =False, track_offset: float =0.5, user_data: Any =None, delink_callback: Callable =None, menubar: bool =False) -> int:
 	"""Adds a node editor."""
 	...
 

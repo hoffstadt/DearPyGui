@@ -36,6 +36,7 @@ namespace Marvel {
 		mvNodeEditor(mvUUID uuid);
 
 		void handleSpecificKeywordArgs(PyObject* dict) override;
+		void getSpecificConfiguration(PyObject* dict) override;
 
 		bool canChildBeAdded(mvAppItemType type) override;
 
@@ -48,6 +49,7 @@ namespace Marvel {
 
 	private:
 
+		ImGuiWindowFlags m_windowflags = ImGuiWindowFlags_NoSavedSettings;
 		std::vector<int> m_selectedNodes;
 		std::vector<int> m_selectedLinks;
 

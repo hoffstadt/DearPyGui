@@ -25,11 +25,14 @@ namespace Marvel {
 				MV_PARSER_ARG_DRAG_CALLBACK |
 				MV_PARSER_ARG_PAYLOAD_TYPE |
 				MV_PARSER_ARG_SEARCH_DELAY |
+				MV_PARSER_ARG_WIDTH |
+				MV_PARSER_ARG_HEIGHT |
 				MV_PARSER_ARG_TRACKED |
 				MV_PARSER_ARG_SHOW)
 			);
 
 			parser.addArg<mvPyDataType::Callable>("delink_callback", mvArgType::KEYWORD_ARG, "None", "Callback ran when a link is detached.");
+			parser.addArg<mvPyDataType::Bool>("menubar", mvArgType::KEYWORD_ARG, "False", "Shows or hides the menubar.");
 
 			parser.finalize();
 
@@ -86,10 +89,42 @@ namespace Marvel {
 				Py_XINCREF(item);
 			m_delinkCallback = item;
 		}
+
+		// helper for bit flipping
+		auto flagop = [dict](const char* keyword, int flag, int& flags)
+		{
+			if (PyObject* item = PyDict_GetItemString(dict, keyword)) ToBool(item) ? flags |= flag : flags &= ~flag;
+		};
+
+		// window flags
+		flagop("menubar", ImGuiWindowFlags_MenuBar, m_windowflags);
+	}
+
+	void mvNodeEditor::getSpecificConfiguration(PyObject* dict)
+	{
+		if (dict == nullptr)
+			return;
+
+		if (m_delinkCallback)
+		{
+			Py_XINCREF(m_delinkCallback);
+			PyDict_SetItemString(dict, "delink_callback", m_delinkCallback);
+		}
+
+
+		// helper to check and set bit
+		auto checkbitset = [dict](const char* keyword, int flag, const int& flags)
+		{
+			PyDict_SetItemString(dict, keyword, ToPyBool(flags & flag));
+		};
+
+		// window flags
+		checkbitset("menubar", ImGuiWindowFlags_MenuBar, m_windowflags);
 	}
 
 	bool mvNodeEditor::canChildBeAdded(mvAppItemType type)
 	{
+		if(type ==mvAppItemType::mvMenuBar) return true;
 		if(type ==mvAppItemType::mvNode) return true;
 		if(type ==mvAppItemType::mvNodeLink) return true;
 		if (type == mvAppItemType::mvActivatedHandler) return true;
@@ -134,6 +169,28 @@ namespace Marvel {
 	{
 		ScopedID id(m_uuid);
 
+		ImGui::BeginChild(m_label.c_str(), ImVec2((float)m_width, (float)m_height), false, m_windowflags);
+
+		for (auto& item : m_children[1])
+		{
+
+			if (item->getType() != mvAppItemType::mvMenuBar)
+				continue;
+
+			// skip item if it's not shown
+			if (!item->preDraw())
+				continue;
+
+			// set item width
+			if (item->m_width != 0)
+				ImGui::SetNextItemWidth((float)item->m_width);
+
+			item->draw(drawlist, x, y);
+
+			item->postDraw();
+		}
+
+
 		imnodes::PushAttributeFlag(imnodes::AttributeFlags_EnableLinkDetachWithDragClick);
 
 		imnodes::IO& io = imnodes::GetIO();
@@ -159,6 +216,10 @@ namespace Marvel {
 
 		for (auto& item : m_children[1])
 		{
+
+			if (item->getType() != mvAppItemType::mvNode)
+				continue;
+
 			// skip item if it's not shown
 			if (!item->preDraw())
 				continue;
@@ -260,6 +321,8 @@ namespace Marvel {
 		}
 
 		m_state.setHovered(imnodes::IsEditorHovered());	
+
+		ImGui::EndChild();
 	}
 
 	PyObject* mvNodeEditor::get_selected_nodes(PyObject* self, PyObject* args, PyObject* kwargs)

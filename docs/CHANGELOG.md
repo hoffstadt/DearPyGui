@@ -24,8 +24,10 @@ We generally fold multiple commits pertaining to the same topic as a single entr
 
 ### New
 * drawing items on plots are now in plot space #1011
+* node editor now has width/height
 
 ### Fixes
+* fixed node editor not respecting width/height #818
 * fixed no_focus_on_appear window flag #1026
 * fixed widget handlers issue for nodes #1025
 * fixed multiple connections from same attribute issue #1022
