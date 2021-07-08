@@ -309,7 +309,7 @@ def set_item_source(item: int, source: int):
     internal_dpg.configure_item(item, source=source)
 
 
-def set_item_pos(item: str, pos: List[float]):
+def set_item_pos(item: int, pos: List[float]):
     """Sets the item's position.
 
     Args:
@@ -322,7 +322,7 @@ def set_item_pos(item: str, pos: List[float]):
     internal_dpg.configure_item(item, pos=pos)
 
 
-def set_item_width(item: str, width: int):
+def set_item_width(item: int, width: int):
     """Sets the item's width.
 
     Args:
