@@ -59,7 +59,12 @@ namespace Marvel {
 		ScopedID id(m_uuid);
 
 		if (ImGui::Selectable(m_label.c_str(), m_value.get(), m_flags, ImVec2((float)m_width, (float)m_height)))
-			mvApp::GetApp()->getCallbackRegistry().addCallback(m_callback, m_uuid, nullptr, m_user_data);
+		{
+			auto value = *m_value;
+			mvApp::GetApp()->getCallbackRegistry().submitCallback([=]() {
+				mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), m_uuid, ToPyBool(value), m_user_data);
+				});
+		}
 
 	}
 

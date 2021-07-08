@@ -87,7 +87,10 @@ namespace Marvel {
 			{
 				*m_value = m_itemnames[m_index];
 				m_disabled_value = m_itemnames[m_index];
-				mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), m_uuid, nullptr, m_user_data);
+				auto value = *m_value;
+				mvApp::GetApp()->getCallbackRegistry().submitCallback([=]() {
+					mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), m_uuid, ToPyString(value), m_user_data);
+					});
 			}
 
 		}

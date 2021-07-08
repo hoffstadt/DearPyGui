@@ -35,7 +35,7 @@ namespace Marvel {
 			ImGui::SetDragDropPayload(m_payloadType.c_str(), this, sizeof(mvDragPayload));
 
 			if(m_parentPtr->getDragCallback())
-				mvApp::GetApp()->getCallbackRegistry().addCallback(m_parentPtr->getDragCallback(), m_parent, GetPyNone(), nullptr);
+				mvApp::GetApp()->getCallbackRegistry().addCallback(m_parentPtr->getDragCallback(), m_parent, GetPyNone(), m_user_data);
 
 			for (auto& childset : m_children)
 			{

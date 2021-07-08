@@ -14,13 +14,12 @@ def _help(message):
     """ Simple Helper """
     pass
 
-def _config(sender, app_data, user_data):
+def _config(sender, keyword, user_data):
 
     widget_type = dpg.get_item_type(sender)
     items = user_data
 
     if widget_type == "mvAppItemType::mvRadioButton":
-        keyword = dpg.get_value(sender)
         value = True
 
     else:
@@ -150,11 +149,11 @@ def _create_dynamic_textures():
 
 def _update_dynamic_textures(sender, app_data, user_data):
 
-    new_color = dpg.get_value(sender)
-    new_color[0] = new_color[0]/255
-    new_color[1] = new_color[1]/255
-    new_color[2] = new_color[2]/255
-    new_color[3] = new_color[3]/255
+    new_color = app_data
+    new_color[0] = new_color[0]
+    new_color[1] = new_color[1]
+    new_color[2] = new_color[2]
+    new_color[3] = new_color[3]
 
     if user_data == 1:
         texture_data = []
@@ -346,9 +345,7 @@ def show_demo():
                 _color_picker_id = dpg.generate_uuid()
                 _color_edit_id = dpg.generate_uuid()
 
-                def _color_picker_configs(sender, app_data, user_data):
-
-                    value = dpg.get_value(sender)
+                def _color_picker_configs(sender, value, user_data):
 
                     _old_config = dpg.get_item_configuration(user_data)
 
@@ -527,7 +524,7 @@ def show_demo():
 
                     dpg.add_text(paragraph1, wrap=0)
                     widget_id = dpg.add_slider_int(label="wrap width", default_value=500, max_value=1000, 
-                                       callback=lambda s, a, u: dpg.configure_item(u, wrap=dpg.get_value(s)))
+                                       callback=lambda s, a, u: dpg.configure_item(u, wrap=a))
                     dpg.add_text(paragraph2, wrap=500)
                     dpg.configure_item(widget_id, user_data=dpg.last_item())
 
@@ -1502,7 +1499,7 @@ def show_demo():
                                     dpg.add_input_int(label=" ", step=0)
                                     dpg.add_button(label=f"Cell {i}, 1")
                                     dpg.add_text(f"Cell {i}, 2")
-                dpg.add_checkbox(label="resizable", before=table_id, default_value=True, user_data=table_id, callback=lambda sender, app_data, user_data:dpg.configure_item(user_data, resizable=dpg.get_value(sender)))
+                dpg.add_checkbox(label="resizable", before=table_id, default_value=True, user_data=table_id, callback=lambda sender, app_data, user_data:dpg.configure_item(user_data, resizable=app_data))
 
                 # Freezing rows/columns
                 dpg.add_text("Freezing rows/columns")
@@ -1550,7 +1547,7 @@ def show_demo():
                                     dpg.add_input_int(label=" ", step=0)
                                     dpg.add_button(label=f"Cell {i}, 1")
                                     dpg.add_text(f"Cell {i}, 2")
-                dpg.add_checkbox(label="resizable", before=table_id, default_value=True, user_data=table_id, callback=lambda sender, app_data, user_data:dpg.configure_item(user_data, resizable=dpg.get_value(sender)))
+                dpg.add_checkbox(label="resizable", before=table_id, default_value=True, user_data=table_id, callback=lambda sender, app_data, user_data:dpg.configure_item(user_data, resizable=app_data))
 
             with dpg.tree_node(label="Sorting"):
 
@@ -1624,26 +1621,23 @@ def show_demo():
                             if i != 25:
                                 dpg.add_table_next_column()
 
-                dpg.add_checkbox(label="sort_multi", before=table_id, user_data=table_id, callback=lambda sender, app_data, user_data:dpg.configure_item(user_data, sort_multi=dpg.get_value(sender)))
-                dpg.add_checkbox(label="sort_tristate", before=table_id, user_data=table_id, callback=lambda sender, app_data, user_data:dpg.configure_item(user_data, sort_tristate=dpg.get_value(sender)))
+                dpg.add_checkbox(label="sort_multi", before=table_id, user_data=table_id, callback=lambda sender, app_data, user_data:dpg.configure_item(user_data, sort_multi=app_data))
+                dpg.add_checkbox(label="sort_tristate", before=table_id, user_data=table_id, callback=lambda sender, app_data, user_data:dpg.configure_item(user_data, sort_tristate=app_data))
 
             with dpg.tree_node(label="Sizing Policy"):
 
-                def callback(sender, app_data, user_data):
+                def callback(sender, value, user_data):
 
                     if user_data[8] == "resizable":
-                        value = dpg.get_value(sender)
                         for i in range(0, 8):
                             dpg.configure_item(user_data[i], resizable=value)
 
                     elif user_data[8] == "no_host_extendX":
-                        value = dpg.get_value(sender)
                         for i in range(0, 8):
                             dpg.configure_item(user_data[i], no_host_extendX=value)
 
                     elif user_data[8] == "policy":
 
-                        value = dpg.get_value(sender)
                         if value == "mvTable_SizingFixedFit":
                             dpg.configure_item(user_data[user_data[9]], policy=dpg.mvTable_SizingFixedFit)
                             dpg.configure_item(user_data[user_data[9]+1], policy=dpg.mvTable_SizingFixedFit)
@@ -2200,16 +2194,16 @@ def show_demo():
                 dpg.add_text("abc.h", filter_key="abc.h", bullet=True)
                 dpg.add_text("hello, world", filter_key="hello, world", bullet=True)
 
-            dpg.add_input_text(label="Filter (inc, -exc)", before=dpg.last_container(), user_data=dpg.last_container(), callback=lambda s, a, u: dpg.set_value(u, dpg.get_value(s)))
+            dpg.add_input_text(label="Filter (inc, -exc)", before=dpg.last_container(), user_data=dpg.last_container(), callback=lambda s, a, u: dpg.set_value(u, a))
 
         with dpg.collapsing_header(label="Drawing API"):
             draw_groups={}
             layers={}
 
-            def _switch_group(sender):
+            def _switch_group(sender, value):
                 for v in draw_groups.values():
                     dpg.configure_item(v, show=False)
-                dpg.configure_item(draw_groups[dpg.get_value(sender)], show=True)
+                dpg.configure_item(draw_groups[value], show=True)
 
             def _draw(sender, app_data, user_data):
                 args = []
@@ -2404,7 +2398,7 @@ def show_demo():
 
             def _set_activator(sender, app_data, user_data):
                 keyword = dpg.get_item_label(sender)
-                constant = user_data[0][dpg.get_value(sender)]
+                constant = user_data[0][app_data]
                 for item in user_data[1]:
                     dpg.configure_item(item, **{keyword: constant})
 

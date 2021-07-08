@@ -64,7 +64,13 @@ namespace Marvel {
 		if (!m_enabled) std::copy(m_value->data(), m_value->data() + 4, m_disabled_value);
 
 			if (ImGui::ColorEdit4(m_label.c_str(), m_enabled ? m_value->data() : &m_disabled_value[0], m_flags))
-				mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), m_uuid, nullptr, m_user_data);
+			{
+				auto value = *m_value;
+				mvColor color = mvColor(value[0], value[1], value[2], value[3]);
+				mvApp::GetApp()->getCallbackRegistry().submitCallback([=]() {
+					mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), m_uuid, ToPyColor(color), m_user_data);
+					});
+			}
 
 	}
 

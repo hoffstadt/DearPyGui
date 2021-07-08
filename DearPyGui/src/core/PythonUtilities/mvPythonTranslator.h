@@ -53,9 +53,9 @@ namespace Marvel {
 	PyObject*   ToPyColor (const mvColor& color);
 	PyObject*   ToPyTime  (const tm& time);
 
-	PyObject*   ToPyIntList  (int* value, int count);
-	PyObject*   ToPyFloatList(float* value, int count);
-	PyObject*   ToPyFloatList(double* value, int count);
+	PyObject*   ToPyIntList  (const int* value, int count);
+	PyObject*   ToPyFloatList(const float* value, int count);
+	PyObject*   ToPyFloatList(const double* value, int count);
 
 	// updates
 	void        UpdatePyIntList         (PyObject* pyvalue, const std::vector<int>& value);

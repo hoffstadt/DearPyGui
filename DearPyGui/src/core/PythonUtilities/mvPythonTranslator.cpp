@@ -310,7 +310,7 @@ namespace Marvel {
 		return dict;
 	}
 
-	PyObject* ToPyIntList(int* value, int count)
+	PyObject* ToPyIntList(const int* value, int count)
 	{
 		 
 
@@ -322,7 +322,7 @@ namespace Marvel {
 		return result;
 	}
 
-	PyObject* ToPyFloatList(float* value, int count)
+	PyObject* ToPyFloatList(const float* value, int count)
 	{
 		 
 
@@ -334,7 +334,7 @@ namespace Marvel {
 		return result;
 	}
 
-	PyObject* ToPyFloatList(double* value, int count)
+	PyObject* ToPyFloatList(const double* value, int count)
 	{
 
 
