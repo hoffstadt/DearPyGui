@@ -1235,17 +1235,7 @@ namespace Marvel{
 
 
 		if (!mvApp::s_manualMutexControl) std::lock_guard<std::mutex> lk(mvApp::s_mutex);
-		auto appitem = mvApp::GetApp()->getItemRegistry().getItem(item);
-
-		if (appitem)
-		{
-			appitem->m_focusNextFrame = true;
-			if (auto parent = appitem->getRoot())
-				parent->m_focusNextFrame = true;
-		}
-		else
-			mvThrowPythonError(mvErrorCode::mvItemNotFound, "focus_item",
-				"Item not found: " + std::to_string(item), nullptr);
+		auto appitem = mvApp::GetApp()->getItemRegistry().focusItem(item);
 
 		return GetPyNone();
 	}

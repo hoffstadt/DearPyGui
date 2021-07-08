@@ -20,6 +20,15 @@ We generally fold multiple commits pertaining to the same topic as a single entr
 - Read the `Breaking Changes` section (here in the changelog).
 - Please report any issue!
 
+## VERSION 0.8.x
+
+### New
+* draw layer now available for plots
+
+### Fixes
+* fixed focus window for first frame issue #1035
+
+
 ## VERSION 0.8.19
 
 ### New
