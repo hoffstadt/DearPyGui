@@ -4,8 +4,8 @@
 #define MV_BASE_COL_lightBgColor mvColor(82, 82, 85, 255)
 #define MV_BASE_COL_veryLightBgColor mvColor(90, 90, 95, 255)
 #define MV_BASE_COL_panelColor mvColor(51, 51, 55, 255)
-#define MV_BASE_COL_panelHoverColor mvColor(29, 151, 236, 103)
-#define MV_BASE_COL_panelActiveColor mvColor(0, 119, 200, 153)
+#define MV_BASE_COL_panelHoverColor mvColor(0, 133, 223, 255)
+#define MV_BASE_COL_panelActiveColor mvColor(0, 60, 100, 255)
 #define MV_BASE_COL_textColor mvColor(255, 255, 255, 255)
 #define MV_BASE_COL_textDisabledColor mvColor(151, 151, 151, 255)
 #define MV_BASE_COL_borderColor mvColor(78, 78, 78, 255)
@@ -22,14 +22,14 @@
 #define mvImGuiCol_FrameBgHovered MV_BASE_COL_panelHoverColor
 #define mvImGuiCol_FrameBgActive MV_BASE_COL_panelActiveColor
 #define mvImGuiCol_TitleBg MV_BASE_COL_bgColor
-#define mvImGuiCol_TitleBgActive MV_BASE_COL_bgColor
+#define mvImGuiCol_TitleBgActive mvColor(15, 86, 135, 255)
 #define mvImGuiCol_TitleBgCollapsed MV_BASE_COL_bgColor
 #define mvImGuiCol_MenuBarBg MV_BASE_COL_panelColor
 #define mvImGuiCol_ScrollbarBg MV_BASE_COL_panelColor
 #define mvImGuiCol_ScrollbarGrab MV_BASE_COL_lightBgColor
 #define mvImGuiCol_ScrollbarGrabHovered MV_BASE_COL_veryLightBgColor
 #define mvImGuiCol_ScrollbarGrabActive MV_BASE_COL_veryLightBgColor
-#define mvImGuiCol_CheckMark MV_BASE_COL_panelActiveColor
+#define mvImGuiCol_CheckMark mvColor(15, 86, 135, 255)
 #define mvImGuiCol_SliderGrab MV_BASE_COL_panelHoverColor
 #define mvImGuiCol_SliderGrabActive MV_BASE_COL_panelActiveColor
 #define mvImGuiCol_Button MV_BASE_COL_panelColor
