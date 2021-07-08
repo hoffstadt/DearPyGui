@@ -25,6 +25,9 @@ We generally fold multiple commits pertaining to the same topic as a single entr
 ### Breaking Changes
 * user_data is no longer called if it is a callable
 
+### New
+* for most basic widgets, app_data callback argument is now the widget's value
+
 ### Fixes
 * fixed min/max not being honored in input widgets issue #1037
 

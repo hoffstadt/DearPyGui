@@ -165,7 +165,11 @@ namespace Marvel {
             if (m_last_value != *m_value)
             {
                 m_last_value = *m_value;
-                mvApp::GetApp()->getCallbackRegistry().addCallback(m_callback, m_uuid, nullptr, m_user_data);
+
+                auto value = *m_value;
+                mvApp::GetApp()->getCallbackRegistry().submitCallback([=]() {
+                    mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), m_uuid, ToPyIntList(value.data(), value.size()), m_user_data);
+                    });
             }
         }
     }
@@ -251,7 +255,10 @@ namespace Marvel {
             if (m_last_value != *m_value)
             {
                 m_last_value = *m_value;
-                mvApp::GetApp()->getCallbackRegistry().addCallback(m_callback, m_uuid, nullptr, m_user_data);
+                auto value = *m_value;
+                mvApp::GetApp()->getCallbackRegistry().submitCallback([=]() {
+                    mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), m_uuid, ToPyFloatList(value.data(), value.size()), m_user_data);
+                    });
             }
         }
     }

@@ -45,7 +45,12 @@ namespace Marvel {
         ScopedID id(m_uuid);
 
         if (KnobFloat(m_specificedlabel.c_str(), m_value.get(), m_min, m_max, m_step))
-            mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), m_uuid, nullptr, m_user_data);
+        {
+            auto value = *m_value;
+            mvApp::GetApp()->getCallbackRegistry().submitCallback([=]() {
+                mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), m_uuid, ToPyFloat(value), m_user_data);
+                });
+        }
     }
 
     void mvKnobFloat::handleSpecificKeywordArgs(PyObject* dict)
