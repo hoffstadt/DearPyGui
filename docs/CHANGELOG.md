@@ -22,6 +22,9 @@ We generally fold multiple commits pertaining to the same topic as a single entr
 
 ## VERSION 0.8.21
 
+### Breaking Changes
+* user_data is no longer called if it is a callable
+
 ### Fixes
 * fixed min/max not being honored in input widgets issue #1037
 
