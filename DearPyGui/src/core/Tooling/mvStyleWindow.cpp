@@ -216,7 +216,7 @@ namespace Marvel {
                     "Right-click to open edit options menu.");
 
                 ImGui::BeginChild("##colors", ImVec2(0, 0), true, ImGuiWindowFlags_AlwaysVerticalScrollbar | ImGuiWindowFlags_AlwaysHorizontalScrollbar | ImGuiWindowFlags_NavFlattened);
-                ImGui::PushItemWidth(-160);
+                ImGui::PushItemWidth(-300);
                 for (int i = 0; i < ImGuiCol_COUNT; i++)
                 {
                     const char* name = ImGui::GetStyleColorName(i);
