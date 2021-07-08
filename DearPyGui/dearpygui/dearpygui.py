@@ -4173,11 +4173,11 @@ def add_progress_bar(*, label: str =None, id: int =0, width: int =0, height: int
 
 	return internal_dpg.add_progress_bar(label=label, id=id, width=width, height=height, indent=indent, parent=parent, before=before, source=source, payload_type=payload_type, drag_callback=drag_callback, drop_callback=drop_callback, show=show, pos=pos, filter_key=filter_key, tracked=tracked, track_offset=track_offset, user_data=user_data, overlay=overlay, default_value=default_value)
 
-def add_radio_button(items : int =(), *, label: str =None, id: int =0, indent: int =-1, parent: int =0, before: int =0, source: int =0, payload_type: str ='$$DPG_PAYLOAD', callback: Callable =None, drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, enabled: bool =True, pos: List[int] =[], filter_key: str ='', tracked: bool =False, track_offset: float =0.5, user_data: Any =None, default_value: str ='', horizontal: bool =False) -> int:
+def add_radio_button(items : List[str] =(), *, label: str =None, id: int =0, indent: int =-1, parent: int =0, before: int =0, source: int =0, payload_type: str ='$$DPG_PAYLOAD', callback: Callable =None, drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, enabled: bool =True, pos: List[int] =[], filter_key: str ='', tracked: bool =False, track_offset: float =0.5, user_data: Any =None, default_value: str ='', horizontal: bool =False) -> int:
 	"""
 	Adds a set of radio buttons. If items keyword is empty, nothing will be shown.
 	Args:
-		*items (int): A tuple of items to be shown as radio options. Can consist of any combination of types.
+		*items (List[str]): A tuple of items to be shown as radio options. Can consist of any combination of types.
 		**label (str): Overrides 'name' as label.
 		**id (int): Unique id used to programmatically refer to the item.If label is unused this will be the label.
 		**indent (int): Offsets the widget to the right the specified number multiplied by the indent style.
