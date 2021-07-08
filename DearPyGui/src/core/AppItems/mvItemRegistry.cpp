@@ -190,6 +190,38 @@ namespace Marvel {
 		return nullptr;
 	}
 
+	bool mvItemRegistry::focusItem(mvUUID uuid)
+	{
+
+		if (!mvApp::IsAppStarted())
+		{
+			for (int i = 0; i < m_roots.size(); i++)
+			{
+				if (m_roots[i]->getUUID() == uuid)
+				{
+					mvRef<mvAppItem> oldItem = m_roots.back();
+					m_roots[m_roots.size() - 1] = m_roots[i];
+					m_roots[i] = oldItem;
+					return true;
+				}
+			}
+		}
+
+		auto appitem = getItem(uuid);
+
+		if (appitem)
+		{
+			appitem->focus();
+			if (auto parent = appitem->getRoot())
+				parent->focus();
+			return true;
+		}
+		else
+			mvThrowPythonError(mvErrorCode::mvItemNotFound, "focus_item",
+				"Item not found: " + std::to_string(uuid), nullptr);
+		return false;
+	}
+
 	bool mvItemRegistry::deleteItem(mvUUID uuid, bool childrenOnly, int slot)
 	{
 

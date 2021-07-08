@@ -100,6 +100,7 @@ namespace Marvel {
         //-----------------------------------------------------------------------------
         // Widget Operations
         //-----------------------------------------------------------------------------
+        bool                           focusItem         (mvUUID uuid);
         bool                           deleteItem        (mvUUID uuid, bool childrenOnly = false, int slot = -1);
         bool                           moveItem          (mvUUID uuid, mvUUID parent, mvUUID before);
         bool                           moveItemUp        (mvUUID uuid);

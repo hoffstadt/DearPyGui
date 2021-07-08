@@ -206,6 +206,7 @@ namespace Marvel {
 		if (type == mvAppItemType::mvDrawPolygon) return true;
 		if (type == mvAppItemType::mvDrawPolyline) return true;
 		if (type == mvAppItemType::mvDrawImage) return true;
+		if (type == mvAppItemType::mvDrawLayer) return true;
 
 		if (type == mvAppItemType::mvActivatedHandler) return true;
 		if (type == mvAppItemType::mvActiveHandler) return true;

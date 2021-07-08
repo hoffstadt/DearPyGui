@@ -346,6 +346,7 @@ namespace Marvel {
         [[nodiscard]] PyObject* getDragCallback() { return m_dragCallback; }
         [[nodiscard]] PyObject* getDropCallback() { return m_dropCallback; }
 
+        virtual void                        focus          () { m_focusNextFrame = true; }
         virtual void                        hide           () { m_show = false; }
         virtual void                        show           () { m_show = true; }
         void                                setCallbackData(PyObject* data);
