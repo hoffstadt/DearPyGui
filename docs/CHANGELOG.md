@@ -22,6 +22,12 @@ We generally fold multiple commits pertaining to the same topic as a single entr
 
 ## VERSION 0.8.x
 
+### New
+* added `gamma` and `gamma_scale_factor` keywords to `load_image(...)`
+
+### Fixes
+* fixed incorrect gamma correction for image loading #1043
+
 ## VERSION 0.8.21
 
 ### Breaking Changes
