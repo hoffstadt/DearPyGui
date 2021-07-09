@@ -826,7 +826,7 @@ def last_root() -> int:
 	"""Undocumented"""
 	...
 
-def load_image(file : str) -> Any:
+def load_image(file : str, *, gamma: float =1.0, gamma_scale_factor: float =1.0) -> Any:
 	"""Loads an image. Returns width, height, channels, mvBuffer"""
 	...
 

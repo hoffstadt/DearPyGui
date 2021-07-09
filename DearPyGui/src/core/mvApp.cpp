@@ -276,6 +276,8 @@ namespace Marvel {
 		{
 			mvPythonParser parser(mvPyDataType::Object, "Loads an image. Returns width, height, channels, mvBuffer", { "Textures", "Widgets" });
 			parser.addArg<mvPyDataType::String>("file");
+			parser.addArg<mvPyDataType::Float>("gamma", mvArgType::KEYWORD_ARG, "1.0", "Gamma correction factor. (default is 1.0 to avoid automatic gamma correction on loading.");
+			parser.addArg<mvPyDataType::Float>("gamma_scale_factor", mvArgType::KEYWORD_ARG, "1.0", "Gamma scale factor.");
 			parser.finalize();
 			parsers->insert({ "load_image", parser });
 		}
@@ -435,14 +437,32 @@ namespace Marvel {
 	PyObject* mvApp::load_image(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		const char* file;
+		float gamma = 1.0f;
+		float gamma_scale = 1.0f;
 
 		if (!(mvApp::GetApp()->getParsers())["load_image"].parse(args, kwargs, __FUNCTION__,
-			&file))
+			&file, &gamma, &gamma_scale))
 			return GetPyNone();
+
+		// Vout = (Vin / 255)^v; Where v = gamma
+
+		if (stbi_is_hdr(file))
+		{
+			stbi_hdr_to_ldr_gamma(gamma);
+			stbi_hdr_to_ldr_scale(gamma_scale);
+		}
+		else
+		{
+			stbi_ldr_to_hdr_gamma(gamma);
+			stbi_ldr_to_hdr_scale(gamma_scale);
+		}
+		
 
 		// Load from disk into a raw RGBA buffer
 		int image_width = 0;
 		int image_height = 0;
+
+		// automatic gamma correction
 		float* image_data = stbi_loadf(file, &image_width, &image_height, NULL, 4);
 		if (image_data == NULL)
 			return GetPyNone();

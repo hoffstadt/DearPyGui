@@ -6018,16 +6018,18 @@ def last_root() -> int:
 
 	return internal_dpg.last_root()
 
-def load_image(file : str) -> Any:
+def load_image(file : str, *, gamma: float =1.0, gamma_scale_factor: float =1.0) -> Any:
 	"""
 	Loads an image. Returns width, height, channels, mvBuffer
 	Args:
 		file (str): 
+		**gamma (float): Gamma correction factor. (default is 1.0 to avoid automatic gamma correction on loading.
+		**gamma_scale_factor (float): Gamma scale factor.
 	Returns:
 		Any
 	"""
 
-	return internal_dpg.load_image(file)
+	return internal_dpg.load_image(file, gamma=gamma, gamma_scale_factor=gamma_scale_factor)
 
 def lock_mutex() -> None:
 	"""
