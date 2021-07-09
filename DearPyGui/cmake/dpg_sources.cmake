@@ -147,6 +147,7 @@ set(MARVEL_SOURCES
 	"src/core/AppItems/fonts/mvFontRangeHint.cpp"
 	"src/core/AppItems/fonts/mvCharRemap.cpp"
 	
+	"src/core/AppItems/plots/mvSubPlots.cpp"
 	"src/core/AppItems/plots/mvPlot.cpp"
 	"src/core/AppItems/plots/mvPlotLegend.cpp"
 	"src/core/AppItems/plots/mvPlotAxis.cpp"

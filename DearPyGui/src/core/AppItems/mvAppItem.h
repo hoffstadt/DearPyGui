@@ -68,7 +68,7 @@ namespace Marvel {
         mvFontRangeHint, mvFontRange, mvFontChars, mvCharRemap,
         mvValueRegistry, mvIntValue, mvFloatValue, mvFloat4Value,
         mvInt4Value, mvBoolValue, mvStringValue, mvDoubleValue, mvDouble4Value,
-        mvColorValue, mvFloatVectValue, mvSeriesValue, mvRawTexture,
+        mvColorValue, mvFloatVectValue, mvSeriesValue, mvRawTexture, mvSubPlots,
         ItemTypeCount
     };
 
@@ -157,6 +157,7 @@ namespace Marvel {
 
         // todo: remove this, I was lazy
         // items that need access to other items
+        friend class mvSubPlots;
         friend class mvMenuItem;
         friend class mvCollapsingHeader;
         friend class mvChild;
