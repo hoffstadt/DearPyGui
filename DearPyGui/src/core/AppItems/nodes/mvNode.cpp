@@ -64,7 +64,7 @@ namespace Marvel {
 	mvNode::mvNode(mvUUID uuid)
 		: mvAppItem(uuid)
 	{
-		m_label = FindRenderedTextEnd(m_label.c_str());
+		m_label = FindRenderedTextEnd(m_label.c_str()) + std::to_string(m_uuid);
 		m_specificedlabel = m_label;
         int64_t address = (int64_t)this;
         int64_t reduced_address = address % 2147483648;

@@ -20,10 +20,13 @@ We generally fold multiple commits pertaining to the same topic as a single entr
 - Read the `Breaking Changes` section (here in the changelog).
 - Please report any issue!
 
-## VERSION 0.8.x
+## VERSION 0.8.22
 
 ### New
 * added `gamma` and `gamma_scale_factor` keywords to `load_image(...)`
+* added subplots widget
+* updated implot to v0.10
+* reorganized plot demo
 
 ### Fixes
 * fixed incorrect gamma correction for image loading #1043

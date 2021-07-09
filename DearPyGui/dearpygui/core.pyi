@@ -462,6 +462,10 @@ def add_string_value(*, label: str =None, id: int =0, source: int =0, user_data:
 	"""Undocumented"""
 	...
 
+def add_subplots(rows : int, columns : int, *, label: str =None, id: int =0, width: int =0, height: int =0, indent: int =-1, parent: int =0, before: int =0, callback: Callable =None, show: bool =True, pos: List[int] =[], filter_key: str ='', delay_search: str =False, tracked: bool =False, track_offset: float =0.5, user_data: Any =None, row_ratios: List[float] =[], column_ratios: List[float] =[], no_title: bool =False, no_menus: bool =False, no_resize: bool =False, no_align: bool =False, link_rows: bool =False, link_columns: bool =False, link_all_x: bool =False, link_all_y: bool =False, column_major: bool =False) -> int:
+	"""Adds a plot which is used to hold series, and can be drawn to with draw commands."""
+	...
+
 def add_tab(*, label: str =None, id: int =0, indent: int =-1, parent: int =0, before: int =0, payload_type: str ='$$DPG_PAYLOAD', drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, filter_key: str ='', delay_search: str =False, tracked: bool =False, track_offset: float =0.5, user_data: Any =None, closable: bool =False, no_tooltip: bool =False, order_mode: bool =0) -> int:
 	"""Adds a tab to a tab bar. Must be closed with thes end command."""
 	...

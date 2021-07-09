@@ -6,6 +6,7 @@
 #include "themes/mvTheme.h"
 #include "mvPythonExceptions.h"
 #include "mvPlot.h"
+#include "mvSubPlots.h"
 #include "containers/mvDragPayload.h"
 
 namespace Marvel {
@@ -47,9 +48,10 @@ namespace Marvel {
 	{
 		if (type == mvAppItemType::mvStagingContainer) return true;
 		if (type == mvAppItemType::mvPlot) return true;
+		if (type == mvAppItemType::mvSubPlots) return true;
 
 		mvThrowPythonError(mvErrorCode::mvIncompatibleParent, s_command,
-			"Incompatible parent. Acceptable parents include: plot, staging container", this);
+			"Incompatible parent. Acceptable parents include: subplots, plot, staging container", this);
 		MV_ITEM_REGISTRY_ERROR("Drawing item parent must be a drawing.");
 		assert(false);
 		return false;
@@ -59,6 +61,8 @@ namespace Marvel {
 	{
 		if (auto plot = static_cast<mvPlot*>(m_parentPtr))
 			plot->addFlag(ImPlotFlags_NoLegend);
+		else if (auto plot = static_cast<mvSubPlots*>(m_parentPtr))
+			plot->addFlag(ImPlotSubplotFlags_NoLegend);
 		m_show = false;
 	}
 
@@ -66,6 +70,8 @@ namespace Marvel {
 	{
 		if (auto plot = static_cast<mvPlot*>(m_parentPtr))
 			plot->removeFlag(ImPlotFlags_NoLegend);
+		else if (auto plot = static_cast<mvSubPlots*>(m_parentPtr))
+			plot->removeFlag(ImPlotSubplotFlags_NoLegend);
 		m_show = true;
 	}
 

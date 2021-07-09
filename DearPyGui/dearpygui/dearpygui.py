@@ -1641,6 +1641,48 @@ def staging_container(*, label: str =None, id: int =0, user_data: Any =None) -> 
 	finally:
 		internal_dpg.pop_container_stack()
 @contextmanager
+def subplots(rows : int, columns : int, *, label: str =None, id: int =0, width: int =0, height: int =0, indent: int =-1, parent: int =0, before: int =0, callback: Callable =None, show: bool =True, pos: List[int] =[], filter_key: str ='', delay_search: str =False, tracked: bool =False, track_offset: float =0.5, user_data: Any =None, row_ratios: List[float] =[], column_ratios: List[float] =[], no_title: bool =False, no_menus: bool =False, no_resize: bool =False, no_align: bool =False, link_rows: bool =False, link_columns: bool =False, link_all_x: bool =False, link_all_y: bool =False, column_major: bool =False) -> int:
+	"""
+	Adds a plot which is used to hold series, and can be drawn to with draw commands.
+	Args:
+		rows (int): 
+		columns (int): 
+		**label (str): Overrides 'name' as label.
+		**id (int): Unique id used to programmatically refer to the item.If label is unused this will be the label.
+		**width (int): Width of the item.
+		**height (int): Height of the item.
+		**indent (int): Offsets the widget to the right the specified number multiplied by the indent style.
+		**parent (int): Parent to add this item to. (runtime adding)
+		**before (int): This item will be displayed before the specified item in the parent.
+		**callback (Callable): Registers a callback.
+		**show (bool): Attempt to render widget.
+		**pos (List[int]): Places the item relative to window coordinates, [0,0] is top left.
+		**filter_key (str): Used by filter widget.
+		**delay_search (str): Delays searching container for specified items until the end of the app. Possible optimization when a container has many children that are not accessed often.
+		**tracked (bool): Scroll tracking
+		**track_offset (float): 0.0f:top, 0.5f:center, 1.0f:bottom
+		**user_data (Any): User data for callbacks.
+		**row_ratios (List[float]): 
+		**column_ratios (List[float]): 
+		**no_title (bool): 
+		**no_menus (bool): the user will not be able to open context menus with right-click
+		**no_resize (bool): resize splitters between subplot cells will be not be provided
+		**no_align (bool): subplot edges will not be aligned vertically or horizontally
+		**link_rows (bool): link the y-axis limits of all plots in each row (does not apply auxiliary y-axes)
+		**link_columns (bool): link the x-axis limits of all plots in each column
+		**link_all_x (bool): link the x-axis limits in every plot in the subplot
+		**link_all_y (bool): link the y-axis limits in every plot in the subplot (does not apply to auxiliary y-axes)
+		**column_major (bool): subplots are added in column major order instead of the default row major order
+	Yields:
+		int
+	"""
+	try:
+		widget = internal_dpg.add_subplots(rows, columns, label=label, id=id, width=width, height=height, indent=indent, parent=parent, before=before, callback=callback, show=show, pos=pos, filter_key=filter_key, delay_search=delay_search, tracked=tracked, track_offset=track_offset, user_data=user_data, row_ratios=row_ratios, column_ratios=column_ratios, no_title=no_title, no_menus=no_menus, no_resize=no_resize, no_align=no_align, link_rows=link_rows, link_columns=link_columns, link_all_x=link_all_x, link_all_y=link_all_y, column_major=column_major)
+		internal_dpg.push_container_stack(widget)
+		yield widget
+	finally:
+		internal_dpg.pop_container_stack()
+@contextmanager
 def tab(*, label: str =None, id: int =0, indent: int =-1, parent: int =0, before: int =0, payload_type: str ='$$DPG_PAYLOAD', drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, filter_key: str ='', delay_search: str =False, tracked: bool =False, track_offset: float =0.5, user_data: Any =None, closable: bool =False, no_tooltip: bool =False, order_mode: bool =0) -> int:
 	"""
 	Adds a tab to a tab bar. Must be closed with thes end command.
@@ -4636,6 +4678,44 @@ def add_string_value(*, label: str =None, id: int =0, source: int =0, user_data:
 
 	return internal_dpg.add_string_value(label=label, id=id, source=source, user_data=user_data, default_value=default_value, parent=parent)
 
+def add_subplots(rows : int, columns : int, *, label: str =None, id: int =0, width: int =0, height: int =0, indent: int =-1, parent: int =0, before: int =0, callback: Callable =None, show: bool =True, pos: List[int] =[], filter_key: str ='', delay_search: str =False, tracked: bool =False, track_offset: float =0.5, user_data: Any =None, row_ratios: List[float] =[], column_ratios: List[float] =[], no_title: bool =False, no_menus: bool =False, no_resize: bool =False, no_align: bool =False, link_rows: bool =False, link_columns: bool =False, link_all_x: bool =False, link_all_y: bool =False, column_major: bool =False) -> int:
+	"""
+	Adds a plot which is used to hold series, and can be drawn to with draw commands.
+	Args:
+		rows (int): 
+		columns (int): 
+		**label (str): Overrides 'name' as label.
+		**id (int): Unique id used to programmatically refer to the item.If label is unused this will be the label.
+		**width (int): Width of the item.
+		**height (int): Height of the item.
+		**indent (int): Offsets the widget to the right the specified number multiplied by the indent style.
+		**parent (int): Parent to add this item to. (runtime adding)
+		**before (int): This item will be displayed before the specified item in the parent.
+		**callback (Callable): Registers a callback.
+		**show (bool): Attempt to render widget.
+		**pos (List[int]): Places the item relative to window coordinates, [0,0] is top left.
+		**filter_key (str): Used by filter widget.
+		**delay_search (str): Delays searching container for specified items until the end of the app. Possible optimization when a container has many children that are not accessed often.
+		**tracked (bool): Scroll tracking
+		**track_offset (float): 0.0f:top, 0.5f:center, 1.0f:bottom
+		**user_data (Any): User data for callbacks.
+		**row_ratios (List[float]): 
+		**column_ratios (List[float]): 
+		**no_title (bool): 
+		**no_menus (bool): the user will not be able to open context menus with right-click
+		**no_resize (bool): resize splitters between subplot cells will be not be provided
+		**no_align (bool): subplot edges will not be aligned vertically or horizontally
+		**link_rows (bool): link the y-axis limits of all plots in each row (does not apply auxiliary y-axes)
+		**link_columns (bool): link the x-axis limits of all plots in each column
+		**link_all_x (bool): link the x-axis limits in every plot in the subplot
+		**link_all_y (bool): link the y-axis limits in every plot in the subplot (does not apply to auxiliary y-axes)
+		**column_major (bool): subplots are added in column major order instead of the default row major order
+	Returns:
+		int
+	"""
+
+	return internal_dpg.add_subplots(rows, columns, label=label, id=id, width=width, height=height, indent=indent, parent=parent, before=before, callback=callback, show=show, pos=pos, filter_key=filter_key, delay_search=delay_search, tracked=tracked, track_offset=track_offset, user_data=user_data, row_ratios=row_ratios, column_ratios=column_ratios, no_title=no_title, no_menus=no_menus, no_resize=no_resize, no_align=no_align, link_rows=link_rows, link_columns=link_columns, link_all_x=link_all_x, link_all_y=link_all_y, column_major=column_major)
+
 def add_tab(*, label: str =None, id: int =0, indent: int =-1, parent: int =0, before: int =0, payload_type: str ='$$DPG_PAYLOAD', drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, filter_key: str ='', delay_search: str =False, tracked: bool =False, track_offset: float =0.5, user_data: Any =None, closable: bool =False, no_tooltip: bool =False, order_mode: bool =0) -> int:
 	"""
 	Adds a tab to a tab bar. Must be closed with thes end command.
@@ -7056,6 +7136,7 @@ mvSeriesValue=internal_dpg.mvSeriesValue
 mvRawTexture=internal_dpg.mvRawTexture
 mvFormat_Float_rgba=internal_dpg.mvFormat_Float_rgba
 mvFormat_Float_rgb=internal_dpg.mvFormat_Float_rgb
+mvSubPlots=internal_dpg.mvSubPlots
 mvReservedUUID_0=internal_dpg.mvReservedUUID_0
 mvReservedUUID_1=internal_dpg.mvReservedUUID_1
 mvReservedUUID_2=internal_dpg.mvReservedUUID_2
