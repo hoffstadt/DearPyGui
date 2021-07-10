@@ -86,8 +86,6 @@ namespace Marvel {
 		//-----------------------------------------------------------------------------
 		{
 
-			ScopedID id(m_uuid);
-
 			if (m_texture)
 			{
 				if (m_internalTexture)

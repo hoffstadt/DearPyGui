@@ -90,7 +90,6 @@ namespace Marvel {
 		// draw
 		//-----------------------------------------------------------------------------
 		{
-			ScopedID id(m_uuid);
 
 			static const std::vector<double>* xptr;
 
