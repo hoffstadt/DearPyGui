@@ -191,3 +191,9 @@ def create_theme_imgui_light(default_theme=False):
         dpg.add_theme_color(dpg.mvNodeCol_GridLine, (180, 180, 180, 100), category=dpg.mvThemeCat_Nodes)
 
     return theme_id
+
+
+# saving in module variable so that new theme_id's are not generated for
+# every action
+DARK = create_theme_imgui_dark()
+LIGHT = create_theme_imgui_light()
