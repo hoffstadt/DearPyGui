@@ -20,7 +20,12 @@ We generally fold multiple commits pertaining to the same topic as a single entr
 - Read the `Breaking Changes` section (here in the changelog).
 - Please report any issue!
 
-## VERSION 0.8.22
+## VERSION 0.8.x
+
+### New
+* updated implot to v0.11
+
+## VERSION 0.8.23
 
 ### New
 * added `gamma` and `gamma_scale_factor` keywords to `load_image(...)`

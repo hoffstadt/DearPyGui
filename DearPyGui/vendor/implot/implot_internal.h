@@ -20,7 +20,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-// ImPlot v0.10 WIP
+// ImPlot v0.11 WIP
 
 // You may use this file to debug, understand or extend ImPlot features but we
 // don't provide any guarantee of forward compatibility!
@@ -40,6 +40,11 @@
 
 #ifndef IMPLOT_VERSION
 #error Must include implot.h before implot_internal.h
+#endif
+
+// Support for pre-1.84 versions. ImPool's GetSize() -> GetBufSize()
+#if (IMGUI_VERSION_NUM < 18303)
+#define GetBufSize GetSize
 #endif
 
 //-----------------------------------------------------------------------------
@@ -782,7 +787,7 @@ struct ImPlotItemGroup
 
     ImPlotItemGroup() { ColormapIdx = 0; }
 
-    int         GetItemCount() const             { return ItemPool.GetSize();                                 }
+    int         GetItemCount() const             { return ItemPool.GetBufSize();                                 }
     ImGuiID     GetItemID(const char*  label_id) { return ImGui::GetID(label_id); /* GetIDWithSeed */            }
     ImPlotItem* GetItem(ImGuiID id)              { return ItemPool.GetByKey(id);                                 }
     ImPlotItem* GetItem(const char* label_id)    { return GetItem(GetItemID(label_id));                          }
@@ -1264,8 +1269,8 @@ void FillRange(ImVector<T>& buffer, int n, T vmin, T vmax) {
 
 // Offsets and strides a data buffer
 template <typename T>
-static inline T OffsetAndStride(const T* data, int idx, int count, int offset, int stride) {
-    idx = ImPosMod(offset + idx, count);
+static inline T OffsetAndStride(const T* data, int idx, int , int , int stride) {
+    // idx = ImPosMod(offset + idx, count);
     return *(const T*)(const void*)((const unsigned char*)data + (size_t)idx * stride);
 }
 

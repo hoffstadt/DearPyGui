@@ -20,7 +20,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-// ImPlot v0.10 WIP
+// ImPlot v0.11 WIP
 
 #pragma once
 #include "imgui.h"
@@ -38,7 +38,7 @@
 #endif
 
 // ImPlot version string
-#define IMPLOT_VERSION "0.10 WIP"
+#define IMPLOT_VERSION "0.11 WIP"
 // Indicates variable should deduced automatically.
 #define IMPLOT_AUTO -1
 // Special color used to indicate that a color should be deduced automatically.
