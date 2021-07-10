@@ -20,7 +20,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-// ImPlot v0.10 WIP
+// ImPlot v0.11 WIP
 
 #include "implot.h"
 #include <math.h>
@@ -2063,9 +2063,10 @@ struct BenchData {
 
 enum BenchMode {
     Line = 0,
-    Shaded = 1,
-    Scatter = 2,
-    Bars = 3
+    LineG = 1,
+    Shaded = 2,
+    Scatter = 3,
+    Bars = 4
 };
 
 struct BenchRecord {
@@ -2073,6 +2074,11 @@ struct BenchRecord {
     bool AA;
     ImVector<ImPlotPoint> Data;
 };
+
+ImPlotPoint BenchmarkGetter(void* data, int idx) {
+    float* values = (float*)data;
+    return ImPlotPoint(idx, values[idx]);
+}
 
 void ShowBenchmarkTool() {
     static const int max_items = 500;
@@ -2083,7 +2089,7 @@ void ShowBenchmarkTool() {
     static int F        = 0;
     static double t1, t2;
     static int mode     = BenchMode::Line;
-    const char* names[] = {"Line","Shaded","Scatter","Bars"};
+    const char* names[] = {"Line","LineG","Shaded","Scatter","Bars"};
 
     static ImVector<BenchRecord> records;
 
@@ -2140,6 +2146,14 @@ void ShowBenchmarkTool() {
                     ImGui::PushID(i);
                     ImPlot::SetNextLineStyle(items[i].Col);
                     ImPlot::PlotLine("##item", items[i].Data, 1000);
+                    ImGui::PopID();
+                }
+            }
+            else if (mode == BenchMode::LineG) {
+                for (int i = 0; i < L; ++i) {
+                    ImGui::PushID(i);
+                    ImPlot::SetNextLineStyle(items[i].Col);
+                    ImPlot::PlotLineG("##item",BenchmarkGetter,items[i].Data,1000);
                     ImGui::PopID();
                 }
             }

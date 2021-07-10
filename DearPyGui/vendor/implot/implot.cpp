@@ -20,7 +20,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-// ImPlot v0.10 WIP
+// ImPlot v0.11 WIP
 
 /*
 
@@ -81,11 +81,6 @@ You can read releases logs https://github.com/epezent/implot/releases for more d
 // Support for pre-1.82 versions. Users on 1.82+ can use 0 (default) flags to mean "all corners" but in order to support older versions we are more explicit.
 #if (IMGUI_VERSION_NUM < 18102) && !defined(ImDrawFlags_RoundCornersAll)
 #define ImDrawFlags_RoundCornersAll ImDrawCornerFlags_All
-#endif
-
-// Support for pre-1.84 versions. ImPool's GetSize() -> GetBufSize()
-#if (IMGUI_VERSION_NUM < 18303)
-#define GetBufSize GetSize          // A little bit ugly since 'GetBufSize' could technically be used elsewhere (but currently isn't). Could use a proxy define if needed.
 #endif
 
 // Global plot context
@@ -4483,7 +4478,7 @@ void ShowMetricsWindow(bool* p_popen) {
             if (ImHasFlag(plot->Flags, ImPlotFlags_YAxis2))
                 fg.AddRect(plot->YAxis[1].HoverRect.Min, plot->YAxis[1].HoverRect.Max, IM_COL32(0,255,0,255));
             if (ImHasFlag(plot->Flags, ImPlotFlags_YAxis3))
-                fg.AddRect(plot->YAxis[3].HoverRect.Min, plot->YAxis[2].HoverRect.Max, IM_COL32(0,255,0,255));
+                fg.AddRect(plot->YAxis[2].HoverRect.Min, plot->YAxis[2].HoverRect.Max, IM_COL32(0,255,0,255));
         }
     }
     for (int p = 0; p < n_subplots; ++p) {
