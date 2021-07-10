@@ -66,6 +66,24 @@ namespace Marvel {
 			imnodes::PopColorStyle();
 	}
 
+	void mvThemeColor::alternativeCustomAction()
+	{
+		if (m_libType == mvLibType::MV_IMGUI)
+		{
+			ImGuiStyle& style = ImGui::GetStyle();
+			style.Colors[m_targetColor] = m_color.toVec4();
+		}
+		else if (m_libType == mvLibType::MV_IMPLOT)
+		{
+			ImPlotStyle& plotstyle = ImPlot::GetStyle();
+			plotstyle.Colors[m_targetColor] = m_color.toVec4();
+		}
+		else if (m_libType == mvLibType::MV_IMNODES)
+		{
+			imnodes::GetStyle().colors[m_targetColor] = ImGui::ColorConvertFloat4ToU32(m_color);
+		}
+	}
+
 	void mvThemeColor::handleSpecificPositionalArgs(PyObject* dict)
 	{
 		if (!mvApp::GetApp()->getParsers()[s_command].verifyPositionalArguments(dict))

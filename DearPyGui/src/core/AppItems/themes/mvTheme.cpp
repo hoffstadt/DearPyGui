@@ -61,12 +61,22 @@ namespace Marvel {
 		}
 	}
 
+	void mvTheme::alternativeCustomAction()
+	{
+		for (auto& childset : m_children)
+		{
+			for (auto& child : childset)
+				child->alternativeCustomAction();
+		}
+		m_triggerAlternativeAction = false;
+	}
+
 	void mvTheme::handleSpecificKeywordArgs(PyObject* dict)
 	{
 		if (dict == nullptr)
 			return;
 
-		if (PyObject* item = PyDict_GetItemString(dict, "default_theme")) m_show = ToBool(item);
+		if (PyObject* item = PyDict_GetItemString(dict, "default_theme")) m_triggerAlternativeAction = ToBool(item);
 
 	}
 

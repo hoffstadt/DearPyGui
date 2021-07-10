@@ -86,7 +86,7 @@ namespace Marvel {
 
         if (ImGui::BeginTabBar("##tabs", ImGuiTabBarFlags_None))
         {
-            if (ImGui::BeginTabItem("Sizes"))
+            if (ImGui::BeginTabItem("Styles"))
             {
                 ImGui::Text("Main");
                 ImGui::SliderFloat2("mvStyleVar_WindowPadding", (float*)&style.WindowPadding, 0.0f, 20.0f, "%.0f");

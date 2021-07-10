@@ -165,6 +165,7 @@ namespace Marvel {
 
 		void draw(ImDrawList* drawlist, float x, float y) override;
 		void customAction() override;
+		void alternativeCustomAction() override;
 
 		void handleSpecificPositionalArgs(PyObject* dict) override;
 		bool isParentCompatible(mvAppItemType type) override;
@@ -178,7 +179,6 @@ namespace Marvel {
 		float m_x = 0.0f;
 		float m_y = -1.0f;
 		mvLibType m_libType = mvLibType::MV_IMGUI;
-		bool m_twoComponent = false;
 		
 
 	};

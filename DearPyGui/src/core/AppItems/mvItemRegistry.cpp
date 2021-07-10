@@ -415,26 +415,19 @@ namespace Marvel {
 		if(m_showImPlotDebug)
 			ImPlot::ShowDemoWindow(&m_showImPlotDebug);
 
+		// todo: roots really needs to be split
 		for (auto& root : m_roots)
 		{
 			if (!root->preDraw())
 				continue;
 
+			if (root->isAltCustomActionRequested())
+				root->alternativeCustomAction();
+
 			if(root->m_show || mvAppItem::DoesItemHaveFlag(root.get(), MV_ITEM_DESC_ALWAYS_DRAW) || root->getType() == mvAppItemType::mvWindowAppItem)
 				root->draw(nullptr, 0.0f, 0.0f);
 
 			root->postDraw();
-		}
-
-		// to pop theme items
-		for (auto& root : m_roots)
-		{
-			if (!root->m_show)
-				continue;
-
-			if (root->getType() == mvAppItemType::mvTheme)
-				root->customAction();
-
 		}
 
 		return false;

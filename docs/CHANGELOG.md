@@ -24,6 +24,10 @@ We generally fold multiple commits pertaining to the same topic as a single entr
 
 ### New
 * updated implot to v0.11
+* added `themes` module with imgui dark and light themes #1045
+
+### Fixes
+* theme editor correctly reflects current default theme
 
 ## VERSION 0.8.23
 
