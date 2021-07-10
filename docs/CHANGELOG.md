@@ -28,6 +28,7 @@ We generally fold multiple commits pertaining to the same topic as a single entr
 
 ### Fixes
 * theme editor correctly reflects current default theme
+* fixed plot legend context menus (broken in 0.8.23)
 
 ## VERSION 0.8.23
 

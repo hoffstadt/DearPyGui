@@ -241,7 +241,7 @@ namespace Marvel {
 	void mvPlot::draw(ImDrawList* drawlist, float x, float y)
 	{
 
-		ImGui::PushID(m_colormap);
+		//ImGui::PushID(m_colormap);
 
 		// gives axes change to make changes to ticks, limits, etc.
 		for (auto& item : m_children[1])
@@ -362,7 +362,7 @@ namespace Marvel {
 			ImPlot::EndPlot();
 		}
 
-		ImGui::PopID();
+		//ImGui::PopID();
 	}
 
 	bool mvPlot::isPlotQueried() const
