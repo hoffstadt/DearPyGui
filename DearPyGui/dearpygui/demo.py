@@ -1,4 +1,5 @@
 import dearpygui.dearpygui as dpg
+from dearpygui import themes
 from dearpygui.logger import mvLogger
 from math import sin, cos
 import random
@@ -226,6 +227,16 @@ def show_demo():
                     dpg.add_slider_float(label="Slider Float")
                     dpg.add_input_int(label="Input Int")
                     dpg.add_combo(("Yes", "No", "Maybe"), label="Combo")
+
+            with dpg.menu(label="Themes"):
+                dpg.add_menu_item(label="Dark",
+                                  callback=lambda: dpg.set_item_theme(
+                                      item=demo_id, theme=themes.DARK
+                                  ))
+                dpg.add_menu_item(label="Light",
+                                  callback=lambda: dpg.set_item_theme(
+                                      item=demo_id, theme=themes.LIGHT
+                                  ))
 
             with dpg.menu(label="Tools"):
 
