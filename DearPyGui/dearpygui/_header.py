@@ -847,7 +847,7 @@ def set_viewport_min_height(height: int):
     Returns:
         None
     """
-    internal_dpg.configure_viewport(0, min_height=width)
+    internal_dpg.configure_viewport(0, min_height=height)
 
 
 def set_viewport_max_height(height: int):
