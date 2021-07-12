@@ -6231,6 +6231,16 @@ def reset_axis_ticks(axis : int) -> None:
 
 	return internal_dpg.reset_axis_ticks(axis)
 
+def reset_default_theme() -> None:
+	"""
+	Resets to default theme.
+	Args:
+	Returns:
+		None
+	"""
+
+	return internal_dpg.reset_default_theme()
+
 def reset_pos(item : int) -> None:
 	"""
 	Undocumented

@@ -22,6 +22,9 @@ We generally fold multiple commits pertaining to the same topic as a single entr
 
 ## VERSION 0.8.x
 
+### New
+* added `reset_default_theme(...)`
+
 ### Fixes
 * fixed `set_viewport_min_height(...)` issue #1059
 * fixed data picker return value issue #1058

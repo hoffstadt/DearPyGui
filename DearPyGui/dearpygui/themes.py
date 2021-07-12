@@ -192,8 +192,3 @@ def create_theme_imgui_light(default_theme=False):
 
     return theme_id
 
-
-# saving in module variable so that new theme_id's are not generated for
-# every action
-DARK = create_theme_imgui_dark()
-LIGHT = create_theme_imgui_light()

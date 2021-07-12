@@ -82,6 +82,7 @@ namespace Marvel {
         MV_CREATE_COMMAND(load_image);
         MV_CREATE_COMMAND(split_frame);
         MV_CREATE_COMMAND(get_frame_count);
+        MV_CREATE_COMMAND(reset_default_theme);
 
         MV_START_COMMANDS
             MV_ADD_COMMAND(lock_mutex);
@@ -101,6 +102,7 @@ namespace Marvel {
             MV_ADD_COMMAND(load_image);
             MV_ADD_COMMAND(split_frame);
             MV_ADD_COMMAND(get_frame_count);
+            MV_ADD_COMMAND(reset_default_theme);
         MV_END_COMMANDS
 
         //-----------------------------------------------------------------------------
@@ -182,6 +184,8 @@ namespace Marvel {
                     
         mvViewport*       m_viewport = nullptr;
         std::future<bool> m_future;
+
+        bool m_resetTheme = false;
         
     };
 
