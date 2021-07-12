@@ -313,8 +313,8 @@ def set_item_pos(item: int, pos: List[float]):
     """Sets the item's position.
 
     Args:
-        item: Item the Width will be applied to.
-        width: Width to be applied.
+        item: Item the absolute position will be applied to.
+        pos: X and Y positions relative to parent of the item.
 
     Returns:
         None

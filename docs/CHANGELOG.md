@@ -22,6 +22,11 @@ We generally fold multiple commits pertaining to the same topic as a single entr
 
 ## VERSION 0.8.x
 
+### Fixes
+* fixed `set_viewport_min_height(...)` issue #1059
+
+## VERSION 0.8.26
+
 ### New
 * updated implot to v0.11
 * added `themes` module with imgui dark and light themes #1045
