@@ -878,6 +878,10 @@ def reset_axis_ticks(axis : int) -> None:
 	"""Removes the and manually set axis ticks and applys the default auto axis ticks."""
 	...
 
+def reset_default_theme() -> None:
+	"""Resets to default theme."""
+	...
+
 def reset_pos(item : int) -> None:
 	"""Undocumented"""
 	...

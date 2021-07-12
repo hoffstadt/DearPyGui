@@ -170,7 +170,6 @@ namespace Marvel {
 	{
 		// create managers
 		m_itemRegistry = CreateOwnedPtr<mvItemRegistry>();
-		//m_themeManager = CreateOwnedPtr<mvThemeManager>();
         m_callbackRegistry = CreateOwnedPtr<mvCallbackRegistry>();
 	}
 
@@ -222,6 +221,12 @@ namespace Marvel {
 
 		{
 			std::lock_guard<std::mutex> lk(s_mutex);
+			if (m_resetTheme)
+			{
+				mvApp::SetDefaultTheme();
+				m_resetTheme = false;
+			}
+
 			mvEventBus::Publish(mvEVT_CATEGORY_APP, mvEVT_PRE_RENDER);
 			mvEventBus::Publish(mvEVT_CATEGORY_APP, mvEVT_PRE_RENDER_RESET);
 			mvEventBus::Publish(mvEVT_CATEGORY_APP, mvEVT_RENDER);
@@ -259,6 +264,12 @@ namespace Marvel {
 		//	parser.finalize();
 		//	parsers->insert({ "load_init_file", parser });
 		//}
+
+		{
+			mvPythonParser parser(mvPyDataType::None, "Resets to default theme.", { "General" });
+			parser.finalize();
+			parsers->insert({ "reset_default_theme", parser });
+		}
 
 		{
 			mvPythonParser parser(mvPyDataType::None, "Waits one frame.", { "General" });
@@ -354,6 +365,13 @@ namespace Marvel {
 	PyObject* mvApp::use_init_file(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		mvApp::GetApp()->useIniFile();
+
+		return GetPyNone();
+	}
+
+	PyObject* mvApp::reset_default_theme(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		mvApp::GetApp()->m_resetTheme = true;
 
 		return GetPyNone();
 	}
