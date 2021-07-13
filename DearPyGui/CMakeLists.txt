@@ -5,11 +5,11 @@ include("cmake/dpg_sources.cmake")
 # For distribution
 if(MVDIST_ONLY)
 
-	add_library(core SHARED)
+	add_library(_dearpygui SHARED)
 
-	target_sources(core PRIVATE ${MARVEL_SOURCES})
+	target_sources(_dearpygui PRIVATE ${MARVEL_SOURCES})
 
-	target_compile_definitions(core
+	target_compile_definitions(_dearpygui
 
 		PRIVATE
 			$<$<CONFIG:Release>:MV_RELEASE>

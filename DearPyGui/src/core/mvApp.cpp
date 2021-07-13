@@ -1,5 +1,5 @@
 #include "mvApp.h"
-#include "mvModule_Core.h"
+#include "mvModule_DearPyGui.h"
 #include "mvViewport.h"
 #include "mvCallbackRegistry.h"
 #include "mvInput.h"
@@ -15,7 +15,7 @@
 #include "mvPythonExceptions.h"
 #include "mvGlobalIntepreterLock.h"
 #include <frameobject.h>
-#include "mvModule_Core.h"
+#include "mvModule_DearPyGui.h"
 #include "mvLog.h"
 #include "mvEventMacros.h"
 #include "mvToolManager.h"
@@ -239,7 +239,7 @@ namespace Marvel {
 
 	std::map<std::string, mvPythonParser>& mvApp::getParsers()
 	{ 
-		return const_cast<std::map<std::string, mvPythonParser>&>(mvModule_Core::GetModuleParsers()); 
+		return const_cast<std::map<std::string, mvPythonParser>&>(mvModule_DearPyGui::GetModuleParsers());
 	}
 
 	void mvApp::InsertParser(std::map<std::string, mvPythonParser>* parsers)

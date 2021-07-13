@@ -8,9 +8,9 @@
 
 namespace Marvel {
 
-	PyMODINIT_FUNC PyInit_core(void);
+	PyMODINIT_FUNC PyInit__dearpygui(void);
 
-	struct mvModule_Core : mvModule<mvModule_Core>
+	struct mvModule_DearPyGui : mvModule<mvModule_DearPyGui>
 	{
 		static const std::map<std::string, mvPythonParser>& GetSubModuleParsers();
 		static const std::vector<std::pair<std::string, long>>& GetSubModuleConstants();

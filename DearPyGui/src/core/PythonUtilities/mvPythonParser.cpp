@@ -1,6 +1,6 @@
 #include "mvPythonParser.h"
 #include "mvAppItemCommons.h"
-#include "mvModule_Core.h"
+#include "mvModule_DearPyGui.h"
 #include "mvApp.h"
 #include <fstream>
 #include <utility>
@@ -373,7 +373,7 @@ namespace Marvel {
 
 	void mvPythonParser::GenerateStubFile(const std::string& file)
 	{
-		const auto& commands = mvModule_Core::GetModuleParsers();
+		const auto& commands = mvModule_DearPyGui::GetModuleParsers();
 
 		// current date/time based on current system
 		time_t now = time(0);
@@ -382,10 +382,10 @@ namespace Marvel {
 		char* dt = ctime(&now);
 
 		std::ofstream stub;
-		stub.open(file + "/core.pyi");
+		stub.open(file + "/_dearpygui.pyi");
 
 		stub << "from typing import List, Any, Callable\n";
-		stub << "from dearpygui.core import *\n\n";
+		stub << "from dearpygui._dearpygui import *\n\n";
 		stub << "##########################################################\n";
 		stub << "# This file is generated automatically by mvPythonParser #\n";
 		stub << "##########################################################\n\n";
@@ -442,7 +442,7 @@ namespace Marvel {
 
 	void mvPythonParser::GenerateCoreFile(const std::string& file)
 	{
-		const auto& commands = mvModule_Core::GetModuleParsers();
+		const auto& commands = mvModule_DearPyGui::GetModuleParsers();
 
 		// current date/time based on current system
 		time_t now = time(0);
@@ -557,7 +557,7 @@ namespace Marvel {
 
 	void mvPythonParser::GenerateContextsFile(const std::string& file)
 	{
-		const auto& commands = mvModule_Core::GetModuleParsers();
+		const auto& commands = mvModule_DearPyGui::GetModuleParsers();
 
 		// current date/time based on current system
 		time_t now = time(0);
@@ -728,7 +728,7 @@ namespace Marvel {
 		stub << "# Constants #\n";
 		stub << "##########################################################\n\n";
 
-		auto& constants = mvModule_Core::GetSubModuleConstants();
+		auto& constants = mvModule_DearPyGui::GetSubModuleConstants();
 
 		for(auto& item : constants)
 			stub << item.first << "=internal_dpg." << item.first << "\n";

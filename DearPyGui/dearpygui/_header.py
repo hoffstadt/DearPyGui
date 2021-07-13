@@ -1,7 +1,7 @@
 from typing import List, Any, Callable, Union
 from contextlib import contextmanager
-import dearpygui.core as internal_dpg
-from dearpygui.core import mvBuffer
+import dearpygui._dearpygui as internal_dpg
+from dearpygui._dearpygui import mvBuffer
 
 ########################################################################################################################
 # User API Index

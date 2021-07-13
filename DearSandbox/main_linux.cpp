@@ -1,6 +1,6 @@
 #define PY_SSIZE_T_CLEAN
 #include <Python.h>
-#include "mvModule_Core.h"
+#include "mvModule_DearPyGui.h"
 #include "mvViewport.h"
 #include <iostream>
 
@@ -13,7 +13,7 @@ int main(int argc, char* argv[])
 
 	// initialize python
 	// add our custom module
-	PyImport_AppendInittab("core", &PyInit_core);
+	PyImport_AppendInittab("_dearpygui", &PyInit__dearpygui);
 
 	// set path and start the interpreter
 #if defined(__APPLE__)
@@ -43,7 +43,7 @@ int main(int argc, char* argv[])
 		return 1;
 	}
 
-	PyObject* mmarvel = PyImport_ImportModule("core");
+	PyObject* mmarvel = PyImport_ImportModule("_dearpygui");
 
 	PyObject* pModule = PyImport_ImportModule("sandbox"); // new reference
 
