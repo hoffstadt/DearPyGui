@@ -1,5 +1,5 @@
 from typing import List, Any, Callable
-from dearpygui.core import *
+from dearpygui._dearpygui import *
 
 ##########################################################
 # This file is generated automatically by mvPythonParser #

@@ -22,6 +22,9 @@ We generally fold multiple commits pertaining to the same topic as a single entr
 
 ## VERSION 0.8.x
 
+### Breaking Changes
+* renamed `dearpygui.core` to `dearpygui._dearpygui`
+
 ### New
 * added `reset_default_theme(...)`
 

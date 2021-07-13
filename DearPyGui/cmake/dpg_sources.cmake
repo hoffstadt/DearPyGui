@@ -1,9 +1,9 @@
 ﻿
 set(MARVEL_SOURCES
 
-	"$<$<PLATFORM_ID:Windows>:src/core/Modules/mvModule_Core.cpp>"
-	"$<$<PLATFORM_ID:Linux>:src/core/Modules/mvModule_Core.cpp>"
-	"$<$<PLATFORM_ID:Darwin>:src/core/Modules/mvModule_Core.mm>"
+	"$<$<PLATFORM_ID:Windows>:src/core/Modules/mvModule_DearPyGui.cpp>"
+	"$<$<PLATFORM_ID:Linux>:src/core/Modules/mvModule_DearPyGui.cpp>"
+	"$<$<PLATFORM_ID:Darwin>:src/core/Modules/mvModule_DearPyGui.mm>"
 
 	"src/core/PythonUtilities/mvPyObject.cpp"
 	"src/core/PythonUtilities/mvPythonTranslator.cpp"

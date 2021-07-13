@@ -1,6 +1,6 @@
 #define PY_SSIZE_T_CLEAN
 #include <Python.h>
-#include "mvModule_Core.h"
+#include "mvModule_DearPyGui.h"
 #include "mvApp.h"
 #include <Windows.h>
 #include <iostream>
@@ -26,7 +26,7 @@ int main(int argc, char* argv[])
 
 	// add our custom module
 	//PyImport_AppendInittab("sandboxout", &PyInit_embOut);
-	PyImport_AppendInittab("core", &PyInit_core);
+	PyImport_AppendInittab("core", &PyInit__dearpygui);
 
 	// set path and start the interpreter
 	wchar_t* path = Py_DecodeLocale("../../DearSandbox/;../../Dependencies/cpython/Lib;../../Dependencies/cpython/PCbuild/amd64;../../DearPyGui/", nullptr);
@@ -43,7 +43,7 @@ int main(int argc, char* argv[])
 		return 1;
 	}
 
-	PyObject* mmarvel = PyImport_ImportModule("core");
+	PyObject* mmarvel = PyImport_ImportModule("_dearpygui");
 
 	PyObject* pModule = PyImport_ImportModule("sandbox"); // new reference
 

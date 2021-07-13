@@ -2,7 +2,7 @@
 #include "mvTypeBases.h"
 #include <utility>
 #include "mvApp.h"
-#include "mvModule_Core.h"
+#include "mvModule_DearPyGui.h"
 #include <string>
 #include "mvItemRegistry.h"
 #include <implot.h>

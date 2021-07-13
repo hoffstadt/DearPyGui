@@ -1,7 +1,7 @@
 #pragma once
 #include "mvTypeBases.h"
 #include <string>
-#include "mvModule_Core.h"
+#include "mvModule_DearPyGui.h"
 
 //-----------------------------------------------------------------------------
 // Widget Index

@@ -1,7 +1,7 @@
 #include "mvInputSingle.h"
 #include "mvTypeBases.h"
 #include <utility>
-#include "mvModule_Core.h"
+#include "mvModule_DearPyGui.h"
 #include "mvApp.h"
 #include <string>
 #include "mvItemRegistry.h"

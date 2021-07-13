@@ -3,7 +3,7 @@
 #include <misc/cpp/imgui_stdlib.h>
 #include "mvItemRegistry.h"
 #include "mvInput.h"
-#include "mvModule_Core.h"
+#include "mvModule_DearPyGui.h"
 
 namespace Marvel {
 
@@ -36,7 +36,7 @@ namespace Marvel {
 		m_width = 700;
 		m_height = 500;
 
-		for (const auto& item : mvModule_Core::GetModuleParsers())
+		for (const auto& item : mvModule_DearPyGui::GetModuleParsers())
 			m_commands.emplace_back(item.first, item.second.getDocumentation());
     }
 

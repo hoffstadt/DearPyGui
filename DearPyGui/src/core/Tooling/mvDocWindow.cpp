@@ -1,7 +1,7 @@
 #include <map>
 #include "mvPythonParser.h"
 #include "mvDocWindow.h"
-#include "mvModule_Core.h"
+#include "mvModule_DearPyGui.h"
 
 namespace Marvel {
 
@@ -36,8 +36,8 @@ namespace Marvel {
 	void mvDocWindow::setup()
 	{
 
-		const std::map<std::string, mvPythonParser>& docmap = mvModule_Core::GetModuleParsers();
-		const std::vector<std::pair<std::string, long>>& constants = mvModule_Core::GetModuleConstants();
+		const std::map<std::string, mvPythonParser>& docmap = mvModule_DearPyGui::GetModuleParsers();
+		const std::vector<std::pair<std::string, long>>& constants = mvModule_DearPyGui::GetModuleConstants();
 
 		for (const auto& item : constants)
 		{
