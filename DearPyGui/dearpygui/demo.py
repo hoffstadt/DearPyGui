@@ -1,5 +1,5 @@
 import dearpygui.dearpygui as dpg
-from dearpygui import themes
+import dearpygui.themes as themes
 from dearpygui.logger import mvLogger
 from math import sin, cos
 import random
@@ -10,6 +10,9 @@ demo_static_texture_2 = dpg.generate_uuid()
 demo_static_texture_3 = dpg.generate_uuid()
 demo_dynamic_texture_1 = dpg.generate_uuid()
 demo_dynamic_texture_2 = dpg.generate_uuid()
+
+DARK_IMGUI_THEME = themes.create_theme_imgui_dark()
+LIGHT_IMGUI_THEME = themes.create_theme_imgui_light()
 
 def _help(message):
     """ Simple Helper """
@@ -229,14 +232,12 @@ def show_demo():
                     dpg.add_combo(("Yes", "No", "Maybe"), label="Combo")
 
             with dpg.menu(label="Themes"):
-                dpg.add_menu_item(label="Dark",
-                                  callback=lambda: dpg.set_item_theme(
-                                      item=demo_id, theme=themes.DARK
-                                  ))
-                dpg.add_menu_item(label="Light",
-                                  callback=lambda: dpg.set_item_theme(
-                                      item=demo_id, theme=themes.LIGHT
-                                  ))
+                dpg.add_menu_item(label="Default",
+                    callback=lambda: dpg.set_item_theme(demo_id, 0))
+                dpg.add_menu_item(label="Dark ImGui",
+                                  callback=lambda: dpg.set_item_theme(demo_id, DARK_IMGUI_THEME))
+                dpg.add_menu_item(label="Light ImGui",
+                                  callback=lambda: dpg.set_item_theme(demo_id, LIGHT_IMGUI_THEME))
 
             with dpg.menu(label="Tools"):
 
