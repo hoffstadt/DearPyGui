@@ -2,12 +2,15 @@ import dearpygui.dearpygui as dpg
 
 class mvLogger:
 
-    def __init__(self):
+    def __init__(self, window=None):
         
         self.log_level = 0
         self._auto_scroll = True
         self.filter_id = None
-        self.window_id = dpg.add_window(label="mvLogger", pos=(200, 200), width=500, height=500)
+        if window:
+            self.window_id = window
+        else:
+            self.window_id = dpg.add_window(label="mvLogger", pos=(200, 200), width=500, height=500)
         self.count = 0
         self.flush_count = 1000
 
