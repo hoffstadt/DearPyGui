@@ -26,7 +26,7 @@ int main(int argc, char* argv[])
 
 	// add our custom module
 	//PyImport_AppendInittab("sandboxout", &PyInit_embOut);
-	PyImport_AppendInittab("core", &PyInit__dearpygui);
+	PyImport_AppendInittab("_dearpygui", &PyInit__dearpygui);
 
 	// set path and start the interpreter
 	wchar_t* path = Py_DecodeLocale("../../DearSandbox/;../../Dependencies/cpython/Lib;../../Dependencies/cpython/PCbuild/amd64;../../DearPyGui/", nullptr);

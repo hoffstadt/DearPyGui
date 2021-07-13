@@ -58,7 +58,7 @@ namespace Marvel {
    in order to actually define the Python object type */
     static PyTypeObject PymvBufferType = {
             PyVarObject_HEAD_INIT(NULL, 0)
-            "core.mvBuffer",              /* tp_name */
+            "_dearpygui.mvBuffer",        /* tp_name */
             sizeof(PymvBuffer),           /* tp_basicsize */
             0,                            /* tp_itemsize */
             (destructor)PymvBuffer_dealloc,/* tp_dealloc */
