@@ -949,7 +949,7 @@ def get_viewport_clear_color() ->List[int]:
     Returns:
         List[int]
     """
-    return internal_dpg.internal_dpg.get_viewport_configuration()["clear_color"]
+    return internal_dpg.get_viewport_configuration()["clear_color"]
 
 
 def get_viewport_pos() ->List[float]:
