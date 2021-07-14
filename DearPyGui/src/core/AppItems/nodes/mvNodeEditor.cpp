@@ -73,6 +73,12 @@ namespace Marvel {
 		: mvAppItem(uuid)
 	{
 		m_label = "NodeEditor###" + std::to_string(m_uuid);
+		m_context = imnodes::EditorContextCreate();
+	}
+
+	mvNodeEditor::~mvNodeEditor()
+	{
+		imnodes::EditorContextFree(m_context);
 	}
 
 	void mvNodeEditor::handleSpecificKeywordArgs(PyObject* dict)
@@ -169,6 +175,7 @@ namespace Marvel {
 	void mvNodeEditor::draw(ImDrawList* drawlist, float x, float y)
 	{
 		ScopedID id(m_uuid);
+		imnodes::EditorContextSet(m_context);
 
 		ImGui::BeginChild(m_label.c_str(), ImVec2((float)m_width, (float)m_height), false, m_windowflags);
 
