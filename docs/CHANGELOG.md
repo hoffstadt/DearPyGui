@@ -31,6 +31,7 @@ We generally fold multiple commits pertaining to the same topic as a single entr
 ### Fixes
 * fixed `set_viewport_min_height(...)` issue #1059
 * fixed data picker return value issue #1058
+* fixed several issues related to multiple node editors #1039, #1063
 
 ## VERSION 0.8.26
 

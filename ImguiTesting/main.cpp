@@ -10,6 +10,7 @@
 #endif
 
 #include <implot.h>
+#include <imnodes.h>
 #include <iostream>
 
 int main()

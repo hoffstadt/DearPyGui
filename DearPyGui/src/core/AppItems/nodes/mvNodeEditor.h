@@ -34,6 +34,7 @@ namespace Marvel {
 	public:
 
 		mvNodeEditor(mvUUID uuid);
+		~mvNodeEditor();
 
 		void handleSpecificKeywordArgs(PyObject* dict) override;
 		void getSpecificConfiguration(PyObject* dict) override;
@@ -57,6 +58,7 @@ namespace Marvel {
 		bool m_clearLinks = false;
 
 		PyObject* m_delinkCallback = nullptr;
+		imnodes::EditorContext* m_context = nullptr;
 	};
 
 }
