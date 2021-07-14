@@ -27,6 +27,7 @@ We generally fold multiple commits pertaining to the same topic as a single entr
 
 ### New
 * added `reset_default_theme(...)`
+* added mounting for the logger #1047
 
 ### Fixes
 * fixed `set_viewport_min_height(...)` issue #1059
