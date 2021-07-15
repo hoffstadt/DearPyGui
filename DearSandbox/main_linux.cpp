@@ -3,8 +3,19 @@
 #include "mvModule_DearPyGui.h"
 #include "mvViewport.h"
 #include <iostream>
+#include <fstream>
+#include <string>
+#include <sstream>
 
 using namespace Marvel;
+
+void runTest(std::string test)
+{
+	auto ss = std::ostringstream{};
+	std::ifstream input_file("../../Tests/" + test + ".py");
+	ss << input_file.rdbuf();
+	PyRun_SimpleString(ss.str().c_str());
+}
 
 int main(int argc, char* argv[])
 {
@@ -45,17 +56,24 @@ int main(int argc, char* argv[])
 
 	PyObject* mmarvel = PyImport_ImportModule("_dearpygui");
 
-	PyObject* pModule = PyImport_ImportModule("sandbox"); // new reference
+	// tests
+	runTest("simple_tests");
+
+#ifndef MV_TESTS_ONLY
+	// sandbox
+	{
+		auto ss = std::ostringstream{};
+		std::ifstream input_file("../../DearSandbox/sandbox.py");
+		ss << input_file.rdbuf();
+		int result = PyRun_SimpleString(ss.str().c_str());
+	}
+#endif
 
 	// check if error occurred
-	if (!PyErr_Occurred() && pModule != nullptr)
-	{
-		Py_XDECREF(pModule);
+	if (!PyErr_Occurred())
 		Py_XDECREF(mmarvel);
-		return 0;
-	}
-
-	PyErr_Print();
+	else
+		PyErr_Print();
 
     return 0;
 }

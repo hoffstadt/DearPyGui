@@ -42,6 +42,12 @@ if(NOT MVDIST_ONLY)
     add_definitions(-DMV_LOG)
 endif()
 
+# runs python tests
+set(MV_TESTS_ONLY ${MV_TESTS_ONLY})
+if(MV_TESTS_ONLY)
+    add_definitions(-DMV_TESTS_ONLY)
+endif()
+
 # version number of Dear PyGui, usually set
 # by AppVeyor
 set(MVDPG_VERSION ${MVDPG_VERSION})

@@ -27,12 +27,17 @@ jobs:
         cd ..
         mkdir cmake-build-release
         cd cmake-build-release
-        cmake ..
+        cmake .. -DMV_TESTS_ONLY=True
         
     - name: Build DearPyGui
       shell: cmd
       run: |
         cmake --build cmake-build-release --config Release
+
+    - name: Run Tests
+      shell: cmd
+      run: |
+        D:\a\DearPyGui\DearPyGui\cmake-build-release\DearSandbox\DearSandbox.exe
 
   build-MacOS:
     
@@ -59,7 +64,7 @@ jobs:
       run: |
         mkdir cmake-build-debug
         cd cmake-build-debug
-        cmake ..
+        cmake .. -DMV_TESTS_ONLY=True
         cd ..
         cmake --build cmake-build-debug --config Debug
 
@@ -94,6 +99,6 @@ jobs:
       run: |
         mkdir cmake-build-debug
         cd cmake-build-debug
-        cmake ..
+        cmake .. -DMV_TESTS_ONLY=True
         cd ..
         cmake --build cmake-build-debug --config Debug
