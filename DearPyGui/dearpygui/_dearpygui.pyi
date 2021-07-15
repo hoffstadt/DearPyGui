@@ -50,7 +50,7 @@ def add_checkbox(*, label: str =None, id: int =0, indent: int =-1, parent: int =
 	"""Adds a checkbox."""
 	...
 
-def add_child(*, label: str =None, id: int =0, width: int =0, height: int =0, indent: int =-1, parent: int =0, before: int =0, payload_type: str ='$$DPG_PAYLOAD', drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, pos: List[int] =[], filter_key: str ='', delay_search: str =False, tracked: bool =False, track_offset: float =0.5, user_data: Any =None, border: bool =True, autosize_x: bool =False, autosize_y: bool =False, no_scrollbar: bool =False, horizontal_scrollbar: bool =False, menubar: bool =False) -> int:
+def add_child(*, label: str =None, id: int =0, width: int =0, height: int =0, indent: int =-1, parent: int =0, before: int =0, payload_type: str ='$$DPG_PAYLOAD', drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, pos: List[int] =[], filter_key: str ='', delay_search: bool =False, tracked: bool =False, track_offset: float =0.5, user_data: Any =None, border: bool =True, autosize_x: bool =False, autosize_y: bool =False, no_scrollbar: bool =False, horizontal_scrollbar: bool =False, menubar: bool =False) -> int:
 	"""Adds an embedded child window. Will show scrollbars when items do not fit. Must be followed by a call to end."""
 	...
 
@@ -58,11 +58,11 @@ def add_clicked_handler(parent : int, button : int =-1, *, label: str =None, id:
 	"""Adds a handler which runs a given callback when the specified item is clicked."""
 	...
 
-def add_clipper(*, label: str =None, id: int =0, width: int =0, indent: int =-1, parent: int =0, before: int =0, show: bool =True, delay_search: str =False, user_data: Any =None) -> int:
+def add_clipper(*, label: str =None, id: int =0, width: int =0, indent: int =-1, parent: int =0, before: int =0, show: bool =True, delay_search: bool =False, user_data: Any =None) -> int:
 	"""Helper to manually clip large list of items. Increases performance by not searching or drawing widgets outside of the clipped region."""
 	...
 
-def add_collapsing_header(*, label: str =None, id: int =0, indent: int =-1, parent: int =0, before: int =0, payload_type: str ='$$DPG_PAYLOAD', drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, pos: List[int] =[], filter_key: str ='', delay_search: str =False, tracked: bool =False, track_offset: float =0.5, user_data: Any =None, closable: bool =False, default_open: bool =False, open_on_double_click: bool =False, open_on_arrow: bool =False, leaf: bool =False, bullet: bool =False) -> int:
+def add_collapsing_header(*, label: str =None, id: int =0, indent: int =-1, parent: int =0, before: int =0, payload_type: str ='$$DPG_PAYLOAD', drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, pos: List[int] =[], filter_key: str ='', delay_search: bool =False, tracked: bool =False, track_offset: float =0.5, user_data: Any =None, closable: bool =False, default_open: bool =False, open_on_double_click: bool =False, open_on_arrow: bool =False, leaf: bool =False, bullet: bool =False) -> int:
 	"""Adds a collapsing header to add items to. Must be closed with the end command."""
 	...
 
@@ -142,7 +142,7 @@ def add_draw_layer(*, label: str =None, id: int =0, parent: int =0, before: int 
 	"""Creates a layer that can be drawn to. Useful for grouping drawing items."""
 	...
 
-def add_drawlist(*, label: str =None, id: int =0, width: int =0, height: int =0, parent: int =0, before: int =0, payload_type: str ='$$DPG_PAYLOAD', callback: Callable =None, drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, pos: List[int] =[], filter_key: str ='', delay_search: str =False, tracked: bool =False, track_offset: float =0.5, user_data: Any =None) -> int:
+def add_drawlist(*, label: str =None, id: int =0, width: int =0, height: int =0, parent: int =0, before: int =0, payload_type: str ='$$DPG_PAYLOAD', callback: Callable =None, drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, pos: List[int] =[], filter_key: str ='', delay_search: bool =False, tracked: bool =False, track_offset: float =0.5, user_data: Any =None) -> int:
 	"""A container widget that is used to present draw items or layers. Layers and draw items should be added to this widget as children."""
 	...
 
@@ -170,7 +170,7 @@ def add_file_extension(extension : str, *, label: str =None, id: int =0, width: 
 	"""Creates a file extension filter option in the file dialog. Only works when the parent is a file dialog."""
 	...
 
-def add_filter_set(*, label: str =None, id: int =0, width: int =0, indent: int =-1, parent: int =0, before: int =0, show: bool =True, delay_search: str =False, user_data: Any =None) -> int:
+def add_filter_set(*, label: str =None, id: int =0, width: int =0, indent: int =-1, parent: int =0, before: int =0, show: bool =True, delay_search: bool =False, user_data: Any =None) -> int:
 	"""Helper to parse and apply text filters (e.g. aaaaa[, bbbbb][, ccccc])"""
 	...
 
@@ -210,7 +210,7 @@ def add_font_registry(*, label: str =None, id: int =0, show: bool =True, user_da
 	"""Undocumented function"""
 	...
 
-def add_group(*, label: str =None, id: int =0, width: int =0, indent: int =-1, parent: int =0, before: int =0, payload_type: str ='$$DPG_PAYLOAD', drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, pos: List[int] =[], filter_key: str ='', delay_search: str =False, tracked: bool =False, track_offset: float =0.5, user_data: Any =None, horizontal: bool =False, horizontal_spacing: float =-1) -> int:
+def add_group(*, label: str =None, id: int =0, width: int =0, indent: int =-1, parent: int =0, before: int =0, payload_type: str ='$$DPG_PAYLOAD', drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, pos: List[int] =[], filter_key: str ='', delay_search: bool =False, tracked: bool =False, track_offset: float =0.5, user_data: Any =None, horizontal: bool =False, horizontal_spacing: float =-1) -> int:
 	"""Creates a group that other widgets can belong to. The group allows item commands to be issued for all of its members. Must be closed with the end command."""
 	...
 
@@ -302,11 +302,11 @@ def add_loading_indicator(*, label: str =None, id: int =0, width: int =0, height
 	"""Adds a rotating anamated loding symbol."""
 	...
 
-def add_menu(*, label: str =None, id: int =0, indent: int =-1, parent: int =0, before: int =0, payload_type: str ='$$DPG_PAYLOAD', drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, enabled: bool =True, filter_key: str ='', delay_search: str =False, tracked: bool =False, track_offset: float =0.5, user_data: Any =None) -> int:
+def add_menu(*, label: str =None, id: int =0, indent: int =-1, parent: int =0, before: int =0, payload_type: str ='$$DPG_PAYLOAD', drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, enabled: bool =True, filter_key: str ='', delay_search: bool =False, tracked: bool =False, track_offset: float =0.5, user_data: Any =None) -> int:
 	"""Adds a menu to an existing menu bar. Must be followed by a call to end."""
 	...
 
-def add_menu_bar(*, label: str =None, id: int =0, indent: int =-1, parent: int =0, show: bool =True, delay_search: str =False, user_data: Any =None) -> int:
+def add_menu_bar(*, label: str =None, id: int =0, indent: int =-1, parent: int =0, show: bool =True, delay_search: bool =False, user_data: Any =None) -> int:
 	"""Adds a menu bar to a window."""
 	...
 
@@ -342,7 +342,7 @@ def add_mouse_wheel_handler(*, label: str =None, id: int =0, callback: Callable 
 	"""Adds a handler which runs a given callback when the vertical mouse wheel is scrolled. Parent must be a handler registry."""
 	...
 
-def add_node(*, label: str =None, id: int =0, parent: int =0, before: int =0, payload_type: str ='$$DPG_PAYLOAD', drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, pos: List[int] =[], filter_key: str ='', delay_search: str =False, tracked: bool =False, track_offset: float =0.5, user_data: Any =None, draggable: bool =True) -> int:
+def add_node(*, label: str =None, id: int =0, parent: int =0, before: int =0, payload_type: str ='$$DPG_PAYLOAD', drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, pos: List[int] =[], filter_key: str ='', delay_search: bool =False, tracked: bool =False, track_offset: float =0.5, user_data: Any =None, draggable: bool =True) -> int:
 	"""Adds a node to a node editor."""
 	...
 
@@ -350,7 +350,7 @@ def add_node_attribute(*, label: str =None, id: int =0, indent: int =-1, parent:
 	"""Adds a node attribute."""
 	...
 
-def add_node_editor(*, label: str =None, id: int =0, width: int =0, height: int =0, parent: int =0, before: int =0, payload_type: str ='$$DPG_PAYLOAD', callback: Callable =None, drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, filter_key: str ='', delay_search: str =False, tracked: bool =False, track_offset: float =0.5, user_data: Any =None, delink_callback: Callable =None, menubar: bool =False) -> int:
+def add_node_editor(*, label: str =None, id: int =0, width: int =0, height: int =0, parent: int =0, before: int =0, payload_type: str ='$$DPG_PAYLOAD', callback: Callable =None, drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, filter_key: str ='', delay_search: bool =False, tracked: bool =False, track_offset: float =0.5, user_data: Any =None, delink_callback: Callable =None, menubar: bool =False) -> int:
 	"""Adds a node editor."""
 	...
 
@@ -362,7 +362,7 @@ def add_pie_series(x : float, y : float, radius : float, values : List[float], l
 	"""Adds a pie series to a plot."""
 	...
 
-def add_plot(*, label: str =None, id: int =0, width: int =0, height: int =0, indent: int =-1, parent: int =0, before: int =0, payload_type: str ='$$DPG_PAYLOAD', callback: Callable =None, drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, pos: List[int] =[], filter_key: str ='', delay_search: str =False, tracked: bool =False, track_offset: float =0.5, user_data: Any =None, no_title: bool =False, no_menus: bool =False, no_box_select: bool =False, no_mouse_pos: bool =False, no_highlight: bool =False, no_child: bool =False, query: bool =False, crosshairs: bool =False, anti_aliased: bool =False, equal_aspects: bool =False) -> int:
+def add_plot(*, label: str =None, id: int =0, width: int =0, height: int =0, indent: int =-1, parent: int =0, before: int =0, payload_type: str ='$$DPG_PAYLOAD', callback: Callable =None, drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, pos: List[int] =[], filter_key: str ='', delay_search: bool =False, tracked: bool =False, track_offset: float =0.5, user_data: Any =None, no_title: bool =False, no_menus: bool =False, no_box_select: bool =False, no_mouse_pos: bool =False, no_highlight: bool =False, no_child: bool =False, query: bool =False, crosshairs: bool =False, anti_aliased: bool =False, equal_aspects: bool =False) -> int:
 	"""Adds a plot which is used to hold series, and can be drawn to with draw commands."""
 	...
 
@@ -462,15 +462,15 @@ def add_string_value(*, label: str =None, id: int =0, source: int =0, user_data:
 	"""Undocumented"""
 	...
 
-def add_subplots(rows : int, columns : int, *, label: str =None, id: int =0, width: int =0, height: int =0, indent: int =-1, parent: int =0, before: int =0, callback: Callable =None, show: bool =True, pos: List[int] =[], filter_key: str ='', delay_search: str =False, tracked: bool =False, track_offset: float =0.5, user_data: Any =None, row_ratios: List[float] =[], column_ratios: List[float] =[], no_title: bool =False, no_menus: bool =False, no_resize: bool =False, no_align: bool =False, link_rows: bool =False, link_columns: bool =False, link_all_x: bool =False, link_all_y: bool =False, column_major: bool =False) -> int:
+def add_subplots(rows : int, columns : int, *, label: str =None, id: int =0, width: int =0, height: int =0, indent: int =-1, parent: int =0, before: int =0, callback: Callable =None, show: bool =True, pos: List[int] =[], filter_key: str ='', delay_search: bool =False, tracked: bool =False, track_offset: float =0.5, user_data: Any =None, row_ratios: List[float] =[], column_ratios: List[float] =[], no_title: bool =False, no_menus: bool =False, no_resize: bool =False, no_align: bool =False, link_rows: bool =False, link_columns: bool =False, link_all_x: bool =False, link_all_y: bool =False, column_major: bool =False) -> int:
 	"""Adds a plot which is used to hold series, and can be drawn to with draw commands."""
 	...
 
-def add_tab(*, label: str =None, id: int =0, indent: int =-1, parent: int =0, before: int =0, payload_type: str ='$$DPG_PAYLOAD', drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, filter_key: str ='', delay_search: str =False, tracked: bool =False, track_offset: float =0.5, user_data: Any =None, closable: bool =False, no_tooltip: bool =False, order_mode: bool =0) -> int:
+def add_tab(*, label: str =None, id: int =0, indent: int =-1, parent: int =0, before: int =0, payload_type: str ='$$DPG_PAYLOAD', drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, filter_key: str ='', delay_search: bool =False, tracked: bool =False, track_offset: float =0.5, user_data: Any =None, closable: bool =False, no_tooltip: bool =False, order_mode: bool =0) -> int:
 	"""Adds a tab to a tab bar. Must be closed with thes end command."""
 	...
 
-def add_tab_bar(*, label: str =None, id: int =0, indent: int =-1, parent: int =0, before: int =0, payload_type: str ='$$DPG_PAYLOAD', callback: Callable =None, drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, pos: List[int] =[], filter_key: str ='', delay_search: str =False, tracked: bool =False, track_offset: float =0.5, user_data: Any =None, reorderable: bool =False) -> int:
+def add_tab_bar(*, label: str =None, id: int =0, indent: int =-1, parent: int =0, before: int =0, payload_type: str ='$$DPG_PAYLOAD', callback: Callable =None, drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, pos: List[int] =[], filter_key: str ='', delay_search: bool =False, tracked: bool =False, track_offset: float =0.5, user_data: Any =None, reorderable: bool =False) -> int:
 	"""Adds a tab bar."""
 	...
 
@@ -478,7 +478,7 @@ def add_tab_button(*, label: str =None, id: int =0, indent: int =-1, parent: int
 	"""Adds a tab button to a tab bar."""
 	...
 
-def add_table(*, label: str =None, id: int =0, width: int =0, height: int =0, indent: int =-1, parent: int =0, before: int =0, source: int =0, callback: Callable =None, show: bool =True, pos: List[int] =[], filter_key: str ='', delay_search: str =False, user_data: Any =None, header_row: bool =True, inner_width: int =0, policy: int =0, freeze_rows: int =0, freeze_columns: int =0, sort_multi: bool =False, sort_tristate: bool =False, resizable: bool =False, reorderable: bool =False, hideable: bool =False, sortable: bool =False, context_menu_in_body: bool =False, row_background: bool =False, borders_innerH: bool =False, borders_outerH: bool =False, borders_innerV: bool =False, borders_outerV: bool =False, no_host_extendX: bool =False, no_host_extendY: bool =False, no_keep_columns_visible: bool =False, precise_widths: bool =False, no_clip: bool =False, pad_outerX: bool =False, no_pad_outerX: bool =False, no_pad_innerX: bool =False, scrollX: bool =False, scrollY: bool =False) -> int:
+def add_table(*, label: str =None, id: int =0, width: int =0, height: int =0, indent: int =-1, parent: int =0, before: int =0, source: int =0, callback: Callable =None, show: bool =True, pos: List[int] =[], filter_key: str ='', delay_search: bool =False, user_data: Any =None, header_row: bool =True, inner_width: int =0, policy: int =0, freeze_rows: int =0, freeze_columns: int =0, sort_multi: bool =False, sort_tristate: bool =False, resizable: bool =False, reorderable: bool =False, hideable: bool =False, sortable: bool =False, context_menu_in_body: bool =False, row_background: bool =False, borders_innerH: bool =False, borders_outerH: bool =False, borders_innerV: bool =False, borders_outerV: bool =False, no_host_extendX: bool =False, no_host_extendY: bool =False, no_keep_columns_visible: bool =False, precise_widths: bool =False, no_clip: bool =False, pad_outerX: bool =False, no_pad_outerX: bool =False, no_pad_innerX: bool =False, scrollX: bool =False, scrollY: bool =False) -> int:
 	"""Undocumented function"""
 	...
 
@@ -530,7 +530,7 @@ def add_tooltip(parent : str, *, label: str =None, id: int =0, show: bool =True,
 	"""Adds an advanced tool tip for an item. This command must come immediately after the item the tip is for."""
 	...
 
-def add_tree_node(*, label: str =None, id: int =0, indent: int =-1, parent: int =0, before: int =0, payload_type: str ='$$DPG_PAYLOAD', drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, pos: List[int] =[], filter_key: str ='', delay_search: str =False, tracked: bool =False, track_offset: float =0.5, user_data: Any =None, default_open: bool =False, open_on_double_click: bool =False, open_on_arrow: bool =False, leaf: bool =False, bullet: bool =False, selectable: bool =False) -> int:
+def add_tree_node(*, label: str =None, id: int =0, indent: int =-1, parent: int =0, before: int =0, payload_type: str ='$$DPG_PAYLOAD', drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, pos: List[int] =[], filter_key: str ='', delay_search: bool =False, tracked: bool =False, track_offset: float =0.5, user_data: Any =None, default_open: bool =False, open_on_double_click: bool =False, open_on_arrow: bool =False, leaf: bool =False, bullet: bool =False, selectable: bool =False) -> int:
 	"""Adds a tree node to add items to. Must be closed with the end command."""
 	...
 
@@ -538,11 +538,11 @@ def add_value_registry(*, label: str =None, id: int =0, user_data: Any =None) ->
 	"""Undocumented function"""
 	...
 
-def add_viewport_drawlist(*, label: str =None, id: int =0, show: bool =True, filter_key: str ='', delay_search: str =False, user_data: Any =None, front: bool =True) -> int:
+def add_viewport_drawlist(*, label: str =None, id: int =0, show: bool =True, filter_key: str ='', delay_search: bool =False, user_data: Any =None, front: bool =True) -> int:
 	"""A container that is used to present draw items or layers directly to the viewport. By default this will draw to the back of teh viewport. Layers and draw items should be added to this widget as children."""
 	...
 
-def add_viewport_menu_bar(*, label: str =None, id: int =0, indent: int =-1, parent: int =0, show: bool =True, delay_search: str =False, user_data: Any =None) -> int:
+def add_viewport_menu_bar(*, label: str =None, id: int =0, indent: int =-1, parent: int =0, show: bool =True, delay_search: bool =False, user_data: Any =None) -> int:
 	"""Adds a menu bar to the viewport."""
 	...
 
@@ -554,7 +554,7 @@ def add_vline_series(x : List[float], *, label: str =None, id: int =0, parent: i
 	"""Adds a infinite vertical line series to a plot."""
 	...
 
-def add_window(*, label: str =None, id: int =0, width: int =0, height: int =0, indent: int =-1, show: bool =True, pos: List[int] =[], delay_search: str =False, user_data: Any =None, min_size: List[int] =[100, 100], max_size: List[int] =[30000, 30000], menubar: bool =False, collapsed: bool =False, autosize: bool =False, no_resize: bool =False, no_title_bar: bool =False, no_move: bool =False, no_scrollbar: bool =False, no_collapse: bool =False, horizontal_scrollbar: bool =False, no_focus_on_appearing: bool =False, no_bring_to_front_on_focus: bool =False, no_close: bool =False, no_background: bool =False, modal: bool =False, popup: bool =False, on_close: Callable =None) -> int:
+def add_window(*, label: str =None, id: int =0, width: int =0, height: int =0, indent: int =-1, show: bool =True, pos: List[int] =[], delay_search: bool =False, user_data: Any =None, min_size: List[int] =[100, 100], max_size: List[int] =[30000, 30000], menubar: bool =False, collapsed: bool =False, autosize: bool =False, no_resize: bool =False, no_title_bar: bool =False, no_move: bool =False, no_scrollbar: bool =False, no_collapse: bool =False, horizontal_scrollbar: bool =False, no_focus_on_appearing: bool =False, no_bring_to_front_on_focus: bool =False, no_close: bool =False, no_background: bool =False, modal: bool =False, popup: bool =False, on_close: Callable =None) -> int:
 	"""Creates a new window for following items to be added to."""
 	...
 

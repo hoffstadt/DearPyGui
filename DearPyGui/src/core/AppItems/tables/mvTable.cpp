@@ -72,6 +72,9 @@ namespace Marvel {
 	{
 		ScopedID id(m_uuid);
 
+		if (m_columns == 0)
+			return;
+
 		if (ImGui::BeginTable(m_label.c_str(), m_columns, m_flags, 
 			ImVec2((float)m_width, (float)m_height), (float)m_inner_width))
 		{
