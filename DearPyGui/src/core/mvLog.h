@@ -29,6 +29,7 @@ namespace Marvel {
 	private:
 
 		static bool s_initialized;
+		static bool s_reset;
 	};
 }
 
