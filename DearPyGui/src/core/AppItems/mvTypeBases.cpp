@@ -436,6 +436,7 @@ namespace Marvel {
 	mvSeriesBase::mvSeriesBase(mvUUID uuid)
 		: mvAppItem(uuid)
 	{
+		m_label = "Series###" + std::to_string(m_uuid);
 	}
 
 	PyObject* mvSeriesBase::getPyValue()
