@@ -20,6 +20,11 @@ We generally fold multiple commits pertaining to the same topic as a single entr
 - Read the `Breaking Changes` section (here in the changelog).
 - Please report any issue!
 
+## VERSION 0.8.38
+
+### Fixes
+* fixed viewport resize handler deadlock issue #1070
+
 ## VERSION 0.8.32
 
 ### New
