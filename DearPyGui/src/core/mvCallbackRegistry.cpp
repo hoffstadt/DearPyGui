@@ -305,16 +305,11 @@ namespace Marvel {
 		if (callback)
 			Py_XINCREF(callback);
 
-		auto fut = mvApp::GetApp()->getCallbackRegistry().submit([=]()
+		mvApp::GetApp()->getCallbackRegistry().submit([=]()
 			{
 				mvApp::GetApp()->getCallbackRegistry().setResizeCallback(callback);
 				return std::string("");
 			});
-
-		auto message = fut.get();
-
-		if (!message.empty())
-			mvThrowPythonError(mvErrorCode::mvNone, message);
 
 		return GetPyNone();
 	}
