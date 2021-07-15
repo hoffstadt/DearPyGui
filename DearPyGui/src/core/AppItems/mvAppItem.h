@@ -278,7 +278,7 @@ namespace Marvel {
         //-----------------------------------------------------------------------------
         [[nodiscard]] virtual mvRef<mvAppItem>  getClassDisabledTheme() const = 0;
         [[nodiscard]] virtual mvRef<mvAppItem>  getClassTheme() const = 0;
-        [[nodiscard]] virtual mvAppItemType     getType      () const = 0;
+        [[nodiscard]] virtual mvAppItemType     getType      () const { return mvAppItemType::None; } // should be pure, see #1071
         [[nodiscard]] virtual int               getDescFlags () const = 0;
         [[nodiscard]] virtual int               getTarget    () const = 0; // which child slot
         [[nodiscard]] virtual StorageValueTypes getValueType () const = 0;
