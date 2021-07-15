@@ -13,6 +13,11 @@ void runTest(std::string test)
 {
 	auto ss = std::ostringstream{};
 	std::ifstream input_file("../../Tests/" + test + ".py");
+#ifndef MV_TESTS_ONLY
+	ss << "should_exit = False\n";
+#else
+	ss << "should_exit = True\n";
+#endif
 	ss << input_file.rdbuf();
 	PyRun_SimpleString(ss.str().c_str());
 }

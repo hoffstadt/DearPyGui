@@ -10,4 +10,4 @@ class TestSimple(unittest.TestCase):
         self.assertTrue(True)
 
 if __name__ == '__main__':
-    unittest.main(argv=['first-arg-is-ignored'], exit=True, verbosity=2)
+    unittest.main(argv=['first-arg-is-ignored'], verbosity=2, exit=should_exit)
