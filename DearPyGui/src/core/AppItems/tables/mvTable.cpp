@@ -140,6 +140,7 @@ namespace Marvel {
 
 			if (!m_children[1].empty())
 			{
+				// TODO: hacky solution, needs work
 				if(m_children[1][0]->getType() != mvAppItemType::mvTableRow && 
 					m_children[1][0]->getType() != mvAppItemType::mvClipper &&
 					m_children[1][0]->getType() != mvAppItemType::mvFilterSet)
