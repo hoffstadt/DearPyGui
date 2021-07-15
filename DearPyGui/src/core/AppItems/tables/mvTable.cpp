@@ -105,7 +105,7 @@ namespace Marvel {
 				if (sorts_specs->SpecsDirty)
 				{
 					if (sorts_specs->SpecsCount == 0)
-						mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), m_uuid, nullptr, nullptr);
+						mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), m_uuid, nullptr, m_user_data);
 					else
 					{
 
