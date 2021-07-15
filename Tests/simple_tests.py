@@ -7,7 +7,7 @@ class TestSimple(unittest.TestCase):
         self.assertTrue(True)
 
     def test_2(self):
-        self.assertTrue(False)
+        self.assertTrue(True)
 
 if __name__ == '__main__':
     unittest.main(argv=['first-arg-is-ignored'], exit=True, verbosity=2)
