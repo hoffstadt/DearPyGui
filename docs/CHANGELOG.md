@@ -26,6 +26,7 @@ We generally fold multiple commits pertaining to the same topic as a single entr
 * added check for 0 column tables #1071
 * fixed type hint for `delay` search
 * added `user_data` support for table
+* fixed plot series theming issue when not using labels #1064
 
 ## VERSION 0.8.38
 
