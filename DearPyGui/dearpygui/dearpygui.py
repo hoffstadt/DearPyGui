@@ -1136,7 +1136,7 @@ def is_viewport_minimized_box_on() -> bool:
 ##########################################################
 
 @contextmanager
-def child(*, label: str =None, id: int =0, width: int =0, height: int =0, indent: int =-1, parent: int =0, before: int =0, payload_type: str ='$$DPG_PAYLOAD', drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, pos: List[int] =[], filter_key: str ='', delay_search: str =False, tracked: bool =False, track_offset: float =0.5, user_data: Any =None, border: bool =True, autosize_x: bool =False, autosize_y: bool =False, no_scrollbar: bool =False, horizontal_scrollbar: bool =False, menubar: bool =False) -> int:
+def child(*, label: str =None, id: int =0, width: int =0, height: int =0, indent: int =-1, parent: int =0, before: int =0, payload_type: str ='$$DPG_PAYLOAD', drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, pos: List[int] =[], filter_key: str ='', delay_search: bool =False, tracked: bool =False, track_offset: float =0.5, user_data: Any =None, border: bool =True, autosize_x: bool =False, autosize_y: bool =False, no_scrollbar: bool =False, horizontal_scrollbar: bool =False, menubar: bool =False) -> int:
 	"""
 	Adds an embedded child window. Will show scrollbars when items do not fit. Must be followed by a call to end.
 	Args:
@@ -1153,7 +1153,7 @@ def child(*, label: str =None, id: int =0, width: int =0, height: int =0, indent
 		**show (bool): Attempt to render widget.
 		**pos (List[int]): Places the item relative to window coordinates, [0,0] is top left.
 		**filter_key (str): Used by filter widget.
-		**delay_search (str): Delays searching container for specified items until the end of the app. Possible optimization when a container has many children that are not accessed often.
+		**delay_search (bool): Delays searching container for specified items until the end of the app. Possible optimization when a container has many children that are not accessed often.
 		**tracked (bool): Scroll tracking
 		**track_offset (float): 0.0f:top, 0.5f:center, 1.0f:bottom
 		**user_data (Any): User data for callbacks.
@@ -1173,7 +1173,7 @@ def child(*, label: str =None, id: int =0, width: int =0, height: int =0, indent
 	finally:
 		internal_dpg.pop_container_stack()
 @contextmanager
-def clipper(*, label: str =None, id: int =0, width: int =0, indent: int =-1, parent: int =0, before: int =0, show: bool =True, delay_search: str =False, user_data: Any =None) -> int:
+def clipper(*, label: str =None, id: int =0, width: int =0, indent: int =-1, parent: int =0, before: int =0, show: bool =True, delay_search: bool =False, user_data: Any =None) -> int:
 	"""
 	Helper to manually clip large list of items. Increases performance by not searching or drawing widgets outside of the clipped region.
 	Args:
@@ -1184,7 +1184,7 @@ def clipper(*, label: str =None, id: int =0, width: int =0, indent: int =-1, par
 		**parent (int): Parent to add this item to. (runtime adding)
 		**before (int): This item will be displayed before the specified item in the parent.
 		**show (bool): Attempt to render widget.
-		**delay_search (str): Delays searching container for specified items until the end of the app. Possible optimization when a container has many children that are not accessed often.
+		**delay_search (bool): Delays searching container for specified items until the end of the app. Possible optimization when a container has many children that are not accessed often.
 		**user_data (Any): User data for callbacks.
 	Yields:
 		int
@@ -1196,7 +1196,7 @@ def clipper(*, label: str =None, id: int =0, width: int =0, indent: int =-1, par
 	finally:
 		internal_dpg.pop_container_stack()
 @contextmanager
-def collapsing_header(*, label: str =None, id: int =0, indent: int =-1, parent: int =0, before: int =0, payload_type: str ='$$DPG_PAYLOAD', drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, pos: List[int] =[], filter_key: str ='', delay_search: str =False, tracked: bool =False, track_offset: float =0.5, user_data: Any =None, closable: bool =False, default_open: bool =False, open_on_double_click: bool =False, open_on_arrow: bool =False, leaf: bool =False, bullet: bool =False) -> int:
+def collapsing_header(*, label: str =None, id: int =0, indent: int =-1, parent: int =0, before: int =0, payload_type: str ='$$DPG_PAYLOAD', drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, pos: List[int] =[], filter_key: str ='', delay_search: bool =False, tracked: bool =False, track_offset: float =0.5, user_data: Any =None, closable: bool =False, default_open: bool =False, open_on_double_click: bool =False, open_on_arrow: bool =False, leaf: bool =False, bullet: bool =False) -> int:
 	"""
 	Adds a collapsing header to add items to. Must be closed with the end command.
 	Args:
@@ -1211,7 +1211,7 @@ def collapsing_header(*, label: str =None, id: int =0, indent: int =-1, parent: 
 		**show (bool): Attempt to render widget.
 		**pos (List[int]): Places the item relative to window coordinates, [0,0] is top left.
 		**filter_key (str): Used by filter widget.
-		**delay_search (str): Delays searching container for specified items until the end of the app. Possible optimization when a container has many children that are not accessed often.
+		**delay_search (bool): Delays searching container for specified items until the end of the app. Possible optimization when a container has many children that are not accessed often.
 		**tracked (bool): Scroll tracking
 		**track_offset (float): 0.0f:top, 0.5f:center, 1.0f:bottom
 		**user_data (Any): User data for callbacks.
@@ -1272,7 +1272,7 @@ def draw_layer(*, label: str =None, id: int =0, parent: int =0, before: int =0, 
 	finally:
 		internal_dpg.pop_container_stack()
 @contextmanager
-def drawlist(*, label: str =None, id: int =0, width: int =0, height: int =0, parent: int =0, before: int =0, payload_type: str ='$$DPG_PAYLOAD', callback: Callable =None, drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, pos: List[int] =[], filter_key: str ='', delay_search: str =False, tracked: bool =False, track_offset: float =0.5, user_data: Any =None) -> int:
+def drawlist(*, label: str =None, id: int =0, width: int =0, height: int =0, parent: int =0, before: int =0, payload_type: str ='$$DPG_PAYLOAD', callback: Callable =None, drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, pos: List[int] =[], filter_key: str ='', delay_search: bool =False, tracked: bool =False, track_offset: float =0.5, user_data: Any =None) -> int:
 	"""
 	A container widget that is used to present draw items or layers. Layers and draw items should be added to this widget as children.
 	Args:
@@ -1289,7 +1289,7 @@ def drawlist(*, label: str =None, id: int =0, width: int =0, height: int =0, par
 		**show (bool): Attempt to render widget.
 		**pos (List[int]): Places the item relative to window coordinates, [0,0] is top left.
 		**filter_key (str): Used by filter widget.
-		**delay_search (str): Delays searching container for specified items until the end of the app. Possible optimization when a container has many children that are not accessed often.
+		**delay_search (bool): Delays searching container for specified items until the end of the app. Possible optimization when a container has many children that are not accessed often.
 		**tracked (bool): Scroll tracking
 		**track_offset (float): 0.0f:top, 0.5f:center, 1.0f:bottom
 		**user_data (Any): User data for callbacks.
@@ -1329,7 +1329,7 @@ def file_dialog(*, label: str =None, id: int =0, width: int =0, height: int =0, 
 	finally:
 		internal_dpg.pop_container_stack()
 @contextmanager
-def filter_set(*, label: str =None, id: int =0, width: int =0, indent: int =-1, parent: int =0, before: int =0, show: bool =True, delay_search: str =False, user_data: Any =None) -> int:
+def filter_set(*, label: str =None, id: int =0, width: int =0, indent: int =-1, parent: int =0, before: int =0, show: bool =True, delay_search: bool =False, user_data: Any =None) -> int:
 	"""
 	Helper to parse and apply text filters (e.g. aaaaa[, bbbbb][, ccccc])
 	Args:
@@ -1340,7 +1340,7 @@ def filter_set(*, label: str =None, id: int =0, width: int =0, indent: int =-1, 
 		**parent (int): Parent to add this item to. (runtime adding)
 		**before (int): This item will be displayed before the specified item in the parent.
 		**show (bool): Attempt to render widget.
-		**delay_search (str): Delays searching container for specified items until the end of the app. Possible optimization when a container has many children that are not accessed often.
+		**delay_search (bool): Delays searching container for specified items until the end of the app. Possible optimization when a container has many children that are not accessed often.
 		**user_data (Any): User data for callbacks.
 	Yields:
 		int
@@ -1391,7 +1391,7 @@ def font_registry(*, label: str =None, id: int =0, show: bool =True, user_data: 
 	finally:
 		internal_dpg.pop_container_stack()
 @contextmanager
-def group(*, label: str =None, id: int =0, width: int =0, indent: int =-1, parent: int =0, before: int =0, payload_type: str ='$$DPG_PAYLOAD', drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, pos: List[int] =[], filter_key: str ='', delay_search: str =False, tracked: bool =False, track_offset: float =0.5, user_data: Any =None, horizontal: bool =False, horizontal_spacing: float =-1) -> int:
+def group(*, label: str =None, id: int =0, width: int =0, indent: int =-1, parent: int =0, before: int =0, payload_type: str ='$$DPG_PAYLOAD', drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, pos: List[int] =[], filter_key: str ='', delay_search: bool =False, tracked: bool =False, track_offset: float =0.5, user_data: Any =None, horizontal: bool =False, horizontal_spacing: float =-1) -> int:
 	"""
 	Creates a group that other widgets can belong to. The group allows item commands to be issued for all of its members. Must be closed with the end command.
 	Args:
@@ -1407,7 +1407,7 @@ def group(*, label: str =None, id: int =0, width: int =0, indent: int =-1, paren
 		**show (bool): Attempt to render widget.
 		**pos (List[int]): Places the item relative to window coordinates, [0,0] is top left.
 		**filter_key (str): Used by filter widget.
-		**delay_search (str): Delays searching container for specified items until the end of the app. Possible optimization when a container has many children that are not accessed often.
+		**delay_search (bool): Delays searching container for specified items until the end of the app. Possible optimization when a container has many children that are not accessed often.
 		**tracked (bool): Scroll tracking
 		**track_offset (float): 0.0f:top, 0.5f:center, 1.0f:bottom
 		**user_data (Any): User data for callbacks.
@@ -1441,7 +1441,7 @@ def handler_registry(*, label: str =None, id: int =0, show: bool =True, user_dat
 	finally:
 		internal_dpg.pop_container_stack()
 @contextmanager
-def menu(*, label: str =None, id: int =0, indent: int =-1, parent: int =0, before: int =0, payload_type: str ='$$DPG_PAYLOAD', drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, enabled: bool =True, filter_key: str ='', delay_search: str =False, tracked: bool =False, track_offset: float =0.5, user_data: Any =None) -> int:
+def menu(*, label: str =None, id: int =0, indent: int =-1, parent: int =0, before: int =0, payload_type: str ='$$DPG_PAYLOAD', drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, enabled: bool =True, filter_key: str ='', delay_search: bool =False, tracked: bool =False, track_offset: float =0.5, user_data: Any =None) -> int:
 	"""
 	Adds a menu to an existing menu bar. Must be followed by a call to end.
 	Args:
@@ -1456,7 +1456,7 @@ def menu(*, label: str =None, id: int =0, indent: int =-1, parent: int =0, befor
 		**show (bool): Attempt to render widget.
 		**enabled (bool): Turns off functionality of widget and applies the disabled theme.
 		**filter_key (str): Used by filter widget.
-		**delay_search (str): Delays searching container for specified items until the end of the app. Possible optimization when a container has many children that are not accessed often.
+		**delay_search (bool): Delays searching container for specified items until the end of the app. Possible optimization when a container has many children that are not accessed often.
 		**tracked (bool): Scroll tracking
 		**track_offset (float): 0.0f:top, 0.5f:center, 1.0f:bottom
 		**user_data (Any): User data for callbacks.
@@ -1470,7 +1470,7 @@ def menu(*, label: str =None, id: int =0, indent: int =-1, parent: int =0, befor
 	finally:
 		internal_dpg.pop_container_stack()
 @contextmanager
-def menu_bar(*, label: str =None, id: int =0, indent: int =-1, parent: int =0, show: bool =True, delay_search: str =False, user_data: Any =None) -> int:
+def menu_bar(*, label: str =None, id: int =0, indent: int =-1, parent: int =0, show: bool =True, delay_search: bool =False, user_data: Any =None) -> int:
 	"""
 	Adds a menu bar to a window.
 	Args:
@@ -1479,7 +1479,7 @@ def menu_bar(*, label: str =None, id: int =0, indent: int =-1, parent: int =0, s
 		**indent (int): Offsets the widget to the right the specified number multiplied by the indent style.
 		**parent (int): Parent to add this item to. (runtime adding)
 		**show (bool): Attempt to render widget.
-		**delay_search (str): Delays searching container for specified items until the end of the app. Possible optimization when a container has many children that are not accessed often.
+		**delay_search (bool): Delays searching container for specified items until the end of the app. Possible optimization when a container has many children that are not accessed often.
 		**user_data (Any): User data for callbacks.
 	Yields:
 		int
@@ -1491,7 +1491,7 @@ def menu_bar(*, label: str =None, id: int =0, indent: int =-1, parent: int =0, s
 	finally:
 		internal_dpg.pop_container_stack()
 @contextmanager
-def node(*, label: str =None, id: int =0, parent: int =0, before: int =0, payload_type: str ='$$DPG_PAYLOAD', drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, pos: List[int] =[], filter_key: str ='', delay_search: str =False, tracked: bool =False, track_offset: float =0.5, user_data: Any =None, draggable: bool =True) -> int:
+def node(*, label: str =None, id: int =0, parent: int =0, before: int =0, payload_type: str ='$$DPG_PAYLOAD', drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, pos: List[int] =[], filter_key: str ='', delay_search: bool =False, tracked: bool =False, track_offset: float =0.5, user_data: Any =None, draggable: bool =True) -> int:
 	"""
 	Adds a node to a node editor.
 	Args:
@@ -1505,7 +1505,7 @@ def node(*, label: str =None, id: int =0, parent: int =0, before: int =0, payloa
 		**show (bool): Attempt to render widget.
 		**pos (List[int]): Places the item relative to window coordinates, [0,0] is top left.
 		**filter_key (str): Used by filter widget.
-		**delay_search (str): Delays searching container for specified items until the end of the app. Possible optimization when a container has many children that are not accessed often.
+		**delay_search (bool): Delays searching container for specified items until the end of the app. Possible optimization when a container has many children that are not accessed often.
 		**tracked (bool): Scroll tracking
 		**track_offset (float): 0.0f:top, 0.5f:center, 1.0f:bottom
 		**user_data (Any): User data for callbacks.
@@ -1550,7 +1550,7 @@ def node_attribute(*, label: str =None, id: int =0, indent: int =-1, parent: int
 	finally:
 		internal_dpg.pop_container_stack()
 @contextmanager
-def node_editor(*, label: str =None, id: int =0, width: int =0, height: int =0, parent: int =0, before: int =0, payload_type: str ='$$DPG_PAYLOAD', callback: Callable =None, drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, filter_key: str ='', delay_search: str =False, tracked: bool =False, track_offset: float =0.5, user_data: Any =None, delink_callback: Callable =None, menubar: bool =False) -> int:
+def node_editor(*, label: str =None, id: int =0, width: int =0, height: int =0, parent: int =0, before: int =0, payload_type: str ='$$DPG_PAYLOAD', callback: Callable =None, drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, filter_key: str ='', delay_search: bool =False, tracked: bool =False, track_offset: float =0.5, user_data: Any =None, delink_callback: Callable =None, menubar: bool =False) -> int:
 	"""
 	Adds a node editor.
 	Args:
@@ -1566,7 +1566,7 @@ def node_editor(*, label: str =None, id: int =0, width: int =0, height: int =0, 
 		**drop_callback (Callable): Registers a drop callback for drag and drop.
 		**show (bool): Attempt to render widget.
 		**filter_key (str): Used by filter widget.
-		**delay_search (str): Delays searching container for specified items until the end of the app. Possible optimization when a container has many children that are not accessed often.
+		**delay_search (bool): Delays searching container for specified items until the end of the app. Possible optimization when a container has many children that are not accessed often.
 		**tracked (bool): Scroll tracking
 		**track_offset (float): 0.0f:top, 0.5f:center, 1.0f:bottom
 		**user_data (Any): User data for callbacks.
@@ -1582,7 +1582,7 @@ def node_editor(*, label: str =None, id: int =0, width: int =0, height: int =0, 
 	finally:
 		internal_dpg.pop_container_stack()
 @contextmanager
-def plot(*, label: str =None, id: int =0, width: int =0, height: int =0, indent: int =-1, parent: int =0, before: int =0, payload_type: str ='$$DPG_PAYLOAD', callback: Callable =None, drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, pos: List[int] =[], filter_key: str ='', delay_search: str =False, tracked: bool =False, track_offset: float =0.5, user_data: Any =None, no_title: bool =False, no_menus: bool =False, no_box_select: bool =False, no_mouse_pos: bool =False, no_highlight: bool =False, no_child: bool =False, query: bool =False, crosshairs: bool =False, anti_aliased: bool =False, equal_aspects: bool =False) -> int:
+def plot(*, label: str =None, id: int =0, width: int =0, height: int =0, indent: int =-1, parent: int =0, before: int =0, payload_type: str ='$$DPG_PAYLOAD', callback: Callable =None, drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, pos: List[int] =[], filter_key: str ='', delay_search: bool =False, tracked: bool =False, track_offset: float =0.5, user_data: Any =None, no_title: bool =False, no_menus: bool =False, no_box_select: bool =False, no_mouse_pos: bool =False, no_highlight: bool =False, no_child: bool =False, query: bool =False, crosshairs: bool =False, anti_aliased: bool =False, equal_aspects: bool =False) -> int:
 	"""
 	Adds a plot which is used to hold series, and can be drawn to with draw commands.
 	Args:
@@ -1600,7 +1600,7 @@ def plot(*, label: str =None, id: int =0, width: int =0, height: int =0, indent:
 		**show (bool): Attempt to render widget.
 		**pos (List[int]): Places the item relative to window coordinates, [0,0] is top left.
 		**filter_key (str): Used by filter widget.
-		**delay_search (str): Delays searching container for specified items until the end of the app. Possible optimization when a container has many children that are not accessed often.
+		**delay_search (bool): Delays searching container for specified items until the end of the app. Possible optimization when a container has many children that are not accessed often.
 		**tracked (bool): Scroll tracking
 		**track_offset (float): 0.0f:top, 0.5f:center, 1.0f:bottom
 		**user_data (Any): User data for callbacks.
@@ -1641,7 +1641,7 @@ def staging_container(*, label: str =None, id: int =0, user_data: Any =None) -> 
 	finally:
 		internal_dpg.pop_container_stack()
 @contextmanager
-def subplots(rows : int, columns : int, *, label: str =None, id: int =0, width: int =0, height: int =0, indent: int =-1, parent: int =0, before: int =0, callback: Callable =None, show: bool =True, pos: List[int] =[], filter_key: str ='', delay_search: str =False, tracked: bool =False, track_offset: float =0.5, user_data: Any =None, row_ratios: List[float] =[], column_ratios: List[float] =[], no_title: bool =False, no_menus: bool =False, no_resize: bool =False, no_align: bool =False, link_rows: bool =False, link_columns: bool =False, link_all_x: bool =False, link_all_y: bool =False, column_major: bool =False) -> int:
+def subplots(rows : int, columns : int, *, label: str =None, id: int =0, width: int =0, height: int =0, indent: int =-1, parent: int =0, before: int =0, callback: Callable =None, show: bool =True, pos: List[int] =[], filter_key: str ='', delay_search: bool =False, tracked: bool =False, track_offset: float =0.5, user_data: Any =None, row_ratios: List[float] =[], column_ratios: List[float] =[], no_title: bool =False, no_menus: bool =False, no_resize: bool =False, no_align: bool =False, link_rows: bool =False, link_columns: bool =False, link_all_x: bool =False, link_all_y: bool =False, column_major: bool =False) -> int:
 	"""
 	Adds a plot which is used to hold series, and can be drawn to with draw commands.
 	Args:
@@ -1658,7 +1658,7 @@ def subplots(rows : int, columns : int, *, label: str =None, id: int =0, width: 
 		**show (bool): Attempt to render widget.
 		**pos (List[int]): Places the item relative to window coordinates, [0,0] is top left.
 		**filter_key (str): Used by filter widget.
-		**delay_search (str): Delays searching container for specified items until the end of the app. Possible optimization when a container has many children that are not accessed often.
+		**delay_search (bool): Delays searching container for specified items until the end of the app. Possible optimization when a container has many children that are not accessed often.
 		**tracked (bool): Scroll tracking
 		**track_offset (float): 0.0f:top, 0.5f:center, 1.0f:bottom
 		**user_data (Any): User data for callbacks.
@@ -1683,7 +1683,7 @@ def subplots(rows : int, columns : int, *, label: str =None, id: int =0, width: 
 	finally:
 		internal_dpg.pop_container_stack()
 @contextmanager
-def tab(*, label: str =None, id: int =0, indent: int =-1, parent: int =0, before: int =0, payload_type: str ='$$DPG_PAYLOAD', drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, filter_key: str ='', delay_search: str =False, tracked: bool =False, track_offset: float =0.5, user_data: Any =None, closable: bool =False, no_tooltip: bool =False, order_mode: bool =0) -> int:
+def tab(*, label: str =None, id: int =0, indent: int =-1, parent: int =0, before: int =0, payload_type: str ='$$DPG_PAYLOAD', drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, filter_key: str ='', delay_search: bool =False, tracked: bool =False, track_offset: float =0.5, user_data: Any =None, closable: bool =False, no_tooltip: bool =False, order_mode: bool =0) -> int:
 	"""
 	Adds a tab to a tab bar. Must be closed with thes end command.
 	Args:
@@ -1697,7 +1697,7 @@ def tab(*, label: str =None, id: int =0, indent: int =-1, parent: int =0, before
 		**drop_callback (Callable): Registers a drop callback for drag and drop.
 		**show (bool): Attempt to render widget.
 		**filter_key (str): Used by filter widget.
-		**delay_search (str): Delays searching container for specified items until the end of the app. Possible optimization when a container has many children that are not accessed often.
+		**delay_search (bool): Delays searching container for specified items until the end of the app. Possible optimization when a container has many children that are not accessed often.
 		**tracked (bool): Scroll tracking
 		**track_offset (float): 0.0f:top, 0.5f:center, 1.0f:bottom
 		**user_data (Any): User data for callbacks.
@@ -1714,7 +1714,7 @@ def tab(*, label: str =None, id: int =0, indent: int =-1, parent: int =0, before
 	finally:
 		internal_dpg.pop_container_stack()
 @contextmanager
-def tab_bar(*, label: str =None, id: int =0, indent: int =-1, parent: int =0, before: int =0, payload_type: str ='$$DPG_PAYLOAD', callback: Callable =None, drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, pos: List[int] =[], filter_key: str ='', delay_search: str =False, tracked: bool =False, track_offset: float =0.5, user_data: Any =None, reorderable: bool =False) -> int:
+def tab_bar(*, label: str =None, id: int =0, indent: int =-1, parent: int =0, before: int =0, payload_type: str ='$$DPG_PAYLOAD', callback: Callable =None, drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, pos: List[int] =[], filter_key: str ='', delay_search: bool =False, tracked: bool =False, track_offset: float =0.5, user_data: Any =None, reorderable: bool =False) -> int:
 	"""
 	Adds a tab bar.
 	Args:
@@ -1730,7 +1730,7 @@ def tab_bar(*, label: str =None, id: int =0, indent: int =-1, parent: int =0, be
 		**show (bool): Attempt to render widget.
 		**pos (List[int]): Places the item relative to window coordinates, [0,0] is top left.
 		**filter_key (str): Used by filter widget.
-		**delay_search (str): Delays searching container for specified items until the end of the app. Possible optimization when a container has many children that are not accessed often.
+		**delay_search (bool): Delays searching container for specified items until the end of the app. Possible optimization when a container has many children that are not accessed often.
 		**tracked (bool): Scroll tracking
 		**track_offset (float): 0.0f:top, 0.5f:center, 1.0f:bottom
 		**user_data (Any): User data for callbacks.
@@ -1745,7 +1745,7 @@ def tab_bar(*, label: str =None, id: int =0, indent: int =-1, parent: int =0, be
 	finally:
 		internal_dpg.pop_container_stack()
 @contextmanager
-def table(*, label: str =None, id: int =0, width: int =0, height: int =0, indent: int =-1, parent: int =0, before: int =0, source: int =0, callback: Callable =None, show: bool =True, pos: List[int] =[], filter_key: str ='', delay_search: str =False, user_data: Any =None, header_row: bool =True, inner_width: int =0, policy: int =0, freeze_rows: int =0, freeze_columns: int =0, sort_multi: bool =False, sort_tristate: bool =False, resizable: bool =False, reorderable: bool =False, hideable: bool =False, sortable: bool =False, context_menu_in_body: bool =False, row_background: bool =False, borders_innerH: bool =False, borders_outerH: bool =False, borders_innerV: bool =False, borders_outerV: bool =False, no_host_extendX: bool =False, no_host_extendY: bool =False, no_keep_columns_visible: bool =False, precise_widths: bool =False, no_clip: bool =False, pad_outerX: bool =False, no_pad_outerX: bool =False, no_pad_innerX: bool =False, scrollX: bool =False, scrollY: bool =False) -> int:
+def table(*, label: str =None, id: int =0, width: int =0, height: int =0, indent: int =-1, parent: int =0, before: int =0, source: int =0, callback: Callable =None, show: bool =True, pos: List[int] =[], filter_key: str ='', delay_search: bool =False, user_data: Any =None, header_row: bool =True, inner_width: int =0, policy: int =0, freeze_rows: int =0, freeze_columns: int =0, sort_multi: bool =False, sort_tristate: bool =False, resizable: bool =False, reorderable: bool =False, hideable: bool =False, sortable: bool =False, context_menu_in_body: bool =False, row_background: bool =False, borders_innerH: bool =False, borders_outerH: bool =False, borders_innerV: bool =False, borders_outerV: bool =False, no_host_extendX: bool =False, no_host_extendY: bool =False, no_keep_columns_visible: bool =False, precise_widths: bool =False, no_clip: bool =False, pad_outerX: bool =False, no_pad_outerX: bool =False, no_pad_innerX: bool =False, scrollX: bool =False, scrollY: bool =False) -> int:
 	"""
 	Undocumented function
 	Args:
@@ -1761,7 +1761,7 @@ def table(*, label: str =None, id: int =0, width: int =0, height: int =0, indent
 		**show (bool): Attempt to render widget.
 		**pos (List[int]): Places the item relative to window coordinates, [0,0] is top left.
 		**filter_key (str): Used by filter widget.
-		**delay_search (str): Delays searching container for specified items until the end of the app. Possible optimization when a container has many children that are not accessed often.
+		**delay_search (bool): Delays searching container for specified items until the end of the app. Possible optimization when a container has many children that are not accessed often.
 		**user_data (Any): User data for callbacks.
 		**header_row (bool): show headers at the top of the columns
 		**inner_width (int): 
@@ -1877,7 +1877,7 @@ def tooltip(parent : str, *, label: str =None, id: int =0, show: bool =True, use
 	finally:
 		internal_dpg.pop_container_stack()
 @contextmanager
-def tree_node(*, label: str =None, id: int =0, indent: int =-1, parent: int =0, before: int =0, payload_type: str ='$$DPG_PAYLOAD', drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, pos: List[int] =[], filter_key: str ='', delay_search: str =False, tracked: bool =False, track_offset: float =0.5, user_data: Any =None, default_open: bool =False, open_on_double_click: bool =False, open_on_arrow: bool =False, leaf: bool =False, bullet: bool =False, selectable: bool =False) -> int:
+def tree_node(*, label: str =None, id: int =0, indent: int =-1, parent: int =0, before: int =0, payload_type: str ='$$DPG_PAYLOAD', drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, pos: List[int] =[], filter_key: str ='', delay_search: bool =False, tracked: bool =False, track_offset: float =0.5, user_data: Any =None, default_open: bool =False, open_on_double_click: bool =False, open_on_arrow: bool =False, leaf: bool =False, bullet: bool =False, selectable: bool =False) -> int:
 	"""
 	Adds a tree node to add items to. Must be closed with the end command.
 	Args:
@@ -1892,7 +1892,7 @@ def tree_node(*, label: str =None, id: int =0, indent: int =-1, parent: int =0, 
 		**show (bool): Attempt to render widget.
 		**pos (List[int]): Places the item relative to window coordinates, [0,0] is top left.
 		**filter_key (str): Used by filter widget.
-		**delay_search (str): Delays searching container for specified items until the end of the app. Possible optimization when a container has many children that are not accessed often.
+		**delay_search (bool): Delays searching container for specified items until the end of the app. Possible optimization when a container has many children that are not accessed often.
 		**tracked (bool): Scroll tracking
 		**track_offset (float): 0.0f:top, 0.5f:center, 1.0f:bottom
 		**user_data (Any): User data for callbacks.
@@ -1929,7 +1929,7 @@ def value_registry(*, label: str =None, id: int =0, user_data: Any =None) -> int
 	finally:
 		internal_dpg.pop_container_stack()
 @contextmanager
-def viewport_drawlist(*, label: str =None, id: int =0, show: bool =True, filter_key: str ='', delay_search: str =False, user_data: Any =None, front: bool =True) -> int:
+def viewport_drawlist(*, label: str =None, id: int =0, show: bool =True, filter_key: str ='', delay_search: bool =False, user_data: Any =None, front: bool =True) -> int:
 	"""
 	A container that is used to present draw items or layers directly to the viewport. By default this will draw to the back of teh viewport. Layers and draw items should be added to this widget as children.
 	Args:
@@ -1937,7 +1937,7 @@ def viewport_drawlist(*, label: str =None, id: int =0, show: bool =True, filter_
 		**id (int): Unique id used to programmatically refer to the item.If label is unused this will be the label.
 		**show (bool): Attempt to render widget.
 		**filter_key (str): Used by filter widget.
-		**delay_search (str): Delays searching container for specified items until the end of the app. Possible optimization when a container has many children that are not accessed often.
+		**delay_search (bool): Delays searching container for specified items until the end of the app. Possible optimization when a container has many children that are not accessed often.
 		**user_data (Any): User data for callbacks.
 		**front (bool): Draws to the front of the view port instead of the back.
 	Yields:
@@ -1950,7 +1950,7 @@ def viewport_drawlist(*, label: str =None, id: int =0, show: bool =True, filter_
 	finally:
 		internal_dpg.pop_container_stack()
 @contextmanager
-def viewport_menu_bar(*, label: str =None, id: int =0, indent: int =-1, parent: int =0, show: bool =True, delay_search: str =False, user_data: Any =None) -> int:
+def viewport_menu_bar(*, label: str =None, id: int =0, indent: int =-1, parent: int =0, show: bool =True, delay_search: bool =False, user_data: Any =None) -> int:
 	"""
 	Adds a menu bar to the viewport.
 	Args:
@@ -1959,7 +1959,7 @@ def viewport_menu_bar(*, label: str =None, id: int =0, indent: int =-1, parent: 
 		**indent (int): Offsets the widget to the right the specified number multiplied by the indent style.
 		**parent (int): Parent to add this item to. (runtime adding)
 		**show (bool): Attempt to render widget.
-		**delay_search (str): Delays searching container for specified items until the end of the app. Possible optimization when a container has many children that are not accessed often.
+		**delay_search (bool): Delays searching container for specified items until the end of the app. Possible optimization when a container has many children that are not accessed often.
 		**user_data (Any): User data for callbacks.
 	Yields:
 		int
@@ -1971,7 +1971,7 @@ def viewport_menu_bar(*, label: str =None, id: int =0, indent: int =-1, parent: 
 	finally:
 		internal_dpg.pop_container_stack()
 @contextmanager
-def window(*, label: str =None, id: int =0, width: int =0, height: int =0, indent: int =-1, show: bool =True, pos: List[int] =[], delay_search: str =False, user_data: Any =None, min_size: List[int] =[100, 100], max_size: List[int] =[30000, 30000], menubar: bool =False, collapsed: bool =False, autosize: bool =False, no_resize: bool =False, no_title_bar: bool =False, no_move: bool =False, no_scrollbar: bool =False, no_collapse: bool =False, horizontal_scrollbar: bool =False, no_focus_on_appearing: bool =False, no_bring_to_front_on_focus: bool =False, no_close: bool =False, no_background: bool =False, modal: bool =False, popup: bool =False, on_close: Callable =None) -> int:
+def window(*, label: str =None, id: int =0, width: int =0, height: int =0, indent: int =-1, show: bool =True, pos: List[int] =[], delay_search: bool =False, user_data: Any =None, min_size: List[int] =[100, 100], max_size: List[int] =[30000, 30000], menubar: bool =False, collapsed: bool =False, autosize: bool =False, no_resize: bool =False, no_title_bar: bool =False, no_move: bool =False, no_scrollbar: bool =False, no_collapse: bool =False, horizontal_scrollbar: bool =False, no_focus_on_appearing: bool =False, no_bring_to_front_on_focus: bool =False, no_close: bool =False, no_background: bool =False, modal: bool =False, popup: bool =False, on_close: Callable =None) -> int:
 	"""
 	Creates a new window for following items to be added to.
 	Args:
@@ -1982,7 +1982,7 @@ def window(*, label: str =None, id: int =0, width: int =0, height: int =0, inden
 		**indent (int): Offsets the widget to the right the specified number multiplied by the indent style.
 		**show (bool): Attempt to render widget.
 		**pos (List[int]): Places the item relative to window coordinates, [0,0] is top left.
-		**delay_search (str): Delays searching container for specified items until the end of the app. Possible optimization when a container has many children that are not accessed often.
+		**delay_search (bool): Delays searching container for specified items until the end of the app. Possible optimization when a container has many children that are not accessed often.
 		**user_data (Any): User data for callbacks.
 		**min_size (List[int]): Minimum window size.
 		**max_size (List[int]): Maximum window size.
@@ -2268,7 +2268,7 @@ def add_checkbox(*, label: str =None, id: int =0, indent: int =-1, parent: int =
 
 	return internal_dpg.add_checkbox(label=label, id=id, indent=indent, parent=parent, before=before, source=source, payload_type=payload_type, callback=callback, drag_callback=drag_callback, drop_callback=drop_callback, show=show, enabled=enabled, pos=pos, filter_key=filter_key, tracked=tracked, track_offset=track_offset, user_data=user_data, default_value=default_value)
 
-def add_child(*, label: str =None, id: int =0, width: int =0, height: int =0, indent: int =-1, parent: int =0, before: int =0, payload_type: str ='$$DPG_PAYLOAD', drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, pos: List[int] =[], filter_key: str ='', delay_search: str =False, tracked: bool =False, track_offset: float =0.5, user_data: Any =None, border: bool =True, autosize_x: bool =False, autosize_y: bool =False, no_scrollbar: bool =False, horizontal_scrollbar: bool =False, menubar: bool =False) -> int:
+def add_child(*, label: str =None, id: int =0, width: int =0, height: int =0, indent: int =-1, parent: int =0, before: int =0, payload_type: str ='$$DPG_PAYLOAD', drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, pos: List[int] =[], filter_key: str ='', delay_search: bool =False, tracked: bool =False, track_offset: float =0.5, user_data: Any =None, border: bool =True, autosize_x: bool =False, autosize_y: bool =False, no_scrollbar: bool =False, horizontal_scrollbar: bool =False, menubar: bool =False) -> int:
 	"""
 	Adds an embedded child window. Will show scrollbars when items do not fit. Must be followed by a call to end.
 	Args:
@@ -2285,7 +2285,7 @@ def add_child(*, label: str =None, id: int =0, width: int =0, height: int =0, in
 		**show (bool): Attempt to render widget.
 		**pos (List[int]): Places the item relative to window coordinates, [0,0] is top left.
 		**filter_key (str): Used by filter widget.
-		**delay_search (str): Delays searching container for specified items until the end of the app. Possible optimization when a container has many children that are not accessed often.
+		**delay_search (bool): Delays searching container for specified items until the end of the app. Possible optimization when a container has many children that are not accessed often.
 		**tracked (bool): Scroll tracking
 		**track_offset (float): 0.0f:top, 0.5f:center, 1.0f:bottom
 		**user_data (Any): User data for callbacks.
@@ -2317,7 +2317,7 @@ def add_clicked_handler(parent : int, button : int =-1, *, label: str =None, id:
 
 	return internal_dpg.add_clicked_handler(parent, button, label=label, id=id, callback=callback, user_data=user_data)
 
-def add_clipper(*, label: str =None, id: int =0, width: int =0, indent: int =-1, parent: int =0, before: int =0, show: bool =True, delay_search: str =False, user_data: Any =None) -> int:
+def add_clipper(*, label: str =None, id: int =0, width: int =0, indent: int =-1, parent: int =0, before: int =0, show: bool =True, delay_search: bool =False, user_data: Any =None) -> int:
 	"""
 	Helper to manually clip large list of items. Increases performance by not searching or drawing widgets outside of the clipped region.
 	Args:
@@ -2328,7 +2328,7 @@ def add_clipper(*, label: str =None, id: int =0, width: int =0, indent: int =-1,
 		**parent (int): Parent to add this item to. (runtime adding)
 		**before (int): This item will be displayed before the specified item in the parent.
 		**show (bool): Attempt to render widget.
-		**delay_search (str): Delays searching container for specified items until the end of the app. Possible optimization when a container has many children that are not accessed often.
+		**delay_search (bool): Delays searching container for specified items until the end of the app. Possible optimization when a container has many children that are not accessed often.
 		**user_data (Any): User data for callbacks.
 	Returns:
 		int
@@ -2336,7 +2336,7 @@ def add_clipper(*, label: str =None, id: int =0, width: int =0, indent: int =-1,
 
 	return internal_dpg.add_clipper(label=label, id=id, width=width, indent=indent, parent=parent, before=before, show=show, delay_search=delay_search, user_data=user_data)
 
-def add_collapsing_header(*, label: str =None, id: int =0, indent: int =-1, parent: int =0, before: int =0, payload_type: str ='$$DPG_PAYLOAD', drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, pos: List[int] =[], filter_key: str ='', delay_search: str =False, tracked: bool =False, track_offset: float =0.5, user_data: Any =None, closable: bool =False, default_open: bool =False, open_on_double_click: bool =False, open_on_arrow: bool =False, leaf: bool =False, bullet: bool =False) -> int:
+def add_collapsing_header(*, label: str =None, id: int =0, indent: int =-1, parent: int =0, before: int =0, payload_type: str ='$$DPG_PAYLOAD', drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, pos: List[int] =[], filter_key: str ='', delay_search: bool =False, tracked: bool =False, track_offset: float =0.5, user_data: Any =None, closable: bool =False, default_open: bool =False, open_on_double_click: bool =False, open_on_arrow: bool =False, leaf: bool =False, bullet: bool =False) -> int:
 	"""
 	Adds a collapsing header to add items to. Must be closed with the end command.
 	Args:
@@ -2351,7 +2351,7 @@ def add_collapsing_header(*, label: str =None, id: int =0, indent: int =-1, pare
 		**show (bool): Attempt to render widget.
 		**pos (List[int]): Places the item relative to window coordinates, [0,0] is top left.
 		**filter_key (str): Used by filter widget.
-		**delay_search (str): Delays searching container for specified items until the end of the app. Possible optimization when a container has many children that are not accessed often.
+		**delay_search (bool): Delays searching container for specified items until the end of the app. Possible optimization when a container has many children that are not accessed often.
 		**tracked (bool): Scroll tracking
 		**track_offset (float): 0.0f:top, 0.5f:center, 1.0f:bottom
 		**user_data (Any): User data for callbacks.
@@ -2869,7 +2869,7 @@ def add_draw_layer(*, label: str =None, id: int =0, parent: int =0, before: int 
 
 	return internal_dpg.add_draw_layer(label=label, id=id, parent=parent, before=before, show=show, user_data=user_data)
 
-def add_drawlist(*, label: str =None, id: int =0, width: int =0, height: int =0, parent: int =0, before: int =0, payload_type: str ='$$DPG_PAYLOAD', callback: Callable =None, drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, pos: List[int] =[], filter_key: str ='', delay_search: str =False, tracked: bool =False, track_offset: float =0.5, user_data: Any =None) -> int:
+def add_drawlist(*, label: str =None, id: int =0, width: int =0, height: int =0, parent: int =0, before: int =0, payload_type: str ='$$DPG_PAYLOAD', callback: Callable =None, drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, pos: List[int] =[], filter_key: str ='', delay_search: bool =False, tracked: bool =False, track_offset: float =0.5, user_data: Any =None) -> int:
 	"""
 	A container widget that is used to present draw items or layers. Layers and draw items should be added to this widget as children.
 	Args:
@@ -2886,7 +2886,7 @@ def add_drawlist(*, label: str =None, id: int =0, width: int =0, height: int =0,
 		**show (bool): Attempt to render widget.
 		**pos (List[int]): Places the item relative to window coordinates, [0,0] is top left.
 		**filter_key (str): Used by filter widget.
-		**delay_search (str): Delays searching container for specified items until the end of the app. Possible optimization when a container has many children that are not accessed often.
+		**delay_search (bool): Delays searching container for specified items until the end of the app. Possible optimization when a container has many children that are not accessed often.
 		**tracked (bool): Scroll tracking
 		**track_offset (float): 0.0f:top, 0.5f:center, 1.0f:bottom
 		**user_data (Any): User data for callbacks.
@@ -3013,7 +3013,7 @@ def add_file_extension(extension : str, *, label: str =None, id: int =0, width: 
 
 	return internal_dpg.add_file_extension(extension, label=label, id=id, width=width, height=height, parent=parent, before=before, user_data=user_data, custom_text=custom_text, color=color)
 
-def add_filter_set(*, label: str =None, id: int =0, width: int =0, indent: int =-1, parent: int =0, before: int =0, show: bool =True, delay_search: str =False, user_data: Any =None) -> int:
+def add_filter_set(*, label: str =None, id: int =0, width: int =0, indent: int =-1, parent: int =0, before: int =0, show: bool =True, delay_search: bool =False, user_data: Any =None) -> int:
 	"""
 	Helper to parse and apply text filters (e.g. aaaaa[, bbbbb][, ccccc])
 	Args:
@@ -3024,7 +3024,7 @@ def add_filter_set(*, label: str =None, id: int =0, width: int =0, indent: int =
 		**parent (int): Parent to add this item to. (runtime adding)
 		**before (int): This item will be displayed before the specified item in the parent.
 		**show (bool): Attempt to render widget.
-		**delay_search (str): Delays searching container for specified items until the end of the app. Possible optimization when a container has many children that are not accessed often.
+		**delay_search (bool): Delays searching container for specified items until the end of the app. Possible optimization when a container has many children that are not accessed often.
 		**user_data (Any): User data for callbacks.
 	Returns:
 		int
@@ -3172,7 +3172,7 @@ def add_font_registry(*, label: str =None, id: int =0, show: bool =True, user_da
 
 	return internal_dpg.add_font_registry(label=label, id=id, show=show, user_data=user_data)
 
-def add_group(*, label: str =None, id: int =0, width: int =0, indent: int =-1, parent: int =0, before: int =0, payload_type: str ='$$DPG_PAYLOAD', drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, pos: List[int] =[], filter_key: str ='', delay_search: str =False, tracked: bool =False, track_offset: float =0.5, user_data: Any =None, horizontal: bool =False, horizontal_spacing: float =-1) -> int:
+def add_group(*, label: str =None, id: int =0, width: int =0, indent: int =-1, parent: int =0, before: int =0, payload_type: str ='$$DPG_PAYLOAD', drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, pos: List[int] =[], filter_key: str ='', delay_search: bool =False, tracked: bool =False, track_offset: float =0.5, user_data: Any =None, horizontal: bool =False, horizontal_spacing: float =-1) -> int:
 	"""
 	Creates a group that other widgets can belong to. The group allows item commands to be issued for all of its members. Must be closed with the end command.
 	Args:
@@ -3188,7 +3188,7 @@ def add_group(*, label: str =None, id: int =0, width: int =0, indent: int =-1, p
 		**show (bool): Attempt to render widget.
 		**pos (List[int]): Places the item relative to window coordinates, [0,0] is top left.
 		**filter_key (str): Used by filter widget.
-		**delay_search (str): Delays searching container for specified items until the end of the app. Possible optimization when a container has many children that are not accessed often.
+		**delay_search (bool): Delays searching container for specified items until the end of the app. Possible optimization when a container has many children that are not accessed often.
 		**tracked (bool): Scroll tracking
 		**track_offset (float): 0.0f:top, 0.5f:center, 1.0f:bottom
 		**user_data (Any): User data for callbacks.
@@ -3770,7 +3770,7 @@ def add_loading_indicator(*, label: str =None, id: int =0, width: int =0, height
 
 	return internal_dpg.add_loading_indicator(label=label, id=id, width=width, height=height, indent=indent, parent=parent, before=before, show=show, pos=pos, user_data=user_data, style=style, circle_count=circle_count, speed=speed, radius=radius, thickness=thickness, color=color, secondary_color=secondary_color)
 
-def add_menu(*, label: str =None, id: int =0, indent: int =-1, parent: int =0, before: int =0, payload_type: str ='$$DPG_PAYLOAD', drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, enabled: bool =True, filter_key: str ='', delay_search: str =False, tracked: bool =False, track_offset: float =0.5, user_data: Any =None) -> int:
+def add_menu(*, label: str =None, id: int =0, indent: int =-1, parent: int =0, before: int =0, payload_type: str ='$$DPG_PAYLOAD', drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, enabled: bool =True, filter_key: str ='', delay_search: bool =False, tracked: bool =False, track_offset: float =0.5, user_data: Any =None) -> int:
 	"""
 	Adds a menu to an existing menu bar. Must be followed by a call to end.
 	Args:
@@ -3785,7 +3785,7 @@ def add_menu(*, label: str =None, id: int =0, indent: int =-1, parent: int =0, b
 		**show (bool): Attempt to render widget.
 		**enabled (bool): Turns off functionality of widget and applies the disabled theme.
 		**filter_key (str): Used by filter widget.
-		**delay_search (str): Delays searching container for specified items until the end of the app. Possible optimization when a container has many children that are not accessed often.
+		**delay_search (bool): Delays searching container for specified items until the end of the app. Possible optimization when a container has many children that are not accessed often.
 		**tracked (bool): Scroll tracking
 		**track_offset (float): 0.0f:top, 0.5f:center, 1.0f:bottom
 		**user_data (Any): User data for callbacks.
@@ -3795,7 +3795,7 @@ def add_menu(*, label: str =None, id: int =0, indent: int =-1, parent: int =0, b
 
 	return internal_dpg.add_menu(label=label, id=id, indent=indent, parent=parent, before=before, payload_type=payload_type, drag_callback=drag_callback, drop_callback=drop_callback, show=show, enabled=enabled, filter_key=filter_key, delay_search=delay_search, tracked=tracked, track_offset=track_offset, user_data=user_data)
 
-def add_menu_bar(*, label: str =None, id: int =0, indent: int =-1, parent: int =0, show: bool =True, delay_search: str =False, user_data: Any =None) -> int:
+def add_menu_bar(*, label: str =None, id: int =0, indent: int =-1, parent: int =0, show: bool =True, delay_search: bool =False, user_data: Any =None) -> int:
 	"""
 	Adds a menu bar to a window.
 	Args:
@@ -3804,7 +3804,7 @@ def add_menu_bar(*, label: str =None, id: int =0, indent: int =-1, parent: int =
 		**indent (int): Offsets the widget to the right the specified number multiplied by the indent style.
 		**parent (int): Parent to add this item to. (runtime adding)
 		**show (bool): Attempt to render widget.
-		**delay_search (str): Delays searching container for specified items until the end of the app. Possible optimization when a container has many children that are not accessed often.
+		**delay_search (bool): Delays searching container for specified items until the end of the app. Possible optimization when a container has many children that are not accessed often.
 		**user_data (Any): User data for callbacks.
 	Returns:
 		int
@@ -3958,7 +3958,7 @@ def add_mouse_wheel_handler(*, label: str =None, id: int =0, callback: Callable 
 
 	return internal_dpg.add_mouse_wheel_handler(label=label, id=id, callback=callback, show=show, user_data=user_data, parent=parent)
 
-def add_node(*, label: str =None, id: int =0, parent: int =0, before: int =0, payload_type: str ='$$DPG_PAYLOAD', drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, pos: List[int] =[], filter_key: str ='', delay_search: str =False, tracked: bool =False, track_offset: float =0.5, user_data: Any =None, draggable: bool =True) -> int:
+def add_node(*, label: str =None, id: int =0, parent: int =0, before: int =0, payload_type: str ='$$DPG_PAYLOAD', drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, pos: List[int] =[], filter_key: str ='', delay_search: bool =False, tracked: bool =False, track_offset: float =0.5, user_data: Any =None, draggable: bool =True) -> int:
 	"""
 	Adds a node to a node editor.
 	Args:
@@ -3972,7 +3972,7 @@ def add_node(*, label: str =None, id: int =0, parent: int =0, before: int =0, pa
 		**show (bool): Attempt to render widget.
 		**pos (List[int]): Places the item relative to window coordinates, [0,0] is top left.
 		**filter_key (str): Used by filter widget.
-		**delay_search (str): Delays searching container for specified items until the end of the app. Possible optimization when a container has many children that are not accessed often.
+		**delay_search (bool): Delays searching container for specified items until the end of the app. Possible optimization when a container has many children that are not accessed often.
 		**tracked (bool): Scroll tracking
 		**track_offset (float): 0.0f:top, 0.5f:center, 1.0f:bottom
 		**user_data (Any): User data for callbacks.
@@ -4009,7 +4009,7 @@ def add_node_attribute(*, label: str =None, id: int =0, indent: int =-1, parent:
 
 	return internal_dpg.add_node_attribute(label=label, id=id, indent=indent, parent=parent, before=before, payload_type=payload_type, drag_callback=drag_callback, drop_callback=drop_callback, show=show, filter_key=filter_key, tracked=tracked, track_offset=track_offset, user_data=user_data, attribute_type=attribute_type, shape=shape, category=category)
 
-def add_node_editor(*, label: str =None, id: int =0, width: int =0, height: int =0, parent: int =0, before: int =0, payload_type: str ='$$DPG_PAYLOAD', callback: Callable =None, drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, filter_key: str ='', delay_search: str =False, tracked: bool =False, track_offset: float =0.5, user_data: Any =None, delink_callback: Callable =None, menubar: bool =False) -> int:
+def add_node_editor(*, label: str =None, id: int =0, width: int =0, height: int =0, parent: int =0, before: int =0, payload_type: str ='$$DPG_PAYLOAD', callback: Callable =None, drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, filter_key: str ='', delay_search: bool =False, tracked: bool =False, track_offset: float =0.5, user_data: Any =None, delink_callback: Callable =None, menubar: bool =False) -> int:
 	"""
 	Adds a node editor.
 	Args:
@@ -4025,7 +4025,7 @@ def add_node_editor(*, label: str =None, id: int =0, width: int =0, height: int 
 		**drop_callback (Callable): Registers a drop callback for drag and drop.
 		**show (bool): Attempt to render widget.
 		**filter_key (str): Used by filter widget.
-		**delay_search (str): Delays searching container for specified items until the end of the app. Possible optimization when a container has many children that are not accessed often.
+		**delay_search (bool): Delays searching container for specified items until the end of the app. Possible optimization when a container has many children that are not accessed often.
 		**tracked (bool): Scroll tracking
 		**track_offset (float): 0.0f:top, 0.5f:center, 1.0f:bottom
 		**user_data (Any): User data for callbacks.
@@ -4079,7 +4079,7 @@ def add_pie_series(x : float, y : float, radius : float, values : List[float], l
 
 	return internal_dpg.add_pie_series(x, y, radius, values, labels, label=label, id=id, parent=parent, before=before, source=source, show=show, user_data=user_data, format=format, angle=angle, normalize=normalize)
 
-def add_plot(*, label: str =None, id: int =0, width: int =0, height: int =0, indent: int =-1, parent: int =0, before: int =0, payload_type: str ='$$DPG_PAYLOAD', callback: Callable =None, drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, pos: List[int] =[], filter_key: str ='', delay_search: str =False, tracked: bool =False, track_offset: float =0.5, user_data: Any =None, no_title: bool =False, no_menus: bool =False, no_box_select: bool =False, no_mouse_pos: bool =False, no_highlight: bool =False, no_child: bool =False, query: bool =False, crosshairs: bool =False, anti_aliased: bool =False, equal_aspects: bool =False) -> int:
+def add_plot(*, label: str =None, id: int =0, width: int =0, height: int =0, indent: int =-1, parent: int =0, before: int =0, payload_type: str ='$$DPG_PAYLOAD', callback: Callable =None, drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, pos: List[int] =[], filter_key: str ='', delay_search: bool =False, tracked: bool =False, track_offset: float =0.5, user_data: Any =None, no_title: bool =False, no_menus: bool =False, no_box_select: bool =False, no_mouse_pos: bool =False, no_highlight: bool =False, no_child: bool =False, query: bool =False, crosshairs: bool =False, anti_aliased: bool =False, equal_aspects: bool =False) -> int:
 	"""
 	Adds a plot which is used to hold series, and can be drawn to with draw commands.
 	Args:
@@ -4097,7 +4097,7 @@ def add_plot(*, label: str =None, id: int =0, width: int =0, height: int =0, ind
 		**show (bool): Attempt to render widget.
 		**pos (List[int]): Places the item relative to window coordinates, [0,0] is top left.
 		**filter_key (str): Used by filter widget.
-		**delay_search (str): Delays searching container for specified items until the end of the app. Possible optimization when a container has many children that are not accessed often.
+		**delay_search (bool): Delays searching container for specified items until the end of the app. Possible optimization when a container has many children that are not accessed often.
 		**tracked (bool): Scroll tracking
 		**track_offset (float): 0.0f:top, 0.5f:center, 1.0f:bottom
 		**user_data (Any): User data for callbacks.
@@ -4678,7 +4678,7 @@ def add_string_value(*, label: str =None, id: int =0, source: int =0, user_data:
 
 	return internal_dpg.add_string_value(label=label, id=id, source=source, user_data=user_data, default_value=default_value, parent=parent)
 
-def add_subplots(rows : int, columns : int, *, label: str =None, id: int =0, width: int =0, height: int =0, indent: int =-1, parent: int =0, before: int =0, callback: Callable =None, show: bool =True, pos: List[int] =[], filter_key: str ='', delay_search: str =False, tracked: bool =False, track_offset: float =0.5, user_data: Any =None, row_ratios: List[float] =[], column_ratios: List[float] =[], no_title: bool =False, no_menus: bool =False, no_resize: bool =False, no_align: bool =False, link_rows: bool =False, link_columns: bool =False, link_all_x: bool =False, link_all_y: bool =False, column_major: bool =False) -> int:
+def add_subplots(rows : int, columns : int, *, label: str =None, id: int =0, width: int =0, height: int =0, indent: int =-1, parent: int =0, before: int =0, callback: Callable =None, show: bool =True, pos: List[int] =[], filter_key: str ='', delay_search: bool =False, tracked: bool =False, track_offset: float =0.5, user_data: Any =None, row_ratios: List[float] =[], column_ratios: List[float] =[], no_title: bool =False, no_menus: bool =False, no_resize: bool =False, no_align: bool =False, link_rows: bool =False, link_columns: bool =False, link_all_x: bool =False, link_all_y: bool =False, column_major: bool =False) -> int:
 	"""
 	Adds a plot which is used to hold series, and can be drawn to with draw commands.
 	Args:
@@ -4695,7 +4695,7 @@ def add_subplots(rows : int, columns : int, *, label: str =None, id: int =0, wid
 		**show (bool): Attempt to render widget.
 		**pos (List[int]): Places the item relative to window coordinates, [0,0] is top left.
 		**filter_key (str): Used by filter widget.
-		**delay_search (str): Delays searching container for specified items until the end of the app. Possible optimization when a container has many children that are not accessed often.
+		**delay_search (bool): Delays searching container for specified items until the end of the app. Possible optimization when a container has many children that are not accessed often.
 		**tracked (bool): Scroll tracking
 		**track_offset (float): 0.0f:top, 0.5f:center, 1.0f:bottom
 		**user_data (Any): User data for callbacks.
@@ -4716,7 +4716,7 @@ def add_subplots(rows : int, columns : int, *, label: str =None, id: int =0, wid
 
 	return internal_dpg.add_subplots(rows, columns, label=label, id=id, width=width, height=height, indent=indent, parent=parent, before=before, callback=callback, show=show, pos=pos, filter_key=filter_key, delay_search=delay_search, tracked=tracked, track_offset=track_offset, user_data=user_data, row_ratios=row_ratios, column_ratios=column_ratios, no_title=no_title, no_menus=no_menus, no_resize=no_resize, no_align=no_align, link_rows=link_rows, link_columns=link_columns, link_all_x=link_all_x, link_all_y=link_all_y, column_major=column_major)
 
-def add_tab(*, label: str =None, id: int =0, indent: int =-1, parent: int =0, before: int =0, payload_type: str ='$$DPG_PAYLOAD', drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, filter_key: str ='', delay_search: str =False, tracked: bool =False, track_offset: float =0.5, user_data: Any =None, closable: bool =False, no_tooltip: bool =False, order_mode: bool =0) -> int:
+def add_tab(*, label: str =None, id: int =0, indent: int =-1, parent: int =0, before: int =0, payload_type: str ='$$DPG_PAYLOAD', drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, filter_key: str ='', delay_search: bool =False, tracked: bool =False, track_offset: float =0.5, user_data: Any =None, closable: bool =False, no_tooltip: bool =False, order_mode: bool =0) -> int:
 	"""
 	Adds a tab to a tab bar. Must be closed with thes end command.
 	Args:
@@ -4730,7 +4730,7 @@ def add_tab(*, label: str =None, id: int =0, indent: int =-1, parent: int =0, be
 		**drop_callback (Callable): Registers a drop callback for drag and drop.
 		**show (bool): Attempt to render widget.
 		**filter_key (str): Used by filter widget.
-		**delay_search (str): Delays searching container for specified items until the end of the app. Possible optimization when a container has many children that are not accessed often.
+		**delay_search (bool): Delays searching container for specified items until the end of the app. Possible optimization when a container has many children that are not accessed often.
 		**tracked (bool): Scroll tracking
 		**track_offset (float): 0.0f:top, 0.5f:center, 1.0f:bottom
 		**user_data (Any): User data for callbacks.
@@ -4743,7 +4743,7 @@ def add_tab(*, label: str =None, id: int =0, indent: int =-1, parent: int =0, be
 
 	return internal_dpg.add_tab(label=label, id=id, indent=indent, parent=parent, before=before, payload_type=payload_type, drag_callback=drag_callback, drop_callback=drop_callback, show=show, filter_key=filter_key, delay_search=delay_search, tracked=tracked, track_offset=track_offset, user_data=user_data, closable=closable, no_tooltip=no_tooltip, order_mode=order_mode)
 
-def add_tab_bar(*, label: str =None, id: int =0, indent: int =-1, parent: int =0, before: int =0, payload_type: str ='$$DPG_PAYLOAD', callback: Callable =None, drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, pos: List[int] =[], filter_key: str ='', delay_search: str =False, tracked: bool =False, track_offset: float =0.5, user_data: Any =None, reorderable: bool =False) -> int:
+def add_tab_bar(*, label: str =None, id: int =0, indent: int =-1, parent: int =0, before: int =0, payload_type: str ='$$DPG_PAYLOAD', callback: Callable =None, drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, pos: List[int] =[], filter_key: str ='', delay_search: bool =False, tracked: bool =False, track_offset: float =0.5, user_data: Any =None, reorderable: bool =False) -> int:
 	"""
 	Adds a tab bar.
 	Args:
@@ -4759,7 +4759,7 @@ def add_tab_bar(*, label: str =None, id: int =0, indent: int =-1, parent: int =0
 		**show (bool): Attempt to render widget.
 		**pos (List[int]): Places the item relative to window coordinates, [0,0] is top left.
 		**filter_key (str): Used by filter widget.
-		**delay_search (str): Delays searching container for specified items until the end of the app. Possible optimization when a container has many children that are not accessed often.
+		**delay_search (bool): Delays searching container for specified items until the end of the app. Possible optimization when a container has many children that are not accessed often.
 		**tracked (bool): Scroll tracking
 		**track_offset (float): 0.0f:top, 0.5f:center, 1.0f:bottom
 		**user_data (Any): User data for callbacks.
@@ -4798,7 +4798,7 @@ def add_tab_button(*, label: str =None, id: int =0, indent: int =-1, parent: int
 
 	return internal_dpg.add_tab_button(label=label, id=id, indent=indent, parent=parent, before=before, payload_type=payload_type, callback=callback, drag_callback=drag_callback, drop_callback=drop_callback, show=show, filter_key=filter_key, tracked=tracked, track_offset=track_offset, user_data=user_data, no_reorder=no_reorder, leading=leading, trailing=trailing, no_tooltip=no_tooltip)
 
-def add_table(*, label: str =None, id: int =0, width: int =0, height: int =0, indent: int =-1, parent: int =0, before: int =0, source: int =0, callback: Callable =None, show: bool =True, pos: List[int] =[], filter_key: str ='', delay_search: str =False, user_data: Any =None, header_row: bool =True, inner_width: int =0, policy: int =0, freeze_rows: int =0, freeze_columns: int =0, sort_multi: bool =False, sort_tristate: bool =False, resizable: bool =False, reorderable: bool =False, hideable: bool =False, sortable: bool =False, context_menu_in_body: bool =False, row_background: bool =False, borders_innerH: bool =False, borders_outerH: bool =False, borders_innerV: bool =False, borders_outerV: bool =False, no_host_extendX: bool =False, no_host_extendY: bool =False, no_keep_columns_visible: bool =False, precise_widths: bool =False, no_clip: bool =False, pad_outerX: bool =False, no_pad_outerX: bool =False, no_pad_innerX: bool =False, scrollX: bool =False, scrollY: bool =False) -> int:
+def add_table(*, label: str =None, id: int =0, width: int =0, height: int =0, indent: int =-1, parent: int =0, before: int =0, source: int =0, callback: Callable =None, show: bool =True, pos: List[int] =[], filter_key: str ='', delay_search: bool =False, user_data: Any =None, header_row: bool =True, inner_width: int =0, policy: int =0, freeze_rows: int =0, freeze_columns: int =0, sort_multi: bool =False, sort_tristate: bool =False, resizable: bool =False, reorderable: bool =False, hideable: bool =False, sortable: bool =False, context_menu_in_body: bool =False, row_background: bool =False, borders_innerH: bool =False, borders_outerH: bool =False, borders_innerV: bool =False, borders_outerV: bool =False, no_host_extendX: bool =False, no_host_extendY: bool =False, no_keep_columns_visible: bool =False, precise_widths: bool =False, no_clip: bool =False, pad_outerX: bool =False, no_pad_outerX: bool =False, no_pad_innerX: bool =False, scrollX: bool =False, scrollY: bool =False) -> int:
 	"""
 	Undocumented function
 	Args:
@@ -4814,7 +4814,7 @@ def add_table(*, label: str =None, id: int =0, width: int =0, height: int =0, in
 		**show (bool): Attempt to render widget.
 		**pos (List[int]): Places the item relative to window coordinates, [0,0] is top left.
 		**filter_key (str): Used by filter widget.
-		**delay_search (str): Delays searching container for specified items until the end of the app. Possible optimization when a container has many children that are not accessed often.
+		**delay_search (bool): Delays searching container for specified items until the end of the app. Possible optimization when a container has many children that are not accessed often.
 		**user_data (Any): User data for callbacks.
 		**header_row (bool): show headers at the top of the columns
 		**inner_width (int): 
@@ -5086,7 +5086,7 @@ def add_tooltip(parent : str, *, label: str =None, id: int =0, show: bool =True,
 
 	return internal_dpg.add_tooltip(parent, label=label, id=id, show=show, user_data=user_data)
 
-def add_tree_node(*, label: str =None, id: int =0, indent: int =-1, parent: int =0, before: int =0, payload_type: str ='$$DPG_PAYLOAD', drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, pos: List[int] =[], filter_key: str ='', delay_search: str =False, tracked: bool =False, track_offset: float =0.5, user_data: Any =None, default_open: bool =False, open_on_double_click: bool =False, open_on_arrow: bool =False, leaf: bool =False, bullet: bool =False, selectable: bool =False) -> int:
+def add_tree_node(*, label: str =None, id: int =0, indent: int =-1, parent: int =0, before: int =0, payload_type: str ='$$DPG_PAYLOAD', drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, pos: List[int] =[], filter_key: str ='', delay_search: bool =False, tracked: bool =False, track_offset: float =0.5, user_data: Any =None, default_open: bool =False, open_on_double_click: bool =False, open_on_arrow: bool =False, leaf: bool =False, bullet: bool =False, selectable: bool =False) -> int:
 	"""
 	Adds a tree node to add items to. Must be closed with the end command.
 	Args:
@@ -5101,7 +5101,7 @@ def add_tree_node(*, label: str =None, id: int =0, indent: int =-1, parent: int 
 		**show (bool): Attempt to render widget.
 		**pos (List[int]): Places the item relative to window coordinates, [0,0] is top left.
 		**filter_key (str): Used by filter widget.
-		**delay_search (str): Delays searching container for specified items until the end of the app. Possible optimization when a container has many children that are not accessed often.
+		**delay_search (bool): Delays searching container for specified items until the end of the app. Possible optimization when a container has many children that are not accessed often.
 		**tracked (bool): Scroll tracking
 		**track_offset (float): 0.0f:top, 0.5f:center, 1.0f:bottom
 		**user_data (Any): User data for callbacks.
@@ -5130,7 +5130,7 @@ def add_value_registry(*, label: str =None, id: int =0, user_data: Any =None) ->
 
 	return internal_dpg.add_value_registry(label=label, id=id, user_data=user_data)
 
-def add_viewport_drawlist(*, label: str =None, id: int =0, show: bool =True, filter_key: str ='', delay_search: str =False, user_data: Any =None, front: bool =True) -> int:
+def add_viewport_drawlist(*, label: str =None, id: int =0, show: bool =True, filter_key: str ='', delay_search: bool =False, user_data: Any =None, front: bool =True) -> int:
 	"""
 	A container that is used to present draw items or layers directly to the viewport. By default this will draw to the back of teh viewport. Layers and draw items should be added to this widget as children.
 	Args:
@@ -5138,7 +5138,7 @@ def add_viewport_drawlist(*, label: str =None, id: int =0, show: bool =True, fil
 		**id (int): Unique id used to programmatically refer to the item.If label is unused this will be the label.
 		**show (bool): Attempt to render widget.
 		**filter_key (str): Used by filter widget.
-		**delay_search (str): Delays searching container for specified items until the end of the app. Possible optimization when a container has many children that are not accessed often.
+		**delay_search (bool): Delays searching container for specified items until the end of the app. Possible optimization when a container has many children that are not accessed often.
 		**user_data (Any): User data for callbacks.
 		**front (bool): Draws to the front of the view port instead of the back.
 	Returns:
@@ -5147,7 +5147,7 @@ def add_viewport_drawlist(*, label: str =None, id: int =0, show: bool =True, fil
 
 	return internal_dpg.add_viewport_drawlist(label=label, id=id, show=show, filter_key=filter_key, delay_search=delay_search, user_data=user_data, front=front)
 
-def add_viewport_menu_bar(*, label: str =None, id: int =0, indent: int =-1, parent: int =0, show: bool =True, delay_search: str =False, user_data: Any =None) -> int:
+def add_viewport_menu_bar(*, label: str =None, id: int =0, indent: int =-1, parent: int =0, show: bool =True, delay_search: bool =False, user_data: Any =None) -> int:
 	"""
 	Adds a menu bar to the viewport.
 	Args:
@@ -5156,7 +5156,7 @@ def add_viewport_menu_bar(*, label: str =None, id: int =0, indent: int =-1, pare
 		**indent (int): Offsets the widget to the right the specified number multiplied by the indent style.
 		**parent (int): Parent to add this item to. (runtime adding)
 		**show (bool): Attempt to render widget.
-		**delay_search (str): Delays searching container for specified items until the end of the app. Possible optimization when a container has many children that are not accessed often.
+		**delay_search (bool): Delays searching container for specified items until the end of the app. Possible optimization when a container has many children that are not accessed often.
 		**user_data (Any): User data for callbacks.
 	Returns:
 		int
@@ -5197,7 +5197,7 @@ def add_vline_series(x : List[float], *, label: str =None, id: int =0, parent: i
 
 	return internal_dpg.add_vline_series(x, label=label, id=id, parent=parent, before=before, source=source, show=show, user_data=user_data)
 
-def add_window(*, label: str =None, id: int =0, width: int =0, height: int =0, indent: int =-1, show: bool =True, pos: List[int] =[], delay_search: str =False, user_data: Any =None, min_size: List[int] =[100, 100], max_size: List[int] =[30000, 30000], menubar: bool =False, collapsed: bool =False, autosize: bool =False, no_resize: bool =False, no_title_bar: bool =False, no_move: bool =False, no_scrollbar: bool =False, no_collapse: bool =False, horizontal_scrollbar: bool =False, no_focus_on_appearing: bool =False, no_bring_to_front_on_focus: bool =False, no_close: bool =False, no_background: bool =False, modal: bool =False, popup: bool =False, on_close: Callable =None) -> int:
+def add_window(*, label: str =None, id: int =0, width: int =0, height: int =0, indent: int =-1, show: bool =True, pos: List[int] =[], delay_search: bool =False, user_data: Any =None, min_size: List[int] =[100, 100], max_size: List[int] =[30000, 30000], menubar: bool =False, collapsed: bool =False, autosize: bool =False, no_resize: bool =False, no_title_bar: bool =False, no_move: bool =False, no_scrollbar: bool =False, no_collapse: bool =False, horizontal_scrollbar: bool =False, no_focus_on_appearing: bool =False, no_bring_to_front_on_focus: bool =False, no_close: bool =False, no_background: bool =False, modal: bool =False, popup: bool =False, on_close: Callable =None) -> int:
 	"""
 	Creates a new window for following items to be added to.
 	Args:
@@ -5208,7 +5208,7 @@ def add_window(*, label: str =None, id: int =0, width: int =0, height: int =0, i
 		**indent (int): Offsets the widget to the right the specified number multiplied by the indent style.
 		**show (bool): Attempt to render widget.
 		**pos (List[int]): Places the item relative to window coordinates, [0,0] is top left.
-		**delay_search (str): Delays searching container for specified items until the end of the app. Possible optimization when a container has many children that are not accessed often.
+		**delay_search (bool): Delays searching container for specified items until the end of the app. Possible optimization when a container has many children that are not accessed often.
 		**user_data (Any): User data for callbacks.
 		**min_size (List[int]): Minimum window size.
 		**max_size (List[int]): Maximum window size.
