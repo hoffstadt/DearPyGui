@@ -317,7 +317,10 @@ namespace Marvel {
 		{
 			child = window->stealChild(uuid);
 			if (child)
+			{
+				movedItem = true;
 				break;
+			}
 		}
 
 		if (m_stagingArea.count(uuid) != 0)
@@ -337,7 +340,6 @@ namespace Marvel {
 		if (child)
 			addRuntimeItem(parent, before, child);
 
-		assert(movedItem && "Item to move not found");
 
 		return movedItem;
 	}
@@ -486,7 +488,6 @@ namespace Marvel {
 				return true;
 		}
 
-		assert(false);
 		return false;
 	}
 

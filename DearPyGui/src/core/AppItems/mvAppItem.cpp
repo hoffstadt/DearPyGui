@@ -538,7 +538,7 @@ namespace Marvel{
 			return false;
 
 
-		auto operation = [&](std::vector<mvRef<mvAppItem>>& children)
+		for (auto& children : m_children)
 		{
 			//this is the container, add item to end.
 			if (before == 0)
@@ -622,14 +622,7 @@ namespace Marvel{
 				}
 			}
 
-			return false;
 		};
-
-		for (auto& childset : m_children)
-		{
-			if (operation(childset))
-				return true;
-		}
 
 		return false;
 	}

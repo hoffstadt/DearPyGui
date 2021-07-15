@@ -20,6 +20,7 @@
 #include "mvEventMacros.h"
 #include "mvToolManager.h"
 #include <imnodes.h>
+#include <iostream>
 #include <thread>
 #include <stb_image.h>
 #include "mvBuffer.h"
@@ -38,12 +39,13 @@ namespace Marvel {
 
 	mvApp* mvApp::GetApp()
 	{
-		mvLog::Init();
-
+		
 		if (s_instance)
 			return s_instance;
 
+		mvLog::Init();
 		s_instance = new mvApp();
+		s_id = MV_START_UUID;
 		return s_instance;
 	}
 
@@ -141,6 +143,7 @@ namespace Marvel {
 		}
 
 		s_started = false;
+		s_id = MV_START_UUID;
 	}
 
 	void mvApp::SetAppStopped() 
@@ -150,6 +153,7 @@ namespace Marvel {
         GetApp()->getCallbackRegistry().addCallback(nullptr, 0, nullptr, nullptr);
         GetApp()->m_future.get();
 		s_started = false; 
+		s_id = MV_START_UUID;
 		auto viewport = s_instance->getViewport();
 		if (viewport)
 			viewport->stop();
@@ -161,8 +165,11 @@ namespace Marvel {
 
 		getCallbackRegistry().addCallback(nullptr, 0, nullptr, nullptr);
       
+		std::cout << "here1";
 		m_future.get();
-		delete m_viewport;
+		std::cout << "here2";
+		if(m_viewport)
+			delete m_viewport;
 		s_started = false;
 	}
 
