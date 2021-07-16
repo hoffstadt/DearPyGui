@@ -506,6 +506,7 @@ namespace Marvel {
 			return GetPyNone();
 
 		if (!mvApp::s_manualMutexControl) std::lock_guard<std::mutex> lk(mvApp::s_mutex);
+
 		Py_BEGIN_ALLOW_THREADS;
 		mvLog::Init();
 
@@ -541,6 +542,7 @@ namespace Marvel {
 	PyObject* mvApp::cleanup_dearpygui(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		if (!mvApp::s_manualMutexControl) std::lock_guard<std::mutex> lk(mvApp::s_mutex);
+
 		Py_BEGIN_ALLOW_THREADS;
 		mvApp::GetApp()->cleanup();	
 		mvApp::DeleteApp();
