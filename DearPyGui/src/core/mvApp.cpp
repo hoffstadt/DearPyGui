@@ -20,7 +20,6 @@
 #include "mvEventMacros.h"
 #include "mvToolManager.h"
 #include <imnodes.h>
-#include <iostream>
 #include <thread>
 #include <stb_image.h>
 #include "mvBuffer.h"
@@ -146,28 +145,11 @@ namespace Marvel {
 		s_id = MV_START_UUID;
 	}
 
-	void mvApp::SetAppStopped() 
-	{ 
-
-        GetApp()->getCallbackRegistry().stop();
-        GetApp()->getCallbackRegistry().addCallback(nullptr, 0, nullptr, nullptr);
-        GetApp()->m_future.get();
-		s_started = false; 
-		s_id = MV_START_UUID;
-		auto viewport = s_instance->getViewport();
-		if (viewport)
-			viewport->stop();
-	}
-
 	void mvApp::cleanup()
 	{
 		getCallbackRegistry().stop();
-
 		getCallbackRegistry().addCallback(nullptr, 0, nullptr, nullptr);
-      
-		std::cout << "here1";
 		m_future.get();
-		std::cout << "here2";
 		if(m_viewport)
 			delete m_viewport;
 		s_started = false;
@@ -522,6 +504,7 @@ namespace Marvel {
 			&viewport))
 			return GetPyNone();
 
+		if (!mvApp::s_manualMutexControl) std::lock_guard<std::mutex> lk(mvApp::s_mutex);
 		Py_BEGIN_ALLOW_THREADS;
 		mvLog::Init();
 
@@ -556,7 +539,7 @@ namespace Marvel {
 
 	PyObject* mvApp::cleanup_dearpygui(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
-
+		if (!mvApp::s_manualMutexControl) std::lock_guard<std::mutex> lk(mvApp::s_mutex);
 		Py_BEGIN_ALLOW_THREADS;
 		mvApp::GetApp()->cleanup();	
 		mvApp::DeleteApp();
@@ -568,6 +551,7 @@ namespace Marvel {
 
 	PyObject* mvApp::stop_dearpygui(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
+		if (!mvApp::s_manualMutexControl) std::lock_guard<std::mutex> lk(mvApp::s_mutex);
 		mvApp::StopApp();
 		auto viewport = mvApp::GetApp()->getViewport();
 		if (viewport)

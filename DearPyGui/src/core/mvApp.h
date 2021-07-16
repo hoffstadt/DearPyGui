@@ -112,7 +112,6 @@ namespace Marvel {
         static void        DeleteApp    ();
         static const char* GetVersion   () { return MV_SANDBOX_VERSION; }
         static bool        IsAppStarted () { return s_started; }
-        static void        SetAppStopped();
         static void        StopApp      () { s_started = false; } // ugly
         static void        SetDefaultTheme();
 
