@@ -134,7 +134,9 @@ namespace Marvel {
 		if (mvApp::GetApp()->m_loadIniFile)
 		{
 			ImGui::LoadIniSettingsFromDisk(mvApp::GetApp()->m_iniFile.c_str());
+			io.IniFilename = nullptr;
 		}
+		else
 		{
 			if (mvApp::GetApp()->m_iniFile.empty())
 				io.IniFilename = nullptr;

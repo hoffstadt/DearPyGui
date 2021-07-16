@@ -108,7 +108,20 @@ namespace Marvel {
         imnodes::CreateContext();
         ImGuiIO &io = ImGui::GetIO();
         io.ConfigWindowsMoveFromTitleBarOnly = true;
-        io.IniFilename = nullptr;
+
+		if (mvApp::GetApp()->m_loadIniFile)
+		{
+			ImGui::LoadIniSettingsFromDisk(mvApp::GetApp()->m_iniFile.c_str());
+			io.IniFilename = nullptr;
+		}
+		else
+		{
+			if (mvApp::GetApp()->m_iniFile.empty())
+				io.IniFilename = nullptr;
+			else
+				io.IniFilename = mvApp::GetApp()->m_iniFile.c_str();
+		}
+
         (void) io;
         //io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;  // Enable Keyboard Controls
         //io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;   // Enable Gamepad Controls

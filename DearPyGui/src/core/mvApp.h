@@ -77,8 +77,9 @@ namespace Marvel {
         MV_CREATE_COMMAND(stop_dearpygui);
         MV_CREATE_COMMAND(is_dearpygui_running);
         MV_CREATE_COMMAND(generate_uuid);
-        MV_CREATE_COMMAND(use_init_file);
+        MV_CREATE_COMMAND(set_init_file);
         MV_CREATE_COMMAND(load_init_file);
+        MV_CREATE_COMMAND(save_init_file);
         MV_CREATE_COMMAND(load_image);
         MV_CREATE_COMMAND(split_frame);
         MV_CREATE_COMMAND(get_frame_count);
@@ -97,8 +98,9 @@ namespace Marvel {
             MV_ADD_COMMAND(stop_dearpygui);
             MV_ADD_COMMAND(is_dearpygui_running);
             MV_ADD_COMMAND(generate_uuid);
-            MV_ADD_COMMAND(use_init_file);
+            MV_ADD_COMMAND(set_init_file);
             MV_ADD_COMMAND(load_init_file);
+            MV_ADD_COMMAND(save_init_file);
             MV_ADD_COMMAND(load_image);
             MV_ADD_COMMAND(split_frame);
             MV_ADD_COMMAND(get_frame_count);
@@ -142,12 +144,17 @@ namespace Marvel {
         //-----------------------------------------------------------------------------
         mvItemRegistry&     getItemRegistry    ();
         mvCallbackRegistry& getCallbackRegistry();
+
+        //-----------------------------------------------------------------------------
+        // Ini utilities
+        //-----------------------------------------------------------------------------
+        void setIniFile (const std::string& file) { m_iniFile = file; }
+        void loadIniFile(const std::string& file) { m_iniFile = file; m_loadIniFile = true; }
+        bool isUsingIniFile() const { return !m_iniFile.empty(); }
         
         //-----------------------------------------------------------------------------
         // App Settings
         //-----------------------------------------------------------------------------
-        void        useIniFile() { m_iniFile = "dpg.ini"; m_useIniFile = true; }
-        void        loadIniFile(const std::string& file) { m_iniFile = file; m_loadIniFile = true; }
         void        turnOnDocking(bool dockSpace);	
         void        setViewport  (mvViewport* viewport) { m_viewport = viewport; }
         mvViewport* getViewport  ()       { return m_viewport; }
@@ -179,7 +186,6 @@ namespace Marvel {
         // ini file
         std::string m_iniFile;
         bool m_loadIniFile = false;
-        bool m_useIniFile = false;
                     
         mvViewport*       m_viewport = nullptr;
         std::future<bool> m_future;

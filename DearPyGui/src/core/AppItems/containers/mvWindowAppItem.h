@@ -67,8 +67,8 @@ namespace Marvel {
 
 	private:
 
-		ImGuiWindowFlags      m_windowflags = ImGuiWindowFlags_NoSavedSettings;
-		ImGuiWindowFlags      m_oldWindowflags = ImGuiWindowFlags_NoSavedSettings;
+		ImGuiWindowFlags      m_windowflags = ImGuiWindowFlags_None;
+		ImGuiWindowFlags      m_oldWindowflags = ImGuiWindowFlags_None;
 		float                 m_oldxpos = 200;
 		float                 m_oldypos = 200;
 		int                   m_oldWidth = 200;
