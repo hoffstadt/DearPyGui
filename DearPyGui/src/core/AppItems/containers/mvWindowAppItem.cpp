@@ -42,6 +42,7 @@ namespace Marvel {
 			parser.addArg<mvPyDataType::Bool>("no_background", mvArgType::KEYWORD_ARG, "False", "Sets Background and border alpha to transparent.");
 			parser.addArg<mvPyDataType::Bool>("modal", mvArgType::KEYWORD_ARG, "False", "Fills area behind window according to the theme and disables user ability to interact with anything except the window.");
 			parser.addArg<mvPyDataType::Bool>("popup", mvArgType::KEYWORD_ARG, "False", "Fills area behind window according to the theme, removes title bar, collapse and close. Window can be closed by selecting area in the background behind the window.");
+			parser.addArg<mvPyDataType::Bool>("no_saved_settings", mvArgType::KEYWORD_ARG, "False", "Never load/save settings in .ini file.");
 			
 			parser.addArg<mvPyDataType::Callable>("on_close", mvArgType::KEYWORD_ARG, "None", "Callback ran when window is closed.");
 
@@ -102,13 +103,14 @@ namespace Marvel {
 		m_width = 500;
 		m_height = 500;
 
-		m_oldWindowflags = ImGuiWindowFlags_NoSavedSettings;
+		m_oldWindowflags = ImGuiWindowFlags_None;
 
 		if (mainWindow)
 		{
 			m_windowflags = ImGuiWindowFlags_NoBringToFrontOnFocus | ImGuiWindowFlags_NoSavedSettings
 				| ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoTitleBar;
 		}
+
 	}
 
 	mvWindowAppItem::~mvWindowAppItem()
@@ -182,6 +184,8 @@ namespace Marvel {
 	{
 		m_specificedlabel = value;
 		m_label = value + "###" + std::to_string(m_uuid);
+
+		// this is necessary because imgui considers it a new window
 		m_dirtyPos = true;
 		m_dirty_size = true;
 	}
@@ -195,6 +199,13 @@ namespace Marvel {
 
 		if (!m_show)
 			return;
+
+		if (mvApp::s_frame == 1 && mvApp::GetApp()->isUsingIniFile() && !(m_windowflags & ImGuiWindowFlags_NoSavedSettings))
+		{
+			m_dirtyPos = false;
+			m_dirty_size = false;
+			m_collapsedDirty = false;
+		}
 
 		if (m_focusNextFrame)
 		{
@@ -517,6 +528,7 @@ namespace Marvel {
 		flagop("no_bring_to_front_on_focus", ImGuiWindowFlags_NoBringToFrontOnFocus, m_windowflags);
 		flagop("menubar", ImGuiWindowFlags_MenuBar, m_windowflags);
 		flagop("no_background", ImGuiWindowFlags_NoBackground, m_windowflags);
+		flagop("no_saved_settings", ImGuiWindowFlags_NoSavedSettings, m_windowflags);
 
 		m_oldxpos = m_state.getItemPos().x;
 		m_oldypos = m_state.getItemPos().y;
@@ -556,6 +568,7 @@ namespace Marvel {
 		checkbitset("no_bring_to_front_on_focus", ImGuiWindowFlags_NoBringToFrontOnFocus, m_windowflags);
 		checkbitset("menubar", ImGuiWindowFlags_MenuBar, m_windowflags);
 		checkbitset("no_background", ImGuiWindowFlags_NoBackground, m_windowflags);
+		checkbitset("no_saved_settings", ImGuiWindowFlags_NoSavedSettings, m_windowflags);
 	}
 
 	PyObject* mvWindowAppItem::set_x_scroll(PyObject* self, PyObject* args, PyObject* kwargs)

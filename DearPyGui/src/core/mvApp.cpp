@@ -242,18 +242,26 @@ namespace Marvel {
 			parsers->insert({ "enable_docking", parser });
 		}
 
-		//{
-		//	mvPythonParser parser(mvPyDataType::None, "Use dpg.ini file.", { "General" });
-		//	parser.finalize();
-		//	parsers->insert({ "use_init_file", parser });
-		//}
+		{
+			mvPythonParser parser(mvPyDataType::None, "set dpg.ini file.", { "General" });
+			parser.addArg<mvPyDataType::String>("file", mvArgType::KEYWORD_ARG, "'dpg.ini'", "dpg.ini by default");
+			parser.finalize();
+			parsers->insert({ "set_init_file", parser });
+		}
 
-		//{
-		//	mvPythonParser parser(mvPyDataType::None, "Load dpg.ini file.", { "General" });
-		//	parser.addArg<mvPyDataType::String>("file");
-		//	parser.finalize();
-		//	parsers->insert({ "load_init_file", parser });
-		//}
+		{
+			mvPythonParser parser(mvPyDataType::None, "Load dpg.ini file.", { "General" });
+			parser.addArg<mvPyDataType::String>("file");
+			parser.finalize();
+			parsers->insert({ "load_init_file", parser });
+		}
+
+		{
+			mvPythonParser parser(mvPyDataType::None, "Save dpg.ini file.", { "General" });
+			parser.addArg<mvPyDataType::String>("file");
+			parser.finalize();
+			parsers->insert({ "save_init_file", parser });
+		}
 
 		{
 			mvPythonParser parser(mvPyDataType::None, "Resets to default theme.", { "General" });
@@ -352,9 +360,15 @@ namespace Marvel {
 
 	}
 
-	PyObject* mvApp::use_init_file(PyObject* self, PyObject* args, PyObject* kwargs)
+	PyObject* mvApp::set_init_file(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
-		mvApp::GetApp()->useIniFile();
+		const char* file;
+
+		if (!(mvApp::GetApp()->getParsers())["set_init_file"].parse(args, kwargs, __FUNCTION__,
+			&file))
+			return GetPyNone();
+
+		mvApp::GetApp()->setIniFile(file);
 
 		return GetPyNone();
 	}
@@ -375,6 +389,22 @@ namespace Marvel {
 			return GetPyNone();
 
 		mvApp::GetApp()->loadIniFile(file);
+
+		return GetPyNone();
+	}
+
+	PyObject* mvApp::save_init_file(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		const char* file;
+
+		if (!(mvApp::GetApp()->getParsers())["save_init_file"].parse(args, kwargs, __FUNCTION__,
+			&file))
+			return GetPyNone();
+
+		if (mvApp::IsAppStarted())
+			ImGui::SaveIniSettingsToDisk(file);
+		else
+			mvThrowPythonError(mvErrorCode::mvNone, "Dear PyGui must be started to use \"save_init_file\".");
 
 		return GetPyNone();
 	}

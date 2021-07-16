@@ -478,7 +478,7 @@ def add_tab_button(*, label: str =None, id: int =0, indent: int =-1, parent: int
 	"""Adds a tab button to a tab bar."""
 	...
 
-def add_table(*, label: str =None, id: int =0, width: int =0, height: int =0, indent: int =-1, parent: int =0, before: int =0, source: int =0, callback: Callable =None, show: bool =True, pos: List[int] =[], filter_key: str ='', delay_search: bool =False, user_data: Any =None, header_row: bool =True, inner_width: int =0, policy: int =0, freeze_rows: int =0, freeze_columns: int =0, sort_multi: bool =False, sort_tristate: bool =False, resizable: bool =False, reorderable: bool =False, hideable: bool =False, sortable: bool =False, context_menu_in_body: bool =False, row_background: bool =False, borders_innerH: bool =False, borders_outerH: bool =False, borders_innerV: bool =False, borders_outerV: bool =False, no_host_extendX: bool =False, no_host_extendY: bool =False, no_keep_columns_visible: bool =False, precise_widths: bool =False, no_clip: bool =False, pad_outerX: bool =False, no_pad_outerX: bool =False, no_pad_innerX: bool =False, scrollX: bool =False, scrollY: bool =False) -> int:
+def add_table(*, label: str =None, id: int =0, width: int =0, height: int =0, indent: int =-1, parent: int =0, before: int =0, source: int =0, callback: Callable =None, show: bool =True, pos: List[int] =[], filter_key: str ='', delay_search: bool =False, user_data: Any =None, header_row: bool =True, inner_width: int =0, policy: int =0, freeze_rows: int =0, freeze_columns: int =0, sort_multi: bool =False, sort_tristate: bool =False, resizable: bool =False, reorderable: bool =False, hideable: bool =False, sortable: bool =False, context_menu_in_body: bool =False, row_background: bool =False, borders_innerH: bool =False, borders_outerH: bool =False, borders_innerV: bool =False, borders_outerV: bool =False, no_host_extendX: bool =False, no_host_extendY: bool =False, no_keep_columns_visible: bool =False, precise_widths: bool =False, no_clip: bool =False, pad_outerX: bool =False, no_pad_outerX: bool =False, no_pad_innerX: bool =False, scrollX: bool =False, scrollY: bool =False, no_saved_settings: bool =False) -> int:
 	"""Undocumented function"""
 	...
 
@@ -554,7 +554,7 @@ def add_vline_series(x : List[float], *, label: str =None, id: int =0, parent: i
 	"""Adds a infinite vertical line series to a plot."""
 	...
 
-def add_window(*, label: str =None, id: int =0, width: int =0, height: int =0, indent: int =-1, show: bool =True, pos: List[int] =[], delay_search: bool =False, user_data: Any =None, min_size: List[int] =[100, 100], max_size: List[int] =[30000, 30000], menubar: bool =False, collapsed: bool =False, autosize: bool =False, no_resize: bool =False, no_title_bar: bool =False, no_move: bool =False, no_scrollbar: bool =False, no_collapse: bool =False, horizontal_scrollbar: bool =False, no_focus_on_appearing: bool =False, no_bring_to_front_on_focus: bool =False, no_close: bool =False, no_background: bool =False, modal: bool =False, popup: bool =False, on_close: Callable =None) -> int:
+def add_window(*, label: str =None, id: int =0, width: int =0, height: int =0, indent: int =-1, show: bool =True, pos: List[int] =[], delay_search: bool =False, user_data: Any =None, min_size: List[int] =[100, 100], max_size: List[int] =[30000, 30000], menubar: bool =False, collapsed: bool =False, autosize: bool =False, no_resize: bool =False, no_title_bar: bool =False, no_move: bool =False, no_scrollbar: bool =False, no_collapse: bool =False, horizontal_scrollbar: bool =False, no_focus_on_appearing: bool =False, no_bring_to_front_on_focus: bool =False, no_close: bool =False, no_background: bool =False, modal: bool =False, popup: bool =False, no_saved_settings: bool =False, on_close: Callable =None) -> int:
 	"""Creates a new window for following items to be added to."""
 	...
 
@@ -834,6 +834,10 @@ def load_image(file : str, *, gamma: float =1.0, gamma_scale_factor: float =1.0)
 	"""Loads an image. Returns width, height, channels, mvBuffer"""
 	...
 
+def load_init_file(file : str) -> None:
+	"""Load dpg.ini file."""
+	...
+
 def lock_mutex() -> None:
 	"""Locks mutex"""
 	...
@@ -886,6 +890,10 @@ def reset_pos(item : int) -> None:
 	"""Undocumented"""
 	...
 
+def save_init_file(file : str) -> None:
+	"""Save dpg.ini file."""
+	...
+
 def set_axis_limits(axis : int, ymin : float, ymax : float) -> None:
 	"""Sets limits on the axis for pan and zoom."""
 	...
@@ -904,6 +912,10 @@ def set_exit_callback(callback : Callable) -> str:
 
 def set_global_font_scale(scale : float) -> None:
 	"""Undocumented function"""
+	...
+
+def set_init_file(*, file: str ='dpg.ini') -> None:
+	"""set dpg.ini file."""
 	...
 
 def set_item_children(item : int, source : int, slot : int) -> dict:
