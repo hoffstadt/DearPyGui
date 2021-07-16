@@ -147,8 +147,9 @@ namespace Marvel {
 
 	void mvApp::cleanup()
 	{
-		getCallbackRegistry().stop();
-		getCallbackRegistry().addCallback(nullptr, 0, nullptr, nullptr);
+		getCallbackRegistry().submitCallback([=]() {
+			mvApp::GetApp()->getCallbackRegistry().stop();
+			});
 		m_future.get();
 		if(m_viewport)
 			delete m_viewport;
