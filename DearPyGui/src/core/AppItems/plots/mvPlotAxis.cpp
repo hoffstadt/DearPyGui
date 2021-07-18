@@ -156,7 +156,7 @@ namespace Marvel {
 			m_limits_actual.y = (float)ImPlot::GetPlotLimits(m_location -1).Y.Max;
 		}
 
-		auto context = ImPlot::GetCurrentContext();
+		//auto context = ImPlot::GetCurrentContext();
 		//m_flags = context->CurrentPlot->CurrentYAxis.Flags
 
 	}

@@ -54,7 +54,7 @@ namespace Marvel {
 			s_keysdown[i] = ImGui::GetIO().KeysDown[i];
 
 			// route key pressed event
-			if (s_keyspressed[i] = ImGui::IsKeyPressed(i))
+			if ((s_keyspressed[i] = ImGui::IsKeyPressed(i)))
 				mvEventBus::Publish(mvEVT_CATEGORY_INPUT, mvEVT_KEY_PRESS, { CreateEventArgument("KEY", i) });
 
 			// route key down event
@@ -66,7 +66,7 @@ namespace Marvel {
 			}
 
 			// route key released event
-			if (s_keysreleased[i] = ImGui::IsKeyReleased(i))
+			if ((s_keysreleased[i] = ImGui::IsKeyReleased(i)))
 				mvEventBus::Publish(mvEVT_CATEGORY_INPUT, mvEVT_KEY_RELEASE, { CreateEventArgument("KEY", i) });
 		}
 
@@ -103,7 +103,7 @@ namespace Marvel {
 			s_mousedown[i] = ImGui::GetIO().MouseDown[i];
 
 			// route mouse click event
-			if (s_mouseclick[i] = ImGui::IsMouseClicked(i))
+			if ((s_mouseclick[i] = ImGui::IsMouseClicked(i)))
 				mvEventBus::Publish(mvEVT_CATEGORY_INPUT, mvEVT_MOUSE_CLICK, { CreateEventArgument("BUTTON", i) });
 
 			// route mouse down event
@@ -117,11 +117,11 @@ namespace Marvel {
 				s_mousedownduration[i] = 0;
 
 			// route mouse double clicked event
-			if (s_mousedoubleclick[i] = ImGui::IsMouseDoubleClicked(i))
+			if ((s_mousedoubleclick[i] = ImGui::IsMouseDoubleClicked(i)))
 				mvEventBus::Publish(mvEVT_CATEGORY_INPUT, mvEVT_MOUSE_DBL_CLK, { CreateEventArgument("BUTTON", i) });
 
 			// route mouse released event
-			if (s_mousereleased[i] = ImGui::IsMouseReleased(i))
+			if ((s_mousereleased[i] = ImGui::IsMouseReleased(i)))
 				mvEventBus::Publish(mvEVT_CATEGORY_INPUT, mvEVT_MOUSE_RELEASE, { CreateEventArgument("BUTTON", i) });
 		}
 	}
@@ -193,7 +193,7 @@ namespace Marvel {
 
 	bool mvInput::isMouseDragging(int button, float threshold)
 	{
-		return s_mousedownduration[button]/100.0f >= threshold;
+		return (float)s_mousedownduration[button]/100.0f >= threshold;
 	}
 
 	bool mvInput::isMouseButtonDown(int button)
@@ -599,7 +599,7 @@ namespace Marvel {
 		if (!(mvApp::GetApp()->getParsers())["get_mouse_pos"].parse(args, kwargs, __FUNCTION__, &local))
 			return GetPyNone();
 
-		mvVec2 pos;
+		auto pos = mvVec2();
 
 		if (local)
 			pos = mvInput::getMousePosition();

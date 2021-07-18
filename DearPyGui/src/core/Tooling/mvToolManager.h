@@ -34,8 +34,6 @@ namespace Marvel{
 
 	private:
 
-		mvToolManager();
-
 		static std::vector<mvRef<mvToolWindow>> s_tools;
 
 	};

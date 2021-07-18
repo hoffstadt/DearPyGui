@@ -933,7 +933,6 @@ namespace Marvel{
 
 	void mvAppItem::checkArgs(PyObject* args, PyObject* kwargs)
 	{
-		mvAppItemType type = getType();
 		std::string parserCommand;
 
 		constexpr_for<1, (int)mvAppItemType::ItemTypeCount, 1>(
@@ -956,7 +955,6 @@ namespace Marvel{
 		if (dict == nullptr)
 			return;
 
-		mvAppItemType type = getType();
 		std::string parserCommand;
 
 		constexpr_for<1, (int)mvAppItemType::ItemTypeCount, 1>(
@@ -1228,7 +1226,7 @@ namespace Marvel{
 
 
 		if (!mvApp::s_manualMutexControl) std::lock_guard<std::mutex> lk(mvApp::s_mutex);
-		auto appitem = mvApp::GetApp()->getItemRegistry().focusItem(item);
+		mvApp::GetApp()->getItemRegistry().focusItem(item);
 
 		return GetPyNone();
 	}
@@ -1524,7 +1522,7 @@ namespace Marvel{
 		PyObject* pyvalues = PyList_New(aitems.size());
 
 		if (!mvApp::s_manualMutexControl) std::lock_guard<std::mutex> lk(mvApp::s_mutex);
-		for (int i = 0; i<aitems.size(); i++)
+		for (size_t i = 0; i < aitems.size(); i++)
 		{
 			auto item = mvApp::GetApp()->getItemRegistry().getItem(aitems[i]);
 			if (item)

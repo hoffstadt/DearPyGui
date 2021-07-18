@@ -86,7 +86,7 @@ namespace Marvel {
 		m_textureUUID = value;
 	}
 
-	mvUUID mvImage::getValue() const
+	mvUUID mvImage::get1Value() const
 	{ 
 		return m_textureUUID;
 	}

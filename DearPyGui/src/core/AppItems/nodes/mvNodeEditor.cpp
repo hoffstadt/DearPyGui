@@ -162,7 +162,6 @@ namespace Marvel {
 			{
 			    int i1 = item;
 			    int i2 = static_cast<mvNode*>(child.get())->getId();
-			    int i3 = i1 + i2;
 				//if (static_cast<mvNode*>(child.get())->getId() == item)
 				if (i1 == i2)
 					result.push_back(child->m_uuid);
@@ -249,7 +248,6 @@ namespace Marvel {
 		for (auto& item : m_children[0])
 			item->customAction();
 
-		static int hovered_node_id;
 		for (auto& child : m_children[1])
 		{
 			child->getState().setHovered(false);
@@ -394,9 +392,9 @@ namespace Marvel {
 			return GetPyNone();
 		}
 
-		mvNodeEditor* editor = static_cast<mvNodeEditor*>(anode_editor);
+		//auto editor = static_cast<mvNodeEditor*>(anode_editor);
 
-		auto& selected_links = editor->getSelectedLinks();
+		//auto& selected_links = editor->getSelectedLinks();
 
 		std::vector<std::pair<std::string, std::string>> selections;
 

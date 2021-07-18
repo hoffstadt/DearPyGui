@@ -5,15 +5,15 @@
 
 namespace Marvel {
 
-    class mvDebugWindow : public mvToolWindow
+    class mvDebugWindow final : public mvToolWindow
     {
 
     public:
 
         mvDebugWindow();
 
-        mvUUID getUUID() const override { return MV_TOOL_DEBUG_UUID; }
-        const char* getTitle() const override { return "Dear PyGui Debug"; }
+        [[nodiscard]] mvUUID getUUID() const override { return MV_TOOL_DEBUG_UUID; }
+        [[nodiscard]] const char* getTitle() const override { return "Dear PyGui Debug"; }
 
     protected:
 

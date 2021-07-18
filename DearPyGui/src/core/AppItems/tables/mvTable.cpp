@@ -112,7 +112,7 @@ namespace Marvel {
 
 						// generate id map for columns
 						std::unordered_map<ImGuiID, mvUUID> idMap;
-						for (int i = 0; i < m_children[0].size(); i++)
+						for (size_t i = 0; i < m_children[0].size(); i++)
 							idMap[static_cast<mvTableColumn*>(m_children[0][i].get())->m_id] = m_children[0][i]->getUUID();
 
 						std::vector<SortSpec> specs;
@@ -124,7 +124,7 @@ namespace Marvel {
 
 						mvApp::GetApp()->getCallbackRegistry().submitCallback([=]() {
 							PyObject* pySpec = PyList_New(specs.size());
-							for (int i = 0; i < specs.size(); i++)
+							for (size_t i = 0; i < specs.size(); i++)
 							{
 								PyObject* pySingleSpec = PyList_New(2);
 								PyList_SetItem(pySingleSpec, 0, ToPyUUID(specs[i].column));

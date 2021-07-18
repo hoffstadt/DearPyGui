@@ -4,15 +4,15 @@
 
 namespace Marvel {
 
-    class mvStyleWindow : public mvToolWindow
+    class mvStyleWindow final : public mvToolWindow
     {
 
     public:
 
         mvStyleWindow();
 
-        mvUUID getUUID() const override { return MV_TOOL_STYLE_UUID; }
-        const char* getTitle() const override { return "Style Editor (Not Finished)"; }
+        [[nodiscard]] mvUUID getUUID() const override { return MV_TOOL_STYLE_UUID; }
+        [[nodiscard]] const char* getTitle() const override { return "Style Editor (Not Finished)"; }
 
     protected:
 

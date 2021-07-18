@@ -13,8 +13,8 @@ namespace Marvel {
 
     public:
 
-        virtual mvUUID getUUID() const = 0;
-        virtual const char* getTitle() const = 0;
+        [[nodiscard]] virtual mvUUID getUUID() const = 0;
+        [[nodiscard]] virtual const char* getTitle() const = 0;
 
         void draw();
 

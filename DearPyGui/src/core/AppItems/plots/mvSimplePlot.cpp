@@ -81,27 +81,6 @@ namespace Marvel {
 		}
 	}
 
-	void mvSimplePlot::setValue(const std::vector<float>& value)
-	{
-		*m_value = value;
-
-		if (!m_autosize)
-			return;
-		if (!value.empty())
-		{
-			m_max = m_value->data()[0];
-			m_min = m_value->data()[0];
-
-			for (auto& item : *m_value)
-			{
-				if (item > m_max)
-					m_max = item;
-				if (item < m_min)
-					m_min = item;
-			}
-		}
-	}
-
 	void mvSimplePlot::handleSpecificKeywordArgs(PyObject* dict)
 	{
 		if (dict == nullptr)

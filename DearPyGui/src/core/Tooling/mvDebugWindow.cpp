@@ -43,13 +43,13 @@ namespace Marvel {
     void mvDebugWindow::drawWidgets()
     {
 
-		static char ts[6] = "True";
-		static char fs[6] = "False";
+		//static char ts[6] = "True";
+		//static char fs[6] = "False";
 		static std::string commandstring = "";
 
 		ImGuiIO& io = ImGui::GetIO();
 
-		static auto app = mvApp::GetApp();
+		//static auto app = mvApp::GetApp();
 
 		if (ImGui::BeginTabBar("Main Tabbar"))
 		{
