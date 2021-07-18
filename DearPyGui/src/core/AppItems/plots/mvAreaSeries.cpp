@@ -191,7 +191,7 @@ namespace Marvel {
 			ImPlot::PlotLine(m_label.c_str(), xptr->data(), yptr->data(), (int)xptr->size());
 
 			ImPlot::PushPlotClipRect();
-			auto item = ImPlot::RegisterOrGetItem(m_label.c_str());
+			ImPlot::RegisterOrGetItem(m_label.c_str());
 			drawPolygon();
 			ImPlot::PopPlotClipRect();
 

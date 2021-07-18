@@ -111,7 +111,7 @@ namespace Marvel {
 
 	void mvPlot::updateFlags()
 	{
-		for (int i = 0; i < m_children[1].size(); i++)
+		for (size_t i = 0; i < m_children[1].size(); i++)
 		{
 			auto child = static_cast<mvPlotAxis*>(m_children[1][i].get());
 			switch (i)
@@ -155,7 +155,7 @@ namespace Marvel {
 		m_y2axisName = "";
 		m_y3axisName = "";
 
-		for (int i = 0; i < m_children[1].size(); i++)
+		for (size_t i = 0; i < m_children[1].size(); i++)
 		{
 			auto axis = m_children[1][i].get();
 			switch (i)

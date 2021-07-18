@@ -61,7 +61,7 @@ namespace Marvel {
 		while (temp.size() < 4)
 			temp.push_back(0);
 		std::array<int, 4> temp_array;
-		for (int i = 0; i < temp_array.size(); i++)
+		for (size_t i = 0; i < temp_array.size(); i++)
 			temp_array[i] = temp[i];
 		if (m_value)
 			*m_value = temp_array;
@@ -178,7 +178,7 @@ namespace Marvel {
 		while (temp.size() < 4)
 			temp.push_back(0.0f);
 		std::array<float, 4> temp_array;
-		for (int i = 0; i < temp_array.size(); i++)
+		for (size_t i = 0; i < temp_array.size(); i++)
 			temp_array[i] = temp[i];
 		if (m_value)
 			*m_value = temp_array;
@@ -223,7 +223,7 @@ namespace Marvel {
 		while (temp.size() < 4)
 			temp.push_back(0.0);
 		std::array<double, 4> temp_array;
-		for (int i = 0; i < temp_array.size(); i++)
+		for (size_t i = 0; i < temp_array.size(); i++)
 			temp_array[i] = temp[i];
 		if (m_value)
 			*m_value = temp_array;

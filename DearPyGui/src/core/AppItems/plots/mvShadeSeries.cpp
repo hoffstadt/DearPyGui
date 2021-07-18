@@ -179,8 +179,9 @@ namespace Marvel {
 			if ((*m_value)[1].size() != (*m_value)[2].size())
 			{
 				(*m_value)[2].clear();
-				for (auto& item : (*m_value)[1])
-					(*m_value)[2].push_back(0.0);
+				for(size_t i = 0; i < (*m_value)[1].size(); i++)
+                    (*m_value)[2].push_back(0.0);
+
 			}
 		}
 	}

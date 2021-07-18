@@ -38,7 +38,7 @@ namespace Marvel {
 
 	public:
 
-		mvCombo(mvUUID uuid);
+		explicit mvCombo(mvUUID uuid);
 
 		void draw(ImDrawList* drawlist, float x, float y) override;
 
@@ -50,9 +50,7 @@ namespace Marvel {
 		ImGuiComboFlags m_flags = ImGuiComboFlags_None;
 
 		std::vector<std::string> m_items;
-		std::string              m_default_value = "";
 		bool                     m_popup_align_left = false;
-		bool                     m_no_arrow_button = false;
 		bool                     m_no_preview = false;
 	};
 

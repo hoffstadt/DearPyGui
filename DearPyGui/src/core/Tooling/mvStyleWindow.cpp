@@ -39,7 +39,7 @@ namespace Marvel {
     {
 
 
-        ImGuiStyle* ref = NULL;
+        ImGuiStyle* ref = nullptr;
 
         ImPlotStyle& plotstyle = ImPlot::GetStyle();
 
@@ -181,8 +181,8 @@ namespace Marvel {
 
             if (ImGui::BeginTabItem("Colors"))
             {
-                static int output_dest = 0;
-                static bool output_only_modified = true;
+                //static int output_dest = 0;
+                //static bool output_only_modified = true;
                 //if (ImGui::Button("Export"))
                 //{
                 //    if (output_dest == 0)

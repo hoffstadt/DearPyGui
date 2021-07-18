@@ -195,7 +195,7 @@ namespace Marvel {
 
 		if (!mvApp::IsAppStarted())
 		{
-			for (int i = 0; i < m_roots.size(); i++)
+			for (size_t i = 0; i < m_roots.size(); i++)
 			{
 				if (m_roots[i]->getUUID() == uuid)
 				{

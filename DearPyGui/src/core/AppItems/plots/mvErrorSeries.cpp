@@ -181,7 +181,6 @@ namespace Marvel {
 
 		if (PyObject* item = PyDict_GetItemString(dict, "horizontal")) m_horizontal= ToBool(item);
 
-		bool valueChanged = false;
 		if (PyObject* item = PyDict_GetItemString(dict, "x")) { (*m_value)[0] = ToDoubleVect(item); }
 		if (PyObject* item = PyDict_GetItemString(dict, "y")) { (*m_value)[1] = ToDoubleVect(item); }
 		if (PyObject* item = PyDict_GetItemString(dict, "negative")) { (*m_value)[2] = ToDoubleVect(item); }

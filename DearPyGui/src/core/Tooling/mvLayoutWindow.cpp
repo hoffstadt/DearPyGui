@@ -5,25 +5,10 @@
 
 namespace Marvel {
 
-    static void DebugItem(const char* label, const char* item)
-    {
+    static void DebugItem(const char* label, const char* item) {
         ImGui::Text("%s", label);
         ImGui::SameLine();
         ImGui::TextColored(ImVec4(1.0f, 0.0f, 1.0f, 1.0f), "%s", item);
-    }
-
-    static void DebugItem(const char* label, float x)
-    {
-        ImGui::Text("%s", label);
-        ImGui::SameLine();
-        ImGui::TextColored(ImVec4(1.0f, 0.0f, 1.0f, 1.0f), "%s", std::to_string(x).c_str());
-    }
-
-    static void DebugItem(const char* label, float x, float y)
-    {
-        ImGui::Text("%s", label);
-        ImGui::SameLine();
-        ImGui::TextColored(ImVec4(1.0f, 0.0f, 1.0f, 1.0f), "%s", (std::to_string(x) + ", " + std::to_string(y)).c_str());
     }
 
     mvLayoutWindow::mvLayoutWindow()
@@ -148,14 +133,14 @@ namespace Marvel {
         int current_x = 500 + 200 * slot;
         int current_y = 100;
 
-        for (int i = 0; i < item->getChildren(slot).size(); i++)
+        for (size_t i = 0; i < item->getChildren(slot).size(); i++)
         {
             mvAppItem* child = item->getChildren(slot)[i].get();
 
             imnodes::BeginNode(++node);
 
             if (m_dirtyNodes)
-                imnodes::SetNodeGridSpacePos(node, ImVec2(current_x, current_y));
+                imnodes::SetNodeGridSpacePos(node, ImVec2((float)current_x, (float)current_y));
 
             imnodes::BeginNodeTitleBar();
             ImGui::TextUnformatted(child->m_specificedlabel.c_str());
@@ -265,7 +250,7 @@ namespace Marvel {
         static char fs[6] = "False";
 
 		auto selectedItem = mvApp::GetApp()->getItemRegistry().getItem(m_selectedItem);
-		mvUUID parentName;
+		mvUUID parentName = 0;
 
 		if (selectedItem == nullptr)
 			selectedItem = mvApp::GetApp()->getItemRegistry().getRoots()[0].get();

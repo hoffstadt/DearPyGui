@@ -30,7 +30,7 @@ namespace Marvel {
 
 	public:
 
-		mvTheme(mvUUID uuid);
+		explicit mvTheme(mvUUID uuid);
 
 		// overriding until we can remove these
 		bool preDraw() override { return true; }
@@ -42,9 +42,6 @@ namespace Marvel {
 		bool canChildBeAdded(mvAppItemType type) override;
 		void handleSpecificKeywordArgs(PyObject* dict) override;
 
-	private:
-
-		bool m_defaultTheme = false;
 	};
 
 }

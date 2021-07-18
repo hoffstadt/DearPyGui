@@ -25,8 +25,6 @@ void runTest(std::string test)
 int main(int argc, char* argv[])
 {
 
-	PyObject* m = nullptr;
-
 	// initialize python
 	// add our custom module
 	PyImport_AppendInittab("_dearpygui", &PyInit__dearpygui);
@@ -70,7 +68,7 @@ int main(int argc, char* argv[])
 		auto ss = std::ostringstream{};
 		std::ifstream input_file("../../DearSandbox/sandbox.py");
 		ss << input_file.rdbuf();
-		int result = PyRun_SimpleString(ss.str().c_str());
+		PyRun_SimpleString(ss.str().c_str());
 	}
 #endif
 

@@ -22,7 +22,7 @@ namespace Marvel {
 
 	public:
 
-		mvColorButton(mvUUID uuid);
+		explicit mvColorButton(mvUUID uuid);
 
 		void draw(ImDrawList* drawlist, float x, float y) override;
 
@@ -33,9 +33,7 @@ namespace Marvel {
 	private:
 
 		ImGuiColorEditFlags m_flags = ImGuiColorEditFlags_None;
-		bool                m_no_alpha = false;
 		bool                m_no_border = false;
-		bool                m_no_drag_drop = false;
 
 	};
 

@@ -6,15 +6,15 @@ namespace Marvel {
 
     class mvAppItem;
 
-    class mvLayoutWindow : public mvToolWindow
+    class mvLayoutWindow final : public mvToolWindow
     {
 
     public:
 
         mvLayoutWindow();
 
-        mvUUID getUUID() const override { return MV_TOOL_ITEM_REGISTRY_UUID; }
-        const char* getTitle() const override { return "Item Registry"; }
+        [[nodiscard]] mvUUID getUUID() const override { return MV_TOOL_ITEM_REGISTRY_UUID; }
+        [[nodiscard]] const char* getTitle() const override { return "Item Registry"; }
 
     protected:
 

@@ -20,11 +20,12 @@ namespace Marvel {
 	int PymvBuffer_init(PymvBuffer* self, PyObject* args, PyObject* kwds)
 	{
 		// init may have already been called
-		if (self->arr.data != NULL)
+		if (self->arr.data != nullptr)
 			deallocate_mvBuffer(&self->arr);
 
 		int length = 0;
-		static char* kwlist[] = { "length", NULL };
+		char kw[] = "length";
+		static char* kwlist[] = { kw, nullptr };
 		if (!PyArg_ParseTupleAndKeywords(args, kwds, "|i", kwlist, &length))
 			return -1;
 
@@ -63,24 +64,25 @@ namespace Marvel {
 
 	int PymvBuffer_getbuffer(PyObject* obj, Py_buffer* view, int flags)
 	{
-		if (view == NULL) {
+		if (view == nullptr) {
 			PyErr_SetString(PyExc_ValueError, "NULL view in getbuffer");
 			return -1;
 		}
 
-		PymvBuffer* self = (PymvBuffer*)obj;
+		auto self = (PymvBuffer*)obj;
 		view->obj = (PyObject*)self;
 		view->buf = (void*)self->arr.data;
 		view->len = self->arr.length * sizeof(float);
 		view->readonly = 0;
 		view->itemsize = sizeof(float);
 		//view->format = (char*)(PyBUF_CONTIG_RO | PyBUF_FORMAT);  // float
-		view->format = "f";  // float
+		char format[] = "f";
+		view->format = format;  // float
 		view->ndim = 1;
 		view->shape = (Py_ssize_t*)&self->arr.length;  // length-1 sequence of dimensions
 		view->strides = &view->itemsize;  // for the simple case we can do this
-		view->suboffsets = NULL;
-		view->internal = NULL;
+		view->suboffsets = nullptr;
+		view->internal = nullptr;
 
 		Py_INCREF(self);  // need to increase the reference count
 		return 0;
@@ -88,7 +90,7 @@ namespace Marvel {
 
 	Py_ssize_t PymvBuffer_getLength(PyObject* obj)
 	{
-		PymvBuffer* self = (PymvBuffer*)obj;
+		auto self = (PymvBuffer*)obj;
 		return self->arr.length;
 	}
 

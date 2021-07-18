@@ -6,15 +6,15 @@
 
 namespace Marvel {
 
-    class mvDocWindow : public mvToolWindow
+    class mvDocWindow final : public mvToolWindow
     {
 
     public:
 
         mvDocWindow();
 
-		mvUUID getUUID() const override { return MV_TOOL_DOC_UUID; }
-        const char* getTitle() const override { return "Core Documentation"; }
+		[[nodiscard]] mvUUID getUUID() const override { return MV_TOOL_DOC_UUID; }
+        [[nodiscard]] const char* getTitle() const override { return "Core Documentation"; }
 
     protected:
 

@@ -5,26 +5,6 @@
 
 namespace Marvel {
 
-	static void ColorText(const char* item)
-	{
-		ImGui::TextColored(ImGui::GetStyleColorVec4(ImGuiCol_PlotLinesHovered), "%s", item);
-	}
-
-	static void CodeColorText(const char* item)
-	{
-		ImGui::TextColored(ImGui::GetStyleColorVec4(ImGuiCol_CheckMark), "%s", item);
-	}
-
-	static void WidgetTableEntry(const char* widget, const char* container, const char* callback, const char* source, const char* desc)
-	{
-		ImGui::Separator();
-		ImGui::TextColored(ImGui::GetStyleColorVec4(ImGuiCol_DragDropTarget), widget); ImGui::NextColumn();
-		ImGui::TextColored(ImGui::GetStyleColorVec4(ImGuiCol_CheckMark), container); ImGui::NextColumn();
-		ImGui::TextColored(ImGui::GetStyleColorVec4(ImGuiCol_PlotHistogramHovered), callback); ImGui::NextColumn();
-		ImGui::TextColored(ImGui::GetStyleColorVec4(ImGuiCol_PlotLinesHovered), source); ImGui::NextColumn();
-		ImGui::TextColored(ImGui::GetStyleColorVec4(ImGuiCol_Text), desc); ImGui::NextColumn();
-	}
-
     mvDocWindow::mvDocWindow()
     {
         m_windowflags = ImGuiWindowFlags_NoSavedSettings;

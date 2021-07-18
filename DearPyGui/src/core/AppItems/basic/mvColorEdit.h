@@ -58,16 +58,10 @@ namespace Marvel {
 
 		ImGuiColorEditFlags m_flags = ImGuiColorEditFlags__OptionsDefault;
 
-
-		std::array<float, 4> m_default_value = { 0.0f, 0.0f, 0.0f, 1.0f };
-		bool                 m_no_alpha = false;
 		bool                 m_no_picker = false;
 		bool                 m_no_options = false;
-		bool                 m_no_small_preview = false;
 		bool                 m_no_inputs = false;
-		bool                 m_no_tooltip = false;
 		bool                 m_no_label = false;
-		bool                 m_no_drag_drop = false;
 		bool                 m_alpha_bar = false;
 
 	};

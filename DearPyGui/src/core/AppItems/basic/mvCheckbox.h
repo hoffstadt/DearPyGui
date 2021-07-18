@@ -22,7 +22,7 @@ namespace Marvel {
 
 	public:
 
-		mvCheckbox(mvUUID uuid);
+		explicit mvCheckbox(mvUUID uuid);
 
 		// overriding until we can remove these
 		bool preDraw() override { return true; }
@@ -32,8 +32,7 @@ namespace Marvel {
 
 	private:
 
-		bool m_default_value = false;
-		std::string m_source = "";
+		std::string m_source;
 
 	};
 

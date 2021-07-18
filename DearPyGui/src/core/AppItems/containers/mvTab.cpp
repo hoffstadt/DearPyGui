@@ -93,7 +93,6 @@ namespace Marvel {
 			// run call back if it exists
 			if (parent->getSpecificValue() != m_uuid)
 			{
-				auto value = *m_value;
 				mvApp::GetApp()->getCallbackRegistry().submitCallback([=]() {
 					mvApp::GetApp()->getCallbackRegistry().addCallback(parent->getCallback(), parent->getUUID(), ToPyUUID(m_uuid), parent->getCallbackData());
 					});

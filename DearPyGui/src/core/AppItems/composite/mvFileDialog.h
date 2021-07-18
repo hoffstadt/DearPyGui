@@ -11,7 +11,7 @@
 namespace Marvel {
 
 	MV_REGISTER_WIDGET(mvFileDialog, MV_ITEM_DESC_ROOT | MV_ITEM_DESC_CONTAINER, StorageValueTypes::Bool, 1);
-	class mvFileDialog : public mvBoolPtrBase
+	class mvFileDialog final : public mvBoolPtrBase
 	{
 	public:
 
@@ -30,7 +30,7 @@ namespace Marvel {
 
 	public:
 
-		mvFileDialog(mvUUID uuid);
+		explicit mvFileDialog(mvUUID uuid);
 
 		void draw(ImDrawList* drawlist, float x, float y) override;
 		void drawPanel();

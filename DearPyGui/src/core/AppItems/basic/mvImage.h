@@ -26,7 +26,7 @@ namespace Marvel {
 		MV_START_CONSTANTS
 		MV_END_CONSTANTS
 
-		mvImage(mvUUID uuid);
+		explicit mvImage(mvUUID uuid);
 
 		void draw(ImDrawList* drawlist, float x, float y) override;
 
@@ -35,7 +35,7 @@ namespace Marvel {
 		void getSpecificConfiguration(PyObject* dict) override;
 
 		void   setValue          (mvUUID value);
-		mvUUID getValue          () const;
+		mvUUID get1Value          () const;
 
 	private:
 
