@@ -29,6 +29,9 @@ We generally fold multiple commits pertaining to the same topic as a single entr
 * added `no_saved_settings` keyword to window
 * added `no_saved_settings` keyword to table
 
+### Fixes
+* fixed `set_viewport_pos(...)` #1079
+
 ## VERSION 0.8.39
 
 ### Fixes

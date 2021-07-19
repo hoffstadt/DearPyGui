@@ -818,7 +818,7 @@ def set_viewport_pos(pos: List[float]):
     Returns:
         None
     """
-    internal_dpg.configure_viewport(0, pos=pos)
+    internal_dpg.configure_viewport(0, x_pos=pos[0], y_pos=pos[1])
 
 
 def set_viewport_width(width: int):
