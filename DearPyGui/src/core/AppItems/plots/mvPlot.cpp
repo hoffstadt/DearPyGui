@@ -359,7 +359,10 @@ namespace Marvel {
 			auto context = ImPlot::GetCurrentContext();
 			m_flags = context->CurrentPlot->Flags;
 
+			registerWindowFocusing();
+
 			ImPlot::EndPlot();
+			
 		}
 
 		//ImGui::PopID();

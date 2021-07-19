@@ -241,6 +241,7 @@ namespace Marvel {
 			item->postDraw();
 		}
 
+		registerWindowFocusing();
 		imnodes::EndNodeEditor();
 		imnodes::PopAttributeFlag();
 

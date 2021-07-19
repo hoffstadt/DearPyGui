@@ -31,6 +31,7 @@ We generally fold multiple commits pertaining to the same topic as a single entr
 
 ### Fixes
 * fixed `set_viewport_pos(...)` #1079
+* fixed active window issue with plots and node editors #1080
 
 ## VERSION 0.8.39
 
