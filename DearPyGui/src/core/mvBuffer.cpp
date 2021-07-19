@@ -76,7 +76,7 @@ namespace Marvel {
 		view->readonly = 0;
 		view->itemsize = sizeof(float);
 		//view->format = (char*)(PyBUF_CONTIG_RO | PyBUF_FORMAT);  // float
-		char format[] = "f";
+		static char format[] = "f";
 		view->format = format;  // float
 		view->ndim = 1;
 		view->shape = (Py_ssize_t*)&self->arr.length;  // length-1 sequence of dimensions
