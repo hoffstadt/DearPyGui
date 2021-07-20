@@ -146,7 +146,6 @@ These include:
 * 🏆 [Marco Studer](https://github.com/Mstpyt) _Partner Sponsor_
 * 🏆 [Scripts](https://github.com/scriptslol) _Partner Sponsor_
 * 🥇 [Caden Bloxham](https://github.com/cbxm) _Gold Sponsor_
-* 🥇 [Michael Kadziela](https://github.com/Innominus) _Gold Sponsor_
 * 🥇 [Yan Zaretskiy](https://github.com/mindv0rtex) _Gold Sponsor_
 * 🥇 [Trinnik](https://github.com/Trinnik) _Gold Sponsor_
 * 🥇 [Barney Mannerings](https://github.com/barnabee) _Gold Sponsor_
