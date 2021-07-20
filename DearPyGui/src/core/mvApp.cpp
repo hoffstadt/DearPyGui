@@ -44,7 +44,7 @@ namespace Marvel {
 
 		mvLog::Init();
 		s_instance = new mvApp();
-		s_id = MV_START_UUID;
+		//s_id = MV_START_UUID;
 		return s_instance;
 	}
 

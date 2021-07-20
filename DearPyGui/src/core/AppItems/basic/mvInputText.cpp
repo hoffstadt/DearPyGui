@@ -55,6 +55,9 @@ namespace Marvel {
 
 	void mvInputText::setEnabled(bool value)
 	{
+		if (value == m_enabled)
+			return;
+
 		if (value)
 			m_flags = m_stor_flags;
 
