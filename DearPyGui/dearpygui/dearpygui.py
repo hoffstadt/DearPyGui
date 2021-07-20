@@ -1582,7 +1582,7 @@ def node_editor(*, label: str =None, id: int =0, width: int =0, height: int =0, 
 	finally:
 		internal_dpg.pop_container_stack()
 @contextmanager
-def plot(*, label: str =None, id: int =0, width: int =0, height: int =0, indent: int =-1, parent: int =0, before: int =0, payload_type: str ='$$DPG_PAYLOAD', callback: Callable =None, drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, pos: List[int] =[], filter_key: str ='', delay_search: bool =False, tracked: bool =False, track_offset: float =0.5, user_data: Any =None, no_title: bool =False, no_menus: bool =False, no_box_select: bool =False, no_mouse_pos: bool =False, no_highlight: bool =False, no_child: bool =False, query: bool =False, crosshairs: bool =False, anti_aliased: bool =False, equal_aspects: bool =False) -> int:
+def plot(*, label: str =None, id: int =0, width: int =0, height: int =0, indent: int =-1, parent: int =0, before: int =0, payload_type: str ='$$DPG_PAYLOAD', callback: Callable =None, drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, pos: List[int] =[], filter_key: str ='', delay_search: bool =False, tracked: bool =False, track_offset: float =0.5, user_data: Any =None, no_title: bool =False, no_menus: bool =False, no_box_select: bool =False, no_mouse_pos: bool =False, no_highlight: bool =False, no_child: bool =False, query: bool =False, crosshairs: bool =False, anti_aliased: bool =False, equal_aspects: bool =False, pan_button: int =internal_dpg.mvMouseButton_Left, pan_mod: int =-1, fit_button: int =internal_dpg.mvMouseButton_Left, context_menu_button: int =internal_dpg.mvMouseButton_Right, box_select_button: int =internal_dpg.mvMouseButton_Right, box_select_mod: int =-1, box_select_cancel_button: int =internal_dpg.mvMouseButton_Left, query_button: int =internal_dpg.mvMouseButton_Middle, query_mod: int =-1, query_toggle_mod: int =internal_dpg.mvKey_Control, horizontal_mod: int =internal_dpg.mvKey_Alt, vertical_mod: int =internal_dpg.mvKey_Shift) -> int:
 	"""
 	Adds a plot which is used to hold series, and can be drawn to with draw commands.
 	Args:
@@ -1614,11 +1614,23 @@ def plot(*, label: str =None, id: int =0, width: int =0, height: int =0, indent:
 		**crosshairs (bool): 
 		**anti_aliased (bool): 
 		**equal_aspects (bool): 
+		**pan_button (int): enables panning when held
+		**pan_mod (int): optional modifier that must be held for panning
+		**fit_button (int): fits visible data when double clicked
+		**context_menu_button (int): opens plot context menu (if enabled) when clicked
+		**box_select_button (int): begins box selection when pressed and confirms selection when released
+		**box_select_mod (int): begins box selection when pressed and confirms selection when released
+		**box_select_cancel_button (int): cancels active box selection when pressed
+		**query_button (int): begins query selection when pressed and end query selection when released
+		**query_mod (int): optional modifier that must be held for query selection
+		**query_toggle_mod (int): when held, active box selections turn into queries
+		**horizontal_mod (int): expands active box selection/query horizontally to plot edge when held
+		**vertical_mod (int): expands active box selection/query vertically to plot edge when held
 	Yields:
 		int
 	"""
 	try:
-		widget = internal_dpg.add_plot(label=label, id=id, width=width, height=height, indent=indent, parent=parent, before=before, payload_type=payload_type, callback=callback, drag_callback=drag_callback, drop_callback=drop_callback, show=show, pos=pos, filter_key=filter_key, delay_search=delay_search, tracked=tracked, track_offset=track_offset, user_data=user_data, no_title=no_title, no_menus=no_menus, no_box_select=no_box_select, no_mouse_pos=no_mouse_pos, no_highlight=no_highlight, no_child=no_child, query=query, crosshairs=crosshairs, anti_aliased=anti_aliased, equal_aspects=equal_aspects)
+		widget = internal_dpg.add_plot(label=label, id=id, width=width, height=height, indent=indent, parent=parent, before=before, payload_type=payload_type, callback=callback, drag_callback=drag_callback, drop_callback=drop_callback, show=show, pos=pos, filter_key=filter_key, delay_search=delay_search, tracked=tracked, track_offset=track_offset, user_data=user_data, no_title=no_title, no_menus=no_menus, no_box_select=no_box_select, no_mouse_pos=no_mouse_pos, no_highlight=no_highlight, no_child=no_child, query=query, crosshairs=crosshairs, anti_aliased=anti_aliased, equal_aspects=equal_aspects, pan_button=pan_button, pan_mod=pan_mod, fit_button=fit_button, context_menu_button=context_menu_button, box_select_button=box_select_button, box_select_mod=box_select_mod, box_select_cancel_button=box_select_cancel_button, query_button=query_button, query_mod=query_mod, query_toggle_mod=query_toggle_mod, horizontal_mod=horizontal_mod, vertical_mod=vertical_mod)
 		internal_dpg.push_container_stack(widget)
 		yield widget
 	finally:
@@ -4081,7 +4093,7 @@ def add_pie_series(x : float, y : float, radius : float, values : List[float], l
 
 	return internal_dpg.add_pie_series(x, y, radius, values, labels, label=label, id=id, parent=parent, before=before, source=source, show=show, user_data=user_data, format=format, angle=angle, normalize=normalize)
 
-def add_plot(*, label: str =None, id: int =0, width: int =0, height: int =0, indent: int =-1, parent: int =0, before: int =0, payload_type: str ='$$DPG_PAYLOAD', callback: Callable =None, drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, pos: List[int] =[], filter_key: str ='', delay_search: bool =False, tracked: bool =False, track_offset: float =0.5, user_data: Any =None, no_title: bool =False, no_menus: bool =False, no_box_select: bool =False, no_mouse_pos: bool =False, no_highlight: bool =False, no_child: bool =False, query: bool =False, crosshairs: bool =False, anti_aliased: bool =False, equal_aspects: bool =False) -> int:
+def add_plot(*, label: str =None, id: int =0, width: int =0, height: int =0, indent: int =-1, parent: int =0, before: int =0, payload_type: str ='$$DPG_PAYLOAD', callback: Callable =None, drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, pos: List[int] =[], filter_key: str ='', delay_search: bool =False, tracked: bool =False, track_offset: float =0.5, user_data: Any =None, no_title: bool =False, no_menus: bool =False, no_box_select: bool =False, no_mouse_pos: bool =False, no_highlight: bool =False, no_child: bool =False, query: bool =False, crosshairs: bool =False, anti_aliased: bool =False, equal_aspects: bool =False, pan_button: int =internal_dpg.mvMouseButton_Left, pan_mod: int =-1, fit_button: int =internal_dpg.mvMouseButton_Left, context_menu_button: int =internal_dpg.mvMouseButton_Right, box_select_button: int =internal_dpg.mvMouseButton_Right, box_select_mod: int =-1, box_select_cancel_button: int =internal_dpg.mvMouseButton_Left, query_button: int =internal_dpg.mvMouseButton_Middle, query_mod: int =-1, query_toggle_mod: int =internal_dpg.mvKey_Control, horizontal_mod: int =internal_dpg.mvKey_Alt, vertical_mod: int =internal_dpg.mvKey_Shift) -> int:
 	"""
 	Adds a plot which is used to hold series, and can be drawn to with draw commands.
 	Args:
@@ -4113,11 +4125,23 @@ def add_plot(*, label: str =None, id: int =0, width: int =0, height: int =0, ind
 		**crosshairs (bool): 
 		**anti_aliased (bool): 
 		**equal_aspects (bool): 
+		**pan_button (int): enables panning when held
+		**pan_mod (int): optional modifier that must be held for panning
+		**fit_button (int): fits visible data when double clicked
+		**context_menu_button (int): opens plot context menu (if enabled) when clicked
+		**box_select_button (int): begins box selection when pressed and confirms selection when released
+		**box_select_mod (int): begins box selection when pressed and confirms selection when released
+		**box_select_cancel_button (int): cancels active box selection when pressed
+		**query_button (int): begins query selection when pressed and end query selection when released
+		**query_mod (int): optional modifier that must be held for query selection
+		**query_toggle_mod (int): when held, active box selections turn into queries
+		**horizontal_mod (int): expands active box selection/query horizontally to plot edge when held
+		**vertical_mod (int): expands active box selection/query vertically to plot edge when held
 	Returns:
 		int
 	"""
 
-	return internal_dpg.add_plot(label=label, id=id, width=width, height=height, indent=indent, parent=parent, before=before, payload_type=payload_type, callback=callback, drag_callback=drag_callback, drop_callback=drop_callback, show=show, pos=pos, filter_key=filter_key, delay_search=delay_search, tracked=tracked, track_offset=track_offset, user_data=user_data, no_title=no_title, no_menus=no_menus, no_box_select=no_box_select, no_mouse_pos=no_mouse_pos, no_highlight=no_highlight, no_child=no_child, query=query, crosshairs=crosshairs, anti_aliased=anti_aliased, equal_aspects=equal_aspects)
+	return internal_dpg.add_plot(label=label, id=id, width=width, height=height, indent=indent, parent=parent, before=before, payload_type=payload_type, callback=callback, drag_callback=drag_callback, drop_callback=drop_callback, show=show, pos=pos, filter_key=filter_key, delay_search=delay_search, tracked=tracked, track_offset=track_offset, user_data=user_data, no_title=no_title, no_menus=no_menus, no_box_select=no_box_select, no_mouse_pos=no_mouse_pos, no_highlight=no_highlight, no_child=no_child, query=query, crosshairs=crosshairs, anti_aliased=anti_aliased, equal_aspects=equal_aspects, pan_button=pan_button, pan_mod=pan_mod, fit_button=fit_button, context_menu_button=context_menu_button, box_select_button=box_select_button, box_select_mod=box_select_mod, box_select_cancel_button=box_select_cancel_button, query_button=query_button, query_mod=query_mod, query_toggle_mod=query_toggle_mod, horizontal_mod=horizontal_mod, vertical_mod=vertical_mod)
 
 def add_plot_annotation(*, label: str =None, id: int =0, parent: int =0, before: int =0, source: int =0, show: bool =True, user_data: Any =None, default_value: Any =(0.0, 0.0), offset: List[float] =(0.0, 0.0), color: List[int] =(0, 0, 0, -255), clamped: bool =True) -> int:
 	"""

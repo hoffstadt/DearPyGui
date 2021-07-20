@@ -59,6 +59,20 @@ namespace Marvel {
 			parser.addArg<mvPyDataType::Bool>("anti_aliased", mvArgType::KEYWORD_ARG, "False");
 			parser.addArg<mvPyDataType::Bool>("equal_aspects", mvArgType::KEYWORD_ARG, "False");
 
+			// key modifiers
+			parser.addArg<mvPyDataType::Integer>("pan_button", mvArgType::KEYWORD_ARG, "internal_dpg.mvMouseButton_Left", "enables panning when held");
+			parser.addArg<mvPyDataType::Integer>("pan_mod", mvArgType::KEYWORD_ARG, "-1", "optional modifier that must be held for panning");
+			parser.addArg<mvPyDataType::Integer>("fit_button", mvArgType::KEYWORD_ARG, "internal_dpg.mvMouseButton_Left", "fits visible data when double clicked");
+			parser.addArg<mvPyDataType::Integer>("context_menu_button", mvArgType::KEYWORD_ARG, "internal_dpg.mvMouseButton_Right", "opens plot context menu (if enabled) when clicked");
+			parser.addArg<mvPyDataType::Integer>("box_select_button", mvArgType::KEYWORD_ARG, "internal_dpg.mvMouseButton_Right", "begins box selection when pressed and confirms selection when released");
+			parser.addArg<mvPyDataType::Integer>("box_select_mod", mvArgType::KEYWORD_ARG, "-1", "begins box selection when pressed and confirms selection when released");
+			parser.addArg<mvPyDataType::Integer>("box_select_cancel_button", mvArgType::KEYWORD_ARG, "internal_dpg.mvMouseButton_Left", "cancels active box selection when pressed");
+			parser.addArg<mvPyDataType::Integer>("query_button", mvArgType::KEYWORD_ARG, "internal_dpg.mvMouseButton_Middle", "begins query selection when pressed and end query selection when released");
+			parser.addArg<mvPyDataType::Integer>("query_mod", mvArgType::KEYWORD_ARG, "-1", "optional modifier that must be held for query selection");
+			parser.addArg<mvPyDataType::Integer>("query_toggle_mod", mvArgType::KEYWORD_ARG, "internal_dpg.mvKey_Control", "when held, active box selections turn into queries");
+			parser.addArg<mvPyDataType::Integer>("horizontal_mod", mvArgType::KEYWORD_ARG, "internal_dpg.mvKey_Alt", "expands active box selection/query horizontally to plot edge when held");
+			parser.addArg<mvPyDataType::Integer>("vertical_mod", mvArgType::KEYWORD_ARG, "internal_dpg.mvKey_Shift", "expands active box selection/query vertically to plot edge when held");
+
 			parser.finalize();
 			parsers->insert({ s_command, parser });
 		}
@@ -243,6 +257,20 @@ namespace Marvel {
 
 		//ImGui::PushID(m_colormap);
 
+		// custom input mapping
+		ImPlot::GetInputMap().PanButton = m_pan_button;
+		ImPlot::GetInputMap().FitButton = m_fit_button;
+		ImPlot::GetInputMap().ContextMenuButton = m_context_menu_button;
+		ImPlot::GetInputMap().BoxSelectButton = m_box_select_button;
+		ImPlot::GetInputMap().BoxSelectCancelButton = m_box_select_cancel_button;
+		ImPlot::GetInputMap().QueryButton = m_query_button;
+		ImPlot::GetInputMap().QueryToggleMod = m_query_toggle_mod;
+		ImPlot::GetInputMap().HorizontalMod = m_horizontal_mod;
+		ImPlot::GetInputMap().VerticalMod = m_vertical_mod;
+		if(m_pan_mod != -1) ImPlot::GetInputMap().PanMod = m_pan_mod;
+		if (m_box_select_mod != -1) ImPlot::GetInputMap().BoxSelectMod = m_box_select_mod;
+		if (m_query_mod != -1) ImPlot::GetInputMap().QueryMod = m_query_mod;
+
 		// gives axes change to make changes to ticks, limits, etc.
 		for (auto& item : m_children[1])
 		{
@@ -365,7 +393,7 @@ namespace Marvel {
 			
 		}
 
-		//ImGui::PopID();
+		ImPlot::GetInputMap() = m_originalMap;
 	}
 
 	bool mvPlot::isPlotQueried() const
@@ -395,6 +423,20 @@ namespace Marvel {
 
 		if (PyObject* item = PyDict_GetItemString(dict, "x_axis_name"))m_xaxisName = ToString(item);
 
+		// custom input mapping
+		if (PyObject* item = PyDict_GetItemString(dict, "pan_button")) m_pan_button = ToInt(item);
+		if (PyObject* item = PyDict_GetItemString(dict, "pad_mod")) m_pan_mod = ToInt(item);
+		if (PyObject* item = PyDict_GetItemString(dict, "fit_button")) m_fit_button = ToInt(item);
+		if (PyObject* item = PyDict_GetItemString(dict, "context_menu_button")) m_context_menu_button = ToInt(item);
+		if (PyObject* item = PyDict_GetItemString(dict, "box_select_button")) m_box_select_button = ToInt(item);
+		if (PyObject* item = PyDict_GetItemString(dict, "box_select_mod")) m_box_select_mod = ToInt(item);
+		if (PyObject* item = PyDict_GetItemString(dict, "box_select_cancel_button")) m_box_select_cancel_button = ToInt(item);
+		if (PyObject* item = PyDict_GetItemString(dict, "query_button")) m_query_button = ToInt(item);
+		if (PyObject* item = PyDict_GetItemString(dict, "query_mod")) m_query_mod = ToInt(item);
+		if (PyObject* item = PyDict_GetItemString(dict, "query_toggle_mod")) m_query_toggle_mod = ToInt(item);
+		if (PyObject* item = PyDict_GetItemString(dict, "horizontal_mod")) m_horizontal_mod = ToInt(item);
+		if (PyObject* item = PyDict_GetItemString(dict, "vertical_mod")) m_vertical_mod = ToInt(item);
+
 		// helper for bit flipping
 		auto flagop = [dict](const char* keyword, int flag, int& flags)
 		{
@@ -419,8 +461,21 @@ namespace Marvel {
 	{
 		if (dict == nullptr)
 			return;
-
+	
 		PyDict_SetItemString(dict, "x_axis_name", ToPyString(m_xaxisName));
+
+		PyDict_SetItemString(dict, "pan_button", ToPyInt(m_pan_button));
+		PyDict_SetItemString(dict, "pan_mod", ToPyInt(m_pan_mod));
+		PyDict_SetItemString(dict, "fit_button", ToPyInt(m_fit_button));
+		PyDict_SetItemString(dict, "context_menu_button", ToPyInt(m_context_menu_button));
+		PyDict_SetItemString(dict, "box_select_button", ToPyInt(m_box_select_button));
+		PyDict_SetItemString(dict, "box_select_mod", ToPyInt(m_box_select_mod));
+		PyDict_SetItemString(dict, "box_select_cancel_button", ToPyInt(m_box_select_cancel_button));
+		PyDict_SetItemString(dict, "query_button", ToPyInt(m_query_button));
+		PyDict_SetItemString(dict, "query_mod", ToPyInt(m_query_mod));
+		PyDict_SetItemString(dict, "query_toggle_mod", ToPyInt(m_query_toggle_mod));
+		PyDict_SetItemString(dict, "horizontal_mod", ToPyInt(m_horizontal_mod));
+		PyDict_SetItemString(dict, "vertical_mod", ToPyInt(m_vertical_mod));
 
 		// helper to check and set bit
 		auto checkbitset = [dict](const char* keyword, int flag, const int& flags)
