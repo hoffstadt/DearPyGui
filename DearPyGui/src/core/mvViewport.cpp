@@ -128,7 +128,7 @@ namespace Marvel {
 		if (PyObject* item = PyDict_GetItemString(dict, "maximized_box")) { m_modesDirty = true; m_maximizeBox = ToBool(item); }
 		if (PyObject* item = PyDict_GetItemString(dict, "minimized_box")) { m_modesDirty = true; m_minimizeBox = ToBool(item); }
 		if (PyObject* item = PyDict_GetItemString(dict, "border")) { m_modesDirty = true; m_border = ToBool(item); }
-		if (PyObject* item = PyDict_GetItemString(dict, "title")) { m_modesDirty = true; m_title = ToString(item); }
+		if (PyObject* item = PyDict_GetItemString(dict, "title")) { m_titleDirty = true; m_title = ToString(item); }
 		if (PyObject* item = PyDict_GetItemString(dict, "caption")) { m_modesDirty = true; m_caption = ToBool(item); }
 		if (PyObject* item = PyDict_GetItemString(dict, "overlapped")) { m_modesDirty = true; m_overlapped = ToBool(item); }
 

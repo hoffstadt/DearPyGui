@@ -183,10 +183,15 @@ namespace Marvel {
 		if (m_modesDirty)
 		{
 			handleModes();
-			SetWindowTextA(m_hwnd, m_title.c_str());
 			SetWindowLongPtr(m_hwnd, GWL_STYLE, m_modes);
 			SetWindowPos(m_hwnd, m_alwaysOnTop ? HWND_TOPMOST : HWND_TOP, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_SHOWWINDOW);
 			m_modesDirty = false;
+		}
+
+		if (m_titleDirty)
+		{
+			SetWindowTextA(m_hwnd, m_title.c_str());
+			m_titleDirty = false;
 		}
 
 		// Poll and handle messages (inputs, window resize, etc.)

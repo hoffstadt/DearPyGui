@@ -24,6 +24,7 @@ We generally fold multiple commits pertaining to the same topic as a single entr
 
 ### Fixes
 * fixed "double disabling" issue with text input #1084
+* fixed taskbar issues #1085
 
 ## VERSION 0.8.40
 

@@ -87,6 +87,7 @@ namespace Marvel {
 
 
 		// window modes
+		bool m_titleDirty = false;
 		bool m_modesDirty = false;
 		bool m_vsync = true;
 		bool m_resizable = true;

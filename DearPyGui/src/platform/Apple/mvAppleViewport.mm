@@ -185,11 +185,16 @@ namespace Marvel {
 
         if(m_modesDirty)
         {
-            glfwSetWindowTitle(m_window, m_title.c_str());
             glfwSetWindowAttrib(m_window, GLFW_RESIZABLE, m_resizable ? GLFW_TRUE : GLFW_FALSE);
             glfwSetWindowAttrib(m_window, GLFW_DECORATED, m_caption ? GLFW_TRUE : GLFW_FALSE);
             glfwSetWindowAttrib(m_window, GLFW_FLOATING, m_alwaysOnTop ? GLFW_TRUE : GLFW_FALSE);
             m_modesDirty = false;
+        }
+
+        if (m_titleDirty)
+        {
+            glfwSetWindowTitle(m_window, m_title.c_str());
+            m_titleDirty = false;
         }
 
         if(glfwGetWindowAttrib(m_window, GLFW_ICONIFIED))
