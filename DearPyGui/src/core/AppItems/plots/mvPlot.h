@@ -120,6 +120,7 @@ namespace Marvel {
 
 		ImPlotColormap                m_colormap = ImPlotColormap_Deep;
 
+
 		bool                          m_equalAspectRatios = false;
 
 		bool                          m_queried = false;
@@ -130,6 +131,22 @@ namespace Marvel {
 		bool m_axisfitDirty[4] = { false, false, false, false };
 
 		friend class mvPlotAxis;
+
+		// custom input mapping
+		ImPlotInputMap                m_originalMap = ImPlotInputMap();
+
+		int m_pan_button = 0;
+		int m_pan_mod = 0;
+		int m_fit_button = 0;
+		int m_context_menu_button = 0;
+		int m_box_select_button = 0;
+		int m_box_select_mod = 0;
+		int m_box_select_cancel_button = 0;
+		int m_query_button = 0;
+		int m_query_mod = 0;
+		int m_query_toggle_mod = 0;
+		int m_horizontal_mod = 0;
+		int m_vertical_mod = 0;
 	
 	};
 
