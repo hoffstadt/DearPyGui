@@ -20,7 +20,7 @@ We generally fold multiple commits pertaining to the same topic as a single entr
 - Read the `Breaking Changes` section (here in the changelog).
 - Please report any issue!
 
-## VERSION 0.8.x
+## VERSION 0.8.43
 
 ### New
 * added `pan_button` keyword to plots #1083
