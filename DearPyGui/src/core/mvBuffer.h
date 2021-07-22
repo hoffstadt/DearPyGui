@@ -22,6 +22,8 @@ namespace Marvel {
     /* This is the __init__ function, implemented in C */
     int PymvBuffer_init(PymvBuffer* self, PyObject* args, PyObject* kwds);
 
+    PyObject* PymvBuffer_clear_value(PymvBuffer* self, PyObject* args, PyObject* kwds);
+
     /* this function is called when the object is deallocated */
     void PymvBuffer_dealloc(PymvBuffer* self);
 
@@ -54,6 +56,13 @@ namespace Marvel {
         (ssizeargfunc)0 // inplace repeat
     };
 
+    static PyMethodDef PymvBuffer_methods[] = {
+        {"clear_value", (PyCFunction)PymvBuffer_clear_value, METH_VARARGS | METH_KEYWORDS,
+         "clears buffer with specific value."
+        },
+        {NULL}  /* Sentinel */
+    };
+
     /* Here is the type structure: we put the above functions in the appropriate place
    in order to actually define the Python object type */
     static PyTypeObject PymvBufferType = {
@@ -84,7 +93,7 @@ namespace Marvel {
             0,                            /* tp_weaklistoffset */
             0,                            /* tp_iter */
             0,                            /* tp_iternext */
-            0,                            /* tp_methods */
+            PymvBuffer_methods,           /* tp_methods */
             0,                            /* tp_members */
             0,                            /* tp_getset */
             0,                            /* tp_base */

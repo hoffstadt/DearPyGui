@@ -1,5 +1,7 @@
 #include "mvBuffer.h"
 #include <string>
+#include "mvPythonTranslator.h"
+#include "mvPythonExceptions.h"
 
 namespace Marvel {
 
@@ -35,6 +37,19 @@ namespace Marvel {
 		intialize_mvBuffer(&self->arr, length);
 
 		return 0;
+	}
+
+	PyObject* PymvBuffer_clear_value(PymvBuffer* self, PyObject* args, PyObject* kwds)
+	{
+
+		float value = 0.0f;
+		if (!PyArg_ParseTuple(args, "f", &value))
+			return GetPyNone();
+
+		for (int i = 0; i < self->arr.length; i++)
+			self->arr.data[i] = value;
+
+		return GetPyNone();
 	}
 
 	void PymvBuffer_dealloc(PymvBuffer* self)

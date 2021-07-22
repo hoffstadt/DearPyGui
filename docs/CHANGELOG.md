@@ -20,6 +20,11 @@ We generally fold multiple commits pertaining to the same topic as a single entr
 - Read the `Breaking Changes` section (here in the changelog).
 - Please report any issue!
 
+## VERSION 0.8.x
+
+### New
+* added `clear_value` keyword to mvBuffer (may rename)
+
 ## VERSION 0.8.43
 
 ### New
