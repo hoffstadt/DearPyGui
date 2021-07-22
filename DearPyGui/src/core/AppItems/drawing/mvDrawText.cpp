@@ -2,6 +2,7 @@
 #include "mvLog.h"
 #include "mvItemRegistry.h"
 #include "mvPythonExceptions.h"
+#include "AppItems/fonts/mvFont.h"
 
 namespace Marvel {
 
@@ -53,12 +54,16 @@ namespace Marvel {
 
 	void mvDrawText::draw(ImDrawList* drawlist, float x, float y)
 	{
+		ImFont* fontptr = ImGui::GetFont();
+		if (m_font)
+			fontptr = static_cast<mvFont*>(m_font.get())->getFontPtr();
+
 		if (ImPlot::GetCurrentContext()->CurrentPlot)
-			drawlist->AddText(ImGui::GetFont(), ImPlot::GetCurrentContext()->Mx * (float)m_size, ImPlot::PlotToPixels(m_pos), m_color, m_text.c_str());
+			drawlist->AddText(fontptr, ImPlot::GetCurrentContext()->Mx * (float)m_size, ImPlot::PlotToPixels(m_pos), m_color, m_text.c_str());
 		else
 		{
 			mvVec2 start = { x, y };
-			drawlist->AddText(ImGui::GetFont(), (float)m_size, m_pos + start, m_color, m_text.c_str());
+			drawlist->AddText(fontptr, (float)m_size, m_pos + start, m_color, m_text.c_str());
 		}
 	}
 
