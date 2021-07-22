@@ -141,7 +141,7 @@ namespace Marvel {
 				{
 					if (ImPlot::GetCurrentContext()->CurrentPlot)
 						drawlist->AddLine(ImPlot::PlotToPixels({ (float)polyints[i], (float)y }),
-							ImPlot::PlotToPixels({ (float)polyints[i + 1], (float)y}), m_fill, m_thickness);
+							ImPlot::PlotToPixels({ (float)polyints[i + 1], (float)y}), m_fill, ImPlot::GetCurrentContext()->Mx * m_thickness);
 					else
 					{
 						drawlist->AddLine({ (float)polyints[i] + start.x, (float)y + start.y },

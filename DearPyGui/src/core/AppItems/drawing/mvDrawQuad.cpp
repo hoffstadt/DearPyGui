@@ -59,7 +59,7 @@ namespace Marvel {
 		if (ImPlot::GetCurrentContext()->CurrentPlot)
 		{
 			drawlist->AddQuad(ImPlot::PlotToPixels(m_p1), ImPlot::PlotToPixels(m_p2), ImPlot::PlotToPixels(m_p3),
-				ImPlot::PlotToPixels(m_p4), m_color, m_thickness);
+				ImPlot::PlotToPixels(m_p4), m_color, ImPlot::GetCurrentContext()->Mx * m_thickness);
 			if (m_fill.r < 0.0f)
 				return;
 			drawlist->AddQuadFilled(ImPlot::PlotToPixels(m_p1), ImPlot::PlotToPixels(m_p2), ImPlot::PlotToPixels(m_p3),

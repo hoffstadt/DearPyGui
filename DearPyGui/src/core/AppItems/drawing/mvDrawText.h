@@ -38,7 +38,7 @@ namespace Marvel {
 		mvVec2      m_pos = { 0.0f, 0.0f };
 		std::string m_text;
 		mvColor     m_color;
-		int         m_size = 10;
+		float         m_size = 1.0f;
 
 	};
 

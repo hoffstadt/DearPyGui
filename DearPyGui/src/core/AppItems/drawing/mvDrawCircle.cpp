@@ -59,10 +59,11 @@ namespace Marvel {
 	{
 		if (ImPlot::GetCurrentContext()->CurrentPlot)
 		{
-			drawlist->AddCircle(ImPlot::PlotToPixels(m_center), m_radius, m_color, m_segments, m_thickness);
+			drawlist->AddCircle(ImPlot::PlotToPixels(m_center), ImPlot::GetCurrentContext()->Mx * m_radius, m_color, 
+				ImPlot::GetCurrentContext()->Mx * m_segments, m_thickness);
 			if (m_fill.r < 0.0f)
 				return;
-			drawlist->AddCircleFilled(ImPlot::PlotToPixels(m_center), m_radius, m_fill, m_segments);
+			drawlist->AddCircleFilled(ImPlot::PlotToPixels(m_center), ImPlot::GetCurrentContext()->Mx * m_radius, m_fill, m_segments);
 		}
 		else
 		{

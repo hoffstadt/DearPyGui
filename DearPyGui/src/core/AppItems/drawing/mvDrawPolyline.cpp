@@ -75,7 +75,8 @@ namespace Marvel {
 				point = point + start;
 		}
 
-		drawlist->AddPolyline((const ImVec2*)const_cast<const mvVec2*>(points.data()), (int)m_points.size(), m_color, m_closed, m_thickness);
+		drawlist->AddPolyline((const ImVec2*)const_cast<const mvVec2*>(points.data()), (int)m_points.size(), m_color, 
+			m_closed, ImPlot::GetCurrentContext()->Mx * m_thickness);
 	}
 
 	void mvDrawPolyline::handleSpecificRequiredArgs(PyObject* dict)

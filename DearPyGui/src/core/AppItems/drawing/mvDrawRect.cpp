@@ -57,10 +57,11 @@ namespace Marvel {
 	{
 		if (ImPlot::GetCurrentContext()->CurrentPlot)
 		{
-			drawlist->AddRect(ImPlot::PlotToPixels(m_pmin), ImPlot::PlotToPixels(m_pmax), m_color, m_rounding, ImDrawCornerFlags_All, m_thickness);
+			drawlist->AddRect(ImPlot::PlotToPixels(m_pmin), ImPlot::PlotToPixels(m_pmax), m_color, 
+				ImPlot::GetCurrentContext()->Mx * m_rounding, ImDrawCornerFlags_All, ImPlot::GetCurrentContext()->Mx * m_thickness);
 			if (m_fill.r < 0.0f)
 				return;
-			drawlist->AddRectFilled(ImPlot::PlotToPixels(m_pmin), ImPlot::PlotToPixels(m_pmax), m_fill, m_rounding, ImDrawCornerFlags_All);
+			drawlist->AddRectFilled(ImPlot::PlotToPixels(m_pmin), ImPlot::PlotToPixels(m_pmax), m_fill, ImPlot::GetCurrentContext()->Mx * m_rounding, ImDrawCornerFlags_All);
 		}
 		else
 		{

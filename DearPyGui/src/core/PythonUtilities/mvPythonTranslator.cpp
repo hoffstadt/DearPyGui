@@ -379,13 +379,14 @@ namespace Marvel {
 			return 0;
 		 
 
-		if (!PyLong_Check(value))
-		{
-			mvThrowPythonError(mvErrorCode::mvWrongType, "Python value error. Must be int.");
-			return 0;
-		}
+		if (PyLong_Check(value))
+			return PyLong_AsLong(value);
 
-		return PyLong_AsLong(value);
+		else if (PyFloat_Check(value))
+			return (int)PyFloat_AsDouble(value);
+
+		mvThrowPythonError(mvErrorCode::mvWrongType, "Python value error. Must be int.");
+		return 0;
 	}
 
 	mvUUID ToUUID(PyObject* value, const std::string& message)

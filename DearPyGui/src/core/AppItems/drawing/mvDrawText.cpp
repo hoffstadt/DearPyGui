@@ -21,7 +21,7 @@ namespace Marvel {
 
 		parser.addArg<mvPyDataType::IntList>("color", mvArgType::KEYWORD_ARG, "(255, 255, 255, 255)");
 
-		parser.addArg<mvPyDataType::Integer>("size", mvArgType::KEYWORD_ARG, "10");
+		parser.addArg<mvPyDataType::Float>("size", mvArgType::KEYWORD_ARG, "10.0");
 
 		parser.finalize();
 
@@ -54,7 +54,7 @@ namespace Marvel {
 	void mvDrawText::draw(ImDrawList* drawlist, float x, float y)
 	{
 		if (ImPlot::GetCurrentContext()->CurrentPlot)
-			drawlist->AddText(ImGui::GetFont(), (float)m_size, ImPlot::PlotToPixels(m_pos), m_color, m_text.c_str());
+			drawlist->AddText(ImGui::GetFont(), ImPlot::GetCurrentContext()->Mx * (float)m_size, ImPlot::PlotToPixels(m_pos), m_color, m_text.c_str());
 		else
 		{
 			mvVec2 start = { x, y };
@@ -94,7 +94,7 @@ namespace Marvel {
 		if (PyObject* item = PyDict_GetItemString(dict, "text")) m_text = ToString(item);
 		if (PyObject* item = PyDict_GetItemString(dict, "pos")) m_pos = ToVec2(item);
 		if (PyObject* item = PyDict_GetItemString(dict, "color")) m_color = ToColor(item);
-		if (PyObject* item = PyDict_GetItemString(dict, "size")) m_size = ToInt(item);
+		if (PyObject* item = PyDict_GetItemString(dict, "size")) m_size = ToFloat(item);
 
 	}
 
@@ -106,6 +106,6 @@ namespace Marvel {
 		PyDict_SetItemString(dict, "text", ToPyString(m_text));
 		PyDict_SetItemString(dict, "pos", ToPyPair(m_pos.x, m_pos.y));
 		PyDict_SetItemString(dict, "color", ToPyColor(m_color));
-		PyDict_SetItemString(dict, "size", ToPyInt(m_size));
+		PyDict_SetItemString(dict, "size", ToPyFloat(m_size));
 	}
 }

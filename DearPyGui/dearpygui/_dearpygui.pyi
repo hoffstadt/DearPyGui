@@ -634,7 +634,7 @@ def draw_rectangle(pmin : List[float], pmax : List[float], *, label: str =None, 
 	"""Draws a rectangle on a drawing."""
 	...
 
-def draw_text(pos : List[float], text : str, *, label: str =None, id: int =0, parent: int =0, before: int =0, show: bool =True, user_data: Any =None, color: List[int] =(255, 255, 255, 255), size: int =10) -> int:
+def draw_text(pos : List[float], text : str, *, label: str =None, id: int =0, parent: int =0, before: int =0, show: bool =True, user_data: Any =None, color: List[int] =(255, 255, 255, 255), size: float =10.0) -> int:
 	"""Draws a text on a drawing."""
 	...
 

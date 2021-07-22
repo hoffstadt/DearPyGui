@@ -57,7 +57,8 @@ namespace Marvel {
 	void mvDrawBezierQuadratic::draw(ImDrawList* drawlist, float x, float y)
 	{
 		if (ImPlot::GetCurrentContext()->CurrentPlot)
-			drawlist->AddBezierQuadratic(ImPlot::PlotToPixels(m_p1), ImPlot::PlotToPixels(m_p2), ImPlot::PlotToPixels(m_p3), m_color, m_thickness, m_segments);
+			drawlist->AddBezierQuadratic(ImPlot::PlotToPixels(m_p1), 
+				ImPlot::PlotToPixels(m_p2), ImPlot::PlotToPixels(m_p3), m_color, ImPlot::GetCurrentContext()->Mx * m_thickness, m_segments);
 		else
 		{
 			mvVec2 start = { x, y };

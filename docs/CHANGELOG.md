@@ -25,6 +25,9 @@ We generally fold multiple commits pertaining to the same topic as a single entr
 ### New
 * added `clear_value` keyword to mvBuffer (may rename)
 
+### Fixes
+* fixed plot draw item scaling #1094
+
 ## VERSION 0.8.43
 
 ### New

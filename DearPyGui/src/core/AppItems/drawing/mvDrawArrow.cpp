@@ -94,8 +94,8 @@ namespace Marvel {
 		
 		if (ImPlot::GetCurrentContext()->CurrentPlot)
 		{
-			drawlist->AddLine(ImPlot::PlotToPixels(m_p1), ImPlot::PlotToPixels(m_p2), m_color, m_thickness);
-			drawlist->AddTriangle(ImPlot::PlotToPixels(m_points[0]), ImPlot::PlotToPixels(m_points[1]), ImPlot::PlotToPixels(m_points[2]), m_color, m_thickness);
+			drawlist->AddLine(ImPlot::PlotToPixels(m_p1), ImPlot::PlotToPixels(m_p2), m_color, ImPlot::GetCurrentContext()->Mx*m_thickness);
+			drawlist->AddTriangle(ImPlot::PlotToPixels(m_points[0]), ImPlot::PlotToPixels(m_points[1]), ImPlot::PlotToPixels(m_points[2]), m_color, ImPlot::GetCurrentContext()->Mx*m_thickness);
 			drawlist->AddTriangleFilled(ImPlot::PlotToPixels(m_points[0]), ImPlot::PlotToPixels(m_points[1]), ImPlot::PlotToPixels(m_points[2]), m_color);
 		}
 		else
