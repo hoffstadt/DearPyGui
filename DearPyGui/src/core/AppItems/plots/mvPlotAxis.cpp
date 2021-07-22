@@ -308,7 +308,7 @@ namespace Marvel {
 
 		if (m_dropCallback)
 		{
-			//ScopedID id(m_uuid);
+			ScopedID id(m_uuid);
 			if (m_location == 0 && ImPlot::BeginDragDropTargetX())
 			{
 				if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload(m_payloadType.c_str()))
