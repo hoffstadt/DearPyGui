@@ -993,6 +993,7 @@ namespace Marvel {
 		{
 			mvRef<mvAppItem> item = m_stagingArea[uuid];
 			m_stagingArea.erase(uuid);
+			cleanUpItem(uuid);
 			if (item->getType() == mvAppItemType::mvStagingContainer)
 			{
 				for (auto& children : item->m_children)
