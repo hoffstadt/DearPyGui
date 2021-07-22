@@ -5585,7 +5585,7 @@ def draw_rectangle(pmin : List[float], pmax : List[float], *, label: str =None, 
 
 	return internal_dpg.draw_rectangle(pmin, pmax, label=label, id=id, parent=parent, before=before, show=show, user_data=user_data, color=color, fill=fill, rounding=rounding, thickness=thickness)
 
-def draw_text(pos : List[float], text : str, *, label: str =None, id: int =0, parent: int =0, before: int =0, show: bool =True, user_data: Any =None, color: List[int] =(255, 255, 255, 255), size: int =10) -> int:
+def draw_text(pos : List[float], text : str, *, label: str =None, id: int =0, parent: int =0, before: int =0, show: bool =True, user_data: Any =None, color: List[int] =(255, 255, 255, 255), size: float =10.0) -> int:
 	"""
 	Draws a text on a drawing.
 	Args:
@@ -5598,7 +5598,7 @@ def draw_text(pos : List[float], text : str, *, label: str =None, id: int =0, pa
 		**show (bool): Attempt to render widget.
 		**user_data (Any): User data for callbacks.
 		**color (List[int]): 
-		**size (int): 
+		**size (float): 
 	Returns:
 		int
 	"""

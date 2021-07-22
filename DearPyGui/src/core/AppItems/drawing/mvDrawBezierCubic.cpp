@@ -59,7 +59,7 @@ namespace Marvel {
 	{
 		if (ImPlot::GetCurrentContext()->CurrentPlot)
 			drawlist->AddBezierCubic(ImPlot::PlotToPixels(m_p1), ImPlot::PlotToPixels(m_p2), ImPlot::PlotToPixels(m_p3),
-				ImPlot::PlotToPixels(m_p4), m_color, m_thickness, m_segments);
+				ImPlot::PlotToPixels(m_p4), m_color, ImPlot::GetCurrentContext()->Mx*m_thickness, m_segments);
 		else
 		{
 			mvVec2 start = { x, y };

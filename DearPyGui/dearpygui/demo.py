@@ -2206,8 +2206,8 @@ def show_demo():
                             dpg.add_plot_axis(dpg.mvXAxis, label="x")
                             dpg.add_plot_axis(dpg.mvYAxis, label="y")
 
-                            dpg.draw_line((0, 0), (1, 2), color=(255, 0, 0, 255), thickness=1)
-                            dpg.draw_text((0, 0), "Origin", color=(250, 250, 250, 255), size=15)
+                            dpg.draw_line((0, 0), (1, 2), color=(255, 0, 0, 255), thickness=0.01)
+                            dpg.draw_text((0, 0), "Origin", color=(250, 250, 250, 255), size=0.1)
 
                 with dpg.tab(label="Help"):
 
