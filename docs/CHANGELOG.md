@@ -28,6 +28,7 @@ We generally fold multiple commits pertaining to the same topic as a single entr
 ### Fixes
 * fixed plot draw item scaling #1094
 * fixed draw_text font not updating #1100
+* fixed drag & drop issue on plot axis #1093
 
 ## VERSION 0.8.43
 
