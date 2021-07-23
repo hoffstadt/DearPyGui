@@ -5,7 +5,7 @@ set_target_properties(_dearpygui PROPERTIES CXX_STANDARD 17)
 
 if(MVPY_VERSION EQUAL 36)
 
-	target_link_libraries(_dearpygui PUBLIC imgui python36)
+	target_link_libraries(_dearpygui PUBLIC d3d11 python36 freetype)
 
 	target_include_directories(_dearpygui 
 		PRIVATE 
@@ -23,7 +23,7 @@ if(MVPY_VERSION EQUAL 36)
 
 elseif(MVPY_VERSION EQUAL 37)
 
-	target_link_libraries(_dearpygui PUBLIC imgui python37)
+	target_link_libraries(_dearpygui PUBLIC d3d11 python37 freetype)
 
 	target_include_directories(_dearpygui 
 		PRIVATE 
@@ -40,7 +40,7 @@ elseif(MVPY_VERSION EQUAL 37)
 	)
 
 elseif(MVPY_VERSION EQUAL 38)
-	target_link_libraries(_dearpygui PUBLIC imgui python38)
+	target_link_libraries(_dearpygui PUBLIC d3d11 python38 freetype)
 
 	target_include_directories(_dearpygui 
 		PRIVATE 
@@ -57,7 +57,7 @@ elseif(MVPY_VERSION EQUAL 38)
 	)
 
 elseif(MVPY_VERSION EQUAL 39)
-	target_link_libraries(_dearpygui PUBLIC imgui python39)
+	target_link_libraries(_dearpygui PUBLIC d3d11 python39 freetype)
 
 	target_include_directories(_dearpygui 
 		PRIVATE 
@@ -75,7 +75,7 @@ elseif(MVPY_VERSION EQUAL 39)
 
 elseif(MVPY_VERSION EQUAL 0)
 	target_link_directories(_dearpygui PRIVATE "../Dependencies/cpython/PCbuild/amd64/")
-	target_link_libraries(_dearpygui PUBLIC imgui python39)
+	target_link_libraries(_dearpygui PUBLIC d3d11 python39 freetype)
 
 	target_include_directories(_dearpygui 
 		PRIVATE 

@@ -24,7 +24,8 @@ if(WIN32)
 	# tell cmake where to find the python3x dlls
 	target_link_directories(coreemb PRIVATE "../Dependencies/cpython/PCbuild/amd64/")
 
-	target_link_libraries(coreemb PUBLIC imgui $<$<CONFIG:Debug>:python39_d> $<$<CONFIG:Release>:python39>)
+	# Add libraries to link to
+	target_link_libraries(coreemb PUBLIC d3d11 freetype $<$<CONFIG:Debug>:python39_d> $<$<CONFIG:Release>:python39>)
 	
 ###############################################################################
 # Apple Specifics
@@ -39,12 +40,25 @@ elseif(APPLE)
 	
 	SET_PROPERTY(TARGET coreemb APPEND_STRING PROPERTY COMPILE_FLAGS "-fobjc-arc -Wunused-function -Wno-unused-result -Wsign-compare -Wunreachable-code -fno-common -dynamic -DNDEBUG -g -fwrapv -O3 -Wall -arch x86_64")
 	
-	target_link_libraries(coreemb PUBLIC imgui)
+	target_link_libraries(coreemb
+
+		PUBLIC
+
+			glfw
+			freetype
+			"-framework Metal"
+			"-framework MetalKit"
+			"-framework Cocoa"
+			"-framework CoreVideo"
+			"-framework IOKit"
+			"-framework QuartzCore"
+			"-framework CoreFoundation"
+	)
 
 ###############################################################################
 # Linux Specifics
 ###############################################################################
-else()
+else() # Linux
 
 	add_definitions(-DLINUX)
 	add_definitions(-DUNIX)
@@ -55,6 +69,7 @@ else()
 
 	set_property(TARGET coreemb APPEND_STRING PROPERTY COMPILE_FLAGS "-fPIC -Wno-unused-result -Wsign-compare -DNDEBUG -g -fwrapv -O3 -Wall")
 	
-	target_link_libraries(coreemb PUBLIC imgui python3.9d freetype)
+	# Add libraries to link to
+	target_link_libraries(coreemb PRIVATE "-lcrypt -lpthread -ldl -lutil -lm" GL glfw python3.9d freetype)
 
 endif()
