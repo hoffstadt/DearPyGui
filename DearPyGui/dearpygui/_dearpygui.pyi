@@ -354,7 +354,7 @@ def add_node_editor(*, label: str =None, id: int =0, width: int =0, height: int 
 	"""Adds a node editor."""
 	...
 
-def add_node_link(node_1 : int, node_2 : int, *, label: str =None, id: int =0, parent: int =0, show: bool =True, user_data: Any =None) -> int:
+def add_node_link(attr_1 : int, attr_2 : int, *, label: str =None, id: int =0, parent: int =0, show: bool =True, user_data: Any =None) -> int:
 	"""Adds a node link between nodes."""
 	...
 

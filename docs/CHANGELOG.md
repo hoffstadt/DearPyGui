@@ -20,6 +20,14 @@ We generally fold multiple commits pertaining to the same topic as a single entr
 - Read the `Breaking Changes` section (here in the changelog).
 - Please report any issue!
 
+## VERSION 0.8.x
+
+### New
+* added `attr_1` and `attr_2` to `get_item_configuration(...)` for node links #1106, #1107
+
+### Fixes
+* fixed `get_selected_links(...)` #1107
+
 ## VERSION 0.8.44
 
 ### New

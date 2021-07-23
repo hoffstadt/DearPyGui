@@ -42,7 +42,7 @@ namespace Marvel {
 		bool canChildBeAdded(mvAppItemType type) override;
 
 		std::vector<mvUUID> getSelectedNodes() const;
-		const std::vector<int>& getSelectedLinks() const { return m_selectedLinks; }
+		std::vector<mvUUID> getSelectedLinks() const;
 		void clearNodes() { m_clearNodes = true; }
 		void clearLinks() { m_clearLinks = true; }
 
