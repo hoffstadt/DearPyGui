@@ -208,41 +208,10 @@ set(MARVEL_SOURCES
 	"src/core/AppItems/values/mvColorValue.cpp"
 	"src/core/AppItems/values/mvFloatVectValue.cpp"
 	"src/core/AppItems/values/mvSeriesValue.cpp"
-
-	# imnodes
-	"vendor/imnodes/imnodes.cpp"
-
-	# implot
-	"vendor/implot/implot.cpp"
-	"vendor/implot/implot_items.cpp"
-	"vendor/implot/implot_demo.cpp"
-
-	# ImGuiFileDialog
-	"../Dependencies/ImGuiFileDialog/ImGuiFileDialog/ImGuiFileDialog.cpp"
-
-	# imgui
-	"../Dependencies/imgui/misc/cpp/imgui_stdlib.cpp"
-	"../Dependencies/imgui/imgui.cpp"
-	"../Dependencies/imgui/imgui_demo.cpp"
-	"../Dependencies/imgui/imgui_draw.cpp"
-	"../Dependencies/imgui/imgui_widgets.cpp"
-	"../Dependencies/imgui/imgui_tables.cpp"
-	"$<$<PLATFORM_ID:Windows>:../Dependencies/imgui/misc/freetype/imgui_freetype.cpp>"
-	"$<$<PLATFORM_ID:Windows>:../Dependencies/imgui/backends/imgui_impl_win32.cpp>"
-	"$<$<PLATFORM_ID:Windows>:../Dependencies/imgui/backends/imgui_impl_dx11.cpp>"
-	"$<$<PLATFORM_ID:Darwin>:../Dependencies/imgui/backends/imgui_impl_metal.mm>"
-	"$<$<PLATFORM_ID:Darwin>:../Dependencies/imgui/backends/imgui_impl_glfw.cpp>"
-	"$<$<PLATFORM_ID:Darwin>:../Dependencies/imgui/misc/freetype/imgui_freetype.cpp>"
-	"$<$<PLATFORM_ID:Linux>:../Dependencies/imgui/examples/libs/gl3w/GL/gl3w.c>"
-	"$<$<PLATFORM_ID:Linux>:../Dependencies/imgui/backends/imgui_impl_glfw.cpp>"
-	"$<$<PLATFORM_ID:Linux>:../Dependencies/imgui/backends/imgui_impl_opengl3.cpp>"
 )
 
 set(MARVEL_INCLUDE_DIR
-
-	"vendor/implot"
 	"vendor/stb"
-	"vendor/imnodes"
 	"src/"
 	"src/core"
 	"src/core/CustomImGuiWidgets"
@@ -255,15 +224,7 @@ set(MARVEL_INCLUDE_DIR
 	"src/core/Theming"
 	"src/core/Tooling"
 	"$<$<PLATFORM_ID:Windows>:${CMAKE_SOURCE_DIR}/DearPyGui/vendor/dirent/>"
-	"../Dependencies/ImGuiFileDialog/ImGuiFileDialog/"
-	"../Dependencies/ImGuiFileDialog/"
 	"../Dependencies/spdlog/include/"
-	"../Dependencies/glfw/include/"
-	"../Dependencies/glfw/deps/"
-	"../Dependencies/imgui/"
-	"../Dependencies/imgui/misc/freetype/"
-	"../Dependencies/imgui/backends/"
-	"../Dependencies/imgui/examples/libs/gl3w"
 	"../Dependencies/cpython/"
 	"../Dependencies/cpython/Include/"
 	"../Dependencies/cpython/build/debug/"
