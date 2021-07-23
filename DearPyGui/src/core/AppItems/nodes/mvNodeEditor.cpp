@@ -442,7 +442,7 @@ namespace Marvel {
 
 		mvNodeEditor* editor = static_cast<mvNodeEditor*>(anode_editor);
 
-		auto& selected_links = editor->getSelectedLinks();
+		auto selected_links = editor->getSelectedLinks();
 
 		return ToPyList(selected_links);
 
