@@ -153,6 +153,33 @@ namespace Marvel {
 		return false;
 	}
 
+	void mvNodeEditor::onChildRemoved(mvRef<mvAppItem> item)
+	{
+		if (item->getType() == mvAppItemType::mvNode)
+		{
+
+			for (const auto& otherchild : item->m_children[1])
+			{
+				int attr_id = static_cast<mvNodeAttribute*>(otherchild.get())->getId();
+
+				for (const auto& child : m_children[0])
+				{
+					if (child->getType() == mvAppItemType::mvNodeLink)
+					{
+
+						int i1 = static_cast<mvNodeLink*>(child.get())->getId1();
+						int i2 = static_cast<mvNodeLink*>(child.get())->getId2();
+						if (i1 == attr_id || i2 == attr_id)
+						{
+							mvApp::GetApp()->getItemRegistry().deleteItem(child->getUUID());
+							mvApp::GetApp()->getItemRegistry().cleanUpItem(child->getUUID());
+						}	
+					}
+				}
+			}
+		}
+	}
+
 	std::vector<mvUUID> mvNodeEditor::getSelectedNodes() const
 	{
 		std::vector<mvUUID> result;

@@ -40,6 +40,7 @@ namespace Marvel {
 		void getSpecificConfiguration(PyObject* dict) override;
 
 		bool canChildBeAdded(mvAppItemType type) override;
+		void onChildRemoved(mvRef<mvAppItem> item) override;
 
 		std::vector<mvUUID> getSelectedNodes() const;
 		std::vector<mvUUID> getSelectedLinks() const;

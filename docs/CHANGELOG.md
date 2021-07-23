@@ -23,10 +23,12 @@ We generally fold multiple commits pertaining to the same topic as a single entr
 ## VERSION 0.8.x
 
 ### New
+* deleting a node now deletes associated links #1082
 * added `attr_1` and `attr_2` to `get_item_configuration(...)` for node links #1106, #1107
 
 ### Fixes
 * fixed `get_selected_links(...)` #1107
+* fixed `delete_item` not cleaning up item cache
 
 ## VERSION 0.8.44
 

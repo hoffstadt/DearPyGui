@@ -33,6 +33,8 @@ namespace Marvel {
 		void postDraw() override {}
 
 		int getId() const { return m_id; }
+		int getId1() const { return m_id1; }
+		int getId2() const { return m_id2; }
 		void customAction() override;
 		void draw(ImDrawList* drawlist, float x, float y) override;
 		bool isParentCompatible(mvAppItemType type) override;
