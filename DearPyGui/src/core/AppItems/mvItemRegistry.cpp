@@ -227,6 +227,8 @@ namespace Marvel {
 
 		MV_ITEM_REGISTRY_TRACE("Attempting to delete: " + std::to_string(uuid));
 
+		cleanUpItem(uuid);
+
 		// check staging first
 		if (m_stagingArea.count(uuid) != 0)
 		{
