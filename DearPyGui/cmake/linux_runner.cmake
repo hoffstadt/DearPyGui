@@ -23,7 +23,14 @@ if(MVPY_VERSION EQUAL 36)
 			"/home/appveyor/.localpython3.6.13/lib"
 	)
 
-	target_link_libraries(_dearpygui PRIVATE imgui python3.6m)
+	target_link_libraries(_dearpygui 
+		PRIVATE 
+			"-fPIC -lcrypt -lpthread -ldl  -lutil -lm"
+			GL
+			#freetype
+			glfw
+			python3.6m
+	)
 
 elseif(MVPY_VERSION EQUAL 37)
 
@@ -40,7 +47,14 @@ elseif(MVPY_VERSION EQUAL 37)
 			"/home/appveyor/.localpython3.7.10/lib"
 	)
 
-	target_link_libraries(_dearpygui PRIVATE imgui python3.7m)
+	target_link_libraries(_dearpygui 
+		PRIVATE 
+			"-fPIC -lcrypt -lpthread -ldl  -lutil -lm"
+			GL
+			#freetype
+			glfw
+			python3.7m
+	)
 
 elseif(MVPY_VERSION EQUAL 38)
 
@@ -57,7 +71,14 @@ elseif(MVPY_VERSION EQUAL 38)
 			"/home/appveyor/.localpython3.8.10/lib"
 	)
 
-	target_link_libraries(_dearpygui PRIVATE imgui python3.8)
+	target_link_libraries(_dearpygui 
+		PRIVATE 
+			"-fPIC -lcrypt -lpthread -ldl  -lutil -lm"
+			GL
+			#freetype
+			glfw
+			python3.8
+	)
 
 elseif(MVPY_VERSION EQUAL 39)
 
@@ -74,7 +95,14 @@ elseif(MVPY_VERSION EQUAL 39)
 			"/home/appveyor/.localpython3.9.5/lib"
 	)
 
-	target_link_libraries(_dearpygui PRIVATE imgui python3.9)
+	target_link_libraries(_dearpygui 
+		PRIVATE 
+			"-fPIC -lcrypt -lpthread -ldl  -lutil -lm"
+			GL
+			glfw
+			#freetype
+			python3.9
+	)
 
 elseif(MVPY_VERSION EQUAL 0)
 	find_package (Python COMPONENTS Development)
@@ -93,5 +121,12 @@ elseif(MVPY_VERSION EQUAL 0)
 			${Python_LIBRARY_DIRS}
 	)
 
-	target_link_libraries(_dearpygui PRIVATE imgui ${Python_LIBRARIES})
+	target_link_libraries(_dearpygui 
+		PRIVATE 
+			"-fPIC -lcrypt -lpthread -ldl  -lutil -lm"
+			GL
+			glfw
+			freetype
+			${Python_LIBRARIES}
+	)
 endif()
