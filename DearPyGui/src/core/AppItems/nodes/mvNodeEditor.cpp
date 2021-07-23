@@ -171,6 +171,26 @@ namespace Marvel {
 		return result;
 	}
 
+	std::vector<mvUUID> mvNodeEditor::getSelectedLinks() const
+	{
+		std::vector<mvUUID> result;
+		for (const auto& item : m_selectedLinks)
+		{
+			for (const auto& child : m_children[0])
+			{
+				if (child->getType() == mvAppItemType::mvNodeLink)
+				{
+					int i1 = item;
+					int i2 = static_cast<mvNodeLink*>(child.get())->getId();
+					if (i1 == i2)
+						result.push_back(child->m_uuid);
+				}
+			}
+		}
+
+		return result;
+	}
+
 	void mvNodeEditor::draw(ImDrawList* drawlist, float x, float y)
 	{
 		ScopedID id(m_uuid);
@@ -393,15 +413,11 @@ namespace Marvel {
 			return GetPyNone();
 		}
 
-		//auto editor = static_cast<mvNodeEditor*>(anode_editor);
+		mvNodeEditor* editor = static_cast<mvNodeEditor*>(anode_editor);
 
-		//auto& selected_links = editor->getSelectedLinks();
+		auto& selected_links = editor->getSelectedLinks();
 
-		std::vector<std::pair<std::string, std::string>> selections;
-
-		//TODO BROKE
-
-		return ToPyList(selections);
+		return ToPyList(selected_links);
 
 	}
 

@@ -21,8 +21,8 @@ namespace Marvel {
 			MV_PARSER_ARG_SHOW)
 		);
 
-		parser.addArg<mvPyDataType::UUID>("node_1");
-		parser.addArg<mvPyDataType::UUID>("node_2");
+		parser.addArg<mvPyDataType::UUID>("attr_1");
+		parser.addArg<mvPyDataType::UUID>("attr_2");
 
 		parser.finalize();
 
@@ -66,6 +66,7 @@ namespace Marvel {
 				mvAppItem* node = mvApp::GetApp()->getItemRegistry().getItem(node1);
 				if (node->getType() == mvAppItemType::mvNodeAttribute)
 				{
+					m_id1uuid = node1;
 					m_id1 = static_cast<const mvNodeAttribute*>(node)->getId();
 				}
 				else
@@ -85,6 +86,7 @@ namespace Marvel {
 				mvAppItem* node = mvApp::GetApp()->getItemRegistry().getItem(node2);
 				if (node->getType() == mvAppItemType::mvNodeAttribute)
 				{
+					m_id2uuid = node2;
 					m_id2 = static_cast<const mvNodeAttribute*>(node)->getId();
 				}
 				else
@@ -169,6 +171,15 @@ namespace Marvel {
 
 		// check custom action
 
+	}
+
+	void mvNodeLink::getSpecificConfiguration(PyObject* dict)
+	{
+		if (dict == nullptr)
+			return;
+
+		PyDict_SetItemString(dict, "attr_1", ToPyUUID(m_id1uuid));
+		PyDict_SetItemString(dict, "attr_2", ToPyUUID(m_id2uuid));
 	}
 
 }

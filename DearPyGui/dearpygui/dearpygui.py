@@ -4051,12 +4051,12 @@ def add_node_editor(*, label: str =None, id: int =0, width: int =0, height: int 
 
 	return internal_dpg.add_node_editor(label=label, id=id, width=width, height=height, parent=parent, before=before, payload_type=payload_type, callback=callback, drag_callback=drag_callback, drop_callback=drop_callback, show=show, filter_key=filter_key, delay_search=delay_search, tracked=tracked, track_offset=track_offset, user_data=user_data, delink_callback=delink_callback, menubar=menubar)
 
-def add_node_link(node_1 : int, node_2 : int, *, label: str =None, id: int =0, parent: int =0, show: bool =True, user_data: Any =None) -> int:
+def add_node_link(attr_1 : int, attr_2 : int, *, label: str =None, id: int =0, parent: int =0, show: bool =True, user_data: Any =None) -> int:
 	"""
 	Adds a node link between nodes.
 	Args:
-		node_1 (int): 
-		node_2 (int): 
+		attr_1 (int): 
+		attr_2 (int): 
 		**label (str): Overrides 'name' as label.
 		**id (int): Unique id used to programmatically refer to the item.If label is unused this will be the label.
 		**parent (int): Parent to add this item to. (runtime adding)
@@ -4066,7 +4066,7 @@ def add_node_link(node_1 : int, node_2 : int, *, label: str =None, id: int =0, p
 		int
 	"""
 
-	return internal_dpg.add_node_link(node_1, node_2, label=label, id=id, parent=parent, show=show, user_data=user_data)
+	return internal_dpg.add_node_link(attr_1, attr_2, label=label, id=id, parent=parent, show=show, user_data=user_data)
 
 def add_pie_series(x : float, y : float, radius : float, values : List[float], labels : List[str], *, label: str =None, id: int =0, parent: int =0, before: int =0, source: int =0, show: bool =True, user_data: Any =None, format: str ='%0.2f', angle: float =90.0, normalize: bool =False) -> int:
 	"""

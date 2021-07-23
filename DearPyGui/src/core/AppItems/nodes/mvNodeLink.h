@@ -32,16 +32,21 @@ namespace Marvel {
 		bool preDraw() override { return true; }
 		void postDraw() override {}
 
+		int getId() const { return m_id; }
 		void customAction() override;
 		void draw(ImDrawList* drawlist, float x, float y) override;
 		bool isParentCompatible(mvAppItemType type) override;
 		void handleSpecificRequiredArgs(PyObject* args) override;
+		void getSpecificConfiguration(PyObject* dict) override;
 
 	private:
 
 		int m_id = 0;
 		int m_id1 = 0;
 		int m_id2 = 0;
+
+		mvUUID m_id1uuid = 0;
+		mvUUID m_id2uuid = 0;
 	};
 
 }
