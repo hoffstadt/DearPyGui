@@ -3,18 +3,9 @@
 project ("DearPyGui")
 
 # various settings
-set(GLFW_BUILD_DOCS OFF)
 add_definitions(
     -D_CRT_SECURE_NO_WARNINGS 
     -D_USE_MATH_DEFINES)
-
-if(WIN32)
-    add_definitions(-DIMGUI_USER_CONFIG="mvImGuiConfig.h")
-elseif(APPLE)
-    add_definitions(-DIMGUI_USER_CONFIG="mvImGuiConfig.h")
-else() # Linux
-	add_definitions(-DIMGUI_USER_CONFIG="mvImGuiLinuxConfig.h")
-endif()
 
 # can be set to 36, 37, 38, 39, or 0
 #   * 36 = Python 3.6
@@ -52,20 +43,12 @@ endif()
 # by AppVeyor
 set(MVDPG_VERSION ${MVDPG_VERSION})
 
+add_subdirectory("Dependencies")
+
 # if this is not a distribution build
 # build development environment
 if(NOT MVDIST_ONLY)
-    add_subdirectory("Dependencies/spdlog")
     add_subdirectory ("DearSandbox")
-endif()
-
-if(WIN32)
-    add_subdirectory("Dependencies/freetype")
-elseif(APPLE)
-    add_subdirectory("Dependencies/freetype")
-    add_subdirectory ("Dependencies/glfw")
-else() #Linux
-	add_subdirectory ("Dependencies/glfw")
 endif()
 
 add_subdirectory ("DearPyGui")
