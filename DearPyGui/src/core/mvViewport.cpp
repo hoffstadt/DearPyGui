@@ -7,6 +7,8 @@
 #define PY_SSIZE_T_CLEAN
 #include <Python.h>
 
+#include "mvPythonExceptions.h"
+
 namespace Marvel {
 
 	mvViewport::mvViewport(unsigned width, unsigned height) :
@@ -185,6 +187,8 @@ namespace Marvel {
 		mvViewport* viewport = mvApp::GetApp()->getViewport();
 		if (viewport)
 			viewport->getConfigDict(pdict);
+		else
+			mvThrowPythonError(mvErrorCode::mvNone, "No viewport created");
 
 		return pdict;
 	}
@@ -259,6 +263,8 @@ namespace Marvel {
 		mvViewport* viewport = mvApp::GetApp()->getViewport();
 		if (viewport)
 			viewport->show(minimized, maximized);
+		else
+			mvThrowPythonError(mvErrorCode::mvNone, "No viewport created");
 
 		return GetPyNone();
 	}
@@ -269,6 +275,8 @@ namespace Marvel {
 		mvViewport* viewport = mvApp::GetApp()->getViewport();
 		if (viewport)
 			viewport->setConfigDict(kwargs);
+		else
+			mvThrowPythonError(mvErrorCode::mvNone, "No viewport created");
 
 		return GetPyNone();
 	}
