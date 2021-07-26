@@ -58,7 +58,8 @@ namespace Marvel {
 				}
 			}
 			PyBuffer_Release(&buffer_info);
-
+			if (m_buffer)
+				Py_XDECREF(m_buffer);
 			Py_XINCREF(value);
 			m_buffer = value;
 		}
