@@ -1,41 +1,14 @@
 import dearpygui.dearpygui as dpg
-import threading
-import time
-import random
+import dearpygui.demo as demo
+import dearpygui.themes as themes
 
-width = 400
-height = 400
-#grid_arr = np.random.rand(width, height, 4)
-grid_arr = dpg.mvBuffer(width*height*4)
-grid_arr.clear_value(random.random())
+with dpg.font_registry():
+    with dpg.font("../../Resources/NotoSerifCJKjp-Medium.otf", 20, default_font=True):
+        dpg.add_font_range_hint(dpg.mvFontRangeHint_Default)
 
-with dpg.texture_registry():
-    image_id = dpg.add_raw_texture(width,
-                                   height,
-                                   grid_arr,
-                                   format=dpg.mvFormat_Float_rgba)
+demo.show_demo()
 
-with dpg.window(label="Tutorial"):
-    with dpg.drawlist(width=width, height=height):
-        dpg.draw_image(image_id, (0, 0), (width, height))
-
-
-def setter():
-    # don't move onto update loop until starting DPG
-    while not dpg.is_dearpygui_running():
-        time.sleep(0.01)
-
-    # no need to sleep, the dpg call will bound the thread
-    while dpg.is_dearpygui_running():
-
-        b1 = dpg.mvBuffer(640000)
-        b1.clear_value(random.random())
-        dpg.set_value(image_id, b1)
-        #time.sleep(0.01)
-
-
-
-t = threading.Thread(target=setter)
-t.start()
+with dpg.window(label="tutorial"):
+    dpg.add_button(label="Press me")
 
 dpg.start_dearpygui()
