@@ -275,6 +275,7 @@ namespace Marvel {
 			{
 				if (m_mainWindow)
 					ImGui::PopStyleVar();
+				hide();
 				return;
 			}
 		}
