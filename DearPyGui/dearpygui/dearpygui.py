@@ -925,6 +925,7 @@ def set_viewport_caption(value: bool):
     Returns:
         None
     """
+    internal_dpg.configure_viewport(0, border=value)
     internal_dpg.configure_viewport(0, caption=value)
 
 
