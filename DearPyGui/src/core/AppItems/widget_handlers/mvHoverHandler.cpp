@@ -12,6 +12,7 @@ namespace Marvel {
 		mvPythonParser parser(mvPyDataType::UUID, "Adds a handler which runs a given callback when the specified item is hovered.", { "Events", "Widgets" });
 		mvAppItem::AddCommonArgs(parser, (CommonParserArgs)(
 			MV_PARSER_ARG_ID |
+			MV_PARSER_ARG_SHOW |
 			MV_PARSER_ARG_CALLBACK)
 		);
 

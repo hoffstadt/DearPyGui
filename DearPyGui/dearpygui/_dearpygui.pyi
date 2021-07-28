@@ -14,11 +14,11 @@ def add_3d_slider(*, label: str =None, id: int =0, width: int =0, height: int =0
 	"""Adds a 3D box slider that allows a 3d point to be show in 2d represented cube space."""
 	...
 
-def add_activated_handler(parent : int, *, label: str =None, id: int =0, callback: Callable =None, user_data: Any =None) -> int:
+def add_activated_handler(parent : int, *, label: str =None, id: int =0, callback: Callable =None, show: bool =True, user_data: Any =None) -> int:
 	"""Adds a handler which runs a given callback when the specified item is activated."""
 	...
 
-def add_active_handler(parent : int, *, label: str =None, id: int =0, callback: Callable =None, user_data: Any =None) -> int:
+def add_active_handler(parent : int, *, label: str =None, id: int =0, callback: Callable =None, show: bool =True, user_data: Any =None) -> int:
 	"""Adds a handler which runs a given callback when the specified item is active."""
 	...
 
@@ -54,7 +54,7 @@ def add_child(*, label: str =None, id: int =0, width: int =0, height: int =0, in
 	"""Adds an embedded child window. Will show scrollbars when items do not fit. Must be followed by a call to end."""
 	...
 
-def add_clicked_handler(parent : int, button : int =-1, *, label: str =None, id: int =0, callback: Callable =None, user_data: Any =None) -> int:
+def add_clicked_handler(parent : int, button : int =-1, *, label: str =None, id: int =0, callback: Callable =None, show: bool =True, user_data: Any =None) -> int:
 	"""Adds a handler which runs a given callback when the specified item is clicked."""
 	...
 
@@ -94,11 +94,11 @@ def add_date_picker(*, label: str =None, id: int =0, indent: int =-1, parent: in
 	"""Creates a date picker."""
 	...
 
-def add_deactivated_after_edit_handler(parent : int, *, label: str =None, id: int =0, callback: Callable =None, user_data: Any =None) -> int:
+def add_deactivated_after_edit_handler(parent : int, *, label: str =None, id: int =0, callback: Callable =None, show: bool =True, user_data: Any =None) -> int:
 	"""Adds a handler which runs a given callback when the specified item is deactivated after edit."""
 	...
 
-def add_deactivated_handler(parent : int, *, label: str =None, id: int =0, callback: Callable =None, user_data: Any =None) -> int:
+def add_deactivated_handler(parent : int, *, label: str =None, id: int =0, callback: Callable =None, show: bool =True, user_data: Any =None) -> int:
 	"""Adds a handler which runs a given callback when the specified item is deactivated."""
 	...
 
@@ -154,7 +154,7 @@ def add_dynamic_texture(width : int, height : int, default_value : List[float], 
 	"""Undocumented function"""
 	...
 
-def add_edited_handler(parent : int, *, label: str =None, id: int =0, callback: Callable =None, user_data: Any =None) -> int:
+def add_edited_handler(parent : int, *, label: str =None, id: int =0, callback: Callable =None, show: bool =True, user_data: Any =None) -> int:
 	"""Adds a handler which runs a given callback when the specified item is edited."""
 	...
 
@@ -186,7 +186,7 @@ def add_float_vect_value(*, label: str =None, id: int =0, source: int =0, user_d
 	"""Undocumented"""
 	...
 
-def add_focus_handler(parent : int, *, label: str =None, id: int =0, callback: Callable =None, user_data: Any =None) -> int:
+def add_focus_handler(parent : int, *, label: str =None, id: int =0, callback: Callable =None, show: bool =True, user_data: Any =None) -> int:
 	"""Adds a handler which runs a given callback when the specified item is focused."""
 	...
 
@@ -230,7 +230,7 @@ def add_hline_series(x : List[float], *, label: str =None, id: int =0, parent: i
 	"""Adds a infinite horizontal line series to a plot."""
 	...
 
-def add_hover_handler(parent : int, *, label: str =None, id: int =0, callback: Callable =None, user_data: Any =None) -> int:
+def add_hover_handler(parent : int, *, label: str =None, id: int =0, callback: Callable =None, show: bool =True, user_data: Any =None) -> int:
 	"""Adds a handler which runs a given callback when the specified item is hovered."""
 	...
 
@@ -390,7 +390,7 @@ def add_raw_texture(width : int, height : int, default_value : List[float], *, l
 	"""Undocumented function"""
 	...
 
-def add_resize_handler(parent : int, *, label: str =None, id: int =0, callback: Callable =None, user_data: Any =None) -> int:
+def add_resize_handler(parent : int, *, label: str =None, id: int =0, callback: Callable =None, show: bool =True, user_data: Any =None) -> int:
 	"""Adds a handler which runs a given callback when the specified item is resized."""
 	...
 
@@ -522,7 +522,7 @@ def add_time_picker(*, label: str =None, id: int =0, indent: int =-1, parent: in
 	"""Adds a time picker."""
 	...
 
-def add_toggled_open_handler(parent : int, *, label: str =None, id: int =0, callback: Callable =None, user_data: Any =None) -> int:
+def add_toggled_open_handler(parent : int, *, label: str =None, id: int =0, callback: Callable =None, show: bool =True, user_data: Any =None) -> int:
 	"""Adds a handler which runs a given callback when the specified item is toggled open."""
 	...
 
@@ -546,7 +546,7 @@ def add_viewport_menu_bar(*, label: str =None, id: int =0, indent: int =-1, pare
 	"""Adds a menu bar to the viewport."""
 	...
 
-def add_visible_handler(parent : int, *, label: str =None, id: int =0, callback: Callable =None, user_data: Any =None) -> int:
+def add_visible_handler(parent : int, *, label: str =None, id: int =0, callback: Callable =None, show: bool =True, user_data: Any =None) -> int:
 	"""Adds a handler which runs a given callback when the specified item is visible."""
 	...
 

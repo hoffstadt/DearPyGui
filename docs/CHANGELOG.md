@@ -22,6 +22,9 @@ We generally fold multiple commits pertaining to the same topic as a single entr
 
 ## VERSION 0.8.x
 
+### New
+* added ability to "show/hide" widget handlers
+
 ### Fixes
 * on_close callback fixed for modal windows #1112
 * fixed issue with windows viewport caption/border #1114
