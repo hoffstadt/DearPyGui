@@ -151,32 +151,32 @@ namespace Marvel {
 		getCallbackRegistry().submitCallback([=]() {
 			mvApp::GetApp()->getCallbackRegistry().stop();
 			});
-		m_future.get();
-		if(m_viewport)
-			delete m_viewport;
+		_future.get();
+		if(_viewport)
+			delete _viewport;
 		s_started = false;
 	}
 
 	mvApp::mvApp()
 	{
 		// create managers
-		m_itemRegistry = CreateOwnedPtr<mvItemRegistry>();
-        m_callbackRegistry = CreateOwnedPtr<mvCallbackRegistry>();
+		_itemRegistry = CreateOwnedPtr<mvItemRegistry>();
+        _callbackRegistry = CreateOwnedPtr<mvCallbackRegistry>();
 	}
 
     mvCallbackRegistry& mvApp::getCallbackRegistry()
     { 
-        return *m_callbackRegistry; 
+        return *_callbackRegistry; 
     }
 
 	mvItemRegistry& mvApp::getItemRegistry() 
 	{ 
-		return *m_itemRegistry; 
+		return *_itemRegistry; 
 	}
 
 	mvApp::~mvApp()
 	{
-		m_itemRegistry->clearRegistry();
+		_itemRegistry->clearRegistry();
 
 		constexpr_for<1, (int)mvAppItemType::ItemTypeCount, 1>(
 			[&](auto i) {
@@ -190,8 +190,8 @@ namespace Marvel {
 
 	void mvApp::turnOnDocking(bool dockSpace)
 	{ 
-		m_docking = true; 
-		m_dockingViewport = dockSpace;
+		_docking = true; 
+		_dockingViewport = dockSpace;
 	}
 
 	void mvApp::render()
@@ -204,7 +204,7 @@ namespace Marvel {
 
 		ImGui::GetIO().FontGlobalScale = mvToolManager::GetFontManager().getGlobalFontScale();
 
-		if (m_dockingViewport)
+		if (_dockingViewport)
 			ImGui::DockSpaceOverViewport();
 
 
@@ -218,10 +218,10 @@ namespace Marvel {
 
 		{
 			std::lock_guard<std::mutex> lk(s_mutex);
-			if (m_resetTheme)
+			if (_resetTheme)
 			{
 				mvApp::SetDefaultTheme();
-				m_resetTheme = false;
+				_resetTheme = false;
 			}
 
 			mvEventBus::Publish(mvEVT_CATEGORY_APP, mvEVT_PRE_RENDER);
@@ -382,7 +382,7 @@ namespace Marvel {
 
 	PyObject* mvApp::reset_default_theme(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
-		mvApp::GetApp()->m_resetTheme = true;
+		mvApp::GetApp()->_resetTheme = true;
 
 		return GetPyNone();
 	}
@@ -555,7 +555,7 @@ namespace Marvel {
 
 		GetApp()->getItemRegistry().emptyParents();
 		s_started = true;
-		GetApp()->m_future = std::async(std::launch::async, []() {return GetApp()->m_callbackRegistry->runCallbacks(); });
+		GetApp()->_future = std::async(std::launch::async, []() {return GetApp()->_callbackRegistry->runCallbacks(); });
 
 		MV_CORE_INFO("application starting");
 

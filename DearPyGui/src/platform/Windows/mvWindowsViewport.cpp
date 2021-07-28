@@ -33,35 +33,35 @@ namespace Marvel {
 		ImGui::DestroyContext();
 
 		CleanupDeviceD3D();
-		::DestroyWindow(m_hwnd);
-		::UnregisterClass(m_wc.lpszClassName, m_wc.hInstance);
+		::DestroyWindow(_hwnd);
+		::UnregisterClass(_wc.lpszClassName, _wc.hInstance);
 	}
 
 	void mvWindowsViewport::maximize()
 	{
-		ShowWindow(m_hwnd, SW_MAXIMIZE);
+		ShowWindow(_hwnd, SW_MAXIMIZE);
 	}
 
 	void mvWindowsViewport::minimize()
 	{
-		ShowWindow(m_hwnd, SW_MINIMIZE);
+		ShowWindow(_hwnd, SW_MINIMIZE);
 	}
 
 	void mvWindowsViewport::handleModes()
 	{
-		m_modes = 0;
+		_modes = 0;
 
-		if (m_border) m_modes |= WS_THICKFRAME;
-		if (m_caption) m_modes |= WS_CAPTION;
-		if (m_minimizeBox) m_modes |= WS_MINIMIZEBOX;
-		if (m_maximizeBox) m_modes |= WS_MAXIMIZEBOX;
-		if (m_overlapped) m_modes |= WS_OVERLAPPED | WS_SYSMENU;
+		if (m_border) _modes |= WS_THICKFRAME;
+		if (m_caption) _modes |= WS_CAPTION;
+		if (m_minimizeBox) _modes |= WS_MINIMIZEBOX;
+		if (m_maximizeBox) _modes |= WS_MAXIMIZEBOX;
+		if (m_overlapped) _modes |= WS_OVERLAPPED | WS_SYSMENU;
 	}
 
 	void mvWindowsViewport::show(bool minimized, bool maximized)
 	{
 
-		m_wc = {
+		_wc = {
 			sizeof(WNDCLASSEX),
 			CS_CLASSDC,
 			HandleMsgSetup,
@@ -69,20 +69,20 @@ namespace Marvel {
 			0L,
 			GetModuleHandle(nullptr), nullptr, nullptr, nullptr, nullptr,
 			_T(m_title.c_str()), nullptr };
-		RegisterClassEx(&m_wc);
+		RegisterClassEx(&_wc);
 
 		handleModes();
-		m_hwnd = CreateWindow(m_wc.lpszClassName, _T(m_title.c_str()),
-			m_modes,
-			m_xpos, m_ypos, m_actualWidth, m_actualHeight, nullptr, nullptr, m_wc.hInstance, this);
+		_hwnd = CreateWindow(_wc.lpszClassName, _T(m_title.c_str()),
+			_modes,
+			m_xpos, m_ypos, m_actualWidth, m_actualHeight, nullptr, nullptr, _wc.hInstance, this);
 
 		if (!m_small_icon.empty())
 		{
 			HANDLE hIcon = LoadImage(0, _T(m_small_icon.c_str()), IMAGE_ICON, 0, 0, LR_DEFAULTSIZE | LR_LOADFROMFILE);
 			if (hIcon) 
 			{
-				SendMessage(m_hwnd, WM_SETICON, ICON_SMALL, (LPARAM)hIcon);
-				SendMessage(GetWindow(m_hwnd, GW_OWNER), WM_SETICON, ICON_SMALL, (LPARAM)hIcon);
+				SendMessage(_hwnd, WM_SETICON, ICON_SMALL, (LPARAM)hIcon);
+				SendMessage(GetWindow(_hwnd, GW_OWNER), WM_SETICON, ICON_SMALL, (LPARAM)hIcon);
 			}
 		}
 
@@ -91,16 +91,16 @@ namespace Marvel {
 			HANDLE hIcon = LoadImage(0, _T(m_large_icon.c_str()), IMAGE_ICON, 0, 0, LR_DEFAULTSIZE | LR_LOADFROMFILE);
 			if (hIcon) 
 			{
-				SendMessage(m_hwnd, WM_SETICON, ICON_BIG, (LPARAM)hIcon);
-				SendMessage(GetWindow(m_hwnd, GW_OWNER), WM_SETICON, ICON_BIG, (LPARAM)hIcon);
+				SendMessage(_hwnd, WM_SETICON, ICON_BIG, (LPARAM)hIcon);
+				SendMessage(GetWindow(_hwnd, GW_OWNER), WM_SETICON, ICON_BIG, (LPARAM)hIcon);
 			}
 		}
 
 		// Initialize Direct3D
-		if (!CreateDeviceD3D(m_hwnd))
+		if (!CreateDeviceD3D(_hwnd))
 		{
 			CleanupDeviceD3D();
-			::UnregisterClass(m_wc.lpszClassName, m_wc.hInstance);
+			::UnregisterClass(_wc.lpszClassName, _wc.hInstance);
 		}
 		previous_ime_char = 0;
 		HKL hkl = GetKeyboardLayout(0);
@@ -117,11 +117,11 @@ namespace Marvel {
 		else
 			cmdShow = SW_SHOWDEFAULT;
 
-		::ShowWindow(m_hwnd, cmdShow);
-		::UpdateWindow(m_hwnd);
+		::ShowWindow(_hwnd, cmdShow);
+		::UpdateWindow(_hwnd);
 
 		if (m_alwaysOnTop)
-			SetWindowPos(m_hwnd, HWND_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
+			SetWindowPos(_hwnd, HWND_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
 
 		// Setup Dear ImGui context
 		IMGUI_CHECKVERSION();
@@ -131,20 +131,20 @@ namespace Marvel {
 
 		ImGuiIO& io = ImGui::GetIO(); (void)io;
 		io.ConfigWindowsMoveFromTitleBarOnly = true;
-		if (mvApp::GetApp()->m_loadIniFile)
+		if (mvApp::GetApp()->_loadIniFile)
 		{
-			ImGui::LoadIniSettingsFromDisk(mvApp::GetApp()->m_iniFile.c_str());
+			ImGui::LoadIniSettingsFromDisk(mvApp::GetApp()->_iniFile.c_str());
 			io.IniFilename = nullptr;
 		}
 		else
 		{
-			if (mvApp::GetApp()->m_iniFile.empty())
+			if (mvApp::GetApp()->_iniFile.empty())
 				io.IniFilename = nullptr;
 			else
-				io.IniFilename = mvApp::GetApp()->m_iniFile.c_str();
+				io.IniFilename = mvApp::GetApp()->_iniFile.c_str();
 		}
 
-		if(mvApp::GetApp()->m_docking)
+		if(mvApp::GetApp()->_docking)
 			io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
 
 		// Setup Dear ImGui style
@@ -152,45 +152,45 @@ namespace Marvel {
 		mvApp::SetDefaultTheme();
 
 		// Setup Platform/Renderer bindings
-		ImGui_ImplWin32_Init(m_hwnd);
+		ImGui_ImplWin32_Init(_hwnd);
 		ImGui_ImplDX11_Init(s_pd3dDevice, s_pd3dDeviceContext);
 	}
 
 	void mvWindowsViewport::setup()
 	{
-		ZeroMemory(&m_msg, sizeof(m_msg));
+		ZeroMemory(&_msg, sizeof(_msg));
 	}
 
 	void mvWindowsViewport::prerender()
 	{
 		MV_PROFILE_SCOPE("Viewport prerender")
 
-		if (m_msg.message == WM_QUIT)
+		if (_msg.message == WM_QUIT)
 			m_running = false;
 
 		if (m_posDirty)
 		{
-			SetWindowPos(m_hwnd, m_alwaysOnTop ? HWND_TOPMOST : HWND_TOP, m_xpos, m_ypos, 0, 0, SWP_SHOWWINDOW | SWP_NOSIZE);
+			SetWindowPos(_hwnd, m_alwaysOnTop ? HWND_TOPMOST : HWND_TOP, m_xpos, m_ypos, 0, 0, SWP_SHOWWINDOW | SWP_NOSIZE);
 			m_posDirty = false;
 		}
 
 		if (m_sizeDirty)
 		{
-			SetWindowPos(m_hwnd, m_alwaysOnTop ? HWND_TOPMOST : HWND_TOP, 0, 0, m_actualWidth, m_actualHeight, SWP_SHOWWINDOW | SWP_NOMOVE);
+			SetWindowPos(_hwnd, m_alwaysOnTop ? HWND_TOPMOST : HWND_TOP, 0, 0, m_actualWidth, m_actualHeight, SWP_SHOWWINDOW | SWP_NOMOVE);
 			m_sizeDirty = false;
 		}
 
 		if (m_modesDirty)
 		{
 			handleModes();
-			SetWindowLongPtr(m_hwnd, GWL_STYLE, m_modes);
-			SetWindowPos(m_hwnd, m_alwaysOnTop ? HWND_TOPMOST : HWND_TOP, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_SHOWWINDOW);
+			SetWindowLongPtr(_hwnd, GWL_STYLE, _modes);
+			SetWindowPos(_hwnd, m_alwaysOnTop ? HWND_TOPMOST : HWND_TOP, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_SHOWWINDOW);
 			m_modesDirty = false;
 		}
 
 		if (m_titleDirty)
 		{
-			SetWindowTextA(m_hwnd, m_title.c_str());
+			SetWindowTextA(_hwnd, m_title.c_str());
 			m_titleDirty = false;
 		}
 
@@ -199,10 +199,10 @@ namespace Marvel {
 		// - When io.WantCaptureMouse is true, do not dispatch mouse input data to your main application.
 		// - When io.WantCaptureKeyboard is true, do not dispatch keyboard input data to your main application.
 		// Generally you may always pass all inputs to dear imgui, and hide them from your application based on those two flags.
-		if (::PeekMessage(&m_msg, nullptr, 0U, 0U, PM_REMOVE))
+		if (::PeekMessage(&_msg, nullptr, 0U, 0U, PM_REMOVE))
 		{
-			::TranslateMessage(&m_msg);
-			::DispatchMessage(&m_msg);
+			::TranslateMessage(&_msg);
+			::DispatchMessage(&_msg);
 			//continue;
 		}
 

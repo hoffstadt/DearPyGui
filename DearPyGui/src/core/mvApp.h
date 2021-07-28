@@ -148,16 +148,16 @@ namespace Marvel {
         //-----------------------------------------------------------------------------
         // Ini utilities
         //-----------------------------------------------------------------------------
-        void setIniFile (const std::string& file) { m_iniFile = file; }
-        void loadIniFile(const std::string& file) { m_iniFile = file; m_loadIniFile = true; }
-        bool isUsingIniFile() const { return !m_iniFile.empty(); }
+        void setIniFile (const std::string& file) { _iniFile = file; }
+        void loadIniFile(const std::string& file) { _iniFile = file; _loadIniFile = true; }
+        bool isUsingIniFile() const { return !_iniFile.empty(); }
         
         //-----------------------------------------------------------------------------
         // App Settings
         //-----------------------------------------------------------------------------
         void        turnOnDocking(bool dockSpace);	
-        void        setViewport  (mvViewport* viewport) { m_viewport = viewport; }
-        mvViewport* getViewport  ()       { return m_viewport; }
+        void        setViewport  (mvViewport* viewport) { _viewport = viewport; }
+        mvViewport* getViewport  ()       { return _viewport; }
 
         //-----------------------------------------------------------------------------
         // Other
@@ -176,21 +176,21 @@ namespace Marvel {
         static mvUUID           s_id; // current ID
 
         // managers
-        mvOwnedPtr<mvItemRegistry>     m_itemRegistry;
-        mvOwnedPtr<mvCallbackRegistry> m_callbackRegistry;
+        mvOwnedPtr<mvItemRegistry>     _itemRegistry;
+        mvOwnedPtr<mvCallbackRegistry> _callbackRegistry;
                                          
         // docking                                   
-        bool m_docking          = false;
-        bool m_dockingViewport  = false;
+        bool _docking          = false;
+        bool _dockingViewport  = false;
 
         // ini file
-        std::string m_iniFile;
-        bool m_loadIniFile = false;
+        std::string _iniFile;
+        bool _loadIniFile = false;
                     
-        mvViewport*       m_viewport = nullptr;
-        std::future<bool> m_future;
+        mvViewport*       _viewport = nullptr;
+        std::future<bool> _future;
 
-        bool m_resetTheme = false;
+        bool _resetTheme = false;
         
     };
 

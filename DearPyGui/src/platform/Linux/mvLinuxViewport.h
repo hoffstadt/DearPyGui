@@ -24,9 +24,9 @@ namespace Marvel {
         void minimize   () override;
         void restore    () override;
 
-
 	private:
-		GLFWwindow*       m_window = nullptr;
+
+		GLFWwindow*       _window = nullptr;
 
 	};
 
