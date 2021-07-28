@@ -2094,7 +2094,7 @@ def add_3d_slider(*, label: str =None, id: int =0, width: int =0, height: int =0
 
 	return internal_dpg.add_3d_slider(label=label, id=id, width=width, height=height, indent=indent, parent=parent, before=before, source=source, payload_type=payload_type, callback=callback, drag_callback=drag_callback, drop_callback=drop_callback, show=show, pos=pos, filter_key=filter_key, tracked=tracked, track_offset=track_offset, user_data=user_data, default_value=default_value, max_x=max_x, max_y=max_y, max_z=max_z, min_x=min_x, min_y=min_y, min_z=min_z, scale=scale)
 
-def add_activated_handler(parent : int, *, label: str =None, id: int =0, callback: Callable =None, user_data: Any =None) -> int:
+def add_activated_handler(parent : int, *, label: str =None, id: int =0, callback: Callable =None, show: bool =True, user_data: Any =None) -> int:
 	"""
 	Adds a handler which runs a given callback when the specified item is activated.
 	Args:
@@ -2102,14 +2102,15 @@ def add_activated_handler(parent : int, *, label: str =None, id: int =0, callbac
 		**label (str): Overrides 'name' as label.
 		**id (int): Unique id used to programmatically refer to the item.If label is unused this will be the label.
 		**callback (Callable): Registers a callback.
+		**show (bool): Attempt to render widget.
 		**user_data (Any): User data for callbacks.
 	Returns:
 		int
 	"""
 
-	return internal_dpg.add_activated_handler(parent, label=label, id=id, callback=callback, user_data=user_data)
+	return internal_dpg.add_activated_handler(parent, label=label, id=id, callback=callback, show=show, user_data=user_data)
 
-def add_active_handler(parent : int, *, label: str =None, id: int =0, callback: Callable =None, user_data: Any =None) -> int:
+def add_active_handler(parent : int, *, label: str =None, id: int =0, callback: Callable =None, show: bool =True, user_data: Any =None) -> int:
 	"""
 	Adds a handler which runs a given callback when the specified item is active.
 	Args:
@@ -2117,12 +2118,13 @@ def add_active_handler(parent : int, *, label: str =None, id: int =0, callback: 
 		**label (str): Overrides 'name' as label.
 		**id (int): Unique id used to programmatically refer to the item.If label is unused this will be the label.
 		**callback (Callable): Registers a callback.
+		**show (bool): Attempt to render widget.
 		**user_data (Any): User data for callbacks.
 	Returns:
 		int
 	"""
 
-	return internal_dpg.add_active_handler(parent, label=label, id=id, callback=callback, user_data=user_data)
+	return internal_dpg.add_active_handler(parent, label=label, id=id, callback=callback, show=show, user_data=user_data)
 
 def add_area_series(x : List[float], y : List[float], *, label: str =None, id: int =0, parent: int =0, before: int =0, source: int =0, show: bool =True, user_data: Any =None, fill: List[int] =(0, 0, 0, -255), contribute_to_bounds: bool =True) -> int:
 	"""
@@ -2316,7 +2318,7 @@ def add_child(*, label: str =None, id: int =0, width: int =0, height: int =0, in
 
 	return internal_dpg.add_child(label=label, id=id, width=width, height=height, indent=indent, parent=parent, before=before, payload_type=payload_type, drag_callback=drag_callback, drop_callback=drop_callback, show=show, pos=pos, filter_key=filter_key, delay_search=delay_search, tracked=tracked, track_offset=track_offset, user_data=user_data, border=border, autosize_x=autosize_x, autosize_y=autosize_y, no_scrollbar=no_scrollbar, horizontal_scrollbar=horizontal_scrollbar, menubar=menubar)
 
-def add_clicked_handler(parent : int, button : int =-1, *, label: str =None, id: int =0, callback: Callable =None, user_data: Any =None) -> int:
+def add_clicked_handler(parent : int, button : int =-1, *, label: str =None, id: int =0, callback: Callable =None, show: bool =True, user_data: Any =None) -> int:
 	"""
 	Adds a handler which runs a given callback when the specified item is clicked.
 	Args:
@@ -2325,12 +2327,13 @@ def add_clicked_handler(parent : int, button : int =-1, *, label: str =None, id:
 		**label (str): Overrides 'name' as label.
 		**id (int): Unique id used to programmatically refer to the item.If label is unused this will be the label.
 		**callback (Callable): Registers a callback.
+		**show (bool): Attempt to render widget.
 		**user_data (Any): User data for callbacks.
 	Returns:
 		int
 	"""
 
-	return internal_dpg.add_clicked_handler(parent, button, label=label, id=id, callback=callback, user_data=user_data)
+	return internal_dpg.add_clicked_handler(parent, button, label=label, id=id, callback=callback, show=show, user_data=user_data)
 
 def add_clipper(*, label: str =None, id: int =0, width: int =0, indent: int =-1, parent: int =0, before: int =0, show: bool =True, delay_search: bool =False, user_data: Any =None) -> int:
 	"""
@@ -2602,7 +2605,7 @@ def add_date_picker(*, label: str =None, id: int =0, indent: int =-1, parent: in
 
 	return internal_dpg.add_date_picker(label=label, id=id, indent=indent, parent=parent, before=before, payload_type=payload_type, callback=callback, drag_callback=drag_callback, drop_callback=drop_callback, show=show, pos=pos, filter_key=filter_key, tracked=tracked, track_offset=track_offset, user_data=user_data, default_value=default_value, level=level)
 
-def add_deactivated_after_edit_handler(parent : int, *, label: str =None, id: int =0, callback: Callable =None, user_data: Any =None) -> int:
+def add_deactivated_after_edit_handler(parent : int, *, label: str =None, id: int =0, callback: Callable =None, show: bool =True, user_data: Any =None) -> int:
 	"""
 	Adds a handler which runs a given callback when the specified item is deactivated after edit.
 	Args:
@@ -2610,14 +2613,15 @@ def add_deactivated_after_edit_handler(parent : int, *, label: str =None, id: in
 		**label (str): Overrides 'name' as label.
 		**id (int): Unique id used to programmatically refer to the item.If label is unused this will be the label.
 		**callback (Callable): Registers a callback.
+		**show (bool): Attempt to render widget.
 		**user_data (Any): User data for callbacks.
 	Returns:
 		int
 	"""
 
-	return internal_dpg.add_deactivated_after_edit_handler(parent, label=label, id=id, callback=callback, user_data=user_data)
+	return internal_dpg.add_deactivated_after_edit_handler(parent, label=label, id=id, callback=callback, show=show, user_data=user_data)
 
-def add_deactivated_handler(parent : int, *, label: str =None, id: int =0, callback: Callable =None, user_data: Any =None) -> int:
+def add_deactivated_handler(parent : int, *, label: str =None, id: int =0, callback: Callable =None, show: bool =True, user_data: Any =None) -> int:
 	"""
 	Adds a handler which runs a given callback when the specified item is deactivated.
 	Args:
@@ -2625,12 +2629,13 @@ def add_deactivated_handler(parent : int, *, label: str =None, id: int =0, callb
 		**label (str): Overrides 'name' as label.
 		**id (int): Unique id used to programmatically refer to the item.If label is unused this will be the label.
 		**callback (Callable): Registers a callback.
+		**show (bool): Attempt to render widget.
 		**user_data (Any): User data for callbacks.
 	Returns:
 		int
 	"""
 
-	return internal_dpg.add_deactivated_handler(parent, label=label, id=id, callback=callback, user_data=user_data)
+	return internal_dpg.add_deactivated_handler(parent, label=label, id=id, callback=callback, show=show, user_data=user_data)
 
 def add_double4_value(*, label: str =None, id: int =0, source: int =0, user_data: Any =None, default_value: Any =(0.0, 0.0, 0.0, 0.0), parent: int =internal_dpg.mvReservedUUID_3) -> int:
 	"""
@@ -2948,7 +2953,7 @@ def add_dynamic_texture(width : int, height : int, default_value : List[float], 
 
 	return internal_dpg.add_dynamic_texture(width, height, default_value, label=label, id=id, user_data=user_data, parent=parent)
 
-def add_edited_handler(parent : int, *, label: str =None, id: int =0, callback: Callable =None, user_data: Any =None) -> int:
+def add_edited_handler(parent : int, *, label: str =None, id: int =0, callback: Callable =None, show: bool =True, user_data: Any =None) -> int:
 	"""
 	Adds a handler which runs a given callback when the specified item is edited.
 	Args:
@@ -2956,12 +2961,13 @@ def add_edited_handler(parent : int, *, label: str =None, id: int =0, callback: 
 		**label (str): Overrides 'name' as label.
 		**id (int): Unique id used to programmatically refer to the item.If label is unused this will be the label.
 		**callback (Callable): Registers a callback.
+		**show (bool): Attempt to render widget.
 		**user_data (Any): User data for callbacks.
 	Returns:
 		int
 	"""
 
-	return internal_dpg.add_edited_handler(parent, label=label, id=id, callback=callback, user_data=user_data)
+	return internal_dpg.add_edited_handler(parent, label=label, id=id, callback=callback, show=show, user_data=user_data)
 
 def add_error_series(x : List[float], y : List[float], negative : List[float], positive : List[float], *, label: str =None, id: int =0, parent: int =0, before: int =0, source: int =0, show: bool =True, user_data: Any =None, contribute_to_bounds: bool =True, horizontal: bool =False) -> int:
 	"""
@@ -3095,7 +3101,7 @@ def add_float_vect_value(*, label: str =None, id: int =0, source: int =0, user_d
 
 	return internal_dpg.add_float_vect_value(label=label, id=id, source=source, user_data=user_data, default_value=default_value, parent=parent)
 
-def add_focus_handler(parent : int, *, label: str =None, id: int =0, callback: Callable =None, user_data: Any =None) -> int:
+def add_focus_handler(parent : int, *, label: str =None, id: int =0, callback: Callable =None, show: bool =True, user_data: Any =None) -> int:
 	"""
 	Adds a handler which runs a given callback when the specified item is focused.
 	Args:
@@ -3103,12 +3109,13 @@ def add_focus_handler(parent : int, *, label: str =None, id: int =0, callback: C
 		**label (str): Overrides 'name' as label.
 		**id (int): Unique id used to programmatically refer to the item.If label is unused this will be the label.
 		**callback (Callable): Registers a callback.
+		**show (bool): Attempt to render widget.
 		**user_data (Any): User data for callbacks.
 	Returns:
 		int
 	"""
 
-	return internal_dpg.add_focus_handler(parent, label=label, id=id, callback=callback, user_data=user_data)
+	return internal_dpg.add_focus_handler(parent, label=label, id=id, callback=callback, show=show, user_data=user_data)
 
 def add_font(file : str, size : int, *, label: str =None, id: int =0, user_data: Any =None, default_font: bool =False, parent: int =internal_dpg.mvReservedUUID_0) -> int:
 	"""
@@ -3300,7 +3307,7 @@ def add_hline_series(x : List[float], *, label: str =None, id: int =0, parent: i
 
 	return internal_dpg.add_hline_series(x, label=label, id=id, parent=parent, before=before, source=source, show=show, user_data=user_data, contribute_to_bounds=contribute_to_bounds)
 
-def add_hover_handler(parent : int, *, label: str =None, id: int =0, callback: Callable =None, user_data: Any =None) -> int:
+def add_hover_handler(parent : int, *, label: str =None, id: int =0, callback: Callable =None, show: bool =True, user_data: Any =None) -> int:
 	"""
 	Adds a handler which runs a given callback when the specified item is hovered.
 	Args:
@@ -3308,12 +3315,13 @@ def add_hover_handler(parent : int, *, label: str =None, id: int =0, callback: C
 		**label (str): Overrides 'name' as label.
 		**id (int): Unique id used to programmatically refer to the item.If label is unused this will be the label.
 		**callback (Callable): Registers a callback.
+		**show (bool): Attempt to render widget.
 		**user_data (Any): User data for callbacks.
 	Returns:
 		int
 	"""
 
-	return internal_dpg.add_hover_handler(parent, label=label, id=id, callback=callback, user_data=user_data)
+	return internal_dpg.add_hover_handler(parent, label=label, id=id, callback=callback, show=show, user_data=user_data)
 
 def add_image(texture_id : int, *, label: str =None, id: int =0, width: int =0, height: int =0, indent: int =-1, parent: int =0, before: int =0, source: int =0, payload_type: str ='$$DPG_PAYLOAD', drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, pos: List[int] =[], filter_key: str ='', tracked: bool =False, track_offset: float =0.5, user_data: Any =None, tint_color: List[float] =(255, 255, 255, 255), border_color: List[float] =(0, 0, 0, 0), uv_min: List[float] =(0.0, 0.0), uv_max: List[float] =(1.0, 1.0)) -> int:
 	"""
@@ -4290,7 +4298,7 @@ def add_raw_texture(width : int, height : int, default_value : List[float], *, l
 
 	return internal_dpg.add_raw_texture(width, height, default_value, label=label, id=id, user_data=user_data, format=format, parent=parent)
 
-def add_resize_handler(parent : int, *, label: str =None, id: int =0, callback: Callable =None, user_data: Any =None) -> int:
+def add_resize_handler(parent : int, *, label: str =None, id: int =0, callback: Callable =None, show: bool =True, user_data: Any =None) -> int:
 	"""
 	Adds a handler which runs a given callback when the specified item is resized.
 	Args:
@@ -4298,12 +4306,13 @@ def add_resize_handler(parent : int, *, label: str =None, id: int =0, callback: 
 		**label (str): Overrides 'name' as label.
 		**id (int): Unique id used to programmatically refer to the item.If label is unused this will be the label.
 		**callback (Callable): Registers a callback.
+		**show (bool): Attempt to render widget.
 		**user_data (Any): User data for callbacks.
 	Returns:
 		int
 	"""
 
-	return internal_dpg.add_resize_handler(parent, label=label, id=id, callback=callback, user_data=user_data)
+	return internal_dpg.add_resize_handler(parent, label=label, id=id, callback=callback, show=show, user_data=user_data)
 
 def add_same_line(*, label: str =None, id: int =0, parent: int =0, before: int =0, show: bool =True, user_data: Any =None, xoffset: float =0.0, spacing: float =-1.0) -> int:
 	"""
@@ -5084,7 +5093,7 @@ def add_time_picker(*, label: str =None, id: int =0, indent: int =-1, parent: in
 
 	return internal_dpg.add_time_picker(label=label, id=id, indent=indent, parent=parent, before=before, payload_type=payload_type, callback=callback, drag_callback=drag_callback, drop_callback=drop_callback, show=show, pos=pos, filter_key=filter_key, tracked=tracked, track_offset=track_offset, user_data=user_data, default_value=default_value, hour24=hour24)
 
-def add_toggled_open_handler(parent : int, *, label: str =None, id: int =0, callback: Callable =None, user_data: Any =None) -> int:
+def add_toggled_open_handler(parent : int, *, label: str =None, id: int =0, callback: Callable =None, show: bool =True, user_data: Any =None) -> int:
 	"""
 	Adds a handler which runs a given callback when the specified item is toggled open.
 	Args:
@@ -5092,12 +5101,13 @@ def add_toggled_open_handler(parent : int, *, label: str =None, id: int =0, call
 		**label (str): Overrides 'name' as label.
 		**id (int): Unique id used to programmatically refer to the item.If label is unused this will be the label.
 		**callback (Callable): Registers a callback.
+		**show (bool): Attempt to render widget.
 		**user_data (Any): User data for callbacks.
 	Returns:
 		int
 	"""
 
-	return internal_dpg.add_toggled_open_handler(parent, label=label, id=id, callback=callback, user_data=user_data)
+	return internal_dpg.add_toggled_open_handler(parent, label=label, id=id, callback=callback, show=show, user_data=user_data)
 
 def add_tooltip(parent : str, *, label: str =None, id: int =0, show: bool =True, user_data: Any =None) -> int:
 	"""
@@ -5192,7 +5202,7 @@ def add_viewport_menu_bar(*, label: str =None, id: int =0, indent: int =-1, pare
 
 	return internal_dpg.add_viewport_menu_bar(label=label, id=id, indent=indent, parent=parent, show=show, delay_search=delay_search, user_data=user_data)
 
-def add_visible_handler(parent : int, *, label: str =None, id: int =0, callback: Callable =None, user_data: Any =None) -> int:
+def add_visible_handler(parent : int, *, label: str =None, id: int =0, callback: Callable =None, show: bool =True, user_data: Any =None) -> int:
 	"""
 	Adds a handler which runs a given callback when the specified item is visible.
 	Args:
@@ -5200,12 +5210,13 @@ def add_visible_handler(parent : int, *, label: str =None, id: int =0, callback:
 		**label (str): Overrides 'name' as label.
 		**id (int): Unique id used to programmatically refer to the item.If label is unused this will be the label.
 		**callback (Callable): Registers a callback.
+		**show (bool): Attempt to render widget.
 		**user_data (Any): User data for callbacks.
 	Returns:
 		int
 	"""
 
-	return internal_dpg.add_visible_handler(parent, label=label, id=id, callback=callback, user_data=user_data)
+	return internal_dpg.add_visible_handler(parent, label=label, id=id, callback=callback, show=show, user_data=user_data)
 
 def add_vline_series(x : List[float], *, label: str =None, id: int =0, parent: int =0, before: int =0, source: int =0, show: bool =True, user_data: Any =None) -> int:
 	"""
