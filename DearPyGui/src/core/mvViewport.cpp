@@ -12,9 +12,9 @@
 namespace Marvel {
 
 	mvViewport::mvViewport(unsigned width, unsigned height) :
-		m_width(width), m_height(height)
+		_width(width), _height(height)
 	{
-		m_app = mvApp::GetApp();
+		_app = mvApp::GetApp();
 	}
 
 	void mvViewport::InsertParser(std::map<std::string, mvPythonParser>* parsers)
@@ -99,10 +99,10 @@ namespace Marvel {
 	{
 		mvApp::GetApp()->getCallbackRegistry().submitCallback([=]() {
 			PyObject* dimensions = PyTuple_New(4);
-			PyTuple_SetItem(dimensions, 0, PyLong_FromLong(m_actualWidth));
-			PyTuple_SetItem(dimensions, 1, PyLong_FromLong(m_actualHeight));
-			PyTuple_SetItem(dimensions, 2, PyLong_FromLong(m_clientWidth));
-			PyTuple_SetItem(dimensions, 3, PyLong_FromLong(m_clientHeight));
+			PyTuple_SetItem(dimensions, 0, PyLong_FromLong(_actualWidth));
+			PyTuple_SetItem(dimensions, 1, PyLong_FromLong(_actualHeight));
+			PyTuple_SetItem(dimensions, 2, PyLong_FromLong(_clientWidth));
+			PyTuple_SetItem(dimensions, 3, PyLong_FromLong(_clientHeight));
 			mvApp::GetApp()->getCallbackRegistry().addCallback(
 				mvApp::GetApp()->getCallbackRegistry().getResizeCallback(), MV_APP_UUID, dimensions, nullptr);
 			});
@@ -113,35 +113,35 @@ namespace Marvel {
 		if (dict == nullptr)
 			return;
 
-		if (PyObject* item = PyDict_GetItemString(dict, "clear_color")) m_clearColor = ToColor(item);
-		if (PyObject* item = PyDict_GetItemString(dict, "small_icon")) m_small_icon = ToString(item);
-		if (PyObject* item = PyDict_GetItemString(dict, "large_icon")) m_large_icon = ToString(item);
-		if (PyObject* item = PyDict_GetItemString(dict, "x_pos")) { m_posDirty = true;  m_xpos = ToInt(item);}
-		if (PyObject* item = PyDict_GetItemString(dict, "y_pos")) { m_posDirty = true;  m_ypos = ToInt(item);}
-		if (PyObject* item = PyDict_GetItemString(dict, "width")) { m_sizeDirty = true;  m_actualWidth = ToInt(item);}
-		if (PyObject* item = PyDict_GetItemString(dict, "height")) { m_sizeDirty = true;  m_actualHeight = ToInt(item);}
-		if (PyObject* item = PyDict_GetItemString(dict, "resizable")) m_resizable = ToBool(item);
-		if (PyObject* item = PyDict_GetItemString(dict, "vsync")) m_vsync = ToBool(item);
-		if (PyObject* item = PyDict_GetItemString(dict, "min_width")) m_minwidth = ToInt(item);
-		if (PyObject* item = PyDict_GetItemString(dict, "max_width")) m_maxwidth = ToInt(item);
-		if (PyObject* item = PyDict_GetItemString(dict, "min_height")) m_minheight = ToInt(item);
-		if (PyObject* item = PyDict_GetItemString(dict, "max_height")) m_maxheight = ToInt(item);
-		if (PyObject* item = PyDict_GetItemString(dict, "always_on_top")) { m_modesDirty = true; m_alwaysOnTop = ToBool(item); }
-		if (PyObject* item = PyDict_GetItemString(dict, "maximized_box")) { m_modesDirty = true; m_maximizeBox = ToBool(item); }
-		if (PyObject* item = PyDict_GetItemString(dict, "minimized_box")) { m_modesDirty = true; m_minimizeBox = ToBool(item); }
-		if (PyObject* item = PyDict_GetItemString(dict, "border")) { m_modesDirty = true; m_border = ToBool(item); }
-		if (PyObject* item = PyDict_GetItemString(dict, "title")) { m_titleDirty = true; m_title = ToString(item); }
-		if (PyObject* item = PyDict_GetItemString(dict, "caption")) { m_modesDirty = true; m_caption = ToBool(item); }
-		if (PyObject* item = PyDict_GetItemString(dict, "overlapped")) { m_modesDirty = true; m_overlapped = ToBool(item); }
+		if (PyObject* item = PyDict_GetItemString(dict, "clear_color")) _clearColor = ToColor(item);
+		if (PyObject* item = PyDict_GetItemString(dict, "small_icon")) _small_icon = ToString(item);
+		if (PyObject* item = PyDict_GetItemString(dict, "large_icon")) _large_icon = ToString(item);
+		if (PyObject* item = PyDict_GetItemString(dict, "x_pos")) { _posDirty = true;  _xpos = ToInt(item);}
+		if (PyObject* item = PyDict_GetItemString(dict, "y_pos")) { _posDirty = true;  _ypos = ToInt(item);}
+		if (PyObject* item = PyDict_GetItemString(dict, "width")) { _sizeDirty = true;  _actualWidth = ToInt(item);}
+		if (PyObject* item = PyDict_GetItemString(dict, "height")) { _sizeDirty = true;  _actualHeight = ToInt(item);}
+		if (PyObject* item = PyDict_GetItemString(dict, "resizable")) _resizable = ToBool(item);
+		if (PyObject* item = PyDict_GetItemString(dict, "vsync")) _vsync = ToBool(item);
+		if (PyObject* item = PyDict_GetItemString(dict, "min_width")) _minwidth = ToInt(item);
+		if (PyObject* item = PyDict_GetItemString(dict, "max_width")) _maxwidth = ToInt(item);
+		if (PyObject* item = PyDict_GetItemString(dict, "min_height")) _minheight = ToInt(item);
+		if (PyObject* item = PyDict_GetItemString(dict, "max_height")) _maxheight = ToInt(item);
+		if (PyObject* item = PyDict_GetItemString(dict, "always_on_top")) { _modesDirty = true; _alwaysOnTop = ToBool(item); }
+		if (PyObject* item = PyDict_GetItemString(dict, "maximized_box")) { _modesDirty = true; _maximizeBox = ToBool(item); }
+		if (PyObject* item = PyDict_GetItemString(dict, "minimized_box")) { _modesDirty = true; _minimizeBox = ToBool(item); }
+		if (PyObject* item = PyDict_GetItemString(dict, "border")) { _modesDirty = true; _border = ToBool(item); }
+		if (PyObject* item = PyDict_GetItemString(dict, "title")) { _titleDirty = true; _title = ToString(item); }
+		if (PyObject* item = PyDict_GetItemString(dict, "caption")) { _modesDirty = true; _caption = ToBool(item); }
+		if (PyObject* item = PyDict_GetItemString(dict, "overlapped")) { _modesDirty = true; _overlapped = ToBool(item); }
 
-		if (m_sizeDirty)
+		if (_sizeDirty)
 		{
 			if (!mvApp::s_manualMutexControl) std::lock_guard<std::mutex> lk(mvApp::s_mutex);
 			mvEventBus::Publish(mvEVT_CATEGORY_VIEWPORT, mvEVT_VIEWPORT_RESIZE, {
-				CreateEventArgument("actual_width", m_actualWidth),
-				CreateEventArgument("actual_height", m_actualHeight),
-				CreateEventArgument("client_width", m_actualWidth),
-				CreateEventArgument("client_height", m_actualHeight)
+				CreateEventArgument("actual_width", _actualWidth),
+				CreateEventArgument("actual_height", _actualHeight),
+				CreateEventArgument("client_width", _actualWidth),
+				CreateEventArgument("client_height", _actualHeight)
 				});
 		}
 
@@ -152,28 +152,28 @@ namespace Marvel {
 		if (dict == nullptr)
 			return;
 
-		PyDict_SetItemString(dict, "clear_color", ToPyColor(m_clearColor));
-		PyDict_SetItemString(dict, "small_icon",  ToPyString(m_small_icon));
-		PyDict_SetItemString(dict, "large_icon", ToPyString(m_large_icon));
-		PyDict_SetItemString(dict, "x_pos", ToPyInt(m_xpos));
-		PyDict_SetItemString(dict, "y_pos", ToPyInt(m_ypos));
-		PyDict_SetItemString(dict, "width", ToPyInt(m_actualWidth));
-		PyDict_SetItemString(dict, "height", ToPyInt(m_actualHeight));
-		PyDict_SetItemString(dict, "client_width", ToPyInt(m_clientWidth));
-		PyDict_SetItemString(dict, "client_height", ToPyInt(m_clientHeight));
-		PyDict_SetItemString(dict, "resizable", ToPyBool(m_resizable));
-		PyDict_SetItemString(dict, "vsync", ToPyBool(m_vsync));
-		PyDict_SetItemString(dict, "min_width",  ToPyInt(m_minwidth ));
-		PyDict_SetItemString(dict, "max_width",  ToPyInt(m_maxwidth ));
-		PyDict_SetItemString(dict, "min_height", ToPyInt(m_minheight));
-		PyDict_SetItemString(dict, "max_height", ToPyInt(m_maxheight));
-		PyDict_SetItemString(dict, "always_on_top", ToPyBool(m_alwaysOnTop));
-		PyDict_SetItemString(dict, "maximized_box", ToPyBool(m_maximizeBox));
-		PyDict_SetItemString(dict, "minimized_box", ToPyBool(m_minimizeBox));
-		PyDict_SetItemString(dict, "border", ToPyBool(m_border));
-		PyDict_SetItemString(dict, "title", ToPyString(m_title));
-		PyDict_SetItemString(dict, "caption", ToPyBool(m_caption));
-		PyDict_SetItemString(dict, "overlapped", ToPyBool(m_overlapped));
+		PyDict_SetItemString(dict, "clear_color", ToPyColor(_clearColor));
+		PyDict_SetItemString(dict, "small_icon",  ToPyString(_small_icon));
+		PyDict_SetItemString(dict, "large_icon", ToPyString(_large_icon));
+		PyDict_SetItemString(dict, "x_pos", ToPyInt(_xpos));
+		PyDict_SetItemString(dict, "y_pos", ToPyInt(_ypos));
+		PyDict_SetItemString(dict, "width", ToPyInt(_actualWidth));
+		PyDict_SetItemString(dict, "height", ToPyInt(_actualHeight));
+		PyDict_SetItemString(dict, "client_width", ToPyInt(_clientWidth));
+		PyDict_SetItemString(dict, "client_height", ToPyInt(_clientHeight));
+		PyDict_SetItemString(dict, "resizable", ToPyBool(_resizable));
+		PyDict_SetItemString(dict, "vsync", ToPyBool(_vsync));
+		PyDict_SetItemString(dict, "min_width",  ToPyInt(_minwidth ));
+		PyDict_SetItemString(dict, "max_width",  ToPyInt(_maxwidth ));
+		PyDict_SetItemString(dict, "min_height", ToPyInt(_minheight));
+		PyDict_SetItemString(dict, "max_height", ToPyInt(_maxheight));
+		PyDict_SetItemString(dict, "always_on_top", ToPyBool(_alwaysOnTop));
+		PyDict_SetItemString(dict, "maximized_box", ToPyBool(_maximizeBox));
+		PyDict_SetItemString(dict, "minimized_box", ToPyBool(_minimizeBox));
+		PyDict_SetItemString(dict, "border", ToPyBool(_border));
+		PyDict_SetItemString(dict, "title", ToPyString(_title));
+		PyDict_SetItemString(dict, "caption", ToPyBool(_caption));
+		PyDict_SetItemString(dict, "overlapped", ToPyBool(_overlapped));
 
 	}
 

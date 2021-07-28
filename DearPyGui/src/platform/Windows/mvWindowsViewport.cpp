@@ -51,11 +51,11 @@ namespace Marvel {
 	{
 		_modes = 0;
 
-		if (m_border) _modes |= WS_THICKFRAME;
-		if (m_caption) _modes |= WS_CAPTION;
-		if (m_minimizeBox) _modes |= WS_MINIMIZEBOX;
-		if (m_maximizeBox) _modes |= WS_MAXIMIZEBOX;
-		if (m_overlapped) _modes |= WS_OVERLAPPED | WS_SYSMENU;
+		if (_border) _modes |= WS_THICKFRAME;
+		if (_caption) _modes |= WS_CAPTION;
+		if (_minimizeBox) _modes |= WS_MINIMIZEBOX;
+		if (_maximizeBox) _modes |= WS_MAXIMIZEBOX;
+		if (_overlapped) _modes |= WS_OVERLAPPED | WS_SYSMENU;
 	}
 
 	void mvWindowsViewport::show(bool minimized, bool maximized)
@@ -68,17 +68,17 @@ namespace Marvel {
 			0L,
 			0L,
 			GetModuleHandle(nullptr), nullptr, nullptr, nullptr, nullptr,
-			_T(m_title.c_str()), nullptr };
+			_T(_title.c_str()), nullptr };
 		RegisterClassEx(&_wc);
 
 		handleModes();
-		_hwnd = CreateWindow(_wc.lpszClassName, _T(m_title.c_str()),
+		_hwnd = CreateWindow(_wc.lpszClassName, _T(_title.c_str()),
 			_modes,
-			m_xpos, m_ypos, m_actualWidth, m_actualHeight, nullptr, nullptr, _wc.hInstance, this);
+			_xpos, _ypos, _actualWidth, _actualHeight, nullptr, nullptr, _wc.hInstance, this);
 
-		if (!m_small_icon.empty())
+		if (!_small_icon.empty())
 		{
-			HANDLE hIcon = LoadImage(0, _T(m_small_icon.c_str()), IMAGE_ICON, 0, 0, LR_DEFAULTSIZE | LR_LOADFROMFILE);
+			HANDLE hIcon = LoadImage(0, _T(_small_icon.c_str()), IMAGE_ICON, 0, 0, LR_DEFAULTSIZE | LR_LOADFROMFILE);
 			if (hIcon) 
 			{
 				SendMessage(_hwnd, WM_SETICON, ICON_SMALL, (LPARAM)hIcon);
@@ -86,9 +86,9 @@ namespace Marvel {
 			}
 		}
 
-		if (!m_large_icon.empty())
+		if (!_large_icon.empty())
 		{
-			HANDLE hIcon = LoadImage(0, _T(m_large_icon.c_str()), IMAGE_ICON, 0, 0, LR_DEFAULTSIZE | LR_LOADFROMFILE);
+			HANDLE hIcon = LoadImage(0, _T(_large_icon.c_str()), IMAGE_ICON, 0, 0, LR_DEFAULTSIZE | LR_LOADFROMFILE);
 			if (hIcon) 
 			{
 				SendMessage(_hwnd, WM_SETICON, ICON_BIG, (LPARAM)hIcon);
@@ -120,7 +120,7 @@ namespace Marvel {
 		::ShowWindow(_hwnd, cmdShow);
 		::UpdateWindow(_hwnd);
 
-		if (m_alwaysOnTop)
+		if (_alwaysOnTop)
 			SetWindowPos(_hwnd, HWND_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
 
 		// Setup Dear ImGui context
@@ -166,32 +166,32 @@ namespace Marvel {
 		MV_PROFILE_SCOPE("Viewport prerender")
 
 		if (_msg.message == WM_QUIT)
-			m_running = false;
+			_running = false;
 
-		if (m_posDirty)
+		if (_posDirty)
 		{
-			SetWindowPos(_hwnd, m_alwaysOnTop ? HWND_TOPMOST : HWND_TOP, m_xpos, m_ypos, 0, 0, SWP_SHOWWINDOW | SWP_NOSIZE);
-			m_posDirty = false;
+			SetWindowPos(_hwnd, _alwaysOnTop ? HWND_TOPMOST : HWND_TOP, _xpos, _ypos, 0, 0, SWP_SHOWWINDOW | SWP_NOSIZE);
+			_posDirty = false;
 		}
 
-		if (m_sizeDirty)
+		if (_sizeDirty)
 		{
-			SetWindowPos(_hwnd, m_alwaysOnTop ? HWND_TOPMOST : HWND_TOP, 0, 0, m_actualWidth, m_actualHeight, SWP_SHOWWINDOW | SWP_NOMOVE);
-			m_sizeDirty = false;
+			SetWindowPos(_hwnd, _alwaysOnTop ? HWND_TOPMOST : HWND_TOP, 0, 0, _actualWidth, _actualHeight, SWP_SHOWWINDOW | SWP_NOMOVE);
+			_sizeDirty = false;
 		}
 
-		if (m_modesDirty)
+		if (_modesDirty)
 		{
 			handleModes();
 			SetWindowLongPtr(_hwnd, GWL_STYLE, _modes);
-			SetWindowPos(_hwnd, m_alwaysOnTop ? HWND_TOPMOST : HWND_TOP, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_SHOWWINDOW);
-			m_modesDirty = false;
+			SetWindowPos(_hwnd, _alwaysOnTop ? HWND_TOPMOST : HWND_TOP, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_SHOWWINDOW);
+			_modesDirty = false;
 		}
 
-		if (m_titleDirty)
+		if (_titleDirty)
 		{
-			SetWindowTextA(_hwnd, m_title.c_str());
-			m_titleDirty = false;
+			SetWindowTextA(_hwnd, _title.c_str());
+			_titleDirty = false;
 		}
 
 		// Poll and handle messages (inputs, window resize, etc.)
@@ -223,7 +223,7 @@ namespace Marvel {
 	void mvWindowsViewport::renderFrame()
 	{
 		prerender();
-		m_app->render();
+		_app->render();
 		postrender();
 	}
 
@@ -235,11 +235,11 @@ namespace Marvel {
 		// Rendering
 		ImGui::Render();
 		s_pd3dDeviceContext->OMSetRenderTargets(1, &s_mainRenderTargetView, nullptr);
-		s_pd3dDeviceContext->ClearRenderTargetView(s_mainRenderTargetView, m_clearColor);
+		s_pd3dDeviceContext->ClearRenderTargetView(s_mainRenderTargetView, _clearColor);
 		ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
 
 		static UINT presentFlags = 0;
-		if (s_pSwapChain->Present(m_vsync ? 1 : 0, presentFlags) == DXGI_STATUS_OCCLUDED) 
+		if (s_pSwapChain->Present(_vsync ? 1 : 0, presentFlags) == DXGI_STATUS_OCCLUDED) 
 		{
 			presentFlags = DXGI_PRESENT_TEST;
 			Sleep(20);
@@ -363,16 +363,16 @@ namespace Marvel {
 		case WM_GETMINMAXINFO:
 		{
 			LPMINMAXINFO lpMMI = (LPMINMAXINFO)lParam;
-			lpMMI->ptMinTrackSize.x = m_minwidth;
-			lpMMI->ptMinTrackSize.y = m_minheight;
-			lpMMI->ptMaxTrackSize.x = m_maxwidth;
-			lpMMI->ptMaxTrackSize.y = m_maxheight;
+			lpMMI->ptMinTrackSize.x = _minwidth;
+			lpMMI->ptMinTrackSize.y = _minheight;
+			lpMMI->ptMaxTrackSize.x = _maxwidth;
+			lpMMI->ptMaxTrackSize.y = _maxheight;
 			break;
 		}
 
 		case WM_MOVE:
-			m_xpos = (int)(short)LOWORD(lParam);   // horizontal position 
-			m_ypos = (int)(short)HIWORD(lParam);   // vertical position 
+			_xpos = (int)(short)LOWORD(lParam);   // horizontal position 
+			_ypos = (int)(short)HIWORD(lParam);   // vertical position 
 			break;
 
 		case WM_SIZE:
@@ -396,19 +396,19 @@ namespace Marvel {
 					cheight = crect.bottom - crect.top;
 				}
 
-				m_actualWidth = awidth;
-				m_actualHeight = aheight;
-				m_clientWidth = cwidth;
-				m_clientHeight = cheight;
+				_actualWidth = awidth;
+				_actualHeight = aheight;
+				_clientWidth = cwidth;
+				_clientHeight = cheight;
 
 				onResizeEvent();
 
 				// I believe this are only used for the error logger
-				m_width = (UINT)LOWORD(lParam);
-				m_height = (UINT)HIWORD(lParam);
+				_width = (UINT)LOWORD(lParam);
+				_height = (UINT)HIWORD(lParam);
 
 				CleanupRenderTarget();
-				if(m_border && m_caption)
+				if(_border && _caption)
 					s_pSwapChain->ResizeBuffers(0, (UINT)LOWORD(lParam), (UINT)HIWORD(lParam), DXGI_FORMAT_UNKNOWN, 0);
 				else
 					s_pSwapChain->ResizeBuffers(0, (UINT)awidth, (UINT)aheight, DXGI_FORMAT_UNKNOWN, 0);

@@ -2031,7 +2031,7 @@ def window(*, label: str =None, id: int =0, width: int =0, height: int =0, inden
 # Core Wrappings
 ##########################################################
 
-def add_2d_histogram_series(x : List[float], y : List[float], *, label: str =None, id: int =0, parent: int =0, before: int =0, source: int =0, show: bool =True, user_data: Any =None, xbins: int =-1, ybins: int =-1, xmin_range: float =0.0, xmax_range: float =1.0, ymin_range: float =0.0, ymax_range: float =1.0, density: bool =False, outliers: bool =True) -> int:
+def add_2d_histogra_series(x : List[float], y : List[float], *, label: str =None, id: int =0, parent: int =0, before: int =0, source: int =0, show: bool =True, user_data: Any =None, xbins: int =-1, ybins: int =-1, xmin_range: float =0.0, xmax_range: float =1.0, ymin_range: float =0.0, ymax_range: float =1.0, density: bool =False, outliers: bool =True) -> int:
 	"""
 	Undocumented function
 	Args:
@@ -2056,7 +2056,7 @@ def add_2d_histogram_series(x : List[float], y : List[float], *, label: str =Non
 		int
 	"""
 
-	return internal_dpg.add_2d_histogram_series(x, y, label=label, id=id, parent=parent, before=before, source=source, show=show, user_data=user_data, xbins=xbins, ybins=ybins, xmin_range=xmin_range, xmax_range=xmax_range, ymin_range=ymin_range, ymax_range=ymax_range, density=density, outliers=outliers)
+	return internal_dpg.add_2d_histogra_series(x, y, label=label, id=id, parent=parent, before=before, source=source, show=show, user_data=user_data, xbins=xbins, ybins=ybins, xmin_range=xmin_range, xmax_range=xmax_range, ymin_range=ymin_range, ymax_range=ymax_range, density=density, outliers=outliers)
 
 def add_3d_slider(*, label: str =None, id: int =0, width: int =0, height: int =0, indent: int =-1, parent: int =0, before: int =0, source: int =0, payload_type: str ='$$DPG_PAYLOAD', callback: Callable =None, drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, pos: List[int] =[], filter_key: str ='', tracked: bool =False, track_offset: float =0.5, user_data: Any =None, default_value: List[float] =(0.0, 0.0, 0.0, 0.0), max_x: float =100.0, max_y: float =100.0, max_z: float =100.0, min_x: float =0.0, min_y: float =0.0, min_z: float =0.0, scale: float =1.0) -> int:
 	"""
@@ -3255,7 +3255,7 @@ def add_heat_series(x : List[float], rows : int, cols : int, *, label: str =None
 
 	return internal_dpg.add_heat_series(x, rows, cols, label=label, id=id, parent=parent, before=before, source=source, show=show, user_data=user_data, scale_min=scale_min, scale_max=scale_max, bounds_min=bounds_min, bounds_max=bounds_max, format=format, contribute_to_bounds=contribute_to_bounds)
 
-def add_histogram_series(x : List[float], *, label: str =None, id: int =0, parent: int =0, before: int =0, source: int =0, show: bool =True, user_data: Any =None, bins: int =-1, bar_scale: float =1.0, min_range: float =0.0, max_range: float =1.0, cumlative: bool =False, density: bool =False, outliers: bool =True, contribute_to_bounds: bool =True) -> int:
+def add_histogra_series(x : List[float], *, label: str =None, id: int =0, parent: int =0, before: int =0, source: int =0, show: bool =True, user_data: Any =None, bins: int =-1, bar_scale: float =1.0, min_range: float =0.0, max_range: float =1.0, cumlative: bool =False, density: bool =False, outliers: bool =True, contribute_to_bounds: bool =True) -> int:
 	"""
 	Adds a histogram series to a plot.
 	Args:
@@ -3279,7 +3279,7 @@ def add_histogram_series(x : List[float], *, label: str =None, id: int =0, paren
 		int
 	"""
 
-	return internal_dpg.add_histogram_series(x, label=label, id=id, parent=parent, before=before, source=source, show=show, user_data=user_data, bins=bins, bar_scale=bar_scale, min_range=min_range, max_range=max_range, cumlative=cumlative, density=density, outliers=outliers, contribute_to_bounds=contribute_to_bounds)
+	return internal_dpg.add_histogra_series(x, label=label, id=id, parent=parent, before=before, source=source, show=show, user_data=user_data, bins=bins, bar_scale=bar_scale, min_range=min_range, max_range=max_range, cumlative=cumlative, density=density, outliers=outliers, contribute_to_bounds=contribute_to_bounds)
 
 def add_hline_series(x : List[float], *, label: str =None, id: int =0, parent: int =0, before: int =0, source: int =0, show: bool =True, user_data: Any =None, contribute_to_bounds: bool =True) -> int:
 	"""
