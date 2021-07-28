@@ -26,10 +26,10 @@ namespace Marvel {
 
     private:
 
-        GLFWwindow *m_window;
-        CAMetalLayer *m_layer;
-        MTLRenderPassDescriptor *m_renderPassDescriptor;
-        id <MTLCommandQueue> m_commandQueue;
+        GLFWwindow *_window;
+        CAMetalLayer *_layer;
+        MTLRenderPassDescriptor *_renderPassDescriptor;
+        id <MTLCommandQueue> _commandQueue;
         static id <MTLDevice> device;
 
     };

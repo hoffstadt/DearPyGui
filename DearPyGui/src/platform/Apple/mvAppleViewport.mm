@@ -57,7 +57,7 @@ namespace Marvel {
         ImPlot::DestroyContext();
         ImGui::DestroyContext();
 
-        glfwDestroyWindow(m_window);
+        glfwDestroyWindow(_window);
         glfwTerminate();
 
     }
@@ -70,15 +70,15 @@ namespace Marvel {
         glfwInitHint(GLFW_COCOA_CHDIR_RESOURCES, GLFW_FALSE);
         glfwInit();
 
-        if (!m_resizable)
+        if (!_resizable)
             glfwWindowHint(GLFW_RESIZABLE, GLFW_FALSE);
-        if(m_alwaysOnTop)
+        if(_alwaysOnTop)
             glfwWindowHint(GLFW_FLOATING, GLFW_TRUE);
         if(maximized)
             glfwWindowHint(GLFW_MAXIMIZED, GLFW_TRUE);
         else if(minimized)
             glfwWindowHint(GLFW_AUTO_ICONIFY, GLFW_TRUE);
-        if(!m_caption)
+        if(!_caption)
             glfwWindowHint(GLFW_DECORATED, GLFW_FALSE);
         glfwWindowHint(GLFW_COCOA_GRAPHICS_SWITCHING, GLFW_FALSE);
 
@@ -86,20 +86,20 @@ namespace Marvel {
         // Create window with graphics context
         glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
         glfwWindowHint(GLFW_COCOA_RETINA_FRAMEBUFFER, GLFW_FALSE);
-        m_window = glfwCreateWindow((int)m_actualWidth, (int)m_actualHeight, m_title.c_str(), nullptr, nullptr);
-        glfwSetWindowPos(m_window, m_xpos, m_ypos);
-        glfwSetWindowSizeLimits(m_window, (int)m_minwidth, (int)m_minheight, (int)m_maxwidth, (int)m_maxheight);
+        _window = glfwCreateWindow((int)_actualWidth, (int)_actualHeight, _title.c_str(), nullptr, nullptr);
+        glfwSetWindowPos(_window, _xpos, _ypos);
+        glfwSetWindowSizeLimits(_window, (int)_minwidth, (int)_minheight, (int)_maxwidth, (int)_maxheight);
 
 
         mvEventBus::Publish(mvEVT_CATEGORY_VIEWPORT, mvEVT_VIEWPORT_RESIZE, {
-            CreateEventArgument("actual_width", (int)m_actualWidth),
-            CreateEventArgument("actual_height", (int)m_actualHeight),
-            CreateEventArgument("client_width", (int)m_actualWidth),
-            CreateEventArgument("client_height", (int)m_actualHeight)
+            CreateEventArgument("actual_width", (int)_actualWidth),
+            CreateEventArgument("actual_height", (int)_actualHeight),
+            CreateEventArgument("client_width", (int)_actualWidth),
+            CreateEventArgument("client_height", (int)_actualHeight)
                     });
 
         device = MTLCreateSystemDefaultDevice();;
-        m_commandQueue = [device newCommandQueue];
+        _commandQueue = [device newCommandQueue];
 
         // Setup Dear ImGui binding
         IMGUI_CHECKVERSION();
@@ -109,95 +109,95 @@ namespace Marvel {
         ImGuiIO &io = ImGui::GetIO();
         io.ConfigWindowsMoveFromTitleBarOnly = true;
 
-		if (mvApp::GetApp()->m_loadIniFile)
+		if (mvApp::GetApp()->_loadIniFile)
 		{
-			ImGui::LoadIniSettingsFromDisk(mvApp::GetApp()->m_iniFile.c_str());
+			ImGui::LoadIniSettingsFromDisk(mvApp::GetApp()->_iniFile.c_str());
 			io.IniFilename = nullptr;
 		}
 		else
 		{
-			if (mvApp::GetApp()->m_iniFile.empty())
+			if (mvApp::GetApp()->_iniFile.empty())
 				io.IniFilename = nullptr;
 			else
-				io.IniFilename = mvApp::GetApp()->m_iniFile.c_str();
+				io.IniFilename = mvApp::GetApp()->_iniFile.c_str();
 		}
 
         (void) io;
         //io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;  // Enable Keyboard Controls
         //io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;   // Enable Gamepad Controls
 
-        if(mvApp::GetApp()->m_docking)
+        if(mvApp::GetApp()->_docking)
             io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
 
         // Setup style
         ImGui::StyleColorsDark();
         mvApp::SetDefaultTheme();
 
-        ImGui_ImplGlfw_InitForOpenGL(m_window, true);
+        ImGui_ImplGlfw_InitForOpenGL(_window, true);
         ImGui_ImplMetal_Init(device);
 
-        NSWindow *nswin = glfwGetCocoaWindow(m_window);
-        m_layer = [CAMetalLayer layer];
-        m_layer.device = device;
-        m_layer.pixelFormat = MTLPixelFormatBGRA8Unorm;
-        nswin.contentView.layer = m_layer;
+        NSWindow *nswin = glfwGetCocoaWindow(_window);
+        _layer = [CAMetalLayer layer];
+        _layer.device = device;
+        _layer.pixelFormat = MTLPixelFormatBGRA8Unorm;
+        nswin.contentView.layer = _layer;
         nswin.contentView.wantsLayer = YES;
 
-        m_renderPassDescriptor = [MTLRenderPassDescriptor new];
+        _renderPassDescriptor = [MTLRenderPassDescriptor new];
 
         // Setup callbacks
-        glfwSetWindowSizeCallback(m_window, window_size_callback);
+        glfwSetWindowSizeCallback(_window, window_size_callback);
         //glfwSetFramebufferSizeCallback(m_window, window_size_callback);
-        glfwSetWindowCloseCallback(m_window, window_close_callback);
+        glfwSetWindowCloseCallback(_window, window_close_callback);
     }
 
     void mvAppleViewport::maximize()
 	{
-        glfwMaximizeWindow(m_window);
+        glfwMaximizeWindow(_window);
 	}
 
 	void mvAppleViewport::minimize()
 	{
-        glfwIconifyWindow(m_window);
+        glfwIconifyWindow(_window);
 	}
 
     void mvAppleViewport::restore()
     {
-        glfwRestoreWindow(m_window);
+        glfwRestoreWindow(_window);
     }
 
     void mvAppleViewport::renderFrame()
     {
-        m_running = !glfwWindowShouldClose(m_window);
+        _running = !glfwWindowShouldClose(_window);
 
-        if(m_posDirty)
+        if(_posDirty)
         {
-            glfwSetWindowPos(m_window, m_xpos, m_ypos);
-            m_posDirty = false;
+            glfwSetWindowPos(_window, _xpos, _ypos);
+            _posDirty = false;
         }
 
-        if(m_sizeDirty)
+        if(_sizeDirty)
         {
-            glfwSetWindowSizeLimits(m_window, (int)m_minwidth, (int)m_minheight, (int)m_maxwidth, (int)m_maxheight);
-            glfwSetWindowSize(m_window, m_actualWidth, m_actualHeight);
-            m_sizeDirty = false;
+            glfwSetWindowSizeLimits(_window, (int)_minwidth, (int)_minheight, (int)_maxwidth, (int)_maxheight);
+            glfwSetWindowSize(_window, _actualWidth, _actualHeight);
+            _sizeDirty = false;
         }
 
-        if(m_modesDirty)
+        if(_modesDirty)
         {
-            glfwSetWindowAttrib(m_window, GLFW_RESIZABLE, m_resizable ? GLFW_TRUE : GLFW_FALSE);
-            glfwSetWindowAttrib(m_window, GLFW_DECORATED, m_caption ? GLFW_TRUE : GLFW_FALSE);
-            glfwSetWindowAttrib(m_window, GLFW_FLOATING, m_alwaysOnTop ? GLFW_TRUE : GLFW_FALSE);
-            m_modesDirty = false;
+            glfwSetWindowAttrib(_window, GLFW_RESIZABLE, _resizable ? GLFW_TRUE : GLFW_FALSE);
+            glfwSetWindowAttrib(_window, GLFW_DECORATED, _caption ? GLFW_TRUE : GLFW_FALSE);
+            glfwSetWindowAttrib(_window, GLFW_FLOATING, _alwaysOnTop ? GLFW_TRUE : GLFW_FALSE);
+            _modesDirty = false;
         }
 
-        if (m_titleDirty)
+        if (_titleDirty)
         {
-            glfwSetWindowTitle(m_window, m_title.c_str());
-            m_titleDirty = false;
+            glfwSetWindowTitle(_window, _title.c_str());
+            _titleDirty = false;
         }
 
-        if(glfwGetWindowAttrib(m_window, GLFW_ICONIFIED))
+        if(glfwGetWindowAttrib(_window, GLFW_ICONIFIED))
         {
             glfwWaitEvents();
             return;
@@ -219,47 +219,47 @@ namespace Marvel {
                 ImGui_ImplMetal_CreateFontsTexture(device);
             }
 
-            NSWindow *nswin = glfwGetCocoaWindow(m_window);
+            NSWindow *nswin = glfwGetCocoaWindow(_window);
             if(nswin.isVisible && (nswin.occlusionState & NSWindowOcclusionStateVisible) == 0)
                 usleep(32000u);
 
-            m_layer.displaySyncEnabled = m_vsync;
+            _layer.displaySyncEnabled = _vsync;
 
             int width;
             int height;
-            glfwGetFramebufferSize(m_window, &width, &height);
-            m_layer.drawableSize = CGSizeMake(width, height);
-            id <CAMetalDrawable> drawable = [m_layer nextDrawable];
+            glfwGetFramebufferSize(_window, &width, &height);
+            _layer.drawableSize = CGSizeMake(width, height);
+            id <CAMetalDrawable> drawable = [_layer nextDrawable];
 
-            m_width = (unsigned)width;
-            m_height = (unsigned)height;
+            _width = (unsigned)width;
+            _height = (unsigned)height;
 
-            id <MTLCommandBuffer> commandBuffer = [m_commandQueue commandBuffer];
-            m_renderPassDescriptor.colorAttachments[0].clearColor = MTLClearColorMake(m_clearColor.r,
-                                                                                      m_clearColor.g,
-                                                                                      m_clearColor.b,
-                                                                                      m_clearColor.a);
-            m_renderPassDescriptor.colorAttachments[0].texture = drawable.texture;
-            m_renderPassDescriptor.colorAttachments[0].loadAction = MTLLoadActionClear;
-            m_renderPassDescriptor.colorAttachments[0].storeAction = MTLStoreActionStore;
-            id <MTLRenderCommandEncoder> m_renderEncoder = [commandBuffer renderCommandEncoderWithDescriptor:m_renderPassDescriptor];
-            [m_renderEncoder pushDebugGroup:@"ImGui demo"];
+            id <MTLCommandBuffer> commandBuffer = [_commandQueue commandBuffer];
+            _renderPassDescriptor.colorAttachments[0].clearColor = MTLClearColorMake(_clearColor.r,
+                                                                                      _clearColor.g,
+                                                                                      _clearColor.b,
+                                                                                      _clearColor.a);
+            _renderPassDescriptor.colorAttachments[0].texture = drawable.texture;
+            _renderPassDescriptor.colorAttachments[0].loadAction = MTLLoadActionClear;
+            _renderPassDescriptor.colorAttachments[0].storeAction = MTLStoreActionStore;
+            id <MTLRenderCommandEncoder> _renderEncoder = [commandBuffer renderCommandEncoderWithDescriptor:_renderPassDescriptor];
+            [_renderEncoder pushDebugGroup:@"ImGui demo"];
 
             // Start the Dear ImGui frame
-            ImGui_ImplMetal_NewFrame(m_renderPassDescriptor);
+            ImGui_ImplMetal_NewFrame(_renderPassDescriptor);
             ImGui_ImplGlfw_NewFrame();
             ImGui::NewFrame();
 
-            m_app->render();
+            _app->render();
 
-            glfwGetWindowPos(m_window, &m_xpos, &m_ypos);
+            glfwGetWindowPos(_window, &_xpos, &_ypos);
 
             // Rendering
             ImGui::Render();
-            ImGui_ImplMetal_RenderDrawData(ImGui::GetDrawData(), commandBuffer, m_renderEncoder);
+            ImGui_ImplMetal_RenderDrawData(ImGui::GetDrawData(), commandBuffer, _renderEncoder);
 
-            [m_renderEncoder popDebugGroup];
-            [m_renderEncoder endEncoding];
+            [_renderEncoder popDebugGroup];
+            [_renderEncoder endEncoding];
 
             [commandBuffer presentDrawable:drawable];
             [commandBuffer commit];

@@ -50,15 +50,15 @@ namespace Marvel {
         glfwSetErrorCallback(glfw_error_callback);
         glfwInit();
 
-        if (!m_resizable)
+        if (!_resizable)
             glfwWindowHint(GLFW_RESIZABLE, GLFW_FALSE);
-        if(m_alwaysOnTop)
+        if(_alwaysOnTop)
             glfwWindowHint(GLFW_FLOATING, GLFW_TRUE);
         if(maximized)
             glfwWindowHint(GLFW_MAXIMIZED, GLFW_TRUE);
         else if(minimized)
             glfwWindowHint(GLFW_AUTO_ICONIFY, GLFW_TRUE);
-        if(!m_caption)
+        if(!_caption)
             glfwWindowHint(GLFW_DECORATED, GLFW_FALSE);
 
         // Create window with graphics context
@@ -66,9 +66,9 @@ namespace Marvel {
         const char* glsl_version = "#version 130";
         glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
         glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 0);
-        m_window = glfwCreateWindow(m_actualWidth, m_actualHeight, m_title.c_str(), nullptr, nullptr);
-        glfwSetWindowPos(m_window, m_xpos, m_ypos);
-        glfwSetWindowSizeLimits(m_window, (int)m_minwidth, (int)m_minheight, (int)m_maxwidth, (int)m_maxheight);
+        _window = glfwCreateWindow(m_actualWidth, m_actualHeight, m_title.c_str(), nullptr, nullptr);
+        glfwSetWindowPos(_window, m_xpos, m_ypos);
+        glfwSetWindowSizeLimits(_window, (int)m_minwidth, (int)m_minheight, (int)m_maxwidth, (int)m_maxheight);
 
         std::vector<GLFWimage> images;
 
@@ -93,7 +93,7 @@ namespace Marvel {
         }
 
         if(!images.empty())
-            glfwSetWindowIcon(m_window, images.size(), images.data());
+            glfwSetWindowIcon(_window, images.size(), images.data());
 
         mvEventBus::Publish(mvEVT_CATEGORY_VIEWPORT, mvEVT_VIEWPORT_RESIZE, {
                 CreateEventArgument("actual_width", (int)m_actualWidth),
@@ -102,7 +102,7 @@ namespace Marvel {
                 CreateEventArgument("client_height", (int)m_actualHeight)
         });
 
-        glfwMakeContextCurrent(m_window);
+        glfwMakeContextCurrent(_window);
 
         gl3wInit();
 
@@ -114,20 +114,20 @@ namespace Marvel {
         ImGuiIO& io = ImGui::GetIO(); (void)io;
         io.ConfigWindowsMoveFromTitleBarOnly = true;
 
-        if (mvApp::GetApp()->m_loadIniFile)
+        if (mvApp::GetApp()->_loadIniFile)
         {
-            ImGui::LoadIniSettingsFromDisk(mvApp::GetApp()->m_iniFile.c_str());
+            ImGui::LoadIniSettingsFromDisk(mvApp::GetApp()->_iniFile.c_str());
             io.IniFilename = nullptr;
         }
         else
         {
-            if (mvApp::GetApp()->m_iniFile.empty())
+            if (mvApp::GetApp()->_iniFile.empty())
                 io.IniFilename = nullptr;
             else
-                io.IniFilename = mvApp::GetApp()->m_iniFile.c_str();
+                io.IniFilename = mvApp::GetApp()->_iniFile.c_str();
         }
 
-        if (mvApp::GetApp()->m_docking)
+        if (mvApp::GetApp()->_docking)
             io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
 
         // Setup style
@@ -135,12 +135,12 @@ namespace Marvel {
         mvApp::SetDefaultTheme();
 
         // Setup Platform/Renderer bindings
-        ImGui_ImplGlfw_InitForOpenGL(m_window, true);
+        ImGui_ImplGlfw_InitForOpenGL(_window, true);
         ImGui_ImplOpenGL3_Init(glsl_version);
 
         // Setup callbacks
-        glfwSetWindowSizeCallback(m_window, window_size_callback);
-        glfwSetWindowCloseCallback(m_window, window_close_callback);
+        glfwSetWindowSizeCallback(_window, window_size_callback);
+        glfwSetWindowCloseCallback(_window, window_close_callback);
     }
 
     mvLinuxViewport::~mvLinuxViewport()
@@ -151,24 +151,24 @@ namespace Marvel {
         imnodes::DestroyContext();
         ImGui::DestroyContext();
 
-        glfwDestroyWindow(m_window);
+        glfwDestroyWindow(_window);
         glfwTerminate();
         mvApp::s_started = false;
 	}
 
 	void mvLinuxViewport::maximize()
 	{
-        glfwMaximizeWindow(m_window);
+        glfwMaximizeWindow(_window);
 	}
 
 	void mvLinuxViewport::minimize()
 	{
-        glfwIconifyWindow(m_window);
+        glfwIconifyWindow(_window);
 	}
 
     void mvLinuxViewport::restore()
     {
-        glfwRestoreWindow(m_window);
+        glfwRestoreWindow(_window);
     }
 
     void mvLinuxViewport::renderFrame()
@@ -195,36 +195,36 @@ namespace Marvel {
 
     void mvLinuxViewport::prerender()
     {
-        m_running = !glfwWindowShouldClose(m_window);
+        m_running = !glfwWindowShouldClose(_window);
 
         if(m_posDirty)
         {
-            glfwSetWindowPos(m_window, m_xpos, m_ypos);
+            glfwSetWindowPos(_window, m_xpos, m_ypos);
             m_posDirty = false;
         }
 
         if(m_sizeDirty)
         {
-            glfwSetWindowSizeLimits(m_window, (int)m_minwidth, (int)m_minheight, (int)m_maxwidth, (int)m_maxheight);
-            glfwSetWindowSize(m_window, m_actualWidth, m_actualHeight);
+            glfwSetWindowSizeLimits(_window, (int)m_minwidth, (int)m_minheight, (int)m_maxwidth, (int)m_maxheight);
+            glfwSetWindowSize(_window, m_actualWidth, m_actualHeight);
             m_sizeDirty = false;
         }
 
         if(m_modesDirty)
         {
-            glfwSetWindowAttrib(m_window, GLFW_RESIZABLE, m_resizable ? GLFW_TRUE : GLFW_FALSE);
-            glfwSetWindowAttrib(m_window, GLFW_DECORATED, m_caption ? GLFW_TRUE : GLFW_FALSE);
-            glfwSetWindowAttrib(m_window, GLFW_FLOATING, m_alwaysOnTop ? GLFW_TRUE : GLFW_FALSE);
+            glfwSetWindowAttrib(_window, GLFW_RESIZABLE, m_resizable ? GLFW_TRUE : GLFW_FALSE);
+            glfwSetWindowAttrib(_window, GLFW_DECORATED, m_caption ? GLFW_TRUE : GLFW_FALSE);
+            glfwSetWindowAttrib(_window, GLFW_FLOATING, m_alwaysOnTop ? GLFW_TRUE : GLFW_FALSE);
             m_modesDirty = false;
         }
 
         if (m_titleDirty)
         {
-            glfwSetWindowTitle(m_window, m_title.c_str());
+            glfwSetWindowTitle(_window, m_title.c_str());
             m_titleDirty = false;
         }
 
-        if(glfwGetWindowAttrib(m_window, GLFW_ICONIFIED))
+        if(glfwGetWindowAttrib(_window, GLFW_ICONIFIED))
         {
             glfwWaitEvents();
             return;
@@ -253,21 +253,21 @@ namespace Marvel {
 
     void mvLinuxViewport::postrender()
     {
-        glfwGetWindowPos(m_window, &m_xpos, &m_ypos);
+        glfwGetWindowPos(_window, &m_xpos, &m_ypos);
 
         glfwSwapInterval(m_vsync ? 1 : 0); // Enable vsync
 
         // Rendering
         ImGui::Render();
         int display_w, display_h;
-        glfwGetFramebufferSize(m_window, &display_w, &display_h);
+        glfwGetFramebufferSize(_window, &display_w, &display_h);
 
         glViewport(0, 0, display_w, display_h);
         glClearColor(m_clearColor.r, m_clearColor.g, m_clearColor.b, m_clearColor.a);
         glClear(GL_COLOR_BUFFER_BIT);
         ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 
-        glfwSwapBuffers(m_window);
+        glfwSwapBuffers(_window);
     }
 
 }

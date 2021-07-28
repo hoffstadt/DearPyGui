@@ -52,10 +52,10 @@ namespace Marvel {
 
 	private:
 
-		HWND m_hwnd;
-		WNDCLASSEX m_wc;
-		MSG m_msg;
-		DWORD m_modes;
+		HWND _hwnd;
+		WNDCLASSEX _wc;
+		MSG _msg;
+		DWORD _modes;
 
 	private:
 
