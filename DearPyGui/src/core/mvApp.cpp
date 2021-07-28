@@ -23,6 +23,7 @@
 #include <thread>
 #include <stb_image.h>
 #include "mvBuffer.h"
+#include "mvAppItemCommons.h"
 
 namespace Marvel {
 
@@ -176,6 +177,12 @@ namespace Marvel {
 	mvApp::~mvApp()
 	{
 		m_itemRegistry->clearRegistry();
+
+		constexpr_for<1, (int)mvAppItemType::ItemTypeCount, 1>(
+			[&](auto i) {
+				using item_type = typename mvItemTypeMap<i>::type;
+				item_type::s_class_theme = nullptr;
+			});
 
 		mvLog::Cleanup();
 	
