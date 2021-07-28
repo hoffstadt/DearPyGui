@@ -96,15 +96,15 @@ namespace Marvel {
 	mvPlot::mvPlot(mvUUID uuid)
 		: mvAppItem(uuid)
 	{
-		m_label = "Plot###" + std::to_string(m_uuid);
-		m_width = -1;
-		m_height = -1;
+		_label = "Plot###" + std::to_string(_uuid);
+		_width = -1;
+		_height = -1;
 	}
 
 	void mvPlot::onChildAdd(mvRef<mvAppItem> item)
 	{
 		if (item->getType() == mvAppItemType::mvPlotLegend)
-			m_flags &= ~ImPlotFlags_NoLegend;
+			_flags &= ~ImPlotFlags_NoLegend;
 
 		if (item->getType() == mvAppItemType::mvPlotAxis)
 		{
@@ -117,7 +117,7 @@ namespace Marvel {
 	{
 
 		if (item->getType() == mvAppItemType::mvPlotLegend)
-			m_flags |= ImPlotFlags_NoLegend;
+			_flags |= ImPlotFlags_NoLegend;
 
 		if (item->getType() == mvAppItemType::mvPlotAxis)
 			updateFlags();
@@ -125,21 +125,21 @@ namespace Marvel {
 
 	void mvPlot::updateFlags()
 	{
-		for (size_t i = 0; i < m_children[1].size(); i++)
+		for (size_t i = 0; i < _children[1].size(); i++)
 		{
-			auto child = static_cast<mvPlotAxis*>(m_children[1][i].get());
+			auto child = static_cast<mvPlotAxis*>(_children[1][i].get());
 			switch (i)
 			{
 			case(0):
-				m_xflags = child->getFlags();
+				_xflags = child->getFlags();
 				break;
 
 			case(1):
-				m_yflags = child->getFlags();
+				_yflags = child->getFlags();
 				break;
 
 			case(2):
-				m_y1flags = child->getFlags();
+				_y1flags = child->getFlags();
 				if (child->isShown())
 					addFlag(ImPlotFlags_YAxis2);
 				else
@@ -147,7 +147,7 @@ namespace Marvel {
 				break;
 
 			case(3):
-				m_y2flags = child->getFlags();
+				_y2flags = child->getFlags();
 				if (child->isShown())
 					addFlag(ImPlotFlags_YAxis3);
 				else
@@ -155,7 +155,7 @@ namespace Marvel {
 				break;
 
 			default:
-				m_yflags = child->getFlags();
+				_yflags = child->getFlags();
 				break;
 			}
 		}
@@ -164,34 +164,34 @@ namespace Marvel {
 
 	void mvPlot::updateAxesNames()
 	{
-		m_xaxisName = "";
-		m_y1axisName = "";
-		m_y2axisName = "";
-		m_y3axisName = "";
+		_xaxisName = "";
+		_y1axisName = "";
+		_y2axisName = "";
+		_y3axisName = "";
 
-		for (size_t i = 0; i < m_children[1].size(); i++)
+		for (size_t i = 0; i < _children[1].size(); i++)
 		{
-			auto axis = m_children[1][i].get();
+			auto axis = _children[1][i].get();
 			switch (i)
 			{
 			case(0):
-				m_xaxisName = axis->getSpecifiedLabel();
+				_xaxisName = axis->getSpecifiedLabel();
 				break;
 
 			case(1):
-				m_y1axisName = axis->getSpecifiedLabel();
+				_y1axisName = axis->getSpecifiedLabel();
 				break;
 
 			case(2):
-				m_y2axisName = axis->getSpecifiedLabel();
+				_y2axisName = axis->getSpecifiedLabel();
 				break;
 
 			case(3):
-				m_y3axisName = axis->getSpecifiedLabel();
+				_y3axisName = axis->getSpecifiedLabel();
 				break;
 
 			default:
-				m_y1axisName = axis->getSpecifiedLabel();
+				_y1axisName = axis->getSpecifiedLabel();
 				break;
 			}
 		}
@@ -246,33 +246,33 @@ namespace Marvel {
 	void mvPlot::SetColorMap(ImPlotColormap colormap)
 	{
 		if (colormap < ImPlot::GetColormapCount())
-		m_dirty = true;			{
-			m_colormap = colormap;
-			m_dirty = true;
+		_dirty = true;			{
+			_colormap = colormap;
+			_dirty = true;
 		}
 	}
 
 	void mvPlot::draw(ImDrawList* drawlist, float x, float y)
 	{
 
-		//ImGui::PushID(m_colormap);
+		//ImGui::PushID(_colormap);
 
 		// custom input mapping
-		ImPlot::GetInputMap().PanButton = m_pan_button;
-		ImPlot::GetInputMap().FitButton = m_fit_button;
-		ImPlot::GetInputMap().ContextMenuButton = m_context_menu_button;
-		ImPlot::GetInputMap().BoxSelectButton = m_box_select_button;
-		ImPlot::GetInputMap().BoxSelectCancelButton = m_box_select_cancel_button;
-		ImPlot::GetInputMap().QueryButton = m_query_button;
-		ImPlot::GetInputMap().QueryToggleMod = m_query_toggle_mod;
-		ImPlot::GetInputMap().HorizontalMod = m_horizontal_mod;
-		ImPlot::GetInputMap().VerticalMod = m_vertical_mod;
-		if(m_pan_mod != -1) ImPlot::GetInputMap().PanMod = m_pan_mod;
-		if (m_box_select_mod != -1) ImPlot::GetInputMap().BoxSelectMod = m_box_select_mod;
-		if (m_query_mod != -1) ImPlot::GetInputMap().QueryMod = m_query_mod;
+		ImPlot::GetInputMap().PanButton = _pan_button;
+		ImPlot::GetInputMap().FitButton = _fit_button;
+		ImPlot::GetInputMap().ContextMenuButton = _context_menu_button;
+		ImPlot::GetInputMap().BoxSelectButton = _box_select_button;
+		ImPlot::GetInputMap().BoxSelectCancelButton = _box_select_cancel_button;
+		ImPlot::GetInputMap().QueryButton = _query_button;
+		ImPlot::GetInputMap().QueryToggleMod = _query_toggle_mod;
+		ImPlot::GetInputMap().HorizontalMod = _horizontal_mod;
+		ImPlot::GetInputMap().VerticalMod = _vertical_mod;
+		if(_pan_mod != -1) ImPlot::GetInputMap().PanMod = _pan_mod;
+		if (_box_select_mod != -1) ImPlot::GetInputMap().BoxSelectMod = _box_select_mod;
+		if (_query_mod != -1) ImPlot::GetInputMap().QueryMod = _query_mod;
 
 		// gives axes change to make changes to ticks, limits, etc.
-		for (auto& item : m_children[1])
+		for (auto& item : _children[1])
 		{
 			// skip item if it's not shown
 			if (!item->isShown())
@@ -280,29 +280,29 @@ namespace Marvel {
 			item->customAction();
 		}
 
-		if (m_fitDirty)
+		if (_fitDirty)
 		{
-			ImPlot::FitNextPlotAxes(m_axisfitDirty[0], m_axisfitDirty[1], m_axisfitDirty[2], m_axisfitDirty[3]);
-			m_fitDirty = false;
-			m_axisfitDirty[0] = false;
-			m_axisfitDirty[1] = false;
-			m_axisfitDirty[2] = false;
-			m_axisfitDirty[3] = false;
+			ImPlot::FitNextPlotAxes(_axisfitDirty[0], _axisfitDirty[1], _axisfitDirty[2], _axisfitDirty[3]);
+			_fitDirty = false;
+			_axisfitDirty[0] = false;
+			_axisfitDirty[1] = false;
+			_axisfitDirty[2] = false;
+			_axisfitDirty[3] = false;
 		}
 
-		if (ImPlot::BeginPlot(m_label.c_str(), 
-			m_xaxisName.empty() ? nullptr : m_xaxisName.c_str(), 
-			m_y1axisName.empty() ? nullptr : m_y1axisName.c_str(),
-			ImVec2((float)m_width, (float)m_height), 
-			m_flags, m_xflags, m_yflags, m_y1flags, m_y2flags, 
-			m_y2axisName.empty() ? nullptr : m_y2axisName.c_str(), 
-			m_y3axisName.empty() ? nullptr : m_y3axisName.c_str()))
+		if (ImPlot::BeginPlot(_label.c_str(), 
+			_xaxisName.empty() ? nullptr : _xaxisName.c_str(), 
+			_y1axisName.empty() ? nullptr : _y1axisName.c_str(),
+			ImVec2((float)_width, (float)_height), 
+			_flags, _xflags, _yflags, _y1flags, _y2flags, 
+			_y2axisName.empty() ? nullptr : _y2axisName.c_str(), 
+			_y3axisName.empty() ? nullptr : _y3axisName.c_str()))
 		{
 			
-			ImPlot::PushColormap(m_colormap);
+			ImPlot::PushColormap(_colormap);
 
 			// legend, drag point and lines
-			for (auto& item : m_children[0])
+			for (auto& item : _children[0])
 			{
 				// skip item if it's not shown
 				if (!item->isShown())
@@ -313,7 +313,7 @@ namespace Marvel {
 			}
 
 			// axes
-			for (auto& item : m_children[1])
+			for (auto& item : _children[1])
 			{
 				// skip item if it's not shown
 				if (!item->isShown())
@@ -325,7 +325,7 @@ namespace Marvel {
 
 			ImPlot::PushPlotClipRect();
 			// drawings
-			for (auto& item : m_children[2])
+			for (auto& item : _children[2])
 			{
 				// skip item if it's not shown
 				if (!item->isShown())
@@ -342,26 +342,26 @@ namespace Marvel {
 
 			ImPlot::PopColormap();
 
-			m_queried = ImPlot::IsPlotQueried();
+			_queried = ImPlot::IsPlotQueried();
 
-			if (m_queried)
+			if (_queried)
 			{
 				ImPlotLimits area = ImPlot::GetPlotQuery();
-				m_queryArea[0] = area.X.Min;
-				m_queryArea[1] = area.X.Max;
-				m_queryArea[2] = area.Y.Min;
-				m_queryArea[3] = area.Y.Max;
+				_queryArea[0] = area.X.Min;
+				_queryArea[1] = area.X.Max;
+				_queryArea[2] = area.Y.Min;
+				_queryArea[3] = area.Y.Max;
 			}
 
-			if (m_callback != nullptr && m_queried)
+			if (_callback != nullptr && _queried)
 			{
 				mvApp::GetApp()->getCallbackRegistry().submitCallback([=]() {
 					PyObject* area = PyTuple_New(4);
-					PyTuple_SetItem(area, 0, PyFloat_FromDouble(m_queryArea[0]));
-					PyTuple_SetItem(area, 1, PyFloat_FromDouble(m_queryArea[1]));
-					PyTuple_SetItem(area, 2, PyFloat_FromDouble(m_queryArea[2]));
-					PyTuple_SetItem(area, 3, PyFloat_FromDouble(m_queryArea[3]));
-					mvApp::GetApp()->getCallbackRegistry().addCallback(m_callback, m_uuid, area, m_user_data);
+					PyTuple_SetItem(area, 0, PyFloat_FromDouble(_queryArea[0]));
+					PyTuple_SetItem(area, 1, PyFloat_FromDouble(_queryArea[1]));
+					PyTuple_SetItem(area, 2, PyFloat_FromDouble(_queryArea[2]));
+					PyTuple_SetItem(area, 3, PyFloat_FromDouble(_queryArea[3]));
+					mvApp::GetApp()->getCallbackRegistry().addCallback(_callback, _uuid, area, _user_data);
 					});
 			}
 
@@ -371,15 +371,15 @@ namespace Marvel {
 			// todo: resolve clipping
 			
 
-			if (m_dropCallback)
+			if (_dropCallback)
 			{
-				ScopedID id(m_uuid);
+				ScopedID id(_uuid);
 				if (ImPlot::BeginDragDropTarget())
 				{
-					if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload(m_payloadType.c_str()))
+					if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload(_payloadType.c_str()))
 					{
 						auto payloadActual = static_cast<const mvDragPayload*>(payload->Data);
-						mvApp::GetApp()->getCallbackRegistry().addCallback(getDropCallback(), m_uuid, payloadActual->getDragData(), nullptr);
+						mvApp::GetApp()->getCallbackRegistry().addCallback(getDropCallback(), _uuid, payloadActual->getDragData(), nullptr);
 					}
 
 					ImPlot::EndDragDropTarget();
@@ -388,7 +388,7 @@ namespace Marvel {
 
 			// update state
 			auto context = ImPlot::GetCurrentContext();
-			m_flags = context->CurrentPlot->Flags;
+			_flags = context->CurrentPlot->Flags;
 
 			registerWindowFocusing();
 
@@ -396,27 +396,27 @@ namespace Marvel {
 			
 		}
 
-		ImPlot::GetInputMap() = m_originalMap;
+		ImPlot::GetInputMap() = _originalMap;
 	}
 
 	bool mvPlot::isPlotQueried() const
 	{
-		return m_queried;
+		return _queried;
 	}
 
 	double* mvPlot::getPlotQueryArea()
 	{
-		return m_queryArea;
+		return _queryArea;
 	}
 
 	void mvPlot::addFlag(ImPlotFlags flag)
 	{
-		m_flags |= flag;
+		_flags |= flag;
 	}
 
 	void mvPlot::removeFlag(ImPlotFlags flag)
 	{
-		m_flags &= ~flag;
+		_flags &= ~flag;
 	}
 
 	void mvPlot::handleSpecificKeywordArgs(PyObject* dict)
@@ -424,21 +424,21 @@ namespace Marvel {
 		if (dict == nullptr)
 			return;
 
-		if (PyObject* item = PyDict_GetItemString(dict, "x_axis_name"))m_xaxisName = ToString(item);
+		if (PyObject* item = PyDict_GetItemString(dict, "x_axis_name"))_xaxisName = ToString(item);
 
 		// custom input mapping
-		if (PyObject* item = PyDict_GetItemString(dict, "pan_button")) m_pan_button = ToInt(item);
-		if (PyObject* item = PyDict_GetItemString(dict, "pad_mod")) m_pan_mod = ToInt(item);
-		if (PyObject* item = PyDict_GetItemString(dict, "fit_button")) m_fit_button = ToInt(item);
-		if (PyObject* item = PyDict_GetItemString(dict, "context_menu_button")) m_context_menu_button = ToInt(item);
-		if (PyObject* item = PyDict_GetItemString(dict, "box_select_button")) m_box_select_button = ToInt(item);
-		if (PyObject* item = PyDict_GetItemString(dict, "box_select_mod")) m_box_select_mod = ToInt(item);
-		if (PyObject* item = PyDict_GetItemString(dict, "box_select_cancel_button")) m_box_select_cancel_button = ToInt(item);
-		if (PyObject* item = PyDict_GetItemString(dict, "query_button")) m_query_button = ToInt(item);
-		if (PyObject* item = PyDict_GetItemString(dict, "query_mod")) m_query_mod = ToInt(item);
-		if (PyObject* item = PyDict_GetItemString(dict, "query_toggle_mod")) m_query_toggle_mod = ToInt(item);
-		if (PyObject* item = PyDict_GetItemString(dict, "horizontal_mod")) m_horizontal_mod = ToInt(item);
-		if (PyObject* item = PyDict_GetItemString(dict, "vertical_mod")) m_vertical_mod = ToInt(item);
+		if (PyObject* item = PyDict_GetItemString(dict, "pan_button")) _pan_button = ToInt(item);
+		if (PyObject* item = PyDict_GetItemString(dict, "pad_mod")) _pan_mod = ToInt(item);
+		if (PyObject* item = PyDict_GetItemString(dict, "fit_button")) _fit_button = ToInt(item);
+		if (PyObject* item = PyDict_GetItemString(dict, "context_menu_button")) _context_menu_button = ToInt(item);
+		if (PyObject* item = PyDict_GetItemString(dict, "box_select_button")) _box_select_button = ToInt(item);
+		if (PyObject* item = PyDict_GetItemString(dict, "box_select_mod")) _box_select_mod = ToInt(item);
+		if (PyObject* item = PyDict_GetItemString(dict, "box_select_cancel_button")) _box_select_cancel_button = ToInt(item);
+		if (PyObject* item = PyDict_GetItemString(dict, "query_button")) _query_button = ToInt(item);
+		if (PyObject* item = PyDict_GetItemString(dict, "query_mod")) _query_mod = ToInt(item);
+		if (PyObject* item = PyDict_GetItemString(dict, "query_toggle_mod")) _query_toggle_mod = ToInt(item);
+		if (PyObject* item = PyDict_GetItemString(dict, "horizontal_mod")) _horizontal_mod = ToInt(item);
+		if (PyObject* item = PyDict_GetItemString(dict, "vertical_mod")) _vertical_mod = ToInt(item);
 
 		// helper for bit flipping
 		auto flagop = [dict](const char* keyword, int flag, int& flags)
@@ -447,16 +447,16 @@ namespace Marvel {
 		};
 
 		// plot flags
-		flagop("no_title",             ImPlotFlags_NoTitle,          m_flags);
-		flagop("no_menus",             ImPlotFlags_NoMenus,          m_flags);
-		flagop("no_box_select",        ImPlotFlags_NoBoxSelect,      m_flags);
-		flagop("no_mouse_pos",         ImPlotFlags_NoMousePos,       m_flags);
-		flagop("no_highlight",         ImPlotFlags_NoHighlight,      m_flags);
-		flagop("no_child",             ImPlotFlags_NoChild,          m_flags);
-		flagop("query",                ImPlotFlags_Query,            m_flags);
-		flagop("crosshairs",           ImPlotFlags_Crosshairs,       m_flags);
-		flagop("anti_aliased",         ImPlotFlags_AntiAliased,      m_flags);
-		flagop("equal_aspects",        ImPlotFlags_Equal,            m_flags);
+		flagop("no_title",             ImPlotFlags_NoTitle,          _flags);
+		flagop("no_menus",             ImPlotFlags_NoMenus,          _flags);
+		flagop("no_box_select",        ImPlotFlags_NoBoxSelect,      _flags);
+		flagop("no_mouse_pos",         ImPlotFlags_NoMousePos,       _flags);
+		flagop("no_highlight",         ImPlotFlags_NoHighlight,      _flags);
+		flagop("no_child",             ImPlotFlags_NoChild,          _flags);
+		flagop("query",                ImPlotFlags_Query,            _flags);
+		flagop("crosshairs",           ImPlotFlags_Crosshairs,       _flags);
+		flagop("anti_aliased",         ImPlotFlags_AntiAliased,      _flags);
+		flagop("equal_aspects",        ImPlotFlags_Equal,            _flags);
 
 	}
 
@@ -465,20 +465,20 @@ namespace Marvel {
 		if (dict == nullptr)
 			return;
 	
-		PyDict_SetItemString(dict, "x_axis_name", ToPyString(m_xaxisName));
+		PyDict_SetItemString(dict, "x_axis_name", ToPyString(_xaxisName));
 
-		PyDict_SetItemString(dict, "pan_button", ToPyInt(m_pan_button));
-		PyDict_SetItemString(dict, "pan_mod", ToPyInt(m_pan_mod));
-		PyDict_SetItemString(dict, "fit_button", ToPyInt(m_fit_button));
-		PyDict_SetItemString(dict, "context_menu_button", ToPyInt(m_context_menu_button));
-		PyDict_SetItemString(dict, "box_select_button", ToPyInt(m_box_select_button));
-		PyDict_SetItemString(dict, "box_select_mod", ToPyInt(m_box_select_mod));
-		PyDict_SetItemString(dict, "box_select_cancel_button", ToPyInt(m_box_select_cancel_button));
-		PyDict_SetItemString(dict, "query_button", ToPyInt(m_query_button));
-		PyDict_SetItemString(dict, "query_mod", ToPyInt(m_query_mod));
-		PyDict_SetItemString(dict, "query_toggle_mod", ToPyInt(m_query_toggle_mod));
-		PyDict_SetItemString(dict, "horizontal_mod", ToPyInt(m_horizontal_mod));
-		PyDict_SetItemString(dict, "vertical_mod", ToPyInt(m_vertical_mod));
+		PyDict_SetItemString(dict, "pan_button", ToPyInt(_pan_button));
+		PyDict_SetItemString(dict, "pan_mod", ToPyInt(_pan_mod));
+		PyDict_SetItemString(dict, "fit_button", ToPyInt(_fit_button));
+		PyDict_SetItemString(dict, "context_menu_button", ToPyInt(_context_menu_button));
+		PyDict_SetItemString(dict, "box_select_button", ToPyInt(_box_select_button));
+		PyDict_SetItemString(dict, "box_select_mod", ToPyInt(_box_select_mod));
+		PyDict_SetItemString(dict, "box_select_cancel_button", ToPyInt(_box_select_cancel_button));
+		PyDict_SetItemString(dict, "query_button", ToPyInt(_query_button));
+		PyDict_SetItemString(dict, "query_mod", ToPyInt(_query_mod));
+		PyDict_SetItemString(dict, "query_toggle_mod", ToPyInt(_query_toggle_mod));
+		PyDict_SetItemString(dict, "horizontal_mod", ToPyInt(_horizontal_mod));
+		PyDict_SetItemString(dict, "vertical_mod", ToPyInt(_vertical_mod));
 
 		// helper to check and set bit
 		auto checkbitset = [dict](const char* keyword, int flag, const int& flags)
@@ -487,35 +487,35 @@ namespace Marvel {
 		};
 
 		// plot flags
-		checkbitset("no_title",             ImPlotFlags_NoTitle,          m_flags);
-		checkbitset("no_menus",             ImPlotFlags_NoMenus,          m_flags);
-		checkbitset("no_box_select",        ImPlotFlags_NoBoxSelect,      m_flags);
-		checkbitset("no_mouse_pos",         ImPlotFlags_NoMousePos,       m_flags);
-		checkbitset("no_highlight",         ImPlotFlags_NoHighlight,      m_flags);
-		checkbitset("no_child",             ImPlotFlags_NoChild,          m_flags);
-		checkbitset("query",                ImPlotFlags_Query,            m_flags);
-		checkbitset("crosshairs",           ImPlotFlags_Crosshairs,       m_flags);
-		checkbitset("anti_aliased",         ImPlotFlags_AntiAliased,      m_flags);
-		checkbitset("equal_aspects",        ImPlotFlags_Equal,            m_flags);
+		checkbitset("no_title",             ImPlotFlags_NoTitle,          _flags);
+		checkbitset("no_menus",             ImPlotFlags_NoMenus,          _flags);
+		checkbitset("no_box_select",        ImPlotFlags_NoBoxSelect,      _flags);
+		checkbitset("no_mouse_pos",         ImPlotFlags_NoMousePos,       _flags);
+		checkbitset("no_highlight",         ImPlotFlags_NoHighlight,      _flags);
+		checkbitset("no_child",             ImPlotFlags_NoChild,          _flags);
+		checkbitset("query",                ImPlotFlags_Query,            _flags);
+		checkbitset("crosshairs",           ImPlotFlags_Crosshairs,       _flags);
+		checkbitset("anti_aliased",         ImPlotFlags_AntiAliased,      _flags);
+		checkbitset("equal_aspects",        ImPlotFlags_Equal,            _flags);
 	}
 
 	void mvPlot::postDraw()
 	{
 
-		m_state.update();
+		_state.update();
 
-		if (m_font)
+		if (_font)
 		{
 			ImGui::PopFont();
 		}
 
-		if (m_theme)
+		if (_theme)
 		{
-			static_cast<mvTheme*>(m_theme.get())->customAction();
+			static_cast<mvTheme*>(_theme.get())->customAction();
 		}
 
 		// event handlers
-		for (auto& item : m_children[3])
+		for (auto& item : _children[3])
 		{
 			if (!item->preDraw())
 				continue;
@@ -524,7 +524,7 @@ namespace Marvel {
 		}
 
 		// drag drop
-		for (auto& item : m_children[4])
+		for (auto& item : _children[4])
 		{
 			if (!item->preDraw())
 				continue;

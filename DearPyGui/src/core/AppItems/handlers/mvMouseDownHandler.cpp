@@ -44,7 +44,7 @@ namespace Marvel {
 
 	void mvMouseDownHandler::draw(ImDrawList* drawlist, float x, float y)
 	{
-		if (m_button == -1)
+		if (_button == -1)
 		{
 			for (int i = 0; i < IM_ARRAYSIZE(ImGui::GetIO().MouseDown); i++)
 			{
@@ -52,17 +52,17 @@ namespace Marvel {
 				{
 					mvApp::GetApp()->getCallbackRegistry().submitCallback([=]()
 						{
-							mvApp::GetApp()->getCallbackRegistry().runCallback(getCallback(false), m_uuid, ToPyMPair(i, ImGui::GetIO().MouseDownDuration[i]), m_user_data);
+							mvApp::GetApp()->getCallbackRegistry().runCallback(getCallback(false), _uuid, ToPyMPair(i, ImGui::GetIO().MouseDownDuration[i]), _user_data);
 						});
 				}
 			}
 		}
 
-		else if (ImGui::GetIO().MouseDown[m_button])
+		else if (ImGui::GetIO().MouseDown[_button])
 		{
 			mvApp::GetApp()->getCallbackRegistry().submitCallback([=]()
 				{
-					mvApp::GetApp()->getCallbackRegistry().runCallback(getCallback(false), m_uuid, ToPyMPair(m_button, ImGui::GetIO().MouseDownDuration[m_button]), m_user_data);
+					mvApp::GetApp()->getCallbackRegistry().runCallback(getCallback(false), _uuid, ToPyMPair(_button, ImGui::GetIO().MouseDownDuration[_button]), _user_data);
 				});
 		}
 	}
@@ -78,7 +78,7 @@ namespace Marvel {
 			switch (i)
 			{
 			case 0:
-				m_button = ToInt(item);
+				_button = ToInt(item);
 				break;
 
 			default:
@@ -92,7 +92,7 @@ namespace Marvel {
 		if (dict == nullptr)
 			return;
 
-		if (PyObject* item = PyDict_GetItemString(dict, "button")) m_button = ToInt(item);
+		if (PyObject* item = PyDict_GetItemString(dict, "button")) _button = ToInt(item);
 	}
 
 	void mvMouseDownHandler::getSpecificConfiguration(PyObject* dict)
@@ -100,7 +100,7 @@ namespace Marvel {
 		if (dict == nullptr)
 			return;
 
-		PyDict_SetItemString(dict, "button", ToPyInt(m_button));
+		PyDict_SetItemString(dict, "button", ToPyInt(_button));
 	}
 
 }

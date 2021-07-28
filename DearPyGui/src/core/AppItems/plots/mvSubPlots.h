@@ -46,11 +46,11 @@ namespace Marvel {
 
 	private:
 
-		int m_rows = 1;
-		int m_cols = 1;
-		std::vector<float> m_row_ratios;
-		std::vector<float> m_col_ratios;
-		ImPlotSubplotFlags m_flags = ImPlotSubplotFlags_None;
+		int _rows = 1;
+		int _cols = 1;
+		std::vector<float> _row_ratios;
+		std::vector<float> _col_ratios;
+		ImPlotSubplotFlags _flags = ImPlotSubplotFlags_None;
 
 	
 	};

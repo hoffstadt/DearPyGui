@@ -43,22 +43,22 @@ namespace Marvel {
 
 	void mvRadioButton::setPyValue(PyObject* value)
 	{
-		*m_value = ToString(value);
+		*_value = ToString(value);
 		updateIndex();
 	}
 
 	void mvRadioButton::updateIndex()
 	{
-		m_index = 0;
-		m_disabledindex = 0;
+		_index = 0;
+		_disabledindex = 0;
 
 		int index = 0;
-		for (const auto& name : m_itemnames)
+		for (const auto& name : _itemnames)
 		{
-			if (name == *m_value)
+			if (name == *_value)
 			{
-				m_index = index;
-				m_disabledindex = index;
+				_index = index;
+				_disabledindex = index;
 				break;
 			}
 			index++;
@@ -70,26 +70,26 @@ namespace Marvel {
 
 		ImGui::BeginGroup();
 
-		ScopedID id(m_uuid);
+		ScopedID id(_uuid);
 
-		if (!m_enabled)
+		if (!_enabled)
 		{
-			m_disabled_value = *m_value;
-			m_disabledindex = m_index;
+			_disabled_value = *_value;
+			_disabledindex = _index;
 		}
 
-		for (size_t i = 0; i < m_itemnames.size(); i++)
+		for (size_t i = 0; i < _itemnames.size(); i++)
 		{
-			if (m_horizontal && i != 0)
+			if (_horizontal && i != 0)
 				ImGui::SameLine();
 
-			if (ImGui::RadioButton(m_itemnames[i].c_str(), m_enabled ? &m_index : &m_disabledindex, (int)i))
+			if (ImGui::RadioButton(_itemnames[i].c_str(), _enabled ? &_index : &_disabledindex, (int)i))
 			{
-				*m_value = m_itemnames[m_index];
-				m_disabled_value = m_itemnames[m_index];
-				auto value = *m_value;
+				*_value = _itemnames[_index];
+				_disabled_value = _itemnames[_index];
+				auto value = *_value;
 				mvApp::GetApp()->getCallbackRegistry().submitCallback([=]() {
-					mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), m_uuid, ToPyString(value), m_user_data);
+					mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), _uuid, ToPyString(value), _user_data);
 					});
 			}
 
@@ -109,7 +109,7 @@ namespace Marvel {
 			switch (i)
 			{
 			case 0:
-				m_itemnames = ToStringVect(item);
+				_itemnames = ToStringVect(item);
 				break;
 
 			default:
@@ -125,10 +125,10 @@ namespace Marvel {
 		 
 		if (PyObject* item = PyDict_GetItemString(dict, "items"))
 		{
-			m_itemnames = ToStringVect(item);
+			_itemnames = ToStringVect(item);
 			updateIndex();
 		}
-		if (PyObject* item = PyDict_GetItemString(dict, "horizontal")) m_horizontal = ToBool(item);
+		if (PyObject* item = PyDict_GetItemString(dict, "horizontal")) _horizontal = ToBool(item);
 	}
 
 	void mvRadioButton::getSpecificConfiguration(PyObject* dict)
@@ -136,8 +136,8 @@ namespace Marvel {
 		if (dict == nullptr)
 			return;
 		 
-		PyDict_SetItemString(dict, "items", ToPyList(m_itemnames));
-		PyDict_SetItemString(dict, "horizontal", ToPyBool(m_horizontal));
+		PyDict_SetItemString(dict, "items", ToPyList(_itemnames));
+		PyDict_SetItemString(dict, "horizontal", ToPyBool(_horizontal));
 	}
 
 }

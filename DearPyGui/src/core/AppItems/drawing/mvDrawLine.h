@@ -34,10 +34,10 @@ namespace Marvel {
 
 	private:
 
-		mvVec2  m_p1 = { 0.0f, 0.0f };
-		mvVec2  m_p2 = { 0.0f, 0.0f };
-		mvColor m_color = {1.0f, 1.0f, 1.0f, 1.0f};
-		float   m_thickness = 1.0f;
+		mvVec2  _p1 = { 0.0f, 0.0f };
+		mvVec2  _p2 = { 0.0f, 0.0f };
+		mvColor _color = {1.0f, 1.0f, 1.0f, 1.0f};
+		float   _thickness = 1.0f;
 
 	};
 

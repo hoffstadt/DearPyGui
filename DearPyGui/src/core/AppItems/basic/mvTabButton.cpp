@@ -41,10 +41,10 @@ namespace Marvel {
 
 	void mvTabButton::draw(ImDrawList* drawlist, float x, float y)
 	{
-		ScopedID id(m_uuid);
+		ScopedID id(_uuid);
 
-		if (ImGui::TabItemButton(m_label.c_str(), m_flags))
-			mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), m_uuid, nullptr, m_user_data);
+		if (ImGui::TabItemButton(_label.c_str(), _flags))
+			mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), _uuid, nullptr, _user_data);
 
 	}
 
@@ -73,13 +73,13 @@ namespace Marvel {
 		};
 
 		// window flags
-		flagop("no_reorder", ImGuiTabItemFlags_NoReorder, m_flags);
-		flagop("leading", ImGuiTabItemFlags_Leading, m_flags);
-		flagop("trailing", ImGuiTabItemFlags_Trailing, m_flags);
-		flagop("no_tooltip", ImGuiTabItemFlags_NoTooltip, m_flags);
+		flagop("no_reorder", ImGuiTabItemFlags_NoReorder, _flags);
+		flagop("leading", ImGuiTabItemFlags_Leading, _flags);
+		flagop("trailing", ImGuiTabItemFlags_Trailing, _flags);
+		flagop("no_tooltip", ImGuiTabItemFlags_NoTooltip, _flags);
 
-		if (m_flags & ImGuiTabItemFlags_Leading && m_flags & ImGuiTabItemFlags_Trailing)
-			m_flags &= ~ImGuiTabItemFlags_Leading;
+		if (_flags & ImGuiTabItemFlags_Leading && _flags & ImGuiTabItemFlags_Trailing)
+			_flags &= ~ImGuiTabItemFlags_Leading;
 
 	}
 
@@ -96,10 +96,10 @@ namespace Marvel {
 		};
 
 		// window flags
-		checkbitset("no_reorder", ImGuiTabBarFlags_Reorderable, m_flags);
-		checkbitset("leading", ImGuiTabItemFlags_Leading, m_flags);
-		checkbitset("trailing", ImGuiTabItemFlags_Trailing, m_flags);
-		checkbitset("no_tooltip", ImGuiTabItemFlags_NoTooltip, m_flags);
+		checkbitset("no_reorder", ImGuiTabBarFlags_Reorderable, _flags);
+		checkbitset("leading", ImGuiTabItemFlags_Leading, _flags);
+		checkbitset("trailing", ImGuiTabItemFlags_Trailing, _flags);
+		checkbitset("no_tooltip", ImGuiTabItemFlags_NoTooltip, _flags);
 
 	}
 

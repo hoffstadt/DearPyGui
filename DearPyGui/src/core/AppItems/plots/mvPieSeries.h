@@ -35,14 +35,14 @@ namespace Marvel {
 
 	private:
 
-		double m_x = 0.0;
-		double m_y = 0.0;
-		double m_radius = 0.5;
-		bool m_normalize = true;
-		double m_angle = 90.0;
-		std::string m_format;
-		std::vector<std::string> m_labels;
-		std::vector<const char*> m_clabels;
+		double _x = 0.0;
+		double _y = 0.0;
+		double _radius = 0.5;
+		bool _normalize = true;
+		double _angle = 90.0;
+		std::string _format;
+		std::vector<std::string> _labels;
+		std::vector<const char*> _clabels;
 
 	};
 

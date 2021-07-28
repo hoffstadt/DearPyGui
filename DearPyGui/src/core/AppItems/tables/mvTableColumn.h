@@ -34,9 +34,9 @@ namespace Marvel {
 
 	private:
 
-		ImGuiTableColumnFlags m_flags = 0;
-		float m_init_width_or_weight = 0.0f;
-		ImGuiID m_id = 0u;
+		ImGuiTableColumnFlags _flags = 0;
+		float _init_width_or_weight = 0.0f;
+		ImGuiID _id = 0u;
 
 	};
 

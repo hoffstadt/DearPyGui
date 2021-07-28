@@ -93,52 +93,52 @@ namespace Marvel {
 
     void mvSliderFloat::setEnabled(bool value)
     {
-        if (value == m_enabled)
+        if (value == _enabled)
             return;
 
         if (value)
-            m_flags = m_stor_flags;
+            _flags = _stor_flags;
 
         else
         {
-            m_stor_flags = m_flags;
-            m_flags |= ImGuiSliderFlags_NoInput;
+            _stor_flags = _flags;
+            _flags |= ImGuiSliderFlags_NoInput;
         }
 
-        m_enabled = value;
+        _enabled = value;
     }
 
     void mvSliderFloat::draw(ImDrawList* drawlist, float x, float y)
     {
-        ScopedID id(m_uuid);
+        ScopedID id(_uuid);
         ////mvImGuiThemeScope scope(this);
         //mvFontScope fscope(this);
 
-        if (!m_enabled) m_disabled_value = *m_value;
+        if (!_enabled) _disabled_value = *_value;
 
-        if (m_vertical)
+        if (_vertical)
         {
-            if ((float)m_height < 1.0f)
-                m_height = 100;
-            if ((float)m_width < 1.0f)
-                m_width = 20;
+            if ((float)_height < 1.0f)
+                _height = 100;
+            if ((float)_width < 1.0f)
+                _width = 20;
 
-            if (ImGui::VSliderFloat(m_label.c_str(), ImVec2((float)m_width, (float)m_height), m_enabled ? m_value.get() : &m_disabled_value, m_min, m_max, m_format.c_str()))
+            if (ImGui::VSliderFloat(_label.c_str(), ImVec2((float)_width, (float)_height), _enabled ? _value.get() : &_disabled_value, _min, _max, _format.c_str()))
             {
-                auto value = *m_value;
+                auto value = *_value;
                 mvApp::GetApp()->getCallbackRegistry().submitCallback([=]() {
-                    mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), m_uuid, ToPyFloat(value), m_user_data);
+                    mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), _uuid, ToPyFloat(value), _user_data);
                     });
             }
 
         }
         else
         {
-            if (ImGui::SliderFloat(m_label.c_str(), m_enabled ? m_value.get() : &m_disabled_value, m_min, m_max, m_format.c_str(), m_flags))
+            if (ImGui::SliderFloat(_label.c_str(), _enabled ? _value.get() : &_disabled_value, _min, _max, _format.c_str(), _flags))
             {
-                auto value = *m_value;
+                auto value = *_value;
                 mvApp::GetApp()->getCallbackRegistry().submitCallback([=]() {
-                    mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), m_uuid, ToPyFloat(value), m_user_data);
+                    mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), _uuid, ToPyFloat(value), _user_data);
                     });
             }
 
@@ -152,49 +152,49 @@ namespace Marvel {
 
     void mvSliderInt::setEnabled(bool value)
     {
-        if (value == m_enabled)
+        if (value == _enabled)
             return;
 
         if (value)
-            m_flags = m_stor_flags;
+            _flags = _stor_flags;
 
         else
         {
-            m_stor_flags = m_flags;
-            m_flags |= ImGuiSliderFlags_NoInput;
+            _stor_flags = _flags;
+            _flags |= ImGuiSliderFlags_NoInput;
         }
 
-        m_enabled = value;
+        _enabled = value;
     }
 
     void mvSliderInt::draw(ImDrawList* drawlist, float x, float y)
     {
-        ScopedID id(m_uuid);
+        ScopedID id(_uuid);
 
-        if (!m_enabled) m_disabled_value = *m_value;
+        if (!_enabled) _disabled_value = *_value;
 
-        if (m_vertical)
+        if (_vertical)
         {
-            if ((float)m_height < 1.0f)
-                m_height = 100;
-            if ((float)m_width < 1.0f)
-                m_width = 20;
+            if ((float)_height < 1.0f)
+                _height = 100;
+            if ((float)_width < 1.0f)
+                _width = 20;
 
-            if (ImGui::VSliderInt(m_label.c_str(), ImVec2((float)m_width, (float)m_height), m_enabled ? m_value.get() : &m_disabled_value, m_min, m_max, m_format.c_str()))
+            if (ImGui::VSliderInt(_label.c_str(), ImVec2((float)_width, (float)_height), _enabled ? _value.get() : &_disabled_value, _min, _max, _format.c_str()))
             {
-                auto value = *m_value;
+                auto value = *_value;
                 mvApp::GetApp()->getCallbackRegistry().submitCallback([=]() {
-                    mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), m_uuid, ToPyInt(value), m_user_data);
+                    mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), _uuid, ToPyInt(value), _user_data);
                     });
             }
         }
         else
         {
-            if (ImGui::SliderInt(m_label.c_str(), m_enabled ? m_value.get() : &m_disabled_value, m_min, m_max, m_format.c_str(), m_flags))
+            if (ImGui::SliderInt(_label.c_str(), _enabled ? _value.get() : &_disabled_value, _min, _max, _format.c_str(), _flags))
             {
-                auto value = *m_value;
+                auto value = *_value;
                 mvApp::GetApp()->getCallbackRegistry().submitCallback([=]() {
-                    mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), m_uuid, ToPyInt(value), m_user_data);
+                    mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), _uuid, ToPyInt(value), _user_data);
                     });
             }
 
@@ -206,10 +206,10 @@ namespace Marvel {
         if (dict == nullptr)
             return;
 
-        if (PyObject* item = PyDict_GetItemString(dict, "format")) m_format = ToString(item);
-        if (PyObject* item = PyDict_GetItemString(dict, "vertical")) m_vertical = ToBool(item);
-        if (PyObject* item = PyDict_GetItemString(dict, "min_value")) m_min = ToFloat(item);
-        if (PyObject* item = PyDict_GetItemString(dict, "max_value")) m_max = ToFloat(item);
+        if (PyObject* item = PyDict_GetItemString(dict, "format")) _format = ToString(item);
+        if (PyObject* item = PyDict_GetItemString(dict, "vertical")) _vertical = ToBool(item);
+        if (PyObject* item = PyDict_GetItemString(dict, "min_value")) _min = ToFloat(item);
+        if (PyObject* item = PyDict_GetItemString(dict, "max_value")) _max = ToFloat(item);
 
         // helper for bit flipping
         auto flagop = [dict](const char* keyword, int flag, int& flags)
@@ -218,10 +218,10 @@ namespace Marvel {
         };
 
         // flags
-        flagop("clamped", ImGuiSliderFlags_ClampOnInput, m_flags);
-        flagop("clamped", ImGuiSliderFlags_ClampOnInput, m_stor_flags);
-        flagop("no_input", ImGuiSliderFlags_NoInput, m_flags);
-        flagop("no_input", ImGuiSliderFlags_NoInput, m_stor_flags);
+        flagop("clamped", ImGuiSliderFlags_ClampOnInput, _flags);
+        flagop("clamped", ImGuiSliderFlags_ClampOnInput, _stor_flags);
+        flagop("no_input", ImGuiSliderFlags_NoInput, _flags);
+        flagop("no_input", ImGuiSliderFlags_NoInput, _stor_flags);
 
     }
 
@@ -230,10 +230,10 @@ namespace Marvel {
         if (dict == nullptr)
             return;
 
-        PyDict_SetItemString(dict, "format", ToPyString(m_format));
-        PyDict_SetItemString(dict, "vertical", ToPyBool(m_vertical));
-        PyDict_SetItemString(dict, "min_value", ToPyFloat(m_min));
-        PyDict_SetItemString(dict, "max_value", ToPyFloat(m_max));
+        PyDict_SetItemString(dict, "format", ToPyString(_format));
+        PyDict_SetItemString(dict, "vertical", ToPyBool(_vertical));
+        PyDict_SetItemString(dict, "min_value", ToPyFloat(_min));
+        PyDict_SetItemString(dict, "max_value", ToPyFloat(_max));
 
         // helper to check and set bit
         auto checkbitset = [dict](const char* keyword, int flag, const int& flags)
@@ -242,8 +242,8 @@ namespace Marvel {
         };
 
         // window flags
-        checkbitset("clamped", ImGuiSliderFlags_ClampOnInput, m_flags);
-        checkbitset("no_input", ImGuiSliderFlags_NoInput, m_flags);
+        checkbitset("clamped", ImGuiSliderFlags_ClampOnInput, _flags);
+        checkbitset("no_input", ImGuiSliderFlags_NoInput, _flags);
 
     }
 
@@ -252,10 +252,10 @@ namespace Marvel {
         if (dict == nullptr)
             return;
 
-        if (PyObject* item = PyDict_GetItemString(dict, "format")) m_format = ToString(item);
-        if (PyObject* item = PyDict_GetItemString(dict, "vertical")) m_vertical = ToBool(item);
-        if (PyObject* item = PyDict_GetItemString(dict, "min_value")) m_min = ToInt(item);
-        if (PyObject* item = PyDict_GetItemString(dict, "max_value")) m_max = ToInt(item);
+        if (PyObject* item = PyDict_GetItemString(dict, "format")) _format = ToString(item);
+        if (PyObject* item = PyDict_GetItemString(dict, "vertical")) _vertical = ToBool(item);
+        if (PyObject* item = PyDict_GetItemString(dict, "min_value")) _min = ToInt(item);
+        if (PyObject* item = PyDict_GetItemString(dict, "max_value")) _max = ToInt(item);
 
         // helper for bit flipping
         auto flagop = [dict](const char* keyword, int flag, int& flags)
@@ -264,10 +264,10 @@ namespace Marvel {
         };
 
         // flags
-        flagop("clamped", ImGuiSliderFlags_ClampOnInput, m_flags);
-        flagop("clamped", ImGuiSliderFlags_ClampOnInput, m_stor_flags);
-        flagop("no_input", ImGuiSliderFlags_NoInput, m_flags);
-        flagop("no_input", ImGuiSliderFlags_NoInput, m_stor_flags);
+        flagop("clamped", ImGuiSliderFlags_ClampOnInput, _flags);
+        flagop("clamped", ImGuiSliderFlags_ClampOnInput, _stor_flags);
+        flagop("no_input", ImGuiSliderFlags_NoInput, _flags);
+        flagop("no_input", ImGuiSliderFlags_NoInput, _stor_flags);
 
     }
 
@@ -276,10 +276,10 @@ namespace Marvel {
         if (dict == nullptr)
             return;
 
-        PyDict_SetItemString(dict, "format", ToPyString(m_format));
-        PyDict_SetItemString(dict, "vertical", ToPyBool(m_vertical));
-        PyDict_SetItemString(dict, "min_value", ToPyInt(m_min));
-        PyDict_SetItemString(dict, "max_value", ToPyInt(m_max));
+        PyDict_SetItemString(dict, "format", ToPyString(_format));
+        PyDict_SetItemString(dict, "vertical", ToPyBool(_vertical));
+        PyDict_SetItemString(dict, "min_value", ToPyInt(_min));
+        PyDict_SetItemString(dict, "max_value", ToPyInt(_max));
 
         // helper to check and set bit
         auto checkbitset = [dict](const char* keyword, int flag, const int& flags)
@@ -288,8 +288,8 @@ namespace Marvel {
         };
 
         // window flags
-        checkbitset("clamped", ImGuiSliderFlags_ClampOnInput, m_flags);
-        checkbitset("no_input", ImGuiSliderFlags_NoInput, m_flags);
+        checkbitset("clamped", ImGuiSliderFlags_ClampOnInput, _flags);
+        checkbitset("no_input", ImGuiSliderFlags_NoInput, _flags);
 
     }
 

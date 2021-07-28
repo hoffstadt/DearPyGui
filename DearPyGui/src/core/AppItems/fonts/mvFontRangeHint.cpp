@@ -55,7 +55,7 @@ namespace Marvel {
 			{
 			case 0:
 			{
-				m_hint = ToInt(item);
+				_hint = ToInt(item);
 				break;
 			}
 

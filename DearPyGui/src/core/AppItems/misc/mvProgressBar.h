@@ -31,7 +31,7 @@ namespace Marvel {
 
 	private:
 
-		std::string m_overlay;
+		std::string _overlay;
 
 	};
 

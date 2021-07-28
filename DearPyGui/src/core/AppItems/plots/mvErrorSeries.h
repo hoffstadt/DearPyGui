@@ -35,7 +35,7 @@ namespace Marvel {
 
 	private:
 
-		bool m_horizontal = false;
+		bool _horizontal = false;
 
 	};
 

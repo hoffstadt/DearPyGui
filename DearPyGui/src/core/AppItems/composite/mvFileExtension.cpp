@@ -50,12 +50,12 @@ namespace Marvel {
 	void mvFileExtension::draw(ImDrawList* drawlist, float x, float y)
 	{
 		IGFD::FileExtentionInfosStruct info;
-		info.icon = m_customText.c_str();
-		if (m_color.r >= 0)
-			info.color = m_color.toVec4();
+		info.icon = _customText.c_str();
+		if (_color.r >= 0)
+			info.color = _color.toVec4();
 		else
 			info.color = { 1.0f, 1.0f, 1.0f, 1.0f };
-		static_cast<mvFileDialog*>(m_parentPtr)->getDialog().SetExtentionInfos(m_extension.c_str(), info);
+		static_cast<mvFileDialog*>(_parentPtr)->getDialog().SetExtentionInfos(_extension.c_str(), info);
 	}
 
 	void mvFileExtension::handleSpecificRequiredArgs(PyObject* dict)
@@ -69,7 +69,7 @@ namespace Marvel {
 			switch (i)
 			{
 			case 0:
-				m_extension = ToString(item);
+				_extension = ToString(item);
 				break;
 
 			default:
@@ -83,11 +83,11 @@ namespace Marvel {
 		if (dict == nullptr)
 			return;
 
-		if (PyObject* item = PyDict_GetItemString(dict, "custom_text"))m_customText = ToString(item);
-		if (PyObject* item = PyDict_GetItemString(dict, "color")) m_color = ToColor(item);
+		if (PyObject* item = PyDict_GetItemString(dict, "custo_text"))_customText = ToString(item);
+		if (PyObject* item = PyDict_GetItemString(dict, "color")) _color = ToColor(item);
 
-		if (m_parentPtr)
-			static_cast<mvFileDialog*>(m_parentPtr)->markDirty();
+		if (_parentPtr)
+			static_cast<mvFileDialog*>(_parentPtr)->markDirty();
 	}
 
 	void mvFileExtension::getSpecificConfiguration(PyObject* dict)
@@ -95,8 +95,8 @@ namespace Marvel {
 		if (dict == nullptr)
 			return;
 
-		PyDict_SetItemString(dict, "custom_text", ToPyString(m_customText));
-		PyDict_SetItemString(dict, "color", ToPyColor(m_color));
+		PyDict_SetItemString(dict, "custo_text", ToPyString(_customText));
+		PyDict_SetItemString(dict, "color", ToPyColor(_color));
 	}
 
 }

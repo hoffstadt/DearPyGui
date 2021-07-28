@@ -29,7 +29,7 @@ namespace Marvel {
 
 	private:
 
-		bool m_front = true;
+		bool _front = true;
 
 	};
 }

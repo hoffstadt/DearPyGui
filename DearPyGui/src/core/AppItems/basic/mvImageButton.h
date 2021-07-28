@@ -39,16 +39,16 @@ namespace Marvel {
 	private:
 
 		// config
-		mvUUID      m_textureUUID = 0;
-		mvVec2	    m_uv_min = { 0.0f, 0.0f };
-		mvVec2	    m_uv_max = { 1.0f, 1.0f };
-		mvColor     m_tintColor = { 1.0f, 1.0f, 1.0f, 1.0f };
-		mvColor     m_backgroundColor = { 0.0f, 0.0f, 0.0f, 0.0f };
-		int         m_framePadding = -1;
+		mvUUID      _textureUUID = 0;
+		mvVec2	    _uv_min = { 0.0f, 0.0f };
+		mvVec2	    _uv_max = { 1.0f, 1.0f };
+		mvColor     _tintColor = { 1.0f, 1.0f, 1.0f, 1.0f };
+		mvColor     _backgroundColor = { 0.0f, 0.0f, 0.0f, 0.0f };
+		int         _framePadding = -1;
 
 		// pointer to existing item or internal
-		std::shared_ptr<mvAppItem> m_texture = nullptr;
-		bool m_internalTexture = false; // create a local texture if necessary
+		std::shared_ptr<mvAppItem> _texture = nullptr;
+		bool _internalTexture = false; // create a local texture if necessary
 
 	};
 

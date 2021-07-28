@@ -29,8 +29,8 @@ namespace Marvel {
 
 	private:
 
-		float m_xoffset = 0.0f;
-		float m_spacing = -1.0f;
+		float _xoffset = 0.0f;
+		float _spacing = -1.0f;
 
 	};
 

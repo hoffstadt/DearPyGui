@@ -40,21 +40,21 @@ namespace Marvel {
 		void getSpecificConfiguration(PyObject* dict) override;
 
 		ImGuiFileDialog& getDialog();
-		void             markDirty() { m_dirtySettings = true; }
+		void             markDirty() { _dirtySettings = true; }
 		PyObject* getInfoDict();
-		bool      getContinueValue() const { return *m_value; }
+		bool      getContinueValue() const { return *_value; }
 
 	private:
 
-		ImGuiFileDialog m_instance;
-		bool            m_dirtySettings = true;
+		ImGuiFileDialog _instance;
+		bool            _dirtySettings = true;
 
-		std::string m_filters;
-		std::string m_defaultPath;
-		std::string m_defaultFilename = ".";
-		int         m_fileCount = 0;
-		bool        m_modal = false;
-		bool        m_directory = false;
+		std::string _filters;
+		std::string _defaultPath;
+		std::string _defaultFilename = ".";
+		int         _fileCount = 0;
+		bool        _modal = false;
+		bool        _directory = false;
 	};
 
 }

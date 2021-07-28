@@ -146,7 +146,7 @@ namespace Marvel {
 
 	bool mvFontManager::isInvalid() const
 	{
-		return m_dirty;
+		return _dirty;
 	}
 
 	void mvFontManager::rebuildAtlas()
@@ -162,7 +162,7 @@ namespace Marvel {
 			}
 		}
 
-		m_dirty = false;
+		_dirty = false;
 
 	}
 
@@ -214,7 +214,7 @@ namespace Marvel {
 
 	void mvFontManager::setGlobalFontScale(float scale)
 	{
-		m_globalFontScale = scale;
+		_globalFontScale = scale;
 	}
 
 	void mvFontManager::InsertParser(std::map<std::string, mvPythonParser>* parsers)

@@ -70,17 +70,17 @@ namespace Marvel {
 	mvSubPlots::mvSubPlots(mvUUID uuid)
 		: mvAppItem(uuid)
 	{
-		m_label = "SubPlot###" + std::to_string(m_uuid);
-		m_width = -1;
-		m_height = -1;
+		_label = "SubPlot###" + std::to_string(_uuid);
+		_width = -1;
+		_height = -1;
 	}
 
 	void mvSubPlots::onChildAdd(mvRef<mvAppItem> item)
 	{
 		if (item->getType() == mvAppItemType::mvPlotLegend)
 		{
-			m_flags &= ~ImPlotSubplotFlags_NoLegend;
-			m_flags |= ImPlotSubplotFlags_ShareItems;
+			_flags &= ~ImPlotSubplotFlags_NoLegend;
+			_flags |= ImPlotSubplotFlags_ShareItems;
 		}
 	}
 
@@ -89,20 +89,20 @@ namespace Marvel {
 
 		if (item->getType() == mvAppItemType::mvPlotLegend)
 		{
-			m_flags |= ImPlotSubplotFlags_NoLegend;
-			m_flags &= ~ImPlotSubplotFlags_ShareItems;
+			_flags |= ImPlotSubplotFlags_NoLegend;
+			_flags &= ~ImPlotSubplotFlags_ShareItems;
 		}
 
 	}
 
 	void mvSubPlots::addFlag(ImPlotSubplotFlags flag)
 	{
-		m_flags |= flag;
+		_flags |= flag;
 	}
 
 	void mvSubPlots::removeFlag(ImPlotSubplotFlags flag)
 	{
-		m_flags &= ~flag;
+		_flags &= ~flag;
 	}
 
 	bool mvSubPlots::canChildBeAdded(mvAppItemType type)
@@ -122,14 +122,14 @@ namespace Marvel {
 	void mvSubPlots::draw(ImDrawList* drawlist, float x, float y)
 	{
 
-		ScopedID id(m_uuid);
+		ScopedID id(_uuid);
 
-		if (ImPlot::BeginSubplots(m_label.c_str(),  m_rows, m_cols, ImVec2((float)m_width, (float)m_height),
-			m_flags, m_row_ratios.empty() ? nullptr : m_row_ratios.data(), m_col_ratios.empty() ? nullptr : m_col_ratios.data()))
+		if (ImPlot::BeginSubplots(_label.c_str(),  _rows, _cols, ImVec2((float)_width, (float)_height),
+			_flags, _row_ratios.empty() ? nullptr : _row_ratios.data(), _col_ratios.empty() ? nullptr : _col_ratios.data()))
 		{
 
 			// plots
-			for (auto& item : m_children[1])
+			for (auto& item : _children[1])
 			{
 				// skip item if it's not shown
 				if (!item->isShown())
@@ -154,11 +154,11 @@ namespace Marvel {
 			switch (i)
 			{
 			case 0:
-				m_rows = ToInt(item);
+				_rows = ToInt(item);
 				break;
 
 			case 1:
-				m_cols = ToInt(item);
+				_cols = ToInt(item);
 				break;
 
 			default:
@@ -172,10 +172,10 @@ namespace Marvel {
 		if (dict == nullptr)
 			return;
 
-		if (PyObject* item = PyDict_GetItemString(dict, "rows")) m_rows = ToInt(item);
-		if (PyObject* item = PyDict_GetItemString(dict, "columns")) m_cols = ToInt(item);
-		if (PyObject* item = PyDict_GetItemString(dict, "row_ratios")) m_row_ratios = ToFloatVect(item);
-		if (PyObject* item = PyDict_GetItemString(dict, "column_ratios")) m_col_ratios = ToFloatVect(item);
+		if (PyObject* item = PyDict_GetItemString(dict, "rows")) _rows = ToInt(item);
+		if (PyObject* item = PyDict_GetItemString(dict, "columns")) _cols = ToInt(item);
+		if (PyObject* item = PyDict_GetItemString(dict, "row_ratios")) _row_ratios = ToFloatVect(item);
+		if (PyObject* item = PyDict_GetItemString(dict, "column_ratios")) _col_ratios = ToFloatVect(item);
 
 		// helper for bit flipping
 		auto flagop = [dict](const char* keyword, int flag, int& flags)
@@ -184,15 +184,15 @@ namespace Marvel {
 		};
 
 		// subplot flags
-		flagop("no_title", ImPlotSubplotFlags_NoTitle, m_flags);
-		flagop("no_menus", ImPlotSubplotFlags_NoMenus, m_flags);
-		flagop("no_resize", ImPlotSubplotFlags_NoResize, m_flags);
-		flagop("no_align", ImPlotSubplotFlags_NoAlign, m_flags);
-		flagop("link_rows", ImPlotSubplotFlags_LinkRows, m_flags);
-		flagop("link_columns", ImPlotSubplotFlags_LinkCols, m_flags);
-		flagop("link_all_x", ImPlotSubplotFlags_LinkAllX, m_flags);
-		flagop("link_all_y", ImPlotSubplotFlags_LinkAllY, m_flags);
-		flagop("column_major", ImPlotSubplotFlags_ColMajor, m_flags);
+		flagop("no_title", ImPlotSubplotFlags_NoTitle, _flags);
+		flagop("no_menus", ImPlotSubplotFlags_NoMenus, _flags);
+		flagop("no_resize", ImPlotSubplotFlags_NoResize, _flags);
+		flagop("no_align", ImPlotSubplotFlags_NoAlign, _flags);
+		flagop("link_rows", ImPlotSubplotFlags_LinkRows, _flags);
+		flagop("link_columns", ImPlotSubplotFlags_LinkCols, _flags);
+		flagop("link_all_x", ImPlotSubplotFlags_LinkAllX, _flags);
+		flagop("link_all_y", ImPlotSubplotFlags_LinkAllY, _flags);
+		flagop("column_major", ImPlotSubplotFlags_ColMajor, _flags);
 
 
 	}
@@ -202,10 +202,10 @@ namespace Marvel {
 		if (dict == nullptr)
 			return;
 
-		PyDict_SetItemString(dict, "rows", ToPyInt(m_rows));
-		PyDict_SetItemString(dict, "cols", ToPyInt(m_cols));
-		PyDict_SetItemString(dict, "row_ratios", ToPyList(m_row_ratios));
-		PyDict_SetItemString(dict, "column_ratios", ToPyList(m_col_ratios));
+		PyDict_SetItemString(dict, "rows", ToPyInt(_rows));
+		PyDict_SetItemString(dict, "cols", ToPyInt(_cols));
+		PyDict_SetItemString(dict, "row_ratios", ToPyList(_row_ratios));
+		PyDict_SetItemString(dict, "column_ratios", ToPyList(_col_ratios));
 
 		// helper to check and set bit
 		auto checkbitset = [dict](const char* keyword, int flag, const int& flags)
@@ -214,15 +214,15 @@ namespace Marvel {
 		};
 
 		// subplot flags
-		checkbitset("no_title", ImPlotSubplotFlags_NoTitle, m_flags);
-		checkbitset("no_menus", ImPlotSubplotFlags_NoMenus, m_flags);
-		checkbitset("no_resize", ImPlotSubplotFlags_NoResize, m_flags);
-		checkbitset("no_align", ImPlotSubplotFlags_NoAlign, m_flags);
-		checkbitset("link_rows", ImPlotSubplotFlags_LinkRows, m_flags);
-		checkbitset("link_columns", ImPlotSubplotFlags_LinkCols, m_flags);
-		checkbitset("link_all_x", ImPlotSubplotFlags_LinkAllX, m_flags);
-		checkbitset("link_all_y", ImPlotSubplotFlags_LinkAllY, m_flags);
-		checkbitset("column_major", ImPlotSubplotFlags_ColMajor, m_flags);
+		checkbitset("no_title", ImPlotSubplotFlags_NoTitle, _flags);
+		checkbitset("no_menus", ImPlotSubplotFlags_NoMenus, _flags);
+		checkbitset("no_resize", ImPlotSubplotFlags_NoResize, _flags);
+		checkbitset("no_align", ImPlotSubplotFlags_NoAlign, _flags);
+		checkbitset("link_rows", ImPlotSubplotFlags_LinkRows, _flags);
+		checkbitset("link_columns", ImPlotSubplotFlags_LinkCols, _flags);
+		checkbitset("link_all_x", ImPlotSubplotFlags_LinkAllX, _flags);
+		checkbitset("link_all_y", ImPlotSubplotFlags_LinkAllY, _flags);
+		checkbitset("column_major", ImPlotSubplotFlags_ColMajor, _flags);
 	}
 
 }

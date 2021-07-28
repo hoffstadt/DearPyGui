@@ -289,7 +289,7 @@ namespace Marvel {
         //-----------------------------------------------------------------------------
         void                    setCallback(PyObject* callback);
         [[nodiscard]] PyObject* getCallback(bool ignore_enabled = true);  // returns the callback. If ignore_enable false and item is disabled then no callback will be returned.
-        [[nodiscard]] PyObject* getCallbackData() { return m_user_data; }
+        [[nodiscard]] PyObject* getCallbackData() { return _user_data; }
 
         //-----------------------------------------------------------------------------
         // drag & drop
@@ -297,50 +297,50 @@ namespace Marvel {
         void                    setPayloadType (const std::string& payloadType);
         void                    setDragCallback(PyObject* callback);
         void                    setDropCallback(PyObject* callback);
-        [[nodiscard]] PyObject* getDragCallback() { return m_dragCallback; }
-        [[nodiscard]] PyObject* getDropCallback() { return m_dropCallback; }
+        [[nodiscard]] PyObject* getDragCallback() { return _dragCallback; }
+        [[nodiscard]] PyObject* getDropCallback() { return _dropCallback; }
 
         //-----------------------------------------------------------------------------
         // dirty flags
         //-----------------------------------------------------------------------------
-        bool isPosDirty() const { return m_dirtyPos; }
+        bool isPosDirty() const { return _dirtyPos; }
 
-        virtual void                        focus          () { m_focusNextFrame = true; }
-        virtual void                        unfocus        () { m_focusNextFrame = false; }
-        virtual void                        hide           () { m_show = false; }
-        virtual void                        show           () { m_show = true; }
+        virtual void                        focus          () { _focusNextFrame = true; }
+        virtual void                        unfocus        () { _focusNextFrame = false; }
+        virtual void                        hide           () { _show = false; }
+        virtual void                        show           () { _show = true; }
         void                                setCallbackData(PyObject* data);
         void                                updateLocations();
 
         std::vector<mvRef<mvAppItem>>&      getChildren(int slot);
         void                                setChildren(int slot, std::vector<mvRef<mvAppItem>> children);
 
-        [[nodiscard]] bool                  isShown        () const { return m_show; }
+        [[nodiscard]] bool                  isShown        () const { return _show; }
 
 
-        mvAppItemState&                     getState       () { return m_state; } 
-        mvAppItem*                          getParent() { return m_parentPtr; }
-        bool                                isEnabled() const { return m_enabled; }
-        int                                 getWidth() const { return m_width; }
-        int                                 getHeight() const { return m_height; }
-        mvUUID                              getUUID() const { return m_uuid; }
-        const std::string&                  getFilter() const { return m_filter; }
-        const std::string&                  getLabel() const { return m_label; }
-        const std::string&                  getSpecifiedLabel() const { return m_specificedlabel; }
+        mvAppItemState&                     getState       () { return _state; } 
+        mvAppItem*                          getParent() { return _parentPtr; }
+        bool                                isEnabled() const { return _enabled; }
+        int                                 getWidth() const { return _width; }
+        int                                 getHeight() const { return _height; }
+        mvUUID                              getUUID() const { return _uuid; }
+        const std::string&                  getFilter() const { return _filter; }
+        const std::string&                  getLabel() const { return _label; }
+        const std::string&                  getSpecifiedLabel() const { return _specificedlabel; }
         mvAppItem*                          getRoot() const;
-        int                                 getLocation() const { return m_location; }
-        bool                                isAltCustomActionRequested() const { return m_triggerAlternativeAction; }
-        bool                                isTracked() const { return m_tracked; }
-        float                               getTrackOffset() const { return m_trackOffset; }
-        virtual void                        setWidth(int width) { m_width = width; }
-        virtual void                        setHeight(int height) { m_height = height; }
-        virtual void                        setEnabled   (bool value)              { m_enabled = value; }
-        virtual void                        setDataSource(mvUUID value)            { m_source = value; }
+        int                                 getLocation() const { return _location; }
+        bool                                isAltCustomActionRequested() const { return _triggerAlternativeAction; }
+        bool                                isTracked() const { return _tracked; }
+        float                               getTrackOffset() const { return _trackOffset; }
+        virtual void                        setWidth(int width) { _width = width; }
+        virtual void                        setHeight(int height) { _height = height; }
+        virtual void                        setEnabled   (bool value)              { _enabled = value; }
+        virtual void                        setDataSource(mvUUID value)            { _source = value; }
         virtual void                        setLabel     (const std::string& value); 
         void                                setFilter    (const std::string& value); 
         void                                setPos       (const ImVec2& pos);
         void                                registerWindowFocusing(); // only useful for imgui window types
-        bool                                shouldFocusNextFrame() const { return m_focusNextFrame; }
+        bool                                shouldFocusNextFrame() const { return _focusNextFrame; }
 
     private:
 
@@ -361,16 +361,15 @@ namespace Marvel {
        
     protected:
 
-        mvUUID         m_uuid = 0;
-        mvAppItemState m_state;
-        bool           m_focusNextFrame = false;
-        bool           m_dirtyPos = false;
-        ImVec2         m_previousCursorPos = { 0.0f, 0.0f };
-        int            m_location = -1;
-        std::string    m_label; // internal label
-        bool           m_triggerAlternativeAction = false;
-
-        mvAppItem*                    m_parentPtr = nullptr;
+        mvUUID         _uuid = 0;
+        mvAppItemState _state;
+        bool           _focusNextFrame = false;
+        bool           _dirtyPos = false;
+        ImVec2         _previousCursorPos = { 0.0f, 0.0f };
+        int            _location = -1;
+        std::string    _label; // internal label
+        bool           _triggerAlternativeAction = false;
+        mvAppItem*     _parentPtr = nullptr;
 
         // slots
         //   * 0 : mvFileExtension, mvFontRangeHint, mvNodeLink, mvAnnotation
@@ -379,41 +378,41 @@ namespace Marvel {
         //   * 2 : Draw Commands
         //   * 3 : Widget Handlers
         //   * 4 : mvDragPayload
-        std::vector<mvRef<mvAppItem>> m_children[5] = { {}, {}, {}, {}, {} };
+        std::vector<mvRef<mvAppItem>> _children[5] = { {}, {}, {}, {}, {} };
 
         // font
-        mvRef<mvAppItem> m_font = nullptr;
+        mvRef<mvAppItem> _font = nullptr;
 
         // theme
-        mvRef<mvAppItem> m_theme = nullptr;
-        mvRef<mvAppItem> m_disabledTheme = nullptr;
+        mvRef<mvAppItem> _theme = nullptr;
+        mvRef<mvAppItem> _disabledTheme = nullptr;
 
         // config
-        mvUUID      m_source = 0;
-        std::string m_specificedlabel = "__DearPyGuiDefault";
-        mvUUID      m_parent = 0;
-        mvUUID      m_before = 0;
-        std::string m_filter = "";
-        int         m_width = 0;
-        int         m_height = 0;
-        float       m_indent = -1.0f;
-        int         m_windowPosx = 0;
-        int         m_windowPosy = 0;
-        int         m_posx = 0;
-        int         m_posy = 0;
-        bool        m_show = true;
-        bool        m_enabled = true;
-        PyObject*   m_callback = nullptr;
-        PyObject*   m_user_data = nullptr;
-        bool        m_tracked = false;
-        float       m_trackOffset = 0.5f; // 0.0f:top, 0.5f:center, 1.0f:bottom
-        bool        m_searchLast = false;
-        bool        m_searchDelayed = false;
+        mvUUID      _source = 0;
+        std::string _specificedlabel = "__DearPyGuiDefault";
+        mvUUID      _parent = 0;
+        mvUUID      _before = 0;
+        std::string _filter = "";
+        int         _width = 0;
+        int         _height = 0;
+        float       _indent = -1.0f;
+        int         _windowPosx = 0;
+        int         _windowPosy = 0;
+        int         _posx = 0;
+        int         _posy = 0;
+        bool        _show = true;
+        bool        _enabled = true;
+        PyObject*   _callback = nullptr;
+        PyObject*   _user_data = nullptr;
+        bool        _tracked = false;
+        float       _trackOffset = 0.5f; // 0.0f:top, 0.5f:center, 1.0f:bottom
+        bool        _searchLast = false;
+        bool        _searchDelayed = false;
 
         // drag & drop
-        PyObject*   m_dragCallback = nullptr;
-        PyObject*   m_dropCallback = nullptr;
-        std::string m_payloadType = "$$DPG_PAYLOAD";
+        PyObject*   _dragCallback = nullptr;
+        PyObject*   _dropCallback = nullptr;
+        std::string _payloadType = "$$DPG_PAYLOAD";
 
     };
 

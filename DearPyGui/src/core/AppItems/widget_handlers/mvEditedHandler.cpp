@@ -46,7 +46,7 @@ namespace Marvel {
 		{
 			mvApp::GetApp()->getCallbackRegistry().submitCallback([=]()
 				{
-					mvApp::GetApp()->getCallbackRegistry().runCallback(getCallback(false), m_uuid, GetPyNone(), m_user_data);
+					mvApp::GetApp()->getCallbackRegistry().runCallback(getCallback(false), _uuid, GetPyNone(), _user_data);
 				});
 		}
 	}
@@ -62,7 +62,7 @@ namespace Marvel {
 			switch (i)
 			{
 			case 0:
-				m_parent = ToUUID(item);
+				_parent = ToUUID(item);
 				break;
 
 			default:

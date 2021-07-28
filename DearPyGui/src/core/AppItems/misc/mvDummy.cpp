@@ -33,7 +33,7 @@ namespace Marvel {
 
 	void mvDummy::draw(ImDrawList* drawlist, float x, float y)
 	{
-		ImGui::Dummy({ (float)m_width, (float)m_height });
+		ImGui::Dummy({ (float)_width, (float)_height });
 	}
 
 }

@@ -11,7 +11,7 @@ namespace Marvel {
 
 		static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
 
-		MV_APPLY_WIDGET_REGISTRATION(mvAppItemType::mv2dHistogramSeries, add_2d_histogram_series)
+		MV_APPLY_WIDGET_REGISTRATION(mvAppItemType::mv2dHistogramSeries, add_2d_histogra_series)
 
 		MV_START_COMMANDS
 		MV_END_COMMANDS
@@ -35,14 +35,14 @@ namespace Marvel {
 
 	private:
 
-		int m_xbins = -1;
-		int m_ybins = -1;
-		bool m_density = false;
-		bool m_outliers = true;
-		double m_xmin = 0.0;
-		double m_xmax = 1.0;
-		double m_ymin = 0.0;
-		double m_ymax = 1.0;
+		int _xbins = -1;
+		int _ybins = -1;
+		bool _density = false;
+		bool _outliers = true;
+		double _xmin = 0.0;
+		double _xmax = 1.0;
+		double _ymin = 0.0;
+		double _ymax = 1.0;
 
 	};
 

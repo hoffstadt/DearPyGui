@@ -32,9 +32,9 @@ namespace Marvel {
 		bool preDraw() override { return true; }
 		void postDraw() override {}
 
-		int getId() const { return m_id; }
-		int getId1() const { return m_id1; }
-		int getId2() const { return m_id2; }
+		int getId() const { return _id; }
+		int getId1() const { return _id1; }
+		int getId2() const { return _id2; }
 		void customAction() override;
 		void draw(ImDrawList* drawlist, float x, float y) override;
 		bool isParentCompatible(mvAppItemType type) override;
@@ -43,12 +43,12 @@ namespace Marvel {
 
 	private:
 
-		int m_id = 0;
-		int m_id1 = 0;
-		int m_id2 = 0;
+		int _id = 0;
+		int _id1 = 0;
+		int _id2 = 0;
 
-		mvUUID m_id1uuid = 0;
-		mvUUID m_id2uuid = 0;
+		mvUUID _id1uuid = 0;
+		mvUUID _id2uuid = 0;
 	};
 
 }

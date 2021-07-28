@@ -47,21 +47,21 @@ namespace Marvel {
 
 	void mvChild::addFlag(ImGuiWindowFlags flag)
 	{
-		m_windowflags |= flag;
+		_windowflags |= flag;
 	}
 
 	void mvChild::removeFlag(ImGuiWindowFlags flag)
 	{
-		m_windowflags &= ~flag;
+		_windowflags &= ~flag;
 	}
 
 	void mvChild::draw(ImDrawList* drawlist, float x, float y)
 	{
-		ScopedID id(m_uuid);
+		ScopedID id(_uuid);
 
-		ImGui::BeginChild(m_label.c_str(), ImVec2(m_autosize_x ? 0 : (float)m_width, m_autosize_y ? 0 : (float)m_height), m_border, m_windowflags);
+		ImGui::BeginChild(_label.c_str(), ImVec2(_autosize_x ? 0 : (float)_width, _autosize_y ? 0 : (float)_height), _border, _windowflags);
 
-		for (auto& item : m_children[1])
+		for (auto& item : _children[1])
 		{
 
 			if (!item->preDraw())
@@ -77,31 +77,31 @@ namespace Marvel {
 			item->postDraw();
 		}
 
-		if (m_scrollXSet)
+		if (_scrollXSet)
 		{
-			if (m_scrollX < 0.0f)
+			if (_scrollX < 0.0f)
 				ImGui::SetScrollHereX(1.0f);
 			else
-				ImGui::SetScrollX(m_scrollX);
-			m_scrollXSet = false;
+				ImGui::SetScrollX(_scrollX);
+			_scrollXSet = false;
 		}
 
-		if (m_scrollYSet)
+		if (_scrollYSet)
 		{
-			if (m_scrollY < 0.0f)
+			if (_scrollY < 0.0f)
 				ImGui::SetScrollHereY(1.0f);
 			else
-				ImGui::SetScrollY(m_scrollY);
-			m_scrollYSet = false;
+				ImGui::SetScrollY(_scrollY);
+			_scrollYSet = false;
 		}
 
 		// allows this item to have a render callback
 		registerWindowFocusing();
 
-		m_scrollX = ImGui::GetScrollX();
-		m_scrollY = ImGui::GetScrollY();
-		m_scrollMaxX = ImGui::GetScrollMaxX();
-		m_scrollMaxY = ImGui::GetScrollMaxY();
+		_scrollX = ImGui::GetScrollX();
+		_scrollY = ImGui::GetScrollY();
+		_scrollMaxX = ImGui::GetScrollMaxX();
+		_scrollMaxY = ImGui::GetScrollMaxY();
 
 		ImGui::EndChild();
 	}
@@ -111,9 +111,9 @@ namespace Marvel {
 		if (dict == nullptr)
 			return;
 		 
-		if (PyObject* item = PyDict_GetItemString(dict, "border")) m_border = ToBool(item);
-		if (PyObject* item = PyDict_GetItemString(dict, "autosize_x")) m_autosize_x = ToBool(item);
-		if (PyObject* item = PyDict_GetItemString(dict, "autosize_y")) m_autosize_y = ToBool(item);
+		if (PyObject* item = PyDict_GetItemString(dict, "border")) _border = ToBool(item);
+		if (PyObject* item = PyDict_GetItemString(dict, "autosize_x")) _autosize_x = ToBool(item);
+		if (PyObject* item = PyDict_GetItemString(dict, "autosize_y")) _autosize_y = ToBool(item);
 
 		// helper for bit flipping
 		auto flagop = [dict](const char* keyword, int flag, int& flags)
@@ -122,9 +122,9 @@ namespace Marvel {
 		};
 
 		// window flags
-		flagop("no_scrollbar", ImGuiWindowFlags_NoScrollbar, m_windowflags);
-		flagop("horizontal_scrollbar", ImGuiWindowFlags_HorizontalScrollbar, m_windowflags);
-		flagop("menubar", ImGuiWindowFlags_MenuBar, m_windowflags);
+		flagop("no_scrollbar", ImGuiWindowFlags_NoScrollbar, _windowflags);
+		flagop("horizontal_scrollbar", ImGuiWindowFlags_HorizontalScrollbar, _windowflags);
+		flagop("menubar", ImGuiWindowFlags_MenuBar, _windowflags);
 	}
 
 	void mvChild::getSpecificConfiguration(PyObject* dict)
@@ -132,9 +132,9 @@ namespace Marvel {
 		if (dict == nullptr)
 			return;
 		 
-		PyDict_SetItemString(dict, "border", ToPyBool(m_border));
-		PyDict_SetItemString(dict, "autosize_x", ToPyBool(m_autosize_x));
-		PyDict_SetItemString(dict, "autosize_y", ToPyBool(m_autosize_y));
+		PyDict_SetItemString(dict, "border", ToPyBool(_border));
+		PyDict_SetItemString(dict, "autosize_x", ToPyBool(_autosize_x));
+		PyDict_SetItemString(dict, "autosize_y", ToPyBool(_autosize_y));
 
 		// helper for bit flipping
 		auto checkbitset = [dict](const char* keyword, int flag, const int& flags)
@@ -143,9 +143,9 @@ namespace Marvel {
 		};
 
 		// window flags
-		checkbitset("no_scrollbar", ImGuiWindowFlags_NoScrollbar, m_windowflags);
-		checkbitset("horizontal_scrollbar", ImGuiWindowFlags_HorizontalScrollbar, m_windowflags);
-		checkbitset("menubar", ImGuiWindowFlags_MenuBar, m_windowflags);
+		checkbitset("no_scrollbar", ImGuiWindowFlags_NoScrollbar, _windowflags);
+		checkbitset("horizontal_scrollbar", ImGuiWindowFlags_HorizontalScrollbar, _windowflags);
+		checkbitset("menubar", ImGuiWindowFlags_MenuBar, _windowflags);
 	}
 
 }

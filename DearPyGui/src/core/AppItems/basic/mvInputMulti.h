@@ -46,14 +46,14 @@ namespace Marvel {
 
 	private:
 
-		int                 m_min = 0;
-		int                 m_max = 100;
-		bool                m_min_clamped = false;
-		bool                m_max_clamped = false;
-		ImGuiInputTextFlags m_flags = 0;
-		ImGuiInputTextFlags m_stor_flags = 0;
-		std::array<int, 4>  m_last_value = { 0, 0, 0, 0 };
-		int                 m_size = 4;
+		int                 _min = 0;
+		int                 _max = 100;
+		bool                _min_clamped = false;
+		bool                _max_clamped = false;
+		ImGuiInputTextFlags _flags = 0;
+		ImGuiInputTextFlags _stor_flags = 0;
+		std::array<int, 4>  _last_value = { 0, 0, 0, 0 };
+		int                 _size = 4;
 		
 	};
 		
@@ -88,15 +88,15 @@ namespace Marvel {
 		
 	private:
 
-		float               m_min = 0.0f;
-		float               m_max = 100.0f;
-		bool                m_min_clamped = false;
-		bool                m_max_clamped = false;
-		std::string         m_format = "%.3f";
-		ImGuiInputTextFlags m_flags = 0;
-		ImGuiInputTextFlags m_stor_flags = 0;
-		std::array<float, 4>m_last_value = { 0.0f, 0.0f, 0.0f, 0.0f };
-		int                 m_size = 4;
+		float               _min = 0.0f;
+		float               _max = 100.0f;
+		bool                _min_clamped = false;
+		bool                _max_clamped = false;
+		std::string         _format = "%.3f";
+		ImGuiInputTextFlags _flags = 0;
+		ImGuiInputTextFlags _stor_flags = 0;
+		std::array<float, 4>_last_value = { 0.0f, 0.0f, 0.0f, 0.0f };
+		int                 _size = 4;
 	};
 
 }

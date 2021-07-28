@@ -37,11 +37,11 @@ namespace Marvel {
 
 	private:
 
-		std::vector<std::string> m_names;
-		int                      m_itemsHeight = 3; // number of items to show (default -1)
-		std::vector<const char*> m_charNames;
-		int                      m_index = 0;
-		int                      m_disabledindex = 0;
+		std::vector<std::string> _names;
+		int                      _itemsHeight = 3; // number of items to show (default -1)
+		std::vector<const char*> _charNames;
+		int                      _index = 0;
+		int                      _disabledindex = 0;
 
 	};
 

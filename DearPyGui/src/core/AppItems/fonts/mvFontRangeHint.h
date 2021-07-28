@@ -44,10 +44,10 @@ namespace Marvel {
 		void draw(ImDrawList* drawlist, float x, float y) override {}
 		bool isParentCompatible(mvAppItemType type) override;
 		void handleSpecificRequiredArgs(PyObject* dict) override;
-		int getHint() const { return m_hint; }
+		int getHint() const { return _hint; }
 
 	private:
-		int m_hint = 0;
+		int _hint = 0;
 
 	};
 

@@ -23,7 +23,7 @@ namespace Marvel {
 		:
 		mvAppItem(uuid)
 	{
-		m_show = true;
+		_show = true;
 	}
 
 	void mvFontRegistry::draw(ImDrawList* drawlist, float x, float y)
@@ -32,11 +32,11 @@ namespace Marvel {
 		//io.Fonts->Clear();
 		//io.FontDefault = io.Fonts->AddFontDefault();
 
-		for (auto& item : m_children[1])
+		for (auto& item : _children[1])
 		{
 			item->draw(drawlist, ImGui::GetCursorPosX(), ImGui::GetCursorPosY());
 		}
-		m_show = false;
+		_show = false;
 	}
 
 	void mvFontRegistry::customAction()
@@ -45,7 +45,7 @@ namespace Marvel {
 		io.Fonts->Clear();
 		io.FontDefault = io.Fonts->AddFontDefault();
 
-		for (auto& item : m_children[1])
+		for (auto& item : _children[1])
 		{
 			item->customAction();
 		}

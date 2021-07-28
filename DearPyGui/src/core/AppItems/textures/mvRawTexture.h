@@ -48,16 +48,16 @@ namespace Marvel {
 		PyObject* getPyValue() override;
 		void setPyValue(PyObject* value) override;
 
-		void* getRawTexture() { return m_texture; }
+		void* getRawTexture() { return _texture; }
 
 	private:
 
-		PyObject*     m_buffer = nullptr;
-		void*         m_value = nullptr;
-		void*         m_texture = nullptr;
-		bool          m_dirty = true;
-		ComponentType m_componentType = ComponentType::MV_FLOAT_COMPONENT;
-		int           m_components = 4;
+		PyObject*     _buffer = nullptr;
+		void*         _value = nullptr;
+		void*         _texture = nullptr;
+		bool          _dirty = true;
+		ComponentType _componentType = ComponentType::MV_FLOAT_COMPONENT;
+		int           _components = 4;
 
 	};
 

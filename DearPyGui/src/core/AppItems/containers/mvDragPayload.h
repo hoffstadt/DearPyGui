@@ -28,12 +28,12 @@ namespace Marvel {
 		void draw(ImDrawList* drawlist, float x, float y) override;
 		void handleSpecificKeywordArgs(PyObject* dict) override;
 		void getSpecificConfiguration(PyObject* dict) override;
-		PyObject* getDragData() const { return m_dragData; }
+		PyObject* getDragData() const { return _dragData; }
 
 	private:
 
-		std::string m_payloadType = "$$DPG_PAYLOAD";
-		PyObject*   m_dragData = nullptr;
+		std::string _payloadType = "$$DPG_PAYLOAD";
+		PyObject*   _dragData = nullptr;
 
 	};
 

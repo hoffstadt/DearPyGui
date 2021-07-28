@@ -171,14 +171,14 @@ namespace Marvel {
 		bool isParentCompatible(mvAppItemType type) override;
 		void handleSpecificKeywordArgs(PyObject* dict) override;
 
-		void setLibType(mvLibType libType) { m_libType = libType; }
+		void setLibType(mvLibType libType) { _libType = libType; }
 
 	private:
 
-		ImGuiCol m_targetStyle = 0;
-		float m_x = 0.0f;
-		float m_y = -1.0f;
-		mvLibType m_libType = mvLibType::MV_IMGUI;
+		ImGuiCol _targetStyle = 0;
+		float _x = 0.0f;
+		float _y = -1.0f;
+		mvLibType _libType = mvLibType::MV_IMGUI;
 		
 
 	};

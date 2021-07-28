@@ -50,52 +50,52 @@ namespace Marvel {
 		//-----------------------------------------------------------------------------
 
 		// show/hide
-		if (!m_show)
+		if (!_show)
 			return;
 
 		// focusing
-		if (m_focusNextFrame)
+		if (_focusNextFrame)
 		{
 			ImGui::SetKeyboardFocusHere();
-			m_focusNextFrame = false;
+			_focusNextFrame = false;
 		}
 
 		// cache old cursor position
 		ImVec2 previousCursorPos = ImGui::GetCursorPos();
 
 		// set cursor position if user set
-		if (m_dirtyPos)
-			ImGui::SetCursorPos(m_state.getItemPos());
+		if (_dirtyPos)
+			ImGui::SetCursorPos(_state.getItemPos());
 
 		// update widget's position state
-		m_state.setPos({ ImGui::GetCursorPosX(), ImGui::GetCursorPosY() });
+		_state.setPos({ ImGui::GetCursorPosX(), ImGui::GetCursorPosY() });
 
 		// set item width
-		if (m_width != 0)
-			ImGui::SetNextItemWidth((float)m_width);
+		if (_width != 0)
+			ImGui::SetNextItemWidth((float)_width);
 
 		// set indent
-		if (m_indent > 0.0f)
-			ImGui::Indent(m_indent);
+		if (_indent > 0.0f)
+			ImGui::Indent(_indent);
 
 		// push font if a font object is attached
-		if (m_font)
+		if (_font)
 		{
-			ImFont* fontptr = static_cast<mvFont*>(m_font.get())->getFontPtr();
+			ImFont* fontptr = static_cast<mvFont*>(_font.get())->getFontPtr();
 			ImGui::PushFont(fontptr);
 		}
 
 
 		// handle enabled theming
-		if (m_enabled)
+		if (_enabled)
 		{
 			// push class theme (if it exists)
 			if (auto classTheme = getClassTheme())
 				static_cast<mvTheme*>(classTheme.get())->draw(nullptr, 0.0f, 0.0f);
 
 			// push item theme (if it exists)
-			if (m_theme)
-				static_cast<mvTheme*>(m_theme.get())->draw(nullptr, 0.0f, 0.0f);
+			if (_theme)
+				static_cast<mvTheme*>(_theme.get())->draw(nullptr, 0.0f, 0.0f);
 		}
 
 		// handled disabled theming
@@ -106,8 +106,8 @@ namespace Marvel {
 				static_cast<mvTheme*>(classTheme.get())->draw(nullptr, 0.0f, 0.0f);
 
 			// push item theme (if it exists)
-			if (m_disabledTheme)
-				static_cast<mvTheme*>(m_disabledTheme.get())->draw(nullptr, 0.0f, 0.0f);
+			if (_disabledTheme)
+				static_cast<mvTheme*>(_disabledTheme.get())->draw(nullptr, 0.0f, 0.0f);
 		}
 
 		//-----------------------------------------------------------------------------
@@ -115,15 +115,15 @@ namespace Marvel {
 		//-----------------------------------------------------------------------------
 		{
 			// push imgui id to prevent name collisions
-			ScopedID id(m_uuid);
+			ScopedID id(_uuid);
 
-			if (!m_enabled) m_disabled_value = *m_value;
+			if (!_enabled) _disabled_value = *_value;
 
-			if (ImGui::Checkbox(m_label.c_str(), m_enabled ? m_value.get() : &m_disabled_value))
+			if (ImGui::Checkbox(_label.c_str(), _enabled ? _value.get() : &_disabled_value))
 			{
-				bool value = *m_value;
+				bool value = *_value;
 				mvApp::GetApp()->getCallbackRegistry().submitCallback([=]() {
-					mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), m_uuid, ToPyBool(value), m_user_data);
+					mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), _uuid, ToPyBool(value), _user_data);
 					});
 			}
 		}
@@ -132,55 +132,55 @@ namespace Marvel {
 		// update state
 		//   * only update if applicable
 		//-----------------------------------------------------------------------------
-		m_state.m_hovered = ImGui::IsItemHovered();
-		m_state.m_active = ImGui::IsItemActive();
-		m_state.m_focused = ImGui::IsItemFocused();
-		m_state.m_clicked = ImGui::IsItemClicked();
-		m_state.m_visible = ImGui::IsItemVisible();
-		m_state.m_edited = ImGui::IsItemEdited();
-		m_state.m_activated = ImGui::IsItemActivated();
-		m_state.m_deactivated = ImGui::IsItemDeactivated();
-		m_state.m_deactivatedAfterEdit = ImGui::IsItemDeactivatedAfterEdit();
-		m_state.m_rectMin = { ImGui::GetItemRectMin().x, ImGui::GetItemRectMin().y };
-		m_state.m_rectMax = { ImGui::GetItemRectMax().x, ImGui::GetItemRectMax().y };
-		m_state.m_rectSize = { ImGui::GetItemRectSize().x, ImGui::GetItemRectSize().y };
-		m_state.m_contextRegionAvail = { ImGui::GetContentRegionAvail().x, ImGui::GetContentRegionAvail().y };
+		_state._hovered = ImGui::IsItemHovered();
+		_state._active = ImGui::IsItemActive();
+		_state._focused = ImGui::IsItemFocused();
+		_state._clicked = ImGui::IsItemClicked();
+		_state._visible = ImGui::IsItemVisible();
+		_state._edited = ImGui::IsItemEdited();
+		_state._activated = ImGui::IsItemActivated();
+		_state._deactivated = ImGui::IsItemDeactivated();
+		_state._deactivatedAfterEdit = ImGui::IsItemDeactivatedAfterEdit();
+		_state._rectMin = { ImGui::GetItemRectMin().x, ImGui::GetItemRectMin().y };
+		_state._rectMax = { ImGui::GetItemRectMax().x, ImGui::GetItemRectMax().y };
+		_state._rectSize = { ImGui::GetItemRectSize().x, ImGui::GetItemRectSize().y };
+		_state._contextRegionAvail = { ImGui::GetContentRegionAvail().x, ImGui::GetContentRegionAvail().y };
 
 		//-----------------------------------------------------------------------------
 		// post draw
 		//-----------------------------------------------------------------------------
 
 		// set cursor position to cached position
-		if (m_dirtyPos)
+		if (_dirtyPos)
 			ImGui::SetCursorPos(previousCursorPos);
 
-		if (m_indent > 0.0f)
-			ImGui::Unindent(m_indent);
+		if (_indent > 0.0f)
+			ImGui::Unindent(_indent);
 
 		// pop font off stack
-		if (m_font)
+		if (_font)
 			ImGui::PopFont();
 
 		// handle popping styles
-		if (m_enabled)
+		if (_enabled)
 		{
 			if (auto classTheme = getClassTheme())
 				static_cast<mvTheme*>(classTheme.get())->customAction();
 
-			if (m_theme)
-				static_cast<mvTheme*>(m_theme.get())->customAction();
+			if (_theme)
+				static_cast<mvTheme*>(_theme.get())->customAction();
 		}
 		else
 		{
 			if (auto classTheme = getClassDisabledTheme())
 				static_cast<mvTheme*>(classTheme.get())->customAction();
 
-			if (m_disabledTheme)
-				static_cast<mvTheme*>(m_disabledTheme.get())->customAction();
+			if (_disabledTheme)
+				static_cast<mvTheme*>(_disabledTheme.get())->customAction();
 		}
 
 		// handle widget's event handlers
-		for (auto& item : m_children[3])
+		for (auto& item : _children[3])
 		{
 			if (!item->preDraw())
 				continue;
@@ -189,7 +189,7 @@ namespace Marvel {
 		}
 
 		// handle drag & drop payloads
-		for (auto& item : m_children[4])
+		for (auto& item : _children[4])
 		{
 			if (!item->preDraw())
 				continue;
@@ -198,15 +198,15 @@ namespace Marvel {
 		}
 
 		// handle drag & drop if used
-		if (m_dropCallback)
+		if (_dropCallback)
 		{
-			ScopedID id(m_uuid);
+			ScopedID id(_uuid);
 			if (ImGui::BeginDragDropTarget())
 			{
-				if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload(m_payloadType.c_str()))
+				if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload(_payloadType.c_str()))
 				{
 					auto payloadActual = static_cast<const mvDragPayload*>(payload->Data);
-					mvApp::GetApp()->getCallbackRegistry().addCallback(getDropCallback(), m_uuid, payloadActual->getDragData(), m_user_data);
+					mvApp::GetApp()->getCallbackRegistry().addCallback(getDropCallback(), _uuid, payloadActual->getDragData(), _user_data);
 				}
 
 				ImGui::EndDragDropTarget();

@@ -41,41 +41,41 @@ namespace Marvel {
 	mvImage::mvImage(mvUUID uuid)
 		: mvAppItem(uuid)
 	{
-		m_width = 0;
-		m_height = 0;
+		_width = 0;
+		_height = 0;
 	}
 
 
 	void mvImage::draw(ImDrawList* drawlist, float x, float y)
 	{
 
-		if (m_texture)
+		if (_texture)
 		{
-			if (m_internalTexture)
-				m_texture->draw(drawlist, x, y);
+			if (_internalTexture)
+				_texture->draw(drawlist, x, y);
 
-			if (!m_texture->getState().isOk())
+			if (!_texture->getState().isOk())
 				return;
 
 			// if width/height is not set by user, use texture dimensions
-			if (m_width == 0)
-					m_width = m_texture->getWidth();
+			if (_width == 0)
+					_width = _texture->getWidth();
 
-			if (m_height == 0)
-					m_height = m_texture->getHeight();
+			if (_height == 0)
+					_height = _texture->getHeight();
 
 			void* texture = nullptr;
 
-			if (m_texture->getType() == mvAppItemType::mvStaticTexture)
-				texture = static_cast<mvStaticTexture*>(m_texture.get())->getRawTexture();
-			else if (m_texture->getType() == mvAppItemType::mvRawTexture)
-				texture = static_cast<mvRawTexture*>(m_texture.get())->getRawTexture();
+			if (_texture->getType() == mvAppItemType::mvStaticTexture)
+				texture = static_cast<mvStaticTexture*>(_texture.get())->getRawTexture();
+			else if (_texture->getType() == mvAppItemType::mvRawTexture)
+				texture = static_cast<mvRawTexture*>(_texture.get())->getRawTexture();
 			else
-				texture = static_cast<mvDynamicTexture*>(m_texture.get())->getRawTexture();
+				texture = static_cast<mvDynamicTexture*>(_texture.get())->getRawTexture();
 
-			ImGui::Image(texture, ImVec2(m_width, m_height), ImVec2(m_uv_min.x, m_uv_min.y), ImVec2(m_uv_max.x, m_uv_max.y),
-				ImVec4((float)m_tintColor.r, (float)m_tintColor.g, (float)m_tintColor.b, (float)m_tintColor.a),
-				ImVec4((float)m_borderColor.r, (float)m_borderColor.g, (float)m_borderColor.b, (float)m_borderColor.a));
+			ImGui::Image(texture, ImVec2(_width, _height), ImVec2(_uv_min.x, _uv_min.y), ImVec2(_uv_max.x, _uv_max.y),
+				ImVec4((float)_tintColor.r, (float)_tintColor.g, (float)_tintColor.b, (float)_tintColor.a),
+				ImVec4((float)_borderColor.r, (float)_borderColor.g, (float)_borderColor.b, (float)_borderColor.a));
 
 		}
 
@@ -83,12 +83,12 @@ namespace Marvel {
 
 	void mvImage::setValue(mvUUID value)
 	{ 
-		m_textureUUID = value;
+		_textureUUID = value;
 	}
 
 	mvUUID mvImage::get1Value() const
 	{ 
-		return m_textureUUID;
+		return _textureUUID;
 	}
 
 	void mvImage::handleSpecificRequiredArgs(PyObject* dict)
@@ -103,14 +103,14 @@ namespace Marvel {
 			{
 			case 0:
 			{
-				m_textureUUID = ToUUID(item);
-				m_texture = mvApp::GetApp()->getItemRegistry().getRefItem(m_textureUUID);
-				if (m_texture)
+				_textureUUID = ToUUID(item);
+				_texture = mvApp::GetApp()->getItemRegistry().getRefItem(_textureUUID);
+				if (_texture)
 					break;
-				else if (m_textureUUID == MV_ATLAS_UUID)
+				else if (_textureUUID == MV_ATLAS_UUID)
 				{
-					m_texture = std::make_shared<mvStaticTexture>(m_textureUUID);
-					m_internalTexture = true;
+					_texture = std::make_shared<mvStaticTexture>(_textureUUID);
+					_internalTexture = true;
 					break;
 				}
 				else
@@ -131,10 +131,10 @@ namespace Marvel {
 		if (dict == nullptr)
 			return;
 
-		if (PyObject* item = PyDict_GetItemString(dict, "uv_min")) m_uv_min = ToVec2(item);
-		if (PyObject* item = PyDict_GetItemString(dict, "uv_max")) m_uv_max = ToVec2(item);
-		if (PyObject* item = PyDict_GetItemString(dict, "tint_color")) m_tintColor = ToColor(item);
-		if (PyObject* item = PyDict_GetItemString(dict, "border_color")) m_borderColor = ToColor(item);
+		if (PyObject* item = PyDict_GetItemString(dict, "uv_min")) _uv_min = ToVec2(item);
+		if (PyObject* item = PyDict_GetItemString(dict, "uv_max")) _uv_max = ToVec2(item);
+		if (PyObject* item = PyDict_GetItemString(dict, "tint_color")) _tintColor = ToColor(item);
+		if (PyObject* item = PyDict_GetItemString(dict, "border_color")) _borderColor = ToColor(item);
 	}
 
 	void mvImage::getSpecificConfiguration(PyObject* dict)
@@ -142,11 +142,11 @@ namespace Marvel {
 		if (dict == nullptr)
 			return;
 
-		PyDict_SetItemString(dict, "uv_min", ToPyPair(m_uv_min.x, m_uv_min.y));
-		PyDict_SetItemString(dict, "uv_max", ToPyPair(m_uv_max.x, m_uv_max.y));
-		PyDict_SetItemString(dict, "tint_color", ToPyColor(m_tintColor));
-		PyDict_SetItemString(dict, "border_color", ToPyColor(m_borderColor));
-		PyDict_SetItemString(dict, "texture_id", ToPyUUID(m_textureUUID));
+		PyDict_SetItemString(dict, "uv_min", ToPyPair(_uv_min.x, _uv_min.y));
+		PyDict_SetItemString(dict, "uv_max", ToPyPair(_uv_max.x, _uv_max.y));
+		PyDict_SetItemString(dict, "tint_color", ToPyColor(_tintColor));
+		PyDict_SetItemString(dict, "border_color", ToPyColor(_borderColor));
+		PyDict_SetItemString(dict, "texture_id", ToPyUUID(_textureUUID));
 	}
 
 }

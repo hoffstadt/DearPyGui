@@ -34,8 +34,8 @@ namespace Marvel {
 
     private:
 
-        double m_scale_min = 0;
-        double m_scale_max = 0;
+        double _scale_min = 0;
+        double _scale_max = 0;
 
     };
 

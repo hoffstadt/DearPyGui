@@ -31,7 +31,7 @@ namespace Marvel {
 
 	void mvSpacing::draw(ImDrawList* drawlist, float x, float y)
 	{
-		for (int i = 0; i < *m_value; i++)
+		for (int i = 0; i < *_value; i++)
 			ImGui::Spacing();
 	}
 
@@ -42,7 +42,7 @@ namespace Marvel {
 
 		if (PyObject* item = PyDict_GetItemString(dict, "count"))
 		{
-			*m_value = ToInt(item);
+			*_value = ToInt(item);
 		}
 
 
@@ -53,7 +53,7 @@ namespace Marvel {
 		if (dict == nullptr)
 			return;
 
-		PyDict_SetItemString(dict, "count", ToPyBool(*m_value));
+		PyDict_SetItemString(dict, "count", ToPyBool(*_value));
 	}
 
 }

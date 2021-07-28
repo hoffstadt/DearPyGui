@@ -136,26 +136,26 @@ namespace Marvel {
 		//-----------------------------------------------------------------------------
 		// pre draw
 		//-----------------------------------------------------------------------------
-		if (!m_show)
+		if (!_show)
 			return;
 
 		// push font if a font object is attached
-		if (m_font)
+		if (_font)
 		{
-			ImFont* fontptr = static_cast<mvFont*>(m_font.get())->getFontPtr();
+			ImFont* fontptr = static_cast<mvFont*>(_font.get())->getFontPtr();
 			ImGui::PushFont(fontptr);
 		}
 
 		// handle enabled theming
-		if (m_enabled)
+		if (_enabled)
 		{
 			// push class theme (if it exists)
 			if (auto classTheme = getClassTheme())
 				static_cast<mvTheme*>(classTheme.get())->draw(nullptr, 0.0f, 0.0f);
 
 			// push item theme (if it exists)
-			if (m_theme)
-				static_cast<mvTheme*>(m_theme.get())->draw(nullptr, 0.0f, 0.0f);
+			if (_theme)
+				static_cast<mvTheme*>(_theme.get())->draw(nullptr, 0.0f, 0.0f);
 		}
 
 		//-----------------------------------------------------------------------------
@@ -169,20 +169,20 @@ namespace Marvel {
 			static const std::vector<double>* lowptr;
 			static const std::vector<double>* highptr;
 
-			datesptr = &(*m_value.get())[0];
-			openptr = &(*m_value.get())[1];
-			closeptr = &(*m_value.get())[2];
-			lowptr = &(*m_value.get())[3];
-			highptr = &(*m_value.get())[4];
+			datesptr = &(*_value.get())[0];
+			openptr = &(*_value.get())[1];
+			closeptr = &(*_value.get())[2];
+			lowptr = &(*_value.get())[3];
+			highptr = &(*_value.get())[4];
 
-			PlotCandlestick(m_label.c_str(), datesptr->data(), openptr->data(), closeptr->data(),
-				lowptr->data(), highptr->data(), (int)datesptr->size(), m_tooltip, m_weight, m_bullColor,
-				m_bearColor);
+			PlotCandlestick(_label.c_str(), datesptr->data(), openptr->data(), closeptr->data(),
+				lowptr->data(), highptr->data(), (int)datesptr->size(), _tooltip, _weight, _bullColor,
+				_bearColor);
 
 			// Begin a popup for a legend entry.
-			if (ImPlot::BeginLegendPopup(m_label.c_str(), 1))
+			if (ImPlot::BeginLegendPopup(_label.c_str(), 1))
 			{
-				for (auto& childset : m_children)
+				for (auto& childset : _children)
 				{
 					for (auto& item : childset)
 					{
@@ -209,17 +209,17 @@ namespace Marvel {
 		//-----------------------------------------------------------------------------
 
 		// pop font off stack
-		if (m_font)
+		if (_font)
 			ImGui::PopFont();
 
 		// handle popping styles
-		if (m_enabled)
+		if (_enabled)
 		{
 			if (auto classTheme = getClassTheme())
 				static_cast<mvTheme*>(classTheme.get())->customAction();
 
-			if (m_theme)
-				static_cast<mvTheme*>(m_theme.get())->customAction();
+			if (_theme)
+				static_cast<mvTheme*>(_theme.get())->customAction();
 		}
 
 	}
@@ -235,23 +235,23 @@ namespace Marvel {
 			switch (i)
 			{
 			case 0:
-				(*m_value)[0] = ToDoubleVect(item);
+				(*_value)[0] = ToDoubleVect(item);
 				break;
 
 			case 1:
-				(*m_value)[1] = ToDoubleVect(item);
+				(*_value)[1] = ToDoubleVect(item);
 				break;
 
 			case 2:
-				(*m_value)[2] = ToDoubleVect(item);
+				(*_value)[2] = ToDoubleVect(item);
 				break;
 
 			case 3:
-				(*m_value)[3] = ToDoubleVect(item);
+				(*_value)[3] = ToDoubleVect(item);
 				break;
 
 			case 4:
-				(*m_value)[4] = ToDoubleVect(item);
+				(*_value)[4] = ToDoubleVect(item);
 				break;
 
 			default:
@@ -265,16 +265,16 @@ namespace Marvel {
 		if (dict == nullptr)
 			return;
 
-		if (PyObject* item = PyDict_GetItemString(dict, "bull_color")) m_bullColor = ToColor(item);
-		if (PyObject* item = PyDict_GetItemString(dict, "bear_color")) m_bearColor = ToColor(item);
-		if (PyObject* item = PyDict_GetItemString(dict, "weight")) m_weight = ToFloat(item);
-		if (PyObject* item = PyDict_GetItemString(dict, "tooltip")) m_tooltip = ToBool(item);
+		if (PyObject* item = PyDict_GetItemString(dict, "bull_color")) _bullColor = ToColor(item);
+		if (PyObject* item = PyDict_GetItemString(dict, "bear_color")) _bearColor = ToColor(item);
+		if (PyObject* item = PyDict_GetItemString(dict, "weight")) _weight = ToFloat(item);
+		if (PyObject* item = PyDict_GetItemString(dict, "tooltip")) _tooltip = ToBool(item);
 
-		if (PyObject* item = PyDict_GetItemString(dict, "dates")) { (*m_value)[0] = ToDoubleVect(item); }
-		if (PyObject* item = PyDict_GetItemString(dict, "opens")) { (*m_value)[1] = ToDoubleVect(item); }
-		if (PyObject* item = PyDict_GetItemString(dict, "closes")) { (*m_value)[2] = ToDoubleVect(item); }
-		if (PyObject* item = PyDict_GetItemString(dict, "lows")) { (*m_value)[3] = ToDoubleVect(item); }
-		if (PyObject* item = PyDict_GetItemString(dict, "highs")) { (*m_value)[4] = ToDoubleVect(item); }
+		if (PyObject* item = PyDict_GetItemString(dict, "dates")) { (*_value)[0] = ToDoubleVect(item); }
+		if (PyObject* item = PyDict_GetItemString(dict, "opens")) { (*_value)[1] = ToDoubleVect(item); }
+		if (PyObject* item = PyDict_GetItemString(dict, "closes")) { (*_value)[2] = ToDoubleVect(item); }
+		if (PyObject* item = PyDict_GetItemString(dict, "lows")) { (*_value)[3] = ToDoubleVect(item); }
+		if (PyObject* item = PyDict_GetItemString(dict, "highs")) { (*_value)[4] = ToDoubleVect(item); }
 
 	}
 
@@ -283,10 +283,10 @@ namespace Marvel {
 		if (dict == nullptr)
 			return;
 
-		PyDict_SetItemString(dict, "bull_color", ToPyColor(m_bullColor));
-		PyDict_SetItemString(dict, "bear_color", ToPyColor(m_bearColor));
-		PyDict_SetItemString(dict, "weight", ToPyFloat(m_weight));
-		PyDict_SetItemString(dict, "tooltip", ToPyBool(m_tooltip));
+		PyDict_SetItemString(dict, "bull_color", ToPyColor(_bullColor));
+		PyDict_SetItemString(dict, "bear_color", ToPyColor(_bearColor));
+		PyDict_SetItemString(dict, "weight", ToPyFloat(_weight));
+		PyDict_SetItemString(dict, "tooltip", ToPyBool(_tooltip));
 	}
 
 }

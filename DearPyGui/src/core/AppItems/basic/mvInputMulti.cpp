@@ -89,43 +89,43 @@ namespace Marvel {
     mvInputIntMulti::mvInputIntMulti(mvUUID uuid)
         : mvInt4PtrBase(uuid)
     {
-        m_last_value = *m_value;
+        _last_value = *_value;
     }
 
     void mvInputIntMulti::setEnabled(bool value)
     {
-        if (value == m_enabled)
+        if (value == _enabled)
             return;
 
         if (value)
-            m_flags = m_stor_flags;
+            _flags = _stor_flags;
 
         else
         {
-            m_stor_flags = m_flags;
-            m_flags |= ImGuiInputTextFlags_ReadOnly;
-            m_flags &= ~ImGuiInputTextFlags_EnterReturnsTrue;
+            _stor_flags = _flags;
+            _flags |= ImGuiInputTextFlags_ReadOnly;
+            _flags &= ~ImGuiInputTextFlags_EnterReturnsTrue;
         }
 
-        m_enabled = value;
+        _enabled = value;
     }
 
     void mvInputIntMulti::draw(ImDrawList* drawlist, float x, float y)
     {
-        ScopedID id(m_uuid);
+        ScopedID id(_uuid);
 
         bool res = false;
 
-        switch (m_size)
+        switch (_size)
         {
         case 2:
-            res = ImGui::InputInt2(m_label.c_str(), m_value->data(), m_flags);
+            res = ImGui::InputInt2(_label.c_str(), _value->data(), _flags);
             break;
         case 3:
-            res = ImGui::InputInt3(m_label.c_str(), m_value->data(), m_flags);
+            res = ImGui::InputInt3(_label.c_str(), _value->data(), _flags);
             break;
         case 4:
-            res = ImGui::InputInt4(m_label.c_str(), m_value->data(), m_flags);
+            res = ImGui::InputInt4(_label.c_str(), _value->data(), _flags);
             break;
         default:
             break;
@@ -133,28 +133,28 @@ namespace Marvel {
 
         if (res)
         {
-            auto inital_value = *m_value;
+            auto inital_value = *_value;
             // determines clamped cases
-            if (m_min_clamped && m_max_clamped)
+            if (_min_clamped && _max_clamped)
             {
                 for (int i = 0; i < 4; i++)
                 {
-                    if (m_value->data()[i] < m_min) m_value->data()[i] = m_min;
-                    else if (m_value->data()[i] > m_max) m_value->data()[i] = m_max;
+                    if (_value->data()[i] < _min) _value->data()[i] = _min;
+                    else if (_value->data()[i] > _max) _value->data()[i] = _max;
                 }
             }
-            else if (m_min_clamped)
+            else if (_min_clamped)
             {
                 for (int i = 0; i < 4; i++)
                 {
-                    if (m_value->data()[i] < m_min) m_value->data()[i] = m_min;
+                    if (_value->data()[i] < _min) _value->data()[i] = _min;
                 }
             }
-            else if (m_max_clamped)
+            else if (_max_clamped)
             {
                 for (int i = 0; i < 4; i++)
                 {
-                    if (m_value->data()[i] > m_max) m_value->data()[i] = m_max;
+                    if (_value->data()[i] > _max) _value->data()[i] = _max;
                 }
             }
 
@@ -162,13 +162,13 @@ namespace Marvel {
             // If the value is out of bounds the value will be overwritten with max or min so each frame the value will be switching between the
             // ctrl+click value and the bounds value until the widget is not in ctrl+click mode. To prevent the callback from running every 
             // frame we check if the value was already submitted.
-            if (m_last_value != *m_value)
+            if (_last_value != *_value)
             {
-                m_last_value = *m_value;
+                _last_value = *_value;
 
-                auto value = *m_value;
+                auto value = *_value;
                 mvApp::GetApp()->getCallbackRegistry().submitCallback([=]() {
-                    mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), m_uuid, ToPyIntList(value.data(), value.size()), m_user_data);
+                    mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), _uuid, ToPyIntList(value.data(), value.size()), _user_data);
                     });
             }
         }
@@ -177,45 +177,45 @@ namespace Marvel {
     mvInputFloatMulti::mvInputFloatMulti(mvUUID uuid)
         : mvFloat4PtrBase(uuid)
     {
-        m_last_value = *m_value;
+        _last_value = *_value;
     }
 
     void mvInputFloatMulti::setEnabled(bool value)
     {
-        if (value == m_enabled)
+        if (value == _enabled)
             return;
 
         if (value)
-            m_flags = m_stor_flags;
+            _flags = _stor_flags;
 
         else
         {
-            m_stor_flags = m_flags;
-            m_flags |= ImGuiInputTextFlags_ReadOnly;
-            m_flags &= ~ImGuiInputTextFlags_EnterReturnsTrue;
+            _stor_flags = _flags;
+            _flags |= ImGuiInputTextFlags_ReadOnly;
+            _flags &= ~ImGuiInputTextFlags_EnterReturnsTrue;
         }
 
-        m_enabled = value;
+        _enabled = value;
     }
 
     void mvInputFloatMulti::draw(ImDrawList* drawlist, float x, float y)
     {
-        ScopedID id(m_uuid);
+        ScopedID id(_uuid);
         ////mvImGuiThemeScope scope(this);
         //mvFontScope fscope(this);
 
         bool res = false;
 
-        switch (m_size)
+        switch (_size)
         {
         case 2:
-            res = ImGui::InputFloat2(m_label.c_str(), m_value->data(), m_format.c_str(), m_flags);
+            res = ImGui::InputFloat2(_label.c_str(), _value->data(), _format.c_str(), _flags);
             break;
         case 3:
-            res = ImGui::InputFloat3(m_label.c_str(), m_value->data(), m_format.c_str(), m_flags);
+            res = ImGui::InputFloat3(_label.c_str(), _value->data(), _format.c_str(), _flags);
             break;
         case 4:
-            res = ImGui::InputFloat4(m_label.c_str(), m_value->data(), m_format.c_str(), m_flags);
+            res = ImGui::InputFloat4(_label.c_str(), _value->data(), _format.c_str(), _flags);
             break;
         default:
             break;
@@ -223,28 +223,28 @@ namespace Marvel {
 
         if (res)
         {
-            auto inital_value = *m_value;
+            auto inital_value = *_value;
             // determines clamped cases
-            if (m_min_clamped && m_max_clamped)
+            if (_min_clamped && _max_clamped)
             {
                 for (int i = 0; i < 4; i++)
                 {
-                    if (m_value->data()[i] < m_min) m_value->data()[i] = m_min;
-                    else if (m_value->data()[i] > m_max) m_value->data()[i] = m_max;
+                    if (_value->data()[i] < _min) _value->data()[i] = _min;
+                    else if (_value->data()[i] > _max) _value->data()[i] = _max;
                 }
             }
-            else if (m_min_clamped)
+            else if (_min_clamped)
             {
                 for (int i = 0; i < 4; i++)
                 {
-                    if (m_value->data()[i] < m_min) m_value->data()[i] = m_min;
+                    if (_value->data()[i] < _min) _value->data()[i] = _min;
                 }
             }
-            else if (m_max_clamped)
+            else if (_max_clamped)
             {
                 for (int i = 0; i < 4; i++)
                 {
-                    if (m_value->data()[i] > m_max) m_value->data()[i] = m_max;
+                    if (_value->data()[i] > _max) _value->data()[i] = _max;
                 }
             }
 
@@ -252,12 +252,12 @@ namespace Marvel {
             // If the value is out of bounds the value will be overwritten with max or min so each frame the value will be switching between the
             // ctrl+click value and the bounds value until the widget is not in ctrl+click mode. To prevent the callback from running every 
             // frame we check if the value was already submitted.
-            if (m_last_value != *m_value)
+            if (_last_value != *_value)
             {
-                m_last_value = *m_value;
-                auto value = *m_value;
+                _last_value = *_value;
+                auto value = *_value;
                 mvApp::GetApp()->getCallbackRegistry().submitCallback([=]() {
-                    mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), m_uuid, ToPyFloatList(value.data(), value.size()), m_user_data);
+                    mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), _uuid, ToPyFloatList(value.data(), value.size()), _user_data);
                     });
             }
         }
@@ -268,31 +268,31 @@ namespace Marvel {
         if (dict == nullptr)
             return;
 
-        if (PyObject* item = PyDict_GetItemString(dict, "on_enter")) ToBool(item) ? m_flags |= ImGuiInputTextFlags_EnterReturnsTrue : m_flags &= ~ImGuiInputTextFlags_EnterReturnsTrue;
-        if (PyObject* item = PyDict_GetItemString(dict, "on_enter")) ToBool(item) ? m_stor_flags |= ImGuiInputTextFlags_EnterReturnsTrue : m_stor_flags &= ~ImGuiInputTextFlags_EnterReturnsTrue;
-        if (PyObject* item = PyDict_GetItemString(dict, "readonly")) ToBool(item) ? m_flags |= ImGuiInputTextFlags_ReadOnly : m_flags &= ~ImGuiInputTextFlags_ReadOnly;
-        if (PyObject* item = PyDict_GetItemString(dict, "readonly")) ToBool(item) ? m_stor_flags |= ImGuiInputTextFlags_ReadOnly : m_stor_flags &= ~ImGuiInputTextFlags_ReadOnly;
-        if (PyObject* item = PyDict_GetItemString(dict, "size")) m_size = ToInt(item);
+        if (PyObject* item = PyDict_GetItemString(dict, "on_enter")) ToBool(item) ? _flags |= ImGuiInputTextFlags_EnterReturnsTrue : _flags &= ~ImGuiInputTextFlags_EnterReturnsTrue;
+        if (PyObject* item = PyDict_GetItemString(dict, "on_enter")) ToBool(item) ? _stor_flags |= ImGuiInputTextFlags_EnterReturnsTrue : _stor_flags &= ~ImGuiInputTextFlags_EnterReturnsTrue;
+        if (PyObject* item = PyDict_GetItemString(dict, "readonly")) ToBool(item) ? _flags |= ImGuiInputTextFlags_ReadOnly : _flags &= ~ImGuiInputTextFlags_ReadOnly;
+        if (PyObject* item = PyDict_GetItemString(dict, "readonly")) ToBool(item) ? _stor_flags |= ImGuiInputTextFlags_ReadOnly : _stor_flags &= ~ImGuiInputTextFlags_ReadOnly;
+        if (PyObject* item = PyDict_GetItemString(dict, "size")) _size = ToInt(item);
 
         bool minmax_set = false;
         if (PyObject* item = PyDict_GetItemString(dict, "min_value"))
         {
-            m_min = ToInt(item);
-            m_min_clamped = true;
+            _min = ToInt(item);
+            _min_clamped = true;
             minmax_set = true;
         }
 
         if (PyObject* item = PyDict_GetItemString(dict, "max_value"))
         {
-            m_max = ToInt(item);
-            m_max_clamped = true;
+            _max = ToInt(item);
+            _max_clamped = true;
             minmax_set = true;
         }
 
         if (!minmax_set)
         {
-            if (PyObject* item = PyDict_GetItemString(dict, "min_clamped")) m_min_clamped = ToBool(item);
-            if (PyObject* item = PyDict_GetItemString(dict, "max_clamped")) m_max_clamped = ToBool(item);
+            if (PyObject* item = PyDict_GetItemString(dict, "min_clamped")) _min_clamped = ToBool(item);
+            if (PyObject* item = PyDict_GetItemString(dict, "max_clamped")) _max_clamped = ToBool(item);
         }
     }
 
@@ -301,13 +301,13 @@ namespace Marvel {
         if (dict == nullptr)
             return;
 
-        PyDict_SetItemString(dict, "on_enter", ToPyBool(m_flags & ImGuiInputTextFlags_EnterReturnsTrue));
-        PyDict_SetItemString(dict, "readonly", ToPyBool(m_flags & ImGuiInputTextFlags_ReadOnly));
-        PyDict_SetItemString(dict, "min_value", ToPyInt(m_min));
-        PyDict_SetItemString(dict, "max_value", ToPyInt(m_max));
-        PyDict_SetItemString(dict, "min_clamped", ToPyBool(m_min_clamped));
-        PyDict_SetItemString(dict, "max_clamped", ToPyBool(m_max_clamped));
-        PyDict_SetItemString(dict, "size", ToPyInt(m_size));
+        PyDict_SetItemString(dict, "on_enter", ToPyBool(_flags & ImGuiInputTextFlags_EnterReturnsTrue));
+        PyDict_SetItemString(dict, "readonly", ToPyBool(_flags & ImGuiInputTextFlags_ReadOnly));
+        PyDict_SetItemString(dict, "min_value", ToPyInt(_min));
+        PyDict_SetItemString(dict, "max_value", ToPyInt(_max));
+        PyDict_SetItemString(dict, "min_clamped", ToPyBool(_min_clamped));
+        PyDict_SetItemString(dict, "max_clamped", ToPyBool(_max_clamped));
+        PyDict_SetItemString(dict, "size", ToPyInt(_size));
     }
 
     void mvInputFloatMulti::handleSpecificKeywordArgs(PyObject* dict)
@@ -315,28 +315,28 @@ namespace Marvel {
         if (dict == nullptr)
             return;
          
-        if (PyObject* item = PyDict_GetItemString(dict, "format")) m_format = ToString(item);
-        if (PyObject* item = PyDict_GetItemString(dict, "size")) m_size = ToInt(item);
+        if (PyObject* item = PyDict_GetItemString(dict, "format")) _format = ToString(item);
+        if (PyObject* item = PyDict_GetItemString(dict, "size")) _size = ToInt(item);
 
         bool minmax_set = false;
         if (PyObject* item = PyDict_GetItemString(dict, "min_value"))
         {
-            m_min = ToFloat(item);
-            m_min_clamped = true;
+            _min = ToFloat(item);
+            _min_clamped = true;
             minmax_set = true;
         }
 
         if (PyObject* item = PyDict_GetItemString(dict, "max_value"))
         {
-            m_max = ToFloat(item);
-            m_max_clamped = true;
+            _max = ToFloat(item);
+            _max_clamped = true;
             minmax_set = true;
         }
 
         if (!minmax_set)
         {
-            if (PyObject* item = PyDict_GetItemString(dict, "min_clamped")) m_min_clamped = ToBool(item);
-            if (PyObject* item = PyDict_GetItemString(dict, "max_clamped")) m_max_clamped = ToBool(item);
+            if (PyObject* item = PyDict_GetItemString(dict, "min_clamped")) _min_clamped = ToBool(item);
+            if (PyObject* item = PyDict_GetItemString(dict, "max_clamped")) _max_clamped = ToBool(item);
         }
 
         // helper for bit flipping
@@ -346,10 +346,10 @@ namespace Marvel {
         };
 
         // flags
-        flagop("on_enter", ImGuiInputTextFlags_EnterReturnsTrue, m_flags);
-        flagop("on_enter", ImGuiInputTextFlags_EnterReturnsTrue, m_stor_flags);
-        flagop("readonly", ImGuiInputTextFlags_ReadOnly, m_flags);
-        flagop("readonly", ImGuiInputTextFlags_ReadOnly, m_stor_flags);
+        flagop("on_enter", ImGuiInputTextFlags_EnterReturnsTrue, _flags);
+        flagop("on_enter", ImGuiInputTextFlags_EnterReturnsTrue, _stor_flags);
+        flagop("readonly", ImGuiInputTextFlags_ReadOnly, _flags);
+        flagop("readonly", ImGuiInputTextFlags_ReadOnly, _stor_flags);
 
     }
 
@@ -358,12 +358,12 @@ namespace Marvel {
         if (dict == nullptr)
             return;
          
-        PyDict_SetItemString(dict, "format", ToPyString(m_format));
-        PyDict_SetItemString(dict, "min_value", ToPyFloat(m_min));
-        PyDict_SetItemString(dict, "max_value", ToPyFloat(m_max));
-        PyDict_SetItemString(dict, "min_clamped", ToPyBool(m_min_clamped));
-        PyDict_SetItemString(dict, "max_clamped", ToPyBool(m_max_clamped));
-        PyDict_SetItemString(dict, "size", ToPyInt(m_size));
+        PyDict_SetItemString(dict, "format", ToPyString(_format));
+        PyDict_SetItemString(dict, "min_value", ToPyFloat(_min));
+        PyDict_SetItemString(dict, "max_value", ToPyFloat(_max));
+        PyDict_SetItemString(dict, "min_clamped", ToPyBool(_min_clamped));
+        PyDict_SetItemString(dict, "max_clamped", ToPyBool(_max_clamped));
+        PyDict_SetItemString(dict, "size", ToPyInt(_size));
 
         // helper to check and set bit
         auto checkbitset = [dict](const char* keyword, int flag, const int& flags)
@@ -372,8 +372,8 @@ namespace Marvel {
         };
 
         // window flags
-        checkbitset("on_enter", ImGuiInputTextFlags_EnterReturnsTrue, m_flags);
-        checkbitset("readonly", ImGuiInputTextFlags_ReadOnly, m_flags);
+        checkbitset("on_enter", ImGuiInputTextFlags_EnterReturnsTrue, _flags);
+        checkbitset("readonly", ImGuiInputTextFlags_ReadOnly, _flags);
     }
 
 }

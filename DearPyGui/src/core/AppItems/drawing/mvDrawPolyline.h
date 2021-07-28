@@ -35,10 +35,10 @@ namespace Marvel {
 
 	private:
 
-		std::vector<mvVec2> m_points;
-		mvColor             m_color;
-		bool                m_closed = false;
-		float               m_thickness = 1.0f;
+		std::vector<mvVec2> _points;
+		mvColor             _color;
+		bool                _closed = false;
+		float               _thickness = 1.0f;
 
 	};
 

@@ -34,24 +34,24 @@ namespace Marvel {
 
 	void mvMenu::draw(ImDrawList* drawlist, float x, float y)
 	{
-		ScopedID id(m_uuid);
+		ScopedID id(_uuid);
 
 		// create menu and see if its selected
-		if (ImGui::BeginMenu(m_label.c_str(), m_enabled))
+		if (ImGui::BeginMenu(_label.c_str(), _enabled))
 		{
 
 			// set other menus's value false on same level
-			for (auto& sibling : m_parentPtr->getChildren(1))
+			for (auto& sibling : _parentPtr->getChildren(1))
 			{
 				// ensure sibling
 				if (sibling->getType() == mvAppItemType::mvMenu)
-					*((mvMenu*)sibling.get())->m_value = false;
+					*((mvMenu*)sibling.get())->_value = false;
 			}
 
 			// set current menu value true
-			*m_value = true;
+			*_value = true;
 
-			for (auto& item : m_children[1])
+			for (auto& item : _children[1])
 			{
 				if (!item->preDraw())
 					continue;
@@ -73,7 +73,7 @@ namespace Marvel {
 		if (dict == nullptr)
 			return;
 		 
-		if (PyObject* item = PyDict_GetItemString(dict, "enabled")) m_enabled = ToBool(item);
+		if (PyObject* item = PyDict_GetItemString(dict, "enabled")) _enabled = ToBool(item);
 
 	}
 
@@ -82,7 +82,7 @@ namespace Marvel {
 		if (dict == nullptr)
 			return;
 		 
-		PyDict_SetItemString(dict, "enabled", ToPyBool(m_enabled));
+		PyDict_SetItemString(dict, "enabled", ToPyBool(_enabled));
 	}
 
 }

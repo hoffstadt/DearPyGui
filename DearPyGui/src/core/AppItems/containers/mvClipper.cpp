@@ -30,27 +30,27 @@ namespace Marvel {
 
 	void mvClipper::draw(ImDrawList* drawlist, float x, float y)
 	{
-		ScopedID id(m_uuid);
+		ScopedID id(_uuid);
 
-		if (m_width != 0)
-			ImGui::PushItemWidth((float)m_width);
+		if (_width != 0)
+			ImGui::PushItemWidth((float)_width);
 
 
 		ImGuiListClipper clipper;
-		clipper.Begin(m_children[1].size());
+		clipper.Begin(_children[1].size());
 
 		while (clipper.Step())
 		{
 			for (int row_n = clipper.DisplayStart; row_n < clipper.DisplayEnd; row_n++)
 			{
-				if (!m_children[1][row_n]->preDraw())
+				if (!_children[1][row_n]->preDraw())
 					continue;
-				m_children[1][row_n]->draw(drawlist, ImGui::GetCursorPosX(), ImGui::GetCursorPosY());
-				m_children[1][row_n]->postDraw();
+				_children[1][row_n]->draw(drawlist, ImGui::GetCursorPosX(), ImGui::GetCursorPosY());
+				_children[1][row_n]->postDraw();
 			}
 		}
 		clipper.End();
-		if (m_width != 0)
+		if (_width != 0)
 			ImGui::PopItemWidth();
 	}
 

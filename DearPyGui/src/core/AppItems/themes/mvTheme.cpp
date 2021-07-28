@@ -27,7 +27,7 @@ namespace Marvel {
 		:
 		mvAppItem(uuid)
 	{
-		m_show = false;
+		_show = false;
 	}
 
 	bool mvTheme::canChildBeAdded(mvAppItemType type)
@@ -45,7 +45,7 @@ namespace Marvel {
 
 	void mvTheme::draw(ImDrawList* drawlist, float x, float y)
 	{
-		for (auto& childset : m_children)
+		for (auto& childset : _children)
 		{
 			for (auto& child : childset)
 				child->draw(drawlist, x, y);
@@ -54,7 +54,7 @@ namespace Marvel {
 
 	void mvTheme::customAction()
 	{
-		for (auto& childset : m_children)
+		for (auto& childset : _children)
 		{
 			for (auto& child : childset)
 				child->customAction();
@@ -63,12 +63,12 @@ namespace Marvel {
 
 	void mvTheme::alternativeCustomAction()
 	{
-		for (auto& childset : m_children)
+		for (auto& childset : _children)
 		{
 			for (auto& child : childset)
 				child->alternativeCustomAction();
 		}
-		m_triggerAlternativeAction = false;
+		_triggerAlternativeAction = false;
 	}
 
 	void mvTheme::handleSpecificKeywordArgs(PyObject* dict)
@@ -76,7 +76,7 @@ namespace Marvel {
 		if (dict == nullptr)
 			return;
 
-		if (PyObject* item = PyDict_GetItemString(dict, "default_theme")) m_triggerAlternativeAction = ToBool(item);
+		if (PyObject* item = PyDict_GetItemString(dict, "default_theme")) _triggerAlternativeAction = ToBool(item);
 
 	}
 

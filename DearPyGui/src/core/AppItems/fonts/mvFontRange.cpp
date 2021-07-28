@@ -56,15 +56,15 @@ namespace Marvel {
 			{
 			case 0:
 			{
-				m_min = ToInt(item);
-				m_range[0] = (ImWchar)m_min;
+				_min = ToInt(item);
+				_range[0] = (ImWchar)_min;
 				break;
 			}
 
 			case 1:
 			{
-				m_max = ToInt(item);
-				m_range[1] = (ImWchar)m_max;
+				_max = ToInt(item);
+				_range[1] = (ImWchar)_max;
 				break;
 			}
 

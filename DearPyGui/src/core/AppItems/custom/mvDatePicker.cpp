@@ -42,15 +42,15 @@ namespace Marvel {
 
 	void mvDatePicker::draw(ImDrawList* drawlist, float x, float y)
 	{
-		ScopedID id(m_uuid);
+		ScopedID id(_uuid);
 
-		if (ImPlot::ShowDatePicker(m_label.c_str(), &m_level, m_imvalue.get(), m_imvalue.get()))
+		if (ImPlot::ShowDatePicker(_label.c_str(), &_level, _imvalue.get(), _imvalue.get()))
 		{
-			ImPlot::GetGmtTime(*m_imvalue, m_value.get());
+			ImPlot::GetGmtTime(*_imvalue, _value.get());
 			{
-				auto value = *m_value;
+				auto value = *_value;
 				mvApp::GetApp()->getCallbackRegistry().submitCallback([=]() {
-					mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), m_uuid, ToPyTime(value), m_user_data);
+					mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), _uuid, ToPyTime(value), _user_data);
 					});
 			}
 		}
@@ -63,8 +63,8 @@ namespace Marvel {
 			return;
 		 
 		if (PyObject* item = PyDict_GetItemString(dict, "level")) {
-			m_level = ToUUID(item);
-			if (m_level > 2) m_level = 0;
+			_level = ToUUID(item);
+			if (_level > 2) _level = 0;
 		}
 	}
 
@@ -73,7 +73,7 @@ namespace Marvel {
 		if (dict == nullptr)
 			return;
 		 
-		PyDict_SetItemString(dict, "level", ToPyUUID((long)m_level));
+		PyDict_SetItemString(dict, "level", ToPyUUID((long)_level));
 	}
 
 }

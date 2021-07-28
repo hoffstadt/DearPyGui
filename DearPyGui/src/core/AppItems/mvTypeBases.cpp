@@ -16,8 +16,8 @@ namespace Marvel {
 
 	void mvIntPtrBase::setDataSource(mvUUID dataSource)
 	{
-		if (dataSource == m_source) return;
-		m_source = dataSource;
+		if (dataSource == _source) return;
+		_source = dataSource;
 
 		mvAppItem* item = mvApp::GetApp()->getItemRegistry().getItem(dataSource);
 		if (!item)
@@ -32,17 +32,17 @@ namespace Marvel {
 				"Values types do not match: " + std::to_string(dataSource), this);
 			return;
 		}
-		m_value = std::get<std::shared_ptr<int>>(item->getValue());
+		_value = std::get<std::shared_ptr<int>>(item->getValue());
 	}
 
 	PyObject* mvIntPtrBase::getPyValue()
 	{
-		return ToPyInt(*m_value);
+		return ToPyInt(*_value);
 	}
 
 	void mvIntPtrBase::setPyValue(PyObject* value)
 	{
-		*m_value = ToInt(value);
+		*_value = ToInt(value);
 	}
 
 	mvInt4PtrBase::mvInt4PtrBase(mvUUID uuid)
@@ -52,7 +52,7 @@ namespace Marvel {
 
 	PyObject* mvInt4PtrBase::getPyValue()
 	{
-		return ToPyIntList(m_value->data(), 4);
+		return ToPyIntList(_value->data(), 4);
 	}
 
 	void mvInt4PtrBase::setPyValue(PyObject* value)
@@ -63,16 +63,16 @@ namespace Marvel {
 		std::array<int, 4> temp_array;
 		for (size_t i = 0; i < temp_array.size(); i++)
 			temp_array[i] = temp[i];
-		if (m_value)
-			*m_value = temp_array;
+		if (_value)
+			*_value = temp_array;
 		else
-			m_value = std::make_shared<std::array<int, 4>>(temp_array);
+			_value = std::make_shared<std::array<int, 4>>(temp_array);
 	}
 
 	void mvInt4PtrBase::setDataSource(mvUUID dataSource)
 	{
-		if (dataSource == m_source) return;
-		m_source = dataSource;
+		if (dataSource == _source) return;
+		_source = dataSource;
 
 		mvAppItem* item = mvApp::GetApp()->getItemRegistry().getItem(dataSource);
 		if (!item)
@@ -87,7 +87,7 @@ namespace Marvel {
 				"Values types do not match: " + std::to_string(dataSource), this);
 			return;
 		}
-		m_value = std::get<std::shared_ptr<std::array<int, 4>>>(item->getValue());
+		_value = std::get<std::shared_ptr<std::array<int, 4>>>(item->getValue());
 	}
 
 	mvFloatPtrBase::mvFloatPtrBase(mvUUID uuid)
@@ -97,18 +97,18 @@ namespace Marvel {
 
 	PyObject* mvFloatPtrBase::getPyValue()
 	{
-		return ToPyFloat(*m_value);
+		return ToPyFloat(*_value);
 	}
 
 	void mvFloatPtrBase::setPyValue(PyObject* value)
 	{
-		*m_value = ToFloat(value);
+		*_value = ToFloat(value);
 	}
 
 	void mvFloatPtrBase::setDataSource(mvUUID dataSource)
 	{
-		if (dataSource == m_source) return;
-		m_source = dataSource;
+		if (dataSource == _source) return;
+		_source = dataSource;
 
 		mvAppItem* item = mvApp::GetApp()->getItemRegistry().getItem(dataSource);
 		if (!item)
@@ -123,7 +123,7 @@ namespace Marvel {
 				"Values types do not match: " + std::to_string(dataSource), this);
 			return;
 		}
-		m_value = std::get<std::shared_ptr<float>>(item->getValue());
+		_value = std::get<std::shared_ptr<float>>(item->getValue());
 	}
 
 	mvDoublePtrBase::mvDoublePtrBase(mvUUID uuid)
@@ -133,18 +133,18 @@ namespace Marvel {
 
 	PyObject* mvDoublePtrBase::getPyValue()
 	{
-		return ToPyDouble(*m_value);
+		return ToPyDouble(*_value);
 	}
 
 	void mvDoublePtrBase::setPyValue(PyObject* value)
 	{
-		*m_value = ToDouble(value);
+		*_value = ToDouble(value);
 	}
 
 	void mvDoublePtrBase::setDataSource(mvUUID dataSource)
 	{
-		if (dataSource == m_source) return;
-		m_source = dataSource;
+		if (dataSource == _source) return;
+		_source = dataSource;
 
 		mvAppItem* item = mvApp::GetApp()->getItemRegistry().getItem(dataSource);
 		if (!item)
@@ -159,7 +159,7 @@ namespace Marvel {
 				"Values types do not match: " + std::to_string(dataSource), this);
 			return;
 		}
-		m_value = std::get<std::shared_ptr<double>>(item->getValue());
+		_value = std::get<std::shared_ptr<double>>(item->getValue());
 	}
 
 	mvFloat4PtrBase::mvFloat4PtrBase(mvUUID uuid)
@@ -169,7 +169,7 @@ namespace Marvel {
 
 	PyObject* mvFloat4PtrBase::getPyValue()
 	{
-		return ToPyFloatList(m_value->data(), 4);
+		return ToPyFloatList(_value->data(), 4);
 	}
 
 	void mvFloat4PtrBase::setPyValue(PyObject* value)
@@ -180,16 +180,16 @@ namespace Marvel {
 		std::array<float, 4> temp_array;
 		for (size_t i = 0; i < temp_array.size(); i++)
 			temp_array[i] = temp[i];
-		if (m_value)
-			*m_value = temp_array;
+		if (_value)
+			*_value = temp_array;
 		else
-			m_value = std::make_shared<std::array<float, 4>>(temp_array);
+			_value = std::make_shared<std::array<float, 4>>(temp_array);
 	}
 
 	void mvFloat4PtrBase::setDataSource(mvUUID dataSource)
 	{
-		if (dataSource == m_source) return;
-		m_source = dataSource;
+		if (dataSource == _source) return;
+		_source = dataSource;
 
 		mvAppItem* item = mvApp::GetApp()->getItemRegistry().getItem(dataSource);
 		if (!item)
@@ -204,7 +204,7 @@ namespace Marvel {
 				"Values types do not match: " + std::to_string(dataSource), this);
 			return;
 		}
-		m_value = std::get<std::shared_ptr<std::array<float, 4>>>(item->getValue());
+		_value = std::get<std::shared_ptr<std::array<float, 4>>>(item->getValue());
 	}
 
 	mvDouble4PtrBase::mvDouble4PtrBase(mvUUID uuid)
@@ -214,7 +214,7 @@ namespace Marvel {
 
 	PyObject* mvDouble4PtrBase::getPyValue()
 	{
-		return ToPyFloatList(m_value->data(), 4);
+		return ToPyFloatList(_value->data(), 4);
 	}
 
 	void mvDouble4PtrBase::setPyValue(PyObject* value)
@@ -225,16 +225,16 @@ namespace Marvel {
 		std::array<double, 4> temp_array;
 		for (size_t i = 0; i < temp_array.size(); i++)
 			temp_array[i] = temp[i];
-		if (m_value)
-			*m_value = temp_array;
+		if (_value)
+			*_value = temp_array;
 		else
-			m_value = std::make_shared<std::array<double, 4>>(temp_array);
+			_value = std::make_shared<std::array<double, 4>>(temp_array);
 	}
 
 	void mvDouble4PtrBase::setDataSource(mvUUID dataSource)
 	{
-		if (dataSource == m_source) return;
-		m_source = dataSource;
+		if (dataSource == _source) return;
+		_source = dataSource;
 
 		mvAppItem* item = mvApp::GetApp()->getItemRegistry().getItem(dataSource);
 		if (!item)
@@ -249,7 +249,7 @@ namespace Marvel {
 				"Values types do not match: " + std::to_string(dataSource), this);
 			return;
 		}
-		m_value = std::get<std::shared_ptr<std::array<double, 4>>>(item->getValue());
+		_value = std::get<std::shared_ptr<std::array<double, 4>>>(item->getValue());
 	}
 
 	mvColorPtrBase::mvColorPtrBase(mvUUID uuid)
@@ -260,10 +260,10 @@ namespace Marvel {
 	PyObject* mvColorPtrBase::getPyValue()
 	{
 		// nasty hack
-		int r = (int)(m_value->data()[0] * 255.0f * 255.0f);
-		int g = (int)(m_value->data()[1] * 255.0f * 255.0f);
-		int b = (int)(m_value->data()[2] * 255.0f * 255.0f);
-		int a = (int)(m_value->data()[3] * 255.0f * 255.0f);
+		int r = (int)(_value->data()[0] * 255.0f * 255.0f);
+		int g = (int)(_value->data()[1] * 255.0f * 255.0f);
+		int b = (int)(_value->data()[2] * 255.0f * 255.0f);
+		int a = (int)(_value->data()[3] * 255.0f * 255.0f);
 
 		auto color = mvColor(r, g, b, a);
 		return ToPyColor(color);
@@ -277,16 +277,16 @@ namespace Marvel {
 		temp_array[1] = color.g;
 		temp_array[2] = color.b;
 		temp_array[3] = color.a;
-		if (m_value)
-			*m_value = temp_array;
+		if (_value)
+			*_value = temp_array;
 		else
-			m_value = std::make_shared<std::array<float, 4>>(temp_array);
+			_value = std::make_shared<std::array<float, 4>>(temp_array);
 	}
 
 	void mvColorPtrBase::setDataSource(mvUUID dataSource)
 	{
-		if (dataSource == m_source) return;
-		m_source = dataSource;
+		if (dataSource == _source) return;
+		_source = dataSource;
 
 		mvAppItem* item = mvApp::GetApp()->getItemRegistry().getItem(dataSource);
 		if (!item)
@@ -301,7 +301,7 @@ namespace Marvel {
 				"Values types do not match: " + std::to_string(dataSource), this);
 			return;
 		}
-		m_value = std::get<std::shared_ptr<std::array<float, 4>>>(item->getValue());
+		_value = std::get<std::shared_ptr<std::array<float, 4>>>(item->getValue());
 	}
 
 	mvBoolPtrBase::mvBoolPtrBase(mvUUID uuid)
@@ -311,18 +311,18 @@ namespace Marvel {
 
 	PyObject* mvBoolPtrBase::getPyValue()
 	{
-		return ToPyBool(*m_value);
+		return ToPyBool(*_value);
 	}
 
 	void mvBoolPtrBase::setPyValue(PyObject* value)
 	{
-		*m_value = ToBool(value);
+		*_value = ToBool(value);
 	}
 
 	void mvBoolPtrBase::setDataSource(mvUUID dataSource)
 	{
-		if (dataSource == m_source) return;
-		m_source = dataSource;
+		if (dataSource == _source) return;
+		_source = dataSource;
 
 		mvAppItem* item = mvApp::GetApp()->getItemRegistry().getItem(dataSource);
 		if (!item)
@@ -337,7 +337,7 @@ namespace Marvel {
 				"Values types do not match: " + std::to_string(dataSource), this);
 			return;
 		}
-		m_value = std::get<std::shared_ptr<bool>>(item->getValue());
+		_value = std::get<std::shared_ptr<bool>>(item->getValue());
 	}
 
 	mvStringPtrBase::mvStringPtrBase(mvUUID uuid)
@@ -347,18 +347,18 @@ namespace Marvel {
 
 	PyObject* mvStringPtrBase::getPyValue()
 	{
-		return ToPyString(*m_value);
+		return ToPyString(*_value);
 	}
 
 	void mvStringPtrBase::setPyValue(PyObject* value)
 	{
-		*m_value = ToString(value);
+		*_value = ToString(value);
 	}
 
 	void mvStringPtrBase::setDataSource(mvUUID dataSource)
 	{
-		if (dataSource == m_source) return;
-		m_source = dataSource;
+		if (dataSource == _source) return;
+		_source = dataSource;
 
 		mvAppItem* item = mvApp::GetApp()->getItemRegistry().getItem(dataSource);
 		if (!item)
@@ -373,7 +373,7 @@ namespace Marvel {
 				"Values types do not match: " + std::to_string(dataSource), this);
 			return;
 		}
-		m_value = std::get<std::shared_ptr<std::string>>(item->getValue());
+		_value = std::get<std::shared_ptr<std::string>>(item->getValue());
 	}
 
 	mvTimePtrBase::mvTimePtrBase(mvUUID uuid)
@@ -383,18 +383,18 @@ namespace Marvel {
 
 	PyObject* mvTimePtrBase::getPyValue()
 	{
-		return ToPyTime(*m_value);
+		return ToPyTime(*_value);
 	}
 
 	void mvTimePtrBase::setPyValue(PyObject* value)
 	{
 
 		if (value)
-			*m_value = ToTime(value);
+			*_value = ToTime(value);
 		else
-			m_value = {};
+			_value = {};
 
-		*m_imvalue = ImPlot::MkGmtTime(m_value.get());
+		*_imvalue = ImPlot::MkGmtTime(_value.get());
 	}
 
 	mvFloatVectPtrBase::mvFloatVectPtrBase(mvUUID uuid)
@@ -404,18 +404,18 @@ namespace Marvel {
 
 	PyObject* mvFloatVectPtrBase::getPyValue()
 	{
-		return ToPyList(*m_value);
+		return ToPyList(*_value);
 	}
 
 	void mvFloatVectPtrBase::setPyValue(PyObject* value)
 	{
-		*m_value = ToFloatVect(value);
+		*_value = ToFloatVect(value);
 	}
 
 	void mvFloatVectPtrBase::setDataSource(mvUUID dataSource)
 	{
-		if (dataSource == m_source) return;
-		m_source = dataSource;
+		if (dataSource == _source) return;
+		_source = dataSource;
 
 		mvAppItem* item = mvApp::GetApp()->getItemRegistry().getItem(dataSource);
 		if (!item)
@@ -430,29 +430,29 @@ namespace Marvel {
 				"Values types do not match: " + std::to_string(dataSource), this);
 			return;
 		}
-		m_value = std::get<std::shared_ptr<std::vector<float>>>(item->getValue());
+		_value = std::get<std::shared_ptr<std::vector<float>>>(item->getValue());
 	}
 
 	mvSeriesBase::mvSeriesBase(mvUUID uuid)
 		: mvAppItem(uuid)
 	{
-		m_label = "Series###" + std::to_string(m_uuid);
+		_label = "Series###" + std::to_string(_uuid);
 	}
 
 	PyObject* mvSeriesBase::getPyValue()
 	{
-		return ToPyList(*m_value);
+		return ToPyList(*_value);
 	}
 
 	void mvSeriesBase::setPyValue(PyObject* value)
 	{
-		*m_value = ToVectVectDouble(value);
+		*_value = ToVectVectDouble(value);
 	}
 
 	void mvSeriesBase::setDataSource(mvUUID dataSource)
 	{
-		if (dataSource == m_source) return;
-		m_source = dataSource;
+		if (dataSource == _source) return;
+		_source = dataSource;
 
 		mvAppItem* item = mvApp::GetApp()->getItemRegistry().getItem(dataSource);
 		if (!item)
@@ -467,7 +467,7 @@ namespace Marvel {
 				"Values types do not match: " + std::to_string(dataSource), this);
 			return;
 		}
-		m_value = std::get<std::shared_ptr<std::vector<std::vector<double>>>>(item->getValue());
+		_value = std::get<std::shared_ptr<std::vector<std::vector<double>>>>(item->getValue());
 	}
 
 	mvUUIDPtrBase::mvUUIDPtrBase(mvUUID uuid)
@@ -477,18 +477,18 @@ namespace Marvel {
 
 	PyObject* mvUUIDPtrBase::getPyValue()
 	{
-		return ToPyUUID(*m_value);
+		return ToPyUUID(*_value);
 	}
 
 	void mvUUIDPtrBase::setPyValue(PyObject* value)
 	{
-		*m_value = ToUUID(value);
+		*_value = ToUUID(value);
 	}
 
 	void mvUUIDPtrBase::setDataSource(mvUUID dataSource)
 	{
-		if (dataSource == m_source) return;
-		m_source = dataSource;
+		if (dataSource == _source) return;
+		_source = dataSource;
 
 		mvAppItem* item = mvApp::GetApp()->getItemRegistry().getItem(dataSource);
 		if (!item)
@@ -503,6 +503,6 @@ namespace Marvel {
 				"Values types do not match: " + std::to_string(dataSource), this);
 			return;
 		}
-		m_value = std::get<std::shared_ptr<mvUUID>>(item->getValue());
+		_value = std::get<std::shared_ptr<mvUUID>>(item->getValue());
 	}
 }

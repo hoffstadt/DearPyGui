@@ -97,17 +97,17 @@ namespace Marvel {
 	}
 
 	mvWindowAppItem::mvWindowAppItem(mvUUID uuid, bool mainWindow)
-		: mvAppItem(uuid), m_mainWindow(mainWindow)
+		: mvAppItem(uuid), _mainWindow(mainWindow)
 	{
-		m_label = "Window###" + std::to_string(m_uuid);
-		m_width = 500;
-		m_height = 500;
+		_label = "Window###" + std::to_string(_uuid);
+		_width = 500;
+		_height = 500;
 
-		m_oldWindowflags = ImGuiWindowFlags_None;
+		_oldWindowflags = ImGuiWindowFlags_None;
 
 		if (mainWindow)
 		{
-			m_windowflags = ImGuiWindowFlags_NoBringToFrontOnFocus | ImGuiWindowFlags_NoSavedSettings
+			_windowflags = ImGuiWindowFlags_NoBringToFrontOnFocus | ImGuiWindowFlags_NoSavedSettings
 				| ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoTitleBar;
 		}
 
@@ -115,7 +115,7 @@ namespace Marvel {
 
 	mvWindowAppItem::~mvWindowAppItem()
 	{
-		PyObject* callback = m_on_close;
+		PyObject* callback = _on_close;
 		mvApp::GetApp()->getCallbackRegistry().submitCallback([callback]() {
 			if (callback)
 				Py_XDECREF(callback);
@@ -125,44 +125,44 @@ namespace Marvel {
 	void mvWindowAppItem::onChildAdd(mvRef<mvAppItem> item)
 	{
 		if (item->getType() == mvAppItemType::mvMenuBar)
-			m_windowflags |= ImGuiWindowFlags_MenuBar;
+			_windowflags |= ImGuiWindowFlags_MenuBar;
 	}
 
 	void mvWindowAppItem::onChildRemoved(mvRef<mvAppItem> item)
 	{
 		if (item->getType() == mvAppItemType::mvMenuBar)
-			m_windowflags &= ~ImGuiWindowFlags_MenuBar;
+			_windowflags &= ~ImGuiWindowFlags_MenuBar;
 	}
 
 	void mvWindowAppItem::setWindowAsMainStatus(bool value)
 	{
-		m_mainWindow = value;
+		_mainWindow = value;
 		if (value)
 		{
-			m_oldWindowflags = m_windowflags;
-			m_windowflags = ImGuiWindowFlags_NoBringToFrontOnFocus | ImGuiWindowFlags_NoSavedSettings
+			_oldWindowflags = _windowflags;
+			_windowflags = ImGuiWindowFlags_NoBringToFrontOnFocus | ImGuiWindowFlags_NoSavedSettings
 				| ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoTitleBar;
 
-			if (m_oldWindowflags & ImGuiWindowFlags_MenuBar)
-				m_windowflags |= ImGuiWindowFlags_MenuBar;
-			m_oldxpos = m_state.getItemPos().x;
-			m_oldypos = m_state.getItemPos().y;
-			m_oldWidth = m_width;
-			m_oldHeight = m_height;
+			if (_oldWindowflags & ImGuiWindowFlags_MenuBar)
+				_windowflags |= ImGuiWindowFlags_MenuBar;
+			_oldxpos = _state.getItemPos().x;
+			_oldypos = _state.getItemPos().y;
+			_oldWidth = _width;
+			_oldHeight = _height;
 		}
 		else
 		{
-			m_focusNextFrame = true;
-			if (m_windowflags & ImGuiWindowFlags_MenuBar)
-				m_oldWindowflags |= ImGuiWindowFlags_MenuBar;
-			m_windowflags = m_oldWindowflags;
-			if (m_windowflags & ImGuiWindowFlags_MenuBar)
-				m_windowflags |= ImGuiWindowFlags_MenuBar;
-			m_state.setPos({ m_oldxpos , m_oldypos });
-			m_width = m_oldWidth;
-			m_height = m_oldHeight;
-			m_dirtyPos = true;
-			m_dirty_size = true;
+			_focusNextFrame = true;
+			if (_windowflags & ImGuiWindowFlags_MenuBar)
+				_oldWindowflags |= ImGuiWindowFlags_MenuBar;
+			_windowflags = _oldWindowflags;
+			if (_windowflags & ImGuiWindowFlags_MenuBar)
+				_windowflags |= ImGuiWindowFlags_MenuBar;
+			_state.setPos({ _oldxpos , _oldypos });
+			_width = _oldWidth;
+			_height = _oldHeight;
+			_dirtyPos = true;
+			_dirty_size = true;
 		}
 
 
@@ -170,24 +170,24 @@ namespace Marvel {
 
 	void mvWindowAppItem::setWidth(int width) 
 	{ 
-		m_width = width;
-		m_dirty_size = true; 
+		_width = width;
+		_dirty_size = true; 
 	}
 
 	void mvWindowAppItem::setHeight(int height) 
 	{ 
-		m_height = height;
-		m_dirty_size = true; 
+		_height = height;
+		_dirty_size = true; 
 	}
 
 	void mvWindowAppItem::setLabel(const std::string& value)
 	{
-		m_specificedlabel = value;
-		m_label = value + "###" + std::to_string(m_uuid);
+		_specificedlabel = value;
+		_label = value + "###" + std::to_string(_uuid);
 
 		// this is necessary because imgui considers it a new window
-		m_dirtyPos = true;
-		m_dirty_size = true;
+		_dirtyPos = true;
+		_dirty_size = true;
 	}
 
 	void mvWindowAppItem::draw(ImDrawList* drawlist, float x, float y)
@@ -197,26 +197,26 @@ namespace Marvel {
 		// pre draw
 		//-----------------------------------------------------------------------------
 
-		if (!m_show)
+		if (!_show)
 			return;
 
-		if (mvApp::s_frame == 1 && mvApp::GetApp()->isUsingIniFile() && !(m_windowflags & ImGuiWindowFlags_NoSavedSettings))
+		if (mvApp::s_frame == 1 && mvApp::GetApp()->isUsingIniFile() && !(_windowflags & ImGuiWindowFlags_NoSavedSettings))
 		{
-			m_dirtyPos = false;
-			m_dirty_size = false;
-			m_collapsedDirty = false;
+			_dirtyPos = false;
+			_dirty_size = false;
+			_collapsedDirty = false;
 		}
 
-		if (m_focusNextFrame)
+		if (_focusNextFrame)
 		{
 			ImGui::SetNextWindowFocus();
-			m_focusNextFrame = false;
+			_focusNextFrame = false;
 		}
 
 		// handle fonts
-		if (m_font)
+		if (_font)
 		{
-			ImFont* fontptr = static_cast<mvFont*>(m_font.get())->getFontPtr();
+			ImFont* fontptr = static_cast<mvFont*>(_font.get())->getFontPtr();
 			ImGui::PushFont(fontptr);
 		}
 
@@ -225,17 +225,17 @@ namespace Marvel {
 			static_cast<mvTheme*>(classTheme.get())->draw(nullptr, 0.0f, 0.0f);
 
 		// handle item theming
-		if (m_theme)
-			static_cast<mvTheme*>(m_theme.get())->draw(nullptr, 0.0f, 0.0f);
+		if (_theme)
+			static_cast<mvTheme*>(_theme.get())->draw(nullptr, 0.0f, 0.0f);
 
 
 		//-----------------------------------------------------------------------------
 		// draw
 		//-----------------------------------------------------------------------------
 
-		ScopedID id(m_uuid);
+		ScopedID id(_uuid);
 
-		if (m_mainWindow)
+		if (_mainWindow)
 		{
 			ImGui::SetNextWindowBgAlpha(1.0f);
 			ImGui::PushStyleVar(ImGuiStyleVar_WindowRounding, 0.0f); // to prevent main window corners from showing
@@ -243,54 +243,54 @@ namespace Marvel {
 			ImGui::SetNextWindowSize(ImVec2((float)mvApp::GetApp()->getViewport()->getClientWidth(), (float)mvApp::GetApp()->getViewport()->getClientHeight()));
 		}
 
-		else if (m_dirtyPos)
+		else if (_dirtyPos)
 		{
-			ImGui::SetNextWindowPos(m_state.getItemPos());
-			m_dirtyPos = false;
+			ImGui::SetNextWindowPos(_state.getItemPos());
+			_dirtyPos = false;
 		}
 
-		if (m_dirty_size)
+		if (_dirty_size)
 		{
-			ImGui::SetNextWindowSize(ImVec2((float)m_width, (float)m_height));
-			m_dirty_size = false;
+			ImGui::SetNextWindowSize(ImVec2((float)_width, (float)_height));
+			_dirty_size = false;
 		}
 
-		if (m_collapsedDirty)
+		if (_collapsedDirty)
 		{
-			ImGui::SetNextWindowCollapsed(m_collapsed);
-			m_collapsedDirty = false;
+			ImGui::SetNextWindowCollapsed(_collapsed);
+			_collapsedDirty = false;
 		}
 
-		ImGui::SetNextWindowSizeConstraints(m_min_size, m_max_size);
+		ImGui::SetNextWindowSizeConstraints(_min_size, _max_size);
 
-		if (m_modal)
+		if (_modal)
 		{
-			if (m_popupInit)
+			if (_popupInit)
 			{
-				ImGui::OpenPopup(m_label.c_str());
-				m_popupInit = false;
+				ImGui::OpenPopup(_label.c_str());
+				_popupInit = false;
 			}
 			
-			if (!ImGui::BeginPopupModal(m_label.c_str(), m_no_close ? nullptr : &m_show, m_windowflags))
+			if (!ImGui::BeginPopupModal(_label.c_str(), _no_close ? nullptr : &_show, _windowflags))
 			{
-				if (m_mainWindow)
+				if (_mainWindow)
 					ImGui::PopStyleVar();
 				hide();
 				return;
 			}
 		}
 
-		else if (m_popup)
+		else if (_popup)
 		{
-			if (m_popupInit)
+			if (_popupInit)
 			{
-				ImGui::OpenPopup(m_label.c_str());
-				m_popupInit = false;
+				ImGui::OpenPopup(_label.c_str());
+				_popupInit = false;
 			}
 
-			if (!ImGui::BeginPopup(m_label.c_str(), m_windowflags))
+			if (!ImGui::BeginPopup(_label.c_str(), _windowflags))
 			{
-				if (m_mainWindow)
+				if (_mainWindow)
 					ImGui::PopStyleVar();
 				return;
 			}
@@ -298,9 +298,9 @@ namespace Marvel {
 
 		else
 		{
-			if (!ImGui::Begin(m_label.c_str(), m_no_close ? nullptr : &m_show, m_windowflags))
+			if (!ImGui::Begin(_label.c_str(), _no_close ? nullptr : &_show, _windowflags))
 			{
-				if (m_mainWindow)
+				if (_mainWindow)
 					ImGui::PopStyleVar();
 
 				ImGui::End();
@@ -313,10 +313,10 @@ namespace Marvel {
 		float startx = (float)ImGui::GetCursorScreenPos().x;
 		float starty = (float)ImGui::GetCursorScreenPos().y;
 
-		if (m_mainWindow)
+		if (_mainWindow)
 			ImGui::PopStyleVar();
 
-		for (auto& item : m_children[0])
+		for (auto& item : _children[0])
 		{
 			// skip item if it's not shown
 			if (!item->isShown())
@@ -328,7 +328,7 @@ namespace Marvel {
 
 		}
 
-		for (auto& item : m_children[1])
+		for (auto& item : _children[1])
 		{
 			if (!item->preDraw())
 				continue;
@@ -340,7 +340,7 @@ namespace Marvel {
 			item->postDraw();
 		}
 
-		for (auto& item : m_children[2])
+		for (auto& item : _children[2])
 		{
 			// skip item if it's not shown
 			if (!item->isShown())
@@ -357,7 +357,7 @@ namespace Marvel {
 		//-----------------------------------------------------------------------------
 
 		// pop font from stack
-		if (m_font)
+		if (_font)
 			ImGui::PopFont();
 
 		// pop class theme
@@ -365,50 +365,50 @@ namespace Marvel {
 			static_cast<mvTheme*>(classTheme.get())->customAction();
 
 		// pop item theme
-		if (m_theme)
-			static_cast<mvTheme*>(m_theme.get())->customAction();
+		if (_theme)
+			static_cast<mvTheme*>(_theme.get())->customAction();
 
-		if (m_scrollXSet)
+		if (_scrollXSet)
 		{
-			if (m_scrollX < 0.0f)
+			if (_scrollX < 0.0f)
 				ImGui::SetScrollHereX(1.0f);
 			else
-				ImGui::SetScrollX(m_scrollX);
-			m_scrollXSet = false;
+				ImGui::SetScrollX(_scrollX);
+			_scrollXSet = false;
 		}
 
-		if (m_scrollYSet)
+		if (_scrollYSet)
 		{
-			if (m_scrollY < 0.0f)
+			if (_scrollY < 0.0f)
 				ImGui::SetScrollHereY(1.0f);
 			else
-				ImGui::SetScrollY(m_scrollY);
-			m_scrollYSet = false;
+				ImGui::SetScrollY(_scrollY);
+			_scrollYSet = false;
 		}
 
-		m_scrollX = ImGui::GetScrollX();
-		m_scrollY = ImGui::GetScrollY();
-		m_scrollMaxX = ImGui::GetScrollMaxX();
-		m_scrollMaxY = ImGui::GetScrollMaxY();
+		_scrollX = ImGui::GetScrollX();
+		_scrollY = ImGui::GetScrollY();
+		_scrollMaxX = ImGui::GetScrollMaxX();
+		_scrollMaxY = ImGui::GetScrollMaxY();
 
-		m_state.setVisible(true);
-		m_state.setHovered(ImGui::IsWindowHovered());
-		m_state.setFocused(ImGui::IsWindowFocused());
-		m_state.setRectSize({ ImGui::GetWindowSize().x, ImGui::GetWindowSize().y });
-		m_state.setActivated(ImGui::IsWindowCollapsed());
+		_state.setVisible(true);
+		_state.setHovered(ImGui::IsWindowHovered());
+		_state.setFocused(ImGui::IsWindowFocused());
+		_state.setRectSize({ ImGui::GetWindowSize().x, ImGui::GetWindowSize().y });
+		_state.setActivated(ImGui::IsWindowCollapsed());
 
-		if (ImGui::GetWindowWidth() != (float)m_width || ImGui::GetWindowHeight() != (float)m_height)
+		if (ImGui::GetWindowWidth() != (float)_width || ImGui::GetWindowHeight() != (float)_height)
 		{
-			m_width = (int)ImGui::GetWindowWidth();
-			m_height = (int)ImGui::GetWindowHeight();
-			m_resized = true;
+			_width = (int)ImGui::GetWindowWidth();
+			_height = (int)ImGui::GetWindowHeight();
+			_resized = true;
 		}
 
-		m_width = (int)ImGui::GetWindowWidth();
-		m_height = (int)ImGui::GetWindowHeight();
+		_width = (int)ImGui::GetWindowWidth();
+		_height = (int)ImGui::GetWindowHeight();
 
 		// update active window
-		if (m_state.isItemFocused())
+		if (_state.isItemFocused())
 		{
 
 			float titleBarHeight = ImGui::GetStyle().FramePadding.y * 2 + ImGui::GetFontSize();
@@ -419,25 +419,25 @@ namespace Marvel {
 			float y = mousePos.y - ImGui::GetWindowPos().y - titleBarHeight;
 			mvInput::setMousePosition(x, y);
 
-			if (mvApp::GetApp()->getItemRegistry().getActiveWindow() != m_uuid)
-				mvEventBus::Publish(mvEVT_CATEGORY_ITEM, mvEVT_ACTIVE_WINDOW, { CreateEventArgument("WINDOW", m_uuid) });
+			if (mvApp::GetApp()->getItemRegistry().getActiveWindow() != _uuid)
+				mvEventBus::Publish(mvEVT_CATEGORY_ITEM, mvEVT_ACTIVE_WINDOW, { CreateEventArgument("WINDOW", _uuid) });
 
 		}
 
-		m_state.setPos({ ImGui::GetWindowPos().x , ImGui::GetWindowPos().y });
+		_state.setPos({ ImGui::GetWindowPos().x , ImGui::GetWindowPos().y });
 
-		if (m_popup || m_modal)
+		if (_popup || _modal)
 			ImGui::EndPopup();
 		else
 			ImGui::End();
 
-		m_collapsed = ImGui::IsWindowCollapsed();
+		_collapsed = ImGui::IsWindowCollapsed();
 
-		if (!m_show)
+		if (!_show)
 			hide();
 
 		// event handlers
-		for (auto& item : m_children[3])
+		for (auto& item : _children[3])
 		{
 			if (!item->preDraw())
 				continue;
@@ -448,20 +448,20 @@ namespace Marvel {
 
 	void mvWindowAppItem::show()
 	{
-		m_show = true;
-		m_popupInit = true;
+		_show = true;
+		_popupInit = true;
 	}
 
 	void mvWindowAppItem::hide()
 	{
 		// shouldn't have to do this but do. Fix later
-		m_show = false;
-		m_state.setHovered(false);
-		m_state.setFocused(false);
-		m_state.setActivated(false);
-		m_state.setVisible(false);
+		_show = false;
+		_state.setHovered(false);
+		_state.setFocused(false);
+		_state.setActivated(false);
+		_state.setVisible(false);
 
-		mvApp::GetApp()->getCallbackRegistry().addCallback(m_on_close, m_uuid, nullptr, m_user_data);
+		mvApp::GetApp()->getCallbackRegistry().addCallback(_on_close, _uuid, nullptr, _user_data);
 
 	}
 
@@ -472,43 +472,43 @@ namespace Marvel {
 
 		if (PyObject* item = PyDict_GetItemString(dict, "modal"))
 		{
-			m_modal = ToBool(item);
-			m_popupInit = true;
+			_modal = ToBool(item);
+			_popupInit = true;
 		}
 
 		if (PyObject* item = PyDict_GetItemString(dict, "popup"))
 		{
-			m_popup = ToBool(item);
-			m_popupInit = true;
+			_popup = ToBool(item);
+			_popupInit = true;
 		}
 
-		if (PyObject* item = PyDict_GetItemString(dict, "no_close")) m_no_close = ToBool(item);
+		if (PyObject* item = PyDict_GetItemString(dict, "no_close")) _no_close = ToBool(item);
 		if (PyObject* item = PyDict_GetItemString(dict, "collapsed"))
 		{
-			m_collapsedDirty = true;
-			m_collapsed = ToBool(item);
+			_collapsedDirty = true;
+			_collapsed = ToBool(item);
 		}
 
 		if (PyObject* item = PyDict_GetItemString(dict, "min_size"))
 		{
 			auto min_size = ToIntVect(item);
-			m_min_size = { (float)min_size[0], (float)min_size[1]};
+			_min_size = { (float)min_size[0], (float)min_size[1]};
 		}
 
 		if (PyObject* item = PyDict_GetItemString(dict, "max_size"))
 		{
 			auto max_size = ToIntVect(item);
-			m_max_size = { (float)max_size[0], (float)max_size[1] };
+			_max_size = { (float)max_size[0], (float)max_size[1] };
 		}
 
 		if (PyObject* item = PyDict_GetItemString(dict, "on_close"))
 		{
-			if (m_on_close)
-				Py_XDECREF(m_on_close);
+			if (_on_close)
+				Py_XDECREF(_on_close);
 			item = SanitizeCallback(item);
 			if (item)
 				Py_XINCREF(item);
-			m_on_close = item;
+			_on_close = item;
 		}
 
 		// helper for bit flipping
@@ -518,24 +518,24 @@ namespace Marvel {
 		};
 
 		// window flags
-		flagop("autosize", ImGuiWindowFlags_AlwaysAutoResize, m_windowflags);
-		flagop("no_move", ImGuiWindowFlags_NoMove, m_windowflags);
-		flagop("no_resize", ImGuiWindowFlags_NoResize, m_windowflags);
-		flagop("no_title_bar", ImGuiWindowFlags_NoTitleBar, m_windowflags);
-		flagop("no_scrollbar", ImGuiWindowFlags_NoScrollbar, m_windowflags);
-		flagop("no_collapse", ImGuiWindowFlags_NoCollapse, m_windowflags);
-		flagop("horizontal_scrollbar", ImGuiWindowFlags_HorizontalScrollbar, m_windowflags);
-		flagop("no_focus_on_appearing", ImGuiWindowFlags_NoFocusOnAppearing, m_windowflags);
-		flagop("no_bring_to_front_on_focus", ImGuiWindowFlags_NoBringToFrontOnFocus, m_windowflags);
-		flagop("menubar", ImGuiWindowFlags_MenuBar, m_windowflags);
-		flagop("no_background", ImGuiWindowFlags_NoBackground, m_windowflags);
-		flagop("no_saved_settings", ImGuiWindowFlags_NoSavedSettings, m_windowflags);
+		flagop("autosize", ImGuiWindowFlags_AlwaysAutoResize, _windowflags);
+		flagop("no_move", ImGuiWindowFlags_NoMove, _windowflags);
+		flagop("no_resize", ImGuiWindowFlags_NoResize, _windowflags);
+		flagop("no_title_bar", ImGuiWindowFlags_NoTitleBar, _windowflags);
+		flagop("no_scrollbar", ImGuiWindowFlags_NoScrollbar, _windowflags);
+		flagop("no_collapse", ImGuiWindowFlags_NoCollapse, _windowflags);
+		flagop("horizontal_scrollbar", ImGuiWindowFlags_HorizontalScrollbar, _windowflags);
+		flagop("no_focus_on_appearing", ImGuiWindowFlags_NoFocusOnAppearing, _windowflags);
+		flagop("no_bring_to_front_on_focus", ImGuiWindowFlags_NoBringToFrontOnFocus, _windowflags);
+		flagop("menubar", ImGuiWindowFlags_MenuBar, _windowflags);
+		flagop("no_background", ImGuiWindowFlags_NoBackground, _windowflags);
+		flagop("no_saved_settings", ImGuiWindowFlags_NoSavedSettings, _windowflags);
 
-		m_oldxpos = m_state.getItemPos().x;
-		m_oldypos = m_state.getItemPos().y;
-		m_oldWidth = m_width;
-		m_oldHeight = m_height;
-		m_oldWindowflags = m_windowflags;
+		_oldxpos = _state.getItemPos().x;
+		_oldypos = _state.getItemPos().y;
+		_oldWidth = _width;
+		_oldHeight = _height;
+		_oldWindowflags = _windowflags;
 
 	}
 
@@ -544,12 +544,12 @@ namespace Marvel {
 		if (dict == nullptr)
 			return;
 		 
-		PyDict_SetItemString(dict, "modal", ToPyBool(m_modal));
-		PyDict_SetItemString(dict, "popup", ToPyBool(m_popup));
-		PyDict_SetItemString(dict, "no_close", ToPyBool(m_no_close));
-		PyDict_SetItemString(dict, "collapsed", ToPyBool(m_collapsed));
-		PyDict_SetItemString(dict, "min_size", ToPyPair(m_min_size.x, m_min_size.y));
-		PyDict_SetItemString(dict, "max_size", ToPyPair(m_min_size.x, m_min_size.y));
+		PyDict_SetItemString(dict, "modal", ToPyBool(_modal));
+		PyDict_SetItemString(dict, "popup", ToPyBool(_popup));
+		PyDict_SetItemString(dict, "no_close", ToPyBool(_no_close));
+		PyDict_SetItemString(dict, "collapsed", ToPyBool(_collapsed));
+		PyDict_SetItemString(dict, "min_size", ToPyPair(_min_size.x, _min_size.y));
+		PyDict_SetItemString(dict, "max_size", ToPyPair(_min_size.x, _min_size.y));
 
 		// helper to check and set bit
 		auto checkbitset = [dict](const char* keyword, int flag, const int& flags)
@@ -558,18 +558,18 @@ namespace Marvel {
 		};
 
 		// window flags
-		checkbitset("autosize", ImGuiWindowFlags_AlwaysAutoResize, m_windowflags);
-		checkbitset("no_resize", ImGuiWindowFlags_NoResize, m_windowflags);
-		checkbitset("no_title_bar", ImGuiWindowFlags_NoTitleBar, m_windowflags);
-		checkbitset("no_move", ImGuiWindowFlags_NoMove, m_windowflags);
-		checkbitset("no_scrollbar", ImGuiWindowFlags_NoScrollbar, m_windowflags);
-		checkbitset("no_collapse", ImGuiWindowFlags_NoCollapse, m_windowflags);
-		checkbitset("horizontal_scrollbar", ImGuiWindowFlags_HorizontalScrollbar, m_windowflags);
-		checkbitset("no_focus_on_appearing", ImGuiWindowFlags_NoFocusOnAppearing, m_windowflags);
-		checkbitset("no_bring_to_front_on_focus", ImGuiWindowFlags_NoBringToFrontOnFocus, m_windowflags);
-		checkbitset("menubar", ImGuiWindowFlags_MenuBar, m_windowflags);
-		checkbitset("no_background", ImGuiWindowFlags_NoBackground, m_windowflags);
-		checkbitset("no_saved_settings", ImGuiWindowFlags_NoSavedSettings, m_windowflags);
+		checkbitset("autosize", ImGuiWindowFlags_AlwaysAutoResize, _windowflags);
+		checkbitset("no_resize", ImGuiWindowFlags_NoResize, _windowflags);
+		checkbitset("no_title_bar", ImGuiWindowFlags_NoTitleBar, _windowflags);
+		checkbitset("no_move", ImGuiWindowFlags_NoMove, _windowflags);
+		checkbitset("no_scrollbar", ImGuiWindowFlags_NoScrollbar, _windowflags);
+		checkbitset("no_collapse", ImGuiWindowFlags_NoCollapse, _windowflags);
+		checkbitset("horizontal_scrollbar", ImGuiWindowFlags_HorizontalScrollbar, _windowflags);
+		checkbitset("no_focus_on_appearing", ImGuiWindowFlags_NoFocusOnAppearing, _windowflags);
+		checkbitset("no_bring_to_front_on_focus", ImGuiWindowFlags_NoBringToFrontOnFocus, _windowflags);
+		checkbitset("menubar", ImGuiWindowFlags_MenuBar, _windowflags);
+		checkbitset("no_background", ImGuiWindowFlags_NoBackground, _windowflags);
+		checkbitset("no_saved_settings", ImGuiWindowFlags_NoSavedSettings, _windowflags);
 	}
 
 	PyObject* mvWindowAppItem::set_x_scroll(PyObject* self, PyObject* args, PyObject* kwargs)
@@ -597,8 +597,8 @@ namespace Marvel {
 
 			auto pWindow = static_cast<mvWindowAppItem*>(window);
 
-			pWindow->m_scrollX = value;
-			pWindow->m_scrollXSet = true;
+			pWindow->_scrollX = value;
+			pWindow->_scrollXSet = true;
 		}
 		else if (window->getType() == mvAppItemType::mvChild)
 		{
@@ -640,8 +640,8 @@ namespace Marvel {
 
 			auto pWindow = static_cast<mvWindowAppItem*>(window);
 
-			pWindow->m_scrollY = value;
-			pWindow->m_scrollYSet = true;
+			pWindow->_scrollY = value;
+			pWindow->_scrollYSet = true;
 		}
 		else if (window->getType() == mvAppItemType::mvChild)
 		{
@@ -682,7 +682,7 @@ namespace Marvel {
 
 			auto pWindow = static_cast<mvWindowAppItem*>(window);
 
-			return ToPyFloat(pWindow->m_scrollX);
+			return ToPyFloat(pWindow->_scrollX);
 		}
 		else if (window->getType() == mvAppItemType::mvChild)
 		{
@@ -723,7 +723,7 @@ namespace Marvel {
 
 			auto pWindow = static_cast<mvWindowAppItem*>(window);
 
-			return ToPyFloat(pWindow->m_scrollY);
+			return ToPyFloat(pWindow->_scrollY);
 		}
 		else if (window->getType() == mvAppItemType::mvChild)
 		{
@@ -764,7 +764,7 @@ namespace Marvel {
 
 			auto pWindow = static_cast<mvWindowAppItem*>(window);
 
-			return ToPyFloat(pWindow->m_scrollMaxX);
+			return ToPyFloat(pWindow->_scrollMaxX);
 		}
 		else if (window->getType() == mvAppItemType::mvChild)
 		{
@@ -805,7 +805,7 @@ namespace Marvel {
 
 			auto pWindow = static_cast<mvWindowAppItem*>(window);
 
-			return ToPyFloat(pWindow->m_scrollMaxY);
+			return ToPyFloat(pWindow->_scrollMaxY);
 		}
 		else if (window->getType() == mvAppItemType::mvChild)
 		{

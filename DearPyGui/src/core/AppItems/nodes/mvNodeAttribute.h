@@ -55,16 +55,16 @@ namespace Marvel {
 		void draw(ImDrawList* drawlist, float x, float y) override;
 		bool isParentCompatible(mvAppItemType type) override;
 
-		int getId() const {return m_id;}
+		int getId() const {return _id;}
 
 		void handleSpecificKeywordArgs(PyObject* dict) override;
 		void getSpecificConfiguration(PyObject* dict) override;
 
 	private:
-        int m_id = 1;
-		AttributeType m_attrType = AttributeType::mvAttr_Input;
-		imnodes::PinShape m_shape = imnodes::PinShape_CircleFilled;
-		std::string m_category = "general";
+        int _id = 1;
+		AttributeType _attrType = AttributeType::mvAttr_Input;
+		imnodes::PinShape _shape = imnodes::PinShape_CircleFilled;
+		std::string _category = "general";
 
 	};
 

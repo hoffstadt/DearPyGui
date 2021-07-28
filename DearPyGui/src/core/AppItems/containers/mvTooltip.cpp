@@ -28,7 +28,7 @@ namespace Marvel {
 
 		// has to be showed that way it can check for hovering
 		// otherwise it will never show
-		m_show = true;
+		_show = true;
 		
 	}
 
@@ -38,7 +38,7 @@ namespace Marvel {
 		{
 			ImGui::BeginTooltip();
 
-			for (auto& item : m_children[1])
+			for (auto& item : _children[1])
 			{
 				if (!item->preDraw())
 					continue;
@@ -64,7 +64,7 @@ namespace Marvel {
 			switch (i)
 			{
 			case 0:
-				m_parent = ToUUID(item);
+				_parent = ToUUID(item);
 				break;
 
 			default:

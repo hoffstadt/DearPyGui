@@ -31,8 +31,8 @@ namespace Marvel {
 			// TODO use code below to set item height when font and scale systems are done
 			//float FontSize = ImGui::GetFontSize(); // = Base Font Size * Current Window Scale
 			//ImGuiStyle currentStyle = ImGui::GetStyle(); // = Padding for the Top and Bottom
-			//m_height = int(currentStyle.FramePadding.y * 2 + FontSize);
-			m_height = 21;
+			//_height = int(currentStyle.FramePadding.y * 2 + FontSize);
+			_height = 21;
 		}
 
 	void mvViewportMenuBar::draw(ImDrawList* drawlist, float x, float y)
@@ -41,7 +41,7 @@ namespace Marvel {
 		if (ImGui::BeginMainMenuBar())
 		{
 
-			for (auto& item : m_children[1])
+			for (auto& item : _children[1])
 			{
 				if (!item->preDraw())
 					continue;

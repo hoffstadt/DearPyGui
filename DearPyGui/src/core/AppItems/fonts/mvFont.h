@@ -31,18 +31,18 @@ namespace Marvel {
 		void handleSpecificRequiredArgs(PyObject* dict) override;
 		void handleSpecificKeywordArgs(PyObject* dict) override;
 		void getSpecificConfiguration(PyObject* dict) override;
-		ImFont* getFontPtr() { return m_fontPtr; }
+		ImFont* getFontPtr() { return _fontPtr; }
 
 	private:
 
 		// config
-		std::string m_file;
-		float       m_size = 13.0f;
-		bool        m_default = false;
+		std::string _file;
+		float       _size = 13.0f;
+		bool        _default = false;
 
 		// finalized
-		ImFont* m_fontPtr = nullptr;
-		ImVector<ImWchar> m_ranges;
+		ImFont* _fontPtr = nullptr;
+		ImVector<ImWchar> _ranges;
 
 	};
 

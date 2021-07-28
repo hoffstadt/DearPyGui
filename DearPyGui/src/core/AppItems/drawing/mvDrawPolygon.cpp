@@ -54,7 +54,7 @@ namespace Marvel {
 	void mvDrawPolygon::draw(ImDrawList* drawlist, float x, float y)
 	{
 		mvVec2 start = { x, y };
-		std::vector<mvVec2> points = m_points;
+		std::vector<mvVec2> points = _points;
 		if (ImPlot::GetCurrentContext()->CurrentPlot)
 		{
 			for (auto& point : points)
@@ -70,8 +70,8 @@ namespace Marvel {
 				point = point + start;
 		}
 		// TODO: Find a way to store lines and only calc new fill lines when dirty similar to ellipse
-		drawlist->AddPolyline((const ImVec2*)const_cast<const mvVec2*>(points.data()), (int)m_points.size(), m_color, false, m_thickness);
-		if (m_fill.r < 0.0f)
+		drawlist->AddPolyline((const ImVec2*)const_cast<const mvVec2*>(points.data()), (int)_points.size(), _color, false, _thickness);
+		if (_fill.r < 0.0f)
 			return;
 
 		{
@@ -82,16 +82,16 @@ namespace Marvel {
 			int x2, y2;
 			int ind1, ind2;
 			size_t ints;
-			size_t n = m_points.size();
+			size_t n = _points.size();
 			int* polyints = new int[n];
 
 			/* Determine Y maxima */
-			miny = (int)m_points[0].y;
-			maxy = (int)m_points[0].y;
+			miny = (int)_points[0].y;
+			maxy = (int)_points[0].y;
 			for (i = 1; i < n; i++)
 			{
-				miny = std::min(miny, (int)m_points[i].y);
-				maxy = std::max(maxy, (int)m_points[i].y);
+				miny = std::min(miny, (int)_points[i].y);
+				maxy = std::max(maxy, (int)_points[i].y);
 			}
 
 			/* Draw, scanning y */
@@ -108,19 +108,19 @@ namespace Marvel {
 						ind1 = (int)i - 1;
 						ind2 = (int)i;
 					}
-					y1 = (int)m_points[ind1].y;
-					y2 = (int)m_points[ind2].y;
+					y1 = (int)_points[ind1].y;
+					y2 = (int)_points[ind2].y;
 					if (y1 < y2)
 					{
-						x1 = (int)m_points[ind1].x;
-						x2 = (int)m_points[ind2].x;
+						x1 = (int)_points[ind1].x;
+						x2 = (int)_points[ind2].x;
 					}
 					else if (y1 > y2)
 					{
-						y2 = (int)m_points[ind1].y;
-						y1 = (int)m_points[ind2].y;
-						x2 = (int)m_points[ind1].x;
-						x1 = (int)m_points[ind2].x;
+						y2 = (int)_points[ind1].y;
+						y1 = (int)_points[ind2].y;
+						x2 = (int)_points[ind1].x;
+						x1 = (int)_points[ind2].x;
 					}
 					else
 						continue;
@@ -141,11 +141,11 @@ namespace Marvel {
 				{
 					if (ImPlot::GetCurrentContext()->CurrentPlot)
 						drawlist->AddLine(ImPlot::PlotToPixels({ (float)polyints[i], (float)y }),
-							ImPlot::PlotToPixels({ (float)polyints[i + 1], (float)y}), m_fill, ImPlot::GetCurrentContext()->Mx * m_thickness);
+							ImPlot::PlotToPixels({ (float)polyints[i + 1], (float)y}), _fill, ImPlot::GetCurrentContext()->Mx * _thickness);
 					else
 					{
 						drawlist->AddLine({ (float)polyints[i] + start.x, (float)y + start.y },
-							{ (float)polyints[i + 1] + start.x, (float)y + start.y }, m_fill, m_thickness);
+							{ (float)polyints[i + 1] + start.x, (float)y + start.y }, _fill, _thickness);
 					}
 				}
 			}
@@ -164,7 +164,7 @@ namespace Marvel {
 			switch (i)
 			{
 			case 0:
-				m_points = ToVectVec2(item);
+				_points = ToVectVec2(item);
 				break;
 
 			default:
@@ -178,10 +178,10 @@ namespace Marvel {
 		if (dict == nullptr)
 			return;
 
-		if (PyObject* item = PyDict_GetItemString(dict, "points")) m_points = ToVectVec2(item);
-		if (PyObject* item = PyDict_GetItemString(dict, "fill")) m_fill = ToColor(item);
-		if (PyObject* item = PyDict_GetItemString(dict, "color")) m_color = ToColor(item);
-		if (PyObject* item = PyDict_GetItemString(dict, "thickness")) m_thickness = ToFloat(item);
+		if (PyObject* item = PyDict_GetItemString(dict, "points")) _points = ToVectVec2(item);
+		if (PyObject* item = PyDict_GetItemString(dict, "fill")) _fill = ToColor(item);
+		if (PyObject* item = PyDict_GetItemString(dict, "color")) _color = ToColor(item);
+		if (PyObject* item = PyDict_GetItemString(dict, "thickness")) _thickness = ToFloat(item);
 
 	}
 
@@ -190,10 +190,10 @@ namespace Marvel {
 		if (dict == nullptr)
 			return;
 
-		PyDict_SetItemString(dict, "points", ToPyList(m_points));
-		PyDict_SetItemString(dict, "fill", ToPyColor(m_fill));
-		PyDict_SetItemString(dict, "color", ToPyColor(m_color));
-		PyDict_SetItemString(dict, "thickness", ToPyFloat(m_thickness));
+		PyDict_SetItemString(dict, "points", ToPyList(_points));
+		PyDict_SetItemString(dict, "fill", ToPyColor(_fill));
+		PyDict_SetItemString(dict, "color", ToPyColor(_color));
+		PyDict_SetItemString(dict, "thickness", ToPyFloat(_thickness));
 
 	}
 

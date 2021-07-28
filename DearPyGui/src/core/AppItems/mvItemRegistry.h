@@ -110,8 +110,8 @@ namespace Marvel {
         mvAppItem*                     getItem           (mvUUID uuid);
         mvRef<mvAppItem>               getRefItem        (mvUUID uuid);
         mvWindowAppItem*               getWindow         (mvUUID uuid);
-        std::vector<mvRef<mvAppItem>>& getRoots          ()       { return m_roots; }
-        mvUUID                         getActiveWindow   () const { return m_activeWindow; }
+        std::vector<mvRef<mvAppItem>>& getRoots          ()       { return _roots; }
+        mvUUID                         getActiveWindow   () const { return _activeWindow; }
         bool                           addItemWithRuntimeChecks(mvRef<mvAppItem> item, mvUUID parent, mvUUID before);
         void                           cacheItem(mvAppItem* item);
         void                           cleanUpItem(mvUUID uuid);
@@ -126,7 +126,7 @@ namespace Marvel {
         void                             setStagingMode    (bool value);
 
         // hacky
-        std::unordered_map<mvUUID, mvRef<mvAppItem>>& getStaging() { return m_stagingArea; }
+        std::unordered_map<mvUUID, mvRef<mvAppItem>>& getStaging() { return _stagingArea; }
         void delaySearch(mvAppItem* item);
 
         //-----------------------------------------------------------------------------
@@ -149,24 +149,24 @@ namespace Marvel {
 	private:
 
         // caching
-        mvUUID                                       m_lastItemAdded = 0;
-        mvUUID                                       m_lastContainerAdded = 0;
-        mvUUID                                       m_lastRootAdded = 0;
-        mvUUID                                       m_cachedItemsID[CachedContainerCount];
-        mvAppItem*                                   m_cachedItemsPTR[CachedContainerCount];
-        mvUUID                                       m_cachedContainersID[CachedContainerCount];
-        mvAppItem*                                   m_cachedContainersPTR[CachedContainerCount];
-        int                                          m_cachedContainerIndex = 0;
-        int                                          m_cachedItemsIndex = 0;
+        mvUUID                                       _lastItemAdded = 0;
+        mvUUID                                       _lastContainerAdded = 0;
+        mvUUID                                       _lastRootAdded = 0;
+        mvUUID                                       _cachedItemsID[CachedContainerCount];
+        mvAppItem*                                   _cachedItemsPTR[CachedContainerCount];
+        mvUUID                                       _cachedContainersID[CachedContainerCount];
+        mvAppItem*                                   _cachedContainersPTR[CachedContainerCount];
+        int                                          _cachedContainerIndex = 0;
+        int                                          _cachedItemsIndex = 0;
 
-		std::stack<mvAppItem*>                       m_containers;      // parent stack, top of stack becomes widget's parent
-		std::vector<mvRef<mvAppItem>>                m_roots;
-        std::unordered_map<mvUUID, mvRef<mvAppItem>> m_stagingArea;
-        mvUUID                                       m_activeWindow = 0;
-        bool                                         m_staging = false;
-        std::vector<mvAppItem*>                      m_delayedSearch;
-        bool                                         m_showImGuiDebug = false;
-        bool                                         m_showImPlotDebug = false;
+		std::stack<mvAppItem*>                       _containers;      // parent stack, top of stack becomes widget's parent
+		std::vector<mvRef<mvAppItem>>                _roots;
+        std::unordered_map<mvUUID, mvRef<mvAppItem>> _stagingArea;
+        mvUUID                                       _activeWindow = 0;
+        bool                                         _staging = false;
+        std::vector<mvAppItem*>                      _delayedSearch;
+        bool                                         _showImGuiDebug = false;
+        bool                                         _showImPlotDebug = false;
 
 
 

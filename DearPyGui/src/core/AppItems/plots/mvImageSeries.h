@@ -40,16 +40,16 @@ namespace Marvel {
 	private:
 
 		// config
-		mvUUID      m_textureUUID = 0;
-		mvPlotPoint m_bounds_min = {0.0, 0.0};
-		mvPlotPoint m_bounds_max = {0.0, 0.0};
-		mvVec2	    m_uv_min = { 0.0f, 0.0f };
-		mvVec2	    m_uv_max = { 1.0f, 1.0f };
-		mvColor     m_tintColor = { 1.0f, 1.0f, 1.0f, 1.0f };
+		mvUUID      _textureUUID = 0;
+		mvPlotPoint _bounds_min = {0.0, 0.0};
+		mvPlotPoint _bounds_max = {0.0, 0.0};
+		mvVec2	    _uv_min = { 0.0f, 0.0f };
+		mvVec2	    _uv_max = { 1.0f, 1.0f };
+		mvColor     _tintColor = { 1.0f, 1.0f, 1.0f, 1.0f };
 		
 		// pointer to existing item or internal
-		std::shared_ptr<mvAppItem> m_texture = nullptr;
-		bool m_internalTexture = false; // create a local texture if necessary
+		std::shared_ptr<mvAppItem> _texture = nullptr;
+		bool _internalTexture = false; // create a local texture if necessary
 
 	};
 

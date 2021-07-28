@@ -54,26 +54,26 @@ namespace Marvel {
 		//-----------------------------------------------------------------------------
 		// pre draw
 		//-----------------------------------------------------------------------------
-		if (!m_show)
+		if (!_show)
 			return;
 
 		// push font if a font object is attached
-		if (m_font)
+		if (_font)
 		{
-			ImFont* fontptr = static_cast<mvFont*>(m_font.get())->getFontPtr();
+			ImFont* fontptr = static_cast<mvFont*>(_font.get())->getFontPtr();
 			ImGui::PushFont(fontptr);
 		}
 
 		// handle enabled theming
-		if (m_enabled)
+		if (_enabled)
 		{
 			// push class theme (if it exists)
 			if (auto classTheme = getClassTheme())
 				static_cast<mvTheme*>(classTheme.get())->draw(nullptr, 0.0f, 0.0f);
 
 			// push item theme (if it exists)
-			if (m_theme)
-				static_cast<mvTheme*>(m_theme.get())->draw(nullptr, 0.0f, 0.0f);
+			if (_theme)
+				static_cast<mvTheme*>(_theme.get())->draw(nullptr, 0.0f, 0.0f);
 		}
 
 		//-----------------------------------------------------------------------------
@@ -85,17 +85,17 @@ namespace Marvel {
 			static const std::vector<double>* y1ptr;
 			static const std::vector<double>* y2ptr;
 
-			xptr = &(*m_value.get())[0];
-			y1ptr = &(*m_value.get())[1];
-			y2ptr = &(*m_value.get())[2];
+			xptr = &(*_value.get())[0];
+			y1ptr = &(*_value.get())[1];
+			y2ptr = &(*_value.get())[2];
 
-			ImPlot::PlotShaded(m_label.c_str(), xptr->data(), y1ptr->data(),
+			ImPlot::PlotShaded(_label.c_str(), xptr->data(), y1ptr->data(),
 				y2ptr->data(), (int)xptr->size());
 
 			// Begin a popup for a legend entry.
-			if (ImPlot::BeginLegendPopup(m_label.c_str(), 1))
+			if (ImPlot::BeginLegendPopup(_label.c_str(), 1))
 			{
-				for (auto& childset : m_children)
+				for (auto& childset : _children)
 				{
 					for (auto& item : childset)
 					{
@@ -121,17 +121,17 @@ namespace Marvel {
 		//-----------------------------------------------------------------------------
 		// 
 		// pop font off stack
-		if (m_font)
+		if (_font)
 			ImGui::PopFont();
 
 		// handle popping styles
-		if (m_enabled)
+		if (_enabled)
 		{
 			if (auto classTheme = getClassTheme())
 				static_cast<mvTheme*>(classTheme.get())->customAction();
 
-			if (m_theme)
-				static_cast<mvTheme*>(m_theme.get())->customAction();
+			if (_theme)
+				static_cast<mvTheme*>(_theme.get())->customAction();
 		}
 
 	}
@@ -147,12 +147,12 @@ namespace Marvel {
 			switch (i)
 			{
 			case 0:
-				(*m_value)[0] = ToDoubleVect(item);
+				(*_value)[0] = ToDoubleVect(item);
 				break;
 
 			case 1:
-				(*m_value)[1] = ToDoubleVect(item);
-				(*m_value)[2] = ToDoubleVect(item);
+				(*_value)[1] = ToDoubleVect(item);
+				(*_value)[2] = ToDoubleVect(item);
 				break;
 
 			default:
@@ -160,7 +160,7 @@ namespace Marvel {
 			}
 		}
 
-		for (auto& item : (*m_value)[2])
+		for (auto& item : (*_value)[2])
 			item = 0.0;
 	}
 
@@ -170,17 +170,17 @@ namespace Marvel {
 			return;
 
 		bool valueChanged = false;
-		if (PyObject* item = PyDict_GetItemString(dict, "x")) { valueChanged = true; (*m_value)[0] = ToDoubleVect(item); }
-		if (PyObject* item = PyDict_GetItemString(dict, "y1")) { valueChanged = true; (*m_value)[1] = ToDoubleVect(item); }
-		if (PyObject* item = PyDict_GetItemString(dict, "y2")) { valueChanged = true; (*m_value)[2] = ToDoubleVect(item); }
+		if (PyObject* item = PyDict_GetItemString(dict, "x")) { valueChanged = true; (*_value)[0] = ToDoubleVect(item); }
+		if (PyObject* item = PyDict_GetItemString(dict, "y1")) { valueChanged = true; (*_value)[1] = ToDoubleVect(item); }
+		if (PyObject* item = PyDict_GetItemString(dict, "y2")) { valueChanged = true; (*_value)[2] = ToDoubleVect(item); }
 
 		if (valueChanged)
 		{
-			if ((*m_value)[1].size() != (*m_value)[2].size())
+			if ((*_value)[1].size() != (*_value)[2].size())
 			{
-				(*m_value)[2].clear();
-				for(size_t i = 0; i < (*m_value)[1].size(); i++)
-                    (*m_value)[2].push_back(0.0);
+				(*_value)[2].clear();
+				for(size_t i = 0; i < (*_value)[1].size(); i++)
+                    (*_value)[2].push_back(0.0);
 
 			}
 		}

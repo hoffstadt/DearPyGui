@@ -47,12 +47,12 @@ namespace Marvel {
 
 	void mvTableRow::draw(ImDrawList* drawlist, float x, float y)
 	{
-		ScopedID id(m_uuid);
+		ScopedID id(_uuid);
 
-		if(m_location != 0)
-			ImGui::TableNextRow(0, m_height);
+		if(_location != 0)
+			ImGui::TableNextRow(0, _height);
 
-		for (auto& item : m_children[1])
+		for (auto& item : _children[1])
 		{
 			if (!item->preDraw())
 				continue;

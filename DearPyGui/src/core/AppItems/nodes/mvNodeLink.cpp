@@ -34,7 +34,7 @@ namespace Marvel {
 	{
 		int64_t address = (int64_t)this;
 		int64_t reduced_address = address % 2147483648;
-		m_id = (int)reduced_address;
+		_id = (int)reduced_address;
 	}
 
 	bool mvNodeLink::isParentCompatible(mvAppItemType type)
@@ -66,8 +66,8 @@ namespace Marvel {
 				mvAppItem* node = mvApp::GetApp()->getItemRegistry().getItem(node1);
 				if (node->getType() == mvAppItemType::mvNodeAttribute)
 				{
-					m_id1uuid = node1;
-					m_id1 = static_cast<const mvNodeAttribute*>(node)->getId();
+					_id1uuid = node1;
+					_id1 = static_cast<const mvNodeAttribute*>(node)->getId();
 				}
 				else
 				{
@@ -86,8 +86,8 @@ namespace Marvel {
 				mvAppItem* node = mvApp::GetApp()->getItemRegistry().getItem(node2);
 				if (node->getType() == mvAppItemType::mvNodeAttribute)
 				{
-					m_id2uuid = node2;
-					m_id2 = static_cast<const mvNodeAttribute*>(node)->getId();
+					_id2uuid = node2;
+					_id2 = static_cast<const mvNodeAttribute*>(node)->getId();
 				}
 				else
 				{
@@ -112,21 +112,21 @@ namespace Marvel {
 		// update state
 		//   * only update if applicable
 		//-----------------------------------------------------------------------------
-		//m_state.m_hovered = imnodes::IsLinkHovered(&m_id);
-		m_state.m_visible = ImGui::IsItemVisible();
-		//m_state.m_active = imnodes::IsLinkStarted(&m_id);
-		//m_state.m_deactivated = imnodes::IsLinkDropped(&m_id);
+		//_state._hovered = imnodes::IsLinkHovered(&_id);
+		_state._visible = ImGui::IsItemVisible();
+		//_state._active = imnodes::IsLinkStarted(&_id);
+		//_state._deactivated = imnodes::IsLinkDropped(&_id);
 
 		// pop class themes
 		if (auto classTheme = getClassTheme())
 			static_cast<mvTheme*>(classTheme.get())->customAction();
 
 		// pop item themes
-		if (m_theme)
-			static_cast<mvTheme*>(m_theme.get())->customAction();
+		if (_theme)
+			static_cast<mvTheme*>(_theme.get())->customAction();
 
 		// event handlers
-		for (auto& item : m_children[3])
+		for (auto& item : _children[3])
 		{
 			if (!item->preDraw())
 				continue;
@@ -143,27 +143,27 @@ namespace Marvel {
 		//-----------------------------------------------------------------------------
 
 		// show/hide
-		if (!m_show)
+		if (!_show)
 			return;
 
 		// set item width
-		if (m_width != 0)
-			ImGui::SetNextItemWidth((float)m_width);
+		if (_width != 0)
+			ImGui::SetNextItemWidth((float)_width);
 
 		// handle class theming
 		if (auto classTheme = getClassTheme())
 			static_cast<mvTheme*>(classTheme.get())->draw(nullptr, 0.0f, 0.0f);
 
 		// handle item theming
-		if (m_theme)
-			static_cast<mvTheme*>(m_theme.get())->draw(nullptr, 0.0f, 0.0f);
+		if (_theme)
+			static_cast<mvTheme*>(_theme.get())->draw(nullptr, 0.0f, 0.0f);
 
 		//-----------------------------------------------------------------------------
 		// draw
 		//-----------------------------------------------------------------------------
-		ScopedID id(m_uuid);
+		ScopedID id(_uuid);
 
-		imnodes::Link(m_id, m_id1, m_id2);
+		imnodes::Link(_id, _id1, _id2);
 
 		//-----------------------------------------------------------------------------
 		// post draw
@@ -178,8 +178,8 @@ namespace Marvel {
 		if (dict == nullptr)
 			return;
 
-		PyDict_SetItemString(dict, "attr_1", ToPyUUID(m_id1uuid));
-		PyDict_SetItemString(dict, "attr_2", ToPyUUID(m_id2uuid));
+		PyDict_SetItemString(dict, "attr_1", ToPyUUID(_id1uuid));
+		PyDict_SetItemString(dict, "attr_2", ToPyUUID(_id2uuid));
 	}
 
 }

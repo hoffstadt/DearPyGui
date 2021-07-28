@@ -32,7 +32,7 @@ namespace Marvel {
 
 	private:
 
-		ImGuiSelectableFlags m_flags = ImGuiSelectableFlags_None;
+		ImGuiSelectableFlags _flags = ImGuiSelectableFlags_None;
 	};
 
 }

@@ -32,27 +32,27 @@ namespace Marvel {
 		void addFlag           (ImGuiWindowFlags flag);
 		void removeFlag        (ImGuiWindowFlags flag);
 
-		void setScrollX(float value) { m_scrollX = value; m_scrollXSet = true; }
-		void setScrollY(float value) { m_scrollY = value; m_scrollYSet = true; }
-		float getScrollX() const { return m_scrollX; }
-		float getScrollY() const { return m_scrollY; }
-		float getScrollXMax() const { return m_scrollMaxX; }
-		float getScrollYMax() const { return m_scrollMaxY; }
+		void setScrollX(float value) { _scrollX = value; _scrollXSet = true; }
+		void setScrollY(float value) { _scrollY = value; _scrollYSet = true; }
+		float getScrollX() const { return _scrollX; }
+		float getScrollY() const { return _scrollY; }
+		float getScrollXMax() const { return _scrollMaxX; }
+		float getScrollYMax() const { return _scrollMaxY; }
 
 	private:
 
-		bool             m_border     = true;
-		bool             m_autosize_x = false;
-		bool             m_autosize_y = false;
-		ImGuiWindowFlags m_windowflags = ImGuiWindowFlags_NoSavedSettings;
+		bool             _border     = true;
+		bool             _autosize_x = false;
+		bool             _autosize_y = false;
+		ImGuiWindowFlags _windowflags = ImGuiWindowFlags_NoSavedSettings;
 
 		// scroll info
-		float m_scrollX = 0.0f;
-		float m_scrollY = 0.0f;
-		float m_scrollMaxX = 0.0f;
-		float m_scrollMaxY = 0.0f;
-		bool  m_scrollXSet = false;
-		bool  m_scrollYSet = false;
+		float _scrollX = 0.0f;
+		float _scrollY = 0.0f;
+		float _scrollMaxX = 0.0f;
+		float _scrollMaxY = 0.0f;
+		bool  _scrollXSet = false;
+		bool  _scrollYSet = false;
 
 	};
 

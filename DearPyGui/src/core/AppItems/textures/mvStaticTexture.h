@@ -31,13 +31,13 @@ namespace Marvel {
 		void handleSpecificRequiredArgs(PyObject* dict) override;
 		void setWidth(int width) override {}
 		void setHeight(int height) override {}
-		void* getRawTexture() { return m_texture; }
-		void markDirty() { m_dirty = true; }
+		void* getRawTexture() { return _texture; }
+		void markDirty() { _dirty = true; }
 
 	private:
 
-		void*       m_texture = nullptr;
-		bool        m_dirty = true;
+		void*       _texture = nullptr;
+		bool        _dirty = true;
 
 	};
 

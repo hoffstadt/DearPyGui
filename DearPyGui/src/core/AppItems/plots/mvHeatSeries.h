@@ -35,13 +35,13 @@ namespace Marvel {
 
 	private:
 
-		int         m_rows = 1;
-		int         m_cols = 1;
-		double      m_scale_min = 0.0;
-		double      m_scale_max = 1.0;
-		std::string m_format = "%0.1f";
-		mvPlotPoint m_bounds_min = {0.0, 0.0};
-		mvPlotPoint m_bounds_max = {1.0, 1.0};
+		int         _rows = 1;
+		int         _cols = 1;
+		double      _scale_min = 0.0;
+		double      _scale_max = 1.0;
+		std::string _format = "%0.1f";
+		mvPlotPoint _bounds_min = {0.0, 0.0};
+		mvPlotPoint _bounds_max = {1.0, 1.0};
 
 	};
 

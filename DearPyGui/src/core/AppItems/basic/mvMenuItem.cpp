@@ -41,7 +41,7 @@ namespace Marvel {
 
 	void mvMenuItem::draw(ImDrawList* drawlist, float x, float y)
 	{
-		ScopedID id(m_uuid);
+		ScopedID id(_uuid);
 
 		// This is ugly and goes against our style system but its the only widget that ImGui chooses to push the disable color for us
 		// so we have to map our text disable color to the system text disable color, or we can create a new constant which goes agains our 
@@ -49,9 +49,9 @@ namespace Marvel {
 		ImGui::PushStyleColor(ImGuiCol_TextDisabled, ImGui::GetStyleColorVec4(ImGuiCol_Text));
 
 		// create menu item and see if its selected
-		if (ImGui::MenuItem(m_label.c_str(), m_shortcut.c_str(), m_check ? m_value.get() : nullptr, m_enabled))
+		if (ImGui::MenuItem(_label.c_str(), _shortcut.c_str(), _check ? _value.get() : nullptr, _enabled))
 		{
-			mvApp::GetApp()->getCallbackRegistry().addCallback(m_callback, m_uuid, nullptr, m_user_data);
+			mvApp::GetApp()->getCallbackRegistry().addCallback(_callback, _uuid, nullptr, _user_data);
 		}
 
 		ImGui::PopStyleColor();
@@ -63,8 +63,8 @@ namespace Marvel {
 		if (dict == nullptr)
 			return;
 
-		if (PyObject* item = PyDict_GetItemString(dict, "shortcut")) m_shortcut = ToString(item);
-		if (PyObject* item = PyDict_GetItemString(dict, "check")) m_check = ToBool(item);
+		if (PyObject* item = PyDict_GetItemString(dict, "shortcut")) _shortcut = ToString(item);
+		if (PyObject* item = PyDict_GetItemString(dict, "check")) _check = ToBool(item);
 
 }
 
@@ -73,8 +73,8 @@ namespace Marvel {
 		if (dict == nullptr)
 			return;
 
-		PyDict_SetItemString(dict, "shortcut", ToPyString(m_shortcut));
-		PyDict_SetItemString(dict, "check", ToPyBool(m_check));
+		PyDict_SetItemString(dict, "shortcut", ToPyString(_shortcut));
+		PyDict_SetItemString(dict, "check", ToPyBool(_check));
 	}
 
 }

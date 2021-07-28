@@ -59,26 +59,26 @@ namespace Marvel {
 		//-----------------------------------------------------------------------------
 		// pre draw
 		//-----------------------------------------------------------------------------
-		if (!m_show)
+		if (!_show)
 			return;
 
 		// push font if a font object is attached
-		if (m_font)
+		if (_font)
 		{
-			ImFont* fontptr = static_cast<mvFont*>(m_font.get())->getFontPtr();
+			ImFont* fontptr = static_cast<mvFont*>(_font.get())->getFontPtr();
 			ImGui::PushFont(fontptr);
 		}
 
 		// handle enabled theming
-		if (m_enabled)
+		if (_enabled)
 		{
 			// push class theme (if it exists)
 			if (auto classTheme = getClassTheme())
 				static_cast<mvTheme*>(classTheme.get())->draw(nullptr, 0.0f, 0.0f);
 
 			// push item theme (if it exists)
-			if (m_theme)
-				static_cast<mvTheme*>(m_theme.get())->draw(nullptr, 0.0f, 0.0f);
+			if (_theme)
+				static_cast<mvTheme*>(_theme.get())->draw(nullptr, 0.0f, 0.0f);
 		}
 
 		//-----------------------------------------------------------------------------
@@ -86,29 +86,29 @@ namespace Marvel {
 		//-----------------------------------------------------------------------------
 		{
 
-			if (m_texture)
+			if (_texture)
 			{
-				if (m_internalTexture)
-					m_texture->draw(drawlist, x, y);
+				if (_internalTexture)
+					_texture->draw(drawlist, x, y);
 
-				if (!m_texture->getState().isOk())
+				if (!_texture->getState().isOk())
 					return;
 
 				void* texture = nullptr;
 
-				if (m_texture->getType() == mvAppItemType::mvStaticTexture)
-					texture = static_cast<mvStaticTexture*>(m_texture.get())->getRawTexture();
-				else if (m_texture->getType() == mvAppItemType::mvRawTexture)
-					texture = static_cast<mvRawTexture*>(m_texture.get())->getRawTexture();
+				if (_texture->getType() == mvAppItemType::mvStaticTexture)
+					texture = static_cast<mvStaticTexture*>(_texture.get())->getRawTexture();
+				else if (_texture->getType() == mvAppItemType::mvRawTexture)
+					texture = static_cast<mvRawTexture*>(_texture.get())->getRawTexture();
 				else
-					texture = static_cast<mvDynamicTexture*>(m_texture.get())->getRawTexture();
+					texture = static_cast<mvDynamicTexture*>(_texture.get())->getRawTexture();
 
-				ImPlot::PlotImage(m_label.c_str(), texture, m_bounds_min, m_bounds_max, m_uv_min, m_uv_max, m_tintColor);
+				ImPlot::PlotImage(_label.c_str(), texture, _bounds_min, _bounds_max, _uv_min, _uv_max, _tintColor);
 
 				// Begin a popup for a legend entry.
-				if (ImPlot::BeginLegendPopup(m_label.c_str(), 1))
+				if (ImPlot::BeginLegendPopup(_label.c_str(), 1))
 				{
-					for (auto& childset : m_children)
+					for (auto& childset : _children)
 					{
 						for (auto& item : childset)
 						{
@@ -135,17 +135,17 @@ namespace Marvel {
 		//-----------------------------------------------------------------------------
 
 		// pop font off stack
-		if (m_font)
+		if (_font)
 			ImGui::PopFont();
 
 		// handle popping styles
-		if (m_enabled)
+		if (_enabled)
 		{
 			if (auto classTheme = getClassTheme())
 				static_cast<mvTheme*>(classTheme.get())->customAction();
 
-			if (m_theme)
-				static_cast<mvTheme*>(m_theme.get())->customAction();
+			if (_theme)
+				static_cast<mvTheme*>(_theme.get())->customAction();
 		}
 
 	}
@@ -162,14 +162,14 @@ namespace Marvel {
 			{
 			case 0:
 			{
-				m_textureUUID = ToUUID(item);
-				m_texture = mvApp::GetApp()->getItemRegistry().getRefItem(m_textureUUID);
-				if (m_texture)
+				_textureUUID = ToUUID(item);
+				_texture = mvApp::GetApp()->getItemRegistry().getRefItem(_textureUUID);
+				if (_texture)
 					break;
-				else if (m_textureUUID == MV_ATLAS_UUID)
+				else if (_textureUUID == MV_ATLAS_UUID)
 				{
-					m_texture = std::make_shared<mvStaticTexture>(m_textureUUID);
-					m_internalTexture = true;
+					_texture = std::make_shared<mvStaticTexture>(_textureUUID);
+					_internalTexture = true;
 					break;
 				}
 				else
@@ -182,16 +182,16 @@ namespace Marvel {
 			case 1:
 			{
 				auto result = ToPoint(item);
-				m_bounds_min.x = result.x;
-				m_bounds_min.y = result.y;
+				_bounds_min.x = result.x;
+				_bounds_min.y = result.y;
 				break;
 			}
 
 			case 2:
 			{
 				auto result = ToPoint(item);
-				m_bounds_max.x = result.x;
-				m_bounds_max.y = result.y;
+				_bounds_max.x = result.x;
+				_bounds_max.y = result.y;
 				break;
 			}
 
@@ -206,20 +206,20 @@ namespace Marvel {
 		if (dict == nullptr)
 			return;
 
-		if (PyObject* item = PyDict_GetItemString(dict, "uv_min")) m_uv_min = ToVec2(item);
-		if (PyObject* item = PyDict_GetItemString(dict, "uv_max")) m_uv_max = ToVec2(item);
-		if (PyObject* item = PyDict_GetItemString(dict, "tint_color")) m_tintColor = ToColor(item);
+		if (PyObject* item = PyDict_GetItemString(dict, "uv_min")) _uv_min = ToVec2(item);
+		if (PyObject* item = PyDict_GetItemString(dict, "uv_max")) _uv_max = ToVec2(item);
+		if (PyObject* item = PyDict_GetItemString(dict, "tint_color")) _tintColor = ToColor(item);
 		if (PyObject* item = PyDict_GetItemString(dict, "bounds_min"))
 		{
 			auto result = ToPoint(item);
-			m_bounds_min.x = result.x;
-			m_bounds_min.y = result.y;
+			_bounds_min.x = result.x;
+			_bounds_min.y = result.y;
 		}
 		if (PyObject* item = PyDict_GetItemString(dict, "bounds_max"))
 		{
 			auto result = ToPoint(item);
-			m_bounds_max.x = result.x;
-			m_bounds_max.y = result.y;
+			_bounds_max.x = result.x;
+			_bounds_max.y = result.y;
 		}
 
 	}
@@ -229,12 +229,12 @@ namespace Marvel {
 		if (dict == nullptr)
 			return;
 
-		PyDict_SetItemString(dict, "texture_id", ToPyUUID(m_textureUUID));
-		PyDict_SetItemString(dict, "uv_min", ToPyPair(m_uv_min.x, m_uv_min.y));
-		PyDict_SetItemString(dict, "uv_max", ToPyPair(m_uv_max.x, m_uv_max.y));
-		PyDict_SetItemString(dict, "tint_color", ToPyColor(m_tintColor));
-		PyDict_SetItemString(dict, "bounds_min", ToPyPair(m_bounds_min.x, m_bounds_min.y));
-		PyDict_SetItemString(dict, "bounds_max", ToPyPair(m_bounds_max.x, m_bounds_max.y));
+		PyDict_SetItemString(dict, "texture_id", ToPyUUID(_textureUUID));
+		PyDict_SetItemString(dict, "uv_min", ToPyPair(_uv_min.x, _uv_min.y));
+		PyDict_SetItemString(dict, "uv_max", ToPyPair(_uv_max.x, _uv_max.y));
+		PyDict_SetItemString(dict, "tint_color", ToPyColor(_tintColor));
+		PyDict_SetItemString(dict, "bounds_min", ToPyPair(_bounds_min.x, _bounds_min.y));
+		PyDict_SetItemString(dict, "bounds_max", ToPyPair(_bounds_max.x, _bounds_max.y));
 	}
 
 }

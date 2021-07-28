@@ -42,10 +42,10 @@ namespace Marvel {
 
 	private:
 
-		mvColor m_color = {-1.0f, 0.0f, 0.0f, 1.0f};
-		int     m_wrap = -1;
-		bool    m_bullet = false;
-		bool	m_show_label = false;
+		mvColor _color = {-1.0f, 0.0f, 0.0f, 1.0f};
+		int     _wrap = -1;
+		bool    _bullet = false;
+		bool	_show_label = false;
 
 	};
 }

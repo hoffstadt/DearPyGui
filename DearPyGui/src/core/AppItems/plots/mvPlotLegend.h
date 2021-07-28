@@ -52,9 +52,9 @@ namespace Marvel {
 
 	private:
 
-		ImPlotLocation m_legendLocation = ImPlotLocation_NorthWest;
-		bool           m_horizontal = false;
-		bool           m_outside = false;
+		ImPlotLocation _legendLocation = ImPlotLocation_NorthWest;
+		bool           _horizontal = false;
+		bool           _outside = false;
 	};
 
 }

@@ -30,7 +30,7 @@ namespace Marvel {
 
 	private:
 
-		ImVec2 m_oldPos = {};
+		ImVec2 _oldPos = {};
 
 	};
 

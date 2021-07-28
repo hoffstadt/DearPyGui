@@ -58,7 +58,7 @@ namespace Marvel {
 
 		mvVec2 start = { x, y };
 
-		std::vector<mvVec2> points = m_points;
+		std::vector<mvVec2> points = _points;
 
 		if (ImPlot::GetCurrentContext()->CurrentPlot)
 		{
@@ -75,8 +75,8 @@ namespace Marvel {
 				point = point + start;
 		}
 
-		drawlist->AddPolyline((const ImVec2*)const_cast<const mvVec2*>(points.data()), (int)m_points.size(), m_color, 
-			m_closed, ImPlot::GetCurrentContext()->Mx * m_thickness);
+		drawlist->AddPolyline((const ImVec2*)const_cast<const mvVec2*>(points.data()), (int)_points.size(), _color, 
+			_closed, ImPlot::GetCurrentContext()->Mx * _thickness);
 	}
 
 	void mvDrawPolyline::handleSpecificRequiredArgs(PyObject* dict)
@@ -90,7 +90,7 @@ namespace Marvel {
 			switch (i)
 			{
 			case 0:
-				m_points = ToVectVec2(item);
+				_points = ToVectVec2(item);
 				break;
 
 			default:
@@ -104,10 +104,10 @@ namespace Marvel {
 		if (dict == nullptr)
 			return;
 
-		if (PyObject* item = PyDict_GetItemString(dict, "points")) m_points = ToVectVec2(item);
-		if (PyObject* item = PyDict_GetItemString(dict, "closed")) m_closed = ToBool(item);
-		if (PyObject* item = PyDict_GetItemString(dict, "color")) m_color = ToColor(item);
-		if (PyObject* item = PyDict_GetItemString(dict, "thickness")) m_thickness = ToFloat(item);
+		if (PyObject* item = PyDict_GetItemString(dict, "points")) _points = ToVectVec2(item);
+		if (PyObject* item = PyDict_GetItemString(dict, "closed")) _closed = ToBool(item);
+		if (PyObject* item = PyDict_GetItemString(dict, "color")) _color = ToColor(item);
+		if (PyObject* item = PyDict_GetItemString(dict, "thickness")) _thickness = ToFloat(item);
 	}
 
 	void mvDrawPolyline::getSpecificConfiguration(PyObject* dict)
@@ -115,9 +115,9 @@ namespace Marvel {
 		if (dict == nullptr)
 			return;
 
-		PyDict_SetItemString(dict, "points", ToPyList(m_points));
-		PyDict_SetItemString(dict, "closed", ToPyBool(m_closed));
-		PyDict_SetItemString(dict, "color", ToPyColor(m_color));
-		PyDict_SetItemString(dict, "thickness", ToPyFloat(m_thickness));
+		PyDict_SetItemString(dict, "points", ToPyList(_points));
+		PyDict_SetItemString(dict, "closed", ToPyBool(_closed));
+		PyDict_SetItemString(dict, "color", ToPyColor(_color));
+		PyDict_SetItemString(dict, "thickness", ToPyFloat(_thickness));
 	}
 }

@@ -44,7 +44,7 @@ namespace Marvel {
 
 	void mvKeyPressHandler::draw(ImDrawList* drawlist, float x, float y)
 	{
-		if (m_key == -1)
+		if (_key == -1)
 		{
 			for (int i = 0; i < IM_ARRAYSIZE(ImGui::GetIO().KeysDown); i++)
 			{
@@ -52,17 +52,17 @@ namespace Marvel {
 				{
 					mvApp::GetApp()->getCallbackRegistry().submitCallback([=]()
 						{
-							mvApp::GetApp()->getCallbackRegistry().runCallback(getCallback(false), m_uuid, ToPyInt(i), m_user_data);
+							mvApp::GetApp()->getCallbackRegistry().runCallback(getCallback(false), _uuid, ToPyInt(i), _user_data);
 						});
 				}
 			}
 		}
 
-		else if (ImGui::IsKeyPressed(m_key))
+		else if (ImGui::IsKeyPressed(_key))
 		{
 			mvApp::GetApp()->getCallbackRegistry().submitCallback([=]()
 				{
-					mvApp::GetApp()->getCallbackRegistry().runCallback(getCallback(false), m_uuid, ToPyInt(m_key), m_user_data);
+					mvApp::GetApp()->getCallbackRegistry().runCallback(getCallback(false), _uuid, ToPyInt(_key), _user_data);
 				});
 		}
 	}
@@ -78,7 +78,7 @@ namespace Marvel {
 			switch (i)
 			{
 			case 0:
-				m_key = ToInt(item);
+				_key = ToInt(item);
 				break;
 
 			default:
@@ -92,7 +92,7 @@ namespace Marvel {
 		if (dict == nullptr)
 			return;
 
-		if (PyObject* item = PyDict_GetItemString(dict, "key")) m_key = ToInt(item);
+		if (PyObject* item = PyDict_GetItemString(dict, "key")) _key = ToInt(item);
 	}
 
 	void mvKeyPressHandler::getSpecificConfiguration(PyObject* dict)
@@ -100,7 +100,7 @@ namespace Marvel {
 		if (dict == nullptr)
 			return;
 
-		PyDict_SetItemString(dict, "key", ToPyInt(m_key));
+		PyDict_SetItemString(dict, "key", ToPyInt(_key));
 	}
 
 }

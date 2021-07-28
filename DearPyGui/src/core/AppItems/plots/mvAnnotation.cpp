@@ -52,12 +52,12 @@ namespace Marvel {
 
 	void mvAnnotation::draw(ImDrawList* drawlist, float x, float y)
 	{
-		ScopedID id(m_uuid);
+		ScopedID id(_uuid);
 
-		if (m_clamped)
-			ImPlot::AnnotateClamped((*m_value.get())[0], (*m_value.get())[1], m_pixOffset, m_color.toVec4(), "%s", m_specificedlabel.c_str());
+		if (_clamped)
+			ImPlot::AnnotateClamped((*_value.get())[0], (*_value.get())[1], _pixOffset, _color.toVec4(), "%s", _specificedlabel.c_str());
 		else
-			ImPlot::Annotate((*m_value.get())[0], (*m_value.get())[1], m_pixOffset, m_color.toVec4(), "%s", m_specificedlabel.c_str());
+			ImPlot::Annotate((*_value.get())[0], (*_value.get())[1], _pixOffset, _color.toVec4(), "%s", _specificedlabel.c_str());
 
 	}
 
@@ -66,9 +66,9 @@ namespace Marvel {
 		if (dict == nullptr)
 			return;
 
-		if (PyObject* item = PyDict_GetItemString(dict, "color")) m_color = ToColor(item);
-		if (PyObject* item = PyDict_GetItemString(dict, "clamped")) m_clamped = ToBool(item);
-		if (PyObject* item = PyDict_GetItemString(dict, "offset")) m_pixOffset = ToVec2(item);
+		if (PyObject* item = PyDict_GetItemString(dict, "color")) _color = ToColor(item);
+		if (PyObject* item = PyDict_GetItemString(dict, "clamped")) _clamped = ToBool(item);
+		if (PyObject* item = PyDict_GetItemString(dict, "offset")) _pixOffset = ToVec2(item);
 
 	}
 
@@ -76,9 +76,9 @@ namespace Marvel {
 	{
 		if (dict == nullptr)
 			return;
-		PyDict_SetItemString(dict, "color", ToPyColor(m_color));
-		PyDict_SetItemString(dict, "clamped", ToPyBool(m_clamped));
-		PyDict_SetItemString(dict, "offset", ToPyPair(m_pixOffset.x, m_pixOffset.y));
+		PyDict_SetItemString(dict, "color", ToPyColor(_color));
+		PyDict_SetItemString(dict, "clamped", ToPyBool(_clamped));
+		PyDict_SetItemString(dict, "offset", ToPyPair(_pixOffset.x, _pixOffset.y));
 
 	}
 

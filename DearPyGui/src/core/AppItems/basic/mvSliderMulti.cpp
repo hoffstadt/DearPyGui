@@ -95,53 +95,53 @@ namespace Marvel {
 
     void mvSliderFloatMulti::setEnabled(bool value)
     {
-        if (value == m_enabled)
+        if (value == _enabled)
             return;
 
         if (value)
-            m_flags = m_stor_flags;
+            _flags = _stor_flags;
 
         else
         {
-            m_stor_flags = m_flags;
-            m_flags |= ImGuiSliderFlags_NoInput;
+            _stor_flags = _flags;
+            _flags |= ImGuiSliderFlags_NoInput;
         }
 
-        m_enabled = value;
+        _enabled = value;
     }
 
     void mvSliderFloatMulti::draw(ImDrawList* drawlist, float x, float y)
     {
-        ScopedID id(m_uuid);
+        ScopedID id(_uuid);
 
-        if (!m_enabled) std::copy(m_value->data(), m_value->data() + 4, m_disabled_value);
+        if (!_enabled) std::copy(_value->data(), _value->data() + 4, _disabled_value);
 
-        switch (m_size)
+        switch (_size)
         {
         case 2:
-            if (ImGui::SliderFloat2(m_label.c_str(), m_enabled ? m_value->data() : &m_disabled_value[0], m_min, m_max, m_format.c_str(), m_flags))
+            if (ImGui::SliderFloat2(_label.c_str(), _enabled ? _value->data() : &_disabled_value[0], _min, _max, _format.c_str(), _flags))
             {
-                auto value = *m_value;
+                auto value = *_value;
                 mvApp::GetApp()->getCallbackRegistry().submitCallback([=]() {
-                    mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), m_uuid, ToPyFloatList(value.data(), value.size()), m_user_data);
+                    mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), _uuid, ToPyFloatList(value.data(), value.size()), _user_data);
                     });
             }
             break;
         case 3:
-            if (ImGui::SliderFloat3(m_label.c_str(), m_enabled ? m_value->data() : &m_disabled_value[0], m_min, m_max, m_format.c_str(), m_flags))
+            if (ImGui::SliderFloat3(_label.c_str(), _enabled ? _value->data() : &_disabled_value[0], _min, _max, _format.c_str(), _flags))
             {
-                auto value = *m_value;
+                auto value = *_value;
                 mvApp::GetApp()->getCallbackRegistry().submitCallback([=]() {
-                    mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), m_uuid, ToPyFloatList(value.data(), value.size()), m_user_data);
+                    mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), _uuid, ToPyFloatList(value.data(), value.size()), _user_data);
                     });
             }
             break;
         case 4:
-            if (ImGui::SliderFloat4(m_label.c_str(), m_enabled ? m_value->data() : &m_disabled_value[0], m_min, m_max, m_format.c_str(), m_flags))
+            if (ImGui::SliderFloat4(_label.c_str(), _enabled ? _value->data() : &_disabled_value[0], _min, _max, _format.c_str(), _flags))
             {
-                auto value = *m_value;
+                auto value = *_value;
                 mvApp::GetApp()->getCallbackRegistry().submitCallback([=]() {
-                    mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), m_uuid, ToPyFloatList(value.data(), value.size()), m_user_data);
+                    mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), _uuid, ToPyFloatList(value.data(), value.size()), _user_data);
                     });
             }
             break;
@@ -157,53 +157,53 @@ namespace Marvel {
 
     void mvSliderIntMulti::setEnabled(bool value)
     {
-        if (value == m_enabled)
+        if (value == _enabled)
             return;
 
         if (value)
-            m_flags = m_stor_flags;
+            _flags = _stor_flags;
 
         else
         {
-            m_stor_flags = m_flags;
-            m_flags |= ImGuiSliderFlags_NoInput;
+            _stor_flags = _flags;
+            _flags |= ImGuiSliderFlags_NoInput;
         }
 
-        m_enabled = value;
+        _enabled = value;
     }
 
     void mvSliderIntMulti::draw(ImDrawList* drawlist, float x, float y)
     {
-        ScopedID id(m_uuid);
+        ScopedID id(_uuid);
 
-        if (!m_enabled) std::copy(m_value->data(), m_value->data() + 4, m_disabled_value);
+        if (!_enabled) std::copy(_value->data(), _value->data() + 4, _disabled_value);
 
-        switch (m_size)
+        switch (_size)
         {
         case 2:
-            if (ImGui::SliderInt2(m_label.c_str(), m_enabled ? m_value->data() : &m_disabled_value[0], m_min, m_max, m_format.c_str(), m_flags))
+            if (ImGui::SliderInt2(_label.c_str(), _enabled ? _value->data() : &_disabled_value[0], _min, _max, _format.c_str(), _flags))
             {
-                auto value = *m_value;
+                auto value = *_value;
                 mvApp::GetApp()->getCallbackRegistry().submitCallback([=]() {
-                    mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), m_uuid, ToPyIntList(value.data(), value.size()), m_user_data);
+                    mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), _uuid, ToPyIntList(value.data(), value.size()), _user_data);
                     });
             }
             break;
         case 3:
-            if (ImGui::SliderInt3(m_label.c_str(), m_enabled ? m_value->data() : &m_disabled_value[0], m_min, m_max, m_format.c_str(), m_flags))
+            if (ImGui::SliderInt3(_label.c_str(), _enabled ? _value->data() : &_disabled_value[0], _min, _max, _format.c_str(), _flags))
             {
-                auto value = *m_value;
+                auto value = *_value;
                 mvApp::GetApp()->getCallbackRegistry().submitCallback([=]() {
-                    mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), m_uuid, ToPyIntList(value.data(), value.size()), m_user_data);
+                    mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), _uuid, ToPyIntList(value.data(), value.size()), _user_data);
                     });
             }
             break;
         case 4:
-            if (ImGui::SliderInt4(m_label.c_str(), m_enabled ? m_value->data() : &m_disabled_value[0], m_min, m_max, m_format.c_str(), m_flags))
+            if (ImGui::SliderInt4(_label.c_str(), _enabled ? _value->data() : &_disabled_value[0], _min, _max, _format.c_str(), _flags))
             {
-                auto value = *m_value;
+                auto value = *_value;
                 mvApp::GetApp()->getCallbackRegistry().submitCallback([=]() {
-                    mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), m_uuid, ToPyIntList(value.data(), value.size()), m_user_data);
+                    mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), _uuid, ToPyIntList(value.data(), value.size()), _user_data);
                     });
             }
             break;
@@ -218,10 +218,10 @@ namespace Marvel {
         if (dict == nullptr)
             return;
 
-        if (PyObject* item = PyDict_GetItemString(dict, "format")) m_format = ToString(item);
-        if (PyObject* item = PyDict_GetItemString(dict, "min_value")) m_min = ToFloat(item);
-        if (PyObject* item = PyDict_GetItemString(dict, "max_value")) m_max = ToFloat(item);
-        if (PyObject* item = PyDict_GetItemString(dict, "size")) m_size = ToInt(item);
+        if (PyObject* item = PyDict_GetItemString(dict, "format")) _format = ToString(item);
+        if (PyObject* item = PyDict_GetItemString(dict, "min_value")) _min = ToFloat(item);
+        if (PyObject* item = PyDict_GetItemString(dict, "max_value")) _max = ToFloat(item);
+        if (PyObject* item = PyDict_GetItemString(dict, "size")) _size = ToInt(item);
 
         // helper for bit flipping
         auto flagop = [dict](const char* keyword, int flag, int& flags)
@@ -230,10 +230,10 @@ namespace Marvel {
         };
 
         // flags
-        flagop("clamped", ImGuiSliderFlags_ClampOnInput, m_flags);
-        flagop("clamped", ImGuiSliderFlags_ClampOnInput, m_stor_flags);
-        flagop("no_input", ImGuiSliderFlags_NoInput, m_flags);
-        flagop("no_input", ImGuiSliderFlags_NoInput, m_stor_flags);
+        flagop("clamped", ImGuiSliderFlags_ClampOnInput, _flags);
+        flagop("clamped", ImGuiSliderFlags_ClampOnInput, _stor_flags);
+        flagop("no_input", ImGuiSliderFlags_NoInput, _flags);
+        flagop("no_input", ImGuiSliderFlags_NoInput, _stor_flags);
 
     }
 
@@ -242,10 +242,10 @@ namespace Marvel {
         if (dict == nullptr)
             return;
 
-        PyDict_SetItemString(dict, "format", ToPyString(m_format));
-        PyDict_SetItemString(dict, "min_value", ToPyFloat(m_min));
-        PyDict_SetItemString(dict, "max_value", ToPyFloat(m_max));
-        PyDict_SetItemString(dict, "size", ToPyInt(m_size));
+        PyDict_SetItemString(dict, "format", ToPyString(_format));
+        PyDict_SetItemString(dict, "min_value", ToPyFloat(_min));
+        PyDict_SetItemString(dict, "max_value", ToPyFloat(_max));
+        PyDict_SetItemString(dict, "size", ToPyInt(_size));
 
         // helper to check and set bit
         auto checkbitset = [dict](const char* keyword, int flag, const int& flags)
@@ -254,8 +254,8 @@ namespace Marvel {
         };
 
         // window flags
-        checkbitset("clamped", ImGuiSliderFlags_ClampOnInput, m_flags);
-        checkbitset("no_input", ImGuiSliderFlags_NoInput, m_flags);
+        checkbitset("clamped", ImGuiSliderFlags_ClampOnInput, _flags);
+        checkbitset("no_input", ImGuiSliderFlags_NoInput, _flags);
 
     }
 
@@ -264,10 +264,10 @@ namespace Marvel {
         if (dict == nullptr)
             return;
          
-        if (PyObject* item = PyDict_GetItemString(dict, "format")) m_format = ToString(item);
-        if (PyObject* item = PyDict_GetItemString(dict, "min_value")) m_min = ToInt(item);
-        if (PyObject* item = PyDict_GetItemString(dict, "max_value")) m_max = ToInt(item);
-        if (PyObject* item = PyDict_GetItemString(dict, "size")) m_size = ToInt(item);
+        if (PyObject* item = PyDict_GetItemString(dict, "format")) _format = ToString(item);
+        if (PyObject* item = PyDict_GetItemString(dict, "min_value")) _min = ToInt(item);
+        if (PyObject* item = PyDict_GetItemString(dict, "max_value")) _max = ToInt(item);
+        if (PyObject* item = PyDict_GetItemString(dict, "size")) _size = ToInt(item);
 
         // helper for bit flipping
         auto flagop = [dict](const char* keyword, int flag, int& flags)
@@ -276,10 +276,10 @@ namespace Marvel {
         };
 
         // flags
-        flagop("clamped", ImGuiSliderFlags_ClampOnInput, m_flags);
-        flagop("clamped", ImGuiSliderFlags_ClampOnInput, m_stor_flags);
-        flagop("no_input", ImGuiSliderFlags_NoInput, m_flags);
-        flagop("no_input", ImGuiSliderFlags_NoInput, m_stor_flags);
+        flagop("clamped", ImGuiSliderFlags_ClampOnInput, _flags);
+        flagop("clamped", ImGuiSliderFlags_ClampOnInput, _stor_flags);
+        flagop("no_input", ImGuiSliderFlags_NoInput, _flags);
+        flagop("no_input", ImGuiSliderFlags_NoInput, _stor_flags);
 
     }
 
@@ -288,10 +288,10 @@ namespace Marvel {
         if (dict == nullptr)
             return;
          
-        PyDict_SetItemString(dict, "format", ToPyString(m_format));
-        PyDict_SetItemString(dict, "min_value", ToPyInt(m_min));
-        PyDict_SetItemString(dict, "max_value", ToPyInt(m_max));
-        PyDict_SetItemString(dict, "size", ToPyInt(m_size));
+        PyDict_SetItemString(dict, "format", ToPyString(_format));
+        PyDict_SetItemString(dict, "min_value", ToPyInt(_min));
+        PyDict_SetItemString(dict, "max_value", ToPyInt(_max));
+        PyDict_SetItemString(dict, "size", ToPyInt(_size));
 
         // helper to check and set bit
         auto checkbitset = [dict](const char* keyword, int flag, const int& flags)
@@ -300,8 +300,8 @@ namespace Marvel {
         };
 
         // window flags
-        checkbitset("clamped", ImGuiSliderFlags_ClampOnInput, m_flags);
-        checkbitset("no_input", ImGuiSliderFlags_NoInput, m_flags);
+        checkbitset("clamped", ImGuiSliderFlags_ClampOnInput, _flags);
+        checkbitset("no_input", ImGuiSliderFlags_NoInput, _flags);
 
     }
 

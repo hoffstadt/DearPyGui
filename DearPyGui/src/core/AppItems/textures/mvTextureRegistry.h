@@ -39,7 +39,7 @@ namespace Marvel {
 
     private:
 
-        int m_selection = -1;
+        int _selection = -1;
     };
 
 }

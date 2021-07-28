@@ -30,7 +30,7 @@ namespace Marvel {
 
 	PyObject* mvFilterSet::getPyValue()
 	{
-		return ToPyString(std::string(m_imguiFilter.InputBuf));
+		return ToPyString(std::string(_imguiFilter.InputBuf));
 	}
 
 	void mvFilterSet::setPyValue(PyObject* value)
@@ -43,28 +43,28 @@ namespace Marvel {
 			if (i > 254)
 				break;
 
-			m_imguiFilter.InputBuf[i] = character;
+			_imguiFilter.InputBuf[i] = character;
 
 			++i;
 		}
-		m_imguiFilter.InputBuf[i] = 0;
-		m_imguiFilter.Build();
+		_imguiFilter.InputBuf[i] = 0;
+		_imguiFilter.Build();
 	}
 
 	void mvFilterSet::draw(ImDrawList* drawlist, float x, float y)
 	{
-		ScopedID id(m_uuid);
+		ScopedID id(_uuid);
 
-		if (m_width != 0)
-			ImGui::PushItemWidth((float)m_width);
+		if (_width != 0)
+			ImGui::PushItemWidth((float)_width);
 
-		if (m_imguiFilter.IsActive())
+		if (_imguiFilter.IsActive())
 		{
-			for (auto& childset : m_children)
+			for (auto& childset : _children)
 			{
 				for (auto& child : childset)
 				{
-					if (!m_imguiFilter.PassFilter(child->getFilter().c_str()))
+					if (!_imguiFilter.PassFilter(child->getFilter().c_str()))
 						continue;
 
 					if (!child->preDraw())
@@ -78,7 +78,7 @@ namespace Marvel {
 		else
 		{
 
-			for (auto& childset : m_children)
+			for (auto& childset : _children)
 			{
 				for (auto& child : childset)
 				{
@@ -90,7 +90,7 @@ namespace Marvel {
 			}
 		}
 
-		if (m_width != 0)
+		if (_width != 0)
 			ImGui::PopItemWidth();
 	}
 

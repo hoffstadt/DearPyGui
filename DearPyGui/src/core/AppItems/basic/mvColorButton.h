@@ -32,8 +32,8 @@ namespace Marvel {
 
 	private:
 
-		ImGuiColorEditFlags m_flags = ImGuiColorEditFlags_None;
-		bool                m_no_border = false;
+		ImGuiColorEditFlags _flags = ImGuiColorEditFlags_None;
+		bool                _no_border = false;
 
 	};
 

@@ -45,12 +45,12 @@ namespace Marvel {
 
 	void mvColorButton::draw(ImDrawList* drawlist, float x, float y)
 	{
-		ScopedID id(m_uuid);
+		ScopedID id(_uuid);
 
-		ImVec4 col = { (*m_value)[0], (*m_value)[1], (*m_value)[2], (*m_value)[3] };
+		ImVec4 col = { (*_value)[0], (*_value)[1], (*_value)[2], (*_value)[3] };
 
-		if (ImGui::ColorButton(m_label.c_str(), col, m_flags, ImVec2((float)m_width, (float)m_height)))
-			mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), m_uuid, nullptr, m_user_data);
+		if (ImGui::ColorButton(_label.c_str(), col, _flags, ImVec2((float)_width, (float)_height)))
+			mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), _uuid, nullptr, _user_data);
 
 	}
 
@@ -85,9 +85,9 @@ namespace Marvel {
 		{
 			if (PyObject* item = PyDict_GetItemString(dict, keyword)) ToBool(item) ? flags |= flag : flags &= ~flag;
 		};
-		flagop("no_alpha", ImGuiColorEditFlags_NoAlpha, m_flags);
-		flagop("no_border", ImGuiColorEditFlags_NoBorder, m_flags);
-		flagop("no_drag_drop", ImGuiColorEditFlags_NoDragDrop, m_flags);
+		flagop("no_alpha", ImGuiColorEditFlags_NoAlpha, _flags);
+		flagop("no_border", ImGuiColorEditFlags_NoBorder, _flags);
+		flagop("no_drag_drop", ImGuiColorEditFlags_NoDragDrop, _flags);
 	}
 
 	void mvColorButton::getSpecificConfiguration(PyObject* dict)
@@ -101,9 +101,9 @@ namespace Marvel {
 			PyDict_SetItemString(dict, keyword, ToPyBool(flags & flag));
 		};
 
-		checkbitset("no_alpha", ImGuiColorEditFlags_NoAlpha, m_flags);
-		checkbitset("no_border", ImGuiColorEditFlags_NoBorder, m_flags);
-		checkbitset("no_drag_drop", ImGuiColorEditFlags_NoDragDrop, m_flags);
+		checkbitset("no_alpha", ImGuiColorEditFlags_NoAlpha, _flags);
+		checkbitset("no_border", ImGuiColorEditFlags_NoBorder, _flags);
+		checkbitset("no_drag_drop", ImGuiColorEditFlags_NoDragDrop, _flags);
 	}
 
 }

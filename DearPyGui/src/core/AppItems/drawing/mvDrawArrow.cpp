@@ -38,14 +38,14 @@ namespace Marvel {
 
 	void mvDrawArrow::updatePoints()
 	{
-		float xsi = m_p1.x;
-		float xfi = m_p2.x;
-		float ysi = m_p1.y;
-		float yfi = m_p2.y;
+		float xsi = _p1.x;
+		float xfi = _p2.x;
+		float ysi = _p1.y;
+		float yfi = _p2.y;
 
 		// length of arrow head
-		double xoffset = m_size;
-		double yoffset = m_size;
+		double xoffset = _size;
+		double yoffset = _size;
 
 		// get pointer angle w.r.t +X (in radians)
 		double angle = 0.0;
@@ -66,10 +66,10 @@ namespace Marvel {
 		auto x1 = (float)(xsi - xoffset * cos(angle));
 		auto y1 = (float)(ysi - yoffset * sin(angle));
 
-		m_points.clear();
-		m_points.push_back({ xsi, ysi });
-		m_points.push_back({ (float)(x1 - 0.5 * m_size * sin(angle)), (float)(y1 + 0.5 * m_size * cos(angle)) });
-		m_points.push_back({ (float)(x1 + 0.5 * m_size * cos((M_PI / 2.0) - angle)), (float)(y1 - 0.5 * m_size * sin((M_PI / 2.0) - angle)) });
+		_points.clear();
+		_points.push_back({ xsi, ysi });
+		_points.push_back({ (float)(x1 - 0.5 * _size * sin(angle)), (float)(y1 + 0.5 * _size * cos(angle)) });
+		_points.push_back({ (float)(x1 + 0.5 * _size * cos((M_PI / 2.0) - angle)), (float)(y1 - 0.5 * _size * sin((M_PI / 2.0) - angle)) });
 
 	}
 
@@ -94,16 +94,16 @@ namespace Marvel {
 		
 		if (ImPlot::GetCurrentContext()->CurrentPlot)
 		{
-			drawlist->AddLine(ImPlot::PlotToPixels(m_p1), ImPlot::PlotToPixels(m_p2), m_color, ImPlot::GetCurrentContext()->Mx*m_thickness);
-			drawlist->AddTriangle(ImPlot::PlotToPixels(m_points[0]), ImPlot::PlotToPixels(m_points[1]), ImPlot::PlotToPixels(m_points[2]), m_color, ImPlot::GetCurrentContext()->Mx*m_thickness);
-			drawlist->AddTriangleFilled(ImPlot::PlotToPixels(m_points[0]), ImPlot::PlotToPixels(m_points[1]), ImPlot::PlotToPixels(m_points[2]), m_color);
+			drawlist->AddLine(ImPlot::PlotToPixels(_p1), ImPlot::PlotToPixels(_p2), _color, ImPlot::GetCurrentContext()->Mx*_thickness);
+			drawlist->AddTriangle(ImPlot::PlotToPixels(_points[0]), ImPlot::PlotToPixels(_points[1]), ImPlot::PlotToPixels(_points[2]), _color, ImPlot::GetCurrentContext()->Mx*_thickness);
+			drawlist->AddTriangleFilled(ImPlot::PlotToPixels(_points[0]), ImPlot::PlotToPixels(_points[1]), ImPlot::PlotToPixels(_points[2]), _color);
 		}
 		else
 		{
 			mvVec2 start = { x, y };
-			drawlist->AddLine(m_p1 + start, m_p2 + start, m_color, m_thickness);
-			drawlist->AddTriangle(m_points[0] + start, m_points[1] + start, m_points[2] + start, m_color, m_thickness);
-			drawlist->AddTriangleFilled(m_points[0] + start, m_points[1] + start, m_points[2] + start, m_color);
+			drawlist->AddLine(_p1 + start, _p2 + start, _color, _thickness);
+			drawlist->AddTriangle(_points[0] + start, _points[1] + start, _points[2] + start, _color, _thickness);
+			drawlist->AddTriangleFilled(_points[0] + start, _points[1] + start, _points[2] + start, _color);
 		}
 	}
 
@@ -118,11 +118,11 @@ namespace Marvel {
 			switch (i)
 			{
 			case 0:
-				m_p1 = ToVec2(item);
+				_p1 = ToVec2(item);
 				break;
 
 			case 1:
-				m_p2 = ToVec2(item);
+				_p2 = ToVec2(item);
 				break;
 
 			default:
@@ -137,11 +137,11 @@ namespace Marvel {
 			return;
 
 
-		if (PyObject* item = PyDict_GetItemString(dict, "p1")) m_p1 = ToVec2(item);
-		if (PyObject* item = PyDict_GetItemString(dict, "p2")) m_p2 = ToVec2(item);
-		if (PyObject* item = PyDict_GetItemString(dict, "color")) m_color = ToColor(item);
-		if (PyObject* item = PyDict_GetItemString(dict, "thickness")) m_thickness = ToFloat(item);
-		if (PyObject* item = PyDict_GetItemString(dict, "size")) m_size = ToFloat(item);
+		if (PyObject* item = PyDict_GetItemString(dict, "p1")) _p1 = ToVec2(item);
+		if (PyObject* item = PyDict_GetItemString(dict, "p2")) _p2 = ToVec2(item);
+		if (PyObject* item = PyDict_GetItemString(dict, "color")) _color = ToColor(item);
+		if (PyObject* item = PyDict_GetItemString(dict, "thickness")) _thickness = ToFloat(item);
+		if (PyObject* item = PyDict_GetItemString(dict, "size")) _size = ToFloat(item);
 
 		updatePoints();
 
@@ -151,11 +151,11 @@ namespace Marvel {
 	{
 		if (dict == nullptr)
 			return;
-		PyDict_SetItemString(dict, "p1", ToPyPair(m_p1.x, m_p1.y));
-		PyDict_SetItemString(dict, "p2", ToPyPair(m_p2.x, m_p2.y));
-		PyDict_SetItemString(dict, "color", ToPyColor(m_color));
-		PyDict_SetItemString(dict, "thickness", ToPyFloat(m_thickness));
-		PyDict_SetItemString(dict, "size", ToPyFloat(m_size));
+		PyDict_SetItemString(dict, "p1", ToPyPair(_p1.x, _p1.y));
+		PyDict_SetItemString(dict, "p2", ToPyPair(_p2.x, _p2.y));
+		PyDict_SetItemString(dict, "color", ToPyColor(_color));
+		PyDict_SetItemString(dict, "thickness", ToPyFloat(_thickness));
+		PyDict_SetItemString(dict, "size", ToPyFloat(_size));
 	}
 
 }

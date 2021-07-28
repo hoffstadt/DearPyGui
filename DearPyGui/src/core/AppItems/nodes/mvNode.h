@@ -36,15 +36,15 @@ namespace Marvel {
 		bool isParentCompatible(mvAppItemType type) override;
 		bool canChildBeAdded(mvAppItemType type) override;
 
-		int getId() const {return m_id;}
+		int getId() const {return _id;}
 
 		void handleSpecificKeywordArgs(PyObject* dict) override;
 		void getSpecificConfiguration(PyObject* dict) override;
 
 	private:
 
-	    int m_id = 0;
-		bool m_draggable = true;
+	    int _id = 0;
+		bool _draggable = true;
 	};
 
 }

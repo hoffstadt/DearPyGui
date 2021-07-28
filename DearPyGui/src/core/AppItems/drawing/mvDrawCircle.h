@@ -34,12 +34,12 @@ namespace Marvel {
 
 	private:
 
-		mvVec2  m_center = { 0.0f, 0.0f };
-		float   m_radius = 1.0f;
-		int     m_segments = 0;
-		mvColor m_color;
-		mvColor m_fill;
-		float   m_thickness = 1.0f;
+		mvVec2  _center = { 0.0f, 0.0f };
+		float   _radius = 1.0f;
+		int     _segments = 0;
+		mvColor _color;
+		mvColor _fill;
+		float   _thickness = 1.0f;
 
 	};
 

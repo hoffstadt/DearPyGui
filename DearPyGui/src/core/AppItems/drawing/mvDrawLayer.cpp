@@ -71,7 +71,7 @@ namespace Marvel {
 
 	void mvDrawLayer::draw(ImDrawList* drawlist, float x, float y)
 	{
-		for (auto& item : m_children[2])
+		for (auto& item : _children[2])
 		{
 			// skip item if it's not shown
 			if (!item->isShown())

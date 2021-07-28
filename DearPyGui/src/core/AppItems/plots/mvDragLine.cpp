@@ -54,23 +54,23 @@ namespace Marvel {
 
 	void mvDragLine::draw(ImDrawList* drawlist, float x, float y)
 	{
-		ScopedID id(m_uuid);
+		ScopedID id(_uuid);
 		//mvFontScope fscope(this);
 
 		
 
-		if (m_vertical)
+		if (_vertical)
 		{
-			if (ImPlot::DragLineX(m_specificedlabel.c_str(), m_value.get(), m_show_label, m_color, m_thickness))
+			if (ImPlot::DragLineX(_specificedlabel.c_str(), _value.get(), _show_label, _color, _thickness))
 			{
-				mvApp::GetApp()->getCallbackRegistry().addCallback(m_callback, m_uuid, nullptr, m_user_data);
+				mvApp::GetApp()->getCallbackRegistry().addCallback(_callback, _uuid, nullptr, _user_data);
 			}
 		}
 		else
 		{
-			if (ImPlot::DragLineY(m_specificedlabel.c_str(), m_value.get(), m_show_label, m_color, m_thickness))
+			if (ImPlot::DragLineY(_specificedlabel.c_str(), _value.get(), _show_label, _color, _thickness))
 			{
-				mvApp::GetApp()->getCallbackRegistry().addCallback(m_callback, m_uuid, nullptr, m_user_data);
+				mvApp::GetApp()->getCallbackRegistry().addCallback(_callback, _uuid, nullptr, _user_data);
 			}
 		}
 
@@ -81,10 +81,10 @@ namespace Marvel {
 		if (dict == nullptr)
 			return;
 
-		if (PyObject* item = PyDict_GetItemString(dict, "color")) m_color = ToColor(item);
-		if (PyObject* item = PyDict_GetItemString(dict, "thickness")) m_thickness = ToFloat(item);
-		if (PyObject* item = PyDict_GetItemString(dict, "show_label")) m_show_label = ToBool(item);
-		if (PyObject* item = PyDict_GetItemString(dict, "vertical")) m_vertical = ToBool(item);
+		if (PyObject* item = PyDict_GetItemString(dict, "color")) _color = ToColor(item);
+		if (PyObject* item = PyDict_GetItemString(dict, "thickness")) _thickness = ToFloat(item);
+		if (PyObject* item = PyDict_GetItemString(dict, "show_label")) _show_label = ToBool(item);
+		if (PyObject* item = PyDict_GetItemString(dict, "vertical")) _vertical = ToBool(item);
 
 	}
 
@@ -93,10 +93,10 @@ namespace Marvel {
 		if (dict == nullptr)
 			return;
 
-		PyDict_SetItemString(dict, "color", ToPyColor(m_color));
-		PyDict_SetItemString(dict, "thickness", ToPyFloat(m_thickness));
-		PyDict_SetItemString(dict, "show_label", ToPyBool(m_show_label));
-		PyDict_SetItemString(dict, "vertical", ToPyBool(m_vertical));
+		PyDict_SetItemString(dict, "color", ToPyColor(_color));
+		PyDict_SetItemString(dict, "thickness", ToPyFloat(_thickness));
+		PyDict_SetItemString(dict, "show_label", ToPyBool(_show_label));
+		PyDict_SetItemString(dict, "vertical", ToPyBool(_vertical));
 	}
 
 }

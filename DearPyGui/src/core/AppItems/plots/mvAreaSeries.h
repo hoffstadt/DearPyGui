@@ -40,7 +40,7 @@ namespace Marvel {
 
 	private:
 
-		mvColor m_fill = MV_DEFAULT_COLOR;
+		mvColor _fill = MV_DEFAULT_COLOR;
 	};
 
 }

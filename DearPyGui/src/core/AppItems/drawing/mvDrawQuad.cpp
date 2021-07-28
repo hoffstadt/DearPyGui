@@ -58,20 +58,20 @@ namespace Marvel {
 	{
 		if (ImPlot::GetCurrentContext()->CurrentPlot)
 		{
-			drawlist->AddQuad(ImPlot::PlotToPixels(m_p1), ImPlot::PlotToPixels(m_p2), ImPlot::PlotToPixels(m_p3),
-				ImPlot::PlotToPixels(m_p4), m_color, ImPlot::GetCurrentContext()->Mx * m_thickness);
-			if (m_fill.r < 0.0f)
+			drawlist->AddQuad(ImPlot::PlotToPixels(_p1), ImPlot::PlotToPixels(_p2), ImPlot::PlotToPixels(_p3),
+				ImPlot::PlotToPixels(_p4), _color, ImPlot::GetCurrentContext()->Mx * _thickness);
+			if (_fill.r < 0.0f)
 				return;
-			drawlist->AddQuadFilled(ImPlot::PlotToPixels(m_p1), ImPlot::PlotToPixels(m_p2), ImPlot::PlotToPixels(m_p3),
-				ImPlot::PlotToPixels(m_p4), m_fill);
+			drawlist->AddQuadFilled(ImPlot::PlotToPixels(_p1), ImPlot::PlotToPixels(_p2), ImPlot::PlotToPixels(_p3),
+				ImPlot::PlotToPixels(_p4), _fill);
 		}
 		else
 		{
 			mvVec2 start = { x, y };
-			drawlist->AddQuad(m_p1 + start, m_p2 + start, m_p3 + start, m_p4 + start, m_color, m_thickness);
-			if (m_fill.r < 0.0f)
+			drawlist->AddQuad(_p1 + start, _p2 + start, _p3 + start, _p4 + start, _color, _thickness);
+			if (_fill.r < 0.0f)
 				return;
-			drawlist->AddQuadFilled(m_p1 + start, m_p2 + start, m_p3 + start, m_p4 + start, m_fill);
+			drawlist->AddQuadFilled(_p1 + start, _p2 + start, _p3 + start, _p4 + start, _fill);
 		}
 	}
 
@@ -86,19 +86,19 @@ namespace Marvel {
 			switch (i)
 			{
 			case 0:
-				m_p1 = ToVec2(item);
+				_p1 = ToVec2(item);
 				break;
 
 			case 1:
-				m_p2 = ToVec2(item);
+				_p2 = ToVec2(item);
 				break;
 
 			case 2:
-				m_p3 = ToVec2(item);
+				_p3 = ToVec2(item);
 				break;
 
 			case 3:
-				m_p4 = ToVec2(item);
+				_p4 = ToVec2(item);
 				break;
 
 			default:
@@ -112,13 +112,13 @@ namespace Marvel {
 		if (dict == nullptr)
 			return;
 
-		if (PyObject* item = PyDict_GetItemString(dict, "p1")) m_p1 = ToVec2(item);
-		if (PyObject* item = PyDict_GetItemString(dict, "p2")) m_p2 = ToVec2(item);
-		if (PyObject* item = PyDict_GetItemString(dict, "p3")) m_p3 = ToVec2(item);
-		if (PyObject* item = PyDict_GetItemString(dict, "p4")) m_p4 = ToVec2(item);
-		if (PyObject* item = PyDict_GetItemString(dict, "color")) m_color = ToColor(item);
-		if (PyObject* item = PyDict_GetItemString(dict, "fill")) m_fill = ToColor(item);
-		if (PyObject* item = PyDict_GetItemString(dict, "thickness")) m_thickness = ToFloat(item);
+		if (PyObject* item = PyDict_GetItemString(dict, "p1")) _p1 = ToVec2(item);
+		if (PyObject* item = PyDict_GetItemString(dict, "p2")) _p2 = ToVec2(item);
+		if (PyObject* item = PyDict_GetItemString(dict, "p3")) _p3 = ToVec2(item);
+		if (PyObject* item = PyDict_GetItemString(dict, "p4")) _p4 = ToVec2(item);
+		if (PyObject* item = PyDict_GetItemString(dict, "color")) _color = ToColor(item);
+		if (PyObject* item = PyDict_GetItemString(dict, "fill")) _fill = ToColor(item);
+		if (PyObject* item = PyDict_GetItemString(dict, "thickness")) _thickness = ToFloat(item);
 
 
 	}
@@ -128,13 +128,13 @@ namespace Marvel {
 		if (dict == nullptr)
 			return;
 
-		PyDict_SetItemString(dict, "p1", ToPyPair(m_p1.x, m_p1.y));
-		PyDict_SetItemString(dict, "p2", ToPyPair(m_p2.x, m_p2.y));
-		PyDict_SetItemString(dict, "p3", ToPyPair(m_p3.x, m_p3.y));
-		PyDict_SetItemString(dict, "p4", ToPyPair(m_p4.x, m_p4.y));
-		PyDict_SetItemString(dict, "color", ToPyColor(m_color));
-		PyDict_SetItemString(dict, "fill", ToPyColor(m_fill));
-		PyDict_SetItemString(dict, "thickness", ToPyFloat(m_thickness));
+		PyDict_SetItemString(dict, "p1", ToPyPair(_p1.x, _p1.y));
+		PyDict_SetItemString(dict, "p2", ToPyPair(_p2.x, _p2.y));
+		PyDict_SetItemString(dict, "p3", ToPyPair(_p3.x, _p3.y));
+		PyDict_SetItemString(dict, "p4", ToPyPair(_p4.x, _p4.y));
+		PyDict_SetItemString(dict, "color", ToPyColor(_color));
+		PyDict_SetItemString(dict, "fill", ToPyColor(_fill));
+		PyDict_SetItemString(dict, "thickness", ToPyFloat(_thickness));
 	}
 
 }

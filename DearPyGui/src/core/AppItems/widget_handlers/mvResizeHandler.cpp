@@ -41,20 +41,20 @@ namespace Marvel {
 	void mvResizeHandler::draw(ImDrawList* drawlist, float x, float y)
 	{
 
-		if (m_parentPtr)
+		if (_parentPtr)
 		{
-			auto parentPtr = static_cast<mvWindowAppItem*>(m_parentPtr);
-			if (parentPtr->m_resized && m_callback)
+			auto parentPtr = static_cast<mvWindowAppItem*>(_parentPtr);
+			if (parentPtr->_resized && _callback)
 			{
 				mvApp::GetApp()->getCallbackRegistry().submitCallback([=]() {
 					PyObject* dimensions = PyTuple_New(2);
-					PyTuple_SetItem(dimensions, 0, PyLong_FromLong(m_parentPtr->getWidth()));
-					PyTuple_SetItem(dimensions, 1, PyLong_FromLong(m_parentPtr->getHeight()));
-					mvApp::GetApp()->getCallbackRegistry().addCallback(m_callback, m_uuid, dimensions, m_user_data);
+					PyTuple_SetItem(dimensions, 0, PyLong_FromLong(_parentPtr->getWidth()));
+					PyTuple_SetItem(dimensions, 1, PyLong_FromLong(_parentPtr->getHeight()));
+					mvApp::GetApp()->getCallbackRegistry().addCallback(_callback, _uuid, dimensions, _user_data);
 					});
 			}
 
-			parentPtr->m_resized = false;
+			parentPtr->_resized = false;
 		}
 	}
 
@@ -69,7 +69,7 @@ namespace Marvel {
 			switch (i)
 			{
 			case 0:
-				m_parent = ToUUID(item);
+				_parent = ToUUID(item);
 				break;
 
 			default:
