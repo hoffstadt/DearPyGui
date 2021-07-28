@@ -37,10 +37,10 @@ namespace Marvel {
 
 	private:
 
-		std::vector<std::string> m_itemnames;
-		bool                     m_horizontal = false;
-		int                      m_index = 0;
-		int                      m_disabledindex = 0;
+		std::vector<std::string> _itemnames;
+		bool                     _horizontal = false;
+		int                      _index = 0;
+		int                      _disabledindex = 0;
 	};
 
 }

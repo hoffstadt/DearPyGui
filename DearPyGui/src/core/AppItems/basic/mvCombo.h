@@ -47,11 +47,11 @@ namespace Marvel {
 		void getSpecificConfiguration(PyObject* dict) override;
 
 	private:
-		ImGuiComboFlags m_flags = ImGuiComboFlags_None;
+		ImGuiComboFlags _flags = ImGuiComboFlags_None;
 
-		std::vector<std::string> m_items;
-		bool                     m_popup_align_left = false;
-		bool                     m_no_preview = false;
+		std::vector<std::string> _items;
+		bool                     _popup_align_left = false;
+		bool                     _no_preview = false;
 	};
 
 }

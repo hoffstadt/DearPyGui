@@ -34,13 +34,13 @@ namespace Marvel {
 
     private:
 
-        float m_minX = 0.0f;
-        float m_minY = 0.0f;
-        float m_minZ = 0.0f;
-        float m_maxX = 100.0f;
-        float m_maxY = 100.0f;
-        float m_maxZ = 100.0f;
-        float m_scale = 1.0f;
+        float _minX = 0.0f;
+        float _minY = 0.0f;
+        float _minZ = 0.0f;
+        float _maxX = 100.0f;
+        float _maxY = 100.0f;
+        float _maxZ = 100.0f;
+        float _scale = 1.0f;
 
     };
 

@@ -35,12 +35,12 @@ namespace Marvel {
 
 	private:
 
-		mvVec2  m_pmin = { 0.0f, 0.0f };
-		mvVec2  m_pmax = { 1.0f, 1.0f };
-		float   m_rounding = 0.0f;
-		mvColor m_color;
-		mvColor m_fill;
-		float   m_thickness = 1.0f;
+		mvVec2  _pmin = { 0.0f, 0.0f };
+		mvVec2  _pmax = { 1.0f, 1.0f };
+		float   _rounding = 0.0f;
+		mvColor _color;
+		mvColor _fill;
+		float   _thickness = 1.0f;
 
 	};
 

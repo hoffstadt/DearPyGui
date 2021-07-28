@@ -45,32 +45,32 @@ namespace Marvel {
 
 	void mvMouseDragHandler::draw(ImDrawList* drawlist, float x, float y)
 	{
-		if (m_button == -1)
+		if (_button == -1)
 		{
 			for (int i = 0; i < IM_ARRAYSIZE(ImGui::GetIO().MouseDown); i++)
 			{
 				if (ImGui::IsMouseReleased(i))
 					ImGui::ResetMouseDragDelta(i);
 
-				if (ImGui::IsMouseDragging(i, m_threshold))
+				if (ImGui::IsMouseDragging(i, _threshold))
 				{
 					mvApp::GetApp()->getCallbackRegistry().submitCallback([=]()
 						{
-							mvApp::GetApp()->getCallbackRegistry().runCallback(getCallback(false), m_uuid,
-								ToPyMTrip(i, ImGui::GetMouseDragDelta(i).x, ImGui::GetMouseDragDelta(i).y), m_user_data);
+							mvApp::GetApp()->getCallbackRegistry().runCallback(getCallback(false), _uuid,
+								ToPyMTrip(i, ImGui::GetMouseDragDelta(i).x, ImGui::GetMouseDragDelta(i).y), _user_data);
 						});
 				}
 			}
 		}
 
-		else if (ImGui::IsMouseDragging(m_button, m_threshold))
+		else if (ImGui::IsMouseDragging(_button, _threshold))
 		{
-			if (ImGui::IsMouseReleased(m_button))
-				ImGui::ResetMouseDragDelta(m_button);
+			if (ImGui::IsMouseReleased(_button))
+				ImGui::ResetMouseDragDelta(_button);
 			mvApp::GetApp()->getCallbackRegistry().submitCallback([=]()
 				{
-					mvApp::GetApp()->getCallbackRegistry().runCallback(getCallback(false), m_uuid,
-						ToPyMTrip(m_button, ImGui::GetMouseDragDelta(m_button).x, ImGui::GetMouseDragDelta(m_button).y), m_user_data);
+					mvApp::GetApp()->getCallbackRegistry().runCallback(getCallback(false), _uuid,
+						ToPyMTrip(_button, ImGui::GetMouseDragDelta(_button).x, ImGui::GetMouseDragDelta(_button).y), _user_data);
 				});
 		}
 	}
@@ -86,10 +86,10 @@ namespace Marvel {
 			switch (i)
 			{
 			case 0:
-				m_button = ToInt(item);
+				_button = ToInt(item);
 				break;
 			case 1:
-				m_threshold = ToFloat(item);
+				_threshold = ToFloat(item);
 				break;
 
 			default:
@@ -103,8 +103,8 @@ namespace Marvel {
 		if (dict == nullptr)
 			return;
 
-		if (PyObject* item = PyDict_GetItemString(dict, "button")) m_button = ToInt(item);
-		if (PyObject* item = PyDict_GetItemString(dict, "threshold")) m_threshold = ToFloat(item);
+		if (PyObject* item = PyDict_GetItemString(dict, "button")) _button = ToInt(item);
+		if (PyObject* item = PyDict_GetItemString(dict, "threshold")) _threshold = ToFloat(item);
 	}
 
 	void mvMouseDragHandler::getSpecificConfiguration(PyObject* dict)
@@ -112,7 +112,7 @@ namespace Marvel {
 		if (dict == nullptr)
 			return;
 
-		PyDict_SetItemString(dict, "button", ToPyInt(m_button));
-		PyDict_SetItemString(dict, "threshold", ToPyFloat(m_threshold));
+		PyDict_SetItemString(dict, "button", ToPyInt(_button));
+		PyDict_SetItemString(dict, "threshold", ToPyFloat(_threshold));
 	}
 }

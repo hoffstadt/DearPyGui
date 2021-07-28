@@ -44,11 +44,11 @@ namespace Marvel {
 
 	void mvProgressBar::draw(ImDrawList* drawlist, float x, float y)
 	{
-		ScopedID id(m_uuid);
+		ScopedID id(_uuid);
 		////mvImGuiThemeScope scope(this);
 		//mvFontScope fscope(this);
 
-		ImGui::ProgressBar(*m_value, ImVec2((float)m_width, (float)m_height), m_overlay.c_str());
+		ImGui::ProgressBar(*_value, ImVec2((float)_width, (float)_height), _overlay.c_str());
 
 	}
 
@@ -57,7 +57,7 @@ namespace Marvel {
 		if (dict == nullptr)
 			return;
 		 
-		if (PyObject* item = PyDict_GetItemString(dict, "overlay")) m_overlay = ToString(item);
+		if (PyObject* item = PyDict_GetItemString(dict, "overlay")) _overlay = ToString(item);
 	}
 
 	void mvProgressBar::getSpecificConfiguration(PyObject* dict)
@@ -65,7 +65,7 @@ namespace Marvel {
 		if (dict == nullptr)
 			return;
 		 
-		PyDict_SetItemString(dict, "overlay", ToPyString(m_overlay));
+		PyDict_SetItemString(dict, "overlay", ToPyString(_overlay));
 	}
 
 }

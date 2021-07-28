@@ -43,15 +43,15 @@ namespace Marvel {
 	void mvGroup::draw(ImDrawList* drawlist, float x, float y)
 	{
 
-		if (m_width != 0)
-			ImGui::PushItemWidth((float)m_width);
+		if (_width != 0)
+			ImGui::PushItemWidth((float)_width);
 
 		ImGui::BeginGroup();
 
-		for (auto& item : m_children[1])
+		for (auto& item : _children[1])
 		{
-			if (m_width != 0)
-				item->setWidth(m_width);
+			if (_width != 0)
+				item->setWidth(_width);
 
 			if (!item->preDraw())
 				continue;
@@ -60,11 +60,11 @@ namespace Marvel {
 
 			item->postDraw();
 
-			if (m_horizontal)
-				ImGui::SameLine(0.0, m_hspacing);
+			if (_horizontal)
+				ImGui::SameLine(0.0, _hspacing);
 		}
 
-		if (m_width != 0)
+		if (_width != 0)
 			ImGui::PopItemWidth();
 
 		ImGui::EndGroup();
@@ -75,8 +75,8 @@ namespace Marvel {
 		if (dict == nullptr)
 			return;
 		 
-		if (PyObject* item = PyDict_GetItemString(dict, "horizontal")) m_horizontal = ToBool(item);
-		if (PyObject* item = PyDict_GetItemString(dict, "horizontal_spacing")) m_hspacing = ToFloat(item);
+		if (PyObject* item = PyDict_GetItemString(dict, "horizontal")) _horizontal = ToBool(item);
+		if (PyObject* item = PyDict_GetItemString(dict, "horizontal_spacing")) _hspacing = ToFloat(item);
 	}
 
 	void mvGroup::getSpecificConfiguration(PyObject* dict)
@@ -84,8 +84,8 @@ namespace Marvel {
 		if (dict == nullptr)
 			return;
 		 
-		PyDict_SetItemString(dict, "horizontal", ToPyBool(m_horizontal));
-		PyDict_SetItemString(dict, "horizontal_spacing", ToPyFloat(m_hspacing));
+		PyDict_SetItemString(dict, "horizontal", ToPyBool(_horizontal));
+		PyDict_SetItemString(dict, "horizontal_spacing", ToPyFloat(_hspacing));
 	}
 
 }

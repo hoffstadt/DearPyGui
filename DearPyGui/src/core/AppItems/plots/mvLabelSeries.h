@@ -35,9 +35,9 @@ namespace Marvel {
 
 	private:
 
-		int  m_xoffset = 0;
-		int  m_yoffset = 0;
-		bool m_vertical = false;
+		int  _xoffset = 0;
+		int  _yoffset = 0;
+		bool _vertical = false;
 
 	};
 

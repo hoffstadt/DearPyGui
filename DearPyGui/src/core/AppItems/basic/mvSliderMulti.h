@@ -44,12 +44,12 @@ namespace Marvel {
         
     private:
 
-        float                   m_min = 0.0f;
-        float                   m_max = 100.0f;
-        std::string             m_format = "%.3f";
-        ImGuiInputTextFlags     m_flags = ImGuiSliderFlags_None;
-        ImGuiInputTextFlags     m_stor_flags = ImGuiSliderFlags_None;
-        int                     m_size = 4;
+        float                   _min = 0.0f;
+        float                   _max = 100.0f;
+        std::string             _format = "%.3f";
+        ImGuiInputTextFlags     _flags = ImGuiSliderFlags_None;
+        ImGuiInputTextFlags     _stor_flags = ImGuiSliderFlags_None;
+        int                     _size = 4;
     };
         
     //-----------------------------------------------------------------------------
@@ -83,12 +83,12 @@ namespace Marvel {
         
     private:
 
-        int                 m_min = 0;
-        int                 m_max = 100;
-        std::string         m_format = "%d";
-        ImGuiInputTextFlags m_flags = ImGuiSliderFlags_None;
-        ImGuiInputTextFlags m_stor_flags = ImGuiSliderFlags_None;
-        int                 m_size = 4;
+        int                 _min = 0;
+        int                 _max = 100;
+        std::string         _format = "%d";
+        ImGuiInputTextFlags _flags = ImGuiSliderFlags_None;
+        ImGuiInputTextFlags _stor_flags = ImGuiSliderFlags_None;
+        int                 _size = 4;
     };
 
 }

@@ -50,33 +50,33 @@ namespace Marvel {
 		//mvImGuiThemeScope scope(this);
 		//mvFontScope fscope(this);
 
-		if (m_histogram)
-			ImGui::PlotHistogram(m_label.c_str(), m_value->data(), (int)m_value->size(), 0, m_overlay.c_str(),
-				m_min, m_max, ImVec2((float)m_width, (float)m_height));
+		if (_histogram)
+			ImGui::PlotHistogram(_label.c_str(), _value->data(), (int)_value->size(), 0, _overlay.c_str(),
+				_min, _max, ImVec2((float)_width, (float)_height));
 		else
-			ImGui::PlotLines(m_label.c_str(), m_value->data(), (int)m_value->size(), 0, m_overlay.c_str(),
-				m_min, m_max, ImVec2((float)m_width, (float)m_height));
+			ImGui::PlotLines(_label.c_str(), _value->data(), (int)_value->size(), 0, _overlay.c_str(),
+				_min, _max, ImVec2((float)_width, (float)_height));
 
 		ImGui::PopID();
 	}
 
 	void mvSimplePlot::setPyValue(PyObject* value)
 	{
-		*m_value = ToFloatVect(value);
+		*_value = ToFloatVect(value);
 
-		if (!m_autosize)
+		if (!_autosize)
 			return;
-		if (!m_value->empty())
+		if (!_value->empty())
 		{
-			m_max = m_value->data()[0];
-			m_min = m_value->data()[0];
+			_max = _value->data()[0];
+			_min = _value->data()[0];
 
-			for (auto& item : *m_value)
+			for (auto& item : *_value)
 			{
-				if (item > m_max)
-					m_max = item;
-				if (item < m_min)
-					m_min = item;
+				if (item > _max)
+					_max = item;
+				if (item < _min)
+					_min = item;
 			}
 		}
 	}
@@ -86,11 +86,11 @@ namespace Marvel {
 		if (dict == nullptr)
 			return;
 
-		if (PyObject* item = PyDict_GetItemString(dict, "overlay")) m_overlay = ToString(item);
-		if (PyObject* item = PyDict_GetItemString(dict, "minscale")) m_min = ToFloat(item);
-		if (PyObject* item = PyDict_GetItemString(dict, "maxscale")) m_max = ToFloat(item);
-		if (PyObject* item = PyDict_GetItemString(dict, "histogram")) m_histogram = ToBool(item);
-		if (PyObject* item = PyDict_GetItemString(dict, "autosize")) m_autosize = ToBool(item);
+		if (PyObject* item = PyDict_GetItemString(dict, "overlay")) _overlay = ToString(item);
+		if (PyObject* item = PyDict_GetItemString(dict, "minscale")) _min = ToFloat(item);
+		if (PyObject* item = PyDict_GetItemString(dict, "maxscale")) _max = ToFloat(item);
+		if (PyObject* item = PyDict_GetItemString(dict, "histogram")) _histogram = ToBool(item);
+		if (PyObject* item = PyDict_GetItemString(dict, "autosize")) _autosize = ToBool(item);
 	}
 
 	void mvSimplePlot::getSpecificConfiguration(PyObject* dict)
@@ -98,11 +98,11 @@ namespace Marvel {
 		if (dict == nullptr)
 			return;
 
-		PyDict_SetItemString(dict, "overlay", ToPyString(m_overlay));
-		PyDict_SetItemString(dict, "minscale", ToPyFloat(m_min));
-		PyDict_SetItemString(dict, "maxscale", ToPyFloat(m_max));
-		PyDict_SetItemString(dict, "histogram", ToPyBool(m_histogram));
-		PyDict_SetItemString(dict, "autosize", ToPyBool(m_autosize));
+		PyDict_SetItemString(dict, "overlay", ToPyString(_overlay));
+		PyDict_SetItemString(dict, "minscale", ToPyFloat(_min));
+		PyDict_SetItemString(dict, "maxscale", ToPyFloat(_max));
+		PyDict_SetItemString(dict, "histogram", ToPyBool(_histogram));
+		PyDict_SetItemString(dict, "autosize", ToPyBool(_autosize));
 	}
 
 }

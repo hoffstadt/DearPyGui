@@ -60,27 +60,27 @@ namespace Marvel {
 
 		mvVec2 start = { x, y };
 
-		if (m_texture)
+		if (_texture)
 		{
-			if (m_internalTexture)
-				m_texture->draw(drawlist, x, y);
+			if (_internalTexture)
+				_texture->draw(drawlist, x, y);
 
-			if (!m_texture->getState().isOk())
+			if (!_texture->getState().isOk())
 				return;
 
 			void* texture = nullptr;
 
-			if (m_texture->getType() == mvAppItemType::mvStaticTexture)
-				texture = static_cast<mvStaticTexture*>(m_texture.get())->getRawTexture();
-			else if (m_texture->getType() == mvAppItemType::mvRawTexture)
-				texture = static_cast<mvRawTexture*>(m_texture.get())->getRawTexture();
+			if (_texture->getType() == mvAppItemType::mvStaticTexture)
+				texture = static_cast<mvStaticTexture*>(_texture.get())->getRawTexture();
+			else if (_texture->getType() == mvAppItemType::mvRawTexture)
+				texture = static_cast<mvRawTexture*>(_texture.get())->getRawTexture();
 			else
-				texture = static_cast<mvDynamicTexture*>(m_texture.get())->getRawTexture();
+				texture = static_cast<mvDynamicTexture*>(_texture.get())->getRawTexture();
 
 			if (ImPlot::GetCurrentContext()->CurrentPlot)
-				drawlist->AddImage(texture, ImPlot::PlotToPixels(m_pmin), ImPlot::PlotToPixels(m_pmax), m_uv_min, m_uv_max, m_color);
+				drawlist->AddImage(texture, ImPlot::PlotToPixels(_pmin), ImPlot::PlotToPixels(_pmax), _uv_min, _uv_max, _color);
 			else
-				drawlist->AddImage(texture, m_pmin + start, m_pmax + start, m_uv_min, m_uv_max, m_color);
+				drawlist->AddImage(texture, _pmin + start, _pmax + start, _uv_min, _uv_max, _color);
 		}
 	}
 
@@ -96,14 +96,14 @@ namespace Marvel {
 			{
 			case 0:
 			{
-				m_textureUUID = ToUUID(item);
-				m_texture = mvApp::GetApp()->getItemRegistry().getRefItem(m_textureUUID);
-				if (m_texture)
+				_textureUUID = ToUUID(item);
+				_texture = mvApp::GetApp()->getItemRegistry().getRefItem(_textureUUID);
+				if (_texture)
 					break;
-				else if (m_textureUUID == MV_ATLAS_UUID)
+				else if (_textureUUID == MV_ATLAS_UUID)
 				{
-					m_texture = std::make_shared<mvStaticTexture>(m_textureUUID);
-					m_internalTexture = true;
+					_texture = std::make_shared<mvStaticTexture>(_textureUUID);
+					_internalTexture = true;
 					break;
 				}
 				else
@@ -114,11 +114,11 @@ namespace Marvel {
 			}
 
 			case 1:
-				m_pmin = ToVec2(item);
+				_pmin = ToVec2(item);
 				break;
 
 			case 2:
-				m_pmax = ToVec2(item);
+				_pmax = ToVec2(item);
 				break;
 
 			default:
@@ -132,11 +132,11 @@ namespace Marvel {
 		if (dict == nullptr)
 			return;
 
-		if (PyObject* item = PyDict_GetItemString(dict, "pmax")) m_pmax = ToVec2(item);
-		if (PyObject* item = PyDict_GetItemString(dict, "pmin")) m_pmin = ToVec2(item);
-		if (PyObject* item = PyDict_GetItemString(dict, "uv_min")) m_uv_min = ToVec2(item);
-		if (PyObject* item = PyDict_GetItemString(dict, "uv_max")) m_uv_max = ToVec2(item);
-		if (PyObject* item = PyDict_GetItemString(dict, "color")) m_color = ToColor(item);
+		if (PyObject* item = PyDict_GetItemString(dict, "pmax")) _pmax = ToVec2(item);
+		if (PyObject* item = PyDict_GetItemString(dict, "pmin")) _pmin = ToVec2(item);
+		if (PyObject* item = PyDict_GetItemString(dict, "uv_min")) _uv_min = ToVec2(item);
+		if (PyObject* item = PyDict_GetItemString(dict, "uv_max")) _uv_max = ToVec2(item);
+		if (PyObject* item = PyDict_GetItemString(dict, "color")) _color = ToColor(item);
 
 	}
 
@@ -145,12 +145,12 @@ namespace Marvel {
 		if (dict == nullptr)
 			return;
 
-		PyDict_SetItemString(dict, "pmax", ToPyPair(m_pmax.x, m_pmax.y));
-		PyDict_SetItemString(dict, "pmin", ToPyPair(m_pmin.x, m_pmin.y));
-		PyDict_SetItemString(dict, "uv_min", ToPyPair(m_uv_min.x, m_uv_min.y));
-		PyDict_SetItemString(dict, "uv_max", ToPyPair(m_uv_max.x, m_uv_max.y));
-		PyDict_SetItemString(dict, "color", ToPyColor(m_color));
-		PyDict_SetItemString(dict, "texture_id", ToPyUUID(m_textureUUID));
+		PyDict_SetItemString(dict, "pmax", ToPyPair(_pmax.x, _pmax.y));
+		PyDict_SetItemString(dict, "pmin", ToPyPair(_pmin.x, _pmin.y));
+		PyDict_SetItemString(dict, "uv_min", ToPyPair(_uv_min.x, _uv_min.y));
+		PyDict_SetItemString(dict, "uv_max", ToPyPair(_uv_max.x, _uv_max.y));
+		PyDict_SetItemString(dict, "color", ToPyColor(_color));
+		PyDict_SetItemString(dict, "texture_id", ToPyUUID(_textureUUID));
 	}
 
 }

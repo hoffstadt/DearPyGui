@@ -38,12 +38,12 @@ namespace Marvel {
 
     void mvLoadingIndicator::draw(ImDrawList* drawlist, float x, float y)
     {
-        ScopedID id(m_uuid);
+        ScopedID id(_uuid);
 
-        if (m_style == 0)
-            LoadingIndicatorCircle(m_specificedlabel.c_str(), m_radius, m_mainColor, m_optionalColor, m_circleCount, m_speed);
+        if (_style == 0)
+            LoadingIndicatorCircle(_specificedlabel.c_str(), _radius, _mainColor, _optionalColor, _circleCount, _speed);
         else
-            LoadingIndicatorCircle2(m_specificedlabel.c_str(), m_radius, m_thickness, m_mainColor);
+            LoadingIndicatorCircle2(_specificedlabel.c_str(), _radius, _thickness, _mainColor);
     }
 
     void mvLoadingIndicator::handleSpecificKeywordArgs(PyObject* dict)
@@ -51,13 +51,13 @@ namespace Marvel {
         if (dict == nullptr)
             return;
 
-        if (PyObject* item = PyDict_GetItemString(dict, "style")) m_style = ToInt(item);
-        if (PyObject* item = PyDict_GetItemString(dict, "circle_count")) m_circleCount = ToInt(item);
-        if (PyObject* item = PyDict_GetItemString(dict, "radius")) m_radius = ToFloat(item);
-        if (PyObject* item = PyDict_GetItemString(dict, "thickness")) m_thickness = ToFloat(item);
-        if (PyObject* item = PyDict_GetItemString(dict, "speed")) m_speed = ToFloat(item);
-        if (PyObject* item = PyDict_GetItemString(dict, "color")) m_mainColor = ToColor(item);
-        if (PyObject* item = PyDict_GetItemString(dict, "secondary_color")) m_optionalColor = ToColor(item);
+        if (PyObject* item = PyDict_GetItemString(dict, "style")) _style = ToInt(item);
+        if (PyObject* item = PyDict_GetItemString(dict, "circle_count")) _circleCount = ToInt(item);
+        if (PyObject* item = PyDict_GetItemString(dict, "radius")) _radius = ToFloat(item);
+        if (PyObject* item = PyDict_GetItemString(dict, "thickness")) _thickness = ToFloat(item);
+        if (PyObject* item = PyDict_GetItemString(dict, "speed")) _speed = ToFloat(item);
+        if (PyObject* item = PyDict_GetItemString(dict, "color")) _mainColor = ToColor(item);
+        if (PyObject* item = PyDict_GetItemString(dict, "secondary_color")) _optionalColor = ToColor(item);
     }
 
     void mvLoadingIndicator::getSpecificConfiguration(PyObject* dict)
@@ -65,13 +65,13 @@ namespace Marvel {
         if (dict == nullptr)
             return;
 
-        PyDict_SetItemString(dict, "style", ToPyInt(m_style));
-        PyDict_SetItemString(dict, "circle_count", ToPyInt(m_circleCount));
-        PyDict_SetItemString(dict, "radius", ToPyFloat(m_radius));
-        PyDict_SetItemString(dict, "thickness", ToPyFloat(m_thickness));
-        PyDict_SetItemString(dict, "speed", ToPyFloat(m_speed));
-        PyDict_SetItemString(dict, "color", ToPyColor(m_mainColor));
-        PyDict_SetItemString(dict, "secondary_color", ToPyColor(m_optionalColor));
+        PyDict_SetItemString(dict, "style", ToPyInt(_style));
+        PyDict_SetItemString(dict, "circle_count", ToPyInt(_circleCount));
+        PyDict_SetItemString(dict, "radius", ToPyFloat(_radius));
+        PyDict_SetItemString(dict, "thickness", ToPyFloat(_thickness));
+        PyDict_SetItemString(dict, "speed", ToPyFloat(_speed));
+        PyDict_SetItemString(dict, "color", ToPyColor(_mainColor));
+        PyDict_SetItemString(dict, "secondary_color", ToPyColor(_optionalColor));
 
     }
 

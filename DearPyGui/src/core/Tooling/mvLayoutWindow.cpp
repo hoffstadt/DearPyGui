@@ -26,12 +26,12 @@ namespace Marvel {
 
         // render this node
         ImGui::PushID(item);
-        const auto expanded = ImGui::TreeNodeEx(item->m_specificedlabel.c_str(), node_flags);
+        const auto expanded = ImGui::TreeNodeEx(item->_specificedlabel.c_str(), node_flags);
         
         // processing for selecting node
         if (ImGui::IsItemClicked())
         {
-            m_selectedItem = item->m_uuid;
+            m_selectedItem = item->_uuid;
             m_dirtyNodes = true;
         }
 
@@ -47,7 +47,7 @@ namespace Marvel {
         {
 
             int i = 0;
-            for (auto& childrenSet : item->m_children)
+            for (auto& childrenSet : item->_children)
             {
 
                 std::string title = "Child Slot: " + std::to_string(i++);
@@ -80,7 +80,7 @@ namespace Marvel {
         imnodes::BeginNode(nodeId);
 
         imnodes::BeginNodeTitleBar();
-        ImGui::TextUnformatted(parent->m_specificedlabel.c_str());
+        ImGui::TextUnformatted(parent->_specificedlabel.c_str());
         imnodes::EndNodeTitleBar();
 
         for (int i = 0; i < 4; i++)
@@ -103,7 +103,7 @@ namespace Marvel {
 
         if (nodeId == m_selectedId)
         {
-            m_selectedItem = parent->m_uuid;
+            m_selectedItem = parent->_uuid;
             m_selectedId = -2;
         }
 
@@ -143,7 +143,7 @@ namespace Marvel {
                 imnodes::SetNodeGridSpacePos(node, ImVec2((float)current_x, (float)current_y));
 
             imnodes::BeginNodeTitleBar();
-            ImGui::TextUnformatted(child->m_specificedlabel.c_str());
+            ImGui::TextUnformatted(child->_specificedlabel.c_str());
             imnodes::EndNodeTitleBar();
 
             imnodes::BeginInputAttribute(parentAttrId + i + 1);
@@ -152,7 +152,7 @@ namespace Marvel {
 
             if (node == m_selectedId)
             {
-                m_selectedItem = child->m_uuid;
+                m_selectedItem = child->_uuid;
                 m_selectedId = -2;
             }
 
@@ -190,7 +190,7 @@ namespace Marvel {
             imnodes::SetNodeGridSpacePos(nodeId, ImVec2(100.0f, 300.0f));
 
         imnodes::BeginNodeTitleBar();
-        ImGui::TextUnformatted(item->m_specificedlabel.c_str());
+        ImGui::TextUnformatted(item->_specificedlabel.c_str());
         imnodes::EndNodeTitleBar();
 
         if (hasParent)
@@ -210,7 +210,7 @@ namespace Marvel {
 
         if (nodeId == m_selectedId)
         {
-            m_selectedItem = item->m_uuid;
+            m_selectedItem = item->_uuid;
             m_selectedId = -1;
         }
 
@@ -255,11 +255,11 @@ namespace Marvel {
 		if (selectedItem == nullptr)
 			selectedItem = mvApp::GetApp()->getItemRegistry().getRoots()[0].get();
 
-		if (selectedItem->m_parentPtr)
-			parentName = selectedItem->m_parentPtr->m_uuid;
+		if (selectedItem->_parentPtr)
+			parentName = selectedItem->_parentPtr->_uuid;
 
-		std::string width = std::to_string(selectedItem->m_width);
-		std::string height = std::to_string(selectedItem->m_height);
+		std::string width = std::to_string(selectedItem->_width);
+		std::string height = std::to_string(selectedItem->_height);
 
 		std::string sizex = std::to_string(selectedItem->getState().getItemRectSize().x);
 		std::string sizey = std::to_string(selectedItem->getState().getItemRectSize().y);
@@ -295,7 +295,7 @@ namespace Marvel {
 			mvApp::GetApp()->getItemRegistry().getItem(m_selectedItem)->hide();
 
 		ImGui::PushItemWidth(200);
-		DebugItem("Item Label:", selectedItem->m_specificedlabel.c_str());
+		DebugItem("Item Label:", selectedItem->_specificedlabel.c_str());
 		DebugItem("Item ID:", std::to_string(selectedItem->getUUID()).c_str());
 		DebugItem("Container:", mvAppItem::DoesItemHaveFlag(selectedItem, MV_ITEM_DESC_CONTAINER) ? ts : fs);
 		//DebugItem("Item Parent:", parentName.c_str());
@@ -303,7 +303,7 @@ namespace Marvel {
 		DebugItem("Item Height:", height.c_str());
 		DebugItem("Item Size x:", sizex.c_str());
 		DebugItem("Item Size y:", sizey.c_str());
-		DebugItem("Item Show:", selectedItem->m_show ? ts : fs);
+		DebugItem("Item Show:", selectedItem->_show ? ts : fs);
 		DebugItem("Item Visible:", selectedItem->getState().isItemVisible() ? ts : fs);
 		DebugItem("Item Hovered:", selectedItem->getState().isItemHovered() ? ts : fs);
 		DebugItem("Item Active:", selectedItem->getState().isItemActive() ? ts : fs);

@@ -42,13 +42,13 @@ namespace Marvel {
 
     void mvKnobFloat::draw(ImDrawList* drawlist, float x, float y)
     {
-        ScopedID id(m_uuid);
+        ScopedID id(_uuid);
 
-        if (KnobFloat(m_specificedlabel.c_str(), m_value.get(), m_min, m_max, m_step))
+        if (KnobFloat(_specificedlabel.c_str(), _value.get(), _min, _max, _step))
         {
-            auto value = *m_value;
+            auto value = *_value;
             mvApp::GetApp()->getCallbackRegistry().submitCallback([=]() {
-                mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), m_uuid, ToPyFloat(value), m_user_data);
+                mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), _uuid, ToPyFloat(value), _user_data);
                 });
         }
     }
@@ -58,8 +58,8 @@ namespace Marvel {
         if (dict == nullptr)
             return;
 
-        if (PyObject* item = PyDict_GetItemString(dict, "min_value")) m_min = ToFloat(item);
-        if (PyObject* item = PyDict_GetItemString(dict, "max_value")) m_max = ToFloat(item);
+        if (PyObject* item = PyDict_GetItemString(dict, "min_value")) _min = ToFloat(item);
+        if (PyObject* item = PyDict_GetItemString(dict, "max_value")) _max = ToFloat(item);
     }
 
     void mvKnobFloat::getSpecificConfiguration(PyObject* dict)
@@ -67,8 +67,8 @@ namespace Marvel {
         if (dict == nullptr)
             return;
 
-        PyDict_SetItemString(dict, "min_scale", ToPyFloat(m_min));
-        PyDict_SetItemString(dict, "max_scale", ToPyFloat(m_max));
+        PyDict_SetItemString(dict, "min_scale", ToPyFloat(_min));
+        PyDict_SetItemString(dict, "max_scale", ToPyFloat(_max));
 
     }
 

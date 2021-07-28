@@ -30,9 +30,9 @@ namespace Marvel {
 
 	private:
 
-		bool    m_show_label = true;
-		mvColor m_color = mvColor(0.0f, 0.0f, 0.0f, -1.0f);
-		float   m_radius = 4.0f;
+		bool    _show_label = true;
+		mvColor _color = mvColor(0.0f, 0.0f, 0.0f, -1.0f);
+		float   _radius = 4.0f;
 
 	};
 

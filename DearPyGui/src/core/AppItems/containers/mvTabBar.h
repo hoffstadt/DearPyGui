@@ -35,9 +35,9 @@ namespace Marvel {
 
 	private:
 
-		ImGuiTabBarFlags m_flags = ImGuiTabBarFlags_None;
-		mvUUID      m_lastValue = 0;
-		mvUUID      m_uiValue = 0; // value suggested from UI
+		ImGuiTabBarFlags _flags = ImGuiTabBarFlags_None;
+		mvUUID      _lastValue = 0;
+		mvUUID      _uiValue = 0; // value suggested from UI
 
 	};
 

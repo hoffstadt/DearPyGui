@@ -43,59 +43,59 @@ namespace Marvel {
         void update();
 
         // getters
-        [[nodiscard]] bool   isItemHovered             () const { return m_hovered; }
-        [[nodiscard]] bool   isItemActive              () const { return m_active; }
-        [[nodiscard]] bool   isItemFocused             () const { return m_focused; }
-        [[nodiscard]] bool   isItemClicked             () const { return m_clicked; }
-        [[nodiscard]] bool   isItemVisible             () const { return m_visible; }
-        [[nodiscard]] bool   isItemEdited              () const { return m_edited; }
-        [[nodiscard]] bool   isItemActivated           () const { return m_activated; }
-        [[nodiscard]] bool   isItemDeactivated         () const { return m_deactivated; }
-        [[nodiscard]] bool   isItemDeactivatedAfterEdit() const { return m_deactivatedAfterEdit; }
-        [[nodiscard]] bool   isItemToogledOpen         () const { return m_toggledOpen; }
-        [[nodiscard]] bool   isOk                      () const { return m_ok; }
-        [[nodiscard]] mvVec2 getItemRectMin            () const { return m_rectMin; }
-        [[nodiscard]] mvVec2 getItemRectMax            () const { return m_rectMax; }
-        [[nodiscard]] mvVec2 getItemRectSize           () const { return m_rectSize; }
-        [[nodiscard]] mvVec2 getItemPos                () const { return m_pos; }
-        [[nodiscard]] mvVec2 getContextRegionAvail     () const { return m_contextRegionAvail; }
+        [[nodiscard]] bool   isItemHovered             () const { return _hovered; }
+        [[nodiscard]] bool   isItemActive              () const { return _active; }
+        [[nodiscard]] bool   isItemFocused             () const { return _focused; }
+        [[nodiscard]] bool   isItemClicked             () const { return _clicked; }
+        [[nodiscard]] bool   isItemVisible             () const { return _visible; }
+        [[nodiscard]] bool   isItemEdited              () const { return _edited; }
+        [[nodiscard]] bool   isItemActivated           () const { return _activated; }
+        [[nodiscard]] bool   isItemDeactivated         () const { return _deactivated; }
+        [[nodiscard]] bool   isItemDeactivatedAfterEdit() const { return _deactivatedAfterEdit; }
+        [[nodiscard]] bool   isItemToogledOpen         () const { return _toggledOpen; }
+        [[nodiscard]] bool   isOk                      () const { return _ok; }
+        [[nodiscard]] mvVec2 getItemRectMin            () const { return _rectMin; }
+        [[nodiscard]] mvVec2 getItemRectMax            () const { return _rectMax; }
+        [[nodiscard]] mvVec2 getItemRectSize           () const { return _rectSize; }
+        [[nodiscard]] mvVec2 getItemPos                () const { return _pos; }
+        [[nodiscard]] mvVec2 getContextRegionAvail     () const { return _contextRegionAvail; }
 
         // setters
-        void setHovered             (bool value)  { m_hovered = value; }
-        void setActive              (bool value)  { m_active = value; }
-        void setFocused             (bool value)  { m_focused = value; }
-        void setClicked             (bool value)  { m_clicked = value; }
-        void setVisible             (bool value)  { m_visible = value; }
-        void setEdited              (bool value)  { m_edited = value; }
-        void setActivated           (bool value)  { m_activated = value; }
-        void setDeactivated         (bool value)  { m_deactivated = value; }
-        void setDeactivatedAfterEdit(bool value)  { m_deactivatedAfterEdit = value; }
-        void setToggledOpen         (bool value)  { m_toggledOpen = value; }
-        void setRectMin             (mvVec2 value){ m_rectMin = value; }
-        void setRectMax             (mvVec2 value){ m_rectMax = value; }
-        void setRectSize            (mvVec2 value){ m_rectSize = value; }
-        void setPos                 (mvVec2 value){ m_pos = value; }
-        void setOk                  (bool value)  { m_ok = value; };
+        void setHovered             (bool value)  { _hovered = value; }
+        void setActive              (bool value)  { _active = value; }
+        void setFocused             (bool value)  { _focused = value; }
+        void setClicked             (bool value)  { _clicked = value; }
+        void setVisible             (bool value)  { _visible = value; }
+        void setEdited              (bool value)  { _edited = value; }
+        void setActivated           (bool value)  { _activated = value; }
+        void setDeactivated         (bool value)  { _deactivated = value; }
+        void setDeactivatedAfterEdit(bool value)  { _deactivatedAfterEdit = value; }
+        void setToggledOpen         (bool value)  { _toggledOpen = value; }
+        void setRectMin             (mvVec2 value){ _rectMin = value; }
+        void setRectMax             (mvVec2 value){ _rectMax = value; }
+        void setRectSize            (mvVec2 value){ _rectSize = value; }
+        void setPos                 (mvVec2 value){ _pos = value; }
+        void setOk                  (bool value)  { _ok = value; };
 
     public:
 
-        int    m_applicableState      = MV_STATE_ALL;
-        bool   m_hovered              = false;
-        bool   m_active               = false;
-        bool   m_focused              = false;
-        bool   m_clicked              = false;
-        bool   m_visible              = false;
-        bool   m_edited               = false;
-        bool   m_activated            = false;
-        bool   m_deactivated          = false;
-        bool   m_deactivatedAfterEdit = false;
-        bool   m_toggledOpen          = false;
-        mvVec2 m_rectMin              = { 0.0f, 0.0f };
-        mvVec2 m_rectMax              = { 0.0f, 0.0f };
-        mvVec2 m_rectSize             = { 0.0f, 0.0f };
-        mvVec2 m_pos                  = { 0.0f, 0.0f };
-        mvVec2 m_contextRegionAvail   = { 0.0f, 0.0f };
-        bool   m_ok                   = true;
+        int    _applicableState      = MV_STATE_ALL;
+        bool   _hovered              = false;
+        bool   _active               = false;
+        bool   _focused              = false;
+        bool   _clicked              = false;
+        bool   _visible              = false;
+        bool   _edited               = false;
+        bool   _activated            = false;
+        bool   _deactivated          = false;
+        bool   _deactivatedAfterEdit = false;
+        bool   _toggledOpen          = false;
+        mvVec2 _rectMin              = { 0.0f, 0.0f };
+        mvVec2 _rectMax              = { 0.0f, 0.0f };
+        mvVec2 _rectSize             = { 0.0f, 0.0f };
+        mvVec2 _pos                  = { 0.0f, 0.0f };
+        mvVec2 _contextRegionAvail   = { 0.0f, 0.0f };
+        bool   _ok                   = true;
 
     };
 }

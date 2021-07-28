@@ -58,24 +58,24 @@ namespace Marvel {
 
 	void mvDrawEllipse::draw(ImDrawList* drawlist, float x, float y)
 	{
-		if (m_dirty) {
-			if (m_segments < 3) { m_segments = 3; }
-			const float  width = m_pmax.x - m_pmin.x;
-			const float  height = m_pmax.y - m_pmin.y;
-			const float  cx = width / 2.0f + m_pmin.x;
-			const float  cy = height / 2.0f + m_pmin.y;
-			const float radian_inc = ((float)M_PI * 2.0f) / (float)m_segments;
+		if (_dirty) {
+			if (_segments < 3) { _segments = 3; }
+			const float  width = _pmax.x - _pmin.x;
+			const float  height = _pmax.y - _pmin.y;
+			const float  cx = width / 2.0f + _pmin.x;
+			const float  cy = height / 2.0f + _pmin.y;
+			const float radian_inc = ((float)M_PI * 2.0f) / (float)_segments;
 			std::vector<mvVec2> points;
-			points.reserve(m_segments + 1);
-			for (int i = 0; i <= m_segments; i++)
+			points.reserve(_segments + 1);
+			for (int i = 0; i <= _segments; i++)
 			{
 				points.push_back(mvVec2{ cx  + cosf(i*radian_inc) * width, cy + sinf(i * radian_inc) * height });
 			}
-			m_points = points;
-			m_dirty = false;
+			_points = points;
+			_dirty = false;
 		}
 
-		std::vector<mvVec2> points = m_points;
+		std::vector<mvVec2> points = _points;
 		if (ImPlot::GetCurrentContext()->CurrentPlot)
 		{
 			for (auto& point : points)
@@ -95,10 +95,10 @@ namespace Marvel {
 		}
 
 		drawlist->AddPolyline((const ImVec2*)const_cast<const mvVec2*>(points.data()), (int)points.size(), 
-			m_color, false, ImPlot::GetCurrentContext()->Mx * m_thickness);
-		if (m_fill.r < 0.0f)
+			_color, false, ImPlot::GetCurrentContext()->Mx * _thickness);
+		if (_fill.r < 0.0f)
 			return;
-		drawlist->AddConvexPolyFilled((const ImVec2*)const_cast<const mvVec2*>(points.data()), (int)points.size(), m_fill);
+		drawlist->AddConvexPolyFilled((const ImVec2*)const_cast<const mvVec2*>(points.data()), (int)points.size(), _fill);
 	}
 
 	void mvDrawEllipse::handleSpecificRequiredArgs(PyObject* dict)
@@ -112,13 +112,13 @@ namespace Marvel {
 			switch (i)
 			{
 			case 0:
-				m_pmin = ToVec2(item);
-				m_dirty = true;
+				_pmin = ToVec2(item);
+				_dirty = true;
 				break;
 
 			case 1:
-				m_pmax = ToVec2(item);
-				m_dirty = true;
+				_pmax = ToVec2(item);
+				_dirty = true;
 				break;
 
 			default:
@@ -133,12 +133,12 @@ namespace Marvel {
 			return;
 
 
-		if (PyObject* item = PyDict_GetItemString(dict, "color")) m_color = ToColor(item);
-		if (PyObject* item = PyDict_GetItemString(dict, "fill")) m_fill = ToColor(item);
-		if (PyObject* item = PyDict_GetItemString(dict, "thickness")) m_thickness = ToFloat(item);
-		if (PyObject* item = PyDict_GetItemString(dict, "m_pmax")) m_pmax = ToVec2(item);
-		if (PyObject* item = PyDict_GetItemString(dict, "m_pmin")) m_pmin = ToVec2(item);
-		if (PyObject* item = PyDict_GetItemString(dict, "segments")) m_segments = ToInt(item);
+		if (PyObject* item = PyDict_GetItemString(dict, "color")) _color = ToColor(item);
+		if (PyObject* item = PyDict_GetItemString(dict, "fill")) _fill = ToColor(item);
+		if (PyObject* item = PyDict_GetItemString(dict, "thickness")) _thickness = ToFloat(item);
+		if (PyObject* item = PyDict_GetItemString(dict, "_pmax")) _pmax = ToVec2(item);
+		if (PyObject* item = PyDict_GetItemString(dict, "_pmin")) _pmin = ToVec2(item);
+		if (PyObject* item = PyDict_GetItemString(dict, "segments")) _segments = ToInt(item);
 
 	}
 
@@ -147,12 +147,12 @@ namespace Marvel {
 		if (dict == nullptr)
 			return;
 
-		PyDict_SetItemString(dict, "color", ToPyColor(m_color));
-		PyDict_SetItemString(dict, "fill", ToPyColor(m_fill));
-		PyDict_SetItemString(dict, "thickness", ToPyFloat(m_thickness));
-		PyDict_SetItemString(dict, "pmax", ToPyPair(m_pmax.x, m_pmax.y));
-		PyDict_SetItemString(dict, "pmin", ToPyPair(m_pmin.x, m_pmin.y));
-		PyDict_SetItemString(dict, "segments", ToPyInt(m_segments));
+		PyDict_SetItemString(dict, "color", ToPyColor(_color));
+		PyDict_SetItemString(dict, "fill", ToPyColor(_fill));
+		PyDict_SetItemString(dict, "thickness", ToPyFloat(_thickness));
+		PyDict_SetItemString(dict, "pmax", ToPyPair(_pmax.x, _pmax.y));
+		PyDict_SetItemString(dict, "pmin", ToPyPair(_pmin.x, _pmin.y));
+		PyDict_SetItemString(dict, "segments", ToPyInt(_segments));
 	}
 
 }

@@ -136,12 +136,12 @@ namespace Marvel{
 
 	std::vector<mvRef<mvAppItem>>& mvAppItem::getChildren(int slot) 
 	{ 
-		return m_children[slot];
+		return _children[slot];
 	}
 
 	void mvAppItem::setChildren(int slot, std::vector<mvRef<mvAppItem>> children)
 	{
-		m_children[slot] = children;
+		_children[slot] = children;
 	}
 
 	bool mvAppItem::DoesItemHaveFlag(mvAppItem* item, int flag)
@@ -181,8 +181,8 @@ namespace Marvel{
 
 	mvAppItem::mvAppItem(mvUUID uuid)
 	{
-		m_uuid = uuid;
-		m_label = "label";
+		_uuid = uuid;
+		_label = "label";
 	}
 
 	bool  mvAppItem::moveChildUp(mvUUID uuid)
@@ -196,7 +196,7 @@ namespace Marvel{
 			for (size_t i = 0; i < children.size(); i++)
 			{
 
-				if (children[i]->m_uuid == uuid)
+				if (children[i]->_uuid == uuid)
 				{
 					found = true;
 					index = (int)i;
@@ -231,7 +231,7 @@ namespace Marvel{
 			return false;
 		};
 
-		for (auto& childset : m_children)
+		for (auto& childset : _children)
 		{
 			if (operation(childset))
 				return true;
@@ -253,7 +253,7 @@ namespace Marvel{
 			for (size_t i = 0; i < children.size(); i++)
 			{
 
-				if (children[i]->m_uuid == uuid)
+				if (children[i]->_uuid == uuid)
 				{
 					found = true;
 					index = i;
@@ -288,7 +288,7 @@ namespace Marvel{
 			return false;
 		};
 
-		for (auto& childset : m_children)
+		for (auto& childset : _children)
 		{
 			if (operation(childset))
 				return true;
@@ -300,48 +300,48 @@ namespace Marvel{
 
 	bool mvAppItem::preDraw()
 	{
-		if (!m_show)
+		if (!_show)
 		{
 			if(!DoesItemHaveFlag(this, MV_ITEM_DESC_ALWAYS_DRAW))
 				return false;
 		}
 
-		if (m_focusNextFrame)
+		if (_focusNextFrame)
 		{
 			ImGui::SetKeyboardFocusHere();
-			m_focusNextFrame = false;
+			_focusNextFrame = false;
 		}
 
-		m_previousCursorPos = ImGui::GetCursorPos();
-		if (m_dirtyPos)
-			ImGui::SetCursorPos(m_state.getItemPos());
+		_previousCursorPos = ImGui::GetCursorPos();
+		if (_dirtyPos)
+			ImGui::SetCursorPos(_state.getItemPos());
 
-		m_state.setPos({ ImGui::GetCursorPosX(), ImGui::GetCursorPosY() });
+		_state.setPos({ ImGui::GetCursorPosX(), ImGui::GetCursorPosY() });
 
 		// set item width
-		if (m_width != 0)
-			ImGui::SetNextItemWidth((float)m_width);
+		if (_width != 0)
+			ImGui::SetNextItemWidth((float)_width);
 
-		if (m_indent > 0.0f)
-			ImGui::Indent(m_indent);
+		if (_indent > 0.0f)
+			ImGui::Indent(_indent);
 
-		if (m_font)
+		if (_font)
 		{
-			ImFont* fontptr = static_cast<mvFont*>(m_font.get())->getFontPtr();
+			ImFont* fontptr = static_cast<mvFont*>(_font.get())->getFontPtr();
 			ImGui::PushFont(fontptr);
 		}
 
 
-		if (m_enabled)
+		if (_enabled)
 		{
 			if (auto classTheme = getClassTheme())
 			{
 				static_cast<mvTheme*>(classTheme.get())->draw(nullptr, 0.0f, 0.0f);
 			}
 
-			if (m_theme)
+			if (_theme)
 			{
-				static_cast<mvTheme*>(m_theme.get())->draw(nullptr, 0.0f, 0.0f);
+				static_cast<mvTheme*>(_theme.get())->draw(nullptr, 0.0f, 0.0f);
 			}
 		}
 		else
@@ -351,9 +351,9 @@ namespace Marvel{
 				static_cast<mvTheme*>(classTheme.get())->draw(nullptr, 0.0f, 0.0f);
 			}
 
-			if (m_disabledTheme)
+			if (_disabledTheme)
 			{
-				static_cast<mvTheme*>(m_disabledTheme.get())->draw(nullptr, 0.0f, 0.0f);
+				static_cast<mvTheme*>(_disabledTheme.get())->draw(nullptr, 0.0f, 0.0f);
 			}
 		}
 
@@ -363,29 +363,29 @@ namespace Marvel{
 	void mvAppItem::postDraw()
 	{
 
-		if (m_dirtyPos)
-			ImGui::SetCursorPos(m_previousCursorPos);
+		if (_dirtyPos)
+			ImGui::SetCursorPos(_previousCursorPos);
 
-		if(m_indent > 0.0f)
-			ImGui::Unindent(m_indent);
+		if(_indent > 0.0f)
+			ImGui::Unindent(_indent);
 
-		m_state.update();
+		_state.update();
 
-		if (m_font)
+		if (_font)
 		{
 			ImGui::PopFont();
 		}
 
-		if (m_enabled)
+		if (_enabled)
 		{
 			if (auto classTheme = getClassTheme())
 			{
 				static_cast<mvTheme*>(classTheme.get())->customAction();
 			}
 
-			if (m_theme)
+			if (_theme)
 			{
-				static_cast<mvTheme*>(m_theme.get())->customAction();
+				static_cast<mvTheme*>(_theme.get())->customAction();
 			}
 		}
 		else
@@ -395,14 +395,14 @@ namespace Marvel{
 				static_cast<mvTheme*>(classTheme.get())->customAction();
 			}
 
-			if (m_disabledTheme)
+			if (_disabledTheme)
 			{
-				static_cast<mvTheme*>(m_disabledTheme.get())->customAction();
+				static_cast<mvTheme*>(_disabledTheme.get())->customAction();
 			}
 		}
 
 		// event handlers
-		for (auto& item : m_children[3])
+		for (auto& item : _children[3])
 		{
 			if (!item->preDraw())
 				continue;
@@ -411,7 +411,7 @@ namespace Marvel{
 		}
 
 		// drag drop
-		for (auto& item : m_children[4])
+		for (auto& item : _children[4])
 		{
 			if (!item->preDraw())
 				continue;
@@ -419,15 +419,15 @@ namespace Marvel{
 			item->draw(nullptr, ImGui::GetCursorPosX(), ImGui::GetCursorPosY());
 		}
 
-		if (m_dropCallback)
+		if (_dropCallback)
 		{
-			ScopedID id(m_uuid);
+			ScopedID id(_uuid);
 			if (ImGui::BeginDragDropTarget())
 			{
-				if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload(m_payloadType.c_str()))
+				if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload(_payloadType.c_str()))
 				{
 					auto payloadActual = static_cast<const mvDragPayload*>(payload->Data);
-					mvApp::GetApp()->getCallbackRegistry().addCallback(getDropCallback(), m_uuid, payloadActual->getDragData(), nullptr);
+					mvApp::GetApp()->getCallbackRegistry().addCallback(getDropCallback(), _uuid, payloadActual->getDragData(), nullptr);
 				}
 
 				ImGui::EndDragDropTarget();
@@ -437,16 +437,16 @@ namespace Marvel{
 
 	void mvAppItem::setPayloadType(const std::string& payloadType)
 	{
-		m_payloadType = payloadType;
+		_payloadType = payloadType;
 	}
 
 	mvAppItem* mvAppItem::getRoot() const
 	{
-		if (m_parentPtr)
+		if (_parentPtr)
 		{
-			mvAppItem* item = m_parentPtr;
+			mvAppItem* item = _parentPtr;
 			while (!DoesItemHaveFlag(item, MV_ITEM_DESC_ROOT))
-				item = item->m_parentPtr;
+				item = item->_parentPtr;
 
 			return item;
 		}
@@ -455,8 +455,8 @@ namespace Marvel{
 
 	void mvAppItem::setPos(const ImVec2& pos)
 	{
-		m_dirtyPos = true;
-		m_state.setPos({ pos.x, pos.y });
+		_dirtyPos = true;
+		_state.setPos({ pos.x, pos.y });
 	}
 
 	void mvAppItem::registerWindowFocusing()
@@ -470,8 +470,8 @@ namespace Marvel{
 			float y = mousePos.y - ImGui::GetWindowPos().y;
 			mvInput::setMousePosition(x, y);
 
-			if (mvApp::GetApp()->getItemRegistry().getActiveWindow() != m_uuid)
-				mvEventBus::Publish(mvEVT_CATEGORY_ITEM, mvEVT_ACTIVE_WINDOW, { CreateEventArgument("WINDOW", m_uuid) });
+			if (mvApp::GetApp()->getItemRegistry().getActiveWindow() != _uuid)
+				mvEventBus::Publish(mvEVT_CATEGORY_ITEM, mvEVT_ACTIVE_WINDOW, { CreateEventArgument("WINDOW", _uuid) });
 
 		}
 	}
@@ -481,11 +481,11 @@ namespace Marvel{
 
 		if (callback == Py_None)
 		{
-			m_callback = nullptr;
+			_callback = nullptr;
 			return;
 		}
 
-		m_callback = callback;
+		_callback = callback;
 	}
 
 	void mvAppItem::setDragCallback(PyObject* callback)
@@ -493,11 +493,11 @@ namespace Marvel{
 
 		if (callback == Py_None)
 		{
-			m_dragCallback = nullptr;
+			_dragCallback = nullptr;
 			return;
 		}
 
-		m_dragCallback = callback;
+		_dragCallback = callback;
 	}
 
 	void mvAppItem::setDropCallback(PyObject* callback)
@@ -505,27 +505,27 @@ namespace Marvel{
 
 		if (callback == Py_None)
 		{
-			m_dropCallback = nullptr;
+			_dropCallback = nullptr;
 			return;
 		}
 
-		m_dropCallback = callback;
+		_dropCallback = callback;
 	}
 
 	void mvAppItem::setCallbackData(PyObject* data)
 	{
 		if (data == Py_None)
 		{
-			m_user_data = nullptr;
+			_user_data = nullptr;
 			return;
 		}
-		m_user_data = data;
+		_user_data = data;
 	}
 
 	void mvAppItem::resetState()
 	{
-		m_state.reset();
-		for (auto& childset : m_children)
+		_state.reset();
+		for (auto& childset : _children)
 		{
 			for (auto& child : childset)
 				child->resetState();
@@ -538,24 +538,24 @@ namespace Marvel{
 			return false;
 
 
-		for (auto& children : m_children)
+		for (auto& children : _children)
 		{
 			//this is the container, add item to end.
 			if (before == 0)
 			{
 
-				if (m_uuid == parent)
+				if (_uuid == parent)
 				{
-					item->m_location = m_children[item->getTarget()].size();
-					m_children[item->getTarget()].push_back(item);
+					item->_location = _children[item->getTarget()].size();
+					_children[item->getTarget()].push_back(item);
 					onChildAdd(item);
-					item->m_parentPtr = this;
-					item->m_parent = m_uuid;
+					item->_parentPtr = this;
+					item->_parent = _uuid;
 					return true;
 				}
 
 				// check children
-				for (auto& childslot : m_children)
+				for (auto& childslot : _children)
 				{
 					for (auto& child : childslot)
 					{
@@ -578,7 +578,7 @@ namespace Marvel{
 				for (auto& child : children)
 				{
 
-					if (child->m_uuid == before)
+					if (child->_uuid == before)
 					{
 						beforeFound = true;
 						break;
@@ -589,14 +589,14 @@ namespace Marvel{
 				// after item is in this container
 				if (beforeFound)
 				{
-					item->m_parentPtr = this;
+					item->_parentPtr = this;
 
 					std::vector<mvRef<mvAppItem>> oldchildren = children;
 					children.clear();
 
 					for (auto& child : oldchildren)
 					{
-						if (child->m_uuid == before)
+						if (child->_uuid == before)
 						{
 							children.push_back(item);
 							onChildAdd(item);
@@ -629,8 +629,8 @@ namespace Marvel{
 
 	bool mvAppItem::addItem(mvRef<mvAppItem> item)
 	{
-		item->m_location = m_children[item->getTarget()].size();
-		m_children[item->getTarget()].push_back(item);
+		item->_location = _children[item->getTarget()].size();
+		_children[item->getTarget()].push_back(item);
 		onChildAdd(item);
 
 		return true;
@@ -647,14 +647,14 @@ namespace Marvel{
 			bool prevFound = false;
 
 			// check children
-			for (auto& childslot : m_children)
+			for (auto& childslot : _children)
 			{
 				for (auto& child : childslot)
 				{
 
-					if (child->m_uuid == prev)
+					if (child->_uuid == prev)
 					{
-						item->m_parentPtr = this;
+						item->_parentPtr = this;
 						prevFound = true;
 						break;
 					}
@@ -673,7 +673,7 @@ namespace Marvel{
 				for (auto& child : oldchildren)
 				{
 					children.push_back(child);
-					if (child->m_uuid == prev)
+					if (child->_uuid == prev)
 					{
 						children.push_back(item);
 						onChildAdd(item);
@@ -685,7 +685,7 @@ namespace Marvel{
 
 
 			// check children
-			for (auto& childslot : m_children)
+			for (auto& childslot : _children)
 			{
 				for (auto& child : childslot)
 				{
@@ -699,7 +699,7 @@ namespace Marvel{
 		};
 
 		// todo: fix this
-		return operation(m_children[item->getTarget()]);
+		return operation(_children[item->getTarget()]);
 	}
 
 	bool mvAppItem::deleteChild(mvUUID uuid)
@@ -712,7 +712,7 @@ namespace Marvel{
 
 			for (auto& item : children)
 			{
-				if (item->m_uuid == uuid)
+				if (item->_uuid == uuid)
 				{
 					childfound = true;
 					break;
@@ -731,7 +731,7 @@ namespace Marvel{
 
 				for (auto& item : oldchildren)
 				{
-					if (item->m_uuid == uuid)
+					if (item->_uuid == uuid)
 					{
 						itemDeleted = true;
 						onChildRemoved(item);
@@ -745,7 +745,7 @@ namespace Marvel{
 			return itemDeleted;
 		};
 
-		for (auto& childset : m_children)
+		for (auto& childset : _children)
 		{
 			if (operation(childset))
 			{
@@ -759,12 +759,12 @@ namespace Marvel{
 
 	void mvAppItem::updateLocations()
 	{
-		for (auto& childset : m_children)
+		for (auto& childset : _children)
 		{
 			int index = 0;
 			for (auto& child : childset)
 			{
-				child->m_location = index;
+				child->_location = index;
 				index++;
 			}
 		}
@@ -774,7 +774,7 @@ namespace Marvel{
 	{
 		if (slot < 0)
 		{
-			for (auto& childset : m_children)
+			for (auto& childset : _children)
 			{
 				childset.clear();
 				childset.shrink_to_fit();
@@ -782,35 +782,35 @@ namespace Marvel{
 		}
 		else if (slot < 5)
 		{
-			m_children[slot].clear();
-			m_children[slot].shrink_to_fit();
+			_children[slot].clear();
+			_children[slot].shrink_to_fit();
 		}
 		onChildrenRemoved();
 	}
 
 	void mvAppItem::setLabel(const std::string& value)
 	{
-		m_specificedlabel = value;
-		//m_label = value + " ###" + m_name;
-		m_label = value + "";
+		_specificedlabel = value;
+		//_label = value + " ###" + _name;
+		_label = value + "";
 	}
 
 	void mvAppItem::setFilter(const std::string& value)
 	{
-		m_filter = value;
+		_filter = value;
 	}
 
 	mvRef<mvAppItem> mvAppItem::stealChild(mvUUID uuid)
 	{
 		mvRef<mvAppItem> stolenChild = nullptr;
 
-		for (auto& childset : m_children)
+		for (auto& childset : _children)
 		{
 			bool childfound = false;
 
 			for (auto& item : childset)
 			{
-				if (item->m_uuid == uuid)
+				if (item->_uuid == uuid)
 				{
 					childfound = true;
 					break;
@@ -832,7 +832,7 @@ namespace Marvel{
 
 				for (auto& item : oldchildren)
 				{
-					if (item->m_uuid == uuid)
+					if (item->_uuid == uuid)
 					{
 						stolenChild = item;
 						onChildRemoved(item);
@@ -857,26 +857,26 @@ namespace Marvel{
 	mvAppItem* mvAppItem::getChild(mvUUID uuid)
 	{
 
-		if (m_uuid == uuid)
+		if (_uuid == uuid)
 			return this;
 
-		if (m_searchLast)
+		if (_searchLast)
 		{
-			if (m_searchDelayed)
-				m_searchDelayed = false;
+			if (_searchDelayed)
+				_searchDelayed = false;
 			else
 			{
-				m_searchDelayed = true;
+				_searchDelayed = true;
 				mvApp::GetApp()->getItemRegistry().delaySearch(this);
 				return nullptr;
 			}
 		}
 
-		for (auto& childset : m_children)
+		for (auto& childset : _children)
 		{
 			for (auto& item : childset)
 			{
-				if (item->m_uuid == uuid)
+				if (item->_uuid == uuid)
 					return item.get();
 
 				auto child = item->getChild(uuid);
@@ -891,11 +891,11 @@ namespace Marvel{
 	mvRef<mvAppItem> mvAppItem::getChildRef(mvUUID uuid)
 	{
 
-		for (auto& childset : m_children)
+		for (auto& childset : _children)
 		{
 			for (auto& item : childset)
 			{
-				if (item->m_uuid == uuid)
+				if (item->_uuid == uuid)
 					return item;
 
 				auto child = item->getChildRef(uuid);
@@ -912,22 +912,22 @@ namespace Marvel{
 		deleteChildren();
  
 		mvGlobalIntepreterLock gil;
-		if (m_callback)
-			Py_DECREF(m_callback);
-		if (m_user_data)
-			Py_DECREF(m_user_data);
+		if (_callback)
+			Py_DECREF(_callback);
+		if (_user_data)
+			Py_DECREF(_user_data);
 
 		// in case item registry is destroyed
 		if(mvApp::IsAppStarted())
-			mvApp::GetApp()->getItemRegistry().cleanUpItem(m_uuid);
+			mvApp::GetApp()->getItemRegistry().cleanUpItem(_uuid);
 	}
 
 	PyObject* mvAppItem::getCallback(bool ignore_enabled)
 	{
-		if (m_enabled)
-			return m_callback;
+		if (_enabled)
+			return _callback;
 
-		return ignore_enabled ? m_callback : nullptr;
+		return ignore_enabled ? _callback : nullptr;
 		
 	}
 
@@ -994,35 +994,35 @@ namespace Marvel{
 			if (!position.empty())
 				setPos(mvVec2{ position[0], position[1] });
 		}
-		if (PyObject* item = PyDict_GetItemString(dict, "indent")) m_indent = (float)ToInt(item);
+		if (PyObject* item = PyDict_GetItemString(dict, "indent")) _indent = (float)ToInt(item);
 		if (PyObject* item = PyDict_GetItemString(dict, "show")) 
 		{
-			m_show = ToBool(item);
-			if (m_show)
+			_show = ToBool(item);
+			if (_show)
 				show();
 			else
 				hide();
 		}
-		if (PyObject* item = PyDict_GetItemString(dict, "filter_key")) m_filter = ToString(item);
+		if (PyObject* item = PyDict_GetItemString(dict, "filter_key")) _filter = ToString(item);
 		if (PyObject* item = PyDict_GetItemString(dict, "payload_type")) setPayloadType(ToString(item));
 		if (PyObject* item = PyDict_GetItemString(dict, "source")) setDataSource(ToUUID(item));
 		if (PyObject* item = PyDict_GetItemString(dict, "enabled")) setEnabled(ToBool(item));
-		if (PyObject* item = PyDict_GetItemString(dict, "tracked")) m_tracked = ToBool(item);
-		if (PyObject* item = PyDict_GetItemString(dict, "delay_search")) m_searchLast = ToBool(item);
+		if (PyObject* item = PyDict_GetItemString(dict, "tracked")) _tracked = ToBool(item);
+		if (PyObject* item = PyDict_GetItemString(dict, "delay_search")) _searchLast = ToBool(item);
 		if (PyObject* item = PyDict_GetItemString(dict, "track_offset"))
 		{
-			m_trackOffset = ToFloat(item);
+			_trackOffset = ToFloat(item);
 		}
 		if (PyObject* item = PyDict_GetItemString(dict, "default_value"))
 		{
-			if(m_source == 0)
+			if(_source == 0)
 				setPyValue(item);
 		}
 
 		if (PyObject* item = PyDict_GetItemString(dict, "callback"))
 		{
-			if (m_callback)
-				Py_XDECREF(m_callback);
+			if (_callback)
+				Py_XDECREF(_callback);
 
 			Py_XINCREF(item);
 			setCallback(item);
@@ -1030,8 +1030,8 @@ namespace Marvel{
 
 		if (PyObject* item = PyDict_GetItemString(dict, "drag_callback"))
 		{
-			if (m_dragCallback)
-				Py_XDECREF(m_dragCallback);
+			if (_dragCallback)
+				Py_XDECREF(_dragCallback);
 
 			Py_XINCREF(item);
 			setDragCallback(item);
@@ -1039,8 +1039,8 @@ namespace Marvel{
 
 		if (PyObject* item = PyDict_GetItemString(dict, "drop_callback"))
 		{
-			if (m_dropCallback)
-				Py_XDECREF(m_dropCallback);
+			if (_dropCallback)
+				Py_XDECREF(_dropCallback);
 
 			Py_XINCREF(item);
 			setDropCallback(item);
@@ -1048,8 +1048,8 @@ namespace Marvel{
 
 		if (PyObject* item = PyDict_GetItemString(dict, "user_data"))
 		{
-			if (m_user_data)
-				Py_XDECREF(m_user_data);
+			if (_user_data)
+				Py_XDECREF(_user_data);
 			
 			Py_XINCREF(item);
 			setCallbackData(item);
@@ -1097,7 +1097,7 @@ namespace Marvel{
 				}
 			});
 
-		auto children = mvApp::GetApp()->getItemRegistry().getItemChildren(m_uuid);
+		auto children = mvApp::GetApp()->getItemRegistry().getItemChildren(_uuid);
 		if (children.empty())
 			PyDict_SetItemString(dict, "children", GetPyNone());
 		else
@@ -1115,23 +1115,23 @@ namespace Marvel{
 		PyDict_SetItemString(dict, "type", ToPyString(parserCommand));
 		PyDict_SetItemString(dict, "target", ToPyInt(getTarget()));
 
-		if (m_parentPtr)
-			PyDict_SetItemString(dict, "parent", ToPyUUID(m_parentPtr->getUUID()));
+		if (_parentPtr)
+			PyDict_SetItemString(dict, "parent", ToPyUUID(_parentPtr->getUUID()));
 		else
 			PyDict_SetItemString(dict, "parent", GetPyNone());
 
-		if (m_theme)
-			PyDict_SetItemString(dict, "theme", ToPyUUID(m_theme->getUUID()));
+		if (_theme)
+			PyDict_SetItemString(dict, "theme", ToPyUUID(_theme->getUUID()));
 		else
 			PyDict_SetItemString(dict, "theme", GetPyNone());
 
-		if (m_font)
-			PyDict_SetItemString(dict, "font", ToPyUUID(m_font->getUUID()));
+		if (_font)
+			PyDict_SetItemString(dict, "font", ToPyUUID(_font->getUUID()));
 		else
 			PyDict_SetItemString(dict, "font", GetPyNone());
 
-		if (m_disabledTheme)
-			PyDict_SetItemString(dict, "disabled_theme", ToPyUUID(m_disabledTheme->getUUID()));
+		if (_disabledTheme)
+			PyDict_SetItemString(dict, "disabled_theme", ToPyUUID(_disabledTheme->getUUID()));
 		else
 			PyDict_SetItemString(dict, "disabled_theme", GetPyNone());
 
@@ -1147,46 +1147,46 @@ namespace Marvel{
 		if (dict == nullptr)
 			return;
 
-		PyDict_SetItemString(dict, "filter_key", ToPyString(m_filter));
-		PyDict_SetItemString(dict, "payload_type", ToPyString(m_payloadType));
-		PyDict_SetItemString(dict, "label", ToPyString(m_specificedlabel));
-		PyDict_SetItemString(dict, "source", ToPyUUID(m_source));
-		PyDict_SetItemString(dict, "show", ToPyBool(m_show));
-		PyDict_SetItemString(dict, "enabled", ToPyBool(m_enabled));
-		PyDict_SetItemString(dict, "tracked", ToPyBool(m_tracked));
-		PyDict_SetItemString(dict, "width", ToPyInt(m_width));
-		PyDict_SetItemString(dict, "track_offset", ToPyFloat(m_trackOffset));
-		PyDict_SetItemString(dict, "height", ToPyInt(m_height));
-		PyDict_SetItemString(dict, "indent", ToPyInt(m_indent));
+		PyDict_SetItemString(dict, "filter_key", ToPyString(_filter));
+		PyDict_SetItemString(dict, "payload_type", ToPyString(_payloadType));
+		PyDict_SetItemString(dict, "label", ToPyString(_specificedlabel));
+		PyDict_SetItemString(dict, "source", ToPyUUID(_source));
+		PyDict_SetItemString(dict, "show", ToPyBool(_show));
+		PyDict_SetItemString(dict, "enabled", ToPyBool(_enabled));
+		PyDict_SetItemString(dict, "tracked", ToPyBool(_tracked));
+		PyDict_SetItemString(dict, "width", ToPyInt(_width));
+		PyDict_SetItemString(dict, "track_offset", ToPyFloat(_trackOffset));
+		PyDict_SetItemString(dict, "height", ToPyInt(_height));
+		PyDict_SetItemString(dict, "indent", ToPyInt(_indent));
 
-		if (m_callback)
+		if (_callback)
 		{
-			Py_XINCREF(m_callback);
-			PyDict_SetItemString(dict, "callback", m_callback);
+			Py_XINCREF(_callback);
+			PyDict_SetItemString(dict, "callback", _callback);
 		}
 		else
 			PyDict_SetItemString(dict, "callback", GetPyNone());
 
-		if (m_dropCallback)
+		if (_dropCallback)
 		{
-			Py_XINCREF(m_dropCallback);
-			PyDict_SetItemString(dict, "drop_callback", m_dropCallback);
+			Py_XINCREF(_dropCallback);
+			PyDict_SetItemString(dict, "drop_callback", _dropCallback);
 		}
 		else
 			PyDict_SetItemString(dict, "drop_callback", GetPyNone());
 
-		if (m_dragCallback)
+		if (_dragCallback)
 		{
-			Py_XINCREF(m_dragCallback);
-			PyDict_SetItemString(dict, "drag_callback", m_dragCallback);
+			Py_XINCREF(_dragCallback);
+			PyDict_SetItemString(dict, "drag_callback", _dragCallback);
 		}
 		else
 			PyDict_SetItemString(dict, "drag_callback", GetPyNone());
 
-		if (m_user_data)
+		if (_user_data)
 		{
-			Py_XINCREF(m_user_data);
-			PyDict_SetItemString(dict, "user_data", m_user_data);
+			Py_XINCREF(_user_data);
+			PyDict_SetItemString(dict, "user_data", _user_data);
 		}
 		else
 			PyDict_SetItemString(dict, "user_data", GetPyNone());
@@ -1259,12 +1259,12 @@ namespace Marvel{
 		if (appitem)
 		{
 			auto& oldChildren = appitem->getChildren(slot);
-			oldChildren.reserve(staging_container->m_children[slot].size());
-			oldChildren = std::move(staging_container->m_children[slot]);
+			oldChildren.reserve(staging_container->_children[slot].size());
+			oldChildren = std::move(staging_container->_children[slot]);
 			for (auto& child : oldChildren)
 			{
-				child->m_parent = item;
-				child->m_parentPtr = appitem;
+				child->_parent = item;
+				child->_parentPtr = appitem;
 			}
 
 			appitem->updateLocations();
@@ -1297,13 +1297,13 @@ namespace Marvel{
 		{
 			if (font == 0)
 			{
-				appitem->m_font = nullptr;
+				appitem->_font = nullptr;
 				return GetPyNone();
 			}
 
 			if (appfont)
 			{
-				appitem->m_font = appfont;
+				appitem->_font = appfont;
 			}
 			else
 			{
@@ -1334,7 +1334,7 @@ namespace Marvel{
 		{
 			if (theme == 0)
 			{
-				appitem->m_theme = nullptr;
+				appitem->_theme = nullptr;
 				return GetPyNone();
 			}
 
@@ -1342,7 +1342,7 @@ namespace Marvel{
 
 			if (apptheme)
 			{
-				appitem->m_theme = apptheme;
+				appitem->_theme = apptheme;
 				return GetPyNone();
 			}
 			else
@@ -1373,7 +1373,7 @@ namespace Marvel{
 		{
 			if (theme == 0)
 			{
-				appitem->m_theme = nullptr;
+				appitem->_theme = nullptr;
 				return GetPyNone();
 			}
 
@@ -1381,7 +1381,7 @@ namespace Marvel{
 
 			if (apptheme)
 			{
-				appitem->m_disabledTheme = apptheme;
+				appitem->_disabledTheme = apptheme;
 				return GetPyNone();
 			}
 			else
@@ -1408,7 +1408,7 @@ namespace Marvel{
 		auto appitem = mvApp::GetApp()->getItemRegistry().getItem(item);
 
 		if (appitem)
-			appitem->m_dirtyPos = false;
+			appitem->_dirtyPos = false;
 		else
 			mvThrowPythonError(mvErrorCode::mvItemNotFound, "reset_pos",
 				"Item not found: " + std::to_string(item), nullptr);

@@ -384,13 +384,13 @@ namespace Marvel {
 
     void mvSlider3D::draw(ImDrawList* drawlist, float x, float y)
     {
-        ScopedID id(m_uuid);
+        ScopedID id(_uuid);
 
-        if(SliderScalar3D(m_specificedlabel.c_str(), &(*m_value)[0], &(*m_value)[1], &(*m_value)[2], m_minX, m_maxX, m_minY, m_maxY, m_minZ, m_maxZ, m_scale))
+        if(SliderScalar3D(_specificedlabel.c_str(), &(*_value)[0], &(*_value)[1], &(*_value)[2], _minX, _maxX, _minY, _maxY, _minZ, _maxZ, _scale))
 		{
-			auto value = *m_value;
+			auto value = *_value;
 			mvApp::GetApp()->getCallbackRegistry().submitCallback([=]() {
-				mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), m_uuid, ToPyFloatList(value.data(), value.size()), m_user_data);
+				mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), _uuid, ToPyFloatList(value.data(), value.size()), _user_data);
 				});
 		}
     }
@@ -400,13 +400,13 @@ namespace Marvel {
         if (dict == nullptr)
             return;
 
-        if (PyObject* item = PyDict_GetItemString(dict, "max_x")) m_maxX = ToFloat(item);
-        if (PyObject* item = PyDict_GetItemString(dict, "max_y")) m_maxY = ToFloat(item);
-        if (PyObject* item = PyDict_GetItemString(dict, "max_z")) m_maxZ = ToFloat(item);
-        if (PyObject* item = PyDict_GetItemString(dict, "min_x")) m_minX = ToFloat(item);
-        if (PyObject* item = PyDict_GetItemString(dict, "min_y")) m_minY = ToFloat(item);
-        if (PyObject* item = PyDict_GetItemString(dict, "min_z")) m_minZ = ToFloat(item);
-        if (PyObject* item = PyDict_GetItemString(dict, "scale")) m_scale = ToFloat(item);
+        if (PyObject* item = PyDict_GetItemString(dict, "max_x")) _maxX = ToFloat(item);
+        if (PyObject* item = PyDict_GetItemString(dict, "max_y")) _maxY = ToFloat(item);
+        if (PyObject* item = PyDict_GetItemString(dict, "max_z")) _maxZ = ToFloat(item);
+        if (PyObject* item = PyDict_GetItemString(dict, "min_x")) _minX = ToFloat(item);
+        if (PyObject* item = PyDict_GetItemString(dict, "min_y")) _minY = ToFloat(item);
+        if (PyObject* item = PyDict_GetItemString(dict, "min_z")) _minZ = ToFloat(item);
+        if (PyObject* item = PyDict_GetItemString(dict, "scale")) _scale = ToFloat(item);
     }
 
     void mvSlider3D::getSpecificConfiguration(PyObject* dict)
@@ -414,13 +414,13 @@ namespace Marvel {
         if (dict == nullptr)
             return;
 
-		PyDict_SetItemString(dict, "max_x", ToPyFloat(m_maxX));
-		PyDict_SetItemString(dict, "max_y", ToPyFloat(m_maxY));
-		PyDict_SetItemString(dict, "max_z", ToPyFloat(m_maxZ));
-		PyDict_SetItemString(dict, "min_x", ToPyFloat(m_minX));
-		PyDict_SetItemString(dict, "min_y", ToPyFloat(m_minY));
-		PyDict_SetItemString(dict, "min_z", ToPyFloat(m_minZ));
-		PyDict_SetItemString(dict, "scale", ToPyFloat(m_scale));
+		PyDict_SetItemString(dict, "max_x", ToPyFloat(_maxX));
+		PyDict_SetItemString(dict, "max_y", ToPyFloat(_maxY));
+		PyDict_SetItemString(dict, "max_z", ToPyFloat(_maxZ));
+		PyDict_SetItemString(dict, "min_x", ToPyFloat(_minX));
+		PyDict_SetItemString(dict, "min_y", ToPyFloat(_minY));
+		PyDict_SetItemString(dict, "min_z", ToPyFloat(_minZ));
+		PyDict_SetItemString(dict, "scale", ToPyFloat(_scale));
 
     }
 

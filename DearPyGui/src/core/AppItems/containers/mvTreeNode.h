@@ -31,8 +31,8 @@ namespace Marvel {
 
 	private:
 
-		ImGuiTreeNodeFlags m_flags = ImGuiTreeNodeFlags_None;
-		bool               m_selectable = false;
+		ImGuiTreeNodeFlags _flags = ImGuiTreeNodeFlags_None;
+		bool               _selectable = false;
 
 	};
 

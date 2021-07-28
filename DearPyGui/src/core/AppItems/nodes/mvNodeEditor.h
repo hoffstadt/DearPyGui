@@ -44,22 +44,22 @@ namespace Marvel {
 
 		std::vector<mvUUID> getSelectedNodes() const;
 		std::vector<mvUUID> getSelectedLinks() const;
-		void clearNodes() { m_clearNodes = true; }
-		void clearLinks() { m_clearLinks = true; }
+		void clearNodes() { _clearNodes = true; }
+		void clearLinks() { _clearLinks = true; }
 
 		void draw(ImDrawList* drawlist, float x, float y) override;
 
 	private:
 
-		ImGuiWindowFlags m_windowflags = ImGuiWindowFlags_NoSavedSettings;
-		std::vector<int> m_selectedNodes;
-		std::vector<int> m_selectedLinks;
+		ImGuiWindowFlags _windowflags = ImGuiWindowFlags_NoSavedSettings;
+		std::vector<int> _selectedNodes;
+		std::vector<int> _selectedLinks;
 
-		bool m_clearNodes = false;
-		bool m_clearLinks = false;
+		bool _clearNodes = false;
+		bool _clearLinks = false;
 
-		PyObject* m_delinkCallback = nullptr;
-		imnodes::EditorContext* m_context = nullptr;
+		PyObject* _delinkCallback = nullptr;
+		imnodes::EditorContext* _context = nullptr;
 	};
 
 }

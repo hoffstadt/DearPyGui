@@ -42,17 +42,17 @@ namespace Marvel {
 
 	void mvTimePicker::draw(ImDrawList* drawlist, float x, float y)
 	{
-		ScopedID id(m_uuid);
+		ScopedID id(_uuid);
 
-		ImPlot::GetStyle().Use24HourClock = m_hour24;
+		ImPlot::GetStyle().Use24HourClock = _hour24;
 
-		if (ImPlot::ShowTimePicker(m_label.c_str(), m_imvalue.get()))
+		if (ImPlot::ShowTimePicker(_label.c_str(), _imvalue.get()))
 		{
-			ImPlot::GetGmtTime(*m_imvalue, m_value.get());
+			ImPlot::GetGmtTime(*_imvalue, _value.get());
 			{
-				auto value = *m_value;
+				auto value = *_value;
 				mvApp::GetApp()->getCallbackRegistry().submitCallback([=]() {
-					mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), m_uuid, ToPyTime(value), m_user_data);
+					mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), _uuid, ToPyTime(value), _user_data);
 					});
 			}
 		}
@@ -64,7 +64,7 @@ namespace Marvel {
 		if (dict == nullptr)
 			return;
 		 
-		if (PyObject* item = PyDict_GetItemString(dict, "hour24")) m_hour24 = ToBool(item);
+		if (PyObject* item = PyDict_GetItemString(dict, "hour24")) _hour24 = ToBool(item);
 	}
 
 	void mvTimePicker::getSpecificConfiguration(PyObject* dict)
@@ -72,7 +72,7 @@ namespace Marvel {
 		if (dict == nullptr)
 			return;
 		 
-		PyDict_SetItemString(dict, "hour24", ToPyBool(m_hour24));
+		PyDict_SetItemString(dict, "hour24", ToPyBool(_hour24));
 	}
 
 }

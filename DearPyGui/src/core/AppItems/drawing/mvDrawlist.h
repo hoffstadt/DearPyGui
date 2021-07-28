@@ -27,8 +27,8 @@ namespace Marvel {
 
 	private:
 
-		float             m_startx = 0.0f;
-		float             m_starty = 0.0f;
+		float             _startx = 0.0f;
+		float             _starty = 0.0f;
 
 	};
 }

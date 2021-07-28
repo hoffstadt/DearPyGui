@@ -33,7 +33,7 @@ namespace Marvel {
 		void    rebuildAtlas();
 		void    updateAtlas();
 		bool    isInvalid() const;
-		float&  getGlobalFontScale() { return m_globalFontScale; }
+		float&  getGlobalFontScale() { return _globalFontScale; }
 		void     setGlobalFontScale(float scale);
 
 		mvUUID getUUID() const override { return MV_TOOL_FONT_UUID; }
@@ -46,9 +46,9 @@ namespace Marvel {
 	private:
 
 		// default
-		ImFont*           m_font = nullptr;
-		bool              m_dirty = false;
-		float             m_globalFontScale = 1.0f;
+		ImFont*           _font = nullptr;
+		bool              _dirty = false;
+		float             _globalFontScale = 1.0f;
 
 	};
 

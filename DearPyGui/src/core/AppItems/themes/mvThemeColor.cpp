@@ -48,39 +48,39 @@ namespace Marvel {
 
 	void mvThemeColor::draw(ImDrawList* drawlist, float x, float y)
 	{
-		if (m_libType == mvLibType::MV_IMGUI)
-			ImGui::PushStyleColor(m_targetColor, m_color.toVec4());
-		else if (m_libType == mvLibType::MV_IMPLOT)
-			ImPlot::PushStyleColor(m_targetColor,m_color.toVec4());
-		else if (m_libType == mvLibType::MV_IMNODES)
-			imnodes::PushColorStyle((imnodes::ColorStyle)m_targetColor, mvColor::ConvertToUnsignedInt(m_color));
+		if (_libType == mvLibType::MV_IMGUI)
+			ImGui::PushStyleColor(_targetColor, _color.toVec4());
+		else if (_libType == mvLibType::MV_IMPLOT)
+			ImPlot::PushStyleColor(_targetColor,_color.toVec4());
+		else if (_libType == mvLibType::MV_IMNODES)
+			imnodes::PushColorStyle((imnodes::ColorStyle)_targetColor, mvColor::ConvertToUnsignedInt(_color));
 	}
 
 	void mvThemeColor::customAction()
 	{
-		if (m_libType == mvLibType::MV_IMGUI)
+		if (_libType == mvLibType::MV_IMGUI)
 			ImGui::PopStyleColor();
-		else if (m_libType == mvLibType::MV_IMPLOT)
+		else if (_libType == mvLibType::MV_IMPLOT)
 			ImPlot::PopStyleColor();
-		else if (m_libType == mvLibType::MV_IMNODES)
+		else if (_libType == mvLibType::MV_IMNODES)
 			imnodes::PopColorStyle();
 	}
 
 	void mvThemeColor::alternativeCustomAction()
 	{
-		if (m_libType == mvLibType::MV_IMGUI)
+		if (_libType == mvLibType::MV_IMGUI)
 		{
 			ImGuiStyle& style = ImGui::GetStyle();
-			style.Colors[m_targetColor] = m_color.toVec4();
+			style.Colors[_targetColor] = _color.toVec4();
 		}
-		else if (m_libType == mvLibType::MV_IMPLOT)
+		else if (_libType == mvLibType::MV_IMPLOT)
 		{
 			ImPlotStyle& plotstyle = ImPlot::GetStyle();
-			plotstyle.Colors[m_targetColor] = m_color.toVec4();
+			plotstyle.Colors[_targetColor] = _color.toVec4();
 		}
-		else if (m_libType == mvLibType::MV_IMNODES)
+		else if (_libType == mvLibType::MV_IMNODES)
 		{
-			imnodes::GetStyle().colors[m_targetColor] = ImGui::ColorConvertFloat4ToU32(m_color);
+			imnodes::GetStyle().colors[_targetColor] = ImGui::ColorConvertFloat4ToU32(_color);
 		}
 	}
 
@@ -95,11 +95,11 @@ namespace Marvel {
 			switch (i)
 			{
 			case 0:
-				m_targetColor = ToInt(item);
+				_targetColor = ToInt(item);
 				break;
 
 			case 1:
-				m_color = ToColor(item);
+				_color = ToColor(item);
 				break;
 
 			default:
@@ -113,37 +113,37 @@ namespace Marvel {
 		if (dict == nullptr)
 			return;
 
-		if (PyObject* item = PyDict_GetItemString(dict, "category")) m_libType = (mvLibType)ToInt(item);
-		if (PyObject* item = PyDict_GetItemString(dict, "value")) m_color = ToColor(item);
+		if (PyObject* item = PyDict_GetItemString(dict, "category")) _libType = (mvLibType)ToInt(item);
+		if (PyObject* item = PyDict_GetItemString(dict, "value")) _color = ToColor(item);
 
-		if (m_libType == mvLibType::MV_IMGUI)
+		if (_libType == mvLibType::MV_IMGUI)
 		{
 
-			if (m_targetColor >= ImGuiCol_COUNT || m_targetColor < 0)
+			if (_targetColor >= ImGuiCol_COUNT || _targetColor < 0)
 			{
-				m_state.setOk(false);
+				_state.setOk(false);
 				mvThrowPythonError(mvErrorCode::mvNone, "Style target out of range.");
 				MV_ITEM_REGISTRY_ERROR("Item's parent must be plot.");
 				assert(false);
 			}
 		}
 
-		else if (m_libType == mvLibType::MV_IMPLOT)
+		else if (_libType == mvLibType::MV_IMPLOT)
 		{
-			if (m_targetColor >= ImPlotCol_COUNT || m_targetColor < 0)
+			if (_targetColor >= ImPlotCol_COUNT || _targetColor < 0)
 			{
-				m_state.setOk(false);
+				_state.setOk(false);
 				mvThrowPythonError(mvErrorCode::mvNone, "Style target out of range.");
 				MV_ITEM_REGISTRY_ERROR("Item's parent must be plot.");
 				assert(false);
 			}
 		}
 
-		else if (m_libType == mvLibType::MV_IMNODES)
+		else if (_libType == mvLibType::MV_IMNODES)
 		{
-			if (m_targetColor >= imnodes::ColorStyle_Count || m_targetColor < 0)
+			if (_targetColor >= imnodes::ColorStyle_Count || _targetColor < 0)
 			{
-				m_state.setOk(false);
+				_state.setOk(false);
 				mvThrowPythonError(mvErrorCode::mvNone, "Style target out of range.");
 				MV_ITEM_REGISTRY_ERROR("Item's parent must be plot.");
 				assert(false);

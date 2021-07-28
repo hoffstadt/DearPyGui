@@ -60,9 +60,9 @@ namespace Marvel {
 	void mvViewportDrawlist::draw(ImDrawList* drawlist, float x, float y)
 	{
 
-		ImDrawList* internal_drawlist = m_front ? ImGui::GetForegroundDrawList() : ImGui::GetBackgroundDrawList();
+		ImDrawList* internal_drawlist = _front ? ImGui::GetForegroundDrawList() : ImGui::GetBackgroundDrawList();
 
-		for (auto& item : m_children[2])
+		for (auto& item : _children[2])
 		{
 			// skip item if it's not shown
 			if (!item->isShown())
@@ -80,7 +80,7 @@ namespace Marvel {
 		if (dict == nullptr)
 			return;
 
-		if (PyObject* item = PyDict_GetItemString(dict, "front")) m_front = ToBool(item);
+		if (PyObject* item = PyDict_GetItemString(dict, "front")) _front = ToBool(item);
 
 	}
 
@@ -89,7 +89,7 @@ namespace Marvel {
 		if (dict == nullptr)
 			return;
 
-		PyDict_SetItemString(dict, "front", ToPyBool(m_front));
+		PyDict_SetItemString(dict, "front", ToPyBool(_front));
 	}
 
 }

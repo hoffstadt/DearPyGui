@@ -31,7 +31,7 @@ namespace Marvel {
 
 	private:
 
-		int m_id = 0;
+		int _id = 0;
 	};
 
 }

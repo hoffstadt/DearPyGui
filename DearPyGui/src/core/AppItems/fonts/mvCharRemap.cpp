@@ -57,13 +57,13 @@ namespace Marvel {
 			{
 			case 0:
 			{
-				m_source = ToInt(item);
+				_source = ToInt(item);
 				break;
 			}
 
 			case 1:
 			{
-				m_target = ToInt(item);
+				_target = ToInt(item);
 				break;
 			}
 

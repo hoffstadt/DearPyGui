@@ -28,11 +28,11 @@ namespace Marvel {
 		void draw(ImDrawList* drawlist, float x, float y) override {}
 		bool isParentCompatible(mvAppItemType type) override;
 		void handleSpecificRequiredArgs(PyObject* dict) override;
-		const std::vector<ImWchar>& getCharacters() const { return m_chars; }
+		const std::vector<ImWchar>& getCharacters() const { return _chars; }
 
 	private:
 		
-		std::vector<ImWchar>  m_chars;
+		std::vector<ImWchar>  _chars;
 
 	};
 

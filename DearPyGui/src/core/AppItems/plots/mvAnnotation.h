@@ -30,9 +30,9 @@ namespace Marvel {
 
 	private:
 
-		mvColor m_color = mvColor(0.0f, 0.0f, 0.0f, -1.0f);
-		bool    m_clamped = true;
-		ImVec2  m_pixOffset;
+		mvColor _color = mvColor(0.0f, 0.0f, 0.0f, -1.0f);
+		bool    _clamped = true;
+		ImVec2  _pixOffset;
 
 	};
 

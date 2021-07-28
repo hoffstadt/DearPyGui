@@ -51,26 +51,26 @@ namespace Marvel {
 			if (!PyObject_GetBuffer(value, &buffer_info,
 				PyBUF_CONTIG_RO | PyBUF_FORMAT))
 			{
-				m_value = buffer_info.buf;
-				if (m_value == nullptr)
+				_value = buffer_info.buf;
+				if (_value == nullptr)
 				{
 					mvThrowPythonError(mvErrorCode::mvTextureNotFound, s_command, "Texture data not valid", this);
 				}
 			}
 			PyBuffer_Release(&buffer_info);
-			if (m_buffer)
-				Py_XDECREF(m_buffer);
+			if (_buffer)
+				Py_XDECREF(_buffer);
 			Py_XINCREF(value);
-			m_buffer = value;
+			_buffer = value;
 		}
 	}
 
 	mvRawTexture::~mvRawTexture()
 	{
-		FreeTexture(m_texture);
+		FreeTexture(_texture);
 		
 		mvGlobalIntepreterLock gil;
-		Py_XDECREF(m_buffer);
+		Py_XDECREF(_buffer);
 	}
 
 
@@ -89,24 +89,24 @@ namespace Marvel {
 
 	void mvRawTexture::draw(ImDrawList* drawlist, float x, float y)
 	{
-		if (m_dirty)
+		if (_dirty)
 		{
 
-			if (m_value == nullptr)
+			if (_value == nullptr)
 				return;
 
-			if(m_componentType == ComponentType::MV_FLOAT_COMPONENT)
-				m_texture = LoadTextureFromArrayRaw(m_width, m_height, (float*)m_value, m_components);
+			if(_componentType == ComponentType::MV_FLOAT_COMPONENT)
+				_texture = LoadTextureFromArrayRaw(_width, _height, (float*)_value, _components);
 
-			if (m_texture == nullptr)
-				m_state.setOk(false);
+			if (_texture == nullptr)
+				_state.setOk(false);
 
-			m_dirty = false;
+			_dirty = false;
 			return;
 		}
 
-		if (m_componentType == ComponentType::MV_FLOAT_COMPONENT)
-			UpdateRawTexture(m_texture, m_width, m_height, (float*)m_value, m_components);
+		if (_componentType == ComponentType::MV_FLOAT_COMPONENT)
+			UpdateRawTexture(_texture, _width, _height, (float*)_value, _components);
 
 	}
 
@@ -124,11 +124,11 @@ namespace Marvel {
 			switch (i)
 			{
 			case 0:
-				m_width = ToInt(item);
+				_width = ToInt(item);
 				break;
 
 			case 1:
-				m_height = ToInt(item);
+				_height = ToInt(item);
 				break;
 
 			case 2:
@@ -151,13 +151,13 @@ namespace Marvel {
 			int format = ToInt(item);
 			if (format == 0)
 			{
-				m_components = 4;
-				m_componentType = mvRawTexture::ComponentType::MV_FLOAT_COMPONENT;
+				_components = 4;
+				_componentType = mvRawTexture::ComponentType::MV_FLOAT_COMPONENT;
 			}
 			else if (format == 1)
 			{
-				m_components = 3;
-				m_componentType = mvRawTexture::ComponentType::MV_FLOAT_COMPONENT;
+				_components = 3;
+				_componentType = mvRawTexture::ComponentType::MV_FLOAT_COMPONENT;
 			}
 		}
 	}

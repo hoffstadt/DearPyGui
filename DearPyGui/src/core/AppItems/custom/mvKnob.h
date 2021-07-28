@@ -34,9 +34,9 @@ namespace Marvel {
 
     private:
 
-        float m_min = 0.0f;
-        float m_max = 100.0f;
-        float m_step = 50.0f;
+        float _min = 0.0f;
+        float _max = 100.0f;
+        float _step = 50.0f;
 
     };
 

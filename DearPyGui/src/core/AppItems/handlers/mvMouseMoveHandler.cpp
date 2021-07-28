@@ -48,13 +48,13 @@ namespace Marvel {
 		ImVec2 mousepos = ImGui::GetMousePos();
 		if (ImGui::IsMousePosValid(&mousepos))
 		{
-			if (m_oldPos.x != mousepos.x || m_oldPos.y != mousepos.y)
+			if (_oldPos.x != mousepos.x || _oldPos.y != mousepos.y)
 			{
-				m_oldPos = mousepos;
+				_oldPos = mousepos;
 
 				mvApp::GetApp()->getCallbackRegistry().submitCallback([=]()
 					{
-						mvApp::GetApp()->getCallbackRegistry().runCallback(getCallback(false), m_uuid, ToPyPair(mousepos.x, mousepos.y), m_user_data);
+						mvApp::GetApp()->getCallbackRegistry().runCallback(getCallback(false), _uuid, ToPyPair(mousepos.x, mousepos.y), _user_data);
 					});
 			}
 		}

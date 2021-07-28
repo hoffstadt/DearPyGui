@@ -59,19 +59,19 @@ namespace Marvel {
 	{
 		if (ImPlot::GetCurrentContext()->CurrentPlot)
 		{
-			drawlist->AddCircle(ImPlot::PlotToPixels(m_center), ImPlot::GetCurrentContext()->Mx * m_radius, m_color, 
-				ImPlot::GetCurrentContext()->Mx * m_segments, m_thickness);
-			if (m_fill.r < 0.0f)
+			drawlist->AddCircle(ImPlot::PlotToPixels(_center), ImPlot::GetCurrentContext()->Mx * _radius, _color, 
+				ImPlot::GetCurrentContext()->Mx * _segments, _thickness);
+			if (_fill.r < 0.0f)
 				return;
-			drawlist->AddCircleFilled(ImPlot::PlotToPixels(m_center), ImPlot::GetCurrentContext()->Mx * m_radius, m_fill, m_segments);
+			drawlist->AddCircleFilled(ImPlot::PlotToPixels(_center), ImPlot::GetCurrentContext()->Mx * _radius, _fill, _segments);
 		}
 		else
 		{
 		mvVec2 start = { x, y };
-		drawlist->AddCircle(m_center + start, m_radius, m_color, m_segments, m_thickness);
-		if (m_fill.r < 0.0f)
+		drawlist->AddCircle(_center + start, _radius, _color, _segments, _thickness);
+		if (_fill.r < 0.0f)
 			return;
-		drawlist->AddCircleFilled(m_center + start, m_radius, m_fill, m_segments);
+		drawlist->AddCircleFilled(_center + start, _radius, _fill, _segments);
 		}
 	}
 
@@ -86,11 +86,11 @@ namespace Marvel {
 			switch (i)
 			{
 			case 0:
-				m_center = ToVec2(item);
+				_center = ToVec2(item);
 				break;
 
 			case 1:
-				m_radius = ToFloat(item);
+				_radius = ToFloat(item);
 				break;
 
 			default:
@@ -105,12 +105,12 @@ namespace Marvel {
 			return;
 
 
-		if (PyObject* item = PyDict_GetItemString(dict, "center")) m_center = ToVec2(item);
-		if (PyObject* item = PyDict_GetItemString(dict, "color")) m_color = ToColor(item);
-		if (PyObject* item = PyDict_GetItemString(dict, "fill")) m_fill = ToColor(item);
-		if (PyObject* item = PyDict_GetItemString(dict, "thickness")) m_thickness = ToFloat(item);
-		if (PyObject* item = PyDict_GetItemString(dict, "radius")) m_radius = ToFloat(item);
-		if (PyObject* item = PyDict_GetItemString(dict, "segments")) m_segments = ToInt(item);
+		if (PyObject* item = PyDict_GetItemString(dict, "center")) _center = ToVec2(item);
+		if (PyObject* item = PyDict_GetItemString(dict, "color")) _color = ToColor(item);
+		if (PyObject* item = PyDict_GetItemString(dict, "fill")) _fill = ToColor(item);
+		if (PyObject* item = PyDict_GetItemString(dict, "thickness")) _thickness = ToFloat(item);
+		if (PyObject* item = PyDict_GetItemString(dict, "radius")) _radius = ToFloat(item);
+		if (PyObject* item = PyDict_GetItemString(dict, "segments")) _segments = ToInt(item);
 
 	}
 
@@ -119,12 +119,12 @@ namespace Marvel {
 		if (dict == nullptr)
 			return;
 
-		PyDict_SetItemString(dict, "center", ToPyPair(m_center.x, m_center.y));
-		PyDict_SetItemString(dict, "color", ToPyColor(m_color));
-		PyDict_SetItemString(dict, "fill", ToPyColor(m_fill));
-		PyDict_SetItemString(dict, "thickness", ToPyFloat(m_thickness));
-		PyDict_SetItemString(dict, "radius", ToPyFloat(m_radius));
-		PyDict_SetItemString(dict, "segments", ToPyInt(m_segments));
+		PyDict_SetItemString(dict, "center", ToPyPair(_center.x, _center.y));
+		PyDict_SetItemString(dict, "color", ToPyColor(_color));
+		PyDict_SetItemString(dict, "fill", ToPyColor(_fill));
+		PyDict_SetItemString(dict, "thickness", ToPyFloat(_thickness));
+		PyDict_SetItemString(dict, "radius", ToPyFloat(_radius));
+		PyDict_SetItemString(dict, "segments", ToPyInt(_segments));
 	}
 
 }

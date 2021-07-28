@@ -55,15 +55,15 @@ namespace Marvel {
 	void mvDrawText::draw(ImDrawList* drawlist, float x, float y)
 	{
 		ImFont* fontptr = ImGui::GetFont();
-		if (m_font)
-			fontptr = static_cast<mvFont*>(m_font.get())->getFontPtr();
+		if (_font)
+			fontptr = static_cast<mvFont*>(_font.get())->getFontPtr();
 
 		if (ImPlot::GetCurrentContext()->CurrentPlot)
-			drawlist->AddText(fontptr, ImPlot::GetCurrentContext()->Mx * (float)m_size, ImPlot::PlotToPixels(m_pos), m_color, m_text.c_str());
+			drawlist->AddText(fontptr, ImPlot::GetCurrentContext()->Mx * (float)_size, ImPlot::PlotToPixels(_pos), _color, _text.c_str());
 		else
 		{
 			mvVec2 start = { x, y };
-			drawlist->AddText(fontptr, (float)m_size, m_pos + start, m_color, m_text.c_str());
+			drawlist->AddText(fontptr, (float)_size, _pos + start, _color, _text.c_str());
 		}
 	}
 
@@ -78,11 +78,11 @@ namespace Marvel {
 			switch (i)
 			{
 			case 0:
-				m_pos = ToVec2(item);
+				_pos = ToVec2(item);
 				break;
 
 			case 1:
-				m_text = ToString(item);
+				_text = ToString(item);
 				break;
 
 			default:
@@ -96,10 +96,10 @@ namespace Marvel {
 		if (dict == nullptr)
 			return;
 
-		if (PyObject* item = PyDict_GetItemString(dict, "text")) m_text = ToString(item);
-		if (PyObject* item = PyDict_GetItemString(dict, "pos")) m_pos = ToVec2(item);
-		if (PyObject* item = PyDict_GetItemString(dict, "color")) m_color = ToColor(item);
-		if (PyObject* item = PyDict_GetItemString(dict, "size")) m_size = ToFloat(item);
+		if (PyObject* item = PyDict_GetItemString(dict, "text")) _text = ToString(item);
+		if (PyObject* item = PyDict_GetItemString(dict, "pos")) _pos = ToVec2(item);
+		if (PyObject* item = PyDict_GetItemString(dict, "color")) _color = ToColor(item);
+		if (PyObject* item = PyDict_GetItemString(dict, "size")) _size = ToFloat(item);
 
 	}
 
@@ -108,9 +108,9 @@ namespace Marvel {
 		if (dict == nullptr)
 			return;
 
-		PyDict_SetItemString(dict, "text", ToPyString(m_text));
-		PyDict_SetItemString(dict, "pos", ToPyPair(m_pos.x, m_pos.y));
-		PyDict_SetItemString(dict, "color", ToPyColor(m_color));
-		PyDict_SetItemString(dict, "size", ToPyFloat(m_size));
+		PyDict_SetItemString(dict, "text", ToPyString(_text));
+		PyDict_SetItemString(dict, "pos", ToPyPair(_pos.x, _pos.y));
+		PyDict_SetItemString(dict, "color", ToPyColor(_color));
+		PyDict_SetItemString(dict, "size", ToPyFloat(_size));
 	}
 }

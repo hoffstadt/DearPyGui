@@ -51,26 +51,26 @@ namespace Marvel {
 		//-----------------------------------------------------------------------------
 		// pre draw
 		//-----------------------------------------------------------------------------
-		if (!m_show)
+		if (!_show)
 			return;
 
 		// push font if a font object is attached
-		if (m_font)
+		if (_font)
 		{
-			ImFont* fontptr = static_cast<mvFont*>(m_font.get())->getFontPtr();
+			ImFont* fontptr = static_cast<mvFont*>(_font.get())->getFontPtr();
 			ImGui::PushFont(fontptr);
 		}
 
 		// handle enabled theming
-		if (m_enabled)
+		if (_enabled)
 		{
 			// push class theme (if it exists)
 			if (auto classTheme = getClassTheme())
 				static_cast<mvTheme*>(classTheme.get())->draw(nullptr, 0.0f, 0.0f);
 
 			// push item theme (if it exists)
-			if (m_theme)
-				static_cast<mvTheme*>(m_theme.get())->draw(nullptr, 0.0f, 0.0f);
+			if (_theme)
+				static_cast<mvTheme*>(_theme.get())->draw(nullptr, 0.0f, 0.0f);
 		}
 
 		//-----------------------------------------------------------------------------
@@ -80,14 +80,14 @@ namespace Marvel {
 
 			static const std::vector<double>* xptr;
 
-			xptr = &(*m_value.get())[0];
+			xptr = &(*_value.get())[0];
 
-			ImPlot::PlotVLines(m_label.c_str(), xptr->data(), (int)xptr->size());
+			ImPlot::PlotVLines(_label.c_str(), xptr->data(), (int)xptr->size());
 
 			// Begin a popup for a legend entry.
-			if (ImPlot::BeginLegendPopup(m_label.c_str(), 1))
+			if (ImPlot::BeginLegendPopup(_label.c_str(), 1))
 			{
-				for (auto& childset : m_children)
+				for (auto& childset : _children)
 				{
 					for (auto& item : childset)
 					{
@@ -113,17 +113,17 @@ namespace Marvel {
 		//-----------------------------------------------------------------------------
 
 		// pop font off stack
-		if (m_font)
+		if (_font)
 			ImGui::PopFont();
 
 		// handle popping styles
-		if (m_enabled)
+		if (_enabled)
 		{
 			if (auto classTheme = getClassTheme())
 				static_cast<mvTheme*>(classTheme.get())->customAction();
 
-			if (m_theme)
-				static_cast<mvTheme*>(m_theme.get())->customAction();
+			if (_theme)
+				static_cast<mvTheme*>(_theme.get())->customAction();
 		}
 
 	}
@@ -139,7 +139,7 @@ namespace Marvel {
 			switch (i)
 			{
 			case 0:
-				(*m_value)[0] = ToDoubleVect(item);
+				(*_value)[0] = ToDoubleVect(item);
 				break;
 
 			default:
@@ -153,7 +153,7 @@ namespace Marvel {
 		if (dict == nullptr)
 			return;
 
-		if (PyObject* item = PyDict_GetItemString(dict, "x")) { (*m_value)[0] = ToDoubleVect(item); }
+		if (PyObject* item = PyDict_GetItemString(dict, "x")) { (*_value)[0] = ToDoubleVect(item); }
 
 
 	}
@@ -207,26 +207,26 @@ namespace Marvel {
 		//-----------------------------------------------------------------------------
 		// pre draw
 		//-----------------------------------------------------------------------------
-		if (!m_show)
+		if (!_show)
 			return;
 
 		// push font if a font object is attached
-		if (m_font)
+		if (_font)
 		{
-			ImFont* fontptr = static_cast<mvFont*>(m_font.get())->getFontPtr();
+			ImFont* fontptr = static_cast<mvFont*>(_font.get())->getFontPtr();
 			ImGui::PushFont(fontptr);
 		}
 
 		// handle enabled theming
-		if (m_enabled)
+		if (_enabled)
 		{
 			// push class theme (if it exists)
 			if (auto classTheme = getClassTheme())
 				static_cast<mvTheme*>(classTheme.get())->draw(nullptr, 0.0f, 0.0f);
 
 			// push item theme (if it exists)
-			if (m_theme)
-				static_cast<mvTheme*>(m_theme.get())->draw(nullptr, 0.0f, 0.0f);
+			if (_theme)
+				static_cast<mvTheme*>(_theme.get())->draw(nullptr, 0.0f, 0.0f);
 		}
 
 		//-----------------------------------------------------------------------------
@@ -236,14 +236,14 @@ namespace Marvel {
 
 			static const std::vector<double>* xptr;
 
-			xptr = &(*m_value.get())[0];
+			xptr = &(*_value.get())[0];
 
-			ImPlot::PlotHLines(m_label.c_str(), xptr->data(), (int)xptr->size());
+			ImPlot::PlotHLines(_label.c_str(), xptr->data(), (int)xptr->size());
 
 			// Begin a popup for a legend entry.
-			if (ImPlot::BeginLegendPopup(m_label.c_str(), 1))
+			if (ImPlot::BeginLegendPopup(_label.c_str(), 1))
 			{
-				for (auto& childset : m_children)
+				for (auto& childset : _children)
 				{
 					for (auto& item : childset)
 					{
@@ -269,17 +269,17 @@ namespace Marvel {
 		//-----------------------------------------------------------------------------
 
 		// pop font off stack
-		if (m_font)
+		if (_font)
 			ImGui::PopFont();
 
 		// handle popping styles
-		if (m_enabled)
+		if (_enabled)
 		{
 			if (auto classTheme = getClassTheme())
 				static_cast<mvTheme*>(classTheme.get())->customAction();
 
-			if (m_theme)
-				static_cast<mvTheme*>(m_theme.get())->customAction();
+			if (_theme)
+				static_cast<mvTheme*>(_theme.get())->customAction();
 		}
 
 	}
@@ -295,7 +295,7 @@ namespace Marvel {
 			switch (i)
 			{
 			case 0:
-				(*m_value)[0] = ToDoubleVect(item);
+				(*_value)[0] = ToDoubleVect(item);
 				break;
 
 			default:
@@ -310,7 +310,7 @@ namespace Marvel {
 			return;
 
 		bool valueChanged = false;
-		if (PyObject* item = PyDict_GetItemString(dict, "x")) { valueChanged = true; (*m_value)[0] = ToDoubleVect(item); }
+		if (PyObject* item = PyDict_GetItemString(dict, "x")) { valueChanged = true; (*_value)[0] = ToDoubleVect(item); }
 
 	}
 

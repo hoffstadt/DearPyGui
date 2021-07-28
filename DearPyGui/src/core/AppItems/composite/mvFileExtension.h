@@ -32,13 +32,13 @@ namespace Marvel {
 		void handleSpecificKeywordArgs(PyObject* dict) override;
 		void getSpecificConfiguration(PyObject* dict) override;
 
-		const std::string& getFilter() const { return m_extension; }
+		const std::string& getFilter() const { return _extension; }
 
 	private:
 
-		std::string m_extension;
-		std::string m_customText;
-		mvColor     m_color = {-1.0f, 0.0f, 0.0f, 1.0f};
+		std::string _extension;
+		std::string _customText;
+		mvColor     _color = {-1.0f, 0.0f, 0.0f, 1.0f};
 	};
 
 }

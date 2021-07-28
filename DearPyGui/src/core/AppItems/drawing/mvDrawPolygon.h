@@ -34,10 +34,10 @@ namespace Marvel {
 
 	private:
 
-		std::vector<mvVec2> m_points;
-		mvColor             m_color;
-		mvColor             m_fill;
-		float               m_thickness = 1.0f;
+		std::vector<mvVec2> _points;
+		mvColor             _color;
+		mvColor             _fill;
+		float               _thickness = 1.0f;
 
 	};
 

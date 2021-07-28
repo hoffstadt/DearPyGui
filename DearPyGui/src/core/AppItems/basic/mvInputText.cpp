@@ -55,48 +55,48 @@ namespace Marvel {
 
 	void mvInputText::setEnabled(bool value)
 	{
-		if (value == m_enabled)
+		if (value == _enabled)
 			return;
 
 		if (value)
-			m_flags = m_stor_flags;
+			_flags = _stor_flags;
 
 		else
 		{
-			m_stor_flags = m_flags;
-			m_flags |= ImGuiInputTextFlags_ReadOnly;
-			m_flags &= ~ImGuiInputTextFlags_EnterReturnsTrue;
+			_stor_flags = _flags;
+			_flags |= ImGuiInputTextFlags_ReadOnly;
+			_flags &= ~ImGuiInputTextFlags_EnterReturnsTrue;
 		}
 
-		m_enabled = value;
+		_enabled = value;
 	}
 
 	void mvInputText::draw(ImDrawList* drawlist, float x, float y)
 	{
-		ScopedID id(m_uuid);
+		ScopedID id(_uuid);
 
-		if (m_multiline)
-			m_hint = "";
+		if (_multiline)
+			_hint = "";
 
-		if (m_hint.empty())
+		if (_hint.empty())
 		{
-			if (m_multiline)
+			if (_multiline)
 			{
-				if (ImGui::InputTextMultiline(m_label.c_str(), m_value.get(), ImVec2((float)m_width, (float)m_height), m_flags))
+				if (ImGui::InputTextMultiline(_label.c_str(), _value.get(), ImVec2((float)_width, (float)_height), _flags))
 				{
-					auto value = *m_value;
+					auto value = *_value;
 					mvApp::GetApp()->getCallbackRegistry().submitCallback([=]() {
-						mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), m_uuid, ToPyString(value), m_user_data);
+						mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), _uuid, ToPyString(value), _user_data);
 						});
 				}
 			}
 			else
 			{
-				if (ImGui::InputText(m_label.c_str(), m_value.get(), m_flags))
+				if (ImGui::InputText(_label.c_str(), _value.get(), _flags))
 				{
-					auto value = *m_value;
+					auto value = *_value;
 					mvApp::GetApp()->getCallbackRegistry().submitCallback([=]() {
-						mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), m_uuid, ToPyString(value), m_user_data);
+						mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), _uuid, ToPyString(value), _user_data);
 						});
 				}
 			}
@@ -104,11 +104,11 @@ namespace Marvel {
 
 		else
 		{
-			if (ImGui::InputTextWithHint(m_label.c_str(), m_hint.c_str(), m_value.get(), m_flags))
+			if (ImGui::InputTextWithHint(_label.c_str(), _hint.c_str(), _value.get(), _flags))
 			{
-				auto value = *m_value;
+				auto value = *_value;
 				mvApp::GetApp()->getCallbackRegistry().submitCallback([=]() {
-					mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), m_uuid, ToPyString(value), m_user_data);
+					mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), _uuid, ToPyString(value), _user_data);
 					});
 			}
 		}
@@ -120,8 +120,8 @@ namespace Marvel {
 		if (dict == nullptr)
 			return;
 		 
-		if (PyObject* item = PyDict_GetItemString(dict, "hint")) m_hint = ToString(item);
-		if (PyObject* item = PyDict_GetItemString(dict, "multiline")) m_multiline = ToBool(item);
+		if (PyObject* item = PyDict_GetItemString(dict, "hint")) _hint = ToString(item);
+		if (PyObject* item = PyDict_GetItemString(dict, "multiline")) _multiline = ToBool(item);
 
 		// helper for bit flipping
 		auto flagop = [dict](const char* keyword, int flag, int& flags)
@@ -130,15 +130,15 @@ namespace Marvel {
 		};
 
 		// flags
-		flagop("no_spaces", ImGuiInputTextFlags_CharsNoBlank, m_flags);
-		flagop("uppercase", ImGuiInputTextFlags_CharsUppercase, m_flags);
-		flagop("decimal", ImGuiInputTextFlags_CharsDecimal, m_flags);
-		flagop("hexadecimal", ImGuiInputTextFlags_CharsHexadecimal, m_flags);
-		flagop("readonly", ImGuiInputTextFlags_ReadOnly, m_flags);
-		flagop("password", ImGuiInputTextFlags_Password, m_flags);
-		flagop("on_enter", ImGuiInputTextFlags_EnterReturnsTrue, m_flags);
-		flagop("scientific", ImGuiInputTextFlags_CharsScientific, m_flags);
-		flagop("tab_input", ImGuiInputTextFlags_AllowTabInput, m_flags);
+		flagop("no_spaces", ImGuiInputTextFlags_CharsNoBlank, _flags);
+		flagop("uppercase", ImGuiInputTextFlags_CharsUppercase, _flags);
+		flagop("decimal", ImGuiInputTextFlags_CharsDecimal, _flags);
+		flagop("hexadecimal", ImGuiInputTextFlags_CharsHexadecimal, _flags);
+		flagop("readonly", ImGuiInputTextFlags_ReadOnly, _flags);
+		flagop("password", ImGuiInputTextFlags_Password, _flags);
+		flagop("on_enter", ImGuiInputTextFlags_EnterReturnsTrue, _flags);
+		flagop("scientific", ImGuiInputTextFlags_CharsScientific, _flags);
+		flagop("tab_input", ImGuiInputTextFlags_AllowTabInput, _flags);
 	}
 
 	void mvInputText::getSpecificConfiguration(PyObject* dict)
@@ -146,8 +146,8 @@ namespace Marvel {
 		if (dict == nullptr)
 			return;
 		 
-		PyDict_SetItemString(dict, "hint", ToPyString(m_hint));
-		PyDict_SetItemString(dict, "multline", ToPyBool(m_multiline));
+		PyDict_SetItemString(dict, "hint", ToPyString(_hint));
+		PyDict_SetItemString(dict, "multline", ToPyBool(_multiline));
 
 		// helper to check and set bit
 		auto checkbitset = [dict](const char* keyword, int flag, const int& flags)
@@ -156,15 +156,15 @@ namespace Marvel {
 		};
 
 		// window flags
-		checkbitset("no_spaces", ImGuiInputTextFlags_CharsNoBlank, m_flags);
-		checkbitset("uppercase", ImGuiInputTextFlags_CharsUppercase, m_flags);
-		checkbitset("decimal", ImGuiInputTextFlags_CharsDecimal, m_flags);
-		checkbitset("hexadecimal", ImGuiInputTextFlags_CharsHexadecimal, m_flags);
-		checkbitset("readonly", ImGuiInputTextFlags_ReadOnly, m_flags);
-		checkbitset("password", ImGuiInputTextFlags_Password, m_flags);
-		checkbitset("on_enter", ImGuiInputTextFlags_EnterReturnsTrue, m_flags);
-		checkbitset("scientific", ImGuiInputTextFlags_CharsScientific, m_flags);
-		checkbitset("tab_input", ImGuiInputTextFlags_AllowTabInput, m_flags);
+		checkbitset("no_spaces", ImGuiInputTextFlags_CharsNoBlank, _flags);
+		checkbitset("uppercase", ImGuiInputTextFlags_CharsUppercase, _flags);
+		checkbitset("decimal", ImGuiInputTextFlags_CharsDecimal, _flags);
+		checkbitset("hexadecimal", ImGuiInputTextFlags_CharsHexadecimal, _flags);
+		checkbitset("readonly", ImGuiInputTextFlags_ReadOnly, _flags);
+		checkbitset("password", ImGuiInputTextFlags_Password, _flags);
+		checkbitset("on_enter", ImGuiInputTextFlags_EnterReturnsTrue, _flags);
+		checkbitset("scientific", ImGuiInputTextFlags_CharsScientific, _flags);
+		checkbitset("tab_input", ImGuiInputTextFlags_AllowTabInput, _flags);
 	}
 
 }

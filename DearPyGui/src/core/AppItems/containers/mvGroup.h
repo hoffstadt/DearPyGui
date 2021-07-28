@@ -31,8 +31,8 @@ namespace Marvel {
 
 	private:
 
-		bool  m_horizontal = false;
-		float m_hspacing = -1.0f;
+		bool  _horizontal = false;
+		float _hspacing = -1.0f;
 
 	};
 

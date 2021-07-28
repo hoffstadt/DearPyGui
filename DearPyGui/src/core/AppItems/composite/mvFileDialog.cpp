@@ -47,25 +47,25 @@ namespace Marvel {
 		: 
 		mvBoolPtrBase(uuid)
 	{
-		*m_value = true;
-		m_width = 500;
-		m_height = 500;
+		*_value = true;
+		_width = 500;
+		_height = 500;
 	}
 
 	ImGuiFileDialog& mvFileDialog::getDialog()
 	{
-		return m_instance;
+		return _instance;
 	}
 
 	void mvFileDialog::setLabel(const std::string& value)
 	{
-		m_specificedlabel = value;
-		m_label = value + "###" + std::to_string(m_uuid);
+		_specificedlabel = value;
+		_label = value + "###" + std::to_string(_uuid);
 	}
 
 	void mvFileDialog::drawPanel()
 	{
-		for (auto& item : m_children[1])
+		for (auto& item : _children[1])
 		{
 
 			if (!item->preDraw())
@@ -80,67 +80,67 @@ namespace Marvel {
 
 	void mvFileDialog::draw(ImDrawList* drawlist, float x, float y)
 	{
-		ScopedID id(m_uuid);
+		ScopedID id(_uuid);
 
-		if (!m_show)
+		if (!_show)
 			return;
 
 		// extensions
-		if (m_dirtySettings)
+		if (_dirtySettings)
 		{
-			m_filters.clear();
-			for (auto& item : m_children[0])
+			_filters.clear();
+			for (auto& item : _children[0])
 			{
 				item->draw(drawlist, x, y);
-				m_filters.append(static_cast<mvFileExtension*>(item.get())->getFilter());
-				m_filters.append(",");
+				_filters.append(static_cast<mvFileExtension*>(item.get())->getFilter());
+				_filters.append(",");
 			}
 
-			m_dirtySettings = false;
+			_dirtySettings = false;
 		}
 
 		
 		// without panel
-		if (m_children[1].empty())
+		if (_children[1].empty())
 		{
-			if (m_modal)
-				m_instance.OpenModal(m_label.c_str(), m_label.c_str(), m_directory ? nullptr : m_filters.c_str(), m_defaultPath, m_defaultFilename, m_fileCount);
+			if (_modal)
+				_instance.OpenModal(_label.c_str(), _label.c_str(), _directory ? nullptr : _filters.c_str(), _defaultPath, _defaultFilename, _fileCount);
 			else
-				m_instance.OpenDialog(m_label.c_str(), m_label.c_str(), m_directory ? nullptr : m_filters.c_str(), m_defaultPath, m_defaultFilename, m_fileCount);
+				_instance.OpenDialog(_label.c_str(), _label.c_str(), _directory ? nullptr : _filters.c_str(), _defaultPath, _defaultFilename, _fileCount);
 		}
 
 		// with panel
 		else
 		{
 
-			if (m_modal)
-				m_instance.OpenModal(m_label.c_str(), m_label.c_str(), m_directory ? nullptr : m_filters.c_str(), m_defaultPath, m_defaultFilename,
-					std::bind(&Panel, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3), 250.0f, m_fileCount, IGFDUserDatas(this));
+			if (_modal)
+				_instance.OpenModal(_label.c_str(), _label.c_str(), _directory ? nullptr : _filters.c_str(), _defaultPath, _defaultFilename,
+					std::bind(&Panel, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3), 250.0f, _fileCount, IGFDUserDatas(this));
 			else
-				m_instance.OpenDialog(m_label.c_str(), m_label.c_str(), m_directory ? nullptr : m_filters.c_str(), m_defaultPath, m_defaultFilename,
-					std::bind(&Panel, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3), 250.0f, m_fileCount, IGFDUserDatas(this));
+				_instance.OpenDialog(_label.c_str(), _label.c_str(), _directory ? nullptr : _filters.c_str(), _defaultPath, _defaultFilename,
+					std::bind(&Panel, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3), 250.0f, _fileCount, IGFDUserDatas(this));
 		}
 
 		{
 			//mvFontScope fscope(this);
 
 			// display
-			if (m_instance.Display(m_label.c_str(), ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoSavedSettings, ImVec2(500, 600)))
+			if (_instance.Display(_label.c_str(), ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoSavedSettings, ImVec2(500, 600)))
 			{
 
 				// action if OK
-				if (m_instance.IsOk())
+				if (_instance.IsOk())
 				{
 					mvApp::GetApp()->getCallbackRegistry().submitCallback([&]()
 						{
-							mvApp::GetApp()->getCallbackRegistry().runCallback(m_callback, m_uuid, getInfoDict(), m_user_data);
+							mvApp::GetApp()->getCallbackRegistry().runCallback(_callback, _uuid, getInfoDict(), _user_data);
 						});
 
 				}
 
 				// close
-				m_instance.Close();
-				m_show = false;
+				_instance.Close();
+				_show = false;
 			}
 		}
 	}
@@ -150,11 +150,11 @@ namespace Marvel {
 		if (dict == nullptr)
 			return;
 
-		if (PyObject* item = PyDict_GetItemString(dict, "file_count")) m_fileCount = ToInt(item);
-		if (PyObject* item = PyDict_GetItemString(dict, "default_filename")) m_defaultFilename = ToString(item);
-		if (PyObject* item = PyDict_GetItemString(dict, "default_path")) m_defaultPath = ToString(item);
-		if (PyObject* item = PyDict_GetItemString(dict, "modal")) m_modal = ToBool(item);
-		if (PyObject* item = PyDict_GetItemString(dict, "directory_selector")) m_directory = ToBool(item);
+		if (PyObject* item = PyDict_GetItemString(dict, "file_count")) _fileCount = ToInt(item);
+		if (PyObject* item = PyDict_GetItemString(dict, "default_filename")) _defaultFilename = ToString(item);
+		if (PyObject* item = PyDict_GetItemString(dict, "default_path")) _defaultPath = ToString(item);
+		if (PyObject* item = PyDict_GetItemString(dict, "modal")) _modal = ToBool(item);
+		if (PyObject* item = PyDict_GetItemString(dict, "directory_selector")) _directory = ToBool(item);
 
 	}
 
@@ -163,24 +163,24 @@ namespace Marvel {
 		if (dict == nullptr)
 			return;
 
-		PyDict_SetItemString(dict, "file_count", ToPyInt(m_fileCount));
-		PyDict_SetItemString(dict, "default_filename", ToPyString(m_defaultFilename));
-		PyDict_SetItemString(dict, "default_path", ToPyString(m_defaultPath));
-		PyDict_SetItemString(dict, "modal", ToPyBool(m_modal));
-		PyDict_SetItemString(dict, "directory_selector", ToPyBool(m_directory));
+		PyDict_SetItemString(dict, "file_count", ToPyInt(_fileCount));
+		PyDict_SetItemString(dict, "default_filename", ToPyString(_defaultFilename));
+		PyDict_SetItemString(dict, "default_path", ToPyString(_defaultPath));
+		PyDict_SetItemString(dict, "modal", ToPyBool(_modal));
+		PyDict_SetItemString(dict, "directory_selector", ToPyBool(_directory));
 	}
 
 	PyObject* mvFileDialog::getInfoDict()
 	{
 		PyObject* dict = PyDict_New();
 
-		PyDict_SetItemString(dict, "file_path_name", ToPyString(m_instance.GetFilePathName()));
-		PyDict_SetItemString(dict, "file_name", ToPyString(m_instance.GetCurrentFileName()));
-		PyDict_SetItemString(dict, "file_name_buffer", ToPyString(m_instance.FileNameBuffer));
-		PyDict_SetItemString(dict, "current_path", ToPyString(m_instance.GetCurrentPath()));
-		PyDict_SetItemString(dict, "current_filter", ToPyString(m_instance.GetCurrentFilter()));
+		PyDict_SetItemString(dict, "file_path_name", ToPyString(_instance.GetFilePathName()));
+		PyDict_SetItemString(dict, "file_name", ToPyString(_instance.GetCurrentFileName()));
+		PyDict_SetItemString(dict, "file_name_buffer", ToPyString(_instance.FileNameBuffer));
+		PyDict_SetItemString(dict, "current_path", ToPyString(_instance.GetCurrentPath()));
+		PyDict_SetItemString(dict, "current_filter", ToPyString(_instance.GetCurrentFilter()));
 
-		auto selections = m_instance.GetSelection();
+		auto selections = _instance.GetSelection();
 
 		PyObject* sel = PyDict_New();
 		for(auto& item : selections)

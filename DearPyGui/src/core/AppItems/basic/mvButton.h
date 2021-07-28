@@ -67,9 +67,9 @@ namespace Marvel {
 
 	private:
 
-		ImGuiDir m_direction = ImGuiDir_Up;
-		bool     m_small_button = false;
-		bool     m_arrow = false;
+		ImGuiDir _direction = ImGuiDir_Up;
+		bool     _small_button = false;
+		bool     _arrow = false;
 
 	};
 

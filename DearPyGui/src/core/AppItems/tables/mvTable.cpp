@@ -66,39 +66,39 @@ namespace Marvel {
 	mvTable::mvTable(mvUUID uuid)
 		: mvAppItem(uuid)
 	{
-		m_label = "table" + std::to_string(uuid);
+		_label = "table" + std::to_string(uuid);
 	}
 
 	void mvTable::draw(ImDrawList* drawlist, float x, float y)
 	{
-		ScopedID id(m_uuid);
+		ScopedID id(_uuid);
 
-		if (m_columns == 0)
+		if (_columns == 0)
 			return;
 
-		if (ImGui::BeginTable(m_label.c_str(), m_columns, m_flags, 
-			ImVec2((float)m_width, (float)m_height), (float)m_inner_width))
+		if (ImGui::BeginTable(_label.c_str(), _columns, _flags, 
+			ImVec2((float)_width, (float)_height), (float)_inner_width))
 		{
 
-			ImGui::TableSetupScrollFreeze(m_freezeRows, m_freezeColumns);
+			ImGui::TableSetupScrollFreeze(_freezeRows, _freezeColumns);
 
 			// columns
-			for (auto& item : m_children[0])
+			for (auto& item : _children[0])
 			{
 				// skip item if it's not shown
 				if (!item->isShown())
 					continue;
 
 				// set item width
-				//if (item->m_width != 0)
-				//	ImGui::SetNextItemWidth((float)item->m_width);
+				//if (item->_width != 0)
+				//	ImGui::SetNextItemWidth((float)item->_width);
 
 				item->draw(drawlist, ImGui::GetCursorPosX(), ImGui::GetCursorPosY());
 
 				item->getState().update();
 			}
 
-			if (m_tableHeader)
+			if (_tableHeader)
 				ImGui::TableHeadersRow();
 
 			if (ImGuiTableSortSpecs* sorts_specs = ImGui::TableGetSortSpecs())
@@ -106,14 +106,14 @@ namespace Marvel {
 				if (sorts_specs->SpecsDirty)
 				{
 					if (sorts_specs->SpecsCount == 0)
-						mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), m_uuid, nullptr, m_user_data);
+						mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), _uuid, nullptr, _user_data);
 					else
 					{
 
 						// generate id map for columns
 						std::unordered_map<ImGuiID, mvUUID> idMap;
-						for (size_t i = 0; i < m_children[0].size(); i++)
-							idMap[static_cast<mvTableColumn*>(m_children[0][i].get())->m_id] = m_children[0][i]->getUUID();
+						for (size_t i = 0; i < _children[0].size(); i++)
+							idMap[static_cast<mvTableColumn*>(_children[0][i].get())->_id] = _children[0][i]->getUUID();
 
 						std::vector<SortSpec> specs;
 						for (int i = 0; i < sorts_specs->SpecsCount; i++)
@@ -131,7 +131,7 @@ namespace Marvel {
 								PyList_SetItem(pySingleSpec, 1, ToPyInt(specs[i].direction));
 								PyList_SetItem(pySpec, i, pySingleSpec);
 							}
-							mvApp::GetApp()->getCallbackRegistry().runCallback(getCallback(false), m_uuid, pySpec, m_user_data);
+							mvApp::GetApp()->getCallbackRegistry().runCallback(getCallback(false), _uuid, pySpec, _user_data);
 							Py_XDECREF(pySpec);
 							});
 					}
@@ -139,17 +139,17 @@ namespace Marvel {
 				}
 			}
 
-			if (!m_children[1].empty())
+			if (!_children[1].empty())
 			{
 				// TODO: hacky solution, needs work
-				if(m_children[1][0]->getType() != mvAppItemType::mvTableRow && 
-					m_children[1][0]->getType() != mvAppItemType::mvClipper &&
-					m_children[1][0]->getType() != mvAppItemType::mvFilterSet)
+				if(_children[1][0]->getType() != mvAppItemType::mvTableRow && 
+					_children[1][0]->getType() != mvAppItemType::mvClipper &&
+					_children[1][0]->getType() != mvAppItemType::mvFilterSet)
 					ImGui::TableNextColumn();
 			}
 			
 
-			for (auto& item : m_children[1])
+			for (auto& item : _children[1])
 			{
 				if (!item->preDraw())
 					continue;
@@ -166,18 +166,18 @@ namespace Marvel {
 	void mvTable::onChildAdd(mvRef<mvAppItem> item)
 	{
 		if (item->getType() == mvAppItemType::mvTableColumn)
-			m_columns++;
+			_columns++;
 	}
 
 	void mvTable::onChildRemoved(mvRef<mvAppItem> item)
 	{
 		if (item->getType() == mvAppItemType::mvTableColumn)
-			m_columns--;
+			_columns--;
 	}
 
 	void mvTable::onChildrenRemoved()
 	{
-		m_columns = m_children[0].size();
+		_columns = _children[0].size();
 	}
 
 	void mvTable::handleSpecificKeywordArgs(PyObject* dict)
@@ -185,10 +185,10 @@ namespace Marvel {
 		if (dict == nullptr)
 			return;
 
-		if (PyObject* item = PyDict_GetItemString(dict, "freeze_rows")) m_freezeRows = ToInt(item);
-		if (PyObject* item = PyDict_GetItemString(dict, "freeze_columns")) m_freezeColumns = ToInt(item);
-		if (PyObject* item = PyDict_GetItemString(dict, "header_row")) m_tableHeader = ToBool(item);
-		if (PyObject* item = PyDict_GetItemString(dict, "inner_width")) m_inner_width = (int)ToFloat(item);
+		if (PyObject* item = PyDict_GetItemString(dict, "freeze_rows")) _freezeRows = ToInt(item);
+		if (PyObject* item = PyDict_GetItemString(dict, "freeze_columns")) _freezeColumns = ToInt(item);
+		if (PyObject* item = PyDict_GetItemString(dict, "header_row")) _tableHeader = ToBool(item);
+		if (PyObject* item = PyDict_GetItemString(dict, "inner_width")) _inner_width = (int)ToFloat(item);
 
 		// helper for bit flipping
 		auto flagop = [dict](const char* keyword, int flag, int& flags)
@@ -196,29 +196,29 @@ namespace Marvel {
 			if (PyObject* item = PyDict_GetItemString(dict, keyword)) ToBool(item) ? flags |= flag : flags &= ~flag;
 		};
 
-		flagop("resizable", ImGuiTableFlags_Resizable, m_flags);
-		flagop("reorderable", ImGuiTableFlags_Reorderable, m_flags);
-		flagop("hideable", ImGuiTableFlags_Hideable, m_flags);
-		flagop("sortable", ImGuiTableFlags_Sortable, m_flags);
-		flagop("context_menu_in_body", ImGuiTableFlags_ContextMenuInBody, m_flags);
-		flagop("row_background", ImGuiTableFlags_RowBg, m_flags);
-		flagop("borders_innerH", ImGuiTableFlags_BordersInnerH, m_flags);
-		flagop("borders_outerH", ImGuiTableFlags_BordersOuterH, m_flags);
-		flagop("borders_innerV", ImGuiTableFlags_BordersInnerV, m_flags);
-		flagop("borders_outerV", ImGuiTableFlags_BordersOuterV, m_flags);
-		flagop("no_host_extendX", ImGuiTableFlags_NoHostExtendX, m_flags);
-		flagop("no_host_extendY", ImGuiTableFlags_NoHostExtendY, m_flags);
-		flagop("no_keep_columns_visible", ImGuiTableFlags_NoKeepColumnsVisible, m_flags);
-		flagop("precise_widths", ImGuiTableFlags_PreciseWidths, m_flags);
-		flagop("no_clip", ImGuiTableFlags_NoClip, m_flags);
-		flagop("pad_outerX", ImGuiTableFlags_PadOuterX, m_flags);
-		flagop("no_pad_outerX", ImGuiTableFlags_NoPadOuterX, m_flags);
-		flagop("no_pad_innerX", ImGuiTableFlags_NoPadInnerX, m_flags);
-		flagop("scrollX", ImGuiTableFlags_ScrollX, m_flags);
-		flagop("scrollY", ImGuiTableFlags_ScrollY, m_flags);
-		flagop("sort_multi", ImGuiTableFlags_SortMulti, m_flags);
-		flagop("sort_tristate", ImGuiTableFlags_SortTristate, m_flags);
-		flagop("no_saved_settings", ImGuiTableFlags_NoSavedSettings, m_flags);
+		flagop("resizable", ImGuiTableFlags_Resizable, _flags);
+		flagop("reorderable", ImGuiTableFlags_Reorderable, _flags);
+		flagop("hideable", ImGuiTableFlags_Hideable, _flags);
+		flagop("sortable", ImGuiTableFlags_Sortable, _flags);
+		flagop("context_menu_in_body", ImGuiTableFlags_ContextMenuInBody, _flags);
+		flagop("row_background", ImGuiTableFlags_RowBg, _flags);
+		flagop("borders_innerH", ImGuiTableFlags_BordersInnerH, _flags);
+		flagop("borders_outerH", ImGuiTableFlags_BordersOuterH, _flags);
+		flagop("borders_innerV", ImGuiTableFlags_BordersInnerV, _flags);
+		flagop("borders_outerV", ImGuiTableFlags_BordersOuterV, _flags);
+		flagop("no_host_extendX", ImGuiTableFlags_NoHostExtendX, _flags);
+		flagop("no_host_extendY", ImGuiTableFlags_NoHostExtendY, _flags);
+		flagop("no_keep_columns_visible", ImGuiTableFlags_NoKeepColumnsVisible, _flags);
+		flagop("precise_widths", ImGuiTableFlags_PreciseWidths, _flags);
+		flagop("no_clip", ImGuiTableFlags_NoClip, _flags);
+		flagop("pad_outerX", ImGuiTableFlags_PadOuterX, _flags);
+		flagop("no_pad_outerX", ImGuiTableFlags_NoPadOuterX, _flags);
+		flagop("no_pad_innerX", ImGuiTableFlags_NoPadInnerX, _flags);
+		flagop("scrollX", ImGuiTableFlags_ScrollX, _flags);
+		flagop("scrollY", ImGuiTableFlags_ScrollY, _flags);
+		flagop("sort_multi", ImGuiTableFlags_SortMulti, _flags);
+		flagop("sort_tristate", ImGuiTableFlags_SortTristate, _flags);
+		flagop("no_saved_settings", ImGuiTableFlags_NoSavedSettings, _flags);
 
 		if (PyObject* item = PyDict_GetItemString(dict, "policy"))
 		{
@@ -226,24 +226,24 @@ namespace Marvel {
 			int policy = ToInt(item);
 
 			// remove old flags
-			m_flags &= ~ImGuiTableFlags_SizingFixedFit;
-			m_flags &= ~ImGuiTableFlags_SizingFixedSame;
-			m_flags &= ~ImGuiTableFlags_SizingStretchProp;
-			m_flags &= ~ImGuiTableFlags_SizingStretchSame;
+			_flags &= ~ImGuiTableFlags_SizingFixedFit;
+			_flags &= ~ImGuiTableFlags_SizingFixedSame;
+			_flags &= ~ImGuiTableFlags_SizingStretchProp;
+			_flags &= ~ImGuiTableFlags_SizingStretchSame;
 
 			if (policy == ImGuiTableFlags_SizingFixedFit)
-				m_flags |= ImGuiTableFlags_SizingFixedFit;
+				_flags |= ImGuiTableFlags_SizingFixedFit;
 			else if(policy == ImGuiTableFlags_SizingFixedSame)
-				m_flags |= ImGuiTableFlags_SizingFixedSame;
+				_flags |= ImGuiTableFlags_SizingFixedSame;
 			else if (policy == ImGuiTableFlags_SizingStretchProp)
-				m_flags |= ImGuiTableFlags_SizingStretchProp;
+				_flags |= ImGuiTableFlags_SizingStretchProp;
 			else
-				m_flags |= ImGuiTableFlags_SizingStretchSame;
+				_flags |= ImGuiTableFlags_SizingStretchSame;
 
 		}
 
-		//if (m_flags & ImGuiTableFlags_BordersInnerV)
-		//	m_flags &= ~ImGuiTableFlags_Resizable;
+		//if (_flags & ImGuiTableFlags_BordersInnerV)
+		//	_flags &= ~ImGuiTableFlags_Resizable;
 }
 
 	void mvTable::getSpecificConfiguration(PyObject* dict)
@@ -251,10 +251,10 @@ namespace Marvel {
 		if (dict == nullptr)
 			return;
 
-		PyDict_SetItemString(dict, "freeze_rows", ToPyInt(m_freezeRows));
-		PyDict_SetItemString(dict, "freeze_columns", ToPyInt(m_freezeColumns));
-		PyDict_SetItemString(dict, "inner_width", ToPyInt(m_inner_width));
-		PyDict_SetItemString(dict, "header_row", ToPyBool(m_tableHeader));
+		PyDict_SetItemString(dict, "freeze_rows", ToPyInt(_freezeRows));
+		PyDict_SetItemString(dict, "freeze_columns", ToPyInt(_freezeColumns));
+		PyDict_SetItemString(dict, "inner_width", ToPyInt(_inner_width));
+		PyDict_SetItemString(dict, "header_row", ToPyBool(_tableHeader));
 
 		// helper to check and set bit
 		auto checkbitset = [dict](const char* keyword, int flag, const int& flags)
@@ -262,37 +262,37 @@ namespace Marvel {
 			PyDict_SetItemString(dict, keyword, ToPyBool(flags & flag));
 		};
 
-		checkbitset("resizable", ImGuiTableFlags_Resizable, m_flags);
-		checkbitset("reorderable", ImGuiTableFlags_Reorderable, m_flags);
-		checkbitset("hideable", ImGuiTableFlags_Hideable, m_flags);
-		checkbitset("sortable", ImGuiTableFlags_Sortable, m_flags);
-		checkbitset("context_menu_in_body", ImGuiTableFlags_ContextMenuInBody, m_flags);
-		checkbitset("row_background", ImGuiTableFlags_RowBg, m_flags);
-		checkbitset("borders_innerH", ImGuiTableFlags_BordersInnerH, m_flags);
-		checkbitset("borders_outerH", ImGuiTableFlags_BordersOuterH, m_flags);
-		checkbitset("borders_innerV", ImGuiTableFlags_BordersInnerV, m_flags);
-		checkbitset("borders_outerV", ImGuiTableFlags_BordersOuterV, m_flags);
-		checkbitset("no_host_extendX", ImGuiTableFlags_NoHostExtendX, m_flags);
-		checkbitset("no_host_extendY", ImGuiTableFlags_NoHostExtendY, m_flags);
-		checkbitset("no_keep_columns_visible", ImGuiTableFlags_NoKeepColumnsVisible, m_flags);
-		checkbitset("precise_widths", ImGuiTableFlags_PreciseWidths, m_flags);
-		checkbitset("no_clip", ImGuiTableFlags_NoClip, m_flags);
-		checkbitset("pad_outerX", ImGuiTableFlags_PadOuterX, m_flags);
-		checkbitset("no_pad_outerX", ImGuiTableFlags_NoPadOuterX, m_flags);
-		checkbitset("no_pad_innerX", ImGuiTableFlags_NoPadInnerX, m_flags);
-		checkbitset("scrollX", ImGuiTableFlags_ScrollX, m_flags);
-		checkbitset("scrollY", ImGuiTableFlags_ScrollY, m_flags);
-		checkbitset("sort_multi", ImGuiTableFlags_SortMulti, m_flags);
-		checkbitset("sort_tristate", ImGuiTableFlags_SortTristate, m_flags);
-		checkbitset("no_saved_settings", ImGuiTableFlags_NoSavedSettings, m_flags);
+		checkbitset("resizable", ImGuiTableFlags_Resizable, _flags);
+		checkbitset("reorderable", ImGuiTableFlags_Reorderable, _flags);
+		checkbitset("hideable", ImGuiTableFlags_Hideable, _flags);
+		checkbitset("sortable", ImGuiTableFlags_Sortable, _flags);
+		checkbitset("context_menu_in_body", ImGuiTableFlags_ContextMenuInBody, _flags);
+		checkbitset("row_background", ImGuiTableFlags_RowBg, _flags);
+		checkbitset("borders_innerH", ImGuiTableFlags_BordersInnerH, _flags);
+		checkbitset("borders_outerH", ImGuiTableFlags_BordersOuterH, _flags);
+		checkbitset("borders_innerV", ImGuiTableFlags_BordersInnerV, _flags);
+		checkbitset("borders_outerV", ImGuiTableFlags_BordersOuterV, _flags);
+		checkbitset("no_host_extendX", ImGuiTableFlags_NoHostExtendX, _flags);
+		checkbitset("no_host_extendY", ImGuiTableFlags_NoHostExtendY, _flags);
+		checkbitset("no_keep_columns_visible", ImGuiTableFlags_NoKeepColumnsVisible, _flags);
+		checkbitset("precise_widths", ImGuiTableFlags_PreciseWidths, _flags);
+		checkbitset("no_clip", ImGuiTableFlags_NoClip, _flags);
+		checkbitset("pad_outerX", ImGuiTableFlags_PadOuterX, _flags);
+		checkbitset("no_pad_outerX", ImGuiTableFlags_NoPadOuterX, _flags);
+		checkbitset("no_pad_innerX", ImGuiTableFlags_NoPadInnerX, _flags);
+		checkbitset("scrollX", ImGuiTableFlags_ScrollX, _flags);
+		checkbitset("scrollY", ImGuiTableFlags_ScrollY, _flags);
+		checkbitset("sort_multi", ImGuiTableFlags_SortMulti, _flags);
+		checkbitset("sort_tristate", ImGuiTableFlags_SortTristate, _flags);
+		checkbitset("no_saved_settings", ImGuiTableFlags_NoSavedSettings, _flags);
 		
-		if(m_flags & ImGuiTableFlags_SizingFixedFit)
+		if(_flags & ImGuiTableFlags_SizingFixedFit)
 			PyDict_SetItemString(dict, "policy", ToPyInt(ImGuiTableFlags_SizingFixedFit));
-		else if (m_flags & ImGuiTableFlags_SizingFixedSame)
+		else if (_flags & ImGuiTableFlags_SizingFixedSame)
 			PyDict_SetItemString(dict, "policy", ToPyInt(ImGuiTableFlags_SizingFixedSame));
-		else if (m_flags & ImGuiTableFlags_SizingStretchProp)
+		else if (_flags & ImGuiTableFlags_SizingStretchProp)
 			PyDict_SetItemString(dict, "policy", ToPyInt(ImGuiTableFlags_SizingStretchProp));
-		else if (m_flags & ImGuiTableFlags_SizingStretchSame)
+		else if (_flags & ImGuiTableFlags_SizingStretchSame)
 			PyDict_SetItemString(dict, "policy", ToPyInt(ImGuiTableFlags_SizingStretchSame));
 	}
 

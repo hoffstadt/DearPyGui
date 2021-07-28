@@ -67,37 +67,37 @@ namespace Marvel {
 
 	mvUUID mvTabBar::getSpecificValue()
 	{
-		return m_uiValue;
+		return _uiValue;
 	}
 
 	void mvTabBar::setValue(mvUUID value)
 	{
-		m_uiValue = value;
+		_uiValue = value;
 	}
 
 	void mvTabBar::draw(ImDrawList* drawlist, float x, float y)
 	{
-		ScopedID id(m_uuid);
+		ScopedID id(_uuid);
 
 		ImGui::BeginGroup();
 
-		if (ImGui::BeginTabBar(m_label.c_str(), m_flags))
+		if (ImGui::BeginTabBar(_label.c_str(), _flags))
 		{
 
-			for (auto& item : m_children[1])
+			for (auto& item : _children[1])
 			{
 
 				if (!item->preDraw())
 					continue;
 
-				if (*m_value == item->getUUID() && m_lastValue != *m_value)
+				if (*_value == item->getUUID() && _lastValue != *_value)
 					static_cast<mvTab*>(item.get())->addFlag(ImGuiTabItemFlags_SetSelected);
 
 				item->draw(drawlist, ImGui::GetCursorPosX(), ImGui::GetCursorPosY());
 
 				item->postDraw();
 
-				if (*m_value == item->getUUID())
+				if (*_value == item->getUUID())
 					static_cast<mvTab*>(item.get())->removeFlag(ImGuiTabItemFlags_SetSelected);
 			}
 
@@ -106,8 +106,8 @@ namespace Marvel {
 
 		ImGui::EndGroup();
 
-		*m_value = m_uiValue;
-		m_lastValue = *m_value;
+		*_value = _uiValue;
+		_lastValue = *_value;
 	}
 
 	void mvTabBar::handleSpecificKeywordArgs(PyObject* dict)
@@ -123,7 +123,7 @@ namespace Marvel {
 		};
 
 		// window flags
-		flagop("reorderable", ImGuiTabBarFlags_Reorderable, m_flags);
+		flagop("reorderable", ImGuiTabBarFlags_Reorderable, _flags);
 
 	}
 
@@ -140,7 +140,7 @@ namespace Marvel {
 		};
 
 		// window flags
-		checkbitset("reorderable", ImGuiTabBarFlags_Reorderable, m_flags);
+		checkbitset("reorderable", ImGuiTabBarFlags_Reorderable, _flags);
 	}
 
 }

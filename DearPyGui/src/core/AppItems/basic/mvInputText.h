@@ -33,10 +33,10 @@ namespace Marvel {
 
 	private:
 
-		std::string         m_hint;
-		bool                m_multiline = false;
-		ImGuiInputTextFlags m_flags = 0;
-		ImGuiInputTextFlags m_stor_flags = 0;
+		std::string         _hint;
+		bool                _multiline = false;
+		ImGuiInputTextFlags _flags = 0;
+		ImGuiInputTextFlags _stor_flags = 0;
 
 	};
 

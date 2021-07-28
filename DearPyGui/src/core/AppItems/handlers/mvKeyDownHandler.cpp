@@ -45,7 +45,7 @@ namespace Marvel {
 	void mvKeyDownHandler::draw(ImDrawList* drawlist, float x, float y)
 	{
 
-		if (m_key == -1)
+		if (_key == -1)
 		{
 			for (int i = 0; i < IM_ARRAYSIZE(ImGui::GetIO().KeysDown); i++)
 			{
@@ -53,17 +53,17 @@ namespace Marvel {
 				{
 					mvApp::GetApp()->getCallbackRegistry().submitCallback([=]()
 						{
-							mvApp::GetApp()->getCallbackRegistry().runCallback(getCallback(false), m_uuid, ToPyMPair(i, ImGui::GetIO().KeysDownDuration[i]), m_user_data);
+							mvApp::GetApp()->getCallbackRegistry().runCallback(getCallback(false), _uuid, ToPyMPair(i, ImGui::GetIO().KeysDownDuration[i]), _user_data);
 						});
 				}
 			}
 		}
 
-		else if (ImGui::GetIO().KeysDown[m_key])
+		else if (ImGui::GetIO().KeysDown[_key])
 		{
 			mvApp::GetApp()->getCallbackRegistry().submitCallback([=]()
 				{
-					mvApp::GetApp()->getCallbackRegistry().runCallback(getCallback(false), m_uuid, ToPyMPair(m_key, ImGui::GetIO().KeysDownDuration[m_key]), m_user_data);
+					mvApp::GetApp()->getCallbackRegistry().runCallback(getCallback(false), _uuid, ToPyMPair(_key, ImGui::GetIO().KeysDownDuration[_key]), _user_data);
 				});
 		}
 	}
@@ -79,7 +79,7 @@ namespace Marvel {
 			switch (i)
 			{
 			case 0:
-				m_key = ToInt(item);
+				_key = ToInt(item);
 				break;
 
 			default:
@@ -93,7 +93,7 @@ namespace Marvel {
 		if (dict == nullptr)
 			return;
 
-		if (PyObject* item = PyDict_GetItemString(dict, "key")) m_key = ToInt(item);
+		if (PyObject* item = PyDict_GetItemString(dict, "key")) _key = ToInt(item);
 	}
 
 	void mvKeyDownHandler::getSpecificConfiguration(PyObject* dict)
@@ -101,7 +101,7 @@ namespace Marvel {
 		if (dict == nullptr)
 			return;
 
-		PyDict_SetItemString(dict, "key", ToPyInt(m_key));
+		PyDict_SetItemString(dict, "key", ToPyInt(_key));
 	}
 
 }

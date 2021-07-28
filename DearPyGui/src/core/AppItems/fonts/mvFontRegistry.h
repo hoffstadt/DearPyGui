@@ -28,13 +28,13 @@ namespace Marvel {
 		void draw(ImDrawList* drawlist, float x, float y) override;
 		void customAction() override;
 		bool canChildBeAdded(mvAppItemType type) override;
-		void onChildAdd(mvRef<mvAppItem> item) override { m_show = true; }
+		void onChildAdd(mvRef<mvAppItem> item) override { _show = true; }
 
-		bool isInvalid() const { return m_dirty; }
+		bool isInvalid() const { return _dirty; }
 
 	private:
 
-		bool m_dirty = true;
+		bool _dirty = true;
 
 	};
 

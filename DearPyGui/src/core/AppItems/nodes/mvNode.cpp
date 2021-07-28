@@ -64,11 +64,11 @@ namespace Marvel {
 	mvNode::mvNode(mvUUID uuid)
 		: mvAppItem(uuid)
 	{
-		m_label = FindRenderedTextEnd(m_label.c_str()) + std::to_string(m_uuid);
-		m_specificedlabel = m_label;
+		_label = FindRenderedTextEnd(_label.c_str()) + std::to_string(_uuid);
+		_specificedlabel = _label;
         int64_t address = (int64_t)this;
         int64_t reduced_address = address % 2147483648;
-        m_id = (int)reduced_address;
+        _id = (int)reduced_address;
 	}
 
 	bool mvNode::isParentCompatible(mvAppItemType type)
@@ -109,21 +109,21 @@ namespace Marvel {
 		//-----------------------------------------------------------------------------
 
 		// show/hide
-		if (!m_show)
+		if (!_show)
 			return;
 
 		// set item width
-		if (m_width != 0)
-			ImGui::SetNextItemWidth((float)m_width);
+		if (_width != 0)
+			ImGui::SetNextItemWidth((float)_width);
 
 		// indent (for children
-		if (m_indent > 0.0f)
-			ImGui::Indent(m_indent);
+		if (_indent > 0.0f)
+			ImGui::Indent(_indent);
 
 		// push font if a font object is attached
-		if (m_font)
+		if (_font)
 		{
-			ImFont* fontptr = static_cast<mvFont*>(m_font.get())->getFontPtr();
+			ImFont* fontptr = static_cast<mvFont*>(_font.get())->getFontPtr();
 			ImGui::PushFont(fontptr);
 		}
 
@@ -132,30 +132,30 @@ namespace Marvel {
 			static_cast<mvTheme*>(classTheme.get())->draw(nullptr, 0.0f, 0.0f);
 
 		// handle item theming
-		if (m_theme)
-			static_cast<mvTheme*>(m_theme.get())->draw(nullptr, 0.0f, 0.0f);
+		if (_theme)
+			static_cast<mvTheme*>(_theme.get())->draw(nullptr, 0.0f, 0.0f);
 
 		//-----------------------------------------------------------------------------
 		// draw
 		//-----------------------------------------------------------------------------
 		{
-			ScopedID id(m_uuid);
+			ScopedID id(_uuid);
 
-			if (m_dirtyPos)
+			if (_dirtyPos)
 			{
-				imnodes::SetNodeGridSpacePos((int)m_id, m_state.getItemPos());
-				m_dirtyPos = false;
+				imnodes::SetNodeGridSpacePos((int)_id, _state.getItemPos());
+				_dirtyPos = false;
 			}
 
-			imnodes::SetNodeDraggable((int)m_id, m_draggable);
+			imnodes::SetNodeDraggable((int)_id, _draggable);
 
-			imnodes::BeginNode(m_id);
+			imnodes::BeginNode(_id);
 
 			imnodes::BeginNodeTitleBar();
-			ImGui::TextUnformatted(m_specificedlabel.c_str());
+			ImGui::TextUnformatted(_specificedlabel.c_str());
 			imnodes::EndNodeTitleBar();
 
-			for (auto& item : m_children[1])
+			for (auto& item : _children[1])
 			{
 				// skip item if it's not shown
 				if (!item->isShown())
@@ -183,20 +183,20 @@ namespace Marvel {
 		// update state
 		//   * only update if applicable
 		//-----------------------------------------------------------------------------
-		ImVec2 pos = imnodes::GetNodeGridSpacePos((int)m_id);
-		m_state.m_hovered = ImGui::IsItemHovered();
-		m_state.m_clicked = ImGui::IsItemClicked();
-		m_state.m_visible = ImGui::IsItemVisible();
-		m_state.m_active = imnodes::IsAnyAttributeActive();
+		ImVec2 pos = imnodes::GetNodeGridSpacePos((int)_id);
+		_state._hovered = ImGui::IsItemHovered();
+		_state._clicked = ImGui::IsItemClicked();
+		_state._visible = ImGui::IsItemVisible();
+		_state._active = imnodes::IsAnyAttributeActive();
 
-		m_state.setPos({ pos.x , pos.y });
+		_state.setPos({ pos.x , pos.y });
 
 		// undo indents
-		if (m_indent > 0.0f)
-			ImGui::Unindent(m_indent);
+		if (_indent > 0.0f)
+			ImGui::Unindent(_indent);
 
 		// pop font off stack
-		if (m_font)
+		if (_font)
 			ImGui::PopFont();
 
 		// pop class themes
@@ -204,11 +204,11 @@ namespace Marvel {
 			static_cast<mvTheme*>(classTheme.get())->customAction();
 
 		// pop item themes
-		if (m_theme)
-			static_cast<mvTheme*>(m_theme.get())->customAction();
+		if (_theme)
+			static_cast<mvTheme*>(_theme.get())->customAction();
 
 		// event handlers
-		for (auto& item : m_children[3])
+		for (auto& item : _children[3])
 		{
 			if (!item->preDraw())
 				continue;
@@ -217,7 +217,7 @@ namespace Marvel {
 		}
 
 		// drag drop
-		for (auto& item : m_children[4])
+		for (auto& item : _children[4])
 		{
 			if (!item->preDraw())
 				continue;
@@ -225,15 +225,15 @@ namespace Marvel {
 			item->draw(nullptr, ImGui::GetCursorPosX(), ImGui::GetCursorPosY());
 		}
 
-		if (m_dropCallback)
+		if (_dropCallback)
 		{
-			ScopedID id(m_uuid);
+			ScopedID id(_uuid);
 			if (ImGui::BeginDragDropTarget())
 			{
-				if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload(m_payloadType.c_str()))
+				if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload(_payloadType.c_str()))
 				{
 					auto payloadActual = static_cast<const mvDragPayload*>(payload->Data);
-					mvApp::GetApp()->getCallbackRegistry().addCallback(getDropCallback(), m_uuid, payloadActual->getDragData(), nullptr);
+					mvApp::GetApp()->getCallbackRegistry().addCallback(getDropCallback(), _uuid, payloadActual->getDragData(), nullptr);
 				}
 
 				ImGui::EndDragDropTarget();
@@ -246,7 +246,7 @@ namespace Marvel {
 		if (dict == nullptr)
 			return;
 
-		if (PyObject* item = PyDict_GetItemString(dict, "draggable")) m_draggable = ToBool(item);
+		if (PyObject* item = PyDict_GetItemString(dict, "draggable")) _draggable = ToBool(item);
 
 	}
 
@@ -254,7 +254,7 @@ namespace Marvel {
 	{
 		if (dict == nullptr)
 			return;
-		PyDict_SetItemString(dict, "draggable", ToPyBool(m_draggable));	
+		PyDict_SetItemString(dict, "draggable", ToPyBool(_draggable));	
 	}
 
 }

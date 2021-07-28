@@ -93,42 +93,42 @@ namespace Marvel {
 
 	void mvPlotAxis::customAction()
 	{
-		if (m_setLimits || m_dirty)
+		if (_setLimits || _dirty)
 		{
-			switch (m_location)
+			switch (_location)
 			{
 			case(0):
-				ImPlot::SetNextPlotLimitsX(m_limits.x, m_limits.y, ImGuiCond_Always);
+				ImPlot::SetNextPlotLimitsX(_limits.x, _limits.y, ImGuiCond_Always);
 				break;
 
 			case(1):
-				ImPlot::SetNextPlotLimitsY(m_limits.x, m_limits.y, ImGuiCond_Always);
+				ImPlot::SetNextPlotLimitsY(_limits.x, _limits.y, ImGuiCond_Always);
 				break;
 
 			case(2):
-				ImPlot::SetNextPlotLimitsY(m_limits.x, m_limits.y, ImGuiCond_Always, ImPlotYAxis_2);
+				ImPlot::SetNextPlotLimitsY(_limits.x, _limits.y, ImGuiCond_Always, ImPlotYAxis_2);
 				break;
 
 			case(3):
-				ImPlot::SetNextPlotLimitsY(m_limits.x, m_limits.y, ImGuiCond_Always, ImPlotYAxis_3);
+				ImPlot::SetNextPlotLimitsY(_limits.x, _limits.y, ImGuiCond_Always, ImPlotYAxis_3);
 				break;
 
 			default:
-				ImPlot::SetNextPlotLimitsY(m_limits.x, m_limits.y, ImGuiCond_Always);
+				ImPlot::SetNextPlotLimitsY(_limits.x, _limits.y, ImGuiCond_Always);
 				break;
 			}
 
-			m_dirty = false;
+			_dirty = false;
 			
 		}
 
-		if (!m_labels.empty())
+		if (!_labels.empty())
 		{
 			// TODO: Checks
-			if(m_location == 0)
-				ImPlot::SetNextPlotTicksX(m_labelLocations.data(), (int)m_labels.size(), m_clabels.data());
+			if(_location == 0)
+				ImPlot::SetNextPlotTicksX(_labelLocations.data(), (int)_labels.size(), _clabels.data());
 			else
-				ImPlot::SetNextPlotTicksY(m_labelLocations.data(), (int)m_labels.size(), m_clabels.data());
+				ImPlot::SetNextPlotTicksY(_labelLocations.data(), (int)_labels.size(), _clabels.data());
 		}
 	}
 
@@ -136,28 +136,28 @@ namespace Marvel {
 	{
 
 		// todo: add check
-		if(m_axis != 0)
-			ImPlot::SetPlotYAxis(m_location - 1);
+		if(_axis != 0)
+			ImPlot::SetPlotYAxis(_location - 1);
 
-		for (auto& item : m_children[1])
+		for (auto& item : _children[1])
 			item->draw(drawlist, ImPlot::GetPlotPos().x, ImPlot::GetPlotPos().y);
 
 		// x axis
-		if (m_axis == 0)
+		if (_axis == 0)
 		{
-			m_limits_actual.x = (float)ImPlot::GetPlotLimits(m_location).X.Min;
-			m_limits_actual.y = (float)ImPlot::GetPlotLimits(m_location).X.Max;
+			_limits_actual.x = (float)ImPlot::GetPlotLimits(_location).X.Min;
+			_limits_actual.y = (float)ImPlot::GetPlotLimits(_location).X.Max;
 		}
 
 		// y axis
 		else
 		{
-			m_limits_actual.x = (float)ImPlot::GetPlotLimits(m_location -1).Y.Min;
-			m_limits_actual.y = (float)ImPlot::GetPlotLimits(m_location -1).Y.Max;
+			_limits_actual.x = (float)ImPlot::GetPlotLimits(_location -1).Y.Min;
+			_limits_actual.y = (float)ImPlot::GetPlotLimits(_location -1).Y.Max;
 		}
 
 		//auto context = ImPlot::GetCurrentContext();
-		//m_flags = context->CurrentPlot->CurrentYAxis.Flags
+		//_flags = context->CurrentPlot->CurrentYAxis.Flags
 
 	}
 
@@ -176,22 +176,22 @@ namespace Marvel {
 
 	void mvPlotAxis::fitAxisData()
 	{
-		static_cast<mvPlot*>(m_parentPtr)->m_fitDirty = true;
-		static_cast<mvPlot*>(m_parentPtr)->m_axisfitDirty[m_location] = true;
+		static_cast<mvPlot*>(_parentPtr)->_fitDirty = true;
+		static_cast<mvPlot*>(_parentPtr)->_axisfitDirty[_location] = true;
 	}
 
 	void mvPlotAxis::hide()
 	{
-		if (auto plot = static_cast<mvPlot*>(m_parentPtr))
+		if (auto plot = static_cast<mvPlot*>(_parentPtr))
 			plot->addFlag(ImPlotFlags_NoLegend);
-		m_show = false;
+		_show = false;
 	}
 
 	void mvPlotAxis::show()
 	{
-		if (auto plot = static_cast<mvPlot*>(m_parentPtr))
+		if (auto plot = static_cast<mvPlot*>(_parentPtr))
 			plot->removeFlag(ImPlotFlags_NoLegend);
-		m_show = true;
+		_show = true;
 	}
 
 	bool mvPlotAxis::canChildBeAdded(mvAppItemType type)
@@ -211,20 +211,20 @@ namespace Marvel {
 		};
 
 		// axis flags
-		flagop("no_gridlines", ImPlotAxisFlags_NoGridLines, m_flags);
-		flagop("no_tick_marks", ImPlotAxisFlags_NoTickMarks, m_flags);
-		flagop("no_tick_labels", ImPlotAxisFlags_NoTickLabels, m_flags);
-		flagop("log_scale", ImPlotAxisFlags_LogScale, m_flags);
-		flagop("invert", ImPlotAxisFlags_Invert, m_flags);
-		flagop("lock_min", ImPlotAxisFlags_LockMin, m_flags);
-		flagop("lock_max", ImPlotAxisFlags_LockMax, m_flags);
-		flagop("time", ImPlotAxisFlags_Time, m_flags);
+		flagop("no_gridlines", ImPlotAxisFlags_NoGridLines, _flags);
+		flagop("no_tick_marks", ImPlotAxisFlags_NoTickMarks, _flags);
+		flagop("no_tick_labels", ImPlotAxisFlags_NoTickLabels, _flags);
+		flagop("log_scale", ImPlotAxisFlags_LogScale, _flags);
+		flagop("invert", ImPlotAxisFlags_Invert, _flags);
+		flagop("lock_min", ImPlotAxisFlags_LockMin, _flags);
+		flagop("lock_max", ImPlotAxisFlags_LockMax, _flags);
+		flagop("time", ImPlotAxisFlags_Time, _flags);
 
 		
-		if (m_parentPtr)
+		if (_parentPtr)
 		{
-			static_cast<mvPlot*>(m_parentPtr)->updateFlags();
-			static_cast<mvPlot*>(m_parentPtr)->updateAxesNames();
+			static_cast<mvPlot*>(_parentPtr)->updateFlags();
+			static_cast<mvPlot*>(_parentPtr)->updateAxesNames();
 		}
 	}
 
@@ -239,9 +239,9 @@ namespace Marvel {
 			switch (i)
 			{
 			case 0:
-				m_axis = ToInt(item);
-				if (m_axis > 1)
-					m_axis = 1;
+				_axis = ToInt(item);
+				if (_axis > 1)
+					_axis = 1;
 				break;
 
 			default:
@@ -258,13 +258,13 @@ namespace Marvel {
 
 	void mvPlotAxis::setLimits(float y_min, float y_max)
 	{
-		m_setLimits = true;
-		m_limits = ImVec2(y_min, y_max);
+		_setLimits = true;
+		_limits = ImVec2(y_min, y_max);
 	}
 
 	void mvPlotAxis::setLimitsAuto()
 	{
-		m_setLimits = false;
+		_setLimits = false;
 	}
 
 	void mvPlotAxis::onChildAdd(mvRef<mvAppItem> item)
@@ -277,54 +277,54 @@ namespace Marvel {
 
 	void mvPlotAxis::resetYTicks()
 	{
-		m_labels.clear();
-		m_clabels.clear();
-		m_labelLocations.clear();
+		_labels.clear();
+		_clabels.clear();
+		_labelLocations.clear();
 	}
 
 	void mvPlotAxis::setYTicks(const std::vector<std::string>& labels, const std::vector<double>& locations)
 	{
-		m_labels = labels;
-		m_labelLocations = locations;
+		_labels = labels;
+		_labelLocations = locations;
 
-		for (const auto& item : m_labels)
-			m_clabels.push_back(item.data());
+		for (const auto& item : _labels)
+			_clabels.push_back(item.data());
 	}
 
 	void mvPlotAxis::postDraw()
 	{
 
-		m_state.update();
+		_state.update();
 
-		if (m_font)
+		if (_font)
 		{
 			ImGui::PopFont();
 		}
 
-		if (m_theme)
+		if (_theme)
 		{
-			static_cast<mvTheme*>(m_theme.get())->customAction();
+			static_cast<mvTheme*>(_theme.get())->customAction();
 		}
 
-		if (m_dropCallback)
+		if (_dropCallback)
 		{
-			ScopedID id(m_uuid);
-			if (m_location == 0 && ImPlot::BeginDragDropTargetX())
+			ScopedID id(_uuid);
+			if (_location == 0 && ImPlot::BeginDragDropTargetX())
 			{
-				if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload(m_payloadType.c_str()))
+				if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload(_payloadType.c_str()))
 				{
 					auto payloadActual = static_cast<const mvDragPayload*>(payload->Data);
-					mvApp::GetApp()->getCallbackRegistry().addCallback(getDropCallback(), m_uuid, payloadActual->getDragData(), nullptr);
+					mvApp::GetApp()->getCallbackRegistry().addCallback(getDropCallback(), _uuid, payloadActual->getDragData(), nullptr);
 				}
 
 				ImPlot::EndDragDropTarget();
 			}
-			else if (ImPlot::BeginDragDropTargetY(m_location-1))
+			else if (ImPlot::BeginDragDropTargetY(_location-1))
 			{
-				if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload(m_payloadType.c_str()))
+				if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload(_payloadType.c_str()))
 				{
 					auto payloadActual = static_cast<const mvDragPayload*>(payload->Data);
-					mvApp::GetApp()->getCallbackRegistry().addCallback(getDropCallback(), m_uuid, payloadActual->getDragData(), nullptr);
+					mvApp::GetApp()->getCallbackRegistry().addCallback(getDropCallback(), _uuid, payloadActual->getDragData(), nullptr);
 				}
 
 				ImPlot::EndDragDropTarget();

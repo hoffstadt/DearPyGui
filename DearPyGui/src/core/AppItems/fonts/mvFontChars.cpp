@@ -58,7 +58,7 @@ namespace Marvel {
 			{
 				auto charVect = ToIntVect(item);
 				for (auto& item : charVect)
-					m_chars.push_back((ImWchar)item);
+					_chars.push_back((ImWchar)item);
 				break;
 			}
 

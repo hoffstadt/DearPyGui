@@ -11,7 +11,7 @@ namespace Marvel {
 
 		static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
 
-		MV_APPLY_WIDGET_REGISTRATION(mvAppItemType::mvHistogramSeries, add_histogram_series)
+		MV_APPLY_WIDGET_REGISTRATION(mvAppItemType::mvHistogramSeries, add_histogra_series)
 
 		MV_CREATE_CONSTANT(mvPlotBin_Sqrt,    -1L);
 		MV_CREATE_CONSTANT(mvPlotBin_Sturges, -2L);
@@ -44,13 +44,13 @@ namespace Marvel {
 
 	private:
 
-		int m_bins = -1;
-		bool m_cumlative = false;
-		bool m_density = false;
-		bool m_outliers = true;
-		float m_barScale = 1.0f;
-		double m_min = 0.0;
-		double m_max = 1.0;
+		int _bins = -1;
+		bool _cumlative = false;
+		bool _density = false;
+		bool _outliers = true;
+		float _barScale = 1.0f;
+		double _min = 0.0;
+		double _max = 1.0;
 
 	};
 

@@ -45,12 +45,12 @@ namespace Marvel {
 
 	private:
 
-		int  m_columns = 0;
-		int  m_inner_width = 0;
-		int  m_freezeRows = 0;
-		int  m_freezeColumns = 0;
-		ImGuiTableFlags m_flags = 0;
-		bool m_tableHeader = true;
+		int  _columns = 0;
+		int  _inner_width = 0;
+		int  _freezeRows = 0;
+		int  _freezeColumns = 0;
+		ImGuiTableFlags _flags = 0;
+		bool _tableHeader = true;
 
 		struct SortSpec 
 		{

@@ -34,12 +34,12 @@ namespace Marvel {
 		void setWidth(int width) override {}
 		void setHeight(int height) override {}
 
-		void* getRawTexture() { return m_texture; }
+		void* getRawTexture() { return _texture; }
 
 	private:
 
-		void* m_texture = nullptr;
-		bool  m_dirty = true;
+		void* _texture = nullptr;
+		bool  _dirty = true;
 
 	};
 

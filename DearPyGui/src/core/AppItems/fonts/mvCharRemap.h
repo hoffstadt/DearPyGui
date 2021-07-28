@@ -28,13 +28,13 @@ namespace Marvel {
 		void draw(ImDrawList* drawlist, float x, float y) override {}
 		bool isParentCompatible(mvAppItemType type) override;
 		void handleSpecificRequiredArgs(PyObject* dict) override;
-		int getSourceChar() const { return m_source; }
-		int getTargetChar() const { return m_target; }
+		int getSourceChar() const { return _source; }
+		int getTargetChar() const { return _target; }
 
 	private:
 		
-		int m_source = 0;
-		int m_target = 0;
+		int _source = 0;
+		int _target = 0;
 
 	};
 

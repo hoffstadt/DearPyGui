@@ -43,7 +43,7 @@ namespace Marvel {
 
 	private:
 
-		int m_level = 0;
+		int _level = 0;
 
 	};
 

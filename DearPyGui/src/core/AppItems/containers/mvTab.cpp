@@ -41,12 +41,12 @@ namespace Marvel {
 
 	void mvTab::addFlag(ImGuiTabItemFlags flag)
 	{
-		m_flags |= flag;
+		_flags |= flag;
 	}
 
 	void mvTab::removeFlag(ImGuiTabItemFlags flag)
 	{
-		m_flags &= ~flag;
+		_flags &= ~flag;
 	}
 
 	bool mvTab::isParentCompatible(mvAppItemType type)
@@ -63,44 +63,44 @@ namespace Marvel {
 
 	void mvTab::draw(ImDrawList* drawlist, float x, float y)
 	{
-		ScopedID id(m_uuid);
+		ScopedID id(_uuid);
 
 		// cast parent to mvTabBar
-		auto parent = (mvTabBar*)m_parentPtr;
+		auto parent = (mvTabBar*)_parentPtr;
 
 		// check if this is first tab
 		if (parent->getSpecificValue() == 0)
 		{
 			// set mvTabBar value to the first tab name
-			parent->setValue(m_uuid);
-			*m_value = true;
+			parent->setValue(_uuid);
+			*_value = true;
 		}
 
 		// create tab item and see if it is selected
-		if (ImGui::BeginTabItem(m_label.c_str(), m_closable ? &m_show : nullptr, m_flags))
+		if (ImGui::BeginTabItem(_label.c_str(), _closable ? &_show : nullptr, _flags))
 		{
 
 			// set other tab's value false
 			for (auto& child : parent->getChildren(1))
 			{
 				if (child->getType() == mvAppItemType::mvTab)
-					*((mvTab*)child.get())->m_value = false;
+					*((mvTab*)child.get())->_value = false;
 			}
 
 			// set current tab value true
-			*m_value = true;
+			*_value = true;
 
 			// run call back if it exists
-			if (parent->getSpecificValue() != m_uuid)
+			if (parent->getSpecificValue() != _uuid)
 			{
 				mvApp::GetApp()->getCallbackRegistry().submitCallback([=]() {
-					mvApp::GetApp()->getCallbackRegistry().addCallback(parent->getCallback(), parent->getUUID(), ToPyUUID(m_uuid), parent->getCallbackData());
+					mvApp::GetApp()->getCallbackRegistry().addCallback(parent->getCallback(), parent->getUUID(), ToPyUUID(_uuid), parent->getCallbackData());
 					});
 			}
 
-			parent->setValue(m_uuid);
+			parent->setValue(_uuid);
 
-			for (auto& item : m_children[1])
+			for (auto& item : _children[1])
 			{
 				if (!item->preDraw())
 					continue;
@@ -120,7 +120,7 @@ namespace Marvel {
 		if (dict == nullptr)
 			return;
 		 
-		if (PyObject* item = PyDict_GetItemString(dict, "closable")) m_closable = ToBool(item);
+		if (PyObject* item = PyDict_GetItemString(dict, "closable")) _closable = ToBool(item);
 
 
 		if (PyObject* item = PyDict_GetItemString(dict, "order_mode"))
@@ -128,22 +128,22 @@ namespace Marvel {
 			long order_mode = ToUUID(item);
 
 			if (order_mode == (long)mvTab::TabOrdering::mvTabOrder_Fixed)
-				m_flags = ImGuiTabItemFlags_NoReorder;
+				_flags = ImGuiTabItemFlags_NoReorder;
 			else if (order_mode == (long)mvTab::TabOrdering::mvTabOrder_Leading)
-				m_flags = ImGuiTabItemFlags_Leading;
+				_flags = ImGuiTabItemFlags_Leading;
 			else if (order_mode == (long)mvTab::TabOrdering::mvTabOrder_Trailing)
-				m_flags = ImGuiTabItemFlags_Trailing;
+				_flags = ImGuiTabItemFlags_Trailing;
 			else
-				m_flags = ImGuiTabItemFlags_None;
+				_flags = ImGuiTabItemFlags_None;
 		}
 
 		if (PyObject* item = PyDict_GetItemString(dict, "no_tooltip"))
 		{
 			bool value = ToBool(item);
 			if (value)
-				m_flags |= ImGuiTabItemFlags_NoTooltip;
+				_flags |= ImGuiTabItemFlags_NoTooltip;
 			else
-				m_flags &= ~ImGuiTabItemFlags_NoTooltip;
+				_flags &= ~ImGuiTabItemFlags_NoTooltip;
 		}
 
 	}
@@ -153,7 +153,7 @@ namespace Marvel {
 		if (dict == nullptr)
 			return;
 		 
-		PyDict_SetItemString(dict, "closable", ToPyBool(m_closable));
+		PyDict_SetItemString(dict, "closable", ToPyBool(_closable));
 
 		// helper to check and set bit
 		auto checkbitset = [dict](const char* keyword, int flag, const int& flags)
@@ -161,13 +161,13 @@ namespace Marvel {
 			PyDict_SetItemString(dict, keyword, ToPyBool(flags & flag));
 		};
 
-		checkbitset("no_tooltip", ImGuiTabItemFlags_NoTooltip, m_flags);
+		checkbitset("no_tooltip", ImGuiTabItemFlags_NoTooltip, _flags);
 
-		if(m_flags & ImGuiTabItemFlags_Leading)
+		if(_flags & ImGuiTabItemFlags_Leading)
 			PyDict_SetItemString(dict, "order_mode", ToPyUUID((long)mvTab::TabOrdering::mvTabOrder_Leading));
-		else if (m_flags & ImGuiTabItemFlags_Trailing)
+		else if (_flags & ImGuiTabItemFlags_Trailing)
 			PyDict_SetItemString(dict, "order_mode", ToPyUUID((long)mvTab::TabOrdering::mvTabOrder_Trailing));
-		else if (m_flags & ImGuiTabBarFlags_Reorderable)
+		else if (_flags & ImGuiTabBarFlags_Reorderable)
 			PyDict_SetItemString(dict, "order_mode", ToPyUUID((long)mvTab::TabOrdering::mvTabOrder_Reorderable));
 		else
 			PyDict_SetItemString(dict, "order_mode", ToPyUUID((long)mvTab::TabOrdering::mvTabOrder_Fixed));

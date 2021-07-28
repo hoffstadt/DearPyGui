@@ -34,10 +34,10 @@ namespace Marvel {
 
 	mvStaticTexture::~mvStaticTexture()
 	{
-		if (m_uuid == MV_ATLAS_UUID)
+		if (_uuid == MV_ATLAS_UUID)
 			return;
-		//UnloadTexture(m_name);
-		FreeTexture(m_texture);
+		//UnloadTexture(_name);
+		FreeTexture(_texture);
 	}
 
 
@@ -56,30 +56,30 @@ namespace Marvel {
 
 	void mvStaticTexture::draw(ImDrawList* drawlist, float x, float y)
 	{
-		if (!m_dirty)
+		if (!_dirty)
 			return;
 
-		if (!m_state.isOk())
+		if (!_state.isOk())
 			return;
 
-		if (m_uuid == MV_ATLAS_UUID)
+		if (_uuid == MV_ATLAS_UUID)
 		{
-			m_texture = ImGui::GetIO().Fonts->TexID;
-			m_width = ImGui::GetIO().Fonts->TexWidth;
-			m_height = ImGui::GetIO().Fonts->TexHeight;
+			_texture = ImGui::GetIO().Fonts->TexID;
+			_width = ImGui::GetIO().Fonts->TexWidth;
+			_height = ImGui::GetIO().Fonts->TexHeight;
 		}
 		else
-			m_texture = LoadTextureFromArray(m_width, m_height, m_value->data());
+			_texture = LoadTextureFromArray(_width, _height, _value->data());
 
-		if (m_texture == nullptr)
+		if (_texture == nullptr)
 		{
-			m_state.setOk(false);
+			_state.setOk(false);
 			mvThrowPythonError(mvErrorCode::mvItemNotFound, "add_static_texture",
 				"Texture data can not be found.", this);
 		}
 
 
-		m_dirty = false;
+		_dirty = false;
 	}
 
 	void mvStaticTexture::handleSpecificRequiredArgs(PyObject* dict)
@@ -93,15 +93,15 @@ namespace Marvel {
 			switch (i)
 			{
 			case 0:
-				m_width = ToInt(item);
+				_width = ToInt(item);
 				break;
 
 			case 1:
-				m_height = ToInt(item);
+				_height = ToInt(item);
 				break;
 
 			case 2:
-				*m_value = ToFloatVect(item);
+				*_value = ToFloatVect(item);
 				break;
 
 			default:

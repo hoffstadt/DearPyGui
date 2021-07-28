@@ -54,15 +54,15 @@ namespace Marvel {
 
 	void mvFont::customAction()
 	{
-		if (!m_state.isOk())
+		if (!_state.isOk())
 			return;
 
 		ImGuiIO& io = ImGui::GetIO();
 
-		m_fontPtr = io.Fonts->AddFontFromFileTTF(m_file.c_str(), m_size, 
-			nullptr, m_ranges.Data);
+		_fontPtr = io.Fonts->AddFontFromFileTTF(_file.c_str(), _size, 
+			nullptr, _ranges.Data);
 
-		if (m_fontPtr == nullptr)
+		if (_fontPtr == nullptr)
 		{
 			mvThrowPythonError(mvErrorCode::mvNone, "Font file could not be found");
 			io.Fonts->Build();
@@ -71,22 +71,22 @@ namespace Marvel {
 
 		// handled by char remaps
 		//for (auto& item : font.charRemaps)
-		//	m_fontPtr->AddRemapChar(item.first, item.second);
+		//	_fontPtr->AddRemapChar(item.first, item.second);
 
 		io.Fonts->Build();
 
-		if(m_default)
-			io.FontDefault = m_fontPtr;
+		if(_default)
+			io.FontDefault = _fontPtr;
 
 		// check ranges
-		for (const auto& range : m_children[1])
+		for (const auto& range : _children[1])
 		{
 
 			if (range->getType() == mvAppItemType::mvCharRemap)
 			{
 				const auto rangePtr = static_cast<const mvCharRemap*>(range.get());
 
-				m_fontPtr->AddRemapChar(rangePtr->getSourceChar(), rangePtr->getTargetChar());
+				_fontPtr->AddRemapChar(rangePtr->getSourceChar(), rangePtr->getTargetChar());
 			}
 
 		}
@@ -95,7 +95,7 @@ namespace Marvel {
 	void mvFont::draw(ImDrawList* drawlist, float x, float y)
 	{
 
-		if (!m_state.isOk())
+		if (!_state.isOk())
 			return;
 
 		ImFontGlyphRangesBuilder builder;
@@ -103,10 +103,10 @@ namespace Marvel {
 		static ImFontAtlas atlas;
 
 		// check hints
-		if(m_children[0].empty())
+		if(_children[0].empty())
 			builder.AddRanges(atlas.GetGlyphRangesDefault());
 
-		for (const auto& hint : m_children[0])
+		for (const auto& hint : _children[0])
 		{
 			int hintSelection = static_cast<mvFontRangeHint*>(hint.get())->getHint();
 
@@ -140,7 +140,7 @@ namespace Marvel {
 		}
 
 		// check ranges and chars
-		for (const auto& range : m_children[1])
+		for (const auto& range : _children[1])
 		{
 			if (range->getType() == mvAppItemType::mvFontRange)
 			{
@@ -157,14 +157,14 @@ namespace Marvel {
 			}
 		}
 
-		builder.BuildRanges(&m_ranges);   // Build the final result (ordered ranges with all the unique characters submitted)
+		builder.BuildRanges(&_ranges);   // Build the final result (ordered ranges with all the unique characters submitted)
 
-		//m_dirty = true;
+		//_dirty = true;
 		auto item = mvApp::GetApp()->getItemRegistry().getItem(MV_ATLAS_UUID);
 		if (item)
 			static_cast<mvStaticTexture*>(item)->markDirty();
 
-		mvToolManager::GetFontManager().m_dirty = true;
+		mvToolManager::GetFontManager()._dirty = true;
 	}
 
 	void mvFont::handleSpecificRequiredArgs(PyObject* dict)
@@ -179,21 +179,21 @@ namespace Marvel {
 			{
 			case 0:
 			{
-				m_file = ToString(item);
+				_file = ToString(item);
 				std::ifstream ifile;
-				ifile.open(m_file);
+				ifile.open(_file);
 				if (ifile)
 					ifile.close();
 				else
 				{
-					m_state.setOk(false);
+					_state.setOk(false);
 					mvThrowPythonError(mvErrorCode::mvNone, "Font file could not be found");
 				}
 				break;
 			}
 
 			case 1:
-				m_size = ToFloat(item);
+				_size = ToFloat(item);
 				break;
 
 			default:
@@ -207,7 +207,7 @@ namespace Marvel {
 		if (dict == nullptr)
 			return;
 
-		if (PyObject* item = PyDict_GetItemString(dict, "default_font")) m_default = ToBool(item);
+		if (PyObject* item = PyDict_GetItemString(dict, "default_font")) _default = ToBool(item);
 
 	}
 
@@ -216,7 +216,7 @@ namespace Marvel {
 		if (dict == nullptr)
 			return;
 
-		PyDict_SetItemString(dict, "default_font", ToPyBool(m_default));
+		PyDict_SetItemString(dict, "default_font", ToPyBool(_default));
 	}
 
 }

@@ -67,34 +67,34 @@ namespace Marvel {
 	void mvDrawlist::draw(ImDrawList* drawlist, float x, float y)
 	{
 
-		m_startx = (float)ImGui::GetCursorScreenPos().x;
-		m_starty = (float)ImGui::GetCursorScreenPos().y;
+		_startx = (float)ImGui::GetCursorScreenPos().x;
+		_starty = (float)ImGui::GetCursorScreenPos().y;
 
 		ImDrawList* internal_drawlist = ImGui::GetWindowDrawList();
 
-		ImGui::PushClipRect({ m_startx, m_starty }, { m_startx + (float)m_width, m_starty + (float)m_height }, true);
+		ImGui::PushClipRect({ _startx, _starty }, { _startx + (float)_width, _starty + (float)_height }, true);
 
-		for (auto& item : m_children[2])
+		for (auto& item : _children[2])
 		{
 			// skip item if it's not shown
 			if (!item->isShown())
 				continue;
 
-			item->draw(internal_drawlist, m_startx, m_starty);
+			item->draw(internal_drawlist, _startx, _starty);
 
 			item->getState().update();
 		}
 
 		ImGui::PopClipRect();
 
-		if (ImGui::InvisibleButton(m_label.c_str(), ImVec2((float)m_width, (float)m_height), ImGuiButtonFlags_MouseButtonLeft | ImGuiButtonFlags_MouseButtonRight | ImGuiButtonFlags_MouseButtonMiddle))
-			mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), m_uuid, nullptr, m_user_data);
+		if (ImGui::InvisibleButton(_label.c_str(), ImVec2((float)_width, (float)_height), ImGuiButtonFlags_MouseButtonLeft | ImGuiButtonFlags_MouseButtonRight | ImGuiButtonFlags_MouseButtonMiddle))
+			mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), _uuid, nullptr, _user_data);
 
 
 		if (ImGui::IsItemHovered())
 		{
 			ImVec2 mousepos = ImGui::GetMousePos();
-			mvInput::setDrawingMousePosition((float)mousepos.x- m_startx, (float)mousepos.y - m_starty);
+			mvInput::setDrawingMousePosition((float)mousepos.x- _startx, (float)mousepos.y - _starty);
 		}
 	}
 

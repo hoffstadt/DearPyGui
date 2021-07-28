@@ -43,16 +43,16 @@ namespace Marvel {
 
 	void mvCollapsingHeader::draw(ImDrawList* drawlist, float x, float y)
 	{
-		ScopedID id(m_uuid);
+		ScopedID id(_uuid);
 
 		bool* toggle = nullptr;
-		if (m_closable)
-			toggle = &m_show;
-		*m_value = ImGui::CollapsingHeader(m_label.c_str(), toggle, m_flags);
+		if (_closable)
+			toggle = &_show;
+		*_value = ImGui::CollapsingHeader(_label.c_str(), toggle, _flags);
 
-		if (*m_value)
+		if (*_value)
 		{
-			for (auto& item : m_children[1])
+			for (auto& item : _children[1])
 			{
 				if (!item->preDraw())
 					continue;
@@ -69,7 +69,7 @@ namespace Marvel {
 		if (dict == nullptr)
 			return;
 		 
-		if (PyObject* item = PyDict_GetItemString(dict, "closable")) m_closable = ToBool(item);
+		if (PyObject* item = PyDict_GetItemString(dict, "closable")) _closable = ToBool(item);
 
 		// helper for bit flipping
 		auto flagop = [dict](const char* keyword, int flag, int& flags)
@@ -78,11 +78,11 @@ namespace Marvel {
 		};
 
 		// flags
-		flagop("default_open", ImGuiTreeNodeFlags_DefaultOpen, m_flags);
-		flagop("open_on_double_click", ImGuiTreeNodeFlags_OpenOnDoubleClick, m_flags);
-		flagop("open_on_arrow", ImGuiTreeNodeFlags_OpenOnArrow, m_flags);
-		flagop("leaf", ImGuiTreeNodeFlags_Leaf, m_flags);
-		flagop("bullet", ImGuiTreeNodeFlags_Bullet, m_flags);
+		flagop("default_open", ImGuiTreeNodeFlags_DefaultOpen, _flags);
+		flagop("open_on_double_click", ImGuiTreeNodeFlags_OpenOnDoubleClick, _flags);
+		flagop("open_on_arrow", ImGuiTreeNodeFlags_OpenOnArrow, _flags);
+		flagop("leaf", ImGuiTreeNodeFlags_Leaf, _flags);
+		flagop("bullet", ImGuiTreeNodeFlags_Bullet, _flags);
 
 
 	}
@@ -92,7 +92,7 @@ namespace Marvel {
 		if (dict == nullptr)
 			return;
 		 
-		PyDict_SetItemString(dict, "closable", ToPyBool(m_closable));
+		PyDict_SetItemString(dict, "closable", ToPyBool(_closable));
 
 		// helper to check and set bit
 		auto checkbitset = [dict](const char* keyword, int flag, const int& flags)
@@ -101,11 +101,11 @@ namespace Marvel {
 		};
 
 		// flags
-		checkbitset("default_open", ImGuiTreeNodeFlags_DefaultOpen, m_flags);
-		checkbitset("open_on_double_click", ImGuiTreeNodeFlags_OpenOnDoubleClick, m_flags);
-		checkbitset("open_on_arrow", ImGuiTreeNodeFlags_OpenOnArrow, m_flags);
-		checkbitset("leaf", ImGuiTreeNodeFlags_Leaf, m_flags);
-		checkbitset("bullet", ImGuiTreeNodeFlags_Bullet, m_flags);
+		checkbitset("default_open", ImGuiTreeNodeFlags_DefaultOpen, _flags);
+		checkbitset("open_on_double_click", ImGuiTreeNodeFlags_OpenOnDoubleClick, _flags);
+		checkbitset("open_on_arrow", ImGuiTreeNodeFlags_OpenOnArrow, _flags);
+		checkbitset("leaf", ImGuiTreeNodeFlags_Leaf, _flags);
+		checkbitset("bullet", ImGuiTreeNodeFlags_Bullet, _flags);
 
 	}
 

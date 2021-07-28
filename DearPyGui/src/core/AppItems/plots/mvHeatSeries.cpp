@@ -64,26 +64,26 @@ namespace Marvel {
 		//-----------------------------------------------------------------------------
 		// pre draw
 		//-----------------------------------------------------------------------------
-		if (!m_show)
+		if (!_show)
 			return;
 
 		// push font if a font object is attached
-		if (m_font)
+		if (_font)
 		{
-			ImFont* fontptr = static_cast<mvFont*>(m_font.get())->getFontPtr();
+			ImFont* fontptr = static_cast<mvFont*>(_font.get())->getFontPtr();
 			ImGui::PushFont(fontptr);
 		}
 
 		// handle enabled theming
-		if (m_enabled)
+		if (_enabled)
 		{
 			// push class theme (if it exists)
 			if (auto classTheme = getClassTheme())
 				static_cast<mvTheme*>(classTheme.get())->draw(nullptr, 0.0f, 0.0f);
 
 			// push item theme (if it exists)
-			if (m_theme)
-				static_cast<mvTheme*>(m_theme.get())->draw(nullptr, 0.0f, 0.0f);
+			if (_theme)
+				static_cast<mvTheme*>(_theme.get())->draw(nullptr, 0.0f, 0.0f);
 		}
 
 		//-----------------------------------------------------------------------------
@@ -93,16 +93,16 @@ namespace Marvel {
 
 			static const std::vector<double>* xptr;
 
-			xptr = &(*m_value.get())[0];
+			xptr = &(*_value.get())[0];
 
 
-			ImPlot::PlotHeatmap(m_label.c_str(), xptr->data(), m_rows, m_cols, m_scale_min, m_scale_max,
-				m_format.c_str(), { m_bounds_min.x, m_bounds_min.y }, { m_bounds_max.x, m_bounds_max.y });
+			ImPlot::PlotHeatmap(_label.c_str(), xptr->data(), _rows, _cols, _scale_min, _scale_max,
+				_format.c_str(), { _bounds_min.x, _bounds_min.y }, { _bounds_max.x, _bounds_max.y });
 
 			// Begin a popup for a legend entry.
-			if (ImPlot::BeginLegendPopup(m_label.c_str(), 1))
+			if (ImPlot::BeginLegendPopup(_label.c_str(), 1))
 			{
-				for (auto& childset : m_children)
+				for (auto& childset : _children)
 				{
 					for (auto& item : childset)
 					{
@@ -128,17 +128,17 @@ namespace Marvel {
 		//-----------------------------------------------------------------------------
 
 		// pop font off stack
-		if (m_font)
+		if (_font)
 			ImGui::PopFont();
 
 		// handle popping styles
-		if (m_enabled)
+		if (_enabled)
 		{
 			if (auto classTheme = getClassTheme())
 				static_cast<mvTheme*>(classTheme.get())->customAction();
 
-			if (m_theme)
-				static_cast<mvTheme*>(m_theme.get())->customAction();
+			if (_theme)
+				static_cast<mvTheme*>(_theme.get())->customAction();
 		}
 	}
 
@@ -153,15 +153,15 @@ namespace Marvel {
 			switch (i)
 			{
 			case 0:
-				(*m_value)[0] = ToDoubleVect(item);
+				(*_value)[0] = ToDoubleVect(item);
 				break;
 
 			case 1:
-				m_rows = ToInt(item);
+				_rows = ToInt(item);
 				break;
 
 			case 2:
-				m_cols = ToInt(item);
+				_cols = ToInt(item);
 				break;
 
 
@@ -170,8 +170,8 @@ namespace Marvel {
 			}
 		}
 
-		(*m_value)[1].push_back(m_bounds_min.y);
-		(*m_value)[1].push_back(m_bounds_max.y);
+		(*_value)[1].push_back(_bounds_min.y);
+		(*_value)[1].push_back(_bounds_max.y);
 	}
 
 	void mvHeatSeries::handleSpecificKeywordArgs(PyObject* dict)
@@ -179,21 +179,21 @@ namespace Marvel {
 		if (dict == nullptr)
 			return;
 
-		if (PyObject* item = PyDict_GetItemString(dict, "format")) m_format = ToString(item);
-		if (PyObject* item = PyDict_GetItemString(dict, "rows")) m_rows = ToInt(item);
-		if (PyObject* item = PyDict_GetItemString(dict, "cols")) m_cols = ToInt(item);
-		if (PyObject* item = PyDict_GetItemString(dict, "bounds_min")) m_bounds_min = ToPoint(item);
-		if (PyObject* item = PyDict_GetItemString(dict, "bounds_max")) m_bounds_max = ToPoint(item);
-		if (PyObject* item = PyDict_GetItemString(dict, "scale_min")) m_scale_min = ToDouble(item);
-		if (PyObject* item = PyDict_GetItemString(dict, "scale_max")) m_scale_max = ToDouble(item);
+		if (PyObject* item = PyDict_GetItemString(dict, "format")) _format = ToString(item);
+		if (PyObject* item = PyDict_GetItemString(dict, "rows")) _rows = ToInt(item);
+		if (PyObject* item = PyDict_GetItemString(dict, "cols")) _cols = ToInt(item);
+		if (PyObject* item = PyDict_GetItemString(dict, "bounds_min")) _bounds_min = ToPoint(item);
+		if (PyObject* item = PyDict_GetItemString(dict, "bounds_max")) _bounds_max = ToPoint(item);
+		if (PyObject* item = PyDict_GetItemString(dict, "scale_min")) _scale_min = ToDouble(item);
+		if (PyObject* item = PyDict_GetItemString(dict, "scale_max")) _scale_max = ToDouble(item);
 
 		bool valueChanged = false;
-		if (PyObject* item = PyDict_GetItemString(dict, "x")) { valueChanged = true; (*m_value)[0] = ToDoubleVect(item); }
+		if (PyObject* item = PyDict_GetItemString(dict, "x")) { valueChanged = true; (*_value)[0] = ToDoubleVect(item); }
 
 		if (valueChanged)
 		{
-			(*m_value)[1].push_back(m_bounds_min.y);
-			(*m_value)[1].push_back(m_bounds_max.y);
+			(*_value)[1].push_back(_bounds_min.y);
+			(*_value)[1].push_back(_bounds_max.y);
 		}
 
 	}
@@ -203,13 +203,13 @@ namespace Marvel {
 		if (dict == nullptr)
 			return;
 
-		PyDict_SetItemString(dict, "format", ToPyString(m_format));
-		PyDict_SetItemString(dict, "rows", ToPyInt(m_rows));
-		PyDict_SetItemString(dict, "cols", ToPyInt(m_cols));
-		PyDict_SetItemString(dict, "bounds_min", ToPyPair(m_bounds_min.x, m_bounds_min.y));
-		PyDict_SetItemString(dict, "bounds_max", ToPyPair(m_bounds_max.x, m_bounds_max.y));
-		PyDict_SetItemString(dict, "scale_min", ToPyDouble(m_scale_min));
-		PyDict_SetItemString(dict, "scale_max", ToPyDouble(m_scale_max));
+		PyDict_SetItemString(dict, "format", ToPyString(_format));
+		PyDict_SetItemString(dict, "rows", ToPyInt(_rows));
+		PyDict_SetItemString(dict, "cols", ToPyInt(_cols));
+		PyDict_SetItemString(dict, "bounds_min", ToPyPair(_bounds_min.x, _bounds_min.y));
+		PyDict_SetItemString(dict, "bounds_max", ToPyPair(_bounds_max.x, _bounds_max.y));
+		PyDict_SetItemString(dict, "scale_min", ToPyDouble(_scale_min));
+		PyDict_SetItemString(dict, "scale_max", ToPyDouble(_scale_max));
 	}
 
 }

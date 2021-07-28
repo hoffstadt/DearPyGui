@@ -31,7 +31,7 @@ namespace Marvel {
 
 	private:
 
-		bool m_hour24 = false;
+		bool _hour24 = false;
 
 	};
 

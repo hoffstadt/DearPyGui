@@ -38,7 +38,7 @@ namespace Marvel {
 		: 
 		mvStringPtrBase(uuid)
 	{
-		*m_value = "Not Specified";
+		*_value = "Not Specified";
 	}
 
 	void mvText::draw(ImDrawList* drawlist, float x, float y)
@@ -51,29 +51,29 @@ namespace Marvel {
 		const float textVertCenter = ImGui::GetCursorPosY();
 		const float valueEndX = ImGui::GetCursorPosX() + w;
 
-		if (m_color.r >= 0.0f)
-			ImGui::PushStyleColor(ImGuiCol_Text, m_color.toVec4());
+		if (_color.r >= 0.0f)
+			ImGui::PushStyleColor(ImGuiCol_Text, _color.toVec4());
 
-		if (m_wrap >= 0)
-			ImGui::PushTextWrapPos((float)m_wrap);
+		if (_wrap >= 0)
+			ImGui::PushTextWrapPos((float)_wrap);
 
-		if (m_bullet)
+		if (_bullet)
 			ImGui::Bullet();
 
-		//ImGui::Text("%s", m_value.c_str());
-		ImGui::TextUnformatted(m_value->c_str()); // this doesn't have a buffer size limit
+		//ImGui::Text("%s", _value.c_str());
+		ImGui::TextUnformatted(_value->c_str()); // this doesn't have a buffer size limit
 
-		if (m_wrap >= 0)
+		if (_wrap >= 0)
 			ImGui::PopTextWrapPos();
 
-		if (m_color.r >= 0.0f)
+		if (_color.r >= 0.0f)
 			ImGui::PopStyleColor();
 
-		if (m_show_label)
+		if (_show_label)
 		{
 			ImGui::SameLine();
 			ImGui::SetCursorPos({ valueEndX + style.ItemInnerSpacing.x, textVertCenter });
-			ImGui::TextUnformatted(m_specificedlabel.c_str());
+			ImGui::TextUnformatted(_specificedlabel.c_str());
 		}
 
 	}
@@ -89,7 +89,7 @@ namespace Marvel {
 			switch (i)
 			{
 			case 0:
-				*m_value = ToString(item);
+				*_value = ToString(item);
 				break;
 
 			default:
@@ -103,10 +103,10 @@ namespace Marvel {
 		if (dict == nullptr)
 			return;
 
-		if (PyObject* item = PyDict_GetItemString(dict, "color")) m_color = ToColor(item);
-		if (PyObject* item = PyDict_GetItemString(dict, "wrap")) m_wrap = ToInt(item);
-		if (PyObject* item = PyDict_GetItemString(dict, "bullet")) m_bullet = ToBool(item);
-		if (PyObject* item = PyDict_GetItemString(dict, "show_label")) m_show_label = ToBool(item);
+		if (PyObject* item = PyDict_GetItemString(dict, "color")) _color = ToColor(item);
+		if (PyObject* item = PyDict_GetItemString(dict, "wrap")) _wrap = ToInt(item);
+		if (PyObject* item = PyDict_GetItemString(dict, "bullet")) _bullet = ToBool(item);
+		if (PyObject* item = PyDict_GetItemString(dict, "show_label")) _show_label = ToBool(item);
 
 	}
 
@@ -115,9 +115,9 @@ namespace Marvel {
 		if (dict == nullptr)
 			return;
 
-		PyDict_SetItemString(dict, "color", ToPyColor(m_color));
-		PyDict_SetItemString(dict, "wrap", ToPyInt(m_wrap));
-		PyDict_SetItemString(dict, "bullet", ToPyBool(m_bullet));
-		PyDict_SetItemString(dict, "show_label", ToPyBool(m_show_label));
+		PyDict_SetItemString(dict, "color", ToPyColor(_color));
+		PyDict_SetItemString(dict, "wrap", ToPyInt(_wrap));
+		PyDict_SetItemString(dict, "bullet", ToPyBool(_bullet));
+		PyDict_SetItemString(dict, "show_label", ToPyBool(_show_label));
 	}
 }

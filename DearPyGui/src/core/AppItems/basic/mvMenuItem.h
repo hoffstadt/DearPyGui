@@ -32,9 +32,9 @@ namespace Marvel {
 
 	private:
 
-		std::string m_shortcut;
-		bool        m_check = false;
-		std::string m_source;
+		std::string _shortcut;
+		bool        _check = false;
+		std::string _source;
 
 	};
 

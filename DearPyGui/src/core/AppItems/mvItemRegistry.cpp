@@ -174,10 +174,10 @@ namespace Marvel {
 		// prefill cached containers
 		for (int i = 0; i < CachedContainerCount; i++)
 		{
-			m_cachedContainersID[i] = 0;
-			m_cachedContainersPTR[i] = nullptr;
-			m_cachedItemsID[i] = 0;
-			m_cachedItemsPTR[i] = nullptr;
+			_cachedContainersID[i] = 0;
+			_cachedContainersPTR[i] = nullptr;
+			_cachedItemsID[i] = 0;
+			_cachedItemsPTR[i] = nullptr;
 		}
 		
 	}
@@ -195,13 +195,13 @@ namespace Marvel {
 
 		if (!mvApp::IsAppStarted())
 		{
-			for (size_t i = 0; i < m_roots.size(); i++)
+			for (size_t i = 0; i < _roots.size(); i++)
 			{
-				if (m_roots[i]->getUUID() == uuid)
+				if (_roots[i]->getUUID() == uuid)
 				{
-					mvRef<mvAppItem> oldItem = m_roots.back();
-					m_roots[m_roots.size() - 1] = m_roots[i];
-					m_roots[i] = oldItem;
+					mvRef<mvAppItem> oldItem = _roots.back();
+					_roots[_roots.size() - 1] = _roots[i];
+					_roots[i] = oldItem;
 					return true;
 				}
 			}
@@ -230,12 +230,12 @@ namespace Marvel {
 		cleanUpItem(uuid);
 
 		// check staging first
-		if (m_stagingArea.count(uuid) != 0)
+		if (_stagingArea.count(uuid) != 0)
 		{
 			if (childrenOnly)
-				m_stagingArea[uuid]->deleteChildren(slot);
+				_stagingArea[uuid]->deleteChildren(slot);
 			else
-				m_stagingArea.erase(uuid);
+				_stagingArea.erase(uuid);
 			MV_ITEM_REGISTRY_INFO(std::to_string(uuid) + " found and deleted.");
 			return true;
 		}
@@ -255,7 +255,7 @@ namespace Marvel {
 		bool deletedItem = false;
 
 		// try to delete build-in item
-		for (auto& window : m_roots)
+		for (auto& window : _roots)
 		{
 			deletedItem = window->deleteChild(uuid);
 			if (deletedItem)
@@ -265,9 +265,9 @@ namespace Marvel {
 		bool rootDeleting = false;
 
 		// check if attempting to delete a window
-		for (auto& window : m_roots)
+		for (auto& window : _roots)
 		{
-			if (window->m_uuid == uuid)
+			if (window->_uuid == uuid)
 			{
 				rootDeleting = true;
 				break;
@@ -279,18 +279,18 @@ namespace Marvel {
 		// structure
 		if (rootDeleting)
 		{
-			std::vector<mvRef<mvAppItem>> oldwindows = m_roots;
+			std::vector<mvRef<mvAppItem>> oldwindows = _roots;
 
-			m_roots.clear();
+			_roots.clear();
 
 			for (auto& window : oldwindows)
 			{
-				if (window->m_uuid == uuid)
+				if (window->_uuid == uuid)
 				{
 					deletedItem = true;
 					continue;
 				}
-				m_roots.push_back(window);
+				_roots.push_back(window);
 			}
 		}
 
@@ -315,7 +315,7 @@ namespace Marvel {
 
 		bool movedItem = false;
 
-		for (auto& window : m_roots)
+		for (auto& window : _roots)
 		{
 			child = window->stealChild(uuid);
 			if (child)
@@ -325,10 +325,10 @@ namespace Marvel {
 			}
 		}
 
-		if (m_stagingArea.count(uuid) != 0)
+		if (_stagingArea.count(uuid) != 0)
 		{
-			child = m_stagingArea[uuid];
-			m_stagingArea.erase(uuid);
+			child = _stagingArea[uuid];
+			_stagingArea.erase(uuid);
 		}
 
 		if (child == nullptr)
@@ -353,7 +353,7 @@ namespace Marvel {
 
 		bool movedItem = false;
 
-		for (auto window : m_roots)
+		for (auto window : _roots)
 		{
 			movedItem = window->moveChildUp(uuid);
 			if (movedItem)
@@ -379,7 +379,7 @@ namespace Marvel {
 
 		bool movedItem = false;
 
-		for (auto window : m_roots)
+		for (auto window : _roots)
 		{
 			movedItem = window->moveChildDown(uuid);
 			if (movedItem)
@@ -414,13 +414,13 @@ namespace Marvel {
 
 		MV_PROFILE_SCOPE("Rendering")
 
-		if(m_showImGuiDebug)
-			ImGui::ShowDemoWindow(&m_showImGuiDebug);
-		if(m_showImPlotDebug)
-			ImPlot::ShowDemoWindow(&m_showImPlotDebug);
+		if(_showImGuiDebug)
+			ImGui::ShowDemoWindow(&_showImGuiDebug);
+		if(_showImPlotDebug)
+			ImPlot::ShowDemoWindow(&_showImPlotDebug);
 
 		// todo: roots really needs to be split
-		for (auto& root : m_roots)
+		for (auto& root : _roots)
 		{
 			if (!root->preDraw())
 				continue;
@@ -428,7 +428,7 @@ namespace Marvel {
 			if (root->isAltCustomActionRequested())
 				root->alternativeCustomAction();
 
-			if(root->m_show || mvAppItem::DoesItemHaveFlag(root.get(), MV_ITEM_DESC_ALWAYS_DRAW) || root->getType() == mvAppItemType::mvWindowAppItem)
+			if(root->_show || mvAppItem::DoesItemHaveFlag(root.get(), MV_ITEM_DESC_ALWAYS_DRAW) || root->getType() == mvAppItemType::mvWindowAppItem)
 				root->draw(nullptr, 0.0f, 0.0f);
 
 			root->postDraw();
@@ -441,7 +441,7 @@ namespace Marvel {
 	{
 
 		// resets app items states (i.e. hovered)
-		for (auto& window : m_roots)
+		for (auto& window : _roots)
 			window->resetState();
 
 		return false;
@@ -450,33 +450,33 @@ namespace Marvel {
 	bool mvItemRegistry::onActiveWindow(mvEvent& event)
 	{
 
-		m_activeWindow = GetEUUID(event, "WINDOW");
+		_activeWindow = GetEUUID(event, "WINDOW");
 
-		MV_ITEM_REGISTRY_INFO("Active window changed to: " + std::to_string(m_activeWindow));
+		MV_ITEM_REGISTRY_INFO("Active window changed to: " + std::to_string(_activeWindow));
 
 		return false;
 	}
 
 	bool mvItemRegistry::addRuntimeItem(mvUUID parent, mvUUID before, mvRef<mvAppItem> item)
 	{
-		//MV_ITEM_REGISTRY_TRACE("Attempting to add new widget: ", item->m_name);
+		//MV_ITEM_REGISTRY_TRACE("Attempting to add new widget: ", item->_name);
 
 
-		if (m_stagingArea.count(parent) != 0)
+		if (_stagingArea.count(parent) != 0)
 		{
-			m_stagingArea[parent]->addItem(item);
+			_stagingArea[parent]->addItem(item);
 			return true;
 		}
 
-		else if (m_stagingArea.count(before) != 0)
+		else if (_stagingArea.count(before) != 0)
 		{
-			m_stagingArea[before]->addItem(item);
+			_stagingArea[before]->addItem(item);
 			return true;
 		}
 
-		if (m_staging)
+		if (_staging)
 		{
-			for (auto& stagingItem : m_stagingArea)
+			for (auto& stagingItem : _stagingArea)
 			{
 				if (stagingItem.second->addRuntimeChild(parent, before, item))
 					return true;
@@ -484,7 +484,7 @@ namespace Marvel {
 
 		}
 
-		for (auto& window : m_roots)
+		for (auto& window : _roots)
 		{
 			if(window->addRuntimeChild(parent, before, item))
 				return true;
@@ -495,11 +495,11 @@ namespace Marvel {
 
 	bool mvItemRegistry::addItemAfter(mvUUID prev, mvRef<mvAppItem> item)
 	{
-		//MV_ITEM_REGISTRY_TRACE("Attempting to add new widget after: ", item->m_name);
+		//MV_ITEM_REGISTRY_TRACE("Attempting to add new widget after: ", item->_name);
 
 		bool addedItem = false;
 
-		for (auto& window : m_roots)
+		for (auto& window : _roots)
 		{
 			addedItem = window->addChildAfter(prev, item);
 			if (addedItem)
@@ -512,17 +512,17 @@ namespace Marvel {
 
 	void mvItemRegistry::pushParent(mvAppItem* item)
 	{
-		m_containers.push(item);
+		_containers.push(item);
 	}
 
 	void mvItemRegistry::setStagingMode(bool value)
 	{
-		m_staging = value;
+		_staging = value;
 	}
 
 	mvAppItem* mvItemRegistry::popParent()
 	{
-		if (m_containers.empty())
+		if (_containers.empty())
 		{
 			mvThrowPythonError(mvErrorCode::mvContainerStackEmpty, "No container to pop.");
 			MV_ITEM_REGISTRY_WARN("No container to pop.");
@@ -530,23 +530,23 @@ namespace Marvel {
 			return nullptr;
 		}
 
-		auto item = m_containers.top();
-		m_containers.pop();
+		auto item = _containers.top();
+		_containers.pop();
 		return item;
 	}
 
 	void mvItemRegistry::emptyParents()
 	{
-		while (!m_containers.empty())
-			m_containers.pop();
+		while (!_containers.empty())
+			_containers.pop();
 
 		MV_ITEM_REGISTRY_INFO("Container stack emptied.");
 	}
 
 	mvAppItem* mvItemRegistry::topParent()
 	{
-		if (!m_containers.empty())
-			return m_containers.top();
+		if (!_containers.empty())
+			return _containers.top();
 		return nullptr;
 	}
 
@@ -554,23 +554,23 @@ namespace Marvel {
 	{
 		if (mvAppItem::DoesItemHaveFlag(item, MV_ITEM_DESC_CONTAINER))
 		{
-		m_cachedContainersID[m_cachedContainerIndex] = item->getUUID();
-		m_cachedContainersPTR[m_cachedContainerIndex] = item;
-		m_cachedContainerIndex++;
-		if (m_cachedContainerIndex == CachedContainerCount)
-			m_cachedContainerIndex = 0;
+		_cachedContainersID[_cachedContainerIndex] = item->getUUID();
+		_cachedContainersPTR[_cachedContainerIndex] = item;
+		_cachedContainerIndex++;
+		if (_cachedContainerIndex == CachedContainerCount)
+			_cachedContainerIndex = 0;
 		}
 
-		m_cachedItemsID[m_cachedItemsIndex] = item->getUUID();
-		m_cachedItemsPTR[m_cachedItemsIndex] = item;
-		m_cachedItemsIndex++;
-		if (m_cachedItemsIndex == CachedContainerCount)
-			m_cachedItemsIndex = 0;
+		_cachedItemsID[_cachedItemsIndex] = item->getUUID();
+		_cachedItemsPTR[_cachedItemsIndex] = item;
+		_cachedItemsIndex++;
+		if (_cachedItemsIndex == CachedContainerCount)
+			_cachedItemsIndex = 0;
 	}
 
 	void mvItemRegistry::delaySearch(mvAppItem* item)
 	{
-		m_delayedSearch.push_back(item);
+		_delayedSearch.push_back(item);
 	}
 
 	mvAppItem* mvItemRegistry::getItem(mvUUID uuid)
@@ -580,22 +580,22 @@ namespace Marvel {
 		// check cache first
 		for (int i = 0; i < CachedContainerCount; i++)
 		{
-			if (m_cachedContainersID[i] == uuid)
-				return m_cachedContainersPTR[i];
-			if (m_cachedItemsID[i] == uuid)
-				return m_cachedItemsPTR[i];
+			if (_cachedContainersID[i] == uuid)
+				return _cachedContainersPTR[i];
+			if (_cachedItemsID[i] == uuid)
+				return _cachedItemsPTR[i];
 		}
 
-		if (m_stagingArea.count(uuid) != 0)
-			return m_stagingArea[uuid].get();
+		if (_stagingArea.count(uuid) != 0)
+			return _stagingArea[uuid].get();
 
-		if (m_staging)
+		if (_staging)
 		{
-			for (auto& stagingItem : m_stagingArea)
+			for (auto& stagingItem : _stagingArea)
 			{
 				if (auto child = stagingItem.second->getChild(uuid))
 				{
-					m_delayedSearch.clear();
+					_delayedSearch.clear();
 					cacheItem(child);
 					return child;
 				}
@@ -603,9 +603,9 @@ namespace Marvel {
 
 		}
 
-		for (auto& window : m_roots)
+		for (auto& window : _roots)
 		{
-			if (window->m_uuid == uuid)
+			if (window->_uuid == uuid)
 			{
 				cacheItem(window.get());
 				return window.get();
@@ -615,23 +615,23 @@ namespace Marvel {
 			if (child)
 			{
 				cacheItem(child);
-				m_delayedSearch.clear();
+				_delayedSearch.clear();
 				return child;
 			}
 		}
 
-		for (auto delayedItem : m_delayedSearch)
+		for (auto delayedItem : _delayedSearch)
 		{
 			auto child = delayedItem->getChild(uuid);
 			if (child)
 			{
 				cacheItem(child);
-				m_delayedSearch.clear();
+				_delayedSearch.clear();
 				return child;
 			}
 		}
 
-		m_delayedSearch.clear();
+		_delayedSearch.clear();
 
 		return nullptr;
 	}
@@ -640,9 +640,9 @@ namespace Marvel {
 	{
 		mvRef<mvAppItem> item = nullptr;
 
-		for (auto& window : m_roots)
+		for (auto& window : _roots)
 		{
-			if (window->m_uuid == uuid)
+			if (window->_uuid == uuid)
 				return window;
 
 			auto child = window->getChildRef(uuid);
@@ -650,8 +650,8 @@ namespace Marvel {
 				return child;
 		}
 
-		if (m_stagingArea.count(uuid) != 0)
-			return m_stagingArea[uuid];
+		if (_stagingArea.count(uuid) != 0)
+			return _stagingArea[uuid];
 
 		//assert(false && "Item not found.");
 
@@ -678,10 +678,10 @@ namespace Marvel {
 	bool mvItemRegistry::addItem(mvRef<mvAppItem> item)
 	{
 
-		//MV_ITEM_REGISTRY_TRACE("Adding item: " + item->m_name);
+		//MV_ITEM_REGISTRY_TRACE("Adding item: " + item->_name);
 
 		mvAppItem* parentitem = topParent();
-		item->m_parentPtr = parentitem;
+		item->_parentPtr = parentitem;
 		parentitem->addItem(item);
 
 		return true;
@@ -689,41 +689,41 @@ namespace Marvel {
 
 	bool mvItemRegistry::addWindow(mvRef<mvAppItem> item)
 	{
-		//MV_ITEM_REGISTRY_INFO("Adding window: " + item->m_name);
-		m_roots.push_back(item);
+		//MV_ITEM_REGISTRY_INFO("Adding window: " + item->_name);
+		_roots.push_back(item);
 		return true;
 	}
 
 	void mvItemRegistry::clearRegistry()
 	{
 		MV_ITEM_REGISTRY_INFO("Clearing item registry.");
-		m_roots.clear();
+		_roots.clear();
 	}
 
 	void mvItemRegistry::cleanUpItem(mvUUID uuid)
 	{
 		for (int i = 0; i < CachedContainerCount; i++)
 		{
-			if (m_cachedContainersID[i] == uuid)
+			if (_cachedContainersID[i] == uuid)
 			{
-				m_cachedContainersID[i] = 0;
-				m_cachedContainersPTR[i] = nullptr;
+				_cachedContainersID[i] = 0;
+				_cachedContainersPTR[i] = nullptr;
 			}
 
-			if (m_cachedItemsID[i] == uuid)
+			if (_cachedItemsID[i] == uuid)
 			{
-				m_cachedItemsID[i] = 0;
-				m_cachedItemsPTR[i] = nullptr;
+				_cachedItemsID[i] = 0;
+				_cachedItemsPTR[i] = nullptr;
 			}
 		}
 	}
 
 	bool mvItemRegistry::addItemWithRuntimeChecks(mvRef<mvAppItem> item, mvUUID parent, mvUUID before)
 	{
-		//MV_ITEM_REGISTRY_TRACE("Adding runtime item: " + item->m_name);
+		//MV_ITEM_REGISTRY_TRACE("Adding runtime item: " + item->_name);
 
 		if (mvAppItem::DoesItemHaveFlag(item.get(), MV_ITEM_DESC_HANDLER) && parent == 0)
-			parent = item->m_parent;
+			parent = item->_parent;
 
 		if (item == nullptr)
 			return false;
@@ -738,13 +738,13 @@ namespace Marvel {
 		//---------------------------------------------------------------------------
 		if (mvAppItem::DoesItemHaveFlag(item.get(), MV_ITEM_DESC_ROOT))
 		{
-			m_lastRootAdded = item->getUUID();
-			m_lastContainerAdded = item->getUUID();
+			_lastRootAdded = item->getUUID();
+			_lastContainerAdded = item->getUUID();
 		}
 		else if (mvAppItem::DoesItemHaveFlag(item.get(), MV_ITEM_DESC_CONTAINER))
-			m_lastContainerAdded = item->getUUID();
+			_lastContainerAdded = item->getUUID();
 
-		m_lastItemAdded = item->getUUID();
+		_lastItemAdded = item->getUUID();
 
 		cacheItem(item.get());
 
@@ -772,9 +772,9 @@ namespace Marvel {
 		//---------------------------------------------------------------------------
 		if (mvAppItem::DoesItemHaveFlag(item.get(), MV_ITEM_DESC_ROOT))
 		{
-			if (m_staging)
+			if (_staging)
 			{
-				m_stagingArea[item->getUUID()] = item;
+				_stagingArea[item->getUUID()] = item;
 				return true;
 			}
 
@@ -786,7 +786,7 @@ namespace Marvel {
 
 			if (mvApp::IsAppStarted())
 			{
-				m_roots.push_back(item);
+				_roots.push_back(item);
 				return true;
 			}
 			return addWindow(item);
@@ -801,7 +801,7 @@ namespace Marvel {
 
 			auto beforeItem = getItem(before);
 			if (beforeItem)
-				parentPtr = beforeItem->m_parentPtr;
+				parentPtr = beforeItem->_parentPtr;
 			technique = AddTechnique::BEFORE;
 		}
 
@@ -837,9 +837,9 @@ namespace Marvel {
 		//---------------------------------------------------------------------------
 		if (parentPtr == nullptr)
 		{
-			if (m_staging)
+			if (_staging)
 			{
-				m_stagingArea[item->getUUID()] = item;
+				_stagingArea[item->getUUID()] = item;
 				return true;
 			}
 
@@ -890,11 +890,11 @@ namespace Marvel {
 
 		if (item)
 		{
-			for (auto& children : item->m_children)
+			for (auto& children : item->_children)
 			{
 				std::vector<mvUUID> childSlot;
 				for (auto& child : children)
-					childSlot.emplace_back(child->m_uuid);
+					childSlot.emplace_back(child->_uuid);
 				childList.push_back(childSlot);
 			}
 
@@ -917,33 +917,33 @@ namespace Marvel {
 		// to help recursively retrieve children
 		std::function<void(mvRef<mvAppItem>)> ChildRetriever;
 		ChildRetriever = [&childList, &ChildRetriever](mvRef<mvAppItem> item) {
-			auto& children0 = item->m_children[0];
-			auto& children1 = item->m_children[1];
-			auto& children2 = item->m_children[2];
+			auto& children0 = item->_children[0];
+			auto& children1 = item->_children[1];
+			auto& children2 = item->_children[2];
 			for (auto& child : children0)
 			{
-				childList.emplace_back(child->m_uuid);
+				childList.emplace_back(child->_uuid);
 				if (mvAppItem::DoesItemHaveFlag(child.get(), MV_ITEM_DESC_CONTAINER))
 					ChildRetriever(child);
 			}
 			for (auto& child : children1)
 			{
-				childList.emplace_back(child->m_uuid);
+				childList.emplace_back(child->_uuid);
 				if (mvAppItem::DoesItemHaveFlag(child.get(), MV_ITEM_DESC_CONTAINER))
 					ChildRetriever(child);
 			}
 			for (auto& child : children2)
 			{
-				childList.emplace_back(child->m_uuid);
+				childList.emplace_back(child->_uuid);
 				if (mvAppItem::DoesItemHaveFlag(child.get(), MV_ITEM_DESC_CONTAINER))
 					ChildRetriever(child);
 			}
 
 		};
 
-		for (auto& window : m_roots)
+		for (auto& window : _roots)
 		{
-			childList.emplace_back(window->m_uuid);
+			childList.emplace_back(window->_uuid);
 			ChildRetriever(window);
 		}
 
@@ -954,8 +954,8 @@ namespace Marvel {
 	{
 
 		std::vector<mvUUID> childList;
-		for (auto& window : m_roots)
-			childList.emplace_back(window->m_uuid);
+		for (auto& window : _roots)
+			childList.emplace_back(window->_uuid);
 
 		return childList;
 	}
@@ -980,9 +980,9 @@ namespace Marvel {
 		}
 
 		// reset other windows
-		for (auto& window : m_roots)
+		for (auto& window : _roots)
 		{
-			if (window->m_uuid != uuid && window->getType() == mvAppItemType::mvWindowAppItem)
+			if (window->_uuid != uuid && window->getType() == mvAppItemType::mvWindowAppItem)
 				static_cast<mvWindowAppItem*>(window.get())->setWindowAsMainStatus(false);
 		}
 
@@ -991,14 +991,14 @@ namespace Marvel {
 	void mvItemRegistry::unstageItem(mvUUID uuid)
 	{
 
-		if (m_stagingArea.count(uuid) != 0)
+		if (_stagingArea.count(uuid) != 0)
 		{
-			mvRef<mvAppItem> item = m_stagingArea[uuid];
-			m_stagingArea.erase(uuid);
+			mvRef<mvAppItem> item = _stagingArea[uuid];
+			_stagingArea.erase(uuid);
 			cleanUpItem(uuid);
 			if (item->getType() == mvAppItemType::mvStagingContainer)
 			{
-				for (auto& children : item->m_children)
+				for (auto& children : item->_children)
 				{
 					for (auto& child : children)
 						addItemWithRuntimeChecks(child, 0, 0);
@@ -1020,7 +1020,7 @@ namespace Marvel {
 	{
 		mvRef<mvAppItem> child;
 
-		for (auto& window : m_roots)
+		for (auto& window : _roots)
 		{
 			child = window->stealChild(uuid);
 			if (child)
@@ -1035,7 +1035,7 @@ namespace Marvel {
 			return;
 		}
 
-		m_stagingArea[child->getUUID()] = child;
+		_stagingArea[child->getUUID()] = child;
 
 	}
 
@@ -1072,19 +1072,19 @@ namespace Marvel {
 	PyObject* mvItemRegistry::last_item(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		if (!mvApp::s_manualMutexControl) std::lock_guard<std::mutex> lk(mvApp::s_mutex);
-		return ToPyUUID(mvApp::GetApp()->getItemRegistry().m_lastItemAdded);
+		return ToPyUUID(mvApp::GetApp()->getItemRegistry()._lastItemAdded);
 	}
 
 	PyObject* mvItemRegistry::last_container(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		if (!mvApp::s_manualMutexControl) std::lock_guard<std::mutex> lk(mvApp::s_mutex);
-		return ToPyUUID(mvApp::GetApp()->getItemRegistry().m_lastContainerAdded);
+		return ToPyUUID(mvApp::GetApp()->getItemRegistry()._lastContainerAdded);
 	}
 
 	PyObject* mvItemRegistry::last_root(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		if (!mvApp::s_manualMutexControl) std::lock_guard<std::mutex> lk(mvApp::s_mutex);
-		return ToPyUUID(mvApp::GetApp()->getItemRegistry().m_lastRootAdded);
+		return ToPyUUID(mvApp::GetApp()->getItemRegistry()._lastRootAdded);
 	}
 
 	PyObject* mvItemRegistry::push_container_stack(PyObject* self, PyObject* args, PyObject* kwargs)
@@ -1300,7 +1300,7 @@ namespace Marvel {
 	{
 
 		if (!mvApp::s_manualMutexControl) std::lock_guard<std::mutex> lk(mvApp::s_mutex);
-		mvApp::GetApp()->getItemRegistry().m_showImGuiDebug = true;
+		mvApp::GetApp()->getItemRegistry()._showImGuiDebug = true;
 		return GetPyNone();
 	}
 
@@ -1308,7 +1308,7 @@ namespace Marvel {
 	{
 
 		if (!mvApp::s_manualMutexControl) std::lock_guard<std::mutex> lk(mvApp::s_mutex);
-		mvApp::GetApp()->getItemRegistry().m_showImPlotDebug = true;
+		mvApp::GetApp()->getItemRegistry()._showImPlotDebug = true;
 		return GetPyNone();
 	}
 

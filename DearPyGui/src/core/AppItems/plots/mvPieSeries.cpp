@@ -61,26 +61,26 @@ namespace Marvel {
 		//-----------------------------------------------------------------------------
 		// pre draw
 		//-----------------------------------------------------------------------------
-		if (!m_show)
+		if (!_show)
 			return;
 
 		// push font if a font object is attached
-		if (m_font)
+		if (_font)
 		{
-			ImFont* fontptr = static_cast<mvFont*>(m_font.get())->getFontPtr();
+			ImFont* fontptr = static_cast<mvFont*>(_font.get())->getFontPtr();
 			ImGui::PushFont(fontptr);
 		}
 
 		// handle enabled theming
-		if (m_enabled)
+		if (_enabled)
 		{
 			// push class theme (if it exists)
 			if (auto classTheme = getClassTheme())
 				static_cast<mvTheme*>(classTheme.get())->draw(nullptr, 0.0f, 0.0f);
 
 			// push item theme (if it exists)
-			if (m_theme)
-				static_cast<mvTheme*>(m_theme.get())->draw(nullptr, 0.0f, 0.0f);
+			if (_theme)
+				static_cast<mvTheme*>(_theme.get())->draw(nullptr, 0.0f, 0.0f);
 		}
 
 		//-----------------------------------------------------------------------------
@@ -90,15 +90,15 @@ namespace Marvel {
 
 			static const std::vector<double>* xptr;
 
-			xptr = &(*m_value.get())[0];
+			xptr = &(*_value.get())[0];
 
-			ImPlot::PlotPieChart(m_clabels.data(), xptr->data(), (int)m_labels.size(),
-				m_x, m_y, m_radius, m_normalize, m_format.c_str(), m_angle);
+			ImPlot::PlotPieChart(_clabels.data(), xptr->data(), (int)_labels.size(),
+				_x, _y, _radius, _normalize, _format.c_str(), _angle);
 
 			// Begin a popup for a legend entry.
-			if (ImPlot::BeginLegendPopup(m_label.c_str(), 1))
+			if (ImPlot::BeginLegendPopup(_label.c_str(), 1))
 			{
-				for (auto& childset : m_children)
+				for (auto& childset : _children)
 				{
 					for (auto& item : childset)
 					{
@@ -124,17 +124,17 @@ namespace Marvel {
 		//-----------------------------------------------------------------------------
 
 		// pop font off stack
-		if (m_font)
+		if (_font)
 			ImGui::PopFont();
 
 		// handle popping styles
-		if (m_enabled)
+		if (_enabled)
 		{
 			if (auto classTheme = getClassTheme())
 				static_cast<mvTheme*>(classTheme.get())->customAction();
 
-			if (m_theme)
-				static_cast<mvTheme*>(m_theme.get())->customAction();
+			if (_theme)
+				static_cast<mvTheme*>(_theme.get())->customAction();
 		}
 
 	}
@@ -150,26 +150,26 @@ namespace Marvel {
 			switch (i)
 			{
 			case 0:
-				m_x = ToDouble(item);
+				_x = ToDouble(item);
 				break;
 
 			case 1:
-				m_y = ToDouble(item);
+				_y = ToDouble(item);
 				break;
 
 			case 2:
-				m_radius = ToDouble(item);
+				_radius = ToDouble(item);
 				break;
 
 			case 3:
-				(*m_value)[0] = ToDoubleVect(item);
+				(*_value)[0] = ToDoubleVect(item);
 				break;
 
 			case 4:
-				m_labels = ToStringVect(item);
-				m_clabels.clear();
-				for (const auto& label : m_labels)
-					m_clabels.push_back(label.c_str());
+				_labels = ToStringVect(item);
+				_clabels.clear();
+				for (const auto& label : _labels)
+					_clabels.push_back(label.c_str());
 				break;
 
 			default:
@@ -183,21 +183,21 @@ namespace Marvel {
 		if (dict == nullptr)
 			return;
 
-		if (PyObject* item = PyDict_GetItemString(dict, "format")) m_format = ToString(item);
-		if (PyObject* item = PyDict_GetItemString(dict, "x")) m_x = ToDouble(item);
-		if (PyObject* item = PyDict_GetItemString(dict, "y")) m_y = ToDouble(item);
-		if (PyObject* item = PyDict_GetItemString(dict, "radius")) m_radius = ToDouble(item);
-		if (PyObject* item = PyDict_GetItemString(dict, "angle")) m_angle = ToDouble(item);
-		if (PyObject* item = PyDict_GetItemString(dict, "normalize")) m_normalize = ToBool(item);
+		if (PyObject* item = PyDict_GetItemString(dict, "format")) _format = ToString(item);
+		if (PyObject* item = PyDict_GetItemString(dict, "x")) _x = ToDouble(item);
+		if (PyObject* item = PyDict_GetItemString(dict, "y")) _y = ToDouble(item);
+		if (PyObject* item = PyDict_GetItemString(dict, "radius")) _radius = ToDouble(item);
+		if (PyObject* item = PyDict_GetItemString(dict, "angle")) _angle = ToDouble(item);
+		if (PyObject* item = PyDict_GetItemString(dict, "normalize")) _normalize = ToBool(item);
 		if (PyObject* item = PyDict_GetItemString(dict, "labels"))
 		{
-			m_labels = ToStringVect(item);
-			m_clabels.clear();
-			for (const auto& label : m_labels)
-				m_clabels.push_back(label.c_str());
+			_labels = ToStringVect(item);
+			_clabels.clear();
+			for (const auto& label : _labels)
+				_clabels.push_back(label.c_str());
 		}
 
-		if (PyObject* item = PyDict_GetItemString(dict, "values")) { (*m_value)[0] = ToDoubleVect(item); }
+		if (PyObject* item = PyDict_GetItemString(dict, "values")) { (*_value)[0] = ToDoubleVect(item); }
 
 
 	}
@@ -207,13 +207,13 @@ namespace Marvel {
 		if (dict == nullptr)
 			return;
 
-		PyDict_SetItemString(dict, "format", ToPyString(m_format));
-		PyDict_SetItemString(dict, "x", ToPyDouble(m_x));
-		PyDict_SetItemString(dict, "y", ToPyDouble(m_y));
-		PyDict_SetItemString(dict, "radius", ToPyDouble(m_radius));
-		PyDict_SetItemString(dict, "angle", ToPyDouble(m_angle));
-		PyDict_SetItemString(dict, "normalize", ToPyBool(m_normalize));
-		PyDict_SetItemString(dict, "labels", ToPyList(m_labels));
+		PyDict_SetItemString(dict, "format", ToPyString(_format));
+		PyDict_SetItemString(dict, "x", ToPyDouble(_x));
+		PyDict_SetItemString(dict, "y", ToPyDouble(_y));
+		PyDict_SetItemString(dict, "radius", ToPyDouble(_radius));
+		PyDict_SetItemString(dict, "angle", ToPyDouble(_angle));
+		PyDict_SetItemString(dict, "normalize", ToPyBool(_normalize));
+		PyDict_SetItemString(dict, "labels", ToPyList(_labels));
 	}
 
 }

@@ -44,22 +44,22 @@ namespace Marvel {
 
 	void mvListbox::setPyValue(PyObject* value)
 	{
-		*m_value = ToString(value);
+		*_value = ToString(value);
 		updateIndex();
 	}
 
 	void mvListbox::updateIndex()
 	{
-		m_index = 0;
-		m_disabledindex = 0;
+		_index = 0;
+		_disabledindex = 0;
 
 		int index = 0;
-		for (const auto& name : m_names)
+		for (const auto& name : _names)
 		{
-			if (name == *m_value)
+			if (name == *_value)
 			{
-				m_index = index;
-				m_disabledindex = index;
+				_index = index;
+				_disabledindex = index;
 				break;
 			}
 			index++;
@@ -68,21 +68,21 @@ namespace Marvel {
 
 	void mvListbox::draw(ImDrawList* drawlist, float x, float y)
 	{
-		ScopedID id(m_uuid);
+		ScopedID id(_uuid);
 
-		if (!m_enabled)
+		if (!_enabled)
 		{
-			m_disabled_value = *m_value;
-			m_disabledindex = m_index;
+			_disabled_value = *_value;
+			_disabledindex = _index;
 		}
 
-		if (ImGui::ListBox(m_label.c_str(), m_enabled ? &m_index : &m_disabledindex, m_charNames.data(), (int)m_names.size(), m_itemsHeight))
+		if (ImGui::ListBox(_label.c_str(), _enabled ? &_index : &_disabledindex, _charNames.data(), (int)_names.size(), _itemsHeight))
 		{
-			*m_value = m_names[m_index];
-			m_disabled_value = m_names[m_index];
-			auto value = *m_value;
+			*_value = _names[_index];
+			_disabled_value = _names[_index];
+			auto value = *_value;
 			mvApp::GetApp()->getCallbackRegistry().submitCallback([=]() {
-				mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), m_uuid, ToPyString(value), m_user_data);
+				mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), _uuid, ToPyString(value), _user_data);
 				});
 		}
 	}
@@ -98,10 +98,10 @@ namespace Marvel {
 			switch (i)
 			{
 			case 0:
-				m_names = ToStringVect(item);
-				m_charNames.clear();
-				for (const std::string& item : m_names)
-					m_charNames.emplace_back(item.c_str());
+				_names = ToStringVect(item);
+				_charNames.clear();
+				for (const std::string& item : _names)
+					_charNames.emplace_back(item.c_str());
 				break;
 
 			default:
@@ -115,13 +115,13 @@ namespace Marvel {
 		if (dict == nullptr)
 			return;
 		 
-		if (PyObject* item = PyDict_GetItemString(dict, "num_items")) m_itemsHeight = ToInt(item);
+		if (PyObject* item = PyDict_GetItemString(dict, "nu_items")) _itemsHeight = ToInt(item);
 		if (PyObject* item = PyDict_GetItemString(dict, "items"))
 		{
-			m_names = ToStringVect(item);
-			m_charNames.clear();
-			for (const std::string& item : m_names)
-				m_charNames.emplace_back(item.c_str());
+			_names = ToStringVect(item);
+			_charNames.clear();
+			for (const std::string& item : _names)
+				_charNames.emplace_back(item.c_str());
 			updateIndex();
 		}
 	}
@@ -131,8 +131,8 @@ namespace Marvel {
 		if (dict == nullptr)
 			return;
 		 
-		PyDict_SetItemString(dict, "items", ToPyList(m_names));
-		PyDict_SetItemString(dict, "num_items", ToPyInt(m_itemsHeight));
+		PyDict_SetItemString(dict, "items", ToPyList(_names));
+		PyDict_SetItemString(dict, "nu_items", ToPyInt(_itemsHeight));
 	}
 
 }

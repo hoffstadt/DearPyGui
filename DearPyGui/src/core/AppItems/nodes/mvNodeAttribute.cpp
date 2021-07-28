@@ -40,7 +40,7 @@ namespace Marvel {
 	{
 		int64_t address = (int64_t)this;
 		int64_t reduced_address = address % 2147483648;
-		m_id = (int)reduced_address;
+		_id = (int)reduced_address;
 	}
 
 	bool mvNodeAttribute::isParentCompatible(mvAppItemType type)
@@ -58,16 +58,16 @@ namespace Marvel {
 
 	void mvNodeAttribute::draw(ImDrawList* drawlist, float x, float y)
 	{
-		ScopedID id(m_uuid);
+		ScopedID id(_uuid);
 
-		if (m_attrType == mvNodeAttribute::AttributeType::mvAttr_Static)
-			imnodes::BeginStaticAttribute((int)m_id);
-		else if(m_attrType == mvNodeAttribute::AttributeType::mvAttr_Output)
-			imnodes::BeginOutputAttribute((int)m_id, m_shape);
+		if (_attrType == mvNodeAttribute::AttributeType::mvAttr_Static)
+			imnodes::BeginStaticAttribute((int)_id);
+		else if(_attrType == mvNodeAttribute::AttributeType::mvAttr_Output)
+			imnodes::BeginOutputAttribute((int)_id, _shape);
 		else
-			imnodes::BeginInputAttribute((int)m_id, m_shape);
+			imnodes::BeginInputAttribute((int)_id, _shape);
 
-		for (auto& item : m_children[1])
+		for (auto& item : _children[1])
 		{
 			// skip item if it's not shown
 			if (!item->isShown())
@@ -97,9 +97,9 @@ namespace Marvel {
 			item->getState().update();
 		}
 
-		if (m_attrType == mvNodeAttribute::AttributeType::mvAttr_Static)
+		if (_attrType == mvNodeAttribute::AttributeType::mvAttr_Static)
 			imnodes::EndStaticAttribute();
-		else if (m_attrType == mvNodeAttribute::AttributeType::mvAttr_Output)
+		else if (_attrType == mvNodeAttribute::AttributeType::mvAttr_Output)
 			imnodes::EndOutputAttribute();
 		else
 			imnodes::EndInputAttribute();
@@ -110,11 +110,11 @@ namespace Marvel {
 		if (dict == nullptr)
 			return;
 
-		if (PyObject* item = PyDict_GetItemString(dict, "category")) m_category = ToString(item);
-		if (PyObject* item = PyDict_GetItemString(dict, "attribute_type")) m_attrType = (mvNodeAttribute::AttributeType)ToUUID(item);
+		if (PyObject* item = PyDict_GetItemString(dict, "category")) _category = ToString(item);
+		if (PyObject* item = PyDict_GetItemString(dict, "attribute_type")) _attrType = (mvNodeAttribute::AttributeType)ToUUID(item);
 		if (PyObject* item = PyDict_GetItemString(dict, "shape"))
 		{
-			m_shape = (imnodes::PinShape)ToInt(item);
+			_shape = (imnodes::PinShape)ToInt(item);
 		}
 	}
 
@@ -123,9 +123,9 @@ namespace Marvel {
 		if (dict == nullptr)
 			return;
 
-		PyDict_SetItemString(dict, "attribute_type", ToPyUUID((long)m_attrType));
-		PyDict_SetItemString(dict, "shape", ToPyInt((int)m_shape));
-		PyDict_SetItemString(dict, "category", ToPyString(m_category));
+		PyDict_SetItemString(dict, "attribute_type", ToPyUUID((long)_attrType));
+		PyDict_SetItemString(dict, "shape", ToPyInt((int)_shape));
+		PyDict_SetItemString(dict, "category", ToPyString(_category));
 	}
 
 }

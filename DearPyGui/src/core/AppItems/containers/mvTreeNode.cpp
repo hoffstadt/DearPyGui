@@ -42,19 +42,19 @@ namespace Marvel {
 
 	void mvTreeNode::draw(ImDrawList* drawlist, float x, float y)
 	{
-		ScopedID id(m_uuid);
+		ScopedID id(_uuid);
 
 		ImGui::BeginGroup();
 		
-		if (*m_value && m_selectable)
-			m_flags |= ImGuiTreeNodeFlags_Selected;
+		if (*_value && _selectable)
+			_flags |= ImGuiTreeNodeFlags_Selected;
 		else
-			m_flags &= ~ImGuiTreeNodeFlags_Selected;
+			_flags &= ~ImGuiTreeNodeFlags_Selected;
 
-		bool expanded = ImGui::TreeNodeEx(m_label.c_str(), m_flags);
+		bool expanded = ImGui::TreeNodeEx(_label.c_str(), _flags);
 
 		if (ImGui::IsItemClicked())
-			*m_value = !*m_value;
+			*_value = !*_value;
 
 		if (!expanded)
 		{
@@ -62,7 +62,7 @@ namespace Marvel {
 			return;
 		}
 
-		for (auto& item : m_children[1])
+		for (auto& item : _children[1])
 		{
 			if (!item->preDraw())
 				continue;
@@ -81,7 +81,7 @@ namespace Marvel {
 		if (dict == nullptr)
 			return;
 		 
-		if (PyObject* item = PyDict_GetItemString(dict, "selectable")) m_selectable = ToBool(item);
+		if (PyObject* item = PyDict_GetItemString(dict, "selectable")) _selectable = ToBool(item);
 
 		// helper for bit flipping
 		auto flagop = [dict](const char* keyword, int flag, int& flags)
@@ -90,11 +90,11 @@ namespace Marvel {
 		};
 
 		// flags
-		flagop("default_open", ImGuiTreeNodeFlags_DefaultOpen, m_flags);
-		flagop("open_on_double_click", ImGuiTreeNodeFlags_OpenOnDoubleClick, m_flags);
-		flagop("open_on_arrow", ImGuiTreeNodeFlags_OpenOnArrow, m_flags);
-		flagop("leaf", ImGuiTreeNodeFlags_Leaf, m_flags);
-		flagop("bullet", ImGuiTreeNodeFlags_Bullet, m_flags);
+		flagop("default_open", ImGuiTreeNodeFlags_DefaultOpen, _flags);
+		flagop("open_on_double_click", ImGuiTreeNodeFlags_OpenOnDoubleClick, _flags);
+		flagop("open_on_arrow", ImGuiTreeNodeFlags_OpenOnArrow, _flags);
+		flagop("leaf", ImGuiTreeNodeFlags_Leaf, _flags);
+		flagop("bullet", ImGuiTreeNodeFlags_Bullet, _flags);
 	}
 
 	void mvTreeNode::getSpecificConfiguration(PyObject* dict)
@@ -102,7 +102,7 @@ namespace Marvel {
 		if (dict == nullptr)
 			return;
 		 
-		PyDict_SetItemString(dict, "selectable", ToPyBool(m_selectable));
+		PyDict_SetItemString(dict, "selectable", ToPyBool(_selectable));
 
 		// helper to check and set bit
 		auto checkbitset = [dict](const char* keyword, int flag, const int& flags)
@@ -111,11 +111,11 @@ namespace Marvel {
 		};
 
 		// flags
-		checkbitset("default_open", ImGuiTreeNodeFlags_DefaultOpen, m_flags);
-		checkbitset("open_on_double_click", ImGuiTreeNodeFlags_OpenOnDoubleClick, m_flags);
-		checkbitset("open_on_arrow", ImGuiTreeNodeFlags_OpenOnArrow, m_flags);
-		checkbitset("leaf", ImGuiTreeNodeFlags_Leaf, m_flags);
-		checkbitset("bullet", ImGuiTreeNodeFlags_Bullet, m_flags);
+		checkbitset("default_open", ImGuiTreeNodeFlags_DefaultOpen, _flags);
+		checkbitset("open_on_double_click", ImGuiTreeNodeFlags_OpenOnDoubleClick, _flags);
+		checkbitset("open_on_arrow", ImGuiTreeNodeFlags_OpenOnArrow, _flags);
+		checkbitset("leaf", ImGuiTreeNodeFlags_Leaf, _flags);
+		checkbitset("bullet", ImGuiTreeNodeFlags_Bullet, _flags);
 
 	}
 

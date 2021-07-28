@@ -61,20 +61,20 @@ namespace Marvel {
 		void setLimits(float y_min, float y_max);
 		void setLimitsAuto();
 
-		ImPlotAxisFlags getFlags() const { return m_flags; }
-		const ImVec2& getYLimits() const { return m_limits_actual; }
+		ImPlotAxisFlags getFlags() const { return _flags; }
+		const ImVec2& getYLimits() const { return _limits_actual; }
 
 	private:
 
-		ImPlotAxisFlags          m_flags = 0;
-		int                      m_axis = 0;
-		bool                     m_setLimits = false;
-		ImVec2                   m_limits;
-		ImVec2                   m_limits_actual;
-		std::vector<std::string> m_labels;
-		std::vector<double>      m_labelLocations;
-		std::vector<const char*> m_clabels; // to prevent conversion from string to char* every frame
-		bool                     m_dirty = false;
+		ImPlotAxisFlags          _flags = 0;
+		int                      _axis = 0;
+		bool                     _setLimits = false;
+		ImVec2                   _limits;
+		ImVec2                   _limits_actual;
+		std::vector<std::string> _labels;
+		std::vector<double>      _labelLocations;
+		std::vector<const char*> _clabels; // to prevent conversion from string to char* every frame
+		bool                     _dirty = false;
 
 	};
 

@@ -30,7 +30,7 @@ namespace Marvel {
 
 	private:
 
-		ImGuiTextFilter m_imguiFilter;
+		ImGuiTextFilter _imguiFilter;
 	};
 
 }

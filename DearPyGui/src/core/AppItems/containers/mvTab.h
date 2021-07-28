@@ -49,8 +49,8 @@ namespace Marvel {
 
 	private:
 
-		bool              m_closable = false;
-		ImGuiTabItemFlags m_flags = ImGuiTabItemFlags_None;
+		bool              _closable = false;
+		ImGuiTabItemFlags _flags = ImGuiTabItemFlags_None;
 
 	};
 

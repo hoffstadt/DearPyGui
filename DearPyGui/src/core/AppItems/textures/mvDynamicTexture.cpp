@@ -32,7 +32,7 @@ namespace Marvel {
 
 	mvDynamicTexture::~mvDynamicTexture()
 	{
-		FreeTexture(m_texture);
+		FreeTexture(_texture);
 	}
 
 
@@ -51,19 +51,19 @@ namespace Marvel {
 
 	void mvDynamicTexture::draw(ImDrawList* drawlist, float x, float y)
 	{
-		if (m_dirty)
+		if (_dirty)
 		{
 
-			m_texture = LoadTextureFromArrayDynamic(m_width, m_height, m_value->data());
+			_texture = LoadTextureFromArrayDynamic(_width, _height, _value->data());
 
-			if (m_texture == nullptr)
-				m_state.setOk(false);
+			if (_texture == nullptr)
+				_state.setOk(false);
 
-			m_dirty = false;
+			_dirty = false;
 			return;
 		}
 
-		UpdateTexture(m_texture, m_width, m_height, *m_value);
+		UpdateTexture(_texture, _width, _height, *_value);
 
 	}
 
@@ -78,15 +78,15 @@ namespace Marvel {
 			switch (i)
 			{
 			case 0:
-				m_width = ToInt(item);
+				_width = ToInt(item);
 				break;
 
 			case 1:
-				m_height = ToInt(item);
+				_height = ToInt(item);
 				break;
 
 			case 2:
-				*m_value = ToFloatVect(item);
+				*_value = ToFloatVect(item);
 				break;
 
 			default:

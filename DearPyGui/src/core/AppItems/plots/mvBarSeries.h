@@ -35,8 +35,8 @@ namespace Marvel {
 
 	private:
 
-		bool m_horizontal = false;
-		float m_weight = 1.0f;
+		bool _horizontal = false;
+		float _weight = 1.0f;
 
 	};
 

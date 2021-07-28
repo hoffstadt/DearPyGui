@@ -31,7 +31,7 @@ namespace Marvel {
 
 	void mvSameLine::draw(ImDrawList* drawlist, float x, float y)
 	{
-		ImGui::SameLine(m_xoffset, m_spacing);
+		ImGui::SameLine(_xoffset, _spacing);
 	}
 
 	void mvSameLine::handleSpecificKeywordArgs(PyObject* dict)
@@ -39,8 +39,8 @@ namespace Marvel {
 		if (dict == nullptr)
 			return;
 
-		if (PyObject* item = PyDict_GetItemString(dict, "xoffset")) m_xoffset = ToFloat(item);
-		if (PyObject* item = PyDict_GetItemString(dict, "spacing")) m_spacing = ToFloat(item);
+		if (PyObject* item = PyDict_GetItemString(dict, "xoffset")) _xoffset = ToFloat(item);
+		if (PyObject* item = PyDict_GetItemString(dict, "spacing")) _spacing = ToFloat(item);
 
 	}
 
@@ -49,8 +49,8 @@ namespace Marvel {
 		if (dict == nullptr)
 			return;
 
-		PyDict_SetItemString(dict, "xoffset", ToPyFloat(m_xoffset));
-		PyDict_SetItemString(dict, "spacing", ToPyFloat(m_spacing));
+		PyDict_SetItemString(dict, "xoffset", ToPyFloat(_xoffset));
+		PyDict_SetItemString(dict, "spacing", ToPyFloat(_spacing));
 	}
 
 }

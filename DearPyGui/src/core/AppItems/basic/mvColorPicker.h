@@ -37,12 +37,12 @@ namespace Marvel {
 
 	private:
 
-		ImGuiColorEditFlags m_flags = ImGuiColorEditFlags__OptionsDefault;
+		ImGuiColorEditFlags _flags = ImGuiColorEditFlags__OptionsDefault;
 
-		bool                 m_no_inputs = false;
-		bool                 m_no_label = false;
-		bool                 m_no_side_preview = false;
-		bool                 m_alpha_bar = false;
+		bool                 _no_inputs = false;
+		bool                 _no_label = false;
+		bool                 _no_side_preview = false;
+		bool                 _alpha_bar = false;
 
 	};
 

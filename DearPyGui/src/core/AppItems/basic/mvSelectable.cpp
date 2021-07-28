@@ -41,28 +41,28 @@ namespace Marvel {
 
 	void mvSelectable::setEnabled(bool value)
 	{
-		if (value == m_enabled)
+		if (value == _enabled)
 			return;
 
 		if (value)
-			m_flags &= ~ImGuiSelectableFlags_Disabled;
+			_flags &= ~ImGuiSelectableFlags_Disabled;
 
 		else
-			m_flags |= ImGuiSelectableFlags_Disabled;
+			_flags |= ImGuiSelectableFlags_Disabled;
 
-		m_enabled = value;
+		_enabled = value;
 	}
 
 	void mvSelectable::draw(ImDrawList* drawlist, float x, float y)
 	{
 
-		ScopedID id(m_uuid);
+		ScopedID id(_uuid);
 
-		if (ImGui::Selectable(m_label.c_str(), m_value.get(), m_flags, ImVec2((float)m_width, (float)m_height)))
+		if (ImGui::Selectable(_label.c_str(), _value.get(), _flags, ImVec2((float)_width, (float)_height)))
 		{
-			auto value = *m_value;
+			auto value = *_value;
 			mvApp::GetApp()->getCallbackRegistry().submitCallback([=]() {
-				mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), m_uuid, ToPyBool(value), m_user_data);
+				mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), _uuid, ToPyBool(value), _user_data);
 				});
 		}
 
@@ -81,7 +81,7 @@ namespace Marvel {
 		};
 
 		// window flags
-		flagop("span_columns", ImGuiSelectableFlags_SpanAllColumns, m_flags, false);
+		flagop("span_columns", ImGuiSelectableFlags_SpanAllColumns, _flags, false);
 
 	}
 
@@ -98,7 +98,7 @@ namespace Marvel {
 		};
 
 		// window flags
-		checkbitset("span_columns", ImGuiSelectableFlags_SpanAllColumns, m_flags, false);
+		checkbitset("span_columns", ImGuiSelectableFlags_SpanAllColumns, _flags, false);
 	}
 
 }

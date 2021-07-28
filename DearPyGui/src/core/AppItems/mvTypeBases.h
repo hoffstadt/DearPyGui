@@ -26,14 +26,14 @@ namespace Marvel {
 
 		mvIntPtrBase(mvUUID uuid);
 		void setDataSource(mvUUID dataSource) override;
-		mvValueVariant getValue() override { return m_value; }
+		mvValueVariant getValue() override { return _value; }
 		PyObject*      getPyValue() override;
 		void           setPyValue(PyObject* value) override;
 
 	protected:
 
-		mvRef<int> m_value = CreateRef<int>(0);
-		int  m_disabled_value = 0;
+		mvRef<int> _value = CreateRef<int>(0);
+		int  _disabled_value = 0;
 	};
 
 	//-----------------------------------------------------------------------------
@@ -46,14 +46,14 @@ namespace Marvel {
 
 		mvInt4PtrBase(mvUUID uuid);
 		void setDataSource(mvUUID dataSource) override;
-		mvValueVariant getValue() override { return m_value; }
+		mvValueVariant getValue() override { return _value; }
 		PyObject* getPyValue() override;
 		void           setPyValue(PyObject* value) override;
 
 	protected:
 
-		mvRef<std::array<int, 4>> m_value = CreateRef<std::array<int, 4>>(std::array<int, 4>{0, 0, 0, 0});
-		int  m_disabled_value[4] {};
+		mvRef<std::array<int, 4>> _value = CreateRef<std::array<int, 4>>(std::array<int, 4>{0, 0, 0, 0});
+		int  _disabled_value[4] {};
 	};
 
 	//-----------------------------------------------------------------------------
@@ -66,14 +66,14 @@ namespace Marvel {
 
 		mvFloatPtrBase(mvUUID uuid);
 		void setDataSource(mvUUID dataSource) override;
-		mvValueVariant getValue() override { return m_value; }
+		mvValueVariant getValue() override { return _value; }
 		PyObject* getPyValue() override;
 		void           setPyValue(PyObject* value) override;
 
 	protected:
 
-		mvRef<float> m_value = CreateRef<float>(0.0f);
-		float  m_disabled_value = 0.0f;
+		mvRef<float> _value = CreateRef<float>(0.0f);
+		float  _disabled_value = 0.0f;
 	};
 
 	//-----------------------------------------------------------------------------
@@ -86,14 +86,14 @@ namespace Marvel {
 
 		mvDoublePtrBase(mvUUID uuid);
 		void setDataSource(mvUUID dataSource) override;
-		mvValueVariant getValue() override { return m_value; }
+		mvValueVariant getValue() override { return _value; }
 		PyObject* getPyValue() override;
 		void           setPyValue(PyObject* value) override;
 
 	protected:
 
-		mvRef<double> m_value = CreateRef<double>(0.0);
-		float  m_disabled_value = 0.0;
+		mvRef<double> _value = CreateRef<double>(0.0);
+		float  _disabled_value = 0.0;
 	};
 
 	//-----------------------------------------------------------------------------
@@ -106,14 +106,14 @@ namespace Marvel {
 
 		mvFloat4PtrBase(mvUUID uuid);
 		void setDataSource(mvUUID dataSource) override;
-		mvValueVariant getValue() override { return m_value; }
+		mvValueVariant getValue() override { return _value; }
 		PyObject* getPyValue() override;
 		void           setPyValue(PyObject* value) override;
 
 	protected:
 
-		mvRef<std::array<float, 4>> m_value = CreateRef<std::array<float, 4>>(std::array<float, 4>{0.0f, 0.0f, 0.0f, 0.0f});
-		float  m_disabled_value[4] {};
+		mvRef<std::array<float, 4>> _value = CreateRef<std::array<float, 4>>(std::array<float, 4>{0.0f, 0.0f, 0.0f, 0.0f});
+		float  _disabled_value[4] {};
 	};
 
 	//-----------------------------------------------------------------------------
@@ -126,14 +126,14 @@ namespace Marvel {
 
 		mvDouble4PtrBase(mvUUID uuid);
 		void setDataSource(mvUUID dataSource) override;
-		mvValueVariant getValue() override { return m_value; }
+		mvValueVariant getValue() override { return _value; }
 		PyObject* getPyValue() override;
 		void           setPyValue(PyObject* value) override;
 
 	protected:
 
-		mvRef<std::array<double, 4>> m_value = CreateRef<std::array<double, 4>>(std::array<double, 4>{0.0, 0.0, 0.0, 0.0});
-		double  m_disabled_value[4]{};
+		mvRef<std::array<double, 4>> _value = CreateRef<std::array<double, 4>>(std::array<double, 4>{0.0, 0.0, 0.0, 0.0});
+		double  _disabled_value[4]{};
 	};
 
 	//-----------------------------------------------------------------------------
@@ -146,14 +146,14 @@ namespace Marvel {
 
 		mvColorPtrBase(mvUUID uuid);
 		void setDataSource(mvUUID dataSource) override;
-		mvValueVariant getValue() override { return m_value; }
+		mvValueVariant getValue() override { return _value; }
 		PyObject* getPyValue() override;
 		void           setPyValue(PyObject* value) override;
 
 	protected:
 
-		mvRef<std::array<float, 4>> m_value = CreateRef<std::array<float, 4>>(std::array<float, 4>{0.0f, 0.0f, 0.0f, 1.0f});
-		float  m_disabled_value[4]{};
+		mvRef<std::array<float, 4>> _value = CreateRef<std::array<float, 4>>(std::array<float, 4>{0.0f, 0.0f, 0.0f, 1.0f});
+		float  _disabled_value[4]{};
 	};
 
 	//-----------------------------------------------------------------------------
@@ -166,14 +166,14 @@ namespace Marvel {
 
 		mvBoolPtrBase(mvUUID uuid);
 		void setDataSource(mvUUID dataSource) override;
-		mvValueVariant getValue() override { return m_value; }
+		mvValueVariant getValue() override { return _value; }
 		PyObject* getPyValue() override;
 		void           setPyValue(PyObject* value) override;
 
 	protected:
 
-		mvRef<bool> m_value = CreateRef<bool>(false);
-		bool  m_disabled_value = false;
+		mvRef<bool> _value = CreateRef<bool>(false);
+		bool  _disabled_value = false;
 	};
 
 	//-----------------------------------------------------------------------------
@@ -186,14 +186,14 @@ namespace Marvel {
 
 		mvStringPtrBase(mvUUID uuid);
 		void setDataSource(mvUUID dataSource) override;
-		mvValueVariant getValue() override { return m_value; }
+		mvValueVariant getValue() override { return _value; }
 		PyObject* getPyValue() override;
 		void      setPyValue(PyObject* value) override;
 
 	protected:
 
-		mvRef<std::string> m_value = CreateRef<std::string>("");
-		std::string  m_disabled_value = "";
+		mvRef<std::string> _value = CreateRef<std::string>("");
+		std::string  _disabled_value = "";
 	};
 
 	//-----------------------------------------------------------------------------
@@ -206,14 +206,14 @@ namespace Marvel {
 
 		mvUUIDPtrBase(mvUUID uuid);
 		void setDataSource(mvUUID dataSource) override;
-		mvValueVariant getValue() override { return m_value; }
+		mvValueVariant getValue() override { return _value; }
 		PyObject* getPyValue() override;
 		void      setPyValue(PyObject* value) override;
 
 	protected:
 
-		mvRef<mvUUID> m_value = CreateRef<mvUUID>(0);
-		mvUUID  m_disabled_value = 0;
+		mvRef<mvUUID> _value = CreateRef<mvUUID>(0);
+		mvUUID  _disabled_value = 0;
 	};
 
 	//-----------------------------------------------------------------------------
@@ -225,14 +225,14 @@ namespace Marvel {
 	public:
 
 		mvTimePtrBase(mvUUID uuid);
-		mvValueVariant getValue() override { return m_value; }
+		mvValueVariant getValue() override { return _value; }
 		PyObject* getPyValue() override;
 		void           setPyValue(PyObject* value) override;
 
 	protected:
 
-		mvRef<tm>         m_value = CreateRef<tm>();
-		mvRef<ImPlotTime> m_imvalue = CreateRef<ImPlotTime>();
+		mvRef<tm>         _value = CreateRef<tm>();
+		mvRef<ImPlotTime> _imvalue = CreateRef<ImPlotTime>();
 	};
 
 	//-----------------------------------------------------------------------------
@@ -245,13 +245,13 @@ namespace Marvel {
 
 		mvFloatVectPtrBase(mvUUID uuid);
 		void setDataSource(mvUUID dataSource) override;
-		mvValueVariant getValue() override { return m_value; }
+		mvValueVariant getValue() override { return _value; }
 		PyObject* getPyValue() override;
 		void           setPyValue(PyObject* value) override;
 
 	protected:
 
-		mvRef<std::vector<float>> m_value = CreateRef<std::vector<float>>(std::vector<float>{0.0f});
+		mvRef<std::vector<float>> _value = CreateRef<std::vector<float>>(std::vector<float>{0.0f});
 	};
 
 	//-----------------------------------------------------------------------------
@@ -264,14 +264,14 @@ namespace Marvel {
 
 		mvSeriesBase(mvUUID uuid);
 		void setDataSource(mvUUID dataSource) override;
-		mvValueVariant getValue() override { return m_value; }
+		mvValueVariant getValue() override { return _value; }
 		PyObject* getPyValue() override;
 		void setPyValue(PyObject* value) override;
 
 
 	protected:
 
-		mvRef<std::vector<std::vector<double>>> m_value = CreateRef<std::vector<std::vector<double>>>(
+		mvRef<std::vector<std::vector<double>>> _value = CreateRef<std::vector<std::vector<double>>>(
 			std::vector<std::vector<double>>{ std::vector<double>{},
 			std::vector<double>{},
 			std::vector<double>{},

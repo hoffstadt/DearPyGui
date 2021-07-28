@@ -97,7 +97,7 @@ namespace Marvel {
 		[[nodiscard]] bool isPlotQueried() const;
 		double* getPlotQueryArea();
 		
-		ImPlotFlags        getFlags         () const { return m_flags; }
+		ImPlotFlags        getFlags         () const { return _flags; }
 
 		void onChildRemoved(mvRef<mvAppItem> item) override;
 		void onChildAdd(mvRef<mvAppItem> item) override;
@@ -108,45 +108,45 @@ namespace Marvel {
 
 	private:
 
-		std::string                   m_xaxisName;
-		std::string                   m_y1axisName;
-		std::string                   m_y2axisName;
-		std::string                   m_y3axisName;
-		ImPlotFlags                   m_flags    = ImPlotFlags_NoLegend;
-		ImPlotAxisFlags               m_xflags  = 0;
-		ImPlotAxisFlags               m_yflags  = 0;
-		ImPlotAxisFlags               m_y1flags  = 0;
-		ImPlotAxisFlags               m_y2flags  = 0;
+		std::string                   _xaxisName;
+		std::string                   _y1axisName;
+		std::string                   _y2axisName;
+		std::string                   _y3axisName;
+		ImPlotFlags                   _flags    = ImPlotFlags_NoLegend;
+		ImPlotAxisFlags               _xflags  = 0;
+		ImPlotAxisFlags               _yflags  = 0;
+		ImPlotAxisFlags               _y1flags  = 0;
+		ImPlotAxisFlags               _y2flags  = 0;
 
-		ImPlotColormap                m_colormap = ImPlotColormap_Deep;
+		ImPlotColormap                _colormap = ImPlotColormap_Deep;
 
 
-		bool                          m_equalAspectRatios = false;
+		bool                          _equalAspectRatios = false;
 
-		bool                          m_queried = false;
-		double                        m_queryArea[4] = {0.0, 0.0, 0.0, 0.0};
-		bool                          m_dirty = false;
+		bool                          _queried = false;
+		double                        _queryArea[4] = {0.0, 0.0, 0.0, 0.0};
+		bool                          _dirty = false;
 
-		bool m_fitDirty = false;
-		bool m_axisfitDirty[4] = { false, false, false, false };
+		bool _fitDirty = false;
+		bool _axisfitDirty[4] = { false, false, false, false };
 
 		friend class mvPlotAxis;
 
 		// custom input mapping
-		ImPlotInputMap                m_originalMap = ImPlotInputMap();
+		ImPlotInputMap                _originalMap = ImPlotInputMap();
 
-		int m_pan_button = 0;
-		int m_pan_mod = 0;
-		int m_fit_button = 0;
-		int m_context_menu_button = 0;
-		int m_box_select_button = 0;
-		int m_box_select_mod = 0;
-		int m_box_select_cancel_button = 0;
-		int m_query_button = 0;
-		int m_query_mod = 0;
-		int m_query_toggle_mod = 0;
-		int m_horizontal_mod = 0;
-		int m_vertical_mod = 0;
+		int _pan_button = 0;
+		int _pan_mod = 0;
+		int _fit_button = 0;
+		int _context_menu_button = 0;
+		int _box_select_button = 0;
+		int _box_select_mod = 0;
+		int _box_select_cancel_button = 0;
+		int _query_button = 0;
+		int _query_mod = 0;
+		int _query_toggle_mod = 0;
+		int _horizontal_mod = 0;
+		int _vertical_mod = 0;
 	
 	};
 

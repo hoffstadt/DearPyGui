@@ -32,7 +32,7 @@ namespace Marvel {
 
 	private:
 
-		std::string m_source;
+		std::string _source;
 
 	};
 

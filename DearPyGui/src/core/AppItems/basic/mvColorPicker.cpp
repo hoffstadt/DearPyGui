@@ -57,16 +57,16 @@ namespace Marvel {
 
 	void mvColorPicker::draw(ImDrawList* drawlist, float x, float y)
 	{
-		ScopedID id(m_uuid);
+		ScopedID id(_uuid);
 
-		if (!m_enabled) std::copy(m_value->data(), m_value->data() + 4, m_disabled_value);
+		if (!_enabled) std::copy(_value->data(), _value->data() + 4, _disabled_value);
 
-		if (ImGui::ColorPicker4(m_label.c_str(), m_enabled ? m_value->data() : &m_disabled_value[0], m_flags))
+		if (ImGui::ColorPicker4(_label.c_str(), _enabled ? _value->data() : &_disabled_value[0], _flags))
 		{
-			auto value = *m_value;
+			auto value = *_value;
 			mvColor color = mvColor(value[0], value[1], value[2], value[3]);
 			mvApp::GetApp()->getCallbackRegistry().submitCallback([=]() {
-				mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), m_uuid, ToPyColor(color), m_user_data);
+				mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), _uuid, ToPyColor(color), _user_data);
 				});
 		}
 
@@ -104,32 +104,32 @@ namespace Marvel {
 		};
 
 
-		flagop("no_alpha", ImGuiColorEditFlags_NoAlpha, m_flags);
-		flagop("no_small_preview", ImGuiColorEditFlags_NoSmallPreview, m_flags);
-		flagop("no_inputs", ImGuiColorEditFlags_NoInputs, m_flags);
-		flagop("no_tooltip", ImGuiColorEditFlags_NoTooltip, m_flags);
-		flagop("no_label", ImGuiColorEditFlags_NoLabel, m_flags);
-		flagop("no_side_preview", ImGuiColorEditFlags_NoSidePreview, m_flags);
-		flagop("alpha_bar", ImGuiColorEditFlags_AlphaBar, m_flags);
-		flagop("display_rgb", ImGuiColorEditFlags_DisplayRGB, m_flags);
-		flagop("display_hsv", ImGuiColorEditFlags_DisplayHSV, m_flags);
-		flagop("display_hex", ImGuiColorEditFlags_DisplayHex, m_flags);
+		flagop("no_alpha", ImGuiColorEditFlags_NoAlpha, _flags);
+		flagop("no_small_preview", ImGuiColorEditFlags_NoSmallPreview, _flags);
+		flagop("no_inputs", ImGuiColorEditFlags_NoInputs, _flags);
+		flagop("no_tooltip", ImGuiColorEditFlags_NoTooltip, _flags);
+		flagop("no_label", ImGuiColorEditFlags_NoLabel, _flags);
+		flagop("no_side_preview", ImGuiColorEditFlags_NoSidePreview, _flags);
+		flagop("alpha_bar", ImGuiColorEditFlags_AlphaBar, _flags);
+		flagop("display_rgb", ImGuiColorEditFlags_DisplayRGB, _flags);
+		flagop("display_hsv", ImGuiColorEditFlags_DisplayHSV, _flags);
+		flagop("display_hex", ImGuiColorEditFlags_DisplayHex, _flags);
 
 		if (PyObject* item = PyDict_GetItemString(dict, "picker_mode"))
 		{
 			long mode = ToUUID(item);
 
 			// reset target flags
-			m_flags &= ~ImGuiColorEditFlags_PickerHueBar;
-			m_flags &= ~ImGuiColorEditFlags_PickerHueWheel;
+			_flags &= ~ImGuiColorEditFlags_PickerHueBar;
+			_flags &= ~ImGuiColorEditFlags_PickerHueWheel;
 
 			switch (mode)
 			{
 			case ImGuiColorEditFlags_PickerHueWheel:
-				m_flags |= ImGuiColorEditFlags_PickerHueWheel;
+				_flags |= ImGuiColorEditFlags_PickerHueWheel;
 				break;
 			default:
-				m_flags |= ImGuiColorEditFlags_PickerHueBar;
+				_flags |= ImGuiColorEditFlags_PickerHueBar;
 				break;
 			}
 		}
@@ -139,16 +139,16 @@ namespace Marvel {
 			long mode = ToUUID(item);
 
 			// reset target flags
-			m_flags &= ~ImGuiColorEditFlags_AlphaPreview;
-			m_flags &= ~ImGuiColorEditFlags_AlphaPreviewHalf;
+			_flags &= ~ImGuiColorEditFlags_AlphaPreview;
+			_flags &= ~ImGuiColorEditFlags_AlphaPreviewHalf;
 
 			switch (mode)
 			{
 			case ImGuiColorEditFlags_AlphaPreview:
-				m_flags |= ImGuiColorEditFlags_AlphaPreview;
+				_flags |= ImGuiColorEditFlags_AlphaPreview;
 				break;
 			case ImGuiColorEditFlags_AlphaPreviewHalf:
-				m_flags |= ImGuiColorEditFlags_AlphaPreviewHalf;
+				_flags |= ImGuiColorEditFlags_AlphaPreviewHalf;
 				break;
 			default:
 				break;
@@ -160,16 +160,16 @@ namespace Marvel {
 			long mode = ToUUID(item);
 
 			// reset target flags
-			m_flags &= ~ImGuiColorEditFlags_Uint8;
-			m_flags &= ~ImGuiColorEditFlags_Float;
+			_flags &= ~ImGuiColorEditFlags_Uint8;
+			_flags &= ~ImGuiColorEditFlags_Float;
 
 			switch (mode)
 			{
 			case ImGuiColorEditFlags_Float:
-				m_flags |= ImGuiColorEditFlags_Float;
+				_flags |= ImGuiColorEditFlags_Float;
 				break;
 			default:
-				m_flags |= ImGuiColorEditFlags_Uint8;
+				_flags |= ImGuiColorEditFlags_Uint8;
 				break;
 			}
 		}
@@ -179,16 +179,16 @@ namespace Marvel {
 			long mode = ToUUID(item);
 
 			// reset target flags
-			m_flags &= ~ImGuiColorEditFlags_InputRGB;
-			m_flags &= ~ImGuiColorEditFlags_InputHSV;
+			_flags &= ~ImGuiColorEditFlags_InputRGB;
+			_flags &= ~ImGuiColorEditFlags_InputHSV;
 
 			switch (mode)
 			{
 			case ImGuiColorEditFlags_InputHSV:
-				m_flags |= ImGuiColorEditFlags_InputHSV;
+				_flags |= ImGuiColorEditFlags_InputHSV;
 				break;
 			default:
-				m_flags |= ImGuiColorEditFlags_InputRGB;
+				_flags |= ImGuiColorEditFlags_InputRGB;
 				break;
 			}
 		}
@@ -206,41 +206,41 @@ namespace Marvel {
 			PyDict_SetItemString(dict, keyword, ToPyBool(flags & flag));
 		};
 
-		checkbitset("no_alpha", ImGuiColorEditFlags_NoAlpha, m_flags);
-		checkbitset("no_small_preview", ImGuiColorEditFlags_NoSmallPreview, m_flags);
-		checkbitset("no_inputs", ImGuiColorEditFlags_NoInputs, m_flags);
-		checkbitset("no_tooltip", ImGuiColorEditFlags_NoTooltip, m_flags);
-		checkbitset("no_label", ImGuiColorEditFlags_NoLabel, m_flags);
-		checkbitset("no_side_preview", ImGuiColorEditFlags_NoSidePreview, m_flags);
-		checkbitset("alpha_bar", ImGuiColorEditFlags_AlphaBar, m_flags);
-		checkbitset("display_rgb", ImGuiColorEditFlags_DisplayRGB, m_flags);
-		checkbitset("display_hsv", ImGuiColorEditFlags_DisplayHSV, m_flags);
-		checkbitset("display_hex", ImGuiColorEditFlags_DisplayHex, m_flags);
+		checkbitset("no_alpha", ImGuiColorEditFlags_NoAlpha, _flags);
+		checkbitset("no_small_preview", ImGuiColorEditFlags_NoSmallPreview, _flags);
+		checkbitset("no_inputs", ImGuiColorEditFlags_NoInputs, _flags);
+		checkbitset("no_tooltip", ImGuiColorEditFlags_NoTooltip, _flags);
+		checkbitset("no_label", ImGuiColorEditFlags_NoLabel, _flags);
+		checkbitset("no_side_preview", ImGuiColorEditFlags_NoSidePreview, _flags);
+		checkbitset("alpha_bar", ImGuiColorEditFlags_AlphaBar, _flags);
+		checkbitset("display_rgb", ImGuiColorEditFlags_DisplayRGB, _flags);
+		checkbitset("display_hsv", ImGuiColorEditFlags_DisplayHSV, _flags);
+		checkbitset("display_hex", ImGuiColorEditFlags_DisplayHex, _flags);
 
 		// input_mode
-		if (m_flags & ImGuiColorEditFlags_InputRGB)
+		if (_flags & ImGuiColorEditFlags_InputRGB)
 			PyDict_SetItemString(dict, "input_mode", ToPyUUID(ImGuiColorEditFlags_InputRGB));
-		else if (m_flags & ImGuiColorEditFlags_InputHSV)
+		else if (_flags & ImGuiColorEditFlags_InputHSV)
 			PyDict_SetItemString(dict, "input_mode", ToPyUUID(ImGuiColorEditFlags_InputHSV));
 
 		// alpha_preview
-		if (m_flags & ImGuiColorEditFlags_AlphaPreview)
+		if (_flags & ImGuiColorEditFlags_AlphaPreview)
 			PyDict_SetItemString(dict, "alpha_preview", ToPyUUID(ImGuiColorEditFlags_AlphaPreview));
-		else if (m_flags & ImGuiColorEditFlags_AlphaPreviewHalf)
+		else if (_flags & ImGuiColorEditFlags_AlphaPreviewHalf)
 			PyDict_SetItemString(dict, "alpha_preview", ToPyUUID(ImGuiColorEditFlags_AlphaPreviewHalf));
 		else
 			PyDict_SetItemString(dict, "alpha_preview", ToPyUUID(0));
 
 		// display_type
-		if (m_flags & ImGuiColorEditFlags_Uint8)
+		if (_flags & ImGuiColorEditFlags_Uint8)
 			PyDict_SetItemString(dict, "display_type", ToPyUUID(ImGuiColorEditFlags_Uint8));
-		else if (m_flags & ImGuiColorEditFlags_Float)
+		else if (_flags & ImGuiColorEditFlags_Float)
 			PyDict_SetItemString(dict, "display_type", ToPyUUID(ImGuiColorEditFlags_Float));
 
 		// picker_mode
-		if (m_flags & ImGuiColorEditFlags_PickerHueWheel)
+		if (_flags & ImGuiColorEditFlags_PickerHueWheel)
 			PyDict_SetItemString(dict, "picker_mode", ToPyUUID(ImGuiColorEditFlags_PickerHueWheel));
-		else if (m_flags & ImGuiColorEditFlags_PickerHueBar)
+		else if (_flags & ImGuiColorEditFlags_PickerHueBar)
 			PyDict_SetItemString(dict, "picker_mode", ToPyUUID(ImGuiColorEditFlags_PickerHueBar));
 	}
 

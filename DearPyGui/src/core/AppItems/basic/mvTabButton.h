@@ -33,7 +33,7 @@ namespace Marvel {
 
 	private:
 
-		ImGuiTabItemFlags m_flags = ImGuiTabItemFlags_None;
+		ImGuiTabItemFlags _flags = ImGuiTabItemFlags_None;
 
 	};
 }

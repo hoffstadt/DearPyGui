@@ -30,8 +30,8 @@ namespace Marvel {
 
 	private:
 
-		ImGuiTreeNodeFlags m_flags = ImGuiTreeNodeFlags_None;
-		bool               m_closable = false;
+		ImGuiTreeNodeFlags _flags = ImGuiTreeNodeFlags_None;
+		bool               _closable = false;
 
 	};
 

@@ -55,18 +55,18 @@ namespace Marvel {
 
 	void mvDragPoint::draw(ImDrawList* drawlist, float x, float y)
 	{
-		ScopedID id(m_uuid);
+		ScopedID id(_uuid);
 
-		static double dummyx = (*m_value.get())[0];
-		static double dummyy = (*m_value.get())[1];
-		dummyx = (*m_value.get())[0];
-		dummyy = (*m_value.get())[1];
+		static double dummyx = (*_value.get())[0];
+		static double dummyy = (*_value.get())[1];
+		dummyx = (*_value.get())[0];
+		dummyy = (*_value.get())[1];
 
-		if (ImPlot::DragPoint(m_specificedlabel.c_str(), &dummyx, &dummyy, m_show_label, m_color, m_radius))
+		if (ImPlot::DragPoint(_specificedlabel.c_str(), &dummyx, &dummyy, _show_label, _color, _radius))
 		{
-			(*m_value.get())[0] = dummyx;
-			(*m_value.get())[1] = dummyy;
-			mvApp::GetApp()->getCallbackRegistry().addCallback(m_callback, m_uuid, nullptr, m_user_data);
+			(*_value.get())[0] = dummyx;
+			(*_value.get())[1] = dummyy;
+			mvApp::GetApp()->getCallbackRegistry().addCallback(_callback, _uuid, nullptr, _user_data);
 		}
 
 	}
@@ -76,9 +76,9 @@ namespace Marvel {
 		if (dict == nullptr)
 			return;
 
-		if (PyObject* item = PyDict_GetItemString(dict, "color")) m_color = ToColor(item);
-		if (PyObject* item = PyDict_GetItemString(dict, "radius")) m_radius = ToFloat(item);
-		if (PyObject* item = PyDict_GetItemString(dict, "show_label")) m_show_label = ToBool(item);
+		if (PyObject* item = PyDict_GetItemString(dict, "color")) _color = ToColor(item);
+		if (PyObject* item = PyDict_GetItemString(dict, "radius")) _radius = ToFloat(item);
+		if (PyObject* item = PyDict_GetItemString(dict, "show_label")) _show_label = ToBool(item);
 
 	}
 
@@ -87,9 +87,9 @@ namespace Marvel {
 		if (dict == nullptr)
 			return;
 
-		PyDict_SetItemString(dict, "color", ToPyColor(m_color));
-		PyDict_SetItemString(dict, "radius", ToPyFloat(m_radius));
-		PyDict_SetItemString(dict, "show_label", ToPyBool(m_show_label));
+		PyDict_SetItemString(dict, "color", ToPyColor(_color));
+		PyDict_SetItemString(dict, "radius", ToPyFloat(_radius));
+		PyDict_SetItemString(dict, "show_label", ToPyBool(_show_label));
 	}
 
 }

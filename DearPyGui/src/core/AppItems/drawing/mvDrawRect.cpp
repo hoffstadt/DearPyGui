@@ -57,19 +57,19 @@ namespace Marvel {
 	{
 		if (ImPlot::GetCurrentContext()->CurrentPlot)
 		{
-			drawlist->AddRect(ImPlot::PlotToPixels(m_pmin), ImPlot::PlotToPixels(m_pmax), m_color, 
-				ImPlot::GetCurrentContext()->Mx * m_rounding, ImDrawCornerFlags_All, ImPlot::GetCurrentContext()->Mx * m_thickness);
-			if (m_fill.r < 0.0f)
+			drawlist->AddRect(ImPlot::PlotToPixels(_pmin), ImPlot::PlotToPixels(_pmax), _color, 
+				ImPlot::GetCurrentContext()->Mx * _rounding, ImDrawCornerFlags_All, ImPlot::GetCurrentContext()->Mx * _thickness);
+			if (_fill.r < 0.0f)
 				return;
-			drawlist->AddRectFilled(ImPlot::PlotToPixels(m_pmin), ImPlot::PlotToPixels(m_pmax), m_fill, ImPlot::GetCurrentContext()->Mx * m_rounding, ImDrawCornerFlags_All);
+			drawlist->AddRectFilled(ImPlot::PlotToPixels(_pmin), ImPlot::PlotToPixels(_pmax), _fill, ImPlot::GetCurrentContext()->Mx * _rounding, ImDrawCornerFlags_All);
 		}
 		else
 		{
 			mvVec2 start = { x, y };
-			drawlist->AddRect(m_pmin + start, m_pmax + start, m_color, m_rounding, ImDrawCornerFlags_All, m_thickness);
-			if (m_fill.r < 0.0f)
+			drawlist->AddRect(_pmin + start, _pmax + start, _color, _rounding, ImDrawCornerFlags_All, _thickness);
+			if (_fill.r < 0.0f)
 				return;
-			drawlist->AddRectFilled(m_pmin + start, m_pmax + start, m_fill, m_rounding, ImDrawCornerFlags_All);
+			drawlist->AddRectFilled(_pmin + start, _pmax + start, _fill, _rounding, ImDrawCornerFlags_All);
 		}
 	}
 
@@ -84,11 +84,11 @@ namespace Marvel {
 			switch (i)
 			{
 			case 0:
-				m_pmax = ToVec2(item);
+				_pmax = ToVec2(item);
 				break;
 
 			case 1:
-				m_pmin = ToVec2(item);
+				_pmin = ToVec2(item);
 				break;
 
 			default:
@@ -102,12 +102,12 @@ namespace Marvel {
 		if (dict == nullptr)
 			return;
 
-		if (PyObject* item = PyDict_GetItemString(dict, "pmax")) m_pmax = ToVec2(item);
-		if (PyObject* item = PyDict_GetItemString(dict, "pmin")) m_pmin = ToVec2(item);
-		if (PyObject* item = PyDict_GetItemString(dict, "color")) m_color = ToColor(item);
-		if (PyObject* item = PyDict_GetItemString(dict, "fill")) m_fill = ToColor(item);
-		if (PyObject* item = PyDict_GetItemString(dict, "rounding")) m_rounding = ToFloat(item);
-		if (PyObject* item = PyDict_GetItemString(dict, "thickness")) m_thickness = ToFloat(item);
+		if (PyObject* item = PyDict_GetItemString(dict, "pmax")) _pmax = ToVec2(item);
+		if (PyObject* item = PyDict_GetItemString(dict, "pmin")) _pmin = ToVec2(item);
+		if (PyObject* item = PyDict_GetItemString(dict, "color")) _color = ToColor(item);
+		if (PyObject* item = PyDict_GetItemString(dict, "fill")) _fill = ToColor(item);
+		if (PyObject* item = PyDict_GetItemString(dict, "rounding")) _rounding = ToFloat(item);
+		if (PyObject* item = PyDict_GetItemString(dict, "thickness")) _thickness = ToFloat(item);
 	}
 
 	void mvDrawRect::getSpecificConfiguration(PyObject* dict)
@@ -115,12 +115,12 @@ namespace Marvel {
 		if (dict == nullptr)
 			return;
 
-		PyDict_SetItemString(dict, "pmax", ToPyPair(m_pmax.x, m_pmax.y));
-		PyDict_SetItemString(dict, "pmin", ToPyPair(m_pmin.x, m_pmin.y));
-		PyDict_SetItemString(dict, "color", ToPyColor(m_color));
-		PyDict_SetItemString(dict, "fill", ToPyColor(m_fill));
-		PyDict_SetItemString(dict, "rounding", ToPyFloat(m_rounding));
-		PyDict_SetItemString(dict, "thickness", ToPyFloat(m_thickness));
+		PyDict_SetItemString(dict, "pmax", ToPyPair(_pmax.x, _pmax.y));
+		PyDict_SetItemString(dict, "pmin", ToPyPair(_pmin.x, _pmin.y));
+		PyDict_SetItemString(dict, "color", ToPyColor(_color));
+		PyDict_SetItemString(dict, "fill", ToPyColor(_fill));
+		PyDict_SetItemString(dict, "rounding", ToPyFloat(_rounding));
+		PyDict_SetItemString(dict, "thickness", ToPyFloat(_thickness));
 	}
 
 }

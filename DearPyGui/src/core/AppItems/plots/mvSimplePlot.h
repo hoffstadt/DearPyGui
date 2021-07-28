@@ -33,11 +33,11 @@ namespace Marvel{
 
 	private:
 
-		std::string        m_overlay;
-		float              m_min = 0.0f;
-		float              m_max = 0.0f;
-		bool               m_histogram = false;
-		bool               m_autosize = true;
+		std::string        _overlay;
+		float              _min = 0.0f;
+		float              _max = 0.0f;
+		bool               _histogram = false;
+		bool               _autosize = true;
 
 	};
 

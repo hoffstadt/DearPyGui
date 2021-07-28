@@ -139,123 +139,123 @@ namespace Marvel {
 
 	void mvThemeStyle::draw(ImDrawList* drawlist, float x, float y)
 	{
-		if (m_libType == mvLibType::MV_IMGUI)
+		if (_libType == mvLibType::MV_IMGUI)
 		{
-			const mvGuiStyleVarInfo* var_info = GetStyleVarInfo(m_targetStyle);
+			const mvGuiStyleVarInfo* var_info = GetStyleVarInfo(_targetStyle);
 			if (var_info->Type == ImGuiDataType_Float && var_info->Count == 2)
-				ImGui::PushStyleVar(m_targetStyle, { m_x, m_y });
+				ImGui::PushStyleVar(_targetStyle, { _x, _y });
 			else if (var_info->Type == ImGuiDataType_Float && var_info->Count == 1)
-				ImGui::PushStyleVar(m_targetStyle, m_x);
+				ImGui::PushStyleVar(_targetStyle, _x);
 		}
-		else if (m_libType == mvLibType::MV_IMPLOT)
+		else if (_libType == mvLibType::MV_IMPLOT)
 		{
-			const mvPlotStyleVarInfo* var_info = GetPlotStyleVarInfo(m_targetStyle);
+			const mvPlotStyleVarInfo* var_info = GetPlotStyleVarInfo(_targetStyle);
 			if (var_info->Type == ImGuiDataType_Float && var_info->Count == 1)
-				ImPlot::PushStyleVar(m_targetStyle, m_x);
+				ImPlot::PushStyleVar(_targetStyle, _x);
 			else if (var_info->Type == ImGuiDataType_S32 && var_info->Count == 1)
-				ImPlot::PushStyleVar(m_targetStyle, (int)m_x);
+				ImPlot::PushStyleVar(_targetStyle, (int)_x);
 			else if (var_info->Type == ImGuiDataType_Float && var_info->Count == 2)
-				ImPlot::PushStyleVar(m_targetStyle, { m_x, m_y });
+				ImPlot::PushStyleVar(_targetStyle, { _x, _y });
 		}
-		else if (m_libType == mvLibType::MV_IMNODES)
-			imnodes::PushStyleVar((imnodes::StyleVar)m_targetStyle, m_x);
+		else if (_libType == mvLibType::MV_IMNODES)
+			imnodes::PushStyleVar((imnodes::StyleVar)_targetStyle, _x);
 	}
 
 	void mvThemeStyle::customAction()
 	{
-		if (m_libType == mvLibType::MV_IMGUI)
+		if (_libType == mvLibType::MV_IMGUI)
 			ImGui::PopStyleVar();
-		else if (m_libType == mvLibType::MV_IMPLOT)
+		else if (_libType == mvLibType::MV_IMPLOT)
 			ImPlot::PopStyleVar();
-		else if (m_libType == mvLibType::MV_IMNODES)
+		else if (_libType == mvLibType::MV_IMNODES)
 			imnodes::PopStyleVar();
 	}
 
 	void mvThemeStyle::alternativeCustomAction()
 	{
-		if (m_libType == mvLibType::MV_IMGUI)
+		if (_libType == mvLibType::MV_IMGUI)
 		{
 
-			const mvGuiStyleVarInfo* var_info = GetStyleVarInfo(m_targetStyle);
+			const mvGuiStyleVarInfo* var_info = GetStyleVarInfo(_targetStyle);
 			if (var_info->Type == ImGuiDataType_Float && var_info->Count == 2)
 			{
 				ImGuiStyle& style = ImGui::GetStyle();
 				ImVec2* pvar = (ImVec2*)var_info->GetVarPtr(&style);
-				*pvar = ImVec2(m_x, m_y);
+				*pvar = ImVec2(_x, _y);
 			}
 
 			else if (var_info->Type == ImGuiDataType_Float && var_info->Count == 1)
 			{
 				ImGuiStyle& style = ImGui::GetStyle();
 				float* pvar = (float*)var_info->GetVarPtr(&style);
-				*pvar = m_x;
+				*pvar = _x;
 			}
 
 		}
-		else if (m_libType == mvLibType::MV_IMPLOT)
+		else if (_libType == mvLibType::MV_IMPLOT)
 		{
-			const mvPlotStyleVarInfo* var_info = GetPlotStyleVarInfo(m_targetStyle);
+			const mvPlotStyleVarInfo* var_info = GetPlotStyleVarInfo(_targetStyle);
 			ImPlotStyle& plotstyle = ImPlot::GetStyle();
 			if (var_info->Type == ImGuiDataType_Float && var_info->Count == 1) 
 			{
 				float* pvar = (float*)var_info->GetVarPtr(&plotstyle);
-				*pvar = m_x;
+				*pvar = _x;
 			}
 			else if (var_info->Type == ImGuiDataType_S32 && var_info->Count == 1) {
 				int* pvar = (int*)var_info->GetVarPtr(&plotstyle);
-				*pvar = (int)m_x;
+				*pvar = (int)_x;
 			}
 			else if (var_info->Type == ImGuiDataType_Float && var_info->Count == 2)
 			{
 				ImVec2* pvar = (ImVec2*)var_info->GetVarPtr(&plotstyle);
-				*pvar = ImVec2(m_x, m_y);
+				*pvar = ImVec2(_x, _y);
 			}
 		}
-		else if (m_libType == mvLibType::MV_IMNODES)
+		else if (_libType == mvLibType::MV_IMNODES)
 		{
-			switch (m_targetStyle)
+			switch (_targetStyle)
 			{
 			case imnodes::StyleVar::StyleVar_GridSpacing:
-				imnodes::GetStyle().grid_spacing = m_x;
+				imnodes::GetStyle().grid_spacing = _x;
 				break;
 			case imnodes::StyleVar::StyleVar_NodeCornerRounding:
-				imnodes::GetStyle().node_corner_rounding = m_x;
+				imnodes::GetStyle().node_corner_rounding = _x;
 				break;
 			case imnodes::StyleVar::StyleVar_NodePaddingHorizontal:
-				imnodes::GetStyle().node_padding_horizontal = m_x;
+				imnodes::GetStyle().node_padding_horizontal = _x;
 				break;
 			case imnodes::StyleVar::StyleVar_NodePaddingVertical:
-				imnodes::GetStyle().node_padding_vertical = m_x;
+				imnodes::GetStyle().node_padding_vertical = _x;
 				break;
 			case imnodes::StyleVar::StyleVar_NodeBorderThickness:
-				imnodes::GetStyle().node_border_thickness = m_x;
+				imnodes::GetStyle().node_border_thickness = _x;
 				break;
 			case imnodes::StyleVar::StyleVar_LinkThickness:
-				imnodes::GetStyle().link_thickness = m_x;
+				imnodes::GetStyle().link_thickness = _x;
 				break;
 			case imnodes::StyleVar::StyleVar_LinkLineSegmentsPerLength:
-				imnodes::GetStyle().link_line_segments_per_length = m_x;
+				imnodes::GetStyle().link_line_segments_per_length = _x;
 				break;
 			case imnodes::StyleVar::StyleVar_LinkHoverDistance:
-				imnodes::GetStyle().link_hover_distance = m_x;
+				imnodes::GetStyle().link_hover_distance = _x;
 				break;
 			case imnodes::StyleVar::StyleVar_PinCircleRadius:
-				imnodes::GetStyle().pin_circle_radius = m_x;
+				imnodes::GetStyle().pin_circle_radius = _x;
 				break;
 			case imnodes::StyleVar::StyleVar_PinQuadSideLength:
-				imnodes::GetStyle().pin_quad_side_length = m_x;
+				imnodes::GetStyle().pin_quad_side_length = _x;
 				break;
 			case imnodes::StyleVar::StyleVar_PinTriangleSideLength:
-				imnodes::GetStyle().pin_triangle_side_length = m_x;
+				imnodes::GetStyle().pin_triangle_side_length = _x;
 				break;
 			case imnodes::StyleVar::StyleVar_PinLineThickness:
-				imnodes::GetStyle().pin_line_thickness = m_x;
+				imnodes::GetStyle().pin_line_thickness = _x;
 				break;
 			case imnodes::StyleVar::StyleVar_PinHoverRadius:
-				imnodes::GetStyle().pin_hover_radius = m_x;
+				imnodes::GetStyle().pin_hover_radius = _x;
 				break;
 			case imnodes::StyleVar::StyleVar_PinOffset:
-				imnodes::GetStyle().pin_offset = m_x;
+				imnodes::GetStyle().pin_offset = _x;
 				break;
 			default:
 				assert(!"Invalid StyleVar value!");
@@ -275,33 +275,33 @@ namespace Marvel {
 			{
 			case 0:
 			{
-				m_targetStyle = ToInt(item);
-				if (m_libType == mvLibType::MV_IMGUI)
+				_targetStyle = ToInt(item);
+				if (_libType == mvLibType::MV_IMGUI)
 				{
-					if (m_targetStyle >= ImGuiStyleVar_COUNT || m_targetStyle < 0)
+					if (_targetStyle >= ImGuiStyleVar_COUNT || _targetStyle < 0)
 					{
-						m_state.setOk(false);
+						_state.setOk(false);
 						mvThrowPythonError(mvErrorCode::mvNone, "Style target out of range.");
 						MV_ITEM_REGISTRY_ERROR("Item's parent must be plot.");
 					}
 				}
 
-				else if (m_libType == mvLibType::MV_IMPLOT)
+				else if (_libType == mvLibType::MV_IMPLOT)
 				{
 
-					if (m_targetStyle >= ImPlotStyleVar_COUNT || m_targetStyle < 0)
+					if (_targetStyle >= ImPlotStyleVar_COUNT || _targetStyle < 0)
 					{
-						m_state.setOk(false);
+						_state.setOk(false);
 						mvThrowPythonError(mvErrorCode::mvNone, "Style target out of range.");
 						MV_ITEM_REGISTRY_ERROR("Item's parent must be plot.");
 					}
 				}
 
-				else if (m_libType == mvLibType::MV_IMNODES)
+				else if (_libType == mvLibType::MV_IMNODES)
 				{
-					if (m_targetStyle >= 14 || m_targetStyle < 0)
+					if (_targetStyle >= 14 || _targetStyle < 0)
 					{
-						m_state.setOk(false);
+						_state.setOk(false);
 						mvThrowPythonError(mvErrorCode::mvNone, "Style target out of range.");
 						MV_ITEM_REGISTRY_ERROR("Item's parent must be plot.");
 					}
@@ -310,11 +310,11 @@ namespace Marvel {
 			}
 
 			case 1:
-				m_x = ToFloat(item);
+				_x = ToFloat(item);
 				break;
 
 			case 2:
-				m_y = ToFloat(item);
+				_y = ToFloat(item);
 				break;
 
 			default:
@@ -328,33 +328,33 @@ namespace Marvel {
 		if (dict == nullptr)
 			return;
 
-		if (PyObject* item = PyDict_GetItemString(dict, "category")) m_libType = (mvLibType)ToInt(item);
+		if (PyObject* item = PyDict_GetItemString(dict, "category")) _libType = (mvLibType)ToInt(item);
 
-		if (m_libType == mvLibType::MV_IMGUI)
+		if (_libType == mvLibType::MV_IMGUI)
 		{
-			if (m_targetStyle >= ImGuiStyleVar_COUNT || m_targetStyle < 0)
+			if (_targetStyle >= ImGuiStyleVar_COUNT || _targetStyle < 0)
 			{
-				m_state.setOk(false);
+				_state.setOk(false);
 				mvThrowPythonError(mvErrorCode::mvNone, "");
 				MV_ITEM_REGISTRY_ERROR("Item's parent must be plot.");
 			}
 		}
 
-		else if (m_libType == mvLibType::MV_IMPLOT)
+		else if (_libType == mvLibType::MV_IMPLOT)
 		{
-			if (m_targetStyle >= ImPlotStyleVar_COUNT || m_targetStyle < 0)
+			if (_targetStyle >= ImPlotStyleVar_COUNT || _targetStyle < 0)
 			{
-				m_state.setOk(false);
+				_state.setOk(false);
 				mvThrowPythonError(mvErrorCode::mvNone, "");
 				MV_ITEM_REGISTRY_ERROR("Item's parent must be plot.");
 			}
 		}
 
-		else if (m_libType == mvLibType::MV_IMNODES)
+		else if (_libType == mvLibType::MV_IMNODES)
 		{
-			if (m_targetStyle >= 14 || m_targetStyle < 0)
+			if (_targetStyle >= 14 || _targetStyle < 0)
 			{
-				m_state.setOk(false);
+				_state.setOk(false);
 				mvThrowPythonError(mvErrorCode::mvNone, "");
 				MV_ITEM_REGISTRY_ERROR("Item's parent must be plot.");
 			}

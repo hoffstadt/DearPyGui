@@ -56,26 +56,26 @@ namespace Marvel {
 		//-----------------------------------------------------------------------------
 		// pre draw
 		//-----------------------------------------------------------------------------
-		if (!m_show)
+		if (!_show)
 			return;
 
 		// push font if a font object is attached
-		if (m_font)
+		if (_font)
 		{
-			ImFont* fontptr = static_cast<mvFont*>(m_font.get())->getFontPtr();
+			ImFont* fontptr = static_cast<mvFont*>(_font.get())->getFontPtr();
 			ImGui::PushFont(fontptr);
 		}
 
 		// handle enabled theming
-		if (m_enabled)
+		if (_enabled)
 		{
 			// push class theme (if it exists)
 			if (auto classTheme = getClassTheme())
 				static_cast<mvTheme*>(classTheme.get())->draw(nullptr, 0.0f, 0.0f);
 
 			// push item theme (if it exists)
-			if (m_theme)
-				static_cast<mvTheme*>(m_theme.get())->draw(nullptr, 0.0f, 0.0f);
+			if (_theme)
+				static_cast<mvTheme*>(_theme.get())->draw(nullptr, 0.0f, 0.0f);
 		}
 
 		//-----------------------------------------------------------------------------
@@ -86,18 +86,18 @@ namespace Marvel {
 			static const std::vector<double>* xptr;
 			static const std::vector<double>* yptr;
 
-			xptr = &(*m_value.get())[0];
-			yptr = &(*m_value.get())[1];
+			xptr = &(*_value.get())[0];
+			yptr = &(*_value.get())[1];
 
-			if (m_horizontal)
-				ImPlot::PlotBarsH(m_label.c_str(), xptr->data(), yptr->data(), (int)xptr->size(), m_weight);
+			if (_horizontal)
+				ImPlot::PlotBarsH(_label.c_str(), xptr->data(), yptr->data(), (int)xptr->size(), _weight);
 			else
-				ImPlot::PlotBars(m_label.c_str(), xptr->data(), yptr->data(), (int)xptr->size(), m_weight);
+				ImPlot::PlotBars(_label.c_str(), xptr->data(), yptr->data(), (int)xptr->size(), _weight);
 
 			// Begin a popup for a legend entry.
-			if (ImPlot::BeginLegendPopup(m_label.c_str(), 1))
+			if (ImPlot::BeginLegendPopup(_label.c_str(), 1))
 			{
-				for (auto& childset : m_children)
+				for (auto& childset : _children)
 				{
 					for (auto& item : childset)
 					{
@@ -123,17 +123,17 @@ namespace Marvel {
 		//-----------------------------------------------------------------------------
 
 		// pop font off stack
-		if (m_font)
+		if (_font)
 			ImGui::PopFont();
 
 		// handle popping styles
-		if (m_enabled)
+		if (_enabled)
 		{
 			if (auto classTheme = getClassTheme())
 				static_cast<mvTheme*>(classTheme.get())->customAction();
 
-			if (m_theme)
-				static_cast<mvTheme*>(m_theme.get())->customAction();
+			if (_theme)
+				static_cast<mvTheme*>(_theme.get())->customAction();
 		}
 	}
 
@@ -148,11 +148,11 @@ namespace Marvel {
 			switch (i)
 			{
 			case 0:
-				(*m_value)[0] = ToDoubleVect(item);
+				(*_value)[0] = ToDoubleVect(item);
 				break;
 
 			case 1:
-				(*m_value)[1] = ToDoubleVect(item);
+				(*_value)[1] = ToDoubleVect(item);
 				break;
 
 			default:
@@ -166,11 +166,11 @@ namespace Marvel {
 		if (dict == nullptr)
 			return;
 
-		if (PyObject* item = PyDict_GetItemString(dict, "horizontal")) m_horizontal= ToBool(item);
-		if (PyObject* item = PyDict_GetItemString(dict, "weight")) m_weight= ToFloat(item);
+		if (PyObject* item = PyDict_GetItemString(dict, "horizontal")) _horizontal= ToBool(item);
+		if (PyObject* item = PyDict_GetItemString(dict, "weight")) _weight= ToFloat(item);
 
-		if (PyObject* item = PyDict_GetItemString(dict, "x")) { (*m_value)[0] = ToDoubleVect(item); }
-		if (PyObject* item = PyDict_GetItemString(dict, "y")) { (*m_value)[1] = ToDoubleVect(item); }
+		if (PyObject* item = PyDict_GetItemString(dict, "x")) { (*_value)[0] = ToDoubleVect(item); }
+		if (PyObject* item = PyDict_GetItemString(dict, "y")) { (*_value)[1] = ToDoubleVect(item); }
 
 	}
 
@@ -179,7 +179,7 @@ namespace Marvel {
 		if (dict == nullptr)
 			return;
 
-		PyDict_SetItemString(dict, "horizontal", ToPyBool(m_horizontal));
-		PyDict_SetItemString(dict, "weight", ToPyFloat(m_weight));
+		PyDict_SetItemString(dict, "horizontal", ToPyBool(_horizontal));
+		PyDict_SetItemString(dict, "weight", ToPyFloat(_weight));
 	}
 }
