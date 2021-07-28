@@ -175,23 +175,23 @@ namespace Marvel {
 			switch (i)
 			{
 			case(0):
-				m_xaxisName = axis->m_specificedlabel;
+				m_xaxisName = axis->getSpecifiedLabel();
 				break;
 
 			case(1):
-				m_y1axisName = axis->m_specificedlabel;
+				m_y1axisName = axis->getSpecifiedLabel();
 				break;
 
 			case(2):
-				m_y2axisName = axis->m_specificedlabel;
+				m_y2axisName = axis->getSpecifiedLabel();
 				break;
 
 			case(3):
-				m_y3axisName = axis->m_specificedlabel;
+				m_y3axisName = axis->getSpecifiedLabel();
 				break;
 
 			default:
-				m_y1axisName = axis->m_specificedlabel;
+				m_y1axisName = axis->getSpecifiedLabel();
 				break;
 			}
 		}
@@ -275,7 +275,7 @@ namespace Marvel {
 		for (auto& item : m_children[1])
 		{
 			// skip item if it's not shown
-			if (!item->m_show)
+			if (!item->isShown())
 				continue;
 			item->customAction();
 		}
@@ -305,7 +305,7 @@ namespace Marvel {
 			for (auto& item : m_children[0])
 			{
 				// skip item if it's not shown
-				if (!item->m_show)
+				if (!item->isShown())
 					continue;
 				item->draw(drawlist, ImPlot::GetPlotPos().x, ImPlot::GetPlotPos().y);
 
@@ -316,7 +316,7 @@ namespace Marvel {
 			for (auto& item : m_children[1])
 			{
 				// skip item if it's not shown
-				if (!item->m_show)
+				if (!item->isShown())
 					continue;
 				item->draw(drawlist, ImPlot::GetPlotPos().x, ImPlot::GetPlotPos().y);
 
@@ -328,7 +328,7 @@ namespace Marvel {
 			for (auto& item : m_children[2])
 			{
 				// skip item if it's not shown
-				if (!item->m_show)
+				if (!item->isShown())
 					continue;
 				
 				//item->draw(ImPlot::GetPlotDrawList(), ImPlot::GetPlotPos().x, ImPlot::GetPlotPos().y);

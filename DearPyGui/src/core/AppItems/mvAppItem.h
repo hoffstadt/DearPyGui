@@ -154,54 +154,6 @@ namespace Marvel {
         friend class mvItemRegistry;
         friend class mvAppItemState;
         friend class mvLayoutWindow;
-
-        // todo: remove this, I was lazy
-        // items that need access to other items
-        friend class mvSubPlots;
-        friend class mvMenuItem;
-        friend class mvCollapsingHeader;
-        friend class mvChild;
-        friend class mvGroup;
-        friend class mvTabBar;
-        friend class mvTab;
-        friend class mvMenuBar;
-        friend class mvViewportMenuBar;
-        friend class mvMenu;
-        friend class mvWindow;
-        friend class mvTooltip;
-        friend class mvTreeNode;
-        friend class mvWindowAppItem;
-        friend class mvTable;
-        friend class mvNodeEditor;
-        friend class mvNode;
-        friend class mvNodeAttribute;
-        friend class mvFontManager;
-        friend class mvFontScope;
-        friend class mvDrawlist;
-        friend class mvDrawLayer;
-        friend class mvPlot;
-        friend class mvPlotAxis;
-        friend class mvLineSeries;
-        friend class mvAreaSeries;
-        friend class mvBarSeries;
-        friend class mvCandleSeries;
-        friend class mvErrorSeries;
-        friend class mvHeatSeries;
-        friend class mvImageSeries;
-        friend class mvVLineSeries;
-        friend class mvHLineSeries;
-        friend class mvLabelSeries;
-        friend class mvPieSeries;
-        friend class mvScatterSeries;
-        friend class mvShadeSeries;
-        friend class mvStairSeries;
-        friend class mvStemSeries;
-        friend class mvTextureRegistry;
-        friend class mvViewportDrawlist;
-        friend class mvHistogramSeries;
-        friend class mv2dHistogramSeries;
-        friend class mvFilterSet;
-        friend class mvClipper;
        
     public:
 
@@ -348,7 +300,13 @@ namespace Marvel {
         [[nodiscard]] PyObject* getDragCallback() { return m_dragCallback; }
         [[nodiscard]] PyObject* getDropCallback() { return m_dropCallback; }
 
+        //-----------------------------------------------------------------------------
+        // dirty flags
+        //-----------------------------------------------------------------------------
+        bool isPosDirty() const { return m_dirtyPos; }
+
         virtual void                        focus          () { m_focusNextFrame = true; }
+        virtual void                        unfocus        () { m_focusNextFrame = false; }
         virtual void                        hide           () { m_show = false; }
         virtual void                        show           () { m_show = true; }
         void                                setCallbackData(PyObject* data);
@@ -367,20 +325,22 @@ namespace Marvel {
         int                                 getHeight() const { return m_height; }
         mvUUID                              getUUID() const { return m_uuid; }
         const std::string&                  getFilter() const { return m_filter; }
+        const std::string&                  getLabel() const { return m_label; }
         const std::string&                  getSpecifiedLabel() const { return m_specificedlabel; }
         mvAppItem*                          getRoot() const;
         int                                 getLocation() const { return m_location; }
         bool                                isAltCustomActionRequested() const { return m_triggerAlternativeAction; }
-
-    protected:
-
-        virtual void setWidth     (int width)               { m_width = width; }
-        virtual void setHeight    (int height)              { m_height = height; }
-        virtual void setEnabled   (bool value)              { m_enabled = value; }
-        virtual void setDataSource(mvUUID value)            { m_source = value; }
-        virtual void setLabel     (const std::string& value); 
-        void         setFilter    (const std::string& value); 
-        void         setPos       (const ImVec2& pos); 
+        bool                                isTracked() const { return m_tracked; }
+        float                               getTrackOffset() const { return m_trackOffset; }
+        virtual void                        setWidth(int width) { m_width = width; }
+        virtual void                        setHeight(int height) { m_height = height; }
+        virtual void                        setEnabled   (bool value)              { m_enabled = value; }
+        virtual void                        setDataSource(mvUUID value)            { m_source = value; }
+        virtual void                        setLabel     (const std::string& value); 
+        void                                setFilter    (const std::string& value); 
+        void                                setPos       (const ImVec2& pos);
+        void                                registerWindowFocusing(); // only useful for imgui window types
+        bool                                shouldFocusNextFrame() const { return m_focusNextFrame; }
 
     private:
 
@@ -396,7 +356,6 @@ namespace Marvel {
         bool             moveChildUp(mvUUID uuid);
         bool             moveChildDown(mvUUID uuid);
         void             resetState();
-        void             registerWindowFocusing(); // only useful for imgui window types
         mvRef<mvAppItem> stealChild(mvUUID uuid); // steals a child (used for moving)
 
        
