@@ -90,14 +90,14 @@ namespace Marvel {
 				if (!item->preDraw())
 					continue;
 
-				if (*m_value == item->m_uuid && m_lastValue != *m_value)
+				if (*m_value == item->getUUID() && m_lastValue != *m_value)
 					static_cast<mvTab*>(item.get())->addFlag(ImGuiTabItemFlags_SetSelected);
 
 				item->draw(drawlist, ImGui::GetCursorPosX(), ImGui::GetCursorPosY());
 
 				item->postDraw();
 
-				if (*m_value == item->m_uuid)
+				if (*m_value == item->getUUID())
 					static_cast<mvTab*>(item.get())->removeFlag(ImGuiTabItemFlags_SetSelected);
 			}
 

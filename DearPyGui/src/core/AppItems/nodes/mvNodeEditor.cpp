@@ -158,7 +158,7 @@ namespace Marvel {
 		if (item->getType() == mvAppItemType::mvNode)
 		{
 
-			for (const auto& otherchild : item->m_children[1])
+			for (const auto& otherchild : item->getChildren(1))
 			{
 				int attr_id = static_cast<mvNodeAttribute*>(otherchild.get())->getId();
 
@@ -191,7 +191,7 @@ namespace Marvel {
 			    int i2 = static_cast<mvNode*>(child.get())->getId();
 				//if (static_cast<mvNode*>(child.get())->getId() == item)
 				if (i1 == i2)
-					result.push_back(child->m_uuid);
+					result.push_back(child->getUUID());
 			}
 		}
 
@@ -210,7 +210,7 @@ namespace Marvel {
 					int i1 = item;
 					int i2 = static_cast<mvNodeLink*>(child.get())->getId();
 					if (i1 == i2)
-						result.push_back(child->m_uuid);
+						result.push_back(child->getUUID());
 				}
 			}
 		}
@@ -236,8 +236,8 @@ namespace Marvel {
 				continue;
 
 			// set item width
-			if (item->m_width != 0)
-				ImGui::SetNextItemWidth((float)item->m_width);
+			if (item->getWidth() != 0)
+				ImGui::SetNextItemWidth((float)item->getWidth());
 
 			item->draw(drawlist, x, y);
 
@@ -280,8 +280,8 @@ namespace Marvel {
 				continue;
 
 			// set item width
-			if (item->m_width != 0)
-				ImGui::SetNextItemWidth((float)item->m_width);
+			if (item->getWidth() != 0)
+				ImGui::SetNextItemWidth((float)item->getWidth());
 
 			item->draw(drawlist, x, y);
 
@@ -339,13 +339,13 @@ namespace Marvel {
 				if (child->getType() != mvAppItemType::mvNode)
 					continue;
 
-				for (const auto& grandchild : child->m_children[1])
+				for (const auto& grandchild : child->getChildren(1))
 				{
 					if (static_cast<mvNodeAttribute*>(grandchild.get())->getId() == start_attr)
-						node1 = grandchild->m_uuid;
+						node1 = grandchild->getUUID();
 
 					if (static_cast<mvNodeAttribute*>(grandchild.get())->getId() == end_attr)
-						node2 = grandchild->m_uuid;
+						node2 = grandchild->getUUID();
 				}
 			}
 
@@ -368,7 +368,7 @@ namespace Marvel {
 				{
 					if (static_cast<const mvNodeLink*>(item.get())->m_id == destroyed_attr)
 					{
-						name = item->m_uuid;
+						name = item->getUUID();
 						break;
 					}
 				}

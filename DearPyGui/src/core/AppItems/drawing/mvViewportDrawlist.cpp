@@ -65,7 +65,7 @@ namespace Marvel {
 		for (auto& item : m_children[2])
 		{
 			// skip item if it's not shown
-			if (!item->m_show)
+			if (!item->isShown())
 				continue;
 
 			item->draw(internal_drawlist, 0.0f, 0.0f);

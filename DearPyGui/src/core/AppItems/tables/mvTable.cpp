@@ -86,7 +86,7 @@ namespace Marvel {
 			for (auto& item : m_children[0])
 			{
 				// skip item if it's not shown
-				if (!item->m_show)
+				if (!item->isShown())
 					continue;
 
 				// set item width
