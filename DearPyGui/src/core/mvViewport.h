@@ -64,55 +64,55 @@ namespace Marvel {
 		virtual void minimize() {}
 		virtual void restore() {}
 		
-		void stop() { m_running = false; }
-		bool running() const { return m_running; }
+		void stop() { _running = false; }
+		bool running() const { return _running; }
 
 		// for use by primary window
-		void setActualWidth(int width) { m_actualWidth = width; }
-		void setActualHeight(int height) { m_actualHeight = height; }
-		void setClientWidth(int width) { m_clientWidth = width; }
-		void setClientHeight(int height) { m_clientHeight = height; }
-		int getClientWidth() const { return (int)m_clientWidth; }
-		int getClientHeight() const { return (int)m_clientHeight; }
+		void setActualWidth(int width) { _actualWidth = width; }
+		void setActualHeight(int height) { _actualHeight = height; }
+		void setClientWidth(int width) { _clientWidth = width; }
+		void setClientHeight(int height) { _clientHeight = height; }
+		int getClientWidth() const { return (int)_clientWidth; }
+		int getClientHeight() const { return (int)_clientHeight; }
 		void onResizeEvent();
 
 	protected:
 
-		bool        m_running = true;
-		mvApp*      m_app     = nullptr;
-		std::string m_title = "DearPyGui";
-		std::string m_small_icon;
-		std::string m_large_icon;
-		mvColor     m_clearColor = mvColor(0, 0, 0, 255);
+		bool        _running = true;
+		mvApp*      _app     = nullptr;
+		std::string _title = "DearPyGui";
+		std::string _small_icon;
+		std::string _large_icon;
+		mvColor     _clearColor = mvColor(0, 0, 0, 255);
 
 
 		// window modes
-		bool m_titleDirty = false;
-		bool m_modesDirty = false;
-		bool m_vsync = true;
-		bool m_resizable = true;
-		bool m_alwaysOnTop = false;
-		bool m_maximizeBox = true;
-		bool m_minimizeBox = true;
-		bool m_border = true;
-		bool m_caption = true;
-		bool m_overlapped = true;
+		bool _titleDirty = false;
+		bool _modesDirty = false;
+		bool _vsync = true;
+		bool _resizable = true;
+		bool _alwaysOnTop = false;
+		bool _maximizeBox = true;
+		bool _minimizeBox = true;
+		bool _border = true;
+		bool _caption = true;
+		bool _overlapped = true;
 
 		// position/size
-		bool     m_sizeDirty = false;
-		bool     m_posDirty = false;
-		unsigned m_width;
-		unsigned m_minwidth = 250;
-		unsigned m_maxwidth = 10000;
-		unsigned m_height;
-		unsigned m_minheight = 250;
-		unsigned m_maxheight = 10000;
-		int      m_actualWidth = 1280;
-		int      m_actualHeight = 800;
-		int      m_clientWidth = 1280;
-		int      m_clientHeight = 800;
-		int      m_xpos = 100;
-		int      m_ypos = 100;
+		bool     _sizeDirty = false;
+		bool     _posDirty = false;
+		unsigned _width;
+		unsigned _minwidth = 250;
+		unsigned _maxwidth = 10000;
+		unsigned _height;
+		unsigned _minheight = 250;
+		unsigned _maxheight = 10000;
+		int      _actualWidth = 1280;
+		int      _actualHeight = 800;
+		int      _clientWidth = 1280;
+		int      _clientHeight = 800;
+		int      _xpos = 100;
+		int      _ypos = 100;
 		
 
 	};
