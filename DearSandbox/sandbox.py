@@ -1,9 +1,15 @@
-from dearpygui.dearpygui import *
+  
+import dearpygui.dearpygui as dpg
+import dearpygui.demo as demo
+import dearpygui.themes as themes
 
-def test():
-    print('visible')
+with dpg.font_registry():
+    with dpg.font("../../Resources/NotoSerifCJKjp-Medium.otf", 20, default_font=True):
+        dpg.add_font_range_hint(dpg.mvFontRangeHint_Default)
 
-with window(label="Test",id =999,  width=400, show=True):
-    add_visible_handler(parent=999, callback=test)
+demo.show_demo()
 
-start_dearpygui()
+with dpg.window(label="tutorial"):
+    dpg.add_button(label="Press me")
+
+dpg.start_dearpygui()
