@@ -366,7 +366,7 @@ namespace Marvel {
 			{
 				if (item->getType() == mvAppItemType::mvNodeLink)
 				{
-					if (static_cast<const mvNodeLink*>(item.get())->_id == destroyed_attr)
+					if (static_cast<const mvNodeLink*>(item.get())->_id0 == destroyed_attr)
 					{
 						name = item->getUUID();
 						break;
