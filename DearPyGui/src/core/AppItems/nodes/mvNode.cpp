@@ -185,7 +185,9 @@ namespace Marvel {
 		//-----------------------------------------------------------------------------
 		ImVec2 pos = imnodes::GetNodeGridSpacePos((int)_id);
 		_state._hovered = ImGui::IsItemHovered();
-		_state._clicked = ImGui::IsItemClicked();
+		_state._leftclicked = ImGui::IsItemClicked();
+		_state._rightclicked = ImGui::IsItemClicked(1);
+		_state._middleclicked = ImGui::IsItemClicked(2);
 		_state._visible = ImGui::IsItemVisible();
 		_state._active = imnodes::IsAnyAttributeActive();
 

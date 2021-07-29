@@ -655,6 +655,33 @@ def is_item_clicked(item: int) -> Union[bool, None]:
     return internal_dpg.get_item_state(item)["clicked"]
 
 
+def is_item_left_clicked(item: int) -> Union[bool, None]:
+    """Checks if item is left clicked.
+
+    Returns:
+        status as a bool
+    """
+    return internal_dpg.get_item_state(item)["left_clicked"]
+
+
+def is_item_right_clicked(item: int) -> Union[bool, None]:
+    """Checks if item is right clicked.
+
+    Returns:
+        status as a bool
+    """
+    return internal_dpg.get_item_state(item)["right_clicked"]
+
+
+def is_item_middle_clicked(item: int) -> Union[bool, None]:
+    """Checks if item is middle clicked.
+
+    Returns:
+        status as a bool
+    """
+    return internal_dpg.get_item_state(item)["middle_clicked"]
+
+
 def is_item_visible(item: int) -> Union[bool, None]:
     """Checks if item is visible.
 
