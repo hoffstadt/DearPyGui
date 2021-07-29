@@ -51,10 +51,13 @@ namespace Marvel {
         if(_applicableState & MV_STATE_HOVER) PyDict_SetItemString(dict, "hovered", ToPyBool(_hovered));
         if(_applicableState & MV_STATE_ACTIVE) PyDict_SetItemString(dict, "active", ToPyBool(_active));
         if(_applicableState & MV_STATE_FOCUSED) PyDict_SetItemString(dict, "focused", ToPyBool(_focused));
-        if(_applicableState & MV_STATE_CLICKED) PyDict_SetItemString(dict, "clicked", ToPyBool(_leftclicked || _rightclicked || _middleclicked));
-        if(_applicableState & MV_STATE_CLICKED) PyDict_SetItemString(dict, "left_clicked", ToPyBool(_leftclicked));
-        if(_applicableState & MV_STATE_CLICKED) PyDict_SetItemString(dict, "right_clicked", ToPyBool(_rightclicked));
-        if(_applicableState & MV_STATE_CLICKED) PyDict_SetItemString(dict, "middle_clicked", ToPyBool(_middleclicked));
+        if (_applicableState & MV_STATE_CLICKED)
+        {
+            PyDict_SetItemString(dict, "clicked", ToPyBool(_leftclicked || _rightclicked || _middleclicked));
+            PyDict_SetItemString(dict, "left_clicked", ToPyBool(_leftclicked));
+            PyDict_SetItemString(dict, "right_clicked", ToPyBool(_rightclicked));
+            PyDict_SetItemString(dict, "middle_clicked", ToPyBool(_middleclicked));
+        }
         if(_applicableState & MV_STATE_VISIBLE) PyDict_SetItemString(dict, "visible", ToPyBool(_visible));
         if(_applicableState & MV_STATE_EDITED) PyDict_SetItemString(dict, "edited", ToPyBool(_edited));
         if(_applicableState & MV_STATE_ACTIVATED) PyDict_SetItemString(dict, "activated", ToPyBool(_activated));
