@@ -34,7 +34,7 @@ namespace Marvel {
 	{
 		int64_t address = (int64_t)this;
 		int64_t reduced_address = address % 2147483648;
-		_id = (int)reduced_address;
+		_id0 = (int)reduced_address;
 	}
 
 	bool mvNodeLink::isParentCompatible(mvAppItemType type)
@@ -163,7 +163,7 @@ namespace Marvel {
 		//-----------------------------------------------------------------------------
 		ScopedID id(_uuid);
 
-		imnodes::Link(_id, _id1, _id2);
+		imnodes::Link(_id0, _id1, _id2);
 
 		//-----------------------------------------------------------------------------
 		// post draw

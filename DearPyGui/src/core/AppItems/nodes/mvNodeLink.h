@@ -32,7 +32,7 @@ namespace Marvel {
 		bool preDraw() override { return true; }
 		void postDraw() override {}
 
-		int getId() const { return _id; }
+		int getId() const { return _id0; }
 		int getId1() const { return _id1; }
 		int getId2() const { return _id2; }
 		void customAction() override;
@@ -43,7 +43,7 @@ namespace Marvel {
 
 	private:
 
-		int _id = 0;
+		int _id0 = 0;
 		int _id1 = 0;
 		int _id2 = 0;
 
