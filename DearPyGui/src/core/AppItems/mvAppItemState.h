@@ -46,7 +46,9 @@ namespace Marvel {
         [[nodiscard]] bool   isItemHovered             () const { return _hovered; }
         [[nodiscard]] bool   isItemActive              () const { return _active; }
         [[nodiscard]] bool   isItemFocused             () const { return _focused; }
-        [[nodiscard]] bool   isItemClicked             () const { return _clicked; }
+        [[nodiscard]] bool   isItemLeftClicked         () const { return _leftclicked; }
+        [[nodiscard]] bool   isItemRightClicked        () const { return _rightclicked; }
+        [[nodiscard]] bool   isItemMiddleClicked       () const { return _middleclicked; }
         [[nodiscard]] bool   isItemVisible             () const { return _visible; }
         [[nodiscard]] bool   isItemEdited              () const { return _edited; }
         [[nodiscard]] bool   isItemActivated           () const { return _activated; }
@@ -64,7 +66,9 @@ namespace Marvel {
         void setHovered             (bool value)  { _hovered = value; }
         void setActive              (bool value)  { _active = value; }
         void setFocused             (bool value)  { _focused = value; }
-        void setClicked             (bool value)  { _clicked = value; }
+        void setLeftClicked         (bool value)  { _leftclicked = value; }
+        void setRightClicked        (bool value)  { _rightclicked = value; }
+        void setMiddleClicked       (bool value)  { _middleclicked = value; }
         void setVisible             (bool value)  { _visible = value; }
         void setEdited              (bool value)  { _edited = value; }
         void setActivated           (bool value)  { _activated = value; }
@@ -83,7 +87,9 @@ namespace Marvel {
         bool   _hovered              = false;
         bool   _active               = false;
         bool   _focused              = false;
-        bool   _clicked              = false;
+        bool   _leftclicked          = false;
+        bool   _rightclicked         = false;
+        bool   _middleclicked        = false;
         bool   _visible              = false;
         bool   _edited               = false;
         bool   _activated            = false;

@@ -9,7 +9,9 @@ namespace Marvel {
         _hovered = false;
         _active = false;
         _focused = false;
-        _clicked = false;
+        _leftclicked = false;
+        _rightclicked = false;
+        _middleclicked = false;
         _visible = false;
         _edited = false;
         _activated = false;
@@ -23,7 +25,9 @@ namespace Marvel {
         _hovered = ImGui::IsItemHovered();
         _active = ImGui::IsItemActive();
         _focused = ImGui::IsItemFocused();
-        _clicked = ImGui::IsItemClicked();
+        _leftclicked = ImGui::IsItemClicked();
+        _rightclicked = ImGui::IsItemClicked(1);
+        _middleclicked = ImGui::IsItemClicked(2);
         _visible = ImGui::IsItemVisible();
         _edited = ImGui::IsItemEdited();
         _activated = ImGui::IsItemActivated();
@@ -47,7 +51,10 @@ namespace Marvel {
         if(_applicableState & MV_STATE_HOVER) PyDict_SetItemString(dict, "hovered", ToPyBool(_hovered));
         if(_applicableState & MV_STATE_ACTIVE) PyDict_SetItemString(dict, "active", ToPyBool(_active));
         if(_applicableState & MV_STATE_FOCUSED) PyDict_SetItemString(dict, "focused", ToPyBool(_focused));
-        if(_applicableState & MV_STATE_CLICKED) PyDict_SetItemString(dict, "clicked", ToPyBool(_clicked));
+        if(_applicableState & MV_STATE_CLICKED) PyDict_SetItemString(dict, "clicked", ToPyBool(_leftclicked || _rightclicked || _middleclicked));
+        if(_applicableState & MV_STATE_CLICKED) PyDict_SetItemString(dict, "left_clicked", ToPyBool(_leftclicked));
+        if(_applicableState & MV_STATE_CLICKED) PyDict_SetItemString(dict, "right_clicked", ToPyBool(_rightclicked));
+        if(_applicableState & MV_STATE_CLICKED) PyDict_SetItemString(dict, "middle_clicked", ToPyBool(_middleclicked));
         if(_applicableState & MV_STATE_VISIBLE) PyDict_SetItemString(dict, "visible", ToPyBool(_visible));
         if(_applicableState & MV_STATE_EDITED) PyDict_SetItemString(dict, "edited", ToPyBool(_edited));
         if(_applicableState & MV_STATE_ACTIVATED) PyDict_SetItemString(dict, "activated", ToPyBool(_activated));

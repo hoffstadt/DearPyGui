@@ -20,15 +20,19 @@ We generally fold multiple commits pertaining to the same topic as a single entr
 - Read the `Breaking Changes` section (here in the changelog).
 - Please report any issue!
 
-## VERSION 0.8.x
+## VERSION 0.8.52
 
 ### New
 * added ability to "show/hide" widget handlers
+* added `is_item_left_clicked(...)` #1115
+* added `is_item_right_clicked(...)` #1115
+* added `is_item_middle_clicked(...)` #1115
 
 ### Fixes
 * on_close callback fixed for modal windows #1112
 * fixed issue with windows viewport caption/border #1114
 * fixed issue with windows for visible and focus handlers #1116
+* `is_item_clicked(...)` now returns true for left, right, middle clicks #1115
 
 ## VERSION 0.8.50
 

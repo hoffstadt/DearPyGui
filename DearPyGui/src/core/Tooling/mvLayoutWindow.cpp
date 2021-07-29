@@ -308,7 +308,9 @@ namespace Marvel {
 		DebugItem("Item Hovered:", selectedItem->getState().isItemHovered() ? ts : fs);
 		DebugItem("Item Active:", selectedItem->getState().isItemActive() ? ts : fs);
 		DebugItem("Item Focused:", selectedItem->getState().isItemFocused() ? ts : fs);
-		DebugItem("Item Clicked:", selectedItem->getState().isItemClicked() ? ts : fs);
+		DebugItem("Item Left Clicked:", selectedItem->getState().isItemLeftClicked() ? ts : fs);
+		DebugItem("Item Right Clicked:", selectedItem->getState().isItemRightClicked() ? ts : fs);
+		DebugItem("Item Middle Clicked:", selectedItem->getState().isItemMiddleClicked() ? ts : fs);
 		DebugItem("Item Edited:", selectedItem->getState().isItemEdited() ? ts : fs);
 		DebugItem("Item Activated:", selectedItem->getState().isItemActivated() ? ts : fs);
 		DebugItem("Item Deactivated:", selectedItem->getState().isItemDeactivated() ? ts : fs);
