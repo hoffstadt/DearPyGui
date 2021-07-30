@@ -51,11 +51,8 @@ namespace Marvel {
 	{
 		_modes = 0;
 
-		if (_border) _modes |= WS_THICKFRAME;
-		if (_caption) _modes |= WS_CAPTION;
-		if (_minimizeBox) _modes |= WS_MINIMIZEBOX;
-		if (_maximizeBox) _modes |= WS_MAXIMIZEBOX;
-		if (_overlapped) _modes |= WS_OVERLAPPED | WS_SYSMENU;
+		if (_resizable) _modes |= WS_THICKFRAME;
+		if (_decorated) _modes |= WS_CAPTION | WS_OVERLAPPED | WS_SYSMENU | WS_MINIMIZEBOX | WS_MAXIMIZEBOX;
 	}
 
 	void mvWindowsViewport::show(bool minimized, bool maximized)
@@ -408,7 +405,7 @@ namespace Marvel {
 				_height = (UINT)HIWORD(lParam);
 
 				CleanupRenderTarget();
-				if(_border && _caption)
+				if(_decorated)
 					s_pSwapChain->ResizeBuffers(0, (UINT)LOWORD(lParam), (UINT)HIWORD(lParam), DXGI_FORMAT_UNKNOWN, 0);
 				else
 					s_pSwapChain->ResizeBuffers(0, (UINT)awidth, (UINT)aheight, DXGI_FORMAT_UNKNOWN, 0);

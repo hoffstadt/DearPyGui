@@ -20,6 +20,26 @@ We generally fold multiple commits pertaining to the same topic as a single entr
 - Read the `Breaking Changes` section (here in the changelog).
 - Please report any issue!
 
+## VERSION 0.8.x
+
+### Breaking Changes
+* removed `set_viewport_border(...)`
+* removed `set_viewport_caption(...)`
+* removed `set_viewport_overlapped(...)`
+* removed `set_viewport_maximized_box(...)`
+* removed `set_viewport_minimized_box(...)`
+* removed `get_viewport_border(...)`
+* removed `is_viewport_caption_on(...)`
+* removed `is_viewport_overlapped_on(...)`
+* removed `is_viewport_maximized_box_on(...)`
+* removed `is_viewport_minimized_box_on(...)`
+* removed `maximized_box`, `minimized_box`, `caption`, `overlapped` keyword from `create_viewport(...)`
+
+### New
+* added `set_viewport_decorated(...)`
+* added `is_viewport_decorated(...)`
+* all viewport configuration works at runtime now
+
 ## VERSION 0.8.52
 
 ### New

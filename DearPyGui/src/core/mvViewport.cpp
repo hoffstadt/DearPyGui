@@ -38,11 +38,7 @@ namespace Marvel {
 			parser.addArg<mvPyDataType::Bool>("resizable", mvArgType::KEYWORD_ARG, "True");
 			parser.addArg<mvPyDataType::Bool>("vsync", mvArgType::KEYWORD_ARG, "True");
 			parser.addArg<mvPyDataType::Bool>("always_on_top", mvArgType::KEYWORD_ARG, "False");
-			parser.addArg<mvPyDataType::Bool>("maximized_box", mvArgType::KEYWORD_ARG, "True");
-			parser.addArg<mvPyDataType::Bool>("minimized_box", mvArgType::KEYWORD_ARG, "True");
-			parser.addArg<mvPyDataType::Bool>("border", mvArgType::KEYWORD_ARG, "True");
-			parser.addArg<mvPyDataType::Bool>("caption", mvArgType::KEYWORD_ARG, "True");
-			parser.addArg<mvPyDataType::Bool>("overlapped", mvArgType::KEYWORD_ARG, "True");
+			parser.addArg<mvPyDataType::Bool>("decorated", mvArgType::KEYWORD_ARG, "True");
 
 			parser.addArg<mvPyDataType::FloatList>("clear_color", mvArgType::KEYWORD_ARG, "(0, 0, 0, 255)");
 
@@ -120,19 +116,15 @@ namespace Marvel {
 		if (PyObject* item = PyDict_GetItemString(dict, "y_pos")) { _posDirty = true;  _ypos = ToInt(item);}
 		if (PyObject* item = PyDict_GetItemString(dict, "width")) { _sizeDirty = true;  _actualWidth = ToInt(item);}
 		if (PyObject* item = PyDict_GetItemString(dict, "height")) { _sizeDirty = true;  _actualHeight = ToInt(item);}
-		if (PyObject* item = PyDict_GetItemString(dict, "resizable")) _resizable = ToBool(item);
+		if (PyObject* item = PyDict_GetItemString(dict, "resizable")) { _modesDirty = true;  _resizable = ToBool(item);}
 		if (PyObject* item = PyDict_GetItemString(dict, "vsync")) _vsync = ToBool(item);
 		if (PyObject* item = PyDict_GetItemString(dict, "min_width")) _minwidth = ToInt(item);
 		if (PyObject* item = PyDict_GetItemString(dict, "max_width")) _maxwidth = ToInt(item);
 		if (PyObject* item = PyDict_GetItemString(dict, "min_height")) _minheight = ToInt(item);
 		if (PyObject* item = PyDict_GetItemString(dict, "max_height")) _maxheight = ToInt(item);
 		if (PyObject* item = PyDict_GetItemString(dict, "always_on_top")) { _modesDirty = true; _alwaysOnTop = ToBool(item); }
-		if (PyObject* item = PyDict_GetItemString(dict, "maximized_box")) { _modesDirty = true; _maximizeBox = ToBool(item); }
-		if (PyObject* item = PyDict_GetItemString(dict, "minimized_box")) { _modesDirty = true; _minimizeBox = ToBool(item); }
-		if (PyObject* item = PyDict_GetItemString(dict, "border")) { _modesDirty = true; _border = ToBool(item); }
+		if (PyObject* item = PyDict_GetItemString(dict, "decorated")) { _modesDirty = true; _decorated = ToBool(item); }
 		if (PyObject* item = PyDict_GetItemString(dict, "title")) { _titleDirty = true; _title = ToString(item); }
-		if (PyObject* item = PyDict_GetItemString(dict, "caption")) { _modesDirty = true; _caption = ToBool(item); }
-		if (PyObject* item = PyDict_GetItemString(dict, "overlapped")) { _modesDirty = true; _overlapped = ToBool(item); }
 
 		if (_sizeDirty)
 		{
@@ -168,12 +160,8 @@ namespace Marvel {
 		PyDict_SetItemString(dict, "min_height", ToPyInt(_minheight));
 		PyDict_SetItemString(dict, "max_height", ToPyInt(_maxheight));
 		PyDict_SetItemString(dict, "always_on_top", ToPyBool(_alwaysOnTop));
-		PyDict_SetItemString(dict, "maximized_box", ToPyBool(_maximizeBox));
-		PyDict_SetItemString(dict, "minimized_box", ToPyBool(_minimizeBox));
-		PyDict_SetItemString(dict, "border", ToPyBool(_border));
+		PyDict_SetItemString(dict, "decorated", ToPyBool(_decorated));
 		PyDict_SetItemString(dict, "title", ToPyString(_title));
-		PyDict_SetItemString(dict, "caption", ToPyBool(_caption));
-		PyDict_SetItemString(dict, "overlapped", ToPyBool(_overlapped));
 
 	}
 

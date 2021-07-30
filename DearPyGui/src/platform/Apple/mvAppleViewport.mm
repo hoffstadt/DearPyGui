@@ -78,7 +78,7 @@ namespace Marvel {
             glfwWindowHint(GLFW_MAXIMIZED, GLFW_TRUE);
         else if(minimized)
             glfwWindowHint(GLFW_AUTO_ICONIFY, GLFW_TRUE);
-        if(!_caption)
+        if(!_decorated)
             glfwWindowHint(GLFW_DECORATED, GLFW_FALSE);
         glfwWindowHint(GLFW_COCOA_GRAPHICS_SWITCHING, GLFW_FALSE);
 
@@ -186,7 +186,7 @@ namespace Marvel {
         if(_modesDirty)
         {
             glfwSetWindowAttrib(_window, GLFW_RESIZABLE, _resizable ? GLFW_TRUE : GLFW_FALSE);
-            glfwSetWindowAttrib(_window, GLFW_DECORATED, _caption ? GLFW_TRUE : GLFW_FALSE);
+            glfwSetWindowAttrib(_window, GLFW_DECORATED, _decorated ? GLFW_TRUE : GLFW_FALSE);
             glfwSetWindowAttrib(_window, GLFW_FLOATING, _alwaysOnTop ? GLFW_TRUE : GLFW_FALSE);
             _modesDirty = false;
         }

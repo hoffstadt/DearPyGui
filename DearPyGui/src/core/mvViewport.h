@@ -92,11 +92,7 @@ namespace Marvel {
 		bool _vsync = true;
 		bool _resizable = true;
 		bool _alwaysOnTop = false;
-		bool _maximizeBox = true;
-		bool _minimizeBox = true;
-		bool _border = true;
-		bool _caption = true;
-		bool _overlapped = true;
+		bool _decorated = true;
 
 		// position/size
 		bool     _sizeDirty = false;
