@@ -937,51 +937,13 @@ def set_viewport_vsync(value: bool):
     internal_dpg.configure_viewport(0, vsync=value)
 
 
-def set_viewport_border(value: bool):
-    """Sets the viewport border.
+def set_viewport_decorated(value: bool):
+    """Sets the viewport to be decorated.
 
     Returns:
         None
     """
-    internal_dpg.configure_viewport(0, border=value)
-
-
-def set_viewport_caption(value: bool):
-    """Sets the viewport caption.
-
-    Returns:
-        None
-    """
-    internal_dpg.configure_viewport(0, border=value)
-    internal_dpg.configure_viewport(0, caption=value)
-
-
-def set_viewport_overlapped(value: bool):
-    """Sets the viewport overlapped.
-
-    Returns:
-        None
-    """
-    internal_dpg.configure_viewport(0, overlapped=value)
-
-
-def set_viewport_maximized_box(value: bool):
-    """Sets the viewport maximized box.
-
-    Returns:
-        None
-    """
-    internal_dpg.configure_viewport(0, maximized_box=value)
-
-
-def set_viewport_minimized_box(value: bool):
-    """Sets the viewport minimized box.
-
-    Returns:
-        None
-    """
-    internal_dpg.configure_viewport(0, minimized_box=value)
-
+    internal_dpg.configure_viewport(0, decorated=value)
 
 ########################################################################################################################
 # Viewport Getter Commands
@@ -1106,6 +1068,7 @@ def is_viewport_resizable() -> bool:
     """
     return internal_dpg.get_viewport_configuration()["resizable"]
 
+
 def is_viewport_vsync_on() -> bool:
     """Checks the viewport vsync flag.
 
@@ -1115,49 +1078,13 @@ def is_viewport_vsync_on() -> bool:
     return internal_dpg.get_viewport_configuration()["vsync"]
 
 
-def get_viewport_border() -> bool:
-    """Checks the viewport border flag.
+def is_viewport_decorated() -> bool:
+    """Checks if the viewport is docorated.
 
     Returns:
         bool
     """
-    return internal_dpg.get_viewport_configuration()["border"]
-
-
-def is_viewport_caption_on() -> bool:
-    """Checks the viewport caption flag.
-
-    Returns:
-        bool
-    """
-    return internal_dpg.get_viewport_configuration()["caption"]
-
-
-def is_viewport_overlapped_on() -> bool:
-    """Checks the viewport overlapped flag.
-
-    Returns:
-        bool
-    """
-    return internal_dpg.get_viewport_configuration()["overlapped"]
-
-
-def is_viewport_maximized_box_on() -> bool:
-    """Checks the viewport maximized box flag.
-
-    Returns:
-        bool
-    """
-    return internal_dpg.get_viewport_configuration()["maximized_box"]
-
-
-def is_viewport_minimized_box_on() -> bool:
-    """Checks the viewport minimized box flag.
-
-    Returns:
-        bool
-    """
-    return internal_dpg.get_viewport_configuration()["minimized_box"]
+    return internal_dpg.get_viewport_configuration()["decorated"]
 
 ##########################################################
 # Container Context Managers
@@ -5333,7 +5260,7 @@ def clear_selected_nodes(node_editor : int) -> None:
 
 	return internal_dpg.clear_selected_nodes(node_editor)
 
-def create_viewport(*, title: str ='Dear PyGui', small_icon: str ='', large_icon: str ='', width: int =1280, height: int =800, x_pos: int =100, y_pos: int =100, min_width: int =250, max_width: int =10000, min_height: int =250, max_height: int =10000, resizable: bool =True, vsync: bool =True, always_on_top: bool =False, maximized_box: bool =True, minimized_box: bool =True, border: bool =True, caption: bool =True, overlapped: bool =True, clear_color: List[float] =(0, 0, 0, 255)) -> str:
+def create_viewport(*, title: str ='Dear PyGui', small_icon: str ='', large_icon: str ='', width: int =1280, height: int =800, x_pos: int =100, y_pos: int =100, min_width: int =250, max_width: int =10000, min_height: int =250, max_height: int =10000, resizable: bool =True, vsync: bool =True, always_on_top: bool =False, decorated: bool =True, clear_color: List[float] =(0, 0, 0, 255)) -> str:
 	"""
 	Creates a viewport.
 	Args:
@@ -5351,17 +5278,13 @@ def create_viewport(*, title: str ='Dear PyGui', small_icon: str ='', large_icon
 		**resizable (bool): 
 		**vsync (bool): 
 		**always_on_top (bool): 
-		**maximized_box (bool): 
-		**minimized_box (bool): 
-		**border (bool): 
-		**caption (bool): 
-		**overlapped (bool): 
+		**decorated (bool): 
 		**clear_color (List[float]): 
 	Returns:
 		str
 	"""
 
-	return internal_dpg.create_viewport(title=title, small_icon=small_icon, large_icon=large_icon, width=width, height=height, x_pos=x_pos, y_pos=y_pos, min_width=min_width, max_width=max_width, min_height=min_height, max_height=max_height, resizable=resizable, vsync=vsync, always_on_top=always_on_top, maximized_box=maximized_box, minimized_box=minimized_box, border=border, caption=caption, overlapped=overlapped, clear_color=clear_color)
+	return internal_dpg.create_viewport(title=title, small_icon=small_icon, large_icon=large_icon, width=width, height=height, x_pos=x_pos, y_pos=y_pos, min_width=min_width, max_width=max_width, min_height=min_height, max_height=max_height, resizable=resizable, vsync=vsync, always_on_top=always_on_top, decorated=decorated, clear_color=clear_color)
 
 def delete_item(item : int, *, children_only: bool =False, slot: int =-1) -> None:
 	"""

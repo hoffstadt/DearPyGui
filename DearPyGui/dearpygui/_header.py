@@ -921,51 +921,13 @@ def set_viewport_vsync(value: bool):
     internal_dpg.configure_viewport(0, vsync=value)
 
 
-def set_viewport_border(value: bool):
-    """Sets the viewport border.
+def set_viewport_decorated(value: bool):
+    """Sets the viewport to be decorated.
 
     Returns:
         None
     """
-    internal_dpg.configure_viewport(0, border=value)
-
-
-def set_viewport_caption(value: bool):
-    """Sets the viewport caption.
-
-    Returns:
-        None
-    """
-    internal_dpg.configure_viewport(0, border=value)
-    internal_dpg.configure_viewport(0, caption=value)
-
-
-def set_viewport_overlapped(value: bool):
-    """Sets the viewport overlapped.
-
-    Returns:
-        None
-    """
-    internal_dpg.configure_viewport(0, overlapped=value)
-
-
-def set_viewport_maximized_box(value: bool):
-    """Sets the viewport maximized box.
-
-    Returns:
-        None
-    """
-    internal_dpg.configure_viewport(0, maximized_box=value)
-
-
-def set_viewport_minimized_box(value: bool):
-    """Sets the viewport minimized box.
-
-    Returns:
-        None
-    """
-    internal_dpg.configure_viewport(0, minimized_box=value)
-
+    internal_dpg.configure_viewport(0, decorated=value)
 
 ########################################################################################################################
 # Viewport Getter Commands
@@ -1090,6 +1052,7 @@ def is_viewport_resizable() -> bool:
     """
     return internal_dpg.get_viewport_configuration()["resizable"]
 
+
 def is_viewport_vsync_on() -> bool:
     """Checks the viewport vsync flag.
 
@@ -1099,46 +1062,10 @@ def is_viewport_vsync_on() -> bool:
     return internal_dpg.get_viewport_configuration()["vsync"]
 
 
-def get_viewport_border() -> bool:
-    """Checks the viewport border flag.
+def is_viewport_decorated() -> bool:
+    """Checks if the viewport is docorated.
 
     Returns:
         bool
     """
-    return internal_dpg.get_viewport_configuration()["border"]
-
-
-def is_viewport_caption_on() -> bool:
-    """Checks the viewport caption flag.
-
-    Returns:
-        bool
-    """
-    return internal_dpg.get_viewport_configuration()["caption"]
-
-
-def is_viewport_overlapped_on() -> bool:
-    """Checks the viewport overlapped flag.
-
-    Returns:
-        bool
-    """
-    return internal_dpg.get_viewport_configuration()["overlapped"]
-
-
-def is_viewport_maximized_box_on() -> bool:
-    """Checks the viewport maximized box flag.
-
-    Returns:
-        bool
-    """
-    return internal_dpg.get_viewport_configuration()["maximized_box"]
-
-
-def is_viewport_minimized_box_on() -> bool:
-    """Checks the viewport minimized box flag.
-
-    Returns:
-        bool
-    """
-    return internal_dpg.get_viewport_configuration()["minimized_box"]
+    return internal_dpg.get_viewport_configuration()["decorated"]
