@@ -526,7 +526,7 @@ def add_toggled_open_handler(parent : int, *, label: str =None, id: int =0, call
 	"""Adds a handler which runs a given callback when the specified item is toggled open."""
 	...
 
-def add_tooltip(parent : str, *, label: str =None, id: int =0, show: bool =True, user_data: Any =None) -> int:
+def add_tooltip(parent : int, *, label: str =None, id: int =0, show: bool =True, user_data: Any =None) -> int:
 	"""Adds an advanced tool tip for an item. This command must come immediately after the item the tip is for."""
 	...
 

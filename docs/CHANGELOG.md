@@ -40,9 +40,12 @@ We generally fold multiple commits pertaining to the same topic as a single entr
 * added `is_viewport_decorated(...)`
 * all viewport configuration works at runtime now
 * labels are now empty by default #1113
+* added file extension filter group to demo & wiki
 
 ### Fixes
 * fixed `num_items` keyword in `add_listbox()` #1124
+* fixed tooltip parent id type hint
+* fixed `custom_text` keyword for file extensions
 
 ## VERSION 0.8.52
 

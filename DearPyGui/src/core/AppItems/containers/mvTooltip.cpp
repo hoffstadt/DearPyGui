@@ -15,7 +15,7 @@ namespace Marvel {
 			MV_PARSER_ARG_SHOW)
 		);
 
-		parser.addArg<mvPyDataType::String>("parent");
+		parser.addArg<mvPyDataType::UUID>("parent");
 		parser.finalize();
 
 		parsers->insert({ s_command, parser });
