@@ -22,6 +22,8 @@ We generally fold multiple commits pertaining to the same topic as a single entr
 
 ## VERSION 0.8.x
 
+## VERSION 0.8.53
+
 ### Breaking Changes
 * removed `set_viewport_border(...)`
 * removed `set_viewport_caption(...)`
