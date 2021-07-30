@@ -99,7 +99,7 @@ namespace Marvel {
 	mvWindowAppItem::mvWindowAppItem(mvUUID uuid, bool mainWindow)
 		: mvAppItem(uuid), _mainWindow(mainWindow)
 	{
-		_label = "Window###" + std::to_string(_uuid);
+		//_label = "Window###" + std::to_string(_uuid);
 		_width = 500;
 		_height = 500;
 

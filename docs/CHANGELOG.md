@@ -39,6 +39,7 @@ We generally fold multiple commits pertaining to the same topic as a single entr
 * added `set_viewport_decorated(...)`
 * added `is_viewport_decorated(...)`
 * all viewport configuration works at runtime now
+* labels are now empty by default #1113
 
 ### Fixes
 * fixed `num_items` keyword in `add_listbox()` #1124

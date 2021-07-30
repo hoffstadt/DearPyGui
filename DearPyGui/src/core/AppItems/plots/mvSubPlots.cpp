@@ -70,7 +70,7 @@ namespace Marvel {
 	mvSubPlots::mvSubPlots(mvUUID uuid)
 		: mvAppItem(uuid)
 	{
-		_label = "SubPlot###" + std::to_string(_uuid);
+		//_label = "SubPlot###" + std::to_string(_uuid);
 		_width = -1;
 		_height = -1;
 	}

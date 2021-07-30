@@ -182,7 +182,7 @@ namespace Marvel{
 	mvAppItem::mvAppItem(mvUUID uuid)
 	{
 		_uuid = uuid;
-		_label = "label";
+		_label = "###" + std::to_string(_uuid);
 	}
 
 	bool  mvAppItem::moveChildUp(mvUUID uuid)
@@ -791,8 +791,7 @@ namespace Marvel{
 	void mvAppItem::setLabel(const std::string& value)
 	{
 		_specificedlabel = value;
-		//_label = value + " ###" + _name;
-		_label = value + "";
+		_label = value + "###" + std::to_string(_uuid);
 	}
 
 	void mvAppItem::setFilter(const std::string& value)
