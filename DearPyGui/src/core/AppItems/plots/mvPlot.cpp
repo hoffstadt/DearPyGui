@@ -96,7 +96,7 @@ namespace Marvel {
 	mvPlot::mvPlot(mvUUID uuid)
 		: mvAppItem(uuid)
 	{
-		_label = "Plot###" + std::to_string(_uuid);
+		//_label = "Plot###" + std::to_string(_uuid);
 		_width = -1;
 		_height = -1;
 	}

@@ -367,7 +367,7 @@ namespace Marvel {
         bool           _dirtyPos = false;
         ImVec2         _previousCursorPos = { 0.0f, 0.0f };
         int            _location = -1;
-        std::string    _label; // internal label
+        std::string    _label; // internal imgui label
         bool           _triggerAlternativeAction = false;
         mvAppItem*     _parentPtr = nullptr;
 
@@ -389,7 +389,7 @@ namespace Marvel {
 
         // config
         mvUUID      _source = 0;
-        std::string _specificedlabel = "__DearPyGuiDefault";
+        std::string _specificedlabel;
         mvUUID      _parent = 0;
         mvUUID      _before = 0;
         std::string _filter = "";

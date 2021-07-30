@@ -66,7 +66,7 @@ namespace Marvel {
 	mvTable::mvTable(mvUUID uuid)
 		: mvAppItem(uuid)
 	{
-		_label = "table" + std::to_string(uuid);
+		//_label = "table" + std::to_string(uuid);
 	}
 
 	void mvTable::draw(ImDrawList* drawlist, float x, float y)
