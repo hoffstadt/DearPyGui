@@ -1826,11 +1826,11 @@ def theme(*, label: str =None, id: int =0, user_data: Any =None, default_theme: 
 	finally:
 		internal_dpg.pop_container_stack()
 @contextmanager
-def tooltip(parent : str, *, label: str =None, id: int =0, show: bool =True, user_data: Any =None) -> int:
+def tooltip(parent : int, *, label: str =None, id: int =0, show: bool =True, user_data: Any =None) -> int:
 	"""
 	Adds an advanced tool tip for an item. This command must come immediately after the item the tip is for.
 	Args:
-		parent (str): 
+		parent (int): 
 		**label (str): Overrides 'name' as label.
 		**id (int): Unique id used to programmatically refer to the item.If label is unused this will be the label.
 		**show (bool): Attempt to render widget.
@@ -5063,11 +5063,11 @@ def add_toggled_open_handler(parent : int, *, label: str =None, id: int =0, call
 
 	return internal_dpg.add_toggled_open_handler(parent, label=label, id=id, callback=callback, show=show, user_data=user_data)
 
-def add_tooltip(parent : str, *, label: str =None, id: int =0, show: bool =True, user_data: Any =None) -> int:
+def add_tooltip(parent : int, *, label: str =None, id: int =0, show: bool =True, user_data: Any =None) -> int:
 	"""
 	Adds an advanced tool tip for an item. This command must come immediately after the item the tip is for.
 	Args:
-		parent (str): 
+		parent (int): 
 		**label (str): Overrides 'name' as label.
 		**id (int): Unique id used to programmatically refer to the item.If label is unused this will be the label.
 		**show (bool): Attempt to render widget.

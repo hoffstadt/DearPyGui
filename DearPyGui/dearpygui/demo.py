@@ -1160,9 +1160,10 @@ def show_demo():
 
                 with dpg.file_dialog(label="Demo File Dialog", show=False, callback=lambda s, a, u : print(s, a, u)):
                     dpg.add_file_extension(".*", color=(255, 255, 255, 255))
+                    dpg.add_file_extension("Source files (*.cpp *.h *.hpp){.cpp,.h,.hpp}", color=(0, 255, 255, 255))
                     dpg.add_file_extension(".cpp", color=(255, 255, 0, 255))
-                    dpg.add_file_extension(".h", color=(255, 0, 255, 255))
-                    dpg.add_file_extension(".py", color=(0, 255, 0, 255))
+                    dpg.add_file_extension(".h", color=(255, 0, 255, 255), custom_text="header")
+                    dpg.add_file_extension("Python(.py){.py}", color=(0, 255, 0, 255))
                     #dpg.add_button(label="Button on file dialog")
 
                 dpg.add_button(label="Show File Selector", user_data=dpg.last_container(), callback=lambda s, a, u: dpg.configure_item(u, show=True))

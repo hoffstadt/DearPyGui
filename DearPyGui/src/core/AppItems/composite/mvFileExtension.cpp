@@ -83,7 +83,7 @@ namespace Marvel {
 		if (dict == nullptr)
 			return;
 
-		if (PyObject* item = PyDict_GetItemString(dict, "custo_text"))_customText = ToString(item);
+		if (PyObject* item = PyDict_GetItemString(dict, "custom_text"))_customText = ToString(item);
 		if (PyObject* item = PyDict_GetItemString(dict, "color")) _color = ToColor(item);
 
 		if (_parentPtr)
@@ -95,7 +95,7 @@ namespace Marvel {
 		if (dict == nullptr)
 			return;
 
-		PyDict_SetItemString(dict, "custo_text", ToPyString(_customText));
+		PyDict_SetItemString(dict, "custom_text", ToPyString(_customText));
 		PyDict_SetItemString(dict, "color", ToPyColor(_color));
 	}
 
