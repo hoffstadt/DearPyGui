@@ -115,7 +115,7 @@ namespace Marvel {
 		if (dict == nullptr)
 			return;
 		 
-		if (PyObject* item = PyDict_GetItemString(dict, "nu_items")) _itemsHeight = ToInt(item);
+		if (PyObject* item = PyDict_GetItemString(dict, "num_items")) _itemsHeight = ToInt(item);
 		if (PyObject* item = PyDict_GetItemString(dict, "items"))
 		{
 			_names = ToStringVect(item);
@@ -132,7 +132,7 @@ namespace Marvel {
 			return;
 		 
 		PyDict_SetItemString(dict, "items", ToPyList(_names));
-		PyDict_SetItemString(dict, "nu_items", ToPyInt(_itemsHeight));
+		PyDict_SetItemString(dict, "num_items", ToPyInt(_itemsHeight));
 	}
 
 }

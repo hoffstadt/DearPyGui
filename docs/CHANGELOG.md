@@ -40,6 +40,9 @@ We generally fold multiple commits pertaining to the same topic as a single entr
 * added `is_viewport_decorated(...)`
 * all viewport configuration works at runtime now
 
+### Fixes
+* fixed `num_items` keyword in `add_listbox()` #1124
+
 ## VERSION 0.8.52
 
 ### New
