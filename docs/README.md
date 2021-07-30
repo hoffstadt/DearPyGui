@@ -151,6 +151,7 @@ These include:
 * 🥇 [Barney Mannerings](https://github.com/barnabee) _Gold Sponsor_
 * 🥇 [Leron Gray](https://github.com/daddycocoaman) _Gold Sponsor_
 * 🥇 [RB Blackstone](https://github.com/RBBlackstone) _Gold Sponsor_
+* 🥇 [Charles Ray](https://github.com/ray-5050) _Gold Sponsor_
 
 
 Thank you to all other [sponsors](https://github.com/hoffstadt/DearPyGui/wiki/Sponsors) for keeping this project moving forward!
