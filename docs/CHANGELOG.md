@@ -20,7 +20,10 @@ We generally fold multiple commits pertaining to the same topic as a single entr
 - Read the `Breaking Changes` section (here in the changelog).
 - Please report any issue!
 
-## VERSION 0.8.x
+## VERSION 0.8.54
+
+### Fixes
+* fixed viewport issue for windows #1126
 
 ## VERSION 0.8.53
 
