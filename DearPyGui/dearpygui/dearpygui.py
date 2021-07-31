@@ -3216,7 +3216,7 @@ def add_heat_series(x : List[float], rows : int, cols : int, *, label: str =None
 
 	return internal_dpg.add_heat_series(x, rows, cols, label=label, id=id, parent=parent, before=before, source=source, show=show, user_data=user_data, scale_min=scale_min, scale_max=scale_max, bounds_min=bounds_min, bounds_max=bounds_max, format=format, contribute_to_bounds=contribute_to_bounds)
 
-def add_histogra_series(x : List[float], *, label: str =None, id: int =0, parent: int =0, before: int =0, source: int =0, show: bool =True, user_data: Any =None, bins: int =-1, bar_scale: float =1.0, min_range: float =0.0, max_range: float =1.0, cumlative: bool =False, density: bool =False, outliers: bool =True, contribute_to_bounds: bool =True) -> int:
+def add_histogram_series(x : List[float], *, label: str =None, id: int =0, parent: int =0, before: int =0, source: int =0, show: bool =True, user_data: Any =None, bins: int =-1, bar_scale: float =1.0, min_range: float =0.0, max_range: float =1.0, cumlative: bool =False, density: bool =False, outliers: bool =True, contribute_to_bounds: bool =True) -> int:
 	"""
 	Adds a histogram series to a plot.
 	Args:
@@ -3240,7 +3240,7 @@ def add_histogra_series(x : List[float], *, label: str =None, id: int =0, parent
 		int
 	"""
 
-	return internal_dpg.add_histogra_series(x, label=label, id=id, parent=parent, before=before, source=source, show=show, user_data=user_data, bins=bins, bar_scale=bar_scale, min_range=min_range, max_range=max_range, cumlative=cumlative, density=density, outliers=outliers, contribute_to_bounds=contribute_to_bounds)
+	return internal_dpg.add_histogram_series(x, label=label, id=id, parent=parent, before=before, source=source, show=show, user_data=user_data, bins=bins, bar_scale=bar_scale, min_range=min_range, max_range=max_range, cumlative=cumlative, density=density, outliers=outliers, contribute_to_bounds=contribute_to_bounds)
 
 def add_hline_series(x : List[float], *, label: str =None, id: int =0, parent: int =0, before: int =0, source: int =0, show: bool =True, user_data: Any =None, contribute_to_bounds: bool =True) -> int:
 	"""
