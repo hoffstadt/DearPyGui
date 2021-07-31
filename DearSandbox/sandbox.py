@@ -1,4 +1,3 @@
-  
 import dearpygui.dearpygui as dpg
 import dearpygui.demo as demo
 import dearpygui.themes as themes
