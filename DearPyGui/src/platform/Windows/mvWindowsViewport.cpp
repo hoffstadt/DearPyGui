@@ -51,8 +51,9 @@ namespace Marvel {
 	{
 		_modes = WS_OVERLAPPED;
 
-		if (_resizable) _modes |= WS_THICKFRAME;
+		if (_resizable && _decorated) _modes |= WS_THICKFRAME;
 		if (_decorated) _modes |= WS_CAPTION | WS_SYSMENU | WS_MINIMIZEBOX | WS_MAXIMIZEBOX;
+
 	}
 
 	void mvWindowsViewport::show(bool minimized, bool maximized)
