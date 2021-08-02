@@ -11,7 +11,7 @@ namespace Marvel {
 
 		static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
 
-		MV_APPLY_WIDGET_REGISTRATION(mvAppItemType::mvHistogramSeries, add_histogra_series)
+		MV_APPLY_WIDGET_REGISTRATION(mvAppItemType::mvHistogramSeries, add_histogram_series)
 
 		MV_CREATE_CONSTANT(mvPlotBin_Sqrt,    -1L);
 		MV_CREATE_CONSTANT(mvPlotBin_Sturges, -2L);
