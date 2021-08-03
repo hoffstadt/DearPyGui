@@ -1,11 +1,11 @@
 #pragma once
 
-#include "mvTypeBases.h"
+#include "mvItemRegistry.h"
 
 namespace Marvel {
 
 	MV_REGISTER_WIDGET(mvTooltip, MV_ITEM_DESC_CONTAINER | MV_ITEM_DESC_AFTER | MV_ITEM_DESC_HANDLER, StorageValueTypes::Bool, 1);
-	class mvTooltip : public mvBoolPtrBase
+	class mvTooltip : public mvAppItem
 	{
 	public:
 

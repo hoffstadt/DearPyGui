@@ -2,6 +2,7 @@
 #include "mvApp.h"
 #include <array>
 #include "mvItemRegistry.h"
+#include "mvPythonExceptions.h"
 
 namespace Marvel {
 
@@ -51,7 +52,7 @@ namespace Marvel {
 
 	mvColorPicker::mvColorPicker(mvUUID uuid)
 		: 
-		mvColorPtrBase(uuid)
+		mvAppItem(uuid)
 	{
 	}
 
@@ -90,6 +91,53 @@ namespace Marvel {
 				break;
 			}
 		}
+	}
+
+	PyObject* mvColorPicker::getPyValue()
+	{
+		// nasty hack
+		int r = (int)(_value->data()[0] * 255.0f * 255.0f);
+		int g = (int)(_value->data()[1] * 255.0f * 255.0f);
+		int b = (int)(_value->data()[2] * 255.0f * 255.0f);
+		int a = (int)(_value->data()[3] * 255.0f * 255.0f);
+
+		auto color = mvColor(r, g, b, a);
+		return ToPyColor(color);
+	}
+
+	void mvColorPicker::setPyValue(PyObject* value)
+	{
+		mvColor color = ToColor(value);
+		std::array<float, 4> temp_array;
+		temp_array[0] = color.r;
+		temp_array[1] = color.g;
+		temp_array[2] = color.b;
+		temp_array[3] = color.a;
+		if (_value)
+			*_value = temp_array;
+		else
+			_value = std::make_shared<std::array<float, 4>>(temp_array);
+	}
+
+	void mvColorPicker::setDataSource(mvUUID dataSource)
+	{
+		if (dataSource == _source) return;
+		_source = dataSource;
+
+		mvAppItem* item = mvApp::GetApp()->getItemRegistry().getItem(dataSource);
+		if (!item)
+		{
+			mvThrowPythonError(mvErrorCode::mvSourceNotFound, "set_value",
+				"Source item not found: " + std::to_string(dataSource), this);
+			return;
+		}
+		if (item->getValueType() != getValueType())
+		{
+			mvThrowPythonError(mvErrorCode::mvSourceNotCompatible, "set_value",
+				"Values types do not match: " + std::to_string(dataSource), this);
+			return;
+		}
+		_value = std::get<std::shared_ptr<std::array<float, 4>>>(item->getValue());
 	}
 
 	void mvColorPicker::handleSpecificKeywordArgs(PyObject* dict)

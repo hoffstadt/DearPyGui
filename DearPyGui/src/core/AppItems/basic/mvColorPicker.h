@@ -1,11 +1,12 @@
 #pragma once
 
-#include "mvTypeBases.h"
+#include <array>
+#include "mvItemRegistry.h"
 
 namespace Marvel {
 
 	MV_REGISTER_WIDGET(mvColorPicker, MV_ITEM_DESC_DEFAULT, StorageValueTypes::Color, 1);
-	class mvColorPicker : public mvColorPtrBase
+	class mvColorPicker : public mvAppItem
 	{
 
 	public:
@@ -30,19 +31,23 @@ namespace Marvel {
 		explicit mvColorPicker(mvUUID uuid);
 
 		void draw(ImDrawList* drawlist, float x, float y) override;
-
+		void setDataSource(mvUUID dataSource) override;
+		mvValueVariant getValue() override { return _value; }
+		PyObject* getPyValue() override;
+		void setPyValue(PyObject* value) override;
 		void handleSpecificPositionalArgs(PyObject* dict) override;
 		void handleSpecificKeywordArgs(PyObject* dict) override;
 		void getSpecificConfiguration(PyObject* dict) override;
 
 	private:
 
-		ImGuiColorEditFlags _flags = ImGuiColorEditFlags__OptionsDefault;
-
-		bool                 _no_inputs = false;
-		bool                 _no_label = false;
-		bool                 _no_side_preview = false;
-		bool                 _alpha_bar = false;
+		mvRef<std::array<float, 4>> _value = CreateRef<std::array<float, 4>>(std::array<float, 4>{0.0f, 0.0f, 0.0f, 1.0f});
+		float                       _disabled_value[4]{};
+		ImGuiColorEditFlags         _flags = ImGuiColorEditFlags__OptionsDefault;
+		bool                        _no_inputs = false;
+		bool                        _no_label = false;
+		bool                        _no_side_preview = false;
+		bool                        _alpha_bar = false;
 
 	};
 

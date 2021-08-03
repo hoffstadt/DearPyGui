@@ -23,7 +23,7 @@ namespace Marvel {
 
 	mvTooltip::mvTooltip(mvUUID uuid)
 		: 
-		mvBoolPtrBase(uuid)
+		mvAppItem(uuid)
 	{
 
 		// has to be showed that way it can check for hovering

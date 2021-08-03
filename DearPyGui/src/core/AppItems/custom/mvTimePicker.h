@@ -1,11 +1,11 @@
 #pragma once
 
-#include "mvTypeBases.h"
+#include "mvItemRegistry.h"
 
 namespace Marvel {
 
 	MV_REGISTER_WIDGET(mvTimePicker, MV_ITEM_DESC_DEFAULT, StorageValueTypes::Time, 1);
-	class mvTimePicker : public mvTimePtrBase
+	class mvTimePicker : public mvAppItem
 	{
 
 	public:
@@ -25,13 +25,16 @@ namespace Marvel {
 		mvTimePicker(mvUUID uuid);
 
 		void draw(ImDrawList* drawlist, float x, float y)override;
-
+		mvValueVariant getValue() override { return _value; }
+		PyObject* getPyValue() override;
+		void setPyValue(PyObject* value) override;
 		void handleSpecificKeywordArgs(PyObject* dict) override;
 		void getSpecificConfiguration(PyObject* dict) override;
 
 	private:
-
-		bool _hour24 = false;
+		mvRef<tm>         _value = CreateRef<tm>();
+		mvRef<ImPlotTime> _imvalue = CreateRef<ImPlotTime>();
+		bool              _hour24 = false;
 
 	};
 

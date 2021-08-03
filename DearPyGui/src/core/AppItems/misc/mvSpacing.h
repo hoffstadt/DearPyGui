@@ -1,11 +1,11 @@
 #pragma once
 
-#include "mvTypeBases.h"
+#include "mvItemRegistry.h"
 
 namespace Marvel {
 
 	MV_REGISTER_WIDGET(mvSpacing, MV_ITEM_DESC_DEFAULT, StorageValueTypes::Int, 1);
-	class mvSpacing : public mvIntPtrBase
+	class mvSpacing : public mvAppItem
 	{
 
 	public:
@@ -23,9 +23,17 @@ namespace Marvel {
 		mvSpacing(mvUUID uuid);
 
 		void draw(ImDrawList* drawlist, float x, float y) override;
-
+		void setDataSource(mvUUID dataSource) override;
+		mvValueVariant getValue() override { return _value; }
+		PyObject* getPyValue() override;
+		void setPyValue(PyObject* value) override;
 		void handleSpecificKeywordArgs(PyObject* dict) override;
 		void getSpecificConfiguration(PyObject* dict) override;
+
+	private:
+
+		mvRef<int> _value = CreateRef<int>(0);
+		int        _disabled_value = 0;
 
 	};
 

@@ -1,10 +1,10 @@
 #pragma once
 
-#include "mvTypeBases.h"
 #include <implot.h>
 #include <implot_internal.h>
 #include <map>
 #include <utility>
+#include "mvItemRegistry.h"
 #include "mvCore.h"
 
 namespace Marvel {

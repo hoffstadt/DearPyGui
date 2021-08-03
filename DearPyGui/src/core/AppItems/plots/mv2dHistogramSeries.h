@@ -5,7 +5,7 @@
 namespace Marvel {
 
 	MV_REGISTER_WIDGET(mv2dHistogramSeries, MV_ITEM_DESC_DEFAULT | MV_ITEM_DESC_CONTAINER, StorageValueTypes::Series, 1);
-	class mv2dHistogramSeries : public mvSeriesBase
+	class mv2dHistogramSeries : public mvAppItem
 	{
 	public:
 
@@ -32,8 +32,19 @@ namespace Marvel {
 		void handleSpecificRequiredArgs(PyObject* args) override;
 		void handleSpecificKeywordArgs(PyObject* dict) override;
 		void getSpecificConfiguration(PyObject* dict) override;
+		void setDataSource(mvUUID dataSource) override;
+		mvValueVariant getValue() override { return _value; }
+		PyObject* getPyValue() override;
+		void setPyValue(PyObject* value) override;
 
 	private:
+
+		mvRef<std::vector<std::vector<double>>> _value = CreateRef<std::vector<std::vector<double>>>(
+			std::vector<std::vector<double>>{ std::vector<double>{},
+			std::vector<double>{},
+			std::vector<double>{},
+			std::vector<double>{},
+			std::vector<double>{} });
 
 		int _xbins = -1;
 		int _ybins = -1;

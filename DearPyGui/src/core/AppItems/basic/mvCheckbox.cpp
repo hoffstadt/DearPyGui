@@ -5,6 +5,7 @@
 #include "AppItems/fonts/mvFont.h"
 #include "AppItems/themes/mvTheme.h"
 #include "AppItems/containers/mvDragPayload.h"
+#include "mvPythonExceptions.h"
 
 namespace Marvel {
 
@@ -38,7 +39,7 @@ namespace Marvel {
 
 	mvCheckbox::mvCheckbox(mvUUID uuid)
 		: 
-		mvBoolPtrBase(uuid)
+		mvAppItem(uuid)
 	{
 	}
 
@@ -214,6 +215,37 @@ namespace Marvel {
 				ImGui::EndDragDropTarget();
 			}
 		}
+	}
+
+	PyObject* mvCheckbox::getPyValue()
+	{
+		return ToPyBool(*_value);
+	}
+
+	void mvCheckbox::setPyValue(PyObject* value)
+	{
+		*_value = ToBool(value);
+	}
+
+	void mvCheckbox::setDataSource(mvUUID dataSource)
+	{
+		if (dataSource == _source) return;
+		_source = dataSource;
+
+		mvAppItem* item = mvApp::GetApp()->getItemRegistry().getItem(dataSource);
+		if (!item)
+		{
+			mvThrowPythonError(mvErrorCode::mvSourceNotFound, "set_value",
+				"Source item not found: " + std::to_string(dataSource), this);
+			return;
+		}
+		if (item->getValueType() != getValueType())
+		{
+			mvThrowPythonError(mvErrorCode::mvSourceNotCompatible, "set_value",
+				"Values types do not match: " + std::to_string(dataSource), this);
+			return;
+		}
+		_value = std::get<std::shared_ptr<bool>>(item->getValue());
 	}
 
 }

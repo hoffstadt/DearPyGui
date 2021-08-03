@@ -1,10 +1,10 @@
 #include "mvDragSingle.h"
-#include "mvTypeBases.h"
 #include <utility>
 #include "mvApp.h"
 #include "mvModule_DearPyGui.h"
 #include <string>
 #include "mvItemRegistry.h"
+#include "mvPythonExceptions.h"
 
 namespace Marvel {
 
@@ -84,8 +84,39 @@ namespace Marvel {
     }
 
     mvDragFloat::mvDragFloat(mvUUID uuid)
-        : mvFloatPtrBase(uuid)
+        : mvAppItem(uuid)
     {
+    }
+
+    PyObject* mvDragFloat::getPyValue()
+    {
+        return ToPyFloat(*_value);
+    }
+
+    void mvDragFloat::setPyValue(PyObject* value)
+    {
+        *_value = ToFloat(value);
+    }
+
+    void mvDragFloat::setDataSource(mvUUID dataSource)
+    {
+        if (dataSource == _source) return;
+        _source = dataSource;
+
+        mvAppItem* item = mvApp::GetApp()->getItemRegistry().getItem(dataSource);
+        if (!item)
+        {
+            mvThrowPythonError(mvErrorCode::mvSourceNotFound, "set_value",
+                "Source item not found: " + std::to_string(dataSource), this);
+            return;
+        }
+        if (item->getValueType() != getValueType())
+        {
+            mvThrowPythonError(mvErrorCode::mvSourceNotCompatible, "set_value",
+                "Values types do not match: " + std::to_string(dataSource), this);
+            return;
+        }
+        _value = std::get<std::shared_ptr<float>>(item->getValue());
     }
 
     void mvDragFloat::setEnabled(bool value)
@@ -123,8 +154,39 @@ namespace Marvel {
     }
 
     mvDragInt::mvDragInt(mvUUID uuid)
-        : mvIntPtrBase(uuid)
+        : mvAppItem(uuid)
     {
+    }
+
+    void mvDragInt::setDataSource(mvUUID dataSource)
+    {
+        if (dataSource == _source) return;
+        _source = dataSource;
+
+        mvAppItem* item = mvApp::GetApp()->getItemRegistry().getItem(dataSource);
+        if (!item)
+        {
+            mvThrowPythonError(mvErrorCode::mvSourceNotFound, "set_value",
+                "Source item not found: " + std::to_string(dataSource), this);
+            return;
+        }
+        if (item->getValueType() != getValueType())
+        {
+            mvThrowPythonError(mvErrorCode::mvSourceNotCompatible, "set_value",
+                "Values types do not match: " + std::to_string(dataSource), this);
+            return;
+        }
+        _value = std::get<std::shared_ptr<int>>(item->getValue());
+    }
+
+    PyObject* mvDragInt::getPyValue()
+    {
+        return ToPyInt(*_value);
+    }
+
+    void mvDragInt::setPyValue(PyObject* value)
+    {
+        *_value = ToInt(value);
     }
 
     void mvDragInt::setEnabled(bool value)

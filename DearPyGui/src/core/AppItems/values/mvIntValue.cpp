@@ -1,10 +1,9 @@
 #include "mvIntValue.h"
-#include "mvTypeBases.h"
 #include <utility>
 #include "mvApp.h"
 #include "mvModule_DearPyGui.h"
 #include <string>
-#include "mvItemRegistry.h"
+#include "mvPythonExceptions.h"
 
 namespace Marvel {
 
@@ -24,8 +23,39 @@ namespace Marvel {
     }
 
     mvIntValue::mvIntValue(mvUUID uuid)
-        : mvIntPtrBase(uuid)
+        : mvAppItem(uuid)
     {
+    }
+
+    void mvIntValue::setDataSource(mvUUID dataSource)
+    {
+        if (dataSource == _source) return;
+        _source = dataSource;
+
+        mvAppItem* item = mvApp::GetApp()->getItemRegistry().getItem(dataSource);
+        if (!item)
+        {
+            mvThrowPythonError(mvErrorCode::mvSourceNotFound, "set_value",
+                "Source item not found: " + std::to_string(dataSource), this);
+            return;
+        }
+        if (item->getValueType() != getValueType())
+        {
+            mvThrowPythonError(mvErrorCode::mvSourceNotCompatible, "set_value",
+                "Values types do not match: " + std::to_string(dataSource), this);
+            return;
+        }
+        _value = std::get<std::shared_ptr<int>>(item->getValue());
+    }
+
+    PyObject* mvIntValue::getPyValue()
+    {
+        return ToPyInt(*_value);
+    }
+
+    void mvIntValue::setPyValue(PyObject* value)
+    {
+        *_value = ToInt(value);
     }
 
 }

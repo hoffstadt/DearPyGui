@@ -1,9 +1,10 @@
 #pragma once
 
-#include "mvTypeBases.h"
+#include <string>
+#include <array>
+#include "mvItemRegistry.h"
 #include "mvApp.h"
 #include "mvModule_DearPyGui.h"
-#include <string>
 
 //-----------------------------------------------------------------------------
 // Widget Index
@@ -19,7 +20,7 @@ namespace Marvel {
 	// mvInputIntMulti
 	//-----------------------------------------------------------------------------
 	MV_REGISTER_WIDGET(mvInputIntMulti, MV_ITEM_DESC_DEFAULT, StorageValueTypes::Int4, 1);
-	class mvInputIntMulti : public mvInt4PtrBase
+	class mvInputIntMulti : public mvAppItem
 	{
 
 	public:
@@ -40,20 +41,24 @@ namespace Marvel {
 		
 		void setEnabled(bool value) override;
 		void draw(ImDrawList* drawlist, float x, float y) override;
-
+		void setDataSource(mvUUID dataSource) override;
+		mvValueVariant getValue() override { return _value; }
+		PyObject* getPyValue() override;
+		void setPyValue(PyObject* value) override;
 		void handleSpecificKeywordArgs(PyObject* dict) override;
 		void getSpecificConfiguration(PyObject* dict) override;
 
 	private:
-
-		int                 _min = 0;
-		int                 _max = 100;
-		bool                _min_clamped = false;
-		bool                _max_clamped = false;
-		ImGuiInputTextFlags _flags = 0;
-		ImGuiInputTextFlags _stor_flags = 0;
-		std::array<int, 4>  _last_value = { 0, 0, 0, 0 };
-		int                 _size = 4;
+		mvRef<std::array<int, 4>> _value = CreateRef<std::array<int, 4>>(std::array<int, 4>{0, 0, 0, 0});
+		int                       _disabled_value[4]{};
+		int                       _min = 0;
+		int                       _max = 100;
+		bool                      _min_clamped = false;
+		bool                      _max_clamped = false;
+		ImGuiInputTextFlags       _flags = 0;
+		ImGuiInputTextFlags       _stor_flags = 0;
+		std::array<int, 4>        _last_value = { 0, 0, 0, 0 };
+		int                       _size = 4;
 		
 	};
 		
@@ -61,7 +66,7 @@ namespace Marvel {
 	// mvInputFloatMulti
 	//-----------------------------------------------------------------------------
 	MV_REGISTER_WIDGET(mvInputFloatMulti, MV_ITEM_DESC_DEFAULT, StorageValueTypes::Float4, 1);
-	class mvInputFloatMulti : public mvFloat4PtrBase
+	class mvInputFloatMulti : public mvAppItem
 	{
 
 	public:
@@ -82,21 +87,26 @@ namespace Marvel {
 		
 		void setEnabled(bool value) override;
 		void draw(ImDrawList* drawlist, float x, float y) override;
-
+		void setDataSource(mvUUID dataSource) override;
+		mvValueVariant getValue() override { return _value; }
+		PyObject* getPyValue() override;
+		void setPyValue(PyObject* value) override;
 		void handleSpecificKeywordArgs(PyObject* dict) override;
 		void getSpecificConfiguration(PyObject* dict) override;
 		
 	private:
 
-		float               _min = 0.0f;
-		float               _max = 100.0f;
-		bool                _min_clamped = false;
-		bool                _max_clamped = false;
-		std::string         _format = "%.3f";
-		ImGuiInputTextFlags _flags = 0;
-		ImGuiInputTextFlags _stor_flags = 0;
-		std::array<float, 4>_last_value = { 0.0f, 0.0f, 0.0f, 0.0f };
-		int                 _size = 4;
+		mvRef<std::array<float, 4>> _value = CreateRef<std::array<float, 4>>(std::array<float, 4>{0.0f, 0.0f, 0.0f, 0.0f});
+		float                       _disabled_value[4]{};
+		float                       _min = 0.0f;
+		float                       _max = 100.0f;
+		bool                        _min_clamped = false;
+		bool                        _max_clamped = false;
+		std::string                 _format = "%.3f";
+		ImGuiInputTextFlags         _flags = 0;
+		ImGuiInputTextFlags         _stor_flags = 0;
+		std::array<float, 4>        _last_value = { 0.0f, 0.0f, 0.0f, 0.0f };
+		int                         _size = 4;
 	};
 
 }

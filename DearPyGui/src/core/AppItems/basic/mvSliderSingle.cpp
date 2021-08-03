@@ -1,11 +1,11 @@
 #include "mvSliderSingle.h"
-#include "mvTypeBases.h"
 #include <utility>
 #include "mvAppItem.h"
 #include "mvModule_DearPyGui.h"
 #include "mvApp.h"
 #include <string>
 #include "mvItemRegistry.h"
+#include "mvPythonExceptions.h"
 
 namespace Marvel {
 
@@ -87,8 +87,39 @@ namespace Marvel {
     }
 
     mvSliderFloat::mvSliderFloat(mvUUID uuid)
-        : mvFloatPtrBase(uuid)
+        : mvAppItem(uuid)
     {
+    }
+
+    PyObject* mvSliderFloat::getPyValue()
+    {
+        return ToPyFloat(*_value);
+    }
+
+    void mvSliderFloat::setPyValue(PyObject* value)
+    {
+        *_value = ToFloat(value);
+    }
+
+    void mvSliderFloat::setDataSource(mvUUID dataSource)
+    {
+        if (dataSource == _source) return;
+        _source = dataSource;
+
+        mvAppItem* item = mvApp::GetApp()->getItemRegistry().getItem(dataSource);
+        if (!item)
+        {
+            mvThrowPythonError(mvErrorCode::mvSourceNotFound, "set_value",
+                "Source item not found: " + std::to_string(dataSource), this);
+            return;
+        }
+        if (item->getValueType() != getValueType())
+        {
+            mvThrowPythonError(mvErrorCode::mvSourceNotCompatible, "set_value",
+                "Values types do not match: " + std::to_string(dataSource), this);
+            return;
+        }
+        _value = std::get<std::shared_ptr<float>>(item->getValue());
     }
 
     void mvSliderFloat::setEnabled(bool value)
@@ -111,8 +142,6 @@ namespace Marvel {
     void mvSliderFloat::draw(ImDrawList* drawlist, float x, float y)
     {
         ScopedID id(_uuid);
-        ////mvImGuiThemeScope scope(this);
-        //mvFontScope fscope(this);
 
         if (!_enabled) _disabled_value = *_value;
 
@@ -146,8 +175,39 @@ namespace Marvel {
     }
 
     mvSliderInt::mvSliderInt(mvUUID uuid)
-        : mvIntPtrBase(uuid)
+        : mvAppItem(uuid)
     {
+    }
+
+    void mvSliderInt::setDataSource(mvUUID dataSource)
+    {
+        if (dataSource == _source) return;
+        _source = dataSource;
+
+        mvAppItem* item = mvApp::GetApp()->getItemRegistry().getItem(dataSource);
+        if (!item)
+        {
+            mvThrowPythonError(mvErrorCode::mvSourceNotFound, "set_value",
+                "Source item not found: " + std::to_string(dataSource), this);
+            return;
+        }
+        if (item->getValueType() != getValueType())
+        {
+            mvThrowPythonError(mvErrorCode::mvSourceNotCompatible, "set_value",
+                "Values types do not match: " + std::to_string(dataSource), this);
+            return;
+        }
+        _value = std::get<std::shared_ptr<int>>(item->getValue());
+    }
+
+    PyObject* mvSliderInt::getPyValue()
+    {
+        return ToPyInt(*_value);
+    }
+
+    void mvSliderInt::setPyValue(PyObject* value)
+    {
+        *_value = ToInt(value);
     }
 
     void mvSliderInt::setEnabled(bool value)

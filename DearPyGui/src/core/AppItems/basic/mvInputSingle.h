@@ -1,6 +1,6 @@
 #pragma once
 
-#include "mvTypeBases.h"
+#include "mvItemRegistry.h"
 #include "mvApp.h"
 #include "mvModule_DearPyGui.h"
 #include <string>
@@ -19,7 +19,7 @@ namespace Marvel {
     // mvInputInt
     //-----------------------------------------------------------------------------
     MV_REGISTER_WIDGET(mvInputInt, MV_ITEM_DESC_DEFAULT, StorageValueTypes::Int, 1);
-    class mvInputInt : public mvIntPtrBase
+    class mvInputInt : public mvAppItem
     {
 
     public:
@@ -40,12 +40,17 @@ namespace Marvel {
         
         void setEnabled(bool value) override;
         void draw(ImDrawList* drawlist, float x, float y) override;
-
+        void setDataSource(mvUUID dataSource) override;
+        mvValueVariant getValue() override { return _value; }
+        PyObject* getPyValue() override;
+        void setPyValue(PyObject* value) override;
         void handleSpecificKeywordArgs(PyObject* dict) override;
         void getSpecificConfiguration(PyObject* dict) override;
         
     private:
 
+        mvRef<int>          _value = CreateRef<int>(0);
+        int                 _disabled_value = 0;
         int                 _step = 1;
         int                 _step_fast = 100;
         int                 _min = 0;
@@ -62,7 +67,7 @@ namespace Marvel {
     // mvInputFloat
     //-----------------------------------------------------------------------------
     MV_REGISTER_WIDGET(mvInputFloat, MV_ITEM_DESC_DEFAULT, StorageValueTypes::Float, 1);
-    class mvInputFloat : public mvFloatPtrBase
+    class mvInputFloat : public mvAppItem
     {
 
     public:
@@ -83,12 +88,17 @@ namespace Marvel {
         
         void setEnabled(bool value) override;
         void draw(ImDrawList* drawlist, float x, float y) override;
-
+        void setDataSource(mvUUID dataSource) override;
+        mvValueVariant getValue() override { return _value; }
+        PyObject* getPyValue() override;
+        void setPyValue(PyObject* value) override;
         void handleSpecificKeywordArgs(PyObject* dict) override;
         void getSpecificConfiguration(PyObject* dict) override;
 
     private:
 
+        mvRef<float>        _value = CreateRef<float>(0.0f);
+        float               _disabled_value = 0.0f;
         float               _min = 0.0f;
         float               _max = 100.0f;
         bool                _min_clamped = false;

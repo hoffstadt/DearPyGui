@@ -30,8 +30,39 @@ namespace Marvel {
 	}
 
 	mvVLineSeries::mvVLineSeries(mvUUID uuid)
-		: mvSeriesBase(uuid)
+		: mvAppItem(uuid)
 	{
+	}
+
+	PyObject* mvVLineSeries::getPyValue()
+	{
+		return ToPyList(*_value);
+	}
+
+	void mvVLineSeries::setPyValue(PyObject* value)
+	{
+		*_value = ToVectVectDouble(value);
+	}
+
+	void mvVLineSeries::setDataSource(mvUUID dataSource)
+	{
+		if (dataSource == _source) return;
+		_source = dataSource;
+
+		mvAppItem* item = mvApp::GetApp()->getItemRegistry().getItem(dataSource);
+		if (!item)
+		{
+			mvThrowPythonError(mvErrorCode::mvSourceNotFound, "set_value",
+				"Source item not found: " + std::to_string(dataSource), this);
+			return;
+		}
+		if (item->getValueType() != getValueType())
+		{
+			mvThrowPythonError(mvErrorCode::mvSourceNotCompatible, "set_value",
+				"Values types do not match: " + std::to_string(dataSource), this);
+			return;
+		}
+		_value = std::get<std::shared_ptr<std::vector<std::vector<double>>>>(item->getValue());
 	}
 
 	bool mvVLineSeries::isParentCompatible(mvAppItemType type)
@@ -186,8 +217,39 @@ namespace Marvel {
 	}
 
 	mvHLineSeries::mvHLineSeries(mvUUID uuid)
-		: mvSeriesBase(uuid)
+		: mvAppItem(uuid)
 	{
+	}
+
+	PyObject* mvHLineSeries::getPyValue()
+	{
+		return ToPyList(*_value);
+	}
+
+	void mvHLineSeries::setPyValue(PyObject* value)
+	{
+		*_value = ToVectVectDouble(value);
+	}
+
+	void mvHLineSeries::setDataSource(mvUUID dataSource)
+	{
+		if (dataSource == _source) return;
+		_source = dataSource;
+
+		mvAppItem* item = mvApp::GetApp()->getItemRegistry().getItem(dataSource);
+		if (!item)
+		{
+			mvThrowPythonError(mvErrorCode::mvSourceNotFound, "set_value",
+				"Source item not found: " + std::to_string(dataSource), this);
+			return;
+		}
+		if (item->getValueType() != getValueType())
+		{
+			mvThrowPythonError(mvErrorCode::mvSourceNotCompatible, "set_value",
+				"Values types do not match: " + std::to_string(dataSource), this);
+			return;
+		}
+		_value = std::get<std::shared_ptr<std::vector<std::vector<double>>>>(item->getValue());
 	}
 
 	bool mvHLineSeries::isParentCompatible(mvAppItemType type)

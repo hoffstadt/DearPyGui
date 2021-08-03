@@ -25,7 +25,7 @@ namespace Marvel {
 
 	mvDynamicTexture::mvDynamicTexture(mvUUID uuid)
 		:
-		mvFloatVectPtrBase(uuid)
+		mvAppItem(uuid)
 	{
 
 	}
@@ -35,6 +35,36 @@ namespace Marvel {
 		FreeTexture(_texture);
 	}
 
+	PyObject* mvDynamicTexture::getPyValue()
+	{
+		return ToPyList(*_value);
+	}
+
+	void mvDynamicTexture::setPyValue(PyObject* value)
+	{
+		*_value = ToFloatVect(value);
+	}
+
+	void mvDynamicTexture::setDataSource(mvUUID dataSource)
+	{
+		if (dataSource == _source) return;
+		_source = dataSource;
+
+		mvAppItem* item = mvApp::GetApp()->getItemRegistry().getItem(dataSource);
+		if (!item)
+		{
+			mvThrowPythonError(mvErrorCode::mvSourceNotFound, "set_value",
+				"Source item not found: " + std::to_string(dataSource), this);
+			return;
+		}
+		if (item->getValueType() != getValueType())
+		{
+			mvThrowPythonError(mvErrorCode::mvSourceNotCompatible, "set_value",
+				"Values types do not match: " + std::to_string(dataSource), this);
+			return;
+		}
+		_value = std::get<std::shared_ptr<std::vector<float>>>(item->getValue());
+	}
 
 	bool mvDynamicTexture::isParentCompatible(mvAppItemType type)
 	{

@@ -5,7 +5,7 @@
 namespace Marvel {
 
 	MV_REGISTER_WIDGET(mvLabelSeries, MV_ITEM_DESC_DEFAULT | MV_ITEM_DESC_CONTAINER, StorageValueTypes::Series, 1);
-	class mvLabelSeries : public mvSeriesBase
+	class mvLabelSeries : public mvAppItem
 	{
 	public:
 
@@ -28,6 +28,10 @@ namespace Marvel {
 		void postDraw() override {}
 
 		void draw(ImDrawList* drawlist, float x, float y) override;
+		void setDataSource(mvUUID dataSource) override;
+		mvValueVariant getValue() override { return _value; }
+		PyObject* getPyValue() override;
+		void setPyValue(PyObject* value) override;
 		bool isParentCompatible(mvAppItemType type) override;
 		void handleSpecificRequiredArgs(PyObject* args) override;
 		void handleSpecificKeywordArgs(PyObject* dict) override;
@@ -38,6 +42,12 @@ namespace Marvel {
 		int  _xoffset = 0;
 		int  _yoffset = 0;
 		bool _vertical = false;
+		mvRef<std::vector<std::vector<double>>> _value = CreateRef<std::vector<std::vector<double>>>(
+			std::vector<std::vector<double>>{ std::vector<double>{},
+			std::vector<double>{},
+			std::vector<double>{},
+			std::vector<double>{},
+			std::vector<double>{} });
 
 	};
 

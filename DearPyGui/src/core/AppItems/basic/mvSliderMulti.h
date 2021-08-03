@@ -1,6 +1,8 @@
 #pragma once
-#include "mvTypeBases.h"
+
 #include <string>
+#include <array>
+#include "mvItemRegistry.h"
 #include "mvModule_DearPyGui.h"
 
 //-----------------------------------------------------------------------------
@@ -17,7 +19,7 @@ namespace Marvel {
     // mvSliderFloat4
     //-----------------------------------------------------------------------------
     MV_REGISTER_WIDGET(mvSliderFloatMulti, MV_ITEM_DESC_DEFAULT, StorageValueTypes::Float4, 1);
-    class mvSliderFloatMulti : public mvFloat4PtrBase
+    class mvSliderFloatMulti : public mvAppItem
     {
 
     public:
@@ -38,25 +40,30 @@ namespace Marvel {
         
         void setEnabled(bool value) override;
         void draw(ImDrawList* drawlist, float x, float y) override;
-
+        void setDataSource(mvUUID dataSource) override;
+        mvValueVariant getValue() override { return _value; }
+        PyObject* getPyValue() override;
+        void setPyValue(PyObject* value) override;
         void handleSpecificKeywordArgs(PyObject* dict) override;
         void getSpecificConfiguration(PyObject* dict) override;
         
     private:
 
-        float                   _min = 0.0f;
-        float                   _max = 100.0f;
-        std::string             _format = "%.3f";
-        ImGuiInputTextFlags     _flags = ImGuiSliderFlags_None;
-        ImGuiInputTextFlags     _stor_flags = ImGuiSliderFlags_None;
-        int                     _size = 4;
+        mvRef<std::array<float, 4>> _value = CreateRef<std::array<float, 4>>(std::array<float, 4>{0.0f, 0.0f, 0.0f, 0.0f});
+        float                       _disabled_value[4]{};
+        float                       _min = 0.0f;
+        float                       _max = 100.0f;
+        std::string                 _format = "%.3f";
+        ImGuiInputTextFlags         _flags = ImGuiSliderFlags_None;
+        ImGuiInputTextFlags         _stor_flags = ImGuiSliderFlags_None;
+        int                         _size = 4;
     };
         
     //-----------------------------------------------------------------------------
     // mvSliderIntMulti
     //-----------------------------------------------------------------------------
     MV_REGISTER_WIDGET(mvSliderIntMulti, MV_ITEM_DESC_DEFAULT, StorageValueTypes::Int4, 1);
-    class mvSliderIntMulti : public mvInt4PtrBase
+    class mvSliderIntMulti : public mvAppItem
     {
 
     public:
@@ -77,18 +84,22 @@ namespace Marvel {
         
         void setEnabled(bool value) override;
         void draw(ImDrawList* drawlist, float x, float y) override;
-
+        void setDataSource(mvUUID dataSource) override;
+        mvValueVariant getValue() override { return _value; }
+        PyObject* getPyValue() override;
+        void setPyValue(PyObject* value) override;
         void handleSpecificKeywordArgs(PyObject* dict) override;
         void getSpecificConfiguration(PyObject* dict) override;
         
     private:
-
-        int                 _min = 0;
-        int                 _max = 100;
-        std::string         _format = "%d";
-        ImGuiInputTextFlags _flags = ImGuiSliderFlags_None;
-        ImGuiInputTextFlags _stor_flags = ImGuiSliderFlags_None;
-        int                 _size = 4;
+        mvRef<std::array<int, 4>> _value = CreateRef<std::array<int, 4>>(std::array<int, 4>{0, 0, 0, 0});
+        int                       _disabled_value[4]{};
+        int                       _min = 0;
+        int                       _max = 100;
+        std::string               _format = "%d";
+        ImGuiInputTextFlags       _flags = ImGuiSliderFlags_None;
+        ImGuiInputTextFlags       _stor_flags = ImGuiSliderFlags_None;
+        int                       _size = 4;
     };
 
 }

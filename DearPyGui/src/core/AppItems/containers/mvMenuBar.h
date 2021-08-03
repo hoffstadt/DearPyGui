@@ -1,12 +1,12 @@
 #pragma once
 
-#include "mvTypeBases.h"
 #include "mvAppItem.h"
+#include "mvItemRegistry.h"
 
 namespace Marvel {
 
 	MV_REGISTER_WIDGET(mvMenuBar, MV_ITEM_DESC_CONTAINER, StorageValueTypes::Bool, 1);
-	class mvMenuBar : public mvBoolPtrBase
+	class mvMenuBar : public mvAppItem
 	{
 
 	public:

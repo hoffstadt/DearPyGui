@@ -1,6 +1,6 @@
 #pragma once
 
-#include "mvTypeBases.h"
+#include "mvItemRegistry.h"
 
 //-----------------------------------------------------------------------------
 // Widget Index
@@ -15,7 +15,7 @@ namespace Marvel {
 	// mvText
 	//-----------------------------------------------------------------------------
 	MV_REGISTER_WIDGET(mvText, MV_ITEM_DESC_DEFAULT, StorageValueTypes::String, 1);
-	class mvText : public mvStringPtrBase
+	class mvText : public mvAppItem
 	{
 
 	public:
@@ -35,17 +35,22 @@ namespace Marvel {
 		mvText(mvUUID uuid);
 
 		void draw(ImDrawList* drawlist, float x, float y) override;
-
+		void setDataSource(mvUUID dataSource) override;
+		mvValueVariant getValue() override { return _value; }
+		PyObject* getPyValue() override;
+		void setPyValue(PyObject* value) override;
 		void handleSpecificPositionalArgs(PyObject* dict) override;
 		void handleSpecificKeywordArgs(PyObject* dict) override;
 		void getSpecificConfiguration(PyObject* dict) override;
 
 	private:
 
-		mvColor _color = {-1.0f, 0.0f, 0.0f, 1.0f};
-		int     _wrap = -1;
-		bool    _bullet = false;
-		bool	_show_label = false;
+		mvRef<std::string> _value = CreateRef<std::string>("");
+		std::string        _disabled_value = "";
+		mvColor            _color = {-1.0f, 0.0f, 0.0f, 1.0f};
+		int                _wrap = -1;
+		bool               _bullet = false;
+		bool	           _show_label = false;
 
 	};
 }
