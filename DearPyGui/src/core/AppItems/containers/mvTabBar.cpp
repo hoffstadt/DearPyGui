@@ -35,7 +35,7 @@ namespace Marvel {
 
 	mvTabBar::mvTabBar(mvUUID uuid)
 		:
-		mvUUIDPtrBase(uuid)
+		mvAppItem(uuid)
 	{
 	}
 
@@ -73,6 +73,37 @@ namespace Marvel {
 	void mvTabBar::setValue(mvUUID value)
 	{
 		_uiValue = value;
+	}
+
+	PyObject* mvTabBar::getPyValue()
+	{
+		return ToPyUUID(*_value);
+	}
+
+	void mvTabBar::setPyValue(PyObject* value)
+	{
+		*_value = ToUUID(value);
+	}
+
+	void mvTabBar::setDataSource(mvUUID dataSource)
+	{
+		if (dataSource == _source) return;
+		_source = dataSource;
+
+		mvAppItem* item = mvApp::GetApp()->getItemRegistry().getItem(dataSource);
+		if (!item)
+		{
+			mvThrowPythonError(mvErrorCode::mvSourceNotFound, "set_value",
+				"Source item not found: " + std::to_string(dataSource), this);
+			return;
+		}
+		if (item->getValueType() != getValueType())
+		{
+			mvThrowPythonError(mvErrorCode::mvSourceNotCompatible, "set_value",
+				"Values types do not match: " + std::to_string(dataSource), this);
+			return;
+		}
+		_value = std::get<std::shared_ptr<mvUUID>>(item->getValue());
 	}
 
 	void mvTabBar::draw(ImDrawList* drawlist, float x, float y)

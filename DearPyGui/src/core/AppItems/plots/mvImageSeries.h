@@ -9,7 +9,7 @@
 namespace Marvel {
 
 	MV_REGISTER_WIDGET(mvImageSeries, MV_ITEM_DESC_DEFAULT | MV_ITEM_DESC_CONTAINER, StorageValueTypes::Series, 1);
-	class mvImageSeries : public mvSeriesBase
+	class mvImageSeries : public mvAppItem
 	{
 	public:
 
@@ -32,6 +32,10 @@ namespace Marvel {
 		void postDraw() override {}
 
 		void draw(ImDrawList* drawlist, float x, float y) override;
+		void setDataSource(mvUUID dataSource) override;
+		mvValueVariant getValue() override { return _value; }
+		PyObject* getPyValue() override;
+		void setPyValue(PyObject* value) override;
 		bool isParentCompatible(mvAppItemType type) override;
 		void handleSpecificRequiredArgs(PyObject* args) override;
 		void handleSpecificKeywordArgs(PyObject* dict) override;
@@ -50,6 +54,13 @@ namespace Marvel {
 		// pointer to existing item or internal
 		std::shared_ptr<mvAppItem> _texture = nullptr;
 		bool _internalTexture = false; // create a local texture if necessary
+
+		mvRef<std::vector<std::vector<double>>> _value = CreateRef<std::vector<std::vector<double>>>(
+			std::vector<std::vector<double>>{ std::vector<double>{},
+			std::vector<double>{},
+			std::vector<double>{},
+			std::vector<double>{},
+			std::vector<double>{} });
 
 	};
 

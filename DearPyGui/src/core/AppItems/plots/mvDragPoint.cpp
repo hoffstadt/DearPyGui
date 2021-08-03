@@ -37,8 +37,48 @@ namespace Marvel {
 	}
 
 	mvDragPoint::mvDragPoint(mvUUID uuid)
-		: mvDouble4PtrBase(uuid)
+		: mvAppItem(uuid)
 	{
+	}
+
+	PyObject* mvDragPoint::getPyValue()
+	{
+		return ToPyFloatList(_value->data(), 4);
+	}
+
+	void mvDragPoint::setPyValue(PyObject* value)
+	{
+		std::vector<double> temp = ToDoubleVect(value);
+		while (temp.size() < 4)
+			temp.push_back(0.0);
+		std::array<double, 4> temp_array;
+		for (size_t i = 0; i < temp_array.size(); i++)
+			temp_array[i] = temp[i];
+		if (_value)
+			*_value = temp_array;
+		else
+			_value = std::make_shared<std::array<double, 4>>(temp_array);
+	}
+
+	void mvDragPoint::setDataSource(mvUUID dataSource)
+	{
+		if (dataSource == _source) return;
+		_source = dataSource;
+
+		mvAppItem* item = mvApp::GetApp()->getItemRegistry().getItem(dataSource);
+		if (!item)
+		{
+			mvThrowPythonError(mvErrorCode::mvSourceNotFound, "set_value",
+				"Source item not found: " + std::to_string(dataSource), this);
+			return;
+		}
+		if (item->getValueType() != getValueType())
+		{
+			mvThrowPythonError(mvErrorCode::mvSourceNotCompatible, "set_value",
+				"Values types do not match: " + std::to_string(dataSource), this);
+			return;
+		}
+		_value = std::get<std::shared_ptr<std::array<double, 4>>>(item->getValue());
 	}
 
 	bool mvDragPoint::isParentCompatible(mvAppItemType type)

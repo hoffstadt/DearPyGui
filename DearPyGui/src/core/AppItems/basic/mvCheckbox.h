@@ -1,11 +1,11 @@
 #pragma once
 
-#include "mvTypeBases.h"
+#include "mvItemRegistry.h"
 
 namespace Marvel {
 
 	MV_REGISTER_WIDGET(mvCheckbox, MV_ITEM_DESC_DEFAULT, StorageValueTypes::Bool, 1);
-	class mvCheckbox : public mvBoolPtrBase
+	class mvCheckbox : public mvAppItem
 	{
 
 	public:
@@ -28,11 +28,16 @@ namespace Marvel {
 		bool preDraw() override { return true; }
 		void postDraw() override {}
 
+		void setDataSource(mvUUID dataSource) override;
+		mvValueVariant getValue() override { return _value; }
+		PyObject* getPyValue() override;
+		void setPyValue(PyObject* value) override;
 		void draw(ImDrawList* drawlist, float x, float y) override;
 
 	private:
 
-		std::string _source;
+		mvRef<bool> _value = CreateRef<bool>(false);
+		bool        _disabled_value = false;
 
 	};
 

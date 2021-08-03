@@ -1,11 +1,11 @@
 #pragma once
 
-#include "mvTypeBases.h"
+#include "mvItemRegistry.h"
 
 namespace Marvel {
 
 	MV_REGISTER_WIDGET(mvTab, MV_ITEM_DESC_CONTAINER, StorageValueTypes::Bool, 1);
-	class mvTab : public mvBoolPtrBase
+	class mvTab : public mvAppItem
 	{
 
 		enum class TabOrdering {
@@ -41,6 +41,10 @@ namespace Marvel {
 		mvTab(mvUUID uuid);
 
 		void draw(ImDrawList* drawlist, float x, float y) override;
+		void setDataSource(mvUUID dataSource) override;
+		mvValueVariant getValue() override { return _value; }
+		PyObject* getPyValue() override;
+		void setPyValue(PyObject* value) override;
 		void addFlag   (ImGuiTabItemFlags flag);
 		void removeFlag(ImGuiTabItemFlags flag);
 		bool isParentCompatible(mvAppItemType type) override;
@@ -49,6 +53,8 @@ namespace Marvel {
 
 	private:
 
+		mvRef<bool>       _value = CreateRef<bool>(false);
+		bool              _disabled_value = false;
 		bool              _closable = false;
 		ImGuiTabItemFlags _flags = ImGuiTabItemFlags_None;
 

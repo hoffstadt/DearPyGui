@@ -1,11 +1,11 @@
 #pragma once
 
-#include "mvTypeBases.h"
+#include "mvItemRegistry.h"
 
 namespace Marvel {
 
 	MV_REGISTER_WIDGET(mvCollapsingHeader, MV_ITEM_DESC_CONTAINER, StorageValueTypes::Bool, 1);
-	class mvCollapsingHeader : public mvBoolPtrBase
+	class mvCollapsingHeader : public mvAppItem
 	{
 	public:
 
@@ -24,12 +24,16 @@ namespace Marvel {
 		mvCollapsingHeader(mvUUID uuid);
 
 		void draw(ImDrawList* drawlist, float x, float y)               override;
-
+		void setDataSource(mvUUID dataSource) override;
+		mvValueVariant getValue() override { return _value; }
+		PyObject* getPyValue() override;
+		void setPyValue(PyObject* value) override;
 		void handleSpecificKeywordArgs(PyObject* dict) override;
 		void getSpecificConfiguration(PyObject* dict) override;
 
 	private:
-
+		mvRef<bool>        _value = CreateRef<bool>(false);
+		bool               _disabled_value = false;
 		ImGuiTreeNodeFlags _flags = ImGuiTreeNodeFlags_None;
 		bool               _closable = false;
 

@@ -1,7 +1,6 @@
 #include "mvSimplePlot.h"
 #include "mvItemRegistry.h"
-//#include "mvImGuiThemeScope.h"
-//#include "mvFontScope.h"
+#include "mvPythonExceptions.h"
 
 namespace Marvel {
 
@@ -40,15 +39,13 @@ namespace Marvel {
 	}
 
 	mvSimplePlot::mvSimplePlot(mvUUID uuid)
-		: mvFloatVectPtrBase(uuid)
+		: mvAppItem(uuid)
 	{
 	}
 
 	void mvSimplePlot::draw(ImDrawList* drawlist, float x, float y)
 	{
 		ImGui::PushID(this);
-		//mvImGuiThemeScope scope(this);
-		//mvFontScope fscope(this);
 
 		if (_histogram)
 			ImGui::PlotHistogram(_label.c_str(), _value->data(), (int)_value->size(), 0, _overlay.c_str(),
@@ -58,6 +55,32 @@ namespace Marvel {
 				_min, _max, ImVec2((float)_width, (float)_height));
 
 		ImGui::PopID();
+	}
+
+	PyObject* mvSimplePlot::getPyValue()
+	{
+		return ToPyList(*_value);
+	}
+
+	void mvSimplePlot::setDataSource(mvUUID dataSource)
+	{
+		if (dataSource == _source) return;
+		_source = dataSource;
+
+		mvAppItem* item = mvApp::GetApp()->getItemRegistry().getItem(dataSource);
+		if (!item)
+		{
+			mvThrowPythonError(mvErrorCode::mvSourceNotFound, "set_value",
+				"Source item not found: " + std::to_string(dataSource), this);
+			return;
+		}
+		if (item->getValueType() != getValueType())
+		{
+			mvThrowPythonError(mvErrorCode::mvSourceNotCompatible, "set_value",
+				"Values types do not match: " + std::to_string(dataSource), this);
+			return;
+		}
+		_value = std::get<std::shared_ptr<std::vector<float>>>(item->getValue());
 	}
 
 	void mvSimplePlot::setPyValue(PyObject* value)

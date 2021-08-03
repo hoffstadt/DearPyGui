@@ -1,6 +1,6 @@
 #pragma once
 
-#include "mvTypeBases.h"
+#include "mvItemRegistry.h"
 #include "mvApp.h"
 #include "mvModule_DearPyGui.h"
 #include <string>
@@ -19,7 +19,7 @@ namespace Marvel {
     // mvDragFloat
     //-----------------------------------------------------------------------------
     MV_REGISTER_WIDGET(mvDragFloat, MV_ITEM_DESC_DEFAULT, StorageValueTypes::Float, 1);
-    class mvDragFloat : public mvFloatPtrBase
+    class mvDragFloat : public mvAppItem
     {
 
     public:
@@ -39,14 +39,18 @@ namespace Marvel {
         mvDragFloat(mvUUID uuid);
 
         void setEnabled(bool value) override;
-
         void draw(ImDrawList* drawlist, float x, float y) override;
-
+        void setDataSource(mvUUID dataSource) override;
+        mvValueVariant getValue() override { return _value; }
+        PyObject* getPyValue() override;
+        void setPyValue(PyObject* value) override;
         void handleSpecificKeywordArgs(PyObject* dict) override;
         void getSpecificConfiguration(PyObject* dict) override;
 
     private:
 
+        mvRef<float>        _value = CreateRef<float>(0.0f);
+        float               _disabled_value = 0.0f;
         float               _speed = 1.0f;
         float               _min = 0.0f;
         float               _max = 100.0f;
@@ -60,7 +64,7 @@ namespace Marvel {
     // mvDragInt
     //----------------------------------------------------------------------------- 
     MV_REGISTER_WIDGET(mvDragInt, MV_ITEM_DESC_DEFAULT, StorageValueTypes::Int, 1);
-    class mvDragInt : public mvIntPtrBase
+    class mvDragInt : public mvAppItem
     {
 
     public:
@@ -81,12 +85,17 @@ namespace Marvel {
 
         void setEnabled(bool value) override;
         void draw(ImDrawList* drawlist, float x, float y) override;
-
         void handleSpecificKeywordArgs(PyObject* dict) override;
         void getSpecificConfiguration(PyObject* dict) override;
+        void setDataSource(mvUUID dataSource) override;
+        mvValueVariant getValue() override { return _value; }
+        PyObject* getPyValue() override;
+        void setPyValue(PyObject* value) override;
 
     private:
 
+        mvRef<int>          _value = CreateRef<int>(0);
+        int                 _disabled_value = 0;
         float               _speed = 1.0f;
         int                 _min = 0;
         int                 _max = 100;

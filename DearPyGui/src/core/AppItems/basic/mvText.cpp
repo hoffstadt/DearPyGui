@@ -1,6 +1,7 @@
 #include "mvText.h"
 #include "mvApp.h"
 #include "mvItemRegistry.h"
+#include "mvPythonExceptions.h"
 
 namespace Marvel {
 
@@ -36,7 +37,7 @@ namespace Marvel {
 
 	mvText::mvText(mvUUID uuid)
 		: 
-		mvStringPtrBase(uuid)
+		mvAppItem(uuid)
 	{
 		*_value = "Not Specified";
 	}
@@ -119,5 +120,36 @@ namespace Marvel {
 		PyDict_SetItemString(dict, "wrap", ToPyInt(_wrap));
 		PyDict_SetItemString(dict, "bullet", ToPyBool(_bullet));
 		PyDict_SetItemString(dict, "show_label", ToPyBool(_show_label));
+	}
+
+	PyObject* mvText::getPyValue()
+	{
+		return ToPyString(*_value);
+	}
+
+	void mvText::setPyValue(PyObject* value)
+	{
+		*_value = ToString(value);
+	}
+
+	void mvText::setDataSource(mvUUID dataSource)
+	{
+		if (dataSource == _source) return;
+		_source = dataSource;
+
+		mvAppItem* item = mvApp::GetApp()->getItemRegistry().getItem(dataSource);
+		if (!item)
+		{
+			mvThrowPythonError(mvErrorCode::mvSourceNotFound, "set_value",
+				"Source item not found: " + std::to_string(dataSource), this);
+			return;
+		}
+		if (item->getValueType() != getValueType())
+		{
+			mvThrowPythonError(mvErrorCode::mvSourceNotCompatible, "set_value",
+				"Values types do not match: " + std::to_string(dataSource), this);
+			return;
+		}
+		_value = std::get<std::shared_ptr<std::string>>(item->getValue());
 	}
 }

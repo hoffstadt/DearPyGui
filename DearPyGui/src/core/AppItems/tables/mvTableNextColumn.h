@@ -1,6 +1,6 @@
 #pragma once
 
-#include "mvTypeBases.h"
+#include "mvItemRegistry.h"
 #include <vector>
 
 namespace Marvel {

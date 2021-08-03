@@ -1,12 +1,12 @@
 #pragma once
 
 #include <utility>
-#include "mvTypeBases.h"
+#include "mvItemRegistry.h"
 
 namespace Marvel{
 
 	MV_REGISTER_WIDGET(mvSimplePlot, MV_ITEM_DESC_DEFAULT, StorageValueTypes::FloatVect, 1);
-	class mvSimplePlot : public mvFloatVectPtrBase
+	class mvSimplePlot : public mvAppItem
 	{
 
 	public:
@@ -26,18 +26,21 @@ namespace Marvel{
 		explicit mvSimplePlot(mvUUID uuid);
 
 		void draw(ImDrawList* drawlist, float x, float y) override;
-
+		void setDataSource(mvUUID dataSource) override;
+		mvValueVariant getValue() override { return _value; }
+		PyObject* getPyValue() override;
 		void setPyValue(PyObject* value) override;
 		void handleSpecificKeywordArgs(PyObject* dict) override;
 		void getSpecificConfiguration(PyObject* dict) override;
 
 	private:
 
-		std::string        _overlay;
-		float              _min = 0.0f;
-		float              _max = 0.0f;
-		bool               _histogram = false;
-		bool               _autosize = true;
+		mvRef<std::vector<float>> _value = CreateRef<std::vector<float>>(std::vector<float>{0.0f});
+		std::string               _overlay;
+		float                     _min = 0.0f;
+		float                     _max = 0.0f;
+		bool                      _histogram = false;
+		bool                      _autosize = true;
 
 	};
 

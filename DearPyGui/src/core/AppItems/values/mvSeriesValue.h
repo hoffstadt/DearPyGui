@@ -1,11 +1,11 @@
 #pragma once
 
-#include "mvTypeBases.h"
+#include "mvItemRegistry.h"
 
 namespace Marvel {
 
 	MV_REGISTER_WIDGET(mvSeriesValue, MV_ITEM_DESC_DEFAULT, StorageValueTypes::Series, 1);
-	class mvSeriesValue : public mvSeriesBase
+	class mvSeriesValue : public mvAppItem
 	{
 
 	public:
@@ -25,6 +25,19 @@ namespace Marvel {
 		mvSeriesValue(mvUUID uuid);
 
 		void draw(ImDrawList* drawlist, float x, float y) override {}
+		void setDataSource(mvUUID dataSource) override;
+		mvValueVariant getValue() override { return _value; }
+		PyObject* getPyValue() override;
+		void setPyValue(PyObject* value) override;
+
+	private:
+
+		mvRef<std::vector<std::vector<double>>> _value = CreateRef<std::vector<std::vector<double>>>(
+			std::vector<std::vector<double>>{ std::vector<double>{},
+			std::vector<double>{},
+			std::vector<double>{},
+			std::vector<double>{},
+			std::vector<double>{} });
 
 	};
 

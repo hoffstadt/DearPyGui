@@ -25,7 +25,7 @@ namespace Marvel {
 	}
 
 	mvMenuBar::mvMenuBar(mvUUID uuid)
-			: mvBoolPtrBase(uuid)
+			: mvAppItem(uuid)
 		{
 
 			// TODO use code below to set item height when font and scale systems are done

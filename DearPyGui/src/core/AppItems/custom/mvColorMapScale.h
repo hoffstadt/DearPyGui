@@ -1,6 +1,6 @@
 #pragma once
 
-#include "mvTypeBases.h"
+#include "mvItemRegistry.h"
 #include "mvApp.h"
 #include "mvModule_DearPyGui.h"
 #include <string>
@@ -8,7 +8,7 @@
 namespace Marvel {
 
     MV_REGISTER_WIDGET(mvColorMapScale, MV_ITEM_DESC_DEFAULT, StorageValueTypes::Int, 1);
-    class mvColorMapScale : public mvIntPtrBase
+    class mvColorMapScale : public mvAppItem
     {
 
     public:
@@ -28,14 +28,19 @@ namespace Marvel {
         mvColorMapScale(mvUUID uuid);
 
         void draw(ImDrawList* drawlist, float x, float y) override;
-
+        void setDataSource(mvUUID dataSource) override;
+        mvValueVariant getValue() override { return _value; }
+        PyObject* getPyValue() override;
+        void setPyValue(PyObject* value) override;
         void handleSpecificKeywordArgs(PyObject* dict) override;
         void getSpecificConfiguration(PyObject* dict) override;
 
     private:
 
-        double _scale_min = 0;
-        double _scale_max = 0;
+        mvRef<int> _value = CreateRef<int>(0);
+        int        _disabled_value = 0;
+        double     _scale_min = 0;
+        double     _scale_max = 0;
 
     };
 

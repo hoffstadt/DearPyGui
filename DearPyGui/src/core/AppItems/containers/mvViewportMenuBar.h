@@ -1,7 +1,6 @@
 #pragma once
 
-#include "mvTypeBases.h"
-#include "mvAppItem.h"
+#include "mvItemRegistry.h"
 
 namespace Marvel {
 

@@ -2,6 +2,8 @@
 #include "mvSelectable.h"
 #include "mvApp.h"
 #include "mvItemRegistry.h"
+#include "mvPythonExceptions.h"
+
 namespace Marvel {
 
 	void mvSelectable::InsertParser(std::map<std::string, mvPythonParser>* parsers)
@@ -35,8 +37,39 @@ namespace Marvel {
 	}
 
 	mvSelectable::mvSelectable(mvUUID uuid)
-		: mvBoolPtrBase(uuid)
+		: mvAppItem(uuid)
 	{
+	}
+
+	PyObject* mvSelectable::getPyValue()
+	{
+		return ToPyBool(*_value);
+	}
+
+	void mvSelectable::setPyValue(PyObject* value)
+	{
+		*_value = ToBool(value);
+	}
+
+	void mvSelectable::setDataSource(mvUUID dataSource)
+	{
+		if (dataSource == _source) return;
+		_source = dataSource;
+
+		mvAppItem* item = mvApp::GetApp()->getItemRegistry().getItem(dataSource);
+		if (!item)
+		{
+			mvThrowPythonError(mvErrorCode::mvSourceNotFound, "set_value",
+				"Source item not found: " + std::to_string(dataSource), this);
+			return;
+		}
+		if (item->getValueType() != getValueType())
+		{
+			mvThrowPythonError(mvErrorCode::mvSourceNotCompatible, "set_value",
+				"Values types do not match: " + std::to_string(dataSource), this);
+			return;
+		}
+		_value = std::get<std::shared_ptr<bool>>(item->getValue());
 	}
 
 	void mvSelectable::setEnabled(bool value)

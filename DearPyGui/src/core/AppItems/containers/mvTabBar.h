@@ -1,11 +1,11 @@
 #pragma once
 
-#include "mvTypeBases.h"
+#include "mvItemRegistry.h"
 
 namespace Marvel {
 
 	MV_REGISTER_WIDGET(mvTabBar, MV_ITEM_DESC_CONTAINER, StorageValueTypes::String, 1);
-	class mvTabBar : public mvUUIDPtrBase
+	class mvTabBar : public mvAppItem
 	{
 
 	public:
@@ -27,17 +27,21 @@ namespace Marvel {
 		bool canChildBeAdded(mvAppItemType type) override;
 
 		mvUUID getSpecificValue();
-		void         setValue(mvUUID value);
-		void         draw(ImDrawList* drawlist, float x, float y)               override;
-
+		void setValue(mvUUID value);
+		void draw(ImDrawList* drawlist, float x, float y) override;
+		void setDataSource(mvUUID dataSource) override;
+		mvValueVariant getValue() override { return _value; }
+		PyObject* getPyValue() override;
+		void setPyValue(PyObject* value) override;
 		void handleSpecificKeywordArgs(PyObject* dict) override;
 		void getSpecificConfiguration(PyObject* dict) override;
 
 	private:
-
+		mvRef<mvUUID>    _value = CreateRef<mvUUID>(0);
+		mvUUID           _disabled_value = 0;
 		ImGuiTabBarFlags _flags = ImGuiTabBarFlags_None;
-		mvUUID      _lastValue = 0;
-		mvUUID      _uiValue = 0; // value suggested from UI
+		mvUUID           _lastValue = 0;
+		mvUUID           _uiValue = 0; // value suggested from UI
 
 	};
 

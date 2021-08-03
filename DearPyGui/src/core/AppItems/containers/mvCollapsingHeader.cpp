@@ -2,6 +2,7 @@
 #include "mvInput.h"
 #include "mvApp.h"
 #include "mvItemRegistry.h"
+#include "mvPythonExceptions.h"
 
 namespace Marvel {
 
@@ -37,7 +38,7 @@ namespace Marvel {
 	}
 
 	mvCollapsingHeader::mvCollapsingHeader(mvUUID uuid)
-		: mvBoolPtrBase(uuid)
+		: mvAppItem(uuid)
 	{
 	}
 
@@ -109,4 +110,34 @@ namespace Marvel {
 
 	}
 
+	PyObject* mvCollapsingHeader::getPyValue()
+	{
+		return ToPyBool(*_value);
+	}
+
+	void mvCollapsingHeader::setPyValue(PyObject* value)
+	{
+		*_value = ToBool(value);
+	}
+
+	void mvCollapsingHeader::setDataSource(mvUUID dataSource)
+	{
+		if (dataSource == _source) return;
+		_source = dataSource;
+
+		mvAppItem* item = mvApp::GetApp()->getItemRegistry().getItem(dataSource);
+		if (!item)
+		{
+			mvThrowPythonError(mvErrorCode::mvSourceNotFound, "set_value",
+				"Source item not found: " + std::to_string(dataSource), this);
+			return;
+		}
+		if (item->getValueType() != getValueType())
+		{
+			mvThrowPythonError(mvErrorCode::mvSourceNotCompatible, "set_value",
+				"Values types do not match: " + std::to_string(dataSource), this);
+			return;
+		}
+		_value = std::get<std::shared_ptr<bool>>(item->getValue());
+	}
 }

@@ -1,11 +1,12 @@
 #pragma once
 
-#include "mvTypeBases.h"
+#include <array>
+#include "mvItemRegistry.h"
 
 namespace Marvel {
 
 	MV_REGISTER_WIDGET(mvDouble4Value, MV_ITEM_DESC_DEFAULT, StorageValueTypes::Double4, 1);
-	class mvDouble4Value : public mvDouble4PtrBase
+	class mvDouble4Value : public mvAppItem
 	{
 
 	public:
@@ -25,7 +26,15 @@ namespace Marvel {
 		mvDouble4Value(mvUUID uuid);
 
 		void draw(ImDrawList* drawlist, float x, float y) override {}
+		void setDataSource(mvUUID dataSource) override;
+		mvValueVariant getValue() override { return _value; }
+		PyObject* getPyValue() override;
+		void setPyValue(PyObject* value) override;
 
+	protected:
+
+		mvRef<std::array<double, 4>> _value = CreateRef<std::array<double, 4>>(std::array<double, 4>{0.0, 0.0, 0.0, 0.0});
+		double  _disabled_value[4]{};
 	};
 
 }

@@ -5,7 +5,7 @@
 namespace Marvel {
 
 	MV_REGISTER_WIDGET(mvAreaSeries, MV_ITEM_DESC_DEFAULT | MV_ITEM_DESC_CONTAINER, StorageValueTypes::Series, 1);
-	class mvAreaSeries : public mvSeriesBase
+	class mvAreaSeries : public mvAppItem
 	{
 
 	public:
@@ -29,6 +29,10 @@ namespace Marvel {
 		void postDraw() override {}
 
 		void draw(ImDrawList* drawlist, float x, float y) override;
+		void setDataSource(mvUUID dataSource) override;
+		mvValueVariant getValue() override { return _value; }
+		PyObject* getPyValue() override;
+		void setPyValue(PyObject* value) override;
 		bool isParentCompatible(mvAppItemType type) override;
 		void handleSpecificRequiredArgs(PyObject* args) override;
 		void handleSpecificKeywordArgs(PyObject* dict) override;
@@ -41,6 +45,12 @@ namespace Marvel {
 	private:
 
 		mvColor _fill = MV_DEFAULT_COLOR;
+		mvRef<std::vector<std::vector<double>>> _value = CreateRef<std::vector<std::vector<double>>>(
+			std::vector<std::vector<double>>{ std::vector<double>{},
+			std::vector<double>{},
+			std::vector<double>{},
+			std::vector<double>{},
+			std::vector<double>{} });
 	};
 
 }

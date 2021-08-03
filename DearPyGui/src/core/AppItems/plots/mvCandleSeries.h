@@ -5,7 +5,7 @@
 namespace Marvel {
 
 	MV_REGISTER_WIDGET(mvCandleSeries, MV_ITEM_DESC_DEFAULT | MV_ITEM_DESC_CONTAINER, StorageValueTypes::Series, 1);
-	class mvCandleSeries : public mvSeriesBase
+	class mvCandleSeries : public mvAppItem
 	{
 
 		public:
@@ -30,6 +30,10 @@ namespace Marvel {
 		void postDraw() override {}
 
 		void draw(ImDrawList* drawlist, float x, float y) override;
+		void setDataSource(mvUUID dataSource) override;
+		mvValueVariant getValue() override { return _value; }
+		PyObject* getPyValue() override;
+		void setPyValue(PyObject* value) override;
 		bool isParentCompatible(mvAppItemType type) override;
 		void handleSpecificRequiredArgs(PyObject* args) override;
 		void handleSpecificKeywordArgs(PyObject* dict) override;
@@ -41,6 +45,12 @@ namespace Marvel {
 		bool _tooltip = true;
 		mvColor _bullColor = { 0, 255, 113, 255};
 		mvColor _bearColor = { 218, 13, 79, 255 };
+		mvRef<std::vector<std::vector<double>>> _value = CreateRef<std::vector<std::vector<double>>>(
+			std::vector<std::vector<double>>{ std::vector<double>{},
+			std::vector<double>{},
+			std::vector<double>{},
+			std::vector<double>{},
+			std::vector<double>{} });
 
 	};
 

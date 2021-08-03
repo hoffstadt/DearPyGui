@@ -4,6 +4,7 @@
 #include <implot_internal.h>
 #include <misc/cpp/imgui_stdlib.h>
 #include "mvItemRegistry.h"
+#include "mvPythonExceptions.h"
 
 namespace Marvel {
 
@@ -36,7 +37,7 @@ namespace Marvel {
 	}
 
 	mvDatePicker::mvDatePicker(mvUUID uuid)
-		: mvTimePtrBase(uuid)
+		: mvAppItem(uuid)
 	{
 	}
 
@@ -76,4 +77,19 @@ namespace Marvel {
 		PyDict_SetItemString(dict, "level", ToPyUUID((long)_level));
 	}
 
+	PyObject* mvDatePicker::getPyValue()
+	{
+		return ToPyTime(*_value);
+	}
+
+	void mvDatePicker::setPyValue(PyObject* value)
+	{
+
+		if (value)
+			*_value = ToTime(value);
+		else
+			_value = {};
+
+		*_imvalue = ImPlot::MkGmtTime(_value.get());
+	}
 }

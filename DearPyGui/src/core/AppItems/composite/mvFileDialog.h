@@ -1,6 +1,6 @@
 #pragma once
 
-#include "mvTypeBases.h"
+#include "mvItemRegistry.h"
 #include "mvApp.h"
 #include "mvItemRegistry.h"
 
@@ -11,7 +11,7 @@
 namespace Marvel {
 
 	MV_REGISTER_WIDGET(mvFileDialog, MV_ITEM_DESC_ROOT | MV_ITEM_DESC_CONTAINER, StorageValueTypes::Bool, 1);
-	class mvFileDialog final : public mvBoolPtrBase
+	class mvFileDialog final : public mvAppItem
 	{
 	public:
 
@@ -34,7 +34,10 @@ namespace Marvel {
 
 		void draw(ImDrawList* drawlist, float x, float y) override;
 		void drawPanel();
-
+		void setDataSource(mvUUID dataSource) override;
+		mvValueVariant getValue() override { return _value; }
+		PyObject* getPyValue() override;
+		void setPyValue(PyObject* value) override;
 		void setLabel(const std::string& value) override;
 		void handleSpecificKeywordArgs(PyObject* dict) override;
 		void getSpecificConfiguration(PyObject* dict) override;
@@ -46,6 +49,8 @@ namespace Marvel {
 
 	private:
 
+		mvRef<bool>     _value = CreateRef<bool>(false);
+		bool            _disabled_value = false;
 		ImGuiFileDialog _instance;
 		bool            _dirtySettings = true;
 

@@ -36,8 +36,39 @@ namespace Marvel {
 	}
 
 	mvErrorSeries::mvErrorSeries(mvUUID uuid)
-		: mvSeriesBase(uuid)
+		: mvAppItem(uuid)
 	{
+	}
+
+	PyObject* mvErrorSeries::getPyValue()
+	{
+		return ToPyList(*_value);
+	}
+
+	void mvErrorSeries::setPyValue(PyObject* value)
+	{
+		*_value = ToVectVectDouble(value);
+	}
+
+	void mvErrorSeries::setDataSource(mvUUID dataSource)
+	{
+		if (dataSource == _source) return;
+		_source = dataSource;
+
+		mvAppItem* item = mvApp::GetApp()->getItemRegistry().getItem(dataSource);
+		if (!item)
+		{
+			mvThrowPythonError(mvErrorCode::mvSourceNotFound, "set_value",
+				"Source item not found: " + std::to_string(dataSource), this);
+			return;
+		}
+		if (item->getValueType() != getValueType())
+		{
+			mvThrowPythonError(mvErrorCode::mvSourceNotCompatible, "set_value",
+				"Values types do not match: " + std::to_string(dataSource), this);
+			return;
+		}
+		_value = std::get<std::shared_ptr<std::vector<std::vector<double>>>>(item->getValue());
 	}
 
 	bool mvErrorSeries::isParentCompatible(mvAppItemType type)

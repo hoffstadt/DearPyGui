@@ -46,7 +46,6 @@ set(MARVEL_SOURCES
 
 	"src/core/AppItems/mvAppItemState.cpp"
 	"src/core/AppItems/mvAppItem.cpp"
-	"src/core/AppItems/mvTypeBases.cpp"
 	"src/core/AppItems/mvItemRegistry.cpp"
 
 	"src/core/AppItems/textures/mvRawTexture.cpp"

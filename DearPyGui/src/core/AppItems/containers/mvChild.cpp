@@ -11,6 +11,7 @@ namespace Marvel {
 			"Adds an embedded child window. Will show scrollbars when items do not fit. Must be followed by a call to end.", 
 			{ "Containers", "Widgets" },
 			true);
+
 		mvAppItem::AddCommonArgs(parser, (CommonParserArgs)(
 			MV_PARSER_ARG_ID |
 			MV_PARSER_ARG_WIDTH |
@@ -41,7 +42,7 @@ namespace Marvel {
 	}
 
 	mvChild::mvChild(mvUUID uuid)
-		: mvBoolPtrBase(uuid)
+		: mvAppItem(uuid)
 	{
 	}
 

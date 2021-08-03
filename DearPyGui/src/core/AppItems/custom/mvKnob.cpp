@@ -1,5 +1,6 @@
 #include "mvKnob.h"
 #include "mvKnobCustom.h"
+#include "mvPythonExceptions.h"
 
 namespace Marvel {
 
@@ -36,7 +37,7 @@ namespace Marvel {
     }
 
     mvKnobFloat::mvKnobFloat(mvUUID uuid)
-        : mvFloatPtrBase(uuid)
+        : mvAppItem(uuid)
     {
     }
 
@@ -51,6 +52,37 @@ namespace Marvel {
                 mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), _uuid, ToPyFloat(value), _user_data);
                 });
         }
+    }
+
+    PyObject* mvKnobFloat::getPyValue()
+    {
+        return ToPyFloat(*_value);
+    }
+
+    void mvKnobFloat::setPyValue(PyObject* value)
+    {
+        *_value = ToFloat(value);
+    }
+
+    void mvKnobFloat::setDataSource(mvUUID dataSource)
+    {
+        if (dataSource == _source) return;
+        _source = dataSource;
+
+        mvAppItem* item = mvApp::GetApp()->getItemRegistry().getItem(dataSource);
+        if (!item)
+        {
+            mvThrowPythonError(mvErrorCode::mvSourceNotFound, "set_value",
+                "Source item not found: " + std::to_string(dataSource), this);
+            return;
+        }
+        if (item->getValueType() != getValueType())
+        {
+            mvThrowPythonError(mvErrorCode::mvSourceNotCompatible, "set_value",
+                "Values types do not match: " + std::to_string(dataSource), this);
+            return;
+        }
+        _value = std::get<std::shared_ptr<float>>(item->getValue());
     }
 
     void mvKnobFloat::handleSpecificKeywordArgs(PyObject* dict)

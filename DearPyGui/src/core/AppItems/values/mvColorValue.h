@@ -1,11 +1,12 @@
 #pragma once
 
-#include "mvTypeBases.h"
+#include <array>
+#include "mvItemRegistry.h"
 
 namespace Marvel {
 
 	MV_REGISTER_WIDGET(mvColorValue, MV_ITEM_DESC_DEFAULT, StorageValueTypes::Color, 1);
-	class mvColorValue : public mvColorPtrBase
+	class mvColorValue : public mvAppItem
 	{
 
 	public:
@@ -25,6 +26,15 @@ namespace Marvel {
 		mvColorValue(mvUUID uuid);
 
 		void draw(ImDrawList* drawlist, float x, float y) override {}
+		void setDataSource(mvUUID dataSource) override;
+		mvValueVariant getValue() override { return _value; }
+		PyObject* getPyValue() override;
+		void setPyValue(PyObject* value) override;
+
+	private:
+
+		mvRef<std::array<float, 4>> _value = CreateRef<std::array<float, 4>>(std::array<float, 4>{0.0f, 0.0f, 0.0f, 1.0f});
+		float  _disabled_value[4]{};
 
 	};
 

@@ -1,11 +1,11 @@
 #pragma once
 
-#include "mvTypeBases.h"
+#include "mvItemRegistry.h"
 
 namespace Marvel {
 
 	MV_REGISTER_WIDGET(mvProgressBar, MV_ITEM_DESC_DEFAULT, StorageValueTypes::Float, 1);
-	class mvProgressBar : public mvFloatPtrBase
+	class mvProgressBar : public mvAppItem
 	{
 
 	public:
@@ -25,13 +25,18 @@ namespace Marvel {
 		mvProgressBar(mvUUID uuid);
 
 		void draw(ImDrawList* drawlist, float x, float y) override;
-
+		void setDataSource(mvUUID dataSource) override;
+		mvValueVariant getValue() override { return _value; }
+		PyObject* getPyValue() override;
+		void setPyValue(PyObject* value) override;
 		void handleSpecificKeywordArgs(PyObject* dict) override;
 		void getSpecificConfiguration(PyObject* dict) override;
 
 	private:
 
-		std::string _overlay;
+		mvRef<float> _value = CreateRef<float>(0.0f);
+		float        _disabled_value = 0.0f;
+		std::string  _overlay;
 
 	};
 
