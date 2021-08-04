@@ -167,7 +167,7 @@ namespace Marvel{
 		if(args & MV_PARSER_ARG_ENABLED)       parser.addArg<mvPyDataType::Bool>("enabled", mvArgType::KEYWORD_ARG, "True", "Turns off functionality of widget and applies the disabled theme.");
 		if(args & MV_PARSER_ARG_POS)		   parser.addArg<mvPyDataType::IntList>("pos", mvArgType::KEYWORD_ARG, "[]", "Places the item relative to window coordinates, [0,0] is top left.");
 		if(args & MV_PARSER_ARG_FILTER)		   parser.addArg<mvPyDataType::String>("filter_key", mvArgType::KEYWORD_ARG, "''", "Used by filter widget.");
-		if(args & MV_PARSER_ARG_SEARCH_DELAY)   parser.addArg<mvPyDataType::Bool>("delay_search", mvArgType::KEYWORD_ARG, "False", "Delays searching container for specified items until the end of the app. Possible optimization when a container has many children that are not accessed often.");
+		if(args & MV_PARSER_ARG_SEARCH_DELAY)  parser.addArg<mvPyDataType::Bool>("delay_search", mvArgType::KEYWORD_ARG, "False", "Delays searching container for specified items until the end of the app. Possible optimization when a container has many children that are not accessed often.");
 		
 		if (args & MV_PARSER_ARG_TRACKED)
 		{
@@ -176,6 +176,7 @@ namespace Marvel{
 		}
 
 		parser.addArg<mvPyDataType::Object>("user_data", mvArgType::KEYWORD_ARG, "None", "User data for callbacks.");
+		parser.addArg<mvPyDataType::Bool>("use_internal_label", mvArgType::KEYWORD_ARG, "True", "Use generated internal label instead of user specified (appends ### uuid).");
 
 	}
 
@@ -791,7 +792,10 @@ namespace Marvel{
 	void mvAppItem::setLabel(const std::string& value)
 	{
 		_specificedlabel = value;
-		_label = value + "###" + std::to_string(_uuid);
+		if (_useInternalLabel)
+			_label = value + "###" + std::to_string(_uuid);
+		else
+			_label = value;
 	}
 
 	void mvAppItem::setFilter(const std::string& value)
@@ -977,6 +981,8 @@ namespace Marvel{
 			return;
 		}
 
+		if (PyObject* item = PyDict_GetItemString(dict, "use_internal_label")) _useInternalLabel = ToBool(item); // must be before label
+
 		if (PyObject* item = PyDict_GetItemString(dict, "label"))
 		{
 			if (item != Py_None)
@@ -986,6 +992,7 @@ namespace Marvel{
 			}
 		}
 
+		
 		if (PyObject* item = PyDict_GetItemString(dict, "width")) setWidth(ToInt(item));
 		if (PyObject* item = PyDict_GetItemString(dict, "height")) setHeight(ToInt(item));
 		if (PyObject* item = PyDict_GetItemString(dict, "pos")) {
@@ -1149,6 +1156,7 @@ namespace Marvel{
 		PyDict_SetItemString(dict, "filter_key", ToPyString(_filter));
 		PyDict_SetItemString(dict, "payload_type", ToPyString(_payloadType));
 		PyDict_SetItemString(dict, "label", ToPyString(_specificedlabel));
+		PyDict_SetItemString(dict, "use_internal_label", ToPyBool(_useInternalLabel));
 		PyDict_SetItemString(dict, "source", ToPyUUID(_source));
 		PyDict_SetItemString(dict, "show", ToPyBool(_show));
 		PyDict_SetItemString(dict, "enabled", ToPyBool(_enabled));
