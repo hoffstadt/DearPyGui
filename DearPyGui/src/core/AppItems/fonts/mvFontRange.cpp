@@ -68,7 +68,6 @@ namespace Marvel {
 				break;
 			}
 
-
 			default:
 				break;
 			}

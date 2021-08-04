@@ -2,6 +2,14 @@
 
 project ("DearPyGui")
 
+if(WIN32)
+    add_definitions(-DIMGUI_USER_CONFIG="mvImGuiConfig.h")
+elseif(APPLE)
+    add_definitions(-DIMGUI_USER_CONFIG="mvImGuiConfig.h")
+else() # Linux
+	add_definitions(-DIMGUI_USER_CONFIG="mvImGuiLinuxConfig.h")
+endif()
+
 # various settings
 add_definitions(
     -D_CRT_SECURE_NO_WARNINGS 

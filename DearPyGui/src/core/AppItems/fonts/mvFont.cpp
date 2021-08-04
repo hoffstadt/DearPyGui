@@ -40,7 +40,6 @@ namespace Marvel {
 
 	}
 
-
 	bool mvFont::isParentCompatible(mvAppItemType type)
 	{
 		if (type == mvAppItemType::mvFontRegistry) return true;

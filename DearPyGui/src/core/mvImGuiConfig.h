@@ -6,3 +6,5 @@
 // Another way to allow large meshes while keeping 16-bit indices is to handle ImDrawCmd::VtxOffset in your renderer.
 // Read about ImGuiBackendFlags_RendererHasVtxOffset for details.
 #define ImDrawIdx unsigned int
+
+#define IMGUI_USE_WCHAR32
