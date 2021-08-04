@@ -24,6 +24,7 @@ We generally fold multiple commits pertaining to the same topic as a single entr
 
 ### Fixes
 * fixed histogram misspelling issue related to #1132
+* fixed adding font ranges over 0x10000 #1092
 
 ## VERSION 0.8.54
 
