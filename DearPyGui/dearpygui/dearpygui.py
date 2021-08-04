@@ -1091,7 +1091,7 @@ def is_viewport_decorated() -> bool:
 ##########################################################
 
 @contextmanager
-def child(*, label: str =None, id: int =0, width: int =0, height: int =0, indent: int =-1, parent: int =0, before: int =0, payload_type: str ='$$DPG_PAYLOAD', drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, pos: List[int] =[], filter_key: str ='', delay_search: bool =False, tracked: bool =False, track_offset: float =0.5, user_data: Any =None, border: bool =True, autosize_x: bool =False, autosize_y: bool =False, no_scrollbar: bool =False, horizontal_scrollbar: bool =False, menubar: bool =False) -> int:
+def child(*, label: str =None, id: int =0, width: int =0, height: int =0, indent: int =-1, parent: int =0, before: int =0, payload_type: str ='$$DPG_PAYLOAD', drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, pos: List[int] =[], filter_key: str ='', delay_search: bool =False, tracked: bool =False, track_offset: float =0.5, user_data: Any =None, use_internal_label: bool =True, border: bool =True, autosize_x: bool =False, autosize_y: bool =False, no_scrollbar: bool =False, horizontal_scrollbar: bool =False, menubar: bool =False) -> int:
 	"""
 	Adds an embedded child window. Will show scrollbars when items do not fit. Must be followed by a call to end.
 	Args:
@@ -1112,6 +1112,7 @@ def child(*, label: str =None, id: int =0, width: int =0, height: int =0, indent
 		**tracked (bool): Scroll tracking
 		**track_offset (float): 0.0f:top, 0.5f:center, 1.0f:bottom
 		**user_data (Any): User data for callbacks.
+		**use_internal_label (bool): Use generated internal label instead of user specified (appends ### uuid).
 		**border (bool): Shows/Hides the border around the sides.
 		**autosize_x (bool): Autosize the window to fit it's items in the x.
 		**autosize_y (bool): Autosize the window to fit it's items in the y.
@@ -1122,13 +1123,13 @@ def child(*, label: str =None, id: int =0, width: int =0, height: int =0, indent
 		int
 	"""
 	try:
-		widget = internal_dpg.add_child(label=label, id=id, width=width, height=height, indent=indent, parent=parent, before=before, payload_type=payload_type, drag_callback=drag_callback, drop_callback=drop_callback, show=show, pos=pos, filter_key=filter_key, delay_search=delay_search, tracked=tracked, track_offset=track_offset, user_data=user_data, border=border, autosize_x=autosize_x, autosize_y=autosize_y, no_scrollbar=no_scrollbar, horizontal_scrollbar=horizontal_scrollbar, menubar=menubar)
+		widget = internal_dpg.add_child(label=label, id=id, width=width, height=height, indent=indent, parent=parent, before=before, payload_type=payload_type, drag_callback=drag_callback, drop_callback=drop_callback, show=show, pos=pos, filter_key=filter_key, delay_search=delay_search, tracked=tracked, track_offset=track_offset, user_data=user_data, use_internal_label=use_internal_label, border=border, autosize_x=autosize_x, autosize_y=autosize_y, no_scrollbar=no_scrollbar, horizontal_scrollbar=horizontal_scrollbar, menubar=menubar)
 		internal_dpg.push_container_stack(widget)
 		yield widget
 	finally:
 		internal_dpg.pop_container_stack()
 @contextmanager
-def clipper(*, label: str =None, id: int =0, width: int =0, indent: int =-1, parent: int =0, before: int =0, show: bool =True, delay_search: bool =False, user_data: Any =None) -> int:
+def clipper(*, label: str =None, id: int =0, width: int =0, indent: int =-1, parent: int =0, before: int =0, show: bool =True, delay_search: bool =False, user_data: Any =None, use_internal_label: bool =True) -> int:
 	"""
 	Helper to manually clip large list of items. Increases performance by not searching or drawing widgets outside of the clipped region.
 	Args:
@@ -1141,17 +1142,18 @@ def clipper(*, label: str =None, id: int =0, width: int =0, indent: int =-1, par
 		**show (bool): Attempt to render widget.
 		**delay_search (bool): Delays searching container for specified items until the end of the app. Possible optimization when a container has many children that are not accessed often.
 		**user_data (Any): User data for callbacks.
+		**use_internal_label (bool): Use generated internal label instead of user specified (appends ### uuid).
 	Yields:
 		int
 	"""
 	try:
-		widget = internal_dpg.add_clipper(label=label, id=id, width=width, indent=indent, parent=parent, before=before, show=show, delay_search=delay_search, user_data=user_data)
+		widget = internal_dpg.add_clipper(label=label, id=id, width=width, indent=indent, parent=parent, before=before, show=show, delay_search=delay_search, user_data=user_data, use_internal_label=use_internal_label)
 		internal_dpg.push_container_stack(widget)
 		yield widget
 	finally:
 		internal_dpg.pop_container_stack()
 @contextmanager
-def collapsing_header(*, label: str =None, id: int =0, indent: int =-1, parent: int =0, before: int =0, payload_type: str ='$$DPG_PAYLOAD', drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, pos: List[int] =[], filter_key: str ='', delay_search: bool =False, tracked: bool =False, track_offset: float =0.5, user_data: Any =None, closable: bool =False, default_open: bool =False, open_on_double_click: bool =False, open_on_arrow: bool =False, leaf: bool =False, bullet: bool =False) -> int:
+def collapsing_header(*, label: str =None, id: int =0, indent: int =-1, parent: int =0, before: int =0, payload_type: str ='$$DPG_PAYLOAD', drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, pos: List[int] =[], filter_key: str ='', delay_search: bool =False, tracked: bool =False, track_offset: float =0.5, user_data: Any =None, use_internal_label: bool =True, closable: bool =False, default_open: bool =False, open_on_double_click: bool =False, open_on_arrow: bool =False, leaf: bool =False, bullet: bool =False) -> int:
 	"""
 	Adds a collapsing header to add items to. Must be closed with the end command.
 	Args:
@@ -1170,6 +1172,7 @@ def collapsing_header(*, label: str =None, id: int =0, indent: int =-1, parent: 
 		**tracked (bool): Scroll tracking
 		**track_offset (float): 0.0f:top, 0.5f:center, 1.0f:bottom
 		**user_data (Any): User data for callbacks.
+		**use_internal_label (bool): Use generated internal label instead of user specified (appends ### uuid).
 		**closable (bool): Adds the ability to hide this widget by pressing the (x) in the top right of widget.
 		**default_open (bool): Sets the collapseable header open by default.
 		**open_on_double_click (bool): Need double-click to open node.
@@ -1180,13 +1183,13 @@ def collapsing_header(*, label: str =None, id: int =0, indent: int =-1, parent: 
 		int
 	"""
 	try:
-		widget = internal_dpg.add_collapsing_header(label=label, id=id, indent=indent, parent=parent, before=before, payload_type=payload_type, drag_callback=drag_callback, drop_callback=drop_callback, show=show, pos=pos, filter_key=filter_key, delay_search=delay_search, tracked=tracked, track_offset=track_offset, user_data=user_data, closable=closable, default_open=default_open, open_on_double_click=open_on_double_click, open_on_arrow=open_on_arrow, leaf=leaf, bullet=bullet)
+		widget = internal_dpg.add_collapsing_header(label=label, id=id, indent=indent, parent=parent, before=before, payload_type=payload_type, drag_callback=drag_callback, drop_callback=drop_callback, show=show, pos=pos, filter_key=filter_key, delay_search=delay_search, tracked=tracked, track_offset=track_offset, user_data=user_data, use_internal_label=use_internal_label, closable=closable, default_open=default_open, open_on_double_click=open_on_double_click, open_on_arrow=open_on_arrow, leaf=leaf, bullet=bullet)
 		internal_dpg.push_container_stack(widget)
 		yield widget
 	finally:
 		internal_dpg.pop_container_stack()
 @contextmanager
-def drag_payload(*, label: str =None, id: int =0, parent: int =0, show: bool =True, user_data: Any =None, drag_data: Any =None, payload_type: str ='$$DPG_PAYLOAD') -> int:
+def drag_payload(*, label: str =None, id: int =0, parent: int =0, show: bool =True, user_data: Any =None, use_internal_label: bool =True, drag_data: Any =None, payload_type: str ='$$DPG_PAYLOAD') -> int:
 	"""
 	User data payload for drag and drop operations.
 	Args:
@@ -1195,19 +1198,20 @@ def drag_payload(*, label: str =None, id: int =0, parent: int =0, show: bool =Tr
 		**parent (int): Parent to add this item to. (runtime adding)
 		**show (bool): Attempt to render widget.
 		**user_data (Any): User data for callbacks.
+		**use_internal_label (bool): Use generated internal label instead of user specified (appends ### uuid).
 		**drag_data (Any): Drag data
 		**payload_type (str): 
 	Yields:
 		int
 	"""
 	try:
-		widget = internal_dpg.add_drag_payload(label=label, id=id, parent=parent, show=show, user_data=user_data, drag_data=drag_data, payload_type=payload_type)
+		widget = internal_dpg.add_drag_payload(label=label, id=id, parent=parent, show=show, user_data=user_data, use_internal_label=use_internal_label, drag_data=drag_data, payload_type=payload_type)
 		internal_dpg.push_container_stack(widget)
 		yield widget
 	finally:
 		internal_dpg.pop_container_stack()
 @contextmanager
-def draw_layer(*, label: str =None, id: int =0, parent: int =0, before: int =0, show: bool =True, user_data: Any =None) -> int:
+def draw_layer(*, label: str =None, id: int =0, parent: int =0, before: int =0, show: bool =True, user_data: Any =None, use_internal_label: bool =True) -> int:
 	"""
 	Creates a layer that can be drawn to. Useful for grouping drawing items.
 	Args:
@@ -1217,17 +1221,18 @@ def draw_layer(*, label: str =None, id: int =0, parent: int =0, before: int =0, 
 		**before (int): This item will be displayed before the specified item in the parent.
 		**show (bool): Attempt to render widget.
 		**user_data (Any): User data for callbacks.
+		**use_internal_label (bool): Use generated internal label instead of user specified (appends ### uuid).
 	Yields:
 		int
 	"""
 	try:
-		widget = internal_dpg.add_draw_layer(label=label, id=id, parent=parent, before=before, show=show, user_data=user_data)
+		widget = internal_dpg.add_draw_layer(label=label, id=id, parent=parent, before=before, show=show, user_data=user_data, use_internal_label=use_internal_label)
 		internal_dpg.push_container_stack(widget)
 		yield widget
 	finally:
 		internal_dpg.pop_container_stack()
 @contextmanager
-def drawlist(*, label: str =None, id: int =0, width: int =0, height: int =0, parent: int =0, before: int =0, payload_type: str ='$$DPG_PAYLOAD', callback: Callable =None, drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, pos: List[int] =[], filter_key: str ='', delay_search: bool =False, tracked: bool =False, track_offset: float =0.5, user_data: Any =None) -> int:
+def drawlist(*, label: str =None, id: int =0, width: int =0, height: int =0, parent: int =0, before: int =0, payload_type: str ='$$DPG_PAYLOAD', callback: Callable =None, drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, pos: List[int] =[], filter_key: str ='', delay_search: bool =False, tracked: bool =False, track_offset: float =0.5, user_data: Any =None, use_internal_label: bool =True) -> int:
 	"""
 	A container widget that is used to present draw items or layers. Layers and draw items should be added to this widget as children.
 	Args:
@@ -1248,17 +1253,18 @@ def drawlist(*, label: str =None, id: int =0, width: int =0, height: int =0, par
 		**tracked (bool): Scroll tracking
 		**track_offset (float): 0.0f:top, 0.5f:center, 1.0f:bottom
 		**user_data (Any): User data for callbacks.
+		**use_internal_label (bool): Use generated internal label instead of user specified (appends ### uuid).
 	Yields:
 		int
 	"""
 	try:
-		widget = internal_dpg.add_drawlist(label=label, id=id, width=width, height=height, parent=parent, before=before, payload_type=payload_type, callback=callback, drag_callback=drag_callback, drop_callback=drop_callback, show=show, pos=pos, filter_key=filter_key, delay_search=delay_search, tracked=tracked, track_offset=track_offset, user_data=user_data)
+		widget = internal_dpg.add_drawlist(label=label, id=id, width=width, height=height, parent=parent, before=before, payload_type=payload_type, callback=callback, drag_callback=drag_callback, drop_callback=drop_callback, show=show, pos=pos, filter_key=filter_key, delay_search=delay_search, tracked=tracked, track_offset=track_offset, user_data=user_data, use_internal_label=use_internal_label)
 		internal_dpg.push_container_stack(widget)
 		yield widget
 	finally:
 		internal_dpg.pop_container_stack()
 @contextmanager
-def file_dialog(*, label: str =None, id: int =0, width: int =0, height: int =0, callback: Callable =None, show: bool =True, user_data: Any =None, default_path: str ='', default_filename: str ='.', file_count: int =0, modal: bool =False, directory_selector: bool =False) -> int:
+def file_dialog(*, label: str =None, id: int =0, width: int =0, height: int =0, callback: Callable =None, show: bool =True, user_data: Any =None, use_internal_label: bool =True, default_path: str ='', default_filename: str ='.', file_count: int =0, modal: bool =False, directory_selector: bool =False) -> int:
 	"""
 	Displays a file or directory selector depending on keywords. Displays a file dialog by default.
 	Args:
@@ -1269,6 +1275,7 @@ def file_dialog(*, label: str =None, id: int =0, width: int =0, height: int =0, 
 		**callback (Callable): Registers a callback.
 		**show (bool): Attempt to render widget.
 		**user_data (Any): User data for callbacks.
+		**use_internal_label (bool): Use generated internal label instead of user specified (appends ### uuid).
 		**default_path (str): Path that the file dialog will default to when opened.
 		**default_filename (str): Default name that will show in the file name input.
 		**file_count (int): Number of visible files in the dialog.
@@ -1278,13 +1285,13 @@ def file_dialog(*, label: str =None, id: int =0, width: int =0, height: int =0, 
 		int
 	"""
 	try:
-		widget = internal_dpg.add_file_dialog(label=label, id=id, width=width, height=height, callback=callback, show=show, user_data=user_data, default_path=default_path, default_filename=default_filename, file_count=file_count, modal=modal, directory_selector=directory_selector)
+		widget = internal_dpg.add_file_dialog(label=label, id=id, width=width, height=height, callback=callback, show=show, user_data=user_data, use_internal_label=use_internal_label, default_path=default_path, default_filename=default_filename, file_count=file_count, modal=modal, directory_selector=directory_selector)
 		internal_dpg.push_container_stack(widget)
 		yield widget
 	finally:
 		internal_dpg.pop_container_stack()
 @contextmanager
-def filter_set(*, label: str =None, id: int =0, width: int =0, indent: int =-1, parent: int =0, before: int =0, show: bool =True, delay_search: bool =False, user_data: Any =None) -> int:
+def filter_set(*, label: str =None, id: int =0, width: int =0, indent: int =-1, parent: int =0, before: int =0, show: bool =True, delay_search: bool =False, user_data: Any =None, use_internal_label: bool =True) -> int:
 	"""
 	Helper to parse and apply text filters (e.g. aaaaa[, bbbbb][, ccccc])
 	Args:
@@ -1297,17 +1304,18 @@ def filter_set(*, label: str =None, id: int =0, width: int =0, indent: int =-1, 
 		**show (bool): Attempt to render widget.
 		**delay_search (bool): Delays searching container for specified items until the end of the app. Possible optimization when a container has many children that are not accessed often.
 		**user_data (Any): User data for callbacks.
+		**use_internal_label (bool): Use generated internal label instead of user specified (appends ### uuid).
 	Yields:
 		int
 	"""
 	try:
-		widget = internal_dpg.add_filter_set(label=label, id=id, width=width, indent=indent, parent=parent, before=before, show=show, delay_search=delay_search, user_data=user_data)
+		widget = internal_dpg.add_filter_set(label=label, id=id, width=width, indent=indent, parent=parent, before=before, show=show, delay_search=delay_search, user_data=user_data, use_internal_label=use_internal_label)
 		internal_dpg.push_container_stack(widget)
 		yield widget
 	finally:
 		internal_dpg.pop_container_stack()
 @contextmanager
-def font(file : str, size : int, *, label: str =None, id: int =0, user_data: Any =None, default_font: bool =False, parent: int =internal_dpg.mvReservedUUID_0) -> int:
+def font(file : str, size : int, *, label: str =None, id: int =0, user_data: Any =None, use_internal_label: bool =True, default_font: bool =False, parent: int =internal_dpg.mvReservedUUID_0) -> int:
 	"""
 	Undocumented function
 	Args:
@@ -1316,19 +1324,20 @@ def font(file : str, size : int, *, label: str =None, id: int =0, user_data: Any
 		**label (str): Overrides 'name' as label.
 		**id (int): Unique id used to programmatically refer to the item.If label is unused this will be the label.
 		**user_data (Any): User data for callbacks.
+		**use_internal_label (bool): Use generated internal label instead of user specified (appends ### uuid).
 		**default_font (bool): 
 		**parent (int): Parent to add this item to. (runtime adding)
 	Yields:
 		int
 	"""
 	try:
-		widget = internal_dpg.add_font(file, size, label=label, id=id, user_data=user_data, default_font=default_font, parent=parent)
+		widget = internal_dpg.add_font(file, size, label=label, id=id, user_data=user_data, use_internal_label=use_internal_label, default_font=default_font, parent=parent)
 		internal_dpg.push_container_stack(widget)
 		yield widget
 	finally:
 		internal_dpg.pop_container_stack()
 @contextmanager
-def font_registry(*, label: str =None, id: int =0, show: bool =True, user_data: Any =None) -> int:
+def font_registry(*, label: str =None, id: int =0, show: bool =True, user_data: Any =None, use_internal_label: bool =True) -> int:
 	"""
 	Undocumented function
 	Args:
@@ -1336,17 +1345,18 @@ def font_registry(*, label: str =None, id: int =0, show: bool =True, user_data: 
 		**id (int): Unique id used to programmatically refer to the item.If label is unused this will be the label.
 		**show (bool): Attempt to render widget.
 		**user_data (Any): User data for callbacks.
+		**use_internal_label (bool): Use generated internal label instead of user specified (appends ### uuid).
 	Yields:
 		int
 	"""
 	try:
-		widget = internal_dpg.add_font_registry(label=label, id=id, show=show, user_data=user_data)
+		widget = internal_dpg.add_font_registry(label=label, id=id, show=show, user_data=user_data, use_internal_label=use_internal_label)
 		internal_dpg.push_container_stack(widget)
 		yield widget
 	finally:
 		internal_dpg.pop_container_stack()
 @contextmanager
-def group(*, label: str =None, id: int =0, width: int =0, indent: int =-1, parent: int =0, before: int =0, payload_type: str ='$$DPG_PAYLOAD', drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, pos: List[int] =[], filter_key: str ='', delay_search: bool =False, tracked: bool =False, track_offset: float =0.5, user_data: Any =None, horizontal: bool =False, horizontal_spacing: float =-1) -> int:
+def group(*, label: str =None, id: int =0, width: int =0, indent: int =-1, parent: int =0, before: int =0, payload_type: str ='$$DPG_PAYLOAD', drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, pos: List[int] =[], filter_key: str ='', delay_search: bool =False, tracked: bool =False, track_offset: float =0.5, user_data: Any =None, use_internal_label: bool =True, horizontal: bool =False, horizontal_spacing: float =-1) -> int:
 	"""
 	Creates a group that other widgets can belong to. The group allows item commands to be issued for all of its members. Must be closed with the end command.
 	Args:
@@ -1366,19 +1376,20 @@ def group(*, label: str =None, id: int =0, width: int =0, indent: int =-1, paren
 		**tracked (bool): Scroll tracking
 		**track_offset (float): 0.0f:top, 0.5f:center, 1.0f:bottom
 		**user_data (Any): User data for callbacks.
+		**use_internal_label (bool): Use generated internal label instead of user specified (appends ### uuid).
 		**horizontal (bool): Forces child widgets to be added in a horizontal layout.
 		**horizontal_spacing (float): Spacing for the horizontal layout.
 	Yields:
 		int
 	"""
 	try:
-		widget = internal_dpg.add_group(label=label, id=id, width=width, indent=indent, parent=parent, before=before, payload_type=payload_type, drag_callback=drag_callback, drop_callback=drop_callback, show=show, pos=pos, filter_key=filter_key, delay_search=delay_search, tracked=tracked, track_offset=track_offset, user_data=user_data, horizontal=horizontal, horizontal_spacing=horizontal_spacing)
+		widget = internal_dpg.add_group(label=label, id=id, width=width, indent=indent, parent=parent, before=before, payload_type=payload_type, drag_callback=drag_callback, drop_callback=drop_callback, show=show, pos=pos, filter_key=filter_key, delay_search=delay_search, tracked=tracked, track_offset=track_offset, user_data=user_data, use_internal_label=use_internal_label, horizontal=horizontal, horizontal_spacing=horizontal_spacing)
 		internal_dpg.push_container_stack(widget)
 		yield widget
 	finally:
 		internal_dpg.pop_container_stack()
 @contextmanager
-def handler_registry(*, label: str =None, id: int =0, show: bool =True, user_data: Any =None) -> int:
+def handler_registry(*, label: str =None, id: int =0, show: bool =True, user_data: Any =None, use_internal_label: bool =True) -> int:
 	"""
 	Adds a handler registry.
 	Args:
@@ -1386,17 +1397,18 @@ def handler_registry(*, label: str =None, id: int =0, show: bool =True, user_dat
 		**id (int): Unique id used to programmatically refer to the item.If label is unused this will be the label.
 		**show (bool): Attempt to render widget.
 		**user_data (Any): User data for callbacks.
+		**use_internal_label (bool): Use generated internal label instead of user specified (appends ### uuid).
 	Yields:
 		int
 	"""
 	try:
-		widget = internal_dpg.add_handler_registry(label=label, id=id, show=show, user_data=user_data)
+		widget = internal_dpg.add_handler_registry(label=label, id=id, show=show, user_data=user_data, use_internal_label=use_internal_label)
 		internal_dpg.push_container_stack(widget)
 		yield widget
 	finally:
 		internal_dpg.pop_container_stack()
 @contextmanager
-def menu(*, label: str =None, id: int =0, indent: int =-1, parent: int =0, before: int =0, payload_type: str ='$$DPG_PAYLOAD', drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, enabled: bool =True, filter_key: str ='', delay_search: bool =False, tracked: bool =False, track_offset: float =0.5, user_data: Any =None) -> int:
+def menu(*, label: str =None, id: int =0, indent: int =-1, parent: int =0, before: int =0, payload_type: str ='$$DPG_PAYLOAD', drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, enabled: bool =True, filter_key: str ='', delay_search: bool =False, tracked: bool =False, track_offset: float =0.5, user_data: Any =None, use_internal_label: bool =True) -> int:
 	"""
 	Adds a menu to an existing menu bar. Must be followed by a call to end.
 	Args:
@@ -1415,17 +1427,18 @@ def menu(*, label: str =None, id: int =0, indent: int =-1, parent: int =0, befor
 		**tracked (bool): Scroll tracking
 		**track_offset (float): 0.0f:top, 0.5f:center, 1.0f:bottom
 		**user_data (Any): User data for callbacks.
+		**use_internal_label (bool): Use generated internal label instead of user specified (appends ### uuid).
 	Yields:
 		int
 	"""
 	try:
-		widget = internal_dpg.add_menu(label=label, id=id, indent=indent, parent=parent, before=before, payload_type=payload_type, drag_callback=drag_callback, drop_callback=drop_callback, show=show, enabled=enabled, filter_key=filter_key, delay_search=delay_search, tracked=tracked, track_offset=track_offset, user_data=user_data)
+		widget = internal_dpg.add_menu(label=label, id=id, indent=indent, parent=parent, before=before, payload_type=payload_type, drag_callback=drag_callback, drop_callback=drop_callback, show=show, enabled=enabled, filter_key=filter_key, delay_search=delay_search, tracked=tracked, track_offset=track_offset, user_data=user_data, use_internal_label=use_internal_label)
 		internal_dpg.push_container_stack(widget)
 		yield widget
 	finally:
 		internal_dpg.pop_container_stack()
 @contextmanager
-def menu_bar(*, label: str =None, id: int =0, indent: int =-1, parent: int =0, show: bool =True, delay_search: bool =False, user_data: Any =None) -> int:
+def menu_bar(*, label: str =None, id: int =0, indent: int =-1, parent: int =0, show: bool =True, delay_search: bool =False, user_data: Any =None, use_internal_label: bool =True) -> int:
 	"""
 	Adds a menu bar to a window.
 	Args:
@@ -1436,17 +1449,18 @@ def menu_bar(*, label: str =None, id: int =0, indent: int =-1, parent: int =0, s
 		**show (bool): Attempt to render widget.
 		**delay_search (bool): Delays searching container for specified items until the end of the app. Possible optimization when a container has many children that are not accessed often.
 		**user_data (Any): User data for callbacks.
+		**use_internal_label (bool): Use generated internal label instead of user specified (appends ### uuid).
 	Yields:
 		int
 	"""
 	try:
-		widget = internal_dpg.add_menu_bar(label=label, id=id, indent=indent, parent=parent, show=show, delay_search=delay_search, user_data=user_data)
+		widget = internal_dpg.add_menu_bar(label=label, id=id, indent=indent, parent=parent, show=show, delay_search=delay_search, user_data=user_data, use_internal_label=use_internal_label)
 		internal_dpg.push_container_stack(widget)
 		yield widget
 	finally:
 		internal_dpg.pop_container_stack()
 @contextmanager
-def node(*, label: str =None, id: int =0, parent: int =0, before: int =0, payload_type: str ='$$DPG_PAYLOAD', drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, pos: List[int] =[], filter_key: str ='', delay_search: bool =False, tracked: bool =False, track_offset: float =0.5, user_data: Any =None, draggable: bool =True) -> int:
+def node(*, label: str =None, id: int =0, parent: int =0, before: int =0, payload_type: str ='$$DPG_PAYLOAD', drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, pos: List[int] =[], filter_key: str ='', delay_search: bool =False, tracked: bool =False, track_offset: float =0.5, user_data: Any =None, use_internal_label: bool =True, draggable: bool =True) -> int:
 	"""
 	Adds a node to a node editor.
 	Args:
@@ -1464,18 +1478,19 @@ def node(*, label: str =None, id: int =0, parent: int =0, before: int =0, payloa
 		**tracked (bool): Scroll tracking
 		**track_offset (float): 0.0f:top, 0.5f:center, 1.0f:bottom
 		**user_data (Any): User data for callbacks.
+		**use_internal_label (bool): Use generated internal label instead of user specified (appends ### uuid).
 		**draggable (bool): Allow node to be draggable.
 	Yields:
 		int
 	"""
 	try:
-		widget = internal_dpg.add_node(label=label, id=id, parent=parent, before=before, payload_type=payload_type, drag_callback=drag_callback, drop_callback=drop_callback, show=show, pos=pos, filter_key=filter_key, delay_search=delay_search, tracked=tracked, track_offset=track_offset, user_data=user_data, draggable=draggable)
+		widget = internal_dpg.add_node(label=label, id=id, parent=parent, before=before, payload_type=payload_type, drag_callback=drag_callback, drop_callback=drop_callback, show=show, pos=pos, filter_key=filter_key, delay_search=delay_search, tracked=tracked, track_offset=track_offset, user_data=user_data, use_internal_label=use_internal_label, draggable=draggable)
 		internal_dpg.push_container_stack(widget)
 		yield widget
 	finally:
 		internal_dpg.pop_container_stack()
 @contextmanager
-def node_attribute(*, label: str =None, id: int =0, indent: int =-1, parent: int =0, before: int =0, payload_type: str ='$$DPG_PAYLOAD', drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, filter_key: str ='', tracked: bool =False, track_offset: float =0.5, user_data: Any =None, attribute_type: int =0, shape: int =1, category: str ='general') -> int:
+def node_attribute(*, label: str =None, id: int =0, indent: int =-1, parent: int =0, before: int =0, payload_type: str ='$$DPG_PAYLOAD', drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, filter_key: str ='', tracked: bool =False, track_offset: float =0.5, user_data: Any =None, use_internal_label: bool =True, attribute_type: int =0, shape: int =1, category: str ='general') -> int:
 	"""
 	Adds a node attribute.
 	Args:
@@ -1492,6 +1507,7 @@ def node_attribute(*, label: str =None, id: int =0, indent: int =-1, parent: int
 		**tracked (bool): Scroll tracking
 		**track_offset (float): 0.0f:top, 0.5f:center, 1.0f:bottom
 		**user_data (Any): User data for callbacks.
+		**use_internal_label (bool): Use generated internal label instead of user specified (appends ### uuid).
 		**attribute_type (int): mvNode_Attr_Input, mvNode_Attr_Output, or mvNode_Attr_Static.
 		**shape (int): Pin shape.
 		**category (str): Category
@@ -1499,13 +1515,13 @@ def node_attribute(*, label: str =None, id: int =0, indent: int =-1, parent: int
 		int
 	"""
 	try:
-		widget = internal_dpg.add_node_attribute(label=label, id=id, indent=indent, parent=parent, before=before, payload_type=payload_type, drag_callback=drag_callback, drop_callback=drop_callback, show=show, filter_key=filter_key, tracked=tracked, track_offset=track_offset, user_data=user_data, attribute_type=attribute_type, shape=shape, category=category)
+		widget = internal_dpg.add_node_attribute(label=label, id=id, indent=indent, parent=parent, before=before, payload_type=payload_type, drag_callback=drag_callback, drop_callback=drop_callback, show=show, filter_key=filter_key, tracked=tracked, track_offset=track_offset, user_data=user_data, use_internal_label=use_internal_label, attribute_type=attribute_type, shape=shape, category=category)
 		internal_dpg.push_container_stack(widget)
 		yield widget
 	finally:
 		internal_dpg.pop_container_stack()
 @contextmanager
-def node_editor(*, label: str =None, id: int =0, width: int =0, height: int =0, parent: int =0, before: int =0, payload_type: str ='$$DPG_PAYLOAD', callback: Callable =None, drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, filter_key: str ='', delay_search: bool =False, tracked: bool =False, track_offset: float =0.5, user_data: Any =None, delink_callback: Callable =None, menubar: bool =False) -> int:
+def node_editor(*, label: str =None, id: int =0, width: int =0, height: int =0, parent: int =0, before: int =0, payload_type: str ='$$DPG_PAYLOAD', callback: Callable =None, drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, filter_key: str ='', delay_search: bool =False, tracked: bool =False, track_offset: float =0.5, user_data: Any =None, use_internal_label: bool =True, delink_callback: Callable =None, menubar: bool =False) -> int:
 	"""
 	Adds a node editor.
 	Args:
@@ -1525,19 +1541,20 @@ def node_editor(*, label: str =None, id: int =0, width: int =0, height: int =0, 
 		**tracked (bool): Scroll tracking
 		**track_offset (float): 0.0f:top, 0.5f:center, 1.0f:bottom
 		**user_data (Any): User data for callbacks.
+		**use_internal_label (bool): Use generated internal label instead of user specified (appends ### uuid).
 		**delink_callback (Callable): Callback ran when a link is detached.
 		**menubar (bool): Shows or hides the menubar.
 	Yields:
 		int
 	"""
 	try:
-		widget = internal_dpg.add_node_editor(label=label, id=id, width=width, height=height, parent=parent, before=before, payload_type=payload_type, callback=callback, drag_callback=drag_callback, drop_callback=drop_callback, show=show, filter_key=filter_key, delay_search=delay_search, tracked=tracked, track_offset=track_offset, user_data=user_data, delink_callback=delink_callback, menubar=menubar)
+		widget = internal_dpg.add_node_editor(label=label, id=id, width=width, height=height, parent=parent, before=before, payload_type=payload_type, callback=callback, drag_callback=drag_callback, drop_callback=drop_callback, show=show, filter_key=filter_key, delay_search=delay_search, tracked=tracked, track_offset=track_offset, user_data=user_data, use_internal_label=use_internal_label, delink_callback=delink_callback, menubar=menubar)
 		internal_dpg.push_container_stack(widget)
 		yield widget
 	finally:
 		internal_dpg.pop_container_stack()
 @contextmanager
-def plot(*, label: str =None, id: int =0, width: int =0, height: int =0, indent: int =-1, parent: int =0, before: int =0, payload_type: str ='$$DPG_PAYLOAD', callback: Callable =None, drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, pos: List[int] =[], filter_key: str ='', delay_search: bool =False, tracked: bool =False, track_offset: float =0.5, user_data: Any =None, no_title: bool =False, no_menus: bool =False, no_box_select: bool =False, no_mouse_pos: bool =False, no_highlight: bool =False, no_child: bool =False, query: bool =False, crosshairs: bool =False, anti_aliased: bool =False, equal_aspects: bool =False, pan_button: int =internal_dpg.mvMouseButton_Left, pan_mod: int =-1, fit_button: int =internal_dpg.mvMouseButton_Left, context_menu_button: int =internal_dpg.mvMouseButton_Right, box_select_button: int =internal_dpg.mvMouseButton_Right, box_select_mod: int =-1, box_select_cancel_button: int =internal_dpg.mvMouseButton_Left, query_button: int =internal_dpg.mvMouseButton_Middle, query_mod: int =-1, query_toggle_mod: int =internal_dpg.mvKey_Control, horizontal_mod: int =internal_dpg.mvKey_Alt, vertical_mod: int =internal_dpg.mvKey_Shift) -> int:
+def plot(*, label: str =None, id: int =0, width: int =0, height: int =0, indent: int =-1, parent: int =0, before: int =0, payload_type: str ='$$DPG_PAYLOAD', callback: Callable =None, drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, pos: List[int] =[], filter_key: str ='', delay_search: bool =False, tracked: bool =False, track_offset: float =0.5, user_data: Any =None, use_internal_label: bool =True, no_title: bool =False, no_menus: bool =False, no_box_select: bool =False, no_mouse_pos: bool =False, no_highlight: bool =False, no_child: bool =False, query: bool =False, crosshairs: bool =False, anti_aliased: bool =False, equal_aspects: bool =False, pan_button: int =internal_dpg.mvMouseButton_Left, pan_mod: int =-1, fit_button: int =internal_dpg.mvMouseButton_Left, context_menu_button: int =internal_dpg.mvMouseButton_Right, box_select_button: int =internal_dpg.mvMouseButton_Right, box_select_mod: int =-1, box_select_cancel_button: int =internal_dpg.mvMouseButton_Left, query_button: int =internal_dpg.mvMouseButton_Middle, query_mod: int =-1, query_toggle_mod: int =internal_dpg.mvKey_Control, horizontal_mod: int =internal_dpg.mvKey_Alt, vertical_mod: int =internal_dpg.mvKey_Shift) -> int:
 	"""
 	Adds a plot which is used to hold series, and can be drawn to with draw commands.
 	Args:
@@ -1559,6 +1576,7 @@ def plot(*, label: str =None, id: int =0, width: int =0, height: int =0, indent:
 		**tracked (bool): Scroll tracking
 		**track_offset (float): 0.0f:top, 0.5f:center, 1.0f:bottom
 		**user_data (Any): User data for callbacks.
+		**use_internal_label (bool): Use generated internal label instead of user specified (appends ### uuid).
 		**no_title (bool): 
 		**no_menus (bool): 
 		**no_box_select (bool): 
@@ -1585,30 +1603,31 @@ def plot(*, label: str =None, id: int =0, width: int =0, height: int =0, indent:
 		int
 	"""
 	try:
-		widget = internal_dpg.add_plot(label=label, id=id, width=width, height=height, indent=indent, parent=parent, before=before, payload_type=payload_type, callback=callback, drag_callback=drag_callback, drop_callback=drop_callback, show=show, pos=pos, filter_key=filter_key, delay_search=delay_search, tracked=tracked, track_offset=track_offset, user_data=user_data, no_title=no_title, no_menus=no_menus, no_box_select=no_box_select, no_mouse_pos=no_mouse_pos, no_highlight=no_highlight, no_child=no_child, query=query, crosshairs=crosshairs, anti_aliased=anti_aliased, equal_aspects=equal_aspects, pan_button=pan_button, pan_mod=pan_mod, fit_button=fit_button, context_menu_button=context_menu_button, box_select_button=box_select_button, box_select_mod=box_select_mod, box_select_cancel_button=box_select_cancel_button, query_button=query_button, query_mod=query_mod, query_toggle_mod=query_toggle_mod, horizontal_mod=horizontal_mod, vertical_mod=vertical_mod)
+		widget = internal_dpg.add_plot(label=label, id=id, width=width, height=height, indent=indent, parent=parent, before=before, payload_type=payload_type, callback=callback, drag_callback=drag_callback, drop_callback=drop_callback, show=show, pos=pos, filter_key=filter_key, delay_search=delay_search, tracked=tracked, track_offset=track_offset, user_data=user_data, use_internal_label=use_internal_label, no_title=no_title, no_menus=no_menus, no_box_select=no_box_select, no_mouse_pos=no_mouse_pos, no_highlight=no_highlight, no_child=no_child, query=query, crosshairs=crosshairs, anti_aliased=anti_aliased, equal_aspects=equal_aspects, pan_button=pan_button, pan_mod=pan_mod, fit_button=fit_button, context_menu_button=context_menu_button, box_select_button=box_select_button, box_select_mod=box_select_mod, box_select_cancel_button=box_select_cancel_button, query_button=query_button, query_mod=query_mod, query_toggle_mod=query_toggle_mod, horizontal_mod=horizontal_mod, vertical_mod=vertical_mod)
 		internal_dpg.push_container_stack(widget)
 		yield widget
 	finally:
 		internal_dpg.pop_container_stack()
 @contextmanager
-def staging_container(*, label: str =None, id: int =0, user_data: Any =None) -> int:
+def staging_container(*, label: str =None, id: int =0, user_data: Any =None, use_internal_label: bool =True) -> int:
 	"""
 	Undocumented function
 	Args:
 		**label (str): Overrides 'name' as label.
 		**id (int): Unique id used to programmatically refer to the item.If label is unused this will be the label.
 		**user_data (Any): User data for callbacks.
+		**use_internal_label (bool): Use generated internal label instead of user specified (appends ### uuid).
 	Yields:
 		int
 	"""
 	try:
-		widget = internal_dpg.add_staging_container(label=label, id=id, user_data=user_data)
+		widget = internal_dpg.add_staging_container(label=label, id=id, user_data=user_data, use_internal_label=use_internal_label)
 		internal_dpg.push_container_stack(widget)
 		yield widget
 	finally:
 		internal_dpg.pop_container_stack()
 @contextmanager
-def subplots(rows : int, columns : int, *, label: str =None, id: int =0, width: int =0, height: int =0, indent: int =-1, parent: int =0, before: int =0, callback: Callable =None, show: bool =True, pos: List[int] =[], filter_key: str ='', delay_search: bool =False, tracked: bool =False, track_offset: float =0.5, user_data: Any =None, row_ratios: List[float] =[], column_ratios: List[float] =[], no_title: bool =False, no_menus: bool =False, no_resize: bool =False, no_align: bool =False, link_rows: bool =False, link_columns: bool =False, link_all_x: bool =False, link_all_y: bool =False, column_major: bool =False) -> int:
+def subplots(rows : int, columns : int, *, label: str =None, id: int =0, width: int =0, height: int =0, indent: int =-1, parent: int =0, before: int =0, callback: Callable =None, show: bool =True, pos: List[int] =[], filter_key: str ='', delay_search: bool =False, tracked: bool =False, track_offset: float =0.5, user_data: Any =None, use_internal_label: bool =True, row_ratios: List[float] =[], column_ratios: List[float] =[], no_title: bool =False, no_menus: bool =False, no_resize: bool =False, no_align: bool =False, link_rows: bool =False, link_columns: bool =False, link_all_x: bool =False, link_all_y: bool =False, column_major: bool =False) -> int:
 	"""
 	Adds a plot which is used to hold series, and can be drawn to with draw commands.
 	Args:
@@ -1629,6 +1648,7 @@ def subplots(rows : int, columns : int, *, label: str =None, id: int =0, width: 
 		**tracked (bool): Scroll tracking
 		**track_offset (float): 0.0f:top, 0.5f:center, 1.0f:bottom
 		**user_data (Any): User data for callbacks.
+		**use_internal_label (bool): Use generated internal label instead of user specified (appends ### uuid).
 		**row_ratios (List[float]): 
 		**column_ratios (List[float]): 
 		**no_title (bool): 
@@ -1644,13 +1664,13 @@ def subplots(rows : int, columns : int, *, label: str =None, id: int =0, width: 
 		int
 	"""
 	try:
-		widget = internal_dpg.add_subplots(rows, columns, label=label, id=id, width=width, height=height, indent=indent, parent=parent, before=before, callback=callback, show=show, pos=pos, filter_key=filter_key, delay_search=delay_search, tracked=tracked, track_offset=track_offset, user_data=user_data, row_ratios=row_ratios, column_ratios=column_ratios, no_title=no_title, no_menus=no_menus, no_resize=no_resize, no_align=no_align, link_rows=link_rows, link_columns=link_columns, link_all_x=link_all_x, link_all_y=link_all_y, column_major=column_major)
+		widget = internal_dpg.add_subplots(rows, columns, label=label, id=id, width=width, height=height, indent=indent, parent=parent, before=before, callback=callback, show=show, pos=pos, filter_key=filter_key, delay_search=delay_search, tracked=tracked, track_offset=track_offset, user_data=user_data, use_internal_label=use_internal_label, row_ratios=row_ratios, column_ratios=column_ratios, no_title=no_title, no_menus=no_menus, no_resize=no_resize, no_align=no_align, link_rows=link_rows, link_columns=link_columns, link_all_x=link_all_x, link_all_y=link_all_y, column_major=column_major)
 		internal_dpg.push_container_stack(widget)
 		yield widget
 	finally:
 		internal_dpg.pop_container_stack()
 @contextmanager
-def tab(*, label: str =None, id: int =0, indent: int =-1, parent: int =0, before: int =0, payload_type: str ='$$DPG_PAYLOAD', drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, filter_key: str ='', delay_search: bool =False, tracked: bool =False, track_offset: float =0.5, user_data: Any =None, closable: bool =False, no_tooltip: bool =False, order_mode: bool =0) -> int:
+def tab(*, label: str =None, id: int =0, indent: int =-1, parent: int =0, before: int =0, payload_type: str ='$$DPG_PAYLOAD', drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, filter_key: str ='', delay_search: bool =False, tracked: bool =False, track_offset: float =0.5, user_data: Any =None, use_internal_label: bool =True, closable: bool =False, no_tooltip: bool =False, order_mode: bool =0) -> int:
 	"""
 	Adds a tab to a tab bar. Must be closed with thes end command.
 	Args:
@@ -1668,6 +1688,7 @@ def tab(*, label: str =None, id: int =0, indent: int =-1, parent: int =0, before
 		**tracked (bool): Scroll tracking
 		**track_offset (float): 0.0f:top, 0.5f:center, 1.0f:bottom
 		**user_data (Any): User data for callbacks.
+		**use_internal_label (bool): Use generated internal label instead of user specified (appends ### uuid).
 		**closable (bool): Creates a button on the tab that can hide the tab.
 		**no_tooltip (bool): Disable tooltip for the given tab.
 		**order_mode (bool): set using a constant: mvTabOrder_Reorderable: allows reordering, mvTabOrder_Fixed: fixed ordering, mvTabOrder_Leading: adds tab to front, mvTabOrder_Trailing: adds tab to back
@@ -1675,13 +1696,13 @@ def tab(*, label: str =None, id: int =0, indent: int =-1, parent: int =0, before
 		int
 	"""
 	try:
-		widget = internal_dpg.add_tab(label=label, id=id, indent=indent, parent=parent, before=before, payload_type=payload_type, drag_callback=drag_callback, drop_callback=drop_callback, show=show, filter_key=filter_key, delay_search=delay_search, tracked=tracked, track_offset=track_offset, user_data=user_data, closable=closable, no_tooltip=no_tooltip, order_mode=order_mode)
+		widget = internal_dpg.add_tab(label=label, id=id, indent=indent, parent=parent, before=before, payload_type=payload_type, drag_callback=drag_callback, drop_callback=drop_callback, show=show, filter_key=filter_key, delay_search=delay_search, tracked=tracked, track_offset=track_offset, user_data=user_data, use_internal_label=use_internal_label, closable=closable, no_tooltip=no_tooltip, order_mode=order_mode)
 		internal_dpg.push_container_stack(widget)
 		yield widget
 	finally:
 		internal_dpg.pop_container_stack()
 @contextmanager
-def tab_bar(*, label: str =None, id: int =0, indent: int =-1, parent: int =0, before: int =0, payload_type: str ='$$DPG_PAYLOAD', callback: Callable =None, drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, pos: List[int] =[], filter_key: str ='', delay_search: bool =False, tracked: bool =False, track_offset: float =0.5, user_data: Any =None, reorderable: bool =False) -> int:
+def tab_bar(*, label: str =None, id: int =0, indent: int =-1, parent: int =0, before: int =0, payload_type: str ='$$DPG_PAYLOAD', callback: Callable =None, drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, pos: List[int] =[], filter_key: str ='', delay_search: bool =False, tracked: bool =False, track_offset: float =0.5, user_data: Any =None, use_internal_label: bool =True, reorderable: bool =False) -> int:
 	"""
 	Adds a tab bar.
 	Args:
@@ -1701,18 +1722,19 @@ def tab_bar(*, label: str =None, id: int =0, indent: int =-1, parent: int =0, be
 		**tracked (bool): Scroll tracking
 		**track_offset (float): 0.0f:top, 0.5f:center, 1.0f:bottom
 		**user_data (Any): User data for callbacks.
+		**use_internal_label (bool): Use generated internal label instead of user specified (appends ### uuid).
 		**reorderable (bool): Allows for the user to change the order of the tabs.
 	Yields:
 		int
 	"""
 	try:
-		widget = internal_dpg.add_tab_bar(label=label, id=id, indent=indent, parent=parent, before=before, payload_type=payload_type, callback=callback, drag_callback=drag_callback, drop_callback=drop_callback, show=show, pos=pos, filter_key=filter_key, delay_search=delay_search, tracked=tracked, track_offset=track_offset, user_data=user_data, reorderable=reorderable)
+		widget = internal_dpg.add_tab_bar(label=label, id=id, indent=indent, parent=parent, before=before, payload_type=payload_type, callback=callback, drag_callback=drag_callback, drop_callback=drop_callback, show=show, pos=pos, filter_key=filter_key, delay_search=delay_search, tracked=tracked, track_offset=track_offset, user_data=user_data, use_internal_label=use_internal_label, reorderable=reorderable)
 		internal_dpg.push_container_stack(widget)
 		yield widget
 	finally:
 		internal_dpg.pop_container_stack()
 @contextmanager
-def table(*, label: str =None, id: int =0, width: int =0, height: int =0, indent: int =-1, parent: int =0, before: int =0, source: int =0, callback: Callable =None, show: bool =True, pos: List[int] =[], filter_key: str ='', delay_search: bool =False, user_data: Any =None, header_row: bool =True, inner_width: int =0, policy: int =0, freeze_rows: int =0, freeze_columns: int =0, sort_multi: bool =False, sort_tristate: bool =False, resizable: bool =False, reorderable: bool =False, hideable: bool =False, sortable: bool =False, context_menu_in_body: bool =False, row_background: bool =False, borders_innerH: bool =False, borders_outerH: bool =False, borders_innerV: bool =False, borders_outerV: bool =False, no_host_extendX: bool =False, no_host_extendY: bool =False, no_keep_columns_visible: bool =False, precise_widths: bool =False, no_clip: bool =False, pad_outerX: bool =False, no_pad_outerX: bool =False, no_pad_innerX: bool =False, scrollX: bool =False, scrollY: bool =False, no_saved_settings: bool =False) -> int:
+def table(*, label: str =None, id: int =0, width: int =0, height: int =0, indent: int =-1, parent: int =0, before: int =0, source: int =0, callback: Callable =None, show: bool =True, pos: List[int] =[], filter_key: str ='', delay_search: bool =False, user_data: Any =None, use_internal_label: bool =True, header_row: bool =True, inner_width: int =0, policy: int =0, freeze_rows: int =0, freeze_columns: int =0, sort_multi: bool =False, sort_tristate: bool =False, resizable: bool =False, reorderable: bool =False, hideable: bool =False, sortable: bool =False, context_menu_in_body: bool =False, row_background: bool =False, borders_innerH: bool =False, borders_outerH: bool =False, borders_innerV: bool =False, borders_outerV: bool =False, no_host_extendX: bool =False, no_host_extendY: bool =False, no_keep_columns_visible: bool =False, precise_widths: bool =False, no_clip: bool =False, pad_outerX: bool =False, no_pad_outerX: bool =False, no_pad_innerX: bool =False, scrollX: bool =False, scrollY: bool =False, no_saved_settings: bool =False) -> int:
 	"""
 	Undocumented function
 	Args:
@@ -1730,6 +1752,7 @@ def table(*, label: str =None, id: int =0, width: int =0, height: int =0, indent
 		**filter_key (str): Used by filter widget.
 		**delay_search (bool): Delays searching container for specified items until the end of the app. Possible optimization when a container has many children that are not accessed often.
 		**user_data (Any): User data for callbacks.
+		**use_internal_label (bool): Use generated internal label instead of user specified (appends ### uuid).
 		**header_row (bool): show headers at the top of the columns
 		**inner_width (int): 
 		**policy (int): 
@@ -1762,13 +1785,13 @@ def table(*, label: str =None, id: int =0, width: int =0, height: int =0, indent
 		int
 	"""
 	try:
-		widget = internal_dpg.add_table(label=label, id=id, width=width, height=height, indent=indent, parent=parent, before=before, source=source, callback=callback, show=show, pos=pos, filter_key=filter_key, delay_search=delay_search, user_data=user_data, header_row=header_row, inner_width=inner_width, policy=policy, freeze_rows=freeze_rows, freeze_columns=freeze_columns, sort_multi=sort_multi, sort_tristate=sort_tristate, resizable=resizable, reorderable=reorderable, hideable=hideable, sortable=sortable, context_menu_in_body=context_menu_in_body, row_background=row_background, borders_innerH=borders_innerH, borders_outerH=borders_outerH, borders_innerV=borders_innerV, borders_outerV=borders_outerV, no_host_extendX=no_host_extendX, no_host_extendY=no_host_extendY, no_keep_columns_visible=no_keep_columns_visible, precise_widths=precise_widths, no_clip=no_clip, pad_outerX=pad_outerX, no_pad_outerX=no_pad_outerX, no_pad_innerX=no_pad_innerX, scrollX=scrollX, scrollY=scrollY, no_saved_settings=no_saved_settings)
+		widget = internal_dpg.add_table(label=label, id=id, width=width, height=height, indent=indent, parent=parent, before=before, source=source, callback=callback, show=show, pos=pos, filter_key=filter_key, delay_search=delay_search, user_data=user_data, use_internal_label=use_internal_label, header_row=header_row, inner_width=inner_width, policy=policy, freeze_rows=freeze_rows, freeze_columns=freeze_columns, sort_multi=sort_multi, sort_tristate=sort_tristate, resizable=resizable, reorderable=reorderable, hideable=hideable, sortable=sortable, context_menu_in_body=context_menu_in_body, row_background=row_background, borders_innerH=borders_innerH, borders_outerH=borders_outerH, borders_innerV=borders_innerV, borders_outerV=borders_outerV, no_host_extendX=no_host_extendX, no_host_extendY=no_host_extendY, no_keep_columns_visible=no_keep_columns_visible, precise_widths=precise_widths, no_clip=no_clip, pad_outerX=pad_outerX, no_pad_outerX=no_pad_outerX, no_pad_innerX=no_pad_innerX, scrollX=scrollX, scrollY=scrollY, no_saved_settings=no_saved_settings)
 		internal_dpg.push_container_stack(widget)
 		yield widget
 	finally:
 		internal_dpg.pop_container_stack()
 @contextmanager
-def table_row(*, label: str =None, id: int =0, height: int =0, parent: int =0, before: int =0, show: bool =True, filter_key: str ='', user_data: Any =None) -> int:
+def table_row(*, label: str =None, id: int =0, height: int =0, parent: int =0, before: int =0, show: bool =True, filter_key: str ='', user_data: Any =None, use_internal_label: bool =True) -> int:
 	"""
 	Undocumented function
 	Args:
@@ -1780,53 +1803,56 @@ def table_row(*, label: str =None, id: int =0, height: int =0, parent: int =0, b
 		**show (bool): Attempt to render widget.
 		**filter_key (str): Used by filter widget.
 		**user_data (Any): User data for callbacks.
+		**use_internal_label (bool): Use generated internal label instead of user specified (appends ### uuid).
 	Yields:
 		int
 	"""
 	try:
-		widget = internal_dpg.add_table_row(label=label, id=id, height=height, parent=parent, before=before, show=show, filter_key=filter_key, user_data=user_data)
+		widget = internal_dpg.add_table_row(label=label, id=id, height=height, parent=parent, before=before, show=show, filter_key=filter_key, user_data=user_data, use_internal_label=use_internal_label)
 		internal_dpg.push_container_stack(widget)
 		yield widget
 	finally:
 		internal_dpg.pop_container_stack()
 @contextmanager
-def texture_registry(*, label: str =None, id: int =0, user_data: Any =None, show: bool =False) -> int:
+def texture_registry(*, label: str =None, id: int =0, user_data: Any =None, use_internal_label: bool =True, show: bool =False) -> int:
 	"""
 	Undocumented function
 	Args:
 		**label (str): Overrides 'name' as label.
 		**id (int): Unique id used to programmatically refer to the item.If label is unused this will be the label.
 		**user_data (Any): User data for callbacks.
+		**use_internal_label (bool): Use generated internal label instead of user specified (appends ### uuid).
 		**show (bool): Attempt to render widget.
 	Yields:
 		int
 	"""
 	try:
-		widget = internal_dpg.add_texture_registry(label=label, id=id, user_data=user_data, show=show)
+		widget = internal_dpg.add_texture_registry(label=label, id=id, user_data=user_data, use_internal_label=use_internal_label, show=show)
 		internal_dpg.push_container_stack(widget)
 		yield widget
 	finally:
 		internal_dpg.pop_container_stack()
 @contextmanager
-def theme(*, label: str =None, id: int =0, user_data: Any =None, default_theme: bool =False) -> int:
+def theme(*, label: str =None, id: int =0, user_data: Any =None, use_internal_label: bool =True, default_theme: bool =False) -> int:
 	"""
 	Undocumented function
 	Args:
 		**label (str): Overrides 'name' as label.
 		**id (int): Unique id used to programmatically refer to the item.If label is unused this will be the label.
 		**user_data (Any): User data for callbacks.
+		**use_internal_label (bool): Use generated internal label instead of user specified (appends ### uuid).
 		**default_theme (bool): 
 	Yields:
 		int
 	"""
 	try:
-		widget = internal_dpg.add_theme(label=label, id=id, user_data=user_data, default_theme=default_theme)
+		widget = internal_dpg.add_theme(label=label, id=id, user_data=user_data, use_internal_label=use_internal_label, default_theme=default_theme)
 		internal_dpg.push_container_stack(widget)
 		yield widget
 	finally:
 		internal_dpg.pop_container_stack()
 @contextmanager
-def tooltip(parent : int, *, label: str =None, id: int =0, show: bool =True, user_data: Any =None) -> int:
+def tooltip(parent : int, *, label: str =None, id: int =0, show: bool =True, user_data: Any =None, use_internal_label: bool =True) -> int:
 	"""
 	Adds an advanced tool tip for an item. This command must come immediately after the item the tip is for.
 	Args:
@@ -1835,17 +1861,18 @@ def tooltip(parent : int, *, label: str =None, id: int =0, show: bool =True, use
 		**id (int): Unique id used to programmatically refer to the item.If label is unused this will be the label.
 		**show (bool): Attempt to render widget.
 		**user_data (Any): User data for callbacks.
+		**use_internal_label (bool): Use generated internal label instead of user specified (appends ### uuid).
 	Yields:
 		int
 	"""
 	try:
-		widget = internal_dpg.add_tooltip(parent, label=label, id=id, show=show, user_data=user_data)
+		widget = internal_dpg.add_tooltip(parent, label=label, id=id, show=show, user_data=user_data, use_internal_label=use_internal_label)
 		internal_dpg.push_container_stack(widget)
 		yield widget
 	finally:
 		internal_dpg.pop_container_stack()
 @contextmanager
-def tree_node(*, label: str =None, id: int =0, indent: int =-1, parent: int =0, before: int =0, payload_type: str ='$$DPG_PAYLOAD', drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, pos: List[int] =[], filter_key: str ='', delay_search: bool =False, tracked: bool =False, track_offset: float =0.5, user_data: Any =None, default_open: bool =False, open_on_double_click: bool =False, open_on_arrow: bool =False, leaf: bool =False, bullet: bool =False, selectable: bool =False) -> int:
+def tree_node(*, label: str =None, id: int =0, indent: int =-1, parent: int =0, before: int =0, payload_type: str ='$$DPG_PAYLOAD', drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, pos: List[int] =[], filter_key: str ='', delay_search: bool =False, tracked: bool =False, track_offset: float =0.5, user_data: Any =None, use_internal_label: bool =True, default_open: bool =False, open_on_double_click: bool =False, open_on_arrow: bool =False, leaf: bool =False, bullet: bool =False, selectable: bool =False) -> int:
 	"""
 	Adds a tree node to add items to. Must be closed with the end command.
 	Args:
@@ -1864,6 +1891,7 @@ def tree_node(*, label: str =None, id: int =0, indent: int =-1, parent: int =0, 
 		**tracked (bool): Scroll tracking
 		**track_offset (float): 0.0f:top, 0.5f:center, 1.0f:bottom
 		**user_data (Any): User data for callbacks.
+		**use_internal_label (bool): Use generated internal label instead of user specified (appends ### uuid).
 		**default_open (bool): Sets the tree node open by default.
 		**open_on_double_click (bool): Need double-click to open node.
 		**open_on_arrow (bool): Only open when clicking on the arrow part.
@@ -1874,30 +1902,31 @@ def tree_node(*, label: str =None, id: int =0, indent: int =-1, parent: int =0, 
 		int
 	"""
 	try:
-		widget = internal_dpg.add_tree_node(label=label, id=id, indent=indent, parent=parent, before=before, payload_type=payload_type, drag_callback=drag_callback, drop_callback=drop_callback, show=show, pos=pos, filter_key=filter_key, delay_search=delay_search, tracked=tracked, track_offset=track_offset, user_data=user_data, default_open=default_open, open_on_double_click=open_on_double_click, open_on_arrow=open_on_arrow, leaf=leaf, bullet=bullet, selectable=selectable)
+		widget = internal_dpg.add_tree_node(label=label, id=id, indent=indent, parent=parent, before=before, payload_type=payload_type, drag_callback=drag_callback, drop_callback=drop_callback, show=show, pos=pos, filter_key=filter_key, delay_search=delay_search, tracked=tracked, track_offset=track_offset, user_data=user_data, use_internal_label=use_internal_label, default_open=default_open, open_on_double_click=open_on_double_click, open_on_arrow=open_on_arrow, leaf=leaf, bullet=bullet, selectable=selectable)
 		internal_dpg.push_container_stack(widget)
 		yield widget
 	finally:
 		internal_dpg.pop_container_stack()
 @contextmanager
-def value_registry(*, label: str =None, id: int =0, user_data: Any =None) -> int:
+def value_registry(*, label: str =None, id: int =0, user_data: Any =None, use_internal_label: bool =True) -> int:
 	"""
 	Undocumented function
 	Args:
 		**label (str): Overrides 'name' as label.
 		**id (int): Unique id used to programmatically refer to the item.If label is unused this will be the label.
 		**user_data (Any): User data for callbacks.
+		**use_internal_label (bool): Use generated internal label instead of user specified (appends ### uuid).
 	Yields:
 		int
 	"""
 	try:
-		widget = internal_dpg.add_value_registry(label=label, id=id, user_data=user_data)
+		widget = internal_dpg.add_value_registry(label=label, id=id, user_data=user_data, use_internal_label=use_internal_label)
 		internal_dpg.push_container_stack(widget)
 		yield widget
 	finally:
 		internal_dpg.pop_container_stack()
 @contextmanager
-def viewport_drawlist(*, label: str =None, id: int =0, show: bool =True, filter_key: str ='', delay_search: bool =False, user_data: Any =None, front: bool =True) -> int:
+def viewport_drawlist(*, label: str =None, id: int =0, show: bool =True, filter_key: str ='', delay_search: bool =False, user_data: Any =None, use_internal_label: bool =True, front: bool =True) -> int:
 	"""
 	A container that is used to present draw items or layers directly to the viewport. By default this will draw to the back of teh viewport. Layers and draw items should be added to this widget as children.
 	Args:
@@ -1907,18 +1936,19 @@ def viewport_drawlist(*, label: str =None, id: int =0, show: bool =True, filter_
 		**filter_key (str): Used by filter widget.
 		**delay_search (bool): Delays searching container for specified items until the end of the app. Possible optimization when a container has many children that are not accessed often.
 		**user_data (Any): User data for callbacks.
+		**use_internal_label (bool): Use generated internal label instead of user specified (appends ### uuid).
 		**front (bool): Draws to the front of the view port instead of the back.
 	Yields:
 		int
 	"""
 	try:
-		widget = internal_dpg.add_viewport_drawlist(label=label, id=id, show=show, filter_key=filter_key, delay_search=delay_search, user_data=user_data, front=front)
+		widget = internal_dpg.add_viewport_drawlist(label=label, id=id, show=show, filter_key=filter_key, delay_search=delay_search, user_data=user_data, use_internal_label=use_internal_label, front=front)
 		internal_dpg.push_container_stack(widget)
 		yield widget
 	finally:
 		internal_dpg.pop_container_stack()
 @contextmanager
-def viewport_menu_bar(*, label: str =None, id: int =0, indent: int =-1, parent: int =0, show: bool =True, delay_search: bool =False, user_data: Any =None) -> int:
+def viewport_menu_bar(*, label: str =None, id: int =0, indent: int =-1, parent: int =0, show: bool =True, delay_search: bool =False, user_data: Any =None, use_internal_label: bool =True) -> int:
 	"""
 	Adds a menu bar to the viewport.
 	Args:
@@ -1929,17 +1959,18 @@ def viewport_menu_bar(*, label: str =None, id: int =0, indent: int =-1, parent: 
 		**show (bool): Attempt to render widget.
 		**delay_search (bool): Delays searching container for specified items until the end of the app. Possible optimization when a container has many children that are not accessed often.
 		**user_data (Any): User data for callbacks.
+		**use_internal_label (bool): Use generated internal label instead of user specified (appends ### uuid).
 	Yields:
 		int
 	"""
 	try:
-		widget = internal_dpg.add_viewport_menu_bar(label=label, id=id, indent=indent, parent=parent, show=show, delay_search=delay_search, user_data=user_data)
+		widget = internal_dpg.add_viewport_menu_bar(label=label, id=id, indent=indent, parent=parent, show=show, delay_search=delay_search, user_data=user_data, use_internal_label=use_internal_label)
 		internal_dpg.push_container_stack(widget)
 		yield widget
 	finally:
 		internal_dpg.pop_container_stack()
 @contextmanager
-def window(*, label: str =None, id: int =0, width: int =0, height: int =0, indent: int =-1, show: bool =True, pos: List[int] =[], delay_search: bool =False, user_data: Any =None, min_size: List[int] =[100, 100], max_size: List[int] =[30000, 30000], menubar: bool =False, collapsed: bool =False, autosize: bool =False, no_resize: bool =False, no_title_bar: bool =False, no_move: bool =False, no_scrollbar: bool =False, no_collapse: bool =False, horizontal_scrollbar: bool =False, no_focus_on_appearing: bool =False, no_bring_to_front_on_focus: bool =False, no_close: bool =False, no_background: bool =False, modal: bool =False, popup: bool =False, no_saved_settings: bool =False, on_close: Callable =None) -> int:
+def window(*, label: str =None, id: int =0, width: int =0, height: int =0, indent: int =-1, show: bool =True, pos: List[int] =[], delay_search: bool =False, user_data: Any =None, use_internal_label: bool =True, min_size: List[int] =[100, 100], max_size: List[int] =[30000, 30000], menubar: bool =False, collapsed: bool =False, autosize: bool =False, no_resize: bool =False, no_title_bar: bool =False, no_move: bool =False, no_scrollbar: bool =False, no_collapse: bool =False, horizontal_scrollbar: bool =False, no_focus_on_appearing: bool =False, no_bring_to_front_on_focus: bool =False, no_close: bool =False, no_background: bool =False, modal: bool =False, popup: bool =False, no_saved_settings: bool =False, on_close: Callable =None) -> int:
 	"""
 	Creates a new window for following items to be added to.
 	Args:
@@ -1952,6 +1983,7 @@ def window(*, label: str =None, id: int =0, width: int =0, height: int =0, inden
 		**pos (List[int]): Places the item relative to window coordinates, [0,0] is top left.
 		**delay_search (bool): Delays searching container for specified items until the end of the app. Possible optimization when a container has many children that are not accessed often.
 		**user_data (Any): User data for callbacks.
+		**use_internal_label (bool): Use generated internal label instead of user specified (appends ### uuid).
 		**min_size (List[int]): Minimum window size.
 		**max_size (List[int]): Maximum window size.
 		**menubar (bool): Shows or hides the menubar.
@@ -1975,7 +2007,7 @@ def window(*, label: str =None, id: int =0, width: int =0, height: int =0, inden
 		int
 	"""
 	try:
-		widget = internal_dpg.add_window(label=label, id=id, width=width, height=height, indent=indent, show=show, pos=pos, delay_search=delay_search, user_data=user_data, min_size=min_size, max_size=max_size, menubar=menubar, collapsed=collapsed, autosize=autosize, no_resize=no_resize, no_title_bar=no_title_bar, no_move=no_move, no_scrollbar=no_scrollbar, no_collapse=no_collapse, horizontal_scrollbar=horizontal_scrollbar, no_focus_on_appearing=no_focus_on_appearing, no_bring_to_front_on_focus=no_bring_to_front_on_focus, no_close=no_close, no_background=no_background, modal=modal, popup=popup, no_saved_settings=no_saved_settings, on_close=on_close)
+		widget = internal_dpg.add_window(label=label, id=id, width=width, height=height, indent=indent, show=show, pos=pos, delay_search=delay_search, user_data=user_data, use_internal_label=use_internal_label, min_size=min_size, max_size=max_size, menubar=menubar, collapsed=collapsed, autosize=autosize, no_resize=no_resize, no_title_bar=no_title_bar, no_move=no_move, no_scrollbar=no_scrollbar, no_collapse=no_collapse, horizontal_scrollbar=horizontal_scrollbar, no_focus_on_appearing=no_focus_on_appearing, no_bring_to_front_on_focus=no_bring_to_front_on_focus, no_close=no_close, no_background=no_background, modal=modal, popup=popup, no_saved_settings=no_saved_settings, on_close=on_close)
 		internal_dpg.push_container_stack(widget)
 		yield widget
 	finally:
@@ -1985,7 +2017,7 @@ def window(*, label: str =None, id: int =0, width: int =0, height: int =0, inden
 # Core Wrappings
 ##########################################################
 
-def add_2d_histogram_series(x : List[float], y : List[float], *, label: str =None, id: int =0, parent: int =0, before: int =0, source: int =0, show: bool =True, user_data: Any =None, xbins: int =-1, ybins: int =-1, xmin_range: float =0.0, xmax_range: float =1.0, ymin_range: float =0.0, ymax_range: float =1.0, density: bool =False, outliers: bool =True) -> int:
+def add_2d_histogram_series(x : List[float], y : List[float], *, label: str =None, id: int =0, parent: int =0, before: int =0, source: int =0, show: bool =True, user_data: Any =None, use_internal_label: bool =True, xbins: int =-1, ybins: int =-1, xmin_range: float =0.0, xmax_range: float =1.0, ymin_range: float =0.0, ymax_range: float =1.0, density: bool =False, outliers: bool =True) -> int:
 	"""
 	Undocumented function
 	Args:
@@ -1998,6 +2030,7 @@ def add_2d_histogram_series(x : List[float], y : List[float], *, label: str =Non
 		**source (int): Overrides 'id' as value storage key.
 		**show (bool): Attempt to render widget.
 		**user_data (Any): User data for callbacks.
+		**use_internal_label (bool): Use generated internal label instead of user specified (appends ### uuid).
 		**xbins (int): 
 		**ybins (int): 
 		**xmin_range (float): 
@@ -2010,9 +2043,9 @@ def add_2d_histogram_series(x : List[float], y : List[float], *, label: str =Non
 		int
 	"""
 
-	return internal_dpg.add_2d_histogram_series(x, y, label=label, id=id, parent=parent, before=before, source=source, show=show, user_data=user_data, xbins=xbins, ybins=ybins, xmin_range=xmin_range, xmax_range=xmax_range, ymin_range=ymin_range, ymax_range=ymax_range, density=density, outliers=outliers)
+	return internal_dpg.add_2d_histogram_series(x, y, label=label, id=id, parent=parent, before=before, source=source, show=show, user_data=user_data, use_internal_label=use_internal_label, xbins=xbins, ybins=ybins, xmin_range=xmin_range, xmax_range=xmax_range, ymin_range=ymin_range, ymax_range=ymax_range, density=density, outliers=outliers)
 
-def add_3d_slider(*, label: str =None, id: int =0, width: int =0, height: int =0, indent: int =-1, parent: int =0, before: int =0, source: int =0, payload_type: str ='$$DPG_PAYLOAD', callback: Callable =None, drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, pos: List[int] =[], filter_key: str ='', tracked: bool =False, track_offset: float =0.5, user_data: Any =None, default_value: List[float] =(0.0, 0.0, 0.0, 0.0), max_x: float =100.0, max_y: float =100.0, max_z: float =100.0, min_x: float =0.0, min_y: float =0.0, min_z: float =0.0, scale: float =1.0) -> int:
+def add_3d_slider(*, label: str =None, id: int =0, width: int =0, height: int =0, indent: int =-1, parent: int =0, before: int =0, source: int =0, payload_type: str ='$$DPG_PAYLOAD', callback: Callable =None, drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, pos: List[int] =[], filter_key: str ='', tracked: bool =False, track_offset: float =0.5, user_data: Any =None, use_internal_label: bool =True, default_value: List[float] =(0.0, 0.0, 0.0, 0.0), max_x: float =100.0, max_y: float =100.0, max_z: float =100.0, min_x: float =0.0, min_y: float =0.0, min_z: float =0.0, scale: float =1.0) -> int:
 	"""
 	Adds a 3D box slider that allows a 3d point to be show in 2d represented cube space.
 	Args:
@@ -2034,6 +2067,7 @@ def add_3d_slider(*, label: str =None, id: int =0, width: int =0, height: int =0
 		**tracked (bool): Scroll tracking
 		**track_offset (float): 0.0f:top, 0.5f:center, 1.0f:bottom
 		**user_data (Any): User data for callbacks.
+		**use_internal_label (bool): Use generated internal label instead of user specified (appends ### uuid).
 		**default_value (List[float]): 
 		**max_x (float): Applies upper limit to slider.
 		**max_y (float): Applies upper limit to slider.
@@ -2046,9 +2080,9 @@ def add_3d_slider(*, label: str =None, id: int =0, width: int =0, height: int =0
 		int
 	"""
 
-	return internal_dpg.add_3d_slider(label=label, id=id, width=width, height=height, indent=indent, parent=parent, before=before, source=source, payload_type=payload_type, callback=callback, drag_callback=drag_callback, drop_callback=drop_callback, show=show, pos=pos, filter_key=filter_key, tracked=tracked, track_offset=track_offset, user_data=user_data, default_value=default_value, max_x=max_x, max_y=max_y, max_z=max_z, min_x=min_x, min_y=min_y, min_z=min_z, scale=scale)
+	return internal_dpg.add_3d_slider(label=label, id=id, width=width, height=height, indent=indent, parent=parent, before=before, source=source, payload_type=payload_type, callback=callback, drag_callback=drag_callback, drop_callback=drop_callback, show=show, pos=pos, filter_key=filter_key, tracked=tracked, track_offset=track_offset, user_data=user_data, use_internal_label=use_internal_label, default_value=default_value, max_x=max_x, max_y=max_y, max_z=max_z, min_x=min_x, min_y=min_y, min_z=min_z, scale=scale)
 
-def add_activated_handler(parent : int, *, label: str =None, id: int =0, callback: Callable =None, show: bool =True, user_data: Any =None) -> int:
+def add_activated_handler(parent : int, *, label: str =None, id: int =0, callback: Callable =None, show: bool =True, user_data: Any =None, use_internal_label: bool =True) -> int:
 	"""
 	Adds a handler which runs a given callback when the specified item is activated.
 	Args:
@@ -2058,13 +2092,14 @@ def add_activated_handler(parent : int, *, label: str =None, id: int =0, callbac
 		**callback (Callable): Registers a callback.
 		**show (bool): Attempt to render widget.
 		**user_data (Any): User data for callbacks.
+		**use_internal_label (bool): Use generated internal label instead of user specified (appends ### uuid).
 	Returns:
 		int
 	"""
 
-	return internal_dpg.add_activated_handler(parent, label=label, id=id, callback=callback, show=show, user_data=user_data)
+	return internal_dpg.add_activated_handler(parent, label=label, id=id, callback=callback, show=show, user_data=user_data, use_internal_label=use_internal_label)
 
-def add_active_handler(parent : int, *, label: str =None, id: int =0, callback: Callable =None, show: bool =True, user_data: Any =None) -> int:
+def add_active_handler(parent : int, *, label: str =None, id: int =0, callback: Callable =None, show: bool =True, user_data: Any =None, use_internal_label: bool =True) -> int:
 	"""
 	Adds a handler which runs a given callback when the specified item is active.
 	Args:
@@ -2074,13 +2109,14 @@ def add_active_handler(parent : int, *, label: str =None, id: int =0, callback: 
 		**callback (Callable): Registers a callback.
 		**show (bool): Attempt to render widget.
 		**user_data (Any): User data for callbacks.
+		**use_internal_label (bool): Use generated internal label instead of user specified (appends ### uuid).
 	Returns:
 		int
 	"""
 
-	return internal_dpg.add_active_handler(parent, label=label, id=id, callback=callback, show=show, user_data=user_data)
+	return internal_dpg.add_active_handler(parent, label=label, id=id, callback=callback, show=show, user_data=user_data, use_internal_label=use_internal_label)
 
-def add_area_series(x : List[float], y : List[float], *, label: str =None, id: int =0, parent: int =0, before: int =0, source: int =0, show: bool =True, user_data: Any =None, fill: List[int] =(0, 0, 0, -255), contribute_to_bounds: bool =True) -> int:
+def add_area_series(x : List[float], y : List[float], *, label: str =None, id: int =0, parent: int =0, before: int =0, source: int =0, show: bool =True, user_data: Any =None, use_internal_label: bool =True, fill: List[int] =(0, 0, 0, -255), contribute_to_bounds: bool =True) -> int:
 	"""
 	Adds an area series to a plot.
 	Args:
@@ -2093,15 +2129,16 @@ def add_area_series(x : List[float], y : List[float], *, label: str =None, id: i
 		**source (int): Overrides 'id' as value storage key.
 		**show (bool): Attempt to render widget.
 		**user_data (Any): User data for callbacks.
+		**use_internal_label (bool): Use generated internal label instead of user specified (appends ### uuid).
 		**fill (List[int]): 
 		**contribute_to_bounds (bool): 
 	Returns:
 		int
 	"""
 
-	return internal_dpg.add_area_series(x, y, label=label, id=id, parent=parent, before=before, source=source, show=show, user_data=user_data, fill=fill, contribute_to_bounds=contribute_to_bounds)
+	return internal_dpg.add_area_series(x, y, label=label, id=id, parent=parent, before=before, source=source, show=show, user_data=user_data, use_internal_label=use_internal_label, fill=fill, contribute_to_bounds=contribute_to_bounds)
 
-def add_bar_series(x : List[float], y : List[float], *, label: str =None, id: int =0, parent: int =0, before: int =0, source: int =0, show: bool =True, user_data: Any =None, weight: float =1.0, horizontal: bool =False) -> int:
+def add_bar_series(x : List[float], y : List[float], *, label: str =None, id: int =0, parent: int =0, before: int =0, source: int =0, show: bool =True, user_data: Any =None, use_internal_label: bool =True, weight: float =1.0, horizontal: bool =False) -> int:
 	"""
 	Adds a bar series to a plot.
 	Args:
@@ -2114,15 +2151,16 @@ def add_bar_series(x : List[float], y : List[float], *, label: str =None, id: in
 		**source (int): Overrides 'id' as value storage key.
 		**show (bool): Attempt to render widget.
 		**user_data (Any): User data for callbacks.
+		**use_internal_label (bool): Use generated internal label instead of user specified (appends ### uuid).
 		**weight (float): 
 		**horizontal (bool): 
 	Returns:
 		int
 	"""
 
-	return internal_dpg.add_bar_series(x, y, label=label, id=id, parent=parent, before=before, source=source, show=show, user_data=user_data, weight=weight, horizontal=horizontal)
+	return internal_dpg.add_bar_series(x, y, label=label, id=id, parent=parent, before=before, source=source, show=show, user_data=user_data, use_internal_label=use_internal_label, weight=weight, horizontal=horizontal)
 
-def add_bool_value(*, label: str =None, id: int =0, source: int =0, user_data: Any =None, default_value: bool =False, parent: int =internal_dpg.mvReservedUUID_3) -> int:
+def add_bool_value(*, label: str =None, id: int =0, source: int =0, user_data: Any =None, use_internal_label: bool =True, default_value: bool =False, parent: int =internal_dpg.mvReservedUUID_3) -> int:
 	"""
 	Undocumented
 	Args:
@@ -2130,15 +2168,16 @@ def add_bool_value(*, label: str =None, id: int =0, source: int =0, user_data: A
 		**id (int): Unique id used to programmatically refer to the item.If label is unused this will be the label.
 		**source (int): Overrides 'id' as value storage key.
 		**user_data (Any): User data for callbacks.
+		**use_internal_label (bool): Use generated internal label instead of user specified (appends ### uuid).
 		**default_value (bool): 
 		**parent (int): Parent to add this item to. (runtime adding)
 	Returns:
 		int
 	"""
 
-	return internal_dpg.add_bool_value(label=label, id=id, source=source, user_data=user_data, default_value=default_value, parent=parent)
+	return internal_dpg.add_bool_value(label=label, id=id, source=source, user_data=user_data, use_internal_label=use_internal_label, default_value=default_value, parent=parent)
 
-def add_button(*, label: str =None, id: int =0, width: int =0, height: int =0, indent: int =-1, parent: int =0, before: int =0, payload_type: str ='$$DPG_PAYLOAD', callback: Callable =None, drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, enabled: bool =True, pos: List[int] =[], filter_key: str ='', tracked: bool =False, track_offset: float =0.5, user_data: Any =None, small: bool =False, arrow: bool =False, direction: int =0) -> int:
+def add_button(*, label: str =None, id: int =0, width: int =0, height: int =0, indent: int =-1, parent: int =0, before: int =0, payload_type: str ='$$DPG_PAYLOAD', callback: Callable =None, drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, enabled: bool =True, pos: List[int] =[], filter_key: str ='', tracked: bool =False, track_offset: float =0.5, user_data: Any =None, use_internal_label: bool =True, small: bool =False, arrow: bool =False, direction: int =0) -> int:
 	"""
 	Adds a button.
 	Args:
@@ -2160,6 +2199,7 @@ def add_button(*, label: str =None, id: int =0, width: int =0, height: int =0, i
 		**tracked (bool): Scroll tracking
 		**track_offset (float): 0.0f:top, 0.5f:center, 1.0f:bottom
 		**user_data (Any): User data for callbacks.
+		**use_internal_label (bool): Use generated internal label instead of user specified (appends ### uuid).
 		**small (bool): Small button, useful for embedding in text.
 		**arrow (bool): Arrow button, requires the direction keyword.
 		**direction (int): A cardinal direction for arrow.
@@ -2167,9 +2207,9 @@ def add_button(*, label: str =None, id: int =0, width: int =0, height: int =0, i
 		int
 	"""
 
-	return internal_dpg.add_button(label=label, id=id, width=width, height=height, indent=indent, parent=parent, before=before, payload_type=payload_type, callback=callback, drag_callback=drag_callback, drop_callback=drop_callback, show=show, enabled=enabled, pos=pos, filter_key=filter_key, tracked=tracked, track_offset=track_offset, user_data=user_data, small=small, arrow=arrow, direction=direction)
+	return internal_dpg.add_button(label=label, id=id, width=width, height=height, indent=indent, parent=parent, before=before, payload_type=payload_type, callback=callback, drag_callback=drag_callback, drop_callback=drop_callback, show=show, enabled=enabled, pos=pos, filter_key=filter_key, tracked=tracked, track_offset=track_offset, user_data=user_data, use_internal_label=use_internal_label, small=small, arrow=arrow, direction=direction)
 
-def add_candle_series(dates : List[float], opens : List[float], closes : List[float], lows : List[float], highs : List[float], *, label: str =None, id: int =0, parent: int =0, before: int =0, source: int =0, show: bool =True, user_data: Any =None, bull_color: List[int] =(0, 255, 113, 255), bear_color: List[int] =(218, 13, 79, 255), weight: int =0.25, tooltip: bool =True) -> int:
+def add_candle_series(dates : List[float], opens : List[float], closes : List[float], lows : List[float], highs : List[float], *, label: str =None, id: int =0, parent: int =0, before: int =0, source: int =0, show: bool =True, user_data: Any =None, use_internal_label: bool =True, bull_color: List[int] =(0, 255, 113, 255), bear_color: List[int] =(218, 13, 79, 255), weight: int =0.25, tooltip: bool =True) -> int:
 	"""
 	Adds a candle series to a plot.
 	Args:
@@ -2185,6 +2225,7 @@ def add_candle_series(dates : List[float], opens : List[float], closes : List[fl
 		**source (int): Overrides 'id' as value storage key.
 		**show (bool): Attempt to render widget.
 		**user_data (Any): User data for callbacks.
+		**use_internal_label (bool): Use generated internal label instead of user specified (appends ### uuid).
 		**bull_color (List[int]): 
 		**bear_color (List[int]): 
 		**weight (int): 
@@ -2193,9 +2234,9 @@ def add_candle_series(dates : List[float], opens : List[float], closes : List[fl
 		int
 	"""
 
-	return internal_dpg.add_candle_series(dates, opens, closes, lows, highs, label=label, id=id, parent=parent, before=before, source=source, show=show, user_data=user_data, bull_color=bull_color, bear_color=bear_color, weight=weight, tooltip=tooltip)
+	return internal_dpg.add_candle_series(dates, opens, closes, lows, highs, label=label, id=id, parent=parent, before=before, source=source, show=show, user_data=user_data, use_internal_label=use_internal_label, bull_color=bull_color, bear_color=bear_color, weight=weight, tooltip=tooltip)
 
-def add_char_remap(source : int, target : int, *, label: str =None, id: int =0, parent: int =0, user_data: Any =None) -> int:
+def add_char_remap(source : int, target : int, *, label: str =None, id: int =0, parent: int =0, user_data: Any =None, use_internal_label: bool =True) -> int:
 	"""
 	Undocumented function
 	Args:
@@ -2205,13 +2246,14 @@ def add_char_remap(source : int, target : int, *, label: str =None, id: int =0, 
 		**id (int): Unique id used to programmatically refer to the item.If label is unused this will be the label.
 		**parent (int): Parent to add this item to. (runtime adding)
 		**user_data (Any): User data for callbacks.
+		**use_internal_label (bool): Use generated internal label instead of user specified (appends ### uuid).
 	Returns:
 		int
 	"""
 
-	return internal_dpg.add_char_remap(source, target, label=label, id=id, parent=parent, user_data=user_data)
+	return internal_dpg.add_char_remap(source, target, label=label, id=id, parent=parent, user_data=user_data, use_internal_label=use_internal_label)
 
-def add_checkbox(*, label: str =None, id: int =0, indent: int =-1, parent: int =0, before: int =0, source: int =0, payload_type: str ='$$DPG_PAYLOAD', callback: Callable =None, drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, enabled: bool =True, pos: List[int] =[], filter_key: str ='', tracked: bool =False, track_offset: float =0.5, user_data: Any =None, default_value: bool =False) -> int:
+def add_checkbox(*, label: str =None, id: int =0, indent: int =-1, parent: int =0, before: int =0, source: int =0, payload_type: str ='$$DPG_PAYLOAD', callback: Callable =None, drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, enabled: bool =True, pos: List[int] =[], filter_key: str ='', tracked: bool =False, track_offset: float =0.5, user_data: Any =None, use_internal_label: bool =True, default_value: bool =False) -> int:
 	"""
 	Adds a checkbox.
 	Args:
@@ -2232,14 +2274,15 @@ def add_checkbox(*, label: str =None, id: int =0, indent: int =-1, parent: int =
 		**tracked (bool): Scroll tracking
 		**track_offset (float): 0.0f:top, 0.5f:center, 1.0f:bottom
 		**user_data (Any): User data for callbacks.
+		**use_internal_label (bool): Use generated internal label instead of user specified (appends ### uuid).
 		**default_value (bool): 
 	Returns:
 		int
 	"""
 
-	return internal_dpg.add_checkbox(label=label, id=id, indent=indent, parent=parent, before=before, source=source, payload_type=payload_type, callback=callback, drag_callback=drag_callback, drop_callback=drop_callback, show=show, enabled=enabled, pos=pos, filter_key=filter_key, tracked=tracked, track_offset=track_offset, user_data=user_data, default_value=default_value)
+	return internal_dpg.add_checkbox(label=label, id=id, indent=indent, parent=parent, before=before, source=source, payload_type=payload_type, callback=callback, drag_callback=drag_callback, drop_callback=drop_callback, show=show, enabled=enabled, pos=pos, filter_key=filter_key, tracked=tracked, track_offset=track_offset, user_data=user_data, use_internal_label=use_internal_label, default_value=default_value)
 
-def add_child(*, label: str =None, id: int =0, width: int =0, height: int =0, indent: int =-1, parent: int =0, before: int =0, payload_type: str ='$$DPG_PAYLOAD', drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, pos: List[int] =[], filter_key: str ='', delay_search: bool =False, tracked: bool =False, track_offset: float =0.5, user_data: Any =None, border: bool =True, autosize_x: bool =False, autosize_y: bool =False, no_scrollbar: bool =False, horizontal_scrollbar: bool =False, menubar: bool =False) -> int:
+def add_child(*, label: str =None, id: int =0, width: int =0, height: int =0, indent: int =-1, parent: int =0, before: int =0, payload_type: str ='$$DPG_PAYLOAD', drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, pos: List[int] =[], filter_key: str ='', delay_search: bool =False, tracked: bool =False, track_offset: float =0.5, user_data: Any =None, use_internal_label: bool =True, border: bool =True, autosize_x: bool =False, autosize_y: bool =False, no_scrollbar: bool =False, horizontal_scrollbar: bool =False, menubar: bool =False) -> int:
 	"""
 	Adds an embedded child window. Will show scrollbars when items do not fit. Must be followed by a call to end.
 	Args:
@@ -2260,6 +2303,7 @@ def add_child(*, label: str =None, id: int =0, width: int =0, height: int =0, in
 		**tracked (bool): Scroll tracking
 		**track_offset (float): 0.0f:top, 0.5f:center, 1.0f:bottom
 		**user_data (Any): User data for callbacks.
+		**use_internal_label (bool): Use generated internal label instead of user specified (appends ### uuid).
 		**border (bool): Shows/Hides the border around the sides.
 		**autosize_x (bool): Autosize the window to fit it's items in the x.
 		**autosize_y (bool): Autosize the window to fit it's items in the y.
@@ -2270,9 +2314,9 @@ def add_child(*, label: str =None, id: int =0, width: int =0, height: int =0, in
 		int
 	"""
 
-	return internal_dpg.add_child(label=label, id=id, width=width, height=height, indent=indent, parent=parent, before=before, payload_type=payload_type, drag_callback=drag_callback, drop_callback=drop_callback, show=show, pos=pos, filter_key=filter_key, delay_search=delay_search, tracked=tracked, track_offset=track_offset, user_data=user_data, border=border, autosize_x=autosize_x, autosize_y=autosize_y, no_scrollbar=no_scrollbar, horizontal_scrollbar=horizontal_scrollbar, menubar=menubar)
+	return internal_dpg.add_child(label=label, id=id, width=width, height=height, indent=indent, parent=parent, before=before, payload_type=payload_type, drag_callback=drag_callback, drop_callback=drop_callback, show=show, pos=pos, filter_key=filter_key, delay_search=delay_search, tracked=tracked, track_offset=track_offset, user_data=user_data, use_internal_label=use_internal_label, border=border, autosize_x=autosize_x, autosize_y=autosize_y, no_scrollbar=no_scrollbar, horizontal_scrollbar=horizontal_scrollbar, menubar=menubar)
 
-def add_clicked_handler(parent : int, button : int =-1, *, label: str =None, id: int =0, callback: Callable =None, show: bool =True, user_data: Any =None) -> int:
+def add_clicked_handler(parent : int, button : int =-1, *, label: str =None, id: int =0, callback: Callable =None, show: bool =True, user_data: Any =None, use_internal_label: bool =True) -> int:
 	"""
 	Adds a handler which runs a given callback when the specified item is clicked.
 	Args:
@@ -2283,13 +2327,14 @@ def add_clicked_handler(parent : int, button : int =-1, *, label: str =None, id:
 		**callback (Callable): Registers a callback.
 		**show (bool): Attempt to render widget.
 		**user_data (Any): User data for callbacks.
+		**use_internal_label (bool): Use generated internal label instead of user specified (appends ### uuid).
 	Returns:
 		int
 	"""
 
-	return internal_dpg.add_clicked_handler(parent, button, label=label, id=id, callback=callback, show=show, user_data=user_data)
+	return internal_dpg.add_clicked_handler(parent, button, label=label, id=id, callback=callback, show=show, user_data=user_data, use_internal_label=use_internal_label)
 
-def add_clipper(*, label: str =None, id: int =0, width: int =0, indent: int =-1, parent: int =0, before: int =0, show: bool =True, delay_search: bool =False, user_data: Any =None) -> int:
+def add_clipper(*, label: str =None, id: int =0, width: int =0, indent: int =-1, parent: int =0, before: int =0, show: bool =True, delay_search: bool =False, user_data: Any =None, use_internal_label: bool =True) -> int:
 	"""
 	Helper to manually clip large list of items. Increases performance by not searching or drawing widgets outside of the clipped region.
 	Args:
@@ -2302,13 +2347,14 @@ def add_clipper(*, label: str =None, id: int =0, width: int =0, indent: int =-1,
 		**show (bool): Attempt to render widget.
 		**delay_search (bool): Delays searching container for specified items until the end of the app. Possible optimization when a container has many children that are not accessed often.
 		**user_data (Any): User data for callbacks.
+		**use_internal_label (bool): Use generated internal label instead of user specified (appends ### uuid).
 	Returns:
 		int
 	"""
 
-	return internal_dpg.add_clipper(label=label, id=id, width=width, indent=indent, parent=parent, before=before, show=show, delay_search=delay_search, user_data=user_data)
+	return internal_dpg.add_clipper(label=label, id=id, width=width, indent=indent, parent=parent, before=before, show=show, delay_search=delay_search, user_data=user_data, use_internal_label=use_internal_label)
 
-def add_collapsing_header(*, label: str =None, id: int =0, indent: int =-1, parent: int =0, before: int =0, payload_type: str ='$$DPG_PAYLOAD', drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, pos: List[int] =[], filter_key: str ='', delay_search: bool =False, tracked: bool =False, track_offset: float =0.5, user_data: Any =None, closable: bool =False, default_open: bool =False, open_on_double_click: bool =False, open_on_arrow: bool =False, leaf: bool =False, bullet: bool =False) -> int:
+def add_collapsing_header(*, label: str =None, id: int =0, indent: int =-1, parent: int =0, before: int =0, payload_type: str ='$$DPG_PAYLOAD', drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, pos: List[int] =[], filter_key: str ='', delay_search: bool =False, tracked: bool =False, track_offset: float =0.5, user_data: Any =None, use_internal_label: bool =True, closable: bool =False, default_open: bool =False, open_on_double_click: bool =False, open_on_arrow: bool =False, leaf: bool =False, bullet: bool =False) -> int:
 	"""
 	Adds a collapsing header to add items to. Must be closed with the end command.
 	Args:
@@ -2327,6 +2373,7 @@ def add_collapsing_header(*, label: str =None, id: int =0, indent: int =-1, pare
 		**tracked (bool): Scroll tracking
 		**track_offset (float): 0.0f:top, 0.5f:center, 1.0f:bottom
 		**user_data (Any): User data for callbacks.
+		**use_internal_label (bool): Use generated internal label instead of user specified (appends ### uuid).
 		**closable (bool): Adds the ability to hide this widget by pressing the (x) in the top right of widget.
 		**default_open (bool): Sets the collapseable header open by default.
 		**open_on_double_click (bool): Need double-click to open node.
@@ -2337,9 +2384,9 @@ def add_collapsing_header(*, label: str =None, id: int =0, indent: int =-1, pare
 		int
 	"""
 
-	return internal_dpg.add_collapsing_header(label=label, id=id, indent=indent, parent=parent, before=before, payload_type=payload_type, drag_callback=drag_callback, drop_callback=drop_callback, show=show, pos=pos, filter_key=filter_key, delay_search=delay_search, tracked=tracked, track_offset=track_offset, user_data=user_data, closable=closable, default_open=default_open, open_on_double_click=open_on_double_click, open_on_arrow=open_on_arrow, leaf=leaf, bullet=bullet)
+	return internal_dpg.add_collapsing_header(label=label, id=id, indent=indent, parent=parent, before=before, payload_type=payload_type, drag_callback=drag_callback, drop_callback=drop_callback, show=show, pos=pos, filter_key=filter_key, delay_search=delay_search, tracked=tracked, track_offset=track_offset, user_data=user_data, use_internal_label=use_internal_label, closable=closable, default_open=default_open, open_on_double_click=open_on_double_click, open_on_arrow=open_on_arrow, leaf=leaf, bullet=bullet)
 
-def add_color_button(default_value : List[int] =(0, 0, 0, 255), *, label: str =None, id: int =0, width: int =0, height: int =0, indent: int =-1, parent: int =0, before: int =0, payload_type: str ='$$DPG_PAYLOAD', callback: Callable =None, drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, enabled: bool =True, pos: List[int] =[], filter_key: str ='', tracked: bool =False, track_offset: float =0.5, user_data: Any =None, no_alpha: bool =False, no_border: bool =False, no_drag_drop: bool =False) -> int:
+def add_color_button(default_value : List[int] =(0, 0, 0, 255), *, label: str =None, id: int =0, width: int =0, height: int =0, indent: int =-1, parent: int =0, before: int =0, payload_type: str ='$$DPG_PAYLOAD', callback: Callable =None, drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, enabled: bool =True, pos: List[int] =[], filter_key: str ='', tracked: bool =False, track_offset: float =0.5, user_data: Any =None, use_internal_label: bool =True, no_alpha: bool =False, no_border: bool =False, no_drag_drop: bool =False) -> int:
 	"""
 	Adds a color button.
 	Args:
@@ -2362,6 +2409,7 @@ def add_color_button(default_value : List[int] =(0, 0, 0, 255), *, label: str =N
 		**tracked (bool): Scroll tracking
 		**track_offset (float): 0.0f:top, 0.5f:center, 1.0f:bottom
 		**user_data (Any): User data for callbacks.
+		**use_internal_label (bool): Use generated internal label instead of user specified (appends ### uuid).
 		**no_alpha (bool): Ignore Alpha component.
 		**no_border (bool): Disable border around the image.
 		**no_drag_drop (bool): Disable display of inline text label.
@@ -2369,9 +2417,9 @@ def add_color_button(default_value : List[int] =(0, 0, 0, 255), *, label: str =N
 		int
 	"""
 
-	return internal_dpg.add_color_button(default_value, label=label, id=id, width=width, height=height, indent=indent, parent=parent, before=before, payload_type=payload_type, callback=callback, drag_callback=drag_callback, drop_callback=drop_callback, show=show, enabled=enabled, pos=pos, filter_key=filter_key, tracked=tracked, track_offset=track_offset, user_data=user_data, no_alpha=no_alpha, no_border=no_border, no_drag_drop=no_drag_drop)
+	return internal_dpg.add_color_button(default_value, label=label, id=id, width=width, height=height, indent=indent, parent=parent, before=before, payload_type=payload_type, callback=callback, drag_callback=drag_callback, drop_callback=drop_callback, show=show, enabled=enabled, pos=pos, filter_key=filter_key, tracked=tracked, track_offset=track_offset, user_data=user_data, use_internal_label=use_internal_label, no_alpha=no_alpha, no_border=no_border, no_drag_drop=no_drag_drop)
 
-def add_color_edit(default_value : List[int] =(0, 0, 0, 255), *, label: str =None, id: int =0, width: int =0, height: int =0, indent: int =-1, parent: int =0, before: int =0, source: int =0, payload_type: str ='$$DPG_PAYLOAD', callback: Callable =None, drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, enabled: bool =True, pos: List[int] =[], filter_key: str ='', tracked: bool =False, track_offset: float =0.5, user_data: Any =None, no_alpha: bool =False, no_picker: bool =False, no_options: bool =False, no_small_preview: bool =False, no_inputs: bool =False, no_tooltip: bool =False, no_label: bool =False, no_drag_drop: bool =False, alpha_bar: bool =False, alpha_preview: int =0, display_mode: int =1048576, display_type: int =8388608, input_mode: int =134217728) -> int:
+def add_color_edit(default_value : List[int] =(0, 0, 0, 255), *, label: str =None, id: int =0, width: int =0, height: int =0, indent: int =-1, parent: int =0, before: int =0, source: int =0, payload_type: str ='$$DPG_PAYLOAD', callback: Callable =None, drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, enabled: bool =True, pos: List[int] =[], filter_key: str ='', tracked: bool =False, track_offset: float =0.5, user_data: Any =None, use_internal_label: bool =True, no_alpha: bool =False, no_picker: bool =False, no_options: bool =False, no_small_preview: bool =False, no_inputs: bool =False, no_tooltip: bool =False, no_label: bool =False, no_drag_drop: bool =False, alpha_bar: bool =False, alpha_preview: int =0, display_mode: int =1048576, display_type: int =8388608, input_mode: int =134217728) -> int:
 	"""
 	Adds an RGBA color editor. Click the small color preview will provide a color picker. Click and draging the small color preview will copy the color to be applied on any other color widget.
 	Args:
@@ -2395,6 +2443,7 @@ def add_color_edit(default_value : List[int] =(0, 0, 0, 255), *, label: str =Non
 		**tracked (bool): Scroll tracking
 		**track_offset (float): 0.0f:top, 0.5f:center, 1.0f:bottom
 		**user_data (Any): User data for callbacks.
+		**use_internal_label (bool): Use generated internal label instead of user specified (appends ### uuid).
 		**no_alpha (bool): Disable Alpha component.
 		**no_picker (bool): Disable picker popup when color square is clicked.
 		**no_options (bool): Disable toggling options menu when right-clicking on inputs/small preview.
@@ -2412,9 +2461,9 @@ def add_color_edit(default_value : List[int] =(0, 0, 0, 255), *, label: str =Non
 		int
 	"""
 
-	return internal_dpg.add_color_edit(default_value, label=label, id=id, width=width, height=height, indent=indent, parent=parent, before=before, source=source, payload_type=payload_type, callback=callback, drag_callback=drag_callback, drop_callback=drop_callback, show=show, enabled=enabled, pos=pos, filter_key=filter_key, tracked=tracked, track_offset=track_offset, user_data=user_data, no_alpha=no_alpha, no_picker=no_picker, no_options=no_options, no_small_preview=no_small_preview, no_inputs=no_inputs, no_tooltip=no_tooltip, no_label=no_label, no_drag_drop=no_drag_drop, alpha_bar=alpha_bar, alpha_preview=alpha_preview, display_mode=display_mode, display_type=display_type, input_mode=input_mode)
+	return internal_dpg.add_color_edit(default_value, label=label, id=id, width=width, height=height, indent=indent, parent=parent, before=before, source=source, payload_type=payload_type, callback=callback, drag_callback=drag_callback, drop_callback=drop_callback, show=show, enabled=enabled, pos=pos, filter_key=filter_key, tracked=tracked, track_offset=track_offset, user_data=user_data, use_internal_label=use_internal_label, no_alpha=no_alpha, no_picker=no_picker, no_options=no_options, no_small_preview=no_small_preview, no_inputs=no_inputs, no_tooltip=no_tooltip, no_label=no_label, no_drag_drop=no_drag_drop, alpha_bar=alpha_bar, alpha_preview=alpha_preview, display_mode=display_mode, display_type=display_type, input_mode=input_mode)
 
-def add_color_picker(default_value : List[int] =(0, 0, 0, 255), *, label: str =None, id: int =0, width: int =0, height: int =0, indent: int =-1, parent: int =0, before: int =0, source: int =0, payload_type: str ='$$DPG_PAYLOAD', callback: Callable =None, drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, enabled: bool =True, pos: List[int] =[], filter_key: str ='', tracked: bool =False, track_offset: float =0.5, user_data: Any =None, no_alpha: bool =False, no_side_preview: bool =False, no_small_preview: bool =False, no_inputs: bool =False, no_tooltip: bool =False, no_label: bool =False, alpha_bar: bool =False, display_rgb: bool =False, display_hsv: bool =False, display_hex: bool =False, picker_mode: int =33554432, alpha_preview: int =0, display_type: int =8388608, input_mode: int =134217728) -> int:
+def add_color_picker(default_value : List[int] =(0, 0, 0, 255), *, label: str =None, id: int =0, width: int =0, height: int =0, indent: int =-1, parent: int =0, before: int =0, source: int =0, payload_type: str ='$$DPG_PAYLOAD', callback: Callable =None, drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, enabled: bool =True, pos: List[int] =[], filter_key: str ='', tracked: bool =False, track_offset: float =0.5, user_data: Any =None, use_internal_label: bool =True, no_alpha: bool =False, no_side_preview: bool =False, no_small_preview: bool =False, no_inputs: bool =False, no_tooltip: bool =False, no_label: bool =False, alpha_bar: bool =False, display_rgb: bool =False, display_hsv: bool =False, display_hex: bool =False, picker_mode: int =33554432, alpha_preview: int =0, display_type: int =8388608, input_mode: int =134217728) -> int:
 	"""
 	Adds an RGB color picker. Right click the color picker for options. Click and drag the color preview to copy the color and drop on any other color widget to apply. Right Click allows the style of the color picker to be changed.
 	Args:
@@ -2438,6 +2487,7 @@ def add_color_picker(default_value : List[int] =(0, 0, 0, 255), *, label: str =N
 		**tracked (bool): Scroll tracking
 		**track_offset (float): 0.0f:top, 0.5f:center, 1.0f:bottom
 		**user_data (Any): User data for callbacks.
+		**use_internal_label (bool): Use generated internal label instead of user specified (appends ### uuid).
 		**no_alpha (bool): Ignore Alpha component.
 		**no_side_preview (bool): Disable bigger color preview on right side of the picker, use small colored square preview instead , unless small preview is also hidden.
 		**no_small_preview (bool): Disable colored square preview next to the inputs. (e.g. to show only the inputs). This only displays if the side preview is not shown.
@@ -2456,9 +2506,9 @@ def add_color_picker(default_value : List[int] =(0, 0, 0, 255), *, label: str =N
 		int
 	"""
 
-	return internal_dpg.add_color_picker(default_value, label=label, id=id, width=width, height=height, indent=indent, parent=parent, before=before, source=source, payload_type=payload_type, callback=callback, drag_callback=drag_callback, drop_callback=drop_callback, show=show, enabled=enabled, pos=pos, filter_key=filter_key, tracked=tracked, track_offset=track_offset, user_data=user_data, no_alpha=no_alpha, no_side_preview=no_side_preview, no_small_preview=no_small_preview, no_inputs=no_inputs, no_tooltip=no_tooltip, no_label=no_label, alpha_bar=alpha_bar, display_rgb=display_rgb, display_hsv=display_hsv, display_hex=display_hex, picker_mode=picker_mode, alpha_preview=alpha_preview, display_type=display_type, input_mode=input_mode)
+	return internal_dpg.add_color_picker(default_value, label=label, id=id, width=width, height=height, indent=indent, parent=parent, before=before, source=source, payload_type=payload_type, callback=callback, drag_callback=drag_callback, drop_callback=drop_callback, show=show, enabled=enabled, pos=pos, filter_key=filter_key, tracked=tracked, track_offset=track_offset, user_data=user_data, use_internal_label=use_internal_label, no_alpha=no_alpha, no_side_preview=no_side_preview, no_small_preview=no_small_preview, no_inputs=no_inputs, no_tooltip=no_tooltip, no_label=no_label, alpha_bar=alpha_bar, display_rgb=display_rgb, display_hsv=display_hsv, display_hex=display_hex, picker_mode=picker_mode, alpha_preview=alpha_preview, display_type=display_type, input_mode=input_mode)
 
-def add_color_value(*, label: str =None, id: int =0, source: int =0, user_data: Any =None, default_value: List[float] =(0.0, 0.0, 0.0, 0.0), parent: int =internal_dpg.mvReservedUUID_3) -> int:
+def add_color_value(*, label: str =None, id: int =0, source: int =0, user_data: Any =None, use_internal_label: bool =True, default_value: List[float] =(0.0, 0.0, 0.0, 0.0), parent: int =internal_dpg.mvReservedUUID_3) -> int:
 	"""
 	Undocumented
 	Args:
@@ -2466,15 +2516,16 @@ def add_color_value(*, label: str =None, id: int =0, source: int =0, user_data: 
 		**id (int): Unique id used to programmatically refer to the item.If label is unused this will be the label.
 		**source (int): Overrides 'id' as value storage key.
 		**user_data (Any): User data for callbacks.
+		**use_internal_label (bool): Use generated internal label instead of user specified (appends ### uuid).
 		**default_value (List[float]): 
 		**parent (int): Parent to add this item to. (runtime adding)
 	Returns:
 		int
 	"""
 
-	return internal_dpg.add_color_value(label=label, id=id, source=source, user_data=user_data, default_value=default_value, parent=parent)
+	return internal_dpg.add_color_value(label=label, id=id, source=source, user_data=user_data, use_internal_label=use_internal_label, default_value=default_value, parent=parent)
 
-def add_colormap_scale(*, label: str =None, id: int =0, width: int =0, height: int =0, indent: int =-1, parent: int =0, before: int =0, source: int =0, show: bool =True, pos: List[int] =[], user_data: Any =None, default_value: int =0, min_scale: float =0.0, max_scale: float =1.0) -> int:
+def add_colormap_scale(*, label: str =None, id: int =0, width: int =0, height: int =0, indent: int =-1, parent: int =0, before: int =0, source: int =0, show: bool =True, pos: List[int] =[], user_data: Any =None, use_internal_label: bool =True, default_value: int =0, min_scale: float =0.0, max_scale: float =1.0) -> int:
 	"""
 	Adds a legend that pairs values with colors. This is typically used with a heat series. 
 	Args:
@@ -2489,6 +2540,7 @@ def add_colormap_scale(*, label: str =None, id: int =0, width: int =0, height: i
 		**show (bool): Attempt to render widget.
 		**pos (List[int]): Places the item relative to window coordinates, [0,0] is top left.
 		**user_data (Any): User data for callbacks.
+		**use_internal_label (bool): Use generated internal label instead of user specified (appends ### uuid).
 		**default_value (int): 
 		**min_scale (float): Sets the min number of the color scale. Typically is the same as the min scale from the heat series.
 		**max_scale (float): Sets the max number of the color scale. Typically is the same as the max scale from the heat series.
@@ -2496,9 +2548,9 @@ def add_colormap_scale(*, label: str =None, id: int =0, width: int =0, height: i
 		int
 	"""
 
-	return internal_dpg.add_colormap_scale(label=label, id=id, width=width, height=height, indent=indent, parent=parent, before=before, source=source, show=show, pos=pos, user_data=user_data, default_value=default_value, min_scale=min_scale, max_scale=max_scale)
+	return internal_dpg.add_colormap_scale(label=label, id=id, width=width, height=height, indent=indent, parent=parent, before=before, source=source, show=show, pos=pos, user_data=user_data, use_internal_label=use_internal_label, default_value=default_value, min_scale=min_scale, max_scale=max_scale)
 
-def add_combo(items : List[str] =(), *, label: str =None, id: int =0, width: int =0, indent: int =-1, parent: int =0, before: int =0, source: int =0, payload_type: str ='$$DPG_PAYLOAD', callback: Callable =None, drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, enabled: bool =True, pos: List[int] =[], filter_key: str ='', tracked: bool =False, track_offset: float =0.5, user_data: Any =None, default_value: str ='', popup_align_left: bool =False, no_arrow_button: bool =False, no_preview: bool =False, height_mode: int =1) -> int:
+def add_combo(items : List[str] =(), *, label: str =None, id: int =0, width: int =0, indent: int =-1, parent: int =0, before: int =0, source: int =0, payload_type: str ='$$DPG_PAYLOAD', callback: Callable =None, drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, enabled: bool =True, pos: List[int] =[], filter_key: str ='', tracked: bool =False, track_offset: float =0.5, user_data: Any =None, use_internal_label: bool =True, default_value: str ='', popup_align_left: bool =False, no_arrow_button: bool =False, no_preview: bool =False, height_mode: int =1) -> int:
 	"""
 	Adds a combo dropdown that allows a user to select a single option from a drop down window.
 	Args:
@@ -2521,6 +2573,7 @@ def add_combo(items : List[str] =(), *, label: str =None, id: int =0, width: int
 		**tracked (bool): Scroll tracking
 		**track_offset (float): 0.0f:top, 0.5f:center, 1.0f:bottom
 		**user_data (Any): User data for callbacks.
+		**use_internal_label (bool): Use generated internal label instead of user specified (appends ### uuid).
 		**default_value (str): 
 		**popup_align_left (bool): Align the popup toward the left.
 		**no_arrow_button (bool): Display the preview box without the square arrow button.
@@ -2530,9 +2583,9 @@ def add_combo(items : List[str] =(), *, label: str =None, id: int =0, width: int
 		int
 	"""
 
-	return internal_dpg.add_combo(items, label=label, id=id, width=width, indent=indent, parent=parent, before=before, source=source, payload_type=payload_type, callback=callback, drag_callback=drag_callback, drop_callback=drop_callback, show=show, enabled=enabled, pos=pos, filter_key=filter_key, tracked=tracked, track_offset=track_offset, user_data=user_data, default_value=default_value, popup_align_left=popup_align_left, no_arrow_button=no_arrow_button, no_preview=no_preview, height_mode=height_mode)
+	return internal_dpg.add_combo(items, label=label, id=id, width=width, indent=indent, parent=parent, before=before, source=source, payload_type=payload_type, callback=callback, drag_callback=drag_callback, drop_callback=drop_callback, show=show, enabled=enabled, pos=pos, filter_key=filter_key, tracked=tracked, track_offset=track_offset, user_data=user_data, use_internal_label=use_internal_label, default_value=default_value, popup_align_left=popup_align_left, no_arrow_button=no_arrow_button, no_preview=no_preview, height_mode=height_mode)
 
-def add_date_picker(*, label: str =None, id: int =0, indent: int =-1, parent: int =0, before: int =0, payload_type: str ='$$DPG_PAYLOAD', callback: Callable =None, drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, pos: List[int] =[], filter_key: str ='', tracked: bool =False, track_offset: float =0.5, user_data: Any =None, default_value: dict ={'month_day': 14, 'year':20, 'month':5}, level: int =0) -> int:
+def add_date_picker(*, label: str =None, id: int =0, indent: int =-1, parent: int =0, before: int =0, payload_type: str ='$$DPG_PAYLOAD', callback: Callable =None, drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, pos: List[int] =[], filter_key: str ='', tracked: bool =False, track_offset: float =0.5, user_data: Any =None, use_internal_label: bool =True, default_value: dict ={'month_day': 14, 'year':20, 'month':5}, level: int =0) -> int:
 	"""
 	Creates a date picker.
 	Args:
@@ -2551,15 +2604,16 @@ def add_date_picker(*, label: str =None, id: int =0, indent: int =-1, parent: in
 		**tracked (bool): Scroll tracking
 		**track_offset (float): 0.0f:top, 0.5f:center, 1.0f:bottom
 		**user_data (Any): User data for callbacks.
+		**use_internal_label (bool): Use generated internal label instead of user specified (appends ### uuid).
 		**default_value (dict): 
 		**level (int): Use avaliable constants. mvDatePickerLevel_Day, mvDatePickerLevel_Month, mvDatePickerLevel_Year
 	Returns:
 		int
 	"""
 
-	return internal_dpg.add_date_picker(label=label, id=id, indent=indent, parent=parent, before=before, payload_type=payload_type, callback=callback, drag_callback=drag_callback, drop_callback=drop_callback, show=show, pos=pos, filter_key=filter_key, tracked=tracked, track_offset=track_offset, user_data=user_data, default_value=default_value, level=level)
+	return internal_dpg.add_date_picker(label=label, id=id, indent=indent, parent=parent, before=before, payload_type=payload_type, callback=callback, drag_callback=drag_callback, drop_callback=drop_callback, show=show, pos=pos, filter_key=filter_key, tracked=tracked, track_offset=track_offset, user_data=user_data, use_internal_label=use_internal_label, default_value=default_value, level=level)
 
-def add_deactivated_after_edit_handler(parent : int, *, label: str =None, id: int =0, callback: Callable =None, show: bool =True, user_data: Any =None) -> int:
+def add_deactivated_after_edit_handler(parent : int, *, label: str =None, id: int =0, callback: Callable =None, show: bool =True, user_data: Any =None, use_internal_label: bool =True) -> int:
 	"""
 	Adds a handler which runs a given callback when the specified item is deactivated after edit.
 	Args:
@@ -2569,13 +2623,14 @@ def add_deactivated_after_edit_handler(parent : int, *, label: str =None, id: in
 		**callback (Callable): Registers a callback.
 		**show (bool): Attempt to render widget.
 		**user_data (Any): User data for callbacks.
+		**use_internal_label (bool): Use generated internal label instead of user specified (appends ### uuid).
 	Returns:
 		int
 	"""
 
-	return internal_dpg.add_deactivated_after_edit_handler(parent, label=label, id=id, callback=callback, show=show, user_data=user_data)
+	return internal_dpg.add_deactivated_after_edit_handler(parent, label=label, id=id, callback=callback, show=show, user_data=user_data, use_internal_label=use_internal_label)
 
-def add_deactivated_handler(parent : int, *, label: str =None, id: int =0, callback: Callable =None, show: bool =True, user_data: Any =None) -> int:
+def add_deactivated_handler(parent : int, *, label: str =None, id: int =0, callback: Callable =None, show: bool =True, user_data: Any =None, use_internal_label: bool =True) -> int:
 	"""
 	Adds a handler which runs a given callback when the specified item is deactivated.
 	Args:
@@ -2585,13 +2640,14 @@ def add_deactivated_handler(parent : int, *, label: str =None, id: int =0, callb
 		**callback (Callable): Registers a callback.
 		**show (bool): Attempt to render widget.
 		**user_data (Any): User data for callbacks.
+		**use_internal_label (bool): Use generated internal label instead of user specified (appends ### uuid).
 	Returns:
 		int
 	"""
 
-	return internal_dpg.add_deactivated_handler(parent, label=label, id=id, callback=callback, show=show, user_data=user_data)
+	return internal_dpg.add_deactivated_handler(parent, label=label, id=id, callback=callback, show=show, user_data=user_data, use_internal_label=use_internal_label)
 
-def add_double4_value(*, label: str =None, id: int =0, source: int =0, user_data: Any =None, default_value: Any =(0.0, 0.0, 0.0, 0.0), parent: int =internal_dpg.mvReservedUUID_3) -> int:
+def add_double4_value(*, label: str =None, id: int =0, source: int =0, user_data: Any =None, use_internal_label: bool =True, default_value: Any =(0.0, 0.0, 0.0, 0.0), parent: int =internal_dpg.mvReservedUUID_3) -> int:
 	"""
 	Undocumented
 	Args:
@@ -2599,15 +2655,16 @@ def add_double4_value(*, label: str =None, id: int =0, source: int =0, user_data
 		**id (int): Unique id used to programmatically refer to the item.If label is unused this will be the label.
 		**source (int): Overrides 'id' as value storage key.
 		**user_data (Any): User data for callbacks.
+		**use_internal_label (bool): Use generated internal label instead of user specified (appends ### uuid).
 		**default_value (Any): 
 		**parent (int): Parent to add this item to. (runtime adding)
 	Returns:
 		int
 	"""
 
-	return internal_dpg.add_double4_value(label=label, id=id, source=source, user_data=user_data, default_value=default_value, parent=parent)
+	return internal_dpg.add_double4_value(label=label, id=id, source=source, user_data=user_data, use_internal_label=use_internal_label, default_value=default_value, parent=parent)
 
-def add_double_value(*, label: str =None, id: int =0, source: int =0, user_data: Any =None, default_value: float =0.0, parent: int =internal_dpg.mvReservedUUID_3) -> int:
+def add_double_value(*, label: str =None, id: int =0, source: int =0, user_data: Any =None, use_internal_label: bool =True, default_value: float =0.0, parent: int =internal_dpg.mvReservedUUID_3) -> int:
 	"""
 	Undocumented
 	Args:
@@ -2615,15 +2672,16 @@ def add_double_value(*, label: str =None, id: int =0, source: int =0, user_data:
 		**id (int): Unique id used to programmatically refer to the item.If label is unused this will be the label.
 		**source (int): Overrides 'id' as value storage key.
 		**user_data (Any): User data for callbacks.
+		**use_internal_label (bool): Use generated internal label instead of user specified (appends ### uuid).
 		**default_value (float): 
 		**parent (int): Parent to add this item to. (runtime adding)
 	Returns:
 		int
 	"""
 
-	return internal_dpg.add_double_value(label=label, id=id, source=source, user_data=user_data, default_value=default_value, parent=parent)
+	return internal_dpg.add_double_value(label=label, id=id, source=source, user_data=user_data, use_internal_label=use_internal_label, default_value=default_value, parent=parent)
 
-def add_drag_float(*, label: str =None, id: int =0, width: int =0, indent: int =-1, parent: int =0, before: int =0, source: int =0, payload_type: str ='$$DPG_PAYLOAD', callback: Callable =None, drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, enabled: bool =True, pos: List[int] =[], filter_key: str ='', tracked: bool =False, track_offset: float =0.5, user_data: Any =None, default_value: float =0.0, format: str ='%0.3f', speed: float =1.0, min_value: float =0.0, max_value: float =100.0, no_input: bool =False, clamped: bool =False) -> int:
+def add_drag_float(*, label: str =None, id: int =0, width: int =0, indent: int =-1, parent: int =0, before: int =0, source: int =0, payload_type: str ='$$DPG_PAYLOAD', callback: Callable =None, drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, enabled: bool =True, pos: List[int] =[], filter_key: str ='', tracked: bool =False, track_offset: float =0.5, user_data: Any =None, use_internal_label: bool =True, default_value: float =0.0, format: str ='%0.3f', speed: float =1.0, min_value: float =0.0, max_value: float =100.0, no_input: bool =False, clamped: bool =False) -> int:
 	"""
 	Adds drag for a single float value. Directly entry can be done with double click or CTRL+Click. Min and Max alone are a soft limit for the drag. Use clamped keyword to also apply limits to the direct entry modes.
 	Args:
@@ -2645,6 +2703,7 @@ def add_drag_float(*, label: str =None, id: int =0, width: int =0, indent: int =
 		**tracked (bool): Scroll tracking
 		**track_offset (float): 0.0f:top, 0.5f:center, 1.0f:bottom
 		**user_data (Any): User data for callbacks.
+		**use_internal_label (bool): Use generated internal label instead of user specified (appends ### uuid).
 		**default_value (float): 
 		**format (str): 
 		**speed (float): 
@@ -2656,9 +2715,9 @@ def add_drag_float(*, label: str =None, id: int =0, width: int =0, indent: int =
 		int
 	"""
 
-	return internal_dpg.add_drag_float(label=label, id=id, width=width, indent=indent, parent=parent, before=before, source=source, payload_type=payload_type, callback=callback, drag_callback=drag_callback, drop_callback=drop_callback, show=show, enabled=enabled, pos=pos, filter_key=filter_key, tracked=tracked, track_offset=track_offset, user_data=user_data, default_value=default_value, format=format, speed=speed, min_value=min_value, max_value=max_value, no_input=no_input, clamped=clamped)
+	return internal_dpg.add_drag_float(label=label, id=id, width=width, indent=indent, parent=parent, before=before, source=source, payload_type=payload_type, callback=callback, drag_callback=drag_callback, drop_callback=drop_callback, show=show, enabled=enabled, pos=pos, filter_key=filter_key, tracked=tracked, track_offset=track_offset, user_data=user_data, use_internal_label=use_internal_label, default_value=default_value, format=format, speed=speed, min_value=min_value, max_value=max_value, no_input=no_input, clamped=clamped)
 
-def add_drag_floatx(*, label: str =None, id: int =0, width: int =0, indent: int =-1, parent: int =0, before: int =0, source: int =0, payload_type: str ='$$DPG_PAYLOAD', callback: Callable =None, drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, enabled: bool =True, pos: List[int] =[], filter_key: str ='', tracked: bool =False, track_offset: float =0.5, user_data: Any =None, default_value: List[float] =(0.0, 0.0, 0.0, 0.0), size: int =4, format: str ='%0.3f', speed: float =1.0, min_value: float =0.0, max_value: float =100.0, no_input: bool =False, clamped: bool =False) -> int:
+def add_drag_floatx(*, label: str =None, id: int =0, width: int =0, indent: int =-1, parent: int =0, before: int =0, source: int =0, payload_type: str ='$$DPG_PAYLOAD', callback: Callable =None, drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, enabled: bool =True, pos: List[int] =[], filter_key: str ='', tracked: bool =False, track_offset: float =0.5, user_data: Any =None, use_internal_label: bool =True, default_value: List[float] =(0.0, 0.0, 0.0, 0.0), size: int =4, format: str ='%0.3f', speed: float =1.0, min_value: float =0.0, max_value: float =100.0, no_input: bool =False, clamped: bool =False) -> int:
 	"""
 	Adds drag input for a set of int values up to 4. Directly entry can be done with double click or CTRL+Click. Min and Max alone are a soft limit for the drag. Use clamped keyword to also apply limits to the direct entry modes.
 	Args:
@@ -2680,6 +2739,7 @@ def add_drag_floatx(*, label: str =None, id: int =0, width: int =0, indent: int 
 		**tracked (bool): Scroll tracking
 		**track_offset (float): 0.0f:top, 0.5f:center, 1.0f:bottom
 		**user_data (Any): User data for callbacks.
+		**use_internal_label (bool): Use generated internal label instead of user specified (appends ### uuid).
 		**default_value (List[float]): 
 		**size (int): Number of components
 		**format (str): 
@@ -2692,9 +2752,9 @@ def add_drag_floatx(*, label: str =None, id: int =0, width: int =0, indent: int 
 		int
 	"""
 
-	return internal_dpg.add_drag_floatx(label=label, id=id, width=width, indent=indent, parent=parent, before=before, source=source, payload_type=payload_type, callback=callback, drag_callback=drag_callback, drop_callback=drop_callback, show=show, enabled=enabled, pos=pos, filter_key=filter_key, tracked=tracked, track_offset=track_offset, user_data=user_data, default_value=default_value, size=size, format=format, speed=speed, min_value=min_value, max_value=max_value, no_input=no_input, clamped=clamped)
+	return internal_dpg.add_drag_floatx(label=label, id=id, width=width, indent=indent, parent=parent, before=before, source=source, payload_type=payload_type, callback=callback, drag_callback=drag_callback, drop_callback=drop_callback, show=show, enabled=enabled, pos=pos, filter_key=filter_key, tracked=tracked, track_offset=track_offset, user_data=user_data, use_internal_label=use_internal_label, default_value=default_value, size=size, format=format, speed=speed, min_value=min_value, max_value=max_value, no_input=no_input, clamped=clamped)
 
-def add_drag_int(*, label: str =None, id: int =0, width: int =0, indent: int =-1, parent: int =0, before: int =0, source: int =0, payload_type: str ='$$DPG_PAYLOAD', callback: Callable =None, drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, enabled: bool =True, pos: List[int] =[], filter_key: str ='', tracked: bool =False, track_offset: float =0.5, user_data: Any =None, default_value: int =0, format: str ='%d', speed: float =1.0, min_value: int =0, max_value: int =100, no_input: bool =False, clamped: bool =False) -> int:
+def add_drag_int(*, label: str =None, id: int =0, width: int =0, indent: int =-1, parent: int =0, before: int =0, source: int =0, payload_type: str ='$$DPG_PAYLOAD', callback: Callable =None, drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, enabled: bool =True, pos: List[int] =[], filter_key: str ='', tracked: bool =False, track_offset: float =0.5, user_data: Any =None, use_internal_label: bool =True, default_value: int =0, format: str ='%d', speed: float =1.0, min_value: int =0, max_value: int =100, no_input: bool =False, clamped: bool =False) -> int:
 	"""
 	Adds drag for a single int value. Directly entry can be done with double click or CTRL+Click. Min and Max alone are a soft limit for the drag. Use clamped keyword to also apply limits to the direct entry modes.
 	Args:
@@ -2716,6 +2776,7 @@ def add_drag_int(*, label: str =None, id: int =0, width: int =0, indent: int =-1
 		**tracked (bool): Scroll tracking
 		**track_offset (float): 0.0f:top, 0.5f:center, 1.0f:bottom
 		**user_data (Any): User data for callbacks.
+		**use_internal_label (bool): Use generated internal label instead of user specified (appends ### uuid).
 		**default_value (int): 
 		**format (str): 
 		**speed (float): 
@@ -2727,9 +2788,9 @@ def add_drag_int(*, label: str =None, id: int =0, width: int =0, indent: int =-1
 		int
 	"""
 
-	return internal_dpg.add_drag_int(label=label, id=id, width=width, indent=indent, parent=parent, before=before, source=source, payload_type=payload_type, callback=callback, drag_callback=drag_callback, drop_callback=drop_callback, show=show, enabled=enabled, pos=pos, filter_key=filter_key, tracked=tracked, track_offset=track_offset, user_data=user_data, default_value=default_value, format=format, speed=speed, min_value=min_value, max_value=max_value, no_input=no_input, clamped=clamped)
+	return internal_dpg.add_drag_int(label=label, id=id, width=width, indent=indent, parent=parent, before=before, source=source, payload_type=payload_type, callback=callback, drag_callback=drag_callback, drop_callback=drop_callback, show=show, enabled=enabled, pos=pos, filter_key=filter_key, tracked=tracked, track_offset=track_offset, user_data=user_data, use_internal_label=use_internal_label, default_value=default_value, format=format, speed=speed, min_value=min_value, max_value=max_value, no_input=no_input, clamped=clamped)
 
-def add_drag_intx(*, label: str =None, id: int =0, width: int =0, indent: int =-1, parent: int =0, before: int =0, source: int =0, payload_type: str ='$$DPG_PAYLOAD', callback: Callable =None, drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, enabled: bool =True, pos: List[int] =[], filter_key: str ='', tracked: bool =False, track_offset: float =0.5, user_data: Any =None, default_value: List[int] =(0, 0, 0, 0), size: int =4, format: str ='%d', speed: float =1.0, min_value: int =0, max_value: int =100, no_input: bool =False, clamped: bool =False) -> int:
+def add_drag_intx(*, label: str =None, id: int =0, width: int =0, indent: int =-1, parent: int =0, before: int =0, source: int =0, payload_type: str ='$$DPG_PAYLOAD', callback: Callable =None, drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, enabled: bool =True, pos: List[int] =[], filter_key: str ='', tracked: bool =False, track_offset: float =0.5, user_data: Any =None, use_internal_label: bool =True, default_value: List[int] =(0, 0, 0, 0), size: int =4, format: str ='%d', speed: float =1.0, min_value: int =0, max_value: int =100, no_input: bool =False, clamped: bool =False) -> int:
 	"""
 	Adds drag input for a set of int values up to 4. Directly entry can be done with double click or CTRL+Click. Min and Max alone are a soft limit for the drag. Use clamped keyword to also apply limits to the direct entry modes.
 	Args:
@@ -2751,6 +2812,7 @@ def add_drag_intx(*, label: str =None, id: int =0, width: int =0, indent: int =-
 		**tracked (bool): Scroll tracking
 		**track_offset (float): 0.0f:top, 0.5f:center, 1.0f:bottom
 		**user_data (Any): User data for callbacks.
+		**use_internal_label (bool): Use generated internal label instead of user specified (appends ### uuid).
 		**default_value (List[int]): 
 		**size (int): Number of components.
 		**format (str): 
@@ -2763,9 +2825,9 @@ def add_drag_intx(*, label: str =None, id: int =0, width: int =0, indent: int =-
 		int
 	"""
 
-	return internal_dpg.add_drag_intx(label=label, id=id, width=width, indent=indent, parent=parent, before=before, source=source, payload_type=payload_type, callback=callback, drag_callback=drag_callback, drop_callback=drop_callback, show=show, enabled=enabled, pos=pos, filter_key=filter_key, tracked=tracked, track_offset=track_offset, user_data=user_data, default_value=default_value, size=size, format=format, speed=speed, min_value=min_value, max_value=max_value, no_input=no_input, clamped=clamped)
+	return internal_dpg.add_drag_intx(label=label, id=id, width=width, indent=indent, parent=parent, before=before, source=source, payload_type=payload_type, callback=callback, drag_callback=drag_callback, drop_callback=drop_callback, show=show, enabled=enabled, pos=pos, filter_key=filter_key, tracked=tracked, track_offset=track_offset, user_data=user_data, use_internal_label=use_internal_label, default_value=default_value, size=size, format=format, speed=speed, min_value=min_value, max_value=max_value, no_input=no_input, clamped=clamped)
 
-def add_drag_line(*, label: str =None, id: int =0, parent: int =0, before: int =0, source: int =0, callback: Callable =None, show: bool =True, user_data: Any =None, default_value: Any =0.0, color: List[int] =(0, 0, 0, -255), thickness: float =1.0, show_label: bool =True, vertical: bool =True) -> int:
+def add_drag_line(*, label: str =None, id: int =0, parent: int =0, before: int =0, source: int =0, callback: Callable =None, show: bool =True, user_data: Any =None, use_internal_label: bool =True, default_value: Any =0.0, color: List[int] =(0, 0, 0, -255), thickness: float =1.0, show_label: bool =True, vertical: bool =True) -> int:
 	"""
 	Adds a drag line to a plot.
 	Args:
@@ -2777,6 +2839,7 @@ def add_drag_line(*, label: str =None, id: int =0, parent: int =0, before: int =
 		**callback (Callable): Registers a callback.
 		**show (bool): Attempt to render widget.
 		**user_data (Any): User data for callbacks.
+		**use_internal_label (bool): Use generated internal label instead of user specified (appends ### uuid).
 		**default_value (Any): 
 		**color (List[int]): 
 		**thickness (float): 
@@ -2786,9 +2849,9 @@ def add_drag_line(*, label: str =None, id: int =0, parent: int =0, before: int =
 		int
 	"""
 
-	return internal_dpg.add_drag_line(label=label, id=id, parent=parent, before=before, source=source, callback=callback, show=show, user_data=user_data, default_value=default_value, color=color, thickness=thickness, show_label=show_label, vertical=vertical)
+	return internal_dpg.add_drag_line(label=label, id=id, parent=parent, before=before, source=source, callback=callback, show=show, user_data=user_data, use_internal_label=use_internal_label, default_value=default_value, color=color, thickness=thickness, show_label=show_label, vertical=vertical)
 
-def add_drag_payload(*, label: str =None, id: int =0, parent: int =0, show: bool =True, user_data: Any =None, drag_data: Any =None, payload_type: str ='$$DPG_PAYLOAD') -> int:
+def add_drag_payload(*, label: str =None, id: int =0, parent: int =0, show: bool =True, user_data: Any =None, use_internal_label: bool =True, drag_data: Any =None, payload_type: str ='$$DPG_PAYLOAD') -> int:
 	"""
 	User data payload for drag and drop operations.
 	Args:
@@ -2797,15 +2860,16 @@ def add_drag_payload(*, label: str =None, id: int =0, parent: int =0, show: bool
 		**parent (int): Parent to add this item to. (runtime adding)
 		**show (bool): Attempt to render widget.
 		**user_data (Any): User data for callbacks.
+		**use_internal_label (bool): Use generated internal label instead of user specified (appends ### uuid).
 		**drag_data (Any): Drag data
 		**payload_type (str): 
 	Returns:
 		int
 	"""
 
-	return internal_dpg.add_drag_payload(label=label, id=id, parent=parent, show=show, user_data=user_data, drag_data=drag_data, payload_type=payload_type)
+	return internal_dpg.add_drag_payload(label=label, id=id, parent=parent, show=show, user_data=user_data, use_internal_label=use_internal_label, drag_data=drag_data, payload_type=payload_type)
 
-def add_drag_point(*, label: str =None, id: int =0, parent: int =0, before: int =0, source: int =0, callback: Callable =None, show: bool =True, user_data: Any =None, default_value: Any =(0.0, 0.0), color: List[int] =(0, 0, 0, -255), thickness: float =1.0, show_label: bool =True) -> int:
+def add_drag_point(*, label: str =None, id: int =0, parent: int =0, before: int =0, source: int =0, callback: Callable =None, show: bool =True, user_data: Any =None, use_internal_label: bool =True, default_value: Any =(0.0, 0.0), color: List[int] =(0, 0, 0, -255), thickness: float =1.0, show_label: bool =True) -> int:
 	"""
 	Adds a drag point to a plot.
 	Args:
@@ -2817,6 +2881,7 @@ def add_drag_point(*, label: str =None, id: int =0, parent: int =0, before: int 
 		**callback (Callable): Registers a callback.
 		**show (bool): Attempt to render widget.
 		**user_data (Any): User data for callbacks.
+		**use_internal_label (bool): Use generated internal label instead of user specified (appends ### uuid).
 		**default_value (Any): 
 		**color (List[int]): 
 		**thickness (float): 
@@ -2825,9 +2890,9 @@ def add_drag_point(*, label: str =None, id: int =0, parent: int =0, before: int 
 		int
 	"""
 
-	return internal_dpg.add_drag_point(label=label, id=id, parent=parent, before=before, source=source, callback=callback, show=show, user_data=user_data, default_value=default_value, color=color, thickness=thickness, show_label=show_label)
+	return internal_dpg.add_drag_point(label=label, id=id, parent=parent, before=before, source=source, callback=callback, show=show, user_data=user_data, use_internal_label=use_internal_label, default_value=default_value, color=color, thickness=thickness, show_label=show_label)
 
-def add_draw_layer(*, label: str =None, id: int =0, parent: int =0, before: int =0, show: bool =True, user_data: Any =None) -> int:
+def add_draw_layer(*, label: str =None, id: int =0, parent: int =0, before: int =0, show: bool =True, user_data: Any =None, use_internal_label: bool =True) -> int:
 	"""
 	Creates a layer that can be drawn to. Useful for grouping drawing items.
 	Args:
@@ -2837,13 +2902,14 @@ def add_draw_layer(*, label: str =None, id: int =0, parent: int =0, before: int 
 		**before (int): This item will be displayed before the specified item in the parent.
 		**show (bool): Attempt to render widget.
 		**user_data (Any): User data for callbacks.
+		**use_internal_label (bool): Use generated internal label instead of user specified (appends ### uuid).
 	Returns:
 		int
 	"""
 
-	return internal_dpg.add_draw_layer(label=label, id=id, parent=parent, before=before, show=show, user_data=user_data)
+	return internal_dpg.add_draw_layer(label=label, id=id, parent=parent, before=before, show=show, user_data=user_data, use_internal_label=use_internal_label)
 
-def add_drawlist(*, label: str =None, id: int =0, width: int =0, height: int =0, parent: int =0, before: int =0, payload_type: str ='$$DPG_PAYLOAD', callback: Callable =None, drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, pos: List[int] =[], filter_key: str ='', delay_search: bool =False, tracked: bool =False, track_offset: float =0.5, user_data: Any =None) -> int:
+def add_drawlist(*, label: str =None, id: int =0, width: int =0, height: int =0, parent: int =0, before: int =0, payload_type: str ='$$DPG_PAYLOAD', callback: Callable =None, drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, pos: List[int] =[], filter_key: str ='', delay_search: bool =False, tracked: bool =False, track_offset: float =0.5, user_data: Any =None, use_internal_label: bool =True) -> int:
 	"""
 	A container widget that is used to present draw items or layers. Layers and draw items should be added to this widget as children.
 	Args:
@@ -2864,13 +2930,14 @@ def add_drawlist(*, label: str =None, id: int =0, width: int =0, height: int =0,
 		**tracked (bool): Scroll tracking
 		**track_offset (float): 0.0f:top, 0.5f:center, 1.0f:bottom
 		**user_data (Any): User data for callbacks.
+		**use_internal_label (bool): Use generated internal label instead of user specified (appends ### uuid).
 	Returns:
 		int
 	"""
 
-	return internal_dpg.add_drawlist(label=label, id=id, width=width, height=height, parent=parent, before=before, payload_type=payload_type, callback=callback, drag_callback=drag_callback, drop_callback=drop_callback, show=show, pos=pos, filter_key=filter_key, delay_search=delay_search, tracked=tracked, track_offset=track_offset, user_data=user_data)
+	return internal_dpg.add_drawlist(label=label, id=id, width=width, height=height, parent=parent, before=before, payload_type=payload_type, callback=callback, drag_callback=drag_callback, drop_callback=drop_callback, show=show, pos=pos, filter_key=filter_key, delay_search=delay_search, tracked=tracked, track_offset=track_offset, user_data=user_data, use_internal_label=use_internal_label)
 
-def add_dummy(*, label: str =None, id: int =0, width: int =0, height: int =0, indent: int =-1, parent: int =0, before: int =0, show: bool =True, pos: List[int] =[], user_data: Any =None) -> int:
+def add_dummy(*, label: str =None, id: int =0, width: int =0, height: int =0, indent: int =-1, parent: int =0, before: int =0, show: bool =True, pos: List[int] =[], user_data: Any =None, use_internal_label: bool =True) -> int:
 	"""
 	Adds a spacer or 'dummy' object.
 	Args:
@@ -2884,13 +2951,14 @@ def add_dummy(*, label: str =None, id: int =0, width: int =0, height: int =0, in
 		**show (bool): Attempt to render widget.
 		**pos (List[int]): Places the item relative to window coordinates, [0,0] is top left.
 		**user_data (Any): User data for callbacks.
+		**use_internal_label (bool): Use generated internal label instead of user specified (appends ### uuid).
 	Returns:
 		int
 	"""
 
-	return internal_dpg.add_dummy(label=label, id=id, width=width, height=height, indent=indent, parent=parent, before=before, show=show, pos=pos, user_data=user_data)
+	return internal_dpg.add_dummy(label=label, id=id, width=width, height=height, indent=indent, parent=parent, before=before, show=show, pos=pos, user_data=user_data, use_internal_label=use_internal_label)
 
-def add_dynamic_texture(width : int, height : int, default_value : List[float], *, label: str =None, id: int =0, user_data: Any =None, parent: int =internal_dpg.mvReservedUUID_2) -> int:
+def add_dynamic_texture(width : int, height : int, default_value : List[float], *, label: str =None, id: int =0, user_data: Any =None, use_internal_label: bool =True, parent: int =internal_dpg.mvReservedUUID_2) -> int:
 	"""
 	Undocumented function
 	Args:
@@ -2900,14 +2968,15 @@ def add_dynamic_texture(width : int, height : int, default_value : List[float], 
 		**label (str): Overrides 'name' as label.
 		**id (int): Unique id used to programmatically refer to the item.If label is unused this will be the label.
 		**user_data (Any): User data for callbacks.
+		**use_internal_label (bool): Use generated internal label instead of user specified (appends ### uuid).
 		**parent (int): Parent to add this item to. (runtime adding)
 	Returns:
 		int
 	"""
 
-	return internal_dpg.add_dynamic_texture(width, height, default_value, label=label, id=id, user_data=user_data, parent=parent)
+	return internal_dpg.add_dynamic_texture(width, height, default_value, label=label, id=id, user_data=user_data, use_internal_label=use_internal_label, parent=parent)
 
-def add_edited_handler(parent : int, *, label: str =None, id: int =0, callback: Callable =None, show: bool =True, user_data: Any =None) -> int:
+def add_edited_handler(parent : int, *, label: str =None, id: int =0, callback: Callable =None, show: bool =True, user_data: Any =None, use_internal_label: bool =True) -> int:
 	"""
 	Adds a handler which runs a given callback when the specified item is edited.
 	Args:
@@ -2917,13 +2986,14 @@ def add_edited_handler(parent : int, *, label: str =None, id: int =0, callback: 
 		**callback (Callable): Registers a callback.
 		**show (bool): Attempt to render widget.
 		**user_data (Any): User data for callbacks.
+		**use_internal_label (bool): Use generated internal label instead of user specified (appends ### uuid).
 	Returns:
 		int
 	"""
 
-	return internal_dpg.add_edited_handler(parent, label=label, id=id, callback=callback, show=show, user_data=user_data)
+	return internal_dpg.add_edited_handler(parent, label=label, id=id, callback=callback, show=show, user_data=user_data, use_internal_label=use_internal_label)
 
-def add_error_series(x : List[float], y : List[float], negative : List[float], positive : List[float], *, label: str =None, id: int =0, parent: int =0, before: int =0, source: int =0, show: bool =True, user_data: Any =None, contribute_to_bounds: bool =True, horizontal: bool =False) -> int:
+def add_error_series(x : List[float], y : List[float], negative : List[float], positive : List[float], *, label: str =None, id: int =0, parent: int =0, before: int =0, source: int =0, show: bool =True, user_data: Any =None, use_internal_label: bool =True, contribute_to_bounds: bool =True, horizontal: bool =False) -> int:
 	"""
 	Adds an error series to a plot.
 	Args:
@@ -2938,15 +3008,16 @@ def add_error_series(x : List[float], y : List[float], negative : List[float], p
 		**source (int): Overrides 'id' as value storage key.
 		**show (bool): Attempt to render widget.
 		**user_data (Any): User data for callbacks.
+		**use_internal_label (bool): Use generated internal label instead of user specified (appends ### uuid).
 		**contribute_to_bounds (bool): 
 		**horizontal (bool): 
 	Returns:
 		int
 	"""
 
-	return internal_dpg.add_error_series(x, y, negative, positive, label=label, id=id, parent=parent, before=before, source=source, show=show, user_data=user_data, contribute_to_bounds=contribute_to_bounds, horizontal=horizontal)
+	return internal_dpg.add_error_series(x, y, negative, positive, label=label, id=id, parent=parent, before=before, source=source, show=show, user_data=user_data, use_internal_label=use_internal_label, contribute_to_bounds=contribute_to_bounds, horizontal=horizontal)
 
-def add_file_dialog(*, label: str =None, id: int =0, width: int =0, height: int =0, callback: Callable =None, show: bool =True, user_data: Any =None, default_path: str ='', default_filename: str ='.', file_count: int =0, modal: bool =False, directory_selector: bool =False) -> int:
+def add_file_dialog(*, label: str =None, id: int =0, width: int =0, height: int =0, callback: Callable =None, show: bool =True, user_data: Any =None, use_internal_label: bool =True, default_path: str ='', default_filename: str ='.', file_count: int =0, modal: bool =False, directory_selector: bool =False) -> int:
 	"""
 	Displays a file or directory selector depending on keywords. Displays a file dialog by default.
 	Args:
@@ -2957,6 +3028,7 @@ def add_file_dialog(*, label: str =None, id: int =0, width: int =0, height: int 
 		**callback (Callable): Registers a callback.
 		**show (bool): Attempt to render widget.
 		**user_data (Any): User data for callbacks.
+		**use_internal_label (bool): Use generated internal label instead of user specified (appends ### uuid).
 		**default_path (str): Path that the file dialog will default to when opened.
 		**default_filename (str): Default name that will show in the file name input.
 		**file_count (int): Number of visible files in the dialog.
@@ -2966,9 +3038,9 @@ def add_file_dialog(*, label: str =None, id: int =0, width: int =0, height: int 
 		int
 	"""
 
-	return internal_dpg.add_file_dialog(label=label, id=id, width=width, height=height, callback=callback, show=show, user_data=user_data, default_path=default_path, default_filename=default_filename, file_count=file_count, modal=modal, directory_selector=directory_selector)
+	return internal_dpg.add_file_dialog(label=label, id=id, width=width, height=height, callback=callback, show=show, user_data=user_data, use_internal_label=use_internal_label, default_path=default_path, default_filename=default_filename, file_count=file_count, modal=modal, directory_selector=directory_selector)
 
-def add_file_extension(extension : str, *, label: str =None, id: int =0, width: int =0, height: int =0, parent: int =0, before: int =0, user_data: Any =None, custom_text: str ='', color: List[float] =(-255, 0, 0, 255)) -> int:
+def add_file_extension(extension : str, *, label: str =None, id: int =0, width: int =0, height: int =0, parent: int =0, before: int =0, user_data: Any =None, use_internal_label: bool =True, custom_text: str ='', color: List[float] =(-255, 0, 0, 255)) -> int:
 	"""
 	Creates a file extension filter option in the file dialog. Only works when the parent is a file dialog.
 	Args:
@@ -2980,15 +3052,16 @@ def add_file_extension(extension : str, *, label: str =None, id: int =0, width: 
 		**parent (int): Parent to add this item to. (runtime adding)
 		**before (int): This item will be displayed before the specified item in the parent.
 		**user_data (Any): User data for callbacks.
+		**use_internal_label (bool): Use generated internal label instead of user specified (appends ### uuid).
 		**custom_text (str): Replaces the displayed text in the drop down for this extension.
 		**color (List[float]): 
 	Returns:
 		int
 	"""
 
-	return internal_dpg.add_file_extension(extension, label=label, id=id, width=width, height=height, parent=parent, before=before, user_data=user_data, custom_text=custom_text, color=color)
+	return internal_dpg.add_file_extension(extension, label=label, id=id, width=width, height=height, parent=parent, before=before, user_data=user_data, use_internal_label=use_internal_label, custom_text=custom_text, color=color)
 
-def add_filter_set(*, label: str =None, id: int =0, width: int =0, indent: int =-1, parent: int =0, before: int =0, show: bool =True, delay_search: bool =False, user_data: Any =None) -> int:
+def add_filter_set(*, label: str =None, id: int =0, width: int =0, indent: int =-1, parent: int =0, before: int =0, show: bool =True, delay_search: bool =False, user_data: Any =None, use_internal_label: bool =True) -> int:
 	"""
 	Helper to parse and apply text filters (e.g. aaaaa[, bbbbb][, ccccc])
 	Args:
@@ -3001,13 +3074,14 @@ def add_filter_set(*, label: str =None, id: int =0, width: int =0, indent: int =
 		**show (bool): Attempt to render widget.
 		**delay_search (bool): Delays searching container for specified items until the end of the app. Possible optimization when a container has many children that are not accessed often.
 		**user_data (Any): User data for callbacks.
+		**use_internal_label (bool): Use generated internal label instead of user specified (appends ### uuid).
 	Returns:
 		int
 	"""
 
-	return internal_dpg.add_filter_set(label=label, id=id, width=width, indent=indent, parent=parent, before=before, show=show, delay_search=delay_search, user_data=user_data)
+	return internal_dpg.add_filter_set(label=label, id=id, width=width, indent=indent, parent=parent, before=before, show=show, delay_search=delay_search, user_data=user_data, use_internal_label=use_internal_label)
 
-def add_float4_value(*, label: str =None, id: int =0, source: int =0, user_data: Any =None, default_value: List[float] =(0.0, 0.0, 0.0, 0.0), parent: int =internal_dpg.mvReservedUUID_3) -> int:
+def add_float4_value(*, label: str =None, id: int =0, source: int =0, user_data: Any =None, use_internal_label: bool =True, default_value: List[float] =(0.0, 0.0, 0.0, 0.0), parent: int =internal_dpg.mvReservedUUID_3) -> int:
 	"""
 	Undocumented
 	Args:
@@ -3015,15 +3089,16 @@ def add_float4_value(*, label: str =None, id: int =0, source: int =0, user_data:
 		**id (int): Unique id used to programmatically refer to the item.If label is unused this will be the label.
 		**source (int): Overrides 'id' as value storage key.
 		**user_data (Any): User data for callbacks.
+		**use_internal_label (bool): Use generated internal label instead of user specified (appends ### uuid).
 		**default_value (List[float]): 
 		**parent (int): Parent to add this item to. (runtime adding)
 	Returns:
 		int
 	"""
 
-	return internal_dpg.add_float4_value(label=label, id=id, source=source, user_data=user_data, default_value=default_value, parent=parent)
+	return internal_dpg.add_float4_value(label=label, id=id, source=source, user_data=user_data, use_internal_label=use_internal_label, default_value=default_value, parent=parent)
 
-def add_float_value(*, label: str =None, id: int =0, source: int =0, user_data: Any =None, default_value: float =0.0, parent: int =internal_dpg.mvReservedUUID_3) -> int:
+def add_float_value(*, label: str =None, id: int =0, source: int =0, user_data: Any =None, use_internal_label: bool =True, default_value: float =0.0, parent: int =internal_dpg.mvReservedUUID_3) -> int:
 	"""
 	Undocumented
 	Args:
@@ -3031,15 +3106,16 @@ def add_float_value(*, label: str =None, id: int =0, source: int =0, user_data: 
 		**id (int): Unique id used to programmatically refer to the item.If label is unused this will be the label.
 		**source (int): Overrides 'id' as value storage key.
 		**user_data (Any): User data for callbacks.
+		**use_internal_label (bool): Use generated internal label instead of user specified (appends ### uuid).
 		**default_value (float): 
 		**parent (int): Parent to add this item to. (runtime adding)
 	Returns:
 		int
 	"""
 
-	return internal_dpg.add_float_value(label=label, id=id, source=source, user_data=user_data, default_value=default_value, parent=parent)
+	return internal_dpg.add_float_value(label=label, id=id, source=source, user_data=user_data, use_internal_label=use_internal_label, default_value=default_value, parent=parent)
 
-def add_float_vect_value(*, label: str =None, id: int =0, source: int =0, user_data: Any =None, default_value: List[float] =(), parent: int =internal_dpg.mvReservedUUID_3) -> int:
+def add_float_vect_value(*, label: str =None, id: int =0, source: int =0, user_data: Any =None, use_internal_label: bool =True, default_value: List[float] =(), parent: int =internal_dpg.mvReservedUUID_3) -> int:
 	"""
 	Undocumented
 	Args:
@@ -3047,15 +3123,16 @@ def add_float_vect_value(*, label: str =None, id: int =0, source: int =0, user_d
 		**id (int): Unique id used to programmatically refer to the item.If label is unused this will be the label.
 		**source (int): Overrides 'id' as value storage key.
 		**user_data (Any): User data for callbacks.
+		**use_internal_label (bool): Use generated internal label instead of user specified (appends ### uuid).
 		**default_value (List[float]): 
 		**parent (int): Parent to add this item to. (runtime adding)
 	Returns:
 		int
 	"""
 
-	return internal_dpg.add_float_vect_value(label=label, id=id, source=source, user_data=user_data, default_value=default_value, parent=parent)
+	return internal_dpg.add_float_vect_value(label=label, id=id, source=source, user_data=user_data, use_internal_label=use_internal_label, default_value=default_value, parent=parent)
 
-def add_focus_handler(parent : int, *, label: str =None, id: int =0, callback: Callable =None, show: bool =True, user_data: Any =None) -> int:
+def add_focus_handler(parent : int, *, label: str =None, id: int =0, callback: Callable =None, show: bool =True, user_data: Any =None, use_internal_label: bool =True) -> int:
 	"""
 	Adds a handler which runs a given callback when the specified item is focused.
 	Args:
@@ -3065,13 +3142,14 @@ def add_focus_handler(parent : int, *, label: str =None, id: int =0, callback: C
 		**callback (Callable): Registers a callback.
 		**show (bool): Attempt to render widget.
 		**user_data (Any): User data for callbacks.
+		**use_internal_label (bool): Use generated internal label instead of user specified (appends ### uuid).
 	Returns:
 		int
 	"""
 
-	return internal_dpg.add_focus_handler(parent, label=label, id=id, callback=callback, show=show, user_data=user_data)
+	return internal_dpg.add_focus_handler(parent, label=label, id=id, callback=callback, show=show, user_data=user_data, use_internal_label=use_internal_label)
 
-def add_font(file : str, size : int, *, label: str =None, id: int =0, user_data: Any =None, default_font: bool =False, parent: int =internal_dpg.mvReservedUUID_0) -> int:
+def add_font(file : str, size : int, *, label: str =None, id: int =0, user_data: Any =None, use_internal_label: bool =True, default_font: bool =False, parent: int =internal_dpg.mvReservedUUID_0) -> int:
 	"""
 	Undocumented function
 	Args:
@@ -3080,15 +3158,16 @@ def add_font(file : str, size : int, *, label: str =None, id: int =0, user_data:
 		**label (str): Overrides 'name' as label.
 		**id (int): Unique id used to programmatically refer to the item.If label is unused this will be the label.
 		**user_data (Any): User data for callbacks.
+		**use_internal_label (bool): Use generated internal label instead of user specified (appends ### uuid).
 		**default_font (bool): 
 		**parent (int): Parent to add this item to. (runtime adding)
 	Returns:
 		int
 	"""
 
-	return internal_dpg.add_font(file, size, label=label, id=id, user_data=user_data, default_font=default_font, parent=parent)
+	return internal_dpg.add_font(file, size, label=label, id=id, user_data=user_data, use_internal_label=use_internal_label, default_font=default_font, parent=parent)
 
-def add_font_chars(chars : List[int], *, label: str =None, id: int =0, parent: int =0, user_data: Any =None) -> int:
+def add_font_chars(chars : List[int], *, label: str =None, id: int =0, parent: int =0, user_data: Any =None, use_internal_label: bool =True) -> int:
 	"""
 	Undocumented function
 	Args:
@@ -3097,13 +3176,14 @@ def add_font_chars(chars : List[int], *, label: str =None, id: int =0, parent: i
 		**id (int): Unique id used to programmatically refer to the item.If label is unused this will be the label.
 		**parent (int): Parent to add this item to. (runtime adding)
 		**user_data (Any): User data for callbacks.
+		**use_internal_label (bool): Use generated internal label instead of user specified (appends ### uuid).
 	Returns:
 		int
 	"""
 
-	return internal_dpg.add_font_chars(chars, label=label, id=id, parent=parent, user_data=user_data)
+	return internal_dpg.add_font_chars(chars, label=label, id=id, parent=parent, user_data=user_data, use_internal_label=use_internal_label)
 
-def add_font_range(first_char : int, last_char : int, *, label: str =None, id: int =0, parent: int =0, user_data: Any =None) -> int:
+def add_font_range(first_char : int, last_char : int, *, label: str =None, id: int =0, parent: int =0, user_data: Any =None, use_internal_label: bool =True) -> int:
 	"""
 	Undocumented function
 	Args:
@@ -3113,13 +3193,14 @@ def add_font_range(first_char : int, last_char : int, *, label: str =None, id: i
 		**id (int): Unique id used to programmatically refer to the item.If label is unused this will be the label.
 		**parent (int): Parent to add this item to. (runtime adding)
 		**user_data (Any): User data for callbacks.
+		**use_internal_label (bool): Use generated internal label instead of user specified (appends ### uuid).
 	Returns:
 		int
 	"""
 
-	return internal_dpg.add_font_range(first_char, last_char, label=label, id=id, parent=parent, user_data=user_data)
+	return internal_dpg.add_font_range(first_char, last_char, label=label, id=id, parent=parent, user_data=user_data, use_internal_label=use_internal_label)
 
-def add_font_range_hint(hint : int, *, label: str =None, id: int =0, parent: int =0, user_data: Any =None) -> int:
+def add_font_range_hint(hint : int, *, label: str =None, id: int =0, parent: int =0, user_data: Any =None, use_internal_label: bool =True) -> int:
 	"""
 	Undocumented function
 	Args:
@@ -3128,13 +3209,14 @@ def add_font_range_hint(hint : int, *, label: str =None, id: int =0, parent: int
 		**id (int): Unique id used to programmatically refer to the item.If label is unused this will be the label.
 		**parent (int): Parent to add this item to. (runtime adding)
 		**user_data (Any): User data for callbacks.
+		**use_internal_label (bool): Use generated internal label instead of user specified (appends ### uuid).
 	Returns:
 		int
 	"""
 
-	return internal_dpg.add_font_range_hint(hint, label=label, id=id, parent=parent, user_data=user_data)
+	return internal_dpg.add_font_range_hint(hint, label=label, id=id, parent=parent, user_data=user_data, use_internal_label=use_internal_label)
 
-def add_font_registry(*, label: str =None, id: int =0, show: bool =True, user_data: Any =None) -> int:
+def add_font_registry(*, label: str =None, id: int =0, show: bool =True, user_data: Any =None, use_internal_label: bool =True) -> int:
 	"""
 	Undocumented function
 	Args:
@@ -3142,13 +3224,14 @@ def add_font_registry(*, label: str =None, id: int =0, show: bool =True, user_da
 		**id (int): Unique id used to programmatically refer to the item.If label is unused this will be the label.
 		**show (bool): Attempt to render widget.
 		**user_data (Any): User data for callbacks.
+		**use_internal_label (bool): Use generated internal label instead of user specified (appends ### uuid).
 	Returns:
 		int
 	"""
 
-	return internal_dpg.add_font_registry(label=label, id=id, show=show, user_data=user_data)
+	return internal_dpg.add_font_registry(label=label, id=id, show=show, user_data=user_data, use_internal_label=use_internal_label)
 
-def add_group(*, label: str =None, id: int =0, width: int =0, indent: int =-1, parent: int =0, before: int =0, payload_type: str ='$$DPG_PAYLOAD', drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, pos: List[int] =[], filter_key: str ='', delay_search: bool =False, tracked: bool =False, track_offset: float =0.5, user_data: Any =None, horizontal: bool =False, horizontal_spacing: float =-1) -> int:
+def add_group(*, label: str =None, id: int =0, width: int =0, indent: int =-1, parent: int =0, before: int =0, payload_type: str ='$$DPG_PAYLOAD', drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, pos: List[int] =[], filter_key: str ='', delay_search: bool =False, tracked: bool =False, track_offset: float =0.5, user_data: Any =None, use_internal_label: bool =True, horizontal: bool =False, horizontal_spacing: float =-1) -> int:
 	"""
 	Creates a group that other widgets can belong to. The group allows item commands to be issued for all of its members. Must be closed with the end command.
 	Args:
@@ -3168,15 +3251,16 @@ def add_group(*, label: str =None, id: int =0, width: int =0, indent: int =-1, p
 		**tracked (bool): Scroll tracking
 		**track_offset (float): 0.0f:top, 0.5f:center, 1.0f:bottom
 		**user_data (Any): User data for callbacks.
+		**use_internal_label (bool): Use generated internal label instead of user specified (appends ### uuid).
 		**horizontal (bool): Forces child widgets to be added in a horizontal layout.
 		**horizontal_spacing (float): Spacing for the horizontal layout.
 	Returns:
 		int
 	"""
 
-	return internal_dpg.add_group(label=label, id=id, width=width, indent=indent, parent=parent, before=before, payload_type=payload_type, drag_callback=drag_callback, drop_callback=drop_callback, show=show, pos=pos, filter_key=filter_key, delay_search=delay_search, tracked=tracked, track_offset=track_offset, user_data=user_data, horizontal=horizontal, horizontal_spacing=horizontal_spacing)
+	return internal_dpg.add_group(label=label, id=id, width=width, indent=indent, parent=parent, before=before, payload_type=payload_type, drag_callback=drag_callback, drop_callback=drop_callback, show=show, pos=pos, filter_key=filter_key, delay_search=delay_search, tracked=tracked, track_offset=track_offset, user_data=user_data, use_internal_label=use_internal_label, horizontal=horizontal, horizontal_spacing=horizontal_spacing)
 
-def add_handler_registry(*, label: str =None, id: int =0, show: bool =True, user_data: Any =None) -> int:
+def add_handler_registry(*, label: str =None, id: int =0, show: bool =True, user_data: Any =None, use_internal_label: bool =True) -> int:
 	"""
 	Adds a handler registry.
 	Args:
@@ -3184,13 +3268,14 @@ def add_handler_registry(*, label: str =None, id: int =0, show: bool =True, user
 		**id (int): Unique id used to programmatically refer to the item.If label is unused this will be the label.
 		**show (bool): Attempt to render widget.
 		**user_data (Any): User data for callbacks.
+		**use_internal_label (bool): Use generated internal label instead of user specified (appends ### uuid).
 	Returns:
 		int
 	"""
 
-	return internal_dpg.add_handler_registry(label=label, id=id, show=show, user_data=user_data)
+	return internal_dpg.add_handler_registry(label=label, id=id, show=show, user_data=user_data, use_internal_label=use_internal_label)
 
-def add_heat_series(x : List[float], rows : int, cols : int, *, label: str =None, id: int =0, parent: int =0, before: int =0, source: int =0, show: bool =True, user_data: Any =None, scale_min: float =0.0, scale_max: float =1.0, bounds_min: Any =(0.0, 0.0), bounds_max: Any =(1.0, 1.0), format: str ='%0.1f', contribute_to_bounds: bool =True) -> int:
+def add_heat_series(x : List[float], rows : int, cols : int, *, label: str =None, id: int =0, parent: int =0, before: int =0, source: int =0, show: bool =True, user_data: Any =None, use_internal_label: bool =True, scale_min: float =0.0, scale_max: float =1.0, bounds_min: Any =(0.0, 0.0), bounds_max: Any =(1.0, 1.0), format: str ='%0.1f', contribute_to_bounds: bool =True) -> int:
 	"""
 	Adds a heat series to a plot. Typically a color scale widget is also added to show the legend.
 	Args:
@@ -3204,6 +3289,7 @@ def add_heat_series(x : List[float], rows : int, cols : int, *, label: str =None
 		**source (int): Overrides 'id' as value storage key.
 		**show (bool): Attempt to render widget.
 		**user_data (Any): User data for callbacks.
+		**use_internal_label (bool): Use generated internal label instead of user specified (appends ### uuid).
 		**scale_min (float): Sets the color scale min. Typically paired with the color scale widget scale_min.
 		**scale_max (float): Sets the color scale max. Typically paired with the color scale widget scale_max.
 		**bounds_min (Any): 
@@ -3214,9 +3300,9 @@ def add_heat_series(x : List[float], rows : int, cols : int, *, label: str =None
 		int
 	"""
 
-	return internal_dpg.add_heat_series(x, rows, cols, label=label, id=id, parent=parent, before=before, source=source, show=show, user_data=user_data, scale_min=scale_min, scale_max=scale_max, bounds_min=bounds_min, bounds_max=bounds_max, format=format, contribute_to_bounds=contribute_to_bounds)
+	return internal_dpg.add_heat_series(x, rows, cols, label=label, id=id, parent=parent, before=before, source=source, show=show, user_data=user_data, use_internal_label=use_internal_label, scale_min=scale_min, scale_max=scale_max, bounds_min=bounds_min, bounds_max=bounds_max, format=format, contribute_to_bounds=contribute_to_bounds)
 
-def add_histogram_series(x : List[float], *, label: str =None, id: int =0, parent: int =0, before: int =0, source: int =0, show: bool =True, user_data: Any =None, bins: int =-1, bar_scale: float =1.0, min_range: float =0.0, max_range: float =1.0, cumlative: bool =False, density: bool =False, outliers: bool =True, contribute_to_bounds: bool =True) -> int:
+def add_histogram_series(x : List[float], *, label: str =None, id: int =0, parent: int =0, before: int =0, source: int =0, show: bool =True, user_data: Any =None, use_internal_label: bool =True, bins: int =-1, bar_scale: float =1.0, min_range: float =0.0, max_range: float =1.0, cumlative: bool =False, density: bool =False, outliers: bool =True, contribute_to_bounds: bool =True) -> int:
 	"""
 	Adds a histogram series to a plot.
 	Args:
@@ -3228,6 +3314,7 @@ def add_histogram_series(x : List[float], *, label: str =None, id: int =0, paren
 		**source (int): Overrides 'id' as value storage key.
 		**show (bool): Attempt to render widget.
 		**user_data (Any): User data for callbacks.
+		**use_internal_label (bool): Use generated internal label instead of user specified (appends ### uuid).
 		**bins (int): 
 		**bar_scale (float): 
 		**min_range (float): 
@@ -3240,9 +3327,9 @@ def add_histogram_series(x : List[float], *, label: str =None, id: int =0, paren
 		int
 	"""
 
-	return internal_dpg.add_histogram_series(x, label=label, id=id, parent=parent, before=before, source=source, show=show, user_data=user_data, bins=bins, bar_scale=bar_scale, min_range=min_range, max_range=max_range, cumlative=cumlative, density=density, outliers=outliers, contribute_to_bounds=contribute_to_bounds)
+	return internal_dpg.add_histogram_series(x, label=label, id=id, parent=parent, before=before, source=source, show=show, user_data=user_data, use_internal_label=use_internal_label, bins=bins, bar_scale=bar_scale, min_range=min_range, max_range=max_range, cumlative=cumlative, density=density, outliers=outliers, contribute_to_bounds=contribute_to_bounds)
 
-def add_hline_series(x : List[float], *, label: str =None, id: int =0, parent: int =0, before: int =0, source: int =0, show: bool =True, user_data: Any =None, contribute_to_bounds: bool =True) -> int:
+def add_hline_series(x : List[float], *, label: str =None, id: int =0, parent: int =0, before: int =0, source: int =0, show: bool =True, user_data: Any =None, use_internal_label: bool =True, contribute_to_bounds: bool =True) -> int:
 	"""
 	Adds a infinite horizontal line series to a plot.
 	Args:
@@ -3254,14 +3341,15 @@ def add_hline_series(x : List[float], *, label: str =None, id: int =0, parent: i
 		**source (int): Overrides 'id' as value storage key.
 		**show (bool): Attempt to render widget.
 		**user_data (Any): User data for callbacks.
+		**use_internal_label (bool): Use generated internal label instead of user specified (appends ### uuid).
 		**contribute_to_bounds (bool): 
 	Returns:
 		int
 	"""
 
-	return internal_dpg.add_hline_series(x, label=label, id=id, parent=parent, before=before, source=source, show=show, user_data=user_data, contribute_to_bounds=contribute_to_bounds)
+	return internal_dpg.add_hline_series(x, label=label, id=id, parent=parent, before=before, source=source, show=show, user_data=user_data, use_internal_label=use_internal_label, contribute_to_bounds=contribute_to_bounds)
 
-def add_hover_handler(parent : int, *, label: str =None, id: int =0, callback: Callable =None, show: bool =True, user_data: Any =None) -> int:
+def add_hover_handler(parent : int, *, label: str =None, id: int =0, callback: Callable =None, show: bool =True, user_data: Any =None, use_internal_label: bool =True) -> int:
 	"""
 	Adds a handler which runs a given callback when the specified item is hovered.
 	Args:
@@ -3271,13 +3359,14 @@ def add_hover_handler(parent : int, *, label: str =None, id: int =0, callback: C
 		**callback (Callable): Registers a callback.
 		**show (bool): Attempt to render widget.
 		**user_data (Any): User data for callbacks.
+		**use_internal_label (bool): Use generated internal label instead of user specified (appends ### uuid).
 	Returns:
 		int
 	"""
 
-	return internal_dpg.add_hover_handler(parent, label=label, id=id, callback=callback, show=show, user_data=user_data)
+	return internal_dpg.add_hover_handler(parent, label=label, id=id, callback=callback, show=show, user_data=user_data, use_internal_label=use_internal_label)
 
-def add_image(texture_id : int, *, label: str =None, id: int =0, width: int =0, height: int =0, indent: int =-1, parent: int =0, before: int =0, source: int =0, payload_type: str ='$$DPG_PAYLOAD', drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, pos: List[int] =[], filter_key: str ='', tracked: bool =False, track_offset: float =0.5, user_data: Any =None, tint_color: List[float] =(255, 255, 255, 255), border_color: List[float] =(0, 0, 0, 0), uv_min: List[float] =(0.0, 0.0), uv_max: List[float] =(1.0, 1.0)) -> int:
+def add_image(texture_id : int, *, label: str =None, id: int =0, width: int =0, height: int =0, indent: int =-1, parent: int =0, before: int =0, source: int =0, payload_type: str ='$$DPG_PAYLOAD', drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, pos: List[int] =[], filter_key: str ='', tracked: bool =False, track_offset: float =0.5, user_data: Any =None, use_internal_label: bool =True, tint_color: List[float] =(255, 255, 255, 255), border_color: List[float] =(0, 0, 0, 0), uv_min: List[float] =(0.0, 0.0), uv_max: List[float] =(1.0, 1.0)) -> int:
 	"""
 	Adds an image from a specified texture. uv_min and uv_max represent the normalized texture coordinates of the original image that will be shown. Using range (0.0,0.0)->(1.0,1.0) for texture coordinates will generally display the entire texture.
 	Args:
@@ -3299,6 +3388,7 @@ def add_image(texture_id : int, *, label: str =None, id: int =0, width: int =0, 
 		**tracked (bool): Scroll tracking
 		**track_offset (float): 0.0f:top, 0.5f:center, 1.0f:bottom
 		**user_data (Any): User data for callbacks.
+		**use_internal_label (bool): Use generated internal label instead of user specified (appends ### uuid).
 		**tint_color (List[float]): Applies a color tint to the entire texture.
 		**border_color (List[float]): Displays a border of the specified color around the texture.
 		**uv_min (List[float]): Normalized texture coordinates min point.
@@ -3307,9 +3397,9 @@ def add_image(texture_id : int, *, label: str =None, id: int =0, width: int =0, 
 		int
 	"""
 
-	return internal_dpg.add_image(texture_id, label=label, id=id, width=width, height=height, indent=indent, parent=parent, before=before, source=source, payload_type=payload_type, drag_callback=drag_callback, drop_callback=drop_callback, show=show, pos=pos, filter_key=filter_key, tracked=tracked, track_offset=track_offset, user_data=user_data, tint_color=tint_color, border_color=border_color, uv_min=uv_min, uv_max=uv_max)
+	return internal_dpg.add_image(texture_id, label=label, id=id, width=width, height=height, indent=indent, parent=parent, before=before, source=source, payload_type=payload_type, drag_callback=drag_callback, drop_callback=drop_callback, show=show, pos=pos, filter_key=filter_key, tracked=tracked, track_offset=track_offset, user_data=user_data, use_internal_label=use_internal_label, tint_color=tint_color, border_color=border_color, uv_min=uv_min, uv_max=uv_max)
 
-def add_image_button(texture_id : int, *, label: str =None, id: int =0, width: int =0, height: int =0, indent: int =-1, parent: int =0, before: int =0, source: int =0, payload_type: str ='$$DPG_PAYLOAD', callback: Callable =None, drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, enabled: bool =True, pos: List[int] =[], filter_key: str ='', tracked: bool =False, track_offset: float =0.5, user_data: Any =None, frame_padding: int =-1, tint_color: List[float] =(255, 255, 255, 255), background_color: List[float] =(0, 0, 0, 0), uv_min: List[float] =(0.0, 0.0), uv_max: List[float] =(1.0, 1.0)) -> int:
+def add_image_button(texture_id : int, *, label: str =None, id: int =0, width: int =0, height: int =0, indent: int =-1, parent: int =0, before: int =0, source: int =0, payload_type: str ='$$DPG_PAYLOAD', callback: Callable =None, drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, enabled: bool =True, pos: List[int] =[], filter_key: str ='', tracked: bool =False, track_offset: float =0.5, user_data: Any =None, use_internal_label: bool =True, frame_padding: int =-1, tint_color: List[float] =(255, 255, 255, 255), background_color: List[float] =(0, 0, 0, 0), uv_min: List[float] =(0.0, 0.0), uv_max: List[float] =(1.0, 1.0)) -> int:
 	"""
 	Adds an button with a texture. uv_min and uv_max represent the normalized texture coordinates of the original image that will be shown. Using range (0.0,0.0)->(1.0,1.0) texture coordinates will generally display the entire texture
 	Args:
@@ -3333,6 +3423,7 @@ def add_image_button(texture_id : int, *, label: str =None, id: int =0, width: i
 		**tracked (bool): Scroll tracking
 		**track_offset (float): 0.0f:top, 0.5f:center, 1.0f:bottom
 		**user_data (Any): User data for callbacks.
+		**use_internal_label (bool): Use generated internal label instead of user specified (appends ### uuid).
 		**frame_padding (int): 
 		**tint_color (List[float]): Applies a color tint to the entire texture.
 		**background_color (List[float]): Displays a border of the specified color around the texture.
@@ -3342,9 +3433,9 @@ def add_image_button(texture_id : int, *, label: str =None, id: int =0, width: i
 		int
 	"""
 
-	return internal_dpg.add_image_button(texture_id, label=label, id=id, width=width, height=height, indent=indent, parent=parent, before=before, source=source, payload_type=payload_type, callback=callback, drag_callback=drag_callback, drop_callback=drop_callback, show=show, enabled=enabled, pos=pos, filter_key=filter_key, tracked=tracked, track_offset=track_offset, user_data=user_data, frame_padding=frame_padding, tint_color=tint_color, background_color=background_color, uv_min=uv_min, uv_max=uv_max)
+	return internal_dpg.add_image_button(texture_id, label=label, id=id, width=width, height=height, indent=indent, parent=parent, before=before, source=source, payload_type=payload_type, callback=callback, drag_callback=drag_callback, drop_callback=drop_callback, show=show, enabled=enabled, pos=pos, filter_key=filter_key, tracked=tracked, track_offset=track_offset, user_data=user_data, use_internal_label=use_internal_label, frame_padding=frame_padding, tint_color=tint_color, background_color=background_color, uv_min=uv_min, uv_max=uv_max)
 
-def add_image_series(texture_id : int, bounds_min : List[float], bounds_max : List[float], *, label: str =None, id: int =0, parent: int =0, before: int =0, source: int =0, show: bool =True, user_data: Any =None, uv_min: List[float] =(0.0, 0.0), uv_max: List[float] =(1.0, 1.0), tint_color: List[int] =(255, 255, 255, 255)) -> int:
+def add_image_series(texture_id : int, bounds_min : List[float], bounds_max : List[float], *, label: str =None, id: int =0, parent: int =0, before: int =0, source: int =0, show: bool =True, user_data: Any =None, use_internal_label: bool =True, uv_min: List[float] =(0.0, 0.0), uv_max: List[float] =(1.0, 1.0), tint_color: List[int] =(255, 255, 255, 255)) -> int:
 	"""
 	Adds a image series to a plot.
 	Args:
@@ -3358,6 +3449,7 @@ def add_image_series(texture_id : int, bounds_min : List[float], bounds_max : Li
 		**source (int): Overrides 'id' as value storage key.
 		**show (bool): Attempt to render widget.
 		**user_data (Any): User data for callbacks.
+		**use_internal_label (bool): Use generated internal label instead of user specified (appends ### uuid).
 		**uv_min (List[float]): normalized texture coordinates
 		**uv_max (List[float]): normalized texture coordinates
 		**tint_color (List[int]): 
@@ -3365,9 +3457,9 @@ def add_image_series(texture_id : int, bounds_min : List[float], bounds_max : Li
 		int
 	"""
 
-	return internal_dpg.add_image_series(texture_id, bounds_min, bounds_max, label=label, id=id, parent=parent, before=before, source=source, show=show, user_data=user_data, uv_min=uv_min, uv_max=uv_max, tint_color=tint_color)
+	return internal_dpg.add_image_series(texture_id, bounds_min, bounds_max, label=label, id=id, parent=parent, before=before, source=source, show=show, user_data=user_data, use_internal_label=use_internal_label, uv_min=uv_min, uv_max=uv_max, tint_color=tint_color)
 
-def add_input_float(*, label: str =None, id: int =0, width: int =0, indent: int =-1, parent: int =0, before: int =0, source: int =0, payload_type: str ='$$DPG_PAYLOAD', callback: Callable =None, drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, enabled: bool =True, pos: List[int] =[], filter_key: str ='', tracked: bool =False, track_offset: float =0.5, user_data: Any =None, default_value: float =0.0, format: str ='%.3f', min_value: float =0.0, max_value: float =100.0, step: float =0.1, step_fast: float =1.0, min_clamped: bool =False, max_clamped: bool =False, on_enter: bool =False, readonly: bool =False) -> int:
+def add_input_float(*, label: str =None, id: int =0, width: int =0, indent: int =-1, parent: int =0, before: int =0, source: int =0, payload_type: str ='$$DPG_PAYLOAD', callback: Callable =None, drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, enabled: bool =True, pos: List[int] =[], filter_key: str ='', tracked: bool =False, track_offset: float =0.5, user_data: Any =None, use_internal_label: bool =True, default_value: float =0.0, format: str ='%.3f', min_value: float =0.0, max_value: float =100.0, step: float =0.1, step_fast: float =1.0, min_clamped: bool =False, max_clamped: bool =False, on_enter: bool =False, readonly: bool =False) -> int:
 	"""
 	Adds input for floats. Step buttons can be turned on or off.
 	Args:
@@ -3389,6 +3481,7 @@ def add_input_float(*, label: str =None, id: int =0, width: int =0, indent: int 
 		**tracked (bool): Scroll tracking
 		**track_offset (float): 0.0f:top, 0.5f:center, 1.0f:bottom
 		**user_data (Any): User data for callbacks.
+		**use_internal_label (bool): Use generated internal label instead of user specified (appends ### uuid).
 		**default_value (float): 
 		**format (str): 
 		**min_value (float): Value for lower limit of input. By default this limits the step buttons. Use clamped to limit manual input.
@@ -3403,9 +3496,9 @@ def add_input_float(*, label: str =None, id: int =0, width: int =0, indent: int 
 		int
 	"""
 
-	return internal_dpg.add_input_float(label=label, id=id, width=width, indent=indent, parent=parent, before=before, source=source, payload_type=payload_type, callback=callback, drag_callback=drag_callback, drop_callback=drop_callback, show=show, enabled=enabled, pos=pos, filter_key=filter_key, tracked=tracked, track_offset=track_offset, user_data=user_data, default_value=default_value, format=format, min_value=min_value, max_value=max_value, step=step, step_fast=step_fast, min_clamped=min_clamped, max_clamped=max_clamped, on_enter=on_enter, readonly=readonly)
+	return internal_dpg.add_input_float(label=label, id=id, width=width, indent=indent, parent=parent, before=before, source=source, payload_type=payload_type, callback=callback, drag_callback=drag_callback, drop_callback=drop_callback, show=show, enabled=enabled, pos=pos, filter_key=filter_key, tracked=tracked, track_offset=track_offset, user_data=user_data, use_internal_label=use_internal_label, default_value=default_value, format=format, min_value=min_value, max_value=max_value, step=step, step_fast=step_fast, min_clamped=min_clamped, max_clamped=max_clamped, on_enter=on_enter, readonly=readonly)
 
-def add_input_floatx(*, label: str =None, id: int =0, width: int =0, indent: int =-1, parent: int =0, before: int =0, source: int =0, payload_type: str ='$$DPG_PAYLOAD', callback: Callable =None, drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, enabled: bool =True, pos: List[int] =[], filter_key: str ='', tracked: bool =False, track_offset: float =0.5, user_data: Any =None, default_value: List[float] =(0.0, 0.0, 0.0, 0.0), format: str ='%.3f', min_value: float =0.0, max_value: float =100.0, size: int =4, min_clamped: bool =False, max_clamped: bool =False, on_enter: bool =False, readonly: bool =False) -> int:
+def add_input_floatx(*, label: str =None, id: int =0, width: int =0, indent: int =-1, parent: int =0, before: int =0, source: int =0, payload_type: str ='$$DPG_PAYLOAD', callback: Callable =None, drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, enabled: bool =True, pos: List[int] =[], filter_key: str ='', tracked: bool =False, track_offset: float =0.5, user_data: Any =None, use_internal_label: bool =True, default_value: List[float] =(0.0, 0.0, 0.0, 0.0), format: str ='%.3f', min_value: float =0.0, max_value: float =100.0, size: int =4, min_clamped: bool =False, max_clamped: bool =False, on_enter: bool =False, readonly: bool =False) -> int:
 	"""
 	Adds multi float input for up to 4 float values.
 	Args:
@@ -3427,6 +3520,7 @@ def add_input_floatx(*, label: str =None, id: int =0, width: int =0, indent: int
 		**tracked (bool): Scroll tracking
 		**track_offset (float): 0.0f:top, 0.5f:center, 1.0f:bottom
 		**user_data (Any): User data for callbacks.
+		**use_internal_label (bool): Use generated internal label instead of user specified (appends ### uuid).
 		**default_value (List[float]): 
 		**format (str): 
 		**min_value (float): Value for lower limit of input for each cell. Use clamped to turn on.
@@ -3440,9 +3534,9 @@ def add_input_floatx(*, label: str =None, id: int =0, width: int =0, indent: int
 		int
 	"""
 
-	return internal_dpg.add_input_floatx(label=label, id=id, width=width, indent=indent, parent=parent, before=before, source=source, payload_type=payload_type, callback=callback, drag_callback=drag_callback, drop_callback=drop_callback, show=show, enabled=enabled, pos=pos, filter_key=filter_key, tracked=tracked, track_offset=track_offset, user_data=user_data, default_value=default_value, format=format, min_value=min_value, max_value=max_value, size=size, min_clamped=min_clamped, max_clamped=max_clamped, on_enter=on_enter, readonly=readonly)
+	return internal_dpg.add_input_floatx(label=label, id=id, width=width, indent=indent, parent=parent, before=before, source=source, payload_type=payload_type, callback=callback, drag_callback=drag_callback, drop_callback=drop_callback, show=show, enabled=enabled, pos=pos, filter_key=filter_key, tracked=tracked, track_offset=track_offset, user_data=user_data, use_internal_label=use_internal_label, default_value=default_value, format=format, min_value=min_value, max_value=max_value, size=size, min_clamped=min_clamped, max_clamped=max_clamped, on_enter=on_enter, readonly=readonly)
 
-def add_input_int(*, label: str =None, id: int =0, width: int =0, indent: int =-1, parent: int =0, before: int =0, source: int =0, payload_type: str ='$$DPG_PAYLOAD', callback: Callable =None, drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, enabled: bool =True, pos: List[int] =[], filter_key: str ='', tracked: bool =False, track_offset: float =0.5, user_data: Any =None, default_value: int =0, min_value: int =0, max_value: int =100, step: int =1, step_fast: int =100, min_clamped: bool =False, max_clamped: bool =False, on_enter: bool =False, readonly: bool =False) -> int:
+def add_input_int(*, label: str =None, id: int =0, width: int =0, indent: int =-1, parent: int =0, before: int =0, source: int =0, payload_type: str ='$$DPG_PAYLOAD', callback: Callable =None, drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, enabled: bool =True, pos: List[int] =[], filter_key: str ='', tracked: bool =False, track_offset: float =0.5, user_data: Any =None, use_internal_label: bool =True, default_value: int =0, min_value: int =0, max_value: int =100, step: int =1, step_fast: int =100, min_clamped: bool =False, max_clamped: bool =False, on_enter: bool =False, readonly: bool =False) -> int:
 	"""
 	Adds input for an int. Step buttons can be turned on or off.
 	Args:
@@ -3464,6 +3558,7 @@ def add_input_int(*, label: str =None, id: int =0, width: int =0, indent: int =-
 		**tracked (bool): Scroll tracking
 		**track_offset (float): 0.0f:top, 0.5f:center, 1.0f:bottom
 		**user_data (Any): User data for callbacks.
+		**use_internal_label (bool): Use generated internal label instead of user specified (appends ### uuid).
 		**default_value (int): 
 		**min_value (int): Value for lower limit of input. By default this limits the step buttons. Use clamped to limit manual input.
 		**max_value (int): Value for upper limit of input. By default this limits the step buttons. Use clamped to limit manual input.
@@ -3477,9 +3572,9 @@ def add_input_int(*, label: str =None, id: int =0, width: int =0, indent: int =-
 		int
 	"""
 
-	return internal_dpg.add_input_int(label=label, id=id, width=width, indent=indent, parent=parent, before=before, source=source, payload_type=payload_type, callback=callback, drag_callback=drag_callback, drop_callback=drop_callback, show=show, enabled=enabled, pos=pos, filter_key=filter_key, tracked=tracked, track_offset=track_offset, user_data=user_data, default_value=default_value, min_value=min_value, max_value=max_value, step=step, step_fast=step_fast, min_clamped=min_clamped, max_clamped=max_clamped, on_enter=on_enter, readonly=readonly)
+	return internal_dpg.add_input_int(label=label, id=id, width=width, indent=indent, parent=parent, before=before, source=source, payload_type=payload_type, callback=callback, drag_callback=drag_callback, drop_callback=drop_callback, show=show, enabled=enabled, pos=pos, filter_key=filter_key, tracked=tracked, track_offset=track_offset, user_data=user_data, use_internal_label=use_internal_label, default_value=default_value, min_value=min_value, max_value=max_value, step=step, step_fast=step_fast, min_clamped=min_clamped, max_clamped=max_clamped, on_enter=on_enter, readonly=readonly)
 
-def add_input_intx(*, label: str =None, id: int =0, width: int =0, indent: int =-1, parent: int =0, before: int =0, source: int =0, payload_type: str ='$$DPG_PAYLOAD', callback: Callable =None, drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, enabled: bool =True, pos: List[int] =[], filter_key: str ='', tracked: bool =False, track_offset: float =0.5, user_data: Any =None, default_value: List[int] =(0, 0, 0, 0), min_value: int =0, max_value: int =100, size: int =4, min_clamped: bool =False, max_clamped: bool =False, on_enter: bool =False, readonly: bool =False) -> int:
+def add_input_intx(*, label: str =None, id: int =0, width: int =0, indent: int =-1, parent: int =0, before: int =0, source: int =0, payload_type: str ='$$DPG_PAYLOAD', callback: Callable =None, drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, enabled: bool =True, pos: List[int] =[], filter_key: str ='', tracked: bool =False, track_offset: float =0.5, user_data: Any =None, use_internal_label: bool =True, default_value: List[int] =(0, 0, 0, 0), min_value: int =0, max_value: int =100, size: int =4, min_clamped: bool =False, max_clamped: bool =False, on_enter: bool =False, readonly: bool =False) -> int:
 	"""
 	Adds multi int input for up to 4 integer values.
 	Args:
@@ -3501,6 +3596,7 @@ def add_input_intx(*, label: str =None, id: int =0, width: int =0, indent: int =
 		**tracked (bool): Scroll tracking
 		**track_offset (float): 0.0f:top, 0.5f:center, 1.0f:bottom
 		**user_data (Any): User data for callbacks.
+		**use_internal_label (bool): Use generated internal label instead of user specified (appends ### uuid).
 		**default_value (List[int]): 
 		**min_value (int): Value for lower limit of input for each cell. Use clamped to turn on.
 		**max_value (int): Value for upper limit of input for each cell. Use clamped to turn on.
@@ -3513,9 +3609,9 @@ def add_input_intx(*, label: str =None, id: int =0, width: int =0, indent: int =
 		int
 	"""
 
-	return internal_dpg.add_input_intx(label=label, id=id, width=width, indent=indent, parent=parent, before=before, source=source, payload_type=payload_type, callback=callback, drag_callback=drag_callback, drop_callback=drop_callback, show=show, enabled=enabled, pos=pos, filter_key=filter_key, tracked=tracked, track_offset=track_offset, user_data=user_data, default_value=default_value, min_value=min_value, max_value=max_value, size=size, min_clamped=min_clamped, max_clamped=max_clamped, on_enter=on_enter, readonly=readonly)
+	return internal_dpg.add_input_intx(label=label, id=id, width=width, indent=indent, parent=parent, before=before, source=source, payload_type=payload_type, callback=callback, drag_callback=drag_callback, drop_callback=drop_callback, show=show, enabled=enabled, pos=pos, filter_key=filter_key, tracked=tracked, track_offset=track_offset, user_data=user_data, use_internal_label=use_internal_label, default_value=default_value, min_value=min_value, max_value=max_value, size=size, min_clamped=min_clamped, max_clamped=max_clamped, on_enter=on_enter, readonly=readonly)
 
-def add_input_text(*, label: str =None, id: int =0, width: int =0, height: int =0, indent: int =-1, parent: int =0, before: int =0, source: int =0, payload_type: str ='$$DPG_PAYLOAD', callback: Callable =None, drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, enabled: bool =True, pos: List[int] =[], filter_key: str ='', tracked: bool =False, track_offset: float =0.5, user_data: Any =None, default_value: str ='', hint: str ='', multiline: bool =False, no_spaces: bool =False, uppercase: bool =False, tab_input: bool =False, decimal: bool =False, hexadecimal: bool =False, readonly: bool =False, password: bool =False, scientific: bool =False, on_enter: bool =False) -> int:
+def add_input_text(*, label: str =None, id: int =0, width: int =0, height: int =0, indent: int =-1, parent: int =0, before: int =0, source: int =0, payload_type: str ='$$DPG_PAYLOAD', callback: Callable =None, drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, enabled: bool =True, pos: List[int] =[], filter_key: str ='', tracked: bool =False, track_offset: float =0.5, user_data: Any =None, use_internal_label: bool =True, default_value: str ='', hint: str ='', multiline: bool =False, no_spaces: bool =False, uppercase: bool =False, tab_input: bool =False, decimal: bool =False, hexadecimal: bool =False, readonly: bool =False, password: bool =False, scientific: bool =False, on_enter: bool =False) -> int:
 	"""
 	Adds input for text.
 	Args:
@@ -3538,6 +3634,7 @@ def add_input_text(*, label: str =None, id: int =0, width: int =0, height: int =
 		**tracked (bool): Scroll tracking
 		**track_offset (float): 0.0f:top, 0.5f:center, 1.0f:bottom
 		**user_data (Any): User data for callbacks.
+		**use_internal_label (bool): Use generated internal label instead of user specified (appends ### uuid).
 		**default_value (str): 
 		**hint (str): Displayed only when value is empty string. Will reappear if input value is set to empty string. Will not show if default value is anything other than default empty string.
 		**multiline (bool): Allows for multiline text input.
@@ -3554,9 +3651,9 @@ def add_input_text(*, label: str =None, id: int =0, width: int =0, height: int =
 		int
 	"""
 
-	return internal_dpg.add_input_text(label=label, id=id, width=width, height=height, indent=indent, parent=parent, before=before, source=source, payload_type=payload_type, callback=callback, drag_callback=drag_callback, drop_callback=drop_callback, show=show, enabled=enabled, pos=pos, filter_key=filter_key, tracked=tracked, track_offset=track_offset, user_data=user_data, default_value=default_value, hint=hint, multiline=multiline, no_spaces=no_spaces, uppercase=uppercase, tab_input=tab_input, decimal=decimal, hexadecimal=hexadecimal, readonly=readonly, password=password, scientific=scientific, on_enter=on_enter)
+	return internal_dpg.add_input_text(label=label, id=id, width=width, height=height, indent=indent, parent=parent, before=before, source=source, payload_type=payload_type, callback=callback, drag_callback=drag_callback, drop_callback=drop_callback, show=show, enabled=enabled, pos=pos, filter_key=filter_key, tracked=tracked, track_offset=track_offset, user_data=user_data, use_internal_label=use_internal_label, default_value=default_value, hint=hint, multiline=multiline, no_spaces=no_spaces, uppercase=uppercase, tab_input=tab_input, decimal=decimal, hexadecimal=hexadecimal, readonly=readonly, password=password, scientific=scientific, on_enter=on_enter)
 
-def add_int4_value(*, label: str =None, id: int =0, source: int =0, user_data: Any =None, default_value: List[int] =(0, 0, 0, 0), parent: int =internal_dpg.mvReservedUUID_3) -> int:
+def add_int4_value(*, label: str =None, id: int =0, source: int =0, user_data: Any =None, use_internal_label: bool =True, default_value: List[int] =(0, 0, 0, 0), parent: int =internal_dpg.mvReservedUUID_3) -> int:
 	"""
 	Undocumented
 	Args:
@@ -3564,15 +3661,16 @@ def add_int4_value(*, label: str =None, id: int =0, source: int =0, user_data: A
 		**id (int): Unique id used to programmatically refer to the item.If label is unused this will be the label.
 		**source (int): Overrides 'id' as value storage key.
 		**user_data (Any): User data for callbacks.
+		**use_internal_label (bool): Use generated internal label instead of user specified (appends ### uuid).
 		**default_value (List[int]): 
 		**parent (int): Parent to add this item to. (runtime adding)
 	Returns:
 		int
 	"""
 
-	return internal_dpg.add_int4_value(label=label, id=id, source=source, user_data=user_data, default_value=default_value, parent=parent)
+	return internal_dpg.add_int4_value(label=label, id=id, source=source, user_data=user_data, use_internal_label=use_internal_label, default_value=default_value, parent=parent)
 
-def add_int_value(*, label: str =None, id: int =0, source: int =0, user_data: Any =None, default_value: int =0, parent: int =internal_dpg.mvReservedUUID_3) -> int:
+def add_int_value(*, label: str =None, id: int =0, source: int =0, user_data: Any =None, use_internal_label: bool =True, default_value: int =0, parent: int =internal_dpg.mvReservedUUID_3) -> int:
 	"""
 	Undocumented
 	Args:
@@ -3580,15 +3678,16 @@ def add_int_value(*, label: str =None, id: int =0, source: int =0, user_data: An
 		**id (int): Unique id used to programmatically refer to the item.If label is unused this will be the label.
 		**source (int): Overrides 'id' as value storage key.
 		**user_data (Any): User data for callbacks.
+		**use_internal_label (bool): Use generated internal label instead of user specified (appends ### uuid).
 		**default_value (int): 
 		**parent (int): Parent to add this item to. (runtime adding)
 	Returns:
 		int
 	"""
 
-	return internal_dpg.add_int_value(label=label, id=id, source=source, user_data=user_data, default_value=default_value, parent=parent)
+	return internal_dpg.add_int_value(label=label, id=id, source=source, user_data=user_data, use_internal_label=use_internal_label, default_value=default_value, parent=parent)
 
-def add_key_down_handler(key : int =-1, *, label: str =None, id: int =0, callback: Callable =None, show: bool =True, user_data: Any =None, parent: int =internal_dpg.mvReservedUUID_1) -> int:
+def add_key_down_handler(key : int =-1, *, label: str =None, id: int =0, callback: Callable =None, show: bool =True, user_data: Any =None, use_internal_label: bool =True, parent: int =internal_dpg.mvReservedUUID_1) -> int:
 	"""
 	Adds a handler which runs a given callback when the specified key is down. Parent must be a handler registry.
 	Args:
@@ -3598,14 +3697,15 @@ def add_key_down_handler(key : int =-1, *, label: str =None, id: int =0, callbac
 		**callback (Callable): Registers a callback.
 		**show (bool): Attempt to render widget.
 		**user_data (Any): User data for callbacks.
+		**use_internal_label (bool): Use generated internal label instead of user specified (appends ### uuid).
 		**parent (int): Parent to add this item to. (runtime adding)
 	Returns:
 		int
 	"""
 
-	return internal_dpg.add_key_down_handler(key, label=label, id=id, callback=callback, show=show, user_data=user_data, parent=parent)
+	return internal_dpg.add_key_down_handler(key, label=label, id=id, callback=callback, show=show, user_data=user_data, use_internal_label=use_internal_label, parent=parent)
 
-def add_key_press_handler(key : int =-1, *, label: str =None, id: int =0, callback: Callable =None, show: bool =True, user_data: Any =None, parent: int =internal_dpg.mvReservedUUID_1) -> int:
+def add_key_press_handler(key : int =-1, *, label: str =None, id: int =0, callback: Callable =None, show: bool =True, user_data: Any =None, use_internal_label: bool =True, parent: int =internal_dpg.mvReservedUUID_1) -> int:
 	"""
 	Adds a handler which runs a given callback when the specified key is pressed. Parent must be a handler registry.
 	Args:
@@ -3615,14 +3715,15 @@ def add_key_press_handler(key : int =-1, *, label: str =None, id: int =0, callba
 		**callback (Callable): Registers a callback.
 		**show (bool): Attempt to render widget.
 		**user_data (Any): User data for callbacks.
+		**use_internal_label (bool): Use generated internal label instead of user specified (appends ### uuid).
 		**parent (int): Parent to add this item to. (runtime adding)
 	Returns:
 		int
 	"""
 
-	return internal_dpg.add_key_press_handler(key, label=label, id=id, callback=callback, show=show, user_data=user_data, parent=parent)
+	return internal_dpg.add_key_press_handler(key, label=label, id=id, callback=callback, show=show, user_data=user_data, use_internal_label=use_internal_label, parent=parent)
 
-def add_key_release_handler(key : int =-1, *, label: str =None, id: int =0, callback: Callable =None, show: bool =True, user_data: Any =None, parent: int =internal_dpg.mvReservedUUID_1) -> int:
+def add_key_release_handler(key : int =-1, *, label: str =None, id: int =0, callback: Callable =None, show: bool =True, user_data: Any =None, use_internal_label: bool =True, parent: int =internal_dpg.mvReservedUUID_1) -> int:
 	"""
 	Adds a handler which runs a given callback when the specified key is released. Parent must be a handler registry.
 	Args:
@@ -3632,14 +3733,15 @@ def add_key_release_handler(key : int =-1, *, label: str =None, id: int =0, call
 		**callback (Callable): Registers a callback.
 		**show (bool): Attempt to render widget.
 		**user_data (Any): User data for callbacks.
+		**use_internal_label (bool): Use generated internal label instead of user specified (appends ### uuid).
 		**parent (int): Parent to add this item to. (runtime adding)
 	Returns:
 		int
 	"""
 
-	return internal_dpg.add_key_release_handler(key, label=label, id=id, callback=callback, show=show, user_data=user_data, parent=parent)
+	return internal_dpg.add_key_release_handler(key, label=label, id=id, callback=callback, show=show, user_data=user_data, use_internal_label=use_internal_label, parent=parent)
 
-def add_knob_float(*, label: str =None, id: int =0, width: int =0, height: int =0, indent: int =-1, parent: int =0, before: int =0, source: int =0, payload_type: str ='$$DPG_PAYLOAD', callback: Callable =None, drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, pos: List[int] =[], filter_key: str ='', tracked: bool =False, track_offset: float =0.5, user_data: Any =None, default_value: float =0.0, min_value: float =0.0, max_value: float =100.0) -> int:
+def add_knob_float(*, label: str =None, id: int =0, width: int =0, height: int =0, indent: int =-1, parent: int =0, before: int =0, source: int =0, payload_type: str ='$$DPG_PAYLOAD', callback: Callable =None, drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, pos: List[int] =[], filter_key: str ='', tracked: bool =False, track_offset: float =0.5, user_data: Any =None, use_internal_label: bool =True, default_value: float =0.0, min_value: float =0.0, max_value: float =100.0) -> int:
 	"""
 	Adds a knob that rotates based of change in x mouse position.
 	Args:
@@ -3661,6 +3763,7 @@ def add_knob_float(*, label: str =None, id: int =0, width: int =0, height: int =
 		**tracked (bool): Scroll tracking
 		**track_offset (float): 0.0f:top, 0.5f:center, 1.0f:bottom
 		**user_data (Any): User data for callbacks.
+		**use_internal_label (bool): Use generated internal label instead of user specified (appends ### uuid).
 		**default_value (float): 
 		**min_value (float): Applies lower limit to value.
 		**max_value (float): Applies upper limit to value.
@@ -3668,9 +3771,9 @@ def add_knob_float(*, label: str =None, id: int =0, width: int =0, height: int =
 		int
 	"""
 
-	return internal_dpg.add_knob_float(label=label, id=id, width=width, height=height, indent=indent, parent=parent, before=before, source=source, payload_type=payload_type, callback=callback, drag_callback=drag_callback, drop_callback=drop_callback, show=show, pos=pos, filter_key=filter_key, tracked=tracked, track_offset=track_offset, user_data=user_data, default_value=default_value, min_value=min_value, max_value=max_value)
+	return internal_dpg.add_knob_float(label=label, id=id, width=width, height=height, indent=indent, parent=parent, before=before, source=source, payload_type=payload_type, callback=callback, drag_callback=drag_callback, drop_callback=drop_callback, show=show, pos=pos, filter_key=filter_key, tracked=tracked, track_offset=track_offset, user_data=user_data, use_internal_label=use_internal_label, default_value=default_value, min_value=min_value, max_value=max_value)
 
-def add_line_series(x : List[float], y : List[float], *, label: str =None, id: int =0, parent: int =0, before: int =0, source: int =0, show: bool =True, user_data: Any =None) -> int:
+def add_line_series(x : List[float], y : List[float], *, label: str =None, id: int =0, parent: int =0, before: int =0, source: int =0, show: bool =True, user_data: Any =None, use_internal_label: bool =True) -> int:
 	"""
 	Adds a line series to a plot.
 	Args:
@@ -3683,13 +3786,14 @@ def add_line_series(x : List[float], y : List[float], *, label: str =None, id: i
 		**source (int): Overrides 'id' as value storage key.
 		**show (bool): Attempt to render widget.
 		**user_data (Any): User data for callbacks.
+		**use_internal_label (bool): Use generated internal label instead of user specified (appends ### uuid).
 	Returns:
 		int
 	"""
 
-	return internal_dpg.add_line_series(x, y, label=label, id=id, parent=parent, before=before, source=source, show=show, user_data=user_data)
+	return internal_dpg.add_line_series(x, y, label=label, id=id, parent=parent, before=before, source=source, show=show, user_data=user_data, use_internal_label=use_internal_label)
 
-def add_listbox(items : List[str] =(), *, label: str =None, id: int =0, width: int =0, indent: int =-1, parent: int =0, before: int =0, source: int =0, payload_type: str ='$$DPG_PAYLOAD', callback: Callable =None, drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, enabled: bool =True, pos: List[int] =[], filter_key: str ='', tracked: bool =False, track_offset: float =0.5, user_data: Any =None, default_value: str ='', num_items: int =3) -> int:
+def add_listbox(items : List[str] =(), *, label: str =None, id: int =0, width: int =0, indent: int =-1, parent: int =0, before: int =0, source: int =0, payload_type: str ='$$DPG_PAYLOAD', callback: Callable =None, drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, enabled: bool =True, pos: List[int] =[], filter_key: str ='', tracked: bool =False, track_offset: float =0.5, user_data: Any =None, use_internal_label: bool =True, default_value: str ='', num_items: int =3) -> int:
 	"""
 	Adds a listbox. If height is not large enought to show all items a scroll bar will appear.
 	Args:
@@ -3712,15 +3816,16 @@ def add_listbox(items : List[str] =(), *, label: str =None, id: int =0, width: i
 		**tracked (bool): Scroll tracking
 		**track_offset (float): 0.0f:top, 0.5f:center, 1.0f:bottom
 		**user_data (Any): User data for callbacks.
+		**use_internal_label (bool): Use generated internal label instead of user specified (appends ### uuid).
 		**default_value (str): 
 		**num_items (int): Expands the height of the listbox to show specified number of items.
 	Returns:
 		int
 	"""
 
-	return internal_dpg.add_listbox(items, label=label, id=id, width=width, indent=indent, parent=parent, before=before, source=source, payload_type=payload_type, callback=callback, drag_callback=drag_callback, drop_callback=drop_callback, show=show, enabled=enabled, pos=pos, filter_key=filter_key, tracked=tracked, track_offset=track_offset, user_data=user_data, default_value=default_value, num_items=num_items)
+	return internal_dpg.add_listbox(items, label=label, id=id, width=width, indent=indent, parent=parent, before=before, source=source, payload_type=payload_type, callback=callback, drag_callback=drag_callback, drop_callback=drop_callback, show=show, enabled=enabled, pos=pos, filter_key=filter_key, tracked=tracked, track_offset=track_offset, user_data=user_data, use_internal_label=use_internal_label, default_value=default_value, num_items=num_items)
 
-def add_loading_indicator(*, label: str =None, id: int =0, width: int =0, height: int =0, indent: int =-1, parent: int =0, before: int =0, show: bool =True, pos: List[int] =[], user_data: Any =None, style: int =0, circle_count: int =8, speed: float =1.0, radius: float =3.0, thickness: float =1.0, color: List[int] =(51, 51, 55, 255), secondary_color: List[int] =(29, 151, 236, 103)) -> int:
+def add_loading_indicator(*, label: str =None, id: int =0, width: int =0, height: int =0, indent: int =-1, parent: int =0, before: int =0, show: bool =True, pos: List[int] =[], user_data: Any =None, use_internal_label: bool =True, style: int =0, circle_count: int =8, speed: float =1.0, radius: float =3.0, thickness: float =1.0, color: List[int] =(51, 51, 55, 255), secondary_color: List[int] =(29, 151, 236, 103)) -> int:
 	"""
 	Adds a rotating anamated loding symbol.
 	Args:
@@ -3734,6 +3839,7 @@ def add_loading_indicator(*, label: str =None, id: int =0, width: int =0, height
 		**show (bool): Attempt to render widget.
 		**pos (List[int]): Places the item relative to window coordinates, [0,0] is top left.
 		**user_data (Any): User data for callbacks.
+		**use_internal_label (bool): Use generated internal label instead of user specified (appends ### uuid).
 		**style (int): 0 is rotating dots style, 1 is rotating bar style.
 		**circle_count (int): Number of dots show if dots or size of circle if circle.
 		**speed (float): Speed the anamation will rotate.
@@ -3745,9 +3851,9 @@ def add_loading_indicator(*, label: str =None, id: int =0, width: int =0, height
 		int
 	"""
 
-	return internal_dpg.add_loading_indicator(label=label, id=id, width=width, height=height, indent=indent, parent=parent, before=before, show=show, pos=pos, user_data=user_data, style=style, circle_count=circle_count, speed=speed, radius=radius, thickness=thickness, color=color, secondary_color=secondary_color)
+	return internal_dpg.add_loading_indicator(label=label, id=id, width=width, height=height, indent=indent, parent=parent, before=before, show=show, pos=pos, user_data=user_data, use_internal_label=use_internal_label, style=style, circle_count=circle_count, speed=speed, radius=radius, thickness=thickness, color=color, secondary_color=secondary_color)
 
-def add_menu(*, label: str =None, id: int =0, indent: int =-1, parent: int =0, before: int =0, payload_type: str ='$$DPG_PAYLOAD', drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, enabled: bool =True, filter_key: str ='', delay_search: bool =False, tracked: bool =False, track_offset: float =0.5, user_data: Any =None) -> int:
+def add_menu(*, label: str =None, id: int =0, indent: int =-1, parent: int =0, before: int =0, payload_type: str ='$$DPG_PAYLOAD', drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, enabled: bool =True, filter_key: str ='', delay_search: bool =False, tracked: bool =False, track_offset: float =0.5, user_data: Any =None, use_internal_label: bool =True) -> int:
 	"""
 	Adds a menu to an existing menu bar. Must be followed by a call to end.
 	Args:
@@ -3766,13 +3872,14 @@ def add_menu(*, label: str =None, id: int =0, indent: int =-1, parent: int =0, b
 		**tracked (bool): Scroll tracking
 		**track_offset (float): 0.0f:top, 0.5f:center, 1.0f:bottom
 		**user_data (Any): User data for callbacks.
+		**use_internal_label (bool): Use generated internal label instead of user specified (appends ### uuid).
 	Returns:
 		int
 	"""
 
-	return internal_dpg.add_menu(label=label, id=id, indent=indent, parent=parent, before=before, payload_type=payload_type, drag_callback=drag_callback, drop_callback=drop_callback, show=show, enabled=enabled, filter_key=filter_key, delay_search=delay_search, tracked=tracked, track_offset=track_offset, user_data=user_data)
+	return internal_dpg.add_menu(label=label, id=id, indent=indent, parent=parent, before=before, payload_type=payload_type, drag_callback=drag_callback, drop_callback=drop_callback, show=show, enabled=enabled, filter_key=filter_key, delay_search=delay_search, tracked=tracked, track_offset=track_offset, user_data=user_data, use_internal_label=use_internal_label)
 
-def add_menu_bar(*, label: str =None, id: int =0, indent: int =-1, parent: int =0, show: bool =True, delay_search: bool =False, user_data: Any =None) -> int:
+def add_menu_bar(*, label: str =None, id: int =0, indent: int =-1, parent: int =0, show: bool =True, delay_search: bool =False, user_data: Any =None, use_internal_label: bool =True) -> int:
 	"""
 	Adds a menu bar to a window.
 	Args:
@@ -3783,13 +3890,14 @@ def add_menu_bar(*, label: str =None, id: int =0, indent: int =-1, parent: int =
 		**show (bool): Attempt to render widget.
 		**delay_search (bool): Delays searching container for specified items until the end of the app. Possible optimization when a container has many children that are not accessed often.
 		**user_data (Any): User data for callbacks.
+		**use_internal_label (bool): Use generated internal label instead of user specified (appends ### uuid).
 	Returns:
 		int
 	"""
 
-	return internal_dpg.add_menu_bar(label=label, id=id, indent=indent, parent=parent, show=show, delay_search=delay_search, user_data=user_data)
+	return internal_dpg.add_menu_bar(label=label, id=id, indent=indent, parent=parent, show=show, delay_search=delay_search, user_data=user_data, use_internal_label=use_internal_label)
 
-def add_menu_item(*, label: str =None, id: int =0, indent: int =-1, parent: int =0, before: int =0, payload_type: str ='$$DPG_PAYLOAD', callback: Callable =None, drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, enabled: bool =True, filter_key: str ='', tracked: bool =False, track_offset: float =0.5, user_data: Any =None, default_value: bool =False, shortcut: str ='', check: bool =False) -> int:
+def add_menu_item(*, label: str =None, id: int =0, indent: int =-1, parent: int =0, before: int =0, payload_type: str ='$$DPG_PAYLOAD', callback: Callable =None, drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, enabled: bool =True, filter_key: str ='', tracked: bool =False, track_offset: float =0.5, user_data: Any =None, use_internal_label: bool =True, default_value: bool =False, shortcut: str ='', check: bool =False) -> int:
 	"""
 	Adds a menu item to an existing menu. Menu items act similar to selectables.
 	Args:
@@ -3808,6 +3916,7 @@ def add_menu_item(*, label: str =None, id: int =0, indent: int =-1, parent: int 
 		**tracked (bool): Scroll tracking
 		**track_offset (float): 0.0f:top, 0.5f:center, 1.0f:bottom
 		**user_data (Any): User data for callbacks.
+		**use_internal_label (bool): Use generated internal label instead of user specified (appends ### uuid).
 		**default_value (bool): 
 		**shortcut (str): Displays text on the menu item. Typically used to show a shortcut key command.
 		**check (bool): Displays a checkmark on the menu item when it is selected.
@@ -3815,9 +3924,9 @@ def add_menu_item(*, label: str =None, id: int =0, indent: int =-1, parent: int 
 		int
 	"""
 
-	return internal_dpg.add_menu_item(label=label, id=id, indent=indent, parent=parent, before=before, payload_type=payload_type, callback=callback, drag_callback=drag_callback, drop_callback=drop_callback, show=show, enabled=enabled, filter_key=filter_key, tracked=tracked, track_offset=track_offset, user_data=user_data, default_value=default_value, shortcut=shortcut, check=check)
+	return internal_dpg.add_menu_item(label=label, id=id, indent=indent, parent=parent, before=before, payload_type=payload_type, callback=callback, drag_callback=drag_callback, drop_callback=drop_callback, show=show, enabled=enabled, filter_key=filter_key, tracked=tracked, track_offset=track_offset, user_data=user_data, use_internal_label=use_internal_label, default_value=default_value, shortcut=shortcut, check=check)
 
-def add_mouse_click_handler(button : int =-1, *, label: str =None, id: int =0, callback: Callable =None, show: bool =True, user_data: Any =None, parent: int =internal_dpg.mvReservedUUID_1) -> int:
+def add_mouse_click_handler(button : int =-1, *, label: str =None, id: int =0, callback: Callable =None, show: bool =True, user_data: Any =None, use_internal_label: bool =True, parent: int =internal_dpg.mvReservedUUID_1) -> int:
 	"""
 	Adds a handler which runs a given callback when the specified mouse button is clicked. Parent must be a handler registry.
 	Args:
@@ -3827,14 +3936,15 @@ def add_mouse_click_handler(button : int =-1, *, label: str =None, id: int =0, c
 		**callback (Callable): Registers a callback.
 		**show (bool): Attempt to render widget.
 		**user_data (Any): User data for callbacks.
+		**use_internal_label (bool): Use generated internal label instead of user specified (appends ### uuid).
 		**parent (int): Parent to add this item to. (runtime adding)
 	Returns:
 		int
 	"""
 
-	return internal_dpg.add_mouse_click_handler(button, label=label, id=id, callback=callback, show=show, user_data=user_data, parent=parent)
+	return internal_dpg.add_mouse_click_handler(button, label=label, id=id, callback=callback, show=show, user_data=user_data, use_internal_label=use_internal_label, parent=parent)
 
-def add_mouse_double_click_handler(button : int =-1, *, label: str =None, id: int =0, callback: Callable =None, show: bool =True, user_data: Any =None, parent: int =internal_dpg.mvReservedUUID_1) -> int:
+def add_mouse_double_click_handler(button : int =-1, *, label: str =None, id: int =0, callback: Callable =None, show: bool =True, user_data: Any =None, use_internal_label: bool =True, parent: int =internal_dpg.mvReservedUUID_1) -> int:
 	"""
 	Adds a handler which runs a given callback when the specified mouse button is double clicked. Parent must be a handler registry.
 	Args:
@@ -3844,14 +3954,15 @@ def add_mouse_double_click_handler(button : int =-1, *, label: str =None, id: in
 		**callback (Callable): Registers a callback.
 		**show (bool): Attempt to render widget.
 		**user_data (Any): User data for callbacks.
+		**use_internal_label (bool): Use generated internal label instead of user specified (appends ### uuid).
 		**parent (int): Parent to add this item to. (runtime adding)
 	Returns:
 		int
 	"""
 
-	return internal_dpg.add_mouse_double_click_handler(button, label=label, id=id, callback=callback, show=show, user_data=user_data, parent=parent)
+	return internal_dpg.add_mouse_double_click_handler(button, label=label, id=id, callback=callback, show=show, user_data=user_data, use_internal_label=use_internal_label, parent=parent)
 
-def add_mouse_down_handler(button : int =-1, *, label: str =None, id: int =0, callback: Callable =None, show: bool =True, user_data: Any =None, parent: int =internal_dpg.mvReservedUUID_1) -> int:
+def add_mouse_down_handler(button : int =-1, *, label: str =None, id: int =0, callback: Callable =None, show: bool =True, user_data: Any =None, use_internal_label: bool =True, parent: int =internal_dpg.mvReservedUUID_1) -> int:
 	"""
 	Adds a handler which runs a given callback when the specified mouse button is down. Parent must be a handler registry.
 	Args:
@@ -3861,14 +3972,15 @@ def add_mouse_down_handler(button : int =-1, *, label: str =None, id: int =0, ca
 		**callback (Callable): Registers a callback.
 		**show (bool): Attempt to render widget.
 		**user_data (Any): User data for callbacks.
+		**use_internal_label (bool): Use generated internal label instead of user specified (appends ### uuid).
 		**parent (int): Parent to add this item to. (runtime adding)
 	Returns:
 		int
 	"""
 
-	return internal_dpg.add_mouse_down_handler(button, label=label, id=id, callback=callback, show=show, user_data=user_data, parent=parent)
+	return internal_dpg.add_mouse_down_handler(button, label=label, id=id, callback=callback, show=show, user_data=user_data, use_internal_label=use_internal_label, parent=parent)
 
-def add_mouse_drag_handler(button : int =-1, threshold : float =10.0, *, label: str =None, id: int =0, callback: Callable =None, show: bool =True, user_data: Any =None, parent: int =internal_dpg.mvReservedUUID_1) -> int:
+def add_mouse_drag_handler(button : int =-1, threshold : float =10.0, *, label: str =None, id: int =0, callback: Callable =None, show: bool =True, user_data: Any =None, use_internal_label: bool =True, parent: int =internal_dpg.mvReservedUUID_1) -> int:
 	"""
 	Adds a handler which runs a given callback when the specified mouse button is clicked and dragged a set threshold. Parent must be a handler registry.
 	Args:
@@ -3879,14 +3991,15 @@ def add_mouse_drag_handler(button : int =-1, threshold : float =10.0, *, label: 
 		**callback (Callable): Registers a callback.
 		**show (bool): Attempt to render widget.
 		**user_data (Any): User data for callbacks.
+		**use_internal_label (bool): Use generated internal label instead of user specified (appends ### uuid).
 		**parent (int): Parent to add this item to. (runtime adding)
 	Returns:
 		int
 	"""
 
-	return internal_dpg.add_mouse_drag_handler(button, threshold, label=label, id=id, callback=callback, show=show, user_data=user_data, parent=parent)
+	return internal_dpg.add_mouse_drag_handler(button, threshold, label=label, id=id, callback=callback, show=show, user_data=user_data, use_internal_label=use_internal_label, parent=parent)
 
-def add_mouse_move_handler(*, label: str =None, id: int =0, callback: Callable =None, show: bool =True, user_data: Any =None, parent: int =internal_dpg.mvReservedUUID_1) -> int:
+def add_mouse_move_handler(*, label: str =None, id: int =0, callback: Callable =None, show: bool =True, user_data: Any =None, use_internal_label: bool =True, parent: int =internal_dpg.mvReservedUUID_1) -> int:
 	"""
 	Adds a handler which runs a given callback when the mouse is moved. Parent must be a handler registry.
 	Args:
@@ -3895,14 +4008,15 @@ def add_mouse_move_handler(*, label: str =None, id: int =0, callback: Callable =
 		**callback (Callable): Registers a callback.
 		**show (bool): Attempt to render widget.
 		**user_data (Any): User data for callbacks.
+		**use_internal_label (bool): Use generated internal label instead of user specified (appends ### uuid).
 		**parent (int): Parent to add this item to. (runtime adding)
 	Returns:
 		int
 	"""
 
-	return internal_dpg.add_mouse_move_handler(label=label, id=id, callback=callback, show=show, user_data=user_data, parent=parent)
+	return internal_dpg.add_mouse_move_handler(label=label, id=id, callback=callback, show=show, user_data=user_data, use_internal_label=use_internal_label, parent=parent)
 
-def add_mouse_release_handler(button : int =-1, *, label: str =None, id: int =0, callback: Callable =None, show: bool =True, user_data: Any =None, parent: int =internal_dpg.mvReservedUUID_1) -> int:
+def add_mouse_release_handler(button : int =-1, *, label: str =None, id: int =0, callback: Callable =None, show: bool =True, user_data: Any =None, use_internal_label: bool =True, parent: int =internal_dpg.mvReservedUUID_1) -> int:
 	"""
 	Adds a handler which runs a given callback when the specified mouse button is released. Parent must be a handler registry.
 	Args:
@@ -3912,14 +4026,15 @@ def add_mouse_release_handler(button : int =-1, *, label: str =None, id: int =0,
 		**callback (Callable): Registers a callback.
 		**show (bool): Attempt to render widget.
 		**user_data (Any): User data for callbacks.
+		**use_internal_label (bool): Use generated internal label instead of user specified (appends ### uuid).
 		**parent (int): Parent to add this item to. (runtime adding)
 	Returns:
 		int
 	"""
 
-	return internal_dpg.add_mouse_release_handler(button, label=label, id=id, callback=callback, show=show, user_data=user_data, parent=parent)
+	return internal_dpg.add_mouse_release_handler(button, label=label, id=id, callback=callback, show=show, user_data=user_data, use_internal_label=use_internal_label, parent=parent)
 
-def add_mouse_wheel_handler(*, label: str =None, id: int =0, callback: Callable =None, show: bool =True, user_data: Any =None, parent: int =internal_dpg.mvReservedUUID_1) -> int:
+def add_mouse_wheel_handler(*, label: str =None, id: int =0, callback: Callable =None, show: bool =True, user_data: Any =None, use_internal_label: bool =True, parent: int =internal_dpg.mvReservedUUID_1) -> int:
 	"""
 	Adds a handler which runs a given callback when the vertical mouse wheel is scrolled. Parent must be a handler registry.
 	Args:
@@ -3928,14 +4043,15 @@ def add_mouse_wheel_handler(*, label: str =None, id: int =0, callback: Callable 
 		**callback (Callable): Registers a callback.
 		**show (bool): Attempt to render widget.
 		**user_data (Any): User data for callbacks.
+		**use_internal_label (bool): Use generated internal label instead of user specified (appends ### uuid).
 		**parent (int): Parent to add this item to. (runtime adding)
 	Returns:
 		int
 	"""
 
-	return internal_dpg.add_mouse_wheel_handler(label=label, id=id, callback=callback, show=show, user_data=user_data, parent=parent)
+	return internal_dpg.add_mouse_wheel_handler(label=label, id=id, callback=callback, show=show, user_data=user_data, use_internal_label=use_internal_label, parent=parent)
 
-def add_node(*, label: str =None, id: int =0, parent: int =0, before: int =0, payload_type: str ='$$DPG_PAYLOAD', drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, pos: List[int] =[], filter_key: str ='', delay_search: bool =False, tracked: bool =False, track_offset: float =0.5, user_data: Any =None, draggable: bool =True) -> int:
+def add_node(*, label: str =None, id: int =0, parent: int =0, before: int =0, payload_type: str ='$$DPG_PAYLOAD', drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, pos: List[int] =[], filter_key: str ='', delay_search: bool =False, tracked: bool =False, track_offset: float =0.5, user_data: Any =None, use_internal_label: bool =True, draggable: bool =True) -> int:
 	"""
 	Adds a node to a node editor.
 	Args:
@@ -3953,14 +4069,15 @@ def add_node(*, label: str =None, id: int =0, parent: int =0, before: int =0, pa
 		**tracked (bool): Scroll tracking
 		**track_offset (float): 0.0f:top, 0.5f:center, 1.0f:bottom
 		**user_data (Any): User data for callbacks.
+		**use_internal_label (bool): Use generated internal label instead of user specified (appends ### uuid).
 		**draggable (bool): Allow node to be draggable.
 	Returns:
 		int
 	"""
 
-	return internal_dpg.add_node(label=label, id=id, parent=parent, before=before, payload_type=payload_type, drag_callback=drag_callback, drop_callback=drop_callback, show=show, pos=pos, filter_key=filter_key, delay_search=delay_search, tracked=tracked, track_offset=track_offset, user_data=user_data, draggable=draggable)
+	return internal_dpg.add_node(label=label, id=id, parent=parent, before=before, payload_type=payload_type, drag_callback=drag_callback, drop_callback=drop_callback, show=show, pos=pos, filter_key=filter_key, delay_search=delay_search, tracked=tracked, track_offset=track_offset, user_data=user_data, use_internal_label=use_internal_label, draggable=draggable)
 
-def add_node_attribute(*, label: str =None, id: int =0, indent: int =-1, parent: int =0, before: int =0, payload_type: str ='$$DPG_PAYLOAD', drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, filter_key: str ='', tracked: bool =False, track_offset: float =0.5, user_data: Any =None, attribute_type: int =0, shape: int =1, category: str ='general') -> int:
+def add_node_attribute(*, label: str =None, id: int =0, indent: int =-1, parent: int =0, before: int =0, payload_type: str ='$$DPG_PAYLOAD', drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, filter_key: str ='', tracked: bool =False, track_offset: float =0.5, user_data: Any =None, use_internal_label: bool =True, attribute_type: int =0, shape: int =1, category: str ='general') -> int:
 	"""
 	Adds a node attribute.
 	Args:
@@ -3977,6 +4094,7 @@ def add_node_attribute(*, label: str =None, id: int =0, indent: int =-1, parent:
 		**tracked (bool): Scroll tracking
 		**track_offset (float): 0.0f:top, 0.5f:center, 1.0f:bottom
 		**user_data (Any): User data for callbacks.
+		**use_internal_label (bool): Use generated internal label instead of user specified (appends ### uuid).
 		**attribute_type (int): mvNode_Attr_Input, mvNode_Attr_Output, or mvNode_Attr_Static.
 		**shape (int): Pin shape.
 		**category (str): Category
@@ -3984,9 +4102,9 @@ def add_node_attribute(*, label: str =None, id: int =0, indent: int =-1, parent:
 		int
 	"""
 
-	return internal_dpg.add_node_attribute(label=label, id=id, indent=indent, parent=parent, before=before, payload_type=payload_type, drag_callback=drag_callback, drop_callback=drop_callback, show=show, filter_key=filter_key, tracked=tracked, track_offset=track_offset, user_data=user_data, attribute_type=attribute_type, shape=shape, category=category)
+	return internal_dpg.add_node_attribute(label=label, id=id, indent=indent, parent=parent, before=before, payload_type=payload_type, drag_callback=drag_callback, drop_callback=drop_callback, show=show, filter_key=filter_key, tracked=tracked, track_offset=track_offset, user_data=user_data, use_internal_label=use_internal_label, attribute_type=attribute_type, shape=shape, category=category)
 
-def add_node_editor(*, label: str =None, id: int =0, width: int =0, height: int =0, parent: int =0, before: int =0, payload_type: str ='$$DPG_PAYLOAD', callback: Callable =None, drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, filter_key: str ='', delay_search: bool =False, tracked: bool =False, track_offset: float =0.5, user_data: Any =None, delink_callback: Callable =None, menubar: bool =False) -> int:
+def add_node_editor(*, label: str =None, id: int =0, width: int =0, height: int =0, parent: int =0, before: int =0, payload_type: str ='$$DPG_PAYLOAD', callback: Callable =None, drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, filter_key: str ='', delay_search: bool =False, tracked: bool =False, track_offset: float =0.5, user_data: Any =None, use_internal_label: bool =True, delink_callback: Callable =None, menubar: bool =False) -> int:
 	"""
 	Adds a node editor.
 	Args:
@@ -4006,15 +4124,16 @@ def add_node_editor(*, label: str =None, id: int =0, width: int =0, height: int 
 		**tracked (bool): Scroll tracking
 		**track_offset (float): 0.0f:top, 0.5f:center, 1.0f:bottom
 		**user_data (Any): User data for callbacks.
+		**use_internal_label (bool): Use generated internal label instead of user specified (appends ### uuid).
 		**delink_callback (Callable): Callback ran when a link is detached.
 		**menubar (bool): Shows or hides the menubar.
 	Returns:
 		int
 	"""
 
-	return internal_dpg.add_node_editor(label=label, id=id, width=width, height=height, parent=parent, before=before, payload_type=payload_type, callback=callback, drag_callback=drag_callback, drop_callback=drop_callback, show=show, filter_key=filter_key, delay_search=delay_search, tracked=tracked, track_offset=track_offset, user_data=user_data, delink_callback=delink_callback, menubar=menubar)
+	return internal_dpg.add_node_editor(label=label, id=id, width=width, height=height, parent=parent, before=before, payload_type=payload_type, callback=callback, drag_callback=drag_callback, drop_callback=drop_callback, show=show, filter_key=filter_key, delay_search=delay_search, tracked=tracked, track_offset=track_offset, user_data=user_data, use_internal_label=use_internal_label, delink_callback=delink_callback, menubar=menubar)
 
-def add_node_link(attr_1 : int, attr_2 : int, *, label: str =None, id: int =0, parent: int =0, show: bool =True, user_data: Any =None) -> int:
+def add_node_link(attr_1 : int, attr_2 : int, *, label: str =None, id: int =0, parent: int =0, show: bool =True, user_data: Any =None, use_internal_label: bool =True) -> int:
 	"""
 	Adds a node link between nodes.
 	Args:
@@ -4025,13 +4144,14 @@ def add_node_link(attr_1 : int, attr_2 : int, *, label: str =None, id: int =0, p
 		**parent (int): Parent to add this item to. (runtime adding)
 		**show (bool): Attempt to render widget.
 		**user_data (Any): User data for callbacks.
+		**use_internal_label (bool): Use generated internal label instead of user specified (appends ### uuid).
 	Returns:
 		int
 	"""
 
-	return internal_dpg.add_node_link(attr_1, attr_2, label=label, id=id, parent=parent, show=show, user_data=user_data)
+	return internal_dpg.add_node_link(attr_1, attr_2, label=label, id=id, parent=parent, show=show, user_data=user_data, use_internal_label=use_internal_label)
 
-def add_pie_series(x : float, y : float, radius : float, values : List[float], labels : List[str], *, label: str =None, id: int =0, parent: int =0, before: int =0, source: int =0, show: bool =True, user_data: Any =None, format: str ='%0.2f', angle: float =90.0, normalize: bool =False) -> int:
+def add_pie_series(x : float, y : float, radius : float, values : List[float], labels : List[str], *, label: str =None, id: int =0, parent: int =0, before: int =0, source: int =0, show: bool =True, user_data: Any =None, use_internal_label: bool =True, format: str ='%0.2f', angle: float =90.0, normalize: bool =False) -> int:
 	"""
 	Adds a pie series to a plot.
 	Args:
@@ -4047,6 +4167,7 @@ def add_pie_series(x : float, y : float, radius : float, values : List[float], l
 		**source (int): Overrides 'id' as value storage key.
 		**show (bool): Attempt to render widget.
 		**user_data (Any): User data for callbacks.
+		**use_internal_label (bool): Use generated internal label instead of user specified (appends ### uuid).
 		**format (str): 
 		**angle (float): 
 		**normalize (bool): 
@@ -4054,9 +4175,9 @@ def add_pie_series(x : float, y : float, radius : float, values : List[float], l
 		int
 	"""
 
-	return internal_dpg.add_pie_series(x, y, radius, values, labels, label=label, id=id, parent=parent, before=before, source=source, show=show, user_data=user_data, format=format, angle=angle, normalize=normalize)
+	return internal_dpg.add_pie_series(x, y, radius, values, labels, label=label, id=id, parent=parent, before=before, source=source, show=show, user_data=user_data, use_internal_label=use_internal_label, format=format, angle=angle, normalize=normalize)
 
-def add_plot(*, label: str =None, id: int =0, width: int =0, height: int =0, indent: int =-1, parent: int =0, before: int =0, payload_type: str ='$$DPG_PAYLOAD', callback: Callable =None, drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, pos: List[int] =[], filter_key: str ='', delay_search: bool =False, tracked: bool =False, track_offset: float =0.5, user_data: Any =None, no_title: bool =False, no_menus: bool =False, no_box_select: bool =False, no_mouse_pos: bool =False, no_highlight: bool =False, no_child: bool =False, query: bool =False, crosshairs: bool =False, anti_aliased: bool =False, equal_aspects: bool =False, pan_button: int =internal_dpg.mvMouseButton_Left, pan_mod: int =-1, fit_button: int =internal_dpg.mvMouseButton_Left, context_menu_button: int =internal_dpg.mvMouseButton_Right, box_select_button: int =internal_dpg.mvMouseButton_Right, box_select_mod: int =-1, box_select_cancel_button: int =internal_dpg.mvMouseButton_Left, query_button: int =internal_dpg.mvMouseButton_Middle, query_mod: int =-1, query_toggle_mod: int =internal_dpg.mvKey_Control, horizontal_mod: int =internal_dpg.mvKey_Alt, vertical_mod: int =internal_dpg.mvKey_Shift) -> int:
+def add_plot(*, label: str =None, id: int =0, width: int =0, height: int =0, indent: int =-1, parent: int =0, before: int =0, payload_type: str ='$$DPG_PAYLOAD', callback: Callable =None, drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, pos: List[int] =[], filter_key: str ='', delay_search: bool =False, tracked: bool =False, track_offset: float =0.5, user_data: Any =None, use_internal_label: bool =True, no_title: bool =False, no_menus: bool =False, no_box_select: bool =False, no_mouse_pos: bool =False, no_highlight: bool =False, no_child: bool =False, query: bool =False, crosshairs: bool =False, anti_aliased: bool =False, equal_aspects: bool =False, pan_button: int =internal_dpg.mvMouseButton_Left, pan_mod: int =-1, fit_button: int =internal_dpg.mvMouseButton_Left, context_menu_button: int =internal_dpg.mvMouseButton_Right, box_select_button: int =internal_dpg.mvMouseButton_Right, box_select_mod: int =-1, box_select_cancel_button: int =internal_dpg.mvMouseButton_Left, query_button: int =internal_dpg.mvMouseButton_Middle, query_mod: int =-1, query_toggle_mod: int =internal_dpg.mvKey_Control, horizontal_mod: int =internal_dpg.mvKey_Alt, vertical_mod: int =internal_dpg.mvKey_Shift) -> int:
 	"""
 	Adds a plot which is used to hold series, and can be drawn to with draw commands.
 	Args:
@@ -4078,6 +4199,7 @@ def add_plot(*, label: str =None, id: int =0, width: int =0, height: int =0, ind
 		**tracked (bool): Scroll tracking
 		**track_offset (float): 0.0f:top, 0.5f:center, 1.0f:bottom
 		**user_data (Any): User data for callbacks.
+		**use_internal_label (bool): Use generated internal label instead of user specified (appends ### uuid).
 		**no_title (bool): 
 		**no_menus (bool): 
 		**no_box_select (bool): 
@@ -4104,9 +4226,9 @@ def add_plot(*, label: str =None, id: int =0, width: int =0, height: int =0, ind
 		int
 	"""
 
-	return internal_dpg.add_plot(label=label, id=id, width=width, height=height, indent=indent, parent=parent, before=before, payload_type=payload_type, callback=callback, drag_callback=drag_callback, drop_callback=drop_callback, show=show, pos=pos, filter_key=filter_key, delay_search=delay_search, tracked=tracked, track_offset=track_offset, user_data=user_data, no_title=no_title, no_menus=no_menus, no_box_select=no_box_select, no_mouse_pos=no_mouse_pos, no_highlight=no_highlight, no_child=no_child, query=query, crosshairs=crosshairs, anti_aliased=anti_aliased, equal_aspects=equal_aspects, pan_button=pan_button, pan_mod=pan_mod, fit_button=fit_button, context_menu_button=context_menu_button, box_select_button=box_select_button, box_select_mod=box_select_mod, box_select_cancel_button=box_select_cancel_button, query_button=query_button, query_mod=query_mod, query_toggle_mod=query_toggle_mod, horizontal_mod=horizontal_mod, vertical_mod=vertical_mod)
+	return internal_dpg.add_plot(label=label, id=id, width=width, height=height, indent=indent, parent=parent, before=before, payload_type=payload_type, callback=callback, drag_callback=drag_callback, drop_callback=drop_callback, show=show, pos=pos, filter_key=filter_key, delay_search=delay_search, tracked=tracked, track_offset=track_offset, user_data=user_data, use_internal_label=use_internal_label, no_title=no_title, no_menus=no_menus, no_box_select=no_box_select, no_mouse_pos=no_mouse_pos, no_highlight=no_highlight, no_child=no_child, query=query, crosshairs=crosshairs, anti_aliased=anti_aliased, equal_aspects=equal_aspects, pan_button=pan_button, pan_mod=pan_mod, fit_button=fit_button, context_menu_button=context_menu_button, box_select_button=box_select_button, box_select_mod=box_select_mod, box_select_cancel_button=box_select_cancel_button, query_button=query_button, query_mod=query_mod, query_toggle_mod=query_toggle_mod, horizontal_mod=horizontal_mod, vertical_mod=vertical_mod)
 
-def add_plot_annotation(*, label: str =None, id: int =0, parent: int =0, before: int =0, source: int =0, show: bool =True, user_data: Any =None, default_value: Any =(0.0, 0.0), offset: List[float] =(0.0, 0.0), color: List[int] =(0, 0, 0, -255), clamped: bool =True) -> int:
+def add_plot_annotation(*, label: str =None, id: int =0, parent: int =0, before: int =0, source: int =0, show: bool =True, user_data: Any =None, use_internal_label: bool =True, default_value: Any =(0.0, 0.0), offset: List[float] =(0.0, 0.0), color: List[int] =(0, 0, 0, -255), clamped: bool =True) -> int:
 	"""
 	Adds an annotation to a plot.
 	Args:
@@ -4117,6 +4239,7 @@ def add_plot_annotation(*, label: str =None, id: int =0, parent: int =0, before:
 		**source (int): Overrides 'id' as value storage key.
 		**show (bool): Attempt to render widget.
 		**user_data (Any): User data for callbacks.
+		**use_internal_label (bool): Use generated internal label instead of user specified (appends ### uuid).
 		**default_value (Any): 
 		**offset (List[float]): 
 		**color (List[int]): 
@@ -4125,9 +4248,9 @@ def add_plot_annotation(*, label: str =None, id: int =0, parent: int =0, before:
 		int
 	"""
 
-	return internal_dpg.add_plot_annotation(label=label, id=id, parent=parent, before=before, source=source, show=show, user_data=user_data, default_value=default_value, offset=offset, color=color, clamped=clamped)
+	return internal_dpg.add_plot_annotation(label=label, id=id, parent=parent, before=before, source=source, show=show, user_data=user_data, use_internal_label=use_internal_label, default_value=default_value, offset=offset, color=color, clamped=clamped)
 
-def add_plot_axis(axis : int, *, label: str =None, id: int =0, parent: int =0, payload_type: str ='$$DPG_PAYLOAD', drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, user_data: Any =None, no_gridlines: bool =False, no_tick_marks: bool =False, no_tick_labels: bool =False, log_scale: bool =False, invert: bool =False, lock_min: bool =False, lock_max: bool =False, time: bool =False) -> int:
+def add_plot_axis(axis : int, *, label: str =None, id: int =0, parent: int =0, payload_type: str ='$$DPG_PAYLOAD', drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, user_data: Any =None, use_internal_label: bool =True, no_gridlines: bool =False, no_tick_marks: bool =False, no_tick_labels: bool =False, log_scale: bool =False, invert: bool =False, lock_min: bool =False, lock_max: bool =False, time: bool =False) -> int:
 	"""
 	Adds a plot legend to a plot.
 	Args:
@@ -4140,6 +4263,7 @@ def add_plot_axis(axis : int, *, label: str =None, id: int =0, parent: int =0, p
 		**drop_callback (Callable): Registers a drop callback for drag and drop.
 		**show (bool): Attempt to render widget.
 		**user_data (Any): User data for callbacks.
+		**use_internal_label (bool): Use generated internal label instead of user specified (appends ### uuid).
 		**no_gridlines (bool): 
 		**no_tick_marks (bool): 
 		**no_tick_labels (bool): 
@@ -4152,9 +4276,9 @@ def add_plot_axis(axis : int, *, label: str =None, id: int =0, parent: int =0, p
 		int
 	"""
 
-	return internal_dpg.add_plot_axis(axis, label=label, id=id, parent=parent, payload_type=payload_type, drag_callback=drag_callback, drop_callback=drop_callback, show=show, user_data=user_data, no_gridlines=no_gridlines, no_tick_marks=no_tick_marks, no_tick_labels=no_tick_labels, log_scale=log_scale, invert=invert, lock_min=lock_min, lock_max=lock_max, time=time)
+	return internal_dpg.add_plot_axis(axis, label=label, id=id, parent=parent, payload_type=payload_type, drag_callback=drag_callback, drop_callback=drop_callback, show=show, user_data=user_data, use_internal_label=use_internal_label, no_gridlines=no_gridlines, no_tick_marks=no_tick_marks, no_tick_labels=no_tick_labels, log_scale=log_scale, invert=invert, lock_min=lock_min, lock_max=lock_max, time=time)
 
-def add_plot_legend(*, label: str =None, id: int =0, parent: int =0, payload_type: str ='$$DPG_PAYLOAD', drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, user_data: Any =None, location: int =5, horizontal: bool =False, outside: bool =False) -> int:
+def add_plot_legend(*, label: str =None, id: int =0, parent: int =0, payload_type: str ='$$DPG_PAYLOAD', drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, user_data: Any =None, use_internal_label: bool =True, location: int =5, horizontal: bool =False, outside: bool =False) -> int:
 	"""
 	Adds a plot legend to a plot.
 	Args:
@@ -4166,6 +4290,7 @@ def add_plot_legend(*, label: str =None, id: int =0, parent: int =0, payload_typ
 		**drop_callback (Callable): Registers a drop callback for drag and drop.
 		**show (bool): Attempt to render widget.
 		**user_data (Any): User data for callbacks.
+		**use_internal_label (bool): Use generated internal label instead of user specified (appends ### uuid).
 		**location (int): location, mvPlot_Location_*
 		**horizontal (bool): 
 		**outside (bool): 
@@ -4173,9 +4298,9 @@ def add_plot_legend(*, label: str =None, id: int =0, parent: int =0, payload_typ
 		int
 	"""
 
-	return internal_dpg.add_plot_legend(label=label, id=id, parent=parent, payload_type=payload_type, drag_callback=drag_callback, drop_callback=drop_callback, show=show, user_data=user_data, location=location, horizontal=horizontal, outside=outside)
+	return internal_dpg.add_plot_legend(label=label, id=id, parent=parent, payload_type=payload_type, drag_callback=drag_callback, drop_callback=drop_callback, show=show, user_data=user_data, use_internal_label=use_internal_label, location=location, horizontal=horizontal, outside=outside)
 
-def add_progress_bar(*, label: str =None, id: int =0, width: int =0, height: int =0, indent: int =-1, parent: int =0, before: int =0, source: int =0, payload_type: str ='$$DPG_PAYLOAD', drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, pos: List[int] =[], filter_key: str ='', tracked: bool =False, track_offset: float =0.5, user_data: Any =None, overlay: str ='', default_value: float =0.0) -> int:
+def add_progress_bar(*, label: str =None, id: int =0, width: int =0, height: int =0, indent: int =-1, parent: int =0, before: int =0, source: int =0, payload_type: str ='$$DPG_PAYLOAD', drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, pos: List[int] =[], filter_key: str ='', tracked: bool =False, track_offset: float =0.5, user_data: Any =None, use_internal_label: bool =True, overlay: str ='', default_value: float =0.0) -> int:
 	"""
 	Adds a progress bar.
 	Args:
@@ -4196,15 +4321,16 @@ def add_progress_bar(*, label: str =None, id: int =0, width: int =0, height: int
 		**tracked (bool): Scroll tracking
 		**track_offset (float): 0.0f:top, 0.5f:center, 1.0f:bottom
 		**user_data (Any): User data for callbacks.
+		**use_internal_label (bool): Use generated internal label instead of user specified (appends ### uuid).
 		**overlay (str): Overlayed text.
 		**default_value (float): Normalized value to fill the bar from 0.0 to 1.0.
 	Returns:
 		int
 	"""
 
-	return internal_dpg.add_progress_bar(label=label, id=id, width=width, height=height, indent=indent, parent=parent, before=before, source=source, payload_type=payload_type, drag_callback=drag_callback, drop_callback=drop_callback, show=show, pos=pos, filter_key=filter_key, tracked=tracked, track_offset=track_offset, user_data=user_data, overlay=overlay, default_value=default_value)
+	return internal_dpg.add_progress_bar(label=label, id=id, width=width, height=height, indent=indent, parent=parent, before=before, source=source, payload_type=payload_type, drag_callback=drag_callback, drop_callback=drop_callback, show=show, pos=pos, filter_key=filter_key, tracked=tracked, track_offset=track_offset, user_data=user_data, use_internal_label=use_internal_label, overlay=overlay, default_value=default_value)
 
-def add_radio_button(items : List[str] =(), *, label: str =None, id: int =0, indent: int =-1, parent: int =0, before: int =0, source: int =0, payload_type: str ='$$DPG_PAYLOAD', callback: Callable =None, drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, enabled: bool =True, pos: List[int] =[], filter_key: str ='', tracked: bool =False, track_offset: float =0.5, user_data: Any =None, default_value: str ='', horizontal: bool =False) -> int:
+def add_radio_button(items : List[str] =(), *, label: str =None, id: int =0, indent: int =-1, parent: int =0, before: int =0, source: int =0, payload_type: str ='$$DPG_PAYLOAD', callback: Callable =None, drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, enabled: bool =True, pos: List[int] =[], filter_key: str ='', tracked: bool =False, track_offset: float =0.5, user_data: Any =None, use_internal_label: bool =True, default_value: str ='', horizontal: bool =False) -> int:
 	"""
 	Adds a set of radio buttons. If items keyword is empty, nothing will be shown.
 	Args:
@@ -4226,15 +4352,16 @@ def add_radio_button(items : List[str] =(), *, label: str =None, id: int =0, ind
 		**tracked (bool): Scroll tracking
 		**track_offset (float): 0.0f:top, 0.5f:center, 1.0f:bottom
 		**user_data (Any): User data for callbacks.
+		**use_internal_label (bool): Use generated internal label instead of user specified (appends ### uuid).
 		**default_value (str): 
 		**horizontal (bool): Displays the radio options horizontally.
 	Returns:
 		int
 	"""
 
-	return internal_dpg.add_radio_button(items, label=label, id=id, indent=indent, parent=parent, before=before, source=source, payload_type=payload_type, callback=callback, drag_callback=drag_callback, drop_callback=drop_callback, show=show, enabled=enabled, pos=pos, filter_key=filter_key, tracked=tracked, track_offset=track_offset, user_data=user_data, default_value=default_value, horizontal=horizontal)
+	return internal_dpg.add_radio_button(items, label=label, id=id, indent=indent, parent=parent, before=before, source=source, payload_type=payload_type, callback=callback, drag_callback=drag_callback, drop_callback=drop_callback, show=show, enabled=enabled, pos=pos, filter_key=filter_key, tracked=tracked, track_offset=track_offset, user_data=user_data, use_internal_label=use_internal_label, default_value=default_value, horizontal=horizontal)
 
-def add_raw_texture(width : int, height : int, default_value : List[float], *, label: str =None, id: int =0, user_data: Any =None, format: int =internal_dpg.mvFormat_Float_rgba, parent: int =internal_dpg.mvReservedUUID_2) -> int:
+def add_raw_texture(width : int, height : int, default_value : List[float], *, label: str =None, id: int =0, user_data: Any =None, use_internal_label: bool =True, format: int =internal_dpg.mvFormat_Float_rgba, parent: int =internal_dpg.mvReservedUUID_2) -> int:
 	"""
 	Undocumented function
 	Args:
@@ -4244,15 +4371,16 @@ def add_raw_texture(width : int, height : int, default_value : List[float], *, l
 		**label (str): Overrides 'name' as label.
 		**id (int): Unique id used to programmatically refer to the item.If label is unused this will be the label.
 		**user_data (Any): User data for callbacks.
+		**use_internal_label (bool): Use generated internal label instead of user specified (appends ### uuid).
 		**format (int): Data format.
 		**parent (int): Parent to add this item to. (runtime adding)
 	Returns:
 		int
 	"""
 
-	return internal_dpg.add_raw_texture(width, height, default_value, label=label, id=id, user_data=user_data, format=format, parent=parent)
+	return internal_dpg.add_raw_texture(width, height, default_value, label=label, id=id, user_data=user_data, use_internal_label=use_internal_label, format=format, parent=parent)
 
-def add_resize_handler(parent : int, *, label: str =None, id: int =0, callback: Callable =None, show: bool =True, user_data: Any =None) -> int:
+def add_resize_handler(parent : int, *, label: str =None, id: int =0, callback: Callable =None, show: bool =True, user_data: Any =None, use_internal_label: bool =True) -> int:
 	"""
 	Adds a handler which runs a given callback when the specified item is resized.
 	Args:
@@ -4262,13 +4390,14 @@ def add_resize_handler(parent : int, *, label: str =None, id: int =0, callback: 
 		**callback (Callable): Registers a callback.
 		**show (bool): Attempt to render widget.
 		**user_data (Any): User data for callbacks.
+		**use_internal_label (bool): Use generated internal label instead of user specified (appends ### uuid).
 	Returns:
 		int
 	"""
 
-	return internal_dpg.add_resize_handler(parent, label=label, id=id, callback=callback, show=show, user_data=user_data)
+	return internal_dpg.add_resize_handler(parent, label=label, id=id, callback=callback, show=show, user_data=user_data, use_internal_label=use_internal_label)
 
-def add_same_line(*, label: str =None, id: int =0, parent: int =0, before: int =0, show: bool =True, user_data: Any =None, xoffset: float =0.0, spacing: float =-1.0) -> int:
+def add_same_line(*, label: str =None, id: int =0, parent: int =0, before: int =0, show: bool =True, user_data: Any =None, use_internal_label: bool =True, xoffset: float =0.0, spacing: float =-1.0) -> int:
 	"""
 	Places a widget on the same line as the previous widget. Can also be used for horizontal spacing.
 	Args:
@@ -4278,15 +4407,16 @@ def add_same_line(*, label: str =None, id: int =0, parent: int =0, before: int =
 		**before (int): This item will be displayed before the specified item in the parent.
 		**show (bool): Attempt to render widget.
 		**user_data (Any): User data for callbacks.
+		**use_internal_label (bool): Use generated internal label instead of user specified (appends ### uuid).
 		**xoffset (float): Offset from containing window.
 		**spacing (float): Offset from previous widget.
 	Returns:
 		int
 	"""
 
-	return internal_dpg.add_same_line(label=label, id=id, parent=parent, before=before, show=show, user_data=user_data, xoffset=xoffset, spacing=spacing)
+	return internal_dpg.add_same_line(label=label, id=id, parent=parent, before=before, show=show, user_data=user_data, use_internal_label=use_internal_label, xoffset=xoffset, spacing=spacing)
 
-def add_scatter_series(x : List[float], y : List[float], *, label: str =None, id: int =0, parent: int =0, before: int =0, source: int =0, show: bool =True, user_data: Any =None) -> int:
+def add_scatter_series(x : List[float], y : List[float], *, label: str =None, id: int =0, parent: int =0, before: int =0, source: int =0, show: bool =True, user_data: Any =None, use_internal_label: bool =True) -> int:
 	"""
 	Adds a scatter series to a plot.
 	Args:
@@ -4299,13 +4429,14 @@ def add_scatter_series(x : List[float], y : List[float], *, label: str =None, id
 		**source (int): Overrides 'id' as value storage key.
 		**show (bool): Attempt to render widget.
 		**user_data (Any): User data for callbacks.
+		**use_internal_label (bool): Use generated internal label instead of user specified (appends ### uuid).
 	Returns:
 		int
 	"""
 
-	return internal_dpg.add_scatter_series(x, y, label=label, id=id, parent=parent, before=before, source=source, show=show, user_data=user_data)
+	return internal_dpg.add_scatter_series(x, y, label=label, id=id, parent=parent, before=before, source=source, show=show, user_data=user_data, use_internal_label=use_internal_label)
 
-def add_selectable(*, label: str =None, id: int =0, width: int =0, height: int =0, indent: int =-1, parent: int =0, before: int =0, source: int =0, payload_type: str ='$$DPG_PAYLOAD', callback: Callable =None, drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, enabled: bool =True, pos: List[int] =[], filter_key: str ='', tracked: bool =False, track_offset: float =0.5, user_data: Any =None, default_value: bool =False, span_columns: bool =False) -> int:
+def add_selectable(*, label: str =None, id: int =0, width: int =0, height: int =0, indent: int =-1, parent: int =0, before: int =0, source: int =0, payload_type: str ='$$DPG_PAYLOAD', callback: Callable =None, drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, enabled: bool =True, pos: List[int] =[], filter_key: str ='', tracked: bool =False, track_offset: float =0.5, user_data: Any =None, use_internal_label: bool =True, default_value: bool =False, span_columns: bool =False) -> int:
 	"""
 	Adds a selectable.
 	Args:
@@ -4328,15 +4459,16 @@ def add_selectable(*, label: str =None, id: int =0, width: int =0, height: int =
 		**tracked (bool): Scroll tracking
 		**track_offset (float): 0.0f:top, 0.5f:center, 1.0f:bottom
 		**user_data (Any): User data for callbacks.
+		**use_internal_label (bool): Use generated internal label instead of user specified (appends ### uuid).
 		**default_value (bool): 
 		**span_columns (bool): Span the width of all columns if placed in a table.
 	Returns:
 		int
 	"""
 
-	return internal_dpg.add_selectable(label=label, id=id, width=width, height=height, indent=indent, parent=parent, before=before, source=source, payload_type=payload_type, callback=callback, drag_callback=drag_callback, drop_callback=drop_callback, show=show, enabled=enabled, pos=pos, filter_key=filter_key, tracked=tracked, track_offset=track_offset, user_data=user_data, default_value=default_value, span_columns=span_columns)
+	return internal_dpg.add_selectable(label=label, id=id, width=width, height=height, indent=indent, parent=parent, before=before, source=source, payload_type=payload_type, callback=callback, drag_callback=drag_callback, drop_callback=drop_callback, show=show, enabled=enabled, pos=pos, filter_key=filter_key, tracked=tracked, track_offset=track_offset, user_data=user_data, use_internal_label=use_internal_label, default_value=default_value, span_columns=span_columns)
 
-def add_separator(*, label: str =None, id: int =0, indent: int =-1, parent: int =0, before: int =0, show: bool =True, pos: List[int] =[], user_data: Any =None) -> int:
+def add_separator(*, label: str =None, id: int =0, indent: int =-1, parent: int =0, before: int =0, show: bool =True, pos: List[int] =[], user_data: Any =None, use_internal_label: bool =True) -> int:
 	"""
 	Adds a horizontal line.
 	Args:
@@ -4348,13 +4480,14 @@ def add_separator(*, label: str =None, id: int =0, indent: int =-1, parent: int 
 		**show (bool): Attempt to render widget.
 		**pos (List[int]): Places the item relative to window coordinates, [0,0] is top left.
 		**user_data (Any): User data for callbacks.
+		**use_internal_label (bool): Use generated internal label instead of user specified (appends ### uuid).
 	Returns:
 		int
 	"""
 
-	return internal_dpg.add_separator(label=label, id=id, indent=indent, parent=parent, before=before, show=show, pos=pos, user_data=user_data)
+	return internal_dpg.add_separator(label=label, id=id, indent=indent, parent=parent, before=before, show=show, pos=pos, user_data=user_data, use_internal_label=use_internal_label)
 
-def add_series_value(*, label: str =None, id: int =0, source: int =0, user_data: Any =None, default_value: Any =(), parent: int =internal_dpg.mvReservedUUID_3) -> int:
+def add_series_value(*, label: str =None, id: int =0, source: int =0, user_data: Any =None, use_internal_label: bool =True, default_value: Any =(), parent: int =internal_dpg.mvReservedUUID_3) -> int:
 	"""
 	Undocumented
 	Args:
@@ -4362,15 +4495,16 @@ def add_series_value(*, label: str =None, id: int =0, source: int =0, user_data:
 		**id (int): Unique id used to programmatically refer to the item.If label is unused this will be the label.
 		**source (int): Overrides 'id' as value storage key.
 		**user_data (Any): User data for callbacks.
+		**use_internal_label (bool): Use generated internal label instead of user specified (appends ### uuid).
 		**default_value (Any): 
 		**parent (int): Parent to add this item to. (runtime adding)
 	Returns:
 		int
 	"""
 
-	return internal_dpg.add_series_value(label=label, id=id, source=source, user_data=user_data, default_value=default_value, parent=parent)
+	return internal_dpg.add_series_value(label=label, id=id, source=source, user_data=user_data, use_internal_label=use_internal_label, default_value=default_value, parent=parent)
 
-def add_shade_series(x : List[float], y1 : List[float], *, label: str =None, id: int =0, parent: int =0, before: int =0, source: int =0, show: bool =True, user_data: Any =None, y2: Any =[]) -> int:
+def add_shade_series(x : List[float], y1 : List[float], *, label: str =None, id: int =0, parent: int =0, before: int =0, source: int =0, show: bool =True, user_data: Any =None, use_internal_label: bool =True, y2: Any =[]) -> int:
 	"""
 	Adds a shade series to a plot.
 	Args:
@@ -4383,14 +4517,15 @@ def add_shade_series(x : List[float], y1 : List[float], *, label: str =None, id:
 		**source (int): Overrides 'id' as value storage key.
 		**show (bool): Attempt to render widget.
 		**user_data (Any): User data for callbacks.
+		**use_internal_label (bool): Use generated internal label instead of user specified (appends ### uuid).
 		**y2 (Any): 
 	Returns:
 		int
 	"""
 
-	return internal_dpg.add_shade_series(x, y1, label=label, id=id, parent=parent, before=before, source=source, show=show, user_data=user_data, y2=y2)
+	return internal_dpg.add_shade_series(x, y1, label=label, id=id, parent=parent, before=before, source=source, show=show, user_data=user_data, use_internal_label=use_internal_label, y2=y2)
 
-def add_simple_plot(*, label: str =None, id: int =0, width: int =0, height: int =0, indent: int =-1, parent: int =0, before: int =0, source: int =0, payload_type: str ='$$DPG_PAYLOAD', drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, filter_key: str ='', tracked: bool =False, track_offset: float =0.5, user_data: Any =None, default_value: List[float] =(), overlay: str ='', histogram: bool =False, autosize: bool =True, min_scale: float =0.0, max_scale: float =0.0) -> int:
+def add_simple_plot(*, label: str =None, id: int =0, width: int =0, height: int =0, indent: int =-1, parent: int =0, before: int =0, source: int =0, payload_type: str ='$$DPG_PAYLOAD', drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, filter_key: str ='', tracked: bool =False, track_offset: float =0.5, user_data: Any =None, use_internal_label: bool =True, default_value: List[float] =(), overlay: str ='', histogram: bool =False, autosize: bool =True, min_scale: float =0.0, max_scale: float =0.0) -> int:
 	"""
 	A simple plot for visualization of a 1 dimensional set of values.
 	Args:
@@ -4410,6 +4545,7 @@ def add_simple_plot(*, label: str =None, id: int =0, width: int =0, height: int 
 		**tracked (bool): Scroll tracking
 		**track_offset (float): 0.0f:top, 0.5f:center, 1.0f:bottom
 		**user_data (Any): User data for callbacks.
+		**use_internal_label (bool): Use generated internal label instead of user specified (appends ### uuid).
 		**default_value (List[float]): 
 		**overlay (str): overlays text (similar to a plot title)
 		**histogram (bool): 
@@ -4420,9 +4556,9 @@ def add_simple_plot(*, label: str =None, id: int =0, width: int =0, height: int 
 		int
 	"""
 
-	return internal_dpg.add_simple_plot(label=label, id=id, width=width, height=height, indent=indent, parent=parent, before=before, source=source, payload_type=payload_type, drag_callback=drag_callback, drop_callback=drop_callback, show=show, filter_key=filter_key, tracked=tracked, track_offset=track_offset, user_data=user_data, default_value=default_value, overlay=overlay, histogram=histogram, autosize=autosize, min_scale=min_scale, max_scale=max_scale)
+	return internal_dpg.add_simple_plot(label=label, id=id, width=width, height=height, indent=indent, parent=parent, before=before, source=source, payload_type=payload_type, drag_callback=drag_callback, drop_callback=drop_callback, show=show, filter_key=filter_key, tracked=tracked, track_offset=track_offset, user_data=user_data, use_internal_label=use_internal_label, default_value=default_value, overlay=overlay, histogram=histogram, autosize=autosize, min_scale=min_scale, max_scale=max_scale)
 
-def add_slider_float(*, label: str =None, id: int =0, width: int =0, height: int =0, indent: int =-1, parent: int =0, before: int =0, source: int =0, payload_type: str ='$$DPG_PAYLOAD', callback: Callable =None, drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, enabled: bool =True, pos: List[int] =[], filter_key: str ='', tracked: bool =False, track_offset: float =0.5, user_data: Any =None, default_value: float =0.0, vertical: bool =False, no_input: bool =False, clamped: bool =False, min_value: float =0.0, max_value: float =100.0, format: str ='%.3f') -> int:
+def add_slider_float(*, label: str =None, id: int =0, width: int =0, height: int =0, indent: int =-1, parent: int =0, before: int =0, source: int =0, payload_type: str ='$$DPG_PAYLOAD', callback: Callable =None, drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, enabled: bool =True, pos: List[int] =[], filter_key: str ='', tracked: bool =False, track_offset: float =0.5, user_data: Any =None, use_internal_label: bool =True, default_value: float =0.0, vertical: bool =False, no_input: bool =False, clamped: bool =False, min_value: float =0.0, max_value: float =100.0, format: str ='%.3f') -> int:
 	"""
 	Adds slider for a single float value. Directly entry can be done with double click or CTRL+Click. Min and Max alone are a soft limit for the slider. Use clamped keyword to also apply limits to the direct entry modes.
 	Args:
@@ -4445,6 +4581,7 @@ def add_slider_float(*, label: str =None, id: int =0, width: int =0, height: int
 		**tracked (bool): Scroll tracking
 		**track_offset (float): 0.0f:top, 0.5f:center, 1.0f:bottom
 		**user_data (Any): User data for callbacks.
+		**use_internal_label (bool): Use generated internal label instead of user specified (appends ### uuid).
 		**default_value (float): 
 		**vertical (bool): Sets orientation to vertical.
 		**no_input (bool): Disable direct entry methods or Enter key allowing to input text directly into the widget.
@@ -4456,9 +4593,9 @@ def add_slider_float(*, label: str =None, id: int =0, width: int =0, height: int
 		int
 	"""
 
-	return internal_dpg.add_slider_float(label=label, id=id, width=width, height=height, indent=indent, parent=parent, before=before, source=source, payload_type=payload_type, callback=callback, drag_callback=drag_callback, drop_callback=drop_callback, show=show, enabled=enabled, pos=pos, filter_key=filter_key, tracked=tracked, track_offset=track_offset, user_data=user_data, default_value=default_value, vertical=vertical, no_input=no_input, clamped=clamped, min_value=min_value, max_value=max_value, format=format)
+	return internal_dpg.add_slider_float(label=label, id=id, width=width, height=height, indent=indent, parent=parent, before=before, source=source, payload_type=payload_type, callback=callback, drag_callback=drag_callback, drop_callback=drop_callback, show=show, enabled=enabled, pos=pos, filter_key=filter_key, tracked=tracked, track_offset=track_offset, user_data=user_data, use_internal_label=use_internal_label, default_value=default_value, vertical=vertical, no_input=no_input, clamped=clamped, min_value=min_value, max_value=max_value, format=format)
 
-def add_slider_floatx(*, label: str =None, id: int =0, width: int =0, indent: int =-1, parent: int =0, before: int =0, source: int =0, payload_type: str ='$$DPG_PAYLOAD', callback: Callable =None, drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, enabled: bool =True, pos: List[int] =[], filter_key: str ='', tracked: bool =False, track_offset: float =0.5, user_data: Any =None, default_value: List[float] =(0.0, 0.0, 0.0, 0.0), size: int =4, no_input: bool =False, clamped: bool =False, min_value: float =0.0, max_value: float =100.0, format: str ='%.3f') -> int:
+def add_slider_floatx(*, label: str =None, id: int =0, width: int =0, indent: int =-1, parent: int =0, before: int =0, source: int =0, payload_type: str ='$$DPG_PAYLOAD', callback: Callable =None, drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, enabled: bool =True, pos: List[int] =[], filter_key: str ='', tracked: bool =False, track_offset: float =0.5, user_data: Any =None, use_internal_label: bool =True, default_value: List[float] =(0.0, 0.0, 0.0, 0.0), size: int =4, no_input: bool =False, clamped: bool =False, min_value: float =0.0, max_value: float =100.0, format: str ='%.3f') -> int:
 	"""
 	Adds multi slider for up to 4 float values. Directly entry can be done with double click or CTRL+Click. Min and Max alone are a soft limit for the slider. Use clamped keyword to also apply limits to the direct entry modes.
 	Args:
@@ -4480,6 +4617,7 @@ def add_slider_floatx(*, label: str =None, id: int =0, width: int =0, indent: in
 		**tracked (bool): Scroll tracking
 		**track_offset (float): 0.0f:top, 0.5f:center, 1.0f:bottom
 		**user_data (Any): User data for callbacks.
+		**use_internal_label (bool): Use generated internal label instead of user specified (appends ### uuid).
 		**default_value (List[float]): 
 		**size (int): Number of components.
 		**no_input (bool): Disable direct entry methods or Enter key allowing to input text directly into the widget.
@@ -4491,9 +4629,9 @@ def add_slider_floatx(*, label: str =None, id: int =0, width: int =0, indent: in
 		int
 	"""
 
-	return internal_dpg.add_slider_floatx(label=label, id=id, width=width, indent=indent, parent=parent, before=before, source=source, payload_type=payload_type, callback=callback, drag_callback=drag_callback, drop_callback=drop_callback, show=show, enabled=enabled, pos=pos, filter_key=filter_key, tracked=tracked, track_offset=track_offset, user_data=user_data, default_value=default_value, size=size, no_input=no_input, clamped=clamped, min_value=min_value, max_value=max_value, format=format)
+	return internal_dpg.add_slider_floatx(label=label, id=id, width=width, indent=indent, parent=parent, before=before, source=source, payload_type=payload_type, callback=callback, drag_callback=drag_callback, drop_callback=drop_callback, show=show, enabled=enabled, pos=pos, filter_key=filter_key, tracked=tracked, track_offset=track_offset, user_data=user_data, use_internal_label=use_internal_label, default_value=default_value, size=size, no_input=no_input, clamped=clamped, min_value=min_value, max_value=max_value, format=format)
 
-def add_slider_int(*, label: str =None, id: int =0, width: int =0, height: int =0, indent: int =-1, parent: int =0, before: int =0, source: int =0, payload_type: str ='$$DPG_PAYLOAD', callback: Callable =None, drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, enabled: bool =True, pos: List[int] =[], filter_key: str ='', tracked: bool =False, track_offset: float =0.5, user_data: Any =None, default_value: int =0, vertical: bool =False, no_input: bool =False, clamped: bool =False, min_value: int =0, max_value: int =100, format: str ='%d') -> int:
+def add_slider_int(*, label: str =None, id: int =0, width: int =0, height: int =0, indent: int =-1, parent: int =0, before: int =0, source: int =0, payload_type: str ='$$DPG_PAYLOAD', callback: Callable =None, drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, enabled: bool =True, pos: List[int] =[], filter_key: str ='', tracked: bool =False, track_offset: float =0.5, user_data: Any =None, use_internal_label: bool =True, default_value: int =0, vertical: bool =False, no_input: bool =False, clamped: bool =False, min_value: int =0, max_value: int =100, format: str ='%d') -> int:
 	"""
 	Adds slider for a single int value. Directly entry can be done with double click or CTRL+Click. Min and Max alone are a soft limit for the slider. Use clamped keyword to also apply limits to the direct entry modes.
 	Args:
@@ -4516,6 +4654,7 @@ def add_slider_int(*, label: str =None, id: int =0, width: int =0, height: int =
 		**tracked (bool): Scroll tracking
 		**track_offset (float): 0.0f:top, 0.5f:center, 1.0f:bottom
 		**user_data (Any): User data for callbacks.
+		**use_internal_label (bool): Use generated internal label instead of user specified (appends ### uuid).
 		**default_value (int): 
 		**vertical (bool): Sets orientation to vertical.
 		**no_input (bool): Disable direct entry methods or Enter key allowing to input text directly into the widget.
@@ -4527,9 +4666,9 @@ def add_slider_int(*, label: str =None, id: int =0, width: int =0, height: int =
 		int
 	"""
 
-	return internal_dpg.add_slider_int(label=label, id=id, width=width, height=height, indent=indent, parent=parent, before=before, source=source, payload_type=payload_type, callback=callback, drag_callback=drag_callback, drop_callback=drop_callback, show=show, enabled=enabled, pos=pos, filter_key=filter_key, tracked=tracked, track_offset=track_offset, user_data=user_data, default_value=default_value, vertical=vertical, no_input=no_input, clamped=clamped, min_value=min_value, max_value=max_value, format=format)
+	return internal_dpg.add_slider_int(label=label, id=id, width=width, height=height, indent=indent, parent=parent, before=before, source=source, payload_type=payload_type, callback=callback, drag_callback=drag_callback, drop_callback=drop_callback, show=show, enabled=enabled, pos=pos, filter_key=filter_key, tracked=tracked, track_offset=track_offset, user_data=user_data, use_internal_label=use_internal_label, default_value=default_value, vertical=vertical, no_input=no_input, clamped=clamped, min_value=min_value, max_value=max_value, format=format)
 
-def add_slider_intx(*, label: str =None, id: int =0, width: int =0, indent: int =-1, parent: int =0, before: int =0, source: int =0, payload_type: str ='$$DPG_PAYLOAD', callback: Callable =None, drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, enabled: bool =True, pos: List[int] =[], filter_key: str ='', tracked: bool =False, track_offset: float =0.5, user_data: Any =None, default_value: List[int] =(0, 0, 0, 0), size: int =4, no_input: bool =False, clamped: bool =False, min_value: int =0, max_value: int =100, format: str ='%d') -> int:
+def add_slider_intx(*, label: str =None, id: int =0, width: int =0, indent: int =-1, parent: int =0, before: int =0, source: int =0, payload_type: str ='$$DPG_PAYLOAD', callback: Callable =None, drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, enabled: bool =True, pos: List[int] =[], filter_key: str ='', tracked: bool =False, track_offset: float =0.5, user_data: Any =None, use_internal_label: bool =True, default_value: List[int] =(0, 0, 0, 0), size: int =4, no_input: bool =False, clamped: bool =False, min_value: int =0, max_value: int =100, format: str ='%d') -> int:
 	"""
 	Adds multi slider for up to 4 int values. CTRL+Click to directly modify the value.
 	Args:
@@ -4551,6 +4690,7 @@ def add_slider_intx(*, label: str =None, id: int =0, width: int =0, indent: int 
 		**tracked (bool): Scroll tracking
 		**track_offset (float): 0.0f:top, 0.5f:center, 1.0f:bottom
 		**user_data (Any): User data for callbacks.
+		**use_internal_label (bool): Use generated internal label instead of user specified (appends ### uuid).
 		**default_value (List[int]): 
 		**size (int): number of components
 		**no_input (bool): Disable direct entry methods or Enter key allowing to input text directly into the widget.
@@ -4562,9 +4702,9 @@ def add_slider_intx(*, label: str =None, id: int =0, width: int =0, indent: int 
 		int
 	"""
 
-	return internal_dpg.add_slider_intx(label=label, id=id, width=width, indent=indent, parent=parent, before=before, source=source, payload_type=payload_type, callback=callback, drag_callback=drag_callback, drop_callback=drop_callback, show=show, enabled=enabled, pos=pos, filter_key=filter_key, tracked=tracked, track_offset=track_offset, user_data=user_data, default_value=default_value, size=size, no_input=no_input, clamped=clamped, min_value=min_value, max_value=max_value, format=format)
+	return internal_dpg.add_slider_intx(label=label, id=id, width=width, indent=indent, parent=parent, before=before, source=source, payload_type=payload_type, callback=callback, drag_callback=drag_callback, drop_callback=drop_callback, show=show, enabled=enabled, pos=pos, filter_key=filter_key, tracked=tracked, track_offset=track_offset, user_data=user_data, use_internal_label=use_internal_label, default_value=default_value, size=size, no_input=no_input, clamped=clamped, min_value=min_value, max_value=max_value, format=format)
 
-def add_spacing(*, label: str =None, id: int =0, indent: int =-1, parent: int =0, before: int =0, show: bool =True, pos: List[int] =[], user_data: Any =None, count: int =1) -> int:
+def add_spacing(*, label: str =None, id: int =0, indent: int =-1, parent: int =0, before: int =0, show: bool =True, pos: List[int] =[], user_data: Any =None, use_internal_label: bool =True, count: int =1) -> int:
 	"""
 	Adds vertical spacing.
 	Args:
@@ -4576,27 +4716,29 @@ def add_spacing(*, label: str =None, id: int =0, indent: int =-1, parent: int =0
 		**show (bool): Attempt to render widget.
 		**pos (List[int]): Places the item relative to window coordinates, [0,0] is top left.
 		**user_data (Any): User data for callbacks.
+		**use_internal_label (bool): Use generated internal label instead of user specified (appends ### uuid).
 		**count (int): Number of spacings to add the size is dependant on the curret style.
 	Returns:
 		int
 	"""
 
-	return internal_dpg.add_spacing(label=label, id=id, indent=indent, parent=parent, before=before, show=show, pos=pos, user_data=user_data, count=count)
+	return internal_dpg.add_spacing(label=label, id=id, indent=indent, parent=parent, before=before, show=show, pos=pos, user_data=user_data, use_internal_label=use_internal_label, count=count)
 
-def add_staging_container(*, label: str =None, id: int =0, user_data: Any =None) -> int:
+def add_staging_container(*, label: str =None, id: int =0, user_data: Any =None, use_internal_label: bool =True) -> int:
 	"""
 	Undocumented function
 	Args:
 		**label (str): Overrides 'name' as label.
 		**id (int): Unique id used to programmatically refer to the item.If label is unused this will be the label.
 		**user_data (Any): User data for callbacks.
+		**use_internal_label (bool): Use generated internal label instead of user specified (appends ### uuid).
 	Returns:
 		int
 	"""
 
-	return internal_dpg.add_staging_container(label=label, id=id, user_data=user_data)
+	return internal_dpg.add_staging_container(label=label, id=id, user_data=user_data, use_internal_label=use_internal_label)
 
-def add_stair_series(x : List[float], y : List[float], *, label: str =None, id: int =0, parent: int =0, before: int =0, source: int =0, show: bool =True, user_data: Any =None) -> int:
+def add_stair_series(x : List[float], y : List[float], *, label: str =None, id: int =0, parent: int =0, before: int =0, source: int =0, show: bool =True, user_data: Any =None, use_internal_label: bool =True) -> int:
 	"""
 	Adds a stair series to a plot.
 	Args:
@@ -4609,13 +4751,14 @@ def add_stair_series(x : List[float], y : List[float], *, label: str =None, id: 
 		**source (int): Overrides 'id' as value storage key.
 		**show (bool): Attempt to render widget.
 		**user_data (Any): User data for callbacks.
+		**use_internal_label (bool): Use generated internal label instead of user specified (appends ### uuid).
 	Returns:
 		int
 	"""
 
-	return internal_dpg.add_stair_series(x, y, label=label, id=id, parent=parent, before=before, source=source, show=show, user_data=user_data)
+	return internal_dpg.add_stair_series(x, y, label=label, id=id, parent=parent, before=before, source=source, show=show, user_data=user_data, use_internal_label=use_internal_label)
 
-def add_static_texture(width : int, height : int, default_value : List[float], *, label: str =None, id: int =0, user_data: Any =None, parent: int =internal_dpg.mvReservedUUID_2) -> int:
+def add_static_texture(width : int, height : int, default_value : List[float], *, label: str =None, id: int =0, user_data: Any =None, use_internal_label: bool =True, parent: int =internal_dpg.mvReservedUUID_2) -> int:
 	"""
 	Undocumented function
 	Args:
@@ -4625,14 +4768,15 @@ def add_static_texture(width : int, height : int, default_value : List[float], *
 		**label (str): Overrides 'name' as label.
 		**id (int): Unique id used to programmatically refer to the item.If label is unused this will be the label.
 		**user_data (Any): User data for callbacks.
+		**use_internal_label (bool): Use generated internal label instead of user specified (appends ### uuid).
 		**parent (int): Parent to add this item to. (runtime adding)
 	Returns:
 		int
 	"""
 
-	return internal_dpg.add_static_texture(width, height, default_value, label=label, id=id, user_data=user_data, parent=parent)
+	return internal_dpg.add_static_texture(width, height, default_value, label=label, id=id, user_data=user_data, use_internal_label=use_internal_label, parent=parent)
 
-def add_stem_series(x : List[float], y : List[float], *, label: str =None, id: int =0, indent: int =-1, parent: int =0, before: int =0, source: int =0, show: bool =True, user_data: Any =None) -> int:
+def add_stem_series(x : List[float], y : List[float], *, label: str =None, id: int =0, indent: int =-1, parent: int =0, before: int =0, source: int =0, show: bool =True, user_data: Any =None, use_internal_label: bool =True) -> int:
 	"""
 	Adds a stem series to a plot.
 	Args:
@@ -4646,13 +4790,14 @@ def add_stem_series(x : List[float], y : List[float], *, label: str =None, id: i
 		**source (int): Overrides 'id' as value storage key.
 		**show (bool): Attempt to render widget.
 		**user_data (Any): User data for callbacks.
+		**use_internal_label (bool): Use generated internal label instead of user specified (appends ### uuid).
 	Returns:
 		int
 	"""
 
-	return internal_dpg.add_stem_series(x, y, label=label, id=id, indent=indent, parent=parent, before=before, source=source, show=show, user_data=user_data)
+	return internal_dpg.add_stem_series(x, y, label=label, id=id, indent=indent, parent=parent, before=before, source=source, show=show, user_data=user_data, use_internal_label=use_internal_label)
 
-def add_string_value(*, label: str =None, id: int =0, source: int =0, user_data: Any =None, default_value: str ='', parent: int =internal_dpg.mvReservedUUID_3) -> int:
+def add_string_value(*, label: str =None, id: int =0, source: int =0, user_data: Any =None, use_internal_label: bool =True, default_value: str ='', parent: int =internal_dpg.mvReservedUUID_3) -> int:
 	"""
 	Undocumented
 	Args:
@@ -4660,15 +4805,16 @@ def add_string_value(*, label: str =None, id: int =0, source: int =0, user_data:
 		**id (int): Unique id used to programmatically refer to the item.If label is unused this will be the label.
 		**source (int): Overrides 'id' as value storage key.
 		**user_data (Any): User data for callbacks.
+		**use_internal_label (bool): Use generated internal label instead of user specified (appends ### uuid).
 		**default_value (str): 
 		**parent (int): Parent to add this item to. (runtime adding)
 	Returns:
 		int
 	"""
 
-	return internal_dpg.add_string_value(label=label, id=id, source=source, user_data=user_data, default_value=default_value, parent=parent)
+	return internal_dpg.add_string_value(label=label, id=id, source=source, user_data=user_data, use_internal_label=use_internal_label, default_value=default_value, parent=parent)
 
-def add_subplots(rows : int, columns : int, *, label: str =None, id: int =0, width: int =0, height: int =0, indent: int =-1, parent: int =0, before: int =0, callback: Callable =None, show: bool =True, pos: List[int] =[], filter_key: str ='', delay_search: bool =False, tracked: bool =False, track_offset: float =0.5, user_data: Any =None, row_ratios: List[float] =[], column_ratios: List[float] =[], no_title: bool =False, no_menus: bool =False, no_resize: bool =False, no_align: bool =False, link_rows: bool =False, link_columns: bool =False, link_all_x: bool =False, link_all_y: bool =False, column_major: bool =False) -> int:
+def add_subplots(rows : int, columns : int, *, label: str =None, id: int =0, width: int =0, height: int =0, indent: int =-1, parent: int =0, before: int =0, callback: Callable =None, show: bool =True, pos: List[int] =[], filter_key: str ='', delay_search: bool =False, tracked: bool =False, track_offset: float =0.5, user_data: Any =None, use_internal_label: bool =True, row_ratios: List[float] =[], column_ratios: List[float] =[], no_title: bool =False, no_menus: bool =False, no_resize: bool =False, no_align: bool =False, link_rows: bool =False, link_columns: bool =False, link_all_x: bool =False, link_all_y: bool =False, column_major: bool =False) -> int:
 	"""
 	Adds a plot which is used to hold series, and can be drawn to with draw commands.
 	Args:
@@ -4689,6 +4835,7 @@ def add_subplots(rows : int, columns : int, *, label: str =None, id: int =0, wid
 		**tracked (bool): Scroll tracking
 		**track_offset (float): 0.0f:top, 0.5f:center, 1.0f:bottom
 		**user_data (Any): User data for callbacks.
+		**use_internal_label (bool): Use generated internal label instead of user specified (appends ### uuid).
 		**row_ratios (List[float]): 
 		**column_ratios (List[float]): 
 		**no_title (bool): 
@@ -4704,9 +4851,9 @@ def add_subplots(rows : int, columns : int, *, label: str =None, id: int =0, wid
 		int
 	"""
 
-	return internal_dpg.add_subplots(rows, columns, label=label, id=id, width=width, height=height, indent=indent, parent=parent, before=before, callback=callback, show=show, pos=pos, filter_key=filter_key, delay_search=delay_search, tracked=tracked, track_offset=track_offset, user_data=user_data, row_ratios=row_ratios, column_ratios=column_ratios, no_title=no_title, no_menus=no_menus, no_resize=no_resize, no_align=no_align, link_rows=link_rows, link_columns=link_columns, link_all_x=link_all_x, link_all_y=link_all_y, column_major=column_major)
+	return internal_dpg.add_subplots(rows, columns, label=label, id=id, width=width, height=height, indent=indent, parent=parent, before=before, callback=callback, show=show, pos=pos, filter_key=filter_key, delay_search=delay_search, tracked=tracked, track_offset=track_offset, user_data=user_data, use_internal_label=use_internal_label, row_ratios=row_ratios, column_ratios=column_ratios, no_title=no_title, no_menus=no_menus, no_resize=no_resize, no_align=no_align, link_rows=link_rows, link_columns=link_columns, link_all_x=link_all_x, link_all_y=link_all_y, column_major=column_major)
 
-def add_tab(*, label: str =None, id: int =0, indent: int =-1, parent: int =0, before: int =0, payload_type: str ='$$DPG_PAYLOAD', drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, filter_key: str ='', delay_search: bool =False, tracked: bool =False, track_offset: float =0.5, user_data: Any =None, closable: bool =False, no_tooltip: bool =False, order_mode: bool =0) -> int:
+def add_tab(*, label: str =None, id: int =0, indent: int =-1, parent: int =0, before: int =0, payload_type: str ='$$DPG_PAYLOAD', drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, filter_key: str ='', delay_search: bool =False, tracked: bool =False, track_offset: float =0.5, user_data: Any =None, use_internal_label: bool =True, closable: bool =False, no_tooltip: bool =False, order_mode: bool =0) -> int:
 	"""
 	Adds a tab to a tab bar. Must be closed with thes end command.
 	Args:
@@ -4724,6 +4871,7 @@ def add_tab(*, label: str =None, id: int =0, indent: int =-1, parent: int =0, be
 		**tracked (bool): Scroll tracking
 		**track_offset (float): 0.0f:top, 0.5f:center, 1.0f:bottom
 		**user_data (Any): User data for callbacks.
+		**use_internal_label (bool): Use generated internal label instead of user specified (appends ### uuid).
 		**closable (bool): Creates a button on the tab that can hide the tab.
 		**no_tooltip (bool): Disable tooltip for the given tab.
 		**order_mode (bool): set using a constant: mvTabOrder_Reorderable: allows reordering, mvTabOrder_Fixed: fixed ordering, mvTabOrder_Leading: adds tab to front, mvTabOrder_Trailing: adds tab to back
@@ -4731,9 +4879,9 @@ def add_tab(*, label: str =None, id: int =0, indent: int =-1, parent: int =0, be
 		int
 	"""
 
-	return internal_dpg.add_tab(label=label, id=id, indent=indent, parent=parent, before=before, payload_type=payload_type, drag_callback=drag_callback, drop_callback=drop_callback, show=show, filter_key=filter_key, delay_search=delay_search, tracked=tracked, track_offset=track_offset, user_data=user_data, closable=closable, no_tooltip=no_tooltip, order_mode=order_mode)
+	return internal_dpg.add_tab(label=label, id=id, indent=indent, parent=parent, before=before, payload_type=payload_type, drag_callback=drag_callback, drop_callback=drop_callback, show=show, filter_key=filter_key, delay_search=delay_search, tracked=tracked, track_offset=track_offset, user_data=user_data, use_internal_label=use_internal_label, closable=closable, no_tooltip=no_tooltip, order_mode=order_mode)
 
-def add_tab_bar(*, label: str =None, id: int =0, indent: int =-1, parent: int =0, before: int =0, payload_type: str ='$$DPG_PAYLOAD', callback: Callable =None, drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, pos: List[int] =[], filter_key: str ='', delay_search: bool =False, tracked: bool =False, track_offset: float =0.5, user_data: Any =None, reorderable: bool =False) -> int:
+def add_tab_bar(*, label: str =None, id: int =0, indent: int =-1, parent: int =0, before: int =0, payload_type: str ='$$DPG_PAYLOAD', callback: Callable =None, drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, pos: List[int] =[], filter_key: str ='', delay_search: bool =False, tracked: bool =False, track_offset: float =0.5, user_data: Any =None, use_internal_label: bool =True, reorderable: bool =False) -> int:
 	"""
 	Adds a tab bar.
 	Args:
@@ -4753,14 +4901,15 @@ def add_tab_bar(*, label: str =None, id: int =0, indent: int =-1, parent: int =0
 		**tracked (bool): Scroll tracking
 		**track_offset (float): 0.0f:top, 0.5f:center, 1.0f:bottom
 		**user_data (Any): User data for callbacks.
+		**use_internal_label (bool): Use generated internal label instead of user specified (appends ### uuid).
 		**reorderable (bool): Allows for the user to change the order of the tabs.
 	Returns:
 		int
 	"""
 
-	return internal_dpg.add_tab_bar(label=label, id=id, indent=indent, parent=parent, before=before, payload_type=payload_type, callback=callback, drag_callback=drag_callback, drop_callback=drop_callback, show=show, pos=pos, filter_key=filter_key, delay_search=delay_search, tracked=tracked, track_offset=track_offset, user_data=user_data, reorderable=reorderable)
+	return internal_dpg.add_tab_bar(label=label, id=id, indent=indent, parent=parent, before=before, payload_type=payload_type, callback=callback, drag_callback=drag_callback, drop_callback=drop_callback, show=show, pos=pos, filter_key=filter_key, delay_search=delay_search, tracked=tracked, track_offset=track_offset, user_data=user_data, use_internal_label=use_internal_label, reorderable=reorderable)
 
-def add_tab_button(*, label: str =None, id: int =0, indent: int =-1, parent: int =0, before: int =0, payload_type: str ='$$DPG_PAYLOAD', callback: Callable =None, drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, filter_key: str ='', tracked: bool =False, track_offset: float =0.5, user_data: Any =None, no_reorder: bool =False, leading: bool =False, trailing: bool =False, no_tooltip: bool =False) -> int:
+def add_tab_button(*, label: str =None, id: int =0, indent: int =-1, parent: int =0, before: int =0, payload_type: str ='$$DPG_PAYLOAD', callback: Callable =None, drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, filter_key: str ='', tracked: bool =False, track_offset: float =0.5, user_data: Any =None, use_internal_label: bool =True, no_reorder: bool =False, leading: bool =False, trailing: bool =False, no_tooltip: bool =False) -> int:
 	"""
 	Adds a tab button to a tab bar.
 	Args:
@@ -4778,6 +4927,7 @@ def add_tab_button(*, label: str =None, id: int =0, indent: int =-1, parent: int
 		**tracked (bool): Scroll tracking
 		**track_offset (float): 0.0f:top, 0.5f:center, 1.0f:bottom
 		**user_data (Any): User data for callbacks.
+		**use_internal_label (bool): Use generated internal label instead of user specified (appends ### uuid).
 		**no_reorder (bool): Disable reordering this tab or having another tab cross over this tab.
 		**leading (bool): Enforce the tab position to the left of the tab bar (after the tab list popup button).
 		**trailing (bool): Enforce the tab position to the right of the tab bar (before the scrolling buttons).
@@ -4786,9 +4936,9 @@ def add_tab_button(*, label: str =None, id: int =0, indent: int =-1, parent: int
 		int
 	"""
 
-	return internal_dpg.add_tab_button(label=label, id=id, indent=indent, parent=parent, before=before, payload_type=payload_type, callback=callback, drag_callback=drag_callback, drop_callback=drop_callback, show=show, filter_key=filter_key, tracked=tracked, track_offset=track_offset, user_data=user_data, no_reorder=no_reorder, leading=leading, trailing=trailing, no_tooltip=no_tooltip)
+	return internal_dpg.add_tab_button(label=label, id=id, indent=indent, parent=parent, before=before, payload_type=payload_type, callback=callback, drag_callback=drag_callback, drop_callback=drop_callback, show=show, filter_key=filter_key, tracked=tracked, track_offset=track_offset, user_data=user_data, use_internal_label=use_internal_label, no_reorder=no_reorder, leading=leading, trailing=trailing, no_tooltip=no_tooltip)
 
-def add_table(*, label: str =None, id: int =0, width: int =0, height: int =0, indent: int =-1, parent: int =0, before: int =0, source: int =0, callback: Callable =None, show: bool =True, pos: List[int] =[], filter_key: str ='', delay_search: bool =False, user_data: Any =None, header_row: bool =True, inner_width: int =0, policy: int =0, freeze_rows: int =0, freeze_columns: int =0, sort_multi: bool =False, sort_tristate: bool =False, resizable: bool =False, reorderable: bool =False, hideable: bool =False, sortable: bool =False, context_menu_in_body: bool =False, row_background: bool =False, borders_innerH: bool =False, borders_outerH: bool =False, borders_innerV: bool =False, borders_outerV: bool =False, no_host_extendX: bool =False, no_host_extendY: bool =False, no_keep_columns_visible: bool =False, precise_widths: bool =False, no_clip: bool =False, pad_outerX: bool =False, no_pad_outerX: bool =False, no_pad_innerX: bool =False, scrollX: bool =False, scrollY: bool =False, no_saved_settings: bool =False) -> int:
+def add_table(*, label: str =None, id: int =0, width: int =0, height: int =0, indent: int =-1, parent: int =0, before: int =0, source: int =0, callback: Callable =None, show: bool =True, pos: List[int] =[], filter_key: str ='', delay_search: bool =False, user_data: Any =None, use_internal_label: bool =True, header_row: bool =True, inner_width: int =0, policy: int =0, freeze_rows: int =0, freeze_columns: int =0, sort_multi: bool =False, sort_tristate: bool =False, resizable: bool =False, reorderable: bool =False, hideable: bool =False, sortable: bool =False, context_menu_in_body: bool =False, row_background: bool =False, borders_innerH: bool =False, borders_outerH: bool =False, borders_innerV: bool =False, borders_outerV: bool =False, no_host_extendX: bool =False, no_host_extendY: bool =False, no_keep_columns_visible: bool =False, precise_widths: bool =False, no_clip: bool =False, pad_outerX: bool =False, no_pad_outerX: bool =False, no_pad_innerX: bool =False, scrollX: bool =False, scrollY: bool =False, no_saved_settings: bool =False) -> int:
 	"""
 	Undocumented function
 	Args:
@@ -4806,6 +4956,7 @@ def add_table(*, label: str =None, id: int =0, width: int =0, height: int =0, in
 		**filter_key (str): Used by filter widget.
 		**delay_search (bool): Delays searching container for specified items until the end of the app. Possible optimization when a container has many children that are not accessed often.
 		**user_data (Any): User data for callbacks.
+		**use_internal_label (bool): Use generated internal label instead of user specified (appends ### uuid).
 		**header_row (bool): show headers at the top of the columns
 		**inner_width (int): 
 		**policy (int): 
@@ -4838,9 +4989,9 @@ def add_table(*, label: str =None, id: int =0, width: int =0, height: int =0, in
 		int
 	"""
 
-	return internal_dpg.add_table(label=label, id=id, width=width, height=height, indent=indent, parent=parent, before=before, source=source, callback=callback, show=show, pos=pos, filter_key=filter_key, delay_search=delay_search, user_data=user_data, header_row=header_row, inner_width=inner_width, policy=policy, freeze_rows=freeze_rows, freeze_columns=freeze_columns, sort_multi=sort_multi, sort_tristate=sort_tristate, resizable=resizable, reorderable=reorderable, hideable=hideable, sortable=sortable, context_menu_in_body=context_menu_in_body, row_background=row_background, borders_innerH=borders_innerH, borders_outerH=borders_outerH, borders_innerV=borders_innerV, borders_outerV=borders_outerV, no_host_extendX=no_host_extendX, no_host_extendY=no_host_extendY, no_keep_columns_visible=no_keep_columns_visible, precise_widths=precise_widths, no_clip=no_clip, pad_outerX=pad_outerX, no_pad_outerX=no_pad_outerX, no_pad_innerX=no_pad_innerX, scrollX=scrollX, scrollY=scrollY, no_saved_settings=no_saved_settings)
+	return internal_dpg.add_table(label=label, id=id, width=width, height=height, indent=indent, parent=parent, before=before, source=source, callback=callback, show=show, pos=pos, filter_key=filter_key, delay_search=delay_search, user_data=user_data, use_internal_label=use_internal_label, header_row=header_row, inner_width=inner_width, policy=policy, freeze_rows=freeze_rows, freeze_columns=freeze_columns, sort_multi=sort_multi, sort_tristate=sort_tristate, resizable=resizable, reorderable=reorderable, hideable=hideable, sortable=sortable, context_menu_in_body=context_menu_in_body, row_background=row_background, borders_innerH=borders_innerH, borders_outerH=borders_outerH, borders_innerV=borders_innerV, borders_outerV=borders_outerV, no_host_extendX=no_host_extendX, no_host_extendY=no_host_extendY, no_keep_columns_visible=no_keep_columns_visible, precise_widths=precise_widths, no_clip=no_clip, pad_outerX=pad_outerX, no_pad_outerX=no_pad_outerX, no_pad_innerX=no_pad_innerX, scrollX=scrollX, scrollY=scrollY, no_saved_settings=no_saved_settings)
 
-def add_table_column(*, label: str =None, id: int =0, width: int =0, parent: int =0, before: int =0, show: bool =True, user_data: Any =None, init_width_or_weight: float =0.0, default_hide: bool =False, default_sort: bool =False, width_stretch: bool =False, width_fixed: bool =False, no_resize: bool =False, no_reorder: bool =False, no_hide: bool =False, no_clip: bool =False, no_sort: bool =False, no_sort_ascending: bool =False, no_sort_descending: bool =False, no_header_width: bool =False, prefer_sort_ascending: bool =True, prefer_sort_descending: bool =False, indent_enable: bool =False, indent_disable: bool =False) -> int:
+def add_table_column(*, label: str =None, id: int =0, width: int =0, parent: int =0, before: int =0, show: bool =True, user_data: Any =None, use_internal_label: bool =True, init_width_or_weight: float =0.0, default_hide: bool =False, default_sort: bool =False, width_stretch: bool =False, width_fixed: bool =False, no_resize: bool =False, no_reorder: bool =False, no_hide: bool =False, no_clip: bool =False, no_sort: bool =False, no_sort_ascending: bool =False, no_sort_descending: bool =False, no_header_width: bool =False, prefer_sort_ascending: bool =True, prefer_sort_descending: bool =False, indent_enable: bool =False, indent_disable: bool =False) -> int:
 	"""
 	Undocumented function
 	Args:
@@ -4851,6 +5002,7 @@ def add_table_column(*, label: str =None, id: int =0, width: int =0, parent: int
 		**before (int): This item will be displayed before the specified item in the parent.
 		**show (bool): Attempt to render widget.
 		**user_data (Any): User data for callbacks.
+		**use_internal_label (bool): Use generated internal label instead of user specified (appends ### uuid).
 		**init_width_or_weight (float): 
 		**default_hide (bool): Default as a hidden/disabled column.
 		**default_sort (bool): Default as a sorting column.
@@ -4872,9 +5024,9 @@ def add_table_column(*, label: str =None, id: int =0, width: int =0, parent: int
 		int
 	"""
 
-	return internal_dpg.add_table_column(label=label, id=id, width=width, parent=parent, before=before, show=show, user_data=user_data, init_width_or_weight=init_width_or_weight, default_hide=default_hide, default_sort=default_sort, width_stretch=width_stretch, width_fixed=width_fixed, no_resize=no_resize, no_reorder=no_reorder, no_hide=no_hide, no_clip=no_clip, no_sort=no_sort, no_sort_ascending=no_sort_ascending, no_sort_descending=no_sort_descending, no_header_width=no_header_width, prefer_sort_ascending=prefer_sort_ascending, prefer_sort_descending=prefer_sort_descending, indent_enable=indent_enable, indent_disable=indent_disable)
+	return internal_dpg.add_table_column(label=label, id=id, width=width, parent=parent, before=before, show=show, user_data=user_data, use_internal_label=use_internal_label, init_width_or_weight=init_width_or_weight, default_hide=default_hide, default_sort=default_sort, width_stretch=width_stretch, width_fixed=width_fixed, no_resize=no_resize, no_reorder=no_reorder, no_hide=no_hide, no_clip=no_clip, no_sort=no_sort, no_sort_ascending=no_sort_ascending, no_sort_descending=no_sort_descending, no_header_width=no_header_width, prefer_sort_ascending=prefer_sort_ascending, prefer_sort_descending=prefer_sort_descending, indent_enable=indent_enable, indent_disable=indent_disable)
 
-def add_table_next_column(*, label: str =None, id: int =0, parent: int =0, before: int =0, show: bool =True, user_data: Any =None) -> int:
+def add_table_next_column(*, label: str =None, id: int =0, parent: int =0, before: int =0, show: bool =True, user_data: Any =None, use_internal_label: bool =True) -> int:
 	"""
 	Undocumented function
 	Args:
@@ -4884,13 +5036,14 @@ def add_table_next_column(*, label: str =None, id: int =0, parent: int =0, befor
 		**before (int): This item will be displayed before the specified item in the parent.
 		**show (bool): Attempt to render widget.
 		**user_data (Any): User data for callbacks.
+		**use_internal_label (bool): Use generated internal label instead of user specified (appends ### uuid).
 	Returns:
 		int
 	"""
 
-	return internal_dpg.add_table_next_column(label=label, id=id, parent=parent, before=before, show=show, user_data=user_data)
+	return internal_dpg.add_table_next_column(label=label, id=id, parent=parent, before=before, show=show, user_data=user_data, use_internal_label=use_internal_label)
 
-def add_table_row(*, label: str =None, id: int =0, height: int =0, parent: int =0, before: int =0, show: bool =True, filter_key: str ='', user_data: Any =None) -> int:
+def add_table_row(*, label: str =None, id: int =0, height: int =0, parent: int =0, before: int =0, show: bool =True, filter_key: str ='', user_data: Any =None, use_internal_label: bool =True) -> int:
 	"""
 	Undocumented function
 	Args:
@@ -4902,13 +5055,14 @@ def add_table_row(*, label: str =None, id: int =0, height: int =0, parent: int =
 		**show (bool): Attempt to render widget.
 		**filter_key (str): Used by filter widget.
 		**user_data (Any): User data for callbacks.
+		**use_internal_label (bool): Use generated internal label instead of user specified (appends ### uuid).
 	Returns:
 		int
 	"""
 
-	return internal_dpg.add_table_row(label=label, id=id, height=height, parent=parent, before=before, show=show, filter_key=filter_key, user_data=user_data)
+	return internal_dpg.add_table_row(label=label, id=id, height=height, parent=parent, before=before, show=show, filter_key=filter_key, user_data=user_data, use_internal_label=use_internal_label)
 
-def add_text(default_value : str ='', *, label: str =None, id: int =0, indent: int =-1, parent: int =0, before: int =0, source: int =0, show: bool =True, pos: List[int] =[], filter_key: str ='', tracked: bool =False, track_offset: float =0.5, user_data: Any =None, wrap: int =-1, bullet: bool =False, color: List[float] =(-1, -1, -1, -1), show_label: bool =False) -> int:
+def add_text(default_value : str ='', *, label: str =None, id: int =0, indent: int =-1, parent: int =0, before: int =0, source: int =0, show: bool =True, pos: List[int] =[], filter_key: str ='', tracked: bool =False, track_offset: float =0.5, user_data: Any =None, use_internal_label: bool =True, wrap: int =-1, bullet: bool =False, color: List[float] =(-1, -1, -1, -1), show_label: bool =False) -> int:
 	"""
 	Adds text. Text can have an optional label that will display to the right of the text.
 	Args:
@@ -4925,6 +5079,7 @@ def add_text(default_value : str ='', *, label: str =None, id: int =0, indent: i
 		**tracked (bool): Scroll tracking
 		**track_offset (float): 0.0f:top, 0.5f:center, 1.0f:bottom
 		**user_data (Any): User data for callbacks.
+		**use_internal_label (bool): Use generated internal label instead of user specified (appends ### uuid).
 		**wrap (int): Number of pixels until wrapping starts.
 		**bullet (bool): Makes the text bulleted.
 		**color (List[float]): Color of the text (rgba).
@@ -4933,9 +5088,9 @@ def add_text(default_value : str ='', *, label: str =None, id: int =0, indent: i
 		int
 	"""
 
-	return internal_dpg.add_text(default_value, label=label, id=id, indent=indent, parent=parent, before=before, source=source, show=show, pos=pos, filter_key=filter_key, tracked=tracked, track_offset=track_offset, user_data=user_data, wrap=wrap, bullet=bullet, color=color, show_label=show_label)
+	return internal_dpg.add_text(default_value, label=label, id=id, indent=indent, parent=parent, before=before, source=source, show=show, pos=pos, filter_key=filter_key, tracked=tracked, track_offset=track_offset, user_data=user_data, use_internal_label=use_internal_label, wrap=wrap, bullet=bullet, color=color, show_label=show_label)
 
-def add_text_point(x : float, y : float, *, label: str =None, id: int =0, parent: int =0, before: int =0, source: int =0, show: bool =True, user_data: Any =None, x_offset: int =..., y_offset: int =..., vertical: bool =False) -> int:
+def add_text_point(x : float, y : float, *, label: str =None, id: int =0, parent: int =0, before: int =0, source: int =0, show: bool =True, user_data: Any =None, use_internal_label: bool =True, x_offset: int =..., y_offset: int =..., vertical: bool =False) -> int:
 	"""
 	Adds a labels series to a plot.
 	Args:
@@ -4948,6 +5103,7 @@ def add_text_point(x : float, y : float, *, label: str =None, id: int =0, parent
 		**source (int): Overrides 'id' as value storage key.
 		**show (bool): Attempt to render widget.
 		**user_data (Any): User data for callbacks.
+		**use_internal_label (bool): Use generated internal label instead of user specified (appends ### uuid).
 		**x_offset (int): 
 		**y_offset (int): 
 		**vertical (bool): 
@@ -4955,37 +5111,39 @@ def add_text_point(x : float, y : float, *, label: str =None, id: int =0, parent
 		int
 	"""
 
-	return internal_dpg.add_text_point(x, y, label=label, id=id, parent=parent, before=before, source=source, show=show, user_data=user_data, x_offset=x_offset, y_offset=y_offset, vertical=vertical)
+	return internal_dpg.add_text_point(x, y, label=label, id=id, parent=parent, before=before, source=source, show=show, user_data=user_data, use_internal_label=use_internal_label, x_offset=x_offset, y_offset=y_offset, vertical=vertical)
 
-def add_texture_registry(*, label: str =None, id: int =0, user_data: Any =None, show: bool =False) -> int:
+def add_texture_registry(*, label: str =None, id: int =0, user_data: Any =None, use_internal_label: bool =True, show: bool =False) -> int:
 	"""
 	Undocumented function
 	Args:
 		**label (str): Overrides 'name' as label.
 		**id (int): Unique id used to programmatically refer to the item.If label is unused this will be the label.
 		**user_data (Any): User data for callbacks.
+		**use_internal_label (bool): Use generated internal label instead of user specified (appends ### uuid).
 		**show (bool): Attempt to render widget.
 	Returns:
 		int
 	"""
 
-	return internal_dpg.add_texture_registry(label=label, id=id, user_data=user_data, show=show)
+	return internal_dpg.add_texture_registry(label=label, id=id, user_data=user_data, use_internal_label=use_internal_label, show=show)
 
-def add_theme(*, label: str =None, id: int =0, user_data: Any =None, default_theme: bool =False) -> int:
+def add_theme(*, label: str =None, id: int =0, user_data: Any =None, use_internal_label: bool =True, default_theme: bool =False) -> int:
 	"""
 	Undocumented function
 	Args:
 		**label (str): Overrides 'name' as label.
 		**id (int): Unique id used to programmatically refer to the item.If label is unused this will be the label.
 		**user_data (Any): User data for callbacks.
+		**use_internal_label (bool): Use generated internal label instead of user specified (appends ### uuid).
 		**default_theme (bool): 
 	Returns:
 		int
 	"""
 
-	return internal_dpg.add_theme(label=label, id=id, user_data=user_data, default_theme=default_theme)
+	return internal_dpg.add_theme(label=label, id=id, user_data=user_data, use_internal_label=use_internal_label, default_theme=default_theme)
 
-def add_theme_color(target : int =0, value : List[int] =(0, 0, 0, 255), *, label: str =None, id: int =0, parent: int =0, user_data: Any =None, category: int =0) -> int:
+def add_theme_color(target : int =0, value : List[int] =(0, 0, 0, 255), *, label: str =None, id: int =0, parent: int =0, user_data: Any =None, use_internal_label: bool =True, category: int =0) -> int:
 	"""
 	Undocumented function
 	Args:
@@ -4995,14 +5153,15 @@ def add_theme_color(target : int =0, value : List[int] =(0, 0, 0, 255), *, label
 		**id (int): Unique id used to programmatically refer to the item.If label is unused this will be the label.
 		**parent (int): Parent to add this item to. (runtime adding)
 		**user_data (Any): User data for callbacks.
+		**use_internal_label (bool): Use generated internal label instead of user specified (appends ### uuid).
 		**category (int): Options include mvThemeCat_Core, mvThemeCat_Plots, mvThemeCat_Nodes.
 	Returns:
 		int
 	"""
 
-	return internal_dpg.add_theme_color(target, value, label=label, id=id, parent=parent, user_data=user_data, category=category)
+	return internal_dpg.add_theme_color(target, value, label=label, id=id, parent=parent, user_data=user_data, use_internal_label=use_internal_label, category=category)
 
-def add_theme_style(target : int =0, x : float =1.0, y : float =-1.0, *, label: str =None, id: int =0, parent: int =0, user_data: Any =None, category: int =0) -> int:
+def add_theme_style(target : int =0, x : float =1.0, y : float =-1.0, *, label: str =None, id: int =0, parent: int =0, user_data: Any =None, use_internal_label: bool =True, category: int =0) -> int:
 	"""
 	Undocumented function
 	Args:
@@ -5013,14 +5172,15 @@ def add_theme_style(target : int =0, x : float =1.0, y : float =-1.0, *, label: 
 		**id (int): Unique id used to programmatically refer to the item.If label is unused this will be the label.
 		**parent (int): Parent to add this item to. (runtime adding)
 		**user_data (Any): User data for callbacks.
+		**use_internal_label (bool): Use generated internal label instead of user specified (appends ### uuid).
 		**category (int): Options include mvThemeCat_Core, mvThemeCat_Plots, mvThemeCat_Nodes.
 	Returns:
 		int
 	"""
 
-	return internal_dpg.add_theme_style(target, x, y, label=label, id=id, parent=parent, user_data=user_data, category=category)
+	return internal_dpg.add_theme_style(target, x, y, label=label, id=id, parent=parent, user_data=user_data, use_internal_label=use_internal_label, category=category)
 
-def add_time_picker(*, label: str =None, id: int =0, indent: int =-1, parent: int =0, before: int =0, payload_type: str ='$$DPG_PAYLOAD', callback: Callable =None, drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, pos: List[int] =[], filter_key: str ='', tracked: bool =False, track_offset: float =0.5, user_data: Any =None, default_value: dict ={'hour': 14, 'min': 32, 'sec': 23}, hour24: bool =False) -> int:
+def add_time_picker(*, label: str =None, id: int =0, indent: int =-1, parent: int =0, before: int =0, payload_type: str ='$$DPG_PAYLOAD', callback: Callable =None, drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, pos: List[int] =[], filter_key: str ='', tracked: bool =False, track_offset: float =0.5, user_data: Any =None, use_internal_label: bool =True, default_value: dict ={'hour': 14, 'min': 32, 'sec': 23}, hour24: bool =False) -> int:
 	"""
 	Adds a time picker.
 	Args:
@@ -5039,15 +5199,16 @@ def add_time_picker(*, label: str =None, id: int =0, indent: int =-1, parent: in
 		**tracked (bool): Scroll tracking
 		**track_offset (float): 0.0f:top, 0.5f:center, 1.0f:bottom
 		**user_data (Any): User data for callbacks.
+		**use_internal_label (bool): Use generated internal label instead of user specified (appends ### uuid).
 		**default_value (dict): 
 		**hour24 (bool): Show 24 hour clock instead of 12 hour.
 	Returns:
 		int
 	"""
 
-	return internal_dpg.add_time_picker(label=label, id=id, indent=indent, parent=parent, before=before, payload_type=payload_type, callback=callback, drag_callback=drag_callback, drop_callback=drop_callback, show=show, pos=pos, filter_key=filter_key, tracked=tracked, track_offset=track_offset, user_data=user_data, default_value=default_value, hour24=hour24)
+	return internal_dpg.add_time_picker(label=label, id=id, indent=indent, parent=parent, before=before, payload_type=payload_type, callback=callback, drag_callback=drag_callback, drop_callback=drop_callback, show=show, pos=pos, filter_key=filter_key, tracked=tracked, track_offset=track_offset, user_data=user_data, use_internal_label=use_internal_label, default_value=default_value, hour24=hour24)
 
-def add_toggled_open_handler(parent : int, *, label: str =None, id: int =0, callback: Callable =None, show: bool =True, user_data: Any =None) -> int:
+def add_toggled_open_handler(parent : int, *, label: str =None, id: int =0, callback: Callable =None, show: bool =True, user_data: Any =None, use_internal_label: bool =True) -> int:
 	"""
 	Adds a handler which runs a given callback when the specified item is toggled open.
 	Args:
@@ -5057,13 +5218,14 @@ def add_toggled_open_handler(parent : int, *, label: str =None, id: int =0, call
 		**callback (Callable): Registers a callback.
 		**show (bool): Attempt to render widget.
 		**user_data (Any): User data for callbacks.
+		**use_internal_label (bool): Use generated internal label instead of user specified (appends ### uuid).
 	Returns:
 		int
 	"""
 
-	return internal_dpg.add_toggled_open_handler(parent, label=label, id=id, callback=callback, show=show, user_data=user_data)
+	return internal_dpg.add_toggled_open_handler(parent, label=label, id=id, callback=callback, show=show, user_data=user_data, use_internal_label=use_internal_label)
 
-def add_tooltip(parent : int, *, label: str =None, id: int =0, show: bool =True, user_data: Any =None) -> int:
+def add_tooltip(parent : int, *, label: str =None, id: int =0, show: bool =True, user_data: Any =None, use_internal_label: bool =True) -> int:
 	"""
 	Adds an advanced tool tip for an item. This command must come immediately after the item the tip is for.
 	Args:
@@ -5072,13 +5234,14 @@ def add_tooltip(parent : int, *, label: str =None, id: int =0, show: bool =True,
 		**id (int): Unique id used to programmatically refer to the item.If label is unused this will be the label.
 		**show (bool): Attempt to render widget.
 		**user_data (Any): User data for callbacks.
+		**use_internal_label (bool): Use generated internal label instead of user specified (appends ### uuid).
 	Returns:
 		int
 	"""
 
-	return internal_dpg.add_tooltip(parent, label=label, id=id, show=show, user_data=user_data)
+	return internal_dpg.add_tooltip(parent, label=label, id=id, show=show, user_data=user_data, use_internal_label=use_internal_label)
 
-def add_tree_node(*, label: str =None, id: int =0, indent: int =-1, parent: int =0, before: int =0, payload_type: str ='$$DPG_PAYLOAD', drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, pos: List[int] =[], filter_key: str ='', delay_search: bool =False, tracked: bool =False, track_offset: float =0.5, user_data: Any =None, default_open: bool =False, open_on_double_click: bool =False, open_on_arrow: bool =False, leaf: bool =False, bullet: bool =False, selectable: bool =False) -> int:
+def add_tree_node(*, label: str =None, id: int =0, indent: int =-1, parent: int =0, before: int =0, payload_type: str ='$$DPG_PAYLOAD', drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, pos: List[int] =[], filter_key: str ='', delay_search: bool =False, tracked: bool =False, track_offset: float =0.5, user_data: Any =None, use_internal_label: bool =True, default_open: bool =False, open_on_double_click: bool =False, open_on_arrow: bool =False, leaf: bool =False, bullet: bool =False, selectable: bool =False) -> int:
 	"""
 	Adds a tree node to add items to. Must be closed with the end command.
 	Args:
@@ -5097,6 +5260,7 @@ def add_tree_node(*, label: str =None, id: int =0, indent: int =-1, parent: int 
 		**tracked (bool): Scroll tracking
 		**track_offset (float): 0.0f:top, 0.5f:center, 1.0f:bottom
 		**user_data (Any): User data for callbacks.
+		**use_internal_label (bool): Use generated internal label instead of user specified (appends ### uuid).
 		**default_open (bool): Sets the tree node open by default.
 		**open_on_double_click (bool): Need double-click to open node.
 		**open_on_arrow (bool): Only open when clicking on the arrow part.
@@ -5107,22 +5271,23 @@ def add_tree_node(*, label: str =None, id: int =0, indent: int =-1, parent: int 
 		int
 	"""
 
-	return internal_dpg.add_tree_node(label=label, id=id, indent=indent, parent=parent, before=before, payload_type=payload_type, drag_callback=drag_callback, drop_callback=drop_callback, show=show, pos=pos, filter_key=filter_key, delay_search=delay_search, tracked=tracked, track_offset=track_offset, user_data=user_data, default_open=default_open, open_on_double_click=open_on_double_click, open_on_arrow=open_on_arrow, leaf=leaf, bullet=bullet, selectable=selectable)
+	return internal_dpg.add_tree_node(label=label, id=id, indent=indent, parent=parent, before=before, payload_type=payload_type, drag_callback=drag_callback, drop_callback=drop_callback, show=show, pos=pos, filter_key=filter_key, delay_search=delay_search, tracked=tracked, track_offset=track_offset, user_data=user_data, use_internal_label=use_internal_label, default_open=default_open, open_on_double_click=open_on_double_click, open_on_arrow=open_on_arrow, leaf=leaf, bullet=bullet, selectable=selectable)
 
-def add_value_registry(*, label: str =None, id: int =0, user_data: Any =None) -> int:
+def add_value_registry(*, label: str =None, id: int =0, user_data: Any =None, use_internal_label: bool =True) -> int:
 	"""
 	Undocumented function
 	Args:
 		**label (str): Overrides 'name' as label.
 		**id (int): Unique id used to programmatically refer to the item.If label is unused this will be the label.
 		**user_data (Any): User data for callbacks.
+		**use_internal_label (bool): Use generated internal label instead of user specified (appends ### uuid).
 	Returns:
 		int
 	"""
 
-	return internal_dpg.add_value_registry(label=label, id=id, user_data=user_data)
+	return internal_dpg.add_value_registry(label=label, id=id, user_data=user_data, use_internal_label=use_internal_label)
 
-def add_viewport_drawlist(*, label: str =None, id: int =0, show: bool =True, filter_key: str ='', delay_search: bool =False, user_data: Any =None, front: bool =True) -> int:
+def add_viewport_drawlist(*, label: str =None, id: int =0, show: bool =True, filter_key: str ='', delay_search: bool =False, user_data: Any =None, use_internal_label: bool =True, front: bool =True) -> int:
 	"""
 	A container that is used to present draw items or layers directly to the viewport. By default this will draw to the back of teh viewport. Layers and draw items should be added to this widget as children.
 	Args:
@@ -5132,14 +5297,15 @@ def add_viewport_drawlist(*, label: str =None, id: int =0, show: bool =True, fil
 		**filter_key (str): Used by filter widget.
 		**delay_search (bool): Delays searching container for specified items until the end of the app. Possible optimization when a container has many children that are not accessed often.
 		**user_data (Any): User data for callbacks.
+		**use_internal_label (bool): Use generated internal label instead of user specified (appends ### uuid).
 		**front (bool): Draws to the front of the view port instead of the back.
 	Returns:
 		int
 	"""
 
-	return internal_dpg.add_viewport_drawlist(label=label, id=id, show=show, filter_key=filter_key, delay_search=delay_search, user_data=user_data, front=front)
+	return internal_dpg.add_viewport_drawlist(label=label, id=id, show=show, filter_key=filter_key, delay_search=delay_search, user_data=user_data, use_internal_label=use_internal_label, front=front)
 
-def add_viewport_menu_bar(*, label: str =None, id: int =0, indent: int =-1, parent: int =0, show: bool =True, delay_search: bool =False, user_data: Any =None) -> int:
+def add_viewport_menu_bar(*, label: str =None, id: int =0, indent: int =-1, parent: int =0, show: bool =True, delay_search: bool =False, user_data: Any =None, use_internal_label: bool =True) -> int:
 	"""
 	Adds a menu bar to the viewport.
 	Args:
@@ -5150,13 +5316,14 @@ def add_viewport_menu_bar(*, label: str =None, id: int =0, indent: int =-1, pare
 		**show (bool): Attempt to render widget.
 		**delay_search (bool): Delays searching container for specified items until the end of the app. Possible optimization when a container has many children that are not accessed often.
 		**user_data (Any): User data for callbacks.
+		**use_internal_label (bool): Use generated internal label instead of user specified (appends ### uuid).
 	Returns:
 		int
 	"""
 
-	return internal_dpg.add_viewport_menu_bar(label=label, id=id, indent=indent, parent=parent, show=show, delay_search=delay_search, user_data=user_data)
+	return internal_dpg.add_viewport_menu_bar(label=label, id=id, indent=indent, parent=parent, show=show, delay_search=delay_search, user_data=user_data, use_internal_label=use_internal_label)
 
-def add_visible_handler(parent : int, *, label: str =None, id: int =0, callback: Callable =None, show: bool =True, user_data: Any =None) -> int:
+def add_visible_handler(parent : int, *, label: str =None, id: int =0, callback: Callable =None, show: bool =True, user_data: Any =None, use_internal_label: bool =True) -> int:
 	"""
 	Adds a handler which runs a given callback when the specified item is visible.
 	Args:
@@ -5166,13 +5333,14 @@ def add_visible_handler(parent : int, *, label: str =None, id: int =0, callback:
 		**callback (Callable): Registers a callback.
 		**show (bool): Attempt to render widget.
 		**user_data (Any): User data for callbacks.
+		**use_internal_label (bool): Use generated internal label instead of user specified (appends ### uuid).
 	Returns:
 		int
 	"""
 
-	return internal_dpg.add_visible_handler(parent, label=label, id=id, callback=callback, show=show, user_data=user_data)
+	return internal_dpg.add_visible_handler(parent, label=label, id=id, callback=callback, show=show, user_data=user_data, use_internal_label=use_internal_label)
 
-def add_vline_series(x : List[float], *, label: str =None, id: int =0, parent: int =0, before: int =0, source: int =0, show: bool =True, user_data: Any =None) -> int:
+def add_vline_series(x : List[float], *, label: str =None, id: int =0, parent: int =0, before: int =0, source: int =0, show: bool =True, user_data: Any =None, use_internal_label: bool =True) -> int:
 	"""
 	Adds a infinite vertical line series to a plot.
 	Args:
@@ -5184,13 +5352,14 @@ def add_vline_series(x : List[float], *, label: str =None, id: int =0, parent: i
 		**source (int): Overrides 'id' as value storage key.
 		**show (bool): Attempt to render widget.
 		**user_data (Any): User data for callbacks.
+		**use_internal_label (bool): Use generated internal label instead of user specified (appends ### uuid).
 	Returns:
 		int
 	"""
 
-	return internal_dpg.add_vline_series(x, label=label, id=id, parent=parent, before=before, source=source, show=show, user_data=user_data)
+	return internal_dpg.add_vline_series(x, label=label, id=id, parent=parent, before=before, source=source, show=show, user_data=user_data, use_internal_label=use_internal_label)
 
-def add_window(*, label: str =None, id: int =0, width: int =0, height: int =0, indent: int =-1, show: bool =True, pos: List[int] =[], delay_search: bool =False, user_data: Any =None, min_size: List[int] =[100, 100], max_size: List[int] =[30000, 30000], menubar: bool =False, collapsed: bool =False, autosize: bool =False, no_resize: bool =False, no_title_bar: bool =False, no_move: bool =False, no_scrollbar: bool =False, no_collapse: bool =False, horizontal_scrollbar: bool =False, no_focus_on_appearing: bool =False, no_bring_to_front_on_focus: bool =False, no_close: bool =False, no_background: bool =False, modal: bool =False, popup: bool =False, no_saved_settings: bool =False, on_close: Callable =None) -> int:
+def add_window(*, label: str =None, id: int =0, width: int =0, height: int =0, indent: int =-1, show: bool =True, pos: List[int] =[], delay_search: bool =False, user_data: Any =None, use_internal_label: bool =True, min_size: List[int] =[100, 100], max_size: List[int] =[30000, 30000], menubar: bool =False, collapsed: bool =False, autosize: bool =False, no_resize: bool =False, no_title_bar: bool =False, no_move: bool =False, no_scrollbar: bool =False, no_collapse: bool =False, horizontal_scrollbar: bool =False, no_focus_on_appearing: bool =False, no_bring_to_front_on_focus: bool =False, no_close: bool =False, no_background: bool =False, modal: bool =False, popup: bool =False, no_saved_settings: bool =False, on_close: Callable =None) -> int:
 	"""
 	Creates a new window for following items to be added to.
 	Args:
@@ -5203,6 +5372,7 @@ def add_window(*, label: str =None, id: int =0, width: int =0, height: int =0, i
 		**pos (List[int]): Places the item relative to window coordinates, [0,0] is top left.
 		**delay_search (bool): Delays searching container for specified items until the end of the app. Possible optimization when a container has many children that are not accessed often.
 		**user_data (Any): User data for callbacks.
+		**use_internal_label (bool): Use generated internal label instead of user specified (appends ### uuid).
 		**min_size (List[int]): Minimum window size.
 		**max_size (List[int]): Maximum window size.
 		**menubar (bool): Shows or hides the menubar.
@@ -5226,7 +5396,7 @@ def add_window(*, label: str =None, id: int =0, width: int =0, height: int =0, i
 		int
 	"""
 
-	return internal_dpg.add_window(label=label, id=id, width=width, height=height, indent=indent, show=show, pos=pos, delay_search=delay_search, user_data=user_data, min_size=min_size, max_size=max_size, menubar=menubar, collapsed=collapsed, autosize=autosize, no_resize=no_resize, no_title_bar=no_title_bar, no_move=no_move, no_scrollbar=no_scrollbar, no_collapse=no_collapse, horizontal_scrollbar=horizontal_scrollbar, no_focus_on_appearing=no_focus_on_appearing, no_bring_to_front_on_focus=no_bring_to_front_on_focus, no_close=no_close, no_background=no_background, modal=modal, popup=popup, no_saved_settings=no_saved_settings, on_close=on_close)
+	return internal_dpg.add_window(label=label, id=id, width=width, height=height, indent=indent, show=show, pos=pos, delay_search=delay_search, user_data=user_data, use_internal_label=use_internal_label, min_size=min_size, max_size=max_size, menubar=menubar, collapsed=collapsed, autosize=autosize, no_resize=no_resize, no_title_bar=no_title_bar, no_move=no_move, no_scrollbar=no_scrollbar, no_collapse=no_collapse, horizontal_scrollbar=horizontal_scrollbar, no_focus_on_appearing=no_focus_on_appearing, no_bring_to_front_on_focus=no_bring_to_front_on_focus, no_close=no_close, no_background=no_background, modal=modal, popup=popup, no_saved_settings=no_saved_settings, on_close=on_close)
 
 def cleanup_dearpygui() -> None:
 	"""
@@ -5310,7 +5480,7 @@ def does_item_exist(item : int) -> bool:
 
 	return internal_dpg.does_item_exist(item)
 
-def draw_arrow(p1 : List[float], p2 : List[float], *, label: str =None, id: int =0, parent: int =0, before: int =0, show: bool =True, user_data: Any =None, color: List[int] =(255, 255, 255, 255), thickness: float =1.0, size: int =4) -> int:
+def draw_arrow(p1 : List[float], p2 : List[float], *, label: str =None, id: int =0, parent: int =0, before: int =0, show: bool =True, user_data: Any =None, use_internal_label: bool =True, color: List[int] =(255, 255, 255, 255), thickness: float =1.0, size: int =4) -> int:
 	"""
 	Draws an arrow on a drawing.
 	Args:
@@ -5322,6 +5492,7 @@ def draw_arrow(p1 : List[float], p2 : List[float], *, label: str =None, id: int 
 		**before (int): This item will be displayed before the specified item in the parent.
 		**show (bool): Attempt to render widget.
 		**user_data (Any): User data for callbacks.
+		**use_internal_label (bool): Use generated internal label instead of user specified (appends ### uuid).
 		**color (List[int]): 
 		**thickness (float): 
 		**size (int): 
@@ -5329,9 +5500,9 @@ def draw_arrow(p1 : List[float], p2 : List[float], *, label: str =None, id: int 
 		int
 	"""
 
-	return internal_dpg.draw_arrow(p1, p2, label=label, id=id, parent=parent, before=before, show=show, user_data=user_data, color=color, thickness=thickness, size=size)
+	return internal_dpg.draw_arrow(p1, p2, label=label, id=id, parent=parent, before=before, show=show, user_data=user_data, use_internal_label=use_internal_label, color=color, thickness=thickness, size=size)
 
-def draw_bezier_cubic(p1 : List[float], p2 : List[float], p3 : List[float], p4 : List[float], *, label: str =None, id: int =0, parent: int =0, before: int =0, show: bool =True, user_data: Any =None, color: List[int] =(255, 255, 255, 255), thickness: float =1.0, segments: int =0) -> int:
+def draw_bezier_cubic(p1 : List[float], p2 : List[float], p3 : List[float], p4 : List[float], *, label: str =None, id: int =0, parent: int =0, before: int =0, show: bool =True, user_data: Any =None, use_internal_label: bool =True, color: List[int] =(255, 255, 255, 255), thickness: float =1.0, segments: int =0) -> int:
 	"""
 	Draws a cubic bezier curve on a drawing.
 	Args:
@@ -5345,6 +5516,7 @@ def draw_bezier_cubic(p1 : List[float], p2 : List[float], p3 : List[float], p4 :
 		**before (int): This item will be displayed before the specified item in the parent.
 		**show (bool): Attempt to render widget.
 		**user_data (Any): User data for callbacks.
+		**use_internal_label (bool): Use generated internal label instead of user specified (appends ### uuid).
 		**color (List[int]): 
 		**thickness (float): 
 		**segments (int): Number of segments to approximate bezier curve.
@@ -5352,9 +5524,9 @@ def draw_bezier_cubic(p1 : List[float], p2 : List[float], p3 : List[float], p4 :
 		int
 	"""
 
-	return internal_dpg.draw_bezier_cubic(p1, p2, p3, p4, label=label, id=id, parent=parent, before=before, show=show, user_data=user_data, color=color, thickness=thickness, segments=segments)
+	return internal_dpg.draw_bezier_cubic(p1, p2, p3, p4, label=label, id=id, parent=parent, before=before, show=show, user_data=user_data, use_internal_label=use_internal_label, color=color, thickness=thickness, segments=segments)
 
-def draw_bezier_quadratic(p1 : List[float], p2 : List[float], p3 : List[float], *, label: str =None, id: int =0, parent: int =0, before: int =0, show: bool =True, user_data: Any =None, color: List[int] =(255, 255, 255, 255), thickness: float =1.0, segments: int =0) -> int:
+def draw_bezier_quadratic(p1 : List[float], p2 : List[float], p3 : List[float], *, label: str =None, id: int =0, parent: int =0, before: int =0, show: bool =True, user_data: Any =None, use_internal_label: bool =True, color: List[int] =(255, 255, 255, 255), thickness: float =1.0, segments: int =0) -> int:
 	"""
 	Draws a quadratic bezier curve on a drawing.
 	Args:
@@ -5367,6 +5539,7 @@ def draw_bezier_quadratic(p1 : List[float], p2 : List[float], p3 : List[float], 
 		**before (int): This item will be displayed before the specified item in the parent.
 		**show (bool): Attempt to render widget.
 		**user_data (Any): User data for callbacks.
+		**use_internal_label (bool): Use generated internal label instead of user specified (appends ### uuid).
 		**color (List[int]): 
 		**thickness (float): 
 		**segments (int): Number of segments to approximate bezier curve.
@@ -5374,9 +5547,9 @@ def draw_bezier_quadratic(p1 : List[float], p2 : List[float], p3 : List[float], 
 		int
 	"""
 
-	return internal_dpg.draw_bezier_quadratic(p1, p2, p3, label=label, id=id, parent=parent, before=before, show=show, user_data=user_data, color=color, thickness=thickness, segments=segments)
+	return internal_dpg.draw_bezier_quadratic(p1, p2, p3, label=label, id=id, parent=parent, before=before, show=show, user_data=user_data, use_internal_label=use_internal_label, color=color, thickness=thickness, segments=segments)
 
-def draw_circle(center : List[float], radius : float, *, label: str =None, id: int =0, parent: int =0, before: int =0, show: bool =True, user_data: Any =None, color: List[int] =(255, 255, 255, 255), fill: List[int] =(0, 0, 0, -255), thickness: float =1.0, segments: int =0) -> int:
+def draw_circle(center : List[float], radius : float, *, label: str =None, id: int =0, parent: int =0, before: int =0, show: bool =True, user_data: Any =None, use_internal_label: bool =True, color: List[int] =(255, 255, 255, 255), fill: List[int] =(0, 0, 0, -255), thickness: float =1.0, segments: int =0) -> int:
 	"""
 	Draws a circle on a drawing.
 	Args:
@@ -5388,6 +5561,7 @@ def draw_circle(center : List[float], radius : float, *, label: str =None, id: i
 		**before (int): This item will be displayed before the specified item in the parent.
 		**show (bool): Attempt to render widget.
 		**user_data (Any): User data for callbacks.
+		**use_internal_label (bool): Use generated internal label instead of user specified (appends ### uuid).
 		**color (List[int]): 
 		**fill (List[int]): 
 		**thickness (float): 
@@ -5396,9 +5570,9 @@ def draw_circle(center : List[float], radius : float, *, label: str =None, id: i
 		int
 	"""
 
-	return internal_dpg.draw_circle(center, radius, label=label, id=id, parent=parent, before=before, show=show, user_data=user_data, color=color, fill=fill, thickness=thickness, segments=segments)
+	return internal_dpg.draw_circle(center, radius, label=label, id=id, parent=parent, before=before, show=show, user_data=user_data, use_internal_label=use_internal_label, color=color, fill=fill, thickness=thickness, segments=segments)
 
-def draw_ellipse(pmin : List[float], pmax : List[float], *, label: str =None, id: int =0, parent: int =0, before: int =0, show: bool =True, user_data: Any =None, color: List[int] =(255, 255, 255, 255), fill: List[int] =(0, 0, 0, -255), thickness: float =1.0, segments: int =32) -> int:
+def draw_ellipse(pmin : List[float], pmax : List[float], *, label: str =None, id: int =0, parent: int =0, before: int =0, show: bool =True, user_data: Any =None, use_internal_label: bool =True, color: List[int] =(255, 255, 255, 255), fill: List[int] =(0, 0, 0, -255), thickness: float =1.0, segments: int =32) -> int:
 	"""
 	Draws an ellipse on a drawing.
 	Args:
@@ -5410,6 +5584,7 @@ def draw_ellipse(pmin : List[float], pmax : List[float], *, label: str =None, id
 		**before (int): This item will be displayed before the specified item in the parent.
 		**show (bool): Attempt to render widget.
 		**user_data (Any): User data for callbacks.
+		**use_internal_label (bool): Use generated internal label instead of user specified (appends ### uuid).
 		**color (List[int]): 
 		**fill (List[int]): 
 		**thickness (float): 
@@ -5418,9 +5593,9 @@ def draw_ellipse(pmin : List[float], pmax : List[float], *, label: str =None, id
 		int
 	"""
 
-	return internal_dpg.draw_ellipse(pmin, pmax, label=label, id=id, parent=parent, before=before, show=show, user_data=user_data, color=color, fill=fill, thickness=thickness, segments=segments)
+	return internal_dpg.draw_ellipse(pmin, pmax, label=label, id=id, parent=parent, before=before, show=show, user_data=user_data, use_internal_label=use_internal_label, color=color, fill=fill, thickness=thickness, segments=segments)
 
-def draw_image(texture_id : int, pmin : List[float], pmax : List[float], *, label: str =None, id: int =0, parent: int =0, before: int =0, show: bool =True, user_data: Any =None, uv_min: List[float] =(0.0, 0.0), uv_max: List[float] =(1.0, 1.0), color: List[int] =(255, 255, 255, 255)) -> int:
+def draw_image(texture_id : int, pmin : List[float], pmax : List[float], *, label: str =None, id: int =0, parent: int =0, before: int =0, show: bool =True, user_data: Any =None, use_internal_label: bool =True, uv_min: List[float] =(0.0, 0.0), uv_max: List[float] =(1.0, 1.0), color: List[int] =(255, 255, 255, 255)) -> int:
 	"""
 	Draws an image on a drawing. p_min (top-left) and p_max (bottom-right) represent corners of the rectangle the image will be drawn to.Setting the p_min equal to the p_max will sraw the image to with 1:1 scale.uv_min and uv_max represent the normalized texture coordinates of the original image that will be shown. Using (0.0,0.0)->(1.0,1.0) texturecoordinates will generally display the entire texture.
 	Args:
@@ -5433,6 +5608,7 @@ def draw_image(texture_id : int, pmin : List[float], pmax : List[float], *, labe
 		**before (int): This item will be displayed before the specified item in the parent.
 		**show (bool): Attempt to render widget.
 		**user_data (Any): User data for callbacks.
+		**use_internal_label (bool): Use generated internal label instead of user specified (appends ### uuid).
 		**uv_min (List[float]): Normalized coordinates on texture that will be drawn.
 		**uv_max (List[float]): Normalized coordinates on texture that will be drawn.
 		**color (List[int]): 
@@ -5440,9 +5616,9 @@ def draw_image(texture_id : int, pmin : List[float], pmax : List[float], *, labe
 		int
 	"""
 
-	return internal_dpg.draw_image(texture_id, pmin, pmax, label=label, id=id, parent=parent, before=before, show=show, user_data=user_data, uv_min=uv_min, uv_max=uv_max, color=color)
+	return internal_dpg.draw_image(texture_id, pmin, pmax, label=label, id=id, parent=parent, before=before, show=show, user_data=user_data, use_internal_label=use_internal_label, uv_min=uv_min, uv_max=uv_max, color=color)
 
-def draw_line(p1 : List[float], p2 : List[float], *, label: str =None, id: int =0, parent: int =0, before: int =0, show: bool =True, user_data: Any =None, color: List[int] =(255, 255, 255, 255), thickness: float =1.0) -> int:
+def draw_line(p1 : List[float], p2 : List[float], *, label: str =None, id: int =0, parent: int =0, before: int =0, show: bool =True, user_data: Any =None, use_internal_label: bool =True, color: List[int] =(255, 255, 255, 255), thickness: float =1.0) -> int:
 	"""
 	Draws a line on a drawing.
 	Args:
@@ -5454,15 +5630,16 @@ def draw_line(p1 : List[float], p2 : List[float], *, label: str =None, id: int =
 		**before (int): This item will be displayed before the specified item in the parent.
 		**show (bool): Attempt to render widget.
 		**user_data (Any): User data for callbacks.
+		**use_internal_label (bool): Use generated internal label instead of user specified (appends ### uuid).
 		**color (List[int]): 
 		**thickness (float): 
 	Returns:
 		int
 	"""
 
-	return internal_dpg.draw_line(p1, p2, label=label, id=id, parent=parent, before=before, show=show, user_data=user_data, color=color, thickness=thickness)
+	return internal_dpg.draw_line(p1, p2, label=label, id=id, parent=parent, before=before, show=show, user_data=user_data, use_internal_label=use_internal_label, color=color, thickness=thickness)
 
-def draw_polygon(points : List[List[float]], *, label: str =None, id: int =0, parent: int =0, before: int =0, show: bool =True, user_data: Any =None, color: List[int] =(255, 255, 255, 255), fill: List[int] =(0, 0, 0, -255), thickness: float =1.0) -> int:
+def draw_polygon(points : List[List[float]], *, label: str =None, id: int =0, parent: int =0, before: int =0, show: bool =True, user_data: Any =None, use_internal_label: bool =True, color: List[int] =(255, 255, 255, 255), fill: List[int] =(0, 0, 0, -255), thickness: float =1.0) -> int:
 	"""
 	Draws a polygon on a drawing. First and and last point should be the same to close teh polygone.
 	Args:
@@ -5473,6 +5650,7 @@ def draw_polygon(points : List[List[float]], *, label: str =None, id: int =0, pa
 		**before (int): This item will be displayed before the specified item in the parent.
 		**show (bool): Attempt to render widget.
 		**user_data (Any): User data for callbacks.
+		**use_internal_label (bool): Use generated internal label instead of user specified (appends ### uuid).
 		**color (List[int]): 
 		**fill (List[int]): 
 		**thickness (float): 
@@ -5480,9 +5658,9 @@ def draw_polygon(points : List[List[float]], *, label: str =None, id: int =0, pa
 		int
 	"""
 
-	return internal_dpg.draw_polygon(points, label=label, id=id, parent=parent, before=before, show=show, user_data=user_data, color=color, fill=fill, thickness=thickness)
+	return internal_dpg.draw_polygon(points, label=label, id=id, parent=parent, before=before, show=show, user_data=user_data, use_internal_label=use_internal_label, color=color, fill=fill, thickness=thickness)
 
-def draw_polyline(points : List[List[float]], *, label: str =None, id: int =0, parent: int =0, before: int =0, show: bool =True, user_data: Any =None, closed: bool =False, color: List[int] =(255, 255, 255, 255), thickness: float =1.0) -> int:
+def draw_polyline(points : List[List[float]], *, label: str =None, id: int =0, parent: int =0, before: int =0, show: bool =True, user_data: Any =None, use_internal_label: bool =True, closed: bool =False, color: List[int] =(255, 255, 255, 255), thickness: float =1.0) -> int:
 	"""
 	Draws connected lines on a drawing from points.
 	Args:
@@ -5493,6 +5671,7 @@ def draw_polyline(points : List[List[float]], *, label: str =None, id: int =0, p
 		**before (int): This item will be displayed before the specified item in the parent.
 		**show (bool): Attempt to render widget.
 		**user_data (Any): User data for callbacks.
+		**use_internal_label (bool): Use generated internal label instead of user specified (appends ### uuid).
 		**closed (bool): Will close the polyline by returning to the first point.
 		**color (List[int]): 
 		**thickness (float): 
@@ -5500,9 +5679,9 @@ def draw_polyline(points : List[List[float]], *, label: str =None, id: int =0, p
 		int
 	"""
 
-	return internal_dpg.draw_polyline(points, label=label, id=id, parent=parent, before=before, show=show, user_data=user_data, closed=closed, color=color, thickness=thickness)
+	return internal_dpg.draw_polyline(points, label=label, id=id, parent=parent, before=before, show=show, user_data=user_data, use_internal_label=use_internal_label, closed=closed, color=color, thickness=thickness)
 
-def draw_quad(p1 : List[float], p2 : List[float], p3 : List[float], p4 : List[float], *, label: str =None, id: int =0, parent: int =0, before: int =0, show: bool =True, user_data: Any =None, color: List[int] =(255, 255, 255, 255), fill: List[int] =(0, 0, 0, -255), thickness: float =1.0) -> int:
+def draw_quad(p1 : List[float], p2 : List[float], p3 : List[float], p4 : List[float], *, label: str =None, id: int =0, parent: int =0, before: int =0, show: bool =True, user_data: Any =None, use_internal_label: bool =True, color: List[int] =(255, 255, 255, 255), fill: List[int] =(0, 0, 0, -255), thickness: float =1.0) -> int:
 	"""
 	Draws a quad on a drawing.
 	Args:
@@ -5516,6 +5695,7 @@ def draw_quad(p1 : List[float], p2 : List[float], p3 : List[float], p4 : List[fl
 		**before (int): This item will be displayed before the specified item in the parent.
 		**show (bool): Attempt to render widget.
 		**user_data (Any): User data for callbacks.
+		**use_internal_label (bool): Use generated internal label instead of user specified (appends ### uuid).
 		**color (List[int]): 
 		**fill (List[int]): 
 		**thickness (float): 
@@ -5523,9 +5703,9 @@ def draw_quad(p1 : List[float], p2 : List[float], p3 : List[float], p4 : List[fl
 		int
 	"""
 
-	return internal_dpg.draw_quad(p1, p2, p3, p4, label=label, id=id, parent=parent, before=before, show=show, user_data=user_data, color=color, fill=fill, thickness=thickness)
+	return internal_dpg.draw_quad(p1, p2, p3, p4, label=label, id=id, parent=parent, before=before, show=show, user_data=user_data, use_internal_label=use_internal_label, color=color, fill=fill, thickness=thickness)
 
-def draw_rectangle(pmin : List[float], pmax : List[float], *, label: str =None, id: int =0, parent: int =0, before: int =0, show: bool =True, user_data: Any =None, color: List[int] =(255, 255, 255, 255), fill: List[int] =(0, 0, 0, -255), rounding: float =0.0, thickness: float =1.0) -> int:
+def draw_rectangle(pmin : List[float], pmax : List[float], *, label: str =None, id: int =0, parent: int =0, before: int =0, show: bool =True, user_data: Any =None, use_internal_label: bool =True, color: List[int] =(255, 255, 255, 255), fill: List[int] =(0, 0, 0, -255), rounding: float =0.0, thickness: float =1.0) -> int:
 	"""
 	Draws a rectangle on a drawing.
 	Args:
@@ -5537,6 +5717,7 @@ def draw_rectangle(pmin : List[float], pmax : List[float], *, label: str =None, 
 		**before (int): This item will be displayed before the specified item in the parent.
 		**show (bool): Attempt to render widget.
 		**user_data (Any): User data for callbacks.
+		**use_internal_label (bool): Use generated internal label instead of user specified (appends ### uuid).
 		**color (List[int]): 
 		**fill (List[int]): 
 		**rounding (float): Number of pixels of the radius that will round the corners of the rectangle.
@@ -5545,9 +5726,9 @@ def draw_rectangle(pmin : List[float], pmax : List[float], *, label: str =None, 
 		int
 	"""
 
-	return internal_dpg.draw_rectangle(pmin, pmax, label=label, id=id, parent=parent, before=before, show=show, user_data=user_data, color=color, fill=fill, rounding=rounding, thickness=thickness)
+	return internal_dpg.draw_rectangle(pmin, pmax, label=label, id=id, parent=parent, before=before, show=show, user_data=user_data, use_internal_label=use_internal_label, color=color, fill=fill, rounding=rounding, thickness=thickness)
 
-def draw_text(pos : List[float], text : str, *, label: str =None, id: int =0, parent: int =0, before: int =0, show: bool =True, user_data: Any =None, color: List[int] =(255, 255, 255, 255), size: float =10.0) -> int:
+def draw_text(pos : List[float], text : str, *, label: str =None, id: int =0, parent: int =0, before: int =0, show: bool =True, user_data: Any =None, use_internal_label: bool =True, color: List[int] =(255, 255, 255, 255), size: float =10.0) -> int:
 	"""
 	Draws a text on a drawing.
 	Args:
@@ -5559,15 +5740,16 @@ def draw_text(pos : List[float], text : str, *, label: str =None, id: int =0, pa
 		**before (int): This item will be displayed before the specified item in the parent.
 		**show (bool): Attempt to render widget.
 		**user_data (Any): User data for callbacks.
+		**use_internal_label (bool): Use generated internal label instead of user specified (appends ### uuid).
 		**color (List[int]): 
 		**size (float): 
 	Returns:
 		int
 	"""
 
-	return internal_dpg.draw_text(pos, text, label=label, id=id, parent=parent, before=before, show=show, user_data=user_data, color=color, size=size)
+	return internal_dpg.draw_text(pos, text, label=label, id=id, parent=parent, before=before, show=show, user_data=user_data, use_internal_label=use_internal_label, color=color, size=size)
 
-def draw_triangle(p1 : List[float], p2 : List[float], p3 : List[float], *, label: str =None, id: int =0, parent: int =0, before: int =0, show: bool =True, user_data: Any =None, color: List[int] =(255, 255, 255, 255), fill: List[int] =(0, 0, 0, -255), thickness: float =1.0) -> int:
+def draw_triangle(p1 : List[float], p2 : List[float], p3 : List[float], *, label: str =None, id: int =0, parent: int =0, before: int =0, show: bool =True, user_data: Any =None, use_internal_label: bool =True, color: List[int] =(255, 255, 255, 255), fill: List[int] =(0, 0, 0, -255), thickness: float =1.0) -> int:
 	"""
 	Draws a triangle on a drawing.
 	Args:
@@ -5580,6 +5762,7 @@ def draw_triangle(p1 : List[float], p2 : List[float], p3 : List[float], *, label
 		**before (int): This item will be displayed before the specified item in the parent.
 		**show (bool): Attempt to render widget.
 		**user_data (Any): User data for callbacks.
+		**use_internal_label (bool): Use generated internal label instead of user specified (appends ### uuid).
 		**color (List[int]): 
 		**fill (List[int]): 
 		**thickness (float): 
@@ -5587,7 +5770,7 @@ def draw_triangle(p1 : List[float], p2 : List[float], p3 : List[float], *, label
 		int
 	"""
 
-	return internal_dpg.draw_triangle(p1, p2, p3, label=label, id=id, parent=parent, before=before, show=show, user_data=user_data, color=color, fill=fill, thickness=thickness)
+	return internal_dpg.draw_triangle(p1, p2, p3, label=label, id=id, parent=parent, before=before, show=show, user_data=user_data, use_internal_label=use_internal_label, color=color, fill=fill, thickness=thickness)
 
 def empty_container_stack() -> None:
 	"""

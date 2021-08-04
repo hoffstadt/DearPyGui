@@ -57,12 +57,6 @@ namespace Marvel {
 		return _instance;
 	}
 
-	void mvFileDialog::setLabel(const std::string& value)
-	{
-		_specificedlabel = value;
-		_label = value + "###" + std::to_string(_uuid);
-	}
-
 	void mvFileDialog::drawPanel()
 	{
 		for (auto& item : _children[1])

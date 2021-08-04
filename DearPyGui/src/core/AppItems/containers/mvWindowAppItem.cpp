@@ -182,8 +182,11 @@ namespace Marvel {
 
 	void mvWindowAppItem::setLabel(const std::string& value)
 	{
-		_specificedlabel = value;
-		_label = value + "###" + std::to_string(_uuid);
+
+		if (_useInternalLabel)
+			_label = value + "###" + std::to_string(_uuid);
+		else
+			_label = value;
 
 		// this is necessary because imgui considers it a new window
 		_dirtyPos = true;

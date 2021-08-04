@@ -38,7 +38,6 @@ namespace Marvel {
 		mvValueVariant getValue() override { return _value; }
 		PyObject* getPyValue() override;
 		void setPyValue(PyObject* value) override;
-		void setLabel(const std::string& value) override;
 		void handleSpecificKeywordArgs(PyObject* dict) override;
 		void getSpecificConfiguration(PyObject* dict) override;
 
