@@ -1,5 +1,6 @@
 #pragma once
 
+#include <array>
 #include "mvItemRegistry.h"
 #include <imnodes.h>
 
@@ -227,20 +228,21 @@ namespace Marvel {
 		void draw(ImDrawList* drawlist, float x, float y) override;
 		void customAction() override;
         void alternativeCustomAction() override;
-
 		void handleSpecificPositionalArgs(PyObject* dict) override;
 		void handleSpecificKeywordArgs(PyObject* dict) override;
 		bool isParentCompatible(mvAppItemType type) override;
-
+        void setDataSource(mvUUID dataSource) override;
+        mvValueVariant getValue() override { return _value; }
+        PyObject* getPyValue() override;
+        void setPyValue(PyObject* value) override;
 		void setLibType(mvLibType libType) { _libType = libType; }
 
 	private:
 
+        mvRef<std::array<float, 4>> _value = CreateRef<std::array<float, 4>>(std::array<float, 4>{0.0f, 0.0f, 0.0f, 1.0f});
 		ImGuiCol _targetColor = 0;
-		mvColor _color;
 		mvLibType _libType = mvLibType::MV_IMGUI;
 		
-
 	};
 
 }

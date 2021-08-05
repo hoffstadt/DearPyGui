@@ -1,11 +1,12 @@
 #pragma once
 
+#include <array>
 #include "mvItemRegistry.h"
 #include <imnodes.h>
 
 namespace Marvel {
 
-	MV_REGISTER_WIDGET(mvThemeStyle, MV_ITEM_DESC_DEFAULT, StorageValueTypes::Color, 1);
+	MV_REGISTER_WIDGET(mvThemeStyle, MV_ITEM_DESC_DEFAULT, StorageValueTypes::Float4, 1);
 	class mvThemeStyle : public mvAppItem
 	{
 
@@ -165,7 +166,10 @@ namespace Marvel {
 		void draw(ImDrawList* drawlist, float x, float y) override;
 		void customAction() override;
 		void alternativeCustomAction() override;
-
+		void setDataSource(mvUUID dataSource) override;
+		mvValueVariant getValue() override { return _value; }
+		PyObject* getPyValue() override;
+		void setPyValue(PyObject* value) override;
 		void handleSpecificPositionalArgs(PyObject* dict) override;
 		bool isParentCompatible(mvAppItemType type) override;
 		void handleSpecificKeywordArgs(PyObject* dict) override;
@@ -174,9 +178,10 @@ namespace Marvel {
 
 	private:
 
+		mvRef<std::array<float, 4>> _value = CreateRef<std::array<float, 4>>(std::array<float, 4>{0.0f, -1.0f, 0.0f, 0.0f});
 		ImGuiCol _targetStyle = 0;
-		float _x = 0.0f;
-		float _y = -1.0f;
+		//float _x = 0.0f;
+		//float _y = -1.0f;
 		mvLibType _libType = mvLibType::MV_IMGUI;
 		
 
