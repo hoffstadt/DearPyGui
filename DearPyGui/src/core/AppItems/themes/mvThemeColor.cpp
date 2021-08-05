@@ -48,12 +48,14 @@ namespace Marvel {
 
 	void mvThemeColor::draw(ImDrawList* drawlist, float x, float y)
 	{
+		ImVec4 color = ImVec4((*_value)[0], (*_value)[1], (*_value)[2], (*_value)[3]);
+
 		if (_libType == mvLibType::MV_IMGUI)
-			ImGui::PushStyleColor(_targetColor, _color.toVec4());
+			ImGui::PushStyleColor(_targetColor, color);
 		else if (_libType == mvLibType::MV_IMPLOT)
-			ImPlot::PushStyleColor(_targetColor,_color.toVec4());
+			ImPlot::PushStyleColor(_targetColor, color);
 		else if (_libType == mvLibType::MV_IMNODES)
-			imnodes::PushColorStyle((imnodes::ColorStyle)_targetColor, mvColor::ConvertToUnsignedInt(_color));
+			imnodes::PushColorStyle((imnodes::ColorStyle)_targetColor, ImGui::ColorConvertFloat4ToU32(color));
 	}
 
 	void mvThemeColor::customAction()
@@ -68,20 +70,20 @@ namespace Marvel {
 
 	void mvThemeColor::alternativeCustomAction()
 	{
+		ImVec4 color = ImVec4((*_value)[0], (*_value)[1], (*_value)[2], (*_value)[3]);
+
 		if (_libType == mvLibType::MV_IMGUI)
 		{
 			ImGuiStyle& style = ImGui::GetStyle();
-			style.Colors[_targetColor] = _color.toVec4();
+			style.Colors[_targetColor] = color;
 		}
 		else if (_libType == mvLibType::MV_IMPLOT)
 		{
 			ImPlotStyle& plotstyle = ImPlot::GetStyle();
-			plotstyle.Colors[_targetColor] = _color.toVec4();
+			plotstyle.Colors[_targetColor] = color;
 		}
 		else if (_libType == mvLibType::MV_IMNODES)
-		{
-			imnodes::GetStyle().colors[_targetColor] = ImGui::ColorConvertFloat4ToU32(_color);
-		}
+			imnodes::GetStyle().colors[_targetColor] = ImGui::ColorConvertFloat4ToU32(color);
 	}
 
 	void mvThemeColor::handleSpecificPositionalArgs(PyObject* dict)
@@ -99,7 +101,7 @@ namespace Marvel {
 				break;
 
 			case 1:
-				_color = ToColor(item);
+				setPyValue(item);
 				break;
 
 			default:
@@ -114,7 +116,7 @@ namespace Marvel {
 			return;
 
 		if (PyObject* item = PyDict_GetItemString(dict, "category")) _libType = (mvLibType)ToInt(item);
-		if (PyObject* item = PyDict_GetItemString(dict, "value")) _color = ToColor(item);
+		if (PyObject* item = PyDict_GetItemString(dict, "value")) setPyValue(item);
 
 		if (_libType == mvLibType::MV_IMGUI)
 		{
@@ -151,4 +153,50 @@ namespace Marvel {
 		}
 	}
 
+	PyObject* mvThemeColor::getPyValue()
+	{
+		// nasty hack
+		int r = (int)(_value->data()[0] * 255.0f * 255.0f);
+		int g = (int)(_value->data()[1] * 255.0f * 255.0f);
+		int b = (int)(_value->data()[2] * 255.0f * 255.0f);
+		int a = (int)(_value->data()[3] * 255.0f * 255.0f);
+
+		auto color = mvColor(r, g, b, a);
+		return ToPyColor(color);
+	}
+
+	void mvThemeColor::setPyValue(PyObject* value)
+	{
+		mvColor color = ToColor(value);
+		std::array<float, 4> temp_array;
+		temp_array[0] = color.r;
+		temp_array[1] = color.g;
+		temp_array[2] = color.b;
+		temp_array[3] = color.a;
+		if (_value)
+			*_value = temp_array;
+		else
+			_value = std::make_shared<std::array<float, 4>>(temp_array);
+	}
+
+	void mvThemeColor::setDataSource(mvUUID dataSource)
+	{
+		if (dataSource == _source) return;
+		_source = dataSource;
+
+		mvAppItem* item = mvApp::GetApp()->getItemRegistry().getItem(dataSource);
+		if (!item)
+		{
+			mvThrowPythonError(mvErrorCode::mvSourceNotFound, "set_value",
+				"Source item not found: " + std::to_string(dataSource), this);
+			return;
+		}
+		if (item->getValueType() != getValueType())
+		{
+			mvThrowPythonError(mvErrorCode::mvSourceNotCompatible, "set_value",
+				"Values types do not match: " + std::to_string(dataSource), this);
+			return;
+		}
+		_value = std::get<std::shared_ptr<std::array<float, 4>>>(item->getValue());
+	}
 }

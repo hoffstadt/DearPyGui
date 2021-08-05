@@ -125,6 +125,47 @@ namespace Marvel {
 	{
 	}
 
+
+	PyObject* mvThemeStyle::getPyValue()
+	{
+		return ToPyFloatList(_value->data(), 2);
+	}
+
+	void mvThemeStyle::setPyValue(PyObject* value)
+	{
+		std::vector<float> temp = ToFloatVect(value);
+		while (temp.size() < 4)
+			temp.push_back(0.0f);
+		std::array<float, 4> temp_array;
+		for (size_t i = 0; i < temp_array.size(); i++)
+			temp_array[i] = temp[i];
+		if (_value)
+			*_value = temp_array;
+		else
+			_value = std::make_shared<std::array<float, 4>>(temp_array);
+	}
+
+	void mvThemeStyle::setDataSource(mvUUID dataSource)
+	{
+		if (dataSource == _source) return;
+		_source = dataSource;
+
+		mvAppItem* item = mvApp::GetApp()->getItemRegistry().getItem(dataSource);
+		if (!item)
+		{
+			mvThrowPythonError(mvErrorCode::mvSourceNotFound, "set_value",
+				"Source item not found: " + std::to_string(dataSource), this);
+			return;
+		}
+		if (item->getValueType() != getValueType())
+		{
+			mvThrowPythonError(mvErrorCode::mvSourceNotCompatible, "set_value",
+				"Values types do not match: " + std::to_string(dataSource), this);
+			return;
+		}
+		_value = std::get<std::shared_ptr<std::array<float, 4>>>(item->getValue());
+	}
+
 	bool mvThemeStyle::isParentCompatible(mvAppItemType type)
 	{
 		if (type == mvAppItemType::mvTheme) return true;
@@ -143,22 +184,22 @@ namespace Marvel {
 		{
 			const mvGuiStyleVarInfo* var_info = GetStyleVarInfo(_targetStyle);
 			if (var_info->Type == ImGuiDataType_Float && var_info->Count == 2)
-				ImGui::PushStyleVar(_targetStyle, { _x, _y });
+				ImGui::PushStyleVar(_targetStyle, { (*_value)[0], (*_value)[1] });
 			else if (var_info->Type == ImGuiDataType_Float && var_info->Count == 1)
-				ImGui::PushStyleVar(_targetStyle, _x);
+				ImGui::PushStyleVar(_targetStyle, (*_value)[0]);
 		}
 		else if (_libType == mvLibType::MV_IMPLOT)
 		{
 			const mvPlotStyleVarInfo* var_info = GetPlotStyleVarInfo(_targetStyle);
 			if (var_info->Type == ImGuiDataType_Float && var_info->Count == 1)
-				ImPlot::PushStyleVar(_targetStyle, _x);
+				ImPlot::PushStyleVar(_targetStyle, (*_value)[0]);
 			else if (var_info->Type == ImGuiDataType_S32 && var_info->Count == 1)
-				ImPlot::PushStyleVar(_targetStyle, (int)_x);
+				ImPlot::PushStyleVar(_targetStyle, (int)(*_value)[0]);
 			else if (var_info->Type == ImGuiDataType_Float && var_info->Count == 2)
-				ImPlot::PushStyleVar(_targetStyle, { _x, _y });
+				ImPlot::PushStyleVar(_targetStyle, { (*_value)[0], (*_value)[1] });
 		}
 		else if (_libType == mvLibType::MV_IMNODES)
-			imnodes::PushStyleVar((imnodes::StyleVar)_targetStyle, _x);
+			imnodes::PushStyleVar((imnodes::StyleVar)_targetStyle, (*_value)[0]);
 	}
 
 	void mvThemeStyle::customAction()
@@ -181,14 +222,14 @@ namespace Marvel {
 			{
 				ImGuiStyle& style = ImGui::GetStyle();
 				ImVec2* pvar = (ImVec2*)var_info->GetVarPtr(&style);
-				*pvar = ImVec2(_x, _y);
+				*pvar = ImVec2((*_value)[0], (*_value)[1]);
 			}
 
 			else if (var_info->Type == ImGuiDataType_Float && var_info->Count == 1)
 			{
 				ImGuiStyle& style = ImGui::GetStyle();
 				float* pvar = (float*)var_info->GetVarPtr(&style);
-				*pvar = _x;
+				*pvar = (*_value)[0];
 			}
 
 		}
@@ -199,16 +240,16 @@ namespace Marvel {
 			if (var_info->Type == ImGuiDataType_Float && var_info->Count == 1) 
 			{
 				float* pvar = (float*)var_info->GetVarPtr(&plotstyle);
-				*pvar = _x;
+				*pvar = (*_value)[0];
 			}
 			else if (var_info->Type == ImGuiDataType_S32 && var_info->Count == 1) {
 				int* pvar = (int*)var_info->GetVarPtr(&plotstyle);
-				*pvar = (int)_x;
+				*pvar = (int)(*_value)[0];
 			}
 			else if (var_info->Type == ImGuiDataType_Float && var_info->Count == 2)
 			{
 				ImVec2* pvar = (ImVec2*)var_info->GetVarPtr(&plotstyle);
-				*pvar = ImVec2(_x, _y);
+				*pvar = ImVec2((*_value)[0], (*_value)[1]);
 			}
 		}
 		else if (_libType == mvLibType::MV_IMNODES)
@@ -216,46 +257,46 @@ namespace Marvel {
 			switch (_targetStyle)
 			{
 			case imnodes::StyleVar::StyleVar_GridSpacing:
-				imnodes::GetStyle().grid_spacing = _x;
+				imnodes::GetStyle().grid_spacing = (*_value)[0];
 				break;
 			case imnodes::StyleVar::StyleVar_NodeCornerRounding:
-				imnodes::GetStyle().node_corner_rounding = _x;
+				imnodes::GetStyle().node_corner_rounding = (*_value)[0];
 				break;
 			case imnodes::StyleVar::StyleVar_NodePaddingHorizontal:
-				imnodes::GetStyle().node_padding_horizontal = _x;
+				imnodes::GetStyle().node_padding_horizontal = (*_value)[0];
 				break;
 			case imnodes::StyleVar::StyleVar_NodePaddingVertical:
-				imnodes::GetStyle().node_padding_vertical = _x;
+				imnodes::GetStyle().node_padding_vertical = (*_value)[0];
 				break;
 			case imnodes::StyleVar::StyleVar_NodeBorderThickness:
-				imnodes::GetStyle().node_border_thickness = _x;
+				imnodes::GetStyle().node_border_thickness = (*_value)[0];
 				break;
 			case imnodes::StyleVar::StyleVar_LinkThickness:
-				imnodes::GetStyle().link_thickness = _x;
+				imnodes::GetStyle().link_thickness = (*_value)[0];
 				break;
 			case imnodes::StyleVar::StyleVar_LinkLineSegmentsPerLength:
-				imnodes::GetStyle().link_line_segments_per_length = _x;
+				imnodes::GetStyle().link_line_segments_per_length = (*_value)[0];
 				break;
 			case imnodes::StyleVar::StyleVar_LinkHoverDistance:
-				imnodes::GetStyle().link_hover_distance = _x;
+				imnodes::GetStyle().link_hover_distance = (*_value)[0];
 				break;
 			case imnodes::StyleVar::StyleVar_PinCircleRadius:
-				imnodes::GetStyle().pin_circle_radius = _x;
+				imnodes::GetStyle().pin_circle_radius = (*_value)[0];
 				break;
 			case imnodes::StyleVar::StyleVar_PinQuadSideLength:
-				imnodes::GetStyle().pin_quad_side_length = _x;
+				imnodes::GetStyle().pin_quad_side_length = (*_value)[0];
 				break;
 			case imnodes::StyleVar::StyleVar_PinTriangleSideLength:
-				imnodes::GetStyle().pin_triangle_side_length = _x;
+				imnodes::GetStyle().pin_triangle_side_length = (*_value)[0];
 				break;
 			case imnodes::StyleVar::StyleVar_PinLineThickness:
-				imnodes::GetStyle().pin_line_thickness = _x;
+				imnodes::GetStyle().pin_line_thickness = (*_value)[0];
 				break;
 			case imnodes::StyleVar::StyleVar_PinHoverRadius:
-				imnodes::GetStyle().pin_hover_radius = _x;
+				imnodes::GetStyle().pin_hover_radius = (*_value)[0];
 				break;
 			case imnodes::StyleVar::StyleVar_PinOffset:
-				imnodes::GetStyle().pin_offset = _x;
+				imnodes::GetStyle().pin_offset = (*_value)[0];
 				break;
 			default:
 				assert(!"Invalid StyleVar value!");
@@ -310,11 +351,11 @@ namespace Marvel {
 			}
 
 			case 1:
-				_x = ToFloat(item);
+				(*_value)[0] = ToFloat(item);
 				break;
 
 			case 2:
-				_y = ToFloat(item);
+				(*_value)[1] = ToFloat(item);
 				break;
 
 			default:

@@ -20,6 +20,12 @@ We generally fold multiple commits pertaining to the same topic as a single entr
 - Read the `Breaking Changes` section (here in the changelog).
 - Please report any issue!
 
+## VERSION 0.8.57
+
+### New
+* `set_value(...)` now works for *theme_color* #1136
+* `set_value(...)` now works for *theme_style* #1136
+
 ## VERSION 0.8.56
 
 ### New
