@@ -69,6 +69,7 @@ namespace Marvel {
         mvValueRegistry, mvIntValue, mvFloatValue, mvFloat4Value,
         mvInt4Value, mvBoolValue, mvStringValue, mvDoubleValue, mvDouble4Value,
         mvColorValue, mvFloatVectValue, mvSeriesValue, mvRawTexture, mvSubPlots,
+        mvColorMap, mvColorMapRegistry, mvColorMapButton, mvColorMapSlider,
         ItemTypeCount
     };
 

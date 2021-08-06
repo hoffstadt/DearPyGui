@@ -36,11 +36,12 @@ def configure_viewport(item : int, **kwargs) -> None:
 
 
 def setup_registries() -> None:
-    """Adds default registries for fonts, handlers, textures, and values."""
+    """Adds default registries for fonts, handlers, textures, colormaps, and values."""
     internal_dpg.add_font_registry(id=internal_dpg.mvReservedUUID_0)
     internal_dpg.add_handler_registry(id=internal_dpg.mvReservedUUID_1)
     internal_dpg.add_texture_registry(id=internal_dpg.mvReservedUUID_2)
     internal_dpg.add_value_registry(id=internal_dpg.mvReservedUUID_3)
+    internal_dpg.add_colormap_registry(id=internal_dpg.mvReservedUUID_4)
 
 
 def setup_viewport():

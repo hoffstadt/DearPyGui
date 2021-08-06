@@ -11,6 +11,10 @@ demo_static_texture_3 = dpg.generate_uuid()
 demo_dynamic_texture_1 = dpg.generate_uuid()
 demo_dynamic_texture_2 = dpg.generate_uuid()
 
+demo_colormap_registry = dpg.add_colormap_registry(label="Demo Colormap Registry")
+demo_colormap_1 = dpg.generate_uuid()
+demo_colormap_2 = dpg.generate_uuid()
+
 DARK_IMGUI_THEME = themes.create_theme_imgui_dark()
 LIGHT_IMGUI_THEME = themes.create_theme_imgui_light()
 
@@ -248,8 +252,6 @@ def show_demo():
                 dpg.add_menu_item(label="Show Style Editor", callback=lambda:dpg.show_tool(dpg.mvTool_Style))
                 dpg.add_menu_item(label="Show Font Manager", callback=lambda:dpg.show_tool(dpg.mvTool_Font))
                 dpg.add_menu_item(label="Show Item Registry", callback=lambda:dpg.show_tool(dpg.mvTool_ItemRegistry))
-                dpg.add_menu_item(label="Show ImGui Demo", callback=lambda:dpg.show_imgui_demo())
-                dpg.add_menu_item(label="Show ImPlot Demo", callback=lambda:dpg.show_implot_demo())
 
         dpg.add_text(f'Dear PyGui says hello. ({dpg.get_dearpygui_version()})')
         dpg.add_text("This code for this demo can be found here: ")
@@ -482,6 +484,35 @@ def show_demo():
                                     "no_tooltip", "no_label", 
                                     "no_drag_drop", "alpha_bar", before=_before_id)
    
+            with dpg.tree_node(label="Colormaps"):
+                dpg.add_text("Notes")
+                dpg.add_text("Colormaps belong to a mvColorMapRegistry.", bullet=True, indent=20)
+                dpg.add_text("Showing the registry will help with debugging. Press ", bullet=True, indent=20)
+                dpg.add_same_line()
+                dpg.add_button(label="here", small=True, callback=lambda:dpg.show_item(demo_colormap_registry))
+                dpg.add_text("Colormaps are applied with 'set_colormap(item_id, colormap_id)", bullet=True, indent=20)
+                dpg.add_text("Colormaps can be applied to mvPlot, mvColorMapButton, mvColorMapSlider, mvColorMapScale", bullet=True, indent=20)
+                dpg.add_text("Colormaps can be sampled with 'sample_colormap(colormap_id, t)' (0<t<1)", bullet=True, indent=20)
+                dpg.add_text("Colormaps can be sampled by index with 'get_colormap_color(colormap_id, index)'", bullet=True, indent=20)
+                dpg.add_colormap([[0, 0, 0, 255], [255, 255, 255, 255]], False, id=demo_colormap_1, parent=demo_colormap_registry, label="Demo 1")
+                dpg.add_colormap([[255, 0, 0], [0, 255, 0], [0, 0, 255]], True, id=demo_colormap_2, parent=demo_colormap_registry, label="Demo 2")
+                dpg.add_colormap_button(label="Colormap Button 1")
+                dpg.set_colormap(dpg.last_item(), demo_colormap_1)
+                dpg.add_colormap_button(label="Colormap Button 2")
+                dpg.set_colormap(dpg.last_item(), demo_colormap_2)
+                dpg.add_colormap_slider(label="Colormap Slider 1", default_value=0.5)
+                dpg.set_colormap(dpg.last_item(), demo_colormap_1)
+                dpg.add_colormap_slider(label="Colormap Slider 2")
+                dpg.set_colormap(dpg.last_item(), demo_colormap_2)
+                dpg.add_colormap_scale(label="Colormap Slider 1")
+                dpg.set_colormap(dpg.last_item(), demo_colormap_1)
+                dpg.add_same_line()
+                dpg.add_colormap_scale(label="Colormap Slider 2")
+                dpg.set_colormap(dpg.last_item(), demo_colormap_2)
+                dpg.add_same_line()
+                dpg.add_colormap_scale(label="Colormap Spectral", min_scale=-100, max_scale=150)
+                dpg.set_colormap(dpg.last_item(), dpg.mvPlotColormap_Spectral)
+
             with dpg.tree_node(label="List Boxes"):
                 items = ("A","B","C","D","E","F","G","H","I","J","K","L","M" "O","P","Q","R","S","T","U","V","W","X","Y","Z")
                 listbox_1 = dpg.add_listbox(items, label="listbox 1 (full)")
@@ -2277,202 +2308,57 @@ def show_demo():
             dpg.add_input_text(label="Filter (inc, -exc)", before=dpg.last_container(), user_data=dpg.last_container(), callback=lambda s, a, u: dpg.set_value(u, a))
 
         with dpg.collapsing_header(label="Drawing API"):
-            draw_groups={}
-            layers={}
 
-            def _switch_group(sender, value):
-                for v in draw_groups.values():
-                    dpg.configure_item(v, show=False)
-                dpg.configure_item(draw_groups[value], show=True)
-
-            def _draw(sender, app_data, user_data):
-                args = []
-                current_layer = layers[dpg.get_value(user_data[3])]
-                kwargs = {'parent':current_layer}
-                for item in dpg.get_item_info(user_data[1])["children"][1]:
-                    args.append(dpg.get_value(item))
-                for item in dpg.get_item_info(user_data[2])["children"][1]:
-                    kwargs[dpg.get_item_label(item)] = dpg.get_value(item)
-
-                # If a drawing command needs to take in a list of points dont unpack args with *
-                points = []
-                if user_data[4]:
-                    user_data[0](args, **kwargs)
-                else:
-                    user_data[0](*args, **kwargs)
-
-            with dpg.group(width=200) as inputs:
-                layer = dpg.add_radio_button(default_value="Layer 1")
-                dpg.add_button(label="Clear Layer", callback=lambda: dpg.delete_item(layers[dpg.get_value(layer)], children_only=True))
-                drawables = dpg.add_listbox(label="Draw Item", default_value="Line", width=100, num_items=5, callback=_switch_group)
-
-                with dpg.group(width=200) as line:
-                    draw_groups["line"] = line
-                    with dpg.group() as r:
-                        dpg.add_slider_intx(label="p1", size=2, default_value=(10, 10), max_value=800)
-                        dpg.add_slider_intx(label="p2", size=2, default_value=(100, 100), max_value=800)
-                    with dpg.group() as k:
-                        dpg.add_input_int(label="thickness", default_value=1)
-                        dpg.add_color_picker((255, 255, 255, 255), label="color")
-                    dpg.add_button(label="Add", callback=_draw, user_data=[dpg.draw_line, r, k, layer, False])
-
-                with dpg.group(width=200, show=False) as circle:
-                    draw_groups["circle"] = circle
-                    with dpg.group() as r:
-                        dpg.add_slider_intx(label="center", size=2, default_value=(100, 100), max_value=800)
-                        dpg.add_slider_int(label="radius", default_value=20, max_value=100)
-                    with dpg.group() as k:
-                        dpg.add_slider_int(label="thickness", default_value=1)
-                        dpg.add_slider_int(label="segments", default_value=0)
-                        dpg.add_color_picker((255, 255, 255, 255), label="color")
-                        dpg.add_color_picker((0, 0, 0, 0), label="fill", alpha_bar=True)
-                    dpg.add_button(label="Add", callback=_draw, user_data=[dpg.draw_circle, r, k, layer, False])
-
-                with dpg.group(width=200, show=False) as ellipse:
-                    draw_groups["ellipse"] = ellipse
-                    with dpg.group() as r:
-                        dpg.add_slider_intx(label="pmin", size=2, default_value=(50, 50), max_value=800)
-                        dpg.add_slider_intx(label="pmax", size=2, default_value=(60, 70), max_value=800)
-                    with dpg.group() as k:
-                        dpg.add_slider_int(label="thickness", default_value=1)
-                        dpg.add_slider_int(label="segments", default_value=32)
-                        dpg.add_color_picker((255, 255, 255, 255), label="color")
-                        dpg.add_color_picker((0, 0, 0, 0), label="fill", alpha_bar=True)
-                    dpg.add_button(label="Add", callback=_draw, user_data=[dpg.draw_ellipse, r, k, layer, False])
-
-                with dpg.group(width=200, show=False) as arrow:
-                    draw_groups["arrow"] = arrow
-                    with dpg.group() as r:
-                        dpg.add_slider_intx(label="p1", size=2, default_value=(10, 10), max_value=800)
-                        dpg.add_slider_intx(label="p2", size=2, default_value=(100, 100), max_value=800)
-                    with dpg.group() as k:
-                        dpg.add_input_int(label="thickness", default_value=1)
-                        dpg.add_input_int(label="size", default_value=15)
-                        dpg.add_color_picker((255, 255, 255, 255), label="color")
-                    dpg.add_button(label="Add", callback=_draw, user_data=[dpg.draw_arrow, r, k, layer, False])
-
-                with dpg.group(width=200, show=False) as bezier_cubic:
-                    draw_groups["bezier cubic"] = bezier_cubic
-                    with dpg.group() as r:
-                        dpg.add_slider_intx(label="p1", size=2, default_value=(10, 10), max_value=800)
-                        dpg.add_slider_intx(label="p2", size=2, default_value=(50, 10), max_value=800)
-                        dpg.add_slider_intx(label="p3", size=2, default_value=(10, 40), max_value=800)
-                        dpg.add_slider_intx(label="p4", size=2, default_value=(100, 50), max_value=800)
-                    with dpg.group() as k:
-                        dpg.add_input_int(label="thickness", default_value=1)
-                        dpg.add_slider_int(label="segments", default_value=0)
-                        dpg.add_color_picker((255, 255, 255, 255), label="color")
-                    dpg.add_button(label="Add", callback=_draw, user_data=[dpg.draw_bezier_cubic, r, k, layer, False])
-
-                with dpg.group(width=200, show=False) as bezier_quadratic:
-                    draw_groups["bezier quadratic"] = bezier_quadratic
-                    with dpg.group() as r:
-                        dpg.add_slider_intx(label="p1", size=2, default_value=(10, 10), max_value=800)
-                        dpg.add_slider_intx(label="p2", size=2, default_value=(50, 30), max_value=800)
-                        dpg.add_slider_intx(label="p3", size=2, default_value=(10, 40), max_value=800)
-                    with dpg.group() as k:
-                        dpg.add_input_int(label="thickness", default_value=1)
-                        dpg.add_slider_int(label="segments", default_value=0)
-                        dpg.add_color_picker((255, 255, 255, 255), label="color")
-                    dpg.add_button(label="Add", callback=_draw, user_data=[dpg.draw_bezier_quadratic, r, k, layer, False])
-
-                with dpg.group(width=200, show=False) as polygon:
-                    draw_groups["polygon"] = polygon
-                    with dpg.group() as r:
-                        dpg.add_slider_intx(label="point 1", size=2, default_value=(10, 10), max_value=800)
-                        dpg.add_slider_intx(label="point 2", size=2, default_value=(50, 10), max_value=800)
-                        dpg.add_slider_intx(label="point 3", size=2, default_value=(50, 40), max_value=800)
-                        dpg.add_slider_intx(label="point 4", size=2, default_value=(30, 60), max_value=800)
-                        dpg.add_slider_intx(label="point 5", size=2, default_value=(10, 10), max_value=800)
-                    with dpg.group() as k:
-                        dpg.add_input_int(label="thickness", default_value=1)
-                        dpg.add_color_picker((255, 255, 255, 255), label="color")
-                        dpg.add_color_picker((0, 0, 0, 0), label="fill", alpha_bar=True)
-                    dpg.add_button(label="Add", callback=_draw, user_data=[dpg.draw_polygon, r, k, layer, True])
-
-                with dpg.group(width=200, show=False) as polyline:
-                    draw_groups["polyline"] = polyline
-                    with dpg.group() as r:
-                        dpg.add_slider_intx(label="point 1", size=2, default_value=(10, 10), max_value=800)
-                        dpg.add_slider_intx(label="point 2", size=2, default_value=(40, 40), max_value=800)
-                        dpg.add_slider_intx(label="point 3", size=2, default_value=(20, 10), max_value=800)
-                        dpg.add_slider_intx(label="point 4", size=2, default_value=(30, 60), max_value=800)
-                        dpg.add_slider_intx(label="point 5", size=2, default_value=(120, 120), max_value=800)
-                    with dpg.group() as k:
-                        dpg.add_checkbox(label="closed")
-                        dpg.add_input_int(label="thickness", default_value=1)
-                        dpg.add_color_picker((255, 255, 255, 255), label="color")
-                    dpg.add_button(label="Add", callback=_draw, user_data=[dpg.draw_polyline, r, k, layer, True])
-
-                with dpg.group(width=200, show=False) as quad:
-                    draw_groups["quad"] = quad
-                    with dpg.group() as r:
-                        dpg.add_slider_intx(label="p1", size=2, default_value=(20, 20), max_value=800)
-                        dpg.add_slider_intx(label="p2", size=2, default_value=(70, 20), max_value=800)
-                        dpg.add_slider_intx(label="p3", size=2, default_value=(60, 60), max_value=800)
-                        dpg.add_slider_intx(label="p4", size=2, default_value=(10, 60), max_value=800)
-                    with dpg.group() as k:
-                        dpg.add_input_int(label="thickness", default_value=1)
-                        dpg.add_color_picker((255, 255, 255, 255), label="color")
-                        dpg.add_color_picker((0, 0, 0, 0), label="fill", alpha_bar=True)
-                    dpg.add_button(label="Add", callback=_draw, user_data=[dpg.draw_quad, r, k, layer, False])
-
-                with dpg.group(width=200, show=False) as rectangle:
-                    draw_groups["rectangle"] = rectangle
-                    with dpg.group() as r:
-                        dpg.add_slider_intx(label="pmin", size=2, default_value=(50, 50), max_value=800)
-                        dpg.add_slider_intx(label="pmax", size=2, default_value=(60, 70), max_value=800)
-                    with dpg.group() as k:
-                        dpg.add_slider_int(label="thickness", default_value=1)
-                        dpg.add_slider_int(label="rounding", default_value=0)
-                        dpg.add_color_picker((255, 255, 255, 255), label="color")
-                        dpg.add_color_picker((0, 0, 0, 0), label="fill", alpha_bar=True)
-                    dpg.add_button(label="Add", callback=_draw, user_data=[dpg.draw_rectangle, r, k, layer, False])
-
-                with dpg.group(width=200, show=False) as triangle:
-                    draw_groups["triangle"] = triangle
-                    with dpg.group() as r:
-                        dpg.add_slider_intx(label="p1", size=2, default_value=(70, 50), max_value=800)
-                        dpg.add_slider_intx(label="p2", size=2, default_value=(80, 70), max_value=800)
-                        dpg.add_slider_intx(label="p3", size=2, default_value=(60, 60), max_value=800)
-                    with dpg.group() as k:
-                        dpg.add_slider_int(label="thickness", default_value=1)
-                        dpg.add_color_picker((255, 255, 255, 255), label="color")
-                        dpg.add_color_picker((0, 0, 0, 0), label="fill", alpha_bar=True)
-                    dpg.add_button(label="Add", callback=_draw, user_data=[dpg.draw_triangle, r, k, layer, False])
-
-                with dpg.group(width=200, show=False) as text:
-                    draw_groups["text"] = text
-                    with dpg.group() as r:
-                        dpg.add_slider_intx(label="pos", size=2, default_value=(70, 50), max_value=800)
-                        dpg.add_input_text(label="text", default_value="Hello World")
-                    with dpg.group() as k:
-                        dpg.add_slider_int(label="size", default_value=10)
-                        dpg.add_color_picker((255, 255, 255, 255), label="color")
-                    dpg.add_button(label="Add", callback=_draw, user_data=[dpg.draw_text, r, k, layer, False])
-
-                with dpg.group(width=200, show=False) as image:
-                    draw_groups["image"] = image
-                    with dpg.group() as r:
-                        #dpg.add_input_text(label="file", default_value="INTERNAL_DPG_FONT_ATLAS")
-                        dpg.add_slider_intx(label="pmin", size=2, default_value=(50, 50), max_value=800)
-                        dpg.add_slider_intx(label="pmax", size=2, default_value=(300, 300), max_value=800)
-                    with dpg.group() as k:
-                        dpg.add_slider_floatx(label="uv_min", size=2, default_value=(0.0, 0.0), max_value=2.0, min_value=-1.0)
-                        dpg.add_slider_floatx(label="uv_max", size=2, default_value=(1.0, 1.0), max_value=2.0, min_value=-1.0)
-                        dpg.add_color_picker((255, 255, 255, 255), label="color")
-                    dpg.add_button(label="Add", callback=_draw, user_data=[dpg.draw_image, r, k, layer, False])
-
-                dpg.configure_item(drawables, items=list(draw_groups.keys()))
-            dpg.add_same_line()
-
+            draw_thickness = 3.0
+            draw_size = 36
+            draw_spacing = 10
+            draw_rounding = draw_size/5.0
+            draw_color = [255, 255, 0]
             with dpg.drawlist(width=800, height=500):
-                dpg.draw_rectangle((0, 0), (800, 500), color=(100, 100, 100, 250), thickness=2)
-                layers["Layer 1"] = dpg.add_draw_layer()
-                layers["Layer 2"] = dpg.add_draw_layer()
-                layers["Layer 3"] = dpg.add_draw_layer()
+                draw_x = 4
+                draw_y = 4
+                for i in range(2):
 
-                dpg.configure_item(layer, items=list(layers.keys()))
+                    _draw_t = draw_thickness
+                    if i == 0:
+                        _draw_t = 1.0
+                    dpg.draw_circle([draw_x + draw_size*0.5, draw_y + draw_size*0.5], draw_size*0.5, thickness=_draw_t, color=draw_color)
+                    draw_x = draw_x + draw_spacing + draw_size
+                    dpg.draw_rectangle([draw_x, draw_y], [draw_size + draw_x, draw_size + draw_y], thickness=_draw_t, color=draw_color)
+                    draw_x = draw_x + draw_spacing + draw_size
+                    dpg.draw_rectangle([draw_size + draw_x, draw_size + draw_y], [draw_x, draw_y], rounding=draw_rounding, thickness=_draw_t, color=draw_color)
+                    draw_x = draw_x + draw_spacing + draw_size
+                    dpg.draw_triangle([draw_x+draw_size*0.5,draw_y], [draw_x+draw_size, draw_y+draw_size-0.5], [draw_x, draw_y+draw_size-0.5], thickness=_draw_t, color=draw_color)
+                    draw_x = draw_x + draw_spacing + draw_size
+                    dpg.draw_line([draw_x, draw_y], [draw_x + draw_size, draw_y], thickness=_draw_t, color=draw_color)
+                    draw_x = draw_x + draw_spacing + draw_size
+                    dpg.draw_line([draw_x, draw_y], [draw_x, draw_y + draw_size], thickness=_draw_t, color=draw_color)
+                    draw_x = draw_x + draw_spacing + draw_size
+                    dpg.draw_line([draw_x, draw_y], [draw_x + draw_size, draw_y + draw_size], thickness=_draw_t, color=draw_color)
+                    draw_x = draw_x + draw_spacing + draw_size
+                    dpg.draw_bezier_quadratic([draw_x, draw_y + draw_size * 0.6], 
+                                              [draw_x + draw_size*0.5, draw_y - draw_size * 0.4], 
+                                              [draw_x + draw_size, draw_y + draw_size], thickness=_draw_t, color=draw_color)
+                    draw_x = draw_x + draw_spacing + draw_size
+                    dpg.draw_bezier_cubic([draw_x, draw_y], 
+                                          [draw_x + draw_size*1.3, draw_y + draw_size * 0.3], 
+                                          [draw_x+draw_size - draw_size*1.3, draw_y + draw_size - draw_size*0.3],
+                                          [draw_x + draw_size, draw_y + draw_size], thickness=_draw_t, color=draw_color)
+                    draw_x = 4
+                    draw_y = draw_y + draw_size + draw_spacing
+
+                _draw_t = 0.0
+
+                dpg.draw_circle([draw_x + draw_size*0.5, draw_y + draw_size*0.5], draw_size*0.5, thickness=_draw_t, color=draw_color, fill=draw_color)
+                draw_x = draw_x + draw_spacing + draw_size
+                dpg.draw_rectangle([draw_x, draw_y], [draw_size + draw_x, draw_size + draw_y], thickness=_draw_t, color=draw_color, fill=draw_color)
+                draw_x = draw_x + draw_spacing + draw_size
+                dpg.draw_rectangle([draw_size + draw_x, draw_size + draw_y], [draw_x, draw_y], rounding=draw_rounding, thickness=_draw_t, color=draw_color, fill=draw_color)
+                draw_x = draw_x + draw_spacing + draw_size
+                dpg.draw_triangle([draw_x+draw_size*0.5,draw_y], [draw_x+draw_size, draw_y+draw_size-0.5], [draw_x, draw_y+draw_size-0.5], thickness=_draw_t, color=draw_color, fill=draw_color)
+                draw_x = draw_x + draw_spacing + draw_size
+                dpg.draw_rectangle([draw_x, draw_y], [draw_size + draw_x, draw_size + draw_y], color=[0, 0, 0, 0], thickness=_draw_t, color_upper_left=[0, 0, 0], color_upper_right=[255, 0, 0], color_bottom_left=[255, 255, 0], color_bottom_right=[0, 255, 0], multicolor=True)
+
 
         with dpg.collapsing_header(label="Inputs & Events"):
 

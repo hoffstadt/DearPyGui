@@ -245,17 +245,24 @@ namespace Marvel {
 
 	void mvPlot::SetColorMap(ImPlotColormap colormap)
 	{
-		if (colormap < ImPlot::GetColormapCount())
-		_dirty = true;			{
-			_colormap = colormap;
-			_dirty = true;
-		}
+		_colormap = colormap;
+		_useColorMap = true;
+		_newColorMap = true;
 	}
 
 	void mvPlot::draw(ImDrawList* drawlist, float x, float y)
 	{
 
 		//ImGui::PushID(_colormap);
+
+		if (_newColorMap)
+		{
+			ImPlot::BustColorCache(_label.c_str());
+			_newColorMap = false;
+		}
+
+		if (_useColorMap)
+			ImPlot::PushColormap(_colormap);
 
 		// custom input mapping
 		ImPlot::GetInputMap().PanButton = _pan_button;
@@ -299,8 +306,6 @@ namespace Marvel {
 			_y3axisName.empty() ? nullptr : _y3axisName.c_str()))
 		{
 			
-			ImPlot::PushColormap(_colormap);
-
 			// legend, drag point and lines
 			for (auto& item : _children[0])
 			{
@@ -339,8 +344,8 @@ namespace Marvel {
 
 			ImPlot::PopPlotClipRect();
 			
-
-			ImPlot::PopColormap();
+			if(_useColorMap)
+				ImPlot::PopColormap();
 
 			_queried = ImPlot::IsPlotQueried();
 

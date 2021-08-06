@@ -1135,6 +1135,28 @@ namespace Marvel {
 		return items;
 	}
 
+	std::vector<std::vector<int>> ToVectVectInt(PyObject* value, const std::string& message)
+	{
+		std::vector<std::vector<int>> items;
+		if (value == nullptr)
+			return items;
+
+
+		if (PyTuple_Check(value))
+		{
+			for (Py_ssize_t i = 0; i < PyTuple_Size(value); ++i)
+				items.emplace_back(ToIntVect(PyTuple_GetItem(value, i), message));
+		}
+
+		else if (PyList_Check(value))
+		{
+			for (Py_ssize_t i = 0; i < PyList_Size(value); ++i)
+				items.emplace_back(ToIntVect(PyList_GetItem(value, i), message));
+		}
+
+		return items;
+	}
+
 	std::vector<std::vector<double>> ToVectVectDouble(PyObject* value, const std::string& message)
 	{
 		std::vector<std::vector<double>> items;

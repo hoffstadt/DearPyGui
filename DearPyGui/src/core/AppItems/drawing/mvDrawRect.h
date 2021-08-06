@@ -39,8 +39,13 @@ namespace Marvel {
 		mvVec2  _pmax = { 1.0f, 1.0f };
 		float   _rounding = 0.0f;
 		mvColor _color;
+		mvColor _color_upper_left;
+		mvColor _color_upper_right;
+		mvColor _color_bottom_left;
+		mvColor _color_bottom_right;
 		mvColor _fill;
 		float   _thickness = 1.0f;
+		bool    _multicolor = false;
 
 	};
 

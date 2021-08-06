@@ -82,8 +82,24 @@ def add_color_value(*, label: str =None, id: int =0, source: int =0, user_data: 
 	"""Undocumented"""
 	...
 
-def add_colormap_scale(*, label: str =None, id: int =0, width: int =0, height: int =0, indent: int =-1, parent: int =0, before: int =0, source: int =0, show: bool =True, pos: List[int] =[], user_data: Any =None, use_internal_label: bool =True, default_value: int =0, min_scale: float =0.0, max_scale: float =1.0) -> int:
+def add_colormap(colors : List[List[int]], qualitative : bool, *, label: str =None, id: int =0, show: bool =True, user_data: Any =None, use_internal_label: bool =True, parent: int =internal_dpg.mvReservedUUID_4) -> int:
 	"""Adds a legend that pairs values with colors. This is typically used with a heat series. """
+	...
+
+def add_colormap_button(default_value : List[int] =(0, 0, 0, 255), *, label: str =None, id: int =0, width: int =0, height: int =0, indent: int =-1, parent: int =0, before: int =0, payload_type: str ='$$DPG_PAYLOAD', callback: Callable =None, drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, enabled: bool =True, pos: List[int] =[], filter_key: str ='', tracked: bool =False, track_offset: float =0.5, user_data: Any =None, use_internal_label: bool =True, no_alpha: bool =False, no_border: bool =False, no_drag_drop: bool =False) -> int:
+	"""Adds a color button."""
+	...
+
+def add_colormap_registry(*, label: str =None, id: int =0, user_data: Any =None, use_internal_label: bool =True, show: bool =False) -> int:
+	"""Adds a colormap registry."""
+	...
+
+def add_colormap_scale(*, label: str =None, id: int =0, width: int =0, height: int =0, indent: int =-1, parent: int =0, before: int =0, source: int =0, show: bool =True, pos: List[int] =[], user_data: Any =None, use_internal_label: bool =True, colormap: int =0, min_scale: float =0.0, max_scale: float =1.0) -> int:
+	"""Adds a legend that pairs values with colors. This is typically used with a heat series. """
+	...
+
+def add_colormap_slider(*, label: str =None, id: int =0, width: int =0, height: int =0, indent: int =-1, parent: int =0, before: int =0, payload_type: str ='$$DPG_PAYLOAD', callback: Callable =None, drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, pos: List[int] =[], filter_key: str ='', tracked: bool =False, track_offset: float =0.5, user_data: Any =None, use_internal_label: bool =True, default_value: float =0.0) -> int:
+	"""Adds a color button."""
 	...
 
 def add_combo(items : List[str] =(), *, label: str =None, id: int =0, width: int =0, indent: int =-1, parent: int =0, before: int =0, source: int =0, payload_type: str ='$$DPG_PAYLOAD', callback: Callable =None, drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, enabled: bool =True, pos: List[int] =[], filter_key: str ='', tracked: bool =False, track_offset: float =0.5, user_data: Any =None, use_internal_label: bool =True, default_value: str ='', popup_align_left: bool =False, no_arrow_button: bool =False, no_preview: bool =False, height_mode: int =1) -> int:
@@ -630,7 +646,7 @@ def draw_quad(p1 : List[float], p2 : List[float], p3 : List[float], p4 : List[fl
 	"""Draws a quad on a drawing."""
 	...
 
-def draw_rectangle(pmin : List[float], pmax : List[float], *, label: str =None, id: int =0, parent: int =0, before: int =0, show: bool =True, user_data: Any =None, use_internal_label: bool =True, color: List[int] =(255, 255, 255, 255), fill: List[int] =(0, 0, 0, -255), rounding: float =0.0, thickness: float =1.0) -> int:
+def draw_rectangle(pmin : List[float], pmax : List[float], *, label: str =None, id: int =0, parent: int =0, before: int =0, show: bool =True, user_data: Any =None, use_internal_label: bool =True, color: List[int] =(255, 255, 255, 255), color_upper_left: List[int] =(255, 255, 255, 255), color_upper_right: List[int] =(255, 255, 255, 255), color_bottom_right: List[int] =(255, 255, 255, 255), color_bottom_left: List[int] =(255, 255, 255, 255), fill: List[int] =(0, 0, 0, -255), multicolor: bool =False, rounding: float =0.0, thickness: float =1.0) -> int:
 	"""Draws a rectangle on a drawing."""
 	...
 
@@ -672,6 +688,10 @@ def get_all_items() -> List[int]:
 
 def get_axis_limits(axis : int) -> List[float]:
 	"""Gets the specified axis limits."""
+	...
+
+def get_colormap_color(colormap : int, index : int) -> List[int]:
+	"""Returns a color from a colormap given an index >= 0 (modulo will be performed). This command can only be ran once the app is started."""
 	...
 
 def get_dearpygui_version() -> str:
@@ -890,6 +910,10 @@ def reset_pos(item : int) -> None:
 	"""Undocumented"""
 	...
 
+def sample_colormap(colormap : int, t : float) -> List[int]:
+	"""Returns a color from a colormap given t between 0 and 1. This command can only be ran once the app is started."""
+	...
+
 def save_init_file(file : str) -> None:
 	"""Save dpg.ini file."""
 	...
@@ -904,6 +928,10 @@ def set_axis_limits_auto(axis : int) -> None:
 
 def set_axis_ticks(axis : int, label_pairs : Any) -> None:
 	"""Replaces axis ticks with 'label_pairs' argument"""
+	...
+
+def set_colormap(item : int, source : int) -> None:
+	"""Sets the color map for widgets that accept it."""
 	...
 
 def set_exit_callback(callback : Callable) -> str:
