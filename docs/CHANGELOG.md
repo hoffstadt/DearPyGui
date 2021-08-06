@@ -22,6 +22,9 @@ We generally fold multiple commits pertaining to the same topic as a single entr
 
 ## VERSION 0.8.x
 
+
+## VERSION 0.8.58
+
 ### Breaking Changes
 * `add_colormap_scale(...)` keyword `colormap` now corresponds to `mvColorMap` widget
 
