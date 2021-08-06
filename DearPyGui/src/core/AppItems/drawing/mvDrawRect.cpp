@@ -20,9 +20,14 @@ namespace Marvel {
 		parser.addArg<mvPyDataType::FloatList>("pmax", mvArgType::REQUIRED_ARG, "...", "Max point of bounding rectangle.");
 
 		parser.addArg<mvPyDataType::IntList>("color", mvArgType::KEYWORD_ARG, "(255, 255, 255, 255)");
+		parser.addArg<mvPyDataType::IntList>("color_upper_left", mvArgType::KEYWORD_ARG, "(255, 255, 255, 255)", "'multicolor' must be set to 'True'");
+		parser.addArg<mvPyDataType::IntList>("color_upper_right", mvArgType::KEYWORD_ARG, "(255, 255, 255, 255)", "'multicolor' must be set to 'True'");
+		parser.addArg<mvPyDataType::IntList>("color_bottom_right", mvArgType::KEYWORD_ARG, "(255, 255, 255, 255)", "'multicolor' must be set to 'True'");
+		parser.addArg<mvPyDataType::IntList>("color_bottom_left", mvArgType::KEYWORD_ARG, "(255, 255, 255, 255)", "'multicolor' must be set to 'True'");
 		parser.addArg<mvPyDataType::IntList>("fill", mvArgType::KEYWORD_ARG, "(0, 0, 0, -255)");
+		parser.addArg<mvPyDataType::Bool>("multicolor", mvArgType::KEYWORD_ARG, "False");
 
-		parser.addArg<mvPyDataType::Float>("rounding", mvArgType::KEYWORD_ARG, "0.0", "Number of pixels of the radius that will round the corners of the rectangle.");
+		parser.addArg<mvPyDataType::Float>("rounding", mvArgType::KEYWORD_ARG, "0.0", "Number of pixels of the radius that will round the corners of the rectangle. Note: doesn't work with multicolor");
 		parser.addArg<mvPyDataType::Float>("thickness", mvArgType::KEYWORD_ARG, "1.0");
 
 		parser.finalize();
@@ -59,6 +64,11 @@ namespace Marvel {
 		{
 			drawlist->AddRect(ImPlot::PlotToPixels(_pmin), ImPlot::PlotToPixels(_pmax), _color, 
 				ImPlot::GetCurrentContext()->Mx * _rounding, ImDrawCornerFlags_All, ImPlot::GetCurrentContext()->Mx * _thickness);
+			if (_multicolor)
+			{
+				drawlist->AddRectFilledMultiColor(ImPlot::PlotToPixels(_pmin), ImPlot::PlotToPixels(_pmax), _color_bottom_right, _color_bottom_left, _color_upper_left, _color_upper_right);
+				return;
+			}
 			if (_fill.r < 0.0f)
 				return;
 			drawlist->AddRectFilled(ImPlot::PlotToPixels(_pmin), ImPlot::PlotToPixels(_pmax), _fill, ImPlot::GetCurrentContext()->Mx * _rounding, ImDrawCornerFlags_All);
@@ -67,6 +77,11 @@ namespace Marvel {
 		{
 			mvVec2 start = { x, y };
 			drawlist->AddRect(_pmin + start, _pmax + start, _color, _rounding, ImDrawCornerFlags_All, _thickness);
+			if (_multicolor)
+			{
+				drawlist->AddRectFilledMultiColor(_pmin + start, _pmax + start, _color_bottom_right, _color_bottom_left, _color_upper_left, _color_upper_right);
+				return;
+			}
 			if (_fill.r < 0.0f)
 				return;
 			drawlist->AddRectFilled(_pmin + start, _pmax + start, _fill, _rounding, ImDrawCornerFlags_All);
@@ -105,9 +120,17 @@ namespace Marvel {
 		if (PyObject* item = PyDict_GetItemString(dict, "pmax")) _pmax = ToVec2(item);
 		if (PyObject* item = PyDict_GetItemString(dict, "pmin")) _pmin = ToVec2(item);
 		if (PyObject* item = PyDict_GetItemString(dict, "color")) _color = ToColor(item);
+		if (PyObject* item = PyDict_GetItemString(dict, "color_upper_left")) _color_upper_left = ToColor(item);
+		if (PyObject* item = PyDict_GetItemString(dict, "color_upper_right")) _color_upper_right = ToColor(item);
+		if (PyObject* item = PyDict_GetItemString(dict, "color_bottom_left")) _color_bottom_left = ToColor(item);
+		if (PyObject* item = PyDict_GetItemString(dict, "color_bottom_right")) _color_bottom_right = ToColor(item);
 		if (PyObject* item = PyDict_GetItemString(dict, "fill")) _fill = ToColor(item);
 		if (PyObject* item = PyDict_GetItemString(dict, "rounding")) _rounding = ToFloat(item);
 		if (PyObject* item = PyDict_GetItemString(dict, "thickness")) _thickness = ToFloat(item);
+		if (PyObject* item = PyDict_GetItemString(dict, "multicolor")) _multicolor = ToBool(item);
+
+		if (_multicolor)
+			_rounding = 0.0f;
 	}
 
 	void mvDrawRect::getSpecificConfiguration(PyObject* dict)

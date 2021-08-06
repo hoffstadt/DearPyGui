@@ -37,21 +37,6 @@ namespace Marvel {
 		MV_CREATE_CONSTANT(mvPlotMarker_Plus    ,  8L);  // a plus marker will be rendered at each point (not filled)
 		MV_CREATE_CONSTANT(mvPlotMarker_Asterisk,  9L); // a asterisk marker will be rendered at each point (not filled)
 
-		//-----------------------------------------------------------------------------
-		// Built-in ImPlot Color maps
-		//-----------------------------------------------------------------------------
-		MV_CREATE_CONSTANT(mvPlotColormap_Default,   0L); // ImPlot default colormap         (n=10)
-		MV_CREATE_CONSTANT(mvPlotColormap_Deep   ,   1L); // a.k.a. matplotlib "Set1"        (n=9)
-		MV_CREATE_CONSTANT(mvPlotColormap_Dark   ,   2L); // a.k.a. matplotlib "Set1"        (n=9)
-		MV_CREATE_CONSTANT(mvPlotColormap_Pastel ,   3L); // a.k.a. matplotlib "Pastel1"     (n=9)
-		MV_CREATE_CONSTANT(mvPlotColormap_Paired ,   4L); // a.k.a. matplotlib "Paired"      (n=12)
-		MV_CREATE_CONSTANT(mvPlotColormap_Viridis,   5L); // a.k.a. matplotlib "viridis"     (n=11)
-		MV_CREATE_CONSTANT(mvPlotColormap_Plasma ,   6L); // a.k.a. matplotlib "plasma"      (n=11)
-		MV_CREATE_CONSTANT(mvPlotColormap_Hot    ,   7L); // a.k.a. matplotlib/MATLAB "hot"  (n=11)
-		MV_CREATE_CONSTANT(mvPlotColormap_Cool   ,   8L); // a.k.a. matplotlib/MATLAB "cool" (n=11)
-		MV_CREATE_CONSTANT(mvPlotColormap_Pink   ,   9L); // a.k.a. matplotlib/MATLAB "pink" (n=11)
-		MV_CREATE_CONSTANT(mvPlotColormap_Jet    ,  10L); // a.k.a. MATLAB "jet"             (n=11)
-
 		MV_START_COMMANDS
 			MV_ADD_COMMAND(is_plot_queried);
 			MV_ADD_COMMAND(get_plot_query_area);
@@ -69,17 +54,6 @@ namespace Marvel {
 		MV_ADD_CONSTANT(mvPlotMarker_Cross),
 		MV_ADD_CONSTANT(mvPlotMarker_Plus),
 		MV_ADD_CONSTANT(mvPlotMarker_Asterisk),
-		MV_ADD_CONSTANT(mvPlotColormap_Default),
-		MV_ADD_CONSTANT(mvPlotColormap_Deep),
-		MV_ADD_CONSTANT(mvPlotColormap_Dark),
-		MV_ADD_CONSTANT(mvPlotColormap_Pastel),
-		MV_ADD_CONSTANT(mvPlotColormap_Paired),
-		MV_ADD_CONSTANT(mvPlotColormap_Viridis),
-		MV_ADD_CONSTANT(mvPlotColormap_Plasma),
-		MV_ADD_CONSTANT(mvPlotColormap_Hot),
-		MV_ADD_CONSTANT(mvPlotColormap_Cool),
-		MV_ADD_CONSTANT(mvPlotColormap_Pink),
-		MV_ADD_CONSTANT(mvPlotColormap_Jet),
 		MV_END_CONSTANTS
 
 		mvPlot(mvUUID uuid);
@@ -108,32 +82,28 @@ namespace Marvel {
 
 	private:
 
-		std::string                   _xaxisName;
-		std::string                   _y1axisName;
-		std::string                   _y2axisName;
-		std::string                   _y3axisName;
-		ImPlotFlags                   _flags    = ImPlotFlags_NoLegend;
-		ImPlotAxisFlags               _xflags  = 0;
-		ImPlotAxisFlags               _yflags  = 0;
-		ImPlotAxisFlags               _y1flags  = 0;
-		ImPlotAxisFlags               _y2flags  = 0;
-
-		ImPlotColormap                _colormap = ImPlotColormap_Deep;
-
-
-		bool                          _equalAspectRatios = false;
-
-		bool                          _queried = false;
-		double                        _queryArea[4] = {0.0, 0.0, 0.0, 0.0};
-		bool                          _dirty = false;
-
-		bool _fitDirty = false;
-		bool _axisfitDirty[4] = { false, false, false, false };
+		std::string     _xaxisName;
+		std::string     _y1axisName;
+		std::string     _y2axisName;
+		std::string     _y3axisName;
+		ImPlotFlags     _flags    = ImPlotFlags_NoLegend;
+		ImPlotAxisFlags _xflags  = 0;
+		ImPlotAxisFlags _yflags  = 0;
+		ImPlotAxisFlags _y1flags  = 0;
+		ImPlotAxisFlags _y2flags  = 0;			    
+		bool            _newColorMap = false; // to bust color cache
+		bool            _useColorMap = false;
+		ImPlotColormap  _colormap = ImPlotColormap_Deep;			    
+		bool            _equalAspectRatios = false;			    
+		bool            _queried = false;
+		double          _queryArea[4] = {0.0, 0.0, 0.0, 0.0};
+		bool            _fitDirty = false;
+		bool            _axisfitDirty[4] = { false, false, false, false };
 
 		friend class mvPlotAxis;
 
 		// custom input mapping
-		ImPlotInputMap                _originalMap = ImPlotInputMap();
+		ImPlotInputMap _originalMap = ImPlotInputMap();
 
 		int _pan_button = 0;
 		int _pan_mod = 0;

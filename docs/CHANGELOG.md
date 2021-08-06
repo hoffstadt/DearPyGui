@@ -22,8 +22,34 @@ We generally fold multiple commits pertaining to the same topic as a single entr
 
 ## VERSION 0.8.x
 
+### Breaking Changes
+* `add_colormap_scale(...)` keyword `colormap` now corresponds to `mvColorMap` widget
+
+### New
+* widget: added `add_colormap(...)` #1069
+* widget: added `add_colormap_registry(...)` #1069
+* widget: added `add_colormap_button(...)`
+* widget: added `add_colormap_slider(...)`
+* command: added `sample_colormap(...)`
+* command: added `get_colormap_color(...)`
+* keyword: added `mulicolor` to `draw_rectangle(...)`
+* keyword: added `color_upper_left` to `draw_rectangle(...)`
+* keyword: added `color_upper_right` to `draw_rectangle(...)`
+* keyword: added `color_bottom_left` to `draw_rectangle(...)`
+* keyword: added `color_bottom_right` to `draw_rectangle(...)`
+* constant: added `mvPlotColormap_Twilight`
+* constant: added `mvPlotColormap_RdBu`
+* constant: added `mvPlotColormap_BrBG`
+* constant: added `mvPlotColormap_PiYG`
+* constant: added `mvPlotColormap_Spectral`
+* constant: added `mvPlotColormap_Greys`
+
 ### Fixes
 * fixed `get_item_configuration(...)` for window max_size
+
+### Other
+* added colormap section to demo under "widgets"
+* simplied drawing API demo
 
 ## VERSION 0.8.57
 

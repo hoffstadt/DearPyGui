@@ -52,11 +52,12 @@ def configure_viewport(item : int, **kwargs) -> None:
 
 
 def setup_registries() -> None:
-    """Adds default registries for fonts, handlers, textures, and values."""
+    """Adds default registries for fonts, handlers, textures, colormaps, and values."""
     internal_dpg.add_font_registry(id=internal_dpg.mvReservedUUID_0)
     internal_dpg.add_handler_registry(id=internal_dpg.mvReservedUUID_1)
     internal_dpg.add_texture_registry(id=internal_dpg.mvReservedUUID_2)
     internal_dpg.add_value_registry(id=internal_dpg.mvReservedUUID_3)
+    internal_dpg.add_colormap_registry(id=internal_dpg.mvReservedUUID_4)
 
 
 def setup_viewport():
@@ -1184,6 +1185,25 @@ def collapsing_header(*, label: str =None, id: int =0, indent: int =-1, parent: 
 	"""
 	try:
 		widget = internal_dpg.add_collapsing_header(label=label, id=id, indent=indent, parent=parent, before=before, payload_type=payload_type, drag_callback=drag_callback, drop_callback=drop_callback, show=show, pos=pos, filter_key=filter_key, delay_search=delay_search, tracked=tracked, track_offset=track_offset, user_data=user_data, use_internal_label=use_internal_label, closable=closable, default_open=default_open, open_on_double_click=open_on_double_click, open_on_arrow=open_on_arrow, leaf=leaf, bullet=bullet)
+		internal_dpg.push_container_stack(widget)
+		yield widget
+	finally:
+		internal_dpg.pop_container_stack()
+@contextmanager
+def colormap_registry(*, label: str =None, id: int =0, user_data: Any =None, use_internal_label: bool =True, show: bool =False) -> int:
+	"""
+	Adds a colormap registry.
+	Args:
+		**label (str): Overrides 'name' as label.
+		**id (int): Unique id used to programmatically refer to the item.If label is unused this will be the label.
+		**user_data (Any): User data for callbacks.
+		**use_internal_label (bool): Use generated internal label instead of user specified (appends ### uuid).
+		**show (bool): Attempt to render widget.
+	Yields:
+		int
+	"""
+	try:
+		widget = internal_dpg.add_colormap_registry(label=label, id=id, user_data=user_data, use_internal_label=use_internal_label, show=show)
 		internal_dpg.push_container_stack(widget)
 		yield widget
 	finally:
@@ -2525,7 +2545,73 @@ def add_color_value(*, label: str =None, id: int =0, source: int =0, user_data: 
 
 	return internal_dpg.add_color_value(label=label, id=id, source=source, user_data=user_data, use_internal_label=use_internal_label, default_value=default_value, parent=parent)
 
-def add_colormap_scale(*, label: str =None, id: int =0, width: int =0, height: int =0, indent: int =-1, parent: int =0, before: int =0, source: int =0, show: bool =True, pos: List[int] =[], user_data: Any =None, use_internal_label: bool =True, default_value: int =0, min_scale: float =0.0, max_scale: float =1.0) -> int:
+def add_colormap(colors : List[List[int]], qualitative : bool, *, label: str =None, id: int =0, show: bool =True, user_data: Any =None, use_internal_label: bool =True, parent: int =internal_dpg.mvReservedUUID_4) -> int:
+	"""
+	Adds a legend that pairs values with colors. This is typically used with a heat series. 
+	Args:
+		colors (Any): 
+		qualitative (bool): 
+		**label (str): Overrides 'name' as label.
+		**id (int): Unique id used to programmatically refer to the item.If label is unused this will be the label.
+		**show (bool): Attempt to render widget.
+		**user_data (Any): User data for callbacks.
+		**use_internal_label (bool): Use generated internal label instead of user specified (appends ### uuid).
+		**parent (int): Parent to add this item to. (runtime adding)
+	Returns:
+		int
+	"""
+
+	return internal_dpg.add_colormap(colors, qualitative, label=label, id=id, show=show, user_data=user_data, use_internal_label=use_internal_label, parent=parent)
+
+def add_colormap_button(default_value : List[int] =(0, 0, 0, 255), *, label: str =None, id: int =0, width: int =0, height: int =0, indent: int =-1, parent: int =0, before: int =0, payload_type: str ='$$DPG_PAYLOAD', callback: Callable =None, drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, enabled: bool =True, pos: List[int] =[], filter_key: str ='', tracked: bool =False, track_offset: float =0.5, user_data: Any =None, use_internal_label: bool =True, no_alpha: bool =False, no_border: bool =False, no_drag_drop: bool =False) -> int:
+	"""
+	Adds a color button.
+	Args:
+		*default_value (List[int]): 
+		**label (str): Overrides 'name' as label.
+		**id (int): Unique id used to programmatically refer to the item.If label is unused this will be the label.
+		**width (int): Width of the item.
+		**height (int): Height of the item.
+		**indent (int): Offsets the widget to the right the specified number multiplied by the indent style.
+		**parent (int): Parent to add this item to. (runtime adding)
+		**before (int): This item will be displayed before the specified item in the parent.
+		**payload_type (str): Sender string type must be the same as the target for the target to run the payload_callback.
+		**callback (Callable): Registers a callback.
+		**drag_callback (Callable): Registers a drag callback for drag and drop.
+		**drop_callback (Callable): Registers a drop callback for drag and drop.
+		**show (bool): Attempt to render widget.
+		**enabled (bool): Turns off functionality of widget and applies the disabled theme.
+		**pos (List[int]): Places the item relative to window coordinates, [0,0] is top left.
+		**filter_key (str): Used by filter widget.
+		**tracked (bool): Scroll tracking
+		**track_offset (float): 0.0f:top, 0.5f:center, 1.0f:bottom
+		**user_data (Any): User data for callbacks.
+		**use_internal_label (bool): Use generated internal label instead of user specified (appends ### uuid).
+		**no_alpha (bool): Ignore Alpha component.
+		**no_border (bool): Disable border around the image.
+		**no_drag_drop (bool): Disable display of inline text label.
+	Returns:
+		int
+	"""
+
+	return internal_dpg.add_colormap_button(default_value, label=label, id=id, width=width, height=height, indent=indent, parent=parent, before=before, payload_type=payload_type, callback=callback, drag_callback=drag_callback, drop_callback=drop_callback, show=show, enabled=enabled, pos=pos, filter_key=filter_key, tracked=tracked, track_offset=track_offset, user_data=user_data, use_internal_label=use_internal_label, no_alpha=no_alpha, no_border=no_border, no_drag_drop=no_drag_drop)
+
+def add_colormap_registry(*, label: str =None, id: int =0, user_data: Any =None, use_internal_label: bool =True, show: bool =False) -> int:
+	"""
+	Adds a colormap registry.
+	Args:
+		**label (str): Overrides 'name' as label.
+		**id (int): Unique id used to programmatically refer to the item.If label is unused this will be the label.
+		**user_data (Any): User data for callbacks.
+		**use_internal_label (bool): Use generated internal label instead of user specified (appends ### uuid).
+		**show (bool): Attempt to render widget.
+	Returns:
+		int
+	"""
+
+	return internal_dpg.add_colormap_registry(label=label, id=id, user_data=user_data, use_internal_label=use_internal_label, show=show)
+
+def add_colormap_scale(*, label: str =None, id: int =0, width: int =0, height: int =0, indent: int =-1, parent: int =0, before: int =0, source: int =0, show: bool =True, pos: List[int] =[], user_data: Any =None, use_internal_label: bool =True, colormap: int =0, min_scale: float =0.0, max_scale: float =1.0) -> int:
 	"""
 	Adds a legend that pairs values with colors. This is typically used with a heat series. 
 	Args:
@@ -2541,14 +2627,43 @@ def add_colormap_scale(*, label: str =None, id: int =0, width: int =0, height: i
 		**pos (List[int]): Places the item relative to window coordinates, [0,0] is top left.
 		**user_data (Any): User data for callbacks.
 		**use_internal_label (bool): Use generated internal label instead of user specified (appends ### uuid).
-		**default_value (int): 
+		**colormap (int): mvPlotColormap_* constants or mvColorMap uuid
 		**min_scale (float): Sets the min number of the color scale. Typically is the same as the min scale from the heat series.
 		**max_scale (float): Sets the max number of the color scale. Typically is the same as the max scale from the heat series.
 	Returns:
 		int
 	"""
 
-	return internal_dpg.add_colormap_scale(label=label, id=id, width=width, height=height, indent=indent, parent=parent, before=before, source=source, show=show, pos=pos, user_data=user_data, use_internal_label=use_internal_label, default_value=default_value, min_scale=min_scale, max_scale=max_scale)
+	return internal_dpg.add_colormap_scale(label=label, id=id, width=width, height=height, indent=indent, parent=parent, before=before, source=source, show=show, pos=pos, user_data=user_data, use_internal_label=use_internal_label, colormap=colormap, min_scale=min_scale, max_scale=max_scale)
+
+def add_colormap_slider(*, label: str =None, id: int =0, width: int =0, height: int =0, indent: int =-1, parent: int =0, before: int =0, payload_type: str ='$$DPG_PAYLOAD', callback: Callable =None, drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, pos: List[int] =[], filter_key: str ='', tracked: bool =False, track_offset: float =0.5, user_data: Any =None, use_internal_label: bool =True, default_value: float =0.0) -> int:
+	"""
+	Adds a color button.
+	Args:
+		**label (str): Overrides 'name' as label.
+		**id (int): Unique id used to programmatically refer to the item.If label is unused this will be the label.
+		**width (int): Width of the item.
+		**height (int): Height of the item.
+		**indent (int): Offsets the widget to the right the specified number multiplied by the indent style.
+		**parent (int): Parent to add this item to. (runtime adding)
+		**before (int): This item will be displayed before the specified item in the parent.
+		**payload_type (str): Sender string type must be the same as the target for the target to run the payload_callback.
+		**callback (Callable): Registers a callback.
+		**drag_callback (Callable): Registers a drag callback for drag and drop.
+		**drop_callback (Callable): Registers a drop callback for drag and drop.
+		**show (bool): Attempt to render widget.
+		**pos (List[int]): Places the item relative to window coordinates, [0,0] is top left.
+		**filter_key (str): Used by filter widget.
+		**tracked (bool): Scroll tracking
+		**track_offset (float): 0.0f:top, 0.5f:center, 1.0f:bottom
+		**user_data (Any): User data for callbacks.
+		**use_internal_label (bool): Use generated internal label instead of user specified (appends ### uuid).
+		**default_value (float): 
+	Returns:
+		int
+	"""
+
+	return internal_dpg.add_colormap_slider(label=label, id=id, width=width, height=height, indent=indent, parent=parent, before=before, payload_type=payload_type, callback=callback, drag_callback=drag_callback, drop_callback=drop_callback, show=show, pos=pos, filter_key=filter_key, tracked=tracked, track_offset=track_offset, user_data=user_data, use_internal_label=use_internal_label, default_value=default_value)
 
 def add_combo(items : List[str] =(), *, label: str =None, id: int =0, width: int =0, indent: int =-1, parent: int =0, before: int =0, source: int =0, payload_type: str ='$$DPG_PAYLOAD', callback: Callable =None, drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, enabled: bool =True, pos: List[int] =[], filter_key: str ='', tracked: bool =False, track_offset: float =0.5, user_data: Any =None, use_internal_label: bool =True, default_value: str ='', popup_align_left: bool =False, no_arrow_button: bool =False, no_preview: bool =False, height_mode: int =1) -> int:
 	"""
@@ -5705,7 +5820,7 @@ def draw_quad(p1 : List[float], p2 : List[float], p3 : List[float], p4 : List[fl
 
 	return internal_dpg.draw_quad(p1, p2, p3, p4, label=label, id=id, parent=parent, before=before, show=show, user_data=user_data, use_internal_label=use_internal_label, color=color, fill=fill, thickness=thickness)
 
-def draw_rectangle(pmin : List[float], pmax : List[float], *, label: str =None, id: int =0, parent: int =0, before: int =0, show: bool =True, user_data: Any =None, use_internal_label: bool =True, color: List[int] =(255, 255, 255, 255), fill: List[int] =(0, 0, 0, -255), rounding: float =0.0, thickness: float =1.0) -> int:
+def draw_rectangle(pmin : List[float], pmax : List[float], *, label: str =None, id: int =0, parent: int =0, before: int =0, show: bool =True, user_data: Any =None, use_internal_label: bool =True, color: List[int] =(255, 255, 255, 255), color_upper_left: List[int] =(255, 255, 255, 255), color_upper_right: List[int] =(255, 255, 255, 255), color_bottom_right: List[int] =(255, 255, 255, 255), color_bottom_left: List[int] =(255, 255, 255, 255), fill: List[int] =(0, 0, 0, -255), multicolor: bool =False, rounding: float =0.0, thickness: float =1.0) -> int:
 	"""
 	Draws a rectangle on a drawing.
 	Args:
@@ -5719,14 +5834,19 @@ def draw_rectangle(pmin : List[float], pmax : List[float], *, label: str =None, 
 		**user_data (Any): User data for callbacks.
 		**use_internal_label (bool): Use generated internal label instead of user specified (appends ### uuid).
 		**color (List[int]): 
+		**color_upper_left (List[int]): 'multicolor' must be set to 'True'
+		**color_upper_right (List[int]): 'multicolor' must be set to 'True'
+		**color_bottom_right (List[int]): 'multicolor' must be set to 'True'
+		**color_bottom_left (List[int]): 'multicolor' must be set to 'True'
 		**fill (List[int]): 
-		**rounding (float): Number of pixels of the radius that will round the corners of the rectangle.
+		**multicolor (bool): 
+		**rounding (float): Number of pixels of the radius that will round the corners of the rectangle. Note: doesn't work with multicolor
 		**thickness (float): 
 	Returns:
 		int
 	"""
 
-	return internal_dpg.draw_rectangle(pmin, pmax, label=label, id=id, parent=parent, before=before, show=show, user_data=user_data, use_internal_label=use_internal_label, color=color, fill=fill, rounding=rounding, thickness=thickness)
+	return internal_dpg.draw_rectangle(pmin, pmax, label=label, id=id, parent=parent, before=before, show=show, user_data=user_data, use_internal_label=use_internal_label, color=color, color_upper_left=color_upper_left, color_upper_right=color_upper_right, color_bottom_right=color_bottom_right, color_bottom_left=color_bottom_left, fill=fill, multicolor=multicolor, rounding=rounding, thickness=thickness)
 
 def draw_text(pos : List[float], text : str, *, label: str =None, id: int =0, parent: int =0, before: int =0, show: bool =True, user_data: Any =None, use_internal_label: bool =True, color: List[int] =(255, 255, 255, 255), size: float =10.0) -> int:
 	"""
@@ -5855,6 +5975,18 @@ def get_axis_limits(axis : int) -> List[float]:
 	"""
 
 	return internal_dpg.get_axis_limits(axis)
+
+def get_colormap_color(colormap : int, index : int) -> List[int]:
+	"""
+	Returns a color from a colormap given an index >= 0 (modulo will be performed). This command can only be ran once the app is started.
+	Args:
+		colormap (int): 
+		index (int): 
+	Returns:
+		List[int]
+	"""
+
+	return internal_dpg.get_colormap_color(colormap, index)
 
 def get_dearpygui_version() -> str:
 	"""
@@ -6436,6 +6568,18 @@ def reset_pos(item : int) -> None:
 
 	return internal_dpg.reset_pos(item)
 
+def sample_colormap(colormap : int, t : float) -> List[int]:
+	"""
+	Returns a color from a colormap given t between 0 and 1. This command can only be ran once the app is started.
+	Args:
+		colormap (int): 
+		t (float): 
+	Returns:
+		List[int]
+	"""
+
+	return internal_dpg.sample_colormap(colormap, t)
+
 def save_init_file(file : str) -> None:
 	"""
 	Save dpg.ini file.
@@ -6482,6 +6626,18 @@ def set_axis_ticks(axis : int, label_pairs : Any) -> None:
 	"""
 
 	return internal_dpg.set_axis_ticks(axis, label_pairs)
+
+def set_colormap(item : int, source : int) -> None:
+	"""
+	Sets the color map for widgets that accept it.
+	Args:
+		item (int): 
+		source (int): 
+	Returns:
+		None
+	"""
+
+	return internal_dpg.set_colormap(item, source)
 
 def set_exit_callback(callback : Callable) -> str:
 	"""
@@ -7019,17 +7175,6 @@ mvPlotMarker_Right=internal_dpg.mvPlotMarker_Right
 mvPlotMarker_Cross=internal_dpg.mvPlotMarker_Cross
 mvPlotMarker_Plus=internal_dpg.mvPlotMarker_Plus
 mvPlotMarker_Asterisk=internal_dpg.mvPlotMarker_Asterisk
-mvPlotColormap_Default=internal_dpg.mvPlotColormap_Default
-mvPlotColormap_Deep=internal_dpg.mvPlotColormap_Deep
-mvPlotColormap_Dark=internal_dpg.mvPlotColormap_Dark
-mvPlotColormap_Pastel=internal_dpg.mvPlotColormap_Pastel
-mvPlotColormap_Paired=internal_dpg.mvPlotColormap_Paired
-mvPlotColormap_Viridis=internal_dpg.mvPlotColormap_Viridis
-mvPlotColormap_Plasma=internal_dpg.mvPlotColormap_Plasma
-mvPlotColormap_Hot=internal_dpg.mvPlotColormap_Hot
-mvPlotColormap_Cool=internal_dpg.mvPlotColormap_Cool
-mvPlotColormap_Pink=internal_dpg.mvPlotColormap_Pink
-mvPlotColormap_Jet=internal_dpg.mvPlotColormap_Jet
 mvSimplePlot=internal_dpg.mvSimplePlot
 mvDrawlist=internal_dpg.mvDrawlist
 mvWindowAppItem=internal_dpg.mvWindowAppItem
@@ -7353,6 +7498,27 @@ mvRawTexture=internal_dpg.mvRawTexture
 mvFormat_Float_rgba=internal_dpg.mvFormat_Float_rgba
 mvFormat_Float_rgb=internal_dpg.mvFormat_Float_rgb
 mvSubPlots=internal_dpg.mvSubPlots
+mvColorMap=internal_dpg.mvColorMap
+mvPlotColormap_Default=internal_dpg.mvPlotColormap_Default
+mvPlotColormap_Deep=internal_dpg.mvPlotColormap_Deep
+mvPlotColormap_Dark=internal_dpg.mvPlotColormap_Dark
+mvPlotColormap_Pastel=internal_dpg.mvPlotColormap_Pastel
+mvPlotColormap_Paired=internal_dpg.mvPlotColormap_Paired
+mvPlotColormap_Viridis=internal_dpg.mvPlotColormap_Viridis
+mvPlotColormap_Plasma=internal_dpg.mvPlotColormap_Plasma
+mvPlotColormap_Hot=internal_dpg.mvPlotColormap_Hot
+mvPlotColormap_Cool=internal_dpg.mvPlotColormap_Cool
+mvPlotColormap_Pink=internal_dpg.mvPlotColormap_Pink
+mvPlotColormap_Jet=internal_dpg.mvPlotColormap_Jet
+mvPlotColormap_Twilight=internal_dpg.mvPlotColormap_Twilight
+mvPlotColormap_RdBu=internal_dpg.mvPlotColormap_RdBu
+mvPlotColormap_BrBG=internal_dpg.mvPlotColormap_BrBG
+mvPlotColormap_PiYG=internal_dpg.mvPlotColormap_PiYG
+mvPlotColormap_Spectral=internal_dpg.mvPlotColormap_Spectral
+mvPlotColormap_Greys=internal_dpg.mvPlotColormap_Greys
+mvColorMapRegistry=internal_dpg.mvColorMapRegistry
+mvColorMapButton=internal_dpg.mvColorMapButton
+mvColorMapSlider=internal_dpg.mvColorMapSlider
 mvReservedUUID_0=internal_dpg.mvReservedUUID_0
 mvReservedUUID_1=internal_dpg.mvReservedUUID_1
 mvReservedUUID_2=internal_dpg.mvReservedUUID_2
