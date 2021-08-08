@@ -169,7 +169,7 @@ namespace Marvel {
             // If the value is out of bounds the value will be overwritten with max or min so each frame the value will be switching between the
             // ctrl+click value and the bounds value until the widget is not in ctrl+click mode. To prevent the callback from running every 
             // frame we check if the value was already submitted.
-            if (_last_value != *_value)
+            if (_last_value != *_value && _flags & ~ImGuiInputTextFlags_EnterReturnsTrue)
             {
                 _last_value = *_value;
                 auto value = *_value;
@@ -177,6 +177,14 @@ namespace Marvel {
                     mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), _uuid, ToPyInt(value), _user_data);
                     });
             }
+        }
+        // this case will ensure that enter always submits the value
+        if (_flags & ImGuiInputTextFlags_EnterReturnsTrue && ImGui::IsKeyPressed(ImGuiKey_Enter))
+        {
+            auto value = *_value;
+            mvApp::GetApp()->getCallbackRegistry().submitCallback([=]() {
+                mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), _uuid, ToPyInt(value), _user_data);
+                });
         }
 
     }
