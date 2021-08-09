@@ -278,7 +278,16 @@ namespace Marvel {
 			{
 				if (_mainWindow)
 					ImGui::PopStyleVar();
-				hide();
+
+				// shouldn't have to do this but do. Fix later
+				_show = false;
+				_state.setHovered(false);
+				_state.setFocused(false);
+				_state.setActivated(false);
+				_state.setVisible(false);
+
+				mvApp::GetApp()->getCallbackRegistry().addCallback(_on_close, _uuid, nullptr, _user_data);
+				
 				return;
 			}
 		}
