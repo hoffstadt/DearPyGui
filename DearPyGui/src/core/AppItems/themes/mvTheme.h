@@ -41,6 +41,10 @@ namespace Marvel {
 		bool canChildBeAdded(mvAppItemType type) override;
 		void handleSpecificKeywordArgs(PyObject* dict) override;
 
+	private:
+
+		bool _default_theme = false;
+
 	};
 
 }

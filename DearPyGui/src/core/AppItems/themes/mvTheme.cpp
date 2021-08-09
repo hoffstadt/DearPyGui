@@ -63,6 +63,12 @@ namespace Marvel {
 
 	void mvTheme::alternativeCustomAction()
 	{
+		if (!_default_theme)
+		{
+			_triggerAlternativeAction = false;
+			return;
+		}
+
 		for (auto& childset : _children)
 		{
 			for (auto& child : childset)
@@ -76,7 +82,11 @@ namespace Marvel {
 		if (dict == nullptr)
 			return;
 
-		if (PyObject* item = PyDict_GetItemString(dict, "default_theme")) _triggerAlternativeAction = ToBool(item);
+		if (PyObject* item = PyDict_GetItemString(dict, "default_theme"))
+		{
+			_default_theme = ToBool(item);
+			_triggerAlternativeAction = ToBool(item);
+		}
 
 	}
 

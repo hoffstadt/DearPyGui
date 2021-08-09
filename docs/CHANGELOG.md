@@ -22,6 +22,10 @@ We generally fold multiple commits pertaining to the same topic as a single entr
 
 ## VERSION 0.8.x
 
+### Fixes
+* fixed setting default theme values
+* fixed infinite on_close callbackss #1149
+
 
 ## VERSION 0.8.58
 
