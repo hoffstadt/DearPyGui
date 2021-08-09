@@ -278,7 +278,16 @@ namespace Marvel {
 			{
 				if (_mainWindow)
 					ImGui::PopStyleVar();
-				hide();
+
+				// shouldn't have to do this but do. Fix later
+				_show = false;
+				_state.setHovered(false);
+				_state.setFocused(false);
+				_state.setActivated(false);
+				_state.setVisible(false);
+
+				mvApp::GetApp()->getCallbackRegistry().addCallback(_on_close, _uuid, nullptr, _user_data);
+				
 				return;
 			}
 		}
@@ -437,7 +446,13 @@ namespace Marvel {
 		_collapsed = ImGui::IsWindowCollapsed();
 
 		if (!_show)
-			hide();
+		{
+			_state.setHovered(false);
+			_state.setFocused(false);
+			_state.setActivated(false);
+			_state.setVisible(false);
+			mvApp::GetApp()->getCallbackRegistry().addCallback(_on_close, _uuid, nullptr, _user_data);
+		}
 
 		// event handlers
 		for (auto& item : _children[3])
@@ -453,19 +468,6 @@ namespace Marvel {
 	{
 		_show = true;
 		_popupInit = true;
-	}
-
-	void mvWindowAppItem::hide()
-	{
-		// shouldn't have to do this but do. Fix later
-		_show = false;
-		_state.setHovered(false);
-		_state.setFocused(false);
-		_state.setActivated(false);
-		_state.setVisible(false);
-
-		mvApp::GetApp()->getCallbackRegistry().addCallback(_on_close, _uuid, nullptr, _user_data);
-
 	}
 
 	void mvWindowAppItem::handleSpecificKeywordArgs(PyObject* dict)

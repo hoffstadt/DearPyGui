@@ -57,7 +57,6 @@ namespace Marvel {
 		bool getWindowAsMainStatus() const { return _mainWindow; }
 
 		void show() override;
-		void hide() override;
 		void onChildAdd(mvRef<mvAppItem> item) override;
 		void onChildRemoved(mvRef<mvAppItem> item) override;
 		void handleSpecificKeywordArgs(PyObject* dict) override;
