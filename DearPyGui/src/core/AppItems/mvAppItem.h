@@ -330,6 +330,7 @@ namespace Marvel {
         const std::string&                  getSpecifiedLabel() const { return _specificedlabel; }
         mvAppItem*                          getRoot() const;
         int                                 getLocation() const { return _location; }
+        void                                requestAltCustomAction() { _triggerAlternativeAction = true; }
         bool                                isAltCustomActionRequested() const { return _triggerAlternativeAction; }
         bool                                isTracked() const { return _tracked; }
         float                               getTrackOffset() const { return _trackOffset; }

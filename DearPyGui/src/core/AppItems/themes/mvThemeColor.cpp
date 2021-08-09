@@ -177,6 +177,9 @@ namespace Marvel {
 			*_value = temp_array;
 		else
 			_value = std::make_shared<std::array<float, 4>>(temp_array);
+
+		if (_parentPtr)
+			_parentPtr->requestAltCustomAction();
 	}
 
 	void mvThemeColor::setDataSource(mvUUID dataSource)
