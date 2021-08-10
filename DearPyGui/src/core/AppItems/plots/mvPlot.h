@@ -18,6 +18,7 @@ namespace Marvel {
 		static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
 
 		MV_APPLY_WIDGET_REGISTRATION(mvAppItemType::mvPlot, add_plot)
+		MV_DEFAULT_PARENTS
 
 		MV_CREATE_COMMAND(is_plot_queried);
 		MV_CREATE_COMMAND(get_plot_query_area);
@@ -43,18 +44,53 @@ namespace Marvel {
 		MV_END_COMMANDS
 
 		MV_START_CONSTANTS
-		MV_ADD_CONSTANT(mvPlotMarker_None),
-		MV_ADD_CONSTANT(mvPlotMarker_Circle),
-		MV_ADD_CONSTANT(mvPlotMarker_Square),
-		MV_ADD_CONSTANT(mvPlotMarker_Diamond),
-		MV_ADD_CONSTANT(mvPlotMarker_Up),
-		MV_ADD_CONSTANT(mvPlotMarker_Down),
-		MV_ADD_CONSTANT(mvPlotMarker_Left),
-		MV_ADD_CONSTANT(mvPlotMarker_Right),
-		MV_ADD_CONSTANT(mvPlotMarker_Cross),
-		MV_ADD_CONSTANT(mvPlotMarker_Plus),
-		MV_ADD_CONSTANT(mvPlotMarker_Asterisk),
+			MV_ADD_CONSTANT(mvPlotMarker_None),
+			MV_ADD_CONSTANT(mvPlotMarker_Circle),
+			MV_ADD_CONSTANT(mvPlotMarker_Square),
+			MV_ADD_CONSTANT(mvPlotMarker_Diamond),
+			MV_ADD_CONSTANT(mvPlotMarker_Up),
+			MV_ADD_CONSTANT(mvPlotMarker_Down),
+			MV_ADD_CONSTANT(mvPlotMarker_Left),
+			MV_ADD_CONSTANT(mvPlotMarker_Right),
+			MV_ADD_CONSTANT(mvPlotMarker_Cross),
+			MV_ADD_CONSTANT(mvPlotMarker_Plus),
+			MV_ADD_CONSTANT(mvPlotMarker_Asterisk),
 		MV_END_CONSTANTS
+
+		MV_START_CHILDREN
+			MV_ADD_CHILD(mvAppItemType::mvPlotLegend),
+			MV_ADD_CHILD(mvAppItemType::mvPlotAxis),
+			MV_ADD_CHILD(mvAppItemType::mvDragPoint),
+			MV_ADD_CHILD(mvAppItemType::mvDragLine),
+			MV_ADD_CHILD(mvAppItemType::mvAnnotation),
+			MV_ADD_CHILD(mvAppItemType::mvDrawLine),
+			MV_ADD_CHILD(mvAppItemType::mvDrawArrow),
+			MV_ADD_CHILD(mvAppItemType::mvDrawTriangle),
+			MV_ADD_CHILD(mvAppItemType::mvDrawCircle),
+			MV_ADD_CHILD(mvAppItemType::mvDrawEllipse),
+			MV_ADD_CHILD(mvAppItemType::mvDrawBezierCubic),
+			MV_ADD_CHILD(mvAppItemType::mvDrawBezierQuadratic),
+			MV_ADD_CHILD(mvAppItemType::mvDrawQuad),
+			MV_ADD_CHILD(mvAppItemType::mvDrawRect),
+			MV_ADD_CHILD(mvAppItemType::mvDrawText),
+			MV_ADD_CHILD(mvAppItemType::mvDrawPolygon),
+			MV_ADD_CHILD(mvAppItemType::mvDrawPolyline),
+			MV_ADD_CHILD(mvAppItemType::mvDrawImage),
+			MV_ADD_CHILD(mvAppItemType::mvDrawLayer),
+			MV_ADD_CHILD(mvAppItemType::mvActivatedHandler),
+			MV_ADD_CHILD(mvAppItemType::mvActiveHandler),
+			MV_ADD_CHILD(mvAppItemType::mvClickedHandler),
+			MV_ADD_CHILD(mvAppItemType::mvDeactivatedAfterEditHandler),
+			MV_ADD_CHILD(mvAppItemType::mvDeactivatedHandler),
+			MV_ADD_CHILD(mvAppItemType::mvEditedHandler),
+			MV_ADD_CHILD(mvAppItemType::mvFocusHandler),
+			MV_ADD_CHILD(mvAppItemType::mvHoverHandler),
+			MV_ADD_CHILD(mvAppItemType::mvResizeHandler),
+			MV_ADD_CHILD(mvAppItemType::mvToggledOpenHandler),
+			MV_ADD_CHILD(mvAppItemType::mvVisibleHandler)
+		MV_END_CHILDREN
+
+	public:
 
 		mvPlot(mvUUID uuid);
 
@@ -77,7 +113,6 @@ namespace Marvel {
 		void onChildAdd(mvRef<mvAppItem> item) override;
 		void handleSpecificKeywordArgs(PyObject* dict) override;
 		void getSpecificConfiguration(PyObject* dict) override;
-		bool canChildBeAdded(mvAppItemType type) override;
 		void postDraw() override;
 
 	private:

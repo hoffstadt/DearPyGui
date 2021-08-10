@@ -66,25 +66,12 @@ namespace Marvel {
 		_value = std::get<std::shared_ptr<std::vector<float>>>(item->getValue());
 	}
 
-	bool mvDynamicTexture::isParentCompatible(mvAppItemType type)
-	{
-		if (type == mvAppItemType::mvStagingContainer) return true;
-		if (type == mvAppItemType::mvTextureRegistry) return true;
-
-		mvThrowPythonError(mvErrorCode::mvIncompatibleParent, s_command,
-			"Incompatible parent. Acceptable parents include: mvTextureRegistry, mvStagingContainer.", this);
-
-		MV_ITEM_REGISTRY_ERROR("Drawing item parent must be a drawing.");
-		assert(false);
-		return false;
-	}
-
 	void mvDynamicTexture::draw(ImDrawList* drawlist, float x, float y)
 	{
 		if (_dirty)
 		{
 
-			_texture = LoadTextureFromArrayDynamic(_width, _height, _value->data());
+			_texture = LoadTextureFromArrayDynamic(_permWidth, _permHeight, _value->data());
 
 			if (_texture == nullptr)
 				_state.setOk(false);
@@ -93,7 +80,7 @@ namespace Marvel {
 			return;
 		}
 
-		UpdateTexture(_texture, _width, _height, *_value);
+		UpdateTexture(_texture, _permWidth, _permHeight, *_value);
 
 	}
 
@@ -108,11 +95,13 @@ namespace Marvel {
 			switch (i)
 			{
 			case 0:
-				_width = ToInt(item);
+				_permWidth = ToInt(item);
+				_width = _permWidth;
 				break;
 
 			case 1:
-				_height = ToInt(item);
+				_permHeight = ToInt(item);
+				_height = _permHeight;
 				break;
 
 			case 2:

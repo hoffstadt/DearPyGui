@@ -129,30 +129,6 @@ namespace Marvel {
 		checkbitset("menubar", ImGuiWindowFlags_MenuBar, _windowflags);
 	}
 
-	bool mvNodeEditor::canChildBeAdded(mvAppItemType type)
-	{
-		if(type ==mvAppItemType::mvMenuBar) return true;
-		if(type ==mvAppItemType::mvNode) return true;
-		if(type ==mvAppItemType::mvNodeLink) return true;
-		if (type == mvAppItemType::mvActivatedHandler) return true;
-		if (type == mvAppItemType::mvActiveHandler) return true;
-		if (type == mvAppItemType::mvClickedHandler) return true;
-		if (type == mvAppItemType::mvDeactivatedAfterEditHandler) return true;
-		if (type == mvAppItemType::mvDeactivatedHandler) return true;
-		if (type == mvAppItemType::mvEditedHandler) return true;
-		if (type == mvAppItemType::mvFocusHandler) return true;
-		if (type == mvAppItemType::mvHoverHandler) return true;
-		if (type == mvAppItemType::mvResizeHandler) return true;
-		if (type == mvAppItemType::mvToggledOpenHandler) return true;
-		if (type == mvAppItemType::mvVisibleHandler) return true;
-
-		mvThrowPythonError(mvErrorCode::mvIncompatibleChild, s_command,
-			"Incompatible child. Acceptable children include: mvNode, mvNodeLink", this);
-		MV_ITEM_REGISTRY_ERROR("Node editor children must be nodes only.");
-		assert(false);
-		return false;
-	}
-
 	void mvNodeEditor::onChildRemoved(mvRef<mvAppItem> item)
 	{
 		if (item->getType() == mvAppItemType::mvNode)

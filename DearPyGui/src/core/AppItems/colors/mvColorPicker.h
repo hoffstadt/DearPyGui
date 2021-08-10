@@ -14,12 +14,12 @@ namespace Marvel {
 		static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
 
 		MV_APPLY_WIDGET_REGISTRATION(mvAppItemType::mvColorPicker, add_color_picker)
+		MV_NO_COMMANDS
+		MV_DEFAULT_PARENTS
+		MV_DEFAULT_CHILDREN
 
 		MV_CREATE_CONSTANT(mvColorPicker_bar, ImGuiColorEditFlags_PickerHueBar);
 		MV_CREATE_CONSTANT(mvColorPicker_wheel, ImGuiColorEditFlags_PickerHueWheel);
-
-		MV_START_COMMANDS
-		MV_END_COMMANDS
 
 		MV_START_CONSTANTS
 			MV_ADD_CONSTANT(mvColorPicker_bar),

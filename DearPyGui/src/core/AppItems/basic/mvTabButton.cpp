@@ -48,18 +48,6 @@ namespace Marvel {
 
 	}
 
-	bool mvTabButton::isParentCompatible(mvAppItemType type)
-	{
-		if (type == mvAppItemType::mvTabBar) return true;
-		if (type == mvAppItemType::mvStagingContainer) return true;
-
-		mvThrowPythonError(mvErrorCode::mvIncompatibleParent, s_command, 
-			"Incompatible parent. Acceptable parents include: tab bar, staging container.", this);
-		MV_ITEM_REGISTRY_ERROR("Tab button parent must be a tab bar.");
-		assert(false);
-		return false;
-	}
-
 	void mvTabButton::handleSpecificKeywordArgs(PyObject* dict)
 	{
 		if (dict == nullptr)

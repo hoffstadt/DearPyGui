@@ -161,19 +161,6 @@ namespace Marvel {
 
 	}
 
-	bool mvPlotAxis::isParentCompatible(mvAppItemType type)
-	{
-		if (type == mvAppItemType::mvStagingContainer) return true;
-		if (type == mvAppItemType::mvPlot) return true;
-
-		mvThrowPythonError(mvErrorCode::mvIncompatibleParent, s_command,
-			"Incompatible parent. Acceptable parents include: plot, staging container", this);
-
-		MV_ITEM_REGISTRY_ERROR("Drawing item parent must be a drawing.");
-		assert(false);
-		return false;
-	}
-
 	void mvPlotAxis::fitAxisData()
 	{
 		static_cast<mvPlot*>(_parentPtr)->_fitDirty = true;
@@ -192,11 +179,6 @@ namespace Marvel {
 		if (auto plot = static_cast<mvPlot*>(_parentPtr))
 			plot->removeFlag(ImPlotFlags_NoLegend);
 		_show = true;
-	}
-
-	bool mvPlotAxis::canChildBeAdded(mvAppItemType type)
-	{
-		return true;
 	}
 
 	void mvPlotAxis::handleSpecificKeywordArgs(PyObject* dict)

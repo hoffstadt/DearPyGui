@@ -13,13 +13,17 @@ namespace Marvel {
 		static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
 
 		MV_APPLY_WIDGET_REGISTRATION(mvAppItemType::mvTheme, add_theme)
+		MV_NO_COMMANDS
+		MV_DEFAULT_PARENTS
+
+		MV_START_CHILDREN
+			MV_ADD_CHILD(mvAppItemType::mvThemeColor),
+			MV_ADD_CHILD(mvAppItemType::mvThemeStyle)
+		MV_END_CHILDREN
 
 		MV_CREATE_CONSTANT(mvThemeCat_Core, 0);
 		MV_CREATE_CONSTANT(mvThemeCat_Plots, 1);
 		MV_CREATE_CONSTANT(mvThemeCat_Nodes, 2);
-
-		MV_START_COMMANDS
-		MV_END_COMMANDS
 
 		MV_START_CONSTANTS
 			MV_ADD_CONSTANT(mvThemeCat_Core),
@@ -38,7 +42,6 @@ namespace Marvel {
 		void draw(ImDrawList* drawlist, float x, float y) override;
 		void customAction() override;
 		void alternativeCustomAction() override;
-		bool canChildBeAdded(mvAppItemType type) override;
 		void handleSpecificKeywordArgs(PyObject* dict) override;
 
 	private:

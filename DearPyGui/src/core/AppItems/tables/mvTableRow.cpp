@@ -30,21 +30,6 @@ namespace Marvel {
 
 	}
 
-	bool mvTableRow::isParentCompatible(mvAppItemType type)
-	{
-		if (type == mvAppItemType::mvClipper) return true;
-		if (type == mvAppItemType::mvStagingContainer) return true;
-		if (type == mvAppItemType::mvFilterSet) return true;
-		if (type == mvAppItemType::mvTable) return true;
-
-		mvThrowPythonError(mvErrorCode::mvIncompatibleParent, s_command,
-			"Incompatible parent. Acceptable parents include: table, clipper, filter set, staging container.", this);
-
-		MV_ITEM_REGISTRY_ERROR("Node attribute parent must be node.");
-		assert(false);
-		return false;
-	}
-
 	void mvTableRow::draw(ImDrawList* drawlist, float x, float y)
 	{
 		ScopedID id(_uuid);

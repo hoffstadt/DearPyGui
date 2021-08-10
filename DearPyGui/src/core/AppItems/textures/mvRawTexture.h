@@ -18,12 +18,16 @@ namespace Marvel {
 		static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
 
 		MV_APPLY_WIDGET_REGISTRATION(mvAppItemType::mvRawTexture, add_raw_texture)
+		MV_NO_COMMANDS
+		MV_DEFAULT_CHILDREN
 
-			MV_CREATE_CONSTANT(mvFormat_Float_rgba, 0);
-			MV_CREATE_CONSTANT(mvFormat_Float_rgb, 1);
+		MV_CREATE_CONSTANT(mvFormat_Float_rgba, 0);
+		MV_CREATE_CONSTANT(mvFormat_Float_rgb, 1);
 
-		MV_START_COMMANDS
-		MV_END_COMMANDS
+		MV_START_PARENTS
+			MV_ADD_PARENT(mvAppItemType::mvStagingContainer),
+			MV_ADD_PARENT(mvAppItemType::mvTextureRegistry)
+		MV_END_PARENTS
 
 		MV_START_CONSTANTS
 			MV_ADD_CONSTANT(mvFormat_Float_rgba),
@@ -36,14 +40,9 @@ namespace Marvel {
 		~mvRawTexture();
 
 		void draw(ImDrawList* drawlist, float x, float y) override;
-		bool isParentCompatible(mvAppItemType type) override;
 		void handleSpecificRequiredArgs(PyObject* dict) override;
 		void handleSpecificKeywordArgs(PyObject* dict) override;
 		void getSpecificConfiguration(PyObject* dict) override;
-		void setWidth(int width) override {}
-		void setHeight(int height) override {}
-
-
 		PyObject* getPyValue() override;
 		void setPyValue(PyObject* value) override;
 
@@ -57,6 +56,8 @@ namespace Marvel {
 		bool          _dirty = true;
 		ComponentType _componentType = ComponentType::MV_FLOAT_COMPONENT;
 		int           _components = 4;
+		int           _permWidth = 0.0f;
+		int           _permHeight = 0.0f;
 
 	};
 

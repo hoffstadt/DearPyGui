@@ -14,12 +14,10 @@ namespace Marvel {
 		static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
 
 		MV_APPLY_WIDGET_REGISTRATION(mvAppItemType::mvColorMapSlider, add_colormap_slider)
-
-			MV_START_COMMANDS
-			MV_END_COMMANDS
-
-			MV_START_CONSTANTS
-			MV_END_CONSTANTS
+		MV_NO_COMMANDS
+		MV_DEFAULT_PARENTS
+		MV_DEFAULT_CHILDREN
+		MV_NO_CONSTANTS
 
 	public:
 

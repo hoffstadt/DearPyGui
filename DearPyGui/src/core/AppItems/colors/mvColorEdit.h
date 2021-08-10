@@ -14,6 +14,9 @@ namespace Marvel {
 		static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
 
 		MV_APPLY_WIDGET_REGISTRATION(mvAppItemType::mvColorEdit, add_color_edit)
+		MV_NO_COMMANDS
+		MV_DEFAULT_PARENTS
+		MV_DEFAULT_CHILDREN
 
 		MV_CREATE_CONSTANT(mvColorEdit_AlphaPreviewNone, 0);
 		MV_CREATE_CONSTANT(mvColorEdit_AlphaPreview, ImGuiColorEditFlags_AlphaPreview);
@@ -28,9 +31,6 @@ namespace Marvel {
 
 		MV_CREATE_CONSTANT(mvColorEdit_input_rgb, ImGuiColorEditFlags_InputRGB);
 		MV_CREATE_CONSTANT(mvColorEdit_input_hsv, ImGuiColorEditFlags_InputHSV);
-
-		MV_START_COMMANDS
-		MV_END_COMMANDS
 
 		MV_START_CONSTANTS
 			MV_ADD_CONSTANT(mvColorEdit_AlphaPreviewNone),

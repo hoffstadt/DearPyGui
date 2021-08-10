@@ -102,6 +102,7 @@ namespace Marvel {
 		//_label = "Window###" + std::to_string(_uuid);
 		_width = 500;
 		_height = 500;
+		_dirty_size = true;
 
 		_oldWindowflags = ImGuiWindowFlags_None;
 
@@ -166,31 +167,6 @@ namespace Marvel {
 		}
 
 
-	}
-
-	void mvWindowAppItem::setWidth(int width) 
-	{ 
-		_width = width;
-		_dirty_size = true; 
-	}
-
-	void mvWindowAppItem::setHeight(int height) 
-	{ 
-		_height = height;
-		_dirty_size = true; 
-	}
-
-	void mvWindowAppItem::setLabel(const std::string& value)
-	{
-
-		if (_useInternalLabel)
-			_label = value + "###" + std::to_string(_uuid);
-		else
-			_label = value;
-
-		// this is necessary because imgui considers it a new window
-		_dirtyPos = true;
-		_dirty_size = true;
 	}
 
 	void mvWindowAppItem::draw(ImDrawList* drawlist, float x, float y)
@@ -485,6 +461,12 @@ namespace Marvel {
 		{
 			_popup = ToBool(item);
 			_popupInit = true;
+		}
+
+		if (PyObject* item = PyDict_GetItemString(dict, "label"))
+		{
+			_dirtyPos = true;
+			_dirty_size = true;
 		}
 
 		if (PyObject* item = PyDict_GetItemString(dict, "no_close")) _no_close = ToBool(item);

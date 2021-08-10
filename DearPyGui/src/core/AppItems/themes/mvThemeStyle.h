@@ -15,6 +15,12 @@ namespace Marvel {
 		static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
 
 		MV_APPLY_WIDGET_REGISTRATION(mvAppItemType::mvThemeStyle, add_theme_style)
+		MV_NO_COMMANDS
+		MV_DEFAULT_CHILDREN
+
+        MV_START_PARENTS
+            MV_ADD_PARENT(mvAppItemType::mvTheme)
+        MV_END_PARENTS
 
 		MV_CREATE_CONSTANT(mvStyleVar_Alpha, ImGuiStyleVar_Alpha);                             // float     Alpha
 		MV_CREATE_CONSTANT(mvStyleVar_WindowPadding, ImGuiStyleVar_WindowPadding);             // ImVec2    WindowPadding
@@ -88,76 +94,73 @@ namespace Marvel {
 		MV_CREATE_CONSTANT(mvNodeStyleVar_PinHoverRadius, imnodes::StyleVar::StyleVar_PinHoverRadius);
 		MV_CREATE_CONSTANT(mvNodeStyleVar_PinOffset, imnodes::StyleVar::StyleVar_PinOffset);
 
-			MV_START_COMMANDS
-			MV_END_COMMANDS
-
-			MV_START_CONSTANTS
-				MV_ADD_CONSTANT(mvStyleVar_Alpha),
-				MV_ADD_CONSTANT(mvStyleVar_WindowPadding),
-				MV_ADD_CONSTANT(mvStyleVar_WindowRounding),
-				MV_ADD_CONSTANT(mvStyleVar_WindowBorderSize),
-				MV_ADD_CONSTANT(mvStyleVar_WindowMinSize),
-				MV_ADD_CONSTANT(mvStyleVar_WindowTitleAlign),
-				MV_ADD_CONSTANT(mvStyleVar_ChildRounding),
-				MV_ADD_CONSTANT(mvStyleVar_ChildBorderSize),
-				MV_ADD_CONSTANT(mvStyleVar_PopupRounding),
-				MV_ADD_CONSTANT(mvStyleVar_PopupBorderSize),
-				MV_ADD_CONSTANT(mvStyleVar_FramePadding),
-				MV_ADD_CONSTANT(mvStyleVar_FrameRounding),
-				MV_ADD_CONSTANT(mvStyleVar_FrameBorderSize),
-				MV_ADD_CONSTANT(mvStyleVar_ItemSpacing),
-				MV_ADD_CONSTANT(mvStyleVar_ItemInnerSpacing),
-				MV_ADD_CONSTANT(mvStyleVar_IndentSpacing),
-				MV_ADD_CONSTANT(mvStyleVar_CellPadding),
-				MV_ADD_CONSTANT(mvStyleVar_ScrollbarSize),
-				MV_ADD_CONSTANT(mvStyleVar_ScrollbarRounding),
-				MV_ADD_CONSTANT(mvStyleVar_GrabMinSize),
-				MV_ADD_CONSTANT(mvStyleVar_GrabRounding),
-				MV_ADD_CONSTANT(mvStyleVar_TabRounding),
-				MV_ADD_CONSTANT(mvStyleVar_ButtonTextAlign),
-				MV_ADD_CONSTANT(mvStyleVar_SelectableTextAlign),
-				MV_ADD_CONSTANT(mvPlotStyleVar_LineWeight),
-				MV_ADD_CONSTANT(mvPlotStyleVar_Marker),
-				MV_ADD_CONSTANT(mvPlotStyleVar_MarkerSize),
-				MV_ADD_CONSTANT(mvPlotStyleVar_MarkerWeight),
-				MV_ADD_CONSTANT(mvPlotStyleVar_FillAlpha),
-				MV_ADD_CONSTANT(mvPlotStyleVar_ErrorBarSize),
-				MV_ADD_CONSTANT(mvPlotStyleVar_ErrorBarWeight),
-				MV_ADD_CONSTANT(mvPlotStyleVar_DigitalBitHeight),
-				MV_ADD_CONSTANT(mvPlotStyleVar_DigitalBitGap),
-				MV_ADD_CONSTANT(mvPlotStyleVar_PlotBorderSize),
-				MV_ADD_CONSTANT(mvPlotStyleVar_MinorAlpha),
-				MV_ADD_CONSTANT(mvPlotStyleVar_MajorTickLen),
-				MV_ADD_CONSTANT(mvPlotStyleVar_MinorTickLen),
-				MV_ADD_CONSTANT(mvPlotStyleVar_MajorTickSize),
-				MV_ADD_CONSTANT(mvPlotStyleVar_MinorTickSize),
-				MV_ADD_CONSTANT(mvPlotStyleVar_MajorGridSize),
-				MV_ADD_CONSTANT(mvPlotStyleVar_MinorGridSize),
-				MV_ADD_CONSTANT(mvPlotStyleVar_PlotPadding),
-				MV_ADD_CONSTANT(mvPlotStyleVar_LabelPadding),
-				MV_ADD_CONSTANT(mvPlotStyleVar_LegendPadding),
-				MV_ADD_CONSTANT(mvPlotStyleVar_LegendInnerPadding),
-				MV_ADD_CONSTANT(mvPlotStyleVar_LegendSpacing),
-				MV_ADD_CONSTANT(mvPlotStyleVar_MousePosPadding),
-				MV_ADD_CONSTANT(mvPlotStyleVar_AnnotationPadding),
-				MV_ADD_CONSTANT(mvPlotStyleVar_FitPadding),
-				MV_ADD_CONSTANT(mvPlotStyleVar_PlotDefaultSize),
-				MV_ADD_CONSTANT(mvPlotStyleVar_PlotMinSize),
-				MV_ADD_CONSTANT(mvNodeStyleVar_GridSpacing),
-				MV_ADD_CONSTANT(mvNodeStyleVar_NodeCornerRounding),
-				MV_ADD_CONSTANT(mvNodeStyleVar_NodePaddingHorizontal),
-				MV_ADD_CONSTANT(mvNodeStyleVar_NodePaddingVertical),
-				MV_ADD_CONSTANT(mvNodeStyleVar_NodeBorderThickness),
-				MV_ADD_CONSTANT(mvNodeStyleVar_LinkThickness),
-				MV_ADD_CONSTANT(mvNodeStyleVar_LinkLineSegmentsPerLength),
-				MV_ADD_CONSTANT(mvNodeStyleVar_LinkHoverDistance),
-				MV_ADD_CONSTANT(mvNodeStyleVar_PinCircleRadius),
-				MV_ADD_CONSTANT(mvNodeStyleVar_PinQuadSideLength),
-				MV_ADD_CONSTANT(mvNodeStyleVar_PinTriangleSideLength),
-				MV_ADD_CONSTANT(mvNodeStyleVar_PinLineThickness),
-				MV_ADD_CONSTANT(mvNodeStyleVar_PinHoverRadius),
-				MV_ADD_CONSTANT(mvNodeStyleVar_PinOffset)
-			MV_END_CONSTANTS
+		MV_START_CONSTANTS
+			MV_ADD_CONSTANT(mvStyleVar_Alpha),
+			MV_ADD_CONSTANT(mvStyleVar_WindowPadding),
+			MV_ADD_CONSTANT(mvStyleVar_WindowRounding),
+			MV_ADD_CONSTANT(mvStyleVar_WindowBorderSize),
+			MV_ADD_CONSTANT(mvStyleVar_WindowMinSize),
+			MV_ADD_CONSTANT(mvStyleVar_WindowTitleAlign),
+			MV_ADD_CONSTANT(mvStyleVar_ChildRounding),
+			MV_ADD_CONSTANT(mvStyleVar_ChildBorderSize),
+			MV_ADD_CONSTANT(mvStyleVar_PopupRounding),
+			MV_ADD_CONSTANT(mvStyleVar_PopupBorderSize),
+			MV_ADD_CONSTANT(mvStyleVar_FramePadding),
+			MV_ADD_CONSTANT(mvStyleVar_FrameRounding),
+			MV_ADD_CONSTANT(mvStyleVar_FrameBorderSize),
+			MV_ADD_CONSTANT(mvStyleVar_ItemSpacing),
+			MV_ADD_CONSTANT(mvStyleVar_ItemInnerSpacing),
+			MV_ADD_CONSTANT(mvStyleVar_IndentSpacing),
+			MV_ADD_CONSTANT(mvStyleVar_CellPadding),
+			MV_ADD_CONSTANT(mvStyleVar_ScrollbarSize),
+			MV_ADD_CONSTANT(mvStyleVar_ScrollbarRounding),
+			MV_ADD_CONSTANT(mvStyleVar_GrabMinSize),
+			MV_ADD_CONSTANT(mvStyleVar_GrabRounding),
+			MV_ADD_CONSTANT(mvStyleVar_TabRounding),
+			MV_ADD_CONSTANT(mvStyleVar_ButtonTextAlign),
+			MV_ADD_CONSTANT(mvStyleVar_SelectableTextAlign),
+			MV_ADD_CONSTANT(mvPlotStyleVar_LineWeight),
+			MV_ADD_CONSTANT(mvPlotStyleVar_Marker),
+			MV_ADD_CONSTANT(mvPlotStyleVar_MarkerSize),
+			MV_ADD_CONSTANT(mvPlotStyleVar_MarkerWeight),
+			MV_ADD_CONSTANT(mvPlotStyleVar_FillAlpha),
+			MV_ADD_CONSTANT(mvPlotStyleVar_ErrorBarSize),
+			MV_ADD_CONSTANT(mvPlotStyleVar_ErrorBarWeight),
+			MV_ADD_CONSTANT(mvPlotStyleVar_DigitalBitHeight),
+			MV_ADD_CONSTANT(mvPlotStyleVar_DigitalBitGap),
+			MV_ADD_CONSTANT(mvPlotStyleVar_PlotBorderSize),
+			MV_ADD_CONSTANT(mvPlotStyleVar_MinorAlpha),
+			MV_ADD_CONSTANT(mvPlotStyleVar_MajorTickLen),
+			MV_ADD_CONSTANT(mvPlotStyleVar_MinorTickLen),
+			MV_ADD_CONSTANT(mvPlotStyleVar_MajorTickSize),
+			MV_ADD_CONSTANT(mvPlotStyleVar_MinorTickSize),
+			MV_ADD_CONSTANT(mvPlotStyleVar_MajorGridSize),
+			MV_ADD_CONSTANT(mvPlotStyleVar_MinorGridSize),
+			MV_ADD_CONSTANT(mvPlotStyleVar_PlotPadding),
+			MV_ADD_CONSTANT(mvPlotStyleVar_LabelPadding),
+			MV_ADD_CONSTANT(mvPlotStyleVar_LegendPadding),
+			MV_ADD_CONSTANT(mvPlotStyleVar_LegendInnerPadding),
+			MV_ADD_CONSTANT(mvPlotStyleVar_LegendSpacing),
+			MV_ADD_CONSTANT(mvPlotStyleVar_MousePosPadding),
+			MV_ADD_CONSTANT(mvPlotStyleVar_AnnotationPadding),
+			MV_ADD_CONSTANT(mvPlotStyleVar_FitPadding),
+			MV_ADD_CONSTANT(mvPlotStyleVar_PlotDefaultSize),
+			MV_ADD_CONSTANT(mvPlotStyleVar_PlotMinSize),
+			MV_ADD_CONSTANT(mvNodeStyleVar_GridSpacing),
+			MV_ADD_CONSTANT(mvNodeStyleVar_NodeCornerRounding),
+			MV_ADD_CONSTANT(mvNodeStyleVar_NodePaddingHorizontal),
+			MV_ADD_CONSTANT(mvNodeStyleVar_NodePaddingVertical),
+			MV_ADD_CONSTANT(mvNodeStyleVar_NodeBorderThickness),
+			MV_ADD_CONSTANT(mvNodeStyleVar_LinkThickness),
+			MV_ADD_CONSTANT(mvNodeStyleVar_LinkLineSegmentsPerLength),
+			MV_ADD_CONSTANT(mvNodeStyleVar_LinkHoverDistance),
+			MV_ADD_CONSTANT(mvNodeStyleVar_PinCircleRadius),
+			MV_ADD_CONSTANT(mvNodeStyleVar_PinQuadSideLength),
+			MV_ADD_CONSTANT(mvNodeStyleVar_PinTriangleSideLength),
+			MV_ADD_CONSTANT(mvNodeStyleVar_PinLineThickness),
+			MV_ADD_CONSTANT(mvNodeStyleVar_PinHoverRadius),
+			MV_ADD_CONSTANT(mvNodeStyleVar_PinOffset)
+		MV_END_CONSTANTS
 
 	public:
 
@@ -171,7 +174,6 @@ namespace Marvel {
 		PyObject* getPyValue() override;
 		void setPyValue(PyObject* value) override;
 		void handleSpecificPositionalArgs(PyObject* dict) override;
-		bool isParentCompatible(mvAppItemType type) override;
 		void handleSpecificKeywordArgs(PyObject* dict) override;
 
 		void setLibType(mvLibType libType) { _libType = libType; }

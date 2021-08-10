@@ -34,23 +34,6 @@ namespace Marvel {
 	{
 	}
 
-	bool mvDrawPolygon::isParentCompatible(mvAppItemType type)
-	{
-		if (type == mvAppItemType::mvStagingContainer) return true;
-		if (type == mvAppItemType::mvDrawlist) return true;
-		if (type == mvAppItemType::mvWindowAppItem) return true;
-		if (type == mvAppItemType::mvPlot) return true;
-		if (type == mvAppItemType::mvDrawLayer) return true;
-		if (type == mvAppItemType::mvViewportDrawlist) return true;
-
-		mvThrowPythonError(mvErrorCode::mvIncompatibleParent, s_command,
-			"Incompatible parent. Acceptable parents include: staging container, drawlist, layer, window, plot, viewport drawlist.", this);
-
-		MV_ITEM_REGISTRY_ERROR("Drawing item parent must be a drawing.");
-		assert(false);
-		return false;
-	}
-
 	void mvDrawPolygon::draw(ImDrawList* drawlist, float x, float y)
 	{
 		mvVec2 start = { x, y };

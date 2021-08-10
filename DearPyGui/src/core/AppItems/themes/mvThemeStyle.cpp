@@ -169,18 +169,6 @@ namespace Marvel {
 		_value = std::get<std::shared_ptr<std::array<float, 4>>>(item->getValue());
 	}
 
-	bool mvThemeStyle::isParentCompatible(mvAppItemType type)
-	{
-		if (type == mvAppItemType::mvTheme) return true;
-
-		mvThrowPythonError(mvErrorCode::mvIncompatibleParent, s_command,
-			"Incompatible parent. Acceptable parents include: mvTheme", this);
-
-		MV_ITEM_REGISTRY_ERROR("Item's parent must be plot.");
-		assert(false);
-		return false;
-	}
-
 	void mvThemeStyle::draw(ImDrawList* drawlist, float x, float y)
 	{
 		if (_libType == mvLibType::MV_IMGUI)

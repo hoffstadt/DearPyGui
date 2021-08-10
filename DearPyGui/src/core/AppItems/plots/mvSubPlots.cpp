@@ -105,20 +105,6 @@ namespace Marvel {
 		_flags &= ~flag;
 	}
 
-	bool mvSubPlots::canChildBeAdded(mvAppItemType type)
-	{
-		if (type == mvAppItemType::mvPlotLegend) return true;
-		if (type == mvAppItemType::mvPlot) return true;
-
-		mvThrowPythonError(mvErrorCode::mvIncompatibleChild, s_command,
-			"Incompatible child. Acceptable children include: mvPlot, mvPlotLegend", this);
-
-		MV_ITEM_REGISTRY_ERROR("SubPlots children must be compatible.");
-		assert(false);
-
-		return false;
-	}
-
 	void mvSubPlots::draw(ImDrawList* drawlist, float x, float y)
 	{
 

@@ -18,15 +18,15 @@ namespace Marvel {
 		static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
 
 		MV_APPLY_WIDGET_REGISTRATION(mvAppItemType::mvFileDialog, add_file_dialog)
+		MV_DEFAULT_PARENTS
+		MV_DEFAULT_CHILDREN
+		MV_NO_CONSTANTS
 
 		MV_CREATE_COMMAND(get_file_dialog_info);
 
 		MV_START_COMMANDS
 			MV_ADD_COMMAND(get_file_dialog_info);
 		MV_END_COMMANDS
-
-		MV_START_CONSTANTS
-		MV_END_CONSTANTS
 
 	public:
 

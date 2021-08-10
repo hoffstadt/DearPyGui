@@ -65,17 +65,6 @@ namespace Marvel {
 		_value = std::get<std::shared_ptr<std::vector<std::vector<double>>>>(item->getValue());
 	}
 
-	bool mvVLineSeries::isParentCompatible(mvAppItemType type)
-	{
-		if (type == mvAppItemType::mvPlotAxis) return true;
-
-		mvThrowPythonError(mvErrorCode::mvIncompatibleParent, s_command,
-			"Incompatible parent. Acceptable parents include: plot axis", this);
-
-		assert(false);
-		return false;
-	}
-
 	void mvVLineSeries::draw(ImDrawList* drawlist, float x, float y)
 	{
 
@@ -250,17 +239,6 @@ namespace Marvel {
 			return;
 		}
 		_value = std::get<std::shared_ptr<std::vector<std::vector<double>>>>(item->getValue());
-	}
-
-	bool mvHLineSeries::isParentCompatible(mvAppItemType type)
-	{
-		if (type == mvAppItemType::mvPlotAxis) return true;
-
-		mvThrowPythonError(mvErrorCode::mvIncompatibleParent, s_command,
-			"Incompatible parent. Acceptable parents include: plot axis", this);
-
-		assert(false);
-		return false;
 	}
 
 	void mvHLineSeries::draw(ImDrawList* drawlist, float x, float y)

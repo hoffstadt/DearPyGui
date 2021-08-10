@@ -6,6 +6,7 @@
 #include "mvPythonExceptions.h"
 #include "mvGlobalIntepreterLock.h"
 #include "mvAppItemCommons.h"
+#include "mvLog.h"
 
 namespace Marvel{
 
@@ -297,6 +298,67 @@ namespace Marvel{
 
 		return false;
 
+	}
+
+	bool mvAppItem::isParentCompatible(mvAppItemType type) 
+	{ 
+
+		const std::vector<std::pair<std::string, int>>* allowableParents = &getAllowableParents();
+
+		std::string acceptableTypes;
+
+		for (const auto& compatibleParent : *allowableParents)
+		{
+			acceptableTypes.append(compatibleParent.first + "\n");
+			if ((int)type == compatibleParent.second)
+				return true;
+		}
+
+		if (allowableParents->empty())
+		{
+			mvThrowPythonError(mvErrorCode::mvIncompatibleParent, getCommand(),
+				"Incompatible parent. Item does can not have a parent.", this);
+			return false;
+		}
+
+		if ((*allowableParents)[0].second == (int)mvAppItemType::All)
+			return true;
+
+		mvThrowPythonError(mvErrorCode::mvIncompatibleParent, getCommand(),
+			"Incompatible parent. Acceptable parents include:\t" + acceptableTypes, this);
+
+		assert(false);
+		return false;
+	}
+
+	bool mvAppItem::canChildBeAdded(mvAppItemType type)
+	{ 
+		const std::vector<std::pair<std::string, int>>* allowableChildren = &getAllowableChildren();
+
+		std::string acceptableTypes;
+
+		for (const auto& compatibleChildren : *allowableChildren)
+		{
+			acceptableTypes.append(compatibleChildren.first + "\n");
+			if ((int)type == compatibleChildren.second)
+				return true;
+		}
+
+		if (allowableChildren->empty())
+		{
+			mvThrowPythonError(mvErrorCode::mvIncompatibleChild, getCommand(),
+				"Incompatible child. Item does not accept children.", this);
+			return false;
+		}
+
+		if ((*allowableChildren)[0].second == (int)mvAppItemType::All)
+			return true;
+
+		mvThrowPythonError(mvErrorCode::mvIncompatibleChild, getCommand(),
+			"Incompatible child. Acceptable children include:\t" + acceptableTypes, this);
+
+		assert(false);
+		return false;
 	}
 
 	bool mvAppItem::preDraw()

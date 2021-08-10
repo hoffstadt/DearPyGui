@@ -28,7 +28,7 @@ namespace Marvel {
     //-----------------------------------------------------------------------------
     enum class mvAppItemType
     {
-        None = 0, mvSpacing, mvSameLine, mvInputText, mvButton,
+        None = -1, All, mvSpacing, mvSameLine, mvInputText, mvButton,
         mvRadioButton, mvTabBar, mvTab, mvImage, mvMenuBar, mvViewportMenuBar,
         mvMenu, mvMenuItem, mvGroup, mvChild,
         mvSliderFloat, mvSliderInt, mvFilterSet,
@@ -235,11 +235,17 @@ namespace Marvel {
         [[nodiscard]] virtual int               getDescFlags () const = 0;
         [[nodiscard]] virtual int               getTarget    () const = 0; // which child slot
         [[nodiscard]] virtual StorageValueTypes getValueType () const = 0;
+        [[nodiscard]] virtual const char*       getCommand   () const = 0;
+        [[nodiscard]] virtual const char*       getTypeString() const = 0;
+        [[nodiscard]] virtual const std::vector<std::pair<std::string, int>>& getAllowableParents() const = 0;
+        [[nodiscard]] virtual const std::vector<std::pair<std::string, int>>& getAllowableChildren() const = 0;
+
+        // in process of removing this
+        virtual bool preDraw();
+        virtual void postDraw();
 
         // actual immediate mode drawing instructions
-        virtual bool preDraw();
         virtual void draw(ImDrawList* drawlist, float x, float y) = 0;
-        virtual void postDraw();
 
         //-----------------------------------------------------------------------------
         // usually used for iterating through items and performing an action
@@ -256,14 +262,6 @@ namespace Marvel {
         virtual mvValueVariant getValue() { return nullptr; }
         virtual PyObject*      getPyValue() { return GetPyNone(); }
         virtual void           setPyValue(PyObject* value) { }
-
-        //-----------------------------------------------------------------------------
-        // These methods handle are used by the item registry:
-        //   - isParentCompatible -> will the parent accept the current item
-        //   - canChildBeAdded -> will the current item accept the incoming child
-        //-----------------------------------------------------------------------------
-        virtual bool isParentCompatible(mvAppItemType type) { return true; }
-        virtual bool canChildBeAdded   (mvAppItemType type) { return true; }
 
         // used to check arguments, get/set configurations
         void getItemInfo      (PyObject* dict);
@@ -306,45 +304,49 @@ namespace Marvel {
         //-----------------------------------------------------------------------------
         bool isPosDirty() const { return _dirtyPos; }
 
-        virtual void                        focus          () { _focusNextFrame = true; }
-        virtual void                        unfocus        () { _focusNextFrame = false; }
-        virtual void                        hide           () { _show = false; }
-        virtual void                        show           () { _show = true; }
-        void                                setCallbackData(PyObject* data);
-        void                                updateLocations();
-
-        std::vector<mvRef<mvAppItem>>&      getChildren(int slot);
-        void                                setChildren(int slot, std::vector<mvRef<mvAppItem>> children);
-
-        [[nodiscard]] bool                  isShown        () const { return _show; }
-
-
-        mvAppItemState&                     getState       () { return _state; } 
-        mvAppItem*                          getParent() { return _parentPtr; }
-        bool                                isEnabled() const { return _enabled; }
-        int                                 getWidth() const { return _width; }
-        int                                 getHeight() const { return _height; }
-        mvUUID                              getUUID() const { return _uuid; }
-        const std::string&                  getFilter() const { return _filter; }
-        const std::string&                  getLabel() const { return _label; }
-        const std::string&                  getSpecifiedLabel() const { return _specificedlabel; }
-        mvAppItem*                          getRoot() const;
-        int                                 getLocation() const { return _location; }
-        void                                requestAltCustomAction() { _triggerAlternativeAction = true; }
-        bool                                isAltCustomActionRequested() const { return _triggerAlternativeAction; }
-        bool                                isTracked() const { return _tracked; }
-        float                               getTrackOffset() const { return _trackOffset; }
-        virtual void                        setWidth(int width) { _width = width; }
-        virtual void                        setHeight(int height) { _height = height; }
-        virtual void                        setEnabled   (bool value)              { _enabled = value; }
-        virtual void                        setDataSource(mvUUID value)            { _source = value; }
-        virtual void                        setLabel     (const std::string& value); 
-        void                                setFilter    (const std::string& value); 
-        void                                setPos       (const ImVec2& pos);
-        void                                registerWindowFocusing(); // only useful for imgui window types
-        bool                                shouldFocusNextFrame() const { return _focusNextFrame; }
+        virtual void                   focus          () { _focusNextFrame = true; }
+        virtual void                   unfocus        () { _focusNextFrame = false; }
+        virtual void                   hide           () { _show = false; }
+        virtual void                   show           () { _show = true; }
+        void                           setCallbackData(PyObject* data);
+        void                           updateLocations();
+        std::vector<mvRef<mvAppItem>>& getChildren(int slot);
+        void                           setChildren(int slot, std::vector<mvRef<mvAppItem>> children);
+        [[nodiscard]] bool             isShown        () const { return _show; }
+        mvAppItemState&                getState       () { return _state; } 
+        mvAppItem*                     getParent() { return _parentPtr; }
+        bool                           isEnabled() const { return _enabled; }
+        int                            getWidth() const { return _width; }
+        int                            getHeight() const { return _height; }
+        mvUUID                         getUUID() const { return _uuid; }
+        const std::string&             getFilter() const { return _filter; }
+        const std::string&             getLabel() const { return _label; }
+        const std::string&             getSpecifiedLabel() const { return _specificedlabel; }
+        mvAppItem*                     getRoot() const;
+        int                            getLocation() const { return _location; }
+        void                           requestAltCustomAction() { _triggerAlternativeAction = true; }
+        bool                           isAltCustomActionRequested() const { return _triggerAlternativeAction; }
+        bool                           isTracked() const { return _tracked; }
+        float                          getTrackOffset() const { return _trackOffset; }
+        void                           setWidth(int width) { _dirty_size = true;  _width = width; }
+        void                           setHeight(int height) { _dirty_size = true;  _height = height; }
+        virtual void                   setEnabled   (bool value)              { _enabled = value; }
+        virtual void                   setDataSource(mvUUID value)            { _source = value; }
+        void                           setLabel     (const std::string& value); 
+        void                           setFilter    (const std::string& value); 
+        void                           setPos       (const ImVec2& pos);
+        void                           registerWindowFocusing(); // only useful for imgui window types
+        bool                           shouldFocusNextFrame() const { return _focusNextFrame; }
 
     private:
+
+        //-----------------------------------------------------------------------------
+        // These methods handle are used by the item registry:
+        //   - isParentCompatible -> will the parent accept the current item
+        //   - canChildBeAdded -> will the current item accept the incoming child
+        //-----------------------------------------------------------------------------
+        bool isParentCompatible(mvAppItemType type);
+        bool canChildBeAdded   (mvAppItemType type);
 
         mvAppItem*       getChild(mvUUID uuid);      // will return nullptr if not found
         mvRef<mvAppItem> getChildRef(mvUUID uuid);      // will return nullptr if not found
@@ -416,6 +418,9 @@ namespace Marvel {
         PyObject*   _dragCallback = nullptr;
         PyObject*   _dropCallback = nullptr;
         std::string _payloadType = "$$DPG_PAYLOAD";
+
+        // dirty flags
+        bool _dirty_size = true;
 
     };
 

@@ -61,19 +61,6 @@ namespace Marvel {
 		_triggerAlternativeAction = false;
 	}
 
-	bool mvColorMapRegistry::canChildBeAdded(mvAppItemType type)
-	{
-		if (type == mvAppItemType::mvColorMap) return true;
-
-		mvThrowPythonError(mvErrorCode::mvIncompatibleChild, s_command,
-			"Incompatible child. Acceptable children include: mvColorMap", this);
-
-		MV_ITEM_REGISTRY_ERROR("mvColorMapRegistry children must be mvColorMap only.");
-		assert(false);
-
-		return false;
-	}
-
 	void mvColorMapRegistry::onChildAdd(mvRef<mvAppItem> item)
 	{
 		_triggerAlternativeAction = true;

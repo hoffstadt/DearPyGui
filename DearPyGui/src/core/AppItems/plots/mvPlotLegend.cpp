@@ -44,19 +44,6 @@ namespace Marvel {
 		ImPlot::SetLegendLocation(_legendLocation, _horizontal ? ImPlotOrientation_Horizontal : ImPlotOrientation_Vertical, _outside);
 	}
 
-	bool mvPlotLegend::isParentCompatible(mvAppItemType type)
-	{
-		if (type == mvAppItemType::mvStagingContainer) return true;
-		if (type == mvAppItemType::mvPlot) return true;
-		if (type == mvAppItemType::mvSubPlots) return true;
-
-		mvThrowPythonError(mvErrorCode::mvIncompatibleParent, s_command,
-			"Incompatible parent. Acceptable parents include: subplots, plot, staging container", this);
-		MV_ITEM_REGISTRY_ERROR("Drawing item parent must be a drawing.");
-		assert(false);
-		return false;
-	}
-
 	void mvPlotLegend::hide()
 	{
 		if (auto plot = static_cast<mvPlot*>(_parentPtr))

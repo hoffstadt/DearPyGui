@@ -18,13 +18,13 @@ namespace Marvel {
 		static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
 
 		MV_APPLY_WIDGET_REGISTRATION(mvAppItemType::mvDatePicker, add_date_picker)
+		MV_NO_COMMANDS
+		MV_DEFAULT_PARENTS
+		MV_DEFAULT_CHILDREN
 
 		MV_CREATE_CONSTANT(mvDatePickerLevel_Day, 0L);
 		MV_CREATE_CONSTANT(mvDatePickerLevel_Month, 1L);
 		MV_CREATE_CONSTANT(mvDatePickerLevel_Year, 2L);
-
-		MV_START_COMMANDS
-		MV_END_COMMANDS
 
 		MV_START_CONSTANTS
 			MV_ADD_CONSTANT(mvDatePickerLevel_Day),

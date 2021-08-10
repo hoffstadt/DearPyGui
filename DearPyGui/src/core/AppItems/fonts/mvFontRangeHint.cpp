@@ -32,17 +32,6 @@ namespace Marvel {
 
 	}
 
-	bool mvFontRangeHint::isParentCompatible(mvAppItemType type)
-	{
-		if (type == mvAppItemType::mvFont) return true;
-
-		mvThrowPythonError(mvErrorCode::mvIncompatibleParent, s_command,
-			"Incompatible parent. Acceptable parents include: font", this);
-		MV_ITEM_REGISTRY_ERROR("Drawing item parent must be a drawing.");
-		assert(false);
-		return false;
-	}
-
 	void mvFontRangeHint::handleSpecificRequiredArgs(PyObject* dict)
 	{
 		if (!mvApp::GetApp()->getParsers()[s_command].verifyRequiredArguments(dict))
