@@ -2,6 +2,9 @@
 #include "mvApp.h"
 #include "mvItemRegistry.h"
 #include "mvPythonExceptions.h"
+#include "fonts/mvFont.h"
+#include "themes/mvTheme.h"
+#include "containers/mvDragPayload.h"
 
 namespace Marvel {
 
@@ -44,39 +47,178 @@ namespace Marvel {
 
 	void mvText::draw(ImDrawList* drawlist, float x, float y)
 	{
-		// this fixes the vertical text alignment issue according it DearImGui issue #2317
-		ImGui::AlignTextToFramePadding();
+		//-----------------------------------------------------------------------------
+		// predraw
+		//-----------------------------------------------------------------------------
+		if (!_show)
+			return;
 
-		const ImGuiStyle& style = ImGui::GetStyle();
-		const float w = ImGui::CalcItemWidth();
-		const float textVertCenter = ImGui::GetCursorPosY();
-		const float valueEndX = ImGui::GetCursorPosX() + w;
-
-		if (_color.r >= 0.0f)
-			ImGui::PushStyleColor(ImGuiCol_Text, _color.toVec4());
-
-		if (_wrap >= 0)
-			ImGui::PushTextWrapPos((float)_wrap);
-
-		if (_bullet)
-			ImGui::Bullet();
-
-		//ImGui::Text("%s", _value.c_str());
-		ImGui::TextUnformatted(_value->c_str()); // this doesn't have a buffer size limit
-
-		if (_wrap >= 0)
-			ImGui::PopTextWrapPos();
-
-		if (_color.r >= 0.0f)
-			ImGui::PopStyleColor();
-
-		if (_show_label)
+		if (_focusNextFrame)
 		{
-			ImGui::SameLine();
-			ImGui::SetCursorPos({ valueEndX + style.ItemInnerSpacing.x, textVertCenter });
-			ImGui::TextUnformatted(_specificedlabel.c_str());
+			ImGui::SetKeyboardFocusHere();
+			_focusNextFrame = false;
 		}
 
+		_previousCursorPos = ImGui::GetCursorPos();
+		if (_dirtyPos)
+			ImGui::SetCursorPos(_state.getItemPos());
+
+		_state.setPos({ ImGui::GetCursorPosX(), ImGui::GetCursorPosY() });
+
+		// set item width
+		if (_width != 0)
+			ImGui::SetNextItemWidth((float)_width);
+
+		if (_indent > 0.0f)
+			ImGui::Indent(_indent);
+
+		if (_font)
+		{
+			ImFont* fontptr = static_cast<mvFont*>(_font.get())->getFontPtr();
+			ImGui::PushFont(fontptr);
+		}
+
+
+		if (_enabled)
+		{
+			if (auto classTheme = getClassTheme())
+				static_cast<mvTheme*>(classTheme.get())->draw(nullptr, 0.0f, 0.0f);
+
+			if (_theme)
+				static_cast<mvTheme*>(_theme.get())->draw(nullptr, 0.0f, 0.0f);
+		}
+		else
+		{
+			if (auto classTheme = getClassDisabledTheme())
+				static_cast<mvTheme*>(classTheme.get())->draw(nullptr, 0.0f, 0.0f);
+
+			if (_disabledTheme)
+				static_cast<mvTheme*>(_disabledTheme.get())->draw(nullptr, 0.0f, 0.0f);
+		}
+
+		//-----------------------------------------------------------------------------
+		// draw
+		//-----------------------------------------------------------------------------
+		{
+			// this fixes the vertical text alignment issue according it DearImGui issue #2317
+			ImGui::AlignTextToFramePadding();
+
+			const ImGuiStyle& style = ImGui::GetStyle();
+			const float w = ImGui::CalcItemWidth();
+			const float textVertCenter = ImGui::GetCursorPosY();
+			const float valueEndX = ImGui::GetCursorPosX() + w;
+
+			if (_color.r >= 0.0f)
+				ImGui::PushStyleColor(ImGuiCol_Text, _color.toVec4());
+
+			if (_wrap >= 0)
+				ImGui::PushTextWrapPos((float)_wrap);
+
+			if (_bullet)
+				ImGui::Bullet();
+
+			//ImGui::Text("%s", _value.c_str());
+			ImGui::TextUnformatted(_value->c_str()); // this doesn't have a buffer size limit
+
+			if (_wrap >= 0)
+				ImGui::PopTextWrapPos();
+
+			if (_color.r >= 0.0f)
+				ImGui::PopStyleColor();
+
+			if (_show_label)
+			{
+				ImGui::SameLine();
+				ImGui::SetCursorPos({ valueEndX + style.ItemInnerSpacing.x, textVertCenter });
+				ImGui::TextUnformatted(_specificedlabel.c_str());
+			}
+		}
+
+		//-----------------------------------------------------------------------------
+		// update state
+		//   * only update if applicable
+		//-----------------------------------------------------------------------------
+
+		_state._hovered = ImGui::IsItemHovered();
+		_state._active = ImGui::IsItemActive();
+		_state._focused = ImGui::IsItemFocused();
+		_state._leftclicked = ImGui::IsItemClicked();
+		_state._rightclicked = ImGui::IsItemClicked(1);
+		_state._middleclicked = ImGui::IsItemClicked(2);
+		_state._visible = ImGui::IsItemVisible();
+		_state._edited = ImGui::IsItemEdited();
+		_state._activated = ImGui::IsItemActivated();
+		_state._deactivated = ImGui::IsItemDeactivated();
+		_state._deactivatedAfterEdit = ImGui::IsItemDeactivatedAfterEdit();
+		_state._toggledOpen = ImGui::IsItemToggledOpen();
+		_state._rectMin = { ImGui::GetItemRectMin().x, ImGui::GetItemRectMin().y };
+		_state._rectMax = { ImGui::GetItemRectMax().x, ImGui::GetItemRectMax().y };
+		_state._rectSize = { ImGui::GetItemRectSize().x, ImGui::GetItemRectSize().y };
+		_state._contextRegionAvail = { ImGui::GetContentRegionAvail().x, ImGui::GetContentRegionAvail().y };
+
+		//-----------------------------------------------------------------------------
+		// postdraw
+		//-----------------------------------------------------------------------------
+		if (_dirtyPos)
+			ImGui::SetCursorPos(_previousCursorPos);
+
+		if (_indent > 0.0f)
+			ImGui::Unindent(_indent);
+
+		if (_font)
+		{
+			ImGui::PopFont();
+		}
+
+		if (_enabled)
+		{
+			if (auto classTheme = getClassTheme())
+				static_cast<mvTheme*>(classTheme.get())->customAction();
+
+			if (_theme)
+				static_cast<mvTheme*>(_theme.get())->customAction();
+		}
+		else
+		{
+			if (auto classTheme = getClassDisabledTheme())
+				static_cast<mvTheme*>(classTheme.get())->customAction();
+
+			if (_disabledTheme)
+				static_cast<mvTheme*>(_disabledTheme.get())->customAction();
+		}
+
+		// event handlers
+		for (auto& item : _children[3])
+		{
+			if (!item->preDraw())
+				continue;
+
+			item->draw(nullptr, ImGui::GetCursorPosX(), ImGui::GetCursorPosY());
+		}
+
+		// drag drop
+		for (auto& item : _children[4])
+		{
+			if (!item->preDraw())
+				continue;
+
+			item->draw(nullptr, ImGui::GetCursorPosX(), ImGui::GetCursorPosY());
+		}
+
+		if (_dropCallback)
+		{
+			ScopedID id(_uuid);
+			if (ImGui::BeginDragDropTarget())
+			{
+				if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload(_payloadType.c_str()))
+				{
+					auto payloadActual = static_cast<const mvDragPayload*>(payload->Data);
+					mvApp::GetApp()->getCallbackRegistry().addCallback(getDropCallback(), _uuid, payloadActual->getDragData(), nullptr);
+				}
+
+				ImGui::EndDragDropTarget();
+			}
+		}
 	}
 
 	void mvText::handleSpecificPositionalArgs(PyObject* dict)
