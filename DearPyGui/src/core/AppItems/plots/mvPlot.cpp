@@ -198,51 +198,6 @@ namespace Marvel {
 
 	}
 
-	bool mvPlot::canChildBeAdded(mvAppItemType type)
-	{
-		if (type == mvAppItemType::mvPlotLegend) return true;
-		if (type == mvAppItemType::mvPlotAxis) return true;
-
-		if (type == mvAppItemType::mvDragPoint) return true;
-		if (type == mvAppItemType::mvDragLine) return true;
-		if (type == mvAppItemType::mvAnnotation) return true;
-
-		if (type == mvAppItemType::mvDrawLine) return true;
-		if (type == mvAppItemType::mvDrawArrow) return true;
-		if (type == mvAppItemType::mvDrawTriangle) return true;
-		if (type == mvAppItemType::mvDrawCircle) return true;
-		if (type == mvAppItemType::mvDrawEllipse) return true;
-		if (type == mvAppItemType::mvDrawBezierCubic) return true;
-		if (type == mvAppItemType::mvDrawBezierQuadratic) return true;
-		if (type == mvAppItemType::mvDrawQuad) return true;
-		if (type == mvAppItemType::mvDrawRect) return true;
-		if (type == mvAppItemType::mvDrawText) return true;
-		if (type == mvAppItemType::mvDrawPolygon) return true;
-		if (type == mvAppItemType::mvDrawPolyline) return true;
-		if (type == mvAppItemType::mvDrawImage) return true;
-		if (type == mvAppItemType::mvDrawLayer) return true;
-
-		if (type == mvAppItemType::mvActivatedHandler) return true;
-		if (type == mvAppItemType::mvActiveHandler) return true;
-		if (type == mvAppItemType::mvClickedHandler) return true;
-		if (type == mvAppItemType::mvDeactivatedAfterEditHandler) return true;
-		if (type == mvAppItemType::mvDeactivatedHandler) return true;
-		if (type == mvAppItemType::mvEditedHandler) return true;
-		if (type == mvAppItemType::mvFocusHandler) return true;
-		if (type == mvAppItemType::mvHoverHandler) return true;
-		if (type == mvAppItemType::mvResizeHandler) return true;
-		if (type == mvAppItemType::mvToggledOpenHandler) return true;
-		if (type == mvAppItemType::mvVisibleHandler) return true;
-
-		mvThrowPythonError(mvErrorCode::mvIncompatibleChild, s_command,
-			"Incompatible child. Acceptable children include: mvDraw*, mvDragPoint, mvDragLine, mvAnnotation, mvPlotLegend, mvPlotAxis", this);
-
-		MV_ITEM_REGISTRY_ERROR("Plot children must be compatible.");
-		assert(false);
-
-		return false;
-	}
-
 	void mvPlot::SetColorMap(ImPlotColormap colormap)
 	{
 		_colormap = colormap;
@@ -257,7 +212,7 @@ namespace Marvel {
 
 		if (_newColorMap)
 		{
-			ImPlot::BustColorCache(_label.c_str());
+			ImPlot::BustColorCache(_internalLabel.c_str());
 			_newColorMap = false;
 		}
 
@@ -297,7 +252,7 @@ namespace Marvel {
 			_axisfitDirty[3] = false;
 		}
 
-		if (ImPlot::BeginPlot(_label.c_str(), 
+		if (ImPlot::BeginPlot(_internalLabel.c_str(), 
 			_xaxisName.empty() ? nullptr : _xaxisName.c_str(), 
 			_y1axisName.empty() ? nullptr : _y1axisName.c_str(),
 			ImVec2((float)_width, (float)_height), 

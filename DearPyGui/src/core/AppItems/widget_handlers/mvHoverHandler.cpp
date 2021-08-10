@@ -30,16 +30,6 @@ namespace Marvel {
 
 	}
 
-	bool mvHoverHandler::isParentCompatible(mvAppItemType type)
-	{
-		return true;
-
-		//mvThrowPythonError(mvErrorCode::mv1None, "Drawing item parent must be a drawing.");
-		//MV_ITEM_REGISTRY_ERROR("Drawing item parent must be a drawing.");
-		//assert(false);
-		//return false;
-	}
-
 	void mvHoverHandler::draw(ImDrawList* drawlist, float x, float y)
 	{
 

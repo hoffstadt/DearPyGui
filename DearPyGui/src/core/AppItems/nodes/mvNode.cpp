@@ -64,41 +64,11 @@ namespace Marvel {
 	mvNode::mvNode(mvUUID uuid)
 		: mvAppItem(uuid)
 	{
-		_label = FindRenderedTextEnd(_label.c_str()) + std::to_string(_uuid);
-		_specificedlabel = _label;
+		_internalLabel = FindRenderedTextEnd(_internalLabel.c_str()) + std::to_string(_uuid);
+		_specificedlabel = _internalLabel;
         int64_t address = (int64_t)this;
         int64_t reduced_address = address % 2147483648;
         _id = (int)reduced_address;
-	}
-
-	bool mvNode::isParentCompatible(mvAppItemType type)
-	{
-		if (type == mvAppItemType::mvStagingContainer) return true;
-		if (type == mvAppItemType::mvNodeEditor) return true;
-
-		mvThrowPythonError(mvErrorCode::mvIncompatibleParent, s_command,
-			"Incompatible parent. Acceptable parents include: node editor, staging container", this);
-		MV_ITEM_REGISTRY_ERROR("Node parent must be node editor.");
-		assert(false);
-		return false;
-	}
-
-	bool mvNode::canChildBeAdded(mvAppItemType type)
-	{
-		if (type == mvAppItemType::mvNodeAttribute) return true;
-
-		if (type == mvAppItemType::mvActiveHandler) return true;
-		if (type == mvAppItemType::mvClickedHandler) return true;
-		if (type == mvAppItemType::mvHoverHandler) return true;
-		if (type == mvAppItemType::mvVisibleHandler) return true;
-
-		mvThrowPythonError(mvErrorCode::mvIncompatibleChild, s_command,
-			"Incompatible child. Acceptable children include: mvNodeAttribute", this);
-
-		MV_ITEM_REGISTRY_ERROR("Node children must be node attributes only.");
-		assert(false);
-
-		return false;
 	}
 
 	void mvNode::draw(ImDrawList* drawlist, float x, float y)

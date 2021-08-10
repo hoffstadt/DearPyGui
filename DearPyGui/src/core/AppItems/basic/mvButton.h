@@ -12,6 +12,9 @@ namespace Marvel {
 		static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
 
 		MV_APPLY_WIDGET_REGISTRATION(mvAppItemType::mvButton, add_button)
+		MV_NO_COMMANDS
+		MV_DEFAULT_PARENTS
+		MV_DEFAULT_CHILDREN
 
 		MV_CREATE_CONSTANT(mvTool_About, MV_TOOL_ABOUT_UUID);
 		MV_CREATE_CONSTANT(mvTool_Debug, MV_TOOL_DEBUG_UUID);
@@ -30,9 +33,6 @@ namespace Marvel {
 		MV_CREATE_CONSTANT(mvDir_Right, ImGuiDir_Right);
 		MV_CREATE_CONSTANT(mvDir_Up, ImGuiDir_Up);
 		MV_CREATE_CONSTANT(mvDir_Down, ImGuiDir_Down);
-
-		MV_START_COMMANDS
-		MV_END_COMMANDS
 
 		MV_START_CONSTANTS
 			MV_ADD_CONSTANT(mvTool_About),

@@ -16,12 +16,13 @@ namespace Marvel {
 		static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
 
 		MV_APPLY_WIDGET_REGISTRATION(mvAppItemType::mvImageSeries, add_image_series)
+		MV_NO_COMMANDS
+		MV_DEFAULT_CHILDREN
+		MV_NO_CONSTANTS
 
-		MV_START_COMMANDS
-		MV_END_COMMANDS
-
-		MV_START_CONSTANTS
-		MV_END_CONSTANTS
+		MV_START_PARENTS
+			MV_ADD_PARENT(mvAppItemType::mvPlotAxis)
+		MV_END_PARENTS
 
 	public:
 
@@ -33,10 +34,9 @@ namespace Marvel {
 
 		void draw(ImDrawList* drawlist, float x, float y) override;
 		void setDataSource(mvUUID dataSource) override;
-		mvValueVariant getValue() override { return _value; }
+		void* getValue() override { return &_value; }
 		PyObject* getPyValue() override;
 		void setPyValue(PyObject* value) override;
-		bool isParentCompatible(mvAppItemType type) override;
 		void handleSpecificRequiredArgs(PyObject* args) override;
 		void handleSpecificKeywordArgs(PyObject* dict) override;
 		void getSpecificConfiguration(PyObject* dict) override;

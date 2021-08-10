@@ -36,26 +36,4 @@ namespace Marvel {
 		}
 
 	}
-
-	bool mvHandlerRegistry::canChildBeAdded(mvAppItemType type)
-	{
-		if (type == mvAppItemType::mvKeyDownHandler) return true;
-		if (type == mvAppItemType::mvKeyPressHandler) return true;
-		if (type == mvAppItemType::mvKeyReleaseHandler) return true;
-		if (type == mvAppItemType::mvMouseMoveHandler) return true;
-		if (type == mvAppItemType::mvMouseWheelHandler) return true;
-		if (type == mvAppItemType::mvMouseClickHandler) return true;
-		if (type == mvAppItemType::mvMouseDoubleClickHandler) return true;
-		if (type == mvAppItemType::mvMouseDownHandler) return true;
-		if (type == mvAppItemType::mvMouseReleaseHandler) return true;
-		if (type == mvAppItemType::mvMouseDragHandler) return true;
-
-		mvThrowPythonError(mvErrorCode::mvIncompatibleChild, s_command,
-			"Incompatible child. Acceptable children include: mv*Handler", this);
-
-		MV_ITEM_REGISTRY_ERROR("Drawing children must be draw commands only.");
-		assert(false);
-
-		return false;
-	}
 }

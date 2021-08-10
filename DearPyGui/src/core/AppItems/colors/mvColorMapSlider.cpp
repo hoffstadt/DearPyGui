@@ -43,7 +43,7 @@ namespace Marvel {
 	{
 		ScopedID id(_uuid);
 
-		if (ImPlot::ColormapSlider(_label.c_str(), _value.get(), &_color, "", _colormap))
+		if (ImPlot::ColormapSlider(_internalLabel.c_str(), _value.get(), &_color, "", _colormap))
 			mvApp::GetApp()->getCallbackRegistry().submitCallback([=]() {
 			mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), _uuid, ToPyFloat(*_value), _user_data);
 				});
@@ -78,7 +78,7 @@ namespace Marvel {
 				"Values types do not match: " + std::to_string(dataSource), this);
 			return;
 		}
-		_value = std::get<std::shared_ptr<float>>(item->getValue());
+		_value = *static_cast<std::shared_ptr<float>*>(item->getValue());
 	}
 
 }

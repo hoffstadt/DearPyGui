@@ -31,14 +31,6 @@ namespace Marvel {
 
 	}
 
-	bool mvResizeHandler::isParentCompatible(mvAppItemType type)
-	{
-		if (type == mvAppItemType::mvWindowAppItem) return true;
-		MV_ITEM_REGISTRY_ERROR("mvResizeHandler item parent must be a Window.");
-		assert(false);
-		return false;
-	}
-
 	void mvResizeHandler::draw(ImDrawList* drawlist, float x, float y)
 	{
 

@@ -16,6 +16,8 @@ namespace Marvel {
 		static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
 
 		MV_APPLY_WIDGET_REGISTRATION(mvAppItemType::mvNodeEditor, add_node_editor)
+		MV_DEFAULT_PARENTS
+		MV_NO_CONSTANTS
 
 		MV_CREATE_COMMAND(get_selected_nodes);
 		MV_CREATE_COMMAND(get_selected_links);
@@ -29,8 +31,22 @@ namespace Marvel {
 			MV_ADD_COMMAND(clear_selected_links);
 		MV_END_COMMANDS
 
-		MV_START_CONSTANTS
-		MV_END_CONSTANTS
+		MV_START_CHILDREN
+			MV_ADD_CHILD(mvAppItemType::mvMenuBar),
+			MV_ADD_CHILD(mvAppItemType::mvNode),
+			MV_ADD_CHILD(mvAppItemType::mvNodeLink),
+			MV_ADD_CHILD(mvAppItemType::mvActivatedHandler),
+			MV_ADD_CHILD(mvAppItemType::mvActiveHandler),
+			MV_ADD_CHILD(mvAppItemType::mvClickedHandler),
+			MV_ADD_CHILD(mvAppItemType::mvDeactivatedAfterEditHandler),
+			MV_ADD_CHILD(mvAppItemType::mvDeactivatedHandler),
+			MV_ADD_CHILD(mvAppItemType::mvEditedHandler),
+			MV_ADD_CHILD(mvAppItemType::mvFocusHandler),
+			MV_ADD_CHILD(mvAppItemType::mvHoverHandler) ,
+			MV_ADD_CHILD(mvAppItemType::mvResizeHandler),
+			MV_ADD_CHILD(mvAppItemType::mvToggledOpenHandler),
+			MV_ADD_CHILD(mvAppItemType::mvVisibleHandler)
+		MV_END_CHILDREN
 
 	public:
 
@@ -40,7 +56,6 @@ namespace Marvel {
 		void handleSpecificKeywordArgs(PyObject* dict) override;
 		void getSpecificConfiguration(PyObject* dict) override;
 
-		bool canChildBeAdded(mvAppItemType type) override;
 		void onChildRemoved(mvRef<mvAppItem> item) override;
 
 		std::vector<mvUUID> getSelectedNodes() const;

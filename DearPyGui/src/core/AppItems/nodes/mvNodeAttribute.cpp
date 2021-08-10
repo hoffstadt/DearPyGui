@@ -43,19 +43,6 @@ namespace Marvel {
 		_id = (int)reduced_address;
 	}
 
-	bool mvNodeAttribute::isParentCompatible(mvAppItemType type)
-	{
-		if (type == mvAppItemType::mvStagingContainer) return true;
-		if(type == mvAppItemType::mvNode) return true;
-		
-		mvThrowPythonError(mvErrorCode::mvIncompatibleParent, s_command,
-			"Incompatible parent. Acceptable parents include: node, staging container", this);
-
-		MV_ITEM_REGISTRY_ERROR("Node attribute parent must be node.");
-		assert(false);
-		return false;
-	}
-
 	void mvNodeAttribute::draw(ImDrawList* drawlist, float x, float y)
 	{
 		ScopedID id(_uuid);

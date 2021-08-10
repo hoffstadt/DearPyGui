@@ -65,18 +65,7 @@ namespace Marvel {
 				"Values types do not match: " + std::to_string(dataSource), this);
 			return;
 		}
-		_value = std::get<std::shared_ptr<std::vector<std::vector<double>>>>(item->getValue());
-	}
-
-	bool mvShadeSeries::isParentCompatible(mvAppItemType type)
-	{
-		if (type == mvAppItemType::mvPlotAxis) return true;
-
-		mvThrowPythonError(mvErrorCode::mvIncompatibleParent, s_command,
-			"Incompatible parent. Acceptable parents include: plot axis", this);
-
-		assert(false);
-		return false;
+		_value = *static_cast<std::shared_ptr<std::vector<std::vector<double>>>*>(item->getValue());
 	}
 
 	void mvShadeSeries::draw(ImDrawList* drawlist, float x, float y)
@@ -120,11 +109,11 @@ namespace Marvel {
 			y1ptr = &(*_value.get())[1];
 			y2ptr = &(*_value.get())[2];
 
-			ImPlot::PlotShaded(_label.c_str(), xptr->data(), y1ptr->data(),
+			ImPlot::PlotShaded(_internalLabel.c_str(), xptr->data(), y1ptr->data(),
 				y2ptr->data(), (int)xptr->size());
 
 			// Begin a popup for a legend entry.
-			if (ImPlot::BeginLegendPopup(_label.c_str(), 1))
+			if (ImPlot::BeginLegendPopup(_internalLabel.c_str(), 1))
 			{
 				for (auto& childset : _children)
 				{

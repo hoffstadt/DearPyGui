@@ -30,18 +30,6 @@ namespace Marvel {
 
 	}
 
-	bool mvKeyPressHandler::isParentCompatible(mvAppItemType type)
-	{
-		if (type == mvAppItemType::mvStagingContainer) return true;
-		if (type == mvAppItemType::mvHandlerRegistry) return true;
-
-		mvThrowPythonError(mvErrorCode::mvIncompatibleParent, s_command,
-			"Incompatible parent. Acceptable parents include: staging container, handler registry", this);
-		MV_ITEM_REGISTRY_ERROR("Drawing item parent must be a drawing.");
-		assert(false);
-		return false;
-	}
-
 	void mvKeyPressHandler::draw(ImDrawList* drawlist, float x, float y)
 	{
 		if (_key == -1)

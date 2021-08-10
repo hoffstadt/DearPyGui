@@ -39,32 +39,6 @@ namespace Marvel {
 	{
 	}
 
-
-	bool mvTabBar::canChildBeAdded(mvAppItemType type)
-	{
-		if (type == mvAppItemType::mvTab)return true;
-		if (type == mvAppItemType::mvTabButton)return true;
-		if (type == mvAppItemType::mvActivatedHandler) return true;
-		if (type == mvAppItemType::mvActiveHandler) return true;
-		if (type == mvAppItemType::mvClickedHandler) return true;
-		if (type == mvAppItemType::mvDeactivatedAfterEditHandler) return true;
-		if (type == mvAppItemType::mvDeactivatedHandler) return true;
-		if (type == mvAppItemType::mvEditedHandler) return true;
-		if (type == mvAppItemType::mvFocusHandler) return true;
-		if (type == mvAppItemType::mvHoverHandler) return true;
-		if (type == mvAppItemType::mvResizeHandler) return true;
-		if (type == mvAppItemType::mvToggledOpenHandler) return true;
-		if (type == mvAppItemType::mvVisibleHandler) return true;
-
-		mvThrowPythonError(mvErrorCode::mvIncompatibleChild, s_command,
-			"Incompatible child. Acceptable children include: tab, tab button", this);
-
-		MV_ITEM_REGISTRY_ERROR("TabBar children must be tabs or tab buttons.");
-		assert(false);
-
-		return false;
-	}
-
 	mvUUID mvTabBar::getSpecificValue()
 	{
 		return _uiValue;
@@ -103,7 +77,7 @@ namespace Marvel {
 				"Values types do not match: " + std::to_string(dataSource), this);
 			return;
 		}
-		_value = std::get<std::shared_ptr<mvUUID>>(item->getValue());
+		_value = *static_cast<std::shared_ptr<mvUUID>*>(item->getValue());
 	}
 
 	void mvTabBar::draw(ImDrawList* drawlist, float x, float y)
@@ -112,7 +86,7 @@ namespace Marvel {
 
 		ImGui::BeginGroup();
 
-		if (ImGui::BeginTabBar(_label.c_str(), _flags))
+		if (ImGui::BeginTabBar(_internalLabel.c_str(), _flags))
 		{
 
 			for (auto& item : _children[1])

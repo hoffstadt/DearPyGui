@@ -13,21 +13,18 @@ namespace Marvel {
 		static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
 
 		MV_APPLY_WIDGET_REGISTRATION(mvAppItemType::mvSelectable, add_selectable)
-
-		MV_START_COMMANDS
-		MV_END_COMMANDS
-
-		MV_START_CONSTANTS
-		MV_END_CONSTANTS
+		MV_NO_COMMANDS
+		MV_DEFAULT_PARENTS
+		MV_DEFAULT_CHILDREN
+		MV_NO_CONSTANTS
 
 	public:
 
 		mvSelectable(mvUUID uuid);
 
-		void setEnabled(bool value)     override;
 		void draw(ImDrawList* drawlist, float x, float y) override;
 		void setDataSource(mvUUID dataSource) override;
-		mvValueVariant getValue() override { return _value; }
+		void* getValue() override { return &_value; }
 		PyObject* getPyValue() override;
 		void setPyValue(PyObject* value) override;
 		void handleSpecificKeywordArgs(PyObject* dict) override;

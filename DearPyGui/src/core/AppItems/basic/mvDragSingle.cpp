@@ -116,25 +116,7 @@ namespace Marvel {
                 "Values types do not match: " + std::to_string(dataSource), this);
             return;
         }
-        _value = std::get<std::shared_ptr<float>>(item->getValue());
-    }
-
-    void mvDragFloat::setEnabled(bool value)
-    {
-        if (value == _enabled)
-            return;
-
-        if (value)
-        {
-            _flags = _stor_flags;
-        }
-        else
-        {
-            _stor_flags = _flags;
-            _flags |= ImGuiSliderFlags_NoInput;
-        }
-
-        _enabled = value;
+        _value = *static_cast<std::shared_ptr<float>*>(item->getValue());
     }
 
     void mvDragFloat::draw(ImDrawList* drawlist, float x, float y)
@@ -143,7 +125,7 @@ namespace Marvel {
 
         if (!_enabled) _disabled_value = *_value;
 
-        if (ImGui::DragFloat(_label.c_str(), _enabled ? _value.get() : &_disabled_value, _speed, _min, _max, _format.c_str(), _flags))
+        if (ImGui::DragFloat(_internalLabel.c_str(), _enabled ? _value.get() : &_disabled_value, _speed, _min, _max, _format.c_str(), _flags))
         {
             auto value = *_value;
             mvApp::GetApp()->getCallbackRegistry().submitCallback([=]() {
@@ -176,7 +158,7 @@ namespace Marvel {
                 "Values types do not match: " + std::to_string(dataSource), this);
             return;
         }
-        _value = std::get<std::shared_ptr<int>>(item->getValue());
+        _value = *static_cast<std::shared_ptr<int>*>(item->getValue());
     }
 
     PyObject* mvDragInt::getPyValue()
@@ -189,30 +171,13 @@ namespace Marvel {
         *_value = ToInt(value);
     }
 
-    void mvDragInt::setEnabled(bool value)
-    {
-        if (value == _enabled)
-            return;
-
-        if (value)
-            _flags = _stor_flags;
-
-        else
-        {
-            _stor_flags = _flags;
-            _flags |= ImGuiSliderFlags_NoInput;
-        }
-
-        _enabled = value;
-    }
-
     void mvDragInt::draw(ImDrawList* drawlist, float x, float y)
     {
         ScopedID id(_uuid);
 
         if (!_enabled) _disabled_value = *_value;
 
-        if (ImGui::DragInt(_label.c_str(), _enabled ? _value.get() : &_disabled_value, _speed, _min, _max, _format.c_str(), _flags))
+        if (ImGui::DragInt(_internalLabel.c_str(), _enabled ? _value.get() : &_disabled_value, _speed, _min, _max, _format.c_str(), _flags))
         {
             auto value = *_value;
             mvApp::GetApp()->getCallbackRegistry().submitCallback([=]() {
@@ -242,6 +207,15 @@ namespace Marvel {
         flagop("clamped", ImGuiSliderFlags_ClampOnInput, _stor_flags);
         flagop("no_input", ImGuiSliderFlags_NoInput, _flags);
         flagop("no_input", ImGuiSliderFlags_NoInput, _stor_flags);
+
+        if (wasEnabledLastFrameReset())
+            _flags = _stor_flags;
+
+        if (wasDisabledLastFrameReset())
+        {
+            _stor_flags = _flags;
+            _flags |= ImGuiSliderFlags_NoInput;
+        }
 
     }
 
@@ -288,6 +262,15 @@ namespace Marvel {
         flagop("clamped", ImGuiSliderFlags_ClampOnInput, _stor_flags);
         flagop("no_input", ImGuiSliderFlags_NoInput, _flags);
         flagop("no_input", ImGuiSliderFlags_NoInput, _stor_flags);
+
+        if (wasEnabledLastFrameReset())
+            _flags = _stor_flags;
+
+        if (wasDisabledLastFrameReset())
+        {
+            _stor_flags = _flags;
+            _flags |= ImGuiSliderFlags_NoInput;
+        }
     }
 
     void mvDragInt::getSpecificConfiguration(PyObject* dict)

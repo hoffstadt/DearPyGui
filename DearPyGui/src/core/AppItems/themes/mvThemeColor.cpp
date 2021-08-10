@@ -34,18 +34,6 @@ namespace Marvel {
 	{
 	}
 
-	bool mvThemeColor::isParentCompatible(mvAppItemType type)
-	{
-		if (type == mvAppItemType::mvTheme) return true;
-
-		mvThrowPythonError(mvErrorCode::mvIncompatibleParent, s_command,
-			"Incompatible parent. Acceptable parents include: mvTheme", this);
-
-		MV_ITEM_REGISTRY_ERROR("Item's parent must be plot.");
-		assert(false);
-		return false;
-	}
-
 	void mvThemeColor::draw(ImDrawList* drawlist, float x, float y)
 	{
 		ImVec4 color = ImVec4((*_value)[0], (*_value)[1], (*_value)[2], (*_value)[3]);
@@ -200,6 +188,6 @@ namespace Marvel {
 				"Values types do not match: " + std::to_string(dataSource), this);
 			return;
 		}
-		_value = std::get<std::shared_ptr<std::array<float, 4>>>(item->getValue());
+		_value = *static_cast<std::shared_ptr<std::array<float, 4>>*>(item->getValue());
 	}
 }

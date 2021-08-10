@@ -106,7 +106,6 @@ namespace Marvel {
         bool                           moveItemUp        (mvUUID uuid);
         bool                           moveItemDown      (mvUUID uuid);
         void                           clearRegistry     ();
-        mvValueVariant                 getValue          (mvUUID uuid);
         mvAppItem*                     getItem           (mvUUID uuid);
         mvRef<mvAppItem>               getRefItem        (mvUUID uuid);
         mvWindowAppItem*               getWindow         (mvUUID uuid);

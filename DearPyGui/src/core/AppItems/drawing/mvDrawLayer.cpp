@@ -28,47 +28,6 @@ namespace Marvel {
 
 	}
 
-	bool mvDrawLayer::isParentCompatible(mvAppItemType type)
-	{
-		if (type == mvAppItemType::mvStagingContainer) return true;
-		if (type == mvAppItemType::mvDrawlist) return true;
-		if (type == mvAppItemType::mvWindowAppItem) return true;
-		if (type == mvAppItemType::mvDrawLayer) return true;
-		if (type == mvAppItemType::mvPlot) return true;
-		if (type == mvAppItemType::mvViewportDrawlist) return true;
-
-		mvThrowPythonError(mvErrorCode::mvIncompatibleParent, s_command,
-			"Incompatible parent. Acceptable parents include: staging container, drawlist, layer, window, plot, viewport drawlist.", this);
-
-		MV_ITEM_REGISTRY_ERROR("Drawing item parent must be a drawing.");
-		assert(false);
-		return false;
-	}
-
-	bool mvDrawLayer::canChildBeAdded(mvAppItemType type)
-	{
-		if (type == mvAppItemType::mvDrawLine) return true;
-		if (type == mvAppItemType::mvDrawArrow) return true;
-		if (type == mvAppItemType::mvDrawTriangle) return true;
-		if (type == mvAppItemType::mvDrawCircle) return true;
-		if (type == mvAppItemType::mvDrawEllipse) return true;
-		if (type == mvAppItemType::mvDrawBezierCubic) return true;
-		if (type == mvAppItemType::mvDrawBezierQuadratic) return true;
-		if (type == mvAppItemType::mvDrawQuad) return true;
-		if (type == mvAppItemType::mvDrawRect) return true;
-		if (type == mvAppItemType::mvDrawText) return true;
-		if (type == mvAppItemType::mvDrawPolygon) return true;
-		if (type == mvAppItemType::mvDrawPolyline) return true;
-		if (type == mvAppItemType::mvDrawImage) return true;
-
-		mvThrowPythonError(mvErrorCode::mvIncompatibleChild, s_command,
-			"Incompatible child. Acceptable children include: mvDraw*", this);
-		MV_ITEM_REGISTRY_ERROR("Drawing children must be draw commands only.");
-		assert(false);
-
-		return false;
-	}
-
 	void mvDrawLayer::draw(ImDrawList* drawlist, float x, float y)
 	{
 		for (auto& item : _children[2])

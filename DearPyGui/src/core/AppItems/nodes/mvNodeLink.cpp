@@ -37,19 +37,6 @@ namespace Marvel {
 		_id0 = (int)reduced_address;
 	}
 
-	bool mvNodeLink::isParentCompatible(mvAppItemType type)
-	{
-		if (type == mvAppItemType::mvStagingContainer) return true;
-		if (type == mvAppItemType::mvNodeEditor) return true;
-
-		mvThrowPythonError(mvErrorCode::mvIncompatibleParent, s_command,
-			"Incompatible parent. Acceptable parents include: node editor, staging container", this);
-
-		MV_ITEM_REGISTRY_ERROR("Node link parent must be node editor.");
-		assert(false);
-		return false;
-	}
-
 	void mvNodeLink::handleSpecificRequiredArgs(PyObject* dict)
 	{
 		if (!mvApp::GetApp()->getParsers()[s_command].verifyRequiredArguments(dict))

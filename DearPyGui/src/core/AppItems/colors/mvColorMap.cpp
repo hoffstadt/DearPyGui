@@ -73,18 +73,6 @@ namespace Marvel {
         _colorMap = startmap++;
     }
 
-    bool mvColorMap::isParentCompatible(mvAppItemType type)
-    {
-        if (type == mvAppItemType::mvColorMapRegistry) return true;
-
-        mvThrowPythonError(mvErrorCode::mvIncompatibleParent, s_command,
-            "Incompatible parent. Acceptable parents include: mvColorMapRegistry", this);
-
-        MV_ITEM_REGISTRY_ERROR("mvColorMap parent must be a mvColorMapRegistry.");
-        assert(false);
-        return false;
-    }
-
     void mvColorMap::handleSpecificRequiredArgs(PyObject* dict)
     {
         if (!mvApp::GetApp()->getParsers()[s_command].verifyRequiredArguments(dict))
@@ -129,7 +117,7 @@ namespace Marvel {
     {
         ScopedID id(_uuid);
 
-        ImPlot::ColormapButton(_label.c_str(), ImVec2(-1.0f, 0.0f), _colorMap);
+        ImPlot::ColormapButton(_internalLabel.c_str(), ImVec2(-1.0f, 0.0f), _colorMap);
     }
 
     void mvColorMap::alternativeCustomAction()
@@ -137,7 +125,7 @@ namespace Marvel {
         if (_created)
             return;
 
-        _colorMap = ImPlot::AddColormap(_label.c_str(), _colors.data(), _colors.size(), _qualitative);
+        _colorMap = ImPlot::AddColormap(_internalLabel.c_str(), _colors.data(), _colors.size(), _qualitative);
         _created = true;
 
         _triggerAlternativeAction = false;

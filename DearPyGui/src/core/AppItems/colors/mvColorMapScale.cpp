@@ -50,7 +50,7 @@ namespace Marvel {
     {
         ScopedID id(_uuid);
 
-        ImPlot::ColormapScale(_label.c_str(), _scale_min, _scale_max, ImVec2((float)_width, (float)_height), _colormap);
+        ImPlot::ColormapScale(_internalLabel.c_str(), _scale_min, _scale_max, ImVec2((float)_width, (float)_height), _colormap);
     }
 
     void mvColorMapScale::handleSpecificKeywordArgs(PyObject* dict)

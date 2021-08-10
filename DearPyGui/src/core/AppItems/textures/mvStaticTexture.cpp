@@ -40,20 +40,6 @@ namespace Marvel {
 		FreeTexture(_texture);
 	}
 
-
-	bool mvStaticTexture::isParentCompatible(mvAppItemType type)
-	{
-		if (type == mvAppItemType::mvStagingContainer) return true;
-		if (type == mvAppItemType::mvTextureRegistry) return true;
-
-		mvThrowPythonError(mvErrorCode::mvIncompatibleParent, s_command,
-			"Incompatible parent. Acceptable parents include: mvTextureRegistry, mvStagingContainer.", this);
-
-		MV_ITEM_REGISTRY_ERROR("Drawing item parent must be a drawing.");
-		assert(false);
-		return false;
-	}
-
 	void mvStaticTexture::draw(ImDrawList* drawlist, float x, float y)
 	{
 		if (!_dirty)
@@ -69,7 +55,7 @@ namespace Marvel {
 			_height = ImGui::GetIO().Fonts->TexHeight;
 		}
 		else
-			_texture = LoadTextureFromArray(_width, _height, _value->data());
+			_texture = LoadTextureFromArray(_permWidth, _permHeight, _value->data());
 
 		if (_texture == nullptr)
 		{
@@ -93,11 +79,13 @@ namespace Marvel {
 			switch (i)
 			{
 			case 0:
-				_width = ToInt(item);
+				_permWidth = ToInt(item);
+				_width = _permWidth;
 				break;
 
 			case 1:
-				_height = ToInt(item);
+				_permHeight = ToInt(item);
+				_height = _permHeight;
 				break;
 
 			case 2:
@@ -138,7 +126,7 @@ namespace Marvel {
 				"Values types do not match: " + std::to_string(dataSource), this);
 			return;
 		}
-		_value = std::get<std::shared_ptr<std::vector<float>>>(item->getValue());
+		_value = *static_cast<std::shared_ptr<std::vector<float>>*>(item->getValue());
 	}
 
 }

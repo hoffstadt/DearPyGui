@@ -13,6 +13,8 @@ namespace Marvel {
 		static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
 
 		MV_APPLY_WIDGET_REGISTRATION(mvAppItemType::mvPlotLegend, add_plot_legend)
+		MV_NO_COMMANDS
+		MV_DEFAULT_CHILDREN
 
 		MV_CREATE_CONSTANT(mvPlot_Location_Center, ImPlotLocation_Center);
 		MV_CREATE_CONSTANT(mvPlot_Location_North, ImPlotLocation_North);
@@ -24,8 +26,12 @@ namespace Marvel {
 		MV_CREATE_CONSTANT(mvPlot_Location_SouthWest, ImPlotLocation_SouthWest);
 		MV_CREATE_CONSTANT(mvPlot_Location_SouthEast, ImPlotLocation_SouthEast);
 
-		MV_START_COMMANDS
-		MV_END_COMMANDS
+
+		MV_START_PARENTS
+			MV_ADD_PARENT(mvAppItemType::mvStagingContainer),
+			MV_ADD_PARENT(mvAppItemType::mvPlot),
+			MV_ADD_PARENT(mvAppItemType::mvSubPlots)
+		MV_END_PARENTS
 
 		MV_START_CONSTANTS
 			MV_ADD_CONSTANT(mvPlot_Location_Center),
@@ -44,10 +50,7 @@ namespace Marvel {
 		mvPlotLegend(mvUUID uuid);
 
 		void draw(ImDrawList* drawlist, float x, float y) override;
-		bool isParentCompatible(mvAppItemType type) override;
 		void handleSpecificKeywordArgs(PyObject* dict) override;
-		void hide() override;
-		void show() override;
 		void postDraw() override;
 
 	private:

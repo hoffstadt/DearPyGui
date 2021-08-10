@@ -67,18 +67,7 @@ namespace Marvel {
 				"Values types do not match: " + std::to_string(dataSource), this);
 			return;
 		}
-		_value = std::get<std::shared_ptr<std::vector<std::vector<double>>>>(item->getValue());
-	}
-
-	bool mvLabelSeries::isParentCompatible(mvAppItemType type)
-	{
-		if (type == mvAppItemType::mvPlotAxis) return true;
-
-		mvThrowPythonError(mvErrorCode::mvIncompatibleParent, s_command,
-			"Incompatible parent. Acceptable parents include: plot axis", this);
-
-		assert(false);
-		return false;
+		_value = *static_cast<std::shared_ptr<std::vector<std::vector<double>>>*>(item->getValue());
 	}
 
 	void mvLabelSeries::draw(ImDrawList* drawlist, float x, float y)
@@ -120,11 +109,11 @@ namespace Marvel {
 			xptr = &(*_value.get())[0];
 			yptr = &(*_value.get())[1];
 
-			ImPlot::PlotText(_label.c_str(), (*xptr)[0], (*yptr)[0], _vertical,
+			ImPlot::PlotText(_internalLabel.c_str(), (*xptr)[0], (*yptr)[0], _vertical,
 				ImVec2((float)_xoffset, (float)_yoffset));
 
 			// Begin a popup for a legend entry.
-			if (ImPlot::BeginLegendPopup(_label.c_str(), 1))
+			if (ImPlot::BeginLegendPopup(_internalLabel.c_str(), 1))
 			{
 				for (auto& childset : _children)
 				{

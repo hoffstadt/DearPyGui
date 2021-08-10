@@ -77,7 +77,7 @@ namespace Marvel {
 				"Values types do not match: " + std::to_string(dataSource), this);
 			return;
 		}
-		_value = std::get<std::shared_ptr<std::string>>(item->getValue());
+		_value = *static_cast<std::shared_ptr<std::string>*>(item->getValue());
 	}
 
 	void mvCombo::draw(ImDrawList* drawlist, float x, float y)
@@ -88,7 +88,7 @@ namespace Marvel {
 		static std::vector<std::string> disabled_items{};
 
 		// The second parameter is the label previewed before opening the combo.
-		if (ImGui::BeginCombo(_label.c_str(), _value->c_str(), _flags)) 
+		if (ImGui::BeginCombo(_internalLabel.c_str(), _value->c_str(), _flags)) 
 		{
 			for (const auto& name : _enabled ? _items : disabled_items)
 			{

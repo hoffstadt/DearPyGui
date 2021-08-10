@@ -35,18 +35,6 @@ namespace Marvel {
 	{
 	}
 
-	bool mvFileExtension::isParentCompatible(mvAppItemType type)
-	{
-		if (type == mvAppItemType::mvStagingContainer) return true;
-		if (type == mvAppItemType::mvFileDialog) return true;
-
-		mvThrowPythonError(mvErrorCode::mvIncompatibleParent, s_command,
-			"Incompatible parent. Acceptable parents include: file dialog, staging container.", this);
-		MV_ITEM_REGISTRY_ERROR("File dialog extension parent must be a file dialog.");
-		assert(false);
-		return false;
-	}
-
 	void mvFileExtension::draw(ImDrawList* drawlist, float x, float y)
 	{
 		IGFD::FileExtentionInfosStruct info;

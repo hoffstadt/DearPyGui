@@ -17,6 +17,9 @@ namespace Marvel {
 		static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
 
 		MV_APPLY_WIDGET_REGISTRATION(mvAppItemType::mvWindowAppItem, add_window)
+		MV_DEFAULT_PARENTS
+		MV_DEFAULT_CHILDREN
+		MV_NO_CONSTANTS
 
 		MV_CREATE_COMMAND(set_x_scroll);
 		MV_CREATE_COMMAND(set_y_scroll);
@@ -34,9 +37,6 @@ namespace Marvel {
 			MV_ADD_COMMAND(get_y_scroll_max)
 		MV_END_COMMANDS
 
-		MV_START_CONSTANTS
-		MV_END_CONSTANTS
-
 		enum class Status{ Normal, Transition, Dirty};
 
 	public:
@@ -50,13 +50,8 @@ namespace Marvel {
 		void addFlag              (ImGuiWindowFlags flag) { _windowflags |= flag; }
 		void removeFlag           (ImGuiWindowFlags flag) { _windowflags &= ~flag; }
 		void setWindowAsMainStatus(bool value);
-		void setLabel             (const std::string& value) override;
-		void setWidth             (int width) override;
-		void setHeight            (int height) override;
 		void draw                 (ImDrawList* drawlist, float x, float y) override;
 		bool getWindowAsMainStatus() const { return _mainWindow; }
-
-		void show() override;
 		void onChildAdd(mvRef<mvAppItem> item) override;
 		void onChildRemoved(mvRef<mvAppItem> item) override;
 		void handleSpecificKeywordArgs(PyObject* dict) override;
@@ -73,13 +68,11 @@ namespace Marvel {
 		int                   _oldWidth = 200;
 		int                   _oldHeight = 200;
 		bool                  _mainWindow = false;
-		bool                  _dirty_size = true;
 		bool                  _closing = true;
 		bool                  _collapsedDirty = true;
 		bool                  _resized = false;
 		bool                  _modal = false;
 		bool                  _popup = false;
-		bool                  _popupInit = true;
 
 		bool       _autosize = false;
 		bool       _no_resize = false;

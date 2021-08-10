@@ -54,24 +54,6 @@ namespace Marvel {
 	{
 	}
 
-	void mvInputText::setEnabled(bool value)
-	{
-		if (value == _enabled)
-			return;
-
-		if (value)
-			_flags = _stor_flags;
-
-		else
-		{
-			_stor_flags = _flags;
-			_flags |= ImGuiInputTextFlags_ReadOnly;
-			_flags &= ~ImGuiInputTextFlags_EnterReturnsTrue;
-		}
-
-		_enabled = value;
-	}
-
 	PyObject* mvInputText::getPyValue()
 	{
 		return ToPyString(*_value);
@@ -100,7 +82,7 @@ namespace Marvel {
 				"Values types do not match: " + std::to_string(dataSource), this);
 			return;
 		}
-		_value = std::get<std::shared_ptr<std::string>>(item->getValue());
+		_value = *static_cast<std::shared_ptr<std::string>*>(item->getValue());
 	}
 
 	void mvInputText::draw(ImDrawList* drawlist, float x, float y)
@@ -114,7 +96,7 @@ namespace Marvel {
 		{
 			if (_multiline)
 			{
-				if (ImGui::InputTextMultiline(_label.c_str(), _value.get(), ImVec2((float)_width, (float)_height), _flags))
+				if (ImGui::InputTextMultiline(_internalLabel.c_str(), _value.get(), ImVec2((float)_width, (float)_height), _flags))
 				{
 					auto value = *_value;
 					mvApp::GetApp()->getCallbackRegistry().submitCallback([=]() {
@@ -124,7 +106,7 @@ namespace Marvel {
 			}
 			else
 			{
-				if (ImGui::InputText(_label.c_str(), _value.get(), _flags))
+				if (ImGui::InputText(_internalLabel.c_str(), _value.get(), _flags))
 				{
 					auto value = *_value;
 					mvApp::GetApp()->getCallbackRegistry().submitCallback([=]() {
@@ -136,7 +118,7 @@ namespace Marvel {
 
 		else
 		{
-			if (ImGui::InputTextWithHint(_label.c_str(), _hint.c_str(), _value.get(), _flags))
+			if (ImGui::InputTextWithHint(_internalLabel.c_str(), _hint.c_str(), _value.get(), _flags))
 			{
 				auto value = *_value;
 				mvApp::GetApp()->getCallbackRegistry().submitCallback([=]() {
@@ -171,6 +153,16 @@ namespace Marvel {
 		flagop("on_enter", ImGuiInputTextFlags_EnterReturnsTrue, _flags);
 		flagop("scientific", ImGuiInputTextFlags_CharsScientific, _flags);
 		flagop("tab_input", ImGuiInputTextFlags_AllowTabInput, _flags);
+
+		if (wasEnabledLastFrameReset())
+			_flags = _stor_flags;
+
+		if (wasDisabledLastFrameReset())
+		{
+			_stor_flags = _flags;
+			_flags |= ImGuiInputTextFlags_ReadOnly;
+			_flags &= ~ImGuiInputTextFlags_EnterReturnsTrue;
+		}
 	}
 
 	void mvInputText::getSpecificConfiguration(PyObject* dict)

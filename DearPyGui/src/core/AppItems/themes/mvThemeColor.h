@@ -15,6 +15,12 @@ namespace Marvel {
 		static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
 
 		MV_APPLY_WIDGET_REGISTRATION(mvAppItemType::mvThemeColor, add_theme_color)
+		MV_NO_COMMANDS
+		MV_DEFAULT_CHILDREN
+
+        MV_START_PARENTS
+            MV_ADD_PARENT(mvAppItemType::mvTheme)
+        MV_END_PARENTS
 
         MV_CREATE_CONSTANT(mvThemeCol_Text, ImGuiCol_Text);
         MV_CREATE_CONSTANT(mvThemeCol_TextDisabled, ImGuiCol_TextDisabled);
@@ -120,10 +126,7 @@ namespace Marvel {
         MV_CREATE_CONSTANT(mvNodeCol_GridBackground, imnodes::ColorStyle::ColorStyle_GridBackground);
         MV_CREATE_CONSTANT(mvNodeCol_GridLine, imnodes::ColorStyle::ColorStyle_GridLine);
 
-			MV_START_COMMANDS
-			MV_END_COMMANDS
-
-			MV_START_CONSTANTS
+		MV_START_CONSTANTS
             MV_ADD_CONSTANT(mvThemeCol_Text),
             MV_ADD_CONSTANT(mvThemeCol_TextDisabled),
             MV_ADD_CONSTANT(mvThemeCol_WindowBg),
@@ -219,7 +222,7 @@ namespace Marvel {
             MV_ADD_CONSTANT(mvNodeCol_BoxSelectorOutline),
             MV_ADD_CONSTANT(mvNodeCol_GridBackground),
             MV_ADD_CONSTANT(mvNodeCol_GridLine)
-			MV_END_CONSTANTS
+		MV_END_CONSTANTS
 
 	public:
 
@@ -230,9 +233,8 @@ namespace Marvel {
         void alternativeCustomAction() override;
 		void handleSpecificPositionalArgs(PyObject* dict) override;
 		void handleSpecificKeywordArgs(PyObject* dict) override;
-		bool isParentCompatible(mvAppItemType type) override;
         void setDataSource(mvUUID dataSource) override;
-        mvValueVariant getValue() override { return _value; }
+        void* getValue() override { return &_value; }
         PyObject* getPyValue() override;
         void setPyValue(PyObject* value) override;
 		void setLibType(mvLibType libType) { _libType = libType; }

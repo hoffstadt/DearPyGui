@@ -18,12 +18,21 @@ namespace Marvel {
 		friend class mvNodeEditor;
 
 		MV_APPLY_WIDGET_REGISTRATION(mvAppItemType::mvNode, add_node)
+		MV_NO_COMMANDS
+		MV_NO_CONSTANTS
 
-		MV_START_COMMANDS
-		MV_END_COMMANDS
-
-		MV_START_CONSTANTS
-		MV_END_CONSTANTS
+		MV_START_PARENTS
+			MV_ADD_PARENT(mvAppItemType::mvStagingContainer),
+			MV_ADD_PARENT(mvAppItemType::mvNodeEditor)
+		MV_END_PARENTS
+		
+		MV_START_CHILDREN
+			MV_ADD_CHILD(mvAppItemType::mvNodeAttribute),
+			MV_ADD_CHILD(mvAppItemType::mvActiveHandler),
+			MV_ADD_CHILD(mvAppItemType::mvClickedHandler),
+			MV_ADD_CHILD(mvAppItemType::mvHoverHandler),
+			MV_ADD_CHILD(mvAppItemType::mvVisibleHandler),
+		MV_END_CHILDREN
 
 	public:
 
@@ -34,8 +43,6 @@ namespace Marvel {
 		void postDraw() override {}
 
 		void draw(ImDrawList* drawlist, float x, float y) override;
-		bool isParentCompatible(mvAppItemType type) override;
-		bool canChildBeAdded(mvAppItemType type) override;
 
 		int getId() const {return _id;}
 

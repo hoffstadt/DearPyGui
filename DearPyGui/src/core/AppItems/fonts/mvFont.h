@@ -13,12 +13,19 @@ namespace Marvel {
 		static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
 
 		MV_APPLY_WIDGET_REGISTRATION(mvAppItemType::mvFont, add_font)
+		MV_NO_COMMANDS
+		MV_NO_CONSTANTS
 
-		MV_START_COMMANDS
-		MV_END_COMMANDS
+		MV_START_PARENTS
+			MV_ADD_PARENT(mvAppItemType::mvFontRegistry)
+		MV_END_PARENTS
 
-		MV_START_CONSTANTS
-		MV_END_CONSTANTS
+		MV_START_CHILDREN
+			MV_ADD_CHILD(mvAppItemType::mvFontChars),
+			MV_ADD_CHILD(mvAppItemType::mvFontRange),
+			MV_ADD_CHILD(mvAppItemType::mvCharRemap),
+			MV_ADD_CHILD(mvAppItemType::mvFontRangeHint)
+		MV_END_CHILDREN
 
 	public:
 
@@ -26,7 +33,6 @@ namespace Marvel {
 
 		void draw(ImDrawList* drawlist, float x, float y) override;
 		void customAction() override;
-		bool isParentCompatible(mvAppItemType type) override;
 		void handleSpecificRequiredArgs(PyObject* dict) override;
 		void handleSpecificKeywordArgs(PyObject* dict) override;
 		void getSpecificConfiguration(PyObject* dict) override;

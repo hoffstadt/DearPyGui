@@ -67,18 +67,7 @@ namespace Marvel {
 				"Values types do not match: " + std::to_string(dataSource), this);
 			return;
 		}
-		_value = std::get<std::shared_ptr<std::vector<std::vector<double>>>>(item->getValue());
-	}
-
-	bool mvBarSeries::isParentCompatible(mvAppItemType type)
-	{
-		if (type == mvAppItemType::mvPlotAxis) return true;
-
-		mvThrowPythonError(mvErrorCode::mvIncompatibleParent, s_command,
-			"Incompatible parent. Acceptable parents include: plot axis", this);
-
-		assert(false);
-		return false;
+		_value = *static_cast<std::shared_ptr<std::vector<std::vector<double>>>*>(item->getValue());
 	}
 
 	void mvBarSeries::draw(ImDrawList* drawlist, float x, float y)
@@ -121,12 +110,12 @@ namespace Marvel {
 			yptr = &(*_value.get())[1];
 
 			if (_horizontal)
-				ImPlot::PlotBarsH(_label.c_str(), xptr->data(), yptr->data(), (int)xptr->size(), _weight);
+				ImPlot::PlotBarsH(_internalLabel.c_str(), xptr->data(), yptr->data(), (int)xptr->size(), _weight);
 			else
-				ImPlot::PlotBars(_label.c_str(), xptr->data(), yptr->data(), (int)xptr->size(), _weight);
+				ImPlot::PlotBars(_internalLabel.c_str(), xptr->data(), yptr->data(), (int)xptr->size(), _weight);
 
 			// Begin a popup for a legend entry.
-			if (ImPlot::BeginLegendPopup(_label.c_str(), 1))
+			if (ImPlot::BeginLegendPopup(_internalLabel.c_str(), 1))
 			{
 				for (auto& childset : _children)
 				{
