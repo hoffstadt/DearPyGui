@@ -208,15 +208,15 @@ namespace Marvel {
 			xptr = &(*_value.get())[0];
 			yptr = &(*_value.get())[1];
 
-			ImPlot::PlotLine(_label.c_str(), xptr->data(), yptr->data(), (int)xptr->size());
+			ImPlot::PlotLine(_internalLabel.c_str(), xptr->data(), yptr->data(), (int)xptr->size());
 
 			ImPlot::PushPlotClipRect();
-			ImPlot::RegisterOrGetItem(_label.c_str());
+			ImPlot::RegisterOrGetItem(_internalLabel.c_str());
 			drawPolygon();
 			ImPlot::PopPlotClipRect();
 
 			// Begin a popup for a legend entry.
-			if (ImPlot::BeginLegendPopup(_label.c_str(), 1))
+			if (ImPlot::BeginLegendPopup(_internalLabel.c_str(), 1))
 			{
 				for (auto& childset : _children)
 				{

@@ -50,7 +50,7 @@ namespace Marvel {
 
 		ImVec4 col = { (*_value)[0], (*_value)[1], (*_value)[2], (*_value)[3] };
 
-		if (ImGui::ColorButton(_label.c_str(), col, _flags, ImVec2((float)_width, (float)_height)))
+		if (ImGui::ColorButton(_internalLabel.c_str(), col, _flags, ImVec2((float)_width, (float)_height)))
 			mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), _uuid, nullptr, _user_data);
 
 	}

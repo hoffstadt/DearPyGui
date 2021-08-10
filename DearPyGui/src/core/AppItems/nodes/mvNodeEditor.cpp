@@ -72,7 +72,6 @@ namespace Marvel {
 	mvNodeEditor::mvNodeEditor(mvUUID uuid)
 		: mvAppItem(uuid)
 	{
-		_label = "NodeEditor###" + std::to_string(_uuid);
 		_context = imnodes::EditorContextCreate();
 	}
 
@@ -199,7 +198,7 @@ namespace Marvel {
 		ScopedID id(_uuid);
 		imnodes::EditorContextSet(_context);
 
-		ImGui::BeginChild(_label.c_str(), ImVec2((float)_width, (float)_height), false, _windowflags);
+		ImGui::BeginChild(_internalLabel.c_str(), ImVec2((float)_width, (float)_height), false, _windowflags);
 
 		for (auto& item : _children[1])
 		{

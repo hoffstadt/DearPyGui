@@ -52,7 +52,6 @@ namespace Marvel {
 		void setWindowAsMainStatus(bool value);
 		void draw                 (ImDrawList* drawlist, float x, float y) override;
 		bool getWindowAsMainStatus() const { return _mainWindow; }
-		void show() override;
 		void onChildAdd(mvRef<mvAppItem> item) override;
 		void onChildRemoved(mvRef<mvAppItem> item) override;
 		void handleSpecificKeywordArgs(PyObject* dict) override;
@@ -74,7 +73,6 @@ namespace Marvel {
 		bool                  _resized = false;
 		bool                  _modal = false;
 		bool                  _popup = false;
-		bool                  _popupInit = true;
 
 		bool       _autosize = false;
 		bool       _no_resize = false;

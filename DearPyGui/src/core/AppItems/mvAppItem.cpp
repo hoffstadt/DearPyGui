@@ -184,7 +184,7 @@ namespace Marvel{
 	mvAppItem::mvAppItem(mvUUID uuid)
 	{
 		_uuid = uuid;
-		_label = "###" + std::to_string(_uuid);
+		_internalLabel = "###" + std::to_string(_uuid);
 	}
 
 	bool  mvAppItem::moveChildUp(mvUUID uuid)
@@ -855,9 +855,9 @@ namespace Marvel{
 	{
 		_specificedlabel = value;
 		if (_useInternalLabel)
-			_label = value + "###" + std::to_string(_uuid);
+			_internalLabel = value + "###" + std::to_string(_uuid);
 		else
-			_label = value;
+			_internalLabel = value;
 	}
 
 	void mvAppItem::setFilter(const std::string& value)
@@ -1124,6 +1124,116 @@ namespace Marvel{
 		}
 
 		handleSpecificKeywordArgs(dict);
+	}
+
+	void mvAppItem::setEnabled(bool value) 
+	{ 
+		if (_enabled == value)
+			return;
+
+		_enabled = value; 
+		
+		if (value)
+			_enabledLastFrame = true;
+		else
+			_disabledLastFrame = true; 
+	}
+
+	bool mvAppItem::shouldFocusNextFrame() const 
+	{ 
+		return _focusNextFrame; 
+	}
+
+	bool mvAppItem::wasShownLastFrameReset() 
+	{ 
+		bool result = _shownLastFrame;
+		_shownLastFrame = false; 
+		return result; 
+	}
+
+	bool mvAppItem::wasHiddenLastFrameReset() 
+	{ 
+		bool result = _hiddenLastFrame;
+		_hiddenLastFrame = false; 
+		return result; 
+	}
+
+	bool mvAppItem::wasEnabledLastFrameReset() 
+	{ 
+		bool result = _enabledLastFrame; 
+		_enabledLastFrame = false;
+		return result; 
+	}
+
+	bool mvAppItem::wasDisabledLastFrameReset() 
+	{
+		bool result = _disabledLastFrame;
+		_disabledLastFrame = false; 
+		return result; 
+	}
+
+	void mvAppItem::setWidth(int width) 
+	{
+		_dirty_size = true;  
+		_width = width; 
+	}
+
+	void mvAppItem::setHeight(int height) 
+	{ 
+		_dirty_size = true;  
+		_height = height; 
+	}
+
+	void mvAppItem::hide() 
+	{ 
+		_show = false; 
+		_hiddenLastFrame = true; 
+	}
+
+	void mvAppItem::show() 
+	{
+		_show = true; 
+		_shownLastFrame = true; 
+	}
+
+	void mvAppItem::setDataSource(mvUUID value)
+	{
+		_source = value; 
+	}
+
+	void mvAppItem::focus() 
+	{ 
+		_focusNextFrame = true; 
+	}
+
+	void mvAppItem::unfocus() 
+	{ 
+		_focusNextFrame = false; 
+	}
+
+	mvAppItemState& mvAppItem::getState() 
+	{ 
+		return _state; 
+	}
+
+	mvAppItem* mvAppItem::getParent() 
+	{ 
+		return _parentPtr; 
+	}
+
+	int mvAppItem::getLocation() const 
+	{
+		return _location; 
+	}
+
+	void mvAppItem::requestAltCustomAction() 
+	{ 
+		_triggerAlternativeAction = true; 
+	}
+
+	bool mvAppItem::isAltCustomActionRequested() const 
+	{ 
+		return _triggerAlternativeAction; 
 	}
 
 	std::pair<mvUUID, mvUUID> mvAppItem::GetNameFromArgs(mvUUID& name, PyObject* args, PyObject* kwargs)

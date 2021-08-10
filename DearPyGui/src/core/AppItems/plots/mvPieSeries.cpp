@@ -116,7 +116,7 @@ namespace Marvel {
 				_x, _y, _radius, _normalize, _format.c_str(), _angle);
 
 			// Begin a popup for a legend entry.
-			if (ImPlot::BeginLegendPopup(_label.c_str(), 1))
+			if (ImPlot::BeginLegendPopup(_internalLabel.c_str(), 1))
 			{
 				for (auto& childset : _children)
 				{

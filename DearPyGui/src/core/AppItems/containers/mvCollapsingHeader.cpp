@@ -49,7 +49,7 @@ namespace Marvel {
 		bool* toggle = nullptr;
 		if (_closable)
 			toggle = &_show;
-		*_value = ImGui::CollapsingHeader(_label.c_str(), toggle, _flags);
+		*_value = ImGui::CollapsingHeader(_internalLabel.c_str(), toggle, _flags);
 
 		if (*_value)
 		{

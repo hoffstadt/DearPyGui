@@ -117,7 +117,7 @@ namespace Marvel {
     {
         ScopedID id(_uuid);
 
-        ImPlot::ColormapButton(_label.c_str(), ImVec2(-1.0f, 0.0f), _colorMap);
+        ImPlot::ColormapButton(_internalLabel.c_str(), ImVec2(-1.0f, 0.0f), _colorMap);
     }
 
     void mvColorMap::alternativeCustomAction()
@@ -125,7 +125,7 @@ namespace Marvel {
         if (_created)
             return;
 
-        _colorMap = ImPlot::AddColormap(_label.c_str(), _colors.data(), _colors.size(), _qualitative);
+        _colorMap = ImPlot::AddColormap(_internalLabel.c_str(), _colors.data(), _colors.size(), _qualitative);
         _created = true;
 
         _triggerAlternativeAction = false;

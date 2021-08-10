@@ -105,10 +105,10 @@ namespace Marvel {
 			xptr = &(*_value.get())[0];
 			yptr = &(*_value.get())[1];
 
-			ImPlot::PlotScatter(_label.c_str(), xptr->data(), yptr->data(), (int)xptr->size());
+			ImPlot::PlotScatter(_internalLabel.c_str(), xptr->data(), yptr->data(), (int)xptr->size());
 
 			// Begin a popup for a legend entry.
-			if (ImPlot::BeginLegendPopup(_label.c_str(), 1))
+			if (ImPlot::BeginLegendPopup(_internalLabel.c_str(), 1))
 			{
 				for (auto& childset : _children)
 				{

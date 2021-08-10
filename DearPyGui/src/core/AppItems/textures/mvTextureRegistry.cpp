@@ -54,7 +54,7 @@ namespace Marvel {
 		ImGui::PushID(this);
 
 		ImGui::SetNextWindowSize(ImVec2(500, 500), ImGuiCond_FirstUseEver);
-		if (ImGui::Begin(_label.c_str(), &_show))
+		if (ImGui::Begin(_internalLabel.c_str(), &_show))
 		{
 
 			ImGui::Text("Textures");

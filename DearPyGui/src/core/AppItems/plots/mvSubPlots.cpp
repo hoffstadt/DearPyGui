@@ -110,7 +110,7 @@ namespace Marvel {
 
 		ScopedID id(_uuid);
 
-		if (ImPlot::BeginSubplots(_label.c_str(),  _rows, _cols, ImVec2((float)_width, (float)_height),
+		if (ImPlot::BeginSubplots(_internalLabel.c_str(),  _rows, _cols, ImVec2((float)_width, (float)_height),
 			_flags, _row_ratios.empty() ? nullptr : _row_ratios.data(), _col_ratios.empty() ? nullptr : _col_ratios.data()))
 		{
 

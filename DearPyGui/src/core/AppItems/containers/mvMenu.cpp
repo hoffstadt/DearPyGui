@@ -38,7 +38,7 @@ namespace Marvel {
 		ScopedID id(_uuid);
 
 		// create menu and see if its selected
-		if (ImGui::BeginMenu(_label.c_str(), _enabled))
+		if (ImGui::BeginMenu(_internalLabel.c_str(), _enabled))
 		{
 
 			// set other menus's value false on same level

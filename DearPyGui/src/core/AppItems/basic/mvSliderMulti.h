@@ -36,7 +36,6 @@ namespace Marvel {
 
         mvSliderFloatMulti(mvUUID uuid);
         
-        void setEnabled(bool value) override;
         void draw(ImDrawList* drawlist, float x, float y) override;
         void setDataSource(mvUUID dataSource) override;
         mvValueVariant getValue() override { return _value; }
@@ -78,7 +77,6 @@ namespace Marvel {
 
         mvSliderIntMulti(mvUUID uuid);
         
-        void setEnabled(bool value) override;
         void draw(ImDrawList* drawlist, float x, float y) override;
         void setDataSource(mvUUID dataSource) override;
         mvValueVariant getValue() override { return _value; }

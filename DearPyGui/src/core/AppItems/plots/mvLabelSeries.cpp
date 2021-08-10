@@ -109,11 +109,11 @@ namespace Marvel {
 			xptr = &(*_value.get())[0];
 			yptr = &(*_value.get())[1];
 
-			ImPlot::PlotText(_label.c_str(), (*xptr)[0], (*yptr)[0], _vertical,
+			ImPlot::PlotText(_internalLabel.c_str(), (*xptr)[0], (*yptr)[0], _vertical,
 				ImVec2((float)_xoffset, (float)_yoffset));
 
 			// Begin a popup for a legend entry.
-			if (ImPlot::BeginLegendPopup(_label.c_str(), 1))
+			if (ImPlot::BeginLegendPopup(_internalLabel.c_str(), 1))
 			{
 				for (auto& childset : _children)
 				{

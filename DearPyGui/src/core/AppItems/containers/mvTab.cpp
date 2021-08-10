@@ -96,7 +96,7 @@ namespace Marvel {
 		}
 
 		// create tab item and see if it is selected
-		if (ImGui::BeginTabItem(_label.c_str(), _closable ? &_show : nullptr, _flags))
+		if (ImGui::BeginTabItem(_internalLabel.c_str(), _closable ? &_show : nullptr, _flags))
 		{
 
 			// set other tab's value false

@@ -167,20 +167,6 @@ namespace Marvel {
 		static_cast<mvPlot*>(_parentPtr)->_axisfitDirty[_location] = true;
 	}
 
-	void mvPlotAxis::hide()
-	{
-		if (auto plot = static_cast<mvPlot*>(_parentPtr))
-			plot->addFlag(ImPlotFlags_NoLegend);
-		_show = false;
-	}
-
-	void mvPlotAxis::show()
-	{
-		if (auto plot = static_cast<mvPlot*>(_parentPtr))
-			plot->removeFlag(ImPlotFlags_NoLegend);
-		_show = true;
-	}
-
 	void mvPlotAxis::handleSpecificKeywordArgs(PyObject* dict)
 	{
 		if (dict == nullptr)
@@ -207,6 +193,20 @@ namespace Marvel {
 		{
 			static_cast<mvPlot*>(_parentPtr)->updateFlags();
 			static_cast<mvPlot*>(_parentPtr)->updateAxesNames();
+		}
+
+		if (wasShownLastFrameReset())
+		{
+			if (auto plot = static_cast<mvPlot*>(_parentPtr))
+				plot->removeFlag(ImPlotFlags_NoLegend);
+			_show = true;
+		}
+
+		if (wasHiddenLastFrameReset())
+		{
+			if (auto plot = static_cast<mvPlot*>(_parentPtr))
+				plot->addFlag(ImPlotFlags_NoLegend);
+			_show = false;
 		}
 	}
 

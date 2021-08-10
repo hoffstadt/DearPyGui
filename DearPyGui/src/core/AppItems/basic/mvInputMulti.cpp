@@ -92,24 +92,6 @@ namespace Marvel {
         _last_value = *_value;
     }
 
-    void mvInputIntMulti::setEnabled(bool value)
-    {
-        if (value == _enabled)
-            return;
-
-        if (value)
-            _flags = _stor_flags;
-
-        else
-        {
-            _stor_flags = _flags;
-            _flags |= ImGuiInputTextFlags_ReadOnly;
-            _flags &= ~ImGuiInputTextFlags_EnterReturnsTrue;
-        }
-
-        _enabled = value;
-    }
-
     PyObject* mvInputIntMulti::getPyValue()
     {
         return ToPyIntList(_value->data(), 4);
@@ -159,13 +141,13 @@ namespace Marvel {
         switch (_size)
         {
         case 2:
-            res = ImGui::InputInt2(_label.c_str(), _value->data(), _flags);
+            res = ImGui::InputInt2(_internalLabel.c_str(), _value->data(), _flags);
             break;
         case 3:
-            res = ImGui::InputInt3(_label.c_str(), _value->data(), _flags);
+            res = ImGui::InputInt3(_internalLabel.c_str(), _value->data(), _flags);
             break;
         case 4:
-            res = ImGui::InputInt4(_label.c_str(), _value->data(), _flags);
+            res = ImGui::InputInt4(_internalLabel.c_str(), _value->data(), _flags);
             break;
         default:
             break;
@@ -260,24 +242,6 @@ namespace Marvel {
         _value = std::get<std::shared_ptr<std::array<float, 4>>>(item->getValue());
     }
 
-    void mvInputFloatMulti::setEnabled(bool value)
-    {
-        if (value == _enabled)
-            return;
-
-        if (value)
-            _flags = _stor_flags;
-
-        else
-        {
-            _stor_flags = _flags;
-            _flags |= ImGuiInputTextFlags_ReadOnly;
-            _flags &= ~ImGuiInputTextFlags_EnterReturnsTrue;
-        }
-
-        _enabled = value;
-    }
-
     void mvInputFloatMulti::draw(ImDrawList* drawlist, float x, float y)
     {
         ScopedID id(_uuid);
@@ -289,13 +253,13 @@ namespace Marvel {
         switch (_size)
         {
         case 2:
-            res = ImGui::InputFloat2(_label.c_str(), _value->data(), _format.c_str(), _flags);
+            res = ImGui::InputFloat2(_internalLabel.c_str(), _value->data(), _format.c_str(), _flags);
             break;
         case 3:
-            res = ImGui::InputFloat3(_label.c_str(), _value->data(), _format.c_str(), _flags);
+            res = ImGui::InputFloat3(_internalLabel.c_str(), _value->data(), _format.c_str(), _flags);
             break;
         case 4:
-            res = ImGui::InputFloat4(_label.c_str(), _value->data(), _format.c_str(), _flags);
+            res = ImGui::InputFloat4(_internalLabel.c_str(), _value->data(), _format.c_str(), _flags);
             break;
         default:
             break;
@@ -374,6 +338,16 @@ namespace Marvel {
             if (PyObject* item = PyDict_GetItemString(dict, "min_clamped")) _min_clamped = ToBool(item);
             if (PyObject* item = PyDict_GetItemString(dict, "max_clamped")) _max_clamped = ToBool(item);
         }
+
+        if (wasEnabledLastFrameReset())
+            _flags = _stor_flags;
+
+        if (wasDisabledLastFrameReset())
+        {
+            _stor_flags = _flags;
+            _flags |= ImGuiInputTextFlags_ReadOnly;
+            _flags &= ~ImGuiInputTextFlags_EnterReturnsTrue;
+        }
     }
 
     void mvInputIntMulti::getSpecificConfiguration(PyObject* dict)
@@ -430,6 +404,16 @@ namespace Marvel {
         flagop("on_enter", ImGuiInputTextFlags_EnterReturnsTrue, _stor_flags);
         flagop("readonly", ImGuiInputTextFlags_ReadOnly, _flags);
         flagop("readonly", ImGuiInputTextFlags_ReadOnly, _stor_flags);
+
+        if (wasEnabledLastFrameReset())
+            _flags = _stor_flags;
+
+        if (wasDisabledLastFrameReset())
+        {
+            _stor_flags = _flags;
+            _flags |= ImGuiInputTextFlags_ReadOnly;
+            _flags &= ~ImGuiInputTextFlags_EnterReturnsTrue;
+        }
 
     }
 

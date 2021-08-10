@@ -103,7 +103,7 @@ namespace Marvel {
 			_disabledindex = _index;
 		}
 
-		if (ImGui::ListBox(_label.c_str(), _enabled ? &_index : &_disabledindex, _charNames.data(), (int)_names.size(), _itemsHeight))
+		if (ImGui::ListBox(_internalLabel.c_str(), _enabled ? &_index : &_disabledindex, _charNames.data(), (int)_names.size(), _itemsHeight))
 		{
 			*_value = _names[_index];
 			_disabled_value = _names[_index];

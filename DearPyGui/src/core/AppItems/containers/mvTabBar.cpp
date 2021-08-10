@@ -86,7 +86,7 @@ namespace Marvel {
 
 		ImGui::BeginGroup();
 
-		if (ImGui::BeginTabBar(_label.c_str(), _flags))
+		if (ImGui::BeginTabBar(_internalLabel.c_str(), _flags))
 		{
 
 			for (auto& item : _children[1])

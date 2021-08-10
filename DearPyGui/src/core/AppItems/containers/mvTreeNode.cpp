@@ -52,7 +52,7 @@ namespace Marvel {
 		else
 			_flags &= ~ImGuiTreeNodeFlags_Selected;
 
-		bool expanded = ImGui::TreeNodeEx(_label.c_str(), _flags);
+		bool expanded = ImGui::TreeNodeEx(_internalLabel.c_str(), _flags);
 
 		if (ImGui::IsItemClicked())
 			*_value = !*_value;

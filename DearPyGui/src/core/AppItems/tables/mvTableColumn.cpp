@@ -51,7 +51,7 @@ namespace Marvel {
 	void mvTableColumn::draw(ImDrawList* drawlist, float x, float y)
 	{
 		_id = _uuid;
-		ImGui::TableSetupColumn(_label.c_str(), _flags, _init_width_or_weight, _id);
+		ImGui::TableSetupColumn(_internalLabel.c_str(), _flags, _init_width_or_weight, _id);
 	}
 
 	void mvTableColumn::handleSpecificKeywordArgs(PyObject* dict)

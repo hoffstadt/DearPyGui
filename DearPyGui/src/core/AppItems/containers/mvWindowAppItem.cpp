@@ -244,13 +244,10 @@ namespace Marvel {
 
 		if (_modal)
 		{
-			if (_popupInit)
-			{
-				ImGui::OpenPopup(_label.c_str());
-				_popupInit = false;
-			}
+			if (wasShownLastFrameReset())
+				ImGui::OpenPopup(_internalLabel.c_str());
 			
-			if (!ImGui::BeginPopupModal(_label.c_str(), _no_close ? nullptr : &_show, _windowflags))
+			if (!ImGui::BeginPopupModal(_internalLabel.c_str(), _no_close ? nullptr : &_show, _windowflags))
 			{
 				if (_mainWindow)
 					ImGui::PopStyleVar();
@@ -270,13 +267,10 @@ namespace Marvel {
 
 		else if (_popup)
 		{
-			if (_popupInit)
-			{
-				ImGui::OpenPopup(_label.c_str());
-				_popupInit = false;
-			}
+			if (wasShownLastFrameReset())
+				ImGui::OpenPopup(_internalLabel.c_str());
 
-			if (!ImGui::BeginPopup(_label.c_str(), _windowflags))
+			if (!ImGui::BeginPopup(_internalLabel.c_str(), _windowflags))
 			{
 				if (_mainWindow)
 					ImGui::PopStyleVar();
@@ -286,7 +280,7 @@ namespace Marvel {
 
 		else
 		{
-			if (!ImGui::Begin(_label.c_str(), _no_close ? nullptr : &_show, _windowflags))
+			if (!ImGui::Begin(_internalLabel.c_str(), _no_close ? nullptr : &_show, _windowflags))
 			{
 				if (_mainWindow)
 					ImGui::PopStyleVar();
@@ -440,12 +434,6 @@ namespace Marvel {
 		}
 	}
 
-	void mvWindowAppItem::show()
-	{
-		_show = true;
-		_popupInit = true;
-	}
-
 	void mvWindowAppItem::handleSpecificKeywordArgs(PyObject* dict)
 	{
 		if (dict == nullptr)
@@ -454,13 +442,13 @@ namespace Marvel {
 		if (PyObject* item = PyDict_GetItemString(dict, "modal"))
 		{
 			_modal = ToBool(item);
-			_popupInit = true;
+			_shownLastFrame = true;
 		}
 
 		if (PyObject* item = PyDict_GetItemString(dict, "popup"))
 		{
 			_popup = ToBool(item);
-			_popupInit = true;
+			_shownLastFrame = true;
 		}
 
 		if (PyObject* item = PyDict_GetItemString(dict, "label"))

@@ -45,7 +45,7 @@ namespace Marvel {
 	{
 		ScopedID id(_uuid);
 
-		if (ImPlot::ShowDatePicker(_label.c_str(), &_level, _imvalue.get(), _imvalue.get()))
+		if (ImPlot::ShowDatePicker(_internalLabel.c_str(), &_level, _imvalue.get(), _imvalue.get()))
 		{
 			ImPlot::GetGmtTime(*_imvalue, _value.get());
 			{

@@ -110,12 +110,12 @@ namespace Marvel {
 			yptr = &(*_value.get())[1];
 
 			if (_horizontal)
-				ImPlot::PlotBarsH(_label.c_str(), xptr->data(), yptr->data(), (int)xptr->size(), _weight);
+				ImPlot::PlotBarsH(_internalLabel.c_str(), xptr->data(), yptr->data(), (int)xptr->size(), _weight);
 			else
-				ImPlot::PlotBars(_label.c_str(), xptr->data(), yptr->data(), (int)xptr->size(), _weight);
+				ImPlot::PlotBars(_internalLabel.c_str(), xptr->data(), yptr->data(), (int)xptr->size(), _weight);
 
 			// Begin a popup for a legend entry.
-			if (ImPlot::BeginLegendPopup(_label.c_str(), 1))
+			if (ImPlot::BeginLegendPopup(_internalLabel.c_str(), 1))
 			{
 				for (auto& childset : _children)
 				{

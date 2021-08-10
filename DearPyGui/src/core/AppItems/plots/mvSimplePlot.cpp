@@ -48,10 +48,10 @@ namespace Marvel {
 		ImGui::PushID(this);
 
 		if (_histogram)
-			ImGui::PlotHistogram(_label.c_str(), _value->data(), (int)_value->size(), 0, _overlay.c_str(),
+			ImGui::PlotHistogram(_internalLabel.c_str(), _value->data(), (int)_value->size(), 0, _overlay.c_str(),
 				_min, _max, ImVec2((float)_width, (float)_height));
 		else
-			ImGui::PlotLines(_label.c_str(), _value->data(), (int)_value->size(), 0, _overlay.c_str(),
+			ImGui::PlotLines(_internalLabel.c_str(), _value->data(), (int)_value->size(), 0, _overlay.c_str(),
 				_min, _max, ImVec2((float)_width, (float)_height));
 
 		ImGui::PopID();

@@ -120,7 +120,7 @@ namespace Marvel {
 
 			if (!_enabled) _disabled_value = *_value;
 
-			if (ImGui::Checkbox(_label.c_str(), _enabled ? _value.get() : &_disabled_value))
+			if (ImGui::Checkbox(_internalLabel.c_str(), _enabled ? _value.get() : &_disabled_value))
 			{
 				bool value = *_value;
 				mvApp::GetApp()->getCallbackRegistry().submitCallback([=]() {

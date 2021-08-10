@@ -123,10 +123,10 @@ namespace Marvel {
 				else
 					texture = static_cast<mvDynamicTexture*>(_texture.get())->getRawTexture();
 
-				ImPlot::PlotImage(_label.c_str(), texture, _bounds_min, _bounds_max, _uv_min, _uv_max, _tintColor);
+				ImPlot::PlotImage(_internalLabel.c_str(), texture, _bounds_min, _bounds_max, _uv_min, _uv_max, _tintColor);
 
 				// Begin a popup for a legend entry.
-				if (ImPlot::BeginLegendPopup(_label.c_str(), 1))
+				if (ImPlot::BeginLegendPopup(_internalLabel.c_str(), 1))
 				{
 					for (auto& childset : _children)
 					{

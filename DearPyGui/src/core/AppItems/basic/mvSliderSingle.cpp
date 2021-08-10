@@ -122,23 +122,6 @@ namespace Marvel {
         _value = std::get<std::shared_ptr<float>>(item->getValue());
     }
 
-    void mvSliderFloat::setEnabled(bool value)
-    {
-        if (value == _enabled)
-            return;
-
-        if (value)
-            _flags = _stor_flags;
-
-        else
-        {
-            _stor_flags = _flags;
-            _flags |= ImGuiSliderFlags_NoInput;
-        }
-
-        _enabled = value;
-    }
-
     void mvSliderFloat::draw(ImDrawList* drawlist, float x, float y)
     {
         ScopedID id(_uuid);
@@ -152,7 +135,7 @@ namespace Marvel {
             if ((float)_width < 1.0f)
                 _width = 20;
 
-            if (ImGui::VSliderFloat(_label.c_str(), ImVec2((float)_width, (float)_height), _enabled ? _value.get() : &_disabled_value, _min, _max, _format.c_str()))
+            if (ImGui::VSliderFloat(_internalLabel.c_str(), ImVec2((float)_width, (float)_height), _enabled ? _value.get() : &_disabled_value, _min, _max, _format.c_str()))
             {
                 auto value = *_value;
                 mvApp::GetApp()->getCallbackRegistry().submitCallback([=]() {
@@ -163,7 +146,7 @@ namespace Marvel {
         }
         else
         {
-            if (ImGui::SliderFloat(_label.c_str(), _enabled ? _value.get() : &_disabled_value, _min, _max, _format.c_str(), _flags))
+            if (ImGui::SliderFloat(_internalLabel.c_str(), _enabled ? _value.get() : &_disabled_value, _min, _max, _format.c_str(), _flags))
             {
                 auto value = *_value;
                 mvApp::GetApp()->getCallbackRegistry().submitCallback([=]() {
@@ -210,23 +193,6 @@ namespace Marvel {
         *_value = ToInt(value);
     }
 
-    void mvSliderInt::setEnabled(bool value)
-    {
-        if (value == _enabled)
-            return;
-
-        if (value)
-            _flags = _stor_flags;
-
-        else
-        {
-            _stor_flags = _flags;
-            _flags |= ImGuiSliderFlags_NoInput;
-        }
-
-        _enabled = value;
-    }
-
     void mvSliderInt::draw(ImDrawList* drawlist, float x, float y)
     {
         ScopedID id(_uuid);
@@ -240,7 +206,7 @@ namespace Marvel {
             if ((float)_width < 1.0f)
                 _width = 20;
 
-            if (ImGui::VSliderInt(_label.c_str(), ImVec2((float)_width, (float)_height), _enabled ? _value.get() : &_disabled_value, _min, _max, _format.c_str()))
+            if (ImGui::VSliderInt(_internalLabel.c_str(), ImVec2((float)_width, (float)_height), _enabled ? _value.get() : &_disabled_value, _min, _max, _format.c_str()))
             {
                 auto value = *_value;
                 mvApp::GetApp()->getCallbackRegistry().submitCallback([=]() {
@@ -250,7 +216,7 @@ namespace Marvel {
         }
         else
         {
-            if (ImGui::SliderInt(_label.c_str(), _enabled ? _value.get() : &_disabled_value, _min, _max, _format.c_str(), _flags))
+            if (ImGui::SliderInt(_internalLabel.c_str(), _enabled ? _value.get() : &_disabled_value, _min, _max, _format.c_str(), _flags))
             {
                 auto value = *_value;
                 mvApp::GetApp()->getCallbackRegistry().submitCallback([=]() {
@@ -282,6 +248,15 @@ namespace Marvel {
         flagop("clamped", ImGuiSliderFlags_ClampOnInput, _stor_flags);
         flagop("no_input", ImGuiSliderFlags_NoInput, _flags);
         flagop("no_input", ImGuiSliderFlags_NoInput, _stor_flags);
+
+        if (wasEnabledLastFrameReset())
+            _flags = _stor_flags;
+
+        if (wasDisabledLastFrameReset())
+        {
+            _stor_flags = _flags;
+            _flags |= ImGuiSliderFlags_NoInput;
+        }
 
     }
 
@@ -328,6 +303,15 @@ namespace Marvel {
         flagop("clamped", ImGuiSliderFlags_ClampOnInput, _stor_flags);
         flagop("no_input", ImGuiSliderFlags_NoInput, _flags);
         flagop("no_input", ImGuiSliderFlags_NoInput, _stor_flags);
+
+        if (wasEnabledLastFrameReset())
+            _flags = _stor_flags;
+
+        if (wasDisabledLastFrameReset())
+        {
+            _stor_flags = _flags;
+            _flags |= ImGuiSliderFlags_NoInput;
+        }
 
     }
 

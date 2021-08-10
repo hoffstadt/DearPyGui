@@ -109,11 +109,11 @@ namespace Marvel {
 			y1ptr = &(*_value.get())[1];
 			y2ptr = &(*_value.get())[2];
 
-			ImPlot::PlotShaded(_label.c_str(), xptr->data(), y1ptr->data(),
+			ImPlot::PlotShaded(_internalLabel.c_str(), xptr->data(), y1ptr->data(),
 				y2ptr->data(), (int)xptr->size());
 
 			// Begin a popup for a legend entry.
-			if (ImPlot::BeginLegendPopup(_label.c_str(), 1))
+			if (ImPlot::BeginLegendPopup(_internalLabel.c_str(), 1))
 			{
 				for (auto& childset : _children)
 				{

@@ -195,12 +195,12 @@ namespace Marvel {
 			lowptr = &(*_value.get())[3];
 			highptr = &(*_value.get())[4];
 
-			PlotCandlestick(_label.c_str(), datesptr->data(), openptr->data(), closeptr->data(),
+			PlotCandlestick(_internalLabel.c_str(), datesptr->data(), openptr->data(), closeptr->data(),
 				lowptr->data(), highptr->data(), (int)datesptr->size(), _tooltip, _weight, _bullColor,
 				_bearColor);
 
 			// Begin a popup for a legend entry.
-			if (ImPlot::BeginLegendPopup(_label.c_str(), 1))
+			if (ImPlot::BeginLegendPopup(_internalLabel.c_str(), 1))
 			{
 				for (auto& childset : _children)
 				{

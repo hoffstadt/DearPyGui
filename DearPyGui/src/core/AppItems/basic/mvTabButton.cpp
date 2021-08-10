@@ -43,7 +43,7 @@ namespace Marvel {
 	{
 		ScopedID id(_uuid);
 
-		if (ImGui::TabItemButton(_label.c_str(), _flags))
+		if (ImGui::TabItemButton(_internalLabel.c_str(), _flags))
 			mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), _uuid, nullptr, _user_data);
 
 	}

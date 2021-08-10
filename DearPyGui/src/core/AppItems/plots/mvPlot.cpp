@@ -212,7 +212,7 @@ namespace Marvel {
 
 		if (_newColorMap)
 		{
-			ImPlot::BustColorCache(_label.c_str());
+			ImPlot::BustColorCache(_internalLabel.c_str());
 			_newColorMap = false;
 		}
 
@@ -252,7 +252,7 @@ namespace Marvel {
 			_axisfitDirty[3] = false;
 		}
 
-		if (ImPlot::BeginPlot(_label.c_str(), 
+		if (ImPlot::BeginPlot(_internalLabel.c_str(), 
 			_xaxisName.empty() ? nullptr : _xaxisName.c_str(), 
 			_y1axisName.empty() ? nullptr : _y1axisName.c_str(),
 			ImVec2((float)_width, (float)_height), 

@@ -116,11 +116,11 @@ namespace Marvel {
 			xptr = &(*_value.get())[0];
 
 
-			ImPlot::PlotHeatmap(_label.c_str(), xptr->data(), _rows, _cols, _scale_min, _scale_max,
+			ImPlot::PlotHeatmap(_internalLabel.c_str(), xptr->data(), _rows, _cols, _scale_min, _scale_max,
 				_format.c_str(), { _bounds_min.x, _bounds_min.y }, { _bounds_max.x, _bounds_max.y });
 
 			// Begin a popup for a legend entry.
-			if (ImPlot::BeginLegendPopup(_label.c_str(), 1))
+			if (ImPlot::BeginLegendPopup(_internalLabel.c_str(), 1))
 			{
 				for (auto& childset : _children)
 				{

@@ -47,7 +47,7 @@ namespace Marvel {
 
 		ImPlot::GetStyle().Use24HourClock = _hour24;
 
-		if (ImPlot::ShowTimePicker(_label.c_str(), _imvalue.get()))
+		if (ImPlot::ShowTimePicker(_internalLabel.c_str(), _imvalue.get()))
 		{
 			ImPlot::GetGmtTime(*_imvalue, _value.get());
 			{

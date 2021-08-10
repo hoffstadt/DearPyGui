@@ -111,7 +111,7 @@ namespace Marvel {
 
 		if (!_enabled) std::copy(_value->data(), _value->data() + 4, _disabled_value);
 
-			if (ImGui::ColorEdit4(_label.c_str(), _enabled ? _value->data() : &_disabled_value[0], _flags))
+			if (ImGui::ColorEdit4(_internalLabel.c_str(), _enabled ? _value->data() : &_disabled_value[0], _flags))
 			{
 				auto value = *_value;
 				mvColor color = mvColor(value[0], value[1], value[2], value[3]);

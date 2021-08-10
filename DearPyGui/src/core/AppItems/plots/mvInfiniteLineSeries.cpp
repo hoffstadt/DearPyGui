@@ -102,10 +102,10 @@ namespace Marvel {
 
 			xptr = &(*_value.get())[0];
 
-			ImPlot::PlotVLines(_label.c_str(), xptr->data(), (int)xptr->size());
+			ImPlot::PlotVLines(_internalLabel.c_str(), xptr->data(), (int)xptr->size());
 
 			// Begin a popup for a legend entry.
-			if (ImPlot::BeginLegendPopup(_label.c_str(), 1))
+			if (ImPlot::BeginLegendPopup(_internalLabel.c_str(), 1))
 			{
 				for (auto& childset : _children)
 				{
@@ -278,10 +278,10 @@ namespace Marvel {
 
 			xptr = &(*_value.get())[0];
 
-			ImPlot::PlotHLines(_label.c_str(), xptr->data(), (int)xptr->size());
+			ImPlot::PlotHLines(_internalLabel.c_str(), xptr->data(), (int)xptr->size());
 
 			// Begin a popup for a legend entry.
-			if (ImPlot::BeginLegendPopup(_label.c_str(), 1))
+			if (ImPlot::BeginLegendPopup(_internalLabel.c_str(), 1))
 			{
 				for (auto& childset : _children)
 				{

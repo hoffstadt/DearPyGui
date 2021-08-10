@@ -36,7 +36,6 @@ namespace Marvel {
 
         mvDragFloat(mvUUID uuid);
 
-        void setEnabled(bool value) override;
         void draw(ImDrawList* drawlist, float x, float y) override;
         void setDataSource(mvUUID dataSource) override;
         mvValueVariant getValue() override { return _value; }
@@ -79,7 +78,6 @@ namespace Marvel {
 
         mvDragInt(mvUUID uuid);
 
-        void setEnabled(bool value) override;
         void draw(ImDrawList* drawlist, float x, float y) override;
         void handleSpecificKeywordArgs(PyObject* dict) override;
         void getSpecificConfiguration(PyObject* dict) override;

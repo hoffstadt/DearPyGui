@@ -34,7 +34,7 @@ namespace Marvel {
 		ImGui::PushID(this);
 
 		ImGui::SetNextWindowSize(ImVec2(500, 500), ImGuiCond_FirstUseEver);
-		if (ImGui::Begin(_label.c_str(), &_show))
+		if (ImGui::Begin(_internalLabel.c_str(), &_show))
 		{
 			ImGui::Text("Builtin:");
 			for (int i = 0; i < 16; i++)

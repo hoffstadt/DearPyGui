@@ -50,7 +50,7 @@ namespace Marvel {
 		ImGui::PushStyleColor(ImGuiCol_TextDisabled, ImGui::GetStyleColorVec4(ImGuiCol_Text));
 
 		// create menu item and see if its selected
-		if (ImGui::MenuItem(_label.c_str(), _shortcut.c_str(), _check ? _value.get() : nullptr, _enabled))
+		if (ImGui::MenuItem(_internalLabel.c_str(), _shortcut.c_str(), _check ? _value.get() : nullptr, _enabled))
 		{
 			mvApp::GetApp()->getCallbackRegistry().addCallback(_callback, _uuid, nullptr, _user_data);
 		}

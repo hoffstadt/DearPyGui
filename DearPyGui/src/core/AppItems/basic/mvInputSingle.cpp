@@ -125,30 +125,12 @@ namespace Marvel {
     {
         *_value = ToInt(value);
     }
-    
-    void mvInputInt::setEnabled(bool value)
-    {
-        if (value == _enabled)
-            return;
-
-        if (value)
-            _flags = _stor_flags;
-
-        else
-        {
-            _stor_flags = _flags;
-            _flags |= ImGuiInputTextFlags_ReadOnly;
-            _flags &= ~ImGuiInputTextFlags_EnterReturnsTrue;
-        }
-
-        _enabled = value;
-    }
 
     void mvInputInt::draw(ImDrawList* drawlist, float x, float y)
     {
         ScopedID id(_uuid);
 
-        if (ImGui::InputInt(_label.c_str(), _value.get(), _step, _step_fast, _flags))
+        if (ImGui::InputInt(_internalLabel.c_str(), _value.get(), _step, _step_fast, _flags))
         {
             // determines clamped cases
             if (_min_clamped && _max_clamped) 
@@ -218,29 +200,11 @@ namespace Marvel {
         _value = std::get<std::shared_ptr<float>>(item->getValue());
     }
 
-    void mvInputFloat::setEnabled(bool value)
-    {
-        if (value == _enabled)
-            return;
-
-        if (value)
-            _flags = _stor_flags;
-
-        else
-        {
-            _stor_flags = _flags;
-            _flags |= ImGuiInputTextFlags_ReadOnly;
-            _flags &= ~ImGuiInputTextFlags_EnterReturnsTrue;
-        }
-
-        _enabled = value;
-    }
-
     void mvInputFloat::draw(ImDrawList* drawlist, float x, float y)
     {
         ScopedID id(_uuid);
 
-        if (ImGui::InputFloat(_label.c_str(), _value.get(), _step, _step_fast, _format.c_str(), _flags))
+        if (ImGui::InputFloat(_internalLabel.c_str(), _value.get(), _step, _step_fast, _format.c_str(), _flags))
         {
             auto inital_value = *_value;
             // determines clamped cases
@@ -304,6 +268,16 @@ namespace Marvel {
         {
             if (PyObject* item = PyDict_GetItemString(dict, "min_clamped")) _min_clamped = ToBool(item);
             if (PyObject* item = PyDict_GetItemString(dict, "max_clamped")) _max_clamped = ToBool(item);
+        }
+
+        if (wasEnabledLastFrameReset())
+            _flags = _stor_flags;
+
+        if (wasDisabledLastFrameReset())
+        {
+            _stor_flags = _flags;
+            _flags |= ImGuiInputTextFlags_ReadOnly;
+            _flags &= ~ImGuiInputTextFlags_EnterReturnsTrue;
         }
     }
 
