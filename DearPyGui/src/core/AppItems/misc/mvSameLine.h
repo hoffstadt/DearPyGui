@@ -18,6 +18,8 @@ namespace Marvel {
 		MV_DEFAULT_CHILDREN
 		MV_NO_CONSTANTS
 
+	public:
+
 		mvSameLine(mvUUID uuid);
 
 		void draw(ImDrawList* drawlist, float x, float y) override;

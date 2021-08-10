@@ -182,14 +182,6 @@ namespace Marvel {
 		
 	}
 
-	mvValueVariant mvItemRegistry::getValue(mvUUID uuid)
-	{
-		mvAppItem* item = getItem(uuid);
-		if (item)
-			return item->getValue();
-		return nullptr;
-	}
-
 	bool mvItemRegistry::focusItem(mvUUID uuid)
 	{
 

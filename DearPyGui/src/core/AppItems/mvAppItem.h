@@ -119,26 +119,6 @@ namespace Marvel {
         MV_IMNODES = 2
     };
 
-    // todo: remove this nonsense (relic of CPP interface idea)
-    using mvValueVariant = std::variant<
-        std::shared_ptr<mvUUID>,
-        std::shared_ptr<int>,
-        std::shared_ptr<float>,
-        std::shared_ptr<double>,
-        std::shared_ptr<std::array<int, 4>>,
-        std::shared_ptr<std::array<float, 4>>,
-        std::shared_ptr<std::array<double, 4>>,
-        std::shared_ptr<std::vector<int>>,
-        std::shared_ptr<std::vector<float>>,
-        std::shared_ptr<std::vector<double>>,
-        std::shared_ptr<std::vector<std::vector<float>>>,
-        std::shared_ptr<std::vector<std::vector<double>>>,
-        std::shared_ptr<bool>,
-        std::shared_ptr<std::string>,
-        std::shared_ptr<tm>,
-        std::shared_ptr<ImPlotTime>,
-        void*>;
-
     template<int item_type> 
     struct mvItemTypeMap {};
 
@@ -259,7 +239,8 @@ namespace Marvel {
         // returning the actual value. These are mostly overridden by the
         // mvTypeBase classes
         //-----------------------------------------------------------------------------
-        virtual mvValueVariant getValue() { return nullptr; }
+        virtual void*          getValue() { return nullptr; }
+        //virtual mvValueVariant getValue() { return nullptr; }
         virtual PyObject*      getPyValue() { return GetPyNone(); }
         virtual void           setPyValue(PyObject* value) { }
 

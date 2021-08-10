@@ -74,7 +74,7 @@ namespace Marvel {
 				"Values types do not match: " + std::to_string(dataSource), this);
 			return;
 		}
-		_value = std::get<std::shared_ptr<std::array<double, 4>>>(item->getValue());
+		_value = *static_cast<std::shared_ptr<std::array<double, 4>>*>(item->getValue());
 	}
 
 	void mvAnnotation::draw(ImDrawList* drawlist, float x, float y)

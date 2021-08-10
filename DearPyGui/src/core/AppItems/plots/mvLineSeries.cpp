@@ -63,7 +63,7 @@ namespace Marvel {
 				"Values types do not match: " + std::to_string(dataSource), this);
 			return;
 		}
-		_value = std::get<std::shared_ptr<std::vector<std::vector<double>>>>(item->getValue());
+		_value = *static_cast<std::shared_ptr<std::vector<std::vector<double>>>*>(item->getValue());
 	}
 
 	void mvLineSeries::draw(ImDrawList* drawlist, float x, float y)

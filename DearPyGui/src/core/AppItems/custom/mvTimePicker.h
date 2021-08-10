@@ -23,7 +23,7 @@ namespace Marvel {
 		mvTimePicker(mvUUID uuid);
 
 		void draw(ImDrawList* drawlist, float x, float y)override;
-		mvValueVariant getValue() override { return _value; }
+		void* getValue() override { return &_value; }
 		PyObject* getPyValue() override;
 		void setPyValue(PyObject* value) override;
 		void handleSpecificKeywordArgs(PyObject* dict) override;

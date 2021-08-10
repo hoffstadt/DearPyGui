@@ -234,7 +234,7 @@ namespace Marvel {
 		void handleSpecificPositionalArgs(PyObject* dict) override;
 		void handleSpecificKeywordArgs(PyObject* dict) override;
         void setDataSource(mvUUID dataSource) override;
-        mvValueVariant getValue() override { return _value; }
+        void* getValue() override { return &_value; }
         PyObject* getPyValue() override;
         void setPyValue(PyObject* value) override;
 		void setLibType(mvLibType libType) { _libType = libType; }

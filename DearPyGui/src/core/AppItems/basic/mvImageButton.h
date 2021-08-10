@@ -29,7 +29,6 @@ namespace Marvel {
 		mvImageButton(mvUUID uuid);
 
 		void draw(ImDrawList* drawlist, float x, float y) override;
-
 		void handleSpecificRequiredArgs(PyObject* dict) override;
 		void handleSpecificKeywordArgs(PyObject* dict) override;
 		void getSpecificConfiguration(PyObject* dict) override;

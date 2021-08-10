@@ -129,7 +129,7 @@ namespace Marvel {
                 "Values types do not match: " + std::to_string(dataSource), this);
             return;
         }
-        _value = std::get<std::shared_ptr<std::array<float, 4>>>(item->getValue());
+        _value = *static_cast<std::shared_ptr<std::array<float, 4>>*>(item->getValue());
     }
 
     void mvSliderFloatMulti::draw(ImDrawList* drawlist, float x, float y)
@@ -214,7 +214,7 @@ namespace Marvel {
                 "Values types do not match: " + std::to_string(dataSource), this);
             return;
         }
-        _value = std::get<std::shared_ptr<std::array<int, 4>>>(item->getValue());
+        _value = *static_cast<std::shared_ptr<std::array<int, 4>>*>(item->getValue());
     }
 
     void mvSliderIntMulti::draw(ImDrawList* drawlist, float x, float y)

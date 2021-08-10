@@ -113,7 +113,7 @@ namespace Marvel {
                 "Values types do not match: " + std::to_string(dataSource), this);
             return;
         }
-        _value = std::get<std::shared_ptr<int>>(item->getValue());
+        _value = *static_cast<std::shared_ptr<int>*>(item->getValue());
     }
 
     PyObject* mvInputInt::getPyValue()
@@ -197,7 +197,7 @@ namespace Marvel {
                 "Values types do not match: " + std::to_string(dataSource), this);
             return;
         }
-        _value = std::get<std::shared_ptr<float>>(item->getValue());
+        _value = *static_cast<std::shared_ptr<float>*>(item->getValue());
     }
 
     void mvInputFloat::draw(ImDrawList* drawlist, float x, float y)

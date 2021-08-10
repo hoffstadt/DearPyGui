@@ -41,7 +41,7 @@ namespace Marvel {
 
 		void draw(ImDrawList* drawlist, float x, float y) override;
 		void setDataSource(mvUUID dataSource) override;
-		mvValueVariant getValue() override { return _value; }
+		void* getValue() override { return &_value; }
 		PyObject* getPyValue() override;
 		void setPyValue(PyObject* value) override;
 		void handleSpecificRequiredArgs(PyObject* args) override;
@@ -88,7 +88,7 @@ namespace Marvel {
 
 		void draw(ImDrawList* drawlist, float x, float y) override;
 		void setDataSource(mvUUID dataSource) override;
-		mvValueVariant getValue() override { return _value; }
+		void* getValue() override { return &_value; }
 		PyObject* getPyValue() override;
 		void setPyValue(PyObject* value) override;
 		void handleSpecificRequiredArgs(PyObject* args) override;

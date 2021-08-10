@@ -22,7 +22,7 @@ namespace Marvel {
 
 		mvGroup(mvUUID uuid);
 
-		void draw(ImDrawList* drawlist, float x, float y)               override;
+		void draw(ImDrawList* drawlist, float x, float y) override;
 
 		void handleSpecificKeywordArgs(PyObject* dict) override;
 		void getSpecificConfiguration(PyObject* dict) override;
