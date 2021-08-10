@@ -161,42 +161,10 @@ namespace Marvel {
 
 	}
 
-	bool mvPlotAxis::isParentCompatible(mvAppItemType type)
-	{
-		if (type == mvAppItemType::mvStagingContainer) return true;
-		if (type == mvAppItemType::mvPlot) return true;
-
-		mvThrowPythonError(mvErrorCode::mvIncompatibleParent, s_command,
-			"Incompatible parent. Acceptable parents include: plot, staging container", this);
-
-		MV_ITEM_REGISTRY_ERROR("Drawing item parent must be a drawing.");
-		assert(false);
-		return false;
-	}
-
 	void mvPlotAxis::fitAxisData()
 	{
 		static_cast<mvPlot*>(_parentPtr)->_fitDirty = true;
 		static_cast<mvPlot*>(_parentPtr)->_axisfitDirty[_location] = true;
-	}
-
-	void mvPlotAxis::hide()
-	{
-		if (auto plot = static_cast<mvPlot*>(_parentPtr))
-			plot->addFlag(ImPlotFlags_NoLegend);
-		_show = false;
-	}
-
-	void mvPlotAxis::show()
-	{
-		if (auto plot = static_cast<mvPlot*>(_parentPtr))
-			plot->removeFlag(ImPlotFlags_NoLegend);
-		_show = true;
-	}
-
-	bool mvPlotAxis::canChildBeAdded(mvAppItemType type)
-	{
-		return true;
 	}
 
 	void mvPlotAxis::handleSpecificKeywordArgs(PyObject* dict)
@@ -225,6 +193,20 @@ namespace Marvel {
 		{
 			static_cast<mvPlot*>(_parentPtr)->updateFlags();
 			static_cast<mvPlot*>(_parentPtr)->updateAxesNames();
+		}
+
+		if (wasShownLastFrameReset())
+		{
+			if (auto plot = static_cast<mvPlot*>(_parentPtr))
+				plot->removeFlag(ImPlotFlags_NoLegend);
+			_show = true;
+		}
+
+		if (wasHiddenLastFrameReset())
+		{
+			if (auto plot = static_cast<mvPlot*>(_parentPtr))
+				plot->addFlag(ImPlotFlags_NoLegend);
+			_show = false;
 		}
 	}
 

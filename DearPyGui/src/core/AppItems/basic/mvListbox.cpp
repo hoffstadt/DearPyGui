@@ -72,7 +72,7 @@ namespace Marvel {
 				"Values types do not match: " + std::to_string(dataSource), this);
 			return;
 		}
-		_value = std::get<std::shared_ptr<std::string>>(item->getValue());
+		_value = *static_cast<std::shared_ptr<std::string>*>(item->getValue());
 	}
 
 	void mvListbox::updateIndex()
@@ -103,7 +103,7 @@ namespace Marvel {
 			_disabledindex = _index;
 		}
 
-		if (ImGui::ListBox(_label.c_str(), _enabled ? &_index : &_disabledindex, _charNames.data(), (int)_names.size(), _itemsHeight))
+		if (ImGui::ListBox(_internalLabel.c_str(), _enabled ? &_index : &_disabledindex, _charNames.data(), (int)_names.size(), _itemsHeight))
 		{
 			*_value = _names[_index];
 			_disabled_value = _names[_index];

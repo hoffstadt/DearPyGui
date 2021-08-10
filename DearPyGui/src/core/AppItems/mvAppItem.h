@@ -28,7 +28,7 @@ namespace Marvel {
     //-----------------------------------------------------------------------------
     enum class mvAppItemType
     {
-        None = 0, mvSpacing, mvSameLine, mvInputText, mvButton,
+        None = -1, All, mvSpacing, mvSameLine, mvInputText, mvButton,
         mvRadioButton, mvTabBar, mvTab, mvImage, mvMenuBar, mvViewportMenuBar,
         mvMenu, mvMenuItem, mvGroup, mvChild,
         mvSliderFloat, mvSliderInt, mvFilterSet,
@@ -118,26 +118,6 @@ namespace Marvel {
         MV_IMPLOT = 1,
         MV_IMNODES = 2
     };
-
-    // todo: remove this nonsense (relic of CPP interface idea)
-    using mvValueVariant = std::variant<
-        std::shared_ptr<mvUUID>,
-        std::shared_ptr<int>,
-        std::shared_ptr<float>,
-        std::shared_ptr<double>,
-        std::shared_ptr<std::array<int, 4>>,
-        std::shared_ptr<std::array<float, 4>>,
-        std::shared_ptr<std::array<double, 4>>,
-        std::shared_ptr<std::vector<int>>,
-        std::shared_ptr<std::vector<float>>,
-        std::shared_ptr<std::vector<double>>,
-        std::shared_ptr<std::vector<std::vector<float>>>,
-        std::shared_ptr<std::vector<std::vector<double>>>,
-        std::shared_ptr<bool>,
-        std::shared_ptr<std::string>,
-        std::shared_ptr<tm>,
-        std::shared_ptr<ImPlotTime>,
-        void*>;
 
     template<int item_type> 
     struct mvItemTypeMap {};
@@ -235,11 +215,17 @@ namespace Marvel {
         [[nodiscard]] virtual int               getDescFlags () const = 0;
         [[nodiscard]] virtual int               getTarget    () const = 0; // which child slot
         [[nodiscard]] virtual StorageValueTypes getValueType () const = 0;
+        [[nodiscard]] virtual const char*       getCommand   () const = 0;
+        [[nodiscard]] virtual const char*       getTypeString() const = 0;
+        [[nodiscard]] virtual const std::vector<std::pair<std::string, int>>& getAllowableParents() const = 0;
+        [[nodiscard]] virtual const std::vector<std::pair<std::string, int>>& getAllowableChildren() const = 0;
+
+        // in process of removing this
+        virtual bool preDraw();
+        virtual void postDraw();
 
         // actual immediate mode drawing instructions
-        virtual bool preDraw();
         virtual void draw(ImDrawList* drawlist, float x, float y) = 0;
-        virtual void postDraw();
 
         //-----------------------------------------------------------------------------
         // usually used for iterating through items and performing an action
@@ -253,17 +239,10 @@ namespace Marvel {
         // returning the actual value. These are mostly overridden by the
         // mvTypeBase classes
         //-----------------------------------------------------------------------------
-        virtual mvValueVariant getValue() { return nullptr; }
+        virtual void*          getValue() { return nullptr; }
+        //virtual mvValueVariant getValue() { return nullptr; }
         virtual PyObject*      getPyValue() { return GetPyNone(); }
         virtual void           setPyValue(PyObject* value) { }
-
-        //-----------------------------------------------------------------------------
-        // These methods handle are used by the item registry:
-        //   - isParentCompatible -> will the parent accept the current item
-        //   - canChildBeAdded -> will the current item accept the incoming child
-        //-----------------------------------------------------------------------------
-        virtual bool isParentCompatible(mvAppItemType type) { return true; }
-        virtual bool canChildBeAdded   (mvAppItemType type) { return true; }
 
         // used to check arguments, get/set configurations
         void getItemInfo      (PyObject* dict);
@@ -306,45 +285,68 @@ namespace Marvel {
         //-----------------------------------------------------------------------------
         bool isPosDirty() const { return _dirtyPos; }
 
-        virtual void                        focus          () { _focusNextFrame = true; }
-        virtual void                        unfocus        () { _focusNextFrame = false; }
-        virtual void                        hide           () { _show = false; }
-        virtual void                        show           () { _show = true; }
-        void                                setCallbackData(PyObject* data);
-        void                                updateLocations();
+        //-----------------------------------------------------------------------------
+        // config getters
+        //-----------------------------------------------------------------------------
+        const std::string& getFilter()         const { return _filter; }
+        const std::string& getLabel()          const { return _internalLabel; }
+        const std::string& getSpecifiedLabel() const { return _specificedlabel; }
+        bool               isEnabled()         const { return _enabled; }
+        int                getWidth()          const { return _width; }
+        int                getHeight()         const { return _height; }
+        mvUUID             getUUID()           const { return _uuid; }
+        float              getTrackOffset()    const { return _trackOffset; }
+        bool               isTracked()         const { return _tracked; }
+        bool               isShown()           const { return _show; }
 
-        std::vector<mvRef<mvAppItem>>&      getChildren(int slot);
-        void                                setChildren(int slot, std::vector<mvRef<mvAppItem>> children);
+        //-----------------------------------------------------------------------------
+        // config setters
+        //-----------------------------------------------------------------------------
+        void setLabel       (const std::string& value);
+        void setFilter      (const std::string& value);
+        void setCallbackData(PyObject* data);
+        void setWidth       (int width);
+        void setHeight      (int height);
+        void setEnabled     (bool value);
+        void hide();
+        void show();
+        virtual void setDataSource(mvUUID value);
 
-        [[nodiscard]] bool                  isShown        () const { return _show; }
+        //-----------------------------------------------------------------------------
+        // last frame query
+        //-----------------------------------------------------------------------------
+        bool shouldFocusNextFrame() const;
+        bool wasShownLastFrameReset();
+        bool wasHiddenLastFrameReset();
+        bool wasEnabledLastFrameReset();
+        bool wasDisabledLastFrameReset();
 
-
-        mvAppItemState&                     getState       () { return _state; } 
-        mvAppItem*                          getParent() { return _parentPtr; }
-        bool                                isEnabled() const { return _enabled; }
-        int                                 getWidth() const { return _width; }
-        int                                 getHeight() const { return _height; }
-        mvUUID                              getUUID() const { return _uuid; }
-        const std::string&                  getFilter() const { return _filter; }
-        const std::string&                  getLabel() const { return _label; }
-        const std::string&                  getSpecifiedLabel() const { return _specificedlabel; }
-        mvAppItem*                          getRoot() const;
-        int                                 getLocation() const { return _location; }
-        void                                requestAltCustomAction() { _triggerAlternativeAction = true; }
-        bool                                isAltCustomActionRequested() const { return _triggerAlternativeAction; }
-        bool                                isTracked() const { return _tracked; }
-        float                               getTrackOffset() const { return _trackOffset; }
-        virtual void                        setWidth(int width) { _width = width; }
-        virtual void                        setHeight(int height) { _height = height; }
-        virtual void                        setEnabled   (bool value)              { _enabled = value; }
-        virtual void                        setDataSource(mvUUID value)            { _source = value; }
-        virtual void                        setLabel     (const std::string& value); 
-        void                                setFilter    (const std::string& value); 
-        void                                setPos       (const ImVec2& pos);
-        void                                registerWindowFocusing(); // only useful for imgui window types
-        bool                                shouldFocusNextFrame() const { return _focusNextFrame; }
+        //-----------------------------------------------------------------------------
+        // misc
+        //-----------------------------------------------------------------------------
+        void                           focus();
+        void                           unfocus();
+        void                           updateLocations();
+        std::vector<mvRef<mvAppItem>>& getChildren(int slot);
+        void                           setChildren(int slot, std::vector<mvRef<mvAppItem>> children);
+        mvAppItemState&                getState();
+        mvAppItem*                     getParent();
+        mvAppItem*                     getRoot() const;
+        int                            getLocation() const;
+        void                           requestAltCustomAction();
+        bool                           isAltCustomActionRequested() const;
+        void                           setPos(const ImVec2& pos);
+        void                           registerWindowFocusing(); // only useful for imgui window types
 
     private:
+
+        //-----------------------------------------------------------------------------
+        // These methods handle are used by the item registry:
+        //   - isParentCompatible -> will the parent accept the current item
+        //   - canChildBeAdded -> will the current item accept the incoming child
+        //-----------------------------------------------------------------------------
+        bool isParentCompatible(mvAppItemType type);
+        bool canChildBeAdded   (mvAppItemType type);
 
         mvAppItem*       getChild(mvUUID uuid);      // will return nullptr if not found
         mvRef<mvAppItem> getChildRef(mvUUID uuid);      // will return nullptr if not found
@@ -359,19 +361,29 @@ namespace Marvel {
         bool             moveChildDown(mvUUID uuid);
         void             resetState();
         mvRef<mvAppItem> stealChild(mvUUID uuid); // steals a child (used for moving)
-
        
     protected:
 
         mvUUID         _uuid = 0;
-        mvAppItemState _state;
-        bool           _focusNextFrame = false;
-        bool           _dirtyPos = false;
-        ImVec2         _previousCursorPos = { 0.0f, 0.0f };
-        int            _location = -1;
-        std::string    _label; // internal imgui label
-        bool           _triggerAlternativeAction = false;
+        std::string    _internalLabel; // label passed into imgui
         mvAppItem*     _parentPtr = nullptr;
+        mvAppItemState _state;
+        int            _location = -1;
+        
+        // next frame triggers
+        bool _focusNextFrame = false;
+        bool _triggerAlternativeAction = false;
+        bool _shownLastFrame = false;
+        bool _hiddenLastFrame = false;
+        bool _enabledLastFrame = false;
+        bool _disabledLastFrame = false;
+
+        // previous frame cache
+        ImVec2 _previousCursorPos = { 0.0f, 0.0f };
+
+        // dirty flags
+        bool _dirty_size = true;
+        bool _dirtyPos = false;
 
         // slots
         //   * 0 : mvFileExtension, mvFontRangeHint, mvNodeLink, mvAnnotation
@@ -389,19 +401,20 @@ namespace Marvel {
         mvRef<mvAppItem> _theme = nullptr;
         mvRef<mvAppItem> _disabledTheme = nullptr;
 
+        // drag & drop
+        PyObject* _dragCallback = nullptr;
+        PyObject* _dropCallback = nullptr;
+        std::string _payloadType = "$$DPG_PAYLOAD";
+
         // config
         mvUUID      _source = 0;
         std::string _specificedlabel;
         mvUUID      _parent = 0;
         mvUUID      _before = 0;
-        std::string _filter = "";
+        std::string _filter;
         int         _width = 0;
         int         _height = 0;
         float       _indent = -1.0f;
-        int         _windowPosx = 0;
-        int         _windowPosy = 0;
-        int         _posx = 0;
-        int         _posy = 0;
         bool        _show = true;
         bool        _enabled = true;
         PyObject*   _callback = nullptr;
@@ -411,11 +424,6 @@ namespace Marvel {
         bool        _searchLast = false;
         bool        _searchDelayed = false;
         bool        _useInternalLabel = true; // when false, will use specificed label
-
-        // drag & drop
-        PyObject*   _dragCallback = nullptr;
-        PyObject*   _dropCallback = nullptr;
-        std::string _payloadType = "$$DPG_PAYLOAD";
 
     };
 

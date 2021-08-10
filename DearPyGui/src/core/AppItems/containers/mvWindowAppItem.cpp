@@ -102,6 +102,7 @@ namespace Marvel {
 		//_label = "Window###" + std::to_string(_uuid);
 		_width = 500;
 		_height = 500;
+		_dirty_size = true;
 
 		_oldWindowflags = ImGuiWindowFlags_None;
 
@@ -166,31 +167,6 @@ namespace Marvel {
 		}
 
 
-	}
-
-	void mvWindowAppItem::setWidth(int width) 
-	{ 
-		_width = width;
-		_dirty_size = true; 
-	}
-
-	void mvWindowAppItem::setHeight(int height) 
-	{ 
-		_height = height;
-		_dirty_size = true; 
-	}
-
-	void mvWindowAppItem::setLabel(const std::string& value)
-	{
-
-		if (_useInternalLabel)
-			_label = value + "###" + std::to_string(_uuid);
-		else
-			_label = value;
-
-		// this is necessary because imgui considers it a new window
-		_dirtyPos = true;
-		_dirty_size = true;
 	}
 
 	void mvWindowAppItem::draw(ImDrawList* drawlist, float x, float y)
@@ -268,13 +244,10 @@ namespace Marvel {
 
 		if (_modal)
 		{
-			if (_popupInit)
-			{
-				ImGui::OpenPopup(_label.c_str());
-				_popupInit = false;
-			}
+			if (wasShownLastFrameReset())
+				ImGui::OpenPopup(_internalLabel.c_str());
 			
-			if (!ImGui::BeginPopupModal(_label.c_str(), _no_close ? nullptr : &_show, _windowflags))
+			if (!ImGui::BeginPopupModal(_internalLabel.c_str(), _no_close ? nullptr : &_show, _windowflags))
 			{
 				if (_mainWindow)
 					ImGui::PopStyleVar();
@@ -294,13 +267,10 @@ namespace Marvel {
 
 		else if (_popup)
 		{
-			if (_popupInit)
-			{
-				ImGui::OpenPopup(_label.c_str());
-				_popupInit = false;
-			}
+			if (wasShownLastFrameReset())
+				ImGui::OpenPopup(_internalLabel.c_str());
 
-			if (!ImGui::BeginPopup(_label.c_str(), _windowflags))
+			if (!ImGui::BeginPopup(_internalLabel.c_str(), _windowflags))
 			{
 				if (_mainWindow)
 					ImGui::PopStyleVar();
@@ -310,7 +280,7 @@ namespace Marvel {
 
 		else
 		{
-			if (!ImGui::Begin(_label.c_str(), _no_close ? nullptr : &_show, _windowflags))
+			if (!ImGui::Begin(_internalLabel.c_str(), _no_close ? nullptr : &_show, _windowflags))
 			{
 				if (_mainWindow)
 					ImGui::PopStyleVar();
@@ -464,12 +434,6 @@ namespace Marvel {
 		}
 	}
 
-	void mvWindowAppItem::show()
-	{
-		_show = true;
-		_popupInit = true;
-	}
-
 	void mvWindowAppItem::handleSpecificKeywordArgs(PyObject* dict)
 	{
 		if (dict == nullptr)
@@ -478,13 +442,19 @@ namespace Marvel {
 		if (PyObject* item = PyDict_GetItemString(dict, "modal"))
 		{
 			_modal = ToBool(item);
-			_popupInit = true;
+			_shownLastFrame = true;
 		}
 
 		if (PyObject* item = PyDict_GetItemString(dict, "popup"))
 		{
 			_popup = ToBool(item);
-			_popupInit = true;
+			_shownLastFrame = true;
+		}
+
+		if (PyObject* item = PyDict_GetItemString(dict, "label"))
+		{
+			_dirtyPos = true;
+			_dirty_size = true;
 		}
 
 		if (PyObject* item = PyDict_GetItemString(dict, "no_close")) _no_close = ToBool(item);

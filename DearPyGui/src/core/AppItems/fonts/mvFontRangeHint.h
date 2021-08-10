@@ -13,6 +13,13 @@ namespace Marvel {
 		static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
 
 		MV_APPLY_WIDGET_REGISTRATION(mvAppItemType::mvFontRangeHint, add_font_range_hint)
+		MV_NO_COMMANDS
+		MV_DEFAULT_CHILDREN
+
+		MV_START_PARENTS
+			MV_ADD_PARENT(mvAppItemType::mvFont)
+		MV_END_PARENTS
+
 		MV_CREATE_CONSTANT(mvFontRangeHint_Default, 0);
 		MV_CREATE_CONSTANT(mvFontRangeHint_Japanese, 1);
 		MV_CREATE_CONSTANT(mvFontRangeHint_Korean, 2);
@@ -22,26 +29,22 @@ namespace Marvel {
 		MV_CREATE_CONSTANT(mvFontRangeHint_Thai, 6);
 		MV_CREATE_CONSTANT(mvFontRangeHint_Vietnamese, 7);
 
-			MV_START_COMMANDS
-			MV_END_COMMANDS
-
-			MV_START_CONSTANTS
-				MV_ADD_CONSTANT(mvFontRangeHint_Default),
-				MV_ADD_CONSTANT(mvFontRangeHint_Japanese),
-				MV_ADD_CONSTANT(mvFontRangeHint_Korean),
-				MV_ADD_CONSTANT(mvFontRangeHint_Chinese_Full),
-				MV_ADD_CONSTANT(mvFontRangeHint_Chinese_Simplified_Common),
-				MV_ADD_CONSTANT(mvFontRangeHint_Cyrillic),
-				MV_ADD_CONSTANT(mvFontRangeHint_Thai),
-				MV_ADD_CONSTANT(mvFontRangeHint_Vietnamese),
-			MV_END_CONSTANTS
+		MV_START_CONSTANTS
+			MV_ADD_CONSTANT(mvFontRangeHint_Default),
+			MV_ADD_CONSTANT(mvFontRangeHint_Japanese),
+			MV_ADD_CONSTANT(mvFontRangeHint_Korean),
+			MV_ADD_CONSTANT(mvFontRangeHint_Chinese_Full),
+			MV_ADD_CONSTANT(mvFontRangeHint_Chinese_Simplified_Common),
+			MV_ADD_CONSTANT(mvFontRangeHint_Cyrillic),
+			MV_ADD_CONSTANT(mvFontRangeHint_Thai),
+			MV_ADD_CONSTANT(mvFontRangeHint_Vietnamese),
+		MV_END_CONSTANTS
 
 	public:
 
 		mvFontRangeHint(mvUUID uuid);
 
 		void draw(ImDrawList* drawlist, float x, float y) override {}
-		bool isParentCompatible(mvAppItemType type) override;
 		void handleSpecificRequiredArgs(PyObject* dict) override;
 		int getHint() const { return _hint; }
 

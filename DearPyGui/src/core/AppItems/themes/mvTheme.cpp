@@ -30,19 +30,6 @@ namespace Marvel {
 		_show = false;
 	}
 
-	bool mvTheme::canChildBeAdded(mvAppItemType type)
-	{
-		if (type == mvAppItemType::mvThemeStyle) return true;
-		if (type == mvAppItemType::mvThemeColor) return true;
-
-		mvThrowPythonError(mvErrorCode::mvIncompatibleChild, s_command,
-			"Incompatible child. Acceptable children include: mvThemeStyle, mvThemeColor", this);
-
-		MV_ITEM_REGISTRY_ERROR("Item's parent must be plot.");
-		assert(false);
-		return false;
-	}
-
 	void mvTheme::draw(ImDrawList* drawlist, float x, float y)
 	{
 		for (auto& childset : _children)

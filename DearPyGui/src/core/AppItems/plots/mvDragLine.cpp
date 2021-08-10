@@ -40,18 +40,6 @@ namespace Marvel {
 	{
 	}
 
-	bool mvDragLine::isParentCompatible(mvAppItemType type)
-	{
-		if (type == mvAppItemType::mvStagingContainer) return true;
-		if (type == mvAppItemType::mvPlot) return true;
-
-		mvThrowPythonError(mvErrorCode::mvIncompatibleParent, s_command,
-			"Incompatible parent. Acceptable parents include: plot, staging container", this);
-		MV_ITEM_REGISTRY_ERROR("Item's parent must be plot.");
-		assert(false);
-		return false;
-	}
-
 	void mvDragLine::draw(ImDrawList* drawlist, float x, float y)
 	{
 		ScopedID id(_uuid);
@@ -101,7 +89,7 @@ namespace Marvel {
 				"Values types do not match: " + std::to_string(dataSource), this);
 			return;
 		}
-		_value = std::get<std::shared_ptr<double>>(item->getValue());
+		_value = *static_cast<std::shared_ptr<double>*>(item->getValue());
 	}
 
 	void mvDragLine::handleSpecificKeywordArgs(PyObject* dict)

@@ -48,10 +48,10 @@ namespace Marvel {
 		ImGui::PushID(this);
 
 		if (_histogram)
-			ImGui::PlotHistogram(_label.c_str(), _value->data(), (int)_value->size(), 0, _overlay.c_str(),
+			ImGui::PlotHistogram(_internalLabel.c_str(), _value->data(), (int)_value->size(), 0, _overlay.c_str(),
 				_min, _max, ImVec2((float)_width, (float)_height));
 		else
-			ImGui::PlotLines(_label.c_str(), _value->data(), (int)_value->size(), 0, _overlay.c_str(),
+			ImGui::PlotLines(_internalLabel.c_str(), _value->data(), (int)_value->size(), 0, _overlay.c_str(),
 				_min, _max, ImVec2((float)_width, (float)_height));
 
 		ImGui::PopID();
@@ -80,7 +80,7 @@ namespace Marvel {
 				"Values types do not match: " + std::to_string(dataSource), this);
 			return;
 		}
-		_value = std::get<std::shared_ptr<std::vector<float>>>(item->getValue());
+		_value = *static_cast<std::shared_ptr<std::vector<float>>*>(item->getValue());
 	}
 
 	void mvSimplePlot::setPyValue(PyObject* value)

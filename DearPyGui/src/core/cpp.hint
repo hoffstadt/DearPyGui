@@ -19,6 +19,10 @@ int getDescFlags() const override { return mvItemTypeMap<(int)x>::flags; }\
 StorageValueTypes getValueType() const override { return mvItemTypeMap<(int)x>::value_type; }\
 mvRef<mvAppItem> getClassTheme() const override { return s_class_theme; }\
 mvRef<mvAppItem> getClassDisabledTheme() const override { return s_class_disabled_theme; }\
+const char* getCommand() const override { return #parser; }\
+const char* getTypeString() const override { return #x; }\
+const std::vector<std::pair<std::string, int>>& getAllowableParents() const override { return mvItemTypeMap<(int)x>::type::GetAllowableParents(); };\
+const std::vector<std::pair<std::string, int>>& getAllowableChildren() const override { return mvItemTypeMap<(int)x>::type::GetAllowableChildren(); };\
 static PyObject* parser(PyObject* self, PyObject* args, PyObject* kwargs)\
 {\
 	mvUUID id = mvApp::GenerateUUID();\
@@ -31,18 +35,56 @@ static PyObject* parser(PyObject* self, PyObject* args, PyObject* kwargs)\
 	mvApp::GetApp()->getItemRegistry().addItemWithRuntimeChecks(item, parent, before);\
 	return ToPyUUID(id);\
 }\
-static PyMethodDef GetMethodDefinition(){return { s_command, (PyCFunction)parser, METH_VARARGS | METH_KEYWORDS, mvApp::GetApp()->getParsers()[s_command].getDocumentation() };}
+static PyMethodDef GetMethodDefinition(){return { s_command, (PyCFunction)parser, METH_VARARGS | METH_KEYWORDS, mvApp::GetApp()->getParsers()[s_command].getDocumentation() };\
+}
 
+///////////////////////////////////////////////////////////////////////////////
+// commands
+///////////////////////////////////////////////////////////////////////////////
 
+#define MV_NO_COMMANDS static void FillExtraCommands(std::vector<PyMethodDef>& methods){}
 #define MV_CREATE_COMMAND(x) static PyObject* x(PyObject* self, PyObject* args, PyObject* kwargs)
 #define MV_START_COMMANDS static void FillExtraCommands(std::vector<PyMethodDef>& methods){ 
 #define MV_ADD_COMMAND(x) methods.push_back({ #x, (PyCFunction)x, METH_VARARGS | METH_KEYWORDS, mvApp::GetApp()->getParsers()[#x].getDocumentation() });
 #define MV_END_COMMANDS }
 
+///////////////////////////////////////////////////////////////////////////////
+// constants
+///////////////////////////////////////////////////////////////////////////////
+
+#define MV_NO_CONSTANTS public: static const std::vector<std::pair<std::string, long>>& GetGeneralConstants()\
+{static std::vector<std::pair<std::string, long>> constants ={\
+};return constants;}
+
 #define MV_START_CONSTANTS public: static const std::vector<std::pair<std::string, long>>& GetGeneralConstants()\
 {static std::vector<std::pair<std::string, long>> constants ={
 
 #define MV_END_CONSTANTS };return constants;}
-
 #define MV_ADD_CONSTANT(x) {#x, x}
 #define MV_CREATE_CONSTANT(y, z) static constexpr const long y = z;
+
+///////////////////////////////////////////////////////////////////////////////
+// parents
+///////////////////////////////////////////////////////////////////////////////
+
+#define MV_DEFAULT_PARENTS static const std::vector<std::pair<std::string, int>>& GetAllowableParents()\
+{static std::vector<std::pair<std::string, int>> constants = {{"All", 0}}; return constants;}
+
+#define MV_START_PARENTS static const std::vector<std::pair<std::string, int>>& GetAllowableParents()\
+{static std::vector<std::pair<std::string, int>> constants = {
+
+#define MV_ADD_PARENT(x){#x, (int)x}
+#define MV_END_PARENTS };return constants;}
+
+///////////////////////////////////////////////////////////////////////////////
+// children
+///////////////////////////////////////////////////////////////////////////////
+
+#define MV_DEFAULT_CHILDREN static const std::vector<std::pair<std::string, int>>& GetAllowableChildren()\
+{static std::vector<std::pair<std::string, int>> constants = {{"All", 0}}; return constants;}
+
+#define MV_START_CHILDREN static const std::vector<std::pair<std::string, int>>& GetAllowableChildren()\
+{static std::vector<std::pair<std::string, int>> constants = {
+
+#define MV_ADD_CHILD(x){#x, (int)x}
+#define MV_END_CHILDREN };return constants;}

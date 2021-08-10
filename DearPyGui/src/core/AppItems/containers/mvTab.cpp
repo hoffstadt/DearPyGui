@@ -49,18 +49,6 @@ namespace Marvel {
 		_flags &= ~flag;
 	}
 
-	bool mvTab::isParentCompatible(mvAppItemType type)
-	{
-		if (type == mvAppItemType::mvTabBar) return true;
-		if (type == mvAppItemType::mvStagingContainer) return true;
-
-		mvThrowPythonError(mvErrorCode::mvIncompatibleParent, s_command,
-			"Incompatible parent. Acceptable parents include: tab bar, staging container.", this);
-
-		assert(false);
-		return false;
-	}
-
 	PyObject* mvTab::getPyValue()
 	{
 		return ToPyBool(*_value);
@@ -89,7 +77,7 @@ namespace Marvel {
 				"Values types do not match: " + std::to_string(dataSource), this);
 			return;
 		}
-		_value = std::get<std::shared_ptr<bool>>(item->getValue());
+		_value = *static_cast<std::shared_ptr<bool>*>(item->getValue());
 	}
 
 	void mvTab::draw(ImDrawList* drawlist, float x, float y)
@@ -108,7 +96,7 @@ namespace Marvel {
 		}
 
 		// create tab item and see if it is selected
-		if (ImGui::BeginTabItem(_label.c_str(), _closable ? &_show : nullptr, _flags))
+		if (ImGui::BeginTabItem(_internalLabel.c_str(), _closable ? &_show : nullptr, _flags))
 		{
 
 			// set other tab's value false

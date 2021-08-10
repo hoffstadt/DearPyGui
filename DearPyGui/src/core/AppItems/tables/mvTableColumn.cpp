@@ -51,20 +51,7 @@ namespace Marvel {
 	void mvTableColumn::draw(ImDrawList* drawlist, float x, float y)
 	{
 		_id = _uuid;
-		ImGui::TableSetupColumn(_label.c_str(), _flags, _init_width_or_weight, _id);
-	}
-
-	bool mvTableColumn::isParentCompatible(mvAppItemType type)
-	{
-		if (type == mvAppItemType::mvStagingContainer) return true;
-		if (type == mvAppItemType::mvTable) return true;
-
-		mvThrowPythonError(mvErrorCode::mvIncompatibleParent, s_command,
-			"Incompatible parent. Acceptable parents include: table, staging container.", this);
-
-		MV_ITEM_REGISTRY_ERROR("mvTableColumn parent must be a table.");
-		assert(false);
-		return false;
+		ImGui::TableSetupColumn(_internalLabel.c_str(), _flags, _init_width_or_weight, _id);
 	}
 
 	void mvTableColumn::handleSpecificKeywordArgs(PyObject* dict)

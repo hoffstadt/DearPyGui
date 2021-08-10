@@ -38,7 +38,7 @@ namespace Marvel {
 		ScopedID id(_uuid);
 
 		// create menu and see if its selected
-		if (ImGui::BeginMenu(_label.c_str(), _enabled))
+		if (ImGui::BeginMenu(_internalLabel.c_str(), _enabled))
 		{
 
 			// set other menus's value false on same level
@@ -114,7 +114,7 @@ namespace Marvel {
 				"Values types do not match: " + std::to_string(dataSource), this);
 			return;
 		}
-		_value = std::get<std::shared_ptr<bool>>(item->getValue());
+		_value = *static_cast<std::shared_ptr<bool>*>(item->getValue());
 	}
 
 }

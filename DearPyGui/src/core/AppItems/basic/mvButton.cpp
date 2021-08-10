@@ -125,19 +125,19 @@ namespace Marvel {
 
 			if (_small_button)
 			{
-				if (ImGui::SmallButton(_label.c_str()))
+				if (ImGui::SmallButton(_internalLabel.c_str()))
 					mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), _uuid, nullptr, _user_data);
 			}
 
 			else if (_arrow)
 			{
-				if (ImGui::ArrowButton(_label.c_str(), _direction))
+				if (ImGui::ArrowButton(_internalLabel.c_str(), _direction))
 					mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), _uuid, nullptr, _user_data);
 			}
 
 			else
 			{
-				if (ImGui::Button(_label.c_str(), ImVec2((float)_width, (float)_height)))
+				if (ImGui::Button(_internalLabel.c_str(), ImVec2((float)_width, (float)_height)))
 					mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), _uuid, nullptr, _user_data);
 			}
 		}

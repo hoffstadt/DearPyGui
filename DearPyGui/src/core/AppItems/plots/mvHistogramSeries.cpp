@@ -73,18 +73,7 @@ namespace Marvel {
 				"Values types do not match: " + std::to_string(dataSource), this);
 			return;
 		}
-		_value = std::get<std::shared_ptr<std::vector<std::vector<double>>>>(item->getValue());
-	}
-
-	bool mvHistogramSeries::isParentCompatible(mvAppItemType type)
-	{
-		if (type == mvAppItemType::mvPlotAxis) return true;
-
-		mvThrowPythonError(mvErrorCode::mvIncompatibleParent, s_command,
-			"Incompatible parent. Acceptable parents include: plot axis", this);
-
-		assert(false);
-		return false;
+		_value = *static_cast<std::shared_ptr<std::vector<std::vector<double>>>*>(item->getValue());
 	}
 
 	void mvHistogramSeries::draw(ImDrawList* drawlist, float x, float y)
@@ -124,11 +113,11 @@ namespace Marvel {
 
 			xptr = &(*_value.get())[0];
 
-			ImPlot::PlotHistogram(_label.c_str(), xptr->data(), (int)xptr->size(), _bins,
+			ImPlot::PlotHistogram(_internalLabel.c_str(), xptr->data(), (int)xptr->size(), _bins,
 				_cumlative, _density, ImPlotRange(_min, _max), _outliers, (double)_barScale);
 
 			// Begin a popup for a legend entry.
-			if (ImPlot::BeginLegendPopup(_label.c_str(), 1))
+			if (ImPlot::BeginLegendPopup(_internalLabel.c_str(), 1))
 			{
 				for (auto& childset : _children)
 				{

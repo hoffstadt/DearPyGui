@@ -98,9 +98,9 @@ namespace Marvel {
 		if (_children[1].empty())
 		{
 			if (_modal)
-				_instance.OpenModal(_label.c_str(), _label.c_str(), _directory ? nullptr : _filters.c_str(), _defaultPath, _defaultFilename, _fileCount);
+				_instance.OpenModal(_internalLabel.c_str(), _internalLabel.c_str(), _directory ? nullptr : _filters.c_str(), _defaultPath, _defaultFilename, _fileCount);
 			else
-				_instance.OpenDialog(_label.c_str(), _label.c_str(), _directory ? nullptr : _filters.c_str(), _defaultPath, _defaultFilename, _fileCount);
+				_instance.OpenDialog(_internalLabel.c_str(), _internalLabel.c_str(), _directory ? nullptr : _filters.c_str(), _defaultPath, _defaultFilename, _fileCount);
 		}
 
 		// with panel
@@ -108,10 +108,10 @@ namespace Marvel {
 		{
 
 			if (_modal)
-				_instance.OpenModal(_label.c_str(), _label.c_str(), _directory ? nullptr : _filters.c_str(), _defaultPath, _defaultFilename,
+				_instance.OpenModal(_internalLabel.c_str(), _internalLabel.c_str(), _directory ? nullptr : _filters.c_str(), _defaultPath, _defaultFilename,
 					std::bind(&Panel, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3), 250.0f, _fileCount, IGFDUserDatas(this));
 			else
-				_instance.OpenDialog(_label.c_str(), _label.c_str(), _directory ? nullptr : _filters.c_str(), _defaultPath, _defaultFilename,
+				_instance.OpenDialog(_internalLabel.c_str(), _internalLabel.c_str(), _directory ? nullptr : _filters.c_str(), _defaultPath, _defaultFilename,
 					std::bind(&Panel, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3), 250.0f, _fileCount, IGFDUserDatas(this));
 		}
 
@@ -119,7 +119,7 @@ namespace Marvel {
 			//mvFontScope fscope(this);
 
 			// display
-			if (_instance.Display(_label.c_str(), ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoSavedSettings, ImVec2(500, 600)))
+			if (_instance.Display(_internalLabel.c_str(), ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoSavedSettings, ImVec2(500, 600)))
 			{
 
 				// action if OK
@@ -167,7 +167,7 @@ namespace Marvel {
 				"Values types do not match: " + std::to_string(dataSource), this);
 			return;
 		}
-		_value = std::get<std::shared_ptr<bool>>(item->getValue());
+		_value = *static_cast<std::shared_ptr<bool>*>(item->getValue());
 	}
 
 	void mvFileDialog::handleSpecificKeywordArgs(PyObject* dict)

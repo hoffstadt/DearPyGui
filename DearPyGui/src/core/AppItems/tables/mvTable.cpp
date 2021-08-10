@@ -76,7 +76,7 @@ namespace Marvel {
 		if (_columns == 0)
 			return;
 
-		if (ImGui::BeginTable(_label.c_str(), _columns, _flags, 
+		if (ImGui::BeginTable(_internalLabel.c_str(), _columns, _flags, 
 			ImVec2((float)_width, (float)_height), (float)_inner_width))
 		{
 

@@ -15,6 +15,13 @@ namespace Marvel {
 
         static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
 
+        MV_APPLY_WIDGET_REGISTRATION(mvAppItemType::mvColorMap, add_colormap)
+        MV_DEFAULT_CHILDREN
+
+        MV_START_PARENTS
+            MV_ADD_PARENT(mvAppItemType::mvColorMapRegistry)
+        MV_END_PARENTS
+
         //-----------------------------------------------------------------------------
         // Built-in ImPlot Color maps
         //-----------------------------------------------------------------------------
@@ -35,8 +42,6 @@ namespace Marvel {
         MV_CREATE_CONSTANT(mvPlotColormap_PiYG, 13L); // a.k.a. MATLAB "jet"             (n=11)
         MV_CREATE_CONSTANT(mvPlotColormap_Spectral, 14L); // a.k.a. MATLAB "jet"             (n=11)
         MV_CREATE_CONSTANT(mvPlotColormap_Greys, 15L); // a.k.a. MATLAB "jet"             (n=11)
-
-        MV_APPLY_WIDGET_REGISTRATION(mvAppItemType::mvColorMap, add_colormap)
 
         MV_CREATE_COMMAND(set_colormap);
         MV_CREATE_COMMAND(sample_colormap);
@@ -73,7 +78,6 @@ namespace Marvel {
         mvColorMap(mvUUID uuid);
 
         void draw(ImDrawList* drawlist, float x, float y) override;
-        bool isParentCompatible(mvAppItemType type) override;
         void handleSpecificRequiredArgs(PyObject* args) override;
         void alternativeCustomAction() override;
         ImPlotColormap getColorMap() const { return _colorMap; }

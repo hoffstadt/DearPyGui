@@ -54,19 +54,4 @@ namespace Marvel {
 		}
 	}
 
-	bool mvMenuBar::isParentCompatible(mvAppItemType type)
-	{
-		if (type == mvAppItemType::mvWindowAppItem) return true;
-		if (type == mvAppItemType::mvChild) return true;
-		if (type == mvAppItemType::mvNodeEditor) return true;
-		if (type == mvAppItemType::mvStagingContainer) return true;
-
-		mvThrowPythonError(mvErrorCode::mvIncompatibleParent, s_command,
-			"Incompatible parent. Acceptable parents include: window, child, staging container.", this);
-
-		MV_ITEM_REGISTRY_ERROR("Menubar parent must be a window or child.");
-		assert(false);
-		return false;
-	}
-
 }

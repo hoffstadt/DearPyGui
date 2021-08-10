@@ -72,7 +72,6 @@ namespace Marvel {
 	mvNodeEditor::mvNodeEditor(mvUUID uuid)
 		: mvAppItem(uuid)
 	{
-		_label = "NodeEditor###" + std::to_string(_uuid);
 		_context = imnodes::EditorContextCreate();
 	}
 
@@ -127,30 +126,6 @@ namespace Marvel {
 
 		// window flags
 		checkbitset("menubar", ImGuiWindowFlags_MenuBar, _windowflags);
-	}
-
-	bool mvNodeEditor::canChildBeAdded(mvAppItemType type)
-	{
-		if(type ==mvAppItemType::mvMenuBar) return true;
-		if(type ==mvAppItemType::mvNode) return true;
-		if(type ==mvAppItemType::mvNodeLink) return true;
-		if (type == mvAppItemType::mvActivatedHandler) return true;
-		if (type == mvAppItemType::mvActiveHandler) return true;
-		if (type == mvAppItemType::mvClickedHandler) return true;
-		if (type == mvAppItemType::mvDeactivatedAfterEditHandler) return true;
-		if (type == mvAppItemType::mvDeactivatedHandler) return true;
-		if (type == mvAppItemType::mvEditedHandler) return true;
-		if (type == mvAppItemType::mvFocusHandler) return true;
-		if (type == mvAppItemType::mvHoverHandler) return true;
-		if (type == mvAppItemType::mvResizeHandler) return true;
-		if (type == mvAppItemType::mvToggledOpenHandler) return true;
-		if (type == mvAppItemType::mvVisibleHandler) return true;
-
-		mvThrowPythonError(mvErrorCode::mvIncompatibleChild, s_command,
-			"Incompatible child. Acceptable children include: mvNode, mvNodeLink", this);
-		MV_ITEM_REGISTRY_ERROR("Node editor children must be nodes only.");
-		assert(false);
-		return false;
 	}
 
 	void mvNodeEditor::onChildRemoved(mvRef<mvAppItem> item)
@@ -223,7 +198,7 @@ namespace Marvel {
 		ScopedID id(_uuid);
 		imnodes::EditorContextSet(_context);
 
-		ImGui::BeginChild(_label.c_str(), ImVec2((float)_width, (float)_height), false, _windowflags);
+		ImGui::BeginChild(_internalLabel.c_str(), ImVec2((float)_width, (float)_height), false, _windowflags);
 
 		for (auto& item : _children[1])
 		{

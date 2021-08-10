@@ -13,6 +13,7 @@ namespace Marvel {
 		static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
 
 		MV_APPLY_WIDGET_REGISTRATION(mvAppItemType::mvPlotAxis, add_plot_axis)
+		MV_DEFAULT_CHILDREN
 
 		MV_CREATE_CONSTANT(mvXAxis, 0);
 		MV_CREATE_CONSTANT(mvYAxis, 1);
@@ -23,6 +24,11 @@ namespace Marvel {
 		MV_CREATE_COMMAND(set_axis_limits_auto);
 		MV_CREATE_COMMAND(get_axis_limits);
 		MV_CREATE_COMMAND(fit_axis_data);
+
+		MV_START_PARENTS
+			MV_ADD_PARENT(mvAppItemType::mvStagingContainer),
+			MV_ADD_PARENT(mvAppItemType::mvPlot)
+		MV_END_PARENTS
 
 		MV_START_COMMANDS
 			MV_ADD_COMMAND(reset_axis_ticks);
@@ -44,15 +50,11 @@ namespace Marvel {
 
 		void draw(ImDrawList* drawlist, float x, float y) override;
 		void customAction() override;
-		bool isParentCompatible(mvAppItemType type) override;
-		bool canChildBeAdded(mvAppItemType type) override;
 		void onChildRemoved(mvRef<mvAppItem> item) override;
 		void onChildAdd(mvRef<mvAppItem> item) override;
 		void handleSpecificKeywordArgs(PyObject* dict) override;
 		void handleSpecificRequiredArgs(PyObject* args) override;
 		void getSpecificConfiguration(PyObject* dict) override;
-		void hide() override;
-		void show() override;
 		void setYTicks(const std::vector<std::string>& labels, const std::vector<double>& locations);
 		void resetYTicks();
 		void postDraw() override;

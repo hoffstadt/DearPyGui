@@ -60,7 +60,7 @@ namespace Marvel {
 	{
 		ScopedID id(_uuid);
 
-		ImGui::BeginChild(_label.c_str(), ImVec2(_autosize_x ? 0 : (float)_width, _autosize_y ? 0 : (float)_height), _border, _windowflags);
+		ImGui::BeginChild(_internalLabel.c_str(), ImVec2(_autosize_x ? 0 : (float)_width, _autosize_y ? 0 : (float)_height), _border, _windowflags);
 
 		for (auto& item : _children[1])
 		{

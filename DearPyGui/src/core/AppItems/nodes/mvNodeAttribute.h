@@ -22,6 +22,8 @@ namespace Marvel {
 		static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
 
 		MV_APPLY_WIDGET_REGISTRATION(mvAppItemType::mvNodeAttribute, add_node_attribute)
+		MV_NO_COMMANDS
+		MV_DEFAULT_CHILDREN
 
 		MV_CREATE_CONSTANT(mvNode_PinShape_Circle, imnodes::PinShape::PinShape_Circle);
 		MV_CREATE_CONSTANT(mvNode_PinShape_CircleFilled, imnodes::PinShape::PinShape_CircleFilled);
@@ -34,8 +36,10 @@ namespace Marvel {
 		MV_CREATE_CONSTANT(mvNode_Attr_Output, 1L);
 		MV_CREATE_CONSTANT(mvNode_Attr_Static, 2L);
 
-		MV_START_COMMANDS
-		MV_END_COMMANDS
+		MV_START_PARENTS
+			MV_ADD_PARENT(mvAppItemType::mvStagingContainer),
+			MV_ADD_PARENT(mvAppItemType::mvNode)
+		MV_END_PARENTS
 
 		MV_START_CONSTANTS
 			MV_ADD_CONSTANT(mvNode_PinShape_Circle),
@@ -54,10 +58,7 @@ namespace Marvel {
 		mvNodeAttribute(mvUUID uuid);
 
 		void draw(ImDrawList* drawlist, float x, float y) override;
-		bool isParentCompatible(mvAppItemType type) override;
-
 		int getId() const {return _id;}
-
 		void handleSpecificKeywordArgs(PyObject* dict) override;
 		void getSpecificConfiguration(PyObject* dict) override;
 

@@ -14,18 +14,20 @@ namespace Marvel {
 		static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
 
 		MV_APPLY_WIDGET_REGISTRATION(mvAppItemType::mvMenuBar, add_menu_bar)
+		MV_NO_COMMANDS
+		MV_DEFAULT_CHILDREN
+		MV_NO_CONSTANTS
 
-		MV_START_COMMANDS
-		MV_END_COMMANDS
-
-		MV_START_CONSTANTS
-		MV_END_CONSTANTS
+		MV_START_PARENTS
+			MV_ADD_PARENT(mvAppItemType::mvWindowAppItem),
+			MV_ADD_PARENT(mvAppItemType::mvChild),
+			MV_ADD_PARENT(mvAppItemType::mvNodeEditor),
+			MV_ADD_PARENT(mvAppItemType::mvStagingContainer)
+		MV_END_PARENTS
 
 	public:
 
 		explicit mvMenuBar(mvUUID uuid);
-
-		bool isParentCompatible(mvAppItemType type) override;
 
 		void draw(ImDrawList* drawlist, float x, float y) override;
 

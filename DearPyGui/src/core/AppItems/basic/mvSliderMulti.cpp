@@ -129,24 +129,7 @@ namespace Marvel {
                 "Values types do not match: " + std::to_string(dataSource), this);
             return;
         }
-        _value = std::get<std::shared_ptr<std::array<float, 4>>>(item->getValue());
-    }
-
-    void mvSliderFloatMulti::setEnabled(bool value)
-    {
-        if (value == _enabled)
-            return;
-
-        if (value)
-            _flags = _stor_flags;
-
-        else
-        {
-            _stor_flags = _flags;
-            _flags |= ImGuiSliderFlags_NoInput;
-        }
-
-        _enabled = value;
+        _value = *static_cast<std::shared_ptr<std::array<float, 4>>*>(item->getValue());
     }
 
     void mvSliderFloatMulti::draw(ImDrawList* drawlist, float x, float y)
@@ -158,7 +141,7 @@ namespace Marvel {
         switch (_size)
         {
         case 2:
-            if (ImGui::SliderFloat2(_label.c_str(), _enabled ? _value->data() : &_disabled_value[0], _min, _max, _format.c_str(), _flags))
+            if (ImGui::SliderFloat2(_internalLabel.c_str(), _enabled ? _value->data() : &_disabled_value[0], _min, _max, _format.c_str(), _flags))
             {
                 auto value = *_value;
                 mvApp::GetApp()->getCallbackRegistry().submitCallback([=]() {
@@ -167,7 +150,7 @@ namespace Marvel {
             }
             break;
         case 3:
-            if (ImGui::SliderFloat3(_label.c_str(), _enabled ? _value->data() : &_disabled_value[0], _min, _max, _format.c_str(), _flags))
+            if (ImGui::SliderFloat3(_internalLabel.c_str(), _enabled ? _value->data() : &_disabled_value[0], _min, _max, _format.c_str(), _flags))
             {
                 auto value = *_value;
                 mvApp::GetApp()->getCallbackRegistry().submitCallback([=]() {
@@ -176,7 +159,7 @@ namespace Marvel {
             }
             break;
         case 4:
-            if (ImGui::SliderFloat4(_label.c_str(), _enabled ? _value->data() : &_disabled_value[0], _min, _max, _format.c_str(), _flags))
+            if (ImGui::SliderFloat4(_internalLabel.c_str(), _enabled ? _value->data() : &_disabled_value[0], _min, _max, _format.c_str(), _flags))
             {
                 auto value = *_value;
                 mvApp::GetApp()->getCallbackRegistry().submitCallback([=]() {
@@ -192,23 +175,6 @@ namespace Marvel {
     mvSliderIntMulti::mvSliderIntMulti(mvUUID uuid)
         : mvAppItem(uuid)
     {
-    }
-
-    void mvSliderIntMulti::setEnabled(bool value)
-    {
-        if (value == _enabled)
-            return;
-
-        if (value)
-            _flags = _stor_flags;
-
-        else
-        {
-            _stor_flags = _flags;
-            _flags |= ImGuiSliderFlags_NoInput;
-        }
-
-        _enabled = value;
     }
 
     PyObject* mvSliderIntMulti::getPyValue()
@@ -248,7 +214,7 @@ namespace Marvel {
                 "Values types do not match: " + std::to_string(dataSource), this);
             return;
         }
-        _value = std::get<std::shared_ptr<std::array<int, 4>>>(item->getValue());
+        _value = *static_cast<std::shared_ptr<std::array<int, 4>>*>(item->getValue());
     }
 
     void mvSliderIntMulti::draw(ImDrawList* drawlist, float x, float y)
@@ -260,7 +226,7 @@ namespace Marvel {
         switch (_size)
         {
         case 2:
-            if (ImGui::SliderInt2(_label.c_str(), _enabled ? _value->data() : &_disabled_value[0], _min, _max, _format.c_str(), _flags))
+            if (ImGui::SliderInt2(_internalLabel.c_str(), _enabled ? _value->data() : &_disabled_value[0], _min, _max, _format.c_str(), _flags))
             {
                 auto value = *_value;
                 mvApp::GetApp()->getCallbackRegistry().submitCallback([=]() {
@@ -269,7 +235,7 @@ namespace Marvel {
             }
             break;
         case 3:
-            if (ImGui::SliderInt3(_label.c_str(), _enabled ? _value->data() : &_disabled_value[0], _min, _max, _format.c_str(), _flags))
+            if (ImGui::SliderInt3(_internalLabel.c_str(), _enabled ? _value->data() : &_disabled_value[0], _min, _max, _format.c_str(), _flags))
             {
                 auto value = *_value;
                 mvApp::GetApp()->getCallbackRegistry().submitCallback([=]() {
@@ -278,7 +244,7 @@ namespace Marvel {
             }
             break;
         case 4:
-            if (ImGui::SliderInt4(_label.c_str(), _enabled ? _value->data() : &_disabled_value[0], _min, _max, _format.c_str(), _flags))
+            if (ImGui::SliderInt4(_internalLabel.c_str(), _enabled ? _value->data() : &_disabled_value[0], _min, _max, _format.c_str(), _flags))
             {
                 auto value = *_value;
                 mvApp::GetApp()->getCallbackRegistry().submitCallback([=]() {
@@ -313,6 +279,15 @@ namespace Marvel {
         flagop("clamped", ImGuiSliderFlags_ClampOnInput, _stor_flags);
         flagop("no_input", ImGuiSliderFlags_NoInput, _flags);
         flagop("no_input", ImGuiSliderFlags_NoInput, _stor_flags);
+
+        if (wasEnabledLastFrameReset())
+            _flags = _stor_flags;
+
+        if (wasDisabledLastFrameReset())
+        {
+            _stor_flags = _flags;
+            _flags |= ImGuiSliderFlags_NoInput;
+        }
 
     }
 
@@ -359,6 +334,15 @@ namespace Marvel {
         flagop("clamped", ImGuiSliderFlags_ClampOnInput, _stor_flags);
         flagop("no_input", ImGuiSliderFlags_NoInput, _flags);
         flagop("no_input", ImGuiSliderFlags_NoInput, _stor_flags);
+
+        if (wasEnabledLastFrameReset())
+            _flags = _stor_flags;
+
+        if (wasDisabledLastFrameReset())
+        {
+            _stor_flags = _flags;
+            _flags |= ImGuiSliderFlags_NoInput;
+        }
 
     }
 

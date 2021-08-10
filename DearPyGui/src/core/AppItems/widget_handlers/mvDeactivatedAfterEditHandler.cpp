@@ -30,16 +30,6 @@ namespace Marvel {
 
 	}
 
-	bool mvDeactivatedAfterEditHandler::isParentCompatible(mvAppItemType type)
-	{
-		return true;
-
-		//mvThrowPythonError(mvErrorCode::mvN1one, "Drawing item parent must be a drawing.");
-		//MV_ITEM_REGISTRY_ERROR("Drawing item parent must be a drawing.");
-		//assert(false);
-		//return false;
-	}
-
 	void mvDeactivatedAfterEditHandler::draw(ImDrawList* drawlist, float x, float y)
 	{
 

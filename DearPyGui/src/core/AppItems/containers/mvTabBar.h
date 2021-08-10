@@ -13,24 +13,35 @@ namespace Marvel {
 		static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
 
 		MV_APPLY_WIDGET_REGISTRATION(mvAppItemType::mvTabBar, add_tab_bar)
+		MV_NO_COMMANDS
+		MV_DEFAULT_PARENTS
+		MV_NO_CONSTANTS
 
-		MV_START_COMMANDS
-		MV_END_COMMANDS
-
-		MV_START_CONSTANTS
-		MV_END_CONSTANTS
+		MV_START_CHILDREN
+			MV_ADD_CHILD(mvAppItemType::mvTab),
+			MV_ADD_CHILD(mvAppItemType::mvTabButton),
+			MV_ADD_CHILD(mvAppItemType::mvActivatedHandler),
+			MV_ADD_CHILD(mvAppItemType::mvActiveHandler),
+			MV_ADD_CHILD(mvAppItemType::mvClickedHandler),
+			MV_ADD_CHILD(mvAppItemType::mvDeactivatedAfterEditHandler),
+			MV_ADD_CHILD(mvAppItemType::mvDeactivatedHandler),
+			MV_ADD_CHILD(mvAppItemType::mvEditedHandler),
+			MV_ADD_CHILD(mvAppItemType::mvFocusHandler),
+			MV_ADD_CHILD(mvAppItemType::mvHoverHandler),
+			MV_ADD_CHILD(mvAppItemType::mvResizeHandler),
+			MV_ADD_CHILD(mvAppItemType::mvToggledOpenHandler),
+			MV_ADD_CHILD(mvAppItemType::mvVisibleHandler)
+		MV_END_CHILDREN
 
 	public:
 
 		mvTabBar(mvUUID uuid);
 
-		bool canChildBeAdded(mvAppItemType type) override;
-
 		mvUUID getSpecificValue();
 		void setValue(mvUUID value);
 		void draw(ImDrawList* drawlist, float x, float y) override;
 		void setDataSource(mvUUID dataSource) override;
-		mvValueVariant getValue() override { return _value; }
+		void* getValue() override { return &_value; }
 		PyObject* getPyValue() override;
 		void setPyValue(PyObject* value) override;
 		void handleSpecificKeywordArgs(PyObject* dict) override;

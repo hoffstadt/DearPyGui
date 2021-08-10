@@ -39,21 +39,6 @@ namespace Marvel {
 
 	}
 
-	bool mvTextureRegistry::canChildBeAdded(mvAppItemType type)
-	{
-		if (type == mvAppItemType::mvStaticTexture) return true;
-		if (type == mvAppItemType::mvDynamicTexture) return true;
-		if (type == mvAppItemType::mvRawTexture) return true;
-
-		mvThrowPythonError(mvErrorCode::mvIncompatibleChild, s_command,
-			"Incompatible child. Acceptable children include: mvStaticTexture, mvDynamicTexture", this);
-
-		MV_ITEM_REGISTRY_ERROR("Drawing children must be draw commands only.");
-		assert(false);
-
-		return false;
-	}
-
 	void mvTextureRegistry::onChildRemoved(mvRef<mvAppItem> item)
 	{
 		_selection = -1;
@@ -69,7 +54,7 @@ namespace Marvel {
 		ImGui::PushID(this);
 
 		ImGui::SetNextWindowSize(ImVec2(500, 500), ImGuiCond_FirstUseEver);
-		if (ImGui::Begin(_label.c_str(), &_show))
+		if (ImGui::Begin(_internalLabel.c_str(), &_show))
 		{
 
 			ImGui::Text("Textures");

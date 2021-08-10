@@ -20,14 +20,18 @@ namespace Marvel {
 		static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
 
 		MV_APPLY_WIDGET_REGISTRATION(mvAppItemType::mvTab, add_tab)
+		MV_NO_COMMANDS
+		MV_DEFAULT_CHILDREN
 
 		MV_CREATE_CONSTANT(mvTabOrder_Reorderable, 0L);
 		MV_CREATE_CONSTANT(mvTabOrder_Fixed, 1L);
 		MV_CREATE_CONSTANT(mvTabOrder_Leading, 2L);
 		MV_CREATE_CONSTANT(mvTabOrder_Trailing, 3L);
 
-		MV_START_COMMANDS
-		MV_END_COMMANDS
+		MV_START_PARENTS
+			MV_ADD_PARENT(mvAppItemType::mvTabBar),
+			MV_ADD_PARENT(mvAppItemType::mvStagingContainer)
+		MV_END_PARENTS
 
 		MV_START_CONSTANTS
 			MV_ADD_CONSTANT(mvTabOrder_Reorderable),
@@ -42,12 +46,11 @@ namespace Marvel {
 
 		void draw(ImDrawList* drawlist, float x, float y) override;
 		void setDataSource(mvUUID dataSource) override;
-		mvValueVariant getValue() override { return _value; }
+		void* getValue() override { return &_value; }
 		PyObject* getPyValue() override;
 		void setPyValue(PyObject* value) override;
 		void addFlag   (ImGuiTabItemFlags flag);
 		void removeFlag(ImGuiTabItemFlags flag);
-		bool isParentCompatible(mvAppItemType type) override;
 		void handleSpecificKeywordArgs(PyObject* dict) override;
 		void getSpecificConfiguration(PyObject* dict) override;
 

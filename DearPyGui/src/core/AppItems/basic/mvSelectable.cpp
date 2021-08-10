@@ -69,21 +69,7 @@ namespace Marvel {
 				"Values types do not match: " + std::to_string(dataSource), this);
 			return;
 		}
-		_value = std::get<std::shared_ptr<bool>>(item->getValue());
-	}
-
-	void mvSelectable::setEnabled(bool value)
-	{
-		if (value == _enabled)
-			return;
-
-		if (value)
-			_flags &= ~ImGuiSelectableFlags_Disabled;
-
-		else
-			_flags |= ImGuiSelectableFlags_Disabled;
-
-		_enabled = value;
+		_value = *static_cast<std::shared_ptr<bool>*>(item->getValue());
 	}
 
 	void mvSelectable::draw(ImDrawList* drawlist, float x, float y)
@@ -91,7 +77,7 @@ namespace Marvel {
 
 		ScopedID id(_uuid);
 
-		if (ImGui::Selectable(_label.c_str(), _value.get(), _flags, ImVec2((float)_width, (float)_height)))
+		if (ImGui::Selectable(_internalLabel.c_str(), _value.get(), _flags, ImVec2((float)_width, (float)_height)))
 		{
 			auto value = *_value;
 			mvApp::GetApp()->getCallbackRegistry().submitCallback([=]() {
@@ -115,6 +101,12 @@ namespace Marvel {
 
 		// window flags
 		flagop("span_columns", ImGuiSelectableFlags_SpanAllColumns, _flags, false);
+
+		if (wasEnabledLastFrameReset())
+			_flags &= ~ImGuiSelectableFlags_Disabled;
+
+		if (wasDisabledLastFrameReset())
+			_flags |= ImGuiSelectableFlags_Disabled;
 
 	}
 

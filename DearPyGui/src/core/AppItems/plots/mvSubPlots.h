@@ -18,12 +18,16 @@ namespace Marvel {
 		static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
 
 		MV_APPLY_WIDGET_REGISTRATION(mvAppItemType::mvSubPlots, add_subplots)
+		MV_NO_COMMANDS
+		MV_DEFAULT_PARENTS
+		MV_NO_CONSTANTS
 
-		MV_START_COMMANDS
-		MV_END_COMMANDS
+		MV_START_CHILDREN
+			MV_ADD_CHILD(mvAppItemType::mvPlot),
+			MV_ADD_CHILD(mvAppItemType::mvPlotLegend)
+		MV_END_CHILDREN
 
-		MV_START_CONSTANTS
-		MV_END_CONSTANTS
+	public:
 
 		mvSubPlots(mvUUID uuid);
 
@@ -42,7 +46,6 @@ namespace Marvel {
 		void handleSpecificRequiredArgs(PyObject* args) override;
 		void handleSpecificKeywordArgs(PyObject* dict) override;
 		void getSpecificConfiguration(PyObject* dict) override;
-		bool canChildBeAdded(mvAppItemType type) override;
 
 	private:
 

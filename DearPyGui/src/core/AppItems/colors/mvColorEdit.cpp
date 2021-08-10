@@ -102,7 +102,7 @@ namespace Marvel {
 				"Values types do not match: " + std::to_string(dataSource), this);
 			return;
 		}
-		_value = std::get<std::shared_ptr<std::array<float, 4>>>(item->getValue());
+		_value = *static_cast<std::shared_ptr<std::array<float, 4>>*>(item->getValue());
 	}
 
 	void mvColorEdit::draw(ImDrawList* drawlist, float x, float y)
@@ -111,7 +111,7 @@ namespace Marvel {
 
 		if (!_enabled) std::copy(_value->data(), _value->data() + 4, _disabled_value);
 
-			if (ImGui::ColorEdit4(_label.c_str(), _enabled ? _value->data() : &_disabled_value[0], _flags))
+			if (ImGui::ColorEdit4(_internalLabel.c_str(), _enabled ? _value->data() : &_disabled_value[0], _flags))
 			{
 				auto value = *_value;
 				mvColor color = mvColor(value[0], value[1], value[2], value[3]);
