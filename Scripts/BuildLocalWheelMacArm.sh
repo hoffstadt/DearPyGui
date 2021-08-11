@@ -14,7 +14,7 @@ cd ..
 cmake --build cmake-build-local --config Release
 
 cd Distribution
-"../Dependencies/cpython/build/debug/python.exe" BuildPythonWheel.py ../cmake-build-local/DearPyGui/core.so 0
+"../Dependencies/cpython/build/debug/python.exe" BuildPythonWheel.py ../cmake-build-local/DearPyGui/_dearpygui.so 0
 "../Dependencies/cpython/build/debug/python.exe" -m ensurepip
 "../Dependencies/cpython/build/debug/python.exe" -m pip install --upgrade pip
 "../Dependencies/cpython/build/debug/python.exe" -m pip install twine --upgrade

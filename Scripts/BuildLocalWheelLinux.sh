@@ -43,7 +43,7 @@ fi
 (
     cd ../Distribution
     python='../Dependencies/cpython/build/release/python'
-    $python BuildPythonWheel.py ../cmake-build-local/DearPyGui/core.so 0
+    $python BuildPythonWheel.py ../cmake-build-local/DearPyGui/_dearpygui.so 0
     $python -m ensurepip
     $python -m pip install --upgrade pip
     $python -m pip install twine --upgrade
