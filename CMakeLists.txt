@@ -20,6 +20,7 @@ add_definitions(
 #   * 37 = Python 3.7
 #   * 38 = Python 3.8
 #   * 39 = Python 3.9
+#   * 40 = Python 3.7 Raspberry Pi
 #   *  0 = Embedded Python
 set(MVPY_VERSION ${MVPY_VERSION})
 if(MVDPG_VERSION)

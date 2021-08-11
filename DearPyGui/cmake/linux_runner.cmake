@@ -104,6 +104,32 @@ elseif(MVPY_VERSION EQUAL 39)
 			python3.9
 	)
 
+elseif(MVPY_VERSION EQUAL 40)
+	find_package (Python COMPONENTS Development)
+	if(NOT Python_Development_FOUND)
+		message(FATAL_ERROR "The python3 development library from your distribution repo need to be installed first!")
+	endif()
+	target_include_directories(_dearpygui 
+		PRIVATE 
+			${MARVEL_INCLUDE_DIR}
+			${Python_INCLUDE_DIRS}
+	)
+
+	target_link_directories(_dearpygui 
+		PRIVATE 
+			"/usr/lib"
+			${Python_LIBRARY_DIRS}
+	)
+
+	target_link_libraries(_dearpygui 
+		PRIVATE 
+			"-fPIC -lcrypt -lpthread -ldl  -lutil -lm"
+			GL
+			glfw
+			freetype
+			${Python_LIBRARIES}
+	)
+
 elseif(MVPY_VERSION EQUAL 0)
 	find_package (Python COMPONENTS Development)
 	if(NOT Python_Development_FOUND)
