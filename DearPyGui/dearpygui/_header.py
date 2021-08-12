@@ -1,4 +1,4 @@
-from typing import List, Any, Callable, Union
+from typing import List, Any, Callable, Union, Tuple
 from contextlib import contextmanager
 import dearpygui._dearpygui as internal_dpg
 from dearpygui._dearpygui import mvBuffer
@@ -25,12 +25,12 @@ from dearpygui._dearpygui import mvBuffer
 # Helper Commands
 ########################################################################################################################
 
-def configure_item(item : int, **kwargs) -> None:
+def configure_item(item : Union[int, str], **kwargs) -> None:
 	"""Configures an item after creation."""
 	internal_dpg.configure_item(item, **kwargs)
 
 
-def configure_viewport(item : int, **kwargs) -> None:
+def configure_viewport(item : Union[int, str], **kwargs) -> None:
 	"""Configures a viewport after creation."""
 	internal_dpg.configure_viewport(item, **kwargs)
 
@@ -80,7 +80,7 @@ def mutex():
 
 
 @contextmanager
-def popup(parent: int, mousebutton: int = internal_dpg.mvMouseButton_Right, modal: bool = False) -> int:
+def popup(parent: Union[int, str], mousebutton: int = internal_dpg.mvMouseButton_Right, modal: bool = False) -> int:
     
     try:
         _internal_popup_id = internal_dpg.generate_uuid()
@@ -167,15 +167,15 @@ def show_item_registry() -> None:
 # Information Commands
 ########################################################################################################################
 
-def get_item_slot(item: int) -> Union[int, None]:
-    """Returns an items target slot.
+def get_item_slot(item: Union[int, str]) -> Union[int, None]:
+    """Returns an item's target slot.
 
     Returns:
         slot as a int
     """
     return internal_dpg.get_item_info(item)["target"]
 
-def is_item_container(item: int) -> Union[bool, None]:
+def is_item_container(item: Union[int, str]) -> Union[bool, None]:
     """Checks if item is a container.
 
     Returns:
@@ -184,7 +184,7 @@ def is_item_container(item: int) -> Union[bool, None]:
     return internal_dpg.get_item_info(item)["container"]
 
 
-def get_item_parent(item: int) -> Union[int, None]:
+def get_item_parent(item: Union[int, str]) -> Union[int, None]:
     """Gets the item's parent.
 
     Returns:
@@ -193,7 +193,7 @@ def get_item_parent(item: int) -> Union[int, None]:
     return internal_dpg.get_item_info(item)["parent"]
 
 
-def get_item_children(item: int , slot: int = -1) -> Union[List[int], None]:
+def get_item_children(item: Union[int, str] , slot: int = -1) -> Union[List[int], None]:
     """Provides access to the item's children slots.
 
     Returns:
@@ -204,7 +204,7 @@ def get_item_children(item: int , slot: int = -1) -> Union[List[int], None]:
     return internal_dpg.get_item_info(item)["children"][slot]
 
 
-def get_item_type(item: int) -> Union[str]:
+def get_item_type(item: Union[int, str]) -> Union[str]:
     """Gets the item's type.
 
     Returns:
@@ -213,7 +213,7 @@ def get_item_type(item: int) -> Union[str]:
     return internal_dpg.get_item_info(item)["type"]
 
 
-def get_item_theme(item: int) -> int:
+def get_item_theme(item: Union[int, str]) -> int:
     """Gets the item's theme.
 
     Returns:
@@ -222,7 +222,7 @@ def get_item_theme(item: int) -> int:
     return internal_dpg.get_item_info(item)["theme"]
 
 
-def get_item_font(item: int) -> int:
+def get_item_font(item: Union[int, str]) -> int:
     """Gets the item's font.
 
     Returns:
@@ -231,7 +231,7 @@ def get_item_font(item: int) -> int:
     return internal_dpg.get_item_info(item)["font"]
 
 
-def get_item_disabled_theme(item: int) -> int:
+def get_item_disabled_theme(item: Union[int, str]) -> int:
     """Gets the item's disabled theme.
 
     Returns:
@@ -244,7 +244,7 @@ def get_item_disabled_theme(item: int) -> int:
 # Configuration Setter Commands
 ########################################################################################################################
 
-def enable_item(item: int):
+def enable_item(item: Union[int, str]):
     """Enables the item.
 
     Args:
@@ -256,7 +256,7 @@ def enable_item(item: int):
     internal_dpg.configure_item(item, enabled=True)
 
 
-def disable_item(item: int):
+def disable_item(item: Union[int, str]):
     """Disables the item.
 
     Args:
@@ -268,7 +268,7 @@ def disable_item(item: int):
     internal_dpg.configure_item(item, enabled=False)
 
 
-def set_item_label(item: int, label: str):
+def set_item_label(item: Union[int, str], label: str):
     """Sets the item's displayed label, anything after the characters "##" in the name will not be shown.
 
     Args:
@@ -281,7 +281,7 @@ def set_item_label(item: int, label: str):
     internal_dpg.configure_item(item, label=label)
 
 
-def set_item_source(item: int, source: int):
+def set_item_source(item: Union[int, str], source: Union[int, str]):
     """Sets the item's value, to the source's value. Widget's value will now be "linked" to source's value.
 
     Args:
@@ -294,7 +294,7 @@ def set_item_source(item: int, source: int):
     internal_dpg.configure_item(item, source=source)
 
 
-def set_item_pos(item: int, pos: List[float]):
+def set_item_pos(item: Union[int, str], pos: List[float]):
     """Sets the item's position.
 
     Args:
@@ -307,7 +307,7 @@ def set_item_pos(item: int, pos: List[float]):
     internal_dpg.configure_item(item, pos=pos)
 
 
-def set_item_width(item: int, width: int):
+def set_item_width(item: Union[int, str], width: int):
     """Sets the item's width.
 
     Args:
@@ -320,7 +320,7 @@ def set_item_width(item: int, width: int):
     internal_dpg.configure_item(item, width=width)
 
 
-def set_item_height(item: int, height: int):
+def set_item_height(item: Union[int, str], height: int):
     """Sets the item's height.
 
     Args:
@@ -333,7 +333,7 @@ def set_item_height(item: int, height: int):
     internal_dpg.configure_item(item, height=height)
 
 
-def set_item_indent(item: int, indent: int):
+def set_item_indent(item: Union[int, str], indent: int):
     """Sets the item's indent.
 
     Args:
@@ -346,7 +346,7 @@ def set_item_indent(item: int, indent: int):
     internal_dpg.configure_item(item, indent=indent)
 
 
-def set_item_track_offset(item: int, offset: float):
+def set_item_track_offset(item: Union[int, str], offset: float):
     """Sets the item's track offset.
 
     Args:
@@ -359,7 +359,7 @@ def set_item_track_offset(item: int, offset: float):
     internal_dpg.configure_item(item, track_offset=offset)
 
 
-def set_item_payload_type(item: int, payload_type: str):
+def set_item_payload_type(item: Union[int, str], payload_type: str):
     """Sets the item's payload type.
 
     Args:
@@ -372,7 +372,7 @@ def set_item_payload_type(item: int, payload_type: str):
     internal_dpg.configure_item(item, payload_type=str)
 
 
-def set_item_callback(item: int, callback: Callable):
+def set_item_callback(item: Union[int, str], callback: Callable):
     """Sets the item's callack.
 
     Args:
@@ -385,7 +385,7 @@ def set_item_callback(item: int, callback: Callable):
     internal_dpg.configure_item(item, callback=callback)
 
 
-def set_item_drag_callback(item: int, callback: Callable):
+def set_item_drag_callback(item: Union[int, str], callback: Callable):
     """Sets the item's drag callack.
 
     Args:
@@ -398,7 +398,7 @@ def set_item_drag_callback(item: int, callback: Callable):
     internal_dpg.configure_item(item, drag_callback=callback)
 
 
-def set_item_drop_callback(item: int, callback: Callable):
+def set_item_drop_callback(item: Union[int, str], callback: Callable):
     """Sets the item's drop callack.
 
     Args:
@@ -411,7 +411,7 @@ def set_item_drop_callback(item: int, callback: Callable):
     internal_dpg.configure_item(item, drop_callback=callback)
 
 
-def track_item(item: int):
+def track_item(item: Union[int, str]):
     """Track item in scroll region.
 
     Args:
@@ -424,7 +424,7 @@ def track_item(item: int):
     internal_dpg.configure_item(item, tracked=True)
 
 
-def untrack_item(item: int):
+def untrack_item(item: Union[int, str]):
     """Track item in scroll region.
 
     Args:
@@ -437,7 +437,7 @@ def untrack_item(item: int):
     internal_dpg.configure_item(item, tracked=False)
 
 
-def set_item_user_data(item: int, user_data: Any):
+def set_item_user_data(item: Union[int, str], user_data: Any):
     """Sets the item's callack_data to any python object.
 
     Args:
@@ -450,7 +450,7 @@ def set_item_user_data(item: int, user_data: Any):
     internal_dpg.configure_item(item, user_data=user_data)
 
 
-def show_item(item: int):
+def show_item(item: Union[int, str]):
     """Shows the item.
 
     Args:
@@ -462,7 +462,7 @@ def show_item(item: int):
     internal_dpg.configure_item(item, show=True)
 
 
-def hide_item(item: int, *, children_only: bool = False):
+def hide_item(item: Union[int, str], *, children_only: bool = False):
     """Hides the item.
 
     Args:
@@ -483,7 +483,7 @@ def hide_item(item: int, *, children_only: bool = False):
 # Configuration Getter Commands
 ########################################################################################################################
 
-def get_item_label(item: int) -> Union[str, None]:
+def get_item_label(item: Union[int, str]) -> Union[str, None]:
     """Gets the item's label.
 
     Returns:
@@ -492,7 +492,7 @@ def get_item_label(item: int) -> Union[str, None]:
     return internal_dpg.get_item_configuration(item)["label"]
 
 
-def get_item_filter_key(item: int) -> Union[str, None]:
+def get_item_filter_key(item: Union[int, str]) -> Union[str, None]:
     """Gets the item's filter key.
 
     Returns:
@@ -501,7 +501,7 @@ def get_item_filter_key(item: int) -> Union[str, None]:
     return internal_dpg.get_item_configuration(item)["filter_key"]
 
 
-def is_item_tracked(item: int) -> Union[bool, None]:
+def is_item_tracked(item: Union[int, str]) -> Union[bool, None]:
     """Checks if item is tracked.
 
     Returns:
@@ -510,7 +510,7 @@ def is_item_tracked(item: int) -> Union[bool, None]:
     return internal_dpg.get_item_configuration(item)["tracked"]
 
 
-def is_item_search_delayed(item: int) -> Union[bool, None]:
+def is_item_search_delayed(item: Union[int, str]) -> Union[bool, None]:
     """Checks if item is search delayed.
 
     Returns:
@@ -519,7 +519,7 @@ def is_item_search_delayed(item: int) -> Union[bool, None]:
     return internal_dpg.get_item_configuration(item)["delay_search"]
 
 
-def get_item_indent(item: int) -> Union[int, None]:
+def get_item_indent(item: Union[int, str]) -> Union[int, None]:
     """Gets the item's indent.
 
     Returns:
@@ -528,7 +528,7 @@ def get_item_indent(item: int) -> Union[int, None]:
     return internal_dpg.get_item_configuration(item)["indent"]
 
 
-def get_item_track_offset(item: int) -> Union[float, None]:
+def get_item_track_offset(item: Union[int, str]) -> Union[float, None]:
     """Gets the item's track offset.
 
     Returns:
@@ -537,7 +537,7 @@ def get_item_track_offset(item: int) -> Union[float, None]:
     return internal_dpg.get_item_configuration(item)["track_offset"]
 
 
-def get_item_width(item: int) -> Union[int, None]:
+def get_item_width(item: Union[int, str]) -> Union[int, None]:
     """Gets the item's width.
 
     Returns:
@@ -546,7 +546,7 @@ def get_item_width(item: int) -> Union[int, None]:
     return internal_dpg.get_item_configuration(item)["width"]
 
 
-def get_item_height(item: int) -> Union[int, None]:
+def get_item_height(item: Union[int, str]) -> Union[int, None]:
     """Gets the item's height.
 
     Returns:
@@ -555,7 +555,7 @@ def get_item_height(item: int) -> Union[int, None]:
     return internal_dpg.get_item_configuration(item)["height"]
 
 
-def get_item_callback(item: int) -> Union[str, None]:
+def get_item_callback(item: Union[int, str]) -> Union[str, None]:
     """Gets the item's callback.
 
     Returns:
@@ -564,7 +564,7 @@ def get_item_callback(item: int) -> Union[str, None]:
     return internal_dpg.get_item_configuration(item)["callback"]
 
 
-def get_item_drag_callback(item: int) -> Union[str, None]:
+def get_item_drag_callback(item: Union[int, str]) -> Union[str, None]:
     """Gets the item's drag callback.
 
     Returns:
@@ -573,7 +573,7 @@ def get_item_drag_callback(item: int) -> Union[str, None]:
     return internal_dpg.get_item_configuration(item)["drag_callback"]
 
 
-def get_item_drop_callback(item: int) -> Union[str, None]:
+def get_item_drop_callback(item: Union[int, str]) -> Union[str, None]:
     """Gets the item's drop callback.
 
     Returns:
@@ -582,7 +582,7 @@ def get_item_drop_callback(item: int) -> Union[str, None]:
     return internal_dpg.get_item_configuration(item)["drop_callback"]
 
 
-def get_item_user_data(item: int) -> Union[Any, None]:
+def get_item_user_data(item: Union[int, str]) -> Union[Any, None]:
     """Gets the item's callback data.
 
     Returns:
@@ -591,7 +591,7 @@ def get_item_user_data(item: int) -> Union[Any, None]:
     return internal_dpg.get_item_configuration(item)["user_data"]
 
 
-def get_item_source(item: int) -> Union[str, None]:
+def get_item_source(item: Union[int, str]) -> Union[str, None]:
     """Gets the item's source.
 
     Returns:
@@ -604,7 +604,7 @@ def get_item_source(item: int) -> Union[str, None]:
 # State Commands
 ########################################################################################################################
 
-def is_item_hovered(item: int) -> Union[bool, None]:
+def is_item_hovered(item: Union[int, str]) -> Union[bool, None]:
     """Checks if item is hovered.
 
     Returns:
@@ -613,7 +613,7 @@ def is_item_hovered(item: int) -> Union[bool, None]:
     return internal_dpg.get_item_state(item)["hovered"]
 
 
-def is_item_active(item: int) -> Union[bool, None]:
+def is_item_active(item: Union[int, str]) -> Union[bool, None]:
     """Checks if item is active.
 
     Returns:
@@ -622,7 +622,7 @@ def is_item_active(item: int) -> Union[bool, None]:
     return internal_dpg.get_item_state(item)["active"]
 
 
-def is_item_focused(item: int) -> Union[bool, None]:
+def is_item_focused(item: Union[int, str]) -> Union[bool, None]:
     """Checks if item is focused.
 
     Returns:
@@ -631,7 +631,7 @@ def is_item_focused(item: int) -> Union[bool, None]:
     return internal_dpg.get_item_state(item)["focused"]
 
 
-def is_item_clicked(item: int) -> Union[bool, None]:
+def is_item_clicked(item: Union[int, str]) -> Union[bool, None]:
     """Checks if item is clicked.
 
     Returns:
@@ -640,7 +640,7 @@ def is_item_clicked(item: int) -> Union[bool, None]:
     return internal_dpg.get_item_state(item)["clicked"]
 
 
-def is_item_left_clicked(item: int) -> Union[bool, None]:
+def is_item_left_clicked(item: Union[int, str]) -> Union[bool, None]:
     """Checks if item is left clicked.
 
     Returns:
@@ -649,7 +649,7 @@ def is_item_left_clicked(item: int) -> Union[bool, None]:
     return internal_dpg.get_item_state(item)["left_clicked"]
 
 
-def is_item_right_clicked(item: int) -> Union[bool, None]:
+def is_item_right_clicked(item: Union[int, str]) -> Union[bool, None]:
     """Checks if item is right clicked.
 
     Returns:
@@ -658,7 +658,7 @@ def is_item_right_clicked(item: int) -> Union[bool, None]:
     return internal_dpg.get_item_state(item)["right_clicked"]
 
 
-def is_item_middle_clicked(item: int) -> Union[bool, None]:
+def is_item_middle_clicked(item: Union[int, str]) -> Union[bool, None]:
     """Checks if item is middle clicked.
 
     Returns:
@@ -667,7 +667,7 @@ def is_item_middle_clicked(item: int) -> Union[bool, None]:
     return internal_dpg.get_item_state(item)["middle_clicked"]
 
 
-def is_item_visible(item: int) -> Union[bool, None]:
+def is_item_visible(item: Union[int, str]) -> Union[bool, None]:
     """Checks if item is visible.
 
     Returns:
@@ -676,7 +676,7 @@ def is_item_visible(item: int) -> Union[bool, None]:
     return internal_dpg.get_item_state(item)["visible"]
 
 
-def is_item_edited(item: int) -> Union[bool, None]:
+def is_item_edited(item: Union[int, str]) -> Union[bool, None]:
     """Checks if item is edited.
 
     Returns:
@@ -685,7 +685,7 @@ def is_item_edited(item: int) -> Union[bool, None]:
     return internal_dpg.get_item_state(item)["edited"]
 
 
-def is_item_activated(item: int) -> Union[bool, None]:
+def is_item_activated(item: Union[int, str]) -> Union[bool, None]:
     """Checks if item is activated.
 
     Returns:
@@ -694,7 +694,7 @@ def is_item_activated(item: int) -> Union[bool, None]:
     return internal_dpg.get_item_state(item)["activated"]
 
 
-def is_item_deactivated(item: int) -> Union[bool, None]:
+def is_item_deactivated(item: Union[int, str]) -> Union[bool, None]:
     """Checks if item is deactivated.
 
     Returns:
@@ -703,7 +703,7 @@ def is_item_deactivated(item: int) -> Union[bool, None]:
     return internal_dpg.get_item_state(item)["deactivated"]
 
 
-def is_item_deactivated_after_edit(item: int) -> Union[bool, None]:
+def is_item_deactivated_after_edit(item: Union[int, str]) -> Union[bool, None]:
     """Checks if item is deactivated_after_edit.
 
     Returns:
@@ -712,7 +712,7 @@ def is_item_deactivated_after_edit(item: int) -> Union[bool, None]:
     return internal_dpg.get_item_state(item)["deactivated_after_edit"]
 
 
-def is_item_toggled_open(item: int) -> Union[bool, None]:
+def is_item_toggled_open(item: Union[int, str]) -> Union[bool, None]:
     """Checks if item is toggled_open.
 
     Returns:
@@ -721,7 +721,7 @@ def is_item_toggled_open(item: int) -> Union[bool, None]:
     return internal_dpg.get_item_state(item)["toggled_open"]
 
 
-def is_item_ok(item: int) -> Union[bool, None]:
+def is_item_ok(item: Union[int, str]) -> Union[bool, None]:
     """Checks if item is ok and can be used.
 
     Returns:
@@ -730,7 +730,7 @@ def is_item_ok(item: int) -> Union[bool, None]:
     return internal_dpg.get_item_state(item)["ok"]
 
 
-def is_item_shown(item: int) -> Union[bool, None]:
+def is_item_shown(item: Union[int, str]) -> Union[bool, None]:
     """Checks if item is shown.
 
     Returns:
@@ -739,7 +739,7 @@ def is_item_shown(item: int) -> Union[bool, None]:
     return internal_dpg.get_item_configuration(item)["show"]
 
 
-def is_item_enabled(item: int) -> Union[bool, None]:
+def is_item_enabled(item: Union[int, str]) -> Union[bool, None]:
     """Checks if item is enabled.
 
     Returns:
@@ -748,7 +748,7 @@ def is_item_enabled(item: int) -> Union[bool, None]:
     return internal_dpg.get_item_configuration(item)["enabled"]
 
 
-def get_item_pos(item: int) -> List[int]:
+def get_item_pos(item: Union[int, str]) -> List[int]:
     """Returns item's position.
 
     Returns:
@@ -757,7 +757,7 @@ def get_item_pos(item: int) -> List[int]:
     return internal_dpg.get_item_state(item)["pos"]
 
 
-def get_available_content_region(item: int) -> List[int]:
+def get_available_content_region(item: Union[int, str]) -> List[int]:
     """Returns item's available content region.
 
     Returns:
@@ -766,7 +766,7 @@ def get_available_content_region(item: int) -> List[int]:
     return internal_dpg.get_item_state(item)["content_region_avail"]
 
 
-def get_item_rect_size(item: int) -> List[int]:
+def get_item_rect_size(item: Union[int, str]) -> List[int]:
     """Returns item's available content region.
 
     Returns:
@@ -775,7 +775,7 @@ def get_item_rect_size(item: int) -> List[int]:
     return internal_dpg.get_item_state(item)["rect_size"]
 
 
-def get_item_rect_min(item: int) -> List[int]:
+def get_item_rect_min(item: Union[int, str]) -> List[int]:
     """Returns item's minimum content region.
 
     Returns:
@@ -784,7 +784,7 @@ def get_item_rect_min(item: int) -> List[int]:
     return internal_dpg.get_item_state(item)["rect_min"]
 
 
-def get_item_rect_max(item: int) -> List[int]:
+def get_item_rect_max(item: Union[int, str]) -> List[int]:
     """Returns item's maximum content region.
 
     Returns:

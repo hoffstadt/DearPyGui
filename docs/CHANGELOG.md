@@ -20,6 +20,23 @@ We generally fold multiple commits pertaining to the same topic as a single entr
 - Read the `Breaking Changes` section (here in the changelog).
 - Please report any issue!
 
+## VERSION 0.8.x
+
+### Breaking Changes
+* `pmin` & `pmax` were backwards in `draw_rectangle(...)`. You need to reverse them. Related to #1163
+
+### New
+* command: added `get_item_alias(...)`
+* command: added `set_item_alias(...)`
+* command: added `add_alias(...)`
+* command: added `remove_alias(...)`
+* command: added `does_alias_exist(...)`
+* command: added `get_alias_id(...)`
+* command: added `get_aliases(...)`
+* command: added `get_item_registry_configuration(...)`
+* command: added `configure_item_registry(...)`
+* feature: id can now be a string, but must be unique!
+
 ## VERSION 0.8.61
 
 ### Fixes

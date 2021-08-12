@@ -550,14 +550,16 @@ namespace Marvel {
 	PyObject* mvWindowAppItem::set_x_scroll(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 
-		mvUUID item;
+		PyObject* itemraw;
 		float value;
 
 		if (!(mvApp::GetApp()->getParsers())["set_x_scroll"].parse(args, kwargs, __FUNCTION__,
-			&item, &value))
+			&itemraw, &value))
 			return GetPyNone();
 
 		if (!mvApp::s_manualMutexControl) std::lock_guard<std::mutex> lk(mvApp::s_mutex);
+
+		mvUUID item = mvAppItem::GetIDFromPyObject(itemraw);
 
 		auto window = mvApp::GetApp()->getItemRegistry().getItem(item);
 		if (window == nullptr)
@@ -593,14 +595,16 @@ namespace Marvel {
 	PyObject* mvWindowAppItem::set_y_scroll(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 
-		mvUUID item;
+		PyObject* itemraw;
 		float value;
 
 		if (!(mvApp::GetApp()->getParsers())["set_y_scroll"].parse(args, kwargs, __FUNCTION__,
-			&item, &value))
+			&itemraw, &value))
 			return GetPyNone();
 
 		if (!mvApp::s_manualMutexControl) std::lock_guard<std::mutex> lk(mvApp::s_mutex);
+
+		mvUUID item = mvAppItem::GetIDFromPyObject(itemraw);
 
 		auto window = mvApp::GetApp()->getItemRegistry().getItem(item);
 		if (window == nullptr)
@@ -636,13 +640,15 @@ namespace Marvel {
 	PyObject* mvWindowAppItem::get_x_scroll(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 
-		mvUUID item;
+		PyObject* itemraw;
 
 		if (!(mvApp::GetApp()->getParsers())["get_x_scroll"].parse(args, kwargs, __FUNCTION__,
-			&item))
+			&itemraw))
 			return GetPyNone();
 
 		if (!mvApp::s_manualMutexControl) std::lock_guard<std::mutex> lk(mvApp::s_mutex);
+
+		mvUUID item = mvAppItem::GetIDFromPyObject(itemraw);
 
 		auto window = mvApp::GetApp()->getItemRegistry().getItem(item);
 		if (window == nullptr)
@@ -677,13 +683,15 @@ namespace Marvel {
 	PyObject* mvWindowAppItem::get_y_scroll(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 
-		mvUUID item;
+		PyObject* itemraw;
 
 		if (!(mvApp::GetApp()->getParsers())["get_y_scroll"].parse(args, kwargs, __FUNCTION__,
-			&item))
+			&itemraw))
 			return GetPyNone();
 
 		if (!mvApp::s_manualMutexControl) std::lock_guard<std::mutex> lk(mvApp::s_mutex);
+
+		mvUUID item = mvAppItem::GetIDFromPyObject(itemraw);
 
 		auto window = mvApp::GetApp()->getItemRegistry().getItem(item);
 		if (window == nullptr)
@@ -718,13 +726,15 @@ namespace Marvel {
 	PyObject* mvWindowAppItem::get_x_scroll_max(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 
-		mvUUID item;
+		PyObject* itemraw;
 
 		if (!(mvApp::GetApp()->getParsers())["get_x_scroll_max"].parse(args, kwargs, __FUNCTION__,
-			&item))
+			&itemraw))
 			return GetPyNone();
 
 		if (!mvApp::s_manualMutexControl) std::lock_guard<std::mutex> lk(mvApp::s_mutex);
+
+		mvUUID item = mvAppItem::GetIDFromPyObject(itemraw);
 
 		auto window = mvApp::GetApp()->getItemRegistry().getItem(item);
 		if (window == nullptr)
@@ -759,13 +769,15 @@ namespace Marvel {
 	PyObject* mvWindowAppItem::get_y_scroll_max(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 
-		mvUUID item;
+		PyObject* itemraw;
 
 		if (!(mvApp::GetApp()->getParsers())["get_y_scroll_max"].parse(args, kwargs, __FUNCTION__,
-			&item))
+			&itemraw))
 			return GetPyNone();
 
 		if (!mvApp::s_manualMutexControl) std::lock_guard<std::mutex> lk(mvApp::s_mutex);
+
+		mvUUID item = mvAppItem::GetIDFromPyObject(itemraw);
 
 		auto window = mvApp::GetApp()->getItemRegistry().getItem(item);
 		if (window == nullptr)

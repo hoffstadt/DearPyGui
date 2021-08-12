@@ -7,6 +7,7 @@
 #include "mvGlobalIntepreterLock.h"
 #include "mvAppItemCommons.h"
 #include "mvLog.h"
+#include "mvPythonTypeChecker.h"
 
 namespace Marvel{
 
@@ -47,6 +48,21 @@ namespace Marvel{
 			parser.addArg<mvPyDataType::UUID>("font");
 			parser.finalize();
 			parsers->insert({ "set_item_font", parser });
+		}
+
+		{
+			mvPythonParser parser(mvPyDataType::None, "Sets the item's alias.", { "App Item Operations" });
+			parser.addArg<mvPyDataType::UUID>("item");
+			parser.addArg<mvPyDataType::String>("alias");
+			parser.finalize();
+			parsers->insert({ "set_item_alias", parser });
+		}
+
+		{
+			mvPythonParser parser(mvPyDataType::String, "Gets the item's alias.", { "App Item Operations" });
+			parser.addArg<mvPyDataType::UUID>("item");
+			parser.finalize();
+			parsers->insert({ "get_item_alias", parser });
 		}
 
 		{
@@ -152,7 +168,11 @@ namespace Marvel{
 
 	void mvAppItem::AddCommonArgs(mvPythonParser& parser, CommonParserArgs args)
 	{
+
 		parser.addArg<mvPyDataType::String>("label", mvArgType::KEYWORD_ARG, "None", "Overrides 'name' as label.");
+		parser.addArg<mvPyDataType::Object>("user_data", mvArgType::KEYWORD_ARG, "None", "User data for callbacks.");
+		parser.addArg<mvPyDataType::Bool>("use_internal_label", mvArgType::KEYWORD_ARG, "True", "Use generated internal label instead of user specified (appends ### uuid).");
+	
 		if(args & MV_PARSER_ARG_ID)            parser.addArg<mvPyDataType::UUID>("id", mvArgType::KEYWORD_ARG, "0", "Unique id used to programmatically refer to the item.If label is unused this will be the label.");
 		if(args & MV_PARSER_ARG_WIDTH)         parser.addArg<mvPyDataType::Integer>("width", mvArgType::KEYWORD_ARG, "0", "Width of the item.");
 		if(args & MV_PARSER_ARG_HEIGHT)        parser.addArg<mvPyDataType::Integer>("height", mvArgType::KEYWORD_ARG, "0", "Height of the item.");
@@ -176,9 +196,22 @@ namespace Marvel{
 			parser.addArg<mvPyDataType::Float>("track_offset", mvArgType::KEYWORD_ARG, "0.5", "0.0f:top, 0.5f:center, 1.0f:bottom");
 		}
 
-		parser.addArg<mvPyDataType::Object>("user_data", mvArgType::KEYWORD_ARG, "None", "User data for callbacks.");
-		parser.addArg<mvPyDataType::Bool>("use_internal_label", mvArgType::KEYWORD_ARG, "True", "Use generated internal label instead of user specified (appends ### uuid).");
+	}
 
+	mvUUID mvAppItem::GetIDFromPyObject(PyObject* item)
+	{
+
+		if (item == nullptr)
+			return 0;
+
+		if (isPyObject_Int(item))
+			return ToUUID(item);
+		else if (isPyObject_String(item))
+		{
+			std::string alias = ToString(item);
+			return mvApp::GetApp()->getItemRegistry().getIdFromAlias(alias);
+		}
+		return 0;
 	}
 
 	mvAppItem::mvAppItem(mvUUID uuid)
@@ -983,8 +1016,11 @@ namespace Marvel{
 			Py_DECREF(_user_data);
 
 		// in case item registry is destroyed
-		if(mvApp::IsAppStarted())
+		if (mvApp::IsAppStarted())
+		{
 			mvApp::GetApp()->getItemRegistry().cleanUpItem(_uuid);
+			mvApp::GetApp()->getItemRegistry().removeAlias(_alias, true);
+		}
 	}
 
 	PyObject* mvAppItem::getCallback(bool ignore_enabled)
@@ -1071,6 +1107,7 @@ namespace Marvel{
 			else
 				hide();
 		}
+
 		if (PyObject* item = PyDict_GetItemString(dict, "filter_key")) _filter = ToString(item);
 		if (PyObject* item = PyDict_GetItemString(dict, "payload_type")) setPayloadType(ToString(item));
 		if (PyObject* item = PyDict_GetItemString(dict, "source")) setDataSource(ToUUID(item));
@@ -1172,6 +1209,19 @@ namespace Marvel{
 		return result; 
 	}
 
+	void mvAppItem::setAlias(const std::string& value)
+	{
+		// remove old alias from registry
+		if (!_alias.empty())
+			mvApp::GetApp()->getItemRegistry().removeAlias(_alias, true);
+			
+		_alias = value;
+
+		// only register non-empty aliases
+		if (!_alias.empty())
+			mvApp::GetApp()->getItemRegistry().addAlias(_alias, _uuid);
+	}
+
 	void mvAppItem::setWidth(int width) 
 	{
 		_dirty_size = true;  
@@ -1236,25 +1286,45 @@ namespace Marvel{
 		return _triggerAlternativeAction; 
 	}
 
-	std::pair<mvUUID, mvUUID> mvAppItem::GetNameFromArgs(mvUUID& name, PyObject* args, PyObject* kwargs)
+	std::tuple<mvUUID, mvUUID, std::string> mvAppItem::GetNameFromArgs(mvUUID& name, PyObject* args, PyObject* kwargs)
 	{
 
 		mvUUID parent = 0;
 		mvUUID before = 0;
+		std::string alias;
 
 		if (kwargs)
 		{
-			if (PyObject* item = PyDict_GetItemString(kwargs, "parent")) parent = ToUUID(item);
-			if (PyObject* item = PyDict_GetItemString(kwargs, "before")) before = ToUUID(item);
+			if (PyObject* item = PyDict_GetItemString(kwargs, "parent"))
+			{
+				if (PyUnicode_Check(item))
+					parent = mvApp::GetApp()->getItemRegistry().getIdFromAlias(ToString(item));
+				else
+					parent = ToUUID(item);
+			}
+			
+			if (PyObject* item = PyDict_GetItemString(kwargs, "before"))
+			{
+				if (PyUnicode_Check(item))
+					before = mvApp::GetApp()->getItemRegistry().getIdFromAlias(ToString(item));
+				else
+					before = ToUUID(item);
+			}
+
 			if (PyObject* item = PyDict_GetItemString(kwargs, "id"))
 			{
-				auto id = ToUUID(item);
-				if (id > 0)
-					name = id;
+				if (PyUnicode_Check(item))
+					alias = ToString(item);
+				else
+				{
+					auto id = ToUUID(item);
+					if (id > 0)
+						name = id;
+				}
 			};
 		}
 
-		return std::make_pair(parent, before);
+		return std::make_tuple(parent, before, alias);
 	}
 
 	void mvAppItem::getItemInfo(PyObject* dict)
@@ -1373,13 +1443,14 @@ namespace Marvel{
 
 	PyObject* mvAppItem::get_item_configuration(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
-		mvUUID item;
+		PyObject* itemraw;
 
-		if (!(mvApp::GetApp()->getParsers())["get_item_configuration"].parse(args, kwargs, __FUNCTION__, &item))
+		if (!(mvApp::GetApp()->getParsers())["get_item_configuration"].parse(args, kwargs, __FUNCTION__, &itemraw))
 			return GetPyNone();
 
-
 		if (!mvApp::s_manualMutexControl) std::lock_guard<std::mutex> lk(mvApp::s_mutex);
+
+		mvUUID item = mvAppItem::GetIDFromPyObject(itemraw);
 		auto appitem = mvApp::GetApp()->getItemRegistry().getItem(item);
 
 		PyObject* pdict = PyDict_New();
@@ -1398,13 +1469,14 @@ namespace Marvel{
 
 	PyObject* mvAppItem::focus_item(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
-		mvUUID item;
+		PyObject* itemraw;
 
-		if (!(mvApp::GetApp()->getParsers())["focus_item"].parse(args, kwargs, __FUNCTION__, &item))
+		if (!(mvApp::GetApp()->getParsers())["focus_item"].parse(args, kwargs, __FUNCTION__, &itemraw))
 			return GetPyNone();
 
-
 		if (!mvApp::s_manualMutexControl) std::lock_guard<std::mutex> lk(mvApp::s_mutex);
+
+		mvUUID item = mvAppItem::GetIDFromPyObject(itemraw);
 		mvApp::GetApp()->getItemRegistry().focusItem(item);
 
 		return GetPyNone();
@@ -1412,15 +1484,18 @@ namespace Marvel{
 
 	PyObject* mvAppItem::set_item_children(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
-		mvUUID item;
-		mvUUID source;
+		PyObject* itemraw;
+		PyObject* sourceraw;
 		int slot;
 
 		if (!(mvApp::GetApp()->getParsers())["set_item_children"].parse(args, kwargs, __FUNCTION__,
-			&item, &source, &slot))
+			&itemraw, &sourceraw, &slot))
 			return GetPyNone();
 
 		if (!mvApp::s_manualMutexControl) std::lock_guard<std::mutex> lk(mvApp::s_mutex);
+
+		mvUUID item = mvAppItem::GetIDFromPyObject(itemraw);
+		mvUUID source = mvAppItem::GetIDFromPyObject(sourceraw);
 		auto appitem = mvApp::GetApp()->getItemRegistry().getItem(item);
 		
 		auto& staging = mvApp::GetApp()->getItemRegistry().getStaging();
@@ -1460,15 +1535,17 @@ namespace Marvel{
 
 	PyObject* mvAppItem::set_item_font(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
-		mvUUID item;
-		mvUUID font;
+		PyObject* itemraw;
+		PyObject* fontraw;
 
 		if (!(mvApp::GetApp()->getParsers())["set_item_font"].parse(args, kwargs, __FUNCTION__,
-			&item, &font))
+			&itemraw, &fontraw))
 			return GetPyNone();
 
-
 		if (!mvApp::s_manualMutexControl) std::lock_guard<std::mutex> lk(mvApp::s_mutex);
+
+		mvUUID item = mvAppItem::GetIDFromPyObject(itemraw);
+		mvUUID font = mvAppItem::GetIDFromPyObject(fontraw);
 		auto appitem = mvApp::GetApp()->getItemRegistry().getItem(item);
 		auto appfont = mvApp::GetApp()->getItemRegistry().getRefItem(font);
 
@@ -1499,14 +1576,17 @@ namespace Marvel{
 
 	PyObject* mvAppItem::set_item_theme(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
-		mvUUID item;
-		mvUUID theme;
+		PyObject* itemraw;
+		PyObject* themeraw;
 
 		if (!(mvApp::GetApp()->getParsers())["set_item_theme"].parse(args, kwargs, __FUNCTION__,
-			&item, &theme))
+			&itemraw, &themeraw))
 			return GetPyNone();
 
 		if (!mvApp::s_manualMutexControl) std::lock_guard<std::mutex> lk(mvApp::s_mutex);
+
+		mvUUID item = mvAppItem::GetIDFromPyObject(itemraw);
+		mvUUID theme = mvAppItem::GetIDFromPyObject(themeraw);
 		auto appitem = mvApp::GetApp()->getItemRegistry().getItem(item);
 
 		if (appitem)
@@ -1537,15 +1617,17 @@ namespace Marvel{
 
 	PyObject* mvAppItem::set_item_disabled_theme(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
-		mvUUID item;
-		mvUUID theme;
+		PyObject* itemraw;
+		PyObject* themeraw;
 
 		if (!(mvApp::GetApp()->getParsers())["set_item_disabled_theme"].parse(args, kwargs, __FUNCTION__,
-			&item, &theme))
+			&itemraw, &themeraw))
 			return GetPyNone();
 
-
 		if (!mvApp::s_manualMutexControl) std::lock_guard<std::mutex> lk(mvApp::s_mutex);
+
+		mvUUID item = mvAppItem::GetIDFromPyObject(itemraw);
+		mvUUID theme = mvAppItem::GetIDFromPyObject(themeraw);
 		auto appitem = mvApp::GetApp()->getItemRegistry().getItem(item);
 
 		if (appitem)
@@ -1576,14 +1658,15 @@ namespace Marvel{
 
 	PyObject* mvAppItem::reset_pos(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
-		mvUUID item;
+		PyObject* itemraw;
 
 		if (!(mvApp::GetApp()->getParsers())["reset_pos"].parse(args, kwargs, __FUNCTION__,
-			&item))
+			&itemraw))
 			return GetPyNone();
 
-
 		if (!mvApp::s_manualMutexControl) std::lock_guard<std::mutex> lk(mvApp::s_mutex);
+
+		mvUUID item = mvAppItem::GetIDFromPyObject(itemraw);
 		auto appitem = mvApp::GetApp()->getItemRegistry().getItem(item);
 
 		if (appitem)
@@ -1597,13 +1680,14 @@ namespace Marvel{
 
 	PyObject* mvAppItem::get_item_state(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
-		mvUUID item;
+		PyObject* itemraw;
 
-		if (!(mvApp::GetApp()->getParsers())["get_item_state"].parse(args, kwargs, __FUNCTION__, &item))
+		if (!(mvApp::GetApp()->getParsers())["get_item_state"].parse(args, kwargs, __FUNCTION__, &itemraw))
 			return GetPyNone();
 
-
 		if (!mvApp::s_manualMutexControl) std::lock_guard<std::mutex> lk(mvApp::s_mutex);
+
+		mvUUID item = mvAppItem::GetIDFromPyObject(itemraw);
 		auto appitem = mvApp::GetApp()->getItemRegistry().getItem(item);
 
 		PyObject* pdict = PyDict_New();
@@ -1622,6 +1706,7 @@ namespace Marvel{
 	{
 
 		if (!mvApp::s_manualMutexControl) std::lock_guard<std::mutex> lk(mvApp::s_mutex);
+
 		PyObject* pdict = PyDict_New();
 		constexpr_for<1, (int)mvAppItemType::ItemTypeCount, 1>(
 			[&](auto i) {
@@ -1635,12 +1720,14 @@ namespace Marvel{
 
 	PyObject* mvAppItem::get_item_info(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
-		mvUUID item;
+		PyObject* itemraw;
 
-		if (!(mvApp::GetApp()->getParsers())["get_item_info"].parse(args, kwargs, __FUNCTION__, &item))
+		if (!(mvApp::GetApp()->getParsers())["get_item_info"].parse(args, kwargs, __FUNCTION__, &itemraw))
 			return GetPyNone();
 
 		if (!mvApp::s_manualMutexControl) std::lock_guard<std::mutex> lk(mvApp::s_mutex);
+
+		mvUUID item = mvAppItem::GetIDFromPyObject(itemraw);
 		auto appitem = mvApp::GetApp()->getItemRegistry().getItem(item);
 
 		PyObject* pdict = PyDict_New();
@@ -1658,9 +1745,9 @@ namespace Marvel{
 	PyObject* mvAppItem::configure_item(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 
-		auto item = ToUUID(PyTuple_GetItem(args, 0));
-
 		if (!mvApp::s_manualMutexControl) std::lock_guard<std::mutex> lk(mvApp::s_mutex);
+
+		mvUUID item = mvAppItem::GetIDFromPyObject(PyTuple_GetItem(args, 0));
 		auto appitem = mvApp::GetApp()->getItemRegistry().getItem(item);
 
 		if (appitem)
@@ -1677,12 +1764,14 @@ namespace Marvel{
 
 	PyObject* mvAppItem::get_value(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
-		mvUUID name;
+		PyObject* nameraw;
 
-		if (!(mvApp::GetApp()->getParsers())["get_value"].parse(args, kwargs, __FUNCTION__, &name))
+		if (!(mvApp::GetApp()->getParsers())["get_value"].parse(args, kwargs, __FUNCTION__, &nameraw))
 			return GetPyNone();
 
 		if (!mvApp::s_manualMutexControl) std::lock_guard<std::mutex> lk(mvApp::s_mutex);
+
+		mvUUID name = mvAppItem::GetIDFromPyObject(nameraw);
 		auto item = mvApp::GetApp()->getItemRegistry().getItem(name);
 		if (item)
 			return item->getPyValue();
@@ -1697,10 +1786,11 @@ namespace Marvel{
 		if (!(mvApp::GetApp()->getParsers())["get_values"].parse(args, kwargs, __FUNCTION__, &items))
 			return GetPyNone();
 
+		if (!mvApp::s_manualMutexControl) std::lock_guard<std::mutex> lk(mvApp::s_mutex);
+
 		auto aitems = ToUUIDVect(items);
 		PyObject* pyvalues = PyList_New(aitems.size());
 
-		if (!mvApp::s_manualMutexControl) std::lock_guard<std::mutex> lk(mvApp::s_mutex);
 		for (size_t i = 0; i < aitems.size(); i++)
 		{
 			auto item = mvApp::GetApp()->getItemRegistry().getItem(aitems[i]);
@@ -1719,16 +1809,18 @@ namespace Marvel{
 
 	PyObject* mvAppItem::set_value(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
-		mvUUID name;
+		PyObject* nameraw;
 		PyObject* value;
 
-		if (!(mvApp::GetApp()->getParsers())["set_value"].parse(args, kwargs, __FUNCTION__, &name, &value))
+		if (!(mvApp::GetApp()->getParsers())["set_value"].parse(args, kwargs, __FUNCTION__, &nameraw, &value))
 			return GetPyNone();
 
 		if (value)
 			Py_XINCREF(value);
 
 		if (!mvApp::s_manualMutexControl) std::lock_guard<std::mutex> lk(mvApp::s_mutex);
+
+		mvUUID name = mvAppItem::GetIDFromPyObject(nameraw);
 
 		auto item = mvApp::GetApp()->getItemRegistry().getItem(name);
 		if (item)
@@ -1747,13 +1839,15 @@ namespace Marvel{
 	PyObject* mvAppItem::set_item_type_theme(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		int item;
-		mvUUID theme;
+		PyObject* themeraw;
 
 		if (!(mvApp::GetApp()->getParsers())["set_item_type_theme"].parse(args, kwargs, __FUNCTION__,
-			&item, &theme))
+			&item, &themeraw))
 			return GetPyNone();
 
 		if (!mvApp::s_manualMutexControl) std::lock_guard<std::mutex> lk(mvApp::s_mutex);
+
+		mvUUID theme = mvAppItem::GetIDFromPyObject(themeraw);
 
 		// reset
 		if (theme == 0)
@@ -1790,13 +1884,15 @@ namespace Marvel{
 	PyObject* mvAppItem::set_item_type_disabled_theme(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		int item;
-		mvUUID theme;
+		PyObject* themeraw;
 
 		if (!(mvApp::GetApp()->getParsers())["set_item_type_disabled_theme"].parse(args, kwargs, __FUNCTION__,
-			&item, &theme))
+			&item, &themeraw))
 			return GetPyNone();
 
 		if (!mvApp::s_manualMutexControl) std::lock_guard<std::mutex> lk(mvApp::s_mutex);
+
+		mvUUID theme = mvAppItem::GetIDFromPyObject(themeraw);
 
 		// reset
 		if (theme == 0)
@@ -1830,4 +1926,38 @@ namespace Marvel{
 		return GetPyNone();
 	}
 
+	PyObject* mvAppItem::set_item_alias(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		PyObject* itemraw;
+		const char* alias;
+
+		if (!(mvApp::GetApp()->getParsers())["set_item_alias"].parse(args, kwargs, __FUNCTION__,
+			&itemraw, &alias))
+			return GetPyNone();
+
+		if (!mvApp::s_manualMutexControl) std::lock_guard<std::mutex> lk(mvApp::s_mutex);
+
+		mvUUID item = mvAppItem::GetIDFromPyObject(itemraw);
+		auto appitem = mvApp::GetApp()->getItemRegistry().getItem(item);
+		if (appitem)
+			appitem->_alias = alias;
+		return GetPyNone();
+	}
+
+	PyObject* mvAppItem::get_item_alias(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		PyObject* itemraw;
+
+		if (!(mvApp::GetApp()->getParsers())["get_item_alias"].parse(args, kwargs, __FUNCTION__,
+			&itemraw))
+			return GetPyNone();
+
+		if (!mvApp::s_manualMutexControl) std::lock_guard<std::mutex> lk(mvApp::s_mutex);
+
+		mvUUID item = mvAppItem::GetIDFromPyObject(itemraw);
+		auto appitem = mvApp::GetApp()->getItemRegistry().getItem(item);
+		if (appitem)
+			return ToPyString(appitem->_alias);
+		return GetPyNone();
+	}
 }

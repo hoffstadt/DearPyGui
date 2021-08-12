@@ -1,5 +1,8 @@
 #include "mvPythonTranslator.h"
 #include "mvPythonExceptions.h"
+#include "mvPythonTypeChecker.h"
+#include "mvApp.h"
+#include "mvItemRegistry.h"
 
 #define PY_SSIZE_T_CLEAN
 #include <Python.h>
@@ -632,7 +635,11 @@ namespace Marvel {
 			items.resize(PyTuple_Size(value));
 			for (Py_ssize_t i = 0; i < PyTuple_Size(value); ++i)
 			{
-				items[i] = PyLong_AsUnsignedLongLong(PyTuple_GetItem(value, i));
+				PyObject* item = PyTuple_GetItem(value, i);
+				if (isPyObject_Int(item))
+					items[i] = PyLong_AsUnsignedLongLong(item);
+				else if (isPyObject_String(item))
+					items[i] = mvApp::GetApp()->getItemRegistry().getIdFromAlias(ToString(item));
 			}
 		}
 
@@ -641,7 +648,11 @@ namespace Marvel {
 			items.resize(PyList_Size(value));
 			for (Py_ssize_t i = 0; i < PyList_Size(value); ++i)
 			{
-				items[i] = PyLong_AsUnsignedLongLong(PyList_GetItem(value, i));
+				PyObject* item = PyList_GetItem(value, i);
+				if (isPyObject_Int(item))
+					items[i] = PyLong_AsUnsignedLongLong(item);
+				else if (isPyObject_String(item))
+					items[i] = mvApp::GetApp()->getItemRegistry().getIdFromAlias(ToString(item));
 			}
 		}
 

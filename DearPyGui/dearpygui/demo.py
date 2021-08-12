@@ -2326,7 +2326,7 @@ def show_demo():
                     draw_x = draw_x + draw_spacing + draw_size
                     dpg.draw_rectangle([draw_x, draw_y], [draw_size + draw_x, draw_size + draw_y], thickness=_draw_t, color=draw_color)
                     draw_x = draw_x + draw_spacing + draw_size
-                    dpg.draw_rectangle([draw_size + draw_x, draw_size + draw_y], [draw_x, draw_y], rounding=draw_rounding, thickness=_draw_t, color=draw_color)
+                    dpg.draw_rectangle([draw_x, draw_y], [draw_size + draw_x, draw_size + draw_y], rounding=draw_rounding, thickness=_draw_t, color=draw_color)
                     draw_x = draw_x + draw_spacing + draw_size
                     dpg.draw_triangle([draw_x+draw_size*0.5,draw_y], [draw_x+draw_size, draw_y+draw_size-0.5], [draw_x, draw_y+draw_size-0.5], thickness=_draw_t, color=draw_color)
                     draw_x = draw_x + draw_spacing + draw_size
@@ -2351,13 +2351,13 @@ def show_demo():
 
                 dpg.draw_circle([draw_x + draw_size*0.5, draw_y + draw_size*0.5], draw_size*0.5, thickness=_draw_t, color=draw_color, fill=draw_color)
                 draw_x = draw_x + draw_spacing + draw_size
-                dpg.draw_rectangle([draw_x, draw_y], [draw_size + draw_x, draw_size + draw_y], thickness=_draw_t, color=draw_color, fill=draw_color)
+                dpg.draw_rectangle([draw_size + draw_x, draw_size + draw_y], [draw_x, draw_y], thickness=_draw_t, color=draw_color, fill=draw_color)
                 draw_x = draw_x + draw_spacing + draw_size
-                dpg.draw_rectangle([draw_size + draw_x, draw_size + draw_y], [draw_x, draw_y], rounding=draw_rounding, thickness=_draw_t, color=draw_color, fill=draw_color)
+                dpg.draw_rectangle([draw_x, draw_y], [draw_size + draw_x, draw_size + draw_y], rounding=draw_rounding, thickness=_draw_t, color=draw_color, fill=draw_color)
                 draw_x = draw_x + draw_spacing + draw_size
                 dpg.draw_triangle([draw_x+draw_size*0.5,draw_y], [draw_x+draw_size, draw_y+draw_size-0.5], [draw_x, draw_y+draw_size-0.5], thickness=_draw_t, color=draw_color, fill=draw_color)
                 draw_x = draw_x + draw_spacing + draw_size
-                dpg.draw_rectangle([draw_x, draw_y], [draw_size + draw_x, draw_size + draw_y], color=[0, 0, 0, 0], thickness=_draw_t, color_upper_left=[0, 0, 0], color_upper_right=[255, 0, 0], color_bottom_left=[255, 255, 0], color_bottom_right=[0, 255, 0], multicolor=True)
+                dpg.draw_rectangle([draw_size + draw_x, draw_size + draw_y], [draw_x, draw_y], color=[0, 0, 0, 0], thickness=_draw_t, color_upper_left=[0, 0, 0], color_upper_right=[255, 0, 0], color_bottom_left=[255, 255, 0], color_bottom_right=[0, 255, 0], multicolor=True)
 
 
         with dpg.collapsing_header(label="Inputs & Events"):

@@ -217,12 +217,15 @@ namespace Marvel {
 
 	PyObject* mvFileDialog::get_file_dialog_info(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
-		mvUUID file_dialog;
+		PyObject* file_dialog_raw;
 
-		if (!(mvApp::GetApp()->getParsers())["get_file_dialog_info"].parse(args, kwargs, __FUNCTION__, &file_dialog))
+		if (!(mvApp::GetApp()->getParsers())["get_file_dialog_info"].parse(args, kwargs, __FUNCTION__, &file_dialog_raw))
 			return GetPyNone();
 
 		if (!mvApp::s_manualMutexControl) std::lock_guard<std::mutex> lk(mvApp::s_mutex);
+
+		mvUUID file_dialog = mvAppItem::GetIDFromPyObject(file_dialog_raw);
+
 		auto aplot = mvApp::GetApp()->getItemRegistry().getItem(file_dialog);
 		if (aplot == nullptr)
 		{

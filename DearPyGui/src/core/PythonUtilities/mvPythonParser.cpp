@@ -35,8 +35,16 @@ namespace Marvel {
 					return false;
 				break;
 
-			case mvPyDataType::Long:
 			case mvPyDataType::UUID:
+			{
+				if (isPyObject_Int(obj))
+					break;
+				else if (isPyObject_String(obj))
+					break;
+				return false;
+			}
+
+			case mvPyDataType::Long:
 			case mvPyDataType::Integer:
 				if (!isPyObject_Int(obj))
 					return false;
@@ -110,7 +118,7 @@ namespace Marvel {
 	{
 		switch (type)
 		{
-		case mvPyDataType::UUID:    return 'K';
+		//case mvPyDataType::UUID:    return 'K';
 		case mvPyDataType::Long:    return 'l';
 		case mvPyDataType::String:  return 's';
 		case mvPyDataType::Integer: return 'i';
@@ -126,17 +134,17 @@ namespace Marvel {
 		switch (type)
 		{
 		case mvPyDataType::String:         return " : str";
-		case mvPyDataType::UUID:           return " : int";
+		case mvPyDataType::UUID:           return " : Union[int, str]";
 		case mvPyDataType::Integer:        return " : int";
 		case mvPyDataType::Long:           return " : int";
 		case mvPyDataType::Float:          return " : float";
 		case mvPyDataType::Double:         return " : float";
 		case mvPyDataType::Bool:           return " : bool";
-		case mvPyDataType::StringList:     return " : List[str]";
-		case mvPyDataType::FloatList:      return " : List[float]";
-		case mvPyDataType::DoubleList:     return " : List[float]";
-		case mvPyDataType::IntList:        return " : List[int]";
-		case mvPyDataType::UUIDList:       return " : List[int]";
+		case mvPyDataType::StringList:     return " : Union[List[str], Tuple[str]]";
+		case mvPyDataType::FloatList:      return " : Union[List[float], Tuple[float]]";
+		case mvPyDataType::DoubleList:     return " : Union[List[float], Tuple[float]]";
+		case mvPyDataType::IntList:        return " : Union[List[int], Tuple[int]]";
+		case mvPyDataType::UUIDList:       return " : Union[List[int], Tuple[int]]";
 		case mvPyDataType::Callable:       return " : Callable";
 		case mvPyDataType::Dict:           return " : dict";
 		case mvPyDataType::ListAny:        return " : List[Any]";
@@ -154,16 +162,16 @@ namespace Marvel {
 		switch (type)
 		{
 		case mvPyDataType::String:        return "str";
-		case mvPyDataType::UUID:          return "int";
+		case mvPyDataType::UUID:          return "Union[int, str]";
 		case mvPyDataType::Integer:       return "int";
 		case mvPyDataType::Long:          return "int";
 		case mvPyDataType::Float:         return "float";
 		case mvPyDataType::Double:        return "float";
 		case mvPyDataType::Bool:          return "bool";
-		case mvPyDataType::StringList:    return "List[str]";
-		case mvPyDataType::FloatList:     return "List[float]";
-		case mvPyDataType::IntList:       return "List[int]";
-		case mvPyDataType::UUIDList:      return "List[int]";
+		case mvPyDataType::StringList:    return "Union[List[str], Tuple[str]]";
+		case mvPyDataType::FloatList:     return "Union[List[float], Tuple[float]]";
+		case mvPyDataType::IntList:       return "Union[List[int], Tuple[int]]";
+		case mvPyDataType::UUIDList:      return "Union[List[int], Tuple[int]]";
 		case mvPyDataType::Callable:      return "Callable";
 		case mvPyDataType::Dict:          return "dict";
 		case mvPyDataType::ListFloatList: return "List[List[float]]";
@@ -379,7 +387,7 @@ namespace Marvel {
 		std::ofstream stub;
 		stub.open(file + "/_dearpygui.pyi");
 
-		stub << "from typing import List, Any, Callable\n";
+		stub << "from typing import List, Any, Callable, Union, Tuple\n";
 		stub << "from dearpygui._dearpygui import *\n\n";
 		stub << "##########################################################\n";
 		stub << "# This file is generated automatically by mvPythonParser #\n";
