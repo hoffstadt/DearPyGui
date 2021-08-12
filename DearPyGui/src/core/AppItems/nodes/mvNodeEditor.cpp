@@ -394,12 +394,15 @@ namespace Marvel {
 
 	PyObject* mvNodeEditor::get_selected_links(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
-		mvUUID node_editor;
+		PyObject* node_editor_raw;
 
-		if (!(mvApp::GetApp()->getParsers())["get_selected_links"].parse(args, kwargs, __FUNCTION__, &node_editor))
+		if (!(mvApp::GetApp()->getParsers())["get_selected_links"].parse(args, kwargs, __FUNCTION__, &node_editor_raw))
 			return ToPyBool(false);
 
 		if (!mvApp::s_manualMutexControl) std::lock_guard<std::mutex> lk(mvApp::s_mutex);
+
+		mvUUID node_editor = mvAppItem::GetIDFromPyObject(node_editor_raw);
+
 		auto anode_editor = mvApp::GetApp()->getItemRegistry().getItem(node_editor);
 		if (anode_editor == nullptr)
 		{
@@ -420,17 +423,19 @@ namespace Marvel {
 		auto selected_links = editor->getSelectedLinks();
 
 		return ToPyList(selected_links);
-
 	}
 
 	PyObject* mvNodeEditor::clear_selected_links(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
-		mvUUID node_editor;
+		PyObject* node_editor_raw;
 
-		if (!(mvApp::GetApp()->getParsers())["clear_selected_links"].parse(args, kwargs, __FUNCTION__, &node_editor))
+		if (!(mvApp::GetApp()->getParsers())["clear_selected_links"].parse(args, kwargs, __FUNCTION__, &node_editor_raw))
 			return ToPyBool(false);
 
 		if (!mvApp::s_manualMutexControl) std::lock_guard<std::mutex> lk(mvApp::s_mutex);
+
+		mvUUID node_editor = mvAppItem::GetIDFromPyObject(node_editor_raw);
+
 		auto anode_editor = mvApp::GetApp()->getItemRegistry().getItem(node_editor);
 		if (anode_editor == nullptr)
 		{
@@ -455,12 +460,15 @@ namespace Marvel {
 
 	PyObject* mvNodeEditor::clear_selected_nodes(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
-		mvUUID node_editor;
+		PyObject* node_editor_raw;
 
-		if (!(mvApp::GetApp()->getParsers())["clear_selected_nodes"].parse(args, kwargs, __FUNCTION__, &node_editor))
+		if (!(mvApp::GetApp()->getParsers())["clear_selected_nodes"].parse(args, kwargs, __FUNCTION__, &node_editor_raw))
 			return ToPyBool(false);
 
 		if (!mvApp::s_manualMutexControl) std::lock_guard<std::mutex> lk(mvApp::s_mutex);
+
+		mvUUID node_editor = mvAppItem::GetIDFromPyObject(node_editor_raw);
+
 		auto anode_editor = mvApp::GetApp()->getItemRegistry().getItem(node_editor);
 		if (anode_editor == nullptr)
 		{

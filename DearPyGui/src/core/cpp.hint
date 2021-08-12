@@ -26,8 +26,9 @@ const std::vector<std::pair<std::string, int>>& getAllowableChildren() const ove
 static PyObject* parser(PyObject* self, PyObject* args, PyObject* kwargs)\
 {\
 	mvUUID id = mvApp::GenerateUUID();\
-	auto [parent, before] = mvAppItem::GetNameFromArgs(id, args, kwargs);\
+	auto [parent, before, alias] = mvAppItem::GetNameFromArgs(id, args, kwargs);\
 	auto item = CreateRef<mvItemTypeMap<(int)x>::type>(id);\
+	item->setAlias(alias);\
 	item->checkArgs(args, kwargs);\
 	item->handleSpecificRequiredArgs(args);\
 	item->handleSpecificPositionalArgs(args);\
