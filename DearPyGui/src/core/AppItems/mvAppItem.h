@@ -156,8 +156,12 @@ namespace Marvel {
         MV_CREATE_COMMAND(set_item_disabled_theme);
         MV_CREATE_COMMAND(set_item_type_theme);
         MV_CREATE_COMMAND(set_item_type_disabled_theme);
+        MV_CREATE_COMMAND(set_item_alias);
+        MV_CREATE_COMMAND(get_item_alias);
 
         MV_START_COMMANDS
+            MV_ADD_COMMAND(set_item_alias);
+            MV_ADD_COMMAND(get_item_alias);
             MV_ADD_COMMAND(get_item_types);
             MV_ADD_COMMAND(get_item_configuration);
             MV_ADD_COMMAND(get_item_state);
@@ -182,10 +186,12 @@ namespace Marvel {
         static bool DoesItemHaveFlag(mvAppItem* item, int flag);
 
         // retrieves parent, before, uuid from user input when creating an item
-        static std::pair<mvUUID, mvUUID> GetNameFromArgs(mvUUID& name, PyObject* args, PyObject* kwargs);
+        static std::tuple<mvUUID, mvUUID, std::string> GetNameFromArgs(mvUUID& name, PyObject* args, PyObject* kwargs);
 
         // adds the common app item arguments (label, id, etc.)
         static void AddCommonArgs(mvPythonParser& parser, CommonParserArgs args);
+
+        static mvUUID GetIDFromPyObject(PyObject* item);
 
     protected:
 
@@ -239,10 +245,9 @@ namespace Marvel {
         // returning the actual value. These are mostly overridden by the
         // mvTypeBase classes
         //-----------------------------------------------------------------------------
-        virtual void*          getValue() { return nullptr; }
-        //virtual mvValueVariant getValue() { return nullptr; }
-        virtual PyObject*      getPyValue() { return GetPyNone(); }
-        virtual void           setPyValue(PyObject* value) { }
+        virtual void*     getValue() { return nullptr; }
+        virtual PyObject* getPyValue() { return GetPyNone(); }
+        virtual void      setPyValue(PyObject* value) { }
 
         // used to check arguments, get/set configurations
         void getItemInfo      (PyObject* dict);
@@ -298,10 +303,12 @@ namespace Marvel {
         float              getTrackOffset()    const { return _trackOffset; }
         bool               isTracked()         const { return _tracked; }
         bool               isShown()           const { return _show; }
+        const std::string& getAlias()          const { return _alias; }
 
         //-----------------------------------------------------------------------------
         // config setters
         //-----------------------------------------------------------------------------
+        void setAlias       (const std::string& value);
         void setLabel       (const std::string& value);
         void setFilter      (const std::string& value);
         void setCallbackData(PyObject* data);
@@ -424,6 +431,7 @@ namespace Marvel {
         bool        _searchLast = false;
         bool        _searchDelayed = false;
         bool        _useInternalLabel = true; // when false, will use specificed label
+        std::string _alias;
 
     };
 

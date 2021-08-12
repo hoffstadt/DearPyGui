@@ -37,6 +37,8 @@ namespace Marvel {
 
         static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
 
+        MV_CREATE_COMMAND(get_item_registry_configuration);
+        MV_CREATE_COMMAND(configure_item_registry);
         MV_CREATE_COMMAND(move_item);
         MV_CREATE_COMMAND(delete_item);
         MV_CREATE_COMMAND(does_item_exist);
@@ -59,8 +61,20 @@ namespace Marvel {
         MV_CREATE_COMMAND(reorder_items);
         MV_CREATE_COMMAND(show_imgui_demo);
         MV_CREATE_COMMAND(show_implot_demo);
+        MV_CREATE_COMMAND(add_alias);
+        MV_CREATE_COMMAND(remove_alias);
+        MV_CREATE_COMMAND(does_alias_exist);
+        MV_CREATE_COMMAND(get_alias_id);
+        MV_CREATE_COMMAND(get_aliases);
 
         MV_START_COMMANDS
+            MV_ADD_COMMAND(get_aliases);
+            MV_ADD_COMMAND(get_item_registry_configuration);
+            MV_ADD_COMMAND(configure_item_registry);
+            MV_ADD_COMMAND(add_alias);
+            MV_ADD_COMMAND(remove_alias);
+            MV_ADD_COMMAND(does_alias_exist);
+            MV_ADD_COMMAND(get_alias_id);
             MV_ADD_COMMAND(move_item);
             MV_ADD_COMMAND(delete_item);
             MV_ADD_COMMAND(does_item_exist);
@@ -114,6 +128,14 @@ namespace Marvel {
         bool                           addItemWithRuntimeChecks(mvRef<mvAppItem> item, mvUUID parent, mvUUID before);
         void                           cacheItem(mvAppItem* item);
         void                           cleanUpItem(mvUUID uuid);
+
+        //-----------------------------------------------------------------------------
+        // Aliases
+        //-----------------------------------------------------------------------------
+        void addAlias        (const std::string& alias, mvUUID id);
+        void removeAlias     (const std::string& alias, bool itemTriggered = false);
+        bool doesAliasExist  (const std::string& alias);
+        mvUUID getIdFromAlias(const std::string& alias);
         
         // called by python interface
         std::vector<mvUUID>              getAllItems       ();
@@ -144,7 +166,6 @@ namespace Marvel {
         bool addWindow     (mvRef<mvAppItem> item);
         bool addRuntimeItem(mvUUID parent, mvUUID before, mvRef<mvAppItem> item);
 
-
 	private:
 
         // caching
@@ -161,15 +182,16 @@ namespace Marvel {
 		std::stack<mvAppItem*>                       _containers;      // parent stack, top of stack becomes widget's parent
 		std::vector<mvRef<mvAppItem>>                _roots;
         std::unordered_map<mvUUID, mvRef<mvAppItem>> _stagingArea;
+        std::unordered_map<std::string, mvUUID>      _aliases;
         mvUUID                                       _activeWindow = 0;
         bool                                         _staging = false;
         std::vector<mvAppItem*>                      _delayedSearch;
         bool                                         _showImGuiDebug = false;
         bool                                         _showImPlotDebug = false;
 
-
-
-
+        // config
+        bool _allowAliasOverwrites = false;
+        bool _manualAliasManagement = false;
 	};
 
 }

@@ -316,15 +316,18 @@ namespace Marvel {
 
 	PyObject* mvPlotAxis::set_axis_ticks(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
-		mvUUID plot;
+		PyObject* plotraw;
 		PyObject* label_pairs;
 
-		if (!(mvApp::GetApp()->getParsers())["set_axis_ticks"].parse(args, kwargs, __FUNCTION__, &plot, &label_pairs))
+		if (!(mvApp::GetApp()->getParsers())["set_axis_ticks"].parse(args, kwargs, __FUNCTION__, &plotraw, &label_pairs))
 			return GetPyNone();
 
 		auto mlabel_pairs = ToVectPairStringFloat(label_pairs);
 
 		if (!mvApp::s_manualMutexControl) std::lock_guard<std::mutex> lk(mvApp::s_mutex);
+
+		mvUUID plot = mvAppItem::GetIDFromPyObject(plotraw);
+
 		auto aplot = mvApp::GetApp()->getItemRegistry().getItem(plot);
 		if (aplot == nullptr)
 		{
@@ -357,14 +360,17 @@ namespace Marvel {
 
 	PyObject* mvPlotAxis::set_axis_limits(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
-		mvUUID axis;
+		PyObject* axisraw;
 		float ymin;
 		float ymax;
 
-		if (!(mvApp::GetApp()->getParsers())["set_axis_limits"].parse(args, kwargs, __FUNCTION__, &axis, &ymin, &ymax))
+		if (!(mvApp::GetApp()->getParsers())["set_axis_limits"].parse(args, kwargs, __FUNCTION__, &axisraw, &ymin, &ymax))
 			return GetPyNone();
 
 		if (!mvApp::s_manualMutexControl) std::lock_guard<std::mutex> lk(mvApp::s_mutex);
+
+		mvUUID axis = mvAppItem::GetIDFromPyObject(axisraw);
+
 		auto aplot = mvApp::GetApp()->getItemRegistry().getItem(axis);
 		if (aplot == nullptr)
 		{
@@ -389,12 +395,15 @@ namespace Marvel {
 
 	PyObject* mvPlotAxis::set_axis_limits_auto(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
-		mvUUID axis;
+		PyObject* axisraw;
 
-		if (!(mvApp::GetApp()->getParsers())["set_axis_limits_auto"].parse(args, kwargs, __FUNCTION__, &axis))
+		if (!(mvApp::GetApp()->getParsers())["set_axis_limits_auto"].parse(args, kwargs, __FUNCTION__, &axisraw))
 			return GetPyNone();
 
 		if (!mvApp::s_manualMutexControl) std::lock_guard<std::mutex> lk(mvApp::s_mutex);
+
+		mvUUID axis = mvAppItem::GetIDFromPyObject(axisraw);
+
 		auto aplot = mvApp::GetApp()->getItemRegistry().getItem(axis);
 		if (aplot == nullptr)
 		{
@@ -419,12 +428,15 @@ namespace Marvel {
 
 	PyObject* mvPlotAxis::fit_axis_data(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
-		mvUUID axis;
+		PyObject* axisraw;
 
-		if (!(mvApp::GetApp()->getParsers())["fit_axis_data"].parse(args, kwargs, __FUNCTION__, &axis))
+		if (!(mvApp::GetApp()->getParsers())["fit_axis_data"].parse(args, kwargs, __FUNCTION__, &axisraw))
 			return GetPyNone();
 
 		if (!mvApp::s_manualMutexControl) std::lock_guard<std::mutex> lk(mvApp::s_mutex);
+
+		mvUUID axis = mvAppItem::GetIDFromPyObject(axisraw);
+
 		auto aplot = mvApp::GetApp()->getItemRegistry().getItem(axis);
 		if (aplot == nullptr)
 		{
@@ -449,12 +461,15 @@ namespace Marvel {
 
 	PyObject* mvPlotAxis::get_axis_limits(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
-		mvUUID plot;
+		PyObject* plotraw;
 
-		if (!(mvApp::GetApp()->getParsers())["get_axis_limits"].parse(args, kwargs, __FUNCTION__, &plot))
+		if (!(mvApp::GetApp()->getParsers())["get_axis_limits"].parse(args, kwargs, __FUNCTION__, &plotraw))
 			return GetPyNone();
 
 		if (!mvApp::s_manualMutexControl) std::lock_guard<std::mutex> lk(mvApp::s_mutex);
+
+		mvUUID plot = mvAppItem::GetIDFromPyObject(plotraw);
+
 		auto aplot = mvApp::GetApp()->getItemRegistry().getItem(plot);
 		if (aplot == nullptr)
 		{
@@ -478,12 +493,15 @@ namespace Marvel {
 
 	PyObject* mvPlotAxis::reset_axis_ticks(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
-		mvUUID plot;
+		PyObject* plotraw;
 
-		if (!(mvApp::GetApp()->getParsers())["reset_axis_ticks"].parse(args, kwargs, __FUNCTION__, &plot))
+		if (!(mvApp::GetApp()->getParsers())["reset_axis_ticks"].parse(args, kwargs, __FUNCTION__, &plotraw))
 			return GetPyNone();
 
 		if (!mvApp::s_manualMutexControl) std::lock_guard<std::mutex> lk(mvApp::s_mutex);
+
+		mvUUID plot = mvAppItem::GetIDFromPyObject(plotraw);
+
 		auto aplot = mvApp::GetApp()->getItemRegistry().getItem(plot);
 		if (aplot == nullptr)
 		{

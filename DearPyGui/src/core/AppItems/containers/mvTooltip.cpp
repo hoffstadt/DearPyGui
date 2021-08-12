@@ -64,7 +64,7 @@ namespace Marvel {
 			switch (i)
 			{
 			case 0:
-				_parent = ToUUID(item);
+				_parent = mvAppItem::GetIDFromPyObject(item);
 				break;
 
 			default:

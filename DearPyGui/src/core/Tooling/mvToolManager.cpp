@@ -64,11 +64,13 @@ namespace Marvel {
 
 	PyObject* mvToolManager::show_tool(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
-		mvUUID tool;
+		PyObject* toolraw;
 
 		if (!(mvApp::GetApp()->getParsers())["show_tool"].parse(args, kwargs, __FUNCTION__,
-			&tool))
+			&toolraw))
 			return GetPyNone();
+
+		mvUUID tool = mvAppItem::GetIDFromPyObject(toolraw);
 
 		mvToolManager::ShowTool(tool);
 

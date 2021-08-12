@@ -133,13 +133,17 @@ namespace Marvel {
 
     PyObject* mvColorMap::set_colormap(PyObject* self, PyObject* args, PyObject* kwargs)
     {
-        mvUUID item;
-        mvUUID source;
+        PyObject* itemraw;
+        PyObject* sourceraw;
 
-        if (!(mvApp::GetApp()->getParsers())["set_colormap"].parse(args, kwargs, __FUNCTION__, &item, &source))
+        if (!(mvApp::GetApp()->getParsers())["set_colormap"].parse(args, kwargs, __FUNCTION__, &itemraw, &sourceraw))
             return GetPyNone();
 
         if (!mvApp::s_manualMutexControl) std::lock_guard<std::mutex> lk(mvApp::s_mutex);
+
+        mvUUID item = mvAppItem::GetIDFromPyObject(itemraw);
+        mvUUID source = mvAppItem::GetIDFromPyObject(sourceraw);
+
         auto aitem = mvApp::GetApp()->getItemRegistry().getItem(item);
         if (aitem == nullptr)
         {
@@ -202,13 +206,15 @@ namespace Marvel {
 
     PyObject* mvColorMap::sample_colormap(PyObject* self, PyObject* args, PyObject* kwargs)
     {
-        mvUUID item;
+        PyObject* itemraw;
         float t;
 
-        if (!(mvApp::GetApp()->getParsers())["sample_colormap"].parse(args, kwargs, __FUNCTION__, &item, &t))
+        if (!(mvApp::GetApp()->getParsers())["sample_colormap"].parse(args, kwargs, __FUNCTION__, &itemraw, &t))
             return GetPyNone();
 
         if (!mvApp::s_manualMutexControl) std::lock_guard<std::mutex> lk(mvApp::s_mutex);
+
+        mvUUID item = mvAppItem::GetIDFromPyObject(itemraw);
 
         if (item > 15)
         {
@@ -241,10 +247,10 @@ namespace Marvel {
 
     PyObject* mvColorMap::get_colormap_color(PyObject* self, PyObject* args, PyObject* kwargs)
     {
-        mvUUID item;
+        PyObject* itemraw;
         int index;
 
-        if (!(mvApp::GetApp()->getParsers())["get_colormap_color"].parse(args, kwargs, __FUNCTION__, &item, &index))
+        if (!(mvApp::GetApp()->getParsers())["get_colormap_color"].parse(args, kwargs, __FUNCTION__, &itemraw, &index))
             return GetPyNone();
 
         if(!mvApp::IsAppStarted())
@@ -254,6 +260,8 @@ namespace Marvel {
         }
 
         if (!mvApp::s_manualMutexControl) std::lock_guard<std::mutex> lk(mvApp::s_mutex);
+
+        mvUUID item = mvAppItem::GetIDFromPyObject(itemraw);
 
         if (item > 15)
         {
