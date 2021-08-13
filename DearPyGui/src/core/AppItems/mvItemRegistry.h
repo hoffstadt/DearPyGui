@@ -31,6 +31,8 @@ namespace Marvel {
 	class mvItemRegistry : public mvEventHandler
 	{
 
+        friend class mvLayoutWindow;
+
     public:
 
         static constexpr int CachedContainerCount = 25;
@@ -122,7 +124,8 @@ namespace Marvel {
         mvAppItem*                     getItem           (mvUUID uuid);
         mvRef<mvAppItem>               getRefItem        (mvUUID uuid);
         mvWindowAppItem*               getWindow         (mvUUID uuid);
-        std::vector<mvRef<mvAppItem>>& getRoots          ()       { return _roots; }
+        //std::vector<mvRef<mvAppItem>>& getWindowRoots()       { return _windowRoots; }
+        std::vector<mvRef<mvAppItem>>& getFontRegistries()       { return _fontRegistryRoots; }
         mvUUID                         getActiveWindow   () const { return _activeWindow; }
         bool                           addItemWithRuntimeChecks(mvRef<mvAppItem> item, mvUUID parent, mvUUID before);
         void                           cacheItem(mvAppItem* item);
@@ -165,7 +168,18 @@ namespace Marvel {
         bool addWindow     (mvRef<mvAppItem> item);
         bool addRuntimeItem(mvUUID parent, mvUUID before, mvRef<mvAppItem> item);
 
-	private:
+        // need to clean this up but this delegates taskes to the specific root types
+        bool deleteRoot(std::vector<mvRef<mvAppItem>>& roots, mvUUID uuid);
+        bool moveRoot(std::vector<mvRef<mvAppItem>>& roots, mvUUID uuid, mvRef<mvAppItem>& item);
+        bool moveUpRoot(std::vector<mvRef<mvAppItem>>& roots, mvUUID uuid);
+        bool moveDownRoot(std::vector<mvRef<mvAppItem>>& roots, mvUUID uuid);
+        bool addRuntimeChildRoot(std::vector<mvRef<mvAppItem>>& roots, mvUUID parent, mvUUID before, mvRef<mvAppItem> item);
+        bool addItemAfterRoot(std::vector<mvRef<mvAppItem>>& roots, mvUUID prev, mvRef<mvAppItem> item);
+        mvAppItem* getItemRoot(std::vector<mvRef<mvAppItem>>& roots, mvUUID uuid);
+        mvRef<mvAppItem> getRefItemRoot(std::vector<mvRef<mvAppItem>>& roots, mvUUID uuid);
+        void getAllItemsRoot(std::vector<mvRef<mvAppItem>>& roots, std::vector<mvUUID>& childList);
+	
+private:
 
         // caching
         mvUUID                                       _lastItemAdded = 0;
@@ -179,7 +193,6 @@ namespace Marvel {
         int                                          _cachedItemsIndex = 0;
 
 		std::stack<mvAppItem*>                       _containers;      // parent stack, top of stack becomes widget's parent
-		std::vector<mvRef<mvAppItem>>                _roots;
         std::unordered_map<mvUUID, mvRef<mvAppItem>> _stagingArea;
         std::unordered_map<std::string, mvUUID>      _aliases;
         mvUUID                                       _activeWindow = 0;
@@ -187,6 +200,18 @@ namespace Marvel {
         std::vector<mvAppItem*>                      _delayedSearch;
         bool                                         _showImGuiDebug = false;
         bool                                         _showImPlotDebug = false;
+
+        // roots
+        std::vector<mvRef<mvAppItem>> _colormapRoots;
+        std::vector<mvRef<mvAppItem>> _filedialogRoots;
+        std::vector<mvRef<mvAppItem>> _stagingRoots;
+        std::vector<mvRef<mvAppItem>> _viewportMenubarRoots;
+        std::vector<mvRef<mvAppItem>> _windowRoots;
+        std::vector<mvRef<mvAppItem>> _fontRegistryRoots;
+        std::vector<mvRef<mvAppItem>> _handlerRegistryRoots;
+        std::vector<mvRef<mvAppItem>> _textureRegistryRoots;
+        std::vector<mvRef<mvAppItem>> _valueRegistryRoots;
+        std::vector<mvRef<mvAppItem>> _themeRegistryRoots;
 
         // config
         bool _allowAliasOverwrites = false;
