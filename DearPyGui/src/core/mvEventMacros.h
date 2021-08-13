@@ -15,7 +15,6 @@
 #define mvEVT_FRAME             SID("SPECIFIC_FRAME")
 #define mvEVT_END_FRAME         SID("END_FRAME")
 #define mvEVT_PRE_RENDER        SID("PRE_RENDER")
-#define mvEVT_PRE_RENDER_RESET  SID("PRE_RENDER_RESET")
 #define mvEVT_RENDER            SID("RENDER")
 								    
 // mvEVT_CATEGORY_VALUES Events		    

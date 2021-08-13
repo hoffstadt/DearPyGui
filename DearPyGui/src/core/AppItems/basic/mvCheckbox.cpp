@@ -133,6 +133,7 @@ namespace Marvel {
 		// update state
 		//   * only update if applicable
 		//-----------------------------------------------------------------------------
+		_state._lastFrameUpdate = mvApp::s_frame;
 		_state._hovered = ImGui::IsItemHovered();
 		_state._active = ImGui::IsItemActive();
 		_state._focused = ImGui::IsItemFocused();

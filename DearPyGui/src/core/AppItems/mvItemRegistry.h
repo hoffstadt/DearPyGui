@@ -107,8 +107,7 @@ namespace Marvel {
         // Event Handling
         //-----------------------------------------------------------------------------
         bool onEvent         (mvEvent& event) override;
-        bool onRender        (mvEvent& event);
-        bool onPreRenderReset(mvEvent& event);                     
+        bool onRender        (mvEvent& event);                 
         bool onActiveWindow  (mvEvent& event);                     
 
         //-----------------------------------------------------------------------------

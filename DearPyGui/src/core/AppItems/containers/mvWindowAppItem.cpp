@@ -254,6 +254,7 @@ namespace Marvel {
 
 				// shouldn't have to do this but do. Fix later
 				_show = false;
+				_state._lastFrameUpdate = mvApp::s_frame;
 				_state.setHovered(false);
 				_state.setFocused(false);
 				_state.setActivated(false);
@@ -373,6 +374,7 @@ namespace Marvel {
 		_scrollMaxX = ImGui::GetScrollMaxX();
 		_scrollMaxY = ImGui::GetScrollMaxY();
 
+		_state._lastFrameUpdate = mvApp::s_frame;
 		_state.setVisible(true);
 		_state.setHovered(ImGui::IsWindowHovered());
 		_state.setFocused(ImGui::IsWindowFocused());
@@ -417,6 +419,7 @@ namespace Marvel {
 
 		if (!_show)
 		{
+			_state._lastFrameUpdate = mvApp::s_frame;
 			_state.setHovered(false);
 			_state.setFocused(false);
 			_state.setActivated(false);

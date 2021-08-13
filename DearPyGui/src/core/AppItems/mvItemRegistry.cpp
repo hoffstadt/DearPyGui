@@ -217,7 +217,6 @@ namespace Marvel {
 	mvItemRegistry::mvItemRegistry()
 	{
 		mvEventBus::Subscribe(this, 0, mvEVT_CATEGORY_ITEM);
-		mvEventBus::Subscribe(this, mvEVT_PRE_RENDER_RESET);
 		mvEventBus::Subscribe(this, mvEVT_RENDER);
 		mvEventBus::Subscribe(this, mvEVT_ACTIVE_WINDOW);
 
@@ -444,7 +443,6 @@ namespace Marvel {
 	{
 		mvEventDispatcher dispatcher(event);
 
-		dispatcher.dispatch(BIND_EVENT_METH(mvItemRegistry::onPreRenderReset), mvEVT_PRE_RENDER_RESET);
 		dispatcher.dispatch(BIND_EVENT_METH(mvItemRegistry::onRender), mvEVT_RENDER);
 		dispatcher.dispatch(BIND_EVENT_METH(mvItemRegistry::onActiveWindow), mvEVT_ACTIVE_WINDOW);
 
@@ -475,16 +473,6 @@ namespace Marvel {
 
 			root->postDraw();
 		}
-
-		return false;
-	}
-
-	bool mvItemRegistry::onPreRenderReset(mvEvent& event)
-	{
-
-		// resets app items states (i.e. hovered)
-		for (auto& window : _roots)
-			window->resetState();
 
 		return false;
 	}
