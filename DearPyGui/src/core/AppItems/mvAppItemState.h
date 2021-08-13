@@ -43,24 +43,24 @@ namespace Marvel {
         void update();
 
         // getters
-        [[nodiscard]] bool   isItemHovered             () const { return _hovered; }
-        [[nodiscard]] bool   isItemActive              () const { return _active; }
-        [[nodiscard]] bool   isItemFocused             () const { return _focused; }
-        [[nodiscard]] bool   isItemLeftClicked         () const { return _leftclicked; }
-        [[nodiscard]] bool   isItemRightClicked        () const { return _rightclicked; }
-        [[nodiscard]] bool   isItemMiddleClicked       () const { return _middleclicked; }
-        [[nodiscard]] bool   isItemVisible             () const { return _visible; }
-        [[nodiscard]] bool   isItemEdited              () const { return _edited; }
-        [[nodiscard]] bool   isItemActivated           () const { return _activated; }
-        [[nodiscard]] bool   isItemDeactivated         () const { return _deactivated; }
-        [[nodiscard]] bool   isItemDeactivatedAfterEdit() const { return _deactivatedAfterEdit; }
-        [[nodiscard]] bool   isItemToogledOpen         () const { return _toggledOpen; }
-        [[nodiscard]] bool   isOk                      () const { return _ok; }
-        [[nodiscard]] mvVec2 getItemRectMin            () const { return _rectMin; }
-        [[nodiscard]] mvVec2 getItemRectMax            () const { return _rectMax; }
-        [[nodiscard]] mvVec2 getItemRectSize           () const { return _rectSize; }
-        [[nodiscard]] mvVec2 getItemPos                () const { return _pos; }
-        [[nodiscard]] mvVec2 getContextRegionAvail     () const { return _contextRegionAvail; }
+        [[nodiscard]] bool   isItemHovered(int frameDelay = 0) const;
+        [[nodiscard]] bool   isItemActive(int frameDelay = 0) const;
+        [[nodiscard]] bool   isItemFocused(int frameDelay = 0) const;
+        [[nodiscard]] bool   isItemLeftClicked(int frameDelay = 0) const;
+        [[nodiscard]] bool   isItemRightClicked(int frameDelay = 0) const;
+        [[nodiscard]] bool   isItemMiddleClicked(int frameDelay = 0) const;
+        [[nodiscard]] bool   isItemVisible(int frameDelay = 0) const;
+        [[nodiscard]] bool   isItemEdited(int frameDelay = 0) const;
+        [[nodiscard]] bool   isItemActivated(int frameDelay = 0) const;
+        [[nodiscard]] bool   isItemDeactivated(int frameDelay = 0) const;
+        [[nodiscard]] bool   isItemDeactivatedAfterEdit(int frameDelay = 0) const;
+        [[nodiscard]] bool   isItemToogledOpen(int frameDelay = 0) const;
+        [[nodiscard]] bool   isOk() const;
+        [[nodiscard]] mvVec2 getItemRectMin () const;
+        [[nodiscard]] mvVec2 getItemRectMax () const;
+        [[nodiscard]] mvVec2 getItemRectSize () const;
+        [[nodiscard]] mvVec2 getItemPos () const;
+        [[nodiscard]] mvVec2 getContextRegionAvail () const;
 
         // setters
         void setHovered             (bool value)  { _hovered = value; }
@@ -102,6 +102,7 @@ namespace Marvel {
         mvVec2 _pos                  = { 0.0f, 0.0f };
         mvVec2 _contextRegionAvail   = { 0.0f, 0.0f };
         bool   _ok                   = true;
+        int    _lastFrameUpdate      = 0; // last frame update occured
 
     };
 }

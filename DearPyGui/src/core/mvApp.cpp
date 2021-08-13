@@ -225,7 +225,6 @@ namespace Marvel {
 			}
 
 			mvEventBus::Publish(mvEVT_CATEGORY_APP, mvEVT_PRE_RENDER);
-			mvEventBus::Publish(mvEVT_CATEGORY_APP, mvEVT_PRE_RENDER_RESET);
 			mvEventBus::Publish(mvEVT_CATEGORY_APP, mvEVT_RENDER);
 			mvEventBus::Publish(mvEVT_CATEGORY_APP, mvEVT_END_FRAME);
 		}

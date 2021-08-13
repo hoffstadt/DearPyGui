@@ -154,6 +154,7 @@ namespace Marvel {
 		//   * only update if applicable
 		//-----------------------------------------------------------------------------
 		ImVec2 pos = imnodes::GetNodeGridSpacePos((int)_id);
+		_state._lastFrameUpdate = mvApp::s_frame;
 		_state._hovered = ImGui::IsItemHovered();
 		_state._leftclicked = ImGui::IsItemClicked();
 		_state._rightclicked = ImGui::IsItemClicked(1);
