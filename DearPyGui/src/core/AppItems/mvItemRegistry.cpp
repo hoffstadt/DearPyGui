@@ -229,6 +229,19 @@ namespace Marvel {
 			_cachedItemsPTR[i] = nullptr;
 		}
 		
+		_valueRegistryRoots.reserve(10 * 100000);
+	}
+
+	mvRef<mvAppItem> mvItemRegistry::getItemFromPool(mvAppItemType itemType)
+	{
+		for (auto& pool : _itemPoolRoots)
+		{
+			auto item = static_cast<mvItemPool*>(pool.get())->getItem(itemType);
+			if (item)
+				return item;
+		}
+
+		return nullptr;
 	}
 
 	bool mvItemRegistry::focusItem(mvUUID uuid)
@@ -399,6 +412,7 @@ namespace Marvel {
 		else if (deleteRoot(_valueRegistryRoots, uuid)) deletedItem = true;
 		else if (deleteRoot(_windowRoots, uuid)) deletedItem = true;
 		else if (deleteRoot(_themeRegistryRoots, uuid)) deletedItem = true;
+		else if (deleteRoot(_itemPoolRoots, uuid)) deletedItem = true;
 
 		if (deletedItem)
 		{
@@ -431,6 +445,7 @@ namespace Marvel {
 		else if (moveRoot(_valueRegistryRoots, uuid, child)) movedItem = true;
 		else if (moveRoot(_windowRoots, uuid, child)) movedItem = true;
 		else if (moveRoot(_themeRegistryRoots, uuid, child)) movedItem = true;
+		else if (moveRoot(_itemPoolRoots, uuid, child)) movedItem = true;
 
 		if (_stagingArea.count(uuid) != 0)
 		{
@@ -468,6 +483,7 @@ namespace Marvel {
 		else if (moveUpRoot(_valueRegistryRoots, uuid)) movedItem = true;
 		else if (moveUpRoot(_windowRoots, uuid)) movedItem = true;
 		else if (moveUpRoot(_themeRegistryRoots, uuid)) movedItem = true;
+		else if (moveUpRoot(_itemPoolRoots, uuid)) movedItem = true;
 
 		if (!movedItem)
 		{
@@ -498,6 +514,7 @@ namespace Marvel {
 		else if (moveDownRoot(_valueRegistryRoots, uuid)) movedItem = true;
 		else if (moveDownRoot(_windowRoots, uuid)) movedItem = true;
 		else if (moveDownRoot(_themeRegistryRoots, uuid)) movedItem = true;
+		else if (moveDownRoot(_itemPoolRoots, uuid)) movedItem = true;
 
 		if (!movedItem)
 		{
@@ -641,6 +658,7 @@ namespace Marvel {
 		else if (addRuntimeChildRoot(_valueRegistryRoots, parent, before, item)) return true;
 		else if (addRuntimeChildRoot(_windowRoots, parent, before, item)) return true;
 		else if (addRuntimeChildRoot(_themeRegistryRoots, parent, before, item)) return true;
+		else if (addRuntimeChildRoot(_itemPoolRoots, parent, before, item)) return true;
 
 		return false;
 	}
@@ -658,6 +676,7 @@ namespace Marvel {
 		else if (addItemAfterRoot(_valueRegistryRoots, prev, item)) return true;
 		else if (addItemAfterRoot(_windowRoots, prev, item)) return true;
 		else if (addItemAfterRoot(_themeRegistryRoots, prev, item)) return true;
+		else if (addItemAfterRoot(_itemPoolRoots, prev, item)) return true;
 
 		assert(false);
 		return false;
@@ -788,6 +807,7 @@ namespace Marvel {
 		if (auto foundItem = getItemRoot(_valueRegistryRoots, uuid)) return foundItem;
 		if (auto foundItem = getItemRoot(_windowRoots, uuid)) return foundItem;
 		if (auto foundItem = getItemRoot(_themeRegistryRoots, uuid)) return foundItem;
+		if (auto foundItem = getItemRoot(_itemPoolRoots, uuid)) return foundItem;
 
 		for (auto delayedItem : _delayedSearch)
 		{
@@ -834,6 +854,7 @@ namespace Marvel {
 		else if (auto foundItem = getRefItemRoot(_valueRegistryRoots, uuid)) return foundItem;
 		else if (auto foundItem = getRefItemRoot(_windowRoots, uuid)) return foundItem;
 		else if (auto foundItem = getRefItemRoot(_themeRegistryRoots, uuid)) return foundItem;
+		else if (auto foundItem = getRefItemRoot(_itemPoolRoots, uuid)) return foundItem;
 
 		if (_stagingArea.count(uuid) != 0)
 			return _stagingArea[uuid];
@@ -885,6 +906,7 @@ namespace Marvel {
 		if (item->getType() == mvAppItemType::mvTextureRegistry) _textureRegistryRoots.push_back(item);
 		if (item->getType() == mvAppItemType::mvValueRegistry) _valueRegistryRoots.push_back(item);
 		if (item->getType() == mvAppItemType::mvTheme) _themeRegistryRoots.push_back(item);
+		if (item->getType() == mvAppItemType::mvItemPool) _itemPoolRoots.push_back(item);
 
 		return true;
 	}
@@ -902,6 +924,7 @@ namespace Marvel {
 		_textureRegistryRoots.clear();
 		_valueRegistryRoots.clear();
 		_themeRegistryRoots.clear();
+		_itemPoolRoots.clear();
 	}
 
 	void mvItemRegistry::cleanUpItem(mvUUID uuid)
@@ -936,7 +959,6 @@ namespace Marvel {
 		if (!item->getState().isOk())
 			return false;
 
-		
 		//---------------------------------------------------------------------------
 		// STEP 0: updata "last" information
 		//---------------------------------------------------------------------------
@@ -1164,6 +1186,7 @@ namespace Marvel {
 		getAllItemsRoot(_textureRegistryRoots, childList);
 		getAllItemsRoot(_valueRegistryRoots, childList);
 		getAllItemsRoot(_themeRegistryRoots, childList);
+		getAllItemsRoot(_itemPoolRoots, childList);
 
 		return childList;
 	}
@@ -1182,6 +1205,7 @@ namespace Marvel {
 		for (auto& root : _textureRegistryRoots) childList.emplace_back(root->_uuid);
 		for (auto& root : _valueRegistryRoots) childList.emplace_back(root->_uuid);
 		for (auto& root : _themeRegistryRoots) childList.emplace_back(root->_uuid);
+		for (auto& root : _itemPoolRoots) childList.emplace_back(root->_uuid);
 
 		return childList;
 	}
@@ -1258,6 +1282,7 @@ namespace Marvel {
 		else if (moveRoot(_valueRegistryRoots, uuid, child)) stoleItem = true;
 		else if (moveRoot(_windowRoots, uuid, child)) stoleItem = true;
 		else if (moveRoot(_themeRegistryRoots, uuid, child)) stoleItem = true;
+		else if (moveRoot(_itemPoolRoots, uuid, child)) stoleItem = true;
 
 		if (child == nullptr)
 		{

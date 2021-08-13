@@ -1441,6 +1441,17 @@ namespace Marvel{
 			PyDict_SetItemString(dict, "user_data", GetPyNone());
 	}
 
+	void mvAppItem::setPoolInfo(mvUUID pool, mvUUID itemSet)
+	{
+		_pool = pool;
+		_itemSet = itemSet;
+	}
+
+	std::pair<mvUUID, mvUUID> mvAppItem::getPoolInfo() const
+	{
+		return std::make_pair(_pool, _itemSet);
+	}
+
 	PyObject* mvAppItem::get_item_configuration(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		PyObject* itemraw;

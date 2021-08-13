@@ -124,12 +124,17 @@ namespace Marvel {
         mvAppItem*                     getItem           (mvUUID uuid);
         mvRef<mvAppItem>               getRefItem        (mvUUID uuid);
         mvWindowAppItem*               getWindow         (mvUUID uuid);
-        //std::vector<mvRef<mvAppItem>>& getWindowRoots()       { return _windowRoots; }
-        std::vector<mvRef<mvAppItem>>& getFontRegistries()       { return _fontRegistryRoots; }
+        std::vector<mvRef<mvAppItem>>& getFontRegistries ()       { return _fontRegistryRoots; }
         mvUUID                         getActiveWindow   () const { return _activeWindow; }
         bool                           addItemWithRuntimeChecks(mvRef<mvAppItem> item, mvUUID parent, mvUUID before);
         void                           cacheItem(mvAppItem* item);
         void                           cleanUpItem(mvUUID uuid);
+
+        //-----------------------------------------------------------------------------
+        // Pools
+        //-----------------------------------------------------------------------------
+        std::vector<mvRef<mvAppItem>>& getItemPools() { return _itemPoolRoots; }
+        mvRef<mvAppItem>               getItemFromPool(mvAppItemType itemType);
 
         //-----------------------------------------------------------------------------
         // Aliases
@@ -212,6 +217,7 @@ private:
         std::vector<mvRef<mvAppItem>> _textureRegistryRoots;
         std::vector<mvRef<mvAppItem>> _valueRegistryRoots;
         std::vector<mvRef<mvAppItem>> _themeRegistryRoots;
+        std::vector<mvRef<mvAppItem>> _itemPoolRoots;
 
         // config
         bool _allowAliasOverwrites = false;

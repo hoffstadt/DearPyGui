@@ -70,6 +70,7 @@ namespace Marvel {
         mvInt4Value, mvBoolValue, mvStringValue, mvDoubleValue, mvDouble4Value,
         mvColorValue, mvFloatVectValue, mvSeriesValue, mvRawTexture, mvSubPlots,
         mvColorMap, mvColorMapRegistry, mvColorMapButton, mvColorMapSlider,
+        mvItemPool, mvItemSet,
         ItemTypeCount
     };
 
@@ -344,6 +345,9 @@ namespace Marvel {
         bool                           isAltCustomActionRequested() const;
         void                           setPos(const ImVec2& pos);
         void                           registerWindowFocusing(); // only useful for imgui window types
+        void                           setPoolInfo(mvUUID pool, mvUUID itemSet);
+        std::pair<mvUUID, mvUUID>      getPoolInfo() const;
+        void                           setUUID(mvUUID id) { _uuid = id; }
 
     private:
 
@@ -376,6 +380,10 @@ namespace Marvel {
         mvAppItem*     _parentPtr = nullptr;
         mvAppItemState _state;
         int            _location = -1;
+        
+        // item pool info
+        mvUUID _pool = 0;
+        mvUUID _itemSet = 0;
         
         // next frame triggers
         bool _focusNextFrame = false;

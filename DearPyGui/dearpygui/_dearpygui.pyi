@@ -294,6 +294,14 @@ def add_int_value(*, label: str =None, user_data: Any =None, use_internal_label:
 	"""Undocumented"""
 	...
 
+def add_item_pool(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, id: Union[int, str] =0) -> Union[int, str]:
+	"""Undocumented function"""
+	...
+
+def add_item_set(type : int, count : int, *, label: str =None, user_data: Any =None, use_internal_label: bool =True, id: Union[int, str] =0) -> Union[int, str]:
+	"""Undocumented function"""
+	...
+
 def add_key_down_handler(key : int =-1, *, label: str =None, user_data: Any =None, use_internal_label: bool =True, id: Union[int, str] =0, callback: Callable =None, show: bool =True, parent: Union[int, str] =internal_dpg.mvReservedUUID_1) -> Union[int, str]:
 	"""Adds a handler which runs a given callback when the specified key is down. Parent must be a handler registry."""
 	...

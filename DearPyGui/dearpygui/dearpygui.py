@@ -1428,6 +1428,44 @@ def handler_registry(*, label: str =None, user_data: Any =None, use_internal_lab
 	finally:
 		internal_dpg.pop_container_stack()
 @contextmanager
+def item_pool(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, id: Union[int, str] =0) -> Union[int, str]:
+	"""
+	Undocumented function
+	Args:
+		**label (str): Overrides 'name' as label.
+		**user_data (Any): User data for callbacks.
+		**use_internal_label (bool): Use generated internal label instead of user specified (appends ### uuid).
+		**id (Union[int, str]): Unique id used to programmatically refer to the item.If label is unused this will be the label.
+	Yields:
+		Union[int, str]
+	"""
+	try:
+		widget = internal_dpg.add_item_pool(label=label, user_data=user_data, use_internal_label=use_internal_label, id=id)
+		internal_dpg.push_container_stack(widget)
+		yield widget
+	finally:
+		internal_dpg.pop_container_stack()
+@contextmanager
+def item_set(type : int, count : int, *, label: str =None, user_data: Any =None, use_internal_label: bool =True, id: Union[int, str] =0) -> Union[int, str]:
+	"""
+	Undocumented function
+	Args:
+		type (int): 
+		count (int): 
+		**label (str): Overrides 'name' as label.
+		**user_data (Any): User data for callbacks.
+		**use_internal_label (bool): Use generated internal label instead of user specified (appends ### uuid).
+		**id (Union[int, str]): Unique id used to programmatically refer to the item.If label is unused this will be the label.
+	Yields:
+		Union[int, str]
+	"""
+	try:
+		widget = internal_dpg.add_item_set(type, count, label=label, user_data=user_data, use_internal_label=use_internal_label, id=id)
+		internal_dpg.push_container_stack(widget)
+		yield widget
+	finally:
+		internal_dpg.pop_container_stack()
+@contextmanager
 def menu(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, id: Union[int, str] =0, indent: int =-1, parent: Union[int, str] =0, before: Union[int, str] =0, payload_type: str ='$$DPG_PAYLOAD', drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, enabled: bool =True, filter_key: str ='', delay_search: bool =False, tracked: bool =False, track_offset: float =0.5) -> Union[int, str]:
 	"""
 	Adds a menu to an existing menu bar. Must be followed by a call to end.
@@ -3813,6 +3851,36 @@ def add_int_value(*, label: str =None, user_data: Any =None, use_internal_label:
 	"""
 
 	return internal_dpg.add_int_value(label=label, user_data=user_data, use_internal_label=use_internal_label, id=id, source=source, default_value=default_value, parent=parent)
+
+def add_item_pool(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, id: Union[int, str] =0) -> Union[int, str]:
+	"""
+	Undocumented function
+	Args:
+		**label (str): Overrides 'name' as label.
+		**user_data (Any): User data for callbacks.
+		**use_internal_label (bool): Use generated internal label instead of user specified (appends ### uuid).
+		**id (Union[int, str]): Unique id used to programmatically refer to the item.If label is unused this will be the label.
+	Returns:
+		Union[int, str]
+	"""
+
+	return internal_dpg.add_item_pool(label=label, user_data=user_data, use_internal_label=use_internal_label, id=id)
+
+def add_item_set(type : int, count : int, *, label: str =None, user_data: Any =None, use_internal_label: bool =True, id: Union[int, str] =0) -> Union[int, str]:
+	"""
+	Undocumented function
+	Args:
+		type (int): 
+		count (int): 
+		**label (str): Overrides 'name' as label.
+		**user_data (Any): User data for callbacks.
+		**use_internal_label (bool): Use generated internal label instead of user specified (appends ### uuid).
+		**id (Union[int, str]): Unique id used to programmatically refer to the item.If label is unused this will be the label.
+	Returns:
+		Union[int, str]
+	"""
+
+	return internal_dpg.add_item_set(type, count, label=label, user_data=user_data, use_internal_label=use_internal_label, id=id)
 
 def add_key_down_handler(key : int =-1, *, label: str =None, user_data: Any =None, use_internal_label: bool =True, id: Union[int, str] =0, callback: Callable =None, show: bool =True, parent: Union[int, str] =internal_dpg.mvReservedUUID_1) -> Union[int, str]:
 	"""
@@ -7619,6 +7687,8 @@ mvPlotColormap_Greys=internal_dpg.mvPlotColormap_Greys
 mvColorMapRegistry=internal_dpg.mvColorMapRegistry
 mvColorMapButton=internal_dpg.mvColorMapButton
 mvColorMapSlider=internal_dpg.mvColorMapSlider
+mvItemPool=internal_dpg.mvItemPool
+mvItemSet=internal_dpg.mvItemSet
 mvReservedUUID_0=internal_dpg.mvReservedUUID_0
 mvReservedUUID_1=internal_dpg.mvReservedUUID_1
 mvReservedUUID_2=internal_dpg.mvReservedUUID_2

@@ -1,5 +1,6 @@
 #pragma once
 
+#include <vector>
 #include "mvToolWindow.h"
 
 namespace Marvel {
