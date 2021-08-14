@@ -2,6 +2,9 @@
 #include "mvItemRegistry.h"
 #include "mvApp.h"
 #include "mvPythonExceptions.h"
+#include "AppItems/fonts/mvFont.h"
+#include "AppItems/themes/mvTheme.h"
+#include "AppItems/containers/mvDragPayload.h"
 
 namespace Marvel {
 
@@ -49,34 +52,191 @@ namespace Marvel {
 	void mvImage::draw(ImDrawList* drawlist, float x, float y)
 	{
 
-		if (_texture)
+		//-----------------------------------------------------------------------------
+		// pre draw
+		//-----------------------------------------------------------------------------
+
+		// show/hide
+		if (!_show)
+			return;
+
+		// focusing
+		if (_focusNextFrame)
 		{
-			if (_internalTexture)
-				_texture->draw(drawlist, x, y);
+			ImGui::SetKeyboardFocusHere();
+			_focusNextFrame = false;
+		}
 
-			if (!_texture->getState().isOk())
-				return;
+		// cache old cursor position
+		ImVec2 previousCursorPos = ImGui::GetCursorPos();
 
-			// if width/height is not set by user, use texture dimensions
-			if (_width == 0)
+		// set cursor position if user set
+		if (_dirtyPos)
+			ImGui::SetCursorPos(_state.getItemPos());
+
+		// update widget's position state
+		_state.setPos({ ImGui::GetCursorPosX(), ImGui::GetCursorPosY() });
+
+		// set item width
+		if (_width != 0)
+			ImGui::SetNextItemWidth((float)_width);
+
+		// set indent
+		if (_indent > 0.0f)
+			ImGui::Indent(_indent);
+
+		// push font if a font object is attached
+		if (_font)
+		{
+			ImFont* fontptr = static_cast<mvFont*>(_font.get())->getFontPtr();
+			ImGui::PushFont(fontptr);
+		}
+
+		// handle enabled theming
+		if (_enabled)
+		{
+			// push class theme (if it exists)
+			if (auto classTheme = getClassTheme())
+				static_cast<mvTheme*>(classTheme.get())->draw(nullptr, 0.0f, 0.0f);
+
+			// push item theme (if it exists)
+			if (_theme)
+				static_cast<mvTheme*>(_theme.get())->draw(nullptr, 0.0f, 0.0f);
+		}
+
+		// handled disabled theming
+		else
+		{
+			// push class theme (if it exists)
+			if (auto classTheme = getClassDisabledTheme())
+				static_cast<mvTheme*>(classTheme.get())->draw(nullptr, 0.0f, 0.0f);
+
+			// push item theme (if it exists)
+			if (_disabledTheme)
+				static_cast<mvTheme*>(_disabledTheme.get())->draw(nullptr, 0.0f, 0.0f);
+		}
+
+
+		//-----------------------------------------------------------------------------
+		// draw
+		//-----------------------------------------------------------------------------
+		{
+			if (_texture)
+			{
+				if (_internalTexture)
+					_texture->draw(drawlist, x, y);
+
+				if (!_texture->getState().isOk())
+					return;
+
+				// if width/height is not set by user, use texture dimensions
+				if (_width == 0)
 					_width = _texture->getWidth();
 
-			if (_height == 0)
+				if (_height == 0)
 					_height = _texture->getHeight();
 
-			void* texture = nullptr;
+				void* texture = nullptr;
 
-			if (_texture->getType() == mvAppItemType::mvStaticTexture)
-				texture = static_cast<mvStaticTexture*>(_texture.get())->getRawTexture();
-			else if (_texture->getType() == mvAppItemType::mvRawTexture)
-				texture = static_cast<mvRawTexture*>(_texture.get())->getRawTexture();
-			else
-				texture = static_cast<mvDynamicTexture*>(_texture.get())->getRawTexture();
+				if (_texture->getType() == mvAppItemType::mvStaticTexture)
+					texture = static_cast<mvStaticTexture*>(_texture.get())->getRawTexture();
+				else if (_texture->getType() == mvAppItemType::mvRawTexture)
+					texture = static_cast<mvRawTexture*>(_texture.get())->getRawTexture();
+				else
+					texture = static_cast<mvDynamicTexture*>(_texture.get())->getRawTexture();
 
-			ImGui::Image(texture, ImVec2(_width, _height), ImVec2(_uv_min.x, _uv_min.y), ImVec2(_uv_max.x, _uv_max.y),
-				ImVec4((float)_tintColor.r, (float)_tintColor.g, (float)_tintColor.b, (float)_tintColor.a),
-				ImVec4((float)_borderColor.r, (float)_borderColor.g, (float)_borderColor.b, (float)_borderColor.a));
+				ImGui::Image(texture, ImVec2(_width, _height), ImVec2(_uv_min.x, _uv_min.y), ImVec2(_uv_max.x, _uv_max.y),
+					ImVec4((float)_tintColor.r, (float)_tintColor.g, (float)_tintColor.b, (float)_tintColor.a),
+					ImVec4((float)_borderColor.r, (float)_borderColor.g, (float)_borderColor.b, (float)_borderColor.a));
 
+			}
+		}
+
+
+		//-----------------------------------------------------------------------------
+		// update state
+		//   * only update if applicable
+		//-----------------------------------------------------------------------------
+		_state._lastFrameUpdate = mvApp::s_frame;
+		_state._hovered = ImGui::IsItemHovered();
+		_state._active = ImGui::IsItemActive();
+		_state._focused = ImGui::IsItemFocused();
+		_state._leftclicked = ImGui::IsItemClicked();
+		_state._rightclicked = ImGui::IsItemClicked(1);
+		_state._middleclicked = ImGui::IsItemClicked(2);
+		_state._visible = ImGui::IsItemVisible();
+		_state._activated = ImGui::IsItemActivated();
+		_state._deactivated = ImGui::IsItemDeactivated();
+		_state._rectMin = { ImGui::GetItemRectMin().x, ImGui::GetItemRectMin().y };
+		_state._rectMax = { ImGui::GetItemRectMax().x, ImGui::GetItemRectMax().y };
+		_state._rectSize = { ImGui::GetItemRectSize().x, ImGui::GetItemRectSize().y };
+		_state._contextRegionAvail = { ImGui::GetContentRegionAvail().x, ImGui::GetContentRegionAvail().y };
+
+		//-----------------------------------------------------------------------------
+		// post draw
+		//-----------------------------------------------------------------------------
+
+		// set cursor position to cached position
+		if (_dirtyPos)
+			ImGui::SetCursorPos(previousCursorPos);
+
+		if (_indent > 0.0f)
+			ImGui::Unindent(_indent);
+
+		// pop font off stack
+		if (_font)
+			ImGui::PopFont();
+
+		// handle popping styles
+		if (_enabled)
+		{
+			if (auto classTheme = getClassTheme())
+				static_cast<mvTheme*>(classTheme.get())->customAction();
+
+			if (_theme)
+				static_cast<mvTheme*>(_theme.get())->customAction();
+		}
+		else
+		{
+			if (auto classTheme = getClassDisabledTheme())
+				static_cast<mvTheme*>(classTheme.get())->customAction();
+
+			if (_disabledTheme)
+				static_cast<mvTheme*>(_disabledTheme.get())->customAction();
+		}
+
+		// handle widget's event handlers
+		for (auto& item : _children[3])
+		{
+			if (!item->preDraw())
+				continue;
+
+			item->draw(nullptr, ImGui::GetCursorPosX(), ImGui::GetCursorPosY());
+		}
+
+		// handle drag & drop payloads
+		for (auto& item : _children[4])
+		{
+			if (!item->preDraw())
+				continue;
+
+			item->draw(nullptr, ImGui::GetCursorPosX(), ImGui::GetCursorPosY());
+		}
+
+		// handle drag & drop if used
+		if (_dropCallback)
+		{
+			ScopedID id(_uuid);
+			if (ImGui::BeginDragDropTarget())
+			{
+				if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload(_payloadType.c_str()))
+				{
+					auto payloadActual = static_cast<const mvDragPayload*>(payload->Data);
+					mvApp::GetApp()->getCallbackRegistry().addCallback(getDropCallback(), _uuid, payloadActual->getDragData(), nullptr);
+				}
+
+				ImGui::EndDragDropTarget();
+			}
 		}
 
 	}

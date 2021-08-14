@@ -260,6 +260,7 @@ namespace Marvel {
         _state._visible = ImGui::IsItemVisible();
         _state._activated = ImGui::IsItemActivated();
         _state._deactivated = ImGui::IsItemDeactivated();
+        _state._deactivatedAfterEdit = ImGui::IsItemDeactivatedAfterEdit();
         _state._rectMin = { ImGui::GetItemRectMin().x, ImGui::GetItemRectMin().y };
         _state._rectMax = { ImGui::GetItemRectMax().x, ImGui::GetItemRectMax().y };
         _state._rectSize = { ImGui::GetItemRectSize().x, ImGui::GetItemRectSize().y };
@@ -560,6 +561,7 @@ namespace Marvel {
         _state._visible = ImGui::IsItemVisible();
         _state._activated = ImGui::IsItemActivated();
         _state._deactivated = ImGui::IsItemDeactivated();
+        _state._deactivatedAfterEdit = ImGui::IsItemDeactivatedAfterEdit();
         _state._rectMin = { ImGui::GetItemRectMin().x, ImGui::GetItemRectMin().y };
         _state._rectMax = { ImGui::GetItemRectMax().x, ImGui::GetItemRectMax().y };
         _state._rectSize = { ImGui::GetItemRectSize().x, ImGui::GetItemRectSize().y };
