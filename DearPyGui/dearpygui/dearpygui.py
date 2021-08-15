@@ -1872,6 +1872,24 @@ def table_row(*, label: str =None, user_data: Any =None, use_internal_label: boo
 	finally:
 		internal_dpg.pop_container_stack()
 @contextmanager
+def template_registry(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, id: Union[int, str] =0) -> Union[int, str]:
+	"""
+	Undocumented function
+	Args:
+		**label (str): Overrides 'name' as label.
+		**user_data (Any): User data for callbacks.
+		**use_internal_label (bool): Use generated internal label instead of user specified (appends ### uuid).
+		**id (Union[int, str]): Unique id used to programmatically refer to the item.If label is unused this will be the label.
+	Yields:
+		Union[int, str]
+	"""
+	try:
+		widget = internal_dpg.add_template_registry(label=label, user_data=user_data, use_internal_label=use_internal_label, id=id)
+		internal_dpg.push_container_stack(widget)
+		yield widget
+	finally:
+		internal_dpg.pop_container_stack()
+@contextmanager
 def texture_registry(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, id: Union[int, str] =0, show: bool =False) -> Union[int, str]:
 	"""
 	Undocumented function
@@ -5257,6 +5275,20 @@ def add_table_row(*, label: str =None, user_data: Any =None, use_internal_label:
 
 	return internal_dpg.add_table_row(label=label, user_data=user_data, use_internal_label=use_internal_label, id=id, height=height, parent=parent, before=before, show=show, filter_key=filter_key)
 
+def add_template_registry(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, id: Union[int, str] =0) -> Union[int, str]:
+	"""
+	Undocumented function
+	Args:
+		**label (str): Overrides 'name' as label.
+		**user_data (Any): User data for callbacks.
+		**use_internal_label (bool): Use generated internal label instead of user specified (appends ### uuid).
+		**id (Union[int, str]): Unique id used to programmatically refer to the item.If label is unused this will be the label.
+	Returns:
+		Union[int, str]
+	"""
+
+	return internal_dpg.add_template_registry(label=label, user_data=user_data, use_internal_label=use_internal_label, id=id)
+
 def add_text(default_value : str ='', *, label: str =None, user_data: Any =None, use_internal_label: bool =True, id: Union[int, str] =0, indent: int =-1, parent: Union[int, str] =0, before: Union[int, str] =0, source: Union[int, str] =0, show: bool =True, pos: Union[List[int], Tuple[int]] =[], filter_key: str ='', tracked: bool =False, track_offset: float =0.5, wrap: int =-1, bullet: bool =False, color: Union[List[float], Tuple[float]] =(-1, -1, -1, -1), show_label: bool =False) -> Union[int, str]:
 	"""
 	Adds text. Text can have an optional label that will display to the right of the text.
@@ -5593,6 +5625,17 @@ def add_window(*, label: str =None, user_data: Any =None, use_internal_label: bo
 
 	return internal_dpg.add_window(label=label, user_data=user_data, use_internal_label=use_internal_label, id=id, width=width, height=height, indent=indent, show=show, pos=pos, delay_search=delay_search, min_size=min_size, max_size=max_size, menubar=menubar, collapsed=collapsed, autosize=autosize, no_resize=no_resize, no_title_bar=no_title_bar, no_move=no_move, no_scrollbar=no_scrollbar, no_collapse=no_collapse, horizontal_scrollbar=horizontal_scrollbar, no_focus_on_appearing=no_focus_on_appearing, no_bring_to_front_on_focus=no_bring_to_front_on_focus, no_close=no_close, no_background=no_background, modal=modal, popup=popup, no_saved_settings=no_saved_settings, on_close=on_close)
 
+def bind_template_registry(template_registry : Union[int, str]) -> None:
+	"""
+	Undocumented
+	Args:
+		template_registry (Union[int, str]): 
+	Returns:
+		None
+	"""
+
+	return internal_dpg.bind_template_registry(template_registry)
+
 def cleanup_dearpygui() -> None:
 	"""
 	Cleans up dearpygui.
@@ -5625,17 +5668,19 @@ def clear_selected_nodes(node_editor : Union[int, str]) -> None:
 
 	return internal_dpg.clear_selected_nodes(node_editor)
 
-def configure_item_registry(*, allow_alias_overwrites: bool =False, manual_alias_management: bool =False) -> None:
+def configure_item_registry(*, allow_alias_overwrites: bool =False, manual_alias_management: bool =False, skip_required_args: bool =False, skip_optional_args: bool =False) -> None:
 	"""
 	Undocumented
 	Args:
 		**allow_alias_overwrites (bool): 
 		**manual_alias_management (bool): 
+		**skip_required_args (bool): 
+		**skip_optional_args (bool): 
 	Returns:
 		None
 	"""
 
-	return internal_dpg.configure_item_registry(allow_alias_overwrites=allow_alias_overwrites, manual_alias_management=manual_alias_management)
+	return internal_dpg.configure_item_registry(allow_alias_overwrites=allow_alias_overwrites, manual_alias_management=manual_alias_management, skip_required_args=skip_required_args, skip_optional_args=skip_optional_args)
 
 def create_viewport(*, title: str ='Dear PyGui', small_icon: str ='', large_icon: str ='', width: int =1280, height: int =800, x_pos: int =100, y_pos: int =100, min_width: int =250, max_width: int =10000, min_height: int =250, max_height: int =10000, resizable: bool =True, vsync: bool =True, always_on_top: bool =False, decorated: bool =True, clear_color: Union[List[float], Tuple[float]] =(0, 0, 0, 255)) -> str:
 	"""
@@ -7689,6 +7734,7 @@ mvColorMapButton=internal_dpg.mvColorMapButton
 mvColorMapSlider=internal_dpg.mvColorMapSlider
 mvItemPool=internal_dpg.mvItemPool
 mvItemSet=internal_dpg.mvItemSet
+mvTemplateRegistry=internal_dpg.mvTemplateRegistry
 mvReservedUUID_0=internal_dpg.mvReservedUUID_0
 mvReservedUUID_1=internal_dpg.mvReservedUUID_1
 mvReservedUUID_2=internal_dpg.mvReservedUUID_2

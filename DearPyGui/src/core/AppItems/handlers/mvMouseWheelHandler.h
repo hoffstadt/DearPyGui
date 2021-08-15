@@ -18,6 +18,7 @@ namespace Marvel {
 		MV_NO_CONSTANTS
 
 		MV_START_PARENTS
+			MV_ADD_PARENT(mvAppItemType::mvTemplateRegistry),
 			MV_ADD_PARENT(mvAppItemType::mvStagingContainer),
 			MV_ADD_PARENT(mvAppItemType::mvHandlerRegistry)
 		MV_END_PARENTS

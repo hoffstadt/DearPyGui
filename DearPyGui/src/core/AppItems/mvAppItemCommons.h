@@ -77,6 +77,7 @@
 #include "misc/mvSpacing.h"
 #include "misc/mvSeparator.h"
 
+#include "containers/mvTemplateRegistry.h"
 #include "containers/mvFilterSet.h"
 #include "containers/mvClipper.h"
 #include "containers/mvStagingContainer.h"

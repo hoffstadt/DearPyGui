@@ -31,6 +31,7 @@ namespace Marvel {
 		void getSpecificConfiguration(PyObject* dict) override;
 
 	private:
+
 		mvRef<bool>          _value = CreateRef<bool>(false);
 		bool                 _disabled_value = false;
 		ImGuiSelectableFlags _flags = ImGuiSelectableFlags_None;

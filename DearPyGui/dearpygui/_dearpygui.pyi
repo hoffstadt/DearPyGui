@@ -522,6 +522,10 @@ def add_table_row(*, label: str =None, user_data: Any =None, use_internal_label:
 	"""Undocumented function"""
 	...
 
+def add_template_registry(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, id: Union[int, str] =0) -> Union[int, str]:
+	"""Undocumented function"""
+	...
+
 def add_text(default_value : str ='', *, label: str =None, user_data: Any =None, use_internal_label: bool =True, id: Union[int, str] =0, indent: int =-1, parent: Union[int, str] =0, before: Union[int, str] =0, source: Union[int, str] =0, show: bool =True, pos: Union[List[int], Tuple[int]] =[], filter_key: str ='', tracked: bool =False, track_offset: float =0.5, wrap: int =-1, bullet: bool =False, color: Union[List[float], Tuple[float]] =(-1, -1, -1, -1), show_label: bool =False) -> Union[int, str]:
 	"""Adds text. Text can have an optional label that will display to the right of the text."""
 	...
@@ -586,6 +590,10 @@ def add_window(*, label: str =None, user_data: Any =None, use_internal_label: bo
 	"""Creates a new window for following items to be added to."""
 	...
 
+def bind_template_registry(template_registry : Union[int, str]) -> None:
+	"""Undocumented"""
+	...
+
 def cleanup_dearpygui() -> None:
 	"""Cleans up dearpygui."""
 	...
@@ -602,7 +610,7 @@ def configure_item(item : Union[int, str], **kwargs) -> None:
 	"""Undocumented"""
 	...
 
-def configure_item_registry(*, allow_alias_overwrites: bool =False, manual_alias_management: bool =False) -> None:
+def configure_item_registry(*, allow_alias_overwrites: bool =False, manual_alias_management: bool =False, skip_required_args: bool =False, skip_optional_args: bool =False) -> None:
 	"""Undocumented"""
 	...
 

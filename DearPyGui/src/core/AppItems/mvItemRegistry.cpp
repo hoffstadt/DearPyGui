@@ -23,6 +23,8 @@ namespace Marvel {
 			mvPythonParser parser(mvPyDataType::None, "Undocumented", { "App Item Operations" });
 			parser.addArg<mvPyDataType::Bool>("allow_alias_overwrites", mvArgType::KEYWORD_ARG, "False");
 			parser.addArg<mvPyDataType::Bool>("manual_alias_management", mvArgType::KEYWORD_ARG, "False");
+			parser.addArg<mvPyDataType::Bool>("skip_required_args", mvArgType::KEYWORD_ARG, "False");
+			parser.addArg<mvPyDataType::Bool>("skip_optional_args", mvArgType::KEYWORD_ARG, "False");
 			parser.finalize();
 			parsers->insert({ "configure_item_registry", parser });
 		}
@@ -81,6 +83,13 @@ namespace Marvel {
 			parser.addArg<mvPyDataType::UUIDList>("new_order");
 			parser.finalize();
 			parsers->insert({ "reorder_items", parser });
+		}
+
+		{
+			mvPythonParser parser(mvPyDataType::None, "Undocumented", { "Item Registry" });
+			parser.addArg<mvPyDataType::UUID>("template_registry");
+			parser.finalize();
+			parsers->insert({ "bind_template_registry", parser });
 		}
 
 		{
@@ -413,6 +422,7 @@ namespace Marvel {
 		else if (deleteRoot(_windowRoots, uuid)) deletedItem = true;
 		else if (deleteRoot(_themeRegistryRoots, uuid)) deletedItem = true;
 		else if (deleteRoot(_itemPoolRoots, uuid)) deletedItem = true;
+		else if (deleteRoot(_itemTemplatesRoots, uuid)) deletedItem = true;
 
 		if (deletedItem)
 		{
@@ -446,6 +456,7 @@ namespace Marvel {
 		else if (moveRoot(_windowRoots, uuid, child)) movedItem = true;
 		else if (moveRoot(_themeRegistryRoots, uuid, child)) movedItem = true;
 		else if (moveRoot(_itemPoolRoots, uuid, child)) movedItem = true;
+		else if (moveRoot(_itemTemplatesRoots, uuid, child)) movedItem = true;
 
 		if (_stagingArea.count(uuid) != 0)
 		{
@@ -484,6 +495,7 @@ namespace Marvel {
 		else if (moveUpRoot(_windowRoots, uuid)) movedItem = true;
 		else if (moveUpRoot(_themeRegistryRoots, uuid)) movedItem = true;
 		else if (moveUpRoot(_itemPoolRoots, uuid)) movedItem = true;
+		else if (moveUpRoot(_itemTemplatesRoots, uuid)) movedItem = true;
 
 		if (!movedItem)
 		{
@@ -515,6 +527,7 @@ namespace Marvel {
 		else if (moveDownRoot(_windowRoots, uuid)) movedItem = true;
 		else if (moveDownRoot(_themeRegistryRoots, uuid)) movedItem = true;
 		else if (moveDownRoot(_itemPoolRoots, uuid)) movedItem = true;
+		else if (moveDownRoot(_itemTemplatesRoots, uuid)) movedItem = true;
 
 		if (!movedItem)
 		{
@@ -659,6 +672,7 @@ namespace Marvel {
 		else if (addRuntimeChildRoot(_windowRoots, parent, before, item)) return true;
 		else if (addRuntimeChildRoot(_themeRegistryRoots, parent, before, item)) return true;
 		else if (addRuntimeChildRoot(_itemPoolRoots, parent, before, item)) return true;
+		else if (addRuntimeChildRoot(_itemTemplatesRoots, parent, before, item)) return true;
 
 		return false;
 	}
@@ -677,6 +691,7 @@ namespace Marvel {
 		else if (addItemAfterRoot(_windowRoots, prev, item)) return true;
 		else if (addItemAfterRoot(_themeRegistryRoots, prev, item)) return true;
 		else if (addItemAfterRoot(_itemPoolRoots, prev, item)) return true;
+		else if (addItemAfterRoot(_itemTemplatesRoots, prev, item)) return true;
 
 		assert(false);
 		return false;
@@ -808,6 +823,7 @@ namespace Marvel {
 		if (auto foundItem = getItemRoot(_windowRoots, uuid)) return foundItem;
 		if (auto foundItem = getItemRoot(_themeRegistryRoots, uuid)) return foundItem;
 		if (auto foundItem = getItemRoot(_itemPoolRoots, uuid)) return foundItem;
+		if (auto foundItem = getItemRoot(_itemTemplatesRoots, uuid)) return foundItem;
 
 		for (auto delayedItem : _delayedSearch)
 		{
@@ -855,6 +871,7 @@ namespace Marvel {
 		else if (auto foundItem = getRefItemRoot(_windowRoots, uuid)) return foundItem;
 		else if (auto foundItem = getRefItemRoot(_themeRegistryRoots, uuid)) return foundItem;
 		else if (auto foundItem = getRefItemRoot(_itemPoolRoots, uuid)) return foundItem;
+		else if (auto foundItem = getRefItemRoot(_itemTemplatesRoots, uuid)) return foundItem;
 
 		if (_stagingArea.count(uuid) != 0)
 			return _stagingArea[uuid];
@@ -907,6 +924,7 @@ namespace Marvel {
 		if (item->getType() == mvAppItemType::mvValueRegistry) _valueRegistryRoots.push_back(item);
 		if (item->getType() == mvAppItemType::mvTheme) _themeRegistryRoots.push_back(item);
 		if (item->getType() == mvAppItemType::mvItemPool) _itemPoolRoots.push_back(item);
+		if (item->getType() == mvAppItemType::mvTemplateRegistry) _itemTemplatesRoots.push_back(item);
 
 		return true;
 	}
@@ -925,6 +943,7 @@ namespace Marvel {
 		_valueRegistryRoots.clear();
 		_themeRegistryRoots.clear();
 		_itemPoolRoots.clear();
+		_itemTemplatesRoots.clear();
 	}
 
 	void mvItemRegistry::cleanUpItem(mvUUID uuid)
@@ -1187,6 +1206,7 @@ namespace Marvel {
 		getAllItemsRoot(_valueRegistryRoots, childList);
 		getAllItemsRoot(_themeRegistryRoots, childList);
 		getAllItemsRoot(_itemPoolRoots, childList);
+		getAllItemsRoot(_itemTemplatesRoots, childList);
 
 		return childList;
 	}
@@ -1206,6 +1226,7 @@ namespace Marvel {
 		for (auto& root : _valueRegistryRoots) childList.emplace_back(root->_uuid);
 		for (auto& root : _themeRegistryRoots) childList.emplace_back(root->_uuid);
 		for (auto& root : _itemPoolRoots) childList.emplace_back(root->_uuid);
+		for (auto& root : _itemTemplatesRoots) childList.emplace_back(root->_uuid);
 
 		return childList;
 	}
@@ -1283,6 +1304,7 @@ namespace Marvel {
 		else if (moveRoot(_windowRoots, uuid, child)) stoleItem = true;
 		else if (moveRoot(_themeRegistryRoots, uuid, child)) stoleItem = true;
 		else if (moveRoot(_itemPoolRoots, uuid, child)) stoleItem = true;
+		else if (moveRoot(_itemTemplatesRoots, uuid, child)) stoleItem = true;
 
 		if (child == nullptr)
 		{
@@ -1354,6 +1376,21 @@ namespace Marvel {
 		if (doesAliasExist(alias))
 			return _aliases[alias];
 		return 0;
+	}
+
+	void mvItemRegistry::tryBoundTemplateRegistry(mvAppItem* item) const
+	{
+		if (_boundedTemplateRegistry)
+		{
+			for (auto& tempItem : _boundedTemplateRegistry->_children[item->getTarget()])
+			{
+				if (tempItem->getType() == item->getType())
+				{
+					item->applyTemplate(tempItem.get());
+					return;
+				}
+			}
+		}
 	}
 
 	PyObject* mvItemRegistry::pop_container_stack(PyObject* self, PyObject* args, PyObject* kwargs)
@@ -1679,15 +1716,19 @@ namespace Marvel {
 
 		int allow_alias_overwrites = false;
 		int manual_alias_management = false;
+		int skip_optional_args = false;
+		int skip_required_args = false;
 
 		if (!(mvApp::GetApp()->getParsers())["configure_item_registry"].parse(args, kwargs, __FUNCTION__, 
-			&allow_alias_overwrites, &manual_alias_management))
+			&allow_alias_overwrites, &manual_alias_management, &skip_required_args, &skip_optional_args))
 			return GetPyNone();
 
 		if (!mvApp::s_manualMutexControl) std::lock_guard<std::mutex> lk(mvApp::s_mutex);
 
 		mvApp::GetApp()->getItemRegistry()._allowAliasOverwrites = allow_alias_overwrites;
 		mvApp::GetApp()->getItemRegistry()._manualAliasManagement = manual_alias_management;
+		mvApp::GetApp()->getItemRegistry()._skipOptionalArgs = skip_optional_args;
+		mvApp::GetApp()->getItemRegistry()._skipRequiredArgs = skip_required_args;
 
 		return GetPyNone();
 	}
@@ -1699,6 +1740,8 @@ namespace Marvel {
 		PyObject* pdict = PyDict_New();
 		PyDict_SetItemString(pdict, "allow_alias_overwrites", ToPyBool(registry._allowAliasOverwrites));
 		PyDict_SetItemString(pdict, "manual_alias_management", ToPyBool(registry._manualAliasManagement));
+		PyDict_SetItemString(pdict, "skip_optional_args", ToPyBool(registry._skipOptionalArgs));
+		PyDict_SetItemString(pdict, "skip_required_args", ToPyBool(registry._skipRequiredArgs));
 		return pdict;
 	}
 
@@ -1779,4 +1822,37 @@ namespace Marvel {
 
 		return ToPyList(aliases);
 	}
+
+	PyObject* mvItemRegistry::bind_template_registry(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+
+		PyObject* itemraw;
+
+		if (!(mvApp::GetApp()->getParsers())["bind_template_registry"].parse(args, kwargs, __FUNCTION__,
+			&itemraw))
+			return GetPyNone();
+
+		if (!mvApp::s_manualMutexControl) std::lock_guard<std::mutex> lk(mvApp::s_mutex);
+
+		mvUUID item = mvAppItem::GetIDFromPyObject(itemraw);
+
+
+		if (item == 0)
+			mvApp::GetApp()->getItemRegistry()._boundedTemplateRegistry = nullptr;
+		else
+		{
+			auto actualItem = mvApp::GetApp()->getItemRegistry().getRefItem(item);
+			if (actualItem)
+				mvApp::GetApp()->getItemRegistry()._boundedTemplateRegistry = actualItem;
+			else
+			{
+				mvThrowPythonError(mvErrorCode::mvItemNotFound, "bind_template_registry",
+					"Item not found: " + std::to_string(item), nullptr);
+				return GetPyNone();
+			}
+		}
+
+		return GetPyNone();
+	}
+
 }

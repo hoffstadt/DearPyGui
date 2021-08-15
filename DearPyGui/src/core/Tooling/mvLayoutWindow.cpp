@@ -348,6 +348,7 @@ namespace Marvel {
             ImGui::BeginChild("TreeChild", ImVec2(-1.0f, -1.0f), true);
             renderRootCategory("Windows", mvApp::GetApp()->getItemRegistry()._windowRoots);
             renderRootCategory("Themes", mvApp::GetApp()->getItemRegistry()._themeRegistryRoots);
+            renderRootCategory("Template Registries", mvApp::GetApp()->getItemRegistry()._itemTemplatesRoots);
             renderRootCategory("Staging Containers", mvApp::GetApp()->getItemRegistry()._stagingRoots);
             renderRootCategory("Texture Registries", mvApp::GetApp()->getItemRegistry()._textureRegistryRoots);
             renderRootCategory("Font Registries", mvApp::GetApp()->getItemRegistry()._fontRegistryRoots);

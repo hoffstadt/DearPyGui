@@ -33,10 +33,14 @@ static PyObject* parser(PyObject* self, PyObject* args, PyObject* kwargs)\
 	if(item == nullptr) item = CreateRef<mvItemTypeMap<(int)x>::type>(id);\
 	else item->setUUID(id);\
 	item->setAlias(alias);\
-	item->checkArgs(args, kwargs);\
-	item->handleSpecificRequiredArgs(args);\
-	item->handleSpecificPositionalArgs(args);\
-	item->handleKeywordArgs(kwargs);\
+	mvApp::GetApp()->getItemRegistry().tryBoundTemplateRegistry(item.get());\
+	item->checkArgs(args, kwargs, #parser);\
+	if(!mvApp::GetApp()->getItemRegistry().skipRequiredArgs())\
+		item->handleSpecificRequiredArgs(args);\
+	if(!mvApp::GetApp()->getItemRegistry().skipOptionalArgs()){\
+		item->handleSpecificPositionalArgs(args);\
+		item->handleKeywordArgs(kwargs, #parser);\
+	}\
 	mvApp::GetApp()->getItemRegistry().addItemWithRuntimeChecks(item, parent, before);\
 	return ToPyUUID(id);\
 }\

@@ -68,8 +68,10 @@ namespace Marvel {
         MV_CREATE_COMMAND(does_alias_exist);
         MV_CREATE_COMMAND(get_alias_id);
         MV_CREATE_COMMAND(get_aliases);
+        MV_CREATE_COMMAND(bind_template_registry);
 
         MV_START_COMMANDS
+            MV_ADD_COMMAND(bind_template_registry);
             MV_ADD_COMMAND(get_aliases);
             MV_ADD_COMMAND(get_item_registry_configuration);
             MV_ADD_COMMAND(configure_item_registry);
@@ -131,10 +133,13 @@ namespace Marvel {
         void                           cleanUpItem(mvUUID uuid);
 
         //-----------------------------------------------------------------------------
-        // Pools
+        // Pools and Config
         //-----------------------------------------------------------------------------
         std::vector<mvRef<mvAppItem>>& getItemPools() { return _itemPoolRoots; }
         mvRef<mvAppItem>               getItemFromPool(mvAppItemType itemType);
+        bool                           skipRequiredArgs() const { return _skipRequiredArgs; }
+        bool                           skipOptionalArgs() const { return _skipOptionalArgs; }
+        void                           tryBoundTemplateRegistry(mvAppItem* item) const;
 
         //-----------------------------------------------------------------------------
         // Aliases
@@ -218,10 +223,16 @@ private:
         std::vector<mvRef<mvAppItem>> _valueRegistryRoots;
         std::vector<mvRef<mvAppItem>> _themeRegistryRoots;
         std::vector<mvRef<mvAppItem>> _itemPoolRoots;
+        std::vector<mvRef<mvAppItem>> _itemTemplatesRoots;
 
-        // config
+        // bound registries
+        mvRef<mvAppItem> _boundedTemplateRegistry;
+
+        // user config
         bool _allowAliasOverwrites = false;
         bool _manualAliasManagement = false;
+        bool _skipRequiredArgs = false;
+        bool _skipOptionalArgs = false;
 	};
 
 }

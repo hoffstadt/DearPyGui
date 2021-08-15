@@ -70,7 +70,7 @@ namespace Marvel {
         mvInt4Value, mvBoolValue, mvStringValue, mvDoubleValue, mvDouble4Value,
         mvColorValue, mvFloatVectValue, mvSeriesValue, mvRawTexture, mvSubPlots,
         mvColorMap, mvColorMapRegistry, mvColorMapButton, mvColorMapSlider,
-        mvItemPool, mvItemSet,
+        mvItemPool, mvItemSet, mvTemplateRegistry,
         ItemTypeCount
     };
 
@@ -252,15 +252,17 @@ namespace Marvel {
 
         // used to check arguments, get/set configurations
         void getItemInfo      (PyObject* dict);
-        void checkArgs        (PyObject* args, PyObject* kwargs);    
-        void handleKeywordArgs(PyObject* dict);  // python dictionary acts as an out parameter 
+        void checkArgs        (PyObject* args, PyObject* kwargs, std::string parser);
+        void handleKeywordArgs(PyObject* dict, std::string parser);  // python dictionary acts as an out parameter 
         void getConfiguration (PyObject* dict);
+        void applyTemplate    (mvAppItem* item);
 
         // used by derived items to register their arguments
         virtual void handleSpecificRequiredArgs  (PyObject* args) {}
         virtual void handleSpecificPositionalArgs(PyObject* args) {}
         virtual void handleSpecificKeywordArgs   (PyObject* dict) {} // called by handleKeywordArgs
         virtual void getSpecificConfiguration    (PyObject* dict) {}
+        virtual void applySpecificTemplate       (mvAppItem* item) {}
 
         //-----------------------------------------------------------------------------
         // These methods can be optionally overridden if your widget needs to be
