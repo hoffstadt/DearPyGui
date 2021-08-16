@@ -8,6 +8,7 @@
 #include "mvAppItemCommons.h"
 #include "mvLog.h"
 #include "mvPythonTypeChecker.h"
+#include "mvPyObject.h"
 
 namespace Marvel{
 
@@ -1415,18 +1416,32 @@ namespace Marvel{
 		if (dict == nullptr)
 			return;
 
-		PyDict_SetItemString(dict, "filter_key", ToPyString(_filter));
-		PyDict_SetItemString(dict, "payload_type", ToPyString(_payloadType));
-		PyDict_SetItemString(dict, "label", ToPyString(_specificedlabel));
-		PyDict_SetItemString(dict, "use_internal_label", ToPyBool(_useInternalLabel));
-		PyDict_SetItemString(dict, "source", ToPyUUID(_source));
-		PyDict_SetItemString(dict, "show", ToPyBool(_show));
-		PyDict_SetItemString(dict, "enabled", ToPyBool(_enabled));
-		PyDict_SetItemString(dict, "tracked", ToPyBool(_tracked));
-		PyDict_SetItemString(dict, "width", ToPyInt(_width));
-		PyDict_SetItemString(dict, "track_offset", ToPyFloat(_trackOffset));
-		PyDict_SetItemString(dict, "height", ToPyInt(_height));
-		PyDict_SetItemString(dict, "indent", ToPyInt(_indent));
+		// config py objects
+		mvPyObject py_filter_key = ToPyString(_filter);
+		mvPyObject py_payload_type = ToPyString(_payloadType);
+		mvPyObject py_label = ToPyString(_specificedlabel);
+		mvPyObject py_use_internal_label = ToPyBool(_useInternalLabel);
+		mvPyObject py_source = ToPyUUID(_source);
+		mvPyObject py_show = ToPyBool(_show);
+		mvPyObject py_enabled = ToPyBool(_enabled);
+		mvPyObject py_tracked = ToPyBool(_tracked);
+		mvPyObject py_width = ToPyInt(_width);
+		mvPyObject py_track_offset = ToPyFloat(_trackOffset);
+		mvPyObject py_height = ToPyInt(_height);
+		mvPyObject py_indent = ToPyInt(_indent);
+
+		PyDict_SetItemString(dict, "filter_key", py_filter_key);
+		PyDict_SetItemString(dict, "payload_type", py_payload_type);
+		PyDict_SetItemString(dict, "label", py_label);
+		PyDict_SetItemString(dict, "use_internal_label", py_use_internal_label);
+		PyDict_SetItemString(dict, "source", py_source);
+		PyDict_SetItemString(dict, "show", py_show);
+		PyDict_SetItemString(dict, "enabled", py_enabled);
+		PyDict_SetItemString(dict, "tracked", py_tracked);
+		PyDict_SetItemString(dict, "width", py_width);
+		PyDict_SetItemString(dict, "track_offset", py_track_offset);
+		PyDict_SetItemString(dict, "height", py_height);
+		PyDict_SetItemString(dict, "indent", py_indent);
 
 		if (_callback)
 		{

@@ -750,6 +750,10 @@ def get_frame_count() -> int:
 	"""Get frame count."""
 	...
 
+def get_frame_rate() -> float:
+	"""Returns the average frame rate across 120 frames."""
+	...
+
 def get_global_font_scale() -> float:
 	"""Undocumented function"""
 	...
