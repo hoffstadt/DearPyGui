@@ -81,6 +81,7 @@ set(MARVEL_SOURCES
 	"src/core/AppItems/colors/mvColorMapScale.cpp"
 	"src/core/AppItems/colors/mvColorMapSlider.cpp"
 
+	"src/core/AppItems/misc/mvItemPool.cpp"
 	"src/core/AppItems/misc/mvProgressBar.cpp"
 	"src/core/AppItems/misc/mvSameLine.cpp"
 	"src/core/AppItems/misc/mvSeparator.cpp"
@@ -91,6 +92,7 @@ set(MARVEL_SOURCES
 	"src/core/AppItems/themes/mvThemeColor.cpp"
 	"src/core/AppItems/themes/mvThemeStyle.cpp"
 
+	"src/core/AppItems/containers/mvTemplateRegistry.cpp"
 	"src/core/AppItems/containers/mvStagingContainer.cpp"
 	"src/core/AppItems/containers/mvCollapsingHeader.cpp"
 	"src/core/AppItems/containers/mvGroup.cpp"

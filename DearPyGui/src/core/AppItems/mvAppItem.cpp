@@ -220,6 +220,64 @@ namespace Marvel{
 		_internalLabel = "###" + std::to_string(_uuid);
 	}
 
+	void mvAppItem::applyTemplate(mvAppItem* item)
+	{
+		_useInternalLabel = item->_useInternalLabel;
+		_tracked = item->_tracked;
+		_trackOffset = item->_trackOffset;
+		_searchLast = item->_searchLast;
+		_indent = item->_indent;
+		_show = item->_show;
+		_filter = item->_filter;
+		_payloadType = item->_payloadType;
+		_enabled = item->_enabled;
+		_source = item->_source;
+		_font = item->_font;
+		_theme = item->_theme;
+		_disabledTheme = item->_disabledTheme;
+		setWidth(item->_width);
+		setHeight(item->_height);
+		//setPos(item->_state.getItemPos());
+
+		if (!item->_specificedlabel.empty())
+		{
+			_specificedlabel = item->_specificedlabel;
+			if (_useInternalLabel)
+				_internalLabel = item->_specificedlabel + "###" + std::to_string(_uuid);
+			else
+				_internalLabel = item->_specificedlabel;
+		}
+
+		if (_enabled) _enabledLastFrame = true;
+		else _disabledLastFrame = true;
+
+		if (item->_callback)
+		{
+			Py_XINCREF(item->_callback);
+			setCallback(item->_callback);
+		}
+
+		if (item->_dragCallback)
+		{
+			Py_XINCREF(item->_dragCallback);
+			setDragCallback(item->_dragCallback);
+		}
+
+		if (item->_dropCallback)
+		{
+			Py_XINCREF(item->_dropCallback);
+			setDropCallback(item->_dropCallback);
+		}
+
+		if (item->_user_data)
+		{
+			Py_XINCREF(item->_user_data);
+			setCallbackData(item->_user_data);
+		}
+
+		applySpecificTemplate(item);
+	}
+
 	bool  mvAppItem::moveChildUp(mvUUID uuid)
 	{
 		bool found = false;
@@ -1032,44 +1090,17 @@ namespace Marvel{
 		
 	}
 
-	void mvAppItem::checkArgs(PyObject* args, PyObject* kwargs)
+	void mvAppItem::checkArgs(PyObject* args, PyObject* kwargs, std::string parser)
 	{
-		std::string parserCommand;
-
-		constexpr_for<1, (int)mvAppItemType::ItemTypeCount, 1>(
-			[&](auto i) {
-				using item_type = typename mvItemTypeMap<i>::type;
-				mvAppItemType ait = mvItemTypeReverseMap<item_type>::type;
-				if (getType() == ait)
-				{
-					parserCommand = item_type::s_command;
-					return;
-				}
-			});
-
-		mvApp::GetApp()->getParsers()[parserCommand].verifyArgumentCount(args);
-
+		mvApp::GetApp()->getParsers()[parser].verifyArgumentCount(args);
 	}
 
-	void mvAppItem::handleKeywordArgs(PyObject* dict)
+	void mvAppItem::handleKeywordArgs(PyObject* dict, std::string parser)
 	{
 		if (dict == nullptr)
 			return;
 
-		std::string parserCommand;
-
-		constexpr_for<1, (int)mvAppItemType::ItemTypeCount, 1>(
-			[&](auto i) {
-				using item_type = typename mvItemTypeMap<i>::type;
-				mvAppItemType ait = mvItemTypeReverseMap<item_type>::type;
-				if (getType() == ait)
-				{
-					parserCommand = item_type::s_command;
-					return;
-				}
-			});
-
-		if (mvApp::GetApp()->getParsers()[parserCommand].verifyKeywordArguments(dict))
+		if (mvApp::GetApp()->getParsers()[parser].verifyKeywordArguments(dict))
 			return;
 
 		if (PyArg_ValidateKeywordArguments(dict) == 0)
@@ -1332,18 +1363,7 @@ namespace Marvel{
 		if (dict == nullptr)
 			return;
 
-		std::string parserCommand;
-
-		constexpr_for<1, (int)mvAppItemType::ItemTypeCount, 1>(
-			[&](auto i) {
-				using item_type = typename mvItemTypeMap<i>::type;
-				mvAppItemType ait = mvItemTypeReverseMap<item_type>::type;
-				if (getType() == ait)
-				{
-					parserCommand = item_type::s_internal_id;
-					return;
-				}
-			});
+		std::string parserCommand = getCommand();
 
 		auto children = mvApp::GetApp()->getItemRegistry().getItemChildren(_uuid);
 		if (children.empty())
@@ -1439,6 +1459,17 @@ namespace Marvel{
 		}
 		else
 			PyDict_SetItemString(dict, "user_data", GetPyNone());
+	}
+
+	void mvAppItem::setPoolInfo(mvUUID pool, mvUUID itemSet)
+	{
+		_pool = pool;
+		_itemSet = itemSet;
+	}
+
+	std::pair<mvUUID, mvUUID> mvAppItem::getPoolInfo() const
+	{
+		return std::make_pair(_pool, _itemSet);
 	}
 
 	PyObject* mvAppItem::get_item_configuration(PyObject* self, PyObject* args, PyObject* kwargs)
@@ -1753,7 +1784,7 @@ namespace Marvel{
 		if (appitem)
 		{
 			//appitem->checkArgs(args, kwargs);
-			appitem->handleKeywordArgs(kwargs);
+			appitem->handleKeywordArgs(kwargs, appitem->getCommand());
 		}
 		else
 			mvThrowPythonError(mvErrorCode::mvItemNotFound, "configure_item",

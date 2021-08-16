@@ -25,14 +25,22 @@ const std::vector<std::pair<std::string, int>>& getAllowableParents() const over
 const std::vector<std::pair<std::string, int>>& getAllowableChildren() const override { return mvItemTypeMap<(int)x>::type::GetAllowableChildren(); };\
 static PyObject* parser(PyObject* self, PyObject* args, PyObject* kwargs)\
 {\
-	mvUUID id = mvApp::GenerateUUID();\
+	mvUUID id = 0;\
+	mvRef<mvAppItem> item = nullptr;\
 	auto [parent, before, alias] = mvAppItem::GetNameFromArgs(id, args, kwargs);\
-	auto item = CreateRef<mvItemTypeMap<(int)x>::type>(id);\
+	if(id == 0) id = mvApp::GenerateUUID();\
+	item = mvApp::GetApp()->getItemRegistry().getItemFromPool(x);\
+	if(item == nullptr) item = CreateRef<mvItemTypeMap<(int)x>::type>(id);\
+	else item->setUUID(id);\
 	item->setAlias(alias);\
-	item->checkArgs(args, kwargs);\
-	item->handleSpecificRequiredArgs(args);\
-	item->handleSpecificPositionalArgs(args);\
-	item->handleKeywordArgs(kwargs);\
+	mvApp::GetApp()->getItemRegistry().tryBoundTemplateRegistry(item.get());\
+	item->checkArgs(args, kwargs, #parser);\
+	if(!mvApp::GetApp()->getItemRegistry().skipRequiredArgs())\
+		item->handleSpecificRequiredArgs(args);\
+	if(!mvApp::GetApp()->getItemRegistry().skipOptionalArgs()){\
+		item->handleSpecificPositionalArgs(args);\
+		item->handleKeywordArgs(kwargs, #parser);\
+	}\
 	mvApp::GetApp()->getItemRegistry().addItemWithRuntimeChecks(item, parent, before);\
 	return ToPyUUID(id);\
 }\

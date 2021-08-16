@@ -151,16 +151,10 @@ namespace Marvel {
 
 	void mvFontManager::rebuildAtlas()
 	{
-		auto& roots = mvApp::GetApp()->getItemRegistry().getRoots();
+		auto& roots = mvApp::GetApp()->getItemRegistry().getFontRegistries();
 
-		for (auto& root : roots)
-		{
-			if (root->getType() == mvAppItemType::mvFontRegistry)
-			{
-				root->customAction();
-				break;
-			}
-		}
+		if (!roots.empty())
+			roots[0]->customAction();
 
 		_dirty = false;
 
