@@ -4,20 +4,6 @@ from dearpygui.logger import mvLogger
 from math import sin, cos
 import random
 
-demo_texture_container = dpg.add_texture_registry(label="Demo Texture Container")
-demo_static_texture_1 = dpg.generate_uuid()
-demo_static_texture_2 = dpg.generate_uuid()
-demo_static_texture_3 = dpg.generate_uuid()
-demo_dynamic_texture_1 = dpg.generate_uuid()
-demo_dynamic_texture_2 = dpg.generate_uuid()
-
-demo_colormap_registry = dpg.add_colormap_registry(label="Demo Colormap Registry")
-demo_colormap_1 = dpg.generate_uuid()
-demo_colormap_2 = dpg.generate_uuid()
-
-DARK_IMGUI_THEME = themes.create_theme_imgui_dark()
-LIGHT_IMGUI_THEME = themes.create_theme_imgui_light()
-
 def _help(message):
     """ Simple Helper """
     pass
@@ -131,9 +117,9 @@ def _create_static_textures():
             texture_data3.append(0)
             texture_data3.append(255/255)
 
-    dpg.add_static_texture(100, 100, texture_data1, parent=demo_texture_container, id=demo_static_texture_1, label="Static Texture 1")
-    dpg.add_static_texture(50, 50, texture_data2, parent=demo_texture_container, id=demo_static_texture_2, label="Static Texture 2")
-    dpg.add_static_texture(100, 100, texture_data3, parent=demo_texture_container, id=demo_static_texture_3, label="Static Texture 3")
+    dpg.add_static_texture(100, 100, texture_data1, parent="__demo_texture_container", id="__demo_static_texture_1", label="Static Texture 1")
+    dpg.add_static_texture(50, 50, texture_data2, parent="__demo_texture_container", id="__demo_static_texture_2", label="Static Texture 2")
+    dpg.add_static_texture(100, 100, texture_data3, parent="__demo_texture_container", id="__demo_static_texture_3", label="Static Texture 3")
 
 def _create_dynamic_textures():
     
@@ -152,8 +138,8 @@ def _create_dynamic_textures():
         texture_data2.append(0)
         texture_data2.append(255/255)
 
-    dpg.add_dynamic_texture(100, 100, texture_data1, parent=demo_texture_container, id=demo_dynamic_texture_1)
-    dpg.add_dynamic_texture(50, 50, texture_data2, parent=demo_texture_container, id=demo_dynamic_texture_2)
+    dpg.add_dynamic_texture(100, 100, texture_data1, parent="__demo_texture_container", id="__demo_dynamic_texture_1")
+    dpg.add_dynamic_texture(50, 50, texture_data2, parent="__demo_texture_container", id="__demo_dynamic_texture_2")
 
 def _update_dynamic_textures(sender, app_data, user_data):
 
@@ -170,7 +156,7 @@ def _update_dynamic_textures(sender, app_data, user_data):
             texture_data.append(new_color[1])
             texture_data.append(new_color[2])
             texture_data.append(new_color[3])
-        dpg.set_value(demo_dynamic_texture_1, texture_data)
+        dpg.set_value("__demo_dynamic_texture_1", texture_data)
 
     elif user_data == 2:
         texture_data = []
@@ -179,11 +165,12 @@ def _update_dynamic_textures(sender, app_data, user_data):
             texture_data.append(new_color[1])
             texture_data.append(new_color[2])
             texture_data.append(new_color[3])
-        dpg.set_value(demo_dynamic_texture_2, texture_data)
+        dpg.set_value("__demo_dynamic_texture_2", texture_data)
 
 def _on_demo_close(sender, app_data, user_data):
-    print(sender)
     dpg.delete_item(sender)
+    dpg.delete_item("__demo_texture_container")
+    dpg.delete_item("__demo_colormap_registry")
 
 def show_demo():
 
@@ -197,13 +184,19 @@ def show_demo():
     logger.log_error("error message")
     logger.log_critical("critical message")
 
+    dpg.add_texture_registry(label="Demo Texture Container", id="__demo_texture_container")
+    dpg.add_colormap_registry(label="Demo Colormap Registry", id="__demo_colormap_registry")
+
+    dpg.add_alias("__DARK_IMGUI_THEME", themes.create_theme_imgui_dark())
+    dpg.add_alias("__LIGHT_IMGUI_THEME", themes.create_theme_imgui_light())
+
     def _log(sender, app_data, user_data):
         pass
 
     _create_static_textures()
     _create_dynamic_textures()
 
-    with dpg.window(label="Dear PyGui Demo", width=800, height=800, on_close=_on_demo_close, pos=(100, 100)) as demo_id:
+    with dpg.window(label="Dear PyGui Demo", width=800, height=800, on_close=_on_demo_close, pos=(100, 100), id="__demo_id"):
     
         with dpg.menu_bar():
 
@@ -237,11 +230,11 @@ def show_demo():
 
             with dpg.menu(label="Themes"):
                 dpg.add_menu_item(label="Default",
-                    callback=lambda: dpg.set_item_theme(demo_id, 0))
+                    callback=lambda: dpg.set_item_theme("__demo_id", 0))
                 dpg.add_menu_item(label="Dark ImGui",
-                                  callback=lambda: dpg.set_item_theme(demo_id, DARK_IMGUI_THEME))
+                                  callback=lambda: dpg.set_item_theme("__demo_id", "__DARK_IMGUI_THEME"))
                 dpg.add_menu_item(label="Light ImGui",
-                                  callback=lambda: dpg.set_item_theme(demo_id, LIGHT_IMGUI_THEME))
+                                  callback=lambda: dpg.set_item_theme("__demo_id", "__LIGHT_IMGUI_THEME"))
 
             with dpg.menu(label="Tools"):
 
@@ -259,7 +252,7 @@ def show_demo():
 
         with dpg.collapsing_header(label="Window Options"):
 
-            _add_config_options(demo_id, 3, 
+            _add_config_options("__demo_id", 3, 
                                         "no_title_bar", "no_scrollbar", "menubar", 
                                         "no_move", "no_resize", "no_collapse",
                                         "no_close", "no_background", "no_bring_to_front_on_focus"
@@ -489,26 +482,26 @@ def show_demo():
                 dpg.add_text("Colormaps belong to a mvColorMapRegistry.", bullet=True, indent=20)
                 dpg.add_text("Showing the registry will help with debugging. Press ", bullet=True, indent=20)
                 dpg.add_same_line()
-                dpg.add_button(label="here", small=True, callback=lambda:dpg.show_item(demo_colormap_registry))
+                dpg.add_button(label="here", small=True, callback=lambda:dpg.show_item("__demo_colormap_registry"))
                 dpg.add_text("Colormaps are applied with 'set_colormap(item_id, colormap_id)", bullet=True, indent=20)
                 dpg.add_text("Colormaps can be applied to mvPlot, mvColorMapButton, mvColorMapSlider, mvColorMapScale", bullet=True, indent=20)
                 dpg.add_text("Colormaps can be sampled with 'sample_colormap(colormap_id, t)' (0<t<1)", bullet=True, indent=20)
                 dpg.add_text("Colormaps can be sampled by index with 'get_colormap_color(colormap_id, index)'", bullet=True, indent=20)
-                dpg.add_colormap([[0, 0, 0, 255], [255, 255, 255, 255]], False, id=demo_colormap_1, parent=demo_colormap_registry, label="Demo 1")
-                dpg.add_colormap([[255, 0, 0], [0, 255, 0], [0, 0, 255]], True, id=demo_colormap_2, parent=demo_colormap_registry, label="Demo 2")
+                dpg.add_colormap([[0, 0, 0, 255], [255, 255, 255, 255]], False, id="__demo_colormap_1", parent="__demo_colormap_registry", label="Demo 1")
+                dpg.add_colormap([[255, 0, 0], [0, 255, 0], [0, 0, 255]], True, id="__demo_colormap_2", parent="__demo_colormap_registry", label="Demo 2")
                 dpg.add_colormap_button(label="Colormap Button 1")
-                dpg.set_colormap(dpg.last_item(), demo_colormap_1)
+                dpg.set_colormap(dpg.last_item(), "__demo_colormap_1")
                 dpg.add_colormap_button(label="Colormap Button 2")
-                dpg.set_colormap(dpg.last_item(), demo_colormap_2)
+                dpg.set_colormap(dpg.last_item(), "__demo_colormap_2")
                 dpg.add_colormap_slider(label="Colormap Slider 1", default_value=0.5)
-                dpg.set_colormap(dpg.last_item(), demo_colormap_1)
+                dpg.set_colormap(dpg.last_item(), "__demo_colormap_1")
                 dpg.add_colormap_slider(label="Colormap Slider 2")
-                dpg.set_colormap(dpg.last_item(), demo_colormap_2)
+                dpg.set_colormap(dpg.last_item(), "__demo_colormap_2")
                 dpg.add_colormap_scale(label="Colormap Slider 1")
-                dpg.set_colormap(dpg.last_item(), demo_colormap_1)
+                dpg.set_colormap(dpg.last_item(), "__demo_colormap_1")
                 dpg.add_same_line()
                 dpg.add_colormap_scale(label="Colormap Slider 2")
-                dpg.set_colormap(dpg.last_item(), demo_colormap_2)
+                dpg.set_colormap(dpg.last_item(), "__demo_colormap_2")
                 dpg.add_same_line()
                 dpg.add_colormap_scale(label="Colormap Spectral", min_scale=-100, max_scale=150)
                 dpg.set_colormap(dpg.last_item(), dpg.mvPlotColormap_Spectral)
@@ -1084,7 +1077,7 @@ def show_demo():
                 dpg.add_text("The texture container widget is hidden by default.", bullet=True, indent=20)
                 dpg.add_text("'Showing' it, opens a manager to inspect the textures within.", bullet=True, indent=50)
                 dpg.add_same_line()
-                dpg.add_button(label="Press Here", small=True, callback=lambda:dpg.configure_item(demo_texture_container, show=True))
+                dpg.add_button(label="Press Here", small=True, callback=lambda:dpg.configure_item("__demo_texture_container", show=True))
                 dpg.add_separator()
 
             with dpg.tree_node(label="Static Textures"):
@@ -1099,19 +1092,19 @@ def show_demo():
 
                     with dpg.group():
                         dpg.add_text("Image Button")
-                        dpg.add_image_button(demo_static_texture_1)
+                        dpg.add_image_button("__demo_static_texture_1")
 
                     with dpg.group():
                         dpg.add_text("Image")
-                        dpg.add_image(demo_static_texture_2)
+                        dpg.add_image("__demo_static_texture_2")
 
                     with dpg.group():
                         dpg.add_text("Image (texture size)")
-                        dpg.add_image(demo_static_texture_3)
+                        dpg.add_image("__demo_static_texture_3")
 
                     with dpg.group():
                         dpg.add_text("Image (2x texture size)")
-                        dpg.add_image(demo_static_texture_3, width=200, height=200)
+                        dpg.add_image("__demo_static_texture_3", width=200, height=200)
 
                 dpg.add_image(dpg.mvFontAtlas)
 
@@ -1128,7 +1121,7 @@ def show_demo():
                             no_side_preview=True, alpha_bar=True, width=200,
                             callback=_update_dynamic_textures, user_data=1)
                     dpg.add_text("Image Button")
-                    dpg.add_image_button(demo_dynamic_texture_1, width=100, height=100)
+                    dpg.add_image_button("__demo_dynamic_texture_1", width=100, height=100)
 
                 dpg.add_same_line()
 
@@ -1137,7 +1130,7 @@ def show_demo():
                                          no_side_preview=True, alpha_bar=True, width=200,
                                          callback=_update_dynamic_textures, user_data=2)
                     dpg.add_text("Image")
-                    dpg.add_image(demo_dynamic_texture_2)
+                    dpg.add_image("__demo_dynamic_texture_2")
 
             with dpg.tree_node(label="Image Series (plots)"):
 
@@ -1146,18 +1139,18 @@ def show_demo():
                 dpg.add_plot_axis(dpg.mvXAxis, label="x axis", parent=plot_id)
                 yaxis_id = dpg.add_plot_axis(dpg.mvYAxis, label="y axis", parent=plot_id)
                 dpg.add_image_series(dpg.mvFontAtlas, [300, 300], [400, 400], label="font atlas", parent=yaxis_id)
-                dpg.add_image_series(demo_static_texture_1, [0, 0], [100, 100], label="static 1", parent=yaxis_id)
-                dpg.add_image_series(demo_static_texture_2, [150, 150], [200, 200], label="static 2", parent=yaxis_id)
-                dpg.add_image_series(demo_static_texture_3, [200, -150], [300, -50], label="static 3", parent=yaxis_id)
-                dpg.add_image_series(demo_dynamic_texture_1, [-200, 100], [-100, 200], label="dynamic 1", parent=yaxis_id)
-                dpg.add_image_series(demo_dynamic_texture_2, [-200, -100], [-150, -50], label="dynamic 2", parent=yaxis_id)
+                dpg.add_image_series("__demo_static_texture_1", [0, 0], [100, 100], label="static 1", parent=yaxis_id)
+                dpg.add_image_series("__demo_static_texture_2", [150, 150], [200, 200], label="static 2", parent=yaxis_id)
+                dpg.add_image_series("__demo_static_texture_3", [200, -150], [300, -50], label="static 3", parent=yaxis_id)
+                dpg.add_image_series("__demo_dynamic_texture_1", [-200, 100], [-100, 200], label="dynamic 1", parent=yaxis_id)
+                dpg.add_image_series("__demo_dynamic_texture_2", [-200, -100], [-150, -50], label="dynamic 2", parent=yaxis_id)
 
             with dpg.tree_node(label="Drawlists"):
 
                 with dpg.drawlist(width=400, height=300):
                     dpg.draw_rectangle((0, 0), (400, 300), color=(100, 100, 100, 250), thickness=2)
-                    dpg.draw_image(demo_static_texture_3, [0, 0], [100, 100])
-                    dpg.draw_image(demo_dynamic_texture_1, [200, 100], [300, 200])
+                    dpg.draw_image("__demo_static_texture_3", [0, 0], [100, 100])
+                    dpg.draw_image("__demo_dynamic_texture_1", [200, 100], [300, 200])
 
         with dpg.collapsing_header(label="Popups & Modal Windows"):
             
@@ -1916,8 +1909,8 @@ def show_demo():
                             xaxis = dpg.add_plot_axis(dpg.mvXAxis, label="x")
                             yaxis_id = dpg.add_plot_axis(dpg.mvYAxis, label="y axis")
                             dpg.add_image_series(2, [300, 300], [400, 400], label="font atlas", parent=yaxis_id)
-                            dpg.add_image_series(demo_static_texture_2, [150, 150], [200, 200], label="static 2", parent=yaxis_id)
-                            dpg.add_image_series(demo_dynamic_texture_1, [-200, 100], [-100, 200], label="dynamic 1", parent=yaxis_id)
+                            dpg.add_image_series("__demo_static_texture_2", [150, 150], [200, 200], label="static 2", parent=yaxis_id)
+                            dpg.add_image_series("__demo_dynamic_texture_1", [-200, 100], [-100, 200], label="dynamic 1", parent=yaxis_id)
                             dpg.fit_axis_data(xaxis)
                             dpg.fit_axis_data(yaxis_id)
 
@@ -2295,7 +2288,8 @@ def show_demo():
                         "  \"xxx,yyy\"  display lines containing \"xxx\" or \"yyy\"\n"
                         "  \"-xxx\"        hide lines containing \"xxx\"")
 
-            with dpg.filter_set() as filter_id:
+            dpg.add_input_text(label="Filter (inc, -exc)", callback=lambda s, a: dpg.set_value("__demo_filter", a))
+            with dpg.filter_set(id="__demo_filter"):
                 dpg.add_text("aaa1.c", filter_key="aaa1.c", bullet=True)
                 dpg.add_text("bbb1.c", filter_key="bbb1.c", bullet=True)
                 dpg.add_text("ccc1.c", filter_key="ccc1.c", bullet=True)
@@ -2303,9 +2297,7 @@ def show_demo():
                 dpg.add_text("bbb2.cpp", filter_key="bbb2.cpp", bullet=True)
                 dpg.add_text("ccc2.cpp", filter_key="ccc2.cpp", bullet=True)
                 dpg.add_text("abc.h", filter_key="abc.h", bullet=True)
-                dpg.add_text("hello, world", filter_key="hello, world", bullet=True)
-
-            dpg.add_input_text(label="Filter (inc, -exc)", before=dpg.last_container(), user_data=dpg.last_container(), callback=lambda s, a, u: dpg.set_value(u, a))
+                dpg.add_text("hello, world", filter_key="hello, world", bullet=True)   
 
         with dpg.collapsing_header(label="Drawing API"):
 
@@ -2358,7 +2350,6 @@ def show_demo():
                 dpg.draw_triangle([draw_x+draw_size*0.5,draw_y], [draw_x+draw_size, draw_y+draw_size-0.5], [draw_x, draw_y+draw_size-0.5], thickness=_draw_t, color=draw_color, fill=draw_color)
                 draw_x = draw_x + draw_spacing + draw_size
                 dpg.draw_rectangle([draw_size + draw_x, draw_size + draw_y], [draw_x, draw_y], color=[0, 0, 0, 0], thickness=_draw_t, color_upper_left=[0, 0, 0], color_upper_right=[255, 0, 0], color_bottom_left=[255, 255, 0], color_bottom_right=[0, 255, 0], multicolor=True)
-
 
         with dpg.collapsing_header(label="Inputs & Events"):
 

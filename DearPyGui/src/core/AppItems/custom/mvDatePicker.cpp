@@ -44,8 +44,11 @@ namespace Marvel {
 	void mvDatePicker::applySpecificTemplate(mvAppItem* item)
 	{
 		auto titem = static_cast<mvDatePicker*>(item);
-		if (_source != 0) _value = titem->_value;
-		if (_source != 0) _imvalue = titem->_imvalue;
+		if (_source != 0)
+                { 
+                    _value = titem->_value;
+		    _imvalue = titem->_imvalue;
+                }
 		_level = titem->_level;
 	}
 
