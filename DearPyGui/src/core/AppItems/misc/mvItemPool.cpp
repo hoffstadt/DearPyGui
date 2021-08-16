@@ -124,7 +124,7 @@ namespace Marvel {
 
 	void mvItemPool::returnItem(mvRef<mvAppItem> item)
 	{
-		auto& [pool, itemset] = item->getPoolInfo();
+		auto [pool, itemset] = item->getPoolInfo();
 
 		for (auto& child : _children[1])
 		{
