@@ -33,6 +33,7 @@ namespace Marvel {
 	std::atomic_bool mvApp::s_waitOneFrame = false;
 	float mvApp::s_deltaTime = 0.0f;
 	int mvApp::s_frame = 0;
+	int mvApp::s_framerate = 0;
 	double mvApp::s_time = 0.0;
 	std::mutex mvApp::s_mutex = {};
 	mvUUID mvApp::s_id = MV_START_UUID;
@@ -201,6 +202,7 @@ namespace Marvel {
 		s_deltaTime = ImGui::GetIO().DeltaTime;
 		s_time = ImGui::GetTime();
 		s_frame = ImGui::GetFrameCount();
+		s_framerate = ImGui::GetIO().Framerate;
 
 		ImGui::GetIO().FontGlobalScale = mvToolManager::GetFontManager().getGlobalFontScale();
 
@@ -356,6 +358,12 @@ namespace Marvel {
 			mvPythonParser parser(mvPyDataType::Float, "Returns time since last frame.", { "General" });
 			parser.finalize();
 			parsers->insert({ "get_delta_time", parser });
+		}
+
+		{
+			mvPythonParser parser(mvPyDataType::Float, "Returns the average frame rate across 120 frames.", { "General" });
+			parser.finalize();
+			parsers->insert({ "get_frame_rate", parser });
 		}
 
 		{
@@ -608,6 +616,13 @@ namespace Marvel {
 	{
 		if (!mvApp::s_manualMutexControl) std::lock_guard<std::mutex> lk(mvApp::s_mutex);
 		return ToPyFloat(mvApp::s_deltaTime);
+
+	}
+
+	PyObject* mvApp::get_frame_rate(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		if (!mvApp::s_manualMutexControl) std::lock_guard<std::mutex> lk(mvApp::s_mutex);
+		return ToPyFloat(mvApp::s_framerate);
 
 	}
 
