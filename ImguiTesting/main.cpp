@@ -24,7 +24,7 @@ int main()
     {
         window->prerender();
 
-//#if 0
+#if 0
 
         ImGui::Begin("Testing");
 
@@ -60,7 +60,7 @@ int main()
         ImGui::Button("Blah2");
 
         ImGui::End();
-//#endif
+#endif
 
 #if defined (_WIN32)
         ImGui::ShowDemoWindow();
