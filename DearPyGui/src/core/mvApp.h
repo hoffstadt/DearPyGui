@@ -62,6 +62,7 @@ namespace Marvel {
         static float            s_deltaTime; // time since last frame
         static double           s_time;  // total time since starting
         static int              s_frame;  // frame count
+        static int              s_framerate;  // frame rate
 
         static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
 
@@ -83,6 +84,7 @@ namespace Marvel {
         MV_CREATE_COMMAND(load_image);
         MV_CREATE_COMMAND(split_frame);
         MV_CREATE_COMMAND(get_frame_count);
+        MV_CREATE_COMMAND(get_frame_rate);
         MV_CREATE_COMMAND(reset_default_theme);
 
         MV_START_COMMANDS
@@ -104,6 +106,7 @@ namespace Marvel {
             MV_ADD_COMMAND(load_image);
             MV_ADD_COMMAND(split_frame);
             MV_ADD_COMMAND(get_frame_count);
+            MV_ADD_COMMAND(get_frame_rate);
             MV_ADD_COMMAND(reset_default_theme);
         MV_END_COMMANDS
 
@@ -125,6 +128,7 @@ namespace Marvel {
         //-----------------------------------------------------------------------------
         static float  GetDeltaTime() { return s_deltaTime; }
         static double GetTotalTime() { return s_time; }
+        static double GetFrameRate() { return s_framerate; }
 
     public:
 
