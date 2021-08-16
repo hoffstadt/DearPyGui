@@ -33,6 +33,14 @@ namespace Marvel {
 
 	}
 
+	void mvFontRange::applySpecificTemplate(mvAppItem* item)
+	{
+		auto titem = static_cast<mvFontRange*>(item);
+		_min = titem->_min;
+		_max = titem->_max;
+		_range = titem->_range;
+	}
+
 	void mvFontRange::handleSpecificRequiredArgs(PyObject* dict)
 	{
 		if (!mvApp::GetApp()->getParsers()[s_command].verifyRequiredArguments(dict))

@@ -73,6 +73,14 @@ namespace Marvel {
         _colorMap = startmap++;
     }
 
+    void mvColorMap::applySpecificTemplate(mvAppItem* item)
+    {
+        auto titem = static_cast<mvColorMap*>(item);
+        _colorMap = titem->_colorMap;
+        _qualitative = titem->_qualitative;
+        _colors = titem->_colors;
+    }
+
     void mvColorMap::handleSpecificRequiredArgs(PyObject* dict)
     {
         if (!mvApp::GetApp()->getParsers()[s_command].verifyRequiredArguments(dict))

@@ -45,6 +45,17 @@ namespace Marvel {
 		*_value = "Not Specified";
 	}
 
+	void mvText::applySpecificTemplate(mvAppItem* item)
+	{
+		auto titem = static_cast<mvText*>(item);
+		if (_source != 0) _value = titem->_value;
+		_disabled_value = titem->_disabled_value;
+		_color = titem->_color;
+		_wrap = titem->_wrap;
+		_bullet = titem->_bullet;
+		_show_label = titem->_show_label;
+	}
+
 	void mvText::draw(ImDrawList* drawlist, float x, float y)
 	{
 		//-----------------------------------------------------------------------------

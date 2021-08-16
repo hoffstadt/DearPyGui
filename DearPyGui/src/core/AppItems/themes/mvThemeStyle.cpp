@@ -393,4 +393,12 @@ namespace Marvel {
 		}
 	}
 
+	void mvThemeStyle::applySpecificTemplate(mvAppItem* item)
+	{
+		auto titem = static_cast<mvThemeStyle*>(item);
+		if(_source != 0) _value = titem->_value;
+		_targetStyle = titem->_targetStyle;
+		_libType = titem->_libType;
+	}
+
 }

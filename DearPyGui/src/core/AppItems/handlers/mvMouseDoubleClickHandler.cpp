@@ -30,6 +30,12 @@ namespace Marvel {
 
 	}
 
+	void mvMouseDoubleClickHandler::applySpecificTemplate(mvAppItem* item)
+	{
+		auto titem = static_cast<mvMouseDoubleClickHandler*>(item);
+		_button = titem->_button;
+	}
+
 	void mvMouseDoubleClickHandler::draw(ImDrawList* drawlist, float x, float y)
 	{
 		if (_button == -1)

@@ -76,6 +76,16 @@ namespace Marvel {
 		_height = -1;
 	}
 
+	void mvSubPlots::applySpecificTemplate(mvAppItem* item)
+	{
+		auto titem = static_cast<mvSubPlots*>(item);
+		_rows = titem->_rows;
+		_cols = titem->_cols;
+		_row_ratios = titem->_row_ratios;
+		_col_ratios = titem->_col_ratios;
+		_flags = titem->_flags;
+	}
+
 	void mvSubPlots::onChildAdd(mvRef<mvAppItem> item)
 	{
 		if (item->getType() == mvAppItemType::mvPlotLegend)

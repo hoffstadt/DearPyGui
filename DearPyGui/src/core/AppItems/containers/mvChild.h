@@ -22,10 +22,11 @@ namespace Marvel {
 
 		mvChild(mvUUID uuid);
 
-		void draw(ImDrawList* drawlist, float x, float y)               override;
+		void draw(ImDrawList* drawlist, float x, float y) override;
 
 		void handleSpecificKeywordArgs(PyObject* dict) override;
 		void getSpecificConfiguration(PyObject* dict) override;
+		void applySpecificTemplate(mvAppItem* item) override;
 
 		void addFlag           (ImGuiWindowFlags flag);
 		void removeFlag        (ImGuiWindowFlags flag);

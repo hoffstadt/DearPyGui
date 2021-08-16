@@ -206,4 +206,12 @@ namespace Marvel {
 		PyDict_SetItemString(dict, "horizontal", py_horizontal);
 		PyDict_SetItemString(dict, "weight",py_weight);
 	}
+
+	void mvBarSeries::applySpecificTemplate(mvAppItem* item)
+	{
+		auto titem = static_cast<mvBarSeries*>(item);
+		if(_source != 0) _value = titem->_value;
+		_horizontal = titem->_horizontal;
+		_weight = titem->_weight;
+	}
 }

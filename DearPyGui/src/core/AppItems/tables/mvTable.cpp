@@ -70,6 +70,17 @@ namespace Marvel {
 		//_label = "table" + std::to_string(uuid);
 	}
 
+	void mvTable::applySpecificTemplate(mvAppItem* item)
+	{
+		auto titem = static_cast<mvTable*>(item);
+		_columns = titem->_columns;
+		_inner_width = titem->_inner_width;
+		_freezeRows = titem->_freezeRows;
+		_freezeColumns = titem->_freezeColumns;
+		_flags = titem->_flags;
+		_tableHeader = titem->_tableHeader;
+	}
+
 	void mvTable::draw(ImDrawList* drawlist, float x, float y)
 	{
 		ScopedID id(_uuid);

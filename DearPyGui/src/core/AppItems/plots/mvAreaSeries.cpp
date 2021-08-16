@@ -307,4 +307,11 @@ namespace Marvel {
 
 	}
 
+	void mvAreaSeries::applySpecificTemplate(mvAppItem* item)
+	{
+		auto titem = static_cast<mvAreaSeries*>(item);
+		if(_source != 0) _value = titem->_value;
+		_fill = titem->_fill;
+	}
+
 }

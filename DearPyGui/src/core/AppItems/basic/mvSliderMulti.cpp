@@ -92,6 +92,22 @@ namespace Marvel {
     {
     }
 
+    void mvSliderFloatMulti::applySpecificTemplate(mvAppItem* item)
+    {
+        auto titem = static_cast<mvSliderFloatMulti*>(item);
+        if (_source != 0) _value = titem->_value;
+        _disabled_value[0] = titem->_disabled_value[0];
+        _disabled_value[1] = titem->_disabled_value[1];
+        _disabled_value[2] = titem->_disabled_value[2];
+        _disabled_value[3] = titem->_disabled_value[3];
+        _min = titem->_min;
+        _max = titem->_max;
+        _format = titem->_format;
+        _flags = titem->_flags;
+        _stor_flags = titem->_stor_flags;
+        _size = titem->_size;
+    }
+
     PyObject* mvSliderFloatMulti::getPyValue()
     {
         return ToPyFloatList(_value->data(), 4);
@@ -175,6 +191,22 @@ namespace Marvel {
     mvSliderIntMulti::mvSliderIntMulti(mvUUID uuid)
         : mvAppItem(uuid)
     {
+    }
+
+    void mvSliderIntMulti::applySpecificTemplate(mvAppItem* item)
+    {
+        auto titem = static_cast<mvSliderIntMulti*>(item);
+        if (_source != 0) _value = titem->_value;
+        _disabled_value[0] = titem->_disabled_value[0];
+        _disabled_value[1] = titem->_disabled_value[1];
+        _disabled_value[2] = titem->_disabled_value[2];
+        _disabled_value[3] = titem->_disabled_value[3];
+        _min = titem->_min;
+        _max = titem->_max;
+        _format = titem->_format;
+        _flags = titem->_flags;
+        _stor_flags = titem->_stor_flags;
+        _size = titem->_size;
     }
 
     PyObject* mvSliderIntMulti::getPyValue()

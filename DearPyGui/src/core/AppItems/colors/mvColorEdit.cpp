@@ -58,6 +58,22 @@ namespace Marvel {
 	{
 	}
 
+	void mvColorEdit::applySpecificTemplate(mvAppItem* item)
+	{
+		auto titem = static_cast<mvColorEdit*>(item);
+		if (_source != 0) _value = titem->_value;
+		_flags = titem->_flags;
+		_no_picker = titem->_no_picker;
+		_no_options = titem->_no_options;
+		_no_inputs = titem->_no_inputs;
+		_no_label = titem->_no_label;
+		_alpha_bar = titem->_alpha_bar;
+		_disabled_value[0] = titem->_disabled_value[0];
+		_disabled_value[1] = titem->_disabled_value[1];
+		_disabled_value[2] = titem->_disabled_value[2];
+		_disabled_value[3] = titem->_disabled_value[3];
+	}
+
 	PyObject* mvColorEdit::getPyValue()
 	{
 		// nasty hack

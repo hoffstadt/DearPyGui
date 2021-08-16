@@ -39,6 +39,15 @@ namespace Marvel {
 	{
 	}
 
+	void mvTab::applySpecificTemplate(mvAppItem* item)
+	{
+		auto titem = static_cast<mvTab*>(item);
+		if (_source != 0) _value = titem->_value;
+		_disabled_value = titem->_disabled_value;
+		_closable = titem->_closable;
+		_flags = titem->_flags;
+	}
+
 	void mvTab::addFlag(ImGuiTabItemFlags flag)
 	{
 		_flags |= flag;

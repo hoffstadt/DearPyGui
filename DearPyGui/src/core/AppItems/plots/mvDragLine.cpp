@@ -121,4 +121,15 @@ namespace Marvel {
 		PyDict_SetItemString(dict, "vertical", py_vertical);
 	}
 
+	void mvDragLine::applySpecificTemplate(mvAppItem* item)
+	{
+		auto titem = static_cast<mvDragLine*>(item);
+		if(_source != 0) _value = titem->_value;
+		_disabled_value = titem->_disabled_value;
+		_show_label = titem->_show_label;
+		_color = titem->_color;
+		_thickness = titem->_thickness;
+		_vertical = titem->_vertical;
+	}
+
 }

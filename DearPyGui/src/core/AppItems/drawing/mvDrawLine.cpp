@@ -33,6 +33,15 @@ namespace Marvel {
 	{
 	}
 
+	void mvDrawLine::applySpecificTemplate(mvAppItem* item)
+	{
+		auto titem = static_cast<mvDrawLine*>(item);
+		_p1 = titem->_p1;
+		_p2 = titem->_p2;
+		_color = titem->_color;
+		_thickness = titem->_thickness;
+	}
+
 	void mvDrawLine::draw(ImDrawList* drawlist, float x, float y)
 	{
 

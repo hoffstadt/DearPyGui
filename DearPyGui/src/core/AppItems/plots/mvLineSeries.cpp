@@ -190,4 +190,9 @@ namespace Marvel {
 			return;
 	}
 
+	void mvLineSeries::applySpecificTemplate(mvAppItem* item)
+	{
+		auto titem = static_cast<mvLineSeries*>(item);
+		if(_source != 0) _value = titem->_value;
+	}
 }

@@ -41,6 +41,14 @@ namespace Marvel {
 	{
 	}
 
+	void mvTimePicker::applySpecificTemplate(mvAppItem* item)
+	{
+		auto titem = static_cast<mvTimePicker*>(item);
+		if (_source != 0) _value = titem->_value;
+		if (_source != 0) _imvalue = titem->_imvalue;
+		_hour24 = titem->_hour24;
+	}
+
 	void mvTimePicker::draw(ImDrawList* drawlist, float x, float y)
 	{
 		ScopedID id(_uuid);

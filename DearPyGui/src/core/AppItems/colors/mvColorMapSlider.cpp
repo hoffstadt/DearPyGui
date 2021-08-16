@@ -39,6 +39,15 @@ namespace Marvel {
 	{
 	}
 
+	void mvColorMapSlider::applySpecificTemplate(mvAppItem* item)
+	{
+		auto titem = static_cast<mvColorMapSlider*>(item);
+		if (_source != 0) _value = titem->_value;
+		_color = titem->_color;
+		_colormap = titem->_colormap;
+
+	}
+
 	void mvColorMapSlider::draw(ImDrawList* drawlist, float x, float y)
 	{
 		ScopedID id(_uuid);

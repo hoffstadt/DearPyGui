@@ -265,4 +265,17 @@ namespace Marvel {
 		PyDict_SetItemString(dict, "bounds_max", py_bounds_max);
 	}
 
+	void mvImageSeries::applySpecificTemplate(mvAppItem* item)
+	{
+		auto titem = static_cast<mvImageSeries*>(item);
+		if(_source != 0) _value = titem->_value;
+		_textureUUID = titem->_textureUUID;
+		_bounds_min = titem->_bounds_min;
+		_bounds_max = titem->_bounds_max;
+		_uv_min = titem->_uv_min;
+		_uv_max = titem->_uv_max;
+		_tintColor = titem->_tintColor;
+		_texture = titem->_texture;
+		_internalTexture = titem->_internalTexture;
+	}
 }

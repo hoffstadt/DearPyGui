@@ -40,6 +40,15 @@ namespace Marvel {
 	{
 	}
 
+	void mvMenuItem::applySpecificTemplate(mvAppItem* item)
+	{
+		auto titem = static_cast<mvMenuItem*>(item);
+		if (_source != 0) _value = titem->_value;
+		_disabled_value = titem->_disabled_value;
+		_shortcut = titem->_shortcut;
+		_check = titem->_check;
+	}
+
 	void mvMenuItem::draw(ImDrawList* drawlist, float x, float y)
 	{
 		ScopedID id(_uuid);

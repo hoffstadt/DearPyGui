@@ -30,6 +30,12 @@ namespace Marvel {
 
 	}
 
+	void mvKeyDownHandler::applySpecificTemplate(mvAppItem* item)
+	{
+		auto titem = static_cast<mvKeyDownHandler*>(item);
+		_key = titem->_key;
+	}
+
 	void mvKeyDownHandler::draw(ImDrawList* drawlist, float x, float y)
 	{
 

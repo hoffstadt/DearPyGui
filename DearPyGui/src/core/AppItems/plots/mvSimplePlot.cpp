@@ -44,6 +44,17 @@ namespace Marvel {
 	{
 	}
 
+	void mvSimplePlot::applySpecificTemplate(mvAppItem* item)
+	{
+		auto titem = static_cast<mvSimplePlot*>(item);
+		if(_source != 0) _value = titem->_value;
+		_overlay = titem->_overlay;
+		_min = titem->_min;
+		_max = titem->_max;
+		_histogram = titem->_histogram;
+		_autosize = titem->_autosize;
+	}
+
 	void mvSimplePlot::draw(ImDrawList* drawlist, float x, float y)
 	{
 		ImGui::PushID(this);

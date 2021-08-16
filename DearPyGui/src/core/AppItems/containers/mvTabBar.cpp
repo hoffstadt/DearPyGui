@@ -39,6 +39,12 @@ namespace Marvel {
 	{
 	}
 
+	void mvTabBar::applySpecificTemplate(mvAppItem* item)
+	{
+		auto titem = static_cast<mvTabBar*>(item);
+		_flags = titem->_flags;
+	}
+
 	mvUUID mvTabBar::getSpecificValue()
 	{
 		return _uiValue;

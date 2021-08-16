@@ -101,7 +101,7 @@ namespace Marvel {
     void mvDragFloatMulti::applySpecificTemplate(mvAppItem* item)
     {
         auto titem = static_cast<mvDragFloatMulti*>(item);
-        _value = titem->_value;
+        if(_source != 0) _value = titem->_value;
         _disabled_value[0] = titem->_disabled_value[0];
         _disabled_value[1] = titem->_disabled_value[1];
         _disabled_value[2] = titem->_disabled_value[2];
@@ -424,7 +424,7 @@ namespace Marvel {
     void mvDragIntMulti::applySpecificTemplate(mvAppItem* item)
     {
         auto titem = static_cast<mvDragIntMulti*>(item);
-        _value = titem->_value;
+        if(_source != 0) _value = titem->_value;
         _disabled_value[0] = titem->_disabled_value[0];
         _disabled_value[1] = titem->_disabled_value[1];
         _disabled_value[2] = titem->_disabled_value[2];

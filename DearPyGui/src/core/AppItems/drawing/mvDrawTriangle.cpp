@@ -37,6 +37,17 @@ namespace Marvel {
 	{
 	}
 
+	void mvDrawTriangle::applySpecificTemplate(mvAppItem* item)
+	{
+		auto titem = static_cast<mvDrawTriangle*>(item);
+		_p1 = titem->_p1;
+		_p2 = titem->_p2;
+		_p3 = titem->_p3;
+		_color = titem->_color;
+		_thickness = titem->_thickness;
+		_fill = titem->_fill;
+	}
+
 	void mvDrawTriangle::draw(ImDrawList* drawlist, float x, float y)
 	{
 		if (ImPlot::GetCurrentContext()->CurrentPlot)

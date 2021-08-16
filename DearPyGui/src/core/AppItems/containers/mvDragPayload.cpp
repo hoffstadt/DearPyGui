@@ -27,6 +27,17 @@ namespace Marvel {
 	{
 	}
 
+	void mvDragPayload::applySpecificTemplate(mvAppItem* item)
+	{
+		auto titem = static_cast<mvDragPayload*>(item);
+		if (titem->_dragData)
+		{
+			Py_XINCREF(titem->_dragData);
+			_dragData = titem->_dragData;
+		}
+		_payloadType = titem->_payloadType;
+	}
+
 	void mvDragPayload::draw(ImDrawList* drawlist, float x, float y)
 	{
 

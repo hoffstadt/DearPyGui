@@ -98,6 +98,22 @@ namespace Marvel {
         _last_value = *_value;
     }
 
+    void mvInputInt::applySpecificTemplate(mvAppItem* item)
+    {
+        auto titem = static_cast<mvInputInt*>(item);
+        if (_source != 0) _value = titem->_value;
+        _disabled_value = titem->_disabled_value;
+        _min = titem->_min;
+        _max = titem->_max;
+        _min_clamped = titem->_min_clamped;
+        _max_clamped = titem->_max_clamped;
+        _flags = titem->_flags;
+        _stor_flags = titem->_stor_flags;
+        _last_value = titem->_last_value;
+        _step = titem->_step;
+        _step_fast = titem->_step_fast;
+    }
+
     void mvInputInt::setDataSource(mvUUID dataSource)
     {
         if (dataSource == _source) return;
@@ -331,6 +347,23 @@ namespace Marvel {
         : mvAppItem(uuid)
     {
         _last_value = *_value;
+    }
+
+    void mvInputFloat::applySpecificTemplate(mvAppItem* item)
+    {
+        auto titem = static_cast<mvInputFloat*>(item);
+        if (_source != 0) _value = titem->_value;
+        _disabled_value = titem->_disabled_value;
+        _min = titem->_min;
+        _max = titem->_max;
+        _min_clamped = titem->_min_clamped;
+        _max_clamped = titem->_max_clamped;
+        _flags = titem->_flags;
+        _format = titem->_format;
+        _stor_flags = titem->_stor_flags;
+        _last_value = titem->_last_value;
+        _step = titem->_step;
+        _step_fast = titem->_step_fast;
     }
 
     PyObject* mvInputFloat::getPyValue()

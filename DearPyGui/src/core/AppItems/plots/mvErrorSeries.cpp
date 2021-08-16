@@ -219,4 +219,10 @@ namespace Marvel {
 		PyDict_SetItemString(dict, "horizontal", py_horizontal);
 	}
 
+	void mvErrorSeries::applySpecificTemplate(mvAppItem* item)
+	{
+		auto titem = static_cast<mvErrorSeries*>(item);
+		if(_source != 0) _value = titem->_value;
+		_horizontal = titem->_horizontal;
+	}
 }

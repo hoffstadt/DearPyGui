@@ -41,6 +41,15 @@ namespace Marvel {
 	{
 	}
 
+	void mvTreeNode::applySpecificTemplate(mvAppItem* item)
+	{
+		auto titem = static_cast<mvTreeNode*>(item);
+		if (_source != 0) _value = titem->_value;
+		_disabled_value = titem->_disabled_value;
+		_flags = titem->_flags;
+		_selectable = titem->_selectable;
+	}
+
 	void mvTreeNode::draw(ImDrawList* drawlist, float x, float y)
 	{
 		ScopedID id(_uuid);

@@ -276,7 +276,7 @@ namespace Marvel {
 	void mvCombo::applySpecificTemplate(mvAppItem* item)
 	{
 		auto titem = static_cast<mvCombo*>(item);
-		_value = titem->_value;
+		if(_source != 0) _value = titem->_value;
 		_disabled_value = titem->_disabled_value;
 		_flags = titem->_flags;
 		_items = titem->_items;

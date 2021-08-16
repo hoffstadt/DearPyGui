@@ -34,6 +34,7 @@ namespace Marvel {
 		void* getValue() override { return &_value; }
 		PyObject* getPyValue() override;
 		void setPyValue(PyObject* value) override;
+		void applySpecificTemplate(mvAppItem* item) override;
 
 	private:
 

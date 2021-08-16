@@ -43,6 +43,18 @@ namespace Marvel {
 	{
 	}
 
+	void mvListbox::applySpecificTemplate(mvAppItem* item)
+	{
+		auto titem = static_cast<mvListbox*>(item);
+		if (_source != 0) _value = titem->_value;
+		_disabled_value = titem->_disabled_value;
+		_names = titem->_names;
+		_itemsHeight = titem->_itemsHeight;
+		_charNames = titem->_charNames;
+		_index = titem->_index;
+		_disabledindex = titem->_disabledindex;
+	}
+
 	void mvListbox::setPyValue(PyObject* value)
 	{
 		*_value = ToString(value);

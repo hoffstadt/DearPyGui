@@ -205,6 +205,12 @@ namespace Marvel {
 		parsers->insert({ s_command, parser });
 	}
 
+	void mvVLineSeries::applySpecificTemplate(mvAppItem* item)
+	{
+		auto titem = static_cast<mvVLineSeries*>(item);
+		if(_source != 0) _value = titem->_value;
+	}
+
 	mvHLineSeries::mvHLineSeries(mvUUID uuid)
 		: mvAppItem(uuid)
 	{
@@ -358,6 +364,12 @@ namespace Marvel {
 	{
 		if (dict == nullptr)
 			return;
+	}
+
+	void mvHLineSeries::applySpecificTemplate(mvAppItem* item)
+	{
+		auto titem = static_cast<mvHLineSeries*>(item);
+		if(_source != 0) _value = titem->_value;
 	}
 
 }

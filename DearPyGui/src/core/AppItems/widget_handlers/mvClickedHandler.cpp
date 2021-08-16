@@ -97,4 +97,10 @@ namespace Marvel {
 
 		PyDict_SetItemString(dict, "button", ToPyInt(_button));
 	}
+
+	void mvClickedHandler::applySpecificTemplate(mvAppItem* item)
+	{
+		auto titem = static_cast<mvClickedHandler*>(item);
+		_button = titem->_button;
+	}
 }

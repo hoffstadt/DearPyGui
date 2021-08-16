@@ -123,6 +123,36 @@ namespace Marvel {
 			});
 	}
 
+	void mvWindowAppItem::applySpecificTemplate(mvAppItem* item)
+	{
+		auto titem = static_cast<mvWindowAppItem*>(item);
+		_windowflags = titem->_windowflags;
+		_oldWindowflags = titem->_oldWindowflags;
+		_modal = titem->_modal;
+		_popup = titem->_popup;
+		_autosize = titem->_autosize;
+		_no_resize = titem->_no_resize;
+		_no_title_bar = titem->_no_title_bar;
+		_no_move = titem->_no_move;
+		_no_scrollbar = titem->_no_scrollbar;
+		_no_collapse = titem->_no_collapse;
+		_horizontal_scrollbar = titem->_horizontal_scrollbar;
+		_no_focus_on_appearing = titem->_no_focus_on_appearing;
+		_no_bring_to_front_on_focus = titem->_no_bring_to_front_on_focus;
+		_menubar = titem->_menubar;
+		_no_close = titem->_no_close;
+		_no_background = titem->_no_background;
+		_collapsed = titem->_collapsed;
+		_min_size = titem->_min_size;
+		_max_size = titem->_max_size;
+
+		if (titem->_on_close)
+		{
+			Py_XINCREF(titem->_on_close);
+			_on_close = titem->_on_close;
+		}
+	}
+
 	void mvWindowAppItem::onChildAdd(mvRef<mvAppItem> item)
 	{
 		if (item->getType() == mvAppItemType::mvMenuBar)

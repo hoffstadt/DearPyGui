@@ -30,6 +30,12 @@ namespace Marvel {
 
 	}
 
+	void mvKeyPressHandler::applySpecificTemplate(mvAppItem* item)
+	{
+		auto titem = static_cast<mvKeyPressHandler*>(item);
+		_key = titem->_key;
+	}
+
 	void mvKeyPressHandler::draw(ImDrawList* drawlist, float x, float y)
 	{
 		if (_key == -1)

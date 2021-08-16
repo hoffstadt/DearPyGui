@@ -53,6 +53,7 @@ namespace Marvel {
 		void draw(ImDrawList* drawlist, float x, float y) override;
 		void handleSpecificKeywordArgs(PyObject* dict) override;
 		void postDraw() override;
+		void applySpecificTemplate(mvAppItem* item) override;
 
 	private:
 

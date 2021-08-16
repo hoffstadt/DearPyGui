@@ -37,6 +37,18 @@ namespace Marvel {
 	{
 	}
 
+	void mvDrawQuad::applySpecificTemplate(mvAppItem* item)
+	{
+		auto titem = static_cast<mvDrawQuad*>(item);
+		_p1 = titem->_p1;
+		_p2 = titem->_p2;
+		_p3 = titem->_p3;
+		_p4 = titem->_p4;
+		_color = titem->_color;
+		_thickness = titem->_thickness;
+		_fill = titem->_fill;
+	}
+
 	void mvDrawQuad::draw(ImDrawList* drawlist, float x, float y)
 	{
 		if (ImPlot::GetCurrentContext()->CurrentPlot)

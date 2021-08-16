@@ -39,6 +39,12 @@ namespace Marvel {
 	{
 	}
 
+	void mvTabButton::applySpecificTemplate(mvAppItem* item)
+	{
+		auto titem = static_cast<mvTabButton*>(item);
+		_flags = titem->_flags;
+	}
+
 	void mvTabButton::draw(ImDrawList* drawlist, float x, float y)
 	{
 		ScopedID id(_uuid);

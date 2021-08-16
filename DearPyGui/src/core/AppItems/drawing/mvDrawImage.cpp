@@ -38,6 +38,19 @@ namespace Marvel {
 	{
 	}
 
+	void mvDrawImage::applySpecificTemplate(mvAppItem* item)
+	{
+		auto titem = static_cast<mvDrawImage*>(item);
+		_textureUUID = titem->_textureUUID;
+		_pmax = titem->_pmax;
+		_pmin = titem->_pmin;
+		_uv_min = titem->_uv_min;
+		_uv_max = titem->_uv_max;
+		_color = titem->_color;
+		_texture = titem->_texture;
+		_internalTexture = titem->_internalTexture;
+	}
+
 	void mvDrawImage::draw(ImDrawList* drawlist, float x, float y)
 	{
 

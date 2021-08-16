@@ -91,6 +91,19 @@ namespace Marvel {
     {
     }
 
+    void mvSliderFloat::applySpecificTemplate(mvAppItem* item)
+    {
+        auto titem = static_cast<mvSliderFloat*>(item);
+        if (_source != 0) _value = titem->_value;
+        _disabled_value = titem->_disabled_value;
+        _min = titem->_min;
+        _max = titem->_max;
+        _format = titem->_format;
+        _vertical = titem->_vertical;
+        _flags = titem->_flags;
+        _stor_flags = titem->_stor_flags;
+    }
+
     PyObject* mvSliderFloat::getPyValue()
     {
         return ToPyFloat(*_value);
@@ -160,6 +173,19 @@ namespace Marvel {
     mvSliderInt::mvSliderInt(mvUUID uuid)
         : mvAppItem(uuid)
     {
+    }
+
+    void mvSliderInt::applySpecificTemplate(mvAppItem* item)
+    {
+        auto titem = static_cast<mvSliderInt*>(item);
+        if (_source != 0) _value = titem->_value;
+        _disabled_value = titem->_disabled_value;
+        _min = titem->_min;
+        _max = titem->_max;
+        _format = titem->_format;
+        _vertical = titem->_vertical;
+        _flags = titem->_flags;
+        _stor_flags = titem->_stor_flags;
     }
 
     void mvSliderInt::setDataSource(mvUUID dataSource)

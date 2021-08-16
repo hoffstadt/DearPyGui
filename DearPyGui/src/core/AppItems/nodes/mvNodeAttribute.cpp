@@ -44,6 +44,14 @@ namespace Marvel {
 		_id = (int)reduced_address;
 	}
 
+	void mvNodeAttribute::applySpecificTemplate(mvAppItem* item)
+	{
+		auto titem = static_cast<mvNodeAttribute*>(item);
+		_attrType = titem->_attrType;
+		_shape = titem->_shape;
+		_category = titem->_category;
+	}
+
 	void mvNodeAttribute::draw(ImDrawList* drawlist, float x, float y)
 	{
 		ScopedID id(_uuid);

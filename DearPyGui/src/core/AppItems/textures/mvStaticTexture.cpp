@@ -40,6 +40,16 @@ namespace Marvel {
 		FreeTexture(_texture);
 	}
 
+	void mvStaticTexture::applySpecificTemplate(mvAppItem* item)
+	{
+		auto titem = static_cast<mvStaticTexture*>(item);
+		if(_source != 0) _value = titem->_value;
+		_texture = titem->_texture;
+		_dirty = titem->_dirty;
+		_permWidth = titem->_permWidth;
+		_permHeight = titem->_permHeight;
+	}
+
 	void mvStaticTexture::draw(ImDrawList* drawlist, float x, float y)
 	{
 		if (!_dirty)

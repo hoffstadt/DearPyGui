@@ -44,6 +44,12 @@ namespace Marvel {
 	{
 	}
 
+	void mvColorMapButton::applySpecificTemplate(mvAppItem* item)
+	{
+		auto titem = static_cast<mvColorMapButton*>(item);
+		_colormap = titem->_colormap;
+	}
+
 	void mvColorMapButton::draw(ImDrawList* drawlist, float x, float y)
 	{
 		ScopedID id(_uuid);

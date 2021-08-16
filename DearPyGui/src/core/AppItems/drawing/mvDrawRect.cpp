@@ -42,6 +42,22 @@ namespace Marvel {
 	{
 	}
 
+	void mvDrawRect::applySpecificTemplate(mvAppItem* item)
+	{
+		auto titem = static_cast<mvDrawRect*>(item);
+		_pmin = titem->_pmin;
+		_pmax = titem->_pmax;
+		_rounding = titem->_rounding;
+		_color = titem->_color;
+		_color_upper_left = titem->_color_upper_left;
+		_color_upper_right = titem->_color_upper_right;
+		_color_bottom_left = titem->_color_bottom_left;
+		_color_bottom_right = titem->_color_bottom_right;
+		_fill = titem->_fill;
+		_thickness = titem->_thickness;
+		_multicolor = titem->_multicolor;
+	}
+
 	void mvDrawRect::draw(ImDrawList* drawlist, float x, float y)
 	{
 		if (ImPlot::GetCurrentContext()->CurrentPlot)

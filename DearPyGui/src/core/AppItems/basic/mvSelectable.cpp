@@ -41,6 +41,14 @@ namespace Marvel {
 	{
 	}
 
+	void mvSelectable::applySpecificTemplate(mvAppItem* item)
+	{
+		auto titem = static_cast<mvSelectable*>(item);
+		if (_source != 0) _value = titem->_value;
+		_disabled_value = titem->_disabled_value;
+		_flags = titem->_flags;
+	}
+
 	PyObject* mvSelectable::getPyValue()
 	{
 		return ToPyBool(*_value);

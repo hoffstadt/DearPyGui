@@ -37,6 +37,12 @@ namespace Marvel {
 	{
 	}
 
+	void mvShadeSeries::applySpecificTemplate(mvAppItem* item)
+	{
+		auto titem = static_cast<mvShadeSeries*>(item);
+		if(_source != 0) _value = titem->_value;
+	}
+
 	PyObject* mvShadeSeries::getPyValue()
 	{
 		return ToPyList(*_value);

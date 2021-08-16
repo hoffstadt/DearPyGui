@@ -31,6 +31,13 @@ namespace Marvel {
 
 	}
 
+	void mvMouseDragHandler::applySpecificTemplate(mvAppItem* item)
+	{
+		auto titem = static_cast<mvMouseDragHandler*>(item);
+		_button = titem->_button;
+		_threshold = titem->_threshold;
+	}
+
 	void mvMouseDragHandler::draw(ImDrawList* drawlist, float x, float y)
 	{
 		if (_button == -1)

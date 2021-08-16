@@ -46,6 +46,15 @@ namespace Marvel {
 	{
 	}
 
+	void mvChild::applySpecificTemplate(mvAppItem* item)
+	{
+		auto titem = static_cast<mvChild*>(item);
+		_border = titem->_border;
+		_autosize_x = titem->_autosize_x;
+		_autosize_y = titem->_autosize_y;
+		_windowflags = titem->_windowflags;
+	}
+
 	void mvChild::addFlag(ImGuiWindowFlags flag)
 	{
 		_windowflags |= flag;

@@ -36,6 +36,15 @@ namespace Marvel {
 	{
 	}
 
+	void mvDrawPolyline::applySpecificTemplate(mvAppItem* item)
+	{
+		auto titem = static_cast<mvDrawPolyline*>(item);
+		_color = titem->_color;
+		_closed = titem->_closed;
+		_thickness = titem->_thickness;
+		_points = titem->_points;
+	}
+
 	void mvDrawPolyline::draw(ImDrawList* drawlist, float x, float y)
 	{
 

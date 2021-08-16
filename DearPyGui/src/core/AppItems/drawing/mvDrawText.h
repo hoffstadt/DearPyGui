@@ -36,14 +36,14 @@ namespace Marvel {
 		void handleSpecificRequiredArgs(PyObject* args) override;
 		void handleSpecificKeywordArgs(PyObject* dict) override;
 		void getSpecificConfiguration(PyObject* dict) override;
-
+		void applySpecificTemplate(mvAppItem* item) override;
 
 	private:
 
 		mvVec2      _pos = { 0.0f, 0.0f };
 		std::string _text;
 		mvColor     _color;
-		float         _size = 1.0f;
+		float       _size = 1.0f;
 
 	};
 

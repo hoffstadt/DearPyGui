@@ -62,6 +62,7 @@ namespace Marvel {
 		int getId() const {return _id;}
 		void handleSpecificKeywordArgs(PyObject* dict) override;
 		void getSpecificConfiguration(PyObject* dict) override;
+		void applySpecificTemplate(mvAppItem* item) override;
 
 	private:
         int _id = 1;

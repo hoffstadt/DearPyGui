@@ -125,4 +125,17 @@ namespace Marvel {
 		PyDict_SetItemString(dict, "show_label", py_show_label);
 	}
 
+	void mvDragPoint::applySpecificTemplate(mvAppItem* item)
+	{
+		auto titem = static_cast<mvDragPoint*>(item);
+		if(_source != 0) _value = titem->_value;
+		_disabled_value[0] = titem->_disabled_value[0];
+		_disabled_value[1] = titem->_disabled_value[1];
+		_disabled_value[2] = titem->_disabled_value[2];
+		_disabled_value[3] = titem->_disabled_value[3];
+		_show_label = titem->_show_label;
+		_color = titem->_color;
+		_radius = titem->_radius;
+	}
+
 }
