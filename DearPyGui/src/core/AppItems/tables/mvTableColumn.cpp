@@ -49,6 +49,13 @@ namespace Marvel {
 	{
 	}
 
+	void mvTableColumn::applySpecificTemplate(mvAppItem* item)
+	{
+		auto titem = static_cast<mvTableColumn*>(item);
+		_flags = titem->_flags;
+		_init_width_or_weight = titem->_init_width_or_weight;
+	}
+
 	void mvTableColumn::draw(ImDrawList* drawlist, float x, float y)
 	{
 		_id = _uuid;

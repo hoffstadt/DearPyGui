@@ -56,6 +56,7 @@ namespace Marvel {
 		void onChildRemoved(mvRef<mvAppItem> item) override;
 		void handleSpecificKeywordArgs(PyObject* dict) override;
 		void getSpecificConfiguration(PyObject* dict) override;
+		void applySpecificTemplate(mvAppItem* item) override;
 
 		~mvWindowAppItem();
 

@@ -46,7 +46,7 @@ namespace Marvel {
 	void mvCheckbox::applySpecificTemplate(mvAppItem* item)
 	{
 		auto titem = static_cast<mvCheckbox*>(item);
-		_value = titem->_value;
+		if(_source != 0) _value = titem->_value;
 		_disabled_value = titem->_disabled_value;
 	}
 

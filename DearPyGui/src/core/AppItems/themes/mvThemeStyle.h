@@ -176,6 +176,7 @@ namespace Marvel {
 		void setPyValue(PyObject* value) override;
 		void handleSpecificPositionalArgs(PyObject* dict) override;
 		void handleSpecificKeywordArgs(PyObject* dict) override;
+		void applySpecificTemplate(mvAppItem* item) override;
 
 		void setLibType(mvLibType libType) { _libType = libType; }
 

@@ -102,4 +102,12 @@ namespace Marvel {
 		}
 	}
 
+	void mvPlotLegend::applySpecificTemplate(mvAppItem* item)
+	{
+		auto titem = static_cast<mvPlotLegend*>(item);
+		_legendLocation = titem->_legendLocation;
+		_horizontal = titem->_horizontal;
+		_outside = titem->_outside;
+	}
+
 }

@@ -31,6 +31,7 @@ namespace Marvel {
 		void draw(ImDrawList* drawlist, float x, float y) override;
 		void handleSpecificRequiredArgs(PyObject* dict) override;
 		void setDataSource(mvUUID dataSource) override;
+		void applySpecificTemplate(mvAppItem* item) override;
 		void* getValue() override { return &_value; }
 		PyObject* getPyValue() override;
 		void setPyValue(PyObject* value) override;

@@ -50,6 +50,19 @@ namespace Marvel {
 	{
 	}
 
+	void mvImageButton::applySpecificTemplate(mvAppItem* item)
+	{
+		auto titem = static_cast<mvImageButton*>(item);
+		_textureUUID = titem->_textureUUID;
+		_uv_min = titem->_uv_min;
+		_uv_max = titem->_uv_max;
+		_tintColor = titem->_tintColor;
+		_backgroundColor = titem->_backgroundColor;
+		_texture = titem->_texture;
+		_internalTexture = titem->_internalTexture;
+		_framePadding = titem->_framePadding;
+	}
+
 	void mvImageButton::draw(ImDrawList* drawlist, float x, float y)
 	{
 

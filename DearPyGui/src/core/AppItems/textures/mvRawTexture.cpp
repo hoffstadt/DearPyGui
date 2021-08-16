@@ -73,6 +73,19 @@ namespace Marvel {
 		Py_XDECREF(_buffer);
 	}
 
+	void mvRawTexture::applySpecificTemplate(mvAppItem* item)
+	{
+		auto titem = static_cast<mvRawTexture*>(item);
+		if(_source != 0) _value = titem->_value;
+		_buffer = titem->_buffer;
+		_texture = titem->_texture;
+		_dirty = titem->_dirty;
+		_componentType = titem->_componentType;
+		_components = titem->_components;
+		_permWidth = titem->_permWidth;
+		_permHeight = titem->_permHeight;
+	}
+
 	void mvRawTexture::draw(ImDrawList* drawlist, float x, float y)
 	{
 		if (_dirty)

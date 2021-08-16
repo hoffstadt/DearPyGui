@@ -35,6 +35,16 @@ namespace Marvel {
 		FreeTexture(_texture);
 	}
 
+	void mvDynamicTexture::applySpecificTemplate(mvAppItem* item)
+	{
+		auto titem = static_cast<mvDynamicTexture*>(item);
+		if(_source != 0) _value = titem->_value;
+		_texture = titem->_texture;
+		_permWidth = titem->_permWidth;
+		_permHeight = titem->_permHeight;
+		_dirty = titem->_dirty;
+	}
+
 	PyObject* mvDynamicTexture::getPyValue()
 	{
 		return ToPyList(*_value);

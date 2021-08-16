@@ -44,6 +44,18 @@ namespace Marvel {
 	{
 	}
 
+	void mvColorButton::applySpecificTemplate(mvAppItem* item)
+	{
+		auto titem = static_cast<mvColorButton*>(item);
+		if (_source != 0) _value = titem->_value;
+		_flags = titem->_flags;
+		_no_border = titem->_no_border;
+		_disabled_value[0] = titem->_disabled_value[0];
+		_disabled_value[1] = titem->_disabled_value[1];
+		_disabled_value[2] = titem->_disabled_value[2];
+		_disabled_value[3] = titem->_disabled_value[3];
+	}
+
 	void mvColorButton::draw(ImDrawList* drawlist, float x, float y)
 	{
 		ScopedID id(_uuid);

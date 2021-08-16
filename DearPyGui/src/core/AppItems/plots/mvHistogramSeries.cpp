@@ -203,4 +203,18 @@ namespace Marvel {
 			return;
 	}
 
+	void mvHistogramSeries::applySpecificTemplate(mvAppItem* item)
+	{
+		auto titem = static_cast<mvHistogramSeries*>(item);
+		_cumlative = titem->_cumlative;
+		if(_source != 0) _value = titem->_value;
+		_bins = titem->_bins;
+		_density = titem->_density;
+		_outliers = titem->_outliers;
+		_min = titem->_min;
+		_max = titem->_max;
+		_barScale = titem->_barScale;
+
+	}
+
 }

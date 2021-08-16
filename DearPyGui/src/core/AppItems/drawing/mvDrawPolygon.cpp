@@ -34,6 +34,15 @@ namespace Marvel {
 	{
 	}
 
+	void mvDrawPolygon::applySpecificTemplate(mvAppItem* item)
+	{
+		auto titem = static_cast<mvDrawPolygon*>(item);
+		_color = titem->_color;
+		_fill = titem->_fill;
+		_thickness = titem->_thickness;
+		_points = titem->_points;
+	}
+
 	void mvDrawPolygon::draw(ImDrawList* drawlist, float x, float y)
 	{
 		mvVec2 start = { x, y };

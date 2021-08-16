@@ -241,4 +241,16 @@ namespace Marvel {
 		PyDict_SetItemString(dict, "scale_max", py_scale_max);
 	}
 
+	void mvHeatSeries::applySpecificTemplate(mvAppItem* item)
+	{
+		auto titem = static_cast<mvHeatSeries*>(item);
+		if(_source != 0) _value = titem->_value;
+		_rows = titem->_rows;
+		_cols = titem->_cols;
+		_scale_min = titem->_scale_min;
+		_scale_max = titem->_scale_max;
+		_format = titem->_format;
+		_bounds_min = titem->_bounds_min;
+		_bounds_max = titem->_bounds_max;
+	}
 }

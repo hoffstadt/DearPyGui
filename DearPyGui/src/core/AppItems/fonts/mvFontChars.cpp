@@ -32,6 +32,12 @@ namespace Marvel {
 
 	}
 
+	void mvFontChars::applySpecificTemplate(mvAppItem* item)
+	{
+		auto titem = static_cast<mvFontChars*>(item);
+		_chars = titem->_chars;
+	}
+
 	void mvFontChars::handleSpecificRequiredArgs(PyObject* dict)
 	{
 		if (!mvApp::GetApp()->getParsers()[s_command].verifyRequiredArguments(dict))

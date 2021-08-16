@@ -37,6 +37,17 @@ namespace Marvel {
 	{
 	}
 
+	void mvDrawBezierQuadratic::applySpecificTemplate(mvAppItem* item)
+	{
+		auto titem = static_cast<mvDrawBezierQuadratic*>(item);
+		_p1 = titem->_p1;
+		_p2 = titem->_p2;
+		_p3 = titem->_p3;
+		_color = titem->_color;
+		_thickness = titem->_thickness;
+		_segments = titem->_segments;
+	}
+
 	void mvDrawBezierQuadratic::draw(ImDrawList* drawlist, float x, float y)
 	{
 		if (ImPlot::GetCurrentContext()->CurrentPlot)

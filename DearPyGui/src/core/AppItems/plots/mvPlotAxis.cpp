@@ -314,6 +314,19 @@ namespace Marvel {
 		}
 	}
 
+	void mvPlotAxis::applySpecificTemplate(mvAppItem* item)
+	{
+		auto titem = static_cast<mvPlotAxis*>(item);
+		_flags = titem->_flags;
+		_axis = titem->_axis;
+		_setLimits = titem->_setLimits;
+		_limits = titem->_limits;
+		_limits_actual = titem->_limits_actual;
+		_labels = titem->_labels;
+		_labelLocations = titem->_labelLocations;
+		_clabels = titem->_clabels;
+	}
+
 	PyObject* mvPlotAxis::set_axis_ticks(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		PyObject* plotraw;

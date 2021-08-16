@@ -190,4 +190,12 @@ namespace Marvel {
 		}
 		_value = *static_cast<std::shared_ptr<std::array<float, 4>>*>(item->getValue());
 	}
+
+	void mvThemeColor::applySpecificTemplate(mvAppItem* item)
+	{
+		auto titem = static_cast<mvThemeColor*>(item);
+		if(_source != 0) _value = titem->_value;
+		_targetColor = titem->_targetColor;
+		_libType = titem->_libType;
+	}
 }

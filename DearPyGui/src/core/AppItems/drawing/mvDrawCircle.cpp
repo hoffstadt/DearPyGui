@@ -38,6 +38,17 @@ namespace Marvel {
 	{
 	}
 
+	void mvDrawCircle::applySpecificTemplate(mvAppItem* item)
+	{
+		auto titem = static_cast<mvDrawCircle*>(item);
+		_center = titem->_center;
+		_radius = titem->_radius;
+		_segments = titem->_segments;
+		_color = titem->_color;
+		_fill = titem->_fill;
+		_thickness = titem->_thickness;
+	}
+
 	void mvDrawCircle::draw(ImDrawList* drawlist, float x, float y)
 	{
 		if (ImPlot::GetCurrentContext()->CurrentPlot)

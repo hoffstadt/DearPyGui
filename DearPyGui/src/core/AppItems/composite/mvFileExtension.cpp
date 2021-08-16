@@ -35,6 +35,13 @@ namespace Marvel {
 	{
 	}
 
+	void mvFileExtension::applySpecificTemplate(mvAppItem* item)
+	{
+		auto titem = static_cast<mvFileExtension*>(item);
+		_customText = titem->_customText;
+		_extension = titem->_extension;
+	}
+
 	void mvFileExtension::draw(ImDrawList* drawlist, float x, float y)
 	{
 		IGFD::FileExtentionInfosStruct info;

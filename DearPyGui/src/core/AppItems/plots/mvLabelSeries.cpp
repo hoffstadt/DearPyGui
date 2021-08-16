@@ -209,4 +209,12 @@ namespace Marvel {
 		PyDict_SetItemString(dict, "y_offset", py_y_offset);
 	}
 
+	void mvLabelSeries::applySpecificTemplate(mvAppItem* item)
+	{
+		auto titem = static_cast<mvLabelSeries*>(item);
+		if(_source != 0) _value = titem->_value;
+		_xoffset = titem->_xoffset;
+		_yoffset = titem->_yoffset;
+		_vertical = titem->_vertical;
+	}
 }

@@ -32,6 +32,12 @@ namespace Marvel {
 
 	}
 
+	void mvFontRangeHint::applySpecificTemplate(mvAppItem* item)
+	{
+		auto titem = static_cast<mvFontRangeHint*>(item);
+		_hint = titem->_hint;
+	}
+
 	void mvFontRangeHint::handleSpecificRequiredArgs(PyObject* dict)
 	{
 		if (!mvApp::GetApp()->getParsers()[s_command].verifyRequiredArguments(dict))

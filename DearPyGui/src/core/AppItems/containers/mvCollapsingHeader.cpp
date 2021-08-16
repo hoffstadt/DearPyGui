@@ -42,6 +42,15 @@ namespace Marvel {
 	{
 	}
 
+	void mvCollapsingHeader::applySpecificTemplate(mvAppItem* item)
+	{
+		auto titem = static_cast<mvCollapsingHeader*>(item);
+		if (_source != 0) _value = titem->_value;
+		_disabled_value = titem->_disabled_value;
+		_flags = titem->_flags;
+		_closable = titem->_closable;
+	}
+
 	void mvCollapsingHeader::draw(ImDrawList* drawlist, float x, float y)
 	{
 		ScopedID id(_uuid);

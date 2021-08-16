@@ -39,6 +39,18 @@ namespace Marvel {
 	{
 	}
 
+	void mvDrawEllipse::applySpecificTemplate(mvAppItem* item)
+	{
+		auto titem = static_cast<mvDrawEllipse*>(item);
+		_pmin = titem->_pmin;
+		_pmax = titem->_pmax;
+		_segments = titem->_segments;
+		_color = titem->_color;
+		_fill = titem->_fill;
+		_thickness = titem->_thickness;
+		_points = titem->_points;
+	}
+
 	void mvDrawEllipse::draw(ImDrawList* drawlist, float x, float y)
 	{
 		if (_dirty) {

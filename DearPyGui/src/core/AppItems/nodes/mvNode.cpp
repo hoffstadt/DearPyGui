@@ -72,6 +72,12 @@ namespace Marvel {
         _id = (int)reduced_address;
 	}
 
+	void mvNode::applySpecificTemplate(mvAppItem* item)
+	{
+		auto titem = static_cast<mvNode*>(item);
+		_draggable = titem->_draggable;
+	}
+
 	void mvNode::draw(ImDrawList* drawlist, float x, float y)
 	{
 

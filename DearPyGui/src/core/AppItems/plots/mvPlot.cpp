@@ -102,6 +102,25 @@ namespace Marvel {
 		_height = -1;
 	}
 
+	void mvPlot::applySpecificTemplate(mvAppItem* item)
+	{
+		auto titem = static_cast<mvPlot*>(item);
+		_flags = titem->_flags;
+		_equalAspectRatios = titem->_equalAspectRatios;
+		_pan_button = titem->_pan_button;
+		_pan_mod = titem->_pan_mod;
+		_fit_button = titem->_fit_button;
+		_context_menu_button = titem->_context_menu_button;
+		_box_select_button = titem->_box_select_button;
+		_box_select_mod = titem->_box_select_mod;
+		_box_select_cancel_button = titem->_box_select_cancel_button;
+		_query_button = titem->_query_button;
+		_query_mod = titem->_query_mod;
+		_query_toggle_mod = titem->_query_toggle_mod;
+		_horizontal_mod = titem->_horizontal_mod;
+		_vertical_mod = titem->_vertical_mod;
+	}
+
 	void mvPlot::onChildAdd(mvRef<mvAppItem> item)
 	{
 		if (item->getType() == mvAppItemType::mvPlotLegend)

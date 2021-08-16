@@ -31,6 +31,13 @@ namespace Marvel {
 	{
 	}
 
+	void mvSpacing::applySpecificTemplate(mvAppItem* item)
+	{
+		auto titem = static_cast<mvSpacing*>(item);
+		if (_source != 0) _value = titem->_value;
+		_disabled_value = titem->_disabled_value;
+	}
+
 	void mvSpacing::setDataSource(mvUUID dataSource)
 	{
 		if (dataSource == _source) return;

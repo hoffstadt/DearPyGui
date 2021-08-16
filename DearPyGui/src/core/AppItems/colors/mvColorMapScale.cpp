@@ -41,6 +41,14 @@ namespace Marvel {
     {
     }
 
+    void mvColorMapScale::applySpecificTemplate(mvAppItem* item)
+    {
+        auto titem = static_cast<mvColorMapScale*>(item);
+        _scale_min = titem->_scale_min;
+        _scale_max = titem->_scale_max;
+        _colormap = titem->_colormap;
+    }
+
     void mvColorMapScale::setColorMap(ImPlotColormap colormap)
     {
         _colormap = colormap;

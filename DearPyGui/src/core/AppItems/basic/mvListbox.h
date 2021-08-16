@@ -30,6 +30,7 @@ namespace Marvel {
 		void handleSpecificPositionalArgs(PyObject* dict) override;
 		void handleSpecificKeywordArgs(PyObject* dict) override;
 		void getSpecificConfiguration(PyObject* dict) override;
+		void applySpecificTemplate(mvAppItem* item) override;
 
 	private:
 

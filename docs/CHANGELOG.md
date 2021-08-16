@@ -22,6 +22,14 @@ We generally fold multiple commits pertaining to the same topic as a single entr
 
 ## VERSION 0.8.x
 
+### New
+* command: added `add_item_pool(...)`
+* command: added `add_item_set(...)`
+* command: added `add_template_registry(...)`
+* command: added `bind_template_registry(...)`
+* keyword: added `skip_required_args` to `configure_item_registry(...)`
+* keyword: added `skip_optional_args` to `configure_item_registry(...)`
+
 ### Fixes
 * fixed `get_item_configuration(...)` memory leak #1179
 

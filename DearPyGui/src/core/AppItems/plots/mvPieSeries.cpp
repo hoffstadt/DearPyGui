@@ -245,4 +245,17 @@ namespace Marvel {
 		PyDict_SetItemString(dict, "labels", py_labels);
 	}
 
+	void mvPieSeries::applySpecificTemplate(mvAppItem* item)
+	{
+		auto titem = static_cast<mvPieSeries*>(item);
+		if(_source != 0) _value = titem->_value;
+		_x = titem->_x;
+		_y = titem->_y;
+		_radius = titem->_radius;
+		_normalize = titem->_normalize;
+		_angle = titem->_angle;
+		_format = titem->_format;
+		_labels = titem->_labels;
+		_clabels = titem->_clabels;
+	}
 }

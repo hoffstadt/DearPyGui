@@ -56,6 +56,21 @@ namespace Marvel {
 	{
 	}
 
+	void mvColorPicker::applySpecificTemplate(mvAppItem* item)
+	{
+		auto titem = static_cast<mvColorPicker*>(item);
+		if (_source != 0) _value = titem->_value;
+		_flags = titem->_flags;
+		_no_inputs = titem->_no_inputs;
+		_no_label = titem->_no_label;
+		_no_side_preview = titem->_no_side_preview;
+		_alpha_bar = titem->_alpha_bar;
+		_disabled_value[0] = titem->_disabled_value[0];
+		_disabled_value[1] = titem->_disabled_value[1];
+		_disabled_value[2] = titem->_disabled_value[2];
+		_disabled_value[3] = titem->_disabled_value[3];
+	}
+
 	void mvColorPicker::draw(ImDrawList* drawlist, float x, float y)
 	{
 		ScopedID id(_uuid);

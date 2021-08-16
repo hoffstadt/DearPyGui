@@ -29,6 +29,13 @@ namespace Marvel {
 	{
 	}
 
+	void mvSameLine::applySpecificTemplate(mvAppItem* item)
+	{
+		auto titem = static_cast<mvSameLine*>(item);
+		_xoffset = titem->_xoffset;
+		_spacing = titem->_spacing;
+	}
+
 	void mvSameLine::draw(ImDrawList* drawlist, float x, float y)
 	{
 		ImGui::SameLine(_xoffset, _spacing);

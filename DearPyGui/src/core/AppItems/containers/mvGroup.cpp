@@ -40,6 +40,13 @@ namespace Marvel {
 	{
 	}
 
+	void mvGroup::applySpecificTemplate(mvAppItem* item)
+	{
+		auto titem = static_cast<mvGroup*>(item);
+		_horizontal = titem->_horizontal;
+		_hspacing = titem->_hspacing;
+	}
+
 	void mvGroup::draw(ImDrawList* drawlist, float x, float y)
 	{
 

@@ -43,6 +43,17 @@ namespace Marvel {
 	{
 	}
 
+	void mvRadioButton::applySpecificTemplate(mvAppItem* item)
+	{
+		auto titem = static_cast<mvRadioButton*>(item);
+		if (_source != 0) _value = titem->_value;
+		_disabled_value = titem->_disabled_value;
+		_itemnames = titem->_itemnames;
+		_horizontal = titem->_horizontal;
+		_index = titem->_index;
+		_disabledindex = titem->_disabledindex;
+	}
+
 	void mvRadioButton::setPyValue(PyObject* value)
 	{
 		*_value = ToString(value);

@@ -315,4 +315,14 @@ namespace Marvel {
 		PyDict_SetItemString(dict, "tooltip", py_tooltip);
 	}
 
+	void mvCandleSeries::applySpecificTemplate(mvAppItem* item)
+	{
+		auto titem = static_cast<mvCandleSeries*>(item);
+		if(_source != 0) _value = titem->_value;
+		_weight = titem->_weight;
+		_tooltip = titem->_tooltip;
+		_bullColor = titem->_bullColor;
+		_bearColor = titem->_bearColor;
+	}
+
 }

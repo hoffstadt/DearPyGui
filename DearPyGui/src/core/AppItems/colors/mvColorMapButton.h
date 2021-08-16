@@ -24,6 +24,7 @@ namespace Marvel {
 		explicit mvColorMapButton(mvUUID uuid);
 
 		void draw(ImDrawList* drawlist, float x, float y) override;
+		void applySpecificTemplate(mvAppItem* item) override;
 		void setColorMap(ImPlotColormap colormap) { _colormap = colormap; }
 
 	private:

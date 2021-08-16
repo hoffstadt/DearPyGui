@@ -35,6 +35,12 @@ namespace Marvel {
 	{
 	}
 
+	void mvStairSeries::applySpecificTemplate(mvAppItem* item)
+	{
+		auto titem = static_cast<mvStairSeries*>(item);
+		if(_source != 0) _value = titem->_value;
+	}
+
 	PyObject* mvStairSeries::getPyValue()
 	{
 		return ToPyList(*_value);

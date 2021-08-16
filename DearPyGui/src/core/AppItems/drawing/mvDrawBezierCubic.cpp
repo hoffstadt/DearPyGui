@@ -38,6 +38,18 @@ namespace Marvel {
 	{
 	}
 
+	void mvDrawBezierCubic::applySpecificTemplate(mvAppItem* item)
+	{
+		auto titem = static_cast<mvDrawBezierCubic*>(item);
+		_p1 = titem->_p1;
+		_p2 = titem->_p2;
+		_p3 = titem->_p3;
+		_p4 = titem->_p4;
+		_color = titem->_color;
+		_thickness = titem->_thickness;
+		_segments = titem->_segments;
+	}
+
 	void mvDrawBezierCubic::draw(ImDrawList* drawlist, float x, float y)
 	{
 		if (ImPlot::GetCurrentContext()->CurrentPlot)

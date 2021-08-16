@@ -35,6 +35,15 @@ namespace Marvel {
 	{
 	}
 
+	void mvDrawText::applySpecificTemplate(mvAppItem* item)
+	{
+		auto titem = static_cast<mvDrawText*>(item);
+		_pos = titem->_pos;
+		_text = titem->_text;
+		_color = titem->_color;
+		_size = titem->_size;
+	}
+
 	void mvDrawText::draw(ImDrawList* drawlist, float x, float y)
 	{
 		ImFont* fontptr = ImGui::GetFont();

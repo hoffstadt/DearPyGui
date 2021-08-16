@@ -30,6 +30,12 @@ namespace Marvel {
 
 	}
 
+	void mvMouseReleaseHandler::applySpecificTemplate(mvAppItem* item)
+	{
+		auto titem = static_cast<mvMouseReleaseHandler*>(item);
+		_button = titem->_button;
+	}
+
 	void mvMouseReleaseHandler::draw(ImDrawList* drawlist, float x, float y)
 	{
 		if (_button == -1)

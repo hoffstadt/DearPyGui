@@ -42,6 +42,7 @@ namespace Marvel {
 		void onChildAdd(mvRef<mvAppItem> item) override;
 		void onChildRemoved(mvRef<mvAppItem> item) override;
 		void onChildrenRemoved() override;
+		void applySpecificTemplate(mvAppItem* item) override;
 
 	private:
 

@@ -47,6 +47,7 @@ namespace Marvel {
         void setPyValue(PyObject* value) override;
         void handleSpecificKeywordArgs(PyObject* dict) override;
         void getSpecificConfiguration(PyObject* dict) override;
+        void applySpecificTemplate(mvAppItem* item) override;
         
     private:
 
@@ -92,6 +93,7 @@ namespace Marvel {
         void setPyValue(PyObject* value) override;
         void handleSpecificKeywordArgs(PyObject* dict) override;
         void getSpecificConfiguration(PyObject* dict) override;
+        void applySpecificTemplate(mvAppItem* item) override;
 
     private:
 

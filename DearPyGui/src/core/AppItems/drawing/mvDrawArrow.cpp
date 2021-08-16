@@ -36,6 +36,17 @@ namespace Marvel {
 		updatePoints();
 	}
 
+	void mvDrawArrow::applySpecificTemplate(mvAppItem* item)
+	{
+		auto titem = static_cast<mvDrawArrow*>(item);
+		_p1 = titem->_p1;
+		_p2 = titem->_p2;
+		_color = titem->_color;
+		_thickness = titem->_thickness;
+		_size = titem->_size;
+		_points = titem->_points;
+	}
+
 	void mvDrawArrow::updatePoints()
 	{
 		float xsi = _p1.x;

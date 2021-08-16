@@ -54,6 +54,17 @@ namespace Marvel {
 	{
 	}
 
+	void mvInputText::applySpecificTemplate(mvAppItem* item)
+	{
+		auto titem = static_cast<mvInputText*>(item);
+		if (_source != 0) _value = titem->_value;
+		_disabled_value = titem->_disabled_value;
+		_hint = titem->_hint;
+		_multiline = titem->_multiline;
+		_flags = titem->_flags;
+		_stor_flags = titem->_stor_flags;
+	}
+
 	PyObject* mvInputText::getPyValue()
 	{
 		return ToPyString(*_value);

@@ -114,6 +114,7 @@ namespace Marvel {
 		void handleSpecificKeywordArgs(PyObject* dict) override;
 		void getSpecificConfiguration(PyObject* dict) override;
 		void postDraw() override;
+		void applySpecificTemplate(mvAppItem* item) override;
 
 	private:
 
