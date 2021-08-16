@@ -188,29 +188,29 @@ namespace Marvel {
 		if (dict == nullptr)
 			return;
 
-		PyDict_SetItemString(dict, "file_count", ToPyInt(_fileCount));
-		PyDict_SetItemString(dict, "default_filename", ToPyString(_defaultFilename));
-		PyDict_SetItemString(dict, "default_path", ToPyString(_defaultPath));
-		PyDict_SetItemString(dict, "modal", ToPyBool(_modal));
-		PyDict_SetItemString(dict, "directory_selector", ToPyBool(_directory));
+		PyDict_SetItemString(dict, "file_count", mvPyObject(ToPyInt(_fileCount)));
+		PyDict_SetItemString(dict, "default_filename", mvPyObject(ToPyString(_defaultFilename)));
+		PyDict_SetItemString(dict, "default_path", mvPyObject(ToPyString(_defaultPath)));
+		PyDict_SetItemString(dict, "modal", mvPyObject(ToPyBool(_modal)));
+		PyDict_SetItemString(dict, "directory_selector", mvPyObject(ToPyBool(_directory)));
 	}
 
 	PyObject* mvFileDialog::getInfoDict()
 	{
 		PyObject* dict = PyDict_New();
 
-		PyDict_SetItemString(dict, "file_path_name", ToPyString(_instance.GetFilePathName()));
-		PyDict_SetItemString(dict, "file_name", ToPyString(_instance.GetCurrentFileName()));
-		PyDict_SetItemString(dict, "file_name_buffer", ToPyString(_instance.FileNameBuffer));
-		PyDict_SetItemString(dict, "current_path", ToPyString(_instance.GetCurrentPath()));
-		PyDict_SetItemString(dict, "current_filter", ToPyString(_instance.GetCurrentFilter()));
+		PyDict_SetItemString(dict, "file_path_name", mvPyObject(ToPyString(_instance.GetFilePathName())));
+		PyDict_SetItemString(dict, "file_name", mvPyObject(ToPyString(_instance.GetCurrentFileName())));
+		PyDict_SetItemString(dict, "file_name_buffer", mvPyObject(ToPyString(_instance.FileNameBuffer)));
+		PyDict_SetItemString(dict, "current_path", mvPyObject(ToPyString(_instance.GetCurrentPath())));
+		PyDict_SetItemString(dict, "current_filter", mvPyObject(ToPyString(_instance.GetCurrentFilter())));
 
 		auto selections = _instance.GetSelection();
 
 		PyObject* sel = PyDict_New();
 		for(auto& item : selections)
-			PyDict_SetItemString(sel, item.first.c_str(), ToPyString(item.second));
-		PyDict_SetItemString(dict, "selections", sel);
+			PyDict_SetItemString(sel, item.first.c_str(), mvPyObject(ToPyString(item.second)));
+		PyDict_SetItemString(dict, "selections", mvPyObject((sel)));
 
 		return dict;
 	}

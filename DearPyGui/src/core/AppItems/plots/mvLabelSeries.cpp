@@ -7,6 +7,7 @@
 #include "AppItems/fonts/mvFont.h"
 #include "AppItems/themes/mvTheme.h"
 #include "AppItems/containers/mvDragPayload.h"
+#include "mvPyObject.h"
 
 namespace Marvel {
 
@@ -199,11 +200,13 @@ namespace Marvel {
 		if (dict == nullptr)
 			return;
 
-		PyDict_SetItemString(dict, "vertical", ToPyBool(_vertical));
-		PyDict_SetItemString(dict, "x_offset", ToPyInt(_xoffset));
-		PyDict_SetItemString(dict, "y_offset", ToPyInt(_yoffset));
+		mvPyObject py_vertical = ToPyBool(_vertical);
+		mvPyObject py_x_offset = ToPyInt(_xoffset);
+		mvPyObject py_y_offset = ToPyInt(_yoffset);
 
-
+		PyDict_SetItemString(dict, "vertical", py_vertical);
+		PyDict_SetItemString(dict, "x_offset", py_x_offset);
+		PyDict_SetItemString(dict, "y_offset", py_y_offset);
 	}
 
 }

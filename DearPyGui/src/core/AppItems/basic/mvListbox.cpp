@@ -158,8 +158,8 @@ namespace Marvel {
 		if (dict == nullptr)
 			return;
 		 
-		PyDict_SetItemString(dict, "items", ToPyList(_names));
-		PyDict_SetItemString(dict, "num_items", ToPyInt(_itemsHeight));
+		PyDict_SetItemString(dict, "items", mvPyObject(ToPyList(_names)));
+		PyDict_SetItemString(dict, "num_items", mvPyObject(ToPyInt(_itemsHeight)));
 	}
 
 }

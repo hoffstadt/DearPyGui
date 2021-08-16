@@ -265,15 +265,15 @@ namespace Marvel {
         if (dict == nullptr)
             return;
 
-        PyDict_SetItemString(dict, "format", ToPyString(_format));
-        PyDict_SetItemString(dict, "vertical", ToPyBool(_vertical));
-        PyDict_SetItemString(dict, "min_value", ToPyFloat(_min));
-        PyDict_SetItemString(dict, "max_value", ToPyFloat(_max));
+        PyDict_SetItemString(dict, "format", mvPyObject(ToPyString(_format)));
+        PyDict_SetItemString(dict, "vertical", mvPyObject(ToPyBool(_vertical)));
+        PyDict_SetItemString(dict, "min_value", mvPyObject(ToPyFloat(_min)));
+        PyDict_SetItemString(dict, "max_value", mvPyObject(ToPyFloat(_max)));
 
         // helper to check and set bit
         auto checkbitset = [dict](const char* keyword, int flag, const int& flags)
         {
-            PyDict_SetItemString(dict, keyword, ToPyBool(flags & flag));
+            PyDict_SetItemString(dict, keyword, mvPyObject(ToPyBool(flags & flag)));
         };
 
         // window flags
@@ -320,15 +320,15 @@ namespace Marvel {
         if (dict == nullptr)
             return;
 
-        PyDict_SetItemString(dict, "format", ToPyString(_format));
-        PyDict_SetItemString(dict, "vertical", ToPyBool(_vertical));
-        PyDict_SetItemString(dict, "min_value", ToPyInt(_min));
-        PyDict_SetItemString(dict, "max_value", ToPyInt(_max));
+        PyDict_SetItemString(dict, "format", mvPyObject(ToPyString(_format)));
+        PyDict_SetItemString(dict, "vertical", mvPyObject(ToPyBool(_vertical)));
+        PyDict_SetItemString(dict, "min_value", mvPyObject(ToPyInt(_min)));
+        PyDict_SetItemString(dict, "max_value", mvPyObject(ToPyInt(_max)));
 
         // helper to check and set bit
         auto checkbitset = [dict](const char* keyword, int flag, const int& flags)
         {
-            PyDict_SetItemString(dict, keyword, ToPyBool(flags & flag));
+            PyDict_SetItemString(dict, keyword, mvPyObject(ToPyBool(flags & flag)));
         };
 
         // window flags

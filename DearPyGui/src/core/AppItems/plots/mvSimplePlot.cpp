@@ -1,6 +1,7 @@
 #include "mvSimplePlot.h"
 #include "mvItemRegistry.h"
 #include "mvPythonExceptions.h"
+#include "mvPyObject.h"
 
 namespace Marvel {
 
@@ -121,11 +122,11 @@ namespace Marvel {
 		if (dict == nullptr)
 			return;
 
-		PyDict_SetItemString(dict, "overlay", ToPyString(_overlay));
-		PyDict_SetItemString(dict, "minscale", ToPyFloat(_min));
-		PyDict_SetItemString(dict, "maxscale", ToPyFloat(_max));
-		PyDict_SetItemString(dict, "histogram", ToPyBool(_histogram));
-		PyDict_SetItemString(dict, "autosize", ToPyBool(_autosize));
+		PyDict_SetItemString(dict, "overlay", mvPyObject(ToPyString(_overlay)));
+		PyDict_SetItemString(dict, "minscale", mvPyObject(ToPyFloat(_min)));
+		PyDict_SetItemString(dict, "maxscale", mvPyObject(ToPyFloat(_max)));
+		PyDict_SetItemString(dict, "histogram", mvPyObject(ToPyBool(_histogram)));
+		PyDict_SetItemString(dict, "autosize", mvPyObject(ToPyBool(_autosize)));
 	}
 
 }

@@ -522,17 +522,17 @@ namespace Marvel {
 		if (dict == nullptr)
 			return;
 		 
-		PyDict_SetItemString(dict, "modal", ToPyBool(_modal));
-		PyDict_SetItemString(dict, "popup", ToPyBool(_popup));
-		PyDict_SetItemString(dict, "no_close", ToPyBool(_no_close));
-		PyDict_SetItemString(dict, "collapsed", ToPyBool(_collapsed));
-		PyDict_SetItemString(dict, "min_size", ToPyPair(_min_size.x, _min_size.y));
-		PyDict_SetItemString(dict, "max_size", ToPyPair(_max_size.x, _max_size.y));
+		PyDict_SetItemString(dict, "modal", mvPyObject(ToPyBool(_modal)));
+		PyDict_SetItemString(dict, "popup", mvPyObject(ToPyBool(_popup)));
+		PyDict_SetItemString(dict, "no_close", mvPyObject(ToPyBool(_no_close)));
+		PyDict_SetItemString(dict, "collapsed", mvPyObject(ToPyBool(_collapsed)));
+		PyDict_SetItemString(dict, "min_size", mvPyObject(ToPyPair(_min_size.x, _min_size.y)));
+		PyDict_SetItemString(dict, "max_size", mvPyObject(ToPyPair(_max_size.x, _max_size.y)));
 
 		// helper to check and set bit
 		auto checkbitset = [dict](const char* keyword, int flag, const int& flags)
 		{
-			PyDict_SetItemString(dict, keyword, ToPyBool(flags & flag));
+			PyDict_SetItemString(dict, keyword, mvPyObject(ToPyBool(flags & flag)));
 		};
 
 		// window flags

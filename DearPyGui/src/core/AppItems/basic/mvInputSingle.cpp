@@ -611,14 +611,14 @@ namespace Marvel {
         if (dict == nullptr)
             return;
 
-        PyDict_SetItemString(dict, "on_enter", ToPyBool(_flags & ImGuiInputTextFlags_EnterReturnsTrue));
-        PyDict_SetItemString(dict, "readonly", ToPyBool(_flags & ImGuiInputTextFlags_ReadOnly));
-        PyDict_SetItemString(dict, "step", ToPyInt(_step));
-        PyDict_SetItemString(dict, "step_fast", ToPyInt(_step_fast));
-        PyDict_SetItemString(dict, "min_value", ToPyInt(_min));
-        PyDict_SetItemString(dict, "max_value", ToPyInt(_max));
-        PyDict_SetItemString(dict, "min_clamped", ToPyBool(_min_clamped));
-        PyDict_SetItemString(dict, "max_clamped", ToPyBool(_max_clamped));
+        PyDict_SetItemString(dict, "on_enter", mvPyObject(ToPyBool(_flags & ImGuiInputTextFlags_EnterReturnsTrue)));
+        PyDict_SetItemString(dict, "readonly", mvPyObject(ToPyBool(_flags & ImGuiInputTextFlags_ReadOnly)));
+        PyDict_SetItemString(dict, "step", mvPyObject(ToPyInt(_step)));
+        PyDict_SetItemString(dict, "step_fast", mvPyObject(ToPyInt(_step_fast)));
+        PyDict_SetItemString(dict, "min_value", mvPyObject(ToPyInt(_min)));
+        PyDict_SetItemString(dict, "max_value", mvPyObject(ToPyInt(_max)));
+        PyDict_SetItemString(dict, "min_clamped", mvPyObject(ToPyBool(_min_clamped)));
+        PyDict_SetItemString(dict, "max_clamped", mvPyObject(ToPyBool(_max_clamped)));
 
     }
 
@@ -672,18 +672,18 @@ namespace Marvel {
         if (dict == nullptr)
             return;
 
-        PyDict_SetItemString(dict, "format", ToPyString(_format));
-        PyDict_SetItemString(dict, "step", ToPyFloat(_step));
-        PyDict_SetItemString(dict, "step_fast", ToPyFloat(_step_fast));
-        PyDict_SetItemString(dict, "min_value", ToPyFloat(_min));
-        PyDict_SetItemString(dict, "max_value", ToPyFloat(_max));
-        PyDict_SetItemString(dict, "min_clamped", ToPyBool(_min_clamped));
-        PyDict_SetItemString(dict, "max_clamped", ToPyBool(_max_clamped));
+        PyDict_SetItemString(dict, "format", mvPyObject(ToPyString(_format)));
+        PyDict_SetItemString(dict, "step", mvPyObject(ToPyFloat(_step)));
+        PyDict_SetItemString(dict, "step_fast", mvPyObject(ToPyFloat(_step_fast)));
+        PyDict_SetItemString(dict, "min_value", mvPyObject(ToPyFloat(_min)));
+        PyDict_SetItemString(dict, "max_value", mvPyObject(ToPyFloat(_max)));
+        PyDict_SetItemString(dict, "min_clamped", mvPyObject(ToPyBool(_min_clamped)));
+        PyDict_SetItemString(dict, "max_clamped", mvPyObject(ToPyBool(_max_clamped)));
 
         // helper to check and set bit
         auto checkbitset = [dict](const char* keyword, int flag, const int& flags)
         {
-            PyDict_SetItemString(dict, keyword, ToPyBool(flags & flag));
+            PyDict_SetItemString(dict, keyword, mvPyObject(ToPyBool(flags & flag)));
         };
 
         // window flags

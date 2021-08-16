@@ -301,15 +301,15 @@ namespace Marvel {
 	{
 		 
 		PyObject* dict = PyDict_New();
-		PyDict_SetItemString(dict, "sec",              ToPyInt(time.tm_sec));
-		PyDict_SetItemString(dict, "min",              ToPyInt(time.tm_min));
-		PyDict_SetItemString(dict, "hour",             ToPyInt(time.tm_hour));
-		PyDict_SetItemString(dict, "month_day",        ToPyInt(time.tm_mday));
-		PyDict_SetItemString(dict, "month",            ToPyInt(time.tm_mon));
-		PyDict_SetItemString(dict, "year",             ToPyInt(time.tm_year));
-		PyDict_SetItemString(dict, "week_day",         ToPyInt(time.tm_wday));
-		PyDict_SetItemString(dict, "year_day",         ToPyInt(time.tm_yday));
-		PyDict_SetItemString(dict, "daylight_savings", ToPyInt(time.tm_isdst));
+		PyDict_SetItemString(dict, "sec",              mvPyObject(ToPyInt(time.tm_sec)));
+		PyDict_SetItemString(dict, "min",              mvPyObject(ToPyInt(time.tm_min)));
+		PyDict_SetItemString(dict, "hour",             mvPyObject(ToPyInt(time.tm_hour)));
+		PyDict_SetItemString(dict, "month_day",        mvPyObject(ToPyInt(time.tm_mday)));
+		PyDict_SetItemString(dict, "month",            mvPyObject(ToPyInt(time.tm_mon)));
+		PyDict_SetItemString(dict, "year",             mvPyObject(ToPyInt(time.tm_year)));
+		PyDict_SetItemString(dict, "week_day",         mvPyObject(ToPyInt(time.tm_wday)));
+		PyDict_SetItemString(dict, "year_day",         mvPyObject(ToPyInt(time.tm_yday)));
+		PyDict_SetItemString(dict, "daylight_savings", mvPyObject(ToPyInt(time.tm_isdst)));
 		return dict;
 	}
 

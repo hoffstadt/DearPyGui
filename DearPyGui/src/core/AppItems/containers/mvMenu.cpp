@@ -83,7 +83,7 @@ namespace Marvel {
 		if (dict == nullptr)
 			return;
 		 
-		PyDict_SetItemString(dict, "enabled", ToPyBool(_enabled));
+		PyDict_SetItemString(dict, "enabled", mvPyObject(ToPyBool(_enabled)));
 	}
 
 	PyObject* mvMenu::getPyValue()

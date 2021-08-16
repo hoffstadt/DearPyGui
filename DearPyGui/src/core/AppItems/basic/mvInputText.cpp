@@ -170,13 +170,13 @@ namespace Marvel {
 		if (dict == nullptr)
 			return;
 		 
-		PyDict_SetItemString(dict, "hint", ToPyString(_hint));
-		PyDict_SetItemString(dict, "multline", ToPyBool(_multiline));
+		PyDict_SetItemString(dict, "hint", mvPyObject(ToPyString(_hint)));
+		PyDict_SetItemString(dict, "multline", mvPyObject(ToPyBool(_multiline)));
 
 		// helper to check and set bit
 		auto checkbitset = [dict](const char* keyword, int flag, const int& flags)
 		{
-			PyDict_SetItemString(dict, keyword, ToPyBool(flags & flag));
+			PyDict_SetItemString(dict, keyword, mvPyObject(ToPyBool(flags & flag)));
 		};
 
 		// window flags

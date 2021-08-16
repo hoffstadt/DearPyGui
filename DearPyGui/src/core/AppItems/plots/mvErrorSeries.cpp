@@ -7,6 +7,7 @@
 #include "AppItems/fonts/mvFont.h"
 #include "AppItems/themes/mvTheme.h"
 #include "AppItems/containers/mvDragPayload.h"
+#include "mvPyObject.h"
 
 namespace Marvel {
 
@@ -213,7 +214,9 @@ namespace Marvel {
 		if (dict == nullptr)
 			return;
 
-		PyDict_SetItemString(dict, "horizontal", ToPyBool(_horizontal));
+		mvPyObject py_horizontal = ToPyBool(_horizontal);
+
+		PyDict_SetItemString(dict, "horizontal", py_horizontal);
 	}
 
 }

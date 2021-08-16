@@ -1368,46 +1368,46 @@ namespace Marvel{
 
 		auto children = mvApp::GetApp()->getItemRegistry().getItemChildren(_uuid);
 		if (children.empty())
-			PyDict_SetItemString(dict, "children", GetPyNone());
+			PyDict_SetItemString(dict, "children", mvPyObject(GetPyNone()));
 		else
 		{
 			PyObject* pyChildren = PyDict_New();
 			int i = 0;
 			for (const auto& slot : children)
 			{
-				PyDict_SetItem(pyChildren, ToPyInt(i), ToPyList(slot));
+				PyDict_SetItem(pyChildren, ToPyInt(i), mvPyObject(ToPyList(slot)));
 				i++;
 			}
-			PyDict_SetItemString(dict, "children", pyChildren);
+			PyDict_SetItemString(dict, "children", mvPyObject(pyChildren));
 		}
 
-		PyDict_SetItemString(dict, "type", ToPyString(parserCommand));
-		PyDict_SetItemString(dict, "target", ToPyInt(getTarget()));
+		PyDict_SetItemString(dict, "type", mvPyObject(ToPyString(parserCommand)));
+		PyDict_SetItemString(dict, "target", mvPyObject(ToPyInt(getTarget())));
 
 		if (_parentPtr)
-			PyDict_SetItemString(dict, "parent", ToPyUUID(_parentPtr->getUUID()));
+			PyDict_SetItemString(dict, "parent", mvPyObject(ToPyUUID(_parentPtr->getUUID())));
 		else
-			PyDict_SetItemString(dict, "parent", GetPyNone());
+			PyDict_SetItemString(dict, "parent", mvPyObject(GetPyNone()));
 
 		if (_theme)
-			PyDict_SetItemString(dict, "theme", ToPyUUID(_theme->getUUID()));
+			PyDict_SetItemString(dict, "theme", mvPyObject(ToPyUUID(_theme->getUUID())));
 		else
-			PyDict_SetItemString(dict, "theme", GetPyNone());
+			PyDict_SetItemString(dict, "theme", mvPyObject(GetPyNone()));
 
 		if (_font)
-			PyDict_SetItemString(dict, "font", ToPyUUID(_font->getUUID()));
+			PyDict_SetItemString(dict, "font", mvPyObject(ToPyUUID(_font->getUUID())));
 		else
-			PyDict_SetItemString(dict, "font", GetPyNone());
+			PyDict_SetItemString(dict, "font", mvPyObject(GetPyNone()));
 
 		if (_disabledTheme)
-			PyDict_SetItemString(dict, "disabled_theme", ToPyUUID(_disabledTheme->getUUID()));
+			PyDict_SetItemString(dict, "disabled_theme", mvPyObject(ToPyUUID(_disabledTheme->getUUID())));
 		else
-			PyDict_SetItemString(dict, "disabled_theme", GetPyNone());
+			PyDict_SetItemString(dict, "disabled_theme", mvPyObject(GetPyNone()));
 
 		if(getDescFlags() == MV_ITEM_DESC_CONTAINER)
-			PyDict_SetItemString(dict, "container", ToPyBool(true));
+			PyDict_SetItemString(dict, "container", mvPyObject(ToPyBool(true)));
 		else
-			PyDict_SetItemString(dict, "container", ToPyBool(false));
+			PyDict_SetItemString(dict, "container", mvPyObject(ToPyBool(false)));
 
 	}
 

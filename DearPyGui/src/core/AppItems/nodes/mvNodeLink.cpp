@@ -8,6 +8,7 @@
 #include "AppItems/fonts/mvFont.h"
 #include "AppItems/themes/mvTheme.h"
 #include "AppItems/containers/mvDragPayload.h"
+#include "mvPyObject.h"
 
 namespace Marvel {
 
@@ -165,8 +166,8 @@ namespace Marvel {
 		if (dict == nullptr)
 			return;
 
-		PyDict_SetItemString(dict, "attr_1", ToPyUUID(_id1uuid));
-		PyDict_SetItemString(dict, "attr_2", ToPyUUID(_id2uuid));
+		PyDict_SetItemString(dict, "attr_1", mvPyObject(ToPyUUID(_id1uuid)));
+		PyDict_SetItemString(dict, "attr_2", mvPyObject(ToPyUUID(_id2uuid)));
 	}
 
 }

@@ -73,7 +73,7 @@ namespace Marvel {
 		if (dict == nullptr)
 			return;
 		 
-		PyDict_SetItemString(dict, "hour24", ToPyBool(_hour24));
+		PyDict_SetItemString(dict, "hour24", mvPyObject(ToPyBool(_hour24)));
 	}
 
 	PyObject* mvTimePicker::getPyValue()

@@ -3,6 +3,7 @@
 #include "mvLog.h"
 #include "mvItemRegistry.h"
 #include "mvTableColumn.h"
+#include "mvPyObject.h"
 
 namespace Marvel {
 
@@ -251,15 +252,21 @@ namespace Marvel {
 		if (dict == nullptr)
 			return;
 
-		PyDict_SetItemString(dict, "freeze_rows", ToPyInt(_freezeRows));
-		PyDict_SetItemString(dict, "freeze_columns", ToPyInt(_freezeColumns));
-		PyDict_SetItemString(dict, "inner_width", ToPyInt(_inner_width));
-		PyDict_SetItemString(dict, "header_row", ToPyBool(_tableHeader));
+		mvPyObject py_freeze_rows = ToPyInt(_freezeRows);
+		mvPyObject py_freeze_columns = ToPyInt(_freezeColumns);
+		mvPyObject py_inner_width = ToPyInt(_inner_width);
+		mvPyObject py_header_row = ToPyBool(_tableHeader);
+
+		PyDict_SetItemString(dict, "freeze_rows", py_freeze_rows);
+		PyDict_SetItemString(dict, "freeze_columns", py_freeze_columns);
+		PyDict_SetItemString(dict, "inner_width", py_inner_width);
+		PyDict_SetItemString(dict, "header_row", py_header_row);
 
 		// helper to check and set bit
 		auto checkbitset = [dict](const char* keyword, int flag, const int& flags)
 		{
-			PyDict_SetItemString(dict, keyword, ToPyBool(flags & flag));
+			mvPyObject py_value = ToPyBool(flags & flag);
+			PyDict_SetItemString(dict, keyword, py_value);
 		};
 
 		checkbitset("resizable", ImGuiTableFlags_Resizable, _flags);
@@ -286,14 +293,19 @@ namespace Marvel {
 		checkbitset("sort_tristate", ImGuiTableFlags_SortTristate, _flags);
 		checkbitset("no_saved_settings", ImGuiTableFlags_NoSavedSettings, _flags);
 		
+		int flag = 0;
+
 		if(_flags & ImGuiTableFlags_SizingFixedFit)
-			PyDict_SetItemString(dict, "policy", ToPyInt(ImGuiTableFlags_SizingFixedFit));
+			flag = ImGuiTableFlags_SizingFixedFit;
 		else if (_flags & ImGuiTableFlags_SizingFixedSame)
-			PyDict_SetItemString(dict, "policy", ToPyInt(ImGuiTableFlags_SizingFixedSame));
+			flag = ImGuiTableFlags_SizingFixedSame;
 		else if (_flags & ImGuiTableFlags_SizingStretchProp)
-			PyDict_SetItemString(dict, "policy", ToPyInt(ImGuiTableFlags_SizingStretchProp));
+			flag = ImGuiTableFlags_SizingStretchProp;
 		else if (_flags & ImGuiTableFlags_SizingStretchSame)
-			PyDict_SetItemString(dict, "policy", ToPyInt(ImGuiTableFlags_SizingStretchSame));
+			flag = ImGuiTableFlags_SizingStretchSame;
+
+		mvPyObject py_policy = ToPyInt(flag);
+		PyDict_SetItemString(dict, "policy", py_policy);
 	}
 
 }

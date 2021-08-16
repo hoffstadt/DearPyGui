@@ -7,6 +7,7 @@
 #include "mvNodeLink.h"
 #include "mvLog.h"
 #include "mvPythonExceptions.h"
+#include "mvPyObject.h"
 
 namespace Marvel {
 
@@ -121,7 +122,7 @@ namespace Marvel {
 		// helper to check and set bit
 		auto checkbitset = [dict](const char* keyword, int flag, const int& flags)
 		{
-			PyDict_SetItemString(dict, keyword, ToPyBool(flags & flag));
+			PyDict_SetItemString(dict, keyword, mvPyObject(ToPyBool(flags & flag)));
 		};
 
 		// window flags

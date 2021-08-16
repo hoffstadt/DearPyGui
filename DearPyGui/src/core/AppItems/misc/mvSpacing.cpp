@@ -1,6 +1,7 @@
 #include "mvSpacing.h"
 #include "mvItemRegistry.h"
 #include "mvPythonExceptions.h"
+#include "mvPyObject.h"
 
 namespace Marvel {
 
@@ -85,7 +86,7 @@ namespace Marvel {
 		if (dict == nullptr)
 			return;
 
-		PyDict_SetItemString(dict, "count", ToPyBool(*_value));
+		PyDict_SetItemString(dict, "count", mvPyObject(ToPyBool(*_value)));
 	}
 
 }

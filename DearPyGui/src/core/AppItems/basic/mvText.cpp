@@ -259,10 +259,10 @@ namespace Marvel {
 		if (dict == nullptr)
 			return;
 
-		PyDict_SetItemString(dict, "color", ToPyColor(_color));
-		PyDict_SetItemString(dict, "wrap", ToPyInt(_wrap));
-		PyDict_SetItemString(dict, "bullet", ToPyBool(_bullet));
-		PyDict_SetItemString(dict, "show_label", ToPyBool(_show_label));
+		PyDict_SetItemString(dict, "color", mvPyObject(ToPyColor(_color)));
+		PyDict_SetItemString(dict, "wrap", mvPyObject(ToPyInt(_wrap)));
+		PyDict_SetItemString(dict, "bullet", mvPyObject(ToPyBool(_bullet)));
+		PyDict_SetItemString(dict, "show_label", mvPyObject(ToPyBool(_show_label)));
 	}
 
 	PyObject* mvText::getPyValue()

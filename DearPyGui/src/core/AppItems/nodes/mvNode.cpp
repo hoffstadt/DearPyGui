@@ -7,6 +7,7 @@
 #include "AppItems/fonts/mvFont.h"
 #include "AppItems/themes/mvTheme.h"
 #include "AppItems/containers/mvDragPayload.h"
+#include "mvPyObject.h"
 
 namespace Marvel {
 
@@ -227,7 +228,7 @@ namespace Marvel {
 	{
 		if (dict == nullptr)
 			return;
-		PyDict_SetItemString(dict, "draggable", ToPyBool(_draggable));	
+		PyDict_SetItemString(dict, "draggable", mvPyObject(ToPyBool(_draggable)));	
 	}
 
 }
