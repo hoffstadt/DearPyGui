@@ -2,6 +2,7 @@
 #include "mvLog.h"
 #include "mvItemRegistry.h"
 #include "mvPythonExceptions.h"
+#include "mvPyObject.h"
 
 namespace Marvel {
 
@@ -121,12 +122,30 @@ namespace Marvel {
 		if (dict == nullptr)
 			return;
 
-		PyDict_SetItemString(dict, "pmax", ToPyPair(_pmax.x, _pmax.y));
-		PyDict_SetItemString(dict, "pmin", ToPyPair(_pmin.x, _pmin.y));
-		PyDict_SetItemString(dict, "color", ToPyColor(_color));
-		PyDict_SetItemString(dict, "fill", ToPyColor(_fill));
-		PyDict_SetItemString(dict, "rounding", ToPyFloat(_rounding));
-		PyDict_SetItemString(dict, "thickness", ToPyFloat(_thickness));
+		// config RAII py objects
+		mvPyObject py_pmin = ToPyPair(_pmin.x, _pmin.y);
+		mvPyObject py_pmax = ToPyPair(_pmax.x, _pmax.y);
+		mvPyObject py_rounding = ToPyFloat(_rounding);
+		mvPyObject py_color = ToPyColor(_color);
+		mvPyObject py_color_upper_left = ToPyColor(_color_upper_left);
+		mvPyObject py_color_upper_right = ToPyColor(_color_upper_right);
+		mvPyObject py_color_bottom_left = ToPyColor(_color_bottom_left);
+		mvPyObject py_color_bottom_right = ToPyColor(_color_bottom_right);
+		mvPyObject py_fill = ToPyColor(_fill);
+		mvPyObject py_thickness = ToPyFloat(_thickness);
+		mvPyObject py_multicolor = ToPyBool(_multicolor);
+
+		PyDict_SetItemString(dict, "pmax", py_pmax);
+		PyDict_SetItemString(dict, "pmin", py_pmin);
+		PyDict_SetItemString(dict, "color", py_color);
+		PyDict_SetItemString(dict, "fill", py_fill);
+		PyDict_SetItemString(dict, "rounding", py_color);
+		PyDict_SetItemString(dict, "thickness", py_thickness);
+		PyDict_SetItemString(dict, "multicolor", py_multicolor);
+		PyDict_SetItemString(dict, "color_upper_left", py_color_upper_left);
+		PyDict_SetItemString(dict, "color_upper_right", py_color_upper_right);
+		PyDict_SetItemString(dict, "color_bottom_left", py_color_bottom_left);
+		PyDict_SetItemString(dict, "color_bottom_right", py_color_bottom_right);
 	}
 
 }

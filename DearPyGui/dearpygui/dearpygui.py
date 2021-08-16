@@ -6208,6 +6208,16 @@ def get_frame_count() -> int:
 
 	return internal_dpg.get_frame_count()
 
+def get_frame_rate() -> float:
+	"""
+	Returns the average frame rate across 120 frames.
+	Args:
+	Returns:
+		float
+	"""
+
+	return internal_dpg.get_frame_rate()
+
 def get_global_font_scale() -> float:
 	"""
 	Undocumented function

@@ -6,6 +6,7 @@
 #include "AppItems/fonts/mvFont.h"
 #include "AppItems/themes/mvTheme.h"
 #include "AppItems/containers/mvDragPayload.h"
+#include "mvPyObject.h"
 
 namespace Marvel {
 
@@ -229,6 +230,14 @@ namespace Marvel {
 		}
 	}
 
+	void mvButton::applySpecificTemplate(mvAppItem* item)
+	{
+		auto titem = static_cast<mvButton*>(item);
+		_direction = titem->_direction;
+		_small_button = titem->_small_button;
+		_arrow = titem->_arrow;
+	}
+
 	void mvButton::handleSpecificKeywordArgs(PyObject* dict)
 	{
 		if (dict == nullptr)
@@ -249,9 +258,13 @@ namespace Marvel {
 		if (dict == nullptr)
 			return;
 
-		PyDict_SetItemString(dict, "small", ToPyBool(_small_button));
-		PyDict_SetItemString(dict, "arrow", ToPyBool(_arrow));
-		PyDict_SetItemString(dict, "direction", ToPyInt(_direction));
+		mvPyObject py_small = ToPyBool(_small_button);
+		mvPyObject py_arrow = ToPyBool(_arrow);
+		mvPyObject py_direction = ToPyInt(_direction);
+
+		PyDict_SetItemString(dict, "small", py_small);
+		PyDict_SetItemString(dict, "arrow", py_arrow);
+		PyDict_SetItemString(dict, "direction", py_direction);
 	}
 
 }

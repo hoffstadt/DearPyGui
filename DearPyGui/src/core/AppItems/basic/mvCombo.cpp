@@ -6,6 +6,7 @@
 #include "AppItems/fonts/mvFont.h"
 #include "AppItems/themes/mvTheme.h"
 #include "AppItems/containers/mvDragPayload.h"
+#include "mvPyObject.h"
 
 namespace Marvel {
 
@@ -272,6 +273,17 @@ namespace Marvel {
 		}
 	}
 
+	void mvCombo::applySpecificTemplate(mvAppItem* item)
+	{
+		auto titem = static_cast<mvCombo*>(item);
+		_value = titem->_value;
+		_disabled_value = titem->_disabled_value;
+		_flags = titem->_flags;
+		_items = titem->_items;
+		_popup_align_left = titem->_popup_align_left;
+		_no_preview = titem->_no_preview;
+	}
+
 	void mvCombo::handleSpecificPositionalArgs(PyObject* dict)
 	{
 		if (!mvApp::GetApp()->getParsers()[s_command].verifyPositionalArguments(dict))
@@ -330,26 +342,30 @@ namespace Marvel {
 		if (dict == nullptr)
 			return;
 
-		PyDict_SetItemString(dict, "items", ToPyList(_items));
-
 		// helper to check and set bit
 		auto checkbitset = [dict](const char* keyword, int flag, const int& flags)
 		{
-			PyDict_SetItemString(dict, keyword, ToPyBool(flags & flag));
+			mvPyObject py_value = ToPyBool(flags & flag);
+			PyDict_SetItemString(dict, keyword, py_value);
 		};
 		checkbitset("popup_align_left", ImGuiComboFlags_PopupAlignLeft, _flags);
 		checkbitset("no_arrow_button", ImGuiComboFlags_NoArrowButton, _flags);
 		checkbitset("no_preview", ImGuiComboFlags_NoPreview, _flags);
 
+		mvUUID mode;
 		if (_flags & ImGuiComboFlags_HeightSmall)
-			PyDict_SetItemString(dict, "height_mode", ToPyUUID((long)mvCombo::ComboHeightMode::mvComboHeight_Small));
+			mode = (long)mvCombo::ComboHeightMode::mvComboHeight_Small;
 		else if (_flags & ImGuiComboFlags_HeightRegular)
-			PyDict_SetItemString(dict, "height_mode", ToPyUUID((long)mvCombo::ComboHeightMode::mvComboHeight_Regular));
+			mode = (long)mvCombo::ComboHeightMode::mvComboHeight_Regular;
 		else if (_flags & ImGuiComboFlags_HeightLarge)
-			PyDict_SetItemString(dict, "height_mode", ToPyUUID((long)mvCombo::ComboHeightMode::mvComboHeight_Large));
+			mode = (long)mvCombo::ComboHeightMode::mvComboHeight_Large;
 		else
-			PyDict_SetItemString(dict, "height_mode", ToPyUUID((long)mvCombo::ComboHeightMode::mvComboHeight_Largest));
+			mode = (long)mvCombo::ComboHeightMode::mvComboHeight_Largest;
 
+		mvPyObject py_height_mode = ToPyUUID(mode);
+		mvPyObject py_items = ToPyList(_items);
+		PyDict_SetItemString(dict, "height_mode", py_height_mode);
+		PyDict_SetItemString(dict, "items", py_items);
 	}
 
 }

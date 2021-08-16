@@ -8,6 +8,7 @@
 #include "AppItems/fonts/mvFont.h"
 #include "AppItems/themes/mvTheme.h"
 #include "AppItems/containers/mvDragPayload.h"
+#include "mvPyObject.h"
 
 namespace Marvel {
 
@@ -89,6 +90,19 @@ namespace Marvel {
     mvDragFloat::mvDragFloat(mvUUID uuid)
         : mvAppItem(uuid)
     {
+    }
+
+    void mvDragFloat::applySpecificTemplate(mvAppItem* item)
+    {
+        auto titem = static_cast<mvDragFloat*>(item);
+        _value = titem->_value;
+        _disabled_value = titem->_disabled_value;
+        _speed = titem->_speed;
+        _min = titem->_min;
+        _max = titem->_max;
+        _format = titem->_format;
+        _flags = titem->_flags;
+        _stor_flags = titem->_stor_flags;
     }
 
     PyObject* mvDragFloat::getPyValue()
@@ -299,6 +313,19 @@ namespace Marvel {
     mvDragInt::mvDragInt(mvUUID uuid)
         : mvAppItem(uuid)
     {
+    }
+
+    void mvDragInt::applySpecificTemplate(mvAppItem* item)
+    {
+        auto titem = static_cast<mvDragInt*>(item);
+        _value = titem->_value;
+        _disabled_value = titem->_disabled_value;
+        _speed = titem->_speed;
+        _min = titem->_min;
+        _max = titem->_max;
+        _format = titem->_format;
+        _flags = titem->_flags;
+        _stor_flags = titem->_stor_flags;
     }
 
     void mvDragInt::setDataSource(mvUUID dataSource)
@@ -544,15 +571,21 @@ namespace Marvel {
         if (dict == nullptr)
             return;
 
-        PyDict_SetItemString(dict, "format", ToPyString(_format));
-        PyDict_SetItemString(dict, "speed", ToPyFloat(_speed));
-        PyDict_SetItemString(dict, "min_value", ToPyFloat(_min));
-        PyDict_SetItemString(dict, "max_value", ToPyFloat(_max));
+        mvPyObject py_format = ToPyString(_format);
+        mvPyObject py_speed = ToPyFloat(_speed);
+        mvPyObject py_min_value = ToPyFloat(_min);
+        mvPyObject py_max_value = ToPyFloat(_max);
+
+        PyDict_SetItemString(dict, "format", py_format);
+        PyDict_SetItemString(dict, "speed", py_speed);
+        PyDict_SetItemString(dict, "min_value", py_min_value);
+        PyDict_SetItemString(dict, "max_value", py_max_value);
 
         // helper to check and set bit
         auto checkbitset = [dict](const char* keyword, int flag, const int& flags)
         {
-            PyDict_SetItemString(dict, keyword, ToPyBool(flags & flag));
+            mvPyObject py_result = ToPyBool(flags & flag);
+            PyDict_SetItemString(dict, keyword, py_result);
         };
 
         // window flags
@@ -598,15 +631,21 @@ namespace Marvel {
         if (dict == nullptr)
             return;
 
-        PyDict_SetItemString(dict, "format", ToPyString(_format));
-        PyDict_SetItemString(dict, "speed", ToPyFloat(_speed));
-        PyDict_SetItemString(dict, "min_value", ToPyInt(_min));
-        PyDict_SetItemString(dict, "max_value", ToPyInt(_max));
+        mvPyObject py_format = ToPyString(_format);
+        mvPyObject py_speed = ToPyFloat(_speed);
+        mvPyObject py_min_value = ToPyInt(_min);
+        mvPyObject py_max_value = ToPyInt(_max);
+
+        PyDict_SetItemString(dict, "format", py_format);
+        PyDict_SetItemString(dict, "speed", py_speed);
+        PyDict_SetItemString(dict, "min_value", py_min_value);
+        PyDict_SetItemString(dict, "max_value", py_max_value);
 
         // helper to check and set bit
         auto checkbitset = [dict](const char* keyword, int flag, const int& flags)
         {
-            PyDict_SetItemString(dict, keyword, ToPyBool(flags & flag));
+            mvPyObject py_result = ToPyBool(flags & flag);
+            PyDict_SetItemString(dict, keyword, py_result);
         };
 
         // window flags
