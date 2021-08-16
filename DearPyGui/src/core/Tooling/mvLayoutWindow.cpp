@@ -16,6 +16,23 @@ namespace Marvel {
         m_windowflags = ImGuiWindowFlags_NoSavedSettings;
     }
 
+    void mvLayoutWindow::renderRootCategory(const char* category, std::vector<mvRef<mvAppItem>>& roots)
+    {
+        const auto node_flags = ImGuiTreeNodeFlags_OpenOnArrow | (roots.empty() ? ImGuiTreeNodeFlags_Leaf : 0);
+
+        ImGui::PushID(&roots);
+        const auto expanded = ImGui::TreeNodeEx(category, node_flags);
+
+        if (expanded)
+        {
+            for (auto& root : roots)
+                renderTreeNode(root.get());
+            ImGui::TreePop();
+        }
+
+        ImGui::PopID();
+    }
+
     void mvLayoutWindow::renderTreeNode(mvAppItem* item)
     {
 
@@ -26,7 +43,7 @@ namespace Marvel {
 
         // render this node
         ImGui::PushID(item);
-        const auto expanded = ImGui::TreeNodeEx(item->_specificedlabel.c_str(), node_flags);
+        const auto expanded = ImGui::TreeNodeEx(item->_alias.empty() ? item->_specificedlabel.c_str() : item->_alias.c_str(), node_flags);
         
         // processing for selecting node
         if (ImGui::IsItemClicked())
@@ -253,7 +270,7 @@ namespace Marvel {
 		mvUUID parentName = 0;
 
 		if (selectedItem == nullptr)
-			selectedItem = mvApp::GetApp()->getItemRegistry().getRoots()[0].get();
+			selectedItem = mvApp::GetApp()->getItemRegistry()._windowRoots[0].get();
 
 		if (selectedItem->_parentPtr)
 			parentName = selectedItem->_parentPtr->_uuid;
@@ -320,20 +337,6 @@ namespace Marvel {
 		ImGui::PopItemWidth();
 		ImGui::SameLine();
 
-        ImGui::BeginGroup();
-        ImGui::Checkbox("mvFileDialog", &m_fileDialog);
-        ImGui::Checkbox("mvStagingContainer", &m_staging);
-        ImGui::Checkbox("mvWindowAppItem", &m_window);
-        ImGui::Checkbox("mvViewportDrawlist", &m_viewport);
-        ImGui::Checkbox("mvFontRegistry", &m_font);
-        ImGui::Checkbox("mvHandlerRegistry", &m_handler);
-        ImGui::Checkbox("mvTextureRegistry", &m_texture);
-        ImGui::Checkbox("mvTheme", &m_theme);
-        ImGui::Checkbox("mvValueRegistry", &m_values);
-        ImGui::EndGroup();
-
-        ImGui::SameLine();
-
         // right side
 
         if (m_nodeView)
@@ -343,39 +346,17 @@ namespace Marvel {
         else
         {
             ImGui::BeginChild("TreeChild", ImVec2(-1.0f, -1.0f), true);
-
-            for (auto& window : mvApp::GetApp()->getItemRegistry().getRoots())
-            {
-                if (window->getType() == mvAppItemType::mvFileDialog && !m_fileDialog)
-                    continue;
-
-                if (window->getType() == mvAppItemType::mvStagingContainer && !m_staging)
-                    continue;
-
-                if (window->getType() == mvAppItemType::mvWindowAppItem && !m_window)
-                    continue;
-
-                if (window->getType() == mvAppItemType::mvViewportDrawlist && !m_viewport)
-                    continue;
-
-                if (window->getType() == mvAppItemType::mvFontRegistry && !m_font)
-                    continue;
-
-                if (window->getType() == mvAppItemType::mvHandlerRegistry && !m_handler)
-                    continue;
-
-                if (window->getType() == mvAppItemType::mvTextureRegistry && !m_texture)
-                    continue;
-
-                if (window->getType() == mvAppItemType::mvTheme && !m_theme)
-                    continue;
-
-                if (window->getType() == mvAppItemType::mvValueRegistry && !m_values)
-                    continue;
-
-                renderTreeNode(window.get());
-            }
-
+            renderRootCategory("Windows", mvApp::GetApp()->getItemRegistry()._windowRoots);
+            renderRootCategory("Themes", mvApp::GetApp()->getItemRegistry()._themeRegistryRoots);
+            renderRootCategory("Template Registries", mvApp::GetApp()->getItemRegistry()._itemTemplatesRoots);
+            renderRootCategory("Staging Containers", mvApp::GetApp()->getItemRegistry()._stagingRoots);
+            renderRootCategory("Texture Registries", mvApp::GetApp()->getItemRegistry()._textureRegistryRoots);
+            renderRootCategory("Font Registries", mvApp::GetApp()->getItemRegistry()._fontRegistryRoots);
+            renderRootCategory("Handler Registries", mvApp::GetApp()->getItemRegistry()._handlerRegistryRoots);
+            renderRootCategory("Value Registries", mvApp::GetApp()->getItemRegistry()._valueRegistryRoots);
+            renderRootCategory("Colormap Registries", mvApp::GetApp()->getItemRegistry()._colormapRoots);
+            renderRootCategory("File Dialogs", mvApp::GetApp()->getItemRegistry()._filedialogRoots);
+            renderRootCategory("Viewport Menubars", mvApp::GetApp()->getItemRegistry()._viewportMenubarRoots);
             ImGui::EndChild();
         }
 

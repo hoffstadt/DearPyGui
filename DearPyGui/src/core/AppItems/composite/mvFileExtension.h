@@ -20,7 +20,8 @@ namespace Marvel {
 
 		MV_START_PARENTS
 			MV_ADD_PARENT(mvAppItemType::mvStagingContainer),
-			MV_ADD_PARENT(mvAppItemType::mvFileDialog)
+			MV_ADD_PARENT(mvAppItemType::mvFileDialog),
+			MV_ADD_PARENT(mvAppItemType::mvTemplateRegistry),
 		MV_END_PARENTS
 
 	public:

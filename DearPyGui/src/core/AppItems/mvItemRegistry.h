@@ -31,6 +31,8 @@ namespace Marvel {
 	class mvItemRegistry : public mvEventHandler
 	{
 
+        friend class mvLayoutWindow;
+
     public:
 
         static constexpr int CachedContainerCount = 25;
@@ -66,8 +68,10 @@ namespace Marvel {
         MV_CREATE_COMMAND(does_alias_exist);
         MV_CREATE_COMMAND(get_alias_id);
         MV_CREATE_COMMAND(get_aliases);
+        MV_CREATE_COMMAND(bind_template_registry);
 
         MV_START_COMMANDS
+            MV_ADD_COMMAND(bind_template_registry);
             MV_ADD_COMMAND(get_aliases);
             MV_ADD_COMMAND(get_item_registry_configuration);
             MV_ADD_COMMAND(configure_item_registry);
@@ -122,11 +126,20 @@ namespace Marvel {
         mvAppItem*                     getItem           (mvUUID uuid);
         mvRef<mvAppItem>               getRefItem        (mvUUID uuid);
         mvWindowAppItem*               getWindow         (mvUUID uuid);
-        std::vector<mvRef<mvAppItem>>& getRoots          ()       { return _roots; }
+        std::vector<mvRef<mvAppItem>>& getFontRegistries ()       { return _fontRegistryRoots; }
         mvUUID                         getActiveWindow   () const { return _activeWindow; }
         bool                           addItemWithRuntimeChecks(mvRef<mvAppItem> item, mvUUID parent, mvUUID before);
         void                           cacheItem(mvAppItem* item);
         void                           cleanUpItem(mvUUID uuid);
+
+        //-----------------------------------------------------------------------------
+        // Pools and Config
+        //-----------------------------------------------------------------------------
+        std::vector<mvRef<mvAppItem>>& getItemPools() { return _itemPoolRoots; }
+        mvRef<mvAppItem>               getItemFromPool(mvAppItemType itemType);
+        bool                           skipRequiredArgs() const { return _skipRequiredArgs; }
+        bool                           skipOptionalArgs() const { return _skipOptionalArgs; }
+        void                           tryBoundTemplateRegistry(mvAppItem* item) const;
 
         //-----------------------------------------------------------------------------
         // Aliases
@@ -165,7 +178,18 @@ namespace Marvel {
         bool addWindow     (mvRef<mvAppItem> item);
         bool addRuntimeItem(mvUUID parent, mvUUID before, mvRef<mvAppItem> item);
 
-	private:
+        // need to clean this up but this delegates taskes to the specific root types
+        bool deleteRoot(std::vector<mvRef<mvAppItem>>& roots, mvUUID uuid);
+        bool moveRoot(std::vector<mvRef<mvAppItem>>& roots, mvUUID uuid, mvRef<mvAppItem>& item);
+        bool moveUpRoot(std::vector<mvRef<mvAppItem>>& roots, mvUUID uuid);
+        bool moveDownRoot(std::vector<mvRef<mvAppItem>>& roots, mvUUID uuid);
+        bool addRuntimeChildRoot(std::vector<mvRef<mvAppItem>>& roots, mvUUID parent, mvUUID before, mvRef<mvAppItem> item);
+        bool addItemAfterRoot(std::vector<mvRef<mvAppItem>>& roots, mvUUID prev, mvRef<mvAppItem> item);
+        mvAppItem* getItemRoot(std::vector<mvRef<mvAppItem>>& roots, mvUUID uuid);
+        mvRef<mvAppItem> getRefItemRoot(std::vector<mvRef<mvAppItem>>& roots, mvUUID uuid);
+        void getAllItemsRoot(std::vector<mvRef<mvAppItem>>& roots, std::vector<mvUUID>& childList);
+	
+private:
 
         // caching
         mvUUID                                       _lastItemAdded = 0;
@@ -179,7 +203,6 @@ namespace Marvel {
         int                                          _cachedItemsIndex = 0;
 
 		std::stack<mvAppItem*>                       _containers;      // parent stack, top of stack becomes widget's parent
-		std::vector<mvRef<mvAppItem>>                _roots;
         std::unordered_map<mvUUID, mvRef<mvAppItem>> _stagingArea;
         std::unordered_map<std::string, mvUUID>      _aliases;
         mvUUID                                       _activeWindow = 0;
@@ -188,9 +211,28 @@ namespace Marvel {
         bool                                         _showImGuiDebug = false;
         bool                                         _showImPlotDebug = false;
 
-        // config
+        // roots
+        std::vector<mvRef<mvAppItem>> _colormapRoots;
+        std::vector<mvRef<mvAppItem>> _filedialogRoots;
+        std::vector<mvRef<mvAppItem>> _stagingRoots;
+        std::vector<mvRef<mvAppItem>> _viewportMenubarRoots;
+        std::vector<mvRef<mvAppItem>> _windowRoots;
+        std::vector<mvRef<mvAppItem>> _fontRegistryRoots;
+        std::vector<mvRef<mvAppItem>> _handlerRegistryRoots;
+        std::vector<mvRef<mvAppItem>> _textureRegistryRoots;
+        std::vector<mvRef<mvAppItem>> _valueRegistryRoots;
+        std::vector<mvRef<mvAppItem>> _themeRegistryRoots;
+        std::vector<mvRef<mvAppItem>> _itemPoolRoots;
+        std::vector<mvRef<mvAppItem>> _itemTemplatesRoots;
+
+        // bound registries
+        mvRef<mvAppItem> _boundedTemplateRegistry;
+
+        // user config
         bool _allowAliasOverwrites = false;
         bool _manualAliasManagement = false;
+        bool _skipRequiredArgs = false;
+        bool _skipOptionalArgs = false;
 	};
 
 }

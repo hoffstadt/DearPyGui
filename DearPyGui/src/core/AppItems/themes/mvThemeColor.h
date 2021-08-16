@@ -19,7 +19,8 @@ namespace Marvel {
 		MV_DEFAULT_CHILDREN
 
         MV_START_PARENTS
-            MV_ADD_PARENT(mvAppItemType::mvTheme)
+            MV_ADD_PARENT(mvAppItemType::mvTheme),
+            MV_ADD_PARENT(mvAppItemType::mvTemplateRegistry),
         MV_END_PARENTS
 
         MV_CREATE_CONSTANT(mvThemeCol_Text, ImGuiCol_Text);

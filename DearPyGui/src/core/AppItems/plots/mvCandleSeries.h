@@ -18,7 +18,8 @@ namespace Marvel {
 		MV_NO_CONSTANTS
 
 		MV_START_PARENTS
-			MV_ADD_PARENT(mvAppItemType::mvPlotAxis)
+			MV_ADD_PARENT(mvAppItemType::mvPlotAxis),
+			MV_ADD_PARENT(mvAppItemType::mvTemplateRegistry)
 		MV_END_PARENTS
 
 	public:
