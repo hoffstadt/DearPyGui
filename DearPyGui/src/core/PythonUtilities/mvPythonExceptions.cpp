@@ -23,13 +23,7 @@ namespace Marvel
 	{
 		if (item)
 		{
-			std::string itemType;
-			constexpr_for<1, (int)mvAppItemType::ItemTypeCount, 1>(
-				[&](auto i) {
-					using item_type = typename mvItemTypeMap<i>::type;
-					if ((long)item->getType() == item_type::s_internal_type)
-						itemType = item_type::s_internal_id;
-				});
+			std::string itemType = item->getTypeString();
 			std::string fullMessage = "\nError:     [%d]\nCommand:   %s\nItem:      %d \nLabel:     %s\nItem Type: %s\nMessage:   %s";
 			PyErr_Format(PyExc_Exception,
 				fullMessage.c_str(),

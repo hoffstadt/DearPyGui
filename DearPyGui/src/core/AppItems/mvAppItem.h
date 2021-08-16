@@ -70,6 +70,7 @@ namespace Marvel {
         mvInt4Value, mvBoolValue, mvStringValue, mvDoubleValue, mvDouble4Value,
         mvColorValue, mvFloatVectValue, mvSeriesValue, mvRawTexture, mvSubPlots,
         mvColorMap, mvColorMapRegistry, mvColorMapButton, mvColorMapSlider,
+        mvItemPool, mvItemSet, mvTemplateRegistry,
         ItemTypeCount
     };
 
@@ -251,15 +252,17 @@ namespace Marvel {
 
         // used to check arguments, get/set configurations
         void getItemInfo      (PyObject* dict);
-        void checkArgs        (PyObject* args, PyObject* kwargs);    
-        void handleKeywordArgs(PyObject* dict);  // python dictionary acts as an out parameter 
+        void checkArgs        (PyObject* args, PyObject* kwargs, std::string parser);
+        void handleKeywordArgs(PyObject* dict, std::string parser);  // python dictionary acts as an out parameter 
         void getConfiguration (PyObject* dict);
+        void applyTemplate    (mvAppItem* item);
 
         // used by derived items to register their arguments
         virtual void handleSpecificRequiredArgs  (PyObject* args) {}
         virtual void handleSpecificPositionalArgs(PyObject* args) {}
         virtual void handleSpecificKeywordArgs   (PyObject* dict) {} // called by handleKeywordArgs
         virtual void getSpecificConfiguration    (PyObject* dict) {}
+        virtual void applySpecificTemplate       (mvAppItem* item) {}
 
         //-----------------------------------------------------------------------------
         // These methods can be optionally overridden if your widget needs to be
@@ -344,6 +347,9 @@ namespace Marvel {
         bool                           isAltCustomActionRequested() const;
         void                           setPos(const ImVec2& pos);
         void                           registerWindowFocusing(); // only useful for imgui window types
+        void                           setPoolInfo(mvUUID pool, mvUUID itemSet);
+        std::pair<mvUUID, mvUUID>      getPoolInfo() const;
+        void                           setUUID(mvUUID id) { _uuid = id; }
 
     private:
 
@@ -376,6 +382,10 @@ namespace Marvel {
         mvAppItem*     _parentPtr = nullptr;
         mvAppItemState _state;
         int            _location = -1;
+        
+        // item pool info
+        mvUUID _pool = 0;
+        mvUUID _itemSet = 0;
         
         // next frame triggers
         bool _focusNextFrame = false;

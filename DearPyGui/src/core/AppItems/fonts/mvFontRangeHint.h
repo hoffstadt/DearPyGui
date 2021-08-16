@@ -17,7 +17,8 @@ namespace Marvel {
 		MV_DEFAULT_CHILDREN
 
 		MV_START_PARENTS
-			MV_ADD_PARENT(mvAppItemType::mvFont)
+			MV_ADD_PARENT(mvAppItemType::mvFont),
+			MV_ADD_PARENT(mvAppItemType::mvTemplateRegistry),
 		MV_END_PARENTS
 
 		MV_CREATE_CONSTANT(mvFontRangeHint_Default, 0);

@@ -23,6 +23,8 @@ namespace Marvel {
 			mvPythonParser parser(mvPyDataType::None, "Undocumented", { "App Item Operations" });
 			parser.addArg<mvPyDataType::Bool>("allow_alias_overwrites", mvArgType::KEYWORD_ARG, "False");
 			parser.addArg<mvPyDataType::Bool>("manual_alias_management", mvArgType::KEYWORD_ARG, "False");
+			parser.addArg<mvPyDataType::Bool>("skip_required_args", mvArgType::KEYWORD_ARG, "False");
+			parser.addArg<mvPyDataType::Bool>("skip_optional_args", mvArgType::KEYWORD_ARG, "False");
 			parser.finalize();
 			parsers->insert({ "configure_item_registry", parser });
 		}
@@ -81,6 +83,13 @@ namespace Marvel {
 			parser.addArg<mvPyDataType::UUIDList>("new_order");
 			parser.finalize();
 			parsers->insert({ "reorder_items", parser });
+		}
+
+		{
+			mvPythonParser parser(mvPyDataType::None, "Undocumented", { "Item Registry" });
+			parser.addArg<mvPyDataType::UUID>("template_registry");
+			parser.finalize();
+			parsers->insert({ "bind_template_registry", parser });
 		}
 
 		{
@@ -229,6 +238,19 @@ namespace Marvel {
 			_cachedItemsPTR[i] = nullptr;
 		}
 		
+		_valueRegistryRoots.reserve(10 * 100000);
+	}
+
+	mvRef<mvAppItem> mvItemRegistry::getItemFromPool(mvAppItemType itemType)
+	{
+		for (auto& pool : _itemPoolRoots)
+		{
+			auto item = static_cast<mvItemPool*>(pool.get())->getItem(itemType);
+			if (item)
+				return item;
+		}
+
+		return nullptr;
 	}
 
 	bool mvItemRegistry::focusItem(mvUUID uuid)
@@ -236,13 +258,13 @@ namespace Marvel {
 
 		if (!mvApp::IsAppStarted())
 		{
-			for (size_t i = 0; i < _roots.size(); i++)
+			for (size_t i = 0; i < _windowRoots.size(); i++)
 			{
-				if (_roots[i]->getUUID() == uuid)
+				if (_windowRoots[i]->getUUID() == uuid)
 				{
-					mvRef<mvAppItem> oldItem = _roots.back();
-					_roots[_roots.size() - 1] = _roots[i];
-					_roots[i] = oldItem;
+					mvRef<mvAppItem> oldItem = _windowRoots.back();
+					_windowRoots[_windowRoots.size() - 1] = _windowRoots[i];
+					_windowRoots[i] = oldItem;
 					return true;
 				}
 			}
@@ -260,6 +282,100 @@ namespace Marvel {
 		else
 			mvThrowPythonError(mvErrorCode::mvItemNotFound, "focus_item",
 				"Item not found: " + std::to_string(uuid), nullptr);
+		return false;
+	}
+
+	bool mvItemRegistry::addRuntimeChildRoot(std::vector<mvRef<mvAppItem>>& roots, mvUUID parent, mvUUID before, mvRef<mvAppItem> item)
+	{
+		for (auto& root : roots)
+		{
+			if (root->addRuntimeChild(parent, before, item))
+				return true;
+		}
+		return false;
+
+	}
+
+	bool mvItemRegistry::deleteRoot(std::vector<mvRef<mvAppItem>>& roots, mvUUID uuid)
+	{
+		bool deletedItem = false;
+
+		// try to delete build-in item
+		for (auto& root : roots)
+		{
+			deletedItem = root->deleteChild(uuid);
+			if (deletedItem)
+				break;
+		}
+
+		if (deletedItem)
+			return true;
+
+		bool rootDeleting = false;
+
+		// check if attempting to delete a window
+		for (auto& window : roots)
+		{
+			if (window->_uuid == uuid)
+			{
+				rootDeleting = true;
+				break;
+			}
+		}
+
+		// delete window and update window vector
+		// this should be changed to a different data
+		// structure
+		if (rootDeleting)
+		{
+			std::vector<mvRef<mvAppItem>> oldroots = roots;
+
+			roots.clear();
+
+			for (auto& root : oldroots)
+			{
+				if (root->_uuid == uuid)
+				{
+					deletedItem = true;
+					continue;
+				}
+				roots.push_back(root);
+			}
+
+			return true;
+		}
+
+		return false;
+	}
+
+	bool mvItemRegistry::moveRoot(std::vector<mvRef<mvAppItem>>& roots, mvUUID uuid, mvRef<mvAppItem>& item)
+	{
+		for (auto& window : roots)
+		{
+			item = window->stealChild(uuid);
+			if (item)
+				return true;
+		}
+		return false;
+	}
+
+	bool mvItemRegistry::moveUpRoot(std::vector<mvRef<mvAppItem>>& roots, mvUUID uuid)
+	{
+		for (auto& window : roots)
+		{
+			if (window->moveChildUp(uuid))
+				return true;
+		}
+		return false;
+	}
+	
+	bool mvItemRegistry::moveDownRoot(std::vector<mvRef<mvAppItem>>& roots, mvUUID uuid)
+	{
+		for (auto& window : roots)
+		{
+			if (window->moveChildDown(uuid))
+				return true;
+		}
 		return false;
 	}
 
@@ -295,45 +411,18 @@ namespace Marvel {
 
 		bool deletedItem = false;
 
-		// try to delete build-in item
-		for (auto& window : _roots)
-		{
-			deletedItem = window->deleteChild(uuid);
-			if (deletedItem)
-				break;
-		}
-
-		bool rootDeleting = false;
-
-		// check if attempting to delete a window
-		for (auto& window : _roots)
-		{
-			if (window->_uuid == uuid)
-			{
-				rootDeleting = true;
-				break;
-			}
-		}
-
-		// delete window and update window vector
-		// this should be changed to a different data
-		// structure
-		if (rootDeleting)
-		{
-			std::vector<mvRef<mvAppItem>> oldwindows = _roots;
-
-			_roots.clear();
-
-			for (auto& window : oldwindows)
-			{
-				if (window->_uuid == uuid)
-				{
-					deletedItem = true;
-					continue;
-				}
-				_roots.push_back(window);
-			}
-		}
+		if (deleteRoot(_colormapRoots, uuid)) deletedItem = true;
+		else if (deleteRoot(_filedialogRoots, uuid)) deletedItem = true;
+		else if (deleteRoot(_stagingRoots, uuid)) deletedItem = true;
+		else if (deleteRoot(_viewportMenubarRoots, uuid)) deletedItem = true;
+		else if (deleteRoot(_fontRegistryRoots, uuid)) deletedItem = true;
+		else if (deleteRoot(_handlerRegistryRoots, uuid)) deletedItem = true;
+		else if (deleteRoot(_textureRegistryRoots, uuid)) deletedItem = true;
+		else if (deleteRoot(_valueRegistryRoots, uuid)) deletedItem = true;
+		else if (deleteRoot(_windowRoots, uuid)) deletedItem = true;
+		else if (deleteRoot(_themeRegistryRoots, uuid)) deletedItem = true;
+		else if (deleteRoot(_itemPoolRoots, uuid)) deletedItem = true;
+		else if (deleteRoot(_itemTemplatesRoots, uuid)) deletedItem = true;
 
 		if (deletedItem)
 		{
@@ -356,15 +445,18 @@ namespace Marvel {
 
 		bool movedItem = false;
 
-		for (auto& window : _roots)
-		{
-			child = window->stealChild(uuid);
-			if (child)
-			{
-				movedItem = true;
-				break;
-			}
-		}
+		if (moveRoot(_colormapRoots, uuid, child)) movedItem = true;
+		else if (moveRoot(_filedialogRoots, uuid, child)) movedItem = true;
+		else if (moveRoot(_stagingRoots, uuid, child)) movedItem = true;
+		else if (moveRoot(_viewportMenubarRoots, uuid, child)) movedItem = true;
+		else if (moveRoot(_fontRegistryRoots, uuid, child)) movedItem = true;
+		else if (moveRoot(_handlerRegistryRoots, uuid, child)) movedItem = true;
+		else if (moveRoot(_textureRegistryRoots, uuid, child)) movedItem = true;
+		else if (moveRoot(_valueRegistryRoots, uuid, child)) movedItem = true;
+		else if (moveRoot(_windowRoots, uuid, child)) movedItem = true;
+		else if (moveRoot(_themeRegistryRoots, uuid, child)) movedItem = true;
+		else if (moveRoot(_itemPoolRoots, uuid, child)) movedItem = true;
+		else if (moveRoot(_itemTemplatesRoots, uuid, child)) movedItem = true;
 
 		if (_stagingArea.count(uuid) != 0)
 		{
@@ -379,10 +471,8 @@ namespace Marvel {
 			MV_ITEM_REGISTRY_WARN("Could not move item, it was not found");
 		}
 
-
 		if (child)
 			addRuntimeItem(parent, before, child);
-
 
 		return movedItem;
 	}
@@ -394,12 +484,18 @@ namespace Marvel {
 
 		bool movedItem = false;
 
-		for (auto window : _roots)
-		{
-			movedItem = window->moveChildUp(uuid);
-			if (movedItem)
-				break;
-		}
+		if (moveUpRoot(_colormapRoots, uuid)) movedItem = true;
+		else if (moveUpRoot(_filedialogRoots, uuid)) movedItem = true;
+		else if (moveUpRoot(_stagingRoots, uuid)) movedItem = true;
+		else if (moveUpRoot(_viewportMenubarRoots, uuid)) movedItem = true;
+		else if (moveUpRoot(_fontRegistryRoots, uuid)) movedItem = true;
+		else if (moveUpRoot(_handlerRegistryRoots, uuid)) movedItem = true;
+		else if (moveUpRoot(_textureRegistryRoots, uuid)) movedItem = true;
+		else if (moveUpRoot(_valueRegistryRoots, uuid)) movedItem = true;
+		else if (moveUpRoot(_windowRoots, uuid)) movedItem = true;
+		else if (moveUpRoot(_themeRegistryRoots, uuid)) movedItem = true;
+		else if (moveUpRoot(_itemPoolRoots, uuid)) movedItem = true;
+		else if (moveUpRoot(_itemTemplatesRoots, uuid)) movedItem = true;
 
 		if (!movedItem)
 		{
@@ -420,12 +516,18 @@ namespace Marvel {
 
 		bool movedItem = false;
 
-		for (auto window : _roots)
-		{
-			movedItem = window->moveChildDown(uuid);
-			if (movedItem)
-				break;
-		}
+		if (moveDownRoot(_colormapRoots, uuid)) movedItem = true;
+		else if (moveDownRoot(_filedialogRoots, uuid)) movedItem = true;
+		else if (moveDownRoot(_stagingRoots, uuid)) movedItem = true;
+		else if (moveDownRoot(_viewportMenubarRoots, uuid)) movedItem = true;
+		else if (moveDownRoot(_fontRegistryRoots, uuid)) movedItem = true;
+		else if (moveDownRoot(_handlerRegistryRoots, uuid)) movedItem = true;
+		else if (moveDownRoot(_textureRegistryRoots, uuid)) movedItem = true;
+		else if (moveDownRoot(_valueRegistryRoots, uuid)) movedItem = true;
+		else if (moveDownRoot(_windowRoots, uuid)) movedItem = true;
+		else if (moveDownRoot(_themeRegistryRoots, uuid)) movedItem = true;
+		else if (moveDownRoot(_itemPoolRoots, uuid)) movedItem = true;
+		else if (moveDownRoot(_itemTemplatesRoots, uuid)) movedItem = true;
 
 		if (!movedItem)
 		{
@@ -459,18 +561,54 @@ namespace Marvel {
 		if(_showImPlotDebug)
 			ImPlot::ShowDemoWindow(&_showImPlotDebug);
 
-		// todo: roots really needs to be split
-		for (auto& root : _roots)
+		for (auto& root : _fontRegistryRoots)
+		{
+			if (root->_show)
+				root->draw(nullptr, 0.0f, 0.0f);
+		}
+
+		for (auto& root : _handlerRegistryRoots)
+		{
+			if (root->_show)
+				root->draw(nullptr, 0.0f, 0.0f);
+		}
+
+		for (auto& root : _textureRegistryRoots)
+			root->draw(nullptr, 0.0f, 0.0f);
+
+		for (auto& root : _filedialogRoots)
 		{
 			if (!root->preDraw())
 				continue;
 
+			root->draw(nullptr, 0.0f, 0.0f);
+			root->postDraw();
+		}
+
+		for (auto& root : _themeRegistryRoots)
+		{
 			if (root->isAltCustomActionRequested())
 				root->alternativeCustomAction();
-
-			if(root->_show || mvAppItem::DoesItemHaveFlag(root.get(), MV_ITEM_DESC_ALWAYS_DRAW) || root->getType() == mvAppItemType::mvWindowAppItem)
+			if(root->_show)
 				root->draw(nullptr, 0.0f, 0.0f);
+		}
 
+		for (auto& root : _windowRoots)
+			root->draw(nullptr, 0.0f, 0.0f);
+
+		for (auto& root : _colormapRoots)
+		{
+			if (root->isAltCustomActionRequested())
+				root->alternativeCustomAction();
+			root->draw(nullptr, 0.0f, 0.0f);
+		}
+
+		for (auto& root : _viewportMenubarRoots)
+		{
+			if (!root->preDraw())
+				continue;
+
+			root->draw(nullptr, 0.0f, 0.0f);
 			root->postDraw();
 		}
 
@@ -487,10 +625,19 @@ namespace Marvel {
 		return false;
 	}
 
+	bool mvItemRegistry::addItemAfterRoot(std::vector<mvRef<mvAppItem>>& roots, mvUUID prev, mvRef<mvAppItem> item)
+	{
+		for (auto& root : roots)
+		{
+			if (root->addChildAfter(prev, item))
+				return true;
+		}
+
+		return false;
+	}
+
 	bool mvItemRegistry::addRuntimeItem(mvUUID parent, mvUUID before, mvRef<mvAppItem> item)
 	{
-		//MV_ITEM_REGISTRY_TRACE("Attempting to add new widget: ", item->_name);
-
 
 		if (_stagingArea.count(parent) != 0)
 		{
@@ -514,30 +661,40 @@ namespace Marvel {
 
 		}
 
-		for (auto& window : _roots)
-		{
-			if(window->addRuntimeChild(parent, before, item))
-				return true;
-		}
+		if (addRuntimeChildRoot(_colormapRoots, parent, before, item)) return true;
+		else if (addRuntimeChildRoot(_filedialogRoots, parent, before, item)) return true;
+		else if (addRuntimeChildRoot(_stagingRoots, parent, before, item)) return true;
+		else if (addRuntimeChildRoot(_viewportMenubarRoots, parent, before, item)) return true;
+		else if (addRuntimeChildRoot(_fontRegistryRoots, parent, before, item)) return true;
+		else if (addRuntimeChildRoot(_handlerRegistryRoots, parent, before, item)) return true;
+		else if (addRuntimeChildRoot(_textureRegistryRoots, parent, before, item)) return true;
+		else if (addRuntimeChildRoot(_valueRegistryRoots, parent, before, item)) return true;
+		else if (addRuntimeChildRoot(_windowRoots, parent, before, item)) return true;
+		else if (addRuntimeChildRoot(_themeRegistryRoots, parent, before, item)) return true;
+		else if (addRuntimeChildRoot(_itemPoolRoots, parent, before, item)) return true;
+		else if (addRuntimeChildRoot(_itemTemplatesRoots, parent, before, item)) return true;
 
 		return false;
 	}
 
 	bool mvItemRegistry::addItemAfter(mvUUID prev, mvRef<mvAppItem> item)
 	{
-		//MV_ITEM_REGISTRY_TRACE("Attempting to add new widget after: ", item->_name);
 
-		bool addedItem = false;
+		if (addItemAfterRoot(_colormapRoots, prev, item)) return true;
+		else if (addItemAfterRoot(_filedialogRoots, prev, item)) return true;
+		else if (addItemAfterRoot(_stagingRoots, prev, item)) return true;
+		else if (addItemAfterRoot(_viewportMenubarRoots, prev, item)) return true;
+		else if (addItemAfterRoot(_fontRegistryRoots, prev, item)) return true;
+		else if (addItemAfterRoot(_handlerRegistryRoots, prev, item)) return true;
+		else if (addItemAfterRoot(_textureRegistryRoots, prev, item)) return true;
+		else if (addItemAfterRoot(_valueRegistryRoots, prev, item)) return true;
+		else if (addItemAfterRoot(_windowRoots, prev, item)) return true;
+		else if (addItemAfterRoot(_themeRegistryRoots, prev, item)) return true;
+		else if (addItemAfterRoot(_itemPoolRoots, prev, item)) return true;
+		else if (addItemAfterRoot(_itemTemplatesRoots, prev, item)) return true;
 
-		for (auto& window : _roots)
-		{
-			addedItem = window->addChildAfter(prev, item);
-			if (addedItem)
-				break;
-		}
-
-		assert(addedItem);
-		return addedItem;
+		assert(false);
+		return false;
 	}
 
 	void mvItemRegistry::pushParent(mvAppItem* item)
@@ -603,9 +760,30 @@ namespace Marvel {
 		_delayedSearch.push_back(item);
 	}
 
+	mvAppItem* mvItemRegistry::getItemRoot(std::vector<mvRef<mvAppItem>>& roots, mvUUID uuid)
+	{
+		for (auto root : roots)
+		{
+			if (root->_uuid == uuid)
+			{
+				cacheItem(root.get());
+				return root.get();
+			}
+
+			auto child = root->getChild(uuid);
+			if (child)
+			{
+				cacheItem(child);
+				_delayedSearch.clear();
+				return child;
+			}
+		}
+
+		return nullptr;
+	}
+
 	mvAppItem* mvItemRegistry::getItem(mvUUID uuid)
 	{
-		mvRef<mvAppItem> item = nullptr;
 
 		// check cache first
 		for (int i = 0; i < CachedContainerCount; i++)
@@ -633,22 +811,19 @@ namespace Marvel {
 
 		}
 
-		for (auto& window : _roots)
-		{
-			if (window->_uuid == uuid)
-			{
-				cacheItem(window.get());
-				return window.get();
-			}
-
-			auto child = window->getChild(uuid);
-			if (child)
-			{
-				cacheItem(child);
-				_delayedSearch.clear();
-				return child;
-			}
-		}
+		if (auto foundItem = getItemRoot(_colormapRoots, uuid)) return foundItem;
+		if (auto foundItem = getItemRoot(_colormapRoots, uuid)) return foundItem;
+		if (auto foundItem = getItemRoot(_filedialogRoots, uuid)) return foundItem;
+		if (auto foundItem = getItemRoot(_stagingRoots, uuid)) return foundItem;
+		if (auto foundItem = getItemRoot(_viewportMenubarRoots, uuid)) return foundItem;
+		if (auto foundItem = getItemRoot(_fontRegistryRoots, uuid)) return foundItem;
+		if (auto foundItem = getItemRoot(_handlerRegistryRoots, uuid)) return foundItem;
+		if (auto foundItem = getItemRoot(_textureRegistryRoots, uuid)) return foundItem;
+		if (auto foundItem = getItemRoot(_valueRegistryRoots, uuid)) return foundItem;
+		if (auto foundItem = getItemRoot(_windowRoots, uuid)) return foundItem;
+		if (auto foundItem = getItemRoot(_themeRegistryRoots, uuid)) return foundItem;
+		if (auto foundItem = getItemRoot(_itemPoolRoots, uuid)) return foundItem;
+		if (auto foundItem = getItemRoot(_itemTemplatesRoots, uuid)) return foundItem;
 
 		for (auto delayedItem : _delayedSearch)
 		{
@@ -666,19 +841,37 @@ namespace Marvel {
 		return nullptr;
 	}
 
-	mvRef<mvAppItem> mvItemRegistry::getRefItem(mvUUID uuid)
+	mvRef<mvAppItem> mvItemRegistry::getRefItemRoot(std::vector<mvRef<mvAppItem>>& roots, mvUUID uuid)
 	{
-		mvRef<mvAppItem> item = nullptr;
 
-		for (auto& window : _roots)
+		for (auto& root : roots)
 		{
-			if (window->_uuid == uuid)
-				return window;
+			if (root->_uuid == uuid)
+				return root;
 
-			auto child = window->getChildRef(uuid);
+			auto child = root->getChildRef(uuid);
 			if (child)
 				return child;
 		}
+
+		return nullptr;
+	}
+
+	mvRef<mvAppItem> mvItemRegistry::getRefItem(mvUUID uuid)
+	{
+
+		if (auto foundItem = getRefItemRoot(_colormapRoots, uuid)) return foundItem;
+		else if (auto foundItem = getRefItemRoot(_filedialogRoots, uuid)) return foundItem;
+		else if (auto foundItem = getRefItemRoot(_stagingRoots, uuid)) return foundItem;
+		else if (auto foundItem = getRefItemRoot(_viewportMenubarRoots, uuid)) return foundItem;
+		else if (auto foundItem = getRefItemRoot(_fontRegistryRoots, uuid)) return foundItem;
+		else if (auto foundItem = getRefItemRoot(_handlerRegistryRoots, uuid)) return foundItem;
+		else if (auto foundItem = getRefItemRoot(_textureRegistryRoots, uuid)) return foundItem;
+		else if (auto foundItem = getRefItemRoot(_valueRegistryRoots, uuid)) return foundItem;
+		else if (auto foundItem = getRefItemRoot(_windowRoots, uuid)) return foundItem;
+		else if (auto foundItem = getRefItemRoot(_themeRegistryRoots, uuid)) return foundItem;
+		else if (auto foundItem = getRefItemRoot(_itemPoolRoots, uuid)) return foundItem;
+		else if (auto foundItem = getRefItemRoot(_itemTemplatesRoots, uuid)) return foundItem;
 
 		if (_stagingArea.count(uuid) != 0)
 			return _stagingArea[uuid];
@@ -719,15 +912,38 @@ namespace Marvel {
 
 	bool mvItemRegistry::addWindow(mvRef<mvAppItem> item)
 	{
-		//MV_ITEM_REGISTRY_INFO("Adding window: " + item->_name);
-		_roots.push_back(item);
+
+		if (item->getType() == mvAppItemType::mvWindowAppItem) _windowRoots.push_back(item);
+		if (item->getType() == mvAppItemType::mvColorMapRegistry) _colormapRoots.push_back(item);
+		if (item->getType() == mvAppItemType::mvFileDialog) _filedialogRoots.push_back(item);
+		if (item->getType() == mvAppItemType::mvStagingContainer) _stagingRoots.push_back(item);
+		if (item->getType() == mvAppItemType::mvViewportMenuBar) _viewportMenubarRoots.push_back(item);
+		if (item->getType() == mvAppItemType::mvFontRegistry) _fontRegistryRoots.push_back(item);
+		if (item->getType() == mvAppItemType::mvHandlerRegistry) _handlerRegistryRoots.push_back(item);
+		if (item->getType() == mvAppItemType::mvTextureRegistry) _textureRegistryRoots.push_back(item);
+		if (item->getType() == mvAppItemType::mvValueRegistry) _valueRegistryRoots.push_back(item);
+		if (item->getType() == mvAppItemType::mvTheme) _themeRegistryRoots.push_back(item);
+		if (item->getType() == mvAppItemType::mvItemPool) _itemPoolRoots.push_back(item);
+		if (item->getType() == mvAppItemType::mvTemplateRegistry) _itemTemplatesRoots.push_back(item);
+
 		return true;
 	}
 
 	void mvItemRegistry::clearRegistry()
 	{
 		MV_ITEM_REGISTRY_INFO("Clearing item registry.");
-		_roots.clear();
+		_colormapRoots.clear();
+		_filedialogRoots.clear();
+		_stagingRoots.clear();
+		_viewportMenubarRoots.clear();
+		_windowRoots.clear();
+		_fontRegistryRoots.clear();
+		_handlerRegistryRoots.clear();
+		_textureRegistryRoots.clear();
+		_valueRegistryRoots.clear();
+		_themeRegistryRoots.clear();
+		_itemPoolRoots.clear();
+		_itemTemplatesRoots.clear();
 	}
 
 	void mvItemRegistry::cleanUpItem(mvUUID uuid)
@@ -762,7 +978,6 @@ namespace Marvel {
 		if (!item->getState().isOk())
 			return false;
 
-		
 		//---------------------------------------------------------------------------
 		// STEP 0: updata "last" information
 		//---------------------------------------------------------------------------
@@ -816,7 +1031,7 @@ namespace Marvel {
 
 			if (mvApp::IsAppStarted())
 			{
-				_roots.push_back(item);
+				addWindow(item);
 				return true;
 			}
 			return addWindow(item);
@@ -939,11 +1154,8 @@ namespace Marvel {
 		return childList;
 	}
 
-	std::vector<mvUUID> mvItemRegistry::getAllItems()
+	void mvItemRegistry::getAllItemsRoot(std::vector<mvRef<mvAppItem>>& roots, std::vector<mvUUID>& childList)
 	{
-
-		std::vector<mvUUID> childList;
-
 		// to help recursively retrieve children
 		std::function<void(mvRef<mvAppItem>)> ChildRetriever;
 		ChildRetriever = [&childList, &ChildRetriever](mvRef<mvAppItem> item) {
@@ -971,11 +1183,30 @@ namespace Marvel {
 
 		};
 
-		for (auto& window : _roots)
+		for (auto& root : roots)
 		{
-			childList.emplace_back(window->_uuid);
-			ChildRetriever(window);
+			childList.emplace_back(root->_uuid);
+			ChildRetriever(root);
 		}
+	}
+
+	std::vector<mvUUID> mvItemRegistry::getAllItems()
+	{
+
+		std::vector<mvUUID> childList;
+
+		getAllItemsRoot(_colormapRoots, childList);
+		getAllItemsRoot(_filedialogRoots, childList);
+		getAllItemsRoot(_stagingRoots, childList);
+		getAllItemsRoot(_viewportMenubarRoots, childList);
+		getAllItemsRoot(_windowRoots, childList);
+		getAllItemsRoot(_fontRegistryRoots, childList);
+		getAllItemsRoot(_handlerRegistryRoots, childList);
+		getAllItemsRoot(_textureRegistryRoots, childList);
+		getAllItemsRoot(_valueRegistryRoots, childList);
+		getAllItemsRoot(_themeRegistryRoots, childList);
+		getAllItemsRoot(_itemPoolRoots, childList);
+		getAllItemsRoot(_itemTemplatesRoots, childList);
 
 		return childList;
 	}
@@ -984,8 +1215,18 @@ namespace Marvel {
 	{
 
 		std::vector<mvUUID> childList;
-		for (auto& window : _roots)
-			childList.emplace_back(window->_uuid);
+		for (auto& root : _colormapRoots) childList.emplace_back(root->_uuid);
+		for (auto& root : _filedialogRoots) childList.emplace_back(root->_uuid);
+		for (auto& root : _stagingRoots) childList.emplace_back(root->_uuid);
+		for (auto& root : _viewportMenubarRoots) childList.emplace_back(root->_uuid);
+		for (auto& root : _windowRoots) childList.emplace_back(root->_uuid);
+		for (auto& root : _fontRegistryRoots) childList.emplace_back(root->_uuid);
+		for (auto& root : _handlerRegistryRoots) childList.emplace_back(root->_uuid);
+		for (auto& root : _textureRegistryRoots) childList.emplace_back(root->_uuid);
+		for (auto& root : _valueRegistryRoots) childList.emplace_back(root->_uuid);
+		for (auto& root : _themeRegistryRoots) childList.emplace_back(root->_uuid);
+		for (auto& root : _itemPoolRoots) childList.emplace_back(root->_uuid);
+		for (auto& root : _itemTemplatesRoots) childList.emplace_back(root->_uuid);
 
 		return childList;
 	}
@@ -1010,9 +1251,9 @@ namespace Marvel {
 		}
 
 		// reset other windows
-		for (auto& window : _roots)
+		for (auto& window : _windowRoots)
 		{
-			if (window->_uuid != uuid && window->getType() == mvAppItemType::mvWindowAppItem)
+			if (window->_uuid != uuid)
 				static_cast<mvWindowAppItem*>(window.get())->setWindowAsMainStatus(false);
 		}
 
@@ -1048,14 +1289,22 @@ namespace Marvel {
 
 	void mvItemRegistry::stageItem(mvUUID uuid)
 	{
-		mvRef<mvAppItem> child;
+		mvRef<mvAppItem> child = nullptr;
 
-		for (auto& window : _roots)
-		{
-			child = window->stealChild(uuid);
-			if (child)
-				break;
-		}
+		bool stoleItem = false;
+
+		if (moveRoot(_colormapRoots, uuid, child)) stoleItem = true;
+		else if (moveRoot(_filedialogRoots, uuid, child)) stoleItem = true;
+		else if (moveRoot(_stagingRoots, uuid, child)) stoleItem = true;
+		else if (moveRoot(_viewportMenubarRoots, uuid, child)) stoleItem = true;
+		else if (moveRoot(_fontRegistryRoots, uuid, child)) stoleItem = true;
+		else if (moveRoot(_handlerRegistryRoots, uuid, child)) stoleItem = true;
+		else if (moveRoot(_textureRegistryRoots, uuid, child)) stoleItem = true;
+		else if (moveRoot(_valueRegistryRoots, uuid, child)) stoleItem = true;
+		else if (moveRoot(_windowRoots, uuid, child)) stoleItem = true;
+		else if (moveRoot(_themeRegistryRoots, uuid, child)) stoleItem = true;
+		else if (moveRoot(_itemPoolRoots, uuid, child)) stoleItem = true;
+		else if (moveRoot(_itemTemplatesRoots, uuid, child)) stoleItem = true;
 
 		if (child == nullptr)
 		{
@@ -1127,6 +1376,21 @@ namespace Marvel {
 		if (doesAliasExist(alias))
 			return _aliases[alias];
 		return 0;
+	}
+
+	void mvItemRegistry::tryBoundTemplateRegistry(mvAppItem* item) const
+	{
+		if (_boundedTemplateRegistry)
+		{
+			for (auto& tempItem : _boundedTemplateRegistry->_children[item->getTarget()])
+			{
+				if (tempItem->getType() == item->getType())
+				{
+					item->applyTemplate(tempItem.get());
+					return;
+				}
+			}
+		}
 	}
 
 	PyObject* mvItemRegistry::pop_container_stack(PyObject* self, PyObject* args, PyObject* kwargs)
@@ -1452,15 +1716,19 @@ namespace Marvel {
 
 		int allow_alias_overwrites = false;
 		int manual_alias_management = false;
+		int skip_optional_args = false;
+		int skip_required_args = false;
 
 		if (!(mvApp::GetApp()->getParsers())["configure_item_registry"].parse(args, kwargs, __FUNCTION__, 
-			&allow_alias_overwrites, &manual_alias_management))
+			&allow_alias_overwrites, &manual_alias_management, &skip_required_args, &skip_optional_args))
 			return GetPyNone();
 
 		if (!mvApp::s_manualMutexControl) std::lock_guard<std::mutex> lk(mvApp::s_mutex);
 
 		mvApp::GetApp()->getItemRegistry()._allowAliasOverwrites = allow_alias_overwrites;
 		mvApp::GetApp()->getItemRegistry()._manualAliasManagement = manual_alias_management;
+		mvApp::GetApp()->getItemRegistry()._skipOptionalArgs = skip_optional_args;
+		mvApp::GetApp()->getItemRegistry()._skipRequiredArgs = skip_required_args;
 
 		return GetPyNone();
 	}
@@ -1472,6 +1740,8 @@ namespace Marvel {
 		PyObject* pdict = PyDict_New();
 		PyDict_SetItemString(pdict, "allow_alias_overwrites", ToPyBool(registry._allowAliasOverwrites));
 		PyDict_SetItemString(pdict, "manual_alias_management", ToPyBool(registry._manualAliasManagement));
+		PyDict_SetItemString(pdict, "skip_optional_args", ToPyBool(registry._skipOptionalArgs));
+		PyDict_SetItemString(pdict, "skip_required_args", ToPyBool(registry._skipRequiredArgs));
 		return pdict;
 	}
 
@@ -1552,4 +1822,37 @@ namespace Marvel {
 
 		return ToPyList(aliases);
 	}
+
+	PyObject* mvItemRegistry::bind_template_registry(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+
+		PyObject* itemraw;
+
+		if (!(mvApp::GetApp()->getParsers())["bind_template_registry"].parse(args, kwargs, __FUNCTION__,
+			&itemraw))
+			return GetPyNone();
+
+		if (!mvApp::s_manualMutexControl) std::lock_guard<std::mutex> lk(mvApp::s_mutex);
+
+		mvUUID item = mvAppItem::GetIDFromPyObject(itemraw);
+
+
+		if (item == 0)
+			mvApp::GetApp()->getItemRegistry()._boundedTemplateRegistry = nullptr;
+		else
+		{
+			auto actualItem = mvApp::GetApp()->getItemRegistry().getRefItem(item);
+			if (actualItem)
+				mvApp::GetApp()->getItemRegistry()._boundedTemplateRegistry = actualItem;
+			else
+			{
+				mvThrowPythonError(mvErrorCode::mvItemNotFound, "bind_template_registry",
+					"Item not found: " + std::to_string(item), nullptr);
+				return GetPyNone();
+			}
+		}
+
+		return GetPyNone();
+	}
+
 }

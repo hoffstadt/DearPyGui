@@ -24,7 +24,8 @@ namespace Marvel {
 			MV_ADD_CHILD(mvAppItemType::mvFontChars),
 			MV_ADD_CHILD(mvAppItemType::mvFontRange),
 			MV_ADD_CHILD(mvAppItemType::mvCharRemap),
-			MV_ADD_CHILD(mvAppItemType::mvFontRangeHint)
+			MV_ADD_CHILD(mvAppItemType::mvFontRangeHint),
+			MV_ADD_CHILD(mvAppItemType::mvTemplateRegistry),
 		MV_END_CHILDREN
 
 	public:
