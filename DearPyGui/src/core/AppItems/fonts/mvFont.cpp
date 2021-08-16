@@ -203,7 +203,7 @@ namespace Marvel {
 		if (dict == nullptr)
 			return;
 
-		PyDict_SetItemString(dict, "default_font", ToPyBool(_default));
+		PyDict_SetItemString(dict, "default_font", mvPyObject(ToPyBool(_default)));
 	}
 
 }

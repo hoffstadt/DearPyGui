@@ -21,6 +21,7 @@
 #include "mvPlotAxis.h"
 #include "themes/mvTheme.h"
 #include "containers/mvDragPayload.h"
+#include "mvPyObject.h"
 
 namespace Marvel {
 
@@ -424,26 +425,40 @@ namespace Marvel {
 	{
 		if (dict == nullptr)
 			return;
-	
-		PyDict_SetItemString(dict, "x_axis_name", ToPyString(_xaxisName));
 
-		PyDict_SetItemString(dict, "pan_button", ToPyInt(_pan_button));
-		PyDict_SetItemString(dict, "pan_mod", ToPyInt(_pan_mod));
-		PyDict_SetItemString(dict, "fit_button", ToPyInt(_fit_button));
-		PyDict_SetItemString(dict, "context_menu_button", ToPyInt(_context_menu_button));
-		PyDict_SetItemString(dict, "box_select_button", ToPyInt(_box_select_button));
-		PyDict_SetItemString(dict, "box_select_mod", ToPyInt(_box_select_mod));
-		PyDict_SetItemString(dict, "box_select_cancel_button", ToPyInt(_box_select_cancel_button));
-		PyDict_SetItemString(dict, "query_button", ToPyInt(_query_button));
-		PyDict_SetItemString(dict, "query_mod", ToPyInt(_query_mod));
-		PyDict_SetItemString(dict, "query_toggle_mod", ToPyInt(_query_toggle_mod));
-		PyDict_SetItemString(dict, "horizontal_mod", ToPyInt(_horizontal_mod));
-		PyDict_SetItemString(dict, "vertical_mod", ToPyInt(_vertical_mod));
+		mvPyObject py_x_axis_name = ToPyString(_xaxisName);
+		mvPyObject py_pan_button = ToPyInt(_pan_button);
+		mvPyObject py_pan_mod = ToPyInt(_pan_mod);
+		mvPyObject py_fit_button = ToPyInt(_fit_button);
+		mvPyObject py_context_menu_button = ToPyInt(_context_menu_button);
+		mvPyObject py_box_select_button = ToPyInt(_box_select_button);
+		mvPyObject py_box_select_mod = ToPyInt(_box_select_mod);
+		mvPyObject py_box_select_cancel_button = ToPyInt(_box_select_cancel_button);
+		mvPyObject py_query_button = ToPyInt(_query_button);
+		mvPyObject py_query_mod = ToPyInt(_query_mod);
+		mvPyObject py_query_toggle_mod = ToPyInt(_query_toggle_mod);
+		mvPyObject py_horizontal_mod = ToPyInt(_horizontal_mod);
+		mvPyObject py_vertical_mod = ToPyInt(_vertical_mod);
+	
+		PyDict_SetItemString(dict, "x_axis_name", py_x_axis_name);
+		PyDict_SetItemString(dict, "pan_button", py_pan_button);
+		PyDict_SetItemString(dict, "pan_mod", py_pan_mod);
+		PyDict_SetItemString(dict, "fit_button", py_fit_button);
+		PyDict_SetItemString(dict, "context_menu_button", py_context_menu_button);
+		PyDict_SetItemString(dict, "box_select_button", py_box_select_button);
+		PyDict_SetItemString(dict, "box_select_mod", py_box_select_mod);
+		PyDict_SetItemString(dict, "box_select_cancel_button", py_box_select_cancel_button);
+		PyDict_SetItemString(dict, "query_button", py_query_button);
+		PyDict_SetItemString(dict, "query_mod", py_query_mod);
+		PyDict_SetItemString(dict, "query_toggle_mod", py_query_toggle_mod);
+		PyDict_SetItemString(dict, "horizontal_mod", py_horizontal_mod);
+		PyDict_SetItemString(dict, "vertical_mod", py_vertical_mod);
 
 		// helper to check and set bit
 		auto checkbitset = [dict](const char* keyword, int flag, const int& flags)
 		{
-			PyDict_SetItemString(dict, keyword, ToPyBool(flags & flag));
+			mvPyObject py_result = ToPyBool(flags & flag);
+			PyDict_SetItemString(dict, keyword, py_result);
 		};
 
 		// plot flags

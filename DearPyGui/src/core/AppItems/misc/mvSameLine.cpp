@@ -1,6 +1,6 @@
 #include "mvSameLine.h"
 #include "mvItemRegistry.h"
-//#include "mvImGuiThemeScope.h"
+#include "mvPyObject.h"
 
 namespace Marvel {
 
@@ -49,8 +49,8 @@ namespace Marvel {
 		if (dict == nullptr)
 			return;
 
-		PyDict_SetItemString(dict, "xoffset", ToPyFloat(_xoffset));
-		PyDict_SetItemString(dict, "spacing", ToPyFloat(_spacing));
+		PyDict_SetItemString(dict, "xoffset", mvPyObject(ToPyFloat(_xoffset)));
+		PyDict_SetItemString(dict, "spacing", mvPyObject(ToPyFloat(_spacing)));
 	}
 
 }

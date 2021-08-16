@@ -7,6 +7,7 @@
 #include "AppItems/fonts/mvFont.h"
 #include "AppItems/themes/mvTheme.h"
 #include "AppItems/containers/mvDragPayload.h"
+#include "mvPyObject.h"
 
 namespace Marvel {
 
@@ -249,12 +250,19 @@ namespace Marvel {
 		if (dict == nullptr)
 			return;
 
-		PyDict_SetItemString(dict, "texture_id", ToPyUUID(_textureUUID));
-		PyDict_SetItemString(dict, "uv_min", ToPyPair(_uv_min.x, _uv_min.y));
-		PyDict_SetItemString(dict, "uv_max", ToPyPair(_uv_max.x, _uv_max.y));
-		PyDict_SetItemString(dict, "tint_color", ToPyColor(_tintColor));
-		PyDict_SetItemString(dict, "bounds_min", ToPyPair(_bounds_min.x, _bounds_min.y));
-		PyDict_SetItemString(dict, "bounds_max", ToPyPair(_bounds_max.x, _bounds_max.y));
+		mvPyObject py_texture_id = ToPyUUID(_textureUUID);
+		mvPyObject py_uv_min = ToPyPair(_uv_min.x, _uv_min.y);
+		mvPyObject py_uv_max = ToPyPair(_uv_max.x, _uv_max.y);
+		mvPyObject py_tint_color = ToPyColor(_tintColor);
+		mvPyObject py_bounds_min = ToPyPair(_bounds_min.x, _bounds_min.y);
+		mvPyObject py_bounds_max = ToPyPair(_bounds_max.x, _bounds_max.y);
+
+		PyDict_SetItemString(dict, "texture_id", py_texture_id);
+		PyDict_SetItemString(dict, "uv_min", py_uv_min);
+		PyDict_SetItemString(dict, "uv_max", py_uv_max);
+		PyDict_SetItemString(dict, "tint_color", py_tint_color);
+		PyDict_SetItemString(dict, "bounds_min", py_bounds_min);
+		PyDict_SetItemString(dict, "bounds_max", py_bounds_max);
 	}
 
 }

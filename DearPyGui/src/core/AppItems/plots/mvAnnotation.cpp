@@ -5,6 +5,7 @@
 #include "mvLog.h"
 #include "mvItemRegistry.h"
 #include "mvPythonExceptions.h"
+#include "mvPyObject.h"
 
 namespace Marvel {
 
@@ -103,9 +104,14 @@ namespace Marvel {
 	{
 		if (dict == nullptr)
 			return;
-		PyDict_SetItemString(dict, "color", ToPyColor(_color));
-		PyDict_SetItemString(dict, "clamped", ToPyBool(_clamped));
-		PyDict_SetItemString(dict, "offset", ToPyPair(_pixOffset.x, _pixOffset.y));
+
+		mvPyObject py_color = ToPyColor(_color);
+		mvPyObject py_clamped = ToPyBool(_clamped);
+		mvPyObject py_offset = ToPyPair(_pixOffset.x, _pixOffset.y);
+
+		PyDict_SetItemString(dict, "color", py_color);
+		PyDict_SetItemString(dict, "clamped", py_clamped);
+		PyDict_SetItemString(dict, "offset", py_offset);
 
 	}
 

@@ -6,6 +6,7 @@
 #include "AppItems/fonts/mvFont.h"
 #include "AppItems/themes/mvTheme.h"
 #include "AppItems/containers/mvDragPayload.h"
+#include "mvPyObject.h"
 
 namespace Marvel {
 
@@ -303,10 +304,15 @@ namespace Marvel {
 		if (dict == nullptr)
 			return;
 
-		PyDict_SetItemString(dict, "bull_color", ToPyColor(_bullColor));
-		PyDict_SetItemString(dict, "bear_color", ToPyColor(_bearColor));
-		PyDict_SetItemString(dict, "weight", ToPyFloat(_weight));
-		PyDict_SetItemString(dict, "tooltip", ToPyBool(_tooltip));
+		mvPyObject py_bull_color = ToPyColor(_bullColor);
+		mvPyObject py_bear_color = ToPyColor(_bearColor);
+		mvPyObject py_weight = ToPyFloat(_weight);
+		mvPyObject py_tooltip = ToPyBool(_tooltip);
+
+		PyDict_SetItemString(dict, "bull_color", py_bull_color);
+		PyDict_SetItemString(dict, "bear_color", py_bear_color);
+		PyDict_SetItemString(dict, "weight", py_weight);
+		PyDict_SetItemString(dict, "tooltip", py_tooltip);
 	}
 
 }

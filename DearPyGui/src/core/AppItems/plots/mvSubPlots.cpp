@@ -21,6 +21,7 @@
 #include "mvPlotAxis.h"
 #include "themes/mvTheme.h"
 #include "containers/mvDragPayload.h"
+#include "mvPyObject.h"
 
 namespace Marvel {
 
@@ -188,15 +189,15 @@ namespace Marvel {
 		if (dict == nullptr)
 			return;
 
-		PyDict_SetItemString(dict, "rows", ToPyInt(_rows));
-		PyDict_SetItemString(dict, "cols", ToPyInt(_cols));
-		PyDict_SetItemString(dict, "row_ratios", ToPyList(_row_ratios));
-		PyDict_SetItemString(dict, "column_ratios", ToPyList(_col_ratios));
+		PyDict_SetItemString(dict, "rows", mvPyObject(ToPyInt(_rows)));
+		PyDict_SetItemString(dict, "cols", mvPyObject(ToPyInt(_cols)));
+		PyDict_SetItemString(dict, "row_ratios", mvPyObject(ToPyList(_row_ratios)));
+		PyDict_SetItemString(dict, "column_ratios", mvPyObject(ToPyList(_col_ratios)));
 
 		// helper to check and set bit
 		auto checkbitset = [dict](const char* keyword, int flag, const int& flags)
 		{
-			PyDict_SetItemString(dict, keyword, ToPyBool(flags & flag));
+			PyDict_SetItemString(dict, keyword, mvPyObject(ToPyBool(flags & flag)));
 		};
 
 		// subplot flags

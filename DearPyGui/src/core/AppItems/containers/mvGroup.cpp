@@ -84,8 +84,8 @@ namespace Marvel {
 		if (dict == nullptr)
 			return;
 		 
-		PyDict_SetItemString(dict, "horizontal", ToPyBool(_horizontal));
-		PyDict_SetItemString(dict, "horizontal_spacing", ToPyFloat(_hspacing));
+		PyDict_SetItemString(dict, "horizontal", mvPyObject(ToPyBool(_horizontal)));
+		PyDict_SetItemString(dict, "horizontal_spacing", mvPyObject(ToPyFloat(_hspacing)));
 	}
 
 }

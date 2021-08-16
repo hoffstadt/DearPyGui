@@ -7,6 +7,7 @@
 #include "AppItems/fonts/mvFont.h"
 #include "AppItems/themes/mvTheme.h"
 #include "AppItems/containers/mvDragPayload.h"
+#include "mvPyObject.h"
 
 namespace Marvel {
 
@@ -223,13 +224,21 @@ namespace Marvel {
 		if (dict == nullptr)
 			return;
 
-		PyDict_SetItemString(dict, "format", ToPyString(_format));
-		PyDict_SetItemString(dict, "rows", ToPyInt(_rows));
-		PyDict_SetItemString(dict, "cols", ToPyInt(_cols));
-		PyDict_SetItemString(dict, "bounds_min", ToPyPair(_bounds_min.x, _bounds_min.y));
-		PyDict_SetItemString(dict, "bounds_max", ToPyPair(_bounds_max.x, _bounds_max.y));
-		PyDict_SetItemString(dict, "scale_min", ToPyDouble(_scale_min));
-		PyDict_SetItemString(dict, "scale_max", ToPyDouble(_scale_max));
+		mvPyObject py_format = ToPyString(_format);
+		mvPyObject py_rows = ToPyInt(_rows);
+		mvPyObject py_cols = ToPyInt(_cols);
+		mvPyObject py_bounds_min = ToPyPair(_bounds_min.x, _bounds_min.y);
+		mvPyObject py_bounds_max = ToPyPair(_bounds_max.x, _bounds_max.y);
+		mvPyObject py_scale_min = ToPyDouble(_scale_min);
+		mvPyObject py_scale_max = ToPyDouble(_scale_max);
+
+		PyDict_SetItemString(dict, "format", py_format);
+		PyDict_SetItemString(dict, "rows", py_rows);
+		PyDict_SetItemString(dict, "cols", py_cols);
+		PyDict_SetItemString(dict, "bounds_min", py_bounds_min);
+		PyDict_SetItemString(dict, "bounds_max", py_bounds_max);
+		PyDict_SetItemString(dict, "scale_min", py_scale_min);
+		PyDict_SetItemString(dict, "scale_max", py_scale_max);
 	}
 
 }

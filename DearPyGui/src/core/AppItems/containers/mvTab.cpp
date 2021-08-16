@@ -172,24 +172,24 @@ namespace Marvel {
 		if (dict == nullptr)
 			return;
 		 
-		PyDict_SetItemString(dict, "closable", ToPyBool(_closable));
+		PyDict_SetItemString(dict, "closable", mvPyObject(ToPyBool(_closable)));
 
 		// helper to check and set bit
 		auto checkbitset = [dict](const char* keyword, int flag, const int& flags)
 		{
-			PyDict_SetItemString(dict, keyword, ToPyBool(flags & flag));
+			PyDict_SetItemString(dict, keyword, mvPyObject(ToPyBool(flags & flag)));
 		};
 
 		checkbitset("no_tooltip", ImGuiTabItemFlags_NoTooltip, _flags);
 
 		if(_flags & ImGuiTabItemFlags_Leading)
-			PyDict_SetItemString(dict, "order_mode", ToPyUUID((long)mvTab::TabOrdering::mvTabOrder_Leading));
+			PyDict_SetItemString(dict, "order_mode", mvPyObject(ToPyUUID((long)mvTab::TabOrdering::mvTabOrder_Leading)));
 		else if (_flags & ImGuiTabItemFlags_Trailing)
-			PyDict_SetItemString(dict, "order_mode", ToPyUUID((long)mvTab::TabOrdering::mvTabOrder_Trailing));
+			PyDict_SetItemString(dict, "order_mode", mvPyObject(ToPyUUID((long)mvTab::TabOrdering::mvTabOrder_Trailing)));
 		else if (_flags & ImGuiTabBarFlags_Reorderable)
-			PyDict_SetItemString(dict, "order_mode", ToPyUUID((long)mvTab::TabOrdering::mvTabOrder_Reorderable));
+			PyDict_SetItemString(dict, "order_mode", mvPyObject(ToPyUUID((long)mvTab::TabOrdering::mvTabOrder_Reorderable)));
 		else
-			PyDict_SetItemString(dict, "order_mode", ToPyUUID((long)mvTab::TabOrdering::mvTabOrder_Fixed));
+			PyDict_SetItemString(dict, "order_mode", mvPyObject(ToPyUUID((long)mvTab::TabOrdering::mvTabOrder_Fixed)));
 
 	}
 

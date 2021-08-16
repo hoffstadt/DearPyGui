@@ -8,6 +8,7 @@
 #include <Python.h>
 
 #include "mvPythonExceptions.h"
+#include "mvPyObject.h"
 
 namespace Marvel {
 
@@ -144,24 +145,24 @@ namespace Marvel {
 		if (dict == nullptr)
 			return;
 
-		PyDict_SetItemString(dict, "clear_color", ToPyColor(_clearColor));
-		PyDict_SetItemString(dict, "small_icon",  ToPyString(_small_icon));
-		PyDict_SetItemString(dict, "large_icon", ToPyString(_large_icon));
-		PyDict_SetItemString(dict, "x_pos", ToPyInt(_xpos));
-		PyDict_SetItemString(dict, "y_pos", ToPyInt(_ypos));
-		PyDict_SetItemString(dict, "width", ToPyInt(_actualWidth));
-		PyDict_SetItemString(dict, "height", ToPyInt(_actualHeight));
-		PyDict_SetItemString(dict, "client_width", ToPyInt(_clientWidth));
-		PyDict_SetItemString(dict, "client_height", ToPyInt(_clientHeight));
-		PyDict_SetItemString(dict, "resizable", ToPyBool(_resizable));
-		PyDict_SetItemString(dict, "vsync", ToPyBool(_vsync));
-		PyDict_SetItemString(dict, "min_width",  ToPyInt(_minwidth ));
-		PyDict_SetItemString(dict, "max_width",  ToPyInt(_maxwidth ));
-		PyDict_SetItemString(dict, "min_height", ToPyInt(_minheight));
-		PyDict_SetItemString(dict, "max_height", ToPyInt(_maxheight));
-		PyDict_SetItemString(dict, "always_on_top", ToPyBool(_alwaysOnTop));
-		PyDict_SetItemString(dict, "decorated", ToPyBool(_decorated));
-		PyDict_SetItemString(dict, "title", ToPyString(_title));
+		PyDict_SetItemString(dict, "clear_color", mvPyObject(ToPyColor(_clearColor)));
+		PyDict_SetItemString(dict, "small_icon", mvPyObject(ToPyString(_small_icon)));
+		PyDict_SetItemString(dict, "large_icon", mvPyObject(ToPyString(_large_icon)));
+		PyDict_SetItemString(dict, "x_pos", mvPyObject(ToPyInt(_xpos)));
+		PyDict_SetItemString(dict, "y_pos", mvPyObject(ToPyInt(_ypos)));
+		PyDict_SetItemString(dict, "width", mvPyObject(ToPyInt(_actualWidth)));
+		PyDict_SetItemString(dict, "height",mvPyObject( ToPyInt(_actualHeight)));
+		PyDict_SetItemString(dict, "client_width", mvPyObject(ToPyInt(_clientWidth)));
+		PyDict_SetItemString(dict, "client_height", mvPyObject(ToPyInt(_clientHeight)));
+		PyDict_SetItemString(dict, "resizable", mvPyObject(ToPyBool(_resizable)));
+		PyDict_SetItemString(dict, "vsync", mvPyObject(ToPyBool(_vsync)));
+		PyDict_SetItemString(dict, "min_width",  mvPyObject(ToPyInt(_minwidth )));
+		PyDict_SetItemString(dict, "max_width",  mvPyObject(ToPyInt(_maxwidth )));
+		PyDict_SetItemString(dict, "min_height", mvPyObject(ToPyInt(_minheight)));
+		PyDict_SetItemString(dict, "max_height", mvPyObject(ToPyInt(_maxheight)));
+		PyDict_SetItemString(dict, "always_on_top", mvPyObject(ToPyBool(_alwaysOnTop)));
+		PyDict_SetItemString(dict, "decorated", mvPyObject(ToPyBool(_decorated)));
+		PyDict_SetItemString(dict, "title", mvPyObject(ToPyString(_title)));
 
 	}
 

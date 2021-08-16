@@ -100,7 +100,7 @@ namespace Marvel {
 		if (dict == nullptr)
 			return;
 
-		PyDict_SetItemString(dict, "button", ToPyInt(_button));
-		PyDict_SetItemString(dict, "threshold", ToPyFloat(_threshold));
+		PyDict_SetItemString(dict, "button", mvPyObject(ToPyInt(_button)));
+		PyDict_SetItemString(dict, "threshold", mvPyObject(ToPyFloat(_threshold)));
 	}
 }

@@ -133,14 +133,14 @@ namespace Marvel {
 		if (dict == nullptr)
 			return;
 		 
-		PyDict_SetItemString(dict, "border", ToPyBool(_border));
-		PyDict_SetItemString(dict, "autosize_x", ToPyBool(_autosize_x));
-		PyDict_SetItemString(dict, "autosize_y", ToPyBool(_autosize_y));
+		PyDict_SetItemString(dict, "border", mvPyObject(ToPyBool(_border)));
+		PyDict_SetItemString(dict, "autosize_x", mvPyObject(ToPyBool(_autosize_x)));
+		PyDict_SetItemString(dict, "autosize_y", mvPyObject(ToPyBool(_autosize_y)));
 
 		// helper for bit flipping
 		auto checkbitset = [dict](const char* keyword, int flag, const int& flags)
 		{
-			PyDict_SetItemString(dict, keyword, ToPyBool(flags & flag));
+			PyDict_SetItemString(dict, keyword, mvPyObject(ToPyBool(flags & flag)));
 		};
 
 		// window flags

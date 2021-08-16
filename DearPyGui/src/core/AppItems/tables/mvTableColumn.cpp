@@ -4,6 +4,7 @@
 #include "mvLog.h"
 #include "mvItemRegistry.h"
 #include "mvPythonExceptions.h"
+#include "mvPyObject.h"
 
 namespace Marvel {
 
@@ -91,12 +92,15 @@ namespace Marvel {
 		if (dict == nullptr)
 			return;
 
-		PyDict_SetItemString(dict, "init_width_or_weight", ToPyFloat(_init_width_or_weight));
+		mvPyObject py_init_width_or_weight = ToPyFloat(_init_width_or_weight);
+
+		PyDict_SetItemString(dict, "init_width_or_weight", py_init_width_or_weight);
 
 		// helper to check and set bit
 		auto checkbitset = [dict](const char* keyword, int flag, const int& flags)
 		{
-			PyDict_SetItemString(dict, keyword, ToPyBool(flags & flag));
+			mvPyObject py_value = ToPyBool(flags & flag);
+			PyDict_SetItemString(dict, keyword, py_value);
 		};
 
 		checkbitset("default_hide", ImGuiTableColumnFlags_DefaultHide, _flags);

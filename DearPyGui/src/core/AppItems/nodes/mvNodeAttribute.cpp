@@ -6,6 +6,7 @@
 #include "mvItemRegistry.h"
 #include "mvNodeEditor.h"
 #include "mvPythonExceptions.h"
+#include "mvPyObject.h"
 
 namespace Marvel {
 
@@ -110,9 +111,9 @@ namespace Marvel {
 		if (dict == nullptr)
 			return;
 
-		PyDict_SetItemString(dict, "attribute_type", ToPyUUID((long)_attrType));
-		PyDict_SetItemString(dict, "shape", ToPyInt((int)_shape));
-		PyDict_SetItemString(dict, "category", ToPyString(_category));
+		PyDict_SetItemString(dict, "attribute_type", mvPyObject(ToPyUUID((long)_attrType)));
+		PyDict_SetItemString(dict, "shape", mvPyObject(ToPyInt((int)_shape)));
+		PyDict_SetItemString(dict, "category", mvPyObject(ToPyString(_category)));
 	}
 
 }

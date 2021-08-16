@@ -3,6 +3,7 @@
 #include "mvApp.h"
 #include "mvItemRegistry.h"
 #include "mvPythonExceptions.h"
+#include "mvPyObject.h"
 
 namespace Marvel {
 
@@ -93,7 +94,7 @@ namespace Marvel {
 		if (dict == nullptr)
 			return;
 		 
-		PyDict_SetItemString(dict, "overlay", ToPyString(_overlay));
+		PyDict_SetItemString(dict, "overlay", mvPyObject(ToPyString(_overlay)));
 	}
 
 }

@@ -63,7 +63,7 @@ namespace Marvel {
 		if (dict == nullptr)
 			return;
 
-		PyDict_SetItemString(dict, "front", ToPyBool(_front));
+		PyDict_SetItemString(dict, "front", mvPyObject(ToPyBool(_front)));
 	}
 
 }

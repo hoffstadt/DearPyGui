@@ -74,8 +74,8 @@ namespace Marvel {
 		if (dict == nullptr)
 			return;
 
-		PyDict_SetItemString(dict, "shortcut", ToPyString(_shortcut));
-		PyDict_SetItemString(dict, "check", ToPyBool(_check));
+		PyDict_SetItemString(dict, "shortcut", mvPyObject(ToPyString(_shortcut)));
+		PyDict_SetItemString(dict, "check", mvPyObject(ToPyBool(_check)));
 	}
 
 	PyObject* mvMenuItem::getPyValue()

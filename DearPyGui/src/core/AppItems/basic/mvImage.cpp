@@ -302,11 +302,11 @@ namespace Marvel {
 		if (dict == nullptr)
 			return;
 
-		PyDict_SetItemString(dict, "uv_min", ToPyPair(_uv_min.x, _uv_min.y));
-		PyDict_SetItemString(dict, "uv_max", ToPyPair(_uv_max.x, _uv_max.y));
-		PyDict_SetItemString(dict, "tint_color", ToPyColor(_tintColor));
-		PyDict_SetItemString(dict, "border_color", ToPyColor(_borderColor));
-		PyDict_SetItemString(dict, "texture_id", ToPyUUID(_textureUUID));
+		PyDict_SetItemString(dict, "uv_min", mvPyObject(ToPyPair(_uv_min.x, _uv_min.y)));
+		PyDict_SetItemString(dict, "uv_max", mvPyObject(ToPyPair(_uv_max.x, _uv_max.y)));
+		PyDict_SetItemString(dict, "tint_color", mvPyObject(ToPyColor(_tintColor)));
+		PyDict_SetItemString(dict, "border_color", mvPyObject(ToPyColor(_borderColor)));
+		PyDict_SetItemString(dict, "texture_id", mvPyObject(ToPyUUID(_textureUUID)));
 	}
 
 }

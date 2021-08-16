@@ -6,6 +6,7 @@
 #include "AppItems/fonts/mvFont.h"
 #include "AppItems/themes/mvTheme.h"
 #include "AppItems/containers/mvDragPayload.h"
+#include "mvPyObject.h"
 
 namespace Marvel {
 
@@ -300,7 +301,9 @@ namespace Marvel {
 		if (dict == nullptr)
 			return;
 
-		PyDict_SetItemString(dict, "fill", ToPyColor(_fill));
+		mvPyObject py_fill = ToPyColor(_fill);
+
+		PyDict_SetItemString(dict, "fill", py_fill);
 
 	}
 

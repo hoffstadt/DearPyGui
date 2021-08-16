@@ -7,6 +7,7 @@
 #include "AppItems/fonts/mvFont.h"
 #include "AppItems/themes/mvTheme.h"
 #include "AppItems/containers/mvDragPayload.h"
+#include "mvPyObject.h"
 
 namespace Marvel {
 
@@ -227,13 +228,21 @@ namespace Marvel {
 		if (dict == nullptr)
 			return;
 
-		PyDict_SetItemString(dict, "format", ToPyString(_format));
-		PyDict_SetItemString(dict, "x", ToPyDouble(_x));
-		PyDict_SetItemString(dict, "y", ToPyDouble(_y));
-		PyDict_SetItemString(dict, "radius", ToPyDouble(_radius));
-		PyDict_SetItemString(dict, "angle", ToPyDouble(_angle));
-		PyDict_SetItemString(dict, "normalize", ToPyBool(_normalize));
-		PyDict_SetItemString(dict, "labels", ToPyList(_labels));
+		mvPyObject py_format = ToPyString(_format);
+		mvPyObject py_x = ToPyDouble(_x);
+		mvPyObject py_y = ToPyDouble(_y);
+		mvPyObject py_radius = ToPyDouble(_radius);
+		mvPyObject py_angle = ToPyDouble(_angle);
+		mvPyObject py_normalize = ToPyBool(_normalize);
+		mvPyObject py_labels = ToPyList(_labels);
+
+		PyDict_SetItemString(dict, "format", py_format);
+		PyDict_SetItemString(dict, "x", py_x);
+		PyDict_SetItemString(dict, "y", py_y);
+		PyDict_SetItemString(dict, "radius", py_radius);
+		PyDict_SetItemString(dict, "angle", py_angle);
+		PyDict_SetItemString(dict, "normalize", py_normalize);
+		PyDict_SetItemString(dict, "labels", py_labels);
 	}
 
 }
