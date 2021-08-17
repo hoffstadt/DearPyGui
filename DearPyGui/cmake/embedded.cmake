@@ -25,7 +25,7 @@ if(WIN32)
 	target_link_directories(coreemb PRIVATE "../Dependencies/cpython/PCbuild/amd64/")
 
 	# Add libraries to link to
-	target_link_libraries(coreemb PUBLIC d3d11 freetype $<$<CONFIG:Debug>:python39_d> $<$<CONFIG:Release>:python39>)
+	target_link_libraries(coreemb PUBLIC d3d11 dxgi freetype $<$<CONFIG:Debug>:python39_d> $<$<CONFIG:Release>:python39>)
 	
 ###############################################################################
 # Apple Specifics

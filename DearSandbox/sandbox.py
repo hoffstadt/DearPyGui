@@ -13,4 +13,6 @@ demo.show_demo()
 with dpg.window(label="tutorial"):
     dpg.add_button(label="Press me")
 
+
+dpg.setup_viewport()
 dpg.start_dearpygui()

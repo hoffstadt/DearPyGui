@@ -255,6 +255,8 @@ namespace Marvel {
 			parser.addArg<mvPyDataType::Bool>("docking_space", mvArgType::KEYWORD_ARG, "False", "add explicit dockspace over viewport");
 			parser.addArg<mvPyDataType::String>("load_init_file", mvArgType::KEYWORD_ARG, "''", "Load .ini file.");
 			parser.addArg<mvPyDataType::String>("init_file", mvArgType::KEYWORD_ARG, "''");
+			parser.addArg<mvPyDataType::Integer>("device", mvArgType::KEYWORD_ARG, "-1", "Which display adapter to use. (-1 will use default)");
+			parser.addArg<mvPyDataType::Bool>("auto_device", mvArgType::KEYWORD_ARG, "False", "Let us pick the display adapter.");
 			parser.finalize();
 			parsers->insert({ "configure_app", parser });
 		}
@@ -585,9 +587,11 @@ namespace Marvel {
 		int docking_space = false;
 		const char* load_init_file = "";
 		const char* init_file = "";
+		int device = -1;
+		int auto_device = false;
 
 		if (!(mvApp::GetApp()->getParsers())["configure_app"].parse(args, kwargs, __FUNCTION__,
-			&docking, &docking_space, &load_init_file, &init_file))
+			&docking, &docking_space, &load_init_file, &init_file, &device, &auto_device))
 			return GetPyNone();
 
 		if (!mvApp::s_manualMutexControl) std::lock_guard<std::mutex> lk(mvApp::s_mutex);
@@ -599,6 +603,8 @@ namespace Marvel {
 		}
 
 		mvApp::GetApp()->_iniFile = init_file;
+		mvApp::GetApp()->_info_device = device;
+		mvApp::GetApp()->_info_auto_device = auto_device;
 
 		if (!std::string(load_init_file).empty())
 		{
@@ -614,12 +620,15 @@ namespace Marvel {
 		if (!mvApp::s_manualMutexControl) std::lock_guard<std::mutex> lk(mvApp::s_mutex);
 		auto registry = mvApp::GetApp()->getItemRegistry();
 		PyObject* pdict = PyDict_New();
+		PyDict_SetItemString(pdict, "auto_device", mvPyObject(ToPyBool(mvApp::GetApp()->_info_auto_device)));
 		PyDict_SetItemString(pdict, "docking", mvPyObject(ToPyBool(mvApp::GetApp()->_docking)));
 		PyDict_SetItemString(pdict, "docking_space", mvPyObject(ToPyBool(mvApp::GetApp()->_docking)));
 		PyDict_SetItemString(pdict, "load_init_file", mvPyObject(ToPyBool(mvApp::GetApp()->_loadIniFile)));
 		PyDict_SetItemString(pdict, "version", mvPyObject(ToPyString(mvApp::GetApp()->GetVersion())));
 		PyDict_SetItemString(pdict, "init_file", mvPyObject(ToPyString(mvApp::GetApp()->_iniFile)));
 		PyDict_SetItemString(pdict, "platform", mvPyObject(ToPyString(mvApp::GetPlatform())));
+		PyDict_SetItemString(pdict, "device", mvPyObject(ToPyInt(mvApp::GetApp()->_info_device)));
+		PyDict_SetItemString(pdict, "device_name", mvPyObject(ToPyString(mvApp::GetApp()->_info_device_name)));
 		return pdict;
 	}
 }

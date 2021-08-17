@@ -24,7 +24,8 @@ We generally fold multiple commits pertaining to the same topic as a single entr
 
 ### New
 * module:  added `experimental`
-* command: added `add_item_pool(...)`
+* command: added `configure_app(...)`
+* command: added `get_app_configuration(...)`
 * command: added `add_item_set(...)`
 * command: added `add_template_registry(...)`
 * command: added `bind_template_registry(...)`

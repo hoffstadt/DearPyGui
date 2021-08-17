@@ -5698,7 +5698,7 @@ def clear_selected_nodes(node_editor : Union[int, str]) -> None:
 
 	return internal_dpg.clear_selected_nodes(node_editor)
 
-def configure_app(*, docking: bool =False, docking_space: bool =False, load_init_file: str ='', init_file: str ='') -> None:
+def configure_app(*, docking: bool =False, docking_space: bool =False, load_init_file: str ='', init_file: str ='', device: int =-1, auto_device: bool =False) -> None:
 	"""
 	Undocumented
 	Args:
@@ -5706,11 +5706,13 @@ def configure_app(*, docking: bool =False, docking_space: bool =False, load_init
 		**docking_space (bool): add explicit dockspace over viewport
 		**load_init_file (str): Load .ini file.
 		**init_file (str): 
+		**device (int): Which display adapter to use. (-1 will use default)
+		**auto_device (bool): Let us pick the display adapter.
 	Returns:
 		None
 	"""
 
-	return internal_dpg.configure_app(docking=docking, docking_space=docking_space, load_init_file=load_init_file, init_file=init_file)
+	return internal_dpg.configure_app(docking=docking, docking_space=docking_space, load_init_file=load_init_file, init_file=init_file, device=device, auto_device=auto_device)
 
 def configure_item_registry(*, allow_alias_overwrites: bool =False, manual_alias_management: bool =False, skip_required_args: bool =False, skip_optional_args: bool =False) -> None:
 	"""

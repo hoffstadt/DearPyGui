@@ -34,8 +34,6 @@ namespace Marvel {
 
 		void CleanupDeviceD3D();
 
-		static void CreateRenderTarget();
-
 		static void CleanupRenderTarget();
 
 	public:

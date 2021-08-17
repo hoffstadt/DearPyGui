@@ -190,6 +190,11 @@ namespace Marvel {
         std::future<bool> _future;
 
         bool _resetTheme = false;
+
+        // info
+        bool        _info_auto_device = false;
+        int         _info_device = -1;
+        std::string _info_device_name;
         
     };
 
