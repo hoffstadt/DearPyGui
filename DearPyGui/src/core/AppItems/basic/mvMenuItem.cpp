@@ -61,7 +61,10 @@ namespace Marvel {
 		// create menu item and see if its selected
 		if (ImGui::MenuItem(_internalLabel.c_str(), _shortcut.c_str(), _check ? _value.get() : nullptr, _enabled))
 		{
-			mvApp::GetApp()->getCallbackRegistry().addCallback(_callback, _uuid, nullptr, _user_data);
+			if(_alias.empty())
+				mvApp::GetApp()->getCallbackRegistry().addCallback(_callback, _uuid, nullptr, _user_data);
+			else
+				mvApp::GetApp()->getCallbackRegistry().addCallback(_callback, _alias, nullptr, _user_data);
 		}
 
 		ImGui::PopStyleColor();

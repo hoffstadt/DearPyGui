@@ -39,12 +39,20 @@ namespace Marvel {
 			auto parentPtr = static_cast<mvWindowAppItem*>(_parentPtr);
 			if (parentPtr->_resized && _callback)
 			{
-				mvApp::GetApp()->getCallbackRegistry().submitCallback([=]() {
+				if (_alias.empty())
+					mvApp::GetApp()->getCallbackRegistry().submitCallback([=]() {
+						PyObject* dimensions = PyTuple_New(2);
+						PyTuple_SetItem(dimensions, 0, PyLong_FromLong(_parentPtr->getWidth()));
+						PyTuple_SetItem(dimensions, 1, PyLong_FromLong(_parentPtr->getHeight()));
+						mvApp::GetApp()->getCallbackRegistry().addCallback(_callback, _uuid, dimensions, _user_data);
+						});
+				else
+					mvApp::GetApp()->getCallbackRegistry().submitCallback([=]() {
 					PyObject* dimensions = PyTuple_New(2);
 					PyTuple_SetItem(dimensions, 0, PyLong_FromLong(_parentPtr->getWidth()));
 					PyTuple_SetItem(dimensions, 1, PyLong_FromLong(_parentPtr->getHeight()));
-					mvApp::GetApp()->getCallbackRegistry().addCallback(_callback, _uuid, dimensions, _user_data);
-					});
+					mvApp::GetApp()->getCallbackRegistry().addCallback(_callback, _alias, dimensions, _user_data);
+						});
 			}
 
 			parentPtr->_resized = false;

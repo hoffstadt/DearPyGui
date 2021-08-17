@@ -100,42 +100,32 @@ namespace Marvel {
 	{
 		ScopedID id(_uuid);
 
+		bool activated = false;
+
 		if (_multiline)
 			_hint = "";
 
 		if (_hint.empty())
 		{
 			if (_multiline)
-			{
-				if (ImGui::InputTextMultiline(_internalLabel.c_str(), _value.get(), ImVec2((float)_width, (float)_height), _flags))
-				{
-					auto value = *_value;
-					mvApp::GetApp()->getCallbackRegistry().submitCallback([=]() {
-						mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), _uuid, ToPyString(value), _user_data);
-						});
-				}
-			}
+				activated = ImGui::InputTextMultiline(_internalLabel.c_str(), _value.get(), ImVec2((float)_width, (float)_height), _flags);
 			else
-			{
-				if (ImGui::InputText(_internalLabel.c_str(), _value.get(), _flags))
-				{
-					auto value = *_value;
-					mvApp::GetApp()->getCallbackRegistry().submitCallback([=]() {
-						mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), _uuid, ToPyString(value), _user_data);
-						});
-				}
-			}
+				activated = ImGui::InputText(_internalLabel.c_str(), _value.get(), _flags);
 		}
-
 		else
+			activated = ImGui::InputTextWithHint(_internalLabel.c_str(), _hint.c_str(), _value.get(), _flags);
+
+		if (activated)
 		{
-			if (ImGui::InputTextWithHint(_internalLabel.c_str(), _hint.c_str(), _value.get(), _flags))
-			{
-				auto value = *_value;
+			auto value = *_value;
+			if(_alias.empty())
 				mvApp::GetApp()->getCallbackRegistry().submitCallback([=]() {
 					mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), _uuid, ToPyString(value), _user_data);
 					});
-			}
+			else
+				mvApp::GetApp()->getCallbackRegistry().submitCallback([=]() {
+				mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), _alias, ToPyString(value), _user_data);
+					});
 		}
 
 	}

@@ -152,39 +152,37 @@ namespace Marvel {
     {
         ScopedID id(_uuid);
 
+        bool activated = false;
+
         if (!_enabled) std::copy(_value->data(), _value->data() + 4, _disabled_value);
 
         switch (_size)
         {
         case 2:
-            if (ImGui::SliderFloat2(_internalLabel.c_str(), _enabled ? _value->data() : &_disabled_value[0], _min, _max, _format.c_str(), _flags))
-            {
-                auto value = *_value;
-                mvApp::GetApp()->getCallbackRegistry().submitCallback([=]() {
-                    mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), _uuid, ToPyFloatList(value.data(), value.size()), _user_data);
-                    });
-            }
+            activated = ImGui::SliderFloat2(_internalLabel.c_str(), _enabled ? _value->data() : &_disabled_value[0], _min, _max, _format.c_str(), _flags);
             break;
         case 3:
-            if (ImGui::SliderFloat3(_internalLabel.c_str(), _enabled ? _value->data() : &_disabled_value[0], _min, _max, _format.c_str(), _flags))
-            {
-                auto value = *_value;
-                mvApp::GetApp()->getCallbackRegistry().submitCallback([=]() {
-                    mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), _uuid, ToPyFloatList(value.data(), value.size()), _user_data);
-                    });
-            }
+            activated = ImGui::SliderFloat3(_internalLabel.c_str(), _enabled ? _value->data() : &_disabled_value[0], _min, _max, _format.c_str(), _flags);
             break;
         case 4:
-            if (ImGui::SliderFloat4(_internalLabel.c_str(), _enabled ? _value->data() : &_disabled_value[0], _min, _max, _format.c_str(), _flags))
-            {
-                auto value = *_value;
-                mvApp::GetApp()->getCallbackRegistry().submitCallback([=]() {
-                    mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), _uuid, ToPyFloatList(value.data(), value.size()), _user_data);
-                    });
-            }
+            activated = ImGui::SliderFloat4(_internalLabel.c_str(), _enabled ? _value->data() : &_disabled_value[0], _min, _max, _format.c_str(), _flags);
             break;
         default:
             break;
+        }
+
+        if (activated)
+        {
+            auto value = *_value;
+
+            if(_alias.empty())
+                mvApp::GetApp()->getCallbackRegistry().submitCallback([=]() {
+                    mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), _uuid, ToPyFloatList(value.data(), value.size()), _user_data);
+                    });
+            else
+                mvApp::GetApp()->getCallbackRegistry().submitCallback([=]() {
+                mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), _alias, ToPyFloatList(value.data(), value.size()), _user_data);
+                    });
         }
     }
 
@@ -253,39 +251,37 @@ namespace Marvel {
     {
         ScopedID id(_uuid);
 
+        bool activated = false;
+
         if (!_enabled) std::copy(_value->data(), _value->data() + 4, _disabled_value);
 
         switch (_size)
         {
         case 2:
-            if (ImGui::SliderInt2(_internalLabel.c_str(), _enabled ? _value->data() : &_disabled_value[0], _min, _max, _format.c_str(), _flags))
-            {
-                auto value = *_value;
-                mvApp::GetApp()->getCallbackRegistry().submitCallback([=]() {
-                    mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), _uuid, ToPyIntList(value.data(), value.size()), _user_data);
-                    });
-            }
+            activated = ImGui::SliderInt2(_internalLabel.c_str(), _enabled ? _value->data() : &_disabled_value[0], _min, _max, _format.c_str(), _flags);
             break;
         case 3:
-            if (ImGui::SliderInt3(_internalLabel.c_str(), _enabled ? _value->data() : &_disabled_value[0], _min, _max, _format.c_str(), _flags))
-            {
-                auto value = *_value;
-                mvApp::GetApp()->getCallbackRegistry().submitCallback([=]() {
-                    mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), _uuid, ToPyIntList(value.data(), value.size()), _user_data);
-                    });
-            }
+            activated = ImGui::SliderInt3(_internalLabel.c_str(), _enabled ? _value->data() : &_disabled_value[0], _min, _max, _format.c_str(), _flags);
             break;
         case 4:
-            if (ImGui::SliderInt4(_internalLabel.c_str(), _enabled ? _value->data() : &_disabled_value[0], _min, _max, _format.c_str(), _flags))
-            {
-                auto value = *_value;
-                mvApp::GetApp()->getCallbackRegistry().submitCallback([=]() {
-                    mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), _uuid, ToPyIntList(value.data(), value.size()), _user_data);
-                    });
-            }
+            activated = ImGui::SliderInt4(_internalLabel.c_str(), _enabled ? _value->data() : &_disabled_value[0], _min, _max, _format.c_str(), _flags);
             break;
         default:
             break;
+        }
+
+        if (activated)
+        {
+            auto value = *_value;
+
+            if(_alias.empty())
+                mvApp::GetApp()->getCallbackRegistry().submitCallback([=]() {
+                    mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), _uuid, ToPyIntList(value.data(), value.size()), _user_data);
+                    });
+            else
+                mvApp::GetApp()->getCallbackRegistry().submitCallback([=]() {
+                mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), _alias, ToPyIntList(value.data(), value.size()), _user_data);
+                    });
         }
 
     }

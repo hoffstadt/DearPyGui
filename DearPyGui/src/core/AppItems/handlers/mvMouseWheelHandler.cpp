@@ -36,7 +36,10 @@ namespace Marvel {
 
 			mvApp::GetApp()->getCallbackRegistry().submitCallback([=]()
 			{
-				mvApp::GetApp()->getCallbackRegistry().runCallback(getCallback(false), _uuid, ToPyInt(wheel), _user_data);
+				if (_alias.empty())
+					mvApp::GetApp()->getCallbackRegistry().runCallback(getCallback(false), _uuid, ToPyInt(wheel), _user_data);
+				else
+					mvApp::GetApp()->getCallbackRegistry().runCallback(getCallback(false), _alias, ToPyInt(wheel), _user_data);
 			});
 			
 		}

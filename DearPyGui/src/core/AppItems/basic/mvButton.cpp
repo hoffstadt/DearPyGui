@@ -124,22 +124,23 @@ namespace Marvel {
 			// push imgui id to prevent name collisions
 			ScopedID id(_uuid);
 
+			bool activated = false;
+
 			if (_small_button)
-			{
-				if (ImGui::SmallButton(_internalLabel.c_str()))
-					mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), _uuid, nullptr, _user_data);
-			}
+				activated = ImGui::SmallButton(_internalLabel.c_str());
 
 			else if (_arrow)
-			{
-				if (ImGui::ArrowButton(_internalLabel.c_str(), _direction))
-					mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), _uuid, nullptr, _user_data);
-			}
+				activated = ImGui::ArrowButton(_internalLabel.c_str(), _direction);
 
 			else
+				activated = ImGui::Button(_internalLabel.c_str(), ImVec2((float)_width, (float)_height));
+
+			if (activated)
 			{
-				if (ImGui::Button(_internalLabel.c_str(), ImVec2((float)_width, (float)_height)))
+				if (_alias.empty())
 					mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), _uuid, nullptr, _user_data);
+				else
+					mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), _alias, nullptr, _user_data);
 			}
 		}
 
@@ -222,7 +223,10 @@ namespace Marvel {
 				if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload(_payloadType.c_str()))
 				{
 					auto payloadActual = static_cast<const mvDragPayload*>(payload->Data);
-					mvApp::GetApp()->getCallbackRegistry().addCallback(getDropCallback(), _uuid, payloadActual->getDragData(), nullptr);
+					if (_alias.empty())
+						mvApp::GetApp()->getCallbackRegistry().addCallback(getDropCallback(), _uuid, payloadActual->getDragData(), nullptr);
+					else
+						mvApp::GetApp()->getCallbackRegistry().addCallback(getDropCallback(), _alias, payloadActual->getDragData(), nullptr);
 				}
 
 				ImGui::EndDragDropTarget();

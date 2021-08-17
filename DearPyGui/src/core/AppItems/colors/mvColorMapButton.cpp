@@ -54,8 +54,13 @@ namespace Marvel {
 	{
 		ScopedID id(_uuid);
 
-		if(ImPlot::ColormapButton(_internalLabel.c_str(), ImVec2((float)_width, (float)_height), _colormap))
-			mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), _uuid, nullptr, _user_data);
+		if (ImPlot::ColormapButton(_internalLabel.c_str(), ImVec2((float)_width, (float)_height), _colormap))
+		{
+			if(_alias.empty())
+				mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), _uuid, nullptr, _user_data);
+			else	
+				mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), _alias, nullptr, _user_data);
+		}
 
 	}
 

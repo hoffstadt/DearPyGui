@@ -122,7 +122,10 @@ namespace Marvel {
 			if (parent->getSpecificValue() != _uuid)
 			{
 				mvApp::GetApp()->getCallbackRegistry().submitCallback([=]() {
-					mvApp::GetApp()->getCallbackRegistry().addCallback(parent->getCallback(), parent->getUUID(), ToPyUUID(_uuid), parent->getCallbackData());
+					if(parent->getAlias().empty())
+						mvApp::GetApp()->getCallbackRegistry().addCallback(parent->getCallback(), parent->getUUID(), ToPyUUID(_uuid), parent->getCallbackData());
+					else
+						mvApp::GetApp()->getCallbackRegistry().addCallback(parent->getCallback(), parent->getAlias(), ToPyUUID(_uuid), parent->getCallbackData());
 					});
 			}
 

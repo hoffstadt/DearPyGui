@@ -51,8 +51,12 @@ namespace Marvel {
 				{
 					mvApp::GetApp()->getCallbackRegistry().submitCallback([=]()
 						{
-							mvApp::GetApp()->getCallbackRegistry().runCallback(getCallback(false), _uuid,
-								ToPyMTrip(i, ImGui::GetMouseDragDelta(i).x, ImGui::GetMouseDragDelta(i).y), _user_data);
+							if (_alias.empty())
+								mvApp::GetApp()->getCallbackRegistry().runCallback(getCallback(false), _uuid,
+									ToPyMTrip(i, ImGui::GetMouseDragDelta(i).x, ImGui::GetMouseDragDelta(i).y), _user_data);
+							else
+								mvApp::GetApp()->getCallbackRegistry().runCallback(getCallback(false), _alias,
+									ToPyMTrip(i, ImGui::GetMouseDragDelta(i).x, ImGui::GetMouseDragDelta(i).y), _user_data);
 						});
 				}
 			}
@@ -64,8 +68,12 @@ namespace Marvel {
 				ImGui::ResetMouseDragDelta(_button);
 			mvApp::GetApp()->getCallbackRegistry().submitCallback([=]()
 				{
-					mvApp::GetApp()->getCallbackRegistry().runCallback(getCallback(false), _uuid,
-						ToPyMTrip(_button, ImGui::GetMouseDragDelta(_button).x, ImGui::GetMouseDragDelta(_button).y), _user_data);
+					if (_alias.empty())
+						mvApp::GetApp()->getCallbackRegistry().runCallback(getCallback(false), _uuid,
+							ToPyMTrip(_button, ImGui::GetMouseDragDelta(_button).x, ImGui::GetMouseDragDelta(_button).y), _user_data);
+					else
+						mvApp::GetApp()->getCallbackRegistry().runCallback(getCallback(false), _alias,
+							ToPyMTrip(_button, ImGui::GetMouseDragDelta(_button).x, ImGui::GetMouseDragDelta(_button).y), _user_data);
 				});
 		}
 	}
