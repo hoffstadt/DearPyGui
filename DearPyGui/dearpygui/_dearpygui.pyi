@@ -606,6 +606,10 @@ def clear_selected_nodes(node_editor : Union[int, str]) -> None:
 	"""Undocumented"""
 	...
 
+def configure_app(*, docking: bool =False, docking_space: bool =False, load_init_file: str ='', init_file: str ='') -> None:
+	"""Undocumented"""
+	...
+
 def configure_item(item : Union[int, str], **kwargs) -> None:
 	"""Undocumented"""
 	...
@@ -690,10 +694,6 @@ def empty_container_stack() -> None:
 	"""Undocumented"""
 	...
 
-def enable_docking(*, dock_space: bool =False) -> None:
-	"""Undocumented"""
-	...
-
 def fit_axis_data(axis : Union[int, str]) -> None:
 	"""Sets the axis boundries max and min in the data series currently on the plot."""
 	...
@@ -722,16 +722,16 @@ def get_all_items() -> Union[List[int], Tuple[int]]:
 	"""Undocumented"""
 	...
 
+def get_app_configuration() -> dict:
+	"""Undocumented"""
+	...
+
 def get_axis_limits(axis : Union[int, str]) -> Union[List[float], Tuple[float]]:
 	"""Gets the specified axis limits."""
 	...
 
 def get_colormap_color(colormap : Union[int, str], index : int) -> Union[List[int], Tuple[int]]:
 	"""Returns a color from a colormap given an index >= 0 (modulo will be performed). This command can only be ran once the app is started."""
-	...
-
-def get_dearpygui_version() -> str:
-	"""Returns the dearpygui version."""
 	...
 
 def get_delta_time() -> float:
@@ -902,10 +902,6 @@ def load_image(file : str, *, gamma: float =1.0, gamma_scale_factor: float =1.0)
 	"""Loads an image. Returns width, height, channels, mvBuffer"""
 	...
 
-def load_init_file(file : str) -> None:
-	"""Load dpg.ini file."""
-	...
-
 def lock_mutex() -> None:
 	"""Locks mutex"""
 	...
@@ -992,10 +988,6 @@ def set_exit_callback(callback : Callable) -> str:
 
 def set_global_font_scale(scale : float) -> None:
 	"""Undocumented function"""
-	...
-
-def set_init_file(*, file: str ='dpg.ini') -> None:
-	"""set dpg.ini file."""
 	...
 
 def set_item_alias(item : Union[int, str], alias : str) -> None:

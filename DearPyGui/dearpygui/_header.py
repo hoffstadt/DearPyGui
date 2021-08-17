@@ -1,5 +1,6 @@
 from typing import List, Any, Callable, Union, Tuple
 from contextlib import contextmanager
+import warnings
 import dearpygui._dearpygui as internal_dpg
 from dearpygui._dearpygui import mvBuffer
 
@@ -15,6 +16,7 @@ from dearpygui._dearpygui import mvBuffer
 #      - State Commands
 #      - Viewport Setter Commands
 #      - Viewport Getter Commands
+#      - Deprecated Commands
 #      - Container Context Managers
 #      - Core Wrappings
 #      - Constants
