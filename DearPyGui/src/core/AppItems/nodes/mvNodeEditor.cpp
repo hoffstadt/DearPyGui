@@ -326,12 +326,22 @@ namespace Marvel {
 			}
 
 			if (_callback)
-				mvApp::GetApp()->getCallbackRegistry().submitCallback([=]() {
-				PyObject* link = PyTuple_New(2);
-				PyTuple_SetItem(link, 0, ToPyUUID(node1));
-				PyTuple_SetItem(link, 1, ToPyUUID(node2));
-				mvApp::GetApp()->getCallbackRegistry().addCallback(_callback, _uuid, link, _user_data);
-					});
+			{
+				if (_alias.empty())
+					mvApp::GetApp()->getCallbackRegistry().submitCallback([=]() {
+						PyObject* link = PyTuple_New(2);
+						PyTuple_SetItem(link, 0, ToPyUUID(node1));
+						PyTuple_SetItem(link, 1, ToPyUUID(node2));
+						mvApp::GetApp()->getCallbackRegistry().addCallback(_callback, _uuid, link, _user_data);
+						});
+				else
+					mvApp::GetApp()->getCallbackRegistry().submitCallback([=]() {
+						PyObject* link = PyTuple_New(2);
+						PyTuple_SetItem(link, 0, ToPyUUID(node1));
+						PyTuple_SetItem(link, 1, ToPyUUID(node2));
+						mvApp::GetApp()->getCallbackRegistry().addCallback(_callback, _alias, link, _user_data);
+						});
+			}
 		}
 
 		static int destroyed_attr;
@@ -350,10 +360,18 @@ namespace Marvel {
 				}
 			}
 			if (_delinkCallback)
-				mvApp::GetApp()->getCallbackRegistry().submitCallback([=]() {
-				PyObject* link = ToPyUUID(name);
-				mvApp::GetApp()->getCallbackRegistry().addCallback(_delinkCallback, _uuid, link, _user_data);
-					});
+			{
+				if (_alias.empty())
+					mvApp::GetApp()->getCallbackRegistry().submitCallback([=]() {
+						PyObject* link = ToPyUUID(name);
+						mvApp::GetApp()->getCallbackRegistry().addCallback(_delinkCallback, _uuid, link, _user_data);
+						});
+				else
+					mvApp::GetApp()->getCallbackRegistry().submitCallback([=]() {
+						PyObject* link = ToPyUUID(name);
+						mvApp::GetApp()->getCallbackRegistry().addCallback(_delinkCallback, _alias, link, _user_data);
+							});
+			}
 		}
 
 		_state.setHovered(imnodes::IsEditorHovered());	

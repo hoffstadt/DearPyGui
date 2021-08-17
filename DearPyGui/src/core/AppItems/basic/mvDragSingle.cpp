@@ -216,9 +216,15 @@ namespace Marvel {
             if (ImGui::DragFloat(_internalLabel.c_str(), _enabled ? _value.get() : &_disabled_value, _speed, _min, _max, _format.c_str(), _flags))
             {
                 auto value = *_value;
-                mvApp::GetApp()->getCallbackRegistry().submitCallback([=]() {
-                    mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), _uuid, ToPyFloat(value), _user_data);
-                    });
+
+                if(_alias.empty())
+                    mvApp::GetApp()->getCallbackRegistry().submitCallback([=]() {
+                        mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), _uuid, ToPyFloat(value), _user_data);
+                        });
+                else
+                    mvApp::GetApp()->getCallbackRegistry().submitCallback([=]() {
+                    mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), _alias, ToPyFloat(value), _user_data);
+                        });
             }
         }
 
@@ -302,7 +308,10 @@ namespace Marvel {
                 if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload(_payloadType.c_str()))
                 {
                     auto payloadActual = static_cast<const mvDragPayload*>(payload->Data);
-                    mvApp::GetApp()->getCallbackRegistry().addCallback(getDropCallback(), _uuid, payloadActual->getDragData(), nullptr);
+                    if (_alias.empty())
+                        mvApp::GetApp()->getCallbackRegistry().addCallback(getDropCallback(), _uuid, payloadActual->getDragData(), nullptr);
+                    else
+                        mvApp::GetApp()->getCallbackRegistry().addCallback(getDropCallback(), _alias, payloadActual->getDragData(), nullptr);
                 }
 
                 ImGui::EndDragDropTarget();
@@ -439,9 +448,14 @@ namespace Marvel {
             if (ImGui::DragInt(_internalLabel.c_str(), _enabled ? _value.get() : &_disabled_value, _speed, _min, _max, _format.c_str(), _flags))
             {
                 auto value = *_value;
-                mvApp::GetApp()->getCallbackRegistry().submitCallback([=]() {
-                    mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), _uuid, ToPyInt(value), _user_data);
-                    });
+                if(_alias.empty())
+                    mvApp::GetApp()->getCallbackRegistry().submitCallback([=]() {
+                        mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), _uuid, ToPyInt(value), _user_data);
+                        });
+                else
+                    mvApp::GetApp()->getCallbackRegistry().submitCallback([=]() {
+                    mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), _alias, ToPyInt(value), _user_data);
+                        });
             }
         }
 
@@ -525,7 +539,11 @@ namespace Marvel {
                 if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload(_payloadType.c_str()))
                 {
                     auto payloadActual = static_cast<const mvDragPayload*>(payload->Data);
-                    mvApp::GetApp()->getCallbackRegistry().addCallback(getDropCallback(), _uuid, payloadActual->getDragData(), nullptr);
+
+                    if (_alias.empty())
+                        mvApp::GetApp()->getCallbackRegistry().addCallback(getDropCallback(), _uuid, payloadActual->getDragData(), nullptr);
+                    else
+                        mvApp::GetApp()->getCallbackRegistry().addCallback(getDropCallback(), _alias, payloadActual->getDragData(), nullptr);
                 }
 
                 ImGui::EndDragDropTarget();

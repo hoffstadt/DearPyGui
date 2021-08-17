@@ -335,14 +335,25 @@ namespace Marvel {
 
 			if (_callback != nullptr && _queried)
 			{
-				mvApp::GetApp()->getCallbackRegistry().submitCallback([=]() {
+
+				if (_alias.empty())
+					mvApp::GetApp()->getCallbackRegistry().submitCallback([=]() {
+						PyObject* area = PyTuple_New(4);
+						PyTuple_SetItem(area, 0, PyFloat_FromDouble(_queryArea[0]));
+						PyTuple_SetItem(area, 1, PyFloat_FromDouble(_queryArea[1]));
+						PyTuple_SetItem(area, 2, PyFloat_FromDouble(_queryArea[2]));
+						PyTuple_SetItem(area, 3, PyFloat_FromDouble(_queryArea[3]));
+						mvApp::GetApp()->getCallbackRegistry().addCallback(_callback, _uuid, area, _user_data);
+						});
+				else
+					mvApp::GetApp()->getCallbackRegistry().submitCallback([=]() {
 					PyObject* area = PyTuple_New(4);
 					PyTuple_SetItem(area, 0, PyFloat_FromDouble(_queryArea[0]));
 					PyTuple_SetItem(area, 1, PyFloat_FromDouble(_queryArea[1]));
 					PyTuple_SetItem(area, 2, PyFloat_FromDouble(_queryArea[2]));
 					PyTuple_SetItem(area, 3, PyFloat_FromDouble(_queryArea[3]));
-					mvApp::GetApp()->getCallbackRegistry().addCallback(_callback, _uuid, area, _user_data);
-					});
+					mvApp::GetApp()->getCallbackRegistry().addCallback(_callback, _alias, area, _user_data);
+						});
 			}
 
 			if (ImPlot::IsPlotHovered())
@@ -359,7 +370,10 @@ namespace Marvel {
 					if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload(_payloadType.c_str()))
 					{
 						auto payloadActual = static_cast<const mvDragPayload*>(payload->Data);
-						mvApp::GetApp()->getCallbackRegistry().addCallback(getDropCallback(), _uuid, payloadActual->getDragData(), nullptr);
+						if (_alias.empty())
+							mvApp::GetApp()->getCallbackRegistry().addCallback(getDropCallback(), _uuid, payloadActual->getDragData(), nullptr);
+						else
+							mvApp::GetApp()->getCallbackRegistry().addCallback(getDropCallback(), _alias, payloadActual->getDragData(), nullptr);
 					}
 
 					ImPlot::EndDragDropTarget();

@@ -42,7 +42,10 @@ namespace Marvel {
 
 				mvApp::GetApp()->getCallbackRegistry().submitCallback([=]()
 					{
-						mvApp::GetApp()->getCallbackRegistry().runCallback(getCallback(false), _uuid, ToPyPair(mousepos.x, mousepos.y), _user_data);
+						if(_alias.empty())
+							mvApp::GetApp()->getCallbackRegistry().runCallback(getCallback(false), _uuid, ToPyPair(mousepos.x, mousepos.y), _user_data);
+						else
+							mvApp::GetApp()->getCallbackRegistry().runCallback(getCallback(false), _alias, ToPyPair(mousepos.x, mousepos.y), _user_data);
 					});
 			}
 		}

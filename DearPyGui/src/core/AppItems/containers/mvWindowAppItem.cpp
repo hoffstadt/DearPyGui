@@ -290,7 +290,10 @@ namespace Marvel {
 				_state.setActivated(false);
 				_state.setVisible(false);
 
-				mvApp::GetApp()->getCallbackRegistry().addCallback(_on_close, _uuid, nullptr, _user_data);
+				if(_alias.empty())
+					mvApp::GetApp()->getCallbackRegistry().addCallback(_on_close, _uuid, nullptr, _user_data);
+				else
+					mvApp::GetApp()->getCallbackRegistry().addCallback(_on_close, _alias, nullptr, _user_data);
 				
 				return;
 			}
@@ -454,7 +457,11 @@ namespace Marvel {
 			_state.setFocused(false);
 			_state.setActivated(false);
 			_state.setVisible(false);
-			mvApp::GetApp()->getCallbackRegistry().addCallback(_on_close, _uuid, nullptr, _user_data);
+
+			if(_alias.empty())
+				mvApp::GetApp()->getCallbackRegistry().addCallback(_on_close, _uuid, nullptr, _user_data);
+			else
+				mvApp::GetApp()->getCallbackRegistry().addCallback(_on_close, _alias, nullptr, _user_data);
 		}
 
 		// event handlers

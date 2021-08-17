@@ -408,7 +408,11 @@ namespace Marvel {
 		{
 			auto value = *_value;
 			mvApp::GetApp()->getCallbackRegistry().submitCallback([=]() {
-				mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), _uuid, ToPyFloatList(value.data(), value.size()), _user_data);
+
+				if(_alias.empty())
+					mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), _uuid, ToPyFloatList(value.data(), value.size()), _user_data);
+				else
+					mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), _alias, ToPyFloatList(value.data(), value.size()), _user_data);
 				});
 		}
     }

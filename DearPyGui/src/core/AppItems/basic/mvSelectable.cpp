@@ -88,9 +88,15 @@ namespace Marvel {
 		if (ImGui::Selectable(_internalLabel.c_str(), _value.get(), _flags, ImVec2((float)_width, (float)_height)))
 		{
 			auto value = *_value;
-			mvApp::GetApp()->getCallbackRegistry().submitCallback([=]() {
-				mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), _uuid, ToPyBool(value), _user_data);
-				});
+
+			if(_alias.empty())
+				mvApp::GetApp()->getCallbackRegistry().submitCallback([=]() {
+					mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), _uuid, ToPyBool(value), _user_data);
+					});
+			else
+				mvApp::GetApp()->getCallbackRegistry().submitCallback([=]() {
+					mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), _alias, ToPyBool(value), _user_data);
+					});
 		}
 
 	}

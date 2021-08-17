@@ -143,7 +143,11 @@ namespace Marvel {
 								PyList_SetItem(pySingleSpec, 1, ToPyInt(specs[i].direction));
 								PyList_SetItem(pySpec, i, pySingleSpec);
 							}
-							mvApp::GetApp()->getCallbackRegistry().runCallback(getCallback(false), _uuid, pySpec, _user_data);
+
+							if (_alias.empty())
+								mvApp::GetApp()->getCallbackRegistry().runCallback(getCallback(false), _uuid, pySpec, _user_data);
+							else
+								mvApp::GetApp()->getCallbackRegistry().runCallback(getCallback(false), _alias, pySpec, _user_data);
 							Py_XDECREF(pySpec);
 							});
 					}

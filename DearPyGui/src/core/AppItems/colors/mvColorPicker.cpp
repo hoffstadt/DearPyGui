@@ -81,9 +81,15 @@ namespace Marvel {
 		{
 			auto value = *_value;
 			mvColor color = mvColor(value[0], value[1], value[2], value[3]);
-			mvApp::GetApp()->getCallbackRegistry().submitCallback([=]() {
-				mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), _uuid, ToPyColor(color), _user_data);
-				});
+
+			if(_alias.empty())
+				mvApp::GetApp()->getCallbackRegistry().submitCallback([=]() {
+					mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), _uuid, ToPyColor(color), _user_data);
+					});
+			else
+				mvApp::GetApp()->getCallbackRegistry().submitCallback([=]() {
+					mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), _alias, ToPyColor(color), _user_data);
+					});
 		}
 
 	}

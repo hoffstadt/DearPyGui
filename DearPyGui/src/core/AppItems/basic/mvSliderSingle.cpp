@@ -151,9 +151,15 @@ namespace Marvel {
             if (ImGui::VSliderFloat(_internalLabel.c_str(), ImVec2((float)_width, (float)_height), _enabled ? _value.get() : &_disabled_value, _min, _max, _format.c_str()))
             {
                 auto value = *_value;
-                mvApp::GetApp()->getCallbackRegistry().submitCallback([=]() {
-                    mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), _uuid, ToPyFloat(value), _user_data);
-                    });
+
+                if(_alias.empty())
+                    mvApp::GetApp()->getCallbackRegistry().submitCallback([=]() {
+                        mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), _uuid, ToPyFloat(value), _user_data);
+                        });
+                else
+                    mvApp::GetApp()->getCallbackRegistry().submitCallback([=]() {
+                        mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), _alias, ToPyFloat(value), _user_data);
+                        });
             }
 
         }
@@ -162,9 +168,14 @@ namespace Marvel {
             if (ImGui::SliderFloat(_internalLabel.c_str(), _enabled ? _value.get() : &_disabled_value, _min, _max, _format.c_str(), _flags))
             {
                 auto value = *_value;
-                mvApp::GetApp()->getCallbackRegistry().submitCallback([=]() {
+                if (_alias.empty())
+                    mvApp::GetApp()->getCallbackRegistry().submitCallback([=]() {
                     mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), _uuid, ToPyFloat(value), _user_data);
-                    });
+                        });
+                else
+                    mvApp::GetApp()->getCallbackRegistry().submitCallback([=]() {
+                    mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), _alias, ToPyFloat(value), _user_data);
+                        });
             }
 
         }
@@ -235,9 +246,15 @@ namespace Marvel {
             if (ImGui::VSliderInt(_internalLabel.c_str(), ImVec2((float)_width, (float)_height), _enabled ? _value.get() : &_disabled_value, _min, _max, _format.c_str()))
             {
                 auto value = *_value;
-                mvApp::GetApp()->getCallbackRegistry().submitCallback([=]() {
-                    mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), _uuid, ToPyInt(value), _user_data);
-                    });
+
+                if(_alias.empty())
+                    mvApp::GetApp()->getCallbackRegistry().submitCallback([=]() {
+                        mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), _uuid, ToPyInt(value), _user_data);
+                        });
+                else
+                    mvApp::GetApp()->getCallbackRegistry().submitCallback([=]() {
+                        mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), _alias, ToPyInt(value), _user_data);
+                        });
             }
         }
         else
@@ -245,9 +262,14 @@ namespace Marvel {
             if (ImGui::SliderInt(_internalLabel.c_str(), _enabled ? _value.get() : &_disabled_value, _min, _max, _format.c_str(), _flags))
             {
                 auto value = *_value;
-                mvApp::GetApp()->getCallbackRegistry().submitCallback([=]() {
+                if (_alias.empty())
+                    mvApp::GetApp()->getCallbackRegistry().submitCallback([=]() {
                     mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), _uuid, ToPyInt(value), _user_data);
-                    });
+                        });
+                else
+                    mvApp::GetApp()->getCallbackRegistry().submitCallback([=]() {
+                    mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), _alias, ToPyInt(value), _user_data);
+                        });
             }
 
         }
