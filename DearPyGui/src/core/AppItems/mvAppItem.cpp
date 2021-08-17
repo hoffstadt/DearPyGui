@@ -1145,7 +1145,16 @@ namespace Marvel{
 
 		if (PyObject* item = PyDict_GetItemString(dict, "filter_key")) _filter = ToString(item);
 		if (PyObject* item = PyDict_GetItemString(dict, "payload_type")) setPayloadType(ToString(item));
-		if (PyObject* item = PyDict_GetItemString(dict, "source")) setDataSource(ToUUID(item));
+		if (PyObject* item = PyDict_GetItemString(dict, "source"))
+		{
+			if (isPyObject_Int(item))
+				setDataSource(ToUUID(item));
+			else if (isPyObject_String(item))
+			{
+				std::string alias = ToString(item);
+				setDataSource(mvApp::GetApp()->getItemRegistry().getIdFromAlias(alias));
+			}
+		}
 		if (PyObject* item = PyDict_GetItemString(dict, "enabled")) setEnabled(ToBool(item));
 		if (PyObject* item = PyDict_GetItemString(dict, "tracked")) _tracked = ToBool(item);
 		if (PyObject* item = PyDict_GetItemString(dict, "delay_search")) _searchLast = ToBool(item);
