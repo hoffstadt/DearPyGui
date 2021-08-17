@@ -26,6 +26,7 @@ namespace Marvel {
 		void renderFrame() override;
 		void maximize   () override;
 		void minimize   () override;
+		void fullscreen () override;
 		void handleModes();
 
 	private:
@@ -33,6 +34,8 @@ namespace Marvel {
 		bool CreateDeviceD3D(HWND hWnd);
 
 		void CleanupDeviceD3D();
+
+		static void CreateRenderTarget();
 
 		static void CleanupRenderTarget();
 

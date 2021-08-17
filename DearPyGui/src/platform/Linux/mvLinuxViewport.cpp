@@ -1,4 +1,5 @@
 #include "mvLinuxViewport.h"
+#include <iostream>
 #include "mvApp.h"
 #include "mvFontManager.h"
 #include <GL/gl3w.h>
@@ -161,6 +162,26 @@ namespace Marvel {
         glfwMaximizeWindow(_window);
 	}
 
+    void mvLinuxViewport::fullscreen()
+	{
+        GLFWmonitor *monitor = glfwGetPrimaryMonitor();
+        const GLFWvidmode *mode = glfwGetVideoMode(monitor);
+        int framerate = -1;
+        if (mvViewport::_vsync){
+            framerate = mode->refreshRate;
+        }
+        if (mvViewport::is_fullscreened){
+            glfwSetWindowMonitor(_window, nullptr, mvViewport::_storedX, mvViewport::_storedY, mvViewport::_storedWidth, mvViewport::_storedHeight, framerate);
+        } else {
+            mvViewport::_storedWidth = mvViewport::_actualWidth;
+            mvViewport::_storedHeight = mvViewport::_actualHeight;
+            mvViewport::_storedX = mvViewport::_xpos;
+            mvViewport::_storedY = mvViewport::_ypos;
+            glfwSetWindowMonitor(_window, monitor, 0, 0, mode->width, mode->height, framerate);
+        }
+        mvViewport::is_fullscreened = !mvViewport::is_fullscreened;
+	}
+
 	void mvLinuxViewport::minimize()
 	{
         glfwIconifyWindow(_window);
@@ -212,6 +233,7 @@ namespace Marvel {
 
         if(_modesDirty)
         {
+            std::cout << "Dirty modes" << std::endl;
             glfwSetWindowAttrib(_window, GLFW_RESIZABLE, _resizable ? GLFW_TRUE : GLFW_FALSE);
             glfwSetWindowAttrib(_window, GLFW_DECORATED, _decorated ? GLFW_TRUE : GLFW_FALSE);
             glfwSetWindowAttrib(_window, GLFW_FLOATING, _alwaysOnTop ? GLFW_TRUE : GLFW_FALSE);

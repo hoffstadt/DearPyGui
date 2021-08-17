@@ -21,6 +21,7 @@ namespace Marvel {
 		void renderFrame() override;
 		void run        () override;
         void maximize   () override;
+		void fullscreen () override;
         void minimize   () override;
         void restore    () override;
 
