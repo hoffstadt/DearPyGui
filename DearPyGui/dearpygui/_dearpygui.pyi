@@ -606,7 +606,7 @@ def clear_selected_nodes(node_editor : Union[int, str]) -> None:
 	"""Undocumented"""
 	...
 
-def configure_app(*, docking: bool =False, docking_space: bool =False, load_init_file: str ='', init_file: str ='') -> None:
+def configure_app(*, docking: bool =False, docking_space: bool =False, load_init_file: str ='', init_file: str ='', device: int =-1, auto_device: bool =False) -> None:
 	"""Undocumented"""
 	...
 
