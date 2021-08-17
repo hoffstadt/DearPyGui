@@ -1738,10 +1738,10 @@ namespace Marvel {
 		if (!mvApp::s_manualMutexControl) std::lock_guard<std::mutex> lk(mvApp::s_mutex);
 		auto registry = mvApp::GetApp()->getItemRegistry();
 		PyObject* pdict = PyDict_New();
-		PyDict_SetItemString(pdict, "allow_alias_overwrites", ToPyBool(registry._allowAliasOverwrites));
-		PyDict_SetItemString(pdict, "manual_alias_management", ToPyBool(registry._manualAliasManagement));
-		PyDict_SetItemString(pdict, "skip_optional_args", ToPyBool(registry._skipOptionalArgs));
-		PyDict_SetItemString(pdict, "skip_required_args", ToPyBool(registry._skipRequiredArgs));
+		PyDict_SetItemString(pdict, "allow_alias_overwrites", mvPyObject(ToPyBool(registry._allowAliasOverwrites)));
+		PyDict_SetItemString(pdict, "manual_alias_management", mvPyObject(ToPyBool(registry._manualAliasManagement)));
+		PyDict_SetItemString(pdict, "skip_optional_args", mvPyObject(ToPyBool(registry._skipOptionalArgs)));
+		PyDict_SetItemString(pdict, "skip_required_args", mvPyObject(ToPyBool(registry._skipRequiredArgs)));
 		return pdict;
 	}
 

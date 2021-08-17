@@ -16,6 +16,7 @@
 
 from typing import List, Any, Callable, Union, Tuple
 from contextlib import contextmanager
+import warnings
 import dearpygui._dearpygui as internal_dpg
 from dearpygui._dearpygui import mvBuffer
 
@@ -31,6 +32,7 @@ from dearpygui._dearpygui import mvBuffer
 #      - State Commands
 #      - Viewport Setter Commands
 #      - Viewport Getter Commands
+#      - Deprecated Commands
 #      - Container Context Managers
 #      - Core Wrappings
 #      - Constants
@@ -1086,6 +1088,34 @@ def is_viewport_decorated() -> bool:
         bool
     """
     return internal_dpg.get_viewport_configuration()["decorated"]
+
+##########################################################
+# Deprecated Commands
+##########################################################
+
+def enable_docking(dock_space: bool = False) -> None:
+    """'enable_docking(...)' is deprecated. Use 'configure_app(docking=True, docking_space=dock_space)'."""
+    warnings.warn("'enable_docking(...)' is deprecated. Use 'configure_app(docking=True, docking_space=dock_space)'.", DeprecationWarning, 2)
+    internal_dpg.configure_app(docking=True, docking_space=dock_space)
+
+
+def get_dearpygui_version() -> str:
+    """'get_dearpygui_version()' is deprecated. Use 'get_app_configuration()['version']'."""
+    warnings.warn("'get_dearpygui_version()' is deprecated. Use 'get_app_configuration()['version']'.", DeprecationWarning, 2)
+    return internal_dpg.get_app_configuration()["version"]
+
+
+def set_init_file(file: str = "dpg.ini") -> None:
+    """'init_file(...)' is deprecated. Use 'configure_app(init_file=file)'."""
+    warnings.warn("'init_file(...)' is deprecated. Use 'configure_app(init_file=file)'.", DeprecationWarning, 2)
+    internal_dpg.configure_app(init_file=file)
+
+
+def load_init_file(file: str) -> None:
+    """'load_init_file' is deprecated. Use 'configure_app(init_file=file, load_init_file=True)'."""
+    warnings.warn("'load_init_file' is deprecated. Use 'configure_app(init_file=file, load_init_file=True)'.", DeprecationWarning, 2)
+    internal_dpg.configure_app(init_file=file, load_init_file=True)
+
 
 ##########################################################
 # Container Context Managers
@@ -5668,6 +5698,20 @@ def clear_selected_nodes(node_editor : Union[int, str]) -> None:
 
 	return internal_dpg.clear_selected_nodes(node_editor)
 
+def configure_app(*, docking: bool =False, docking_space: bool =False, load_init_file: str ='', init_file: str ='') -> None:
+	"""
+	Undocumented
+	Args:
+		**docking (bool): Enables docking support.
+		**docking_space (bool): add explicit dockspace over viewport
+		**load_init_file (str): Load .ini file.
+		**init_file (str): 
+	Returns:
+		None
+	"""
+
+	return internal_dpg.configure_app(docking=docking, docking_space=docking_space, load_init_file=load_init_file, init_file=init_file)
+
 def configure_item_registry(*, allow_alias_overwrites: bool =False, manual_alias_management: bool =False, skip_required_args: bool =False, skip_optional_args: bool =False) -> None:
 	"""
 	Undocumented
@@ -6050,17 +6094,6 @@ def empty_container_stack() -> None:
 
 	return internal_dpg.empty_container_stack()
 
-def enable_docking(*, dock_space: bool =False) -> None:
-	"""
-	Undocumented
-	Args:
-		**dock_space (bool): add explicit dockspace over viewport
-	Returns:
-		None
-	"""
-
-	return internal_dpg.enable_docking(dock_space=dock_space)
-
 def fit_axis_data(axis : Union[int, str]) -> None:
 	"""
 	Sets the axis boundries max and min in the data series currently on the plot.
@@ -6134,6 +6167,16 @@ def get_all_items() -> Union[List[int], Tuple[int]]:
 
 	return internal_dpg.get_all_items()
 
+def get_app_configuration() -> dict:
+	"""
+	Undocumented
+	Args:
+	Returns:
+		dict
+	"""
+
+	return internal_dpg.get_app_configuration()
+
 def get_axis_limits(axis : Union[int, str]) -> Union[List[float], Tuple[float]]:
 	"""
 	Gets the specified axis limits.
@@ -6156,16 +6199,6 @@ def get_colormap_color(colormap : Union[int, str], index : int) -> Union[List[in
 	"""
 
 	return internal_dpg.get_colormap_color(colormap, index)
-
-def get_dearpygui_version() -> str:
-	"""
-	Returns the dearpygui version.
-	Args:
-	Returns:
-		str
-	"""
-
-	return internal_dpg.get_dearpygui_version()
 
 def get_delta_time() -> float:
 	"""
@@ -6616,17 +6649,6 @@ def load_image(file : str, *, gamma: float =1.0, gamma_scale_factor: float =1.0)
 
 	return internal_dpg.load_image(file, gamma=gamma, gamma_scale_factor=gamma_scale_factor)
 
-def load_init_file(file : str) -> None:
-	"""
-	Load dpg.ini file.
-	Args:
-		file (str): 
-	Returns:
-		None
-	"""
-
-	return internal_dpg.load_init_file(file)
-
 def lock_mutex() -> None:
 	"""
 	Locks mutex
@@ -6871,17 +6893,6 @@ def set_global_font_scale(scale : float) -> None:
 	"""
 
 	return internal_dpg.set_global_font_scale(scale)
-
-def set_init_file(*, file: str ='dpg.ini') -> None:
-	"""
-	set dpg.ini file.
-	Args:
-		**file (str): dpg.ini by default
-	Returns:
-		None
-	"""
-
-	return internal_dpg.set_init_file(file=file)
 
 def set_item_alias(item : Union[int, str], alias : str) -> None:
 	"""

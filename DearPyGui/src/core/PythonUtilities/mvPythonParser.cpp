@@ -704,7 +704,16 @@ namespace Marvel {
 		stub << "##########################################################\n\n";
 
 
-		std::ifstream inputStream1(file + "/_header.py");
+		std::ifstream inputStream0(file + "/_header.py");
+
+		for (std::string line; std::getline(inputStream0, line);)
+			stub << line << "\n";
+
+		stub << "\n##########################################################\n";
+		stub << "# Deprecated Commands\n";
+		stub << "##########################################################\n";
+
+		std::ifstream inputStream1(file + "/_deprecated.py");
 
 		for (std::string line; std::getline(inputStream1, line);)
 			stub << line << "\n";
