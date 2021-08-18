@@ -13,6 +13,37 @@ extern IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg
 
 namespace Marvel {
 
+	std::vector <IDXGIAdapter*> EnumerateAdapters()
+	{
+		IDXGIAdapter* pAdapter;
+		std::vector <IDXGIAdapter*> vAdapters;
+		IDXGIFactory* pFactory = NULL;
+
+
+		// Create a DXGIFactory object.
+		if (FAILED(CreateDXGIFactory(__uuidof(IDXGIFactory), (void**)&pFactory)))
+		{
+			return vAdapters;
+		}
+
+
+		for (UINT i = 0;
+			pFactory->EnumAdapters(i, &pAdapter) != DXGI_ERROR_NOT_FOUND;
+			++i)
+		{
+			vAdapters.push_back(pAdapter);
+		}
+
+
+		if (pFactory)
+		{
+			pFactory->Release();
+		}
+
+		return vAdapters;
+
+	}
+
 	mvViewport* mvViewport::CreateViewport(unsigned width, unsigned height)
 	{
 		return new mvWindowsViewport(width, height);
@@ -265,15 +296,57 @@ namespace Marvel {
 		sd.Windowed = TRUE;
 		sd.SwapEffect = DXGI_SWAP_EFFECT_DISCARD;
 
+		auto adapters = EnumerateAdapters();
+
 		UINT createDeviceFlags = 0;
 		D3D_FEATURE_LEVEL featureLevel;
 		const D3D_FEATURE_LEVEL featureLevelArray[2] = { D3D_FEATURE_LEVEL_11_0, D3D_FEATURE_LEVEL_10_0, };
-		if (D3D11CreateDeviceAndSwapChain(nullptr, D3D_DRIVER_TYPE_HARDWARE, nullptr,
-			createDeviceFlags, featureLevelArray, 2, D3D11_SDK_VERSION, &sd, &s_pSwapChain,
-			&s_pd3dDevice, &featureLevel, &s_pd3dDeviceContext) != S_OK)
-			return false;
 
-		CreateRenderTarget();
+		// use default adapter
+		if (mvApp::GetApp()->_info_auto_device)
+		{
+
+			int index = 0;
+			int adapterMemory = 0;
+
+			for (int i = 0; i < adapters.size(); i++)
+			{
+				DXGI_ADAPTER_DESC adpdesc;
+				adapters[i]->GetDesc(&adpdesc);
+				if (adpdesc.DedicatedVideoMemory > adapterMemory)
+				{
+					adapterMemory = adpdesc.DedicatedVideoMemory;
+					index = i;
+				}
+
+			}
+
+			if (D3D11CreateDeviceAndSwapChain(adapters[index], D3D_DRIVER_TYPE_UNKNOWN, nullptr,
+				createDeviceFlags, featureLevelArray, 2, D3D11_SDK_VERSION, &sd, &s_pSwapChain,
+				&s_pd3dDevice, &featureLevel, &s_pd3dDeviceContext) != S_OK)
+				return false;
+		}
+		else if (mvApp::GetApp()->_info_device == -1)
+		{
+			if (D3D11CreateDeviceAndSwapChain(nullptr, D3D_DRIVER_TYPE_HARDWARE, nullptr,
+				createDeviceFlags, featureLevelArray, 2, D3D11_SDK_VERSION, &sd, &s_pSwapChain,
+				&s_pd3dDevice, &featureLevel, &s_pd3dDeviceContext) != S_OK)
+				return false;
+		}
+		else
+		{
+
+			if (D3D11CreateDeviceAndSwapChain(adapters[mvApp::GetApp()->_info_device], D3D_DRIVER_TYPE_UNKNOWN, nullptr,
+				createDeviceFlags, featureLevelArray, 2, D3D11_SDK_VERSION, &sd, &s_pSwapChain,
+				&s_pd3dDevice, &featureLevel, &s_pd3dDeviceContext) != S_OK)
+				return false;
+		}
+
+		// create render target
+		ID3D11Texture2D* pBackBuffer;
+		s_pSwapChain->GetBuffer(0, IID_PPV_ARGS(&pBackBuffer));
+		s_pd3dDevice->CreateRenderTargetView(pBackBuffer, nullptr, &s_mainRenderTargetView);
+		pBackBuffer->Release();
 
 		//UINT support1;
 		//s_pd3dDevice->CheckFormatSupport(DXGI_FORMAT_R8G8B8A8_SINT, &support1);
@@ -306,14 +379,6 @@ namespace Marvel {
 			s_pd3dDevice->Release();
 			s_pd3dDevice = nullptr;
 		}
-	}
-
-	void mvWindowsViewport::CreateRenderTarget()
-	{
-		ID3D11Texture2D* pBackBuffer;
-		s_pSwapChain->GetBuffer(0, IID_PPV_ARGS(&pBackBuffer));
-		s_pd3dDevice->CreateRenderTargetView(pBackBuffer, nullptr, &s_mainRenderTargetView);
-		pBackBuffer->Release();
 	}
 
 	void mvWindowsViewport::CleanupRenderTarget()
@@ -410,7 +475,12 @@ namespace Marvel {
 					s_pSwapChain->ResizeBuffers(0, (UINT)LOWORD(lParam), (UINT)HIWORD(lParam), DXGI_FORMAT_UNKNOWN, 0);
 				else
 					s_pSwapChain->ResizeBuffers(0, (UINT)awidth, (UINT)aheight, DXGI_FORMAT_UNKNOWN, 0);
-				CreateRenderTarget();
+
+				// recreate render target
+				ID3D11Texture2D* pBackBuffer;
+				s_pSwapChain->GetBuffer(0, IID_PPV_ARGS(&pBackBuffer));
+				s_pd3dDevice->CreateRenderTargetView(pBackBuffer, nullptr, &s_mainRenderTargetView);
+				pBackBuffer->Release();
 			}
 			return 0;
 		case WM_SYSCOMMAND:

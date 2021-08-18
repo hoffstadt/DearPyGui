@@ -23,15 +23,28 @@ We generally fold multiple commits pertaining to the same topic as a single entr
 ## VERSION 0.8.x
 
 ### New
-* command: added `add_item_pool(...)`
+* module:  added `experimental`
+* command: added context manager for `add_plot_axis(...)`
+* command: added `configure_app(...)`
+* command: added `get_app_configuration(...)`
 * command: added `add_item_set(...)`
 * command: added `add_template_registry(...)`
 * command: added `bind_template_registry(...)`
 * keyword: added `skip_required_args` to `configure_item_registry(...)`
 * keyword: added `skip_optional_args` to `configure_item_registry(...)`
+* keyword: added `id` to `popup(...)`
+* added deprecation system
+* callbacks will now send alias through the `sender` argument if alias is used.
+
+### Deprecated
+* command: `enable_docking(...)` is deprecated. Use `configure_app(docking=True, docking_space=dock_space)`
+* command: `get_dearpygui_version()` is deprecated. Use `get_app_configuration()['version']`.
+* command: `init_file(...)` is deprecated. Use `configure_app(init_file=file)`.
+* command: `load_init_file` is deprecated. Use `configure_app(init_file=file, load_init_file=True)`.
 
 ### Fixes
 * fixed `get_item_configuration(...)` memory leak #1179
+* fixed issue to allow `source` to be alias #1181
 
 ## VERSION 0.8.64
 

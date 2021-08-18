@@ -1,5 +1,6 @@
 from typing import List, Any, Callable, Union, Tuple
 from contextlib import contextmanager
+import warnings
 import dearpygui._dearpygui as internal_dpg
 from dearpygui._dearpygui import mvBuffer
 
@@ -15,6 +16,7 @@ from dearpygui._dearpygui import mvBuffer
 #      - State Commands
 #      - Viewport Setter Commands
 #      - Viewport Getter Commands
+#      - Deprecated Commands
 #      - Container Context Managers
 #      - Core Wrappings
 #      - Constants
@@ -80,10 +82,13 @@ def mutex():
 
 
 @contextmanager
-def popup(parent: Union[int, str], mousebutton: int = internal_dpg.mvMouseButton_Right, modal: bool = False) -> int:
+def popup(parent: Union[int, str], mousebutton: int = internal_dpg.mvMouseButton_Right, modal: bool = False, id:Union[int, str] = 0) -> int:
     
     try:
-        _internal_popup_id = internal_dpg.generate_uuid()
+        if id == 0:
+            _internal_popup_id = internal_dpg.generate_uuid()
+        else:
+            _internal_popup_id = id
         internal_dpg.add_clicked_handler(parent, mousebutton, callback=lambda: internal_dpg.configure_item(_internal_popup_id, show=True))
         if modal:
             internal_dpg.add_window(modal=True, show=False, id=_internal_popup_id, autosize=True)

@@ -60,7 +60,7 @@ int main(int argc, char* argv[])
 	PyObject* mmarvel = PyImport_ImportModule("_dearpygui");
 
 	// tests
-	//runTest("simple_tests");
+	runTest("simple_tests");
 
 #ifndef MV_TESTS_ONLY
 	// sandbox

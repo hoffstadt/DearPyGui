@@ -68,8 +68,6 @@ namespace Marvel {
 
         MV_CREATE_COMMAND(lock_mutex);
         MV_CREATE_COMMAND(unlock_mutex);
-        MV_CREATE_COMMAND(enable_docking);
-        MV_CREATE_COMMAND(get_dearpygui_version);
         MV_CREATE_COMMAND(setup_dearpygui);
         MV_CREATE_COMMAND(render_dearpygui_frame);
         MV_CREATE_COMMAND(cleanup_dearpygui);
@@ -78,20 +76,18 @@ namespace Marvel {
         MV_CREATE_COMMAND(stop_dearpygui);
         MV_CREATE_COMMAND(is_dearpygui_running);
         MV_CREATE_COMMAND(generate_uuid);
-        MV_CREATE_COMMAND(set_init_file);
-        MV_CREATE_COMMAND(load_init_file);
         MV_CREATE_COMMAND(save_init_file);
         MV_CREATE_COMMAND(load_image);
         MV_CREATE_COMMAND(split_frame);
         MV_CREATE_COMMAND(get_frame_count);
         MV_CREATE_COMMAND(get_frame_rate);
         MV_CREATE_COMMAND(reset_default_theme);
+        MV_CREATE_COMMAND(get_app_configuration);
+        MV_CREATE_COMMAND(configure_app);
 
         MV_START_COMMANDS
             MV_ADD_COMMAND(lock_mutex);
             MV_ADD_COMMAND(unlock_mutex);
-            MV_ADD_COMMAND(enable_docking);
-            MV_ADD_COMMAND(get_dearpygui_version);
             MV_ADD_COMMAND(setup_dearpygui);
             MV_ADD_COMMAND(render_dearpygui_frame);
             MV_ADD_COMMAND(cleanup_dearpygui);
@@ -100,14 +96,14 @@ namespace Marvel {
             MV_ADD_COMMAND(stop_dearpygui);
             MV_ADD_COMMAND(is_dearpygui_running);
             MV_ADD_COMMAND(generate_uuid);
-            MV_ADD_COMMAND(set_init_file);
-            MV_ADD_COMMAND(load_init_file);
             MV_ADD_COMMAND(save_init_file);
             MV_ADD_COMMAND(load_image);
             MV_ADD_COMMAND(split_frame);
             MV_ADD_COMMAND(get_frame_count);
             MV_ADD_COMMAND(get_frame_rate);
             MV_ADD_COMMAND(reset_default_theme);
+            MV_ADD_COMMAND(get_app_configuration);
+            MV_ADD_COMMAND(configure_app);
         MV_END_COMMANDS
 
         //-----------------------------------------------------------------------------
@@ -116,6 +112,7 @@ namespace Marvel {
         static mvApp*      GetApp       ();
         static void        DeleteApp    ();
         static const char* GetVersion   () { return MV_SANDBOX_VERSION; }
+        static const char* GetPlatform  () { return MV_PLATFORM; }
         static bool        IsAppStarted () { return s_started; }
         static void        StopApp      () { s_started = false; } // ugly
         static void        SetDefaultTheme();
@@ -152,8 +149,6 @@ namespace Marvel {
         //-----------------------------------------------------------------------------
         // Ini utilities
         //-----------------------------------------------------------------------------
-        void setIniFile (const std::string& file) { _iniFile = file; }
-        void loadIniFile(const std::string& file) { _iniFile = file; _loadIniFile = true; }
         bool isUsingIniFile() const { return !_iniFile.empty(); }
         
         //-----------------------------------------------------------------------------
@@ -161,7 +156,7 @@ namespace Marvel {
         //-----------------------------------------------------------------------------
         void        turnOnDocking(bool dockSpace);	
         void        setViewport  (mvViewport* viewport) { _viewport = viewport; }
-        mvViewport* getViewport  ()       { return _viewport; }
+        mvViewport* getViewport  () { return _viewport; }
 
         //-----------------------------------------------------------------------------
         // Other
@@ -195,6 +190,11 @@ namespace Marvel {
         std::future<bool> _future;
 
         bool _resetTheme = false;
+
+        // info
+        bool        _info_auto_device = false;
+        int         _info_device = -1;
+        std::string _info_device_name;
         
     };
 

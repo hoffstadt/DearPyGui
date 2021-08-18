@@ -244,24 +244,21 @@ namespace Marvel {
 	{
 
 		{
+			mvPythonParser parser(mvPyDataType::Dict, "Undocumented", { "General" });
+			parser.finalize();
+			parsers->insert({ "get_app_configuration", parser });
+		}
+
+		{
 			mvPythonParser parser(mvPyDataType::None, "Undocumented", { "General" });
-			parser.addArg<mvPyDataType::Bool>("dock_space", mvArgType::KEYWORD_ARG, "False", "add explicit dockspace over viewport");
+			parser.addArg<mvPyDataType::Bool>("docking", mvArgType::KEYWORD_ARG, "False", "Enables docking support.");
+			parser.addArg<mvPyDataType::Bool>("docking_space", mvArgType::KEYWORD_ARG, "False", "add explicit dockspace over viewport");
+			parser.addArg<mvPyDataType::String>("load_init_file", mvArgType::KEYWORD_ARG, "''", "Load .ini file.");
+			parser.addArg<mvPyDataType::String>("init_file", mvArgType::KEYWORD_ARG, "''");
+			parser.addArg<mvPyDataType::Integer>("device", mvArgType::KEYWORD_ARG, "-1", "Which display adapter to use. (-1 will use default)");
+			parser.addArg<mvPyDataType::Bool>("auto_device", mvArgType::KEYWORD_ARG, "False", "Let us pick the display adapter.");
 			parser.finalize();
-			parsers->insert({ "enable_docking", parser });
-		}
-
-		{
-			mvPythonParser parser(mvPyDataType::None, "set dpg.ini file.", { "General" });
-			parser.addArg<mvPyDataType::String>("file", mvArgType::KEYWORD_ARG, "'dpg.ini'", "dpg.ini by default");
-			parser.finalize();
-			parsers->insert({ "set_init_file", parser });
-		}
-
-		{
-			mvPythonParser parser(mvPyDataType::None, "Load dpg.ini file.", { "General" });
-			parser.addArg<mvPyDataType::String>("file");
-			parser.finalize();
-			parsers->insert({ "load_init_file", parser });
+			parsers->insert({ "configure_app", parser });
 		}
 
 		{
@@ -366,43 +363,11 @@ namespace Marvel {
 			parsers->insert({ "get_frame_rate", parser });
 		}
 
-		{
-			mvPythonParser parser(mvPyDataType::String, "Returns the dearpygui version.", { "General" });
-			parser.finalize();
-			parsers->insert({ "get_dearpygui_version", parser });
-		}
-
-	}
-
-	PyObject* mvApp::set_init_file(PyObject* self, PyObject* args, PyObject* kwargs)
-	{
-		const char* file;
-
-		if (!(mvApp::GetApp()->getParsers())["set_init_file"].parse(args, kwargs, __FUNCTION__,
-			&file))
-			return GetPyNone();
-
-		mvApp::GetApp()->setIniFile(file);
-
-		return GetPyNone();
 	}
 
 	PyObject* mvApp::reset_default_theme(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		mvApp::GetApp()->_resetTheme = true;
-
-		return GetPyNone();
-	}
-
-	PyObject* mvApp::load_init_file(PyObject* self, PyObject* args, PyObject* kwargs)
-	{
-		const char* file;
-
-		if (!(mvApp::GetApp()->getParsers())["load_init_file"].parse(args, kwargs, __FUNCTION__,
-			&file))
-			return GetPyNone();
-
-		mvApp::GetApp()->loadIniFile(file);
 
 		return GetPyNone();
 	}
@@ -468,22 +433,6 @@ namespace Marvel {
 
 		if (!mvApp::s_manualMutexControl) std::lock_guard<std::mutex> lk(mvApp::s_mutex);
 		return ToPyInt(mvApp::s_frame);
-	}
-
-	PyObject* mvApp::enable_docking(PyObject* self, PyObject* args, PyObject* kwargs)
-	{
-		int dockspace = false;
-
-		if (!(mvApp::GetApp()->getParsers())["enable_docking"].parse(args, kwargs, __FUNCTION__,
-			&dockspace))
-			return GetPyNone();
-
-		mvApp::GetApp()->getCallbackRegistry().submit([=]()
-			{
-				mvApp::GetApp()->turnOnDocking(dockspace);
-			});
-
-		return GetPyNone();
 	}
 
 	PyObject* mvApp::load_image(PyObject* self, PyObject* args, PyObject* kwargs)
@@ -626,13 +575,60 @@ namespace Marvel {
 
 	}
 
-	PyObject* mvApp::get_dearpygui_version(PyObject* self, PyObject* args, PyObject* kwargs)
-	{
-		return ToPyString(mvApp::GetApp()->GetVersion());
-	}
-
 	PyObject* mvApp::generate_uuid(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		return ToPyUUID(mvApp::GenerateUUID());
+	}
+
+	PyObject* mvApp::configure_app(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+
+		int docking = false;
+		int docking_space = false;
+		const char* load_init_file = "";
+		const char* init_file = "";
+		int device = -1;
+		int auto_device = false;
+
+		if (!(mvApp::GetApp()->getParsers())["configure_app"].parse(args, kwargs, __FUNCTION__,
+			&docking, &docking_space, &load_init_file, &init_file, &device, &auto_device))
+			return GetPyNone();
+
+		if (!mvApp::s_manualMutexControl) std::lock_guard<std::mutex> lk(mvApp::s_mutex);
+
+		if (docking)
+		{
+			mvApp::GetApp()->_docking = docking;
+			mvApp::GetApp()->_dockingViewport = docking_space;
+		}
+
+		mvApp::GetApp()->_iniFile = init_file;
+		mvApp::GetApp()->_info_device = device;
+		mvApp::GetApp()->_info_auto_device = auto_device;
+
+		if (!std::string(load_init_file).empty())
+		{
+			mvApp::GetApp()->_iniFile = load_init_file;
+			mvApp::GetApp()->_loadIniFile = true;
+		}
+
+		return GetPyNone();
+	}
+
+	PyObject* mvApp::get_app_configuration(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		if (!mvApp::s_manualMutexControl) std::lock_guard<std::mutex> lk(mvApp::s_mutex);
+		auto registry = mvApp::GetApp()->getItemRegistry();
+		PyObject* pdict = PyDict_New();
+		PyDict_SetItemString(pdict, "auto_device", mvPyObject(ToPyBool(mvApp::GetApp()->_info_auto_device)));
+		PyDict_SetItemString(pdict, "docking", mvPyObject(ToPyBool(mvApp::GetApp()->_docking)));
+		PyDict_SetItemString(pdict, "docking_space", mvPyObject(ToPyBool(mvApp::GetApp()->_docking)));
+		PyDict_SetItemString(pdict, "load_init_file", mvPyObject(ToPyBool(mvApp::GetApp()->_loadIniFile)));
+		PyDict_SetItemString(pdict, "version", mvPyObject(ToPyString(mvApp::GetApp()->GetVersion())));
+		PyDict_SetItemString(pdict, "init_file", mvPyObject(ToPyString(mvApp::GetApp()->_iniFile)));
+		PyDict_SetItemString(pdict, "platform", mvPyObject(ToPyString(mvApp::GetPlatform())));
+		PyDict_SetItemString(pdict, "device", mvPyObject(ToPyInt(mvApp::GetApp()->_info_device)));
+		PyDict_SetItemString(pdict, "device_name", mvPyObject(ToPyString(mvApp::GetApp()->_info_device_name)));
+		return pdict;
 	}
 }

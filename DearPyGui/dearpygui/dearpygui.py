@@ -16,6 +16,7 @@
 
 from typing import List, Any, Callable, Union, Tuple
 from contextlib import contextmanager
+import warnings
 import dearpygui._dearpygui as internal_dpg
 from dearpygui._dearpygui import mvBuffer
 
@@ -31,6 +32,7 @@ from dearpygui._dearpygui import mvBuffer
 #      - State Commands
 #      - Viewport Setter Commands
 #      - Viewport Getter Commands
+#      - Deprecated Commands
 #      - Container Context Managers
 #      - Core Wrappings
 #      - Constants
@@ -96,10 +98,13 @@ def mutex():
 
 
 @contextmanager
-def popup(parent: Union[int, str], mousebutton: int = internal_dpg.mvMouseButton_Right, modal: bool = False) -> int:
+def popup(parent: Union[int, str], mousebutton: int = internal_dpg.mvMouseButton_Right, modal: bool = False, id:Union[int, str] = 0) -> int:
     
     try:
-        _internal_popup_id = internal_dpg.generate_uuid()
+        if id == 0:
+            _internal_popup_id = internal_dpg.generate_uuid()
+        else:
+            _internal_popup_id = id
         internal_dpg.add_clicked_handler(parent, mousebutton, callback=lambda: internal_dpg.configure_item(_internal_popup_id, show=True))
         if modal:
             internal_dpg.add_window(modal=True, show=False, id=_internal_popup_id, autosize=True)
@@ -1088,6 +1093,34 @@ def is_viewport_decorated() -> bool:
     return internal_dpg.get_viewport_configuration()["decorated"]
 
 ##########################################################
+# Deprecated Commands
+##########################################################
+
+def enable_docking(dock_space: bool = False) -> None:
+    """'enable_docking(...)' is deprecated. Use 'configure_app(docking=True, docking_space=dock_space)'."""
+    warnings.warn("'enable_docking(...)' is deprecated. Use 'configure_app(docking=True, docking_space=dock_space)'.", DeprecationWarning, 2)
+    internal_dpg.configure_app(docking=True, docking_space=dock_space)
+
+
+def get_dearpygui_version() -> str:
+    """'get_dearpygui_version()' is deprecated. Use 'get_app_configuration()['version']'."""
+    warnings.warn("'get_dearpygui_version()' is deprecated. Use 'get_app_configuration()['version']'.", DeprecationWarning, 2)
+    return internal_dpg.get_app_configuration()["version"]
+
+
+def set_init_file(file: str = "dpg.ini") -> None:
+    """'init_file(...)' is deprecated. Use 'configure_app(init_file=file)'."""
+    warnings.warn("'init_file(...)' is deprecated. Use 'configure_app(init_file=file)'.", DeprecationWarning, 2)
+    internal_dpg.configure_app(init_file=file)
+
+
+def load_init_file(file: str) -> None:
+    """'load_init_file' is deprecated. Use 'configure_app(init_file=file, load_init_file=True)'."""
+    warnings.warn("'load_init_file' is deprecated. Use 'configure_app(init_file=file, load_init_file=True)'.", DeprecationWarning, 2)
+    internal_dpg.configure_app(init_file=file, load_init_file=True)
+
+
+##########################################################
 # Container Context Managers
 ##########################################################
 
@@ -1428,24 +1461,6 @@ def handler_registry(*, label: str =None, user_data: Any =None, use_internal_lab
 	finally:
 		internal_dpg.pop_container_stack()
 @contextmanager
-def item_pool(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, id: Union[int, str] =0) -> Union[int, str]:
-	"""
-	Undocumented function
-	Args:
-		**label (str): Overrides 'name' as label.
-		**user_data (Any): User data for callbacks.
-		**use_internal_label (bool): Use generated internal label instead of user specified (appends ### uuid).
-		**id (Union[int, str]): Unique id used to programmatically refer to the item.If label is unused this will be the label.
-	Yields:
-		Union[int, str]
-	"""
-	try:
-		widget = internal_dpg.add_item_pool(label=label, user_data=user_data, use_internal_label=use_internal_label, id=id)
-		internal_dpg.push_container_stack(widget)
-		yield widget
-	finally:
-		internal_dpg.pop_container_stack()
-@contextmanager
 def item_set(type : int, count : int, *, label: str =None, user_data: Any =None, use_internal_label: bool =True, id: Union[int, str] =0) -> Union[int, str]:
 	"""
 	Undocumented function
@@ -1662,6 +1677,38 @@ def plot(*, label: str =None, user_data: Any =None, use_internal_label: bool =Tr
 	"""
 	try:
 		widget = internal_dpg.add_plot(label=label, user_data=user_data, use_internal_label=use_internal_label, id=id, width=width, height=height, indent=indent, parent=parent, before=before, payload_type=payload_type, callback=callback, drag_callback=drag_callback, drop_callback=drop_callback, show=show, pos=pos, filter_key=filter_key, delay_search=delay_search, tracked=tracked, track_offset=track_offset, no_title=no_title, no_menus=no_menus, no_box_select=no_box_select, no_mouse_pos=no_mouse_pos, no_highlight=no_highlight, no_child=no_child, query=query, crosshairs=crosshairs, anti_aliased=anti_aliased, equal_aspects=equal_aspects, pan_button=pan_button, pan_mod=pan_mod, fit_button=fit_button, context_menu_button=context_menu_button, box_select_button=box_select_button, box_select_mod=box_select_mod, box_select_cancel_button=box_select_cancel_button, query_button=query_button, query_mod=query_mod, query_toggle_mod=query_toggle_mod, horizontal_mod=horizontal_mod, vertical_mod=vertical_mod)
+		internal_dpg.push_container_stack(widget)
+		yield widget
+	finally:
+		internal_dpg.pop_container_stack()
+@contextmanager
+def plot_axis(axis : int, *, label: str =None, user_data: Any =None, use_internal_label: bool =True, id: Union[int, str] =0, parent: Union[int, str] =0, payload_type: str ='$$DPG_PAYLOAD', drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, no_gridlines: bool =False, no_tick_marks: bool =False, no_tick_labels: bool =False, log_scale: bool =False, invert: bool =False, lock_min: bool =False, lock_max: bool =False, time: bool =False) -> Union[int, str]:
+	"""
+	Adds a plot legend to a plot.
+	Args:
+		axis (int): 
+		**label (str): Overrides 'name' as label.
+		**user_data (Any): User data for callbacks.
+		**use_internal_label (bool): Use generated internal label instead of user specified (appends ### uuid).
+		**id (Union[int, str]): Unique id used to programmatically refer to the item.If label is unused this will be the label.
+		**parent (Union[int, str]): Parent to add this item to. (runtime adding)
+		**payload_type (str): Sender string type must be the same as the target for the target to run the payload_callback.
+		**drag_callback (Callable): Registers a drag callback for drag and drop.
+		**drop_callback (Callable): Registers a drop callback for drag and drop.
+		**show (bool): Attempt to render widget.
+		**no_gridlines (bool): 
+		**no_tick_marks (bool): 
+		**no_tick_labels (bool): 
+		**log_scale (bool): 
+		**invert (bool): 
+		**lock_min (bool): 
+		**lock_max (bool): 
+		**time (bool): 
+	Yields:
+		Union[int, str]
+	"""
+	try:
+		widget = internal_dpg.add_plot_axis(axis, label=label, user_data=user_data, use_internal_label=use_internal_label, id=id, parent=parent, payload_type=payload_type, drag_callback=drag_callback, drop_callback=drop_callback, show=show, no_gridlines=no_gridlines, no_tick_marks=no_tick_marks, no_tick_labels=no_tick_labels, log_scale=log_scale, invert=invert, lock_min=lock_min, lock_max=lock_max, time=time)
 		internal_dpg.push_container_stack(widget)
 		yield widget
 	finally:
@@ -5668,6 +5715,22 @@ def clear_selected_nodes(node_editor : Union[int, str]) -> None:
 
 	return internal_dpg.clear_selected_nodes(node_editor)
 
+def configure_app(*, docking: bool =False, docking_space: bool =False, load_init_file: str ='', init_file: str ='', device: int =-1, auto_device: bool =False) -> None:
+	"""
+	Undocumented
+	Args:
+		**docking (bool): Enables docking support.
+		**docking_space (bool): add explicit dockspace over viewport
+		**load_init_file (str): Load .ini file.
+		**init_file (str): 
+		**device (int): Which display adapter to use. (-1 will use default)
+		**auto_device (bool): Let us pick the display adapter.
+	Returns:
+		None
+	"""
+
+	return internal_dpg.configure_app(docking=docking, docking_space=docking_space, load_init_file=load_init_file, init_file=init_file, device=device, auto_device=auto_device)
+
 def configure_item_registry(*, allow_alias_overwrites: bool =False, manual_alias_management: bool =False, skip_required_args: bool =False, skip_optional_args: bool =False) -> None:
 	"""
 	Undocumented
@@ -6050,17 +6113,6 @@ def empty_container_stack() -> None:
 
 	return internal_dpg.empty_container_stack()
 
-def enable_docking(*, dock_space: bool =False) -> None:
-	"""
-	Undocumented
-	Args:
-		**dock_space (bool): add explicit dockspace over viewport
-	Returns:
-		None
-	"""
-
-	return internal_dpg.enable_docking(dock_space=dock_space)
-
 def fit_axis_data(axis : Union[int, str]) -> None:
 	"""
 	Sets the axis boundries max and min in the data series currently on the plot.
@@ -6134,6 +6186,16 @@ def get_all_items() -> Union[List[int], Tuple[int]]:
 
 	return internal_dpg.get_all_items()
 
+def get_app_configuration() -> dict:
+	"""
+	Undocumented
+	Args:
+	Returns:
+		dict
+	"""
+
+	return internal_dpg.get_app_configuration()
+
 def get_axis_limits(axis : Union[int, str]) -> Union[List[float], Tuple[float]]:
 	"""
 	Gets the specified axis limits.
@@ -6156,16 +6218,6 @@ def get_colormap_color(colormap : Union[int, str], index : int) -> Union[List[in
 	"""
 
 	return internal_dpg.get_colormap_color(colormap, index)
-
-def get_dearpygui_version() -> str:
-	"""
-	Returns the dearpygui version.
-	Args:
-	Returns:
-		str
-	"""
-
-	return internal_dpg.get_dearpygui_version()
 
 def get_delta_time() -> float:
 	"""
@@ -6616,17 +6668,6 @@ def load_image(file : str, *, gamma: float =1.0, gamma_scale_factor: float =1.0)
 
 	return internal_dpg.load_image(file, gamma=gamma, gamma_scale_factor=gamma_scale_factor)
 
-def load_init_file(file : str) -> None:
-	"""
-	Load dpg.ini file.
-	Args:
-		file (str): 
-	Returns:
-		None
-	"""
-
-	return internal_dpg.load_init_file(file)
-
 def lock_mutex() -> None:
 	"""
 	Locks mutex
@@ -6871,17 +6912,6 @@ def set_global_font_scale(scale : float) -> None:
 	"""
 
 	return internal_dpg.set_global_font_scale(scale)
-
-def set_init_file(*, file: str ='dpg.ini') -> None:
-	"""
-	set dpg.ini file.
-	Args:
-		**file (str): dpg.ini by default
-	Returns:
-		None
-	"""
-
-	return internal_dpg.set_init_file(file=file)
 
 def set_item_alias(item : Union[int, str], alias : str) -> None:
 	"""

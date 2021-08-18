@@ -13,7 +13,7 @@ namespace Marvel {
 	void mvPlotAxis::InsertParser(std::map<std::string, mvPythonParser>* parsers)
 	{
 		{
-			mvPythonParser parser(mvPyDataType::UUID, "Adds a plot legend to a plot.", { "Plotting", "Widgets" });
+			mvPythonParser parser(mvPyDataType::UUID, "Adds a plot legend to a plot.", { "Plotting", "Widgets" }, true);
 			mvAppItem::AddCommonArgs(parser, (CommonParserArgs)(
 				MV_PARSER_ARG_ID |
 				MV_PARSER_ARG_PARENT |
