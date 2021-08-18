@@ -166,6 +166,26 @@ namespace Marvel {
         glfwRestoreWindow(_window);
     }
 
+    void mvAppleViewport::fullscreen()
+    {
+        GLFWmonitor *monitor = glfwGetPrimaryMonitor();
+        const GLFWvidmode *mode = glfwGetVideoMode(monitor);
+        int framerate = -1;
+        if (mvViewport::_vsync){
+            framerate = mode->refreshRate;
+        }
+        if (mvViewport::is_fullscreened){
+            glfwSetWindowMonitor(_window, nullptr, mvViewport::_storedX, mvViewport::_storedY, mvViewport::_storedWidth, mvViewport::_storedHeight, framerate);
+        } else {
+            mvViewport::_storedWidth = mvViewport::_actualWidth;
+            mvViewport::_storedHeight = mvViewport::_actualHeight;
+            mvViewport::_storedX = mvViewport::_xpos;
+            mvViewport::_storedY = mvViewport::_ypos;
+            glfwSetWindowMonitor(_window, monitor, 0, 0, mode->width, mode->height, framerate);
+        }
+        mvViewport::is_fullscreened = !mvViewport::is_fullscreened;
+	}
+
     void mvAppleViewport::renderFrame()
     {
         _running = !glfwWindowShouldClose(_window);

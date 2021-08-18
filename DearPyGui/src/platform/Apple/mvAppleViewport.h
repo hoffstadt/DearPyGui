@@ -21,6 +21,7 @@ namespace Marvel {
         void maximize() override;
         void minimize() override;
         void restore() override;
+        void fullscreen() override;
 
         static id<MTLDevice> GetDevice() { return device; }
 

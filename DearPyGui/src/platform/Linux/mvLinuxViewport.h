@@ -23,6 +23,7 @@ namespace Marvel {
         void maximize   () override;
         void minimize   () override;
         void restore    () override;
+		void fullscreen () override;
 
 	private:
 
