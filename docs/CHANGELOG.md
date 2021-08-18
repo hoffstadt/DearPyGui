@@ -1,4 +1,4 @@
-# 0.8.x CHANGELOG
+# 0.9.x CHANGELOG
 
 This document holds the user-facing changelog that we also use in release notes.
 We generally fold multiple commits pertaining to the same topic as a single entry.
@@ -20,10 +20,26 @@ We generally fold multiple commits pertaining to the same topic as a single entr
 - Read the `Breaking Changes` section (here in the changelog).
 - Please report any issue!
 
-## VERSION 0.8.x
+## VERSION 0.9.0
+
+### Breaking Changes
+* item: removed table_next_column
+* table rows now required
 
 ### New
 * module:  added `experimental`
+* item:    added `add_table_cell(...)`
+* command: added `highlight_table_column(...)`
+* command: added `unhighlight_table_column(...)`
+* command: added `set_table_row_color(...)`
+* command: added `unset_table_row_color(...)`
+* command: added `highlight_table_cell(...)`
+* command: added `unhighlight_table_cell(...)`
+* command: added `highlight_table_row(...)`
+* command: added `unhighlight_table_row(...)`
+* command: added `is_table_column_highlighted(...)`
+* command: added `is_table_row_highlighted(...)`
+* command: added `is_table_cell_highlighted(...)`
 * command: added context manager for `add_plot_axis(...)`
 * command: added `configure_app(...)`
 * command: added `get_app_configuration(...)`
@@ -33,8 +49,11 @@ We generally fold multiple commits pertaining to the same topic as a single entr
 * keyword: added `skip_required_args` to `configure_item_registry(...)`
 * keyword: added `skip_optional_args` to `configure_item_registry(...)`
 * keyword: added `id` to `popup(...)`
+* keyword: added `clipper` to `add_table(...)`
 * added deprecation system
 * callbacks will now send alias through the `sender` argument if alias is used.
+* columns can now be programmatically hidden
+* table "value" is now a string, which acts as a filter using the row filter keys
 
 ### Deprecated
 * command: `enable_docking(...)` is deprecated. Use `configure_app(docking=True, docking_space=dock_space)`

@@ -1,4 +1,4 @@
-#include "mvTableRow.h"
+#include "mvTableCell.h"
 #include "mvApp.h"
 #include "mvCore.h"
 #include "mvLog.h"
@@ -7,7 +7,7 @@
 
 namespace Marvel {
 
-	void mvTableRow::InsertParser(std::map<std::string, mvPythonParser>* parsers)
+	void mvTableCell::InsertParser(std::map<std::string, mvPythonParser>* parsers)
 	{
 
 		mvPythonParser parser(mvPyDataType::UUID, "Undocumented function", { "Tables", "Containers", "Widgets" }, true);
@@ -24,10 +24,25 @@ namespace Marvel {
 		parsers->insert({ s_command, parser });
 	}
 
-	mvTableRow::mvTableRow(mvUUID uuid)
+	mvTableCell::mvTableCell(mvUUID uuid)
 		: mvAppItem(uuid)
 	{
 
+	}
+
+	void mvTableCell::draw(ImDrawList* drawlist, float x, float y)
+	{
+		ScopedID id(_uuid);
+
+		for (auto& item : _children[1])
+		{
+			if (!item->preDraw())
+				continue;
+
+			item->draw(drawlist, ImGui::GetCursorPosX(), ImGui::GetCursorPosY());
+
+			item->postDraw();
+		}
 	}
 
 }

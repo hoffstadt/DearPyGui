@@ -11,19 +11,20 @@ with dpg.font_registry():
 
 demo.show_demo()
 
+datagrid_data = []
+rows = 100
+columns = 10
+for i in range(rows):
+    new_row = []
+    for j in range(columns):
+        new_row.append(j)
+    datagrid_data.append(new_row)
 
-datagrid_data = [
-    [1, 2, 3, 4],
-    [5, 6, 7, 8],
-    [9, 10, 11, 12],
-    ]
+datagrid = mvDataGrid(columns, datagrid_data)
 
-datagrid = mvDataGrid(4, datagrid_data)
-
-with dpg.window(label="tutorial"):
+with dpg.window(label="tutorial", width=500, height=500):
     dpg.add_button(label="Press me")
     datagrid.submit()
-
 
 dpg.setup_viewport()
 dpg.start_dearpygui()

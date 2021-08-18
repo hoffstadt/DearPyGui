@@ -18,6 +18,7 @@ namespace Marvel {
 			MV_PARSER_ARG_PARENT |
 			MV_PARSER_ARG_WIDTH |
 			MV_PARSER_ARG_BEFORE |
+			MV_PARSER_ARG_ENABLED |
 			MV_PARSER_ARG_SHOW)
 		);
 
@@ -60,6 +61,11 @@ namespace Marvel {
 	{
 		_id = _uuid;
 		ImGui::TableSetupColumn(_internalLabel.c_str(), _flags, _init_width_or_weight, _id);
+
+		if (wasShownLastFrameReset())
+			ImGui::TableSetColumnEnabled(_location, _enabled);
+		else if(wasHiddenLastFrameReset())
+			ImGui::TableSetColumnEnabled(_location, _enabled);
 	}
 
 	void mvTableColumn::handleSpecificKeywordArgs(PyObject* dict)
