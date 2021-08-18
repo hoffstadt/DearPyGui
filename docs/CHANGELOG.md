@@ -24,6 +24,7 @@ We generally fold multiple commits pertaining to the same topic as a single entr
 
 ### New
 * module:  added `experimental`
+* command: added context manager for `add_plot_axis(...)`
 * command: added `configure_app(...)`
 * command: added `get_app_configuration(...)`
 * command: added `add_item_set(...)`

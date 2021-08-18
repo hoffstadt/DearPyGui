@@ -1697,6 +1697,38 @@ def plot(*, label: str =None, user_data: Any =None, use_internal_label: bool =Tr
 	finally:
 		internal_dpg.pop_container_stack()
 @contextmanager
+def plot_axis(axis : int, *, label: str =None, user_data: Any =None, use_internal_label: bool =True, id: Union[int, str] =0, parent: Union[int, str] =0, payload_type: str ='$$DPG_PAYLOAD', drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, no_gridlines: bool =False, no_tick_marks: bool =False, no_tick_labels: bool =False, log_scale: bool =False, invert: bool =False, lock_min: bool =False, lock_max: bool =False, time: bool =False) -> Union[int, str]:
+	"""
+	Adds a plot legend to a plot.
+	Args:
+		axis (int): 
+		**label (str): Overrides 'name' as label.
+		**user_data (Any): User data for callbacks.
+		**use_internal_label (bool): Use generated internal label instead of user specified (appends ### uuid).
+		**id (Union[int, str]): Unique id used to programmatically refer to the item.If label is unused this will be the label.
+		**parent (Union[int, str]): Parent to add this item to. (runtime adding)
+		**payload_type (str): Sender string type must be the same as the target for the target to run the payload_callback.
+		**drag_callback (Callable): Registers a drag callback for drag and drop.
+		**drop_callback (Callable): Registers a drop callback for drag and drop.
+		**show (bool): Attempt to render widget.
+		**no_gridlines (bool): 
+		**no_tick_marks (bool): 
+		**no_tick_labels (bool): 
+		**log_scale (bool): 
+		**invert (bool): 
+		**lock_min (bool): 
+		**lock_max (bool): 
+		**time (bool): 
+	Yields:
+		Union[int, str]
+	"""
+	try:
+		widget = internal_dpg.add_plot_axis(axis, label=label, user_data=user_data, use_internal_label=use_internal_label, id=id, parent=parent, payload_type=payload_type, drag_callback=drag_callback, drop_callback=drop_callback, show=show, no_gridlines=no_gridlines, no_tick_marks=no_tick_marks, no_tick_labels=no_tick_labels, log_scale=log_scale, invert=invert, lock_min=lock_min, lock_max=lock_max, time=time)
+		internal_dpg.push_container_stack(widget)
+		yield widget
+	finally:
+		internal_dpg.pop_container_stack()
+@contextmanager
 def staging_container(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, id: Union[int, str] =0) -> Union[int, str]:
 	"""
 	Undocumented function
