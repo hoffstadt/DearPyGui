@@ -88,9 +88,7 @@ namespace Marvel {
         MV_ITEM_DESC_DEFAULT     = 0,
         MV_ITEM_DESC_ROOT        = 1 << 1,
         MV_ITEM_DESC_CONTAINER   = 1 << 2,
-        MV_ITEM_DESC_AFTER       = 1 << 3,
-        MV_ITEM_DESC_HANDLER     = 1 << 4,
-        MV_ITEM_DESC_ALWAYS_DRAW = 1 << 5,
+        MV_ITEM_DESC_HANDLER     = 1 << 3 // todo: rename descriptively
     };
 
     enum CommonParserArgs

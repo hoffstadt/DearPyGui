@@ -64,6 +64,7 @@ We generally fold multiple commits pertaining to the same topic as a single entr
 ### Fixes
 * fixed `get_item_configuration(...)` memory leak #1179
 * fixed issue to allow `source` to be alias #1181
+* fixed window info not registering as container #1188
 
 ## VERSION 0.8.64
 

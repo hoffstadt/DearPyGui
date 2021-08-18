@@ -456,10 +456,7 @@ namespace Marvel{
 	bool mvAppItem::preDraw()
 	{
 		if (!_show)
-		{
-			if(!DoesItemHaveFlag(this, MV_ITEM_DESC_ALWAYS_DRAW))
-				return false;
-		}
+			return false;
 
 		if (_focusNextFrame)
 		{
@@ -1416,7 +1413,7 @@ namespace Marvel{
 		else
 			PyDict_SetItemString(dict, "disabled_theme", mvPyObject(GetPyNone()));
 
-		if(getDescFlags() == MV_ITEM_DESC_CONTAINER)
+		if(getDescFlags() & MV_ITEM_DESC_CONTAINER)
 			PyDict_SetItemString(dict, "container", mvPyObject(ToPyBool(true)));
 		else
 			PyDict_SetItemString(dict, "container", mvPyObject(ToPyBool(false)));

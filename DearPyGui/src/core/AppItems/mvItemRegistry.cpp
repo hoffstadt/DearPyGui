@@ -1107,9 +1107,9 @@ namespace Marvel {
 			return false;
 
 		//---------------------------------------------------------------------------
-		// STEP 7: add items who require "after" adding (i.e. popup, tooltip)
+		// STEP 7: add items who require "after" adding (tooltip)
 		//---------------------------------------------------------------------------
-		if (mvAppItem::DoesItemHaveFlag(item.get(), MV_ITEM_DESC_AFTER))
+		if (item->getType() == mvAppItemType::mvTooltip)
 			return addItemAfter(parent, item);
 
 		//---------------------------------------------------------------------------
