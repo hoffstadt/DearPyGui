@@ -6,7 +6,7 @@
 
 namespace Marvel {
 
-    MV_REGISTER_WIDGET(mvTextureRegistry, MV_ITEM_DESC_ROOT | MV_ITEM_DESC_CONTAINER | MV_ITEM_DESC_ALWAYS_DRAW,
+    MV_REGISTER_WIDGET(mvTextureRegistry, MV_ITEM_DESC_ROOT | MV_ITEM_DESC_CONTAINER,
         StorageValueTypes::None, 1);
     class mvTextureRegistry : public mvAppItem
     {
