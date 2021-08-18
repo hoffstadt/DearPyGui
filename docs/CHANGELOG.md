@@ -32,6 +32,7 @@ We generally fold multiple commits pertaining to the same topic as a single entr
 * command: added `bind_template_registry(...)`
 * keyword: added `skip_required_args` to `configure_item_registry(...)`
 * keyword: added `skip_optional_args` to `configure_item_registry(...)`
+* keyword: added `id` to `popup(...)`
 * added deprecation system
 * callbacks will now send alias through the `sender` argument if alias is used.
 
