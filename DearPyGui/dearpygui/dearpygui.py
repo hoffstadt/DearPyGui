@@ -1458,24 +1458,6 @@ def handler_registry(*, label: str =None, user_data: Any =None, use_internal_lab
 	finally:
 		internal_dpg.pop_container_stack()
 @contextmanager
-def item_pool(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, id: Union[int, str] =0) -> Union[int, str]:
-	"""
-	Undocumented function
-	Args:
-		**label (str): Overrides 'name' as label.
-		**user_data (Any): User data for callbacks.
-		**use_internal_label (bool): Use generated internal label instead of user specified (appends ### uuid).
-		**id (Union[int, str]): Unique id used to programmatically refer to the item.If label is unused this will be the label.
-	Yields:
-		Union[int, str]
-	"""
-	try:
-		widget = internal_dpg.add_item_pool(label=label, user_data=user_data, use_internal_label=use_internal_label, id=id)
-		internal_dpg.push_container_stack(widget)
-		yield widget
-	finally:
-		internal_dpg.pop_container_stack()
-@contextmanager
 def item_set(type : int, count : int, *, label: str =None, user_data: Any =None, use_internal_label: bool =True, id: Union[int, str] =0) -> Union[int, str]:
 	"""
 	Undocumented function
