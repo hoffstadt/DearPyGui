@@ -90,6 +90,12 @@ namespace Marvel {
 			parsers->insert({ "minimize_viewport", parser });
 		}
 
+		{
+			mvPythonParser parser(mvPyDataType::None, "Toggles fullscreen on/off.", { "General" });
+			parser.finalize();
+			parsers->insert({ "toggle_fulscreen", parser });
+		}
+
 	}
 
 	void mvViewport::onResizeEvent()
@@ -287,6 +293,17 @@ namespace Marvel {
 		mvApp::GetApp()->getCallbackRegistry().submit([=]()
 			{
 				mvApp::GetApp()->getViewport()->minimize();
+			});
+
+		return GetPyNone();
+	}
+
+	PyObject* mvViewport::toggle_fullscreen(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		if (!mvApp::s_manualMutexControl) std::lock_guard<std::mutex> lk(mvApp::s_mutex);
+		mvApp::GetApp()->getCallbackRegistry().submit([=]()
+			{
+				mvApp::GetApp()->getViewport()->fullscreen();
 			});
 
 		return GetPyNone();

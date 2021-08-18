@@ -8,7 +8,7 @@
 //
 //     - This class may need to be renamed to remove confusion between this
 //       window and the mvWindowAppItem class (maybe to viewport?)
-//     
+//
 //-----------------------------------------------------------------------------
 
 #include "mvApp.h"
@@ -30,10 +30,11 @@ namespace Marvel {
         MV_CREATE_COMMAND(configure_viewport);
         MV_CREATE_COMMAND(get_viewport_configuration);
         MV_CREATE_COMMAND(is_viewport_created);
-        
+
 		// viewport operations
         MV_CREATE_COMMAND(maximize_viewport);
         MV_CREATE_COMMAND(minimize_viewport);
+		MV_CREATE_COMMAND(toggle_fullscreen);
 
 		MV_START_COMMANDS
 			MV_ADD_COMMAND(show_viewport)
@@ -41,6 +42,7 @@ namespace Marvel {
 			MV_ADD_COMMAND(configure_viewport)
 			MV_ADD_COMMAND(maximize_viewport)
 			MV_ADD_COMMAND(minimize_viewport)
+			MV_ADD_COMMAND(toggle_fullscreen)
 			MV_ADD_COMMAND(get_viewport_configuration)
 			MV_ADD_COMMAND(is_viewport_created)
 		MV_END_COMMANDS
@@ -61,9 +63,10 @@ namespace Marvel {
 		virtual void renderFrame() {}
 
 		virtual void maximize() {}
+		virtual void fullscreen() {}
 		virtual void minimize() {}
 		virtual void restore() {}
-		
+
 		void stop() { _running = false; }
 		bool running() const { return _running; }
 
@@ -93,6 +96,7 @@ namespace Marvel {
 		bool _resizable = true;
 		bool _alwaysOnTop = false;
 		bool _decorated = true;
+		bool is_fullscreened = false;
 
 		// position/size
 		bool     _sizeDirty = false;
@@ -105,11 +109,15 @@ namespace Marvel {
 		unsigned _maxheight = 10000;
 		int      _actualWidth = 1280;
 		int      _actualHeight = 800;
+		int		 _storedX;
+		int		 _storedY;
+		int		 _storedWidth;
+		int		 _storedHeight;
 		int      _clientWidth = 1280;
 		int      _clientHeight = 800;
 		int      _xpos = 100;
 		int      _ypos = 100;
-		
+
 
 	};
 
