@@ -1127,16 +1127,16 @@ def show_demo():
 
             with dpg.tree_node(label="Image Series (plots)"):
 
-                plot_id=dpg.add_plot(label="Image Plot", height=400, width=-1)
-                dpg.add_plot_legend(parent=plot_id)
-                dpg.add_plot_axis(dpg.mvXAxis, label="x axis", parent=plot_id)
-                yaxis_id = dpg.add_plot_axis(dpg.mvYAxis, label="y axis", parent=plot_id)
-                dpg.add_image_series(dpg.mvFontAtlas, [300, 300], [400, 400], label="font atlas", parent=yaxis_id)
-                dpg.add_image_series("__demo_static_texture_1", [0, 0], [100, 100], label="static 1", parent=yaxis_id)
-                dpg.add_image_series("__demo_static_texture_2", [150, 150], [200, 200], label="static 2", parent=yaxis_id)
-                dpg.add_image_series("__demo_static_texture_3", [200, -150], [300, -50], label="static 3", parent=yaxis_id)
-                dpg.add_image_series("__demo_dynamic_texture_1", [-200, 100], [-100, 200], label="dynamic 1", parent=yaxis_id)
-                dpg.add_image_series("__demo_dynamic_texture_2", [-200, -100], [-150, -50], label="dynamic 2", parent=yaxis_id)
+                with dpg.plot(label="Image Plot", height=400, width=-1):
+                    dpg.add_plot_legend()
+                    dpg.add_plot_axis(dpg.mvXAxis, label="x axis")
+                    with dpg.plot_axis(dpg.mvYAxis, label="y axis"):
+                        dpg.add_image_series(dpg.mvFontAtlas, [300, 300], [400, 400], label="font atlas")
+                        dpg.add_image_series("__demo_static_texture_1", [0, 0], [100, 100], label="static 1")
+                        dpg.add_image_series("__demo_static_texture_2", [150, 150], [200, 200], label="static 2")
+                        dpg.add_image_series("__demo_static_texture_3", [200, -150], [300, -50], label="static 3")
+                        dpg.add_image_series("__demo_dynamic_texture_1", [-200, 100], [-100, 200], label="dynamic 1")
+                        dpg.add_image_series("__demo_dynamic_texture_2", [-200, -100], [-150, -50], label="dynamic 2")
 
             with dpg.tree_node(label="Drawlists"):
 
@@ -1233,7 +1233,58 @@ def show_demo():
                                             "borders_outerH", "borders_outerV", "header_row", before=table_id)
 
             with dpg.tree_node(label="Colors"):
-                dpg.add_text("Coming soon...")
+
+                dpg.add_text("Highlighting Rows, Columns, Cells:")
+                with dpg.table(header_row=False, row_background=True,
+                             delay_search=True) as table_id:
+
+                    dpg.add_table_column()
+                    dpg.add_table_column()
+                    dpg.add_table_column()
+                    dpg.add_table_column()
+                    dpg.add_table_column()
+                    dpg.add_table_column()
+
+                    for i in range(0, 6):
+                        with dpg.table_row():
+                            for j in range(6):
+                                dpg.add_text(f"R{i} C{j}")
+
+                    for i in range(0, 6):
+                        dpg.highlight_table_row(table_id, i, [255, 0, 0, 100])
+                        
+                    dpg.highlight_table_column(table_id, 4, [0, 255, 0, 100])
+                    
+                    dpg.highlight_table_cell(table_id, 1, 1, [0, 0, 255, 100])
+                    dpg.highlight_table_cell(table_id, 2, 1, [0, 0, 255, 100])
+                    dpg.highlight_table_cell(table_id, 1, 2, [0, 0, 255, 100])
+                    dpg.highlight_table_cell(table_id, 2, 2, [0, 0, 255, 100])
+
+                _add_config_options(table_id, 1, "row_background", before=table_id)
+
+                dpg.add_text("Coloring rows:")
+                with dpg.table(header_row=False, row_background=True,
+                             delay_search=True) as table_id:
+
+                    dpg.add_table_column()
+                    dpg.add_table_column()
+                    dpg.add_table_column()
+                    dpg.add_table_column()
+                    dpg.add_table_column()
+                    dpg.add_table_column()
+
+                    for i in range(0, 6):
+                        with dpg.table_row():
+                            for j in range(6):
+                                dpg.add_text(f"R{i} C{j}")
+
+                    dpg.highlight_table_cell(table_id, 1, 1, [0, 255, 0, 100])
+                    dpg.highlight_table_cell(table_id, 2, 1, [0, 255, 0, 100])
+                    dpg.highlight_table_cell(table_id, 1, 2, [0, 255, 0, 100])
+                    dpg.highlight_table_cell(table_id, 2, 2, [0, 255, 0, 100])
+
+                    for i in range(0, 6):
+                        dpg.set_table_row_color(table_id, i, [255, 0, 0, i*255/8])
 
             with dpg.tree_node(label="Resizable, stretch"):
 
@@ -1690,18 +1741,19 @@ def show_demo():
 
                             # REQUIRED: create x and y axes
                             dpg.add_plot_axis(dpg.mvXAxis, label="x")
-                            dpg.add_plot_axis(dpg.mvYAxis, label="y")
+                            
+                            with dpg.plot_axis(dpg.mvYAxis, label="y"):
 
-                            # series belong to a y axis
-                            dpg.add_line_series(sindatax, sindatay, label="0.5 + 0.5 * sin(x)", parent=dpg.last_item())
+                                # series belong to a y axis
+                                dpg.add_line_series(sindatax, sindatay, label="0.5 + 0.5 * sin(x)")
 
                     with dpg.tree_node(label="Stair Series"):
 
                         with dpg.plot(label="Stair Plot", height=400, width=-1):
                             dpg.add_plot_legend()
                             dpg.add_plot_axis(dpg.mvXAxis, label="x")
-                            dpg.add_plot_axis(dpg.mvYAxis, label="y")
-                            dpg.add_stair_series(sindatax, sindatay, label="0.5 + 0.5 * sin(x)", parent=dpg.last_item())
+                            with dpg.plot_axis(dpg.mvYAxis, label="y"):
+                                dpg.add_stair_series(sindatax, sindatay, label="0.5 + 0.5 * sin(x)")
 
                     with dpg.tree_node(label="Shade Series"):
 
@@ -1739,32 +1791,31 @@ def show_demo():
                         with dpg.plot(label="Stock Prices", height=400, width=-1):
                             dpg.add_plot_legend()
                             xaxis = dpg.add_plot_axis(dpg.mvXAxis, label="Days")
-                            yaxis = dpg.add_plot_axis(dpg.mvYAxis, label="Price")
-                            dpg.add_line_series(stock_datax, stock_data1, label="Stock 1", parent=yaxis)
-                            dpg.set_item_theme(dpg.last_item(), stock_theme1)
-                            dpg.add_line_series(stock_datax, stock_data2, label="Stock 2", parent=yaxis)
-                            dpg.set_item_theme(dpg.last_item(), stock_theme2)
-                            dpg.add_line_series(stock_datax, stock_data3, label="Stock 3", parent=yaxis)
-                            dpg.set_item_theme(dpg.last_item(), stock_theme3)
-                            dpg.add_shade_series(stock_datax, stock_data1, label="Stock 1", parent=yaxis)
-                            dpg.set_item_theme(dpg.last_item(), stock_theme1)
-                            dpg.add_shade_series(stock_datax, stock_data2, label="Stock 2", parent=yaxis)
-                            dpg.set_item_theme(dpg.last_item(), stock_theme2)
-                            dpg.add_shade_series(stock_datax, stock_data3, label="Stock 3", y2=stock_datay2, parent=yaxis)
-                            dpg.set_item_theme(dpg.last_item(), stock_theme3)
-                            dpg.add_shade_series(stock_datax, stock_data5, y2=stock_data4, label="Shade between lines", parent=yaxis)
-                            dpg.set_item_theme(dpg.last_item(), stock_theme4)
-
+                            with dpg.plot_axis(dpg.mvYAxis, label="Price"):
+                                dpg.add_line_series(stock_datax, stock_data1, label="Stock 1")
+                                dpg.set_item_theme(dpg.last_item(), stock_theme1)
+                                dpg.add_line_series(stock_datax, stock_data2, label="Stock 2")
+                                dpg.set_item_theme(dpg.last_item(), stock_theme2)
+                                dpg.add_line_series(stock_datax, stock_data3, label="Stock 3")
+                                dpg.set_item_theme(dpg.last_item(), stock_theme3)
+                                dpg.add_shade_series(stock_datax, stock_data1, label="Stock 1")
+                                dpg.set_item_theme(dpg.last_item(), stock_theme1)
+                                dpg.add_shade_series(stock_datax, stock_data2, label="Stock 2")
+                                dpg.set_item_theme(dpg.last_item(), stock_theme2)
+                                dpg.add_shade_series(stock_datax, stock_data3, label="Stock 3", y2=stock_datay2)
+                                dpg.set_item_theme(dpg.last_item(), stock_theme3)
+                                dpg.add_shade_series(stock_datax, stock_data5, y2=stock_data4, label="Shade between lines")
+                                dpg.set_item_theme(dpg.last_item(), stock_theme4)
+                                dpg.fit_axis_data(dpg.top_container_stack())
                             dpg.fit_axis_data(xaxis)
-                            dpg.fit_axis_data(yaxis)
 
                     with dpg.tree_node(label="Scatter Series"):
 
                         with dpg.plot(label="Scatter Series", height=400, width=-1):
                             dpg.add_plot_legend()
                             dpg.add_plot_axis(dpg.mvXAxis, label="x")
-                            dpg.add_plot_axis(dpg.mvYAxis, label="y")
-                            dpg.add_scatter_series(sindatax, sindatay, label="0.5 + 0.5 * sin(x)", parent=dpg.last_item())
+                            with dpg.plot_axis(dpg.mvYAxis, label="y"):
+                                dpg.add_scatter_series(sindatax, sindatay, label="0.5 + 0.5 * sin(x)")
 
                     with dpg.tree_node(label="Stem Series"):
 
@@ -1775,14 +1826,15 @@ def show_demo():
                         with dpg.plot(label="Stem Series", height=400, width=-1):
                             dpg.add_plot_legend()
                             dpg.add_plot_axis(dpg.mvXAxis, label="x")
-                            yaxis = dpg.add_plot_axis(dpg.mvYAxis, label="y")
-                            dpg.add_stem_series(sindatax, sindatay, label="0.5 + 0.5 * sin(x)", parent=yaxis)
-                            dpg.add_stem_series(sindatax, cosdatay, label="0.5 + 0.75 * cos(x)", parent=yaxis)
-                            dpg.set_item_theme(dpg.last_item(), stem_theme1)
+                            with dpg.plot_axis(dpg.mvYAxis, label="y"):
+                                dpg.add_stem_series(sindatax, sindatay, label="0.5 + 0.5 * sin(x)")
+                                dpg.add_stem_series(sindatax, cosdatay, label="0.5 + 0.75 * cos(x)")
+                                dpg.set_item_theme(dpg.last_item(), stem_theme1)
 
                     with dpg.tree_node(label="Bar Series"):
 
                         with dpg.plot(label="Bar Series", height=400, width=-1):
+
                             dpg.add_plot_legend()
 
                             # create x axis
@@ -1791,23 +1843,20 @@ def show_demo():
                             dpg.set_axis_ticks(dpg.last_item(), (("S1", 11), ("S2", 21), ("S3", 31)))
                 
                             # create y axis
-                            yaxis_id = dpg.add_plot_axis(dpg.mvYAxis, label="Score")      
-                            dpg.set_axis_limits(yaxis_id, 0, 110)
-
-                            # add series to y axis
-                            dpg.add_bar_series([10, 20, 30], [100, 75, 90], label="Final Exam", weight=1, parent=yaxis_id)
-                            dpg.add_bar_series([11, 21, 31], [83, 75, 72], label="Midterm Exam", weight=1, parent=yaxis_id)
-                            dpg.add_bar_series([12, 22, 32], [42, 68, 23], label="Course Grade", weight=1, parent=yaxis_id)
+                            with dpg.plot_axis(dpg.mvYAxis, label="Score"):
+                                dpg.set_axis_limits(dpg.last_item(), 0, 110)
+                                dpg.add_bar_series([10, 20, 30], [100, 75, 90], label="Final Exam", weight=1)
+                                dpg.add_bar_series([11, 21, 31], [83, 75, 72], label="Midterm Exam", weight=1)
+                                dpg.add_bar_series([12, 22, 32], [42, 68, 23], label="Course Grade", weight=1)
 
                     with dpg.tree_node(label="Area Series"):
 
                         with dpg.plot(label="Area Series", height=400, width=-1):
                             xaxis = dpg.add_plot_axis(dpg.mvXAxis, label="x")
-                            yaxis = dpg.add_plot_axis(dpg.mvYAxis, label="y")
-                            dpg.add_area_series([1,5,3],[0,0,3], fill=[255,50,100,190], parent=dpg.last_item())
-
+                            with dpg.plot_axis(dpg.mvYAxis, label="y"):
+                                dpg.add_area_series([1,5,3],[0,0,3], fill=[255,50,100,190])
+                                dpg.fit_axis_data(dpg.top_container_stack())
                             dpg.fit_axis_data(xaxis)
-                            dpg.fit_axis_data(yaxis)
 
                     with dpg.tree_node(label="Infinite Lines"):
 
@@ -1817,24 +1866,23 @@ def show_demo():
                         with dpg.plot(label="Infinite Lines", height=400, width=-1):
                             dpg.add_plot_legend()
                             xaxis = dpg.add_plot_axis(dpg.mvXAxis, label="x")
-                            axis_id = dpg.add_plot_axis(dpg.mvYAxis, label="y")
-                            dpg.add_vline_series(infinite_x_data, label="vertical", parent=axis_id)
-                            dpg.add_hline_series(infinite_y_data, label="horizontal", parent=axis_id)
-
+                            with dpg.plot_axis(dpg.mvYAxis, label="y"):
+                                dpg.add_vline_series(infinite_x_data, label="vertical")
+                                dpg.add_hline_series(infinite_y_data, label="horizontal")
+                                dpg.fit_axis_data(dpg.top_container_stack())
                             dpg.fit_axis_data(xaxis)
-                            dpg.fit_axis_data(axis_id)
 
                     with dpg.tree_node(label="Image Series"):
 
                         with dpg.plot(label="Image Plot", height=400, width=-1):
                             dpg.add_plot_legend()
                             xaxis = dpg.add_plot_axis(dpg.mvXAxis, label="x")
-                            yaxis_id = dpg.add_plot_axis(dpg.mvYAxis, label="y axis")
-                            dpg.add_image_series(2, [300, 300], [400, 400], label="font atlas", parent=yaxis_id)
-                            dpg.add_image_series("__demo_static_texture_2", [150, 150], [200, 200], label="static 2", parent=yaxis_id)
-                            dpg.add_image_series("__demo_dynamic_texture_1", [-200, 100], [-100, 200], label="dynamic 1", parent=yaxis_id)
+                            with dpg.plot_axis(dpg.mvYAxis, label="y axis"):
+                                dpg.add_image_series(2, [300, 300], [400, 400], label="font atlas")
+                                dpg.add_image_series("__demo_static_texture_2", [150, 150], [200, 200], label="static 2")
+                                dpg.add_image_series("__demo_dynamic_texture_1", [-200, 100], [-100, 200], label="dynamic 1")
+                                dpg.fit_axis_data(dpg.top_container_stack())
                             dpg.fit_axis_data(xaxis)
-                            dpg.fit_axis_data(yaxis_id)
 
                     with dpg.tree_node(label="Candle Stick Series"):
 
@@ -1847,11 +1895,10 @@ def show_demo():
                         with dpg.plot(label="Candle Series", height=400, width=-1):
                             dpg.add_plot_legend()
                             xaxis = dpg.add_plot_axis(dpg.mvXAxis, label="Day", time=True)
-                            yaxis = dpg.add_plot_axis(dpg.mvYAxis, label="USD")
-                            dpg.add_candle_series(dates, opens, closes, lows, highs, label="GOOGL", parent=dpg.last_item())
-
+                            with dpg.plot_axis(dpg.mvYAxis, label="USD"):
+                                dpg.add_candle_series(dates, opens, closes, lows, highs, label="GOOGL")
+                                dpg.fit_axis_data(dpg.top_container_stack())
                             dpg.fit_axis_data(xaxis)
-                            dpg.fit_axis_data(yaxis)
 
                     with dpg.tree_node(label="Heatmaps"):
 
@@ -1866,8 +1913,8 @@ def show_demo():
                         dpg.add_same_line()
                         with dpg.plot(label="Heat Series", no_mouse_pos=True, height=400, width=-1):
                             dpg.add_plot_axis(dpg.mvXAxis, label="x", lock_min=True, lock_max=True, no_gridlines=True, no_tick_marks=True)
-                            dpg.add_plot_axis(dpg.mvYAxis, label="y", no_gridlines=True, no_tick_marks=True, lock_min=True, lock_max=True)
-                            dpg.add_heat_series(values, 7, 7, scale_min=0, scale_max=6, parent=dpg.last_item())
+                            with dpg.plot_axis(dpg.mvYAxis, label="y", no_gridlines=True, no_tick_marks=True, lock_min=True, lock_max=True):
+                                dpg.add_heat_series(values, 7, 7, scale_min=0, scale_max=6)
 
                     with dpg.tree_node(label="Pie Charts"):
 
@@ -1882,11 +1929,9 @@ def show_demo():
                             dpg.set_axis_limits(dpg.last_item(), 0, 1)
 
                             # create y axis
-                            dpg.add_plot_axis(dpg.mvYAxis, label="", no_gridlines=True, no_tick_marks=True, no_tick_labels=True)
-                            dpg.set_axis_limits(dpg.last_item(), 0, 1)
-
-                            # add data to y axis 1
-                            dpg.add_pie_series(0.5, 0.5, 0.5, [0.25, 0.30, 0.30], ["fish", "cow", "chicken"], parent=dpg.last_item())
+                            with dpg.plot_axis(dpg.mvYAxis, label="", no_gridlines=True, no_tick_marks=True, no_tick_labels=True):
+                                dpg.set_axis_limits(dpg.last_item(), 0, 1)
+                                dpg.add_pie_series(0.5, 0.5, 0.5, [0.25, 0.30, 0.30], ["fish", "cow", "chicken"])
 
                         dpg.add_same_line()
 
@@ -1901,11 +1946,9 @@ def show_demo():
                             dpg.set_axis_limits(dpg.last_item(), 0, 1)
 
                             # create y axis
-                            dpg.add_plot_axis(dpg.mvYAxis, label="", no_gridlines=True, no_tick_marks=True, no_tick_labels=True)
-                            dpg.set_axis_limits(dpg.last_item(), 0, 1)
-
-                            # add data to y axis 1
-                            dpg.add_pie_series(0.5, 0.5, 0.5, [1, 1, 2, 3, 5], ["A", "B", "C", "D", "E"], normalize=True, format="%.0f", parent=dpg.last_item())
+                            with dpg.plot_axis(dpg.mvYAxis, label="", no_gridlines=True, no_tick_marks=True, no_tick_labels=True):
+                                dpg.set_axis_limits(dpg.last_item(), 0, 1)
+                                dpg.add_pie_series(0.5, 0.5, 0.5, [1, 1, 2, 3, 5], ["A", "B", "C", "D", "E"], normalize=True, format="%.0f")
 
                     with dpg.tree_node(label="Error Series"):
 
@@ -1924,16 +1967,14 @@ def show_demo():
                         with dpg.plot(label="Error Series", height=400, width=-1):
                             dpg.add_plot_legend()
                             xaxis = dpg.add_plot_axis(dpg.mvXAxis, label="x")
-                            axis_id = dpg.add_plot_axis(dpg.mvYAxis, label="y")
+                            with dpg.plot_axis(dpg.mvYAxis, label="y"):
 
-                            dpg.add_bar_series(error1_x, error1_y, label="Bar", weight=0.25, parent=axis_id)
-                            dpg.add_error_series(error1_x, error1_y, error1_neg, error1_pos, label="Bar", parent=axis_id)
-                            dpg.add_line_series(error2_x, error2_y, label="Line", parent=axis_id)
-                            #dpg.add_error_series(error2_x, error2_y, error2_neg, error2_pos, label="Line", color=[0, 255, 0], parent=axis_id)
-                            dpg.add_error_series(error2_x, error2_y, error2_neg, error2_pos, label="Line", parent=axis_id)
-
+                                dpg.add_bar_series(error1_x, error1_y, label="Bar", weight=0.25)
+                                dpg.add_error_series(error1_x, error1_y, error1_neg, error1_pos, label="Bar")
+                                dpg.add_line_series(error2_x, error2_y, label="Line")
+                                dpg.add_error_series(error2_x, error2_y, error2_neg, error2_pos, label="Line")
+                                dpg.fit_axis_data(dpg.top_container_stack())
                             dpg.fit_axis_data(xaxis)
-                            dpg.fit_axis_data(axis_id)
 
                 with dpg.tab(label="Subplots"):
 
@@ -1944,8 +1985,8 @@ def show_demo():
                                 for i in range(0, 9):
                                     with dpg.plot(no_title=True):
                                         dpg.add_plot_axis(dpg.mvXAxis, label="", no_tick_labels=True)
-                                        dpg.add_plot_axis(dpg.mvYAxis, label="", no_tick_labels=True)
-                                        dpg.add_line_series(sindatax, sindatay, label="0.5 + 0.5 * sin(x)", parent=dpg.last_item())
+                                        with dpg.plot_axis(dpg.mvYAxis, label="", no_tick_labels=True):
+                                            dpg.add_line_series(sindatax, sindatay, label="0.5 + 0.5 * sin(x)")
 
                         _add_config_options(subplot_id, 1, 
                                                     "no_resize", "no_title", before=subplot_id)
@@ -1959,8 +2000,8 @@ def show_demo():
                                 for i in range(0, 6):
                                     with dpg.plot(no_title=True):
                                         dpg.add_plot_axis(dpg.mvXAxis, label="")
-                                        dpg.add_plot_axis(dpg.mvYAxis, label="")
-                                        dpg.add_line_series(sindatax, sindatay, label="data" + str(i), parent=dpg.last_item())
+                                        with dpg.plot_axis(dpg.mvYAxis, label=""):
+                                            dpg.add_line_series(sindatax, sindatay, label="data" + str(i))
 
                         _add_config_options(subplot_id, 1, 
                                                     "column_major", before=subplot_id)
@@ -1974,8 +2015,8 @@ def show_demo():
                                 for i in range(0, 4):
                                     with dpg.plot(no_title=True):
                                         dpg.add_plot_axis(dpg.mvXAxis, label="")
-                                        dpg.add_plot_axis(dpg.mvYAxis, label="")
-                                        dpg.add_line_series(sindatax, sindatay, label="data" + str(i), parent=dpg.last_item())
+                                        with dpg.plot_axis(dpg.mvYAxis, label=""):
+                                            dpg.add_line_series(sindatax, sindatay, label="data" + str(i))
 
                         _add_config_options(subplot_id, 2, 
                                                     "no_align", "link_rows", "link_columns",
@@ -1999,11 +2040,10 @@ def show_demo():
                 
                         with dpg.plot(label="Time Plot", height=400, width=-1):
                             xaxis = dpg.add_plot_axis(dpg.mvXAxis, label="Date", time=True)
-                            yaxis = dpg.add_plot_axis(dpg.mvYAxis, label="Days since 1970")
-                            dpg.add_line_series(timedatax, timedatay, label="Days", parent=dpg.last_item())
-
+                            with dpg.plot_axis(dpg.mvYAxis, label="Days since 1970"):
+                                dpg.add_line_series(timedatax, timedatay, label="Days")
+                                dpg.fit_axis_data(dpg.top_container_stack())
                             dpg.fit_axis_data(xaxis)
-                            dpg.fit_axis_data(yaxis)
 
                     with dpg.tree_node(label="Multi Axes Plot"):
 
@@ -2015,16 +2055,16 @@ def show_demo():
                             dpg.add_plot_axis(dpg.mvXAxis, label="x")
 
                             # create y axis 1
-                            dpg.add_plot_axis(dpg.mvYAxis, label="y1")
-                            dpg.add_line_series(sindatax, sindatay, label="0.5 + 0.5 * sin(x)", parent=dpg.last_item())
+                            with dpg.plot_axis(dpg.mvYAxis, label="y1"):
+                                dpg.add_line_series(sindatax, sindatay, label="0.5 + 0.5 * sin(x)")
 
                             # create y axis 2
-                            dpg.add_plot_axis(dpg.mvYAxis, label="y2")
-                            dpg.add_line_series(sindatax, sindatay, label="0.5 + 0.5 * sin(x)", parent=dpg.last_item())
+                            with dpg.plot_axis(dpg.mvYAxis, label="y2"):
+                                dpg.add_line_series(sindatax, sindatay, label="0.5 + 0.5 * sin(x)")
                 
                             # create y axis 3
-                            dpg.add_plot_axis(dpg.mvYAxis, label="y3")
-                            dpg.add_line_series(sindatax, sindatay, label="0.5 + 0.5 * sin(x)", parent=dpg.last_item())
+                            with dpg.plot_axis(dpg.mvYAxis, label="y3"):
+                                dpg.add_line_series(sindatax, sindatay, label="0.5 + 0.5 * sin(x)")
 
                 with dpg.tab(label="Tools"):
 
@@ -2038,8 +2078,8 @@ def show_demo():
                         # plot 1
                         with dpg.plot(no_title=True, height=400, callback=query, query=True, no_menus=True, width=-1) as plot_id:
                             dpg.add_plot_axis(dpg.mvXAxis, label="x")
-                            dpg.add_plot_axis(dpg.mvYAxis, label="y")
-                            dpg.add_line_series(sindatax, sindatay, parent=dpg.last_item())
+                            with dpg.plot_axis(dpg.mvYAxis, label="y"):
+                                dpg.add_line_series(sindatax, sindatay)
 
                         # plot 2
                         with dpg.plot(no_title=True, height=400, no_menus=True, width=-1):          
@@ -2135,15 +2175,15 @@ def show_demo():
                             dpg.add_plot_legend()
 
                             dpg.add_plot_axis(dpg.mvXAxis, label="x")
-                            yaxis = dpg.add_plot_axis(dpg.mvYAxis, label="y")
+                            with dpg.plot_axis(dpg.mvYAxis, label="y"):
 
-                            # series 1
-                            dpg.add_line_series(sindatax, sindatay, label="series 1", parent=yaxis)
-                            dpg.add_button(label="Delete Series 1", user_data = dpg.last_item(), parent=dpg.last_item(), callback=lambda s, a, u: dpg.delete_item(u))
+                                # series 1
+                                dpg.add_line_series(sindatax, sindatay, label="series 1")
+                                dpg.add_button(label="Delete Series 1", user_data = dpg.last_item(), parent=dpg.last_item(), callback=lambda s, a, u: dpg.delete_item(u))
 
-                            # series 2
-                            dpg.add_line_series(sindatax, sindatay, label="series 2", parent=yaxis)
-                            dpg.add_button(label="Delete Series 2", user_data = dpg.last_item(), parent=dpg.last_item(), callback=lambda s, a, u: dpg.delete_item(u))
+                                # series 2
+                                dpg.add_line_series(sindatax, sindatay, label="series 2")
+                                dpg.add_button(label="Delete Series 2", user_data = dpg.last_item(), parent=dpg.last_item(), callback=lambda s, a, u: dpg.delete_item(u))
 
                     with dpg.tree_node(label="Custom Rendering"):
 
