@@ -25,6 +25,10 @@ namespace Marvel {
 
         mvColorMapScale(mvUUID uuid);
 
+        // overriding until we can remove these
+        bool preDraw() override { return true; }
+        void postDraw() override {}
+
         void draw(ImDrawList* drawlist, float x, float y) override;
         void handleSpecificKeywordArgs(PyObject* dict) override;
         void getSpecificConfiguration(PyObject* dict) override;
