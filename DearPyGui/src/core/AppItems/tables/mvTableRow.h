@@ -23,8 +23,6 @@ namespace Marvel {
 		MV_START_PARENTS
 			MV_ADD_PARENT(mvAppItemType::mvStagingContainer),
 			MV_ADD_PARENT(mvAppItemType::mvTemplateRegistry),
-			MV_ADD_PARENT(mvAppItemType::mvClipper),
-			MV_ADD_PARENT(mvAppItemType::mvFilterSet),
 			MV_ADD_PARENT(mvAppItemType::mvTable)
 		MV_END_PARENTS
 
@@ -32,7 +30,7 @@ namespace Marvel {
 
 		explicit mvTableRow(mvUUID uuid);
 
-		void draw(ImDrawList* drawlist, float x, float y) override;
+		void draw(ImDrawList* drawlist, float x, float y) override {}
 
 	private:
 

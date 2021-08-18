@@ -506,15 +506,15 @@ def add_tab_button(*, label: str =None, user_data: Any =None, use_internal_label
 	"""Adds a tab button to a tab bar."""
 	...
 
-def add_table(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, id: Union[int, str] =0, width: int =0, height: int =0, indent: int =-1, parent: Union[int, str] =0, before: Union[int, str] =0, source: Union[int, str] =0, callback: Callable =None, show: bool =True, pos: Union[List[int], Tuple[int]] =[], filter_key: str ='', delay_search: bool =False, header_row: bool =True, inner_width: int =0, policy: int =0, freeze_rows: int =0, freeze_columns: int =0, sort_multi: bool =False, sort_tristate: bool =False, resizable: bool =False, reorderable: bool =False, hideable: bool =False, sortable: bool =False, context_menu_in_body: bool =False, row_background: bool =False, borders_innerH: bool =False, borders_outerH: bool =False, borders_innerV: bool =False, borders_outerV: bool =False, no_host_extendX: bool =False, no_host_extendY: bool =False, no_keep_columns_visible: bool =False, precise_widths: bool =False, no_clip: bool =False, pad_outerX: bool =False, no_pad_outerX: bool =False, no_pad_innerX: bool =False, scrollX: bool =False, scrollY: bool =False, no_saved_settings: bool =False) -> Union[int, str]:
+def add_table(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, id: Union[int, str] =0, width: int =0, height: int =0, indent: int =-1, parent: Union[int, str] =0, before: Union[int, str] =0, source: Union[int, str] =0, callback: Callable =None, show: bool =True, pos: Union[List[int], Tuple[int]] =[], filter_key: str ='', delay_search: bool =False, header_row: bool =True, clipper: bool =False, inner_width: int =0, policy: int =0, freeze_rows: int =0, freeze_columns: int =0, sort_multi: bool =False, sort_tristate: bool =False, resizable: bool =False, reorderable: bool =False, hideable: bool =False, sortable: bool =False, context_menu_in_body: bool =False, row_background: bool =False, borders_innerH: bool =False, borders_outerH: bool =False, borders_innerV: bool =False, borders_outerV: bool =False, no_host_extendX: bool =False, no_host_extendY: bool =False, no_keep_columns_visible: bool =False, precise_widths: bool =False, no_clip: bool =False, pad_outerX: bool =False, no_pad_outerX: bool =False, no_pad_innerX: bool =False, scrollX: bool =False, scrollY: bool =False, no_saved_settings: bool =False) -> Union[int, str]:
 	"""Undocumented function"""
 	...
 
-def add_table_column(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, id: Union[int, str] =0, width: int =0, parent: Union[int, str] =0, before: Union[int, str] =0, show: bool =True, init_width_or_weight: float =0.0, default_hide: bool =False, default_sort: bool =False, width_stretch: bool =False, width_fixed: bool =False, no_resize: bool =False, no_reorder: bool =False, no_hide: bool =False, no_clip: bool =False, no_sort: bool =False, no_sort_ascending: bool =False, no_sort_descending: bool =False, no_header_width: bool =False, prefer_sort_ascending: bool =True, prefer_sort_descending: bool =False, indent_enable: bool =False, indent_disable: bool =False) -> Union[int, str]:
+def add_table_cell(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, id: Union[int, str] =0, height: int =0, parent: Union[int, str] =0, before: Union[int, str] =0, show: bool =True, filter_key: str ='') -> Union[int, str]:
 	"""Undocumented function"""
 	...
 
-def add_table_next_column(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, id: Union[int, str] =0, parent: Union[int, str] =0, before: Union[int, str] =0, show: bool =True) -> Union[int, str]:
+def add_table_column(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, id: Union[int, str] =0, width: int =0, parent: Union[int, str] =0, before: Union[int, str] =0, show: bool =True, enabled: bool =True, init_width_or_weight: float =0.0, default_hide: bool =False, default_sort: bool =False, width_stretch: bool =False, width_fixed: bool =False, no_resize: bool =False, no_reorder: bool =False, no_hide: bool =False, no_clip: bool =False, no_sort: bool =False, no_sort_ascending: bool =False, no_sort_descending: bool =False, no_header_width: bool =False, prefer_sort_ascending: bool =True, prefer_sort_descending: bool =False, indent_enable: bool =False, indent_disable: bool =False) -> Union[int, str]:
 	"""Undocumented function"""
 	...
 
@@ -842,6 +842,18 @@ def get_y_scroll_max(item : Union[int, str]) -> float:
 	"""Undocumented function"""
 	...
 
+def highlight_table_cell(table : Union[int, str], row : int, column : int, color : Union[List[int], Tuple[int]]) -> None:
+	""""""
+	...
+
+def highlight_table_column(table : Union[int, str], column : int, color : Union[List[int], Tuple[int]]) -> None:
+	""""""
+	...
+
+def highlight_table_row(table : Union[int, str], row : int, color : Union[List[int], Tuple[int]]) -> None:
+	""""""
+	...
+
 def is_dearpygui_running() -> bool:
 	"""Checks if dearpygui is running."""
 	...
@@ -880,6 +892,18 @@ def is_mouse_button_released(button : int) -> bool:
 
 def is_plot_queried(plot : Union[int, str]) -> bool:
 	"""Returns true if the plot is currently being queried. (Requires plot 'query' kwarg to be enabled)"""
+	...
+
+def is_table_cell_highlight(table : Union[int, str], row : int, column : int) -> bool:
+	""""""
+	...
+
+def is_table_column_highlight(table : Union[int, str], column : int) -> bool:
+	""""""
+	...
+
+def is_table_row_highlight(table : Union[int, str], row : int) -> bool:
+	""""""
 	...
 
 def is_viewport_created() -> bool:
@@ -1030,6 +1054,10 @@ def set_start_callback(callback : Callable) -> str:
 	"""Undocumented function"""
 	...
 
+def set_table_row_color(table : Union[int, str], row : int, color : Union[List[int], Tuple[int]]) -> None:
+	""""""
+	...
+
 def set_value(item : Union[int, str], value : Any) -> None:
 	"""Undocumented"""
 	...
@@ -1082,8 +1110,24 @@ def top_container_stack() -> Union[int, str]:
 	"""Undocumented"""
 	...
 
+def unhighlight_table_cell(table : Union[int, str], row : int, column : int) -> None:
+	""""""
+	...
+
+def unhighlight_table_column(table : Union[int, str], column : int) -> None:
+	""""""
+	...
+
+def unhighlight_table_row(table : Union[int, str], row : int) -> None:
+	""""""
+	...
+
 def unlock_mutex() -> None:
 	"""Unlocks mutex"""
+	...
+
+def unset_table_row_color(table : Union[int, str], row : int) -> None:
+	""""""
 	...
 
 def unstage_items(items : Union[List[int], Tuple[int]]) -> None:

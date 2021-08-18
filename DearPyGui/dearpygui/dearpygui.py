@@ -1839,7 +1839,7 @@ def tab_bar(*, label: str =None, user_data: Any =None, use_internal_label: bool 
 	finally:
 		internal_dpg.pop_container_stack()
 @contextmanager
-def table(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, id: Union[int, str] =0, width: int =0, height: int =0, indent: int =-1, parent: Union[int, str] =0, before: Union[int, str] =0, source: Union[int, str] =0, callback: Callable =None, show: bool =True, pos: Union[List[int], Tuple[int]] =[], filter_key: str ='', delay_search: bool =False, header_row: bool =True, inner_width: int =0, policy: int =0, freeze_rows: int =0, freeze_columns: int =0, sort_multi: bool =False, sort_tristate: bool =False, resizable: bool =False, reorderable: bool =False, hideable: bool =False, sortable: bool =False, context_menu_in_body: bool =False, row_background: bool =False, borders_innerH: bool =False, borders_outerH: bool =False, borders_innerV: bool =False, borders_outerV: bool =False, no_host_extendX: bool =False, no_host_extendY: bool =False, no_keep_columns_visible: bool =False, precise_widths: bool =False, no_clip: bool =False, pad_outerX: bool =False, no_pad_outerX: bool =False, no_pad_innerX: bool =False, scrollX: bool =False, scrollY: bool =False, no_saved_settings: bool =False) -> Union[int, str]:
+def table(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, id: Union[int, str] =0, width: int =0, height: int =0, indent: int =-1, parent: Union[int, str] =0, before: Union[int, str] =0, source: Union[int, str] =0, callback: Callable =None, show: bool =True, pos: Union[List[int], Tuple[int]] =[], filter_key: str ='', delay_search: bool =False, header_row: bool =True, clipper: bool =False, inner_width: int =0, policy: int =0, freeze_rows: int =0, freeze_columns: int =0, sort_multi: bool =False, sort_tristate: bool =False, resizable: bool =False, reorderable: bool =False, hideable: bool =False, sortable: bool =False, context_menu_in_body: bool =False, row_background: bool =False, borders_innerH: bool =False, borders_outerH: bool =False, borders_innerV: bool =False, borders_outerV: bool =False, no_host_extendX: bool =False, no_host_extendY: bool =False, no_keep_columns_visible: bool =False, precise_widths: bool =False, no_clip: bool =False, pad_outerX: bool =False, no_pad_outerX: bool =False, no_pad_innerX: bool =False, scrollX: bool =False, scrollY: bool =False, no_saved_settings: bool =False) -> Union[int, str]:
 	"""
 	Undocumented function
 	Args:
@@ -1859,6 +1859,7 @@ def table(*, label: str =None, user_data: Any =None, use_internal_label: bool =T
 		**filter_key (str): Used by filter widget.
 		**delay_search (bool): Delays searching container for specified items until the end of the app. Possible optimization when a container has many children that are not accessed often.
 		**header_row (bool): show headers at the top of the columns
+		**clipper (bool): Use clipper (rows must be same height).
 		**inner_width (int): 
 		**policy (int): 
 		**freeze_rows (int): 
@@ -1890,7 +1891,30 @@ def table(*, label: str =None, user_data: Any =None, use_internal_label: bool =T
 		Union[int, str]
 	"""
 	try:
-		widget = internal_dpg.add_table(label=label, user_data=user_data, use_internal_label=use_internal_label, id=id, width=width, height=height, indent=indent, parent=parent, before=before, source=source, callback=callback, show=show, pos=pos, filter_key=filter_key, delay_search=delay_search, header_row=header_row, inner_width=inner_width, policy=policy, freeze_rows=freeze_rows, freeze_columns=freeze_columns, sort_multi=sort_multi, sort_tristate=sort_tristate, resizable=resizable, reorderable=reorderable, hideable=hideable, sortable=sortable, context_menu_in_body=context_menu_in_body, row_background=row_background, borders_innerH=borders_innerH, borders_outerH=borders_outerH, borders_innerV=borders_innerV, borders_outerV=borders_outerV, no_host_extendX=no_host_extendX, no_host_extendY=no_host_extendY, no_keep_columns_visible=no_keep_columns_visible, precise_widths=precise_widths, no_clip=no_clip, pad_outerX=pad_outerX, no_pad_outerX=no_pad_outerX, no_pad_innerX=no_pad_innerX, scrollX=scrollX, scrollY=scrollY, no_saved_settings=no_saved_settings)
+		widget = internal_dpg.add_table(label=label, user_data=user_data, use_internal_label=use_internal_label, id=id, width=width, height=height, indent=indent, parent=parent, before=before, source=source, callback=callback, show=show, pos=pos, filter_key=filter_key, delay_search=delay_search, header_row=header_row, clipper=clipper, inner_width=inner_width, policy=policy, freeze_rows=freeze_rows, freeze_columns=freeze_columns, sort_multi=sort_multi, sort_tristate=sort_tristate, resizable=resizable, reorderable=reorderable, hideable=hideable, sortable=sortable, context_menu_in_body=context_menu_in_body, row_background=row_background, borders_innerH=borders_innerH, borders_outerH=borders_outerH, borders_innerV=borders_innerV, borders_outerV=borders_outerV, no_host_extendX=no_host_extendX, no_host_extendY=no_host_extendY, no_keep_columns_visible=no_keep_columns_visible, precise_widths=precise_widths, no_clip=no_clip, pad_outerX=pad_outerX, no_pad_outerX=no_pad_outerX, no_pad_innerX=no_pad_innerX, scrollX=scrollX, scrollY=scrollY, no_saved_settings=no_saved_settings)
+		internal_dpg.push_container_stack(widget)
+		yield widget
+	finally:
+		internal_dpg.pop_container_stack()
+@contextmanager
+def table_cell(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, id: Union[int, str] =0, height: int =0, parent: Union[int, str] =0, before: Union[int, str] =0, show: bool =True, filter_key: str ='') -> Union[int, str]:
+	"""
+	Undocumented function
+	Args:
+		**label (str): Overrides 'name' as label.
+		**user_data (Any): User data for callbacks.
+		**use_internal_label (bool): Use generated internal label instead of user specified (appends ### uuid).
+		**id (Union[int, str]): Unique id used to programmatically refer to the item.If label is unused this will be the label.
+		**height (int): Height of the item.
+		**parent (Union[int, str]): Parent to add this item to. (runtime adding)
+		**before (Union[int, str]): This item will be displayed before the specified item in the parent.
+		**show (bool): Attempt to render widget.
+		**filter_key (str): Used by filter widget.
+	Yields:
+		Union[int, str]
+	"""
+	try:
+		widget = internal_dpg.add_table_cell(label=label, user_data=user_data, use_internal_label=use_internal_label, id=id, height=height, parent=parent, before=before, show=show, filter_key=filter_key)
 		internal_dpg.push_container_stack(widget)
 		yield widget
 	finally:
@@ -5198,7 +5222,7 @@ def add_tab_button(*, label: str =None, user_data: Any =None, use_internal_label
 
 	return internal_dpg.add_tab_button(label=label, user_data=user_data, use_internal_label=use_internal_label, id=id, indent=indent, parent=parent, before=before, payload_type=payload_type, callback=callback, drag_callback=drag_callback, drop_callback=drop_callback, show=show, filter_key=filter_key, tracked=tracked, track_offset=track_offset, no_reorder=no_reorder, leading=leading, trailing=trailing, no_tooltip=no_tooltip)
 
-def add_table(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, id: Union[int, str] =0, width: int =0, height: int =0, indent: int =-1, parent: Union[int, str] =0, before: Union[int, str] =0, source: Union[int, str] =0, callback: Callable =None, show: bool =True, pos: Union[List[int], Tuple[int]] =[], filter_key: str ='', delay_search: bool =False, header_row: bool =True, inner_width: int =0, policy: int =0, freeze_rows: int =0, freeze_columns: int =0, sort_multi: bool =False, sort_tristate: bool =False, resizable: bool =False, reorderable: bool =False, hideable: bool =False, sortable: bool =False, context_menu_in_body: bool =False, row_background: bool =False, borders_innerH: bool =False, borders_outerH: bool =False, borders_innerV: bool =False, borders_outerV: bool =False, no_host_extendX: bool =False, no_host_extendY: bool =False, no_keep_columns_visible: bool =False, precise_widths: bool =False, no_clip: bool =False, pad_outerX: bool =False, no_pad_outerX: bool =False, no_pad_innerX: bool =False, scrollX: bool =False, scrollY: bool =False, no_saved_settings: bool =False) -> Union[int, str]:
+def add_table(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, id: Union[int, str] =0, width: int =0, height: int =0, indent: int =-1, parent: Union[int, str] =0, before: Union[int, str] =0, source: Union[int, str] =0, callback: Callable =None, show: bool =True, pos: Union[List[int], Tuple[int]] =[], filter_key: str ='', delay_search: bool =False, header_row: bool =True, clipper: bool =False, inner_width: int =0, policy: int =0, freeze_rows: int =0, freeze_columns: int =0, sort_multi: bool =False, sort_tristate: bool =False, resizable: bool =False, reorderable: bool =False, hideable: bool =False, sortable: bool =False, context_menu_in_body: bool =False, row_background: bool =False, borders_innerH: bool =False, borders_outerH: bool =False, borders_innerV: bool =False, borders_outerV: bool =False, no_host_extendX: bool =False, no_host_extendY: bool =False, no_keep_columns_visible: bool =False, precise_widths: bool =False, no_clip: bool =False, pad_outerX: bool =False, no_pad_outerX: bool =False, no_pad_innerX: bool =False, scrollX: bool =False, scrollY: bool =False, no_saved_settings: bool =False) -> Union[int, str]:
 	"""
 	Undocumented function
 	Args:
@@ -5218,6 +5242,7 @@ def add_table(*, label: str =None, user_data: Any =None, use_internal_label: boo
 		**filter_key (str): Used by filter widget.
 		**delay_search (bool): Delays searching container for specified items until the end of the app. Possible optimization when a container has many children that are not accessed often.
 		**header_row (bool): show headers at the top of the columns
+		**clipper (bool): Use clipper (rows must be same height).
 		**inner_width (int): 
 		**policy (int): 
 		**freeze_rows (int): 
@@ -5249,9 +5274,28 @@ def add_table(*, label: str =None, user_data: Any =None, use_internal_label: boo
 		Union[int, str]
 	"""
 
-	return internal_dpg.add_table(label=label, user_data=user_data, use_internal_label=use_internal_label, id=id, width=width, height=height, indent=indent, parent=parent, before=before, source=source, callback=callback, show=show, pos=pos, filter_key=filter_key, delay_search=delay_search, header_row=header_row, inner_width=inner_width, policy=policy, freeze_rows=freeze_rows, freeze_columns=freeze_columns, sort_multi=sort_multi, sort_tristate=sort_tristate, resizable=resizable, reorderable=reorderable, hideable=hideable, sortable=sortable, context_menu_in_body=context_menu_in_body, row_background=row_background, borders_innerH=borders_innerH, borders_outerH=borders_outerH, borders_innerV=borders_innerV, borders_outerV=borders_outerV, no_host_extendX=no_host_extendX, no_host_extendY=no_host_extendY, no_keep_columns_visible=no_keep_columns_visible, precise_widths=precise_widths, no_clip=no_clip, pad_outerX=pad_outerX, no_pad_outerX=no_pad_outerX, no_pad_innerX=no_pad_innerX, scrollX=scrollX, scrollY=scrollY, no_saved_settings=no_saved_settings)
+	return internal_dpg.add_table(label=label, user_data=user_data, use_internal_label=use_internal_label, id=id, width=width, height=height, indent=indent, parent=parent, before=before, source=source, callback=callback, show=show, pos=pos, filter_key=filter_key, delay_search=delay_search, header_row=header_row, clipper=clipper, inner_width=inner_width, policy=policy, freeze_rows=freeze_rows, freeze_columns=freeze_columns, sort_multi=sort_multi, sort_tristate=sort_tristate, resizable=resizable, reorderable=reorderable, hideable=hideable, sortable=sortable, context_menu_in_body=context_menu_in_body, row_background=row_background, borders_innerH=borders_innerH, borders_outerH=borders_outerH, borders_innerV=borders_innerV, borders_outerV=borders_outerV, no_host_extendX=no_host_extendX, no_host_extendY=no_host_extendY, no_keep_columns_visible=no_keep_columns_visible, precise_widths=precise_widths, no_clip=no_clip, pad_outerX=pad_outerX, no_pad_outerX=no_pad_outerX, no_pad_innerX=no_pad_innerX, scrollX=scrollX, scrollY=scrollY, no_saved_settings=no_saved_settings)
 
-def add_table_column(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, id: Union[int, str] =0, width: int =0, parent: Union[int, str] =0, before: Union[int, str] =0, show: bool =True, init_width_or_weight: float =0.0, default_hide: bool =False, default_sort: bool =False, width_stretch: bool =False, width_fixed: bool =False, no_resize: bool =False, no_reorder: bool =False, no_hide: bool =False, no_clip: bool =False, no_sort: bool =False, no_sort_ascending: bool =False, no_sort_descending: bool =False, no_header_width: bool =False, prefer_sort_ascending: bool =True, prefer_sort_descending: bool =False, indent_enable: bool =False, indent_disable: bool =False) -> Union[int, str]:
+def add_table_cell(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, id: Union[int, str] =0, height: int =0, parent: Union[int, str] =0, before: Union[int, str] =0, show: bool =True, filter_key: str ='') -> Union[int, str]:
+	"""
+	Undocumented function
+	Args:
+		**label (str): Overrides 'name' as label.
+		**user_data (Any): User data for callbacks.
+		**use_internal_label (bool): Use generated internal label instead of user specified (appends ### uuid).
+		**id (Union[int, str]): Unique id used to programmatically refer to the item.If label is unused this will be the label.
+		**height (int): Height of the item.
+		**parent (Union[int, str]): Parent to add this item to. (runtime adding)
+		**before (Union[int, str]): This item will be displayed before the specified item in the parent.
+		**show (bool): Attempt to render widget.
+		**filter_key (str): Used by filter widget.
+	Returns:
+		Union[int, str]
+	"""
+
+	return internal_dpg.add_table_cell(label=label, user_data=user_data, use_internal_label=use_internal_label, id=id, height=height, parent=parent, before=before, show=show, filter_key=filter_key)
+
+def add_table_column(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, id: Union[int, str] =0, width: int =0, parent: Union[int, str] =0, before: Union[int, str] =0, show: bool =True, enabled: bool =True, init_width_or_weight: float =0.0, default_hide: bool =False, default_sort: bool =False, width_stretch: bool =False, width_fixed: bool =False, no_resize: bool =False, no_reorder: bool =False, no_hide: bool =False, no_clip: bool =False, no_sort: bool =False, no_sort_ascending: bool =False, no_sort_descending: bool =False, no_header_width: bool =False, prefer_sort_ascending: bool =True, prefer_sort_descending: bool =False, indent_enable: bool =False, indent_disable: bool =False) -> Union[int, str]:
 	"""
 	Undocumented function
 	Args:
@@ -5263,6 +5307,7 @@ def add_table_column(*, label: str =None, user_data: Any =None, use_internal_lab
 		**parent (Union[int, str]): Parent to add this item to. (runtime adding)
 		**before (Union[int, str]): This item will be displayed before the specified item in the parent.
 		**show (bool): Attempt to render widget.
+		**enabled (bool): Turns off functionality of widget and applies the disabled theme.
 		**init_width_or_weight (float): 
 		**default_hide (bool): Default as a hidden/disabled column.
 		**default_sort (bool): Default as a sorting column.
@@ -5284,24 +5329,7 @@ def add_table_column(*, label: str =None, user_data: Any =None, use_internal_lab
 		Union[int, str]
 	"""
 
-	return internal_dpg.add_table_column(label=label, user_data=user_data, use_internal_label=use_internal_label, id=id, width=width, parent=parent, before=before, show=show, init_width_or_weight=init_width_or_weight, default_hide=default_hide, default_sort=default_sort, width_stretch=width_stretch, width_fixed=width_fixed, no_resize=no_resize, no_reorder=no_reorder, no_hide=no_hide, no_clip=no_clip, no_sort=no_sort, no_sort_ascending=no_sort_ascending, no_sort_descending=no_sort_descending, no_header_width=no_header_width, prefer_sort_ascending=prefer_sort_ascending, prefer_sort_descending=prefer_sort_descending, indent_enable=indent_enable, indent_disable=indent_disable)
-
-def add_table_next_column(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, id: Union[int, str] =0, parent: Union[int, str] =0, before: Union[int, str] =0, show: bool =True) -> Union[int, str]:
-	"""
-	Undocumented function
-	Args:
-		**label (str): Overrides 'name' as label.
-		**user_data (Any): User data for callbacks.
-		**use_internal_label (bool): Use generated internal label instead of user specified (appends ### uuid).
-		**id (Union[int, str]): Unique id used to programmatically refer to the item.If label is unused this will be the label.
-		**parent (Union[int, str]): Parent to add this item to. (runtime adding)
-		**before (Union[int, str]): This item will be displayed before the specified item in the parent.
-		**show (bool): Attempt to render widget.
-	Returns:
-		Union[int, str]
-	"""
-
-	return internal_dpg.add_table_next_column(label=label, user_data=user_data, use_internal_label=use_internal_label, id=id, parent=parent, before=before, show=show)
+	return internal_dpg.add_table_column(label=label, user_data=user_data, use_internal_label=use_internal_label, id=id, width=width, parent=parent, before=before, show=show, enabled=enabled, init_width_or_weight=init_width_or_weight, default_hide=default_hide, default_sort=default_sort, width_stretch=width_stretch, width_fixed=width_fixed, no_resize=no_resize, no_reorder=no_reorder, no_hide=no_hide, no_clip=no_clip, no_sort=no_sort, no_sort_ascending=no_sort_ascending, no_sort_descending=no_sort_descending, no_header_width=no_header_width, prefer_sort_ascending=prefer_sort_ascending, prefer_sort_descending=prefer_sort_descending, indent_enable=indent_enable, indent_disable=indent_disable)
 
 def add_table_row(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, id: Union[int, str] =0, height: int =0, parent: Union[int, str] =0, before: Union[int, str] =0, show: bool =True, filter_key: str ='') -> Union[int, str]:
 	"""
@@ -6505,6 +6533,46 @@ def get_y_scroll_max(item : Union[int, str]) -> float:
 
 	return internal_dpg.get_y_scroll_max(item)
 
+def highlight_table_cell(table : Union[int, str], row : int, column : int, color : Union[List[int], Tuple[int]]) -> None:
+	"""
+	
+	Args:
+		table (Union[int, str]): 
+		row (int): 
+		column (int): 
+		color (Union[List[int], Tuple[int]]): 
+	Returns:
+		None
+	"""
+
+	return internal_dpg.highlight_table_cell(table, row, column, color)
+
+def highlight_table_column(table : Union[int, str], column : int, color : Union[List[int], Tuple[int]]) -> None:
+	"""
+	
+	Args:
+		table (Union[int, str]): 
+		column (int): 
+		color (Union[List[int], Tuple[int]]): 
+	Returns:
+		None
+	"""
+
+	return internal_dpg.highlight_table_column(table, column, color)
+
+def highlight_table_row(table : Union[int, str], row : int, color : Union[List[int], Tuple[int]]) -> None:
+	"""
+	
+	Args:
+		table (Union[int, str]): 
+		row (int): 
+		color (Union[List[int], Tuple[int]]): 
+	Returns:
+		None
+	"""
+
+	return internal_dpg.highlight_table_row(table, row, color)
+
 def is_dearpygui_running() -> bool:
 	"""
 	Checks if dearpygui is running.
@@ -6614,6 +6682,43 @@ def is_plot_queried(plot : Union[int, str]) -> bool:
 	"""
 
 	return internal_dpg.is_plot_queried(plot)
+
+def is_table_cell_highlight(table : Union[int, str], row : int, column : int) -> bool:
+	"""
+	
+	Args:
+		table (Union[int, str]): 
+		row (int): 
+		column (int): 
+	Returns:
+		bool
+	"""
+
+	return internal_dpg.is_table_cell_highlight(table, row, column)
+
+def is_table_column_highlight(table : Union[int, str], column : int) -> bool:
+	"""
+	
+	Args:
+		table (Union[int, str]): 
+		column (int): 
+	Returns:
+		bool
+	"""
+
+	return internal_dpg.is_table_column_highlight(table, column)
+
+def is_table_row_highlight(table : Union[int, str], row : int) -> bool:
+	"""
+	
+	Args:
+		table (Union[int, str]): 
+		row (int): 
+	Returns:
+		bool
+	"""
+
+	return internal_dpg.is_table_row_highlight(table, row)
 
 def is_viewport_created() -> bool:
 	"""
@@ -7032,6 +7137,19 @@ def set_start_callback(callback : Callable) -> str:
 
 	return internal_dpg.set_start_callback(callback)
 
+def set_table_row_color(table : Union[int, str], row : int, color : Union[List[int], Tuple[int]]) -> None:
+	"""
+	
+	Args:
+		table (Union[int, str]): 
+		row (int): 
+		color (Union[List[int], Tuple[int]]): 
+	Returns:
+		None
+	"""
+
+	return internal_dpg.set_table_row_color(table, row, color)
+
 def set_value(item : Union[int, str], value : Any) -> None:
 	"""
 	Undocumented
@@ -7176,6 +7294,43 @@ def top_container_stack() -> Union[int, str]:
 
 	return internal_dpg.top_container_stack()
 
+def unhighlight_table_cell(table : Union[int, str], row : int, column : int) -> None:
+	"""
+	
+	Args:
+		table (Union[int, str]): 
+		row (int): 
+		column (int): 
+	Returns:
+		None
+	"""
+
+	return internal_dpg.unhighlight_table_cell(table, row, column)
+
+def unhighlight_table_column(table : Union[int, str], column : int) -> None:
+	"""
+	
+	Args:
+		table (Union[int, str]): 
+		column (int): 
+	Returns:
+		None
+	"""
+
+	return internal_dpg.unhighlight_table_column(table, column)
+
+def unhighlight_table_row(table : Union[int, str], row : int) -> None:
+	"""
+	
+	Args:
+		table (Union[int, str]): 
+		row (int): 
+	Returns:
+		None
+	"""
+
+	return internal_dpg.unhighlight_table_row(table, row)
+
 def unlock_mutex() -> None:
 	"""
 	Unlocks mutex
@@ -7185,6 +7340,18 @@ def unlock_mutex() -> None:
 	"""
 
 	return internal_dpg.unlock_mutex()
+
+def unset_table_row_color(table : Union[int, str], row : int) -> None:
+	"""
+	
+	Args:
+		table (Union[int, str]): 
+		row (int): 
+	Returns:
+		None
+	"""
+
+	return internal_dpg.unset_table_row_color(table, row)
 
 def unstage_items(items : Union[List[int], Tuple[int]]) -> None:
 	"""
@@ -7462,7 +7629,6 @@ mvTable_SizingFixedSame=internal_dpg.mvTable_SizingFixedSame
 mvTable_SizingStretchProp=internal_dpg.mvTable_SizingStretchProp
 mvTable_SizingStretchSame=internal_dpg.mvTable_SizingStretchSame
 mvTableColumn=internal_dpg.mvTableColumn
-mvTableNextColumn=internal_dpg.mvTableNextColumn
 mvTableRow=internal_dpg.mvTableRow
 mvDrawLine=internal_dpg.mvDrawLine
 mvDrawArrow=internal_dpg.mvDrawArrow
@@ -7775,6 +7941,7 @@ mvColorMapSlider=internal_dpg.mvColorMapSlider
 mvItemPool=internal_dpg.mvItemPool
 mvItemSet=internal_dpg.mvItemSet
 mvTemplateRegistry=internal_dpg.mvTemplateRegistry
+mvTableCell=internal_dpg.mvTableCell
 mvReservedUUID_0=internal_dpg.mvReservedUUID_0
 mvReservedUUID_1=internal_dpg.mvReservedUUID_1
 mvReservedUUID_2=internal_dpg.mvReservedUUID_2

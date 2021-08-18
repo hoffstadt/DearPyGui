@@ -41,7 +41,7 @@ namespace Marvel {
         mvImageButton, mvTimePicker, mvDatePicker, mvColorButton,
         mvFileDialog, mvTabButton,
         mvNodeEditor, mvNode, mvNodeAttribute,
-        mvTable, mvTableColumn, mvTableNextColumn, mvTableRow,
+        mvTable, mvTableColumn, mvTableRow,
         mvDrawLine, mvDrawArrow, mvDrawTriangle,
         mvDrawCircle, mvDrawEllipse, mvDrawBezierCubic, mvDrawBezierQuadratic,
         mvDrawQuad, mvDrawRect, mvDrawText, mvDrawPolygon, mvDrawPolyline,
@@ -70,7 +70,7 @@ namespace Marvel {
         mvInt4Value, mvBoolValue, mvStringValue, mvDoubleValue, mvDouble4Value,
         mvColorValue, mvFloatVectValue, mvSeriesValue, mvRawTexture, mvSubPlots,
         mvColorMap, mvColorMapRegistry, mvColorMapButton, mvColorMapSlider,
-        mvItemPool, mvItemSet, mvTemplateRegistry,
+        mvItemPool, mvItemSet, mvTemplateRegistry, mvTableCell,
         ItemTypeCount
     };
 
