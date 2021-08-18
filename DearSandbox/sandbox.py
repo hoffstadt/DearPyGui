@@ -12,7 +12,7 @@ with dpg.font_registry():
 demo.show_demo()
 
 datagrid_data = []
-rows = 100
+rows = 1000
 columns = 10
 for i in range(rows):
     new_row = []
@@ -23,7 +23,7 @@ for i in range(rows):
 datagrid = mvDataGrid(columns, datagrid_data)
 
 with dpg.window(label="tutorial", width=500, height=500):
-    dpg.add_button(label="Press me")
+    dpg.add_text("test hovering", label="test hovering")
     datagrid.submit()
 
 dpg.setup_viewport()

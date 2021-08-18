@@ -5759,19 +5759,20 @@ def configure_app(*, docking: bool =False, docking_space: bool =False, load_init
 
 	return internal_dpg.configure_app(docking=docking, docking_space=docking_space, load_init_file=load_init_file, init_file=init_file, device=device, auto_device=auto_device)
 
-def configure_item_registry(*, allow_alias_overwrites: bool =False, manual_alias_management: bool =False, skip_required_args: bool =False, skip_optional_args: bool =False) -> None:
+def configure_item_registry(*, allow_alias_overwrites: bool =False, manual_alias_management: bool =False, skip_required_args: bool =False, skip_positional_args: bool =False, skip_keyword_args: bool =False) -> None:
 	"""
 	Undocumented
 	Args:
 		**allow_alias_overwrites (bool): 
 		**manual_alias_management (bool): 
 		**skip_required_args (bool): 
-		**skip_optional_args (bool): 
+		**skip_positional_args (bool): 
+		**skip_keyword_args (bool): 
 	Returns:
 		None
 	"""
 
-	return internal_dpg.configure_item_registry(allow_alias_overwrites=allow_alias_overwrites, manual_alias_management=manual_alias_management, skip_required_args=skip_required_args, skip_optional_args=skip_optional_args)
+	return internal_dpg.configure_item_registry(allow_alias_overwrites=allow_alias_overwrites, manual_alias_management=manual_alias_management, skip_required_args=skip_required_args, skip_positional_args=skip_positional_args, skip_keyword_args=skip_keyword_args)
 
 def create_viewport(*, title: str ='Dear PyGui', small_icon: str ='', large_icon: str ='', width: int =1280, height: int =800, x_pos: int =100, y_pos: int =100, min_width: int =250, max_width: int =10000, min_height: int =250, max_height: int =10000, resizable: bool =True, vsync: bool =True, always_on_top: bool =False, decorated: bool =True, clear_color: Union[List[float], Tuple[float]] =(0, 0, 0, 255)) -> str:
 	"""

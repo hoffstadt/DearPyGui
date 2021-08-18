@@ -614,7 +614,7 @@ def configure_item(item : Union[int, str], **kwargs) -> None:
 	"""Undocumented"""
 	...
 
-def configure_item_registry(*, allow_alias_overwrites: bool =False, manual_alias_management: bool =False, skip_required_args: bool =False, skip_optional_args: bool =False) -> None:
+def configure_item_registry(*, allow_alias_overwrites: bool =False, manual_alias_management: bool =False, skip_required_args: bool =False, skip_positional_args: bool =False, skip_keyword_args: bool =False) -> None:
 	"""Undocumented"""
 	...
 
