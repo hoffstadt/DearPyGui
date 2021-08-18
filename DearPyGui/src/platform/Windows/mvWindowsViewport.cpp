@@ -7,6 +7,7 @@
 #include "mvToolManager.h"
 #include "mvItemRegistry.h"
 #include "mvProfiler.h"
+#include <winuser.h>
 
 // Forward declare message handler from imgui_impl_win32.cpp
 extern IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
@@ -192,8 +193,8 @@ namespace Marvel {
 
 	void mvWindowsViewport::fullscreen()
 	{
-		int width = GetSystemMetrics(SM_CXSCREEN);
-		int height = GetSystemMetrics(SM_CYSCREEN);
+		size_t width = GetSystemMetrics(SM_CXSCREEN);
+		size_t height = GetSystemMetrics(SM_CYSCREEN);
         if (mvViewport::is_fullscreened){
 			RECT rect;
 			rect.left = mvViewport::_storedX;
