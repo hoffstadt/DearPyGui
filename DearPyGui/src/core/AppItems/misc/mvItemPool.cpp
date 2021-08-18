@@ -12,7 +12,7 @@ namespace Marvel {
 	void mvItemPool::InsertParser(std::map<std::string, mvPythonParser>* parsers)
 	{
 
-		mvPythonParser parser(mvPyDataType::UUID, "Undocumented function", { "Containers"}, true);
+		mvPythonParser parser(mvPyDataType::UUID, "Undocumented function", { "Containers"});
 		mvAppItem::AddCommonArgs(parser, (CommonParserArgs)(
 			MV_PARSER_ARG_ID)
 		);
