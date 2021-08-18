@@ -200,7 +200,7 @@ namespace Marvel {
 			rect.top = mvViewport::_storedY;
 			rect.right = mvViewport::_storedX + mvViewport::_storedWidth;
 			rect.bottom = mvViewport::_storedY + mvViewport::_storedHeight;
-            setWindowLongPtrA(_hwnd, GWL_STYLE, WS_OVERLAPPEDWINDOW | WS_VISIBLE);
+            SetWindowLongPtr(_hwnd, GWL_STYLE, WS_OVERLAPPEDWINDOW | WS_VISIBLE);
 			AdjustWindowRect(&rect, WS_OVERLAPPEDWINDOW, FALSE);
 			MoveWindow(_hwnd, mvViewport::_storedX, mvViewport::_storedY, mvViewport::_storedWidth, mvViewport::_storedHeight, TRUE);
         } else {
@@ -208,7 +208,7 @@ namespace Marvel {
             mvViewport::_storedHeight = mvViewport::_actualHeight;
             mvViewport::_storedX = mvViewport::_xpos;
             mvViewport::_storedY = mvViewport::_ypos;
-            setWindowLongPtrA(_hwnd, GWL_STYLE, WS_SYSMENU | WS_POPUP | WS_CLIPCHILDREN | WS_CLIPSIBLINGS | WS_VISIBLE);
+            SetWindowLongPtr(_hwnd, GWL_STYLE, WS_SYSMENU | WS_POPUP | WS_CLIPCHILDREN | WS_CLIPSIBLINGS | WS_VISIBLE);
 			MoveWindow(_hwnd, 0, 0, width, height, TRUE);
         }
         mvViewport::is_fullscreened = !mvViewport::is_fullscreened;
