@@ -64,10 +64,6 @@ namespace Marvel {
 		if (!_show)
 			return;
 
-		//ImGui::TableSetBgColor(ImGuiTableBgTarget_CellBg, ImGui::ColorConvertFloat4ToU32(mvColor(1.0f, 0.5f, 0.0f, 0.95f).toVec4()), 1);
-		//ImGui::TableSetBgColor(ImGuiTableBgTarget_RowBg0, ImGui::ColorConvertFloat4ToU32(mvColor(1.0f, 0.5f, 1.0f, 0.20f).toVec4()));
-		//ImGui::TableSetBgColor(ImGuiTableBgTarget_RowBg1, ImGui::ColorConvertFloat4ToU32(mvColor(1.0f, 0.5f, 0.0f, 0.20f).toVec4()), 1);
-
 		if (_focusNextFrame)
 		{
 			ImGui::SetKeyboardFocusHere();
