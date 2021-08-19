@@ -20,3 +20,6 @@
 [submodule "Dependencies/freetype"]
 	path = Dependencies/freetype
 	url = https://gitlab.freedesktop.org/freetype/freetype
+[submodule "Dependencies/DearPyGui_Ext"]
+	path = Dependencies/DearPyGui_Ext
+	url = https://github.com/hoffstadt/DearPyGui_Ext
