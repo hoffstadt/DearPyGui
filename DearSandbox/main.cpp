@@ -43,7 +43,7 @@ int main(int argc, char* argv[])
 	PyImport_AppendInittab("_dearpygui", &PyInit__dearpygui);
 
 	// set path and start the interpreter
-	wchar_t* path = Py_DecodeLocale("../../DearSandbox/;../../Dependencies/cpython/Lib;../../Dependencies/cpython/PCbuild/amd64;../../DearPyGui/", nullptr);
+	wchar_t* path = Py_DecodeLocale("../../Dependencies/DearPyGui_Ext/;../../DearSandbox/;../../Dependencies/cpython/Lib;../../Dependencies/cpython/PCbuild/amd64;../../DearPyGui/", nullptr);
 
 	Py_SetPath(path);
 	Py_NoSiteFlag = 1; // this must be set to 1
