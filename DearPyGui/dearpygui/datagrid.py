@@ -14,7 +14,7 @@ class mvDataGrid:
 
             with dpg.mutex():
                 dpg.configure_app(skip_keyword_args=True)
-                with dpg.stage(id=self._stage_id):
+                with dpg.stage(tag=self._stage_id):
                     for row in data:
                         internal_dpg.push_container_stack(internal_dpg.add_table_row())
                         for column in range(self._columns):
@@ -29,7 +29,7 @@ class mvDataGrid:
                        borders_innerH=True, borders_outerH=True, borders_innerV=True,
                        borders_outerV=True, context_menu_in_body=True, row_background=True,
                        policy=dpg.mvTable_SizingFixedFit, height=-1,
-                       scrollY=True, id=self._table_id, clipper=True):
+                       scrollY=True, tag=self._table_id, clipper=True):
 
             for i in range(self._columns):
                 internal_dpg.add_table_column(label="Header " + str(i))
