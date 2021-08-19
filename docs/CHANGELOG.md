@@ -25,6 +25,10 @@ We generally fold multiple commits pertaining to the same topic as a single entr
 ### Breaking Changes
 * item: removed table_next_column
 * table rows now required
+* removed `viewport` keyword arg from `setup_dearpygui(...)`
+* removed `viewport` keyword arg from `show_viewport(...)`
+* user must create, setup, show viewport before starting dpg:
+  * "create_viewport()->setup_dearpygui()->show_viewport()->start_dearpygui()"
 
 ### New
 * module:  added `experimental`
@@ -60,6 +64,24 @@ We generally fold multiple commits pertaining to the same topic as a single entr
 * command: `get_dearpygui_version()` is deprecated. Use `get_app_configuration()['version']`.
 * command: `init_file(...)` is deprecated. Use `configure_app(init_file=file)`.
 * command: `load_init_file` is deprecated. Use `configure_app(init_file=file, load_init_file=True)`.
+* command: `is_viewport_created(...)` is deprecated. Use `is_viewport_ok()`.
+* command: `setup_viewport(...)` is deprecated. Use `create_viewport()->setup_dearpygui()->show_viewport()`.
+* command: `set_item_theme(...)` is deprecated. Use `bind_item_theme()`.
+* command: `set_item_type_disabled_theme(...)` is deprecated. Use `bind_item_type_disabled_theme()`.
+* command: `set_item_theme(...)` is deprecated. Use `bind_item_theme()`.
+* command: `set_item_type_theme(...)` is deprecated. Use `bind_item_type_theme()`.
+* command: `set_item_font(...)` is deprecated. Use `bind_item_font()`.
+* command: `add_activated_handler(...)` is deprecated. Use `add_activated_handler()`.
+* command: `add_active_handler(...)` is deprecated. Use `add_item_active_handler()`.
+* command: `add_clicked_handler(...)` is deprecated. Use `add_item_clicked_handler()`.
+* command: `add_deactivated_after_edit_handler(...)` is deprecated. Use `add_item_deactivated_after_edit_handler()`.
+* command: `add_deactivated_handler(...)` is deprecated. Use `add_item_deactivated_handler()`.
+* command: `add_edited_handler(...)` is deprecated. Use `add_item_edited_handler()`.
+* command: `add_focus_handler(...)` is deprecated. Use `add_item_focus_handler()`.
+* command: `add_hover_handler(...)` is deprecated. Use `add_item_hover_handler()`.
+* command: `add_resize_handler(...)` is deprecated. Use `add_item_resize_handler()`.
+* command: `add_toggled_open_handler(...)` is deprecated. Use `add_item_toggled_open_handler()`.
+* command: `add_visible_handler(...)` is deprecated. Use `add_item_visible_handler()`.
 
 ### Fixes
 * fixed `get_item_configuration(...)` memory leak #1179

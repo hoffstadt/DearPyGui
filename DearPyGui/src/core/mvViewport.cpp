@@ -22,7 +22,7 @@ namespace Marvel {
 	{
 
 		{
-			mvPythonParser parser(mvPyDataType::String, "Creates a viewport.", { "General" });
+			mvPythonParser parser(mvPyDataType::None, "Creates a viewport.", { "General" });
 			parser.addArg<mvPyDataType::String>("title", mvArgType::KEYWORD_ARG, "'Dear PyGui'");
 			parser.addArg<mvPyDataType::String>("small_icon", mvArgType::KEYWORD_ARG, "''");
 			parser.addArg<mvPyDataType::String>("large_icon", mvArgType::KEYWORD_ARG, "''");
@@ -49,7 +49,6 @@ namespace Marvel {
 
 		{
 			mvPythonParser parser(mvPyDataType::None, "Shows the viewport", { "General" });
-			parser.addArg<mvPyDataType::String>("viewport");
 			parser.addArg<mvPyDataType::Bool>("minimized", mvArgType::KEYWORD_ARG, "False");
 			parser.addArg<mvPyDataType::Bool>("maximized", mvArgType::KEYWORD_ARG, "False");
 			parser.finalize();
@@ -73,9 +72,9 @@ namespace Marvel {
 		}
 
 		{
-			mvPythonParser parser(mvPyDataType::Bool, "Checks if a viewport has been created.", { "General" });
+			mvPythonParser parser(mvPyDataType::Bool, "Checks if a viewport has been created and shown.", { "General" });
 			parser.finalize();
-			parsers->insert({ "is_viewport_created", parser });
+			parsers->insert({ "is_viewport_ok", parser });
 		}
 
 		{
@@ -182,14 +181,17 @@ namespace Marvel {
 		return pdict;
 	}
 
-	PyObject* mvViewport::is_viewport_created(PyObject* self, PyObject* args, PyObject* kwargs)
+	PyObject* mvViewport::is_viewport_ok(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 
 		if (!mvApp::s_manualMutexControl) std::lock_guard<std::mutex> lk(mvApp::s_mutex);
 
 		mvViewport* viewport = mvApp::GetApp()->getViewport();
 		if (viewport)
-			return ToPyBool(true);
+		{
+			if(viewport->_shown)
+				return ToPyBool(true);
+		}
 
 		return ToPyBool(false);
 	}
@@ -236,22 +238,24 @@ namespace Marvel {
 
 		mvApp::GetApp()->setViewport(viewport);
 
-		return ToPyString("DPG_NOT_USED_YET");
+		return GetPyNone();
 	}
 
 	PyObject* mvViewport::show_viewport(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
-		const char* vp;
 		int minimized = false;
 		int maximized = false;
 
 		if (!(mvApp::GetApp()->getParsers())["show_viewport"].parse(args, kwargs, __FUNCTION__,
-			&vp, &minimized, &maximized))
+			&minimized, &maximized))
 			return GetPyNone();
 
 		mvViewport* viewport = mvApp::GetApp()->getViewport();
 		if (viewport)
+		{
 			viewport->show(minimized, maximized);
+			viewport->_shown = true;
+		}
 		else
 			mvThrowPythonError(mvErrorCode::mvNone, "No viewport created");
 

@@ -223,11 +223,11 @@ def show_demo():
 
             with dpg.menu(label="Themes"):
                 dpg.add_menu_item(label="Default",
-                    callback=lambda: dpg.set_item_theme("__demo_id", 0))
+                    callback=lambda: dpg.bind_item_theme("__demo_id", 0))
                 dpg.add_menu_item(label="Dark ImGui",
-                                  callback=lambda: dpg.set_item_theme("__demo_id", "__DARK_IMGUI_THEME"))
+                                  callback=lambda: dpg.bind_item_theme("__demo_id", "__DARK_IMGUI_THEME"))
                 dpg.add_menu_item(label="Light ImGui",
-                                  callback=lambda: dpg.set_item_theme("__demo_id", "__LIGHT_IMGUI_THEME"))
+                                  callback=lambda: dpg.bind_item_theme("__demo_id", "__LIGHT_IMGUI_THEME"))
 
             with dpg.menu(label="Tools"):
 
@@ -279,7 +279,7 @@ def show_demo():
                             dpg.add_theme_style(dpg.mvStyleVar_FramePadding, i*3, i*3)
 
                         dpg.add_button(label="Click", callback=_log)
-                        dpg.set_item_theme(dpg.last_item(), theme)
+                        dpg.bind_item_theme(dpg.last_item(), theme)
 
 
                 with dpg.group(horizontal=True):
@@ -610,7 +610,7 @@ def show_demo():
                 with dpg.theme() as theme:
                     dpg.add_theme_color(dpg.mvThemeCol_PlotHistogram, (255,0,0, 255))
                 dpg.add_progress_bar(default_value=0.78, overlay="1367/1753")
-                dpg.set_item_theme(dpg.last_item(), theme)
+                dpg.bind_item_theme(dpg.last_item(), theme)
 
             with dpg.tree_node(label="Multi-component Widgets"):
 
@@ -649,7 +649,7 @@ def show_demo():
                                 dpg.add_theme_color(dpg.mvThemeCol_FrameBgHovered, _hsv_to_rgb(i/7.0, 0.6, 0.5))
 
                             dpg.add_slider_float(label=" ", default_value=values[i], vertical=True, max_value=1.0, height=160)
-                            dpg.set_item_theme(dpg.last_item(), theme)
+                            dpg.bind_item_theme(dpg.last_item(), theme)
 
                     with dpg.group():
                         for i in range(0, 3):
@@ -999,7 +999,7 @@ def show_demo():
                                             dpg.add_text("Item " + str(j))
                         
                                 dpg.add_text("0/0")
-                                dpg.add_visible_handler(dpg.last_item(), user_data=[dpg.last_item(), dpg.last_container()], callback=_update_yscroll_info)
+                                dpg.add_item_visible_handler(dpg.last_item(), user_data=[dpg.last_item(), dpg.last_container()], callback=_update_yscroll_info)
 
                 for i in range(0, 5):
                     dpg.add_text(text_items[i])
@@ -1013,7 +1013,7 @@ def show_demo():
                                     dpg.add_same_line()
                     dpg.add_same_line()
                     dpg.add_text("0/0")
-                    dpg.add_visible_handler(dpg.last_item(), user_data=[dpg.last_item(), dpg.last_container()], callback=_update_xscroll_info)
+                    dpg.add_item_visible_handler(dpg.last_item(), user_data=[dpg.last_item(), dpg.last_container()], callback=_update_xscroll_info)
 
                 with dpg.child(height=50, horizontal_scrollbar=True, width=-200):
                         for j in range(0, 25):
@@ -1043,7 +1043,7 @@ def show_demo():
                 dpg.add_button(label=">>", small=True, user_data=["right", dpg.last_container()], callback=_scroll_programmatically)
                 dpg.add_same_line()
                 dpg.add_text("0/0")
-                dpg.add_visible_handler(dpg.last_item(), user_data=[dpg.last_item(), dpg.last_container()], callback=_update_xscroll_info)
+                dpg.add_item_visible_handler(dpg.last_item(), user_data=[dpg.last_item(), dpg.last_container()], callback=_update_xscroll_info)
                  
         with dpg.collapsing_header(label="Textures & Images"):
         
@@ -1420,7 +1420,7 @@ def show_demo():
                     for i in range(0, 3):
                         with dpg.table_row():
                             dpg.add_text("(w: 0.0f)")
-                            dpg.add_visible_handler(dpg.last_item(), user_data = dpg.last_item(), callback=lambda s, a, u:dpg.set_value(u, "(w: " + str(dpg.get_item_state(u)["content_region_avail"][0]) + ")"))
+                            dpg.add_item_visible_handler(dpg.last_item(), user_data = dpg.last_item(), callback=lambda s, a, u:dpg.set_value(u, "(w: " + str(dpg.get_item_state(u)["content_region_avail"][0]) + ")"))
 
                     for i in range(0, 3):
                         with dpg.table_row():
@@ -1437,7 +1437,7 @@ def show_demo():
                     for i in range(0, 4):
                         with dpg.table_row():
                             dpg.add_text("(w: 0.0f)")
-                            dpg.add_visible_handler(dpg.last_item(), user_data=dpg.last_item(), callback=lambda s, a, u:dpg.set_value(u, "(w: " + str(dpg.get_item_state(u)["content_region_avail"][0]) + ")"))
+                            dpg.add_item_visible_handler(dpg.last_item(), user_data=dpg.last_item(), callback=lambda s, a, u:dpg.set_value(u, "(w: " + str(dpg.get_item_state(u)["content_region_avail"][0]) + ")"))
 
                     for i in range(0, 4):
                         with dpg.table_row():
@@ -1793,19 +1793,19 @@ def show_demo():
                             xaxis = dpg.add_plot_axis(dpg.mvXAxis, label="Days")
                             with dpg.plot_axis(dpg.mvYAxis, label="Price"):
                                 dpg.add_line_series(stock_datax, stock_data1, label="Stock 1")
-                                dpg.set_item_theme(dpg.last_item(), stock_theme1)
+                                dpg.bind_item_theme(dpg.last_item(), stock_theme1)
                                 dpg.add_line_series(stock_datax, stock_data2, label="Stock 2")
-                                dpg.set_item_theme(dpg.last_item(), stock_theme2)
+                                dpg.bind_item_theme(dpg.last_item(), stock_theme2)
                                 dpg.add_line_series(stock_datax, stock_data3, label="Stock 3")
-                                dpg.set_item_theme(dpg.last_item(), stock_theme3)
+                                dpg.bind_item_theme(dpg.last_item(), stock_theme3)
                                 dpg.add_shade_series(stock_datax, stock_data1, label="Stock 1")
-                                dpg.set_item_theme(dpg.last_item(), stock_theme1)
+                                dpg.bind_item_theme(dpg.last_item(), stock_theme1)
                                 dpg.add_shade_series(stock_datax, stock_data2, label="Stock 2")
-                                dpg.set_item_theme(dpg.last_item(), stock_theme2)
+                                dpg.bind_item_theme(dpg.last_item(), stock_theme2)
                                 dpg.add_shade_series(stock_datax, stock_data3, label="Stock 3", y2=stock_datay2)
-                                dpg.set_item_theme(dpg.last_item(), stock_theme3)
+                                dpg.bind_item_theme(dpg.last_item(), stock_theme3)
                                 dpg.add_shade_series(stock_datax, stock_data5, y2=stock_data4, label="Shade between lines")
-                                dpg.set_item_theme(dpg.last_item(), stock_theme4)
+                                dpg.bind_item_theme(dpg.last_item(), stock_theme4)
                                 dpg.fit_axis_data(dpg.top_container_stack())
                             dpg.fit_axis_data(xaxis)
 
@@ -1829,7 +1829,7 @@ def show_demo():
                             with dpg.plot_axis(dpg.mvYAxis, label="y"):
                                 dpg.add_stem_series(sindatax, sindatay, label="0.5 + 0.5 * sin(x)")
                                 dpg.add_stem_series(sindatax, cosdatay, label="0.5 + 0.75 * cos(x)")
-                                dpg.set_item_theme(dpg.last_item(), stem_theme1)
+                                dpg.bind_item_theme(dpg.last_item(), stem_theme1)
 
                     with dpg.tree_node(label="Bar Series"):
 
@@ -2366,8 +2366,8 @@ def show_demo():
                 cb = dpg.add_checkbox(label="Check me!")
 
                 # all of the handlers for widgets except resize which is for windows only
-                dpg.add_clicked_handler(cb, 0, callback=lambda s, a, u: logger.log(f"clicked_handler: {s} '\t' {a} '\t' {u}"))
-                dpg.add_hover_handler(cb, callback=lambda s, a, u: logger.log(f"hover_handler: {s} '\t' {a} '\t' {u}"))
+                dpg.add_item_clicked_handler(cb, 0, callback=lambda s, a, u: logger.log(f"clicked_handler: {s} '\t' {a} '\t' {u}"))
+                dpg.add_item_hover_handler(cb, callback=lambda s, a, u: logger.log(f"hover_handler: {s} '\t' {a} '\t' {u}"))
                 #dpg.add_activated_handler(widget_id, callback=lambda s, a, u: logger.log(f"activated_handler: {s} '\t' {a} '\t' {u}"))
                 #dpg.add_active_handler(widget_id, callback=lambda s, a, u: logger.log(f"active_handler: {s} '\t' {a} '\t' {u}"))
                 #dpg.add_deactivated_after_edit_handler(widget_id, callback=lambda s, a, u: logger.log(f"deactivated_after_edit_handler: {s} '\t' {a} '\t' {u}"))

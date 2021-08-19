@@ -14,14 +14,6 @@ def add_3d_slider(*, label: str =None, user_data: Any =None, use_internal_label:
 	"""Adds a 3D box slider that allows a 3d point to be show in 2d represented cube space."""
 	...
 
-def add_activated_handler(parent : Union[int, str], *, label: str =None, user_data: Any =None, use_internal_label: bool =True, id: Union[int, str] =0, callback: Callable =None, show: bool =True) -> Union[int, str]:
-	"""Adds a handler which runs a given callback when the specified item is activated."""
-	...
-
-def add_active_handler(parent : Union[int, str], *, label: str =None, user_data: Any =None, use_internal_label: bool =True, id: Union[int, str] =0, callback: Callable =None, show: bool =True) -> Union[int, str]:
-	"""Adds a handler which runs a given callback when the specified item is active."""
-	...
-
 def add_alias(alias : str, item : Union[int, str]) -> None:
 	"""Undocumented"""
 	...
@@ -56,10 +48,6 @@ def add_checkbox(*, label: str =None, user_data: Any =None, use_internal_label: 
 
 def add_child(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, id: Union[int, str] =0, width: int =0, height: int =0, indent: int =-1, parent: Union[int, str] =0, before: Union[int, str] =0, payload_type: str ='$$DPG_PAYLOAD', drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, pos: Union[List[int], Tuple[int]] =[], filter_key: str ='', delay_search: bool =False, tracked: bool =False, track_offset: float =0.5, border: bool =True, autosize_x: bool =False, autosize_y: bool =False, no_scrollbar: bool =False, horizontal_scrollbar: bool =False, menubar: bool =False) -> Union[int, str]:
 	"""Adds an embedded child window. Will show scrollbars when items do not fit. Must be followed by a call to end."""
-	...
-
-def add_clicked_handler(parent : Union[int, str], button : int =-1, *, label: str =None, user_data: Any =None, use_internal_label: bool =True, id: Union[int, str] =0, callback: Callable =None, show: bool =True) -> Union[int, str]:
-	"""Adds a handler which runs a given callback when the specified item is clicked."""
 	...
 
 def add_clipper(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, id: Union[int, str] =0, width: int =0, indent: int =-1, parent: Union[int, str] =0, before: Union[int, str] =0, show: bool =True, delay_search: bool =False) -> Union[int, str]:
@@ -114,14 +102,6 @@ def add_date_picker(*, label: str =None, user_data: Any =None, use_internal_labe
 	"""Creates a date picker."""
 	...
 
-def add_deactivated_after_edit_handler(parent : Union[int, str], *, label: str =None, user_data: Any =None, use_internal_label: bool =True, id: Union[int, str] =0, callback: Callable =None, show: bool =True) -> Union[int, str]:
-	"""Adds a handler which runs a given callback when the specified item is deactivated after edit."""
-	...
-
-def add_deactivated_handler(parent : Union[int, str], *, label: str =None, user_data: Any =None, use_internal_label: bool =True, id: Union[int, str] =0, callback: Callable =None, show: bool =True) -> Union[int, str]:
-	"""Adds a handler which runs a given callback when the specified item is deactivated."""
-	...
-
 def add_double4_value(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, id: Union[int, str] =0, source: Union[int, str] =0, default_value: Any =(0.0, 0.0, 0.0, 0.0), parent: Union[int, str] =internal_dpg.mvReservedUUID_3) -> Union[int, str]:
 	"""Undocumented"""
 	...
@@ -174,10 +154,6 @@ def add_dynamic_texture(width : int, height : int, default_value : Union[List[fl
 	"""Undocumented function"""
 	...
 
-def add_edited_handler(parent : Union[int, str], *, label: str =None, user_data: Any =None, use_internal_label: bool =True, id: Union[int, str] =0, callback: Callable =None, show: bool =True) -> Union[int, str]:
-	"""Adds a handler which runs a given callback when the specified item is edited."""
-	...
-
 def add_error_series(x : Union[List[float], Tuple[float]], y : Union[List[float], Tuple[float]], negative : Union[List[float], Tuple[float]], positive : Union[List[float], Tuple[float]], *, label: str =None, user_data: Any =None, use_internal_label: bool =True, id: Union[int, str] =0, parent: Union[int, str] =0, before: Union[int, str] =0, source: Union[int, str] =0, show: bool =True, contribute_to_bounds: bool =True, horizontal: bool =False) -> Union[int, str]:
 	"""Adds an error series to a plot."""
 	...
@@ -204,10 +180,6 @@ def add_float_value(*, label: str =None, user_data: Any =None, use_internal_labe
 
 def add_float_vect_value(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, id: Union[int, str] =0, source: Union[int, str] =0, default_value: Union[List[float], Tuple[float]] =(), parent: Union[int, str] =internal_dpg.mvReservedUUID_3) -> Union[int, str]:
 	"""Undocumented"""
-	...
-
-def add_focus_handler(parent : Union[int, str], *, label: str =None, user_data: Any =None, use_internal_label: bool =True, id: Union[int, str] =0, callback: Callable =None, show: bool =True) -> Union[int, str]:
-	"""Adds a handler which runs a given callback when the specified item is focused."""
 	...
 
 def add_font(file : str, size : int, *, label: str =None, user_data: Any =None, use_internal_label: bool =True, id: Union[int, str] =0, default_font: bool =False, parent: Union[int, str] =internal_dpg.mvReservedUUID_0) -> Union[int, str]:
@@ -250,10 +222,6 @@ def add_hline_series(x : Union[List[float], Tuple[float]], *, label: str =None, 
 	"""Adds a infinite horizontal line series to a plot."""
 	...
 
-def add_hover_handler(parent : Union[int, str], *, label: str =None, user_data: Any =None, use_internal_label: bool =True, id: Union[int, str] =0, callback: Callable =None, show: bool =True) -> Union[int, str]:
-	"""Adds a handler which runs a given callback when the specified item is hovered."""
-	...
-
 def add_image(texture_id : Union[int, str], *, label: str =None, user_data: Any =None, use_internal_label: bool =True, id: Union[int, str] =0, width: int =0, height: int =0, indent: int =-1, parent: Union[int, str] =0, before: Union[int, str] =0, source: Union[int, str] =0, payload_type: str ='$$DPG_PAYLOAD', drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, pos: Union[List[int], Tuple[int]] =[], filter_key: str ='', tracked: bool =False, track_offset: float =0.5, tint_color: Union[List[float], Tuple[float]] =(255, 255, 255, 255), border_color: Union[List[float], Tuple[float]] =(0, 0, 0, 0), uv_min: Union[List[float], Tuple[float]] =(0.0, 0.0), uv_max: Union[List[float], Tuple[float]] =(1.0, 1.0)) -> Union[int, str]:
 	"""Adds an image from a specified texture. uv_min and uv_max represent the normalized texture coordinates of the original image that will be shown. Using range (0.0,0.0)->(1.0,1.0) for texture coordinates will generally display the entire texture."""
 	...
@@ -294,12 +262,56 @@ def add_int_value(*, label: str =None, user_data: Any =None, use_internal_label:
 	"""Undocumented"""
 	...
 
+def add_item_activated_handler(parent : Union[int, str], *, label: str =None, user_data: Any =None, use_internal_label: bool =True, id: Union[int, str] =0, callback: Callable =None, show: bool =True) -> Union[int, str]:
+	"""Adds a handler which runs a given callback when the specified item is activated."""
+	...
+
+def add_item_active_handler(parent : Union[int, str], *, label: str =None, user_data: Any =None, use_internal_label: bool =True, id: Union[int, str] =0, callback: Callable =None, show: bool =True) -> Union[int, str]:
+	"""Adds a handler which runs a given callback when the specified item is active."""
+	...
+
+def add_item_clicked_handler(parent : Union[int, str], button : int =-1, *, label: str =None, user_data: Any =None, use_internal_label: bool =True, id: Union[int, str] =0, callback: Callable =None, show: bool =True) -> Union[int, str]:
+	"""Adds a handler which runs a given callback when the specified item is clicked."""
+	...
+
+def add_item_deactivated_after_edit_handler(parent : Union[int, str], *, label: str =None, user_data: Any =None, use_internal_label: bool =True, id: Union[int, str] =0, callback: Callable =None, show: bool =True) -> Union[int, str]:
+	"""Adds a handler which runs a given callback when the specified item is deactivated after edit."""
+	...
+
+def add_item_deactivated_handler(parent : Union[int, str], *, label: str =None, user_data: Any =None, use_internal_label: bool =True, id: Union[int, str] =0, callback: Callable =None, show: bool =True) -> Union[int, str]:
+	"""Adds a handler which runs a given callback when the specified item is deactivated."""
+	...
+
+def add_item_edited_handler(parent : Union[int, str], *, label: str =None, user_data: Any =None, use_internal_label: bool =True, id: Union[int, str] =0, callback: Callable =None, show: bool =True) -> Union[int, str]:
+	"""Adds a handler which runs a given callback when the specified item is edited."""
+	...
+
+def add_item_focus_handler(parent : Union[int, str], *, label: str =None, user_data: Any =None, use_internal_label: bool =True, id: Union[int, str] =0, callback: Callable =None, show: bool =True) -> Union[int, str]:
+	"""Adds a handler which runs a given callback when the specified item is focused."""
+	...
+
+def add_item_hover_handler(parent : Union[int, str], *, label: str =None, user_data: Any =None, use_internal_label: bool =True, id: Union[int, str] =0, callback: Callable =None, show: bool =True) -> Union[int, str]:
+	"""Adds a handler which runs a given callback when the specified item is hovered."""
+	...
+
 def add_item_pool(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, id: Union[int, str] =0) -> Union[int, str]:
 	"""Undocumented function"""
 	...
 
+def add_item_resize_handler(parent : Union[int, str], *, label: str =None, user_data: Any =None, use_internal_label: bool =True, id: Union[int, str] =0, callback: Callable =None, show: bool =True) -> Union[int, str]:
+	"""Adds a handler which runs a given callback when the specified item is resized."""
+	...
+
 def add_item_set(type : int, count : int, *, label: str =None, user_data: Any =None, use_internal_label: bool =True, id: Union[int, str] =0) -> Union[int, str]:
 	"""Undocumented function"""
+	...
+
+def add_item_toggled_open_handler(parent : Union[int, str], *, label: str =None, user_data: Any =None, use_internal_label: bool =True, id: Union[int, str] =0, callback: Callable =None, show: bool =True) -> Union[int, str]:
+	"""Adds a handler which runs a given callback when the specified item is toggled open."""
+	...
+
+def add_item_visible_handler(parent : Union[int, str], *, label: str =None, user_data: Any =None, use_internal_label: bool =True, id: Union[int, str] =0, callback: Callable =None, show: bool =True) -> Union[int, str]:
+	"""Adds a handler which runs a given callback when the specified item is visible."""
 	...
 
 def add_key_down_handler(key : int =-1, *, label: str =None, user_data: Any =None, use_internal_label: bool =True, id: Union[int, str] =0, callback: Callable =None, show: bool =True, parent: Union[int, str] =internal_dpg.mvReservedUUID_1) -> Union[int, str]:
@@ -416,10 +428,6 @@ def add_radio_button(items : Union[List[str], Tuple[str]] =(), *, label: str =No
 
 def add_raw_texture(width : int, height : int, default_value : Union[List[float], Tuple[float]], *, label: str =None, user_data: Any =None, use_internal_label: bool =True, id: Union[int, str] =0, format: int =internal_dpg.mvFormat_Float_rgba, parent: Union[int, str] =internal_dpg.mvReservedUUID_2) -> Union[int, str]:
 	"""Undocumented function"""
-	...
-
-def add_resize_handler(parent : Union[int, str], *, label: str =None, user_data: Any =None, use_internal_label: bool =True, id: Union[int, str] =0, callback: Callable =None, show: bool =True) -> Union[int, str]:
-	"""Adds a handler which runs a given callback when the specified item is resized."""
 	...
 
 def add_same_line(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, id: Union[int, str] =0, parent: Union[int, str] =0, before: Union[int, str] =0, show: bool =True, xoffset: float =0.0, spacing: float =-1.0) -> Union[int, str]:
@@ -554,10 +562,6 @@ def add_time_picker(*, label: str =None, user_data: Any =None, use_internal_labe
 	"""Adds a time picker."""
 	...
 
-def add_toggled_open_handler(parent : Union[int, str], *, label: str =None, user_data: Any =None, use_internal_label: bool =True, id: Union[int, str] =0, callback: Callable =None, show: bool =True) -> Union[int, str]:
-	"""Adds a handler which runs a given callback when the specified item is toggled open."""
-	...
-
 def add_tooltip(parent : Union[int, str], *, label: str =None, user_data: Any =None, use_internal_label: bool =True, id: Union[int, str] =0, show: bool =True) -> Union[int, str]:
 	"""Adds an advanced tool tip for an item. This command must come immediately after the item the tip is for."""
 	...
@@ -578,16 +582,28 @@ def add_viewport_menu_bar(*, label: str =None, user_data: Any =None, use_interna
 	"""Adds a menu bar to the viewport."""
 	...
 
-def add_visible_handler(parent : Union[int, str], *, label: str =None, user_data: Any =None, use_internal_label: bool =True, id: Union[int, str] =0, callback: Callable =None, show: bool =True) -> Union[int, str]:
-	"""Adds a handler which runs a given callback when the specified item is visible."""
-	...
-
 def add_vline_series(x : Union[List[float], Tuple[float]], *, label: str =None, user_data: Any =None, use_internal_label: bool =True, id: Union[int, str] =0, parent: Union[int, str] =0, before: Union[int, str] =0, source: Union[int, str] =0, show: bool =True) -> Union[int, str]:
 	"""Adds a infinite vertical line series to a plot."""
 	...
 
 def add_window(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, id: Union[int, str] =0, width: int =0, height: int =0, indent: int =-1, show: bool =True, pos: Union[List[int], Tuple[int]] =[], delay_search: bool =False, min_size: Union[List[int], Tuple[int]] =[100, 100], max_size: Union[List[int], Tuple[int]] =[30000, 30000], menubar: bool =False, collapsed: bool =False, autosize: bool =False, no_resize: bool =False, no_title_bar: bool =False, no_move: bool =False, no_scrollbar: bool =False, no_collapse: bool =False, horizontal_scrollbar: bool =False, no_focus_on_appearing: bool =False, no_bring_to_front_on_focus: bool =False, no_close: bool =False, no_background: bool =False, modal: bool =False, popup: bool =False, no_saved_settings: bool =False, on_close: Callable =None) -> Union[int, str]:
 	"""Creates a new window for following items to be added to."""
+	...
+
+def bind_item_disabled_theme(item : Union[int, str], theme : Union[int, str]) -> None:
+	"""Undocumented"""
+	...
+
+def bind_item_theme(item : Union[int, str], theme : Union[int, str]) -> None:
+	"""Undocumented"""
+	...
+
+def bind_item_type_disabled_theme(item : int, theme : Union[int, str]) -> None:
+	"""Undocumented"""
+	...
+
+def bind_item_type_theme(item : int, theme : Union[int, str]) -> None:
+	"""Undocumented"""
 	...
 
 def bind_template_registry(template_registry : Union[int, str]) -> None:
@@ -622,7 +638,7 @@ def configure_viewport(item : Union[int, str], **kwargs) -> None:
 	"""Configures the viewport."""
 	...
 
-def create_viewport(*, title: str ='Dear PyGui', small_icon: str ='', large_icon: str ='', width: int =1280, height: int =800, x_pos: int =100, y_pos: int =100, min_width: int =250, max_width: int =10000, min_height: int =250, max_height: int =10000, resizable: bool =True, vsync: bool =True, always_on_top: bool =False, decorated: bool =True, clear_color: Union[List[float], Tuple[float]] =(0, 0, 0, 255)) -> str:
+def create_viewport(*, title: str ='Dear PyGui', small_icon: str ='', large_icon: str ='', width: int =1280, height: int =800, x_pos: int =100, y_pos: int =100, min_width: int =250, max_width: int =10000, min_height: int =250, max_height: int =10000, resizable: bool =True, vsync: bool =True, always_on_top: bool =False, decorated: bool =True, clear_color: Union[List[float], Tuple[float]] =(0, 0, 0, 255)) -> None:
 	"""Creates a viewport."""
 	...
 
@@ -906,8 +922,8 @@ def is_table_row_highlight(table : Union[int, str], row : int) -> bool:
 	""""""
 	...
 
-def is_viewport_created() -> bool:
-	"""Checks if a viewport has been created."""
+def is_viewport_ok() -> bool:
+	"""Checks if a viewport has been created and shown."""
 	...
 
 def last_container() -> Union[int, str]:
@@ -1022,23 +1038,7 @@ def set_item_children(item : Union[int, str], source : Union[int, str], slot : i
 	"""Undocumented"""
 	...
 
-def set_item_disabled_theme(item : Union[int, str], theme : Union[int, str]) -> None:
-	"""Undocumented"""
-	...
-
 def set_item_font(item : Union[int, str], font : Union[int, str]) -> None:
-	"""Undocumented"""
-	...
-
-def set_item_theme(item : Union[int, str], theme : Union[int, str]) -> None:
-	"""Undocumented"""
-	...
-
-def set_item_type_disabled_theme(item : int, theme : Union[int, str]) -> None:
-	"""Undocumented"""
-	...
-
-def set_item_type_theme(item : int, theme : Union[int, str]) -> None:
 	"""Undocumented"""
 	...
 
@@ -1074,7 +1074,7 @@ def set_y_scroll(item : Union[int, str], value : float) -> None:
 	"""Undocumented function"""
 	...
 
-def setup_dearpygui(*, viewport: str ='') -> None:
+def setup_dearpygui() -> None:
 	"""Sets up dearpygui"""
 	...
 
@@ -1090,7 +1090,7 @@ def show_tool(tool : Union[int, str]) -> str:
 	"""Undocumented function"""
 	...
 
-def show_viewport(viewport : str, *, minimized: bool =False, maximized: bool =False) -> None:
+def show_viewport(*, minimized: bool =False, maximized: bool =False) -> None:
 	"""Shows the viewport"""
 	...
 
