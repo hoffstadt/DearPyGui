@@ -29,7 +29,7 @@ namespace Marvel {
         MV_CREATE_COMMAND(create_viewport);
         MV_CREATE_COMMAND(configure_viewport);
         MV_CREATE_COMMAND(get_viewport_configuration);
-        MV_CREATE_COMMAND(is_viewport_created);
+        MV_CREATE_COMMAND(is_viewport_ok);
 
 		// viewport operations
         MV_CREATE_COMMAND(maximize_viewport);
@@ -44,7 +44,7 @@ namespace Marvel {
 			MV_ADD_COMMAND(minimize_viewport)
 			MV_ADD_COMMAND(toggle_fullscreen)
 			MV_ADD_COMMAND(get_viewport_configuration)
-			MV_ADD_COMMAND(is_viewport_created)
+			MV_ADD_COMMAND(is_viewport_ok)
 		MV_END_COMMANDS
 
 		static mvViewport* CreateViewport(unsigned width, unsigned height);
@@ -87,6 +87,7 @@ namespace Marvel {
 		std::string _small_icon;
 		std::string _large_icon;
 		mvColor     _clearColor = mvColor(0, 0, 0, 255);
+		bool	    _shown = false;
 
 
 		// window modes
