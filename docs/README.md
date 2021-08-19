@@ -29,7 +29,7 @@ the following platforms:
 | **Windows 10** | _DirectX 11_ | [![PYPI](https://img.shields.io/pypi/v/dearpygui)](https://pypi.org/project/dearpygui/) |
 | **macOs** | _Metal_ | [![PYPI](https://img.shields.io/pypi/v/dearpygui)](https://pypi.org/project/dearpygui/) |
 | **Linux** | _OpenGL 3_ | [![PYPI](https://img.shields.io/pypi/v/dearpygui)](https://pypi.org/project/dearpygui/) |
-| **Raspberry Pi 4** | _OpenGL ES_ | [![PYPI](https://img.shields.io/badge/pypi-v0.8.58-orange)](https://img.shields.io/badge/pypi-v0.8.58-orange) |
+| **Raspberry Pi 4** | _OpenGL ES_ | [![PYPI](https://img.shields.io/badge/pypi-v0.8.64-orange)](https://img.shields.io/badge/pypi-v0.8.64-orange) |
 
 
 In the same manner Dear ImGui provides a simple way to create tools for game developers, _Dear PyGui_ provides a 
@@ -149,7 +149,6 @@ These include:
 * 🥇 [Yan Zaretskiy](https://github.com/mindv0rtex) _Gold Sponsor_
 * 🥇 [Trinnik](https://github.com/Trinnik) _Gold Sponsor_
 * 🥇 [Barney Mannerings](https://github.com/barnabee) _Gold Sponsor_
-* 🥇 [Leron Gray](https://github.com/daddycocoaman) _Gold Sponsor_
 * 🥇 [RB Blackstone](https://github.com/RBBlackstone) _Gold Sponsor_
 * 🥇 [Charles Ray](https://github.com/ray-5050) _Gold Sponsor_
 

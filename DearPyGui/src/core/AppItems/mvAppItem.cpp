@@ -71,7 +71,7 @@ namespace Marvel{
 			parser.addArg<mvPyDataType::UUID>("item");
 			parser.addArg<mvPyDataType::UUID>("theme");
 			parser.finalize();
-			parsers->insert({ "set_item_theme", parser });
+			parsers->insert({ "bind_item_theme", parser });
 		}
 
 		{
@@ -79,7 +79,7 @@ namespace Marvel{
 			parser.addArg<mvPyDataType::UUID>("item");
 			parser.addArg<mvPyDataType::UUID>("theme");
 			parser.finalize();
-			parsers->insert({ "set_item_disabled_theme", parser });
+			parsers->insert({ "bind_item_disabled_theme", parser });
 		}
 
 		{
@@ -87,7 +87,7 @@ namespace Marvel{
 			parser.addArg<mvPyDataType::Integer>("item");
 			parser.addArg<mvPyDataType::UUID>("theme");
 			parser.finalize();
-			parsers->insert({ "set_item_type_disabled_theme", parser });
+			parsers->insert({ "bind_item_type_disabled_theme", parser });
 		}
 
 		{
@@ -95,7 +95,7 @@ namespace Marvel{
 			parser.addArg<mvPyDataType::Integer>("item");
 			parser.addArg<mvPyDataType::UUID>("theme");
 			parser.finalize();
-			parsers->insert({ "set_item_type_theme", parser });
+			parsers->insert({ "bind_item_type_theme", parser });
 		}
 
 		{
@@ -456,10 +456,7 @@ namespace Marvel{
 	bool mvAppItem::preDraw()
 	{
 		if (!_show)
-		{
-			if(!DoesItemHaveFlag(this, MV_ITEM_DESC_ALWAYS_DRAW))
-				return false;
-		}
+			return false;
 
 		if (_focusNextFrame)
 		{
@@ -1416,7 +1413,7 @@ namespace Marvel{
 		else
 			PyDict_SetItemString(dict, "disabled_theme", mvPyObject(GetPyNone()));
 
-		if(getDescFlags() == MV_ITEM_DESC_CONTAINER)
+		if(getDescFlags() & MV_ITEM_DESC_CONTAINER)
 			PyDict_SetItemString(dict, "container", mvPyObject(ToPyBool(true)));
 		else
 			PyDict_SetItemString(dict, "container", mvPyObject(ToPyBool(false)));
@@ -1591,12 +1588,12 @@ namespace Marvel{
 		return GetPyNone();
 	}
 
-	PyObject* mvAppItem::set_item_font(PyObject* self, PyObject* args, PyObject* kwargs)
+	PyObject* mvAppItem::bind_item_font(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		PyObject* itemraw;
 		PyObject* fontraw;
 
-		if (!(mvApp::GetApp()->getParsers())["set_item_font"].parse(args, kwargs, __FUNCTION__,
+		if (!(mvApp::GetApp()->getParsers())["bind_item_font"].parse(args, kwargs, __FUNCTION__,
 			&itemraw, &fontraw))
 			return GetPyNone();
 
@@ -1621,23 +1618,23 @@ namespace Marvel{
 			}
 			else
 			{
-				mvThrowPythonError(mvErrorCode::mvItemNotFound, "set_item_font",
+				mvThrowPythonError(mvErrorCode::mvItemNotFound, "bind_item_font",
 					"Font item not found: " + std::to_string(item), nullptr);
 			}
 		}
 		else
-			mvThrowPythonError(mvErrorCode::mvItemNotFound, "set_item_font",
+			mvThrowPythonError(mvErrorCode::mvItemNotFound, "bind_item_font",
 				"Item not found: " + std::to_string(item), nullptr);
 
 		return GetPyNone();
 	}
 
-	PyObject* mvAppItem::set_item_theme(PyObject* self, PyObject* args, PyObject* kwargs)
+	PyObject* mvAppItem::bind_item_theme(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		PyObject* itemraw;
 		PyObject* themeraw;
 
-		if (!(mvApp::GetApp()->getParsers())["set_item_theme"].parse(args, kwargs, __FUNCTION__,
+		if (!(mvApp::GetApp()->getParsers())["bind_item_theme"].parse(args, kwargs, __FUNCTION__,
 			&itemraw, &themeraw))
 			return GetPyNone();
 
@@ -1663,22 +1660,22 @@ namespace Marvel{
 				return GetPyNone();
 			}
 			else
-				mvThrowPythonError(mvErrorCode::mvItemNotFound, "set_item_theme",
+				mvThrowPythonError(mvErrorCode::mvItemNotFound, "bind_item_theme",
 					"Theme item not found: " + std::to_string(item), nullptr);
 		}
 		else
-			mvThrowPythonError(mvErrorCode::mvItemNotFound, "set_item_theme",
+			mvThrowPythonError(mvErrorCode::mvItemNotFound, "bind_item_theme",
 				"Item not found: " + std::to_string(item), nullptr);
 
 		return GetPyNone();
 	}
 
-	PyObject* mvAppItem::set_item_disabled_theme(PyObject* self, PyObject* args, PyObject* kwargs)
+	PyObject* mvAppItem::bind_item_disabled_theme(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		PyObject* itemraw;
 		PyObject* themeraw;
 
-		if (!(mvApp::GetApp()->getParsers())["set_item_disabled_theme"].parse(args, kwargs, __FUNCTION__,
+		if (!(mvApp::GetApp()->getParsers())["bind_item_disabled_theme"].parse(args, kwargs, __FUNCTION__,
 			&itemraw, &themeraw))
 			return GetPyNone();
 
@@ -1704,11 +1701,11 @@ namespace Marvel{
 				return GetPyNone();
 			}
 			else
-				mvThrowPythonError(mvErrorCode::mvItemNotFound, "set_item_disabled_theme",
+				mvThrowPythonError(mvErrorCode::mvItemNotFound, "bind_item_disabled_theme",
 					"Disabled theme item not found: " + std::to_string(item), nullptr);
 		}
 		else
-			mvThrowPythonError(mvErrorCode::mvItemNotFound, "set_item_disabled_theme",
+			mvThrowPythonError(mvErrorCode::mvItemNotFound, "bind_item_disabled_theme",
 				"Item not found: " + std::to_string(item), nullptr);
 
 		return GetPyNone();
@@ -1894,12 +1891,12 @@ namespace Marvel{
 		return GetPyNone();
 	}
 
-	PyObject* mvAppItem::set_item_type_theme(PyObject* self, PyObject* args, PyObject* kwargs)
+	PyObject* mvAppItem::bind_item_type_theme(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		int item;
 		PyObject* themeraw;
 
-		if (!(mvApp::GetApp()->getParsers())["set_item_type_theme"].parse(args, kwargs, __FUNCTION__,
+		if (!(mvApp::GetApp()->getParsers())["bind_item_type_theme"].parse(args, kwargs, __FUNCTION__,
 			&item, &themeraw))
 			return GetPyNone();
 
@@ -1931,7 +1928,7 @@ namespace Marvel{
 			}
 			else
 			{
-				mvThrowPythonError(mvErrorCode::mvItemNotFound, "set_item_type_theme",
+				mvThrowPythonError(mvErrorCode::mvItemNotFound, "bind_item_type_theme",
 					"Theme item not found: " + std::to_string(item), nullptr);;
 			}
 		}
@@ -1939,7 +1936,7 @@ namespace Marvel{
 		return GetPyNone();
 	}
 
-	PyObject* mvAppItem::set_item_type_disabled_theme(PyObject* self, PyObject* args, PyObject* kwargs)
+	PyObject* mvAppItem::bind_item_type_disabled_theme(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		int item;
 		PyObject* themeraw;

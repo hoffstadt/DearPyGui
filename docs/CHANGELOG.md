@@ -1,4 +1,4 @@
-# 0.8.x CHANGELOG
+# 0.9.x CHANGELOG
 
 This document holds the user-facing changelog that we also use in release notes.
 We generally fold multiple commits pertaining to the same topic as a single entry.
@@ -20,10 +20,31 @@ We generally fold multiple commits pertaining to the same topic as a single entr
 - Read the `Breaking Changes` section (here in the changelog).
 - Please report any issue!
 
-## VERSION 0.8.x
+## VERSION 0.9.0
+
+### Breaking Changes
+* item: removed table_next_column
+* table rows now required
+* removed `viewport` keyword arg from `setup_dearpygui(...)`
+* removed `viewport` keyword arg from `show_viewport(...)`
+* user must create, setup, show viewport before starting dpg:
+  * "create_viewport()->setup_dearpygui()->show_viewport()->start_dearpygui()"
 
 ### New
 * module:  added `experimental`
+* item:    added `add_table_cell(...)`
+* command: added `highlight_table_column(...)`
+* command: added `unhighlight_table_column(...)`
+* command: added `set_table_row_color(...)`
+* command: added `unset_table_row_color(...)`
+* command: added `highlight_table_cell(...)`
+* command: added `unhighlight_table_cell(...)`
+* command: added `highlight_table_row(...)`
+* command: added `unhighlight_table_row(...)`
+* command: added `is_table_column_highlighted(...)`
+* command: added `is_table_row_highlighted(...)`
+* command: added `is_table_cell_highlighted(...)`
+* command: added context manager for `add_plot_axis(...)`
 * command: added `configure_app(...)`
 * command: added `get_app_configuration(...)`
 * command: added `add_item_set(...)`
@@ -31,18 +52,41 @@ We generally fold multiple commits pertaining to the same topic as a single entr
 * command: added `bind_template_registry(...)`
 * keyword: added `skip_required_args` to `configure_item_registry(...)`
 * keyword: added `skip_optional_args` to `configure_item_registry(...)`
+* keyword: added `id` to `popup(...)`
+* keyword: added `clipper` to `add_table(...)`
 * added deprecation system
 * callbacks will now send alias through the `sender` argument if alias is used.
+* columns can now be programmatically hidden
+* table "value" is now a string, which acts as a filter using the row filter keys
 
 ### Deprecated
 * command: `enable_docking(...)` is deprecated. Use `configure_app(docking=True, docking_space=dock_space)`
 * command: `get_dearpygui_version()` is deprecated. Use `get_app_configuration()['version']`.
 * command: `init_file(...)` is deprecated. Use `configure_app(init_file=file)`.
 * command: `load_init_file` is deprecated. Use `configure_app(init_file=file, load_init_file=True)`.
+* command: `is_viewport_created(...)` is deprecated. Use `is_viewport_ok()`.
+* command: `setup_viewport(...)` is deprecated. Use `create_viewport()->setup_dearpygui()->show_viewport()`.
+* command: `set_item_theme(...)` is deprecated. Use `bind_item_theme()`.
+* command: `set_item_type_disabled_theme(...)` is deprecated. Use `bind_item_type_disabled_theme()`.
+* command: `set_item_theme(...)` is deprecated. Use `bind_item_theme()`.
+* command: `set_item_type_theme(...)` is deprecated. Use `bind_item_type_theme()`.
+* command: `set_item_font(...)` is deprecated. Use `bind_item_font()`.
+* command: `add_activated_handler(...)` is deprecated. Use `add_activated_handler()`.
+* command: `add_active_handler(...)` is deprecated. Use `add_item_active_handler()`.
+* command: `add_clicked_handler(...)` is deprecated. Use `add_item_clicked_handler()`.
+* command: `add_deactivated_after_edit_handler(...)` is deprecated. Use `add_item_deactivated_after_edit_handler()`.
+* command: `add_deactivated_handler(...)` is deprecated. Use `add_item_deactivated_handler()`.
+* command: `add_edited_handler(...)` is deprecated. Use `add_item_edited_handler()`.
+* command: `add_focus_handler(...)` is deprecated. Use `add_item_focus_handler()`.
+* command: `add_hover_handler(...)` is deprecated. Use `add_item_hover_handler()`.
+* command: `add_resize_handler(...)` is deprecated. Use `add_item_resize_handler()`.
+* command: `add_toggled_open_handler(...)` is deprecated. Use `add_item_toggled_open_handler()`.
+* command: `add_visible_handler(...)` is deprecated. Use `add_item_visible_handler()`.
 
 ### Fixes
 * fixed `get_item_configuration(...)` memory leak #1179
 * fixed issue to allow `source` to be alias #1181
+* fixed window info not registering as container #1188
 
 ## VERSION 0.8.64
 

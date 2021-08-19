@@ -62,17 +62,6 @@ def setup_registries() -> None:
     internal_dpg.add_colormap_registry(id=internal_dpg.mvReservedUUID_4)
 
 
-def setup_viewport():
-    """Prepares viewport. If not called, start_dearpygui will automatically call this.
-
-    Returns:
-        None
-    """
-    vp = internal_dpg.create_viewport()
-    internal_dpg.setup_dearpygui(viewport=vp)
-    internal_dpg.show_viewport(vp)
-
-
 def start_dearpygui():
     """Prepares viewport (if not done already). sets up, cleans up, and runs main event loop.
 
@@ -80,8 +69,9 @@ def start_dearpygui():
         None
     """
 
-    if not internal_dpg.is_viewport_created():
-        setup_viewport()
+    if not internal_dpg.is_viewport_ok():
+        raise RuntimeError("Viewport was not created and shown.")
+        return
 
     while(internal_dpg.is_dearpygui_running()):
         internal_dpg.render_dearpygui_frame()   
@@ -98,11 +88,14 @@ def mutex():
 
 
 @contextmanager
-def popup(parent: Union[int, str], mousebutton: int = internal_dpg.mvMouseButton_Right, modal: bool = False) -> int:
+def popup(parent: Union[int, str], mousebutton: int = internal_dpg.mvMouseButton_Right, modal: bool = False, id:Union[int, str] = 0) -> int:
     
     try:
-        _internal_popup_id = internal_dpg.generate_uuid()
-        internal_dpg.add_clicked_handler(parent, mousebutton, callback=lambda: internal_dpg.configure_item(_internal_popup_id, show=True))
+        if id == 0:
+            _internal_popup_id = internal_dpg.generate_uuid()
+        else:
+            _internal_popup_id = id
+        internal_dpg.add_item_clicked_handler(parent, mousebutton, callback=lambda: internal_dpg.configure_item(_internal_popup_id, show=True))
         if modal:
             internal_dpg.add_window(modal=True, show=False, id=_internal_popup_id, autosize=True)
         else:
@@ -1116,6 +1109,284 @@ def load_init_file(file: str) -> None:
     warnings.warn("'load_init_file' is deprecated. Use 'configure_app(init_file=file, load_init_file=True)'.", DeprecationWarning, 2)
     internal_dpg.configure_app(init_file=file, load_init_file=True)
 
+def is_viewport_created() -> bool:
+    """
+    'is_viewport_created' is deprecated. Use: `is_viewport_ok(...)`
+    Checks if a viewport has been created and shown.
+    Returns:
+        Bool
+    """
+    warnings.warn("'is_viewport_created' is deprecated. Use: `is_viewport_ok(...)`", DeprecationWarning, 2)
+    return internal_dpg.is_viewport_ok()
+
+def setup_viewport():
+    """
+    'setup_viewport(...)' is deprecated. Use:
+    create_viewport()
+    setup_dearpygui()
+    show_viewport()
+
+    Prepares viewport.
+
+    Returns:
+        None
+    """
+    warnings.warn("'setup_viewport' is deprecated. Use: \ncreate_viewport()\nsetup_dearpygui()\nshow_viewport()", DeprecationWarning, 2)
+    internal_dpg.create_viewport()
+    internal_dpg.setup_dearpygui()
+    internal_dpg.show_viewport()
+
+
+def set_item_theme(item : Union[int, str], theme : Union[int, str]) -> None:
+	"""
+	Undocumented
+	Args:
+		item (Union[int, str]): 
+		theme (Union[int, str]): 
+	Returns:
+		None
+	"""
+	warnings.warn("'set_item_theme' is deprecated. Use: `bind_item_theme(...)`", DeprecationWarning, 2)
+	return internal_dpg.bind_item_theme(item, theme)
+
+
+def set_item_type_disabled_theme(item : int, theme : Union[int, str]) -> None:
+	"""
+	Undocumented
+	Args:
+		item (int): 
+		theme (Union[int, str]): 
+	Returns:
+		None
+	"""
+	warnings.warn("'set_item_type_disabled_theme' is deprecated. Use: `bind_item_type_disabled_theme(...)`", DeprecationWarning, 2)
+	return internal_dpg.bind_item_type_disabled_theme(item, theme)
+
+
+def set_item_type_theme(item : int, theme : Union[int, str]) -> None:
+	"""
+	Undocumented
+	Args:
+		item (int): 
+		theme (Union[int, str]): 
+	Returns:
+		None
+	"""
+	warnings.warn("'set_item_type_theme' is deprecated. Use: `bind_item_type_theme(...)`", DeprecationWarning, 2)
+	return internal_dpg.bind_item_type_theme(item, theme)
+
+
+def set_item_font(item : Union[int, str], font : Union[int, str]) -> None:
+	"""
+	Undocumented
+	Args:
+		item (Union[int, str]): 
+		font (Union[int, str]): 
+	Returns:
+		None
+	"""
+	warnings.warn("'set_item_font' is deprecated. Use: `bind_item_font(...)`", DeprecationWarning, 2)
+	return internal_dpg.bind_item_font(item, font)
+
+
+def add_activated_handler(parent : Union[int, str], *, label: str =None, user_data: Any =None, use_internal_label: bool =True, id: Union[int, str] =0, callback: Callable =None, show: bool =True) -> Union[int, str]:
+	"""
+	Adds a handler which runs a given callback when the specified item is activated.
+	Args:
+		parent (Union[int, str]): 
+		**label (str): Overrides 'name' as label.
+		**user_data (Any): User data for callbacks.
+		**use_internal_label (bool): Use generated internal label instead of user specified (appends ### uuid).
+		**id (Union[int, str]): Unique id used to programmatically refer to the item.If label is unused this will be the label.
+		**callback (Callable): Registers a callback.
+		**show (bool): Attempt to render widget.
+	Returns:
+		Union[int, str]
+	"""
+	warnings.warn("'add_activated_handler' is deprecated. Use: `add_item_activated_handler(...)`", DeprecationWarning, 2)
+	return internal_dpg.add_item_activated_handler(parent, label=label, user_data=user_data, use_internal_label=use_internal_label, id=id, callback=callback, show=show)
+
+
+def add_active_handler(parent : Union[int, str], *, label: str =None, user_data: Any =None, use_internal_label: bool =True, id: Union[int, str] =0, callback: Callable =None, show: bool =True) -> Union[int, str]:
+	"""
+	Adds a handler which runs a given callback when the specified item is active.
+	Args:
+		parent (Union[int, str]): 
+		**label (str): Overrides 'name' as label.
+		**user_data (Any): User data for callbacks.
+		**use_internal_label (bool): Use generated internal label instead of user specified (appends ### uuid).
+		**id (Union[int, str]): Unique id used to programmatically refer to the item.If label is unused this will be the label.
+		**callback (Callable): Registers a callback.
+		**show (bool): Attempt to render widget.
+	Returns:
+		Union[int, str]
+	"""
+	warnings.warn("'add_active_handler' is deprecated. Use: `add_item_active_handler(...)`", DeprecationWarning, 2)
+	return internal_dpg.add_item_active_handler(parent, label=label, user_data=user_data, use_internal_label=use_internal_label, id=id, callback=callback, show=show)
+
+
+def add_clicked_handler(parent : Union[int, str], button : int =-1, *, label: str =None, user_data: Any =None, use_internal_label: bool =True, id: Union[int, str] =0, callback: Callable =None, show: bool =True) -> Union[int, str]:
+	"""
+	Adds a handler which runs a given callback when the specified item is clicked.
+	Args:
+		parent (Union[int, str]): 
+		*button (int): Submits callback for all mouse buttons
+		**label (str): Overrides 'name' as label.
+		**user_data (Any): User data for callbacks.
+		**use_internal_label (bool): Use generated internal label instead of user specified (appends ### uuid).
+		**id (Union[int, str]): Unique id used to programmatically refer to the item.If label is unused this will be the label.
+		**callback (Callable): Registers a callback.
+		**show (bool): Attempt to render widget.
+	Returns:
+		Union[int, str]
+	"""
+	warnings.warn("'add_clicked_handler' is deprecated. Use: `add_item_clicked_handler(...)`", DeprecationWarning, 2)
+	return internal_dpg.add_item_clicked_handler(parent, button, label=label, user_data=user_data, use_internal_label=use_internal_label, id=id, callback=callback, show=show)
+
+
+def add_deactivated_after_edit_handler(parent : Union[int, str], *, label: str =None, user_data: Any =None, use_internal_label: bool =True, id: Union[int, str] =0, callback: Callable =None, show: bool =True) -> Union[int, str]:
+	"""
+	Adds a handler which runs a given callback when the specified item is deactivated after edit.
+	Args:
+		parent (Union[int, str]): 
+		**label (str): Overrides 'name' as label.
+		**user_data (Any): User data for callbacks.
+		**use_internal_label (bool): Use generated internal label instead of user specified (appends ### uuid).
+		**id (Union[int, str]): Unique id used to programmatically refer to the item.If label is unused this will be the label.
+		**callback (Callable): Registers a callback.
+		**show (bool): Attempt to render widget.
+	Returns:
+		Union[int, str]
+	"""
+	warnings.warn("'add_deactivated_after_edit_handler' is deprecated. Use: `add_item_deactivated_after_edit_handler(...)`", DeprecationWarning, 2)
+	return internal_dpg.add_item_deactivated_after_edit_handler(parent, label=label, user_data=user_data, use_internal_label=use_internal_label, id=id, callback=callback, show=show)
+
+
+def add_deactivated_handler(parent : Union[int, str], *, label: str =None, user_data: Any =None, use_internal_label: bool =True, id: Union[int, str] =0, callback: Callable =None, show: bool =True) -> Union[int, str]:
+	"""
+	Adds a handler which runs a given callback when the specified item is deactivated.
+	Args:
+		parent (Union[int, str]): 
+		**label (str): Overrides 'name' as label.
+		**user_data (Any): User data for callbacks.
+		**use_internal_label (bool): Use generated internal label instead of user specified (appends ### uuid).
+		**id (Union[int, str]): Unique id used to programmatically refer to the item.If label is unused this will be the label.
+		**callback (Callable): Registers a callback.
+		**show (bool): Attempt to render widget.
+	Returns:
+		Union[int, str]
+	"""
+	warnings.warn("'add_deactivated_handler' is deprecated. Use: `add_item_deactivated_handler(...)`", DeprecationWarning, 2)
+	return internal_dpg.add_item_deactivated_handler(parent, label=label, user_data=user_data, use_internal_label=use_internal_label, id=id, callback=callback, show=show)
+
+
+def add_edited_handler(parent : Union[int, str], *, label: str =None, user_data: Any =None, use_internal_label: bool =True, id: Union[int, str] =0, callback: Callable =None, show: bool =True) -> Union[int, str]:
+	"""
+	Adds a handler which runs a given callback when the specified item is edited.
+	Args:
+		parent (Union[int, str]): 
+		**label (str): Overrides 'name' as label.
+		**user_data (Any): User data for callbacks.
+		**use_internal_label (bool): Use generated internal label instead of user specified (appends ### uuid).
+		**id (Union[int, str]): Unique id used to programmatically refer to the item.If label is unused this will be the label.
+		**callback (Callable): Registers a callback.
+		**show (bool): Attempt to render widget.
+	Returns:
+		Union[int, str]
+	"""
+	warnings.warn("'add_edited_handler' is deprecated. Use: `add_item_edited_handler(...)`", DeprecationWarning, 2)
+	return internal_dpg.add_item_edited_handler(parent, label=label, user_data=user_data, use_internal_label=use_internal_label, id=id, callback=callback, show=show)
+
+
+def add_focus_handler(parent : Union[int, str], *, label: str =None, user_data: Any =None, use_internal_label: bool =True, id: Union[int, str] =0, callback: Callable =None, show: bool =True) -> Union[int, str]:
+	"""
+	Adds a handler which runs a given callback when the specified item is focused.
+	Args:
+		parent (Union[int, str]): 
+		**label (str): Overrides 'name' as label.
+		**user_data (Any): User data for callbacks.
+		**use_internal_label (bool): Use generated internal label instead of user specified (appends ### uuid).
+		**id (Union[int, str]): Unique id used to programmatically refer to the item.If label is unused this will be the label.
+		**callback (Callable): Registers a callback.
+		**show (bool): Attempt to render widget.
+	Returns:
+		Union[int, str]
+	"""
+	warnings.warn("'add_focus_handler' is deprecated. Use: `add_item_focus_handler(...)`", DeprecationWarning, 2)
+	return internal_dpg.add_item_focus_handler(parent, label=label, user_data=user_data, use_internal_label=use_internal_label, id=id, callback=callback, show=show)
+
+
+def add_hover_handler(parent : Union[int, str], *, label: str =None, user_data: Any =None, use_internal_label: bool =True, id: Union[int, str] =0, callback: Callable =None, show: bool =True) -> Union[int, str]:
+	"""
+	Adds a handler which runs a given callback when the specified item is hovered.
+	Args:
+		parent (Union[int, str]): 
+		**label (str): Overrides 'name' as label.
+		**user_data (Any): User data for callbacks.
+		**use_internal_label (bool): Use generated internal label instead of user specified (appends ### uuid).
+		**id (Union[int, str]): Unique id used to programmatically refer to the item.If label is unused this will be the label.
+		**callback (Callable): Registers a callback.
+		**show (bool): Attempt to render widget.
+	Returns:
+		Union[int, str]
+	"""
+	warnings.warn("'add_hover_handler' is deprecated. Use: `add_item_hover_handler(...)`", DeprecationWarning, 2)
+	return internal_dpg.add_item_hover_handler(parent, label=label, user_data=user_data, use_internal_label=use_internal_label, id=id, callback=callback, show=show)
+
+
+def add_resize_handler(parent : Union[int, str], *, label: str =None, user_data: Any =None, use_internal_label: bool =True, id: Union[int, str] =0, callback: Callable =None, show: bool =True) -> Union[int, str]:
+	"""
+	Adds a handler which runs a given callback when the specified item is resized.
+	Args:
+		parent (Union[int, str]): 
+		**label (str): Overrides 'name' as label.
+		**user_data (Any): User data for callbacks.
+		**use_internal_label (bool): Use generated internal label instead of user specified (appends ### uuid).
+		**id (Union[int, str]): Unique id used to programmatically refer to the item.If label is unused this will be the label.
+		**callback (Callable): Registers a callback.
+		**show (bool): Attempt to render widget.
+	Returns:
+		Union[int, str]
+	"""
+
+	warnings.warn("'add_resize_handler' is deprecated. Use: `add_item_resize_handler(...)`", DeprecationWarning, 2)
+	return internal_dpg.add_item_resize_handler(parent, label=label, user_data=user_data, use_internal_label=use_internal_label, id=id, callback=callback, show=show)
+
+
+def add_toggled_open_handler(parent : Union[int, str], *, label: str =None, user_data: Any =None, use_internal_label: bool =True, id: Union[int, str] =0, callback: Callable =None, show: bool =True) -> Union[int, str]:
+	"""
+	Adds a handler which runs a given callback when the specified item is toggled open.
+	Args:
+		parent (Union[int, str]): 
+		**label (str): Overrides 'name' as label.
+		**user_data (Any): User data for callbacks.
+		**use_internal_label (bool): Use generated internal label instead of user specified (appends ### uuid).
+		**id (Union[int, str]): Unique id used to programmatically refer to the item.If label is unused this will be the label.
+		**callback (Callable): Registers a callback.
+		**show (bool): Attempt to render widget.
+	Returns:
+		Union[int, str]
+	"""
+	warnings.warn("'add_toggled_open_handler' is deprecated. Use: `add_item_toggled_open_handler(...)`", DeprecationWarning, 2)
+	return internal_dpg.add_item_toggled_open_handler(parent, label=label, user_data=user_data, use_internal_label=use_internal_label, id=id, callback=callback, show=show)
+
+
+def add_visible_handler(parent : Union[int, str], *, label: str =None, user_data: Any =None, use_internal_label: bool =True, id: Union[int, str] =0, callback: Callable =None, show: bool =True) -> Union[int, str]:
+	"""
+	Adds a handler which runs a given callback when the specified item is visible.
+	Args:
+		parent (Union[int, str]): 
+		**label (str): Overrides 'name' as label.
+		**user_data (Any): User data for callbacks.
+		**use_internal_label (bool): Use generated internal label instead of user specified (appends ### uuid).
+		**id (Union[int, str]): Unique id used to programmatically refer to the item.If label is unused this will be the label.
+		**callback (Callable): Registers a callback.
+		**show (bool): Attempt to render widget.
+	Returns:
+		Union[int, str]
+	"""
+	warnings.warn("'add_visible_handler' is deprecated. Use: `add_item_visible_handler(...)`", DeprecationWarning, 2)
+	return internal_dpg.add_item_visible_handler(parent, label=label, user_data=user_data, use_internal_label=use_internal_label, id=id, callback=callback, show=show)
 
 ##########################################################
 # Container Context Managers
@@ -1458,24 +1729,6 @@ def handler_registry(*, label: str =None, user_data: Any =None, use_internal_lab
 	finally:
 		internal_dpg.pop_container_stack()
 @contextmanager
-def item_pool(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, id: Union[int, str] =0) -> Union[int, str]:
-	"""
-	Undocumented function
-	Args:
-		**label (str): Overrides 'name' as label.
-		**user_data (Any): User data for callbacks.
-		**use_internal_label (bool): Use generated internal label instead of user specified (appends ### uuid).
-		**id (Union[int, str]): Unique id used to programmatically refer to the item.If label is unused this will be the label.
-	Yields:
-		Union[int, str]
-	"""
-	try:
-		widget = internal_dpg.add_item_pool(label=label, user_data=user_data, use_internal_label=use_internal_label, id=id)
-		internal_dpg.push_container_stack(widget)
-		yield widget
-	finally:
-		internal_dpg.pop_container_stack()
-@contextmanager
 def item_set(type : int, count : int, *, label: str =None, user_data: Any =None, use_internal_label: bool =True, id: Union[int, str] =0) -> Union[int, str]:
 	"""
 	Undocumented function
@@ -1697,6 +1950,38 @@ def plot(*, label: str =None, user_data: Any =None, use_internal_label: bool =Tr
 	finally:
 		internal_dpg.pop_container_stack()
 @contextmanager
+def plot_axis(axis : int, *, label: str =None, user_data: Any =None, use_internal_label: bool =True, id: Union[int, str] =0, parent: Union[int, str] =0, payload_type: str ='$$DPG_PAYLOAD', drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, no_gridlines: bool =False, no_tick_marks: bool =False, no_tick_labels: bool =False, log_scale: bool =False, invert: bool =False, lock_min: bool =False, lock_max: bool =False, time: bool =False) -> Union[int, str]:
+	"""
+	Adds a plot legend to a plot.
+	Args:
+		axis (int): 
+		**label (str): Overrides 'name' as label.
+		**user_data (Any): User data for callbacks.
+		**use_internal_label (bool): Use generated internal label instead of user specified (appends ### uuid).
+		**id (Union[int, str]): Unique id used to programmatically refer to the item.If label is unused this will be the label.
+		**parent (Union[int, str]): Parent to add this item to. (runtime adding)
+		**payload_type (str): Sender string type must be the same as the target for the target to run the payload_callback.
+		**drag_callback (Callable): Registers a drag callback for drag and drop.
+		**drop_callback (Callable): Registers a drop callback for drag and drop.
+		**show (bool): Attempt to render widget.
+		**no_gridlines (bool): 
+		**no_tick_marks (bool): 
+		**no_tick_labels (bool): 
+		**log_scale (bool): 
+		**invert (bool): 
+		**lock_min (bool): 
+		**lock_max (bool): 
+		**time (bool): 
+	Yields:
+		Union[int, str]
+	"""
+	try:
+		widget = internal_dpg.add_plot_axis(axis, label=label, user_data=user_data, use_internal_label=use_internal_label, id=id, parent=parent, payload_type=payload_type, drag_callback=drag_callback, drop_callback=drop_callback, show=show, no_gridlines=no_gridlines, no_tick_marks=no_tick_marks, no_tick_labels=no_tick_labels, log_scale=log_scale, invert=invert, lock_min=lock_min, lock_max=lock_max, time=time)
+		internal_dpg.push_container_stack(widget)
+		yield widget
+	finally:
+		internal_dpg.pop_container_stack()
+@contextmanager
 def staging_container(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, id: Union[int, str] =0) -> Union[int, str]:
 	"""
 	Undocumented function
@@ -1822,7 +2107,7 @@ def tab_bar(*, label: str =None, user_data: Any =None, use_internal_label: bool 
 	finally:
 		internal_dpg.pop_container_stack()
 @contextmanager
-def table(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, id: Union[int, str] =0, width: int =0, height: int =0, indent: int =-1, parent: Union[int, str] =0, before: Union[int, str] =0, source: Union[int, str] =0, callback: Callable =None, show: bool =True, pos: Union[List[int], Tuple[int]] =[], filter_key: str ='', delay_search: bool =False, header_row: bool =True, inner_width: int =0, policy: int =0, freeze_rows: int =0, freeze_columns: int =0, sort_multi: bool =False, sort_tristate: bool =False, resizable: bool =False, reorderable: bool =False, hideable: bool =False, sortable: bool =False, context_menu_in_body: bool =False, row_background: bool =False, borders_innerH: bool =False, borders_outerH: bool =False, borders_innerV: bool =False, borders_outerV: bool =False, no_host_extendX: bool =False, no_host_extendY: bool =False, no_keep_columns_visible: bool =False, precise_widths: bool =False, no_clip: bool =False, pad_outerX: bool =False, no_pad_outerX: bool =False, no_pad_innerX: bool =False, scrollX: bool =False, scrollY: bool =False, no_saved_settings: bool =False) -> Union[int, str]:
+def table(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, id: Union[int, str] =0, width: int =0, height: int =0, indent: int =-1, parent: Union[int, str] =0, before: Union[int, str] =0, source: Union[int, str] =0, callback: Callable =None, show: bool =True, pos: Union[List[int], Tuple[int]] =[], filter_key: str ='', delay_search: bool =False, header_row: bool =True, clipper: bool =False, inner_width: int =0, policy: int =0, freeze_rows: int =0, freeze_columns: int =0, sort_multi: bool =False, sort_tristate: bool =False, resizable: bool =False, reorderable: bool =False, hideable: bool =False, sortable: bool =False, context_menu_in_body: bool =False, row_background: bool =False, borders_innerH: bool =False, borders_outerH: bool =False, borders_innerV: bool =False, borders_outerV: bool =False, no_host_extendX: bool =False, no_host_extendY: bool =False, no_keep_columns_visible: bool =False, precise_widths: bool =False, no_clip: bool =False, pad_outerX: bool =False, no_pad_outerX: bool =False, no_pad_innerX: bool =False, scrollX: bool =False, scrollY: bool =False, no_saved_settings: bool =False) -> Union[int, str]:
 	"""
 	Undocumented function
 	Args:
@@ -1842,6 +2127,7 @@ def table(*, label: str =None, user_data: Any =None, use_internal_label: bool =T
 		**filter_key (str): Used by filter widget.
 		**delay_search (bool): Delays searching container for specified items until the end of the app. Possible optimization when a container has many children that are not accessed often.
 		**header_row (bool): show headers at the top of the columns
+		**clipper (bool): Use clipper (rows must be same height).
 		**inner_width (int): 
 		**policy (int): 
 		**freeze_rows (int): 
@@ -1873,7 +2159,30 @@ def table(*, label: str =None, user_data: Any =None, use_internal_label: bool =T
 		Union[int, str]
 	"""
 	try:
-		widget = internal_dpg.add_table(label=label, user_data=user_data, use_internal_label=use_internal_label, id=id, width=width, height=height, indent=indent, parent=parent, before=before, source=source, callback=callback, show=show, pos=pos, filter_key=filter_key, delay_search=delay_search, header_row=header_row, inner_width=inner_width, policy=policy, freeze_rows=freeze_rows, freeze_columns=freeze_columns, sort_multi=sort_multi, sort_tristate=sort_tristate, resizable=resizable, reorderable=reorderable, hideable=hideable, sortable=sortable, context_menu_in_body=context_menu_in_body, row_background=row_background, borders_innerH=borders_innerH, borders_outerH=borders_outerH, borders_innerV=borders_innerV, borders_outerV=borders_outerV, no_host_extendX=no_host_extendX, no_host_extendY=no_host_extendY, no_keep_columns_visible=no_keep_columns_visible, precise_widths=precise_widths, no_clip=no_clip, pad_outerX=pad_outerX, no_pad_outerX=no_pad_outerX, no_pad_innerX=no_pad_innerX, scrollX=scrollX, scrollY=scrollY, no_saved_settings=no_saved_settings)
+		widget = internal_dpg.add_table(label=label, user_data=user_data, use_internal_label=use_internal_label, id=id, width=width, height=height, indent=indent, parent=parent, before=before, source=source, callback=callback, show=show, pos=pos, filter_key=filter_key, delay_search=delay_search, header_row=header_row, clipper=clipper, inner_width=inner_width, policy=policy, freeze_rows=freeze_rows, freeze_columns=freeze_columns, sort_multi=sort_multi, sort_tristate=sort_tristate, resizable=resizable, reorderable=reorderable, hideable=hideable, sortable=sortable, context_menu_in_body=context_menu_in_body, row_background=row_background, borders_innerH=borders_innerH, borders_outerH=borders_outerH, borders_innerV=borders_innerV, borders_outerV=borders_outerV, no_host_extendX=no_host_extendX, no_host_extendY=no_host_extendY, no_keep_columns_visible=no_keep_columns_visible, precise_widths=precise_widths, no_clip=no_clip, pad_outerX=pad_outerX, no_pad_outerX=no_pad_outerX, no_pad_innerX=no_pad_innerX, scrollX=scrollX, scrollY=scrollY, no_saved_settings=no_saved_settings)
+		internal_dpg.push_container_stack(widget)
+		yield widget
+	finally:
+		internal_dpg.pop_container_stack()
+@contextmanager
+def table_cell(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, id: Union[int, str] =0, height: int =0, parent: Union[int, str] =0, before: Union[int, str] =0, show: bool =True, filter_key: str ='') -> Union[int, str]:
+	"""
+	Undocumented function
+	Args:
+		**label (str): Overrides 'name' as label.
+		**user_data (Any): User data for callbacks.
+		**use_internal_label (bool): Use generated internal label instead of user specified (appends ### uuid).
+		**id (Union[int, str]): Unique id used to programmatically refer to the item.If label is unused this will be the label.
+		**height (int): Height of the item.
+		**parent (Union[int, str]): Parent to add this item to. (runtime adding)
+		**before (Union[int, str]): This item will be displayed before the specified item in the parent.
+		**show (bool): Attempt to render widget.
+		**filter_key (str): Used by filter widget.
+	Yields:
+		Union[int, str]
+	"""
+	try:
+		widget = internal_dpg.add_table_cell(label=label, user_data=user_data, use_internal_label=use_internal_label, id=id, height=height, parent=parent, before=before, show=show, filter_key=filter_key)
 		internal_dpg.push_container_stack(widget)
 		yield widget
 	finally:
@@ -2188,40 +2497,6 @@ def add_3d_slider(*, label: str =None, user_data: Any =None, use_internal_label:
 
 	return internal_dpg.add_3d_slider(label=label, user_data=user_data, use_internal_label=use_internal_label, id=id, width=width, height=height, indent=indent, parent=parent, before=before, source=source, payload_type=payload_type, callback=callback, drag_callback=drag_callback, drop_callback=drop_callback, show=show, pos=pos, filter_key=filter_key, tracked=tracked, track_offset=track_offset, default_value=default_value, max_x=max_x, max_y=max_y, max_z=max_z, min_x=min_x, min_y=min_y, min_z=min_z, scale=scale)
 
-def add_activated_handler(parent : Union[int, str], *, label: str =None, user_data: Any =None, use_internal_label: bool =True, id: Union[int, str] =0, callback: Callable =None, show: bool =True) -> Union[int, str]:
-	"""
-	Adds a handler which runs a given callback when the specified item is activated.
-	Args:
-		parent (Union[int, str]): 
-		**label (str): Overrides 'name' as label.
-		**user_data (Any): User data for callbacks.
-		**use_internal_label (bool): Use generated internal label instead of user specified (appends ### uuid).
-		**id (Union[int, str]): Unique id used to programmatically refer to the item.If label is unused this will be the label.
-		**callback (Callable): Registers a callback.
-		**show (bool): Attempt to render widget.
-	Returns:
-		Union[int, str]
-	"""
-
-	return internal_dpg.add_activated_handler(parent, label=label, user_data=user_data, use_internal_label=use_internal_label, id=id, callback=callback, show=show)
-
-def add_active_handler(parent : Union[int, str], *, label: str =None, user_data: Any =None, use_internal_label: bool =True, id: Union[int, str] =0, callback: Callable =None, show: bool =True) -> Union[int, str]:
-	"""
-	Adds a handler which runs a given callback when the specified item is active.
-	Args:
-		parent (Union[int, str]): 
-		**label (str): Overrides 'name' as label.
-		**user_data (Any): User data for callbacks.
-		**use_internal_label (bool): Use generated internal label instead of user specified (appends ### uuid).
-		**id (Union[int, str]): Unique id used to programmatically refer to the item.If label is unused this will be the label.
-		**callback (Callable): Registers a callback.
-		**show (bool): Attempt to render widget.
-	Returns:
-		Union[int, str]
-	"""
-
-	return internal_dpg.add_active_handler(parent, label=label, user_data=user_data, use_internal_label=use_internal_label, id=id, callback=callback, show=show)
-
 def add_alias(alias : str, item : Union[int, str]) -> None:
 	"""
 	Undocumented
@@ -2433,24 +2708,6 @@ def add_child(*, label: str =None, user_data: Any =None, use_internal_label: boo
 	"""
 
 	return internal_dpg.add_child(label=label, user_data=user_data, use_internal_label=use_internal_label, id=id, width=width, height=height, indent=indent, parent=parent, before=before, payload_type=payload_type, drag_callback=drag_callback, drop_callback=drop_callback, show=show, pos=pos, filter_key=filter_key, delay_search=delay_search, tracked=tracked, track_offset=track_offset, border=border, autosize_x=autosize_x, autosize_y=autosize_y, no_scrollbar=no_scrollbar, horizontal_scrollbar=horizontal_scrollbar, menubar=menubar)
-
-def add_clicked_handler(parent : Union[int, str], button : int =-1, *, label: str =None, user_data: Any =None, use_internal_label: bool =True, id: Union[int, str] =0, callback: Callable =None, show: bool =True) -> Union[int, str]:
-	"""
-	Adds a handler which runs a given callback when the specified item is clicked.
-	Args:
-		parent (Union[int, str]): 
-		*button (int): Submits callback for all mouse buttons
-		**label (str): Overrides 'name' as label.
-		**user_data (Any): User data for callbacks.
-		**use_internal_label (bool): Use generated internal label instead of user specified (appends ### uuid).
-		**id (Union[int, str]): Unique id used to programmatically refer to the item.If label is unused this will be the label.
-		**callback (Callable): Registers a callback.
-		**show (bool): Attempt to render widget.
-	Returns:
-		Union[int, str]
-	"""
-
-	return internal_dpg.add_clicked_handler(parent, button, label=label, user_data=user_data, use_internal_label=use_internal_label, id=id, callback=callback, show=show)
 
 def add_clipper(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, id: Union[int, str] =0, width: int =0, indent: int =-1, parent: Union[int, str] =0, before: Union[int, str] =0, show: bool =True, delay_search: bool =False) -> Union[int, str]:
 	"""
@@ -2826,40 +3083,6 @@ def add_date_picker(*, label: str =None, user_data: Any =None, use_internal_labe
 
 	return internal_dpg.add_date_picker(label=label, user_data=user_data, use_internal_label=use_internal_label, id=id, indent=indent, parent=parent, before=before, payload_type=payload_type, callback=callback, drag_callback=drag_callback, drop_callback=drop_callback, show=show, pos=pos, filter_key=filter_key, tracked=tracked, track_offset=track_offset, default_value=default_value, level=level)
 
-def add_deactivated_after_edit_handler(parent : Union[int, str], *, label: str =None, user_data: Any =None, use_internal_label: bool =True, id: Union[int, str] =0, callback: Callable =None, show: bool =True) -> Union[int, str]:
-	"""
-	Adds a handler which runs a given callback when the specified item is deactivated after edit.
-	Args:
-		parent (Union[int, str]): 
-		**label (str): Overrides 'name' as label.
-		**user_data (Any): User data for callbacks.
-		**use_internal_label (bool): Use generated internal label instead of user specified (appends ### uuid).
-		**id (Union[int, str]): Unique id used to programmatically refer to the item.If label is unused this will be the label.
-		**callback (Callable): Registers a callback.
-		**show (bool): Attempt to render widget.
-	Returns:
-		Union[int, str]
-	"""
-
-	return internal_dpg.add_deactivated_after_edit_handler(parent, label=label, user_data=user_data, use_internal_label=use_internal_label, id=id, callback=callback, show=show)
-
-def add_deactivated_handler(parent : Union[int, str], *, label: str =None, user_data: Any =None, use_internal_label: bool =True, id: Union[int, str] =0, callback: Callable =None, show: bool =True) -> Union[int, str]:
-	"""
-	Adds a handler which runs a given callback when the specified item is deactivated.
-	Args:
-		parent (Union[int, str]): 
-		**label (str): Overrides 'name' as label.
-		**user_data (Any): User data for callbacks.
-		**use_internal_label (bool): Use generated internal label instead of user specified (appends ### uuid).
-		**id (Union[int, str]): Unique id used to programmatically refer to the item.If label is unused this will be the label.
-		**callback (Callable): Registers a callback.
-		**show (bool): Attempt to render widget.
-	Returns:
-		Union[int, str]
-	"""
-
-	return internal_dpg.add_deactivated_handler(parent, label=label, user_data=user_data, use_internal_label=use_internal_label, id=id, callback=callback, show=show)
-
 def add_double4_value(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, id: Union[int, str] =0, source: Union[int, str] =0, default_value: Any =(0.0, 0.0, 0.0, 0.0), parent: Union[int, str] =internal_dpg.mvReservedUUID_3) -> Union[int, str]:
 	"""
 	Undocumented
@@ -3189,23 +3412,6 @@ def add_dynamic_texture(width : int, height : int, default_value : Union[List[fl
 
 	return internal_dpg.add_dynamic_texture(width, height, default_value, label=label, user_data=user_data, use_internal_label=use_internal_label, id=id, parent=parent)
 
-def add_edited_handler(parent : Union[int, str], *, label: str =None, user_data: Any =None, use_internal_label: bool =True, id: Union[int, str] =0, callback: Callable =None, show: bool =True) -> Union[int, str]:
-	"""
-	Adds a handler which runs a given callback when the specified item is edited.
-	Args:
-		parent (Union[int, str]): 
-		**label (str): Overrides 'name' as label.
-		**user_data (Any): User data for callbacks.
-		**use_internal_label (bool): Use generated internal label instead of user specified (appends ### uuid).
-		**id (Union[int, str]): Unique id used to programmatically refer to the item.If label is unused this will be the label.
-		**callback (Callable): Registers a callback.
-		**show (bool): Attempt to render widget.
-	Returns:
-		Union[int, str]
-	"""
-
-	return internal_dpg.add_edited_handler(parent, label=label, user_data=user_data, use_internal_label=use_internal_label, id=id, callback=callback, show=show)
-
 def add_error_series(x : Union[List[float], Tuple[float]], y : Union[List[float], Tuple[float]], negative : Union[List[float], Tuple[float]], positive : Union[List[float], Tuple[float]], *, label: str =None, user_data: Any =None, use_internal_label: bool =True, id: Union[int, str] =0, parent: Union[int, str] =0, before: Union[int, str] =0, source: Union[int, str] =0, show: bool =True, contribute_to_bounds: bool =True, horizontal: bool =False) -> Union[int, str]:
 	"""
 	Adds an error series to a plot.
@@ -3344,23 +3550,6 @@ def add_float_vect_value(*, label: str =None, user_data: Any =None, use_internal
 	"""
 
 	return internal_dpg.add_float_vect_value(label=label, user_data=user_data, use_internal_label=use_internal_label, id=id, source=source, default_value=default_value, parent=parent)
-
-def add_focus_handler(parent : Union[int, str], *, label: str =None, user_data: Any =None, use_internal_label: bool =True, id: Union[int, str] =0, callback: Callable =None, show: bool =True) -> Union[int, str]:
-	"""
-	Adds a handler which runs a given callback when the specified item is focused.
-	Args:
-		parent (Union[int, str]): 
-		**label (str): Overrides 'name' as label.
-		**user_data (Any): User data for callbacks.
-		**use_internal_label (bool): Use generated internal label instead of user specified (appends ### uuid).
-		**id (Union[int, str]): Unique id used to programmatically refer to the item.If label is unused this will be the label.
-		**callback (Callable): Registers a callback.
-		**show (bool): Attempt to render widget.
-	Returns:
-		Union[int, str]
-	"""
-
-	return internal_dpg.add_focus_handler(parent, label=label, user_data=user_data, use_internal_label=use_internal_label, id=id, callback=callback, show=show)
 
 def add_font(file : str, size : int, *, label: str =None, user_data: Any =None, use_internal_label: bool =True, id: Union[int, str] =0, default_font: bool =False, parent: Union[int, str] =internal_dpg.mvReservedUUID_0) -> Union[int, str]:
 	"""
@@ -3561,23 +3750,6 @@ def add_hline_series(x : Union[List[float], Tuple[float]], *, label: str =None, 
 	"""
 
 	return internal_dpg.add_hline_series(x, label=label, user_data=user_data, use_internal_label=use_internal_label, id=id, parent=parent, before=before, source=source, show=show, contribute_to_bounds=contribute_to_bounds)
-
-def add_hover_handler(parent : Union[int, str], *, label: str =None, user_data: Any =None, use_internal_label: bool =True, id: Union[int, str] =0, callback: Callable =None, show: bool =True) -> Union[int, str]:
-	"""
-	Adds a handler which runs a given callback when the specified item is hovered.
-	Args:
-		parent (Union[int, str]): 
-		**label (str): Overrides 'name' as label.
-		**user_data (Any): User data for callbacks.
-		**use_internal_label (bool): Use generated internal label instead of user specified (appends ### uuid).
-		**id (Union[int, str]): Unique id used to programmatically refer to the item.If label is unused this will be the label.
-		**callback (Callable): Registers a callback.
-		**show (bool): Attempt to render widget.
-	Returns:
-		Union[int, str]
-	"""
-
-	return internal_dpg.add_hover_handler(parent, label=label, user_data=user_data, use_internal_label=use_internal_label, id=id, callback=callback, show=show)
 
 def add_image(texture_id : Union[int, str], *, label: str =None, user_data: Any =None, use_internal_label: bool =True, id: Union[int, str] =0, width: int =0, height: int =0, indent: int =-1, parent: Union[int, str] =0, before: Union[int, str] =0, source: Union[int, str] =0, payload_type: str ='$$DPG_PAYLOAD', drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, pos: Union[List[int], Tuple[int]] =[], filter_key: str ='', tracked: bool =False, track_offset: float =0.5, tint_color: Union[List[float], Tuple[float]] =(255, 255, 255, 255), border_color: Union[List[float], Tuple[float]] =(0, 0, 0, 0), uv_min: Union[List[float], Tuple[float]] =(0.0, 0.0), uv_max: Union[List[float], Tuple[float]] =(1.0, 1.0)) -> Union[int, str]:
 	"""
@@ -3900,6 +4072,143 @@ def add_int_value(*, label: str =None, user_data: Any =None, use_internal_label:
 
 	return internal_dpg.add_int_value(label=label, user_data=user_data, use_internal_label=use_internal_label, id=id, source=source, default_value=default_value, parent=parent)
 
+def add_item_activated_handler(parent : Union[int, str], *, label: str =None, user_data: Any =None, use_internal_label: bool =True, id: Union[int, str] =0, callback: Callable =None, show: bool =True) -> Union[int, str]:
+	"""
+	Adds a handler which runs a given callback when the specified item is activated.
+	Args:
+		parent (Union[int, str]): 
+		**label (str): Overrides 'name' as label.
+		**user_data (Any): User data for callbacks.
+		**use_internal_label (bool): Use generated internal label instead of user specified (appends ### uuid).
+		**id (Union[int, str]): Unique id used to programmatically refer to the item.If label is unused this will be the label.
+		**callback (Callable): Registers a callback.
+		**show (bool): Attempt to render widget.
+	Returns:
+		Union[int, str]
+	"""
+
+	return internal_dpg.add_item_activated_handler(parent, label=label, user_data=user_data, use_internal_label=use_internal_label, id=id, callback=callback, show=show)
+
+def add_item_active_handler(parent : Union[int, str], *, label: str =None, user_data: Any =None, use_internal_label: bool =True, id: Union[int, str] =0, callback: Callable =None, show: bool =True) -> Union[int, str]:
+	"""
+	Adds a handler which runs a given callback when the specified item is active.
+	Args:
+		parent (Union[int, str]): 
+		**label (str): Overrides 'name' as label.
+		**user_data (Any): User data for callbacks.
+		**use_internal_label (bool): Use generated internal label instead of user specified (appends ### uuid).
+		**id (Union[int, str]): Unique id used to programmatically refer to the item.If label is unused this will be the label.
+		**callback (Callable): Registers a callback.
+		**show (bool): Attempt to render widget.
+	Returns:
+		Union[int, str]
+	"""
+
+	return internal_dpg.add_item_active_handler(parent, label=label, user_data=user_data, use_internal_label=use_internal_label, id=id, callback=callback, show=show)
+
+def add_item_clicked_handler(parent : Union[int, str], button : int =-1, *, label: str =None, user_data: Any =None, use_internal_label: bool =True, id: Union[int, str] =0, callback: Callable =None, show: bool =True) -> Union[int, str]:
+	"""
+	Adds a handler which runs a given callback when the specified item is clicked.
+	Args:
+		parent (Union[int, str]): 
+		*button (int): Submits callback for all mouse buttons
+		**label (str): Overrides 'name' as label.
+		**user_data (Any): User data for callbacks.
+		**use_internal_label (bool): Use generated internal label instead of user specified (appends ### uuid).
+		**id (Union[int, str]): Unique id used to programmatically refer to the item.If label is unused this will be the label.
+		**callback (Callable): Registers a callback.
+		**show (bool): Attempt to render widget.
+	Returns:
+		Union[int, str]
+	"""
+
+	return internal_dpg.add_item_clicked_handler(parent, button, label=label, user_data=user_data, use_internal_label=use_internal_label, id=id, callback=callback, show=show)
+
+def add_item_deactivated_after_edit_handler(parent : Union[int, str], *, label: str =None, user_data: Any =None, use_internal_label: bool =True, id: Union[int, str] =0, callback: Callable =None, show: bool =True) -> Union[int, str]:
+	"""
+	Adds a handler which runs a given callback when the specified item is deactivated after edit.
+	Args:
+		parent (Union[int, str]): 
+		**label (str): Overrides 'name' as label.
+		**user_data (Any): User data for callbacks.
+		**use_internal_label (bool): Use generated internal label instead of user specified (appends ### uuid).
+		**id (Union[int, str]): Unique id used to programmatically refer to the item.If label is unused this will be the label.
+		**callback (Callable): Registers a callback.
+		**show (bool): Attempt to render widget.
+	Returns:
+		Union[int, str]
+	"""
+
+	return internal_dpg.add_item_deactivated_after_edit_handler(parent, label=label, user_data=user_data, use_internal_label=use_internal_label, id=id, callback=callback, show=show)
+
+def add_item_deactivated_handler(parent : Union[int, str], *, label: str =None, user_data: Any =None, use_internal_label: bool =True, id: Union[int, str] =0, callback: Callable =None, show: bool =True) -> Union[int, str]:
+	"""
+	Adds a handler which runs a given callback when the specified item is deactivated.
+	Args:
+		parent (Union[int, str]): 
+		**label (str): Overrides 'name' as label.
+		**user_data (Any): User data for callbacks.
+		**use_internal_label (bool): Use generated internal label instead of user specified (appends ### uuid).
+		**id (Union[int, str]): Unique id used to programmatically refer to the item.If label is unused this will be the label.
+		**callback (Callable): Registers a callback.
+		**show (bool): Attempt to render widget.
+	Returns:
+		Union[int, str]
+	"""
+
+	return internal_dpg.add_item_deactivated_handler(parent, label=label, user_data=user_data, use_internal_label=use_internal_label, id=id, callback=callback, show=show)
+
+def add_item_edited_handler(parent : Union[int, str], *, label: str =None, user_data: Any =None, use_internal_label: bool =True, id: Union[int, str] =0, callback: Callable =None, show: bool =True) -> Union[int, str]:
+	"""
+	Adds a handler which runs a given callback when the specified item is edited.
+	Args:
+		parent (Union[int, str]): 
+		**label (str): Overrides 'name' as label.
+		**user_data (Any): User data for callbacks.
+		**use_internal_label (bool): Use generated internal label instead of user specified (appends ### uuid).
+		**id (Union[int, str]): Unique id used to programmatically refer to the item.If label is unused this will be the label.
+		**callback (Callable): Registers a callback.
+		**show (bool): Attempt to render widget.
+	Returns:
+		Union[int, str]
+	"""
+
+	return internal_dpg.add_item_edited_handler(parent, label=label, user_data=user_data, use_internal_label=use_internal_label, id=id, callback=callback, show=show)
+
+def add_item_focus_handler(parent : Union[int, str], *, label: str =None, user_data: Any =None, use_internal_label: bool =True, id: Union[int, str] =0, callback: Callable =None, show: bool =True) -> Union[int, str]:
+	"""
+	Adds a handler which runs a given callback when the specified item is focused.
+	Args:
+		parent (Union[int, str]): 
+		**label (str): Overrides 'name' as label.
+		**user_data (Any): User data for callbacks.
+		**use_internal_label (bool): Use generated internal label instead of user specified (appends ### uuid).
+		**id (Union[int, str]): Unique id used to programmatically refer to the item.If label is unused this will be the label.
+		**callback (Callable): Registers a callback.
+		**show (bool): Attempt to render widget.
+	Returns:
+		Union[int, str]
+	"""
+
+	return internal_dpg.add_item_focus_handler(parent, label=label, user_data=user_data, use_internal_label=use_internal_label, id=id, callback=callback, show=show)
+
+def add_item_hover_handler(parent : Union[int, str], *, label: str =None, user_data: Any =None, use_internal_label: bool =True, id: Union[int, str] =0, callback: Callable =None, show: bool =True) -> Union[int, str]:
+	"""
+	Adds a handler which runs a given callback when the specified item is hovered.
+	Args:
+		parent (Union[int, str]): 
+		**label (str): Overrides 'name' as label.
+		**user_data (Any): User data for callbacks.
+		**use_internal_label (bool): Use generated internal label instead of user specified (appends ### uuid).
+		**id (Union[int, str]): Unique id used to programmatically refer to the item.If label is unused this will be the label.
+		**callback (Callable): Registers a callback.
+		**show (bool): Attempt to render widget.
+	Returns:
+		Union[int, str]
+	"""
+
+	return internal_dpg.add_item_hover_handler(parent, label=label, user_data=user_data, use_internal_label=use_internal_label, id=id, callback=callback, show=show)
+
 def add_item_pool(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, id: Union[int, str] =0) -> Union[int, str]:
 	"""
 	Undocumented function
@@ -3913,6 +4222,23 @@ def add_item_pool(*, label: str =None, user_data: Any =None, use_internal_label:
 	"""
 
 	return internal_dpg.add_item_pool(label=label, user_data=user_data, use_internal_label=use_internal_label, id=id)
+
+def add_item_resize_handler(parent : Union[int, str], *, label: str =None, user_data: Any =None, use_internal_label: bool =True, id: Union[int, str] =0, callback: Callable =None, show: bool =True) -> Union[int, str]:
+	"""
+	Adds a handler which runs a given callback when the specified item is resized.
+	Args:
+		parent (Union[int, str]): 
+		**label (str): Overrides 'name' as label.
+		**user_data (Any): User data for callbacks.
+		**use_internal_label (bool): Use generated internal label instead of user specified (appends ### uuid).
+		**id (Union[int, str]): Unique id used to programmatically refer to the item.If label is unused this will be the label.
+		**callback (Callable): Registers a callback.
+		**show (bool): Attempt to render widget.
+	Returns:
+		Union[int, str]
+	"""
+
+	return internal_dpg.add_item_resize_handler(parent, label=label, user_data=user_data, use_internal_label=use_internal_label, id=id, callback=callback, show=show)
 
 def add_item_set(type : int, count : int, *, label: str =None, user_data: Any =None, use_internal_label: bool =True, id: Union[int, str] =0) -> Union[int, str]:
 	"""
@@ -3929,6 +4255,40 @@ def add_item_set(type : int, count : int, *, label: str =None, user_data: Any =N
 	"""
 
 	return internal_dpg.add_item_set(type, count, label=label, user_data=user_data, use_internal_label=use_internal_label, id=id)
+
+def add_item_toggled_open_handler(parent : Union[int, str], *, label: str =None, user_data: Any =None, use_internal_label: bool =True, id: Union[int, str] =0, callback: Callable =None, show: bool =True) -> Union[int, str]:
+	"""
+	Adds a handler which runs a given callback when the specified item is toggled open.
+	Args:
+		parent (Union[int, str]): 
+		**label (str): Overrides 'name' as label.
+		**user_data (Any): User data for callbacks.
+		**use_internal_label (bool): Use generated internal label instead of user specified (appends ### uuid).
+		**id (Union[int, str]): Unique id used to programmatically refer to the item.If label is unused this will be the label.
+		**callback (Callable): Registers a callback.
+		**show (bool): Attempt to render widget.
+	Returns:
+		Union[int, str]
+	"""
+
+	return internal_dpg.add_item_toggled_open_handler(parent, label=label, user_data=user_data, use_internal_label=use_internal_label, id=id, callback=callback, show=show)
+
+def add_item_visible_handler(parent : Union[int, str], *, label: str =None, user_data: Any =None, use_internal_label: bool =True, id: Union[int, str] =0, callback: Callable =None, show: bool =True) -> Union[int, str]:
+	"""
+	Adds a handler which runs a given callback when the specified item is visible.
+	Args:
+		parent (Union[int, str]): 
+		**label (str): Overrides 'name' as label.
+		**user_data (Any): User data for callbacks.
+		**use_internal_label (bool): Use generated internal label instead of user specified (appends ### uuid).
+		**id (Union[int, str]): Unique id used to programmatically refer to the item.If label is unused this will be the label.
+		**callback (Callable): Registers a callback.
+		**show (bool): Attempt to render widget.
+	Returns:
+		Union[int, str]
+	"""
+
+	return internal_dpg.add_item_visible_handler(parent, label=label, user_data=user_data, use_internal_label=use_internal_label, id=id, callback=callback, show=show)
 
 def add_key_down_handler(key : int =-1, *, label: str =None, user_data: Any =None, use_internal_label: bool =True, id: Union[int, str] =0, callback: Callable =None, show: bool =True, parent: Union[int, str] =internal_dpg.mvReservedUUID_1) -> Union[int, str]:
 	"""
@@ -4623,23 +4983,6 @@ def add_raw_texture(width : int, height : int, default_value : Union[List[float]
 
 	return internal_dpg.add_raw_texture(width, height, default_value, label=label, user_data=user_data, use_internal_label=use_internal_label, id=id, format=format, parent=parent)
 
-def add_resize_handler(parent : Union[int, str], *, label: str =None, user_data: Any =None, use_internal_label: bool =True, id: Union[int, str] =0, callback: Callable =None, show: bool =True) -> Union[int, str]:
-	"""
-	Adds a handler which runs a given callback when the specified item is resized.
-	Args:
-		parent (Union[int, str]): 
-		**label (str): Overrides 'name' as label.
-		**user_data (Any): User data for callbacks.
-		**use_internal_label (bool): Use generated internal label instead of user specified (appends ### uuid).
-		**id (Union[int, str]): Unique id used to programmatically refer to the item.If label is unused this will be the label.
-		**callback (Callable): Registers a callback.
-		**show (bool): Attempt to render widget.
-	Returns:
-		Union[int, str]
-	"""
-
-	return internal_dpg.add_resize_handler(parent, label=label, user_data=user_data, use_internal_label=use_internal_label, id=id, callback=callback, show=show)
-
 def add_same_line(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, id: Union[int, str] =0, parent: Union[int, str] =0, before: Union[int, str] =0, show: bool =True, xoffset: float =0.0, spacing: float =-1.0) -> Union[int, str]:
 	"""
 	Places a widget on the same line as the previous widget. Can also be used for horizontal spacing.
@@ -5181,7 +5524,7 @@ def add_tab_button(*, label: str =None, user_data: Any =None, use_internal_label
 
 	return internal_dpg.add_tab_button(label=label, user_data=user_data, use_internal_label=use_internal_label, id=id, indent=indent, parent=parent, before=before, payload_type=payload_type, callback=callback, drag_callback=drag_callback, drop_callback=drop_callback, show=show, filter_key=filter_key, tracked=tracked, track_offset=track_offset, no_reorder=no_reorder, leading=leading, trailing=trailing, no_tooltip=no_tooltip)
 
-def add_table(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, id: Union[int, str] =0, width: int =0, height: int =0, indent: int =-1, parent: Union[int, str] =0, before: Union[int, str] =0, source: Union[int, str] =0, callback: Callable =None, show: bool =True, pos: Union[List[int], Tuple[int]] =[], filter_key: str ='', delay_search: bool =False, header_row: bool =True, inner_width: int =0, policy: int =0, freeze_rows: int =0, freeze_columns: int =0, sort_multi: bool =False, sort_tristate: bool =False, resizable: bool =False, reorderable: bool =False, hideable: bool =False, sortable: bool =False, context_menu_in_body: bool =False, row_background: bool =False, borders_innerH: bool =False, borders_outerH: bool =False, borders_innerV: bool =False, borders_outerV: bool =False, no_host_extendX: bool =False, no_host_extendY: bool =False, no_keep_columns_visible: bool =False, precise_widths: bool =False, no_clip: bool =False, pad_outerX: bool =False, no_pad_outerX: bool =False, no_pad_innerX: bool =False, scrollX: bool =False, scrollY: bool =False, no_saved_settings: bool =False) -> Union[int, str]:
+def add_table(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, id: Union[int, str] =0, width: int =0, height: int =0, indent: int =-1, parent: Union[int, str] =0, before: Union[int, str] =0, source: Union[int, str] =0, callback: Callable =None, show: bool =True, pos: Union[List[int], Tuple[int]] =[], filter_key: str ='', delay_search: bool =False, header_row: bool =True, clipper: bool =False, inner_width: int =0, policy: int =0, freeze_rows: int =0, freeze_columns: int =0, sort_multi: bool =False, sort_tristate: bool =False, resizable: bool =False, reorderable: bool =False, hideable: bool =False, sortable: bool =False, context_menu_in_body: bool =False, row_background: bool =False, borders_innerH: bool =False, borders_outerH: bool =False, borders_innerV: bool =False, borders_outerV: bool =False, no_host_extendX: bool =False, no_host_extendY: bool =False, no_keep_columns_visible: bool =False, precise_widths: bool =False, no_clip: bool =False, pad_outerX: bool =False, no_pad_outerX: bool =False, no_pad_innerX: bool =False, scrollX: bool =False, scrollY: bool =False, no_saved_settings: bool =False) -> Union[int, str]:
 	"""
 	Undocumented function
 	Args:
@@ -5201,6 +5544,7 @@ def add_table(*, label: str =None, user_data: Any =None, use_internal_label: boo
 		**filter_key (str): Used by filter widget.
 		**delay_search (bool): Delays searching container for specified items until the end of the app. Possible optimization when a container has many children that are not accessed often.
 		**header_row (bool): show headers at the top of the columns
+		**clipper (bool): Use clipper (rows must be same height).
 		**inner_width (int): 
 		**policy (int): 
 		**freeze_rows (int): 
@@ -5232,9 +5576,28 @@ def add_table(*, label: str =None, user_data: Any =None, use_internal_label: boo
 		Union[int, str]
 	"""
 
-	return internal_dpg.add_table(label=label, user_data=user_data, use_internal_label=use_internal_label, id=id, width=width, height=height, indent=indent, parent=parent, before=before, source=source, callback=callback, show=show, pos=pos, filter_key=filter_key, delay_search=delay_search, header_row=header_row, inner_width=inner_width, policy=policy, freeze_rows=freeze_rows, freeze_columns=freeze_columns, sort_multi=sort_multi, sort_tristate=sort_tristate, resizable=resizable, reorderable=reorderable, hideable=hideable, sortable=sortable, context_menu_in_body=context_menu_in_body, row_background=row_background, borders_innerH=borders_innerH, borders_outerH=borders_outerH, borders_innerV=borders_innerV, borders_outerV=borders_outerV, no_host_extendX=no_host_extendX, no_host_extendY=no_host_extendY, no_keep_columns_visible=no_keep_columns_visible, precise_widths=precise_widths, no_clip=no_clip, pad_outerX=pad_outerX, no_pad_outerX=no_pad_outerX, no_pad_innerX=no_pad_innerX, scrollX=scrollX, scrollY=scrollY, no_saved_settings=no_saved_settings)
+	return internal_dpg.add_table(label=label, user_data=user_data, use_internal_label=use_internal_label, id=id, width=width, height=height, indent=indent, parent=parent, before=before, source=source, callback=callback, show=show, pos=pos, filter_key=filter_key, delay_search=delay_search, header_row=header_row, clipper=clipper, inner_width=inner_width, policy=policy, freeze_rows=freeze_rows, freeze_columns=freeze_columns, sort_multi=sort_multi, sort_tristate=sort_tristate, resizable=resizable, reorderable=reorderable, hideable=hideable, sortable=sortable, context_menu_in_body=context_menu_in_body, row_background=row_background, borders_innerH=borders_innerH, borders_outerH=borders_outerH, borders_innerV=borders_innerV, borders_outerV=borders_outerV, no_host_extendX=no_host_extendX, no_host_extendY=no_host_extendY, no_keep_columns_visible=no_keep_columns_visible, precise_widths=precise_widths, no_clip=no_clip, pad_outerX=pad_outerX, no_pad_outerX=no_pad_outerX, no_pad_innerX=no_pad_innerX, scrollX=scrollX, scrollY=scrollY, no_saved_settings=no_saved_settings)
 
-def add_table_column(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, id: Union[int, str] =0, width: int =0, parent: Union[int, str] =0, before: Union[int, str] =0, show: bool =True, init_width_or_weight: float =0.0, default_hide: bool =False, default_sort: bool =False, width_stretch: bool =False, width_fixed: bool =False, no_resize: bool =False, no_reorder: bool =False, no_hide: bool =False, no_clip: bool =False, no_sort: bool =False, no_sort_ascending: bool =False, no_sort_descending: bool =False, no_header_width: bool =False, prefer_sort_ascending: bool =True, prefer_sort_descending: bool =False, indent_enable: bool =False, indent_disable: bool =False) -> Union[int, str]:
+def add_table_cell(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, id: Union[int, str] =0, height: int =0, parent: Union[int, str] =0, before: Union[int, str] =0, show: bool =True, filter_key: str ='') -> Union[int, str]:
+	"""
+	Undocumented function
+	Args:
+		**label (str): Overrides 'name' as label.
+		**user_data (Any): User data for callbacks.
+		**use_internal_label (bool): Use generated internal label instead of user specified (appends ### uuid).
+		**id (Union[int, str]): Unique id used to programmatically refer to the item.If label is unused this will be the label.
+		**height (int): Height of the item.
+		**parent (Union[int, str]): Parent to add this item to. (runtime adding)
+		**before (Union[int, str]): This item will be displayed before the specified item in the parent.
+		**show (bool): Attempt to render widget.
+		**filter_key (str): Used by filter widget.
+	Returns:
+		Union[int, str]
+	"""
+
+	return internal_dpg.add_table_cell(label=label, user_data=user_data, use_internal_label=use_internal_label, id=id, height=height, parent=parent, before=before, show=show, filter_key=filter_key)
+
+def add_table_column(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, id: Union[int, str] =0, width: int =0, parent: Union[int, str] =0, before: Union[int, str] =0, show: bool =True, enabled: bool =True, init_width_or_weight: float =0.0, default_hide: bool =False, default_sort: bool =False, width_stretch: bool =False, width_fixed: bool =False, no_resize: bool =False, no_reorder: bool =False, no_hide: bool =False, no_clip: bool =False, no_sort: bool =False, no_sort_ascending: bool =False, no_sort_descending: bool =False, no_header_width: bool =False, prefer_sort_ascending: bool =True, prefer_sort_descending: bool =False, indent_enable: bool =False, indent_disable: bool =False) -> Union[int, str]:
 	"""
 	Undocumented function
 	Args:
@@ -5246,6 +5609,7 @@ def add_table_column(*, label: str =None, user_data: Any =None, use_internal_lab
 		**parent (Union[int, str]): Parent to add this item to. (runtime adding)
 		**before (Union[int, str]): This item will be displayed before the specified item in the parent.
 		**show (bool): Attempt to render widget.
+		**enabled (bool): Turns off functionality of widget and applies the disabled theme.
 		**init_width_or_weight (float): 
 		**default_hide (bool): Default as a hidden/disabled column.
 		**default_sort (bool): Default as a sorting column.
@@ -5267,24 +5631,7 @@ def add_table_column(*, label: str =None, user_data: Any =None, use_internal_lab
 		Union[int, str]
 	"""
 
-	return internal_dpg.add_table_column(label=label, user_data=user_data, use_internal_label=use_internal_label, id=id, width=width, parent=parent, before=before, show=show, init_width_or_weight=init_width_or_weight, default_hide=default_hide, default_sort=default_sort, width_stretch=width_stretch, width_fixed=width_fixed, no_resize=no_resize, no_reorder=no_reorder, no_hide=no_hide, no_clip=no_clip, no_sort=no_sort, no_sort_ascending=no_sort_ascending, no_sort_descending=no_sort_descending, no_header_width=no_header_width, prefer_sort_ascending=prefer_sort_ascending, prefer_sort_descending=prefer_sort_descending, indent_enable=indent_enable, indent_disable=indent_disable)
-
-def add_table_next_column(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, id: Union[int, str] =0, parent: Union[int, str] =0, before: Union[int, str] =0, show: bool =True) -> Union[int, str]:
-	"""
-	Undocumented function
-	Args:
-		**label (str): Overrides 'name' as label.
-		**user_data (Any): User data for callbacks.
-		**use_internal_label (bool): Use generated internal label instead of user specified (appends ### uuid).
-		**id (Union[int, str]): Unique id used to programmatically refer to the item.If label is unused this will be the label.
-		**parent (Union[int, str]): Parent to add this item to. (runtime adding)
-		**before (Union[int, str]): This item will be displayed before the specified item in the parent.
-		**show (bool): Attempt to render widget.
-	Returns:
-		Union[int, str]
-	"""
-
-	return internal_dpg.add_table_next_column(label=label, user_data=user_data, use_internal_label=use_internal_label, id=id, parent=parent, before=before, show=show)
+	return internal_dpg.add_table_column(label=label, user_data=user_data, use_internal_label=use_internal_label, id=id, width=width, parent=parent, before=before, show=show, enabled=enabled, init_width_or_weight=init_width_or_weight, default_hide=default_hide, default_sort=default_sort, width_stretch=width_stretch, width_fixed=width_fixed, no_resize=no_resize, no_reorder=no_reorder, no_hide=no_hide, no_clip=no_clip, no_sort=no_sort, no_sort_ascending=no_sort_ascending, no_sort_descending=no_sort_descending, no_header_width=no_header_width, prefer_sort_ascending=prefer_sort_ascending, prefer_sort_descending=prefer_sort_descending, indent_enable=indent_enable, indent_disable=indent_disable)
 
 def add_table_row(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, id: Union[int, str] =0, height: int =0, parent: Union[int, str] =0, before: Union[int, str] =0, show: bool =True, filter_key: str ='') -> Union[int, str]:
 	"""
@@ -5465,23 +5812,6 @@ def add_time_picker(*, label: str =None, user_data: Any =None, use_internal_labe
 
 	return internal_dpg.add_time_picker(label=label, user_data=user_data, use_internal_label=use_internal_label, id=id, indent=indent, parent=parent, before=before, payload_type=payload_type, callback=callback, drag_callback=drag_callback, drop_callback=drop_callback, show=show, pos=pos, filter_key=filter_key, tracked=tracked, track_offset=track_offset, default_value=default_value, hour24=hour24)
 
-def add_toggled_open_handler(parent : Union[int, str], *, label: str =None, user_data: Any =None, use_internal_label: bool =True, id: Union[int, str] =0, callback: Callable =None, show: bool =True) -> Union[int, str]:
-	"""
-	Adds a handler which runs a given callback when the specified item is toggled open.
-	Args:
-		parent (Union[int, str]): 
-		**label (str): Overrides 'name' as label.
-		**user_data (Any): User data for callbacks.
-		**use_internal_label (bool): Use generated internal label instead of user specified (appends ### uuid).
-		**id (Union[int, str]): Unique id used to programmatically refer to the item.If label is unused this will be the label.
-		**callback (Callable): Registers a callback.
-		**show (bool): Attempt to render widget.
-	Returns:
-		Union[int, str]
-	"""
-
-	return internal_dpg.add_toggled_open_handler(parent, label=label, user_data=user_data, use_internal_label=use_internal_label, id=id, callback=callback, show=show)
-
 def add_tooltip(parent : Union[int, str], *, label: str =None, user_data: Any =None, use_internal_label: bool =True, id: Union[int, str] =0, show: bool =True) -> Union[int, str]:
 	"""
 	Adds an advanced tool tip for an item. This command must come immediately after the item the tip is for.
@@ -5580,23 +5910,6 @@ def add_viewport_menu_bar(*, label: str =None, user_data: Any =None, use_interna
 
 	return internal_dpg.add_viewport_menu_bar(label=label, user_data=user_data, use_internal_label=use_internal_label, id=id, indent=indent, parent=parent, show=show, delay_search=delay_search)
 
-def add_visible_handler(parent : Union[int, str], *, label: str =None, user_data: Any =None, use_internal_label: bool =True, id: Union[int, str] =0, callback: Callable =None, show: bool =True) -> Union[int, str]:
-	"""
-	Adds a handler which runs a given callback when the specified item is visible.
-	Args:
-		parent (Union[int, str]): 
-		**label (str): Overrides 'name' as label.
-		**user_data (Any): User data for callbacks.
-		**use_internal_label (bool): Use generated internal label instead of user specified (appends ### uuid).
-		**id (Union[int, str]): Unique id used to programmatically refer to the item.If label is unused this will be the label.
-		**callback (Callable): Registers a callback.
-		**show (bool): Attempt to render widget.
-	Returns:
-		Union[int, str]
-	"""
-
-	return internal_dpg.add_visible_handler(parent, label=label, user_data=user_data, use_internal_label=use_internal_label, id=id, callback=callback, show=show)
-
 def add_vline_series(x : Union[List[float], Tuple[float]], *, label: str =None, user_data: Any =None, use_internal_label: bool =True, id: Union[int, str] =0, parent: Union[int, str] =0, before: Union[int, str] =0, source: Union[int, str] =0, show: bool =True) -> Union[int, str]:
 	"""
 	Adds a infinite vertical line series to a plot.
@@ -5654,6 +5967,54 @@ def add_window(*, label: str =None, user_data: Any =None, use_internal_label: bo
 	"""
 
 	return internal_dpg.add_window(label=label, user_data=user_data, use_internal_label=use_internal_label, id=id, width=width, height=height, indent=indent, show=show, pos=pos, delay_search=delay_search, min_size=min_size, max_size=max_size, menubar=menubar, collapsed=collapsed, autosize=autosize, no_resize=no_resize, no_title_bar=no_title_bar, no_move=no_move, no_scrollbar=no_scrollbar, no_collapse=no_collapse, horizontal_scrollbar=horizontal_scrollbar, no_focus_on_appearing=no_focus_on_appearing, no_bring_to_front_on_focus=no_bring_to_front_on_focus, no_close=no_close, no_background=no_background, modal=modal, popup=popup, no_saved_settings=no_saved_settings, on_close=on_close)
+
+def bind_item_disabled_theme(item : Union[int, str], theme : Union[int, str]) -> None:
+	"""
+	Undocumented
+	Args:
+		item (Union[int, str]): 
+		theme (Union[int, str]): 
+	Returns:
+		None
+	"""
+
+	return internal_dpg.bind_item_disabled_theme(item, theme)
+
+def bind_item_theme(item : Union[int, str], theme : Union[int, str]) -> None:
+	"""
+	Undocumented
+	Args:
+		item (Union[int, str]): 
+		theme (Union[int, str]): 
+	Returns:
+		None
+	"""
+
+	return internal_dpg.bind_item_theme(item, theme)
+
+def bind_item_type_disabled_theme(item : int, theme : Union[int, str]) -> None:
+	"""
+	Undocumented
+	Args:
+		item (int): 
+		theme (Union[int, str]): 
+	Returns:
+		None
+	"""
+
+	return internal_dpg.bind_item_type_disabled_theme(item, theme)
+
+def bind_item_type_theme(item : int, theme : Union[int, str]) -> None:
+	"""
+	Undocumented
+	Args:
+		item (int): 
+		theme (Union[int, str]): 
+	Returns:
+		None
+	"""
+
+	return internal_dpg.bind_item_type_theme(item, theme)
 
 def bind_template_registry(template_registry : Union[int, str]) -> None:
 	"""
@@ -5714,21 +6075,22 @@ def configure_app(*, docking: bool =False, docking_space: bool =False, load_init
 
 	return internal_dpg.configure_app(docking=docking, docking_space=docking_space, load_init_file=load_init_file, init_file=init_file, device=device, auto_device=auto_device)
 
-def configure_item_registry(*, allow_alias_overwrites: bool =False, manual_alias_management: bool =False, skip_required_args: bool =False, skip_optional_args: bool =False) -> None:
+def configure_item_registry(*, allow_alias_overwrites: bool =False, manual_alias_management: bool =False, skip_required_args: bool =False, skip_positional_args: bool =False, skip_keyword_args: bool =False) -> None:
 	"""
 	Undocumented
 	Args:
 		**allow_alias_overwrites (bool): 
 		**manual_alias_management (bool): 
 		**skip_required_args (bool): 
-		**skip_optional_args (bool): 
+		**skip_positional_args (bool): 
+		**skip_keyword_args (bool): 
 	Returns:
 		None
 	"""
 
-	return internal_dpg.configure_item_registry(allow_alias_overwrites=allow_alias_overwrites, manual_alias_management=manual_alias_management, skip_required_args=skip_required_args, skip_optional_args=skip_optional_args)
+	return internal_dpg.configure_item_registry(allow_alias_overwrites=allow_alias_overwrites, manual_alias_management=manual_alias_management, skip_required_args=skip_required_args, skip_positional_args=skip_positional_args, skip_keyword_args=skip_keyword_args)
 
-def create_viewport(*, title: str ='Dear PyGui', small_icon: str ='', large_icon: str ='', width: int =1280, height: int =800, x_pos: int =100, y_pos: int =100, min_width: int =250, max_width: int =10000, min_height: int =250, max_height: int =10000, resizable: bool =True, vsync: bool =True, always_on_top: bool =False, decorated: bool =True, clear_color: Union[List[float], Tuple[float]] =(0, 0, 0, 255)) -> str:
+def create_viewport(*, title: str ='Dear PyGui', small_icon: str ='', large_icon: str ='', width: int =1280, height: int =800, x_pos: int =100, y_pos: int =100, min_width: int =250, max_width: int =10000, min_height: int =250, max_height: int =10000, resizable: bool =True, vsync: bool =True, always_on_top: bool =False, decorated: bool =True, clear_color: Union[List[float], Tuple[float]] =(0, 0, 0, 255)) -> None:
 	"""
 	Creates a viewport.
 	Args:
@@ -5749,7 +6111,7 @@ def create_viewport(*, title: str ='Dear PyGui', small_icon: str ='', large_icon
 		**decorated (bool): 
 		**clear_color (Union[List[float], Tuple[float]]): 
 	Returns:
-		str
+		None
 	"""
 
 	return internal_dpg.create_viewport(title=title, small_icon=small_icon, large_icon=large_icon, width=width, height=height, x_pos=x_pos, y_pos=y_pos, min_width=min_width, max_width=max_width, min_height=min_height, max_height=max_height, resizable=resizable, vsync=vsync, always_on_top=always_on_top, decorated=decorated, clear_color=clear_color)
@@ -6488,6 +6850,46 @@ def get_y_scroll_max(item : Union[int, str]) -> float:
 
 	return internal_dpg.get_y_scroll_max(item)
 
+def highlight_table_cell(table : Union[int, str], row : int, column : int, color : Union[List[int], Tuple[int]]) -> None:
+	"""
+	
+	Args:
+		table (Union[int, str]): 
+		row (int): 
+		column (int): 
+		color (Union[List[int], Tuple[int]]): 
+	Returns:
+		None
+	"""
+
+	return internal_dpg.highlight_table_cell(table, row, column, color)
+
+def highlight_table_column(table : Union[int, str], column : int, color : Union[List[int], Tuple[int]]) -> None:
+	"""
+	
+	Args:
+		table (Union[int, str]): 
+		column (int): 
+		color (Union[List[int], Tuple[int]]): 
+	Returns:
+		None
+	"""
+
+	return internal_dpg.highlight_table_column(table, column, color)
+
+def highlight_table_row(table : Union[int, str], row : int, color : Union[List[int], Tuple[int]]) -> None:
+	"""
+	
+	Args:
+		table (Union[int, str]): 
+		row (int): 
+		color (Union[List[int], Tuple[int]]): 
+	Returns:
+		None
+	"""
+
+	return internal_dpg.highlight_table_row(table, row, color)
+
 def is_dearpygui_running() -> bool:
 	"""
 	Checks if dearpygui is running.
@@ -6598,15 +7000,52 @@ def is_plot_queried(plot : Union[int, str]) -> bool:
 
 	return internal_dpg.is_plot_queried(plot)
 
-def is_viewport_created() -> bool:
+def is_table_cell_highlight(table : Union[int, str], row : int, column : int) -> bool:
 	"""
-	Checks if a viewport has been created.
+	
+	Args:
+		table (Union[int, str]): 
+		row (int): 
+		column (int): 
+	Returns:
+		bool
+	"""
+
+	return internal_dpg.is_table_cell_highlight(table, row, column)
+
+def is_table_column_highlight(table : Union[int, str], column : int) -> bool:
+	"""
+	
+	Args:
+		table (Union[int, str]): 
+		column (int): 
+	Returns:
+		bool
+	"""
+
+	return internal_dpg.is_table_column_highlight(table, column)
+
+def is_table_row_highlight(table : Union[int, str], row : int) -> bool:
+	"""
+	
+	Args:
+		table (Union[int, str]): 
+		row (int): 
+	Returns:
+		bool
+	"""
+
+	return internal_dpg.is_table_row_highlight(table, row)
+
+def is_viewport_ok() -> bool:
+	"""
+	Checks if a viewport has been created and shown.
 	Args:
 	Returns:
 		bool
 	"""
 
-	return internal_dpg.is_viewport_created()
+	return internal_dpg.is_viewport_ok()
 
 def last_container() -> Union[int, str]:
 	"""
@@ -6921,18 +7360,6 @@ def set_item_children(item : Union[int, str], source : Union[int, str], slot : i
 
 	return internal_dpg.set_item_children(item, source, slot)
 
-def set_item_disabled_theme(item : Union[int, str], theme : Union[int, str]) -> None:
-	"""
-	Undocumented
-	Args:
-		item (Union[int, str]): 
-		theme (Union[int, str]): 
-	Returns:
-		None
-	"""
-
-	return internal_dpg.set_item_disabled_theme(item, theme)
-
 def set_item_font(item : Union[int, str], font : Union[int, str]) -> None:
 	"""
 	Undocumented
@@ -6944,42 +7371,6 @@ def set_item_font(item : Union[int, str], font : Union[int, str]) -> None:
 	"""
 
 	return internal_dpg.set_item_font(item, font)
-
-def set_item_theme(item : Union[int, str], theme : Union[int, str]) -> None:
-	"""
-	Undocumented
-	Args:
-		item (Union[int, str]): 
-		theme (Union[int, str]): 
-	Returns:
-		None
-	"""
-
-	return internal_dpg.set_item_theme(item, theme)
-
-def set_item_type_disabled_theme(item : int, theme : Union[int, str]) -> None:
-	"""
-	Undocumented
-	Args:
-		item (int): 
-		theme (Union[int, str]): 
-	Returns:
-		None
-	"""
-
-	return internal_dpg.set_item_type_disabled_theme(item, theme)
-
-def set_item_type_theme(item : int, theme : Union[int, str]) -> None:
-	"""
-	Undocumented
-	Args:
-		item (int): 
-		theme (Union[int, str]): 
-	Returns:
-		None
-	"""
-
-	return internal_dpg.set_item_type_theme(item, theme)
 
 def set_primary_window(window : Union[int, str], value : bool) -> None:
 	"""
@@ -7014,6 +7405,19 @@ def set_start_callback(callback : Callable) -> str:
 	"""
 
 	return internal_dpg.set_start_callback(callback)
+
+def set_table_row_color(table : Union[int, str], row : int, color : Union[List[int], Tuple[int]]) -> None:
+	"""
+	
+	Args:
+		table (Union[int, str]): 
+		row (int): 
+		color (Union[List[int], Tuple[int]]): 
+	Returns:
+		None
+	"""
+
+	return internal_dpg.set_table_row_color(table, row, color)
 
 def set_value(item : Union[int, str], value : Any) -> None:
 	"""
@@ -7062,16 +7466,15 @@ def set_y_scroll(item : Union[int, str], value : float) -> None:
 
 	return internal_dpg.set_y_scroll(item, value)
 
-def setup_dearpygui(*, viewport: str ='') -> None:
+def setup_dearpygui() -> None:
 	"""
 	Sets up dearpygui
 	Args:
-		**viewport (str): 
 	Returns:
 		None
 	"""
 
-	return internal_dpg.setup_dearpygui(viewport=viewport)
+	return internal_dpg.setup_dearpygui()
 
 def show_imgui_demo() -> None:
 	"""
@@ -7104,18 +7507,17 @@ def show_tool(tool : Union[int, str]) -> str:
 
 	return internal_dpg.show_tool(tool)
 
-def show_viewport(viewport : str, *, minimized: bool =False, maximized: bool =False) -> None:
+def show_viewport(*, minimized: bool =False, maximized: bool =False) -> None:
 	"""
 	Shows the viewport
 	Args:
-		viewport (str): 
 		**minimized (bool): 
 		**maximized (bool): 
 	Returns:
 		None
 	"""
 
-	return internal_dpg.show_viewport(viewport, minimized=minimized, maximized=maximized)
+	return internal_dpg.show_viewport(minimized=minimized, maximized=maximized)
 
 def split_frame(*, delay: int =32) -> None:
 	"""
@@ -7159,6 +7561,43 @@ def top_container_stack() -> Union[int, str]:
 
 	return internal_dpg.top_container_stack()
 
+def unhighlight_table_cell(table : Union[int, str], row : int, column : int) -> None:
+	"""
+	
+	Args:
+		table (Union[int, str]): 
+		row (int): 
+		column (int): 
+	Returns:
+		None
+	"""
+
+	return internal_dpg.unhighlight_table_cell(table, row, column)
+
+def unhighlight_table_column(table : Union[int, str], column : int) -> None:
+	"""
+	
+	Args:
+		table (Union[int, str]): 
+		column (int): 
+	Returns:
+		None
+	"""
+
+	return internal_dpg.unhighlight_table_column(table, column)
+
+def unhighlight_table_row(table : Union[int, str], row : int) -> None:
+	"""
+	
+	Args:
+		table (Union[int, str]): 
+		row (int): 
+	Returns:
+		None
+	"""
+
+	return internal_dpg.unhighlight_table_row(table, row)
+
 def unlock_mutex() -> None:
 	"""
 	Unlocks mutex
@@ -7168,6 +7607,18 @@ def unlock_mutex() -> None:
 	"""
 
 	return internal_dpg.unlock_mutex()
+
+def unset_table_row_color(table : Union[int, str], row : int) -> None:
+	"""
+	
+	Args:
+		table (Union[int, str]): 
+		row (int): 
+	Returns:
+		None
+	"""
+
+	return internal_dpg.unset_table_row_color(table, row)
 
 def unstage_items(items : Union[List[int], Tuple[int]]) -> None:
 	"""
@@ -7445,7 +7896,6 @@ mvTable_SizingFixedSame=internal_dpg.mvTable_SizingFixedSame
 mvTable_SizingStretchProp=internal_dpg.mvTable_SizingStretchProp
 mvTable_SizingStretchSame=internal_dpg.mvTable_SizingStretchSame
 mvTableColumn=internal_dpg.mvTableColumn
-mvTableNextColumn=internal_dpg.mvTableNextColumn
 mvTableRow=internal_dpg.mvTableRow
 mvDrawLine=internal_dpg.mvDrawLine
 mvDrawArrow=internal_dpg.mvDrawArrow
@@ -7758,6 +8208,7 @@ mvColorMapSlider=internal_dpg.mvColorMapSlider
 mvItemPool=internal_dpg.mvItemPool
 mvItemSet=internal_dpg.mvItemSet
 mvTemplateRegistry=internal_dpg.mvTemplateRegistry
+mvTableCell=internal_dpg.mvTableCell
 mvReservedUUID_0=internal_dpg.mvReservedUUID_0
 mvReservedUUID_1=internal_dpg.mvReservedUUID_1
 mvReservedUUID_2=internal_dpg.mvReservedUUID_2

@@ -4,7 +4,7 @@
 
 namespace Marvel {
 
-	MV_REGISTER_WIDGET(mvTooltip, MV_ITEM_DESC_CONTAINER | MV_ITEM_DESC_AFTER | MV_ITEM_DESC_HANDLER, StorageValueTypes::Bool, 1);
+	MV_REGISTER_WIDGET(mvTooltip, MV_ITEM_DESC_CONTAINER | MV_ITEM_DESC_HANDLER, StorageValueTypes::Bool, 1);
 	class mvTooltip : public mvAppItem
 	{
 	public:

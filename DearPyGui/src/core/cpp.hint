@@ -37,10 +37,10 @@ static PyObject* parser(PyObject* self, PyObject* args, PyObject* kwargs)\
 	item->checkArgs(args, kwargs, #parser);\
 	if(!mvApp::GetApp()->getItemRegistry().skipRequiredArgs())\
 		item->handleSpecificRequiredArgs(args);\
-	if(!mvApp::GetApp()->getItemRegistry().skipOptionalArgs()){\
+	if(!mvApp::GetApp()->getItemRegistry().skipPositionalArgs())\
 		item->handleSpecificPositionalArgs(args);\
+	if(!mvApp::GetApp()->getItemRegistry().skipKeywordArgs())\
 		item->handleKeywordArgs(kwargs, #parser);\
-	}\
 	mvApp::GetApp()->getItemRegistry().addItemWithRuntimeChecks(item, parent, before);\
 	return ToPyUUID(id);\
 }\

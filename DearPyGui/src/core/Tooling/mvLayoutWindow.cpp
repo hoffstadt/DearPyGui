@@ -49,6 +49,7 @@ namespace Marvel {
         if (ImGui::IsItemClicked())
         {
             m_selectedItem = item->_uuid;
+            _itemref = item;
             m_dirtyNodes = true;
         }
 
@@ -266,20 +267,19 @@ namespace Marvel {
         static char ts[6] = "True";
         static char fs[6] = "False";
 
-		auto selectedItem = mvApp::GetApp()->getItemRegistry().getItem(m_selectedItem);
 		mvUUID parentName = 0;
 
-		if (selectedItem == nullptr)
-			selectedItem = mvApp::GetApp()->getItemRegistry()._windowRoots[0].get();
+		if (_itemref == nullptr)
+            _itemref = mvApp::GetApp()->getItemRegistry()._windowRoots[0].get();
 
-		if (selectedItem->_parentPtr)
-			parentName = selectedItem->_parentPtr->_uuid;
+		if (_itemref->_parentPtr)
+			parentName = _itemref->_parentPtr->_uuid;
 
-		std::string width = std::to_string(selectedItem->_width);
-		std::string height = std::to_string(selectedItem->_height);
+		std::string width = std::to_string(_itemref->_width);
+		std::string height = std::to_string(_itemref->_height);
 
-		std::string sizex = std::to_string(selectedItem->getState().getItemRectSize().x);
-		std::string sizey = std::to_string(selectedItem->getState().getItemRectSize().y);
+		std::string sizex = std::to_string(_itemref->getState().getItemRectSize().x);
+		std::string sizey = std::to_string(_itemref->getState().getItemRectSize().y);
 
 		ImGui::BeginGroup();
 
@@ -302,6 +302,7 @@ namespace Marvel {
 				{
 					mvApp::GetApp()->getItemRegistry().deleteItem(m_selectedItem, false);
 					m_selectedItem = 0;
+                    _itemref = nullptr;
 				});
 		}
 		ImGui::SameLine();
@@ -312,27 +313,27 @@ namespace Marvel {
 			mvApp::GetApp()->getItemRegistry().getItem(m_selectedItem)->hide();
 
 		ImGui::PushItemWidth(200);
-		DebugItem("Item Label:", selectedItem->_specificedlabel.c_str());
-		DebugItem("Item ID:", std::to_string(selectedItem->getUUID()).c_str());
-		DebugItem("Container:", mvAppItem::DoesItemHaveFlag(selectedItem, MV_ITEM_DESC_CONTAINER) ? ts : fs);
+		DebugItem("Item Label:", _itemref->_specificedlabel.c_str());
+		DebugItem("Item ID:", std::to_string(_itemref->getUUID()).c_str());
+		DebugItem("Container:", mvAppItem::DoesItemHaveFlag(_itemref, MV_ITEM_DESC_CONTAINER) ? ts : fs);
 		//DebugItem("Item Parent:", parentName.c_str());
 		DebugItem("Item Width:", width.c_str());
 		DebugItem("Item Height:", height.c_str());
 		DebugItem("Item Size x:", sizex.c_str());
 		DebugItem("Item Size y:", sizey.c_str());
-		DebugItem("Item Show:", selectedItem->_show ? ts : fs);
-		DebugItem("Item Visible:", selectedItem->getState().isItemVisible(1) ? ts : fs);
-		DebugItem("Item Hovered:", selectedItem->getState().isItemHovered(1) ? ts : fs);
-		DebugItem("Item Active:", selectedItem->getState().isItemActive(1) ? ts : fs);
-		DebugItem("Item Focused:", selectedItem->getState().isItemFocused(1) ? ts : fs);
-		DebugItem("Item Left Clicked:", selectedItem->getState().isItemLeftClicked(1) ? ts : fs);
-		DebugItem("Item Right Clicked:", selectedItem->getState().isItemRightClicked(1) ? ts : fs);
-		DebugItem("Item Middle Clicked:", selectedItem->getState().isItemMiddleClicked(1) ? ts : fs);
-		DebugItem("Item Edited:", selectedItem->getState().isItemEdited(1) ? ts : fs);
-		DebugItem("Item Activated:", selectedItem->getState().isItemActivated(1) ? ts : fs);
-		DebugItem("Item Deactivated:", selectedItem->getState().isItemDeactivated(1) ? ts : fs);
-		DebugItem("Item DeactivatedAfterEdit:", selectedItem->getState().isItemDeactivatedAfterEdit(1) ? ts : fs);
-		DebugItem("Item ToggledOpen:", selectedItem->getState().isItemToogledOpen(1) ? ts : fs);
+		DebugItem("Item Show:", _itemref->_show ? ts : fs);
+		DebugItem("Item Visible:", _itemref->getState().isItemVisible(1) ? ts : fs);
+		DebugItem("Item Hovered:", _itemref->getState().isItemHovered(1) ? ts : fs);
+		DebugItem("Item Active:", _itemref->getState().isItemActive(1) ? ts : fs);
+		DebugItem("Item Focused:", _itemref->getState().isItemFocused(1) ? ts : fs);
+		DebugItem("Item Left Clicked:", _itemref->getState().isItemLeftClicked(1) ? ts : fs);
+		DebugItem("Item Right Clicked:", _itemref->getState().isItemRightClicked(1) ? ts : fs);
+		DebugItem("Item Middle Clicked:", _itemref->getState().isItemMiddleClicked(1) ? ts : fs);
+		DebugItem("Item Edited:", _itemref->getState().isItemEdited(1) ? ts : fs);
+		DebugItem("Item Activated:", _itemref->getState().isItemActivated(1) ? ts : fs);
+		DebugItem("Item Deactivated:", _itemref->getState().isItemDeactivated(1) ? ts : fs);
+		DebugItem("Item DeactivatedAfterEdit:", _itemref->getState().isItemDeactivatedAfterEdit(1) ? ts : fs);
+		DebugItem("Item ToggledOpen:", _itemref->getState().isItemToogledOpen(1) ? ts : fs);
 		ImGui::EndGroup();
 		ImGui::PopItemWidth();
 		ImGui::SameLine();
@@ -341,7 +342,7 @@ namespace Marvel {
 
         if (m_nodeView)
         {
-            renderNode(selectedItem);
+            renderNode(_itemref);
         }
         else
         {

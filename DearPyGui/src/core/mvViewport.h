@@ -87,7 +87,7 @@ namespace Marvel {
 		std::string _small_icon;
 		std::string _large_icon;
 		mvColor     _clearColor = mvColor(0, 0, 0, 255);
-		bool	    _shown = false;
+		bool        _shown = false;
 
 
 		// window modes

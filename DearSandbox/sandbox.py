@@ -1,6 +1,10 @@
 import dearpygui.dearpygui as dpg
 import dearpygui.demo as demo
 import dearpygui.themes as themes
+from dearpygui.datagrid import mvDataGrid
+import warnings
+
+warnings.simplefilter('always', DeprecationWarning)
 
 dpg.enable_docking()
 
@@ -10,9 +14,22 @@ with dpg.font_registry():
 
 demo.show_demo()
 
-with dpg.window(label="tutorial"):
-    dpg.add_button(label="Press me")
+datagrid_data = []
+rows = 1000
+columns = 10
+for i in range(rows):
+    new_row = []
+    for j in range(columns):
+        new_row.append(j)
+    datagrid_data.append(new_row)
 
+datagrid = mvDataGrid(columns, datagrid_data)
 
-dpg.setup_viewport()
+with dpg.window(label="tutorial", width=500, height=500):
+    dpg.add_text("test hovering", label="test hovering")
+    datagrid.submit()
+
+dpg.create_viewport()
+dpg.setup_dearpygui()
+dpg.show_viewport()
 dpg.start_dearpygui()

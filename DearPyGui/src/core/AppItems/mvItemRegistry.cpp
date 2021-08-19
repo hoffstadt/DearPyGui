@@ -24,7 +24,8 @@ namespace Marvel {
 			parser.addArg<mvPyDataType::Bool>("allow_alias_overwrites", mvArgType::KEYWORD_ARG, "False");
 			parser.addArg<mvPyDataType::Bool>("manual_alias_management", mvArgType::KEYWORD_ARG, "False");
 			parser.addArg<mvPyDataType::Bool>("skip_required_args", mvArgType::KEYWORD_ARG, "False");
-			parser.addArg<mvPyDataType::Bool>("skip_optional_args", mvArgType::KEYWORD_ARG, "False");
+			parser.addArg<mvPyDataType::Bool>("skip_positional_args", mvArgType::KEYWORD_ARG, "False");
+			parser.addArg<mvPyDataType::Bool>("skip_keyword_args", mvArgType::KEYWORD_ARG, "False");
 			parser.finalize();
 			parsers->insert({ "configure_item_registry", parser });
 		}
@@ -1107,9 +1108,9 @@ namespace Marvel {
 			return false;
 
 		//---------------------------------------------------------------------------
-		// STEP 7: add items who require "after" adding (i.e. popup, tooltip)
+		// STEP 7: add items who require "after" adding (tooltip)
 		//---------------------------------------------------------------------------
-		if (mvAppItem::DoesItemHaveFlag(item.get(), MV_ITEM_DESC_AFTER))
+		if (item->getType() == mvAppItemType::mvTooltip)
 			return addItemAfter(parent, item);
 
 		//---------------------------------------------------------------------------
@@ -1716,18 +1717,20 @@ namespace Marvel {
 
 		int allow_alias_overwrites = false;
 		int manual_alias_management = false;
-		int skip_optional_args = false;
 		int skip_required_args = false;
+		int skip_positional_args = false;
+		int skip_keyword_args = false;
 
 		if (!(mvApp::GetApp()->getParsers())["configure_item_registry"].parse(args, kwargs, __FUNCTION__, 
-			&allow_alias_overwrites, &manual_alias_management, &skip_required_args, &skip_optional_args))
+			&allow_alias_overwrites, &manual_alias_management, &skip_required_args, &skip_positional_args, &skip_keyword_args))
 			return GetPyNone();
 
 		if (!mvApp::s_manualMutexControl) std::lock_guard<std::mutex> lk(mvApp::s_mutex);
 
 		mvApp::GetApp()->getItemRegistry()._allowAliasOverwrites = allow_alias_overwrites;
 		mvApp::GetApp()->getItemRegistry()._manualAliasManagement = manual_alias_management;
-		mvApp::GetApp()->getItemRegistry()._skipOptionalArgs = skip_optional_args;
+		mvApp::GetApp()->getItemRegistry()._skipPositionalArgs = skip_positional_args;
+		mvApp::GetApp()->getItemRegistry()._skipKeywordArgs = skip_keyword_args;
 		mvApp::GetApp()->getItemRegistry()._skipRequiredArgs = skip_required_args;
 
 		return GetPyNone();
@@ -1740,7 +1743,8 @@ namespace Marvel {
 		PyObject* pdict = PyDict_New();
 		PyDict_SetItemString(pdict, "allow_alias_overwrites", mvPyObject(ToPyBool(registry._allowAliasOverwrites)));
 		PyDict_SetItemString(pdict, "manual_alias_management", mvPyObject(ToPyBool(registry._manualAliasManagement)));
-		PyDict_SetItemString(pdict, "skip_optional_args", mvPyObject(ToPyBool(registry._skipOptionalArgs)));
+		PyDict_SetItemString(pdict, "skip_keyword_args", mvPyObject(ToPyBool(registry._skipKeywordArgs)));
+		PyDict_SetItemString(pdict, "skip_positional_args", mvPyObject(ToPyBool(registry._skipPositionalArgs)));
 		PyDict_SetItemString(pdict, "skip_required_args", mvPyObject(ToPyBool(registry._skipRequiredArgs)));
 		return pdict;
 	}

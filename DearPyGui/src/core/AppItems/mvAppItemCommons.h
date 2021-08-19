@@ -96,8 +96,8 @@
 
 #include "tables/mvTable.h"
 #include "tables/mvTableColumn.h"
-#include "tables/mvTableNextColumn.h"
 #include "tables/mvTableRow.h"
+#include "tables/mvTableCell.h"
 
 #include "drawing/mvDrawlist.h"
 #include "drawing/mvDrawLine.h"

@@ -39,28 +39,21 @@ def _add_config_options(item, columns, *names, **kwargs):
     else:
 
         if 'before' in kwargs:
-
-            with dpg.table(header_row=False, before=kwargs['before']):
-
-                for i in range(0, columns):
-                    dpg.add_table_column()
-
-                for i in range(0, len(names)-1):
-                    dpg.add_checkbox(label=names[i], callback=_config, user_data=item, default_value=dpg.get_item_configuration(item)[names[i]])
-                    dpg.add_table_next_column()
-                dpg.add_checkbox(label=names[-1], callback=_config, user_data=item, default_value=dpg.get_item_configuration(item)[names[-1]])
-
+            dpg.push_container_stack(dpg.add_table(header_row=False, before=kwargs['before']))
         else:
+            dpg.push_container_stack(dpg.add_table(header_row=False))
 
-            with dpg.table(header_row=False):
+        for i in range(0, columns):
+            dpg.add_table_column()
 
-                for i in range(0, columns):
-                    dpg.add_table_column()
+        for i in range(int(len(names)/columns)):
 
-                for i in range(0, len(names)-1):
-                    dpg.add_checkbox(label=names[i], callback=_config, user_data=item, default_value=dpg.get_item_configuration(item)[names[i]])
-                    dpg.add_table_next_column()
-                dpg.add_checkbox(label=names[-1], callback=_config, user_data=item, default_value=dpg.get_item_configuration(item)[names[-1]])
+            with dpg.table_row():
+                for j in range(columns):
+                    dpg.add_checkbox(label=names[i*columns + j], 
+                                        callback=_config, user_data=item, 
+                                        default_value=dpg.get_item_configuration(item)[names[i*columns + j]])
+        dpg.pop_container_stack()
 
 def _add_config_option(item, default_value, *names):
     dpg.add_radio_button(names, default_value=default_value, callback=_config, user_data=item)
@@ -230,11 +223,11 @@ def show_demo():
 
             with dpg.menu(label="Themes"):
                 dpg.add_menu_item(label="Default",
-                    callback=lambda: dpg.set_item_theme("__demo_id", 0))
+                    callback=lambda: dpg.bind_item_theme("__demo_id", 0))
                 dpg.add_menu_item(label="Dark ImGui",
-                                  callback=lambda: dpg.set_item_theme("__demo_id", "__DARK_IMGUI_THEME"))
+                                  callback=lambda: dpg.bind_item_theme("__demo_id", "__DARK_IMGUI_THEME"))
                 dpg.add_menu_item(label="Light ImGui",
-                                  callback=lambda: dpg.set_item_theme("__demo_id", "__LIGHT_IMGUI_THEME"))
+                                  callback=lambda: dpg.bind_item_theme("__demo_id", "__LIGHT_IMGUI_THEME"))
 
             with dpg.menu(label="Tools"):
 
@@ -286,7 +279,7 @@ def show_demo():
                             dpg.add_theme_style(dpg.mvStyleVar_FramePadding, i*3, i*3)
 
                         dpg.add_button(label="Click", callback=_log)
-                        dpg.set_item_theme(dpg.last_item(), theme)
+                        dpg.bind_item_theme(dpg.last_item(), theme)
 
 
                 with dpg.group(horizontal=True):
@@ -617,7 +610,7 @@ def show_demo():
                 with dpg.theme() as theme:
                     dpg.add_theme_color(dpg.mvThemeCol_PlotHistogram, (255,0,0, 255))
                 dpg.add_progress_bar(default_value=0.78, overlay="1367/1753")
-                dpg.set_item_theme(dpg.last_item(), theme)
+                dpg.bind_item_theme(dpg.last_item(), theme)
 
             with dpg.tree_node(label="Multi-component Widgets"):
 
@@ -656,7 +649,7 @@ def show_demo():
                                 dpg.add_theme_color(dpg.mvThemeCol_FrameBgHovered, _hsv_to_rgb(i/7.0, 0.6, 0.5))
 
                             dpg.add_slider_float(label=" ", default_value=values[i], vertical=True, max_value=1.0, height=160)
-                            dpg.set_item_theme(dpg.last_item(), theme)
+                            dpg.bind_item_theme(dpg.last_item(), theme)
 
                     with dpg.group():
                         for i in range(0, 3):
@@ -682,11 +675,10 @@ def show_demo():
                     dpg.add_table_column()
                     dpg.add_table_column()
 
-                    dpg.add_date_picker(level=dpg.mvDatePickerLevel_Day, default_value={'month_day': 8, 'year':93, 'month':5})
-                    dpg.add_table_next_column()
-                    dpg.add_date_picker(level=dpg.mvDatePickerLevel_Month, default_value={'month_day': 8, 'year':93, 'month':5})
-                    dpg.add_table_next_column()
-                    dpg.add_date_picker(level=dpg.mvDatePickerLevel_Year, default_value={'month_day': 8, 'year':93, 'month':5})
+                    with dpg.table_row():
+                        dpg.add_date_picker(level=dpg.mvDatePickerLevel_Day, default_value={'month_day': 8, 'year':93, 'month':5})
+                        dpg.add_date_picker(level=dpg.mvDatePickerLevel_Month, default_value={'month_day': 8, 'year':93, 'month':5})
+                        dpg.add_date_picker(level=dpg.mvDatePickerLevel_Year, default_value={'month_day': 8, 'year':93, 'month':5})
 
             with dpg.tree_node(label="Loading Indicators"):
 
@@ -797,21 +789,22 @@ def show_demo():
                 dpg.add_checkbox(label="borders_outerH", callback=_config, user_data=layout_demo_table, default_value=True)
                 dpg.add_checkbox(label="borders_innerV", callback=_config, user_data=layout_demo_table, default_value=True)
                 dpg.add_checkbox(label="borders_outerV", callback=_config, user_data=layout_demo_table, default_value=True)
-                with dpg.table(id=layout_demo_table, header_row=False, borders_innerH=True, borders_outerH=True, borders_innerV=True, borders_outerV=True):
+                with dpg.table(id=layout_demo_table, header_row=False, borders_innerH=True, 
+                               borders_outerH=True, borders_innerV=True, borders_outerV=True):
+                    
                     dpg.add_table_column()
                     dpg.add_table_column()
                     dpg.add_table_column()
-                    dpg.add_button(label="Button 1")
-                    dpg.add_table_next_column()
-                    dpg.add_button(label="Button 2")
-                    dpg.add_table_next_column()
-                    dpg.add_button(label="Button 3")
-                    dpg.add_table_next_column()
-                    dpg.add_table_next_column()
-                    dpg.add_table_next_column()
-                    dpg.add_button(label="Button 4")
-                    dpg.add_table_next_column()
-                    dpg.add_button(label="Button 5")
+
+                    with dpg.table_row():
+                        dpg.add_button(label="Button 1")
+                        dpg.add_button(label="Button 2")
+                        dpg.add_button(label="Button 3")
+                    
+                    with dpg.table_row():
+                        dpg.add_table_cell()
+                        dpg.add_button(label="Button 4")
+                        dpg.add_button(label="Button 5")
 
             with dpg.tree_node(label="Containers"):
 
@@ -994,19 +987,19 @@ def show_demo():
                     text_items = ("Top", "25%", "Center", "75%", "Bottom")
                     track_items = (0.0, 0.25, 0.5, 0.75, 1.0)
 
-                    for i in range(0, 5):
-                        dpg.add_text(text_items[i])
-                        with dpg.child(height=200, delay_search=True):
-                            for j in range(0, 25):
-                                if j == 13:
-                                    dpg.add_text("Item " + str(j), color=(255, 255, 0), tracked=True, track_offset=track_items[i])
-                                else:
-                                    dpg.add_text("Item " + str(j))
+                    with dpg.table_row():
+                        for i in range(0, 5):
+                            with dpg.table_cell():
+                                dpg.add_text(text_items[i])
+                                with dpg.child(height=200, delay_search=True):
+                                    for j in range(0, 25):
+                                        if j == 13:
+                                            dpg.add_text("Item " + str(j), color=(255, 255, 0), tracked=True, track_offset=track_items[i])
+                                        else:
+                                            dpg.add_text("Item " + str(j))
                         
-                        dpg.add_text("0/0")
-                        dpg.add_visible_handler(dpg.last_item(), user_data=[dpg.last_item(), dpg.last_container()], callback=_update_yscroll_info)
-                        if i != 4:
-                            dpg.add_table_next_column()
+                                dpg.add_text("0/0")
+                                dpg.add_item_visible_handler(dpg.last_item(), user_data=[dpg.last_item(), dpg.last_container()], callback=_update_yscroll_info)
 
                 for i in range(0, 5):
                     dpg.add_text(text_items[i])
@@ -1020,7 +1013,7 @@ def show_demo():
                                     dpg.add_same_line()
                     dpg.add_same_line()
                     dpg.add_text("0/0")
-                    dpg.add_visible_handler(dpg.last_item(), user_data=[dpg.last_item(), dpg.last_container()], callback=_update_xscroll_info)
+                    dpg.add_item_visible_handler(dpg.last_item(), user_data=[dpg.last_item(), dpg.last_container()], callback=_update_xscroll_info)
 
                 with dpg.child(height=50, horizontal_scrollbar=True, width=-200):
                         for j in range(0, 25):
@@ -1050,7 +1043,7 @@ def show_demo():
                 dpg.add_button(label=">>", small=True, user_data=["right", dpg.last_container()], callback=_scroll_programmatically)
                 dpg.add_same_line()
                 dpg.add_text("0/0")
-                dpg.add_visible_handler(dpg.last_item(), user_data=[dpg.last_item(), dpg.last_container()], callback=_update_xscroll_info)
+                dpg.add_item_visible_handler(dpg.last_item(), user_data=[dpg.last_item(), dpg.last_container()], callback=_update_xscroll_info)
                  
         with dpg.collapsing_header(label="Textures & Images"):
         
@@ -1134,16 +1127,16 @@ def show_demo():
 
             with dpg.tree_node(label="Image Series (plots)"):
 
-                plot_id=dpg.add_plot(label="Image Plot", height=400, width=-1)
-                dpg.add_plot_legend(parent=plot_id)
-                dpg.add_plot_axis(dpg.mvXAxis, label="x axis", parent=plot_id)
-                yaxis_id = dpg.add_plot_axis(dpg.mvYAxis, label="y axis", parent=plot_id)
-                dpg.add_image_series(dpg.mvFontAtlas, [300, 300], [400, 400], label="font atlas", parent=yaxis_id)
-                dpg.add_image_series("__demo_static_texture_1", [0, 0], [100, 100], label="static 1", parent=yaxis_id)
-                dpg.add_image_series("__demo_static_texture_2", [150, 150], [200, 200], label="static 2", parent=yaxis_id)
-                dpg.add_image_series("__demo_static_texture_3", [200, -150], [300, -50], label="static 3", parent=yaxis_id)
-                dpg.add_image_series("__demo_dynamic_texture_1", [-200, 100], [-100, 200], label="dynamic 1", parent=yaxis_id)
-                dpg.add_image_series("__demo_dynamic_texture_2", [-200, -100], [-150, -50], label="dynamic 2", parent=yaxis_id)
+                with dpg.plot(label="Image Plot", height=400, width=-1):
+                    dpg.add_plot_legend()
+                    dpg.add_plot_axis(dpg.mvXAxis, label="x axis")
+                    with dpg.plot_axis(dpg.mvYAxis, label="y axis"):
+                        dpg.add_image_series(dpg.mvFontAtlas, [300, 300], [400, 400], label="font atlas")
+                        dpg.add_image_series("__demo_static_texture_1", [0, 0], [100, 100], label="static 1")
+                        dpg.add_image_series("__demo_static_texture_2", [150, 150], [200, 200], label="static 2")
+                        dpg.add_image_series("__demo_static_texture_3", [200, -150], [300, -50], label="static 3")
+                        dpg.add_image_series("__demo_dynamic_texture_1", [-200, 100], [-100, 200], label="dynamic 1")
+                        dpg.add_image_series("__demo_dynamic_texture_2", [-200, -100], [-150, -50], label="dynamic 2")
 
             with dpg.tree_node(label="Drawlists"):
 
@@ -1215,69 +1208,117 @@ def show_demo():
                     # once it reaches the end of the columns
                     # table next column use slot 1
                     for i in range(0, 4):
-                        for j in range(0, 3):
-                            dpg.add_text(f"Row{i} Column{j}")
-                            if not (i == 3 and j == 2):
-                                dpg.add_table_next_column()
+
+                        with dpg.table_row():
+                            for j in range(0, 3):
+                                dpg.add_text(f"Row{i} Column{j}")
 
             with dpg.tree_node(label="Borders, background") as section:
 
                 with dpg.table(header_row=False, row_background=True,
                             borders_innerH=True, borders_outerH=True, borders_innerV=True,
-                            borders_outerV=True, delay_search=True):
+                            borders_outerV=True, delay_search=True) as table_id:
 
                     dpg.add_table_column(label="Header 1")
                     dpg.add_table_column(label="Header 2")
                     dpg.add_table_column(label="Header 3")
 
                     for i in range(0, 5):
-                        for j in range(0, 3):
-                            dpg.add_text(f"Row{i} Column{j}")
-                            if not (i == 4 and j == 2):
-                                dpg.add_table_next_column()
+                        with dpg.table_row():
+                            for j in range(0, 3):
+                                dpg.add_text(f"Row{i} Column{j}")
 
-                _add_config_options(dpg.last_container(), 2, 
+                _add_config_options(table_id, 2, 
                                             "row_background", "borders_innerH", "borders_innerV", 
-                                            "borders_outerH", "borders_outerV", "header_row", before=dpg.last_container())
+                                            "borders_outerH", "borders_outerV", "header_row", before=table_id)
 
             with dpg.tree_node(label="Colors"):
-                dpg.add_text("Coming soon...")
+
+                dpg.add_text("Highlighting Rows, Columns, Cells:")
+                with dpg.table(header_row=False, row_background=True,
+                             delay_search=True) as table_id:
+
+                    dpg.add_table_column()
+                    dpg.add_table_column()
+                    dpg.add_table_column()
+                    dpg.add_table_column()
+                    dpg.add_table_column()
+                    dpg.add_table_column()
+
+                    for i in range(0, 6):
+                        with dpg.table_row():
+                            for j in range(6):
+                                dpg.add_text(f"R{i} C{j}")
+
+                    for i in range(0, 6):
+                        dpg.highlight_table_row(table_id, i, [255, 0, 0, 100])
+                        
+                    dpg.highlight_table_column(table_id, 4, [0, 255, 0, 100])
+                    
+                    dpg.highlight_table_cell(table_id, 1, 1, [0, 0, 255, 100])
+                    dpg.highlight_table_cell(table_id, 2, 1, [0, 0, 255, 100])
+                    dpg.highlight_table_cell(table_id, 1, 2, [0, 0, 255, 100])
+                    dpg.highlight_table_cell(table_id, 2, 2, [0, 0, 255, 100])
+
+                _add_config_options(table_id, 1, "row_background", before=table_id)
+
+                dpg.add_text("Coloring rows:")
+                with dpg.table(header_row=False, row_background=True,
+                             delay_search=True) as table_id:
+
+                    dpg.add_table_column()
+                    dpg.add_table_column()
+                    dpg.add_table_column()
+                    dpg.add_table_column()
+                    dpg.add_table_column()
+                    dpg.add_table_column()
+
+                    for i in range(0, 6):
+                        with dpg.table_row():
+                            for j in range(6):
+                                dpg.add_text(f"R{i} C{j}")
+
+                    dpg.highlight_table_cell(table_id, 1, 1, [0, 255, 0, 100])
+                    dpg.highlight_table_cell(table_id, 2, 1, [0, 255, 0, 100])
+                    dpg.highlight_table_cell(table_id, 1, 2, [0, 255, 0, 100])
+                    dpg.highlight_table_cell(table_id, 2, 2, [0, 255, 0, 100])
+
+                    for i in range(0, 6):
+                        dpg.set_table_row_color(table_id, i, [255, 0, 0, i*255/8])
 
             with dpg.tree_node(label="Resizable, stretch"):
 
                 with dpg.table(header_row=False, resizable=True, delay_search=True,
-                            borders_outerH=True, borders_innerV=True, borders_outerV=True):
+                            borders_outerH=True, borders_innerV=True, borders_outerV=True) as table_id:
 
                     dpg.add_table_column(label="Header 1")
                     dpg.add_table_column(label="Header 2")
                     dpg.add_table_column(label="Header 3")
 
                     for i in range(0, 5):
-                        for j in range(0, 3):
-                            dpg.add_text(f"Row{i} Column{j}")
-                            if not (i == 4 and j == 2):
-                                dpg.add_table_next_column()
+                        with dpg.table_row():
+                            for j in range(0, 3):
+                                dpg.add_text(f"Row{i} Column{j}")
 
-                _add_config_options(dpg.last_container(), 1, 
-                            "borders_innerV", "borders_outerV", "resizable", before=dpg.last_container())
+                _add_config_options(table_id, 1, 
+                            "borders_innerV", "borders_outerV", "resizable", before=table_id)
 
             with dpg.tree_node(label="Resizable, fixed"):
 
                 dpg.add_text("Only available if scrollX/scrollY are disabled and stretch columns are not used")
                 with dpg.table(header_row=False, policy=dpg.mvTable_SizingFixedFit, resizable=True, no_host_extendX=False, 
-                            borders_innerV=True, delay_search=True, borders_outerV=True,borders_outerH=True):
+                            borders_innerV=True, delay_search=True, borders_outerV=True,borders_outerH=True) as table_id:
 
                     dpg.add_table_column(label="Header 1")
                     dpg.add_table_column(label="Header 2")
                     dpg.add_table_column(label="Header 3")
 
                     for i in range(0, 5):
-                        for j in range(0, 3):
-                            dpg.add_text(f"Row{i} Column{j}")
-                            if not (i == 4 and j == 2):
-                                dpg.add_table_next_column()
+                        with dpg.table_row():
+                            for j in range(0, 3):
+                                dpg.add_text(f"Row{i} Column{j}")
 
-                _add_config_options(dpg.last_container(), 1, "no_host_extendX", before=dpg.last_container())
+                _add_config_options(table_id, 1, "no_host_extendX", before=table_id)
  
             with dpg.tree_node(label="Resizable, mixed"):
 
@@ -1290,13 +1331,12 @@ def show_demo():
                     dpg.add_table_column(label="CCC", width_stretch=True, init_width_or_weight=0.0)
 
                     for i in range(0, 5):
-                        for j in range(0, 3):
-                            if j == 2:
-                                dpg.add_text(f"Stretch {i}, {j}")
-                            else:
-                                dpg.add_text(f"Fixed {i}, {j}")
-                            if not (i == 4 and j == 2):
-                                dpg.add_table_next_column()
+                        with dpg.table_row():
+                            for j in range(0, 3):
+                                if j == 2:
+                                    dpg.add_text(f"Stretch {i}, {j}")
+                                else:
+                                    dpg.add_text(f"Fixed {i}, {j}")
 
                 with dpg.table(header_row=True, policy=dpg.mvTable_SizingFixedFit, row_background=True, reorderable=True, 
                             resizable=True, no_host_extendX=False, hideable=True, 
@@ -1308,13 +1348,12 @@ def show_demo():
                     dpg.add_table_column(label="DDD", width_stretch=True, init_width_or_weight=0.0)
 
                     for i in range(0, 5):
-                        for j in range(0, 4):
-                            if j == 2 or j == 3:
-                                dpg.add_text(f"Stretch {i},{j}")
-                            else:
-                                dpg.add_text(f"Fixed {i}, {j}")
-                            if not (i == 4 and j == 3):
-                                dpg.add_table_next_column()
+                        with dpg.table_row():
+                            for j in range(0, 4):
+                                if j == 2 or j == 3:
+                                    dpg.add_text(f"Stretch {i},{j}")
+                                else:
+                                    dpg.add_text(f"Fixed {i}, {j}")
 
             with dpg.tree_node(label="Columns Options"):
 
@@ -1328,18 +1367,11 @@ def show_demo():
                     c2 = dpg.add_table_column(label="Two")
                     c3 = dpg.add_table_column(label="Three", default_hide=True)
 
-                    for i in range(0, 7):
-                        dpg.add_text("Indented One", indent=5*i)
-                        dpg.add_table_next_column()
-                        dpg.add_text("Hello Two")
-                        dpg.add_table_next_column()
-                        dpg.add_text("Hello Three")
-                        dpg.add_table_next_column()
-                    dpg.add_text("Indented One", indent=5*(i+1))
-                    dpg.add_table_next_column()
-                    dpg.add_text("Hello Two")
-                    dpg.add_table_next_column()
-                    dpg.add_text("Hello Three")
+                    for i in range(0, 8):
+                        with dpg.table_row():
+                            dpg.add_text("Indented One", indent=5*i)
+                            dpg.add_text("Hello Two")
+                            dpg.add_text("Hello Three")
 
                 # options table
                 with dpg.table(header_row=False, show=True):
@@ -1364,14 +1396,16 @@ def show_demo():
                         "prefer_sort_ascending",
                         "prefer_sort_descending")
 
-                    dpg.add_text("One")
-                    _add_config_options(c1, 1, *options)
-                    dpg.add_table_next_column()
-                    dpg.add_text("Two")
-                    _add_config_options(c2, 1, *options)
-                    dpg.add_table_next_column()
-                    dpg.add_text("Three")
-                    _add_config_options(c3, 1, *options)
+                    with dpg.table_row():
+                        with dpg.table_cell():
+                            dpg.add_text("One")
+                            _add_config_options(c1, 1, *options)
+                        with dpg.table_cell():
+                            dpg.add_text("Two")
+                            _add_config_options(c2, 1, *options)
+                        with dpg.table_cell():
+                            dpg.add_text("Three")
+                            _add_config_options(c3, 1, *options)
 
             with dpg.tree_node(label="Columns widths"):
 
@@ -1384,15 +1418,14 @@ def show_demo():
                     dpg.add_table_column(label="Three")
 
                     for i in range(0, 3):
-                        dpg.add_text("(w: 0.0f)")
-                        dpg.add_visible_handler(dpg.last_item(), user_data = dpg.last_item(), callback=lambda s, a, u:dpg.set_value(u, "(w: " + str(dpg.get_item_state(u)["content_region_avail"][0]) + ")"))
-                        dpg.add_table_next_column()
+                        with dpg.table_row():
+                            dpg.add_text("(w: 0.0f)")
+                            dpg.add_item_visible_handler(dpg.last_item(), user_data = dpg.last_item(), callback=lambda s, a, u:dpg.set_value(u, "(w: " + str(dpg.get_item_state(u)["content_region_avail"][0]) + ")"))
 
                     for i in range(0, 3):
-                        for j in range(0, 3):
-                            dpg.add_text(f"Hello {i}, {j}")
-                            if not (i == 2 and j == 2):
-                                dpg.add_table_next_column()
+                        with dpg.table_row():
+                            for j in range(0, 3):
+                                dpg.add_text(f"Hello {i}, {j}")
 
                 with dpg.table(header_row=False, delay_search=True) as table_id:
 
@@ -1402,18 +1435,17 @@ def show_demo():
                     dpg.add_table_column(width_fixed=True, init_width_or_weight=400)
 
                     for i in range(0, 4):
-                        dpg.add_text("(w: 0.0f)")
-                        dpg.add_visible_handler(dpg.last_item(), user_data=dpg.last_item(), callback=lambda s, a, u:dpg.set_value(u, "(w: " + str(dpg.get_item_state(u)["content_region_avail"][0]) + ")"))
-                        dpg.add_table_next_column()
+                        with dpg.table_row():
+                            dpg.add_text("(w: 0.0f)")
+                            dpg.add_item_visible_handler(dpg.last_item(), user_data=dpg.last_item(), callback=lambda s, a, u:dpg.set_value(u, "(w: " + str(dpg.get_item_state(u)["content_region_avail"][0]) + ")"))
 
                     for i in range(0, 4):
-                        for j in range(0, 4):
-                            dpg.add_text(f"Hello {i}, {j}")
-                            if not (i == 3 and j == 3):
-                                dpg.add_table_next_column()
+                        with dpg.table_row():
+                            for j in range(0, 4):
+                                dpg.add_text(f"Hello {i}, {j}")
 
-                _add_config_options(dpg.last_container(), 1, 
-                            "no_keep_columns_visible", "borders_innerV", "borders_outerV", before=dpg.last_container())
+                _add_config_options(table_id, 1, 
+                            "no_keep_columns_visible", "borders_innerV", "borders_outerV", before=table_id)
 
             with dpg.tree_node(label="Row height"):
 
@@ -1435,52 +1467,49 @@ def show_demo():
                     dpg.add_table_column(label="three")
 
                     for i in range(0, 5):
-                        for j in range(0, 3):
-                            dpg.add_button(label=f"Hello {i}, {j}", width=-1)
-                            if not (i == 4 and j == 2):
-                                dpg.add_table_next_column()
+                        with dpg.table_row():
+                            for j in range(0, 3):
+                                dpg.add_button(label=f"Hello {i}, {j}", width=-1)
 
-                _add_config_options(dpg.last_container(), 3, 
+                _add_config_options(table_id, 3, 
                                             "pad_outerX", "no_pad_outerX", "no_pad_innerX", 
-                                            "borders_outerV", "borders_innerV", "header_row", before=dpg.last_container())
+                                            "borders_outerV", "borders_innerV", "header_row", before=table_id)
 
             with dpg.tree_node(label="Reorderable, hideable, with headers"):
 
                 with dpg.table(header_row=True, resizable=True, delay_search=True,
-                            hideable=True, reorderable=True):
+                            hideable=True, reorderable=True) as table_id:
 
                     dpg.add_table_column(label="One")
                     dpg.add_table_column(label="Two")
                     dpg.add_table_column(label="three")
 
                     for i in range(0, 5):
-                        for j in range(0, 3):
-                            dpg.add_text(f"Hello {i}, {j}")
-                            if not (i == 4 and j == 2):
-                                dpg.add_table_next_column()
+                        with dpg.table_row():
+                            for j in range(0, 3):
+                                dpg.add_text(f"Hello {i}, {j}")
 
-                _add_config_options(dpg.last_container(), 3, 
-                                            "hideable", "reorderable", "resizable", before=dpg.last_container())
+                _add_config_options(table_id, 3, 
+                                            "hideable", "reorderable", "resizable", before=table_id)
 
             with dpg.tree_node(label="Outer Size"):
 
                 with dpg.table(header_row=False, no_host_extendX=True, delay_search=True,
                             borders_innerH=True, borders_outerH=True, borders_innerV=True,
                             borders_outerV=True, context_menu_in_body=True, row_background=True,
-                            policy=dpg.mvTable_SizingFixedFit, height=150):
+                            policy=dpg.mvTable_SizingFixedFit, height=150) as table_id:
                 
                     dpg.add_table_column(label="One")
                     dpg.add_table_column(label="Two")
                     dpg.add_table_column(label="three")
 
                     for i in range(0, 10):
-                        for j in range(0, 3):
-                            dpg.add_text(f"Cell {i}, {j}")
-                            if not (i == 9 and j == 2):
-                                dpg.add_table_next_column()
+                        with dpg.table_row():
+                            for j in range(0, 3):
+                                dpg.add_text(f"Cell {i}, {j}")
 
-                _add_config_options(dpg.last_container(), 3, 
-                                            "no_host_extendX", "no_host_extendY", "resizable", before=dpg.last_container())
+                _add_config_options(table_id, 3, 
+                                            "no_host_extendX", "no_host_extendY", "resizable", before=table_id)
 
                 dpg.add_text("Using explicit size:")
                 with dpg.table(header_row=False, no_host_extendX=True, delay_search=True,
@@ -1493,10 +1522,9 @@ def show_demo():
                     dpg.add_table_column(label="three")
 
                     for i in range(0, 6):
-                        for j in range(0, 3):
-                            dpg.add_text(f"Cell {i}, {j}")
-                            if not (i == 9 and j == 2):
-                                dpg.add_table_next_column()
+                        with dpg.table_row():
+                            for j in range(0, 3):
+                                dpg.add_text(f"Cell {i}, {j}")
 
             with dpg.tree_node(label="Scrolling, Clipping"):
 
@@ -1524,18 +1552,18 @@ def show_demo():
                             borders_innerH=True, borders_outerH=True, borders_innerV=True,
                             borders_outerV=True, context_menu_in_body=True, row_background=True,
                             policy=dpg.mvTable_SizingFixedFit, height=300,
-                            scrollY=True):
+                            scrollY=True, clipper=True):
 
                     dpg.add_table_column(label="1")
                     dpg.add_table_column(label="2")
                     dpg.add_table_column(label="3")
 
-                    with dpg.clipper():
-                        for i in range(0, 25):
-                                with dpg.table_row():
-                                    dpg.add_input_int(label=" ", step=0)
-                                    dpg.add_button(label=f"Cell {i}, 1")
-                                    dpg.add_text(f"Cell {i}, 2")
+                    for i in range(0, 25):
+                        with dpg.table_row():
+                            dpg.add_input_int(label=" ", step=0)
+                            dpg.add_button(label=f"Cell {i}, 1")
+                            dpg.add_text(f"Cell {i}, 2")
+
                 dpg.add_checkbox(label="resizable", before=table_id, default_value=True, user_data=table_id, callback=lambda sender, app_data, user_data:dpg.configure_item(user_data, resizable=app_data))
 
                 # Freezing rows/columns
@@ -1553,14 +1581,14 @@ def show_demo():
                     dpg.add_table_column(label="7", width=50)
 
                     for i in range(0, 25):
-                            with dpg.table_row():
-                                dpg.add_text(f"Cell {i}, 0")
-                                dpg.add_button(label=f"Cell {i}, 1")
-                                dpg.add_text(f"Cell {i}, 2")
-                                dpg.add_text(f"Cell {i}, 3")
-                                dpg.add_text(f"Cell {i}, 4")
-                                dpg.add_text(f"Cell {i}, 5")
-                                dpg.add_text(f"Cell {i}, 6")
+                        with dpg.table_row():
+                            dpg.add_text(f"Cell {i}, 0")
+                            dpg.add_button(label=f"Cell {i}, 1")
+                            dpg.add_text(f"Cell {i}, 2")
+                            dpg.add_text(f"Cell {i}, 3")
+                            dpg.add_text(f"Cell {i}, 4")
+                            dpg.add_text(f"Cell {i}, 5")
+                            dpg.add_text(f"Cell {i}, 6")
 
             with dpg.tree_node(label="Filtering"):
 
@@ -1572,73 +1600,26 @@ def show_demo():
                             borders_innerH=True, borders_outerH=True, borders_innerV=True,
                             borders_outerV=True, context_menu_in_body=True, row_background=True,
                             policy=dpg.mvTable_SizingFixedFit, height=300,
-                            scrollY=True):
+                            scrollY=True, id=_filter_table_id):
 
                     dpg.add_table_column(label="1")
                     dpg.add_table_column(label="2")
                     dpg.add_table_column(label="3")
 
-                    with dpg.filter_set(id=_filter_table_id):
-                        for i in range(0, 25):
-                                with dpg.table_row(filter_key=f"Cell {i}, 1"):
-                                    dpg.add_input_int(label=" ", step=0)
-                                    dpg.add_button(label=f"Cell {i}, 1")
-                                    dpg.add_text(f"Cell {i}, 2")
+                    for i in range(0, 25):
+                        with dpg.table_row(filter_key=f"Cell {i}, 1"):
+                            dpg.add_input_int(label=" ", step=0)
+                            dpg.add_button(label=f"Cell {i}, 1")
+                            dpg.add_text(f"Cell {i}, 2")
+
                 dpg.add_checkbox(label="resizable", before=table_id, default_value=True, user_data=table_id, callback=lambda sender, app_data, user_data:dpg.configure_item(user_data, resizable=app_data))
 
             with dpg.tree_node(label="Sorting"):
 
                 def sort_callback(sender, app_data, user_data):
+                    pass
 
-                    children = dpg.get_item_info(sender)["children"][1]
-                    
-                    oldList = []
-                    col1 = []
-                    col2 = []
-                    i = 0
-                    j = 0
-                    while i < len(children)-5:
-                        row = []
-
-                        col1.append(children[i])
-                        col2.append(children[i+2])
-
-                        row.append(children[i])
-                        row.append(children[i+1])
-                        row.append(children[i+2])
-                        row.append(children[i+3])
-                        row.append(children[i+4])
-                        row.append(children[i+5])
-                        row.append(j)
-                        oldList.append(row)
-                        i+=6
-                        j+=1
-                        
-                    col1values = dpg.get_values(col1)
-                    col2values = dpg.get_values(col2)
-
-                    def col1_sorter(e):
-                        return col1values[e[6]]
-                    def col2_sorter(e):
-                        return col2values[e[6]]
-
-                    reverse = False
-                    if app_data[0][1] < 0:
-                        reverse = True
-
-                    if app_data[0][0] == dpg.get_item_info(sender)["children"][0][0]:
-                        oldList.sort(key=col1_sorter, reverse=reverse)
-                    elif app_data[0][0] == dpg.get_item_info(sender)["children"][0][1]:
-                        oldList.sort(key=col2_sorter, reverse=reverse)
-
-                    single_list = []
-                    for row in oldList:
-                        for cell in range(0, len(row)-1):
-                            single_list.append(row[cell])
-                        
-                    dpg.reorder_items(sender, 1, single_list)
-
-                dpg.add_text("Sorting")
+                dpg.add_text("Sorting (not implemented yet)")
                 with dpg.table(header_row=True, no_host_extendX=True,
                             borders_innerH=True, borders_outerH=True, borders_innerV=True,
                             borders_outerV=True, context_menu_in_body=True, row_background=True,
@@ -1650,13 +1631,11 @@ def show_demo():
                     dpg.add_table_column(label="Three")
 
                     for i in range(0, 25):
+                        with dpg.table_row():
                             dpg.add_input_int(label=" ", step=0)
-                            dpg.add_table_next_column()
                             dpg.add_text(f"Cell {i}, 1")
-                            dpg.add_table_next_column()
                             dpg.add_checkbox(label=f"Cell {i}, 2")
-                            if i != 25:
-                                dpg.add_table_next_column()
+
 
                 dpg.add_checkbox(label="sort_multi", before=table_id, user_data=table_id, callback=lambda sender, app_data, user_data:dpg.configure_item(user_data, sort_multi=app_data))
                 dpg.add_checkbox(label="sort_tristate", before=table_id, user_data=table_id, callback=lambda sender, app_data, user_data:dpg.configure_item(user_data, sort_tristate=app_data))
@@ -1699,9 +1678,10 @@ def show_demo():
                         dpg.add_table_column()
 
                         for i in range(0, 8):
-                            dpg.add_text("Oh dear")
-                            dpg.add_table_next_column()
-                        dpg.add_text("Oh dear")
+                            with dpg.table_row():
+                                dpg.add_text("Oh dear")
+                                dpg.add_text("Oh dear")
+                                dpg.add_text("Oh dear")
 
                     with dpg.table(header_row=False, policy=policy,
                                 borders_innerH=True, borders_outerH=True, borders_innerV=False,
@@ -1711,18 +1691,11 @@ def show_demo():
                         dpg.add_table_column()
                         dpg.add_table_column()
 
-                        for i in range(0, 2):
-                            dpg.add_text("AAAA")
-                            dpg.add_table_next_column()
-                            dpg.add_text("BBBBBBBB")
-                            dpg.add_table_next_column()
-                            dpg.add_text("CCCCCCCCCCCC")
-                            dpg.add_table_next_column()
-                        dpg.add_text("AAAA")
-                        dpg.add_table_next_column()
-                        dpg.add_text("BBBBBBBB")
-                        dpg.add_table_next_column()
-                        dpg.add_text("CCCCCCCCCCCC")
+                        for i in range(0, 3):
+                            with dpg.table_row():
+                                dpg.add_text("AAAA")
+                                dpg.add_text("BBBBBBBB")
+                                dpg.add_text("CCCCCCCCCCCC")
 
                     return table_id1, table_id2
 
@@ -1768,18 +1741,19 @@ def show_demo():
 
                             # REQUIRED: create x and y axes
                             dpg.add_plot_axis(dpg.mvXAxis, label="x")
-                            dpg.add_plot_axis(dpg.mvYAxis, label="y")
+                            
+                            with dpg.plot_axis(dpg.mvYAxis, label="y"):
 
-                            # series belong to a y axis
-                            dpg.add_line_series(sindatax, sindatay, label="0.5 + 0.5 * sin(x)", parent=dpg.last_item())
+                                # series belong to a y axis
+                                dpg.add_line_series(sindatax, sindatay, label="0.5 + 0.5 * sin(x)")
 
                     with dpg.tree_node(label="Stair Series"):
 
                         with dpg.plot(label="Stair Plot", height=400, width=-1):
                             dpg.add_plot_legend()
                             dpg.add_plot_axis(dpg.mvXAxis, label="x")
-                            dpg.add_plot_axis(dpg.mvYAxis, label="y")
-                            dpg.add_stair_series(sindatax, sindatay, label="0.5 + 0.5 * sin(x)", parent=dpg.last_item())
+                            with dpg.plot_axis(dpg.mvYAxis, label="y"):
+                                dpg.add_stair_series(sindatax, sindatay, label="0.5 + 0.5 * sin(x)")
 
                     with dpg.tree_node(label="Shade Series"):
 
@@ -1817,32 +1791,31 @@ def show_demo():
                         with dpg.plot(label="Stock Prices", height=400, width=-1):
                             dpg.add_plot_legend()
                             xaxis = dpg.add_plot_axis(dpg.mvXAxis, label="Days")
-                            yaxis = dpg.add_plot_axis(dpg.mvYAxis, label="Price")
-                            dpg.add_line_series(stock_datax, stock_data1, label="Stock 1", parent=yaxis)
-                            dpg.set_item_theme(dpg.last_item(), stock_theme1)
-                            dpg.add_line_series(stock_datax, stock_data2, label="Stock 2", parent=yaxis)
-                            dpg.set_item_theme(dpg.last_item(), stock_theme2)
-                            dpg.add_line_series(stock_datax, stock_data3, label="Stock 3", parent=yaxis)
-                            dpg.set_item_theme(dpg.last_item(), stock_theme3)
-                            dpg.add_shade_series(stock_datax, stock_data1, label="Stock 1", parent=yaxis)
-                            dpg.set_item_theme(dpg.last_item(), stock_theme1)
-                            dpg.add_shade_series(stock_datax, stock_data2, label="Stock 2", parent=yaxis)
-                            dpg.set_item_theme(dpg.last_item(), stock_theme2)
-                            dpg.add_shade_series(stock_datax, stock_data3, label="Stock 3", y2=stock_datay2, parent=yaxis)
-                            dpg.set_item_theme(dpg.last_item(), stock_theme3)
-                            dpg.add_shade_series(stock_datax, stock_data5, y2=stock_data4, label="Shade between lines", parent=yaxis)
-                            dpg.set_item_theme(dpg.last_item(), stock_theme4)
-
+                            with dpg.plot_axis(dpg.mvYAxis, label="Price"):
+                                dpg.add_line_series(stock_datax, stock_data1, label="Stock 1")
+                                dpg.bind_item_theme(dpg.last_item(), stock_theme1)
+                                dpg.add_line_series(stock_datax, stock_data2, label="Stock 2")
+                                dpg.bind_item_theme(dpg.last_item(), stock_theme2)
+                                dpg.add_line_series(stock_datax, stock_data3, label="Stock 3")
+                                dpg.bind_item_theme(dpg.last_item(), stock_theme3)
+                                dpg.add_shade_series(stock_datax, stock_data1, label="Stock 1")
+                                dpg.bind_item_theme(dpg.last_item(), stock_theme1)
+                                dpg.add_shade_series(stock_datax, stock_data2, label="Stock 2")
+                                dpg.bind_item_theme(dpg.last_item(), stock_theme2)
+                                dpg.add_shade_series(stock_datax, stock_data3, label="Stock 3", y2=stock_datay2)
+                                dpg.bind_item_theme(dpg.last_item(), stock_theme3)
+                                dpg.add_shade_series(stock_datax, stock_data5, y2=stock_data4, label="Shade between lines")
+                                dpg.bind_item_theme(dpg.last_item(), stock_theme4)
+                                dpg.fit_axis_data(dpg.top_container_stack())
                             dpg.fit_axis_data(xaxis)
-                            dpg.fit_axis_data(yaxis)
 
                     with dpg.tree_node(label="Scatter Series"):
 
                         with dpg.plot(label="Scatter Series", height=400, width=-1):
                             dpg.add_plot_legend()
                             dpg.add_plot_axis(dpg.mvXAxis, label="x")
-                            dpg.add_plot_axis(dpg.mvYAxis, label="y")
-                            dpg.add_scatter_series(sindatax, sindatay, label="0.5 + 0.5 * sin(x)", parent=dpg.last_item())
+                            with dpg.plot_axis(dpg.mvYAxis, label="y"):
+                                dpg.add_scatter_series(sindatax, sindatay, label="0.5 + 0.5 * sin(x)")
 
                     with dpg.tree_node(label="Stem Series"):
 
@@ -1853,14 +1826,15 @@ def show_demo():
                         with dpg.plot(label="Stem Series", height=400, width=-1):
                             dpg.add_plot_legend()
                             dpg.add_plot_axis(dpg.mvXAxis, label="x")
-                            yaxis = dpg.add_plot_axis(dpg.mvYAxis, label="y")
-                            dpg.add_stem_series(sindatax, sindatay, label="0.5 + 0.5 * sin(x)", parent=yaxis)
-                            dpg.add_stem_series(sindatax, cosdatay, label="0.5 + 0.75 * cos(x)", parent=yaxis)
-                            dpg.set_item_theme(dpg.last_item(), stem_theme1)
+                            with dpg.plot_axis(dpg.mvYAxis, label="y"):
+                                dpg.add_stem_series(sindatax, sindatay, label="0.5 + 0.5 * sin(x)")
+                                dpg.add_stem_series(sindatax, cosdatay, label="0.5 + 0.75 * cos(x)")
+                                dpg.bind_item_theme(dpg.last_item(), stem_theme1)
 
                     with dpg.tree_node(label="Bar Series"):
 
                         with dpg.plot(label="Bar Series", height=400, width=-1):
+
                             dpg.add_plot_legend()
 
                             # create x axis
@@ -1869,23 +1843,20 @@ def show_demo():
                             dpg.set_axis_ticks(dpg.last_item(), (("S1", 11), ("S2", 21), ("S3", 31)))
                 
                             # create y axis
-                            yaxis_id = dpg.add_plot_axis(dpg.mvYAxis, label="Score")      
-                            dpg.set_axis_limits(yaxis_id, 0, 110)
-
-                            # add series to y axis
-                            dpg.add_bar_series([10, 20, 30], [100, 75, 90], label="Final Exam", weight=1, parent=yaxis_id)
-                            dpg.add_bar_series([11, 21, 31], [83, 75, 72], label="Midterm Exam", weight=1, parent=yaxis_id)
-                            dpg.add_bar_series([12, 22, 32], [42, 68, 23], label="Course Grade", weight=1, parent=yaxis_id)
+                            with dpg.plot_axis(dpg.mvYAxis, label="Score"):
+                                dpg.set_axis_limits(dpg.last_item(), 0, 110)
+                                dpg.add_bar_series([10, 20, 30], [100, 75, 90], label="Final Exam", weight=1)
+                                dpg.add_bar_series([11, 21, 31], [83, 75, 72], label="Midterm Exam", weight=1)
+                                dpg.add_bar_series([12, 22, 32], [42, 68, 23], label="Course Grade", weight=1)
 
                     with dpg.tree_node(label="Area Series"):
 
                         with dpg.plot(label="Area Series", height=400, width=-1):
                             xaxis = dpg.add_plot_axis(dpg.mvXAxis, label="x")
-                            yaxis = dpg.add_plot_axis(dpg.mvYAxis, label="y")
-                            dpg.add_area_series([1,5,3],[0,0,3], fill=[255,50,100,190], parent=dpg.last_item())
-
+                            with dpg.plot_axis(dpg.mvYAxis, label="y"):
+                                dpg.add_area_series([1,5,3],[0,0,3], fill=[255,50,100,190])
+                                dpg.fit_axis_data(dpg.top_container_stack())
                             dpg.fit_axis_data(xaxis)
-                            dpg.fit_axis_data(yaxis)
 
                     with dpg.tree_node(label="Infinite Lines"):
 
@@ -1895,24 +1866,23 @@ def show_demo():
                         with dpg.plot(label="Infinite Lines", height=400, width=-1):
                             dpg.add_plot_legend()
                             xaxis = dpg.add_plot_axis(dpg.mvXAxis, label="x")
-                            axis_id = dpg.add_plot_axis(dpg.mvYAxis, label="y")
-                            dpg.add_vline_series(infinite_x_data, label="vertical", parent=axis_id)
-                            dpg.add_hline_series(infinite_y_data, label="horizontal", parent=axis_id)
-
+                            with dpg.plot_axis(dpg.mvYAxis, label="y"):
+                                dpg.add_vline_series(infinite_x_data, label="vertical")
+                                dpg.add_hline_series(infinite_y_data, label="horizontal")
+                                dpg.fit_axis_data(dpg.top_container_stack())
                             dpg.fit_axis_data(xaxis)
-                            dpg.fit_axis_data(axis_id)
 
                     with dpg.tree_node(label="Image Series"):
 
                         with dpg.plot(label="Image Plot", height=400, width=-1):
                             dpg.add_plot_legend()
                             xaxis = dpg.add_plot_axis(dpg.mvXAxis, label="x")
-                            yaxis_id = dpg.add_plot_axis(dpg.mvYAxis, label="y axis")
-                            dpg.add_image_series(2, [300, 300], [400, 400], label="font atlas", parent=yaxis_id)
-                            dpg.add_image_series("__demo_static_texture_2", [150, 150], [200, 200], label="static 2", parent=yaxis_id)
-                            dpg.add_image_series("__demo_dynamic_texture_1", [-200, 100], [-100, 200], label="dynamic 1", parent=yaxis_id)
+                            with dpg.plot_axis(dpg.mvYAxis, label="y axis"):
+                                dpg.add_image_series(2, [300, 300], [400, 400], label="font atlas")
+                                dpg.add_image_series("__demo_static_texture_2", [150, 150], [200, 200], label="static 2")
+                                dpg.add_image_series("__demo_dynamic_texture_1", [-200, 100], [-100, 200], label="dynamic 1")
+                                dpg.fit_axis_data(dpg.top_container_stack())
                             dpg.fit_axis_data(xaxis)
-                            dpg.fit_axis_data(yaxis_id)
 
                     with dpg.tree_node(label="Candle Stick Series"):
 
@@ -1925,11 +1895,10 @@ def show_demo():
                         with dpg.plot(label="Candle Series", height=400, width=-1):
                             dpg.add_plot_legend()
                             xaxis = dpg.add_plot_axis(dpg.mvXAxis, label="Day", time=True)
-                            yaxis = dpg.add_plot_axis(dpg.mvYAxis, label="USD")
-                            dpg.add_candle_series(dates, opens, closes, lows, highs, label="GOOGL", parent=dpg.last_item())
-
+                            with dpg.plot_axis(dpg.mvYAxis, label="USD"):
+                                dpg.add_candle_series(dates, opens, closes, lows, highs, label="GOOGL")
+                                dpg.fit_axis_data(dpg.top_container_stack())
                             dpg.fit_axis_data(xaxis)
-                            dpg.fit_axis_data(yaxis)
 
                     with dpg.tree_node(label="Heatmaps"):
 
@@ -1944,8 +1913,8 @@ def show_demo():
                         dpg.add_same_line()
                         with dpg.plot(label="Heat Series", no_mouse_pos=True, height=400, width=-1):
                             dpg.add_plot_axis(dpg.mvXAxis, label="x", lock_min=True, lock_max=True, no_gridlines=True, no_tick_marks=True)
-                            dpg.add_plot_axis(dpg.mvYAxis, label="y", no_gridlines=True, no_tick_marks=True, lock_min=True, lock_max=True)
-                            dpg.add_heat_series(values, 7, 7, scale_min=0, scale_max=6, parent=dpg.last_item())
+                            with dpg.plot_axis(dpg.mvYAxis, label="y", no_gridlines=True, no_tick_marks=True, lock_min=True, lock_max=True):
+                                dpg.add_heat_series(values, 7, 7, scale_min=0, scale_max=6)
 
                     with dpg.tree_node(label="Pie Charts"):
 
@@ -1960,11 +1929,9 @@ def show_demo():
                             dpg.set_axis_limits(dpg.last_item(), 0, 1)
 
                             # create y axis
-                            dpg.add_plot_axis(dpg.mvYAxis, label="", no_gridlines=True, no_tick_marks=True, no_tick_labels=True)
-                            dpg.set_axis_limits(dpg.last_item(), 0, 1)
-
-                            # add data to y axis 1
-                            dpg.add_pie_series(0.5, 0.5, 0.5, [0.25, 0.30, 0.30], ["fish", "cow", "chicken"], parent=dpg.last_item())
+                            with dpg.plot_axis(dpg.mvYAxis, label="", no_gridlines=True, no_tick_marks=True, no_tick_labels=True):
+                                dpg.set_axis_limits(dpg.last_item(), 0, 1)
+                                dpg.add_pie_series(0.5, 0.5, 0.5, [0.25, 0.30, 0.30], ["fish", "cow", "chicken"])
 
                         dpg.add_same_line()
 
@@ -1979,11 +1946,9 @@ def show_demo():
                             dpg.set_axis_limits(dpg.last_item(), 0, 1)
 
                             # create y axis
-                            dpg.add_plot_axis(dpg.mvYAxis, label="", no_gridlines=True, no_tick_marks=True, no_tick_labels=True)
-                            dpg.set_axis_limits(dpg.last_item(), 0, 1)
-
-                            # add data to y axis 1
-                            dpg.add_pie_series(0.5, 0.5, 0.5, [1, 1, 2, 3, 5], ["A", "B", "C", "D", "E"], normalize=True, format="%.0f", parent=dpg.last_item())
+                            with dpg.plot_axis(dpg.mvYAxis, label="", no_gridlines=True, no_tick_marks=True, no_tick_labels=True):
+                                dpg.set_axis_limits(dpg.last_item(), 0, 1)
+                                dpg.add_pie_series(0.5, 0.5, 0.5, [1, 1, 2, 3, 5], ["A", "B", "C", "D", "E"], normalize=True, format="%.0f")
 
                     with dpg.tree_node(label="Error Series"):
 
@@ -2002,16 +1967,14 @@ def show_demo():
                         with dpg.plot(label="Error Series", height=400, width=-1):
                             dpg.add_plot_legend()
                             xaxis = dpg.add_plot_axis(dpg.mvXAxis, label="x")
-                            axis_id = dpg.add_plot_axis(dpg.mvYAxis, label="y")
+                            with dpg.plot_axis(dpg.mvYAxis, label="y"):
 
-                            dpg.add_bar_series(error1_x, error1_y, label="Bar", weight=0.25, parent=axis_id)
-                            dpg.add_error_series(error1_x, error1_y, error1_neg, error1_pos, label="Bar", parent=axis_id)
-                            dpg.add_line_series(error2_x, error2_y, label="Line", parent=axis_id)
-                            #dpg.add_error_series(error2_x, error2_y, error2_neg, error2_pos, label="Line", color=[0, 255, 0], parent=axis_id)
-                            dpg.add_error_series(error2_x, error2_y, error2_neg, error2_pos, label="Line", parent=axis_id)
-
+                                dpg.add_bar_series(error1_x, error1_y, label="Bar", weight=0.25)
+                                dpg.add_error_series(error1_x, error1_y, error1_neg, error1_pos, label="Bar")
+                                dpg.add_line_series(error2_x, error2_y, label="Line")
+                                dpg.add_error_series(error2_x, error2_y, error2_neg, error2_pos, label="Line")
+                                dpg.fit_axis_data(dpg.top_container_stack())
                             dpg.fit_axis_data(xaxis)
-                            dpg.fit_axis_data(axis_id)
 
                 with dpg.tab(label="Subplots"):
 
@@ -2022,8 +1985,8 @@ def show_demo():
                                 for i in range(0, 9):
                                     with dpg.plot(no_title=True):
                                         dpg.add_plot_axis(dpg.mvXAxis, label="", no_tick_labels=True)
-                                        dpg.add_plot_axis(dpg.mvYAxis, label="", no_tick_labels=True)
-                                        dpg.add_line_series(sindatax, sindatay, label="0.5 + 0.5 * sin(x)", parent=dpg.last_item())
+                                        with dpg.plot_axis(dpg.mvYAxis, label="", no_tick_labels=True):
+                                            dpg.add_line_series(sindatax, sindatay, label="0.5 + 0.5 * sin(x)")
 
                         _add_config_options(subplot_id, 1, 
                                                     "no_resize", "no_title", before=subplot_id)
@@ -2037,8 +2000,8 @@ def show_demo():
                                 for i in range(0, 6):
                                     with dpg.plot(no_title=True):
                                         dpg.add_plot_axis(dpg.mvXAxis, label="")
-                                        dpg.add_plot_axis(dpg.mvYAxis, label="")
-                                        dpg.add_line_series(sindatax, sindatay, label="data" + str(i), parent=dpg.last_item())
+                                        with dpg.plot_axis(dpg.mvYAxis, label=""):
+                                            dpg.add_line_series(sindatax, sindatay, label="data" + str(i))
 
                         _add_config_options(subplot_id, 1, 
                                                     "column_major", before=subplot_id)
@@ -2052,8 +2015,8 @@ def show_demo():
                                 for i in range(0, 4):
                                     with dpg.plot(no_title=True):
                                         dpg.add_plot_axis(dpg.mvXAxis, label="")
-                                        dpg.add_plot_axis(dpg.mvYAxis, label="")
-                                        dpg.add_line_series(sindatax, sindatay, label="data" + str(i), parent=dpg.last_item())
+                                        with dpg.plot_axis(dpg.mvYAxis, label=""):
+                                            dpg.add_line_series(sindatax, sindatay, label="data" + str(i))
 
                         _add_config_options(subplot_id, 2, 
                                                     "no_align", "link_rows", "link_columns",
@@ -2077,11 +2040,10 @@ def show_demo():
                 
                         with dpg.plot(label="Time Plot", height=400, width=-1):
                             xaxis = dpg.add_plot_axis(dpg.mvXAxis, label="Date", time=True)
-                            yaxis = dpg.add_plot_axis(dpg.mvYAxis, label="Days since 1970")
-                            dpg.add_line_series(timedatax, timedatay, label="Days", parent=dpg.last_item())
-
+                            with dpg.plot_axis(dpg.mvYAxis, label="Days since 1970"):
+                                dpg.add_line_series(timedatax, timedatay, label="Days")
+                                dpg.fit_axis_data(dpg.top_container_stack())
                             dpg.fit_axis_data(xaxis)
-                            dpg.fit_axis_data(yaxis)
 
                     with dpg.tree_node(label="Multi Axes Plot"):
 
@@ -2093,16 +2055,16 @@ def show_demo():
                             dpg.add_plot_axis(dpg.mvXAxis, label="x")
 
                             # create y axis 1
-                            dpg.add_plot_axis(dpg.mvYAxis, label="y1")
-                            dpg.add_line_series(sindatax, sindatay, label="0.5 + 0.5 * sin(x)", parent=dpg.last_item())
+                            with dpg.plot_axis(dpg.mvYAxis, label="y1"):
+                                dpg.add_line_series(sindatax, sindatay, label="0.5 + 0.5 * sin(x)")
 
                             # create y axis 2
-                            dpg.add_plot_axis(dpg.mvYAxis, label="y2")
-                            dpg.add_line_series(sindatax, sindatay, label="0.5 + 0.5 * sin(x)", parent=dpg.last_item())
+                            with dpg.plot_axis(dpg.mvYAxis, label="y2"):
+                                dpg.add_line_series(sindatax, sindatay, label="0.5 + 0.5 * sin(x)")
                 
                             # create y axis 3
-                            dpg.add_plot_axis(dpg.mvYAxis, label="y3")
-                            dpg.add_line_series(sindatax, sindatay, label="0.5 + 0.5 * sin(x)", parent=dpg.last_item())
+                            with dpg.plot_axis(dpg.mvYAxis, label="y3"):
+                                dpg.add_line_series(sindatax, sindatay, label="0.5 + 0.5 * sin(x)")
 
                 with dpg.tab(label="Tools"):
 
@@ -2116,8 +2078,8 @@ def show_demo():
                         # plot 1
                         with dpg.plot(no_title=True, height=400, callback=query, query=True, no_menus=True, width=-1) as plot_id:
                             dpg.add_plot_axis(dpg.mvXAxis, label="x")
-                            dpg.add_plot_axis(dpg.mvYAxis, label="y")
-                            dpg.add_line_series(sindatax, sindatay, parent=dpg.last_item())
+                            with dpg.plot_axis(dpg.mvYAxis, label="y"):
+                                dpg.add_line_series(sindatax, sindatay)
 
                         # plot 2
                         with dpg.plot(no_title=True, height=400, no_menus=True, width=-1):          
@@ -2213,15 +2175,15 @@ def show_demo():
                             dpg.add_plot_legend()
 
                             dpg.add_plot_axis(dpg.mvXAxis, label="x")
-                            yaxis = dpg.add_plot_axis(dpg.mvYAxis, label="y")
+                            with dpg.plot_axis(dpg.mvYAxis, label="y"):
 
-                            # series 1
-                            dpg.add_line_series(sindatax, sindatay, label="series 1", parent=yaxis)
-                            dpg.add_button(label="Delete Series 1", user_data = dpg.last_item(), parent=dpg.last_item(), callback=lambda s, a, u: dpg.delete_item(u))
+                                # series 1
+                                dpg.add_line_series(sindatax, sindatay, label="series 1")
+                                dpg.add_button(label="Delete Series 1", user_data = dpg.last_item(), parent=dpg.last_item(), callback=lambda s, a, u: dpg.delete_item(u))
 
-                            # series 2
-                            dpg.add_line_series(sindatax, sindatay, label="series 2", parent=yaxis)
-                            dpg.add_button(label="Delete Series 2", user_data = dpg.last_item(), parent=dpg.last_item(), callback=lambda s, a, u: dpg.delete_item(u))
+                                # series 2
+                                dpg.add_line_series(sindatax, sindatay, label="series 2")
+                                dpg.add_button(label="Delete Series 2", user_data = dpg.last_item(), parent=dpg.last_item(), callback=lambda s, a, u: dpg.delete_item(u))
 
                     with dpg.tree_node(label="Custom Rendering"):
 
@@ -2404,8 +2366,8 @@ def show_demo():
                 cb = dpg.add_checkbox(label="Check me!")
 
                 # all of the handlers for widgets except resize which is for windows only
-                dpg.add_clicked_handler(cb, 0, callback=lambda s, a, u: logger.log(f"clicked_handler: {s} '\t' {a} '\t' {u}"))
-                dpg.add_hover_handler(cb, callback=lambda s, a, u: logger.log(f"hover_handler: {s} '\t' {a} '\t' {u}"))
+                dpg.add_item_clicked_handler(cb, 0, callback=lambda s, a, u: logger.log(f"clicked_handler: {s} '\t' {a} '\t' {u}"))
+                dpg.add_item_hover_handler(cb, callback=lambda s, a, u: logger.log(f"hover_handler: {s} '\t' {a} '\t' {u}"))
                 #dpg.add_activated_handler(widget_id, callback=lambda s, a, u: logger.log(f"activated_handler: {s} '\t' {a} '\t' {u}"))
                 #dpg.add_active_handler(widget_id, callback=lambda s, a, u: logger.log(f"active_handler: {s} '\t' {a} '\t' {u}"))
                 #dpg.add_deactivated_after_edit_handler(widget_id, callback=lambda s, a, u: logger.log(f"deactivated_after_edit_handler: {s} '\t' {a} '\t' {u}"))
@@ -2446,7 +2408,8 @@ def show_demo():
                 dpg.set_item_callback(handler, event_handler)
 
         with dpg.collapsing_header(label="Drag & Drop"):
-            with dpg.tree_node(label="Help"):
+           
+           with dpg.tree_node(label="Help"):
 
                 dpg.add_text("Adding a drag_payload to a widget makes it source.", bullet=True)
                 dpg.add_text("Adding a drop_callback to a widget makes it target.", bullet=True)
@@ -2455,7 +2418,7 @@ def show_demo():
                 dpg.add_text("A 'drag_callback' can be used to notify a source during a DND event.", bullet=True)
                 dpg.add_text("A 'drag_payload' is a container. Its children are what is shown when dragging.", bullet=True)
 
-            with dpg.tree_node(label="Simple"):
+           with dpg.tree_node(label="Simple"):
 
                 with dpg.group():
 

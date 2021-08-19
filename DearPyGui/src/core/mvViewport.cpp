@@ -22,7 +22,8 @@ namespace Marvel {
 	{
 
 		{
-			mvPythonParser parser(mvPyDataType::String, "Creates a viewport.", { "General" });			parser.addArg<mvPyDataType::String>("title", mvArgType::KEYWORD_ARG, "'Dear PyGui'");
+			mvPythonParser parser(mvPyDataType::String, "Creates a viewport.", { "General" });
+			parser.addArg<mvPyDataType::String>("title", mvArgType::KEYWORD_ARG, "'Dear PyGui'");
 			parser.addArg<mvPyDataType::String>("small_icon", mvArgType::KEYWORD_ARG, "''");
 			parser.addArg<mvPyDataType::String>("large_icon", mvArgType::KEYWORD_ARG, "''");
 
@@ -193,7 +194,10 @@ namespace Marvel {
 
 		mvViewport* viewport = mvApp::GetApp()->getViewport();
 		if (viewport)
-			return ToPyBool(true);
+		{
+			if(viewport->_shown)
+				return ToPyBool(true);
+		}
 
 		return ToPyBool(false);
 	}
@@ -240,22 +244,24 @@ namespace Marvel {
 
 		mvApp::GetApp()->setViewport(viewport);
 
-		return ToPyString("DPG_NOT_USED_YET");
+		return GetPyNone();
 	}
 
 	PyObject* mvViewport::show_viewport(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
-		const char* vp;
 		int minimized = false;
 		int maximized = false;
 
 		if (!(mvApp::GetApp()->getParsers())["show_viewport"].parse(args, kwargs, __FUNCTION__,
-			&vp, &minimized, &maximized))
+			&minimized, &maximized))
 			return GetPyNone();
 
 		mvViewport* viewport = mvApp::GetApp()->getViewport();
 		if (viewport)
+		{
 			viewport->show(minimized, maximized);
+			viewport->_shown = true;
+		}
 		else
 			mvThrowPythonError(mvErrorCode::mvNone, "No viewport created");
 

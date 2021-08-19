@@ -41,7 +41,7 @@ namespace Marvel {
         mvImageButton, mvTimePicker, mvDatePicker, mvColorButton,
         mvFileDialog, mvTabButton,
         mvNodeEditor, mvNode, mvNodeAttribute,
-        mvTable, mvTableColumn, mvTableNextColumn, mvTableRow,
+        mvTable, mvTableColumn, mvTableRow,
         mvDrawLine, mvDrawArrow, mvDrawTriangle,
         mvDrawCircle, mvDrawEllipse, mvDrawBezierCubic, mvDrawBezierQuadratic,
         mvDrawQuad, mvDrawRect, mvDrawText, mvDrawPolygon, mvDrawPolyline,
@@ -70,7 +70,7 @@ namespace Marvel {
         mvInt4Value, mvBoolValue, mvStringValue, mvDoubleValue, mvDouble4Value,
         mvColorValue, mvFloatVectValue, mvSeriesValue, mvRawTexture, mvSubPlots,
         mvColorMap, mvColorMapRegistry, mvColorMapButton, mvColorMapSlider,
-        mvItemPool, mvItemSet, mvTemplateRegistry,
+        mvItemPool, mvItemSet, mvTemplateRegistry, mvTableCell,
         ItemTypeCount
     };
 
@@ -88,9 +88,7 @@ namespace Marvel {
         MV_ITEM_DESC_DEFAULT     = 0,
         MV_ITEM_DESC_ROOT        = 1 << 1,
         MV_ITEM_DESC_CONTAINER   = 1 << 2,
-        MV_ITEM_DESC_AFTER       = 1 << 3,
-        MV_ITEM_DESC_HANDLER     = 1 << 4,
-        MV_ITEM_DESC_ALWAYS_DRAW = 1 << 5,
+        MV_ITEM_DESC_HANDLER     = 1 << 3 // todo: rename descriptively
     };
 
     enum CommonParserArgs
@@ -152,11 +150,11 @@ namespace Marvel {
         MV_CREATE_COMMAND(focus_item);
         MV_CREATE_COMMAND(reset_pos);
         MV_CREATE_COMMAND(set_item_children);
-        MV_CREATE_COMMAND(set_item_font);
-        MV_CREATE_COMMAND(set_item_theme);
-        MV_CREATE_COMMAND(set_item_disabled_theme);
-        MV_CREATE_COMMAND(set_item_type_theme);
-        MV_CREATE_COMMAND(set_item_type_disabled_theme);
+        MV_CREATE_COMMAND(bind_item_font);
+        MV_CREATE_COMMAND(bind_item_theme);
+        MV_CREATE_COMMAND(bind_item_disabled_theme);
+        MV_CREATE_COMMAND(bind_item_type_theme);
+        MV_CREATE_COMMAND(bind_item_type_disabled_theme);
         MV_CREATE_COMMAND(set_item_alias);
         MV_CREATE_COMMAND(get_item_alias);
 
@@ -174,11 +172,11 @@ namespace Marvel {
             MV_ADD_COMMAND(focus_item);
             MV_ADD_COMMAND(reset_pos);
             MV_ADD_COMMAND(set_item_children);
-            MV_ADD_COMMAND(set_item_font);
-            MV_ADD_COMMAND(set_item_theme);
-            MV_ADD_COMMAND(set_item_disabled_theme);
-            MV_ADD_COMMAND(set_item_type_theme);
-            MV_ADD_COMMAND(set_item_type_disabled_theme);
+            MV_ADD_COMMAND(bind_item_font);
+            MV_ADD_COMMAND(bind_item_theme);
+            MV_ADD_COMMAND(bind_item_disabled_theme);
+            MV_ADD_COMMAND(bind_item_type_theme);
+            MV_ADD_COMMAND(bind_item_type_disabled_theme);
         MV_END_COMMANDS
 
         //-----------------------------------------------------------------------------

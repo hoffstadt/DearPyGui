@@ -139,7 +139,8 @@ namespace Marvel {
         std::vector<mvRef<mvAppItem>>& getItemPools() { return _itemPoolRoots; }
         mvRef<mvAppItem>               getItemFromPool(mvAppItemType itemType);
         bool                           skipRequiredArgs() const { return _skipRequiredArgs; }
-        bool                           skipOptionalArgs() const { return _skipOptionalArgs; }
+        bool                           skipPositionalArgs() const { return _skipPositionalArgs; }
+        bool                           skipKeywordArgs() const { return _skipKeywordArgs; }
         void                           tryBoundTemplateRegistry(mvAppItem* item) const;
 
         //-----------------------------------------------------------------------------
@@ -233,7 +234,8 @@ private:
         bool _allowAliasOverwrites = false;
         bool _manualAliasManagement = false;
         bool _skipRequiredArgs = false;
-        bool _skipOptionalArgs = false;
+        bool _skipPositionalArgs = false;
+        bool _skipKeywordArgs = false;
 	};
 
 }

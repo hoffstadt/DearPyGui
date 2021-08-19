@@ -34,6 +34,7 @@ namespace Marvel {
 
         void renderRootCategory(const char* category, std::vector<mvRef<mvAppItem>>& roots);
 
+        mvAppItem* _itemref = nullptr;
         mvUUID m_selectedItem = 0;
         bool m_nodeView = false;
         bool m_dirtyNodes = true;
