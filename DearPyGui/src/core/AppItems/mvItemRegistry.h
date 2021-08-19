@@ -32,6 +32,7 @@ namespace Marvel {
 	class mvItemRegistry : public mvEventHandler
 	{
 
+        friend class mvApp;
         friend class mvLayoutWindow;
 
     public:
@@ -40,8 +41,6 @@ namespace Marvel {
 
         static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
 
-        MV_CREATE_COMMAND(get_item_registry_configuration);
-        MV_CREATE_COMMAND(configure_item_registry);
         MV_CREATE_COMMAND(move_item);
         MV_CREATE_COMMAND(delete_item);
         MV_CREATE_COMMAND(does_item_exist);
@@ -74,8 +73,6 @@ namespace Marvel {
         MV_START_COMMANDS
             MV_ADD_COMMAND(bind_template_registry);
             MV_ADD_COMMAND(get_aliases);
-            MV_ADD_COMMAND(get_item_registry_configuration);
-            MV_ADD_COMMAND(configure_item_registry);
             MV_ADD_COMMAND(add_alias);
             MV_ADD_COMMAND(remove_alias);
             MV_ADD_COMMAND(does_alias_exist);

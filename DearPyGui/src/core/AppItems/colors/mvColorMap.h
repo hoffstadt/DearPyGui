@@ -44,12 +44,12 @@ namespace Marvel {
         MV_CREATE_CONSTANT(mvPlotColormap_Spectral, 14L); // a.k.a. MATLAB "jet"             (n=11)
         MV_CREATE_CONSTANT(mvPlotColormap_Greys, 15L); // a.k.a. MATLAB "jet"             (n=11)
 
-        MV_CREATE_COMMAND(set_colormap);
+        MV_CREATE_COMMAND(bind_colormap);
         MV_CREATE_COMMAND(sample_colormap);
         MV_CREATE_COMMAND(get_colormap_color);
 
         MV_START_COMMANDS
-            MV_ADD_COMMAND(set_colormap);
+            MV_ADD_COMMAND(bind_colormap);
             MV_ADD_COMMAND(sample_colormap);
             MV_ADD_COMMAND(get_colormap_color);
         MV_END_COMMANDS

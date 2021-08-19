@@ -14,14 +14,14 @@ class mvDataGrid:
 
             with dpg.mutex():
                 dpg.set_staging_mode(True)
-                dpg.configure_item_registry(skip_keyword_args=True)
+                dpg.configure_app(skip_keyword_args=True)
                 with dpg.staging_container(id=self._staging_id):
                     for row in data:
                         internal_dpg.push_container_stack(internal_dpg.add_table_row())
                         for column in range(self._columns):
                             internal_dpg.add_text(str(row[column]))
                         internal_dpg.pop_container_stack()
-                dpg.configure_item_registry(skip_keyword_args=False)
+                dpg.configure_app(skip_keyword_args=False)
                 dpg.set_staging_mode(False)
         
 

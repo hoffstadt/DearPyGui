@@ -1,8 +1,9 @@
+from typing import List, Any, Callable, Union, Tuple
 import dearpygui.dearpygui as dpg
 
-def create_theme_imgui_dark(default_theme=False):
+def create_theme_imgui_dark() -> Union[str, int]:
 
-    with dpg.theme(default_theme=default_theme) as theme_id:
+    with dpg.theme() as theme_id:
         dpg.add_theme_color(dpg.mvThemeCol_Text                   , (1.00 * 255, 1.00 * 255, 1.00 * 255, 1.00 * 255))
         dpg.add_theme_color(dpg.mvThemeCol_TextDisabled           , (0.50 * 255, 0.50 * 255, 0.50 * 255, 1.00 * 255))
         dpg.add_theme_color(dpg.mvThemeCol_WindowBg               , (0.06 * 255, 0.06 * 255, 0.06 * 255, 0.94 * 255))
@@ -96,9 +97,9 @@ def create_theme_imgui_dark(default_theme=False):
 
     return theme_id
 
-def create_theme_imgui_light(default_theme=False):
+def create_theme_imgui_light() -> Union[str, int]:
 
-    with dpg.theme(default_theme=default_theme) as theme_id:
+    with dpg.theme() as theme_id:
         dpg.add_theme_color(dpg.mvThemeCol_Text                   , (0.00 * 255, 0.00 * 255, 0.00 * 255, 1.00 * 255))
         dpg.add_theme_color(dpg.mvThemeCol_TextDisabled           , (0.60 * 255, 0.60 * 255, 0.60 * 255, 1.00 * 255))
         dpg.add_theme_color(dpg.mvThemeCol_WindowBg               , (0.94 * 255, 0.94 * 255, 0.94 * 255, 1.00 * 255))

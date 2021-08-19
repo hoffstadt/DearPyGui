@@ -25,6 +25,7 @@ We generally fold multiple commits pertaining to the same topic as a single entr
 ### Breaking Changes
 * item: removed table_next_column
 * table rows now required
+* removed `default_theme` keyword arg from `add_theme(...)`, use `bind_theme(...)` now
 * removed `viewport` keyword arg from `setup_dearpygui(...)`
 * removed `viewport` keyword arg from `show_viewport(...)`
 * user must create, setup, show viewport before starting dpg:
@@ -33,6 +34,7 @@ We generally fold multiple commits pertaining to the same topic as a single entr
 ### New
 * module:  added `experimental`
 * item:    added `add_table_cell(...)`
+* command: added `bind_theme(...)`
 * command: added `highlight_table_column(...)`
 * command: added `unhighlight_table_column(...)`
 * command: added `set_table_row_color(...)`
@@ -50,8 +52,6 @@ We generally fold multiple commits pertaining to the same topic as a single entr
 * command: added `add_item_set(...)`
 * command: added `add_template_registry(...)`
 * command: added `bind_template_registry(...)`
-* keyword: added `skip_required_args` to `configure_item_registry(...)`
-* keyword: added `skip_optional_args` to `configure_item_registry(...)`
 * keyword: added `id` to `popup(...)`
 * keyword: added `clipper` to `add_table(...)`
 * added deprecation system
@@ -82,6 +82,8 @@ We generally fold multiple commits pertaining to the same topic as a single entr
 * command: `add_resize_handler(...)` is deprecated. Use `add_item_resize_handler()`.
 * command: `add_toggled_open_handler(...)` is deprecated. Use `add_item_toggled_open_handler()`.
 * command: `add_visible_handler(...)` is deprecated. Use `add_item_visible_handler()`.
+* command: `set_colormap(...)` is deprecated. Use `bind_colormap()`.
+* command: `reset_default_theme(...)` is deprecated. Use `bind_theme(0)`.
 
 ### Fixes
 * fixed `get_item_configuration(...)` memory leak #1179

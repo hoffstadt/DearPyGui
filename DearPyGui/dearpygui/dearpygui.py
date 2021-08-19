@@ -1119,6 +1119,7 @@ def is_viewport_created() -> bool:
     warnings.warn("'is_viewport_created' is deprecated. Use: `is_viewport_ok(...)`", DeprecationWarning, 2)
     return internal_dpg.is_viewport_ok()
 
+
 def setup_viewport():
     """
     'setup_viewport(...)' is deprecated. Use:
@@ -1387,6 +1388,32 @@ def add_visible_handler(parent : Union[int, str], *, label: str =None, user_data
 	"""
 	warnings.warn("'add_visible_handler' is deprecated. Use: `add_item_visible_handler(...)`", DeprecationWarning, 2)
 	return internal_dpg.add_item_visible_handler(parent, label=label, user_data=user_data, use_internal_label=use_internal_label, id=id, callback=callback, show=show)
+
+
+def set_colormap(item : Union[int, str], source : Union[int, str]) -> None:
+	"""
+	Sets the color map for widgets that accept it.
+	Args:
+		item (Union[int, str]): 
+		source (Union[int, str]): 
+	Returns:
+		None
+	"""
+	warnings.warn("'set_colormap' is deprecated. Use: `bind_colormap(...)`", DeprecationWarning, 2)
+	return internal_dpg.bind_colormap(item, source)
+
+
+def reset_default_theme(item : Union[int, str], source : Union[int, str]) -> None:
+	"""
+	Resets default theme
+	Args:
+		item (Union[int, str]): 
+		source (Union[int, str]): 
+	Returns:
+		None
+	"""
+	warnings.warn("'reset_default_theme' is deprecated. Use: `bind_theme(0)`", DeprecationWarning, 2)
+	return internal_dpg.bind_theme(item, source)
 
 ##########################################################
 # Container Context Managers
@@ -2248,7 +2275,7 @@ def texture_registry(*, label: str =None, user_data: Any =None, use_internal_lab
 	finally:
 		internal_dpg.pop_container_stack()
 @contextmanager
-def theme(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, id: Union[int, str] =0, default_theme: bool =False) -> Union[int, str]:
+def theme(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, id: Union[int, str] =0) -> Union[int, str]:
 	"""
 	Undocumented function
 	Args:
@@ -2256,12 +2283,11 @@ def theme(*, label: str =None, user_data: Any =None, use_internal_label: bool =T
 		**user_data (Any): User data for callbacks.
 		**use_internal_label (bool): Use generated internal label instead of user specified (appends ### uuid).
 		**id (Union[int, str]): Unique id used to programmatically refer to the item.If label is unused this will be the label.
-		**default_theme (bool): 
 	Yields:
 		Union[int, str]
 	"""
 	try:
-		widget = internal_dpg.add_theme(label=label, user_data=user_data, use_internal_label=use_internal_label, id=id, default_theme=default_theme)
+		widget = internal_dpg.add_theme(label=label, user_data=user_data, use_internal_label=use_internal_label, id=id)
 		internal_dpg.push_container_stack(widget)
 		yield widget
 	finally:
@@ -5732,7 +5758,7 @@ def add_texture_registry(*, label: str =None, user_data: Any =None, use_internal
 
 	return internal_dpg.add_texture_registry(label=label, user_data=user_data, use_internal_label=use_internal_label, id=id, show=show)
 
-def add_theme(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, id: Union[int, str] =0, default_theme: bool =False) -> Union[int, str]:
+def add_theme(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, id: Union[int, str] =0) -> Union[int, str]:
 	"""
 	Undocumented function
 	Args:
@@ -5740,12 +5766,11 @@ def add_theme(*, label: str =None, user_data: Any =None, use_internal_label: boo
 		**user_data (Any): User data for callbacks.
 		**use_internal_label (bool): Use generated internal label instead of user specified (appends ### uuid).
 		**id (Union[int, str]): Unique id used to programmatically refer to the item.If label is unused this will be the label.
-		**default_theme (bool): 
 	Returns:
 		Union[int, str]
 	"""
 
-	return internal_dpg.add_theme(label=label, user_data=user_data, use_internal_label=use_internal_label, id=id, default_theme=default_theme)
+	return internal_dpg.add_theme(label=label, user_data=user_data, use_internal_label=use_internal_label, id=id)
 
 def add_theme_color(target : int =0, value : Union[List[int], Tuple[int]] =(0, 0, 0, 255), *, label: str =None, user_data: Any =None, use_internal_label: bool =True, id: Union[int, str] =0, parent: Union[int, str] =0, category: int =0) -> Union[int, str]:
 	"""
@@ -5968,6 +5993,18 @@ def add_window(*, label: str =None, user_data: Any =None, use_internal_label: bo
 
 	return internal_dpg.add_window(label=label, user_data=user_data, use_internal_label=use_internal_label, id=id, width=width, height=height, indent=indent, show=show, pos=pos, delay_search=delay_search, min_size=min_size, max_size=max_size, menubar=menubar, collapsed=collapsed, autosize=autosize, no_resize=no_resize, no_title_bar=no_title_bar, no_move=no_move, no_scrollbar=no_scrollbar, no_collapse=no_collapse, horizontal_scrollbar=horizontal_scrollbar, no_focus_on_appearing=no_focus_on_appearing, no_bring_to_front_on_focus=no_bring_to_front_on_focus, no_close=no_close, no_background=no_background, modal=modal, popup=popup, no_saved_settings=no_saved_settings, on_close=on_close)
 
+def bind_colormap(item : Union[int, str], source : Union[int, str]) -> None:
+	"""
+	Sets the color map for widgets that accept it.
+	Args:
+		item (Union[int, str]): 
+		source (Union[int, str]): 
+	Returns:
+		None
+	"""
+
+	return internal_dpg.bind_colormap(item, source)
+
 def bind_item_disabled_theme(item : Union[int, str], theme : Union[int, str]) -> None:
 	"""
 	Undocumented
@@ -6027,6 +6064,17 @@ def bind_template_registry(template_registry : Union[int, str]) -> None:
 
 	return internal_dpg.bind_template_registry(template_registry)
 
+def bind_theme(theme : Union[int, str]) -> None:
+	"""
+	Undocumented
+	Args:
+		theme (Union[int, str]): 
+	Returns:
+		None
+	"""
+
+	return internal_dpg.bind_theme(theme)
+
 def cleanup_dearpygui() -> None:
 	"""
 	Cleans up dearpygui.
@@ -6059,7 +6107,7 @@ def clear_selected_nodes(node_editor : Union[int, str]) -> None:
 
 	return internal_dpg.clear_selected_nodes(node_editor)
 
-def configure_app(*, docking: bool =False, docking_space: bool =False, load_init_file: str ='', init_file: str ='', device: int =-1, auto_device: bool =False) -> None:
+def configure_app(*, docking: bool =False, docking_space: bool =False, load_init_file: str ='', init_file: str ='', device: int =-1, auto_device: bool =False, allow_alias_overwrites: bool =False, manual_alias_management: bool =False, skip_required_args: bool =False, skip_positional_args: bool =False, skip_keyword_args: bool =False) -> None:
 	"""
 	Undocumented
 	Args:
@@ -6069,16 +6117,6 @@ def configure_app(*, docking: bool =False, docking_space: bool =False, load_init
 		**init_file (str): 
 		**device (int): Which display adapter to use. (-1 will use default)
 		**auto_device (bool): Let us pick the display adapter.
-	Returns:
-		None
-	"""
-
-	return internal_dpg.configure_app(docking=docking, docking_space=docking_space, load_init_file=load_init_file, init_file=init_file, device=device, auto_device=auto_device)
-
-def configure_item_registry(*, allow_alias_overwrites: bool =False, manual_alias_management: bool =False, skip_required_args: bool =False, skip_positional_args: bool =False, skip_keyword_args: bool =False) -> None:
-	"""
-	Undocumented
-	Args:
 		**allow_alias_overwrites (bool): 
 		**manual_alias_management (bool): 
 		**skip_required_args (bool): 
@@ -6088,7 +6126,7 @@ def configure_item_registry(*, allow_alias_overwrites: bool =False, manual_alias
 		None
 	"""
 
-	return internal_dpg.configure_item_registry(allow_alias_overwrites=allow_alias_overwrites, manual_alias_management=manual_alias_management, skip_required_args=skip_required_args, skip_positional_args=skip_positional_args, skip_keyword_args=skip_keyword_args)
+	return internal_dpg.configure_app(docking=docking, docking_space=docking_space, load_init_file=load_init_file, init_file=init_file, device=device, auto_device=auto_device, allow_alias_overwrites=allow_alias_overwrites, manual_alias_management=manual_alias_management, skip_required_args=skip_required_args, skip_positional_args=skip_positional_args, skip_keyword_args=skip_keyword_args)
 
 def create_viewport(*, title: str ='Dear PyGui', small_icon: str ='', large_icon: str ='', width: int =1280, height: int =800, x_pos: int =100, y_pos: int =100, min_width: int =250, max_width: int =10000, min_height: int =250, max_height: int =10000, resizable: bool =True, vsync: bool =True, always_on_top: bool =False, decorated: bool =True, clear_color: Union[List[float], Tuple[float]] =(0, 0, 0, 255)) -> None:
 	"""
@@ -6658,16 +6696,6 @@ def get_item_info(item : Union[int, str]) -> dict:
 
 	return internal_dpg.get_item_info(item)
 
-def get_item_registry_configuration() -> dict:
-	"""
-	Undocumented
-	Args:
-	Returns:
-		dict
-	"""
-
-	return internal_dpg.get_item_registry_configuration()
-
 def get_item_state(item : Union[int, str]) -> dict:
 	"""
 	Undocumented
@@ -7221,16 +7249,6 @@ def reset_axis_ticks(axis : Union[int, str]) -> None:
 
 	return internal_dpg.reset_axis_ticks(axis)
 
-def reset_default_theme() -> None:
-	"""
-	Resets to default theme.
-	Args:
-	Returns:
-		None
-	"""
-
-	return internal_dpg.reset_default_theme()
-
 def reset_pos(item : Union[int, str]) -> None:
 	"""
 	Undocumented
@@ -7300,18 +7318,6 @@ def set_axis_ticks(axis : Union[int, str], label_pairs : Any) -> None:
 	"""
 
 	return internal_dpg.set_axis_ticks(axis, label_pairs)
-
-def set_colormap(item : Union[int, str], source : Union[int, str]) -> None:
-	"""
-	Sets the color map for widgets that accept it.
-	Args:
-		item (Union[int, str]): 
-		source (Union[int, str]): 
-	Returns:
-		None
-	"""
-
-	return internal_dpg.set_colormap(item, source)
 
 def set_exit_callback(callback : Callable) -> str:
 	"""
