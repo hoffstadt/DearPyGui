@@ -546,7 +546,7 @@ def add_texture_registry(*, label: str =None, user_data: Any =None, use_internal
 	"""Undocumented function"""
 	...
 
-def add_theme(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, id: Union[int, str] =0, default_theme: bool =False) -> Union[int, str]:
+def add_theme(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, id: Union[int, str] =0) -> Union[int, str]:
 	"""Undocumented function"""
 	...
 
@@ -590,6 +590,10 @@ def add_window(*, label: str =None, user_data: Any =None, use_internal_label: bo
 	"""Creates a new window for following items to be added to."""
 	...
 
+def bind_colormap(item : Union[int, str], source : Union[int, str]) -> None:
+	"""Sets the color map for widgets that accept it."""
+	...
+
 def bind_item_disabled_theme(item : Union[int, str], theme : Union[int, str]) -> None:
 	"""Undocumented"""
 	...
@@ -610,6 +614,10 @@ def bind_template_registry(template_registry : Union[int, str]) -> None:
 	"""Undocumented"""
 	...
 
+def bind_theme(theme : Union[int, str]) -> None:
+	"""Undocumented"""
+	...
+
 def cleanup_dearpygui() -> None:
 	"""Cleans up dearpygui."""
 	...
@@ -622,15 +630,11 @@ def clear_selected_nodes(node_editor : Union[int, str]) -> None:
 	"""Undocumented"""
 	...
 
-def configure_app(*, docking: bool =False, docking_space: bool =False, load_init_file: str ='', init_file: str ='', device: int =-1, auto_device: bool =False) -> None:
+def configure_app(*, docking: bool =False, docking_space: bool =False, load_init_file: str ='', init_file: str ='', device: int =-1, auto_device: bool =False, allow_alias_overwrites: bool =False, manual_alias_management: bool =False, skip_required_args: bool =False, skip_positional_args: bool =False, skip_keyword_args: bool =False) -> None:
 	"""Undocumented"""
 	...
 
 def configure_item(item : Union[int, str], **kwargs) -> None:
-	"""Undocumented"""
-	...
-
-def configure_item_registry(*, allow_alias_overwrites: bool =False, manual_alias_management: bool =False, skip_required_args: bool =False, skip_positional_args: bool =False, skip_keyword_args: bool =False) -> None:
 	"""Undocumented"""
 	...
 
@@ -783,10 +787,6 @@ def get_item_configuration(item : Union[int, str]) -> dict:
 	...
 
 def get_item_info(item : Union[int, str]) -> dict:
-	"""Undocumented"""
-	...
-
-def get_item_registry_configuration() -> dict:
 	"""Undocumented"""
 	...
 
@@ -990,10 +990,6 @@ def reset_axis_ticks(axis : Union[int, str]) -> None:
 	"""Removes the and manually set axis ticks and applys the default auto axis ticks."""
 	...
 
-def reset_default_theme() -> None:
-	"""Resets to default theme."""
-	...
-
 def reset_pos(item : Union[int, str]) -> None:
 	"""Undocumented"""
 	...
@@ -1016,10 +1012,6 @@ def set_axis_limits_auto(axis : Union[int, str]) -> None:
 
 def set_axis_ticks(axis : Union[int, str], label_pairs : Any) -> None:
 	"""Replaces axis ticks with 'label_pairs' argument"""
-	...
-
-def set_colormap(item : Union[int, str], source : Union[int, str]) -> None:
-	"""Sets the color map for widgets that accept it."""
 	...
 
 def set_exit_callback(callback : Callable) -> str:

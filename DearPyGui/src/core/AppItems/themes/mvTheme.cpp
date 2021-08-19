@@ -10,16 +10,21 @@ namespace Marvel {
 	void mvTheme::InsertParser(std::map<std::string, mvPythonParser>* parsers)
 	{
 
-		mvPythonParser parser(mvPyDataType::UUID, "Undocumented function", { "Themes", "Containers"}, true);
-		mvAppItem::AddCommonArgs(parser, (CommonParserArgs)(
-			MV_PARSER_ARG_ID)
-		);
+		{
+			mvPythonParser parser(mvPyDataType::UUID, "Undocumented function", { "Themes", "Containers" }, true);
+			mvAppItem::AddCommonArgs(parser, (CommonParserArgs)(
+				MV_PARSER_ARG_ID)
+			);
+			parser.finalize();
+			parsers->insert({ s_command, parser });
+		}
 
-		parser.addArg<mvPyDataType::Bool>("default_theme", mvArgType::KEYWORD_ARG, "False");
-
-		parser.finalize();
-
-		parsers->insert({ s_command, parser });
+		{
+			mvPythonParser parser(mvPyDataType::None, "Undocumented", { "Themes" });
+			parser.addArg<mvPyDataType::UUID>("theme");
+			parser.finalize();
+			parsers->insert({ "bind_theme", parser });
+		}
 
 	}
 
@@ -64,17 +69,45 @@ namespace Marvel {
 		_triggerAlternativeAction = false;
 	}
 
-	void mvTheme::handleSpecificKeywordArgs(PyObject* dict)
+	PyObject* mvTheme::bind_theme(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
-		if (dict == nullptr)
-			return;
 
-		if (PyObject* item = PyDict_GetItemString(dict, "default_theme"))
+		PyObject* itemraw;
+
+		if (!(mvApp::GetApp()->getParsers())["bind_theme"].parse(args, kwargs, __FUNCTION__,
+			&itemraw))
+			return GetPyNone();
+
+		if (!mvApp::s_manualMutexControl) std::lock_guard<std::mutex> lk(mvApp::s_mutex);
+
+		mvUUID item = mvAppItem::GetIDFromPyObject(itemraw);
+
+		if (item == 0)
 		{
-			_default_theme = ToBool(item);
-			_triggerAlternativeAction = ToBool(item);
+			mvApp::GetApp()->resetTheme();
+			return GetPyNone();
 		}
 
-	}
+		auto aplot = mvApp::GetApp()->getItemRegistry().getItem(item);
+		if (aplot == nullptr)
+		{
+			mvThrowPythonError(mvErrorCode::mvItemNotFound, "bind_theme",
+				"Item not found: " + std::to_string(item), nullptr);
+			return GetPyNone();
+		}
 
+		if (aplot->getType() != mvAppItemType::mvTheme)
+		{
+			mvThrowPythonError(mvErrorCode::mvIncompatibleType, "bind_theme",
+				"Incompatible type. Expected types include: mvPlot", aplot);
+			return GetPyNone();
+		}
+
+		mvTheme* graph = static_cast<mvTheme*>(aplot);
+
+		graph->_default_theme = true;
+		graph->_triggerAlternativeAction = true;
+
+		return GetPyNone();
+	}
 }

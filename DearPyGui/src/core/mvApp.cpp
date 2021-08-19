@@ -257,6 +257,11 @@ namespace Marvel {
 			parser.addArg<mvPyDataType::String>("init_file", mvArgType::KEYWORD_ARG, "''");
 			parser.addArg<mvPyDataType::Integer>("device", mvArgType::KEYWORD_ARG, "-1", "Which display adapter to use. (-1 will use default)");
 			parser.addArg<mvPyDataType::Bool>("auto_device", mvArgType::KEYWORD_ARG, "False", "Let us pick the display adapter.");
+			parser.addArg<mvPyDataType::Bool>("allow_alias_overwrites", mvArgType::KEYWORD_ARG, "False");
+			parser.addArg<mvPyDataType::Bool>("manual_alias_management", mvArgType::KEYWORD_ARG, "False");
+			parser.addArg<mvPyDataType::Bool>("skip_required_args", mvArgType::KEYWORD_ARG, "False");
+			parser.addArg<mvPyDataType::Bool>("skip_positional_args", mvArgType::KEYWORD_ARG, "False");
+			parser.addArg<mvPyDataType::Bool>("skip_keyword_args", mvArgType::KEYWORD_ARG, "False");
 			parser.finalize();
 			parsers->insert({ "configure_app", parser });
 		}
@@ -266,12 +271,6 @@ namespace Marvel {
 			parser.addArg<mvPyDataType::String>("file");
 			parser.finalize();
 			parsers->insert({ "save_init_file", parser });
-		}
-
-		{
-			mvPythonParser parser(mvPyDataType::None, "Resets to default theme.", { "General" });
-			parser.finalize();
-			parsers->insert({ "reset_default_theme", parser });
 		}
 
 		{
@@ -362,13 +361,6 @@ namespace Marvel {
 			parsers->insert({ "get_frame_rate", parser });
 		}
 
-	}
-
-	PyObject* mvApp::reset_default_theme(PyObject* self, PyObject* args, PyObject* kwargs)
-	{
-		mvApp::GetApp()->_resetTheme = true;
-
-		return GetPyNone();
 	}
 
 	PyObject* mvApp::save_init_file(PyObject* self, PyObject* args, PyObject* kwargs)
@@ -582,9 +574,15 @@ namespace Marvel {
 		const char* init_file = "";
 		int device = -1;
 		int auto_device = false;
+		int allow_alias_overwrites = false;
+		int manual_alias_management = false;
+		int skip_required_args = false;
+		int skip_positional_args = false;
+		int skip_keyword_args = false;
 
 		if (!(mvApp::GetApp()->getParsers())["configure_app"].parse(args, kwargs, __FUNCTION__,
-			&docking, &docking_space, &load_init_file, &init_file, &device, &auto_device))
+			&docking, &docking_space, &load_init_file, &init_file, &device, &auto_device,
+			&allow_alias_overwrites, &manual_alias_management, &skip_required_args, &skip_positional_args, &skip_keyword_args))
 			return GetPyNone();
 
 		if (!mvApp::s_manualMutexControl) std::lock_guard<std::mutex> lk(mvApp::s_mutex);
@@ -598,6 +596,11 @@ namespace Marvel {
 		mvApp::GetApp()->_iniFile = init_file;
 		mvApp::GetApp()->_info_device = device;
 		mvApp::GetApp()->_info_auto_device = auto_device;
+		mvApp::GetApp()->getItemRegistry()._allowAliasOverwrites = allow_alias_overwrites;
+		mvApp::GetApp()->getItemRegistry()._manualAliasManagement = manual_alias_management;
+		mvApp::GetApp()->getItemRegistry()._skipPositionalArgs = skip_positional_args;
+		mvApp::GetApp()->getItemRegistry()._skipKeywordArgs = skip_keyword_args;
+		mvApp::GetApp()->getItemRegistry()._skipRequiredArgs = skip_required_args;
 
 		if (!std::string(load_init_file).empty())
 		{
@@ -622,6 +625,11 @@ namespace Marvel {
 		PyDict_SetItemString(pdict, "platform", mvPyObject(ToPyString(mvApp::GetPlatform())));
 		PyDict_SetItemString(pdict, "device", mvPyObject(ToPyInt(mvApp::GetApp()->_info_device)));
 		PyDict_SetItemString(pdict, "device_name", mvPyObject(ToPyString(mvApp::GetApp()->_info_device_name)));
+		PyDict_SetItemString(pdict, "allow_alias_overwrites", mvPyObject(ToPyBool(registry._allowAliasOverwrites)));
+		PyDict_SetItemString(pdict, "manual_alias_management", mvPyObject(ToPyBool(registry._manualAliasManagement)));
+		PyDict_SetItemString(pdict, "skip_keyword_args", mvPyObject(ToPyBool(registry._skipKeywordArgs)));
+		PyDict_SetItemString(pdict, "skip_positional_args", mvPyObject(ToPyBool(registry._skipPositionalArgs)));
+		PyDict_SetItemString(pdict, "skip_required_args", mvPyObject(ToPyBool(registry._skipRequiredArgs)));
 		return pdict;
 	}
 }

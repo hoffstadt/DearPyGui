@@ -14,23 +14,6 @@ namespace Marvel {
 	{
 
 		{
-			mvPythonParser parser(mvPyDataType::Dict, "Undocumented", { "App Item Operations" });
-			parser.finalize();
-			parsers->insert({ "get_item_registry_configuration", parser });
-		}
-
-		{
-			mvPythonParser parser(mvPyDataType::None, "Undocumented", { "App Item Operations" });
-			parser.addArg<mvPyDataType::Bool>("allow_alias_overwrites", mvArgType::KEYWORD_ARG, "False");
-			parser.addArg<mvPyDataType::Bool>("manual_alias_management", mvArgType::KEYWORD_ARG, "False");
-			parser.addArg<mvPyDataType::Bool>("skip_required_args", mvArgType::KEYWORD_ARG, "False");
-			parser.addArg<mvPyDataType::Bool>("skip_positional_args", mvArgType::KEYWORD_ARG, "False");
-			parser.addArg<mvPyDataType::Bool>("skip_keyword_args", mvArgType::KEYWORD_ARG, "False");
-			parser.finalize();
-			parsers->insert({ "configure_item_registry", parser });
-		}
-
-		{
 			mvPythonParser parser(mvPyDataType::None, "Undocumented", { "Item Registry" });
 			parser.addArg<mvPyDataType::String>("alias");
 			parser.addArg<mvPyDataType::UUID>("item");
@@ -1710,43 +1693,6 @@ namespace Marvel {
 		if (!mvApp::s_manualMutexControl) std::lock_guard<std::mutex> lk(mvApp::s_mutex);
 
 		return ToPyList(mvApp::GetApp()->getItemRegistry().getWindows());
-	}
-
-	PyObject* mvItemRegistry::configure_item_registry(PyObject* self, PyObject* args, PyObject* kwargs)
-	{
-
-		int allow_alias_overwrites = false;
-		int manual_alias_management = false;
-		int skip_required_args = false;
-		int skip_positional_args = false;
-		int skip_keyword_args = false;
-
-		if (!(mvApp::GetApp()->getParsers())["configure_item_registry"].parse(args, kwargs, __FUNCTION__, 
-			&allow_alias_overwrites, &manual_alias_management, &skip_required_args, &skip_positional_args, &skip_keyword_args))
-			return GetPyNone();
-
-		if (!mvApp::s_manualMutexControl) std::lock_guard<std::mutex> lk(mvApp::s_mutex);
-
-		mvApp::GetApp()->getItemRegistry()._allowAliasOverwrites = allow_alias_overwrites;
-		mvApp::GetApp()->getItemRegistry()._manualAliasManagement = manual_alias_management;
-		mvApp::GetApp()->getItemRegistry()._skipPositionalArgs = skip_positional_args;
-		mvApp::GetApp()->getItemRegistry()._skipKeywordArgs = skip_keyword_args;
-		mvApp::GetApp()->getItemRegistry()._skipRequiredArgs = skip_required_args;
-
-		return GetPyNone();
-	}
-
-	PyObject* mvItemRegistry::get_item_registry_configuration(PyObject* self, PyObject* args, PyObject* kwargs)
-	{
-		if (!mvApp::s_manualMutexControl) std::lock_guard<std::mutex> lk(mvApp::s_mutex);
-		auto registry = mvApp::GetApp()->getItemRegistry();
-		PyObject* pdict = PyDict_New();
-		PyDict_SetItemString(pdict, "allow_alias_overwrites", mvPyObject(ToPyBool(registry._allowAliasOverwrites)));
-		PyDict_SetItemString(pdict, "manual_alias_management", mvPyObject(ToPyBool(registry._manualAliasManagement)));
-		PyDict_SetItemString(pdict, "skip_keyword_args", mvPyObject(ToPyBool(registry._skipKeywordArgs)));
-		PyDict_SetItemString(pdict, "skip_positional_args", mvPyObject(ToPyBool(registry._skipPositionalArgs)));
-		PyDict_SetItemString(pdict, "skip_required_args", mvPyObject(ToPyBool(registry._skipRequiredArgs)));
-		return pdict;
 	}
 
 	PyObject* mvItemRegistry::add_alias(PyObject* self, PyObject* args, PyObject* kwargs)

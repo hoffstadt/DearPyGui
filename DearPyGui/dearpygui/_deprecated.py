@@ -32,6 +32,7 @@ def is_viewport_created() -> bool:
     warnings.warn("'is_viewport_created' is deprecated. Use: `is_viewport_ok(...)`", DeprecationWarning, 2)
     return internal_dpg.is_viewport_ok()
 
+
 def setup_viewport():
     """
     'setup_viewport(...)' is deprecated. Use:
@@ -300,3 +301,29 @@ def add_visible_handler(parent : Union[int, str], *, label: str =None, user_data
 	"""
 	warnings.warn("'add_visible_handler' is deprecated. Use: `add_item_visible_handler(...)`", DeprecationWarning, 2)
 	return internal_dpg.add_item_visible_handler(parent, label=label, user_data=user_data, use_internal_label=use_internal_label, id=id, callback=callback, show=show)
+
+
+def set_colormap(item : Union[int, str], source : Union[int, str]) -> None:
+	"""
+	Sets the color map for widgets that accept it.
+	Args:
+		item (Union[int, str]): 
+		source (Union[int, str]): 
+	Returns:
+		None
+	"""
+	warnings.warn("'set_colormap' is deprecated. Use: `bind_colormap(...)`", DeprecationWarning, 2)
+	return internal_dpg.bind_colormap(item, source)
+
+
+def reset_default_theme(item : Union[int, str], source : Union[int, str]) -> None:
+	"""
+	Resets default theme
+	Args:
+		item (Union[int, str]): 
+		source (Union[int, str]): 
+	Returns:
+		None
+	"""
+	warnings.warn("'reset_default_theme' is deprecated. Use: `bind_theme(0)`", DeprecationWarning, 2)
+	return internal_dpg.bind_theme(item, source)
