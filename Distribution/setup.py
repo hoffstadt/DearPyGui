@@ -45,8 +45,8 @@ setup(
     ],
     packages=find_packages(exclude=['contrib', 'docs', 'tests']),  # Required
     package_data={  # Optional
-    'dearpygui': ["_dearpygui.so", "_dearpygui.pyd", "_dearpygui.pyi", "dearpygui.py",
-                  "logger.py", "demo.py", "themes.py", "experimental.py", "vcruntime140_1.dll"],
+    'dearpygui': ["_dearpygui.so", "_dearpygui.pyd", "_dearpygui.pyi", "dearpygui.py", 
+                  "demo.py", "experimental.py", "vcruntime140_1.dll"],
     },
     distclass=BinaryDistribution
 )
