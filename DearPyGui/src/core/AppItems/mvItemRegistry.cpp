@@ -7,6 +7,8 @@
 #include "mvPythonExceptions.h"
 #include "mvToolManager.h"
 #include "mvPythonExceptions.h"
+#include "mvToolManager.h"
+#include "mvFontManager.h"
 
 namespace Marvel {
 
@@ -514,10 +516,37 @@ namespace Marvel {
 		if(_showImPlotDebug)
 			ImPlot::ShowDemoWindow(&_showImPlotDebug);
 
+		if (mvToolManager::GetFontManager()._resetDefault)
+		{
+			ImGuiIO& io = ImGui::GetIO();
+			io.FontDefault = nullptr;
+			mvToolManager::GetFontManager()._resetDefault = false;
+		}
+
 		for (auto& root : _fontRegistryRoots)
 		{
 			if (root->_show)
 				root->draw(nullptr, 0.0f, 0.0f);
+		}
+
+		if (mvToolManager::GetFontManager()._newDefault)
+		{
+			ImGuiIO& io = ImGui::GetIO();
+			io.FontDefault = nullptr;
+
+			for (auto& root : _fontRegistryRoots)
+			{
+				for (auto& font : root->_children[1])
+				{
+					if (static_cast<mvFont*>(font.get())->_default)
+					{
+						io.FontDefault = static_cast<mvFont*>(font.get())->getFontPtr();
+						break;
+					}
+				}
+			}
+
+			mvToolManager::GetFontManager()._newDefault = false;
 		}
 
 		for (auto& root : _handlerRegistryRoots)

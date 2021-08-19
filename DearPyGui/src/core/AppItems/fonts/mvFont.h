@@ -8,13 +8,21 @@ namespace Marvel {
 	class mvFont : public mvAppItem
 	{
 
+		friend class mvItemRegistry;
+		friend class mvFontRegistry;
+
 	public:
 
 		static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
 
 		MV_APPLY_WIDGET_REGISTRATION(mvAppItemType::mvFont, add_font)
-		MV_NO_COMMANDS
 		MV_NO_CONSTANTS
+
+		MV_CREATE_COMMAND(bind_font);
+
+		MV_START_COMMANDS
+			MV_ADD_COMMAND(bind_font);
+		MV_END_COMMANDS
 
 		MV_START_PARENTS
 			MV_ADD_PARENT(mvAppItemType::mvFontRegistry)
@@ -35,8 +43,6 @@ namespace Marvel {
 		void draw(ImDrawList* drawlist, float x, float y) override;
 		void customAction() override;
 		void handleSpecificRequiredArgs(PyObject* dict) override;
-		void handleSpecificKeywordArgs(PyObject* dict) override;
-		void getSpecificConfiguration(PyObject* dict) override;
 		ImFont* getFontPtr() { return _fontPtr; }
 
 	private:

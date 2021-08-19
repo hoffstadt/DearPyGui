@@ -29,6 +29,7 @@ namespace Marvel {
 		void customAction() override;
 		void onChildAdd(mvRef<mvAppItem> item) override { _show = true; }
 		bool isInvalid() const { return _dirty; }
+		void resetFont();
 
 	private:
 
