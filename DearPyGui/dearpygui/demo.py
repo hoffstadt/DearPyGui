@@ -1,6 +1,4 @@
 import dearpygui.dearpygui as dpg
-import dearpygui.themes as themes
-from dearpygui.logger import mvLogger
 from math import sin, cos
 import random
 
@@ -168,20 +166,21 @@ def _on_demo_close(sender, app_data, user_data):
 def show_demo():
 
     ## create a logger
-    logger = mvLogger()
-    logger.log_level = 0
-    logger.log("trace message")
-    logger.log_debug("debug message")
-    logger.log_info("info message")
-    logger.log_warning("warning message")
-    logger.log_error("error message")
-    logger.log_critical("critical message")
+    logger = 7
+    #logger = mvLogger()
+    #logger.log_level = 0
+    #logger.log("trace message")
+    #logger.log_debug("debug message")
+    #logger.log_info("info message")
+    #logger.log_warning("warning message")
+    #logger.log_error("error message")
+    #logger.log_critical("critical message")
 
     dpg.add_texture_registry(label="Demo Texture Container", tag="__demo_texture_container")
     dpg.add_colormap_registry(label="Demo Colormap Registry", tag="__demo_colormap_registry")
 
-    dpg.add_alias("__DARK_IMGUI_THEME", themes.create_theme_imgui_dark())
-    dpg.add_alias("__LIGHT_IMGUI_THEME", themes.create_theme_imgui_light())
+    #dpg.add_alias("__DARK_IMGUI_THEME", themes.create_theme_imgui_dark())
+    #dpg.add_alias("__LIGHT_IMGUI_THEME", themes.create_theme_imgui_light())
 
     def _log(sender, app_data, user_data):
         pass
@@ -224,10 +223,8 @@ def show_demo():
             with dpg.menu(label="Themes"):
                 dpg.add_menu_item(label="Default",
                     callback=lambda: dpg.bind_item_theme("__demo_id", 0))
-                dpg.add_menu_item(label="Dark ImGui",
-                                  callback=lambda: dpg.bind_item_theme("__demo_id", "__DARK_IMGUI_THEME"))
-                dpg.add_menu_item(label="Light ImGui",
-                                  callback=lambda: dpg.bind_item_theme("__demo_id", "__LIGHT_IMGUI_THEME"))
+                #dpg.add_menu_item(label="Dark ImGui", callback=lambda: dpg.bind_item_theme("__demo_id", "__DARK_IMGUI_THEME"))
+                #dpg.add_menu_item(label="Light ImGui", callback=lambda: dpg.bind_item_theme("__demo_id", "__LIGHT_IMGUI_THEME"))
 
             with dpg.menu(label="Tools"):
 

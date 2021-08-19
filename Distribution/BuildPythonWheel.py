@@ -19,9 +19,7 @@ if not os.path.isdir(script_dir +  "/dearpygui/"):
 shutil.copy(location, script_dir +"/dearpygui")
 shutil.copy(script_dir + "/../DearPyGui/dearpygui/_dearpygui.pyi", script_dir + "/dearpygui")
 shutil.copy(script_dir + "/../DearPyGui/dearpygui/dearpygui.py", script_dir + "/dearpygui")
-shutil.copy(script_dir + "/../DearPyGui/dearpygui/logger.py", script_dir + "/dearpygui")
 shutil.copy(script_dir + "/../DearPyGui/dearpygui/demo.py", script_dir + "/dearpygui")
-shutil.copy(script_dir + "/../DearPyGui/dearpygui/themes.py", script_dir + "/dearpygui")
 shutil.copy(script_dir + "/../DearPyGui/dearpygui/experimental.py", script_dir + "/dearpygui")
 shutil.copy(script_dir + "/../Distribution/vcruntime140_1.dll", script_dir + "/dearpygui")
 
