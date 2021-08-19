@@ -212,12 +212,8 @@ namespace Marvel {
 
 		int resizable = true;
 		int vsync = true;
-		int always_on_top = true;
-		int maximized_box = true;
-		int minimized_box = true;
-		int border = true;
-		int caption = true;
-		int overlapped = true;
+		int always_on_top = false;
+		int decorated = true;
 
 		PyObject* color = PyList_New(4);
 		PyList_SetItem(color, 0, PyFloat_FromDouble(0.0));
@@ -228,8 +224,7 @@ namespace Marvel {
 
 		if (!(mvApp::GetApp()->getParsers())["create_viewport"].parse(args, kwargs, __FUNCTION__,
 			&title, &small_icon, &large_icon, &width, &height, &x_pos, &y_pos, &min_width, &max_width, &min_height, &max_height ,
-			&resizable, &vsync, &always_on_top,
-			&maximized_box, &minimized_box, &border, &caption, &overlapped, &color
+			&resizable, &vsync, &always_on_top, &decorated, &color
 			))
 			return GetPyNone();
 

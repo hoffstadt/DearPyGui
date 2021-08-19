@@ -9,6 +9,7 @@
 #include "mvFontRangeHint.h"
 #include "mvFontRange.h"
 #include "mvFontManager.h"
+#include "mvFontRegistry.h"
 #include "mvFontChars.h"
 #include "mvCharRemap.h"
 
@@ -16,21 +17,28 @@ namespace Marvel {
 
 	void mvFont::InsertParser(std::map<std::string, mvPythonParser>* parsers)
 	{
+		{
+			mvPythonParser parser(mvPyDataType::UUID, "Undocumented function", { "Fonts", "Containers" }, true);
+			mvAppItem::AddCommonArgs(parser, (CommonParserArgs)(
+				MV_PARSER_ARG_ID)
+			);
 
-		mvPythonParser parser(mvPyDataType::UUID, "Undocumented function", { "Fonts", "Containers" }, true);
-		mvAppItem::AddCommonArgs(parser, (CommonParserArgs)(
-			MV_PARSER_ARG_ID)
-		);
+			parser.addArg<mvPyDataType::String>("file");
+			parser.addArg<mvPyDataType::Integer>("size");
 
-		parser.addArg<mvPyDataType::String>("file");
-		parser.addArg<mvPyDataType::Integer>("size");
-		parser.addArg<mvPyDataType::Bool>("default_font", mvArgType::KEYWORD_ARG, "False");
+			parser.addArg<mvPyDataType::UUID>("parent", mvArgType::KEYWORD_ARG, "internal_dpg.mvReservedUUID_0", "Parent to add this item to. (runtime adding)");
 
-		parser.addArg<mvPyDataType::UUID>("parent", mvArgType::KEYWORD_ARG, "internal_dpg.mvReservedUUID_0", "Parent to add this item to. (runtime adding)");
+			parser.finalize();
 
-		parser.finalize();
+			parsers->insert({ s_command, parser });
+		}
 
-		parsers->insert({ s_command, parser });
+		{
+			mvPythonParser parser(mvPyDataType::None, "Undocumented", { "Fonts" });
+			parser.addArg<mvPyDataType::UUID>("font");
+			parser.finalize();
+			parsers->insert({ "bind_font", parser });
+		}
 	}
 
 	mvFont::mvFont(mvUUID uuid)
@@ -189,21 +197,46 @@ namespace Marvel {
 		}
 	}
 
-	void mvFont::handleSpecificKeywordArgs(PyObject* dict)
+	PyObject* mvFont::bind_font(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
-		if (dict == nullptr)
-			return;
 
-		if (PyObject* item = PyDict_GetItemString(dict, "default_font")) _default = ToBool(item);
+		PyObject* itemraw;
 
+		if (!(mvApp::GetApp()->getParsers())["bind_font"].parse(args, kwargs, __FUNCTION__,
+			&itemraw))
+			return GetPyNone();
+
+		if (!mvApp::s_manualMutexControl) std::lock_guard<std::mutex> lk(mvApp::s_mutex);
+
+		mvUUID item = mvAppItem::GetIDFromPyObject(itemraw);
+
+		if (item == 0)
+		{
+			for (auto& reg : mvApp::GetApp()->getItemRegistry().getFontRegistries())
+				static_cast<mvFontRegistry*>(reg.get())->resetFont();
+			return GetPyNone();
+		}
+
+		auto aplot = mvApp::GetApp()->getItemRegistry().getItem(item);
+		if (aplot == nullptr)
+		{
+			mvThrowPythonError(mvErrorCode::mvItemNotFound, "bind_font",
+				"Item not found: " + std::to_string(item), nullptr);
+			return GetPyNone();
+		}
+
+		if (aplot->getType() != mvAppItemType::mvFont)
+		{
+			mvThrowPythonError(mvErrorCode::mvIncompatibleType, "bind_font",
+				"Incompatible type. Expected types include: mvFont", aplot);
+			return GetPyNone();
+		}
+
+		mvFont* graph = static_cast<mvFont*>(aplot);
+
+		graph->_default = true;
+		mvToolManager::GetFontManager()._newDefault = true;
+
+		return GetPyNone();
 	}
-
-	void mvFont::getSpecificConfiguration(PyObject* dict)
-	{
-		if (dict == nullptr)
-			return;
-
-		PyDict_SetItemString(dict, "default_font", mvPyObject(ToPyBool(_default)));
-	}
-
 }

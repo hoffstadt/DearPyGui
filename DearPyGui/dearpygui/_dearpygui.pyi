@@ -182,7 +182,7 @@ def add_float_vect_value(*, label: str =None, user_data: Any =None, use_internal
 	"""Undocumented"""
 	...
 
-def add_font(file : str, size : int, *, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, default_font: bool =False, parent: Union[int, str] =internal_dpg.mvReservedUUID_0) -> Union[int, str]:
+def add_font(file : str, size : int, *, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, parent: Union[int, str] =internal_dpg.mvReservedUUID_0) -> Union[int, str]:
 	"""Undocumented function"""
 	...
 
@@ -592,6 +592,10 @@ def add_window(*, label: str =None, user_data: Any =None, use_internal_label: bo
 
 def bind_colormap(item : Union[int, str], source : Union[int, str]) -> None:
 	"""Sets the color map for widgets that accept it."""
+	...
+
+def bind_font(font : Union[int, str]) -> None:
+	"""Undocumented"""
 	...
 
 def bind_item_disabled_theme(item : Union[int, str], theme : Union[int, str]) -> None:

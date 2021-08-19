@@ -27,6 +27,7 @@ We generally fold multiple commits pertaining to the same topic as a single entr
 * item: renamed `staging_container` to `stage`
 * item: removed table_next_column
 * table rows now required
+* removed `default_font` keyword arg from `add_font(...)`, use `bind_font(...)` now
 * removed `default_theme` keyword arg from `add_theme(...)`, use `bind_theme(...)` now
 * removed `viewport` keyword arg from `setup_dearpygui(...)`
 * removed `viewport` keyword arg from `show_viewport(...)`

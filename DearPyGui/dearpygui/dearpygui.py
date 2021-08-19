@@ -1675,7 +1675,7 @@ def filter_set(*, label: str =None, user_data: Any =None, use_internal_label: bo
 	finally:
 		internal_dpg.pop_container_stack()
 @contextmanager
-def font(file : str, size : int, *, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, default_font: bool =False, parent: Union[int, str] =internal_dpg.mvReservedUUID_0) -> Union[int, str]:
+def font(file : str, size : int, *, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, parent: Union[int, str] =internal_dpg.mvReservedUUID_0) -> Union[int, str]:
 	"""
 	Undocumented function
 	Args:
@@ -1685,13 +1685,12 @@ def font(file : str, size : int, *, label: str =None, user_data: Any =None, use_
 		**user_data (Any): User data for callbacks.
 		**use_internal_label (bool): Use generated internal label instead of user specified (appends ### uuid).
 		**tag (Union[int, str]): Unique id used to programmatically refer to the item.If label is unused this will be the label.
-		**default_font (bool): 
 		**parent (Union[int, str]): Parent to add this item to. (runtime adding)
 	Yields:
 		Union[int, str]
 	"""
 	try:
-		widget = internal_dpg.add_font(file, size, label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, default_font=default_font, parent=parent)
+		widget = internal_dpg.add_font(file, size, label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, parent=parent)
 		internal_dpg.push_container_stack(widget)
 		yield widget
 	finally:
@@ -3589,7 +3588,7 @@ def add_float_vect_value(*, label: str =None, user_data: Any =None, use_internal
 
 	return internal_dpg.add_float_vect_value(label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, source=source, default_value=default_value, parent=parent)
 
-def add_font(file : str, size : int, *, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, default_font: bool =False, parent: Union[int, str] =internal_dpg.mvReservedUUID_0) -> Union[int, str]:
+def add_font(file : str, size : int, *, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, parent: Union[int, str] =internal_dpg.mvReservedUUID_0) -> Union[int, str]:
 	"""
 	Undocumented function
 	Args:
@@ -3599,13 +3598,12 @@ def add_font(file : str, size : int, *, label: str =None, user_data: Any =None, 
 		**user_data (Any): User data for callbacks.
 		**use_internal_label (bool): Use generated internal label instead of user specified (appends ### uuid).
 		**tag (Union[int, str]): Unique id used to programmatically refer to the item.If label is unused this will be the label.
-		**default_font (bool): 
 		**parent (Union[int, str]): Parent to add this item to. (runtime adding)
 	Returns:
 		Union[int, str]
 	"""
 
-	return internal_dpg.add_font(file, size, label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, default_font=default_font, parent=parent)
+	return internal_dpg.add_font(file, size, label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, parent=parent)
 
 def add_font_chars(chars : Union[List[int], Tuple[int]], *, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, parent: Union[int, str] =0) -> Union[int, str]:
 	"""
@@ -6016,6 +6014,17 @@ def bind_colormap(item : Union[int, str], source : Union[int, str]) -> None:
 	"""
 
 	return internal_dpg.bind_colormap(item, source)
+
+def bind_font(font : Union[int, str]) -> None:
+	"""
+	Undocumented
+	Args:
+		font (Union[int, str]): 
+	Returns:
+		None
+	"""
+
+	return internal_dpg.bind_font(font)
 
 def bind_item_disabled_theme(item : Union[int, str], theme : Union[int, str]) -> None:
 	"""

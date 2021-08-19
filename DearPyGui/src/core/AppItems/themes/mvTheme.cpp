@@ -99,7 +99,7 @@ namespace Marvel {
 		if (aplot->getType() != mvAppItemType::mvTheme)
 		{
 			mvThrowPythonError(mvErrorCode::mvIncompatibleType, "bind_theme",
-				"Incompatible type. Expected types include: mvPlot", aplot);
+				"Incompatible type. Expected types include: mvTheme", aplot);
 			return GetPyNone();
 		}
 
