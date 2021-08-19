@@ -55,7 +55,7 @@ namespace Marvel {
         mvCandleSeries, mvAreaSeries, mvColorMapScale, mvSlider3D,
         mvKnobFloat, mvLoadingIndicator, mvNodeLink, 
         mvTextureRegistry, mvStaticTexture, mvDynamicTexture,
-        mvStagingContainer, mvDrawLayer, mvViewportDrawlist,
+        mvStage, mvDrawLayer, mvViewportDrawlist,
         mvFileExtension, mvPlotLegend, mvPlotAxis,
         mvHandlerRegistry, mvKeyDownHandler, mvKeyPressHandler,
         mvKeyReleaseHandler, mvMouseMoveHandler, mvMouseWheelHandler,

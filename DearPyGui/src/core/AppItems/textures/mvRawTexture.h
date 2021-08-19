@@ -25,7 +25,7 @@ namespace Marvel {
 		MV_CREATE_CONSTANT(mvFormat_Float_rgb, 1);
 
 		MV_START_PARENTS
-			MV_ADD_PARENT(mvAppItemType::mvStagingContainer),
+			MV_ADD_PARENT(mvAppItemType::mvStage),
 			MV_ADD_PARENT(mvAppItemType::mvTemplateRegistry),
 			MV_ADD_PARENT(mvAppItemType::mvTextureRegistry)
 		MV_END_PARENTS

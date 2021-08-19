@@ -23,6 +23,7 @@ We generally fold multiple commits pertaining to the same topic as a single entr
 ## VERSION 0.9.0
 
 ### Breaking Changes
+* item: renamed `staging_container` to `stage`
 * item: removed table_next_column
 * table rows now required
 * removed `default_theme` keyword arg from `add_theme(...)`, use `bind_theme(...)` now
@@ -84,6 +85,7 @@ We generally fold multiple commits pertaining to the same topic as a single entr
 * command: `add_visible_handler(...)` is deprecated. Use `add_item_visible_handler()`.
 * command: `set_colormap(...)` is deprecated. Use `bind_colormap()`.
 * command: `reset_default_theme(...)` is deprecated. Use `bind_theme(0)`.
+* command: `set_staging_mode(...)` is deprecated. No longer needed.
 
 ### Fixes
 * fixed `get_item_configuration(...)` memory leak #1179
