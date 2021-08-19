@@ -2,6 +2,9 @@ import dearpygui.dearpygui as dpg
 import dearpygui.demo as demo
 import dearpygui.themes as themes
 from dearpygui.datagrid import mvDataGrid
+import warnings
+
+warnings.simplefilter('always', DeprecationWarning)
 
 dpg.enable_docking()
 
@@ -26,5 +29,7 @@ with dpg.window(label="tutorial", width=500, height=500):
     dpg.add_text("test hovering", label="test hovering")
     datagrid.submit()
 
-dpg.setup_viewport()
+dpg.create_viewport()
+dpg.setup_dearpygui()
+dpg.show_viewport()
 dpg.start_dearpygui()

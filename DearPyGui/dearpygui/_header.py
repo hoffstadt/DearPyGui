@@ -46,17 +46,6 @@ def setup_registries() -> None:
     internal_dpg.add_colormap_registry(id=internal_dpg.mvReservedUUID_4)
 
 
-def setup_viewport():
-    """Prepares viewport. If not called, start_dearpygui will automatically call this.
-
-    Returns:
-        None
-    """
-    vp = internal_dpg.create_viewport()
-    internal_dpg.setup_dearpygui(viewport=vp)
-    internal_dpg.show_viewport(vp)
-
-
 def start_dearpygui():
     """Prepares viewport (if not done already). sets up, cleans up, and runs main event loop.
 
@@ -64,8 +53,9 @@ def start_dearpygui():
         None
     """
 
-    if not internal_dpg.is_viewport_created():
-        setup_viewport()
+    if not internal_dpg.is_viewport_ok():
+        raise RuntimeError("Viewport was not created and shown.")
+        return
 
     while(internal_dpg.is_dearpygui_running()):
         internal_dpg.render_dearpygui_frame()   
@@ -89,7 +79,7 @@ def popup(parent: Union[int, str], mousebutton: int = internal_dpg.mvMouseButton
             _internal_popup_id = internal_dpg.generate_uuid()
         else:
             _internal_popup_id = id
-        internal_dpg.add_clicked_handler(parent, mousebutton, callback=lambda: internal_dpg.configure_item(_internal_popup_id, show=True))
+        internal_dpg.add_item_clicked_handler(parent, mousebutton, callback=lambda: internal_dpg.configure_item(_internal_popup_id, show=True))
         if modal:
             internal_dpg.add_window(modal=True, show=False, id=_internal_popup_id, autosize=True)
         else:

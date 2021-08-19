@@ -150,11 +150,11 @@ namespace Marvel {
         MV_CREATE_COMMAND(focus_item);
         MV_CREATE_COMMAND(reset_pos);
         MV_CREATE_COMMAND(set_item_children);
-        MV_CREATE_COMMAND(set_item_font);
-        MV_CREATE_COMMAND(set_item_theme);
-        MV_CREATE_COMMAND(set_item_disabled_theme);
-        MV_CREATE_COMMAND(set_item_type_theme);
-        MV_CREATE_COMMAND(set_item_type_disabled_theme);
+        MV_CREATE_COMMAND(bind_item_font);
+        MV_CREATE_COMMAND(bind_item_theme);
+        MV_CREATE_COMMAND(bind_item_disabled_theme);
+        MV_CREATE_COMMAND(bind_item_type_theme);
+        MV_CREATE_COMMAND(bind_item_type_disabled_theme);
         MV_CREATE_COMMAND(set_item_alias);
         MV_CREATE_COMMAND(get_item_alias);
 
@@ -172,11 +172,11 @@ namespace Marvel {
             MV_ADD_COMMAND(focus_item);
             MV_ADD_COMMAND(reset_pos);
             MV_ADD_COMMAND(set_item_children);
-            MV_ADD_COMMAND(set_item_font);
-            MV_ADD_COMMAND(set_item_theme);
-            MV_ADD_COMMAND(set_item_disabled_theme);
-            MV_ADD_COMMAND(set_item_type_theme);
-            MV_ADD_COMMAND(set_item_type_disabled_theme);
+            MV_ADD_COMMAND(bind_item_font);
+            MV_ADD_COMMAND(bind_item_theme);
+            MV_ADD_COMMAND(bind_item_disabled_theme);
+            MV_ADD_COMMAND(bind_item_type_theme);
+            MV_ADD_COMMAND(bind_item_type_disabled_theme);
         MV_END_COMMANDS
 
         //-----------------------------------------------------------------------------
