@@ -174,7 +174,7 @@ namespace Marvel{
 		parser.addArg<mvPyDataType::Object>("user_data", mvArgType::KEYWORD_ARG, "None", "User data for callbacks.");
 		parser.addArg<mvPyDataType::Bool>("use_internal_label", mvArgType::KEYWORD_ARG, "True", "Use generated internal label instead of user specified (appends ### uuid).");
 	
-		if(args & MV_PARSER_ARG_ID)            parser.addArg<mvPyDataType::UUID>("id", mvArgType::KEYWORD_ARG, "0", "Unique id used to programmatically refer to the item.If label is unused this will be the label.");
+		if(args & MV_PARSER_ARG_ID)            parser.addArg<mvPyDataType::UUID>("tag", mvArgType::KEYWORD_ARG, "0", "Unique id used to programmatically refer to the item.If label is unused this will be the label.");
 		if(args & MV_PARSER_ARG_WIDTH)         parser.addArg<mvPyDataType::Integer>("width", mvArgType::KEYWORD_ARG, "0", "Width of the item.");
 		if(args & MV_PARSER_ARG_HEIGHT)        parser.addArg<mvPyDataType::Integer>("height", mvArgType::KEYWORD_ARG, "0", "Height of the item.");
 		if(args & MV_PARSER_ARG_INDENT)        parser.addArg<mvPyDataType::Integer>("indent", mvArgType::KEYWORD_ARG, "-1", "Offsets the widget to the right the specified number multiplied by the indent style.");
@@ -1352,7 +1352,7 @@ namespace Marvel{
 					before = ToUUID(item);
 			}
 
-			if (PyObject* item = PyDict_GetItemString(kwargs, "id"))
+			if (PyObject* item = PyDict_GetItemString(kwargs, "tag"))
 			{
 				if (PyUnicode_Check(item))
 					alias = ToString(item);

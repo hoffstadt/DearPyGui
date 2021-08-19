@@ -110,9 +110,9 @@ def _create_static_textures():
             texture_data3.append(0)
             texture_data3.append(255/255)
 
-    dpg.add_static_texture(100, 100, texture_data1, parent="__demo_texture_container", id="__demo_static_texture_1", label="Static Texture 1")
-    dpg.add_static_texture(50, 50, texture_data2, parent="__demo_texture_container", id="__demo_static_texture_2", label="Static Texture 2")
-    dpg.add_static_texture(100, 100, texture_data3, parent="__demo_texture_container", id="__demo_static_texture_3", label="Static Texture 3")
+    dpg.add_static_texture(100, 100, texture_data1, parent="__demo_texture_container", tag="__demo_static_texture_1", label="Static Texture 1")
+    dpg.add_static_texture(50, 50, texture_data2, parent="__demo_texture_container", tag="__demo_static_texture_2", label="Static Texture 2")
+    dpg.add_static_texture(100, 100, texture_data3, parent="__demo_texture_container", tag="__demo_static_texture_3", label="Static Texture 3")
 
 def _create_dynamic_textures():
     
@@ -131,8 +131,8 @@ def _create_dynamic_textures():
         texture_data2.append(0)
         texture_data2.append(255/255)
 
-    dpg.add_dynamic_texture(100, 100, texture_data1, parent="__demo_texture_container", id="__demo_dynamic_texture_1")
-    dpg.add_dynamic_texture(50, 50, texture_data2, parent="__demo_texture_container", id="__demo_dynamic_texture_2")
+    dpg.add_dynamic_texture(100, 100, texture_data1, parent="__demo_texture_container", tag="__demo_dynamic_texture_1")
+    dpg.add_dynamic_texture(50, 50, texture_data2, parent="__demo_texture_container", tag="__demo_dynamic_texture_2")
 
 def _update_dynamic_textures(sender, app_data, user_data):
 
@@ -177,8 +177,8 @@ def show_demo():
     logger.log_error("error message")
     logger.log_critical("critical message")
 
-    dpg.add_texture_registry(label="Demo Texture Container", id="__demo_texture_container")
-    dpg.add_colormap_registry(label="Demo Colormap Registry", id="__demo_colormap_registry")
+    dpg.add_texture_registry(label="Demo Texture Container", tag="__demo_texture_container")
+    dpg.add_colormap_registry(label="Demo Colormap Registry", tag="__demo_colormap_registry")
 
     dpg.add_alias("__DARK_IMGUI_THEME", themes.create_theme_imgui_dark())
     dpg.add_alias("__LIGHT_IMGUI_THEME", themes.create_theme_imgui_light())
@@ -189,7 +189,7 @@ def show_demo():
     _create_static_textures()
     _create_dynamic_textures()
 
-    with dpg.window(label="Dear PyGui Demo", width=800, height=800, on_close=_on_demo_close, pos=(100, 100), id="__demo_id"):
+    with dpg.window(label="Dear PyGui Demo", width=800, height=800, on_close=_on_demo_close, pos=(100, 100), tag="__demo_id"):
     
         with dpg.menu_bar():
 
@@ -429,7 +429,7 @@ def show_demo():
                                      user_data=_color_picker_id, horizontal=True)
 
                 dpg.add_color_picker((255, 0, 255, 255), label="Color Picker", 
-                        width=200, id=_color_picker_id)
+                        width=200, tag=_color_picker_id)
 
                 _add_config_options(_color_picker_id, 3, 
                                     "no_alpha", "no_side_preview", "display_rgb",
@@ -462,7 +462,7 @@ def show_demo():
                                      user_data=_color_edit_id, horizontal=True)
 
                 dpg.add_color_edit((255, 0, 255, 255), label="Color Edit", 
-                        width=200, id=_color_edit_id)
+                        width=200, tag=_color_edit_id)
 
                 _add_config_options(_color_edit_id, 3, 
                                     "no_alpha", "no_picker",
@@ -480,8 +480,8 @@ def show_demo():
                 dpg.add_text("Colormaps can be applied to mvPlot, mvColorMapButton, mvColorMapSlider, mvColorMapScale", bullet=True, indent=20)
                 dpg.add_text("Colormaps can be sampled with 'sample_colormap(colormap_id, t)' (0<t<1)", bullet=True, indent=20)
                 dpg.add_text("Colormaps can be sampled by index with 'get_colormap_color(colormap_id, index)'", bullet=True, indent=20)
-                dpg.add_colormap([[0, 0, 0, 255], [255, 255, 255, 255]], False, id="__demo_colormap_1", parent="__demo_colormap_registry", label="Demo 1")
-                dpg.add_colormap([[255, 0, 0], [0, 255, 0], [0, 0, 255]], True, id="__demo_colormap_2", parent="__demo_colormap_registry", label="Demo 2")
+                dpg.add_colormap([[0, 0, 0, 255], [255, 255, 255, 255]], False, tag="__demo_colormap_1", parent="__demo_colormap_registry", label="Demo 1")
+                dpg.add_colormap([[255, 0, 0], [0, 255, 0], [0, 0, 255]], True, tag="__demo_colormap_2", parent="__demo_colormap_registry", label="Demo 2")
                 dpg.add_colormap_button(label="Colormap Button 1")
                 dpg.bind_colormap(dpg.last_item(), "__demo_colormap_1")
                 dpg.add_colormap_button(label="Colormap Button 2")
@@ -789,7 +789,7 @@ def show_demo():
                 dpg.add_checkbox(label="borders_outerH", callback=_config, user_data=layout_demo_table, default_value=True)
                 dpg.add_checkbox(label="borders_innerV", callback=_config, user_data=layout_demo_table, default_value=True)
                 dpg.add_checkbox(label="borders_outerV", callback=_config, user_data=layout_demo_table, default_value=True)
-                with dpg.table(id=layout_demo_table, header_row=False, borders_innerH=True, 
+                with dpg.table(tag=layout_demo_table, header_row=False, borders_innerH=True, 
                                borders_outerH=True, borders_innerV=True, borders_outerV=True):
                     
                     dpg.add_table_column()
@@ -843,7 +843,7 @@ def show_demo():
                         dpg.add_checkbox(label="no_scrollbar", callback=_config, user_data=demo_layout_child)
                         dpg.add_checkbox(label="horizontal_scrollbar", callback=_config, user_data=demo_layout_child)
                         dpg.add_checkbox(label="border", default_value=True, callback=_config, user_data=demo_layout_child)
-                    with dpg.child(id=demo_layout_child, width=200, height=200):
+                    with dpg.child(tag=demo_layout_child, width=200, height=200):
                         with dpg.menu_bar():
                             with dpg.menu(label="Menu"):
                                 pass
@@ -1600,7 +1600,7 @@ def show_demo():
                             borders_innerH=True, borders_outerH=True, borders_innerV=True,
                             borders_outerV=True, context_menu_in_body=True, row_background=True,
                             policy=dpg.mvTable_SizingFixedFit, height=300,
-                            scrollY=True, id=_filter_table_id):
+                            scrollY=True, tag=_filter_table_id):
 
                     dpg.add_table_column(label="1")
                     dpg.add_table_column(label="2")
@@ -2251,7 +2251,7 @@ def show_demo():
                         "  \"-xxx\"        hide lines containing \"xxx\"")
 
             dpg.add_input_text(label="Filter (inc, -exc)", callback=lambda s, a: dpg.set_value("__demo_filter", a))
-            with dpg.filter_set(id="__demo_filter"):
+            with dpg.filter_set(tag="__demo_filter"):
                 dpg.add_text("aaa1.c", filter_key="aaa1.c", bullet=True)
                 dpg.add_text("bbb1.c", filter_key="bbb1.c", bullet=True)
                 dpg.add_text("ccc1.c", filter_key="ccc1.c", bullet=True)

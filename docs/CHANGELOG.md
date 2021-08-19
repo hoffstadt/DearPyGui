@@ -23,6 +23,7 @@ We generally fold multiple commits pertaining to the same topic as a single entr
 ## VERSION 0.9.0
 
 ### Breaking Changes
+* changed `id` keyword to `tag`
 * item: renamed `staging_container` to `stage`
 * item: removed table_next_column
 * table rows now required
