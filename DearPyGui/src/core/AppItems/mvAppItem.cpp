@@ -1555,15 +1555,27 @@ namespace Marvel{
 		
 		auto& staging = mvApp::GetApp()->getItemRegistry().getStaging();
 
-		if (staging.count(source) == 0)
+		bool stage_found = false;
+		mvRef<mvAppItem> staging_container = nullptr;
+
+		for (auto& stage : staging)
+		{
+			if(stage->getUUID() == source)
+			{ 
+				staging_container = stage;
+				stage_found = true;
+				break;
+			}
+		}
+
+		if (!stage_found)
 		{
 			mvThrowPythonError(mvErrorCode::mvItemNotFound, "set_item_children",
-				"Source item not found: " + std::to_string(item), nullptr);
+				"Stage item not found: " + std::to_string(item), nullptr);
 			assert(false);
 			return GetPyNone();
 		}
 
-		mvRef<mvAppItem> staging_container = staging[source];
 		
 		if (appitem)
 		{
@@ -1583,7 +1595,7 @@ namespace Marvel{
 			mvThrowPythonError(mvErrorCode::mvItemNotFound, "set_item_children",
 				"Item not found: " + std::to_string(item), nullptr);
 
-		staging.erase(source);
+		mvApp::GetApp()->getItemRegistry().deleteItem(source);
 
 		return GetPyNone();
 	}

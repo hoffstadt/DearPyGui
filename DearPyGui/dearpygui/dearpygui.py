@@ -1415,6 +1415,17 @@ def reset_default_theme(item : Union[int, str], source : Union[int, str]) -> Non
 	warnings.warn("'reset_default_theme' is deprecated. Use: `bind_theme(0)`", DeprecationWarning, 2)
 	return internal_dpg.bind_theme(item, source)
 
+
+def set_staging_mode(mode : bool) -> None:
+	"""
+	'set_staging_mode' is deprecated.
+	Args:
+		mode (bool): 
+	Returns:
+		None
+	"""
+	warnings.warn("'set_staging_mode' is deprecated.", DeprecationWarning, 2)
+
 ##########################################################
 # Container Context Managers
 ##########################################################
@@ -2009,7 +2020,7 @@ def plot_axis(axis : int, *, label: str =None, user_data: Any =None, use_interna
 	finally:
 		internal_dpg.pop_container_stack()
 @contextmanager
-def staging_container(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, id: Union[int, str] =0) -> Union[int, str]:
+def stage(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, id: Union[int, str] =0) -> Union[int, str]:
 	"""
 	Undocumented function
 	Args:
@@ -2021,7 +2032,7 @@ def staging_container(*, label: str =None, user_data: Any =None, use_internal_la
 		Union[int, str]
 	"""
 	try:
-		widget = internal_dpg.add_staging_container(label=label, user_data=user_data, use_internal_label=use_internal_label, id=id)
+		widget = internal_dpg.add_stage(label=label, user_data=user_data, use_internal_label=use_internal_label, id=id)
 		internal_dpg.push_container_stack(widget)
 		yield widget
 	finally:
@@ -5336,7 +5347,7 @@ def add_spacing(*, label: str =None, user_data: Any =None, use_internal_label: b
 
 	return internal_dpg.add_spacing(label=label, user_data=user_data, use_internal_label=use_internal_label, id=id, indent=indent, parent=parent, before=before, show=show, pos=pos, count=count)
 
-def add_staging_container(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, id: Union[int, str] =0) -> Union[int, str]:
+def add_stage(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, id: Union[int, str] =0) -> Union[int, str]:
 	"""
 	Undocumented function
 	Args:
@@ -5348,7 +5359,7 @@ def add_staging_container(*, label: str =None, user_data: Any =None, use_interna
 		Union[int, str]
 	"""
 
-	return internal_dpg.add_staging_container(label=label, user_data=user_data, use_internal_label=use_internal_label, id=id)
+	return internal_dpg.add_stage(label=label, user_data=user_data, use_internal_label=use_internal_label, id=id)
 
 def add_stair_series(x : Union[List[float], Tuple[float]], y : Union[List[float], Tuple[float]], *, label: str =None, user_data: Any =None, use_internal_label: bool =True, id: Union[int, str] =0, parent: Union[int, str] =0, before: Union[int, str] =0, source: Union[int, str] =0, show: bool =True) -> Union[int, str]:
 	"""
@@ -7390,17 +7401,6 @@ def set_primary_window(window : Union[int, str], value : bool) -> None:
 
 	return internal_dpg.set_primary_window(window, value)
 
-def set_staging_mode(mode : bool) -> None:
-	"""
-	Undocumented
-	Args:
-		mode (bool): 
-	Returns:
-		None
-	"""
-
-	return internal_dpg.set_staging_mode(mode)
-
 def set_start_callback(callback : Callable) -> str:
 	"""
 	Undocumented function
@@ -7536,17 +7536,6 @@ def split_frame(*, delay: int =32) -> None:
 
 	return internal_dpg.split_frame(delay=delay)
 
-def stage_items(items : Union[List[int], Tuple[int]]) -> None:
-	"""
-	Undocumented
-	Args:
-		items (Union[List[int], Tuple[int]]): 
-	Returns:
-		None
-	"""
-
-	return internal_dpg.stage_items(items)
-
 def stop_dearpygui() -> None:
 	"""
 	Stops dearpygui.
@@ -7626,16 +7615,16 @@ def unset_table_row_color(table : Union[int, str], row : int) -> None:
 
 	return internal_dpg.unset_table_row_color(table, row)
 
-def unstage_items(items : Union[List[int], Tuple[int]]) -> None:
+def unstage(item : Union[int, str]) -> None:
 	"""
 	Undocumented
 	Args:
-		items (Union[List[int], Tuple[int]]): 
+		item (Union[int, str]): 
 	Returns:
 		None
 	"""
 
-	return internal_dpg.unstage_items(items)
+	return internal_dpg.unstage(item)
 
 
 ##########################################################
@@ -7954,7 +7943,7 @@ mvNodeLink=internal_dpg.mvNodeLink
 mvTextureRegistry=internal_dpg.mvTextureRegistry
 mvStaticTexture=internal_dpg.mvStaticTexture
 mvDynamicTexture=internal_dpg.mvDynamicTexture
-mvStagingContainer=internal_dpg.mvStagingContainer
+mvStage=internal_dpg.mvStage
 mvDrawLayer=internal_dpg.mvDrawLayer
 mvViewportDrawlist=internal_dpg.mvViewportDrawlist
 mvFileExtension=internal_dpg.mvFileExtension

@@ -478,7 +478,7 @@ def add_spacing(*, label: str =None, user_data: Any =None, use_internal_label: b
 	"""Adds vertical spacing."""
 	...
 
-def add_staging_container(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, id: Union[int, str] =0) -> Union[int, str]:
+def add_stage(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, id: Union[int, str] =0) -> Union[int, str]:
 	"""Undocumented function"""
 	...
 
@@ -1038,10 +1038,6 @@ def set_primary_window(window : Union[int, str], value : bool) -> None:
 	"""Undocumented"""
 	...
 
-def set_staging_mode(mode : bool) -> None:
-	"""Undocumented"""
-	...
-
 def set_start_callback(callback : Callable) -> str:
 	"""Undocumented function"""
 	...
@@ -1090,10 +1086,6 @@ def split_frame(*, delay: int =32) -> None:
 	"""Waits one frame."""
 	...
 
-def stage_items(items : Union[List[int], Tuple[int]]) -> None:
-	"""Undocumented"""
-	...
-
 def stop_dearpygui() -> None:
 	"""Stops dearpygui."""
 	...
@@ -1122,7 +1114,7 @@ def unset_table_row_color(table : Union[int, str], row : int) -> None:
 	""""""
 	...
 
-def unstage_items(items : Union[List[int], Tuple[int]]) -> None:
+def unstage(item : Union[int, str]) -> None:
 	"""Undocumented"""
 	...
 

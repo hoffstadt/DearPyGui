@@ -6,23 +6,21 @@ class mvDataGrid:
     def __init__(self, columns, data=None):
 
         self._table_id = dpg.generate_uuid()
-        self._staging_id = dpg.generate_uuid()
+        self._stage_id = dpg.generate_uuid()
         self._columns = columns
 
         
         if data:
 
             with dpg.mutex():
-                dpg.set_staging_mode(True)
                 dpg.configure_app(skip_keyword_args=True)
-                with dpg.staging_container(id=self._staging_id):
+                with dpg.stage(id=self._stage_id):
                     for row in data:
                         internal_dpg.push_container_stack(internal_dpg.add_table_row())
                         for column in range(self._columns):
                             internal_dpg.add_text(str(row[column]))
                         internal_dpg.pop_container_stack()
                 dpg.configure_app(skip_keyword_args=False)
-                dpg.set_staging_mode(False)
         
 
     def submit(self):
@@ -36,4 +34,4 @@ class mvDataGrid:
             for i in range(self._columns):
                 internal_dpg.add_table_column(label="Header " + str(i))
 
-            dpg.unstage_items([self._staging_id])
+            dpg.unstage(self._stage_id)

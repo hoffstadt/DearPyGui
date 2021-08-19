@@ -80,7 +80,7 @@
 #include "containers/mvTemplateRegistry.h"
 #include "containers/mvFilterSet.h"
 #include "containers/mvClipper.h"
-#include "containers/mvStagingContainer.h"
+#include "containers/mvStage.h"
 #include "containers/mvTreeNode.h"
 #include "containers/mvChild.h"
 #include "containers/mvGroup.h"

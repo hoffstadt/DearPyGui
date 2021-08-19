@@ -2469,14 +2469,15 @@ def show_demo():
 
             with dpg.tree_node(label="Staging"):
 
-                dpg.add_text("Staging can be used to create items without parents.", bullet=True)
-                dpg.add_text("Regular parent deduction rules still apply (but will stage if parent can't be deduced).", bullet=True)
-                dpg.add_text("Staging is toggled with 'set_staging_mode'.", bullet=True)
+                dpg.add_text("Staging can be used to create items without traditional parents.", bullet=True)
+                dpg.add_text("A stage is a root container that will not attempt to render its children.", bullet=True)
+                dpg.add_text("Regular parent deduction rules still apply.", bullet=True)
                 dpg.add_text("Staging can be useful for wrapping a set of items.", bullet=True)
                 dpg.add_text("You can use most DPG commands on staged items.", bullet=True)
-                dpg.add_text("You can stage any item.", bullet=True)
-                dpg.add_text("Items can be unstaged with 'move_item' and 'unstage_items'.", bullet=True)
-                dpg.add_text("A 'staging_container' is a special container that 'unpacks' itself when unstaged.", bullet=True)
+                dpg.add_text("You can place any item into a stage.", bullet=True)
+                dpg.add_text("Items can be unstaged with 'move_item' and 'unstage'.", bullet=True)
+                dpg.add_text("'unstage' will also delete the stage.", bullet=True)
+                dpg.add_text("A 'stage is a special container that when used with `unstage` will delete itself.", bullet=True)
 
                 def _unstage_items(sender, app_data, user_data):
 
@@ -2484,22 +2485,16 @@ def show_demo():
                     dpg.push_container_stack(user_data[1])
 
                     # this will 'unpack' the staging container (regular parent deduction rules apply)
-                    dpg.unstage_items((user_data[0], ))
+                    dpg.unstage(user_data[0])
 
                     # pop the child back off the container stack
                     dpg.pop_container_stack()
 
-                # turn on staging
-                dpg.set_staging_mode(True)
-
-                # when unstaging a stage_container, it 'unpacks' itself
-                with dpg.staging_container() as sc1:
+                # when unstaging a stage, it 'unpacks' itself
+                with dpg.stage() as sc1:
                     dpg.add_button(label="Staged Button 1")
                     dpg.add_button(label="Staged Button 2")
                     dpg.add_button(label="Staged Button 3")
-
-                # turn off staging
-                dpg.set_staging_mode(False)
 
                 ub1 = dpg.add_button(label="Unstage buttons", callback=_unstage_items)
                 child_id = dpg.add_child(height=200, width=200)

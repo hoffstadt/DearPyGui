@@ -327,3 +327,14 @@ def reset_default_theme(item : Union[int, str], source : Union[int, str]) -> Non
 	"""
 	warnings.warn("'reset_default_theme' is deprecated. Use: `bind_theme(0)`", DeprecationWarning, 2)
 	return internal_dpg.bind_theme(item, source)
+
+
+def set_staging_mode(mode : bool) -> None:
+	"""
+	'set_staging_mode' is deprecated.
+	Args:
+		mode (bool): 
+	Returns:
+		None
+	"""
+	warnings.warn("'set_staging_mode' is deprecated.", DeprecationWarning, 2)

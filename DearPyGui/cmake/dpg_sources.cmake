@@ -93,7 +93,7 @@ set(MARVEL_SOURCES
 	"src/core/AppItems/themes/mvThemeStyle.cpp"
 
 	"src/core/AppItems/containers/mvTemplateRegistry.cpp"
-	"src/core/AppItems/containers/mvStagingContainer.cpp"
+	"src/core/AppItems/containers/mvStage.cpp"
 	"src/core/AppItems/containers/mvCollapsingHeader.cpp"
 	"src/core/AppItems/containers/mvGroup.cpp"
 	"src/core/AppItems/containers/mvChild.cpp"

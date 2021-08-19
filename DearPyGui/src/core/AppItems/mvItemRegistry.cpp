@@ -78,16 +78,9 @@ namespace Marvel {
 
 		{
 			mvPythonParser parser(mvPyDataType::None, "Undocumented", { "Item Registry" });
-			parser.addArg<mvPyDataType::UUIDList>("items");
+			parser.addArg<mvPyDataType::UUID>("item");
 			parser.finalize();
-			parsers->insert({ "unstage_items", parser });
-		}
-
-		{
-			mvPythonParser parser(mvPyDataType::None, "Undocumented", { "Item Registry" });
-			parser.addArg<mvPyDataType::UUIDList>("items");
-			parser.finalize();
-			parsers->insert({ "stage_items", parser });
+			parsers->insert({ "unstage", parser });
 		}
 
 		{
@@ -152,13 +145,6 @@ namespace Marvel {
 			mvPythonParser parser(mvPyDataType::StringList, "Undocumented", { "Item Registry" });
 			parser.finalize();
 			parsers->insert({ "get_aliases", parser });
-		}
-
-		{
-			mvPythonParser parser(mvPyDataType::None, "Undocumented", { "Item Registry" });
-			parser.addArg<mvPyDataType::Bool>("mode");
-			parser.finalize();
-			parsers->insert({ "set_staging_mode", parser });
 		}
 
 		{
@@ -370,17 +356,6 @@ namespace Marvel {
 
 		cleanUpItem(uuid);
 
-		// check staging first
-		if (_stagingArea.count(uuid) != 0)
-		{
-			if (childrenOnly)
-				_stagingArea[uuid]->deleteChildren(slot);
-			else
-				_stagingArea.erase(uuid);
-			MV_ITEM_REGISTRY_INFO(std::to_string(uuid) + " found and deleted.");
-			return true;
-		}
-
 		// delete item's children only
 		if(childrenOnly)
 		{
@@ -441,12 +416,6 @@ namespace Marvel {
 		else if (moveRoot(_themeRegistryRoots, uuid, child)) movedItem = true;
 		else if (moveRoot(_itemPoolRoots, uuid, child)) movedItem = true;
 		else if (moveRoot(_itemTemplatesRoots, uuid, child)) movedItem = true;
-
-		if (_stagingArea.count(uuid) != 0)
-		{
-			child = _stagingArea[uuid];
-			_stagingArea.erase(uuid);
-		}
 
 		if (child == nullptr)
 		{
@@ -623,28 +592,6 @@ namespace Marvel {
 	bool mvItemRegistry::addRuntimeItem(mvUUID parent, mvUUID before, mvRef<mvAppItem> item)
 	{
 
-		if (_stagingArea.count(parent) != 0)
-		{
-			_stagingArea[parent]->addItem(item);
-			return true;
-		}
-
-		else if (_stagingArea.count(before) != 0)
-		{
-			_stagingArea[before]->addItem(item);
-			return true;
-		}
-
-		if (_staging)
-		{
-			for (auto& stagingItem : _stagingArea)
-			{
-				if (stagingItem.second->addRuntimeChild(parent, before, item))
-					return true;
-			}
-
-		}
-
 		if (addRuntimeChildRoot(_colormapRoots, parent, before, item)) return true;
 		else if (addRuntimeChildRoot(_filedialogRoots, parent, before, item)) return true;
 		else if (addRuntimeChildRoot(_stagingRoots, parent, before, item)) return true;
@@ -684,11 +631,6 @@ namespace Marvel {
 	void mvItemRegistry::pushParent(mvAppItem* item)
 	{
 		_containers.push(item);
-	}
-
-	void mvItemRegistry::setStagingMode(bool value)
-	{
-		_staging = value;
 	}
 
 	mvAppItem* mvItemRegistry::popParent()
@@ -778,23 +720,6 @@ namespace Marvel {
 				return _cachedItemsPTR[i];
 		}
 
-		if (_stagingArea.count(uuid) != 0)
-			return _stagingArea[uuid].get();
-
-		if (_staging)
-		{
-			for (auto& stagingItem : _stagingArea)
-			{
-				if (auto child = stagingItem.second->getChild(uuid))
-				{
-					_delayedSearch.clear();
-					cacheItem(child);
-					return child;
-				}
-			}
-
-		}
-
 		if (auto foundItem = getItemRoot(_colormapRoots, uuid)) return foundItem;
 		if (auto foundItem = getItemRoot(_colormapRoots, uuid)) return foundItem;
 		if (auto foundItem = getItemRoot(_filedialogRoots, uuid)) return foundItem;
@@ -857,11 +782,6 @@ namespace Marvel {
 		else if (auto foundItem = getRefItemRoot(_itemPoolRoots, uuid)) return foundItem;
 		else if (auto foundItem = getRefItemRoot(_itemTemplatesRoots, uuid)) return foundItem;
 
-		if (_stagingArea.count(uuid) != 0)
-			return _stagingArea[uuid];
-
-		//assert(false && "Item not found.");
-
 		return nullptr;
 	}
 
@@ -894,13 +814,13 @@ namespace Marvel {
 		return true;
 	}
 
-	bool mvItemRegistry::addWindow(mvRef<mvAppItem> item)
+	bool mvItemRegistry::addRoot(mvRef<mvAppItem> item)
 	{
 
 		if (item->getType() == mvAppItemType::mvWindowAppItem) _windowRoots.push_back(item);
 		if (item->getType() == mvAppItemType::mvColorMapRegistry) _colormapRoots.push_back(item);
 		if (item->getType() == mvAppItemType::mvFileDialog) _filedialogRoots.push_back(item);
-		if (item->getType() == mvAppItemType::mvStagingContainer) _stagingRoots.push_back(item);
+		if (item->getType() == mvAppItemType::mvStage) _stagingRoots.push_back(item);
 		if (item->getType() == mvAppItemType::mvViewportMenuBar) _viewportMenubarRoots.push_back(item);
 		if (item->getType() == mvAppItemType::mvFontRegistry) _fontRegistryRoots.push_back(item);
 		if (item->getType() == mvAppItemType::mvHandlerRegistry) _handlerRegistryRoots.push_back(item);
@@ -1001,24 +921,13 @@ namespace Marvel {
 		//---------------------------------------------------------------------------
 		if (mvAppItem::DoesItemHaveFlag(item.get(), MV_ITEM_DESC_ROOT))
 		{
-			if (_staging)
-			{
-				_stagingArea[item->getUUID()] = item;
-				return true;
-			}
-
-			else if (item->getType() == mvAppItemType::mvStagingContainer)
-			{
-				mvThrowPythonError(mvErrorCode::mvStagingModeOff, "Staging container can only be adding in staging mode.");
-				return false;
-			}
 
 			if (mvApp::IsAppStarted())
 			{
-				addWindow(item);
+				addRoot(item);
 				return true;
 			}
-			return addWindow(item);
+			return addRoot(item);
 		}
 			
 		//---------------------------------------------------------------------------
@@ -1066,12 +975,6 @@ namespace Marvel {
 		//---------------------------------------------------------------------------
 		if (parentPtr == nullptr)
 		{
-			if (_staging)
-			{
-				_stagingArea[item->getUUID()] = item;
-				return true;
-			}
-
 			mvThrowPythonError(mvErrorCode::mvParentNotDeduced, "add_*", "Parent could not be deduced.", item.get());
 			MV_ITEM_REGISTRY_ERROR("Parent could not be deduced.");
 			assert(false);
@@ -1245,60 +1148,31 @@ namespace Marvel {
 
 	void mvItemRegistry::unstageItem(mvUUID uuid)
 	{
-
-		if (_stagingArea.count(uuid) != 0)
+		bool item_found = false;
+		for (auto& item : _stagingRoots)
 		{
-			mvRef<mvAppItem> item = _stagingArea[uuid];
-			_stagingArea.erase(uuid);
-			cleanUpItem(uuid);
-			if (item->getType() == mvAppItemType::mvStagingContainer)
+			if (item->getUUID() == uuid && item->getType() == mvAppItemType::mvStage)
 			{
 				for (auto& children : item->_children)
 				{
 					for (auto& child : children)
 						addItemWithRuntimeChecks(child, 0, 0);
 				}
+
+				item_found = true;
+				break;
 			}
-			else
-				addItemWithRuntimeChecks(item, 0, 0);
-		}
-		else
-		{
-			mvThrowPythonError(mvErrorCode::mvItemNotFound, "unstage_item",
-				"Staged item not found: " + std::to_string(uuid), nullptr);
-			assert(false);
 		}
 
-	}
-
-	void mvItemRegistry::stageItem(mvUUID uuid)
-	{
-		mvRef<mvAppItem> child = nullptr;
-
-		bool stoleItem = false;
-
-		if (moveRoot(_colormapRoots, uuid, child)) stoleItem = true;
-		else if (moveRoot(_filedialogRoots, uuid, child)) stoleItem = true;
-		else if (moveRoot(_stagingRoots, uuid, child)) stoleItem = true;
-		else if (moveRoot(_viewportMenubarRoots, uuid, child)) stoleItem = true;
-		else if (moveRoot(_fontRegistryRoots, uuid, child)) stoleItem = true;
-		else if (moveRoot(_handlerRegistryRoots, uuid, child)) stoleItem = true;
-		else if (moveRoot(_textureRegistryRoots, uuid, child)) stoleItem = true;
-		else if (moveRoot(_valueRegistryRoots, uuid, child)) stoleItem = true;
-		else if (moveRoot(_windowRoots, uuid, child)) stoleItem = true;
-		else if (moveRoot(_themeRegistryRoots, uuid, child)) stoleItem = true;
-		else if (moveRoot(_itemPoolRoots, uuid, child)) stoleItem = true;
-		else if (moveRoot(_itemTemplatesRoots, uuid, child)) stoleItem = true;
-
-		if (child == nullptr)
+		if (item_found)
 		{
-			mvThrowPythonError(mvErrorCode::mvItemNotFound, "stage_item",
-				"Item not found: " + std::to_string(uuid), nullptr);
-			MV_ITEM_REGISTRY_WARN("Could not stage item, it was not found");
+			cleanUpItem(uuid);
 			return;
 		}
 
-		_stagingArea[child->getUUID()] = child;
+		mvThrowPythonError(mvErrorCode::mvItemNotFound, "unstage",
+			"Stage not found: " + std::to_string(uuid), nullptr);
+		assert(false);
 
 	}
 
@@ -1450,18 +1324,6 @@ namespace Marvel {
 			}
 		}
 		return ToPyBool(false);
-	}
-
-	PyObject* mvItemRegistry::set_staging_mode(PyObject* self, PyObject* args, PyObject* kwargs)
-	{
-		int mode;
-
-		if (!(mvApp::GetApp()->getParsers())["set_staging_mode"].parse(args, kwargs, __FUNCTION__, &mode))
-			return GetPyNone();
-
-		if (!mvApp::s_manualMutexControl) std::lock_guard<std::mutex> lk(mvApp::s_mutex);
-		mvApp::GetApp()->getItemRegistry().setStagingMode((bool)mode);
-		return GetPyNone();
 	}
 
 	PyObject* mvItemRegistry::set_primary_window(PyObject* self, PyObject* args, PyObject* kwargs)
@@ -1624,39 +1486,19 @@ namespace Marvel {
 		return GetPyNone();
 	}
 
-	PyObject* mvItemRegistry::unstage_items(PyObject* self, PyObject* args, PyObject* kwargs)
+	PyObject* mvItemRegistry::unstage(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 
-		PyObject* items = nullptr;
+		PyObject* itemraw = nullptr;
 
-		if (!(mvApp::GetApp()->getParsers())["unstage_items"].parse(args, kwargs, __FUNCTION__, &items))
+		if (!(mvApp::GetApp()->getParsers())["unstage"].parse(args, kwargs, __FUNCTION__, &itemraw))
 			return GetPyNone();
 
 		if (!mvApp::s_manualMutexControl) std::lock_guard<std::mutex> lk(mvApp::s_mutex);
 
-		auto aitems = ToUUIDVect(items);
+		mvUUID item = mvAppItem::GetIDFromPyObject(itemraw);
 
-		for(const auto& item : aitems)
-			mvApp::GetApp()->getItemRegistry().unstageItem(item);
-
-
-		return GetPyNone();
-	}
-
-	PyObject* mvItemRegistry::stage_items(PyObject* self, PyObject* args, PyObject* kwargs)
-	{
-
-		PyObject* items = nullptr;
-
-		if (!(mvApp::GetApp()->getParsers())["stage_items"].parse(args, kwargs, __FUNCTION__, &items))
-			return GetPyNone();
-
-		if (!mvApp::s_manualMutexControl) std::lock_guard<std::mutex> lk(mvApp::s_mutex);
-
-		auto aitems = ToUUIDVect(items);
-
-		for (const auto& item : aitems)
-			mvApp::GetApp()->getItemRegistry().stageItem(item);
+		mvApp::GetApp()->getItemRegistry().unstageItem(item);
 
 		return GetPyNone();
 	}
