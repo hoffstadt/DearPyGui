@@ -41,7 +41,7 @@ with open(workspace_dir + "/dearpygui/__init__.py", 'w') as file:
     file.write("pass\n")
 
 # import readme content
-with open("../docs/README.md", encoding='utf-8') as f:
+with open("./docs/README.md", encoding='utf-8') as f:
     long_description = f.read()
 
 class BinaryDistribution(Distribution):
