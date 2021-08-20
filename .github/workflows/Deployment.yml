@@ -111,13 +111,13 @@ jobs:
       shell: cmd
       run: |
         cd %GITHUB_WORKSPACE%
-        echo ${{ github.event.inputs.version }} > Scripts/version_number.txt
+        echo ${{ github.event.inputs.version }} > version_number.txt
+        echo cmake-build-release/DearPyGui/Release/_dearpygui.pyd > lib_location.txt
         copy dearpygui.py DearPyGui\dearpygui\dearpygui.py
         copy _dearpygui.pyi DearPyGui\dearpygui\_dearpygui.pyi
         python -m pip install --upgrade pip twine wheel
-        cd Distribution
-        python BuildPythonWheel.py ../cmake-build-release/DearPyGui/Release/_dearpygui.pyd
-        python -m setup bdist_wheel --plat-name win_amd64 --dist-dir ../dist
+        python -m setup bdist_wheel --plat-name win_amd64 --dist-dir dist
+    
     - name: Upload Windows ${{ matrix.python-version }} Wheel
       uses: actions/upload-artifact@v2
       with:
@@ -153,6 +153,7 @@ jobs:
         cmake .. -DMVDIST_ONLY=True -DMVDPG_VERSION=${{ github.event.inputs.version }}
         cd ..
         cmake --build cmake-build-release --config Release
+    
     - name: Download Common Files
       uses: actions/download-artifact@v2
       with:
@@ -161,13 +162,12 @@ jobs:
     - name: Build Wheel
       run: |
         cd $GITHUB_WORKSPACE
-        echo ${{ github.event.inputs.version }} > Scripts/version_number.txt
+        echo ${{ github.event.inputs.version }} > version_number.txt
+        echo cmake-build-release/DearPyGui/Release/_dearpygui.so > lib_location.txt
         cp dearpygui.py DearPyGui/dearpygui/dearpygui.py
         cp _dearpygui.pyi DearPyGui/dearpygui/_dearpygui.pyi
         python -m pip install --upgrade pip twine wheel
-        cd Distribution
-        python BuildPythonWheel.py ../cmake-build-release/DearPyGui/Release/_dearpygui.so
-        python -m setup bdist_wheel --plat-name macosx-10.6-x86_64 --dist-dir ../dist
+        python -m setup bdist_wheel --plat-name macosx-10.6-x86_64 --dist-dir dist
     - name: Upload MacOS ${{ matrix.python-version }} Wheel
       uses: actions/upload-artifact@v2
       with:
@@ -207,6 +207,7 @@ jobs:
         cmake .. -DMVDIST_ONLY=True -DMVDPG_VERSION=${{ github.event.inputs.version }}
         cd ..
         cmake --build cmake-build-release --config Release
+
     - name: Download artifacts
       uses: actions/download-artifact@v2
       with:
@@ -215,13 +216,13 @@ jobs:
     - name: Build Wheel
       run: |
         cd $GITHUB_WORKSPACE
-        echo ${{ github.event.inputs.version }} > Scripts/version_number.txt
+        echo ${{ github.event.inputs.version }} > version_number.txt
+        echo cmake-build-release/DearPyGui/Release/_dearpygui.so > lib_location.txt
         cp dearpygui.py DearPyGui/dearpygui/dearpygui.py
         cp _dearpygui.pyi DearPyGui/dearpygui/_dearpygui.pyi
         python -m pip install --upgrade pip twine wheel
-        cd Distribution
-        python BuildPythonWheel.py ../cmake-build-release/DearPyGui/Release/_dearpygui.so
-        python -m setup bdist_wheel --plat-name manylinux1_x86_64 --dist-dir ../dist
+        python -m setup bdist_wheel --plat-name manylinux1_x86_64 --dist-dir dist
+
     - name: Upload Linux ${{ matrix.python-version }} Wheel
       uses: actions/upload-artifact@v2
       with:
@@ -250,10 +251,18 @@ jobs:
     - name: Install Dependencies
       run: |
         python -m pip install --upgrade pip setuptools wheel twine
+
     - name: Download artifacts
       uses: actions/download-artifact@v2
 
+    - name: PyPi Deployment
+      shell: cmd
+      if: ${{contains(github.event.inputs.deploy, 'true') && github.ref == 'refs/heads/master'}}
+      run: |
+        python -m twine upload -u RaylockLLC -p %pypi_password% --skip-existing windowsbuild*/* applebuild*/* linuxbuild*/*
+
     - name: Test PyPi Deployment
       shell: cmd
+      if: "contains(github.event.inputs.deploytest, 'true')"
       run: |
         python -m twine upload --repository testpypi -u RaylockLLC -p %pypi_password% --skip-existing windowsbuild*/* applebuild*/* linuxbuild*/*

@@ -1,10 +1,11 @@
 from setuptools import setup, find_packages, Distribution
 from codecs import open
+import os
 from os import path
+import sys
+import shutil
 
-# import readme content
-with open("../docs/README.md", encoding='utf-8') as f:
-    long_description = f.read()
+workspace_dir = os.getcwd()
 
 def version_number():
     try:
@@ -13,6 +14,35 @@ def version_number():
 
     except IOError:
         return '0.0.1'
+
+def lib_location():
+    try:
+        with open('lib_location.txt', encoding='utf-8') as f:
+            return f.readline().rstrip()
+
+    except IOError:
+        return '0.0.1'
+
+location = lib_location()
+
+# create the necessary directories if they do not exist
+if not os.path.isdir(workspace_dir +  "/dearpygui/"):
+    os.mkdir(workspace_dir + "/dearpygui/")
+
+# copy add items to temporary location
+shutil.copy(location, workspace_dir +"/dearpygui")
+shutil.copy(workspace_dir + "/DearPyGui/dearpygui/_dearpygui.pyi", workspace_dir + "/dearpygui")
+shutil.copy(workspace_dir + "/DearPyGui/dearpygui/dearpygui.py", workspace_dir + "/dearpygui")
+shutil.copy(workspace_dir + "/DearPyGui/dearpygui/demo.py", workspace_dir + "/dearpygui")
+shutil.copy(workspace_dir + "/DearPyGui/dearpygui/experimental.py", workspace_dir + "/dearpygui")
+shutil.copy(workspace_dir + "/Dependencies/Microsoft/vcruntime140_1.dll", workspace_dir + "/dearpygui")
+
+with open(workspace_dir + "/dearpygui/__init__.py", 'w') as file:
+    file.write("pass\n")
+
+# import readme content
+with open("../docs/README.md", encoding='utf-8') as f:
+    long_description = f.read()
 
 class BinaryDistribution(Distribution):
     """Distribution which always forces a binary package with platform name"""

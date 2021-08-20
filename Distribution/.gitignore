@@ -1,6 +1,0 @@
-__pycache__/
-build/
-dearpygui.egg-info/
-dist/
-dearpygui/
-*.txt

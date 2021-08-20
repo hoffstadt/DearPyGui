@@ -14,6 +14,7 @@
 
 [![build status](https://github.com/hoffstadt/DearPyGui/workflows/Embedded%20Build/badge.svg?branch=master)](https://github.com/hoffstadt/DearPyGui/actions?workflow=Embedded%20Build)
 [![static-analysis](https://github.com/hoffstadt/DearPyGui/workflows/static-analysis/badge.svg?branch=master)](https://github.com/hoffstadt/DearPyGui/actions?workflow=static-analysis)
+[![Deployment](https://github.com/hoffstadt/DearPyGui/actions/workflows/Deployment.yml/badge.svg?branch=master)](https://github.com/hoffstadt/DearPyGui/actions/workflows/Deployment.yml)
 
 **Dear PyGui** is a **simple to use (but powerful) Python GUI framework**. _Dear PyGui_ is **NOT** a wrapping of **[Dear ImGui](https://github.com/ocornut/imgui)** in the normal sense. It is a library built with _Dear ImGui_ which simulates a traditional retained mode GUI (as opposed to _Dear ImGui_'s immediate mode paradigm).
 
