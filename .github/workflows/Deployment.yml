@@ -163,7 +163,7 @@ jobs:
       run: |
         cd $GITHUB_WORKSPACE
         echo ${{ github.event.inputs.version }} > version_number.txt
-        echo cmake-build-release/DearPyGui/Release/_dearpygui.so > lib_location.txt
+        echo cmake-build-release/DearPyGui/_dearpygui.so > lib_location.txt
         cp dearpygui.py DearPyGui/dearpygui/dearpygui.py
         cp _dearpygui.pyi DearPyGui/dearpygui/_dearpygui.pyi
         python -m pip install --upgrade pip twine wheel
@@ -217,7 +217,7 @@ jobs:
       run: |
         cd $GITHUB_WORKSPACE
         echo ${{ github.event.inputs.version }} > version_number.txt
-        echo cmake-build-release/DearPyGui/Release/_dearpygui.so > lib_location.txt
+        echo cmake-build-release/DearPyGui/_dearpygui.so > lib_location.txt
         cp dearpygui.py DearPyGui/dearpygui/dearpygui.py
         cp _dearpygui.pyi DearPyGui/dearpygui/_dearpygui.pyi
         python -m pip install --upgrade pip twine wheel
