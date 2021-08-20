@@ -35,7 +35,7 @@ the following platforms:
 In the same manner Dear ImGui provides a simple way to create tools for game developers, _Dear PyGui_ provides a 
 simple way for python developers to **create quick and powerful GUIs for scripts**.
 
-| [Installing](#installation) - [Usage](#usage) - [Resources](#resources) - [Support](#support) |
+| [Installation](#installation) - [Usage](#usage) - [Resources](#resources) - [Support](#support) |
 :----------------------------------------------------------: |
 | [Features](#features) - [Sponsors](#sponsors) - [Credits](#credits) - [License](#license)|
 
