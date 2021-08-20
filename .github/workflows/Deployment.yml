@@ -102,6 +102,7 @@ jobs:
         cmake .. -G "Visual Studio 16 2019" -A "x64" -DMVDIST_ONLY=True -DMVDPG_VERSION=${{ github.event.inputs.version }}
         cd ..
         cmake --build cmake-build-release --config Release
+
     - name: Download Common Files
       uses: actions/download-artifact@v2
       with:
