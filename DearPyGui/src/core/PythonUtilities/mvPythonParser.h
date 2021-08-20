@@ -17,6 +17,7 @@
 #include <string>
 #include <cstring>
 #include <vector>
+#include <fstream>
 #include <map>
 #include <assert.h>
 
@@ -35,7 +36,7 @@ namespace Marvel {
     //-----------------------------------------------------------------------------
     enum class mvPyDataType
     {
-        None = 0, 
+        None = 0,
         Integer, Float, Double, String, Bool, Object, Callable, Dict,
         IntList, FloatList, DoubleList, StringList, ListAny,
         ListListInt, ListFloatList, ListDoubleList, ListStrList, UUID,
@@ -45,7 +46,7 @@ namespace Marvel {
 
     enum class mvArgType
     {
-        REQUIRED_ARG=0,
+        REQUIRED_ARG = 0,
         POSITIONAL_ARG,
         KEYWORD_ARG
     };
@@ -83,19 +84,19 @@ namespace Marvel {
     public:
 
         static void GenerateStubFile(const std::string& file);
-        static void GenerateCoreFile(const std::string& file);
-        static void GenerateContextsFile(const std::string& file);
+        static void GenerateCoreFile(std::ofstream& stream);
+        static void GenerateContextsFile(std::ofstream& stream);
         static void GenerateDearPyGuiFile(const std::string& file);
 
     public:
 
-        explicit mvPythonParser(mvPyDataType returnType = mvPyDataType::None, 
-            const char* about = "Undocumented function", 
+        explicit mvPythonParser(mvPyDataType returnType = mvPyDataType::None,
+            const char* about = "Undocumented function",
             const std::vector<std::string>& category = { "None" },
             bool createContextManager = false);
 
         template<mvPyDataType type>
-        void addArg(const char* name, mvArgType argType = mvArgType::REQUIRED_ARG, const char* defaultValue = "...", const char* description="")
+        void addArg(const char* name, mvArgType argType = mvArgType::REQUIRED_ARG, const char* defaultValue = "...", const char* description = "")
         {
             for (const auto& arg : m_staged_elements)
             {
@@ -118,8 +119,8 @@ namespace Marvel {
 
         bool parse(PyObject* args, PyObject* kwargs, const char* message, ...);
 
-        [[nodiscard]] const char*                     getDocumentation         () const { return m_documentation.c_str(); }
-        [[nodiscard]] const std::vector<std::string>& getCategory              () const { return m_category; }
+        [[nodiscard]] const char* getDocumentation() const { return m_documentation.c_str(); }
+        [[nodiscard]] const std::vector<std::string>& getCategory() const { return m_category; }
 
         void finalize();
 
