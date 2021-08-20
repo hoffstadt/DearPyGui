@@ -6,10 +6,13 @@ from os import path
 with open("../docs/README.md", encoding='utf-8') as f:
     long_description = f.read()
 
-# use info file created by BuildPythonWheel.py
-with open("distinfo.txt", encoding='utf-8') as file:
-    lines = file.readlines()
-    DEARPYGUI_VERSION = lines[0].rstrip("\n")
+def version_number():
+    try:
+        with open('version_number.txt', encoding='utf-8') as f:
+            return f.readline().rstrip()
+
+    except IOError:
+        return '0.0.1'
 
 class BinaryDistribution(Distribution):
     """Distribution which always forces a binary package with platform name"""
@@ -18,7 +21,7 @@ class BinaryDistribution(Distribution):
 
 setup(
     name='dearpygui',                                      # Required
-    version=DEARPYGUI_VERSION,                             # Required
+    version=version_number(),                             # Required
     author="Jonathan Hoffstadt and Preston Cothren",       # Optional
     author_email="jonathanhoffstadt@yahoo.com",            # Optional
     description='DearPyGui: A simple Python GUI Toolkit',  # Required

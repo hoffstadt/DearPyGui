@@ -9,7 +9,6 @@ import sys
 
 script_dir = os.getcwd()
 location = sys.argv[1]
-vnum = sys.argv[2] 
 
 # create the necessary directories if they do not exist
 if not os.path.isdir(script_dir +  "/dearpygui/"):
@@ -25,7 +24,3 @@ shutil.copy(script_dir + "/../Distribution/vcruntime140_1.dll", script_dir + "/d
 
 with open(script_dir + "/dearpygui/__init__.py", 'w') as file:
     file.write("pass\n")
-
-# create information file used by setup.py
-with open(script_dir + "/distinfo.txt", 'w') as file:
-    file.write(vnum + '\n')

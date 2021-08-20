@@ -18,13 +18,6 @@ add_definitions(
     -D_CRT_SECURE_NO_WARNINGS 
     -D_USE_MATH_DEFINES)
 
-# can be set to 36, 37, 38, 39, or 0
-#   * 36 = Python 3.6
-#   * 37 = Python 3.7
-#   * 38 = Python 3.8
-#   * 39 = Python 3.9
-#   * 40 = Python 3.7 Raspberry Pi
-#   *  0 = Embedded Python
 set(MVPY_VERSION ${MVPY_VERSION})
 if(MVDPG_VERSION)
     add_definitions(-DMV_SANDBOX_VERSION="${MVDPG_VERSION}")
@@ -43,6 +36,12 @@ endif()
 if(NOT MVDIST_ONLY)
     add_subdirectory ("ImguiTesting")
     add_definitions(-DMV_LOG)
+endif()
+
+# generate temp files
+set(MV_GEN_FILES_ONLY ${MV_GEN_FILES_ONLY})
+if(MV_GEN_FILES_ONLY)
+    add_definitions(-DMV_GEN_FILES_ONLY)
 endif()
 
 # runs python tests

@@ -1,0 +1,259 @@
+name: Deployment
+
+on:
+
+  workflow_dispatch:
+
+      inputs:
+
+        version:
+          description: 'Dear PyGui Version'
+          required: true
+          default: '0.7.500'
+
+        deploy:
+          description: 'Deploy (true will deploy to pypi)'
+          required: true
+          default: 'false'
+
+        deploytest:
+          description: 'Deploy (true will deploy to test pypi)'
+          required: true
+          default: 'false'
+
+jobs:
+
+  build-common-files:
+
+    runs-on: windows-2019
+
+    steps:
+
+    - name: Checkout
+      uses: actions/checkout@v2
+
+    - name: Retrieve submodules
+      shell: cmd
+      run: git submodule update --init --recursive
+
+    - name: Build Python
+      shell: cmd
+      run: |
+        cd %GITHUB_WORKSPACE%
+        cd Scripts
+        call BuildPythonForWindows.bat --ci
+  
+    # builds DearSandbox.exe (and dearpygui) to generate
+    # dearpygui.py and _dearpygui.pyi
+    - name: Build DearPyGui/DearSandbox
+      shell: cmd
+      run: |
+        cd %GITHUB_WORKSPACE%
+        mkdir cmake-build-release
+        cd cmake-build-release
+        cmake .. -DMV_TESTS_ONLY=True -DMV_GEN_FILES_ONLY=True
+        cd ..
+        cmake --build cmake-build-release --config Release
+        copy DearPyGui\dearpygui\_header.py cmake-build-release\DearSandbox\_header.py
+        cd cmake-build-release/DearSandbox
+        DearSandbox.exe
+    
+    - name: Upload Stub and Public Interface
+      uses: actions/upload-artifact@v2
+      with:
+        name: python-interface-artifacts
+        path: |
+          ${{ github.workspace }}/cmake-build-release/DearSandbox/dearpygui.py
+          ${{ github.workspace }}/cmake-build-release/DearSandbox/_dearpygui.pyi
+        retention-days: 1
+        if-no-files-found: error
+
+  build-windows-wheels:
+
+    needs: build-common-files
+    runs-on: windows-2019
+    strategy:
+      matrix:
+        python-version: [ 3.6, 3.7, 3.8, 3.9 ]
+
+    steps:
+
+    - name: Checkout
+      uses: actions/checkout@v2
+
+    - name: Setup Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v2
+      with:
+        python-version: ${{ matrix.python-version }}
+
+    - name: Retrieve submodules
+      shell: cmd
+      run: |
+        git submodule update --init --recursive ./Dependencies/imgui
+        git submodule update --init --recursive ./Dependencies/freetype
+        git submodule update --init --recursive ./Dependencies/ImGuiFileDialog
+      
+    - name: Build Dear PyGui
+      shell: cmd
+      run: |
+        cd %GITHUB_WORKSPACE%
+        mkdir cmake-build-release
+        cd cmake-build-Release
+        cmake .. -G "Visual Studio 16 2019" -A "x64" -DMVDIST_ONLY=True -DMVDPG_VERSION=${{ github.event.inputs.version }}
+        cd ..
+        cmake --build cmake-build-release --config Release
+    - name: Download Common Files
+      uses: actions/download-artifact@v2
+      with:
+        name: python-interface-artifacts
+
+    - name: Build Wheel
+      shell: cmd
+      run: |
+        cd %GITHUB_WORKSPACE%
+        echo ${{ github.event.inputs.version }} > Scripts/version_number.txt
+        copy dearpygui.py DearPyGui\dearpygui\dearpygui.py
+        copy _dearpygui.pyi DearPyGui\dearpygui\_dearpygui.pyi
+        python -m pip install --upgrade pip twine wheel
+        cd Distribution
+        python BuildPythonWheel.py ../cmake-build-release/DearPyGui/Release/_dearpygui.pyd
+        python -m setup bdist_wheel --plat-name win_amd64 --dist-dir ../dist
+    - name: Upload Windows ${{ matrix.python-version }} Wheel
+      uses: actions/upload-artifact@v2
+      with:
+        name: windowsbuild${{ matrix.python-version }}
+        path: ${{ github.workspace }}/dist/*.whl
+        retention-days: 2
+
+  build-mac-wheels:
+
+    needs: build-common-files
+    runs-on: MacOS-latest
+    strategy:
+      matrix:
+        python-version: [ 3.6, 3.7, 3.8, 3.9 ]
+
+    steps:
+
+    - name: Checkout
+      uses: actions/checkout@v2
+
+    - name: Retrieve submodules
+      run: |
+        git submodule update --init --recursive ./Dependencies/imgui
+        git submodule update --init --recursive ./Dependencies/freetype
+        git submodule update --init --recursive ./Dependencies/ImGuiFileDialog
+        git submodule update --init --recursive ./Dependencies/glfw
+    
+    - name: Build Dear PyGui
+      run: |
+        cd $GITHUB_WORKSPACE
+        mkdir cmake-build-release
+        cd cmake-build-release
+        cmake .. -DMVDIST_ONLY=True -DMVDPG_VERSION=${{ github.event.inputs.version }}
+        cd ..
+        cmake --build cmake-build-release --config Release
+    - name: Download Common Files
+      uses: actions/download-artifact@v2
+      with:
+        name: python-interface-artifacts
+
+    - name: Build Wheel
+      run: |
+        cd $GITHUB_WORKSPACE
+        echo ${{ github.event.inputs.version }} > Scripts/version_number.txt
+        cp dearpygui.py DearPyGui/dearpygui/dearpygui.py
+        cp _dearpygui.pyi DearPyGui/dearpygui/_dearpygui.pyi
+        python -m pip install --upgrade pip twine wheel
+        cd Distribution
+        python BuildPythonWheel.py ../cmake-build-release/DearPyGui/Release/_dearpygui.so
+        python -m setup bdist_wheel --plat-name macosx-10.6-x86_64 --dist-dir ../dist
+    - name: Upload MacOS ${{ matrix.python-version }} Wheel
+      uses: actions/upload-artifact@v2
+      with:
+        name: applebuild${{ matrix.python-version }}
+        path: ${{ github.workspace }}/dist/*.whl
+        retention-days: 2
+
+  build-linux-wheels:
+
+    needs: build-common-files
+    runs-on: ubuntu-18.04
+    strategy:
+      matrix:
+        python-version: [ 3.6, 3.7, 3.8, 3.9 ]
+
+    steps:
+
+    - name: Checkout
+      uses: actions/checkout@v2
+
+    - name: Retrieve submodules/Dependencies
+      run: |
+        git submodule update --init --recursive ./Dependencies/imgui
+        git submodule update --init --recursive ./Dependencies/freetype
+        git submodule update --init --recursive ./Dependencies/ImGuiFileDialog
+        git submodule update --init --recursive ./Dependencies/glfw
+        sudo apt-get update
+        sudo apt-get install libglu1-mesa-dev libgl1-mesa-dev xorg-dev libxrandr-dev -y
+        sudo apt-get install libfreetype6-dev -y
+        sudo apt-get install libharfbuzz-dev -y
+    
+    - name: Build
+      run: |
+        cd $GITHUB_WORKSPACE
+        mkdir cmake-build-release
+        cd cmake-build-release
+        cmake .. -DMVDIST_ONLY=True -DMVDPG_VERSION=${{ github.event.inputs.version }}
+        cd ..
+        cmake --build cmake-build-release --config Release
+    - name: Download artifacts
+      uses: actions/download-artifact@v2
+      with:
+        name: python-interface-artifacts
+
+    - name: Build Wheel
+      run: |
+        cd $GITHUB_WORKSPACE
+        echo ${{ github.event.inputs.version }} > Scripts/version_number.txt
+        cp dearpygui.py DearPyGui/dearpygui/dearpygui.py
+        cp _dearpygui.pyi DearPyGui/dearpygui/_dearpygui.pyi
+        python -m pip install --upgrade pip twine wheel
+        cd Distribution
+        python BuildPythonWheel.py ../cmake-build-release/DearPyGui/Release/_dearpygui.so
+        python -m setup bdist_wheel --plat-name manylinux1_x86_64 --dist-dir ../dist
+    - name: Upload Linux ${{ matrix.python-version }} Wheel
+      uses: actions/upload-artifact@v2
+      with:
+        name: linuxbuild${{ matrix.python-version }}
+        path: ${{ github.workspace }}/dist/*.whl
+        retention-days: 2
+
+  deploy-packages:
+
+    needs: [build-windows-wheels, build-mac-wheels, build-linux-wheels]
+    runs-on: windows-2019
+    strategy:
+      matrix:
+        python-version: [ 3.9 ]
+
+    steps:
+
+    - name: Checkout
+      uses: actions/checkout@v2
+
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v2
+      with:
+        python-version: ${{ matrix.python-version }}
+
+    - name: Install Dependencies
+      run: |
+        python -m pip install --upgrade pip setuptools wheel twine
+    - name: Download artifacts
+      uses: actions/download-artifact@v2
+
+    - name: Test PyPi Deployment
+      shell: cmd
+      run: |
+        python -m twine upload --repository testpypi -u RaylockLLC -p %pypi_password% --skip-existing windowsbuild*/* applebuild*/* linuxbuild*/*

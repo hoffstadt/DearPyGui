@@ -1,3 +1,4 @@
 __pycache__/
-_contexts.py
-_core.py
+_dearpygui.py
+dearpygui.py
+_dearpygui.pyi
