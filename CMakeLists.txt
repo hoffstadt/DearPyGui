@@ -28,12 +28,9 @@ endif()
 # when set to "ON", the embedded version
 # will be the only version build (no sandbox builds)
 set(MVDIST_ONLY ${MVDIST_ONLY})
-
 if(MVDIST_ONLY)
     add_definitions(-DMVDIST_ONLY)
-endif()
-
-if(NOT MVDIST_ONLY)
+else()
     add_subdirectory ("ImguiTesting")
     add_definitions(-DMV_LOG)
 endif()
@@ -51,7 +48,6 @@ if(MV_TESTS_ONLY)
 endif()
 
 # version number of Dear PyGui, usually set
-# by AppVeyor
 set(MVDPG_VERSION ${MVDPG_VERSION})
 
 add_subdirectory("Dependencies")
