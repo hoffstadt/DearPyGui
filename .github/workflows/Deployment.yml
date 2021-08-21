@@ -93,6 +93,11 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v2
 
+    - name: Setup Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v2
+      with:
+        python-version: ${{ matrix.python-version }}
+
     - name: Retrieve submodules
       run: |
         git submodule update --init --recursive ./Dependencies/imgui
@@ -135,6 +140,11 @@ jobs:
 
     - name: Checkout
       uses: actions/checkout@v2
+
+    - name: Setup Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v2
+      with:
+        python-version: ${{ matrix.python-version }}
 
     - name: Retrieve submodules/Dependencies
       run: |
