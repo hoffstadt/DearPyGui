@@ -23,54 +23,8 @@ on:
 
 jobs:
 
-  build-common-files:
-
-    runs-on: windows-2019
-
-    steps:
-
-    - name: Checkout
-      uses: actions/checkout@v2
-
-    - name: Retrieve submodules
-      shell: cmd
-      run: git submodule update --init --recursive
-
-    - name: Build Python
-      shell: cmd
-      run: |
-        cd %GITHUB_WORKSPACE%
-        cd Scripts
-        call BuildPythonForWindows.bat --ci
-  
-    # builds DearSandbox.exe (and dearpygui) to generate
-    # dearpygui.py and _dearpygui.pyi
-    - name: Build DearPyGui/DearSandbox
-      shell: cmd
-      run: |
-        cd %GITHUB_WORKSPACE%
-        mkdir cmake-build-release
-        cd cmake-build-release
-        cmake .. -DMV_TESTS_ONLY=True -DMV_GEN_FILES_ONLY=True
-        cd ..
-        cmake --build cmake-build-release --config Release
-        copy DearPyGui\dearpygui\_header.py cmake-build-release\DearSandbox\_header.py
-        cd cmake-build-release/DearSandbox
-        DearSandbox.exe
-    
-    - name: Upload Stub and Public Interface
-      uses: actions/upload-artifact@v2
-      with:
-        name: python-interface-artifacts
-        path: |
-          ${{ github.workspace }}/cmake-build-release/DearSandbox/dearpygui.py
-          ${{ github.workspace }}/cmake-build-release/DearSandbox/_dearpygui.pyi
-        retention-days: 1
-        if-no-files-found: error
-
   build-windows-wheels:
 
-    needs: build-common-files
     runs-on: windows-2019
     strategy:
       matrix:
@@ -103,19 +57,12 @@ jobs:
         cd ..
         cmake --build cmake-build-release --config Release
 
-    - name: Download Common Files
-      uses: actions/download-artifact@v2
-      with:
-        name: python-interface-artifacts
-
     - name: Build Wheel
       shell: cmd
       run: |
         cd %GITHUB_WORKSPACE%
         echo ${{ github.event.inputs.version }} > version_number.txt
         echo cmake-build-release/DearPyGui/Release/_dearpygui.pyd > lib_location.txt
-        copy dearpygui.py DearPyGui\dearpygui\dearpygui.py
-        copy _dearpygui.pyi DearPyGui\dearpygui\_dearpygui.pyi
         python -m pip install --upgrade pip twine wheel
         python -m setup bdist_wheel --plat-name win_amd64 --dist-dir dist
     
@@ -128,7 +75,6 @@ jobs:
 
   build-mac-wheels:
 
-    needs: build-common-files
     runs-on: MacOS-latest
     strategy:
       matrix:
@@ -154,21 +100,15 @@ jobs:
         cmake .. -DMVDIST_ONLY=True -DMVDPG_VERSION=${{ github.event.inputs.version }}
         cd ..
         cmake --build cmake-build-release --config Release
-    
-    - name: Download Common Files
-      uses: actions/download-artifact@v2
-      with:
-        name: python-interface-artifacts
 
     - name: Build Wheel
       run: |
         cd $GITHUB_WORKSPACE
         echo ${{ github.event.inputs.version }} > version_number.txt
         echo cmake-build-release/DearPyGui/_dearpygui.so > lib_location.txt
-        cp dearpygui.py DearPyGui/dearpygui/dearpygui.py
-        cp _dearpygui.pyi DearPyGui/dearpygui/_dearpygui.pyi
         python -m pip install --upgrade pip twine wheel
         python -m setup bdist_wheel --plat-name macosx-10.6-x86_64 --dist-dir dist
+   
     - name: Upload MacOS ${{ matrix.python-version }} Wheel
       uses: actions/upload-artifact@v2
       with:
@@ -178,7 +118,6 @@ jobs:
 
   build-linux-wheels:
 
-    needs: build-common-files
     runs-on: ubuntu-18.04
     strategy:
       matrix:
@@ -209,18 +148,11 @@ jobs:
         cd ..
         cmake --build cmake-build-release --config Release
 
-    - name: Download artifacts
-      uses: actions/download-artifact@v2
-      with:
-        name: python-interface-artifacts
-
     - name: Build Wheel
       run: |
         cd $GITHUB_WORKSPACE
         echo ${{ github.event.inputs.version }} > version_number.txt
         echo cmake-build-release/DearPyGui/_dearpygui.so > lib_location.txt
-        cp dearpygui.py DearPyGui/dearpygui/dearpygui.py
-        cp _dearpygui.pyi DearPyGui/dearpygui/_dearpygui.pyi
         python -m pip install --upgrade pip twine wheel
         python -m setup bdist_wheel --plat-name manylinux1_x86_64 --dist-dir dist
 
@@ -260,10 +192,10 @@ jobs:
       shell: cmd
       if: ${{contains(github.event.inputs.deploy, 'true') && github.ref == 'refs/heads/master'}}
       run: |
-        python -m twine upload -u RaylockLLC -p %pypi_password% --skip-existing windowsbuild*/* applebuild*/* linuxbuild*/*
+        python -m twine upload windowsbuild*/* applebuild*/* linuxbuild*/* -u RaylockLLC -p %pypi_password% --skip-existing
 
     - name: Test PyPi Deployment
       shell: cmd
       if: "contains(github.event.inputs.deploytest, 'true')"
       run: |
-        python -m twine upload --repository testpypi -u RaylockLLC -p %pypi_password% --skip-existing windowsbuild*/* applebuild*/* linuxbuild*/*
+        python -m twine upload --repository testpypi windowsbuild*/* applebuild*/* linuxbuild*/* -u RaylockLLC -p %pypi_password% --skip-existing 

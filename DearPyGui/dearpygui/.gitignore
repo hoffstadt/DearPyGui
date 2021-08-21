@@ -1,4 +1,8 @@
-__pycache__/
-_dearpygui.py
-dearpygui.py
-_dearpygui.pyi
+*
+!.gitignore
+!_dearpygui.pyi
+!_deprecated.py
+!_header.py
+!dearpygui.py
+!demo.py
+!experimental.py
