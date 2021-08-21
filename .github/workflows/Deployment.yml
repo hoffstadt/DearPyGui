@@ -192,10 +192,10 @@ jobs:
       shell: cmd
       if: ${{contains(github.event.inputs.deploy, 'true') && github.ref == 'refs/heads/master'}}
       run: |
-        python -m twine upload windowsbuild*/* applebuild*/* linuxbuild*/* -u RaylockLLC -p %pypi_password% --skip-existing
+        python -m twine upload windowsbuild*/* applebuild*/* linuxbuild*/* -u __token__ -p ${{ secrets.PYPI_API_TOKEN }} --skip-existing
 
     - name: Test PyPi Deployment
       shell: cmd
       if: "contains(github.event.inputs.deploytest, 'true')"
       run: |
-        python -m twine upload --repository testpypi windowsbuild*/* applebuild*/* linuxbuild*/* -u RaylockLLC -p %pypi_password% --skip-existing 
+        python -m twine upload --repository testpypi windowsbuild*/* applebuild*/* linuxbuild*/* -u __token__ -p ${{ secrets.TEST_PYPI_API_TOKEN }} --skip-existing 
