@@ -197,14 +197,15 @@ jobs:
       shell: cmd
       if: ${{contains(github.event.inputs.deploy, 'true') && github.ref == 'refs/heads/master'}}
       run: |
-        python -m twine upload windowsbuild*/* -u __token__ -p ${{ secrets.PYPI_API_TOKEN }} --skip-existing
-        python -m twine upload applebuild*/* -u __token__ -p ${{ secrets.PYPI_API_TOKEN }} --skip-existing
-        python -m twine upload linuxbuild*/* -u __token__ -p ${{ secrets.PYPI_API_TOKEN }} --skip-existing
+        python -m twine upload windowsbuild*/* -u __token__ -p ${{ secrets.PYPI_PASSWORD }} --skip-existing
+        python -m twine upload applebuild*/* -u __token__ -p ${{ secrets.PYPI_PASSWORD }} --skip-existing
+        python -m twine upload linuxbuild*/* -u __token__ -p ${{ secrets.PYPI_PASSWORD }} --skip-existing
 
     - name: Test PyPi Deployment
       shell: cmd
       if: "contains(github.event.inputs.deploytest, 'true')"
       run: |
-        python -m twine upload --repository testpypi windowsbuild*/* -u __token__ -p ${{ secrets.TEST_PYPI_API_TOKEN }} --skip-existing
-        python -m twine upload --repository testpypi applebuild*/* -u __token__ -p ${{ secrets.TEST_PYPI_API_TOKEN }} --skip-existing
-        python -m twine upload --repository testpypi linuxbuild*/* -u __token__ -p ${{ secrets.TEST_PYPI_API_TOKEN }} --skip-existing
+        dir
+        python -m twine upload --repository testpypi windowsbuild*/* -u __token__ -p ${{ secrets.TEST_PYPI_PASSWORD }} --skip-existing
+        python -m twine upload --repository testpypi applebuild*/* -u __token__ -p ${{ secrets.TEST_PYPI_PASSWORD }} --skip-existing
+        python -m twine upload --repository testpypi linuxbuild*/* -u __token__ -p ${{ secrets.TEST_PYPI_PASSWORD }} --skip-existing
