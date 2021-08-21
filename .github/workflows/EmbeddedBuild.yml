@@ -32,7 +32,9 @@ jobs:
       run: |
         cd %GITHUB_WORKSPACE%
         mkdir cmake-build-release
-        cmake . -DMV_TESTS_ONLY=True
+        cd cmake-build-release
+        cmake .. -DMV_TESTS_ONLY=True
+        cd ..
         cmake --build cmake-build-release --config Release
 
     - name: Run Tests
@@ -69,7 +71,9 @@ jobs:
       run: |
         cd $GITHUB_WORKSPACE
         mkdir cmake-build-debug
-        cmake . -DMV_TESTS_ONLY=True
+        cd cmake-build-debug
+        cmake .. -DMV_TESTS_ONLY=True
+        cd ..
         cmake --build cmake-build-debug --config Debug
 
   build-Ubuntu:
@@ -96,12 +100,15 @@ jobs:
         cd $GITHUB_WORKSPACE
         cd Dependencies/cpython
         mkdir -p build/debug
-        ./configure --with-pydebug --enable-shared
+        cd build/debug
+        ../../configure --with-pydebug --enable-shared
         make
 
     - name: Build DearPyGui
       run: |
         cd $GITHUB_WORKSPACE
         mkdir cmake-build-debug
-        cmake . -DMV_TESTS_ONLY=True
+        cd cmake-build-debug
+        cmake .. -DMV_TESTS_ONLY=True
+        cd ..
         cmake --build cmake-build-debug --config Debug
