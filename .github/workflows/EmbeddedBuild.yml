@@ -27,7 +27,7 @@ jobs:
   build-windows:
     
     runs-on: windows-2019
-    if: ${{! contains(github.event.head_commit.message, '[skip ci]') || contains(github.event.head_commit.message, '[windows ci]')}}
+    if: ${{! contains(github.event.head_commit.message, '[single ci]') || contains(github.event.head_commit.message, '[windows ci]')}}
 
     steps:
 
@@ -65,7 +65,7 @@ jobs:
   build-MacOS:
     
     runs-on: MacOS-latest
-    if: ${{! contains(github.event.head_commit.message, '[skip ci]') || contains(github.event.head_commit.message, '[apple ci]')}}
+    if: ${{! contains(github.event.head_commit.message, '[single ci]') || contains(github.event.head_commit.message, '[apple ci]')}}
 
     steps:
 
@@ -97,7 +97,7 @@ jobs:
   build-Ubuntu:
     
     runs-on: ubuntu-18.04
-    if: ${{! contains(github.event.head_commit.message, '[skip ci]') || contains(github.event.head_commit.message, '[linux ci]')}}
+    if: ${{! contains(github.event.head_commit.message, '[single ci]') || contains(github.event.head_commit.message, '[linux ci]')}}
 
     steps:
 
