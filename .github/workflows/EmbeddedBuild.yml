@@ -13,7 +13,8 @@ jobs:
 
     steps:
 
-    - uses: actions/checkout@v2
+    - name: Checkout
+      uses: actions/checkout@v2
 
     - name: Retrieve submodules
       shell: cmd
@@ -22,22 +23,23 @@ jobs:
     - name: Build Python
       shell: cmd
       run: |
+        cd %GITHUB_WORKSPACE%
         cd Scripts
         call BuildPythonForWindows.bat --ci
-        cd ..
-        mkdir cmake-build-release
-        cd cmake-build-release
-        cmake .. -DMV_TESTS_ONLY=True
         
     - name: Build DearPyGui
       shell: cmd
       run: |
+        cd %GITHUB_WORKSPACE%
+        mkdir cmake-build-release
+        cmake . -DMV_TESTS_ONLY=True
         cmake --build cmake-build-release --config Release
 
     - name: Run Tests
       shell: cmd
       run: |
-        cd D:\a\DearPyGui\DearPyGui\cmake-build-release\DearSandbox\
+        cd %GITHUB_WORKSPACE%
+        cd cmake-build-release\DearSandbox
         DearSandbox.exe
 
   build-MacOS:
@@ -47,13 +49,15 @@ jobs:
 
     steps:
 
-    - uses: actions/checkout@v2
+    - name: Checkout
+      uses: actions/checkout@v2
 
     - name: Retrieve submodules
       run: git submodule update --init --recursive
     
     - name: Build Python
       run: |
+        cd $GITHUB_WORKSPACE
         cd Dependencies/cpython
         mkdir -p build/debug
         cd build/debug
@@ -63,10 +67,9 @@ jobs:
 
     - name: Build DearPyGui
       run: |
+        cd $GITHUB_WORKSPACE
         mkdir cmake-build-debug
-        cd cmake-build-debug
-        cmake .. -DMV_TESTS_ONLY=True
-        cd ..
+        cmake . -DMV_TESTS_ONLY=True
         cmake --build cmake-build-debug --config Debug
 
   build-Ubuntu:
@@ -76,30 +79,29 @@ jobs:
 
     steps:
 
-    - uses: actions/checkout@v2
+    - name: Checkout
+      uses: actions/checkout@v2
 
     - name: Retrieve submodules
       run: git submodule update --init --recursive
 
     - name: Install Dependencies
       run: |
-        sudo apt-get update
-        sudo apt-get install libgl1-mesa-dev
-        sudo apt-get install xorg-dev
-        sudo apt-get install libfreetype6-dev
+        cd $GITHUB_WORKSPACE
+        sudo apt-get update 
+        sudo apt-get install libgl1-mesa-dev xorg-dev libfreetype6-dev
     
     - name: Build Python
       run: |
+        cd $GITHUB_WORKSPACE
         cd Dependencies/cpython
         mkdir -p build/debug
-        cd build/debug
-        ../../configure --with-pydebug --enable-shared
+        ./configure --with-pydebug --enable-shared
         make
 
     - name: Build DearPyGui
       run: |
+        cd $GITHUB_WORKSPACE
         mkdir cmake-build-debug
-        cd cmake-build-debug
-        cmake .. -DMV_TESTS_ONLY=True
-        cd ..
+        cmake . -DMV_TESTS_ONLY=True
         cmake --build cmake-build-debug --config Debug
