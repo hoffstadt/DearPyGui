@@ -35,12 +35,6 @@ else()
     add_definitions(-DMV_LOG)
 endif()
 
-# generate temp files
-set(MV_GEN_FILES_ONLY ${MV_GEN_FILES_ONLY})
-if(MV_GEN_FILES_ONLY)
-    add_definitions(-DMV_GEN_FILES_ONLY)
-endif()
-
 # runs python tests
 set(MV_TESTS_ONLY ${MV_TESTS_ONLY})
 if(MV_TESTS_ONLY)

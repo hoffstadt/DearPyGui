@@ -25,14 +25,8 @@ void runTest(std::string test)
 int main(int argc, char* argv[])
 {
 
-#ifdef MV_GEN_FILES_ONLY
-	mvPythonParser::GenerateStubFile(".");
-	mvPythonParser::GenerateDearPyGuiFile(".");
-	std::cout << "Generated temp files!" << std::endl;
-	return 0;
-#else
+	mvPythonParser::GenerateStubFile("../../DearPyGui/dearpygui");
 	mvPythonParser::GenerateDearPyGuiFile("../../DearPyGui/dearpygui");
-#endif
 
 	// initialize python
 	// add our custom module
