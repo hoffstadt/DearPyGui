@@ -2,24 +2,32 @@ name: Deployment
 
 on:
 
+  schedule:
+    - cron: '0 12 * * 0'
+
   workflow_dispatch:
 
-      inputs:
+    branches:
+      - master
+      - development
+      - development_*
 
-        version:
-          description: 'Dear PyGui Version'
-          required: true
-          default: '0.7.500'
-
-        deploy:
-          description: 'Deploy (true will deploy to pypi)'
-          required: true
-          default: 'false'
-
-        deploytest:
-          description: 'Deploy (true will deploy to test pypi)'
-          required: true
-          default: 'false'
+    inputs:
+    
+      version:
+        description: 'Dear PyGui Version'
+        required: true
+        default: '0.0.1'
+    
+      deploy:
+        description: 'Deploy (true will deploy to pypi)'
+        required: true
+        default: 'false'
+    
+      deploytest:
+        description: 'Deploy (true will deploy to test pypi)'
+        required: true
+        default: 'false'
 
 jobs:
 
@@ -167,19 +175,16 @@ jobs:
 
     needs: [build-windows-wheels, build-mac-wheels, build-linux-wheels]
     runs-on: windows-2019
-    strategy:
-      matrix:
-        python-version: [ 3.9 ]
 
     steps:
 
     - name: Checkout
       uses: actions/checkout@v2
 
-    - name: Set up Python ${{ matrix.python-version }}
+    - name: Set up Python 3.9
       uses: actions/setup-python@v2
       with:
-        python-version: ${{ matrix.python-version }}
+        python-version: 3.9
 
     - name: Install Dependencies
       run: |
@@ -192,10 +197,14 @@ jobs:
       shell: cmd
       if: ${{contains(github.event.inputs.deploy, 'true') && github.ref == 'refs/heads/master'}}
       run: |
-        python -m twine upload windowsbuild*/* applebuild*/* linuxbuild*/* -u __token__ -p ${{ secrets.PYPI_API_TOKEN }} --skip-existing
+        python -m twine upload windowsbuild*/* -u __token__ -p ${{ secrets.PYPI_API_TOKEN }} --skip-existing
+        python -m twine upload applebuild*/* -u __token__ -p ${{ secrets.PYPI_API_TOKEN }} --skip-existing
+        python -m twine upload linuxbuild*/* -u __token__ -p ${{ secrets.PYPI_API_TOKEN }} --skip-existing
 
     - name: Test PyPi Deployment
       shell: cmd
       if: "contains(github.event.inputs.deploytest, 'true')"
       run: |
-        python -m twine upload --repository testpypi windowsbuild*/* applebuild*/* linuxbuild*/* -u __token__ -p ${{ secrets.TEST_PYPI_API_TOKEN }} --skip-existing 
+        python -m twine upload --repository testpypi windowsbuild*/* -u __token__ -p ${{ secrets.TEST_PYPI_API_TOKEN }} --skip-existing
+        python -m twine upload --repository testpypi applebuild*/* -u __token__ -p ${{ secrets.TEST_PYPI_API_TOKEN }} --skip-existing
+        python -m twine upload --repository testpypi linuxbuild*/* -u __token__ -p ${{ secrets.TEST_PYPI_API_TOKEN }} --skip-existing
