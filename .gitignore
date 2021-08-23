@@ -7,3 +7,8 @@ cmake-build-local/
 Output/
 dist/
 .DS_Store
+__pycache__/
+lib_location.txt
+version_number.txt
+dearpygui.egg-info/
+build/

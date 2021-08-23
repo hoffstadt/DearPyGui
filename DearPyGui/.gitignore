@@ -1,1 +1,8 @@
 __pycache__/
+__init__.py
+_dearpygui.pyd
+_dearpygui.pyi
+demo.py
+experimental.py
+vcruntime140_1.dll
+dearpygui.py
