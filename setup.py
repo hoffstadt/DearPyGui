@@ -38,7 +38,9 @@ shutil.copy(workspace_dir + "/DearPyGui/dearpygui/experimental.py", workspace_di
 shutil.copy(workspace_dir + "/Dependencies/Microsoft/vcruntime140_1.dll", workspace_dir + "/dearpygui")
 
 with open(workspace_dir + "/dearpygui/__init__.py", 'w') as file:
-    file.write("pass\n")
+    file.write("__version__=")
+    file.write(version_number())
+    file.write("\n")
 
 # import readme content
 with open("./docs/README.md", encoding='utf-8') as f:

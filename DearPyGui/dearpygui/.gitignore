@@ -1,4 +1,5 @@
 *
+!__init__.py
 !.gitignore
 !_dearpygui.pyi
 !_deprecated.py

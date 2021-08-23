@@ -339,3 +339,57 @@ def set_staging_mode(mode : bool) -> None:
 		None
 	"""
 	warnings.warn("'set_staging_mode' is deprecated.", DeprecationWarning, 2)
+
+
+def add_table_next_column(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, id: Union[int, str] =0, parent: Union[int, str] =0, before: Union[int, str] =0, show: bool =True) -> Union[int, str]:
+	"""
+	Undocumented function
+	Args:
+		**label (str): Overrides 'name' as label.
+		**user_data (Any): User data for callbacks.
+		**use_internal_label (bool): Use generated internal label instead of user specified (appends ### uuid).
+		**id (Union[int, str]): Unique id used to programmatically refer to the item.If label is unused this will be the label.
+		**parent (Union[int, str]): Parent to add this item to. (runtime adding)
+		**before (Union[int, str]): This item will be displayed before the specified item in the parent.
+		**show (bool): Attempt to render widget.
+	Returns:
+		Union[int, str]
+	"""
+	warnings.warn("'add_table_next_column' is deprecated and does nothing anymore.", DeprecationWarning, 2)
+
+
+def add_staging_container(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, id: Union[int, str] =0) -> Union[int, str]:
+	"""
+	Undocumented function
+	Args:
+		**label (str): Overrides 'name' as label.
+		**user_data (Any): User data for callbacks.
+		**use_internal_label (bool): Use generated internal label instead of user specified (appends ### uuid).
+		**id (Union[int, str]): Unique id used to programmatically refer to the item.If label is unused this will be the label.
+	Returns:
+		Union[int, str]
+	"""
+
+	warnings.warn("'add_staging_container' is deprecated and was changed to 'add_stage'", DeprecationWarning, 2)
+	return internal_dpg.add_stage(label=label, user_data=user_data, use_internal_label=use_internal_label, id=id)
+
+
+@contextmanager
+def staging_container(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, id: Union[int, str] =0) -> Union[int, str]:
+	"""
+	Undocumented function
+	Args:
+		**label (str): Overrides 'name' as label.
+		**user_data (Any): User data for callbacks.
+		**use_internal_label (bool): Use generated internal label instead of user specified (appends ### uuid).
+		**id (Union[int, str]): Unique id used to programmatically refer to the item.If label is unused this will be the label.
+	Yields:
+		Union[int, str]
+	"""
+	try:
+		warnings.warn("'staging_container' is deprecated and was changed to 'stage'", DeprecationWarning, 2)
+		widget = internal_dpg.add_stage_container(label=label, user_data=user_data, use_internal_label=use_internal_label, id=id)
+		internal_dpg.push_container_stack(widget)
+		yield widget
+	finally:
+		internal_dpg.pop_container_stack()
