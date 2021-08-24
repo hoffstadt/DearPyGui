@@ -384,6 +384,7 @@ namespace Marvel {
 		else if (deleteRoot(_themeRegistryRoots, uuid)) deletedItem = true;
 		else if (deleteRoot(_itemPoolRoots, uuid)) deletedItem = true;
 		else if (deleteRoot(_itemTemplatesRoots, uuid)) deletedItem = true;
+		else if (deleteRoot(_itemHandlerRegistryRoots, uuid)) deletedItem = true;
 
 		if (deletedItem)
 		{
@@ -418,6 +419,7 @@ namespace Marvel {
 		else if (moveRoot(_themeRegistryRoots, uuid, child)) movedItem = true;
 		else if (moveRoot(_itemPoolRoots, uuid, child)) movedItem = true;
 		else if (moveRoot(_itemTemplatesRoots, uuid, child)) movedItem = true;
+		else if (moveRoot(_itemHandlerRegistryRoots, uuid, child)) movedItem = true;
 
 		if (child == nullptr)
 		{
@@ -451,6 +453,7 @@ namespace Marvel {
 		else if (moveUpRoot(_themeRegistryRoots, uuid)) movedItem = true;
 		else if (moveUpRoot(_itemPoolRoots, uuid)) movedItem = true;
 		else if (moveUpRoot(_itemTemplatesRoots, uuid)) movedItem = true;
+		else if (moveUpRoot(_itemHandlerRegistryRoots, uuid)) movedItem = true;
 
 		if (!movedItem)
 		{
@@ -483,6 +486,7 @@ namespace Marvel {
 		else if (moveDownRoot(_themeRegistryRoots, uuid)) movedItem = true;
 		else if (moveDownRoot(_itemPoolRoots, uuid)) movedItem = true;
 		else if (moveDownRoot(_itemTemplatesRoots, uuid)) movedItem = true;
+		else if (moveDownRoot(_itemHandlerRegistryRoots, uuid)) movedItem = true;
 
 		if (!movedItem)
 		{
@@ -633,6 +637,7 @@ namespace Marvel {
 		else if (addRuntimeChildRoot(_themeRegistryRoots, parent, before, item)) return true;
 		else if (addRuntimeChildRoot(_itemPoolRoots, parent, before, item)) return true;
 		else if (addRuntimeChildRoot(_itemTemplatesRoots, parent, before, item)) return true;
+		else if (addRuntimeChildRoot(_itemHandlerRegistryRoots, parent, before, item)) return true;
 
 		return false;
 	}
@@ -652,6 +657,7 @@ namespace Marvel {
 		else if (addItemAfterRoot(_themeRegistryRoots, prev, item)) return true;
 		else if (addItemAfterRoot(_itemPoolRoots, prev, item)) return true;
 		else if (addItemAfterRoot(_itemTemplatesRoots, prev, item)) return true;
+		else if (addItemAfterRoot(_itemHandlerRegistryRoots, prev, item)) return true;
 
 		assert(false);
 		return false;
@@ -762,6 +768,7 @@ namespace Marvel {
 		if (auto foundItem = getItemRoot(_themeRegistryRoots, uuid)) return foundItem;
 		if (auto foundItem = getItemRoot(_itemPoolRoots, uuid)) return foundItem;
 		if (auto foundItem = getItemRoot(_itemTemplatesRoots, uuid)) return foundItem;
+		if (auto foundItem = getItemRoot(_itemHandlerRegistryRoots, uuid)) return foundItem;
 
 		for (auto delayedItem : _delayedSearch)
 		{
@@ -810,6 +817,7 @@ namespace Marvel {
 		else if (auto foundItem = getRefItemRoot(_themeRegistryRoots, uuid)) return foundItem;
 		else if (auto foundItem = getRefItemRoot(_itemPoolRoots, uuid)) return foundItem;
 		else if (auto foundItem = getRefItemRoot(_itemTemplatesRoots, uuid)) return foundItem;
+		else if (auto foundItem = getRefItemRoot(_itemHandlerRegistryRoots, uuid)) return foundItem;
 
 		return nullptr;
 	}
@@ -858,6 +866,7 @@ namespace Marvel {
 		if (item->getType() == mvAppItemType::mvTheme) _themeRegistryRoots.push_back(item);
 		if (item->getType() == mvAppItemType::mvItemPool) _itemPoolRoots.push_back(item);
 		if (item->getType() == mvAppItemType::mvTemplateRegistry) _itemTemplatesRoots.push_back(item);
+		if (item->getType() == mvAppItemType::mvItemHandlerRegistry) _itemHandlerRegistryRoots.push_back(item);
 
 		return true;
 	}
@@ -877,6 +886,7 @@ namespace Marvel {
 		_themeRegistryRoots.clear();
 		_itemPoolRoots.clear();
 		_itemTemplatesRoots.clear();
+		_itemHandlerRegistryRoots.clear();
 	}
 
 	void mvItemRegistry::cleanUpItem(mvUUID uuid)
@@ -1123,6 +1133,7 @@ namespace Marvel {
 		getAllItemsRoot(_themeRegistryRoots, childList);
 		getAllItemsRoot(_itemPoolRoots, childList);
 		getAllItemsRoot(_itemTemplatesRoots, childList);
+		getAllItemsRoot(_itemHandlerRegistryRoots, childList);
 
 		return childList;
 	}
@@ -1143,6 +1154,7 @@ namespace Marvel {
 		for (auto& root : _themeRegistryRoots) childList.emplace_back(root->_uuid);
 		for (auto& root : _itemPoolRoots) childList.emplace_back(root->_uuid);
 		for (auto& root : _itemTemplatesRoots) childList.emplace_back(root->_uuid);
+		for (auto& root : _itemHandlerRegistryRoots) childList.emplace_back(root->_uuid);
 
 		return childList;
 	}

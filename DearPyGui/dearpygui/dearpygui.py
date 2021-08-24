@@ -95,7 +95,9 @@ def popup(parent: Union[int, str], mousebutton: int = internal_dpg.mvMouseButton
             _internal_popup_id = internal_dpg.generate_uuid()
         else:
             _internal_popup_id = tag
-        internal_dpg.add_item_clicked_handler(parent, mousebutton, callback=lambda: internal_dpg.configure_item(_internal_popup_id, show=True))
+        _handler_reg_id = internal_dpg.add_item_handler_registry()
+        internal_dpg.add_item_clicked_handler(mousebutton, parent=internal_dpg.last_item(), callback=lambda: internal_dpg.configure_item(_internal_popup_id, show=True))
+        internal_dpg.bind_item_handler_registry(parent, _handler_reg_id)
         if modal:
             internal_dpg.add_window(modal=True, show=False, tag=_internal_popup_id, autosize=True)
         else:
@@ -1816,6 +1818,25 @@ def handler_registry(*, label: str =None, user_data: Any =None, use_internal_lab
 	"""
 	try:
 		widget = internal_dpg.add_handler_registry(label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, show=show)
+		internal_dpg.push_container_stack(widget)
+		yield widget
+	finally:
+		internal_dpg.pop_container_stack()
+@contextmanager
+def item_handler_registry(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, show: bool =True) -> Union[int, str]:
+	"""
+	Adds a handler registry.
+	Args:
+		**label (str): Overrides 'name' as label.
+		**user_data (Any): User data for callbacks.
+		**use_internal_label (bool): Use generated internal label instead of user specified (appends ### uuid).
+		**tag (Union[int, str]): Unique id used to programmatically refer to the item.If label is unused this will be the label.
+		**show (bool): Attempt to render widget.
+	Yields:
+		Union[int, str]
+	"""
+	try:
+		widget = internal_dpg.add_item_handler_registry(label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, show=show)
 		internal_dpg.push_container_stack(widget)
 		yield widget
 	finally:
@@ -4162,142 +4183,157 @@ def add_int_value(*, label: str =None, user_data: Any =None, use_internal_label:
 
 	return internal_dpg.add_int_value(label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, source=source, default_value=default_value, parent=parent)
 
-def add_item_activated_handler(parent : Union[int, str], *, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, callback: Callable =None, show: bool =True) -> Union[int, str]:
+def add_item_activated_handler(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, parent: Union[int, str] =0, callback: Callable =None, show: bool =True) -> Union[int, str]:
 	"""
 	Adds a handler which runs a given callback when the specified item is activated.
 	Args:
-		parent (Union[int, str]): 
 		**label (str): Overrides 'name' as label.
 		**user_data (Any): User data for callbacks.
 		**use_internal_label (bool): Use generated internal label instead of user specified (appends ### uuid).
 		**tag (Union[int, str]): Unique id used to programmatically refer to the item.If label is unused this will be the label.
+		**parent (Union[int, str]): Parent to add this item to. (runtime adding)
 		**callback (Callable): Registers a callback.
 		**show (bool): Attempt to render widget.
 	Returns:
 		Union[int, str]
 	"""
 
-	return internal_dpg.add_item_activated_handler(parent, label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, callback=callback, show=show)
+	return internal_dpg.add_item_activated_handler(label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, parent=parent, callback=callback, show=show)
 
-def add_item_active_handler(parent : Union[int, str], *, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, callback: Callable =None, show: bool =True) -> Union[int, str]:
+def add_item_active_handler(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, parent: Union[int, str] =0, callback: Callable =None, show: bool =True) -> Union[int, str]:
 	"""
 	Adds a handler which runs a given callback when the specified item is active.
 	Args:
-		parent (Union[int, str]): 
 		**label (str): Overrides 'name' as label.
 		**user_data (Any): User data for callbacks.
 		**use_internal_label (bool): Use generated internal label instead of user specified (appends ### uuid).
 		**tag (Union[int, str]): Unique id used to programmatically refer to the item.If label is unused this will be the label.
+		**parent (Union[int, str]): Parent to add this item to. (runtime adding)
 		**callback (Callable): Registers a callback.
 		**show (bool): Attempt to render widget.
 	Returns:
 		Union[int, str]
 	"""
 
-	return internal_dpg.add_item_active_handler(parent, label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, callback=callback, show=show)
+	return internal_dpg.add_item_active_handler(label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, parent=parent, callback=callback, show=show)
 
-def add_item_clicked_handler(parent : Union[int, str], button : int =-1, *, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, callback: Callable =None, show: bool =True) -> Union[int, str]:
+def add_item_clicked_handler(button : int =-1, *, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, parent: Union[int, str] =0, callback: Callable =None, show: bool =True) -> Union[int, str]:
 	"""
 	Adds a handler which runs a given callback when the specified item is clicked.
 	Args:
-		parent (Union[int, str]): 
 		*button (int): Submits callback for all mouse buttons
 		**label (str): Overrides 'name' as label.
 		**user_data (Any): User data for callbacks.
 		**use_internal_label (bool): Use generated internal label instead of user specified (appends ### uuid).
 		**tag (Union[int, str]): Unique id used to programmatically refer to the item.If label is unused this will be the label.
+		**parent (Union[int, str]): Parent to add this item to. (runtime adding)
 		**callback (Callable): Registers a callback.
 		**show (bool): Attempt to render widget.
 	Returns:
 		Union[int, str]
 	"""
 
-	return internal_dpg.add_item_clicked_handler(parent, button, label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, callback=callback, show=show)
+	return internal_dpg.add_item_clicked_handler(button, label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, parent=parent, callback=callback, show=show)
 
-def add_item_deactivated_after_edit_handler(parent : Union[int, str], *, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, callback: Callable =None, show: bool =True) -> Union[int, str]:
+def add_item_deactivated_after_edit_handler(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, parent: Union[int, str] =0, callback: Callable =None, show: bool =True) -> Union[int, str]:
 	"""
 	Adds a handler which runs a given callback when the specified item is deactivated after edit.
 	Args:
-		parent (Union[int, str]): 
 		**label (str): Overrides 'name' as label.
 		**user_data (Any): User data for callbacks.
 		**use_internal_label (bool): Use generated internal label instead of user specified (appends ### uuid).
 		**tag (Union[int, str]): Unique id used to programmatically refer to the item.If label is unused this will be the label.
+		**parent (Union[int, str]): Parent to add this item to. (runtime adding)
 		**callback (Callable): Registers a callback.
 		**show (bool): Attempt to render widget.
 	Returns:
 		Union[int, str]
 	"""
 
-	return internal_dpg.add_item_deactivated_after_edit_handler(parent, label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, callback=callback, show=show)
+	return internal_dpg.add_item_deactivated_after_edit_handler(label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, parent=parent, callback=callback, show=show)
 
-def add_item_deactivated_handler(parent : Union[int, str], *, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, callback: Callable =None, show: bool =True) -> Union[int, str]:
+def add_item_deactivated_handler(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, parent: Union[int, str] =0, callback: Callable =None, show: bool =True) -> Union[int, str]:
 	"""
 	Adds a handler which runs a given callback when the specified item is deactivated.
 	Args:
-		parent (Union[int, str]): 
 		**label (str): Overrides 'name' as label.
 		**user_data (Any): User data for callbacks.
 		**use_internal_label (bool): Use generated internal label instead of user specified (appends ### uuid).
 		**tag (Union[int, str]): Unique id used to programmatically refer to the item.If label is unused this will be the label.
+		**parent (Union[int, str]): Parent to add this item to. (runtime adding)
 		**callback (Callable): Registers a callback.
 		**show (bool): Attempt to render widget.
 	Returns:
 		Union[int, str]
 	"""
 
-	return internal_dpg.add_item_deactivated_handler(parent, label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, callback=callback, show=show)
+	return internal_dpg.add_item_deactivated_handler(label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, parent=parent, callback=callback, show=show)
 
-def add_item_edited_handler(parent : Union[int, str], *, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, callback: Callable =None, show: bool =True) -> Union[int, str]:
+def add_item_edited_handler(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, parent: Union[int, str] =0, callback: Callable =None, show: bool =True) -> Union[int, str]:
 	"""
 	Adds a handler which runs a given callback when the specified item is edited.
 	Args:
-		parent (Union[int, str]): 
 		**label (str): Overrides 'name' as label.
 		**user_data (Any): User data for callbacks.
 		**use_internal_label (bool): Use generated internal label instead of user specified (appends ### uuid).
 		**tag (Union[int, str]): Unique id used to programmatically refer to the item.If label is unused this will be the label.
+		**parent (Union[int, str]): Parent to add this item to. (runtime adding)
 		**callback (Callable): Registers a callback.
 		**show (bool): Attempt to render widget.
 	Returns:
 		Union[int, str]
 	"""
 
-	return internal_dpg.add_item_edited_handler(parent, label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, callback=callback, show=show)
+	return internal_dpg.add_item_edited_handler(label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, parent=parent, callback=callback, show=show)
 
-def add_item_focus_handler(parent : Union[int, str], *, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, callback: Callable =None, show: bool =True) -> Union[int, str]:
+def add_item_focus_handler(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, parent: Union[int, str] =0, callback: Callable =None, show: bool =True) -> Union[int, str]:
 	"""
 	Adds a handler which runs a given callback when the specified item is focused.
 	Args:
-		parent (Union[int, str]): 
 		**label (str): Overrides 'name' as label.
 		**user_data (Any): User data for callbacks.
 		**use_internal_label (bool): Use generated internal label instead of user specified (appends ### uuid).
 		**tag (Union[int, str]): Unique id used to programmatically refer to the item.If label is unused this will be the label.
+		**parent (Union[int, str]): Parent to add this item to. (runtime adding)
 		**callback (Callable): Registers a callback.
 		**show (bool): Attempt to render widget.
 	Returns:
 		Union[int, str]
 	"""
 
-	return internal_dpg.add_item_focus_handler(parent, label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, callback=callback, show=show)
+	return internal_dpg.add_item_focus_handler(label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, parent=parent, callback=callback, show=show)
 
-def add_item_hover_handler(parent : Union[int, str], *, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, callback: Callable =None, show: bool =True) -> Union[int, str]:
+def add_item_handler_registry(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, show: bool =True) -> Union[int, str]:
+	"""
+	Adds a handler registry.
+	Args:
+		**label (str): Overrides 'name' as label.
+		**user_data (Any): User data for callbacks.
+		**use_internal_label (bool): Use generated internal label instead of user specified (appends ### uuid).
+		**tag (Union[int, str]): Unique id used to programmatically refer to the item.If label is unused this will be the label.
+		**show (bool): Attempt to render widget.
+	Returns:
+		Union[int, str]
+	"""
+
+	return internal_dpg.add_item_handler_registry(label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, show=show)
+
+def add_item_hover_handler(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, parent: Union[int, str] =0, callback: Callable =None, show: bool =True) -> Union[int, str]:
 	"""
 	Adds a handler which runs a given callback when the specified item is hovered.
 	Args:
-		parent (Union[int, str]): 
 		**label (str): Overrides 'name' as label.
 		**user_data (Any): User data for callbacks.
 		**use_internal_label (bool): Use generated internal label instead of user specified (appends ### uuid).
 		**tag (Union[int, str]): Unique id used to programmatically refer to the item.If label is unused this will be the label.
+		**parent (Union[int, str]): Parent to add this item to. (runtime adding)
 		**callback (Callable): Registers a callback.
 		**show (bool): Attempt to render widget.
 	Returns:
 		Union[int, str]
 	"""
 
-	return internal_dpg.add_item_hover_handler(parent, label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, callback=callback, show=show)
+	return internal_dpg.add_item_hover_handler(label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, parent=parent, callback=callback, show=show)
 
 def add_item_pool(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0) -> Union[int, str]:
 	"""
@@ -4313,22 +4349,22 @@ def add_item_pool(*, label: str =None, user_data: Any =None, use_internal_label:
 
 	return internal_dpg.add_item_pool(label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag)
 
-def add_item_resize_handler(parent : Union[int, str], *, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, callback: Callable =None, show: bool =True) -> Union[int, str]:
+def add_item_resize_handler(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, parent: Union[int, str] =0, callback: Callable =None, show: bool =True) -> Union[int, str]:
 	"""
 	Adds a handler which runs a given callback when the specified item is resized.
 	Args:
-		parent (Union[int, str]): 
 		**label (str): Overrides 'name' as label.
 		**user_data (Any): User data for callbacks.
 		**use_internal_label (bool): Use generated internal label instead of user specified (appends ### uuid).
 		**tag (Union[int, str]): Unique id used to programmatically refer to the item.If label is unused this will be the label.
+		**parent (Union[int, str]): Parent to add this item to. (runtime adding)
 		**callback (Callable): Registers a callback.
 		**show (bool): Attempt to render widget.
 	Returns:
 		Union[int, str]
 	"""
 
-	return internal_dpg.add_item_resize_handler(parent, label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, callback=callback, show=show)
+	return internal_dpg.add_item_resize_handler(label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, parent=parent, callback=callback, show=show)
 
 def add_item_set(type : int, count : int, *, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0) -> Union[int, str]:
 	"""
@@ -4346,39 +4382,39 @@ def add_item_set(type : int, count : int, *, label: str =None, user_data: Any =N
 
 	return internal_dpg.add_item_set(type, count, label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag)
 
-def add_item_toggled_open_handler(parent : Union[int, str], *, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, callback: Callable =None, show: bool =True) -> Union[int, str]:
+def add_item_toggled_open_handler(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, parent: Union[int, str] =0, callback: Callable =None, show: bool =True) -> Union[int, str]:
 	"""
 	Adds a handler which runs a given callback when the specified item is toggled open.
 	Args:
-		parent (Union[int, str]): 
 		**label (str): Overrides 'name' as label.
 		**user_data (Any): User data for callbacks.
 		**use_internal_label (bool): Use generated internal label instead of user specified (appends ### uuid).
 		**tag (Union[int, str]): Unique id used to programmatically refer to the item.If label is unused this will be the label.
+		**parent (Union[int, str]): Parent to add this item to. (runtime adding)
 		**callback (Callable): Registers a callback.
 		**show (bool): Attempt to render widget.
 	Returns:
 		Union[int, str]
 	"""
 
-	return internal_dpg.add_item_toggled_open_handler(parent, label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, callback=callback, show=show)
+	return internal_dpg.add_item_toggled_open_handler(label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, parent=parent, callback=callback, show=show)
 
-def add_item_visible_handler(parent : Union[int, str], *, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, callback: Callable =None, show: bool =True) -> Union[int, str]:
+def add_item_visible_handler(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, parent: Union[int, str] =0, callback: Callable =None, show: bool =True) -> Union[int, str]:
 	"""
 	Adds a handler which runs a given callback when the specified item is visible.
 	Args:
-		parent (Union[int, str]): 
 		**label (str): Overrides 'name' as label.
 		**user_data (Any): User data for callbacks.
 		**use_internal_label (bool): Use generated internal label instead of user specified (appends ### uuid).
 		**tag (Union[int, str]): Unique id used to programmatically refer to the item.If label is unused this will be the label.
+		**parent (Union[int, str]): Parent to add this item to. (runtime adding)
 		**callback (Callable): Registers a callback.
 		**show (bool): Attempt to render widget.
 	Returns:
 		Union[int, str]
 	"""
 
-	return internal_dpg.add_item_visible_handler(parent, label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, callback=callback, show=show)
+	return internal_dpg.add_item_visible_handler(label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, parent=parent, callback=callback, show=show)
 
 def add_key_down_handler(key : int =-1, *, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, callback: Callable =None, show: bool =True, parent: Union[int, str] =internal_dpg.mvReservedUUID_1) -> Union[int, str]:
 	"""
@@ -6091,6 +6127,18 @@ def bind_item_disabled_theme(item : Union[int, str], theme : Union[int, str]) ->
 	"""
 
 	return internal_dpg.bind_item_disabled_theme(item, theme)
+
+def bind_item_handler_registry(item : Union[int, str], handler_registry : Union[int, str]) -> None:
+	"""
+	Undocumented
+	Args:
+		item (Union[int, str]): 
+		handler_registry (Union[int, str]): 
+	Returns:
+		None
+	"""
+
+	return internal_dpg.bind_item_handler_registry(item, handler_registry)
 
 def bind_item_theme(item : Union[int, str], theme : Union[int, str]) -> None:
 	"""
@@ -8268,6 +8316,7 @@ mvItemPool=internal_dpg.mvItemPool
 mvItemSet=internal_dpg.mvItemSet
 mvTemplateRegistry=internal_dpg.mvTemplateRegistry
 mvTableCell=internal_dpg.mvTableCell
+mvItemHandlerRegistry=internal_dpg.mvItemHandlerRegistry
 mvReservedUUID_0=internal_dpg.mvReservedUUID_0
 mvReservedUUID_1=internal_dpg.mvReservedUUID_1
 mvReservedUUID_2=internal_dpg.mvReservedUUID_2

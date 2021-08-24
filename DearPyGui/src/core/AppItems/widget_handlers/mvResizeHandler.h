@@ -4,7 +4,7 @@
 
 namespace Marvel {
 
-	MV_REGISTER_WIDGET(mvResizeHandler, MV_ITEM_DESC_DEFAULT | MV_ITEM_DESC_HANDLER, StorageValueTypes::None, 3);
+	MV_REGISTER_WIDGET(mvResizeHandler, MV_ITEM_DESC_DEFAULT | MV_ITEM_DESC_HANDLER, StorageValueTypes::None, 1);
 	class mvResizeHandler : public mvAppItem
 	{
 
@@ -20,7 +20,9 @@ namespace Marvel {
 		MV_SET_STATES(MV_STATE_NONE);
 
 		MV_START_PARENTS
-			MV_ADD_PARENT(mvAppItemType::mvWindowAppItem)
+			MV_ADD_PARENT(mvAppItemType::mvStage),
+			MV_ADD_PARENT(mvAppItemType::mvTemplateRegistry),
+			MV_ADD_PARENT(mvAppItemType::mvItemHandlerRegistry)
 		MV_END_PARENTS
 
 	public:
@@ -28,7 +30,6 @@ namespace Marvel {
 		mvResizeHandler(mvUUID uuid);
 
 		void draw(ImDrawList* drawlist, float x, float y) override;
-		void handleSpecificRequiredArgs(PyObject* dict) override;
 
 	};
 

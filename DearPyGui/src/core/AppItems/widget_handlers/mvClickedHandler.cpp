@@ -13,10 +13,9 @@ namespace Marvel {
 		mvAppItem::AddCommonArgs(parser, (CommonParserArgs)(
 			MV_PARSER_ARG_ID |
 			MV_PARSER_ARG_SHOW |
+			MV_PARSER_ARG_PARENT |
 			MV_PARSER_ARG_CALLBACK)
 		);
-
-		parser.addArg<mvPyDataType::UUID>("parent");
 
 		parser.addArg<mvPyDataType::Integer>("button", mvArgType::POSITIONAL_ARG, "-1", "Submits callback for all mouse buttons");
 
@@ -74,11 +73,8 @@ namespace Marvel {
 			PyObject* item = PyTuple_GetItem(dict, i);
 			switch (i)
 			{
-			case 0:
-				_parent = mvAppItem::GetIDFromPyObject(item);
-				break;
 			
-			case 1:
+			case 0:
 				_button = ToInt(item);
 				break;
 

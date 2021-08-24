@@ -191,6 +191,7 @@ set(MARVEL_SOURCES
 	"src/core/AppItems/handlers/mvMouseDragHandler.cpp"
 
 	"src/core/AppItems/widget_handlers/mvHoverHandler.cpp"
+	"src/core/AppItems/widget_handlers/mvItemHandlerRegistry.cpp"
 	"src/core/AppItems/widget_handlers/mvActiveHandler.cpp"
 	"src/core/AppItems/widget_handlers/mvFocusHandler.cpp"
 	"src/core/AppItems/widget_handlers/mvVisibleHandler.cpp"

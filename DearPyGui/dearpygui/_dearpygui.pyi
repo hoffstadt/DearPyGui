@@ -262,35 +262,39 @@ def add_int_value(*, label: str =None, user_data: Any =None, use_internal_label:
 	"""Undocumented"""
 	...
 
-def add_item_activated_handler(parent : Union[int, str], *, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, callback: Callable =None, show: bool =True) -> Union[int, str]:
+def add_item_activated_handler(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, parent: Union[int, str] =0, callback: Callable =None, show: bool =True) -> Union[int, str]:
 	"""Adds a handler which runs a given callback when the specified item is activated."""
 	...
 
-def add_item_active_handler(parent : Union[int, str], *, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, callback: Callable =None, show: bool =True) -> Union[int, str]:
+def add_item_active_handler(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, parent: Union[int, str] =0, callback: Callable =None, show: bool =True) -> Union[int, str]:
 	"""Adds a handler which runs a given callback when the specified item is active."""
 	...
 
-def add_item_clicked_handler(parent : Union[int, str], button : int =-1, *, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, callback: Callable =None, show: bool =True) -> Union[int, str]:
+def add_item_clicked_handler(button : int =-1, *, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, parent: Union[int, str] =0, callback: Callable =None, show: bool =True) -> Union[int, str]:
 	"""Adds a handler which runs a given callback when the specified item is clicked."""
 	...
 
-def add_item_deactivated_after_edit_handler(parent : Union[int, str], *, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, callback: Callable =None, show: bool =True) -> Union[int, str]:
+def add_item_deactivated_after_edit_handler(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, parent: Union[int, str] =0, callback: Callable =None, show: bool =True) -> Union[int, str]:
 	"""Adds a handler which runs a given callback when the specified item is deactivated after edit."""
 	...
 
-def add_item_deactivated_handler(parent : Union[int, str], *, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, callback: Callable =None, show: bool =True) -> Union[int, str]:
+def add_item_deactivated_handler(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, parent: Union[int, str] =0, callback: Callable =None, show: bool =True) -> Union[int, str]:
 	"""Adds a handler which runs a given callback when the specified item is deactivated."""
 	...
 
-def add_item_edited_handler(parent : Union[int, str], *, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, callback: Callable =None, show: bool =True) -> Union[int, str]:
+def add_item_edited_handler(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, parent: Union[int, str] =0, callback: Callable =None, show: bool =True) -> Union[int, str]:
 	"""Adds a handler which runs a given callback when the specified item is edited."""
 	...
 
-def add_item_focus_handler(parent : Union[int, str], *, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, callback: Callable =None, show: bool =True) -> Union[int, str]:
+def add_item_focus_handler(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, parent: Union[int, str] =0, callback: Callable =None, show: bool =True) -> Union[int, str]:
 	"""Adds a handler which runs a given callback when the specified item is focused."""
 	...
 
-def add_item_hover_handler(parent : Union[int, str], *, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, callback: Callable =None, show: bool =True) -> Union[int, str]:
+def add_item_handler_registry(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, show: bool =True) -> Union[int, str]:
+	"""Adds a handler registry."""
+	...
+
+def add_item_hover_handler(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, parent: Union[int, str] =0, callback: Callable =None, show: bool =True) -> Union[int, str]:
 	"""Adds a handler which runs a given callback when the specified item is hovered."""
 	...
 
@@ -298,7 +302,7 @@ def add_item_pool(*, label: str =None, user_data: Any =None, use_internal_label:
 	"""Undocumented function"""
 	...
 
-def add_item_resize_handler(parent : Union[int, str], *, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, callback: Callable =None, show: bool =True) -> Union[int, str]:
+def add_item_resize_handler(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, parent: Union[int, str] =0, callback: Callable =None, show: bool =True) -> Union[int, str]:
 	"""Adds a handler which runs a given callback when the specified item is resized."""
 	...
 
@@ -306,11 +310,11 @@ def add_item_set(type : int, count : int, *, label: str =None, user_data: Any =N
 	"""Undocumented function"""
 	...
 
-def add_item_toggled_open_handler(parent : Union[int, str], *, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, callback: Callable =None, show: bool =True) -> Union[int, str]:
+def add_item_toggled_open_handler(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, parent: Union[int, str] =0, callback: Callable =None, show: bool =True) -> Union[int, str]:
 	"""Adds a handler which runs a given callback when the specified item is toggled open."""
 	...
 
-def add_item_visible_handler(parent : Union[int, str], *, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, callback: Callable =None, show: bool =True) -> Union[int, str]:
+def add_item_visible_handler(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, parent: Union[int, str] =0, callback: Callable =None, show: bool =True) -> Union[int, str]:
 	"""Adds a handler which runs a given callback when the specified item is visible."""
 	...
 
@@ -599,6 +603,10 @@ def bind_font(font : Union[int, str]) -> None:
 	...
 
 def bind_item_disabled_theme(item : Union[int, str], theme : Union[int, str]) -> None:
+	"""Undocumented"""
+	...
+
+def bind_item_handler_registry(item : Union[int, str], handler_registry : Union[int, str]) -> None:
 	"""Undocumented"""
 	...
 
