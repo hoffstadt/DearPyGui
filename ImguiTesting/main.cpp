@@ -16,7 +16,7 @@
 int main()
 {
     auto window = new mvWindowClass();
-
+#if 0
     bool hoveredApplicable = false;
     bool activeApplicable = false;
     bool focusedApplicable = false;
@@ -32,6 +32,7 @@ int main()
     static char fs[6] = "    ";
 
     char var[255] = "Help me";
+#endif
 
     window->show();
 
@@ -40,7 +41,7 @@ int main()
     {
         window->prerender();
 
-#if 1
+#if 0
 
         ImGui::Begin("Testing");
 

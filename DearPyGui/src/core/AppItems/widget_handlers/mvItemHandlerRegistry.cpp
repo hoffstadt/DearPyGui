@@ -46,7 +46,7 @@ namespace Marvel {
 
 			case mvAppItemType::mvActivatedHandler:
 			{
-				if(!applicableState & MV_STATE_ACTIVATED)
+				if(!(applicableState & MV_STATE_ACTIVATED))
 					mvThrowPythonError(mvErrorCode::mvNone, "bind_item_handler_registry",
 						"Item Handler Registry includes unapplicable handler: mvActivatedHandler", item);
 				break;
