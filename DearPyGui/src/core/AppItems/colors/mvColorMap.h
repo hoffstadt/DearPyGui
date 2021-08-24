@@ -48,6 +48,23 @@ namespace Marvel {
         MV_CREATE_COMMAND(sample_colormap);
         MV_CREATE_COMMAND(get_colormap_color);
 
+		MV_SET_STATES(
+			MV_STATE_HOVER |
+			MV_STATE_ACTIVE |
+			MV_STATE_FOCUSED |
+			MV_STATE_CLICKED |
+			MV_STATE_VISIBLE |
+			MV_STATE_EDITED |
+			MV_STATE_ACTIVATED |
+			MV_STATE_DEACTIVATED |
+			MV_STATE_DEACTIVATEDAE |
+			MV_STATE_TOGGLED_OPEN |
+			MV_STATE_RECT_MIN |
+			MV_STATE_RECT_MAX |
+			MV_STATE_RECT_SIZE |
+			MV_STATE_CONT_AVAIL
+		);
+
         MV_START_COMMANDS
             MV_ADD_COMMAND(bind_colormap);
             MV_ADD_COMMAND(sample_colormap);

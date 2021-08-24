@@ -17,6 +17,22 @@ int main()
 {
     auto window = new mvWindowClass();
 
+    bool hoveredApplicable = false;
+    bool activeApplicable = false;
+    bool focusedApplicable = false;
+    bool clickedApplicable = false;
+    bool visibleApplicable = false;
+    bool editedApplicable = false;
+    bool activatedApplicable = false;
+    bool deactivatedApplicable = false;
+    bool deactivatedAfterEditApplicable = false;
+    bool toggledOpenApplicable = false;
+
+    static char ts[6] = "True";
+    static char fs[6] = "    ";
+
+    char var[255] = "Help me";
+
     window->show();
 
     window->setup();
@@ -24,40 +40,39 @@ int main()
     {
         window->prerender();
 
-#if 0
+#if 1
 
         ImGui::Begin("Testing");
 
         // replace with another widget
-        ImGui::Button("Test widget");
+        ImGui::InputText("Test widget", var, 255);
 
-        bool m_hovered = ImGui::IsItemHovered();
-        bool m_active = ImGui::IsItemActive();
-        bool m_focused = ImGui::IsItemFocused();
-        bool m_clicked = ImGui::IsItemClicked();
-        bool m_visible = ImGui::IsItemVisible();
-        bool m_edited = ImGui::IsItemEdited();
-        bool m_activated = ImGui::IsItemActivated();
-        bool m_deactivated = ImGui::IsItemDeactivated();
-        bool m_deactivatedAfterEdit = ImGui::IsItemDeactivatedAfterEdit();
-        bool m_toggledOpen = ImGui::IsItemToggledOpen();
+        if (ImGui::IsItemHovered() && !hoveredApplicable) hoveredApplicable = true;
+        if (ImGui::IsItemActive() && !activeApplicable) activeApplicable = true;
+        if (ImGui::IsItemFocused() && !focusedApplicable) focusedApplicable = true;
+        if (ImGui::IsItemClicked() && !clickedApplicable) clickedApplicable = true;
+        if (ImGui::IsItemVisible() && !visibleApplicable) visibleApplicable = true;
+        if (ImGui::IsItemEdited() && !editedApplicable) editedApplicable = true;
+        if (ImGui::IsItemActivated() && !activatedApplicable) activatedApplicable = true;
+        if (ImGui::IsItemDeactivated() && !deactivatedApplicable) deactivatedApplicable = true;
+        if (ImGui::IsItemDeactivatedAfterEdit() && !deactivatedAfterEditApplicable) deactivatedAfterEditApplicable = true;
+        if (ImGui::IsItemToggledOpen() && !toggledOpenApplicable) toggledOpenApplicable = true;
+
         ImVec2 m_rectMin = { ImGui::GetItemRectMin().x, ImGui::GetItemRectMin().y };
         ImVec2 m_rectMax = { ImGui::GetItemRectMax().x, ImGui::GetItemRectMax().y };
         ImVec2 m_rectSize = { ImGui::GetItemRectSize().x, ImGui::GetItemRectSize().y };
         ImVec2 m_contextRegionAvail = { ImGui::GetContentRegionAvail().x, ImGui::GetContentRegionAvail().y };
 
-        if (m_hovered) std::cout << "m_hovered" << std::endl;
-        if (m_active) std::cout << "m_active" << std::endl;
-        if (m_focused) std::cout << "m_focused" << std::endl;
-        if (m_clicked) std::cout << "m_clicked" << std::endl;
-        //if (m_visible) std::cout << "m_visible" << std::endl;
-        if (m_edited) std::cout << "m_edited" << std::endl;
-        if (m_activated) std::cout << "m_activated" << std::endl;
-        if (m_deactivated) std::cout << "m_deactivated" << std::endl;
-        if (m_deactivatedAfterEdit) std::cout << "m_deactivatedAfterEdit" << std::endl;
-        if (m_toggledOpen) std::cout << "m_toggledOpen" << std::endl;
-
-        ImGui::Button("Blah2");
+        ImGui::Text("%s: %s", "Item Hovered", hoveredApplicable ? ts : fs);
+        ImGui::Text("%s: %s", "Item Active", activeApplicable ? ts : fs);
+        ImGui::Text("%s: %s", "Item Focused", focusedApplicable ? ts : fs);
+        ImGui::Text("%s: %s", "Item Clicked", clickedApplicable ? ts : fs);
+        ImGui::Text("%s: %s", "Item Visible", visibleApplicable ? ts : fs);
+        ImGui::Text("%s: %s", "Item Edited", editedApplicable ? ts : fs);
+        ImGui::Text("%s: %s", "Item Activated", activatedApplicable ? ts : fs);
+        ImGui::Text("%s: %s", "Item Deactivated", deactivatedApplicable ? ts : fs);
+        ImGui::Text("%s: %s", "Item DeactivatedAfterEdit", deactivatedAfterEditApplicable ? ts : fs);
+        ImGui::Text("%s: %s", "Item ToggledOpen", toggledOpenApplicable ? ts : fs);
 
         ImGui::End();
 #endif
