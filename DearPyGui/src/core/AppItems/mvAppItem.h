@@ -93,7 +93,7 @@ namespace Marvel {
         mvInt4Value, mvBoolValue, mvStringValue, mvDoubleValue, mvDouble4Value,
         mvColorValue, mvFloatVectValue, mvSeriesValue, mvRawTexture, mvSubPlots,
         mvColorMap, mvColorMapRegistry, mvColorMapButton, mvColorMapSlider,
-        mvItemPool, mvItemSet, mvTemplateRegistry, mvTableCell,
+        mvItemPool, mvItemSet, mvTemplateRegistry, mvTableCell, mvItemHandlerRegistry,
         ItemTypeCount
     };
 
@@ -173,6 +173,7 @@ namespace Marvel {
         MV_CREATE_COMMAND(focus_item);
         MV_CREATE_COMMAND(reset_pos);
         MV_CREATE_COMMAND(set_item_children);
+        MV_CREATE_COMMAND(bind_item_handler_registry);
         MV_CREATE_COMMAND(bind_item_font);
         MV_CREATE_COMMAND(bind_item_theme);
         MV_CREATE_COMMAND(bind_item_disabled_theme);
@@ -195,6 +196,7 @@ namespace Marvel {
             MV_ADD_COMMAND(focus_item);
             MV_ADD_COMMAND(reset_pos);
             MV_ADD_COMMAND(set_item_children);
+            MV_ADD_COMMAND(bind_item_handler_registry);
             MV_ADD_COMMAND(bind_item_font);
             MV_ADD_COMMAND(bind_item_theme);
             MV_ADD_COMMAND(bind_item_disabled_theme);
@@ -293,6 +295,7 @@ namespace Marvel {
         virtual void onChildAdd    (mvRef<mvAppItem> item) {}
         virtual void onChildRemoved(mvRef<mvAppItem> item) {}
         virtual void onChildrenRemoved() {}
+        virtual void onBind(mvAppItem* item) {}
 
         //-----------------------------------------------------------------------------
         // callbacks
@@ -432,6 +435,9 @@ namespace Marvel {
         //   * 3 : Widget Handlers
         //   * 4 : mvDragPayload
         std::vector<mvRef<mvAppItem>> _children[5] = { {}, {}, {}, {}, {} };
+
+        // item handler registry
+        mvRef<mvAppItem> _handlerRegistry = nullptr;
 
         // font
         mvRef<mvAppItem> _font = nullptr;

@@ -353,6 +353,7 @@ namespace Marvel {
             renderRootCategory("Staging Containers", mvApp::GetApp()->getItemRegistry()._stagingRoots);
             renderRootCategory("Texture Registries", mvApp::GetApp()->getItemRegistry()._textureRegistryRoots);
             renderRootCategory("Font Registries", mvApp::GetApp()->getItemRegistry()._fontRegistryRoots);
+            renderRootCategory("Item Handler Registries", mvApp::GetApp()->getItemRegistry()._itemHandlerRegistryRoots);
             renderRootCategory("Handler Registries", mvApp::GetApp()->getItemRegistry()._handlerRegistryRoots);
             renderRootCategory("Value Registries", mvApp::GetApp()->getItemRegistry()._valueRegistryRoots);
             renderRootCategory("Colormap Registries", mvApp::GetApp()->getItemRegistry()._colormapRoots);

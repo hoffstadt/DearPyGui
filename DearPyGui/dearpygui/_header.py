@@ -79,7 +79,9 @@ def popup(parent: Union[int, str], mousebutton: int = internal_dpg.mvMouseButton
             _internal_popup_id = internal_dpg.generate_uuid()
         else:
             _internal_popup_id = tag
-        internal_dpg.add_item_clicked_handler(parent, mousebutton, callback=lambda: internal_dpg.configure_item(_internal_popup_id, show=True))
+        _handler_reg_id = internal_dpg.add_item_handler_registry()
+        internal_dpg.add_item_clicked_handler(mousebutton, parent=internal_dpg.last_item(), callback=lambda: internal_dpg.configure_item(_internal_popup_id, show=True))
+        internal_dpg.bind_item_handler_registry(parent, _handler_reg_id)
         if modal:
             internal_dpg.add_window(modal=True, show=False, tag=_internal_popup_id, autosize=True)
         else:

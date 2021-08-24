@@ -69,6 +69,14 @@ namespace Marvel{
 		{
 			mvPythonParser parser(mvPyDataType::None, "Undocumented", { "Themes", "App Item Operations" });
 			parser.addArg<mvPyDataType::UUID>("item");
+			parser.addArg<mvPyDataType::UUID>("handler_registry");
+			parser.finalize();
+			parsers->insert({ "bind_item_handler_registry", parser });
+		}
+
+		{
+			mvPythonParser parser(mvPyDataType::None, "Undocumented", { "Themes", "App Item Operations" });
+			parser.addArg<mvPyDataType::UUID>("item");
 			parser.addArg<mvPyDataType::UUID>("theme");
 			parser.finalize();
 			parsers->insert({ "bind_item_theme", parser });
@@ -1627,6 +1635,7 @@ namespace Marvel{
 			if (appfont)
 			{
 				appitem->_font = appfont;
+				appfont->onBind(appitem);
 			}
 			else
 			{
@@ -1669,6 +1678,7 @@ namespace Marvel{
 			if (apptheme)
 			{
 				appitem->_theme = apptheme;
+				apptheme->onBind(appitem);
 				return GetPyNone();
 			}
 			else
@@ -1677,6 +1687,48 @@ namespace Marvel{
 		}
 		else
 			mvThrowPythonError(mvErrorCode::mvItemNotFound, "bind_item_theme",
+				"Item not found: " + std::to_string(item), nullptr);
+
+		return GetPyNone();
+	}
+
+	PyObject* mvAppItem::bind_item_handler_registry(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		PyObject* itemraw;
+		PyObject* regraw;
+
+		if (!(mvApp::GetApp()->getParsers())["bind_item_handler_registry"].parse(args, kwargs, __FUNCTION__,
+			&itemraw, &regraw))
+			return GetPyNone();
+
+		if (!mvApp::s_manualMutexControl) std::lock_guard<std::mutex> lk(mvApp::s_mutex);
+
+		mvUUID item = mvAppItem::GetIDFromPyObject(itemraw);
+		mvUUID reg = mvAppItem::GetIDFromPyObject(regraw);
+		auto appitem = mvApp::GetApp()->getItemRegistry().getItem(item);
+
+		if (appitem)
+		{
+			if (reg == 0)
+			{
+				appitem->_handlerRegistry = nullptr;
+				return GetPyNone();
+			}
+
+			auto apptheme = mvApp::GetApp()->getItemRegistry().getRefItem(reg);
+
+			if (apptheme)
+			{
+				appitem->_handlerRegistry = apptheme;
+				apptheme->onBind(appitem);
+				return GetPyNone();
+			}
+			else
+				mvThrowPythonError(mvErrorCode::mvItemNotFound, "bind_item_handler_registry",
+					"Theme item not found: " + std::to_string(item), nullptr);
+		}
+		else
+			mvThrowPythonError(mvErrorCode::mvItemNotFound, "bind_item_handler_registry",
 				"Item not found: " + std::to_string(item), nullptr);
 
 		return GetPyNone();
@@ -1710,6 +1762,7 @@ namespace Marvel{
 			if (apptheme)
 			{
 				appitem->_disabledTheme = apptheme;
+				apptheme->onBind(appitem);
 				return GetPyNone();
 			}
 			else

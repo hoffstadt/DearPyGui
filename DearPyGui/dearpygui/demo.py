@@ -985,22 +985,26 @@ def show_demo():
                     track_items = (0.0, 0.25, 0.5, 0.75, 1.0)
 
                     with dpg.table_row():
-                        for i in range(0, 5):
+                        for i in range(5):
                             with dpg.table_cell():
                                 dpg.add_text(text_items[i])
-                                with dpg.child(height=200, delay_search=True):
+                                with dpg.child(height=200, delay_search=True) as _child_id:
                                     for j in range(0, 25):
                                         if j == 13:
                                             dpg.add_text("Item " + str(j), color=(255, 255, 0), tracked=True, track_offset=track_items[i])
                                         else:
                                             dpg.add_text("Item " + str(j))
                         
-                                dpg.add_text("0/0")
-                                dpg.add_item_visible_handler(dpg.last_item(), user_data=[dpg.last_item(), dpg.last_container()], callback=_update_yscroll_info)
+                                _text_id = dpg.add_text("0/0")
+                                with dpg.item_handler_registry():
+                                    dpg.add_item_visible_handler(user_data=[_text_id, _child_id], callback=_update_yscroll_info)
+                                dpg.bind_item_handler_registry(_text_id, dpg.last_container())
+
+                                
 
                 for i in range(0, 5):
                     dpg.add_text(text_items[i])
-                    with dpg.child(height=50, horizontal_scrollbar=True, width=-200, delay_search=True):
+                    with dpg.child(height=50, horizontal_scrollbar=True, width=-200, delay_search=True) as _child_id:
                             for j in range(0, 25):
                                 if j == 13:
                                     dpg.add_text("Item " + str(j), color=(255, 255, 0), tracked=True, track_offset=track_items[i])
@@ -1009,8 +1013,10 @@ def show_demo():
                                 if j != 24:
                                     dpg.add_same_line()
                     dpg.add_same_line()
-                    dpg.add_text("0/0")
-                    dpg.add_item_visible_handler(dpg.last_item(), user_data=[dpg.last_item(), dpg.last_container()], callback=_update_xscroll_info)
+                    _text_id = dpg.add_text("0/0")
+                    with dpg.item_handler_registry():
+                        dpg.add_item_visible_handler(user_data=[_text_id, _child_id], callback=_update_xscroll_info)
+                    dpg.bind_item_handler_registry(_text_id, dpg.last_container())
 
                 with dpg.child(height=50, horizontal_scrollbar=True, width=-200):
                         for j in range(0, 25):
@@ -1039,9 +1045,11 @@ def show_demo():
                 dpg.add_same_line()
                 dpg.add_button(label=">>", small=True, user_data=["right", dpg.last_container()], callback=_scroll_programmatically)
                 dpg.add_same_line()
-                dpg.add_text("0/0")
-                dpg.add_item_visible_handler(dpg.last_item(), user_data=[dpg.last_item(), dpg.last_container()], callback=_update_xscroll_info)
-                 
+                _text_id = dpg.add_text("0/0")
+                with dpg.item_handler_registry():
+                    dpg.add_item_visible_handler(user_data=[_text_id, _child_id], callback=_update_xscroll_info)
+                dpg.bind_item_handler_registry(_text_id, dpg.last_container())
+
         with dpg.collapsing_header(label="Textures & Images"):
         
             with dpg.tree_node(label="Help"):
@@ -1414,10 +1422,12 @@ def show_demo():
                     dpg.add_table_column(label="Two")
                     dpg.add_table_column(label="Three")
 
-                    for i in range(0, 3):
-                        with dpg.table_row():
-                            dpg.add_text("(w: 0.0f)")
-                            dpg.add_item_visible_handler(dpg.last_item(), user_data = dpg.last_item(), callback=lambda s, a, u:dpg.set_value(u, "(w: " + str(dpg.get_item_state(u)["content_region_avail"][0]) + ")"))
+                    with dpg.table_row():
+                        for i in range(3):
+                            _text_id = dpg.add_text("(w: 0.0f)")
+                            with dpg.item_handler_registry():
+                                dpg.add_item_visible_handler(user_data = _text_id, callback=lambda s, a, u:dpg.set_value(u, "(w: " + str(dpg.get_item_state(u)["content_region_avail"][0]) + ")"))
+                            dpg.bind_item_handler_registry(_text_id, dpg.last_container())
 
                     for i in range(0, 3):
                         with dpg.table_row():
@@ -1431,10 +1441,12 @@ def show_demo():
                     dpg.add_table_column(width_fixed=True, init_width_or_weight=300)
                     dpg.add_table_column(width_fixed=True, init_width_or_weight=400)
 
-                    for i in range(0, 4):
-                        with dpg.table_row():
-                            dpg.add_text("(w: 0.0f)")
-                            dpg.add_item_visible_handler(dpg.last_item(), user_data=dpg.last_item(), callback=lambda s, a, u:dpg.set_value(u, "(w: " + str(dpg.get_item_state(u)["content_region_avail"][0]) + ")"))
+                    with dpg.table_row():
+                        for i in range(0, 4):
+                            _text_id = dpg.add_text("(w: 0.0f)")
+                            with dpg.item_handler_registry():
+                                dpg.add_item_visible_handler(user_data = _text_id, callback=lambda s, a, u:dpg.set_value(u, "(w: " + str(dpg.get_item_state(u)["content_region_avail"][0]) + ")"))
+                            dpg.bind_item_handler_registry(_text_id, dpg.last_container())
 
                     for i in range(0, 4):
                         with dpg.table_row():
@@ -2363,8 +2375,8 @@ def show_demo():
                 cb = dpg.add_checkbox(label="Check me!")
 
                 # all of the handlers for widgets except resize which is for windows only
-                dpg.add_item_clicked_handler(cb, 0, callback=lambda s, a, u: logger.log(f"clicked_handler: {s} '\t' {a} '\t' {u}"))
-                dpg.add_item_hover_handler(cb, callback=lambda s, a, u: logger.log(f"hover_handler: {s} '\t' {a} '\t' {u}"))
+                #dpg.add_item_clicked_handler(cb, 0, callback=lambda s, a, u: logger.log(f"clicked_handler: {s} '\t' {a} '\t' {u}"))
+                #dpg.add_item_hover_handler(cb, callback=lambda s, a, u: logger.log(f"hover_handler: {s} '\t' {a} '\t' {u}"))
                 #dpg.add_activated_handler(widget_id, callback=lambda s, a, u: logger.log(f"activated_handler: {s} '\t' {a} '\t' {u}"))
                 #dpg.add_active_handler(widget_id, callback=lambda s, a, u: logger.log(f"active_handler: {s} '\t' {a} '\t' {u}"))
                 #dpg.add_deactivated_after_edit_handler(widget_id, callback=lambda s, a, u: logger.log(f"deactivated_after_edit_handler: {s} '\t' {a} '\t' {u}"))

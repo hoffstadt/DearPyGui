@@ -210,6 +210,7 @@ private:
         std::vector<mvRef<mvAppItem>> _windowRoots;
         std::vector<mvRef<mvAppItem>> _fontRegistryRoots;
         std::vector<mvRef<mvAppItem>> _handlerRegistryRoots;
+        std::vector<mvRef<mvAppItem>> _itemHandlerRegistryRoots;
         std::vector<mvRef<mvAppItem>> _textureRegistryRoots;
         std::vector<mvRef<mvAppItem>> _valueRegistryRoots;
         std::vector<mvRef<mvAppItem>> _themeRegistryRoots;

@@ -30,6 +30,7 @@
 #include "handlers/mvMouseReleaseHandler.h"
 #include "handlers/mvMouseDragHandler.h"
 
+#include "widget_handlers/mvItemHandlerRegistry.h"
 #include "widget_handlers/mvHoverHandler.h"
 #include "widget_handlers/mvResizeHandler.h"
 #include "widget_handlers/mvFocusHandler.h"
