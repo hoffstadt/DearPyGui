@@ -25,6 +25,8 @@ namespace Marvel {
 		MV_CREATE_COMMAND(get_axis_limits);
 		MV_CREATE_COMMAND(fit_axis_data);
 
+		MV_SET_STATES(MV_STATE_NONE);
+
 		MV_START_PARENTS
 			MV_ADD_PARENT(mvAppItemType::mvStage),
 			MV_ADD_PARENT(mvAppItemType::mvTemplateRegistry),

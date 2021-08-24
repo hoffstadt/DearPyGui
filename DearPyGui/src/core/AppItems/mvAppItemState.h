@@ -14,6 +14,7 @@ namespace Marvel {
 
     enum mvStateItems
     {
+        MV_STATE_NONE           = 0,
         MV_STATE_HOVER          = 1 << 1,
         MV_STATE_ACTIVE         = 1 << 2,
         MV_STATE_FOCUSED        = 1 << 3,

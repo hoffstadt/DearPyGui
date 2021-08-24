@@ -21,6 +21,8 @@ namespace Marvel {
 		MV_NO_COMMANDS
 		MV_DEFAULT_CHILDREN
 
+		MV_SET_STATES(MV_STATE_NONE);
+
 		MV_CREATE_CONSTANT(mvFormat_Float_rgba, 0);
 		MV_CREATE_CONSTANT(mvFormat_Float_rgb, 1);
 
