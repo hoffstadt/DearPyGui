@@ -7,6 +7,7 @@ Welcome to DearPyGui's documentation!
    :caption: Contents:
 
    introduction.rst
+   reference.rst
 
 Indices and tables
 ==================
