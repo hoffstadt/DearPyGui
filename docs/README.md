@@ -54,7 +54,7 @@ Ensure you have at least Python 3.6 64bit.
  [![Chat on Discord](https://img.shields.io/discord/736279277242417272?logo=discord)](https://discord.gg/tyE7Gu4)
 [![Reddit](https://img.shields.io/reddit/subreddit-subscribers/dearpygui?label=r%2Fdearpygui)](https://www.reddit.com/r/DearPyGui/)
  
-- [Documentation](https://github.com/hoffstadt/DearPyGui/wiki) comprehensive documentaion, tutorials, and examples.
+- [Documentation](https://github.com/hoffstadt/DearPyGui/wiki) comprehensive documentation, tutorials, and examples.
 - [Development Roadmap](https://github.com/hoffstadt/DearPyGui/projects/4) major future features and changes.
 - [Feature Tracker](https://github.com/hoffstadt/DearPyGui/projects/5) all proposed new features.
 - [Bug Tracker](https://github.com/hoffstadt/DearPyGui/projects/1) current bugs and issues.
