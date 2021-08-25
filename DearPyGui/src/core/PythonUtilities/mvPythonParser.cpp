@@ -413,7 +413,7 @@ namespace Marvel {
 					first_arg = false;
 				else
 					stub << ", ";
-				stub << args.name << PythonDataTypeString(args.type) << " =" << args.default_value;
+				stub << args.name << PythonDataTypeString(args.type) << " =''";
 			}
 
 			if (!parser.second.m_keyword_elements.empty())
@@ -427,7 +427,7 @@ namespace Marvel {
 			}
 
 			for (const auto& args : parser.second.m_keyword_elements)
-				stub << ", " << args.name << ": " << PythonDataTypeActual(args.type) << " =" << args.default_value;
+				stub << ", " << args.name << ": " << PythonDataTypeActual(args.type) << " =''";
 
 			if (parser.second.m_unspecifiedKwargs)
 				stub << ", **kwargs";
