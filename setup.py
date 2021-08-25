@@ -37,6 +37,8 @@ if on_rtd:
             for line in lines:
                 if line.__contains__("..."):
                     newfile.write("\tpass\n")
+                elif line.__contains__("dearpygui._dearpygui"):
+                    continue
                 else:
                     newfile.write(line)
 
