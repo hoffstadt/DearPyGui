@@ -205,7 +205,7 @@ def setup_package():
 
     with open(src_path + "/dearpygui/__init__.py", 'w') as file:
         file.write("__version__='")
-        file.write(version_number(on_rtd))
+        file.write(version_number())
         file.write("'\n")
 
     if os.environ.get('READTHEDOCS') == 'True':
@@ -264,7 +264,7 @@ def setup_package():
         },
     )
 
-    if on_rtd:
+    if os.environ.get('READTHEDOCS') == 'True':
         metadata['package_data']['dearpygui'] = ["_dearpygui.py", "dearpygui.py", "demo.py", "experimental.py"]
     else:
         metadata['package_data']['dearpygui'] = ["_dearpygui.so", "_dearpygui.pyd", "_dearpygui.pyi", "dearpygui.py", "demo.py", "experimental.py", "vcruntime140_1.dll"]
