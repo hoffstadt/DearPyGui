@@ -35,7 +35,7 @@ if on_rtd:
         with open(workspace_dir + "/DearPyGui/dearpygui/_dearpygui.pyi", 'r') as file:
             lines = file.readlines()
             for line in lines:
-                if line.contains("..."):
+                if line.__contains__("..."):
                     newfile.write("    pass\n")
                 else:
                     newfile.write(line)
