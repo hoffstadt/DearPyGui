@@ -50,13 +50,11 @@ classifiers = [
             'Topic :: Software Development :: Libraries :: Python Modules',
         ]
 
+package_data = {}
 if on_rtd:
-    package_data={
-        'dearpygui': ["_dearpygui.py", "dearpygui.py", "demo.py", "experimental.py"],},
+    package_data['dearpygui'] = ["_dearpygui.py", "dearpygui.py", "demo.py", "experimental.py"]
 else:
-    package_data={  # Optional
-        'dearpygui': ["_dearpygui.so", "_dearpygui.pyd", "_dearpygui.pyi", "dearpygui.py", 
-                      "demo.py", "experimental.py", "vcruntime140_1.dll"],},
+    package_data['dearpygui'] = ["_dearpygui.so", "_dearpygui.pyd", "_dearpygui.pyi", "dearpygui.py", "demo.py", "experimental.py", "vcruntime140_1.dll"]
 
 # import readme content
 with open("./docs/README.md", encoding='utf-8') as f:
