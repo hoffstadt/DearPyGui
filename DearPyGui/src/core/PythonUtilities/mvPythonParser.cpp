@@ -501,9 +501,9 @@ namespace Marvel {
 
 			stream << ") -> " << PythonDataTypeActual(parser.second.m_return) << ":";
 
-			stream << "\n\t\"\"\"\n\t" << parser.second.m_about.c_str();
+			stream << "\n\t\"\"\"\t" << parser.second.m_about.c_str();
 
-			stream << "\n\tArgs:";
+			stream << "\n\n\tArgs:";
 			for (const auto& args : parser.second.m_required_elements)
 			{
 				stream << "\n\t\t" << args.name << " (" << PythonDataTypeActual(args.type) << "): " << args.description;
@@ -511,12 +511,12 @@ namespace Marvel {
 
 			for (const auto& args : parser.second.m_optional_elements)
 			{
-				stream << "\n\t\t*" << args.name << " (" << PythonDataTypeActual(args.type) << "): " << args.description;
+				stream << "\n\t\t" << args.name << " (" << PythonDataTypeActual(args.type) << ", optional): " << args.description;
 			}
 
 			for (const auto& args : parser.second.m_keyword_elements)
 			{
-				stream << "\n\t\t**" << args.name << " (" << PythonDataTypeActual(args.type) << "): " << args.description;
+				stream << "\n\t\t" << args.name << " (" << PythonDataTypeActual(args.type) << ", optional): " << args.description;
 			}
 
 			stream << "\n\tReturns:";
@@ -572,7 +572,7 @@ namespace Marvel {
 			if (!parser.second.m_createContextManager)
 				continue;
 
-			stream << "@contextmanager\n";
+			stream << "\n@contextmanager\n";
 			stream << "def " << parser.first.substr(4) << "(";
 
 			bool first_arg = true;
@@ -612,9 +612,9 @@ namespace Marvel {
 
 			stream << ") -> " << PythonDataTypeActual(parser.second.m_return) << ":";
 
-			stream << "\n\t\"\"\"\n\t" << parser.second.m_about.c_str();
+			stream << "\n\t\"\"\"\t" << parser.second.m_about.c_str();
 
-			stream << "\n\tArgs:";
+			stream << "\n\n\tArgs:";
 			for (const auto& args : parser.second.m_required_elements)
 			{
 				stream << "\n\t\t" << args.name << " (" << PythonDataTypeActual(args.type) << "): " << args.description;
@@ -622,12 +622,12 @@ namespace Marvel {
 
 			for (const auto& args : parser.second.m_optional_elements)
 			{
-				stream << "\n\t\t*" << args.name << " (" << PythonDataTypeActual(args.type) << "): " << args.description;
+				stream << "\n\t\t" << args.name << " (" << PythonDataTypeActual(args.type) << ", optional): " << args.description;
 			}
 
 			for (const auto& args : parser.second.m_keyword_elements)
 			{
-				stream << "\n\t\t**" << args.name << " (" << PythonDataTypeActual(args.type) << "): " << args.description;
+				stream << "\n\t\t" << args.name << " (" << PythonDataTypeActual(args.type) << ", optional): " << args.description;
 			}
 
 			stream << "\n\tYields:";

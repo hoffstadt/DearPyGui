@@ -806,7 +806,7 @@ namespace Marvel{
 				childset.shrink_to_fit();
 			}
 		}
-		else if (slot < 5)
+		else if (slot < 4)
 		{
 			_children[slot].clear();
 			_children[slot].shrink_to_fit();
