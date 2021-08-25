@@ -30,7 +30,7 @@ namespace Marvel {
 
     public:
 
-        mvTextureRegistry(mvUUID uuid);
+        explicit mvTextureRegistry(mvUUID uuid);
 
         void draw(ImDrawList* drawlist, float x, float y) override;
         void onChildRemoved(mvRef<mvAppItem> item) override;

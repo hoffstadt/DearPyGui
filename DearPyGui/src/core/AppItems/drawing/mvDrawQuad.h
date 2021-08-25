@@ -32,7 +32,7 @@ namespace Marvel {
 
 	public:
 
-		mvDrawQuad(mvUUID uuid);
+		explicit mvDrawQuad(mvUUID uuid);
 
 		void draw(ImDrawList* drawlist, float x, float y) override;
 		void handleSpecificRequiredArgs(PyObject* args) override;

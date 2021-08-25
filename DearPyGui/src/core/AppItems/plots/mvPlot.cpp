@@ -228,7 +228,8 @@ namespace Marvel {
 	void mvPlot::draw(ImDrawList* drawlist, float x, float y)
 	{
 
-		//ImGui::PushID(_colormap);
+		if (!_show)
+			return;
 
 		if (_newColorMap)
 		{
@@ -283,25 +284,11 @@ namespace Marvel {
 			
 			// legend, drag point and lines
 			for (auto& item : _children[0])
-			{
-				// skip item if it's not shown
-				if (!item->isShown())
-					continue;
 				item->draw(drawlist, ImPlot::GetPlotPos().x, ImPlot::GetPlotPos().y);
-
-				item->postDraw();
-			}
 
 			// axes
 			for (auto& item : _children[1])
-			{
-				// skip item if it's not shown
-				if (!item->isShown())
-					continue;
 				item->draw(drawlist, ImPlot::GetPlotPos().x, ImPlot::GetPlotPos().y);
-
-				item->postDraw();
-			}
 
 			ImPlot::PushPlotClipRect();
 			// drawings
@@ -391,6 +378,25 @@ namespace Marvel {
 		}
 
 		ImPlot::GetInputMap() = _originalMap;
+
+		_state.update();
+
+		if (_font)
+		{
+			ImGui::PopFont();
+		}
+
+		if (_theme)
+		{
+			static_cast<mvTheme*>(_theme.get())->customAction();
+		}
+
+		if (_handlerRegistry)
+			_handlerRegistry->customAction(&_state);
+
+		// drag drop
+		for (auto& item : _children[3])
+			item->draw(nullptr, ImGui::GetCursorPosX(), ImGui::GetCursorPosY());
 	}
 
 	bool mvPlot::isPlotQueried() const
@@ -505,34 +511,6 @@ namespace Marvel {
 		checkbitset("crosshairs",           ImPlotFlags_Crosshairs,       _flags);
 		checkbitset("anti_aliased",         ImPlotFlags_AntiAliased,      _flags);
 		checkbitset("equal_aspects",        ImPlotFlags_Equal,            _flags);
-	}
-
-	void mvPlot::postDraw()
-	{
-
-		_state.update();
-
-		if (_font)
-		{
-			ImGui::PopFont();
-		}
-
-		if (_theme)
-		{
-			static_cast<mvTheme*>(_theme.get())->customAction();
-		}
-
-		if (_handlerRegistry)
-			_handlerRegistry->customAction(&_state);
-
-		// drag drop
-		for (auto& item : _children[3])
-		{
-			if (!item->preDraw())
-				continue;
-
-			item->draw(nullptr, ImGui::GetCursorPosX(), ImGui::GetCursorPosY());
-		}
 	}
 
 	PyObject* mvPlot::is_plot_queried(PyObject* self, PyObject* args, PyObject* kwargs)

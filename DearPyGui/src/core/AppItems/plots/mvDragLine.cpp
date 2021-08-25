@@ -43,6 +43,9 @@ namespace Marvel {
 
 	void mvDragLine::draw(ImDrawList* drawlist, float x, float y)
 	{
+		if (!_show)
+			return;
+
 		ScopedID id(_uuid);
 
 		if (_vertical)

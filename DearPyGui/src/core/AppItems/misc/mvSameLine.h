@@ -22,7 +22,7 @@ namespace Marvel {
 
 	public:
 
-		mvSameLine(mvUUID uuid);
+		explicit mvSameLine(mvUUID uuid);
 
 		void draw(ImDrawList* drawlist, float x, float y) override;
 

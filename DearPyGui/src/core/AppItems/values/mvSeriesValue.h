@@ -25,7 +25,7 @@ namespace Marvel {
 
 	public:
 
-		mvSeriesValue(mvUUID uuid);
+		explicit mvSeriesValue(mvUUID uuid);
 
 		void draw(ImDrawList* drawlist, float x, float y) override {}
 		void setDataSource(mvUUID dataSource) override;

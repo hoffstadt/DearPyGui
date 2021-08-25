@@ -56,15 +56,7 @@ namespace Marvel {
 			for (auto& childset : _children)
 			{
 				for (auto& item : childset)
-				{
-
-					if (!item->preDraw())
-						continue;
-
 					item->draw(drawlist, ImGui::GetCursorPosX(), ImGui::GetCursorPosY());
-
-					item->postDraw();
-				}
 			}
 
 			ImGui::EndDragDropSource();

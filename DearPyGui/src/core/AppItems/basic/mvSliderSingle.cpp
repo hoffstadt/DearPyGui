@@ -297,12 +297,7 @@ namespace Marvel {
 
         // handle drag & drop payloads
         for (auto& item : _children[3])
-        {
-            if (!item->preDraw())
-                continue;
-
             item->draw(nullptr, ImGui::GetCursorPosX(), ImGui::GetCursorPosY());
-        }
 
         // handle drag & drop if used
         if (_dropCallback)
@@ -531,12 +526,7 @@ namespace Marvel {
 
         // handle drag & drop payloads
         for (auto& item : _children[3])
-        {
-            if (!item->preDraw())
-                continue;
-
             item->draw(nullptr, ImGui::GetCursorPosX(), ImGui::GetCursorPosY());
-        }
 
         // handle drag & drop if used
         if (_dropCallback)

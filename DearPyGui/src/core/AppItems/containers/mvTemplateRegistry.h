@@ -22,7 +22,7 @@ namespace Marvel {
 
 	public:
 
-		mvTemplateRegistry(mvUUID uuid);
+		explicit mvTemplateRegistry(mvUUID uuid);
 
 		void draw(ImDrawList* drawlist, float x, float y) override {}
 

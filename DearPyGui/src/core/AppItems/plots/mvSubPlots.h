@@ -31,11 +31,7 @@ namespace Marvel {
 
 	public:
 
-		mvSubPlots(mvUUID uuid);
-
-		// overriding until we can remove these
-		bool preDraw() override { return true; }
-		void postDraw() override {}
+		explicit mvSubPlots(mvUUID uuid);
 
 		void draw (ImDrawList* drawlist, float x, float y) override;
 

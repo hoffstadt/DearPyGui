@@ -251,10 +251,6 @@ namespace Marvel {
         [[nodiscard]] virtual const std::vector<std::pair<std::string, int>>& getAllowableParents() const = 0;
         [[nodiscard]] virtual const std::vector<std::pair<std::string, int>>& getAllowableChildren() const = 0;
 
-        // in process of removing this
-        virtual bool preDraw();
-        virtual void postDraw();
-
         // actual immediate mode drawing instructions
         virtual void draw(ImDrawList* drawlist, float x, float y) = 0;
 

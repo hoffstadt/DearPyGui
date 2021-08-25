@@ -32,11 +32,7 @@ namespace Marvel {
 
 	public:
 
-		mvNodeLink(mvUUID uuid);
-
-		// overriding until we can remove these
-		bool preDraw() override { return true; }
-		void postDraw() override {}
+		explicit mvNodeLink(mvUUID uuid);
 
 		int getId() const { return _id0; }
 		int getId1() const { return _id1; }

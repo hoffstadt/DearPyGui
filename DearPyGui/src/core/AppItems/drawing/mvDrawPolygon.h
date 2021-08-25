@@ -31,7 +31,7 @@ namespace Marvel {
 
 	public:
 
-		mvDrawPolygon(mvUUID uuid);
+		explicit mvDrawPolygon(mvUUID uuid);
 
 		void draw(ImDrawList* drawlist, float x, float y) override;
 		void handleSpecificRequiredArgs(PyObject* args) override;

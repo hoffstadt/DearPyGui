@@ -25,11 +25,7 @@ namespace Marvel {
 
 	public:
 
-		mv2dHistogramSeries(mvUUID uuid);
-
-		// overriding until we can remove these
-		bool preDraw() override { return true; }
-		void postDraw() override {}
+		explicit mv2dHistogramSeries(mvUUID uuid);
 
 		void draw(ImDrawList* drawlist, float x, float y) override;
 		void handleSpecificRequiredArgs(PyObject* args) override;

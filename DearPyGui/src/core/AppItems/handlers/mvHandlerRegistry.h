@@ -37,7 +37,7 @@ namespace Marvel {
 
     public:
 
-        mvHandlerRegistry(mvUUID uuid);
+		explicit mvHandlerRegistry(mvUUID uuid);
 
         void draw(ImDrawList* drawlist, float x, float y) override;
 

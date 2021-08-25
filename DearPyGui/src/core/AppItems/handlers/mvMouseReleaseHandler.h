@@ -27,7 +27,7 @@ namespace Marvel {
 
 	public:
 
-		mvMouseReleaseHandler(mvUUID uuid);
+		explicit mvMouseReleaseHandler(mvUUID uuid);
 
 		void draw(ImDrawList* drawlist, float x, float y) override;
 		void handleSpecificPositionalArgs(PyObject* dict) override;

@@ -42,10 +42,6 @@ namespace Marvel {
 
 		explicit mvTheme(mvUUID uuid);
 
-		// overriding until we can remove these
-		bool preDraw() override { return true; }
-		void postDraw() override {}
-
 		void draw(ImDrawList* drawlist, float x, float y) override;
 		void customAction(void* data = nullptr) override;
 		void alternativeCustomAction(void* data = nullptr) override;

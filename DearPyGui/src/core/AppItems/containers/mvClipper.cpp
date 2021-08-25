@@ -42,12 +42,7 @@ namespace Marvel {
 		while (clipper.Step())
 		{
 			for (int row_n = clipper.DisplayStart; row_n < clipper.DisplayEnd; row_n++)
-			{
-				if (!_children[1][row_n]->preDraw())
-					continue;
 				_children[1][row_n]->draw(drawlist, ImGui::GetCursorPosX(), ImGui::GetCursorPosY());
-				_children[1][row_n]->postDraw();
-			}
 		}
 		clipper.End();
 		if (_width != 0)

@@ -49,11 +49,10 @@ namespace Marvel {
 
 	public:
 
-		mvPlotLegend(mvUUID uuid);
+		explicit mvPlotLegend(mvUUID uuid);
 
 		void draw(ImDrawList* drawlist, float x, float y) override;
 		void handleSpecificKeywordArgs(PyObject* dict) override;
-		void postDraw() override;
 		void applySpecificTemplate(mvAppItem* item) override;
 
 	private:

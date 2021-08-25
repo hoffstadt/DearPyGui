@@ -27,7 +27,7 @@ namespace Marvel {
 
 	public:
 
-		mvMouseClickHandler(mvUUID uuid);
+		explicit mvMouseClickHandler(mvUUID uuid);
 
 		void draw(ImDrawList* drawlist, float x, float y) override;
 		void handleSpecificPositionalArgs(PyObject* dict) override;

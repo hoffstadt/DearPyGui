@@ -184,14 +184,9 @@ namespace Marvel {
 		if (_handlerRegistry)
 			_handlerRegistry->customAction(&_state);
 
-		// drag drop
+		// handle drag & drop payloads
 		for (auto& item : _children[3])
-		{
-			if (!item->preDraw())
-				continue;
-
 			item->draw(nullptr, ImGui::GetCursorPosX(), ImGui::GetCursorPosY());
-		}
 
 		if (_dropCallback)
 		{

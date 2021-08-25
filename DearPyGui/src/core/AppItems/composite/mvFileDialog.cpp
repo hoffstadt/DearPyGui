@@ -60,15 +60,7 @@ namespace Marvel {
 	void mvFileDialog::drawPanel()
 	{
 		for (auto& item : _children[1])
-		{
-
-			if (!item->preDraw())
-				continue;
-
 			item->draw(ImGui::GetWindowDrawList(), ImGui::GetCursorPosX(), ImGui::GetCursorPosY());
-
-			item->postDraw();
-		}
 
 	}
 

@@ -36,11 +36,7 @@ namespace Marvel {
 
     public:
 
-        mvDragFloat(mvUUID uuid);
-
-        // overriding until we can remove these
-        bool preDraw() override { return true; }
-        void postDraw() override {}
+        explicit mvDragFloat(mvUUID uuid);
 
         void draw(ImDrawList* drawlist, float x, float y) override;
         void setDataSource(mvUUID dataSource) override;
@@ -85,11 +81,7 @@ namespace Marvel {
 
     public:
 
-        mvDragInt(mvUUID uuid);
-
-        // overriding until we can remove these
-        bool preDraw() override { return true; }
-        void postDraw() override {}
+        explicit mvDragInt(mvUUID uuid);
 
         void draw(ImDrawList* drawlist, float x, float y) override;
         void handleSpecificKeywordArgs(PyObject* dict) override;

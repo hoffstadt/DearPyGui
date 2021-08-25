@@ -30,11 +30,7 @@ namespace Marvel {
 
 	public:
 
-		mvItemSet(mvUUID uuid);
-
-		// overriding until we can remove these
-		bool preDraw() override { return true; }
-		void postDraw() override {}
+		explicit mvItemSet(mvUUID uuid);
 
 		void draw(ImDrawList* drawlist, float x, float y) override {}
 		void handleSpecificRequiredArgs(PyObject* args) override;
@@ -82,10 +78,6 @@ namespace Marvel {
 	public:
 
 		mvItemPool(mvUUID uuid);
-
-		// overriding until we can remove these
-		bool preDraw() override { return true; }
-		void postDraw() override {}
 
 		void draw(ImDrawList* drawlist, float x, float y) override {}
 

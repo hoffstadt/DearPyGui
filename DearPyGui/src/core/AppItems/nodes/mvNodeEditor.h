@@ -52,7 +52,7 @@ namespace Marvel {
 
 	public:
 
-		mvNodeEditor(mvUUID uuid);
+		explicit mvNodeEditor(mvUUID uuid);
 		~mvNodeEditor();
 
 		void handleSpecificKeywordArgs(PyObject* dict) override;

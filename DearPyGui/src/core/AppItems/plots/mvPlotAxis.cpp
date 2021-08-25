@@ -135,6 +135,9 @@ namespace Marvel {
 	void mvPlotAxis::draw(ImDrawList* drawlist, float x, float y)
 	{
 
+		if (!_show)
+			return;
+
 		// todo: add check
 		if(_axis != 0)
 			ImPlot::SetPlotYAxis(_location - 1);
@@ -158,6 +161,43 @@ namespace Marvel {
 
 		//auto context = ImPlot::GetCurrentContext();
 		//_flags = context->CurrentPlot->CurrentYAxis.Flags
+
+		_state.update();
+
+		if (_font)
+		{
+			ImGui::PopFont();
+		}
+
+		if (_theme)
+		{
+			static_cast<mvTheme*>(_theme.get())->customAction();
+		}
+
+		if (_dropCallback)
+		{
+			ScopedID id(_uuid);
+			if (_location == 0 && ImPlot::BeginDragDropTargetX())
+			{
+				if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload(_payloadType.c_str()))
+				{
+					auto payloadActual = static_cast<const mvDragPayload*>(payload->Data);
+					mvApp::GetApp()->getCallbackRegistry().addCallback(getDropCallback(), _uuid, payloadActual->getDragData(), nullptr);
+				}
+
+				ImPlot::EndDragDropTarget();
+			}
+			else if (ImPlot::BeginDragDropTargetY(_location - 1))
+			{
+				if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload(_payloadType.c_str()))
+				{
+					auto payloadActual = static_cast<const mvDragPayload*>(payload->Data);
+					mvApp::GetApp()->getCallbackRegistry().addCallback(getDropCallback(), _uuid, payloadActual->getDragData(), nullptr);
+				}
+
+				ImPlot::EndDragDropTarget();
+			}
+		}
 
 	}
 
@@ -271,47 +311,6 @@ namespace Marvel {
 
 		for (const auto& item : _labels)
 			_clabels.push_back(item.data());
-	}
-
-	void mvPlotAxis::postDraw()
-	{
-
-		_state.update();
-
-		if (_font)
-		{
-			ImGui::PopFont();
-		}
-
-		if (_theme)
-		{
-			static_cast<mvTheme*>(_theme.get())->customAction();
-		}
-
-		if (_dropCallback)
-		{
-			ScopedID id(_uuid);
-			if (_location == 0 && ImPlot::BeginDragDropTargetX())
-			{
-				if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload(_payloadType.c_str()))
-				{
-					auto payloadActual = static_cast<const mvDragPayload*>(payload->Data);
-					mvApp::GetApp()->getCallbackRegistry().addCallback(getDropCallback(), _uuid, payloadActual->getDragData(), nullptr);
-				}
-
-				ImPlot::EndDragDropTarget();
-			}
-			else if (ImPlot::BeginDragDropTargetY(_location-1))
-			{
-				if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload(_payloadType.c_str()))
-				{
-					auto payloadActual = static_cast<const mvDragPayload*>(payload->Data);
-					mvApp::GetApp()->getCallbackRegistry().addCallback(getDropCallback(), _uuid, payloadActual->getDragData(), nullptr);
-				}
-
-				ImPlot::EndDragDropTarget();
-			}
-		}
 	}
 
 	void mvPlotAxis::applySpecificTemplate(mvAppItem* item)

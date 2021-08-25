@@ -67,10 +67,7 @@ namespace Marvel {
 					if (!_imguiFilter.PassFilter(child->getFilter().c_str()))
 						continue;
 
-					if (!child->preDraw())
-						continue;
 					child->draw(drawlist, ImGui::GetCursorPosX(), ImGui::GetCursorPosY());
-					child->postDraw();
 				}
 			}
 
@@ -81,12 +78,7 @@ namespace Marvel {
 			for (auto& childset : _children)
 			{
 				for (auto& child : childset)
-				{
-					if (!child->preDraw())
-						continue;
 					child->draw(drawlist, ImGui::GetCursorPosX(), ImGui::GetCursorPosY());
-					child->postDraw();
-				}
 			}
 		}
 

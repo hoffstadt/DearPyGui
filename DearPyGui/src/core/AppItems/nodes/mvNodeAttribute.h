@@ -58,7 +58,7 @@ namespace Marvel {
 
 	public:
 
-		mvNodeAttribute(mvUUID uuid);
+		explicit mvNodeAttribute(mvUUID uuid);
 
 		void draw(ImDrawList* drawlist, float x, float y) override;
 		int getId() const {return _id;}
@@ -67,6 +67,7 @@ namespace Marvel {
 		void applySpecificTemplate(mvAppItem* item) override;
 
 	private:
+
         int _id = 1;
 		AttributeType _attrType = AttributeType::mvAttr_Input;
 		imnodes::PinShape _shape = imnodes::PinShape_CircleFilled;

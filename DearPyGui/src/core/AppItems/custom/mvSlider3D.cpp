@@ -492,18 +492,8 @@ namespace Marvel {
 
 		//-----------------------------------------------------------------------------
 		// update state
-		//   * only update if applicable
 		//-----------------------------------------------------------------------------
-		_state._lastFrameUpdate = mvApp::s_frame;
-		_state._hovered = ImGui::IsItemHovered();
-		_state._leftclicked = ImGui::IsItemClicked();
-		_state._rightclicked = ImGui::IsItemClicked(1);
-		_state._middleclicked = ImGui::IsItemClicked(2);
-		_state._visible = ImGui::IsItemVisible();
-		_state._rectMin = { ImGui::GetItemRectMin().x, ImGui::GetItemRectMin().y };
-		_state._rectMax = { ImGui::GetItemRectMax().x, ImGui::GetItemRectMax().y };
-		_state._rectSize = { ImGui::GetItemRectSize().x, ImGui::GetItemRectSize().y };
-		_state._contextRegionAvail = { ImGui::GetContentRegionAvail().x, ImGui::GetContentRegionAvail().y };
+		_state.update();
 
 		//-----------------------------------------------------------------------------
 		// post draw
@@ -543,12 +533,7 @@ namespace Marvel {
 
 		// handle drag & drop payloads
 		for (auto& item : _children[3])
-		{
-			if (!item->preDraw())
-				continue;
-
 			item->draw(nullptr, ImGui::GetCursorPosX(), ImGui::GetCursorPosY());
-		}
 
 		// handle drag & drop if used
 		if (_dropCallback)

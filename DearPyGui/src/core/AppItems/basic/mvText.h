@@ -30,16 +30,13 @@ namespace Marvel {
 
 		MV_SET_STATES(
 			MV_STATE_VISIBLE | 
+			MV_STATE_CONT_AVAIL |
 			MV_STATE_CLICKED
 		);
 
 	public:
 
-		mvText(mvUUID uuid);
-
-		// overriding until we can remove these
-		bool preDraw() override { return true; }
-		void postDraw() override {}
+		explicit mvText(mvUUID uuid);
 
 		void draw(ImDrawList* drawlist, float x, float y) override;
 		void setDataSource(mvUUID dataSource) override;

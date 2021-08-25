@@ -28,7 +28,7 @@ namespace Marvel {
 
     public:
 
-        mvColorMapRegistry(mvUUID uuid);
+        explicit mvColorMapRegistry(mvUUID uuid);
 
         void draw(ImDrawList* drawlist, float x, float y) override;
         void onChildAdd(mvRef<mvAppItem> item) override;

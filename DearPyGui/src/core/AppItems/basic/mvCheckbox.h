@@ -24,10 +24,6 @@ namespace Marvel {
 
 		explicit mvCheckbox(mvUUID uuid);
 
-		// overriding until we can remove these
-		bool preDraw() override { return true; }
-		void postDraw() override {}
-
 		void setDataSource(mvUUID dataSource) override;
 		void* getValue() override { return &_value; }
 		PyObject* getPyValue() override;

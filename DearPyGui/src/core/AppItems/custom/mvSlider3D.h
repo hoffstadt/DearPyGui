@@ -26,11 +26,7 @@ namespace Marvel {
 
     public:
 
-        mvSlider3D(mvUUID uuid);
-
-        // overriding until we can remove these
-        bool preDraw() override { return true; }
-        void postDraw() override {}
+        explicit mvSlider3D(mvUUID uuid);
 
         void draw(ImDrawList* drawlist, float x, float y) override;
         void setDataSource(mvUUID dataSource) override;

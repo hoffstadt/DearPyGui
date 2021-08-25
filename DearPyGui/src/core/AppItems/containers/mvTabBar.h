@@ -37,7 +37,7 @@ namespace Marvel {
 
 	public:
 
-		mvTabBar(mvUUID uuid);
+		explicit mvTabBar(mvUUID uuid);
 
 		mvUUID getSpecificValue();
 		void setValue(mvUUID value);
