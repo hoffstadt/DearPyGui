@@ -27,7 +27,7 @@ namespace Marvel {
 
 	public:
 
-		mvFocusHandler(mvUUID uuid);
+		explicit mvFocusHandler(mvUUID uuid);
 
 		void draw(ImDrawList* drawlist, float x, float y) override {}
 		void customAction(void* data = nullptr) override;

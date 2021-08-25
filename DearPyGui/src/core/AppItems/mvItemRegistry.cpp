@@ -563,13 +563,7 @@ namespace Marvel {
 			root->draw(nullptr, 0.0f, 0.0f);
 
 		for (auto& root : _filedialogRoots)
-		{
-			if (!root->preDraw())
-				continue;
-
 			root->draw(nullptr, 0.0f, 0.0f);
-			root->postDraw();
-		}
 
 		for (auto& root : _themeRegistryRoots)
 		{
@@ -590,13 +584,7 @@ namespace Marvel {
 		}
 
 		for (auto& root : _viewportMenubarRoots)
-		{
-			if (!root->preDraw())
-				continue;
-
 			root->draw(nullptr, 0.0f, 0.0f);
-			root->postDraw();
-		}
 
 		return false;
 	}

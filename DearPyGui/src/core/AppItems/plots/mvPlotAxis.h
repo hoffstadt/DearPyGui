@@ -49,7 +49,7 @@ namespace Marvel {
 
 	public:
 
-		mvPlotAxis(mvUUID uuid);
+		explicit mvPlotAxis(mvUUID uuid);
 
 		void draw(ImDrawList* drawlist, float x, float y) override;
 		void customAction(void* data = nullptr) override;
@@ -61,7 +61,6 @@ namespace Marvel {
 		void applySpecificTemplate(mvAppItem* item) override;
 		void setYTicks(const std::vector<std::string>& labels, const std::vector<double>& locations);
 		void resetYTicks();
-		void postDraw() override;
 		void fitAxisData();
 
 		void setLimits(float y_min, float y_max);

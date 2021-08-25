@@ -39,14 +39,7 @@ namespace Marvel {
 			ImGui::BeginTooltip();
 
 			for (auto& item : _children[1])
-			{
-				if (!item->preDraw())
-					continue;
-
 				item->draw(drawlist, ImGui::GetCursorPosX(), ImGui::GetCursorPosY());
-
-				item->postDraw();
-			}
 
 			ImGui::EndTooltip();
 		}

@@ -22,11 +22,7 @@ namespace Marvel {
 
 	public:
 
-		mvLoadingIndicator(mvUUID uuid);
-
-		// overriding until we can remove these
-		bool preDraw() override { return true; }
-		void postDraw() override {}
+		explicit mvLoadingIndicator(mvUUID uuid);
 
 		void draw(ImDrawList* drawlist, float x, float y) override;
 

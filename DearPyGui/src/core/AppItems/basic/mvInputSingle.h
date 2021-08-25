@@ -36,11 +36,7 @@ namespace Marvel {
 
     public:
 
-        mvInputInt(mvUUID uuid);
-        
-        // overriding until we can remove these
-        bool preDraw() override { return true; }
-        void postDraw() override {}
+        explicit mvInputInt(mvUUID uuid);
 
         void draw(ImDrawList* drawlist, float x, float y) override;
         void setDataSource(mvUUID dataSource) override;
@@ -88,7 +84,7 @@ namespace Marvel {
 
     public:
 
-        mvInputFloat(mvUUID uuid);
+        explicit mvInputFloat(mvUUID uuid);
         
         void draw(ImDrawList* drawlist, float x, float y) override;
         void setDataSource(mvUUID dataSource) override;

@@ -95,18 +95,15 @@ namespace Marvel {
 		if (ImGui::BeginTabBar(_internalLabel.c_str(), _flags))
 		{
 
+			_state.update();
+
 			for (auto& item : _children[1])
 			{
-
-				if (!item->preDraw())
-					continue;
 
 				if (*_value == item->getUUID() && _lastValue != *_value)
 					static_cast<mvTab*>(item.get())->addFlag(ImGuiTabItemFlags_SetSelected);
 
 				item->draw(drawlist, ImGui::GetCursorPosX(), ImGui::GetCursorPosY());
-
-				item->postDraw();
 
 				if (*_value == item->getUUID())
 					static_cast<mvTab*>(item.get())->removeFlag(ImGuiTabItemFlags_SetSelected);

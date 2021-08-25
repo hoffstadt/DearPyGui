@@ -22,11 +22,7 @@ namespace Marvel {
 
 	public:
 
-		mvRadioButton(mvUUID uuid);
-
-		// overriding until we can remove these
-		bool preDraw() override { return true; }
-		void postDraw() override {}
+		explicit mvRadioButton(mvUUID uuid);
 
 		void draw(ImDrawList* drawlist, float x, float y) override;
 		void setPyValue(PyObject* value) override;

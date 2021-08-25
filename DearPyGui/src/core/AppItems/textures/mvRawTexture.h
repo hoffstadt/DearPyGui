@@ -39,7 +39,7 @@ namespace Marvel {
 
 	public:
 
-		mvRawTexture(mvUUID uuid);
+		explicit mvRawTexture(mvUUID uuid);
 		~mvRawTexture();
 
 		void draw(ImDrawList* drawlist, float x, float y) override;

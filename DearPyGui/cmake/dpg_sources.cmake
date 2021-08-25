@@ -116,7 +116,6 @@ set(MARVEL_SOURCES
 
 	"src/core/AppItems/custom/mvDatePicker.cpp"
 	"src/core/AppItems/custom/mvTimePicker.cpp"
-	"src/core/AppItems/custom/mvTextEditor.cpp"
 	"src/core/AppItems/custom/mvSlider3D.cpp"
 	"src/core/AppItems/custom/mvKnob.cpp"
 	"src/core/AppItems/custom/mvLoadingIndicator.cpp"

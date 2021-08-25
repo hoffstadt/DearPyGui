@@ -346,14 +346,11 @@ namespace Marvel {
 
 		for (auto& item : _children[1])
 		{
-			if (!item->preDraw())
-				continue;
 
 			item->draw(drawlist, ImGui::GetCursorPosX(), ImGui::GetCursorPosY());
 			if(item->isTracked())
 				ImGui::SetScrollHereY(item->getTrackOffset());
 
-			item->postDraw();
 		}
 
 		for (auto& item : _children[2])

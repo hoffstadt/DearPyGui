@@ -84,6 +84,9 @@ namespace Marvel {
 
 	void mvDragPoint::draw(ImDrawList* drawlist, float x, float y)
 	{
+		if (!_show)
+			return;
+
 		ScopedID id(_uuid);
 
 		static double dummyx = (*_value.get())[0];

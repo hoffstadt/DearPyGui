@@ -26,7 +26,7 @@ namespace Marvel {
 
 	public:
 
-		mvCharRemap(mvUUID uuid);
+		explicit mvCharRemap(mvUUID uuid);
 
 		void draw(ImDrawList* drawlist, float x, float y) override {}
 		void handleSpecificRequiredArgs(PyObject* dict) override;

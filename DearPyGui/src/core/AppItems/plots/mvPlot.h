@@ -94,7 +94,7 @@ namespace Marvel {
 
 	public:
 
-		mvPlot(mvUUID uuid);
+		explicit mvPlot(mvUUID uuid);
 
 		void updateFlags();
 		void updateAxesNames();
@@ -115,7 +115,6 @@ namespace Marvel {
 		void onChildAdd(mvRef<mvAppItem> item) override;
 		void handleSpecificKeywordArgs(PyObject* dict) override;
 		void getSpecificConfiguration(PyObject* dict) override;
-		void postDraw() override;
 		void applySpecificTemplate(mvAppItem* item) override;
 
 	private:

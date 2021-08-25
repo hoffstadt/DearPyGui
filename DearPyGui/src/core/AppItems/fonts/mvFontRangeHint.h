@@ -45,7 +45,7 @@ namespace Marvel {
 
 	public:
 
-		mvFontRangeHint(mvUUID uuid);
+		explicit mvFontRangeHint(mvUUID uuid);
 
 		void draw(ImDrawList* drawlist, float x, float y) override {}
 		void handleSpecificRequiredArgs(PyObject* dict) override;

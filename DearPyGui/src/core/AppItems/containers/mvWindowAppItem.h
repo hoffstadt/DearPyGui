@@ -43,11 +43,7 @@ namespace Marvel {
 
 	public:
 
-		mvWindowAppItem(mvUUID uuid, bool mainWindow = false);
-
-		// overriding until we can remove these
-		bool preDraw() override { return true; }
-		void postDraw() override {}
+		explicit mvWindowAppItem(mvUUID uuid, bool mainWindow = false);
 
 		void addFlag              (ImGuiWindowFlags flag) { _windowflags |= flag; }
 		void removeFlag           (ImGuiWindowFlags flag) { _windowflags &= ~flag; }

@@ -207,17 +207,12 @@ namespace Marvel {
 			if (item->getType() != mvAppItemType::mvMenuBar)
 				continue;
 
-			// skip item if it's not shown
-			if (!item->preDraw())
-				continue;
-
 			// set item width
 			if (item->getWidth() != 0)
 				ImGui::SetNextItemWidth((float)item->getWidth());
 
 			item->draw(drawlist, x, y);
 
-			item->postDraw();
 		}
 
 
@@ -251,17 +246,11 @@ namespace Marvel {
 			if (item->getType() != mvAppItemType::mvNode)
 				continue;
 
-			// skip item if it's not shown
-			if (!item->preDraw())
-				continue;
-
 			// set item width
 			if (item->getWidth() != 0)
 				ImGui::SetNextItemWidth((float)item->getWidth());
 
 			item->draw(drawlist, x, y);
-
-			item->postDraw();
 		}
 
 		registerWindowFocusing();

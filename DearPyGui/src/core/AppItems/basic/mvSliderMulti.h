@@ -36,11 +36,7 @@ namespace Marvel {
 
     public:
 
-        mvSliderFloatMulti(mvUUID uuid);
-
-        // overriding until we can remove these
-        bool preDraw() override { return true; }
-        void postDraw() override {}
+        explicit mvSliderFloatMulti(mvUUID uuid);
         
         void draw(ImDrawList* drawlist, float x, float y) override;
         void setDataSource(mvUUID dataSource) override;
@@ -84,11 +80,7 @@ namespace Marvel {
 
     public:
 
-        mvSliderIntMulti(mvUUID uuid);
-
-        // overriding until we can remove these
-        bool preDraw() override { return true; }
-        void postDraw() override {}
+        explicit mvSliderIntMulti(mvUUID uuid);
         
         void draw(ImDrawList* drawlist, float x, float y) override;
         void setDataSource(mvUUID dataSource) override;

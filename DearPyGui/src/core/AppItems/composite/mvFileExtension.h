@@ -28,7 +28,7 @@ namespace Marvel {
 
 	public:
 
-		mvFileExtension(mvUUID uuid);
+		explicit mvFileExtension(mvUUID uuid);
 
 		void draw(ImDrawList* drawlist, float x, float y) override;
 		void handleSpecificRequiredArgs(PyObject* args) override;

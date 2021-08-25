@@ -229,7 +229,7 @@ namespace Marvel {
 
 	public:
 
-		mvThemeColor(mvUUID uuid);
+        explicit mvThemeColor(mvUUID uuid);
 
 		void draw(ImDrawList* drawlist, float x, float y) override;
 		void customAction(void* data = nullptr) override;

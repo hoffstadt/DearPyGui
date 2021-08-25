@@ -22,7 +22,7 @@ namespace Marvel {
 
 	public:
 
-		mvSeparator(mvUUID uuid);
+		explicit mvSeparator(mvUUID uuid);
 
 		void draw(ImDrawList* drawlist, float x, float y) override;
 

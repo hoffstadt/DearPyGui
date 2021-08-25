@@ -31,7 +31,7 @@ namespace Marvel {
 
 	public:
 
-		mvTableColumn(mvUUID uuid);
+		explicit mvTableColumn(mvUUID uuid);
 
 		void draw(ImDrawList* drawlist, float x, float y) override;
 		void handleSpecificKeywordArgs(PyObject* dict) override;

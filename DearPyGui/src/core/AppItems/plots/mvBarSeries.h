@@ -25,11 +25,7 @@ namespace Marvel {
 
 	public:
 
-		mvBarSeries(mvUUID uuid);
-
-		// overriding until we can remove these
-		bool preDraw() override { return true; }
-		void postDraw() override {}
+		explicit mvBarSeries(mvUUID uuid);
 
 		void draw(ImDrawList* drawlist, float x, float y) override;
 		void setDataSource(mvUUID dataSource) override;

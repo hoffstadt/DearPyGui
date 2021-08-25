@@ -20,7 +20,9 @@ namespace Marvel {
 			
 		MV_SET_STATES(MV_STATE_NONE);
 
-		mvDummy(mvUUID uuid);
+	public:
+
+		explicit mvDummy(mvUUID uuid);
 
 		void draw(ImDrawList* drawlist, float x, float y) override;
 

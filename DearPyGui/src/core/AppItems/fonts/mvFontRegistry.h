@@ -25,7 +25,7 @@ namespace Marvel {
 
 	public:
 
-		mvFontRegistry(mvUUID uuid);
+		explicit mvFontRegistry(mvUUID uuid);
 
 		void draw(ImDrawList* drawlist, float x, float y) override;
 		void customAction(void* data = nullptr) override;

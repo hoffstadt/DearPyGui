@@ -31,7 +31,7 @@ namespace Marvel {
 
 	public:
 
-		mvDrawEllipse(mvUUID uuid);
+		explicit mvDrawEllipse(mvUUID uuid);
 
 		void draw(ImDrawList* drawlist, float x, float y) override;
 		void handleSpecificRequiredArgs(PyObject* args) override;

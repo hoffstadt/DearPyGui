@@ -143,12 +143,10 @@ namespace Marvel {
 			ScopedID id(_uuid);
 
 			ImGui::BeginChild(_internalLabel.c_str(), ImVec2(_autosize_x ? 0 : (float)_width, _autosize_y ? 0 : (float)_height), _border, _windowflags);
+			_state.update();
 
 			for (auto& item : _children[1])
 			{
-
-				if (!item->preDraw())
-					continue;
 
 				item->draw(drawlist, ImGui::GetCursorPosX(), ImGui::GetCursorPosY());
 				if (item->isTracked())
@@ -157,7 +155,6 @@ namespace Marvel {
 					ImGui::SetScrollHereY(item->getTrackOffset());
 				}
 
-				item->postDraw();
 			}
 
 			if (_scrollXSet)
@@ -188,21 +185,6 @@ namespace Marvel {
 
 			ImGui::EndChild();
 		}
-
-		//-----------------------------------------------------------------------------
-		// update state
-		//   * only update if applicable
-		//-----------------------------------------------------------------------------
-		_state._lastFrameUpdate = mvApp::s_frame;
-		_state._hovered = ImGui::IsItemHovered();
-		_state._leftclicked = ImGui::IsItemClicked();
-		_state._rightclicked = ImGui::IsItemClicked(1);
-		_state._middleclicked = ImGui::IsItemClicked(2);
-		_state._visible = ImGui::IsItemVisible();
-		_state._rectMin = { ImGui::GetItemRectMin().x, ImGui::GetItemRectMin().y };
-		_state._rectMax = { ImGui::GetItemRectMax().x, ImGui::GetItemRectMax().y };
-		_state._rectSize = { ImGui::GetItemRectSize().x, ImGui::GetItemRectSize().y };
-		_state._contextRegionAvail = { ImGui::GetContentRegionAvail().x, ImGui::GetContentRegionAvail().y };
 
 		//-----------------------------------------------------------------------------
 		// post draw
@@ -242,12 +224,7 @@ namespace Marvel {
 
 		// handle drag & drop payloads
 		for (auto& item : _children[3])
-		{
-			if (!item->preDraw())
-				continue;
-
 			item->draw(nullptr, ImGui::GetCursorPosX(), ImGui::GetCursorPosY());
-		}
 
 		// handle drag & drop if used
 		if (_dropCallback)

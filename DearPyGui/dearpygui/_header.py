@@ -75,7 +75,7 @@ def mutex():
 def popup(parent: Union[int, str], mousebutton: int = internal_dpg.mvMouseButton_Right, modal: bool = False, tag:Union[int, str] = 0) -> int:
     
     try:
-        if id == 0:
+        if tag == 0:
             _internal_popup_id = internal_dpg.generate_uuid()
         else:
             _internal_popup_id = tag

@@ -26,11 +26,9 @@ namespace Marvel {
 
 		MV_SET_STATES(MV_STATE_NONE);
 
-		explicit mvImage(mvUUID uuid);
+	public:
 
-		// overriding until we can remove these
-		bool preDraw() override { return true; }
-		void postDraw() override {}
+		explicit mvImage(mvUUID uuid);
 
 		void draw(ImDrawList* drawlist, float x, float y) override;
 

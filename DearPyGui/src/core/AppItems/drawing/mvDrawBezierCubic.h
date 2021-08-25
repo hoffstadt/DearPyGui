@@ -31,7 +31,7 @@ namespace Marvel {
 
 	public:
 
-		mvDrawBezierCubic(mvUUID uuid);
+		explicit mvDrawBezierCubic(mvUUID uuid);
 
 		void draw(ImDrawList* drawlist, float x, float y) override;
 		void handleSpecificRequiredArgs(PyObject* args) override;

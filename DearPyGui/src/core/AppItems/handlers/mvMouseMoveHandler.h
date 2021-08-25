@@ -27,7 +27,7 @@ namespace Marvel {
 
 	public:
 
-		mvMouseMoveHandler(mvUUID uuid);
+		explicit mvMouseMoveHandler(mvUUID uuid);
 
 		void draw(ImDrawList* drawlist, float x, float y) override;
 

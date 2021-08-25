@@ -59,7 +59,7 @@ namespace Marvel {
 
 	public:
 
-		mvTable(mvUUID uuid);
+		explicit mvTable(mvUUID uuid);
 
 		void draw(ImDrawList* drawlist, float x, float y) override;
 

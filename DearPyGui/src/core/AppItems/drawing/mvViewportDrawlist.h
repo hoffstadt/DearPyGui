@@ -37,7 +37,7 @@ namespace Marvel {
 
 	public:
 
-		mvViewportDrawlist(mvUUID uuid);
+		explicit mvViewportDrawlist(mvUUID uuid);
 
 		void draw(ImDrawList* drawlist, float x, float y) override;
 		void handleSpecificKeywordArgs(PyObject* dict) override;

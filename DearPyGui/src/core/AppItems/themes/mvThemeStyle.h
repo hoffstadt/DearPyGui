@@ -167,7 +167,7 @@ namespace Marvel {
 
 	public:
 
-		mvThemeStyle(mvUUID uuid);
+		explicit mvThemeStyle(mvUUID uuid);
 
 		void draw(ImDrawList* drawlist, float x, float y) override;
 		void customAction(void* data = nullptr) override;
