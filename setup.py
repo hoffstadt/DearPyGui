@@ -38,7 +38,7 @@ if on_rtd:
                 if line.__contains__("..."):
                     newfile.write("\tpass\n")
                 elif line.__contains__("dearpygui._dearpygui"):
-                    continue
+                    newfile.write("mvBuffer = 7\n")
                 else:
                     newfile.write(line)
 
