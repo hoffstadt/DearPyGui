@@ -439,6 +439,11 @@ namespace Marvel {
 			stub << "\n\t...\n\n";
 		}
 
+		auto& constants = mvModule_DearPyGui::GetSubModuleConstants();
+
+		for (auto& item : constants)
+			stub << item.first << "=0\n";
+
 		stub.close();
 	}
 
