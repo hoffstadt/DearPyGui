@@ -29,9 +29,7 @@ if on_rtd:
     shutil.copy(workspace_dir + "/DearPyGui/dearpygui/experimental.py", workspace_dir + "/dearpygui")
 
     with open(workspace_dir + "/dearpygui/__init__.py", 'w') as file:
-        file.write("__version__=")
-        file.write(version_number())
-        file.write("\n")
+        file.write("__version__='latest'\n")
 
     with open(workspace_dir + "/_dearpygui.py", 'w') as newfile:
         with open(workspace_dir + "/DearPyGui/dearpygui/_dearpygui.pyi", 'r') as file:
@@ -45,7 +43,7 @@ if on_rtd:
 
     setup(
         name='dearpygui',                                      # Required
-        version=version_number(),                             # Required
+        version='latest',                             # Required
         author="Jonathan Hoffstadt and Preston Cothren",       # Optional
         author_email="jonathanhoffstadt@yahoo.com",            # Optional
         description='DearPyGui: A simple Python GUI Toolkit',  # Required
