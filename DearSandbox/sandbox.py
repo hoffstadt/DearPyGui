@@ -2,9 +2,6 @@ import dearpygui.dearpygui as dpg
 import dearpygui.demo as demo
 import dearpygui_ext.themes as themes
 from dearpygui_ext.datagrid import mvDataGrid
-import warnings
-
-warnings.simplefilter('always', DeprecationWarning)
 
 dpg.enable_docking()
 
