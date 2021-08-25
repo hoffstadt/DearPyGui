@@ -274,12 +274,12 @@ namespace Marvel {
 
 		for (auto& child : _children[1])
 		{
-			child->getState().setHovered(false);
+			child->getState()._hovered = false;
 
 			ImVec2 size = imnodes::GetNodeDimensions(static_cast<mvNode*>(child.get())->getId());
-			child->getState().setRectSize({ size.x, size.y });
-			child->getState().setRectMin({ size.x, size.y });
-			child->getState().setRectMax({ size.x, size.y });
+			child->getState()._rectSize = { size.x, size.y };
+			child->getState()._rectMin = { size.x, size.y };
+			child->getState()._rectMax = { size.x, size.y };
 		}
 		
 		_selectedNodes.clear();
@@ -374,7 +374,7 @@ namespace Marvel {
 			}
 		}
 
-		_state.setHovered(imnodes::IsEditorHovered());	
+		_state._hovered = imnodes::IsEditorHovered();	
 
 		ImGui::EndChild();
 	}

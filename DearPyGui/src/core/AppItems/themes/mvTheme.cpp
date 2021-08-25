@@ -44,16 +44,16 @@ namespace Marvel {
 		}
 	}
 
-	void mvTheme::customAction()
+	void mvTheme::customAction(void* data)
 	{
 		for (auto& childset : _children)
 		{
 			for (auto& child : childset)
-				child->customAction();
+				child->customAction(data);
 		}
 	}
 
-	void mvTheme::alternativeCustomAction()
+	void mvTheme::alternativeCustomAction(void* data)
 	{
 		if (!_default_theme)
 		{
@@ -64,7 +64,7 @@ namespace Marvel {
 		for (auto& childset : _children)
 		{
 			for (auto& child : childset)
-				child->alternativeCustomAction();
+				child->alternativeCustomAction(data);
 		}
 		_triggerAlternativeAction = false;
 	}

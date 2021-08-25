@@ -29,19 +29,10 @@ namespace Marvel {
 
 	}
 
-	void mvVisibleHandler::draw(ImDrawList* drawlist, float x, float y)
+	void mvVisibleHandler::customAction(void* data)
 	{
 
-		bool run = false;
-		if (_parentPtr->getType() == mvAppItemType::mvWindowAppItem)
-		{
-			if (_parentPtr->isShown())
-				run = true;
-		}
-		else if (ImGui::IsItemVisible())
-			run = true;
-
-		if (run)
+		if (static_cast<mvAppItemState*>(data)->_visible)
 		{
 			mvApp::GetApp()->getCallbackRegistry().submitCallback([=]()
 				{

@@ -46,7 +46,7 @@ namespace Marvel {
 			imnodes::PushColorStyle((imnodes::ColorStyle)_targetColor, ImGui::ColorConvertFloat4ToU32(color));
 	}
 
-	void mvThemeColor::customAction()
+	void mvThemeColor::customAction(void* data)
 	{
 		if (_libType == mvLibType::MV_IMGUI)
 			ImGui::PopStyleColor();
@@ -56,7 +56,7 @@ namespace Marvel {
 			imnodes::PopColorStyle();
 	}
 
-	void mvThemeColor::alternativeCustomAction()
+	void mvThemeColor::alternativeCustomAction(void* data)
 	{
 		ImVec4 color = ImVec4((*_value)[0], (*_value)[1], (*_value)[2], (*_value)[3]);
 

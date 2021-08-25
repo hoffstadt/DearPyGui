@@ -285,10 +285,10 @@ namespace Marvel {
 				// shouldn't have to do this but do. Fix later
 				_show = false;
 				_state._lastFrameUpdate = mvApp::s_frame;
-				_state.setHovered(false);
-				_state.setFocused(false);
-				_state.setActivated(false);
-				_state.setVisible(false);
+				_state._hovered = false;
+				_state._focused = false;
+				_state._activated = false;
+				_state._visible = false;
 
 				if(_alias.empty())
 					mvApp::GetApp()->getCallbackRegistry().addCallback(_on_close, _uuid, nullptr, _user_data);
@@ -408,11 +408,11 @@ namespace Marvel {
 		_scrollMaxY = ImGui::GetScrollMaxY();
 
 		_state._lastFrameUpdate = mvApp::s_frame;
-		_state.setVisible(true);
-		_state.setHovered(ImGui::IsWindowHovered());
-		_state.setFocused(ImGui::IsWindowFocused());
-		_state.setRectSize({ ImGui::GetWindowSize().x, ImGui::GetWindowSize().y });
-		_state.setActivated(ImGui::IsWindowCollapsed());
+		_state._visible = true;
+		_state._hovered = ImGui::IsWindowHovered();
+		_state._focused = ImGui::IsWindowFocused();
+		_state._rectSize = { ImGui::GetWindowSize().x, ImGui::GetWindowSize().y };
+		_state._activated = ImGui::IsWindowCollapsed();
 
 		if (ImGui::GetWindowWidth() != (float)_width || ImGui::GetWindowHeight() != (float)_height)
 		{
@@ -453,10 +453,10 @@ namespace Marvel {
 		if (!_show)
 		{
 			_state._lastFrameUpdate = mvApp::s_frame;
-			_state.setHovered(false);
-			_state.setFocused(false);
-			_state.setActivated(false);
-			_state.setVisible(false);
+			_state._hovered = false;
+			_state._focused = false;
+			_state._activated = false;
+			_state._visible = false;
 
 			if(_alias.empty())
 				mvApp::GetApp()->getCallbackRegistry().addCallback(_on_close, _uuid, nullptr, _user_data);
@@ -464,14 +464,8 @@ namespace Marvel {
 				mvApp::GetApp()->getCallbackRegistry().addCallback(_on_close, _alias, nullptr, _user_data);
 		}
 
-		// event handlers
-		for (auto& item : _children[3])
-		{
-			if (!item->preDraw())
-				continue;
-
-			item->draw(nullptr, ImGui::GetCursorPosX(), ImGui::GetCursorPosY());
-		}
+		if (_handlerRegistry)
+			_handlerRegistry->customAction(&_state);
 	}
 
 	void mvWindowAppItem::handleSpecificKeywordArgs(PyObject* dict)

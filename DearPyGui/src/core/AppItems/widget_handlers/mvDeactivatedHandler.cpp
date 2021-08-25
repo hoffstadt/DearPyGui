@@ -29,10 +29,10 @@ namespace Marvel {
 
 	}
 
-	void mvDeactivatedHandler::draw(ImDrawList* drawlist, float x, float y)
+	void mvDeactivatedHandler::customAction(void* data)
 	{
 
-		if (ImGui::IsItemDeactivated())
+		if (static_cast<mvAppItemState*>(data)->_deactivated)
 		{
 			mvApp::GetApp()->getCallbackRegistry().submitCallback([=]()
 				{

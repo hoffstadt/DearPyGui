@@ -43,7 +43,7 @@ namespace Marvel {
 		mvFont(mvUUID uuid);
 
 		void draw(ImDrawList* drawlist, float x, float y) override;
-		void customAction() override;
+		void customAction(void* data = nullptr) override;
 		void handleSpecificRequiredArgs(PyObject* dict) override;
 		ImFont* getFontPtr() { return _fontPtr; }
 

@@ -522,17 +522,11 @@ namespace Marvel {
 			static_cast<mvTheme*>(_theme.get())->customAction();
 		}
 
-		// event handlers
-		for (auto& item : _children[3])
-		{
-			if (!item->preDraw())
-				continue;
-
-			item->draw(nullptr, ImGui::GetCursorPosX(), ImGui::GetCursorPosY());
-		}
+		if (_handlerRegistry)
+			_handlerRegistry->customAction(&_state);
 
 		// drag drop
-		for (auto& item : _children[4])
+		for (auto& item : _children[3])
 		{
 			if (!item->preDraw())
 				continue;

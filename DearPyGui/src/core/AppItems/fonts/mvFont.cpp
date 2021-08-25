@@ -47,7 +47,7 @@ namespace Marvel {
 	{
 	}
 
-	void mvFont::customAction()
+	void mvFont::customAction(void* data)
 	{
 		if (!_state.isOk())
 			return;

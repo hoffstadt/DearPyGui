@@ -4,7 +4,7 @@
 
 namespace Marvel {
 
-	MV_REGISTER_WIDGET(mvDragPayload, MV_ITEM_DESC_CONTAINER | MV_ITEM_DESC_HANDLER, StorageValueTypes::None, 4);
+	MV_REGISTER_WIDGET(mvDragPayload, MV_ITEM_DESC_CONTAINER | MV_ITEM_DESC_HANDLER, StorageValueTypes::None, 3);
 	class mvDragPayload : public mvAppItem
 	{
 

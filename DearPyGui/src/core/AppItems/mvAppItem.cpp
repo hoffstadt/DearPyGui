@@ -561,17 +561,11 @@ namespace Marvel{
 			}
 		}
 
-		// event handlers
-		for (auto& item : _children[3])
-		{
-			if (!item->preDraw())
-				continue;
-
-			item->draw(nullptr, ImGui::GetCursorPosX(), ImGui::GetCursorPosY());
-		}
+		if (_handlerRegistry)
+			_handlerRegistry->customAction(&_state);
 
 		// drag drop
-		for (auto& item : _children[4])
+		for (auto& item : _children[3])
 		{
 			if (!item->preDraw())
 				continue;
@@ -1813,7 +1807,7 @@ namespace Marvel{
 		PyObject* pdict = PyDict_New();
 
 		if (appitem)
-			appitem->getState().getState(pdict);
+			appitem->getState().getState(pdict, appitem->getApplicableState());
 
 		else
 			mvThrowPythonError(mvErrorCode::mvItemNotFound, "get_item_state",

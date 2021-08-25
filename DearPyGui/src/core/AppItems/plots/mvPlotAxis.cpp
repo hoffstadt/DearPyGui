@@ -91,7 +91,7 @@ namespace Marvel {
 	{
 	}
 
-	void mvPlotAxis::customAction()
+	void mvPlotAxis::customAction(void* data)
 	{
 		if (_setLimits || _dirty)
 		{

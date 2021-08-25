@@ -211,17 +211,11 @@ namespace Marvel {
 				static_cast<mvTheme*>(_disabledTheme.get())->customAction();
 		}
 
-		// handle widget's event handlers
-		for (auto& item : _children[3])
-		{
-			if (!item->preDraw())
-				continue;
-
-			item->draw(nullptr, ImGui::GetCursorPosX(), ImGui::GetCursorPosY());
-		}
+		if (_handlerRegistry)
+			_handlerRegistry->customAction(&_state);
 
 		// handle drag & drop payloads
-		for (auto& item : _children[4])
+		for (auto& item : _children[3])
 		{
 			if (!item->preDraw())
 				continue;

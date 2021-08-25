@@ -82,7 +82,7 @@ namespace Marvel {
 
         void draw(ImDrawList* drawlist, float x, float y) override;
         void handleSpecificRequiredArgs(PyObject* args) override;
-        void alternativeCustomAction() override;
+        void alternativeCustomAction(void* data = nullptr) override;
         void applySpecificTemplate(mvAppItem* item) override;
         ImPlotColormap getColorMap() const { return _colorMap; }
 

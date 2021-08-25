@@ -53,7 +53,7 @@ namespace Marvel {
 
 	}
 
-	void mvColorMapRegistry::alternativeCustomAction()
+	void mvColorMapRegistry::alternativeCustomAction(void* data)
 	{
 		for (auto& item : _children[1])
 			item->alternativeCustomAction();

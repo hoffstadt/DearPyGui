@@ -29,10 +29,10 @@ namespace Marvel {
 
 	}
 
-	void mvToggledOpenHandler::draw(ImDrawList* drawlist, float x, float y)
+	void mvToggledOpenHandler::customAction(void* data)
 	{
 
-		if (ImGui::IsItemToggledOpen())
+		if (static_cast<mvAppItemState*>(data)->_toggledOpen)
 		{
 			mvApp::GetApp()->getCallbackRegistry().submitCallback([=]()
 				{

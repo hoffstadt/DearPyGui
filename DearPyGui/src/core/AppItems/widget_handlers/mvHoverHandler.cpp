@@ -29,10 +29,10 @@ namespace Marvel {
 
 	}
 
-	void mvHoverHandler::draw(ImDrawList* drawlist, float x, float y)
+	void mvHoverHandler::customAction(void* data)
 	{
 
-		if (ImGui::IsItemHovered())
+		if (static_cast<mvAppItemState*>(data)->_hovered)
 		{
 			mvApp::GetApp()->getCallbackRegistry().submitCallback([=]()
 				{
