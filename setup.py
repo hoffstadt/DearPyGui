@@ -8,6 +8,11 @@ import shutil
 on_rtd = os.environ.get('READTHEDOCS') == 'True'
 workspace_dir = os.getcwd()
 
+########################################################################################################################
+# These functions read the version number and library locations which is populated by
+# github actions or the local build scripts.
+########################################################################################################################
+
 def version_number(readthedocs):
 
     if readthedocs:
@@ -33,23 +38,6 @@ def lib_location(readthedocs):
 
 location = lib_location(on_rtd)
 
-classifiers = [
-            'Development Status :: 4 - Beta',
-            'Intended Audience :: Education',
-            'Intended Audience :: Developers',
-            'Intended Audience :: Science/Research',
-            'License :: OSI Approved :: MIT License',
-            'Operating System :: MacOS :: MacOS X',
-            'Operating System :: Microsoft :: Windows :: Windows 10',
-            'Operating System :: POSIX :: Linux',
-            'Programming Language :: Python :: 3.6',
-            'Programming Language :: Python :: 3.7',
-            'Programming Language :: Python :: 3.8',
-            'Programming Language :: Python :: 3.9',
-            'Topic :: Software Development :: User Interfaces',
-            'Topic :: Software Development :: Libraries :: Python Modules',
-        ]
-
 package_data = {}
 if on_rtd:
     package_data['dearpygui'] = ["_dearpygui.py", "dearpygui.py", "demo.py", "experimental.py"]
@@ -62,7 +50,7 @@ with open("./docs/README.md", encoding='utf-8') as f:
 
 class BinaryDistribution(Distribution):
     """Distribution which always forces a binary package with platform name"""
-    def has_ext_modules(foo):
+    def has_ext_modules(var):
         return True
 
 # create the necessary directories if they do not exist
@@ -111,7 +99,22 @@ setup(
     url='https://github.com/hoffstadt/DearPyGui',          # Optional
     license = 'MIT',
     python_requires='>=3.6',
-    classifiers=classifiers,
+    classifiers=[
+            'Development Status :: 4 - Beta',
+            'Intended Audience :: Education',
+            'Intended Audience :: Developers',
+            'Intended Audience :: Science/Research',
+            'License :: OSI Approved :: MIT License',
+            'Operating System :: MacOS :: MacOS X',
+            'Operating System :: Microsoft :: Windows :: Windows 10',
+            'Operating System :: POSIX :: Linux',
+            'Programming Language :: Python :: 3.6',
+            'Programming Language :: Python :: 3.7',
+            'Programming Language :: Python :: 3.8',
+            'Programming Language :: Python :: 3.9',
+            'Topic :: Software Development :: User Interfaces',
+            'Topic :: Software Development :: Libraries :: Python Modules',
+        ],
     packages=find_packages(exclude=['contrib', 'docs', 'tests']),  # Required
     package_data=package_data,
     distclass=BinaryDistribution
