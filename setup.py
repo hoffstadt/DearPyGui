@@ -31,7 +31,7 @@ if on_rtd:
     with open(workspace_dir + "/dearpygui/__init__.py", 'w') as file:
         file.write("__version__='latest'\n")
 
-    with open(workspace_dir + "/_dearpygui.py", 'w') as newfile:
+    with open(workspace_dir + "/dearpygui/_dearpygui.py", 'w') as newfile:
         with open(workspace_dir + "/DearPyGui/dearpygui/_dearpygui.pyi", 'r') as file:
             lines = file.readlines()
             for line in lines:
