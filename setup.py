@@ -24,7 +24,6 @@ if on_rtd:
         os.mkdir(workspace_dir + "/dearpygui/")
 
     # copy add items to temporary location
-    shutil.copy(location, workspace_dir +"/dearpygui")
     shutil.copy(workspace_dir + "/DearPyGui/dearpygui/dearpygui.py", workspace_dir + "/dearpygui")
     shutil.copy(workspace_dir + "/DearPyGui/dearpygui/demo.py", workspace_dir + "/dearpygui")
     shutil.copy(workspace_dir + "/DearPyGui/dearpygui/experimental.py", workspace_dir + "/dearpygui")
