@@ -29,10 +29,10 @@ namespace Marvel {
 
 	}
 
-	void mvActivatedHandler::draw(ImDrawList* drawlist, float x, float y)
+	void mvActivatedHandler::customAction(void* data)
 	{
 
-		if (ImGui::IsItemActivated())
+		if (static_cast<mvAppItemState*>(data)->_activated)
 		{
 			mvApp::GetApp()->getCallbackRegistry().submitCallback([=]()
 				{

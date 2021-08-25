@@ -128,7 +128,7 @@ namespace Marvel {
         ImPlot::ColormapButton(_internalLabel.c_str(), ImVec2(-1.0f, 0.0f), _colorMap);
     }
 
-    void mvColorMap::alternativeCustomAction()
+    void mvColorMap::alternativeCustomAction(void* data)
     {
         if (_created)
             return;

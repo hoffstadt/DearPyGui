@@ -41,7 +41,7 @@ namespace Marvel {
 		int getId() const { return _id0; }
 		int getId1() const { return _id1; }
 		int getId2() const { return _id2; }
-		void customAction() override;
+		void customAction(void* data = nullptr) override;
 		void draw(ImDrawList* drawlist, float x, float y) override;
 		void handleSpecificRequiredArgs(PyObject* args) override;
 		void getSpecificConfiguration(PyObject* dict) override;

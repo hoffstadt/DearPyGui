@@ -52,7 +52,7 @@ namespace Marvel {
 		mvPlotAxis(mvUUID uuid);
 
 		void draw(ImDrawList* drawlist, float x, float y) override;
-		void customAction() override;
+		void customAction(void* data = nullptr) override;
 		void onChildRemoved(mvRef<mvAppItem> item) override;
 		void onChildAdd(mvRef<mvAppItem> item) override;
 		void handleSpecificKeywordArgs(PyObject* dict) override;

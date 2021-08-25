@@ -262,8 +262,8 @@ namespace Marvel {
         // usually used for iterating through items and performing an action
         // other than drawing.
         //-----------------------------------------------------------------------------
-        virtual void customAction() {};
-        virtual void alternativeCustomAction() {};
+        virtual void customAction(void* data = nullptr) {};
+        virtual void alternativeCustomAction(void* data = nullptr) {};
 
         //-----------------------------------------------------------------------------
         // These methods handle setting the widget's value using PyObject*'s or
@@ -432,9 +432,8 @@ namespace Marvel {
         //         mvDragLine, mvDragPoint, mvLegend, mvTableColumn
         //   * 1 : Most widgets
         //   * 2 : Draw Commands
-        //   * 3 : Widget Handlers
-        //   * 4 : mvDragPayload
-        std::vector<mvRef<mvAppItem>> _children[5] = { {}, {}, {}, {}, {} };
+        //   * 3 : mvDragPayload
+        std::vector<mvRef<mvAppItem>> _children[4] = { {}, {}, {}, {} };
 
         // item handler registry
         mvRef<mvAppItem> _handlerRegistry = nullptr;

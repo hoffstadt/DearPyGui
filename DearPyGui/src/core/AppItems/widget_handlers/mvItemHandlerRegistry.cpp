@@ -24,13 +24,11 @@ namespace Marvel {
 	{
 	}
 
-	void mvItemHandlerRegistry::draw(ImDrawList* drawlist, float x, float y)
+	void mvItemHandlerRegistry::customAction(void* data)
 	{
 
 		for (auto& item : _children[1])
-		{
-			item->draw(drawlist, ImGui::GetCursorPosX(), ImGui::GetCursorPosY());
-		}
+			item->customAction(data);
 
 	}
 

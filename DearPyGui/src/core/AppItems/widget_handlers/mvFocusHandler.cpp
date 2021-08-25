@@ -29,18 +29,10 @@ namespace Marvel {
 
 	}
 
-	void mvFocusHandler::draw(ImDrawList* drawlist, float x, float y)
+	void mvFocusHandler::customAction(void* data)
 	{
-		bool run = false;
-		if (_parentPtr->getType() == mvAppItemType::mvWindowAppItem)
-		{
-			if (ImGui::IsWindowFocused())
-				run = true;
-		}
-		else if (ImGui::IsItemFocused())
-			run = true;
 
-		if (run)
+		if (static_cast<mvAppItemState*>(data)->_focused)
 		{
 			mvApp::GetApp()->getCallbackRegistry().submitCallback([=]()
 				{

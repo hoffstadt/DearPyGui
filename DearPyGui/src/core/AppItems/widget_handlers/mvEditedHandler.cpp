@@ -29,10 +29,10 @@ namespace Marvel {
 
 	}
 
-	void mvEditedHandler::draw(ImDrawList* drawlist, float x, float y)
+	void mvEditedHandler::customAction(void* data)
 	{
 
-		if (ImGui::IsItemEdited())
+		if (static_cast<mvAppItemState*>(data)->_edited)
 		{
 			mvApp::GetApp()->getCallbackRegistry().submitCallback([=]()
 				{

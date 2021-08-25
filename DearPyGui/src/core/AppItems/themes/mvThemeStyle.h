@@ -170,8 +170,8 @@ namespace Marvel {
 		mvThemeStyle(mvUUID uuid);
 
 		void draw(ImDrawList* drawlist, float x, float y) override;
-		void customAction() override;
-		void alternativeCustomAction() override;
+		void customAction(void* data = nullptr) override;
+		void alternativeCustomAction(void* data = nullptr) override;
 		void setDataSource(mvUUID dataSource) override;
 		void* getValue() override { return &_value; }
 		PyObject* getPyValue() override;

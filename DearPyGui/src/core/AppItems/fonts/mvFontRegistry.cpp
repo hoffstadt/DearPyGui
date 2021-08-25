@@ -51,7 +51,7 @@ namespace Marvel {
 		_show = false;
 	}
 
-	void mvFontRegistry::customAction()
+	void mvFontRegistry::customAction(void* data)
 	{
 		ImGuiIO& io = ImGui::GetIO();
 		io.Fonts->Clear();
@@ -59,7 +59,7 @@ namespace Marvel {
 
 		for (auto& item : _children[1])
 		{
-			item->customAction();
+			item->customAction(data);
 		}
 	}
 

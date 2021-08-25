@@ -193,7 +193,7 @@ namespace Marvel {
 			imnodes::PushStyleVar((imnodes::StyleVar)_targetStyle, (*_value)[0]);
 	}
 
-	void mvThemeStyle::customAction()
+	void mvThemeStyle::customAction(void* data)
 	{
 		if (_libType == mvLibType::MV_IMGUI)
 			ImGui::PopStyleVar();
@@ -203,7 +203,7 @@ namespace Marvel {
 			imnodes::PopStyleVar();
 	}
 
-	void mvThemeStyle::alternativeCustomAction()
+	void mvThemeStyle::alternativeCustomAction(void* data)
 	{
 		if (_libType == mvLibType::MV_IMGUI)
 		{

@@ -30,7 +30,7 @@ namespace Marvel {
 
 	}
 
-	void mvResizeHandler::draw(ImDrawList* drawlist, float x, float y)
+	void mvResizeHandler::customAction(void* data)
 	{
 
 		if (_parentPtr)

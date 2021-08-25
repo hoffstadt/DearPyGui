@@ -232,8 +232,8 @@ namespace Marvel {
 		mvThemeColor(mvUUID uuid);
 
 		void draw(ImDrawList* drawlist, float x, float y) override;
-		void customAction() override;
-        void alternativeCustomAction() override;
+		void customAction(void* data = nullptr) override;
+        void alternativeCustomAction(void* data = nullptr) override;
 		void handleSpecificPositionalArgs(PyObject* dict) override;
 		void handleSpecificKeywordArgs(PyObject* dict) override;
         void setDataSource(mvUUID dataSource) override;

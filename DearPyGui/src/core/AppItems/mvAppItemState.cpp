@@ -43,7 +43,7 @@ namespace Marvel {
         _contextRegionAvail = { ImGui::GetContentRegionAvail().x, ImGui::GetContentRegionAvail().y };
     }
 
-    void mvAppItemState::getState(PyObject* dict)
+    void mvAppItemState::getState(PyObject* dict, int applicableState)
     {
         if (dict == nullptr)
             return;
@@ -53,26 +53,26 @@ namespace Marvel {
         PyDict_SetItemString(dict, "ok", mvPyObject(ToPyBool(_ok)));
         PyDict_SetItemString(dict, "pos", mvPyObject(ToPyPairII(_pos.x, _pos.y)));
 
-        if(_applicableState & MV_STATE_HOVER) PyDict_SetItemString(dict, "hovered", mvPyObject(ToPyBool(valid ? _hovered : false)));
-        if(_applicableState & MV_STATE_ACTIVE) PyDict_SetItemString(dict, "active", mvPyObject(ToPyBool(valid ? _active : false)));
-        if(_applicableState & MV_STATE_FOCUSED) PyDict_SetItemString(dict, "focused", mvPyObject(ToPyBool(valid ? _focused : false)));
-        if (_applicableState & MV_STATE_CLICKED)
+        if(applicableState & MV_STATE_HOVER) PyDict_SetItemString(dict, "hovered", mvPyObject(ToPyBool(valid ? _hovered : false)));
+        if(applicableState & MV_STATE_ACTIVE) PyDict_SetItemString(dict, "active", mvPyObject(ToPyBool(valid ? _active : false)));
+        if(applicableState & MV_STATE_FOCUSED) PyDict_SetItemString(dict, "focused", mvPyObject(ToPyBool(valid ? _focused : false)));
+        if(applicableState & MV_STATE_CLICKED)
         {
             PyDict_SetItemString(dict, "clicked", mvPyObject(ToPyBool(valid ? _leftclicked || _rightclicked || _middleclicked : false)));
             PyDict_SetItemString(dict, "left_clicked", mvPyObject(ToPyBool(valid ? _leftclicked : false)));
             PyDict_SetItemString(dict, "right_clicked", mvPyObject(ToPyBool(valid ? _rightclicked : false)));
             PyDict_SetItemString(dict, "middle_clicked", mvPyObject(ToPyBool(valid ? _middleclicked : false)));
         }
-        if(_applicableState & MV_STATE_VISIBLE) PyDict_SetItemString(dict, "visible", mvPyObject(ToPyBool(valid ? _visible : false)));
-        if(_applicableState & MV_STATE_EDITED) PyDict_SetItemString(dict, "edited", mvPyObject(ToPyBool(valid ? _edited : false)));
-        if(_applicableState & MV_STATE_ACTIVATED) PyDict_SetItemString(dict, "activated", mvPyObject(ToPyBool(valid ? _activated : false)));
-        if(_applicableState & MV_STATE_DEACTIVATED) PyDict_SetItemString(dict, "deactivated", mvPyObject(ToPyBool(valid ? _deactivated : false)));
-        if(_applicableState & MV_STATE_DEACTIVATEDAE) PyDict_SetItemString(dict, "deactivated_after_edit", mvPyObject(ToPyBool(valid ? _deactivatedAfterEdit : false)));
-        if(_applicableState & MV_STATE_TOGGLED_OPEN) PyDict_SetItemString(dict, "toggled_open", mvPyObject(ToPyBool(valid ? _toggledOpen : false)));
-        if(_applicableState & MV_STATE_RECT_MIN) PyDict_SetItemString(dict, "rect_min", mvPyObject(ToPyPairII(_rectMin.x, _rectMin.y)));
-        if(_applicableState & MV_STATE_RECT_MAX) PyDict_SetItemString(dict, "rect_max", mvPyObject(ToPyPairII(_rectMax.x, _rectMax.y)));
-        if(_applicableState & MV_STATE_RECT_SIZE) PyDict_SetItemString(dict, "rect_size", mvPyObject(ToPyPairII(_rectSize.x, _rectSize.y)));
-        if(_applicableState & MV_STATE_CONT_AVAIL) PyDict_SetItemString(dict, "content_region_avail", mvPyObject(ToPyPairII(_contextRegionAvail.x, _contextRegionAvail.y)));
+        if(applicableState & MV_STATE_VISIBLE) PyDict_SetItemString(dict, "visible", mvPyObject(ToPyBool(valid ? _visible : false)));
+        if(applicableState & MV_STATE_EDITED) PyDict_SetItemString(dict, "edited", mvPyObject(ToPyBool(valid ? _edited : false)));
+        if(applicableState & MV_STATE_ACTIVATED) PyDict_SetItemString(dict, "activated", mvPyObject(ToPyBool(valid ? _activated : false)));
+        if(applicableState & MV_STATE_DEACTIVATED) PyDict_SetItemString(dict, "deactivated", mvPyObject(ToPyBool(valid ? _deactivated : false)));
+        if(applicableState & MV_STATE_DEACTIVATEDAE) PyDict_SetItemString(dict, "deactivated_after_edit", mvPyObject(ToPyBool(valid ? _deactivatedAfterEdit : false)));
+        if(applicableState & MV_STATE_TOGGLED_OPEN) PyDict_SetItemString(dict, "toggled_open", mvPyObject(ToPyBool(valid ? _toggledOpen : false)));
+        if(applicableState & MV_STATE_RECT_MIN) PyDict_SetItemString(dict, "rect_min", mvPyObject(ToPyPairII(_rectMin.x, _rectMin.y)));
+        if(applicableState & MV_STATE_RECT_MAX) PyDict_SetItemString(dict, "rect_max", mvPyObject(ToPyPairII(_rectMax.x, _rectMax.y)));
+        if(applicableState & MV_STATE_RECT_SIZE) PyDict_SetItemString(dict, "rect_size", mvPyObject(ToPyPairII(_rectSize.x, _rectSize.y)));
+        if(applicableState & MV_STATE_CONT_AVAIL) PyDict_SetItemString(dict, "content_region_avail", mvPyObject(ToPyPairII(_contextRegionAvail.x, _contextRegionAvail.y)));
 
     }
 

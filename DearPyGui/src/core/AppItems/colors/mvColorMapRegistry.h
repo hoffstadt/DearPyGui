@@ -32,7 +32,7 @@ namespace Marvel {
 
         void draw(ImDrawList* drawlist, float x, float y) override;
         void onChildAdd(mvRef<mvAppItem> item) override;
-        void alternativeCustomAction() override;
+        void alternativeCustomAction(void* data = nullptr) override;
 
     };
 
