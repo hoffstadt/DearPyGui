@@ -1,5 +1,5 @@
 
-Welcome to DearPyGui's documentation!
+Welcome to Dear PyGui's documentation!
 =========================================
 
 .. toctree::
