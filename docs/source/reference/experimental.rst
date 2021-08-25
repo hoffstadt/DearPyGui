@@ -1,4 +1,4 @@
-dearpygui.dearpygui
+dearpygui.experimental
 ==========
 
 .. automodule:: dearpygui.experimental
