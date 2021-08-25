@@ -78,7 +78,7 @@ shutil.copy(workspace_dir + "/DearPyGui/dearpygui/experimental.py", workspace_di
 
 with open(workspace_dir + "/dearpygui/__init__.py", 'w') as file:
     file.write("__version__='")
-    file.write(version_number())
+    file.write(version_number(on_rtd))
     file.write("'\n")
 
 if on_rtd:
