@@ -36,7 +36,7 @@ if on_rtd:
             lines = file.readlines()
             for line in lines:
                 if line.__contains__("..."):
-                    newfile.write("    pass\n")
+                    newfile.write("\tpass\n")
                 else:
                     newfile.write(line)
 
