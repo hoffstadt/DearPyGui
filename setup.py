@@ -38,7 +38,7 @@ if on_rtd:
                 if line.__contains__("..."):
                     newfile.write("\tpass\n")
                 elif line.__contains__("dearpygui._dearpygui"):
-                    newfile.write("\tinternal_dpg=\n")
+                    continue
                 else:
                     newfile.write(line)
 
