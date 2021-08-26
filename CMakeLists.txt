@@ -41,9 +41,6 @@ if(MV_TESTS_ONLY)
     add_definitions(-DMV_TESTS_ONLY)
 endif()
 
-# version number of Dear PyGui, usually set
-set(MVDPG_VERSION ${MVDPG_VERSION})
-
 add_subdirectory("Dependencies")
 
 # if this is not a distribution build

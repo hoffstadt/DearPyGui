@@ -6,7 +6,7 @@
 
 </a>
 
-<h6 align="center">(This library is available under a free and permissive license however, if you Enjoy <i>Dear PyGui</i> please consider becoming a <a href="https://github.com/hoffstadt/DearPyGui/wiki/Sponsors">Sponsor</a>)</h6>
+<h6 align="center">(This library is available under a free and permissive license however, if you enjoy using <i>Dear PyGui</i> please consider becoming a <a href="https://github.com/hoffstadt/DearPyGui/wiki/Sponsors">Sponsor</a>)</h6>
 
 ![Python Version](https://img.shields.io/pypi/pyversions/dearpygui)
 [![PYPI](https://img.shields.io/pypi/v/dearpygui)](https://pypi.org/project/dearpygui/)
@@ -25,10 +25,10 @@
 uses the immediate mode paradigm and your computer's GPU to facilitate extremely dynamic interfaces. _Dear PyGui_ is currently supported on
 the following platforms:
 
-| Platform | Rendering API | Newest Version |
+| Platform | Graphics API | Newest Version |
 |----------|---------------|----------------|
 | **Windows 10** | _DirectX 11_ | [![PYPI](https://img.shields.io/pypi/v/dearpygui)](https://pypi.org/project/dearpygui/) |
-| **macOs** | _Metal_ | [![PYPI](https://img.shields.io/pypi/v/dearpygui)](https://pypi.org/project/dearpygui/) |
+| **macOS** | _Metal_ | [![PYPI](https://img.shields.io/pypi/v/dearpygui)](https://pypi.org/project/dearpygui/) |
 | **Linux** | _OpenGL 3_ | [![PYPI](https://img.shields.io/pypi/v/dearpygui)](https://pypi.org/project/dearpygui/) |
 | **Raspberry Pi 4** | _OpenGL ES_ | [![PYPI](https://img.shields.io/badge/pypi-v0.8.64-orange)](https://img.shields.io/badge/pypi-v0.8.64-orange) |
 

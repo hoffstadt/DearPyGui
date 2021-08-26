@@ -55,24 +55,19 @@ jobs:
         git submodule update --init --recursive ./Dependencies/freetype
         git submodule update --init --recursive ./Dependencies/ImGuiFileDialog
       
-    - name: Build Dear PyGui
+    - name: Mark Versions
       shell: cmd
       run: |
         cd %GITHUB_WORKSPACE%
-        mkdir cmake-build-release
-        cd cmake-build-Release
-        cmake .. -G "Visual Studio 16 2019" -A "x64" -DMVDIST_ONLY=True -DMVDPG_VERSION=${{ github.event.inputs.version }}
-        cd ..
-        cmake --build cmake-build-release --config Release
+        echo ${{ github.event.inputs.version }} > version_number.txt
+        echo cmake-build-local/DearPyGui/Release/_dearpygui.pyd > lib_location.txt
 
     - name: Build Wheel
       shell: cmd
       run: |
         cd %GITHUB_WORKSPACE%
-        echo ${{ github.event.inputs.version }} > version_number.txt
-        echo cmake-build-release/DearPyGui/Release/_dearpygui.pyd > lib_location.txt
         python -m pip install --upgrade pip twine wheel
-        python -m setup bdist_wheel --plat-name win_amd64 --dist-dir dist
+        python -m setup bdist_wheel --dist-dir dist
     
     - name: Upload Windows ${{ matrix.python-version }} Wheel
       uses: actions/upload-artifact@v2
@@ -81,9 +76,9 @@ jobs:
         path: ${{ github.workspace }}/dist/*.whl
         retention-days: 2
 
-  build-mac-wheels:
+  build-mac10-wheels:
 
-    runs-on: MacOS-latest
+    runs-on: macos-10.15
     strategy:
       matrix:
         python-version: [ 3.6, 3.7, 3.8, 3.9 ]
@@ -105,27 +100,22 @@ jobs:
         git submodule update --init --recursive ./Dependencies/ImGuiFileDialog
         git submodule update --init --recursive ./Dependencies/glfw
     
-    - name: Build Dear PyGui
+    - name: Mark Versions
       run: |
         cd $GITHUB_WORKSPACE
-        mkdir cmake-build-release
-        cd cmake-build-release
-        cmake .. -DMVDIST_ONLY=True -DMVDPG_VERSION=${{ github.event.inputs.version }}
-        cd ..
-        cmake --build cmake-build-release --config Release
+        echo ${{ github.event.inputs.version }} > version_number.txt
+        echo cmake-build-local/DearPyGui/_dearpygui.so > lib_location.txt
 
     - name: Build Wheel
       run: |
         cd $GITHUB_WORKSPACE
-        echo ${{ github.event.inputs.version }} > version_number.txt
-        echo cmake-build-release/DearPyGui/_dearpygui.so > lib_location.txt
         python -m pip install --upgrade pip twine wheel
         python -m setup bdist_wheel --plat-name macosx-10.6-x86_64 --dist-dir dist
    
-    - name: Upload MacOS ${{ matrix.python-version }} Wheel
+    - name: Upload MacOS 10.15 ${{ matrix.python-version }} Wheel
       uses: actions/upload-artifact@v2
       with:
-        name: applebuild${{ matrix.python-version }}
+        name: apple10build${{ matrix.python-version }}
         path: ${{ github.workspace }}/dist/*.whl
         retention-days: 2
 
@@ -157,20 +147,15 @@ jobs:
         sudo apt-get install libfreetype6-dev -y
         sudo apt-get install libharfbuzz-dev -y
     
-    - name: Build
+    - name: Mark Versions
       run: |
         cd $GITHUB_WORKSPACE
-        mkdir cmake-build-release
-        cd cmake-build-release
-        cmake .. -DMVDIST_ONLY=True -DMVDPG_VERSION=${{ github.event.inputs.version }}
-        cd ..
-        cmake --build cmake-build-release --config Release
+        echo ${{ github.event.inputs.version }} > version_number.txt
+        echo cmake-build-local/DearPyGui/_dearpygui.so > lib_location.txt
 
     - name: Build Wheel
       run: |
         cd $GITHUB_WORKSPACE
-        echo ${{ github.event.inputs.version }} > version_number.txt
-        echo cmake-build-release/DearPyGui/_dearpygui.so > lib_location.txt
         python -m pip install --upgrade pip twine wheel
         python -m setup bdist_wheel --plat-name manylinux1_x86_64 --dist-dir dist
 
@@ -183,7 +168,7 @@ jobs:
 
   deploy-packages:
 
-    needs: [build-windows-wheels, build-mac-wheels, build-linux-wheels]
+    needs: [build-windows-wheels, build-mac10-wheels, build-linux-wheels]
     runs-on: windows-2019
 
     steps:
@@ -208,7 +193,7 @@ jobs:
       if: ${{contains(github.event.inputs.deploy, 'true') && github.ref == 'refs/heads/master'}}
       run: |
         python -m twine upload windowsbuild*/* -u __token__ -p ${{ secrets.PYPI_PASSWORD }} --skip-existing
-        python -m twine upload applebuild*/* -u __token__ -p ${{ secrets.PYPI_PASSWORD }} --skip-existing
+        python -m twine upload apple10build*/* -u __token__ -p ${{ secrets.PYPI_PASSWORD }} --skip-existing
         python -m twine upload linuxbuild*/* -u __token__ -p ${{ secrets.PYPI_PASSWORD }} --skip-existing
 
     - name: Test PyPi Deployment
@@ -217,5 +202,5 @@ jobs:
       run: |
         dir
         python -m twine upload --repository testpypi windowsbuild*/* -u __token__ -p ${{ secrets.TEST_PYPI_PASSWORD }} --skip-existing
-        python -m twine upload --repository testpypi applebuild*/* -u __token__ -p ${{ secrets.TEST_PYPI_PASSWORD }} --skip-existing
+        python -m twine upload --repository testpypi apple10build*/* -u __token__ -p ${{ secrets.TEST_PYPI_PASSWORD }} --skip-existing
         python -m twine upload --repository testpypi linuxbuild*/* -u __token__ -p ${{ secrets.TEST_PYPI_PASSWORD }} --skip-existing

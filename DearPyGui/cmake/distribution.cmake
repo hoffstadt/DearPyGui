@@ -11,8 +11,8 @@ target_sources(_dearpygui PRIVATE ${MARVEL_SOURCES})
 
 target_include_directories(_dearpygui 
 		PRIVATE 
-			${MARVEL_INCLUDE_DIR}
 			${Python_INCLUDE_DIRS}
+			${MARVEL_INCLUDE_DIR}
 	)
 
 target_link_directories(_dearpygui 
