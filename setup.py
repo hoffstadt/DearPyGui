@@ -210,6 +210,13 @@ def parse_setuppy_commands():
                   "must (unsupported).\n")
             sys.exit(1)
 
+    # Commands that do more than print info, but also don't need Cython and
+    # template parsing.
+    other_commands = ['egg_info', 'install_egg_info', 'rotate', 'dist_info']
+    for command in other_commands:
+        if command in args:
+            return False
+
     # If we got here, we didn't detect what setup.py command was given
     raise RuntimeError("Unrecognized setuptools command: {}".format(args))
 
@@ -221,7 +228,7 @@ def setup_package():
     sys.path.insert(0, src_path)
 
     # import readme content
-    with open("./docs/README.md", encoding='utf-8') as f:
+    with open("./README.md", encoding='utf-8') as f:
         long_description = f.read()
 
     # create the necessary directories if they do not exist
