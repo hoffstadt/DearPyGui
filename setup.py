@@ -110,8 +110,6 @@ class DPGBuildCommand(distutils.cmd.Command):
     else:
         self.announce('Command not ready.',level=distutils.log.INFO)
 
-    
-
 class BuildPyCommand(build_py.build_py):
   """Custom build command."""
 
@@ -232,8 +230,8 @@ def setup_package():
     os.mkdir(src_path + "/output")
     os.mkdir(src_path + "/output/dearpygui")
 
-    if os.path.isdir(src_path +  "/cmake-build-local"):
-        shutil.rmtree(src_path +  "/cmake-build-local")
+    if os.path.isdir(src_path + "/cmake-build-local"):
+        shutil.rmtree(src_path + "/cmake-build-local")
 
     # copy add items to temporary location
     shutil.copy(src_path + "/DearPyGui/dearpygui/dearpygui.py", src_path + "/output/dearpygui")
@@ -293,7 +291,8 @@ def setup_package():
                 'Topic :: Software Development :: User Interfaces',
                 'Topic :: Software Development :: Libraries :: Python Modules',
             ],
-        packages=find_packages(where='output'),
+        packages=['dearpygui'],
+        package_dir = {'': 'output'},
         package_data={},
         distclass=BinaryDistribution,
         cmdclass={
