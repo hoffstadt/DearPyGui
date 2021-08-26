@@ -42,11 +42,9 @@ def deprecated(reason):
 
 		return new_func2
 
-
 @deprecated("Use 'configure_app(docking=True, docking_space=dock_space)'.")
 def enable_docking(dock_space: bool = False) -> None:
     internal_dpg.configure_app(docking=True, docking_space=dock_space)
-
 
 @deprecated("Use 'get_app_configuration()['version']'.")
 def get_dearpygui_version() -> str:

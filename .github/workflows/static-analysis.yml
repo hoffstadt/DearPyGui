@@ -2,6 +2,18 @@ name: Static Analysis
 
 on:
   push:
+
+    branches:
+      - master
+      - development
+      - development_*
+
+    paths-ignore:
+      - 'docs/**'
+      - 'Resources/**'
+      - 'Scripts/**'
+      - 'Tools/**'
+
   pull_request:
   workflow_dispatch:
 
