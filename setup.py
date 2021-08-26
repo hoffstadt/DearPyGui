@@ -280,13 +280,16 @@ def setup_package():
                 'Intended Audience :: Developers',
                 'Intended Audience :: Science/Research',
                 'License :: OSI Approved :: MIT License',
-                'Operating System :: MacOS :: MacOS X',
+                'Operating System :: MacOS',
                 'Operating System :: Microsoft :: Windows :: Windows 10',
-                'Operating System :: POSIX :: Linux',
+                'Operating System :: POSIX',
+                'Operating System :: Unix',
                 'Programming Language :: Python :: 3.6',
                 'Programming Language :: Python :: 3.7',
                 'Programming Language :: Python :: 3.8',
                 'Programming Language :: Python :: 3.9',
+                'Programming Language :: Python :: Implementation :: CPython',
+                'Programming Language :: Python :: 3 :: Only',
                 'Topic :: Software Development :: User Interfaces',
                 'Topic :: Software Development :: Libraries :: Python Modules',
             ],
@@ -300,11 +303,11 @@ def setup_package():
     )
 
     if os.environ.get('READTHEDOCS') == 'True':
-        metadata['package_data']['dearpygui'] = ["_dearpygui.py", "dearpygui.py", "demo.py", "experimental.py"]
+        metadata['package_data']['dearpygui'] = ["__init__.py", "_dearpygui.py", "dearpygui.py", "demo.py", "experimental.py"]
     elif get_platform() == "Windows":
-        metadata['package_data']['dearpygui'] = ["_dearpygui.so", "_dearpygui.pyd", "_dearpygui.pyi", "dearpygui.py", "demo.py", "experimental.py", "vcruntime140_1.dll"]
+        metadata['package_data']['dearpygui'] = ["__init__.py", "_dearpygui.so", "_dearpygui.pyd", "_dearpygui.pyi", "dearpygui.py", "demo.py", "experimental.py", "vcruntime140_1.dll"]
     else:
-        metadata['package_data']['dearpygui'] = ["_dearpygui.so", "_dearpygui.pyd", "_dearpygui.pyi", "dearpygui.py", "demo.py", "experimental.py"]
+        metadata['package_data']['dearpygui'] = ["__init__.py", "_dearpygui.so", "_dearpygui.pyd", "_dearpygui.pyi", "dearpygui.py", "demo.py", "experimental.py"]
 
     if "--force" in sys.argv:
         run_build = True
