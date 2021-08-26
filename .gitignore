@@ -4,7 +4,7 @@ out/
 cmake-build-debug/
 cmake-build-release/
 cmake-build-local/
-Output/
+output/
 dist/
 .DS_Store
 __pycache__/

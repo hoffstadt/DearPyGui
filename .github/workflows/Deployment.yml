@@ -55,22 +55,17 @@ jobs:
         git submodule update --init --recursive ./Dependencies/freetype
         git submodule update --init --recursive ./Dependencies/ImGuiFileDialog
       
-    - name: Build Dear PyGui
+    - name: Mark Versions
       shell: cmd
       run: |
         cd %GITHUB_WORKSPACE%
-        mkdir cmake-build-release
-        cd cmake-build-Release
-        cmake .. -G "Visual Studio 16 2019" -A "x64" -DMVDIST_ONLY=True -DMVDPG_VERSION=${{ github.event.inputs.version }}
-        cd ..
-        cmake --build cmake-build-release --config Release
+        echo ${{ github.event.inputs.version }} > version_number.txt
+        echo cmake-build-local/DearPyGui/Release/_dearpygui.pyd > lib_location.txt
 
     - name: Build Wheel
       shell: cmd
       run: |
         cd %GITHUB_WORKSPACE%
-        echo ${{ github.event.inputs.version }} > version_number.txt
-        echo cmake-build-release/DearPyGui/Release/_dearpygui.pyd > lib_location.txt
         python -m pip install --upgrade pip twine wheel
         python -m setup bdist_wheel --plat-name win_amd64 --dist-dir dist
     
@@ -105,20 +100,15 @@ jobs:
         git submodule update --init --recursive ./Dependencies/ImGuiFileDialog
         git submodule update --init --recursive ./Dependencies/glfw
     
-    - name: Build Dear PyGui
+    - name: Mark Versions
       run: |
         cd $GITHUB_WORKSPACE
-        mkdir cmake-build-release
-        cd cmake-build-release
-        cmake .. -DMVDIST_ONLY=True -DMVDPG_VERSION=${{ github.event.inputs.version }}
-        cd ..
-        cmake --build cmake-build-release --config Release
+        echo ${{ github.event.inputs.version }} > version_number.txt
+        echo cmake-build-local/DearPyGui/_dearpygui.so > lib_location.txt
 
     - name: Build Wheel
       run: |
         cd $GITHUB_WORKSPACE
-        echo ${{ github.event.inputs.version }} > version_number.txt
-        echo cmake-build-release/DearPyGui/_dearpygui.so > lib_location.txt
         python -m pip install --upgrade pip twine wheel
         python -m setup bdist_wheel --plat-name macosx-10.6-x86_64 --dist-dir dist
    
@@ -157,20 +147,15 @@ jobs:
         sudo apt-get install libfreetype6-dev -y
         sudo apt-get install libharfbuzz-dev -y
     
-    - name: Build
+    - name: Mark Versions
       run: |
         cd $GITHUB_WORKSPACE
-        mkdir cmake-build-release
-        cd cmake-build-release
-        cmake .. -DMVDIST_ONLY=True -DMVDPG_VERSION=${{ github.event.inputs.version }}
-        cd ..
-        cmake --build cmake-build-release --config Release
+        echo ${{ github.event.inputs.version }} > version_number.txt
+        echo cmake-build-local/DearPyGui/_dearpygui.so > lib_location.txt
 
     - name: Build Wheel
       run: |
         cd $GITHUB_WORKSPACE
-        echo ${{ github.event.inputs.version }} > version_number.txt
-        echo cmake-build-release/DearPyGui/_dearpygui.so > lib_location.txt
         python -m pip install --upgrade pip twine wheel
         python -m setup bdist_wheel --plat-name manylinux1_x86_64 --dist-dir dist
 

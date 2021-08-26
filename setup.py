@@ -9,6 +9,8 @@ import sys
 import shutil
 import subprocess
 
+wip_version = "1.0.0a1"
+
 ########################################################################################################################
 # These functions read the version number and library location which is populated by
 # github actions or the local build scripts.
@@ -17,28 +19,32 @@ import subprocess
 def version_number():
 
     if os.environ.get('READTHEDOCS') == 'True':
-        return "latest"
+        return wip_version
     try:
         with open('version_number.txt', encoding='utf-8') as f:
             return f.readline().rstrip()
 
     except IOError:
-        return 'latest'
+        return wip_version
 
 def lib_location():
 
     if os.environ.get('READTHEDOCS') == 'True':
-        return 'cmake-build-release/DearPyGui/_dearpygui.so'
+        return 'cmake-build-local/DearPyGui/_dearpygui.so'
 
     try:
         with open('lib_location.txt', encoding='utf-8') as f:
             return f.readline().rstrip()
 
     except IOError:
-        return 'cmake-build-release/DearPyGui/_dearpygui.so'
+        if get_platform() == "Windows":
+            return 'cmake-build-local/DearPyGui/Release/_dearpygui.pyd'
+        else:
+            return 'cmake-build-local/DearPyGui/Release/_dearpygui.so'
 
 def get_platform():
     platforms = {
+        'linux' : 'Linux',
         'linux1' : 'Linux',
         'linux2' : 'Linux',
         'darwin' : 'OS X',
@@ -68,10 +74,43 @@ class DPGBuildCommand(distutils.cmd.Command):
 
   def run(self):
     """Run command."""
-    #command = ['/usr/bin/pylint']
-    #self.announce('Running command: %s' % str(command),level=distutils.log.INFO)
-    #subprocess.check_call(command)
-    print(get_platform())
+
+    if get_platform() == "Windows":
+        command = [r'set PATH="C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin";"C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin";"C:\Program Files (x86)\Microsoft Visual Studio\2019\Professional\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin";%PATH% && ']
+        command.append("mkdir cmake-build-local && ")
+        command.append("cd cmake-build-local && ")
+        command.append('cmake .. -G "Visual Studio 16 2019" -A "x64" -DMVDIST_ONLY=True -DMVDPG_VERSION=')
+        command.append(version_number() + " && ")
+        command.append("cd .. && cmake --build cmake-build-local --config Release")
+        self.announce('Running command: %s' % "Dear PyGui Build for Windows", level=distutils.log.INFO)
+        subprocess.check_call(''.join(command), env=os.environ, shell=True)
+        src_path = os.path.dirname(os.path.abspath(__file__))
+        shutil.copy(lib_location(), src_path +"/output/dearpygui")
+
+    elif get_platform() == "Linux":
+        command = ["mkdir cmake-build-local; "]
+        command.append("cd cmake-build-local; ")
+        command.append('cmake .. -DMVDIST_ONLY=True -DMVDPG_VERSION='+version_number()+"; ")
+        command.append("cd ..; cmake --build cmake-build-local --config Release")
+        self.announce('Running command: %s' % "Dear PyGui Build for Linux",level=distutils.log.INFO)
+        subprocess.check_call(''.join(command), shell=True)
+        src_path = os.path.dirname(os.path.abspath(__file__))
+        shutil.copy(lib_location(), src_path +"/output/dearpygui")
+    
+    elif get_platform() == "OS X":
+        command = ["mkdir cmake-build-local; "]
+        command.append("cd cmake-build-local; ")
+        command.append('cmake .. -DMVDIST_ONLY=True -DMVDPG_VERSION='+version_number()+"; ")
+        command.append("cd ..; cmake --build cmake-build-local --config Release")
+        self.announce('Running command: %s' % "Dear PyGui Build for OS X",level=distutils.log.INFO)
+        subprocess.check_call(''.join(command), shell=True)
+        src_path = os.path.dirname(os.path.abspath(__file__))
+        shutil.copy(lib_location(), src_path +"/output/dearpygui")
+
+    else:
+        self.announce('Command not ready.',level=distutils.log.INFO)
+
+    
 
 class BuildPyCommand(build_py.build_py):
   """Custom build command."""
@@ -173,13 +212,6 @@ def parse_setuppy_commands():
                   "must (unsupported).\n")
             sys.exit(1)
 
-    # Commands that do more than print info, but also don't need Cython and
-    # template parsing.
-    other_commands = ['egg_info', 'install_egg_info', 'rotate', 'dist_info']
-    for command in other_commands:
-        if command in args:
-            return False
-
     # If we got here, we didn't detect what setup.py command was given
     raise RuntimeError("Unrecognized setuptools command: {}".format(args))
 
@@ -195,22 +227,25 @@ def setup_package():
         long_description = f.read()
 
     # create the necessary directories if they do not exist
-    if not os.path.isdir(src_path +  "/dearpygui/"):
-        os.mkdir(src_path + "/dearpygui/")
+    if os.path.isdir(src_path +  "/output"):
+        shutil.rmtree(src_path +  "/output")
+    os.mkdir(src_path + "/output")
+    os.mkdir(src_path + "/output/dearpygui")
+
+    if os.path.isdir(src_path +  "/cmake-build-local"):
+        shutil.rmtree(src_path +  "/cmake-build-local")
 
     # copy add items to temporary location
-    shutil.copy(src_path + "/DearPyGui/dearpygui/dearpygui.py", src_path + "/dearpygui")
-    shutil.copy(src_path + "/DearPyGui/dearpygui/demo.py", src_path + "/dearpygui")
-    shutil.copy(src_path + "/DearPyGui/dearpygui/experimental.py", src_path + "/dearpygui")
+    shutil.copy(src_path + "/DearPyGui/dearpygui/dearpygui.py", src_path + "/output/dearpygui")
+    shutil.copy(src_path + "/DearPyGui/dearpygui/demo.py", src_path + "/output/dearpygui")
+    shutil.copy(src_path + "/DearPyGui/dearpygui/experimental.py", src_path + "/output/dearpygui")
 
-    with open(src_path + "/dearpygui/__init__.py", 'w') as file:
-        file.write("__version__='")
-        file.write(version_number())
-        file.write("'\n")
+    with open(src_path + "/output/dearpygui/__init__.py", 'w') as file:
+        file.write("__version__='" + version_number() + "'\n")
 
     if os.environ.get('READTHEDOCS') == 'True':
 
-        with open(src_path + "/dearpygui/_dearpygui.py", 'w') as newfile:
+        with open(src_path + "/output/dearpygui/_dearpygui.py", 'w') as newfile:
             with open(src_path + "/DearPyGui/dearpygui/_dearpygui.pyi", 'r') as file:
                 lines = file.readlines()
                 for line in lines:
@@ -224,9 +259,9 @@ def setup_package():
     else:
 
         # copy add items to temporary location
-        shutil.copy(lib_location(), src_path +"/dearpygui")
-        shutil.copy(src_path + "/DearPyGui/dearpygui/_dearpygui.pyi", src_path + "/dearpygui")
-        shutil.copy(src_path + "/Dependencies/Microsoft/vcruntime140_1.dll", src_path + "/dearpygui")
+        shutil.copy(src_path + "/DearPyGui/dearpygui/_dearpygui.pyi", src_path + "/output/dearpygui")
+        if get_platform() == "Windows":
+            shutil.copy(src_path + "/Dependencies/Microsoft/vcruntime140_1.dll", src_path + "/output/dearpygui")
 
     metadata = dict(
         name='dearpygui',                                      # Required
@@ -255,7 +290,7 @@ def setup_package():
                 'Topic :: Software Development :: User Interfaces',
                 'Topic :: Software Development :: Libraries :: Python Modules',
             ],
-        packages=find_packages(exclude=['contrib', 'docs', 'tests']),  # Required
+        packages=find_packages(where='output'),
         package_data={},
         distclass=BinaryDistribution,
         cmdclass={
@@ -266,8 +301,10 @@ def setup_package():
 
     if os.environ.get('READTHEDOCS') == 'True':
         metadata['package_data']['dearpygui'] = ["_dearpygui.py", "dearpygui.py", "demo.py", "experimental.py"]
-    else:
+    elif get_platform() == "Windows":
         metadata['package_data']['dearpygui'] = ["_dearpygui.so", "_dearpygui.pyd", "_dearpygui.pyi", "dearpygui.py", "demo.py", "experimental.py", "vcruntime140_1.dll"]
+    else:
+        metadata['package_data']['dearpygui'] = ["_dearpygui.so", "_dearpygui.pyd", "_dearpygui.pyi", "dearpygui.py", "demo.py", "experimental.py"]
 
     if "--force" in sys.argv:
         run_build = True
