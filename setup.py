@@ -65,6 +65,12 @@ class DPGBuildCommand(distutils.cmd.Command):
   description = 'DPG Build Command'
   user_options = []
 
+  def initialize_options(self):
+    pass
+
+  def finalize_options(self):
+    pass
+
   def run(self):
 
     if os.environ.get('READTHEDOCS') == 'True':
