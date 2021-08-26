@@ -43,6 +43,7 @@ def lib_location():
             return 'cmake-build-local/DearPyGui/Release/_dearpygui.so'
 
 def get_platform():
+
     platforms = {
         'linux' : 'Linux',
         'linux1' : 'Linux',
@@ -56,24 +57,18 @@ def get_platform():
     return platforms[sys.platform]
 
 class BinaryDistribution(Distribution):
-    """Distribution which always forces a binary package with platform name"""
     def has_ext_modules(var):
         return True
 
 class DPGBuildCommand(distutils.cmd.Command):
-  """A custom command to run Pylint on all Python source files."""
-
+  
   description = 'DPG Build Command'
   user_options = []
 
-  def initialize_options(self):
-    pass
-
-  def finalize_options(self):
-    pass
-
   def run(self):
-    """Run command."""
+
+    if os.environ.get('READTHEDOCS') == 'True':
+        self.announce('Using readthedocs hack',level=distutils.log.INFO)
 
     if get_platform() == "Windows":
         command = [r'set PATH="C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin";"C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin";"C:\Program Files (x86)\Microsoft Visual Studio\2019\Professional\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin";%PATH% && ']
@@ -111,8 +106,6 @@ class DPGBuildCommand(distutils.cmd.Command):
         self.announce('Command not ready.',level=distutils.log.INFO)
 
 class BuildPyCommand(build_py.build_py):
-  """Custom build command."""
-
   def run(self):
     self.run_command('dpg_build')
     build_py.build_py.run(self)
