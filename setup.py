@@ -75,6 +75,7 @@ class DPGBuildCommand(distutils.cmd.Command):
 
     if os.environ.get('READTHEDOCS') == 'True':
         self.announce('Using readthedocs hack',level=distutils.log.INFO)
+        return
 
     if get_platform() == "Windows":
         command = [r'set PATH="C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin";"C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin";"C:\Program Files (x86)\Microsoft Visual Studio\2019\Professional\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin";%PATH% && ']
