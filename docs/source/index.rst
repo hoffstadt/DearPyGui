@@ -36,7 +36,7 @@ Welcome to Dear PyGui's documentation!
    Render-Loop.md
    Repository-Information.md
    Runtime-Adding-and-Deleting-Widgets.md
-   'Showcase-(Dear-PyGui-0.6).md'
+   Showcase-(Dear-PyGui-0.6).md
    Showcase.md
    Simple-Plots.md
    Sponsors.md
