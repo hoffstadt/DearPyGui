@@ -67,7 +67,7 @@ jobs:
       run: |
         cd %GITHUB_WORKSPACE%
         python -m pip install --upgrade pip twine wheel
-        python -m setup bdist_wheel --dist-dir dist
+        python -m setup bdist_wheel --plat-name win_amd64 --dist-dir dist
     
     - name: Upload Windows ${{ matrix.python-version }} Wheel
       uses: actions/upload-artifact@v2
