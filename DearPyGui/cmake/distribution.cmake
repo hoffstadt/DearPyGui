@@ -1,5 +1,5 @@
 
-find_package (Python COMPONENTS Development)
+find_package (Python ${MV_PY_VERSION} EXACT COMPONENTS Development)
 if(NOT Python_Development_FOUND)
 	message(FATAL_ERROR "The python3 development library from your distribution repo need to be installed first!")
 endif()
