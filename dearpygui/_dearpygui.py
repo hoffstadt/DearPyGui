@@ -34,7 +34,7 @@ def add_bar_series(x : Union[List[float], Tuple[float]], y : Union[List[float], 
 	"""Adds a bar series to a plot."""
 	pass
 
-def add_bool_value(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, id: Union[int, str] =0, source: Union[int, str] =0, default_value: bool =False, parent: Union[int, str] =internal_dpg.mvReservedUUID_3) -> Union[int, str]:
+def add_bool_value(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, id: Union[int, str] =0, source: Union[int, str] =0, default_value: bool =False, parent: Union[int, str] ='') -> Union[int, str]:
 	"""Undocumented"""
 	pass
 
@@ -82,11 +82,11 @@ def add_color_picker(default_value : Union[List[int], Tuple[int]] =(0, 0, 0, 255
 	"""Adds an RGB color picker. Right click the color picker for options. Click and drag the color preview to copy the color and drop on any other color widget to apply. Right Click allows the style of the color picker to be changed."""
 	pass
 
-def add_color_value(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, id: Union[int, str] =0, source: Union[int, str] =0, default_value: Union[List[float], Tuple[float]] =(0.0, 0.0, 0.0, 0.0), parent: Union[int, str] =internal_dpg.mvReservedUUID_3) -> Union[int, str]:
+def add_color_value(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, id: Union[int, str] =0, source: Union[int, str] =0, default_value: Union[List[float], Tuple[float]] =(0.0, 0.0, 0.0, 0.0), parent: Union[int, str] ='') -> Union[int, str]:
 	"""Undocumented"""
 	pass
 
-def add_colormap(colors : List[List[int]], qualitative : bool, *, label: str =None, user_data: Any =None, use_internal_label: bool =True, id: Union[int, str] =0, show: bool =True, parent: Union[int, str] =internal_dpg.mvReservedUUID_4) -> Union[int, str]:
+def add_colormap(colors : List[List[int]], qualitative : bool, *, label: str =None, user_data: Any =None, use_internal_label: bool =True, id: Union[int, str] =0, show: bool =True, parent: Union[int, str] ='') -> Union[int, str]:
 	"""Adds a legend that pairs values with colors. This is typically used with a heat series. """
 	pass
 
@@ -122,11 +122,11 @@ def add_deactivated_handler(parent : Union[int, str], *, label: str =None, user_
 	"""Adds a handler which runs a given callback when the specified item is deactivated."""
 	pass
 
-def add_double4_value(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, id: Union[int, str] =0, source: Union[int, str] =0, default_value: Any =(0.0, 0.0, 0.0, 0.0), parent: Union[int, str] =internal_dpg.mvReservedUUID_3) -> Union[int, str]:
+def add_double4_value(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, id: Union[int, str] =0, source: Union[int, str] =0, default_value: Any =(0.0, 0.0, 0.0, 0.0), parent: Union[int, str] ='') -> Union[int, str]:
 	"""Undocumented"""
 	pass
 
-def add_double_value(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, id: Union[int, str] =0, source: Union[int, str] =0, default_value: float =0.0, parent: Union[int, str] =internal_dpg.mvReservedUUID_3) -> Union[int, str]:
+def add_double_value(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, id: Union[int, str] =0, source: Union[int, str] =0, default_value: float =0.0, parent: Union[int, str] ='') -> Union[int, str]:
 	"""Undocumented"""
 	pass
 
@@ -170,7 +170,7 @@ def add_dummy(*, label: str =None, user_data: Any =None, use_internal_label: boo
 	"""Adds a spacer or 'dummy' object."""
 	pass
 
-def add_dynamic_texture(width : int, height : int, default_value : Union[List[float], Tuple[float]], *, label: str =None, user_data: Any =None, use_internal_label: bool =True, id: Union[int, str] =0, parent: Union[int, str] =internal_dpg.mvReservedUUID_2) -> Union[int, str]:
+def add_dynamic_texture(width : int, height : int, default_value : Union[List[float], Tuple[float]], *, label: str =None, user_data: Any =None, use_internal_label: bool =True, id: Union[int, str] =0, parent: Union[int, str] ='') -> Union[int, str]:
 	"""Undocumented function"""
 	pass
 
@@ -194,15 +194,15 @@ def add_filter_set(*, label: str =None, user_data: Any =None, use_internal_label
 	"""Helper to parse and apply text filters (e.g. aaaaa[, bbbbb][, ccccc])"""
 	pass
 
-def add_float4_value(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, id: Union[int, str] =0, source: Union[int, str] =0, default_value: Union[List[float], Tuple[float]] =(0.0, 0.0, 0.0, 0.0), parent: Union[int, str] =internal_dpg.mvReservedUUID_3) -> Union[int, str]:
+def add_float4_value(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, id: Union[int, str] =0, source: Union[int, str] =0, default_value: Union[List[float], Tuple[float]] =(0.0, 0.0, 0.0, 0.0), parent: Union[int, str] ='') -> Union[int, str]:
 	"""Undocumented"""
 	pass
 
-def add_float_value(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, id: Union[int, str] =0, source: Union[int, str] =0, default_value: float =0.0, parent: Union[int, str] =internal_dpg.mvReservedUUID_3) -> Union[int, str]:
+def add_float_value(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, id: Union[int, str] =0, source: Union[int, str] =0, default_value: float =0.0, parent: Union[int, str] ='') -> Union[int, str]:
 	"""Undocumented"""
 	pass
 
-def add_float_vect_value(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, id: Union[int, str] =0, source: Union[int, str] =0, default_value: Union[List[float], Tuple[float]] =(), parent: Union[int, str] =internal_dpg.mvReservedUUID_3) -> Union[int, str]:
+def add_float_vect_value(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, id: Union[int, str] =0, source: Union[int, str] =0, default_value: Union[List[float], Tuple[float]] =(), parent: Union[int, str] ='') -> Union[int, str]:
 	"""Undocumented"""
 	pass
 
@@ -210,7 +210,7 @@ def add_focus_handler(parent : Union[int, str], *, label: str =None, user_data: 
 	"""Adds a handler which runs a given callback when the specified item is focused."""
 	pass
 
-def add_font(file : str, size : int, *, label: str =None, user_data: Any =None, use_internal_label: bool =True, id: Union[int, str] =0, default_font: bool =False, parent: Union[int, str] =internal_dpg.mvReservedUUID_0) -> Union[int, str]:
+def add_font(file : str, size : int, *, label: str =None, user_data: Any =None, use_internal_label: bool =True, id: Union[int, str] =0, default_font: bool =False, parent: Union[int, str] ='') -> Union[int, str]:
 	"""Undocumented function"""
 	pass
 
@@ -286,23 +286,23 @@ def add_input_text(*, label: str =None, user_data: Any =None, use_internal_label
 	"""Adds input for text."""
 	pass
 
-def add_int4_value(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, id: Union[int, str] =0, source: Union[int, str] =0, default_value: Union[List[int], Tuple[int]] =(0, 0, 0, 0), parent: Union[int, str] =internal_dpg.mvReservedUUID_3) -> Union[int, str]:
+def add_int4_value(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, id: Union[int, str] =0, source: Union[int, str] =0, default_value: Union[List[int], Tuple[int]] =(0, 0, 0, 0), parent: Union[int, str] ='') -> Union[int, str]:
 	"""Undocumented"""
 	pass
 
-def add_int_value(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, id: Union[int, str] =0, source: Union[int, str] =0, default_value: int =0, parent: Union[int, str] =internal_dpg.mvReservedUUID_3) -> Union[int, str]:
+def add_int_value(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, id: Union[int, str] =0, source: Union[int, str] =0, default_value: int =0, parent: Union[int, str] ='') -> Union[int, str]:
 	"""Undocumented"""
 	pass
 
-def add_key_down_handler(key : int =-1, *, label: str =None, user_data: Any =None, use_internal_label: bool =True, id: Union[int, str] =0, callback: Callable =None, show: bool =True, parent: Union[int, str] =internal_dpg.mvReservedUUID_1) -> Union[int, str]:
+def add_key_down_handler(key : int =-1, *, label: str =None, user_data: Any =None, use_internal_label: bool =True, id: Union[int, str] =0, callback: Callable =None, show: bool =True, parent: Union[int, str] ='') -> Union[int, str]:
 	"""Adds a handler which runs a given callback when the specified key is down. Parent must be a handler registry."""
 	pass
 
-def add_key_press_handler(key : int =-1, *, label: str =None, user_data: Any =None, use_internal_label: bool =True, id: Union[int, str] =0, callback: Callable =None, show: bool =True, parent: Union[int, str] =internal_dpg.mvReservedUUID_1) -> Union[int, str]:
+def add_key_press_handler(key : int =-1, *, label: str =None, user_data: Any =None, use_internal_label: bool =True, id: Union[int, str] =0, callback: Callable =None, show: bool =True, parent: Union[int, str] ='') -> Union[int, str]:
 	"""Adds a handler which runs a given callback when the specified key is pressed. Parent must be a handler registry."""
 	pass
 
-def add_key_release_handler(key : int =-1, *, label: str =None, user_data: Any =None, use_internal_label: bool =True, id: Union[int, str] =0, callback: Callable =None, show: bool =True, parent: Union[int, str] =internal_dpg.mvReservedUUID_1) -> Union[int, str]:
+def add_key_release_handler(key : int =-1, *, label: str =None, user_data: Any =None, use_internal_label: bool =True, id: Union[int, str] =0, callback: Callable =None, show: bool =True, parent: Union[int, str] ='') -> Union[int, str]:
 	"""Adds a handler which runs a given callback when the specified key is released. Parent must be a handler registry."""
 	pass
 
@@ -334,31 +334,31 @@ def add_menu_item(*, label: str =None, user_data: Any =None, use_internal_label:
 	"""Adds a menu item to an existing menu. Menu items act similar to selectables."""
 	pass
 
-def add_mouse_click_handler(button : int =-1, *, label: str =None, user_data: Any =None, use_internal_label: bool =True, id: Union[int, str] =0, callback: Callable =None, show: bool =True, parent: Union[int, str] =internal_dpg.mvReservedUUID_1) -> Union[int, str]:
+def add_mouse_click_handler(button : int =-1, *, label: str =None, user_data: Any =None, use_internal_label: bool =True, id: Union[int, str] =0, callback: Callable =None, show: bool =True, parent: Union[int, str] ='') -> Union[int, str]:
 	"""Adds a handler which runs a given callback when the specified mouse button is clicked. Parent must be a handler registry."""
 	pass
 
-def add_mouse_double_click_handler(button : int =-1, *, label: str =None, user_data: Any =None, use_internal_label: bool =True, id: Union[int, str] =0, callback: Callable =None, show: bool =True, parent: Union[int, str] =internal_dpg.mvReservedUUID_1) -> Union[int, str]:
+def add_mouse_double_click_handler(button : int =-1, *, label: str =None, user_data: Any =None, use_internal_label: bool =True, id: Union[int, str] =0, callback: Callable =None, show: bool =True, parent: Union[int, str] ='') -> Union[int, str]:
 	"""Adds a handler which runs a given callback when the specified mouse button is double clicked. Parent must be a handler registry."""
 	pass
 
-def add_mouse_down_handler(button : int =-1, *, label: str =None, user_data: Any =None, use_internal_label: bool =True, id: Union[int, str] =0, callback: Callable =None, show: bool =True, parent: Union[int, str] =internal_dpg.mvReservedUUID_1) -> Union[int, str]:
+def add_mouse_down_handler(button : int =-1, *, label: str =None, user_data: Any =None, use_internal_label: bool =True, id: Union[int, str] =0, callback: Callable =None, show: bool =True, parent: Union[int, str] ='') -> Union[int, str]:
 	"""Adds a handler which runs a given callback when the specified mouse button is down. Parent must be a handler registry."""
 	pass
 
-def add_mouse_drag_handler(button : int =-1, threshold : float =10.0, *, label: str =None, user_data: Any =None, use_internal_label: bool =True, id: Union[int, str] =0, callback: Callable =None, show: bool =True, parent: Union[int, str] =internal_dpg.mvReservedUUID_1) -> Union[int, str]:
+def add_mouse_drag_handler(button : int =-1, threshold : float =10.0, *, label: str =None, user_data: Any =None, use_internal_label: bool =True, id: Union[int, str] =0, callback: Callable =None, show: bool =True, parent: Union[int, str] ='') -> Union[int, str]:
 	"""Adds a handler which runs a given callback when the specified mouse button is clicked and dragged a set threshold. Parent must be a handler registry."""
 	pass
 
-def add_mouse_move_handler(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, id: Union[int, str] =0, callback: Callable =None, show: bool =True, parent: Union[int, str] =internal_dpg.mvReservedUUID_1) -> Union[int, str]:
+def add_mouse_move_handler(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, id: Union[int, str] =0, callback: Callable =None, show: bool =True, parent: Union[int, str] ='') -> Union[int, str]:
 	"""Adds a handler which runs a given callback when the mouse is moved. Parent must be a handler registry."""
 	pass
 
-def add_mouse_release_handler(button : int =-1, *, label: str =None, user_data: Any =None, use_internal_label: bool =True, id: Union[int, str] =0, callback: Callable =None, show: bool =True, parent: Union[int, str] =internal_dpg.mvReservedUUID_1) -> Union[int, str]:
+def add_mouse_release_handler(button : int =-1, *, label: str =None, user_data: Any =None, use_internal_label: bool =True, id: Union[int, str] =0, callback: Callable =None, show: bool =True, parent: Union[int, str] ='') -> Union[int, str]:
 	"""Adds a handler which runs a given callback when the specified mouse button is released. Parent must be a handler registry."""
 	pass
 
-def add_mouse_wheel_handler(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, id: Union[int, str] =0, callback: Callable =None, show: bool =True, parent: Union[int, str] =internal_dpg.mvReservedUUID_1) -> Union[int, str]:
+def add_mouse_wheel_handler(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, id: Union[int, str] =0, callback: Callable =None, show: bool =True, parent: Union[int, str] ='') -> Union[int, str]:
 	"""Adds a handler which runs a given callback when the vertical mouse wheel is scrolled. Parent must be a handler registry."""
 	pass
 
@@ -382,7 +382,7 @@ def add_pie_series(x : float, y : float, radius : float, values : Union[List[flo
 	"""Adds a pie series to a plot."""
 	pass
 
-def add_plot(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, id: Union[int, str] =0, width: int =0, height: int =0, indent: int =-1, parent: Union[int, str] =0, before: Union[int, str] =0, payload_type: str ='$$DPG_PAYLOAD', callback: Callable =None, drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, pos: Union[List[int], Tuple[int]] =[], filter_key: str ='', delay_search: bool =False, tracked: bool =False, track_offset: float =0.5, no_title: bool =False, no_menus: bool =False, no_box_select: bool =False, no_mouse_pos: bool =False, no_highlight: bool =False, no_child: bool =False, query: bool =False, crosshairs: bool =False, anti_aliased: bool =False, equal_aspects: bool =False, pan_button: int =internal_dpg.mvMouseButton_Left, pan_mod: int =-1, fit_button: int =internal_dpg.mvMouseButton_Left, context_menu_button: int =internal_dpg.mvMouseButton_Right, box_select_button: int =internal_dpg.mvMouseButton_Right, box_select_mod: int =-1, box_select_cancel_button: int =internal_dpg.mvMouseButton_Left, query_button: int =internal_dpg.mvMouseButton_Middle, query_mod: int =-1, query_toggle_mod: int =internal_dpg.mvKey_Control, horizontal_mod: int =internal_dpg.mvKey_Alt, vertical_mod: int =internal_dpg.mvKey_Shift) -> Union[int, str]:
+def add_plot(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, id: Union[int, str] =0, width: int =0, height: int =0, indent: int =-1, parent: Union[int, str] =0, before: Union[int, str] =0, payload_type: str ='$$DPG_PAYLOAD', callback: Callable =None, drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, pos: Union[List[int], Tuple[int]] =[], filter_key: str ='', delay_search: bool =False, tracked: bool =False, track_offset: float =0.5, no_title: bool =False, no_menus: bool =False, no_box_select: bool =False, no_mouse_pos: bool =False, no_highlight: bool =False, no_child: bool =False, query: bool =False, crosshairs: bool =False, anti_aliased: bool =False, equal_aspects: bool =False, pan_button: int ='', pan_mod: int =-1, fit_button: int ='', context_menu_button: int ='', box_select_button: int ='', box_select_mod: int =-1, box_select_cancel_button: int ='', query_button: int ='=', query_mod: int =-1, query_toggle_mod: int ='', horizontal_mod: int ='', vertical_mod: int ='') -> Union[int, str]:
 	"""Adds a plot which is used to hold series, and can be drawn to with draw commands."""
 	pass
 
@@ -406,7 +406,7 @@ def add_radio_button(items : Union[List[str], Tuple[str]] =(), *, label: str =No
 	"""Adds a set of radio buttons. If items keyword is empty, nothing will be shown."""
 	pass
 
-def add_raw_texture(width : int, height : int, default_value : Union[List[float], Tuple[float]], *, label: str =None, user_data: Any =None, use_internal_label: bool =True, id: Union[int, str] =0, format: int =internal_dpg.mvFormat_Float_rgba, parent: Union[int, str] =internal_dpg.mvReservedUUID_2) -> Union[int, str]:
+def add_raw_texture(width : int, height : int, default_value : Union[List[float], Tuple[float]], *, label: str =None, user_data: Any =None, use_internal_label: bool =True, id: Union[int, str] =0, format: int ='', parent: Union[int, str] ='') -> Union[int, str]:
 	"""Undocumented function"""
 	pass
 
@@ -430,7 +430,7 @@ def add_separator(*, label: str =None, user_data: Any =None, use_internal_label:
 	"""Adds a horizontal line."""
 	pass
 
-def add_series_value(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, id: Union[int, str] =0, source: Union[int, str] =0, default_value: Any =(), parent: Union[int, str] =internal_dpg.mvReservedUUID_3) -> Union[int, str]:
+def add_series_value(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, id: Union[int, str] =0, source: Union[int, str] =0, default_value: Any =(), parent: Union[int, str] ='') -> Union[int, str]:
 	"""Undocumented"""
 	pass
 
@@ -470,7 +470,7 @@ def add_stair_series(x : Union[List[float], Tuple[float]], y : Union[List[float]
 	"""Adds a stair series to a plot."""
 	pass
 
-def add_static_texture(width : int, height : int, default_value : Union[List[float], Tuple[float]], *, label: str =None, user_data: Any =None, use_internal_label: bool =True, id: Union[int, str] =0, parent: Union[int, str] =internal_dpg.mvReservedUUID_2) -> Union[int, str]:
+def add_static_texture(width : int, height : int, default_value : Union[List[float], Tuple[float]], *, label: str =None, user_data: Any =None, use_internal_label: bool =True, id: Union[int, str] =0, parent: Union[int, str] ='') -> Union[int, str]:
 	"""Undocumented function"""
 	pass
 
@@ -478,7 +478,7 @@ def add_stem_series(x : Union[List[float], Tuple[float]], y : Union[List[float],
 	"""Adds a stem series to a plot."""
 	pass
 
-def add_string_value(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, id: Union[int, str] =0, source: Union[int, str] =0, default_value: str ='', parent: Union[int, str] =internal_dpg.mvReservedUUID_3) -> Union[int, str]:
+def add_string_value(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, id: Union[int, str] =0, source: Union[int, str] =0, default_value: str ='', parent: Union[int, str] ='') -> Union[int, str]:
 	"""Undocumented"""
 	pass
 
@@ -1078,3 +1078,587 @@ def unstage_items(items : Union[List[int], Tuple[int]]) -> None:
 	"""Undocumented"""
 	pass
 
+mvMouseButton_Left=0
+mvMouseButton_Right=0
+mvMouseButton_Middle=0
+mvMouseButton_X1=0
+mvMouseButton_X2=0
+mvKey_0=0
+mvKey_1=0
+mvKey_2=0
+mvKey_3=0
+mvKey_4=0
+mvKey_5=0
+mvKey_6=0
+mvKey_7=0
+mvKey_8=0
+mvKey_9=0
+mvKey_A=0
+mvKey_B=0
+mvKey_C=0
+mvKey_D=0
+mvKey_E=0
+mvKey_F=0
+mvKey_G=0
+mvKey_H=0
+mvKey_I=0
+mvKey_J=0
+mvKey_K=0
+mvKey_L=0
+mvKey_M=0
+mvKey_N=0
+mvKey_O=0
+mvKey_P=0
+mvKey_Q=0
+mvKey_R=0
+mvKey_S=0
+mvKey_T=0
+mvKey_U=0
+mvKey_V=0
+mvKey_W=0
+mvKey_X=0
+mvKey_Y=0
+mvKey_Z=0
+mvKey_Back=0
+mvKey_Tab=0
+mvKey_Clear=0
+mvKey_Return=0
+mvKey_Shift=0
+mvKey_Control=0
+mvKey_Alt=0
+mvKey_Pause=0
+mvKey_Capital=0
+mvKey_Escape=0
+mvKey_Spacebar=0
+mvKey_Prior=0
+mvKey_Next=0
+mvKey_End=0
+mvKey_Home=0
+mvKey_Left=0
+mvKey_Up=0
+mvKey_Right=0
+mvKey_Down=0
+mvKey_Select=0
+mvKey_Print=0
+mvKey_Execute=0
+mvKey_PrintScreen=0
+mvKey_Insert=0
+mvKey_Delete=0
+mvKey_Help=0
+mvKey_LWin=0
+mvKey_RWin=0
+mvKey_Apps=0
+mvKey_Sleep=0
+mvKey_NumPad0=0
+mvKey_NumPad1=0
+mvKey_NumPad2=0
+mvKey_NumPad3=0
+mvKey_NumPad4=0
+mvKey_NumPad5=0
+mvKey_NumPad6=0
+mvKey_NumPad7=0
+mvKey_NumPad8=0
+mvKey_NumPad9=0
+mvKey_Multiply=0
+mvKey_Add=0
+mvKey_Separator=0
+mvKey_Subtract=0
+mvKey_Decimal=0
+mvKey_Divide=0
+mvKey_F1=0
+mvKey_F2=0
+mvKey_F3=0
+mvKey_F4=0
+mvKey_F5=0
+mvKey_F6=0
+mvKey_F7=0
+mvKey_F8=0
+mvKey_F9=0
+mvKey_F10=0
+mvKey_F11=0
+mvKey_F12=0
+mvKey_F13=0
+mvKey_F14=0
+mvKey_F15=0
+mvKey_F16=0
+mvKey_F17=0
+mvKey_F18=0
+mvKey_F19=0
+mvKey_F20=0
+mvKey_F21=0
+mvKey_F22=0
+mvKey_F23=0
+mvKey_F24=0
+mvKey_NumLock=0
+mvKey_ScrollLock=0
+mvKey_LShift=0
+mvKey_RShift=0
+mvKey_LControl=0
+mvKey_RControl=0
+mvKey_LMenu=0
+mvKey_RMenu=0
+mvKey_Browser_Back=0
+mvKey_Browser_Forward=0
+mvKey_Browser_Refresh=0
+mvKey_Browser_Stop=0
+mvKey_Browser_Search=0
+mvKey_Browser_Favorites=0
+mvKey_Browser_Home=0
+mvKey_Volume_Mute=0
+mvKey_Volume_Down=0
+mvKey_Volume_Up=0
+mvKey_Media_Next_Track=0
+mvKey_Media_Prev_Track=0
+mvKey_Media_Stop=0
+mvKey_Media_Play_Pause=0
+mvKey_Launch_Mail=0
+mvKey_Launch_Media_Select=0
+mvKey_Launch_App1=0
+mvKey_Launch_App2=0
+mvKey_Colon=0
+mvKey_Plus=0
+mvKey_Comma=0
+mvKey_Minus=0
+mvKey_Period=0
+mvKey_Slash=0
+mvKey_Tilde=0
+mvKey_Open_Brace=0
+mvKey_Backslash=0
+mvKey_Close_Brace=0
+mvKey_Quote=0
+mvSpacing=0
+mvSameLine=0
+mvInputText=0
+mvButton=0
+mvTool_About=0
+mvTool_Debug=0
+mvTool_Doc=0
+mvTool_ItemRegistry=0
+mvTool_Metrics=0
+mvTool_Style=0
+mvTool_Font=0
+mvFontAtlas=0
+mvAppUUID=0
+mvInvalidUUID=0
+mvDir_None=0
+mvDir_Left=0
+mvDir_Right=0
+mvDir_Up=0
+mvDir_Down=0
+mvRadioButton=0
+mvTabBar=0
+mvTab=0
+mvTabOrder_Reorderable=0
+mvTabOrder_Fixed=0
+mvTabOrder_Leading=0
+mvTabOrder_Trailing=0
+mvImage=0
+mvMenuBar=0
+mvViewportMenuBar=0
+mvMenu=0
+mvMenuItem=0
+mvGroup=0
+mvChild=0
+mvSliderFloat=0
+mvSliderInt=0
+mvFilterSet=0
+mvDragFloat=0
+mvDragInt=0
+mvInputFloat=0
+mvInputInt=0
+mvColorEdit=0
+mvColorEdit_AlphaPreviewNone=0
+mvColorEdit_AlphaPreview=0
+mvColorEdit_AlphaPreviewHalf=0
+mvColorEdit_uint8=0
+mvColorEdit_float=0
+mvColorEdit_rgb=0
+mvColorEdit_hsv=0
+mvColorEdit_hex=0
+mvColorEdit_input_rgb=0
+mvColorEdit_input_hsv=0
+mvClipper=0
+mvColorPicker=0
+mvColorPicker_bar=0
+mvColorPicker_wheel=0
+mvTooltip=0
+mvCollapsingHeader=0
+mvSeparator=0
+mvCheckbox=0
+mvListbox=0
+mvText=0
+mvCombo=0
+mvComboHeight_Small=0
+mvComboHeight_Regular=0
+mvComboHeight_Large=0
+mvComboHeight_Largest=0
+mvPlot=0
+mvPlotMarker_None=0
+mvPlotMarker_Circle=0
+mvPlotMarker_Square=0
+mvPlotMarker_Diamond=0
+mvPlotMarker_Up=0
+mvPlotMarker_Down=0
+mvPlotMarker_Left=0
+mvPlotMarker_Right=0
+mvPlotMarker_Cross=0
+mvPlotMarker_Plus=0
+mvPlotMarker_Asterisk=0
+mvSimplePlot=0
+mvDrawlist=0
+mvWindowAppItem=0
+mvSelectable=0
+mvTreeNode=0
+mvProgressBar=0
+mvDummy=0
+mvImageButton=0
+mvTimePicker=0
+mvDatePicker=0
+mvDatePickerLevel_Day=0
+mvDatePickerLevel_Month=0
+mvDatePickerLevel_Year=0
+mvColorButton=0
+mvFileDialog=0
+mvTabButton=0
+mvNodeEditor=0
+mvNode=0
+mvNodeAttribute=0
+mvNode_PinShape_Circle=0
+mvNode_PinShape_CircleFilled=0
+mvNode_PinShape_Triangle=0
+mvNode_PinShape_TriangleFilled=0
+mvNode_PinShape_Quad=0
+mvNode_PinShape_QuadFilled=0
+mvNode_Attr_Input=0
+mvNode_Attr_Output=0
+mvNode_Attr_Static=0
+mvTable=0
+mvTable_SizingFixedFit=0
+mvTable_SizingFixedSame=0
+mvTable_SizingStretchProp=0
+mvTable_SizingStretchSame=0
+mvTableColumn=0
+mvTableRow=0
+mvDrawLine=0
+mvDrawArrow=0
+mvDrawTriangle=0
+mvDrawCircle=0
+mvDrawEllipse=0
+mvDrawBezierCubic=0
+mvDrawBezierQuadratic=0
+mvDrawQuad=0
+mvDrawRect=0
+mvDrawText=0
+mvDrawPolygon=0
+mvDrawPolyline=0
+mvDrawImage=0
+mvDragFloatMulti=0
+mvDragIntMulti=0
+mvSliderFloatMulti=0
+mvSliderIntMulti=0
+mvInputIntMulti=0
+mvInputFloatMulti=0
+mvDragPoint=0
+mvDragLine=0
+mvAnnotation=0
+mvLineSeries=0
+mvScatterSeries=0
+mvStemSeries=0
+mvStairSeries=0
+mvBarSeries=0
+mvErrorSeries=0
+mvVLineSeries=0
+mvHLineSeries=0
+mvHeatSeries=0
+mvImageSeries=0
+mvPieSeries=0
+mvShadeSeries=0
+mvLabelSeries=0
+mvHistogramSeries=0
+mvPlotBin_Sqrt=0
+mvPlotBin_Sturges=0
+mvPlotBin_Rice=0
+mvPlotBin_Scott=0
+mv2dHistogramSeries=0
+mvCandleSeries=0
+mvAreaSeries=0
+mvColorMapScale=0
+mvSlider3D=0
+mvKnobFloat=0
+mvLoadingIndicator=0
+mvNodeLink=0
+mvTextureRegistry=0
+mvStaticTexture=0
+mvDynamicTexture=0
+mvStage=0
+mvDrawLayer=0
+mvViewportDrawlist=0
+mvFileExtension=0
+mvPlotLegend=0
+mvPlot_Location_Center=0
+mvPlot_Location_North=0
+mvPlot_Location_South=0
+mvPlot_Location_West=0
+mvPlot_Location_East=0
+mvPlot_Location_NorthWest=0
+mvPlot_Location_NorthEast=0
+mvPlot_Location_SouthWest=0
+mvPlot_Location_SouthEast=0
+mvPlotAxis=0
+mvXAxis=0
+mvYAxis=0
+mvHandlerRegistry=0
+mvKeyDownHandler=0
+mvKeyPressHandler=0
+mvKeyReleaseHandler=0
+mvMouseMoveHandler=0
+mvMouseWheelHandler=0
+mvMouseClickHandler=0
+mvMouseDoubleClickHandler=0
+mvMouseDownHandler=0
+mvMouseReleaseHandler=0
+mvMouseDragHandler=0
+mvHoverHandler=0
+mvActiveHandler=0
+mvFocusHandler=0
+mvVisibleHandler=0
+mvEditedHandler=0
+mvActivatedHandler=0
+mvDeactivatedHandler=0
+mvDeactivatedAfterEditHandler=0
+mvToggledOpenHandler=0
+mvClickedHandler=0
+mvDragPayload=0
+mvResizeHandler=0
+mvFont=0
+mvFontRegistry=0
+mvTheme=0
+mvThemeCat_Core=0
+mvThemeCat_Plots=0
+mvThemeCat_Nodes=0
+mvThemeColor=0
+mvThemeCol_Text=0
+mvThemeCol_TextDisabled=0
+mvThemeCol_WindowBg=0
+mvThemeCol_ChildBg=0
+mvThemeCol_Border=0
+mvThemeCol_PopupBg=0
+mvThemeCol_BorderShadow=0
+mvThemeCol_FrameBg=0
+mvThemeCol_FrameBgHovered=0
+mvThemeCol_FrameBgActive=0
+mvThemeCol_TitleBg=0
+mvThemeCol_TitleBgActive=0
+mvThemeCol_TitleBgCollapsed=0
+mvThemeCol_MenuBarBg=0
+mvThemeCol_ScrollbarBg=0
+mvThemeCol_ScrollbarGrab=0
+mvThemeCol_ScrollbarGrabHovered=0
+mvThemeCol_ScrollbarGrabActive=0
+mvThemeCol_CheckMark=0
+mvThemeCol_SliderGrab=0
+mvThemeCol_SliderGrabActive=0
+mvThemeCol_Button=0
+mvThemeCol_ButtonHovered=0
+mvThemeCol_ButtonActive=0
+mvThemeCol_Header=0
+mvThemeCol_HeaderHovered=0
+mvThemeCol_HeaderActive=0
+mvThemeCol_Separator=0
+mvThemeCol_SeparatorHovered=0
+mvThemeCol_SeparatorActive=0
+mvThemeCol_ResizeGrip=0
+mvThemeCol_ResizeGripHovered=0
+mvThemeCol_ResizeGripActive=0
+mvThemeCol_Tab=0
+mvThemeCol_TabHovered=0
+mvThemeCol_TabActive=0
+mvThemeCol_TabUnfocused=0
+mvThemeCol_TabUnfocusedActive=0
+mvThemeCol_DockingPreview=0
+mvThemeCol_DockingEmptyBg=0
+mvThemeCol_PlotLines=0
+mvThemeCol_PlotLinesHovered=0
+mvThemeCol_PlotHistogram=0
+mvThemeCol_PlotHistogramHovered=0
+mvThemeCol_TableHeaderBg=0
+mvThemeCol_TableBorderStrong=0
+mvThemeCol_TableBorderLight=0
+mvThemeCol_TableRowBg=0
+mvThemeCol_TableRowBgAlt=0
+mvThemeCol_TextSelectedBg=0
+mvThemeCol_DragDropTarget=0
+mvThemeCol_NavHighlight=0
+mvThemeCol_NavWindowingHighlight=0
+mvThemeCol_NavWindowingDimBg=0
+mvThemeCol_ModalWindowDimBg=0
+mvPlotCol_Line=0
+mvPlotCol_Fill=0
+mvPlotCol_MarkerOutline=0
+mvPlotCol_MarkerFill=0
+mvPlotCol_ErrorBar=0
+mvPlotCol_FrameBg=0
+mvPlotCol_PlotBg=0
+mvPlotCol_PlotBorder=0
+mvPlotCol_LegendBg=0
+mvPlotCol_LegendBorder=0
+mvPlotCol_LegendText=0
+mvPlotCol_TitleText=0
+mvPlotCol_InlayText=0
+mvPlotCol_XAxis=0
+mvPlotCol_XAxisGrid=0
+mvPlotCol_YAxis=0
+mvPlotCol_YAxisGrid=0
+mvPlotCol_YAxis2=0
+mvPlotCol_YAxisGrid2=0
+mvPlotCol_YAxis3=0
+mvPlotCol_YAxisGrid3=0
+mvPlotCol_Selection=0
+mvPlotCol_Query=0
+mvPlotCol_Crosshairs=0
+mvNodeCol_NodeBackground=0
+mvNodeCol_NodeBackgroundHovered=0
+mvNodeCol_NodeBackgroundSelected=0
+mvNodeCol_NodeOutline=0
+mvNodeCol_TitleBar=0
+mvNodeCol_TitleBarHovered=0
+mvNodeCol_TitleBarSelected=0
+mvNodeCol_Link=0
+mvNodeCol_LinkHovered=0
+mvNodeCol_LinkSelected=0
+mvNodeCol_Pin=0
+mvNodeCol_PinHovered=0
+mvNodeCol_BoxSelector=0
+mvNodeCol_BoxSelectorOutline=0
+mvNodeCol_GridBackground=0
+mvNodeCol_GridLine=0
+mvThemeStyle=0
+mvStyleVar_Alpha=0
+mvStyleVar_WindowPadding=0
+mvStyleVar_WindowRounding=0
+mvStyleVar_WindowBorderSize=0
+mvStyleVar_WindowMinSize=0
+mvStyleVar_WindowTitleAlign=0
+mvStyleVar_ChildRounding=0
+mvStyleVar_ChildBorderSize=0
+mvStyleVar_PopupRounding=0
+mvStyleVar_PopupBorderSize=0
+mvStyleVar_FramePadding=0
+mvStyleVar_FrameRounding=0
+mvStyleVar_FrameBorderSize=0
+mvStyleVar_ItemSpacing=0
+mvStyleVar_ItemInnerSpacing=0
+mvStyleVar_IndentSpacing=0
+mvStyleVar_CellPadding=0
+mvStyleVar_ScrollbarSize=0
+mvStyleVar_ScrollbarRounding=0
+mvStyleVar_GrabMinSize=0
+mvStyleVar_GrabRounding=0
+mvStyleVar_TabRounding=0
+mvStyleVar_ButtonTextAlign=0
+mvStyleVar_SelectableTextAlign=0
+mvPlotStyleVar_LineWeight=0
+mvPlotStyleVar_Marker=0
+mvPlotStyleVar_MarkerSize=0
+mvPlotStyleVar_MarkerWeight=0
+mvPlotStyleVar_FillAlpha=0
+mvPlotStyleVar_ErrorBarSize=0
+mvPlotStyleVar_ErrorBarWeight=0
+mvPlotStyleVar_DigitalBitHeight=0
+mvPlotStyleVar_DigitalBitGap=0
+mvPlotStyleVar_PlotBorderSize=0
+mvPlotStyleVar_MinorAlpha=0
+mvPlotStyleVar_MajorTickLen=0
+mvPlotStyleVar_MinorTickLen=0
+mvPlotStyleVar_MajorTickSize=0
+mvPlotStyleVar_MinorTickSize=0
+mvPlotStyleVar_MajorGridSize=0
+mvPlotStyleVar_MinorGridSize=0
+mvPlotStyleVar_PlotPadding=0
+mvPlotStyleVar_LabelPadding=0
+mvPlotStyleVar_LegendPadding=0
+mvPlotStyleVar_LegendInnerPadding=0
+mvPlotStyleVar_LegendSpacing=0
+mvPlotStyleVar_MousePosPadding=0
+mvPlotStyleVar_AnnotationPadding=0
+mvPlotStyleVar_FitPadding=0
+mvPlotStyleVar_PlotDefaultSize=0
+mvPlotStyleVar_PlotMinSize=0
+mvNodeStyleVar_GridSpacing=0
+mvNodeStyleVar_NodeCornerRounding=0
+mvNodeStyleVar_NodePaddingHorizontal=0
+mvNodeStyleVar_NodePaddingVertical=0
+mvNodeStyleVar_NodeBorderThickness=0
+mvNodeStyleVar_LinkThickness=0
+mvNodeStyleVar_LinkLineSegmentsPerLength=0
+mvNodeStyleVar_LinkHoverDistance=0
+mvNodeStyleVar_PinCircleRadius=0
+mvNodeStyleVar_PinQuadSideLength=0
+mvNodeStyleVar_PinTriangleSideLength=0
+mvNodeStyleVar_PinLineThickness=0
+mvNodeStyleVar_PinHoverRadius=0
+mvNodeStyleVar_PinOffset=0
+mvFontRangeHint=0
+mvFontRangeHint_Default=0
+mvFontRangeHint_Japanese=0
+mvFontRangeHint_Korean=0
+mvFontRangeHint_Chinese_Full=0
+mvFontRangeHint_Chinese_Simplified_Common=0
+mvFontRangeHint_Cyrillic=0
+mvFontRangeHint_Thai=0
+mvFontRangeHint_Vietnamese=0
+mvFontRange=0
+mvFontChars=0
+mvCharRemap=0
+mvValueRegistry=0
+mvIntValue=0
+mvFloatValue=0
+mvFloat4Value=0
+mvInt4Value=0
+mvBoolValue=0
+mvStringValue=0
+mvDoubleValue=0
+mvDouble4Value=0
+mvColorValue=0
+mvFloatVectValue=0
+mvSeriesValue=0
+mvRawTexture=0
+mvFormat_Float_rgba=0
+mvFormat_Float_rgb=0
+mvSubPlots=0
+mvColorMap=0
+mvPlotColormap_Default=0
+mvPlotColormap_Deep=0
+mvPlotColormap_Dark=0
+mvPlotColormap_Pastel=0
+mvPlotColormap_Paired=0
+mvPlotColormap_Viridis=0
+mvPlotColormap_Plasma=0
+mvPlotColormap_Hot=0
+mvPlotColormap_Cool=0
+mvPlotColormap_Pink=0
+mvPlotColormap_Jet=0
+mvPlotColormap_Twilight=0
+mvPlotColormap_RdBu=0
+mvPlotColormap_BrBG=0
+mvPlotColormap_PiYG=0
+mvPlotColormap_Spectral=0
+mvPlotColormap_Greys=0
+mvColorMapRegistry=0
+mvColorMapButton=0
+mvColorMapSlider=0
+mvItemPool=0
+mvItemSet=0
+mvTemplateRegistry=0
+mvTableCell=0
+mvItemHandlerRegistry=0
+mvReservedUUID_0=0
+mvReservedUUID_1=0
+mvReservedUUID_2=0
+mvReservedUUID_3=0
+mvReservedUUID_4=0
+mvReservedUUID_5=0
+mvReservedUUID_6=0
+mvReservedUUID_7=0
+mvReservedUUID_8=0
+mvReservedUUID_9=0
