@@ -29,7 +29,7 @@ with dpg.window(label="Window2", pos=(100,0)) as window2:
 
 dpg.start_dearpygui()
 ```
-![](https://github.com/Atlamillias/DearPyGui-Stuff/blob/main/wiki%20images/dpg_creating_appitems_ex2.png)
+![](https://raw.githubusercontent.com/Atlamillias/DearPyGui-Stuff/main/wiki%20images/dpg_creating_appitems_ex2.png)
 
 ## UI Items
 **UI items** are items that are considered to be a visual (and usually interactable) element in your user interface. These include **buttons**, **sliders**, **inputs**, and even other containers such as **windows** and **tree nodes**.
