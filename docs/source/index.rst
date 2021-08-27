@@ -3,8 +3,7 @@ Welcome to Dear PyGui's documentation!
 =========================================
 
 .. toctree::
-   :maxdepth: 1
-   :caption: Contents:
+   :maxdepth: 2
 
    introduction.rst
    Fonts.md
