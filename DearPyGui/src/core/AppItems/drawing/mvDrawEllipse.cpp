@@ -131,8 +131,8 @@ namespace Marvel {
 		if (PyObject* item = PyDict_GetItemString(dict, "color")) _color = ToColor(item);
 		if (PyObject* item = PyDict_GetItemString(dict, "fill")) _fill = ToColor(item);
 		if (PyObject* item = PyDict_GetItemString(dict, "thickness")) _thickness = ToFloat(item);
-		if (PyObject* item = PyDict_GetItemString(dict, "_pmax")) _pmax = ToVec2(item);
-		if (PyObject* item = PyDict_GetItemString(dict, "_pmin")) _pmin = ToVec2(item);
+		if (PyObject* item = PyDict_GetItemString(dict, "pmax")) { _pmax = ToVec2(item); _dirty = true; }
+		if (PyObject* item = PyDict_GetItemString(dict, "pmin")) { _pmin = ToVec2(item); _dirty = true; }
 		if (PyObject* item = PyDict_GetItemString(dict, "segments")) _segments = ToInt(item);
 
 	}
