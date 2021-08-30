@@ -35,7 +35,7 @@ import dearpygui.dearpygui as dpg
 
 dpg.setup_registries()
 
-with dpg.window(label="tutorial"):
+with dpg.window(label="about"):
     dpg.add_button(label="Press me")
     dpg.draw_line((10, 10), (100, 100), color=(255, 0, 0, 255), thickness=1)
 

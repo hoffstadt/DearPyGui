@@ -26,7 +26,7 @@ Below is an example of attaching a theme to a specific widget:
 ```python
 import dearpygui.dearpygui as dpg
 
-with dpg.window(label="tutorial"):
+with dpg.window(label="about"):
     dpg.add_button(label="Button 1", id="button1")
     dpg.add_button(label="Button 2", id="button2")
 
@@ -45,7 +45,7 @@ By applying a theme to a type, the theme only effects a specific app item type:
 ```python
 import dearpygui.dearpygui as dpg
 
-with dpg.window(label="tutorial"):
+with dpg.window(label="about"):
     dpg.add_button(label="Button 1")
     dpg.add_button(label="Button 2")
 
@@ -64,7 +64,7 @@ By applying a theme to a container, the theme is propagated to its children:
 ```python
 import dearpygui.dearpygui as dpg
 
-with dpg.window(label="tutorial", id="window_id"):
+with dpg.window(label="about", id="window_id"):
     dpg.add_button(label="Button 1")
     dpg.add_button(label="Button 2")
 
@@ -89,7 +89,7 @@ with dpg.theme(default_theme=True):
     dpg.add_theme_color(dpg.mvThemeCol_Button, (255, 140, 23), category=dpg.mvThemeCat_Core)
     dpg.add_theme_style(dpg.mvStyleVar_FrameRounding, 5, category=dpg.mvThemeCat_Core)
 
-with dpg.window(label="tutorial"):
+with dpg.window(label="about"):
     dpg.add_button(label="Button 1")
     dpg.add_button(label="Button 2")
 

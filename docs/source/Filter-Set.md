@@ -13,7 +13,7 @@ def callback(sender, filter_string):
     # set value of filter set
     dpg.set_value("filter_id", filter_string)
 
-with dpg.window(label="tutorial"):
+with dpg.window(label="about"):
 
     dpg.add_input_text(label="Filter (inc, -exc)", callback=callback)
     with dpg.filter_set(id="filter_id"):

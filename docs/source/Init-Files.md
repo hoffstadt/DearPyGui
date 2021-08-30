@@ -40,7 +40,7 @@ import dearpygui.dearpygui as dpg
 
 dpg.set_init_file()  # default file is 'dpg.ini'
 
-with dpg.window(label="tutorial"):
+with dpg.window(label="about"):
     dpg.add_button(label="Press me")
 
 dpg.start_dearpygui()

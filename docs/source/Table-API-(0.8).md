@@ -43,7 +43,7 @@ You can control the borders of the table using the `borders_innerH`, `borders_in
 ```python
 import dearpygui.dearpygui as dpg
 
-with dpg.window(label="tutorial"):
+with dpg.window(label="about"):
 
     with dpg.table(header_row=False, row_background=True,
                             borders_innerH=True, borders_outerH=True, borders_innerV=True,
@@ -73,7 +73,7 @@ Column headers are simply shown by setting `header_row` to **True** and setting 
 ```python
 import dearpygui.dearpygui as dpg
 
-with dpg.window(label="tutorial"):
+with dpg.window(label="about"):
 
     with dpg.table(header_row=True):
 
@@ -112,7 +112,7 @@ Below is an example of setting the stretch policy for the entire table:
 ```python
 import dearpygui.dearpygui as dpg
 
-with dpg.window(label="tutorial"):
+with dpg.window(label="about"):
 
     with dpg.table(header_row=False, resizable=True, policy=dpg.mvTable_SizingStretchProp,
                 borders_outerH=True, borders_innerV=True, borders_outerV=True):
@@ -134,7 +134,7 @@ Below is an example of setting the fixed fit policy for the entire table:
 ```python
 import dearpygui.dearpygui as dpg
 
-with dpg.window(label="tutorial"):
+with dpg.window(label="about"):
 
     # Only available if scrollX/scrollY are disabled and stretch columns are not used
     with dpg.table(header_row=False, policy=dpg.mvTable_SizingFixedFit, resizable=True, no_host_extendX=True, 
@@ -159,7 +159,7 @@ You can also set columns individually by using the `width_fixed` or `width_stret
 ```python
 import dearpygui.dearpygui as dpg
 
-with dpg.window(label="tutorial"):
+with dpg.window(label="about"):
 
     with dpg.table(header_row=True, policy=dpg.mvTable_SizingFixedFit, row_background=True, reorderable=True, 
                 resizable=True, no_host_extendX=False, hideable=True, 
