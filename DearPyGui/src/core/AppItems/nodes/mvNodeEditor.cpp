@@ -215,7 +215,6 @@ namespace Marvel {
 
 		}
 
-
 		imnodes::PushAttributeFlag(imnodes::AttributeFlags_EnableLinkDetachWithDragClick);
 
 		imnodes::IO& io = imnodes::GetIO();
@@ -253,7 +252,7 @@ namespace Marvel {
 			item->draw(drawlist, x, y);
 		}
 
-		registerWindowFocusing();
+		_state._hovered = imnodes::IsEditorHovered();
 		imnodes::EndNodeEditor();
 		imnodes::PopAttributeFlag();
 
@@ -363,9 +362,12 @@ namespace Marvel {
 			}
 		}
 
-		_state._hovered = imnodes::IsEditorHovered();	
-
 		ImGui::EndChild();
+
+		_state._lastFrameUpdate = mvApp::s_frame;
+
+		if (_handlerRegistry)
+			_handlerRegistry->customAction(&_state);
 	}
 
 	PyObject* mvNodeEditor::get_selected_nodes(PyObject* self, PyObject* args, PyObject* kwargs)

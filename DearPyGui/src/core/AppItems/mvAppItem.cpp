@@ -487,7 +487,7 @@ namespace Marvel{
 
 	void mvAppItem::registerWindowFocusing()
 	{
-		if (ImGui::IsWindowFocused())
+		if (ImGui::IsWindowFocused(ImGuiFocusedFlags_ChildWindows))
 		{
 
 			// update mouse
@@ -1261,7 +1261,7 @@ namespace Marvel{
 			PyDict_SetItemString(dict, "children", mvPyObject(pyChildren));
 		}
 
-		PyDict_SetItemString(dict, "type", mvPyObject(ToPyString(parserCommand)));
+		PyDict_SetItemString(dict, "type", mvPyObject(ToPyString(getTypeString())));
 		PyDict_SetItemString(dict, "target", mvPyObject(ToPyInt(getTarget())));
 
 		if (_parentPtr)
@@ -1288,6 +1288,19 @@ namespace Marvel{
 			PyDict_SetItemString(dict, "container", mvPyObject(ToPyBool(true)));
 		else
 			PyDict_SetItemString(dict, "container", mvPyObject(ToPyBool(false)));
+
+		int applicableState = getApplicableState();
+		PyDict_SetItemString(dict, "hover_handler_applicable", mvPyObject(ToPyBool(applicableState & MV_STATE_HOVER)));
+		PyDict_SetItemString(dict, "active_handler_applicable", mvPyObject(ToPyBool(applicableState & MV_STATE_ACTIVE)));
+		PyDict_SetItemString(dict, "focus_handler_applicable", mvPyObject(ToPyBool(applicableState & MV_STATE_FOCUSED)));
+		PyDict_SetItemString(dict, "clicked_handler_applicable", mvPyObject(ToPyBool(applicableState & MV_STATE_CLICKED)));
+		PyDict_SetItemString(dict, "visible_handler_applicable", mvPyObject(ToPyBool(applicableState & MV_STATE_VISIBLE)));
+		PyDict_SetItemString(dict, "edited_handler_applicable", mvPyObject(ToPyBool(applicableState & MV_STATE_EDITED)));
+		PyDict_SetItemString(dict, "activated_handler_applicable", mvPyObject(ToPyBool(applicableState & MV_STATE_ACTIVATED)));
+		PyDict_SetItemString(dict, "deactivated_handler_applicable", mvPyObject(ToPyBool(applicableState & MV_STATE_DEACTIVATED)));
+		PyDict_SetItemString(dict, "deactivatedae_handler_applicable", mvPyObject(ToPyBool(applicableState & MV_STATE_DEACTIVATEDAE)));
+		PyDict_SetItemString(dict, "toggled_open_handler_applicable", mvPyObject(ToPyBool(applicableState & MV_STATE_TOGGLED_OPEN)));
+		PyDict_SetItemString(dict, "resized_handler_applicable", mvPyObject(ToPyBool(applicableState & MV_STATE_RESIZED)));
 
 	}
 
