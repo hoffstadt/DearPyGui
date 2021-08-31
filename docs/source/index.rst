@@ -6,6 +6,8 @@ Dear PyGui's Documentation
    :description lang=en: Automate building, versioning, and hosting of your
     technical documentation continuously on Read the Docs.
 
+About DPG
+---------
 
 Dear PyGui is an easy-to-use, dynamic, GPU-Accelerated, cross-platform graphical
 user interface (GUI) framework for Python. At the core it is considered an extended
@@ -24,28 +26,44 @@ engineering, games, data science and other applications that require fast and in
 
 .. _Dear ImGui: https://github.com/ocornut/imgui
 
-First Steps
------------
-
-If you're ready to start using Dear PyGui visit the :doc:`introduction`
-
-Next, consider looking through the Tutorials!
-
 .. toctree::
    :maxdepth: 2
    :hidden:
-   :caption: First steps
+   :caption: About DPG
 
-   /quick-start
+   /about/what-why
+   /about/repo-info
+
+.. asdfasd
+    Indices and tables
+    ==================
+    * :ref:`genindex`
+    * :ref:`modindex`
+    * :ref:`search`
+
+First Steps
+-----------
+
+If you're ready to start using Dear PyGui visit the :doc:`first-run`
+
+The Tutorials will provide a great overview and stepping stone into the library. However use the API reference
+for the most detailed documentation on any specific topic.
+
+.. toctree::
+   :maxdepth: 2
+   :numbered:
+   :hidden:
+   :caption: Tutorials
+
+   /tutorials/first-steps
 
 Documentation
 -------------
 
-Live Demo: A mostly complete showcase of Dear PyGui can be found by running the
-:py:func:`show_demo <dearpygui.demo.show_demo>` command in the :py:mod:`dearpygui.demo` module.
-
-Internal Documentation: Run the :py:func:`show_documentation <dearpygui.dearpygui.show_documentation>`.
-command from within the library to view the reference guide.
+* Live Demo: A mostly complete showcase of DPG can be found by running the
+    :py:func:`show_demo <dearpygui.demo.show_demo>` command in the :py:mod:`dearpygui.demo` module.
+* Internal Documentation: Run
+    :py:func:`show_documentation <dearpygui.dearpygui.show_documentation>` view the reference guide.
 
 :doc:`Online API Reference <introduction>`
 
@@ -54,24 +72,4 @@ command from within the library to view the reference guide.
    :hidden:
    :caption: Documentation
 
-   /
-
-About DPG
----------
-Learn more about Dear PyGui.
-
-.. toctree::
-   :maxdepth: 2
-   :hidden:
-   :caption: About DPG
-
-   /about/what-why
-   /about/repo-info
-   /about/Showcase
-
-.. asdfasd
-    Indices and tables
-    ==================
-    * :ref:`genindex`
-    * :ref:`modindex`
-    * :ref:`search`
+   /api-reference/render-loop

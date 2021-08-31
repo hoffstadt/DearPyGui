@@ -1,8 +1,11 @@
 What & Why
 ==========
 
+.. meta::
+   :description lang=en: Information about Dear PyGui and the developers.
+
 What is DPG
-------------------
+-----------
 
 Dear PyGui is a simple to use (but powerful) Python GUI framework. Dear PyGui provides a wrapping of Dear ImGui that simulates a traditional retained mode GUI, as opposed to Dear ImGui's immediate mode paradigm.
 
@@ -11,7 +14,7 @@ Under the hood, Dear PyGui uses the immediate mode paradigm allowing for extreme
 In the same manner Dear ImGui provides a simple way to create tools for game developers, Dear PyGui provides a simple way for python developers to create quick and powerful GUIs for scripts.
 
 Why use DPG
-------------------
+-----------
 
 When compared with other Python GUI libraries Dear PyGui is unique with:
 
