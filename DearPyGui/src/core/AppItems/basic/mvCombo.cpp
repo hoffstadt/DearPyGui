@@ -186,6 +186,11 @@ namespace Marvel {
 
 					}
 
+
+					if (ImGui::IsItemEdited())_state._edited = true;
+					if (ImGui::IsItemDeactivated())_state._deactivated = true;
+					if (ImGui::IsItemDeactivatedAfterEdit())_state._deactivatedAfterEdit = true;
+
 					// Set the initial focus when opening the combo (scrolling + for keyboard navigation support in the upcoming navigation branch)
 					if (is_selected)
 						ImGui::SetItemDefaultFocus();
