@@ -487,7 +487,7 @@ namespace Marvel{
 
 	void mvAppItem::registerWindowFocusing()
 	{
-		if (ImGui::IsWindowFocused())
+		if (ImGui::IsWindowFocused(ImGuiFocusedFlags_ChildWindows))
 		{
 
 			// update mouse

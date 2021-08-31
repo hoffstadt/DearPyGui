@@ -131,6 +131,13 @@ namespace Marvel {
 			//ImGui::Text("%s", _value.c_str());
 			ImGui::TextUnformatted(_value->c_str()); // this doesn't have a buffer size limit
 
+			_state._lastFrameUpdate = mvApp::s_frame;
+			if (ImGui::IsItemVisible())_state._visible = true;
+			if (ImGui::IsItemHovered())_state._hovered = true;
+			if (ImGui::IsItemClicked(0))_state._leftclicked = true;
+			if (ImGui::IsItemClicked(1))_state._rightclicked = true;
+			if (ImGui::IsItemClicked(2)) _state._middleclicked = true;
+
 			if (_wrap >= 0)
 				ImGui::PopTextWrapPos();
 
@@ -142,13 +149,14 @@ namespace Marvel {
 				ImGui::SameLine();
 				ImGui::SetCursorPos({ valueEndX + style.ItemInnerSpacing.x, textVertCenter });
 				ImGui::TextUnformatted(_specificedlabel.c_str());
+
+				if (ImGui::IsItemVisible())_state._visible = true;
+				if (ImGui::IsItemHovered())_state._hovered = true;
+				if (ImGui::IsItemClicked(0))_state._leftclicked = true;
+				if (ImGui::IsItemClicked(1))_state._rightclicked = true;
+				if (ImGui::IsItemClicked(2)) _state._middleclicked = true;
 			}
 		}
-
-		//-----------------------------------------------------------------------------
-		// update state
-		//-----------------------------------------------------------------------------
-		_state.update();
 
 		//-----------------------------------------------------------------------------
 		// postdraw

@@ -212,6 +212,7 @@ namespace Marvel {
 							});
 				}
 
+				if (ImGui::IsItemEdited())_state._edited = true;
 			}
 
 			ImGui::EndGroup();
@@ -221,7 +222,22 @@ namespace Marvel {
 		//-----------------------------------------------------------------------------
 		// update state
 		//-----------------------------------------------------------------------------
-		_state.update();
+		_state._lastFrameUpdate = mvApp::s_frame;
+		_state._hovered = ImGui::IsItemHovered();
+		_state._active = ImGui::IsItemActive();
+		_state._focused = ImGui::IsItemFocused();
+		_state._leftclicked = ImGui::IsItemClicked();
+		_state._rightclicked = ImGui::IsItemClicked(1);
+		_state._middleclicked = ImGui::IsItemClicked(2);
+		_state._visible = ImGui::IsItemVisible();
+		_state._activated = ImGui::IsItemActivated();
+		_state._deactivated = ImGui::IsItemDeactivated();
+		_state._deactivatedAfterEdit = ImGui::IsItemDeactivatedAfterEdit();
+		_state._toggledOpen = ImGui::IsItemToggledOpen();
+		_state._rectMin = { ImGui::GetItemRectMin().x, ImGui::GetItemRectMin().y };
+		_state._rectMax = { ImGui::GetItemRectMax().x, ImGui::GetItemRectMax().y };
+		_state._rectSize = { ImGui::GetItemRectSize().x, ImGui::GetItemRectSize().y };
+		_state._contextRegionAvail = { ImGui::GetContentRegionAvail().x, ImGui::GetContentRegionAvail().y };
 
 		//-----------------------------------------------------------------------------
 		// post draw

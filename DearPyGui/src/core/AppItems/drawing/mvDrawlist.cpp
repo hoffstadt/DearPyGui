@@ -41,6 +41,9 @@ namespace Marvel {
 	void mvDrawlist::draw(ImDrawList* drawlist, float x, float y)
 	{
 
+		if (!_show)
+			return;
+
 		_startx = (float)ImGui::GetCursorScreenPos().x;
 		_starty = (float)ImGui::GetCursorScreenPos().y;
 
@@ -69,6 +72,10 @@ namespace Marvel {
 				mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), _alias, nullptr, _user_data);
 		}
 
+		_state.update();
+
+		if (_handlerRegistry)
+			_handlerRegistry->customAction(&_state);
 
 		if (ImGui::IsItemHovered())
 		{
