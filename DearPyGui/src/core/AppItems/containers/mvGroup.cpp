@@ -128,7 +128,6 @@ namespace Marvel {
 			ImGui::PushItemWidth((float)_width);
 
 		ImGui::BeginGroup();
-		_state.update();
 
 		for (auto& item : _children[1])
 		{
@@ -145,6 +144,7 @@ namespace Marvel {
 			ImGui::PopItemWidth();
 
 		ImGui::EndGroup();
+		_state.update();
 
 		}
 

@@ -143,7 +143,13 @@ namespace Marvel {
 			ScopedID id(_uuid);
 
 			ImGui::BeginChild(_internalLabel.c_str(), ImVec2(_autosize_x ? 0 : (float)_width, _autosize_y ? 0 : (float)_height), _border, _windowflags);
-			_state.update();
+			_state._lastFrameUpdate = mvApp::s_frame;
+			_state._active = ImGui::IsItemActive();
+			_state._deactivated = ImGui::IsItemDeactivated();
+			_state._focused = ImGui::IsWindowFocused();
+			_state._hovered = ImGui::IsWindowHovered();
+			_state._rectSize = { ImGui::GetWindowWidth(), ImGui::GetWindowHeight() };
+			_state._contextRegionAvail = { ImGui::GetContentRegionAvail().x, ImGui::GetContentRegionAvail().y };
 
 			for (auto& item : _children[1])
 			{

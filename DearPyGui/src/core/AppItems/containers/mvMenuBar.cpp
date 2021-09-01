@@ -40,13 +40,13 @@ namespace Marvel {
 
 		if (ImGui::BeginMenuBar())
 		{
-			_state.update();
 
 			for (auto& item : _children[1])
 				item->draw(drawlist, ImGui::GetCursorPosX(), ImGui::GetCursorPosY());
 
 			ImGui::EndMenuBar();
 		}
+
 	}
 
 }

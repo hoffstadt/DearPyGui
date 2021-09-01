@@ -156,8 +156,10 @@ namespace Marvel {
 				{
 					mvApp::GetApp()->getItemRegistry().deleteItem(m_selectedItem, false);
 					m_selectedItem = 0;
-                    _itemref = nullptr;
 				});
+
+            _itemref = nullptr;
+            _itemref = mvApp::GetApp()->getItemRegistry()._windowRoots[0].get();
 		}
 		ImGui::SameLine();
 		if (ImGui::Button("Show"))
