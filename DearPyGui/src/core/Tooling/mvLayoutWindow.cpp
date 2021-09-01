@@ -209,9 +209,12 @@ namespace Marvel {
 		if(applicableState & MV_STATE_HOVER) DebugItem("Item Hovered:", _itemref->getState().isItemHovered(1) ? ts : fs);
 		if(applicableState & MV_STATE_ACTIVE) DebugItem("Item Active:", _itemref->getState().isItemActive(1) ? ts : fs);
 		if(applicableState & MV_STATE_FOCUSED) DebugItem("Item Focused:", _itemref->getState().isItemFocused(1) ? ts : fs);
-		if(applicableState & MV_STATE_CLICKED) DebugItem("Item Left Clicked:", _itemref->getState().isItemLeftClicked(1) ? ts : fs);
-		if(applicableState & MV_STATE_CLICKED) DebugItem("Item Right Clicked:", _itemref->getState().isItemRightClicked(1) ? ts : fs);
-		if(applicableState & MV_STATE_CLICKED) DebugItem("Item Middle Clicked:", _itemref->getState().isItemMiddleClicked(1) ? ts : fs);
+        if (applicableState & MV_STATE_CLICKED)
+        {
+            DebugItem("Item Left Clicked:", _itemref->getState().isItemLeftClicked(1) ? ts : fs);
+            DebugItem("Item Right Clicked:", _itemref->getState().isItemRightClicked(1) ? ts : fs);
+            DebugItem("Item Middle Clicked:", _itemref->getState().isItemMiddleClicked(1) ? ts : fs);
+        }
 		if(applicableState & MV_STATE_EDITED) DebugItem("Item Edited:", _itemref->getState().isItemEdited(1) ? ts : fs);
 		if(applicableState & MV_STATE_ACTIVATED) DebugItem("Item Activated:", _itemref->getState().isItemActivated(1) ? ts : fs);
 		if(applicableState & MV_STATE_DEACTIVATED) DebugItem("Item Deactivated:", _itemref->getState().isItemDeactivated(1) ? ts : fs);
