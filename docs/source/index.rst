@@ -56,16 +56,19 @@ for the most detailed documentation on any specific topic.
    :caption: Tutorials
 
    /tutorials/first-steps
+   /tutorials/structure-overview
 
 Documentation
 -------------
 
-* Live Demo: A mostly complete showcase of DPG can be found by running the
+* Live Demo:
+    A mostly complete showcase of DPG can be found by running the
     :py:func:`show_demo <dearpygui.demo.show_demo>` command in the :py:mod:`dearpygui.demo` module.
-* Internal Documentation: Run
-    :py:func:`show_documentation <dearpygui.dearpygui.show_documentation>` view the reference guide.
+* Internal Documentation:
+    Run :py:func:`show_documentation <dearpygui.dearpygui.show_documentation>`
 
-:doc:`Online API Reference <introduction>`
+* API Reference Guide
+    :doc:`Online API Reference </api-reference/intro>`
 
 .. toctree::
    :maxdepth: 2
@@ -73,3 +76,4 @@ Documentation
    :caption: Documentation
 
    /api-reference/render-loop
+   /api-reference/viewport

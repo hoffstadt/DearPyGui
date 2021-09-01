@@ -12,17 +12,15 @@ Installing
 
 Python 3.6 (64 bit) or above is required.
 
-.. prompt:: cmd
+.. code-block:: cmd
 
     pip install dearpygui
 
 First Run
 ---------
 
-Lets start with creating a window and adding some UI Items
-and start the render loop with :py:func:`start_dearpygui <dearpygui.dearpygui.show_documentation>.
-
-.. seealso:: :doc: `Markdown <..\api-reference\render-loop`
+Lets check the pip install by creating a window, adding some Widgets.
+and starting the render loop with :py:func:`start_dearpygui <dearpygui.dearpygui.start_dearpygui>`.
 
 **Code:**
 

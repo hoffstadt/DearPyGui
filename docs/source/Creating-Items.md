@@ -2,7 +2,7 @@
 |----|
 ||
 
-DearPyGui can be broken down into a few of categories:
+DearPyGui can be broken down into a few categories:
 * **Items**
 * **UI Items**
 * **Containers**
@@ -15,7 +15,7 @@ All items have the following optional parameters: `label`, `id`, `user_data`, an
 
 
 ## Containers
-**Container** items act as -- well, *containers*. They are used to parent and store other items (including other containers). In addition to creating them by calling their corresponding `add_` function, they can also be created by calling their appropriately-named context manager function. Using these functions are the most convenient (and recommended) way to create new containers.
+**Container** items are used to parent and store other items (including other containers). In addition to creating them by calling their corresponding `add_` function, they can also be created by calling their appropriately-named context manager function. Using these functions are the most convenient (and recommended) way to create new containers.
 
 Below is an example of creating two new **window** items using their context manager function and starting the application:
 ```python
