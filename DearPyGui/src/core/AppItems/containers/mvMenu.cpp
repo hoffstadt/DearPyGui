@@ -113,7 +113,14 @@ namespace Marvel {
 			// create menu and see if its selected
 			if (ImGui::BeginMenu(_internalLabel.c_str(), _enabled))
 			{
-				_state.update();
+				_state._lastFrameUpdate = mvApp::s_frame;
+				_state._active = ImGui::IsItemActive();
+				_state._activated = ImGui::IsItemActivated();
+				_state._deactivated = ImGui::IsItemDeactivated();
+				_state._focused = ImGui::IsWindowFocused();
+				_state._hovered = ImGui::IsWindowHovered();
+				_state._rectSize = { ImGui::GetWindowWidth(), ImGui::GetWindowHeight() };
+				_state._contextRegionAvail = { ImGui::GetContentRegionAvail().x, ImGui::GetContentRegionAvail().y };
 
 				// set other menus's value false on same level
 				for (auto& sibling : _parentPtr->getChildren(1))
