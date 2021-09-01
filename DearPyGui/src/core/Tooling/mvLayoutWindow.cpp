@@ -172,6 +172,7 @@ namespace Marvel {
 		DebugItem("Label:", _itemref->_specificedlabel.c_str());
 		DebugItem("ID:", std::to_string(_itemref->getUUID()).c_str());
 		DebugItem("Alias:", _itemref->getAlias().c_str());
+		DebugItem("Type:", _itemref->getTypeString());
 		DebugItem("Filter:", _itemref->getFilter().c_str());
 		DebugItem("Payload Type:", _itemref->_payloadType.c_str());
         DebugItem("Location:", std::to_string(_itemref->_location).c_str());
