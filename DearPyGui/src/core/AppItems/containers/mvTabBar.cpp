@@ -88,6 +88,10 @@ namespace Marvel {
 
 	void mvTabBar::draw(ImDrawList* drawlist, float x, float y)
 	{
+
+        if(!_show)
+            return;
+        
 		ScopedID id(_uuid);
 
 		ImGui::BeginGroup();
@@ -95,8 +99,9 @@ namespace Marvel {
 		if (ImGui::BeginTabBar(_internalLabel.c_str(), _flags))
 		{
 
-			_state.update();
-
+            _state._lastFrameUpdate = mvApp::s_frame;
+            _state._visible = true; // BeginTabBar(...) only reaches this if visible
+            
 			for (auto& item : _children[1])
 			{
 

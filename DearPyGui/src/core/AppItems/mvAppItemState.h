@@ -65,23 +65,8 @@ namespace Marvel {
         [[nodiscard]] mvVec2 getContextRegionAvail () const;
 
         // setters
-        //void setHovered             (bool value)  { _hovered = value; }
-        //void setActive              (bool value)  { _active = value; }
-        //void setFocused             (bool value)  { _focused = value; }
-        //void setLeftClicked         (bool value)  { _leftclicked = value; }
-        //void setRightClicked        (bool value)  { _rightclicked = value; }
-        //void setMiddleClicked       (bool value)  { _middleclicked = value; }
-        //void setVisible             (bool value)  { _visible = value; }
-        //void setEdited              (bool value)  { _edited = value; }
-        //void setActivated           (bool value)  { _activated = value; }
-        //void setDeactivated         (bool value)  { _deactivated = value; }
-        //void setDeactivatedAfterEdit(bool value)  { _deactivatedAfterEdit = value; }
-        //void setToggledOpen         (bool value)  { _toggledOpen = value; }
-        //void setRectMin             (mvVec2 value){ _rectMin = value; }
-        //void setRectMax             (mvVec2 value){ _rectMax = value; }
-        //void setRectSize            (mvVec2 value){ _rectSize = value; }
-        void setPos                 (mvVec2 value){ _pos = value; }
-        void setOk                  (bool value)  { _ok = value; };
+        void setPos(mvVec2 value){ _pos = value; }
+        void setOk(bool value)  { _ok = value; };
 
     public:
 
