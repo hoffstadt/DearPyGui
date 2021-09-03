@@ -28,35 +28,36 @@ SOFTWARE.
 
 namespace Marvel {
 
-	MV_REGISTER_WIDGET(mvMenuBar, MV_ITEM_DESC_CONTAINER, StorageValueTypes::Bool, 1);
-	class mvMenuBar : public mvAppItem
-	{
+    MV_REGISTER_WIDGET(mvMenuBar, MV_ITEM_DESC_CONTAINER, StorageValueTypes::Bool, 1);
+    class mvMenuBar : public mvAppItem
+    {
 
-	public:
+    public:
 
-		static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
+        static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
 
-		MV_APPLY_WIDGET_REGISTRATION(mvAppItemType::mvMenuBar, add_menu_bar)
-		MV_NO_COMMANDS
-		MV_DEFAULT_CHILDREN
-		MV_NO_CONSTANTS
+        MV_APPLY_WIDGET_REGISTRATION(mvAppItemType::mvMenuBar, add_menu_bar)
+        MV_NO_COMMANDS
+        MV_DEFAULT_CHILDREN
+        MV_NO_CONSTANTS
 
-		MV_SET_STATES(MV_STATE_NONE);
+        // TODO: apply appropriately
+        MV_SET_STATES(MV_STATE_NONE);
 
-		MV_START_PARENTS
-			MV_ADD_PARENT(mvAppItemType::mvWindowAppItem),
-			MV_ADD_PARENT(mvAppItemType::mvChild),
-			MV_ADD_PARENT(mvAppItemType::mvNodeEditor),
-			MV_ADD_PARENT(mvAppItemType::mvStage),
-			MV_ADD_PARENT(mvAppItemType::mvTemplateRegistry),
-		MV_END_PARENTS
+        MV_START_PARENTS
+            MV_ADD_PARENT(mvAppItemType::mvWindowAppItem),
+            MV_ADD_PARENT(mvAppItemType::mvChild),
+            MV_ADD_PARENT(mvAppItemType::mvNodeEditor),
+            MV_ADD_PARENT(mvAppItemType::mvStage),
+            MV_ADD_PARENT(mvAppItemType::mvTemplateRegistry),
+        MV_END_PARENTS
 
-	public:
+    public:
 
-		explicit mvMenuBar(mvUUID uuid);
+        explicit mvMenuBar(mvUUID uuid);
 
-		void draw(ImDrawList* drawlist, float x, float y) override;
+        void draw(ImDrawList* drawlist, float x, float y) override;
 
-	};
+    };
 
 }

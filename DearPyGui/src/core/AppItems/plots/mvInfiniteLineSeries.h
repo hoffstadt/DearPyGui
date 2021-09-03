@@ -1,3 +1,26 @@
+/***************************************************************************//*/
+Copyright (c) 2021 Dear PyGui, LLC
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+/******************************************************************************/
+
 #pragma once
 
 #include "mvPlot.h"
@@ -12,98 +35,102 @@
 
 namespace Marvel {
 
-	//-----------------------------------------------------------------------------
-	// mvVLineSeries
-	//-----------------------------------------------------------------------------
-	MV_REGISTER_WIDGET(mvVLineSeries, MV_ITEM_DESC_DEFAULT | MV_ITEM_DESC_CONTAINER, StorageValueTypes::Series, 1);
-	class mvVLineSeries : public mvAppItem
-	{
-	public:
+    //-----------------------------------------------------------------------------
+    // mvVLineSeries
+    //-----------------------------------------------------------------------------
+    MV_REGISTER_WIDGET(mvVLineSeries, MV_ITEM_DESC_DEFAULT | MV_ITEM_DESC_CONTAINER, StorageValueTypes::Series, 1);
+    class mvVLineSeries : public mvAppItem
+    {
+    public:
 
-		static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
+        static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
 
-		MV_APPLY_WIDGET_REGISTRATION(mvAppItemType::mvVLineSeries, add_vline_series)
-		MV_NO_COMMANDS
-		MV_DEFAULT_CHILDREN
-		MV_NO_CONSTANTS
+        MV_APPLY_WIDGET_REGISTRATION(mvAppItemType::mvVLineSeries, add_vline_series)
+        MV_NO_COMMANDS
+        MV_DEFAULT_CHILDREN
+        MV_NO_CONSTANTS
 
-		MV_SET_STATES(MV_STATE_NONE);
+        MV_SET_STATES(MV_STATE_NONE);
 
-		MV_START_PARENTS
-			MV_ADD_PARENT(mvAppItemType::mvPlotAxis),
-			MV_ADD_PARENT(mvAppItemType::mvTemplateRegistry),
-		MV_END_PARENTS
+        MV_START_PARENTS
+            MV_ADD_PARENT(mvAppItemType::mvPlotAxis),
+            MV_ADD_PARENT(mvAppItemType::mvTemplateRegistry),
+        MV_END_PARENTS
 
-	public:
+    public:
 
-		explicit mvVLineSeries(mvUUID uuid);
+        explicit mvVLineSeries(mvUUID uuid);
 
-		void draw(ImDrawList* drawlist, float x, float y) override;
-		void setDataSource(mvUUID dataSource) override;
-		void* getValue() override { return &_value; }
-		PyObject* getPyValue() override;
-		void setPyValue(PyObject* value) override;
-		void handleSpecificRequiredArgs(PyObject* args) override;
-		void handleSpecificKeywordArgs(PyObject* dict) override;
-		void getSpecificConfiguration(PyObject* dict) override;
-		void applySpecificTemplate(mvAppItem* item) override;
+        void draw(ImDrawList* drawlist, float x, float y) override;
+        void handleSpecificRequiredArgs(PyObject* args) override;
+        void handleSpecificKeywordArgs(PyObject* dict) override;
+        void getSpecificConfiguration(PyObject* dict) override;
+        void applySpecificTemplate(mvAppItem* item) override;
 
-	private:
+        // values
+        void setDataSource(mvUUID dataSource) override;
+        void* getValue() override { return &_value; }
+        PyObject* getPyValue() override;
+        void setPyValue(PyObject* value) override;
 
-		mvRef<std::vector<std::vector<double>>> _value = CreateRef<std::vector<std::vector<double>>>(
-			std::vector<std::vector<double>>{ std::vector<double>{},
-			std::vector<double>{},
-			std::vector<double>{},
-			std::vector<double>{},
-			std::vector<double>{} });
+    private:
 
-	};
+        mvRef<std::vector<std::vector<double>>> _value = CreateRef<std::vector<std::vector<double>>>(
+            std::vector<std::vector<double>>{ std::vector<double>{},
+            std::vector<double>{},
+            std::vector<double>{},
+            std::vector<double>{},
+            std::vector<double>{} });
 
-	//-----------------------------------------------------------------------------
-	// mvHLineSeries
-	//-----------------------------------------------------------------------------
-	MV_REGISTER_WIDGET(mvHLineSeries, MV_ITEM_DESC_DEFAULT | MV_ITEM_DESC_CONTAINER, StorageValueTypes::Series, 1);
-	class mvHLineSeries : public mvAppItem
-	{
-	public:
+    };
 
-		static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
+    //-----------------------------------------------------------------------------
+    // mvHLineSeries
+    //-----------------------------------------------------------------------------
+    MV_REGISTER_WIDGET(mvHLineSeries, MV_ITEM_DESC_DEFAULT | MV_ITEM_DESC_CONTAINER, StorageValueTypes::Series, 1);
+    class mvHLineSeries : public mvAppItem
+    {
+    public:
 
-		MV_APPLY_WIDGET_REGISTRATION(mvAppItemType::mvHLineSeries, add_hline_series)
-		MV_NO_COMMANDS
-		MV_DEFAULT_CHILDREN
-		MV_NO_CONSTANTS
+        static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
 
-		MV_SET_STATES(MV_STATE_NONE);
+        MV_APPLY_WIDGET_REGISTRATION(mvAppItemType::mvHLineSeries, add_hline_series)
+        MV_NO_COMMANDS
+        MV_DEFAULT_CHILDREN
+        MV_NO_CONSTANTS
 
-		MV_START_PARENTS
-			MV_ADD_PARENT(mvAppItemType::mvPlotAxis),
-			MV_ADD_PARENT(mvAppItemType::mvTemplateRegistry),
-		MV_END_PARENTS
+        MV_SET_STATES(MV_STATE_NONE);
 
-	public:
+        MV_START_PARENTS
+            MV_ADD_PARENT(mvAppItemType::mvPlotAxis),
+            MV_ADD_PARENT(mvAppItemType::mvTemplateRegistry),
+        MV_END_PARENTS
 
-		explicit mvHLineSeries(mvUUID uuid);
+    public:
 
-		void draw(ImDrawList* drawlist, float x, float y) override;
-		void setDataSource(mvUUID dataSource) override;
-		void* getValue() override { return &_value; }
-		PyObject* getPyValue() override;
-		void setPyValue(PyObject* value) override;
-		void handleSpecificRequiredArgs(PyObject* args) override;
-		void handleSpecificKeywordArgs(PyObject* dict) override;
-		void getSpecificConfiguration(PyObject* dict) override;
-		void applySpecificTemplate(mvAppItem* item) override;
+        explicit mvHLineSeries(mvUUID uuid);
 
-	private:
+        void draw(ImDrawList* drawlist, float x, float y) override;
+        void handleSpecificRequiredArgs(PyObject* args) override;
+        void handleSpecificKeywordArgs(PyObject* dict) override;
+        void getSpecificConfiguration(PyObject* dict) override;
+        void applySpecificTemplate(mvAppItem* item) override;
 
-		mvRef<std::vector<std::vector<double>>> _value = CreateRef<std::vector<std::vector<double>>>(
-			std::vector<std::vector<double>>{ std::vector<double>{},
-			std::vector<double>{},
-			std::vector<double>{},
-			std::vector<double>{},
-			std::vector<double>{} });
+        // values
+        void setDataSource(mvUUID dataSource) override;
+        void* getValue() override { return &_value; }
+        PyObject* getPyValue() override;
+        void setPyValue(PyObject* value) override;
 
-	};
+    private:
+
+        mvRef<std::vector<std::vector<double>>> _value = CreateRef<std::vector<std::vector<double>>>(
+            std::vector<std::vector<double>>{ std::vector<double>{},
+            std::vector<double>{},
+            std::vector<double>{},
+            std::vector<double>{},
+            std::vector<double>{} });
+
+    };
 
 }

@@ -27,33 +27,35 @@ SOFTWARE.
 
 namespace Marvel {
 
-	MV_REGISTER_WIDGET(mvFilterSet, MV_ITEM_DESC_CONTAINER, StorageValueTypes::None, 1);
-	class mvFilterSet : public mvAppItem
-	{
+    MV_REGISTER_WIDGET(mvFilterSet, MV_ITEM_DESC_CONTAINER, StorageValueTypes::None, 1);
+    class mvFilterSet : public mvAppItem
+    {
 
-	public:
+    public:
 
-		static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
+        static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
 
-		MV_APPLY_WIDGET_REGISTRATION(mvAppItemType::mvFilterSet, add_filter_set)
-		MV_NO_COMMANDS
-		MV_DEFAULT_PARENTS
-		MV_DEFAULT_CHILDREN
-		MV_NO_CONSTANTS
+        MV_APPLY_WIDGET_REGISTRATION(mvAppItemType::mvFilterSet, add_filter_set)
+        MV_NO_COMMANDS
+        MV_DEFAULT_PARENTS
+        MV_DEFAULT_CHILDREN
+        MV_NO_CONSTANTS
 
-		MV_SET_STATES(MV_STATE_NONE);
+        MV_SET_STATES(MV_STATE_NONE);
 
-	public:
+    public:
 
-		explicit mvFilterSet(mvUUID uuid);
+        explicit mvFilterSet(mvUUID uuid);
 
-		void draw(ImDrawList* drawlist, float x, float y) override;
-		void setPyValue(PyObject* value) override;
-		PyObject* getPyValue() override;
+        void draw(ImDrawList* drawlist, float x, float y) override;
 
-	private:
+        // values
+        void setPyValue(PyObject* value) override;
+        PyObject* getPyValue() override;
 
-		ImGuiTextFilter _imguiFilter;
-	};
+    private:
+
+        ImGuiTextFilter _imguiFilter;
+    };
 
 }
