@@ -85,8 +85,7 @@ set(MARVEL_SOURCES
 	"src/core/AppItems/misc/mvProgressBar.cpp"
 	"src/core/AppItems/misc/mvSameLine.cpp"
 	"src/core/AppItems/misc/mvSeparator.cpp"
-	"src/core/AppItems/misc/mvDummy.cpp"
-	"src/core/AppItems/misc/mvSpacing.cpp"
+	"src/core/AppItems/misc/mvSpacer.cpp"
 
 	"src/core/AppItems/themes/mvTheme.cpp"
 	"src/core/AppItems/themes/mvThemeColor.cpp"

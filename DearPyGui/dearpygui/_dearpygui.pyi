@@ -146,10 +146,6 @@ def add_drawlist(*, label: str ='', user_data: Any ='', use_internal_label: bool
 	"""A container widget that is used to present draw items or layers. Layers and draw items should be added to this widget as children."""
 	...
 
-def add_dummy(*, label: str ='', user_data: Any ='', use_internal_label: bool ='', tag: Union[int, str] ='', width: int ='', height: int ='', indent: int ='', parent: Union[int, str] ='', before: Union[int, str] ='', show: bool ='', pos: Union[List[int], Tuple[int]] ='') -> Union[int, str]:
-	"""Adds a spacer or 'dummy' object."""
-	...
-
 def add_dynamic_texture(width : int, height : int, default_value : Union[List[float], Tuple[float]], *, label: str ='', user_data: Any ='', use_internal_label: bool ='', tag: Union[int, str] ='', parent: Union[int, str] ='') -> Union[int, str]:
 	"""Undocumented function"""
 	...
@@ -478,8 +474,8 @@ def add_slider_intx(*, label: str ='', user_data: Any ='', use_internal_label: b
 	"""Adds multi slider for up to 4 int values. CTRL+Click to directly modify the value."""
 	...
 
-def add_spacing(*, label: str ='', user_data: Any ='', use_internal_label: bool ='', tag: Union[int, str] ='', indent: int ='', parent: Union[int, str] ='', before: Union[int, str] ='', show: bool ='', pos: Union[List[int], Tuple[int]] ='', count: int ='') -> Union[int, str]:
-	"""Adds vertical spacing."""
+def add_spacer(*, label: str ='', user_data: Any ='', use_internal_label: bool ='', tag: Union[int, str] ='', width: int ='', height: int ='', indent: int ='', parent: Union[int, str] ='', before: Union[int, str] ='', show: bool ='', pos: Union[List[int], Tuple[int]] ='') -> Union[int, str]:
+	"""Adds a spacer."""
 	...
 
 def add_stage(*, label: str ='', user_data: Any ='', use_internal_label: bool ='', tag: Union[int, str] ='') -> Union[int, str]:
@@ -1278,7 +1274,6 @@ mvKey_Open_Brace=0
 mvKey_Backslash=0
 mvKey_Close_Brace=0
 mvKey_Quote=0
-mvSpacing=0
 mvSameLine=0
 mvInputText=0
 mvButton=0
@@ -1362,7 +1357,7 @@ mvWindowAppItem=0
 mvSelectable=0
 mvTreeNode=0
 mvProgressBar=0
-mvDummy=0
+mvSpacer=0
 mvImageButton=0
 mvTimePicker=0
 mvDatePicker=0

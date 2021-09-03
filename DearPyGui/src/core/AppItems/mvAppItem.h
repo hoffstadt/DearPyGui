@@ -51,7 +51,7 @@ namespace Marvel {
     //-----------------------------------------------------------------------------
     enum class mvAppItemType
     {
-        None = -1, All, mvSpacing, mvSameLine, mvInputText, mvButton,
+        None = -1, All, mvSameLine, mvInputText, mvButton,
         mvRadioButton, mvTabBar, mvTab, mvImage, mvMenuBar, mvViewportMenuBar,
         mvMenu, mvMenuItem, mvGroup, mvChild,
         mvSliderFloat, mvSliderInt, mvFilterSet,
@@ -60,7 +60,7 @@ namespace Marvel {
         mvColorPicker, mvTooltip, mvCollapsingHeader,
         mvSeparator, mvCheckbox, mvListbox, mvText, mvCombo,
         mvPlot, mvSimplePlot, mvDrawlist, mvWindowAppItem,
-        mvSelectable, mvTreeNode, mvProgressBar, mvDummy,
+        mvSelectable, mvTreeNode, mvProgressBar, mvSpacer,
         mvImageButton, mvTimePicker, mvDatePicker, mvColorButton,
         mvFileDialog, mvTabButton,
         mvNodeEditor, mvNode, mvNodeAttribute,
