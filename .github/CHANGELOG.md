@@ -37,6 +37,7 @@ We generally fold multiple commits pertaining to the same topic as a single entr
 ### New
 * module:  added `experimental`
 * item:    added `add_table_cell(...)`
+* item:    added `add_spacer(...)`
 * command: added `bind_theme(...)`
 * command: added `highlight_table_column(...)`
 * command: added `unhighlight_table_column(...)`
@@ -89,6 +90,8 @@ We generally fold multiple commits pertaining to the same topic as a single entr
 * command: `set_colormap(...)` is deprecated. Use `bind_colormap()`.
 * command: `reset_default_theme(...)` is deprecated. Use `bind_theme(0)`.
 * command: `set_staging_mode(...)` is deprecated. No longer needed.
+* command: `add_spacing(...)` is deprecated. Use 'add_spacer(...)`
+* command: `add_dummy(...)` is deprecated. Use 'add_spacer(...)`
 
 ### Fixes
 * fixed `get_item_configuration(...)` memory leak #1179

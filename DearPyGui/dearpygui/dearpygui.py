@@ -1260,6 +1260,54 @@ def staging_container(*, label: str =None, user_data: Any =None, use_internal_la
 	finally:
 		internal_dpg.pop_container_stack()
 
+@deprecated("Use: add_spacer(...)")
+def add_spacing(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, indent: int =-1,
+                parent: Union[int, str] =0, before: Union[int, str] =0, show: bool =True, pos: Union[List[int], Tuple[int]] =[], count: int =1) -> Union[int, str]:
+	"""	Adds vertical spacing.
+
+	Args:
+		label (str, optional): Overrides 'name' as label.
+		user_data (Any, optional): User data for callbacks.
+		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
+		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
+		indent (int, optional): Offsets the widget to the right the specified number multiplied by the indent style.
+		parent (Union[int, str], optional): Parent to add this item to. (runtime adding)
+		before (Union[int, str], optional): This item will be displayed before the specified item in the parent.
+		show (bool, optional): Attempt to render widget.
+		pos (Union[List[int], Tuple[int]], optional): Places the item relative to window coordinates, [0,0] is top left.
+		count (int, optional): Number of spacings to add the size is dependant on the curret style.
+	Returns:
+		Union[int, str]
+	"""
+
+	with internal_dpg.group(tag=tag) as result_id:
+		for i in range(count):
+			internal_dpg.add_spacer(label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, indent=indent, parent=parent, before=before, show=show, pos=pos, count=count)
+	return result_id
+
+@deprecated("Use: add_spacer(...)")
+def add_dummy(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, width: int =0, height: int =0, indent: int =-1, parent: Union[int, str] =0, before: Union[int, str] =0, show: bool =True, pos: Union[List[int], Tuple[int]] =[]) -> Union[int, str]:
+	"""	Adds a spacer or 'dummy' object.
+
+	Args:
+		label (str, optional): Overrides 'name' as label.
+		user_data (Any, optional): User data for callbacks.
+		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
+		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
+		width (int, optional): Width of the item.
+		height (int, optional): Height of the item.
+		indent (int, optional): Offsets the widget to the right the specified number multiplied by the indent style.
+		parent (Union[int, str], optional): Parent to add this item to. (runtime adding)
+		before (Union[int, str], optional): This item will be displayed before the specified item in the parent.
+		show (bool, optional): Attempt to render widget.
+		pos (Union[List[int], Tuple[int]], optional): Places the item relative to window coordinates, [0,0] is top left.
+	Returns:
+		Union[int, str]
+	"""
+
+	return internal_dpg.add_spacer(label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, width=width, height=height, indent=indent, parent=parent, before=before, show=show, pos=pos)
+
+
 ##########################################################
 # Container Context Managers
 ##########################################################
@@ -3300,27 +3348,6 @@ def add_drawlist(*, label: str =None, user_data: Any =None, use_internal_label: 
 
 	return internal_dpg.add_drawlist(label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, width=width, height=height, parent=parent, before=before, payload_type=payload_type, callback=callback, drag_callback=drag_callback, drop_callback=drop_callback, show=show, pos=pos, filter_key=filter_key, delay_search=delay_search, tracked=tracked, track_offset=track_offset)
 
-def add_dummy(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, width: int =0, height: int =0, indent: int =-1, parent: Union[int, str] =0, before: Union[int, str] =0, show: bool =True, pos: Union[List[int], Tuple[int]] =[]) -> Union[int, str]:
-	"""	Adds a spacer or 'dummy' object.
-
-	Args:
-		label (str, optional): Overrides 'name' as label.
-		user_data (Any, optional): User data for callbacks.
-		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
-		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
-		width (int, optional): Width of the item.
-		height (int, optional): Height of the item.
-		indent (int, optional): Offsets the widget to the right the specified number multiplied by the indent style.
-		parent (Union[int, str], optional): Parent to add this item to. (runtime adding)
-		before (Union[int, str], optional): This item will be displayed before the specified item in the parent.
-		show (bool, optional): Attempt to render widget.
-		pos (Union[List[int], Tuple[int]], optional): Places the item relative to window coordinates, [0,0] is top left.
-	Returns:
-		Union[int, str]
-	"""
-
-	return internal_dpg.add_dummy(label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, width=width, height=height, indent=indent, parent=parent, before=before, show=show, pos=pos)
-
 def add_dynamic_texture(width : int, height : int, default_value : Union[List[float], Tuple[float]], *, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, parent: Union[int, str] =internal_dpg.mvReservedUUID_2) -> Union[int, str]:
 	"""	Undocumented function
 
@@ -5231,25 +5258,26 @@ def add_slider_intx(*, label: str =None, user_data: Any =None, use_internal_labe
 
 	return internal_dpg.add_slider_intx(label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, width=width, indent=indent, parent=parent, before=before, source=source, payload_type=payload_type, callback=callback, drag_callback=drag_callback, drop_callback=drop_callback, show=show, enabled=enabled, pos=pos, filter_key=filter_key, tracked=tracked, track_offset=track_offset, default_value=default_value, size=size, no_input=no_input, clamped=clamped, min_value=min_value, max_value=max_value, format=format)
 
-def add_spacing(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, indent: int =-1, parent: Union[int, str] =0, before: Union[int, str] =0, show: bool =True, pos: Union[List[int], Tuple[int]] =[], count: int =1) -> Union[int, str]:
-	"""	Adds vertical spacing.
+def add_spacer(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, width: int =0, height: int =0, indent: int =-1, parent: Union[int, str] =0, before: Union[int, str] =0, show: bool =True, pos: Union[List[int], Tuple[int]] =[]) -> Union[int, str]:
+	"""	Adds a spacer.
 
 	Args:
 		label (str, optional): Overrides 'name' as label.
 		user_data (Any, optional): User data for callbacks.
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
 		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
+		width (int, optional): Width of the item.
+		height (int, optional): Height of the item.
 		indent (int, optional): Offsets the widget to the right the specified number multiplied by the indent style.
 		parent (Union[int, str], optional): Parent to add this item to. (runtime adding)
 		before (Union[int, str], optional): This item will be displayed before the specified item in the parent.
 		show (bool, optional): Attempt to render widget.
 		pos (Union[List[int], Tuple[int]], optional): Places the item relative to window coordinates, [0,0] is top left.
-		count (int, optional): Number of spacings to add the size is dependant on the curret style.
 	Returns:
 		Union[int, str]
 	"""
 
-	return internal_dpg.add_spacing(label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, indent=indent, parent=parent, before=before, show=show, pos=pos, count=count)
+	return internal_dpg.add_spacer(label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, width=width, height=height, indent=indent, parent=parent, before=before, show=show, pos=pos)
 
 def add_stage(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0) -> Union[int, str]:
 	"""	Undocumented function
@@ -7706,7 +7734,6 @@ mvKey_Open_Brace=internal_dpg.mvKey_Open_Brace
 mvKey_Backslash=internal_dpg.mvKey_Backslash
 mvKey_Close_Brace=internal_dpg.mvKey_Close_Brace
 mvKey_Quote=internal_dpg.mvKey_Quote
-mvSpacing=internal_dpg.mvSpacing
 mvSameLine=internal_dpg.mvSameLine
 mvInputText=internal_dpg.mvInputText
 mvButton=internal_dpg.mvButton
@@ -7790,7 +7817,7 @@ mvWindowAppItem=internal_dpg.mvWindowAppItem
 mvSelectable=internal_dpg.mvSelectable
 mvTreeNode=internal_dpg.mvTreeNode
 mvProgressBar=internal_dpg.mvProgressBar
-mvDummy=internal_dpg.mvDummy
+mvSpacer=internal_dpg.mvSpacer
 mvImageButton=internal_dpg.mvImageButton
 mvTimePicker=internal_dpg.mvTimePicker
 mvDatePicker=internal_dpg.mvDatePicker

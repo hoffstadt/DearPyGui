@@ -624,7 +624,7 @@ def show_demo():
                         dpg.add_drag_intx(label=f"drag int {i}", source=int_source, size=i)
                         dpg.add_slider_intx(label=f"slider int {i}", source=int_source, size=i)
             
-                    dpg.add_dummy(height=10)
+                    dpg.add_spacer(height=10)
 
             with dpg.tree_node(label="Vertical Sliders"):
 
