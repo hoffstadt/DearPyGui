@@ -51,9 +51,9 @@ namespace Marvel {
     //-----------------------------------------------------------------------------
     enum class mvAppItemType
     {
-        None = -1, All, mvSameLine, mvInputText, mvButton,
+        None = -1, All, mvInputText, mvButton,
         mvRadioButton, mvTabBar, mvTab, mvImage, mvMenuBar, mvViewportMenuBar,
-        mvMenu, mvMenuItem, mvGroup, mvChild,
+        mvMenu, mvMenuItem, mvChild, mvGroup,
         mvSliderFloat, mvSliderInt, mvFilterSet,
         mvDragFloat, mvDragInt, mvInputFloat,
         mvInputInt, mvColorEdit, mvClipper,

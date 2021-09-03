@@ -70,6 +70,7 @@ namespace Marvel {
 
         bool  _horizontal = false;
         float _hspacing = -1.0f;
+        float _xoffset = 0.0f;
 
     };
 
