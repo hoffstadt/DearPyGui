@@ -12,12 +12,14 @@ A DPG app will have an overall structure as follows:
 Viewport
 --------
 
-The viewport is what most other GUI libraries would call the *window* created by the operating system.
+The viewport is the *window* created by the operating system.
 
 Typically the viewport is handled automatically by DPG.
-The viewport needs to be explicitly created to control the viewport and taskbar icons.
+The viewport needs to be explicitly created to be
+customized for taskbar icons, custom sizing, decorators.
 
-Lets go back and revisit the first app but create the viewport explicitly.
+Lets go back and revisit the first app but create the viewport explicitly
+and give it a new title and size.
 
 **Code:**
 
@@ -84,35 +86,13 @@ Lets add this into the first app.
 Items
 -----
 
-DPG can be broken down into a few categories:
+DPG can be broken down into **Items**, **UI Items**, **Containers**
 
-    * Items
-    * UI Items
-    * Containers
+Items:
+    Items are anything in the library.
 
-**Items**
+UI Items:
+    Any item in dpg that shows up on the screen (i.e. button, listbox, window, ect).
 
-Items are anything in the library.
-
-These are applicable targets for commands
-like :py:func:`configure_item <dearpygui.dearpygui.configure_item>`,
-:py:func:`get_item_value <dearpygui.dearpygui.get_item_value>`, or any of the item commands.
-
-They are typically created using their *add_\*\*\** commands.
-
-.. note:: For the purposes of documentation any item that doesn't
-    show up on screen (i.e. registry, stage, clipper, ect.),
-    will most likely be referred to as their common name.
-
-.. seealso::
-    For more information on the creating items items :doc:`../api-reference/item-creation`
-
-**UI Items**
-
-Any item in dpg that shows up on the screen (i.e. button, listbox, window, ect).
-
-**Containers**
-
-Although also a UI item containers will be spoken of as their own category.
-
-.. note:: Containers are more useful when used with context managers.
+Containers:
+    Although also a UI item containers will be spoken of as their own category.
