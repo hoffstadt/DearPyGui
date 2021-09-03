@@ -74,7 +74,6 @@
 #include "misc/mvProgressBar.h"
 #include "misc/mvItemPool.h"
 #include "misc/mvSpacer.h"
-#include "misc/mvSameLine.h"
 #include "misc/mvSeparator.h"
 
 #include "containers/mvTemplateRegistry.h"

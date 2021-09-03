@@ -31,6 +31,7 @@ namespace Marvel {
 
 		parser.addArg<mvPyDataType::Bool>("horizontal", mvArgType::KEYWORD_ARG, "False", "Forces child widgets to be added in a horizontal layout.");
 		parser.addArg<mvPyDataType::Float>("horizontal_spacing", mvArgType::KEYWORD_ARG, "-1", "Spacing for the horizontal layout.");
+		parser.addArg<mvPyDataType::Float>("xoffset", mvArgType::KEYWORD_ARG, "0.0", "Offset from containing window x item location within group.");
 
 
 		parser.finalize();
@@ -118,7 +119,6 @@ namespace Marvel {
 				static_cast<mvTheme*>(_disabledTheme.get())->draw(nullptr, 0.0f, 0.0f);
 		}
 
-
 		//-----------------------------------------------------------------------------
 		// draw
 		//-----------------------------------------------------------------------------
@@ -137,7 +137,13 @@ namespace Marvel {
 			item->draw(drawlist, ImGui::GetCursorPosX(), ImGui::GetCursorPosY());
 
 			if (_horizontal)
-				ImGui::SameLine(0.0, _hspacing);
+				ImGui::SameLine((1 +item->getLocation())*_xoffset, _hspacing);
+
+			if (item->isTracked())
+			{
+				ImGui::SetScrollHereX(item->getTrackOffset());
+				ImGui::SetScrollHereY(item->getTrackOffset());
+			}
 		}
 
 		if (_width != 0)
@@ -215,6 +221,7 @@ namespace Marvel {
 		 
 		if (PyObject* item = PyDict_GetItemString(dict, "horizontal")) _horizontal = ToBool(item);
 		if (PyObject* item = PyDict_GetItemString(dict, "horizontal_spacing")) _hspacing = ToFloat(item);
+		if (PyObject* item = PyDict_GetItemString(dict, "xoffset")) _xoffset = ToFloat(item);
 	}
 
 	void mvGroup::getSpecificConfiguration(PyObject* dict)
@@ -224,6 +231,7 @@ namespace Marvel {
 		 
 		PyDict_SetItemString(dict, "horizontal", mvPyObject(ToPyBool(_horizontal)));
 		PyDict_SetItemString(dict, "horizontal_spacing", mvPyObject(ToPyFloat(_hspacing)));
+		PyDict_SetItemString(dict, "xoffset", mvPyObject(ToPyFloat(_xoffset)));
 	}
 
 }

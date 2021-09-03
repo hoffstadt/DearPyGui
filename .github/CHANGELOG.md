@@ -27,6 +27,7 @@ We generally fold multiple commits pertaining to the same topic as a single entr
 * changed `id` keyword to `tag`
 * item: removed table_next_column (deprecated)
 * table rows now required
+* removed `add_same_line(...)`
 * removed `default_font` keyword arg from `add_font(...)`, use `bind_font(...)` now
 * removed `default_theme` keyword arg from `add_theme(...)`, use `bind_theme(...)` now
 * removed `viewport` keyword arg from `setup_dearpygui(...)`
@@ -56,6 +57,7 @@ We generally fold multiple commits pertaining to the same topic as a single entr
 * command: added `add_item_set(...)`
 * command: added `add_template_registry(...)`
 * command: added `bind_template_registry(...)`
+* keyword: added `xoffset` to `group(...)`
 * keyword: added `id` to `popup(...)`
 * keyword: added `clipper` to `add_table(...)`
 * added deprecation system

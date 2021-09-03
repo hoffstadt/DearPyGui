@@ -198,7 +198,7 @@ def add_font_registry(*, label: str ='', user_data: Any ='', use_internal_label:
 	"""Undocumented function"""
 	...
 
-def add_group(*, label: str ='', user_data: Any ='', use_internal_label: bool ='', tag: Union[int, str] ='', width: int ='', indent: int ='', parent: Union[int, str] ='', before: Union[int, str] ='', payload_type: str ='', drag_callback: Callable ='', drop_callback: Callable ='', show: bool ='', pos: Union[List[int], Tuple[int]] ='', filter_key: str ='', delay_search: bool ='', tracked: bool ='', track_offset: float ='', horizontal: bool ='', horizontal_spacing: float ='') -> Union[int, str]:
+def add_group(*, label: str ='', user_data: Any ='', use_internal_label: bool ='', tag: Union[int, str] ='', width: int ='', indent: int ='', parent: Union[int, str] ='', before: Union[int, str] ='', payload_type: str ='', drag_callback: Callable ='', drop_callback: Callable ='', show: bool ='', pos: Union[List[int], Tuple[int]] ='', filter_key: str ='', delay_search: bool ='', tracked: bool ='', track_offset: float ='', horizontal: bool ='', horizontal_spacing: float ='', xoffset: float ='') -> Union[int, str]:
 	"""Creates a group that other widgets can belong to. The group allows item commands to be issued for all of its members. Must be closed with the end command."""
 	...
 
@@ -428,10 +428,6 @@ def add_radio_button(items : Union[List[str], Tuple[str]] ='', *, label: str =''
 
 def add_raw_texture(width : int, height : int, default_value : Union[List[float], Tuple[float]], *, label: str ='', user_data: Any ='', use_internal_label: bool ='', tag: Union[int, str] ='', format: int ='', parent: Union[int, str] ='') -> Union[int, str]:
 	"""Undocumented function"""
-	...
-
-def add_same_line(*, label: str ='', user_data: Any ='', use_internal_label: bool ='', tag: Union[int, str] ='', parent: Union[int, str] ='', before: Union[int, str] ='', show: bool ='', xoffset: float ='', spacing: float ='') -> Union[int, str]:
-	"""Places a widget on the same line as the previous widget. Can also be used for horizontal spacing."""
 	...
 
 def add_scatter_series(x : Union[List[float], Tuple[float]], y : Union[List[float], Tuple[float]], *, label: str ='', user_data: Any ='', use_internal_label: bool ='', tag: Union[int, str] ='', parent: Union[int, str] ='', before: Union[int, str] ='', source: Union[int, str] ='', show: bool ='') -> Union[int, str]:
@@ -1274,7 +1270,6 @@ mvKey_Open_Brace=0
 mvKey_Backslash=0
 mvKey_Close_Brace=0
 mvKey_Quote=0
-mvSameLine=0
 mvInputText=0
 mvButton=0
 mvTool_About=0
@@ -1304,8 +1299,8 @@ mvMenuBar=0
 mvViewportMenuBar=0
 mvMenu=0
 mvMenuItem=0
-mvGroup=0
 mvChild=0
+mvGroup=0
 mvSliderFloat=0
 mvSliderInt=0
 mvFilterSet=0

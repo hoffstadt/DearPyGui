@@ -83,7 +83,6 @@ set(MARVEL_SOURCES
 
 	"src/core/AppItems/misc/mvItemPool.cpp"
 	"src/core/AppItems/misc/mvProgressBar.cpp"
-	"src/core/AppItems/misc/mvSameLine.cpp"
 	"src/core/AppItems/misc/mvSeparator.cpp"
 	"src/core/AppItems/misc/mvSpacer.cpp"
 

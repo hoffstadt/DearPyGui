@@ -348,7 +348,7 @@ namespace Marvel {
 		{
 
 			item->draw(drawlist, ImGui::GetCursorPosX(), ImGui::GetCursorPosY());
-			if(item->isTracked())
+			if (item->isTracked())
 				ImGui::SetScrollHereY(item->getTrackOffset());
 
 		}
