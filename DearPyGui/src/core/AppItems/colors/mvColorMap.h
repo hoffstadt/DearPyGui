@@ -71,7 +71,7 @@ namespace Marvel {
         MV_CREATE_COMMAND(sample_colormap);
         MV_CREATE_COMMAND(get_colormap_color);
 
-		MV_SET_STATES(MV_STATE_NONE);
+        MV_SET_STATES(MV_STATE_NONE);
 
         MV_START_COMMANDS
             MV_ADD_COMMAND(bind_colormap);
@@ -111,10 +111,10 @@ namespace Marvel {
 
     private:
 
-        ImPlotColormap _colorMap = -1;
-        bool _qualitative = true;
+        ImPlotColormap      _colorMap = -1;
+        bool                _qualitative = true;
         std::vector<ImVec4> _colors;
-        bool _created = false;
+        bool                _created = false;
 
     };
 

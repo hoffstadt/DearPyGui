@@ -27,50 +27,49 @@ SOFTWARE.
 
 namespace Marvel {
 
-	MV_REGISTER_WIDGET(mvLoadingIndicator, MV_ITEM_DESC_DEFAULT, StorageValueTypes::None, 1);
-	class mvLoadingIndicator : public mvAppItem
-	{
+    MV_REGISTER_WIDGET(mvLoadingIndicator, MV_ITEM_DESC_DEFAULT, StorageValueTypes::None, 1);
+    class mvLoadingIndicator : public mvAppItem
+    {
 
-	public:
+    public:
 
-		static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
+        static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
 
-		MV_APPLY_WIDGET_REGISTRATION(mvAppItemType::mvLoadingIndicator, add_loading_indicator)
-		MV_NO_COMMANDS
-		MV_DEFAULT_PARENTS
-		MV_DEFAULT_CHILDREN
-		MV_NO_CONSTANTS
+        MV_APPLY_WIDGET_REGISTRATION(mvAppItemType::mvLoadingIndicator, add_loading_indicator)
+        MV_NO_COMMANDS
+        MV_DEFAULT_PARENTS
+        MV_DEFAULT_CHILDREN
+        MV_NO_CONSTANTS
 
-		MV_SET_STATES(
-			MV_STATE_HOVER |
-			MV_STATE_CLICKED |
-			MV_STATE_VISIBLE |
-			MV_STATE_RECT_MIN |
-			MV_STATE_RECT_MAX |
-			MV_STATE_RECT_SIZE |
-			MV_STATE_CONT_AVAIL
-		);
+        MV_SET_STATES(
+            MV_STATE_HOVER |
+            MV_STATE_CLICKED |
+            MV_STATE_VISIBLE |
+            MV_STATE_RECT_MIN |
+            MV_STATE_RECT_MAX |
+            MV_STATE_RECT_SIZE |
+            MV_STATE_CONT_AVAIL
+        );
 
-	public:
+    public:
 
-		explicit mvLoadingIndicator(mvUUID uuid);
+        explicit mvLoadingIndicator(mvUUID uuid);
 
-		void draw(ImDrawList* drawlist, float x, float y) override;
+        void draw(ImDrawList* drawlist, float x, float y) override;
+        void handleSpecificKeywordArgs(PyObject* dict) override;
+        void getSpecificConfiguration(PyObject* dict) override;
+        void applySpecificTemplate(mvAppItem* item) override;
 
-		void handleSpecificKeywordArgs(PyObject* dict) override;
-		void getSpecificConfiguration(PyObject* dict) override;
-		void applySpecificTemplate(mvAppItem* item) override;
+    private:
 
-	private:
+        int     _style = 0;
+        int     _circleCount = 8;
+        float   _radius = 3.0f;
+        float   _speed = 1.0f;
+        float   _thickness = 1.0f;
+        mvColor _mainColor = mvColor(51, 51, 55, 255);
+        mvColor _optionalColor = mvColor(29, 151, 236, 103);
 
-		int     _style = 0;
-		int     _circleCount = 8;
-		float   _radius = 3.0f;
-		float   _speed = 1.0f;
-		float   _thickness = 1.0f;
-		mvColor _mainColor = mvColor(51, 51, 55, 255);
-		mvColor _optionalColor = mvColor(29, 151, 236, 103);
-
-	};
+    };
 
 }
