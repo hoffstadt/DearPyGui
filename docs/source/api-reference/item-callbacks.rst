@@ -22,6 +22,7 @@ app_data:
     to the callback. This includes the current value of most basic widgets.
 
 .. code-block:: python
+
     import dearpygui.dearpygui as dpg
     
     def button_callback(sender, app_data):
@@ -48,6 +49,7 @@ item is created or after the item is created using
 User data can be any python object. 
 
 .. code-block:: python
+
     import dearpygui.dearpygui as dpg
     
     def button_callback(sender, app_data, user_data):

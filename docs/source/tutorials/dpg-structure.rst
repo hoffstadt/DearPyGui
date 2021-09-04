@@ -96,3 +96,26 @@ UI Items:
 
 Containers:
     Although also a UI item containers will be spoken of as their own category.
+
+Primary Window
+--------------
+
+DPG can assign one window to be the *primary window* will fill the
+viewport and always be drawn behind and other floating windows.
+
+**Code:**
+
+.. code-block:: python
+
+    import dearpygui.dearpygui as dpg
+
+    with dpg.window(id="Primary Window", label="Example Window"):
+        dpg.add_text("Hello, world")
+        dpg.add_button(label="Save")
+        dpg.add_input_text(label="string", default_value="Quick brown fox")
+        dpg.add_slider_float(label="float", default_value=0.273, max_value=1)
+
+    dpg.set_primary_window("Primary Window", True)
+    dpg.start_dearpygui()
+
+.. seealso:: for more information on the viewport :doc:`../api-reference/primary-window`

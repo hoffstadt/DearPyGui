@@ -1,4 +1,4 @@
-Creating Items
+Item Creation
 ==============
 
 DearPyGui can be broken down into **Items**, **UI Items**, **Containers**
@@ -34,6 +34,7 @@ Below is an example of creating two new **window** items
 using their context manager function and starting the application:
 
 .. code-block:: python
+
     import dearpygui.dearpygui as dpg
 
     with dpg.window(label="Window1", pos=(0,0)) as window1:
@@ -58,6 +59,7 @@ Below is an example for creating a **window** container
 that parents a few other items:
 
 .. code-block:: python
+
     import dearpygui.dearpygui as dpg
 
 
@@ -83,7 +85,6 @@ that parents a few other items:
     button2=dpg.add_button(label="Don't forget me!", parent=window)
 
     dpg.start_dearpygui()
-
 
 .. image:: https://raw.githubusercontent.com/Atlamillias/DearPyGui-Stuff/main/wiki%20images/dpg_creating_widgets_ex1.png
 

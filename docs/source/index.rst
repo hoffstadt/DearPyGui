@@ -58,9 +58,8 @@ for the most detailed documentation on any specific topic.
     :caption: Tutorials
 
     /tutorials/first-steps
-    /tutorials/structure-overview
-    /tutorials/creating-items
-    /tutorials/call-config
+    /tutorials/dpg-structure
+    /tutorials/item-usage
 
 Documentation
 -------------
@@ -81,6 +80,14 @@ API Reference Guide
 
     /api-reference/render-loop
     /api-reference/viewport
+    /api-reference/primary-window
+    /api-reference/io-handlers-state
     /api-reference/item-creation
-    /api-reference/item-callbacks
+    /api-reference/item-creation-runtime
+    /api-reference/item-id-system
     /api-reference/item-configuration
+    /api-reference/item-callbacks
+    /api-reference/item-value
+    /api-reference/container-context-manager
+    /api-reference/container-slots
+    /api-reference/container-stacks
