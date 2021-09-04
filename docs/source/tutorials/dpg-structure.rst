@@ -8,6 +8,7 @@ A DPG app will have an overall structure as follows:
     * Viewport
     * Render Loop
     * Items
+    * Primary Window
 
 Viewport
 --------
