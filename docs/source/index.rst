@@ -20,7 +20,7 @@ Additionally, DPG has incredibly dynamic
 charts, tables, drawings, logging, debugger, and multiple resource viewers.
 
 DPG is well suited for creating simple user interfaces
-to wrap basic command line interfaces as well as to developing complex and
+as well as to developing complex and
 demanding graphical interfaces.
 
 DPG offers a solid framework for developing science,
@@ -46,9 +46,13 @@ engineering, games, data science and other applications that require fast and in
 First Steps
 -----------
 
-If you're ready to start using Dear PyGui visit the :doc:`first-run`
+If you're ready to start using Dear PyGui visit
+the :doc:`tutorials/first-steps` in tutorials.
 
-The Tutorials will provide a great overview and stepping stone into the library. However use the API reference
+The :doc:`Tutorials <tutorials/first-steps>` will provide a great overview
+and links to each topic in the API Reference for more detailed reading.
+
+However use the API reference
 for the most detailed documentation on any specific topic.
 
 .. toctree::
@@ -60,6 +64,8 @@ for the most detailed documentation on any specific topic.
     /tutorials/first-steps
     /tutorials/dpg-structure
     /tutorials/item-usage
+    /tutorials/custom-appearance
+    /tutorials/tips-resources
 
 Documentation
 -------------

@@ -21,8 +21,6 @@ All items return their id's when they are created.
     Item id's should be unique if specified using the *id* keyword.
     Integers 0-10 are reserved for DPG.
 
-.. note:: Items can be created delete at runtime see :doc:`../api-reference/item-creation-runtime`
-
 .. code-block:: python
 
     import dearpygui.dearpygui as dpg
@@ -37,6 +35,8 @@ All items return their id's when they are created.
     print(dpg.get_item_label("Btn2"))
 
     dpg.start_dearpygui()
+
+.. note:: Items can be created delete at runtime see :doc:`../api-reference/item-creation-runtime`
 
 .. seealso::
     | For more information on the creating items:
@@ -93,7 +93,7 @@ Each of these can be accessed by its corresponding function
     keywords that reflect its information (item type, children, theme, ect)
 
 .. note:: configuration, state and info have been broken into
-    commands that access each individual keyword specifically
+    separate commands that access each individual keyword,
     instead of returning the entire dictionary.
 
     | Examples:
@@ -125,8 +125,7 @@ by viewing them through the item registry tool.
     dpg.start_dearpygui()
 
 .. seealso::
-    For more information on the these topics
-
+    | For more information on the these topics:
     | :doc:`../api-reference/item-configuration`
     | :doc:`../api-reference/io-handlers-state`
 
@@ -140,8 +139,8 @@ Functions or methods are assigned as UI item callbacks when
 an item is created or at a later time using
 :py:func:`set_item_callback <dearpygui.dearpygui.set_item_callback>`
 
-Callbacks should typically have up to 3
-standard arguments:
+Callbacks may have up to 3
+standard keyword arguments:
 
 sender:
    the *id* of the UI item that submitted the callback
@@ -182,13 +181,11 @@ Values
 ------
 
 Most UI items have a value which can be accessed or set.
+
 All UI items that have a value also have the *default_value* parameter
 which will set the items' initial starting value.
 
-values can be accessed using :py:func:`get_value <dearpygui.dearpygui.get_value>`
-
-.. note::
-    The values' type depends on the widget. (ex.) input_int default value needs to be an integer.
+Values can be accessed using :py:func:`get_value <dearpygui.dearpygui.get_value>`
 
 Below is an example of two setting the *default_value* for different items
 setting a callback to the items and printing their values.
@@ -255,8 +252,11 @@ We can set the position of the slider by changing items' value at runtime using
 
 .. image:: https://raw.githubusercontent.com/Atlamillias/DearPyGui-Stuff/main/wiki%20images/dpg_using_widgets_ex2.png
 
+.. note::
+    The values' type depends on the widget. (ex.) input_int default value needs to be an integer.
+
 .. seealso::
-    For more information :doc:`../api-reference/item-value`
+    For more information on item values :doc:`../api-reference/item-value`
 
 Item Handlers
 -------------
@@ -277,4 +277,4 @@ UI item handlers listen for events (changes in state) related to a UI item then 
     dpg.start_dearpygui()
 
 .. seealso::
-    For more information :doc:`../api-reference/io-handlers-state`
+    For more information on item handlers :doc:`../api-reference/io-handlers-state`
