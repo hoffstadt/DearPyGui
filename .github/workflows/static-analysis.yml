@@ -1,12 +1,26 @@
-name: static-analysis
+name: Static Analysis
 
 on:
-  push: {}
-  pull_request: {}
+  push:
+
+    branches:
+      - master
+      - development
+      - development_*
+
+    paths-ignore:
+      - 'docs/**'
+      - 'Resources/**'
+      - 'Scripts/**'
+      - 'Tools/**'
+
+  pull_request:
+  workflow_dispatch:
 
 jobs:
   PVS-Studio:
     runs-on: ubuntu-20.04
+    if: ${{! contains(github.event.head_commit.message, '[individual]') || contains(github.event.head_commit.message, '[static analysis]')}}
     steps:
       - uses: actions/checkout@v1
         #with:

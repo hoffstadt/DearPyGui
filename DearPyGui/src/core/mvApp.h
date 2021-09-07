@@ -81,7 +81,6 @@ namespace Marvel {
         MV_CREATE_COMMAND(split_frame);
         MV_CREATE_COMMAND(get_frame_count);
         MV_CREATE_COMMAND(get_frame_rate);
-        MV_CREATE_COMMAND(reset_default_theme);
         MV_CREATE_COMMAND(get_app_configuration);
         MV_CREATE_COMMAND(configure_app);
 
@@ -101,7 +100,6 @@ namespace Marvel {
             MV_ADD_COMMAND(split_frame);
             MV_ADD_COMMAND(get_frame_count);
             MV_ADD_COMMAND(get_frame_rate);
-            MV_ADD_COMMAND(reset_default_theme);
             MV_ADD_COMMAND(get_app_configuration);
             MV_ADD_COMMAND(configure_app);
         MV_END_COMMANDS
@@ -163,6 +161,7 @@ namespace Marvel {
         //-----------------------------------------------------------------------------
         std::map<std::string, mvPythonParser>& getParsers();
         void                                   cleanup();
+        void                                   resetTheme() { _resetTheme = true; }
             
     private:
 

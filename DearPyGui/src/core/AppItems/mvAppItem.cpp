@@ -69,6 +69,14 @@ namespace Marvel{
 		{
 			mvPythonParser parser(mvPyDataType::None, "Undocumented", { "Themes", "App Item Operations" });
 			parser.addArg<mvPyDataType::UUID>("item");
+			parser.addArg<mvPyDataType::UUID>("handler_registry");
+			parser.finalize();
+			parsers->insert({ "bind_item_handler_registry", parser });
+		}
+
+		{
+			mvPythonParser parser(mvPyDataType::None, "Undocumented", { "Themes", "App Item Operations" });
+			parser.addArg<mvPyDataType::UUID>("item");
 			parser.addArg<mvPyDataType::UUID>("theme");
 			parser.finalize();
 			parsers->insert({ "bind_item_theme", parser });
@@ -174,7 +182,7 @@ namespace Marvel{
 		parser.addArg<mvPyDataType::Object>("user_data", mvArgType::KEYWORD_ARG, "None", "User data for callbacks.");
 		parser.addArg<mvPyDataType::Bool>("use_internal_label", mvArgType::KEYWORD_ARG, "True", "Use generated internal label instead of user specified (appends ### uuid).");
 	
-		if(args & MV_PARSER_ARG_ID)            parser.addArg<mvPyDataType::UUID>("id", mvArgType::KEYWORD_ARG, "0", "Unique id used to programmatically refer to the item.If label is unused this will be the label.");
+		if(args & MV_PARSER_ARG_ID)            parser.addArg<mvPyDataType::UUID>("tag", mvArgType::KEYWORD_ARG, "0", "Unique id used to programmatically refer to the item.If label is unused this will be the label.");
 		if(args & MV_PARSER_ARG_WIDTH)         parser.addArg<mvPyDataType::Integer>("width", mvArgType::KEYWORD_ARG, "0", "Width of the item.");
 		if(args & MV_PARSER_ARG_HEIGHT)        parser.addArg<mvPyDataType::Integer>("height", mvArgType::KEYWORD_ARG, "0", "Height of the item.");
 		if(args & MV_PARSER_ARG_INDENT)        parser.addArg<mvPyDataType::Integer>("indent", mvArgType::KEYWORD_ARG, "-1", "Offsets the widget to the right the specified number multiplied by the indent style.");
@@ -453,143 +461,6 @@ namespace Marvel{
 		return false;
 	}
 
-	bool mvAppItem::preDraw()
-	{
-		if (!_show)
-			return false;
-
-		if (_focusNextFrame)
-		{
-			ImGui::SetKeyboardFocusHere();
-			_focusNextFrame = false;
-		}
-
-		_previousCursorPos = ImGui::GetCursorPos();
-		if (_dirtyPos)
-			ImGui::SetCursorPos(_state.getItemPos());
-
-		_state.setPos({ ImGui::GetCursorPosX(), ImGui::GetCursorPosY() });
-
-		// set item width
-		if (_width != 0)
-			ImGui::SetNextItemWidth((float)_width);
-
-		if (_indent > 0.0f)
-			ImGui::Indent(_indent);
-
-		if (_font)
-		{
-			ImFont* fontptr = static_cast<mvFont*>(_font.get())->getFontPtr();
-			ImGui::PushFont(fontptr);
-		}
-
-
-		if (_enabled)
-		{
-			if (auto classTheme = getClassTheme())
-			{
-				static_cast<mvTheme*>(classTheme.get())->draw(nullptr, 0.0f, 0.0f);
-			}
-
-			if (_theme)
-			{
-				static_cast<mvTheme*>(_theme.get())->draw(nullptr, 0.0f, 0.0f);
-			}
-		}
-		else
-		{
-			if (auto classTheme = getClassDisabledTheme())
-			{
-				static_cast<mvTheme*>(classTheme.get())->draw(nullptr, 0.0f, 0.0f);
-			}
-
-			if (_disabledTheme)
-			{
-				static_cast<mvTheme*>(_disabledTheme.get())->draw(nullptr, 0.0f, 0.0f);
-			}
-		}
-
-		return true;
-	}
-
-	void mvAppItem::postDraw()
-	{
-
-		if (_dirtyPos)
-			ImGui::SetCursorPos(_previousCursorPos);
-
-		if(_indent > 0.0f)
-			ImGui::Unindent(_indent);
-
-		_state.update();
-
-		if (_font)
-		{
-			ImGui::PopFont();
-		}
-
-		if (_enabled)
-		{
-			if (auto classTheme = getClassTheme())
-			{
-				static_cast<mvTheme*>(classTheme.get())->customAction();
-			}
-
-			if (_theme)
-			{
-				static_cast<mvTheme*>(_theme.get())->customAction();
-			}
-		}
-		else
-		{
-			if (auto classTheme = getClassDisabledTheme())
-			{
-				static_cast<mvTheme*>(classTheme.get())->customAction();
-			}
-
-			if (_disabledTheme)
-			{
-				static_cast<mvTheme*>(_disabledTheme.get())->customAction();
-			}
-		}
-
-		// event handlers
-		for (auto& item : _children[3])
-		{
-			if (!item->preDraw())
-				continue;
-
-			item->draw(nullptr, ImGui::GetCursorPosX(), ImGui::GetCursorPosY());
-		}
-
-		// drag drop
-		for (auto& item : _children[4])
-		{
-			if (!item->preDraw())
-				continue;
-
-			item->draw(nullptr, ImGui::GetCursorPosX(), ImGui::GetCursorPosY());
-		}
-
-		if (_dropCallback)
-		{
-			ScopedID id(_uuid);
-			if (ImGui::BeginDragDropTarget())
-			{
-				if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload(_payloadType.c_str()))
-				{
-					auto payloadActual = static_cast<const mvDragPayload*>(payload->Data);
-					if(_alias.empty())
-						mvApp::GetApp()->getCallbackRegistry().addCallback(getDropCallback(), _uuid, payloadActual->getDragData(), nullptr);
-					else
-						mvApp::GetApp()->getCallbackRegistry().addCallback(getDropCallback(), _alias, payloadActual->getDragData(), nullptr);
-				}
-
-				ImGui::EndDragDropTarget();
-			}
-		}
-	}
-
 	void mvAppItem::setPayloadType(const std::string& payloadType)
 	{
 		_payloadType = payloadType;
@@ -616,7 +487,7 @@ namespace Marvel{
 
 	void mvAppItem::registerWindowFocusing()
 	{
-		if (ImGui::IsWindowFocused())
+		if (ImGui::IsWindowFocused(ImGuiFocusedFlags_ChildWindows))
 		{
 
 			// update mouse
@@ -935,7 +806,7 @@ namespace Marvel{
 				childset.shrink_to_fit();
 			}
 		}
-		else if (slot < 5)
+		else if (slot < 4)
 		{
 			_children[slot].clear();
 			_children[slot].shrink_to_fit();
@@ -1352,7 +1223,7 @@ namespace Marvel{
 					before = ToUUID(item);
 			}
 
-			if (PyObject* item = PyDict_GetItemString(kwargs, "id"))
+			if (PyObject* item = PyDict_GetItemString(kwargs, "tag"))
 			{
 				if (PyUnicode_Check(item))
 					alias = ToString(item);
@@ -1390,7 +1261,7 @@ namespace Marvel{
 			PyDict_SetItemString(dict, "children", mvPyObject(pyChildren));
 		}
 
-		PyDict_SetItemString(dict, "type", mvPyObject(ToPyString(parserCommand)));
+		PyDict_SetItemString(dict, "type", mvPyObject(ToPyString(getTypeString())));
 		PyDict_SetItemString(dict, "target", mvPyObject(ToPyInt(getTarget())));
 
 		if (_parentPtr)
@@ -1417,6 +1288,19 @@ namespace Marvel{
 			PyDict_SetItemString(dict, "container", mvPyObject(ToPyBool(true)));
 		else
 			PyDict_SetItemString(dict, "container", mvPyObject(ToPyBool(false)));
+
+		int applicableState = getApplicableState();
+		PyDict_SetItemString(dict, "hover_handler_applicable", mvPyObject(ToPyBool(applicableState & MV_STATE_HOVER)));
+		PyDict_SetItemString(dict, "active_handler_applicable", mvPyObject(ToPyBool(applicableState & MV_STATE_ACTIVE)));
+		PyDict_SetItemString(dict, "focus_handler_applicable", mvPyObject(ToPyBool(applicableState & MV_STATE_FOCUSED)));
+		PyDict_SetItemString(dict, "clicked_handler_applicable", mvPyObject(ToPyBool(applicableState & MV_STATE_CLICKED)));
+		PyDict_SetItemString(dict, "visible_handler_applicable", mvPyObject(ToPyBool(applicableState & MV_STATE_VISIBLE)));
+		PyDict_SetItemString(dict, "edited_handler_applicable", mvPyObject(ToPyBool(applicableState & MV_STATE_EDITED)));
+		PyDict_SetItemString(dict, "activated_handler_applicable", mvPyObject(ToPyBool(applicableState & MV_STATE_ACTIVATED)));
+		PyDict_SetItemString(dict, "deactivated_handler_applicable", mvPyObject(ToPyBool(applicableState & MV_STATE_DEACTIVATED)));
+		PyDict_SetItemString(dict, "deactivatedae_handler_applicable", mvPyObject(ToPyBool(applicableState & MV_STATE_DEACTIVATEDAE)));
+		PyDict_SetItemString(dict, "toggled_open_handler_applicable", mvPyObject(ToPyBool(applicableState & MV_STATE_TOGGLED_OPEN)));
+		PyDict_SetItemString(dict, "resized_handler_applicable", mvPyObject(ToPyBool(applicableState & MV_STATE_RESIZED)));
 
 	}
 
@@ -1555,15 +1439,27 @@ namespace Marvel{
 		
 		auto& staging = mvApp::GetApp()->getItemRegistry().getStaging();
 
-		if (staging.count(source) == 0)
+		bool stage_found = false;
+		mvRef<mvAppItem> staging_container = nullptr;
+
+		for (auto& stage : staging)
+		{
+			if(stage->getUUID() == source)
+			{ 
+				staging_container = stage;
+				stage_found = true;
+				break;
+			}
+		}
+
+		if (!stage_found)
 		{
 			mvThrowPythonError(mvErrorCode::mvItemNotFound, "set_item_children",
-				"Source item not found: " + std::to_string(item), nullptr);
+				"Stage item not found: " + std::to_string(item), nullptr);
 			assert(false);
 			return GetPyNone();
 		}
 
-		mvRef<mvAppItem> staging_container = staging[source];
 		
 		if (appitem)
 		{
@@ -1583,7 +1479,7 @@ namespace Marvel{
 			mvThrowPythonError(mvErrorCode::mvItemNotFound, "set_item_children",
 				"Item not found: " + std::to_string(item), nullptr);
 
-		staging.erase(source);
+		mvApp::GetApp()->getItemRegistry().deleteItem(source);
 
 		return GetPyNone();
 	}
@@ -1615,6 +1511,7 @@ namespace Marvel{
 			if (appfont)
 			{
 				appitem->_font = appfont;
+				appfont->onBind(appitem);
 			}
 			else
 			{
@@ -1657,6 +1554,7 @@ namespace Marvel{
 			if (apptheme)
 			{
 				appitem->_theme = apptheme;
+				apptheme->onBind(appitem);
 				return GetPyNone();
 			}
 			else
@@ -1665,6 +1563,48 @@ namespace Marvel{
 		}
 		else
 			mvThrowPythonError(mvErrorCode::mvItemNotFound, "bind_item_theme",
+				"Item not found: " + std::to_string(item), nullptr);
+
+		return GetPyNone();
+	}
+
+	PyObject* mvAppItem::bind_item_handler_registry(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+		PyObject* itemraw;
+		PyObject* regraw;
+
+		if (!(mvApp::GetApp()->getParsers())["bind_item_handler_registry"].parse(args, kwargs, __FUNCTION__,
+			&itemraw, &regraw))
+			return GetPyNone();
+
+		if (!mvApp::s_manualMutexControl) std::lock_guard<std::mutex> lk(mvApp::s_mutex);
+
+		mvUUID item = mvAppItem::GetIDFromPyObject(itemraw);
+		mvUUID reg = mvAppItem::GetIDFromPyObject(regraw);
+		auto appitem = mvApp::GetApp()->getItemRegistry().getItem(item);
+
+		if (appitem)
+		{
+			if (reg == 0)
+			{
+				appitem->_handlerRegistry = nullptr;
+				return GetPyNone();
+			}
+
+			auto apptheme = mvApp::GetApp()->getItemRegistry().getRefItem(reg);
+
+			if (apptheme)
+			{
+				appitem->_handlerRegistry = apptheme;
+				apptheme->onBind(appitem);
+				return GetPyNone();
+			}
+			else
+				mvThrowPythonError(mvErrorCode::mvItemNotFound, "bind_item_handler_registry",
+					"Theme item not found: " + std::to_string(item), nullptr);
+		}
+		else
+			mvThrowPythonError(mvErrorCode::mvItemNotFound, "bind_item_handler_registry",
 				"Item not found: " + std::to_string(item), nullptr);
 
 		return GetPyNone();
@@ -1698,6 +1638,7 @@ namespace Marvel{
 			if (apptheme)
 			{
 				appitem->_disabledTheme = apptheme;
+				apptheme->onBind(appitem);
 				return GetPyNone();
 			}
 			else
@@ -1748,7 +1689,7 @@ namespace Marvel{
 		PyObject* pdict = PyDict_New();
 
 		if (appitem)
-			appitem->getState().getState(pdict);
+			appitem->getState().getState(pdict, appitem->getApplicableState());
 
 		else
 			mvThrowPythonError(mvErrorCode::mvItemNotFound, "get_item_state",

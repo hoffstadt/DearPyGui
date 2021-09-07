@@ -83,17 +83,15 @@ set(MARVEL_SOURCES
 
 	"src/core/AppItems/misc/mvItemPool.cpp"
 	"src/core/AppItems/misc/mvProgressBar.cpp"
-	"src/core/AppItems/misc/mvSameLine.cpp"
 	"src/core/AppItems/misc/mvSeparator.cpp"
-	"src/core/AppItems/misc/mvDummy.cpp"
-	"src/core/AppItems/misc/mvSpacing.cpp"
+	"src/core/AppItems/misc/mvSpacer.cpp"
 
 	"src/core/AppItems/themes/mvTheme.cpp"
 	"src/core/AppItems/themes/mvThemeColor.cpp"
 	"src/core/AppItems/themes/mvThemeStyle.cpp"
 
 	"src/core/AppItems/containers/mvTemplateRegistry.cpp"
-	"src/core/AppItems/containers/mvStagingContainer.cpp"
+	"src/core/AppItems/containers/mvStage.cpp"
 	"src/core/AppItems/containers/mvCollapsingHeader.cpp"
 	"src/core/AppItems/containers/mvGroup.cpp"
 	"src/core/AppItems/containers/mvChild.cpp"
@@ -116,7 +114,6 @@ set(MARVEL_SOURCES
 
 	"src/core/AppItems/custom/mvDatePicker.cpp"
 	"src/core/AppItems/custom/mvTimePicker.cpp"
-	"src/core/AppItems/custom/mvTextEditor.cpp"
 	"src/core/AppItems/custom/mvSlider3D.cpp"
 	"src/core/AppItems/custom/mvKnob.cpp"
 	"src/core/AppItems/custom/mvLoadingIndicator.cpp"
@@ -191,6 +188,7 @@ set(MARVEL_SOURCES
 	"src/core/AppItems/handlers/mvMouseDragHandler.cpp"
 
 	"src/core/AppItems/widget_handlers/mvHoverHandler.cpp"
+	"src/core/AppItems/widget_handlers/mvItemHandlerRegistry.cpp"
 	"src/core/AppItems/widget_handlers/mvActiveHandler.cpp"
 	"src/core/AppItems/widget_handlers/mvFocusHandler.cpp"
 	"src/core/AppItems/widget_handlers/mvVisibleHandler.cpp"

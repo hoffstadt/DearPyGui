@@ -2,7 +2,6 @@
 #include "mvAppItemCommons.h"
 #include "mvModule_DearPyGui.h"
 #include "mvApp.h"
-#include <fstream>
 #include <utility>
 #include <ctime>
 #include <frameobject.h>
@@ -22,7 +21,7 @@ namespace Marvel {
 		if (end > (int)elements.size())
 			end = (int)elements.size();
 
-		for(int i = start; i < end; i++)
+		for (int i = start; i < end; i++)
 		{
 			const auto& item = elements[i];
 			PyObject* obj = nullptr;
@@ -118,7 +117,7 @@ namespace Marvel {
 	{
 		switch (type)
 		{
-		//case mvPyDataType::UUID:    return 'K';
+			//case mvPyDataType::UUID:    return 'K';
 		case mvPyDataType::Long:    return 'l';
 		case mvPyDataType::String:  return 's';
 		case mvPyDataType::Integer: return 'i';
@@ -221,7 +220,7 @@ namespace Marvel {
 
 		if (!m_optional_elements.empty())
 		{
-			
+
 			for (auto& element : m_optional_elements)
 			{
 				m_formatstring.push_back(PythonDataTypeSymbol(element.type));
@@ -251,7 +250,7 @@ namespace Marvel {
 		if ((size_t)PyTuple_Size(args) < m_required_elements.size())
 		{
 			assert(false && "Not enough arguments provided");
-			mvThrowPythonError(mvErrorCode::mvNone, "Not enough arguments provided. Expected: " + 
+			mvThrowPythonError(mvErrorCode::mvNone, "Not enough arguments provided. Expected: " +
 				std::to_string(m_required_elements.size()) + " Recieved: " + std::to_string((size_t)PyTuple_Size(args)));
 			return false;
 		}
@@ -414,7 +413,7 @@ namespace Marvel {
 					first_arg = false;
 				else
 					stub << ", ";
-				stub << args.name << PythonDataTypeString(args.type) << " =" << args.default_value;
+				stub << args.name << PythonDataTypeString(args.type) << " =''";
 			}
 
 			if (!parser.second.m_keyword_elements.empty())
@@ -428,22 +427,27 @@ namespace Marvel {
 			}
 
 			for (const auto& args : parser.second.m_keyword_elements)
-				stub << ", " << args.name << ": " << PythonDataTypeActual(args.type) << " =" << args.default_value;
+				stub << ", " << args.name << ": " << PythonDataTypeActual(args.type) << " =''";
 
 			if (parser.second.m_unspecifiedKwargs)
 				stub << ", **kwargs";
 
 			stub << ") -> " << PythonDataTypeActual(parser.second.m_return) << ":";
 
-			stub << "\n\t\"\"\""<<parser.second.m_about.c_str() << "\"\"\"";
+			stub << "\n\t\"\"\"" << parser.second.m_about.c_str() << "\"\"\"";
 
 			stub << "\n\t...\n\n";
 		}
 
+		auto& constants = mvModule_DearPyGui::GetSubModuleConstants();
+
+		for (auto& item : constants)
+			stub << item.first << "=0\n";
+
 		stub.close();
 	}
 
-	void mvPythonParser::GenerateCoreFile(const std::string& file)
+	void mvPythonParser::GenerateCoreFile(std::ofstream& stream)
 	{
 		const auto& commands = mvModule_DearPyGui::GetModuleParsers();
 
@@ -452,16 +456,13 @@ namespace Marvel {
 
 		// convert now to string form
 		char* dt = ctime(&now);
-
-		std::ofstream stub;
-		stub.open(file + "/_core.py");
 
 		for (const auto& parser : commands)
 		{
 			if (parser.second.m_internal)
 				continue;
 
-			stub << "def " << parser.first << "(";
+			stream << "def " << parser.first << "(";
 
 			bool first_arg = true;
 			for (const auto& args : parser.second.m_required_elements)
@@ -469,8 +470,8 @@ namespace Marvel {
 				if (first_arg)
 					first_arg = false;
 				else
-					stub << ", ";
-				stub << args.name << PythonDataTypeString(args.type);
+					stream << ", ";
+				stream << args.name << PythonDataTypeString(args.type);
 			}
 
 			for (const auto& args : parser.second.m_optional_elements)
@@ -478,8 +479,8 @@ namespace Marvel {
 				if (first_arg)
 					first_arg = false;
 				else
-					stub << ", ";
-				stub << args.name << PythonDataTypeString(args.type) << " =" << args.default_value;
+					stream << ", ";
+				stream << args.name << PythonDataTypeString(args.type) << " =" << args.default_value;
 			}
 
 			if (!parser.second.m_keyword_elements.empty())
@@ -487,42 +488,42 @@ namespace Marvel {
 				if (first_arg)
 					first_arg = false;
 				else
-					stub << ", ";
+					stream << ", ";
 
-				stub << "*";
+				stream << "*";
 			}
 
 			for (const auto& args : parser.second.m_keyword_elements)
-				stub << ", " << args.name << ": " << PythonDataTypeActual(args.type) << " =" << args.default_value;
+				stream << ", " << args.name << ": " << PythonDataTypeActual(args.type) << " =" << args.default_value;
 
 			if (parser.second.m_unspecifiedKwargs)
-				stub << ", **kwargs";
+				stream << ", **kwargs";
 
-			stub << ") -> " << PythonDataTypeActual(parser.second.m_return) << ":";
+			stream << ") -> " << PythonDataTypeActual(parser.second.m_return) << ":";
 
-			stub << "\n\t\"\"\"\n\t" << parser.second.m_about.c_str();
+			stream << "\n\t\"\"\"\t" << parser.second.m_about.c_str();
 
-			stub << "\n\tArgs:";
+			stream << "\n\n\tArgs:";
 			for (const auto& args : parser.second.m_required_elements)
 			{
-				stub << "\n\t\t" << args.name << " (" << PythonDataTypeActual(args.type) << "): " << args.description;
+				stream << "\n\t\t" << args.name << " (" << PythonDataTypeActual(args.type) << "): " << args.description;
 			}
 
 			for (const auto& args : parser.second.m_optional_elements)
 			{
-				stub << "\n\t\t*" << args.name << " (" << PythonDataTypeActual(args.type) << "): " << args.description;
+				stream << "\n\t\t" << args.name << " (" << PythonDataTypeActual(args.type) << ", optional): " << args.description;
 			}
 
 			for (const auto& args : parser.second.m_keyword_elements)
 			{
-				stub << "\n\t\t**" << args.name << " (" << PythonDataTypeActual(args.type) << "): " << args.description;
+				stream << "\n\t\t" << args.name << " (" << PythonDataTypeActual(args.type) << ", optional): " << args.description;
 			}
 
-			stub << "\n\tReturns:";
-			stub << "\n\t\t"<< PythonDataTypeActual(parser.second.m_return);
-			stub << "\n\t\"\"\"";
+			stream << "\n\tReturns:";
+			stream << "\n\t\t" << PythonDataTypeActual(parser.second.m_return);
+			stream << "\n\t\"\"\"";
 
-			stub << "\n\n\treturn internal_dpg." << parser.first << "(";
+			stream << "\n\n\treturn internal_dpg." << parser.first << "(";
 
 			first_arg = true;
 			for (const auto& args : parser.second.m_required_elements)
@@ -530,8 +531,8 @@ namespace Marvel {
 				if (first_arg)
 					first_arg = false;
 				else
-					stub << ", ";
-				stub << args.name;
+					stream << ", ";
+				stream << args.name;
 			}
 
 			for (const auto& args : parser.second.m_optional_elements)
@@ -539,8 +540,8 @@ namespace Marvel {
 				if (first_arg)
 					first_arg = false;
 				else
-					stub << ", ";
-				stub << args.name;
+					stream << ", ";
+				stream << args.name;
 			}
 
 			for (const auto& args : parser.second.m_keyword_elements)
@@ -548,17 +549,15 @@ namespace Marvel {
 				if (first_arg)
 					first_arg = false;
 				else
-					stub << ", ";
-				stub << args.name << "=" << args.name;
+					stream << ", ";
+				stream << args.name << "=" << args.name;
 			}
 
-			stub << ")\n\n";
+			stream << ")\n\n";
 		}
-
-		stub.close();
 	}
 
-	void mvPythonParser::GenerateContextsFile(const std::string& file)
+	void mvPythonParser::GenerateContextsFile(std::ofstream& stream)
 	{
 		const auto& commands = mvModule_DearPyGui::GetModuleParsers();
 
@@ -568,16 +567,13 @@ namespace Marvel {
 		// convert now to string form
 		char* dt = ctime(&now);
 
-		std::ofstream stub;
-		stub.open(file + "/_contexts.py");
-
 		for (const auto& parser : commands)
 		{
 			if (!parser.second.m_createContextManager)
 				continue;
 
-			stub << "@contextmanager\n";
-			stub << "def " << parser.first.substr(4) << "(";
+			stream << "\n@contextmanager\n";
+			stream << "def " << parser.first.substr(4) << "(";
 
 			bool first_arg = true;
 			for (const auto& args : parser.second.m_required_elements)
@@ -585,8 +581,8 @@ namespace Marvel {
 				if (first_arg)
 					first_arg = false;
 				else
-					stub << ", ";
-				stub << args.name << PythonDataTypeString(args.type);
+					stream << ", ";
+				stream << args.name << PythonDataTypeString(args.type);
 			}
 
 			for (const auto& args : parser.second.m_optional_elements)
@@ -594,8 +590,8 @@ namespace Marvel {
 				if (first_arg)
 					first_arg = false;
 				else
-					stub << ", ";
-				stub << args.name << PythonDataTypeString(args.type) << " =" << args.default_value;
+					stream << ", ";
+				stream << args.name << PythonDataTypeString(args.type) << " =" << args.default_value;
 			}
 
 			if (!parser.second.m_keyword_elements.empty())
@@ -603,43 +599,43 @@ namespace Marvel {
 				if (first_arg)
 					first_arg = false;
 				else
-					stub << ", ";
+					stream << ", ";
 
-				stub << "*";
+				stream << "*";
 			}
 
 			for (const auto& args : parser.second.m_keyword_elements)
-				stub << ", " << args.name << ": " << PythonDataTypeActual(args.type) << " =" << args.default_value;
+				stream << ", " << args.name << ": " << PythonDataTypeActual(args.type) << " =" << args.default_value;
 
 			if (parser.second.m_unspecifiedKwargs)
-				stub << ", **kwargs";
+				stream << ", **kwargs";
 
-			stub << ") -> " << PythonDataTypeActual(parser.second.m_return) << ":";
+			stream << ") -> " << PythonDataTypeActual(parser.second.m_return) << ":";
 
-			stub << "\n\t\"\"\"\n\t" << parser.second.m_about.c_str();
+			stream << "\n\t\"\"\"\t" << parser.second.m_about.c_str();
 
-			stub << "\n\tArgs:";
+			stream << "\n\n\tArgs:";
 			for (const auto& args : parser.second.m_required_elements)
 			{
-				stub << "\n\t\t" << args.name << " (" << PythonDataTypeActual(args.type) << "): " << args.description;
+				stream << "\n\t\t" << args.name << " (" << PythonDataTypeActual(args.type) << "): " << args.description;
 			}
 
 			for (const auto& args : parser.second.m_optional_elements)
 			{
-				stub << "\n\t\t*" << args.name << " (" << PythonDataTypeActual(args.type) << "): " << args.description;
+				stream << "\n\t\t" << args.name << " (" << PythonDataTypeActual(args.type) << ", optional): " << args.description;
 			}
 
 			for (const auto& args : parser.second.m_keyword_elements)
 			{
-				stub << "\n\t\t**" << args.name << " (" << PythonDataTypeActual(args.type) << "): " << args.description;
+				stream << "\n\t\t" << args.name << " (" << PythonDataTypeActual(args.type) << ", optional): " << args.description;
 			}
 
-			stub << "\n\tYields:";
-			stub << "\n\t\t" << PythonDataTypeActual(parser.second.m_return);
-			stub << "\n\t\"\"\"";
+			stream << "\n\tYields:";
+			stream << "\n\t\t" << PythonDataTypeActual(parser.second.m_return);
+			stream << "\n\t\"\"\"";
 
-			stub << "\n\ttry:";
-			stub << "\n\t\twidget = internal_dpg." << parser.first << "(";
+			stream << "\n\ttry:";
+			stream << "\n\t\twidget = internal_dpg." << parser.first << "(";
 
 			first_arg = true;
 			for (const auto& args : parser.second.m_required_elements)
@@ -647,8 +643,8 @@ namespace Marvel {
 				if (first_arg)
 					first_arg = false;
 				else
-					stub << ", ";
-				stub << args.name;
+					stream << ", ";
+				stream << args.name;
 			}
 
 			for (const auto& args : parser.second.m_optional_elements)
@@ -656,8 +652,8 @@ namespace Marvel {
 				if (first_arg)
 					first_arg = false;
 				else
-					stub << ", ";
-				stub << args.name;
+					stream << ", ";
+				stream << args.name;
 			}
 
 			for (const auto& args : parser.second.m_keyword_elements)
@@ -665,27 +661,22 @@ namespace Marvel {
 				if (first_arg)
 					first_arg = false;
 				else
-					stub << ", ";
-				stub << args.name << "=" << args.name;
+					stream << ", ";
+				stream << args.name << "=" << args.name;
 			}
 
-			stub << ")\n";
-			stub << "\t\tinternal_dpg.push_container_stack(widget)\n";
-			stub << "\t\tyield widget\n";
-			stub << "\tfinally:\n";
-			stub << "\t\tinternal_dpg.pop_container_stack()\n";
+			stream << ")\n";
+			stream << "\t\tinternal_dpg.push_container_stack(widget)\n";
+			stream << "\t\tyield widget\n";
+			stream << "\tfinally:\n";
+			stream << "\t\tinternal_dpg.pop_container_stack()\n";
 
 		}
 
-		stub.close();
 	}
 
 	void mvPythonParser::GenerateDearPyGuiFile(const std::string& file)
 	{
-		GenerateStubFile("../../DearPyGui/dearpygui");
-		GenerateCoreFile("../../DearPyGui/dearpygui");
-		GenerateContextsFile("../../DearPyGui/dearpygui");
-
 		std::ofstream stub;
 		stub.open(file + "/dearpygui.py");
 
@@ -702,7 +693,6 @@ namespace Marvel {
 		stub << "#     * Issues:      https://github.com/hoffstadt/DearPyGui/issues\n";
 		stub << "#     * Discussions: https://github.com/hoffstadt/DearPyGui/discussions\n";
 		stub << "##########################################################\n\n";
-
 
 		std::ifstream inputStream0(file + "/_header.py");
 
@@ -722,19 +712,13 @@ namespace Marvel {
 		stub << "# Container Context Managers\n";
 		stub << "##########################################################\n\n";
 
-		std::ifstream inputStream2(file + "/_contexts.py");
-
-		for (std::string line; std::getline(inputStream2, line);)
-			stub << line << "\n";
+		GenerateContextsFile(stub);
 
 		stub << "\n##########################################################\n";
 		stub << "# Core Wrappings\n";
 		stub << "##########################################################\n\n";
 
-		std::ifstream inputStream3(file + "/_core.py");
-
-		for (std::string line; std::getline(inputStream3, line);)
-			stub << line << "\n";
+		GenerateCoreFile(stub);
 
 		stub << "\n##########################################################\n";
 		stub << "# Constants #\n";
@@ -742,10 +726,15 @@ namespace Marvel {
 
 		auto& constants = mvModule_DearPyGui::GetSubModuleConstants();
 
-		for(auto& item : constants)
+		for (auto& item : constants)
 			stub << item.first << "=internal_dpg." << item.first << "\n";
 
 		stub.close();
+
+		std::ofstream redirect;
+		redirect.open(file + "/_dearpygui.py");
+		redirect << "from _dearpygui import *\n";
+		redirect.close();
 	}
 
 	void mvPythonParser::buildDocumentation()

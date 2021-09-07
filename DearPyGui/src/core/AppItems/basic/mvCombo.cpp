@@ -159,8 +159,12 @@ namespace Marvel {
 			static std::vector<std::string> disabled_items{};
 
 			// The second parameter is the label previewed before opening the combo.
-			if (ImGui::BeginCombo(_internalLabel.c_str(), _value->c_str(), _flags))
+			bool activated = ImGui::BeginCombo(_internalLabel.c_str(), _value->c_str(), _flags);
+			_state.update();
+
+			if(activated)
 			{
+
 				for (const auto& name : _enabled ? _items : disabled_items)
 				{
 					bool is_selected = (*_value == name);
@@ -182,6 +186,11 @@ namespace Marvel {
 
 					}
 
+
+					if (ImGui::IsItemEdited())_state._edited = true;
+					if (ImGui::IsItemDeactivated())_state._deactivated = true;
+					if (ImGui::IsItemDeactivatedAfterEdit())_state._deactivatedAfterEdit = true;
+
 					// Set the initial focus when opening the combo (scrolling + for keyboard navigation support in the upcoming navigation branch)
 					if (is_selected)
 						ImGui::SetItemDefaultFocus();
@@ -190,26 +199,6 @@ namespace Marvel {
 				ImGui::EndCombo();
 			}
 		}
-
-		//-----------------------------------------------------------------------------
-		// update state
-		//   * only update if applicable
-		//-----------------------------------------------------------------------------
-		_state._lastFrameUpdate = mvApp::s_frame;
-		_state._hovered = ImGui::IsItemHovered();
-		_state._active = ImGui::IsItemActive();
-		_state._focused = ImGui::IsItemFocused();
-		_state._leftclicked = ImGui::IsItemClicked();
-		_state._rightclicked = ImGui::IsItemClicked(1);
-		_state._middleclicked = ImGui::IsItemClicked(2);
-		_state._visible = ImGui::IsItemVisible();
-		_state._edited = ImGui::IsItemEdited();
-		_state._activated = ImGui::IsItemActivated();
-		_state._deactivated = ImGui::IsItemDeactivated();
-		_state._rectMin = { ImGui::GetItemRectMin().x, ImGui::GetItemRectMin().y };
-		_state._rectMax = { ImGui::GetItemRectMax().x, ImGui::GetItemRectMax().y };
-		_state._rectSize = { ImGui::GetItemRectSize().x, ImGui::GetItemRectSize().y };
-		_state._contextRegionAvail = { ImGui::GetContentRegionAvail().x, ImGui::GetContentRegionAvail().y };
 
 		//-----------------------------------------------------------------------------
 		// post draw
@@ -244,23 +233,12 @@ namespace Marvel {
 				static_cast<mvTheme*>(_disabledTheme.get())->customAction();
 		}
 
-		// handle widget's event handlers
-		for (auto& item : _children[3])
-		{
-			if (!item->preDraw())
-				continue;
-
-			item->draw(nullptr, ImGui::GetCursorPosX(), ImGui::GetCursorPosY());
-		}
+		if (_handlerRegistry)
+			_handlerRegistry->customAction(&_state);
 
 		// handle drag & drop payloads
-		for (auto& item : _children[4])
-		{
-			if (!item->preDraw())
-				continue;
-
+		for (auto& item : _children[3])
 			item->draw(nullptr, ImGui::GetCursorPosX(), ImGui::GetCursorPosY());
-		}
 
 		// handle drag & drop if used
 		if (_dropCallback)

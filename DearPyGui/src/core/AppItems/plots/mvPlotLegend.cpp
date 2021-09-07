@@ -41,7 +41,36 @@ namespace Marvel {
 
 	void mvPlotLegend::draw(ImDrawList* drawlist, float x, float y)
 	{
+		if (!_show)
+			return;
+
 		ImPlot::SetLegendLocation(_legendLocation, _horizontal ? ImPlotOrientation_Horizontal : ImPlotOrientation_Vertical, _outside);
+
+		_state.update();
+
+		if (_font)
+		{
+			ImGui::PopFont();
+		}
+
+		if (_theme)
+		{
+			static_cast<mvTheme*>(_theme.get())->customAction();
+		}
+
+		if (_dropCallback)
+		{
+			if (ImPlot::BeginDragDropTargetLegend())
+			{
+				if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload(_payloadType.c_str()))
+				{
+					auto payloadActual = static_cast<const mvDragPayload*>(payload->Data);
+					mvApp::GetApp()->getCallbackRegistry().addCallback(getDropCallback(), _uuid, payloadActual->getDragData(), nullptr);
+				}
+
+				ImPlot::EndDragDropTarget();
+			}
+		}
 	}
 
 	void mvPlotLegend::handleSpecificKeywordArgs(PyObject* dict)
@@ -69,36 +98,6 @@ namespace Marvel {
 			else if (auto plot = static_cast<mvSubPlots*>(_parentPtr))
 				plot->addFlag(ImPlotSubplotFlags_NoLegend);
 			_show = false;
-		}
-	}
-
-	void mvPlotLegend::postDraw()
-	{
-
-		_state.update();
-
-		if (_font)
-		{
-			ImGui::PopFont();
-		}
-
-		if (_theme)
-		{
-			static_cast<mvTheme*>(_theme.get())->customAction();
-		}
-
-		if (_dropCallback)
-		{
-			if (ImPlot::BeginDragDropTargetLegend())
-			{
-				if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload(_payloadType.c_str()))
-				{
-					auto payloadActual = static_cast<const mvDragPayload*>(payload->Data);
-					mvApp::GetApp()->getCallbackRegistry().addCallback(getDropCallback(), _uuid, payloadActual->getDragData(), nullptr);
-				}
-
-				ImPlot::EndDragDropTarget();
-			}
 		}
 	}
 

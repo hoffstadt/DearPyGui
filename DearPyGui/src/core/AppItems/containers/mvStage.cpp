@@ -1,11 +1,11 @@
-#include "mvStagingContainer.h"
+#include "mvStage.h"
 #include "mvInput.h"
 #include "mvApp.h"
 #include "mvItemRegistry.h"
 
 namespace Marvel {
 
-	void mvStagingContainer::InsertParser(std::map<std::string, mvPythonParser>* parsers)
+	void mvStage::InsertParser(std::map<std::string, mvPythonParser>* parsers)
 	{
 		mvPythonParser parser(mvPyDataType::UUID, "Undocumented function", { "Containers", "Widgets" }, true);
 		mvAppItem::AddCommonArgs(parser, (CommonParserArgs)(
@@ -17,7 +17,7 @@ namespace Marvel {
 		parsers->insert({ s_command, parser });
 	}
 
-	mvStagingContainer::mvStagingContainer(mvUUID uuid)
+	mvStage::mvStage(mvUUID uuid)
 		: mvAppItem(uuid)
 	{
 	}

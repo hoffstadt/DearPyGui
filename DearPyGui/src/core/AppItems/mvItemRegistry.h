@@ -32,6 +32,7 @@ namespace Marvel {
 	class mvItemRegistry : public mvEventHandler
 	{
 
+        friend class mvApp;
         friend class mvLayoutWindow;
 
     public:
@@ -40,8 +41,6 @@ namespace Marvel {
 
         static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
 
-        MV_CREATE_COMMAND(get_item_registry_configuration);
-        MV_CREATE_COMMAND(configure_item_registry);
         MV_CREATE_COMMAND(move_item);
         MV_CREATE_COMMAND(delete_item);
         MV_CREATE_COMMAND(does_item_exist);
@@ -58,9 +57,7 @@ namespace Marvel {
         MV_CREATE_COMMAND(last_item);
         MV_CREATE_COMMAND(last_container);
         MV_CREATE_COMMAND(last_root);
-        MV_CREATE_COMMAND(set_staging_mode);
-        MV_CREATE_COMMAND(stage_items);
-        MV_CREATE_COMMAND(unstage_items);
+        MV_CREATE_COMMAND(unstage);
         MV_CREATE_COMMAND(reorder_items);
         MV_CREATE_COMMAND(show_imgui_demo);
         MV_CREATE_COMMAND(show_implot_demo);
@@ -74,8 +71,6 @@ namespace Marvel {
         MV_START_COMMANDS
             MV_ADD_COMMAND(bind_template_registry);
             MV_ADD_COMMAND(get_aliases);
-            MV_ADD_COMMAND(get_item_registry_configuration);
-            MV_ADD_COMMAND(configure_item_registry);
             MV_ADD_COMMAND(add_alias);
             MV_ADD_COMMAND(remove_alias);
             MV_ADD_COMMAND(does_alias_exist);
@@ -96,9 +91,7 @@ namespace Marvel {
             MV_ADD_COMMAND(last_item);
             MV_ADD_COMMAND(last_container);
             MV_ADD_COMMAND(last_root);
-            MV_ADD_COMMAND(set_staging_mode);
-            MV_ADD_COMMAND(stage_items);
-            MV_ADD_COMMAND(unstage_items);
+            MV_ADD_COMMAND(unstage);
             MV_ADD_COMMAND(reorder_items);
             MV_ADD_COMMAND(show_imgui_demo);
             MV_ADD_COMMAND(show_implot_demo);
@@ -128,6 +121,7 @@ namespace Marvel {
         mvRef<mvAppItem>               getRefItem        (mvUUID uuid);
         mvWindowAppItem*               getWindow         (mvUUID uuid);
         std::vector<mvRef<mvAppItem>>& getFontRegistries ()       { return _fontRegistryRoots; }
+        std::vector<mvRef<mvAppItem>>& getStaging ()       { return _stagingRoots; }
         mvUUID                         getActiveWindow   () const { return _activeWindow; }
         bool                           addItemWithRuntimeChecks(mvRef<mvAppItem> item, mvUUID parent, mvUUID before);
         void                           cacheItem(mvAppItem* item);
@@ -156,12 +150,9 @@ namespace Marvel {
         std::vector<mvUUID>              getWindows        ();
         std::vector<std::vector<mvUUID>> getItemChildren   (mvUUID uuid);
         void                             setPrimaryWindow  (mvUUID uuid, bool value);
-        void                             stageItem         (mvUUID uuid);
         void                             unstageItem       (mvUUID uuid);
-        void                             setStagingMode    (bool value);
 
         // hacky
-        std::unordered_map<mvUUID, mvRef<mvAppItem>>& getStaging() { return _stagingArea; }
         void delaySearch(mvAppItem* item);
 
         //-----------------------------------------------------------------------------
@@ -177,7 +168,7 @@ namespace Marvel {
 
         bool addItem       (mvRef<mvAppItem> item);
         bool addItemAfter  (mvUUID prev, mvRef<mvAppItem> item); // for popups/tooltips
-        bool addWindow     (mvRef<mvAppItem> item);
+        bool addRoot       (mvRef<mvAppItem> item);
         bool addRuntimeItem(mvUUID parent, mvUUID before, mvRef<mvAppItem> item);
 
         // need to clean this up but this delegates taskes to the specific root types
@@ -205,10 +196,8 @@ private:
         int                                          _cachedItemsIndex = 0;
 
 		std::stack<mvAppItem*>                       _containers;      // parent stack, top of stack becomes widget's parent
-        std::unordered_map<mvUUID, mvRef<mvAppItem>> _stagingArea;
         std::unordered_map<std::string, mvUUID>      _aliases;
         mvUUID                                       _activeWindow = 0;
-        bool                                         _staging = false;
         std::vector<mvAppItem*>                      _delayedSearch;
         bool                                         _showImGuiDebug = false;
         bool                                         _showImPlotDebug = false;
@@ -221,6 +210,7 @@ private:
         std::vector<mvRef<mvAppItem>> _windowRoots;
         std::vector<mvRef<mvAppItem>> _fontRegistryRoots;
         std::vector<mvRef<mvAppItem>> _handlerRegistryRoots;
+        std::vector<mvRef<mvAppItem>> _itemHandlerRegistryRoots;
         std::vector<mvRef<mvAppItem>> _textureRegistryRoots;
         std::vector<mvRef<mvAppItem>> _valueRegistryRoots;
         std::vector<mvRef<mvAppItem>> _themeRegistryRoots;

@@ -1,6 +1,8 @@
 from typing import List, Any, Callable, Union, Tuple
 from contextlib import contextmanager
 import warnings
+import functools
+import inspect
 import dearpygui._dearpygui as internal_dpg
 from dearpygui._dearpygui import mvBuffer
 
@@ -39,11 +41,11 @@ def configure_viewport(item : Union[int, str], **kwargs) -> None:
 
 def setup_registries() -> None:
     """Adds default registries for fonts, handlers, textures, colormaps, and values."""
-    internal_dpg.add_font_registry(id=internal_dpg.mvReservedUUID_0)
-    internal_dpg.add_handler_registry(id=internal_dpg.mvReservedUUID_1)
-    internal_dpg.add_texture_registry(id=internal_dpg.mvReservedUUID_2)
-    internal_dpg.add_value_registry(id=internal_dpg.mvReservedUUID_3)
-    internal_dpg.add_colormap_registry(id=internal_dpg.mvReservedUUID_4)
+    internal_dpg.add_font_registry(tag=internal_dpg.mvReservedUUID_0)
+    internal_dpg.add_handler_registry(tag=internal_dpg.mvReservedUUID_1)
+    internal_dpg.add_texture_registry(tag=internal_dpg.mvReservedUUID_2)
+    internal_dpg.add_value_registry(tag=internal_dpg.mvReservedUUID_3)
+    internal_dpg.add_colormap_registry(tag=internal_dpg.mvReservedUUID_4)
 
 
 def start_dearpygui():
@@ -72,18 +74,20 @@ def mutex():
 
 
 @contextmanager
-def popup(parent: Union[int, str], mousebutton: int = internal_dpg.mvMouseButton_Right, modal: bool = False, id:Union[int, str] = 0) -> int:
+def popup(parent: Union[int, str], mousebutton: int = internal_dpg.mvMouseButton_Right, modal: bool = False, tag:Union[int, str] = 0) -> int:
     
     try:
-        if id == 0:
+        if tag == 0:
             _internal_popup_id = internal_dpg.generate_uuid()
         else:
-            _internal_popup_id = id
-        internal_dpg.add_item_clicked_handler(parent, mousebutton, callback=lambda: internal_dpg.configure_item(_internal_popup_id, show=True))
+            _internal_popup_id = tag
+        _handler_reg_id = internal_dpg.add_item_handler_registry()
+        internal_dpg.add_item_clicked_handler(mousebutton, parent=internal_dpg.last_item(), callback=lambda: internal_dpg.configure_item(_internal_popup_id, show=True))
+        internal_dpg.bind_item_handler_registry(parent, _handler_reg_id)
         if modal:
-            internal_dpg.add_window(modal=True, show=False, id=_internal_popup_id, autosize=True)
+            internal_dpg.add_window(modal=True, show=False, tag=_internal_popup_id, autosize=True)
         else:
-            internal_dpg.add_window(popup=True, show=False, id=_internal_popup_id, autosize=True)
+            internal_dpg.add_window(popup=True, show=False, tag=_internal_popup_id, autosize=True)
         internal_dpg.push_container_stack(internal_dpg.last_container())
         yield _internal_popup_id
 

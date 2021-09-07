@@ -1,0 +1,207 @@
+name: Deployment
+
+on:
+
+  schedule:
+    - cron: '0 12 * * 0'
+
+  workflow_dispatch:
+
+    branches:
+      - master
+      - development
+      - development_*
+
+    inputs:
+    
+      version:
+        description: 'Dear PyGui Version'
+        required: true
+        default: '0.0.1'
+    
+      deploy:
+        description: 'Deploy (true will deploy to pypi)'
+        required: true
+        default: 'false'
+    
+      deploytest:
+        description: 'Deploy (true will deploy to test pypi)'
+        required: true
+        default: 'false'
+
+jobs:
+
+  build-windows-wheels:
+
+    runs-on: windows-2019
+    strategy:
+      matrix:
+        python-version: [ 3.6, 3.7, 3.8, 3.9 ]
+
+    steps:
+
+    - name: Checkout
+      uses: actions/checkout@v2
+
+    - name: Setup Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v2
+      with:
+        python-version: ${{ matrix.python-version }}
+
+    - name: Retrieve submodules
+      shell: cmd
+      run: |
+        git submodule update --init --recursive ./Dependencies/imgui
+        git submodule update --init --recursive ./Dependencies/freetype
+        git submodule update --init --recursive ./Dependencies/ImGuiFileDialog
+      
+    - name: Mark Versions
+      shell: cmd
+      run: |
+        cd %GITHUB_WORKSPACE%
+        echo on
+        echo ${{ github.event.inputs.version }} > version_number.txt
+        echo cmake-build-local/DearPyGui/Release/_dearpygui.pyd > lib_location.txt
+
+    - name: Build Wheel
+      shell: cmd
+      run: |
+        cd %GITHUB_WORKSPACE%
+        python -m pip install --upgrade pip twine wheel
+        python -m setup bdist_wheel --plat-name win_amd64 --dist-dir dist
+    
+    - name: Upload Windows ${{ matrix.python-version }} Wheel
+      uses: actions/upload-artifact@v2
+      with:
+        name: windowsbuild${{ matrix.python-version }}
+        path: ${{ github.workspace }}/dist/*.whl
+        retention-days: 2
+
+  build-mac10-wheels:
+
+    runs-on: macos-10.15
+    strategy:
+      matrix:
+        python-version: [ 3.6, 3.7, 3.8, 3.9 ]
+
+    steps:
+
+    - name: Checkout
+      uses: actions/checkout@v2
+
+    - name: Setup Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v2
+      with:
+        python-version: ${{ matrix.python-version }}
+
+    - name: Retrieve submodules
+      run: |
+        git submodule update --init --recursive ./Dependencies/imgui
+        git submodule update --init --recursive ./Dependencies/freetype
+        git submodule update --init --recursive ./Dependencies/ImGuiFileDialog
+        git submodule update --init --recursive ./Dependencies/glfw
+    
+    - name: Mark Versions
+      run: |
+        cd $GITHUB_WORKSPACE
+        echo ${{ github.event.inputs.version }} > version_number.txt
+        echo cmake-build-local/DearPyGui/_dearpygui.so > lib_location.txt
+
+    - name: Build Wheel
+      run: |
+        cd $GITHUB_WORKSPACE
+        python -m pip install --upgrade pip twine wheel
+        python -m setup bdist_wheel --plat-name macosx-10.6-x86_64 --dist-dir dist
+   
+    - name: Upload MacOS 10.15 ${{ matrix.python-version }} Wheel
+      uses: actions/upload-artifact@v2
+      with:
+        name: apple10build${{ matrix.python-version }}
+        path: ${{ github.workspace }}/dist/*.whl
+        retention-days: 2
+
+  build-linux-wheels:
+
+    runs-on: ubuntu-18.04
+    strategy:
+      matrix:
+        python-version: [ 3.6, 3.7, 3.8, 3.9 ]
+
+    steps:
+
+    - name: Checkout
+      uses: actions/checkout@v2
+
+    - name: Setup Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v2
+      with:
+        python-version: ${{ matrix.python-version }}
+
+    - name: Retrieve submodules/Dependencies
+      run: |
+        git submodule update --init --recursive ./Dependencies/imgui
+        git submodule update --init --recursive ./Dependencies/freetype
+        git submodule update --init --recursive ./Dependencies/ImGuiFileDialog
+        git submodule update --init --recursive ./Dependencies/glfw
+        sudo apt-get update
+        sudo apt-get install libglu1-mesa-dev libgl1-mesa-dev xorg-dev libxrandr-dev -y
+        sudo apt-get install libfreetype6-dev -y
+        sudo apt-get install libharfbuzz-dev -y
+    
+    - name: Mark Versions
+      run: |
+        cd $GITHUB_WORKSPACE
+        echo ${{ github.event.inputs.version }} > version_number.txt
+        echo cmake-build-local/DearPyGui/_dearpygui.so > lib_location.txt
+
+    - name: Build Wheel
+      run: |
+        cd $GITHUB_WORKSPACE
+        python -m pip install --upgrade pip twine wheel
+        python -m setup bdist_wheel --plat-name manylinux1_x86_64 --dist-dir dist
+
+    - name: Upload Linux ${{ matrix.python-version }} Wheel
+      uses: actions/upload-artifact@v2
+      with:
+        name: linuxbuild${{ matrix.python-version }}
+        path: ${{ github.workspace }}/dist/*.whl
+        retention-days: 2
+
+  deploy-packages:
+
+    needs: [build-windows-wheels, build-mac10-wheels, build-linux-wheels]
+    runs-on: windows-2019
+
+    steps:
+
+    - name: Checkout
+      uses: actions/checkout@v2
+
+    - name: Set up Python 3.9
+      uses: actions/setup-python@v2
+      with:
+        python-version: 3.9
+
+    - name: Install Dependencies
+      run: |
+        python -m pip install --upgrade pip setuptools wheel twine
+
+    - name: Download artifacts
+      uses: actions/download-artifact@v2
+
+    - name: PyPi Deployment
+      shell: cmd
+      if: ${{contains(github.event.inputs.deploy, 'true') && github.ref == 'refs/heads/master'}}
+      run: |
+        python -m twine upload windowsbuild*/* -u __token__ -p ${{ secrets.PYPI_PASSWORD }} --skip-existing
+        python -m twine upload apple10build*/* -u __token__ -p ${{ secrets.PYPI_PASSWORD }} --skip-existing
+        python -m twine upload linuxbuild*/* -u __token__ -p ${{ secrets.PYPI_PASSWORD }} --skip-existing
+
+    - name: Test PyPi Deployment
+      shell: cmd
+      if: "contains(github.event.inputs.deploytest, 'true')"
+      run: |
+        dir
+        python -m twine upload --repository testpypi windowsbuild*/* -u __token__ -p ${{ secrets.TEST_PYPI_PASSWORD }} --skip-existing
+        python -m twine upload --repository testpypi apple10build*/* -u __token__ -p ${{ secrets.TEST_PYPI_PASSWORD }} --skip-existing
+        python -m twine upload --repository testpypi linuxbuild*/* -u __token__ -p ${{ secrets.TEST_PYPI_PASSWORD }} --skip-existing

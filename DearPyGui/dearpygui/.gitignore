@@ -1,3 +1,9 @@
-__pycache__/
-_contexts.py
-_core.py
+*
+!__init__.py
+!.gitignore
+!_dearpygui.pyi
+!_deprecated.py
+!_header.py
+!dearpygui.py
+!demo.py
+!experimental.py

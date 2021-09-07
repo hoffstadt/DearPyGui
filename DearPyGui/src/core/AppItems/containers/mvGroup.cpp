@@ -2,6 +2,9 @@
 #include "mvInput.h"
 #include "mvApp.h"
 #include "mvItemRegistry.h"
+#include "AppItems/fonts/mvFont.h"
+#include "AppItems/themes/mvTheme.h"
+#include "AppItems/containers/mvDragPayload.h"
 namespace Marvel {
 
 	void mvGroup::InsertParser(std::map<std::string, mvPythonParser>* parsers)
@@ -28,6 +31,7 @@ namespace Marvel {
 
 		parser.addArg<mvPyDataType::Bool>("horizontal", mvArgType::KEYWORD_ARG, "False", "Forces child widgets to be added in a horizontal layout.");
 		parser.addArg<mvPyDataType::Float>("horizontal_spacing", mvArgType::KEYWORD_ARG, "-1", "Spacing for the horizontal layout.");
+		parser.addArg<mvPyDataType::Float>("xoffset", mvArgType::KEYWORD_ARG, "0.0", "Offset from containing window x item location within group.");
 
 
 		parser.finalize();
@@ -50,6 +54,76 @@ namespace Marvel {
 	void mvGroup::draw(ImDrawList* drawlist, float x, float y)
 	{
 
+
+		//-----------------------------------------------------------------------------
+		// pre draw
+		//-----------------------------------------------------------------------------
+
+		// show/hide
+		if (!_show)
+			return;
+
+		// focusing
+		if (_focusNextFrame)
+		{
+			ImGui::SetKeyboardFocusHere();
+			_focusNextFrame = false;
+		}
+
+		// cache old cursor position
+		ImVec2 previousCursorPos = ImGui::GetCursorPos();
+
+		// set cursor position if user set
+		if (_dirtyPos)
+			ImGui::SetCursorPos(_state.getItemPos());
+
+		// update widget's position state
+		_state.setPos({ ImGui::GetCursorPosX(), ImGui::GetCursorPosY() });
+
+		// set item width
+		if (_width != 0)
+			ImGui::SetNextItemWidth((float)_width);
+
+		// set indent
+		if (_indent > 0.0f)
+			ImGui::Indent(_indent);
+
+		// push font if a font object is attached
+		if (_font)
+		{
+			ImFont* fontptr = static_cast<mvFont*>(_font.get())->getFontPtr();
+			ImGui::PushFont(fontptr);
+		}
+
+		// handle enabled theming
+		if (_enabled)
+		{
+			// push class theme (if it exists)
+			if (auto classTheme = getClassTheme())
+				static_cast<mvTheme*>(classTheme.get())->draw(nullptr, 0.0f, 0.0f);
+
+			// push item theme (if it exists)
+			if (_theme)
+				static_cast<mvTheme*>(_theme.get())->draw(nullptr, 0.0f, 0.0f);
+		}
+
+		// handled disabled theming
+		else
+		{
+			// push class theme (if it exists)
+			if (auto classTheme = getClassDisabledTheme())
+				static_cast<mvTheme*>(classTheme.get())->draw(nullptr, 0.0f, 0.0f);
+
+			// push item theme (if it exists)
+			if (_disabledTheme)
+				static_cast<mvTheme*>(_disabledTheme.get())->draw(nullptr, 0.0f, 0.0f);
+		}
+
+		//-----------------------------------------------------------------------------
+		// draw
+		//-----------------------------------------------------------------------------
+		{
+
 		if (_width != 0)
 			ImGui::PushItemWidth((float)_width);
 
@@ -60,21 +134,84 @@ namespace Marvel {
 			if (_width != 0)
 				item->setWidth(_width);
 
-			if (!item->preDraw())
-				continue;
-
 			item->draw(drawlist, ImGui::GetCursorPosX(), ImGui::GetCursorPosY());
 
-			item->postDraw();
-
 			if (_horizontal)
-				ImGui::SameLine(0.0, _hspacing);
+				ImGui::SameLine((1 +item->getLocation())*_xoffset, _hspacing);
+
+			if (item->isTracked())
+			{
+				ImGui::SetScrollHereX(item->getTrackOffset());
+				ImGui::SetScrollHereY(item->getTrackOffset());
+			}
 		}
 
 		if (_width != 0)
 			ImGui::PopItemWidth();
 
 		ImGui::EndGroup();
+		_state.update();
+
+		}
+
+		//-----------------------------------------------------------------------------
+		// post draw
+		//-----------------------------------------------------------------------------
+
+		// set cursor position to cached position
+		if (_dirtyPos)
+			ImGui::SetCursorPos(previousCursorPos);
+
+		if (_indent > 0.0f)
+			ImGui::Unindent(_indent);
+
+		// pop font off stack
+		if (_font)
+			ImGui::PopFont();
+
+		// handle popping styles
+		if (_enabled)
+		{
+			if (auto classTheme = getClassTheme())
+				static_cast<mvTheme*>(classTheme.get())->customAction();
+
+			if (_theme)
+				static_cast<mvTheme*>(_theme.get())->customAction();
+		}
+		else
+		{
+			if (auto classTheme = getClassDisabledTheme())
+				static_cast<mvTheme*>(classTheme.get())->customAction();
+
+			if (_disabledTheme)
+				static_cast<mvTheme*>(_disabledTheme.get())->customAction();
+		}
+
+		if (_handlerRegistry)
+			_handlerRegistry->customAction(&_state);
+
+		// handle drag & drop payloads
+		for (auto& item : _children[3])
+			item->draw(nullptr, ImGui::GetCursorPosX(), ImGui::GetCursorPosY());
+
+		// handle drag & drop if used
+		if (_dropCallback)
+		{
+			ScopedID id(_uuid);
+			if (ImGui::BeginDragDropTarget())
+			{
+				if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload(_payloadType.c_str()))
+				{
+					auto payloadActual = static_cast<const mvDragPayload*>(payload->Data);
+					if (_alias.empty())
+						mvApp::GetApp()->getCallbackRegistry().addCallback(getDropCallback(), _uuid, payloadActual->getDragData(), nullptr);
+					else
+						mvApp::GetApp()->getCallbackRegistry().addCallback(getDropCallback(), _alias, payloadActual->getDragData(), nullptr);
+				}
+
+				ImGui::EndDragDropTarget();
+			}
+		}
 	}
 
 	void mvGroup::handleSpecificKeywordArgs(PyObject* dict)
@@ -84,6 +221,7 @@ namespace Marvel {
 		 
 		if (PyObject* item = PyDict_GetItemString(dict, "horizontal")) _horizontal = ToBool(item);
 		if (PyObject* item = PyDict_GetItemString(dict, "horizontal_spacing")) _hspacing = ToFloat(item);
+		if (PyObject* item = PyDict_GetItemString(dict, "xoffset")) _xoffset = ToFloat(item);
 	}
 
 	void mvGroup::getSpecificConfiguration(PyObject* dict)
@@ -93,6 +231,7 @@ namespace Marvel {
 		 
 		PyDict_SetItemString(dict, "horizontal", mvPyObject(ToPyBool(_horizontal)));
 		PyDict_SetItemString(dict, "horizontal_spacing", mvPyObject(ToPyFloat(_hspacing)));
+		PyDict_SetItemString(dict, "xoffset", mvPyObject(ToPyFloat(_xoffset)));
 	}
 
 }

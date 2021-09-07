@@ -23,22 +23,16 @@ namespace Marvel {
 
     private:
 
-        // node view rendering
-        void renderNode(mvAppItem* item);
-
-        bool renderParentNode(mvAppItem* item, int nodeId, int slotId);
-        bool renderChildAttr(mvAppItem* item, int slot, int slotId);
-        void renderChildNodes(mvAppItem* item, int slot, int& link, int& node, int startAttrId, int parentAttrId);
-
         void renderTreeNode(mvAppItem* item);
-
         void renderRootCategory(const char* category, std::vector<mvRef<mvAppItem>>& roots);
 
         mvAppItem* _itemref = nullptr;
         mvUUID m_selectedItem = 0;
-        bool m_nodeView = false;
         bool m_dirtyNodes = true;
         int m_selectedId = -1;
+        ImGuiTextFilter _imguiFilter;
+        bool _startFiltering = false;
+        bool _slots = false;
     };
 
 }

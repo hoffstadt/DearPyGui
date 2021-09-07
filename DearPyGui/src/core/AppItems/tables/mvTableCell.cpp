@@ -35,14 +35,7 @@ namespace Marvel {
 		ScopedID id(_uuid);
 
 		for (auto& item : _children[1])
-		{
-			if (!item->preDraw())
-				continue;
-
 			item->draw(drawlist, ImGui::GetCursorPosX(), ImGui::GetCursorPosY());
-
-			item->postDraw();
-		}
 	}
 
 }

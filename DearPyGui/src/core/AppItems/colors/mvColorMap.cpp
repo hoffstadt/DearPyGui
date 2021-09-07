@@ -37,7 +37,7 @@ namespace Marvel {
 
             parser.finalize();
 
-            parsers->insert({ "set_colormap", parser });
+            parsers->insert({ "bind_colormap", parser });
         }
 
         {
@@ -128,7 +128,7 @@ namespace Marvel {
         ImPlot::ColormapButton(_internalLabel.c_str(), ImVec2(-1.0f, 0.0f), _colorMap);
     }
 
-    void mvColorMap::alternativeCustomAction()
+    void mvColorMap::alternativeCustomAction(void* data)
     {
         if (_created)
             return;
@@ -139,12 +139,12 @@ namespace Marvel {
         _triggerAlternativeAction = false;
     }
 
-    PyObject* mvColorMap::set_colormap(PyObject* self, PyObject* args, PyObject* kwargs)
+    PyObject* mvColorMap::bind_colormap(PyObject* self, PyObject* args, PyObject* kwargs)
     {
         PyObject* itemraw;
         PyObject* sourceraw;
 
-        if (!(mvApp::GetApp()->getParsers())["set_colormap"].parse(args, kwargs, __FUNCTION__, &itemraw, &sourceraw))
+        if (!(mvApp::GetApp()->getParsers())["bind_colormap"].parse(args, kwargs, __FUNCTION__, &itemraw, &sourceraw))
             return GetPyNone();
 
         if (!mvApp::s_manualMutexControl) std::lock_guard<std::mutex> lk(mvApp::s_mutex);
@@ -155,7 +155,7 @@ namespace Marvel {
         auto aitem = mvApp::GetApp()->getItemRegistry().getItem(item);
         if (aitem == nullptr)
         {
-            mvThrowPythonError(mvErrorCode::mvItemNotFound, "set_colormap",
+            mvThrowPythonError(mvErrorCode::mvItemNotFound, "bind_colormap",
                 "Item not found: " + std::to_string(item), nullptr);
             return GetPyNone();
         }
@@ -165,7 +165,7 @@ namespace Marvel {
             auto asource = mvApp::GetApp()->getItemRegistry().getItem(source);
             if (asource == nullptr)
             {
-                mvThrowPythonError(mvErrorCode::mvItemNotFound, "set_colormap",
+                mvThrowPythonError(mvErrorCode::mvItemNotFound, "bind_colormap",
                     "Source Item not found: " + std::to_string(source), nullptr);
                 return GetPyNone();
             }
@@ -203,7 +203,7 @@ namespace Marvel {
 
         else
         {
-            mvThrowPythonError(mvErrorCode::mvIncompatibleType, "set_colormap",
+            mvThrowPythonError(mvErrorCode::mvIncompatibleType, "bind_colormap",
                 "Incompatible type. Expected types include: mvPlot, mvColorMapScale, mvColorMapButton", aitem);
             return GetPyNone();
         }

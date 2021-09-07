@@ -1,19 +1,38 @@
 name: Embedded Build
 
 on:
-  push: {}
-  pull_request: {}
+
+  schedule:
+    - cron: '0 1 * * 1'
+
+  push:
+
+    branches:
+      - master
+      - development
+      - development_*
+
+    paths-ignore:
+      - 'docs/**'
+      - 'Resources/**'
+      - 'Scripts/**'
+      - 'Tools/**'
+
+  pull_request:
+
+  workflow_dispatch:
     
 jobs:
 
   build-windows:
     
     runs-on: windows-2019
-    if: "! contains(github.event.head_commit.message, '[skip ci]')"
+    if: ${{! contains(github.event.head_commit.message, '[individual]') || contains(github.event.head_commit.message, '[windows]')}}
 
     steps:
 
-    - uses: actions/checkout@v2
+    - name: Checkout
+      uses: actions/checkout@v2
 
     - name: Retrieve submodules
       shell: cmd
@@ -22,38 +41,43 @@ jobs:
     - name: Build Python
       shell: cmd
       run: |
+        cd %GITHUB_WORKSPACE%
         cd Scripts
         call BuildPythonForWindows.bat --ci
-        cd ..
-        mkdir cmake-build-release
-        cd cmake-build-release
-        cmake .. -DMV_TESTS_ONLY=True
         
     - name: Build DearPyGui
       shell: cmd
       run: |
+        cd %GITHUB_WORKSPACE%
+        mkdir cmake-build-release
+        cd cmake-build-release
+        cmake .. -DMV_TESTS_ONLY=True
+        cd ..
         cmake --build cmake-build-release --config Release
 
     - name: Run Tests
       shell: cmd
       run: |
-        cd D:\a\DearPyGui\DearPyGui\cmake-build-release\DearSandbox\
+        cd %GITHUB_WORKSPACE%
+        cd cmake-build-release\DearSandbox
         DearSandbox.exe
 
   build-MacOS:
     
     runs-on: MacOS-latest
-    if: "! contains(github.event.head_commit.message, '[skip ci]')"
+    if: ${{! contains(github.event.head_commit.message, '[individual]') || contains(github.event.head_commit.message, '[apple]')}}
 
     steps:
 
-    - uses: actions/checkout@v2
+    - name: Checkout
+      uses: actions/checkout@v2
 
     - name: Retrieve submodules
       run: git submodule update --init --recursive
     
     - name: Build Python
       run: |
+        cd $GITHUB_WORKSPACE
         cd Dependencies/cpython
         mkdir -p build/debug
         cd build/debug
@@ -63,6 +87,7 @@ jobs:
 
     - name: Build DearPyGui
       run: |
+        cd $GITHUB_WORKSPACE
         mkdir cmake-build-debug
         cd cmake-build-debug
         cmake .. -DMV_TESTS_ONLY=True
@@ -72,24 +97,25 @@ jobs:
   build-Ubuntu:
     
     runs-on: ubuntu-18.04
-    if: "! contains(github.event.head_commit.message, '[skip ci]')"
+    if: ${{! contains(github.event.head_commit.message, '[individual]') || contains(github.event.head_commit.message, '[linux]')}}
 
     steps:
 
-    - uses: actions/checkout@v2
+    - name: Checkout
+      uses: actions/checkout@v2
 
     - name: Retrieve submodules
       run: git submodule update --init --recursive
 
     - name: Install Dependencies
       run: |
-        sudo apt-get update
-        sudo apt-get install libgl1-mesa-dev
-        sudo apt-get install xorg-dev
-        sudo apt-get install libfreetype6-dev
+        cd $GITHUB_WORKSPACE
+        sudo apt-get update 
+        sudo apt-get install libgl1-mesa-dev xorg-dev libfreetype6-dev
     
     - name: Build Python
       run: |
+        cd $GITHUB_WORKSPACE
         cd Dependencies/cpython
         mkdir -p build/debug
         cd build/debug
@@ -98,6 +124,7 @@ jobs:
 
     - name: Build DearPyGui
       run: |
+        cd $GITHUB_WORKSPACE
         mkdir cmake-build-debug
         cd cmake-build-debug
         cmake .. -DMV_TESTS_ONLY=True

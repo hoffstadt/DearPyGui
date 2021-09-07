@@ -7,28 +7,13 @@
 #include "mvPythonExceptions.h"
 #include "mvToolManager.h"
 #include "mvPythonExceptions.h"
+#include "mvToolManager.h"
+#include "mvFontManager.h"
 
 namespace Marvel {
 
 	void mvItemRegistry::InsertParser(std::map<std::string, mvPythonParser>* parsers)
 	{
-
-		{
-			mvPythonParser parser(mvPyDataType::Dict, "Undocumented", { "App Item Operations" });
-			parser.finalize();
-			parsers->insert({ "get_item_registry_configuration", parser });
-		}
-
-		{
-			mvPythonParser parser(mvPyDataType::None, "Undocumented", { "App Item Operations" });
-			parser.addArg<mvPyDataType::Bool>("allow_alias_overwrites", mvArgType::KEYWORD_ARG, "False");
-			parser.addArg<mvPyDataType::Bool>("manual_alias_management", mvArgType::KEYWORD_ARG, "False");
-			parser.addArg<mvPyDataType::Bool>("skip_required_args", mvArgType::KEYWORD_ARG, "False");
-			parser.addArg<mvPyDataType::Bool>("skip_positional_args", mvArgType::KEYWORD_ARG, "False");
-			parser.addArg<mvPyDataType::Bool>("skip_keyword_args", mvArgType::KEYWORD_ARG, "False");
-			parser.finalize();
-			parsers->insert({ "configure_item_registry", parser });
-		}
 
 		{
 			mvPythonParser parser(mvPyDataType::None, "Undocumented", { "Item Registry" });
@@ -95,16 +80,9 @@ namespace Marvel {
 
 		{
 			mvPythonParser parser(mvPyDataType::None, "Undocumented", { "Item Registry" });
-			parser.addArg<mvPyDataType::UUIDList>("items");
+			parser.addArg<mvPyDataType::UUID>("item");
 			parser.finalize();
-			parsers->insert({ "unstage_items", parser });
-		}
-
-		{
-			mvPythonParser parser(mvPyDataType::None, "Undocumented", { "Item Registry" });
-			parser.addArg<mvPyDataType::UUIDList>("items");
-			parser.finalize();
-			parsers->insert({ "stage_items", parser });
+			parsers->insert({ "unstage", parser });
 		}
 
 		{
@@ -169,13 +147,6 @@ namespace Marvel {
 			mvPythonParser parser(mvPyDataType::StringList, "Undocumented", { "Item Registry" });
 			parser.finalize();
 			parsers->insert({ "get_aliases", parser });
-		}
-
-		{
-			mvPythonParser parser(mvPyDataType::None, "Undocumented", { "Item Registry" });
-			parser.addArg<mvPyDataType::Bool>("mode");
-			parser.finalize();
-			parsers->insert({ "set_staging_mode", parser });
 		}
 
 		{
@@ -387,17 +358,6 @@ namespace Marvel {
 
 		cleanUpItem(uuid);
 
-		// check staging first
-		if (_stagingArea.count(uuid) != 0)
-		{
-			if (childrenOnly)
-				_stagingArea[uuid]->deleteChildren(slot);
-			else
-				_stagingArea.erase(uuid);
-			MV_ITEM_REGISTRY_INFO(std::to_string(uuid) + " found and deleted.");
-			return true;
-		}
-
 		// delete item's children only
 		if(childrenOnly)
 		{
@@ -424,6 +384,7 @@ namespace Marvel {
 		else if (deleteRoot(_themeRegistryRoots, uuid)) deletedItem = true;
 		else if (deleteRoot(_itemPoolRoots, uuid)) deletedItem = true;
 		else if (deleteRoot(_itemTemplatesRoots, uuid)) deletedItem = true;
+		else if (deleteRoot(_itemHandlerRegistryRoots, uuid)) deletedItem = true;
 
 		if (deletedItem)
 		{
@@ -458,12 +419,7 @@ namespace Marvel {
 		else if (moveRoot(_themeRegistryRoots, uuid, child)) movedItem = true;
 		else if (moveRoot(_itemPoolRoots, uuid, child)) movedItem = true;
 		else if (moveRoot(_itemTemplatesRoots, uuid, child)) movedItem = true;
-
-		if (_stagingArea.count(uuid) != 0)
-		{
-			child = _stagingArea[uuid];
-			_stagingArea.erase(uuid);
-		}
+		else if (moveRoot(_itemHandlerRegistryRoots, uuid, child)) movedItem = true;
 
 		if (child == nullptr)
 		{
@@ -497,6 +453,7 @@ namespace Marvel {
 		else if (moveUpRoot(_themeRegistryRoots, uuid)) movedItem = true;
 		else if (moveUpRoot(_itemPoolRoots, uuid)) movedItem = true;
 		else if (moveUpRoot(_itemTemplatesRoots, uuid)) movedItem = true;
+		else if (moveUpRoot(_itemHandlerRegistryRoots, uuid)) movedItem = true;
 
 		if (!movedItem)
 		{
@@ -529,6 +486,7 @@ namespace Marvel {
 		else if (moveDownRoot(_themeRegistryRoots, uuid)) movedItem = true;
 		else if (moveDownRoot(_itemPoolRoots, uuid)) movedItem = true;
 		else if (moveDownRoot(_itemTemplatesRoots, uuid)) movedItem = true;
+		else if (moveDownRoot(_itemHandlerRegistryRoots, uuid)) movedItem = true;
 
 		if (!movedItem)
 		{
@@ -562,10 +520,37 @@ namespace Marvel {
 		if(_showImPlotDebug)
 			ImPlot::ShowDemoWindow(&_showImPlotDebug);
 
+		if (mvToolManager::GetFontManager()._resetDefault)
+		{
+			ImGuiIO& io = ImGui::GetIO();
+			io.FontDefault = nullptr;
+			mvToolManager::GetFontManager()._resetDefault = false;
+		}
+
 		for (auto& root : _fontRegistryRoots)
 		{
 			if (root->_show)
 				root->draw(nullptr, 0.0f, 0.0f);
+		}
+
+		if (mvToolManager::GetFontManager()._newDefault)
+		{
+			ImGuiIO& io = ImGui::GetIO();
+			io.FontDefault = nullptr;
+
+			for (auto& root : _fontRegistryRoots)
+			{
+				for (auto& font : root->_children[1])
+				{
+					if (static_cast<mvFont*>(font.get())->_default)
+					{
+						io.FontDefault = static_cast<mvFont*>(font.get())->getFontPtr();
+						break;
+					}
+				}
+			}
+
+			mvToolManager::GetFontManager()._newDefault = false;
 		}
 
 		for (auto& root : _handlerRegistryRoots)
@@ -578,13 +563,7 @@ namespace Marvel {
 			root->draw(nullptr, 0.0f, 0.0f);
 
 		for (auto& root : _filedialogRoots)
-		{
-			if (!root->preDraw())
-				continue;
-
 			root->draw(nullptr, 0.0f, 0.0f);
-			root->postDraw();
-		}
 
 		for (auto& root : _themeRegistryRoots)
 		{
@@ -605,13 +584,7 @@ namespace Marvel {
 		}
 
 		for (auto& root : _viewportMenubarRoots)
-		{
-			if (!root->preDraw())
-				continue;
-
 			root->draw(nullptr, 0.0f, 0.0f);
-			root->postDraw();
-		}
 
 		return false;
 	}
@@ -640,28 +613,6 @@ namespace Marvel {
 	bool mvItemRegistry::addRuntimeItem(mvUUID parent, mvUUID before, mvRef<mvAppItem> item)
 	{
 
-		if (_stagingArea.count(parent) != 0)
-		{
-			_stagingArea[parent]->addItem(item);
-			return true;
-		}
-
-		else if (_stagingArea.count(before) != 0)
-		{
-			_stagingArea[before]->addItem(item);
-			return true;
-		}
-
-		if (_staging)
-		{
-			for (auto& stagingItem : _stagingArea)
-			{
-				if (stagingItem.second->addRuntimeChild(parent, before, item))
-					return true;
-			}
-
-		}
-
 		if (addRuntimeChildRoot(_colormapRoots, parent, before, item)) return true;
 		else if (addRuntimeChildRoot(_filedialogRoots, parent, before, item)) return true;
 		else if (addRuntimeChildRoot(_stagingRoots, parent, before, item)) return true;
@@ -674,6 +625,7 @@ namespace Marvel {
 		else if (addRuntimeChildRoot(_themeRegistryRoots, parent, before, item)) return true;
 		else if (addRuntimeChildRoot(_itemPoolRoots, parent, before, item)) return true;
 		else if (addRuntimeChildRoot(_itemTemplatesRoots, parent, before, item)) return true;
+		else if (addRuntimeChildRoot(_itemHandlerRegistryRoots, parent, before, item)) return true;
 
 		return false;
 	}
@@ -693,6 +645,7 @@ namespace Marvel {
 		else if (addItemAfterRoot(_themeRegistryRoots, prev, item)) return true;
 		else if (addItemAfterRoot(_itemPoolRoots, prev, item)) return true;
 		else if (addItemAfterRoot(_itemTemplatesRoots, prev, item)) return true;
+		else if (addItemAfterRoot(_itemHandlerRegistryRoots, prev, item)) return true;
 
 		assert(false);
 		return false;
@@ -701,11 +654,6 @@ namespace Marvel {
 	void mvItemRegistry::pushParent(mvAppItem* item)
 	{
 		_containers.push(item);
-	}
-
-	void mvItemRegistry::setStagingMode(bool value)
-	{
-		_staging = value;
 	}
 
 	mvAppItem* mvItemRegistry::popParent()
@@ -795,23 +743,6 @@ namespace Marvel {
 				return _cachedItemsPTR[i];
 		}
 
-		if (_stagingArea.count(uuid) != 0)
-			return _stagingArea[uuid].get();
-
-		if (_staging)
-		{
-			for (auto& stagingItem : _stagingArea)
-			{
-				if (auto child = stagingItem.second->getChild(uuid))
-				{
-					_delayedSearch.clear();
-					cacheItem(child);
-					return child;
-				}
-			}
-
-		}
-
 		if (auto foundItem = getItemRoot(_colormapRoots, uuid)) return foundItem;
 		if (auto foundItem = getItemRoot(_colormapRoots, uuid)) return foundItem;
 		if (auto foundItem = getItemRoot(_filedialogRoots, uuid)) return foundItem;
@@ -825,6 +756,7 @@ namespace Marvel {
 		if (auto foundItem = getItemRoot(_themeRegistryRoots, uuid)) return foundItem;
 		if (auto foundItem = getItemRoot(_itemPoolRoots, uuid)) return foundItem;
 		if (auto foundItem = getItemRoot(_itemTemplatesRoots, uuid)) return foundItem;
+		if (auto foundItem = getItemRoot(_itemHandlerRegistryRoots, uuid)) return foundItem;
 
 		for (auto delayedItem : _delayedSearch)
 		{
@@ -873,11 +805,7 @@ namespace Marvel {
 		else if (auto foundItem = getRefItemRoot(_themeRegistryRoots, uuid)) return foundItem;
 		else if (auto foundItem = getRefItemRoot(_itemPoolRoots, uuid)) return foundItem;
 		else if (auto foundItem = getRefItemRoot(_itemTemplatesRoots, uuid)) return foundItem;
-
-		if (_stagingArea.count(uuid) != 0)
-			return _stagingArea[uuid];
-
-		//assert(false && "Item not found.");
+		else if (auto foundItem = getRefItemRoot(_itemHandlerRegistryRoots, uuid)) return foundItem;
 
 		return nullptr;
 	}
@@ -911,13 +839,13 @@ namespace Marvel {
 		return true;
 	}
 
-	bool mvItemRegistry::addWindow(mvRef<mvAppItem> item)
+	bool mvItemRegistry::addRoot(mvRef<mvAppItem> item)
 	{
 
 		if (item->getType() == mvAppItemType::mvWindowAppItem) _windowRoots.push_back(item);
 		if (item->getType() == mvAppItemType::mvColorMapRegistry) _colormapRoots.push_back(item);
 		if (item->getType() == mvAppItemType::mvFileDialog) _filedialogRoots.push_back(item);
-		if (item->getType() == mvAppItemType::mvStagingContainer) _stagingRoots.push_back(item);
+		if (item->getType() == mvAppItemType::mvStage) _stagingRoots.push_back(item);
 		if (item->getType() == mvAppItemType::mvViewportMenuBar) _viewportMenubarRoots.push_back(item);
 		if (item->getType() == mvAppItemType::mvFontRegistry) _fontRegistryRoots.push_back(item);
 		if (item->getType() == mvAppItemType::mvHandlerRegistry) _handlerRegistryRoots.push_back(item);
@@ -926,6 +854,7 @@ namespace Marvel {
 		if (item->getType() == mvAppItemType::mvTheme) _themeRegistryRoots.push_back(item);
 		if (item->getType() == mvAppItemType::mvItemPool) _itemPoolRoots.push_back(item);
 		if (item->getType() == mvAppItemType::mvTemplateRegistry) _itemTemplatesRoots.push_back(item);
+		if (item->getType() == mvAppItemType::mvItemHandlerRegistry) _itemHandlerRegistryRoots.push_back(item);
 
 		return true;
 	}
@@ -945,6 +874,7 @@ namespace Marvel {
 		_themeRegistryRoots.clear();
 		_itemPoolRoots.clear();
 		_itemTemplatesRoots.clear();
+		_itemHandlerRegistryRoots.clear();
 	}
 
 	void mvItemRegistry::cleanUpItem(mvUUID uuid)
@@ -1018,24 +948,13 @@ namespace Marvel {
 		//---------------------------------------------------------------------------
 		if (mvAppItem::DoesItemHaveFlag(item.get(), MV_ITEM_DESC_ROOT))
 		{
-			if (_staging)
-			{
-				_stagingArea[item->getUUID()] = item;
-				return true;
-			}
-
-			else if (item->getType() == mvAppItemType::mvStagingContainer)
-			{
-				mvThrowPythonError(mvErrorCode::mvStagingModeOff, "Staging container can only be adding in staging mode.");
-				return false;
-			}
 
 			if (mvApp::IsAppStarted())
 			{
-				addWindow(item);
+				addRoot(item);
 				return true;
 			}
-			return addWindow(item);
+			return addRoot(item);
 		}
 			
 		//---------------------------------------------------------------------------
@@ -1083,12 +1002,6 @@ namespace Marvel {
 		//---------------------------------------------------------------------------
 		if (parentPtr == nullptr)
 		{
-			if (_staging)
-			{
-				_stagingArea[item->getUUID()] = item;
-				return true;
-			}
-
 			mvThrowPythonError(mvErrorCode::mvParentNotDeduced, "add_*", "Parent could not be deduced.", item.get());
 			MV_ITEM_REGISTRY_ERROR("Parent could not be deduced.");
 			assert(false);
@@ -1208,6 +1121,7 @@ namespace Marvel {
 		getAllItemsRoot(_themeRegistryRoots, childList);
 		getAllItemsRoot(_itemPoolRoots, childList);
 		getAllItemsRoot(_itemTemplatesRoots, childList);
+		getAllItemsRoot(_itemHandlerRegistryRoots, childList);
 
 		return childList;
 	}
@@ -1228,6 +1142,7 @@ namespace Marvel {
 		for (auto& root : _themeRegistryRoots) childList.emplace_back(root->_uuid);
 		for (auto& root : _itemPoolRoots) childList.emplace_back(root->_uuid);
 		for (auto& root : _itemTemplatesRoots) childList.emplace_back(root->_uuid);
+		for (auto& root : _itemHandlerRegistryRoots) childList.emplace_back(root->_uuid);
 
 		return childList;
 	}
@@ -1262,60 +1177,31 @@ namespace Marvel {
 
 	void mvItemRegistry::unstageItem(mvUUID uuid)
 	{
-
-		if (_stagingArea.count(uuid) != 0)
+		bool item_found = false;
+		for (auto& item : _stagingRoots)
 		{
-			mvRef<mvAppItem> item = _stagingArea[uuid];
-			_stagingArea.erase(uuid);
-			cleanUpItem(uuid);
-			if (item->getType() == mvAppItemType::mvStagingContainer)
+			if (item->getUUID() == uuid && item->getType() == mvAppItemType::mvStage)
 			{
 				for (auto& children : item->_children)
 				{
 					for (auto& child : children)
 						addItemWithRuntimeChecks(child, 0, 0);
 				}
+
+				item_found = true;
+				break;
 			}
-			else
-				addItemWithRuntimeChecks(item, 0, 0);
-		}
-		else
-		{
-			mvThrowPythonError(mvErrorCode::mvItemNotFound, "unstage_item",
-				"Staged item not found: " + std::to_string(uuid), nullptr);
-			assert(false);
 		}
 
-	}
-
-	void mvItemRegistry::stageItem(mvUUID uuid)
-	{
-		mvRef<mvAppItem> child = nullptr;
-
-		bool stoleItem = false;
-
-		if (moveRoot(_colormapRoots, uuid, child)) stoleItem = true;
-		else if (moveRoot(_filedialogRoots, uuid, child)) stoleItem = true;
-		else if (moveRoot(_stagingRoots, uuid, child)) stoleItem = true;
-		else if (moveRoot(_viewportMenubarRoots, uuid, child)) stoleItem = true;
-		else if (moveRoot(_fontRegistryRoots, uuid, child)) stoleItem = true;
-		else if (moveRoot(_handlerRegistryRoots, uuid, child)) stoleItem = true;
-		else if (moveRoot(_textureRegistryRoots, uuid, child)) stoleItem = true;
-		else if (moveRoot(_valueRegistryRoots, uuid, child)) stoleItem = true;
-		else if (moveRoot(_windowRoots, uuid, child)) stoleItem = true;
-		else if (moveRoot(_themeRegistryRoots, uuid, child)) stoleItem = true;
-		else if (moveRoot(_itemPoolRoots, uuid, child)) stoleItem = true;
-		else if (moveRoot(_itemTemplatesRoots, uuid, child)) stoleItem = true;
-
-		if (child == nullptr)
+		if (item_found)
 		{
-			mvThrowPythonError(mvErrorCode::mvItemNotFound, "stage_item",
-				"Item not found: " + std::to_string(uuid), nullptr);
-			MV_ITEM_REGISTRY_WARN("Could not stage item, it was not found");
+			cleanUpItem(uuid);
 			return;
 		}
 
-		_stagingArea[child->getUUID()] = child;
+		mvThrowPythonError(mvErrorCode::mvItemNotFound, "unstage",
+			"Stage not found: " + std::to_string(uuid), nullptr);
+		assert(false);
 
 	}
 
@@ -1467,18 +1353,6 @@ namespace Marvel {
 			}
 		}
 		return ToPyBool(false);
-	}
-
-	PyObject* mvItemRegistry::set_staging_mode(PyObject* self, PyObject* args, PyObject* kwargs)
-	{
-		int mode;
-
-		if (!(mvApp::GetApp()->getParsers())["set_staging_mode"].parse(args, kwargs, __FUNCTION__, &mode))
-			return GetPyNone();
-
-		if (!mvApp::s_manualMutexControl) std::lock_guard<std::mutex> lk(mvApp::s_mutex);
-		mvApp::GetApp()->getItemRegistry().setStagingMode((bool)mode);
-		return GetPyNone();
 	}
 
 	PyObject* mvItemRegistry::set_primary_window(PyObject* self, PyObject* args, PyObject* kwargs)
@@ -1641,39 +1515,19 @@ namespace Marvel {
 		return GetPyNone();
 	}
 
-	PyObject* mvItemRegistry::unstage_items(PyObject* self, PyObject* args, PyObject* kwargs)
+	PyObject* mvItemRegistry::unstage(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 
-		PyObject* items = nullptr;
+		PyObject* itemraw = nullptr;
 
-		if (!(mvApp::GetApp()->getParsers())["unstage_items"].parse(args, kwargs, __FUNCTION__, &items))
+		if (!(mvApp::GetApp()->getParsers())["unstage"].parse(args, kwargs, __FUNCTION__, &itemraw))
 			return GetPyNone();
 
 		if (!mvApp::s_manualMutexControl) std::lock_guard<std::mutex> lk(mvApp::s_mutex);
 
-		auto aitems = ToUUIDVect(items);
+		mvUUID item = mvAppItem::GetIDFromPyObject(itemraw);
 
-		for(const auto& item : aitems)
-			mvApp::GetApp()->getItemRegistry().unstageItem(item);
-
-
-		return GetPyNone();
-	}
-
-	PyObject* mvItemRegistry::stage_items(PyObject* self, PyObject* args, PyObject* kwargs)
-	{
-
-		PyObject* items = nullptr;
-
-		if (!(mvApp::GetApp()->getParsers())["stage_items"].parse(args, kwargs, __FUNCTION__, &items))
-			return GetPyNone();
-
-		if (!mvApp::s_manualMutexControl) std::lock_guard<std::mutex> lk(mvApp::s_mutex);
-
-		auto aitems = ToUUIDVect(items);
-
-		for (const auto& item : aitems)
-			mvApp::GetApp()->getItemRegistry().stageItem(item);
+		mvApp::GetApp()->getItemRegistry().unstageItem(item);
 
 		return GetPyNone();
 	}
@@ -1710,43 +1564,6 @@ namespace Marvel {
 		if (!mvApp::s_manualMutexControl) std::lock_guard<std::mutex> lk(mvApp::s_mutex);
 
 		return ToPyList(mvApp::GetApp()->getItemRegistry().getWindows());
-	}
-
-	PyObject* mvItemRegistry::configure_item_registry(PyObject* self, PyObject* args, PyObject* kwargs)
-	{
-
-		int allow_alias_overwrites = false;
-		int manual_alias_management = false;
-		int skip_required_args = false;
-		int skip_positional_args = false;
-		int skip_keyword_args = false;
-
-		if (!(mvApp::GetApp()->getParsers())["configure_item_registry"].parse(args, kwargs, __FUNCTION__, 
-			&allow_alias_overwrites, &manual_alias_management, &skip_required_args, &skip_positional_args, &skip_keyword_args))
-			return GetPyNone();
-
-		if (!mvApp::s_manualMutexControl) std::lock_guard<std::mutex> lk(mvApp::s_mutex);
-
-		mvApp::GetApp()->getItemRegistry()._allowAliasOverwrites = allow_alias_overwrites;
-		mvApp::GetApp()->getItemRegistry()._manualAliasManagement = manual_alias_management;
-		mvApp::GetApp()->getItemRegistry()._skipPositionalArgs = skip_positional_args;
-		mvApp::GetApp()->getItemRegistry()._skipKeywordArgs = skip_keyword_args;
-		mvApp::GetApp()->getItemRegistry()._skipRequiredArgs = skip_required_args;
-
-		return GetPyNone();
-	}
-
-	PyObject* mvItemRegistry::get_item_registry_configuration(PyObject* self, PyObject* args, PyObject* kwargs)
-	{
-		if (!mvApp::s_manualMutexControl) std::lock_guard<std::mutex> lk(mvApp::s_mutex);
-		auto registry = mvApp::GetApp()->getItemRegistry();
-		PyObject* pdict = PyDict_New();
-		PyDict_SetItemString(pdict, "allow_alias_overwrites", mvPyObject(ToPyBool(registry._allowAliasOverwrites)));
-		PyDict_SetItemString(pdict, "manual_alias_management", mvPyObject(ToPyBool(registry._manualAliasManagement)));
-		PyDict_SetItemString(pdict, "skip_keyword_args", mvPyObject(ToPyBool(registry._skipKeywordArgs)));
-		PyDict_SetItemString(pdict, "skip_positional_args", mvPyObject(ToPyBool(registry._skipPositionalArgs)));
-		PyDict_SetItemString(pdict, "skip_required_args", mvPyObject(ToPyBool(registry._skipRequiredArgs)));
-		return pdict;
 	}
 
 	PyObject* mvItemRegistry::add_alias(PyObject* self, PyObject* args, PyObject* kwargs)

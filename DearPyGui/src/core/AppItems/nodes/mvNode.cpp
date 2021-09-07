@@ -145,7 +145,7 @@ namespace Marvel {
 				item->draw(drawlist, x, y);
 
 				auto& state = item->getState();
-				state.setActive(imnodes::IsAttributeActive());
+				state._active = imnodes::IsAttributeActive();
 
 			}
 
@@ -187,23 +187,12 @@ namespace Marvel {
 		if (_theme)
 			static_cast<mvTheme*>(_theme.get())->customAction();
 
-		// event handlers
+		if (_handlerRegistry)
+			_handlerRegistry->customAction(&_state);
+
+		// handle drag & drop payloads
 		for (auto& item : _children[3])
-		{
-			if (!item->preDraw())
-				continue;
-
 			item->draw(nullptr, ImGui::GetCursorPosX(), ImGui::GetCursorPosY());
-		}
-
-		// drag drop
-		for (auto& item : _children[4])
-		{
-			if (!item->preDraw())
-				continue;
-
-			item->draw(nullptr, ImGui::GetCursorPosX(), ImGui::GetCursorPosY());
-		}
 
 		if (_dropCallback)
 		{

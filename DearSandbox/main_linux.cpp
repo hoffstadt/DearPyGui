@@ -25,6 +25,9 @@ void runTest(std::string test)
 int main(int argc, char* argv[])
 {
 
+	mvPythonParser::GenerateStubFile("../../DearPyGui/dearpygui");
+	mvPythonParser::GenerateDearPyGuiFile("../../DearPyGui/dearpygui");
+
 	// initialize python
 	// add our custom module
 	PyImport_AppendInittab("_dearpygui", &PyInit__dearpygui);
@@ -40,7 +43,7 @@ int main(int argc, char* argv[])
       nullptr);
 #else
   wchar_t *deco = Py_DecodeLocale(
-      "../../Dependencies/cpython/build/debug/build/lib.linux-x86_64-3.9-pydebug/:../"
+      "../../Dependencies/DearPyGui_Ext/:../../Dependencies/cpython/build/debug/build/lib.linux-x86_64-3.9-pydebug/:../"
       "../Dependencies/cpython/Lib/:../../DearPyGui:../../DearSandbox",
       nullptr);
 #endif

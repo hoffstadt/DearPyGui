@@ -127,14 +127,7 @@ namespace Marvel {
 
 			// plots
 			for (auto& item : _children[1])
-			{
-				// skip item if it's not shown
-				if (!item->isShown())
-					continue;
 				item->draw(drawlist, x, y);
-
-				item->postDraw();
-			}
 
 			ImPlot::EndSubplots();
 		}

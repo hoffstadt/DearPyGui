@@ -1,3 +1,26 @@
+/***************************************************************************//*/
+Copyright (c) 2021 Dear PyGui, LLC
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+/******************************************************************************/
+
 #include <utility>
 #include "mvButton.h"
 #include "mvCore.h"
@@ -45,8 +68,6 @@ namespace Marvel {
 		: 
 		mvAppItem(uuid)
 	{
-		_state._applicableState = MV_STATE_HOVER | MV_STATE_ACTIVE | MV_STATE_FOCUSED | MV_STATE_CLICKED | MV_STATE_CONT_AVAIL |
-			MV_STATE_VISIBLE | MV_STATE_ACTIVATED | MV_STATE_DEACTIVATED | MV_STATE_RECT_MIN | MV_STATE_RECT_MAX | MV_STATE_RECT_SIZE;
 	}
 
 	void mvButton::draw(ImDrawList* drawlist, float x, float y)
@@ -146,22 +167,8 @@ namespace Marvel {
 
 		//-----------------------------------------------------------------------------
 		// update state
-		//   * only update if applicable
 		//-----------------------------------------------------------------------------
-		_state._lastFrameUpdate = mvApp::s_frame;
-		_state._hovered = ImGui::IsItemHovered();
-		_state._active = ImGui::IsItemActive();
-		_state._focused = ImGui::IsItemFocused();
-		_state._leftclicked = ImGui::IsItemClicked();
-		_state._rightclicked = ImGui::IsItemClicked(1);
-		_state._middleclicked = ImGui::IsItemClicked(2);
-		_state._visible = ImGui::IsItemVisible();
-		_state._activated = ImGui::IsItemActivated();
-		_state._deactivated = ImGui::IsItemDeactivated();
-		_state._rectMin = { ImGui::GetItemRectMin().x, ImGui::GetItemRectMin().y };
-		_state._rectMax = { ImGui::GetItemRectMax().x, ImGui::GetItemRectMax().y };
-		_state._rectSize = { ImGui::GetItemRectSize().x, ImGui::GetItemRectSize().y };
-		_state._contextRegionAvail = { ImGui::GetContentRegionAvail().x, ImGui::GetContentRegionAvail().y };
+		_state.update();
 
 		//-----------------------------------------------------------------------------
 		// post draw
@@ -196,23 +203,12 @@ namespace Marvel {
 				static_cast<mvTheme*>(_disabledTheme.get())->customAction();
 		}
 
-		// handle widget's event handlers
-		for (auto& item : _children[3])
-		{
-			if (!item->preDraw())
-				continue;
-
-			item->draw(nullptr, ImGui::GetCursorPosX(), ImGui::GetCursorPosY());
-		}
+		if (_handlerRegistry)
+			_handlerRegistry->customAction(&_state);
 
 		// handle drag & drop payloads
-		for (auto& item : _children[4])
-		{
-			if (!item->preDraw())
-				continue;
-
+		for (auto& item : _children[3])
 			item->draw(nullptr, ImGui::GetCursorPosX(), ImGui::GetCursorPosY());
-		}
 
 		// handle drag & drop if used
 		if (_dropCallback)

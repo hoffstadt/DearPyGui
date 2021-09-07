@@ -15,6 +15,8 @@ namespace Marvel {
 	class mvFontManager : public mvToolWindow
 	{
 		friend class mvFont;
+		friend class mvItemRegistry;
+		friend class mvFontRegistry;
 
 	public:
 
@@ -30,11 +32,12 @@ namespace Marvel {
 
 	public:
 
-		void    rebuildAtlas();
-		void    updateAtlas();
-		bool    isInvalid() const;
-		float&  getGlobalFontScale() { return _globalFontScale; }
-		void     setGlobalFontScale(float scale);
+		void   rebuildAtlas();
+		void   updateAtlas();
+		bool   isInvalid() const;
+		float& getGlobalFontScale() { return _globalFontScale; }
+		void   setGlobalFontScale(float scale);
+		void   resetDefault() { _resetDefault = true; }
 
 		mvUUID getUUID() const override { return MV_TOOL_FONT_UUID; }
 		const char* getTitle() const override { return "Font Manager"; }
@@ -49,6 +52,8 @@ namespace Marvel {
 		ImFont*           _font = nullptr;
 		bool              _dirty = false;
 		float             _globalFontScale = 1.0f;
+		bool              _resetDefault = false;
+		bool              _newDefault = false;
 
 	};
 

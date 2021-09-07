@@ -2,6 +2,9 @@
 #include "mvApp.h"
 #include "mvItemRegistry.h"
 #include "mvPythonExceptions.h"
+#include "AppItems/fonts/mvFont.h"
+#include "AppItems/themes/mvTheme.h"
+#include "AppItems/containers/mvDragPayload.h"
 
 namespace Marvel {
 
@@ -35,38 +38,168 @@ namespace Marvel {
 
 	void mvMenu::draw(ImDrawList* drawlist, float x, float y)
 	{
-		ScopedID id(_uuid);
 
-		// create menu and see if its selected
-		if (ImGui::BeginMenu(_internalLabel.c_str(), _enabled))
+		//-----------------------------------------------------------------------------
+		// pre draw
+		//-----------------------------------------------------------------------------
+
+		// show/hide
+		if (!_show)
+			return;
+
+		// focusing
+		if (_focusNextFrame)
 		{
-
-			// set other menus's value false on same level
-			for (auto& sibling : _parentPtr->getChildren(1))
-			{
-				// ensure sibling
-				if (sibling->getType() == mvAppItemType::mvMenu)
-					*((mvMenu*)sibling.get())->_value = false;
-			}
-
-			// set current menu value true
-			*_value = true;
-
-			for (auto& item : _children[1])
-			{
-				if (!item->preDraw())
-					continue;
-
-				item->draw(drawlist, ImGui::GetCursorPosX(), ImGui::GetCursorPosY());
-
-				item->postDraw();
-			}
-
-			registerWindowFocusing();
-
-			ImGui::EndMenu();
+			ImGui::SetKeyboardFocusHere();
+			_focusNextFrame = false;
 		}
 
+		// cache old cursor position
+		ImVec2 previousCursorPos = ImGui::GetCursorPos();
+
+		// set cursor position if user set
+		if (_dirtyPos)
+			ImGui::SetCursorPos(_state.getItemPos());
+
+		// update widget's position state
+		_state.setPos({ ImGui::GetCursorPosX(), ImGui::GetCursorPosY() });
+
+		// set item width
+		if (_width != 0)
+			ImGui::SetNextItemWidth((float)_width);
+
+		// set indent
+		if (_indent > 0.0f)
+			ImGui::Indent(_indent);
+
+		// push font if a font object is attached
+		if (_font)
+		{
+			ImFont* fontptr = static_cast<mvFont*>(_font.get())->getFontPtr();
+			ImGui::PushFont(fontptr);
+		}
+
+		// handle enabled theming
+		if (_enabled)
+		{
+			// push class theme (if it exists)
+			if (auto classTheme = getClassTheme())
+				static_cast<mvTheme*>(classTheme.get())->draw(nullptr, 0.0f, 0.0f);
+
+			// push item theme (if it exists)
+			if (_theme)
+				static_cast<mvTheme*>(_theme.get())->draw(nullptr, 0.0f, 0.0f);
+		}
+
+		// handled disabled theming
+		else
+		{
+			// push class theme (if it exists)
+			if (auto classTheme = getClassDisabledTheme())
+				static_cast<mvTheme*>(classTheme.get())->draw(nullptr, 0.0f, 0.0f);
+
+			// push item theme (if it exists)
+			if (_disabledTheme)
+				static_cast<mvTheme*>(_disabledTheme.get())->draw(nullptr, 0.0f, 0.0f);
+		}
+
+
+		//-----------------------------------------------------------------------------
+		// draw
+		//-----------------------------------------------------------------------------
+		{
+			ScopedID id(_uuid);
+
+			// create menu and see if its selected
+			if (ImGui::BeginMenu(_internalLabel.c_str(), _enabled))
+			{
+				_state._lastFrameUpdate = mvApp::s_frame;
+				_state._active = ImGui::IsItemActive();
+				_state._activated = ImGui::IsItemActivated();
+				_state._deactivated = ImGui::IsItemDeactivated();
+				_state._focused = ImGui::IsWindowFocused();
+				_state._hovered = ImGui::IsWindowHovered();
+				_state._rectSize = { ImGui::GetWindowWidth(), ImGui::GetWindowHeight() };
+				_state._contextRegionAvail = { ImGui::GetContentRegionAvail().x, ImGui::GetContentRegionAvail().y };
+
+				// set other menus's value false on same level
+				for (auto& sibling : _parentPtr->getChildren(1))
+				{
+					// ensure sibling
+					if (sibling->getType() == mvAppItemType::mvMenu)
+						*((mvMenu*)sibling.get())->_value = false;
+				}
+
+				// set current menu value true
+				*_value = true;
+
+				for (auto& item : _children[1])
+					item->draw(drawlist, ImGui::GetCursorPosX(), ImGui::GetCursorPosY());
+
+				registerWindowFocusing();
+
+				ImGui::EndMenu();
+			}
+		}
+
+		//-----------------------------------------------------------------------------
+		// post draw
+		//-----------------------------------------------------------------------------
+
+		// set cursor position to cached position
+		if (_dirtyPos)
+			ImGui::SetCursorPos(previousCursorPos);
+
+		if (_indent > 0.0f)
+			ImGui::Unindent(_indent);
+
+		// pop font off stack
+		if (_font)
+			ImGui::PopFont();
+
+		// handle popping styles
+		if (_enabled)
+		{
+			if (auto classTheme = getClassTheme())
+				static_cast<mvTheme*>(classTheme.get())->customAction();
+
+			if (_theme)
+				static_cast<mvTheme*>(_theme.get())->customAction();
+		}
+		else
+		{
+			if (auto classTheme = getClassDisabledTheme())
+				static_cast<mvTheme*>(classTheme.get())->customAction();
+
+			if (_disabledTheme)
+				static_cast<mvTheme*>(_disabledTheme.get())->customAction();
+		}
+
+		if (_handlerRegistry)
+			_handlerRegistry->customAction(&_state);
+
+		// handle drag & drop payloads
+		for (auto& item : _children[3])
+			item->draw(nullptr, ImGui::GetCursorPosX(), ImGui::GetCursorPosY());
+
+		// handle drag & drop if used
+		if (_dropCallback)
+		{
+			ScopedID id(_uuid);
+			if (ImGui::BeginDragDropTarget())
+			{
+				if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload(_payloadType.c_str()))
+				{
+					auto payloadActual = static_cast<const mvDragPayload*>(payload->Data);
+					if (_alias.empty())
+						mvApp::GetApp()->getCallbackRegistry().addCallback(getDropCallback(), _uuid, payloadActual->getDragData(), nullptr);
+					else
+						mvApp::GetApp()->getCallbackRegistry().addCallback(getDropCallback(), _alias, payloadActual->getDragData(), nullptr);
+				}
+
+				ImGui::EndDragDropTarget();
+			}
+		}
 	}
 
 	void mvMenu::handleSpecificKeywordArgs(PyObject* dict)

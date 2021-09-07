@@ -1,16 +1,14 @@
 import dearpygui.dearpygui as dpg
 import dearpygui.demo as demo
-import dearpygui.themes as themes
-from dearpygui.datagrid import mvDataGrid
-import warnings
-
-warnings.simplefilter('always', DeprecationWarning)
+import dearpygui_ext.themes as themes
+from dearpygui_ext.datagrid import mvDataGrid
 
 dpg.enable_docking()
 
 with dpg.font_registry():
-    with dpg.font("../../Resources/NotoSerifCJKjp-Medium.otf", 20, default_font=True):
+    with dpg.font("../../Resources/NotoSerifCJKjp-Medium.otf", 20):
         dpg.add_font_range_hint(dpg.mvFontRangeHint_Default)
+    dpg.bind_font(dpg.last_container())
 
 demo.show_demo()
 
@@ -26,7 +24,6 @@ for i in range(rows):
 datagrid = mvDataGrid(columns, datagrid_data)
 
 with dpg.window(label="tutorial", width=500, height=500):
-    dpg.add_text("test hovering", label="test hovering")
     datagrid.submit()
 
 dpg.create_viewport()

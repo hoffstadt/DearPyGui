@@ -94,7 +94,7 @@ namespace Marvel {
 		}
 	}
 
-	void mvNodeLink::customAction()
+	void mvNodeLink::customAction(void* data)
 	{
 		//-----------------------------------------------------------------------------
 		// update state
@@ -107,20 +107,14 @@ namespace Marvel {
 
 		// pop class themes
 		if (auto classTheme = getClassTheme())
-			static_cast<mvTheme*>(classTheme.get())->customAction();
+			static_cast<mvTheme*>(classTheme.get())->customAction(data);
 
 		// pop item themes
 		if (_theme)
-			static_cast<mvTheme*>(_theme.get())->customAction();
+			static_cast<mvTheme*>(_theme.get())->customAction(data);
 
-		// event handlers
-		for (auto& item : _children[3])
-		{
-			if (!item->preDraw())
-				continue;
-
-			item->draw(nullptr, ImGui::GetCursorPosX(), ImGui::GetCursorPosY());
-		}
+		if (_handlerRegistry)
+			_handlerRegistry->customAction(data);
 	}
 
 	void mvNodeLink::draw(ImDrawList* drawlist, float x, float y)

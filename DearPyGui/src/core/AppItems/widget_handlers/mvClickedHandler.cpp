@@ -13,10 +13,9 @@ namespace Marvel {
 		mvAppItem::AddCommonArgs(parser, (CommonParserArgs)(
 			MV_PARSER_ARG_ID |
 			MV_PARSER_ARG_SHOW |
+			MV_PARSER_ARG_PARENT |
 			MV_PARSER_ARG_CALLBACK)
 		);
-
-		parser.addArg<mvPyDataType::UUID>("parent");
 
 		parser.addArg<mvPyDataType::Integer>("button", mvArgType::POSITIONAL_ARG, "-1", "Submits callback for all mouse buttons");
 
@@ -33,35 +32,45 @@ namespace Marvel {
 
 	}
 
-	void mvClickedHandler::draw(ImDrawList* drawlist, float x, float y)
+	void mvClickedHandler::customAction(void* data)
 	{
-		if (_button == -1)
-		{
-			for (int i = 0; i < IM_ARRAYSIZE(ImGui::GetIO().MouseDown); i++)
-			{
-				if (ImGui::IsItemClicked(i))
-				{
-					mvApp::GetApp()->getCallbackRegistry().submitCallback([=]()
-						{
-							if (_alias.empty())
-								mvApp::GetApp()->getCallbackRegistry().runCallback(getCallback(false), _uuid, ToPyInt(i), _user_data);
-							else
-								mvApp::GetApp()->getCallbackRegistry().runCallback(getCallback(false), _alias, ToPyInt(i), _user_data);
-						});
-				}
-			}
-		}
 
-		else if(ImGui::IsItemClicked(_button))
-		{
-			mvApp::GetApp()->getCallbackRegistry().submitCallback([=]()
-				{
-					if (_alias.empty())
-						mvApp::GetApp()->getCallbackRegistry().runCallback(getCallback(false), _uuid, ToPyInt(_button), _user_data);
-					else
-						mvApp::GetApp()->getCallbackRegistry().runCallback(getCallback(false), _alias, ToPyInt(_button), _user_data);
-				});
-		}
+		if(_button == -1 || _button == 0)
+			if (static_cast<mvAppItemState*>(data)->_leftclicked)
+			{
+				mvApp::GetApp()->getCallbackRegistry().submitCallback([=]()
+					{
+						if (_alias.empty())
+							mvApp::GetApp()->getCallbackRegistry().runCallback(getCallback(false), _uuid, ToPyInt(0), _user_data);
+						else
+							mvApp::GetApp()->getCallbackRegistry().runCallback(getCallback(false), _alias, ToPyInt(0), _user_data);
+					});
+			}
+
+		if (_button == -1 || _button == 1)
+			if (static_cast<mvAppItemState*>(data)->_rightclicked)
+			{
+				mvApp::GetApp()->getCallbackRegistry().submitCallback([=]()
+					{
+						if (_alias.empty())
+							mvApp::GetApp()->getCallbackRegistry().runCallback(getCallback(false), _uuid, ToPyInt(1), _user_data);
+						else
+							mvApp::GetApp()->getCallbackRegistry().runCallback(getCallback(false), _alias, ToPyInt(1), _user_data);
+					});
+			}
+
+		if (_button == -1 || _button == 2)
+			if (static_cast<mvAppItemState*>(data)->_middleclicked)
+			{
+				mvApp::GetApp()->getCallbackRegistry().submitCallback([=]()
+					{
+						if (_alias.empty())
+							mvApp::GetApp()->getCallbackRegistry().runCallback(getCallback(false), _uuid, ToPyInt(2), _user_data);
+						else
+							mvApp::GetApp()->getCallbackRegistry().runCallback(getCallback(false), _alias, ToPyInt(2), _user_data);
+					});
+			}
+
 	}
 
 	void mvClickedHandler::handleSpecificRequiredArgs(PyObject* dict)
@@ -74,11 +83,8 @@ namespace Marvel {
 			PyObject* item = PyTuple_GetItem(dict, i);
 			switch (i)
 			{
-			case 0:
-				_parent = mvAppItem::GetIDFromPyObject(item);
-				break;
 			
-			case 1:
+			case 0:
 				_button = ToInt(item);
 				break;
 

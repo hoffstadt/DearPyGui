@@ -1,3 +1,26 @@
+/***************************************************************************//*/
+Copyright (c) 2021 Dear PyGui, LLC
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+/******************************************************************************/
+
 #pragma once
 
 //-----------------------------------------------------------------------------
@@ -28,16 +51,16 @@ namespace Marvel {
     //-----------------------------------------------------------------------------
     enum class mvAppItemType
     {
-        None = -1, All, mvSpacing, mvSameLine, mvInputText, mvButton,
+        None = -1, All, mvInputText, mvButton,
         mvRadioButton, mvTabBar, mvTab, mvImage, mvMenuBar, mvViewportMenuBar,
-        mvMenu, mvMenuItem, mvGroup, mvChild,
+        mvMenu, mvMenuItem, mvChild, mvGroup,
         mvSliderFloat, mvSliderInt, mvFilterSet,
         mvDragFloat, mvDragInt, mvInputFloat,
         mvInputInt, mvColorEdit, mvClipper,
         mvColorPicker, mvTooltip, mvCollapsingHeader,
         mvSeparator, mvCheckbox, mvListbox, mvText, mvCombo,
         mvPlot, mvSimplePlot, mvDrawlist, mvWindowAppItem,
-        mvSelectable, mvTreeNode, mvProgressBar, mvDummy,
+        mvSelectable, mvTreeNode, mvProgressBar, mvSpacer,
         mvImageButton, mvTimePicker, mvDatePicker, mvColorButton,
         mvFileDialog, mvTabButton,
         mvNodeEditor, mvNode, mvNodeAttribute,
@@ -55,7 +78,7 @@ namespace Marvel {
         mvCandleSeries, mvAreaSeries, mvColorMapScale, mvSlider3D,
         mvKnobFloat, mvLoadingIndicator, mvNodeLink, 
         mvTextureRegistry, mvStaticTexture, mvDynamicTexture,
-        mvStagingContainer, mvDrawLayer, mvViewportDrawlist,
+        mvStage, mvDrawLayer, mvViewportDrawlist,
         mvFileExtension, mvPlotLegend, mvPlotAxis,
         mvHandlerRegistry, mvKeyDownHandler, mvKeyPressHandler,
         mvKeyReleaseHandler, mvMouseMoveHandler, mvMouseWheelHandler,
@@ -70,7 +93,7 @@ namespace Marvel {
         mvInt4Value, mvBoolValue, mvStringValue, mvDoubleValue, mvDouble4Value,
         mvColorValue, mvFloatVectValue, mvSeriesValue, mvRawTexture, mvSubPlots,
         mvColorMap, mvColorMapRegistry, mvColorMapButton, mvColorMapSlider,
-        mvItemPool, mvItemSet, mvTemplateRegistry, mvTableCell,
+        mvItemPool, mvItemSet, mvTemplateRegistry, mvTableCell, mvItemHandlerRegistry,
         ItemTypeCount
     };
 
@@ -150,6 +173,7 @@ namespace Marvel {
         MV_CREATE_COMMAND(focus_item);
         MV_CREATE_COMMAND(reset_pos);
         MV_CREATE_COMMAND(set_item_children);
+        MV_CREATE_COMMAND(bind_item_handler_registry);
         MV_CREATE_COMMAND(bind_item_font);
         MV_CREATE_COMMAND(bind_item_theme);
         MV_CREATE_COMMAND(bind_item_disabled_theme);
@@ -172,6 +196,7 @@ namespace Marvel {
             MV_ADD_COMMAND(focus_item);
             MV_ADD_COMMAND(reset_pos);
             MV_ADD_COMMAND(set_item_children);
+            MV_ADD_COMMAND(bind_item_handler_registry);
             MV_ADD_COMMAND(bind_item_font);
             MV_ADD_COMMAND(bind_item_theme);
             MV_ADD_COMMAND(bind_item_disabled_theme);
@@ -222,12 +247,9 @@ namespace Marvel {
         [[nodiscard]] virtual StorageValueTypes getValueType () const = 0;
         [[nodiscard]] virtual const char*       getCommand   () const = 0;
         [[nodiscard]] virtual const char*       getTypeString() const = 0;
+        [[nodiscard]] virtual int               getApplicableState() const = 0;
         [[nodiscard]] virtual const std::vector<std::pair<std::string, int>>& getAllowableParents() const = 0;
         [[nodiscard]] virtual const std::vector<std::pair<std::string, int>>& getAllowableChildren() const = 0;
-
-        // in process of removing this
-        virtual bool preDraw();
-        virtual void postDraw();
 
         // actual immediate mode drawing instructions
         virtual void draw(ImDrawList* drawlist, float x, float y) = 0;
@@ -236,8 +258,8 @@ namespace Marvel {
         // usually used for iterating through items and performing an action
         // other than drawing.
         //-----------------------------------------------------------------------------
-        virtual void customAction() {};
-        virtual void alternativeCustomAction() {};
+        virtual void customAction(void* data = nullptr) {};
+        virtual void alternativeCustomAction(void* data = nullptr) {};
 
         //-----------------------------------------------------------------------------
         // These methods handle setting the widget's value using PyObject*'s or
@@ -269,6 +291,7 @@ namespace Marvel {
         virtual void onChildAdd    (mvRef<mvAppItem> item) {}
         virtual void onChildRemoved(mvRef<mvAppItem> item) {}
         virtual void onChildrenRemoved() {}
+        virtual void onBind(mvAppItem* item) {}
 
         //-----------------------------------------------------------------------------
         // callbacks
@@ -405,9 +428,11 @@ namespace Marvel {
         //         mvDragLine, mvDragPoint, mvLegend, mvTableColumn
         //   * 1 : Most widgets
         //   * 2 : Draw Commands
-        //   * 3 : Widget Handlers
-        //   * 4 : mvDragPayload
-        std::vector<mvRef<mvAppItem>> _children[5] = { {}, {}, {}, {}, {} };
+        //   * 3 : mvDragPayload
+        std::vector<mvRef<mvAppItem>> _children[4] = { {}, {}, {}, {} };
+
+        // item handler registry
+        mvRef<mvAppItem> _handlerRegistry = nullptr;
 
         // font
         mvRef<mvAppItem> _font = nullptr;

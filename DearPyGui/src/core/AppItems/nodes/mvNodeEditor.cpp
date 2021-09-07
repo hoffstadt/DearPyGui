@@ -207,19 +207,13 @@ namespace Marvel {
 			if (item->getType() != mvAppItemType::mvMenuBar)
 				continue;
 
-			// skip item if it's not shown
-			if (!item->preDraw())
-				continue;
-
 			// set item width
 			if (item->getWidth() != 0)
 				ImGui::SetNextItemWidth((float)item->getWidth());
 
 			item->draw(drawlist, x, y);
 
-			item->postDraw();
 		}
-
 
 		imnodes::PushAttributeFlag(imnodes::AttributeFlags_EnableLinkDetachWithDragClick);
 
@@ -251,20 +245,14 @@ namespace Marvel {
 			if (item->getType() != mvAppItemType::mvNode)
 				continue;
 
-			// skip item if it's not shown
-			if (!item->preDraw())
-				continue;
-
 			// set item width
 			if (item->getWidth() != 0)
 				ImGui::SetNextItemWidth((float)item->getWidth());
 
 			item->draw(drawlist, x, y);
-
-			item->postDraw();
 		}
 
-		registerWindowFocusing();
+		_state._hovered = imnodes::IsEditorHovered();
 		imnodes::EndNodeEditor();
 		imnodes::PopAttributeFlag();
 
@@ -274,12 +262,12 @@ namespace Marvel {
 
 		for (auto& child : _children[1])
 		{
-			child->getState().setHovered(false);
+			child->getState()._hovered = false;
 
 			ImVec2 size = imnodes::GetNodeDimensions(static_cast<mvNode*>(child.get())->getId());
-			child->getState().setRectSize({ size.x, size.y });
-			child->getState().setRectMin({ size.x, size.y });
-			child->getState().setRectMax({ size.x, size.y });
+			child->getState()._rectSize = { size.x, size.y };
+			child->getState()._rectMin = { size.x, size.y };
+			child->getState()._rectMax = { size.x, size.y };
 		}
 		
 		_selectedNodes.clear();
@@ -374,9 +362,12 @@ namespace Marvel {
 			}
 		}
 
-		_state.setHovered(imnodes::IsEditorHovered());	
-
 		ImGui::EndChild();
+
+		_state._lastFrameUpdate = mvApp::s_frame;
+
+		if (_handlerRegistry)
+			_handlerRegistry->customAction(&_state);
 	}
 
 	PyObject* mvNodeEditor::get_selected_nodes(PyObject* self, PyObject* args, PyObject* kwargs)

@@ -18,6 +18,7 @@ namespace Marvel {
 
     void mvLayoutWindow::renderRootCategory(const char* category, std::vector<mvRef<mvAppItem>>& roots)
     {
+
         const auto node_flags = ImGuiTreeNodeFlags_OpenOnArrow | (roots.empty() ? ImGuiTreeNodeFlags_Leaf : 0);
 
         ImGui::PushID(&roots);
@@ -43,7 +44,23 @@ namespace Marvel {
 
         // render this node
         ImGui::PushID(item);
-        const auto expanded = ImGui::TreeNodeEx(item->_alias.empty() ? item->_specificedlabel.c_str() : item->_alias.c_str(), node_flags);
+        std::string labelToShow = item->getTypeString();
+        if (!item->_alias.empty())
+            labelToShow = item->_alias;
+        else if (!item->_specificedlabel.empty())
+            labelToShow = item->_specificedlabel;
+
+
+        if (!_imguiFilter.PassFilter(labelToShow.c_str()) && _startFiltering)
+        {
+            ImGui::PopID();
+            return;
+        }
+
+        const auto expanded = ImGui::TreeNodeEx(labelToShow.c_str(), node_flags);
+
+        if (item->getUUID() == m_selectedItem)
+            _startFiltering = true;
         
         // processing for selecting node
         if (ImGui::IsItemClicked())
@@ -58,6 +75,8 @@ namespace Marvel {
             if(expanded)
                 ImGui::TreePop();
             ImGui::PopID();
+            if (item->getUUID() == m_selectedItem)
+                _startFiltering = false;
             return;
         }
 
@@ -69,12 +88,21 @@ namespace Marvel {
             {
 
                 std::string title = "Child Slot: " + std::to_string(i++);
-  
-                if (ImGui::TreeNodeEx(title.c_str(), childrenSet.empty() ? ImGuiTreeNodeFlags_Leaf : 0))
+
+                if (_slots)
+                {
+
+                    if (ImGui::TreeNodeEx(title.c_str(), childrenSet.empty() ? ImGuiTreeNodeFlags_Leaf : 0))
+                    {
+                        for (auto& children : childrenSet)
+                            renderTreeNode(children.get());
+                        ImGui::TreePop();
+                    }
+                }
+                else
                 {
                     for (auto& children : childrenSet)
                         renderTreeNode(children.get());
-                    ImGui::TreePop();
                 }
             }
             ImGui::TreePop();
@@ -82,183 +110,9 @@ namespace Marvel {
 
         ImGui::PopID();
 
-    }
-    
-    bool mvLayoutWindow::renderParentNode(mvAppItem* item, int nodeId, int slotId)
-    {
+        if (item->getUUID() == m_selectedItem)
+            _startFiltering = false;
 
-        mvAppItem* parent = item->getParent();
-
-        if (parent == nullptr)
-            return false;
-
-        if (m_dirtyNodes)
-            imnodes::SetNodeGridSpacePos(nodeId, ImVec2(10.0f, 10.0f));
-
-        imnodes::BeginNode(nodeId);
-
-        imnodes::BeginNodeTitleBar();
-        ImGui::TextUnformatted(parent->_specificedlabel.c_str());
-        imnodes::EndNodeTitleBar();
-
-        for (int i = 0; i < 4; i++)
-        {
-            if (i == item->getTarget())
-            {
-                imnodes::BeginOutputAttribute(slotId);
-                ImGui::Text("Child Slot %d", item->getTarget());
-                imnodes::EndOutputAttribute();
-            }
-            else
-            {
-                imnodes::BeginStaticAttribute(-1);
-                ImGui::Text("Child Slot %d", i);
-                imnodes::EndStaticAttribute();
-            }
-        }
-
-        imnodes::EndNode();
-
-        if (nodeId == m_selectedId)
-        {
-            m_selectedItem = parent->_uuid;
-            m_selectedId = -2;
-        }
-
-        return true;
-    }
-
-    bool mvLayoutWindow::renderChildAttr(mvAppItem* item, int slot, int slotId)
-    {
-        if (item->getChildren(slot).empty())
-        {
-            imnodes::BeginStaticAttribute(slotId);
-            ImGui::Text("Child Slot %d", slot);
-            imnodes::EndStaticAttribute();
-        }
-        else
-        {
-            imnodes::BeginOutputAttribute(slotId);
-            ImGui::Text("Child Slot %d", slot);
-            imnodes::EndOutputAttribute();
-        }
-
-        return !item->getChildren(slot).empty();
-    }
-
-    void mvLayoutWindow::renderChildNodes(mvAppItem* item, int slot, int& link, int& node, int startAttrId, int parentAttrId)
-    {
-        int current_x = 500 + 200 * slot;
-        int current_y = 100;
-
-        for (size_t i = 0; i < item->getChildren(slot).size(); i++)
-        {
-            mvAppItem* child = item->getChildren(slot)[i].get();
-
-            imnodes::BeginNode(++node);
-
-            if (m_dirtyNodes)
-                imnodes::SetNodeGridSpacePos(node, ImVec2((float)current_x, (float)current_y));
-
-            imnodes::BeginNodeTitleBar();
-            ImGui::TextUnformatted(child->_specificedlabel.c_str());
-            imnodes::EndNodeTitleBar();
-
-            imnodes::BeginInputAttribute(parentAttrId + i + 1);
-            ImGui::Text("Parent");
-            imnodes::EndInputAttribute();
-
-            if (node == m_selectedId)
-            {
-                m_selectedItem = child->_uuid;
-                m_selectedId = -2;
-            }
-
-            imnodes::EndNode();
-
-            current_y += 70 + 10;
-
-            imnodes::Link(link++, parentAttrId, parentAttrId + i + 1);
-        }
-    }
-
-    void mvLayoutWindow::renderNode(mvAppItem* item)
-    {
-        // dummy ids
-        int linkId = 0;
-        int nodeId = 1000;
-        
-        // attribute ids
-        int parentParentAttrId = 2000;
-        int currentItemParentAttrId = 3000;        
-        int slot0AttrId = 4000;
-        int slot1AttrId = 5000;
-        int slot2AttrId = 6000;
-        int slot3AttrId = 7000;
-
-        imnodes::BeginNodeEditor();
-        imnodes::ClearNodeSelection();
-
-        bool hasParent = renderParentNode(item, ++nodeId, parentParentAttrId);
-
-        imnodes::PushColorStyle(imnodes::ColorStyle_NodeOutline, mvColor(0, 255, 0, 255));
-        imnodes::BeginNode(++nodeId);
-
-        if (m_dirtyNodes)
-            imnodes::SetNodeGridSpacePos(nodeId, ImVec2(100.0f, 300.0f));
-
-        imnodes::BeginNodeTitleBar();
-        ImGui::TextUnformatted(item->_specificedlabel.c_str());
-        imnodes::EndNodeTitleBar();
-
-        if (hasParent)
-        {
-            imnodes::BeginInputAttribute(currentItemParentAttrId);
-            ImGui::Text("Parent");
-            imnodes::EndInputAttribute();
-        }
-
-        bool hasSlot0Children = renderChildAttr(item, 0, slot0AttrId);
-        bool hasSlot1Children = renderChildAttr(item, 1, slot1AttrId);
-        bool hasSlot2Children = renderChildAttr(item, 2, slot2AttrId);
-        bool hasSlot3Children = renderChildAttr(item, 3, slot2AttrId);
-
-        imnodes::EndNode();
-        imnodes::PopColorStyle();
-
-        if (nodeId == m_selectedId)
-        {
-            m_selectedItem = item->_uuid;
-            m_selectedId = -1;
-        }
-
-        if (hasSlot0Children) renderChildNodes(item, 0, linkId, nodeId, slot0AttrId, slot0AttrId);
-        if (hasSlot1Children) renderChildNodes(item, 1, linkId, nodeId, slot1AttrId, slot1AttrId);
-        if (hasSlot2Children) renderChildNodes(item, 2, linkId, nodeId, slot2AttrId, slot2AttrId);
-        if (hasSlot3Children) renderChildNodes(item, 3, linkId, nodeId, slot3AttrId, slot3AttrId);
-
-        if(hasParent)
-            imnodes::Link(linkId++, parentParentAttrId, currentItemParentAttrId);
-
-        imnodes::EndNodeEditor();
-
-        if (imnodes::NumSelectedNodes() > 0)
-        {
-            int* selected_nodes = new int[imnodes::NumSelectedNodes()];
-            imnodes::GetSelectedNodes(selected_nodes);
-            m_selectedId = selected_nodes[0];
-            delete[] selected_nodes;
-        }
-
-        if (m_selectedId == -1)
-            m_dirtyNodes = false;
-        else if (m_selectedId == -2)
-        {
-            m_dirtyNodes = true;
-            m_selectedId = -1;
-        }
-        else
-            m_dirtyNodes = true;
     }
 
     void mvLayoutWindow::drawWidgets()
@@ -302,8 +156,10 @@ namespace Marvel {
 				{
 					mvApp::GetApp()->getItemRegistry().deleteItem(m_selectedItem, false);
 					m_selectedItem = 0;
-                    _itemref = nullptr;
 				});
+
+            _itemref = nullptr;
+            _itemref = mvApp::GetApp()->getItemRegistry()._windowRoots[0].get();
 		}
 		ImGui::SameLine();
 		if (ImGui::Button("Show"))
@@ -311,58 +167,86 @@ namespace Marvel {
 		ImGui::SameLine();
 		if (ImGui::Button("Hide"))
 			mvApp::GetApp()->getItemRegistry().getItem(m_selectedItem)->hide();
+        ImGui::SameLine();
+        ImGui::Checkbox("Show Slots###layout", &_slots);
 
-		ImGui::PushItemWidth(200);
-		DebugItem("Item Label:", _itemref->_specificedlabel.c_str());
-		DebugItem("Item ID:", std::to_string(_itemref->getUUID()).c_str());
+        ImGui::BeginChild("###layoutwindow", ImVec2(400, 0));
+		DebugItem("Label:", _itemref->_specificedlabel.c_str());
+		DebugItem("ID:", std::to_string(_itemref->getUUID()).c_str());
+		DebugItem("Alias:", _itemref->getAlias().c_str());
+		DebugItem("Type:", _itemref->getTypeString());
+		DebugItem("Filter:", _itemref->getFilter().c_str());
+		DebugItem("Payload Type:", _itemref->_payloadType.c_str());
+        DebugItem("Location:", std::to_string(_itemref->_location).c_str());
+        DebugItem("Track Offset:", std::to_string(_itemref->_trackOffset).c_str());
 		DebugItem("Container:", mvAppItem::DoesItemHaveFlag(_itemref, MV_ITEM_DESC_CONTAINER) ? ts : fs);
-		//DebugItem("Item Parent:", parentName.c_str());
-		DebugItem("Item Width:", width.c_str());
-		DebugItem("Item Height:", height.c_str());
-		DebugItem("Item Size x:", sizex.c_str());
-		DebugItem("Item Size y:", sizey.c_str());
-		DebugItem("Item Show:", _itemref->_show ? ts : fs);
-		DebugItem("Item Visible:", _itemref->getState().isItemVisible(1) ? ts : fs);
-		DebugItem("Item Hovered:", _itemref->getState().isItemHovered(1) ? ts : fs);
-		DebugItem("Item Active:", _itemref->getState().isItemActive(1) ? ts : fs);
-		DebugItem("Item Focused:", _itemref->getState().isItemFocused(1) ? ts : fs);
-		DebugItem("Item Left Clicked:", _itemref->getState().isItemLeftClicked(1) ? ts : fs);
-		DebugItem("Item Right Clicked:", _itemref->getState().isItemRightClicked(1) ? ts : fs);
-		DebugItem("Item Middle Clicked:", _itemref->getState().isItemMiddleClicked(1) ? ts : fs);
-		DebugItem("Item Edited:", _itemref->getState().isItemEdited(1) ? ts : fs);
-		DebugItem("Item Activated:", _itemref->getState().isItemActivated(1) ? ts : fs);
-		DebugItem("Item Deactivated:", _itemref->getState().isItemDeactivated(1) ? ts : fs);
-		DebugItem("Item DeactivatedAfterEdit:", _itemref->getState().isItemDeactivatedAfterEdit(1) ? ts : fs);
-		DebugItem("Item ToggledOpen:", _itemref->getState().isItemToogledOpen(1) ? ts : fs);
+		DebugItem("Width:", width.c_str());
+		DebugItem("Height:", height.c_str());
+		DebugItem("Size x:", sizex.c_str());
+		DebugItem("Size y:", sizey.c_str());
+		DebugItem("Show:", _itemref->_show ? ts : fs);
+		DebugItem("Enabled:", _itemref->_enabled ? ts : fs);
+		DebugItem("Tracked:", _itemref->_tracked ? ts : fs);
+		DebugItem("Callback:", _itemref->_callback ? ts : fs);
+		DebugItem("User Data:", _itemref->_user_data ? ts : fs);
+		DebugItem("Drop Callback:", _itemref->_dropCallback ? ts : fs);
+		DebugItem("Drag Callback:", _itemref->_dragCallback ? ts : fs);
+
+        ImGui::Spacing();
+        ImGui::Spacing();
+        ImGui::Spacing();
+        ImGui::Text("Bindings");
+        ImGui::Separator();
+		DebugItem("Theme Bound:", _itemref->_theme ? ts : fs);
+		DebugItem("Disabled Theme Bound:", _itemref->_disabledTheme ? ts : fs);
+		DebugItem("Font Bound:", _itemref->_disabledTheme ? ts : fs);
+		DebugItem("Handlers Bound:", _itemref->_handlerRegistry ? ts : fs);
+
+        int applicableState = _itemref->getApplicableState();
+        ImGui::Spacing();
+        ImGui::Spacing();
+        ImGui::Spacing();
+        ImGui::Text("State");
+        ImGui::Separator();
+        if(applicableState & MV_STATE_VISIBLE) DebugItem("Item Visible:", _itemref->getState().isItemVisible(1) ? ts : fs);
+		if(applicableState & MV_STATE_HOVER) DebugItem("Item Hovered:", _itemref->getState().isItemHovered(1) ? ts : fs);
+		if(applicableState & MV_STATE_ACTIVE) DebugItem("Item Active:", _itemref->getState().isItemActive(1) ? ts : fs);
+		if(applicableState & MV_STATE_FOCUSED) DebugItem("Item Focused:", _itemref->getState().isItemFocused(1) ? ts : fs);
+        if (applicableState & MV_STATE_CLICKED)
+        {
+            DebugItem("Item Left Clicked:", _itemref->getState().isItemLeftClicked(1) ? ts : fs);
+            DebugItem("Item Right Clicked:", _itemref->getState().isItemRightClicked(1) ? ts : fs);
+            DebugItem("Item Middle Clicked:", _itemref->getState().isItemMiddleClicked(1) ? ts : fs);
+        }
+		if(applicableState & MV_STATE_EDITED) DebugItem("Item Edited:", _itemref->getState().isItemEdited(1) ? ts : fs);
+		if(applicableState & MV_STATE_ACTIVATED) DebugItem("Item Activated:", _itemref->getState().isItemActivated(1) ? ts : fs);
+		if(applicableState & MV_STATE_DEACTIVATED) DebugItem("Item Deactivated:", _itemref->getState().isItemDeactivated(1) ? ts : fs);
+		if(applicableState & MV_STATE_DEACTIVATEDAE) DebugItem("Item DeactivatedAfterEdit:", _itemref->getState().isItemDeactivatedAfterEdit(1) ? ts : fs);
+		if(applicableState & MV_STATE_TOGGLED_OPEN) DebugItem("Item ToggledOpen:", _itemref->getState().isItemToogledOpen(1) ? ts : fs);
+        ImGui::EndChild();
 		ImGui::EndGroup();
-		ImGui::PopItemWidth();
 		ImGui::SameLine();
 
         // right side
 
-        if (m_nodeView)
-        {
-            renderNode(_itemref);
-        }
-        else
-        {
-            ImGui::BeginChild("TreeChild", ImVec2(-1.0f, -1.0f), true);
-            renderRootCategory("Windows", mvApp::GetApp()->getItemRegistry()._windowRoots);
-            renderRootCategory("Themes", mvApp::GetApp()->getItemRegistry()._themeRegistryRoots);
-            renderRootCategory("Template Registries", mvApp::GetApp()->getItemRegistry()._itemTemplatesRoots);
-            renderRootCategory("Staging Containers", mvApp::GetApp()->getItemRegistry()._stagingRoots);
-            renderRootCategory("Texture Registries", mvApp::GetApp()->getItemRegistry()._textureRegistryRoots);
-            renderRootCategory("Font Registries", mvApp::GetApp()->getItemRegistry()._fontRegistryRoots);
-            renderRootCategory("Handler Registries", mvApp::GetApp()->getItemRegistry()._handlerRegistryRoots);
-            renderRootCategory("Value Registries", mvApp::GetApp()->getItemRegistry()._valueRegistryRoots);
-            renderRootCategory("Colormap Registries", mvApp::GetApp()->getItemRegistry()._colormapRoots);
-            renderRootCategory("File Dialogs", mvApp::GetApp()->getItemRegistry()._filedialogRoots);
-            renderRootCategory("Viewport Menubars", mvApp::GetApp()->getItemRegistry()._viewportMenubarRoots);
-            ImGui::EndChild();
-        }
-
-        ImGui::SameLine();
-
+        ImGui::BeginGroup();
+        _imguiFilter.Draw();
+        _startFiltering = false;
+        ImGui::BeginChild("TreeChild", ImVec2(-1.0f, -1.0f), true);
+        renderRootCategory("Windows", mvApp::GetApp()->getItemRegistry()._windowRoots);
+        renderRootCategory("Themes", mvApp::GetApp()->getItemRegistry()._themeRegistryRoots);
+        renderRootCategory("Template Registries", mvApp::GetApp()->getItemRegistry()._itemTemplatesRoots);
+        renderRootCategory("Staging Containers", mvApp::GetApp()->getItemRegistry()._stagingRoots);
+        renderRootCategory("Texture Registries", mvApp::GetApp()->getItemRegistry()._textureRegistryRoots);
+        renderRootCategory("Font Registries", mvApp::GetApp()->getItemRegistry()._fontRegistryRoots);
+        renderRootCategory("Item Handler Registries", mvApp::GetApp()->getItemRegistry()._itemHandlerRegistryRoots);
+        renderRootCategory("Handler Registries", mvApp::GetApp()->getItemRegistry()._handlerRegistryRoots);
+        renderRootCategory("Value Registries", mvApp::GetApp()->getItemRegistry()._valueRegistryRoots);
+        renderRootCategory("Colormap Registries", mvApp::GetApp()->getItemRegistry()._colormapRoots);
+        renderRootCategory("File Dialogs", mvApp::GetApp()->getItemRegistry()._filedialogRoots);
+        renderRootCategory("Viewport Menubars", mvApp::GetApp()->getItemRegistry()._viewportMenubarRoots);
+        ImGui::EndChild();
+        ImGui::EndGroup();
 
 
     }

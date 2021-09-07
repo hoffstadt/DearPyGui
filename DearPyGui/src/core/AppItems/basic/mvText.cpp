@@ -131,6 +131,13 @@ namespace Marvel {
 			//ImGui::Text("%s", _value.c_str());
 			ImGui::TextUnformatted(_value->c_str()); // this doesn't have a buffer size limit
 
+			_state._lastFrameUpdate = mvApp::s_frame;
+			if (ImGui::IsItemVisible())_state._visible = true;
+			if (ImGui::IsItemHovered())_state._hovered = true;
+			if (ImGui::IsItemClicked(0))_state._leftclicked = true;
+			if (ImGui::IsItemClicked(1))_state._rightclicked = true;
+			if (ImGui::IsItemClicked(2)) _state._middleclicked = true;
+
 			if (_wrap >= 0)
 				ImGui::PopTextWrapPos();
 
@@ -142,24 +149,14 @@ namespace Marvel {
 				ImGui::SameLine();
 				ImGui::SetCursorPos({ valueEndX + style.ItemInnerSpacing.x, textVertCenter });
 				ImGui::TextUnformatted(_specificedlabel.c_str());
+
+				if (ImGui::IsItemVisible())_state._visible = true;
+				if (ImGui::IsItemHovered())_state._hovered = true;
+				if (ImGui::IsItemClicked(0))_state._leftclicked = true;
+				if (ImGui::IsItemClicked(1))_state._rightclicked = true;
+				if (ImGui::IsItemClicked(2)) _state._middleclicked = true;
 			}
 		}
-
-		//-----------------------------------------------------------------------------
-		// update state
-		//   * only update if applicable
-		//-----------------------------------------------------------------------------
-
-		_state._lastFrameUpdate = mvApp::s_frame;
-		_state._hovered = ImGui::IsItemHovered();
-		_state._leftclicked = ImGui::IsItemClicked();
-		_state._rightclicked = ImGui::IsItemClicked(1);
-		_state._middleclicked = ImGui::IsItemClicked(2);
-		_state._visible = ImGui::IsItemVisible();
-		_state._rectMin = { ImGui::GetItemRectMin().x, ImGui::GetItemRectMin().y };
-		_state._rectMax = { ImGui::GetItemRectMax().x, ImGui::GetItemRectMax().y };
-		_state._rectSize = { ImGui::GetItemRectSize().x, ImGui::GetItemRectSize().y };
-		_state._contextRegionAvail = { ImGui::GetContentRegionAvail().x, ImGui::GetContentRegionAvail().y };
 
 		//-----------------------------------------------------------------------------
 		// postdraw
@@ -192,23 +189,12 @@ namespace Marvel {
 				static_cast<mvTheme*>(_disabledTheme.get())->customAction();
 		}
 
-		// event handlers
+		if (_handlerRegistry)
+			_handlerRegistry->customAction(&_state);
+
+		// handle drag & drop payloads
 		for (auto& item : _children[3])
-		{
-			if (!item->preDraw())
-				continue;
-
 			item->draw(nullptr, ImGui::GetCursorPosX(), ImGui::GetCursorPosY());
-		}
-
-		// drag drop
-		for (auto& item : _children[4])
-		{
-			if (!item->preDraw())
-				continue;
-
-			item->draw(nullptr, ImGui::GetCursorPosX(), ImGui::GetCursorPosY());
-		}
 
 		if (_dropCallback)
 		{

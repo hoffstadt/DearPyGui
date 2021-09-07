@@ -13,10 +13,9 @@ namespace Marvel {
 		mvAppItem::AddCommonArgs(parser, (CommonParserArgs)(
 			MV_PARSER_ARG_ID |
 			MV_PARSER_ARG_SHOW |
+			MV_PARSER_ARG_PARENT |
 			MV_PARSER_ARG_CALLBACK)
 		);
-
-		parser.addArg<mvPyDataType::UUID>("parent");
 
 		parser.finalize();
 
@@ -30,18 +29,10 @@ namespace Marvel {
 
 	}
 
-	void mvFocusHandler::draw(ImDrawList* drawlist, float x, float y)
+	void mvFocusHandler::customAction(void* data)
 	{
-		bool run = false;
-		if (_parentPtr->getType() == mvAppItemType::mvWindowAppItem)
-		{
-			if (ImGui::IsWindowFocused())
-				run = true;
-		}
-		else if (ImGui::IsItemFocused())
-			run = true;
 
-		if (run)
+		if (static_cast<mvAppItemState*>(data)->_focused)
 		{
 			mvApp::GetApp()->getCallbackRegistry().submitCallback([=]()
 				{
@@ -53,23 +44,4 @@ namespace Marvel {
 		}
 	}
 
-	void mvFocusHandler::handleSpecificRequiredArgs(PyObject* dict)
-	{
-		if (!mvApp::GetApp()->getParsers()[s_command].verifyRequiredArguments(dict))
-			return;
-
-		for (int i = 0; i < PyTuple_Size(dict); i++)
-		{
-			PyObject* item = PyTuple_GetItem(dict, i);
-			switch (i)
-			{
-			case 0:
-				_parent = mvAppItem::GetIDFromPyObject(item);
-				break;
-
-			default:
-				break;
-			}
-		}
-	}
 }

@@ -1,3 +1,26 @@
+/***************************************************************************//*/
+Copyright (c) 2021 Dear PyGui, LLC
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+/******************************************************************************/
+
 #pragma once
 
 #include <array>
@@ -6,17 +29,19 @@
 
 namespace Marvel {
 
-	MV_REGISTER_WIDGET(mvThemeColor, MV_ITEM_DESC_DEFAULT, StorageValueTypes::Color, 1);
-	class mvThemeColor : public mvAppItem
-	{
+    MV_REGISTER_WIDGET(mvThemeColor, MV_ITEM_DESC_DEFAULT, StorageValueTypes::Color, 1);
+    class mvThemeColor : public mvAppItem
+    {
 
-	public:
+    public:
 
-		static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
+        static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
 
-		MV_APPLY_WIDGET_REGISTRATION(mvAppItemType::mvThemeColor, add_theme_color)
-		MV_NO_COMMANDS
-		MV_DEFAULT_CHILDREN
+        MV_APPLY_WIDGET_REGISTRATION(mvAppItemType::mvThemeColor, add_theme_color)
+        MV_NO_COMMANDS
+        MV_DEFAULT_CHILDREN
+
+        MV_SET_STATES(MV_STATE_NONE);
 
         MV_START_PARENTS
             MV_ADD_PARENT(mvAppItemType::mvTheme),
@@ -127,7 +152,7 @@ namespace Marvel {
         MV_CREATE_CONSTANT(mvNodeCol_GridBackground, imnodes::ColorStyle::ColorStyle_GridBackground);
         MV_CREATE_CONSTANT(mvNodeCol_GridLine, imnodes::ColorStyle::ColorStyle_GridLine);
 
-		MV_START_CONSTANTS
+        MV_START_CONSTANTS
             MV_ADD_CONSTANT(mvThemeCol_Text),
             MV_ADD_CONSTANT(mvThemeCol_TextDisabled),
             MV_ADD_CONSTANT(mvThemeCol_WindowBg),
@@ -223,30 +248,33 @@ namespace Marvel {
             MV_ADD_CONSTANT(mvNodeCol_BoxSelectorOutline),
             MV_ADD_CONSTANT(mvNodeCol_GridBackground),
             MV_ADD_CONSTANT(mvNodeCol_GridLine)
-		MV_END_CONSTANTS
+        MV_END_CONSTANTS
 
-	public:
+    public:
 
-		mvThemeColor(mvUUID uuid);
+        explicit mvThemeColor(mvUUID uuid);
 
-		void draw(ImDrawList* drawlist, float x, float y) override;
-		void customAction() override;
-        void alternativeCustomAction() override;
-		void handleSpecificPositionalArgs(PyObject* dict) override;
-		void handleSpecificKeywordArgs(PyObject* dict) override;
-        void setDataSource(mvUUID dataSource) override;
+        void draw(ImDrawList* drawlist, float x, float y) override;
+        void customAction(void* data = nullptr) override;
+        void alternativeCustomAction(void* data = nullptr) override;
+        void handleSpecificPositionalArgs(PyObject* dict) override;
+        void handleSpecificKeywordArgs(PyObject* dict) override;
         void applySpecificTemplate(mvAppItem* item) override;
+        
+        // values
+        void setDataSource(mvUUID dataSource) override;
         void* getValue() override { return &_value; }
         PyObject* getPyValue() override;
         void setPyValue(PyObject* value) override;
-		void setLibType(mvLibType libType) { _libType = libType; }
+        
+        void setLibType(mvLibType libType) { _libType = libType; }
 
-	private:
+    private:
 
         mvRef<std::array<float, 4>> _value = CreateRef<std::array<float, 4>>(std::array<float, 4>{0.0f, 0.0f, 0.0f, 1.0f});
-		ImGuiCol _targetColor = 0;
-		mvLibType _libType = mvLibType::MV_IMGUI;
-		
-	};
+        ImGuiCol _targetColor = 0;
+        mvLibType _libType = mvLibType::MV_IMGUI;
+        
+    };
 
 }

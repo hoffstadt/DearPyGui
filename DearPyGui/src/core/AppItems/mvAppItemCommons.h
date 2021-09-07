@@ -30,6 +30,7 @@
 #include "handlers/mvMouseReleaseHandler.h"
 #include "handlers/mvMouseDragHandler.h"
 
+#include "widget_handlers/mvItemHandlerRegistry.h"
 #include "widget_handlers/mvHoverHandler.h"
 #include "widget_handlers/mvResizeHandler.h"
 #include "widget_handlers/mvFocusHandler.h"
@@ -72,15 +73,13 @@
 
 #include "misc/mvProgressBar.h"
 #include "misc/mvItemPool.h"
-#include "misc/mvDummy.h"
-#include "misc/mvSameLine.h"
-#include "misc/mvSpacing.h"
+#include "misc/mvSpacer.h"
 #include "misc/mvSeparator.h"
 
 #include "containers/mvTemplateRegistry.h"
 #include "containers/mvFilterSet.h"
 #include "containers/mvClipper.h"
-#include "containers/mvStagingContainer.h"
+#include "containers/mvStage.h"
 #include "containers/mvTreeNode.h"
 #include "containers/mvChild.h"
 #include "containers/mvGroup.h"

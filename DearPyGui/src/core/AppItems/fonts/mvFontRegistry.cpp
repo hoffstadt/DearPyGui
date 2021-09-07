@@ -2,6 +2,8 @@
 #include "mvFont.h"
 #include "mvPythonExceptions.h"
 #include "mvLog.h"
+#include "mvToolManager.h"
+#include "mvFontManager.h"
 
 namespace Marvel {
 
@@ -26,6 +28,16 @@ namespace Marvel {
 		_show = true;
 	}
 
+	void mvFontRegistry::resetFont()
+	{
+		for (auto& item : _children[1])
+		{
+			static_cast<mvFont*>(item.get())->_default = false;
+		}
+
+		mvToolManager::GetFontManager()._resetDefault = true;
+	}
+
 	void mvFontRegistry::draw(ImDrawList* drawlist, float x, float y)
 	{
 		//ImGuiIO& io = ImGui::GetIO();
@@ -39,7 +51,7 @@ namespace Marvel {
 		_show = false;
 	}
 
-	void mvFontRegistry::customAction()
+	void mvFontRegistry::customAction(void* data)
 	{
 		ImGuiIO& io = ImGui::GetIO();
 		io.Fonts->Clear();
@@ -47,7 +59,7 @@ namespace Marvel {
 
 		for (auto& item : _children[1])
 		{
-			item->customAction();
+			item->customAction(data);
 		}
 	}
 

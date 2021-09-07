@@ -203,8 +203,6 @@ namespace Marvel {
 			for (auto& cell : row->getChildren(1))
 			{
 				column_index++;
-				if (!cell->preDraw())
-					continue;
 
 				ImGui::TableSetColumnIndex(column_index);
 
@@ -215,8 +213,6 @@ namespace Marvel {
 					ImGui::TableSetBgColor(ImGuiTableBgTarget_CellBg, _cellColors[row_index][column_index]);
 
 				cell->draw(drawlist, ImGui::GetCursorPosX(), ImGui::GetCursorPosY());
-
-				cell->postDraw();
 			}
 		};
 
@@ -289,11 +285,7 @@ namespace Marvel {
 				{
 					if (!_imguiFilter.PassFilter(row->getFilter().c_str()))
 						continue;
-
-					if (!row->preDraw())
-						continue;
 					row_renderer(row.get());
-					row->postDraw();
 				}
 			}
 
@@ -305,25 +297,15 @@ namespace Marvel {
 				while (clipper.Step())
 				{
 					for (int row_n = clipper.DisplayStart; row_n < clipper.DisplayEnd; row_n++)
-					{
-						if (!_children[1][row_n]->preDraw())
-							continue;
-	
 						row_renderer(_children[1][row_n].get());
-						_children[1][row_n]->postDraw();
-					}
+
 				}
 				clipper.End();
 			}
 			else
 			{
 				for (auto& row : _children[1])
-				{
-					if (!row->preDraw())
-						continue;
 					row_renderer(row.get());
-					row->postDraw();
-				}
 			}
 
 			ImGui::EndTable();

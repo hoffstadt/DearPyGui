@@ -16,6 +16,8 @@ namespace Marvel {
 		MV_DEFAULT_CHILDREN
 		MV_NO_CONSTANTS
 
+		MV_SET_STATES(MV_STATE_NONE);
+
 		MV_START_PARENTS
 			MV_ADD_PARENT(mvAppItemType::mvPlotAxis),
 			MV_ADD_PARENT(mvAppItemType::mvTemplateRegistry),
@@ -23,11 +25,7 @@ namespace Marvel {
 
 	public:
 
-		mvLineSeries(mvUUID uuid);
-
-		// overriding until we can remove these
-		bool preDraw() override { return true; }
-		void postDraw() override {}
+		explicit mvLineSeries(mvUUID uuid);
 
 		void draw(ImDrawList* drawlist, float x, float y) override;
 		void setDataSource(mvUUID dataSource) override;
