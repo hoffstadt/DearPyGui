@@ -22,7 +22,7 @@ namespace Marvel {
 	{
 
 		{
-			mvPythonParser parser(mvPyDataType::String, "Creates a viewport.", { "General" });
+			mvPythonParser parser(mvPyDataType::None, "Creates a viewport.", { "General" });
 			parser.addArg<mvPyDataType::String>("title", mvArgType::KEYWORD_ARG, "'Dear PyGui'");
 			parser.addArg<mvPyDataType::String>("small_icon", mvArgType::KEYWORD_ARG, "''");
 			parser.addArg<mvPyDataType::String>("large_icon", mvArgType::KEYWORD_ARG, "''");
@@ -92,7 +92,7 @@ namespace Marvel {
 		{
 			mvPythonParser parser(mvPyDataType::None, "Toggles fullscreen on/off.", { "General" });
 			parser.finalize();
-			parsers->insert({ "toggle_fulscreen", parser });
+			parsers->insert({ "toggle_fullscreen", parser });
 		}
 
 	}
@@ -296,7 +296,7 @@ namespace Marvel {
 
 		return GetPyNone();
 	}
-
+	
 	PyObject* mvViewport::toggle_fullscreen(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		if (!mvApp::s_manualMutexControl) std::lock_guard<std::mutex> lk(mvApp::s_mutex);

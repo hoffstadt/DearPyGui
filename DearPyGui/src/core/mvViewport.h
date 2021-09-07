@@ -8,7 +8,7 @@
 //
 //     - This class may need to be renamed to remove confusion between this
 //       window and the mvWindowAppItem class (maybe to viewport?)
-//
+//     
 //-----------------------------------------------------------------------------
 
 #include "mvApp.h"
@@ -30,7 +30,7 @@ namespace Marvel {
         MV_CREATE_COMMAND(configure_viewport);
         MV_CREATE_COMMAND(get_viewport_configuration);
         MV_CREATE_COMMAND(is_viewport_ok);
-
+        
 		// viewport operations
         MV_CREATE_COMMAND(maximize_viewport);
         MV_CREATE_COMMAND(minimize_viewport);
@@ -66,7 +66,7 @@ namespace Marvel {
 		virtual void fullscreen() {}
 		virtual void minimize() {}
 		virtual void restore() {}
-
+		
 		void stop() { _running = false; }
 		bool running() const { return _running; }
 
@@ -118,7 +118,7 @@ namespace Marvel {
 		int      _clientHeight = 800;
 		int      _xpos = 100;
 		int      _ypos = 100;
-
+		
 
 	};
 
