@@ -198,8 +198,7 @@ namespace Marvel {
         ImGui::Text("Bindings");
         ImGui::Separator();
 		DebugItem("Theme Bound:", _itemref->_theme ? ts : fs);
-		DebugItem("Disabled Theme Bound:", _itemref->_disabledTheme ? ts : fs);
-		DebugItem("Font Bound:", _itemref->_disabledTheme ? ts : fs);
+		DebugItem("Font Bound:", _itemref->_font ? ts : fs);
 		DebugItem("Handlers Bound:", _itemref->_handlerRegistry ? ts : fs);
 
         int applicableState = _itemref->getApplicableState();

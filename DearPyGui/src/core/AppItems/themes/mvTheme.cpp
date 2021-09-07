@@ -4,6 +4,7 @@
 #include "mvItemRegistry.h"
 #include "mvLog.h"
 #include "mvPythonExceptions.h"
+#include "mvThemeComponent.h"
 
 namespace Marvel {
 
@@ -37,19 +38,48 @@ namespace Marvel {
 
 	void mvTheme::draw(ImDrawList* drawlist, float x, float y)
 	{
-		for (auto& childset : _children)
+		for (auto& child : _children[1])
 		{
-			for (auto& child : childset)
-				child->draw(drawlist, x, y);
+			auto comp = static_cast<mvThemeComponent*>(child.get());
+			if (comp->_specificType == (int)mvAppItemType::All || comp->_specificType == _specificType)
+			{
+				if (_specificEnabled == comp->isEnabled())
+				{
+					child->draw(drawlist, x, y);
+				}
+				
+			}
+			if(comp->_specificType != (int)mvAppItemType::All)
+			{
+				if (_specificEnabled == comp->isEnabled())
+				{
+					comp->_oldComponent = *comp->_specificComponentPtr;
+					*comp->_specificComponentPtr = child;
+				}
+			}
 		}
 	}
 
 	void mvTheme::customAction(void* data)
 	{
-		for (auto& childset : _children)
+
+		for (auto& child : _children[1])
 		{
-			for (auto& child : childset)
-				child->customAction(data);
+			auto comp = static_cast<mvThemeComponent*>(child.get());
+			if (comp->_specificType == (int)mvAppItemType::All || comp->_specificType == _specificType)
+			{
+				if (_specificEnabled == comp->isEnabled())
+				{
+					child->customAction(data);
+				}
+			}
+			if (comp->_specificType != (int)mvAppItemType::All)
+			{
+				if (_specificEnabled == comp->isEnabled())
+				{
+					*comp->_specificComponentPtr = comp->_oldComponent;
+				}
+			}
 		}
 	}
 

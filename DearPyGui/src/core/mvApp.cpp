@@ -182,7 +182,7 @@ namespace Marvel {
 		constexpr_for<1, (int)mvAppItemType::ItemTypeCount, 1>(
 			[&](auto i) {
 				using item_type = typename mvItemTypeMap<i>::type;
-				item_type::s_class_theme = nullptr;
+				item_type::s_class_theme_component = nullptr;
 			});
 
 		mvLog::Cleanup();

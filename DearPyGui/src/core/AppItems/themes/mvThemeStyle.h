@@ -44,7 +44,7 @@ namespace Marvel {
         MV_SET_STATES(MV_STATE_NONE);
 
         MV_START_PARENTS
-            MV_ADD_PARENT(mvAppItemType::mvTheme),
+            MV_ADD_PARENT(mvAppItemType::mvThemeComponent),
             MV_ADD_PARENT(mvAppItemType::mvTemplateRegistry),
         MV_END_PARENTS
 

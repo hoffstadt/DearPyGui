@@ -83,30 +83,6 @@ namespace Marvel{
 		}
 
 		{
-			mvPythonParser parser(mvPyDataType::None, "Undocumented", { "Themes", "App Item Operations" });
-			parser.addArg<mvPyDataType::UUID>("item");
-			parser.addArg<mvPyDataType::UUID>("theme");
-			parser.finalize();
-			parsers->insert({ "bind_item_disabled_theme", parser });
-		}
-
-		{
-			mvPythonParser parser(mvPyDataType::None, "Undocumented", { "Themes", "App Item Operations" });
-			parser.addArg<mvPyDataType::Integer>("item");
-			parser.addArg<mvPyDataType::UUID>("theme");
-			parser.finalize();
-			parsers->insert({ "bind_item_type_disabled_theme", parser });
-		}
-
-		{
-			mvPythonParser parser(mvPyDataType::None, "Undocumented", { "Themes", "App Item Operations" });
-			parser.addArg<mvPyDataType::Integer>("item");
-			parser.addArg<mvPyDataType::UUID>("theme");
-			parser.finalize();
-			parsers->insert({ "bind_item_type_theme", parser });
-		}
-
-		{
 			mvPythonParser parser(mvPyDataType::Dict, "Undocumented", { "App Item Operations" });
 			parser.addArg<mvPyDataType::UUID>("item");
 			parser.finalize();
@@ -243,7 +219,6 @@ namespace Marvel{
 		_source = item->_source;
 		_font = item->_font;
 		_theme = item->_theme;
-		_disabledTheme = item->_disabledTheme;
 		setWidth(item->_width);
 		setHeight(item->_height);
 		//setPos(item->_state.getItemPos());
@@ -1279,11 +1254,6 @@ namespace Marvel{
 		else
 			PyDict_SetItemString(dict, "font", mvPyObject(GetPyNone()));
 
-		if (_disabledTheme)
-			PyDict_SetItemString(dict, "disabled_theme", mvPyObject(ToPyUUID(_disabledTheme->getUUID())));
-		else
-			PyDict_SetItemString(dict, "disabled_theme", mvPyObject(GetPyNone()));
-
 		if(getDescFlags() & MV_ITEM_DESC_CONTAINER)
 			PyDict_SetItemString(dict, "container", mvPyObject(ToPyBool(true)));
 		else
@@ -1610,48 +1580,6 @@ namespace Marvel{
 		return GetPyNone();
 	}
 
-	PyObject* mvAppItem::bind_item_disabled_theme(PyObject* self, PyObject* args, PyObject* kwargs)
-	{
-		PyObject* itemraw;
-		PyObject* themeraw;
-
-		if (!(mvApp::GetApp()->getParsers())["bind_item_disabled_theme"].parse(args, kwargs, __FUNCTION__,
-			&itemraw, &themeraw))
-			return GetPyNone();
-
-		if (!mvApp::s_manualMutexControl) std::lock_guard<std::mutex> lk(mvApp::s_mutex);
-
-		mvUUID item = mvAppItem::GetIDFromPyObject(itemraw);
-		mvUUID theme = mvAppItem::GetIDFromPyObject(themeraw);
-		auto appitem = mvApp::GetApp()->getItemRegistry().getItem(item);
-
-		if (appitem)
-		{
-			if (theme == 0)
-			{
-				appitem->_theme = nullptr;
-				return GetPyNone();
-			}
-
-			auto apptheme = mvApp::GetApp()->getItemRegistry().getRefItem(theme);
-
-			if (apptheme)
-			{
-				appitem->_disabledTheme = apptheme;
-				apptheme->onBind(appitem);
-				return GetPyNone();
-			}
-			else
-				mvThrowPythonError(mvErrorCode::mvItemNotFound, "bind_item_disabled_theme",
-					"Disabled theme item not found: " + std::to_string(item), nullptr);
-		}
-		else
-			mvThrowPythonError(mvErrorCode::mvItemNotFound, "bind_item_disabled_theme",
-				"Item not found: " + std::to_string(item), nullptr);
-
-		return GetPyNone();
-	}
-
 	PyObject* mvAppItem::reset_pos(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		PyObject* itemraw;
@@ -1828,96 +1756,6 @@ namespace Marvel{
 		}
 
 		Py_XDECREF(value);
-
-		return GetPyNone();
-	}
-
-	PyObject* mvAppItem::bind_item_type_theme(PyObject* self, PyObject* args, PyObject* kwargs)
-	{
-		int item;
-		PyObject* themeraw;
-
-		if (!(mvApp::GetApp()->getParsers())["bind_item_type_theme"].parse(args, kwargs, __FUNCTION__,
-			&item, &themeraw))
-			return GetPyNone();
-
-		if (!mvApp::s_manualMutexControl) std::lock_guard<std::mutex> lk(mvApp::s_mutex);
-
-		mvUUID theme = mvAppItem::GetIDFromPyObject(themeraw);
-
-		// reset
-		if (theme == 0)
-		{
-			constexpr_for<1, (int)mvAppItemType::ItemTypeCount, 1>(
-				[&](auto i) {
-					using item_type = typename mvItemTypeMap<i>::type;
-					if(i == item)
-						item_type::s_class_theme = nullptr;
-				});
-		}
-		else
-		{
-			auto themeitem = mvApp::GetApp()->getItemRegistry().getRefItem(theme);
-			if (themeitem)
-			{
-				constexpr_for<1, (int)mvAppItemType::ItemTypeCount, 1>(
-					[&](auto i) {
-						using item_type = typename mvItemTypeMap<i>::type;
-						if (i == item)
-							item_type::s_class_theme = themeitem;
-					});
-			}
-			else
-			{
-				mvThrowPythonError(mvErrorCode::mvItemNotFound, "bind_item_type_theme",
-					"Theme item not found: " + std::to_string(item), nullptr);;
-			}
-		}
-
-		return GetPyNone();
-	}
-
-	PyObject* mvAppItem::bind_item_type_disabled_theme(PyObject* self, PyObject* args, PyObject* kwargs)
-	{
-		int item;
-		PyObject* themeraw;
-
-		if (!(mvApp::GetApp()->getParsers())["set_item_type_disabled_theme"].parse(args, kwargs, __FUNCTION__,
-			&item, &themeraw))
-			return GetPyNone();
-
-		if (!mvApp::s_manualMutexControl) std::lock_guard<std::mutex> lk(mvApp::s_mutex);
-
-		mvUUID theme = mvAppItem::GetIDFromPyObject(themeraw);
-
-		// reset
-		if (theme == 0)
-		{
-			constexpr_for<1, (int)mvAppItemType::ItemTypeCount, 1>(
-				[&](auto i) {
-					using item_type = typename mvItemTypeMap<i>::type;
-					if (i == item)
-						item_type::s_class_theme = nullptr;
-				});
-		}
-		else
-		{
-			auto themeitem = mvApp::GetApp()->getItemRegistry().getRefItem(theme);
-			if (themeitem)
-			{
-				constexpr_for<1, (int)mvAppItemType::ItemTypeCount, 1>(
-					[&](auto i) {
-						using item_type = typename mvItemTypeMap<i>::type;
-						if (i == item)
-							item_type::s_class_disabled_theme = themeitem;
-					});
-			}
-			else
-			{
-				mvThrowPythonError(mvErrorCode::mvItemNotFound, "set_item_type_disabled_theme",
-					"Disabled theme item not found: " + std::to_string(item), nullptr);
-			}
-		}
 
 		return GetPyNone();
 	}

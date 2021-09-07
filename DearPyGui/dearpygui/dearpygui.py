@@ -2238,6 +2238,29 @@ def theme(*, label: str =None, user_data: Any =None, use_internal_label: bool =T
 		internal_dpg.pop_container_stack()
 
 @contextmanager
+def theme_component(item_type : int =0, *, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, parent: Union[int, str] =0, before: Union[int, str] =0, enabled_state: bool =True) -> Union[int, str]:
+	"""	Undocumented function
+
+	Args:
+		item_type (int, optional): 
+		label (str, optional): Overrides 'name' as label.
+		user_data (Any, optional): User data for callbacks.
+		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
+		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
+		parent (Union[int, str], optional): Parent to add this item to. (runtime adding)
+		before (Union[int, str], optional): This item will be displayed before the specified item in the parent.
+		enabled_state (bool, optional): 
+	Yields:
+		Union[int, str]
+	"""
+	try:
+		widget = internal_dpg.add_theme_component(item_type, label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, parent=parent, before=before, enabled_state=enabled_state)
+		internal_dpg.push_container_stack(widget)
+		yield widget
+	finally:
+		internal_dpg.pop_container_stack()
+
+@contextmanager
 def tooltip(parent : Union[int, str], *, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, show: bool =True) -> Union[int, str]:
 	"""	Adds an advanced tool tip for an item. This command must come immediately after the item the tip is for.
 
@@ -5716,6 +5739,24 @@ def add_theme_color(target : int =0, value : Union[List[int], Tuple[int]] =(0, 0
 
 	return internal_dpg.add_theme_color(target, value, label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, parent=parent, category=category)
 
+def add_theme_component(item_type : int =0, *, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, parent: Union[int, str] =0, before: Union[int, str] =0, enabled_state: bool =True) -> Union[int, str]:
+	"""	Undocumented function
+
+	Args:
+		item_type (int, optional): 
+		label (str, optional): Overrides 'name' as label.
+		user_data (Any, optional): User data for callbacks.
+		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
+		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
+		parent (Union[int, str], optional): Parent to add this item to. (runtime adding)
+		before (Union[int, str], optional): This item will be displayed before the specified item in the parent.
+		enabled_state (bool, optional): 
+	Returns:
+		Union[int, str]
+	"""
+
+	return internal_dpg.add_theme_component(item_type, label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, parent=parent, before=before, enabled_state=enabled_state)
+
 def add_theme_style(target : int =0, x : float =1.0, y : float =-1.0, *, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, parent: Union[int, str] =0, category: int =0) -> Union[int, str]:
 	"""	Undocumented function
 
@@ -5942,18 +5983,6 @@ def bind_font(font : Union[int, str]) -> None:
 
 	return internal_dpg.bind_font(font)
 
-def bind_item_disabled_theme(item : Union[int, str], theme : Union[int, str]) -> None:
-	"""	Undocumented
-
-	Args:
-		item (Union[int, str]): 
-		theme (Union[int, str]): 
-	Returns:
-		None
-	"""
-
-	return internal_dpg.bind_item_disabled_theme(item, theme)
-
 def bind_item_handler_registry(item : Union[int, str], handler_registry : Union[int, str]) -> None:
 	"""	Undocumented
 
@@ -5977,30 +6006,6 @@ def bind_item_theme(item : Union[int, str], theme : Union[int, str]) -> None:
 	"""
 
 	return internal_dpg.bind_item_theme(item, theme)
-
-def bind_item_type_disabled_theme(item : int, theme : Union[int, str]) -> None:
-	"""	Undocumented
-
-	Args:
-		item (int): 
-		theme (Union[int, str]): 
-	Returns:
-		None
-	"""
-
-	return internal_dpg.bind_item_type_disabled_theme(item, theme)
-
-def bind_item_type_theme(item : int, theme : Union[int, str]) -> None:
-	"""	Undocumented
-
-	Args:
-		item (int): 
-		theme (Union[int, str]): 
-	Returns:
-		None
-	"""
-
-	return internal_dpg.bind_item_type_theme(item, theme)
 
 def bind_template_registry(template_registry : Union[int, str]) -> None:
 	"""	Undocumented
@@ -8087,6 +8092,7 @@ mvNodeStyleVar_PinTriangleSideLength=internal_dpg.mvNodeStyleVar_PinTriangleSide
 mvNodeStyleVar_PinLineThickness=internal_dpg.mvNodeStyleVar_PinLineThickness
 mvNodeStyleVar_PinHoverRadius=internal_dpg.mvNodeStyleVar_PinHoverRadius
 mvNodeStyleVar_PinOffset=internal_dpg.mvNodeStyleVar_PinOffset
+mvThemeComponent=internal_dpg.mvThemeComponent
 mvFontRangeHint=internal_dpg.mvFontRangeHint
 mvFontRangeHint_Default=internal_dpg.mvFontRangeHint_Default
 mvFontRangeHint_Japanese=internal_dpg.mvFontRangeHint_Japanese

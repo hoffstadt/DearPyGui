@@ -104,13 +104,16 @@ namespace Marvel {
 			ImGui::PushFont(fontptr);
 		}
 
-		// handle class theming
-		if (auto classTheme = getClassTheme())
-			static_cast<mvTheme*>(classTheme.get())->draw(nullptr, 0.0f, 0.0f);
+		// themes
+		if (auto classTheme = getClassThemeComponent())
+			static_cast<mvThemeComponent*>(classTheme.get())->draw(nullptr, 0.0f, 0.0f);
 
-		// handle item theming
 		if (_theme)
+		{
+			static_cast<mvTheme*>(_theme.get())->setSpecificEnabled(_enabled);
+			static_cast<mvTheme*>(_theme.get())->setSpecificType((int)getType());
 			static_cast<mvTheme*>(_theme.get())->draw(nullptr, 0.0f, 0.0f);
+		}
 
 		//-----------------------------------------------------------------------------
 		// draw
@@ -179,13 +182,16 @@ namespace Marvel {
 		if (_font)
 			ImGui::PopFont();
 
-		// pop class themes
-		if (auto classTheme = getClassTheme())
-			static_cast<mvTheme*>(classTheme.get())->customAction();
+		// handle popping themes
+		if (auto classTheme = getClassThemeComponent())
+			static_cast<mvThemeComponent*>(classTheme.get())->customAction();
 
-		// pop item themes
 		if (_theme)
+		{
+			static_cast<mvTheme*>(_theme.get())->setSpecificEnabled(_enabled);
+			static_cast<mvTheme*>(_theme.get())->setSpecificType((int)getType());
 			static_cast<mvTheme*>(_theme.get())->customAction();
+		}
 
 		if (_handlerRegistry)
 			_handlerRegistry->customAction(&_state);

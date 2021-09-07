@@ -87,6 +87,7 @@ set(MARVEL_SOURCES
 	"src/core/AppItems/misc/mvSpacer.cpp"
 
 	"src/core/AppItems/themes/mvTheme.cpp"
+	"src/core/AppItems/themes/mvThemeComponent.cpp"
 	"src/core/AppItems/themes/mvThemeColor.cpp"
 	"src/core/AppItems/themes/mvThemeStyle.cpp"
 
@@ -192,12 +193,12 @@ set(MARVEL_SOURCES
 	"src/core/AppItems/widget_handlers/mvActiveHandler.cpp"
 	"src/core/AppItems/widget_handlers/mvFocusHandler.cpp"
 	"src/core/AppItems/widget_handlers/mvVisibleHandler.cpp"
-    "src/core/AppItems/widget_handlers/mvActivatedHandler.cpp"
-    "src/core/AppItems/widget_handlers/mvDeactivatedHandler.cpp"
-    "src/core/AppItems/widget_handlers/mvEditedHandler.cpp"
-    "src/core/AppItems/widget_handlers/mvDeactivatedAfterEditHandler.cpp"
-    "src/core/AppItems/widget_handlers/mvToggledOpenHandler.cpp"
-    "src/core/AppItems/widget_handlers/mvClickedHandler.cpp"
+        "src/core/AppItems/widget_handlers/mvActivatedHandler.cpp"
+        "src/core/AppItems/widget_handlers/mvDeactivatedHandler.cpp"
+        "src/core/AppItems/widget_handlers/mvEditedHandler.cpp"
+        "src/core/AppItems/widget_handlers/mvDeactivatedAfterEditHandler.cpp"
+        "src/core/AppItems/widget_handlers/mvToggledOpenHandler.cpp"
+        "src/core/AppItems/widget_handlers/mvClickedHandler.cpp"
 	"src/core/AppItems/widget_handlers/mvResizeHandler.cpp"
 
 	"src/core/AppItems/values/mvValueRegistry.cpp"
