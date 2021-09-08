@@ -567,8 +567,6 @@ namespace Marvel {
 
 		for (auto& root : _themeRegistryRoots)
 		{
-			if (root->isAltCustomActionRequested())
-				root->alternativeCustomAction();
 			if(root->_show)
 				root->draw(nullptr, 0.0f, 0.0f);
 		}
@@ -586,7 +584,19 @@ namespace Marvel {
 		for (auto& root : _viewportMenubarRoots)
 			root->draw(nullptr, 0.0f, 0.0f);
 
+		for (auto& root : _themeRegistryRoots)
+		{
+			if (root->_show)
+				root->customAction();
+		}
+
 		return false;
+	}
+
+	void mvItemRegistry::resetTheme()
+	{
+		for (auto& root : _themeRegistryRoots)
+			root->_show = false;
 	}
 
 	bool mvItemRegistry::onActiveWindow(mvEvent& event)

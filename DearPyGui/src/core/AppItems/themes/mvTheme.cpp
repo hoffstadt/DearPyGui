@@ -83,22 +83,6 @@ namespace Marvel {
 		}
 	}
 
-	void mvTheme::alternativeCustomAction(void* data)
-	{
-		if (!_default_theme)
-		{
-			_triggerAlternativeAction = false;
-			return;
-		}
-
-		for (auto& childset : _children)
-		{
-			for (auto& child : childset)
-				child->alternativeCustomAction(data);
-		}
-		_triggerAlternativeAction = false;
-	}
-
 	PyObject* mvTheme::bind_theme(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 
@@ -115,6 +99,7 @@ namespace Marvel {
 		if (item == 0)
 		{
 			mvApp::GetApp()->resetTheme();
+			mvApp::GetApp()->getItemRegistry().resetTheme();
 			return GetPyNone();
 		}
 
@@ -135,8 +120,7 @@ namespace Marvel {
 
 		mvTheme* graph = static_cast<mvTheme*>(aplot);
 
-		graph->_default_theme = true;
-		graph->_triggerAlternativeAction = true;
+		graph->_show = true;
 
 		return GetPyNone();
 	}

@@ -40,12 +40,12 @@ with dpg.window(label="tutorial", width=500, height=500) as win:
 
     with dpg.child(height=-50) as child1:
         dpg.add_button(label="Press me 3")
-        b1 = dpg.add_button(label="Press me 4")
+        b1 = dpg.add_button(label="Press me 4", callback=lambda:dpg.bind_theme(0))
         dpg.add_input_int(label="input int")
     dpg.add_button(label="Press me 5")
 
-dpg.bind_item_theme(child1, global_theme)
-dpg.bind_item_theme(b1, specific_theme)
+dpg.bind_theme(global_theme)
+#dpg.bind_item_theme(b1, specific_theme)
 
 dpg.create_viewport()
 dpg.setup_dearpygui()

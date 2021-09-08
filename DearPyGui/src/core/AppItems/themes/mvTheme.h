@@ -67,14 +67,12 @@ namespace Marvel {
 
         void draw(ImDrawList* drawlist, float x, float y) override;
         void customAction(void* data = nullptr) override;
-        void alternativeCustomAction(void* data = nullptr) override;
         void setSpecificType(int specificType) { _specificType = specificType; }
         void setSpecificEnabled(int enabled) { _specificEnabled = enabled; }
 
     private:
 
         int _specificType = (int)mvAppItemType::All;
-        bool _default_theme = false;
         bool _specificEnabled = true;
 
     };

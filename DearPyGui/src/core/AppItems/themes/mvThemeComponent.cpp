@@ -52,16 +52,6 @@ namespace Marvel {
         
     }
 
-    void mvThemeComponent::alternativeCustomAction(void* data)
-    {
-        for (auto& childset : _children)
-        {
-            for (auto& child : childset)
-                child->alternativeCustomAction(data);
-        }
-        _triggerAlternativeAction = false;
-    }
-
     void mvThemeComponent::handleSpecificPositionalArgs(PyObject* dict)
     {
         if (!mvApp::GetApp()->getParsers()[s_command].verifyPositionalArguments(dict))

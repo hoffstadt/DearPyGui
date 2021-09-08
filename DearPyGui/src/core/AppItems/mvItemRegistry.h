@@ -126,6 +126,7 @@ namespace Marvel {
         bool                           addItemWithRuntimeChecks(mvRef<mvAppItem> item, mvUUID parent, mvUUID before);
         void                           cacheItem(mvAppItem* item);
         void                           cleanUpItem(mvUUID uuid);
+        void                           resetTheme();
 
         //-----------------------------------------------------------------------------
         // Pools and Config
