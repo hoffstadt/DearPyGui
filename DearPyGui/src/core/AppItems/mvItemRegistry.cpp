@@ -86,6 +86,13 @@ namespace Marvel {
 		}
 
 		{
+			mvPythonParser parser(mvPyDataType::None, "Undocumented", { "Item Registry" });
+			parser.addArg<mvPyDataType::UUID>("item");
+			parser.finalize();
+			parsers->insert({ "show_item_debug", parser });
+		}
+
+		{
 			mvPythonParser parser(mvPyDataType::Bool, "Undocumented", { "Item Registry" });
 			parser.addArg<mvPyDataType::UUID>("item");
 			parser.finalize();
@@ -389,6 +396,7 @@ namespace Marvel {
 		if (deletedItem)
 		{
 			MV_ITEM_REGISTRY_INFO(std::to_string(uuid) + " found and deleted.");
+			removeDebugWindow(uuid);
 		}
 		else
 			mvThrowPythonError(mvErrorCode::mvItemNotFound, "delete_item",
@@ -589,6 +597,9 @@ namespace Marvel {
 			if (root->_show)
 				root->customAction();
 		}
+
+		for (auto& root : _debugWindows)
+			root->renderDebugWindow();
 
 		return false;
 	}
@@ -1290,6 +1301,38 @@ namespace Marvel {
 		}
 	}
 
+	void mvItemRegistry::addDebugWindow(mvRef<mvAppItem> item)
+	{
+		_debugWindows.push_back(item);
+	}
+
+	void mvItemRegistry::removeDebugWindow(mvUUID uuid)
+	{
+		// check if debug window exists
+		bool exists = false;
+		for (const auto& debug : _debugWindows)
+		{
+			if (debug->getUUID() == uuid)
+			{
+				exists = true;
+				break;
+			}
+		}
+
+		// not found
+		if (!exists)
+			return;
+
+		std::vector<mvRef<mvAppItem>> oldWindows = _debugWindows;
+		_debugWindows.clear();
+
+		for (auto& debug : oldWindows)
+		{
+			if (debug->getUUID() != uuid)
+				_debugWindows.push_back(debug);
+		}
+	}
+
 	PyObject* mvItemRegistry::pop_container_stack(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 
@@ -1538,6 +1581,33 @@ namespace Marvel {
 		mvUUID item = mvAppItem::GetIDFromPyObject(itemraw);
 
 		mvApp::GetApp()->getItemRegistry().unstageItem(item);
+
+		return GetPyNone();
+	}
+
+	PyObject* mvItemRegistry::show_item_debug(PyObject* self, PyObject* args, PyObject* kwargs)
+	{
+
+		PyObject* itemraw = nullptr;
+
+		if (!(mvApp::GetApp()->getParsers())["show_item_debug"].parse(args, kwargs, __FUNCTION__, &itemraw))
+			return GetPyNone();
+
+		if (!mvApp::s_manualMutexControl) std::lock_guard<std::mutex> lk(mvApp::s_mutex);
+
+		mvUUID item = mvAppItem::GetIDFromPyObject(itemraw);
+
+		auto actualItem = mvApp::GetApp()->getItemRegistry().getRefItem(item);
+		if (actualItem)
+		{
+			actualItem->_showDebug = true;
+			mvApp::GetApp()->getItemRegistry().addDebugWindow(actualItem);
+		}
+		else
+		{
+			mvThrowPythonError(mvErrorCode::mvItemNotFound, "show_item_debug",
+				"Item not found: " + std::to_string(item), nullptr);
+		}
 
 		return GetPyNone();
 	}

@@ -67,6 +67,7 @@ namespace Marvel {
         MV_CREATE_COMMAND(get_alias_id);
         MV_CREATE_COMMAND(get_aliases);
         MV_CREATE_COMMAND(bind_template_registry);
+        MV_CREATE_COMMAND(show_item_debug);
 
         MV_START_COMMANDS
             MV_ADD_COMMAND(bind_template_registry);
@@ -95,6 +96,7 @@ namespace Marvel {
             MV_ADD_COMMAND(reorder_items);
             MV_ADD_COMMAND(show_imgui_demo);
             MV_ADD_COMMAND(show_implot_demo);
+            MV_ADD_COMMAND(show_item_debug);
         MV_END_COMMANDS
 
 	public:
@@ -127,6 +129,8 @@ namespace Marvel {
         void                           cacheItem(mvAppItem* item);
         void                           cleanUpItem(mvUUID uuid);
         void                           resetTheme();
+        void                           addDebugWindow(mvRef<mvAppItem> item);
+        void                           removeDebugWindow(mvUUID uuid);
 
         //-----------------------------------------------------------------------------
         // Pools and Config
@@ -220,6 +224,8 @@ private:
 
         // bound registries
         mvRef<mvAppItem> _boundedTemplateRegistry;
+
+        std::vector<mvRef<mvAppItem>> _debugWindows;
 
         // user config
         bool _allowAliasOverwrites = false;

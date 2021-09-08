@@ -255,6 +255,12 @@ namespace Marvel {
         virtual void alternativeCustomAction(void* data = nullptr) {};
 
         //-----------------------------------------------------------------------------
+        // shows information in either the debug window or a separate window
+        //-----------------------------------------------------------------------------
+        virtual void renderDebugInfo();
+        virtual void renderDebugWindow();
+
+        //-----------------------------------------------------------------------------
         // These methods handle setting the widget's value using PyObject*'s or
         // returning the actual value. These are mostly overridden by the
         // mvTypeBase classes
@@ -396,6 +402,7 @@ namespace Marvel {
         mvAppItem*     _parentPtr = nullptr;
         mvAppItemState _state;
         int            _location = -1;
+        bool           _showDebug = false;
         
         // item pool info
         mvUUID _pool = 0;

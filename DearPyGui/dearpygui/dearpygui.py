@@ -7445,6 +7445,17 @@ def show_implot_demo() -> None:
 
 	return internal_dpg.show_implot_demo()
 
+def show_item_debug(item : Union[int, str]) -> None:
+	"""	Undocumented
+
+	Args:
+		item (Union[int, str]): 
+	Returns:
+		None
+	"""
+
+	return internal_dpg.show_item_debug(item)
+
 def show_tool(tool : Union[int, str]) -> str:
 	"""	Undocumented function
 

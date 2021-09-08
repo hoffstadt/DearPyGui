@@ -12,6 +12,12 @@
 
 namespace Marvel{
 
+	static void DebugItem(const char* label, const char* item) {
+		ImGui::Text("%s", label);
+		ImGui::SameLine();
+		ImGui::TextColored(ImVec4(1.0f, 0.0f, 1.0f, 1.0f), "%s", item);
+	}
+
 	void mvAppItem::InsertParser(std::map<std::string, mvPythonParser>* parsers)
 	{
 		{
@@ -203,6 +209,95 @@ namespace Marvel{
 	{
 		_uuid = uuid;
 		_internalLabel = "###" + std::to_string(_uuid);
+	}
+
+	void mvAppItem::renderDebugInfo()
+	{
+		static char ts[6] = "True";
+		static char fs[6] = "False";
+
+		std::string width = std::to_string(_width);
+		std::string height = std::to_string(_height);
+
+		std::string sizex = std::to_string(_state.getItemRectSize().x);
+		std::string sizey = std::to_string(_state.getItemRectSize().y);
+
+		ImGui::PushID(this);
+		DebugItem("Label:", _specificedlabel.c_str());
+		DebugItem("ID:", std::to_string(_uuid).c_str());
+		DebugItem("Alias:", _alias.c_str());
+		DebugItem("Type:", getTypeString());
+		DebugItem("Filter:", _filter.c_str());
+		DebugItem("Payload Type:", _payloadType.c_str());
+		DebugItem("Location:", std::to_string(_location).c_str());
+		DebugItem("Track Offset:", std::to_string(_trackOffset).c_str());
+		DebugItem("Container:", mvAppItem::DoesItemHaveFlag(this, MV_ITEM_DESC_CONTAINER) ? ts : fs);
+		DebugItem("Width:", width.c_str());
+		DebugItem("Height:", height.c_str());
+		DebugItem("Size x:", sizex.c_str());
+		DebugItem("Size y:", sizey.c_str());
+		DebugItem("Show:", _show ? ts : fs);
+		DebugItem("Enabled:", _enabled ? ts : fs);
+		DebugItem("Tracked:", _tracked ? ts : fs);
+		DebugItem("Callback:", _callback ? ts : fs);
+		DebugItem("User Data:", _user_data ? ts : fs);
+		DebugItem("Drop Callback:", _dropCallback ? ts : fs);
+		DebugItem("Drag Callback:", _dragCallback ? ts : fs);
+
+		ImGui::Spacing();
+		ImGui::Spacing();
+		ImGui::Spacing();
+		ImGui::Text("Bindings");
+		ImGui::Separator();
+		DebugItem("Theme Bound:", _theme ? ts : fs);
+		DebugItem("Font Bound:", _font ? ts : fs);
+		DebugItem("Handlers Bound:", _handlerRegistry ? ts : fs);
+
+		int applicableState = getApplicableState();
+		ImGui::Spacing();
+		ImGui::Spacing();
+		ImGui::Spacing();
+		ImGui::Text("State");
+		ImGui::Separator();
+		if (applicableState & MV_STATE_VISIBLE) DebugItem("Item Visible:", _state.isItemVisible(1) ? ts : fs);
+		if (applicableState & MV_STATE_HOVER) DebugItem("Item Hovered:", _state.isItemHovered(1) ? ts : fs);
+		if (applicableState & MV_STATE_ACTIVE) DebugItem("Item Active:", _state.isItemActive(1) ? ts : fs);
+		if (applicableState & MV_STATE_FOCUSED) DebugItem("Item Focused:", _state.isItemFocused(1) ? ts : fs);
+		if (applicableState & MV_STATE_CLICKED)
+		{
+			DebugItem("Item Left Clicked:", _state.isItemLeftClicked(1) ? ts : fs);
+			DebugItem("Item Right Clicked:", _state.isItemRightClicked(1) ? ts : fs);
+			DebugItem("Item Middle Clicked:", _state.isItemMiddleClicked(1) ? ts : fs);
+		}
+		if (applicableState & MV_STATE_EDITED) DebugItem("Item Edited:", _state.isItemEdited(1) ? ts : fs);
+		if (applicableState & MV_STATE_ACTIVATED) DebugItem("Item Activated:", _state.isItemActivated(1) ? ts : fs);
+		if (applicableState & MV_STATE_DEACTIVATED) DebugItem("Item Deactivated:", _state.isItemDeactivated(1) ? ts : fs);
+		if (applicableState & MV_STATE_DEACTIVATEDAE) DebugItem("Item DeactivatedAfterEdit:", _state.isItemDeactivatedAfterEdit(1) ? ts : fs);
+		if (applicableState & MV_STATE_TOGGLED_OPEN) DebugItem("Item ToggledOpen:", _state.isItemToogledOpen(1) ? ts : fs);
+
+		ImGui::PopID();
+	}
+
+	void mvAppItem::renderDebugWindow()
+	{
+
+		ImGui::SetNextWindowSize(ImVec2(500.0f, 500.0f), ImGuiCond_FirstUseEver);
+
+		if (!ImGui::Begin(_specificedlabel.c_str(), &_showDebug))
+		{
+			ImGui::End();
+
+			if (!_showDebug)
+				mvApp::GetApp()->getItemRegistry().removeDebugWindow(_uuid);
+			return;
+		}
+
+		renderDebugInfo();
+
+		ImGui::End();
+
+		if (!_showDebug)
+			mvApp::GetApp()->getItemRegistry().removeDebugWindow(_uuid);
 	}
 
 	void mvAppItem::applyTemplate(mvAppItem* item)

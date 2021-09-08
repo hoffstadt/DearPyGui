@@ -117,10 +117,7 @@ namespace Marvel {
 
     void mvLayoutWindow::drawWidgets()
     {
-        // left side
-        static char ts[6] = "True";
-        static char fs[6] = "False";
-
+        
 		mvUUID parentName = 0;
 
 		if (_itemref == nullptr)
@@ -129,12 +126,7 @@ namespace Marvel {
 		if (_itemref->_parentPtr)
 			parentName = _itemref->_parentPtr->_uuid;
 
-		std::string width = std::to_string(_itemref->_width);
-		std::string height = std::to_string(_itemref->_height);
-
-		std::string sizex = std::to_string(_itemref->getState().getItemRectSize().x);
-		std::string sizey = std::to_string(_itemref->getState().getItemRectSize().y);
-
+        // left side
 		ImGui::BeginGroup();
 
 		if (ImGui::ArrowButton("Move Up", ImGuiDir_Up))
@@ -171,63 +163,13 @@ namespace Marvel {
         ImGui::Checkbox("Show Slots###layout", &_slots);
 
         ImGui::BeginChild("###layoutwindow", ImVec2(400, 0));
-		DebugItem("Label:", _itemref->_specificedlabel.c_str());
-		DebugItem("ID:", std::to_string(_itemref->getUUID()).c_str());
-		DebugItem("Alias:", _itemref->getAlias().c_str());
-		DebugItem("Type:", _itemref->getTypeString());
-		DebugItem("Filter:", _itemref->getFilter().c_str());
-		DebugItem("Payload Type:", _itemref->_payloadType.c_str());
-        DebugItem("Location:", std::to_string(_itemref->_location).c_str());
-        DebugItem("Track Offset:", std::to_string(_itemref->_trackOffset).c_str());
-		DebugItem("Container:", mvAppItem::DoesItemHaveFlag(_itemref, MV_ITEM_DESC_CONTAINER) ? ts : fs);
-		DebugItem("Width:", width.c_str());
-		DebugItem("Height:", height.c_str());
-		DebugItem("Size x:", sizex.c_str());
-		DebugItem("Size y:", sizey.c_str());
-		DebugItem("Show:", _itemref->_show ? ts : fs);
-		DebugItem("Enabled:", _itemref->_enabled ? ts : fs);
-		DebugItem("Tracked:", _itemref->_tracked ? ts : fs);
-		DebugItem("Callback:", _itemref->_callback ? ts : fs);
-		DebugItem("User Data:", _itemref->_user_data ? ts : fs);
-		DebugItem("Drop Callback:", _itemref->_dropCallback ? ts : fs);
-		DebugItem("Drag Callback:", _itemref->_dragCallback ? ts : fs);
-
-        ImGui::Spacing();
-        ImGui::Spacing();
-        ImGui::Spacing();
-        ImGui::Text("Bindings");
-        ImGui::Separator();
-		DebugItem("Theme Bound:", _itemref->_theme ? ts : fs);
-		DebugItem("Font Bound:", _itemref->_font ? ts : fs);
-		DebugItem("Handlers Bound:", _itemref->_handlerRegistry ? ts : fs);
-
-        int applicableState = _itemref->getApplicableState();
-        ImGui::Spacing();
-        ImGui::Spacing();
-        ImGui::Spacing();
-        ImGui::Text("State");
-        ImGui::Separator();
-        if(applicableState & MV_STATE_VISIBLE) DebugItem("Item Visible:", _itemref->getState().isItemVisible(1) ? ts : fs);
-		if(applicableState & MV_STATE_HOVER) DebugItem("Item Hovered:", _itemref->getState().isItemHovered(1) ? ts : fs);
-		if(applicableState & MV_STATE_ACTIVE) DebugItem("Item Active:", _itemref->getState().isItemActive(1) ? ts : fs);
-		if(applicableState & MV_STATE_FOCUSED) DebugItem("Item Focused:", _itemref->getState().isItemFocused(1) ? ts : fs);
-        if (applicableState & MV_STATE_CLICKED)
-        {
-            DebugItem("Item Left Clicked:", _itemref->getState().isItemLeftClicked(1) ? ts : fs);
-            DebugItem("Item Right Clicked:", _itemref->getState().isItemRightClicked(1) ? ts : fs);
-            DebugItem("Item Middle Clicked:", _itemref->getState().isItemMiddleClicked(1) ? ts : fs);
-        }
-		if(applicableState & MV_STATE_EDITED) DebugItem("Item Edited:", _itemref->getState().isItemEdited(1) ? ts : fs);
-		if(applicableState & MV_STATE_ACTIVATED) DebugItem("Item Activated:", _itemref->getState().isItemActivated(1) ? ts : fs);
-		if(applicableState & MV_STATE_DEACTIVATED) DebugItem("Item Deactivated:", _itemref->getState().isItemDeactivated(1) ? ts : fs);
-		if(applicableState & MV_STATE_DEACTIVATEDAE) DebugItem("Item DeactivatedAfterEdit:", _itemref->getState().isItemDeactivatedAfterEdit(1) ? ts : fs);
-		if(applicableState & MV_STATE_TOGGLED_OPEN) DebugItem("Item ToggledOpen:", _itemref->getState().isItemToogledOpen(1) ? ts : fs);
+        _itemref->renderDebugInfo();
         ImGui::EndChild();
+
 		ImGui::EndGroup();
 		ImGui::SameLine();
 
         // right side
-
         ImGui::BeginGroup();
         _imguiFilter.Draw();
         _startFiltering = false;

@@ -1070,6 +1070,10 @@ def show_implot_demo() -> None:
 	"""Undocumented"""
 	...
 
+def show_item_debug(item : Union[int, str]) -> None:
+	"""Undocumented"""
+	...
+
 def show_tool(tool : Union[int, str]) -> str:
 	"""Undocumented function"""
 	...
