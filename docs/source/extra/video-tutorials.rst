@@ -12,7 +12,7 @@ View all `video tutorials on Dear PyGui`_ by the core developers on YouTube.
     https://www.youtube.com/playlist?list=PLcqt7R3y3elGh7zoj1-oyygzTh9j81hKV
 
 `Introduction to Dear PyGui <https://youtu.be/kkRXLrG5oMA>`_
-----
+------------------------------------------------------------
 
 Dear PyGui is an extended Python wrapper around Dear ImGUI.
 Dear ImGUI is an Immediate Mode GUI (IMGUI) for real-time applications
@@ -35,7 +35,7 @@ Using a primary window so that the window matches the area of the viewport
 
 
 `Basics of callbacks <https://youtu.be/5ci4oIzGXdI>`_
-----
+-------------------------------------------------------
 
 Callbacks are functions that are run when any action
 is taken on a certain widget.
@@ -62,7 +62,7 @@ and documentation is demonstrated.
 The callback can be changed during runtime using set_item_callback.
 
 `ID system and debug tool <https://youtu.be/zcGWJjGSn-w>`_
-----
+----------------------------------------------------------
 
 The first argument of a widget is the ID.
 
@@ -87,7 +87,7 @@ You can execute code at runtime using the debug tool.
 Track the float values by log_debug(get_value('Float1##1'))
 
 `Parent stack system <https://youtu.be/CVoArPhOLx4>`_
-----
+------------------------------------------------------
 
 The parent stack is a collection of all containers in a GUI.
 
@@ -113,7 +113,7 @@ The *with* statements of the context managers automate the application
 of the end() statement, making the code easier to read.
 
 `Value Storage System <https://youtu.be/b7gm0f5vYcc>`_
-----
+-------------------------------------------------------
 
 In many GUI's the widget's value is stored inside the widget.
 
@@ -137,7 +137,7 @@ A code example is given to demonstrate the value storage
 system and its types and sizes.
 
 `Widget basics <https://youtu.be/tqETQz2As9g>`_
-----
+------------------------------------------------
 
 This tutorial shows how to use a number of widget types.
 Widget types include button, checkbox, label_text, input_int,
@@ -164,7 +164,7 @@ More complex use of widgets and multi-component
 widgets will be shown in future videos.
 
 `Tab bar, tabs, and tab button basics <https://youtu.be/-NXf98oj70c>`_
-----
+-----------------------------------------------------------------------
 
 Create a tab bar with the context manager from the simple module, e.g. with tab_bar('tb1') --> with tab('t1') --> add_button('b1').
 
@@ -175,17 +175,17 @@ You can add a button to a tab_bar using add_tab_button('+').
 Tabs in a tab bar can be made reorderable by using the keyword reorderable=True on the tab_bar.
 
 `Simple Plot & Tooltip <https://youtu.be/G1l-rtMUlsI>`_
-----
+---------------------------------------------------------
 
 
-:doc:`<../api-reference/simple-plots>` is for plotting simple data.
-This is not to be confused with the more powerful and complex :doc:`<../api-reference/plots>`.
+:doc:`../api-reference/simple-plots` is for plotting simple data.
+This is not to be confused with the more powerful and complex :doc:`../api-reference/plots`.
 
 Create a basic histogram using add_simple_plot(“Plot 1”, value=[1, 4.3, 8, 9, 3], histogram=True).
 There are several keywords to customise the plot.
 
 add_text(“Hover me”, tip=”A simple tooltip”). This simple tooltip
-is only for text. The :doc:`<../api-reference/tooltips>` is more powerful.
+is only for text. The :doc:`../api-reference/tooltips` is more powerful.
 
 The tooltip widget is a container, i.e.
 context manager, just like ‘with window’ and ‘with group’.
@@ -196,9 +196,9 @@ to embed a simple plot in a tooltip in two lines of code.
 Note that the user cannot interact with the tooltip widget.
 
 `Popups <https://www.youtube.com/watch?v=paClQ6SewX8>`_
-----
+-------------------------------------------------------
 
-:doc:`<../api-reference/popups>` require a parent.
+:doc:`../api-reference/popups` require a parent.
 That may change in future versions of Dear PyGui.
 
 A popup is a container, so it has a context manager (with popup:).
@@ -216,7 +216,7 @@ To close the modal popup, it is necessary to add a button
 with a callback close_popup("popup1").
 
 `Experimental Windows Docking <https://www.youtube.com/watch?v=dVm2U6kZb7U>`_
-----
+-------------------------------------------------------------------------------
 
 
 The docking feature enables the user to dock windows to each other and the viewport.
@@ -239,7 +239,7 @@ layout tool, but it still requires lots of work to be released as non-experiment
 
 
 `Smart tables <https://youtu.be/qL_zjinXTJk>`_
-----
+-----------------------------------------------
 
 This is an elaborate tutorial on creating a smart, interactive table.
 

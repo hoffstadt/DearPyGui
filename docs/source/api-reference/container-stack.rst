@@ -1,5 +1,5 @@
 Container Stack
-============
+===============
 
 Unless an item is a root type or staging mode is active,
 all app items need to belong to a valid container item.

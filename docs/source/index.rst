@@ -64,7 +64,6 @@ for the most detailed documentation on any specific topic.
     /tutorials/first-steps
     /tutorials/dpg-structure
     /tutorials/item-usage
-    /tutorials/custom-appearance
     /tutorials/tips-resources
 
 Documentation
@@ -73,11 +72,12 @@ Documentation
 Live Demo:
     A mostly complete showcase of DPG can be found by running the
     :py:func:`show_demo <dearpygui.demo.show_demo>` command in the :py:mod:`dearpygui.demo` module.
+
 Internal Documentation:
     Run :py:func:`show_documentation <dearpygui.dearpygui.show_documentation>`
 
-API Reference Guide
-    :doc:`Online API Reference </api-reference/intro>`
+API Reference Guide:
+    :doc:`Online API Reference <tutorials/first-steps>`
 
 .. toctree::
     :maxdepth: 2
@@ -96,4 +96,39 @@ API Reference Guide
     /api-reference/item-value
     /api-reference/container-context-manager
     /api-reference/container-slots
-    /api-reference/container-stacks
+    /api-reference/container-stack
+    /api-reference/drawing-api
+    /api-reference/file-directory-selector
+    /api-reference/filter-set
+    /api-reference/fonts
+    /api-reference/init-files
+    /api-reference/logging
+    /api-reference/menus
+    /api-reference/node-editor
+    /api-reference/plots
+    /api-reference/popups
+    /api-reference/simple-plots
+    /api-reference/staging
+    /api-reference/table-api-08
+    /api-reference/textures
+    /api-reference/themes
+    /api-reference/tooltips
+
+More
+----
+
+Showcase:
+    :doc: `extra/showcase`
+
+Video Tutorials:
+    :doc: `extra/video-tutorials`
+
+.. toctree::
+    :maxdepth: 2
+    :numbered:
+    :hidden:
+    :caption: More
+
+    /extra/showcase
+    /extra/video-tutorials
+    /extra/glossary

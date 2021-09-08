@@ -280,6 +280,7 @@ poll the plot for the query area by calling:
 Below is an example using the callback
 
 .. code-block:: python
+
     import dearpygui.dearpygui as dpg
     from math import sin
 

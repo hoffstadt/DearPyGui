@@ -10,12 +10,6 @@ with the widget at a later time.
 
 .. code-block:: python
 
-    unique_id = add_button(label="Press me")
-    ```
-
-    ## Example
-
-    ```python
     import dearpygui.dearpygui as dpg
 
     unique_id = 0

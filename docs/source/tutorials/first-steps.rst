@@ -12,7 +12,7 @@ Installing
 
 Python 3.6 (64 bit) or above is required.
 
-.. code-block:: cmd
+.. code-block::
 
     pip install dearpygui
 

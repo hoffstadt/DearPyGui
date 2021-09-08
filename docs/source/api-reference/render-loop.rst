@@ -2,7 +2,7 @@ Render Loop
 ===========
 
 For most use cases the render loop does not need to be considered
-and is completely handled by :py:func:`start_dearpygui <dearpygui.dearpygui.show_documentation>.
+and is completely handled by :py:func:`start_dearpygui <dearpygui.dearpygui.start_dearpygui>.
 
 Manual Render Loop
 ------------------
