@@ -32,13 +32,19 @@ We generally fold multiple commits pertaining to the same topic as a single entr
 * removed `default_theme` keyword arg from `add_theme(...)`, use `bind_theme(...)` now
 * removed `viewport` keyword arg from `setup_dearpygui(...)`
 * removed `viewport` keyword arg from `show_viewport(...)`
+* removed `bind_item_disabled_theme(...)`
+* removed `bind_item_type_disabled_theme(...)`
+* removed `bind_item_type_theme(...)`
 * user must create, setup, show viewport before starting dpg:
   * "create_viewport()->setup_dearpygui()->show_viewport()->start_dearpygui()"
+* `add_theme_color(...)` and `add_theme_style(...)` must known belong to a `theme_component`
 
 ### New
 * module:  added `experimental`
 * item:    added `add_table_cell(...)`
 * item:    added `add_spacer(...)`
+* item:    added `add_theme_component(...)`
+* command: added `show_item_debug(...)`
 * command: added `bind_theme(...)`
 * command: added `highlight_table_column(...)`
 * command: added `unhighlight_table_column(...)`
