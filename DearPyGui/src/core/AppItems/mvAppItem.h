@@ -87,7 +87,7 @@ namespace Marvel {
         mvHoverHandler, mvActiveHandler, mvFocusHandler, mvVisibleHandler,
         mvEditedHandler, mvActivatedHandler, mvDeactivatedHandler, mvDeactivatedAfterEditHandler,
         mvToggledOpenHandler, mvClickedHandler, mvDragPayload, mvResizeHandler,
-        mvFont, mvFontRegistry, mvTheme, mvThemeColor, mvThemeStyle,
+        mvFont, mvFontRegistry, mvTheme, mvThemeColor, mvThemeStyle, mvThemeComponent,
         mvFontRangeHint, mvFontRange, mvFontChars, mvCharRemap,
         mvValueRegistry, mvIntValue, mvFloatValue, mvFloat4Value,
         mvInt4Value, mvBoolValue, mvStringValue, mvDoubleValue, mvDouble4Value,
@@ -176,9 +176,6 @@ namespace Marvel {
         MV_CREATE_COMMAND(bind_item_handler_registry);
         MV_CREATE_COMMAND(bind_item_font);
         MV_CREATE_COMMAND(bind_item_theme);
-        MV_CREATE_COMMAND(bind_item_disabled_theme);
-        MV_CREATE_COMMAND(bind_item_type_theme);
-        MV_CREATE_COMMAND(bind_item_type_disabled_theme);
         MV_CREATE_COMMAND(set_item_alias);
         MV_CREATE_COMMAND(get_item_alias);
 
@@ -199,9 +196,6 @@ namespace Marvel {
             MV_ADD_COMMAND(bind_item_handler_registry);
             MV_ADD_COMMAND(bind_item_font);
             MV_ADD_COMMAND(bind_item_theme);
-            MV_ADD_COMMAND(bind_item_disabled_theme);
-            MV_ADD_COMMAND(bind_item_type_theme);
-            MV_ADD_COMMAND(bind_item_type_disabled_theme);
         MV_END_COMMANDS
 
         //-----------------------------------------------------------------------------
@@ -239,8 +233,7 @@ namespace Marvel {
         //   - MV_REGISTER_WIDGET
         //   - MV_APPLY_WIDGET_REGISTRATION
         //-----------------------------------------------------------------------------
-        [[nodiscard]] virtual mvRef<mvAppItem>  getClassDisabledTheme() const = 0;
-        [[nodiscard]] virtual mvRef<mvAppItem>  getClassTheme() const = 0;
+        [[nodiscard]] virtual mvRef<mvAppItem>  getClassThemeComponent() const = 0;
         [[nodiscard]] virtual mvAppItemType     getType      () const { return mvAppItemType::None; } // should be pure, see #1071
         [[nodiscard]] virtual int               getDescFlags () const = 0;
         [[nodiscard]] virtual int               getTarget    () const = 0; // which child slot
@@ -260,6 +253,12 @@ namespace Marvel {
         //-----------------------------------------------------------------------------
         virtual void customAction(void* data = nullptr) {};
         virtual void alternativeCustomAction(void* data = nullptr) {};
+
+        //-----------------------------------------------------------------------------
+        // shows information in either the debug window or a separate window
+        //-----------------------------------------------------------------------------
+        virtual void renderDebugInfo();
+        virtual void renderDebugWindow();
 
         //-----------------------------------------------------------------------------
         // These methods handle setting the widget's value using PyObject*'s or
@@ -403,6 +402,7 @@ namespace Marvel {
         mvAppItem*     _parentPtr = nullptr;
         mvAppItemState _state;
         int            _location = -1;
+        bool           _showDebug = false;
         
         // item pool info
         mvUUID _pool = 0;
@@ -439,7 +439,7 @@ namespace Marvel {
 
         // theme
         mvRef<mvAppItem> _theme = nullptr;
-        mvRef<mvAppItem> _disabledTheme = nullptr;
+        mvRef<mvAppItem> _themeComponent = nullptr;
 
         // drag & drop
         PyObject* _dragCallback = nullptr;

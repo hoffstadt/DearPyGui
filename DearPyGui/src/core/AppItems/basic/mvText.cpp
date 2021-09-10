@@ -89,22 +89,15 @@ namespace Marvel {
 			ImGui::PushFont(fontptr);
 		}
 
+		// themes
+		if (auto classTheme = getClassThemeComponent())
+			static_cast<mvThemeComponent*>(classTheme.get())->draw(nullptr, 0.0f, 0.0f);
 
-		if (_enabled)
+		if (_theme)
 		{
-			if (auto classTheme = getClassTheme())
-				static_cast<mvTheme*>(classTheme.get())->draw(nullptr, 0.0f, 0.0f);
-
-			if (_theme)
-				static_cast<mvTheme*>(_theme.get())->draw(nullptr, 0.0f, 0.0f);
-		}
-		else
-		{
-			if (auto classTheme = getClassDisabledTheme())
-				static_cast<mvTheme*>(classTheme.get())->draw(nullptr, 0.0f, 0.0f);
-
-			if (_disabledTheme)
-				static_cast<mvTheme*>(_disabledTheme.get())->draw(nullptr, 0.0f, 0.0f);
+			static_cast<mvTheme*>(_theme.get())->setSpecificEnabled(_enabled);
+			static_cast<mvTheme*>(_theme.get())->setSpecificType((int)getType());
+			static_cast<mvTheme*>(_theme.get())->draw(nullptr, 0.0f, 0.0f);
 		}
 
 		//-----------------------------------------------------------------------------
@@ -172,21 +165,15 @@ namespace Marvel {
 			ImGui::PopFont();
 		}
 
-		if (_enabled)
-		{
-			if (auto classTheme = getClassTheme())
-				static_cast<mvTheme*>(classTheme.get())->customAction();
+		// handle popping themes
+		if (auto classTheme = getClassThemeComponent())
+			static_cast<mvThemeComponent*>(classTheme.get())->customAction();
 
-			if (_theme)
-				static_cast<mvTheme*>(_theme.get())->customAction();
-		}
-		else
+		if (_theme)
 		{
-			if (auto classTheme = getClassDisabledTheme())
-				static_cast<mvTheme*>(classTheme.get())->customAction();
-
-			if (_disabledTheme)
-				static_cast<mvTheme*>(_disabledTheme.get())->customAction();
+			static_cast<mvTheme*>(_theme.get())->setSpecificEnabled(_enabled);
+			static_cast<mvTheme*>(_theme.get())->setSpecificType((int)getType());
+			static_cast<mvTheme*>(_theme.get())->customAction();
 		}
 
 		if (_handlerRegistry)

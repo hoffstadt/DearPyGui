@@ -269,11 +269,12 @@ def show_demo():
                     for i in range(0, 7):
 
                         with dpg.theme() as theme:
-                            dpg.add_theme_color(dpg.mvThemeCol_Button, _hsv_to_rgb(i/7.0, 0.6, 0.6))
-                            dpg.add_theme_color(dpg.mvThemeCol_ButtonActive, _hsv_to_rgb(i/7.0, 0.8, 0.8))
-                            dpg.add_theme_color(dpg.mvThemeCol_ButtonHovered, _hsv_to_rgb(i/7.0, 0.7, 0.7))
-                            dpg.add_theme_style(dpg.mvStyleVar_FrameRounding, i*5)
-                            dpg.add_theme_style(dpg.mvStyleVar_FramePadding, i*3, i*3)
+                            with dpg.theme_component(dpg.mvButton):
+                                dpg.add_theme_color(dpg.mvThemeCol_Button, _hsv_to_rgb(i/7.0, 0.6, 0.6))
+                                dpg.add_theme_color(dpg.mvThemeCol_ButtonActive, _hsv_to_rgb(i/7.0, 0.8, 0.8))
+                                dpg.add_theme_color(dpg.mvThemeCol_ButtonHovered, _hsv_to_rgb(i/7.0, 0.7, 0.7))
+                                dpg.add_theme_style(dpg.mvStyleVar_FrameRounding, i*5)
+                                dpg.add_theme_style(dpg.mvStyleVar_FramePadding, i*3, i*3)
 
                         dpg.add_button(label="Click", callback=_log)
                         dpg.bind_item_theme(dpg.last_item(), theme)
@@ -605,7 +606,8 @@ def show_demo():
                     dpg.add_progress_bar(label="Progress Bar", default_value=0.78, overlay="78%")
                     dpg.add_text("Progress Bar")
                 with dpg.theme() as theme:
-                    dpg.add_theme_color(dpg.mvThemeCol_PlotHistogram, (255,0,0, 255))
+                    with dpg.theme_component(dpg.mvProgressBar):
+                        dpg.add_theme_color(dpg.mvThemeCol_PlotHistogram, (255,0,0, 255))
                 dpg.add_progress_bar(default_value=0.78, overlay="1367/1753")
                 dpg.bind_item_theme(dpg.last_item(), theme)
 
@@ -640,10 +642,11 @@ def show_demo():
                             for i in range(0, 7):
 
                                 with dpg.theme() as theme:
-                                    dpg.add_theme_color(dpg.mvThemeCol_FrameBg, _hsv_to_rgb(i/7.0, 0.5, 0.5))
-                                    dpg.add_theme_color(dpg.mvThemeCol_SliderGrab, _hsv_to_rgb(i/7.0, 0.9, 0.9))
-                                    dpg.add_theme_color(dpg.mvThemeCol_FrameBgActive, _hsv_to_rgb(i/7.0, 0.7, 0.5))
-                                    dpg.add_theme_color(dpg.mvThemeCol_FrameBgHovered, _hsv_to_rgb(i/7.0, 0.6, 0.5))
+                                    with dpg.theme_component(0):
+                                        dpg.add_theme_color(dpg.mvThemeCol_FrameBg, _hsv_to_rgb(i/7.0, 0.5, 0.5))
+                                        dpg.add_theme_color(dpg.mvThemeCol_SliderGrab, _hsv_to_rgb(i/7.0, 0.9, 0.9))
+                                        dpg.add_theme_color(dpg.mvThemeCol_FrameBgActive, _hsv_to_rgb(i/7.0, 0.7, 0.5))
+                                        dpg.add_theme_color(dpg.mvThemeCol_FrameBgHovered, _hsv_to_rgb(i/7.0, 0.6, 0.5))
 
                                 dpg.add_slider_float(label=" ", default_value=values[i], vertical=True, max_value=1.0, height=160)
                                 dpg.bind_item_theme(dpg.last_item(), theme)
@@ -1769,19 +1772,23 @@ def show_demo():
                             stock_data5.append(600 + 75*abs(random.random()))
 
                         with dpg.theme() as stock_theme1:
-                            dpg.add_theme_color(dpg.mvPlotCol_Line, (0, 0, 255), category=dpg.mvThemeCat_Plots)
-                            dpg.add_theme_color(dpg.mvPlotCol_Fill, (0, 0, 255, 64), category=dpg.mvThemeCat_Plots)
+                            with dpg.theme_component(0):
+                                dpg.add_theme_color(dpg.mvPlotCol_Line, (0, 0, 255), category=dpg.mvThemeCat_Plots)
+                                dpg.add_theme_color(dpg.mvPlotCol_Fill, (0, 0, 255, 64), category=dpg.mvThemeCat_Plots)
 
                         with dpg.theme() as stock_theme2:
-                            dpg.add_theme_color(dpg.mvPlotCol_Line, (255, 0, 0), category=dpg.mvThemeCat_Plots)
-                            dpg.add_theme_color(dpg.mvPlotCol_Fill, (255, 0, 0, 64), category=dpg.mvThemeCat_Plots)
+                            with dpg.theme_component(0):
+                                dpg.add_theme_color(dpg.mvPlotCol_Line, (255, 0, 0), category=dpg.mvThemeCat_Plots)
+                                dpg.add_theme_color(dpg.mvPlotCol_Fill, (255, 0, 0, 64), category=dpg.mvThemeCat_Plots)
 
                         with dpg.theme() as stock_theme3:
-                            dpg.add_theme_color(dpg.mvPlotCol_Line, (0, 255, 0), category=dpg.mvThemeCat_Plots)
-                            dpg.add_theme_color(dpg.mvPlotCol_Fill, (0, 255, 0, 64), category=dpg.mvThemeCat_Plots)
+                            with dpg.theme_component(0):
+                                dpg.add_theme_color(dpg.mvPlotCol_Line, (0, 255, 0), category=dpg.mvThemeCat_Plots)
+                                dpg.add_theme_color(dpg.mvPlotCol_Fill, (0, 255, 0, 64), category=dpg.mvThemeCat_Plots)
 
                         with dpg.theme() as stock_theme4:
-                            dpg.add_theme_color(dpg.mvPlotCol_Fill, (255, 255, 100, 64), category=dpg.mvThemeCat_Plots)
+                            with dpg.theme_component(0):
+                                dpg.add_theme_color(dpg.mvPlotCol_Fill, (255, 255, 100, 64), category=dpg.mvThemeCat_Plots)
 
                         with dpg.plot(label="Stock Prices", height=400, width=-1):
                             dpg.add_plot_legend()
@@ -1815,8 +1822,9 @@ def show_demo():
                     with dpg.tree_node(label="Stem Series"):
 
                         with dpg.theme() as stem_theme1:
-                            dpg.add_theme_color(dpg.mvPlotCol_Line, (0, 255, 0), category=dpg.mvThemeCat_Plots)
-                            dpg.add_theme_style(dpg.mvPlotStyleVar_Marker, dpg.mvPlotMarker_Diamond, category=dpg.mvThemeCat_Plots)
+                            with dpg.theme_component(0):
+                                dpg.add_theme_color(dpg.mvPlotCol_Line, (0, 255, 0), category=dpg.mvThemeCat_Plots)
+                                dpg.add_theme_style(dpg.mvPlotStyleVar_Marker, dpg.mvPlotMarker_Diamond, category=dpg.mvThemeCat_Plots)
 
                         with dpg.plot(label="Stem Series", height=400, width=-1):
                             dpg.add_plot_legend()
