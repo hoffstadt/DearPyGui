@@ -105,13 +105,16 @@ namespace Marvel {
 		//_state._active = imnodes::IsLinkStarted(&_id);
 		//_state._deactivated = imnodes::IsLinkDropped(&_id);
 
-		// pop class themes
-		if (auto classTheme = getClassTheme())
-			static_cast<mvTheme*>(classTheme.get())->customAction(data);
+		// handle popping themes
+		if (auto classTheme = getClassThemeComponent())
+			static_cast<mvThemeComponent*>(classTheme.get())->customAction();
 
-		// pop item themes
 		if (_theme)
-			static_cast<mvTheme*>(_theme.get())->customAction(data);
+		{
+			static_cast<mvTheme*>(_theme.get())->setSpecificEnabled(_enabled);
+			static_cast<mvTheme*>(_theme.get())->setSpecificType((int)getType());
+			static_cast<mvTheme*>(_theme.get())->customAction();
+		}
 
 		if (_handlerRegistry)
 			_handlerRegistry->customAction(data);
@@ -132,13 +135,16 @@ namespace Marvel {
 		if (_width != 0)
 			ImGui::SetNextItemWidth((float)_width);
 
-		// handle class theming
-		if (auto classTheme = getClassTheme())
-			static_cast<mvTheme*>(classTheme.get())->draw(nullptr, 0.0f, 0.0f);
+		// themes
+		if (auto classTheme = getClassThemeComponent())
+			static_cast<mvThemeComponent*>(classTheme.get())->draw(nullptr, 0.0f, 0.0f);
 
-		// handle item theming
 		if (_theme)
+		{
+			static_cast<mvTheme*>(_theme.get())->setSpecificEnabled(_enabled);
+			static_cast<mvTheme*>(_theme.get())->setSpecificType((int)getType());
 			static_cast<mvTheme*>(_theme.get())->draw(nullptr, 0.0f, 0.0f);
+		}
 
 		//-----------------------------------------------------------------------------
 		// draw
