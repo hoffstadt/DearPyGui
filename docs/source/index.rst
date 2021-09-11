@@ -10,21 +10,20 @@ About DPG
 ---------
 
 Dear PyGui is an easy-to-use, dynamic, GPU-Accelerated, cross-platform graphical
-user interface (GUI) for Python. At the core it is considered an extended
-wrapping of `Dear ImGui`_.
+user interface toolkit(GUI) for Python. It is not a traditional wrapping of `Dear ImGui`_, but instead, more of a "built with" Dear ImGui.
 
-Features include traditional GUI elements such as buttons, radio buttons,
-and menus and various methods to create a functional layout.
+Features include traditional GUI elements such as buttons, radio buttons, 
+menus and various methods to create a functional layout.
 
-Additionally, DPG has incredibly dynamic
-charts, tables, drawings, logging, debugger, and multiple resource viewers.
+Additionally, DPG has an incredible assortment of dynamic
+plots, tables, drawings, logging, debugger, and multiple resource viewers.
 
 DPG is well suited for creating simple user interfaces
 as well as to developing complex and
 demanding graphical interfaces.
 
-DPG offers a solid framework for developing science,
-engineering, games, data science and other applications that require fast and interactive interfaces.
+DPG offers a solid framework for developing scientific,
+engineering, gaming, data science and other applications that require fast and interactive interfaces.
 
 .. _Dear ImGui: https://github.com/ocornut/imgui
 
@@ -52,7 +51,7 @@ the :doc:`tutorials/first-steps` in tutorials.
 The :doc:`Tutorials <tutorials/first-steps>` will provide a great overview
 and links to each topic in the API Reference for more detailed reading.
 
-However use the API reference
+However, use the API reference
 for the most detailed documentation on any specific topic.
 
 .. toctree::

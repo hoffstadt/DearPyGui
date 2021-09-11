@@ -17,7 +17,7 @@ The viewport is the *window* created by the operating system.
 
 Typically the viewport is handled automatically by DPG.
 The viewport needs to be explicitly created to be
-customized for taskbar icons, custom sizing, decorators.
+customized for taskbar icons, custom sizing, decorators, etc.
 
 Lets go back and revisit the first app but create the viewport explicitly
 and give it a new title and size.
@@ -41,7 +41,7 @@ and give it a new title and size.
 
     dpg.start_dearpygui()
 
-.. seealso:: for more information on the viewport :doc:`../api-reference/viewport`
+.. seealso:: For more information on the viewport :doc:`../api-reference/viewport`
 
 Render Loop
 -----------
@@ -93,16 +93,16 @@ Items:
     Items are anything in the library.
 
 UI Items:
-    Any item in dpg that shows up on the screen (i.e. button, listbox, window, ect).
+    Any item in dpg that has a visual component (i.e. button, listbox, window, ect).
 
 Containers:
-    Although also a UI item containers will be spoken of as their own category.
+    Items that can hold other items. A root container has no parent container.
 
 Primary Window
 --------------
 
-DPG can assign one window to be the *primary window* will fill the
-viewport and always be drawn behind and other floating windows.
+DPG can assign one window to be the *primary window*, which will fill the
+viewport and always be drawn behind other windows.
 
 **Code:**
 
