@@ -6,7 +6,7 @@
 
 </a>
 
-<h6 align="center">(This library is available under a free and permissive license however, if you enjoy using <i>Dear PyGui</i> please consider becoming a <a href="https://github.com/hoffstadt/DearPyGui/wiki/Sponsors">Sponsor</a>)</h6>
+<h6 align="center">(This library is available under a free and permissive license however, if you are using Dear PyGui please consider becoming a <a href="https://github.com/hoffstadt/DearPyGui/wiki/Sponsors">Sponsor</a>)</h6>
 
 ![Python Version](https://img.shields.io/pypi/pyversions/dearpygui)
 [![PYPI](https://img.shields.io/pypi/v/dearpygui)](https://pypi.org/project/dearpygui/)
@@ -55,7 +55,8 @@ Ensure you have at least Python 3.6 64bit.
  [![Chat on Discord](https://img.shields.io/discord/736279277242417272?logo=discord)](https://discord.gg/tyE7Gu4)
 [![Reddit](https://img.shields.io/reddit/subreddit-subscribers/dearpygui?label=r%2Fdearpygui)](https://www.reddit.com/r/DearPyGui/)
  
-- [Documentation](https://github.com/hoffstadt/DearPyGui/wiki) comprehensive documentation, tutorials, and examples.
+- [Contributor Documentation](https://github.com/hoffstadt/DearPyGui/wiki)
+- [User Documentation](https://dearpygui.readthedocs.io/en/stable_08/) comprehensive documentation, tutorials, and examples.
 - [Development Roadmap](https://github.com/hoffstadt/DearPyGui/projects/4) major future features and changes.
 - [Feature Tracker](https://github.com/hoffstadt/DearPyGui/projects/5) all proposed new features.
 - [Bug Tracker](https://github.com/hoffstadt/DearPyGui/projects/1) current bugs and issues.
