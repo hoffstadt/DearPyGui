@@ -27,7 +27,6 @@ set(MARVEL_SOURCES
 	"src/core/mvInput.cpp"
 	"src/core/mvViewport.cpp"
 	"src/core/mvProfiler.cpp"
-	"src/core/mvLog.cpp"
 	"src/core/mvCallbackRegistry.cpp"
 
 	"src/core/CustomImGuiWidgets/mvKnobCustom.cpp"
@@ -87,6 +86,7 @@ set(MARVEL_SOURCES
 	"src/core/AppItems/misc/mvSpacer.cpp"
 
 	"src/core/AppItems/themes/mvTheme.cpp"
+	"src/core/AppItems/themes/mvThemeComponent.cpp"
 	"src/core/AppItems/themes/mvThemeColor.cpp"
 	"src/core/AppItems/themes/mvThemeStyle.cpp"
 
@@ -252,16 +252,12 @@ set(MARVEL_INCLUDE_DIR
 	"src/core/CustomImGuiWidgets"
 	"src/core/Modules"
 	"src/core/AppItems"
-	"src/core/DrawCommands"
-	"src/core/CppUtilities"
 	"src/core/PythonUtilities"
-	"src/core/Registries"
 	"src/core/Theming"
 	"src/core/Tooling"
 	"$<$<PLATFORM_ID:Windows>:${CMAKE_SOURCE_DIR}/DearPyGui/vendor/dirent/>"
 	"../Dependencies/ImGuiFileDialog/ImGuiFileDialog/"
 	"../Dependencies/ImGuiFileDialog/"
-	"../Dependencies/spdlog/include/"
 	"../Dependencies/glfw/include/"
 	"../Dependencies/glfw/deps/"
 	"../Dependencies/imgui/"

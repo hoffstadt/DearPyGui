@@ -152,7 +152,7 @@ namespace Marvel {
         //-----------------------------------------------------------------------------
         // App Settings
         //-----------------------------------------------------------------------------
-        void        turnOnDocking(bool dockSpace);	
+        void        turnOnDocking(bool dockSpace);  
         void        setViewport  (mvViewport* viewport) { _viewport = viewport; }
         mvViewport* getViewport  () { return _viewport; }
 

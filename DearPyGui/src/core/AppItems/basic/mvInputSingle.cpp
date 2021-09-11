@@ -189,30 +189,16 @@ namespace Marvel {
             ImGui::PushFont(fontptr);
         }
 
-        // handle enabled theming
-        if (_enabled)
+        // themes
+        if (auto classTheme = getClassThemeComponent())
+            static_cast<mvThemeComponent*>(classTheme.get())->draw(nullptr, 0.0f, 0.0f);
+
+        if (_theme)
         {
-            // push class theme (if it exists)
-            if (auto classTheme = getClassTheme())
-                static_cast<mvTheme*>(classTheme.get())->draw(nullptr, 0.0f, 0.0f);
-
-            // push item theme (if it exists)
-            if (_theme)
-                static_cast<mvTheme*>(_theme.get())->draw(nullptr, 0.0f, 0.0f);
+            static_cast<mvTheme*>(_theme.get())->setSpecificEnabled(_enabled);
+            static_cast<mvTheme*>(_theme.get())->setSpecificType((int)getType());
+            static_cast<mvTheme*>(_theme.get())->draw(nullptr, 0.0f, 0.0f);
         }
-
-        // handled disabled theming
-        else
-        {
-            // push class theme (if it exists)
-            if (auto classTheme = getClassDisabledTheme())
-                static_cast<mvTheme*>(classTheme.get())->draw(nullptr, 0.0f, 0.0f);
-
-            // push item theme (if it exists)
-            if (_disabledTheme)
-                static_cast<mvTheme*>(_disabledTheme.get())->draw(nullptr, 0.0f, 0.0f);
-        }
-
 
         //-----------------------------------------------------------------------------
         // draw
@@ -280,22 +266,15 @@ namespace Marvel {
         if (_font)
             ImGui::PopFont();
 
-        // handle popping styles
-        if (_enabled)
-        {
-            if (auto classTheme = getClassTheme())
-                static_cast<mvTheme*>(classTheme.get())->customAction();
+        // handle popping themes
+        if (auto classTheme = getClassThemeComponent())
+            static_cast<mvThemeComponent*>(classTheme.get())->customAction();
 
-            if (_theme)
-                static_cast<mvTheme*>(_theme.get())->customAction();
-        }
-        else
+        if (_theme)
         {
-            if (auto classTheme = getClassDisabledTheme())
-                static_cast<mvTheme*>(classTheme.get())->customAction();
-
-            if (_disabledTheme)
-                static_cast<mvTheme*>(_disabledTheme.get())->customAction();
+            static_cast<mvTheme*>(_theme.get())->setSpecificEnabled(_enabled);
+            static_cast<mvTheme*>(_theme.get())->setSpecificType((int)getType());
+            static_cast<mvTheme*>(_theme.get())->customAction();
         }
 
         if (_handlerRegistry)
@@ -426,30 +405,16 @@ namespace Marvel {
             ImGui::PushFont(fontptr);
         }
 
-        // handle enabled theming
-        if (_enabled)
+        // themes
+        if (auto classTheme = getClassThemeComponent())
+            static_cast<mvThemeComponent*>(classTheme.get())->draw(nullptr, 0.0f, 0.0f);
+
+        if (_theme)
         {
-            // push class theme (if it exists)
-            if (auto classTheme = getClassTheme())
-                static_cast<mvTheme*>(classTheme.get())->draw(nullptr, 0.0f, 0.0f);
-
-            // push item theme (if it exists)
-            if (_theme)
-                static_cast<mvTheme*>(_theme.get())->draw(nullptr, 0.0f, 0.0f);
+            static_cast<mvTheme*>(_theme.get())->setSpecificEnabled(_enabled);
+            static_cast<mvTheme*>(_theme.get())->setSpecificType((int)getType());
+            static_cast<mvTheme*>(_theme.get())->draw(nullptr, 0.0f, 0.0f);
         }
-
-        // handled disabled theming
-        else
-        {
-            // push class theme (if it exists)
-            if (auto classTheme = getClassDisabledTheme())
-                static_cast<mvTheme*>(classTheme.get())->draw(nullptr, 0.0f, 0.0f);
-
-            // push item theme (if it exists)
-            if (_disabledTheme)
-                static_cast<mvTheme*>(_disabledTheme.get())->draw(nullptr, 0.0f, 0.0f);
-        }
-
 
         //-----------------------------------------------------------------------------
         // draw
@@ -517,22 +482,15 @@ namespace Marvel {
         if (_font)
             ImGui::PopFont();
 
-        // handle popping styles
-        if (_enabled)
-        {
-            if (auto classTheme = getClassTheme())
-                static_cast<mvTheme*>(classTheme.get())->customAction();
+        // handle popping themes
+        if (auto classTheme = getClassThemeComponent())
+            static_cast<mvThemeComponent*>(classTheme.get())->customAction();
 
-            if (_theme)
-                static_cast<mvTheme*>(_theme.get())->customAction();
-        }
-        else
+        if (_theme)
         {
-            if (auto classTheme = getClassDisabledTheme())
-                static_cast<mvTheme*>(classTheme.get())->customAction();
-
-            if (_disabledTheme)
-                static_cast<mvTheme*>(_disabledTheme.get())->customAction();
+            static_cast<mvTheme*>(_theme.get())->setSpecificEnabled(_enabled);
+            static_cast<mvTheme*>(_theme.get())->setSpecificType((int)getType());
+            static_cast<mvTheme*>(_theme.get())->customAction();
         }
 
         if (_handlerRegistry)
@@ -575,26 +533,20 @@ namespace Marvel {
         if (PyObject* item = PyDict_GetItemString(dict, "step")) _step = ToInt(item);
         if (PyObject* item = PyDict_GetItemString(dict, "step_fast")) _step_fast = ToInt(item);
 
-        bool minmax_set = false;
         if (PyObject* item = PyDict_GetItemString(dict, "min_value")) 
         {
             _min = ToInt(item); 
             _min_clamped = true; 
-            minmax_set = true;
         }
 
         if (PyObject* item = PyDict_GetItemString(dict, "max_value")) 
         { 
             _max = ToInt(item); 
             _max_clamped = true; 
-            minmax_set = true;
         }
 
-        if (!minmax_set)
-        {
-            if (PyObject* item = PyDict_GetItemString(dict, "min_clamped")) _min_clamped = ToBool(item);
-            if (PyObject* item = PyDict_GetItemString(dict, "max_clamped")) _max_clamped = ToBool(item);
-        }
+        if (PyObject* item = PyDict_GetItemString(dict, "min_clamped")) _min_clamped = ToBool(item);
+        if (PyObject* item = PyDict_GetItemString(dict, "max_clamped")) _max_clamped = ToBool(item);
 
         if (wasEnabledLastFrameReset())
             _flags = _stor_flags;
@@ -633,26 +585,21 @@ namespace Marvel {
         if (PyObject* item = PyDict_GetItemString(dict, "step_fast")) _step_fast = ToFloat(item);
 
 
-        bool minmax_set = false;
         if (PyObject* item = PyDict_GetItemString(dict, "min_value"))
         {
             _min = ToFloat(item);
             _min_clamped = true;
-            minmax_set = true;
         }
 
         if (PyObject* item = PyDict_GetItemString(dict, "max_value"))
         {
             _max = ToFloat(item);
             _max_clamped = true;
-            minmax_set = true;
         }
 
-        if (!minmax_set)
-        {
-            if (PyObject* item = PyDict_GetItemString(dict, "min_clamped")) _min_clamped = ToBool(item);
-            if (PyObject* item = PyDict_GetItemString(dict, "max_clamped")) _max_clamped = ToBool(item);
-        }
+
+        if (PyObject* item = PyDict_GetItemString(dict, "min_clamped")) _min_clamped = ToBool(item);
+        if (PyObject* item = PyDict_GetItemString(dict, "max_clamped")) _max_clamped = ToBool(item);
 
         // helper for bit flipping
         auto flagop = [dict](const char* keyword, int flag, int& flags)

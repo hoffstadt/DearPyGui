@@ -44,9 +44,7 @@ namespace Marvel {
 		if (s_instance)
 			return s_instance;
 
-		mvLog::Init();
 		s_instance = new mvApp();
-		//s_id = MV_START_UUID;
 		return s_instance;
 	}
 
@@ -182,11 +180,9 @@ namespace Marvel {
 		constexpr_for<1, (int)mvAppItemType::ItemTypeCount, 1>(
 			[&](auto i) {
 				using item_type = typename mvItemTypeMap<i>::type;
-				item_type::s_class_theme = nullptr;
+				item_type::s_class_theme_component = nullptr;
 			});
 
-		mvLog::Cleanup();
-	
 	}
 
 	void mvApp::turnOnDocking(bool dockSpace)
@@ -486,7 +482,6 @@ namespace Marvel {
 		if (!mvApp::s_manualMutexControl) std::lock_guard<std::mutex> lk(mvApp::s_mutex);
 
 		Py_BEGIN_ALLOW_THREADS;
-		mvLog::Init();
 
 		if (mvApp::IsAppStarted())
 		{

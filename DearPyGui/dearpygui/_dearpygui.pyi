@@ -550,6 +550,10 @@ def add_theme_color(target : int ='', value : Union[List[int], Tuple[int]] ='', 
 	"""Undocumented function"""
 	...
 
+def add_theme_component(item_type : int ='', *, label: str ='', user_data: Any ='', use_internal_label: bool ='', tag: Union[int, str] ='', parent: Union[int, str] ='', before: Union[int, str] ='', enabled_state: bool ='') -> Union[int, str]:
+	"""Undocumented function"""
+	...
+
 def add_theme_style(target : int ='', x : float ='', y : float ='', *, label: str ='', user_data: Any ='', use_internal_label: bool ='', tag: Union[int, str] ='', parent: Union[int, str] ='', category: int ='') -> Union[int, str]:
 	"""Undocumented function"""
 	...
@@ -594,23 +598,11 @@ def bind_font(font : Union[int, str]) -> None:
 	"""Undocumented"""
 	...
 
-def bind_item_disabled_theme(item : Union[int, str], theme : Union[int, str]) -> None:
-	"""Undocumented"""
-	...
-
 def bind_item_handler_registry(item : Union[int, str], handler_registry : Union[int, str]) -> None:
 	"""Undocumented"""
 	...
 
 def bind_item_theme(item : Union[int, str], theme : Union[int, str]) -> None:
-	"""Undocumented"""
-	...
-
-def bind_item_type_disabled_theme(item : int, theme : Union[int, str]) -> None:
-	"""Undocumented"""
-	...
-
-def bind_item_type_theme(item : int, theme : Union[int, str]) -> None:
 	"""Undocumented"""
 	...
 
@@ -1075,6 +1067,10 @@ def show_imgui_demo() -> None:
 	...
 
 def show_implot_demo() -> None:
+	"""Undocumented"""
+	...
+
+def show_item_debug(item : Union[int, str]) -> None:
 	"""Undocumented"""
 	...
 
@@ -1640,6 +1636,7 @@ mvNodeStyleVar_PinTriangleSideLength=0
 mvNodeStyleVar_PinLineThickness=0
 mvNodeStyleVar_PinHoverRadius=0
 mvNodeStyleVar_PinOffset=0
+mvThemeComponent=0
 mvFontRangeHint=0
 mvFontRangeHint_Default=0
 mvFontRangeHint_Japanese=0

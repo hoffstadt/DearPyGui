@@ -163,5 +163,6 @@
 #include "fonts/mvCharRemap.h"
 
 #include "themes/mvTheme.h"
+#include "themes/mvThemeComponent.h"
 #include "themes/mvThemeColor.h"
 #include "themes/mvThemeStyle.h"

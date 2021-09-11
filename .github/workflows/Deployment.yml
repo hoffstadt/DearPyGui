@@ -59,7 +59,6 @@ jobs:
       shell: cmd
       run: |
         cd %GITHUB_WORKSPACE%
-        echo on
         echo ${{ github.event.inputs.version }} > version_number.txt
         echo cmake-build-local/DearPyGui/Release/_dearpygui.pyd > lib_location.txt
 

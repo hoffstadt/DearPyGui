@@ -4,6 +4,7 @@
 #include "mvItemRegistry.h"
 #include "mvLog.h"
 #include "mvPythonExceptions.h"
+#include "mvThemeComponent.h"
 
 namespace Marvel {
 
@@ -37,36 +38,49 @@ namespace Marvel {
 
 	void mvTheme::draw(ImDrawList* drawlist, float x, float y)
 	{
-		for (auto& childset : _children)
+		for (auto& child : _children[1])
 		{
-			for (auto& child : childset)
-				child->draw(drawlist, x, y);
+			auto comp = static_cast<mvThemeComponent*>(child.get());
+			if (comp->_specificType == (int)mvAppItemType::All || comp->_specificType == _specificType)
+			{
+				if (_specificEnabled == comp->isEnabled())
+				{
+					child->draw(drawlist, x, y);
+				}
+				
+			}
+			if(comp->_specificType == _specificType)
+			{
+				if (_specificEnabled == comp->isEnabled())
+				{
+					comp->_oldComponent = *comp->_specificComponentPtr;
+					*comp->_specificComponentPtr = child;
+				}
+			}
 		}
 	}
 
 	void mvTheme::customAction(void* data)
 	{
-		for (auto& childset : _children)
-		{
-			for (auto& child : childset)
-				child->customAction(data);
-		}
-	}
 
-	void mvTheme::alternativeCustomAction(void* data)
-	{
-		if (!_default_theme)
+		for (auto& child : _children[1])
 		{
-			_triggerAlternativeAction = false;
-			return;
+			auto comp = static_cast<mvThemeComponent*>(child.get());
+			if (comp->_specificType == (int)mvAppItemType::All)
+			{
+				if (_specificEnabled == comp->isEnabled())
+				{
+					child->customAction(data);
+				}
+			}
+			if (comp->_specificType == _specificType)
+			{
+				if (_specificEnabled == comp->isEnabled())
+				{
+					*comp->_specificComponentPtr = comp->_oldComponent;
+				}
+			}
 		}
-
-		for (auto& childset : _children)
-		{
-			for (auto& child : childset)
-				child->alternativeCustomAction(data);
-		}
-		_triggerAlternativeAction = false;
 	}
 
 	PyObject* mvTheme::bind_theme(PyObject* self, PyObject* args, PyObject* kwargs)
@@ -85,6 +99,7 @@ namespace Marvel {
 		if (item == 0)
 		{
 			mvApp::GetApp()->resetTheme();
+			mvApp::GetApp()->getItemRegistry().resetTheme();
 			return GetPyNone();
 		}
 
@@ -105,8 +120,7 @@ namespace Marvel {
 
 		mvTheme* graph = static_cast<mvTheme*>(aplot);
 
-		graph->_default_theme = true;
-		graph->_triggerAlternativeAction = true;
+		graph->_show = true;
 
 		return GetPyNone();
 	}
