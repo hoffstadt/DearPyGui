@@ -12,7 +12,7 @@ namespace Marvel {
         mvStyleWindow();
 
         [[nodiscard]] mvUUID getUUID() const override { return MV_TOOL_STYLE_UUID; }
-        [[nodiscard]] const char* getTitle() const override { return "Style Editor (Not Finished)"; }
+        [[nodiscard]] const char* getTitle() const override { return "Style Editor (Default Theme)"; }
 
     protected:
 

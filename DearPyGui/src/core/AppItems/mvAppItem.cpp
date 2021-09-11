@@ -276,6 +276,8 @@ namespace Marvel{
 		if (applicableState & MV_STATE_TOGGLED_OPEN) DebugItem("Item ToggledOpen:", _state.isItemToogledOpen(1) ? ts : fs);
 
 		ImGui::PopID();
+
+		renderSpecificDebugInfo();
 	}
 
 	void mvAppItem::renderDebugWindow()
