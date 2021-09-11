@@ -601,26 +601,20 @@ namespace Marvel {
         if (PyObject* item = PyDict_GetItemString(dict, "readonly")) ToBool(item) ? _stor_flags |= ImGuiInputTextFlags_ReadOnly : _stor_flags &= ~ImGuiInputTextFlags_ReadOnly;
         if (PyObject* item = PyDict_GetItemString(dict, "size")) _size = ToInt(item);
 
-        bool minmax_set = false;
         if (PyObject* item = PyDict_GetItemString(dict, "min_value"))
         {
             _min = ToInt(item);
             _min_clamped = true;
-            minmax_set = true;
         }
 
         if (PyObject* item = PyDict_GetItemString(dict, "max_value"))
         {
             _max = ToInt(item);
             _max_clamped = true;
-            minmax_set = true;
         }
 
-        if (!minmax_set)
-        {
-            if (PyObject* item = PyDict_GetItemString(dict, "min_clamped")) _min_clamped = ToBool(item);
-            if (PyObject* item = PyDict_GetItemString(dict, "max_clamped")) _max_clamped = ToBool(item);
-        }
+        if (PyObject* item = PyDict_GetItemString(dict, "min_clamped")) _min_clamped = ToBool(item);
+        if (PyObject* item = PyDict_GetItemString(dict, "max_clamped")) _max_clamped = ToBool(item);
 
         if (wasEnabledLastFrameReset())
             _flags = _stor_flags;
@@ -655,26 +649,20 @@ namespace Marvel {
         if (PyObject* item = PyDict_GetItemString(dict, "format")) _format = ToString(item);
         if (PyObject* item = PyDict_GetItemString(dict, "size")) _size = ToInt(item);
 
-        bool minmax_set = false;
         if (PyObject* item = PyDict_GetItemString(dict, "min_value"))
         {
             _min = ToFloat(item);
             _min_clamped = true;
-            minmax_set = true;
         }
 
         if (PyObject* item = PyDict_GetItemString(dict, "max_value"))
         {
             _max = ToFloat(item);
             _max_clamped = true;
-            minmax_set = true;
         }
 
-        if (!minmax_set)
-        {
-            if (PyObject* item = PyDict_GetItemString(dict, "min_clamped")) _min_clamped = ToBool(item);
-            if (PyObject* item = PyDict_GetItemString(dict, "max_clamped")) _max_clamped = ToBool(item);
-        }
+        if (PyObject* item = PyDict_GetItemString(dict, "min_clamped")) _min_clamped = ToBool(item);
+        if (PyObject* item = PyDict_GetItemString(dict, "max_clamped")) _max_clamped = ToBool(item);
 
         // helper for bit flipping
         auto flagop = [dict](const char* keyword, int flag, int& flags)
