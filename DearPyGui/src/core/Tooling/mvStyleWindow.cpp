@@ -71,17 +71,6 @@ namespace Marvel {
         ImGui::SameLine();
         { bool border = (style.PopupBorderSize > 0.0f);  if (ImGui::Checkbox("PopupBorder", &border)) { style.PopupBorderSize = border ? 1.0f : 0.0f; } }
 
-        // Save/Revert button
-        //if (ImGui::Button("Save Ref"))
-        //    *ref = ref_saved_style = style;
-        //ImGui::SameLine();
-        //if (ImGui::Button("Revert Ref"))
-        //    style = *ref;
-        //ImGui::SameLine();
-        //HelpMarker(
-        //    "Save/Revert in local non-persistent storage. Default Colors definition are not affected. "
-        //    "Use \"Export\" below to save them somewhere.");
-
         ImGui::Separator();
 
         if (ImGui::BeginTabBar("##tabs", ImGuiTabBarFlags_None))
@@ -181,27 +170,6 @@ namespace Marvel {
 
             if (ImGui::BeginTabItem("Colors"))
             {
-                //static int output_dest = 0;
-                //static bool output_only_modified = true;
-                //if (ImGui::Button("Export"))
-                //{
-                //    if (output_dest == 0)
-                //        ImGui::LogToClipboard();
-                //    else
-                //        ImGui::LogToTTY();
-                //    ImGui::LogText("ImVec4* colors = ImGui::GetStyle().Colors;" IM_NEWLINE);
-                //    for (int i = 0; i < ImGuiCol_COUNT; i++)
-                //    {
-                //        const ImVec4& col = style.Colors[i];
-                //        const char* name = ImGui::GetStyleColorName(i);
-                //        if (!output_only_modified || memcmp(&col, &ref->Colors[i], sizeof(ImVec4)) != 0)
-                //            ImGui::LogText("colors[ImGuiCol_%s]%*s= ImVec4(%.2ff, %.2ff, %.2ff, %.2ff);" IM_NEWLINE,
-                //                name, 23 - (int)strlen(name), "", col.x, col.y, col.z, col.w);
-                //    }
-                //    ImGui::LogFinish();
-                //}
-                //ImGui::SameLine(); ImGui::SetNextItemWidth(120); ImGui::Combo("##output_type", &output_dest, "To Clipboard\0To TTY\0");
-                //ImGui::Checkbox("Only Modified Colors", &output_only_modified);
 
                 static ImGuiTextFilter filter;
                 filter.Draw("Filter colors", ImGui::GetFontSize() * 16);
@@ -283,69 +251,6 @@ namespace Marvel {
 
                 ImGui::PopItemWidth();
                 ImGui::EndChild();
-
-                ImGui::EndTabItem();
-            }
-
-            if (ImGui::BeginTabItem("Rendering"))
-            {
-                ImGui::Checkbox("Anti-aliased lines", &style.AntiAliasedLines);
-                ImGui::SameLine();
-                HelpMarker("When disabling anti-aliasing lines, you'll probably want to disable borders in your style as well.");
-
-                ImGui::Checkbox("Anti-aliased lines use texture", &style.AntiAliasedLinesUseTex);
-                ImGui::SameLine();
-                HelpMarker("Faster lines using texture data. Require backend to render with bilinear filtering (not point/nearest filtering).");
-
-                ImGui::Checkbox("Anti-aliased fill", &style.AntiAliasedFill);
-                ImGui::PushItemWidth(ImGui::GetFontSize() * 8);
-                ImGui::DragFloat("Curve Tessellation Tolerance", &style.CurveTessellationTol, 0.02f, 0.10f, 10.0f, "%.2f");
-                if (style.CurveTessellationTol < 0.10f) style.CurveTessellationTol = 0.10f;
-
-                // When editing the "Circle Segment Max Error" value, draw a preview of its effect on auto-tessellated circles.
-                ImGui::DragFloat("Circle Tessellation Max Error", &style.CircleTessellationMaxError, 0.005f, 0.10f, 5.0f, "%.2f", ImGuiSliderFlags_AlwaysClamp);
-                if (ImGui::IsItemActive())
-                {
-                    ImGui::SetNextWindowPos(ImGui::GetCursorScreenPos());
-                    ImGui::BeginTooltip();
-                    ImGui::TextUnformatted("(R = radius, N = number of segments)");
-                    ImGui::Spacing();
-                    ImDrawList* draw_list = ImGui::GetWindowDrawList();
-                    const float min_widget_width = ImGui::CalcTextSize("N: MMM\nR: MMM").x;
-                    for (int n = 0; n < 8; n++)
-                    {
-                        const float RAD_MIN = 5.0f;
-                        const float RAD_MAX = 70.0f;
-                        const float rad = RAD_MIN + (RAD_MAX - RAD_MIN) * (float)n / (8.0f - 1.0f);
-
-                        ImGui::BeginGroup();
-
-                        ImGui::Text("R: %.f\nN: %d", rad, draw_list->_CalcCircleAutoSegmentCount(rad));
-
-                        const float canvas_width = IM_MAX(min_widget_width, rad * 2.0f);
-                        const float offset_x = floorf(canvas_width * 0.5f);
-                        const float offset_y = floorf(RAD_MAX);
-
-                        const ImVec2 p1 = ImGui::GetCursorScreenPos();
-                        draw_list->AddCircle(ImVec2(p1.x + offset_x, p1.y + offset_y), rad, ImGui::GetColorU32(ImGuiCol_Text));
-                        ImGui::Dummy(ImVec2(canvas_width, RAD_MAX * 2));
-
-                        /*
-                        const ImVec2 p2 = ImGui::GetCursorScreenPos();
-                        draw_list->AddCircleFilled(ImVec2(p2.x + offset_x, p2.y + offset_y), rad, ImGui::GetColorU32(ImGuiCol_Text));
-                        ImGui::Dummy(ImVec2(canvas_width, RAD_MAX * 2));
-                        */
-
-                        ImGui::EndGroup();
-                        ImGui::SameLine();
-                    }
-                    ImGui::EndTooltip();
-                }
-                ImGui::SameLine();
-                HelpMarker("When drawing circle primitives with \"num_segments == 0\" tesselation will be calculated automatically.");
-
-                ImGui::DragFloat("Global Alpha", &style.Alpha, 0.005f, 0.20f, 1.0f, "%.2f"); // Not exposing zero here so user doesn't "lose" the UI (zero alpha clips all widgets). But application code could have a toggle to switch between zero and non-zero.
-                ImGui::PopItemWidth();
 
                 ImGui::EndTabItem();
             }

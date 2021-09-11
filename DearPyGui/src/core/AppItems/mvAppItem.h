@@ -257,8 +257,9 @@ namespace Marvel {
         //-----------------------------------------------------------------------------
         // shows information in either the debug window or a separate window
         //-----------------------------------------------------------------------------
-        virtual void renderDebugInfo();
-        virtual void renderDebugWindow();
+        void         renderDebugInfo();           // for the debug tool
+        virtual void renderSpecificDebugInfo() {} // for the debug tool
+        virtual void renderDebugWindow();         // seperate window for user
 
         //-----------------------------------------------------------------------------
         // These methods handle setting the widget's value using PyObject*'s or
