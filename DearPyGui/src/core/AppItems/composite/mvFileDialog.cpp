@@ -78,7 +78,7 @@ namespace Marvel {
 			for (auto& item : _children[0])
 			{
 				item->draw(drawlist, x, y);
-				_filters.append(static_cast<mvFileExtension*>(item.get())->getFilter());
+				_filters.append(static_cast<mvFileExtension*>(item.get())->_filter);
 				_filters.append(",");
 			}
 

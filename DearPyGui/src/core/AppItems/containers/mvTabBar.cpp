@@ -105,12 +105,12 @@ namespace Marvel {
 			for (auto& item : _children[1])
 			{
 
-				if (*_value == item->getUUID() && _lastValue != *_value)
+				if (*_value == item->_uuid && _lastValue != *_value)
 					static_cast<mvTab*>(item.get())->addFlag(ImGuiTabItemFlags_SetSelected);
 
 				item->draw(drawlist, ImGui::GetCursorPosX(), ImGui::GetCursorPosY());
 
-				if (*_value == item->getUUID())
+				if (*_value == item->_uuid)
 					static_cast<mvTab*>(item.get())->removeFlag(ImGuiTabItemFlags_SetSelected);
 			}
 

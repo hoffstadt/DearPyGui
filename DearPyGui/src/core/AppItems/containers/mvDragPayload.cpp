@@ -45,12 +45,12 @@ namespace Marvel {
 		{
 			ImGui::SetDragDropPayload(_payloadType.c_str(), this, sizeof(mvDragPayload));
 
-			if (_parentPtr->getDragCallback())
+			if (_parentPtr->_dragCallback)
 			{
-				if(_parentPtr->getAlias().empty())
-					mvApp::GetApp()->getCallbackRegistry().addCallback(_parentPtr->getDragCallback(), _parent, GetPyNone(), _user_data);
+				if(_parentPtr->_alias.empty())
+					mvApp::GetApp()->getCallbackRegistry().addCallback(_parentPtr->_dragCallback, _parent, GetPyNone(), _user_data);
 				else
-					mvApp::GetApp()->getCallbackRegistry().addCallback(_parentPtr->getDragCallback(), _parentPtr->getAlias(), GetPyNone(), _user_data);
+					mvApp::GetApp()->getCallbackRegistry().addCallback(_parentPtr->_dragCallback, _parentPtr->_alias, GetPyNone(), _user_data);
 			}
 
 			for (auto& childset : _children)

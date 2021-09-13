@@ -66,12 +66,12 @@ namespace Marvel {
 		for (auto& item : _children[1])
 		{
 			// skip item if it's not shown
-			if (!item->isShown())
+			if (!item->_show)
 				continue;
 
 			// set item width
-			if (item->getWidth() != 0)
-				ImGui::SetNextItemWidth((float)item->getWidth());
+			if (item->_width != 0)
+				ImGui::SetNextItemWidth((float)item->_width);
 
 			if (item->shouldFocusNextFrame())
 			{
@@ -80,14 +80,14 @@ namespace Marvel {
 			}
 
 			auto oldCursorPos = ImGui::GetCursorPos();
-			if (item->isPosDirty())
+			if (item->_dirtyPos)
 				ImGui::SetCursorPos(item->getState().getItemPos());
 
 			item->getState().setPos({ ImGui::GetCursorPosX(), ImGui::GetCursorPosY() });
 
 			item->draw(drawlist, x, y);
 
-			if (item->isPosDirty())
+			if (item->_dirtyPos)
 				ImGui::SetCursorPos(oldCursorPos);
 
 			item->getState().update();

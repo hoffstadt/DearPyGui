@@ -223,7 +223,7 @@ namespace Marvel{
 		std::string sizey = std::to_string(_state.getItemRectSize().y);
 
 		ImGui::PushID(this);
-		DebugItem("Label:", _specificedlabel.c_str());
+		DebugItem("Label:", _specifiedLabel.c_str());
 		DebugItem("ID:", std::to_string(_uuid).c_str());
 		DebugItem("Alias:", _alias.c_str());
 		DebugItem("Type:", getTypeString());
@@ -285,7 +285,7 @@ namespace Marvel{
 
 		ImGui::SetNextWindowSize(ImVec2(500.0f, 500.0f), ImGuiCond_FirstUseEver);
 
-		if (!ImGui::Begin(_specificedlabel.c_str(), &_showDebug))
+		if (!ImGui::Begin(_specifiedLabel.c_str(), &_showDebug))
 		{
 			ImGui::End();
 
@@ -320,13 +320,13 @@ namespace Marvel{
 		setHeight(item->_height);
 		//setPos(item->_state.getItemPos());
 
-		if (!item->_specificedlabel.empty())
+		if (!item->_specifiedLabel.empty())
 		{
-			_specificedlabel = item->_specificedlabel;
+			_specifiedLabel = item->_specifiedLabel;
 			if (_useInternalLabel)
-				_internalLabel = item->_specificedlabel + "###" + std::to_string(_uuid);
+				_internalLabel = item->_specifiedLabel + "###" + std::to_string(_uuid);
 			else
-				_internalLabel = item->_specificedlabel;
+				_internalLabel = item->_specifiedLabel;
 		}
 
 		if (_enabled) _enabledLastFrame = true;
@@ -888,7 +888,7 @@ namespace Marvel{
 
 	void mvAppItem::setLabel(const std::string& value)
 	{
-		_specificedlabel = value;
+		_specifiedLabel = value;
 		if (_useInternalLabel)
 			_internalLabel = value + "###" + std::to_string(_uuid);
 		else
@@ -1337,17 +1337,17 @@ namespace Marvel{
 		PyDict_SetItemString(dict, "target", mvPyObject(ToPyInt(getTarget())));
 
 		if (_parentPtr)
-			PyDict_SetItemString(dict, "parent", mvPyObject(ToPyUUID(_parentPtr->getUUID())));
+			PyDict_SetItemString(dict, "parent", mvPyObject(ToPyUUID(_parentPtr->_uuid)));
 		else
 			PyDict_SetItemString(dict, "parent", mvPyObject(GetPyNone()));
 
 		if (_theme)
-			PyDict_SetItemString(dict, "theme", mvPyObject(ToPyUUID(_theme->getUUID())));
+			PyDict_SetItemString(dict, "theme", mvPyObject(ToPyUUID(_theme->_uuid)));
 		else
 			PyDict_SetItemString(dict, "theme", mvPyObject(GetPyNone()));
 
 		if (_font)
-			PyDict_SetItemString(dict, "font", mvPyObject(ToPyUUID(_font->getUUID())));
+			PyDict_SetItemString(dict, "font", mvPyObject(ToPyUUID(_font->_uuid)));
 		else
 			PyDict_SetItemString(dict, "font", mvPyObject(GetPyNone()));
 
@@ -1379,7 +1379,7 @@ namespace Marvel{
 		// config py objects
 		mvPyObject py_filter_key = ToPyString(_filter);
 		mvPyObject py_payload_type = ToPyString(_payloadType);
-		mvPyObject py_label = ToPyString(_specificedlabel);
+		mvPyObject py_label = ToPyString(_specifiedLabel);
 		mvPyObject py_use_internal_label = ToPyBool(_useInternalLabel);
 		mvPyObject py_source = ToPyUUID(_source);
 		mvPyObject py_show = ToPyBool(_show);
@@ -1511,7 +1511,7 @@ namespace Marvel{
 
 		for (auto& stage : staging)
 		{
-			if(stage->getUUID() == source)
+			if(stage->_uuid == source)
 			{ 
 				staging_container = stage;
 				stage_found = true;

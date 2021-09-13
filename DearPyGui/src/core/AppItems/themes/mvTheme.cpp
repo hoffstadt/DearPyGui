@@ -43,7 +43,7 @@ namespace Marvel {
 			auto comp = static_cast<mvThemeComponent*>(child.get());
 			if (comp->_specificType == (int)mvAppItemType::All || comp->_specificType == _specificType)
 			{
-				if (_specificEnabled == comp->isEnabled())
+				if (_specificEnabled == comp->_enabled)
 				{
 					child->draw(drawlist, x, y);
 				}
@@ -51,7 +51,7 @@ namespace Marvel {
 			}
 			if(comp->_specificType == _specificType)
 			{
-				if (_specificEnabled == comp->isEnabled())
+				if (_specificEnabled == comp->_enabled)
 				{
 					comp->_oldComponent = *comp->_specificComponentPtr;
 					*comp->_specificComponentPtr = child;
@@ -68,14 +68,14 @@ namespace Marvel {
 			auto comp = static_cast<mvThemeComponent*>(child.get());
 			if (comp->_specificType == (int)mvAppItemType::All)
 			{
-				if (_specificEnabled == comp->isEnabled())
+				if (_specificEnabled == comp->_enabled)
 				{
 					child->customAction(data);
 				}
 			}
 			if (comp->_specificType == _specificType)
 			{
-				if (_specificEnabled == comp->isEnabled())
+				if (_specificEnabled == comp->_enabled)
 				{
 					*comp->_specificComponentPtr = comp->_oldComponent;
 				}

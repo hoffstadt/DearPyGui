@@ -141,10 +141,10 @@ namespace Marvel {
 			{
 
 				item->draw(drawlist, ImGui::GetCursorPosX(), ImGui::GetCursorPosY());
-				if (item->isTracked())
+				if (item->_tracked)
 				{
-					ImGui::SetScrollHereX(item->getTrackOffset());
-					ImGui::SetScrollHereY(item->getTrackOffset());
+					ImGui::SetScrollHereX(item->_trackOffset);
+					ImGui::SetScrollHereY(item->_trackOffset);
 				}
 
 			}
@@ -221,9 +221,9 @@ namespace Marvel {
 				{
 					auto payloadActual = static_cast<const mvDragPayload*>(payload->Data);
 					if (_alias.empty())
-						mvApp::GetApp()->getCallbackRegistry().addCallback(getDropCallback(), _uuid, payloadActual->getDragData(), nullptr);
+						mvApp::GetApp()->getCallbackRegistry().addCallback(_dropCallback,_uuid, payloadActual->getDragData(), nullptr);
 					else
-						mvApp::GetApp()->getCallbackRegistry().addCallback(getDropCallback(), _alias, payloadActual->getDragData(), nullptr);
+						mvApp::GetApp()->getCallbackRegistry().addCallback(_dropCallback,_alias, payloadActual->getDragData(), nullptr);
 				}
 
 				ImGui::EndDragDropTarget();

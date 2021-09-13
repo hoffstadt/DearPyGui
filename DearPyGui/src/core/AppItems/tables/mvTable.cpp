@@ -188,7 +188,7 @@ namespace Marvel {
 
 		auto row_renderer = [&](mvAppItem* row)
 		{
-			ImGui::TableNextRow(0, row->getHeight());
+			ImGui::TableNextRow(0, row->_height);
 
 			//int row_index = ImGui::TableGetRowIndex() + _tableHeader ? 1 : 0;
 			int row_index = row->getLocation();
@@ -226,7 +226,7 @@ namespace Marvel {
 			for (auto& item : _children[0])
 			{
 				// skip item if it's not shown
-				if (!item->isShown())
+				if (!item->_show)
 					continue;
 
 				item->draw(drawlist, ImGui::GetCursorPosX(), ImGui::GetCursorPosY());
@@ -249,7 +249,7 @@ namespace Marvel {
 						// generate id map for columns
 						std::unordered_map<ImGuiID, mvUUID> idMap;
 						for (size_t i = 0; i < _children[0].size(); i++)
-							idMap[static_cast<mvTableColumn*>(_children[0][i].get())->_id] = _children[0][i]->getUUID();
+							idMap[static_cast<mvTableColumn*>(_children[0][i].get())->_id] = _children[0][i]->_uuid;
 
 						std::vector<SortSpec> specs;
 						for (int i = 0; i < sorts_specs->SpecsCount; i++)
@@ -283,7 +283,7 @@ namespace Marvel {
 			{
 				for (auto& row : _children[1])
 				{
-					if (!_imguiFilter.PassFilter(row->getFilter().c_str()))
+					if (!_imguiFilter.PassFilter(row->_filter.c_str()))
 						continue;
 					row_renderer(row.get());
 				}

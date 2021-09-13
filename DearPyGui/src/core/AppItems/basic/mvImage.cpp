@@ -128,10 +128,10 @@ namespace Marvel {
 
 				// if width/height is not set by user, use texture dimensions
 				if (_width == 0)
-					_width = _texture->getWidth();
+					_width = _texture->_width;
 
 				if (_height == 0)
-					_height = _texture->getHeight();
+					_height = _texture->_height;
 
 				void* texture = nullptr;
 
@@ -197,7 +197,7 @@ namespace Marvel {
 				if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload(_payloadType.c_str()))
 				{
 					auto payloadActual = static_cast<const mvDragPayload*>(payload->Data);
-					mvApp::GetApp()->getCallbackRegistry().addCallback(getDropCallback(), _uuid, payloadActual->getDragData(), nullptr);
+					mvApp::GetApp()->getCallbackRegistry().addCallback(_dropCallback,_uuid, payloadActual->getDragData(), nullptr);
 				}
 
 				ImGui::EndDragDropTarget();

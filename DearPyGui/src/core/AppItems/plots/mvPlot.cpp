@@ -160,7 +160,7 @@ namespace Marvel {
 
 			case(2):
 				_y1flags = child->getFlags();
-				if (child->isShown())
+				if (child->_show)
 					addFlag(ImPlotFlags_YAxis2);
 				else
 					removeFlag(ImPlotFlags_YAxis2);
@@ -168,7 +168,7 @@ namespace Marvel {
 
 			case(3):
 				_y2flags = child->getFlags();
-				if (child->isShown())
+				if (child->_show)
 					addFlag(ImPlotFlags_YAxis3);
 				else
 					removeFlag(ImPlotFlags_YAxis3);
@@ -195,23 +195,23 @@ namespace Marvel {
 			switch (i)
 			{
 			case(0):
-				_xaxisName = axis->getSpecifiedLabel();
+				_xaxisName = axis->_specifiedLabel;
 				break;
 
 			case(1):
-				_y1axisName = axis->getSpecifiedLabel();
+				_y1axisName = axis->_specifiedLabel;
 				break;
 
 			case(2):
-				_y2axisName = axis->getSpecifiedLabel();
+				_y2axisName = axis->_specifiedLabel;
 				break;
 
 			case(3):
-				_y3axisName = axis->getSpecifiedLabel();
+				_y3axisName = axis->_specifiedLabel;
 				break;
 
 			default:
-				_y1axisName = axis->getSpecifiedLabel();
+				_y1axisName = axis->_specifiedLabel;
 				break;
 			}
 		}
@@ -258,7 +258,7 @@ namespace Marvel {
 		for (auto& item : _children[1])
 		{
 			// skip item if it's not shown
-			if (!item->isShown())
+			if (!item->_show)
 				continue;
 			item->customAction();
 		}
@@ -295,7 +295,7 @@ namespace Marvel {
 			for (auto& item : _children[2])
 			{
 				// skip item if it's not shown
-				if (!item->isShown())
+				if (!item->_show)
 					continue;
 				
 				//item->draw(ImPlot::GetPlotDrawList(), ImPlot::GetPlotPos().x, ImPlot::GetPlotPos().y);
@@ -358,9 +358,9 @@ namespace Marvel {
 					{
 						auto payloadActual = static_cast<const mvDragPayload*>(payload->Data);
 						if (_alias.empty())
-							mvApp::GetApp()->getCallbackRegistry().addCallback(getDropCallback(), _uuid, payloadActual->getDragData(), nullptr);
+							mvApp::GetApp()->getCallbackRegistry().addCallback(_dropCallback,_uuid, payloadActual->getDragData(), nullptr);
 						else
-							mvApp::GetApp()->getCallbackRegistry().addCallback(getDropCallback(), _alias, payloadActual->getDragData(), nullptr);
+							mvApp::GetApp()->getCallbackRegistry().addCallback(_dropCallback,_alias, payloadActual->getDragData(), nullptr);
 					}
 
 					ImPlot::EndDragDropTarget();

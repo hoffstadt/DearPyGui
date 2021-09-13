@@ -115,7 +115,7 @@ namespace Marvel {
 
         ScopedID id(_uuid);
 
-        if (KnobFloat(_specificedlabel.c_str(), _value.get(), _min, _max, _step))
+        if (KnobFloat(_specifiedLabel.c_str(), _value.get(), _min, _max, _step))
         {
             auto value = *_value;
             mvApp::GetApp()->getCallbackRegistry().submitCallback([=]() {
@@ -175,9 +175,9 @@ namespace Marvel {
                 {
                     auto payloadActual = static_cast<const mvDragPayload*>(payload->Data);
                     if (_alias.empty())
-                        mvApp::GetApp()->getCallbackRegistry().addCallback(getDropCallback(), _uuid, payloadActual->getDragData(), nullptr);
+                        mvApp::GetApp()->getCallbackRegistry().addCallback(_dropCallback,_uuid, payloadActual->getDragData(), nullptr);
                     else
-                        mvApp::GetApp()->getCallbackRegistry().addCallback(getDropCallback(), _alias, payloadActual->getDragData(), nullptr);
+                        mvApp::GetApp()->getCallbackRegistry().addCallback(_dropCallback,_alias, payloadActual->getDragData(), nullptr);
                 }
 
                 ImGui::EndDragDropTarget();

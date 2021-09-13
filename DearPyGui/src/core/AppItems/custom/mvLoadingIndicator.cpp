@@ -112,9 +112,9 @@ namespace Marvel {
             ScopedID id(_uuid);
 
             if (_style == 0)
-                LoadingIndicatorCircle(_specificedlabel.c_str(), _radius, _mainColor, _optionalColor, _circleCount, _speed);
+                LoadingIndicatorCircle(_specifiedLabel.c_str(), _radius, _mainColor, _optionalColor, _circleCount, _speed);
             else
-                LoadingIndicatorCircle2(_specificedlabel.c_str(), _radius, _thickness, _mainColor);
+                LoadingIndicatorCircle2(_specifiedLabel.c_str(), _radius, _thickness, _mainColor);
         }
 
         //-----------------------------------------------------------------------------
@@ -165,9 +165,9 @@ namespace Marvel {
                 {
                     auto payloadActual = static_cast<const mvDragPayload*>(payload->Data);
                     if (_alias.empty())
-                        mvApp::GetApp()->getCallbackRegistry().addCallback(getDropCallback(), _uuid, payloadActual->getDragData(), nullptr);
+                        mvApp::GetApp()->getCallbackRegistry().addCallback(_dropCallback,_uuid, payloadActual->getDragData(), nullptr);
                     else
-                        mvApp::GetApp()->getCallbackRegistry().addCallback(getDropCallback(), _alias, payloadActual->getDragData(), nullptr);
+                        mvApp::GetApp()->getCallbackRegistry().addCallback(_dropCallback,_alias, payloadActual->getDragData(), nullptr);
                 }
 
                 ImGui::EndDragDropTarget();

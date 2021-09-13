@@ -83,9 +83,9 @@ namespace Marvel {
 		ScopedID id(_uuid);
 
 		if (_clamped)
-			ImPlot::AnnotateClamped((*_value.get())[0], (*_value.get())[1], _pixOffset, _color.toVec4(), "%s", _specificedlabel.c_str());
+			ImPlot::AnnotateClamped((*_value.get())[0], (*_value.get())[1], _pixOffset, _color.toVec4(), "%s", _specifiedLabel.c_str());
 		else
-			ImPlot::Annotate((*_value.get())[0], (*_value.get())[1], _pixOffset, _color.toVec4(), "%s", _specificedlabel.c_str());
+			ImPlot::Annotate((*_value.get())[0], (*_value.get())[1], _pixOffset, _color.toVec4(), "%s", _specifiedLabel.c_str());
 
 	}
 

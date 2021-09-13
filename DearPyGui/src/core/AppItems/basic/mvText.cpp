@@ -141,7 +141,7 @@ namespace Marvel {
 			{
 				ImGui::SameLine();
 				ImGui::SetCursorPos({ valueEndX + style.ItemInnerSpacing.x, textVertCenter });
-				ImGui::TextUnformatted(_specificedlabel.c_str());
+				ImGui::TextUnformatted(_specifiedLabel.c_str());
 
 				if (ImGui::IsItemVisible())_state._visible = true;
 				if (ImGui::IsItemHovered())_state._hovered = true;
@@ -193,9 +193,9 @@ namespace Marvel {
 					auto payloadActual = static_cast<const mvDragPayload*>(payload->Data);
 
 					if (_alias.empty())
-						mvApp::GetApp()->getCallbackRegistry().addCallback(getDropCallback(), _uuid, payloadActual->getDragData(), nullptr);
+						mvApp::GetApp()->getCallbackRegistry().addCallback(_dropCallback,_uuid, payloadActual->getDragData(), nullptr);
 					else
-						mvApp::GetApp()->getCallbackRegistry().addCallback(getDropCallback(), _alias, payloadActual->getDragData(), nullptr);
+						mvApp::GetApp()->getCallbackRegistry().addCallback(_dropCallback,_alias, payloadActual->getDragData(), nullptr);
 				}
 
 				ImGui::EndDragDropTarget();

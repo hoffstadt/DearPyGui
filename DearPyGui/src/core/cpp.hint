@@ -29,7 +29,7 @@ static PyObject* parser(PyObject* self, PyObject* args, PyObject* kwargs)\
 	if(id == 0) id = mvApp::GenerateUUID();\
 	item = mvApp::GetApp()->getItemRegistry().getItemFromPool(x);\
 	if(item == nullptr) item = CreateRef<mvItemTypeMap<(int)x>::type>(id);\
-	else item->setUUID(id);\
+	else item->_uuid;\
 	item->setAlias(alias);\
 	mvApp::GetApp()->getItemRegistry().tryBoundTemplateRegistry(item.get());\
 	item->checkArgs(args, kwargs, #parser);\

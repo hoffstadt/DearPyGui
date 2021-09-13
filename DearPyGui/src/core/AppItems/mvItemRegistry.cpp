@@ -239,7 +239,7 @@ namespace Marvel {
 		{
 			for (size_t i = 0; i < _windowRoots.size(); i++)
 			{
-				if (_windowRoots[i]->getUUID() == uuid)
+				if (_windowRoots[i]->_uuid == uuid)
 				{
 					mvRef<mvAppItem> oldItem = _windowRoots.back();
 					_windowRoots[_windowRoots.size() - 1] = _windowRoots[i];
@@ -711,14 +711,14 @@ namespace Marvel {
 	{
 		if (mvAppItem::DoesItemHaveFlag(item, MV_ITEM_DESC_CONTAINER))
 		{
-		_cachedContainersID[_cachedContainerIndex] = item->getUUID();
+		_cachedContainersID[_cachedContainerIndex] = item->_uuid;
 		_cachedContainersPTR[_cachedContainerIndex] = item;
 		_cachedContainerIndex++;
 		if (_cachedContainerIndex == CachedContainerCount)
 			_cachedContainerIndex = 0;
 		}
 
-		_cachedItemsID[_cachedItemsIndex] = item->getUUID();
+		_cachedItemsID[_cachedItemsIndex] = item->_uuid;
 		_cachedItemsPTR[_cachedItemsIndex] = item;
 		_cachedItemsIndex++;
 		if (_cachedItemsIndex == CachedContainerCount)
@@ -935,20 +935,20 @@ namespace Marvel {
 		//---------------------------------------------------------------------------
 		if (mvAppItem::DoesItemHaveFlag(item.get(), MV_ITEM_DESC_ROOT))
 		{
-			_lastRootAdded = item->getUUID();
-			_lastContainerAdded = item->getUUID();
+			_lastRootAdded = item->_uuid;
+			_lastContainerAdded = item->_uuid;
 		}
 		else if (mvAppItem::DoesItemHaveFlag(item.get(), MV_ITEM_DESC_CONTAINER))
-			_lastContainerAdded = item->getUUID();
+			_lastContainerAdded = item->_uuid;
 
-		_lastItemAdded = item->getUUID();
+		_lastItemAdded = item->_uuid;
 
 		cacheItem(item.get());
 
 		//---------------------------------------------------------------------------
 		// STEP 1: check if an item with this name exists (NO LONGER NEEDED)
 		//---------------------------------------------------------------------------
-		//if (getItem(item->getUUID()))
+		//if (getItem(item->_uuid))
 		//{
 		//	mvThrowPythonEr1ror(mvErrorCode::mvNon1e, "Item must have a unique name.");
 		//	MV_ITEM_REGISTRY_WARN("Item must have a unique name.");
@@ -1057,7 +1057,7 @@ namespace Marvel {
 		// STEP 9: handle "stack" style adding
 		//---------------------------------------------------------------------------
 		if(mvApp::IsAppStarted())
-			return parentPtr->addRuntimeChild(parentPtr->getUUID(), 0, item);
+			return parentPtr->addRuntimeChild(parentPtr->_uuid, 0, item);
 		return addItem(item);
 	}
 
@@ -1201,7 +1201,7 @@ namespace Marvel {
 		bool item_found = false;
 		for (auto& item : _stagingRoots)
 		{
-			if (item->getUUID() == uuid && item->getType() == mvAppItemType::mvStage)
+			if (item->_uuid == uuid && item->getType() == mvAppItemType::mvStage)
 			{
 				for (auto& children : item->_children)
 				{
@@ -1312,7 +1312,7 @@ namespace Marvel {
 		bool exists = false;
 		for (const auto& debug : _debugWindows)
 		{
-			if (debug->getUUID() == uuid)
+			if (debug->_uuid == uuid)
 			{
 				exists = true;
 				break;
@@ -1328,7 +1328,7 @@ namespace Marvel {
 
 		for (auto& debug : oldWindows)
 		{
-			if (debug->getUUID() != uuid)
+			if (debug->_uuid != uuid)
 				_debugWindows.push_back(debug);
 		}
 	}
@@ -1340,7 +1340,7 @@ namespace Marvel {
 
 		auto item = mvApp::GetApp()->getItemRegistry().popParent();
 		if (item)
-			return ToPyUUID(item->getUUID());
+			return ToPyUUID(item->_uuid);
 		else
 			return GetPyNone();
 
@@ -1359,7 +1359,7 @@ namespace Marvel {
 
 		auto item = mvApp::GetApp()->getItemRegistry().topParent();
 		if (item)
-			return ToPyUUID(item->getUUID());
+			return ToPyUUID(item->_uuid);
 		else
 			return GetPyNone();
 	}
@@ -1557,7 +1557,7 @@ namespace Marvel {
 		{
 			for (auto& child : children)
 			{
-				if (child->getUUID() == item)
+				if (child->_uuid == item)
 				{
 					newchildren.emplace_back(child);
 					break;

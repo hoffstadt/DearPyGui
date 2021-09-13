@@ -147,8 +147,8 @@ namespace Marvel {
 						int i2 = static_cast<mvNodeLink*>(child.get())->getId2();
 						if (i1 == attr_id || i2 == attr_id)
 						{
-							mvApp::GetApp()->getItemRegistry().deleteItem(child->getUUID());
-							mvApp::GetApp()->getItemRegistry().cleanUpItem(child->getUUID());
+							mvApp::GetApp()->getItemRegistry().deleteItem(child->_uuid);
+							mvApp::GetApp()->getItemRegistry().cleanUpItem(child->_uuid);
 						}	
 					}
 				}
@@ -167,7 +167,7 @@ namespace Marvel {
 			    int i2 = static_cast<mvNode*>(child.get())->getId();
 				//if (static_cast<mvNode*>(child.get())->getId() == item)
 				if (i1 == i2)
-					result.push_back(child->getUUID());
+					result.push_back(child->_uuid);
 			}
 		}
 
@@ -186,7 +186,7 @@ namespace Marvel {
 					int i1 = item;
 					int i2 = static_cast<mvNodeLink*>(child.get())->getId();
 					if (i1 == i2)
-						result.push_back(child->getUUID());
+						result.push_back(child->_uuid);
 				}
 			}
 		}
@@ -208,8 +208,8 @@ namespace Marvel {
 				continue;
 
 			// set item width
-			if (item->getWidth() != 0)
-				ImGui::SetNextItemWidth((float)item->getWidth());
+			if (item->_width != 0)
+				ImGui::SetNextItemWidth((float)item->_width);
 
 			item->draw(drawlist, x, y);
 
@@ -246,8 +246,8 @@ namespace Marvel {
 				continue;
 
 			// set item width
-			if (item->getWidth() != 0)
-				ImGui::SetNextItemWidth((float)item->getWidth());
+			if (item->_width != 0)
+				ImGui::SetNextItemWidth((float)item->_width);
 
 			item->draw(drawlist, x, y);
 		}
@@ -306,10 +306,10 @@ namespace Marvel {
 				for (const auto& grandchild : child->getChildren(1))
 				{
 					if (static_cast<mvNodeAttribute*>(grandchild.get())->getId() == start_attr)
-						node1 = grandchild->getUUID();
+						node1 = grandchild->_uuid;
 
 					if (static_cast<mvNodeAttribute*>(grandchild.get())->getId() == end_attr)
-						node2 = grandchild->getUUID();
+						node2 = grandchild->_uuid;
 				}
 			}
 
@@ -342,7 +342,7 @@ namespace Marvel {
 				{
 					if (static_cast<const mvNodeLink*>(item.get())->_id0 == destroyed_attr)
 					{
-						name = item->getUUID();
+						name = item->_uuid;
 						break;
 					}
 				}

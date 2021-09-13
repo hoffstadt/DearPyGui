@@ -207,7 +207,7 @@ namespace Marvel {
 					for (auto& item : childset)
 					{
 						// skip item if it's not shown
-						if (!item->isShown())
+						if (!item->_show)
 							continue;
 						item->draw(drawlist, ImPlot::GetPlotPos().x, ImPlot::GetPlotPos().y);
 						item->getState().update();

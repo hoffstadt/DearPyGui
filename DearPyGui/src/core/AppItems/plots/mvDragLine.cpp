@@ -50,14 +50,14 @@ namespace Marvel {
 
 		if (_vertical)
 		{
-			if (ImPlot::DragLineX(_specificedlabel.c_str(), _value.get(), _show_label, _color, _thickness))
+			if (ImPlot::DragLineX(_specifiedLabel.c_str(), _value.get(), _show_label, _color, _thickness))
 			{
 				mvApp::GetApp()->getCallbackRegistry().addCallback(_callback, _uuid, nullptr, _user_data);
 			}
 		}
 		else
 		{
-			if (ImPlot::DragLineY(_specificedlabel.c_str(), _value.get(), _show_label, _color, _thickness))
+			if (ImPlot::DragLineY(_specifiedLabel.c_str(), _value.get(), _show_label, _color, _thickness))
 			{
 				mvApp::GetApp()->getCallbackRegistry().addCallback(_callback, _uuid, nullptr, _user_data);
 			}

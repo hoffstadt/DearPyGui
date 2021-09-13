@@ -129,7 +129,7 @@ namespace Marvel {
 
 		for (auto& child : _children[1])
 		{
-			if (child->getUUID() == itemset)
+			if (child->_uuid == itemset)
 			{
 				static_cast<mvItemSet*>(child.get())->returnItem(item);
 				break;

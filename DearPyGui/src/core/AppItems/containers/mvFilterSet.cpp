@@ -64,7 +64,7 @@ namespace Marvel {
 			{
 				for (auto& child : childset)
 				{
-					if (!_imguiFilter.PassFilter(child->getFilter().c_str()))
+					if (!_imguiFilter.PassFilter(child->_filter.c_str()))
 						continue;
 
 					child->draw(drawlist, ImGui::GetCursorPosX(), ImGui::GetCursorPosY());

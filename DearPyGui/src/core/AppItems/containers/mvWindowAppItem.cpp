@@ -338,7 +338,7 @@ namespace Marvel {
 		for (auto& item : _children[0])
 		{
 			// skip item if it's not shown
-			if (!item->isShown())
+			if (!item->_show)
 				continue;
 
 			item->draw(this_drawlist, startx, starty);
@@ -351,15 +351,15 @@ namespace Marvel {
 		{
 
 			item->draw(drawlist, ImGui::GetCursorPosX(), ImGui::GetCursorPosY());
-			if (item->isTracked())
-				ImGui::SetScrollHereY(item->getTrackOffset());
+			if (item->_tracked)
+				ImGui::SetScrollHereY(item->_trackOffset);
 
 		}
 
 		for (auto& item : _children[2])
 		{
 			// skip item if it's not shown
-			if (!item->isShown())
+			if (!item->_show)
 				continue;
 
 			item->draw(this_drawlist, startx, starty);

@@ -298,36 +298,13 @@ namespace Marvel {
         //-----------------------------------------------------------------------------
         void                    setCallback(PyObject* callback);
         [[nodiscard]] PyObject* getCallback(bool ignore_enabled = true);  // returns the callback. If ignore_enable false and item is disabled then no callback will be returned.
-        [[nodiscard]] PyObject* getCallbackData() { return _user_data; }
-
+        
         //-----------------------------------------------------------------------------
         // drag & drop
         //-----------------------------------------------------------------------------
         void                    setPayloadType (const std::string& payloadType);
         void                    setDragCallback(PyObject* callback);
         void                    setDropCallback(PyObject* callback);
-        [[nodiscard]] PyObject* getDragCallback() { return _dragCallback; }
-        [[nodiscard]] PyObject* getDropCallback() { return _dropCallback; }
-
-        //-----------------------------------------------------------------------------
-        // dirty flags
-        //-----------------------------------------------------------------------------
-        bool isPosDirty() const { return _dirtyPos; }
-
-        //-----------------------------------------------------------------------------
-        // config getters
-        //-----------------------------------------------------------------------------
-        const std::string& getFilter()         const { return _filter; }
-        const std::string& getLabel()          const { return _internalLabel; }
-        const std::string& getSpecifiedLabel() const { return _specificedlabel; }
-        bool               isEnabled()         const { return _enabled; }
-        int                getWidth()          const { return _width; }
-        int                getHeight()         const { return _height; }
-        mvUUID             getUUID()           const { return _uuid; }
-        float              getTrackOffset()    const { return _trackOffset; }
-        bool               isTracked()         const { return _tracked; }
-        bool               isShown()           const { return _show; }
-        const std::string& getAlias()          const { return _alias; }
 
         //-----------------------------------------------------------------------------
         // config setters
@@ -369,8 +346,7 @@ namespace Marvel {
         void                           setPos(const ImVec2& pos);
         void                           registerWindowFocusing(); // only useful for imgui window types
         void                           setPoolInfo(mvUUID pool, mvUUID itemSet);
-        std::pair<mvUUID, mvUUID>      getPoolInfo() const;
-        void                           setUUID(mvUUID id) { _uuid = id; }
+        std::pair<mvUUID, mvUUID>      getPoolInfo() const;    
 
     private:
 
@@ -396,7 +372,7 @@ namespace Marvel {
         void             resetState();
         mvRef<mvAppItem> stealChild(mvUUID uuid); // steals a child (used for moving)
        
-    protected:
+    public:
 
         mvUUID         _uuid = 0;
         std::string    _internalLabel; // label passed into imgui
@@ -449,7 +425,7 @@ namespace Marvel {
 
         // config
         mvUUID      _source = 0;
-        std::string _specificedlabel;
+        std::string _specifiedLabel;
         mvUUID      _parent = 0;
         mvUUID      _before = 0;
         std::string _filter;
