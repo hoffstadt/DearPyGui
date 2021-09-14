@@ -37,7 +37,7 @@ namespace Marvel {
 	void mvActiveHandler::customAction(void* data)
 	{
 
-		if (static_cast<mvAppItemState*>(data)->_active)
+		if (static_cast<mvAppItemState*>(data)->active)
 		{
 			mvApp::GetApp()->getCallbackRegistry().submitCallback([=]()
 				{

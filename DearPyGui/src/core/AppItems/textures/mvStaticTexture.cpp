@@ -60,7 +60,7 @@ namespace Marvel {
 		if (!_dirty)
 			return;
 
-		if (!_state.isOk())
+		if (!_state.ok)
 			return;
 
 		if (_uuid == MV_ATLAS_UUID)
@@ -74,7 +74,7 @@ namespace Marvel {
 
 		if (_texture == nullptr)
 		{
-			_state.setOk(false);
+			_state.ok = false;
 			mvThrowPythonError(mvErrorCode::mvItemNotFound, "add_static_texture",
 				"Texture data can not be found.", this);
 		}

@@ -9,8 +9,11 @@ typedef _object PyObject;
 
 namespace Marvel {
 
+    //-----------------------------------------------------------------------------
     // forward declarations
+    //-----------------------------------------------------------------------------
     class mvAppItem;
+    struct mvAppItemState;
 
     enum mvStateItems
     {
@@ -34,61 +37,49 @@ namespace Marvel {
         MV_STATE_TOGGLED_OPEN | MV_STATE_RECT_MIN |MV_STATE_RECT_MAX |MV_STATE_RECT_SIZE |MV_STATE_CONT_AVAIL
     };
 
-    class mvAppItemState
+    //-----------------------------------------------------------------------------
+    // public API
+    //-----------------------------------------------------------------------------
+
+    void FillAppItemState  (PyObject* dict, mvAppItemState& state, int applicableState); // fills python dict with applicable state values
+    void ResetAppItemState (mvAppItemState& state);                                      // reset values to false
+    void UpdateAppItemState(mvAppItemState& state);                                      // standard imgui update
+
+    // return actual value if frame is active
+    bool IsItemHovered             (mvAppItemState& state, int frameDelay = 0);
+    bool IsItemActive              (mvAppItemState& state, int frameDelay = 0);
+    bool IsItemFocused             (mvAppItemState& state, int frameDelay = 0);
+    bool IsItemLeftClicked         (mvAppItemState& state, int frameDelay = 0);
+    bool IsItemRightClicked        (mvAppItemState& state, int frameDelay = 0);
+    bool IsItemMiddleClicked       (mvAppItemState& state, int frameDelay = 0);
+    bool IsItemVisible             (mvAppItemState& state, int frameDelay = 0);
+    bool IsItemEdited              (mvAppItemState& state, int frameDelay = 0);
+    bool IsItemActivated           (mvAppItemState& state, int frameDelay = 0);
+    bool IsItemDeactivated         (mvAppItemState& state, int frameDelay = 0);
+    bool IsItemDeactivatedAfterEdit(mvAppItemState& state, int frameDelay = 0);
+    bool IsItemToogledOpen         (mvAppItemState& state, int frameDelay = 0);
+
+    struct mvAppItemState
     {
-
-    public:
-
-        void getState(PyObject* dict, int applicableState);
-
-        void reset();
-        void update();
-
-        // getters
-        [[nodiscard]] bool   isItemHovered(int frameDelay = 0) const;
-        [[nodiscard]] bool   isItemActive(int frameDelay = 0) const;
-        [[nodiscard]] bool   isItemFocused(int frameDelay = 0) const;
-        [[nodiscard]] bool   isItemLeftClicked(int frameDelay = 0) const;
-        [[nodiscard]] bool   isItemRightClicked(int frameDelay = 0) const;
-        [[nodiscard]] bool   isItemMiddleClicked(int frameDelay = 0) const;
-        [[nodiscard]] bool   isItemVisible(int frameDelay = 0) const;
-        [[nodiscard]] bool   isItemEdited(int frameDelay = 0) const;
-        [[nodiscard]] bool   isItemActivated(int frameDelay = 0) const;
-        [[nodiscard]] bool   isItemDeactivated(int frameDelay = 0) const;
-        [[nodiscard]] bool   isItemDeactivatedAfterEdit(int frameDelay = 0) const;
-        [[nodiscard]] bool   isItemToogledOpen(int frameDelay = 0) const;
-        [[nodiscard]] bool   isOk() const;
-        [[nodiscard]] mvVec2 getItemRectMin () const;
-        [[nodiscard]] mvVec2 getItemRectMax () const;
-        [[nodiscard]] mvVec2 getItemRectSize () const;
-        [[nodiscard]] mvVec2 getItemPos () const;
-        [[nodiscard]] mvVec2 getContextRegionAvail () const;
-
-        // setters
-        void setPos(mvVec2 value){ _pos = value; }
-        void setOk(bool value)  { _ok = value; };
-
-    public:
-
-        bool   _hovered              = false;
-        bool   _active               = false;
-        bool   _focused              = false;
-        bool   _leftclicked          = false;
-        bool   _rightclicked         = false;
-        bool   _middleclicked        = false;
-        bool   _visible              = false;
-        bool   _edited               = false;
-        bool   _activated            = false;
-        bool   _deactivated          = false;
-        bool   _deactivatedAfterEdit = false;
-        bool   _toggledOpen          = false;
-        mvVec2 _rectMin              = { 0.0f, 0.0f };
-        mvVec2 _rectMax              = { 0.0f, 0.0f };
-        mvVec2 _rectSize             = { 0.0f, 0.0f };
-        mvVec2 _pos                  = { 0.0f, 0.0f };
-        mvVec2 _contextRegionAvail   = { 0.0f, 0.0f };
-        bool   _ok                   = true;
-        int    _lastFrameUpdate      = 0; // last frame update occured
-
+        bool   hovered              = false;
+        bool   active               = false;
+        bool   focused              = false;
+        bool   leftclicked          = false;
+        bool   rightclicked         = false;
+        bool   middleclicked        = false;
+        bool   visible              = false;
+        bool   edited               = false;
+        bool   activated            = false;
+        bool   deactivated          = false;
+        bool   deactivatedAfterEdit = false;
+        bool   toggledOpen          = false;
+        mvVec2 rectMin              = { 0.0f, 0.0f };
+        mvVec2 rectMax              = { 0.0f, 0.0f };
+        mvVec2 rectSize             = { 0.0f, 0.0f };
+        mvVec2 pos                  = { 0.0f, 0.0f };
+        mvVec2 contextRegionAvail   = { 0.0f, 0.0f };
+        bool   ok                   = true;
+        int    lastFrameUpdate      = 0; // last frame update occured
     };
+
 }

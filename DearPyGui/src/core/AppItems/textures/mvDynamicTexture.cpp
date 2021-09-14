@@ -90,7 +90,7 @@ namespace Marvel {
 			_texture = LoadTextureFromArrayDynamic(_permWidth, _permHeight, _value->data());
 
 			if (_texture == nullptr)
-				_state.setOk(false);
+				_state.ok = false;
 
 			_dirty = false;
 			return;

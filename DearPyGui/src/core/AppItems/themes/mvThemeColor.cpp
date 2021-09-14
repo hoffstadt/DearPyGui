@@ -98,7 +98,7 @@ namespace Marvel {
 
 			if (_targetColor >= ImGuiCol_COUNT || _targetColor < 0)
 			{
-				_state.setOk(false);
+				_state.ok = false;
 				mvThrowPythonError(mvErrorCode::mvNone, "Style target out of range.");
 				MV_ITEM_REGISTRY_ERROR("Item's parent must be plot.");
 				assert(false);
@@ -109,7 +109,7 @@ namespace Marvel {
 		{
 			if (_targetColor >= ImPlotCol_COUNT || _targetColor < 0)
 			{
-				_state.setOk(false);
+				_state.ok = false;
 				mvThrowPythonError(mvErrorCode::mvNone, "Style target out of range.");
 				MV_ITEM_REGISTRY_ERROR("Item's parent must be plot.");
 				assert(false);
@@ -120,7 +120,7 @@ namespace Marvel {
 		{
 			if (_targetColor >= imnodes::ColorStyle_Count || _targetColor < 0)
 			{
-				_state.setOk(false);
+				_state.ok = false;
 				mvThrowPythonError(mvErrorCode::mvNone, "Style target out of range.");
 				MV_ITEM_REGISTRY_ERROR("Item's parent must be plot.");
 				assert(false);

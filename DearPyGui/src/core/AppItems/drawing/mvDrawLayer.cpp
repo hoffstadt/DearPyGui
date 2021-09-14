@@ -44,7 +44,7 @@ namespace Marvel {
 
 			item->draw(drawlist, x, y);
 
-			item->getState().update();
+			UpdateAppItemState(item->getState());
 		}
 	}
 

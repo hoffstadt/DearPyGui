@@ -6,188 +6,157 @@
 
 namespace Marvel {
 
-    void mvAppItemState::reset()
+    void ResetAppItemState(mvAppItemState& state)
     {
-        _hovered = false;
-        _active = false;
-        _focused = false;
-        _leftclicked = false;
-        _rightclicked = false;
-        _middleclicked = false;
-        _visible = false;
-        _edited = false;
-        _activated = false;
-        _deactivated = false;
-        _deactivatedAfterEdit = false;
-        _toggledOpen = false;
+        state.hovered = false;
+        state.active = false;
+        state.focused = false;
+        state.leftclicked = false;
+        state.rightclicked = false;
+        state.middleclicked = false;
+        state.visible = false;
+        state.edited = false;
+        state.activated = false;
+        state.deactivated = false;
+        state.deactivatedAfterEdit = false;
+        state.toggledOpen = false;
     }
 
-    void mvAppItemState::update()
+    void UpdateAppItemState(mvAppItemState& state)
     {
-        _lastFrameUpdate = mvApp::s_frame;
-        _hovered = ImGui::IsItemHovered();
-        _active = ImGui::IsItemActive();
-        _focused = ImGui::IsItemFocused();
-        _leftclicked = ImGui::IsItemClicked();
-        _rightclicked = ImGui::IsItemClicked(1);
-        _middleclicked = ImGui::IsItemClicked(2);
-        _visible = ImGui::IsItemVisible();
-        _edited = ImGui::IsItemEdited();
-        _activated = ImGui::IsItemActivated();
-        _deactivated = ImGui::IsItemDeactivated();
-        _deactivatedAfterEdit = ImGui::IsItemDeactivatedAfterEdit();
-        _toggledOpen = ImGui::IsItemToggledOpen();
-        _rectMin = { ImGui::GetItemRectMin().x, ImGui::GetItemRectMin().y };
-        _rectMax = { ImGui::GetItemRectMax().x, ImGui::GetItemRectMax().y };
-        _rectSize = { ImGui::GetItemRectSize().x, ImGui::GetItemRectSize().y };
-        _contextRegionAvail = { ImGui::GetContentRegionAvail().x, ImGui::GetContentRegionAvail().y };
+        state.lastFrameUpdate = mvApp::s_frame;
+        state.hovered = ImGui::IsItemHovered();
+        state.active = ImGui::IsItemActive();
+        state.focused = ImGui::IsItemFocused();
+        state.leftclicked = ImGui::IsItemClicked();
+        state.rightclicked = ImGui::IsItemClicked(1);
+        state.middleclicked = ImGui::IsItemClicked(2);
+        state.visible = ImGui::IsItemVisible();
+        state.edited = ImGui::IsItemEdited();
+        state.activated = ImGui::IsItemActivated();
+        state.deactivated = ImGui::IsItemDeactivated();
+        state.deactivatedAfterEdit = ImGui::IsItemDeactivatedAfterEdit();
+        state.toggledOpen = ImGui::IsItemToggledOpen();
+        state.rectMin = { ImGui::GetItemRectMin().x, ImGui::GetItemRectMin().y };
+        state.rectMax = { ImGui::GetItemRectMax().x, ImGui::GetItemRectMax().y };
+        state.rectSize = { ImGui::GetItemRectSize().x, ImGui::GetItemRectSize().y };
+        state.contextRegionAvail = { ImGui::GetContentRegionAvail().x, ImGui::GetContentRegionAvail().y };
     }
 
-    void mvAppItemState::getState(PyObject* dict, int applicableState)
+    void FillAppItemState(PyObject* dict, mvAppItemState& state, int applicableState)
     {
         if (dict == nullptr)
             return;
 
-        bool valid = _lastFrameUpdate == mvApp::s_frame;
+        bool valid = state.lastFrameUpdate == mvApp::s_frame;
 
-        PyDict_SetItemString(dict, "ok", mvPyObject(ToPyBool(_ok)));
-        PyDict_SetItemString(dict, "pos", mvPyObject(ToPyPairII(_pos.x, _pos.y)));
+        PyDict_SetItemString(dict, "ok", mvPyObject(ToPyBool(state.ok)));
+        PyDict_SetItemString(dict, "pos", mvPyObject(ToPyPairII(state.pos.x, state.pos.y)));
 
-        if(applicableState & MV_STATE_HOVER) PyDict_SetItemString(dict, "hovered", mvPyObject(ToPyBool(valid ? _hovered : false)));
-        if(applicableState & MV_STATE_ACTIVE) PyDict_SetItemString(dict, "active", mvPyObject(ToPyBool(valid ? _active : false)));
-        if(applicableState & MV_STATE_FOCUSED) PyDict_SetItemString(dict, "focused", mvPyObject(ToPyBool(valid ? _focused : false)));
+        if(applicableState & MV_STATE_HOVER) PyDict_SetItemString(dict, "hovered", mvPyObject(ToPyBool(valid ? state.hovered : false)));
+        if(applicableState & MV_STATE_ACTIVE) PyDict_SetItemString(dict, "active", mvPyObject(ToPyBool(valid ? state.active : false)));
+        if(applicableState & MV_STATE_FOCUSED) PyDict_SetItemString(dict, "focused", mvPyObject(ToPyBool(valid ? state.focused : false)));
         if(applicableState & MV_STATE_CLICKED)
         {
-            PyDict_SetItemString(dict, "clicked", mvPyObject(ToPyBool(valid ? _leftclicked || _rightclicked || _middleclicked : false)));
-            PyDict_SetItemString(dict, "left_clicked", mvPyObject(ToPyBool(valid ? _leftclicked : false)));
-            PyDict_SetItemString(dict, "right_clicked", mvPyObject(ToPyBool(valid ? _rightclicked : false)));
-            PyDict_SetItemString(dict, "middle_clicked", mvPyObject(ToPyBool(valid ? _middleclicked : false)));
+            PyDict_SetItemString(dict, "clicked", mvPyObject(ToPyBool(valid ? state.leftclicked || state.rightclicked || state.middleclicked : false)));
+            PyDict_SetItemString(dict, "left_clicked", mvPyObject(ToPyBool(valid ? state.leftclicked : false)));
+            PyDict_SetItemString(dict, "right_clicked", mvPyObject(ToPyBool(valid ? state.rightclicked : false)));
+            PyDict_SetItemString(dict, "middle_clicked", mvPyObject(ToPyBool(valid ? state.middleclicked : false)));
         }
-        if(applicableState & MV_STATE_VISIBLE) PyDict_SetItemString(dict, "visible", mvPyObject(ToPyBool(valid ? _visible : false)));
-        if(applicableState & MV_STATE_EDITED) PyDict_SetItemString(dict, "edited", mvPyObject(ToPyBool(valid ? _edited : false)));
-        if(applicableState & MV_STATE_ACTIVATED) PyDict_SetItemString(dict, "activated", mvPyObject(ToPyBool(valid ? _activated : false)));
-        if(applicableState & MV_STATE_DEACTIVATED) PyDict_SetItemString(dict, "deactivated", mvPyObject(ToPyBool(valid ? _deactivated : false)));
-        if(applicableState & MV_STATE_DEACTIVATEDAE) PyDict_SetItemString(dict, "deactivated_after_edit", mvPyObject(ToPyBool(valid ? _deactivatedAfterEdit : false)));
-        if(applicableState & MV_STATE_TOGGLED_OPEN) PyDict_SetItemString(dict, "toggled_open", mvPyObject(ToPyBool(valid ? _toggledOpen : false)));
-        if(applicableState & MV_STATE_RECT_MIN) PyDict_SetItemString(dict, "rect_min", mvPyObject(ToPyPairII(_rectMin.x, _rectMin.y)));
-        if(applicableState & MV_STATE_RECT_MAX) PyDict_SetItemString(dict, "rect_max", mvPyObject(ToPyPairII(_rectMax.x, _rectMax.y)));
-        if(applicableState & MV_STATE_RECT_SIZE) PyDict_SetItemString(dict, "rect_size", mvPyObject(ToPyPairII(_rectSize.x, _rectSize.y)));
-        if(applicableState & MV_STATE_CONT_AVAIL) PyDict_SetItemString(dict, "content_region_avail", mvPyObject(ToPyPairII(_contextRegionAvail.x, _contextRegionAvail.y)));
+        if(applicableState & MV_STATE_VISIBLE) PyDict_SetItemString(dict, "visible", mvPyObject(ToPyBool(valid ? state.visible : false)));
+        if(applicableState & MV_STATE_EDITED) PyDict_SetItemString(dict, "edited", mvPyObject(ToPyBool(valid ? state.edited : false)));
+        if(applicableState & MV_STATE_ACTIVATED) PyDict_SetItemString(dict, "activated", mvPyObject(ToPyBool(valid ? state.activated : false)));
+        if(applicableState & MV_STATE_DEACTIVATED) PyDict_SetItemString(dict, "deactivated", mvPyObject(ToPyBool(valid ? state.deactivated : false)));
+        if(applicableState & MV_STATE_DEACTIVATEDAE) PyDict_SetItemString(dict, "deactivated_after_edit", mvPyObject(ToPyBool(valid ? state.deactivatedAfterEdit : false)));
+        if(applicableState & MV_STATE_TOGGLED_OPEN) PyDict_SetItemString(dict, "toggled_open", mvPyObject(ToPyBool(valid ? state.toggledOpen : false)));
+        if(applicableState & MV_STATE_RECT_MIN) PyDict_SetItemString(dict, "rect_min", mvPyObject(ToPyPairII(state.rectMin.x, state.rectMin.y)));
+        if(applicableState & MV_STATE_RECT_MAX) PyDict_SetItemString(dict, "rect_max", mvPyObject(ToPyPairII(state.rectMax.x, state.rectMax.y)));
+        if(applicableState & MV_STATE_RECT_SIZE) PyDict_SetItemString(dict, "rect_size", mvPyObject(ToPyPairII(state.rectSize.x, state.rectSize.y)));
+        if(applicableState & MV_STATE_CONT_AVAIL) PyDict_SetItemString(dict, "content_region_avail", mvPyObject(ToPyPairII(state.contextRegionAvail.x, state.contextRegionAvail.y)));
 
     }
 
-    bool mvAppItemState::isItemHovered(int frameDelay) const
+    bool IsItemHovered(mvAppItemState& state, int frameDelay)
     { 
-        if (_lastFrameUpdate + frameDelay != mvApp::s_frame)
+        if (state.lastFrameUpdate + frameDelay != mvApp::s_frame)
             return false;
-        return _hovered; 
+        return state.hovered;
     }
 
-    bool mvAppItemState::isItemActive(int frameDelay) const
+    bool IsItemActive(mvAppItemState& state, int frameDelay)
     { 
-        if (_lastFrameUpdate + frameDelay != mvApp::s_frame)
+        if (state.lastFrameUpdate + frameDelay != mvApp::s_frame)
             return false;
-        return _active; 
+        return state.active;
     }
 
-    bool mvAppItemState::isItemFocused(int frameDelay) const
+    bool IsItemFocused(mvAppItemState& state, int frameDelay)
     { 
-        if (_lastFrameUpdate + frameDelay != mvApp::s_frame)
+        if (state.lastFrameUpdate + frameDelay != mvApp::s_frame)
             return false;
-        return _focused; 
+        return state.focused;
     }
 
-    bool mvAppItemState::isItemLeftClicked(int frameDelay) const
+    bool IsItemLeftClicked(mvAppItemState& state, int frameDelay)
     { 
-        if (_lastFrameUpdate + frameDelay != mvApp::s_frame)
+        if (state.lastFrameUpdate + frameDelay != mvApp::s_frame)
             return false;
-        return _leftclicked; 
+        return state.leftclicked;
     }
 
-    bool mvAppItemState::isItemRightClicked(int frameDelay) const
+    bool IsItemRightClicked(mvAppItemState& state, int frameDelay)
     { 
-        if (_lastFrameUpdate + frameDelay != mvApp::s_frame)
+        if (state.lastFrameUpdate + frameDelay != mvApp::s_frame)
             return false;
-        return _rightclicked; 
+        return state.rightclicked;
     }
 
-    bool mvAppItemState::isItemMiddleClicked(int frameDelay) const
+    bool IsItemMiddleClicked(mvAppItemState& state, int frameDelay)
     { 
-        if (_lastFrameUpdate + frameDelay != mvApp::s_frame)
+        if (state.lastFrameUpdate + frameDelay != mvApp::s_frame)
             return false;
-        return _middleclicked; 
+        return state.middleclicked;
     }
 
-    bool mvAppItemState::isItemVisible(int frameDelay) const
+    bool IsItemVisible(mvAppItemState& state, int frameDelay)
     { 
-        if (_lastFrameUpdate + frameDelay != mvApp::s_frame)
+        if (state.lastFrameUpdate + frameDelay != mvApp::s_frame)
             return false;
-        return _visible; 
+        return state.visible;
     }
 
-    bool mvAppItemState::isItemEdited(int frameDelay) const
+    bool IsItemEdited(mvAppItemState& state, int frameDelay)
     { 
-        if (_lastFrameUpdate + frameDelay != mvApp::s_frame)
+        if (state.lastFrameUpdate + frameDelay != mvApp::s_frame)
             return false;
-        return _edited; 
+        return state.edited;
     }
 
-    bool mvAppItemState::isItemActivated(int frameDelay) const
+    bool IsItemActivated(mvAppItemState& state, int frameDelay)
     { 
-        if (_lastFrameUpdate + frameDelay != mvApp::s_frame)
+        if (state.lastFrameUpdate + frameDelay != mvApp::s_frame)
             return false;
-        return _activated; 
+        return state.activated;
     }
 
-    bool mvAppItemState::isItemDeactivated(int frameDelay) const
+    bool IsItemDeactivated(mvAppItemState& state, int frameDelay)
     { 
-        if (_lastFrameUpdate + frameDelay != mvApp::s_frame)
+        if (state.lastFrameUpdate + frameDelay != mvApp::s_frame)
             return false;
-        return _deactivated; 
+        return state.deactivated;
     }
 
-    bool mvAppItemState::isItemDeactivatedAfterEdit(int frameDelay) const
+    bool IsItemDeactivatedAfterEdit(mvAppItemState& state, int frameDelay)
     { 
-        if (_lastFrameUpdate + frameDelay != mvApp::s_frame)
+        if (state.lastFrameUpdate + frameDelay != mvApp::s_frame)
             return false;
-        return _deactivatedAfterEdit; 
+        return state.deactivatedAfterEdit;
     }
 
-    bool mvAppItemState::isItemToogledOpen(int frameDelay) const
+    bool IsItemToogledOpen(mvAppItemState& state, int frameDelay)
     { 
-        if (_lastFrameUpdate + frameDelay != mvApp::s_frame)
+        if (state.lastFrameUpdate + frameDelay != mvApp::s_frame)
             return false;
-        return _toggledOpen; 
+        return state.toggledOpen;
     }
-
-    bool mvAppItemState::isOk() const 
-    { 
-        return _ok; 
-    }
-
-    mvVec2 mvAppItemState::getItemRectMin() const 
-    { 
-        return _rectMin; 
-    }
-
-    mvVec2 mvAppItemState::getItemRectMax() const 
-    { 
-        return _rectMax; 
-    }
-
-    mvVec2 mvAppItemState::getItemRectSize() const 
-    { 
-        return _rectSize; 
-    }
-
-    mvVec2 mvAppItemState::getItemPos() const 
-    { 
-        return _pos; 
-    }
-
-    mvVec2 mvAppItemState::getContextRegionAvail() const 
-    { 
-        return _contextRegionAvail; 
-    }
-
 }

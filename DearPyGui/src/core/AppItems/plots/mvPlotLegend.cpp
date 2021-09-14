@@ -51,7 +51,7 @@ namespace Marvel {
 
 		ImPlot::SetLegendLocation(_legendLocation, _horizontal ? ImPlotOrientation_Horizontal : ImPlotOrientation_Vertical, _outside);
 
-		_state.update();
+		UpdateAppItemState(_state);
 
 		if (_font)
 		{

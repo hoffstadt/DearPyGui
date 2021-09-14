@@ -37,7 +37,7 @@ namespace Marvel {
 	void mvVisibleHandler::customAction(void* data)
 	{
 
-		if (static_cast<mvAppItemState*>(data)->_visible)
+		if (static_cast<mvAppItemState*>(data)->visible)
 		{
 			mvApp::GetApp()->getCallbackRegistry().submitCallback([=]()
 				{

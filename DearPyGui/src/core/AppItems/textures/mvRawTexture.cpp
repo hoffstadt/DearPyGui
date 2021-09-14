@@ -104,7 +104,7 @@ namespace Marvel {
 				_texture = LoadTextureFromArrayRaw(_permWidth, _permHeight, (float*)_value, _components);
 
 			if (_texture == nullptr)
-				_state.setOk(false);
+				_state.ok = false;
 
 			_dirty = false;
 			return;

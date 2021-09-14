@@ -82,10 +82,10 @@ namespace Marvel {
 
 		// set cursor position if user set
 		if (_dirtyPos)
-			ImGui::SetCursorPos(_state.getItemPos());
+			ImGui::SetCursorPos(_state.pos);
 
 		// update widget's position state
-		_state.setPos({ ImGui::GetCursorPosX(), ImGui::GetCursorPosY() });
+		_state.pos = { ImGui::GetCursorPosX(), ImGui::GetCursorPosY() };
 
 		// set item width
 		if (_width != 0)
@@ -128,7 +128,7 @@ namespace Marvel {
 			_flags &= ~ImGuiTreeNodeFlags_Selected;
 
 		bool expanded = ImGui::TreeNodeEx(_internalLabel.c_str(), _flags);
-		_state.update();
+		UpdateAppItemState(_state);
 
 		if (ImGui::IsItemClicked())
 			*_value = !*_value;

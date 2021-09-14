@@ -37,7 +37,7 @@ namespace Marvel {
 	void mvEditedHandler::customAction(void* data)
 	{
 
-		if (static_cast<mvAppItemState*>(data)->_edited)
+		if (static_cast<mvAppItemState*>(data)->edited)
 		{
 			mvApp::GetApp()->getCallbackRegistry().submitCallback([=]()
 				{

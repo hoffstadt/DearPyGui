@@ -320,7 +320,7 @@ namespace Marvel {
 				//item->draw(ImPlot::GetPlotDrawList(), ImPlot::GetPlotPos().x, ImPlot::GetPlotPos().y);
 				item->draw(ImPlot::GetPlotDrawList(), 0.0f, 0.0f);
 				
-				item->getState().update();
+				UpdateAppItemState(item->getState());
 			}
 
 			ImPlot::PopPlotClipRect();
@@ -398,7 +398,7 @@ namespace Marvel {
 
 		ImPlot::GetInputMap() = _originalMap;
 
-		_state.update();
+		UpdateAppItemState(_state);
 
 		if (_font)
 		{

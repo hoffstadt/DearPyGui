@@ -89,10 +89,10 @@ namespace Marvel {
 
 		// set cursor position if user set
 		if (_dirtyPos)
-			ImGui::SetCursorPos(_state.getItemPos());
+			ImGui::SetCursorPos(_state.pos);
 
 		// update widget's position state
-		_state.setPos({ ImGui::GetCursorPosX(), ImGui::GetCursorPosY() });
+		_state.pos = { ImGui::GetCursorPosX(), ImGui::GetCursorPosY() };
 
 		// set item width
 		if (_width != 0)
@@ -131,7 +131,7 @@ namespace Marvel {
 				if (_internalTexture)
 					_texture->draw(drawlist, x, y);
 
-				if (!_texture->getState().isOk())
+				if (!_texture->_state.ok)
 					return;
 
 				// if width/height is not set by user, use texture dimensions
@@ -167,7 +167,7 @@ namespace Marvel {
 		//-----------------------------------------------------------------------------
 		// update state
 		//-----------------------------------------------------------------------------
-		_state.update();
+		UpdateAppItemState(_state);
 
 		//-----------------------------------------------------------------------------
 		// post draw
