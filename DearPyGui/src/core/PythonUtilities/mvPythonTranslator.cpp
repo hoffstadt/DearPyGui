@@ -639,7 +639,7 @@ namespace Marvel {
 				if (isPyObject_Int(item))
 					items[i] = PyLong_AsUnsignedLongLong(item);
 				else if (isPyObject_String(item))
-					items[i] = mvApp::GetApp()->getItemRegistry().getIdFromAlias(ToString(item));
+					items[i] = GetIdFromAlias(*mvApp::GetApp()->itemRegistry, ToString(item));
 			}
 		}
 
@@ -652,7 +652,7 @@ namespace Marvel {
 				if (isPyObject_Int(item))
 					items[i] = PyLong_AsUnsignedLongLong(item);
 				else if (isPyObject_String(item))
-					items[i] = mvApp::GetApp()->getItemRegistry().getIdFromAlias(ToString(item));
+					items[i] = GetIdFromAlias(*mvApp::GetApp()->itemRegistry, ToString(item));
 			}
 		}
 

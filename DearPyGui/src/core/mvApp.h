@@ -38,9 +38,9 @@ namespace Marvel {
     class mvViewport;
     class mvThemeManager;
     class mvFontManager;
-    class mvItemRegistry;
     class mvCallbackRegistry;
     struct mvColor;
+    struct mvItemRegistry;
     enum class mvAppItemType;
     
     //-----------------------------------------------------------------------------
@@ -141,7 +141,6 @@ namespace Marvel {
         //-----------------------------------------------------------------------------
         // Managers
         //-----------------------------------------------------------------------------
-        mvItemRegistry&     getItemRegistry    ();
         mvCallbackRegistry& getCallbackRegistry();
 
         //-----------------------------------------------------------------------------
@@ -167,14 +166,14 @@ namespace Marvel {
 
         mvApp();
         
-    private:
+    public:
 
         static mvApp*           s_instance;
         static std::atomic_bool s_started;
         static mvUUID           s_id; // current ID
 
         // managers
-        mvOwnedPtr<mvItemRegistry>     _itemRegistry;
+        mvOwnedPtr<mvItemRegistry>     itemRegistry;
         mvOwnedPtr<mvCallbackRegistry> _callbackRegistry;
                                          
         // docking                                   

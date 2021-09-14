@@ -113,11 +113,11 @@ namespace Marvel {
 		if (item == 0)
 		{
 			mvApp::GetApp()->resetTheme();
-			mvApp::GetApp()->getItemRegistry().resetTheme();
+			ResetTheme((*mvApp::GetApp()->itemRegistry));
 			return GetPyNone();
 		}
 
-		auto aplot = mvApp::GetApp()->getItemRegistry().getItem(item);
+		auto aplot = GetItem((*mvApp::GetApp()->itemRegistry), item);
 		if (aplot == nullptr)
 		{
 			mvThrowPythonError(mvErrorCode::mvItemNotFound, "bind_theme",

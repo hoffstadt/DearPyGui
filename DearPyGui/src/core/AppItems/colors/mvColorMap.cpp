@@ -173,7 +173,7 @@ namespace Marvel {
         mvUUID item = mvAppItem::GetIDFromPyObject(itemraw);
         mvUUID source = mvAppItem::GetIDFromPyObject(sourceraw);
 
-        auto aitem = mvApp::GetApp()->getItemRegistry().getItem(item);
+        auto aitem = GetItem((*mvApp::GetApp()->itemRegistry), item);
         if (aitem == nullptr)
         {
             mvThrowPythonError(mvErrorCode::mvItemNotFound, "bind_colormap",
@@ -183,7 +183,7 @@ namespace Marvel {
 
         if (source > 15)
         {
-            auto asource = mvApp::GetApp()->getItemRegistry().getItem(source);
+            auto asource = GetItem(*mvApp::GetApp()->itemRegistry, source);
             if (asource == nullptr)
             {
                 mvThrowPythonError(mvErrorCode::mvItemNotFound, "bind_colormap",
@@ -247,7 +247,7 @@ namespace Marvel {
 
         if (item > 15)
         {
-            auto asource = mvApp::GetApp()->getItemRegistry().getItem(item);
+            auto asource = GetItem((*mvApp::GetApp()->itemRegistry), item);
             if (asource == nullptr)
             {
                 mvThrowPythonError(mvErrorCode::mvItemNotFound, "sample_colormap",
@@ -294,7 +294,7 @@ namespace Marvel {
 
         if (item > 15)
         {
-            auto asource = mvApp::GetApp()->getItemRegistry().getItem(item);
+            auto asource = GetItem((*mvApp::GetApp()->itemRegistry), item);
             if (asource == nullptr)
             {
                 mvThrowPythonError(mvErrorCode::mvItemNotFound, "get_colormap_color",

@@ -121,7 +121,7 @@ namespace Marvel {
 		mvUUID parentName = 0;
 
 		if (_itemref == nullptr)
-            _itemref = mvApp::GetApp()->getItemRegistry()._windowRoots[0].get();
+            _itemref = mvApp::GetApp()->itemRegistry->windowRoots[0].get();
 
 		if (_itemref->_parentPtr)
 			parentName = _itemref->_parentPtr->_uuid;
@@ -132,33 +132,33 @@ namespace Marvel {
 		if (ImGui::ArrowButton("Move Up", ImGuiDir_Up))
 			mvApp::GetApp()->getCallbackRegistry().submitCallback([&]()
 				{
-					mvApp::GetApp()->getItemRegistry().moveItemUp(m_selectedItem);
+					MoveItemUp(*mvApp::GetApp()->itemRegistry, m_selectedItem);
 				});
 
 		ImGui::SameLine();
 		if (ImGui::ArrowButton("Move Down", ImGuiDir_Down))
 			mvApp::GetApp()->getCallbackRegistry().submitCallback([&]()
 				{
-					mvApp::GetApp()->getItemRegistry().moveItemDown(m_selectedItem);
+					MoveItemDown(*mvApp::GetApp()->itemRegistry, m_selectedItem);
 				});
 		ImGui::SameLine();
 		if (ImGui::Button("Delete"))
 		{
 			mvApp::GetApp()->getCallbackRegistry().submitCallback([&]()
 				{
-					mvApp::GetApp()->getItemRegistry().deleteItem(m_selectedItem, false);
+					DeleteItem(*mvApp::GetApp()->itemRegistry, m_selectedItem, false);
 					m_selectedItem = 0;
 				});
 
             _itemref = nullptr;
-            _itemref = mvApp::GetApp()->getItemRegistry()._windowRoots[0].get();
+            _itemref = mvApp::GetApp()->itemRegistry->windowRoots[0].get();
 		}
 		ImGui::SameLine();
 		if (ImGui::Button("Show"))
-			mvApp::GetApp()->getItemRegistry().getItem(m_selectedItem)->show();
+			GetItem(*mvApp::GetApp()->itemRegistry, m_selectedItem)->show();
 		ImGui::SameLine();
 		if (ImGui::Button("Hide"))
-			mvApp::GetApp()->getItemRegistry().getItem(m_selectedItem)->hide();
+			GetItem(*mvApp::GetApp()->itemRegistry, m_selectedItem)->hide();
         ImGui::SameLine();
         ImGui::Checkbox("Show Slots###layout", &_slots);
 
@@ -174,18 +174,18 @@ namespace Marvel {
         _imguiFilter.Draw();
         _startFiltering = false;
         ImGui::BeginChild("TreeChild", ImVec2(-1.0f, -1.0f), true);
-        renderRootCategory("Windows", mvApp::GetApp()->getItemRegistry()._windowRoots);
-        renderRootCategory("Themes", mvApp::GetApp()->getItemRegistry()._themeRegistryRoots);
-        renderRootCategory("Template Registries", mvApp::GetApp()->getItemRegistry()._itemTemplatesRoots);
-        renderRootCategory("Staging Containers", mvApp::GetApp()->getItemRegistry()._stagingRoots);
-        renderRootCategory("Texture Registries", mvApp::GetApp()->getItemRegistry()._textureRegistryRoots);
-        renderRootCategory("Font Registries", mvApp::GetApp()->getItemRegistry()._fontRegistryRoots);
-        renderRootCategory("Item Handler Registries", mvApp::GetApp()->getItemRegistry()._itemHandlerRegistryRoots);
-        renderRootCategory("Handler Registries", mvApp::GetApp()->getItemRegistry()._handlerRegistryRoots);
-        renderRootCategory("Value Registries", mvApp::GetApp()->getItemRegistry()._valueRegistryRoots);
-        renderRootCategory("Colormap Registries", mvApp::GetApp()->getItemRegistry()._colormapRoots);
-        renderRootCategory("File Dialogs", mvApp::GetApp()->getItemRegistry()._filedialogRoots);
-        renderRootCategory("Viewport Menubars", mvApp::GetApp()->getItemRegistry()._viewportMenubarRoots);
+        renderRootCategory("Windows", mvApp::GetApp()->itemRegistry->windowRoots);
+        renderRootCategory("Themes", mvApp::GetApp()->itemRegistry->themeRegistryRoots);
+        renderRootCategory("Template Registries", mvApp::GetApp()->itemRegistry->itemTemplatesRoots);
+        renderRootCategory("Staging Containers", mvApp::GetApp()->itemRegistry->stagingRoots);
+        renderRootCategory("Texture Registries", mvApp::GetApp()->itemRegistry->textureRegistryRoots);
+        renderRootCategory("Font Registries", mvApp::GetApp()->itemRegistry->fontRegistryRoots);
+        renderRootCategory("Item Handler Registries", mvApp::GetApp()->itemRegistry->itemHandlerRegistryRoots);
+        renderRootCategory("Handler Registries", mvApp::GetApp()->itemRegistry->handlerRegistryRoots);
+        renderRootCategory("Value Registries", mvApp::GetApp()->itemRegistry->valueRegistryRoots);
+        renderRootCategory("Colormap Registries", mvApp::GetApp()->itemRegistry->colormapRoots);
+        renderRootCategory("File Dialogs", mvApp::GetApp()->itemRegistry->filedialogRoots);
+        renderRootCategory("Viewport Menubars", mvApp::GetApp()->itemRegistry->viewportMenubarRoots);
         ImGui::EndChild();
         ImGui::EndGroup();
 

@@ -543,7 +543,7 @@ namespace Marvel {
 
 		mvUUID plot = mvAppItem::GetIDFromPyObject(plotraw);
 
-		auto aplot = mvApp::GetApp()->getItemRegistry().getItem(plot);
+		auto aplot = GetItem(*mvApp::GetApp()->itemRegistry, plot);
 		if (aplot == nullptr)
 		{
 			mvThrowPythonError(mvErrorCode::mvItemNotFound, "is_plot_queried",
@@ -574,7 +574,7 @@ namespace Marvel {
 
 		mvUUID plot = mvAppItem::GetIDFromPyObject(plotraw);
 
-		auto aplot = mvApp::GetApp()->getItemRegistry().getItem(plot);
+		auto aplot = GetItem(*mvApp::GetApp()->itemRegistry, plot);
 		if (aplot == nullptr)
 		{
 			mvThrowPythonError(mvErrorCode::mvItemNotFound, "get_plot_query_area",

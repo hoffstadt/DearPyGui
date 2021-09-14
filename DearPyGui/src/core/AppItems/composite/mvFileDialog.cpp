@@ -163,7 +163,7 @@ namespace Marvel {
 		if (dataSource == _source) return;
 		_source = dataSource;
 
-		mvAppItem* item = mvApp::GetApp()->getItemRegistry().getItem(dataSource);
+		mvAppItem* item = GetItem((*mvApp::GetApp()->itemRegistry), dataSource);
 		if (!item)
 		{
 			mvThrowPythonError(mvErrorCode::mvSourceNotFound, "set_value",
@@ -235,7 +235,7 @@ namespace Marvel {
 
 		mvUUID file_dialog = mvAppItem::GetIDFromPyObject(file_dialog_raw);
 
-		auto aplot = mvApp::GetApp()->getItemRegistry().getItem(file_dialog);
+		auto aplot = GetItem(*mvApp::GetApp()->itemRegistry, file_dialog);
 		if (aplot == nullptr)
 		{
 			mvThrowPythonError(mvErrorCode::mvNone, std::to_string(file_dialog) + " plot does not exist.");

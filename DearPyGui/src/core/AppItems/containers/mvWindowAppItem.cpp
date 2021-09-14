@@ -459,8 +459,11 @@ namespace Marvel {
 			float y = mousePos.y - ImGui::GetWindowPos().y - titleBarHeight;
 			mvInput::setMousePosition(x, y);
 
-			if (mvApp::GetApp()->getItemRegistry().getActiveWindow() != _uuid)
+			if (mvApp::GetApp()->itemRegistry->activeWindow != _uuid)
+			{
+				mvApp::GetApp()->itemRegistry->activeWindow = _uuid;
 				mvEventBus::Publish(mvEVT_CATEGORY_ITEM, mvEVT_ACTIVE_WINDOW, { CreateEventArgument("WINDOW", _uuid) });
+			}
 
 		}
 
@@ -618,7 +621,7 @@ namespace Marvel {
 
 		mvUUID item = mvAppItem::GetIDFromPyObject(itemraw);
 
-		auto window = mvApp::GetApp()->getItemRegistry().getItem(item);
+		auto window = GetItem((*mvApp::GetApp()->itemRegistry), item);
 		if (window == nullptr)
 		{
 			mvThrowPythonError(mvErrorCode::mvItemNotFound, "set_x_scroll",
@@ -663,7 +666,7 @@ namespace Marvel {
 
 		mvUUID item = mvAppItem::GetIDFromPyObject(itemraw);
 
-		auto window = mvApp::GetApp()->getItemRegistry().getItem(item);
+		auto window = GetItem((*mvApp::GetApp()->itemRegistry), item);
 		if (window == nullptr)
 		{
 			mvThrowPythonError(mvErrorCode::mvItemNotFound, "set_y_scroll",
@@ -707,7 +710,7 @@ namespace Marvel {
 
 		mvUUID item = mvAppItem::GetIDFromPyObject(itemraw);
 
-		auto window = mvApp::GetApp()->getItemRegistry().getItem(item);
+		auto window = GetItem((*mvApp::GetApp()->itemRegistry), item);
 		if (window == nullptr)
 		{
 			mvThrowPythonError(mvErrorCode::mvItemNotFound, "get_x_scroll",
@@ -750,7 +753,7 @@ namespace Marvel {
 
 		mvUUID item = mvAppItem::GetIDFromPyObject(itemraw);
 
-		auto window = mvApp::GetApp()->getItemRegistry().getItem(item);
+		auto window = GetItem((*mvApp::GetApp()->itemRegistry), item);
 		if (window == nullptr)
 		{
 			mvThrowPythonError(mvErrorCode::mvItemNotFound, s_command,
@@ -793,7 +796,7 @@ namespace Marvel {
 
 		mvUUID item = mvAppItem::GetIDFromPyObject(itemraw);
 
-		auto window = mvApp::GetApp()->getItemRegistry().getItem(item);
+		auto window = GetItem((*mvApp::GetApp()->itemRegistry), item);
 		if (window == nullptr)
 		{
 			mvThrowPythonError(mvErrorCode::mvItemNotFound, s_command,
@@ -836,7 +839,7 @@ namespace Marvel {
 
 		mvUUID item = mvAppItem::GetIDFromPyObject(itemraw);
 
-		auto window = mvApp::GetApp()->getItemRegistry().getItem(item);
+		auto window = GetItem((*mvApp::GetApp()->itemRegistry), item);
 		if (window == nullptr)
 		{
 			mvThrowPythonError(mvErrorCode::mvItemNotFound, s_command,
