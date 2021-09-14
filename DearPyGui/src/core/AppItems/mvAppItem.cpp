@@ -53,7 +53,6 @@ namespace Marvel{
 			mvPythonParserSetup setup;
 			setup.about = "Sets an item's children.";
 			setup.category = { "App Item Operations" };
-			setup.returnType = mvPyDataType::None;
 
 			mvPythonParser parser = FinalizeParser(setup, args);
 			parsers->insert({ "set_item_children", parser });
@@ -66,7 +65,6 @@ namespace Marvel{
 			mvPythonParserSetup setup;
 			setup.about = "Focuses an item.";
 			setup.category = { "App Item Operations" };
-			setup.returnType = mvPyDataType::None;
 
 			mvPythonParser parser = FinalizeParser(setup, args);
 			parsers->insert({ "focus_item", parser });
@@ -80,7 +78,6 @@ namespace Marvel{
 			mvPythonParserSetup setup;
 			setup.about = "Sets an item's font.";
 			setup.category = { "Fonts", "App Item Operations" };
-			setup.returnType = mvPyDataType::None;
 
 			mvPythonParser parser = FinalizeParser(setup, args);
 			parsers->insert({ "set_item_font", parser });
@@ -94,7 +91,6 @@ namespace Marvel{
 			mvPythonParserSetup setup;
 			setup.about = "Sets an item's alias.";
 			setup.category = { "App Item Operations" };
-			setup.returnType = mvPyDataType::None;
 
 			mvPythonParser parser = FinalizeParser(setup, args);
 			parsers->insert({ "set_item_alias", parser });
@@ -121,7 +117,6 @@ namespace Marvel{
 			mvPythonParserSetup setup;
 			setup.about = "Binds an item handler registry to an item.";
 			setup.category = { "App Item Operations", "Events"};
-			setup.returnType = mvPyDataType::None;
 
 			mvPythonParser parser = FinalizeParser(setup, args);
 			parsers->insert({ "bind_item_handler_registry", parser });
@@ -135,7 +130,6 @@ namespace Marvel{
 			mvPythonParserSetup setup;
 			setup.about = "Binds a theme to an item.";
 			setup.category = { "App Item Operations", "Themes" };
-			setup.returnType = mvPyDataType::None;
 
 			mvPythonParser parser = FinalizeParser(setup, args);
 			parsers->insert({ "bind_item_theme", parser });
@@ -161,7 +155,6 @@ namespace Marvel{
 			mvPythonParserSetup setup;
 			setup.about = "Configures an item.";
 			setup.category = { "App Item Operations" };
-			setup.returnType = mvPyDataType::None;
 			setup.unspecifiedKwargs = true;
 			setup.internal = true;
 
@@ -216,7 +209,6 @@ namespace Marvel{
 			mvPythonParserSetup setup;
 			setup.about = "Set's an item's value.";
 			setup.category = { "App Item Operations" };
-			setup.returnType = mvPyDataType::None;
 
 			mvPythonParser parser = FinalizeParser(setup, args);
 			parsers->insert({ "set_value", parser });
@@ -229,7 +221,6 @@ namespace Marvel{
 			mvPythonParserSetup setup;
 			setup.about = "Resets an item's position after using 'set_item_pos'.";
 			setup.category = { "App Item Operations" };
-			setup.returnType = mvPyDataType::None;
 
 			mvPythonParser parser = FinalizeParser(setup, args);
 			parsers->insert({ "reset_pos", parser });

@@ -43,7 +43,6 @@ namespace Marvel {
 			mvPythonParserSetup setup;
 			setup.about = "Creates a viewport.";
 			setup.category = { "General" };
-			setup.returnType = mvPyDataType::None;
 
 			mvPythonParser parser = FinalizeParser(setup, args);
 			parsers->insert({ "create_viewport", parser });
@@ -57,7 +56,6 @@ namespace Marvel {
 			mvPythonParserSetup setup;
 			setup.about = "Shows the main viewport.";
 			setup.category = { "General" };
-			setup.returnType = mvPyDataType::None;
 
 			mvPythonParser parser = FinalizeParser(setup, args);
 			parsers->insert({ "show_viewport", parser });
@@ -70,7 +68,6 @@ namespace Marvel {
 			mvPythonParserSetup setup;
 			setup.about = "Configures a viewport.";
 			setup.category = { "General" };
-			setup.returnType = mvPyDataType::None;
 			setup.unspecifiedKwargs = true;
 			setup.internal = true;
 
@@ -109,7 +106,6 @@ namespace Marvel {
 			mvPythonParserSetup setup;
 			setup.about = "Maximizes the viewport.";
 			setup.category = { "General" };
-			setup.returnType = mvPyDataType::None;
 
 			mvPythonParser parser = FinalizeParser(setup, args);
 			parsers->insert({ "maximize_viewport", parser });
@@ -121,7 +117,6 @@ namespace Marvel {
 			mvPythonParserSetup setup;
 			setup.about = "Minimizes a viewport.";
 			setup.category = { "General" };
-			setup.returnType = mvPyDataType::None;
 
 			mvPythonParser parser = FinalizeParser(setup, args);
 			parsers->insert({ "minimize_viewport", parser });

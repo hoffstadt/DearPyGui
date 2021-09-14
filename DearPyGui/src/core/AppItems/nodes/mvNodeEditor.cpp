@@ -77,7 +77,6 @@ namespace Marvel {
 
 			mvPythonParserSetup setup;
 			setup.category = { "Node Editor", "App Item Operations" };
-			setup.returnType = mvPyDataType::None;
 
 			mvPythonParser parser = FinalizeParser(setup, args);
 			parsers->insert({ "clear_selected_links", parser });
@@ -89,7 +88,6 @@ namespace Marvel {
 
 			mvPythonParserSetup setup;
 			setup.category = { "Node Editor", "App Item Operations" };
-			setup.returnType = mvPyDataType::None;
 
 			mvPythonParser parser = FinalizeParser(setup, args);
 			parsers->insert({ "clear_selected_nodes", parser });

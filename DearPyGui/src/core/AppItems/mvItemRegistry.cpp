@@ -23,7 +23,6 @@ namespace Marvel {
 			mvPythonParserSetup setup;
 			setup.about = "Adds an alias.";
 			setup.category = { "Item Registry" };
-			setup.returnType = mvPyDataType::None;
 
 			mvPythonParser parser = FinalizeParser(setup, args);
 			parsers->insert({ "add_alias", parser });
@@ -36,7 +35,6 @@ namespace Marvel {
 			mvPythonParserSetup setup;
 			setup.about = "Removes an alias.";
 			setup.category = { "Item Registry" };
-			setup.returnType = mvPyDataType::None;
 
 			mvPythonParser parser = FinalizeParser(setup, args);
 			parsers->insert({ "remove_alias", parser });
@@ -85,7 +83,6 @@ namespace Marvel {
 			mvPythonParserSetup setup;
 			setup.about = "Shows the imgui demo.";
 			setup.category = { "Item Registry" };
-			setup.returnType = mvPyDataType::None;
 
 			mvPythonParser parser = FinalizeParser(setup, args);
 			parsers->insert({ "show_imgui_demo", parser });
@@ -97,7 +94,6 @@ namespace Marvel {
 			mvPythonParserSetup setup;
 			setup.about = "Shows the implot demo.";
 			setup.category = { "Item Registry" };
-			setup.returnType = mvPyDataType::None;
 
 			mvPythonParser parser = FinalizeParser(setup, args);
 			parsers->insert({ "show_implot_demo", parser });
@@ -112,7 +108,6 @@ namespace Marvel {
 			mvPythonParserSetup setup;
 			setup.about = "Reorders an item's children.";
 			setup.category = { "App Item Operations" };
-			setup.returnType = mvPyDataType::None;
 
 			mvPythonParser parser = FinalizeParser(setup, args);
 			parsers->insert({ "reorder_items", parser });
@@ -125,7 +120,6 @@ namespace Marvel {
 			mvPythonParserSetup setup;
 			setup.about = "Binds a global template registry.";
 			setup.category = { "Item Registry" };
-			setup.returnType = mvPyDataType::None;
 
 			mvPythonParser parser = FinalizeParser(setup, args);
 			parsers->insert({ "bind_template_registry", parser });
@@ -138,7 +132,6 @@ namespace Marvel {
 			mvPythonParserSetup setup;
 			setup.about = "Unstages an item.";
 			setup.category = { "Item Registry" };
-			setup.returnType = mvPyDataType::None;
 
 			mvPythonParser parser = FinalizeParser(setup, args);
 			parsers->insert({ "unstage", parser });
@@ -151,7 +144,6 @@ namespace Marvel {
 			mvPythonParserSetup setup;
 			setup.about = "Shows an item's debug window";
 			setup.category = { "Item Registry" };
-			setup.returnType = mvPyDataType::None;
 
 			mvPythonParser parser = FinalizeParser(setup, args);
 			parsers->insert({ "show_item_debug", parser });
@@ -224,7 +216,6 @@ namespace Marvel {
 			mvPythonParserSetup setup;
 			setup.about = "Emptyes the container stack.";
 			setup.category = { "Item Registry" };
-			setup.returnType = mvPyDataType::None;
 
 			mvPythonParser parser = FinalizeParser(setup, args);
 			parsers->insert({ "empty_container_stack", parser });
@@ -239,7 +230,6 @@ namespace Marvel {
 			mvPythonParserSetup setup;
 			setup.about = "Moves an item to a new location.";
 			setup.category = { "Item Registry" };
-			setup.returnType = mvPyDataType::None;
 
 			mvPythonParser parser = FinalizeParser(setup, args);
 			parsers->insert({ "move_item", parser });
@@ -290,7 +280,6 @@ namespace Marvel {
 			mvPythonParserSetup setup;
 			setup.about = "Deletes an item..";
 			setup.category = { "Item Registry" };
-			setup.returnType = mvPyDataType::None;
 
 			mvPythonParser parser = FinalizeParser(setup, args);
 			parsers->insert({ "delete_item", parser });
@@ -316,7 +305,6 @@ namespace Marvel {
 			mvPythonParserSetup setup;
 			setup.about = "Moves an item up.";
 			setup.category = { "Item Registry" };
-			setup.returnType = mvPyDataType::None;
 
 			mvPythonParser parser = FinalizeParser(setup, args);
 			parsers->insert({ "move_item_up", parser });
@@ -329,7 +317,6 @@ namespace Marvel {
 			mvPythonParserSetup setup;
 			setup.about = "Moves an item down.";
 			setup.category = { "Item Registry" };
-			setup.returnType = mvPyDataType::None;
 
 			mvPythonParser parser = FinalizeParser(setup, args);
 			parsers->insert({ "move_item_down", parser });
@@ -355,7 +342,6 @@ namespace Marvel {
 			mvPythonParserSetup setup;
 			setup.about = "Sets the primary window.";
 			setup.category = { "Item Registry" };
-			setup.returnType = mvPyDataType::None;
 
 			mvPythonParser parser = FinalizeParser(setup, args);
 			parsers->insert({ "set_primary_window", parser });

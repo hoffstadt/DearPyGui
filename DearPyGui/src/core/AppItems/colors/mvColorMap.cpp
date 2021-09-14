@@ -44,7 +44,6 @@ namespace Marvel {
             mvPythonParserSetup setup;
             setup.about = "Sets the color map for widgets that accept it.";
             setup.category = { "Widget Operations" };
-            setup.returnType = mvPyDataType::None;
 
             mvPythonParser parser = FinalizeParser(setup, args);
 

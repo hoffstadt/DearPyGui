@@ -78,7 +78,6 @@ namespace Marvel {
 			mvPythonParserSetup setup;
 			setup.about = "Highlight specified table column.";
 			setup.category = { "Tables", "App Item Operations"};
-			setup.returnType = mvPyDataType::None;
 
 			mvPythonParser parser = FinalizeParser(setup, args);
 			parsers->insert({ "highlight_table_column", parser });
@@ -92,7 +91,6 @@ namespace Marvel {
 			mvPythonParserSetup setup;
 			setup.about = "Unhighlight specified table column.";
 			setup.category = { "Tables", "App Item Operations" };
-			setup.returnType = mvPyDataType::None;
 
 			mvPythonParser parser = FinalizeParser(setup, args);
 			parsers->insert({ "unhighlight_table_column", parser });
@@ -107,7 +105,6 @@ namespace Marvel {
 			mvPythonParserSetup setup;
 			setup.about = "Set table row color.";
 			setup.category = { "Tables", "App Item Operations" };
-			setup.returnType = mvPyDataType::None;
 
 			mvPythonParser parser = FinalizeParser(setup, args);
 			parsers->insert({ "set_table_row_color", parser });
@@ -121,7 +118,6 @@ namespace Marvel {
 			mvPythonParserSetup setup;
 			setup.about = "Remove user set table row color.";
 			setup.category = { "Tables", "App Item Operations" };
-			setup.returnType = mvPyDataType::None;
 
 			mvPythonParser parser = FinalizeParser(setup, args);
 			parsers->insert({ "unset_table_row_color", parser });
@@ -137,7 +133,6 @@ namespace Marvel {
 			mvPythonParserSetup setup;
 			setup.about = "Highlight specified table cell.";
 			setup.category = { "Tables", "App Item Operations" };
-			setup.returnType = mvPyDataType::None;
 
 			mvPythonParser parser = FinalizeParser(setup, args);
 			parsers->insert({ "highlight_table_cell", parser });
@@ -152,7 +147,6 @@ namespace Marvel {
 			mvPythonParserSetup setup;
 			setup.about = "Unhighlight specified table cell.";
 			setup.category = { "Tables", "App Item Operations" };
-			setup.returnType = mvPyDataType::None;
 
 			mvPythonParser parser = FinalizeParser(setup, args);
 			parsers->insert({ "unhighlight_table_cell", parser });
@@ -167,7 +161,6 @@ namespace Marvel {
 			mvPythonParserSetup setup;
 			setup.about = "Highlight specified table row.";
 			setup.category = { "Tables", "App Item Operations" };
-			setup.returnType = mvPyDataType::None;
 
 			mvPythonParser parser = FinalizeParser(setup, args);
 			parsers->insert({ "highlight_table_row", parser });
@@ -181,7 +174,6 @@ namespace Marvel {
 			mvPythonParserSetup setup;
 			setup.about = "Unhighlight specified table row.";
 			setup.category = { "Tables", "App Item Operations" };
-			setup.returnType = mvPyDataType::None;
 
 			mvPythonParser parser = FinalizeParser(setup, args);
 			parsers->insert({ "unhighlight_table_row", parser });
