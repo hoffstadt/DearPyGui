@@ -57,6 +57,7 @@ namespace Marvel {
 
         std::string _payloadType = "$$DPG_PAYLOAD";
         PyObject*   _dragData = nullptr;
+        PyObject*   _dropData = nullptr;
 
     };
 
