@@ -52,6 +52,7 @@ namespace Marvel {
         void getSpecificConfiguration(PyObject* dict) override;
         void applySpecificTemplate(mvAppItem* item) override;
         PyObject* getDragData() const { return _dragData; }
+        PyObject* getDropData() const { return _dragData; }
 
     private:
 
