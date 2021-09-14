@@ -16,6 +16,7 @@ namespace Marvel {
 		);
 
 		args.push_back({ mvPyDataType::Object, "drag_data", mvArgType::KEYWORD_ARG, "None", "Drag data" });
+		args.push_back({ mvPyDataType::Object, "drop_data", mvArgType::KEYWORD_ARG, "None", "Drop data" });
 		args.push_back({ mvPyDataType::String, "payload_type", mvArgType::KEYWORD_ARG, "'$$DPG_PAYLOAD'" });
 
 		mvPythonParserSetup setup;
