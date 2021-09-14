@@ -90,7 +90,7 @@ namespace Marvel {
         bool                             createContextManager = false;
         bool                             internal = false;
         std::string                      about;
-        mvPyDataType                     returnType;
+        mvPyDataType                     returnType = mvPyDataType::None;
         std::vector<std::string>         category;
     };
 
