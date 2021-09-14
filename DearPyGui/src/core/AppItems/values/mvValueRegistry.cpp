@@ -6,13 +6,19 @@ namespace Marvel {
 
 	void mvValueRegistry::InsertParser(std::map<std::string, mvPythonParser>* parsers)
 	{
+		std::vector<mvPythonDataElement> args;
 
-		mvPythonParser parser(mvPyDataType::UUID, "Undocumented function", { "Values", "Widgets" }, true);
-		mvAppItem::AddCommonArgs(parser, (CommonParserArgs)(
+		AddCommonArgs(args,(CommonParserArgs)(
 			MV_PARSER_ARG_ID)
 		);
 
-		parser.finalize();
+		mvPythonParserSetup setup;
+		setup.about = "Adds a value registry.";
+		setup.category = { "Widgets", "Values", "Containers"};
+		setup.returnType = mvPyDataType::UUID;
+		setup.createContextManager = true;
+
+		mvPythonParser parser = FinalizeParser(setup, args);
 
 		parsers->insert({ s_command, parser });
 	}

@@ -215,15 +215,26 @@ namespace Marvel {
 	{
 
 		{
-			mvPythonParser parser(mvPyDataType::None);
-			parser.addArg<mvPyDataType::Float>("scale");
-			parser.finalize();
+			std::vector<mvPythonDataElement> args;
+
+			args.push_back({ mvPyDataType::Float, "scale" });
+
+			mvPythonParserSetup setup;
+			setup.about = "Sets global font scale.";
+			setup.category = { "Fonts" };
+			setup.returnType = mvPyDataType::None;
+
+			mvPythonParser parser = FinalizeParser(setup, args);
 			parsers->insert({ "set_global_font_scale", parser });
 		}
 
 		{
-			mvPythonParser parser(mvPyDataType::Float);
-			parser.finalize();
+
+			mvPythonParserSetup setup;
+			setup.about = "Returns global font scale.";
+			setup.category = { "Fonts" };
+			setup.returnType = mvPyDataType::Float;
+			mvPythonParser parser = FinalizeParser(setup, {});
 			parsers->insert({ "get_global_font_scale", parser });
 		}
 
@@ -233,7 +244,7 @@ namespace Marvel {
 	{
 		float scale;
 
-		if (!(mvApp::GetApp()->getParsers())["set_global_font_scale"].parse(args, kwargs, __FUNCTION__, &scale))
+		if (!Parse((mvApp::GetApp()->getParsers())["set_global_font_scale"], args, kwargs, __FUNCTION__, &scale))
 			return GetPyNone();
 
 		if (!mvApp::s_manualMutexControl) std::lock_guard<std::mutex> lk(mvApp::s_mutex);

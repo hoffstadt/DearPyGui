@@ -8,15 +8,21 @@ namespace Marvel {
 
 	void mvTextureRegistry::InsertParser(std::map<std::string, mvPythonParser>* parsers)
 	{
+		std::vector<mvPythonDataElement> args;
 
-		mvPythonParser parser(mvPyDataType::UUID, "Undocumented function", { "Textures", "Widgets" }, true);
-		mvAppItem::AddCommonArgs(parser, (CommonParserArgs)(
+		AddCommonArgs(args,(CommonParserArgs)(
 			MV_PARSER_ARG_ID)
 		);
 
-		parser.addArg<mvPyDataType::Bool>("show", mvArgType::KEYWORD_ARG, "False", "Attempt to render widget.");
+		args.push_back({ mvPyDataType::Bool, "show", mvArgType::KEYWORD_ARG, "False", "Attempt to render widget." });
 
-		parser.finalize();
+		mvPythonParserSetup setup;
+		setup.about = "Adds a dynamic texture.";
+		setup.category = { "Textures", "Registries", "Widgets" };
+		setup.returnType = mvPyDataType::UUID;
+		setup.createContextManager = true;
+
+		mvPythonParser parser = FinalizeParser(setup, args);
 
 		parsers->insert({ s_command, parser });
 	}
@@ -73,7 +79,7 @@ namespace Marvel {
 
 				ImGui::Image(textureRaw, ImVec2(25, 25));
 				ImGui::SameLine();
-				if (ImGui::Selectable(texture->getLabel().c_str(), &status))
+				if (ImGui::Selectable(texture->_internalLabel.c_str(), &status))
 					_selection = index;
 
 				++index;
@@ -87,8 +93,8 @@ namespace Marvel {
 				ImGui::BeginGroup();
 
 				ImGui::BeginGroup();
-				ImGui::Text("Width: %d", _children[1][_selection]->getWidth());
-				ImGui::Text("Height: %d", _children[1][_selection]->getHeight());
+				ImGui::Text("Width: %d", _children[1][_selection]->_width);
+				ImGui::Text("Height: %d", _children[1][_selection]->_height);
 				ImGui::Text("Type: %s", _children[1][_selection]->getType() == mvAppItemType::mvStaticTexture ? "static" : "dynamic");
 				ImGui::EndGroup();
 
@@ -100,14 +106,14 @@ namespace Marvel {
 				else
 					textureRaw = static_cast<mvDynamicTexture*>(_children[1][_selection].get())->getRawTexture();
 
-				ImGui::Image(textureRaw, ImVec2((float)_children[1][_selection]->getWidth(), (float)_children[1][_selection]->getHeight()));
+				ImGui::Image(textureRaw, ImVec2((float)_children[1][_selection]->_width, (float)_children[1][_selection]->_height));
 
 				ImPlot::PushStyleColor(ImPlotCol_FrameBg, ImVec4(0.0f, 0.0f, 0.0f, 0.0f));
 				if (ImPlot::BeginPlot("##texture plot", 0, 0, ImVec2(-1, -1),
 					ImPlotFlags_NoTitle | ImPlotFlags_NoLegend | ImPlotFlags_NoMenus | ImPlotFlags_Equal))
 				{
-					ImPlot::PlotImage(_children[1][_selection]->getLabel().c_str(), textureRaw, ImPlotPoint(0.0, 0.0),
-						ImPlotPoint(_children[1][_selection]->getWidth(), _children[1][_selection]->getHeight()));
+					ImPlot::PlotImage(_children[1][_selection]->_internalLabel.c_str(), textureRaw, ImPlotPoint(0.0, 0.0),
+						ImPlotPoint(_children[1][_selection]->_width, _children[1][_selection]->_height));
 					ImPlot::EndPlot();
 				}
 				ImPlot::PopStyleColor();

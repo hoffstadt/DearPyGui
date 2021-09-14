@@ -14,50 +14,71 @@ namespace Marvel {
     void mvColorMap::InsertParser(std::map<std::string, mvPythonParser>* parsers)
     {
         {
-            mvPythonParser parser(mvPyDataType::UUID, "Adds a legend that pairs values with colors. This is typically used with a heat series. ", { "Widgets" });
-            mvAppItem::AddCommonArgs(parser, (CommonParserArgs)(
+            std::vector<mvPythonDataElement> args;
+
+            AddCommonArgs(args,(CommonParserArgs)(
                 MV_PARSER_ARG_ID |
                 MV_PARSER_ARG_SHOW)
             );
 
-            parser.addArg<mvPyDataType::ListListInt>("colors");
-            parser.addArg<mvPyDataType::Bool>("qualitative");
-            parser.addArg<mvPyDataType::UUID>("parent", mvArgType::KEYWORD_ARG, "internal_dpg.mvReservedUUID_4", "Parent to add this item to. (runtime adding)");
+            args.push_back({ mvPyDataType::ListListInt, "colors" });
+            args.push_back({ mvPyDataType::Bool, "qualitative" });
+            args.push_back({ mvPyDataType::UUID, "parent", mvArgType::KEYWORD_ARG, "internal_dpg.mvReservedUUID_4", "Parent to add this item to. (runtime adding)" });
 
-            parser.finalize();
+            mvPythonParserSetup setup;
+            setup.about = "Adds a legend that pairs values with colors. This is typically used with a heat series.";
+            setup.category = { "Widgets", "Colors" };
+            setup.returnType = mvPyDataType::UUID;
+
+            mvPythonParser parser = FinalizeParser(setup, args);
 
             parsers->insert({ s_command, parser });
         }
 
         {
-            mvPythonParser parser(mvPyDataType::None, "Sets the color map for widgets that accept it.", { "Widgets" });
+            std::vector<mvPythonDataElement> args;
 
-            parser.addArg<mvPyDataType::UUID>("item");
-            parser.addArg<mvPyDataType::UUID>("source");
+            args.push_back({ mvPyDataType::UUID, "item" });
+            args.push_back({ mvPyDataType::UUID, "source" });
 
-            parser.finalize();
+            mvPythonParserSetup setup;
+            setup.about = "Sets the color map for widgets that accept it.";
+            setup.category = { "Widget Operations" };
+            setup.returnType = mvPyDataType::None;
+
+            mvPythonParser parser = FinalizeParser(setup, args);
 
             parsers->insert({ "bind_colormap", parser });
         }
 
         {
-            mvPythonParser parser(mvPyDataType::IntList, "Returns a color from a colormap given t between 0 and 1. This command can only be ran once the app is started.", { "Widgets" });
+            std::vector<mvPythonDataElement> args;
+  
+            args.push_back({ mvPyDataType::UUID, "colormap" });
+            args.push_back({ mvPyDataType::Float, "t" });
 
-            parser.addArg<mvPyDataType::UUID>("colormap");
-            parser.addArg<mvPyDataType::Float>("t");
+            mvPythonParserSetup setup;
+            setup.about = "Returns a color from a colormap given t between 0 and 1. This command can only be ran once the app is started.";
+            setup.category = { "Widget Operations" };
+            setup.returnType = mvPyDataType::IntList;
 
-            parser.finalize();
+            mvPythonParser parser = FinalizeParser(setup, args);
 
             parsers->insert({ "sample_colormap", parser });
         }
 
         {
-            mvPythonParser parser(mvPyDataType::IntList, "Returns a color from a colormap given an index >= 0 (modulo will be performed). This command can only be ran once the app is started.", { "Widgets" });
+            std::vector<mvPythonDataElement> args;
 
-            parser.addArg<mvPyDataType::UUID>("colormap");
-            parser.addArg<mvPyDataType::Integer>("index");
+            args.push_back({ mvPyDataType::UUID, "colormap" });
+            args.push_back({ mvPyDataType::Integer, "index" });
 
-            parser.finalize();
+            mvPythonParserSetup setup;
+            setup.about = "Returns a color from a colormap given an index >= 0 (modulo will be performed). This command can only be ran once the app is started.";
+            setup.category = { "Widget Operations" };
+            setup.returnType = mvPyDataType::IntList;
+
+            mvPythonParser parser = FinalizeParser(setup, args);
 
             parsers->insert({ "get_colormap_color", parser });
         }
@@ -83,7 +104,7 @@ namespace Marvel {
 
     void mvColorMap::handleSpecificRequiredArgs(PyObject* dict)
     {
-        if (!mvApp::GetApp()->getParsers()[s_command].verifyRequiredArguments(dict))
+        if (!VerifyRequiredArguments(mvApp::GetApp()->getParsers()[s_command], dict))
             return;
 
         for (int i = 0; i < PyTuple_Size(dict); i++)
@@ -144,7 +165,7 @@ namespace Marvel {
         PyObject* itemraw;
         PyObject* sourceraw;
 
-        if (!(mvApp::GetApp()->getParsers())["bind_colormap"].parse(args, kwargs, __FUNCTION__, &itemraw, &sourceraw))
+        if (!Parse((mvApp::GetApp()->getParsers())["bind_colormap"], args, kwargs, __FUNCTION__, &itemraw, &sourceraw))
             return GetPyNone();
 
         if (!mvApp::s_manualMutexControl) std::lock_guard<std::mutex> lk(mvApp::s_mutex);
@@ -217,7 +238,7 @@ namespace Marvel {
         PyObject* itemraw;
         float t;
 
-        if (!(mvApp::GetApp()->getParsers())["sample_colormap"].parse(args, kwargs, __FUNCTION__, &itemraw, &t))
+        if (!Parse((mvApp::GetApp()->getParsers())["sample_colormap"], args, kwargs, __FUNCTION__, &itemraw, &t))
             return GetPyNone();
 
         if (!mvApp::s_manualMutexControl) std::lock_guard<std::mutex> lk(mvApp::s_mutex);
@@ -258,7 +279,7 @@ namespace Marvel {
         PyObject* itemraw;
         int index;
 
-        if (!(mvApp::GetApp()->getParsers())["get_colormap_color"].parse(args, kwargs, __FUNCTION__, &itemraw, &index))
+        if (!Parse((mvApp::GetApp()->getParsers())["get_colormap_color"], args, kwargs, __FUNCTION__, &itemraw, &index))
             return GetPyNone();
 
         if(!mvApp::IsAppStarted())

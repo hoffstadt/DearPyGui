@@ -11,9 +11,9 @@ namespace Marvel {
 
 	void mvDrawlist::InsertParser(std::map<std::string, mvPythonParser>* parsers)
 	{
+		std::vector<mvPythonDataElement> args;
 
-		mvPythonParser parser(mvPyDataType::UUID, "A container widget that is used to present draw items or layers. Layers and draw items should be added to this widget as children.", { "Drawlist", "Containers", "Widgets"}, true);
-		mvAppItem::AddCommonArgs(parser, (CommonParserArgs)(
+		AddCommonArgs(args,(CommonParserArgs)(
 			MV_PARSER_ARG_ID |
 			MV_PARSER_ARG_WIDTH |
 			MV_PARSER_ARG_HEIGHT |
@@ -29,7 +29,14 @@ namespace Marvel {
 			MV_PARSER_ARG_TRACKED |
 			MV_PARSER_ARG_POS)
 		);
-		parser.finalize();
+
+		mvPythonParserSetup setup;
+		setup.about = "Adds a drawing canvas.";
+		setup.category = { "Drawlist", "Widgets" };
+		setup.returnType = mvPyDataType::UUID;
+		setup.createContextManager = true;
+
+		mvPythonParser parser = FinalizeParser(setup, args);
 		parsers->insert({ s_command, parser });
 	}
 
@@ -54,7 +61,7 @@ namespace Marvel {
 		for (auto& item : _children[2])
 		{
 			// skip item if it's not shown
-			if (!item->isShown())
+			if (!item->_show)
 				continue;
 
 			item->draw(internal_drawlist, _startx, _starty);

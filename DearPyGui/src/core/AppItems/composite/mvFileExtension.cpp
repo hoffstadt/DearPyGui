@@ -9,8 +9,9 @@ namespace Marvel {
 	void mvFileExtension::InsertParser(std::map<std::string, mvPythonParser>* parsers)
 	{
 		{
-			mvPythonParser parser(mvPyDataType::UUID, "Creates a file extension filter option in the file dialog. Only works when the parent is a file dialog.", { "File Dialog"});
-			mvAppItem::AddCommonArgs(parser, (CommonParserArgs)(
+			std::vector<mvPythonDataElement> args;
+
+			AddCommonArgs(args,(CommonParserArgs)(
 				MV_PARSER_ARG_ID |
 				MV_PARSER_ARG_WIDTH |
 				MV_PARSER_ARG_HEIGHT |
@@ -18,12 +19,16 @@ namespace Marvel {
 				MV_PARSER_ARG_BEFORE)
 			);
 
-			parser.addArg<mvPyDataType::String>("extension", mvArgType::REQUIRED_ARG, "*", "Extension that will show as an when the parent is a file dialog.");
-			parser.addArg<mvPyDataType::String>("custom_text", mvArgType::KEYWORD_ARG, "''", "Replaces the displayed text in the drop down for this extension.");
-			parser.addArg<mvPyDataType::FloatList>("color", mvArgType::KEYWORD_ARG, "(-255, 0, 0, 255)");
+			args.push_back({ mvPyDataType::String, "extension", mvArgType::REQUIRED_ARG, "*", "Extension that will show as an when the parent is a file dialog." });
+			args.push_back({ mvPyDataType::String, "custom_text", mvArgType::KEYWORD_ARG, "''", "Replaces the displayed text in the drop down for this extension." });
+			args.push_back({ mvPyDataType::FloatList, "color", mvArgType::KEYWORD_ARG, "(-255, 0, 0, 255)" });
 
-			//parser.addArg<mvPyDataType::Callable>("callback", mvArgType::KEYWORD_ARG, "None", "function to call on completion");
-			parser.finalize();
+			mvPythonParserSetup setup;
+			setup.about = "Creates a file extension filter option in the file dialog.";
+			setup.category = {"File Dialog"};
+			setup.returnType = mvPyDataType::UUID;
+
+			mvPythonParser parser = FinalizeParser(setup, args);
 			parsers->insert({ s_command, parser });
 		}
 
@@ -55,7 +60,7 @@ namespace Marvel {
 
 	void mvFileExtension::handleSpecificRequiredArgs(PyObject* dict)
 	{
-		if (!mvApp::GetApp()->getParsers()[s_command].verifyRequiredArguments(dict))
+		if (!VerifyRequiredArguments(mvApp::GetApp()->getParsers()[s_command], dict))
 			return;
 
 		for (int i = 0; i < PyTuple_Size(dict); i++)

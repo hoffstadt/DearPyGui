@@ -39,7 +39,7 @@ namespace Marvel {
 
         // build up flags for current node
         const auto node_flags = ImGuiTreeNodeFlags_OpenOnArrow
-            | ((item->getUUID() == m_selectedItem) ? ImGuiTreeNodeFlags_Selected : 0)
+            | ((item->_uuid == m_selectedItem) ? ImGuiTreeNodeFlags_Selected : 0)
             | (mvAppItem::DoesItemHaveFlag(item, MV_ITEM_DESC_CONTAINER) ? 0 : ImGuiTreeNodeFlags_Leaf);
 
         // render this node
@@ -47,8 +47,8 @@ namespace Marvel {
         std::string labelToShow = item->getTypeString();
         if (!item->_alias.empty())
             labelToShow = item->_alias;
-        else if (!item->_specificedlabel.empty())
-            labelToShow = item->_specificedlabel;
+        else if (!item->_specifiedLabel.empty())
+            labelToShow = item->_specifiedLabel;
 
 
         if (!_imguiFilter.PassFilter(labelToShow.c_str()) && _startFiltering)
@@ -59,7 +59,7 @@ namespace Marvel {
 
         const auto expanded = ImGui::TreeNodeEx(labelToShow.c_str(), node_flags);
 
-        if (item->getUUID() == m_selectedItem)
+        if (item->_uuid == m_selectedItem)
             _startFiltering = true;
         
         // processing for selecting node
@@ -75,7 +75,7 @@ namespace Marvel {
             if(expanded)
                 ImGui::TreePop();
             ImGui::PopID();
-            if (item->getUUID() == m_selectedItem)
+            if (item->_uuid == m_selectedItem)
                 _startFiltering = false;
             return;
         }
@@ -110,7 +110,7 @@ namespace Marvel {
 
         ImGui::PopID();
 
-        if (item->getUUID() == m_selectedItem)
+        if (item->_uuid == m_selectedItem)
             _startFiltering = false;
 
     }

@@ -10,12 +10,9 @@ namespace Marvel {
 
 	void mvChild::InsertParser(std::map<std::string, mvPythonParser>* parsers)
 	{
-		mvPythonParser parser(mvPyDataType::UUID,
-			"Adds an embedded child window. Will show scrollbars when items do not fit. Must be followed by a call to end.", 
-			{ "Containers", "Widgets" },
-			true);
+		std::vector<mvPythonDataElement> args;
 
-		mvAppItem::AddCommonArgs(parser, (CommonParserArgs)(
+		AddCommonArgs(args,(CommonParserArgs)(
 			MV_PARSER_ARG_ID |
 			MV_PARSER_ARG_WIDTH |
 			MV_PARSER_ARG_HEIGHT |
@@ -32,14 +29,20 @@ namespace Marvel {
 			MV_PARSER_ARG_POS)
 		);
 
-		parser.addArg<mvPyDataType::Bool>("border", mvArgType::KEYWORD_ARG, "True", "Shows/Hides the border around the sides.");
-		parser.addArg<mvPyDataType::Bool>("autosize_x", mvArgType::KEYWORD_ARG, "False", "Autosize the window to fit it's items in the x.");
-		parser.addArg<mvPyDataType::Bool>("autosize_y", mvArgType::KEYWORD_ARG, "False", "Autosize the window to fit it's items in the y.");
-		parser.addArg<mvPyDataType::Bool>("no_scrollbar", mvArgType::KEYWORD_ARG, "False", " Disable scrollbars (window can still scroll with mouse or programmatically).");
-		parser.addArg<mvPyDataType::Bool>("horizontal_scrollbar", mvArgType::KEYWORD_ARG, "False", "Allow horizontal scrollbar to appear (off by default).");
-		parser.addArg<mvPyDataType::Bool>("menubar", mvArgType::KEYWORD_ARG, "False", "Shows/Hides the menubar at the top.");
+		args.push_back({ mvPyDataType::Bool, "border", mvArgType::KEYWORD_ARG, "True", "Shows/Hides the border around the sides." });
+		args.push_back({ mvPyDataType::Bool, "autosize_x", mvArgType::KEYWORD_ARG, "False", "Autosize the window to fit it's items in the x." });
+		args.push_back({ mvPyDataType::Bool, "autosize_y", mvArgType::KEYWORD_ARG, "False", "Autosize the window to fit it's items in the y." });
+		args.push_back({ mvPyDataType::Bool, "no_scrollbar", mvArgType::KEYWORD_ARG, "False", " Disable scrollbars (window can still scroll with mouse or programmatically)." });
+		args.push_back({ mvPyDataType::Bool, "horizontal_scrollbar", mvArgType::KEYWORD_ARG, "False", "Allow horizontal scrollbar to appear (off by default)." });
+		args.push_back({ mvPyDataType::Bool, "menubar", mvArgType::KEYWORD_ARG, "False", "Shows/Hides the menubar at the top." });
 
-		parser.finalize();
+		mvPythonParserSetup setup;
+		setup.about = "Adds an embedded child window. Will show scrollbars when items do not fit.";
+		setup.category = { "Containers", "Widgets"};
+		setup.returnType = mvPyDataType::UUID;
+		setup.createContextManager = true;
+
+		mvPythonParser parser = FinalizeParser(setup, args);
 
 		parsers->insert({ s_command, parser });
 	}
@@ -141,10 +144,10 @@ namespace Marvel {
 			{
 
 				item->draw(drawlist, ImGui::GetCursorPosX(), ImGui::GetCursorPosY());
-				if (item->isTracked())
+				if (item->_tracked)
 				{
-					ImGui::SetScrollHereX(item->getTrackOffset());
-					ImGui::SetScrollHereY(item->getTrackOffset());
+					ImGui::SetScrollHereX(item->_trackOffset);
+					ImGui::SetScrollHereY(item->_trackOffset);
 				}
 
 			}
@@ -221,9 +224,9 @@ namespace Marvel {
 				{
 					auto payloadActual = static_cast<const mvDragPayload*>(payload->Data);
 					if (_alias.empty())
-						mvApp::GetApp()->getCallbackRegistry().addCallback(getDropCallback(), _uuid, payloadActual->getDragData(), nullptr);
+						mvApp::GetApp()->getCallbackRegistry().addCallback(_dropCallback,_uuid, payloadActual->getDragData(), nullptr);
 					else
-						mvApp::GetApp()->getCallbackRegistry().addCallback(getDropCallback(), _alias, payloadActual->getDragData(), nullptr);
+						mvApp::GetApp()->getCallbackRegistry().addCallback(_dropCallback,_alias, payloadActual->getDragData(), nullptr);
 				}
 
 				ImGui::EndDragDropTarget();

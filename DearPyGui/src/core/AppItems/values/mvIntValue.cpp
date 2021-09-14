@@ -9,15 +9,22 @@ namespace Marvel {
 
     void mvIntValue::InsertParser(std::map<std::string, mvPythonParser>* parsers)
     {
-        mvPythonParser parser(mvPyDataType::UUID, "Undocumented", { "Widgets", "Values"});
-        mvAppItem::AddCommonArgs(parser, (CommonParserArgs)(
+        std::vector<mvPythonDataElement> args;
+
+        AddCommonArgs(args,(CommonParserArgs)(
             MV_PARSER_ARG_ID |
             MV_PARSER_ARG_SOURCE)
         );
 
-        parser.addArg<mvPyDataType::Integer>("default_value", mvArgType::KEYWORD_ARG, "0");
-        parser.addArg<mvPyDataType::UUID>("parent", mvArgType::KEYWORD_ARG, "internal_dpg.mvReservedUUID_3", "Parent to add this item to. (runtime adding)");
-        parser.finalize();
+        args.push_back({ mvPyDataType::Integer, "default_value", mvArgType::KEYWORD_ARG, "0" });
+        args.push_back({ mvPyDataType::UUID, "parent", mvArgType::KEYWORD_ARG, "internal_dpg.mvReservedUUID_3", "Parent to add this item to. (runtime adding)" });
+        
+        mvPythonParserSetup setup;
+        setup.about = "Adds a int value.";
+        setup.category = { "Widgets", "Values" };
+        setup.returnType = mvPyDataType::UUID;
+        
+        mvPythonParser parser = FinalizeParser(setup, args);
 
         parsers->insert({ s_command, parser });
     }

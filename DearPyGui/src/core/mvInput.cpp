@@ -507,86 +507,158 @@ namespace Marvel {
 	{
 
 		{
-			mvPythonParser parser(mvPyDataType::IntList, "Undocumented", { "Input Polling" });
-			parser.addArg<mvPyDataType::Bool>("local", mvArgType::KEYWORD_ARG, "True");
-			parser.finalize();
+			std::vector<mvPythonDataElement> args;
+			args.push_back({ mvPyDataType::Bool, "local", mvArgType::KEYWORD_ARG, "True" });
+
+			mvPythonParserSetup setup;
+			setup.about = "Returns mouse position.";
+			setup.category = { "Input Polling" };
+			setup.returnType = mvPyDataType::IntList;
+
+			mvPythonParser parser = FinalizeParser(setup, args);
 			parsers->insert({ "get_mouse_pos", parser });
 		}
 
 		{
-			mvPythonParser parser(mvPyDataType::IntList, "Undocumented", { "Input Polling" });
-			parser.finalize();
+			std::vector<mvPythonDataElement> args;
+
+			mvPythonParserSetup setup;
+			setup.about = "Returns mouse position in plot.";
+			setup.category = { "Input Polling" };
+			setup.returnType = mvPyDataType::IntList;
+
+			mvPythonParser parser = FinalizeParser(setup, args);
 			parsers->insert({ "get_plot_mouse_pos", parser });
 		}
 
 		{
-			mvPythonParser parser(mvPyDataType::IntList, "Undocumented", { "Input Polling" });
-			parser.finalize();
+			std::vector<mvPythonDataElement> args;
+
+			mvPythonParserSetup setup;
+			setup.about = "Returns mouse position in drawing.";
+			setup.category = { "Input Polling" };
+			setup.returnType = mvPyDataType::IntList;
+
+			mvPythonParser parser = FinalizeParser(setup, args);
 			parsers->insert({ "get_drawing_mouse_pos", parser });
 		}
 
 		{
-			mvPythonParser parser(mvPyDataType::Float, "Undocumented", { "Input Polling" });
-			parser.finalize();
+			std::vector<mvPythonDataElement> args;
+
+			mvPythonParserSetup setup;
+			setup.about = "Returns mouse drag delta.";
+			setup.category = { "Input Polling" };
+			setup.returnType = mvPyDataType::Float;
+
+			mvPythonParser parser = FinalizeParser(setup, args);
 			parsers->insert({ "get_mouse_drag_delta", parser });
 		}
 
 		{
-			mvPythonParser parser(mvPyDataType::Bool, "Undocumented", { "Input Polling" });
-			parser.addArg<mvPyDataType::Integer>("button");
-			parser.addArg<mvPyDataType::Float>("threshold");
-			parser.finalize();
+			std::vector<mvPythonDataElement> args;
+			args.push_back({ mvPyDataType::Integer, "button" });
+			args.push_back({ mvPyDataType::Float, "threshold" });
+
+			mvPythonParserSetup setup;
+			setup.about = "Checks if mouse button is down and dragging.";
+			setup.category = { "Input Polling" };
+			setup.returnType = mvPyDataType::Bool;
+
+			mvPythonParser parser = FinalizeParser(setup, args);
 			parsers->insert({ "is_mouse_button_dragging", parser });
 		}
 
 		{
-			mvPythonParser parser(mvPyDataType::Bool, "Undocumented", { "Input Polling" });
-			parser.addArg<mvPyDataType::Integer>("button");
-			parser.finalize();
+			std::vector<mvPythonDataElement> args;
+			args.push_back({ mvPyDataType::Integer, "button" });
+
+			mvPythonParserSetup setup;
+			setup.about = "Checks if mouse button is down.";
+			setup.category = { "Input Polling" };
+			setup.returnType = mvPyDataType::Bool;
+
+			mvPythonParser parser = FinalizeParser(setup, args);
 			parsers->insert({ "is_mouse_button_down", parser });
 		}
 
 		{
-			mvPythonParser parser(mvPyDataType::Bool, "Undocumented", { "Input Polling" });
-			parser.addArg<mvPyDataType::Integer>("button");
-			parser.finalize();
+			std::vector<mvPythonDataElement> args;
+			args.push_back({ mvPyDataType::Integer, "button" });
+
+			mvPythonParserSetup setup;
+			setup.about = "Checks if mouse button is clicked.";
+			setup.category = { "Input Polling" };
+			setup.returnType = mvPyDataType::Bool;
+
+			mvPythonParser parser = FinalizeParser(setup, args);
 			parsers->insert({ "is_mouse_button_clicked", parser });
 		}
 
 
 		{
-			mvPythonParser parser(mvPyDataType::Bool, "Undocumented", { "Input Polling" });
-			parser.addArg<mvPyDataType::Integer>("button");
-			parser.finalize();
+			std::vector<mvPythonDataElement> args;
+			args.push_back({ mvPyDataType::Integer, "button" });
+
+			mvPythonParserSetup setup;
+			setup.about = "Checks if mouse button is released.";
+			setup.category = { "Input Polling" };
+			setup.returnType = mvPyDataType::Bool;
+
+			mvPythonParser parser = FinalizeParser(setup, args);
 			parsers->insert({ "is_mouse_button_released", parser });
 		}
 
 
 		{
-			mvPythonParser parser(mvPyDataType::Bool, "Undocumented", { "Input Polling" });
-			parser.addArg<mvPyDataType::Integer>("button");
-			parser.finalize();
+			std::vector<mvPythonDataElement> args;
+			args.push_back({ mvPyDataType::Integer, "button" });
+
+			mvPythonParserSetup setup;
+			setup.about = "Checks if mouse button is double clicked.";
+			setup.category = { "Input Polling" };
+			setup.returnType = mvPyDataType::Bool;
+
+			mvPythonParser parser = FinalizeParser(setup, args);
 			parsers->insert({ "is_mouse_button_double_clicked", parser });
 		}
 
 		{
-			mvPythonParser parser(mvPyDataType::Bool, "Undocumented", { "Input Polling" });
-			parser.addArg<mvPyDataType::Integer>("key");
-			parser.finalize();
+			std::vector<mvPythonDataElement> args;
+			args.push_back({ mvPyDataType::Integer, "key" });
+
+			mvPythonParserSetup setup;
+			setup.about = "Checks if key is pressed.";
+			setup.category = { "Input Polling" };
+			setup.returnType = mvPyDataType::Bool;
+
+			mvPythonParser parser = FinalizeParser(setup, args);
 			parsers->insert({ "is_key_pressed", parser });
 		}
 
 		{
-			mvPythonParser parser(mvPyDataType::Bool, "Undocumented", { "Input Polling" });
-			parser.addArg<mvPyDataType::Integer>("key");
-			parser.finalize();
+			std::vector<mvPythonDataElement> args;
+			args.push_back({ mvPyDataType::Integer, "key" });
+
+			mvPythonParserSetup setup;
+			setup.about = "Checks if key is released.";
+			setup.category = { "Input Polling" };
+			setup.returnType = mvPyDataType::Bool;
+
+			mvPythonParser parser = FinalizeParser(setup, args);
 			parsers->insert({ "is_key_released", parser });
 		}
 
 		{
-			mvPythonParser parser(mvPyDataType::Bool, "Undocumented", { "Input Polling" });
-			parser.addArg<mvPyDataType::Integer>("key");
-			parser.finalize();
+			std::vector<mvPythonDataElement> args;
+			args.push_back({ mvPyDataType::Integer, "key" });
+
+			mvPythonParserSetup setup;
+			setup.about = "Checks if key is down.";
+			setup.category = { "Input Polling" };
+			setup.returnType = mvPyDataType::Bool;
+
+			mvPythonParser parser = FinalizeParser(setup, args);
 			parsers->insert({ "is_key_down", parser });
 		}
 
@@ -596,7 +668,7 @@ namespace Marvel {
 	{
 		int local = true;
 
-		if (!(mvApp::GetApp()->getParsers())["get_mouse_pos"].parse(args, kwargs, __FUNCTION__, &local))
+		if (!Parse((mvApp::GetApp()->getParsers())["get_mouse_pos"], args, kwargs, __FUNCTION__, &local))
 			return GetPyNone();
 
 		auto pos = mvVec2();
@@ -612,7 +684,7 @@ namespace Marvel {
 	PyObject* mvInput::get_plot_mouse_pos(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 
-		if (!(mvApp::GetApp()->getParsers())["get_plot_mouse_pos"].parse(args, kwargs, __FUNCTION__))
+		if (!Parse((mvApp::GetApp()->getParsers())["get_plot_mouse_pos"], args, kwargs, __FUNCTION__))
 			return GetPyNone();
 
 		mvVec2 pos = mvInput::getPlotMousePosition();
@@ -623,7 +695,7 @@ namespace Marvel {
 	PyObject* mvInput::get_drawing_mouse_pos(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 
-		if (!(mvApp::GetApp()->getParsers())["get_drawing_mouse_pos"].parse(args, kwargs, __FUNCTION__))
+		if (!Parse((mvApp::GetApp()->getParsers())["get_drawing_mouse_pos"], args, kwargs, __FUNCTION__))
 			return GetPyNone();
 
 		mvVec2 pos = mvInput::getDrawingMousePosition();
@@ -642,7 +714,7 @@ namespace Marvel {
 	{
 		int key;
 
-		if (!(mvApp::GetApp()->getParsers())["is_key_pressed"].parse(args, kwargs, __FUNCTION__, &key))
+		if (!Parse((mvApp::GetApp()->getParsers())["is_key_pressed"], args, kwargs, __FUNCTION__, &key))
 			return GetPyNone();
 
 		return ToPyBool(mvInput::isKeyPressed(key));
@@ -652,7 +724,7 @@ namespace Marvel {
 	{
 		int key;
 
-		if (!(mvApp::GetApp()->getParsers())["is_key_released"].parse(args, kwargs, __FUNCTION__, &key))
+		if (!Parse((mvApp::GetApp()->getParsers())["is_key_released"], args, kwargs, __FUNCTION__, &key))
 			return GetPyNone();
 
 		return ToPyBool(mvInput::isKeyReleased(key));
@@ -662,7 +734,7 @@ namespace Marvel {
 	{
 		int key;
 
-		if (!(mvApp::GetApp()->getParsers())["is_key_down"].parse(args, kwargs, __FUNCTION__, &key))
+		if (!Parse((mvApp::GetApp()->getParsers())["is_key_down"], args, kwargs, __FUNCTION__, &key))
 			return GetPyNone();
 
 		return ToPyBool(mvInput::isKeyDown(key));
@@ -673,7 +745,7 @@ namespace Marvel {
 		int button;
 		float threshold;
 
-		if (!(mvApp::GetApp()->getParsers())["is_mouse_button_dragging"].parse(args, kwargs, __FUNCTION__, &button, &threshold))
+		if (!Parse((mvApp::GetApp()->getParsers())["is_mouse_button_dragging"], args, kwargs, __FUNCTION__, &button, &threshold))
 			return GetPyNone();
 
 		return ToPyBool(mvInput::isMouseDragging(button, threshold));
@@ -683,7 +755,7 @@ namespace Marvel {
 	{
 		int button;
 
-		if (!(mvApp::GetApp()->getParsers())["is_mouse_button_down"].parse(args, kwargs, __FUNCTION__, &button))
+		if (!Parse((mvApp::GetApp()->getParsers())["is_mouse_button_down"], args, kwargs, __FUNCTION__, &button))
 			return GetPyNone();
 
 		return ToPyBool(mvInput::isMouseButtonDown(button));
@@ -693,7 +765,7 @@ namespace Marvel {
 	{
 		int button;
 
-		if (!(mvApp::GetApp()->getParsers())["is_mouse_button_clicked"].parse(args, kwargs, __FUNCTION__, &button))
+		if (!Parse((mvApp::GetApp()->getParsers())["is_mouse_button_clicked"], args, kwargs, __FUNCTION__, &button))
 			return GetPyNone();
 
 		return ToPyBool(mvInput::isMouseButtonClicked(button));
@@ -703,7 +775,7 @@ namespace Marvel {
 	{
 		int button;
 
-		if (!(mvApp::GetApp()->getParsers())["is_mouse_button_double_clicked"].parse(args, kwargs, __FUNCTION__, &button))
+		if (!Parse((mvApp::GetApp()->getParsers())["is_mouse_button_double_clicked"], args, kwargs, __FUNCTION__, &button))
 			return GetPyNone();
 
 		return ToPyBool(mvInput::isMouseButtonDoubleClicked(button));
@@ -713,7 +785,7 @@ namespace Marvel {
 	{
 		int button;
 
-		if (!(mvApp::GetApp()->getParsers())["is_mouse_button_released"].parse(args, kwargs, __FUNCTION__, &button))
+		if (!Parse((mvApp::GetApp()->getParsers())["is_mouse_button_released"], args, kwargs, __FUNCTION__, &button))
 			return GetPyNone();
 
 		return ToPyBool(mvInput::isMouseButtonReleased(button));

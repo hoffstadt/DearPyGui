@@ -10,9 +10,9 @@ namespace Marvel {
 
 	void mvSimplePlot::InsertParser(std::map<std::string, mvPythonParser>* parsers)
 	{
+		std::vector<mvPythonDataElement> args;
 
-		mvPythonParser parser(mvPyDataType::UUID, "A simple plot for visualization of a 1 dimensional set of values.", { "Plotting", "Widgets" });
-		mvAppItem::AddCommonArgs(parser, (CommonParserArgs)(
+		AddCommonArgs(args,(CommonParserArgs)(
 			MV_PARSER_ARG_ID |
 			MV_PARSER_ARG_WIDTH |
 			MV_PARSER_ARG_HEIGHT |
@@ -28,16 +28,19 @@ namespace Marvel {
 			MV_PARSER_ARG_SHOW)
 		);
 
-		parser.addArg<mvPyDataType::FloatList>("default_value", mvArgType::KEYWORD_ARG, "()");
-		parser.addArg<mvPyDataType::String>("overlay", mvArgType::KEYWORD_ARG, "''", "overlays text (similar to a plot title)");
+		args.push_back({ mvPyDataType::FloatList, "default_value", mvArgType::KEYWORD_ARG, "()" });
+		args.push_back({ mvPyDataType::String, "overlay", mvArgType::KEYWORD_ARG, "''", "overlays text (similar to a plot title)" });
+		args.push_back({ mvPyDataType::Bool, "histogram", mvArgType::KEYWORD_ARG, "False" });
+		args.push_back({ mvPyDataType::Bool, "autosize", mvArgType::KEYWORD_ARG, "True" });	
+		args.push_back({ mvPyDataType::Float, "min_scale", mvArgType::KEYWORD_ARG, "0.0" });
+		args.push_back({ mvPyDataType::Float, "max_scale", mvArgType::KEYWORD_ARG, "0.0" });
 
-		parser.addArg<mvPyDataType::Bool>("histogram", mvArgType::KEYWORD_ARG, "False");
-		parser.addArg<mvPyDataType::Bool>("autosize", mvArgType::KEYWORD_ARG, "True");
-		
-		parser.addArg<mvPyDataType::Float>("min_scale", mvArgType::KEYWORD_ARG, "0.0");
-		parser.addArg<mvPyDataType::Float>("max_scale", mvArgType::KEYWORD_ARG, "0.0");
+		mvPythonParserSetup setup;
+		setup.about = "Adds a simple plot for visualization of a 1 dimensional set of values.";
+		setup.category = { "Plotting", "Widgets" };
+		setup.returnType = mvPyDataType::UUID;
 
-		parser.finalize();
+		mvPythonParser parser = FinalizeParser(setup, args);
 
 		parsers->insert({ s_command, parser });
 	}
@@ -187,9 +190,9 @@ namespace Marvel {
 				{
 					auto payloadActual = static_cast<const mvDragPayload*>(payload->Data);
 					if (_alias.empty())
-						mvApp::GetApp()->getCallbackRegistry().addCallback(getDropCallback(), _uuid, payloadActual->getDragData(), nullptr);
+						mvApp::GetApp()->getCallbackRegistry().addCallback(_dropCallback,_uuid, payloadActual->getDragData(), nullptr);
 					else
-						mvApp::GetApp()->getCallbackRegistry().addCallback(getDropCallback(), _alias, payloadActual->getDragData(), nullptr);
+						mvApp::GetApp()->getCallbackRegistry().addCallback(_dropCallback,_alias, payloadActual->getDragData(), nullptr);
 				}
 
 				ImGui::EndDragDropTarget();

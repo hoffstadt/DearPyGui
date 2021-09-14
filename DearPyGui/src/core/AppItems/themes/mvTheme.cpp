@@ -12,18 +12,32 @@ namespace Marvel {
 	{
 
 		{
-			mvPythonParser parser(mvPyDataType::UUID, "Undocumented function", { "Themes", "Containers" }, true);
-			mvAppItem::AddCommonArgs(parser, (CommonParserArgs)(
+			std::vector<mvPythonDataElement> args;
+
+			AddCommonArgs(args,(CommonParserArgs)(
 				MV_PARSER_ARG_ID)
 			);
-			parser.finalize();
+
+			mvPythonParserSetup setup;
+			setup.about = "Adds a theme.";
+			setup.category = { "Themes", "Containers" };
+			setup.returnType = mvPyDataType::UUID;
+			setup.createContextManager = true;
+
+			mvPythonParser parser = FinalizeParser(setup, args);
 			parsers->insert({ s_command, parser });
 		}
 
 		{
-			mvPythonParser parser(mvPyDataType::None, "Undocumented", { "Themes" });
-			parser.addArg<mvPyDataType::UUID>("theme");
-			parser.finalize();
+			std::vector<mvPythonDataElement> args;
+			args.push_back({ mvPyDataType::UUID, "theme" });
+
+			mvPythonParserSetup setup;
+			setup.about = "Binds a global theme.";
+			setup.category = { "Themes"};
+			setup.returnType = mvPyDataType::None;
+
+			mvPythonParser parser = FinalizeParser(setup, args);
 			parsers->insert({ "bind_theme", parser });
 		}
 
@@ -43,7 +57,7 @@ namespace Marvel {
 			auto comp = static_cast<mvThemeComponent*>(child.get());
 			if (comp->_specificType == (int)mvAppItemType::All || comp->_specificType == _specificType)
 			{
-				if (_specificEnabled == comp->isEnabled())
+				if (_specificEnabled == comp->_enabled)
 				{
 					child->draw(drawlist, x, y);
 				}
@@ -51,7 +65,7 @@ namespace Marvel {
 			}
 			if(comp->_specificType == _specificType)
 			{
-				if (_specificEnabled == comp->isEnabled())
+				if (_specificEnabled == comp->_enabled)
 				{
 					comp->_oldComponent = *comp->_specificComponentPtr;
 					*comp->_specificComponentPtr = child;
@@ -68,14 +82,14 @@ namespace Marvel {
 			auto comp = static_cast<mvThemeComponent*>(child.get());
 			if (comp->_specificType == (int)mvAppItemType::All)
 			{
-				if (_specificEnabled == comp->isEnabled())
+				if (_specificEnabled == comp->_enabled)
 				{
 					child->customAction(data);
 				}
 			}
 			if (comp->_specificType == _specificType)
 			{
-				if (_specificEnabled == comp->isEnabled())
+				if (_specificEnabled == comp->_enabled)
 				{
 					*comp->_specificComponentPtr = comp->_oldComponent;
 				}
@@ -88,7 +102,7 @@ namespace Marvel {
 
 		PyObject* itemraw;
 
-		if (!(mvApp::GetApp()->getParsers())["bind_theme"].parse(args, kwargs, __FUNCTION__,
+		if (!Parse((mvApp::GetApp()->getParsers())["bind_theme"], args, kwargs, __FUNCTION__,
 			&itemraw))
 			return GetPyNone();
 

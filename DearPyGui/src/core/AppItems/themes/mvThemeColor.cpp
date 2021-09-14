@@ -11,18 +11,23 @@ namespace Marvel {
 
 	void mvThemeColor::InsertParser(std::map<std::string, mvPythonParser>* parsers)
 	{
+		std::vector<mvPythonDataElement> args;
 
-		mvPythonParser parser(mvPyDataType::UUID, "Undocumented function", { "Themes" });
-		mvAppItem::AddCommonArgs(parser, (CommonParserArgs)(
+		AddCommonArgs(args,(CommonParserArgs)(
 			MV_PARSER_ARG_ID |
 			MV_PARSER_ARG_PARENT)
 		);
 
-		parser.addArg<mvPyDataType::Long>("target", mvArgType::POSITIONAL_ARG, "0");
-		parser.addArg<mvPyDataType::IntList>("value", mvArgType::POSITIONAL_ARG, "(0, 0, 0, 255)");
-		parser.addArg<mvPyDataType::Integer>("category", mvArgType::KEYWORD_ARG, "0", "Options include mvThemeCat_Core, mvThemeCat_Plots, mvThemeCat_Nodes.");
+		args.push_back({ mvPyDataType::Long, "target", mvArgType::POSITIONAL_ARG, "0" });
+		args.push_back({ mvPyDataType::IntList, "value", mvArgType::POSITIONAL_ARG, "(0, 0, 0, 255)" });
+		args.push_back({ mvPyDataType::Integer, "category", mvArgType::KEYWORD_ARG, "0", "Options include mvThemeCat_Core, mvThemeCat_Plots, mvThemeCat_Nodes." });
 
-		parser.finalize();
+		mvPythonParserSetup setup;
+		setup.about = "Adds a theme color.";
+		setup.category = { "Themes" };
+		setup.returnType = mvPyDataType::UUID;
+
+		mvPythonParser parser = FinalizeParser(setup, args);
 
 		parsers->insert({ s_command, parser });
 
@@ -58,7 +63,7 @@ namespace Marvel {
 
 	void mvThemeColor::handleSpecificPositionalArgs(PyObject* dict)
 	{
-		if (!mvApp::GetApp()->getParsers()[s_command].verifyPositionalArguments(dict))
+		if (!VerifyPositionalArguments(mvApp::GetApp()->getParsers()[s_command], dict))
 			return;
 
 		for (int i = 0; i < PyTuple_Size(dict); i++)

@@ -114,26 +114,6 @@ namespace Marvel {
         MV_ITEM_DESC_HANDLER     = 1 << 3 // todo: rename descriptively
     };
 
-    enum CommonParserArgs
-    {
-        MV_PARSER_ARG_ID             = 1 << 1,
-        MV_PARSER_ARG_WIDTH          = 1 << 2,
-        MV_PARSER_ARG_HEIGHT         = 1 << 3,
-        MV_PARSER_ARG_INDENT         = 1 << 4,
-        MV_PARSER_ARG_PARENT         = 1 << 5,
-        MV_PARSER_ARG_BEFORE         = 1 << 6,
-        MV_PARSER_ARG_SOURCE         = 1 << 7,
-        MV_PARSER_ARG_CALLBACK       = 1 << 8,
-        MV_PARSER_ARG_SHOW           = 1 << 9,
-        MV_PARSER_ARG_ENABLED        = 1 << 10,
-        MV_PARSER_ARG_POS            = 1 << 11,
-        MV_PARSER_ARG_DROP_CALLBACK  = 1 << 12,
-        MV_PARSER_ARG_DRAG_CALLBACK  = 1 << 13,
-        MV_PARSER_ARG_PAYLOAD_TYPE   = 1 << 14,
-        MV_PARSER_ARG_TRACKED        = 1 << 15,
-        MV_PARSER_ARG_FILTER         = 1 << 16,
-        MV_PARSER_ARG_SEARCH_DELAY   = 1 << 17
-    };
 
     enum class mvLibType {
         MV_IMGUI = 0,
@@ -205,9 +185,6 @@ namespace Marvel {
 
         // retrieves parent, before, uuid from user input when creating an item
         static std::tuple<mvUUID, mvUUID, std::string> GetNameFromArgs(mvUUID& name, PyObject* args, PyObject* kwargs);
-
-        // adds the common app item arguments (label, id, etc.)
-        static void AddCommonArgs(mvPythonParser& parser, CommonParserArgs args);
 
         static mvUUID GetIDFromPyObject(PyObject* item);
 
@@ -298,36 +275,13 @@ namespace Marvel {
         //-----------------------------------------------------------------------------
         void                    setCallback(PyObject* callback);
         [[nodiscard]] PyObject* getCallback(bool ignore_enabled = true);  // returns the callback. If ignore_enable false and item is disabled then no callback will be returned.
-        [[nodiscard]] PyObject* getCallbackData() { return _user_data; }
-
+        
         //-----------------------------------------------------------------------------
         // drag & drop
         //-----------------------------------------------------------------------------
         void                    setPayloadType (const std::string& payloadType);
         void                    setDragCallback(PyObject* callback);
         void                    setDropCallback(PyObject* callback);
-        [[nodiscard]] PyObject* getDragCallback() { return _dragCallback; }
-        [[nodiscard]] PyObject* getDropCallback() { return _dropCallback; }
-
-        //-----------------------------------------------------------------------------
-        // dirty flags
-        //-----------------------------------------------------------------------------
-        bool isPosDirty() const { return _dirtyPos; }
-
-        //-----------------------------------------------------------------------------
-        // config getters
-        //-----------------------------------------------------------------------------
-        const std::string& getFilter()         const { return _filter; }
-        const std::string& getLabel()          const { return _internalLabel; }
-        const std::string& getSpecifiedLabel() const { return _specificedlabel; }
-        bool               isEnabled()         const { return _enabled; }
-        int                getWidth()          const { return _width; }
-        int                getHeight()         const { return _height; }
-        mvUUID             getUUID()           const { return _uuid; }
-        float              getTrackOffset()    const { return _trackOffset; }
-        bool               isTracked()         const { return _tracked; }
-        bool               isShown()           const { return _show; }
-        const std::string& getAlias()          const { return _alias; }
 
         //-----------------------------------------------------------------------------
         // config setters
@@ -369,8 +323,7 @@ namespace Marvel {
         void                           setPos(const ImVec2& pos);
         void                           registerWindowFocusing(); // only useful for imgui window types
         void                           setPoolInfo(mvUUID pool, mvUUID itemSet);
-        std::pair<mvUUID, mvUUID>      getPoolInfo() const;
-        void                           setUUID(mvUUID id) { _uuid = id; }
+        std::pair<mvUUID, mvUUID>      getPoolInfo() const;    
 
     private:
 
@@ -396,7 +349,7 @@ namespace Marvel {
         void             resetState();
         mvRef<mvAppItem> stealChild(mvUUID uuid); // steals a child (used for moving)
        
-    protected:
+    public:
 
         mvUUID         _uuid = 0;
         std::string    _internalLabel; // label passed into imgui
@@ -449,7 +402,7 @@ namespace Marvel {
 
         // config
         mvUUID      _source = 0;
-        std::string _specificedlabel;
+        std::string _specifiedLabel;
         mvUUID      _parent = 0;
         mvUUID      _before = 0;
         std::string _filter;

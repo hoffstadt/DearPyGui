@@ -39,9 +39,9 @@ namespace Marvel {
 
 	void mvNode::InsertParser(std::map<std::string, mvPythonParser>* parsers)
 	{
+		std::vector<mvPythonDataElement> args;
 
-		mvPythonParser parser(mvPyDataType::UUID, "Adds a node to a node editor.", { "Node Editor", "Widgets", "Containers"}, true);
-		mvAppItem::AddCommonArgs(parser, (CommonParserArgs)(
+		AddCommonArgs(args,(CommonParserArgs)(
 			MV_PARSER_ARG_ID |
 			MV_PARSER_ARG_PARENT |
 			MV_PARSER_ARG_BEFORE |
@@ -55,9 +55,15 @@ namespace Marvel {
 			MV_PARSER_ARG_SHOW)
 		);
 
-		parser.addArg<mvPyDataType::Bool>("draggable", mvArgType::KEYWORD_ARG, "True", "Allow node to be draggable.");
+		args.push_back({ mvPyDataType::Bool, "draggable", mvArgType::KEYWORD_ARG, "True", "Allow node to be draggable." });
 
-		parser.finalize();
+		mvPythonParserSetup setup;
+		setup.about = "Adds a node to a node editor.";
+		setup.category = { "Node Editor", "Containers", "Widgets"};
+		setup.returnType = mvPyDataType::UUID;
+		setup.createContextManager = true;
+
+		mvPythonParser parser = FinalizeParser(setup, args);
 
 		parsers->insert({ s_command, parser });
 	}
@@ -66,7 +72,7 @@ namespace Marvel {
 		: mvAppItem(uuid)
 	{
 		_internalLabel = FindRenderedTextEnd(_internalLabel.c_str()) + std::to_string(_uuid);
-		_specificedlabel = _internalLabel;
+		_specifiedLabel = _internalLabel;
         int64_t address = (int64_t)this;
         int64_t reduced_address = address % 2147483648;
         _id = (int)reduced_address;
@@ -132,18 +138,18 @@ namespace Marvel {
 			imnodes::BeginNode(_id);
 
 			imnodes::BeginNodeTitleBar();
-			ImGui::TextUnformatted(_specificedlabel.c_str());
+			ImGui::TextUnformatted(_specifiedLabel.c_str());
 			imnodes::EndNodeTitleBar();
 
 			for (auto& item : _children[1])
 			{
 				// skip item if it's not shown
-				if (!item->isShown())
+				if (!item->_show)
 					continue;
 
 				// set item width
-				if (item->getWidth() != 0)
-					ImGui::SetNextItemWidth((float)item->getWidth());
+				if (item->_width != 0)
+					ImGui::SetNextItemWidth((float)item->_width);
 
 				item->draw(drawlist, x, y);
 
@@ -210,9 +216,9 @@ namespace Marvel {
 					auto payloadActual = static_cast<const mvDragPayload*>(payload->Data);
 
 					if (_alias.empty())
-						mvApp::GetApp()->getCallbackRegistry().addCallback(getDropCallback(), _uuid, payloadActual->getDragData(), nullptr);
+						mvApp::GetApp()->getCallbackRegistry().addCallback(_dropCallback,_uuid, payloadActual->getDragData(), nullptr);
 					else
-						mvApp::GetApp()->getCallbackRegistry().addCallback(getDropCallback(), _alias, payloadActual->getDragData(), nullptr);
+						mvApp::GetApp()->getCallbackRegistry().addCallback(_dropCallback,_alias, payloadActual->getDragData(), nullptr);
 				}
 
 				ImGui::EndDragDropTarget();

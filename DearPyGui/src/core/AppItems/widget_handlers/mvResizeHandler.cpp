@@ -9,16 +9,21 @@ namespace Marvel {
 
 	void mvResizeHandler::InsertParser(std::map<std::string, mvPythonParser>* parsers)
 	{
+		std::vector<mvPythonDataElement> args;
 
-		mvPythonParser parser(mvPyDataType::UUID, "Adds a handler which runs a given callback when the specified item is resized.", { "Events", "Widgets" });
-		mvAppItem::AddCommonArgs(parser, (CommonParserArgs)(
+		AddCommonArgs(args,(CommonParserArgs)(
 			MV_PARSER_ARG_ID |
 			MV_PARSER_ARG_SHOW |
 			MV_PARSER_ARG_PARENT |
 			MV_PARSER_ARG_CALLBACK)
 		);
 
-		parser.finalize();
+		mvPythonParserSetup setup;
+		setup.about = "Adds a resize handler.";
+		setup.category = { "Widgets", "Events" };
+		setup.returnType = mvPyDataType::UUID;
+
+		mvPythonParser parser = FinalizeParser(setup, args);
 
 		parsers->insert({ s_command, parser });
 	}
@@ -41,15 +46,15 @@ namespace Marvel {
 				if (_alias.empty())
 					mvApp::GetApp()->getCallbackRegistry().submitCallback([=]() {
 						PyObject* dimensions = PyTuple_New(2);
-						PyTuple_SetItem(dimensions, 0, PyLong_FromLong(_parentPtr->getWidth()));
-						PyTuple_SetItem(dimensions, 1, PyLong_FromLong(_parentPtr->getHeight()));
+						PyTuple_SetItem(dimensions, 0, PyLong_FromLong(_parentPtr->_width));
+						PyTuple_SetItem(dimensions, 1, PyLong_FromLong(_parentPtr->_height));
 						mvApp::GetApp()->getCallbackRegistry().addCallback(_callback, _uuid, dimensions, _user_data);
 						});
 				else
 					mvApp::GetApp()->getCallbackRegistry().submitCallback([=]() {
 					PyObject* dimensions = PyTuple_New(2);
-					PyTuple_SetItem(dimensions, 0, PyLong_FromLong(_parentPtr->getWidth()));
-					PyTuple_SetItem(dimensions, 1, PyLong_FromLong(_parentPtr->getHeight()));
+					PyTuple_SetItem(dimensions, 0, PyLong_FromLong(_parentPtr->_width));
+					PyTuple_SetItem(dimensions, 1, PyLong_FromLong(_parentPtr->_height));
 					mvApp::GetApp()->getCallbackRegistry().addCallback(_callback, _alias, dimensions, _user_data);
 						});
 			}

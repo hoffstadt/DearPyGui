@@ -9,11 +9,9 @@ namespace Marvel {
 
 	void mvGroup::InsertParser(std::map<std::string, mvPythonParser>* parsers)
 	{
+		std::vector<mvPythonDataElement> args;
 
-		mvPythonParser parser(mvPyDataType::UUID, 
-			"Creates a group that other widgets can belong to. The group allows item commands to be issued for all of its members. Must be closed with the end command.", 
-			{ "Containers", "Widgets" }, true);
-		mvAppItem::AddCommonArgs(parser, (CommonParserArgs)(
+		AddCommonArgs(args,(CommonParserArgs)(
 			MV_PARSER_ARG_ID |
 			MV_PARSER_ARG_WIDTH |
 			MV_PARSER_ARG_INDENT |
@@ -29,12 +27,17 @@ namespace Marvel {
 			MV_PARSER_ARG_POS)
 		);
 
-		parser.addArg<mvPyDataType::Bool>("horizontal", mvArgType::KEYWORD_ARG, "False", "Forces child widgets to be added in a horizontal layout.");
-		parser.addArg<mvPyDataType::Float>("horizontal_spacing", mvArgType::KEYWORD_ARG, "-1", "Spacing for the horizontal layout.");
-		parser.addArg<mvPyDataType::Float>("xoffset", mvArgType::KEYWORD_ARG, "0.0", "Offset from containing window x item location within group.");
+		args.push_back({ mvPyDataType::Bool, "horizontal", mvArgType::KEYWORD_ARG, "False", "Forces child widgets to be added in a horizontal layout." });
+		args.push_back({ mvPyDataType::Float, "horizontal_spacing", mvArgType::KEYWORD_ARG, "-1", "Spacing for the horizontal layout." });
+		args.push_back({ mvPyDataType::Float, "xoffset", mvArgType::KEYWORD_ARG, "0.0", "Offset from containing window x item location within group." });
 
+		mvPythonParserSetup setup;
+		setup.about = "Creates a group that other widgets can belong to. The group allows item commands to be issued for all of its members.";
+		setup.category = { "Containers", "Widgets" };
+		setup.returnType = mvPyDataType::UUID;
+		setup.createContextManager = true;
 
-		parser.finalize();
+		mvPythonParser parser = FinalizeParser(setup, args);
 
 		parsers->insert({ s_command, parser });
 	}
@@ -126,10 +129,10 @@ namespace Marvel {
 			if (_horizontal)
 				ImGui::SameLine((1 +item->getLocation())*_xoffset, _hspacing);
 
-			if (item->isTracked())
+			if (item->_tracked)
 			{
-				ImGui::SetScrollHereX(item->getTrackOffset());
-				ImGui::SetScrollHereY(item->getTrackOffset());
+				ImGui::SetScrollHereX(item->_trackOffset);
+				ImGui::SetScrollHereY(item->_trackOffset);
 			}
 		}
 
@@ -184,9 +187,9 @@ namespace Marvel {
 				{
 					auto payloadActual = static_cast<const mvDragPayload*>(payload->Data);
 					if (_alias.empty())
-						mvApp::GetApp()->getCallbackRegistry().addCallback(getDropCallback(), _uuid, payloadActual->getDragData(), nullptr);
+						mvApp::GetApp()->getCallbackRegistry().addCallback(_dropCallback,_uuid, payloadActual->getDragData(), nullptr);
 					else
-						mvApp::GetApp()->getCallbackRegistry().addCallback(getDropCallback(), _alias, payloadActual->getDragData(), nullptr);
+						mvApp::GetApp()->getCallbackRegistry().addCallback(_dropCallback,_alias, payloadActual->getDragData(), nullptr);
 				}
 
 				ImGui::EndDragDropTarget();

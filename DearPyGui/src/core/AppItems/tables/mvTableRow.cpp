@@ -10,8 +10,9 @@ namespace Marvel {
 	void mvTableRow::InsertParser(std::map<std::string, mvPythonParser>* parsers)
 	{
 
-		mvPythonParser parser(mvPyDataType::UUID, "Undocumented function", { "Tables", "Containers", "Widgets" }, true);
-		mvAppItem::AddCommonArgs(parser, (CommonParserArgs)(
+		std::vector<mvPythonDataElement> args;
+
+		AddCommonArgs(args,(CommonParserArgs)(
 			MV_PARSER_ARG_ID |
 			MV_PARSER_ARG_PARENT |
 			MV_PARSER_ARG_BEFORE |
@@ -19,7 +20,14 @@ namespace Marvel {
 			MV_PARSER_ARG_FILTER |
 			MV_PARSER_ARG_SHOW)
 		);
-		parser.finalize();
+
+		mvPythonParserSetup setup;
+		setup.about = "Adds a table row.";
+		setup.category = { "Tables", "Containers", "Widgets" };
+		setup.returnType = mvPyDataType::UUID;
+		setup.createContextManager = true;
+
+		mvPythonParser parser = FinalizeParser(setup, args);
 
 		parsers->insert({ s_command, parser });
 	}

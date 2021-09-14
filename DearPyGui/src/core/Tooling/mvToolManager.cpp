@@ -33,11 +33,16 @@ namespace Marvel {
 	void mvToolManager::InsertParser(std::map<std::string, mvPythonParser>* parsers)
 	{
 
-		mvPythonParser parser(mvPyDataType::String);
+		std::vector<mvPythonDataElement> args;
 
-		parser.addArg<mvPyDataType::UUID>("tool");
+		args.push_back({ mvPyDataType::UUID, "tool" });
 
-		parser.finalize();
+		mvPythonParserSetup setup;
+		setup.about = "Shows a built in tool.";
+		setup.category = { "Widgets" };
+		setup.returnType = mvPyDataType::String;
+
+		mvPythonParser parser = FinalizeParser(setup, args);
 
 		parsers->insert({ "show_tool", parser });
 	}
@@ -66,7 +71,7 @@ namespace Marvel {
 	{
 		PyObject* toolraw;
 
-		if (!(mvApp::GetApp()->getParsers())["show_tool"].parse(args, kwargs, __FUNCTION__,
+		if (!Parse((mvApp::GetApp()->getParsers())["show_tool"], args, kwargs, __FUNCTION__,
 			&toolraw))
 			return GetPyNone();
 

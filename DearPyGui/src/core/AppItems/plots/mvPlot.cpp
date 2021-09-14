@@ -29,8 +29,9 @@ namespace Marvel {
 	{
 
 		{
-			mvPythonParser parser(mvPyDataType::UUID, "Adds a plot which is used to hold series, and can be drawn to with draw commands.", { "Plotting", "Containers", "Widgets" }, true);
-			mvAppItem::AddCommonArgs(parser, (CommonParserArgs)(
+			std::vector<mvPythonDataElement> args;
+
+			AddCommonArgs(args,(CommonParserArgs)(
 				MV_PARSER_ARG_ID |
 				MV_PARSER_ARG_WIDTH |
 				MV_PARSER_ARG_HEIGHT |
@@ -49,46 +50,64 @@ namespace Marvel {
 			);
 
 			// plot flags
-			parser.addArg<mvPyDataType::Bool>("no_title", mvArgType::KEYWORD_ARG, "False");
-			parser.addArg<mvPyDataType::Bool>("no_menus", mvArgType::KEYWORD_ARG, "False");
-			parser.addArg<mvPyDataType::Bool>("no_box_select", mvArgType::KEYWORD_ARG, "False");
-			parser.addArg<mvPyDataType::Bool>("no_mouse_pos", mvArgType::KEYWORD_ARG, "False");
-			parser.addArg<mvPyDataType::Bool>("no_highlight", mvArgType::KEYWORD_ARG, "False");
-			parser.addArg<mvPyDataType::Bool>("no_child", mvArgType::KEYWORD_ARG, "False");
-			parser.addArg<mvPyDataType::Bool>("query", mvArgType::KEYWORD_ARG, "False");
-			parser.addArg<mvPyDataType::Bool>("crosshairs", mvArgType::KEYWORD_ARG, "False");
-			parser.addArg<mvPyDataType::Bool>("anti_aliased", mvArgType::KEYWORD_ARG, "False");
-			parser.addArg<mvPyDataType::Bool>("equal_aspects", mvArgType::KEYWORD_ARG, "False");
+			args.push_back({ mvPyDataType::Bool, "no_title", mvArgType::KEYWORD_ARG, "False"});
+			args.push_back({ mvPyDataType::Bool, "no_menus", mvArgType::KEYWORD_ARG, "False"});
+			args.push_back({ mvPyDataType::Bool, "no_box_select", mvArgType::KEYWORD_ARG, "False" });
+			args.push_back({ mvPyDataType::Bool, "no_mouse_pos", mvArgType::KEYWORD_ARG, "False"});
+			args.push_back({ mvPyDataType::Bool, "no_highlight", mvArgType::KEYWORD_ARG, "False"});
+			args.push_back({ mvPyDataType::Bool, "no_child", mvArgType::KEYWORD_ARG, "False" });
+			args.push_back({ mvPyDataType::Bool, "query", mvArgType::KEYWORD_ARG, "False" });
+			args.push_back({ mvPyDataType::Bool, "crosshairs", mvArgType::KEYWORD_ARG, "False" });
+			args.push_back({ mvPyDataType::Bool, "anti_aliased", mvArgType::KEYWORD_ARG, "False" });
+			args.push_back({ mvPyDataType::Bool, "equal_aspects", mvArgType::KEYWORD_ARG, "False" });
 
 			// key modifiers
-			parser.addArg<mvPyDataType::Integer>("pan_button", mvArgType::KEYWORD_ARG, "internal_dpg.mvMouseButton_Left", "enables panning when held");
-			parser.addArg<mvPyDataType::Integer>("pan_mod", mvArgType::KEYWORD_ARG, "-1", "optional modifier that must be held for panning");
-			parser.addArg<mvPyDataType::Integer>("fit_button", mvArgType::KEYWORD_ARG, "internal_dpg.mvMouseButton_Left", "fits visible data when double clicked");
-			parser.addArg<mvPyDataType::Integer>("context_menu_button", mvArgType::KEYWORD_ARG, "internal_dpg.mvMouseButton_Right", "opens plot context menu (if enabled) when clicked");
-			parser.addArg<mvPyDataType::Integer>("box_select_button", mvArgType::KEYWORD_ARG, "internal_dpg.mvMouseButton_Right", "begins box selection when pressed and confirms selection when released");
-			parser.addArg<mvPyDataType::Integer>("box_select_mod", mvArgType::KEYWORD_ARG, "-1", "begins box selection when pressed and confirms selection when released");
-			parser.addArg<mvPyDataType::Integer>("box_select_cancel_button", mvArgType::KEYWORD_ARG, "internal_dpg.mvMouseButton_Left", "cancels active box selection when pressed");
-			parser.addArg<mvPyDataType::Integer>("query_button", mvArgType::KEYWORD_ARG, "internal_dpg.mvMouseButton_Middle", "begins query selection when pressed and end query selection when released");
-			parser.addArg<mvPyDataType::Integer>("query_mod", mvArgType::KEYWORD_ARG, "-1", "optional modifier that must be held for query selection");
-			parser.addArg<mvPyDataType::Integer>("query_toggle_mod", mvArgType::KEYWORD_ARG, "internal_dpg.mvKey_Control", "when held, active box selections turn into queries");
-			parser.addArg<mvPyDataType::Integer>("horizontal_mod", mvArgType::KEYWORD_ARG, "internal_dpg.mvKey_Alt", "expands active box selection/query horizontally to plot edge when held");
-			parser.addArg<mvPyDataType::Integer>("vertical_mod", mvArgType::KEYWORD_ARG, "internal_dpg.mvKey_Shift", "expands active box selection/query vertically to plot edge when held");
+			args.push_back({ mvPyDataType::Integer, "pan_button", mvArgType::KEYWORD_ARG, "internal_dpg.mvMouseButton_Left", "enables panning when held" });
+			args.push_back({ mvPyDataType::Integer, "pan_mod", mvArgType::KEYWORD_ARG, "-1", "optional modifier that must be held for panning" });
+			args.push_back({ mvPyDataType::Integer, "fit_button", mvArgType::KEYWORD_ARG, "internal_dpg.mvMouseButton_Left", "fits visible data when double clicked" });
+			args.push_back({ mvPyDataType::Integer, "context_menu_button", mvArgType::KEYWORD_ARG, "internal_dpg.mvMouseButton_Right", "opens plot context menu (if enabled) when clicked" });
+			args.push_back({ mvPyDataType::Integer, "box_select_button", mvArgType::KEYWORD_ARG, "internal_dpg.mvMouseButton_Right", "begins box selection when pressed and confirms selection when released" });
+			args.push_back({ mvPyDataType::Integer, "box_select_mod", mvArgType::KEYWORD_ARG, "-1", "begins box selection when pressed and confirms selection when released" });
+			args.push_back({ mvPyDataType::Integer, "box_select_cancel_button", mvArgType::KEYWORD_ARG, "internal_dpg.mvMouseButton_Left", "cancels active box selection when pressed" });
+			args.push_back({ mvPyDataType::Integer, "query_button", mvArgType::KEYWORD_ARG, "internal_dpg.mvMouseButton_Middle", "begins query selection when pressed and end query selection when released" });
+			args.push_back({ mvPyDataType::Integer, "query_mod", mvArgType::KEYWORD_ARG, "-1", "optional modifier that must be held for query selection" });
+			args.push_back({ mvPyDataType::Integer, "query_toggle_mod", mvArgType::KEYWORD_ARG, "internal_dpg.mvKey_Control", "when held, active box selections turn into queries" });
+			args.push_back({ mvPyDataType::Integer, "horizontal_mod", mvArgType::KEYWORD_ARG, "internal_dpg.mvKey_Alt", "expands active box selection/query horizontally to plot edge when held" });
+			args.push_back({ mvPyDataType::Integer, "vertical_mod", mvArgType::KEYWORD_ARG, "internal_dpg.mvKey_Shift", "expands active box selection/query vertically to plot edge when held" });
 
-			parser.finalize();
+			mvPythonParserSetup setup;
+			setup.about = "Adds a plot which is used to hold series, and can be drawn to with draw commands.";
+			setup.category = { "Plotting", "Containers", "Widgets" };
+			setup.returnType = mvPyDataType::UUID;
+			setup.createContextManager = true;
+
+			mvPythonParser parser = FinalizeParser(setup, args);
 			parsers->insert({ s_command, parser });
 		}
 
 		{
-			mvPythonParser parser(mvPyDataType::Bool, "Returns true if the plot is currently being queried. (Requires plot 'query' kwarg to be enabled)", { "Plotting", "Widgets" });
-			parser.addArg<mvPyDataType::UUID>("plot");
-			parser.finalize();
+			std::vector<mvPythonDataElement> args;
+			args.push_back({ mvPyDataType::UUID, "plot" });
+
+			mvPythonParserSetup setup;
+			setup.about = "Returns true if the plot is currently being queried. (Requires plot 'query' kwarg to be enabled)";
+			setup.category = { "Plotting", "App Item Operations" };
+			setup.returnType = mvPyDataType::Bool;
+
+			mvPythonParser parser = FinalizeParser(setup, args);
 			parsers->insert({ "is_plot_queried", parser });
 		}
 
 		{
-			mvPythonParser parser(mvPyDataType::FloatList, "Returns the last/current query area of the plot. (Requires plot 'query' kwarg to be enabled)", { "Plotting", "Widgets" });
-			parser.addArg<mvPyDataType::UUID>("plot");
-			parser.finalize();
+			std::vector<mvPythonDataElement> args;
+			args.push_back({ mvPyDataType::UUID, "plot" });
+
+			mvPythonParserSetup setup;
+			setup.about = "Returns the last/current query area of the plot. (Requires plot 'query' kwarg to be enabled)";
+			setup.category = { "Plotting", "App Item Operations" };
+			setup.returnType = mvPyDataType::FloatList;
+
+			mvPythonParser parser = FinalizeParser(setup, args);
 			parsers->insert({ "get_plot_query_area", parser });
 		}
 
@@ -160,7 +179,7 @@ namespace Marvel {
 
 			case(2):
 				_y1flags = child->getFlags();
-				if (child->isShown())
+				if (child->_show)
 					addFlag(ImPlotFlags_YAxis2);
 				else
 					removeFlag(ImPlotFlags_YAxis2);
@@ -168,7 +187,7 @@ namespace Marvel {
 
 			case(3):
 				_y2flags = child->getFlags();
-				if (child->isShown())
+				if (child->_show)
 					addFlag(ImPlotFlags_YAxis3);
 				else
 					removeFlag(ImPlotFlags_YAxis3);
@@ -195,23 +214,23 @@ namespace Marvel {
 			switch (i)
 			{
 			case(0):
-				_xaxisName = axis->getSpecifiedLabel();
+				_xaxisName = axis->_specifiedLabel;
 				break;
 
 			case(1):
-				_y1axisName = axis->getSpecifiedLabel();
+				_y1axisName = axis->_specifiedLabel;
 				break;
 
 			case(2):
-				_y2axisName = axis->getSpecifiedLabel();
+				_y2axisName = axis->_specifiedLabel;
 				break;
 
 			case(3):
-				_y3axisName = axis->getSpecifiedLabel();
+				_y3axisName = axis->_specifiedLabel;
 				break;
 
 			default:
-				_y1axisName = axis->getSpecifiedLabel();
+				_y1axisName = axis->_specifiedLabel;
 				break;
 			}
 		}
@@ -258,7 +277,7 @@ namespace Marvel {
 		for (auto& item : _children[1])
 		{
 			// skip item if it's not shown
-			if (!item->isShown())
+			if (!item->_show)
 				continue;
 			item->customAction();
 		}
@@ -295,7 +314,7 @@ namespace Marvel {
 			for (auto& item : _children[2])
 			{
 				// skip item if it's not shown
-				if (!item->isShown())
+				if (!item->_show)
 					continue;
 				
 				//item->draw(ImPlot::GetPlotDrawList(), ImPlot::GetPlotPos().x, ImPlot::GetPlotPos().y);
@@ -358,9 +377,9 @@ namespace Marvel {
 					{
 						auto payloadActual = static_cast<const mvDragPayload*>(payload->Data);
 						if (_alias.empty())
-							mvApp::GetApp()->getCallbackRegistry().addCallback(getDropCallback(), _uuid, payloadActual->getDragData(), nullptr);
+							mvApp::GetApp()->getCallbackRegistry().addCallback(_dropCallback,_uuid, payloadActual->getDragData(), nullptr);
 						else
-							mvApp::GetApp()->getCallbackRegistry().addCallback(getDropCallback(), _alias, payloadActual->getDragData(), nullptr);
+							mvApp::GetApp()->getCallbackRegistry().addCallback(_dropCallback,_alias, payloadActual->getDragData(), nullptr);
 					}
 
 					ImPlot::EndDragDropTarget();
@@ -517,7 +536,7 @@ namespace Marvel {
 	{
 		PyObject* plotraw;
 
-		if (!(mvApp::GetApp()->getParsers())["is_plot_queried"].parse(args, kwargs, __FUNCTION__, &plotraw))
+		if (!Parse((mvApp::GetApp()->getParsers())["is_plot_queried"], args, kwargs, __FUNCTION__, &plotraw))
 			return GetPyNone();
 
 		if (!mvApp::s_manualMutexControl) std::lock_guard<std::mutex> lk(mvApp::s_mutex);
@@ -548,7 +567,7 @@ namespace Marvel {
 	{
 		PyObject* plotraw;
 
-		if (!(mvApp::GetApp()->getParsers())["get_plot_query_area"].parse(args, kwargs, __FUNCTION__, &plotraw))
+		if (!Parse((mvApp::GetApp()->getParsers())["get_plot_query_area"], args, kwargs, __FUNCTION__, &plotraw))
 			return GetPyNone();
 
 		if (!mvApp::s_manualMutexControl) std::lock_guard<std::mutex> lk(mvApp::s_mutex);

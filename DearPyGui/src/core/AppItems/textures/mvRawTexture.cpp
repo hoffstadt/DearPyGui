@@ -9,18 +9,24 @@ namespace Marvel {
 
 	void mvRawTexture::InsertParser(std::map<std::string, mvPythonParser>* parsers)
 	{
+		std::vector<mvPythonDataElement> args;
 
-		mvPythonParser parser(mvPyDataType::UUID, "Undocumented function", { "Textures", "Widgets" });
-		mvAppItem::AddCommonArgs(parser, (CommonParserArgs)(
+		AddCommonArgs(args,(CommonParserArgs)(
 			MV_PARSER_ARG_ID)
 		);
 
-		parser.addArg<mvPyDataType::Integer>("width");
-		parser.addArg<mvPyDataType::Integer>("height");
-		parser.addArg<mvPyDataType::FloatList>("default_value");
-		parser.addArg<mvPyDataType::Integer>("format", mvArgType::KEYWORD_ARG, "internal_dpg.mvFormat_Float_rgba", "Data format.");
-		parser.addArg<mvPyDataType::UUID>("parent", mvArgType::KEYWORD_ARG, "internal_dpg.mvReservedUUID_2", "Parent to add this item to. (runtime adding)");
-		parser.finalize();
+		args.push_back({ mvPyDataType::Integer, "width" });
+		args.push_back({ mvPyDataType::Integer, "height" });
+		args.push_back({ mvPyDataType::FloatList, "default_value" });
+		args.push_back({ mvPyDataType::Integer, "format", mvArgType::KEYWORD_ARG, "internal_dpg.mvFormat_Float_rgba", "Data format." });
+		args.push_back({ mvPyDataType::UUID, "parent", mvArgType::KEYWORD_ARG, "internal_dpg.mvReservedUUID_2", "Parent to add this item to. (runtime adding)" });
+		
+		mvPythonParserSetup setup;
+		setup.about = "Adds a raw texture.";
+		setup.category = { "Textures", "Widgets" };
+		setup.returnType = mvPyDataType::UUID;
+		
+		mvPythonParser parser = FinalizeParser(setup, args);
 
 		parsers->insert({ s_command, parser });
 	}
@@ -111,7 +117,7 @@ namespace Marvel {
 
 	void mvRawTexture::handleSpecificRequiredArgs(PyObject* dict)
 	{
-		if (!mvApp::GetApp()->getParsers()[s_command].verifyRequiredArguments(dict))
+		if (!VerifyRequiredArguments(mvApp::GetApp()->getParsers()[s_command], dict))
 		{
 			mvThrowPythonError(mvErrorCode::mvTextureNotFound, s_command, "Texture data not valid", this);
 			return;
