@@ -52,11 +52,13 @@ namespace Marvel {
         void getSpecificConfiguration(PyObject* dict) override;
         void applySpecificTemplate(mvAppItem* item) override;
         PyObject* getDragData() const { return _dragData; }
+        PyObject* getDropData() const { return _dropData; }
 
     private:
 
         std::string _payloadType = "$$DPG_PAYLOAD";
         PyObject*   _dragData = nullptr;
+        PyObject*   _dropData = nullptr;
 
     };
 

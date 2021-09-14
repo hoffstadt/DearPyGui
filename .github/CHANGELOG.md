@@ -23,6 +23,7 @@ We generally fold multiple commits pertaining to the same topic as a single entr
 ## VERSION 1.0.0
 
 ### Breaking Changes
+* changed dragPayload `drag_data` is submitted to the targets `drag_callback` rather than `drop_callback`
 * moved logger and themes to `Dear PyGui Extensions`
 * changed `id` keyword to `tag`
 * item: removed table_next_column (deprecated)
@@ -35,6 +36,7 @@ We generally fold multiple commits pertaining to the same topic as a single entr
 * removed `bind_item_disabled_theme(...)`
 * removed `bind_item_type_disabled_theme(...)`
 * removed `bind_item_type_theme(...)`
+* removed `drag_callback` from `add_menu_item(...)`
 * user must create, setup, show viewport before starting dpg:
   * "create_viewport()->setup_dearpygui()->show_viewport()->start_dearpygui()"
 * `add_theme_color(...)` and `add_theme_style(...)` must known belong to a `theme_component`
@@ -63,6 +65,9 @@ We generally fold multiple commits pertaining to the same topic as a single entr
 * command: added `add_item_set(...)`
 * command: added `add_template_registry(...)`
 * command: added `bind_template_registry(...)`
+* keyword: added `drag_callback`, `drop_callback`, `payload_type` to `add_image(...)`
+* keyword: added `drag_callback`, `drop_callback`, `payload_type` to `add_text(...)`
+* keyword: added `drop_data` to `drag_payload(...)`
 * keyword: added `xoffset` to `group(...)`
 * keyword: added `id` to `popup(...)`
 * keyword: added `clipper` to `add_table(...)`
