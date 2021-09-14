@@ -7,17 +7,24 @@ namespace Marvel {
 
 	void mvDragPayload::InsertParser(std::map<std::string, mvPythonParser>* parsers)
 	{
-		mvPythonParser parser(mvPyDataType::UUID, "User data payload for drag and drop operations.", { "Containers", "Widgets" }, true);
-		mvAppItem::AddCommonArgs(parser, (CommonParserArgs)(
+		std::vector<mvPythonDataElement> args;
+
+		AddCommonArgs(args,(CommonParserArgs)(
 			MV_PARSER_ARG_ID |
 			MV_PARSER_ARG_PARENT |
 			MV_PARSER_ARG_SHOW)
 		);
 
-		parser.addArg<mvPyDataType::Object>("drag_data", mvArgType::KEYWORD_ARG, "None", "Drag data");
-		parser.addArg<mvPyDataType::String>("payload_type", mvArgType::KEYWORD_ARG, "'$$DPG_PAYLOAD'");
+		args.push_back({ mvPyDataType::Object, "drag_data", mvArgType::KEYWORD_ARG, "None", "Drag data" });
+		args.push_back({ mvPyDataType::String, "payload_type", mvArgType::KEYWORD_ARG, "'$$DPG_PAYLOAD'" });
 
-		parser.finalize();
+		mvPythonParserSetup setup;
+		setup.about = "User data payload for drag and drop operations.";
+		setup.category = { "Containers", "Widgets" };
+		setup.returnType = mvPyDataType::UUID;
+		setup.createContextManager = true;
+
+		mvPythonParser parser = FinalizeParser(setup, args);
 
 		parsers->insert({ s_command, parser });
 	}
@@ -45,12 +52,12 @@ namespace Marvel {
 		{
 			ImGui::SetDragDropPayload(_payloadType.c_str(), this, sizeof(mvDragPayload));
 
-			if (_parentPtr->getDragCallback())
+			if (_parentPtr->_dragCallback)
 			{
-				if(_parentPtr->getAlias().empty())
-					mvApp::GetApp()->getCallbackRegistry().addCallback(_parentPtr->getDragCallback(), _parent, GetPyNone(), _user_data);
+				if(_parentPtr->_alias.empty())
+					mvApp::GetApp()->getCallbackRegistry().addCallback(_parentPtr->_dragCallback, _parent, GetPyNone(), _user_data);
 				else
-					mvApp::GetApp()->getCallbackRegistry().addCallback(_parentPtr->getDragCallback(), _parentPtr->getAlias(), GetPyNone(), _user_data);
+					mvApp::GetApp()->getCallbackRegistry().addCallback(_parentPtr->_dragCallback, _parentPtr->_alias, GetPyNone(), _user_data);
 			}
 
 			for (auto& childset : _children)

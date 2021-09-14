@@ -11,9 +11,9 @@ namespace Marvel {
 
 	void mvTreeNode::InsertParser(std::map<std::string, mvPythonParser>* parsers)
 	{
+		std::vector<mvPythonDataElement> args;
 
-		mvPythonParser parser(mvPyDataType::UUID, "Adds a tree node to add items to. Must be closed with the end command.", { "Containers", "Widgets" }, true);
-		mvAppItem::AddCommonArgs(parser, (CommonParserArgs)(
+		AddCommonArgs(args,(CommonParserArgs)(
 			MV_PARSER_ARG_ID |
 			MV_PARSER_ARG_INDENT |
 			MV_PARSER_ARG_PARENT |
@@ -28,14 +28,20 @@ namespace Marvel {
 			MV_PARSER_ARG_POS)
 		);
 
-		parser.addArg<mvPyDataType::Bool>("default_open", mvArgType::KEYWORD_ARG, "False", "Sets the tree node open by default.");
-		parser.addArg<mvPyDataType::Bool>("open_on_double_click", mvArgType::KEYWORD_ARG, "False", "Need double-click to open node.");
-		parser.addArg<mvPyDataType::Bool>("open_on_arrow", mvArgType::KEYWORD_ARG, "False", "Only open when clicking on the arrow part.");
-		parser.addArg<mvPyDataType::Bool>("leaf", mvArgType::KEYWORD_ARG, "False", "No collapsing, no arrow (use as a convenience for leaf nodes).");
-		parser.addArg<mvPyDataType::Bool>("bullet", mvArgType::KEYWORD_ARG, "False", "Display a bullet instead of arrow.");
-		parser.addArg<mvPyDataType::Bool>("selectable", mvArgType::KEYWORD_ARG, "False", "Makes the tree selectable.");
+		args.push_back({ mvPyDataType::Bool, "default_open", mvArgType::KEYWORD_ARG, "False", "Sets the tree node open by default." });
+		args.push_back({ mvPyDataType::Bool, "open_on_double_click", mvArgType::KEYWORD_ARG, "False", "Need double-click to open node." });
+		args.push_back({ mvPyDataType::Bool, "open_on_arrow", mvArgType::KEYWORD_ARG, "False", "Only open when clicking on the arrow part." });
+		args.push_back({ mvPyDataType::Bool, "leaf", mvArgType::KEYWORD_ARG, "False", "No collapsing, no arrow (use as a convenience for leaf nodes)." });
+		args.push_back({ mvPyDataType::Bool, "bullet", mvArgType::KEYWORD_ARG, "False", "Display a bullet instead of arrow." });
+		args.push_back({ mvPyDataType::Bool, "selectable", mvArgType::KEYWORD_ARG, "False", "Makes the tree selectable." });
 
-		parser.finalize();
+		mvPythonParserSetup setup;
+		setup.about = "Adds a tree node to add items to.";
+		setup.category = { "Containers", "Widgets" };
+		setup.returnType = mvPyDataType::UUID;
+		setup.createContextManager = true;
+
+		mvPythonParser parser = FinalizeParser(setup, args);
 
 		parsers->insert({ s_command, parser });
 	}
@@ -183,9 +189,9 @@ namespace Marvel {
 				{
 					auto payloadActual = static_cast<const mvDragPayload*>(payload->Data);
 					if (_alias.empty())
-						mvApp::GetApp()->getCallbackRegistry().addCallback(getDropCallback(), _uuid, payloadActual->getDragData(), nullptr);
+						mvApp::GetApp()->getCallbackRegistry().addCallback(_dropCallback,_uuid, payloadActual->getDragData(), nullptr);
 					else
-						mvApp::GetApp()->getCallbackRegistry().addCallback(getDropCallback(), _alias, payloadActual->getDragData(), nullptr);
+						mvApp::GetApp()->getCallbackRegistry().addCallback(_dropCallback,_alias, payloadActual->getDragData(), nullptr);
 				}
 
 				ImGui::EndDragDropTarget();

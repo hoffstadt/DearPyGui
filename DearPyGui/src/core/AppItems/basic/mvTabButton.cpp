@@ -11,8 +11,9 @@ namespace Marvel {
 
 	void mvTabButton::InsertParser(std::map<std::string, mvPythonParser>* parsers)
 	{
-		mvPythonParser parser(mvPyDataType::UUID, "Adds a tab button to a tab bar.", { "Widgets" });
-		mvAppItem::AddCommonArgs(parser, (CommonParserArgs)(
+		std::vector<mvPythonDataElement> args;
+
+		AddCommonArgs(args,(CommonParserArgs)(
 			MV_PARSER_ARG_ID |
 			MV_PARSER_ARG_INDENT |
 			MV_PARSER_ARG_PARENT |
@@ -26,12 +27,17 @@ namespace Marvel {
 			MV_PARSER_ARG_SHOW)
 		);
 
-		parser.addArg<mvPyDataType::Bool>("no_reorder", mvArgType::KEYWORD_ARG, "False", "Disable reordering this tab or having another tab cross over this tab.");
-		parser.addArg<mvPyDataType::Bool>("leading", mvArgType::KEYWORD_ARG, "False", "Enforce the tab position to the left of the tab bar (after the tab list popup button).");
-		parser.addArg<mvPyDataType::Bool>("trailing", mvArgType::KEYWORD_ARG, "False", "Enforce the tab position to the right of the tab bar (before the scrolling buttons).");
-		parser.addArg<mvPyDataType::Bool>("no_tooltip", mvArgType::KEYWORD_ARG, "False", "Disable tooltip for the given tab.");
+		args.push_back({ mvPyDataType::Bool, "no_reorder", mvArgType::KEYWORD_ARG, "False", "Disable reordering this tab or having another tab cross over this tab." });
+		args.push_back({ mvPyDataType::Bool, "leading", mvArgType::KEYWORD_ARG, "False", "Enforce the tab position to the left of the tab bar (after the tab list popup button)." });
+		args.push_back({ mvPyDataType::Bool, "trailing", mvArgType::KEYWORD_ARG, "False", "Enforce the tab position to the right of the tab bar (before the scrolling buttons)." });
+		args.push_back({ mvPyDataType::Bool, "no_tooltip", mvArgType::KEYWORD_ARG, "False", "Disable tooltip for the given tab." });
 
-		parser.finalize();
+		mvPythonParserSetup setup;
+		setup.about = "Adds a tab button to a tab bar.";
+		setup.category = { "Widgets" };
+		setup.returnType = mvPyDataType::UUID;
+
+		mvPythonParser parser = FinalizeParser(setup, args);
 
 		parsers->insert({ s_command, parser });
 	}
@@ -165,9 +171,9 @@ namespace Marvel {
 				{
 					auto payloadActual = static_cast<const mvDragPayload*>(payload->Data);
 					if (_alias.empty())
-						mvApp::GetApp()->getCallbackRegistry().addCallback(getDropCallback(), _uuid, payloadActual->getDragData(), nullptr);
+						mvApp::GetApp()->getCallbackRegistry().addCallback(_dropCallback,_uuid, payloadActual->getDragData(), nullptr);
 					else
-						mvApp::GetApp()->getCallbackRegistry().addCallback(getDropCallback(), _alias, payloadActual->getDragData(), nullptr);
+						mvApp::GetApp()->getCallbackRegistry().addCallback(_dropCallback,_alias, payloadActual->getDragData(), nullptr);
 				}
 
 				ImGui::EndDragDropTarget();

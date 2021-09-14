@@ -28,9 +28,9 @@ namespace Marvel {
 
 		for (const auto& item : docmap)
 		{
-			m_commands.emplace_back(item.first.c_str(), item.second.getDocumentation());
+			m_commands.emplace_back(item.first.c_str(), item.second.documentation);
 
-			const std::vector<std::string>& categories = item.second.getCategory();
+			const std::vector<std::string>& categories = item.second.category;
 
 			for (const auto& category : categories)
 			{
@@ -48,7 +48,7 @@ namespace Marvel {
 					m_categories.push_back(category.c_str());
 
 				auto& docCategory = m_docCategories[category];
-				docCategory.push_back(item.second.getDocumentation());
+				docCategory.push_back(item.second.documentation.c_str());
 
 				auto& commandCategory = m_commandCategories[category];
 				commandCategory.push_back(item.first.c_str());

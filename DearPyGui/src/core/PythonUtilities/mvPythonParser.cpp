@@ -181,89 +181,130 @@ namespace Marvel {
 		}
 	}
 
-	mvPythonParser::mvPythonParser(mvPyDataType returnType, const char* about, const std::vector<std::string>& category, bool createContextManager)
-		: m_about(about), m_return(returnType), m_category(category), m_createContextManager(createContextManager)
+	mvPythonParser FinalizeParser(const mvPythonParserSetup& setup, std::vector<mvPythonDataElement> args)
 	{
 
-	}
+		mvPythonParser parser;
 
-	void mvPythonParser::finalize()
-	{
-		for (auto& arg : m_staged_elements)
+		// separate args into category
+		for (auto& arg : args)
 		{
 			switch (arg.arg_type)
 			{
 			case mvArgType::REQUIRED_ARG:
-				m_required_elements.push_back(arg);
+				parser.required_elements.push_back(arg);
 				break;
 			case mvArgType::POSITIONAL_ARG:
-				m_optional_elements.push_back(arg);
+				parser.optional_elements.push_back(arg);
 				break;
 			case mvArgType::KEYWORD_ARG:
-				m_keyword_elements.push_back(arg);
+				parser.keyword_elements.push_back(arg);
 				break;
 			}
 		}
-		m_staged_elements.clear();
 
 		// build format string and keywords
-		if (!m_required_elements.empty())
+		if (!parser.required_elements.empty())
 		{
-			for (auto& element : m_required_elements)
+			for (auto& element : parser.required_elements)
 			{
-				m_formatstring.push_back(PythonDataTypeSymbol(element.type));
-				m_keywords.push_back(element.name);
+				parser.formatstring.push_back(PythonDataTypeSymbol(element.type));
+				parser.keywords.push_back(element.name);
 			}
 		}
 
-		m_formatstring.push_back('|');
+		parser.formatstring.push_back('|');
 
-		if (!m_optional_elements.empty())
+		if (!parser.optional_elements.empty())
 		{
 
-			for (auto& element : m_optional_elements)
+			for (auto& element : parser.optional_elements)
 			{
-				m_formatstring.push_back(PythonDataTypeSymbol(element.type));
-				m_keywords.push_back(element.name);
+				parser.formatstring.push_back(PythonDataTypeSymbol(element.type));
+				parser.keywords.push_back(element.name);
 			}
 		}
 
-		if (!m_keyword_elements.empty())
+		if (!parser.keyword_elements.empty())
 		{
-			m_formatstring.push_back('$');
-			for (auto& element : m_keyword_elements)
+			parser.formatstring.push_back('$');
+			for (auto& element : parser.keyword_elements)
 			{
-				m_formatstring.push_back(PythonDataTypeSymbol(element.type));
-				m_keywords.push_back(element.name);
+				parser.formatstring.push_back(PythonDataTypeSymbol(element.type));
+				parser.keywords.push_back(element.name);
 			}
 		}
-		m_formatstring.push_back(0);
-		m_keywords.push_back(NULL);
+		parser.formatstring.push_back(0);
+		parser.keywords.push_back(NULL);
 
-		buildDocumentation();
+		parser.about = setup.about;
+		parser.returnType = setup.returnType;
+		parser.category = setup.category;
+		parser.createContextManager = setup.createContextManager;
+		parser.unspecifiedKwargs = setup.unspecifiedKwargs;
+		parser.internal = setup.internal;
+
+		// build documentation
+		std::string documentation = parser.about + "\n\nReturn Type: " + PythonDataTypeActual(parser.returnType) + "\n";
+
+		if (!parser.required_elements.empty())
+			documentation += "\n\nRequired Arguments\n_______________\n\n";
+
+		for (const auto& element : parser.required_elements)
+		{
+			documentation += "\n* ";
+			documentation += element.name + std::string(PythonDataTypeString(element.type));
+			documentation += "\n\t\t" + std::string(element.description);
+		}
+
+		if (!parser.optional_elements.empty())
+			documentation += "\n\nOptional Arguments\n_______________\n\n";
+
+		for (const auto& element : parser.optional_elements)
+		{
+			documentation += "\n* ";
+			documentation += element.name + std::string(PythonDataTypeString(element.type));
+			documentation += " = " + std::string(element.default_value);
+			documentation += "\n\t\t" + std::string(element.description);
+		}
+
+		if (!parser.keyword_elements.empty())
+			documentation += "\n\nKeyword Arguments\n_______________\n\n";
+
+		for (const auto& element : parser.keyword_elements)
+		{
+			documentation += "\n* ";
+			documentation += element.name + std::string(PythonDataTypeString(element.type));
+			documentation += " = " + std::string(element.default_value);
+			documentation += "\n\t\t" + std::string(element.description);
+		}
+
+		parser.documentation = std::move(documentation);
+
+		return parser;
 	}
 
-	bool mvPythonParser::verifyRequiredArguments(PyObject* args)
+	bool VerifyRequiredArguments(const mvPythonParser& parser, PyObject* args)
 	{
 
 		// ensure enough args were provided
-		if ((size_t)PyTuple_Size(args) < m_required_elements.size())
+		if ((size_t)PyTuple_Size(args) < parser.required_elements.size())
 		{
 			assert(false && "Not enough arguments provided");
 			mvThrowPythonError(mvErrorCode::mvNone, "Not enough arguments provided. Expected: " +
-				std::to_string(m_required_elements.size()) + " Recieved: " + std::to_string((size_t)PyTuple_Size(args)));
+				std::to_string(parser.required_elements.size()) + " Recieved: " + std::to_string((size_t)PyTuple_Size(args)));
 			return false;
 		}
 
-		return VerifyArguments(0, args, m_required_elements);
+		return VerifyArguments(0, args, parser.required_elements);
 	}
 
-	bool mvPythonParser::verifyPositionalArguments(PyObject* args)
+	bool VerifyPositionalArguments(const mvPythonParser& parser, PyObject* args)
 	{
-		return VerifyArguments((int)m_optional_elements.size(), args, m_optional_elements);
+		return VerifyArguments((int)parser.optional_elements.size(), args, parser.optional_elements);
 	}
 
-	bool mvPythonParser::verifyKeywordArguments(PyObject* args)
+	bool VerifyKeywordArguments(const mvPythonParser& parser, PyObject* args)
 	{
 		if (args == nullptr)
 			return false;
@@ -280,7 +321,7 @@ namespace Marvel {
 			auto sitem = ToString(item);
 
 			bool found = false;
-			for (const auto& keyword : m_keyword_elements)
+			for (const auto& keyword : parser.keyword_elements)
 			{
 				if (sitem == keyword.name)
 				{
@@ -293,7 +334,7 @@ namespace Marvel {
 				continue;
 			else
 			{
-				for (const auto& keyword : m_optional_elements)
+				for (const auto& keyword : parser.optional_elements)
 				{
 					if (sitem == keyword.name)
 					{
@@ -306,7 +347,7 @@ namespace Marvel {
 					continue;
 			}
 
-			for (const auto& keyword : m_required_elements)
+			for (const auto& keyword : parser.required_elements)
 			{
 				if (sitem == keyword.name)
 				{
@@ -329,18 +370,18 @@ namespace Marvel {
 		return exists;
 	}
 
-	bool mvPythonParser::verifyArgumentCount(PyObject* args)
+	bool VerifyArgumentCount(const mvPythonParser& parser, PyObject* args)
 	{
-		if (args == nullptr && m_required_elements.size() == 0)
+		if (args == nullptr && parser.required_elements.size() == 0)
 			return true;
 		if (args == nullptr)
 		{
-			mvThrowPythonError(mvErrorCode::mvNone, "This command has a minimum number of arguments of " + std::to_string(m_required_elements.size()));
+			mvThrowPythonError(mvErrorCode::mvNone, "This command has a minimum number of arguments of " + std::to_string(parser.required_elements.size()));
 			return false;
 		}
 
-		int possibleArgs = (int)m_required_elements.size() + (int)m_optional_elements.size();
-		int minArgs = (int)m_required_elements.size();
+		int possibleArgs = (int)parser.required_elements.size() + (int)parser.optional_elements.size();
+		int minArgs = (int)parser.required_elements.size();
 		int numberOfArgs = (int)PyTuple_Size(args);
 
 		if (numberOfArgs > possibleArgs)
@@ -358,15 +399,15 @@ namespace Marvel {
 		return true;
 	}
 
-	bool mvPythonParser::parse(PyObject* args, PyObject* kwargs, const char* message, ...)
+	bool Parse(const mvPythonParser& parser, PyObject* args, PyObject* kwargs, const char* message, ...)
 	{
 
 		bool check = true;
 
 		va_list arguments;
 		va_start(arguments, message);
-		if (!PyArg_VaParseTupleAndKeywords(args, kwargs, m_formatstring.data(),
-			const_cast<char**>(m_keywords.data()), arguments))
+		if (!PyArg_VaParseTupleAndKeywords(args, kwargs, parser.formatstring.data(),
+			const_cast<char**>(parser.keywords.data()), arguments))
 		{
 			check = false;
 		}
@@ -379,7 +420,7 @@ namespace Marvel {
 		return check;
 	}
 
-	void mvPythonParser::GenerateStubFile(const std::string& file)
+	void GenerateStubFile(const std::string& file)
 	{
 		const auto& commands = mvModule_DearPyGui::GetModuleParsers();
 
@@ -398,7 +439,7 @@ namespace Marvel {
 			stub << "def " << parser.first << "(";
 
 			bool first_arg = true;
-			for (const auto& args : parser.second.m_required_elements)
+			for (const auto& args : parser.second.required_elements)
 			{
 				if (first_arg)
 					first_arg = false;
@@ -407,7 +448,7 @@ namespace Marvel {
 				stub << args.name << PythonDataTypeString(args.type);
 			}
 
-			for (const auto& args : parser.second.m_optional_elements)
+			for (const auto& args : parser.second.optional_elements)
 			{
 				if (first_arg)
 					first_arg = false;
@@ -416,7 +457,7 @@ namespace Marvel {
 				stub << args.name << PythonDataTypeString(args.type) << " =''";
 			}
 
-			if (!parser.second.m_keyword_elements.empty())
+			if (!parser.second.keyword_elements.empty())
 			{
 				if (first_arg)
 					first_arg = false;
@@ -426,15 +467,15 @@ namespace Marvel {
 				stub << "*";
 			}
 
-			for (const auto& args : parser.second.m_keyword_elements)
+			for (const auto& args : parser.second.keyword_elements)
 				stub << ", " << args.name << ": " << PythonDataTypeActual(args.type) << " =''";
 
-			if (parser.second.m_unspecifiedKwargs)
+			if (parser.second.unspecifiedKwargs)
 				stub << ", **kwargs";
 
-			stub << ") -> " << PythonDataTypeActual(parser.second.m_return) << ":";
+			stub << ") -> " << PythonDataTypeActual(parser.second.returnType) << ":";
 
-			stub << "\n\t\"\"\"" << parser.second.m_about.c_str() << "\"\"\"";
+			stub << "\n\t\"\"\"" << parser.second.about.c_str() << "\"\"\"";
 
 			stub << "\n\t...\n\n";
 		}
@@ -447,7 +488,7 @@ namespace Marvel {
 		stub.close();
 	}
 
-	void mvPythonParser::GenerateCoreFile(std::ofstream& stream)
+	void GenerateCoreFile(std::ofstream& stream)
 	{
 		const auto& commands = mvModule_DearPyGui::GetModuleParsers();
 
@@ -459,13 +500,13 @@ namespace Marvel {
 
 		for (const auto& parser : commands)
 		{
-			if (parser.second.m_internal)
+			if (parser.second.internal)
 				continue;
 
 			stream << "def " << parser.first << "(";
 
 			bool first_arg = true;
-			for (const auto& args : parser.second.m_required_elements)
+			for (const auto& args : parser.second.required_elements)
 			{
 				if (first_arg)
 					first_arg = false;
@@ -474,7 +515,7 @@ namespace Marvel {
 				stream << args.name << PythonDataTypeString(args.type);
 			}
 
-			for (const auto& args : parser.second.m_optional_elements)
+			for (const auto& args : parser.second.optional_elements)
 			{
 				if (first_arg)
 					first_arg = false;
@@ -483,7 +524,7 @@ namespace Marvel {
 				stream << args.name << PythonDataTypeString(args.type) << " =" << args.default_value;
 			}
 
-			if (!parser.second.m_keyword_elements.empty())
+			if (!parser.second.keyword_elements.empty())
 			{
 				if (first_arg)
 					first_arg = false;
@@ -493,40 +534,40 @@ namespace Marvel {
 				stream << "*";
 			}
 
-			for (const auto& args : parser.second.m_keyword_elements)
+			for (const auto& args : parser.second.keyword_elements)
 				stream << ", " << args.name << ": " << PythonDataTypeActual(args.type) << " =" << args.default_value;
 
-			if (parser.second.m_unspecifiedKwargs)
+			if (parser.second.unspecifiedKwargs)
 				stream << ", **kwargs";
 
-			stream << ") -> " << PythonDataTypeActual(parser.second.m_return) << ":";
+			stream << ") -> " << PythonDataTypeActual(parser.second.returnType) << ":";
 
-			stream << "\n\t\"\"\"\t" << parser.second.m_about.c_str();
+			stream << "\n\t\"\"\"\t" << parser.second.about.c_str();
 
 			stream << "\n\n\tArgs:";
-			for (const auto& args : parser.second.m_required_elements)
+			for (const auto& args : parser.second.required_elements)
 			{
 				stream << "\n\t\t" << args.name << " (" << PythonDataTypeActual(args.type) << "): " << args.description;
 			}
 
-			for (const auto& args : parser.second.m_optional_elements)
+			for (const auto& args : parser.second.optional_elements)
 			{
 				stream << "\n\t\t" << args.name << " (" << PythonDataTypeActual(args.type) << ", optional): " << args.description;
 			}
 
-			for (const auto& args : parser.second.m_keyword_elements)
+			for (const auto& args : parser.second.keyword_elements)
 			{
 				stream << "\n\t\t" << args.name << " (" << PythonDataTypeActual(args.type) << ", optional): " << args.description;
 			}
 
 			stream << "\n\tReturns:";
-			stream << "\n\t\t" << PythonDataTypeActual(parser.second.m_return);
+			stream << "\n\t\t" << PythonDataTypeActual(parser.second.returnType);
 			stream << "\n\t\"\"\"";
 
 			stream << "\n\n\treturn internal_dpg." << parser.first << "(";
 
 			first_arg = true;
-			for (const auto& args : parser.second.m_required_elements)
+			for (const auto& args : parser.second.required_elements)
 			{
 				if (first_arg)
 					first_arg = false;
@@ -535,7 +576,7 @@ namespace Marvel {
 				stream << args.name;
 			}
 
-			for (const auto& args : parser.second.m_optional_elements)
+			for (const auto& args : parser.second.optional_elements)
 			{
 				if (first_arg)
 					first_arg = false;
@@ -544,7 +585,7 @@ namespace Marvel {
 				stream << args.name;
 			}
 
-			for (const auto& args : parser.second.m_keyword_elements)
+			for (const auto& args : parser.second.keyword_elements)
 			{
 				if (first_arg)
 					first_arg = false;
@@ -557,7 +598,7 @@ namespace Marvel {
 		}
 	}
 
-	void mvPythonParser::GenerateContextsFile(std::ofstream& stream)
+	void GenerateContextsFile(std::ofstream& stream)
 	{
 		const auto& commands = mvModule_DearPyGui::GetModuleParsers();
 
@@ -569,14 +610,14 @@ namespace Marvel {
 
 		for (const auto& parser : commands)
 		{
-			if (!parser.second.m_createContextManager)
+			if (!parser.second.createContextManager)
 				continue;
 
 			stream << "\n@contextmanager\n";
 			stream << "def " << parser.first.substr(4) << "(";
 
 			bool first_arg = true;
-			for (const auto& args : parser.second.m_required_elements)
+			for (const auto& args : parser.second.required_elements)
 			{
 				if (first_arg)
 					first_arg = false;
@@ -585,7 +626,7 @@ namespace Marvel {
 				stream << args.name << PythonDataTypeString(args.type);
 			}
 
-			for (const auto& args : parser.second.m_optional_elements)
+			for (const auto& args : parser.second.optional_elements)
 			{
 				if (first_arg)
 					first_arg = false;
@@ -594,7 +635,7 @@ namespace Marvel {
 				stream << args.name << PythonDataTypeString(args.type) << " =" << args.default_value;
 			}
 
-			if (!parser.second.m_keyword_elements.empty())
+			if (!parser.second.keyword_elements.empty())
 			{
 				if (first_arg)
 					first_arg = false;
@@ -604,41 +645,41 @@ namespace Marvel {
 				stream << "*";
 			}
 
-			for (const auto& args : parser.second.m_keyword_elements)
+			for (const auto& args : parser.second.keyword_elements)
 				stream << ", " << args.name << ": " << PythonDataTypeActual(args.type) << " =" << args.default_value;
 
-			if (parser.second.m_unspecifiedKwargs)
+			if (parser.second.unspecifiedKwargs)
 				stream << ", **kwargs";
 
-			stream << ") -> " << PythonDataTypeActual(parser.second.m_return) << ":";
+			stream << ") -> " << PythonDataTypeActual(parser.second.returnType) << ":";
 
-			stream << "\n\t\"\"\"\t" << parser.second.m_about.c_str();
+			stream << "\n\t\"\"\"\t" << parser.second.about.c_str();
 
 			stream << "\n\n\tArgs:";
-			for (const auto& args : parser.second.m_required_elements)
+			for (const auto& args : parser.second.required_elements)
 			{
 				stream << "\n\t\t" << args.name << " (" << PythonDataTypeActual(args.type) << "): " << args.description;
 			}
 
-			for (const auto& args : parser.second.m_optional_elements)
+			for (const auto& args : parser.second.optional_elements)
 			{
 				stream << "\n\t\t" << args.name << " (" << PythonDataTypeActual(args.type) << ", optional): " << args.description;
 			}
 
-			for (const auto& args : parser.second.m_keyword_elements)
+			for (const auto& args : parser.second.keyword_elements)
 			{
 				stream << "\n\t\t" << args.name << " (" << PythonDataTypeActual(args.type) << ", optional): " << args.description;
 			}
 
 			stream << "\n\tYields:";
-			stream << "\n\t\t" << PythonDataTypeActual(parser.second.m_return);
+			stream << "\n\t\t" << PythonDataTypeActual(parser.second.returnType);
 			stream << "\n\t\"\"\"";
 
 			stream << "\n\ttry:";
 			stream << "\n\t\twidget = internal_dpg." << parser.first << "(";
 
 			first_arg = true;
-			for (const auto& args : parser.second.m_required_elements)
+			for (const auto& args : parser.second.required_elements)
 			{
 				if (first_arg)
 					first_arg = false;
@@ -647,7 +688,7 @@ namespace Marvel {
 				stream << args.name;
 			}
 
-			for (const auto& args : parser.second.m_optional_elements)
+			for (const auto& args : parser.second.optional_elements)
 			{
 				if (first_arg)
 					first_arg = false;
@@ -656,7 +697,7 @@ namespace Marvel {
 				stream << args.name;
 			}
 
-			for (const auto& args : parser.second.m_keyword_elements)
+			for (const auto& args : parser.second.keyword_elements)
 			{
 				if (first_arg)
 					first_arg = false;
@@ -675,7 +716,7 @@ namespace Marvel {
 
 	}
 
-	void mvPythonParser::GenerateDearPyGuiFile(const std::string& file)
+	void GenerateDearPyGuiFile(const std::string& file)
 	{
 		std::ofstream stub;
 		stub.open(file + "/dearpygui.py");
@@ -737,43 +778,35 @@ namespace Marvel {
 		redirect.close();
 	}
 
-	void mvPythonParser::buildDocumentation()
+	void AddCommonArgs(std::vector<mvPythonDataElement>& args, CommonParserArgs argsFlags)
 	{
-		std::string documentation = m_about + "\n\nReturn Type: " + PythonDataTypeActual(m_return) + "\n";
 
-		if (!m_required_elements.empty())
-			documentation += "\n\nRequired Arguments\n_______________\n\n";
+		args.push_back({ mvPyDataType::String, "label", mvArgType::KEYWORD_ARG, "None", "Overrides 'name' as label." });
+		args.push_back({ mvPyDataType::Object, "user_data", mvArgType::KEYWORD_ARG, "None", "User data for callbacks" });
+		args.push_back({ mvPyDataType::Bool, "use_internal_label", mvArgType::KEYWORD_ARG, "True", "Use generated internal label instead of user specified (appends ### uuid)." });
 
-		for (const auto& element : m_required_elements)
+		if (argsFlags & MV_PARSER_ARG_ID)           args.push_back({ mvPyDataType::UUID, "tag", mvArgType::KEYWORD_ARG, "0", "Unique id used to programmatically refer to the item.If label is unused this will be the label." });
+		if (argsFlags & MV_PARSER_ARG_WIDTH)        args.push_back({ mvPyDataType::Integer, "width", mvArgType::KEYWORD_ARG, "0", "Width of the item." });
+		if (argsFlags & MV_PARSER_ARG_HEIGHT)       args.push_back({ mvPyDataType::Integer, "height", mvArgType::KEYWORD_ARG, "0", "Height of the item." });
+		if (argsFlags & MV_PARSER_ARG_INDENT)       args.push_back({ mvPyDataType::Integer, "indent", mvArgType::KEYWORD_ARG, "-1", "Offsets the widget to the right the specified number multiplied by the indent style." });
+		if (argsFlags & MV_PARSER_ARG_PARENT)       args.push_back({ mvPyDataType::UUID, "parent", mvArgType::KEYWORD_ARG, "0", "Parent to add this item to. (runtime adding)" });
+		if (argsFlags & MV_PARSER_ARG_BEFORE)       args.push_back({ mvPyDataType::UUID, "before", mvArgType::KEYWORD_ARG, "0", "This item will be displayed before the specified item in the parent." });
+		if (argsFlags & MV_PARSER_ARG_SOURCE)       args.push_back({ mvPyDataType::UUID, "source", mvArgType::KEYWORD_ARG, "0", "Overrides 'id' as value storage key." });
+		if (argsFlags & MV_PARSER_ARG_PAYLOAD_TYPE) args.push_back({ mvPyDataType::String, "payload_type", mvArgType::KEYWORD_ARG, "'$$DPG_PAYLOAD'", "Sender string type must be the same as the target for the target to run the payload_callback." });
+		if (argsFlags & MV_PARSER_ARG_CALLBACK)     args.push_back({ mvPyDataType::Callable, "callback", mvArgType::KEYWORD_ARG, "None", "Registers a callback." });
+		if (argsFlags & MV_PARSER_ARG_DRAG_CALLBACK)args.push_back({ mvPyDataType::Callable, "drag_callback", mvArgType::KEYWORD_ARG, "None", "Registers a drag callback for drag and drop." });
+		if (argsFlags & MV_PARSER_ARG_DROP_CALLBACK)args.push_back({ mvPyDataType::Callable, "drop_callback", mvArgType::KEYWORD_ARG, "None", "Registers a drop callback for drag and drop." });
+		if (argsFlags & MV_PARSER_ARG_SHOW)         args.push_back({ mvPyDataType::Bool, "show", mvArgType::KEYWORD_ARG, "True", "Attempt to render widget." });
+		if (argsFlags & MV_PARSER_ARG_ENABLED)      args.push_back({ mvPyDataType::Bool, "enabled", mvArgType::KEYWORD_ARG, "True", "Turns off functionality of widget and applies the disabled theme." });
+		if (argsFlags & MV_PARSER_ARG_POS)		    args.push_back({ mvPyDataType::IntList, "pos", mvArgType::KEYWORD_ARG, "[]", "Places the item relative to window coordinates, [0,0] is top left." });
+		if (argsFlags & MV_PARSER_ARG_FILTER)		args.push_back({ mvPyDataType::String, "filter_key", mvArgType::KEYWORD_ARG, "''", "Used by filter widget." });
+		if (argsFlags & MV_PARSER_ARG_SEARCH_DELAY) args.push_back({ mvPyDataType::Bool, "delay_search", mvArgType::KEYWORD_ARG, "False", "Delays searching container for specified items until the end of the app. Possible optimization when a container has many children that are not accessed often." });
+
+		if (argsFlags & MV_PARSER_ARG_TRACKED)
 		{
-			documentation += "\n* ";
-			documentation += element.name + std::string(PythonDataTypeString(element.type));
-			documentation += "\n\t\t" + std::string(element.description);
+			args.push_back({ mvPyDataType::Bool, "tracked", mvArgType::KEYWORD_ARG, "False", "Scroll tracking" });
+			args.push_back({ mvPyDataType::Float, "track_offset", mvArgType::KEYWORD_ARG, "0.5", "0.0f:top, 0.5f:center, 1.0f:bottom" });
 		}
 
-		if (!m_optional_elements.empty())
-			documentation += "\n\nOptional Arguments\n_______________\n\n";
-
-		for (const auto& element : m_optional_elements)
-		{
-			documentation += "\n* ";
-			documentation += element.name + std::string(PythonDataTypeString(element.type));
-			documentation += " = " + std::string(element.default_value);
-			documentation += "\n\t\t" + std::string(element.description);
-		}
-
-		if (!m_keyword_elements.empty())
-			documentation += "\n\nKeyword Arguments\n_______________\n\n";
-
-		for (const auto& element : m_keyword_elements)
-		{
-			documentation += "\n* ";
-			documentation += element.name + std::string(PythonDataTypeString(element.type));
-			documentation += " = " + std::string(element.default_value);
-			documentation += "\n\t\t" + std::string(element.description);
-		}
-
-		m_documentation = std::move(documentation);
 	}
-
 }

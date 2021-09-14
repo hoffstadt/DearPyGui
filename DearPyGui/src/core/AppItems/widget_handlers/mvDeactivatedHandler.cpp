@@ -8,16 +8,21 @@ namespace Marvel {
 
 	void mvDeactivatedHandler::InsertParser(std::map<std::string, mvPythonParser>* parsers)
 	{
+		std::vector<mvPythonDataElement> args;
 
-		mvPythonParser parser(mvPyDataType::UUID, "Adds a handler which runs a given callback when the specified item is deactivated.", { "Events", "Widgets" });
-		mvAppItem::AddCommonArgs(parser, (CommonParserArgs)(
+		AddCommonArgs(args,(CommonParserArgs)(
 			MV_PARSER_ARG_ID |
 			MV_PARSER_ARG_SHOW |
 			MV_PARSER_ARG_PARENT |
 			MV_PARSER_ARG_CALLBACK)
 		);
 
-		parser.finalize();
+		mvPythonParserSetup setup;
+		setup.about = "Adds a deactivated handler.";
+		setup.category = { "Widgets", "Events" };
+		setup.returnType = mvPyDataType::UUID;
+
+		mvPythonParser parser = FinalizeParser(setup, args);
 
 		parsers->insert({ s_command, parser });
 	}

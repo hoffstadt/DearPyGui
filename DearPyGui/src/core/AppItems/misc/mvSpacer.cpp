@@ -5,8 +5,9 @@ namespace Marvel {
 
     void mvSpacer::InsertParser(std::map<std::string, mvPythonParser>* parsers)
     {
-        mvPythonParser parser(mvPyDataType::UUID, "Adds a spacer.", { "Widgets" });
-        mvAppItem::AddCommonArgs(parser, (CommonParserArgs)(
+        std::vector<mvPythonDataElement> args;
+
+        AddCommonArgs(args,(CommonParserArgs)(
             MV_PARSER_ARG_ID |
             MV_PARSER_ARG_WIDTH |
             MV_PARSER_ARG_HEIGHT |
@@ -17,7 +18,12 @@ namespace Marvel {
             MV_PARSER_ARG_POS)
         );
 
-        parser.finalize();
+        mvPythonParserSetup setup;
+        setup.about = "Adds a spacer.";
+        setup.category = { "Widgets" };
+        setup.returnType = mvPyDataType::UUID;
+
+        mvPythonParser parser = FinalizeParser(setup, args);
 
         parsers->insert({ s_command, parser });
     }

@@ -10,9 +10,9 @@ namespace Marvel {
 
 	void mvImage::InsertParser(std::map<std::string, mvPythonParser>* parsers)
 	{
+		std::vector<mvPythonDataElement> args;
 
-		mvPythonParser parser(mvPyDataType::UUID, "Adds an image from a specified texture. uv_min and uv_max represent the normalized texture coordinates of the original image that will be shown. Using range (0.0,0.0)->(1.0,1.0) for texture coordinates will generally display the entire texture.", { "Textures", "Widgets" });
-		mvAppItem::AddCommonArgs(parser, (CommonParserArgs)(
+		AddCommonArgs(args,(CommonParserArgs)(
 			MV_PARSER_ARG_ID |
 			MV_PARSER_ARG_WIDTH |
 			MV_PARSER_ARG_HEIGHT |
@@ -29,14 +29,18 @@ namespace Marvel {
 			MV_PARSER_ARG_POS)
 		);
 
-		parser.addArg<mvPyDataType::UUID>("texture_id");
-		
-		parser.addArg<mvPyDataType::FloatList>("tint_color", mvArgType::KEYWORD_ARG, "(255, 255, 255, 255)", "Applies a color tint to the entire texture.");
-		parser.addArg<mvPyDataType::FloatList>("border_color", mvArgType::KEYWORD_ARG, "(0, 0, 0, 0)", "Displays a border of the specified color around the texture.");
-		parser.addArg<mvPyDataType::FloatList>("uv_min", mvArgType::KEYWORD_ARG, "(0.0, 0.0)", "Normalized texture coordinates min point.");
-		parser.addArg<mvPyDataType::FloatList>("uv_max", mvArgType::KEYWORD_ARG, "(1.0, 1.0)", "Normalized texture coordinates max point.");
+		args.push_back({ mvPyDataType::UUID, "texture_id" });
+		args.push_back({ mvPyDataType::FloatList, "tint_color", mvArgType::KEYWORD_ARG, "(255, 255, 255, 255)", "Applies a color tint to the entire texture." });
+		args.push_back({ mvPyDataType::FloatList, "border_color", mvArgType::KEYWORD_ARG, "(0, 0, 0, 0)", "Displays a border of the specified color around the texture." });
+		args.push_back({ mvPyDataType::FloatList, "uv_min", mvArgType::KEYWORD_ARG, "(0.0, 0.0)", "Normalized texture coordinates min point." });
+		args.push_back({ mvPyDataType::FloatList, "uv_max", mvArgType::KEYWORD_ARG, "(1.0, 1.0)", "Normalized texture coordinates max point." });
 
-		parser.finalize();
+		mvPythonParserSetup setup;
+		setup.about = "Adds an image from a specified texture. uv_min and uv_max represent the normalized texture coordinates of the original image that will be shown. Using range (0.0,0.0)->(1.0,1.0) for texture coordinates will generally display the entire texture.";
+		setup.category = { "Widgets", "Textures"};
+		setup.returnType = mvPyDataType::UUID;
+
+		mvPythonParser parser = FinalizeParser(setup, args);
 
 		parsers->insert({ s_command, parser });
 	}
@@ -128,10 +132,10 @@ namespace Marvel {
 
 				// if width/height is not set by user, use texture dimensions
 				if (_width == 0)
-					_width = _texture->getWidth();
+					_width = _texture->_width;
 
 				if (_height == 0)
-					_height = _texture->getHeight();
+					_height = _texture->_height;
 
 				void* texture = nullptr;
 
@@ -197,7 +201,7 @@ namespace Marvel {
 				if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload(_payloadType.c_str()))
 				{
 					auto payloadActual = static_cast<const mvDragPayload*>(payload->Data);
-					mvApp::GetApp()->getCallbackRegistry().addCallback(getDropCallback(), _uuid, payloadActual->getDragData(), nullptr);
+					mvApp::GetApp()->getCallbackRegistry().addCallback(_dropCallback,_uuid, payloadActual->getDragData(), nullptr);
 				}
 
 				ImGui::EndDragDropTarget();
@@ -218,7 +222,7 @@ namespace Marvel {
 
 	void mvImage::handleSpecificRequiredArgs(PyObject* dict)
 	{
-		if (!mvApp::GetApp()->getParsers()[s_command].verifyRequiredArguments(dict))
+		if (!VerifyRequiredArguments(mvApp::GetApp()->getParsers()[s_command], dict))
 			return;
 
 		for (int i = 0; i < PyTuple_Size(dict); i++)

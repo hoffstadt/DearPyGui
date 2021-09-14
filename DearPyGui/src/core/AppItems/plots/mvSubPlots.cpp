@@ -28,43 +28,47 @@ namespace Marvel {
 	void mvSubPlots::InsertParser(std::map<std::string, mvPythonParser>* parsers)
 	{
 
-		{
-			mvPythonParser parser(mvPyDataType::UUID, "Adds a plot which is used to hold series, and can be drawn to with draw commands.", { "Plotting", "Containers", "Widgets" }, true);
-			mvAppItem::AddCommonArgs(parser, (CommonParserArgs)(
-				MV_PARSER_ARG_ID |
-				MV_PARSER_ARG_WIDTH |
-				MV_PARSER_ARG_HEIGHT |
-				MV_PARSER_ARG_INDENT |
-				MV_PARSER_ARG_PARENT |
-				MV_PARSER_ARG_BEFORE |
-				MV_PARSER_ARG_SHOW |
-				MV_PARSER_ARG_CALLBACK |
-				MV_PARSER_ARG_SEARCH_DELAY |
-				MV_PARSER_ARG_FILTER |
-				MV_PARSER_ARG_TRACKED |
-				MV_PARSER_ARG_POS)
-			);
+		std::vector<mvPythonDataElement> args;
 
-			parser.addArg<mvPyDataType::Integer>("rows");
-			parser.addArg<mvPyDataType::Integer>("columns");
+		AddCommonArgs(args,(CommonParserArgs)(
+			MV_PARSER_ARG_ID |
+			MV_PARSER_ARG_WIDTH |
+			MV_PARSER_ARG_HEIGHT |
+			MV_PARSER_ARG_INDENT |
+			MV_PARSER_ARG_PARENT |
+			MV_PARSER_ARG_BEFORE |
+			MV_PARSER_ARG_SHOW |
+			MV_PARSER_ARG_CALLBACK |
+			MV_PARSER_ARG_SEARCH_DELAY |
+			MV_PARSER_ARG_FILTER |
+			MV_PARSER_ARG_TRACKED |
+			MV_PARSER_ARG_POS)
+		);
 
-			parser.addArg<mvPyDataType::FloatList>("row_ratios", mvArgType::KEYWORD_ARG, "[]");
-			parser.addArg<mvPyDataType::FloatList>("column_ratios", mvArgType::KEYWORD_ARG, "[]");
+		args.push_back({ mvPyDataType::Integer, "rows" });
+		args.push_back({ mvPyDataType::Integer, "columns" });
+		args.push_back({ mvPyDataType::FloatList, "row_ratios", mvArgType::KEYWORD_ARG, "[]" });
+		args.push_back({ mvPyDataType::FloatList, "column_ratios", mvArgType::KEYWORD_ARG, "[]" });
 
-			// plot flags
-			parser.addArg<mvPyDataType::Bool>("no_title", mvArgType::KEYWORD_ARG, "False");
-			parser.addArg<mvPyDataType::Bool>("no_menus", mvArgType::KEYWORD_ARG, "False", "the user will not be able to open context menus with right-click");
-			parser.addArg<mvPyDataType::Bool>("no_resize", mvArgType::KEYWORD_ARG, "False", "resize splitters between subplot cells will be not be provided");
-			parser.addArg<mvPyDataType::Bool>("no_align", mvArgType::KEYWORD_ARG, "False", "subplot edges will not be aligned vertically or horizontally");
-			parser.addArg<mvPyDataType::Bool>("link_rows", mvArgType::KEYWORD_ARG, "False", "link the y-axis limits of all plots in each row (does not apply auxiliary y-axes)");
-			parser.addArg<mvPyDataType::Bool>("link_columns", mvArgType::KEYWORD_ARG, "False", "link the x-axis limits of all plots in each column");
-			parser.addArg<mvPyDataType::Bool>("link_all_x", mvArgType::KEYWORD_ARG, "False", "link the x-axis limits in every plot in the subplot");
-			parser.addArg<mvPyDataType::Bool>("link_all_y", mvArgType::KEYWORD_ARG, "False", "link the y-axis limits in every plot in the subplot (does not apply to auxiliary y-axes)");
-			parser.addArg<mvPyDataType::Bool>("column_major", mvArgType::KEYWORD_ARG, "False", "subplots are added in column major order instead of the default row major order");
+		// plot flags
+		args.push_back({ mvPyDataType::Bool, "no_title", mvArgType::KEYWORD_ARG, "False" });
+		args.push_back({ mvPyDataType::Bool, "no_menus", mvArgType::KEYWORD_ARG, "False", "the user will not be able to open context menus with right-click" });
+		args.push_back({ mvPyDataType::Bool, "no_resize", mvArgType::KEYWORD_ARG, "False", "resize splitters between subplot cells will be not be provided" });
+		args.push_back({ mvPyDataType::Bool, "no_align", mvArgType::KEYWORD_ARG, "False", "subplot edges will not be aligned vertically or horizontally" });
+		args.push_back({ mvPyDataType::Bool, "link_rows", mvArgType::KEYWORD_ARG, "False", "link the y-axis limits of all plots in each row (does not apply auxiliary y-axes)" });
+		args.push_back({ mvPyDataType::Bool, "link_columns", mvArgType::KEYWORD_ARG, "False", "link the x-axis limits of all plots in each column" });
+		args.push_back({ mvPyDataType::Bool, "link_all_x", mvArgType::KEYWORD_ARG, "False", "link the x-axis limits in every plot in the subplot" });
+		args.push_back({ mvPyDataType::Bool, "link_all_y", mvArgType::KEYWORD_ARG, "False", "link the y-axis limits in every plot in the subplot (does not apply to auxiliary y-axes)" });
+		args.push_back({ mvPyDataType::Bool, "column_major", mvArgType::KEYWORD_ARG, "False", "subplots are added in column major order instead of the default row major order" });
 
-			parser.finalize();
-			parsers->insert({ s_command, parser });
-		}
+		mvPythonParserSetup setup;
+		setup.about = "Adds a collection of plots.";
+		setup.category = { "Plotting", "Containers", "Widgets" };
+		setup.returnType = mvPyDataType::UUID;
+		setup.createContextManager = true;
+
+		mvPythonParser parser = FinalizeParser(setup, args);
+		parsers->insert({ s_command, parser });
 
 	}
 
@@ -135,7 +139,7 @@ namespace Marvel {
 
 	void mvSubPlots::handleSpecificRequiredArgs(PyObject* dict)
 	{
-		if (!mvApp::GetApp()->getParsers()[s_command].verifyRequiredArguments(dict))
+		if (!VerifyRequiredArguments(mvApp::GetApp()->getParsers()[s_command], dict))
 			return;
 
 		for (int i = 0; i < PyTuple_Size(dict); i++)

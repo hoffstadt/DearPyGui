@@ -9,8 +9,9 @@ namespace Marvel {
 
 	void mvTabBar::InsertParser(std::map<std::string, mvPythonParser>* parsers)
 	{
-		mvPythonParser parser(mvPyDataType::UUID, "Adds a tab bar.", { "Containers", "Widgets" }, true);
-		mvAppItem::AddCommonArgs(parser, (CommonParserArgs)(
+		std::vector<mvPythonDataElement> args;
+
+		AddCommonArgs(args,(CommonParserArgs)(
 			MV_PARSER_ARG_ID |
 			MV_PARSER_ARG_INDENT |
 			MV_PARSER_ARG_PARENT |
@@ -26,9 +27,15 @@ namespace Marvel {
 			MV_PARSER_ARG_POS)
 		);
 
-		parser.addArg<mvPyDataType::Bool>("reorderable", mvArgType::KEYWORD_ARG, "False", "Allows for the user to change the order of the tabs.");
+		args.push_back({ mvPyDataType::Bool, "reorderable", mvArgType::KEYWORD_ARG, "False", "Allows for the user to change the order of the tabs." });
 
-		parser.finalize();
+		mvPythonParserSetup setup;
+		setup.about = "Adds a tab bar.";
+		setup.category = { "Containers", "Widgets" };
+		setup.returnType = mvPyDataType::UUID;
+		setup.createContextManager = true;
+
+		mvPythonParser parser = FinalizeParser(setup, args);
 
 		parsers->insert({ s_command, parser });
 	}
@@ -105,12 +112,12 @@ namespace Marvel {
 			for (auto& item : _children[1])
 			{
 
-				if (*_value == item->getUUID() && _lastValue != *_value)
+				if (*_value == item->_uuid && _lastValue != *_value)
 					static_cast<mvTab*>(item.get())->addFlag(ImGuiTabItemFlags_SetSelected);
 
 				item->draw(drawlist, ImGui::GetCursorPosX(), ImGui::GetCursorPosY());
 
-				if (*_value == item->getUUID())
+				if (*_value == item->_uuid)
 					static_cast<mvTab*>(item.get())->removeFlag(ImGuiTabItemFlags_SetSelected);
 			}
 

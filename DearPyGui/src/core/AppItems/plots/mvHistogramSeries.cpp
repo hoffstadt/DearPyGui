@@ -12,9 +12,9 @@ namespace Marvel {
 
 	void mvHistogramSeries::InsertParser(std::map<std::string, mvPythonParser>* parsers)
 	{
+		std::vector<mvPythonDataElement> args;
 
-		mvPythonParser parser(mvPyDataType::UUID, "Adds a histogram series to a plot.", { "Plotting", "Containers", "Widgets" });
-		mvAppItem::AddCommonArgs(parser, (CommonParserArgs)(
+		AddCommonArgs(args,(CommonParserArgs)(
 			MV_PARSER_ARG_ID |
 			MV_PARSER_ARG_PARENT |
 			MV_PARSER_ARG_BEFORE |
@@ -22,20 +22,22 @@ namespace Marvel {
 			MV_PARSER_ARG_SHOW)
 		);
 
-		parser.addArg<mvPyDataType::DoubleList>("x");
+		args.push_back({ mvPyDataType::DoubleList, "x" });
+		args.push_back({ mvPyDataType::Integer, "bins", mvArgType::KEYWORD_ARG, "-1" });
+		args.push_back({ mvPyDataType::Float, "bar_scale", mvArgType::KEYWORD_ARG, "1.0" });
+		args.push_back({ mvPyDataType::Double, "min_range", mvArgType::KEYWORD_ARG, "0.0"});
+		args.push_back({ mvPyDataType::Double, "max_range", mvArgType::KEYWORD_ARG, "1.0"});
+		args.push_back({ mvPyDataType::Bool, "cumlative", mvArgType::KEYWORD_ARG, "False"});
+		args.push_back({ mvPyDataType::Bool, "density", mvArgType::KEYWORD_ARG, "False"});
+		args.push_back({ mvPyDataType::Bool, "outliers", mvArgType::KEYWORD_ARG, "True"});
+		args.push_back({ mvPyDataType::Bool, "contribute_to_bounds", mvArgType::KEYWORD_ARG, "True" });
 
+		mvPythonParserSetup setup;
+		setup.about = "Adds a histogram series to a plot.";
+		setup.category = { "Plotting", "Containers", "Widgets" };
+		setup.returnType = mvPyDataType::UUID;
 
-		parser.addArg<mvPyDataType::Integer>("bins", mvArgType::KEYWORD_ARG, "-1");
-		parser.addArg<mvPyDataType::Float>("bar_scale", mvArgType::KEYWORD_ARG, "1.0");
-		parser.addArg<mvPyDataType::Double>("min_range", mvArgType::KEYWORD_ARG, "0.0");
-		parser.addArg<mvPyDataType::Double>("max_range", mvArgType::KEYWORD_ARG, "1.0");
-		parser.addArg<mvPyDataType::Bool>("cumlative", mvArgType::KEYWORD_ARG, "False");
-		parser.addArg<mvPyDataType::Bool>("density", mvArgType::KEYWORD_ARG, "False");
-		parser.addArg<mvPyDataType::Bool>("outliers", mvArgType::KEYWORD_ARG, "True");
-
-		parser.addArg<mvPyDataType::Bool>("contribute_to_bounds", mvArgType::KEYWORD_ARG, "True");
-
-		parser.finalize();
+		mvPythonParser parser = FinalizeParser(setup, args);
 
 		parsers->insert({ s_command, parser });
 	}
@@ -123,7 +125,7 @@ namespace Marvel {
 					for (auto& item : childset)
 					{
 						// skip item if it's not shown
-						if (!item->isShown())
+						if (!item->_show)
 							continue;
 						item->draw(drawlist, ImPlot::GetPlotPos().x, ImPlot::GetPlotPos().y);
 						item->getState().update();
@@ -163,7 +165,7 @@ namespace Marvel {
 
 	void mvHistogramSeries::handleSpecificRequiredArgs(PyObject* dict)
 	{
-		if (!mvApp::GetApp()->getParsers()[s_command].verifyRequiredArguments(dict))
+		if (!VerifyRequiredArguments(mvApp::GetApp()->getParsers()[s_command], dict))
 			return;
 
 		for (int i = 0; i < PyTuple_Size(dict); i++)

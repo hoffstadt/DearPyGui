@@ -12,9 +12,9 @@ namespace Marvel {
 
 	void mvLineSeries::InsertParser(std::map<std::string, mvPythonParser>* parsers)
 	{
+		std::vector<mvPythonDataElement> args;
 
-		mvPythonParser parser(mvPyDataType::UUID, "Adds a line series to a plot.", { "Plotting", "Containers", "Widgets" });
-		mvAppItem::AddCommonArgs(parser, (CommonParserArgs)(
+		AddCommonArgs(args,(CommonParserArgs)(
 			MV_PARSER_ARG_ID |
 			MV_PARSER_ARG_PARENT |
 			MV_PARSER_ARG_BEFORE |
@@ -22,10 +22,15 @@ namespace Marvel {
 			MV_PARSER_ARG_SHOW)
 		);
 
-		parser.addArg<mvPyDataType::DoubleList>("x");
-		parser.addArg<mvPyDataType::DoubleList>("y");
+		args.push_back({ mvPyDataType::DoubleList, "x"});
+		args.push_back({ mvPyDataType::DoubleList, "y"});
 
-		parser.finalize();
+		mvPythonParserSetup setup;
+		setup.about = "Adds a line series to a plot.";
+		setup.category = { "Plotting", "Containers", "Widgets" };
+		setup.returnType = mvPyDataType::UUID;
+
+		mvPythonParser parser = FinalizeParser(setup, args);
 
 		parsers->insert({ s_command, parser });
 	}
@@ -114,7 +119,7 @@ namespace Marvel {
 					for (auto& item : childset)
 					{
 						// skip item if it's not shown
-						if (!item->isShown())
+						if (!item->_show)
 							continue;
 						item->draw(drawlist, ImPlot::GetPlotPos().x, ImPlot::GetPlotPos().y);
 						item->getState().update();
@@ -152,7 +157,7 @@ namespace Marvel {
 
 	void mvLineSeries::handleSpecificRequiredArgs(PyObject* dict)
 	{
-		if (!mvApp::GetApp()->getParsers()[s_command].verifyRequiredArguments(dict))
+		if (!VerifyRequiredArguments(mvApp::GetApp()->getParsers()[s_command], dict))
 			return;
 
 		for (int i = 0; i < PyTuple_Size(dict); i++)

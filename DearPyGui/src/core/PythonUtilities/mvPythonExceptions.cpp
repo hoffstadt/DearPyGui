@@ -29,8 +29,8 @@ namespace Marvel
 				fullMessage.c_str(),
 				(int)code,
 				command.c_str(),
-				item->getUUID(),
-				item->getSpecifiedLabel().c_str(),
+				item->_uuid,
+				item->_specifiedLabel.c_str(),
 				itemType.c_str(),
 				message.c_str());
 		}

@@ -13,8 +13,9 @@ namespace Marvel {
 	void mvWindowAppItem::InsertParser(std::map<std::string, mvPythonParser>* parsers)
 	{
 		{
-			mvPythonParser parser(mvPyDataType::UUID, "Creates a new window for following items to be added to.", { "Containers", "Widgets" }, true);
-			mvAppItem::AddCommonArgs(parser, (CommonParserArgs)(
+			std::vector<mvPythonDataElement> args;
+
+			AddCommonArgs(args,(CommonParserArgs)(
 				MV_PARSER_ARG_ID |
 				MV_PARSER_ARG_WIDTH |
 				MV_PARSER_ARG_HEIGHT |
@@ -24,74 +25,93 @@ namespace Marvel {
 				MV_PARSER_ARG_POS)
 			);
 
-			parser.addArg<mvPyDataType::IntList>("min_size", mvArgType::KEYWORD_ARG, "[100, 100]", "Minimum window size.");
-			parser.addArg<mvPyDataType::IntList>("max_size", mvArgType::KEYWORD_ARG, "[30000, 30000]", "Maximum window size.");
-
-			parser.addArg<mvPyDataType::Bool>("menubar", mvArgType::KEYWORD_ARG, "False", "Shows or hides the menubar.");
-			parser.addArg<mvPyDataType::Bool>("collapsed", mvArgType::KEYWORD_ARG, "False", "Collapse the window.");
-			parser.addArg<mvPyDataType::Bool>("autosize", mvArgType::KEYWORD_ARG, "False", "Autosized the window to fit it's items.");
-			parser.addArg<mvPyDataType::Bool>("no_resize", mvArgType::KEYWORD_ARG, "False", "Allows for the window size to be changed or fixed.");
-			parser.addArg<mvPyDataType::Bool>("no_title_bar", mvArgType::KEYWORD_ARG, "False", "Title name for the title bar of the window.");
-			parser.addArg<mvPyDataType::Bool>("no_move", mvArgType::KEYWORD_ARG, "False", "Allows for the window's position to be changed or fixed.");
-			parser.addArg<mvPyDataType::Bool>("no_scrollbar", mvArgType::KEYWORD_ARG, "False", " Disable scrollbars. (window can still scroll with mouse or programmatically)");
-			parser.addArg<mvPyDataType::Bool>("no_collapse", mvArgType::KEYWORD_ARG, "False", "Disable user collapsing window by double-clicking on it.");
-			parser.addArg<mvPyDataType::Bool>("horizontal_scrollbar", mvArgType::KEYWORD_ARG, "False", "Allow horizontal scrollbar to appear. (off by default)");
-			parser.addArg<mvPyDataType::Bool>("no_focus_on_appearing", mvArgType::KEYWORD_ARG, "False", "Disable taking focus when transitioning from hidden to visible state.");
-			parser.addArg<mvPyDataType::Bool>("no_bring_to_front_on_focus", mvArgType::KEYWORD_ARG, "False", "Disable bringing window to front when taking focus. (e.g. clicking on it or programmatically giving it focus)");
-			parser.addArg<mvPyDataType::Bool>("no_close", mvArgType::KEYWORD_ARG, "False", "Disable user closing the window by removing the close button.");
-			parser.addArg<mvPyDataType::Bool>("no_background", mvArgType::KEYWORD_ARG, "False", "Sets Background and border alpha to transparent.");
-			parser.addArg<mvPyDataType::Bool>("modal", mvArgType::KEYWORD_ARG, "False", "Fills area behind window according to the theme and disables user ability to interact with anything except the window.");
-			parser.addArg<mvPyDataType::Bool>("popup", mvArgType::KEYWORD_ARG, "False", "Fills area behind window according to the theme, removes title bar, collapse and close. Window can be closed by selecting area in the background behind the window.");
-			parser.addArg<mvPyDataType::Bool>("no_saved_settings", mvArgType::KEYWORD_ARG, "False", "Never load/save settings in .ini file.");
+			args.push_back({ mvPyDataType::IntList, "min_size", mvArgType::KEYWORD_ARG, "[100, 100]", "Minimum window size." });
+			args.push_back({ mvPyDataType::IntList, "max_size", mvArgType::KEYWORD_ARG, "[30000, 30000]", "Maximum window size." });
+			args.push_back({ mvPyDataType::Bool, "menubar", mvArgType::KEYWORD_ARG, "False", "Shows or hides the menubar." });
+			args.push_back({ mvPyDataType::Bool, "collapsed", mvArgType::KEYWORD_ARG, "False", "Collapse the window." });
+			args.push_back({ mvPyDataType::Bool, "autosize", mvArgType::KEYWORD_ARG, "False", "Autosized the window to fit it's items." });
+			args.push_back({ mvPyDataType::Bool, "no_resize", mvArgType::KEYWORD_ARG, "False", "Allows for the window size to be changed or fixed." });
+			args.push_back({ mvPyDataType::Bool, "no_title_bar", mvArgType::KEYWORD_ARG, "False", "Title name for the title bar of the window." });
+			args.push_back({ mvPyDataType::Bool, "no_move", mvArgType::KEYWORD_ARG, "False", "Allows for the window's position to be changed or fixed." });
+			args.push_back({ mvPyDataType::Bool, "no_scrollbar", mvArgType::KEYWORD_ARG, "False", " Disable scrollbars. (window can still scroll with mouse or programmatically)" });
+			args.push_back({ mvPyDataType::Bool, "no_collapse", mvArgType::KEYWORD_ARG, "False", "Disable user collapsing window by double-clicking on it." });
+			args.push_back({ mvPyDataType::Bool, "horizontal_scrollbar", mvArgType::KEYWORD_ARG, "False", "Allow horizontal scrollbar to appear. (off by default)" });
+			args.push_back({ mvPyDataType::Bool, "no_focus_on_appearing", mvArgType::KEYWORD_ARG, "False", "Disable taking focus when transitioning from hidden to visible state." });
+			args.push_back({ mvPyDataType::Bool, "no_bring_to_front_on_focus", mvArgType::KEYWORD_ARG, "False", "Disable bringing window to front when taking focus. (e.g. clicking on it or programmatically giving it focus)" });
+			args.push_back({ mvPyDataType::Bool, "no_close", mvArgType::KEYWORD_ARG, "False", "Disable user closing the window by removing the close button." });
+			args.push_back({ mvPyDataType::Bool, "no_background", mvArgType::KEYWORD_ARG, "False", "Sets Background and border alpha to transparent." });
+			args.push_back({ mvPyDataType::Bool, "modal", mvArgType::KEYWORD_ARG, "False", "Fills area behind window according to the theme and disables user ability to interact with anything except the window." });
+			args.push_back({ mvPyDataType::Bool, "popup", mvArgType::KEYWORD_ARG, "False", "Fills area behind window according to the theme, removes title bar, collapse and close. Window can be closed by selecting area in the background behind the window." });
+			args.push_back({ mvPyDataType::Bool, "no_saved_settings", mvArgType::KEYWORD_ARG, "False", "Never load/save settings in .ini file." });
 			
-			parser.addArg<mvPyDataType::Callable>("on_close", mvArgType::KEYWORD_ARG, "None", "Callback ran when window is closed.");
+			args.push_back({ mvPyDataType::Callable, "on_close", mvArgType::KEYWORD_ARG, "None", "Callback ran when window is closed." });
 
-			parser.finalize();
+			mvPythonParserSetup setup;
+			setup.about = "Creates a new window for following items to be added to.";
+			setup.category = { "Containers", "Widgets" };
+			setup.returnType = mvPyDataType::UUID;
+			setup.createContextManager = true;
+
+			mvPythonParser parser = FinalizeParser(setup, args);
 
 			parsers->insert({ s_command, parser });
 		}
 
 		{
-			mvPythonParser parser(mvPyDataType::None);
-			parser.addArg<mvPyDataType::UUID>("item");
-			parser.addArg<mvPyDataType::Float>("value");
-			parser.finalize();
+			std::vector<mvPythonDataElement> args;
+			args.push_back({ mvPyDataType::UUID, "item" });
+			args.push_back({ mvPyDataType::Float, "value" });
+
+			mvPythonParserSetup setup;
+			setup.returnType = mvPyDataType::None;
+
+			mvPythonParser parser = FinalizeParser(setup, args);
 			parsers->insert({ "set_x_scroll", parser });
 		}
 
 		{
-			mvPythonParser parser(mvPyDataType::None);
-			parser.addArg<mvPyDataType::UUID>("item");
-			parser.addArg<mvPyDataType::Float>("value");
-			parser.finalize();
+			std::vector<mvPythonDataElement> args;
+			args.push_back({ mvPyDataType::UUID, "item" });
+			args.push_back({ mvPyDataType::Float, "value" });
+			mvPythonParserSetup setup;
+			setup.returnType = mvPyDataType::None;
+			mvPythonParser parser = FinalizeParser(setup, args);
 			parsers->insert({ "set_y_scroll", parser });
 		}
 
 		{
-			mvPythonParser parser(mvPyDataType::Float);
-			parser.addArg<mvPyDataType::UUID>("item");
-			parser.finalize();
+			std::vector<mvPythonDataElement> args;
+			args.push_back({ mvPyDataType::UUID , "item" });
+			mvPythonParserSetup setup;
+			setup.returnType = mvPyDataType::Float;
+			mvPythonParser parser = FinalizeParser(setup, args);
 			parsers->insert({ "get_x_scroll", parser });
 		}
 
 		{
-			mvPythonParser parser(mvPyDataType::Float);
-			parser.addArg<mvPyDataType::UUID>("item");
-			parser.finalize();
+			std::vector<mvPythonDataElement> args;
+			args.push_back({ mvPyDataType::UUID, "item" });
+			mvPythonParserSetup setup;
+			setup.returnType = mvPyDataType::Float;
+			mvPythonParser parser = FinalizeParser(setup, args);
 			parsers->insert({ "get_y_scroll", parser });
 		}
 
 		{
-			mvPythonParser parser(mvPyDataType::Float);
-			parser.addArg<mvPyDataType::UUID>("item");
-			parser.finalize();
+			std::vector<mvPythonDataElement> args;
+			args.push_back({ mvPyDataType::UUID , "item" });
+			mvPythonParserSetup setup;
+			setup.returnType = mvPyDataType::Float;
+			mvPythonParser parser = FinalizeParser(setup, args);
 			parsers->insert({ "get_x_scroll_max", parser });
 		}
 
 		{
-			mvPythonParser parser(mvPyDataType::Float);
-			parser.addArg<mvPyDataType::UUID>("item");
-			parser.finalize();
+			std::vector<mvPythonDataElement> args;
+			args.push_back({ mvPyDataType::UUID, "item" });
+			mvPythonParserSetup setup;
+			setup.returnType = mvPyDataType::Float;
+			mvPythonParser parser = FinalizeParser(setup, args);
 			parsers->insert({ "get_y_scroll_max", parser });
 		}
 	}
@@ -338,7 +358,7 @@ namespace Marvel {
 		for (auto& item : _children[0])
 		{
 			// skip item if it's not shown
-			if (!item->isShown())
+			if (!item->_show)
 				continue;
 
 			item->draw(this_drawlist, startx, starty);
@@ -351,15 +371,15 @@ namespace Marvel {
 		{
 
 			item->draw(drawlist, ImGui::GetCursorPosX(), ImGui::GetCursorPosY());
-			if (item->isTracked())
-				ImGui::SetScrollHereY(item->getTrackOffset());
+			if (item->_tracked)
+				ImGui::SetScrollHereY(item->_trackOffset);
 
 		}
 
 		for (auto& item : _children[2])
 		{
 			// skip item if it's not shown
-			if (!item->isShown())
+			if (!item->_show)
 				continue;
 
 			item->draw(this_drawlist, startx, starty);
@@ -590,7 +610,7 @@ namespace Marvel {
 		PyObject* itemraw;
 		float value;
 
-		if (!(mvApp::GetApp()->getParsers())["set_x_scroll"].parse(args, kwargs, __FUNCTION__,
+		if (!Parse((mvApp::GetApp()->getParsers())["set_x_scroll"], args, kwargs, __FUNCTION__,
 			&itemraw, &value))
 			return GetPyNone();
 
@@ -635,7 +655,7 @@ namespace Marvel {
 		PyObject* itemraw;
 		float value;
 
-		if (!(mvApp::GetApp()->getParsers())["set_y_scroll"].parse(args, kwargs, __FUNCTION__,
+		if (!Parse((mvApp::GetApp()->getParsers())["set_y_scroll"], args, kwargs, __FUNCTION__,
 			&itemraw, &value))
 			return GetPyNone();
 
@@ -679,7 +699,7 @@ namespace Marvel {
 
 		PyObject* itemraw;
 
-		if (!(mvApp::GetApp()->getParsers())["get_x_scroll"].parse(args, kwargs, __FUNCTION__,
+		if (!Parse((mvApp::GetApp()->getParsers())["get_x_scroll"], args, kwargs, __FUNCTION__,
 			&itemraw))
 			return GetPyNone();
 
@@ -722,7 +742,7 @@ namespace Marvel {
 
 		PyObject* itemraw;
 
-		if (!(mvApp::GetApp()->getParsers())["get_y_scroll"].parse(args, kwargs, __FUNCTION__,
+		if (!Parse((mvApp::GetApp()->getParsers())["get_y_scroll"], args, kwargs, __FUNCTION__,
 			&itemraw))
 			return GetPyNone();
 
@@ -765,7 +785,7 @@ namespace Marvel {
 
 		PyObject* itemraw;
 
-		if (!(mvApp::GetApp()->getParsers())["get_x_scroll_max"].parse(args, kwargs, __FUNCTION__,
+		if (!Parse((mvApp::GetApp()->getParsers())["get_x_scroll_max"], args, kwargs, __FUNCTION__,
 			&itemraw))
 			return GetPyNone();
 
@@ -808,7 +828,7 @@ namespace Marvel {
 
 		PyObject* itemraw;
 
-		if (!(mvApp::GetApp()->getParsers())["get_y_scroll_max"].parse(args, kwargs, __FUNCTION__,
+		if (!Parse((mvApp::GetApp()->getParsers())["get_y_scroll_max"], args, kwargs, __FUNCTION__,
 			&itemraw))
 			return GetPyNone();
 

@@ -59,7 +59,7 @@ namespace Marvel {
         void getSpecificConfiguration(PyObject* dict) override;
         void applySpecificTemplate(mvAppItem* item) override;
 
-        const std::string& getFilter() const { return _extension; }
+        const std::string& getFilter() { return _extension; }
 
     private:
 

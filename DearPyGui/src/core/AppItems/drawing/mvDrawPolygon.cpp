@@ -7,23 +7,26 @@ namespace Marvel {
 
 	void mvDrawPolygon::InsertParser(std::map<std::string, mvPythonParser>* parsers)
 	{
+		std::vector<mvPythonDataElement> args;
 
-		mvPythonParser parser(mvPyDataType::UUID, "Draws a polygon on a drawing. First and and last point should be the same to close teh polygone.", { "Drawlist", "Widgets" });
-		mvAppItem::AddCommonArgs(parser, (CommonParserArgs)(
+		AddCommonArgs(args,(CommonParserArgs)(
 			MV_PARSER_ARG_ID |
 			MV_PARSER_ARG_PARENT |
 			MV_PARSER_ARG_BEFORE |
 			MV_PARSER_ARG_SHOW)
 		);
 
-		parser.addArg<mvPyDataType::ListFloatList>("points");
+		args.push_back({ mvPyDataType::ListFloatList, "points" });
+		args.push_back({ mvPyDataType::IntList, "color", mvArgType::KEYWORD_ARG, "(255, 255, 255, 255)" });
+		args.push_back({ mvPyDataType::IntList, "fill", mvArgType::KEYWORD_ARG, "(0, 0, 0, -255)" });
+		args.push_back({ mvPyDataType::Float, "thickness", mvArgType::KEYWORD_ARG, "1.0" });
 
-		parser.addArg<mvPyDataType::IntList>("color", mvArgType::KEYWORD_ARG, "(255, 255, 255, 255)");
-		parser.addArg<mvPyDataType::IntList>("fill", mvArgType::KEYWORD_ARG, "(0, 0, 0, -255)");
+		mvPythonParserSetup setup;
+		setup.about = "Adds a polygon.";
+		setup.category = { "Drawlist", "Widgets" };
+		setup.returnType = mvPyDataType::UUID;
 
-		parser.addArg<mvPyDataType::Float>("thickness", mvArgType::KEYWORD_ARG, "1.0");
-
-		parser.finalize();
+		mvPythonParser parser = FinalizeParser(setup, args);
 
 		parsers->insert({ s_command, parser });
 	}
@@ -147,7 +150,7 @@ namespace Marvel {
 
 	void mvDrawPolygon::handleSpecificRequiredArgs(PyObject* dict)
 	{
-		if (!mvApp::GetApp()->getParsers()[s_command].verifyRequiredArguments(dict))
+		if (!VerifyRequiredArguments(mvApp::GetApp()->getParsers()[s_command], dict))
 			return;
 
 		for (int i = 0; i < PyTuple_Size(dict); i++)

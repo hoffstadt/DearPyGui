@@ -18,25 +18,36 @@ namespace Marvel {
 	void mvFont::InsertParser(std::map<std::string, mvPythonParser>* parsers)
 	{
 		{
-			mvPythonParser parser(mvPyDataType::UUID, "Undocumented function", { "Fonts", "Containers" }, true);
-			mvAppItem::AddCommonArgs(parser, (CommonParserArgs)(
+			std::vector<mvPythonDataElement> args;
+
+			AddCommonArgs(args,(CommonParserArgs)(
 				MV_PARSER_ARG_ID)
 			);
 
-			parser.addArg<mvPyDataType::String>("file");
-			parser.addArg<mvPyDataType::Integer>("size");
+			args.push_back({ mvPyDataType::String, "file" });
+			args.push_back({ mvPyDataType::Integer, "size" });
+			args.push_back({ mvPyDataType::UUID, "parent", mvArgType::KEYWORD_ARG, "internal_dpg.mvReservedUUID_0", "Parent to add this item to. (runtime adding)" });
 
-			parser.addArg<mvPyDataType::UUID>("parent", mvArgType::KEYWORD_ARG, "internal_dpg.mvReservedUUID_0", "Parent to add this item to. (runtime adding)");
+			mvPythonParserSetup setup;
+			setup.category = { "Fonts", "Containers" };
+			setup.returnType = mvPyDataType::UUID;
+			setup.createContextManager = true;
 
-			parser.finalize();
+			mvPythonParser parser = FinalizeParser(setup, args);
 
 			parsers->insert({ s_command, parser });
 		}
 
 		{
-			mvPythonParser parser(mvPyDataType::None, "Undocumented", { "Fonts" });
-			parser.addArg<mvPyDataType::UUID>("font");
-			parser.finalize();
+			std::vector<mvPythonDataElement> args;
+			args.push_back({ mvPyDataType::UUID, "font" });
+
+			mvPythonParserSetup setup;
+			setup.about = "Binds a global font.";
+			setup.category = { "font" };
+			setup.returnType = mvPyDataType::UUID;
+
+			mvPythonParser parser = FinalizeParser(setup, args);
 			parsers->insert({ "bind_font", parser });
 		}
 	}
@@ -164,7 +175,7 @@ namespace Marvel {
 
 	void mvFont::handleSpecificRequiredArgs(PyObject* dict)
 	{
-		if (!mvApp::GetApp()->getParsers()[s_command].verifyRequiredArguments(dict))
+		if (!VerifyRequiredArguments(mvApp::GetApp()->getParsers()[s_command], dict))
 			return;
 
 		for (int i = 0; i < PyTuple_Size(dict); i++)
@@ -202,7 +213,7 @@ namespace Marvel {
 
 		PyObject* itemraw;
 
-		if (!(mvApp::GetApp()->getParsers())["bind_font"].parse(args, kwargs, __FUNCTION__,
+		if (!Parse((mvApp::GetApp()->getParsers())["bind_font"], args, kwargs, __FUNCTION__,
 			&itemraw))
 			return GetPyNone();
 

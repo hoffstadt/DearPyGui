@@ -22,70 +22,108 @@ namespace Marvel {
 	{
 
 		{
-			mvPythonParser parser(mvPyDataType::None, "Creates a viewport.", { "General" });
-			parser.addArg<mvPyDataType::String>("title", mvArgType::KEYWORD_ARG, "'Dear PyGui'");
-			parser.addArg<mvPyDataType::String>("small_icon", mvArgType::KEYWORD_ARG, "''");
-			parser.addArg<mvPyDataType::String>("large_icon", mvArgType::KEYWORD_ARG, "''");
+			std::vector<mvPythonDataElement> args;
+			args.push_back({ mvPyDataType::String, "title", mvArgType::KEYWORD_ARG, "'Dear PyGui'" });
+			args.push_back({ mvPyDataType::String, "small_icon", mvArgType::KEYWORD_ARG, "''"});
+			args.push_back({ mvPyDataType::String, "large_icon", mvArgType::KEYWORD_ARG, "''"});
+			args.push_back({ mvPyDataType::Integer, "width", mvArgType::KEYWORD_ARG, "1280"});
+			args.push_back({ mvPyDataType::Integer, "height", mvArgType::KEYWORD_ARG, "800"});
+			args.push_back({ mvPyDataType::Integer, "x_pos", mvArgType::KEYWORD_ARG, "100"});
+			args.push_back({ mvPyDataType::Integer, "y_pos", mvArgType::KEYWORD_ARG, "100"});
+			args.push_back({ mvPyDataType::Integer, "min_width", mvArgType::KEYWORD_ARG, "250" });
+			args.push_back({ mvPyDataType::Integer, "max_width", mvArgType::KEYWORD_ARG, "10000" });
+			args.push_back({ mvPyDataType::Integer, "min_height", mvArgType::KEYWORD_ARG, "250" });
+			args.push_back({ mvPyDataType::Integer, "max_height", mvArgType::KEYWORD_ARG, "10000" });
+			args.push_back({ mvPyDataType::Bool, "resizable", mvArgType::KEYWORD_ARG, "True" });
+			args.push_back({ mvPyDataType::Bool, "vsync", mvArgType::KEYWORD_ARG, "True" });
+			args.push_back({ mvPyDataType::Bool, "always_on_top", mvArgType::KEYWORD_ARG, "False" });
+			args.push_back({ mvPyDataType::Bool, "decorated", mvArgType::KEYWORD_ARG, "True" });
+			args.push_back({ mvPyDataType::FloatList, "clear_color", mvArgType::KEYWORD_ARG, "(0, 0, 0, 255)" });
 
-			parser.addArg<mvPyDataType::Integer>("width", mvArgType::KEYWORD_ARG, "1280");
-			parser.addArg<mvPyDataType::Integer>("height", mvArgType::KEYWORD_ARG, "800");
-			parser.addArg<mvPyDataType::Integer>("x_pos", mvArgType::KEYWORD_ARG, "100");
-			parser.addArg<mvPyDataType::Integer>("y_pos", mvArgType::KEYWORD_ARG, "100");
-			parser.addArg<mvPyDataType::Integer>("min_width", mvArgType::KEYWORD_ARG, "250");
-			parser.addArg<mvPyDataType::Integer>("max_width", mvArgType::KEYWORD_ARG, "10000");
-			parser.addArg<mvPyDataType::Integer>("min_height", mvArgType::KEYWORD_ARG, "250");
-			parser.addArg<mvPyDataType::Integer>("max_height", mvArgType::KEYWORD_ARG, "10000");
+			mvPythonParserSetup setup;
+			setup.about = "Creates a viewport.";
+			setup.category = { "General" };
+			setup.returnType = mvPyDataType::None;
 
-			parser.addArg<mvPyDataType::Bool>("resizable", mvArgType::KEYWORD_ARG, "True");
-			parser.addArg<mvPyDataType::Bool>("vsync", mvArgType::KEYWORD_ARG, "True");
-			parser.addArg<mvPyDataType::Bool>("always_on_top", mvArgType::KEYWORD_ARG, "False");
-			parser.addArg<mvPyDataType::Bool>("decorated", mvArgType::KEYWORD_ARG, "True");
-
-			parser.addArg<mvPyDataType::FloatList>("clear_color", mvArgType::KEYWORD_ARG, "(0, 0, 0, 255)");
-
-			parser.finalize();
+			mvPythonParser parser = FinalizeParser(setup, args);
 			parsers->insert({ "create_viewport", parser });
 		}
 
 		{
-			mvPythonParser parser(mvPyDataType::None, "Shows the viewport", { "General" });
-			parser.addArg<mvPyDataType::Bool>("minimized", mvArgType::KEYWORD_ARG, "False");
-			parser.addArg<mvPyDataType::Bool>("maximized", mvArgType::KEYWORD_ARG, "False");
-			parser.finalize();
+			std::vector<mvPythonDataElement> args;
+			args.push_back({ mvPyDataType::Bool, "minimized", mvArgType::KEYWORD_ARG, "False"});
+			args.push_back({ mvPyDataType::Bool, "maximized", mvArgType::KEYWORD_ARG, "False"});
+
+			mvPythonParserSetup setup;
+			setup.about = "Shows the main viewport.";
+			setup.category = { "General" };
+			setup.returnType = mvPyDataType::None;
+
+			mvPythonParser parser = FinalizeParser(setup, args);
 			parsers->insert({ "show_viewport", parser });
 		}
 
 		{
-			mvPythonParser parser(mvPyDataType::None, "Configures the viewport.", { "General" });
-			parser.addArg<mvPyDataType::UUID>("item");
-			parser.addKwargs();
-			parser.makeInternal();
-			parser.finalize();
+			std::vector<mvPythonDataElement> args;
+			args.push_back({ mvPyDataType::UUID, "item" });
+
+			mvPythonParserSetup setup;
+			setup.about = "Configures a viewport.";
+			setup.category = { "General" };
+			setup.returnType = mvPyDataType::None;
+			setup.unspecifiedKwargs = true;
+			setup.internal = true;
+
+			mvPythonParser parser = FinalizeParser(setup, args);
 			parsers->insert({ "configure_viewport", parser });
 		}
 
 		{
-			mvPythonParser parser(mvPyDataType::Dict, "Returns viewport configuration.", { "General" });
-			parser.addArg<mvPyDataType::UUID>("item");
-			parser.finalize();
+			std::vector<mvPythonDataElement> args;
+			args.push_back({ mvPyDataType::UUID, "item" });
+
+			mvPythonParserSetup setup;
+			setup.about = "Returns a viewport's configuration.";
+			setup.category = { "General" };
+			setup.returnType = mvPyDataType::Dict;
+
+			mvPythonParser parser = FinalizeParser(setup, args);
 			parsers->insert({ "get_viewport_configuration", parser });
 		}
 
 		{
-			mvPythonParser parser(mvPyDataType::Bool, "Checks if a viewport has been created and shown.", { "General" });
-			parser.finalize();
+			std::vector<mvPythonDataElement> args;
+
+			mvPythonParserSetup setup;
+			setup.about = "Checks if a viewport has been created and shown.";
+			setup.category = { "General" };
+			setup.returnType = mvPyDataType::Bool;
+
+			mvPythonParser parser = FinalizeParser(setup, args);
 			parsers->insert({ "is_viewport_ok", parser });
 		}
 
 		{
-			mvPythonParser parser(mvPyDataType::None, "Maximizes the viewport.", { "General" });
-			parser.finalize();
+			std::vector<mvPythonDataElement> args;
+
+			mvPythonParserSetup setup;
+			setup.about = "Maximizes the viewport.";
+			setup.category = { "General" };
+			setup.returnType = mvPyDataType::None;
+
+			mvPythonParser parser = FinalizeParser(setup, args);
 			parsers->insert({ "maximize_viewport", parser });
 		}
 
 		{
-			mvPythonParser parser(mvPyDataType::None, "Minimizes the viewport.", { "General" });
-			parser.finalize();
+			std::vector<mvPythonDataElement> args;
+
+			mvPythonParserSetup setup;
+			setup.about = "Minimizes a viewport.";
+			setup.category = { "General" };
+			setup.returnType = mvPyDataType::None;
+
+			mvPythonParser parser = FinalizeParser(setup, args);
 			parsers->insert({ "minimize_viewport", parser });
 		}
 
@@ -222,7 +260,7 @@ namespace Marvel {
 		PyList_SetItem(color, 3, PyFloat_FromDouble(1.0));
 
 
-		if (!(mvApp::GetApp()->getParsers())["create_viewport"].parse(args, kwargs, __FUNCTION__,
+		if (!Parse((mvApp::GetApp()->getParsers())["create_viewport"], args, kwargs, __FUNCTION__,
 			&title, &small_icon, &large_icon, &width, &height, &x_pos, &y_pos, &min_width, &max_width, &min_height, &max_height ,
 			&resizable, &vsync, &always_on_top, &decorated, &color
 			))
@@ -241,7 +279,7 @@ namespace Marvel {
 		int minimized = false;
 		int maximized = false;
 
-		if (!(mvApp::GetApp()->getParsers())["show_viewport"].parse(args, kwargs, __FUNCTION__,
+		if (!Parse((mvApp::GetApp()->getParsers())["show_viewport"], args, kwargs, __FUNCTION__,
 			&minimized, &maximized))
 			return GetPyNone();
 

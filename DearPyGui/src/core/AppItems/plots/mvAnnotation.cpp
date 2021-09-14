@@ -11,9 +11,9 @@ namespace Marvel {
 
 	void mvAnnotation::InsertParser(std::map<std::string, mvPythonParser>* parsers)
 	{
+		std::vector<mvPythonDataElement> args;
 
-		mvPythonParser parser(mvPyDataType::UUID, "Adds an annotation to a plot.", { "Plotting", "Widgets" });
-		mvAppItem::AddCommonArgs(parser, (CommonParserArgs)(
+		AddCommonArgs(args,(CommonParserArgs)(
 			MV_PARSER_ARG_ID |
 			MV_PARSER_ARG_PARENT |
 			MV_PARSER_ARG_BEFORE |
@@ -21,14 +21,17 @@ namespace Marvel {
 			MV_PARSER_ARG_SHOW)
 		);
 
-		parser.addArg<mvPyDataType::DoubleList>("default_value", mvArgType::KEYWORD_ARG, "(0.0, 0.0)");
-		parser.addArg<mvPyDataType::FloatList>("offset", mvArgType::KEYWORD_ARG, "(0.0, 0.0)");
-		
-		parser.addArg<mvPyDataType::IntList>("color", mvArgType::KEYWORD_ARG, "(0, 0, 0, -255)");
+		args.push_back({ mvPyDataType::DoubleList, "default_value", mvArgType::KEYWORD_ARG, "(0.0, 0.0)" });
+		args.push_back({ mvPyDataType::FloatList, "offset", mvArgType::KEYWORD_ARG, "(0.0, 0.0)" });
+		args.push_back({ mvPyDataType::IntList, "color", mvArgType::KEYWORD_ARG, "(0, 0, 0, -255)" });
+		args.push_back({ mvPyDataType::Bool, "clamped", mvArgType::KEYWORD_ARG, "True" });
 
-		parser.addArg<mvPyDataType::Bool>("clamped", mvArgType::KEYWORD_ARG, "True");
+		mvPythonParserSetup setup;
+		setup.about = "Adds an annotation to a plot.";
+		setup.category = { "Plotting", "Widgets" };
+		setup.returnType = mvPyDataType::UUID;
 
-		parser.finalize();
+		mvPythonParser parser = FinalizeParser(setup, args);
 
 		parsers->insert({ s_command, parser });
 	}
@@ -83,9 +86,9 @@ namespace Marvel {
 		ScopedID id(_uuid);
 
 		if (_clamped)
-			ImPlot::AnnotateClamped((*_value.get())[0], (*_value.get())[1], _pixOffset, _color.toVec4(), "%s", _specificedlabel.c_str());
+			ImPlot::AnnotateClamped((*_value.get())[0], (*_value.get())[1], _pixOffset, _color.toVec4(), "%s", _specifiedLabel.c_str());
 		else
-			ImPlot::Annotate((*_value.get())[0], (*_value.get())[1], _pixOffset, _color.toVec4(), "%s", _specificedlabel.c_str());
+			ImPlot::Annotate((*_value.get())[0], (*_value.get())[1], _pixOffset, _color.toVec4(), "%s", _specifiedLabel.c_str());
 
 	}
 

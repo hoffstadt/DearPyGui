@@ -11,8 +11,9 @@ namespace Marvel {
 
 	void mvColorMapButton::InsertParser(std::map<std::string, mvPythonParser>* parsers)
 	{
-		mvPythonParser parser(mvPyDataType::UUID, "Adds a color button.", { "Widgets" });
-		mvAppItem::AddCommonArgs(parser, (CommonParserArgs)(
+		std::vector<mvPythonDataElement> args;
+
+		AddCommonArgs(args,(CommonParserArgs)(
 			MV_PARSER_ARG_ID |
 			MV_PARSER_ARG_WIDTH |
 			MV_PARSER_ARG_HEIGHT |
@@ -30,13 +31,17 @@ namespace Marvel {
 			MV_PARSER_ARG_POS)
 		);
 
-		parser.addArg<mvPyDataType::IntList>("default_value", mvArgType::POSITIONAL_ARG, "(0, 0, 0, 255)");
+		args.push_back({ mvPyDataType::IntList, "default_value", mvArgType::POSITIONAL_ARG, "(0, 0, 0, 255)" });
+		args.push_back({ mvPyDataType::Bool, "no_alpha", mvArgType::KEYWORD_ARG, "False", "Ignore Alpha component." });
+		args.push_back({ mvPyDataType::Bool, "no_border", mvArgType::KEYWORD_ARG, "False", "Disable border around the image." });
+		args.push_back({ mvPyDataType::Bool, "no_drag_drop", mvArgType::KEYWORD_ARG, "False", "Disable display of inline text label." });
 
-		parser.addArg<mvPyDataType::Bool>("no_alpha", mvArgType::KEYWORD_ARG, "False", "Ignore Alpha component.");
-		parser.addArg<mvPyDataType::Bool>("no_border", mvArgType::KEYWORD_ARG, "False", "Disable border around the image.");
-		parser.addArg<mvPyDataType::Bool>("no_drag_drop", mvArgType::KEYWORD_ARG, "False", "Disable display of inline text label.");
+		mvPythonParserSetup setup;
+		setup.about = "Adds a color button.";
+		setup.category = { "Widgets", "Colors" };
+		setup.returnType = mvPyDataType::UUID;
 
-		parser.finalize();
+		mvPythonParser parser = FinalizeParser(setup, args);
 
 		parsers->insert({ s_command, parser });
 	}
@@ -170,9 +175,9 @@ namespace Marvel {
 				{
 					auto payloadActual = static_cast<const mvDragPayload*>(payload->Data);
 					if (_alias.empty())
-						mvApp::GetApp()->getCallbackRegistry().addCallback(getDropCallback(), _uuid, payloadActual->getDragData(), nullptr);
+						mvApp::GetApp()->getCallbackRegistry().addCallback(_dropCallback,_uuid, payloadActual->getDragData(), nullptr);
 					else
-						mvApp::GetApp()->getCallbackRegistry().addCallback(getDropCallback(), _alias, payloadActual->getDragData(), nullptr);
+						mvApp::GetApp()->getCallbackRegistry().addCallback(_dropCallback,_alias, payloadActual->getDragData(), nullptr);
 				}
 
 				ImGui::EndDragDropTarget();

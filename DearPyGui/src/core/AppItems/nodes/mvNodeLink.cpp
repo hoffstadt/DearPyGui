@@ -14,18 +14,22 @@ namespace Marvel {
 
 	void mvNodeLink::InsertParser(std::map<std::string, mvPythonParser>* parsers)
 	{
+		std::vector<mvPythonDataElement> args;
 
-		mvPythonParser parser(mvPyDataType::UUID, "Adds a node link between nodes.", { "Node Editor", "Widgets" });
-		mvAppItem::AddCommonArgs(parser, (CommonParserArgs)(
+		AddCommonArgs(args,(CommonParserArgs)(
 			MV_PARSER_ARG_ID |
 			MV_PARSER_ARG_PARENT |
 			MV_PARSER_ARG_SHOW)
 		);
 
-		parser.addArg<mvPyDataType::UUID>("attr_1");
-		parser.addArg<mvPyDataType::UUID>("attr_2");
+		args.push_back({ mvPyDataType::UUID, "attr_1"});
+		args.push_back({ mvPyDataType::UUID, "attr_2"});
 
-		parser.finalize();
+		mvPythonParserSetup setup;
+		setup.category = { "Node Editor", "Widgets"};
+		setup.returnType = mvPyDataType::UUID;
+
+		mvPythonParser parser = FinalizeParser(setup, args);
 
 		parsers->insert({ s_command, parser });
 	}
@@ -40,7 +44,7 @@ namespace Marvel {
 
 	void mvNodeLink::handleSpecificRequiredArgs(PyObject* dict)
 	{
-		if (!mvApp::GetApp()->getParsers()[s_command].verifyRequiredArguments(dict))
+		if (!VerifyRequiredArguments(mvApp::GetApp()->getParsers()[s_command], dict))
 			return;
 
 		for (int i = 0; i < PyTuple_Size(dict); i++)

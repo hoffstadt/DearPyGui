@@ -12,9 +12,9 @@ namespace Marvel {
 
 	void mv2dHistogramSeries::InsertParser(std::map<std::string, mvPythonParser>* parsers)
 	{
+		std::vector<mvPythonDataElement> args;
 
-		mvPythonParser parser(mvPyDataType::UUID, "Undocumented function", { "Plotting", "Containers", "Widgets"});
-		mvAppItem::AddCommonArgs(parser, (CommonParserArgs)(
+		AddCommonArgs(args,(CommonParserArgs)(
 			MV_PARSER_ARG_ID |
 			MV_PARSER_ARG_PARENT |
 			MV_PARSER_ARG_BEFORE |
@@ -22,20 +22,22 @@ namespace Marvel {
 			MV_PARSER_ARG_SHOW)
 		);
 
-		parser.addArg<mvPyDataType::DoubleList>("x");
-		parser.addArg<mvPyDataType::DoubleList>("y");
+		args.push_back({ mvPyDataType::DoubleList, "x" });
+		args.push_back({ mvPyDataType::DoubleList, "y" });
+		args.push_back({ mvPyDataType::Integer, "xbins", mvArgType::KEYWORD_ARG, "-1" });
+		args.push_back({ mvPyDataType::Integer, "ybins", mvArgType::KEYWORD_ARG, "-1" });
+		args.push_back({ mvPyDataType::Double, "xmin_range", mvArgType::KEYWORD_ARG, "0.0" });
+		args.push_back({ mvPyDataType::Double, "xmax_range", mvArgType::KEYWORD_ARG, "1.0" });
+		args.push_back({ mvPyDataType::Double, "ymin_range", mvArgType::KEYWORD_ARG, "0.0" });
+		args.push_back({ mvPyDataType::Double, "ymax_range", mvArgType::KEYWORD_ARG, "1.0" });
+		args.push_back({ mvPyDataType::Bool, "density", mvArgType::KEYWORD_ARG, "False" });
+		args.push_back({ mvPyDataType::Bool, "outliers", mvArgType::KEYWORD_ARG, "True" });
 
+		mvPythonParserSetup setup;
+		setup.category = { "Plotting", "Containers", "Widgets" };
+		setup.returnType = mvPyDataType::UUID;
 
-		parser.addArg<mvPyDataType::Integer>("xbins", mvArgType::KEYWORD_ARG, "-1");
-		parser.addArg<mvPyDataType::Integer>("ybins", mvArgType::KEYWORD_ARG, "-1");
-		parser.addArg<mvPyDataType::Double>("xmin_range", mvArgType::KEYWORD_ARG, "0.0");
-		parser.addArg<mvPyDataType::Double>("xmax_range", mvArgType::KEYWORD_ARG, "1.0");
-		parser.addArg<mvPyDataType::Double>("ymin_range", mvArgType::KEYWORD_ARG, "0.0");
-		parser.addArg<mvPyDataType::Double>("ymax_range", mvArgType::KEYWORD_ARG, "1.0");
-		parser.addArg<mvPyDataType::Bool>("density", mvArgType::KEYWORD_ARG, "False");
-		parser.addArg<mvPyDataType::Bool>("outliers", mvArgType::KEYWORD_ARG, "True");
-
-		parser.finalize();
+		mvPythonParser parser = FinalizeParser(setup, args);
 
 		parsers->insert({ s_command, parser });
 	}
@@ -126,7 +128,7 @@ namespace Marvel {
 					for (auto& item : childset)
 					{
 						// skip item if it's not shown
-						if (!item->isShown())
+						if (!item->_show)
 							continue;
 						item->draw(drawlist, ImPlot::GetPlotPos().x, ImPlot::GetPlotPos().y);
 						item->getState().update();
@@ -165,7 +167,7 @@ namespace Marvel {
 
 	void mv2dHistogramSeries::handleSpecificRequiredArgs(PyObject* dict)
 	{
-		if (!mvApp::GetApp()->getParsers()[s_command].verifyRequiredArguments(dict))
+		if (!VerifyRequiredArguments(mvApp::GetApp()->getParsers()[s_command], dict))
 			return;
 
 		for (int i = 0; i < PyTuple_Size(dict); i++)

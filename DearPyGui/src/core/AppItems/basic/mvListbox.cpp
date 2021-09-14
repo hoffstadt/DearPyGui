@@ -11,9 +11,9 @@ namespace Marvel {
 
 	void mvListbox::InsertParser(std::map<std::string, mvPythonParser>* parsers)
 	{
+		std::vector<mvPythonDataElement> args;
 
-		mvPythonParser parser(mvPyDataType::UUID, "Adds a listbox. If height is not large enought to show all items a scroll bar will appear.", { "Widgets" });
-		mvAppItem::AddCommonArgs(parser, (CommonParserArgs)(
+		AddCommonArgs(args,(CommonParserArgs)(
 			MV_PARSER_ARG_ID |
 			MV_PARSER_ARG_WIDTH |
 			MV_PARSER_ARG_INDENT |
@@ -31,12 +31,16 @@ namespace Marvel {
 			MV_PARSER_ARG_POS)
 		);
 
-		parser.addArg<mvPyDataType::StringList>("items", mvArgType::POSITIONAL_ARG, "()", "A tuple of items to be shown in the listbox. Can consist of any combination of types.");
+		args.push_back({ mvPyDataType::StringList, "items", mvArgType::POSITIONAL_ARG, "()", "A tuple of items to be shown in the listbox. Can consist of any combination of types." });
+		args.push_back({ mvPyDataType::String, "default_value", mvArgType::KEYWORD_ARG, "''" });
+		args.push_back({ mvPyDataType::Integer, "num_items", mvArgType::KEYWORD_ARG, "3", "Expands the height of the listbox to show specified number of items." });
 
-		parser.addArg<mvPyDataType::String>("default_value", mvArgType::KEYWORD_ARG, "''");
-		parser.addArg<mvPyDataType::Integer>("num_items", mvArgType::KEYWORD_ARG, "3", "Expands the height of the listbox to show specified number of items.");
+		mvPythonParserSetup setup;
+		setup.about = "Adds a listbox. If height is not large enought to show all items a scroll bar will appear.";
+		setup.category = { "Widgets" };
+		setup.returnType = mvPyDataType::UUID;
 
-		parser.finalize();
+		mvPythonParser parser = FinalizeParser(setup, args);
 
 		parsers->insert({ s_command, parser });
 	}
@@ -241,9 +245,9 @@ namespace Marvel {
 				{
 					auto payloadActual = static_cast<const mvDragPayload*>(payload->Data);
 					if (_alias.empty())
-						mvApp::GetApp()->getCallbackRegistry().addCallback(getDropCallback(), _uuid, payloadActual->getDragData(), nullptr);
+						mvApp::GetApp()->getCallbackRegistry().addCallback(_dropCallback,_uuid, payloadActual->getDragData(), nullptr);
 					else
-						mvApp::GetApp()->getCallbackRegistry().addCallback(getDropCallback(), _alias, payloadActual->getDragData(), nullptr);
+						mvApp::GetApp()->getCallbackRegistry().addCallback(_dropCallback,_alias, payloadActual->getDragData(), nullptr);
 				}
 
 				ImGui::EndDragDropTarget();
@@ -253,7 +257,7 @@ namespace Marvel {
 
 	void mvListbox::handleSpecificPositionalArgs(PyObject* dict)
 	{
-		if (!mvApp::GetApp()->getParsers()[s_command].verifyPositionalArguments(dict))
+		if (!VerifyPositionalArguments(mvApp::GetApp()->getParsers()[s_command], dict))
 			return;
 
 		for (int i = 0; i < PyTuple_Size(dict); i++)

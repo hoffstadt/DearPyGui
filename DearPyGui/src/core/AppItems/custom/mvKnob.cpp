@@ -9,9 +9,9 @@ namespace Marvel {
 
     void mvKnobFloat::InsertParser(std::map<std::string, mvPythonParser>* parsers)
     {
+        std::vector<mvPythonDataElement> args;
 
-        mvPythonParser parser(mvPyDataType::UUID, "Adds a knob that rotates based of change in x mouse position.", { "Widgets" });
-        mvAppItem::AddCommonArgs(parser, (CommonParserArgs)(
+        AddCommonArgs(args,(CommonParserArgs)(
             MV_PARSER_ARG_ID |
             MV_PARSER_ARG_WIDTH |
             MV_PARSER_ARG_HEIGHT |
@@ -29,12 +29,16 @@ namespace Marvel {
             MV_PARSER_ARG_POS)
         );
 
-        parser.addArg<mvPyDataType::Float>("default_value", mvArgType::KEYWORD_ARG, "0.0");
+        args.push_back({ mvPyDataType::Float, "default_value", mvArgType::KEYWORD_ARG, "0.0" });
+        args.push_back({ mvPyDataType::Float, "min_value", mvArgType::KEYWORD_ARG, "0.0", "Applies lower limit to value." });
+        args.push_back({ mvPyDataType::Float, "max_value", mvArgType::KEYWORD_ARG, "100.0", "Applies upper limit to value." });
 
-        parser.addArg<mvPyDataType::Float>("min_value", mvArgType::KEYWORD_ARG, "0.0", "Applies lower limit to value.");
-        parser.addArg<mvPyDataType::Float>("max_value", mvArgType::KEYWORD_ARG, "100.0", "Applies upper limit to value.");
+        mvPythonParserSetup setup;
+        setup.about = "Adds a knob that rotates based on change in x mouse position.";
+        setup.category = { "Widgets" };
+        setup.returnType = mvPyDataType::UUID;
 
-        parser.finalize();
+        mvPythonParser parser = FinalizeParser(setup, args);
 
         parsers->insert({ s_command, parser });
     }
@@ -115,7 +119,7 @@ namespace Marvel {
 
         ScopedID id(_uuid);
 
-        if (KnobFloat(_specificedlabel.c_str(), _value.get(), _min, _max, _step))
+        if (KnobFloat(_specifiedLabel.c_str(), _value.get(), _min, _max, _step))
         {
             auto value = *_value;
             mvApp::GetApp()->getCallbackRegistry().submitCallback([=]() {
@@ -175,9 +179,9 @@ namespace Marvel {
                 {
                     auto payloadActual = static_cast<const mvDragPayload*>(payload->Data);
                     if (_alias.empty())
-                        mvApp::GetApp()->getCallbackRegistry().addCallback(getDropCallback(), _uuid, payloadActual->getDragData(), nullptr);
+                        mvApp::GetApp()->getCallbackRegistry().addCallback(_dropCallback,_uuid, payloadActual->getDragData(), nullptr);
                     else
-                        mvApp::GetApp()->getCallbackRegistry().addCallback(getDropCallback(), _alias, payloadActual->getDragData(), nullptr);
+                        mvApp::GetApp()->getCallbackRegistry().addCallback(_dropCallback,_alias, payloadActual->getDragData(), nullptr);
                 }
 
                 ImGui::EndDragDropTarget();

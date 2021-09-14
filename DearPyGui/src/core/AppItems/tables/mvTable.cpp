@@ -12,8 +12,8 @@ namespace Marvel {
 	{
 
 		{
-			mvPythonParser parser(mvPyDataType::UUID, "Undocumented function", { "Tables", "Containers", "Widgets" }, true);
-			mvAppItem::AddCommonArgs(parser, (CommonParserArgs)(
+			std::vector<mvPythonDataElement> args;
+			AddCommonArgs(args,(CommonParserArgs)(
 				MV_PARSER_ARG_ID |
 				MV_PARSER_ARG_WIDTH |
 				MV_PARSER_ARG_HEIGHT |
@@ -28,137 +28,205 @@ namespace Marvel {
 				MV_PARSER_ARG_POS)
 			);
 
-			parser.addArg<mvPyDataType::Bool>("header_row", mvArgType::KEYWORD_ARG, "True", "show headers at the top of the columns");
-			parser.addArg<mvPyDataType::Bool>("clipper", mvArgType::KEYWORD_ARG, "False", "Use clipper (rows must be same height).");
+			args.push_back({ mvPyDataType::Bool, "header_row", mvArgType::KEYWORD_ARG, "True", "show headers at the top of the columns" });
+			args.push_back({ mvPyDataType::Bool, "clipper", mvArgType::KEYWORD_ARG, "False", "Use clipper (rows must be same height)." });
+			args.push_back({ mvPyDataType::Integer, "inner_width", mvArgType::KEYWORD_ARG, "0" });
+			args.push_back({ mvPyDataType::Integer, "policy", mvArgType::KEYWORD_ARG, "0" });
+			args.push_back({ mvPyDataType::Integer, "freeze_rows", mvArgType::KEYWORD_ARG, "0" });
+			args.push_back({ mvPyDataType::Integer, "freeze_columns", mvArgType::KEYWORD_ARG, "0" });
+			args.push_back({ mvPyDataType::Bool, "sort_multi", mvArgType::KEYWORD_ARG, "False", "Hold shift when clicking headers to sort on multiple column." });
+			args.push_back({ mvPyDataType::Bool, "sort_tristate", mvArgType::KEYWORD_ARG, "False", "Allow no sorting, disable default sorting." });
+			args.push_back({ mvPyDataType::Bool, "resizable", mvArgType::KEYWORD_ARG, "False", "Enable resizing columns" });
+			args.push_back({ mvPyDataType::Bool, "reorderable", mvArgType::KEYWORD_ARG, "False", "Enable reordering columns in header row (need calling TableSetupColumn() + TableHeadersRow() to display headers)" });
+			args.push_back({ mvPyDataType::Bool, "hideable", mvArgType::KEYWORD_ARG, "False", "Enable hiding/disabling columns in context menu." });
+			args.push_back({ mvPyDataType::Bool, "sortable", mvArgType::KEYWORD_ARG, "False", "Enable sorting. Call TableGetSortSpecs() to obtain sort specs. Also see ImGuiTableFlags_SortMulti and ImGuiTableFlags_SortTristate." });
+			args.push_back({ mvPyDataType::Bool, "context_menu_in_body", mvArgType::KEYWORD_ARG, "False", "Right-click on columns body/contents will display table context menu. By default it is available in TableHeadersRow()." });
+			args.push_back({ mvPyDataType::Bool, "row_background", mvArgType::KEYWORD_ARG, "False", "Set each RowBg color with ImGuiCol_TableRowBg or ImGuiCol_TableRowBgAlt (equivalent of calling TableSetBgColor with ImGuiTableBgFlags_RowBg0 on each row manually)" });
+			args.push_back({ mvPyDataType::Bool, "borders_innerH", mvArgType::KEYWORD_ARG, "False", "Draw horizontal borders between rows." });
+			args.push_back({ mvPyDataType::Bool, "borders_outerH", mvArgType::KEYWORD_ARG, "False", "Draw horizontal borders at the top and bottom." });
+			args.push_back({ mvPyDataType::Bool, "borders_innerV", mvArgType::KEYWORD_ARG, "False", "Draw vertical borders between columns." });
+			args.push_back({ mvPyDataType::Bool, "borders_outerV", mvArgType::KEYWORD_ARG, "False", "Draw vertical borders on the left and right sides." });
+			args.push_back({ mvPyDataType::Bool, "no_host_extendX", mvArgType::KEYWORD_ARG, "False", "Make outer width auto-fit to columns, overriding outer_size.x value. Only available when ScrollX/ScrollY are disabled and Stretch columns are not used." });
+			args.push_back({ mvPyDataType::Bool, "no_host_extendY", mvArgType::KEYWORD_ARG, "False", "Make outer height stop exactly at outer_size.y (prevent auto-extending table past the limit). Only available when ScrollX/ScrollY are disabled. Data below the limit will be clipped and not visible." });
+			args.push_back({ mvPyDataType::Bool, "no_keep_columns_visible", mvArgType::KEYWORD_ARG, "False", "Disable keeping column always minimally visible when ScrollX is off and table gets too small. Not recommended if columns are resizable." });
+			args.push_back({ mvPyDataType::Bool, "precise_widths", mvArgType::KEYWORD_ARG, "False", "Disable distributing remainder width to stretched columns (width allocation on a 100-wide table with 3 columns: Without this flag: 33,33,34. With this flag: 33,33,33). With larger number of columns, resizing will appear to be less smooth." });
+			args.push_back({ mvPyDataType::Bool, "no_clip", mvArgType::KEYWORD_ARG, "False", "Disable clipping rectangle for every individual columns." });
+			args.push_back({ mvPyDataType::Bool, "pad_outerX", mvArgType::KEYWORD_ARG, "False", "Default if BordersOuterV is on. Enable outer-most padding. Generally desirable if you have headers." });
+			args.push_back({ mvPyDataType::Bool, "no_pad_outerX", mvArgType::KEYWORD_ARG, "False", "Default if BordersOuterV is off. Disable outer-most padding." });
+			args.push_back({ mvPyDataType::Bool, "no_pad_innerX", mvArgType::KEYWORD_ARG, "False", "Disable inner padding between columns (double inner padding if BordersOuterV is on, single inner padding if BordersOuterV is off)." });
+			args.push_back({ mvPyDataType::Bool, "scrollX", mvArgType::KEYWORD_ARG, "False", "Enable horizontal scrolling. Require 'outer_size' parameter of BeginTable() to specify the container size. Changes default sizing policy. Because this create a child window, ScrollY is currently generally recommended when using ScrollX." });
+			args.push_back({ mvPyDataType::Bool, "scrollY", mvArgType::KEYWORD_ARG, "False", "Enable vertical scrolling." });
+			args.push_back({ mvPyDataType::Bool, "no_saved_settings", mvArgType::KEYWORD_ARG, "False", "Never load/save settings in .ini file." });
 
-			parser.addArg<mvPyDataType::Integer>("inner_width", mvArgType::KEYWORD_ARG, "0");
-			parser.addArg<mvPyDataType::Integer>("policy", mvArgType::KEYWORD_ARG, "0");
-			parser.addArg<mvPyDataType::Integer>("freeze_rows", mvArgType::KEYWORD_ARG, "0");
-			parser.addArg<mvPyDataType::Integer>("freeze_columns", mvArgType::KEYWORD_ARG, "0");
+			mvPythonParserSetup setup;
+			setup.about = "Adds a table.";
+			setup.category = { "Tables", "Containers", "Widgets" };
+			setup.returnType = mvPyDataType::UUID;
+			setup.createContextManager = true;
 
-			parser.addArg<mvPyDataType::Bool>("sort_multi", mvArgType::KEYWORD_ARG, "False", "Hold shift when clicking headers to sort on multiple column.");
-			parser.addArg<mvPyDataType::Bool>("sort_tristate", mvArgType::KEYWORD_ARG, "False", "Allow no sorting, disable default sorting.");
-
-			parser.addArg<mvPyDataType::Bool>("resizable", mvArgType::KEYWORD_ARG, "False", "Enable resizing columns");
-			parser.addArg<mvPyDataType::Bool>("reorderable", mvArgType::KEYWORD_ARG, "False", "Enable reordering columns in header row (need calling TableSetupColumn() + TableHeadersRow() to display headers)");
-			parser.addArg<mvPyDataType::Bool>("hideable", mvArgType::KEYWORD_ARG, "False", "Enable hiding/disabling columns in context menu.");
-			parser.addArg<mvPyDataType::Bool>("sortable", mvArgType::KEYWORD_ARG, "False", "Enable sorting. Call TableGetSortSpecs() to obtain sort specs. Also see ImGuiTableFlags_SortMulti and ImGuiTableFlags_SortTristate.");
-			parser.addArg<mvPyDataType::Bool>("context_menu_in_body", mvArgType::KEYWORD_ARG, "False", "Right-click on columns body/contents will display table context menu. By default it is available in TableHeadersRow().");
-			parser.addArg<mvPyDataType::Bool>("row_background", mvArgType::KEYWORD_ARG, "False", "Set each RowBg color with ImGuiCol_TableRowBg or ImGuiCol_TableRowBgAlt (equivalent of calling TableSetBgColor with ImGuiTableBgFlags_RowBg0 on each row manually)");
-			parser.addArg<mvPyDataType::Bool>("borders_innerH", mvArgType::KEYWORD_ARG, "False", "Draw horizontal borders between rows.");
-			parser.addArg<mvPyDataType::Bool>("borders_outerH", mvArgType::KEYWORD_ARG, "False", "Draw horizontal borders at the top and bottom.");
-			parser.addArg<mvPyDataType::Bool>("borders_innerV", mvArgType::KEYWORD_ARG, "False", "Draw vertical borders between columns.");
-			parser.addArg<mvPyDataType::Bool>("borders_outerV", mvArgType::KEYWORD_ARG, "False", "Draw vertical borders on the left and right sides.");
-
-			parser.addArg<mvPyDataType::Bool>("no_host_extendX", mvArgType::KEYWORD_ARG, "False", "Make outer width auto-fit to columns, overriding outer_size.x value. Only available when ScrollX/ScrollY are disabled and Stretch columns are not used.");
-			parser.addArg<mvPyDataType::Bool>("no_host_extendY", mvArgType::KEYWORD_ARG, "False", "Make outer height stop exactly at outer_size.y (prevent auto-extending table past the limit). Only available when ScrollX/ScrollY are disabled. Data below the limit will be clipped and not visible.");
-			parser.addArg<mvPyDataType::Bool>("no_keep_columns_visible", mvArgType::KEYWORD_ARG, "False", "Disable keeping column always minimally visible when ScrollX is off and table gets too small. Not recommended if columns are resizable.");
-			parser.addArg<mvPyDataType::Bool>("precise_widths", mvArgType::KEYWORD_ARG, "False", "Disable distributing remainder width to stretched columns (width allocation on a 100-wide table with 3 columns: Without this flag: 33,33,34. With this flag: 33,33,33). With larger number of columns, resizing will appear to be less smooth.");
-			parser.addArg<mvPyDataType::Bool>("no_clip", mvArgType::KEYWORD_ARG, "False", "Disable clipping rectangle for every individual columns.");
-			parser.addArg<mvPyDataType::Bool>("pad_outerX", mvArgType::KEYWORD_ARG, "False", "Default if BordersOuterV is on. Enable outer-most padding. Generally desirable if you have headers.");
-			parser.addArg<mvPyDataType::Bool>("no_pad_outerX", mvArgType::KEYWORD_ARG, "False", "Default if BordersOuterV is off. Disable outer-most padding.");
-			parser.addArg<mvPyDataType::Bool>("no_pad_innerX", mvArgType::KEYWORD_ARG, "False", "Disable inner padding between columns (double inner padding if BordersOuterV is on, single inner padding if BordersOuterV is off).");
-			parser.addArg<mvPyDataType::Bool>("scrollX", mvArgType::KEYWORD_ARG, "False", "Enable horizontal scrolling. Require 'outer_size' parameter of BeginTable() to specify the container size. Changes default sizing policy. Because this create a child window, ScrollY is currently generally recommended when using ScrollX.");
-			parser.addArg<mvPyDataType::Bool>("scrollY", mvArgType::KEYWORD_ARG, "False", "Enable vertical scrolling.");
-			parser.addArg<mvPyDataType::Bool>("no_saved_settings", mvArgType::KEYWORD_ARG, "False", "Never load/save settings in .ini file.");
-
-			parser.finalize();
+			mvPythonParser parser = FinalizeParser(setup, args);
 
 			parsers->insert({ s_command, parser });
 		}
 
 		{
-			mvPythonParser parser(mvPyDataType::None, "", { "Tables" });
-			parser.addArg<mvPyDataType::UUID>("table");
-			parser.addArg<mvPyDataType::Integer>("column");
-			parser.addArg<mvPyDataType::IntList>("color");
-			parser.finalize();
+			std::vector<mvPythonDataElement> args;
+			args.push_back({ mvPyDataType::UUID, "table" });
+			args.push_back({ mvPyDataType::Integer, "column" });
+			args.push_back({ mvPyDataType::IntList, "color" });
+
+			mvPythonParserSetup setup;
+			setup.about = "Highlight specified table column.";
+			setup.category = { "Tables", "App Item Operations"};
+			setup.returnType = mvPyDataType::None;
+
+			mvPythonParser parser = FinalizeParser(setup, args);
 			parsers->insert({ "highlight_table_column", parser });
 		}
 
 		{
-			mvPythonParser parser(mvPyDataType::None, "", { "Tables" });
-			parser.addArg<mvPyDataType::UUID>("table");
-			parser.addArg<mvPyDataType::Integer>("column");
-			parser.finalize();
+			std::vector<mvPythonDataElement> args;
+			args.push_back({ mvPyDataType::UUID, "table" });
+			args.push_back({ mvPyDataType::Integer, "column" });
+
+			mvPythonParserSetup setup;
+			setup.about = "Unhighlight specified table column.";
+			setup.category = { "Tables", "App Item Operations" };
+			setup.returnType = mvPyDataType::None;
+
+			mvPythonParser parser = FinalizeParser(setup, args);
 			parsers->insert({ "unhighlight_table_column", parser });
 		}
 
 		{
-			mvPythonParser parser(mvPyDataType::None, "", { "Tables" });
-			parser.addArg<mvPyDataType::UUID>("table");
-			parser.addArg<mvPyDataType::Integer>("row");
-			parser.addArg<mvPyDataType::IntList>("color");
-			parser.finalize();
+			std::vector<mvPythonDataElement> args;
+			args.push_back({ mvPyDataType::UUID, "table" });
+			args.push_back({ mvPyDataType::Integer, "row" });
+			args.push_back({ mvPyDataType::IntList, "color" });
+
+			mvPythonParserSetup setup;
+			setup.about = "Set table row color.";
+			setup.category = { "Tables", "App Item Operations" };
+			setup.returnType = mvPyDataType::None;
+
+			mvPythonParser parser = FinalizeParser(setup, args);
 			parsers->insert({ "set_table_row_color", parser });
 		}
 
 		{
-			mvPythonParser parser(mvPyDataType::None, "", { "Tables" });
-			parser.addArg<mvPyDataType::UUID>("table");
-			parser.addArg<mvPyDataType::Integer>("row");
-			parser.finalize();
+			std::vector<mvPythonDataElement> args;
+			args.push_back({ mvPyDataType::UUID, "table" });
+			args.push_back({ mvPyDataType::Integer, "row" });
+
+			mvPythonParserSetup setup;
+			setup.about = "Remove user set table row color.";
+			setup.category = { "Tables", "App Item Operations" };
+			setup.returnType = mvPyDataType::None;
+
+			mvPythonParser parser = FinalizeParser(setup, args);
 			parsers->insert({ "unset_table_row_color", parser });
 		}
 
 		{
-			mvPythonParser parser(mvPyDataType::None, "", { "Tables" });
-			parser.addArg<mvPyDataType::UUID>("table");
-			parser.addArg<mvPyDataType::Integer>("row");
-			parser.addArg<mvPyDataType::Integer>("column");
-			parser.addArg<mvPyDataType::IntList>("color");
-			parser.finalize();
+			std::vector<mvPythonDataElement> args;
+			args.push_back({ mvPyDataType::UUID, "table" });
+			args.push_back({ mvPyDataType::Integer, "row" });
+			args.push_back({ mvPyDataType::Integer, "column" });
+			args.push_back({ mvPyDataType::IntList, "color" });
+
+			mvPythonParserSetup setup;
+			setup.about = "Highlight specified table cell.";
+			setup.category = { "Tables", "App Item Operations" };
+			setup.returnType = mvPyDataType::None;
+
+			mvPythonParser parser = FinalizeParser(setup, args);
 			parsers->insert({ "highlight_table_cell", parser });
 		}
 
 		{
-			mvPythonParser parser(mvPyDataType::None, "", { "Tables" });
-			parser.addArg<mvPyDataType::UUID>("table");
-			parser.addArg<mvPyDataType::Integer>("row");
-			parser.addArg<mvPyDataType::Integer>("column");
-			parser.finalize();
+			std::vector<mvPythonDataElement> args;
+			args.push_back({ mvPyDataType::UUID, "table" });
+			args.push_back({ mvPyDataType::Integer, "row" });
+			args.push_back({ mvPyDataType::Integer, "column" });
+
+			mvPythonParserSetup setup;
+			setup.about = "Unhighlight specified table cell.";
+			setup.category = { "Tables", "App Item Operations" };
+			setup.returnType = mvPyDataType::None;
+
+			mvPythonParser parser = FinalizeParser(setup, args);
 			parsers->insert({ "unhighlight_table_cell", parser });
 		}
 
 		{
-			mvPythonParser parser(mvPyDataType::None, "", { "Tables" });
-			parser.addArg<mvPyDataType::UUID>("table");
-			parser.addArg<mvPyDataType::Integer>("row");
-			parser.addArg<mvPyDataType::IntList>("color");
-			parser.finalize();
+			std::vector<mvPythonDataElement> args;
+			args.push_back({ mvPyDataType::UUID, "table" });
+			args.push_back({ mvPyDataType::Integer, "row" });
+			args.push_back({ mvPyDataType::IntList, "color" });
+
+			mvPythonParserSetup setup;
+			setup.about = "Highlight specified table row.";
+			setup.category = { "Tables", "App Item Operations" };
+			setup.returnType = mvPyDataType::None;
+
+			mvPythonParser parser = FinalizeParser(setup, args);
 			parsers->insert({ "highlight_table_row", parser });
 		}
 
 		{
-			mvPythonParser parser(mvPyDataType::None, "", { "Tables" });
-			parser.addArg<mvPyDataType::UUID>("table");
-			parser.addArg<mvPyDataType::Integer>("row");
-			parser.finalize();
+			std::vector<mvPythonDataElement> args;
+			args.push_back({ mvPyDataType::UUID, "table" });
+			args.push_back({ mvPyDataType::Integer, "row" });
+
+			mvPythonParserSetup setup;
+			setup.about = "Unhighlight specified table row.";
+			setup.category = { "Tables", "App Item Operations" };
+			setup.returnType = mvPyDataType::None;
+
+			mvPythonParser parser = FinalizeParser(setup, args);
 			parsers->insert({ "unhighlight_table_row", parser });
 		}
 
 		{
-			mvPythonParser parser(mvPyDataType::Bool, "", { "Tables" });
-			parser.addArg<mvPyDataType::UUID>("table");
-			parser.addArg<mvPyDataType::Integer>("column");
-			parser.finalize();
+			std::vector<mvPythonDataElement> args;
+			args.push_back({ mvPyDataType::UUID, "table" });
+			args.push_back({ mvPyDataType::Integer, "column" });
+
+			mvPythonParserSetup setup;
+			setup.about = "Checks if a table column is highlighted.";
+			setup.category = { "Tables", "App Item Operations" };
+			setup.returnType = mvPyDataType::Bool;
+
+			mvPythonParser parser = FinalizeParser(setup, args);
 			parsers->insert({ "is_table_column_highlight", parser });
 		}
 
 		{
-			mvPythonParser parser(mvPyDataType::Bool, "", { "Tables" });
-			parser.addArg<mvPyDataType::UUID>("table");
-			parser.addArg<mvPyDataType::Integer>("row");
-			parser.finalize();
+			std::vector<mvPythonDataElement> args;
+			args.push_back({ mvPyDataType::UUID, "table" });
+			args.push_back({ mvPyDataType::Integer, "row" });
+
+			mvPythonParserSetup setup;
+			setup.about = "Checks if a table row is highlighted.";
+			setup.category = { "Tables", "App Item Operations" };
+			setup.returnType = mvPyDataType::Bool;
+
+			mvPythonParser parser = FinalizeParser(setup, args);
 			parsers->insert({ "is_table_row_highlight", parser });
 		}
 
 		{
-			mvPythonParser parser(mvPyDataType::Bool, "", { "Tables" });
-			parser.addArg<mvPyDataType::UUID>("table");
-			parser.addArg<mvPyDataType::Integer>("row");
-			parser.addArg<mvPyDataType::Integer>("column");
-			parser.finalize();
+			std::vector<mvPythonDataElement> args;
+			args.push_back({ mvPyDataType::UUID, "table" });
+			args.push_back({ mvPyDataType::Integer, "row" });
+			args.push_back({ mvPyDataType::Integer, "column" });
+
+			mvPythonParserSetup setup;
+			setup.about = "Checks if a table cell is highlighted.";
+			setup.category = { "Tables", "App Item Operations" };
+			setup.returnType = mvPyDataType::Bool;
+
+			mvPythonParser parser = FinalizeParser(setup, args);
 			parsers->insert({ "is_table_cell_highlight", parser });
 		}
 	}
@@ -188,7 +256,7 @@ namespace Marvel {
 
 		auto row_renderer = [&](mvAppItem* row)
 		{
-			ImGui::TableNextRow(0, row->getHeight());
+			ImGui::TableNextRow(0, row->_height);
 
 			//int row_index = ImGui::TableGetRowIndex() + _tableHeader ? 1 : 0;
 			int row_index = row->getLocation();
@@ -226,7 +294,7 @@ namespace Marvel {
 			for (auto& item : _children[0])
 			{
 				// skip item if it's not shown
-				if (!item->isShown())
+				if (!item->_show)
 					continue;
 
 				item->draw(drawlist, ImGui::GetCursorPosX(), ImGui::GetCursorPosY());
@@ -249,7 +317,7 @@ namespace Marvel {
 						// generate id map for columns
 						std::unordered_map<ImGuiID, mvUUID> idMap;
 						for (size_t i = 0; i < _children[0].size(); i++)
-							idMap[static_cast<mvTableColumn*>(_children[0][i].get())->_id] = _children[0][i]->getUUID();
+							idMap[static_cast<mvTableColumn*>(_children[0][i].get())->_id] = _children[0][i]->_uuid;
 
 						std::vector<SortSpec> specs;
 						for (int i = 0; i < sorts_specs->SpecsCount; i++)
@@ -283,7 +351,7 @@ namespace Marvel {
 			{
 				for (auto& row : _children[1])
 				{
-					if (!_imguiFilter.PassFilter(row->getFilter().c_str()))
+					if (!_imguiFilter.PassFilter(row->_filter.c_str()))
 						continue;
 					row_renderer(row.get());
 				}
@@ -560,7 +628,7 @@ namespace Marvel {
 		int column = 0;
 		PyObject* color;
 
-		if (!(mvApp::GetApp()->getParsers())["highlight_table_column"].parse(args, kwargs, __FUNCTION__, &tableraw, &column, &color))
+		if (!Parse((mvApp::GetApp()->getParsers())["highlight_table_column"], args, kwargs, __FUNCTION__, &tableraw, &column, &color))
 			return GetPyNone();
 
 		if (!mvApp::s_manualMutexControl) std::lock_guard<std::mutex> lk(mvApp::s_mutex);
@@ -603,7 +671,7 @@ namespace Marvel {
 		PyObject* tableraw;
 		int column = 0;
 
-		if (!(mvApp::GetApp()->getParsers())["unhighlight_table_column"].parse(args, kwargs, __FUNCTION__, &tableraw, &column))
+		if (!Parse((mvApp::GetApp()->getParsers())["unhighlight_table_column"], args, kwargs, __FUNCTION__, &tableraw, &column))
 			return GetPyNone();
 
 		if (!mvApp::s_manualMutexControl) std::lock_guard<std::mutex> lk(mvApp::s_mutex);
@@ -645,7 +713,7 @@ namespace Marvel {
 		int row = 0;
 		PyObject* color;
 
-		if (!(mvApp::GetApp()->getParsers())["set_table_row_color"].parse(args, kwargs, __FUNCTION__, &tableraw, &row, &color))
+		if (!Parse((mvApp::GetApp()->getParsers())["set_table_row_color"], args, kwargs, __FUNCTION__, &tableraw, &row, &color))
 			return GetPyNone();
 
 		if (!mvApp::s_manualMutexControl) std::lock_guard<std::mutex> lk(mvApp::s_mutex);
@@ -688,7 +756,7 @@ namespace Marvel {
 		PyObject* tableraw;
 		int row = 0;
 
-		if (!(mvApp::GetApp()->getParsers())["unset_table_row_color"].parse(args, kwargs, __FUNCTION__, &tableraw, &row))
+		if (!Parse((mvApp::GetApp()->getParsers())["unset_table_row_color"], args, kwargs, __FUNCTION__, &tableraw, &row))
 			return GetPyNone();
 
 		if (!mvApp::s_manualMutexControl) std::lock_guard<std::mutex> lk(mvApp::s_mutex);
@@ -729,7 +797,7 @@ namespace Marvel {
 		int row = 0;
 		PyObject* color;
 
-		if (!(mvApp::GetApp()->getParsers())["highlight_table_row"].parse(args, kwargs, __FUNCTION__, &tableraw, &row, &color))
+		if (!Parse((mvApp::GetApp()->getParsers())["highlight_table_row"], args, kwargs, __FUNCTION__, &tableraw, &row, &color))
 			return GetPyNone();
 
 		if (!mvApp::s_manualMutexControl) std::lock_guard<std::mutex> lk(mvApp::s_mutex);
@@ -772,7 +840,7 @@ namespace Marvel {
 		PyObject* tableraw;
 		int row = 0;
 
-		if (!(mvApp::GetApp()->getParsers())["unhighlight_table_row"].parse(args, kwargs, __FUNCTION__, &tableraw, &row))
+		if (!Parse((mvApp::GetApp()->getParsers())["unhighlight_table_row"], args, kwargs, __FUNCTION__, &tableraw, &row))
 			return GetPyNone();
 
 		if (!mvApp::s_manualMutexControl) std::lock_guard<std::mutex> lk(mvApp::s_mutex);
@@ -815,7 +883,7 @@ namespace Marvel {
 		int column = 0;
 		PyObject* color;
 
-		if (!(mvApp::GetApp()->getParsers())["highlight_table_cell"].parse(args, kwargs, __FUNCTION__, &tableraw, &row, &column, &color))
+		if (!Parse((mvApp::GetApp()->getParsers())["highlight_table_cell"], args, kwargs, __FUNCTION__, &tableraw, &row, &column, &color))
 			return GetPyNone();
 
 		if (!mvApp::s_manualMutexControl) std::lock_guard<std::mutex> lk(mvApp::s_mutex);
@@ -859,7 +927,7 @@ namespace Marvel {
 		int row = 0;
 		int column = 0;
 
-		if (!(mvApp::GetApp()->getParsers())["unhighlight_table_cell"].parse(args, kwargs, __FUNCTION__, &tableraw, &row, &column))
+		if (!Parse((mvApp::GetApp()->getParsers())["unhighlight_table_cell"], args, kwargs, __FUNCTION__, &tableraw, &row, &column))
 			return GetPyNone();
 
 		if (!mvApp::s_manualMutexControl) std::lock_guard<std::mutex> lk(mvApp::s_mutex);
@@ -901,7 +969,7 @@ namespace Marvel {
 		int row = 0;
 		int column = 0;
 
-		if (!(mvApp::GetApp()->getParsers())["is_table_cell_highlighted"].parse(args, kwargs, __FUNCTION__, &tableraw, &row, &column))
+		if (!Parse((mvApp::GetApp()->getParsers())["is_table_cell_highlighted"], args, kwargs, __FUNCTION__, &tableraw, &row, &column))
 			return GetPyNone();
 
 		if (!mvApp::s_manualMutexControl) std::lock_guard<std::mutex> lk(mvApp::s_mutex);
@@ -947,7 +1015,7 @@ namespace Marvel {
 		PyObject* tableraw;
 		int row = 0;
 
-		if (!(mvApp::GetApp()->getParsers())["is_table_row_highlighted"].parse(args, kwargs, __FUNCTION__, &tableraw, &row))
+		if (!Parse((mvApp::GetApp()->getParsers())["is_table_row_highlighted"], args, kwargs, __FUNCTION__, &tableraw, &row))
 			return GetPyNone();
 
 		if (!mvApp::s_manualMutexControl) std::lock_guard<std::mutex> lk(mvApp::s_mutex);
@@ -986,7 +1054,7 @@ namespace Marvel {
 		PyObject* tableraw;
 		int column = 0;
 
-		if (!(mvApp::GetApp()->getParsers())["is_table_column_highlighted"].parse(args, kwargs, __FUNCTION__, &tableraw, &column))
+		if (!Parse((mvApp::GetApp()->getParsers())["is_table_column_highlighted"], args, kwargs, __FUNCTION__, &tableraw, &column))
 			return GetPyNone();
 
 		if (!mvApp::s_manualMutexControl) std::lock_guard<std::mutex> lk(mvApp::s_mutex);
