@@ -31,9 +31,6 @@ namespace Marvel {
     class mvFont : public mvAppItem
     {
 
-        friend class mvItemRegistry;
-        friend class mvFontRegistry;
-
     public:
 
         static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
@@ -70,7 +67,7 @@ namespace Marvel {
         void handleSpecificRequiredArgs(PyObject* dict) override;
         ImFont* getFontPtr() { return _fontPtr; }
 
-    private:
+    public:
 
         // config
         std::string _file;

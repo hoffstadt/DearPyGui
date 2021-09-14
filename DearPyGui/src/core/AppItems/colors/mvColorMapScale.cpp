@@ -194,7 +194,7 @@ namespace Marvel {
             _colormap= mvAppItem::GetIDFromPyObject(item);
             if (_colormap > 10)
             {
-                auto asource = mvApp::GetApp()->getItemRegistry().getItem(_colormap);
+                auto asource = GetItem(*mvApp::GetApp()->itemRegistry, _colormap);
                 if (asource == nullptr)
                 {
                     mvThrowPythonError(mvErrorCode::mvItemNotFound, "set_colormap",

@@ -7,7 +7,6 @@
 #include <string>
 #include <mutex>
 #include <map>
-#include "mvEvents.h"
 #include "mvAppItem.h"
 #include "cpp.hint"
 #include "mvPyObject.h"
@@ -15,10 +14,49 @@
 namespace Marvel {
 
     //-----------------------------------------------------------------------------
-    // Forward Declarations
+    // forward declarations
     //-----------------------------------------------------------------------------
-    class mvAppItem;
-    class mvWindowAppItem;
+    struct mvItemRegistry;
+
+    //-----------------------------------------------------------------------------
+    // public API
+    //-----------------------------------------------------------------------------
+
+    void                             RenderItemRegistry(mvItemRegistry& registry);
+
+    // cleanup
+    void                             ClearItemRegistry(mvItemRegistry& registry);
+    void                             CleanUpItem      (mvItemRegistry& registry, mvUUID uuid);
+    bool                             DeleteItem       (mvItemRegistry& registry, mvUUID uuid, bool childrenOnly = false, int slot = -1);
+
+    // aliases
+    void                             AddAlias      (mvItemRegistry& registry, const std::string& alias, mvUUID id);
+    void                             RemoveAlias   (mvItemRegistry& registry, const std::string& alias, bool itemTriggered = false);
+    bool                             DoesAliasExist(mvItemRegistry& registry, const std::string& alias);
+    mvUUID                           GetIdFromAlias(mvItemRegistry& registry, const std::string& alias);
+
+    // item pools
+    mvRef<mvAppItem>                 GetItemFromPool(mvItemRegistry& registry, mvAppItemType itemType);
+
+    // item movement
+    bool                             MoveItem    (mvItemRegistry& registry, mvUUID uuid, mvUUID parent, mvUUID before);
+    bool                             MoveItemUp  (mvItemRegistry& registry, mvUUID uuid);
+    bool                             MoveItemDown(mvItemRegistry& registry, mvUUID uuid);
+
+    // item retrieval
+    mvAppItem*                       GetItem        (mvItemRegistry& registry, mvUUID uuid);
+    mvRef<mvAppItem>                 GetRefItem     (mvItemRegistry& registry, mvUUID uuid);
+    mvWindowAppItem*                 GetWindow      (mvItemRegistry& registry, mvUUID uuid);
+    std::vector<std::vector<mvUUID>> GetItemChildren(mvItemRegistry& registry, mvUUID uuid);
+
+    // item operations
+    bool                             FocusItem               (mvItemRegistry& registry, mvUUID uuid);
+    void                             DelaySearch             (mvItemRegistry& registry, mvAppItem* item);
+    bool                             AddItemWithRuntimeChecks(mvItemRegistry& registry, mvRef<mvAppItem> item, mvUUID parent, mvUUID before);
+    void                             ResetTheme              (mvItemRegistry& registry);
+    void                             AddDebugWindow          (mvItemRegistry& registry, mvRef<mvAppItem> item);
+    void                             RemoveDebugWindow       (mvItemRegistry& registry, mvUUID uuid);
+    void                             TryBoundTemplateRegistry(mvItemRegistry& registry, mvAppItem* item);
 
     //-----------------------------------------------------------------------------
     // mvItemRegistry
@@ -29,210 +67,130 @@ namespace Marvel {
     //         * acts as the interface for accessing widgets
     //         * creates the "standard" windows on startup (debug, about, etc.)
     //-----------------------------------------------------------------------------
-	class mvItemRegistry : public mvEventHandler
-	{
 
-        friend class mvApp;
-        friend class mvLayoutWindow;
-
-    public:
+    struct mvItemRegistry
+    {
 
         static constexpr int CachedContainerCount = 25;
 
-        static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
-
-        MV_CREATE_COMMAND(move_item);
-        MV_CREATE_COMMAND(delete_item);
-        MV_CREATE_COMMAND(does_item_exist);
-        MV_CREATE_COMMAND(move_item_down);
-        MV_CREATE_COMMAND(move_item_up);
-        MV_CREATE_COMMAND(get_windows);
-        MV_CREATE_COMMAND(get_all_items);
-        MV_CREATE_COMMAND(get_active_window);
-        MV_CREATE_COMMAND(set_primary_window);
-        MV_CREATE_COMMAND(push_container_stack);
-        MV_CREATE_COMMAND(pop_container_stack);
-        MV_CREATE_COMMAND(top_container_stack);
-        MV_CREATE_COMMAND(empty_container_stack);
-        MV_CREATE_COMMAND(last_item);
-        MV_CREATE_COMMAND(last_container);
-        MV_CREATE_COMMAND(last_root);
-        MV_CREATE_COMMAND(unstage);
-        MV_CREATE_COMMAND(reorder_items);
-        MV_CREATE_COMMAND(show_imgui_demo);
-        MV_CREATE_COMMAND(show_implot_demo);
-        MV_CREATE_COMMAND(add_alias);
-        MV_CREATE_COMMAND(remove_alias);
-        MV_CREATE_COMMAND(does_alias_exist);
-        MV_CREATE_COMMAND(get_alias_id);
-        MV_CREATE_COMMAND(get_aliases);
-        MV_CREATE_COMMAND(bind_template_registry);
-        MV_CREATE_COMMAND(show_item_debug);
-
-        MV_START_COMMANDS
-            MV_ADD_COMMAND(bind_template_registry);
-            MV_ADD_COMMAND(get_aliases);
-            MV_ADD_COMMAND(add_alias);
-            MV_ADD_COMMAND(remove_alias);
-            MV_ADD_COMMAND(does_alias_exist);
-            MV_ADD_COMMAND(get_alias_id);
-            MV_ADD_COMMAND(move_item);
-            MV_ADD_COMMAND(delete_item);
-            MV_ADD_COMMAND(does_item_exist);
-            MV_ADD_COMMAND(move_item_down);
-            MV_ADD_COMMAND(move_item_up);
-            MV_ADD_COMMAND(get_windows);
-            MV_ADD_COMMAND(get_all_items);
-            MV_ADD_COMMAND(get_active_window);
-            MV_ADD_COMMAND(set_primary_window);
-            MV_ADD_COMMAND(push_container_stack);
-            MV_ADD_COMMAND(pop_container_stack);
-            MV_ADD_COMMAND(top_container_stack);
-            MV_ADD_COMMAND(empty_container_stack);
-            MV_ADD_COMMAND(last_item);
-            MV_ADD_COMMAND(last_container);
-            MV_ADD_COMMAND(last_root);
-            MV_ADD_COMMAND(unstage);
-            MV_ADD_COMMAND(reorder_items);
-            MV_ADD_COMMAND(show_imgui_demo);
-            MV_ADD_COMMAND(show_implot_demo);
-            MV_ADD_COMMAND(show_item_debug);
-        MV_END_COMMANDS
-
-	public:
-
-        mvItemRegistry();
-
-        //-----------------------------------------------------------------------------
-        // Event Handling
-        //-----------------------------------------------------------------------------
-        bool onEvent         (mvEvent& event) override;
-        bool onRender        (mvEvent& event);                 
-        bool onActiveWindow  (mvEvent& event);                     
-
-        //-----------------------------------------------------------------------------
-        // Widget Operations
-        //-----------------------------------------------------------------------------
-        bool                           focusItem         (mvUUID uuid);
-        bool                           deleteItem        (mvUUID uuid, bool childrenOnly = false, int slot = -1);
-        bool                           moveItem          (mvUUID uuid, mvUUID parent, mvUUID before);
-        bool                           moveItemUp        (mvUUID uuid);
-        bool                           moveItemDown      (mvUUID uuid);
-        void                           clearRegistry     ();
-        mvAppItem*                     getItem           (mvUUID uuid);
-        mvRef<mvAppItem>               getRefItem        (mvUUID uuid);
-        mvWindowAppItem*               getWindow         (mvUUID uuid);
-        std::vector<mvRef<mvAppItem>>& getFontRegistries ()       { return _fontRegistryRoots; }
-        std::vector<mvRef<mvAppItem>>& getStaging ()       { return _stagingRoots; }
-        mvUUID                         getActiveWindow   () const { return _activeWindow; }
-        bool                           addItemWithRuntimeChecks(mvRef<mvAppItem> item, mvUUID parent, mvUUID before);
-        void                           cacheItem(mvAppItem* item);
-        void                           cleanUpItem(mvUUID uuid);
-        void                           resetTheme();
-        void                           addDebugWindow(mvRef<mvAppItem> item);
-        void                           removeDebugWindow(mvUUID uuid);
-
-        //-----------------------------------------------------------------------------
-        // Pools and Config
-        //-----------------------------------------------------------------------------
-        std::vector<mvRef<mvAppItem>>& getItemPools() { return _itemPoolRoots; }
-        mvRef<mvAppItem>               getItemFromPool(mvAppItemType itemType);
-        bool                           skipRequiredArgs() const { return _skipRequiredArgs; }
-        bool                           skipPositionalArgs() const { return _skipPositionalArgs; }
-        bool                           skipKeywordArgs() const { return _skipKeywordArgs; }
-        void                           tryBoundTemplateRegistry(mvAppItem* item) const;
-
-        //-----------------------------------------------------------------------------
-        // Aliases
-        //-----------------------------------------------------------------------------
-        void addAlias        (const std::string& alias, mvUUID id);
-        void removeAlias     (const std::string& alias, bool itemTriggered = false);
-        bool doesAliasExist  (const std::string& alias);
-        mvUUID getIdFromAlias(const std::string& alias);
-        
-        // called by python interface
-        std::vector<mvUUID>              getAllItems       ();
-        std::vector<mvUUID>              getWindows        ();
-        std::vector<std::vector<mvUUID>> getItemChildren   (mvUUID uuid);
-        void                             setPrimaryWindow  (mvUUID uuid, bool value);
-        void                             unstageItem       (mvUUID uuid);
-
-        // hacky
-        void delaySearch(mvAppItem* item);
-
-        //-----------------------------------------------------------------------------
-        // Parent stack operations
-        //     - used for automatic parent deduction
-        //-----------------------------------------------------------------------------
-        void       pushParent  (mvAppItem* item); // pushes parent onto stack
-        void       emptyParents();                      // empties parent stack
-        mvAppItem* popParent   ();                      // pop parent off stack and return it
-        mvAppItem* topParent   ();                      // returns top parent without popping
-
-    private:
-
-        bool addItem       (mvRef<mvAppItem> item);
-        bool addItemAfter  (mvUUID prev, mvRef<mvAppItem> item); // for popups/tooltips
-        bool addRoot       (mvRef<mvAppItem> item);
-        bool addRuntimeItem(mvUUID parent, mvUUID before, mvRef<mvAppItem> item);
-
-        // need to clean this up but this delegates taskes to the specific root types
-        bool deleteRoot(std::vector<mvRef<mvAppItem>>& roots, mvUUID uuid);
-        bool moveRoot(std::vector<mvRef<mvAppItem>>& roots, mvUUID uuid, mvRef<mvAppItem>& item);
-        bool moveUpRoot(std::vector<mvRef<mvAppItem>>& roots, mvUUID uuid);
-        bool moveDownRoot(std::vector<mvRef<mvAppItem>>& roots, mvUUID uuid);
-        bool addRuntimeChildRoot(std::vector<mvRef<mvAppItem>>& roots, mvUUID parent, mvUUID before, mvRef<mvAppItem> item);
-        bool addItemAfterRoot(std::vector<mvRef<mvAppItem>>& roots, mvUUID prev, mvRef<mvAppItem> item);
-        mvAppItem* getItemRoot(std::vector<mvRef<mvAppItem>>& roots, mvUUID uuid);
-        mvRef<mvAppItem> getRefItemRoot(std::vector<mvRef<mvAppItem>>& roots, mvUUID uuid);
-        void getAllItemsRoot(std::vector<mvRef<mvAppItem>>& roots, std::vector<mvUUID>& childList);
-	
-private:
+        // python user config
+        bool allowAliasOverwrites = false;
+        bool manualAliasManagement = false;
+        bool skipRequiredArgs = false;
+        bool skipPositionalArgs = false;
+        bool skipKeywordArgs = false;
 
         // caching
-        mvUUID                                       _lastItemAdded = 0;
-        mvUUID                                       _lastContainerAdded = 0;
-        mvUUID                                       _lastRootAdded = 0;
-        mvUUID                                       _cachedItemsID[CachedContainerCount];
-        mvAppItem*                                   _cachedItemsPTR[CachedContainerCount];
-        mvUUID                                       _cachedContainersID[CachedContainerCount];
-        mvAppItem*                                   _cachedContainersPTR[CachedContainerCount];
-        int                                          _cachedContainerIndex = 0;
-        int                                          _cachedItemsIndex = 0;
+        mvUUID     lastItemAdded = 0;
+        mvUUID     lastContainerAdded = 0;
+        mvUUID     lastRootAdded = 0;
+        int        cachedContainerIndex = 0;
+        int        cachedItemsIndex = 0;
+        mvUUID     cachedItemsID[CachedContainerCount];
+        mvAppItem* cachedItemsPTR[CachedContainerCount];
+        mvUUID     cachedContainersID[CachedContainerCount];
+        mvAppItem* cachedContainersPTR[CachedContainerCount];
 
-		std::stack<mvAppItem*>                       _containers;      // parent stack, top of stack becomes widget's parent
-        std::unordered_map<std::string, mvUUID>      _aliases;
-        mvUUID                                       _activeWindow = 0;
-        std::vector<mvAppItem*>                      _delayedSearch;
-        bool                                         _showImGuiDebug = false;
-        bool                                         _showImPlotDebug = false;
+        // misc
+        std::stack<mvAppItem*>                  containers;      // parent stack, top of stack becomes widget's parent
+        std::unordered_map<std::string, mvUUID> aliases;
+        mvUUID                                  activeWindow = 0;
+        std::vector<mvAppItem*>                 delayedSearch;
+        bool                                    showImGuiDebug = false;
+        bool                                    showImPlotDebug = false;
+        mvRef<mvAppItem>                        boundedTemplateRegistry;
+        std::vector<mvRef<mvAppItem>>           debugWindows;
 
         // roots
-        std::vector<mvRef<mvAppItem>> _colormapRoots;
-        std::vector<mvRef<mvAppItem>> _filedialogRoots;
-        std::vector<mvRef<mvAppItem>> _stagingRoots;
-        std::vector<mvRef<mvAppItem>> _viewportMenubarRoots;
-        std::vector<mvRef<mvAppItem>> _windowRoots;
-        std::vector<mvRef<mvAppItem>> _fontRegistryRoots;
-        std::vector<mvRef<mvAppItem>> _handlerRegistryRoots;
-        std::vector<mvRef<mvAppItem>> _itemHandlerRegistryRoots;
-        std::vector<mvRef<mvAppItem>> _textureRegistryRoots;
-        std::vector<mvRef<mvAppItem>> _valueRegistryRoots;
-        std::vector<mvRef<mvAppItem>> _themeRegistryRoots;
-        std::vector<mvRef<mvAppItem>> _itemPoolRoots;
-        std::vector<mvRef<mvAppItem>> _itemTemplatesRoots;
+        std::vector<mvRef<mvAppItem>> colormapRoots;
+        std::vector<mvRef<mvAppItem>> filedialogRoots;
+        std::vector<mvRef<mvAppItem>> stagingRoots;
+        std::vector<mvRef<mvAppItem>> viewportMenubarRoots;
+        std::vector<mvRef<mvAppItem>> windowRoots;
+        std::vector<mvRef<mvAppItem>> fontRegistryRoots;
+        std::vector<mvRef<mvAppItem>> handlerRegistryRoots;
+        std::vector<mvRef<mvAppItem>> itemHandlerRegistryRoots;
+        std::vector<mvRef<mvAppItem>> textureRegistryRoots;
+        std::vector<mvRef<mvAppItem>> valueRegistryRoots;
+        std::vector<mvRef<mvAppItem>> themeRegistryRoots;
+        std::vector<mvRef<mvAppItem>> itemPoolRoots;
+        std::vector<mvRef<mvAppItem>> itemTemplatesRoots;
 
-        // bound registries
-        mvRef<mvAppItem> _boundedTemplateRegistry;
+        mvItemRegistry()
+        {
+            // prefill cached containers
+            for (int i = 0; i < CachedContainerCount; i++)
+            {
+                cachedContainersID[i] = 0;
+                cachedContainersPTR[i] = nullptr;
+                cachedItemsID[i] = 0;
+                cachedItemsPTR[i] = nullptr;
+            }
+        }
+    };
 
-        std::vector<mvRef<mvAppItem>> _debugWindows;
+    //-----------------------------------------------------------------------------
+    // Python Parsing
+    //-----------------------------------------------------------------------------
 
-        // user config
-        bool _allowAliasOverwrites = false;
-        bool _manualAliasManagement = false;
-        bool _skipRequiredArgs = false;
-        bool _skipPositionalArgs = false;
-        bool _skipKeywordArgs = false;
-	};
+    void InsertParser_mvItemRegistry(std::map<std::string, mvPythonParser>* parsers);
+
+    MV_CREATE_FREE_COMMAND(move_item);
+    MV_CREATE_FREE_COMMAND(delete_item);
+    MV_CREATE_FREE_COMMAND(does_item_exist);
+    MV_CREATE_FREE_COMMAND(move_item_down);
+    MV_CREATE_FREE_COMMAND(move_item_up);
+    MV_CREATE_FREE_COMMAND(get_windows);
+    MV_CREATE_FREE_COMMAND(get_all_items);
+    MV_CREATE_FREE_COMMAND(get_active_window);
+    MV_CREATE_FREE_COMMAND(set_primary_window);
+    MV_CREATE_FREE_COMMAND(push_container_stack);
+    MV_CREATE_FREE_COMMAND(pop_container_stack);
+    MV_CREATE_FREE_COMMAND(top_container_stack);
+    MV_CREATE_FREE_COMMAND(empty_container_stack);
+    MV_CREATE_FREE_COMMAND(last_item);
+    MV_CREATE_FREE_COMMAND(last_container);
+    MV_CREATE_FREE_COMMAND(last_root);
+    MV_CREATE_FREE_COMMAND(unstage);
+    MV_CREATE_FREE_COMMAND(reorder_items);
+    MV_CREATE_FREE_COMMAND(show_imgui_demo);
+    MV_CREATE_FREE_COMMAND(show_implot_demo);
+    MV_CREATE_FREE_COMMAND(add_alias);
+    MV_CREATE_FREE_COMMAND(remove_alias);
+    MV_CREATE_FREE_COMMAND(does_alias_exist);
+    MV_CREATE_FREE_COMMAND(get_alias_id);
+    MV_CREATE_FREE_COMMAND(get_aliases);
+    MV_CREATE_FREE_COMMAND(bind_template_registry);
+    MV_CREATE_FREE_COMMAND(show_item_debug);
+
+    MV_START_FREE_COMMANDS(mvItemRegistryCommands)
+        MV_ADD_COMMAND(bind_template_registry);
+        MV_ADD_COMMAND(get_aliases);
+        MV_ADD_COMMAND(add_alias);
+        MV_ADD_COMMAND(remove_alias);
+        MV_ADD_COMMAND(does_alias_exist);
+        MV_ADD_COMMAND(get_alias_id);
+        MV_ADD_COMMAND(move_item);
+        MV_ADD_COMMAND(delete_item);
+        MV_ADD_COMMAND(does_item_exist);
+        MV_ADD_COMMAND(move_item_down);
+        MV_ADD_COMMAND(move_item_up);
+        MV_ADD_COMMAND(get_windows);
+        MV_ADD_COMMAND(get_all_items);
+        MV_ADD_COMMAND(get_active_window);
+        MV_ADD_COMMAND(set_primary_window);
+        MV_ADD_COMMAND(push_container_stack);
+        MV_ADD_COMMAND(pop_container_stack);
+        MV_ADD_COMMAND(top_container_stack);
+        MV_ADD_COMMAND(empty_container_stack);
+        MV_ADD_COMMAND(last_item);
+        MV_ADD_COMMAND(last_container);
+        MV_ADD_COMMAND(last_root);
+        MV_ADD_COMMAND(unstage);
+        MV_ADD_COMMAND(reorder_items);
+        MV_ADD_COMMAND(show_imgui_demo);
+        MV_ADD_COMMAND(show_implot_demo);
+        MV_ADD_COMMAND(show_item_debug);
+    MV_END_COMMANDS
 
 }

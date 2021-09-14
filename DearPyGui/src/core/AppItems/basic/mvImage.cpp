@@ -233,7 +233,7 @@ namespace Marvel {
 			case 0:
 			{
 				_textureUUID = mvAppItem::GetIDFromPyObject(item);
-				_texture = mvApp::GetApp()->getItemRegistry().getRefItem(_textureUUID);
+				_texture = GetRefItem(*mvApp::GetApp()->itemRegistry, _textureUUID);
 				if (_texture)
 					break;
 				else if (_textureUUID == MV_ATLAS_UUID)

@@ -151,7 +151,7 @@ namespace Marvel {
 
 	void mvFontManager::rebuildAtlas()
 	{
-		auto& roots = mvApp::GetApp()->getItemRegistry().getFontRegistries();
+		auto& roots = mvApp::GetApp()->itemRegistry->fontRegistryRoots;
 
 		if (!roots.empty())
 			roots[0]->customAction();
@@ -162,7 +162,7 @@ namespace Marvel {
 
 	void mvFontManager::updateAtlas()
 	{
-		auto item = mvApp::GetApp()->getItemRegistry().getItem(MV_ATLAS_UUID);
+		auto item = GetItem(*mvApp::GetApp()->itemRegistry, MV_ATLAS_UUID);
 		if (item)
 			static_cast<mvStaticTexture*>(item)->markDirty();
 	}

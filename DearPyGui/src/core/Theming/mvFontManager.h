@@ -14,9 +14,6 @@ namespace Marvel {
 
 	class mvFontManager : public mvToolWindow
 	{
-		friend class mvFont;
-		friend class mvItemRegistry;
-		friend class mvFontRegistry;
 
 	public:
 
@@ -46,7 +43,7 @@ namespace Marvel {
 
 		void drawWidgets() override;
 
-	private:
+	public:
 
 		// default
 		ImFont*           _font = nullptr;

@@ -635,7 +635,7 @@ namespace Marvel {
 
 		mvUUID table = mvAppItem::GetIDFromPyObject(tableraw);
 
-		auto atable = mvApp::GetApp()->getItemRegistry().getItem(table);
+		auto atable = GetItem(*mvApp::GetApp()->itemRegistry, table);
 		if (atable == nullptr)
 		{
 			mvThrowPythonError(mvErrorCode::mvItemNotFound, "highlight_table_column",
@@ -678,7 +678,7 @@ namespace Marvel {
 
 		mvUUID table = mvAppItem::GetIDFromPyObject(tableraw);
 
-		auto atable = mvApp::GetApp()->getItemRegistry().getItem(table);
+		auto atable = GetItem(*mvApp::GetApp()->itemRegistry, table);
 		if (atable == nullptr)
 		{
 			mvThrowPythonError(mvErrorCode::mvItemNotFound, "unhighlight_table_column",
@@ -720,7 +720,7 @@ namespace Marvel {
 
 		mvUUID table = mvAppItem::GetIDFromPyObject(tableraw);
 
-		auto atable = mvApp::GetApp()->getItemRegistry().getItem(table);
+		auto atable = GetItem(*mvApp::GetApp()->itemRegistry, table);
 		if (atable == nullptr)
 		{
 			mvThrowPythonError(mvErrorCode::mvItemNotFound, "set_table_row_color",
@@ -763,7 +763,7 @@ namespace Marvel {
 
 		mvUUID table = mvAppItem::GetIDFromPyObject(tableraw);
 
-		auto atable = mvApp::GetApp()->getItemRegistry().getItem(table);
+		auto atable = GetItem(*mvApp::GetApp()->itemRegistry, table);
 		if (atable == nullptr)
 		{
 			mvThrowPythonError(mvErrorCode::mvItemNotFound, "unset_table_row_color",
@@ -804,7 +804,7 @@ namespace Marvel {
 
 		mvUUID table = mvAppItem::GetIDFromPyObject(tableraw);
 
-		auto atable = mvApp::GetApp()->getItemRegistry().getItem(table);
+		auto atable = GetItem(*mvApp::GetApp()->itemRegistry, table);
 		if (atable == nullptr)
 		{
 			mvThrowPythonError(mvErrorCode::mvItemNotFound, "highlight_table_row",
@@ -847,7 +847,7 @@ namespace Marvel {
 
 		mvUUID table = mvAppItem::GetIDFromPyObject(tableraw);
 
-		auto atable = mvApp::GetApp()->getItemRegistry().getItem(table);
+		auto atable = GetItem(*mvApp::GetApp()->itemRegistry, table);
 		if (atable == nullptr)
 		{
 			mvThrowPythonError(mvErrorCode::mvItemNotFound, "unhighlight_table_row",
@@ -890,7 +890,7 @@ namespace Marvel {
 
 		mvUUID table = mvAppItem::GetIDFromPyObject(tableraw);
 
-		auto atable = mvApp::GetApp()->getItemRegistry().getItem(table);
+		auto atable = GetItem(*mvApp::GetApp()->itemRegistry, table);
 		if (atable == nullptr)
 		{
 			mvThrowPythonError(mvErrorCode::mvItemNotFound, "highlight_table_cell",
@@ -934,7 +934,7 @@ namespace Marvel {
 
 		mvUUID table = mvAppItem::GetIDFromPyObject(tableraw);
 
-		auto atable = mvApp::GetApp()->getItemRegistry().getItem(table);
+		auto atable = GetItem(*mvApp::GetApp()->itemRegistry, table);
 		if (atable == nullptr)
 		{
 			mvThrowPythonError(mvErrorCode::mvItemNotFound, "unhighlight_table_cell",
@@ -976,7 +976,7 @@ namespace Marvel {
 
 		mvUUID table = mvAppItem::GetIDFromPyObject(tableraw);
 
-		auto atable = mvApp::GetApp()->getItemRegistry().getItem(table);
+		auto atable = GetItem(*mvApp::GetApp()->itemRegistry, table);
 		if (atable == nullptr)
 		{
 			mvThrowPythonError(mvErrorCode::mvItemNotFound, "is_table_cell_highlighted",
@@ -1022,7 +1022,7 @@ namespace Marvel {
 
 		mvUUID table = mvAppItem::GetIDFromPyObject(tableraw);
 
-		auto atable = mvApp::GetApp()->getItemRegistry().getItem(table);
+		auto atable = GetItem(*mvApp::GetApp()->itemRegistry, table);
 		if (atable == nullptr)
 		{
 			mvThrowPythonError(mvErrorCode::mvItemNotFound, "is_table_row_highlighted",
@@ -1061,7 +1061,7 @@ namespace Marvel {
 
 		mvUUID table = mvAppItem::GetIDFromPyObject(tableraw);
 
-		auto atable = mvApp::GetApp()->getItemRegistry().getItem(table);
+		auto atable = GetItem(*mvApp::GetApp()->itemRegistry, table);
 		if (atable == nullptr)
 		{
 			mvThrowPythonError(mvErrorCode::mvItemNotFound, "is_table_column_highlighted",

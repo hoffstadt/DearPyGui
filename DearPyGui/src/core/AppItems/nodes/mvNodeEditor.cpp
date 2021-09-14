@@ -174,8 +174,8 @@ namespace Marvel {
 						int i2 = static_cast<mvNodeLink*>(child.get())->getId2();
 						if (i1 == attr_id || i2 == attr_id)
 						{
-							mvApp::GetApp()->getItemRegistry().deleteItem(child->_uuid);
-							mvApp::GetApp()->getItemRegistry().cleanUpItem(child->_uuid);
+							DeleteItem(*mvApp::GetApp()->itemRegistry, child->_uuid);
+							CleanUpItem(*mvApp::GetApp()->itemRegistry, child->_uuid);
 						}	
 					}
 				}
@@ -406,7 +406,7 @@ namespace Marvel {
 			return ToPyBool(false);
 
 		if (!mvApp::s_manualMutexControl) std::lock_guard<std::mutex> lk(mvApp::s_mutex);
-		auto anode_editor = mvApp::GetApp()->getItemRegistry().getItem(node_editor);
+		auto anode_editor = GetItem(*mvApp::GetApp()->itemRegistry, node_editor);
 		if (anode_editor == nullptr)
 		{
 			mvThrowPythonError(mvErrorCode::mvItemNotFound, "get_selected_nodes",
@@ -440,7 +440,7 @@ namespace Marvel {
 
 		mvUUID node_editor = mvAppItem::GetIDFromPyObject(node_editor_raw);
 
-		auto anode_editor = mvApp::GetApp()->getItemRegistry().getItem(node_editor);
+		auto anode_editor = GetItem(*mvApp::GetApp()->itemRegistry, node_editor);
 		if (anode_editor == nullptr)
 		{
 			mvThrowPythonError(mvErrorCode::mvItemNotFound, "get_selected_links",
@@ -473,7 +473,7 @@ namespace Marvel {
 
 		mvUUID node_editor = mvAppItem::GetIDFromPyObject(node_editor_raw);
 
-		auto anode_editor = mvApp::GetApp()->getItemRegistry().getItem(node_editor);
+		auto anode_editor = GetItem(*mvApp::GetApp()->itemRegistry, node_editor);
 		if (anode_editor == nullptr)
 		{
 			mvThrowPythonError(mvErrorCode::mvItemNotFound, "clear_selected_links",
@@ -506,7 +506,7 @@ namespace Marvel {
 
 		mvUUID node_editor = mvAppItem::GetIDFromPyObject(node_editor_raw);
 
-		auto anode_editor = mvApp::GetApp()->getItemRegistry().getItem(node_editor);
+		auto anode_editor = GetItem(*mvApp::GetApp()->itemRegistry, node_editor);
 		if (anode_editor == nullptr)
 		{
 			mvThrowPythonError(mvErrorCode::mvItemNotFound, "clear_selected_nodes",

@@ -325,7 +325,7 @@ namespace Marvel {
         void                           setPoolInfo(mvUUID pool, mvUUID itemSet);
         std::pair<mvUUID, mvUUID>      getPoolInfo() const;    
 
-    private:
+    public: // previously private
 
         //-----------------------------------------------------------------------------
         // These methods handle are used by the item registry:

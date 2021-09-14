@@ -8,7 +8,6 @@
 #include <chrono>
 #include "mvProfiler.h"
 #include <implot.h>
-#include "mvItemRegistry.h"
 #include "mvFontManager.h"
 #include "mvCallbackRegistry.h"
 #include "mvPythonTranslator.h"
@@ -24,6 +23,7 @@
 #include <stb_image.h>
 #include "mvBuffer.h"
 #include "mvAppItemCommons.h"
+#include "mvItemRegistry.h"
 
 namespace Marvel {
 
@@ -159,7 +159,8 @@ namespace Marvel {
 	mvApp::mvApp()
 	{
 		// create managers
-		_itemRegistry = CreateOwnedPtr<mvItemRegistry>();
+		
+		itemRegistry = CreateOwnedPtr<mvItemRegistry>();
         _callbackRegistry = CreateOwnedPtr<mvCallbackRegistry>();
 	}
 
@@ -168,14 +169,10 @@ namespace Marvel {
         return *_callbackRegistry; 
     }
 
-	mvItemRegistry& mvApp::getItemRegistry() 
-	{ 
-		return *_itemRegistry; 
-	}
-
 	mvApp::~mvApp()
 	{
-		_itemRegistry->clearRegistry();
+
+		ClearItemRegistry(*itemRegistry);
 
 		constexpr_for<1, (int)mvAppItemType::ItemTypeCount, 1>(
 			[&](auto i) {
@@ -224,6 +221,7 @@ namespace Marvel {
 
 			mvEventBus::Publish(mvEVT_CATEGORY_APP, mvEVT_PRE_RENDER);
 			mvEventBus::Publish(mvEVT_CATEGORY_APP, mvEVT_RENDER);
+			RenderItemRegistry(*itemRegistry);
 			mvEventBus::Publish(mvEVT_CATEGORY_APP, mvEVT_END_FRAME);
 		}
 
@@ -590,7 +588,10 @@ namespace Marvel {
 			return GetPyNone();
 		}
 
-		GetApp()->getItemRegistry().emptyParents();
+		while (!GetApp()->itemRegistry->containers.empty())
+			GetApp()->itemRegistry->containers.pop();
+		MV_ITEM_REGISTRY_INFO("Container stack emptied.");
+
 		s_started = true;
 		GetApp()->_future = std::async(std::launch::async, []() {return GetApp()->_callbackRegistry->runCallbacks(); });
 
@@ -692,11 +693,11 @@ namespace Marvel {
 		mvApp::GetApp()->_iniFile = init_file;
 		mvApp::GetApp()->_info_device = device;
 		mvApp::GetApp()->_info_auto_device = auto_device;
-		mvApp::GetApp()->getItemRegistry()._allowAliasOverwrites = allow_alias_overwrites;
-		mvApp::GetApp()->getItemRegistry()._manualAliasManagement = manual_alias_management;
-		mvApp::GetApp()->getItemRegistry()._skipPositionalArgs = skip_positional_args;
-		mvApp::GetApp()->getItemRegistry()._skipKeywordArgs = skip_keyword_args;
-		mvApp::GetApp()->getItemRegistry()._skipRequiredArgs = skip_required_args;
+		mvApp::GetApp()->itemRegistry->allowAliasOverwrites = allow_alias_overwrites;
+		mvApp::GetApp()->itemRegistry->manualAliasManagement = manual_alias_management;
+		mvApp::GetApp()->itemRegistry->skipPositionalArgs = skip_positional_args;
+		mvApp::GetApp()->itemRegistry->skipKeywordArgs = skip_keyword_args;
+		mvApp::GetApp()->itemRegistry->skipRequiredArgs = skip_required_args;
 
 		if (!std::string(load_init_file).empty())
 		{
@@ -710,7 +711,6 @@ namespace Marvel {
 	PyObject* mvApp::get_app_configuration(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		if (!mvApp::s_manualMutexControl) std::lock_guard<std::mutex> lk(mvApp::s_mutex);
-		auto registry = mvApp::GetApp()->getItemRegistry();
 		PyObject* pdict = PyDict_New();
 		PyDict_SetItemString(pdict, "auto_device", mvPyObject(ToPyBool(mvApp::GetApp()->_info_auto_device)));
 		PyDict_SetItemString(pdict, "docking", mvPyObject(ToPyBool(mvApp::GetApp()->_docking)));
@@ -721,11 +721,11 @@ namespace Marvel {
 		PyDict_SetItemString(pdict, "platform", mvPyObject(ToPyString(mvApp::GetPlatform())));
 		PyDict_SetItemString(pdict, "device", mvPyObject(ToPyInt(mvApp::GetApp()->_info_device)));
 		PyDict_SetItemString(pdict, "device_name", mvPyObject(ToPyString(mvApp::GetApp()->_info_device_name)));
-		PyDict_SetItemString(pdict, "allow_alias_overwrites", mvPyObject(ToPyBool(registry._allowAliasOverwrites)));
-		PyDict_SetItemString(pdict, "manual_alias_management", mvPyObject(ToPyBool(registry._manualAliasManagement)));
-		PyDict_SetItemString(pdict, "skip_keyword_args", mvPyObject(ToPyBool(registry._skipKeywordArgs)));
-		PyDict_SetItemString(pdict, "skip_positional_args", mvPyObject(ToPyBool(registry._skipPositionalArgs)));
-		PyDict_SetItemString(pdict, "skip_required_args", mvPyObject(ToPyBool(registry._skipRequiredArgs)));
+		PyDict_SetItemString(pdict, "allow_alias_overwrites", mvPyObject(ToPyBool(mvApp::GetApp()->itemRegistry->allowAliasOverwrites)));
+		PyDict_SetItemString(pdict, "manual_alias_management", mvPyObject(ToPyBool(mvApp::GetApp()->itemRegistry->manualAliasManagement)));
+		PyDict_SetItemString(pdict, "skip_keyword_args", mvPyObject(ToPyBool(mvApp::GetApp()->itemRegistry->skipKeywordArgs)));
+		PyDict_SetItemString(pdict, "skip_positional_args", mvPyObject(ToPyBool(mvApp::GetApp()->itemRegistry->skipPositionalArgs)));
+		PyDict_SetItemString(pdict, "skip_required_args", mvPyObject(ToPyBool(mvApp::GetApp()->itemRegistry->skipRequiredArgs)));
 		return pdict;
 	}
 }

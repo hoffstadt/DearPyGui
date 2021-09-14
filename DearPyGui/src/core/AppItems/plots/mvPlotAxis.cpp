@@ -382,7 +382,7 @@ namespace Marvel {
 
 		mvUUID plot = mvAppItem::GetIDFromPyObject(plotraw);
 
-		auto aplot = mvApp::GetApp()->getItemRegistry().getItem(plot);
+		auto aplot = GetItem(*mvApp::GetApp()->itemRegistry, plot);
 		if (aplot == nullptr)
 		{
 			mvThrowPythonError(mvErrorCode::mvItemNotFound, "set_axis_ticks",
@@ -425,7 +425,7 @@ namespace Marvel {
 
 		mvUUID axis = mvAppItem::GetIDFromPyObject(axisraw);
 
-		auto aplot = mvApp::GetApp()->getItemRegistry().getItem(axis);
+		auto aplot = GetItem(*mvApp::GetApp()->itemRegistry, axis);
 		if (aplot == nullptr)
 		{
 			mvThrowPythonError(mvErrorCode::mvItemNotFound, "set_axis_limits",
@@ -458,7 +458,7 @@ namespace Marvel {
 
 		mvUUID axis = mvAppItem::GetIDFromPyObject(axisraw);
 
-		auto aplot = mvApp::GetApp()->getItemRegistry().getItem(axis);
+		auto aplot = GetItem(*mvApp::GetApp()->itemRegistry, axis);
 		if (aplot == nullptr)
 		{
 			mvThrowPythonError(mvErrorCode::mvItemNotFound, "set_axis_limits",
@@ -491,7 +491,7 @@ namespace Marvel {
 
 		mvUUID axis = mvAppItem::GetIDFromPyObject(axisraw);
 
-		auto aplot = mvApp::GetApp()->getItemRegistry().getItem(axis);
+		auto aplot = GetItem(*mvApp::GetApp()->itemRegistry, axis);
 		if (aplot == nullptr)
 		{
 			mvThrowPythonError(mvErrorCode::mvItemNotFound, "fit_axis_data",
@@ -524,7 +524,7 @@ namespace Marvel {
 
 		mvUUID plot = mvAppItem::GetIDFromPyObject(plotraw);
 
-		auto aplot = mvApp::GetApp()->getItemRegistry().getItem(plot);
+		auto aplot = GetItem(*mvApp::GetApp()->itemRegistry, plot);
 		if (aplot == nullptr)
 		{
 			mvThrowPythonError(mvErrorCode::mvItemNotFound, "get_axis_limits",
@@ -556,7 +556,7 @@ namespace Marvel {
 
 		mvUUID plot = mvAppItem::GetIDFromPyObject(plotraw);
 
-		auto aplot = mvApp::GetApp()->getItemRegistry().getItem(plot);
+		auto aplot = GetItem(*mvApp::GetApp()->itemRegistry, plot);
 		if (aplot == nullptr)
 		{
 			mvThrowPythonError(mvErrorCode::mvItemNotFound, "reset_axis_ticks",

@@ -210,7 +210,7 @@ namespace Marvel {
 		if (dataSource == _source) return;
 		_source = dataSource;
 
-		mvAppItem* item = mvApp::GetApp()->getItemRegistry().getItem(dataSource);
+		mvAppItem* item = GetItem((*mvApp::GetApp()->itemRegistry), dataSource);
 		if (!item)
 		{
 			mvThrowPythonError(mvErrorCode::mvSourceNotFound, "set_value",

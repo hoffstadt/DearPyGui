@@ -166,7 +166,7 @@ namespace Marvel {
 		builder.BuildRanges(&_ranges);   // Build the final result (ordered ranges with all the unique characters submitted)
 
 		//_dirty = true;
-		auto item = mvApp::GetApp()->getItemRegistry().getItem(MV_ATLAS_UUID);
+		auto item = GetItem(*mvApp::GetApp()->itemRegistry, MV_ATLAS_UUID);
 		if (item)
 			static_cast<mvStaticTexture*>(item)->markDirty();
 
@@ -223,12 +223,12 @@ namespace Marvel {
 
 		if (item == 0)
 		{
-			for (auto& reg : mvApp::GetApp()->getItemRegistry().getFontRegistries())
+			for (auto& reg : mvApp::GetApp()->itemRegistry->fontRegistryRoots)
 				static_cast<mvFontRegistry*>(reg.get())->resetFont();
 			return GetPyNone();
 		}
 
-		auto aplot = mvApp::GetApp()->getItemRegistry().getItem(item);
+		auto aplot = GetItem((*mvApp::GetApp()->itemRegistry), item);
 		if (aplot == nullptr)
 		{
 			mvThrowPythonError(mvErrorCode::mvItemNotFound, "bind_font",
