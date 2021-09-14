@@ -66,7 +66,7 @@ namespace Marvel {
 
 			item->draw(internal_drawlist, _startx, _starty);
 
-			item->getState().update();
+			UpdateAppItemState(item->getState());
 		}
 
 		ImGui::PopClipRect();
@@ -79,7 +79,7 @@ namespace Marvel {
 				mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), _alias, nullptr, _user_data);
 		}
 
-		_state.update();
+		UpdateAppItemState(_state);
 
 		if (_handlerRegistry)
 			_handlerRegistry->customAction(&_state);

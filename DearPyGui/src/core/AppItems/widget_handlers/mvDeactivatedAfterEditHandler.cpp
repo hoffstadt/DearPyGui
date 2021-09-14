@@ -37,7 +37,7 @@ namespace Marvel {
 	void mvDeactivatedAfterEditHandler::customAction(void* data)
 	{
 
-		if (static_cast<mvAppItemState*>(data)->_deactivatedAfterEdit)
+		if (static_cast<mvAppItemState*>(data)->deactivatedAfterEdit)
 		{
 			mvApp::GetApp()->getCallbackRegistry().submitCallback([=]()
 				{

@@ -1214,7 +1214,7 @@ namespace Marvel {
 			return false;
 
 		// check if item is ok
-		if (!item->getState().isOk())
+		if (!item->_state.ok)
 			return false;
 
 		//---------------------------------------------------------------------------

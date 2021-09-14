@@ -37,7 +37,7 @@ namespace Marvel {
 	void mvToggledOpenHandler::customAction(void* data)
 	{
 
-		if (static_cast<mvAppItemState*>(data)->_toggledOpen)
+		if (static_cast<mvAppItemState*>(data)->toggledOpen)
 		{
 			mvApp::GetApp()->getCallbackRegistry().submitCallback([=]()
 				{

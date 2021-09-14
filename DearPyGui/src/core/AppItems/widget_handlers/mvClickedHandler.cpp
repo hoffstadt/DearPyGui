@@ -40,7 +40,7 @@ namespace Marvel {
 	{
 
 		if(_button == -1 || _button == 0)
-			if (static_cast<mvAppItemState*>(data)->_leftclicked)
+			if (static_cast<mvAppItemState*>(data)->leftclicked)
 			{
 				mvApp::GetApp()->getCallbackRegistry().submitCallback([=]()
 					{
@@ -52,7 +52,7 @@ namespace Marvel {
 			}
 
 		if (_button == -1 || _button == 1)
-			if (static_cast<mvAppItemState*>(data)->_rightclicked)
+			if (static_cast<mvAppItemState*>(data)->rightclicked)
 			{
 				mvApp::GetApp()->getCallbackRegistry().submitCallback([=]()
 					{
@@ -64,7 +64,7 @@ namespace Marvel {
 			}
 
 		if (_button == -1 || _button == 2)
-			if (static_cast<mvAppItemState*>(data)->_middleclicked)
+			if (static_cast<mvAppItemState*>(data)->middleclicked)
 			{
 				mvApp::GetApp()->getCallbackRegistry().submitCallback([=]()
 					{

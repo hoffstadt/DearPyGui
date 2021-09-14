@@ -279,7 +279,7 @@ namespace Marvel {
 			item->draw(drawlist, x, y);
 		}
 
-		_state._hovered = imnodes::IsEditorHovered();
+		_state.hovered = imnodes::IsEditorHovered();
 		imnodes::EndNodeEditor();
 		imnodes::PopAttributeFlag();
 
@@ -289,12 +289,12 @@ namespace Marvel {
 
 		for (auto& child : _children[1])
 		{
-			child->getState()._hovered = false;
+			child->_state.hovered = false;
 
 			ImVec2 size = imnodes::GetNodeDimensions(static_cast<mvNode*>(child.get())->getId());
-			child->getState()._rectSize = { size.x, size.y };
-			child->getState()._rectMin = { size.x, size.y };
-			child->getState()._rectMax = { size.x, size.y };
+			child->_state.rectSize = { size.x, size.y };
+			child->_state.rectMin = { size.x, size.y };
+			child->_state.rectMax = { size.x, size.y };
 		}
 		
 		_selectedNodes.clear();
@@ -391,7 +391,7 @@ namespace Marvel {
 
 		ImGui::EndChild();
 
-		_state._lastFrameUpdate = mvApp::s_frame;
+		_state.lastFrameUpdate = mvApp::s_frame;
 
 		if (_handlerRegistry)
 			_handlerRegistry->customAction(&_state);

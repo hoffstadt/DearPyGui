@@ -63,7 +63,7 @@ namespace Marvel {
 			if (_internalTexture)
 				_texture->draw(drawlist, x, y);
 
-			if (!_texture->getState().isOk())
+			if (!_texture->_state.ok)
 				return;
 
 			void* texture = nullptr;

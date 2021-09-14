@@ -104,10 +104,10 @@ namespace Marvel {
 		// update state
 		//   * only update if applicable
 		//-----------------------------------------------------------------------------
-		//_state._hovered = imnodes::IsLinkHovered(&_id);
-		_state._visible = ImGui::IsItemVisible();
-		//_state._active = imnodes::IsLinkStarted(&_id);
-		//_state._deactivated = imnodes::IsLinkDropped(&_id);
+		//_state.hovered = imnodes::IsLinkHovered(&_id);
+		_state.visible = ImGui::IsItemVisible();
+		//_state.active = imnodes::IsLinkStarted(&_id);
+		//_state.deactivated = imnodes::IsLinkDropped(&_id);
 
 		// handle popping themes
 		if (auto classTheme = getClassThemeComponent())
@@ -160,7 +160,7 @@ namespace Marvel {
 		//-----------------------------------------------------------------------------
 		// post draw
 		//-----------------------------------------------------------------------------
-		_state._lastFrameUpdate = mvApp::s_frame;
+		_state.lastFrameUpdate = mvApp::s_frame;
 		// check custom action
 
 	}

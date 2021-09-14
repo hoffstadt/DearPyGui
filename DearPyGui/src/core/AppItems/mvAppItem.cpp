@@ -282,8 +282,8 @@ namespace Marvel{
 		std::string width = std::to_string(_width);
 		std::string height = std::to_string(_height);
 
-		std::string sizex = std::to_string(_state.getItemRectSize().x);
-		std::string sizey = std::to_string(_state.getItemRectSize().y);
+		std::string sizex = std::to_string(_state.rectSize.x);
+		std::string sizey = std::to_string(_state.rectSize.y);
 
 		ImGui::PushID(this);
 		DebugItem("Label:", _specifiedLabel.c_str());
@@ -322,21 +322,21 @@ namespace Marvel{
 		ImGui::Spacing();
 		ImGui::Text("State");
 		ImGui::Separator();
-		if (applicableState & MV_STATE_VISIBLE) DebugItem("Item Visible:", _state.isItemVisible(1) ? ts : fs);
-		if (applicableState & MV_STATE_HOVER) DebugItem("Item Hovered:", _state.isItemHovered(1) ? ts : fs);
-		if (applicableState & MV_STATE_ACTIVE) DebugItem("Item Active:", _state.isItemActive(1) ? ts : fs);
-		if (applicableState & MV_STATE_FOCUSED) DebugItem("Item Focused:", _state.isItemFocused(1) ? ts : fs);
+		if (applicableState & MV_STATE_VISIBLE) DebugItem("Item Visible:", IsItemVisible(_state, 1) ? ts : fs);
+		if (applicableState & MV_STATE_HOVER) DebugItem("Item Hovered:", IsItemHovered(_state, 1) ? ts : fs);
+		if (applicableState & MV_STATE_ACTIVE) DebugItem("Item Active:", IsItemActive(_state, 1) ? ts : fs);
+		if (applicableState & MV_STATE_FOCUSED) DebugItem("Item Focused:", IsItemFocused(_state, 1) ? ts : fs);
 		if (applicableState & MV_STATE_CLICKED)
 		{
-			DebugItem("Item Left Clicked:", _state.isItemLeftClicked(1) ? ts : fs);
-			DebugItem("Item Right Clicked:", _state.isItemRightClicked(1) ? ts : fs);
-			DebugItem("Item Middle Clicked:", _state.isItemMiddleClicked(1) ? ts : fs);
+			DebugItem("Item Left Clicked:", IsItemLeftClicked(_state, 1) ? ts : fs);
+			DebugItem("Item Right Clicked:", IsItemRightClicked(_state, 1) ? ts : fs);
+			DebugItem("Item Middle Clicked:", IsItemMiddleClicked(_state, 1) ? ts : fs);
 		}
-		if (applicableState & MV_STATE_EDITED) DebugItem("Item Edited:", _state.isItemEdited(1) ? ts : fs);
-		if (applicableState & MV_STATE_ACTIVATED) DebugItem("Item Activated:", _state.isItemActivated(1) ? ts : fs);
-		if (applicableState & MV_STATE_DEACTIVATED) DebugItem("Item Deactivated:", _state.isItemDeactivated(1) ? ts : fs);
-		if (applicableState & MV_STATE_DEACTIVATEDAE) DebugItem("Item DeactivatedAfterEdit:", _state.isItemDeactivatedAfterEdit(1) ? ts : fs);
-		if (applicableState & MV_STATE_TOGGLED_OPEN) DebugItem("Item ToggledOpen:", _state.isItemToogledOpen(1) ? ts : fs);
+		if (applicableState & MV_STATE_EDITED) DebugItem("Item Edited:", IsItemEdited(_state, 1) ? ts : fs);
+		if (applicableState & MV_STATE_ACTIVATED) DebugItem("Item Activated:", IsItemActivated(_state, 1) ? ts : fs);
+		if (applicableState & MV_STATE_DEACTIVATED) DebugItem("Item Deactivated:", IsItemDeactivated(_state, 1) ? ts : fs);
+		if (applicableState & MV_STATE_DEACTIVATEDAE) DebugItem("Item DeactivatedAfterEdit:", IsItemDeactivatedAfterEdit(_state, 1) ? ts : fs);
+		if (applicableState & MV_STATE_TOGGLED_OPEN) DebugItem("Item ToggledOpen:", IsItemToogledOpen(_state, 1) ? ts : fs);
 
 		ImGui::PopID();
 
@@ -381,7 +381,7 @@ namespace Marvel{
 		_theme = item->_theme;
 		setWidth(item->_width);
 		setHeight(item->_height);
-		//setPos(item->_state.getItemPos());
+		//setPos(item->_state.pos);
 
 		if (!item->_specifiedLabel.empty())
 		{
@@ -617,7 +617,7 @@ namespace Marvel{
 	void mvAppItem::setPos(const ImVec2& pos)
 	{
 		_dirtyPos = true;
-		_state.setPos({ pos.x, pos.y });
+		_state.pos = {pos.x, pos.y };
 	}
 
 	void mvAppItem::registerWindowFocusing()
@@ -688,7 +688,7 @@ namespace Marvel{
 
 	void mvAppItem::resetState()
 	{
-		_state.reset();
+		ResetAppItemState(_state);
 		for (auto& childset : _children)
 		{
 			for (auto& child : childset)
@@ -1780,8 +1780,7 @@ namespace Marvel{
 		PyObject* pdict = PyDict_New();
 
 		if (appitem)
-			appitem->getState().getState(pdict, appitem->getApplicableState());
-
+			FillAppItemState(pdict, appitem->_state, appitem->getApplicableState());
 		else
 			mvThrowPythonError(mvErrorCode::mvItemNotFound, "get_item_state",
 				"Item not found: " + std::to_string(item), nullptr);

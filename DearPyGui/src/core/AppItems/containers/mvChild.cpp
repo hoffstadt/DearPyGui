@@ -94,10 +94,10 @@ namespace Marvel {
 
 		// set cursor position if user set
 		if (_dirtyPos)
-			ImGui::SetCursorPos(_state.getItemPos());
+			ImGui::SetCursorPos(_state.pos);
 
 		// update widget's position state
-		_state.setPos({ ImGui::GetCursorPosX(), ImGui::GetCursorPosY() });
+		_state.pos = { ImGui::GetCursorPosX(), ImGui::GetCursorPosY() };
 
 		// set item width
 		if (_width != 0)
@@ -132,13 +132,13 @@ namespace Marvel {
 			ScopedID id(_uuid);
 
 			ImGui::BeginChild(_internalLabel.c_str(), ImVec2(_autosize_x ? 0 : (float)_width, _autosize_y ? 0 : (float)_height), _border, _windowflags);
-			_state._lastFrameUpdate = mvApp::s_frame;
-			_state._active = ImGui::IsItemActive();
-			_state._deactivated = ImGui::IsItemDeactivated();
-			_state._focused = ImGui::IsWindowFocused();
-			_state._hovered = ImGui::IsWindowHovered();
-			_state._rectSize = { ImGui::GetWindowWidth(), ImGui::GetWindowHeight() };
-			_state._contextRegionAvail = { ImGui::GetContentRegionAvail().x, ImGui::GetContentRegionAvail().y };
+			_state.lastFrameUpdate = mvApp::s_frame;
+			_state.active = ImGui::IsItemActive();
+			_state.deactivated = ImGui::IsItemDeactivated();
+			_state.focused = ImGui::IsWindowFocused();
+			_state.hovered = ImGui::IsWindowHovered();
+			_state.rectSize = { ImGui::GetWindowWidth(), ImGui::GetWindowHeight() };
+			_state.contextRegionAvail = { ImGui::GetContentRegionAvail().x, ImGui::GetContentRegionAvail().y };
 
 			for (auto& item : _children[1])
 			{

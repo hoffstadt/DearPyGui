@@ -122,10 +122,10 @@ namespace Marvel {
 
         // set cursor position if user set
         if (_dirtyPos)
-            ImGui::SetCursorPos(_state.getItemPos());
+            ImGui::SetCursorPos(_state.pos);
 
         // update widget's position state
-        _state.setPos({ ImGui::GetCursorPosX(), ImGui::GetCursorPosY() });
+        _state.pos = { ImGui::GetCursorPosX(), ImGui::GetCursorPosY() };
 
         // set item width
         if (_width != 0)
@@ -171,23 +171,23 @@ namespace Marvel {
                 *_value = true;
             }
             
-            _state._lastFrameUpdate = mvApp::s_frame;
+            _state.lastFrameUpdate = mvApp::s_frame;
             // create tab item and see if it is selected
             if (ImGui::BeginTabItem(_internalLabel.c_str(), _closable ? &_show : nullptr, _flags))
             {
 
-                _state._hovered = ImGui::IsItemHovered();
-                _state._active = ImGui::IsItemActive();
-                _state._leftclicked = ImGui::IsItemClicked();
-                _state._rightclicked = ImGui::IsItemClicked(1);
-                _state._middleclicked = ImGui::IsItemClicked(2);
-                _state._visible = ImGui::IsItemVisible();
-                _state._activated = ImGui::IsItemActivated();
-                _state._deactivated = ImGui::IsItemDeactivated();
-                _state._rectMin = { ImGui::GetItemRectMin().x, ImGui::GetItemRectMin().y };
-                _state._rectMax = { ImGui::GetItemRectMax().x, ImGui::GetItemRectMax().y };
-                _state._rectSize = { ImGui::GetItemRectSize().x, ImGui::GetItemRectSize().y };
-                _state._contextRegionAvail = { ImGui::GetContentRegionAvail().x, ImGui::GetContentRegionAvail().y };
+                _state.hovered = ImGui::IsItemHovered();
+                _state.active = ImGui::IsItemActive();
+                _state.leftclicked = ImGui::IsItemClicked();
+                _state.rightclicked = ImGui::IsItemClicked(1);
+                _state.middleclicked = ImGui::IsItemClicked(2);
+                _state.visible = ImGui::IsItemVisible();
+                _state.activated = ImGui::IsItemActivated();
+                _state.deactivated = ImGui::IsItemDeactivated();
+                _state.rectMin = { ImGui::GetItemRectMin().x, ImGui::GetItemRectMin().y };
+                _state.rectMax = { ImGui::GetItemRectMax().x, ImGui::GetItemRectMax().y };
+                _state.rectSize = { ImGui::GetItemRectSize().x, ImGui::GetItemRectSize().y };
+                _state.contextRegionAvail = { ImGui::GetContentRegionAvail().x, ImGui::GetContentRegionAvail().y };
         
                 // set other tab's value false
                 for (auto& child : parent->getChildren(1))
@@ -220,18 +220,18 @@ namespace Marvel {
 
             else
             {
-                _state._hovered = ImGui::IsItemHovered();
-                _state._active = ImGui::IsItemActive();
-                _state._leftclicked = ImGui::IsItemClicked();
-                _state._rightclicked = ImGui::IsItemClicked(1);
-                _state._middleclicked = ImGui::IsItemClicked(2);
-                _state._visible = ImGui::IsItemVisible();
-                _state._activated = ImGui::IsItemActivated();
-                _state._deactivated = ImGui::IsItemDeactivated();
-                _state._rectMin = { ImGui::GetItemRectMin().x, ImGui::GetItemRectMin().y };
-                _state._rectMax = { ImGui::GetItemRectMax().x, ImGui::GetItemRectMax().y };
-                _state._rectSize = { ImGui::GetItemRectSize().x, ImGui::GetItemRectSize().y };
-                _state._contextRegionAvail = { ImGui::GetContentRegionAvail().x, ImGui::GetContentRegionAvail().y };
+                _state.hovered = ImGui::IsItemHovered();
+                _state.active = ImGui::IsItemActive();
+                _state.leftclicked = ImGui::IsItemClicked();
+                _state.rightclicked = ImGui::IsItemClicked(1);
+                _state.middleclicked = ImGui::IsItemClicked(2);
+                _state.visible = ImGui::IsItemVisible();
+                _state.activated = ImGui::IsItemActivated();
+                _state.deactivated = ImGui::IsItemDeactivated();
+                _state.rectMin = { ImGui::GetItemRectMin().x, ImGui::GetItemRectMin().y };
+                _state.rectMax = { ImGui::GetItemRectMax().x, ImGui::GetItemRectMax().y };
+                _state.rectSize = { ImGui::GetItemRectSize().x, ImGui::GetItemRectSize().y };
+                _state.contextRegionAvail = { ImGui::GetContentRegionAvail().x, ImGui::GetContentRegionAvail().y };
             }
         }
 

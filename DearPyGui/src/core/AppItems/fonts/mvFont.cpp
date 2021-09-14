@@ -60,7 +60,7 @@ namespace Marvel {
 
 	void mvFont::customAction(void* data)
 	{
-		if (!_state.isOk())
+		if (!_state.ok)
 			return;
 
 		ImGuiIO& io = ImGui::GetIO();
@@ -101,7 +101,7 @@ namespace Marvel {
 	void mvFont::draw(ImDrawList* drawlist, float x, float y)
 	{
 
-		if (!_state.isOk())
+		if (!_state.ok)
 			return;
 
 		ImFontGlyphRangesBuilder builder;
@@ -192,7 +192,7 @@ namespace Marvel {
 					ifile.close();
 				else
 				{
-					_state.setOk(false);
+					_state.ok = false;
 					mvThrowPythonError(mvErrorCode::mvNone, "Font file could not be found");
 				}
 				break;

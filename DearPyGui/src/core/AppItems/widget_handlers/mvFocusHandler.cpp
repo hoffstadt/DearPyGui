@@ -37,7 +37,7 @@ namespace Marvel {
 	void mvFocusHandler::customAction(void* data)
 	{
 
-		if (static_cast<mvAppItemState*>(data)->_focused)
+		if (static_cast<mvAppItemState*>(data)->focused)
 		{
 			mvApp::GetApp()->getCallbackRegistry().submitCallback([=]()
 				{

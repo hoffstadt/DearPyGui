@@ -113,7 +113,7 @@ namespace Marvel {
 				if (_internalTexture)
 					_texture->draw(drawlist, x, y);
 
-				if (!_texture->getState().isOk())
+				if (!_texture->_state.ok)
 					return;
 
 				void* texture = nullptr;
@@ -138,7 +138,7 @@ namespace Marvel {
 							if (!item->_show)
 								continue;
 							item->draw(drawlist, ImPlot::GetPlotPos().x, ImPlot::GetPlotPos().y);
-							item->getState().update();
+							UpdateAppItemState(item->getState());
 						}
 					}
 					ImPlot::EndLegendPopup();

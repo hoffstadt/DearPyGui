@@ -299,7 +299,7 @@ namespace Marvel {
 
 				item->draw(drawlist, ImGui::GetCursorPosX(), ImGui::GetCursorPosY());
 
-				item->getState().update();
+				UpdateAppItemState(item->getState());
 			}
 
 			if (_tableHeader)

@@ -128,7 +128,7 @@ namespace Marvel {
 						if (!item->_show)
 							continue;
 						item->draw(drawlist, ImPlot::GetPlotPos().x, ImPlot::GetPlotPos().y);
-						item->getState().update();
+						UpdateAppItemState(item->getState());
 					}
 				}
 				ImPlot::EndLegendPopup();

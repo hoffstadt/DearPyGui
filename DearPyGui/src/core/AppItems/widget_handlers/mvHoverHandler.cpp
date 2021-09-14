@@ -37,7 +37,7 @@ namespace Marvel {
     void mvHoverHandler::customAction(void* data)
     {
 
-        if (static_cast<mvAppItemState*>(data)->_hovered)
+        if (static_cast<mvAppItemState*>(data)->hovered)
         {
             mvApp::GetApp()->getCallbackRegistry().submitCallback([=]()
                 {

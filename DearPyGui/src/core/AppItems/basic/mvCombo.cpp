@@ -107,10 +107,10 @@ namespace Marvel {
 
 		// set cursor position if user set
 		if (_dirtyPos)
-			ImGui::SetCursorPos(_state.getItemPos());
+			ImGui::SetCursorPos(_state.pos);
 
 		// update widget's position state
-		_state.setPos({ ImGui::GetCursorPosX(), ImGui::GetCursorPosY() });
+		_state.pos = { ImGui::GetCursorPosX(), ImGui::GetCursorPosY() };
 
 		// set item width
 		if (_width != 0)
@@ -148,7 +148,7 @@ namespace Marvel {
 
 			// The second parameter is the label previewed before opening the combo.
 			bool activated = ImGui::BeginCombo(_internalLabel.c_str(), _value->c_str(), _flags);
-			_state.update();
+			UpdateAppItemState(_state);
 
 			if(activated)
 			{
@@ -175,9 +175,9 @@ namespace Marvel {
 					}
 
 
-					if (ImGui::IsItemEdited())_state._edited = true;
-					if (ImGui::IsItemDeactivated())_state._deactivated = true;
-					if (ImGui::IsItemDeactivatedAfterEdit())_state._deactivatedAfterEdit = true;
+					if (ImGui::IsItemEdited())_state.edited = true;
+					if (ImGui::IsItemDeactivated())_state.deactivated = true;
+					if (ImGui::IsItemDeactivatedAfterEdit())_state.deactivatedAfterEdit = true;
 
 					// Set the initial focus when opening the combo (scrolling + for keyboard navigation support in the upcoming navigation branch)
 					if (is_selected)

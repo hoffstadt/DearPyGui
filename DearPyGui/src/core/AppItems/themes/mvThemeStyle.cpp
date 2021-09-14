@@ -225,7 +225,7 @@ namespace Marvel {
 				{
 					if (_targetStyle >= ImGuiStyleVar_COUNT || _targetStyle < 0)
 					{
-						_state.setOk(false);
+						_state.ok = false;
 						mvThrowPythonError(mvErrorCode::mvNone, "Style target out of range.");
 						MV_ITEM_REGISTRY_ERROR("Item's parent must be plot.");
 					}
@@ -236,7 +236,7 @@ namespace Marvel {
 
 					if (_targetStyle >= ImPlotStyleVar_COUNT || _targetStyle < 0)
 					{
-						_state.setOk(false);
+						_state.ok = false;
 						mvThrowPythonError(mvErrorCode::mvNone, "Style target out of range.");
 						MV_ITEM_REGISTRY_ERROR("Item's parent must be plot.");
 					}
@@ -246,7 +246,7 @@ namespace Marvel {
 				{
 					if (_targetStyle >= 14 || _targetStyle < 0)
 					{
-						_state.setOk(false);
+						_state.ok = false;
 						mvThrowPythonError(mvErrorCode::mvNone, "Style target out of range.");
 						MV_ITEM_REGISTRY_ERROR("Item's parent must be plot.");
 					}
@@ -279,7 +279,7 @@ namespace Marvel {
 		{
 			if (_targetStyle >= ImGuiStyleVar_COUNT || _targetStyle < 0)
 			{
-				_state.setOk(false);
+				_state.ok = false;
 				mvThrowPythonError(mvErrorCode::mvNone, "");
 				MV_ITEM_REGISTRY_ERROR("Item's parent must be plot.");
 			}
@@ -289,7 +289,7 @@ namespace Marvel {
 		{
 			if (_targetStyle >= ImPlotStyleVar_COUNT || _targetStyle < 0)
 			{
-				_state.setOk(false);
+				_state.ok = false;
 				mvThrowPythonError(mvErrorCode::mvNone, "");
 				MV_ITEM_REGISTRY_ERROR("Item's parent must be plot.");
 			}
@@ -299,7 +299,7 @@ namespace Marvel {
 		{
 			if (_targetStyle >= 14 || _targetStyle < 0)
 			{
-				_state.setOk(false);
+				_state.ok = false;
 				mvThrowPythonError(mvErrorCode::mvNone, "");
 				MV_ITEM_REGISTRY_ERROR("Item's parent must be plot.");
 			}

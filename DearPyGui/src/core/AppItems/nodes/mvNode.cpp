@@ -129,7 +129,7 @@ namespace Marvel {
 
 			if (_dirtyPos)
 			{
-				imnodes::SetNodeGridSpacePos((int)_id, _state.getItemPos());
+				imnodes::SetNodeGridSpacePos((int)_id, _state.pos);
 				_dirtyPos = false;
 			}
 
@@ -154,7 +154,7 @@ namespace Marvel {
 				item->draw(drawlist, x, y);
 
 				auto& state = item->getState();
-				state._active = imnodes::IsAttributeActive();
+				state.active = imnodes::IsAttributeActive();
 
 			}
 
@@ -170,15 +170,14 @@ namespace Marvel {
 		//   * only update if applicable
 		//-----------------------------------------------------------------------------
 		ImVec2 pos = imnodes::GetNodeGridSpacePos((int)_id);
-		_state._lastFrameUpdate = mvApp::s_frame;
-		_state._hovered = ImGui::IsItemHovered();
-		_state._leftclicked = ImGui::IsItemClicked();
-		_state._rightclicked = ImGui::IsItemClicked(1);
-		_state._middleclicked = ImGui::IsItemClicked(2);
-		_state._visible = ImGui::IsItemVisible();
-		_state._active = imnodes::IsAnyAttributeActive();
-
-		_state.setPos({ pos.x , pos.y });
+		_state.lastFrameUpdate = mvApp::s_frame;
+		_state.hovered = ImGui::IsItemHovered();
+		_state.leftclicked = ImGui::IsItemClicked();
+		_state.rightclicked = ImGui::IsItemClicked(1);
+		_state.middleclicked = ImGui::IsItemClicked(2);
+		_state.visible = ImGui::IsItemVisible();
+		_state.active = imnodes::IsAnyAttributeActive();
+		_state.pos = { pos.x , pos.y };
 
 		// undo indents
 		if (_indent > 0.0f)

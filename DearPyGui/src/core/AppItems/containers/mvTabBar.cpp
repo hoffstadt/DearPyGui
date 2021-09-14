@@ -106,8 +106,8 @@ namespace Marvel {
 		if (ImGui::BeginTabBar(_internalLabel.c_str(), _flags))
 		{
 
-            _state._lastFrameUpdate = mvApp::s_frame;
-            _state._visible = true; // BeginTabBar(...) only reaches this if visible
+            _state.lastFrameUpdate = mvApp::s_frame;
+            _state.visible = true; // BeginTabBar(...) only reaches this if visible
             
 			for (auto& item : _children[1])
 			{

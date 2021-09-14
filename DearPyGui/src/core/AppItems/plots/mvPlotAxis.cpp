@@ -204,7 +204,7 @@ namespace Marvel {
 		//auto context = ImPlot::GetCurrentContext();
 		//_flags = context->CurrentPlot->CurrentYAxis.Flags
 
-		_state.update();
+		UpdateAppItemState(_state);
 
 		if (_font)
 		{

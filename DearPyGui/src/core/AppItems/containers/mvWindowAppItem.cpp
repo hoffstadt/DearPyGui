@@ -196,8 +196,8 @@ namespace Marvel {
 
 			if (_oldWindowflags & ImGuiWindowFlags_MenuBar)
 				_windowflags |= ImGuiWindowFlags_MenuBar;
-			_oldxpos = _state.getItemPos().x;
-			_oldypos = _state.getItemPos().y;
+			_oldxpos = _state.pos.x;
+			_oldypos = _state.pos.y;
 			_oldWidth = _width;
 			_oldHeight = _height;
 		}
@@ -209,7 +209,7 @@ namespace Marvel {
 			_windowflags = _oldWindowflags;
 			if (_windowflags & ImGuiWindowFlags_MenuBar)
 				_windowflags |= ImGuiWindowFlags_MenuBar;
-			_state.setPos({ _oldxpos , _oldypos });
+			_state.pos = { _oldxpos , _oldypos };
 			_width = _oldWidth;
 			_height = _oldHeight;
 			_dirtyPos = true;
@@ -277,7 +277,7 @@ namespace Marvel {
 
 		else if (_dirtyPos)
 		{
-			ImGui::SetNextWindowPos(_state.getItemPos());
+			ImGui::SetNextWindowPos(_state.pos);
 			_dirtyPos = false;
 		}
 
@@ -307,11 +307,11 @@ namespace Marvel {
 
 				// shouldn't have to do this but do. Fix later
 				_show = false;
-				_state._lastFrameUpdate = mvApp::s_frame;
-				_state._hovered = false;
-				_state._focused = false;
-				_state._activated = false;
-				_state._visible = false;
+				_state.lastFrameUpdate = mvApp::s_frame;
+				_state.hovered = false;
+				_state.focused = false;
+				_state.activated = false;
+				_state.visible = false;
 
 				if(_alias.empty())
 					mvApp::GetApp()->getCallbackRegistry().addCallback(_on_close, _uuid, nullptr, _user_data);
@@ -363,7 +363,7 @@ namespace Marvel {
 
 			item->draw(this_drawlist, startx, starty);
 
-			item->getState().update();
+			UpdateAppItemState(item->getState());
 
 		}
 
@@ -384,7 +384,7 @@ namespace Marvel {
 
 			item->draw(this_drawlist, startx, starty);
 
-			item->getState().update();
+			UpdateAppItemState(item->getState());
 
 		}
 
@@ -430,12 +430,12 @@ namespace Marvel {
 		_scrollMaxX = ImGui::GetScrollMaxX();
 		_scrollMaxY = ImGui::GetScrollMaxY();
 
-		_state._lastFrameUpdate = mvApp::s_frame;
-		_state._visible = true;
-		_state._hovered = ImGui::IsWindowHovered();
-		_state._focused = ImGui::IsWindowFocused();
-		_state._rectSize = { ImGui::GetWindowSize().x, ImGui::GetWindowSize().y };
-		_state._activated = ImGui::IsWindowCollapsed();
+		_state.lastFrameUpdate = mvApp::s_frame;
+		_state.visible = true;
+		_state.hovered = ImGui::IsWindowHovered();
+		_state.focused = ImGui::IsWindowFocused();
+		_state.rectSize = { ImGui::GetWindowSize().x, ImGui::GetWindowSize().y };
+		_state.activated = ImGui::IsWindowCollapsed();
 
 		if (ImGui::GetWindowWidth() != (float)_width || ImGui::GetWindowHeight() != (float)_height)
 		{
@@ -448,7 +448,7 @@ namespace Marvel {
 		_height = (int)ImGui::GetWindowHeight();
 
 		// update active window
-		if (_state.isItemFocused())
+		if (IsItemFocused(_state))
 		{
 
 			float titleBarHeight = ImGui::GetStyle().FramePadding.y * 2 + ImGui::GetFontSize();
@@ -467,7 +467,7 @@ namespace Marvel {
 
 		}
 
-		_state.setPos({ ImGui::GetWindowPos().x , ImGui::GetWindowPos().y });
+		_state.pos = { ImGui::GetWindowPos().x , ImGui::GetWindowPos().y };
 
 		if (_popup || _modal)
 			ImGui::EndPopup();
@@ -478,11 +478,11 @@ namespace Marvel {
 
 		if (!_show)
 		{
-			_state._lastFrameUpdate = mvApp::s_frame;
-			_state._hovered = false;
-			_state._focused = false;
-			_state._activated = false;
-			_state._visible = false;
+			_state.lastFrameUpdate = mvApp::s_frame;
+			_state.hovered = false;
+			_state.focused = false;
+			_state.activated = false;
+			_state.visible = false;
 
 			if(_alias.empty())
 				mvApp::GetApp()->getCallbackRegistry().addCallback(_on_close, _uuid, nullptr, _user_data);
@@ -566,8 +566,8 @@ namespace Marvel {
 		flagop("no_background", ImGuiWindowFlags_NoBackground, _windowflags);
 		flagop("no_saved_settings", ImGuiWindowFlags_NoSavedSettings, _windowflags);
 
-		_oldxpos = _state.getItemPos().x;
-		_oldypos = _state.getItemPos().y;
+		_oldxpos = _state.pos.x;
+		_oldypos = _state.pos.y;
 		_oldWidth = _width;
 		_oldHeight = _height;
 		_oldWindowflags = _windowflags;
