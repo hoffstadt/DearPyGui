@@ -67,7 +67,6 @@ namespace Marvel {
 			mvPythonParserSetup setup;
 			setup.about = "Sets limits on the axis for pan and zoom.";
 			setup.category = { "Plotting", "App Item Operations" };
-			setup.returnType = mvPyDataType::None;
 
 			mvPythonParser parser = FinalizeParser(setup, args);
 			parsers->insert({ "set_axis_limits", parser });
@@ -80,7 +79,6 @@ namespace Marvel {
 			mvPythonParserSetup setup;
 			setup.about = "Removes all limits on specified axis.";
 			setup.category = { "Plotting", "App Item Operations" };
-			setup.returnType = mvPyDataType::None;
 
 			mvPythonParser parser = FinalizeParser(setup, args);
 			parsers->insert({ "set_axis_limits_auto", parser });
@@ -93,7 +91,6 @@ namespace Marvel {
 			mvPythonParserSetup setup;
 			setup.about = "Sets the axis boundaries max/min in the data series currently on the plot.";
 			setup.category = { "Plotting", "App Item Operations" };
-			setup.returnType = mvPyDataType::None;
 
 			mvPythonParser parser = FinalizeParser(setup, args);
 			parsers->insert({ "fit_axis_data", parser });
@@ -106,7 +103,6 @@ namespace Marvel {
 			mvPythonParserSetup setup;
 			setup.about = "Removes the manually set axis ticks and applies the default axis ticks";
 			setup.category = { "Plotting", "App Item Operations" };
-			setup.returnType = mvPyDataType::None;
 
 			mvPythonParser parser = FinalizeParser(setup, args);
 			parsers->insert({ "reset_axis_ticks", parser });
@@ -120,7 +116,6 @@ namespace Marvel {
 			mvPythonParserSetup setup;
 			setup.about = "Replaces axis ticks with 'label_pairs' argument.";
 			setup.category = { "Plotting", "App Item Operations" };
-			setup.returnType = mvPyDataType::None;
 			
 			mvPythonParser parser = FinalizeParser(setup, args);
 			parsers->insert({ "set_axis_ticks", parser });

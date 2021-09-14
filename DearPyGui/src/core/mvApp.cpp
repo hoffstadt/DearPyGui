@@ -266,7 +266,6 @@ namespace Marvel {
 			mvPythonParserSetup setup;
 			setup.about = "Configures app.";
 			setup.category = { "General" };
-			setup.returnType = mvPyDataType::None;
 
 			mvPythonParser parser = FinalizeParser(setup, args);
 			parsers->insert({ "configure_app", parser });
@@ -279,7 +278,6 @@ namespace Marvel {
 			mvPythonParserSetup setup;
 			setup.about = "Save dpg.ini file.";
 			setup.category = { "General" };
-			setup.returnType = mvPyDataType::None;
 
 			mvPythonParser parser = FinalizeParser(setup, args);
 			parsers->insert({ "save_init_file", parser });
@@ -292,7 +290,6 @@ namespace Marvel {
 			mvPythonParserSetup setup;
 			setup.about = "Waits one frame.";
 			setup.category = { "General" };
-			setup.returnType = mvPyDataType::None;
 
 			mvPythonParser parser = FinalizeParser(setup, args);
 			parsers->insert({ "split_frame", parser });
@@ -343,7 +340,6 @@ namespace Marvel {
 			mvPythonParserSetup setup;
 			setup.about = "Locks render thread mutex.";
 			setup.category = { "General" };
-			setup.returnType = mvPyDataType::None;
 
 			mvPythonParser parser = FinalizeParser(setup, args);
 			parsers->insert({ "lock_mutex", parser });
@@ -355,7 +351,6 @@ namespace Marvel {
 			mvPythonParserSetup setup;
 			setup.about = "Unlocks render thread mutex";
 			setup.category = { "General" };
-			setup.returnType = mvPyDataType::None;
 
 			mvPythonParser parser = FinalizeParser(setup, args);
 			parsers->insert({ "unlock_mutex", parser });
@@ -379,7 +374,6 @@ namespace Marvel {
 			mvPythonParserSetup setup;
 			setup.about = "Sets up Dear PyGui";
 			setup.category = { "General" };
-			setup.returnType = mvPyDataType::None;
 
 			mvPythonParser parser = FinalizeParser(setup, args);
 			parsers->insert({ "setup_dearpygui", parser });
@@ -391,7 +385,6 @@ namespace Marvel {
 			mvPythonParserSetup setup;
 			setup.about = "Render a single Dear PyGui frame.";
 			setup.category = { "General" };
-			setup.returnType = mvPyDataType::None;
 
 			mvPythonParser parser = FinalizeParser(setup, args);
 			parsers->insert({ "render_dearpygui_frame", parser });
@@ -403,7 +396,6 @@ namespace Marvel {
 			mvPythonParserSetup setup;
 			setup.about = "Cleans up Dear PyGui";
 			setup.category = { "General" };
-			setup.returnType = mvPyDataType::None;
 
 			mvPythonParser parser = FinalizeParser(setup, args);
 			parsers->insert({ "cleanup_dearpygui", parser });
@@ -415,7 +407,6 @@ namespace Marvel {
 			mvPythonParserSetup setup;
 			setup.about = "Stops Dear PyGui";
 			setup.category = { "General" };
-			setup.returnType = mvPyDataType::None;
 
 			mvPythonParser parser = FinalizeParser(setup, args);
 			parsers->insert({ "stop_dearpygui", parser });

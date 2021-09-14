@@ -35,7 +35,6 @@ namespace Marvel {
 			mvPythonParserSetup setup;
 			setup.about = "Binds a global theme.";
 			setup.category = { "Themes"};
-			setup.returnType = mvPyDataType::None;
 
 			mvPythonParser parser = FinalizeParser(setup, args);
 			parsers->insert({ "bind_theme", parser });

@@ -222,7 +222,6 @@ namespace Marvel {
 			mvPythonParserSetup setup;
 			setup.about = "Sets global font scale.";
 			setup.category = { "Fonts" };
-			setup.returnType = mvPyDataType::None;
 
 			mvPythonParser parser = FinalizeParser(setup, args);
 			parsers->insert({ "set_global_font_scale", parser });

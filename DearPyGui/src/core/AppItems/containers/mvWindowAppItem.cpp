@@ -63,7 +63,6 @@ namespace Marvel {
 			args.push_back({ mvPyDataType::Float, "value" });
 
 			mvPythonParserSetup setup;
-			setup.returnType = mvPyDataType::None;
 
 			mvPythonParser parser = FinalizeParser(setup, args);
 			parsers->insert({ "set_x_scroll", parser });
@@ -74,7 +73,6 @@ namespace Marvel {
 			args.push_back({ mvPyDataType::UUID, "item" });
 			args.push_back({ mvPyDataType::Float, "value" });
 			mvPythonParserSetup setup;
-			setup.returnType = mvPyDataType::None;
 			mvPythonParser parser = FinalizeParser(setup, args);
 			parsers->insert({ "set_y_scroll", parser });
 		}
