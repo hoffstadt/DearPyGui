@@ -11,8 +11,9 @@ namespace Marvel {
 
 	void mvColorMapSlider::InsertParser(std::map<std::string, mvPythonParser>* parsers)
 	{
-		mvPythonParser parser(mvPyDataType::UUID, "Adds a color button.", { "Widgets" });
-		mvAppItem::AddCommonArgs(parser, (CommonParserArgs)(
+		std::vector<mvPythonDataElement> args;
+
+		AddCommonArgs(args,(CommonParserArgs)(
 			MV_PARSER_ARG_ID |
 			MV_PARSER_ARG_WIDTH |
 			MV_PARSER_ARG_HEIGHT |
@@ -29,9 +30,14 @@ namespace Marvel {
 			MV_PARSER_ARG_POS)
 		);
 
-		parser.addArg<mvPyDataType::Float>("default_value", mvArgType::KEYWORD_ARG, "0.0");
+		args.push_back({ mvPyDataType::Float, "default_value", mvArgType::KEYWORD_ARG, "0.0" });
 
-		parser.finalize();
+		mvPythonParserSetup setup;
+		setup.about = "Adds a color button.";
+		setup.category = { "Widgets", "Colors" };
+		setup.returnType = mvPyDataType::UUID;
+
+		mvPythonParser parser = FinalizeParser(setup, args);
 
 		parsers->insert({ s_command, parser });
 	}

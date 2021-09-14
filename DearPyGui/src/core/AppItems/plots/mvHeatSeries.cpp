@@ -13,9 +13,9 @@ namespace Marvel {
 
 	void mvHeatSeries::InsertParser(std::map<std::string, mvPythonParser>* parsers)
 	{
+		std::vector<mvPythonDataElement> args;
 
-		mvPythonParser parser(mvPyDataType::UUID, "Adds a heat series to a plot. Typically a color scale widget is also added to show the legend.", { "Plotting", "Containers", "Widgets" });
-		mvAppItem::AddCommonArgs(parser, (CommonParserArgs)(
+		AddCommonArgs(args,(CommonParserArgs)(
 			MV_PARSER_ARG_ID |
 			MV_PARSER_ARG_PARENT |
 			MV_PARSER_ARG_BEFORE |
@@ -23,22 +23,22 @@ namespace Marvel {
 			MV_PARSER_ARG_SHOW)
 		);
 
-		parser.addArg<mvPyDataType::DoubleList>("x");
-		parser.addArg<mvPyDataType::Integer>("rows");
-		parser.addArg<mvPyDataType::Integer>("cols");
+		args.push_back({ mvPyDataType::DoubleList, "x"});
+		args.push_back({ mvPyDataType::Integer, "rows"});
+		args.push_back({ mvPyDataType::Integer, "cols"});
+		args.push_back({ mvPyDataType::Double, "scale_min", mvArgType::KEYWORD_ARG, "0.0", "Sets the color scale min. Typically paired with the color scale widget scale_min." });
+		args.push_back({ mvPyDataType::Double, "scale_max", mvArgType::KEYWORD_ARG, "1.0", "Sets the color scale max. Typically paired with the color scale widget scale_max." });
+		args.push_back({ mvPyDataType::DoubleList, "bounds_min", mvArgType::KEYWORD_ARG, "(0.0, 0.0)"});
+		args.push_back({ mvPyDataType::DoubleList, "bounds_max", mvArgType::KEYWORD_ARG, "(1.0, 1.0)"});
+		args.push_back({ mvPyDataType::String, "format", mvArgType::KEYWORD_ARG, "'%0.1f'" });
+		args.push_back({ mvPyDataType::Bool, "contribute_to_bounds", mvArgType::KEYWORD_ARG, "True" });
 
+		mvPythonParserSetup setup;
+		setup.about = "Adds a heat series to a plot.";
+		setup.category = { "Plotting", "Containers", "Widgets" };
+		setup.returnType = mvPyDataType::UUID;
 
-		parser.addArg<mvPyDataType::Double>("scale_min", mvArgType::KEYWORD_ARG, "0.0", "Sets the color scale min. Typically paired with the color scale widget scale_min.");
-		parser.addArg<mvPyDataType::Double>("scale_max", mvArgType::KEYWORD_ARG, "1.0", "Sets the color scale max. Typically paired with the color scale widget scale_max.");
-
-		parser.addArg<mvPyDataType::DoubleList>("bounds_min", mvArgType::KEYWORD_ARG, "(0.0, 0.0)");
-		parser.addArg<mvPyDataType::DoubleList>("bounds_max", mvArgType::KEYWORD_ARG, "(1.0, 1.0)");
-
-		parser.addArg<mvPyDataType::String>("format", mvArgType::KEYWORD_ARG, "'%0.1f'");
-
-		parser.addArg<mvPyDataType::Bool>("contribute_to_bounds", mvArgType::KEYWORD_ARG, "True");
-
-		parser.finalize();
+		mvPythonParser parser = FinalizeParser(setup, args);
 
 		parsers->insert({ s_command, parser });
 	}
@@ -165,7 +165,7 @@ namespace Marvel {
 
 	void mvHeatSeries::handleSpecificRequiredArgs(PyObject* dict)
 	{
-		if (!mvApp::GetApp()->getParsers()[s_command].verifyRequiredArguments(dict))
+		if (!VerifyRequiredArguments(mvApp::GetApp()->getParsers()[s_command], dict))
 			return;
 
 		for (int i = 0; i < PyTuple_Size(dict); i++)

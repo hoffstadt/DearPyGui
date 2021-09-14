@@ -88,9 +88,9 @@ namespace Marvel {
 
 	void mvCandleSeries::InsertParser(std::map<std::string, mvPythonParser>* parsers)
 	{
+		std::vector<mvPythonDataElement> args;
 
-		mvPythonParser parser(mvPyDataType::UUID, "Adds a candle series to a plot.", { "Plotting", "Containers", "Widgets" });
-		mvAppItem::AddCommonArgs(parser, (CommonParserArgs)(
+		AddCommonArgs(args,(CommonParserArgs)(
 			MV_PARSER_ARG_ID |
 			MV_PARSER_ARG_PARENT |
 			MV_PARSER_ARG_BEFORE |
@@ -98,20 +98,22 @@ namespace Marvel {
 			MV_PARSER_ARG_SHOW)
 		);
 
-		parser.addArg<mvPyDataType::DoubleList>("dates");
-		parser.addArg<mvPyDataType::DoubleList>("opens");
-		parser.addArg<mvPyDataType::DoubleList>("closes");
-		parser.addArg<mvPyDataType::DoubleList>("lows");
-		parser.addArg<mvPyDataType::DoubleList>("highs");
+		args.push_back({ mvPyDataType::DoubleList, "dates" });
+		args.push_back({ mvPyDataType::DoubleList, "opens" });
+		args.push_back({ mvPyDataType::DoubleList, "closes" });
+		args.push_back({ mvPyDataType::DoubleList, "lows" });
+		args.push_back({ mvPyDataType::DoubleList, "highs" });
+		args.push_back({ mvPyDataType::IntList, "bull_color", mvArgType::KEYWORD_ARG, "(0, 255, 113, 255)"});
+		args.push_back({ mvPyDataType::IntList, "bear_color", mvArgType::KEYWORD_ARG, "(218, 13, 79, 255)"});
+		args.push_back({ mvPyDataType::Integer, "weight", mvArgType::KEYWORD_ARG, "0.25" });
+		args.push_back({ mvPyDataType::Bool, "tooltip", mvArgType::KEYWORD_ARG, "True" });
 
-		parser.addArg<mvPyDataType::IntList>("bull_color", mvArgType::KEYWORD_ARG, "(0, 255, 113, 255)");
-		parser.addArg<mvPyDataType::IntList>("bear_color", mvArgType::KEYWORD_ARG, "(218, 13, 79, 255)");
+		mvPythonParserSetup setup;
+		setup.about = "Adds a candle series to a plot.";
+		setup.category = { "Plotting", "Containers", "Widgets" };
+		setup.returnType = mvPyDataType::UUID;
 
-		parser.addArg<mvPyDataType::Integer>("weight", mvArgType::KEYWORD_ARG, "0.25");
-
-		parser.addArg<mvPyDataType::Bool>("tooltip", mvArgType::KEYWORD_ARG, "True");
-
-		parser.finalize();
+		mvPythonParser parser = FinalizeParser(setup, args);
 
 		parsers->insert({ s_command, parser });
 	}
@@ -247,7 +249,7 @@ namespace Marvel {
 
 	void mvCandleSeries::handleSpecificRequiredArgs(PyObject* dict)
 	{
-		if (!mvApp::GetApp()->getParsers()[s_command].verifyRequiredArguments(dict))
+		if (!VerifyRequiredArguments(mvApp::GetApp()->getParsers()[s_command], dict))
 			return;
 
 		for (int i = 0; i < PyTuple_Size(dict); i++)

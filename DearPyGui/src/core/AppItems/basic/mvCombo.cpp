@@ -12,9 +12,8 @@ namespace Marvel {
 
 	void mvCombo::InsertParser(std::map<std::string, mvPythonParser>* parsers)
 	{
-
-		mvPythonParser parser(mvPyDataType::UUID, "Adds a combo dropdown that allows a user to select a single option from a drop down window.", { "Widgets" });
-		mvAppItem::AddCommonArgs(parser, (CommonParserArgs)(
+		std::vector<mvPythonDataElement> args;
+		AddCommonArgs(args,(CommonParserArgs)(
 			MV_PARSER_ARG_ID |
 			MV_PARSER_ARG_WIDTH |
 			MV_PARSER_ARG_INDENT |
@@ -32,17 +31,19 @@ namespace Marvel {
 			MV_PARSER_ARG_POS)
 		);
 
-		parser.addArg<mvPyDataType::StringList>("items", mvArgType::POSITIONAL_ARG, "()", "A tuple of items to be shown in the drop down window. Can consist of any combination of types.");
+		args.push_back({ mvPyDataType::StringList, "items", mvArgType::POSITIONAL_ARG, "()", "A tuple of items to be shown in the drop down window. Can consist of any combination of types." });
+		args.push_back({ mvPyDataType::String, "default_value", mvArgType::KEYWORD_ARG, "''" });
+		args.push_back({ mvPyDataType::Bool, "popup_align_left", mvArgType::KEYWORD_ARG, "False", "Align the popup toward the left." });
+		args.push_back({ mvPyDataType::Bool, "no_arrow_button", mvArgType::KEYWORD_ARG, "False", "Display the preview box without the square arrow button." });
+		args.push_back({ mvPyDataType::Bool, "no_preview", mvArgType::KEYWORD_ARG, "False", "Display only the square arrow button." });
+		args.push_back({ mvPyDataType::Long, "height_mode", mvArgType::KEYWORD_ARG, "1", "mvComboHeight_Small, _Regular, _Large, _Largest" });
 
-		parser.addArg<mvPyDataType::String>("default_value", mvArgType::KEYWORD_ARG, "''");
-		parser.addArg<mvPyDataType::Bool>("popup_align_left", mvArgType::KEYWORD_ARG, "False", "Align the popup toward the left.");
-		parser.addArg<mvPyDataType::Bool>("no_arrow_button", mvArgType::KEYWORD_ARG, "False", "Display the preview box without the square arrow button.");
-		parser.addArg<mvPyDataType::Bool>("no_preview", mvArgType::KEYWORD_ARG, "False", "Display only the square arrow button.");
+		mvPythonParserSetup setup;
+		setup.about = "Adds a combo dropdown that allows a user to select a single option from a drop down window.";
+		setup.category = { "Widgets" };
+		setup.returnType = mvPyDataType::UUID;
 
-		parser.addArg<mvPyDataType::Long>("height_mode", mvArgType::KEYWORD_ARG, "1", "mvComboHeight_Small, _Regular, _Large, _Largest");
-
-
-		parser.finalize();
+		mvPythonParser parser = FinalizeParser(setup, args);
 
 		parsers->insert({ s_command, parser });
 	}
@@ -253,7 +254,7 @@ namespace Marvel {
 
 	void mvCombo::handleSpecificPositionalArgs(PyObject* dict)
 	{
-		if (!mvApp::GetApp()->getParsers()[s_command].verifyPositionalArguments(dict))
+		if (!VerifyPositionalArguments(mvApp::GetApp()->getParsers()[s_command], dict))
 			return;
 
 		for (int i = 0; i < PyTuple_Size(dict); i++)

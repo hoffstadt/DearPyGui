@@ -36,8 +36,9 @@ namespace Marvel {
 	void mvButton::InsertParser(std::map<std::string, mvPythonParser>* parsers)
 	{
 
-		mvPythonParser parser(mvPyDataType::UUID, "Adds a button.", { "Widgets" });
-		mvAppItem::AddCommonArgs(parser,(CommonParserArgs)(
+		std::vector<mvPythonDataElement> args;
+
+		AddCommonArgs(args,(CommonParserArgs)(
 			MV_PARSER_ARG_ID |
 			MV_PARSER_ARG_WIDTH |
 			MV_PARSER_ARG_HEIGHT |
@@ -55,11 +56,16 @@ namespace Marvel {
 			MV_PARSER_ARG_POS)
 			);
 
-		parser.addArg<mvPyDataType::Bool>("small", mvArgType::KEYWORD_ARG, "False", "Small button, useful for embedding in text.");
-		parser.addArg<mvPyDataType::Bool>("arrow", mvArgType::KEYWORD_ARG, "False", "Arrow button, requires the direction keyword.");
-		parser.addArg<mvPyDataType::Integer>("direction", mvArgType::KEYWORD_ARG, "0", "A cardinal direction for arrow.");
+		args.push_back({ mvPyDataType::Bool, "small", mvArgType::KEYWORD_ARG, "False", "Small button, useful for embedding in text." });
+		args.push_back({ mvPyDataType::Bool, "arrow", mvArgType::KEYWORD_ARG, "False", "Arrow button, requires the direction keyword." });
+		args.push_back({ mvPyDataType::Integer, "direction", mvArgType::KEYWORD_ARG, "0", "A cardinal direction for arrow." });
 
-		parser.finalize();
+		mvPythonParserSetup setup;
+		setup.about = "Adds a button.";
+		setup.category = { "Widgets" };
+		setup.returnType = mvPyDataType::UUID;
+
+		mvPythonParser parser = FinalizeParser(setup, args);
 
 		parsers->insert({ s_command, parser });
 	}

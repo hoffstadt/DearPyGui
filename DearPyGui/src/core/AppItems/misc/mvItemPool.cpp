@@ -11,25 +11,38 @@ namespace Marvel {
 
 	void mvItemPool::InsertParser(std::map<std::string, mvPythonParser>* parsers)
 	{
+		std::vector<mvPythonDataElement> args;
 
-		mvPythonParser parser(mvPyDataType::UUID, "Undocumented function", { "Containers"});
-		mvAppItem::AddCommonArgs(parser, (CommonParserArgs)(
+		AddCommonArgs(args,(CommonParserArgs)(
 			MV_PARSER_ARG_ID)
 		);
-		parser.finalize();
+
+		mvPythonParserSetup setup;
+		setup.about = "Adds an item pool.";
+		setup.category = { "Containers" };
+		setup.returnType = mvPyDataType::UUID;
+		setup.createContextManager = true;
+
+		mvPythonParser parser = FinalizeParser(setup, args);
 		parsers->insert({ s_command, parser });
 	}
 
 	void mvItemSet::InsertParser(std::map<std::string, mvPythonParser>* parsers)
 	{
-
-		mvPythonParser parser(mvPyDataType::UUID, "Undocumented function", { "Containers" }, true);
-		mvAppItem::AddCommonArgs(parser, (CommonParserArgs)(
+		std::vector<mvPythonDataElement> args;
+		AddCommonArgs(args,(CommonParserArgs)(
 			MV_PARSER_ARG_ID)
 		);
-		parser.addArg<mvPyDataType::Integer>("type");
-		parser.addArg<mvPyDataType::Integer>("count");
-		parser.finalize();
+		args.push_back({ mvPyDataType::Integer, "type" });
+		args.push_back({ mvPyDataType::Integer, "count" });
+
+		mvPythonParserSetup setup;
+		setup.about = "Adds an item set to an item pool.";
+		setup.category = { "Containers" };
+		setup.returnType = mvPyDataType::UUID;
+		setup.createContextManager = true;
+
+		mvPythonParser parser = FinalizeParser(setup, args);
 		parsers->insert({ s_command, parser });
 	}
 
@@ -47,7 +60,7 @@ namespace Marvel {
 
 	void mvItemSet::handleSpecificRequiredArgs(PyObject* dict)
 	{
-		if (!mvApp::GetApp()->getParsers()[s_command].verifyRequiredArguments(dict))
+		if (!VerifyRequiredArguments(mvApp::GetApp()->getParsers()[s_command], dict))
 			return;
 
 		for (int i = 0; i < PyTuple_Size(dict); i++)

@@ -114,26 +114,6 @@ namespace Marvel {
         MV_ITEM_DESC_HANDLER     = 1 << 3 // todo: rename descriptively
     };
 
-    enum CommonParserArgs
-    {
-        MV_PARSER_ARG_ID             = 1 << 1,
-        MV_PARSER_ARG_WIDTH          = 1 << 2,
-        MV_PARSER_ARG_HEIGHT         = 1 << 3,
-        MV_PARSER_ARG_INDENT         = 1 << 4,
-        MV_PARSER_ARG_PARENT         = 1 << 5,
-        MV_PARSER_ARG_BEFORE         = 1 << 6,
-        MV_PARSER_ARG_SOURCE         = 1 << 7,
-        MV_PARSER_ARG_CALLBACK       = 1 << 8,
-        MV_PARSER_ARG_SHOW           = 1 << 9,
-        MV_PARSER_ARG_ENABLED        = 1 << 10,
-        MV_PARSER_ARG_POS            = 1 << 11,
-        MV_PARSER_ARG_DROP_CALLBACK  = 1 << 12,
-        MV_PARSER_ARG_DRAG_CALLBACK  = 1 << 13,
-        MV_PARSER_ARG_PAYLOAD_TYPE   = 1 << 14,
-        MV_PARSER_ARG_TRACKED        = 1 << 15,
-        MV_PARSER_ARG_FILTER         = 1 << 16,
-        MV_PARSER_ARG_SEARCH_DELAY   = 1 << 17
-    };
 
     enum class mvLibType {
         MV_IMGUI = 0,
@@ -205,9 +185,6 @@ namespace Marvel {
 
         // retrieves parent, before, uuid from user input when creating an item
         static std::tuple<mvUUID, mvUUID, std::string> GetNameFromArgs(mvUUID& name, PyObject* args, PyObject* kwargs);
-
-        // adds the common app item arguments (label, id, etc.)
-        static void AddCommonArgs(mvPythonParser& parser, CommonParserArgs args);
 
         static mvUUID GetIDFromPyObject(PyObject* item);
 

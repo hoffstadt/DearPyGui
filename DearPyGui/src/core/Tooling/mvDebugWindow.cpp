@@ -37,7 +37,7 @@ namespace Marvel {
 		m_height = 500;
 
 		for (const auto& item : mvModule_DearPyGui::GetModuleParsers())
-			m_commands.emplace_back(item.first, item.second.getDocumentation());
+			m_commands.emplace_back(item.first, item.second.documentation);
     }
 
     void mvDebugWindow::drawWidgets()

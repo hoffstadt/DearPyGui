@@ -15,9 +15,9 @@ namespace Marvel {
 
     void mvColorMapScale::InsertParser(std::map<std::string, mvPythonParser>* parsers)
     {
+        std::vector<mvPythonDataElement> args;
 
-        mvPythonParser parser(mvPyDataType::UUID, "Adds a legend that pairs values with colors. This is typically used with a heat series. ", {"Widgets" });
-        mvAppItem::AddCommonArgs(parser, (CommonParserArgs)(
+        AddCommonArgs(args,(CommonParserArgs)(
             MV_PARSER_ARG_ID |
             MV_PARSER_ARG_WIDTH |
             MV_PARSER_ARG_HEIGHT |
@@ -29,12 +29,16 @@ namespace Marvel {
             MV_PARSER_ARG_POS)
         );
 
-        parser.addArg<mvPyDataType::UUID>("colormap", mvArgType::KEYWORD_ARG, "0", "mvPlotColormap_* constants or mvColorMap uuid");
+        args.push_back({ mvPyDataType::UUID, "colormap", mvArgType::KEYWORD_ARG, "0", "mvPlotColormap_* constants or mvColorMap uuid" });
+        args.push_back({ mvPyDataType::Float, "min_scale", mvArgType::KEYWORD_ARG, "0.0", "Sets the min number of the color scale. Typically is the same as the min scale from the heat series." });
+        args.push_back({ mvPyDataType::Float, "max_scale", mvArgType::KEYWORD_ARG, "1.0", "Sets the max number of the color scale. Typically is the same as the max scale from the heat series." });
 
-        parser.addArg<mvPyDataType::Float>("min_scale", mvArgType::KEYWORD_ARG, "0.0", "Sets the min number of the color scale. Typically is the same as the min scale from the heat series.");
-        parser.addArg<mvPyDataType::Float>("max_scale", mvArgType::KEYWORD_ARG, "1.0", "Sets the max number of the color scale. Typically is the same as the max scale from the heat series.");
+        mvPythonParserSetup setup;
+        setup.about = "Adds a legend that pairs values with colors. This is typically used with a heat series. ";
+        setup.category = { "Widgets", "Colors" };
+        setup.returnType = mvPyDataType::UUID;
 
-        parser.finalize();
+        mvPythonParser parser = FinalizeParser(setup, args);
 
         parsers->insert({ s_command, parser });
     }

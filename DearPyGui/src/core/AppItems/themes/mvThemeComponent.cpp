@@ -10,17 +10,24 @@ namespace Marvel {
 
     void mvThemeComponent::InsertParser(std::map<std::string, mvPythonParser>* parsers)
     {
+        std::vector<mvPythonDataElement> args;
 
-        mvPythonParser parser(mvPyDataType::UUID, "Undocumented function", { "Themes", "Containers" }, true);
-        mvAppItem::AddCommonArgs(parser, (CommonParserArgs)(
+        AddCommonArgs(args,(CommonParserArgs)(
             MV_PARSER_ARG_ID |
             MV_PARSER_ARG_PARENT |
             MV_PARSER_ARG_BEFORE
             ));
 
-        parser.addArg<mvPyDataType::Integer>("item_type", mvArgType::POSITIONAL_ARG, "0");
-        parser.addArg<mvPyDataType::Bool>("enabled_state", mvArgType::KEYWORD_ARG, "True");
-        parser.finalize();
+        args.push_back({ mvPyDataType::Integer, "item_type", mvArgType::POSITIONAL_ARG, "0" });
+        args.push_back({ mvPyDataType::Bool, "enabled_state", mvArgType::KEYWORD_ARG, "True" });
+
+        mvPythonParserSetup setup;
+        setup.about = "Adds a theme component.";
+        setup.category = { "Themes", "Containers" };
+        setup.returnType = mvPyDataType::UUID;
+        setup.createContextManager = true;
+
+        mvPythonParser parser = FinalizeParser(setup, args);
         parsers->insert({ s_command, parser });
 
     }
@@ -54,7 +61,7 @@ namespace Marvel {
 
     void mvThemeComponent::handleSpecificPositionalArgs(PyObject* dict)
     {
-        if (!mvApp::GetApp()->getParsers()[s_command].verifyPositionalArguments(dict))
+        if (!VerifyPositionalArguments(mvApp::GetApp()->getParsers()[s_command], dict))
             return;
 
         for (int i = 0; i < PyTuple_Size(dict); i++)

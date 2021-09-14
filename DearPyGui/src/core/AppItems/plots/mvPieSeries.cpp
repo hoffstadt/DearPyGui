@@ -13,9 +13,9 @@ namespace Marvel {
 
 	void mvPieSeries::InsertParser(std::map<std::string, mvPythonParser>* parsers)
 	{
+		std::vector<mvPythonDataElement> args;
 
-		mvPythonParser parser(mvPyDataType::UUID, "Adds a pie series to a plot.", { "Plotting", "Containers", "Widgets" });
-		mvAppItem::AddCommonArgs(parser, (CommonParserArgs)(
+		AddCommonArgs(args,(CommonParserArgs)(
 			MV_PARSER_ARG_ID |
 			MV_PARSER_ARG_PARENT |
 			MV_PARSER_ARG_BEFORE |
@@ -23,19 +23,21 @@ namespace Marvel {
 			MV_PARSER_ARG_SHOW)
 		);
 
-		parser.addArg<mvPyDataType::Double>("x");
-		parser.addArg<mvPyDataType::Double>("y");
-		parser.addArg<mvPyDataType::Double>("radius");
-		parser.addArg<mvPyDataType::DoubleList>("values");
-		parser.addArg<mvPyDataType::StringList>("labels");
+		args.push_back({ mvPyDataType::Double, "x"});
+		args.push_back({ mvPyDataType::Double, "y"});
+		args.push_back({ mvPyDataType::Double, "radius" });
+		args.push_back({ mvPyDataType::DoubleList, "values"});
+		args.push_back({ mvPyDataType::StringList, "labels"});
+		args.push_back({ mvPyDataType::String, "format", mvArgType::KEYWORD_ARG, "'%0.2f'" });
+		args.push_back({ mvPyDataType::Double, "angle", mvArgType::KEYWORD_ARG, "90.0" });
+		args.push_back({ mvPyDataType::Bool, "normalize", mvArgType::KEYWORD_ARG, "False" });
 
-		parser.addArg<mvPyDataType::String>("format", mvArgType::KEYWORD_ARG, "'%0.2f'");
+		mvPythonParserSetup setup;
+		setup.about = "Adds an pie series to a plot.";
+		setup.category = { "Plotting", "Containers", "Widgets" };
+		setup.returnType = mvPyDataType::UUID;
 
-		parser.addArg<mvPyDataType::Double>("angle", mvArgType::KEYWORD_ARG, "90.0");
-
-		parser.addArg<mvPyDataType::Bool>("normalize", mvArgType::KEYWORD_ARG, "False");
-
-		parser.finalize();
+		mvPythonParser parser = FinalizeParser(setup, args);
 
 		parsers->insert({ s_command, parser });
 	}
@@ -162,7 +164,7 @@ namespace Marvel {
 
 	void mvPieSeries::handleSpecificRequiredArgs(PyObject* dict)
 	{
-		if (!mvApp::GetApp()->getParsers()[s_command].verifyRequiredArguments(dict))
+		if (!VerifyRequiredArguments(mvApp::GetApp()->getParsers()[s_command], dict))
 			return;
 
 		for (int i = 0; i < PyTuple_Size(dict); i++)

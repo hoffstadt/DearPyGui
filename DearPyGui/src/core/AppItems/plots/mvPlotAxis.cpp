@@ -13,8 +13,9 @@ namespace Marvel {
 	void mvPlotAxis::InsertParser(std::map<std::string, mvPythonParser>* parsers)
 	{
 		{
-			mvPythonParser parser(mvPyDataType::UUID, "Adds a plot legend to a plot.", { "Plotting", "Widgets" }, true);
-			mvAppItem::AddCommonArgs(parser, (CommonParserArgs)(
+			std::vector<mvPythonDataElement> args;
+
+			AddCommonArgs(args,(CommonParserArgs)(
 				MV_PARSER_ARG_ID |
 				MV_PARSER_ARG_PARENT |
 				MV_PARSER_ARG_DROP_CALLBACK |
@@ -23,64 +24,105 @@ namespace Marvel {
 				MV_PARSER_ARG_SHOW)
 			);
 
-			parser.addArg<mvPyDataType::Integer>("axis");
-			parser.addArg<mvPyDataType::Bool>("no_gridlines", mvArgType::KEYWORD_ARG, "False");
-			parser.addArg<mvPyDataType::Bool>("no_tick_marks", mvArgType::KEYWORD_ARG, "False");
-			parser.addArg<mvPyDataType::Bool>("no_tick_labels", mvArgType::KEYWORD_ARG, "False");
-			parser.addArg<mvPyDataType::Bool>("log_scale", mvArgType::KEYWORD_ARG, "False");
-			parser.addArg<mvPyDataType::Bool>("invert", mvArgType::KEYWORD_ARG, "False");
-			parser.addArg<mvPyDataType::Bool>("lock_min", mvArgType::KEYWORD_ARG, "False");
-			parser.addArg<mvPyDataType::Bool>("lock_max", mvArgType::KEYWORD_ARG, "False");
-			parser.addArg<mvPyDataType::Bool>("time", mvArgType::KEYWORD_ARG, "False");
+			args.push_back({ mvPyDataType::Integer, "axis" });
+			args.push_back({ mvPyDataType::Bool, "no_gridlines", mvArgType::KEYWORD_ARG, "False" });
+			args.push_back({ mvPyDataType::Bool, "no_tick_marks", mvArgType::KEYWORD_ARG, "False" });
+			args.push_back({ mvPyDataType::Bool, "no_tick_labels", mvArgType::KEYWORD_ARG, "False" });
+			args.push_back({ mvPyDataType::Bool, "log_scale", mvArgType::KEYWORD_ARG, "False" });
+			args.push_back({ mvPyDataType::Bool, "invert", mvArgType::KEYWORD_ARG, "False" });
+			args.push_back({ mvPyDataType::Bool, "lock_min", mvArgType::KEYWORD_ARG, "False"});
+			args.push_back({ mvPyDataType::Bool, "lock_max", mvArgType::KEYWORD_ARG, "False"});
+			args.push_back({ mvPyDataType::Bool, "time", mvArgType::KEYWORD_ARG, "False" });
 
+			mvPythonParserSetup setup;
+			setup.about = "Adds an axis to a plot.";
+			setup.category = { "Plotting", "Containers", "Widgets" };
+			setup.returnType = mvPyDataType::UUID;
+			setup.createContextManager = true;
 
-			parser.finalize();
+			mvPythonParser parser = FinalizeParser(setup, args);
 
 			parsers->insert({ s_command, parser });
 		}
 
 		{
-			mvPythonParser parser(mvPyDataType::FloatList, "Gets the specified axis limits.", { "Plotting", "Widgets" });
-			parser.addArg<mvPyDataType::UUID>("axis");
-			parser.finalize();
+			std::vector<mvPythonDataElement> args;
+			args.push_back({ mvPyDataType::UUID, "axis" });
+
+			mvPythonParserSetup setup;
+			setup.about = "Get the specified axis limits.";
+			setup.category = { "Plotting", "App Item Operations" };
+			setup.returnType = mvPyDataType::FloatList;
+
+			mvPythonParser parser = FinalizeParser(setup, args);
 			parsers->insert({ "get_axis_limits", parser });
 		}
 
 		{
-			mvPythonParser parser(mvPyDataType::None, "Sets limits on the axis for pan and zoom.", { "Plotting", "Widgets" });
-			parser.addArg<mvPyDataType::UUID>("axis");
-			parser.addArg<mvPyDataType::Float>("ymin");
-			parser.addArg<mvPyDataType::Float>("ymax");
-			parser.finalize();
+			std::vector<mvPythonDataElement> args;
+			args.push_back({ mvPyDataType::UUID, "axis" });
+			args.push_back({ mvPyDataType::Float, "ymin"});
+			args.push_back({ mvPyDataType::Float, "ymax"});
+
+			mvPythonParserSetup setup;
+			setup.about = "Sets limits on the axis for pan and zoom.";
+			setup.category = { "Plotting", "App Item Operations" };
+			setup.returnType = mvPyDataType::None;
+
+			mvPythonParser parser = FinalizeParser(setup, args);
 			parsers->insert({ "set_axis_limits", parser });
 		}
 
 		{
-			mvPythonParser parser(mvPyDataType::None, "Removes all limits on specified axis.", { "Plotting", "Widgets" });
-			parser.addArg<mvPyDataType::UUID>("axis");
-			parser.finalize();
+			std::vector<mvPythonDataElement> args;
+			args.push_back({ mvPyDataType::UUID, "axis" });
+
+			mvPythonParserSetup setup;
+			setup.about = "Removes all limits on specified axis.";
+			setup.category = { "Plotting", "App Item Operations" };
+			setup.returnType = mvPyDataType::None;
+
+			mvPythonParser parser = FinalizeParser(setup, args);
 			parsers->insert({ "set_axis_limits_auto", parser });
 		}
 
 		{
-			mvPythonParser parser(mvPyDataType::None, "Sets the axis boundries max and min in the data series currently on the plot.", { "Plotting", "Widgets" });
-			parser.addArg<mvPyDataType::UUID>("axis");
-			parser.finalize();
+			std::vector<mvPythonDataElement> args;
+			args.push_back({ mvPyDataType::UUID, "axis" });
+
+			mvPythonParserSetup setup;
+			setup.about = "Sets the axis boundaries max/min in the data series currently on the plot.";
+			setup.category = { "Plotting", "App Item Operations" };
+			setup.returnType = mvPyDataType::None;
+
+			mvPythonParser parser = FinalizeParser(setup, args);
 			parsers->insert({ "fit_axis_data", parser });
 		}
 
 		{
-			mvPythonParser parser(mvPyDataType::None, "Removes the and manually set axis ticks and applys the default auto axis ticks.", { "Plotting", "Widgets" });
-			parser.addArg<mvPyDataType::UUID>("axis");
-			parser.finalize();
+			std::vector<mvPythonDataElement> args;
+			args.push_back({ mvPyDataType::UUID, "axis" });
+
+			mvPythonParserSetup setup;
+			setup.about = "Removes the manually set axis ticks and applies the default axis ticks";
+			setup.category = { "Plotting", "App Item Operations" };
+			setup.returnType = mvPyDataType::None;
+
+			mvPythonParser parser = FinalizeParser(setup, args);
 			parsers->insert({ "reset_axis_ticks", parser });
 		}
 
 		{
-			mvPythonParser parser(mvPyDataType::None, "Replaces axis ticks with 'label_pairs' argument", { "Plotting", "Widgets" });
-			parser.addArg<mvPyDataType::UUID>("axis");
-			parser.addArg<mvPyDataType::Object>("label_pairs", mvArgType::REQUIRED_ARG, "...", "Tuples of label and value in the form '((label, axis_value), (label, axis_value), ...)'");
-			parser.finalize();
+			std::vector<mvPythonDataElement> args;
+			args.push_back({ mvPyDataType::UUID, "axis" });
+			args.push_back({ mvPyDataType::Object, "label_pairs", mvArgType::REQUIRED_ARG, "...", "Tuples of label and value in the form '((label, axis_value), (label, axis_value), ...)'" });
+			
+			mvPythonParserSetup setup;
+			setup.about = "Replaces axis ticks with 'label_pairs' argument.";
+			setup.category = { "Plotting", "App Item Operations" };
+			setup.returnType = mvPyDataType::None;
+			
+			mvPythonParser parser = FinalizeParser(setup, args);
 			parsers->insert({ "set_axis_ticks", parser });
 		}
 	}
@@ -252,7 +294,7 @@ namespace Marvel {
 
 	void mvPlotAxis::handleSpecificRequiredArgs(PyObject* dict)
 	{
-		if (!mvApp::GetApp()->getParsers()[s_command].verifyRequiredArguments(dict))
+		if (!VerifyRequiredArguments(mvApp::GetApp()->getParsers()[s_command], dict))
 			return;
 
 		for (int i = 0; i < PyTuple_Size(dict); i++)
@@ -331,7 +373,7 @@ namespace Marvel {
 		PyObject* plotraw;
 		PyObject* label_pairs;
 
-		if (!(mvApp::GetApp()->getParsers())["set_axis_ticks"].parse(args, kwargs, __FUNCTION__, &plotraw, &label_pairs))
+		if (!Parse((mvApp::GetApp()->getParsers())["set_axis_ticks"], args, kwargs, __FUNCTION__, &plotraw, &label_pairs))
 			return GetPyNone();
 
 		auto mlabel_pairs = ToVectPairStringFloat(label_pairs);
@@ -376,7 +418,7 @@ namespace Marvel {
 		float ymin;
 		float ymax;
 
-		if (!(mvApp::GetApp()->getParsers())["set_axis_limits"].parse(args, kwargs, __FUNCTION__, &axisraw, &ymin, &ymax))
+		if (!Parse((mvApp::GetApp()->getParsers())["set_axis_limits"], args, kwargs, __FUNCTION__, &axisraw, &ymin, &ymax))
 			return GetPyNone();
 
 		if (!mvApp::s_manualMutexControl) std::lock_guard<std::mutex> lk(mvApp::s_mutex);
@@ -409,7 +451,7 @@ namespace Marvel {
 	{
 		PyObject* axisraw;
 
-		if (!(mvApp::GetApp()->getParsers())["set_axis_limits_auto"].parse(args, kwargs, __FUNCTION__, &axisraw))
+		if (!Parse((mvApp::GetApp()->getParsers())["set_axis_limits_auto"], args, kwargs, __FUNCTION__, &axisraw))
 			return GetPyNone();
 
 		if (!mvApp::s_manualMutexControl) std::lock_guard<std::mutex> lk(mvApp::s_mutex);
@@ -442,7 +484,7 @@ namespace Marvel {
 	{
 		PyObject* axisraw;
 
-		if (!(mvApp::GetApp()->getParsers())["fit_axis_data"].parse(args, kwargs, __FUNCTION__, &axisraw))
+		if (!Parse((mvApp::GetApp()->getParsers())["fit_axis_data"], args, kwargs, __FUNCTION__, &axisraw))
 			return GetPyNone();
 
 		if (!mvApp::s_manualMutexControl) std::lock_guard<std::mutex> lk(mvApp::s_mutex);
@@ -475,7 +517,7 @@ namespace Marvel {
 	{
 		PyObject* plotraw;
 
-		if (!(mvApp::GetApp()->getParsers())["get_axis_limits"].parse(args, kwargs, __FUNCTION__, &plotraw))
+		if (!Parse((mvApp::GetApp()->getParsers())["get_axis_limits"], args, kwargs, __FUNCTION__, &plotraw))
 			return GetPyNone();
 
 		if (!mvApp::s_manualMutexControl) std::lock_guard<std::mutex> lk(mvApp::s_mutex);
@@ -507,7 +549,7 @@ namespace Marvel {
 	{
 		PyObject* plotraw;
 
-		if (!(mvApp::GetApp()->getParsers())["reset_axis_ticks"].parse(args, kwargs, __FUNCTION__, &plotraw))
+		if (!Parse((mvApp::GetApp()->getParsers())["reset_axis_ticks"], args, kwargs, __FUNCTION__, &plotraw))
 			return GetPyNone();
 
 		if (!mvApp::s_manualMutexControl) std::lock_guard<std::mutex> lk(mvApp::s_mutex);

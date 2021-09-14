@@ -12,9 +12,9 @@ namespace Marvel {
 
 	void mvNodeAttribute::InsertParser(std::map<std::string, mvPythonParser>* parsers)
 	{
+		std::vector<mvPythonDataElement> args;
 
-		mvPythonParser parser(mvPyDataType::UUID, "Adds a node attribute.", { "Node Editor", "Containers", "Widgets" }, true);
-		mvAppItem::AddCommonArgs(parser, (CommonParserArgs)(
+		AddCommonArgs(args,(CommonParserArgs)(
 			MV_PARSER_ARG_ID |
 			MV_PARSER_ARG_INDENT |
 			MV_PARSER_ARG_PARENT |
@@ -27,11 +27,17 @@ namespace Marvel {
 			MV_PARSER_ARG_SHOW)
 		);
 
-		parser.addArg<mvPyDataType::Long>("attribute_type", mvArgType::KEYWORD_ARG, "0", "mvNode_Attr_Input, mvNode_Attr_Output, or mvNode_Attr_Static.");
-		parser.addArg<mvPyDataType::Integer>("shape", mvArgType::KEYWORD_ARG, "1", "Pin shape.");
-		parser.addArg<mvPyDataType::String>("category", mvArgType::KEYWORD_ARG, "'general'", "Category");
+		args.push_back({ mvPyDataType::Long, "attribute_type", mvArgType::KEYWORD_ARG, "0", "mvNode_Attr_Input, mvNode_Attr_Output, or mvNode_Attr_Static." });
+		args.push_back({ mvPyDataType::Integer, "shape", mvArgType::KEYWORD_ARG, "1", "Pin shape." });
+		args.push_back({ mvPyDataType::String, "category", mvArgType::KEYWORD_ARG, "'general'", "Category" });
 
-		parser.finalize();
+		mvPythonParserSetup setup;
+		setup.about = "Adds a node attribute to a node.";
+		setup.category = { "Node Editor", "Containers", "Widgets" };
+		setup.returnType = mvPyDataType::UUID;
+		setup.createContextManager = true;
+
+		mvPythonParser parser = FinalizeParser(setup, args);
 
 		parsers->insert({ s_command, parser });
 	}

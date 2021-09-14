@@ -15,8 +15,9 @@ namespace Marvel {
 	{
 
 		{
-			mvPythonParser parser(mvPyDataType::UUID, "Adds a node editor.", { "Node Editor", "Containers", "Widgets" }, true);
-			mvAppItem::AddCommonArgs(parser, (CommonParserArgs)(
+			std::vector<mvPythonDataElement> args;
+
+			AddCommonArgs(args,(CommonParserArgs)(
 				MV_PARSER_ARG_ID |
 				MV_PARSER_ARG_PARENT |
 				MV_PARSER_ARG_BEFORE |
@@ -32,39 +33,65 @@ namespace Marvel {
 				MV_PARSER_ARG_SHOW)
 			);
 
-			parser.addArg<mvPyDataType::Callable>("delink_callback", mvArgType::KEYWORD_ARG, "None", "Callback ran when a link is detached.");
-			parser.addArg<mvPyDataType::Bool>("menubar", mvArgType::KEYWORD_ARG, "False", "Shows or hides the menubar.");
+			args.push_back({ mvPyDataType::Callable, "delink_callback", mvArgType::KEYWORD_ARG, "None", "Callback ran when a link is detached." });
+			args.push_back({ mvPyDataType::Bool, "menubar", mvArgType::KEYWORD_ARG, "False", "Shows or hides the menubar." });
 
-			parser.finalize();
+			mvPythonParserSetup setup;
+			setup.about = "Adds a node editor.";
+			setup.category = { "Node Editor", "Containers", "Widgets" };
+			setup.returnType = mvPyDataType::UUID;
+			setup.createContextManager = true;
+
+			mvPythonParser parser = FinalizeParser(setup, args);
 
 			parsers->insert({ s_command, parser });
 		}
 
 		{
-			mvPythonParser parser(mvPyDataType::UUIDList, "Undocumented", { "Node Editor" });
-			parser.addArg<mvPyDataType::UUID>("node_editor");
-			parser.finalize();
+			std::vector<mvPythonDataElement> args;
+			args.push_back({ mvPyDataType::UUID, "node_editor" });
+
+			mvPythonParserSetup setup;
+			setup.category = { "Node Editor", "App Item Operations" };
+			setup.returnType = mvPyDataType::UUIDList;
+
+			mvPythonParser parser = FinalizeParser(setup, args);
 			parsers->insert({ "get_selected_nodes", parser });
 		}
 
 		{
-			mvPythonParser parser(mvPyDataType::ListStrList, "Undocumented", { "Node Editor" });
-			parser.addArg<mvPyDataType::UUID>("node_editor");
-			parser.finalize();
+			std::vector<mvPythonDataElement> args;
+			args.push_back({ mvPyDataType::UUID, "node_editor" });
+
+			mvPythonParserSetup setup;
+			setup.category = { "Node Editor", "App Item Operations" };
+			setup.returnType = mvPyDataType::ListStrList;
+
+			mvPythonParser parser = FinalizeParser(setup, args);
 			parsers->insert({ "get_selected_links", parser });
 		}
 
 		{
-			mvPythonParser parser(mvPyDataType::None, "Undocumented", { "Node Editor" });
-			parser.addArg<mvPyDataType::UUID>("node_editor");
-			parser.finalize();
+			std::vector<mvPythonDataElement> args;
+			args.push_back({ mvPyDataType::UUID, "node_editor" });
+
+			mvPythonParserSetup setup;
+			setup.category = { "Node Editor", "App Item Operations" };
+			setup.returnType = mvPyDataType::None;
+
+			mvPythonParser parser = FinalizeParser(setup, args);
 			parsers->insert({ "clear_selected_links", parser });
 		}
 
 		{
-			mvPythonParser parser(mvPyDataType::None, "Undocumented", { "Node Editor" });
-			parser.addArg<mvPyDataType::UUID>("node_editor");
-			parser.finalize();
+			std::vector<mvPythonDataElement> args;
+			args.push_back({ mvPyDataType::UUID, "node_editor" });
+
+			mvPythonParserSetup setup;
+			setup.category = { "Node Editor", "App Item Operations" };
+			setup.returnType = mvPyDataType::None;
+
+			mvPythonParser parser = FinalizeParser(setup, args);
 			parsers->insert({ "clear_selected_nodes", parser });
 		}
 
@@ -375,7 +402,7 @@ namespace Marvel {
 		mvUUID node_editor;
 
 
-		if (!(mvApp::GetApp()->getParsers())["get_selected_nodes"].parse(args, kwargs, __FUNCTION__, &node_editor))
+		if (!Parse((mvApp::GetApp()->getParsers())["get_selected_nodes"], args, kwargs, __FUNCTION__, &node_editor))
 			return ToPyBool(false);
 
 		if (!mvApp::s_manualMutexControl) std::lock_guard<std::mutex> lk(mvApp::s_mutex);
@@ -406,7 +433,7 @@ namespace Marvel {
 	{
 		PyObject* node_editor_raw;
 
-		if (!(mvApp::GetApp()->getParsers())["get_selected_links"].parse(args, kwargs, __FUNCTION__, &node_editor_raw))
+		if (!Parse((mvApp::GetApp()->getParsers())["get_selected_links"], args, kwargs, __FUNCTION__, &node_editor_raw))
 			return ToPyBool(false);
 
 		if (!mvApp::s_manualMutexControl) std::lock_guard<std::mutex> lk(mvApp::s_mutex);
@@ -439,7 +466,7 @@ namespace Marvel {
 	{
 		PyObject* node_editor_raw;
 
-		if (!(mvApp::GetApp()->getParsers())["clear_selected_links"].parse(args, kwargs, __FUNCTION__, &node_editor_raw))
+		if (!Parse((mvApp::GetApp()->getParsers())["clear_selected_links"], args, kwargs, __FUNCTION__, &node_editor_raw))
 			return ToPyBool(false);
 
 		if (!mvApp::s_manualMutexControl) std::lock_guard<std::mutex> lk(mvApp::s_mutex);
@@ -472,7 +499,7 @@ namespace Marvel {
 	{
 		PyObject* node_editor_raw;
 
-		if (!(mvApp::GetApp()->getParsers())["clear_selected_nodes"].parse(args, kwargs, __FUNCTION__, &node_editor_raw))
+		if (!Parse((mvApp::GetApp()->getParsers())["clear_selected_nodes"], args, kwargs, __FUNCTION__, &node_editor_raw))
 			return ToPyBool(false);
 
 		if (!mvApp::s_manualMutexControl) std::lock_guard<std::mutex> lk(mvApp::s_mutex);

@@ -240,120 +240,222 @@ namespace Marvel {
 	{
 
 		{
-			mvPythonParser parser(mvPyDataType::Dict, "Undocumented", { "General" });
-			parser.finalize();
+			std::vector<mvPythonDataElement> args;
+
+			mvPythonParserSetup setup;
+			setup.about = "Returns app configuration.";
+			setup.category = { "General" };
+			setup.returnType = mvPyDataType::Dict;
+
+			mvPythonParser parser = FinalizeParser(setup, args);
 			parsers->insert({ "get_app_configuration", parser });
 		}
 
 		{
-			mvPythonParser parser(mvPyDataType::None, "Undocumented", { "General" });
-			parser.addArg<mvPyDataType::Bool>("docking", mvArgType::KEYWORD_ARG, "False", "Enables docking support.");
-			parser.addArg<mvPyDataType::Bool>("docking_space", mvArgType::KEYWORD_ARG, "False", "add explicit dockspace over viewport");
-			parser.addArg<mvPyDataType::String>("load_init_file", mvArgType::KEYWORD_ARG, "''", "Load .ini file.");
-			parser.addArg<mvPyDataType::String>("init_file", mvArgType::KEYWORD_ARG, "''");
-			parser.addArg<mvPyDataType::Integer>("device", mvArgType::KEYWORD_ARG, "-1", "Which display adapter to use. (-1 will use default)");
-			parser.addArg<mvPyDataType::Bool>("auto_device", mvArgType::KEYWORD_ARG, "False", "Let us pick the display adapter.");
-			parser.addArg<mvPyDataType::Bool>("allow_alias_overwrites", mvArgType::KEYWORD_ARG, "False");
-			parser.addArg<mvPyDataType::Bool>("manual_alias_management", mvArgType::KEYWORD_ARG, "False");
-			parser.addArg<mvPyDataType::Bool>("skip_required_args", mvArgType::KEYWORD_ARG, "False");
-			parser.addArg<mvPyDataType::Bool>("skip_positional_args", mvArgType::KEYWORD_ARG, "False");
-			parser.addArg<mvPyDataType::Bool>("skip_keyword_args", mvArgType::KEYWORD_ARG, "False");
-			parser.finalize();
+			std::vector<mvPythonDataElement> args;
+			args.push_back({ mvPyDataType::Bool, "docking", mvArgType::KEYWORD_ARG, "False", "Enables docking support." });
+			args.push_back({ mvPyDataType::Bool, "docking_space", mvArgType::KEYWORD_ARG, "False", "add explicit dockspace over viewport" });
+			args.push_back({ mvPyDataType::String, "load_init_file", mvArgType::KEYWORD_ARG, "''", "Load .ini file." });
+			args.push_back({ mvPyDataType::String, "init_file", mvArgType::KEYWORD_ARG, "''" });
+			args.push_back({ mvPyDataType::Integer, "device", mvArgType::KEYWORD_ARG, "-1", "Which display adapter to use. (-1 will use default)" });
+			args.push_back({ mvPyDataType::Bool, "auto_device", mvArgType::KEYWORD_ARG, "False", "Let us pick the display adapter." });
+			args.push_back({ mvPyDataType::Bool, "allow_alias_overwrites", mvArgType::KEYWORD_ARG, "False" });
+			args.push_back({ mvPyDataType::Bool, "manual_alias_management", mvArgType::KEYWORD_ARG, "False" });
+			args.push_back({ mvPyDataType::Bool, "skip_required_args", mvArgType::KEYWORD_ARG, "False" });
+			args.push_back({ mvPyDataType::Bool, "skip_positional_args", mvArgType::KEYWORD_ARG, "False" });
+			args.push_back({ mvPyDataType::Bool, "skip_keyword_args", mvArgType::KEYWORD_ARG, "False" });
+
+			mvPythonParserSetup setup;
+			setup.about = "Configures app.";
+			setup.category = { "General" };
+			setup.returnType = mvPyDataType::None;
+
+			mvPythonParser parser = FinalizeParser(setup, args);
 			parsers->insert({ "configure_app", parser });
 		}
 
 		{
-			mvPythonParser parser(mvPyDataType::None, "Save dpg.ini file.", { "General" });
-			parser.addArg<mvPyDataType::String>("file");
-			parser.finalize();
+			std::vector<mvPythonDataElement> args;
+			args.push_back({ mvPyDataType::String, "file" });
+
+			mvPythonParserSetup setup;
+			setup.about = "Save dpg.ini file.";
+			setup.category = { "General" };
+			setup.returnType = mvPyDataType::None;
+
+			mvPythonParser parser = FinalizeParser(setup, args);
 			parsers->insert({ "save_init_file", parser });
 		}
 
 		{
-			mvPythonParser parser(mvPyDataType::None, "Waits one frame.", { "General" });
-			parser.addArg<mvPyDataType::Integer>("delay", mvArgType::KEYWORD_ARG, "32", "Minimal delay in in milliseconds");
-			parser.finalize();
+			std::vector<mvPythonDataElement> args;
+			args.push_back({ mvPyDataType::Integer, "delay", mvArgType::KEYWORD_ARG, "32", "Minimal delay in in milliseconds" });
+
+			mvPythonParserSetup setup;
+			setup.about = "Waits one frame.";
+			setup.category = { "General" };
+			setup.returnType = mvPyDataType::None;
+
+			mvPythonParser parser = FinalizeParser(setup, args);
 			parsers->insert({ "split_frame", parser });
 		}
 
 		{
-			mvPythonParser parser(mvPyDataType::Integer, "Get frame count.", { "General"});
-			parser.finalize();
+			std::vector<mvPythonDataElement> args;
+
+			mvPythonParserSetup setup;
+			setup.about = "Returns frame count.";
+			setup.category = { "General" };
+			setup.returnType = mvPyDataType::Integer;
+
+			mvPythonParser parser = FinalizeParser(setup, args);
 			parsers->insert({ "get_frame_count", parser });
 		}
 
 		{
-			mvPythonParser parser(mvPyDataType::Object, "Loads an image. Returns width, height, channels, mvBuffer", { "Textures", "Widgets" });
-			parser.addArg<mvPyDataType::String>("file");
-			parser.addArg<mvPyDataType::Float>("gamma", mvArgType::KEYWORD_ARG, "1.0", "Gamma correction factor. (default is 1.0 to avoid automatic gamma correction on loading.");
-			parser.addArg<mvPyDataType::Float>("gamma_scale_factor", mvArgType::KEYWORD_ARG, "1.0", "Gamma scale factor.");
-			parser.finalize();
+			std::vector<mvPythonDataElement> args;
+			args.push_back({ mvPyDataType::String, "file" });
+			args.push_back({ mvPyDataType::Float, "gamma", mvArgType::KEYWORD_ARG, "1.0", "Gamma correction factor. (default is 1.0 to avoid automatic gamma correction on loading." });
+			args.push_back({ mvPyDataType::Float, "gamma_scale_factor", mvArgType::KEYWORD_ARG, "1.0", "Gamma scale factor." });
+			
+			mvPythonParserSetup setup;
+			setup.about = "Loads an image. Returns width, height, channels, mvBuffer";
+			setup.category = { "Textures", "Utilities"};
+			setup.returnType = mvPyDataType::Object;
+			
+			mvPythonParser parser = FinalizeParser(setup, args);
 			parsers->insert({ "load_image", parser });
 		}
 
 		{
-			mvPythonParser parser(mvPyDataType::UUID, "Generate a new UUID", { "General" });
-			parser.finalize();
+			std::vector<mvPythonDataElement> args;
+
+			mvPythonParserSetup setup;
+			setup.about = "Generate a new UUID.";
+			setup.category = { "General" };
+			setup.returnType = mvPyDataType::UUID;
+
+			mvPythonParser parser = FinalizeParser(setup, args);
 			parsers->insert({ "generate_uuid", parser });
 		}
 
 		{
-			mvPythonParser parser(mvPyDataType::None, "Locks mutex", { "General" });
-			parser.finalize();
+			std::vector<mvPythonDataElement> args;
+
+			mvPythonParserSetup setup;
+			setup.about = "Locks render thread mutex.";
+			setup.category = { "General" };
+			setup.returnType = mvPyDataType::None;
+
+			mvPythonParser parser = FinalizeParser(setup, args);
 			parsers->insert({ "lock_mutex", parser });
 		}
 
 		{
-			mvPythonParser parser(mvPyDataType::None, "Unlocks mutex", { "General" });
-			parser.finalize();
+			std::vector<mvPythonDataElement> args;
+
+			mvPythonParserSetup setup;
+			setup.about = "Unlocks render thread mutex";
+			setup.category = { "General" };
+			setup.returnType = mvPyDataType::None;
+
+			mvPythonParser parser = FinalizeParser(setup, args);
 			parsers->insert({ "unlock_mutex", parser });
 		}
 
 		{
-			mvPythonParser parser(mvPyDataType::Bool, "Checks if dearpygui is running.", { "General" });
-			parser.finalize();
+			std::vector<mvPythonDataElement> args;
+
+			mvPythonParserSetup setup;
+			setup.about = "Checks if Dear PyGui is running";
+			setup.category = { "General" };
+			setup.returnType = mvPyDataType::Bool;
+
+			mvPythonParser parser = FinalizeParser(setup, args);
 			parsers->insert({ "is_dearpygui_running", parser });
 		}
 
 		{
-			mvPythonParser parser(mvPyDataType::None, "Sets up dearpygui", { "General" });
-			parser.finalize();
+			std::vector<mvPythonDataElement> args;
+
+			mvPythonParserSetup setup;
+			setup.about = "Sets up Dear PyGui";
+			setup.category = { "General" };
+			setup.returnType = mvPyDataType::None;
+
+			mvPythonParser parser = FinalizeParser(setup, args);
 			parsers->insert({ "setup_dearpygui", parser });
 		}
 
 		{
-			mvPythonParser parser(mvPyDataType::None, "Renders a dearpygui frame.", { "General" });
-			parser.finalize();
+			std::vector<mvPythonDataElement> args;
+
+			mvPythonParserSetup setup;
+			setup.about = "Render a single Dear PyGui frame.";
+			setup.category = { "General" };
+			setup.returnType = mvPyDataType::None;
+
+			mvPythonParser parser = FinalizeParser(setup, args);
 			parsers->insert({ "render_dearpygui_frame", parser });
 		}
 
 		{
-			mvPythonParser parser(mvPyDataType::None, "Cleans up dearpygui.", { "General" });
-			parser.finalize();
+			std::vector<mvPythonDataElement> args;
+	
+			mvPythonParserSetup setup;
+			setup.about = "Cleans up Dear PyGui";
+			setup.category = { "General" };
+			setup.returnType = mvPyDataType::None;
+
+			mvPythonParser parser = FinalizeParser(setup, args);
 			parsers->insert({ "cleanup_dearpygui", parser });
 		}
 
 		{
-			mvPythonParser parser(mvPyDataType::None, "Stops dearpygui.", { "General" });
-			parser.finalize();
+			std::vector<mvPythonDataElement> args;
+
+			mvPythonParserSetup setup;
+			setup.about = "Stops Dear PyGui";
+			setup.category = { "General" };
+			setup.returnType = mvPyDataType::None;
+
+			mvPythonParser parser = FinalizeParser(setup, args);
 			parsers->insert({ "stop_dearpygui", parser });
 		}
 
 		{
-			mvPythonParser parser(mvPyDataType::Float, "Returns total time since Dear PyGui has started.", { "General" });
-			parser.finalize();
+			std::vector<mvPythonDataElement> args;
+
+			mvPythonParserSetup setup;
+			setup.about = "Returns total time since Dear PyGui has started.";
+			setup.category = { "General" };
+			setup.returnType = mvPyDataType::Float;
+
+			mvPythonParser parser = FinalizeParser(setup, args);
 			parsers->insert({ "get_total_time", parser });
 		}
 
 		{
-			mvPythonParser parser(mvPyDataType::Float, "Returns time since last frame.", { "General" });
-			parser.finalize();
+			std::vector<mvPythonDataElement> args;
+
+			mvPythonParserSetup setup;
+			setup.about = "Returns time since last frame.";
+			setup.category = { "General" };
+			setup.returnType = mvPyDataType::Float;
+
+			mvPythonParser parser = FinalizeParser(setup, args);
 			parsers->insert({ "get_delta_time", parser });
 		}
 
 		{
-			mvPythonParser parser(mvPyDataType::Float, "Returns the average frame rate across 120 frames.", { "General" });
-			parser.finalize();
+			std::vector<mvPythonDataElement> args;
+
+			mvPythonParserSetup setup;
+			setup.about = "Returns the average frame rate across 120 frames.";
+			setup.category = { "General" };
+			setup.returnType = mvPyDataType::Float;
+
+			mvPythonParser parser = FinalizeParser(setup, args);
 			parsers->insert({ "get_frame_rate", parser });
 		}
 
@@ -363,8 +465,7 @@ namespace Marvel {
 	{
 		const char* file;
 
-		if (!(mvApp::GetApp()->getParsers())["save_init_file"].parse(args, kwargs, __FUNCTION__,
-			&file))
+		if (!Parse((mvApp::GetApp()->getParsers())["save_init_file"], args, kwargs, __FUNCTION__, &file))
 			return GetPyNone();
 
 		if (mvApp::IsAppStarted())
@@ -379,7 +480,7 @@ namespace Marvel {
 	{
 		int delay = 32;
 
-		if (!(mvApp::GetApp()->getParsers())["split_frame"].parse(args, kwargs, __FUNCTION__,
+		if (!Parse((mvApp::GetApp()->getParsers())["split_frame"], args, kwargs, __FUNCTION__,
 			&delay))
 			return GetPyNone();
 
@@ -414,7 +515,7 @@ namespace Marvel {
 	{
 		int frame = 0;
 
-		if (!(mvApp::GetApp()->getParsers())["get_frame_count"].parse(args, kwargs, __FUNCTION__,
+		if (!Parse((mvApp::GetApp()->getParsers())["get_frame_count"], args, kwargs, __FUNCTION__,
 			&frame))
 			return GetPyNone();
 
@@ -428,7 +529,7 @@ namespace Marvel {
 		float gamma = 1.0f;
 		float gamma_scale = 1.0f;
 
-		if (!(mvApp::GetApp()->getParsers())["load_image"].parse(args, kwargs, __FUNCTION__,
+		if (!Parse((mvApp::GetApp()->getParsers())["load_image"], args, kwargs, __FUNCTION__,
 			&file, &gamma, &gamma_scale))
 			return GetPyNone();
 
@@ -575,7 +676,7 @@ namespace Marvel {
 		int skip_positional_args = false;
 		int skip_keyword_args = false;
 
-		if (!(mvApp::GetApp()->getParsers())["configure_app"].parse(args, kwargs, __FUNCTION__,
+		if (!Parse((mvApp::GetApp()->getParsers())["configure_app"], args, kwargs, __FUNCTION__,
 			&docking, &docking_space, &load_init_file, &init_file, &device, &auto_device,
 			&allow_alias_overwrites, &manual_alias_management, &skip_required_args, &skip_positional_args, &skip_keyword_args))
 			return GetPyNone();

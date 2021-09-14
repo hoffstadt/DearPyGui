@@ -16,23 +16,41 @@ namespace Marvel {
 	{
 
 		{
-			mvPythonParser parser(mvPyDataType::String);
-			parser.addArg<mvPyDataType::Callable>("callback");
-			parser.finalize();
+			std::vector<mvPythonDataElement> args;
+			args.push_back({ mvPyDataType::Callable, "callback" });
+
+			mvPythonParserSetup setup;
+			setup.about = "Sets a callback to run on first frame.";
+			setup.category = { "General" };
+			setup.returnType = mvPyDataType::String;
+
+			mvPythonParser parser = FinalizeParser(setup, args);
 			parsers->insert({ "set_start_callback", parser });
 		}
 
 		{
-			mvPythonParser parser(mvPyDataType::String);
-			parser.addArg<mvPyDataType::Callable>("callback");
-			parser.finalize();
+			std::vector<mvPythonDataElement> args;
+			args.push_back({ mvPyDataType::Callable, "callback" });
+
+			mvPythonParserSetup setup;
+			setup.about = "Sets a callback to run on last frame.";
+			setup.category = { "General" };
+			setup.returnType = mvPyDataType::String;
+
+			mvPythonParser parser = FinalizeParser(setup, args);
 			parsers->insert({ "set_exit_callback", parser });
 		}
 
 		{
-			mvPythonParser parser(mvPyDataType::String);
-			parser.addArg<mvPyDataType::Callable>("callback");
-			parser.finalize();
+			std::vector<mvPythonDataElement> args;
+			args.push_back({ mvPyDataType::Callable, "callback" });
+
+			mvPythonParserSetup setup;
+			setup.about = "Sets a callback to run on viewport resize.";
+			setup.category = { "General" };
+			setup.returnType = mvPyDataType::String;
+
+			mvPythonParser parser = FinalizeParser(setup, args);
 			parsers->insert({ "set_viewport_resize_callback", parser });
 		}
 
@@ -411,7 +429,7 @@ namespace Marvel {
 	{
 		PyObject* callback;
 
-		if (!(mvApp::GetApp()->getParsers())["set_start_callback"].parse(args, kwargs, __FUNCTION__, &callback))
+		if (!Parse((mvApp::GetApp()->getParsers())["set_start_callback"], args, kwargs, __FUNCTION__, &callback))
 			return GetPyNone();
 
 		Py_XINCREF(callback);
@@ -427,7 +445,7 @@ namespace Marvel {
 	{
 		PyObject* callback;
 
-		if (!(mvApp::GetApp()->getParsers())["set_exit_callback"].parse(args, kwargs, __FUNCTION__, &callback))
+		if (!Parse((mvApp::GetApp()->getParsers())["set_exit_callback"], args, kwargs, __FUNCTION__, &callback))
 			return GetPyNone();
 
 		Py_XINCREF(callback);
@@ -442,7 +460,7 @@ namespace Marvel {
 	{
 		PyObject* callback = nullptr;
 
-		if (!(mvApp::GetApp()->getParsers())["set_viewport_resize_callback"].parse(args, kwargs, __FUNCTION__,
+		if (!Parse((mvApp::GetApp()->getParsers())["set_viewport_resize_callback"], args, kwargs, __FUNCTION__,
 			&callback))
 			return GetPyNone();
 

@@ -30,8 +30,8 @@ void runTest(std::string test)
 int main(int argc, char* argv[])
 {
 
-	mvPythonParser::GenerateStubFile("../../DearPyGui/dearpygui");
-	mvPythonParser::GenerateDearPyGuiFile("../../DearPyGui/dearpygui");
+	GenerateStubFile("../../DearPyGui/dearpygui");
+	GenerateDearPyGuiFile("../../DearPyGui/dearpygui");
 
 #ifdef MV_RELEASE
 	HWND hWnd = GetConsoleWindow();

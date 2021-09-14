@@ -21,122 +21,217 @@ namespace Marvel{
 	void mvAppItem::InsertParser(std::map<std::string, mvPythonParser>* parsers)
 	{
 		{
-			mvPythonParser parser(mvPyDataType::Dict, "Undocumented", { "App Item Operations" });
-			parser.addArg<mvPyDataType::UUID>("item");
-			parser.finalize();
+			std::vector<mvPythonDataElement> args;
+			args.push_back({ mvPyDataType::UUID, "item" });
+
+			mvPythonParserSetup setup;
+			setup.about = "Returns an item's configuration.";
+			setup.category = { "App Item Operations" };
+			setup.returnType = mvPyDataType::Dict;
+
+			mvPythonParser parser = FinalizeParser(setup, args);
 			parsers->insert({ "get_item_configuration", parser });
 		}
 
 		{
-			mvPythonParser parser(mvPyDataType::Dict, "Undocumented", { "App Item Operations" });
-			parser.finalize();
+
+			mvPythonParserSetup setup;
+			setup.about = "Returns an item types.";
+			setup.category = { "App Item Operations" };
+			setup.returnType = mvPyDataType::Dict;
+
+			mvPythonParser parser = FinalizeParser(setup, {});
 			parsers->insert({ "get_item_types", parser });
 		}
 
 		{
-			mvPythonParser parser(mvPyDataType::Dict, "Undocumented", { "App Item Operations" });
-			parser.addArg<mvPyDataType::UUID>("item");
-			parser.addArg<mvPyDataType::UUID>("source");
-			parser.addArg<mvPyDataType::Integer>("slot");
-			parser.finalize();
+			std::vector<mvPythonDataElement> args;
+			args.push_back({ mvPyDataType::UUID, "item" });
+			args.push_back({ mvPyDataType::UUID, "source" });
+			args.push_back({ mvPyDataType::Integer, "slot" });
+
+			mvPythonParserSetup setup;
+			setup.about = "Sets an item's children.";
+			setup.category = { "App Item Operations" };
+			setup.returnType = mvPyDataType::None;
+
+			mvPythonParser parser = FinalizeParser(setup, args);
 			parsers->insert({ "set_item_children", parser });
 		}
 
 		{
-			mvPythonParser parser(mvPyDataType::None, "Undocumented", { "App Item Operations" });
-			parser.addArg<mvPyDataType::UUID>("item");
-			parser.finalize();
+			std::vector<mvPythonDataElement> args;
+			args.push_back({ mvPyDataType::UUID, "item" });
+
+			mvPythonParserSetup setup;
+			setup.about = "Focuses an item.";
+			setup.category = { "App Item Operations" };
+			setup.returnType = mvPyDataType::None;
+
+			mvPythonParser parser = FinalizeParser(setup, args);
 			parsers->insert({ "focus_item", parser });
 		}
 
 		{
-			mvPythonParser parser(mvPyDataType::None, "Undocumented", { "Fonts", "App Item Operations" });
-			parser.addArg<mvPyDataType::UUID>("item");
-			parser.addArg<mvPyDataType::UUID>("font");
-			parser.finalize();
+			std::vector<mvPythonDataElement> args;
+			args.push_back({ mvPyDataType::UUID, "item"});
+			args.push_back({ mvPyDataType::UUID, "font"});
+
+			mvPythonParserSetup setup;
+			setup.about = "Sets an item's font.";
+			setup.category = { "Fonts", "App Item Operations" };
+			setup.returnType = mvPyDataType::None;
+
+			mvPythonParser parser = FinalizeParser(setup, args);
 			parsers->insert({ "set_item_font", parser });
 		}
 
 		{
-			mvPythonParser parser(mvPyDataType::None, "Sets the item's alias.", { "App Item Operations" });
-			parser.addArg<mvPyDataType::UUID>("item");
-			parser.addArg<mvPyDataType::String>("alias");
-			parser.finalize();
+			std::vector<mvPythonDataElement> args;
+			args.push_back({ mvPyDataType::UUID, "item" });
+			args.push_back({ mvPyDataType::String, "alias" });
+
+			mvPythonParserSetup setup;
+			setup.about = "Sets an item's alias.";
+			setup.category = { "App Item Operations" };
+			setup.returnType = mvPyDataType::None;
+
+			mvPythonParser parser = FinalizeParser(setup, args);
 			parsers->insert({ "set_item_alias", parser });
 		}
 
 		{
-			mvPythonParser parser(mvPyDataType::String, "Gets the item's alias.", { "App Item Operations" });
-			parser.addArg<mvPyDataType::UUID>("item");
-			parser.finalize();
+			std::vector<mvPythonDataElement> args;
+			args.push_back({ mvPyDataType::UUID, "item" });
+
+			mvPythonParserSetup setup;
+			setup.about = "Returns an item's alias.";
+			setup.category = { "App Item Operations" };
+			setup.returnType = mvPyDataType::String;
+
+			mvPythonParser parser = FinalizeParser(setup, args);
 			parsers->insert({ "get_item_alias", parser });
 		}
 
 		{
-			mvPythonParser parser(mvPyDataType::None, "Undocumented", { "Themes", "App Item Operations" });
-			parser.addArg<mvPyDataType::UUID>("item");
-			parser.addArg<mvPyDataType::UUID>("handler_registry");
-			parser.finalize();
+			std::vector<mvPythonDataElement> args;
+			args.push_back({ mvPyDataType::UUID, "item" });
+			args.push_back({ mvPyDataType::UUID, "handler_registry" });
+
+			mvPythonParserSetup setup;
+			setup.about = "Binds an item handler registry to an item.";
+			setup.category = { "App Item Operations", "Events"};
+			setup.returnType = mvPyDataType::None;
+
+			mvPythonParser parser = FinalizeParser(setup, args);
 			parsers->insert({ "bind_item_handler_registry", parser });
 		}
 
 		{
-			mvPythonParser parser(mvPyDataType::None, "Undocumented", { "Themes", "App Item Operations" });
-			parser.addArg<mvPyDataType::UUID>("item");
-			parser.addArg<mvPyDataType::UUID>("theme");
-			parser.finalize();
+			std::vector<mvPythonDataElement> args;
+			args.push_back({ mvPyDataType::UUID, "item" });
+			args.push_back({ mvPyDataType::UUID, "theme" });
+
+			mvPythonParserSetup setup;
+			setup.about = "Binds a theme to an item.";
+			setup.category = { "App Item Operations", "Themes" };
+			setup.returnType = mvPyDataType::None;
+
+			mvPythonParser parser = FinalizeParser(setup, args);
 			parsers->insert({ "bind_item_theme", parser });
 		}
 
 		{
-			mvPythonParser parser(mvPyDataType::Dict, "Undocumented", { "App Item Operations" });
-			parser.addArg<mvPyDataType::UUID>("item");
-			parser.finalize();
+			std::vector<mvPythonDataElement> args;
+			args.push_back({ mvPyDataType::UUID, "item" });
+
+			mvPythonParserSetup setup;
+			setup.about = "Returns an item's state.";
+			setup.category = { "App Item Operations" };
+			setup.returnType = mvPyDataType::Dict;
+
+			mvPythonParser parser = FinalizeParser(setup, args);
 			parsers->insert({ "get_item_state", parser });
 		}
 
 		{
-			mvPythonParser parser(mvPyDataType::None, "Undocumented", { "App Item Operations" });
-			parser.addArg<mvPyDataType::UUID>("item");
-			parser.addKwargs();
-			parser.makeInternal();
-			parser.finalize();
+			std::vector<mvPythonDataElement> args;
+			args.push_back({ mvPyDataType::UUID, "item" });
+
+			mvPythonParserSetup setup;
+			setup.about = "Configures an item.";
+			setup.category = { "App Item Operations" };
+			setup.returnType = mvPyDataType::None;
+			setup.unspecifiedKwargs = true;
+			setup.internal = true;
+
+			mvPythonParser parser = FinalizeParser(setup, args);
 			parsers->insert({ "configure_item", parser });
 		}
 
 		{
-			mvPythonParser parser(mvPyDataType::Dict, "Undocumented", { "App Item Operations" });
-			parser.addArg<mvPyDataType::UUID>("item");
-			parser.finalize();
+			std::vector<mvPythonDataElement> args;
+			args.push_back({ mvPyDataType::UUID, "item" });
+
+			mvPythonParserSetup setup;
+			setup.about = "Returns an item's information.";
+			setup.category = { "App Item Operations" };
+			setup.returnType = mvPyDataType::Dict;
+
+			mvPythonParser parser = FinalizeParser(setup, args);
 			parsers->insert({ "get_item_info", parser });
 		}
 
 		{
-			mvPythonParser parser(mvPyDataType::Any, "Undocumented", { "App Item Operations" });
-			parser.addArg<mvPyDataType::UUID>("item");
-			parser.finalize();
+			std::vector<mvPythonDataElement> args;
+			args.push_back({ mvPyDataType::UUID, "item" });
+
+			mvPythonParserSetup setup;
+			setup.about = "Returns an item's value.";
+			setup.category = { "App Item Operations" };
+			setup.returnType = mvPyDataType::Any;
+
+			mvPythonParser parser = FinalizeParser(setup, args);
 			parsers->insert({ "get_value", parser });
 		}
 
 		{
-			mvPythonParser parser(mvPyDataType::Any, "Undocumented", { "App Item Operations" });
-			parser.addArg<mvPyDataType::UUIDList>("items");
-			parser.finalize();
+			std::vector<mvPythonDataElement> args;
+			args.push_back({ mvPyDataType::UUIDList, "items" });
+
+			mvPythonParserSetup setup;
+			setup.about = "Returns values of a list of items.";
+			setup.category = { "App Item Operations" };
+			setup.returnType = mvPyDataType::Any;
+
+			mvPythonParser parser = FinalizeParser(setup, args);
 			parsers->insert({ "get_values", parser });
 		}
 
 		{
-			mvPythonParser parser(mvPyDataType::None, "Undocumented", { "App Item Operations" });
-			parser.addArg<mvPyDataType::UUID>("item");
-			parser.addArg<mvPyDataType::Object>("value");
-			parser.finalize();
+			std::vector<mvPythonDataElement> args;
+			args.push_back({ mvPyDataType::UUID, "item" });
+			args.push_back({ mvPyDataType::Object, "value" });
+
+			mvPythonParserSetup setup;
+			setup.about = "Set's an item's value.";
+			setup.category = { "App Item Operations" };
+			setup.returnType = mvPyDataType::None;
+
+			mvPythonParser parser = FinalizeParser(setup, args);
 			parsers->insert({ "set_value", parser });
 		}
 
 		{
-			mvPythonParser parser(mvPyDataType::None, "Undocumented", { "App Item Operations" });
-			parser.addArg<mvPyDataType::UUID>("item");
-			parser.finalize();
+			std::vector<mvPythonDataElement> args;
+			args.push_back({ mvPyDataType::UUID, "item" });
+
+			mvPythonParserSetup setup;
+			setup.about = "Resets an item's position after using 'set_item_pos'.";
+			setup.category = { "App Item Operations" };
+			setup.returnType = mvPyDataType::None;
+
+			mvPythonParser parser = FinalizeParser(setup, args);
 			parsers->insert({ "reset_pos", parser });
 		}
 
@@ -155,38 +250,6 @@ namespace Marvel{
 	bool mvAppItem::DoesItemHaveFlag(mvAppItem* item, int flag)
 	{
 		return item->getDescFlags() & flag;
-	}
-
-	void mvAppItem::AddCommonArgs(mvPythonParser& parser, CommonParserArgs args)
-	{
-
-		parser.addArg<mvPyDataType::String>("label", mvArgType::KEYWORD_ARG, "None", "Overrides 'name' as label.");
-		parser.addArg<mvPyDataType::Object>("user_data", mvArgType::KEYWORD_ARG, "None", "User data for callbacks.");
-		parser.addArg<mvPyDataType::Bool>("use_internal_label", mvArgType::KEYWORD_ARG, "True", "Use generated internal label instead of user specified (appends ### uuid).");
-	
-		if(args & MV_PARSER_ARG_ID)            parser.addArg<mvPyDataType::UUID>("tag", mvArgType::KEYWORD_ARG, "0", "Unique id used to programmatically refer to the item.If label is unused this will be the label.");
-		if(args & MV_PARSER_ARG_WIDTH)         parser.addArg<mvPyDataType::Integer>("width", mvArgType::KEYWORD_ARG, "0", "Width of the item.");
-		if(args & MV_PARSER_ARG_HEIGHT)        parser.addArg<mvPyDataType::Integer>("height", mvArgType::KEYWORD_ARG, "0", "Height of the item.");
-		if(args & MV_PARSER_ARG_INDENT)        parser.addArg<mvPyDataType::Integer>("indent", mvArgType::KEYWORD_ARG, "-1", "Offsets the widget to the right the specified number multiplied by the indent style.");
-		if(args & MV_PARSER_ARG_PARENT)        parser.addArg<mvPyDataType::UUID>("parent", mvArgType::KEYWORD_ARG, "0", "Parent to add this item to. (runtime adding)");
-		if(args & MV_PARSER_ARG_BEFORE)        parser.addArg<mvPyDataType::UUID>("before", mvArgType::KEYWORD_ARG, "0", "This item will be displayed before the specified item in the parent.");
-		if(args & MV_PARSER_ARG_SOURCE)        parser.addArg<mvPyDataType::UUID>("source", mvArgType::KEYWORD_ARG, "0", "Overrides 'id' as value storage key.");
-		if(args & MV_PARSER_ARG_PAYLOAD_TYPE)  parser.addArg<mvPyDataType::String>("payload_type", mvArgType::KEYWORD_ARG, "'$$DPG_PAYLOAD'", "Sender string type must be the same as the target for the target to run the payload_callback.");		
-		if(args & MV_PARSER_ARG_CALLBACK)      parser.addArg<mvPyDataType::Callable>("callback", mvArgType::KEYWORD_ARG, "None", "Registers a callback.");
-		if(args & MV_PARSER_ARG_DRAG_CALLBACK) parser.addArg<mvPyDataType::Callable>("drag_callback", mvArgType::KEYWORD_ARG, "None", "Registers a drag callback for drag and drop.");
-		if(args & MV_PARSER_ARG_DROP_CALLBACK) parser.addArg<mvPyDataType::Callable>("drop_callback", mvArgType::KEYWORD_ARG, "None", "Registers a drop callback for drag and drop.");
-		if(args & MV_PARSER_ARG_SHOW)          parser.addArg<mvPyDataType::Bool>("show", mvArgType::KEYWORD_ARG, "True", "Attempt to render widget.");
-		if(args & MV_PARSER_ARG_ENABLED)       parser.addArg<mvPyDataType::Bool>("enabled", mvArgType::KEYWORD_ARG, "True", "Turns off functionality of widget and applies the disabled theme.");
-		if(args & MV_PARSER_ARG_POS)		   parser.addArg<mvPyDataType::IntList>("pos", mvArgType::KEYWORD_ARG, "[]", "Places the item relative to window coordinates, [0,0] is top left.");
-		if(args & MV_PARSER_ARG_FILTER)		   parser.addArg<mvPyDataType::String>("filter_key", mvArgType::KEYWORD_ARG, "''", "Used by filter widget.");
-		if(args & MV_PARSER_ARG_SEARCH_DELAY)  parser.addArg<mvPyDataType::Bool>("delay_search", mvArgType::KEYWORD_ARG, "False", "Delays searching container for specified items until the end of the app. Possible optimization when a container has many children that are not accessed often.");
-		
-		if (args & MV_PARSER_ARG_TRACKED)
-		{
-			parser.addArg<mvPyDataType::Bool>("tracked", mvArgType::KEYWORD_ARG, "False", "Scroll tracking");
-			parser.addArg<mvPyDataType::Float>("track_offset", mvArgType::KEYWORD_ARG, "0.5", "0.0f:top, 0.5f:center, 1.0f:bottom");
-		}
-
 	}
 
 	mvUUID mvAppItem::GetIDFromPyObject(PyObject* item)
@@ -1036,7 +1099,7 @@ namespace Marvel{
 
 	void mvAppItem::checkArgs(PyObject* args, PyObject* kwargs, std::string parser)
 	{
-		mvApp::GetApp()->getParsers()[parser].verifyArgumentCount(args);
+		VerifyArgumentCount(mvApp::GetApp()->getParsers()[parser], args);
 	}
 
 	void mvAppItem::handleKeywordArgs(PyObject* dict, std::string parser)
@@ -1044,7 +1107,7 @@ namespace Marvel{
 		if (dict == nullptr)
 			return;
 
-		if (mvApp::GetApp()->getParsers()[parser].verifyKeywordArguments(dict))
+		if (VerifyKeywordArguments(mvApp::GetApp()->getParsers()[parser], dict))
 			return;
 
 		if (PyArg_ValidateKeywordArguments(dict) == 0)
@@ -1451,7 +1514,7 @@ namespace Marvel{
 	{
 		PyObject* itemraw;
 
-		if (!(mvApp::GetApp()->getParsers())["get_item_configuration"].parse(args, kwargs, __FUNCTION__, &itemraw))
+		if (!Parse((mvApp::GetApp()->getParsers())["get_item_configuration"], args, kwargs, __FUNCTION__, &itemraw))
 			return GetPyNone();
 
 		if (!mvApp::s_manualMutexControl) std::lock_guard<std::mutex> lk(mvApp::s_mutex);
@@ -1477,7 +1540,7 @@ namespace Marvel{
 	{
 		PyObject* itemraw;
 
-		if (!(mvApp::GetApp()->getParsers())["focus_item"].parse(args, kwargs, __FUNCTION__, &itemraw))
+		if (!Parse((mvApp::GetApp()->getParsers())["focus_item"], args, kwargs, __FUNCTION__, &itemraw))
 			return GetPyNone();
 
 		if (!mvApp::s_manualMutexControl) std::lock_guard<std::mutex> lk(mvApp::s_mutex);
@@ -1494,7 +1557,7 @@ namespace Marvel{
 		PyObject* sourceraw;
 		int slot;
 
-		if (!(mvApp::GetApp()->getParsers())["set_item_children"].parse(args, kwargs, __FUNCTION__,
+		if (!Parse((mvApp::GetApp()->getParsers())["set_item_children"], args, kwargs, __FUNCTION__,
 			&itemraw, &sourceraw, &slot))
 			return GetPyNone();
 
@@ -1556,7 +1619,7 @@ namespace Marvel{
 		PyObject* itemraw;
 		PyObject* fontraw;
 
-		if (!(mvApp::GetApp()->getParsers())["bind_item_font"].parse(args, kwargs, __FUNCTION__,
+		if (!Parse((mvApp::GetApp()->getParsers())["bind_item_font"], args, kwargs, __FUNCTION__,
 			&itemraw, &fontraw))
 			return GetPyNone();
 
@@ -1598,7 +1661,7 @@ namespace Marvel{
 		PyObject* itemraw;
 		PyObject* themeraw;
 
-		if (!(mvApp::GetApp()->getParsers())["bind_item_theme"].parse(args, kwargs, __FUNCTION__,
+		if (!Parse((mvApp::GetApp()->getParsers())["bind_item_theme"], args, kwargs, __FUNCTION__,
 			&itemraw, &themeraw))
 			return GetPyNone();
 
@@ -1640,7 +1703,7 @@ namespace Marvel{
 		PyObject* itemraw;
 		PyObject* regraw;
 
-		if (!(mvApp::GetApp()->getParsers())["bind_item_handler_registry"].parse(args, kwargs, __FUNCTION__,
+		if (!Parse((mvApp::GetApp()->getParsers())["bind_item_handler_registry"], args, kwargs, __FUNCTION__,
 			&itemraw, &regraw))
 			return GetPyNone();
 
@@ -1681,7 +1744,7 @@ namespace Marvel{
 	{
 		PyObject* itemraw;
 
-		if (!(mvApp::GetApp()->getParsers())["reset_pos"].parse(args, kwargs, __FUNCTION__,
+		if (!Parse((mvApp::GetApp()->getParsers())["reset_pos"], args, kwargs, __FUNCTION__,
 			&itemraw))
 			return GetPyNone();
 
@@ -1703,7 +1766,7 @@ namespace Marvel{
 	{
 		PyObject* itemraw;
 
-		if (!(mvApp::GetApp()->getParsers())["get_item_state"].parse(args, kwargs, __FUNCTION__, &itemraw))
+		if (!Parse((mvApp::GetApp()->getParsers())["get_item_state"], args, kwargs, __FUNCTION__, &itemraw))
 			return GetPyNone();
 
 		if (!mvApp::s_manualMutexControl) std::lock_guard<std::mutex> lk(mvApp::s_mutex);
@@ -1743,7 +1806,7 @@ namespace Marvel{
 	{
 		PyObject* itemraw;
 
-		if (!(mvApp::GetApp()->getParsers())["get_item_info"].parse(args, kwargs, __FUNCTION__, &itemraw))
+		if (!Parse((mvApp::GetApp()->getParsers())["get_item_info"], args, kwargs, __FUNCTION__, &itemraw))
 			return GetPyNone();
 
 		if (!mvApp::s_manualMutexControl) std::lock_guard<std::mutex> lk(mvApp::s_mutex);
@@ -1787,7 +1850,7 @@ namespace Marvel{
 	{
 		PyObject* nameraw;
 
-		if (!(mvApp::GetApp()->getParsers())["get_value"].parse(args, kwargs, __FUNCTION__, &nameraw))
+		if (!Parse((mvApp::GetApp()->getParsers())["get_value"], args, kwargs, __FUNCTION__, &nameraw))
 			return GetPyNone();
 
 		if (!mvApp::s_manualMutexControl) std::lock_guard<std::mutex> lk(mvApp::s_mutex);
@@ -1804,7 +1867,7 @@ namespace Marvel{
 	{
 		PyObject* items;
 
-		if (!(mvApp::GetApp()->getParsers())["get_values"].parse(args, kwargs, __FUNCTION__, &items))
+		if (!Parse((mvApp::GetApp()->getParsers())["get_values"], args, kwargs, __FUNCTION__, &items))
 			return GetPyNone();
 
 		if (!mvApp::s_manualMutexControl) std::lock_guard<std::mutex> lk(mvApp::s_mutex);
@@ -1833,7 +1896,7 @@ namespace Marvel{
 		PyObject* nameraw;
 		PyObject* value;
 
-		if (!(mvApp::GetApp()->getParsers())["set_value"].parse(args, kwargs, __FUNCTION__, &nameraw, &value))
+		if (!Parse((mvApp::GetApp()->getParsers())["set_value"], args, kwargs, __FUNCTION__, &nameraw, &value))
 			return GetPyNone();
 
 		if (value)
@@ -1862,7 +1925,7 @@ namespace Marvel{
 		PyObject* itemraw;
 		const char* alias;
 
-		if (!(mvApp::GetApp()->getParsers())["set_item_alias"].parse(args, kwargs, __FUNCTION__,
+		if (!Parse((mvApp::GetApp()->getParsers())["set_item_alias"], args, kwargs, __FUNCTION__,
 			&itemraw, &alias))
 			return GetPyNone();
 
@@ -1879,7 +1942,7 @@ namespace Marvel{
 	{
 		PyObject* itemraw;
 
-		if (!(mvApp::GetApp()->getParsers())["get_item_alias"].parse(args, kwargs, __FUNCTION__,
+		if (!Parse((mvApp::GetApp()->getParsers())["get_item_alias"], args, kwargs, __FUNCTION__,
 			&itemraw))
 			return GetPyNone();
 

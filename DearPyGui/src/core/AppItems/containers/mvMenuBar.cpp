@@ -10,16 +10,23 @@ namespace Marvel {
 
 	void mvMenuBar::InsertParser(std::map<std::string, mvPythonParser>* parsers)
 	{
+		std::vector<mvPythonDataElement> args;
 
-		mvPythonParser parser(mvPyDataType::UUID, "Adds a menu bar to a window.", { "Containers", "Widgets" }, true);
-		mvAppItem::AddCommonArgs(parser, (CommonParserArgs)(
+		AddCommonArgs(args,(CommonParserArgs)(
 			MV_PARSER_ARG_ID |
 			MV_PARSER_ARG_INDENT |
 			MV_PARSER_ARG_PARENT |
 			MV_PARSER_ARG_SEARCH_DELAY |
 			MV_PARSER_ARG_SHOW)
 		);
-		parser.finalize();
+
+		mvPythonParserSetup setup;
+		setup.about = "Adds a menu bar to a window.";
+		setup.category = { "Containers", "Widgets" };
+		setup.returnType = mvPyDataType::UUID;
+		setup.createContextManager = true;
+
+		mvPythonParser parser = FinalizeParser(setup, args);
 
 		parsers->insert({ s_command, parser });
 	}

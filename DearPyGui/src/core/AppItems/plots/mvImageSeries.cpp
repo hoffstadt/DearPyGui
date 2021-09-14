@@ -13,9 +13,9 @@ namespace Marvel {
 
 	void mvImageSeries::InsertParser(std::map<std::string, mvPythonParser>* parsers)
 	{
+		std::vector<mvPythonDataElement> args;
 
-		mvPythonParser parser(mvPyDataType::UUID, "Adds a image series to a plot.", { "Plotting", "Containers", "Widgets", "Textures"});
-		mvAppItem::AddCommonArgs(parser, (CommonParserArgs)(
+		AddCommonArgs(args,(CommonParserArgs)(
 			MV_PARSER_ARG_ID |
 			MV_PARSER_ARG_PARENT |
 			MV_PARSER_ARG_BEFORE |
@@ -23,17 +23,19 @@ namespace Marvel {
 			MV_PARSER_ARG_SHOW)
 		);
 
-		parser.addArg<mvPyDataType::UUID>("texture_id");
+		args.push_back({ mvPyDataType::UUID, "texture_id" });
+		args.push_back({ mvPyDataType::DoubleList, "bounds_min"});
+		args.push_back({ mvPyDataType::DoubleList, "bounds_max"});
+		args.push_back({ mvPyDataType::FloatList, "uv_min", mvArgType::KEYWORD_ARG, "(0.0, 0.0)", "normalized texture coordinates"});
+		args.push_back({ mvPyDataType::FloatList, "uv_max", mvArgType::KEYWORD_ARG, "(1.0, 1.0)", "normalized texture coordinates"});
+		args.push_back({ mvPyDataType::IntList, "tint_color", mvArgType::KEYWORD_ARG, "(255, 255, 255, 255)" });
 
-		parser.addArg<mvPyDataType::DoubleList>("bounds_min");
-		parser.addArg<mvPyDataType::DoubleList>("bounds_max");
+		mvPythonParserSetup setup;
+		setup.about = "Adds an image series to a plot.";
+		setup.category = { "Plotting", "Containers", "Widgets", "Textures" };
+		setup.returnType = mvPyDataType::UUID;
 
-		parser.addArg<mvPyDataType::FloatList>("uv_min", mvArgType::KEYWORD_ARG, "(0.0, 0.0)", "normalized texture coordinates");
-		parser.addArg<mvPyDataType::FloatList>("uv_max", mvArgType::KEYWORD_ARG, "(1.0, 1.0)", "normalized texture coordinates");
-
-		parser.addArg<mvPyDataType::IntList>("tint_color", mvArgType::KEYWORD_ARG, "(255, 255, 255, 255)");
-
-		parser.finalize();
+		mvPythonParser parser = FinalizeParser(setup, args);
 
 		parsers->insert({ s_command, parser });
 	}
@@ -173,7 +175,7 @@ namespace Marvel {
 
 	void mvImageSeries::handleSpecificRequiredArgs(PyObject* dict)
 	{
-		if (!mvApp::GetApp()->getParsers()[s_command].verifyRequiredArguments(dict))
+		if (!VerifyRequiredArguments(mvApp::GetApp()->getParsers()[s_command], dict))
 			return;
 
 		for (int i = 0; i < PyTuple_Size(dict); i++)

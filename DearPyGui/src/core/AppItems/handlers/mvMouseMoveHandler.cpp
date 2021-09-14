@@ -8,15 +8,21 @@ namespace Marvel {
 
 	void mvMouseMoveHandler::InsertParser(std::map<std::string, mvPythonParser>* parsers)
 	{
+		std::vector<mvPythonDataElement> args;
 
-		mvPythonParser parser(mvPyDataType::UUID, "Adds a handler which runs a given callback when the mouse is moved. Parent must be a handler registry.", { "Events", "Widgets" });
-		mvAppItem::AddCommonArgs(parser, (CommonParserArgs)(
+		AddCommonArgs(args,(CommonParserArgs)(
 			MV_PARSER_ARG_ID |
 			MV_PARSER_ARG_SHOW |
 			MV_PARSER_ARG_CALLBACK)
 		);
-		parser.addArg<mvPyDataType::UUID>("parent", mvArgType::KEYWORD_ARG, "internal_dpg.mvReservedUUID_1", "Parent to add this item to. (runtime adding)");
-		parser.finalize();
+		args.push_back({ mvPyDataType::UUID, "parent", mvArgType::KEYWORD_ARG, "internal_dpg.mvReservedUUID_1", "Parent to add this item to. (runtime adding)" });
+		
+		mvPythonParserSetup setup;
+		setup.about = "Adds a mouse move handler.";
+		setup.category = { "Events", "Widgets" };
+		setup.returnType = mvPyDataType::UUID;
+		
+		mvPythonParser parser = FinalizeParser(setup, args);
 
 		parsers->insert({ s_command, parser });
 	}

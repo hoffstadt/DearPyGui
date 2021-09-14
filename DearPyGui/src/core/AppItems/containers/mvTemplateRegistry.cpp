@@ -7,12 +7,19 @@ namespace Marvel {
 
 	void mvTemplateRegistry::InsertParser(std::map<std::string, mvPythonParser>* parsers)
 	{
-		mvPythonParser parser(mvPyDataType::UUID, "Undocumented function", { "Containers", "Widgets" }, true);
-		mvAppItem::AddCommonArgs(parser, (CommonParserArgs)(
+		std::vector<mvPythonDataElement> args;
+
+		AddCommonArgs(args,(CommonParserArgs)(
 			MV_PARSER_ARG_ID)
 		);
 
-		parser.finalize();
+		mvPythonParserSetup setup;
+		setup.about = "Adds a template registry.";
+		setup.category = { "Containers", "Widgets", "Registries" };
+		setup.returnType = mvPyDataType::UUID;
+		setup.createContextManager = true;
+
+		mvPythonParser parser = FinalizeParser(setup, args);
 
 		parsers->insert({ s_command, parser });
 	}

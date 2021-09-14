@@ -7,8 +7,9 @@ namespace Marvel {
 
 	void mvClipper::InsertParser(std::map<std::string, mvPythonParser>* parsers)
 	{
-		mvPythonParser parser(mvPyDataType::UUID, "Helper to manually clip large list of items. Increases performance by not searching or drawing widgets outside of the clipped region.", { "Containers", "Widgets" }, true);
-		mvAppItem::AddCommonArgs(parser, (CommonParserArgs)(
+		std::vector<mvPythonDataElement> args;
+
+		AddCommonArgs(args,(CommonParserArgs)(
 			MV_PARSER_ARG_ID |
 			MV_PARSER_ARG_WIDTH |
 			MV_PARSER_ARG_INDENT |
@@ -18,7 +19,13 @@ namespace Marvel {
 			MV_PARSER_ARG_SHOW)
 		);
 
-		parser.finalize();
+		mvPythonParserSetup setup;
+		setup.about = "Helper to manually clip large list of items. Increases performance by not searching or drawing widgets outside of the clipped region.";
+		setup.category = { "Containers", "Widgets" };
+		setup.returnType = mvPyDataType::UUID;
+		setup.createContextManager = true;
+
+		mvPythonParser parser = FinalizeParser(setup, args);
 
 		parsers->insert({ s_command, parser });
 	}

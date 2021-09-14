@@ -16,187 +16,348 @@ namespace Marvel {
 	{
 
 		{
-			mvPythonParser parser(mvPyDataType::None, "Undocumented", { "Item Registry" });
-			parser.addArg<mvPyDataType::String>("alias");
-			parser.addArg<mvPyDataType::UUID>("item");
-			parser.finalize();
+			std::vector<mvPythonDataElement> args;
+			args.push_back({ mvPyDataType::String, "alias" });
+			args.push_back({ mvPyDataType::UUID, "item" });
+
+			mvPythonParserSetup setup;
+			setup.about = "Adds an alias.";
+			setup.category = { "Item Registry" };
+			setup.returnType = mvPyDataType::None;
+
+			mvPythonParser parser = FinalizeParser(setup, args);
 			parsers->insert({ "add_alias", parser });
 		}
 
 		{
-			mvPythonParser parser(mvPyDataType::None, "Undocumented", { "Item Registry" });
-			parser.addArg<mvPyDataType::String>("alias");
-			parser.finalize();
+			std::vector<mvPythonDataElement> args;
+			args.push_back({ mvPyDataType::String, "alias" });
+
+			mvPythonParserSetup setup;
+			setup.about = "Removes an alias.";
+			setup.category = { "Item Registry" };
+			setup.returnType = mvPyDataType::None;
+
+			mvPythonParser parser = FinalizeParser(setup, args);
 			parsers->insert({ "remove_alias", parser });
 		}
 
 		{
-			mvPythonParser parser(mvPyDataType::Bool, "Undocumented", { "Item Registry" });
-			parser.addArg<mvPyDataType::String>("alias");
-			parser.finalize();
+			std::vector<mvPythonDataElement> args;
+			args.push_back({ mvPyDataType::String, "alias" });
+
+			mvPythonParserSetup setup;
+			setup.about = "Checks if an alias exist.";
+			setup.category = { "Item Registry" };
+			setup.returnType = mvPyDataType::Bool;
+
+			mvPythonParser parser = FinalizeParser(setup, args);
 			parsers->insert({ "does_alias_exist", parser });
 		}
 
 		{
-			mvPythonParser parser(mvPyDataType::UUID, "Undocumented", { "Item Registry" });
-			parser.addArg<mvPyDataType::String>("alias");
-			parser.finalize();
+			std::vector<mvPythonDataElement> args;
+			args.push_back({ mvPyDataType::String, "alias" });
+
+			mvPythonParserSetup setup;
+			setup.about = "Returns the ID associated with an alias.";
+			setup.category = { "Item Registry" };
+			setup.returnType = mvPyDataType::UUID;
+
+			mvPythonParser parser = FinalizeParser(setup, args);
 			parsers->insert({ "get_alias_id", parser });
 		}
 
 		{
-			mvPythonParser parser(mvPyDataType::UUID, "Undocumented", { "Item Registry" });
-			parser.finalize();
+
+			mvPythonParserSetup setup;
+			setup.about = "Pops the top item off the parent stack and return its ID.";
+			setup.category = { "Item Registry" };
+			setup.returnType = mvPyDataType::UUID;
+
+			mvPythonParser parser = FinalizeParser(setup, {});
 			parsers->insert({ "pop_container_stack", parser });
 		}
 
 		{
-			mvPythonParser parser(mvPyDataType::None, "Undocumented", { "Item Registry" });
-			parser.finalize();
+			std::vector<mvPythonDataElement> args;
+
+			mvPythonParserSetup setup;
+			setup.about = "Shows the imgui demo.";
+			setup.category = { "Item Registry" };
+			setup.returnType = mvPyDataType::None;
+
+			mvPythonParser parser = FinalizeParser(setup, args);
 			parsers->insert({ "show_imgui_demo", parser });
 		}
 
 		{
-			mvPythonParser parser(mvPyDataType::None, "Undocumented", { "Item Registry" });
-			parser.finalize();
+			std::vector<mvPythonDataElement> args;
+
+			mvPythonParserSetup setup;
+			setup.about = "Shows the implot demo.";
+			setup.category = { "Item Registry" };
+			setup.returnType = mvPyDataType::None;
+
+			mvPythonParser parser = FinalizeParser(setup, args);
 			parsers->insert({ "show_implot_demo", parser });
 		}
 
 		{
-			mvPythonParser parser(mvPyDataType::None, "Undocumented", { "Item Registry" });
-			parser.addArg<mvPyDataType::UUID>("container");
-			parser.addArg<mvPyDataType::Integer>("slot");
-			parser.addArg<mvPyDataType::UUIDList>("new_order");
-			parser.finalize();
+			std::vector<mvPythonDataElement> args;
+			args.push_back({ mvPyDataType::UUID, "container" });
+			args.push_back({ mvPyDataType::Integer, "slot" });
+			args.push_back({ mvPyDataType::UUIDList, "new_order" });
+
+			mvPythonParserSetup setup;
+			setup.about = "Reorders an item's children.";
+			setup.category = { "App Item Operations" };
+			setup.returnType = mvPyDataType::None;
+
+			mvPythonParser parser = FinalizeParser(setup, args);
 			parsers->insert({ "reorder_items", parser });
 		}
 
 		{
-			mvPythonParser parser(mvPyDataType::None, "Undocumented", { "Item Registry" });
-			parser.addArg<mvPyDataType::UUID>("template_registry");
-			parser.finalize();
+			std::vector<mvPythonDataElement> args;
+			args.push_back({ mvPyDataType::UUID, "template_registry" });
+
+			mvPythonParserSetup setup;
+			setup.about = "Binds a global template registry.";
+			setup.category = { "Item Registry" };
+			setup.returnType = mvPyDataType::None;
+
+			mvPythonParser parser = FinalizeParser(setup, args);
 			parsers->insert({ "bind_template_registry", parser });
 		}
 
 		{
-			mvPythonParser parser(mvPyDataType::None, "Undocumented", { "Item Registry" });
-			parser.addArg<mvPyDataType::UUID>("item");
-			parser.finalize();
+			std::vector<mvPythonDataElement> args;
+			args.push_back({ mvPyDataType::UUID, "item" });
+
+			mvPythonParserSetup setup;
+			setup.about = "Unstages an item.";
+			setup.category = { "Item Registry" };
+			setup.returnType = mvPyDataType::None;
+
+			mvPythonParser parser = FinalizeParser(setup, args);
 			parsers->insert({ "unstage", parser });
 		}
 
 		{
-			mvPythonParser parser(mvPyDataType::None, "Undocumented", { "Item Registry" });
-			parser.addArg<mvPyDataType::UUID>("item");
-			parser.finalize();
+			std::vector<mvPythonDataElement> args;
+			args.push_back({ mvPyDataType::UUID, "item" });
+
+			mvPythonParserSetup setup;
+			setup.about = "Shows an item's debug window";
+			setup.category = { "Item Registry" };
+			setup.returnType = mvPyDataType::None;
+
+			mvPythonParser parser = FinalizeParser(setup, args);
 			parsers->insert({ "show_item_debug", parser });
 		}
 
 		{
-			mvPythonParser parser(mvPyDataType::Bool, "Undocumented", { "Item Registry" });
-			parser.addArg<mvPyDataType::UUID>("item");
-			parser.finalize();
+			std::vector<mvPythonDataElement> args;
+			args.push_back({ mvPyDataType::UUID, "item" });
+
+			mvPythonParserSetup setup;
+			setup.about = "Pushes an item onto the container stack.";
+			setup.category = { "Item Registry"};
+			setup.returnType = mvPyDataType::Bool;
+
+			mvPythonParser parser = FinalizeParser(setup, args);
 			parsers->insert({ "push_container_stack", parser });
 		}
 
 		{
-			mvPythonParser parser(mvPyDataType::UUID, "Undocumented", { "Item Registry" });
-			parser.finalize();
+			std::vector<mvPythonDataElement> args;
+
+			mvPythonParserSetup setup;
+			setup.about = "Returns the item on the top of the container stack.";
+			setup.category = { "Item Registry" };
+			setup.returnType = mvPyDataType::UUID;
+
+			mvPythonParser parser = FinalizeParser(setup, args);
 			parsers->insert({ "top_container_stack", parser });
 		}
 
 		{
-			mvPythonParser parser(mvPyDataType::UUID, "Undocumented", { "Item Registry" });
-			parser.finalize();
+			std::vector<mvPythonDataElement> args;
+
+			mvPythonParserSetup setup;
+			setup.about = "Returns the last item added.";
+			setup.category = { "Item Registry" };
+			setup.returnType = mvPyDataType::UUID;
+
+			mvPythonParser parser = FinalizeParser(setup, args);
 			parsers->insert({ "last_item", parser });
 		}
 
 		{
-			mvPythonParser parser(mvPyDataType::UUID, "Undocumented", { "Item Registry" });
-			parser.finalize();
+			std::vector<mvPythonDataElement> args;
+
+			mvPythonParserSetup setup;
+			setup.about = "Returns the last container item added.";
+			setup.category = { "Item Registry" };
+			setup.returnType = mvPyDataType::UUID;
+
+			mvPythonParser parser = FinalizeParser(setup, args);
 			parsers->insert({ "last_container", parser });
 		}
 
 		{
-			mvPythonParser parser(mvPyDataType::UUID, "Undocumented", { "Item Registry" });
-			parser.finalize();
+			std::vector<mvPythonDataElement> args;
+
+			mvPythonParserSetup setup;
+			setup.about = "Returns the last root added (registry or window).";
+			setup.category = { "Item Registry" };
+			setup.returnType = mvPyDataType::UUID;
+
+			mvPythonParser parser = FinalizeParser(setup, args);
 			parsers->insert({ "last_root", parser });
 		}
 
 		{
-			mvPythonParser parser(mvPyDataType::None, "Undocumented", { "Item Registry" });
-			parser.finalize();
+			std::vector<mvPythonDataElement> args;
+
+			mvPythonParserSetup setup;
+			setup.about = "Emptyes the container stack.";
+			setup.category = { "Item Registry" };
+			setup.returnType = mvPyDataType::None;
+
+			mvPythonParser parser = FinalizeParser(setup, args);
 			parsers->insert({ "empty_container_stack", parser });
 		}
 
 		{
-			mvPythonParser parser(mvPyDataType::None, "Undocumented", { "Item Registry" });
-			parser.addArg<mvPyDataType::UUID>("item");
-			parser.addArg<mvPyDataType::UUID>("parent", mvArgType::KEYWORD_ARG, "0");
-			parser.addArg<mvPyDataType::UUID>("before", mvArgType::KEYWORD_ARG, "0");
-			parser.finalize();
+			std::vector<mvPythonDataElement> args;
+			args.push_back({ mvPyDataType::UUID, "item" });
+			args.push_back({ mvPyDataType::UUID, "parent", mvArgType::KEYWORD_ARG, "0"});
+			args.push_back({ mvPyDataType::UUID, "before", mvArgType::KEYWORD_ARG, "0"});
+
+			mvPythonParserSetup setup;
+			setup.about = "Moves an item to a new location.";
+			setup.category = { "Item Registry" };
+			setup.returnType = mvPyDataType::None;
+
+			mvPythonParser parser = FinalizeParser(setup, args);
 			parsers->insert({ "move_item", parser });
 		}
 
 		{
-			mvPythonParser parser(mvPyDataType::UUIDList, "Undocumented", { "Item Registry" });
-			parser.finalize();
+			std::vector<mvPythonDataElement> args;
+
+			mvPythonParserSetup setup;
+			setup.about = "Returns all windows.";
+			setup.category = { "Item Registry" };
+			setup.returnType = mvPyDataType::UUIDList;
+
+			mvPythonParser parser = FinalizeParser(setup, args);
 			parsers->insert({ "get_windows", parser });
 		}
 
 		{
-			mvPythonParser parser(mvPyDataType::UUIDList, "Undocumented", { "Item Registry" });
-			parser.finalize();
+			std::vector<mvPythonDataElement> args;
+
+			mvPythonParserSetup setup;
+			setup.about = "Returns all items.";
+			setup.category = { "Item Registry" };
+			setup.returnType = mvPyDataType::UUIDList;
+
+			mvPythonParser parser = FinalizeParser(setup, args);
 			parsers->insert({ "get_all_items", parser });
 		}
 
 		{
-			mvPythonParser parser(mvPyDataType::StringList, "Undocumented", { "Item Registry" });
-			parser.finalize();
+			std::vector<mvPythonDataElement> args;
+
+			mvPythonParserSetup setup;
+			setup.about = "Returns all aliases.";
+			setup.category = { "Item Registry" };
+			setup.returnType = mvPyDataType::StringList;
+
+			mvPythonParser parser = FinalizeParser(setup, args);
 			parsers->insert({ "get_aliases", parser });
 		}
 
 		{
-			mvPythonParser parser(mvPyDataType::None, "Undocumented", { "Item Registry" });
-			parser.addArg<mvPyDataType::UUID>("item");
-			parser.addArg<mvPyDataType::Bool>("children_only", mvArgType::KEYWORD_ARG, "False");
-			parser.addArg<mvPyDataType::Integer>("slot", mvArgType::KEYWORD_ARG, "-1");
-			parser.finalize();
+			std::vector<mvPythonDataElement> args;
+			args.push_back({ mvPyDataType::UUID, "item" });
+			args.push_back({ mvPyDataType::Bool, "children_only", mvArgType::KEYWORD_ARG, "False" });
+			args.push_back({ mvPyDataType::Integer, "slot", mvArgType::KEYWORD_ARG, "-1" });
+
+			mvPythonParserSetup setup;
+			setup.about = "Deletes an item..";
+			setup.category = { "Item Registry" };
+			setup.returnType = mvPyDataType::None;
+
+			mvPythonParser parser = FinalizeParser(setup, args);
 			parsers->insert({ "delete_item", parser });
 		}
 
 		{
-			mvPythonParser parser(mvPyDataType::Bool, "Undocumented", { "Item Registry" });
-			parser.addArg<mvPyDataType::UUID>("item");
-			parser.finalize();
+			std::vector<mvPythonDataElement> args;
+			args.push_back({ mvPyDataType::UUID, "item" });
+
+			mvPythonParserSetup setup;
+			setup.about = "Checks if an item exist..";
+			setup.category = { "Item Registry" };
+			setup.returnType = mvPyDataType::Bool;
+
+			mvPythonParser parser = FinalizeParser(setup, args);
 			parsers->insert({ "does_item_exist", parser });
 		}
 
 		{
-			mvPythonParser parser(mvPyDataType::None, "Undocumented", { "Item Registry" });
-			parser.addArg<mvPyDataType::UUID>("item");
-			parser.finalize();
+			std::vector<mvPythonDataElement> args;
+			args.push_back({ mvPyDataType::UUID, "item" });
+
+			mvPythonParserSetup setup;
+			setup.about = "Moves an item up.";
+			setup.category = { "Item Registry" };
+			setup.returnType = mvPyDataType::None;
+
+			mvPythonParser parser = FinalizeParser(setup, args);
 			parsers->insert({ "move_item_up", parser });
 		}
 
 		{
-			mvPythonParser parser(mvPyDataType::None, "Undocumented", { "Item Registry" });
-			parser.addArg<mvPyDataType::UUID>("item");
-			parser.finalize();
+			std::vector<mvPythonDataElement> args;
+			args.push_back({ mvPyDataType::UUID, "item" });
+
+			mvPythonParserSetup setup;
+			setup.about = "Moves an item down.";
+			setup.category = { "Item Registry" };
+			setup.returnType = mvPyDataType::None;
+
+			mvPythonParser parser = FinalizeParser(setup, args);
 			parsers->insert({ "move_item_down", parser });
 		}
 
 		{
-			mvPythonParser parser(mvPyDataType::UUID, "Undocumented", { "Item Registry" });
-			parser.finalize();
+			std::vector<mvPythonDataElement> args;
+
+			mvPythonParserSetup setup;
+			setup.about = "Returns the active window.";
+			setup.category = { "Item Registry" };
+			setup.returnType = mvPyDataType::UUID;
+
+			mvPythonParser parser = FinalizeParser(setup, args);
 			parsers->insert({ "get_active_window", parser });
 		}
 
 		{
-			mvPythonParser parser(mvPyDataType::None, "Undocumented", { "Item Registry" });
-			parser.addArg<mvPyDataType::UUID>("window");
-			parser.addArg<mvPyDataType::Bool>("value");
-			parser.finalize();
+			std::vector<mvPythonDataElement> args;
+			args.push_back({ mvPyDataType::UUID, "window" });
+			args.push_back({ mvPyDataType::Bool, "value" });
+
+			mvPythonParserSetup setup;
+			setup.about = "Sets the primary window.";
+			setup.category = { "Item Registry" };
+			setup.returnType = mvPyDataType::None;
+
+			mvPythonParser parser = FinalizeParser(setup, args);
 			parsers->insert({ "set_primary_window", parser });
 		}
 
@@ -1389,7 +1550,7 @@ namespace Marvel {
 	{
 		PyObject* itemraw;
 
-		if (!(mvApp::GetApp()->getParsers())["push_container_stack"].parse(args, kwargs, __FUNCTION__, &itemraw))
+		if (!Parse((mvApp::GetApp()->getParsers())["push_container_stack"], args, kwargs, __FUNCTION__, &itemraw))
 			return GetPyNone();
 
 		if (!mvApp::s_manualMutexControl) std::lock_guard<std::mutex> lk(mvApp::s_mutex);
@@ -1413,10 +1574,10 @@ namespace Marvel {
 		PyObject* itemraw;
 		int value;
 
-		if (!mvApp::GetApp()->getParsers()["set_primary_window"].verifyRequiredArguments(args))
+		if (!VerifyRequiredArguments(mvApp::GetApp()->getParsers()["set_primary_window"], args))
 			return GetPyNone();
 
-		if (!(mvApp::GetApp()->getParsers())["set_primary_window"].parse(args, kwargs, __FUNCTION__, &itemraw, &value))
+		if (!Parse((mvApp::GetApp()->getParsers())["set_primary_window"], args, kwargs, __FUNCTION__, &itemraw, &value))
 			return GetPyNone();
 
 		if (!mvApp::s_manualMutexControl) std::lock_guard<std::mutex> lk(mvApp::s_mutex);
@@ -1442,7 +1603,7 @@ namespace Marvel {
 		PyObject* parentraw = nullptr;
 		PyObject* beforeraw = nullptr;
 
-		if (!(mvApp::GetApp()->getParsers())["move_item"].parse(args, kwargs, __FUNCTION__,
+		if (!Parse((mvApp::GetApp()->getParsers())["move_item"], args, kwargs, __FUNCTION__,
 			&itemraw, &parentraw, &beforeraw))
 			return GetPyNone();
 
@@ -1464,7 +1625,7 @@ namespace Marvel {
 		int childrenOnly = false;
 		int slot = -1;
 
-		if (!(mvApp::GetApp()->getParsers())["delete_item"].parse(args, kwargs, __FUNCTION__, &itemraw, &childrenOnly, &slot))
+		if (!Parse((mvApp::GetApp()->getParsers())["delete_item"], args, kwargs, __FUNCTION__, &itemraw, &childrenOnly, &slot))
 			return GetPyNone();
 
 		if (!mvApp::s_manualMutexControl) std::lock_guard<std::mutex> lk(mvApp::s_mutex);
@@ -1482,7 +1643,7 @@ namespace Marvel {
 
 		PyObject* itemraw;
 
-		if (!(mvApp::GetApp()->getParsers())["does_item_exist"].parse(args, kwargs, __FUNCTION__, &itemraw))
+		if (!Parse((mvApp::GetApp()->getParsers())["does_item_exist"], args, kwargs, __FUNCTION__, &itemraw))
 			return GetPyNone();
 
 		if (!mvApp::s_manualMutexControl) std::lock_guard<std::mutex> lk(mvApp::s_mutex);
@@ -1499,7 +1660,7 @@ namespace Marvel {
 
 		PyObject* itemraw;
 
-		if (!(mvApp::GetApp()->getParsers())["move_item_up"].parse(args, kwargs, __FUNCTION__, &itemraw))
+		if (!Parse((mvApp::GetApp()->getParsers())["move_item_up"], args, kwargs, __FUNCTION__, &itemraw))
 			return GetPyNone();
 
 		if (!mvApp::s_manualMutexControl) std::lock_guard<std::mutex> lk(mvApp::s_mutex);
@@ -1517,7 +1678,7 @@ namespace Marvel {
 
 		PyObject* itemraw;
 
-		if (!(mvApp::GetApp()->getParsers())["move_item_down"].parse(args, kwargs, __FUNCTION__, &itemraw))
+		if (!Parse((mvApp::GetApp()->getParsers())["move_item_down"], args, kwargs, __FUNCTION__, &itemraw))
 			return GetPyNone();
 
 		if (!mvApp::s_manualMutexControl) std::lock_guard<std::mutex> lk(mvApp::s_mutex);
@@ -1536,7 +1697,7 @@ namespace Marvel {
 		int slot = 0;
 		PyObject* new_order = nullptr;
 
-		if (!(mvApp::GetApp()->getParsers())["reorder_items"].parse(args, kwargs, __FUNCTION__, 
+		if (!Parse((mvApp::GetApp()->getParsers())["reorder_items"], args, kwargs, __FUNCTION__,
 			&containerraw, &slot, &new_order))
 			return GetPyNone();
 
@@ -1573,7 +1734,7 @@ namespace Marvel {
 
 		PyObject* itemraw = nullptr;
 
-		if (!(mvApp::GetApp()->getParsers())["unstage"].parse(args, kwargs, __FUNCTION__, &itemraw))
+		if (!Parse((mvApp::GetApp()->getParsers())["unstage"], args, kwargs, __FUNCTION__, &itemraw))
 			return GetPyNone();
 
 		if (!mvApp::s_manualMutexControl) std::lock_guard<std::mutex> lk(mvApp::s_mutex);
@@ -1590,7 +1751,7 @@ namespace Marvel {
 
 		PyObject* itemraw = nullptr;
 
-		if (!(mvApp::GetApp()->getParsers())["show_item_debug"].parse(args, kwargs, __FUNCTION__, &itemraw))
+		if (!Parse((mvApp::GetApp()->getParsers())["show_item_debug"], args, kwargs, __FUNCTION__, &itemraw))
 			return GetPyNone();
 
 		if (!mvApp::s_manualMutexControl) std::lock_guard<std::mutex> lk(mvApp::s_mutex);
@@ -1652,7 +1813,7 @@ namespace Marvel {
 		const char* alias;
 		PyObject* itemraw;
 
-		if (!(mvApp::GetApp()->getParsers())["add_alias"].parse(args, kwargs, __FUNCTION__, &alias, &itemraw))
+		if (!Parse((mvApp::GetApp()->getParsers())["add_alias"], args, kwargs, __FUNCTION__, &alias, &itemraw))
 			return GetPyNone();
 
 		if (!mvApp::s_manualMutexControl) std::lock_guard<std::mutex> lk(mvApp::s_mutex);
@@ -1670,7 +1831,7 @@ namespace Marvel {
 
 		const char* alias;
 
-		if (!(mvApp::GetApp()->getParsers())["remove_alias"].parse(args, kwargs, __FUNCTION__, &alias))
+		if (!Parse((mvApp::GetApp()->getParsers())["remove_alias"], args, kwargs, __FUNCTION__, &alias))
 			return GetPyNone();
 
 		if (!mvApp::s_manualMutexControl) std::lock_guard<std::mutex> lk(mvApp::s_mutex);
@@ -1686,7 +1847,7 @@ namespace Marvel {
 
 		const char* alias;
 
-		if (!(mvApp::GetApp()->getParsers())["does_alias_exist"].parse(args, kwargs, __FUNCTION__, &alias))
+		if (!Parse((mvApp::GetApp()->getParsers())["does_alias_exist"], args, kwargs, __FUNCTION__, &alias))
 			return GetPyNone();
 
 		if (!mvApp::s_manualMutexControl) std::lock_guard<std::mutex> lk(mvApp::s_mutex);
@@ -1701,7 +1862,7 @@ namespace Marvel {
 
 		const char* alias;
 
-		if (!(mvApp::GetApp()->getParsers())["get_alias_id"].parse(args, kwargs, __FUNCTION__, &alias))
+		if (!Parse((mvApp::GetApp()->getParsers())["get_alias_id"], args, kwargs, __FUNCTION__, &alias))
 			return GetPyNone();
 
 		if (!mvApp::s_manualMutexControl) std::lock_guard<std::mutex> lk(mvApp::s_mutex);
@@ -1729,7 +1890,7 @@ namespace Marvel {
 
 		PyObject* itemraw;
 
-		if (!(mvApp::GetApp()->getParsers())["bind_template_registry"].parse(args, kwargs, __FUNCTION__,
+		if (!Parse((mvApp::GetApp()->getParsers())["bind_template_registry"], args, kwargs, __FUNCTION__,
 			&itemraw))
 			return GetPyNone();
 

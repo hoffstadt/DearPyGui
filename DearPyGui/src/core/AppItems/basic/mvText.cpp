@@ -10,8 +10,9 @@ namespace Marvel {
 
 	void mvText::InsertParser(std::map<std::string, mvPythonParser>* parsers)
 	{
-		mvPythonParser parser(mvPyDataType::UUID, "Adds text. Text can have an optional label that will display to the right of the text.", { "Widgets" });
-		mvAppItem::AddCommonArgs(parser, (CommonParserArgs)(
+		std::vector<mvPythonDataElement> args;
+
+		AddCommonArgs(args,(CommonParserArgs)(
 			MV_PARSER_ARG_ID |
 			MV_PARSER_ARG_INDENT |
 			MV_PARSER_ARG_PARENT |
@@ -23,17 +24,18 @@ namespace Marvel {
 			MV_PARSER_ARG_POS)
 		);
 
-		parser.addArg<mvPyDataType::String>("default_value", mvArgType::POSITIONAL_ARG, "''");
+		args.push_back({ mvPyDataType::String, "default_value", mvArgType::POSITIONAL_ARG, "''" });
+		args.push_back({ mvPyDataType::Integer, "wrap", mvArgType::KEYWORD_ARG, "-1", "Number of pixels until wrapping starts." });
+		args.push_back({ mvPyDataType::Bool, "bullet", mvArgType::KEYWORD_ARG, "False", "Makes the text bulleted." });
+		args.push_back({ mvPyDataType::FloatList, "color", mvArgType::KEYWORD_ARG, "(-1, -1, -1, -1)", "Color of the text (rgba)." });
+		args.push_back({ mvPyDataType::Bool, "show_label", mvArgType::KEYWORD_ARG, "False", "Displays the label." });
 
-		parser.addArg<mvPyDataType::Integer>("wrap", mvArgType::KEYWORD_ARG, "-1", "Number of pixels until wrapping starts.");
+		mvPythonParserSetup setup;
+		setup.about = "Adds text. Text can have an optional label that will display to the right of the text.";
+		setup.category = { "Widgets" };
+		setup.returnType = mvPyDataType::UUID;
 
-		parser.addArg<mvPyDataType::Bool>("bullet", mvArgType::KEYWORD_ARG, "False", "Makes the text bulleted.");
-
-		parser.addArg<mvPyDataType::FloatList>("color", mvArgType::KEYWORD_ARG, "(-1, -1, -1, -1)", "Color of the text (rgba).");
-
-		parser.addArg<mvPyDataType::Bool>("show_label", mvArgType::KEYWORD_ARG, "False", "Displays the label.");
-
-		parser.finalize();
+		mvPythonParser parser = FinalizeParser(setup, args);
 
 		parsers->insert({ s_command, parser });
 	}
@@ -205,7 +207,7 @@ namespace Marvel {
 
 	void mvText::handleSpecificPositionalArgs(PyObject* dict)
 	{
-		if (!mvApp::GetApp()->getParsers()[s_command].verifyPositionalArguments(dict))
+		if (!VerifyPositionalArguments(mvApp::GetApp()->getParsers()[s_command], dict))
 			return;
 
 		for (int i = 0; i < PyTuple_Size(dict); i++)

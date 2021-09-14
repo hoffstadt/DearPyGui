@@ -11,18 +11,24 @@ namespace Marvel {
 
 	void mvViewportDrawlist::InsertParser(std::map<std::string, mvPythonParser>* parsers)
 	{
+		std::vector<mvPythonDataElement> args;
 
-		mvPythonParser parser(mvPyDataType::UUID, "A container that is used to present draw items or layers directly to the viewport. By default this will draw to the back of teh viewport. Layers and draw items should be added to this widget as children.", { "Drawlist", "Containers", "Widgets"}, true);
-		mvAppItem::AddCommonArgs(parser, (CommonParserArgs)(
+		AddCommonArgs(args,(CommonParserArgs)(
 			MV_PARSER_ARG_ID |
 			MV_PARSER_ARG_FILTER |
 			MV_PARSER_ARG_SEARCH_DELAY |
 			MV_PARSER_ARG_SHOW)
 		);
 
-		parser.addArg<mvPyDataType::Bool>("front", mvArgType::KEYWORD_ARG, "True", "Draws to the front of the view port instead of the back.");
+		args.push_back({ mvPyDataType::Bool, "front", mvArgType::KEYWORD_ARG, "True", "Draws to the front of the view port instead of the back." });
 
-		parser.finalize();
+		mvPythonParserSetup setup;
+		setup.about = "A container that is used to present draw items or layers directly to the viewport. By default this will draw to the back of the viewport. Layers and draw items should be added to this widget as children.";
+		setup.category = { "Drawlist", "Widgets" };
+		setup.returnType = mvPyDataType::UUID;
+		setup.createContextManager = true;
+
+		mvPythonParser parser = FinalizeParser(setup, args);
 		parsers->insert({ s_command, parser });
 	}
 

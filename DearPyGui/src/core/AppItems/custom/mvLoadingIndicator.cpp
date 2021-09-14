@@ -8,9 +8,9 @@ namespace Marvel {
 
     void mvLoadingIndicator::InsertParser(std::map<std::string, mvPythonParser>* parsers)
     {
+        std::vector<mvPythonDataElement> args;
 
-        mvPythonParser parser(mvPyDataType::UUID, "Adds a rotating anamated loding symbol.", { "Widgets" });
-        mvAppItem::AddCommonArgs(parser, (CommonParserArgs)(
+        AddCommonArgs(args,(CommonParserArgs)(
             MV_PARSER_ARG_ID |
             MV_PARSER_ARG_WIDTH |
             MV_PARSER_ARG_HEIGHT |
@@ -21,15 +21,20 @@ namespace Marvel {
             MV_PARSER_ARG_POS)
         );
 
-        parser.addArg<mvPyDataType::Integer>("style", mvArgType::KEYWORD_ARG, "0", "0 is rotating dots style, 1 is rotating bar style.");
-        parser.addArg<mvPyDataType::Integer>("circle_count", mvArgType::KEYWORD_ARG, "8", "Number of dots show if dots or size of circle if circle.");
-        parser.addArg<mvPyDataType::Float>("speed", mvArgType::KEYWORD_ARG, "1.0", "Speed the anamation will rotate.");
-        parser.addArg<mvPyDataType::Float>("radius", mvArgType::KEYWORD_ARG, "3.0", "Radius size of the loading indicator.");
-        parser.addArg<mvPyDataType::Float>("thickness", mvArgType::KEYWORD_ARG, "1.0", "Thickness of the circles or line.");
-        parser.addArg<mvPyDataType::IntList>("color", mvArgType::KEYWORD_ARG, "(51, 51, 55, 255)", "Color of the growing center circle.");
-        parser.addArg<mvPyDataType::IntList>("secondary_color", mvArgType::KEYWORD_ARG, "(29, 151, 236, 103)", "Background of the dots in dot mode.");
+        args.push_back({ mvPyDataType::Integer, "style", mvArgType::KEYWORD_ARG, "0", "0 is rotating dots style, 1 is rotating bar style." });
+        args.push_back({ mvPyDataType::Integer, "circle_count", mvArgType::KEYWORD_ARG, "8", "Number of dots show if dots or size of circle if circle." });
+        args.push_back({ mvPyDataType::Float, "speed", mvArgType::KEYWORD_ARG, "1.0", "Speed the anamation will rotate." });
+        args.push_back({ mvPyDataType::Float, "radius", mvArgType::KEYWORD_ARG, "3.0", "Radius size of the loading indicator." });
+        args.push_back({ mvPyDataType::Float, "thickness", mvArgType::KEYWORD_ARG, "1.0", "Thickness of the circles or line." });
+        args.push_back({ mvPyDataType::IntList, "color", mvArgType::KEYWORD_ARG, "(51, 51, 55, 255)", "Color of the growing center circle." });
+        args.push_back({ mvPyDataType::IntList, "secondary_color", mvArgType::KEYWORD_ARG, "(29, 151, 236, 103)", "Background of the dots in dot mode." });
 
-        parser.finalize();
+        mvPythonParserSetup setup;
+        setup.about = "Adds a rotating animated loading symbol.";
+        setup.category = { "Widgets" };
+        setup.returnType = mvPyDataType::UUID;
+
+        mvPythonParser parser = FinalizeParser(setup, args);
 
         parsers->insert({ s_command, parser });
     }

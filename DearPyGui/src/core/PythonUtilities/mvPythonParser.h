@@ -31,9 +31,6 @@ typedef _object PyObject;
 
 namespace Marvel {
 
-    //-----------------------------------------------------------------------------
-    // Enums and Helper Functions
-    //-----------------------------------------------------------------------------
     enum class mvPyDataType
     {
         None = 0,
@@ -52,99 +49,76 @@ namespace Marvel {
     };
 
 
-    const char* PythonDataTypeActual(mvPyDataType type);
+    enum CommonParserArgs
+    {
+        MV_PARSER_ARG_ID = 1 << 1,
+        MV_PARSER_ARG_WIDTH = 1 << 2,
+        MV_PARSER_ARG_HEIGHT = 1 << 3,
+        MV_PARSER_ARG_INDENT = 1 << 4,
+        MV_PARSER_ARG_PARENT = 1 << 5,
+        MV_PARSER_ARG_BEFORE = 1 << 6,
+        MV_PARSER_ARG_SOURCE = 1 << 7,
+        MV_PARSER_ARG_CALLBACK = 1 << 8,
+        MV_PARSER_ARG_SHOW = 1 << 9,
+        MV_PARSER_ARG_ENABLED = 1 << 10,
+        MV_PARSER_ARG_POS = 1 << 11,
+        MV_PARSER_ARG_DROP_CALLBACK = 1 << 12,
+        MV_PARSER_ARG_DRAG_CALLBACK = 1 << 13,
+        MV_PARSER_ARG_PAYLOAD_TYPE = 1 << 14,
+        MV_PARSER_ARG_TRACKED = 1 << 15,
+        MV_PARSER_ARG_FILTER = 1 << 16,
+        MV_PARSER_ARG_SEARCH_DELAY = 1 << 17
+    };
 
-    //-----------------------------------------------------------------------------
-    // mvPythonDataElement
-    //-----------------------------------------------------------------------------
     struct mvPythonDataElement
     {
         mvPyDataType type = mvPyDataType::None;
         const char* name = "";
-        const char* description = "";
+        mvArgType   arg_type = mvArgType::REQUIRED_ARG;
         const char* default_value = "...";
-        mvArgType    arg_type = mvArgType::REQUIRED_ARG;
-
-        constexpr mvPythonDataElement(mvPyDataType type, const char* name, const char* description,
-            const char* default_value, mvArgType arg_type)
-            : type(type), name(name), description(description), default_value(default_value),
-            arg_type(arg_type)
-        {
-
-        }
-
+        const char* description = "";
     };
 
-    //-----------------------------------------------------------------------------
-    // mvPythonParser
-    //-----------------------------------------------------------------------------
-    class mvPythonParser
+    struct mvPythonParser
     {
-
-    public:
-
-        static void GenerateStubFile(const std::string& file);
-        static void GenerateCoreFile(std::ofstream& stream);
-        static void GenerateContextsFile(std::ofstream& stream);
-        static void GenerateDearPyGuiFile(const std::string& file);
-
-    public:
-
-        explicit mvPythonParser(mvPyDataType returnType = mvPyDataType::None,
-            const char* about = "Undocumented function",
-            const std::vector<std::string>& category = { "None" },
-            bool createContextManager = false);
-
-        template<mvPyDataType type>
-        void addArg(const char* name, mvArgType argType = mvArgType::REQUIRED_ARG, const char* defaultValue = "...", const char* description = "")
-        {
-            for (const auto& arg : m_staged_elements)
-            {
-                if (strcmp(arg.name, name) == 0)
-                {
-                    assert(false);
-                    return;
-                }
-            }
-            m_staged_elements.emplace_back(type, name, description, defaultValue, argType);
-        }
-
-
-        bool verifyRequiredArguments(PyObject* args);
-        bool verifyPositionalArguments(PyObject* args);
-        bool verifyKeywordArguments(PyObject* args);
-        bool verifyArgumentCount(PyObject* args);
-        void addKwargs() { m_unspecifiedKwargs = true; }
-        void makeInternal() { m_internal = true; }
-
-        bool parse(PyObject* args, PyObject* kwargs, const char* message, ...);
-
-        [[nodiscard]] const char* getDocumentation() const { return m_documentation.c_str(); }
-        [[nodiscard]] const std::vector<std::string>& getCategory() const { return m_category; }
-
-        void finalize();
-
-    private:
-
-        void buildDocumentation();
-
-    private:
-
-        std::vector<mvPythonDataElement> m_staged_elements;
-        std::vector<mvPythonDataElement> m_required_elements;
-        std::vector<mvPythonDataElement> m_optional_elements;
-        std::vector<mvPythonDataElement> m_keyword_elements;
-        std::vector<char>                m_formatstring;
-        std::vector<const char*>         m_keywords;
-
-        std::string                      m_about;
-        mvPyDataType                     m_return = mvPyDataType::None;
-        std::string                      m_documentation;
-        std::vector<std::string>         m_category;
-        bool                             m_unspecifiedKwargs = false;
-        bool                             m_createContextManager = false;
-        bool                             m_internal = false;
-
+        std::vector<mvPythonDataElement> required_elements;
+        std::vector<mvPythonDataElement> optional_elements;
+        std::vector<mvPythonDataElement> keyword_elements;
+        std::vector<char>                formatstring;
+        std::vector<const char*>         keywords;
+        std::string                      documentation;
+        bool                             unspecifiedKwargs = false;
+        bool                             createContextManager = false;
+        bool                             internal = false;
+        std::string                      about;
+        mvPyDataType                     returnType;
+        std::vector<std::string>         category;
     };
 
+    struct mvPythonParserSetup
+    {
+        std::string              about = "Undocumented";
+        mvPyDataType             returnType = mvPyDataType::None;
+        std::vector<std::string> category = {"General"};
+        bool                     createContextManager = false;
+        bool                     unspecifiedKwargs = false;
+        bool                     internal = false;
+    };
+
+    mvPythonParser FinalizeParser (const mvPythonParserSetup& setup, std::vector<mvPythonDataElement> args);
+    bool           Parse(const mvPythonParser& parser, PyObject* args, PyObject* kwargs, const char* message, ...);
+    const char*    PythonDataTypeActual(mvPyDataType type);
+    void           AddCommonArgs(std::vector<mvPythonDataElement>& args, CommonParserArgs argsFlags);
+
+    // arguments checks
+    bool VerifyRequiredArguments  (const mvPythonParser& parser, PyObject* args);
+    bool VerifyPositionalArguments(const mvPythonParser& parser, PyObject* args);
+    bool VerifyKeywordArguments   (const mvPythonParser& parser, PyObject* args);
+    bool VerifyArgumentCount      (const mvPythonParser& parser, PyObject* args);
+
+    // file generation
+    void GenerateStubFile     (const std::string& file);
+    void GenerateCoreFile     (std::ofstream& stream);
+    void GenerateContextsFile (std::ofstream& stream);
+    void GenerateDearPyGuiFile(const std::string& file);
 }

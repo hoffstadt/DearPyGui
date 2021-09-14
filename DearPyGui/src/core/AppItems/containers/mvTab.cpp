@@ -11,9 +11,9 @@ namespace Marvel {
 
     void mvTab::InsertParser(std::map<std::string, mvPythonParser>* parsers)
     {
+        std::vector<mvPythonDataElement> args;
 
-        mvPythonParser parser(mvPyDataType::UUID, "Adds a tab to a tab bar. Must be closed with thes end command.", { "Containers", "Widgets" }, true);
-        mvAppItem::AddCommonArgs(parser, (CommonParserArgs)(
+        AddCommonArgs(args,(CommonParserArgs)(
             MV_PARSER_ARG_ID |
             MV_PARSER_ARG_INDENT |
             MV_PARSER_ARG_PARENT |
@@ -27,15 +27,21 @@ namespace Marvel {
             MV_PARSER_ARG_SHOW)
         );
 
-        parser.addArg<mvPyDataType::Bool>("closable", mvArgType::KEYWORD_ARG, "False", "Creates a button on the tab that can hide the tab.");
-        parser.addArg<mvPyDataType::Bool>("no_tooltip", mvArgType::KEYWORD_ARG, "False", "Disable tooltip for the given tab.");
-        
-        parser.addArg<mvPyDataType::Bool>("order_mode", mvArgType::KEYWORD_ARG, "0", "set using a constant: mvTabOrder_Reorderable: allows reordering, mvTabOrder_Fixed: fixed ordering, mvTabOrder_Leading: adds tab to front, mvTabOrder_Trailing: adds tab to back");
+        args.push_back({ mvPyDataType::Bool, "closable", mvArgType::KEYWORD_ARG, "False", "Creates a button on the tab that can hide the tab." });
+        args.push_back({ mvPyDataType::Bool, "no_tooltip", mvArgType::KEYWORD_ARG, "False", "Disable tooltip for the given tab." });       
+        args.push_back({ mvPyDataType::Bool, "order_mode", mvArgType::KEYWORD_ARG, "0", "set using a constant: mvTabOrder_Reorderable: allows reordering, mvTabOrder_Fixed: fixed ordering, mvTabOrder_Leading: adds tab to front, mvTabOrder_Trailing: adds tab to back" });
 
-        parser.finalize();
+        mvPythonParserSetup setup;
+        setup.about = "Adds a tab to a tab bar.";
+        setup.category = { "Containers", "Widgets"};
+        setup.returnType = mvPyDataType::UUID;
+        setup.createContextManager = true;
+
+        mvPythonParser parser = FinalizeParser(setup, args);
 
         parsers->insert({ s_command, parser });
     }
+
     mvTab::mvTab(mvUUID uuid)
         : 
         mvAppItem(uuid)

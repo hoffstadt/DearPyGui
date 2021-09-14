@@ -15,8 +15,9 @@ namespace Marvel {
 	void mvFileDialog::InsertParser(std::map<std::string, mvPythonParser>* parsers)
 	{
 		{
-			mvPythonParser parser(mvPyDataType::UUID, "Displays a file or directory selector depending on keywords. Displays a file dialog by default.", { "Containers", "Widgets", "File Dialog" }, true);
-			mvAppItem::AddCommonArgs(parser, (CommonParserArgs)(
+			std::vector<mvPythonDataElement> args;
+
+			AddCommonArgs(args,(CommonParserArgs)(
 				MV_PARSER_ARG_ID |
 				MV_PARSER_ARG_WIDTH |
 				MV_PARSER_ARG_HEIGHT |
@@ -24,20 +25,33 @@ namespace Marvel {
 				MV_PARSER_ARG_SHOW)
 			);
 
-			parser.addArg<mvPyDataType::String>("default_path", mvArgType::KEYWORD_ARG, "''", "Path that the file dialog will default to when opened.");
-			parser.addArg<mvPyDataType::String>("default_filename", mvArgType::KEYWORD_ARG, "'.'", "Default name that will show in the file name input.");
-			parser.addArg<mvPyDataType::Integer>("file_count", mvArgType::KEYWORD_ARG, "0", "Number of visible files in the dialog.");
-			parser.addArg<mvPyDataType::Bool>("modal", mvArgType::KEYWORD_ARG, "False", "Forces user interaction with the file selector.");
-			parser.addArg<mvPyDataType::Bool>("directory_selector", mvArgType::KEYWORD_ARG, "False", "Shows only directory/paths as options. Allows selection of directory/paths only.");
+			args.push_back({ mvPyDataType::String, "default_path", mvArgType::KEYWORD_ARG, "''", "Path that the file dialog will default to when opened." });
+			args.push_back({ mvPyDataType::String, "default_filename", mvArgType::KEYWORD_ARG, "'.'", "Default name that will show in the file name input." });
+			args.push_back({ mvPyDataType::Integer, "file_count", mvArgType::KEYWORD_ARG, "0", "Number of visible files in the dialog." });
+			args.push_back({ mvPyDataType::Bool, "modal", mvArgType::KEYWORD_ARG, "False", "Forces user interaction with the file selector." });
+			args.push_back({ mvPyDataType::Bool, "directory_selector", mvArgType::KEYWORD_ARG, "False", "Shows only directory/paths as options. Allows selection of directory/paths only." });
 
-			parser.finalize();
+			mvPythonParserSetup setup;
+			setup.about = "Displays a file or directory selector depending on keywords. Displays a file dialog by default.";
+			setup.category = { "Containers", "Widgets", "File Dialog" };
+			setup.returnType = mvPyDataType::UUID;
+			setup.createContextManager = true;
+
+			mvPythonParser parser = FinalizeParser(setup, args);
 			parsers->insert({ s_command, parser });
 		}
 
 		{
-			mvPythonParser parser(mvPyDataType::Dict, "Undocumented function", { "Widgets" });
-			parser.addArg<mvPyDataType::UUID>("file_dialog");
-			parser.finalize();
+			std::vector<mvPythonDataElement> args;
+
+			args.push_back({ mvPyDataType::UUID, "file_dialog" });
+
+			mvPythonParserSetup setup;
+			setup.about = "Undocumented function";
+			setup.category = { "Widgets", "File Dialog"};
+			setup.returnType = mvPyDataType::UUID;
+
+			mvPythonParser parser = FinalizeParser(setup, args);
 			parsers->insert({ "get_file_dialog_info", parser });
 		}
 
@@ -214,7 +228,7 @@ namespace Marvel {
 	{
 		PyObject* file_dialog_raw;
 
-		if (!(mvApp::GetApp()->getParsers())["get_file_dialog_info"].parse(args, kwargs, __FUNCTION__, &file_dialog_raw))
+		if (!Parse((mvApp::GetApp()->getParsers())["get_file_dialog_info"], args, kwargs, __FUNCTION__, &file_dialog_raw))
 			return GetPyNone();
 
 		if (!mvApp::s_manualMutexControl) std::lock_guard<std::mutex> lk(mvApp::s_mutex);
