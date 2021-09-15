@@ -26,23 +26,23 @@ static PyObject* parser(PyObject* self, PyObject* args, PyObject* kwargs)\
 	mvUUID id = 0;\
 	mvRef<mvAppItem> item = nullptr;\
 	auto [parent, before, alias] = mvAppItem::GetNameFromArgs(id, args, kwargs);\
-	if(id == 0) id = mvApp::GenerateUUID();\
-	item = GetItemFromPool((*mvApp::GetApp()->itemRegistry), x);\
+	if(id == 0) id = GenerateUUID();\
+	item = GetItemFromPool((*GContext->itemRegistry), x);\
 	if(item == nullptr) item = CreateRef<mvItemTypeMap<(int)x>::type>(id);\
 	else item->_uuid;\
 	item->setAlias(alias);\
-	TryBoundTemplateRegistry((*mvApp::GetApp()->itemRegistry), item.get());\
+	TryBoundTemplateRegistry((*GContext->itemRegistry), item.get());\
 	item->checkArgs(args, kwargs, #parser);\
-	if(!mvApp::GetApp()->itemRegistry->skipRequiredArgs)\
+	if(!GContext->itemRegistry->skipRequiredArgs)\
 		item->handleSpecificRequiredArgs(args);\
-	if(!mvApp::GetApp()->itemRegistry->skipPositionalArgs)\
+	if(!GContext->itemRegistry->skipPositionalArgs)\
 		item->handleSpecificPositionalArgs(args);\
-	if(!mvApp::GetApp()->itemRegistry->skipKeywordArgs)\
+	if(!GContext->itemRegistry->skipKeywordArgs)\
 		item->handleKeywordArgs(kwargs, #parser);\
-	AddItemWithRuntimeChecks((*mvApp::GetApp()->itemRegistry), item, parent, before);\
+	AddItemWithRuntimeChecks((*GContext->itemRegistry), item, parent, before);\
 	return ToPyUUID(id);\
 }\
-static PyMethodDef GetMethodDefinition(){return { s_command, (PyCFunction)parser, METH_VARARGS | METH_KEYWORDS, mvApp::GetApp()->getParsers()[s_command].documentation.c_str() };\
+static PyMethodDef GetMethodDefinition(){return { s_command, (PyCFunction)parser, METH_VARARGS | METH_KEYWORDS, GetParsers()[s_command].documentation.c_str() };\
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -60,7 +60,7 @@ static PyMethodDef GetMethodDefinition(){return { s_command, (PyCFunction)parser
 #define MV_CREATE_COMMAND(x) static PyObject* x(PyObject* self, PyObject* args, PyObject* kwargs)
 #define MV_START_FREE_COMMANDS(x) static void x(std::vector<PyMethodDef>& methods){ 
 #define MV_START_COMMANDS static void FillExtraCommands(std::vector<PyMethodDef>& methods){ 
-#define MV_ADD_COMMAND(x) methods.push_back({ #x, (PyCFunction)x, METH_VARARGS | METH_KEYWORDS, mvApp::GetApp()->getParsers()[#x].documentation.c_str() });
+#define MV_ADD_COMMAND(x) methods.push_back({ #x, (PyCFunction)x, METH_VARARGS | METH_KEYWORDS, GetParsers()[#x].documentation.c_str() });
 #define MV_END_COMMANDS }
 
 ///////////////////////////////////////////////////////////////////////////////

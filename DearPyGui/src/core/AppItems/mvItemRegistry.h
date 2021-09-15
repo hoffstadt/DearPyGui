@@ -17,6 +17,7 @@ namespace Marvel {
     // forward declarations
     //-----------------------------------------------------------------------------
     struct mvItemRegistry;
+    class mvWindowAppItem;
 
     //-----------------------------------------------------------------------------
     // public API

@@ -1,9 +1,8 @@
 #include <algorithm>
 #include "mvSubPlots.h"
 #include "mvPlotLegend.h"
-#include "mvApp.h"
+#include "mvContext.h"
 #include "mvLog.h"
-#include "mvInput.h"
 #include "mvAreaSeries.h"
 #include "mvBarSeries.h"
 #include "mvCandleSeries.h"
@@ -139,7 +138,7 @@ namespace Marvel {
 
 	void mvSubPlots::handleSpecificRequiredArgs(PyObject* dict)
 	{
-		if (!VerifyRequiredArguments(mvApp::GetApp()->getParsers()[s_command], dict))
+		if (!VerifyRequiredArguments(GetParsers()[s_command], dict))
 			return;
 
 		for (int i = 0; i < PyTuple_Size(dict); i++)

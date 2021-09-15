@@ -1,5 +1,5 @@
 #include "mvItemPool.h"
-#include "mvApp.h"
+#include "mvContext.h"
 #include <array>
 #include "mvItemRegistry.h"
 #include "mvLog.h"
@@ -60,7 +60,7 @@ namespace Marvel {
 
 	void mvItemSet::handleSpecificRequiredArgs(PyObject* dict)
 	{
-		if (!VerifyRequiredArguments(mvApp::GetApp()->getParsers()[s_command], dict))
+		if (!VerifyRequiredArguments(GetParsers()[s_command], dict))
 			return;
 
 		for (int i = 0; i < PyTuple_Size(dict); i++)

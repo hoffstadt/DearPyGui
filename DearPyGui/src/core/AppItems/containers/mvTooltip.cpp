@@ -1,5 +1,5 @@
 #include "mvTooltip.h"
-#include "mvApp.h"
+#include "mvContext.h"
 #include "mvItemRegistry.h"
 
 namespace Marvel {
@@ -53,7 +53,7 @@ namespace Marvel {
 
 	void mvTooltip::handleSpecificRequiredArgs(PyObject* dict)
 	{
-		if (!VerifyRequiredArguments(mvApp::GetApp()->getParsers()[s_command], dict))
+		if (!VerifyRequiredArguments(GetParsers()[s_command], dict))
 			return;
 
 		for (int i = 0; i < PyTuple_Size(dict); i++)

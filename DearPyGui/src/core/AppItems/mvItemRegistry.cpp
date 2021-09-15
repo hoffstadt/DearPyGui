@@ -1,6 +1,6 @@
 #include "mvItemRegistry.h"
 #include "mvProfiler.h"
-#include "mvApp.h"
+#include "mvContext.h"
 #include "mvItemRegistry.h"
 #include "mvAppItemCommons.h"
 #include "mvLog.h"
@@ -798,7 +798,7 @@ namespace Marvel {
 	bool FocusItem(mvItemRegistry& registry, mvUUID uuid)
 	{
 
-		if (!mvApp::IsAppStarted())
+		if (!GContext->started)
 		{
 			for (size_t i = 0; i < registry.windowRoots.size(); i++)
 			{
@@ -1235,7 +1235,7 @@ namespace Marvel {
 		};
 		AddTechnique technique = AddTechnique::NONE;
 
-		if (!mvApp::s_manualMutexControl) std::lock_guard<std::mutex> lk(mvApp::s_mutex);
+		if (!GContext->manualMutexControl) std::lock_guard<std::mutex> lk(GContext->mutex);
 
 		//---------------------------------------------------------------------------
 		// STEP 2: handle root case
@@ -1243,7 +1243,7 @@ namespace Marvel {
 		if (mvAppItem::DoesItemHaveFlag(item.get(), MV_ITEM_DESC_ROOT))
 		{
 
-			if (mvApp::IsAppStarted())
+			if (GContext->started)
 			{
 				AddRoot(registry, item);
 				return true;
@@ -1329,7 +1329,7 @@ namespace Marvel {
 		//---------------------------------------------------------------------------
 		// STEP 9: handle "stack" style adding
 		//---------------------------------------------------------------------------
-		if(mvApp::IsAppStarted())
+		if(GContext->started)
 			return parentPtr->addRuntimeChild(parentPtr->_uuid, 0, item);
 		return AddItem(registry, item);
 	}
@@ -1444,9 +1444,9 @@ namespace Marvel {
 	PyObject* pop_container_stack(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 
-		if (!mvApp::s_manualMutexControl) std::lock_guard<std::mutex> lk(mvApp::s_mutex);
+		if (!GContext->manualMutexControl) std::lock_guard<std::mutex> lk(GContext->mutex);
 
-		auto item = PopParent((*mvApp::GetApp()->itemRegistry));
+		auto item = PopParent((*GContext->itemRegistry));
 		if (item)
 			return ToPyUUID(item->_uuid);
 		else
@@ -1456,16 +1456,16 @@ namespace Marvel {
 
 	PyObject* empty_container_stack(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
-		if (!mvApp::s_manualMutexControl) std::lock_guard<std::mutex> lk(mvApp::s_mutex);
-		EmptyParents((*mvApp::GetApp()->itemRegistry));
+		if (!GContext->manualMutexControl) std::lock_guard<std::mutex> lk(GContext->mutex);
+		EmptyParents((*GContext->itemRegistry));
 		return GetPyNone();
 	}
 
 	PyObject* top_container_stack(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
-		if (!mvApp::s_manualMutexControl) std::lock_guard<std::mutex> lk(mvApp::s_mutex);
+		if (!GContext->manualMutexControl) std::lock_guard<std::mutex> lk(GContext->mutex);
 
-		auto item = TopParent((*mvApp::GetApp()->itemRegistry));
+		auto item = TopParent((*GContext->itemRegistry));
 		if (item)
 			return ToPyUUID(item->_uuid);
 		else
@@ -1474,42 +1474,42 @@ namespace Marvel {
 
 	PyObject* last_item(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
-		if (!mvApp::s_manualMutexControl) std::lock_guard<std::mutex> lk(mvApp::s_mutex);
+		if (!GContext->manualMutexControl) std::lock_guard<std::mutex> lk(GContext->mutex);
 
-		return ToPyUUID(mvApp::GetApp()->itemRegistry->lastItemAdded);
+		return ToPyUUID(GContext->itemRegistry->lastItemAdded);
 	}
 
 	PyObject* last_container(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
-		if (!mvApp::s_manualMutexControl) std::lock_guard<std::mutex> lk(mvApp::s_mutex);
+		if (!GContext->manualMutexControl) std::lock_guard<std::mutex> lk(GContext->mutex);
 
-		return ToPyUUID(mvApp::GetApp()->itemRegistry->lastContainerAdded);
+		return ToPyUUID(GContext->itemRegistry->lastContainerAdded);
 	}
 
 	PyObject* last_root(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
-		if (!mvApp::s_manualMutexControl) std::lock_guard<std::mutex> lk(mvApp::s_mutex);
+		if (!GContext->manualMutexControl) std::lock_guard<std::mutex> lk(GContext->mutex);
 
-		return ToPyUUID(mvApp::GetApp()->itemRegistry->lastRootAdded);
+		return ToPyUUID(GContext->itemRegistry->lastRootAdded);
 	}
 
 	PyObject* push_container_stack(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 		PyObject* itemraw;
 
-		if (!Parse((mvApp::GetApp()->getParsers())["push_container_stack"], args, kwargs, __FUNCTION__, &itemraw))
+		if (!Parse((GetParsers())["push_container_stack"], args, kwargs, __FUNCTION__, &itemraw))
 			return GetPyNone();
 
-		if (!mvApp::s_manualMutexControl) std::lock_guard<std::mutex> lk(mvApp::s_mutex);
+		if (!GContext->manualMutexControl) std::lock_guard<std::mutex> lk(GContext->mutex);
 
 		mvUUID item = mvAppItem::GetIDFromPyObject(itemraw);
 
-		auto parent = GetItem((*mvApp::GetApp()->itemRegistry), item);
+		auto parent = GetItem((*GContext->itemRegistry), item);
 		if (parent)
 		{
 			if (mvAppItem::DoesItemHaveFlag(parent, MV_ITEM_DESC_CONTAINER))
 			{
-				PushParent((*mvApp::GetApp()->itemRegistry), parent);
+				PushParent((*GContext->itemRegistry), parent);
 				return ToPyBool(true);
 			}
 		}
@@ -1521,26 +1521,26 @@ namespace Marvel {
 		PyObject* itemraw;
 		int value;
 
-		if (!VerifyRequiredArguments(mvApp::GetApp()->getParsers()["set_primary_window"], args))
+		if (!VerifyRequiredArguments(GetParsers()["set_primary_window"], args))
 			return GetPyNone();
 
-		if (!Parse((mvApp::GetApp()->getParsers())["set_primary_window"], args, kwargs, __FUNCTION__, &itemraw, &value))
+		if (!Parse((GetParsers())["set_primary_window"], args, kwargs, __FUNCTION__, &itemraw, &value))
 			return GetPyNone();
 
-		if (!mvApp::s_manualMutexControl) std::lock_guard<std::mutex> lk(mvApp::s_mutex);
+		if (!GContext->manualMutexControl) std::lock_guard<std::mutex> lk(GContext->mutex);
 
 		mvUUID item = mvAppItem::GetIDFromPyObject(itemraw);
 
-		SetPrimaryWindow((*mvApp::GetApp()->itemRegistry), item, value);
+		SetPrimaryWindow((*GContext->itemRegistry), item, value);
 
 		return GetPyNone();
 	}
 
 	PyObject* get_active_window(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
-		if (!mvApp::s_manualMutexControl) std::lock_guard<std::mutex> lk(mvApp::s_mutex);
+		if (!GContext->manualMutexControl) std::lock_guard<std::mutex> lk(GContext->mutex);
 
-		return ToPyUUID(mvApp::GetApp()->itemRegistry->activeWindow);
+		return ToPyUUID(GContext->itemRegistry->activeWindow);
 	}
 
 	PyObject* move_item(PyObject* self, PyObject* args, PyObject* kwargs)
@@ -1550,17 +1550,17 @@ namespace Marvel {
 		PyObject* parentraw = nullptr;
 		PyObject* beforeraw = nullptr;
 
-		if (!Parse((mvApp::GetApp()->getParsers())["move_item"], args, kwargs, __FUNCTION__,
+		if (!Parse((GetParsers())["move_item"], args, kwargs, __FUNCTION__,
 			&itemraw, &parentraw, &beforeraw))
 			return GetPyNone();
 
-		if (!mvApp::s_manualMutexControl) std::lock_guard<std::mutex> lk(mvApp::s_mutex);
+		if (!GContext->manualMutexControl) std::lock_guard<std::mutex> lk(GContext->mutex);
 
 		mvUUID item = mvAppItem::GetIDFromPyObject(itemraw);
 		mvUUID parent = mvAppItem::GetIDFromPyObject(parentraw);
 		mvUUID before = mvAppItem::GetIDFromPyObject(beforeraw);
 
-		MoveItem((*mvApp::GetApp()->itemRegistry), item, parent, before);
+		MoveItem((*GContext->itemRegistry), item, parent, before);
 
 		return GetPyNone();
 	}
@@ -1572,14 +1572,14 @@ namespace Marvel {
 		int childrenOnly = false;
 		int slot = -1;
 
-		if (!Parse((mvApp::GetApp()->getParsers())["delete_item"], args, kwargs, __FUNCTION__, &itemraw, &childrenOnly, &slot))
+		if (!Parse((GetParsers())["delete_item"], args, kwargs, __FUNCTION__, &itemraw, &childrenOnly, &slot))
 			return GetPyNone();
 
-		if (!mvApp::s_manualMutexControl) std::lock_guard<std::mutex> lk(mvApp::s_mutex);
+		if (!GContext->manualMutexControl) std::lock_guard<std::mutex> lk(GContext->mutex);
 
 		mvUUID item = mvAppItem::GetIDFromPyObject(itemraw);
 
-		DeleteItem((*mvApp::GetApp()->itemRegistry), item, childrenOnly, slot);
+		DeleteItem((*GContext->itemRegistry), item, childrenOnly, slot);
 
 		return GetPyNone();
 
@@ -1590,14 +1590,14 @@ namespace Marvel {
 
 		PyObject* itemraw;
 
-		if (!Parse((mvApp::GetApp()->getParsers())["does_item_exist"], args, kwargs, __FUNCTION__, &itemraw))
+		if (!Parse((GetParsers())["does_item_exist"], args, kwargs, __FUNCTION__, &itemraw))
 			return GetPyNone();
 
-		if (!mvApp::s_manualMutexControl) std::lock_guard<std::mutex> lk(mvApp::s_mutex);
+		if (!GContext->manualMutexControl) std::lock_guard<std::mutex> lk(GContext->mutex);
 
 		mvUUID item = mvAppItem::GetIDFromPyObject(itemraw);
 
-		if (GetItem((*mvApp::GetApp()->itemRegistry), item))
+		if (GetItem((*GContext->itemRegistry), item))
 			return ToPyBool(true);
 		return ToPyBool(false);
 	}
@@ -1607,14 +1607,14 @@ namespace Marvel {
 
 		PyObject* itemraw;
 
-		if (!Parse((mvApp::GetApp()->getParsers())["move_item_up"], args, kwargs, __FUNCTION__, &itemraw))
+		if (!Parse((GetParsers())["move_item_up"], args, kwargs, __FUNCTION__, &itemraw))
 			return GetPyNone();
 
-		if (!mvApp::s_manualMutexControl) std::lock_guard<std::mutex> lk(mvApp::s_mutex);
+		if (!GContext->manualMutexControl) std::lock_guard<std::mutex> lk(GContext->mutex);
 
 		mvUUID item = mvAppItem::GetIDFromPyObject(itemraw);
 
-		MoveItemUp((*mvApp::GetApp()->itemRegistry), item);
+		MoveItemUp((*GContext->itemRegistry), item);
 
 		return GetPyNone();
 
@@ -1625,14 +1625,14 @@ namespace Marvel {
 
 		PyObject* itemraw;
 
-		if (!Parse((mvApp::GetApp()->getParsers())["move_item_down"], args, kwargs, __FUNCTION__, &itemraw))
+		if (!Parse((GetParsers())["move_item_down"], args, kwargs, __FUNCTION__, &itemraw))
 			return GetPyNone();
 
-		if (!mvApp::s_manualMutexControl) std::lock_guard<std::mutex> lk(mvApp::s_mutex);
+		if (!GContext->manualMutexControl) std::lock_guard<std::mutex> lk(GContext->mutex);
 
 		mvUUID item = mvAppItem::GetIDFromPyObject(itemraw);
 
-		MoveItemDown((*mvApp::GetApp()->itemRegistry), item);
+		MoveItemDown((*GContext->itemRegistry), item);
 
 		return GetPyNone();
 	}
@@ -1644,16 +1644,16 @@ namespace Marvel {
 		int slot = 0;
 		PyObject* new_order = nullptr;
 
-		if (!Parse((mvApp::GetApp()->getParsers())["reorder_items"], args, kwargs, __FUNCTION__,
+		if (!Parse((GetParsers())["reorder_items"], args, kwargs, __FUNCTION__,
 			&containerraw, &slot, &new_order))
 			return GetPyNone();
 
-		if (!mvApp::s_manualMutexControl) std::lock_guard<std::mutex> lk(mvApp::s_mutex);
+		if (!GContext->manualMutexControl) std::lock_guard<std::mutex> lk(GContext->mutex);
 
 		auto anew_order = ToUUIDVect(new_order);
 		mvUUID container = mvAppItem::GetIDFromPyObject(containerraw);
 
-		auto parent = GetItem((*mvApp::GetApp()->itemRegistry), container);
+		auto parent = GetItem((*GContext->itemRegistry), container);
 
 		std::vector<mvRef<mvAppItem>>& children = parent->getChildren(slot);
 
@@ -1681,14 +1681,14 @@ namespace Marvel {
 
 		PyObject* itemraw = nullptr;
 
-		if (!Parse((mvApp::GetApp()->getParsers())["unstage"], args, kwargs, __FUNCTION__, &itemraw))
+		if (!Parse((GetParsers())["unstage"], args, kwargs, __FUNCTION__, &itemraw))
 			return GetPyNone();
 
-		if (!mvApp::s_manualMutexControl) std::lock_guard<std::mutex> lk(mvApp::s_mutex);
+		if (!GContext->manualMutexControl) std::lock_guard<std::mutex> lk(GContext->mutex);
 
 		mvUUID item = mvAppItem::GetIDFromPyObject(itemraw);
 
-		UnstageItem((*mvApp::GetApp()->itemRegistry), item);
+		UnstageItem((*GContext->itemRegistry), item);
 
 		return GetPyNone();
 	}
@@ -1698,18 +1698,18 @@ namespace Marvel {
 
 		PyObject* itemraw = nullptr;
 
-		if (!Parse((mvApp::GetApp()->getParsers())["show_item_debug"], args, kwargs, __FUNCTION__, &itemraw))
+		if (!Parse((GetParsers())["show_item_debug"], args, kwargs, __FUNCTION__, &itemraw))
 			return GetPyNone();
 
-		if (!mvApp::s_manualMutexControl) std::lock_guard<std::mutex> lk(mvApp::s_mutex);
+		if (!GContext->manualMutexControl) std::lock_guard<std::mutex> lk(GContext->mutex);
 
 		mvUUID item = mvAppItem::GetIDFromPyObject(itemraw);
 
-		auto actualItem = GetRefItem((*mvApp::GetApp()->itemRegistry), item);
+		auto actualItem = GetRefItem((*GContext->itemRegistry), item);
 		if (actualItem)
 		{
 			actualItem->_showDebug = true;
-			AddDebugWindow((*mvApp::GetApp()->itemRegistry), actualItem);
+			AddDebugWindow((*GContext->itemRegistry), actualItem);
 		}
 		else
 		{
@@ -1723,35 +1723,35 @@ namespace Marvel {
 	PyObject* get_all_items(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 
-		if (!mvApp::s_manualMutexControl) std::lock_guard<std::mutex> lk(mvApp::s_mutex);
+		if (!GContext->manualMutexControl) std::lock_guard<std::mutex> lk(GContext->mutex);
 
-		return ToPyList(GetAllItems((*mvApp::GetApp()->itemRegistry)));
+		return ToPyList(GetAllItems((*GContext->itemRegistry)));
 	}
 
 	PyObject* show_imgui_demo(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 
-		if (!mvApp::s_manualMutexControl) std::lock_guard<std::mutex> lk(mvApp::s_mutex);
+		if (!GContext->manualMutexControl) std::lock_guard<std::mutex> lk(GContext->mutex);
 
-		mvApp::GetApp()->itemRegistry->showImGuiDebug = true;
+		GContext->itemRegistry->showImGuiDebug = true;
 		return GetPyNone();
 	}
 
 	PyObject* show_implot_demo(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 
-		if (!mvApp::s_manualMutexControl) std::lock_guard<std::mutex> lk(mvApp::s_mutex);
+		if (!GContext->manualMutexControl) std::lock_guard<std::mutex> lk(GContext->mutex);
 
-		mvApp::GetApp()->itemRegistry->showImPlotDebug = true;
+		GContext->itemRegistry->showImPlotDebug = true;
 		return GetPyNone();
 	}
 
 	PyObject* get_windows(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 
-		if (!mvApp::s_manualMutexControl) std::lock_guard<std::mutex> lk(mvApp::s_mutex);
+		if (!GContext->manualMutexControl) std::lock_guard<std::mutex> lk(GContext->mutex);
 
-		return ToPyList(GetWindows((*mvApp::GetApp()->itemRegistry)));
+		return ToPyList(GetWindows((*GContext->itemRegistry)));
 	}
 
 	PyObject* add_alias(PyObject* self, PyObject* args, PyObject* kwargs)
@@ -1760,14 +1760,14 @@ namespace Marvel {
 		const char* alias;
 		PyObject* itemraw;
 
-		if (!Parse((mvApp::GetApp()->getParsers())["add_alias"], args, kwargs, __FUNCTION__, &alias, &itemraw))
+		if (!Parse((GetParsers())["add_alias"], args, kwargs, __FUNCTION__, &alias, &itemraw))
 			return GetPyNone();
 
-		if (!mvApp::s_manualMutexControl) std::lock_guard<std::mutex> lk(mvApp::s_mutex);
+		if (!GContext->manualMutexControl) std::lock_guard<std::mutex> lk(GContext->mutex);
 
 		mvUUID item = mvAppItem::GetIDFromPyObject(itemraw);
 
-		AddAlias((*mvApp::GetApp()->itemRegistry), alias, item);
+		AddAlias((*GContext->itemRegistry), alias, item);
 
 		return GetPyNone();
 
@@ -1778,12 +1778,12 @@ namespace Marvel {
 
 		const char* alias;
 
-		if (!Parse((mvApp::GetApp()->getParsers())["remove_alias"], args, kwargs, __FUNCTION__, &alias))
+		if (!Parse((GetParsers())["remove_alias"], args, kwargs, __FUNCTION__, &alias))
 			return GetPyNone();
 
-		if (!mvApp::s_manualMutexControl) std::lock_guard<std::mutex> lk(mvApp::s_mutex);
+		if (!GContext->manualMutexControl) std::lock_guard<std::mutex> lk(GContext->mutex);
 
-		RemoveAlias((*mvApp::GetApp()->itemRegistry), alias);
+		RemoveAlias((*GContext->itemRegistry), alias);
 
 		return GetPyNone();
 
@@ -1794,12 +1794,12 @@ namespace Marvel {
 
 		const char* alias;
 
-		if (!Parse((mvApp::GetApp()->getParsers())["does_alias_exist"], args, kwargs, __FUNCTION__, &alias))
+		if (!Parse((GetParsers())["does_alias_exist"], args, kwargs, __FUNCTION__, &alias))
 			return GetPyNone();
 
-		if (!mvApp::s_manualMutexControl) std::lock_guard<std::mutex> lk(mvApp::s_mutex);
+		if (!GContext->manualMutexControl) std::lock_guard<std::mutex> lk(GContext->mutex);
 
-		bool result = DoesAliasExist((*mvApp::GetApp()->itemRegistry), alias);
+		bool result = DoesAliasExist((*GContext->itemRegistry), alias);
 
 		return ToPyBool(result);
 	}
@@ -1809,12 +1809,12 @@ namespace Marvel {
 
 		const char* alias;
 
-		if (!Parse((mvApp::GetApp()->getParsers())["get_alias_id"], args, kwargs, __FUNCTION__, &alias))
+		if (!Parse((GetParsers())["get_alias_id"], args, kwargs, __FUNCTION__, &alias))
 			return GetPyNone();
 
-		if (!mvApp::s_manualMutexControl) std::lock_guard<std::mutex> lk(mvApp::s_mutex);
+		if (!GContext->manualMutexControl) std::lock_guard<std::mutex> lk(GContext->mutex);
 
-		mvUUID result = GetIdFromAlias((*mvApp::GetApp()->itemRegistry), alias);
+		mvUUID result = GetIdFromAlias((*GContext->itemRegistry), alias);
 
 		return ToPyUUID(result);
 	}
@@ -1822,11 +1822,11 @@ namespace Marvel {
 	PyObject* get_aliases(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 
-		if (!mvApp::s_manualMutexControl) std::lock_guard<std::mutex> lk(mvApp::s_mutex);
+		if (!GContext->manualMutexControl) std::lock_guard<std::mutex> lk(GContext->mutex);
 
 		std::vector<std::string> aliases;
 
-		for (const auto& alias : mvApp::GetApp()->itemRegistry->aliases)
+		for (const auto& alias : GContext->itemRegistry->aliases)
 			aliases.push_back(alias.first);
 
 		return ToPyList(aliases);
@@ -1837,22 +1837,22 @@ namespace Marvel {
 
 		PyObject* itemraw;
 
-		if (!Parse((mvApp::GetApp()->getParsers())["bind_template_registry"], args, kwargs, __FUNCTION__,
+		if (!Parse((GetParsers())["bind_template_registry"], args, kwargs, __FUNCTION__,
 			&itemraw))
 			return GetPyNone();
 
-		if (!mvApp::s_manualMutexControl) std::lock_guard<std::mutex> lk(mvApp::s_mutex);
+		if (!GContext->manualMutexControl) std::lock_guard<std::mutex> lk(GContext->mutex);
 
 		mvUUID item = mvAppItem::GetIDFromPyObject(itemraw);
 
 
 		if (item == 0)
-			mvApp::GetApp()->itemRegistry->boundedTemplateRegistry = nullptr;
+			GContext->itemRegistry->boundedTemplateRegistry = nullptr;
 		else
 		{
-			auto actualItem = GetRefItem((*mvApp::GetApp()->itemRegistry), item);
+			auto actualItem = GetRefItem((*GContext->itemRegistry), item);
 			if (actualItem)
-				mvApp::GetApp()->itemRegistry->boundedTemplateRegistry = actualItem;
+				GContext->itemRegistry->boundedTemplateRegistry = actualItem;
 			else
 			{
 				mvThrowPythonError(mvErrorCode::mvItemNotFound, "bind_template_registry",

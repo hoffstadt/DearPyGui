@@ -32,11 +32,11 @@ namespace Marvel {
 
     static void window_size_callback(GLFWwindow* window, int width, int height)
     {
-        mvApp::GetApp()->getViewport()->setActualHeight(height);
-        mvApp::GetApp()->getViewport()->setClientHeight(height);
-        mvApp::GetApp()->getViewport()->setActualWidth(width);
-        mvApp::GetApp()->getViewport()->setClientWidth(width);
-        mvApp::GetApp()->getViewport()->onResizeEvent();
+        GContext->viewport->setActualHeight(height);
+        GContext->viewport->setClientHeight(height);
+        GContext->viewport->setActualWidth(width);
+        GContext->viewport->setClientWidth(width);
+        GContext->viewport->onResizeEvent();
     }
 
     mvLinuxViewport::mvLinuxViewport(unsigned width, unsigned height)
@@ -132,7 +132,7 @@ namespace Marvel {
 
         // Setup style
         ImGui::StyleColorsDark();
-        mvApp::SetDefaultTheme();
+        SetDefaultTheme();
 
         // Setup Platform/Renderer bindings
         ImGui_ImplGlfw_InitForOpenGL(_window, true);
@@ -153,7 +153,7 @@ namespace Marvel {
 
         glfwDestroyWindow(_window);
         glfwTerminate();
-        mvApp::s_started = false;
+        GContext->started = false;
 	}
 
 	void mvLinuxViewport::maximize()
@@ -179,7 +179,7 @@ namespace Marvel {
         if(GImGui->CurrentWindow == nullptr)
             return;
 
-        _app->render();
+        Render();
 
         postrender();
     }

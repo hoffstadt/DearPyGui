@@ -1,7 +1,7 @@
 #pragma once
 #include <mutex>
 #include "mvThreadPool.h"
-#include "mvApp.h"
+#include "mvContext.h"
 #include "mvEvents.h"
 
 namespace Marvel {
@@ -59,7 +59,7 @@ namespace Marvel {
 			std::packaged_task<result_type()> task(std::move(f));
 			std::future<result_type> res(task.get_future());
 
-			if (mvApp::IsAppStarted())
+			if (GContext->started)
 				m_tasks.push(std::move(task));
 			else
 				task();

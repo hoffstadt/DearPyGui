@@ -77,7 +77,7 @@ def start_dearpygui():
 
     while(internal_dpg.is_dearpygui_running()):
         internal_dpg.render_dearpygui_frame()   
-    internal_dpg.cleanup_dearpygui()
+    internal_dpg.destroy_context()
 
 
 @contextmanager
@@ -1307,6 +1307,9 @@ def add_dummy(*, label: str =None, user_data: Any =None, use_internal_label: boo
 
 	return internal_dpg.add_spacer(label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, width=width, height=height, indent=indent, parent=parent, before=before, show=show, pos=pos)
 
+@deprecated("Use: `destroy_context()`")
+def cleanup_dearpygui() -> None:
+	return internal_dpg.destroy_context()
 
 ##########################################################
 # Container Context Managers
@@ -1435,7 +1438,7 @@ def colormap_registry(*, label: str =None, user_data: Any =None, use_internal_la
 		internal_dpg.pop_container_stack()
 
 @contextmanager
-def drag_payload(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, parent: Union[int, str] =0, show: bool =True, drag_data: Any =None, payload_type: str ='$$DPG_PAYLOAD') -> Union[int, str]:
+def drag_payload(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, parent: Union[int, str] =0, show: bool =True, drag_data: Any =None, drop_data: Any =None, payload_type: str ='$$DPG_PAYLOAD') -> Union[int, str]:
 	"""	User data payload for drag and drop operations.
 
 	Args:
@@ -1446,12 +1449,13 @@ def drag_payload(*, label: str =None, user_data: Any =None, use_internal_label: 
 		parent (Union[int, str], optional): Parent to add this item to. (runtime adding)
 		show (bool, optional): Attempt to render widget.
 		drag_data (Any, optional): Drag data
+		drop_data (Any, optional): Drop data
 		payload_type (str, optional): 
 	Yields:
 		Union[int, str]
 	"""
 	try:
-		widget = internal_dpg.add_drag_payload(label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, parent=parent, show=show, drag_data=drag_data, payload_type=payload_type)
+		widget = internal_dpg.add_drag_payload(label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, parent=parent, show=show, drag_data=drag_data, drop_data=drop_data, payload_type=payload_type)
 		internal_dpg.push_container_stack(widget)
 		yield widget
 	finally:
@@ -3305,7 +3309,7 @@ def add_drag_line(*, label: str =None, user_data: Any =None, use_internal_label:
 
 	return internal_dpg.add_drag_line(label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, parent=parent, before=before, source=source, callback=callback, show=show, default_value=default_value, color=color, thickness=thickness, show_label=show_label, vertical=vertical)
 
-def add_drag_payload(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, parent: Union[int, str] =0, show: bool =True, drag_data: Any =None, payload_type: str ='$$DPG_PAYLOAD') -> Union[int, str]:
+def add_drag_payload(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, parent: Union[int, str] =0, show: bool =True, drag_data: Any =None, drop_data: Any =None, payload_type: str ='$$DPG_PAYLOAD') -> Union[int, str]:
 	"""	User data payload for drag and drop operations.
 
 	Args:
@@ -3316,12 +3320,13 @@ def add_drag_payload(*, label: str =None, user_data: Any =None, use_internal_lab
 		parent (Union[int, str], optional): Parent to add this item to. (runtime adding)
 		show (bool, optional): Attempt to render widget.
 		drag_data (Any, optional): Drag data
+		drop_data (Any, optional): Drop data
 		payload_type (str, optional): 
 	Returns:
 		Union[int, str]
 	"""
 
-	return internal_dpg.add_drag_payload(label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, parent=parent, show=show, drag_data=drag_data, payload_type=payload_type)
+	return internal_dpg.add_drag_payload(label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, parent=parent, show=show, drag_data=drag_data, drop_data=drop_data, payload_type=payload_type)
 
 def add_drag_point(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, parent: Union[int, str] =0, before: Union[int, str] =0, source: Union[int, str] =0, callback: Callable =None, show: bool =True, default_value: Any =(0.0, 0.0), color: Union[List[int], Tuple[int]] =(0, 0, 0, -255), thickness: float =1.0, show_label: bool =True) -> Union[int, str]:
 	"""	Adds a drag point to a plot.
@@ -4511,7 +4516,7 @@ def add_menu_bar(*, label: str =None, user_data: Any =None, use_internal_label: 
 
 	return internal_dpg.add_menu_bar(label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, indent=indent, parent=parent, show=show, delay_search=delay_search)
 
-def add_menu_item(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, indent: int =-1, parent: Union[int, str] =0, before: Union[int, str] =0, payload_type: str ='$$DPG_PAYLOAD', callback: Callable =None, drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, enabled: bool =True, filter_key: str ='', tracked: bool =False, track_offset: float =0.5, default_value: bool =False, shortcut: str ='', check: bool =False) -> Union[int, str]:
+def add_menu_item(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, indent: int =-1, parent: Union[int, str] =0, before: Union[int, str] =0, payload_type: str ='$$DPG_PAYLOAD', callback: Callable =None, drop_callback: Callable =None, show: bool =True, enabled: bool =True, filter_key: str ='', tracked: bool =False, track_offset: float =0.5, default_value: bool =False, shortcut: str ='', check: bool =False) -> Union[int, str]:
 	"""	Adds a menu item to an existing menu. Menu items act similar to selectables.
 
 	Args:
@@ -4524,7 +4529,6 @@ def add_menu_item(*, label: str =None, user_data: Any =None, use_internal_label:
 		before (Union[int, str], optional): This item will be displayed before the specified item in the parent.
 		payload_type (str, optional): Sender string type must be the same as the target for the target to run the payload_callback.
 		callback (Callable, optional): Registers a callback.
-		drag_callback (Callable, optional): Registers a drag callback for drag and drop.
 		drop_callback (Callable, optional): Registers a drop callback for drag and drop.
 		show (bool, optional): Attempt to render widget.
 		enabled (bool, optional): Turns off functionality of widget and applies the disabled theme.
@@ -4538,7 +4542,7 @@ def add_menu_item(*, label: str =None, user_data: Any =None, use_internal_label:
 		Union[int, str]
 	"""
 
-	return internal_dpg.add_menu_item(label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, indent=indent, parent=parent, before=before, payload_type=payload_type, callback=callback, drag_callback=drag_callback, drop_callback=drop_callback, show=show, enabled=enabled, filter_key=filter_key, tracked=tracked, track_offset=track_offset, default_value=default_value, shortcut=shortcut, check=check)
+	return internal_dpg.add_menu_item(label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, indent=indent, parent=parent, before=before, payload_type=payload_type, callback=callback, drop_callback=drop_callback, show=show, enabled=enabled, filter_key=filter_key, tracked=tracked, track_offset=track_offset, default_value=default_value, shortcut=shortcut, check=check)
 
 def add_mouse_click_handler(button : int =-1, *, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, callback: Callable =None, show: bool =True, parent: Union[int, str] =internal_dpg.mvReservedUUID_1) -> Union[int, str]:
 	"""	Adds a mouse click handler.
@@ -5659,7 +5663,7 @@ def add_template_registry(*, label: str =None, user_data: Any =None, use_interna
 
 	return internal_dpg.add_template_registry(label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag)
 
-def add_text(default_value : str ='', *, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, indent: int =-1, parent: Union[int, str] =0, before: Union[int, str] =0, source: Union[int, str] =0, show: bool =True, pos: Union[List[int], Tuple[int]] =[], filter_key: str ='', tracked: bool =False, track_offset: float =0.5, wrap: int =-1, bullet: bool =False, color: Union[List[float], Tuple[float]] =(-1, -1, -1, -1), show_label: bool =False) -> Union[int, str]:
+def add_text(default_value : str ='', *, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, indent: int =-1, parent: Union[int, str] =0, before: Union[int, str] =0, source: Union[int, str] =0, payload_type: str ='$$DPG_PAYLOAD', drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, pos: Union[List[int], Tuple[int]] =[], filter_key: str ='', tracked: bool =False, track_offset: float =0.5, wrap: int =-1, bullet: bool =False, color: Union[List[float], Tuple[float]] =(-1, -1, -1, -1), show_label: bool =False) -> Union[int, str]:
 	"""	Adds text. Text can have an optional label that will display to the right of the text.
 
 	Args:
@@ -5672,6 +5676,9 @@ def add_text(default_value : str ='', *, label: str =None, user_data: Any =None,
 		parent (Union[int, str], optional): Parent to add this item to. (runtime adding)
 		before (Union[int, str], optional): This item will be displayed before the specified item in the parent.
 		source (Union[int, str], optional): Overrides 'id' as value storage key.
+		payload_type (str, optional): Sender string type must be the same as the target for the target to run the payload_callback.
+		drag_callback (Callable, optional): Registers a drag callback for drag and drop.
+		drop_callback (Callable, optional): Registers a drop callback for drag and drop.
 		show (bool, optional): Attempt to render widget.
 		pos (Union[List[int], Tuple[int]], optional): Places the item relative to window coordinates, [0,0] is top left.
 		filter_key (str, optional): Used by filter widget.
@@ -5685,7 +5692,7 @@ def add_text(default_value : str ='', *, label: str =None, user_data: Any =None,
 		Union[int, str]
 	"""
 
-	return internal_dpg.add_text(default_value, label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, indent=indent, parent=parent, before=before, source=source, show=show, pos=pos, filter_key=filter_key, tracked=tracked, track_offset=track_offset, wrap=wrap, bullet=bullet, color=color, show_label=show_label)
+	return internal_dpg.add_text(default_value, label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, indent=indent, parent=parent, before=before, source=source, payload_type=payload_type, drag_callback=drag_callback, drop_callback=drop_callback, show=show, pos=pos, filter_key=filter_key, tracked=tracked, track_offset=track_offset, wrap=wrap, bullet=bullet, color=color, show_label=show_label)
 
 def add_text_point(x : float, y : float, *, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, parent: Union[int, str] =0, before: Union[int, str] =0, source: Union[int, str] =0, show: bool =True, x_offset: int =..., y_offset: int =..., vertical: bool =False) -> Union[int, str]:
 	"""	Adds a label series to a plot.
@@ -6047,16 +6054,6 @@ def bind_theme(theme : Union[int, str]) -> None:
 
 	return internal_dpg.bind_theme(theme)
 
-def cleanup_dearpygui() -> None:
-	"""	Cleans up Dear PyGui
-
-	Args:
-	Returns:
-		None
-	"""
-
-	return internal_dpg.cleanup_dearpygui()
-
 def clear_selected_links(node_editor : Union[int, str]) -> None:
 	"""	Undocumented
 
@@ -6100,6 +6097,16 @@ def configure_app(*, docking: bool =False, docking_space: bool =False, load_init
 
 	return internal_dpg.configure_app(docking=docking, docking_space=docking_space, load_init_file=load_init_file, init_file=init_file, device=device, auto_device=auto_device, allow_alias_overwrites=allow_alias_overwrites, manual_alias_management=manual_alias_management, skip_required_args=skip_required_args, skip_positional_args=skip_positional_args, skip_keyword_args=skip_keyword_args)
 
+def create_context() -> None:
+	"""	Creates the Dear PyGui context.
+
+	Args:
+	Returns:
+		None
+	"""
+
+	return internal_dpg.create_context()
+
 def create_viewport(*, title: str ='Dear PyGui', small_icon: str ='', large_icon: str ='', width: int =1280, height: int =800, x_pos: int =100, y_pos: int =100, min_width: int =250, max_width: int =10000, min_height: int =250, max_height: int =10000, resizable: bool =True, vsync: bool =True, always_on_top: bool =False, decorated: bool =True, clear_color: Union[List[float], Tuple[float]] =(0, 0, 0, 255)) -> None:
 	"""	Creates a viewport.
 
@@ -6138,6 +6145,16 @@ def delete_item(item : Union[int, str], *, children_only: bool =False, slot: int
 	"""
 
 	return internal_dpg.delete_item(item, children_only=children_only, slot=slot)
+
+def destroy_context() -> None:
+	"""	Destroys the Dear PyGui context.
+
+	Args:
+	Returns:
+		None
+	"""
+
+	return internal_dpg.destroy_context()
 
 def does_alias_exist(alias : str) -> bool:
 	"""	Checks if an alias exist.

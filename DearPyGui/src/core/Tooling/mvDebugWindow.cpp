@@ -1,8 +1,7 @@
 #include "mvDebugWindow.h"
-#include "mvApp.h"
+#include "mvContext.h"
 #include <misc/cpp/imgui_stdlib.h>
 #include "mvItemRegistry.h"
-#include "mvInput.h"
 #include "mvModule_DearPyGui.h"
 
 namespace Marvel {
@@ -49,7 +48,7 @@ namespace Marvel {
 
 		ImGuiIO& io = ImGui::GetIO();
 
-		//static auto app = mvApp::GetApp();
+		//static auto app = GContext;
 
 		if (ImGui::BeginTabBar("Main Tabbar"))
 		{
@@ -61,7 +60,7 @@ namespace Marvel {
 				ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / io.Framerate, io.Framerate);
 				ImGui::Text("%d vertices, %d indices (%d triangles)", io.MetricsRenderVertices, io.MetricsRenderIndices, io.MetricsRenderIndices / 3);
 				ImGui::Text("%d active allocations", io.MetricsActiveAllocations);
-				DebugItem("DearPyGui Version: ", mvApp::GetVersion());
+				DebugItem("DearPyGui Version: ", GetVersion());
 				DebugItem("ImGui Version: ", IMGUI_VERSION);
 
 
@@ -77,13 +76,12 @@ namespace Marvel {
 				ImGui::PushItemWidth(200);
 				ImGui::BeginGroup();
 
-				auto mousepos = mvInput::getMousePosition();
-				//DebugItem("Active Window: ", mvApp::GetApp()->itemRegistry->getActiveWindow().c_str());
-				DebugItem("Local Mouse Position:", mousepos.x, mousepos.y);
+				//DebugItem("Active Window: ", GContext->itemRegistry->getActiveWindow().c_str());
+				DebugItem("Local Mouse Position:", GContext->input.mousePos.x, GContext->input.mousePos.y);
 				DebugItem("Global Mouse Position:", io.MousePos.x, io.MousePos.y);
-				DebugItem("Plot Mouse Position:", mvInput::getPlotMousePosition().x, mvInput::getPlotMousePosition().y);
-				DebugItem("Mouse Drag Delta:", mvInput::getMouseDragDelta().x, mvInput::getMouseDragDelta().y);
-				DebugItem("Mouse Drag Threshold:", (float)mvInput::getMouseDragThreshold());
+				DebugItem("Plot Mouse Position:", GContext->input.mousePlotPos.x, GContext->input.mousePlotPos.y);
+				DebugItem("Mouse Drag Delta:", GContext->input.mouseDragDelta.x, GContext->input.mouseDragDelta.y);
+				DebugItem("Mouse Drag Threshold:", (float)GContext->input.mouseDragThreshold);
 
 				ImGui::Spacing();
 				ImGui::Spacing();
@@ -145,7 +143,7 @@ namespace Marvel {
 				if (ImGui::Button("Run##debug"))
 				{
 					std::string command = "from dearpygui.dearpygui import *\nfrom dearpygui.demo import *\n" + commandstring;
-					mvApp::GetApp()->getCallbackRegistry().submitCallback([=]() {
+					GContext->callbackRegistry->submitCallback([=]() {
 						PyRun_SimpleString(command.c_str());
 						});
 

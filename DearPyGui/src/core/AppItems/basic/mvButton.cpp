@@ -24,7 +24,7 @@ SOFTWARE.
 #include <utility>
 #include "mvButton.h"
 #include "mvCore.h"
-#include "mvApp.h"
+#include "mvContext.h"
 #include "mvItemRegistry.h"
 #include "AppItems/fonts/mvFont.h"
 #include "AppItems/themes/mvTheme.h"
@@ -151,9 +151,9 @@ namespace Marvel {
 			if (activated)
 			{
 				if (_alias.empty())
-					mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), _uuid, nullptr, _user_data);
+					GContext->callbackRegistry->addCallback(getCallback(false), _uuid, nullptr, _user_data);
 				else
-					mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), _alias, nullptr, _user_data);
+					GContext->callbackRegistry->addCallback(getCallback(false), _alias, nullptr, _user_data);
 			}
 		}
 
@@ -205,9 +205,9 @@ namespace Marvel {
 				{
 					auto payloadActual = static_cast<const mvDragPayload*>(payload->Data);
 					if (_alias.empty())
-						mvApp::GetApp()->getCallbackRegistry().addCallback(_dropCallback,_uuid, payloadActual->getDragData(), nullptr);
+						GContext->callbackRegistry->addCallback(_dropCallback,_uuid, payloadActual->getDragData(), nullptr);
 					else
-						mvApp::GetApp()->getCallbackRegistry().addCallback(_dropCallback,_alias, payloadActual->getDragData(), nullptr);
+						GContext->callbackRegistry->addCallback(_dropCallback,_alias, payloadActual->getDragData(), nullptr);
 				}
 
 				ImGui::EndDragDropTarget();

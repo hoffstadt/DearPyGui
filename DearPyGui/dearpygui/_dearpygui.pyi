@@ -130,7 +130,7 @@ def add_drag_line(*, label: str ='', user_data: Any ='', use_internal_label: boo
 	"""Adds a drag line to a plot."""
 	...
 
-def add_drag_payload(*, label: str ='', user_data: Any ='', use_internal_label: bool ='', tag: Union[int, str] ='', parent: Union[int, str] ='', show: bool ='', drag_data: Any ='', payload_type: str ='') -> Union[int, str]:
+def add_drag_payload(*, label: str ='', user_data: Any ='', use_internal_label: bool ='', tag: Union[int, str] ='', parent: Union[int, str] ='', show: bool ='', drag_data: Any ='', drop_data: Any ='', payload_type: str ='') -> Union[int, str]:
 	"""User data payload for drag and drop operations."""
 	...
 
@@ -350,7 +350,7 @@ def add_menu_bar(*, label: str ='', user_data: Any ='', use_internal_label: bool
 	"""Adds a menu bar to a window."""
 	...
 
-def add_menu_item(*, label: str ='', user_data: Any ='', use_internal_label: bool ='', tag: Union[int, str] ='', indent: int ='', parent: Union[int, str] ='', before: Union[int, str] ='', payload_type: str ='', callback: Callable ='', drag_callback: Callable ='', drop_callback: Callable ='', show: bool ='', enabled: bool ='', filter_key: str ='', tracked: bool ='', track_offset: float ='', default_value: bool ='', shortcut: str ='', check: bool ='') -> Union[int, str]:
+def add_menu_item(*, label: str ='', user_data: Any ='', use_internal_label: bool ='', tag: Union[int, str] ='', indent: int ='', parent: Union[int, str] ='', before: Union[int, str] ='', payload_type: str ='', callback: Callable ='', drop_callback: Callable ='', show: bool ='', enabled: bool ='', filter_key: str ='', tracked: bool ='', track_offset: float ='', default_value: bool ='', shortcut: str ='', check: bool ='') -> Union[int, str]:
 	"""Adds a menu item to an existing menu. Menu items act similar to selectables."""
 	...
 
@@ -530,7 +530,7 @@ def add_template_registry(*, label: str ='', user_data: Any ='', use_internal_la
 	"""Adds a template registry."""
 	...
 
-def add_text(default_value : str ='', *, label: str ='', user_data: Any ='', use_internal_label: bool ='', tag: Union[int, str] ='', indent: int ='', parent: Union[int, str] ='', before: Union[int, str] ='', source: Union[int, str] ='', show: bool ='', pos: Union[List[int], Tuple[int]] ='', filter_key: str ='', tracked: bool ='', track_offset: float ='', wrap: int ='', bullet: bool ='', color: Union[List[float], Tuple[float]] ='', show_label: bool ='') -> Union[int, str]:
+def add_text(default_value : str ='', *, label: str ='', user_data: Any ='', use_internal_label: bool ='', tag: Union[int, str] ='', indent: int ='', parent: Union[int, str] ='', before: Union[int, str] ='', source: Union[int, str] ='', payload_type: str ='', drag_callback: Callable ='', drop_callback: Callable ='', show: bool ='', pos: Union[List[int], Tuple[int]] ='', filter_key: str ='', tracked: bool ='', track_offset: float ='', wrap: int ='', bullet: bool ='', color: Union[List[float], Tuple[float]] ='', show_label: bool ='') -> Union[int, str]:
 	"""Adds text. Text can have an optional label that will display to the right of the text."""
 	...
 
@@ -614,10 +614,6 @@ def bind_theme(theme : Union[int, str]) -> None:
 	"""Binds a global theme."""
 	...
 
-def cleanup_dearpygui() -> None:
-	"""Cleans up Dear PyGui"""
-	...
-
 def clear_selected_links(node_editor : Union[int, str]) -> None:
 	"""Undocumented"""
 	...
@@ -638,12 +634,20 @@ def configure_viewport(item : Union[int, str], **kwargs) -> None:
 	"""Configures a viewport."""
 	...
 
+def create_context() -> None:
+	"""Creates the Dear PyGui context."""
+	...
+
 def create_viewport(*, title: str ='', small_icon: str ='', large_icon: str ='', width: int ='', height: int ='', x_pos: int ='', y_pos: int ='', min_width: int ='', max_width: int ='', min_height: int ='', max_height: int ='', resizable: bool ='', vsync: bool ='', always_on_top: bool ='', decorated: bool ='', clear_color: Union[List[float], Tuple[float]] ='') -> None:
 	"""Creates a viewport."""
 	...
 
 def delete_item(item : Union[int, str], *, children_only: bool ='', slot: int ='') -> None:
 	"""Deletes an item.."""
+	...
+
+def destroy_context() -> None:
+	"""Destroys the Dear PyGui context."""
 	...
 
 def does_alias_exist(alias : str) -> bool:

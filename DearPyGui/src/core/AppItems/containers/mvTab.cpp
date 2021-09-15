@@ -1,6 +1,6 @@
 #include "mvTab.h"
 #include "mvTabBar.h"
-#include "mvApp.h"
+#include "mvContext.h"
 #include "mvItemRegistry.h"
 #include "mvPythonExceptions.h"
 #include "AppItems/fonts/mvFont.h"
@@ -82,7 +82,7 @@ namespace Marvel {
         if (dataSource == _source) return;
         _source = dataSource;
 
-        mvAppItem* item = GetItem((*mvApp::GetApp()->itemRegistry), dataSource);
+        mvAppItem* item = GetItem((*GContext->itemRegistry), dataSource);
         if (!item)
         {
             mvThrowPythonError(mvErrorCode::mvSourceNotFound, "set_value",
@@ -171,7 +171,7 @@ namespace Marvel {
                 *_value = true;
             }
             
-            _state.lastFrameUpdate = mvApp::s_frame;
+            _state.lastFrameUpdate = GContext->frame;
             // create tab item and see if it is selected
             if (ImGui::BeginTabItem(_internalLabel.c_str(), _closable ? &_show : nullptr, _flags))
             {
@@ -202,11 +202,11 @@ namespace Marvel {
                 // run call back if it exists
                 if (parent->getSpecificValue() != _uuid)
                 {
-                    mvApp::GetApp()->getCallbackRegistry().submitCallback([=]() {
+                    GContext->callbackRegistry->submitCallback([=]() {
                         if(parent->_alias.empty())
-                            mvApp::GetApp()->getCallbackRegistry().addCallback(parent->getCallback(), parent->_uuid, ToPyUUID(_uuid), parent->_user_data);
+                            GContext->callbackRegistry->addCallback(parent->getCallback(), parent->_uuid, ToPyUUID(_uuid), parent->_user_data);
                         else
-                            mvApp::GetApp()->getCallbackRegistry().addCallback(parent->getCallback(), parent->_alias, ToPyUUID(_uuid), parent->_user_data);
+                            GContext->callbackRegistry->addCallback(parent->getCallback(), parent->_alias, ToPyUUID(_uuid), parent->_user_data);
                         });
                 }
 
@@ -278,9 +278,9 @@ namespace Marvel {
                 {
                     auto payloadActual = static_cast<const mvDragPayload*>(payload->Data);
                     if (_alias.empty())
-                        mvApp::GetApp()->getCallbackRegistry().addCallback(_dropCallback,_uuid, payloadActual->getDragData(), nullptr);
+                        GContext->callbackRegistry->addCallback(_dropCallback,_uuid, payloadActual->getDragData(), nullptr);
                     else
-                        mvApp::GetApp()->getCallbackRegistry().addCallback(_dropCallback,_alias, payloadActual->getDragData(), nullptr);
+                        GContext->callbackRegistry->addCallback(_dropCallback,_alias, payloadActual->getDragData(), nullptr);
                 }
 
                 ImGui::EndDragDropTarget();

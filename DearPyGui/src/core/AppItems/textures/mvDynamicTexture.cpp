@@ -66,7 +66,7 @@ namespace Marvel {
 		if (dataSource == _source) return;
 		_source = dataSource;
 
-		mvAppItem* item = GetItem((*mvApp::GetApp()->itemRegistry), dataSource);
+		mvAppItem* item = GetItem((*GContext->itemRegistry), dataSource);
 		if (!item)
 		{
 			mvThrowPythonError(mvErrorCode::mvSourceNotFound, "set_value",
@@ -102,7 +102,7 @@ namespace Marvel {
 
 	void mvDynamicTexture::handleSpecificRequiredArgs(PyObject* dict)
 	{
-		if (!VerifyRequiredArguments(mvApp::GetApp()->getParsers()[s_command], dict))
+		if (!VerifyRequiredArguments(GetParsers()[s_command], dict))
 			return;
 
 		for (int i = 0; i < PyTuple_Size(dict); i++)

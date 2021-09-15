@@ -1,6 +1,6 @@
 #include <utility>
 #include "mvPlotLegend.h"
-#include "mvApp.h"
+#include "mvContext.h"
 #include "mvItemRegistry.h"
 #include "mvLog.h"
 #include "themes/mvTheme.h"
@@ -70,7 +70,7 @@ namespace Marvel {
 				if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload(_payloadType.c_str()))
 				{
 					auto payloadActual = static_cast<const mvDragPayload*>(payload->Data);
-					mvApp::GetApp()->getCallbackRegistry().addCallback(_dropCallback,_uuid, payloadActual->getDragData(), nullptr);
+					GContext->callbackRegistry->addCallback(_dropCallback,_uuid, payloadActual->getDragData(), nullptr);
 				}
 
 				ImPlot::EndDragDropTarget();

@@ -1,5 +1,5 @@
 #include "mvTabBar.h"
-#include "mvApp.h"
+#include "mvContext.h"
 #include "mvLog.h"
 #include "mvItemRegistry.h"
 #include "mvTab.h"
@@ -77,7 +77,7 @@ namespace Marvel {
 		if (dataSource == _source) return;
 		_source = dataSource;
 
-		mvAppItem* item = GetItem((*mvApp::GetApp()->itemRegistry), dataSource);
+		mvAppItem* item = GetItem((*GContext->itemRegistry), dataSource);
 		if (!item)
 		{
 			mvThrowPythonError(mvErrorCode::mvSourceNotFound, "set_value",
@@ -106,7 +106,7 @@ namespace Marvel {
 		if (ImGui::BeginTabBar(_internalLabel.c_str(), _flags))
 		{
 
-            _state.lastFrameUpdate = mvApp::s_frame;
+            _state.lastFrameUpdate = GContext->frame;
             _state.visible = true; // BeginTabBar(...) only reaches this if visible
             
 			for (auto& item : _children[1])

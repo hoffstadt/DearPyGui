@@ -1,6 +1,6 @@
 #include "mvImage.h"
 #include "mvItemRegistry.h"
-#include "mvApp.h"
+#include "mvContext.h"
 #include "mvPythonExceptions.h"
 #include "AppItems/fonts/mvFont.h"
 #include "AppItems/themes/mvTheme.h"
@@ -201,7 +201,7 @@ namespace Marvel {
 				if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload(_payloadType.c_str()))
 				{
 					auto payloadActual = static_cast<const mvDragPayload*>(payload->Data);
-					mvApp::GetApp()->getCallbackRegistry().addCallback(_dropCallback,_uuid, payloadActual->getDragData(), nullptr);
+					GContext->callbackRegistry->addCallback(_dropCallback,_uuid, payloadActual->getDragData(), nullptr);
 				}
 
 				ImGui::EndDragDropTarget();
@@ -222,7 +222,7 @@ namespace Marvel {
 
 	void mvImage::handleSpecificRequiredArgs(PyObject* dict)
 	{
-		if (!VerifyRequiredArguments(mvApp::GetApp()->getParsers()[s_command], dict))
+		if (!VerifyRequiredArguments(GetParsers()[s_command], dict))
 			return;
 
 		for (int i = 0; i < PyTuple_Size(dict); i++)
@@ -233,7 +233,7 @@ namespace Marvel {
 			case 0:
 			{
 				_textureUUID = mvAppItem::GetIDFromPyObject(item);
-				_texture = GetRefItem(*mvApp::GetApp()->itemRegistry, _textureUUID);
+				_texture = GetRefItem(*GContext->itemRegistry, _textureUUID);
 				if (_texture)
 					break;
 				else if (_textureUUID == MV_ATLAS_UUID)

@@ -50,12 +50,12 @@ namespace Marvel {
 			{
 				if (ImGui::GetIO().KeysDownDurationPrev[i] >= 0.0f && !ImGui::GetIO().KeysDown[i])
 				{
-					mvApp::GetApp()->getCallbackRegistry().submitCallback([=]()
+					GContext->callbackRegistry->submitCallback([=]()
 						{
 							if (_alias.empty())
-								mvApp::GetApp()->getCallbackRegistry().runCallback(getCallback(false), _uuid, ToPyInt(i), _user_data);
+								GContext->callbackRegistry->runCallback(getCallback(false), _uuid, ToPyInt(i), _user_data);
 							else
-								mvApp::GetApp()->getCallbackRegistry().runCallback(getCallback(false), _alias, ToPyInt(i), _user_data);
+								GContext->callbackRegistry->runCallback(getCallback(false), _alias, ToPyInt(i), _user_data);
 						});
 				}
 			}
@@ -63,19 +63,19 @@ namespace Marvel {
 
 		else if (ImGui::IsKeyReleased(_key))
 		{
-			mvApp::GetApp()->getCallbackRegistry().submitCallback([=]()
+			GContext->callbackRegistry->submitCallback([=]()
 				{
 					if (_alias.empty())
-						mvApp::GetApp()->getCallbackRegistry().runCallback(getCallback(false), _uuid, ToPyInt(_key), _user_data);
+						GContext->callbackRegistry->runCallback(getCallback(false), _uuid, ToPyInt(_key), _user_data);
 					else
-						mvApp::GetApp()->getCallbackRegistry().runCallback(getCallback(false), _alias, ToPyInt(_key), _user_data);
+						GContext->callbackRegistry->runCallback(getCallback(false), _alias, ToPyInt(_key), _user_data);
 				});
 		}
 	}
 
 	void mvKeyReleaseHandler::handleSpecificPositionalArgs(PyObject* dict)
 	{
-		if (!VerifyPositionalArguments(mvApp::GetApp()->getParsers()[s_command], dict))
+		if (!VerifyPositionalArguments(GetParsers()[s_command], dict))
 			return;
 
 		for (int i = 0; i < PyTuple_Size(dict); i++)

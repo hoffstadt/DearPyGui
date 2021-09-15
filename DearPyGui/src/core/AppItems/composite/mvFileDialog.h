@@ -24,7 +24,7 @@ SOFTWARE.
 #pragma once
 
 #include "mvItemRegistry.h"
-#include "mvApp.h"
+#include "mvContext.h"
 #include "mvItemRegistry.h"
 
 #pragma warning(push, 0) 

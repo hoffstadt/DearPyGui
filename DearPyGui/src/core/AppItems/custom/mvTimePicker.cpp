@@ -2,7 +2,7 @@
 #include <implot.h>
 #include <implot_internal.h>
 #include <misc/cpp/imgui_stdlib.h>
-#include "mvApp.h"
+#include "mvContext.h"
 #include "mvItemRegistry.h"
 #include "mvPythonExceptions.h"
 #include "AppItems/fonts/mvFont.h"
@@ -128,11 +128,11 @@ namespace Marvel {
 				ImPlot::GetGmtTime(*_imvalue, _value.get());
 				{
 					auto value = *_value;
-					mvApp::GetApp()->getCallbackRegistry().submitCallback([=]() {
+					GContext->callbackRegistry->submitCallback([=]() {
 						if(_alias.empty())
-							mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), _uuid, ToPyTime(value), _user_data);
+							GContext->callbackRegistry->addCallback(getCallback(false), _uuid, ToPyTime(value), _user_data);
 						else
-							mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), _alias, ToPyTime(value), _user_data);
+							GContext->callbackRegistry->addCallback(getCallback(false), _alias, ToPyTime(value), _user_data);
 						});
 				}
 			}
@@ -186,9 +186,9 @@ namespace Marvel {
 				{
 					auto payloadActual = static_cast<const mvDragPayload*>(payload->Data);
 					if (_alias.empty())
-						mvApp::GetApp()->getCallbackRegistry().addCallback(_dropCallback,_uuid, payloadActual->getDragData(), nullptr);
+						GContext->callbackRegistry->addCallback(_dropCallback,_uuid, payloadActual->getDragData(), nullptr);
 					else
-						mvApp::GetApp()->getCallbackRegistry().addCallback(_dropCallback,_alias, payloadActual->getDragData(), nullptr);
+						GContext->callbackRegistry->addCallback(_dropCallback,_alias, payloadActual->getDragData(), nullptr);
 				}
 
 				ImGui::EndDragDropTarget();

@@ -15,7 +15,6 @@ namespace Marvel {
 	mvViewport::mvViewport(unsigned width, unsigned height) :
 		_width(width), _height(height)
 	{
-		_app = mvApp::GetApp();
 	}
 
 	void mvViewport::InsertParser(std::map<std::string, mvPythonParser>* parsers)
@@ -126,14 +125,14 @@ namespace Marvel {
 
 	void mvViewport::onResizeEvent()
 	{
-		mvApp::GetApp()->getCallbackRegistry().submitCallback([=]() {
+		GContext->callbackRegistry->submitCallback([=]() {
 			PyObject* dimensions = PyTuple_New(4);
 			PyTuple_SetItem(dimensions, 0, PyLong_FromLong(_actualWidth));
 			PyTuple_SetItem(dimensions, 1, PyLong_FromLong(_actualHeight));
 			PyTuple_SetItem(dimensions, 2, PyLong_FromLong(_clientWidth));
 			PyTuple_SetItem(dimensions, 3, PyLong_FromLong(_clientHeight));
-			mvApp::GetApp()->getCallbackRegistry().addCallback(
-				mvApp::GetApp()->getCallbackRegistry().getResizeCallback(), MV_APP_UUID, dimensions, nullptr);
+			GContext->callbackRegistry->addCallback(
+				GContext->callbackRegistry->getResizeCallback(), MV_APP_UUID, dimensions, nullptr);
 			});
 	}
 
@@ -161,7 +160,7 @@ namespace Marvel {
 
 		if (_sizeDirty)
 		{
-			if (!mvApp::s_manualMutexControl) std::lock_guard<std::mutex> lk(mvApp::s_mutex);
+			if (!GContext->manualMutexControl) std::lock_guard<std::mutex> lk(GContext->mutex);
 			mvEventBus::Publish(mvEVT_CATEGORY_VIEWPORT, mvEVT_VIEWPORT_RESIZE, {
 				CreateEventArgument("actual_width", _actualWidth),
 				CreateEventArgument("actual_height", _actualHeight),
@@ -201,11 +200,11 @@ namespace Marvel {
 	PyObject* mvViewport::get_viewport_configuration(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 
-		if (!mvApp::s_manualMutexControl) std::lock_guard<std::mutex> lk(mvApp::s_mutex);
+		if (!GContext->manualMutexControl) std::lock_guard<std::mutex> lk(GContext->mutex);
 
 		PyObject* pdict = PyDict_New();
 
-		mvViewport* viewport = mvApp::GetApp()->getViewport();
+		mvViewport* viewport = GContext->viewport;
 		if (viewport)
 			viewport->getConfigDict(pdict);
 		else
@@ -217,9 +216,9 @@ namespace Marvel {
 	PyObject* mvViewport::is_viewport_ok(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 
-		if (!mvApp::s_manualMutexControl) std::lock_guard<std::mutex> lk(mvApp::s_mutex);
+		if (!GContext->manualMutexControl) std::lock_guard<std::mutex> lk(GContext->mutex);
 
-		mvViewport* viewport = mvApp::GetApp()->getViewport();
+		mvViewport* viewport = GContext->viewport;
 		if (viewport)
 		{
 			if(viewport->_shown)
@@ -255,7 +254,7 @@ namespace Marvel {
 		PyList_SetItem(color, 3, PyFloat_FromDouble(1.0));
 
 
-		if (!Parse((mvApp::GetApp()->getParsers())["create_viewport"], args, kwargs, __FUNCTION__,
+		if (!Parse((GetParsers())["create_viewport"], args, kwargs, __FUNCTION__,
 			&title, &small_icon, &large_icon, &width, &height, &x_pos, &y_pos, &min_width, &max_width, &min_height, &max_height ,
 			&resizable, &vsync, &always_on_top, &decorated, &color
 			))
@@ -264,7 +263,7 @@ namespace Marvel {
 		mvViewport* viewport = CreateViewport(width, height);
 		viewport->setConfigDict(kwargs);
 
-		mvApp::GetApp()->setViewport(viewport);
+		GContext->viewport = viewport;
 
 		return GetPyNone();
 	}
@@ -274,11 +273,11 @@ namespace Marvel {
 		int minimized = false;
 		int maximized = false;
 
-		if (!Parse((mvApp::GetApp()->getParsers())["show_viewport"], args, kwargs, __FUNCTION__,
+		if (!Parse((GetParsers())["show_viewport"], args, kwargs, __FUNCTION__,
 			&minimized, &maximized))
 			return GetPyNone();
 
-		mvViewport* viewport = mvApp::GetApp()->getViewport();
+		mvViewport* viewport = GContext->viewport;
 		if (viewport)
 		{
 			viewport->show(minimized, maximized);
@@ -293,7 +292,7 @@ namespace Marvel {
 	PyObject* mvViewport::configure_viewport(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
 
-		mvViewport* viewport = mvApp::GetApp()->getViewport();
+		mvViewport* viewport = GContext->viewport;
 		if (viewport)
 			viewport->setConfigDict(kwargs);
 		else
@@ -304,10 +303,10 @@ namespace Marvel {
 
 	PyObject* mvViewport::maximize_viewport(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
-		if (!mvApp::s_manualMutexControl) std::lock_guard<std::mutex> lk(mvApp::s_mutex);
-		mvApp::GetApp()->getCallbackRegistry().submit([=]()
+		if (!GContext->manualMutexControl) std::lock_guard<std::mutex> lk(GContext->mutex);
+		GContext->callbackRegistry->submit([=]()
 			{
-				mvApp::GetApp()->getViewport()->maximize();
+				GContext->viewport->maximize();
 			});
 
 		return GetPyNone();
@@ -315,10 +314,10 @@ namespace Marvel {
 
 	PyObject* mvViewport::minimize_viewport(PyObject* self, PyObject* args, PyObject* kwargs)
 	{
-		if (!mvApp::s_manualMutexControl) std::lock_guard<std::mutex> lk(mvApp::s_mutex);
-		mvApp::GetApp()->getCallbackRegistry().submit([=]()
+		if (!GContext->manualMutexControl) std::lock_guard<std::mutex> lk(GContext->mutex);
+		GContext->callbackRegistry->submit([=]()
 			{
-				mvApp::GetApp()->getViewport()->minimize();
+				GContext->viewport->minimize();
 			});
 
 		return GetPyNone();

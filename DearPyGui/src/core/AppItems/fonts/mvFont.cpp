@@ -166,7 +166,7 @@ namespace Marvel {
 		builder.BuildRanges(&_ranges);   // Build the final result (ordered ranges with all the unique characters submitted)
 
 		//_dirty = true;
-		auto item = GetItem(*mvApp::GetApp()->itemRegistry, MV_ATLAS_UUID);
+		auto item = GetItem(*GContext->itemRegistry, MV_ATLAS_UUID);
 		if (item)
 			static_cast<mvStaticTexture*>(item)->markDirty();
 
@@ -175,7 +175,7 @@ namespace Marvel {
 
 	void mvFont::handleSpecificRequiredArgs(PyObject* dict)
 	{
-		if (!VerifyRequiredArguments(mvApp::GetApp()->getParsers()[s_command], dict))
+		if (!VerifyRequiredArguments(GetParsers()[s_command], dict))
 			return;
 
 		for (int i = 0; i < PyTuple_Size(dict); i++)
@@ -213,22 +213,22 @@ namespace Marvel {
 
 		PyObject* itemraw;
 
-		if (!Parse((mvApp::GetApp()->getParsers())["bind_font"], args, kwargs, __FUNCTION__,
+		if (!Parse((GetParsers())["bind_font"], args, kwargs, __FUNCTION__,
 			&itemraw))
 			return GetPyNone();
 
-		if (!mvApp::s_manualMutexControl) std::lock_guard<std::mutex> lk(mvApp::s_mutex);
+		if (!GContext->manualMutexControl) std::lock_guard<std::mutex> lk(GContext->mutex);
 
 		mvUUID item = mvAppItem::GetIDFromPyObject(itemraw);
 
 		if (item == 0)
 		{
-			for (auto& reg : mvApp::GetApp()->itemRegistry->fontRegistryRoots)
+			for (auto& reg : GContext->itemRegistry->fontRegistryRoots)
 				static_cast<mvFontRegistry*>(reg.get())->resetFont();
 			return GetPyNone();
 		}
 
-		auto aplot = GetItem((*mvApp::GetApp()->itemRegistry), item);
+		auto aplot = GetItem((*GContext->itemRegistry), item);
 		if (aplot == nullptr)
 		{
 			mvThrowPythonError(mvErrorCode::mvItemNotFound, "bind_font",

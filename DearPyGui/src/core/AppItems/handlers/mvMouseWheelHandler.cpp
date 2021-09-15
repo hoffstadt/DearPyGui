@@ -40,12 +40,12 @@ namespace Marvel {
 		if (wheel)
 		{
 
-			mvApp::GetApp()->getCallbackRegistry().submitCallback([=]()
+			GContext->callbackRegistry->submitCallback([=]()
 			{
 				if (_alias.empty())
-					mvApp::GetApp()->getCallbackRegistry().runCallback(getCallback(false), _uuid, ToPyInt(wheel), _user_data);
+					GContext->callbackRegistry->runCallback(getCallback(false), _uuid, ToPyInt(wheel), _user_data);
 				else
-					mvApp::GetApp()->getCallbackRegistry().runCallback(getCallback(false), _alias, ToPyInt(wheel), _user_data);
+					GContext->callbackRegistry->runCallback(getCallback(false), _alias, ToPyInt(wheel), _user_data);
 			});
 			
 		}

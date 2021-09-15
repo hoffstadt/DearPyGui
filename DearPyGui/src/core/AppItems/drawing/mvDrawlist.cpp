@@ -1,6 +1,5 @@
 #include "mvDrawlist.h"
-#include "mvApp.h"
-#include "mvInput.h"
+#include "mvContext.h"
 #include "mvItemRegistry.h"
 #include "mvViewport.h"
 #include "mvAppItemCommons.h"
@@ -74,9 +73,9 @@ namespace Marvel {
 		if (ImGui::InvisibleButton(_internalLabel.c_str(), ImVec2((float)_width, (float)_height), ImGuiButtonFlags_MouseButtonLeft | ImGuiButtonFlags_MouseButtonRight | ImGuiButtonFlags_MouseButtonMiddle))
 		{
 			if(_alias.empty())
-				mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), _uuid, nullptr, _user_data);
+				GContext->callbackRegistry->addCallback(getCallback(false), _uuid, nullptr, _user_data);
 			else
-				mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), _alias, nullptr, _user_data);
+				GContext->callbackRegistry->addCallback(getCallback(false), _alias, nullptr, _user_data);
 		}
 
 		UpdateAppItemState(_state);
@@ -87,7 +86,8 @@ namespace Marvel {
 		if (ImGui::IsItemHovered())
 		{
 			ImVec2 mousepos = ImGui::GetMousePos();
-			mvInput::setDrawingMousePosition((float)mousepos.x- _startx, (float)mousepos.y - _starty);
+			GContext->input.mouseDrawingPos.x = mousepos.x - _startx;
+			GContext->input.mouseDrawingPos.y = mousepos.y - _starty;
 		}
 	}
 

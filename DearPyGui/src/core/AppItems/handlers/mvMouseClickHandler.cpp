@@ -49,12 +49,12 @@ namespace Marvel {
 			{
 				if (ImGui::IsMouseClicked(i))
 				{
-					mvApp::GetApp()->getCallbackRegistry().submitCallback([=]()
+					GContext->callbackRegistry->submitCallback([=]()
 						{
 							if (_alias.empty())
-								mvApp::GetApp()->getCallbackRegistry().runCallback(getCallback(false), _uuid, ToPyInt(i), _user_data);
+								GContext->callbackRegistry->runCallback(getCallback(false), _uuid, ToPyInt(i), _user_data);
 							else
-								mvApp::GetApp()->getCallbackRegistry().runCallback(getCallback(false), _alias, ToPyInt(i), _user_data);
+								GContext->callbackRegistry->runCallback(getCallback(false), _alias, ToPyInt(i), _user_data);
 						});
 				}
 			}
@@ -62,19 +62,19 @@ namespace Marvel {
 
 		else if (ImGui::IsMouseClicked(_button))
 		{
-			mvApp::GetApp()->getCallbackRegistry().submitCallback([=]()
+			GContext->callbackRegistry->submitCallback([=]()
 				{
 					if (_alias.empty())
-						mvApp::GetApp()->getCallbackRegistry().runCallback(getCallback(false), _uuid, ToPyInt(_button), _user_data);
+						GContext->callbackRegistry->runCallback(getCallback(false), _uuid, ToPyInt(_button), _user_data);
 					else
-						mvApp::GetApp()->getCallbackRegistry().runCallback(getCallback(false), _alias, ToPyInt(_button), _user_data);
+						GContext->callbackRegistry->runCallback(getCallback(false), _alias, ToPyInt(_button), _user_data);
 				});
 		}
 	}
 
 	void mvMouseClickHandler::handleSpecificPositionalArgs(PyObject* dict)
 	{
-		if (!VerifyPositionalArguments(mvApp::GetApp()->getParsers()[s_command], dict))
+		if (!VerifyPositionalArguments(GetParsers()[s_command], dict))
 			return;
 
 		for (int i = 0; i < PyTuple_Size(dict); i++)

@@ -23,8 +23,7 @@ set(MARVEL_SOURCES
 
 	"src/core/mvBuffer.cpp"
 	"src/core/mvEvents.cpp"
-	"src/core/mvApp.cpp"
-	"src/core/mvInput.cpp"
+	"src/core/mvContext.cpp"
 	"src/core/mvViewport.cpp"
 	"src/core/mvProfiler.cpp"
 	"src/core/mvCallbackRegistry.cpp"

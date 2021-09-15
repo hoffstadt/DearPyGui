@@ -42,36 +42,36 @@ namespace Marvel {
 		if(_button == -1 || _button == 0)
 			if (static_cast<mvAppItemState*>(data)->leftclicked)
 			{
-				mvApp::GetApp()->getCallbackRegistry().submitCallback([=]()
+				GContext->callbackRegistry->submitCallback([=]()
 					{
 						if (_alias.empty())
-							mvApp::GetApp()->getCallbackRegistry().runCallback(getCallback(false), _uuid, ToPyInt(0), _user_data);
+							GContext->callbackRegistry->runCallback(getCallback(false), _uuid, ToPyInt(0), _user_data);
 						else
-							mvApp::GetApp()->getCallbackRegistry().runCallback(getCallback(false), _alias, ToPyInt(0), _user_data);
+							GContext->callbackRegistry->runCallback(getCallback(false), _alias, ToPyInt(0), _user_data);
 					});
 			}
 
 		if (_button == -1 || _button == 1)
 			if (static_cast<mvAppItemState*>(data)->rightclicked)
 			{
-				mvApp::GetApp()->getCallbackRegistry().submitCallback([=]()
+				GContext->callbackRegistry->submitCallback([=]()
 					{
 						if (_alias.empty())
-							mvApp::GetApp()->getCallbackRegistry().runCallback(getCallback(false), _uuid, ToPyInt(1), _user_data);
+							GContext->callbackRegistry->runCallback(getCallback(false), _uuid, ToPyInt(1), _user_data);
 						else
-							mvApp::GetApp()->getCallbackRegistry().runCallback(getCallback(false), _alias, ToPyInt(1), _user_data);
+							GContext->callbackRegistry->runCallback(getCallback(false), _alias, ToPyInt(1), _user_data);
 					});
 			}
 
 		if (_button == -1 || _button == 2)
 			if (static_cast<mvAppItemState*>(data)->middleclicked)
 			{
-				mvApp::GetApp()->getCallbackRegistry().submitCallback([=]()
+				GContext->callbackRegistry->submitCallback([=]()
 					{
 						if (_alias.empty())
-							mvApp::GetApp()->getCallbackRegistry().runCallback(getCallback(false), _uuid, ToPyInt(2), _user_data);
+							GContext->callbackRegistry->runCallback(getCallback(false), _uuid, ToPyInt(2), _user_data);
 						else
-							mvApp::GetApp()->getCallbackRegistry().runCallback(getCallback(false), _alias, ToPyInt(2), _user_data);
+							GContext->callbackRegistry->runCallback(getCallback(false), _alias, ToPyInt(2), _user_data);
 					});
 			}
 
@@ -79,7 +79,7 @@ namespace Marvel {
 
 	void mvClickedHandler::handleSpecificRequiredArgs(PyObject* dict)
 	{
-		if (!VerifyRequiredArguments(mvApp::GetApp()->getParsers()[s_command], dict))
+		if (!VerifyRequiredArguments(GetParsers()[s_command], dict))
 			return;
 
 		for (int i = 0; i < PyTuple_Size(dict); i++)

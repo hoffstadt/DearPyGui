@@ -1,5 +1,5 @@
 #include "mvTheme.h"
-#include "mvApp.h"
+#include "mvContext.h"
 #include <array>
 #include "mvItemRegistry.h"
 #include "mvLog.h"
@@ -101,22 +101,22 @@ namespace Marvel {
 
 		PyObject* itemraw;
 
-		if (!Parse((mvApp::GetApp()->getParsers())["bind_theme"], args, kwargs, __FUNCTION__,
+		if (!Parse((GetParsers())["bind_theme"], args, kwargs, __FUNCTION__,
 			&itemraw))
 			return GetPyNone();
 
-		if (!mvApp::s_manualMutexControl) std::lock_guard<std::mutex> lk(mvApp::s_mutex);
+		if (!GContext->manualMutexControl) std::lock_guard<std::mutex> lk(GContext->mutex);
 
 		mvUUID item = mvAppItem::GetIDFromPyObject(itemraw);
 
 		if (item == 0)
 		{
-			mvApp::GetApp()->resetTheme();
-			ResetTheme((*mvApp::GetApp()->itemRegistry));
+			GContext->resetTheme = true;
+			ResetTheme((*GContext->itemRegistry));
 			return GetPyNone();
 		}
 
-		auto aplot = GetItem((*mvApp::GetApp()->itemRegistry), item);
+		auto aplot = GetItem((*GContext->itemRegistry), item);
 		if (aplot == nullptr)
 		{
 			mvThrowPythonError(mvErrorCode::mvItemNotFound, "bind_theme",

@@ -1,7 +1,7 @@
 #include <utility>
 #include "mvAnnotation.h"
 #include "mvCore.h"
-#include "mvApp.h"
+#include "mvContext.h"
 #include "mvLog.h"
 #include "mvItemRegistry.h"
 #include "mvPythonExceptions.h"
@@ -65,7 +65,7 @@ namespace Marvel {
 		if (dataSource == _source) return;
 		_source = dataSource;
 
-		mvAppItem* item = GetItem((*mvApp::GetApp()->itemRegistry), dataSource);
+		mvAppItem* item = GetItem((*GContext->itemRegistry), dataSource);
 		if (!item)
 		{
 			mvThrowPythonError(mvErrorCode::mvSourceNotFound, "set_value",

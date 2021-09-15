@@ -122,11 +122,11 @@ namespace Marvel {
         if (KnobFloat(_specifiedLabel.c_str(), _value.get(), _min, _max, _step))
         {
             auto value = *_value;
-            mvApp::GetApp()->getCallbackRegistry().submitCallback([=]() {
+            GContext->callbackRegistry->submitCallback([=]() {
                 if(_alias.empty())
-                    mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), _uuid, ToPyFloat(value), _user_data);
+                    GContext->callbackRegistry->addCallback(getCallback(false), _uuid, ToPyFloat(value), _user_data);
                 else
-                    mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), _alias, ToPyFloat(value), _user_data);
+                    GContext->callbackRegistry->addCallback(getCallback(false), _alias, ToPyFloat(value), _user_data);
                 });
         }
         }
@@ -179,9 +179,9 @@ namespace Marvel {
                 {
                     auto payloadActual = static_cast<const mvDragPayload*>(payload->Data);
                     if (_alias.empty())
-                        mvApp::GetApp()->getCallbackRegistry().addCallback(_dropCallback,_uuid, payloadActual->getDragData(), nullptr);
+                        GContext->callbackRegistry->addCallback(_dropCallback,_uuid, payloadActual->getDragData(), nullptr);
                     else
-                        mvApp::GetApp()->getCallbackRegistry().addCallback(_dropCallback,_alias, payloadActual->getDragData(), nullptr);
+                        GContext->callbackRegistry->addCallback(_dropCallback,_alias, payloadActual->getDragData(), nullptr);
                 }
 
                 ImGui::EndDragDropTarget();
@@ -204,7 +204,7 @@ namespace Marvel {
         if (dataSource == _source) return;
         _source = dataSource;
 
-        mvAppItem* item = GetItem((*mvApp::GetApp()->itemRegistry), dataSource);
+        mvAppItem* item = GetItem((*GContext->itemRegistry), dataSource);
         if (!item)
         {
             mvThrowPythonError(mvErrorCode::mvSourceNotFound, "set_value",

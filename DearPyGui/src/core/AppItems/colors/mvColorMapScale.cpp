@@ -1,6 +1,6 @@
 #include "mvColorMapScale.h"
 #include <utility>
-#include "mvApp.h"
+#include "mvContext.h"
 #include "mvModule_DearPyGui.h"
 #include <string>
 #include "mvItemRegistry.h"
@@ -172,9 +172,9 @@ namespace Marvel {
                 {
                     auto payloadActual = static_cast<const mvDragPayload*>(payload->Data);
                     if (_alias.empty())
-                        mvApp::GetApp()->getCallbackRegistry().addCallback(_dropCallback,_uuid, payloadActual->getDragData(), nullptr);
+                        GContext->callbackRegistry->addCallback(_dropCallback,_uuid, payloadActual->getDragData(), nullptr);
                     else
-                        mvApp::GetApp()->getCallbackRegistry().addCallback(_dropCallback,_alias, payloadActual->getDragData(), nullptr);
+                        GContext->callbackRegistry->addCallback(_dropCallback,_alias, payloadActual->getDragData(), nullptr);
                 }
 
                 ImGui::EndDragDropTarget();
@@ -194,7 +194,7 @@ namespace Marvel {
             _colormap= mvAppItem::GetIDFromPyObject(item);
             if (_colormap > 10)
             {
-                auto asource = GetItem(*mvApp::GetApp()->itemRegistry, _colormap);
+                auto asource = GetItem(*GContext->itemRegistry, _colormap);
                 if (asource == nullptr)
                 {
                     mvThrowPythonError(mvErrorCode::mvItemNotFound, "set_colormap",

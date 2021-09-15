@@ -24,7 +24,7 @@ SOFTWARE.
 #pragma once
 
 #include "mvItemRegistry.h"
-#include "mvApp.h"
+#include "mvContext.h"
 
 namespace Marvel {
 

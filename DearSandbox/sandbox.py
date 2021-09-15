@@ -3,6 +3,8 @@ import dearpygui.demo as demo
 import dearpygui_ext.themes as themes
 from dearpygui_ext.datagrid import mvDataGrid
 
+dpg.create_context()
+
 dpg.enable_docking()
 
 with dpg.font_registry():
@@ -24,9 +26,11 @@ for i in range(rows):
 datagrid = mvDataGrid(columns, datagrid_data)
 
 with dpg.window(label="tutorial", width=500, height=500):
+    dpg.add_button(label="Press me")
     datagrid.submit()
 
 dpg.create_viewport()
 dpg.setup_dearpygui()
 dpg.show_viewport()
 dpg.start_dearpygui()
+dpg.destroy_context()

@@ -1,7 +1,7 @@
 #include <utility>
 #include "mvDragPoint.h"
 #include "mvCore.h"
-#include "mvApp.h"
+#include "mvContext.h"
 #include "mvLog.h"
 #include "mvItemRegistry.h"
 #include "mvPythonExceptions.h"
@@ -66,7 +66,7 @@ namespace Marvel {
 		if (dataSource == _source) return;
 		_source = dataSource;
 
-		mvAppItem* item = GetItem((*mvApp::GetApp()->itemRegistry), dataSource);
+		mvAppItem* item = GetItem((*GContext->itemRegistry), dataSource);
 		if (!item)
 		{
 			mvThrowPythonError(mvErrorCode::mvSourceNotFound, "set_value",
@@ -98,7 +98,7 @@ namespace Marvel {
 		{
 			(*_value.get())[0] = dummyx;
 			(*_value.get())[1] = dummyy;
-			mvApp::GetApp()->getCallbackRegistry().addCallback(_callback, _uuid, nullptr, _user_data);
+			GContext->callbackRegistry->addCallback(_callback, _uuid, nullptr, _user_data);
 		}
 
 	}

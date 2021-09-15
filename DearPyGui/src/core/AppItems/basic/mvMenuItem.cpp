@@ -1,5 +1,5 @@
 #include "mvMenuItem.h"
-#include "mvApp.h"
+#include "mvContext.h"
 #include "mvItemRegistry.h"
 #include "mvPythonExceptions.h"
 #include "AppItems/fonts/mvFont.h"
@@ -125,9 +125,9 @@ namespace Marvel {
 			if (ImGui::MenuItem(_internalLabel.c_str(), _shortcut.c_str(), _check ? _value.get() : nullptr, _enabled))
 			{
 				if(_alias.empty())
-					mvApp::GetApp()->getCallbackRegistry().addCallback(_callback, _uuid, nullptr, _user_data);
+					GContext->callbackRegistry->addCallback(_callback, _uuid, nullptr, _user_data);
 				else
-					mvApp::GetApp()->getCallbackRegistry().addCallback(_callback, _alias, nullptr, _user_data);
+					GContext->callbackRegistry->addCallback(_callback, _alias, nullptr, _user_data);
 			}
 
 			ImGui::PopStyleColor();
@@ -182,9 +182,9 @@ namespace Marvel {
 				{
 					auto payloadActual = static_cast<const mvDragPayload*>(payload->Data);
 					if (_alias.empty())
-						mvApp::GetApp()->getCallbackRegistry().addCallback(_dropCallback,_uuid, payloadActual->getDragData(), nullptr);
+						GContext->callbackRegistry->addCallback(_dropCallback,_uuid, payloadActual->getDragData(), nullptr);
 					else
-						mvApp::GetApp()->getCallbackRegistry().addCallback(_dropCallback,_alias, payloadActual->getDragData(), nullptr);
+						GContext->callbackRegistry->addCallback(_dropCallback,_alias, payloadActual->getDragData(), nullptr);
 				}
 
 				ImGui::EndDragDropTarget();
@@ -226,7 +226,7 @@ namespace Marvel {
 		if (dataSource == _source) return;
 		_source = dataSource;
 
-		mvAppItem* item = GetItem((*mvApp::GetApp()->itemRegistry), dataSource);
+		mvAppItem* item = GetItem((*GContext->itemRegistry), dataSource);
 		if (!item)
 		{
 			mvThrowPythonError(mvErrorCode::mvSourceNotFound, "set_value",
