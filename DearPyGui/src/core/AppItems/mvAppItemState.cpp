@@ -1,7 +1,7 @@
 #include "mvAppItemState.h"
 #include <imgui.h>
 #include "mvAppItem.h"
-#include "mvApp.h"
+#include "mvContext.h"
 #include "mvPyObject.h"
 
 namespace Marvel {
@@ -24,7 +24,7 @@ namespace Marvel {
 
     void UpdateAppItemState(mvAppItemState& state)
     {
-        state.lastFrameUpdate = mvApp::s_frame;
+        state.lastFrameUpdate = GContext->frame;
         state.hovered = ImGui::IsItemHovered();
         state.active = ImGui::IsItemActive();
         state.focused = ImGui::IsItemFocused();
@@ -48,7 +48,7 @@ namespace Marvel {
         if (dict == nullptr)
             return;
 
-        bool valid = state.lastFrameUpdate == mvApp::s_frame;
+        bool valid = state.lastFrameUpdate == GContext->frame;
 
         PyDict_SetItemString(dict, "ok", mvPyObject(ToPyBool(state.ok)));
         PyDict_SetItemString(dict, "pos", mvPyObject(ToPyPairII(state.pos.x, state.pos.y)));
@@ -78,84 +78,84 @@ namespace Marvel {
 
     bool IsItemHovered(mvAppItemState& state, int frameDelay)
     { 
-        if (state.lastFrameUpdate + frameDelay != mvApp::s_frame)
+        if (state.lastFrameUpdate + frameDelay != GContext->frame)
             return false;
         return state.hovered;
     }
 
     bool IsItemActive(mvAppItemState& state, int frameDelay)
     { 
-        if (state.lastFrameUpdate + frameDelay != mvApp::s_frame)
+        if (state.lastFrameUpdate + frameDelay != GContext->frame)
             return false;
         return state.active;
     }
 
     bool IsItemFocused(mvAppItemState& state, int frameDelay)
     { 
-        if (state.lastFrameUpdate + frameDelay != mvApp::s_frame)
+        if (state.lastFrameUpdate + frameDelay != GContext->frame)
             return false;
         return state.focused;
     }
 
     bool IsItemLeftClicked(mvAppItemState& state, int frameDelay)
     { 
-        if (state.lastFrameUpdate + frameDelay != mvApp::s_frame)
+        if (state.lastFrameUpdate + frameDelay != GContext->frame)
             return false;
         return state.leftclicked;
     }
 
     bool IsItemRightClicked(mvAppItemState& state, int frameDelay)
     { 
-        if (state.lastFrameUpdate + frameDelay != mvApp::s_frame)
+        if (state.lastFrameUpdate + frameDelay != GContext->frame)
             return false;
         return state.rightclicked;
     }
 
     bool IsItemMiddleClicked(mvAppItemState& state, int frameDelay)
     { 
-        if (state.lastFrameUpdate + frameDelay != mvApp::s_frame)
+        if (state.lastFrameUpdate + frameDelay != GContext->frame)
             return false;
         return state.middleclicked;
     }
 
     bool IsItemVisible(mvAppItemState& state, int frameDelay)
     { 
-        if (state.lastFrameUpdate + frameDelay != mvApp::s_frame)
+        if (state.lastFrameUpdate + frameDelay != GContext->frame)
             return false;
         return state.visible;
     }
 
     bool IsItemEdited(mvAppItemState& state, int frameDelay)
     { 
-        if (state.lastFrameUpdate + frameDelay != mvApp::s_frame)
+        if (state.lastFrameUpdate + frameDelay != GContext->frame)
             return false;
         return state.edited;
     }
 
     bool IsItemActivated(mvAppItemState& state, int frameDelay)
     { 
-        if (state.lastFrameUpdate + frameDelay != mvApp::s_frame)
+        if (state.lastFrameUpdate + frameDelay != GContext->frame)
             return false;
         return state.activated;
     }
 
     bool IsItemDeactivated(mvAppItemState& state, int frameDelay)
     { 
-        if (state.lastFrameUpdate + frameDelay != mvApp::s_frame)
+        if (state.lastFrameUpdate + frameDelay != GContext->frame)
             return false;
         return state.deactivated;
     }
 
     bool IsItemDeactivatedAfterEdit(mvAppItemState& state, int frameDelay)
     { 
-        if (state.lastFrameUpdate + frameDelay != mvApp::s_frame)
+        if (state.lastFrameUpdate + frameDelay != GContext->frame)
             return false;
         return state.deactivatedAfterEdit;
     }
 
     bool IsItemToogledOpen(mvAppItemState& state, int frameDelay)
     { 
-        if (state.lastFrameUpdate + frameDelay != mvApp::s_frame)
+        if (state.lastFrameUpdate + frameDelay != GContext->frame)
             return false;
         return state.toggledOpen;
     }

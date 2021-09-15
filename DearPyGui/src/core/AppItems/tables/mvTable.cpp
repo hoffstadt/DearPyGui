@@ -1,5 +1,5 @@
 #include "mvTable.h"
-#include "mvApp.h"
+#include "mvContext.h"
 #include "mvLog.h"
 #include "mvItemRegistry.h"
 #include "mvTableColumn.h"
@@ -302,7 +302,7 @@ namespace Marvel {
 				if (sorts_specs->SpecsDirty)
 				{
 					if (sorts_specs->SpecsCount == 0)
-						mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), _uuid, nullptr, _user_data);
+						GContext->callbackRegistry->addCallback(getCallback(false), _uuid, nullptr, _user_data);
 					else
 					{
 
@@ -318,7 +318,7 @@ namespace Marvel {
 							specs.push_back({ idMap[sort_spec->ColumnUserID], sort_spec->SortDirection == ImGuiSortDirection_Ascending ? 1 : -1 });
 						}
 
-						mvApp::GetApp()->getCallbackRegistry().submitCallback([=]() {
+						GContext->callbackRegistry->submitCallback([=]() {
 							PyObject* pySpec = PyList_New(specs.size());
 							for (size_t i = 0; i < specs.size(); i++)
 							{
@@ -329,9 +329,9 @@ namespace Marvel {
 							}
 
 							if (_alias.empty())
-								mvApp::GetApp()->getCallbackRegistry().runCallback(getCallback(false), _uuid, pySpec, _user_data);
+								GContext->callbackRegistry->runCallback(getCallback(false), _uuid, pySpec, _user_data);
 							else
-								mvApp::GetApp()->getCallbackRegistry().runCallback(getCallback(false), _alias, pySpec, _user_data);
+								GContext->callbackRegistry->runCallback(getCallback(false), _alias, pySpec, _user_data);
 							Py_XDECREF(pySpec);
 							});
 					}
@@ -620,14 +620,14 @@ namespace Marvel {
 		int column = 0;
 		PyObject* color;
 
-		if (!Parse((mvApp::GetApp()->getParsers())["highlight_table_column"], args, kwargs, __FUNCTION__, &tableraw, &column, &color))
+		if (!Parse((GetParsers())["highlight_table_column"], args, kwargs, __FUNCTION__, &tableraw, &column, &color))
 			return GetPyNone();
 
-		if (!mvApp::s_manualMutexControl) std::lock_guard<std::mutex> lk(mvApp::s_mutex);
+		if (!GContext->manualMutexControl) std::lock_guard<std::mutex> lk(GContext->mutex);
 
 		mvUUID table = mvAppItem::GetIDFromPyObject(tableraw);
 
-		auto atable = GetItem(*mvApp::GetApp()->itemRegistry, table);
+		auto atable = GetItem(*GContext->itemRegistry, table);
 		if (atable == nullptr)
 		{
 			mvThrowPythonError(mvErrorCode::mvItemNotFound, "highlight_table_column",
@@ -663,14 +663,14 @@ namespace Marvel {
 		PyObject* tableraw;
 		int column = 0;
 
-		if (!Parse((mvApp::GetApp()->getParsers())["unhighlight_table_column"], args, kwargs, __FUNCTION__, &tableraw, &column))
+		if (!Parse((GetParsers())["unhighlight_table_column"], args, kwargs, __FUNCTION__, &tableraw, &column))
 			return GetPyNone();
 
-		if (!mvApp::s_manualMutexControl) std::lock_guard<std::mutex> lk(mvApp::s_mutex);
+		if (!GContext->manualMutexControl) std::lock_guard<std::mutex> lk(GContext->mutex);
 
 		mvUUID table = mvAppItem::GetIDFromPyObject(tableraw);
 
-		auto atable = GetItem(*mvApp::GetApp()->itemRegistry, table);
+		auto atable = GetItem(*GContext->itemRegistry, table);
 		if (atable == nullptr)
 		{
 			mvThrowPythonError(mvErrorCode::mvItemNotFound, "unhighlight_table_column",
@@ -705,14 +705,14 @@ namespace Marvel {
 		int row = 0;
 		PyObject* color;
 
-		if (!Parse((mvApp::GetApp()->getParsers())["set_table_row_color"], args, kwargs, __FUNCTION__, &tableraw, &row, &color))
+		if (!Parse((GetParsers())["set_table_row_color"], args, kwargs, __FUNCTION__, &tableraw, &row, &color))
 			return GetPyNone();
 
-		if (!mvApp::s_manualMutexControl) std::lock_guard<std::mutex> lk(mvApp::s_mutex);
+		if (!GContext->manualMutexControl) std::lock_guard<std::mutex> lk(GContext->mutex);
 
 		mvUUID table = mvAppItem::GetIDFromPyObject(tableraw);
 
-		auto atable = GetItem(*mvApp::GetApp()->itemRegistry, table);
+		auto atable = GetItem(*GContext->itemRegistry, table);
 		if (atable == nullptr)
 		{
 			mvThrowPythonError(mvErrorCode::mvItemNotFound, "set_table_row_color",
@@ -748,14 +748,14 @@ namespace Marvel {
 		PyObject* tableraw;
 		int row = 0;
 
-		if (!Parse((mvApp::GetApp()->getParsers())["unset_table_row_color"], args, kwargs, __FUNCTION__, &tableraw, &row))
+		if (!Parse((GetParsers())["unset_table_row_color"], args, kwargs, __FUNCTION__, &tableraw, &row))
 			return GetPyNone();
 
-		if (!mvApp::s_manualMutexControl) std::lock_guard<std::mutex> lk(mvApp::s_mutex);
+		if (!GContext->manualMutexControl) std::lock_guard<std::mutex> lk(GContext->mutex);
 
 		mvUUID table = mvAppItem::GetIDFromPyObject(tableraw);
 
-		auto atable = GetItem(*mvApp::GetApp()->itemRegistry, table);
+		auto atable = GetItem(*GContext->itemRegistry, table);
 		if (atable == nullptr)
 		{
 			mvThrowPythonError(mvErrorCode::mvItemNotFound, "unset_table_row_color",
@@ -789,14 +789,14 @@ namespace Marvel {
 		int row = 0;
 		PyObject* color;
 
-		if (!Parse((mvApp::GetApp()->getParsers())["highlight_table_row"], args, kwargs, __FUNCTION__, &tableraw, &row, &color))
+		if (!Parse((GetParsers())["highlight_table_row"], args, kwargs, __FUNCTION__, &tableraw, &row, &color))
 			return GetPyNone();
 
-		if (!mvApp::s_manualMutexControl) std::lock_guard<std::mutex> lk(mvApp::s_mutex);
+		if (!GContext->manualMutexControl) std::lock_guard<std::mutex> lk(GContext->mutex);
 
 		mvUUID table = mvAppItem::GetIDFromPyObject(tableraw);
 
-		auto atable = GetItem(*mvApp::GetApp()->itemRegistry, table);
+		auto atable = GetItem(*GContext->itemRegistry, table);
 		if (atable == nullptr)
 		{
 			mvThrowPythonError(mvErrorCode::mvItemNotFound, "highlight_table_row",
@@ -832,14 +832,14 @@ namespace Marvel {
 		PyObject* tableraw;
 		int row = 0;
 
-		if (!Parse((mvApp::GetApp()->getParsers())["unhighlight_table_row"], args, kwargs, __FUNCTION__, &tableraw, &row))
+		if (!Parse((GetParsers())["unhighlight_table_row"], args, kwargs, __FUNCTION__, &tableraw, &row))
 			return GetPyNone();
 
-		if (!mvApp::s_manualMutexControl) std::lock_guard<std::mutex> lk(mvApp::s_mutex);
+		if (!GContext->manualMutexControl) std::lock_guard<std::mutex> lk(GContext->mutex);
 
 		mvUUID table = mvAppItem::GetIDFromPyObject(tableraw);
 
-		auto atable = GetItem(*mvApp::GetApp()->itemRegistry, table);
+		auto atable = GetItem(*GContext->itemRegistry, table);
 		if (atable == nullptr)
 		{
 			mvThrowPythonError(mvErrorCode::mvItemNotFound, "unhighlight_table_row",
@@ -875,14 +875,14 @@ namespace Marvel {
 		int column = 0;
 		PyObject* color;
 
-		if (!Parse((mvApp::GetApp()->getParsers())["highlight_table_cell"], args, kwargs, __FUNCTION__, &tableraw, &row, &column, &color))
+		if (!Parse((GetParsers())["highlight_table_cell"], args, kwargs, __FUNCTION__, &tableraw, &row, &column, &color))
 			return GetPyNone();
 
-		if (!mvApp::s_manualMutexControl) std::lock_guard<std::mutex> lk(mvApp::s_mutex);
+		if (!GContext->manualMutexControl) std::lock_guard<std::mutex> lk(GContext->mutex);
 
 		mvUUID table = mvAppItem::GetIDFromPyObject(tableraw);
 
-		auto atable = GetItem(*mvApp::GetApp()->itemRegistry, table);
+		auto atable = GetItem(*GContext->itemRegistry, table);
 		if (atable == nullptr)
 		{
 			mvThrowPythonError(mvErrorCode::mvItemNotFound, "highlight_table_cell",
@@ -919,14 +919,14 @@ namespace Marvel {
 		int row = 0;
 		int column = 0;
 
-		if (!Parse((mvApp::GetApp()->getParsers())["unhighlight_table_cell"], args, kwargs, __FUNCTION__, &tableraw, &row, &column))
+		if (!Parse((GetParsers())["unhighlight_table_cell"], args, kwargs, __FUNCTION__, &tableraw, &row, &column))
 			return GetPyNone();
 
-		if (!mvApp::s_manualMutexControl) std::lock_guard<std::mutex> lk(mvApp::s_mutex);
+		if (!GContext->manualMutexControl) std::lock_guard<std::mutex> lk(GContext->mutex);
 
 		mvUUID table = mvAppItem::GetIDFromPyObject(tableraw);
 
-		auto atable = GetItem(*mvApp::GetApp()->itemRegistry, table);
+		auto atable = GetItem(*GContext->itemRegistry, table);
 		if (atable == nullptr)
 		{
 			mvThrowPythonError(mvErrorCode::mvItemNotFound, "unhighlight_table_cell",
@@ -961,14 +961,14 @@ namespace Marvel {
 		int row = 0;
 		int column = 0;
 
-		if (!Parse((mvApp::GetApp()->getParsers())["is_table_cell_highlighted"], args, kwargs, __FUNCTION__, &tableraw, &row, &column))
+		if (!Parse((GetParsers())["is_table_cell_highlighted"], args, kwargs, __FUNCTION__, &tableraw, &row, &column))
 			return GetPyNone();
 
-		if (!mvApp::s_manualMutexControl) std::lock_guard<std::mutex> lk(mvApp::s_mutex);
+		if (!GContext->manualMutexControl) std::lock_guard<std::mutex> lk(GContext->mutex);
 
 		mvUUID table = mvAppItem::GetIDFromPyObject(tableraw);
 
-		auto atable = GetItem(*mvApp::GetApp()->itemRegistry, table);
+		auto atable = GetItem(*GContext->itemRegistry, table);
 		if (atable == nullptr)
 		{
 			mvThrowPythonError(mvErrorCode::mvItemNotFound, "is_table_cell_highlighted",
@@ -1007,14 +1007,14 @@ namespace Marvel {
 		PyObject* tableraw;
 		int row = 0;
 
-		if (!Parse((mvApp::GetApp()->getParsers())["is_table_row_highlighted"], args, kwargs, __FUNCTION__, &tableraw, &row))
+		if (!Parse((GetParsers())["is_table_row_highlighted"], args, kwargs, __FUNCTION__, &tableraw, &row))
 			return GetPyNone();
 
-		if (!mvApp::s_manualMutexControl) std::lock_guard<std::mutex> lk(mvApp::s_mutex);
+		if (!GContext->manualMutexControl) std::lock_guard<std::mutex> lk(GContext->mutex);
 
 		mvUUID table = mvAppItem::GetIDFromPyObject(tableraw);
 
-		auto atable = GetItem(*mvApp::GetApp()->itemRegistry, table);
+		auto atable = GetItem(*GContext->itemRegistry, table);
 		if (atable == nullptr)
 		{
 			mvThrowPythonError(mvErrorCode::mvItemNotFound, "is_table_row_highlighted",
@@ -1046,14 +1046,14 @@ namespace Marvel {
 		PyObject* tableraw;
 		int column = 0;
 
-		if (!Parse((mvApp::GetApp()->getParsers())["is_table_column_highlighted"], args, kwargs, __FUNCTION__, &tableraw, &column))
+		if (!Parse((GetParsers())["is_table_column_highlighted"], args, kwargs, __FUNCTION__, &tableraw, &column))
 			return GetPyNone();
 
-		if (!mvApp::s_manualMutexControl) std::lock_guard<std::mutex> lk(mvApp::s_mutex);
+		if (!GContext->manualMutexControl) std::lock_guard<std::mutex> lk(GContext->mutex);
 
 		mvUUID table = mvAppItem::GetIDFromPyObject(tableraw);
 
-		auto atable = GetItem(*mvApp::GetApp()->itemRegistry, table);
+		auto atable = GetItem(*GContext->itemRegistry, table);
 		if (atable == nullptr)
 		{
 			mvThrowPythonError(mvErrorCode::mvItemNotFound, "is_table_column_highlighted",

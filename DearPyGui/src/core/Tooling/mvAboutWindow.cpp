@@ -1,5 +1,5 @@
 #include "mvAboutWindow.h"
-#include "mvApp.h"
+#include "mvContext.h"
 
 
 namespace Marvel {
@@ -13,7 +13,7 @@ namespace Marvel {
     void mvAboutWindow::drawWidgets()
     {
 
-        ImGui::Text("Dear PyGui %s", mvApp::GetVersion());
+        ImGui::Text("Dear PyGui %s", GetVersion());
         ImGui::Text("Dear ImGui %s", ImGui::GetVersion());
         ImGui::Separator();
         ImGui::TextColored(ImGui::GetStyleColorVec4(ImGuiCol_PlotHistogramHovered), "Authors");

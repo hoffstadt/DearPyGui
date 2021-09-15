@@ -3,7 +3,7 @@
 #include <imgui.h>
 #include <assert.h>
 #include <array>
-#include "mvApp.h"
+#include "mvContext.h"
 #include "mvAppItem.h"
 #include "mvCore.h"
 #include "mvItemRegistry.h"
@@ -151,7 +151,7 @@ namespace Marvel {
 
 	void mvFontManager::rebuildAtlas()
 	{
-		auto& roots = mvApp::GetApp()->itemRegistry->fontRegistryRoots;
+		auto& roots = GContext->itemRegistry->fontRegistryRoots;
 
 		if (!roots.empty())
 			roots[0]->customAction();
@@ -162,7 +162,7 @@ namespace Marvel {
 
 	void mvFontManager::updateAtlas()
 	{
-		auto item = GetItem(*mvApp::GetApp()->itemRegistry, MV_ATLAS_UUID);
+		auto item = GetItem(*GContext->itemRegistry, MV_ATLAS_UUID);
 		if (item)
 			static_cast<mvStaticTexture*>(item)->markDirty();
 	}
@@ -243,10 +243,10 @@ namespace Marvel {
 	{
 		float scale;
 
-		if (!Parse((mvApp::GetApp()->getParsers())["set_global_font_scale"], args, kwargs, __FUNCTION__, &scale))
+		if (!Parse((GetParsers())["set_global_font_scale"], args, kwargs, __FUNCTION__, &scale))
 			return GetPyNone();
 
-		if (!mvApp::s_manualMutexControl) std::lock_guard<std::mutex> lk(mvApp::s_mutex);
+		if (!GContext->manualMutexControl) std::lock_guard<std::mutex> lk(GContext->mutex);
 		mvToolManager::GetFontManager().setGlobalFontScale(scale);
 
 		return GetPyNone();

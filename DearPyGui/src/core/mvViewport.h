@@ -11,7 +11,7 @@
 //     
 //-----------------------------------------------------------------------------
 
-#include "mvApp.h"
+#include "mvContext.h"
 #include "mvEvents.h"
 #include "cpp.hint"
 
@@ -79,7 +79,6 @@ namespace Marvel {
 	protected:
 
 		bool        _running = true;
-		mvApp*      _app     = nullptr;
 		std::string _title = "DearPyGui";
 		std::string _small_icon;
 		std::string _large_icon;

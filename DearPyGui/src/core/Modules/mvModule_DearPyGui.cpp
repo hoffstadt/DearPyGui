@@ -1,5 +1,4 @@
 #include "mvModule_DearPyGui.h"
-#include "mvInput.h"
 #include "mvAppItemCommons.h"
 #include "mvViewport.h"
 #include "mvFontManager.h"
@@ -26,12 +25,12 @@ namespace Marvel {
 
 		mvToolManager::FillExtraCommands(methods);
 		mvViewport::FillExtraCommands(methods);
-		mvApp::FillExtraCommands(methods);
 		mvAppItem::FillExtraCommands(methods);
-		mvItemRegistryCommands(methods);
 		mvFontManager::FillExtraCommands(methods);
 		mvCallbackRegistry::FillExtraCommands(methods);
-		mvInput::FillExtraCommands(methods);
+
+		mvContextCommands(methods);
+		mvItemRegistryCommands(methods);
 
 		methods.push_back({ NULL, NULL, 0, NULL });
 
@@ -53,12 +52,12 @@ namespace Marvel {
 
 			mvToolManager::InsertParser(&parsers);
 			mvViewport::InsertParser(&parsers);
-			mvApp::InsertParser(&parsers);
 			mvAppItem::InsertParser(&parsers);
-			InsertParser_mvItemRegistry(&parsers);
 			mvFontManager::InsertParser(&parsers);
 			mvCallbackRegistry::InsertParser(&parsers);
-			mvInput::InsertParser(&parsers);
+
+			InsertParser_mvContext(&parsers);
+			InsertParser_mvItemRegistry(&parsers);
 		}
 		return parsers;
 	}
@@ -70,7 +69,7 @@ namespace Marvel {
 
 		if (First_Run)
 		{
-			mvInput::InsertConstants(ModuleConstants);
+			InsertConstants_mvContext(ModuleConstants);
 			mvToolManager::InsertConstants(ModuleConstants);
 
 			constexpr_for<1, (int)mvAppItemType::ItemTypeCount, 1>(

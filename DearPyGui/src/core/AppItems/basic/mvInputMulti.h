@@ -26,7 +26,7 @@ SOFTWARE.
 #include <string>
 #include <array>
 #include "mvItemRegistry.h"
-#include "mvApp.h"
+#include "mvContext.h"
 #include "mvModule_DearPyGui.h"
 
 //-----------------------------------------------------------------------------

@@ -71,7 +71,7 @@ namespace Marvel {
 	{
 		PyObject* toolraw;
 
-		if (!Parse((mvApp::GetApp()->getParsers())["show_tool"], args, kwargs, __FUNCTION__,
+		if (!Parse((GetParsers())["show_tool"], args, kwargs, __FUNCTION__,
 			&toolraw))
 			return GetPyNone();
 

@@ -216,3 +216,6 @@ def add_dummy(*, label: str =None, user_data: Any =None, use_internal_label: boo
 
 	return internal_dpg.add_spacer(label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, width=width, height=height, indent=indent, parent=parent, before=before, show=show, pos=pos)
 
+@deprecated("Use: `destroy_context()`")
+def cleanup_dearpygui() -> None:
+	return internal_dpg.destroy_context()

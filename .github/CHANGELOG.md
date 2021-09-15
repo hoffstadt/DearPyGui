@@ -23,6 +23,7 @@ We generally fold multiple commits pertaining to the same topic as a single entr
 ## VERSION 1.0.0
 
 ### Breaking Changes
+* user must create DearPyGui context with `create_context()` before calling any DPG commands
 * changed dragPayload `drag_data` is submitted to the targets `drag_callback` rather than `drop_callback`
 * moved logger and themes to `Dear PyGui Extensions`
 * changed `id` keyword to `tag`
@@ -77,6 +78,7 @@ We generally fold multiple commits pertaining to the same topic as a single entr
 * table "value" is now a string, which acts as a filter using the row filter keys
 
 ### Deprecated
+* command: `cleanup_dearpygui(...)` is deprecated. Use `destroy_context(...)`
 * command: `staging_container(...)` is deprecated. Use `stage(...)`
 * command: `enable_docking(...)` is deprecated. Use `configure_app(docking=True, docking_space=dock_space)`
 * command: `get_dearpygui_version()` is deprecated. Use `get_app_configuration()['version']`.

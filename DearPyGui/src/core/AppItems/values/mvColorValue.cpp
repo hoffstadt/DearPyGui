@@ -1,6 +1,6 @@
 #include "mvColorValue.h"
 #include <utility>
-#include "mvApp.h"
+#include "mvContext.h"
 #include "mvModule_DearPyGui.h"
 #include <string>
 #include "mvPythonExceptions.h"
@@ -65,7 +65,7 @@ namespace Marvel {
 		if (dataSource == _source) return;
 		_source = dataSource;
 
-		mvAppItem* item = GetItem((*mvApp::GetApp()->itemRegistry), dataSource);
+		mvAppItem* item = GetItem((*GContext->itemRegistry), dataSource);
 		if (!item)
 		{
 			mvThrowPythonError(mvErrorCode::mvSourceNotFound, "set_value",

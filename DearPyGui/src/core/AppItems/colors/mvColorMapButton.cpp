@@ -1,5 +1,5 @@
 #include "mvColorMapButton.h"
-#include "mvApp.h"
+#include "mvContext.h"
 #include <array>
 #include "mvItemRegistry.h"
 #include "mvPythonExceptions.h"
@@ -121,9 +121,9 @@ namespace Marvel {
 			if (ImPlot::ColormapButton(_internalLabel.c_str(), ImVec2((float)_width, (float)_height), _colormap))
 			{
 				if(_alias.empty())
-					mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), _uuid, nullptr, _user_data);
+					GContext->callbackRegistry->addCallback(getCallback(false), _uuid, nullptr, _user_data);
 				else	
-					mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), _alias, nullptr, _user_data);
+					GContext->callbackRegistry->addCallback(getCallback(false), _alias, nullptr, _user_data);
 			}
 		}
 
@@ -175,9 +175,9 @@ namespace Marvel {
 				{
 					auto payloadActual = static_cast<const mvDragPayload*>(payload->Data);
 					if (_alias.empty())
-						mvApp::GetApp()->getCallbackRegistry().addCallback(_dropCallback,_uuid, payloadActual->getDragData(), nullptr);
+						GContext->callbackRegistry->addCallback(_dropCallback,_uuid, payloadActual->getDragData(), nullptr);
 					else
-						mvApp::GetApp()->getCallbackRegistry().addCallback(_dropCallback,_alias, payloadActual->getDragData(), nullptr);
+						GContext->callbackRegistry->addCallback(_dropCallback,_alias, payloadActual->getDragData(), nullptr);
 				}
 
 				ImGui::EndDragDropTarget();

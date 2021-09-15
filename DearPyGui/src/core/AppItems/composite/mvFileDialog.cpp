@@ -131,12 +131,12 @@ namespace Marvel {
 				// action if OK
 				if (_instance.IsOk())
 				{
-					mvApp::GetApp()->getCallbackRegistry().submitCallback([&]()
+					GContext->callbackRegistry->submitCallback([&]()
 						{
 							if(_alias.empty())
-								mvApp::GetApp()->getCallbackRegistry().runCallback(_callback, _uuid, getInfoDict(), _user_data);
+								GContext->callbackRegistry->runCallback(_callback, _uuid, getInfoDict(), _user_data);
 							else	
-								mvApp::GetApp()->getCallbackRegistry().runCallback(_callback, _alias, getInfoDict(), _user_data);
+								GContext->callbackRegistry->runCallback(_callback, _alias, getInfoDict(), _user_data);
 						});
 
 				}
@@ -163,7 +163,7 @@ namespace Marvel {
 		if (dataSource == _source) return;
 		_source = dataSource;
 
-		mvAppItem* item = GetItem((*mvApp::GetApp()->itemRegistry), dataSource);
+		mvAppItem* item = GetItem((*GContext->itemRegistry), dataSource);
 		if (!item)
 		{
 			mvThrowPythonError(mvErrorCode::mvSourceNotFound, "set_value",
@@ -228,14 +228,14 @@ namespace Marvel {
 	{
 		PyObject* file_dialog_raw;
 
-		if (!Parse((mvApp::GetApp()->getParsers())["get_file_dialog_info"], args, kwargs, __FUNCTION__, &file_dialog_raw))
+		if (!Parse((GetParsers())["get_file_dialog_info"], args, kwargs, __FUNCTION__, &file_dialog_raw))
 			return GetPyNone();
 
-		if (!mvApp::s_manualMutexControl) std::lock_guard<std::mutex> lk(mvApp::s_mutex);
+		if (!GContext->manualMutexControl) std::lock_guard<std::mutex> lk(GContext->mutex);
 
 		mvUUID file_dialog = mvAppItem::GetIDFromPyObject(file_dialog_raw);
 
-		auto aplot = GetItem(*mvApp::GetApp()->itemRegistry, file_dialog);
+		auto aplot = GetItem(*GContext->itemRegistry, file_dialog);
 		if (aplot == nullptr)
 		{
 			mvThrowPythonError(mvErrorCode::mvNone, std::to_string(file_dialog) + " plot does not exist.");

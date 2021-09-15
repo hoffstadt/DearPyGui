@@ -1,6 +1,5 @@
 #include "mvDragPayload.h"
-#include "mvInput.h"
-#include "mvApp.h"
+#include "mvContext.h"
 #include "mvItemRegistry.h"
 
 namespace Marvel {
@@ -61,9 +60,9 @@ namespace Marvel {
 			if (_parentPtr->_dragCallback)
 			{
 				if(_parentPtr->_alias.empty())
-					mvApp::GetApp()->getCallbackRegistry().addCallback(_parentPtr->_dragCallback, _parent, _dragData, _user_data);
+					GContext->callbackRegistry->addCallback(_parentPtr->_dragCallback, _parent, _dragData, _user_data);
 				else
-					mvApp::GetApp()->getCallbackRegistry().addCallback(_parentPtr->_dragCallback, _parentPtr->_alias, _dragData, _user_data);
+					GContext->callbackRegistry->addCallback(_parentPtr->_dragCallback, _parentPtr->_alias, _dragData, _user_data);
 			}
 
 			for (auto& childset : _children)

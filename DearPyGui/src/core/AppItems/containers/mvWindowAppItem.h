@@ -25,7 +25,7 @@ SOFTWARE.
 
 #include <utility>
 #include "mvItemRegistry.h"
-#include "mvApp.h"
+#include "mvContext.h"
 
 namespace Marvel {
 

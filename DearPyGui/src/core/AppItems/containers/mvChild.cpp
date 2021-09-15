@@ -1,6 +1,5 @@
 #include "mvChild.h"
-#include "mvInput.h"
-#include "mvApp.h"
+#include "mvContext.h"
 #include "mvItemRegistry.h"
 #include "AppItems/fonts/mvFont.h"
 #include "AppItems/themes/mvTheme.h"
@@ -132,7 +131,7 @@ namespace Marvel {
 			ScopedID id(_uuid);
 
 			ImGui::BeginChild(_internalLabel.c_str(), ImVec2(_autosize_x ? 0 : (float)_width, _autosize_y ? 0 : (float)_height), _border, _windowflags);
-			_state.lastFrameUpdate = mvApp::s_frame;
+			_state.lastFrameUpdate = GContext->frame;
 			_state.active = ImGui::IsItemActive();
 			_state.deactivated = ImGui::IsItemDeactivated();
 			_state.focused = ImGui::IsWindowFocused();
@@ -224,9 +223,9 @@ namespace Marvel {
 				{
 					auto payloadActual = static_cast<const mvDragPayload*>(payload->Data);
 					if (_alias.empty())
-						mvApp::GetApp()->getCallbackRegistry().addCallback(_dropCallback,_uuid, payloadActual->getDragData(), nullptr);
+						GContext->callbackRegistry->addCallback(_dropCallback,_uuid, payloadActual->getDragData(), nullptr);
 					else
-						mvApp::GetApp()->getCallbackRegistry().addCallback(_dropCallback,_alias, payloadActual->getDragData(), nullptr);
+						GContext->callbackRegistry->addCallback(_dropCallback,_alias, payloadActual->getDragData(), nullptr);
 				}
 
 				ImGui::EndDragDropTarget();

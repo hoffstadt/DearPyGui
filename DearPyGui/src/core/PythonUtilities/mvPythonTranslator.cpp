@@ -1,7 +1,7 @@
 #include "mvPythonTranslator.h"
 #include "mvPythonExceptions.h"
 #include "mvPythonTypeChecker.h"
-#include "mvApp.h"
+#include "mvContext.h"
 #include "mvItemRegistry.h"
 
 #define PY_SSIZE_T_CLEAN
@@ -639,7 +639,7 @@ namespace Marvel {
 				if (isPyObject_Int(item))
 					items[i] = PyLong_AsUnsignedLongLong(item);
 				else if (isPyObject_String(item))
-					items[i] = GetIdFromAlias(*mvApp::GetApp()->itemRegistry, ToString(item));
+					items[i] = GetIdFromAlias(*GContext->itemRegistry, ToString(item));
 			}
 		}
 
@@ -652,7 +652,7 @@ namespace Marvel {
 				if (isPyObject_Int(item))
 					items[i] = PyLong_AsUnsignedLongLong(item);
 				else if (isPyObject_String(item))
-					items[i] = GetIdFromAlias(*mvApp::GetApp()->itemRegistry, ToString(item));
+					items[i] = GetIdFromAlias(*GContext->itemRegistry, ToString(item));
 			}
 		}
 

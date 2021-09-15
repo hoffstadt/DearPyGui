@@ -1,5 +1,4 @@
 #include "mvToolWindow.h"
-#include "mvInput.h"
 #include "mvEvents.h"
 #include "mvItemRegistry.h"
 
@@ -39,11 +38,12 @@ namespace Marvel {
             ImVec2 mousePos = ImGui::GetMousePos();
             float x = mousePos.x - ImGui::GetWindowPos().x;
             float y = mousePos.y - ImGui::GetWindowPos().y - titleBarHeight;
-            mvInput::setMousePosition(x, y);
+            GContext->input.mousePos.x = x;
+            GContext->input.mousePos.y = y;
 
-            if (mvApp::GetApp()->itemRegistry->activeWindow != getUUID())
+            if (GContext->itemRegistry->activeWindow != getUUID())
             {
-                mvApp::GetApp()->itemRegistry->activeWindow = getUUID();
+                GContext->itemRegistry->activeWindow = getUUID();
                 mvEventBus::Publish(mvEVT_CATEGORY_ITEM, mvEVT_ACTIVE_WINDOW, { CreateEventArgument("WINDOW", getUUID()) });
             }
         }

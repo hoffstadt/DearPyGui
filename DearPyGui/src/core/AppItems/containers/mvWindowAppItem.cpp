@@ -1,5 +1,4 @@
 #include "mvWindowAppItem.h"
-#include "mvInput.h"
 #include "mvViewport.h"
 #include "mvItemRegistry.h"
 #include "mvLog.h"
@@ -135,7 +134,7 @@ namespace Marvel {
 	mvWindowAppItem::~mvWindowAppItem()
 	{
 		PyObject* callback = _on_close;
-		mvApp::GetApp()->getCallbackRegistry().submitCallback([callback]() {
+		GContext->callbackRegistry->submitCallback([callback]() {
 			if (callback)
 				Py_XDECREF(callback);
 			});
@@ -227,7 +226,7 @@ namespace Marvel {
 		if (!_show)
 			return;
 
-		if (mvApp::s_frame == 1 && mvApp::GetApp()->isUsingIniFile() && !(_windowflags & ImGuiWindowFlags_NoSavedSettings))
+		if (GContext->frame == 1 && !GContext->IO.iniFile.empty() && !(_windowflags & ImGuiWindowFlags_NoSavedSettings))
 		{
 			_dirtyPos = false;
 			_dirty_size = false;
@@ -270,7 +269,7 @@ namespace Marvel {
 			ImGui::SetNextWindowBgAlpha(1.0f);
 			ImGui::PushStyleVar(ImGuiStyleVar_WindowRounding, 0.0f); // to prevent main window corners from showing
 			ImGui::SetNextWindowPos(ImVec2(0.0f, 0.0f));
-			ImGui::SetNextWindowSize(ImVec2((float)mvApp::GetApp()->getViewport()->getClientWidth(), (float)mvApp::GetApp()->getViewport()->getClientHeight()));
+			ImGui::SetNextWindowSize(ImVec2((float)GContext->viewport->getClientWidth(), (float)GContext->viewport->getClientHeight()));
 		}
 
 		else if (_dirtyPos)
@@ -305,16 +304,16 @@ namespace Marvel {
 
 				// shouldn't have to do this but do. Fix later
 				_show = false;
-				_state.lastFrameUpdate = mvApp::s_frame;
+				_state.lastFrameUpdate = GContext->frame;
 				_state.hovered = false;
 				_state.focused = false;
 				_state.activated = false;
 				_state.visible = false;
 
 				if(_alias.empty())
-					mvApp::GetApp()->getCallbackRegistry().addCallback(_on_close, _uuid, nullptr, _user_data);
+					GContext->callbackRegistry->addCallback(_on_close, _uuid, nullptr, _user_data);
 				else
-					mvApp::GetApp()->getCallbackRegistry().addCallback(_on_close, _alias, nullptr, _user_data);
+					GContext->callbackRegistry->addCallback(_on_close, _alias, nullptr, _user_data);
 				
 				return;
 			}
@@ -428,7 +427,7 @@ namespace Marvel {
 		_scrollMaxX = ImGui::GetScrollMaxX();
 		_scrollMaxY = ImGui::GetScrollMaxY();
 
-		_state.lastFrameUpdate = mvApp::s_frame;
+		_state.lastFrameUpdate = GContext->frame;
 		_state.visible = true;
 		_state.hovered = ImGui::IsWindowHovered();
 		_state.focused = ImGui::IsWindowFocused();
@@ -455,11 +454,12 @@ namespace Marvel {
 			ImVec2 mousePos = ImGui::GetMousePos();
 			float x = mousePos.x - ImGui::GetWindowPos().x;
 			float y = mousePos.y - ImGui::GetWindowPos().y - titleBarHeight;
-			mvInput::setMousePosition(x, y);
+			GContext->input.mousePos.x = x;
+			GContext->input.mousePos.y = y;
 
-			if (mvApp::GetApp()->itemRegistry->activeWindow != _uuid)
+			if (GContext->itemRegistry->activeWindow != _uuid)
 			{
-				mvApp::GetApp()->itemRegistry->activeWindow = _uuid;
+				GContext->itemRegistry->activeWindow = _uuid;
 				mvEventBus::Publish(mvEVT_CATEGORY_ITEM, mvEVT_ACTIVE_WINDOW, { CreateEventArgument("WINDOW", _uuid) });
 			}
 
@@ -476,16 +476,16 @@ namespace Marvel {
 
 		if (!_show)
 		{
-			_state.lastFrameUpdate = mvApp::s_frame;
+			_state.lastFrameUpdate = GContext->frame;
 			_state.hovered = false;
 			_state.focused = false;
 			_state.activated = false;
 			_state.visible = false;
 
 			if(_alias.empty())
-				mvApp::GetApp()->getCallbackRegistry().addCallback(_on_close, _uuid, nullptr, _user_data);
+				GContext->callbackRegistry->addCallback(_on_close, _uuid, nullptr, _user_data);
 			else
-				mvApp::GetApp()->getCallbackRegistry().addCallback(_on_close, _alias, nullptr, _user_data);
+				GContext->callbackRegistry->addCallback(_on_close, _alias, nullptr, _user_data);
 		}
 
 		if (_handlerRegistry)
@@ -611,15 +611,15 @@ namespace Marvel {
 		PyObject* itemraw;
 		float value;
 
-		if (!Parse((mvApp::GetApp()->getParsers())["set_x_scroll"], args, kwargs, __FUNCTION__,
+		if (!Parse((GetParsers())["set_x_scroll"], args, kwargs, __FUNCTION__,
 			&itemraw, &value))
 			return GetPyNone();
 
-		if (!mvApp::s_manualMutexControl) std::lock_guard<std::mutex> lk(mvApp::s_mutex);
+		if (!GContext->manualMutexControl) std::lock_guard<std::mutex> lk(GContext->mutex);
 
 		mvUUID item = mvAppItem::GetIDFromPyObject(itemraw);
 
-		auto window = GetItem((*mvApp::GetApp()->itemRegistry), item);
+		auto window = GetItem((*GContext->itemRegistry), item);
 		if (window == nullptr)
 		{
 			mvThrowPythonError(mvErrorCode::mvItemNotFound, "set_x_scroll",
@@ -656,15 +656,15 @@ namespace Marvel {
 		PyObject* itemraw;
 		float value;
 
-		if (!Parse((mvApp::GetApp()->getParsers())["set_y_scroll"], args, kwargs, __FUNCTION__,
+		if (!Parse((GetParsers())["set_y_scroll"], args, kwargs, __FUNCTION__,
 			&itemraw, &value))
 			return GetPyNone();
 
-		if (!mvApp::s_manualMutexControl) std::lock_guard<std::mutex> lk(mvApp::s_mutex);
+		if (!GContext->manualMutexControl) std::lock_guard<std::mutex> lk(GContext->mutex);
 
 		mvUUID item = mvAppItem::GetIDFromPyObject(itemraw);
 
-		auto window = GetItem((*mvApp::GetApp()->itemRegistry), item);
+		auto window = GetItem((*GContext->itemRegistry), item);
 		if (window == nullptr)
 		{
 			mvThrowPythonError(mvErrorCode::mvItemNotFound, "set_y_scroll",
@@ -700,15 +700,15 @@ namespace Marvel {
 
 		PyObject* itemraw;
 
-		if (!Parse((mvApp::GetApp()->getParsers())["get_x_scroll"], args, kwargs, __FUNCTION__,
+		if (!Parse((GetParsers())["get_x_scroll"], args, kwargs, __FUNCTION__,
 			&itemraw))
 			return GetPyNone();
 
-		if (!mvApp::s_manualMutexControl) std::lock_guard<std::mutex> lk(mvApp::s_mutex);
+		if (!GContext->manualMutexControl) std::lock_guard<std::mutex> lk(GContext->mutex);
 
 		mvUUID item = mvAppItem::GetIDFromPyObject(itemraw);
 
-		auto window = GetItem((*mvApp::GetApp()->itemRegistry), item);
+		auto window = GetItem((*GContext->itemRegistry), item);
 		if (window == nullptr)
 		{
 			mvThrowPythonError(mvErrorCode::mvItemNotFound, "get_x_scroll",
@@ -743,15 +743,15 @@ namespace Marvel {
 
 		PyObject* itemraw;
 
-		if (!Parse((mvApp::GetApp()->getParsers())["get_y_scroll"], args, kwargs, __FUNCTION__,
+		if (!Parse((GetParsers())["get_y_scroll"], args, kwargs, __FUNCTION__,
 			&itemraw))
 			return GetPyNone();
 
-		if (!mvApp::s_manualMutexControl) std::lock_guard<std::mutex> lk(mvApp::s_mutex);
+		if (!GContext->manualMutexControl) std::lock_guard<std::mutex> lk(GContext->mutex);
 
 		mvUUID item = mvAppItem::GetIDFromPyObject(itemraw);
 
-		auto window = GetItem((*mvApp::GetApp()->itemRegistry), item);
+		auto window = GetItem((*GContext->itemRegistry), item);
 		if (window == nullptr)
 		{
 			mvThrowPythonError(mvErrorCode::mvItemNotFound, s_command,
@@ -786,15 +786,15 @@ namespace Marvel {
 
 		PyObject* itemraw;
 
-		if (!Parse((mvApp::GetApp()->getParsers())["get_x_scroll_max"], args, kwargs, __FUNCTION__,
+		if (!Parse((GetParsers())["get_x_scroll_max"], args, kwargs, __FUNCTION__,
 			&itemraw))
 			return GetPyNone();
 
-		if (!mvApp::s_manualMutexControl) std::lock_guard<std::mutex> lk(mvApp::s_mutex);
+		if (!GContext->manualMutexControl) std::lock_guard<std::mutex> lk(GContext->mutex);
 
 		mvUUID item = mvAppItem::GetIDFromPyObject(itemraw);
 
-		auto window = GetItem((*mvApp::GetApp()->itemRegistry), item);
+		auto window = GetItem((*GContext->itemRegistry), item);
 		if (window == nullptr)
 		{
 			mvThrowPythonError(mvErrorCode::mvItemNotFound, s_command,
@@ -829,15 +829,15 @@ namespace Marvel {
 
 		PyObject* itemraw;
 
-		if (!Parse((mvApp::GetApp()->getParsers())["get_y_scroll_max"], args, kwargs, __FUNCTION__,
+		if (!Parse((GetParsers())["get_y_scroll_max"], args, kwargs, __FUNCTION__,
 			&itemraw))
 			return GetPyNone();
 
-		if (!mvApp::s_manualMutexControl) std::lock_guard<std::mutex> lk(mvApp::s_mutex);
+		if (!GContext->manualMutexControl) std::lock_guard<std::mutex> lk(GContext->mutex);
 
 		mvUUID item = mvAppItem::GetIDFromPyObject(itemraw);
 
-		auto window = GetItem((*mvApp::GetApp()->itemRegistry), item);
+		auto window = GetItem((*GContext->itemRegistry), item);
 		if (window == nullptr)
 		{
 			mvThrowPythonError(mvErrorCode::mvItemNotFound, s_command,

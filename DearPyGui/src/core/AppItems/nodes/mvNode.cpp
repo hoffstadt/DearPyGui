@@ -1,6 +1,6 @@
 #include "mvNode.h"
 #include <imnodes.h>
-#include "mvApp.h"
+#include "mvContext.h"
 #include "mvLog.h"
 #include "mvItemRegistry.h"
 #include "mvPythonExceptions.h"
@@ -170,7 +170,7 @@ namespace Marvel {
 		//   * only update if applicable
 		//-----------------------------------------------------------------------------
 		ImVec2 pos = imnodes::GetNodeGridSpacePos((int)_id);
-		_state.lastFrameUpdate = mvApp::s_frame;
+		_state.lastFrameUpdate = GContext->frame;
 		_state.hovered = ImGui::IsItemHovered();
 		_state.leftclicked = ImGui::IsItemClicked();
 		_state.rightclicked = ImGui::IsItemClicked(1);
@@ -215,9 +215,9 @@ namespace Marvel {
 					auto payloadActual = static_cast<const mvDragPayload*>(payload->Data);
 
 					if (_alias.empty())
-						mvApp::GetApp()->getCallbackRegistry().addCallback(_dropCallback,_uuid, payloadActual->getDragData(), nullptr);
+						GContext->callbackRegistry->addCallback(_dropCallback,_uuid, payloadActual->getDragData(), nullptr);
 					else
-						mvApp::GetApp()->getCallbackRegistry().addCallback(_dropCallback,_alias, payloadActual->getDragData(), nullptr);
+						GContext->callbackRegistry->addCallback(_dropCallback,_alias, payloadActual->getDragData(), nullptr);
 				}
 
 				ImGui::EndDragDropTarget();

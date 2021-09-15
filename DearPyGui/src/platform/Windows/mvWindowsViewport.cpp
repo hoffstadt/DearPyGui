@@ -160,25 +160,25 @@ namespace Marvel {
 
 		ImGuiIO& io = ImGui::GetIO(); (void)io;
 		io.ConfigWindowsMoveFromTitleBarOnly = true;
-		if (mvApp::GetApp()->_loadIniFile)
+		if (GContext->IO.loadIniFile)
 		{
-			ImGui::LoadIniSettingsFromDisk(mvApp::GetApp()->_iniFile.c_str());
+			ImGui::LoadIniSettingsFromDisk(GContext->IO.iniFile.c_str());
 			io.IniFilename = nullptr;
 		}
 		else
 		{
-			if (mvApp::GetApp()->_iniFile.empty())
+			if (GContext->IO.iniFile.empty())
 				io.IniFilename = nullptr;
 			else
-				io.IniFilename = mvApp::GetApp()->_iniFile.c_str();
+				io.IniFilename = GContext->IO.iniFile.c_str();
 		}
 
-		if(mvApp::GetApp()->_docking)
+		if(GContext->IO.docking)
 			io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
 
 		// Setup Dear ImGui style
 		ImGui::StyleColorsDark();
-		mvApp::SetDefaultTheme();
+		SetDefaultTheme();
 
 		// Setup Platform/Renderer bindings
 		ImGui_ImplWin32_Init(_hwnd);
@@ -252,7 +252,7 @@ namespace Marvel {
 	void mvWindowsViewport::renderFrame()
 	{
 		prerender();
-		_app->render();
+		Render();
 		postrender();
 	}
 
@@ -303,7 +303,7 @@ namespace Marvel {
 		const D3D_FEATURE_LEVEL featureLevelArray[2] = { D3D_FEATURE_LEVEL_11_0, D3D_FEATURE_LEVEL_10_0, };
 
 		// use default adapter
-		if (mvApp::GetApp()->_info_auto_device)
+		if (GContext->IO.info_auto_device)
 		{
 
 			int index = 0;
@@ -326,7 +326,7 @@ namespace Marvel {
 				&s_pd3dDevice, &featureLevel, &s_pd3dDeviceContext) != S_OK)
 				return false;
 		}
-		else if (mvApp::GetApp()->_info_device == -1)
+		else if (GContext->IO.info_device == -1)
 		{
 			if (D3D11CreateDeviceAndSwapChain(nullptr, D3D_DRIVER_TYPE_HARDWARE, nullptr,
 				createDeviceFlags, featureLevelArray, 2, D3D11_SDK_VERSION, &sd, &s_pSwapChain,
@@ -336,7 +336,7 @@ namespace Marvel {
 		else
 		{
 
-			if (D3D11CreateDeviceAndSwapChain(adapters[mvApp::GetApp()->_info_device], D3D_DRIVER_TYPE_UNKNOWN, nullptr,
+			if (D3D11CreateDeviceAndSwapChain(adapters[GContext->IO.info_device], D3D_DRIVER_TYPE_UNKNOWN, nullptr,
 				createDeviceFlags, featureLevelArray, 2, D3D11_SDK_VERSION, &sd, &s_pSwapChain,
 				&s_pd3dDevice, &featureLevel, &s_pd3dDeviceContext) != S_OK)
 				return false;
@@ -488,7 +488,7 @@ namespace Marvel {
 				return 0;
 			break;
 		case WM_DESTROY:
-			mvApp::StopApp();
+			GContext->started = false;
 			::PostQuitMessage(0);
 			return 0;
 		case WM_INPUTLANGCHANGE:

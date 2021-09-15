@@ -26,16 +26,16 @@ namespace Marvel {
 
     static void window_close_callback(GLFWwindow* window)
     {
-        mvApp::StopApp();
+        GContext->started = false;
     }
 
     static void window_size_callback(GLFWwindow* window, int width, int height)
     {
-        mvApp::GetApp()->getViewport()->setActualHeight(height);
-        mvApp::GetApp()->getViewport()->setClientHeight(height);
-        mvApp::GetApp()->getViewport()->setActualWidth(width);
-        mvApp::GetApp()->getViewport()->setClientWidth(width);
-        mvApp::GetApp()->getViewport()->onResizeEvent();
+        GContext->viewport->setActualHeight(height);
+        GContext->viewport->setClientHeight(height);
+        GContext->viewport->setActualWidth(width);
+        GContext->viewport->setClientWidth(width);
+        GContext->viewport->onResizeEvent();
     }
 
     static void glfw_error_callback(int error, const char *description)
@@ -131,7 +131,7 @@ namespace Marvel {
 
         // Setup style
         ImGui::StyleColorsDark();
-        mvApp::SetDefaultTheme();
+        SetDefaultTheme();
 
         ImGui_ImplGlfw_InitForOpenGL(_window, true);
         ImGui_ImplMetal_Init(device);
@@ -250,7 +250,7 @@ namespace Marvel {
             ImGui_ImplGlfw_NewFrame();
             ImGui::NewFrame();
 
-            _app->render();
+            Render();
 
             glfwGetWindowPos(_window, &_xpos, &_ypos);
 

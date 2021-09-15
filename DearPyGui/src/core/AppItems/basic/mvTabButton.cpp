@@ -1,5 +1,5 @@
 #include "mvTabButton.h"
-#include "mvApp.h"
+#include "mvContext.h"
 #include "mvLog.h"
 #include "mvItemRegistry.h"
 #include "mvPythonExceptions.h"
@@ -117,9 +117,9 @@ namespace Marvel {
 			if (ImGui::TabItemButton(_internalLabel.c_str(), _flags))
 			{
 				if(_alias.empty())
-					mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), _uuid, nullptr, _user_data);
+					GContext->callbackRegistry->addCallback(getCallback(false), _uuid, nullptr, _user_data);
 				else
-					mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), _alias, nullptr, _user_data);
+					GContext->callbackRegistry->addCallback(getCallback(false), _alias, nullptr, _user_data);
 			}
 		}
 
@@ -171,9 +171,9 @@ namespace Marvel {
 				{
 					auto payloadActual = static_cast<const mvDragPayload*>(payload->Data);
 					if (_alias.empty())
-						mvApp::GetApp()->getCallbackRegistry().addCallback(_dropCallback,_uuid, payloadActual->getDragData(), nullptr);
+						GContext->callbackRegistry->addCallback(_dropCallback,_uuid, payloadActual->getDragData(), nullptr);
 					else
-						mvApp::GetApp()->getCallbackRegistry().addCallback(_dropCallback,_alias, payloadActual->getDragData(), nullptr);
+						GContext->callbackRegistry->addCallback(_dropCallback,_alias, payloadActual->getDragData(), nullptr);
 				}
 
 				ImGui::EndDragDropTarget();

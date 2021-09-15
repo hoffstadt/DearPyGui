@@ -5,6 +5,8 @@ class TestSimple(unittest.TestCase):
 
     def setUp(self):
 
+        dpg.create_context()
+
         with dpg.window() as self.window_id:
 
             self.item1 = dpg.add_button(label="item1")
@@ -18,7 +20,7 @@ class TestSimple(unittest.TestCase):
 
     def tearDown(self):
         dpg.stop_dearpygui()
-        dpg.cleanup_dearpygui()
+        dpg.destroy_context()
 
     def test_moving_items(self):
 

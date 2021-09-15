@@ -1,6 +1,6 @@
 #include "mvColorMap.h"
 #include <utility>
-#include "mvApp.h"
+#include "mvContext.h"
 #include "mvModule_DearPyGui.h"
 #include <string>
 #include "mvItemRegistry.h"
@@ -103,7 +103,7 @@ namespace Marvel {
 
     void mvColorMap::handleSpecificRequiredArgs(PyObject* dict)
     {
-        if (!VerifyRequiredArguments(mvApp::GetApp()->getParsers()[s_command], dict))
+        if (!VerifyRequiredArguments(GetParsers()[s_command], dict))
             return;
 
         for (int i = 0; i < PyTuple_Size(dict); i++)
@@ -164,15 +164,15 @@ namespace Marvel {
         PyObject* itemraw;
         PyObject* sourceraw;
 
-        if (!Parse((mvApp::GetApp()->getParsers())["bind_colormap"], args, kwargs, __FUNCTION__, &itemraw, &sourceraw))
+        if (!Parse((GetParsers())["bind_colormap"], args, kwargs, __FUNCTION__, &itemraw, &sourceraw))
             return GetPyNone();
 
-        if (!mvApp::s_manualMutexControl) std::lock_guard<std::mutex> lk(mvApp::s_mutex);
+        if (!GContext->manualMutexControl) std::lock_guard<std::mutex> lk(GContext->mutex);
 
         mvUUID item = mvAppItem::GetIDFromPyObject(itemraw);
         mvUUID source = mvAppItem::GetIDFromPyObject(sourceraw);
 
-        auto aitem = GetItem((*mvApp::GetApp()->itemRegistry), item);
+        auto aitem = GetItem((*GContext->itemRegistry), item);
         if (aitem == nullptr)
         {
             mvThrowPythonError(mvErrorCode::mvItemNotFound, "bind_colormap",
@@ -182,7 +182,7 @@ namespace Marvel {
 
         if (source > 15)
         {
-            auto asource = GetItem(*mvApp::GetApp()->itemRegistry, source);
+            auto asource = GetItem(*GContext->itemRegistry, source);
             if (asource == nullptr)
             {
                 mvThrowPythonError(mvErrorCode::mvItemNotFound, "bind_colormap",
@@ -237,16 +237,16 @@ namespace Marvel {
         PyObject* itemraw;
         float t;
 
-        if (!Parse((mvApp::GetApp()->getParsers())["sample_colormap"], args, kwargs, __FUNCTION__, &itemraw, &t))
+        if (!Parse((GetParsers())["sample_colormap"], args, kwargs, __FUNCTION__, &itemraw, &t))
             return GetPyNone();
 
-        if (!mvApp::s_manualMutexControl) std::lock_guard<std::mutex> lk(mvApp::s_mutex);
+        if (!GContext->manualMutexControl) std::lock_guard<std::mutex> lk(GContext->mutex);
 
         mvUUID item = mvAppItem::GetIDFromPyObject(itemraw);
 
         if (item > 15)
         {
-            auto asource = GetItem((*mvApp::GetApp()->itemRegistry), item);
+            auto asource = GetItem((*GContext->itemRegistry), item);
             if (asource == nullptr)
             {
                 mvThrowPythonError(mvErrorCode::mvItemNotFound, "sample_colormap",
@@ -262,7 +262,7 @@ namespace Marvel {
         }
 
 
-        if (!mvApp::IsAppStarted())
+        if (!GContext->started)
         {
             mvThrowPythonError(mvErrorCode::mvNone, "sample_colormap", "This command can only be ran once the app is started.", nullptr);
             return GetPyNone();
@@ -278,22 +278,22 @@ namespace Marvel {
         PyObject* itemraw;
         int index;
 
-        if (!Parse((mvApp::GetApp()->getParsers())["get_colormap_color"], args, kwargs, __FUNCTION__, &itemraw, &index))
+        if (!Parse((GetParsers())["get_colormap_color"], args, kwargs, __FUNCTION__, &itemraw, &index))
             return GetPyNone();
 
-        if(!mvApp::IsAppStarted())
+        if(!GContext->started)
         {
             mvThrowPythonError(mvErrorCode::mvNone, "get_colormap_color", "This command can only be ran once the app is started.", nullptr);
             return GetPyNone();
         }
 
-        if (!mvApp::s_manualMutexControl) std::lock_guard<std::mutex> lk(mvApp::s_mutex);
+        if (!GContext->manualMutexControl) std::lock_guard<std::mutex> lk(GContext->mutex);
 
         mvUUID item = mvAppItem::GetIDFromPyObject(itemraw);
 
         if (item > 15)
         {
-            auto asource = GetItem((*mvApp::GetApp()->itemRegistry), item);
+            auto asource = GetItem((*GContext->itemRegistry), item);
             if (asource == nullptr)
             {
                 mvThrowPythonError(mvErrorCode::mvItemNotFound, "get_colormap_color",

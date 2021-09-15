@@ -1,6 +1,6 @@
 #include "mvNodeEditor.h"
 #include <imnodes.h>
-#include "mvApp.h"
+#include "mvContext.h"
 #include "mvItemRegistry.h"
 #include "mvNode.h"
 #include "mvNodeAttribute.h"
@@ -172,8 +172,8 @@ namespace Marvel {
 						int i2 = static_cast<mvNodeLink*>(child.get())->getId2();
 						if (i1 == attr_id || i2 == attr_id)
 						{
-							DeleteItem(*mvApp::GetApp()->itemRegistry, child->_uuid);
-							CleanUpItem(*mvApp::GetApp()->itemRegistry, child->_uuid);
+							DeleteItem(*GContext->itemRegistry, child->_uuid);
+							CleanUpItem(*GContext->itemRegistry, child->_uuid);
 						}	
 					}
 				}
@@ -341,18 +341,18 @@ namespace Marvel {
 			if (_callback)
 			{
 				if (_alias.empty())
-					mvApp::GetApp()->getCallbackRegistry().submitCallback([=]() {
+					GContext->callbackRegistry->submitCallback([=]() {
 						PyObject* link = PyTuple_New(2);
 						PyTuple_SetItem(link, 0, ToPyUUID(node1));
 						PyTuple_SetItem(link, 1, ToPyUUID(node2));
-						mvApp::GetApp()->getCallbackRegistry().addCallback(_callback, _uuid, link, _user_data);
+						GContext->callbackRegistry->addCallback(_callback, _uuid, link, _user_data);
 						});
 				else
-					mvApp::GetApp()->getCallbackRegistry().submitCallback([=]() {
+					GContext->callbackRegistry->submitCallback([=]() {
 						PyObject* link = PyTuple_New(2);
 						PyTuple_SetItem(link, 0, ToPyUUID(node1));
 						PyTuple_SetItem(link, 1, ToPyUUID(node2));
-						mvApp::GetApp()->getCallbackRegistry().addCallback(_callback, _alias, link, _user_data);
+						GContext->callbackRegistry->addCallback(_callback, _alias, link, _user_data);
 						});
 			}
 		}
@@ -375,21 +375,21 @@ namespace Marvel {
 			if (_delinkCallback)
 			{
 				if (_alias.empty())
-					mvApp::GetApp()->getCallbackRegistry().submitCallback([=]() {
+					GContext->callbackRegistry->submitCallback([=]() {
 						PyObject* link = ToPyUUID(name);
-						mvApp::GetApp()->getCallbackRegistry().addCallback(_delinkCallback, _uuid, link, _user_data);
+						GContext->callbackRegistry->addCallback(_delinkCallback, _uuid, link, _user_data);
 						});
 				else
-					mvApp::GetApp()->getCallbackRegistry().submitCallback([=]() {
+					GContext->callbackRegistry->submitCallback([=]() {
 						PyObject* link = ToPyUUID(name);
-						mvApp::GetApp()->getCallbackRegistry().addCallback(_delinkCallback, _alias, link, _user_data);
+						GContext->callbackRegistry->addCallback(_delinkCallback, _alias, link, _user_data);
 							});
 			}
 		}
 
 		ImGui::EndChild();
 
-		_state.lastFrameUpdate = mvApp::s_frame;
+		_state.lastFrameUpdate = GContext->frame;
 
 		if (_handlerRegistry)
 			_handlerRegistry->customAction(&_state);
@@ -400,11 +400,11 @@ namespace Marvel {
 		mvUUID node_editor;
 
 
-		if (!Parse((mvApp::GetApp()->getParsers())["get_selected_nodes"], args, kwargs, __FUNCTION__, &node_editor))
+		if (!Parse((GetParsers())["get_selected_nodes"], args, kwargs, __FUNCTION__, &node_editor))
 			return ToPyBool(false);
 
-		if (!mvApp::s_manualMutexControl) std::lock_guard<std::mutex> lk(mvApp::s_mutex);
-		auto anode_editor = GetItem(*mvApp::GetApp()->itemRegistry, node_editor);
+		if (!GContext->manualMutexControl) std::lock_guard<std::mutex> lk(GContext->mutex);
+		auto anode_editor = GetItem(*GContext->itemRegistry, node_editor);
 		if (anode_editor == nullptr)
 		{
 			mvThrowPythonError(mvErrorCode::mvItemNotFound, "get_selected_nodes",
@@ -431,14 +431,14 @@ namespace Marvel {
 	{
 		PyObject* node_editor_raw;
 
-		if (!Parse((mvApp::GetApp()->getParsers())["get_selected_links"], args, kwargs, __FUNCTION__, &node_editor_raw))
+		if (!Parse((GetParsers())["get_selected_links"], args, kwargs, __FUNCTION__, &node_editor_raw))
 			return ToPyBool(false);
 
-		if (!mvApp::s_manualMutexControl) std::lock_guard<std::mutex> lk(mvApp::s_mutex);
+		if (!GContext->manualMutexControl) std::lock_guard<std::mutex> lk(GContext->mutex);
 
 		mvUUID node_editor = mvAppItem::GetIDFromPyObject(node_editor_raw);
 
-		auto anode_editor = GetItem(*mvApp::GetApp()->itemRegistry, node_editor);
+		auto anode_editor = GetItem(*GContext->itemRegistry, node_editor);
 		if (anode_editor == nullptr)
 		{
 			mvThrowPythonError(mvErrorCode::mvItemNotFound, "get_selected_links",
@@ -464,14 +464,14 @@ namespace Marvel {
 	{
 		PyObject* node_editor_raw;
 
-		if (!Parse((mvApp::GetApp()->getParsers())["clear_selected_links"], args, kwargs, __FUNCTION__, &node_editor_raw))
+		if (!Parse((GetParsers())["clear_selected_links"], args, kwargs, __FUNCTION__, &node_editor_raw))
 			return ToPyBool(false);
 
-		if (!mvApp::s_manualMutexControl) std::lock_guard<std::mutex> lk(mvApp::s_mutex);
+		if (!GContext->manualMutexControl) std::lock_guard<std::mutex> lk(GContext->mutex);
 
 		mvUUID node_editor = mvAppItem::GetIDFromPyObject(node_editor_raw);
 
-		auto anode_editor = GetItem(*mvApp::GetApp()->itemRegistry, node_editor);
+		auto anode_editor = GetItem(*GContext->itemRegistry, node_editor);
 		if (anode_editor == nullptr)
 		{
 			mvThrowPythonError(mvErrorCode::mvItemNotFound, "clear_selected_links",
@@ -497,14 +497,14 @@ namespace Marvel {
 	{
 		PyObject* node_editor_raw;
 
-		if (!Parse((mvApp::GetApp()->getParsers())["clear_selected_nodes"], args, kwargs, __FUNCTION__, &node_editor_raw))
+		if (!Parse((GetParsers())["clear_selected_nodes"], args, kwargs, __FUNCTION__, &node_editor_raw))
 			return ToPyBool(false);
 
-		if (!mvApp::s_manualMutexControl) std::lock_guard<std::mutex> lk(mvApp::s_mutex);
+		if (!GContext->manualMutexControl) std::lock_guard<std::mutex> lk(GContext->mutex);
 
 		mvUUID node_editor = mvAppItem::GetIDFromPyObject(node_editor_raw);
 
-		auto anode_editor = GetItem(*mvApp::GetApp()->itemRegistry, node_editor);
+		auto anode_editor = GetItem(*GContext->itemRegistry, node_editor);
 		if (anode_editor == nullptr)
 		{
 			mvThrowPythonError(mvErrorCode::mvItemNotFound, "clear_selected_nodes",

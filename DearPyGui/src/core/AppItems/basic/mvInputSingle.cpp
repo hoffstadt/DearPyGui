@@ -1,7 +1,7 @@
 #include "mvInputSingle.h"
 #include <utility>
 #include "mvModule_DearPyGui.h"
-#include "mvApp.h"
+#include "mvContext.h"
 #include <string>
 #include "mvItemRegistry.h"
 #include "mvPythonExceptions.h"
@@ -124,7 +124,7 @@ namespace Marvel {
         if (dataSource == _source) return;
         _source = dataSource;
 
-        mvAppItem* item = GetItem((*mvApp::GetApp()->itemRegistry), dataSource);
+        mvAppItem* item = GetItem((*GContext->itemRegistry), dataSource);
         if (!item)
         {
             mvThrowPythonError(mvErrorCode::mvSourceNotFound, "set_value",
@@ -239,12 +239,12 @@ namespace Marvel {
                     auto value = *_value;
 
                     if(_alias.empty())
-                        mvApp::GetApp()->getCallbackRegistry().submitCallback([=]() {
-                            mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), _uuid, ToPyInt(value), _user_data);
+                        GContext->callbackRegistry->submitCallback([=]() {
+                            GContext->callbackRegistry->addCallback(getCallback(false), _uuid, ToPyInt(value), _user_data);
                             });
                     else
-                        mvApp::GetApp()->getCallbackRegistry().submitCallback([=]() {
-                            mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), _alias, ToPyInt(value), _user_data);
+                        GContext->callbackRegistry->submitCallback([=]() {
+                            GContext->callbackRegistry->addCallback(getCallback(false), _alias, ToPyInt(value), _user_data);
                             });
                 }
             }
@@ -300,9 +300,9 @@ namespace Marvel {
                     auto payloadActual = static_cast<const mvDragPayload*>(payload->Data);
 
                     if (_alias.empty())
-                        mvApp::GetApp()->getCallbackRegistry().addCallback(_dropCallback,_uuid, payloadActual->getDragData(), nullptr);
+                        GContext->callbackRegistry->addCallback(_dropCallback,_uuid, payloadActual->getDragData(), nullptr);
                     else
-                        mvApp::GetApp()->getCallbackRegistry().addCallback(_dropCallback,_alias, payloadActual->getDragData(), nullptr);
+                        GContext->callbackRegistry->addCallback(_dropCallback,_alias, payloadActual->getDragData(), nullptr);
                 }
 
                 ImGui::EndDragDropTarget();
@@ -349,7 +349,7 @@ namespace Marvel {
         if (dataSource == _source) return;
         _source = dataSource;
 
-        mvAppItem* item = GetItem((*mvApp::GetApp()->itemRegistry), dataSource);
+        mvAppItem* item = GetItem((*GContext->itemRegistry), dataSource);
         if (!item)
         {
             mvThrowPythonError(mvErrorCode::mvSourceNotFound, "set_value",
@@ -456,12 +456,12 @@ namespace Marvel {
                     auto value = *_value;
 
                     if(_alias.empty())
-                        mvApp::GetApp()->getCallbackRegistry().submitCallback([=]() {
-                            mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), _uuid, ToPyFloat(value), _user_data);
+                        GContext->callbackRegistry->submitCallback([=]() {
+                            GContext->callbackRegistry->addCallback(getCallback(false), _uuid, ToPyFloat(value), _user_data);
                             });
                     else
-                        mvApp::GetApp()->getCallbackRegistry().submitCallback([=]() {
-                        mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), _alias, ToPyFloat(value), _user_data);
+                        GContext->callbackRegistry->submitCallback([=]() {
+                        GContext->callbackRegistry->addCallback(getCallback(false), _alias, ToPyFloat(value), _user_data);
                             });
                 }
             }
@@ -516,9 +516,9 @@ namespace Marvel {
                     auto payloadActual = static_cast<const mvDragPayload*>(payload->Data);
 
                     if (_alias.empty())
-                        mvApp::GetApp()->getCallbackRegistry().addCallback(_dropCallback,_uuid, payloadActual->getDragData(), nullptr);
+                        GContext->callbackRegistry->addCallback(_dropCallback,_uuid, payloadActual->getDragData(), nullptr);
                     else
-                        mvApp::GetApp()->getCallbackRegistry().addCallback(_dropCallback,_alias, payloadActual->getDragData(), nullptr);
+                        GContext->callbackRegistry->addCallback(_dropCallback,_alias, payloadActual->getDragData(), nullptr);
                 }
 
                 ImGui::EndDragDropTarget();

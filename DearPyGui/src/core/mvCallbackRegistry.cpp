@@ -1,10 +1,9 @@
 #include "mvCallbackRegistry.h"
 #include "mvProfiler.h"
-#include "mvApp.h"
+#include "mvContext.h"
 #include <chrono>
 #include <iostream>
 #include "mvItemRegistry.h"
-#include "mvInput.h"
 #include "mvAppItemCommons.h"
 #include "mvGlobalIntepreterLock.h"
 #include "mvPythonExceptions.h"
@@ -429,13 +428,13 @@ namespace Marvel {
 	{
 		PyObject* callback;
 
-		if (!Parse((mvApp::GetApp()->getParsers())["set_start_callback"], args, kwargs, __FUNCTION__, &callback))
+		if (!Parse((GetParsers())["set_start_callback"], args, kwargs, __FUNCTION__, &callback))
 			return GetPyNone();
 
 		Py_XINCREF(callback);
-		mvApp::GetApp()->getCallbackRegistry().submit([=]()
+		GContext->callbackRegistry->submit([=]()
 			{
-				mvApp::GetApp()->getCallbackRegistry().setOnStartCallback(callback);
+				GContext->callbackRegistry->setOnStartCallback(callback);
 			});
 
 		return GetPyNone();
@@ -445,13 +444,13 @@ namespace Marvel {
 	{
 		PyObject* callback;
 
-		if (!Parse((mvApp::GetApp()->getParsers())["set_exit_callback"], args, kwargs, __FUNCTION__, &callback))
+		if (!Parse((GetParsers())["set_exit_callback"], args, kwargs, __FUNCTION__, &callback))
 			return GetPyNone();
 
 		Py_XINCREF(callback);
-		mvApp::GetApp()->getCallbackRegistry().submit([=]()
+		GContext->callbackRegistry->submit([=]()
 			{
-				mvApp::GetApp()->getCallbackRegistry().setOnCloseCallback(callback);
+				GContext->callbackRegistry->setOnCloseCallback(callback);
 			});
 		return GetPyNone();
 	}
@@ -460,16 +459,16 @@ namespace Marvel {
 	{
 		PyObject* callback = nullptr;
 
-		if (!Parse((mvApp::GetApp()->getParsers())["set_viewport_resize_callback"], args, kwargs, __FUNCTION__,
+		if (!Parse((GetParsers())["set_viewport_resize_callback"], args, kwargs, __FUNCTION__,
 			&callback))
 			return GetPyNone();
 
 		if (callback)
 			Py_XINCREF(callback);
 
-		mvApp::GetApp()->getCallbackRegistry().submit([=]()
+		GContext->callbackRegistry->submit([=]()
 			{
-				mvApp::GetApp()->getCallbackRegistry().setResizeCallback(callback);
+				GContext->callbackRegistry->setResizeCallback(callback);
 				return std::string("");
 			});
 

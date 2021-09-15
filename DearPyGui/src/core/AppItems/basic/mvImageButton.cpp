@@ -1,5 +1,5 @@
 #include "mvImageButton.h"
-#include "mvApp.h"
+#include "mvContext.h"
 #include "mvItemRegistry.h"
 #include "mvPythonExceptions.h"
 #include "AppItems/fonts/mvFont.h"
@@ -156,9 +156,9 @@ namespace Marvel {
 					_backgroundColor, _tintColor))
 				{
 					if(_alias.empty())
-						mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), _uuid, nullptr, _user_data);
+						GContext->callbackRegistry->addCallback(getCallback(false), _uuid, nullptr, _user_data);
 					else
-						mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), _alias, nullptr, _user_data);
+						GContext->callbackRegistry->addCallback(getCallback(false), _alias, nullptr, _user_data);
 				}
 				ImGui::PopID();
 			}
@@ -213,9 +213,9 @@ namespace Marvel {
 					auto payloadActual = static_cast<const mvDragPayload*>(payload->Data);
 
 					if (_alias.empty())
-						mvApp::GetApp()->getCallbackRegistry().addCallback(_dropCallback,_uuid, payloadActual->getDragData(), nullptr);
+						GContext->callbackRegistry->addCallback(_dropCallback,_uuid, payloadActual->getDragData(), nullptr);
 					else
-						mvApp::GetApp()->getCallbackRegistry().addCallback(_dropCallback,_alias, payloadActual->getDragData(), nullptr);
+						GContext->callbackRegistry->addCallback(_dropCallback,_alias, payloadActual->getDragData(), nullptr);
 				}
 
 				ImGui::EndDragDropTarget();
@@ -225,7 +225,7 @@ namespace Marvel {
 
 	void mvImageButton::handleSpecificRequiredArgs(PyObject* dict)
 	{
-		if (!VerifyRequiredArguments(mvApp::GetApp()->getParsers()[s_command], dict))
+		if (!VerifyRequiredArguments(GetParsers()[s_command], dict))
 			return;
 
 		for (int i = 0; i < PyTuple_Size(dict); i++)
@@ -236,7 +236,7 @@ namespace Marvel {
 			case 0:
 			{
 				_textureUUID = mvAppItem::GetIDFromPyObject(item);
-				_texture = GetRefItem(*mvApp::GetApp()->itemRegistry, _textureUUID);
+				_texture = GetRefItem(*GContext->itemRegistry, _textureUUID);
 				if (_texture)
 					break;
 				else if (_textureUUID == MV_ATLAS_UUID)

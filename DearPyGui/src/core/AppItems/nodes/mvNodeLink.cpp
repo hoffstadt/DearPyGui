@@ -1,6 +1,6 @@
 #include "mvNodeLink.h"
 #include <imnodes.h>
-#include "mvApp.h"
+#include "mvContext.h"
 #include "mvLog.h"
 #include "mvNodeAttribute.h"
 #include "mvItemRegistry.h"
@@ -44,7 +44,7 @@ namespace Marvel {
 
 	void mvNodeLink::handleSpecificRequiredArgs(PyObject* dict)
 	{
-		if (!VerifyRequiredArguments(mvApp::GetApp()->getParsers()[s_command], dict))
+		if (!VerifyRequiredArguments(GetParsers()[s_command], dict))
 			return;
 
 		for (int i = 0; i < PyTuple_Size(dict); i++)
@@ -55,7 +55,7 @@ namespace Marvel {
 			case 0:
 			{
 				mvUUID node1 = mvAppItem::GetIDFromPyObject(item);
-				mvAppItem* node = GetItem(*mvApp::GetApp()->itemRegistry, node1);
+				mvAppItem* node = GetItem(*GContext->itemRegistry, node1);
 				if (node->getType() == mvAppItemType::mvNodeAttribute)
 				{
 					_id1uuid = node1;
@@ -75,7 +75,7 @@ namespace Marvel {
 			case 1:
 			{
 				mvUUID node2 = mvAppItem::GetIDFromPyObject(item);
-				mvAppItem* node = GetItem(*mvApp::GetApp()->itemRegistry, node2);
+				mvAppItem* node = GetItem(*GContext->itemRegistry, node2);
 				if (node->getType() == mvAppItemType::mvNodeAttribute)
 				{
 					_id2uuid = node2;
@@ -160,7 +160,7 @@ namespace Marvel {
 		//-----------------------------------------------------------------------------
 		// post draw
 		//-----------------------------------------------------------------------------
-		_state.lastFrameUpdate = mvApp::s_frame;
+		_state.lastFrameUpdate = GContext->frame;
 		// check custom action
 
 	}

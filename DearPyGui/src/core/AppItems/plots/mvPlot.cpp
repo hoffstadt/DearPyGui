@@ -1,9 +1,8 @@
 #include <algorithm>
 #include "mvPlot.h"
 #include "mvPlotLegend.h"
-#include "mvApp.h"
+#include "mvContext.h"
 #include "mvLog.h"
-#include "mvInput.h"
 #include "mvAreaSeries.h"
 #include "mvBarSeries.h"
 #include "mvCandleSeries.h"
@@ -343,27 +342,30 @@ namespace Marvel {
 			{
 
 				if (_alias.empty())
-					mvApp::GetApp()->getCallbackRegistry().submitCallback([=]() {
+					GContext->callbackRegistry->submitCallback([=]() {
 						PyObject* area = PyTuple_New(4);
 						PyTuple_SetItem(area, 0, PyFloat_FromDouble(_queryArea[0]));
 						PyTuple_SetItem(area, 1, PyFloat_FromDouble(_queryArea[1]));
 						PyTuple_SetItem(area, 2, PyFloat_FromDouble(_queryArea[2]));
 						PyTuple_SetItem(area, 3, PyFloat_FromDouble(_queryArea[3]));
-						mvApp::GetApp()->getCallbackRegistry().addCallback(_callback, _uuid, area, _user_data);
+						GContext->callbackRegistry->addCallback(_callback, _uuid, area, _user_data);
 						});
 				else
-					mvApp::GetApp()->getCallbackRegistry().submitCallback([=]() {
+					GContext->callbackRegistry->submitCallback([=]() {
 					PyObject* area = PyTuple_New(4);
 					PyTuple_SetItem(area, 0, PyFloat_FromDouble(_queryArea[0]));
 					PyTuple_SetItem(area, 1, PyFloat_FromDouble(_queryArea[1]));
 					PyTuple_SetItem(area, 2, PyFloat_FromDouble(_queryArea[2]));
 					PyTuple_SetItem(area, 3, PyFloat_FromDouble(_queryArea[3]));
-					mvApp::GetApp()->getCallbackRegistry().addCallback(_callback, _alias, area, _user_data);
+					GContext->callbackRegistry->addCallback(_callback, _alias, area, _user_data);
 						});
 			}
 
 			if (ImPlot::IsPlotHovered())
-				mvInput::setPlotMousePosition((float)ImPlot::GetPlotMousePos().x, (float)ImPlot::GetPlotMousePos().y);
+			{
+				GContext->input.mouseDrawingPos.x = ImPlot::GetPlotMousePos().x;
+				GContext->input.mouseDrawingPos.y = ImPlot::GetPlotMousePos().y;
+			}
 
 			// todo: resolve clipping
 			
@@ -377,9 +379,9 @@ namespace Marvel {
 					{
 						auto payloadActual = static_cast<const mvDragPayload*>(payload->Data);
 						if (_alias.empty())
-							mvApp::GetApp()->getCallbackRegistry().addCallback(_dropCallback,_uuid, payloadActual->getDragData(), nullptr);
+							GContext->callbackRegistry->addCallback(_dropCallback,_uuid, payloadActual->getDragData(), nullptr);
 						else
-							mvApp::GetApp()->getCallbackRegistry().addCallback(_dropCallback,_alias, payloadActual->getDragData(), nullptr);
+							GContext->callbackRegistry->addCallback(_dropCallback,_alias, payloadActual->getDragData(), nullptr);
 					}
 
 					ImPlot::EndDragDropTarget();
@@ -536,14 +538,14 @@ namespace Marvel {
 	{
 		PyObject* plotraw;
 
-		if (!Parse((mvApp::GetApp()->getParsers())["is_plot_queried"], args, kwargs, __FUNCTION__, &plotraw))
+		if (!Parse((GetParsers())["is_plot_queried"], args, kwargs, __FUNCTION__, &plotraw))
 			return GetPyNone();
 
-		if (!mvApp::s_manualMutexControl) std::lock_guard<std::mutex> lk(mvApp::s_mutex);
+		if (!GContext->manualMutexControl) std::lock_guard<std::mutex> lk(GContext->mutex);
 
 		mvUUID plot = mvAppItem::GetIDFromPyObject(plotraw);
 
-		auto aplot = GetItem(*mvApp::GetApp()->itemRegistry, plot);
+		auto aplot = GetItem(*GContext->itemRegistry, plot);
 		if (aplot == nullptr)
 		{
 			mvThrowPythonError(mvErrorCode::mvItemNotFound, "is_plot_queried",
@@ -567,14 +569,14 @@ namespace Marvel {
 	{
 		PyObject* plotraw;
 
-		if (!Parse((mvApp::GetApp()->getParsers())["get_plot_query_area"], args, kwargs, __FUNCTION__, &plotraw))
+		if (!Parse((GetParsers())["get_plot_query_area"], args, kwargs, __FUNCTION__, &plotraw))
 			return GetPyNone();
 
-		if (!mvApp::s_manualMutexControl) std::lock_guard<std::mutex> lk(mvApp::s_mutex);
+		if (!GContext->manualMutexControl) std::lock_guard<std::mutex> lk(GContext->mutex);
 
 		mvUUID plot = mvAppItem::GetIDFromPyObject(plotraw);
 
-		auto aplot = GetItem(*mvApp::GetApp()->itemRegistry, plot);
+		auto aplot = GetItem(*GContext->itemRegistry, plot);
 		if (aplot == nullptr)
 		{
 			mvThrowPythonError(mvErrorCode::mvItemNotFound, "get_plot_query_area",

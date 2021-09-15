@@ -1,5 +1,5 @@
 #include "mvThemeComponent.h"
-#include "mvApp.h"
+#include "mvContext.h"
 #include <array>
 #include "mvItemRegistry.h"
 #include "mvLog.h"
@@ -61,7 +61,7 @@ namespace Marvel {
 
     void mvThemeComponent::handleSpecificPositionalArgs(PyObject* dict)
     {
-        if (!VerifyPositionalArguments(mvApp::GetApp()->getParsers()[s_command], dict))
+        if (!VerifyPositionalArguments(GetParsers()[s_command], dict))
             return;
 
         for (int i = 0; i < PyTuple_Size(dict); i++)

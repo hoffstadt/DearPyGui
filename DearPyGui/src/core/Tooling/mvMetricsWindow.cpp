@@ -1,6 +1,6 @@
 #include "mvMetricsWindow.h"
 #include "mvProfiler.h"
-#include "mvApp.h"
+#include "mvContext.h"
 
 namespace Marvel {
 
@@ -41,7 +41,7 @@ namespace Marvel {
     {
 
         ImGuiIO& io = ImGui::GetIO();
-        ImGui::Text("Dear PyGui %s", mvApp::GetVersion());
+        ImGui::Text("Dear PyGui %s", GetVersion());
         ImGui::Text("Dear ImGui %s", ImGui::GetVersion());
         ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / io.Framerate, io.Framerate);
         ImGui::Text("%d vertices, %d indices (%d triangles)", io.MetricsRenderVertices, io.MetricsRenderIndices, io.MetricsRenderIndices / 3);

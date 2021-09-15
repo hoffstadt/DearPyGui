@@ -1,5 +1,5 @@
 #include "mvStyleWindow.h"
-#include "mvApp.h"
+#include "mvContext.h"
 #include "imnodes.h"
 
 // Play it nice with Windows users (Update: May 2018, Notepad now supports Unix-style carriage returns!)

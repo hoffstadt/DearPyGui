@@ -1,6 +1,6 @@
 #include "mvLayoutWindow.h"
 #include <imnodes.h>
-#include "mvApp.h"
+#include "mvContext.h"
 #include "mvItemRegistry.h"
 
 namespace Marvel {
@@ -121,7 +121,7 @@ namespace Marvel {
 		mvUUID parentName = 0;
 
 		if (_itemref == nullptr)
-            _itemref = mvApp::GetApp()->itemRegistry->windowRoots[0].get();
+            _itemref = GContext->itemRegistry->windowRoots[0].get();
 
 		if (_itemref->_parentPtr)
 			parentName = _itemref->_parentPtr->_uuid;
@@ -130,35 +130,35 @@ namespace Marvel {
 		ImGui::BeginGroup();
 
 		if (ImGui::ArrowButton("Move Up", ImGuiDir_Up))
-			mvApp::GetApp()->getCallbackRegistry().submitCallback([&]()
+			GContext->callbackRegistry->submitCallback([&]()
 				{
-					MoveItemUp(*mvApp::GetApp()->itemRegistry, m_selectedItem);
+					MoveItemUp(*GContext->itemRegistry, m_selectedItem);
 				});
 
 		ImGui::SameLine();
 		if (ImGui::ArrowButton("Move Down", ImGuiDir_Down))
-			mvApp::GetApp()->getCallbackRegistry().submitCallback([&]()
+			GContext->callbackRegistry->submitCallback([&]()
 				{
-					MoveItemDown(*mvApp::GetApp()->itemRegistry, m_selectedItem);
+					MoveItemDown(*GContext->itemRegistry, m_selectedItem);
 				});
 		ImGui::SameLine();
 		if (ImGui::Button("Delete"))
 		{
-			mvApp::GetApp()->getCallbackRegistry().submitCallback([&]()
+			GContext->callbackRegistry->submitCallback([&]()
 				{
-					DeleteItem(*mvApp::GetApp()->itemRegistry, m_selectedItem, false);
+					DeleteItem(*GContext->itemRegistry, m_selectedItem, false);
 					m_selectedItem = 0;
 				});
 
             _itemref = nullptr;
-            _itemref = mvApp::GetApp()->itemRegistry->windowRoots[0].get();
+            _itemref = GContext->itemRegistry->windowRoots[0].get();
 		}
 		ImGui::SameLine();
 		if (ImGui::Button("Show"))
-			GetItem(*mvApp::GetApp()->itemRegistry, m_selectedItem)->show();
+			GetItem(*GContext->itemRegistry, m_selectedItem)->show();
 		ImGui::SameLine();
 		if (ImGui::Button("Hide"))
-			GetItem(*mvApp::GetApp()->itemRegistry, m_selectedItem)->hide();
+			GetItem(*GContext->itemRegistry, m_selectedItem)->hide();
         ImGui::SameLine();
         ImGui::Checkbox("Show Slots###layout", &_slots);
 
@@ -174,18 +174,18 @@ namespace Marvel {
         _imguiFilter.Draw();
         _startFiltering = false;
         ImGui::BeginChild("TreeChild", ImVec2(-1.0f, -1.0f), true);
-        renderRootCategory("Windows", mvApp::GetApp()->itemRegistry->windowRoots);
-        renderRootCategory("Themes", mvApp::GetApp()->itemRegistry->themeRegistryRoots);
-        renderRootCategory("Template Registries", mvApp::GetApp()->itemRegistry->itemTemplatesRoots);
-        renderRootCategory("Staging Containers", mvApp::GetApp()->itemRegistry->stagingRoots);
-        renderRootCategory("Texture Registries", mvApp::GetApp()->itemRegistry->textureRegistryRoots);
-        renderRootCategory("Font Registries", mvApp::GetApp()->itemRegistry->fontRegistryRoots);
-        renderRootCategory("Item Handler Registries", mvApp::GetApp()->itemRegistry->itemHandlerRegistryRoots);
-        renderRootCategory("Handler Registries", mvApp::GetApp()->itemRegistry->handlerRegistryRoots);
-        renderRootCategory("Value Registries", mvApp::GetApp()->itemRegistry->valueRegistryRoots);
-        renderRootCategory("Colormap Registries", mvApp::GetApp()->itemRegistry->colormapRoots);
-        renderRootCategory("File Dialogs", mvApp::GetApp()->itemRegistry->filedialogRoots);
-        renderRootCategory("Viewport Menubars", mvApp::GetApp()->itemRegistry->viewportMenubarRoots);
+        renderRootCategory("Windows", GContext->itemRegistry->windowRoots);
+        renderRootCategory("Themes", GContext->itemRegistry->themeRegistryRoots);
+        renderRootCategory("Template Registries", GContext->itemRegistry->itemTemplatesRoots);
+        renderRootCategory("Staging Containers", GContext->itemRegistry->stagingRoots);
+        renderRootCategory("Texture Registries", GContext->itemRegistry->textureRegistryRoots);
+        renderRootCategory("Font Registries", GContext->itemRegistry->fontRegistryRoots);
+        renderRootCategory("Item Handler Registries", GContext->itemRegistry->itemHandlerRegistryRoots);
+        renderRootCategory("Handler Registries", GContext->itemRegistry->handlerRegistryRoots);
+        renderRootCategory("Value Registries", GContext->itemRegistry->valueRegistryRoots);
+        renderRootCategory("Colormap Registries", GContext->itemRegistry->colormapRoots);
+        renderRootCategory("File Dialogs", GContext->itemRegistry->filedialogRoots);
+        renderRootCategory("Viewport Menubars", GContext->itemRegistry->viewportMenubarRoots);
         ImGui::EndChild();
         ImGui::EndGroup();
 

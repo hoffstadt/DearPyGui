@@ -1,7 +1,7 @@
 #include "mvDrawImage.h"
 #include "mvLog.h"
 #include "mvItemRegistry.h"
-#include "mvApp.h"
+#include "mvContext.h"
 #include "mvPythonExceptions.h"
 
 namespace Marvel {
@@ -84,7 +84,7 @@ namespace Marvel {
 
 	void mvDrawImage::handleSpecificRequiredArgs(PyObject* dict)
 	{
-		if (!VerifyRequiredArguments(mvApp::GetApp()->getParsers()[s_command], dict))
+		if (!VerifyRequiredArguments(GetParsers()[s_command], dict))
 			return;
 
 		for (int i = 0; i < PyTuple_Size(dict); i++)
@@ -95,7 +95,7 @@ namespace Marvel {
 			case 0:
 			{
 				_textureUUID = mvAppItem::GetIDFromPyObject(item);
-				_texture = GetRefItem(*mvApp::GetApp()->itemRegistry, _textureUUID);
+				_texture = GetRefItem(*GContext->itemRegistry, _textureUUID);
 				if (_texture)
 					break;
 				else if (_textureUUID == MV_ATLAS_UUID)

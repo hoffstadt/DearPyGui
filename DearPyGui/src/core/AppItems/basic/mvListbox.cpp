@@ -1,6 +1,6 @@
 #include <utility>
 #include "mvListbox.h"
-#include "mvApp.h"
+#include "mvContext.h"
 #include "mvItemRegistry.h"
 #include "mvPythonExceptions.h"
 #include "AppItems/fonts/mvFont.h"
@@ -78,7 +78,7 @@ namespace Marvel {
 		if (dataSource == _source) return;
 		_source = dataSource;
 
-		mvAppItem* item = GetItem((*mvApp::GetApp()->itemRegistry), dataSource);
+		mvAppItem* item = GetItem((*GContext->itemRegistry), dataSource);
 		if (!item)
 		{
 			mvThrowPythonError(mvErrorCode::mvSourceNotFound, "set_value",
@@ -187,12 +187,12 @@ namespace Marvel {
 				auto value = *_value;
 
 				if(_alias.empty())
-					mvApp::GetApp()->getCallbackRegistry().submitCallback([=]() {
-						mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), _uuid, ToPyString(value), _user_data);
+					GContext->callbackRegistry->submitCallback([=]() {
+						GContext->callbackRegistry->addCallback(getCallback(false), _uuid, ToPyString(value), _user_data);
 						});
 				else
-					mvApp::GetApp()->getCallbackRegistry().submitCallback([=]() {
-					mvApp::GetApp()->getCallbackRegistry().addCallback(getCallback(false), _alias, ToPyString(value), _user_data);
+					GContext->callbackRegistry->submitCallback([=]() {
+					GContext->callbackRegistry->addCallback(getCallback(false), _alias, ToPyString(value), _user_data);
 						});
 			}
 		}
@@ -245,9 +245,9 @@ namespace Marvel {
 				{
 					auto payloadActual = static_cast<const mvDragPayload*>(payload->Data);
 					if (_alias.empty())
-						mvApp::GetApp()->getCallbackRegistry().addCallback(_dropCallback,_uuid, payloadActual->getDragData(), nullptr);
+						GContext->callbackRegistry->addCallback(_dropCallback,_uuid, payloadActual->getDragData(), nullptr);
 					else
-						mvApp::GetApp()->getCallbackRegistry().addCallback(_dropCallback,_alias, payloadActual->getDragData(), nullptr);
+						GContext->callbackRegistry->addCallback(_dropCallback,_alias, payloadActual->getDragData(), nullptr);
 				}
 
 				ImGui::EndDragDropTarget();
@@ -257,7 +257,7 @@ namespace Marvel {
 
 	void mvListbox::handleSpecificPositionalArgs(PyObject* dict)
 	{
-		if (!VerifyPositionalArguments(mvApp::GetApp()->getParsers()[s_command], dict))
+		if (!VerifyPositionalArguments(GetParsers()[s_command], dict))
 			return;
 
 		for (int i = 0; i < PyTuple_Size(dict); i++)
