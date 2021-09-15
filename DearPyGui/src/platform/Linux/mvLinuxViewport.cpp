@@ -26,7 +26,7 @@ namespace Marvel {
 
     static void window_close_callback(GLFWwindow* window)
     {
-        mvApp::StopApp();
+        GContext->started = false;
     }
 
     static void window_size_callback(GLFWwindow* window, int width, int height)
@@ -113,20 +113,20 @@ namespace Marvel {
         ImGuiIO& io = ImGui::GetIO(); (void)io;
         io.ConfigWindowsMoveFromTitleBarOnly = true;
 
-        if (mvApp::GetApp()->_loadIniFile)
+        if (GContext->IO.loadIniFile)
         {
-            ImGui::LoadIniSettingsFromDisk(mvApp::GetApp()->_iniFile.c_str());
+            ImGui::LoadIniSettingsFromDisk(GContext->IO.iniFile.c_str());
             io.IniFilename = nullptr;
         }
         else
         {
-            if (mvApp::GetApp()->_iniFile.empty())
+            if (GContext->IO.iniFile.empty())
                 io.IniFilename = nullptr;
             else
-                io.IniFilename = mvApp::GetApp()->_iniFile.c_str();
+                io.IniFilename = GContext->IO.iniFile.c_str();
         }
 
-        if (mvApp::GetApp()->_docking)
+        if (GContext->IO.docking)
             io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
 
         // Setup style
