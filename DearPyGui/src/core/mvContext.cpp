@@ -132,8 +132,7 @@ namespace Marvel {
 		}
 	}
 
-
-	void CreateContext()
+	static void CreateContext()
 	{
 
 		if (GContext)
@@ -148,7 +147,7 @@ namespace Marvel {
 		GContext->callbackRegistry = new mvCallbackRegistry();
 	}
 
-	void DestroyContext()
+	static void DestroyContext()
 	{
 
 		if (GContext == nullptr)
@@ -183,7 +182,7 @@ namespace Marvel {
 		return MV_SANDBOX_VERSION; 
 	}
 
-	const char* GetPlatform() 
+	static const char* GetPlatform() 
 	{ 
 		return MV_PLATFORM; 
 	}

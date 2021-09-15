@@ -58,11 +58,8 @@ namespace Marvel {
     extern mvContext* GContext;
 
     const char*                            GetVersion();
-    const char*                            GetPlatform();
     mvUUID                                 GenerateUUID();
     void                                   SetDefaultTheme();
-    void                                   CreateContext();
-    void                                   DestroyContext();
     void                                   Render();
     std::map<std::string, mvPythonParser>& GetParsers();
 
