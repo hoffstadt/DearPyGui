@@ -233,7 +233,7 @@ namespace Marvel {
 
 		if (!GContext->manualMutexControl) std::lock_guard<std::mutex> lk(GContext->mutex);
 
-		mvUUID file_dialog = mvAppItem::GetIDFromPyObject(file_dialog_raw);
+		mvUUID file_dialog = GetIDFromPyObject(file_dialog_raw);
 
 		auto aplot = GetItem(*GContext->itemRegistry, file_dialog);
 		if (aplot == nullptr)

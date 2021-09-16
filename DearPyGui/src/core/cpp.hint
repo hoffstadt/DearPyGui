@@ -25,19 +25,21 @@ static PyObject* parser(PyObject* self, PyObject* args, PyObject* kwargs)\
 {\
 	mvUUID id = 0;\
 	mvRef<mvAppItem> item = nullptr;\
-	auto [parent, before, alias] = mvAppItem::GetNameFromArgs(id, args, kwargs);\
+	auto [parent, before, alias] = GetNameFromArgs(id, args, kwargs);\
 	if(id == 0) id = GenerateUUID();\
 	item = GetItemFromPool((*GContext->itemRegistry), x);\
 	if(item == nullptr) item = CreateRef<mvItemTypeMap<(int)x>::type>(id);\
 	else item->_uuid;\
-	item->setAlias(alias);\
+	if (!item->_alias.empty()) RemoveAlias(*GContext->itemRegistry, item->_alias, true);\
+	item->_alias = alias;\
+	if (!item->_alias.empty()) AddAlias(*GContext->itemRegistry, item->_alias, item->_uuid);\
 	TryBoundTemplateRegistry((*GContext->itemRegistry), item.get());\
     VerifyArgumentCount(GetParsers()[#parser], args);\
-	if(!GContext->itemRegistry->skipRequiredArgs)\
+	if(!GContext->IO.skipRequiredArgs)\
 		item->handleSpecificRequiredArgs(args);\
-	if(!GContext->itemRegistry->skipPositionalArgs)\
+	if(!GContext->IO.skipPositionalArgs)\
 		item->handleSpecificPositionalArgs(args);\
-	if(!GContext->itemRegistry->skipKeywordArgs)\
+	if(!GContext->IO.skipKeywordArgs)\
 		item->handleKeywordArgs(kwargs, #parser);\
 	AddItemWithRuntimeChecks((*GContext->itemRegistry), item, parent, before);\
 	return ToPyUUID(id);\

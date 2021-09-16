@@ -1213,11 +1213,11 @@ namespace Marvel {
 		GContext->IO.iniFile = init_file;
 		GContext->IO.info_device = device;
 		GContext->IO.info_auto_device = auto_device;
-		GContext->itemRegistry->allowAliasOverwrites = allow_alias_overwrites;
-		GContext->itemRegistry->manualAliasManagement = manual_alias_management;
-		GContext->itemRegistry->skipPositionalArgs = skip_positional_args;
-		GContext->itemRegistry->skipKeywordArgs = skip_keyword_args;
-		GContext->itemRegistry->skipRequiredArgs = skip_required_args;
+		GContext->IO.allowAliasOverwrites = allow_alias_overwrites;
+		GContext->IO.manualAliasManagement = manual_alias_management;
+		GContext->IO.skipPositionalArgs = skip_positional_args;
+		GContext->IO.skipKeywordArgs = skip_keyword_args;
+		GContext->IO.skipRequiredArgs = skip_required_args;
 
 		if (!std::string(load_init_file).empty())
 		{
@@ -1241,11 +1241,11 @@ namespace Marvel {
 		PyDict_SetItemString(pdict, "platform", mvPyObject(ToPyString(GetPlatform())));
 		PyDict_SetItemString(pdict, "device", mvPyObject(ToPyInt(GContext->IO.info_device)));
 		PyDict_SetItemString(pdict, "device_name", mvPyObject(ToPyString(GContext->IO.info_device_name)));
-		PyDict_SetItemString(pdict, "allow_alias_overwrites", mvPyObject(ToPyBool(GContext->itemRegistry->allowAliasOverwrites)));
-		PyDict_SetItemString(pdict, "manual_alias_management", mvPyObject(ToPyBool(GContext->itemRegistry->manualAliasManagement)));
-		PyDict_SetItemString(pdict, "skip_keyword_args", mvPyObject(ToPyBool(GContext->itemRegistry->skipKeywordArgs)));
-		PyDict_SetItemString(pdict, "skip_positional_args", mvPyObject(ToPyBool(GContext->itemRegistry->skipPositionalArgs)));
-		PyDict_SetItemString(pdict, "skip_required_args", mvPyObject(ToPyBool(GContext->itemRegistry->skipRequiredArgs)));
+		PyDict_SetItemString(pdict, "allow_alias_overwrites", mvPyObject(ToPyBool(GContext->IO.allowAliasOverwrites)));
+		PyDict_SetItemString(pdict, "manual_alias_management", mvPyObject(ToPyBool(GContext->IO.manualAliasManagement)));
+		PyDict_SetItemString(pdict, "skip_keyword_args", mvPyObject(ToPyBool(GContext->IO.skipKeywordArgs)));
+		PyDict_SetItemString(pdict, "skip_positional_args", mvPyObject(ToPyBool(GContext->IO.skipPositionalArgs)));
+		PyDict_SetItemString(pdict, "skip_required_args", mvPyObject(ToPyBool(GContext->IO.skipRequiredArgs)));
 		return pdict;
 	}
 

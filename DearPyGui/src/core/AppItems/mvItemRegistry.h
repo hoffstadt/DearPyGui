@@ -23,42 +23,41 @@ namespace Marvel {
     // public API
     //-----------------------------------------------------------------------------
 
-    void                             RenderItemRegistry(mvItemRegistry& registry);
+    void             RenderItemRegistry(mvItemRegistry& registry);
 
     // cleanup
-    void                             ClearItemRegistry(mvItemRegistry& registry);
-    void                             CleanUpItem      (mvItemRegistry& registry, mvUUID uuid);
-    bool                             DeleteItem       (mvItemRegistry& registry, mvUUID uuid, bool childrenOnly = false, int slot = -1);
+    void             ClearItemRegistry(mvItemRegistry& registry);
+    void             CleanUpItem      (mvItemRegistry& registry, mvUUID uuid);
+    bool             DeleteItem       (mvItemRegistry& registry, mvUUID uuid, bool childrenOnly = false, int slot = -1);
 
     // aliases
-    void                             AddAlias      (mvItemRegistry& registry, const std::string& alias, mvUUID id);
-    void                             RemoveAlias   (mvItemRegistry& registry, const std::string& alias, bool itemTriggered = false);
-    bool                             DoesAliasExist(mvItemRegistry& registry, const std::string& alias);
-    mvUUID                           GetIdFromAlias(mvItemRegistry& registry, const std::string& alias);
+    void             AddAlias      (mvItemRegistry& registry, const std::string& alias, mvUUID id);
+    void             RemoveAlias   (mvItemRegistry& registry, const std::string& alias, bool itemTriggered = false);
+    mvUUID           GetIdFromAlias(mvItemRegistry& registry, const std::string& alias);
 
     // item pools
-    mvRef<mvAppItem>                 GetItemFromPool(mvItemRegistry& registry, mvAppItemType itemType);
+    mvRef<mvAppItem> GetItemFromPool(mvItemRegistry& registry, mvAppItemType itemType);
 
     // item movement
-    bool                             MoveItem    (mvItemRegistry& registry, mvUUID uuid, mvUUID parent, mvUUID before);
-    bool                             MoveItemUp  (mvItemRegistry& registry, mvUUID uuid);
-    bool                             MoveItemDown(mvItemRegistry& registry, mvUUID uuid);
+    bool             MoveItem    (mvItemRegistry& registry, mvUUID uuid, mvUUID parent, mvUUID before);
+    bool             MoveItemUp  (mvItemRegistry& registry, mvUUID uuid);
+    bool             MoveItemDown(mvItemRegistry& registry, mvUUID uuid);
 
     // item retrieval
-    mvAppItem*                       GetItem        (mvItemRegistry& registry, mvUUID uuid);
-    mvRef<mvAppItem>                 GetRefItem     (mvItemRegistry& registry, mvUUID uuid);
-    mvWindowAppItem*                 GetWindow      (mvItemRegistry& registry, mvUUID uuid);
-    std::vector<std::vector<mvUUID>> GetItemChildren(mvItemRegistry& registry, mvUUID uuid);
-    mvAppItem*                       GetItemRoot    (mvItemRegistry& registry, mvUUID uuid);
+    mvUUID           GetIDFromPyObject(PyObject* item);
+    mvAppItem*       GetItem        (mvItemRegistry& registry, mvUUID uuid);
+    mvRef<mvAppItem> GetRefItem     (mvItemRegistry& registry, mvUUID uuid);
+    mvWindowAppItem* GetWindow      (mvItemRegistry& registry, mvUUID uuid);
+    mvAppItem*       GetItemRoot    (mvItemRegistry& registry, mvUUID uuid);
 
     // item operations
-    bool                             FocusItem               (mvItemRegistry& registry, mvUUID uuid);
-    void                             DelaySearch             (mvItemRegistry& registry, mvAppItem* item);
-    bool                             AddItemWithRuntimeChecks(mvItemRegistry& registry, mvRef<mvAppItem> item, mvUUID parent, mvUUID before);
-    void                             ResetTheme              (mvItemRegistry& registry);
-    void                             AddDebugWindow          (mvItemRegistry& registry, mvRef<mvAppItem> item);
-    void                             RemoveDebugWindow       (mvItemRegistry& registry, mvUUID uuid);
-    void                             TryBoundTemplateRegistry(mvItemRegistry& registry, mvAppItem* item);
+    void             DelaySearch             (mvItemRegistry& registry, mvAppItem* item);
+    bool             AddItemWithRuntimeChecks(mvItemRegistry& registry, mvRef<mvAppItem> item, mvUUID parent, mvUUID before);
+    void             ResetTheme              (mvItemRegistry& registry);
+    void             TryBoundTemplateRegistry(mvItemRegistry& registry, mvAppItem* item);
+
+    // retrieves parent, before, uuid from user input when creating an item
+    std::tuple<mvUUID, mvUUID, std::string> GetNameFromArgs(mvUUID& name, PyObject* args, PyObject* kwargs);
 
     //-----------------------------------------------------------------------------
     // mvItemRegistry
@@ -74,13 +73,6 @@ namespace Marvel {
     {
 
         static constexpr int CachedContainerCount = 25;
-
-        // python user config
-        bool allowAliasOverwrites = false;
-        bool manualAliasManagement = false;
-        bool skipRequiredArgs = false;
-        bool skipPositionalArgs = false;
-        bool skipKeywordArgs = false;
 
         // caching
         mvUUID     lastItemAdded = 0;
@@ -164,8 +156,25 @@ namespace Marvel {
     MV_CREATE_FREE_COMMAND(get_aliases);
     MV_CREATE_FREE_COMMAND(bind_template_registry);
     MV_CREATE_FREE_COMMAND(show_item_debug);
+    MV_CREATE_FREE_COMMAND(focus_item);
+    MV_CREATE_FREE_COMMAND(get_item_info);
+    MV_CREATE_FREE_COMMAND(get_item_configuration);
+    MV_CREATE_FREE_COMMAND(get_item_state);
+    MV_CREATE_FREE_COMMAND(configure_item);
+    MV_CREATE_FREE_COMMAND(get_item_types);
+    MV_CREATE_FREE_COMMAND(get_value);
+    MV_CREATE_FREE_COMMAND(get_values);
+    MV_CREATE_FREE_COMMAND(set_value);
+    MV_CREATE_FREE_COMMAND(reset_pos);
+    MV_CREATE_FREE_COMMAND(set_item_children);
+    MV_CREATE_FREE_COMMAND(bind_item_handler_registry);
+    MV_CREATE_FREE_COMMAND(bind_item_font);
+    MV_CREATE_FREE_COMMAND(bind_item_theme);
+    MV_CREATE_FREE_COMMAND(set_item_alias);
+    MV_CREATE_FREE_COMMAND(get_item_alias);
 
     MV_START_FREE_COMMANDS(mvItemRegistryCommands)
+        MV_ADD_COMMAND(focus_item);
         MV_ADD_COMMAND(bind_template_registry);
         MV_ADD_COMMAND(get_aliases);
         MV_ADD_COMMAND(add_alias);
@@ -193,6 +202,22 @@ namespace Marvel {
         MV_ADD_COMMAND(show_imgui_demo);
         MV_ADD_COMMAND(show_implot_demo);
         MV_ADD_COMMAND(show_item_debug);
+        MV_ADD_COMMAND(get_item_info);
+
+        MV_ADD_COMMAND(set_item_alias);
+        MV_ADD_COMMAND(get_item_alias);
+        MV_ADD_COMMAND(get_item_types);
+        MV_ADD_COMMAND(get_item_configuration);
+        MV_ADD_COMMAND(get_item_state);
+        MV_ADD_COMMAND(configure_item);
+        MV_ADD_COMMAND(get_value);
+        MV_ADD_COMMAND(get_values);
+        MV_ADD_COMMAND(set_value);
+        MV_ADD_COMMAND(reset_pos);
+        MV_ADD_COMMAND(set_item_children);
+        MV_ADD_COMMAND(bind_item_handler_registry);
+        MV_ADD_COMMAND(bind_item_font);
+        MV_ADD_COMMAND(bind_item_theme);
     MV_END_COMMANDS
 
 }

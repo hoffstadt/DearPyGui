@@ -193,7 +193,7 @@ namespace Marvel {
         if (PyObject* item = PyDict_GetItemString(dict, "max_scale")) _scale_max = (double)ToFloat(item);
         if (PyObject* item = PyDict_GetItemString(dict, "colormap"))
         {
-            _colormap= mvAppItem::GetIDFromPyObject(item);
+            _colormap= GetIDFromPyObject(item);
             if (_colormap > 10)
             {
                 auto asource = GetItem(*GContext->itemRegistry, _colormap);

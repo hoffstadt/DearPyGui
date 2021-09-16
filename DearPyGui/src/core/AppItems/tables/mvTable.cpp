@@ -625,7 +625,7 @@ namespace Marvel {
 
 		if (!GContext->manualMutexControl) std::lock_guard<std::mutex> lk(GContext->mutex);
 
-		mvUUID table = mvAppItem::GetIDFromPyObject(tableraw);
+		mvUUID table = GetIDFromPyObject(tableraw);
 
 		auto atable = GetItem(*GContext->itemRegistry, table);
 		if (atable == nullptr)
@@ -668,7 +668,7 @@ namespace Marvel {
 
 		if (!GContext->manualMutexControl) std::lock_guard<std::mutex> lk(GContext->mutex);
 
-		mvUUID table = mvAppItem::GetIDFromPyObject(tableraw);
+		mvUUID table = GetIDFromPyObject(tableraw);
 
 		auto atable = GetItem(*GContext->itemRegistry, table);
 		if (atable == nullptr)
@@ -710,7 +710,7 @@ namespace Marvel {
 
 		if (!GContext->manualMutexControl) std::lock_guard<std::mutex> lk(GContext->mutex);
 
-		mvUUID table = mvAppItem::GetIDFromPyObject(tableraw);
+		mvUUID table = GetIDFromPyObject(tableraw);
 
 		auto atable = GetItem(*GContext->itemRegistry, table);
 		if (atable == nullptr)
@@ -753,7 +753,7 @@ namespace Marvel {
 
 		if (!GContext->manualMutexControl) std::lock_guard<std::mutex> lk(GContext->mutex);
 
-		mvUUID table = mvAppItem::GetIDFromPyObject(tableraw);
+		mvUUID table = GetIDFromPyObject(tableraw);
 
 		auto atable = GetItem(*GContext->itemRegistry, table);
 		if (atable == nullptr)
@@ -794,7 +794,7 @@ namespace Marvel {
 
 		if (!GContext->manualMutexControl) std::lock_guard<std::mutex> lk(GContext->mutex);
 
-		mvUUID table = mvAppItem::GetIDFromPyObject(tableraw);
+		mvUUID table = GetIDFromPyObject(tableraw);
 
 		auto atable = GetItem(*GContext->itemRegistry, table);
 		if (atable == nullptr)
@@ -837,7 +837,7 @@ namespace Marvel {
 
 		if (!GContext->manualMutexControl) std::lock_guard<std::mutex> lk(GContext->mutex);
 
-		mvUUID table = mvAppItem::GetIDFromPyObject(tableraw);
+		mvUUID table = GetIDFromPyObject(tableraw);
 
 		auto atable = GetItem(*GContext->itemRegistry, table);
 		if (atable == nullptr)
@@ -880,7 +880,7 @@ namespace Marvel {
 
 		if (!GContext->manualMutexControl) std::lock_guard<std::mutex> lk(GContext->mutex);
 
-		mvUUID table = mvAppItem::GetIDFromPyObject(tableraw);
+		mvUUID table = GetIDFromPyObject(tableraw);
 
 		auto atable = GetItem(*GContext->itemRegistry, table);
 		if (atable == nullptr)
@@ -924,7 +924,7 @@ namespace Marvel {
 
 		if (!GContext->manualMutexControl) std::lock_guard<std::mutex> lk(GContext->mutex);
 
-		mvUUID table = mvAppItem::GetIDFromPyObject(tableraw);
+		mvUUID table = GetIDFromPyObject(tableraw);
 
 		auto atable = GetItem(*GContext->itemRegistry, table);
 		if (atable == nullptr)
@@ -966,7 +966,7 @@ namespace Marvel {
 
 		if (!GContext->manualMutexControl) std::lock_guard<std::mutex> lk(GContext->mutex);
 
-		mvUUID table = mvAppItem::GetIDFromPyObject(tableraw);
+		mvUUID table = GetIDFromPyObject(tableraw);
 
 		auto atable = GetItem(*GContext->itemRegistry, table);
 		if (atable == nullptr)
@@ -1012,7 +1012,7 @@ namespace Marvel {
 
 		if (!GContext->manualMutexControl) std::lock_guard<std::mutex> lk(GContext->mutex);
 
-		mvUUID table = mvAppItem::GetIDFromPyObject(tableraw);
+		mvUUID table = GetIDFromPyObject(tableraw);
 
 		auto atable = GetItem(*GContext->itemRegistry, table);
 		if (atable == nullptr)
@@ -1051,7 +1051,7 @@ namespace Marvel {
 
 		if (!GContext->manualMutexControl) std::lock_guard<std::mutex> lk(GContext->mutex);
 
-		mvUUID table = mvAppItem::GetIDFromPyObject(tableraw);
+		mvUUID table = GetIDFromPyObject(tableraw);
 
 		auto atable = GetItem(*GContext->itemRegistry, table);
 		if (atable == nullptr)

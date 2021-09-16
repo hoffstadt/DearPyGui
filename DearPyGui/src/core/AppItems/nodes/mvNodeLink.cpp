@@ -54,7 +54,7 @@ namespace Marvel {
 			{
 			case 0:
 			{
-				mvUUID node1 = mvAppItem::GetIDFromPyObject(item);
+				mvUUID node1 = GetIDFromPyObject(item);
 				mvAppItem* node = GetItem(*GContext->itemRegistry, node1);
 				if (node->getType() == mvAppItemType::mvNodeAttribute)
 				{
@@ -74,7 +74,7 @@ namespace Marvel {
 
 			case 1:
 			{
-				mvUUID node2 = mvAppItem::GetIDFromPyObject(item);
+				mvUUID node2 = GetIDFromPyObject(item);
 				mvAppItem* node = GetItem(*GContext->itemRegistry, node2);
 				if (node->getType() == mvAppItemType::mvNodeAttribute)
 				{

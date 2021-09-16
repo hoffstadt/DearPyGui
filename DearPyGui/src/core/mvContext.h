@@ -109,9 +109,17 @@ namespace Marvel {
         std::string iniFile;
         bool        loadIniFile = false;
 
+        // GPU selection
         bool        info_auto_device = false;
         int         info_device = -1;
         std::string info_device_name;
+
+        // item registry
+        bool        allowAliasOverwrites = false;
+        bool        manualAliasManagement = false;
+        bool        skipRequiredArgs = false;
+        bool        skipPositionalArgs = false;
+        bool        skipKeywordArgs = false;
     };
 
     struct mvContext
