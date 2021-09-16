@@ -171,7 +171,69 @@ namespace Marvel {
         ImGui::Checkbox("Show Slots###layout", &_slots);
 
         ImGui::BeginChild("###layoutwindow", ImVec2(400, 0));
-        _itemref->renderDebugInfo();
+        static char ts[6] = "True";
+        static char fs[6] = "False";
+
+        std::string width = std::to_string(_itemref->_width);
+        std::string height = std::to_string(_itemref->_height);
+
+        std::string sizex = std::to_string(_itemref->_state.rectSize.x);
+        std::string sizey = std::to_string(_itemref->_state.rectSize.y);
+
+        ImGui::PushID(_itemref);
+        DebugItem("Label:", _itemref->_specifiedLabel.c_str());
+        DebugItem("ID:", std::to_string(_itemref->_uuid).c_str());
+        DebugItem("Alias:", _itemref->_alias.c_str());
+        DebugItem("Type:", _itemref->getTypeString());
+        DebugItem("Filter:", _itemref->_filter.c_str());
+        DebugItem("Payload Type:", _itemref->_payloadType.c_str());
+        DebugItem("Location:", std::to_string(_itemref->_location).c_str());
+        DebugItem("Track Offset:", std::to_string(_itemref->_trackOffset).c_str());
+        DebugItem("Container:", _itemref->getDescFlags() & MV_ITEM_DESC_CONTAINER ? ts : fs);
+        DebugItem("Width:", width.c_str());
+        DebugItem("Height:", height.c_str());
+        DebugItem("Size x:", sizex.c_str());
+        DebugItem("Size y:", sizey.c_str());
+        DebugItem("Show:", _itemref->_show ? ts : fs);
+        DebugItem("Enabled:", _itemref->_enabled ? ts : fs);
+        DebugItem("Tracked:", _itemref->_tracked ? ts : fs);
+        DebugItem("Callback:", _itemref->_callback ? ts : fs);
+        DebugItem("User Data:", _itemref->_user_data ? ts : fs);
+        DebugItem("Drop Callback:", _itemref->_dropCallback ? ts : fs);
+        DebugItem("Drag Callback:", _itemref->_dragCallback ? ts : fs);
+
+        ImGui::Spacing();
+        ImGui::Spacing();
+        ImGui::Spacing();
+        ImGui::Text("Bindings");
+        ImGui::Separator();
+        DebugItem("Theme Bound:", _itemref->_theme ? ts : fs);
+        DebugItem("Font Bound:", _itemref->_font ? ts : fs);
+        DebugItem("Handlers Bound:", _itemref->_handlerRegistry ? ts : fs);
+
+        int applicableState = _itemref->getApplicableState();
+        ImGui::Spacing();
+        ImGui::Spacing();
+        ImGui::Spacing();
+        ImGui::Text("State");
+        ImGui::Separator();
+        if (applicableState & MV_STATE_VISIBLE) DebugItem("Item Visible:", IsItemVisible(_itemref->_state, 1) ? ts : fs);
+        if (applicableState & MV_STATE_HOVER) DebugItem("Item Hovered:", IsItemHovered(_itemref->_state, 1) ? ts : fs);
+        if (applicableState & MV_STATE_ACTIVE) DebugItem("Item Active:", IsItemActive(_itemref->_state, 1) ? ts : fs);
+        if (applicableState & MV_STATE_FOCUSED) DebugItem("Item Focused:", IsItemFocused(_itemref->_state, 1) ? ts : fs);
+        if (applicableState & MV_STATE_CLICKED)
+        {
+            DebugItem("Item Left Clicked:", IsItemLeftClicked(_itemref->_state, 1) ? ts : fs);
+            DebugItem("Item Right Clicked:", IsItemRightClicked(_itemref->_state, 1) ? ts : fs);
+            DebugItem("Item Middle Clicked:", IsItemMiddleClicked(_itemref->_state, 1) ? ts : fs);
+        }
+        if (applicableState & MV_STATE_EDITED) DebugItem("Item Edited:", IsItemEdited(_itemref->_state, 1) ? ts : fs);
+        if (applicableState & MV_STATE_ACTIVATED) DebugItem("Item Activated:", IsItemActivated(_itemref->_state, 1) ? ts : fs);
+        if (applicableState & MV_STATE_DEACTIVATED) DebugItem("Item Deactivated:", IsItemDeactivated(_itemref->_state, 1) ? ts : fs);
+        if (applicableState & MV_STATE_DEACTIVATEDAE) DebugItem("Item DeactivatedAfterEdit:", IsItemDeactivatedAfterEdit(_itemref->_state, 1) ? ts : fs);
+        if (applicableState & MV_STATE_TOGGLED_OPEN) DebugItem("Item ToggledOpen:", IsItemToogledOpen(_itemref->_state, 1) ? ts : fs);
+
+        ImGui::PopID();
         ImGui::EndChild();
 
 		ImGui::EndGroup();

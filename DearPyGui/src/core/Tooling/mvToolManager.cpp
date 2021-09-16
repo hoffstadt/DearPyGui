@@ -8,6 +8,7 @@
 #include "mvFontManager.h"
 #include "mvLayoutWindow.h"
 #include "mvProfiler.h"
+#include "mvItemRegistry.h"
 
 namespace Marvel {
 
@@ -75,7 +76,7 @@ namespace Marvel {
 			&toolraw))
 			return GetPyNone();
 
-		mvUUID tool = mvAppItem::GetIDFromPyObject(toolraw);
+		mvUUID tool = GetIDFromPyObject(toolraw);
 
 		mvToolManager::ShowTool(tool);
 

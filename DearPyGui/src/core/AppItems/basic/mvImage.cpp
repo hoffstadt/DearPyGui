@@ -232,7 +232,7 @@ namespace Marvel {
 			{
 			case 0:
 			{
-				_textureUUID = mvAppItem::GetIDFromPyObject(item);
+				_textureUUID = GetIDFromPyObject(item);
 				_texture = GetRefItem(*GContext->itemRegistry, _textureUUID);
 				if (_texture)
 					break;

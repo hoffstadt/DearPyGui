@@ -377,7 +377,7 @@ namespace Marvel {
 
 		if (!GContext->manualMutexControl) std::lock_guard<std::mutex> lk(GContext->mutex);
 
-		mvUUID plot = mvAppItem::GetIDFromPyObject(plotraw);
+		mvUUID plot = GetIDFromPyObject(plotraw);
 
 		auto aplot = GetItem(*GContext->itemRegistry, plot);
 		if (aplot == nullptr)
@@ -420,7 +420,7 @@ namespace Marvel {
 
 		if (!GContext->manualMutexControl) std::lock_guard<std::mutex> lk(GContext->mutex);
 
-		mvUUID axis = mvAppItem::GetIDFromPyObject(axisraw);
+		mvUUID axis = GetIDFromPyObject(axisraw);
 
 		auto aplot = GetItem(*GContext->itemRegistry, axis);
 		if (aplot == nullptr)
@@ -453,7 +453,7 @@ namespace Marvel {
 
 		if (!GContext->manualMutexControl) std::lock_guard<std::mutex> lk(GContext->mutex);
 
-		mvUUID axis = mvAppItem::GetIDFromPyObject(axisraw);
+		mvUUID axis = GetIDFromPyObject(axisraw);
 
 		auto aplot = GetItem(*GContext->itemRegistry, axis);
 		if (aplot == nullptr)
@@ -486,7 +486,7 @@ namespace Marvel {
 
 		if (!GContext->manualMutexControl) std::lock_guard<std::mutex> lk(GContext->mutex);
 
-		mvUUID axis = mvAppItem::GetIDFromPyObject(axisraw);
+		mvUUID axis = GetIDFromPyObject(axisraw);
 
 		auto aplot = GetItem(*GContext->itemRegistry, axis);
 		if (aplot == nullptr)
@@ -519,7 +519,7 @@ namespace Marvel {
 
 		if (!GContext->manualMutexControl) std::lock_guard<std::mutex> lk(GContext->mutex);
 
-		mvUUID plot = mvAppItem::GetIDFromPyObject(plotraw);
+		mvUUID plot = GetIDFromPyObject(plotraw);
 
 		auto aplot = GetItem(*GContext->itemRegistry, plot);
 		if (aplot == nullptr)
@@ -551,7 +551,7 @@ namespace Marvel {
 
 		if (!GContext->manualMutexControl) std::lock_guard<std::mutex> lk(GContext->mutex);
 
-		mvUUID plot = mvAppItem::GetIDFromPyObject(plotraw);
+		mvUUID plot = GetIDFromPyObject(plotraw);
 
 		auto aplot = GetItem(*GContext->itemRegistry, plot);
 		if (aplot == nullptr)

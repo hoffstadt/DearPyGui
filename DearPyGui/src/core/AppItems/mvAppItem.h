@@ -126,69 +126,18 @@ namespace Marvel {
     template<typename T> 
     struct mvItemTypeReverseMap{};
 
+    struct ScopedID
+    {
+        ScopedID(void* id) { ImGui::PushID(id); }
+        ScopedID(mvUUID id) { ImGui::PushID((int)id); }
+        ~ScopedID() { ImGui::PopID(); }
+    };
+
     //-----------------------------------------------------------------------------
     // mvAppItem
     //-----------------------------------------------------------------------------
     class mvAppItem
     {
-       
-    public:
-
-        static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
-
-        MV_CREATE_COMMAND(get_item_configuration);
-        MV_CREATE_COMMAND(get_item_state);
-        MV_CREATE_COMMAND(get_item_info);
-        MV_CREATE_COMMAND(configure_item);
-        MV_CREATE_COMMAND(get_item_types);
-        MV_CREATE_COMMAND(get_value);
-        MV_CREATE_COMMAND(get_values);
-        MV_CREATE_COMMAND(set_value);
-        MV_CREATE_COMMAND(focus_item);
-        MV_CREATE_COMMAND(reset_pos);
-        MV_CREATE_COMMAND(set_item_children);
-        MV_CREATE_COMMAND(bind_item_handler_registry);
-        MV_CREATE_COMMAND(bind_item_font);
-        MV_CREATE_COMMAND(bind_item_theme);
-        MV_CREATE_COMMAND(set_item_alias);
-        MV_CREATE_COMMAND(get_item_alias);
-
-        MV_START_COMMANDS
-            MV_ADD_COMMAND(set_item_alias);
-            MV_ADD_COMMAND(get_item_alias);
-            MV_ADD_COMMAND(get_item_types);
-            MV_ADD_COMMAND(get_item_configuration);
-            MV_ADD_COMMAND(get_item_state);
-            MV_ADD_COMMAND(get_item_info);
-            MV_ADD_COMMAND(configure_item);
-            MV_ADD_COMMAND(get_value);
-            MV_ADD_COMMAND(get_values);
-            MV_ADD_COMMAND(set_value);
-            MV_ADD_COMMAND(focus_item);
-            MV_ADD_COMMAND(reset_pos);
-            MV_ADD_COMMAND(set_item_children);
-            MV_ADD_COMMAND(bind_item_handler_registry);
-            MV_ADD_COMMAND(bind_item_font);
-            MV_ADD_COMMAND(bind_item_theme);
-        MV_END_COMMANDS
-
-        //-----------------------------------------------------------------------------
-        // Helpers
-        //-----------------------------------------------------------------------------
- 
-        // retrieves parent, before, uuid from user input when creating an item
-        static std::tuple<mvUUID, mvUUID, std::string> GetNameFromArgs(mvUUID& name, PyObject* args, PyObject* kwargs);
-
-        static mvUUID GetIDFromPyObject(PyObject* item);
-
-    protected:
-
-            struct ScopedID
-            {
-                ScopedID(void* id) { ImGui::PushID(id); }
-                ScopedID(mvUUID id) { ImGui::PushID((int)id); }
-                ~ScopedID() { ImGui::PopID(); }
-            };
 
     public:
 
@@ -227,9 +176,7 @@ namespace Marvel {
         //-----------------------------------------------------------------------------
         // shows information in either the debug window or a separate window
         //-----------------------------------------------------------------------------
-        void         renderDebugInfo();           // for the debug tool
         virtual void renderSpecificDebugInfo() {} // for the debug tool
-        virtual void renderDebugWindow();         // seperate window for user
 
         //-----------------------------------------------------------------------------
         // These methods handle setting the widget's value using PyObject*'s or
@@ -268,16 +215,7 @@ namespace Marvel {
         //-----------------------------------------------------------------------------
         // config setters
         //-----------------------------------------------------------------------------
-        void         setAlias     (const std::string& value);
         virtual void setDataSource(mvUUID value);
-
-        //-----------------------------------------------------------------------------
-        // These methods handle are used by the item registry:
-        //   - isParentCompatible -> will the parent accept the current item
-        //   - canChildBeAdded -> will the current item accept the incoming child
-        //-----------------------------------------------------------------------------
-        bool isParentCompatible(mvAppItemType type);
-        bool canChildBeAdded   (mvAppItemType type);
 
         mvAppItem*       getChild(mvUUID uuid);      // will return nullptr if not found
         mvRef<mvAppItem> getChildRef(mvUUID uuid);      // will return nullptr if not found

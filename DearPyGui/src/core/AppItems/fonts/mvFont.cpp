@@ -219,7 +219,7 @@ namespace Marvel {
 
 		if (!GContext->manualMutexControl) std::lock_guard<std::mutex> lk(GContext->mutex);
 
-		mvUUID item = mvAppItem::GetIDFromPyObject(itemraw);
+		mvUUID item = GetIDFromPyObject(itemraw);
 
 		if (item == 0)
 		{

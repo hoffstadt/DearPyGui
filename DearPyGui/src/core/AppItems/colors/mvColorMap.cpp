@@ -169,8 +169,8 @@ namespace Marvel {
 
         if (!GContext->manualMutexControl) std::lock_guard<std::mutex> lk(GContext->mutex);
 
-        mvUUID item = mvAppItem::GetIDFromPyObject(itemraw);
-        mvUUID source = mvAppItem::GetIDFromPyObject(sourceraw);
+        mvUUID item = GetIDFromPyObject(itemraw);
+        mvUUID source = GetIDFromPyObject(sourceraw);
 
         auto aitem = GetItem((*GContext->itemRegistry), item);
         if (aitem == nullptr)
@@ -242,7 +242,7 @@ namespace Marvel {
 
         if (!GContext->manualMutexControl) std::lock_guard<std::mutex> lk(GContext->mutex);
 
-        mvUUID item = mvAppItem::GetIDFromPyObject(itemraw);
+        mvUUID item = GetIDFromPyObject(itemraw);
 
         if (item > 15)
         {
@@ -289,7 +289,7 @@ namespace Marvel {
 
         if (!GContext->manualMutexControl) std::lock_guard<std::mutex> lk(GContext->mutex);
 
-        mvUUID item = mvAppItem::GetIDFromPyObject(itemraw);
+        mvUUID item = GetIDFromPyObject(itemraw);
 
         if (item > 15)
         {

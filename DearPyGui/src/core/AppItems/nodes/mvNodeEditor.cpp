@@ -436,7 +436,7 @@ namespace Marvel {
 
 		if (!GContext->manualMutexControl) std::lock_guard<std::mutex> lk(GContext->mutex);
 
-		mvUUID node_editor = mvAppItem::GetIDFromPyObject(node_editor_raw);
+		mvUUID node_editor = GetIDFromPyObject(node_editor_raw);
 
 		auto anode_editor = GetItem(*GContext->itemRegistry, node_editor);
 		if (anode_editor == nullptr)
@@ -469,7 +469,7 @@ namespace Marvel {
 
 		if (!GContext->manualMutexControl) std::lock_guard<std::mutex> lk(GContext->mutex);
 
-		mvUUID node_editor = mvAppItem::GetIDFromPyObject(node_editor_raw);
+		mvUUID node_editor = GetIDFromPyObject(node_editor_raw);
 
 		auto anode_editor = GetItem(*GContext->itemRegistry, node_editor);
 		if (anode_editor == nullptr)
@@ -502,7 +502,7 @@ namespace Marvel {
 
 		if (!GContext->manualMutexControl) std::lock_guard<std::mutex> lk(GContext->mutex);
 
-		mvUUID node_editor = mvAppItem::GetIDFromPyObject(node_editor_raw);
+		mvUUID node_editor = GetIDFromPyObject(node_editor_raw);
 
 		auto anode_editor = GetItem(*GContext->itemRegistry, node_editor);
 		if (anode_editor == nullptr)
