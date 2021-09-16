@@ -277,11 +277,15 @@ namespace Marvel {
 		flagop("scientific", ImGuiInputTextFlags_CharsScientific, _flags);
 		flagop("tab_input", ImGuiInputTextFlags_AllowTabInput, _flags);
 
-		if (wasEnabledLastFrameReset())
-			_flags = _stor_flags;
-
-		if (wasDisabledLastFrameReset())
+		if (_enabledLastFrame)
 		{
+			_enabledLastFrame = false;
+			_flags = _stor_flags;
+		}
+
+		if (_disabledLastFrame)
+		{
+			_disabledLastFrame = false;
 			_stor_flags = _flags;
 			_flags |= ImGuiInputTextFlags_ReadOnly;
 			_flags &= ~ImGuiInputTextFlags_EnterReturnsTrue;

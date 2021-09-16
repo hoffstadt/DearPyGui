@@ -319,7 +319,7 @@ namespace Marvel {
 				//item->draw(ImPlot::GetPlotDrawList(), ImPlot::GetPlotPos().x, ImPlot::GetPlotPos().y);
 				item->draw(ImPlot::GetPlotDrawList(), 0.0f, 0.0f);
 				
-				UpdateAppItemState(item->getState());
+				UpdateAppItemState(item->_state);
 			}
 
 			ImPlot::PopPlotClipRect();
@@ -392,7 +392,24 @@ namespace Marvel {
 			auto context = ImPlot::GetCurrentContext();
 			_flags = context->CurrentPlot->Flags;
 
-			registerWindowFocusing();
+			if (ImGui::IsWindowFocused(ImGuiFocusedFlags_ChildWindows))
+			{
+
+				// update mouse
+				ImVec2 mousePos = ImGui::GetMousePos();
+				float x = mousePos.x - ImGui::GetWindowPos().x;
+				float y = mousePos.y - ImGui::GetWindowPos().y;
+				GContext->input.mousePos.x = (int)x;
+				GContext->input.mousePos.y = (int)y;
+
+
+				if (GContext->itemRegistry->activeWindow != _uuid)
+				{
+					GContext->itemRegistry->activeWindow = _uuid;
+					mvEventBus::Publish(mvEVT_CATEGORY_ITEM, mvEVT_ACTIVE_WINDOW, { CreateEventArgument("WINDOW", _uuid) });
+				}
+
+			}
 
 			ImPlot::EndPlot();
 			

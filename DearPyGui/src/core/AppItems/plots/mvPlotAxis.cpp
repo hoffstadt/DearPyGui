@@ -272,15 +272,17 @@ namespace Marvel {
 			static_cast<mvPlot*>(_parentPtr)->updateAxesNames();
 		}
 
-		if (wasShownLastFrameReset())
+		if (_shownLastFrame)
 		{
+			_shownLastFrame = false;
 			if (auto plot = static_cast<mvPlot*>(_parentPtr))
 				plot->removeFlag(ImPlotFlags_NoLegend);
 			_show = true;
 		}
 
-		if (wasHiddenLastFrameReset())
+		if (_hiddenLastFrame)
 		{
+			_hiddenLastFrame = false;
 			if (auto plot = static_cast<mvPlot*>(_parentPtr))
 				plot->addFlag(ImPlotFlags_NoLegend);
 			_show = false;

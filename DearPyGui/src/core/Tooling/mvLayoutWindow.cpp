@@ -40,7 +40,7 @@ namespace Marvel {
         // build up flags for current node
         const auto node_flags = ImGuiTreeNodeFlags_OpenOnArrow
             | ((item->_uuid == m_selectedItem) ? ImGuiTreeNodeFlags_Selected : 0)
-            | (mvAppItem::DoesItemHaveFlag(item, MV_ITEM_DESC_CONTAINER) ? 0 : ImGuiTreeNodeFlags_Leaf);
+            | (item->getDescFlags() & MV_ITEM_DESC_CONTAINER ? 0 : ImGuiTreeNodeFlags_Leaf);
 
         // render this node
         ImGui::PushID(item);
@@ -70,7 +70,7 @@ namespace Marvel {
             m_dirtyNodes = true;
         }
 
-        if (!mvAppItem::DoesItemHaveFlag(item, MV_ITEM_DESC_CONTAINER))
+        if (!item->getDescFlags() & MV_ITEM_DESC_CONTAINER)
         {
             if(expanded)
                 ImGui::TreePop();
@@ -154,11 +154,19 @@ namespace Marvel {
             _itemref = GContext->itemRegistry->windowRoots[0].get();
 		}
 		ImGui::SameLine();
-		if (ImGui::Button("Show"))
-			GetItem(*GContext->itemRegistry, m_selectedItem)->show();
+        if (ImGui::Button("Show"))
+        {
+            mvAppItem* tempItem = GetItem(*GContext->itemRegistry, m_selectedItem);
+            tempItem->_show = true;
+            tempItem->_shownLastFrame = true;
+        }
 		ImGui::SameLine();
-		if (ImGui::Button("Hide"))
-			GetItem(*GContext->itemRegistry, m_selectedItem)->hide();
+        if (ImGui::Button("Hide"))
+        {
+            mvAppItem* tempItem = GetItem(*GContext->itemRegistry, m_selectedItem);
+            tempItem->_show = false;
+            tempItem->_hiddenLastFrame = true;
+        }
         ImGui::SameLine();
         ImGui::Checkbox("Show Slots###layout", &_slots);
 

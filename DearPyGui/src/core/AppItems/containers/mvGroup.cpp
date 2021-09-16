@@ -121,12 +121,15 @@ namespace Marvel {
 		for (auto& item : _children[1])
 		{
 			if (_width != 0)
-				item->setWidth(_width);
+				item->_width = _width;
+
+			if (_height != 0)
+				item->_height = _height;
 
 			item->draw(drawlist, ImGui::GetCursorPosX(), ImGui::GetCursorPosY());
 
 			if (_horizontal)
-				ImGui::SameLine((1 +item->getLocation())*_xoffset, _hspacing);
+				ImGui::SameLine((1 +item->_location)*_xoffset, _hspacing);
 
 			if (item->_tracked)
 			{

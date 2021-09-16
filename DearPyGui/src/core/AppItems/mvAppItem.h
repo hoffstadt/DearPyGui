@@ -114,7 +114,6 @@ namespace Marvel {
         MV_ITEM_DESC_HANDLER     = 1 << 3 // todo: rename descriptively
     };
 
-
     enum class mvLibType {
         MV_IMGUI = 0,
         MV_IMPLOT = 1,
@@ -132,11 +131,6 @@ namespace Marvel {
     //-----------------------------------------------------------------------------
     class mvAppItem
     {
-
-        friend class mvApp;
-        friend class mvItemRegistry;
-        friend class mvAppItemState;
-        friend class mvLayoutWindow;
        
     public:
 
@@ -181,8 +175,7 @@ namespace Marvel {
         //-----------------------------------------------------------------------------
         // Helpers
         //-----------------------------------------------------------------------------
-        static bool DoesItemHaveFlag(mvAppItem* item, int flag);
-
+ 
         // retrieves parent, before, uuid from user input when creating an item
         static std::tuple<mvUUID, mvUUID, std::string> GetNameFromArgs(mvUUID& name, PyObject* args, PyObject* kwargs);
 
@@ -248,17 +241,14 @@ namespace Marvel {
         virtual void      setPyValue(PyObject* value) { }
 
         // used to check arguments, get/set configurations
-        void getItemInfo      (PyObject* dict);
-        void checkArgs        (PyObject* args, PyObject* kwargs, std::string parser);
         void handleKeywordArgs(PyObject* dict, std::string parser);  // python dictionary acts as an out parameter 
-        void getConfiguration (PyObject* dict);
         void applyTemplate    (mvAppItem* item);
 
         // used by derived items to register their arguments
-        virtual void handleSpecificRequiredArgs  (PyObject* args) {}
-        virtual void handleSpecificPositionalArgs(PyObject* args) {}
-        virtual void handleSpecificKeywordArgs   (PyObject* dict) {} // called by handleKeywordArgs
-        virtual void getSpecificConfiguration    (PyObject* dict) {}
+        virtual void handleSpecificRequiredArgs  (PyObject* args)  {}
+        virtual void handleSpecificPositionalArgs(PyObject* args)  {}
+        virtual void handleSpecificKeywordArgs   (PyObject* dict)  {} // called by handleKeywordArgs
+        virtual void getSpecificConfiguration    (PyObject* dict)  {}
         virtual void applySpecificTemplate       (mvAppItem* item) {}
 
         //-----------------------------------------------------------------------------
@@ -273,59 +263,13 @@ namespace Marvel {
         //-----------------------------------------------------------------------------
         // callbacks
         //-----------------------------------------------------------------------------
-        void                    setCallback(PyObject* callback);
         [[nodiscard]] PyObject* getCallback(bool ignore_enabled = true);  // returns the callback. If ignore_enable false and item is disabled then no callback will be returned.
-        
-        //-----------------------------------------------------------------------------
-        // drag & drop
-        //-----------------------------------------------------------------------------
-        void                    setPayloadType (const std::string& payloadType);
-        void                    setDragCallback(PyObject* callback);
-        void                    setDropCallback(PyObject* callback);
-
+       
         //-----------------------------------------------------------------------------
         // config setters
         //-----------------------------------------------------------------------------
-        void setAlias       (const std::string& value);
-        void setLabel       (const std::string& value);
-        void setFilter      (const std::string& value);
-        void setCallbackData(PyObject* data);
-        void setWidth       (int width);
-        void setHeight      (int height);
-        void setEnabled     (bool value);
-        void hide();
-        void show();
+        void         setAlias     (const std::string& value);
         virtual void setDataSource(mvUUID value);
-
-        //-----------------------------------------------------------------------------
-        // last frame query
-        //-----------------------------------------------------------------------------
-        bool shouldFocusNextFrame() const;
-        bool wasShownLastFrameReset();
-        bool wasHiddenLastFrameReset();
-        bool wasEnabledLastFrameReset();
-        bool wasDisabledLastFrameReset();
-
-        //-----------------------------------------------------------------------------
-        // misc
-        //-----------------------------------------------------------------------------
-        void                           focus();
-        void                           unfocus();
-        void                           updateLocations();
-        std::vector<mvRef<mvAppItem>>& getChildren(int slot);
-        void                           setChildren(int slot, std::vector<mvRef<mvAppItem>> children);
-        mvAppItemState&                getState();
-        mvAppItem*                     getParent();
-        mvAppItem*                     getRoot() const;
-        int                            getLocation() const;
-        void                           requestAltCustomAction();
-        bool                           isAltCustomActionRequested() const;
-        void                           setPos(const ImVec2& pos);
-        void                           registerWindowFocusing(); // only useful for imgui window types
-        void                           setPoolInfo(mvUUID pool, mvUUID itemSet);
-        std::pair<mvUUID, mvUUID>      getPoolInfo() const;    
-
-    public: // previously private
 
         //-----------------------------------------------------------------------------
         // These methods handle are used by the item registry:
@@ -343,10 +287,8 @@ namespace Marvel {
         bool             addRuntimeChild(mvUUID parent, mvUUID before, mvRef<mvAppItem> item);
         bool             addChildAfter(mvUUID prev, mvRef<mvAppItem> item);
         bool             deleteChild(mvUUID uuid);
-        void             deleteChildren(int slot = -1);
         bool             moveChildUp(mvUUID uuid);
         bool             moveChildDown(mvUUID uuid);
-        void             resetState();
         mvRef<mvAppItem> stealChild(mvUUID uuid); // steals a child (used for moving)
        
     public:

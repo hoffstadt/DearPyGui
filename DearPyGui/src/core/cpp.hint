@@ -32,7 +32,7 @@ static PyObject* parser(PyObject* self, PyObject* args, PyObject* kwargs)\
 	else item->_uuid;\
 	item->setAlias(alias);\
 	TryBoundTemplateRegistry((*GContext->itemRegistry), item.get());\
-	item->checkArgs(args, kwargs, #parser);\
+    VerifyArgumentCount(GetParsers()[#parser], args);\
 	if(!GContext->itemRegistry->skipRequiredArgs)\
 		item->handleSpecificRequiredArgs(args);\
 	if(!GContext->itemRegistry->skipPositionalArgs)\

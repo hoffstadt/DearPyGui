@@ -482,11 +482,15 @@ namespace Marvel {
         flagop("no_input", ImGuiSliderFlags_NoInput, _flags);
         flagop("no_input", ImGuiSliderFlags_NoInput, _stor_flags);
 
-        if (wasEnabledLastFrameReset())
-            _flags = _stor_flags;
-
-        if (wasDisabledLastFrameReset())
+        if (_enabledLastFrame)
         {
+            _enabledLastFrame = false;
+            _flags = _stor_flags;
+        }
+
+        if (_disabledLastFrame)
+        {
+            _disabledLastFrame = false;
             _stor_flags = _flags;
             _flags |= ImGuiSliderFlags_NoInput;
         }
@@ -543,11 +547,15 @@ namespace Marvel {
         flagop("no_input", ImGuiSliderFlags_NoInput, _flags);
         flagop("no_input", ImGuiSliderFlags_NoInput, _stor_flags);
 
-        if (wasEnabledLastFrameReset())
-            _flags = _stor_flags;
-
-        if (wasDisabledLastFrameReset())
+        if (_enabledLastFrame)
         {
+            _enabledLastFrame = false;
+            _flags = _stor_flags;
+        }
+
+        if (_disabledLastFrame)
+        {
+            _disabledLastFrame = false;
             _stor_flags = _flags;
             _flags |= ImGuiSliderFlags_NoInput;
         }

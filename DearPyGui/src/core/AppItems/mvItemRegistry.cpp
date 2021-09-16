@@ -386,7 +386,7 @@ namespace Marvel {
 
 	static void CacheItem(mvItemRegistry& registry, mvAppItem* item)
 	{
-		if (mvAppItem::DoesItemHaveFlag(item, MV_ITEM_DESC_CONTAINER))
+		if (item->getDescFlags() & MV_ITEM_DESC_CONTAINER)
 		{
 			registry.cachedContainersID[registry.cachedContainerIndex] = item->_uuid;
 			registry.cachedContainersPTR[registry.cachedContainerIndex] = item;
@@ -629,19 +629,19 @@ namespace Marvel {
 			for (auto& child : children0)
 			{
 				childList.emplace_back(child->_uuid);
-				if (mvAppItem::DoesItemHaveFlag(child.get(), MV_ITEM_DESC_CONTAINER))
+				if (child->getDescFlags() & MV_ITEM_DESC_CONTAINER)
 					ChildRetriever(child);
 			}
 			for (auto& child : children1)
 			{
 				childList.emplace_back(child->_uuid);
-				if (mvAppItem::DoesItemHaveFlag(child.get(), MV_ITEM_DESC_CONTAINER))
+				if (child->getDescFlags() & MV_ITEM_DESC_CONTAINER)
 					ChildRetriever(child);
 			}
 			for (auto& child : children2)
 			{
 				childList.emplace_back(child->_uuid);
-				if (mvAppItem::DoesItemHaveFlag(child.get(), MV_ITEM_DESC_CONTAINER))
+				if (child->getDescFlags() & MV_ITEM_DESC_CONTAINER)
 					ChildRetriever(child);
 			}
 
@@ -795,6 +795,23 @@ namespace Marvel {
 		return childList;
 	}
 
+	mvAppItem* GetItemRoot(mvItemRegistry& registry, mvUUID uuid)
+	{
+		mvAppItem* item = GetItem(registry, uuid);
+		if (item)
+		{
+			if (item->_parentPtr)
+			{
+				mvAppItem* currentAncestor = item->_parentPtr;
+				while (!(currentAncestor->getDescFlags() & MV_ITEM_DESC_ROOT))
+					currentAncestor = currentAncestor->_parentPtr;
+
+				return currentAncestor;
+			}
+		}
+		return nullptr;
+	}
+
 	bool FocusItem(mvItemRegistry& registry, mvUUID uuid)
 	{
 
@@ -816,9 +833,9 @@ namespace Marvel {
 
 		if (appitem)
 		{
-			appitem->focus();
-			if (auto parent = appitem->getRoot())
-				parent->focus();
+			appitem->_focusNextFrame = true;
+			if (auto parent = GetItemRoot(registry, uuid))
+				parent->_focusNextFrame = true;
 			return true;
 		}
 		else
@@ -840,7 +857,12 @@ namespace Marvel {
 			auto item = GetItem(registry, uuid);
 			if (item)
 			{
-				item->deleteChildren(slot);
+				if (slot < 4)
+				{
+					item->_children[slot].clear();
+					item->_children[slot].shrink_to_fit();
+				}
+				item->onChildrenRemoved();
 				MV_ITEM_REGISTRY_INFO("Item found and it's children deleted.");
 				return true;
 			}
@@ -1043,7 +1065,7 @@ namespace Marvel {
 
 		for (auto& root : registry.colormapRoots)
 		{
-			if (root->isAltCustomActionRequested())
+			if (root->_triggerAlternativeAction)
 				root->alternativeCustomAction();
 			root->draw(nullptr, 0.0f, 0.0f);
 		}
@@ -1193,7 +1215,7 @@ namespace Marvel {
 	{
 		//MV_ITEM_REGISTRY_TRACE("Adding runtime item: " + item->_name);
 
-		if (mvAppItem::DoesItemHaveFlag(item.get(), MV_ITEM_DESC_HANDLER) && parent == 0)
+		if (item->getDescFlags() & MV_ITEM_DESC_HANDLER && parent == 0)
 			parent = item->_parent;
 
 		if (item == nullptr)
@@ -1206,12 +1228,12 @@ namespace Marvel {
 		//---------------------------------------------------------------------------
 		// STEP 0: updata "last" information
 		//---------------------------------------------------------------------------
-		if (mvAppItem::DoesItemHaveFlag(item.get(), MV_ITEM_DESC_ROOT))
+		if (item->getDescFlags() & MV_ITEM_DESC_ROOT)
 		{
 			registry.lastRootAdded = item->_uuid;
 			registry.lastContainerAdded = item->_uuid;
 		}
-		else if (mvAppItem::DoesItemHaveFlag(item.get(), MV_ITEM_DESC_CONTAINER))
+		else if (item->getDescFlags() & MV_ITEM_DESC_CONTAINER)
 			registry.lastContainerAdded = item->_uuid;
 
 		registry.lastItemAdded = item->_uuid;
@@ -1240,7 +1262,7 @@ namespace Marvel {
 		//---------------------------------------------------------------------------
 		// STEP 2: handle root case
 		//---------------------------------------------------------------------------
-		if (mvAppItem::DoesItemHaveFlag(item.get(), MV_ITEM_DESC_ROOT))
+		if (item->getDescFlags() & MV_ITEM_DESC_ROOT)
 		{
 
 			if (GContext->started)
@@ -1507,7 +1529,7 @@ namespace Marvel {
 		auto parent = GetItem((*GContext->itemRegistry), item);
 		if (parent)
 		{
-			if (mvAppItem::DoesItemHaveFlag(parent, MV_ITEM_DESC_CONTAINER))
+			if (parent->getDescFlags() & MV_ITEM_DESC_CONTAINER)
 			{
 				PushParent((*GContext->itemRegistry), parent);
 				return ToPyBool(true);
@@ -1655,7 +1677,7 @@ namespace Marvel {
 
 		auto parent = GetItem((*GContext->itemRegistry), container);
 
-		std::vector<mvRef<mvAppItem>>& children = parent->getChildren(slot);
+		std::vector<mvRef<mvAppItem>>& children = parent->_children[slot];
 
 		std::vector<mvRef<mvAppItem>> newchildren;
 		newchildren.reserve(children.size());

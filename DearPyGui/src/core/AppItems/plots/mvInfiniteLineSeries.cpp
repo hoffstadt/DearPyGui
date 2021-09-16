@@ -119,7 +119,7 @@ namespace Marvel {
 						if (!item->_show)
 							continue;
 						item->draw(drawlist, ImPlot::GetPlotPos().x, ImPlot::GetPlotPos().y);
-						UpdateAppItemState(item->getState());
+						UpdateAppItemState(item->_state);
 					}
 				}
 				ImPlot::EndLegendPopup();
@@ -304,7 +304,7 @@ namespace Marvel {
 						if (!item->_show)
 							continue;
 						item->draw(drawlist, ImPlot::GetPlotPos().x, ImPlot::GetPlotPos().y);
-						UpdateAppItemState(item->getState());
+						UpdateAppItemState(item->_state);
 					}
 				}
 				ImPlot::EndLegendPopup();

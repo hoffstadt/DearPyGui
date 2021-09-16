@@ -49,6 +49,7 @@ namespace Marvel {
     mvRef<mvAppItem>                 GetRefItem     (mvItemRegistry& registry, mvUUID uuid);
     mvWindowAppItem*                 GetWindow      (mvItemRegistry& registry, mvUUID uuid);
     std::vector<std::vector<mvUUID>> GetItemChildren(mvItemRegistry& registry, mvUUID uuid);
+    mvAppItem*                       GetItemRoot    (mvItemRegistry& registry, mvUUID uuid);
 
     // item operations
     bool                             FocusItem               (mvItemRegistry& registry, mvUUID uuid);

@@ -153,7 +153,7 @@ namespace Marvel {
 
 				item->draw(drawlist, x, y);
 
-				auto& state = item->getState();
+				auto& state = item->_state;
 				state.active = imnodes::IsAttributeActive();
 
 			}

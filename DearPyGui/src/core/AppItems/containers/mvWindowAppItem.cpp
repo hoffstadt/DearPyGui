@@ -294,8 +294,11 @@ namespace Marvel {
 
 		if (_modal)
 		{
-			if (wasShownLastFrameReset())
+			if (_shownLastFrame)
+			{
+				_shownLastFrame = false;
 				ImGui::OpenPopup(_internalLabel.c_str());
+			}
 			
 			if (!ImGui::BeginPopupModal(_internalLabel.c_str(), _no_close ? nullptr : &_show, _windowflags))
 			{
@@ -321,8 +324,11 @@ namespace Marvel {
 
 		else if (_popup)
 		{
-			if (wasShownLastFrameReset())
+			if (_shownLastFrame)
+			{
+				_shownLastFrame = false;
 				ImGui::OpenPopup(_internalLabel.c_str());
+			}
 
 			if (!ImGui::BeginPopup(_internalLabel.c_str(), _windowflags))
 			{
@@ -360,7 +366,7 @@ namespace Marvel {
 
 			item->draw(this_drawlist, startx, starty);
 
-			UpdateAppItemState(item->getState());
+			UpdateAppItemState(item->_state);
 
 		}
 
@@ -381,7 +387,7 @@ namespace Marvel {
 
 			item->draw(this_drawlist, startx, starty);
 
-			UpdateAppItemState(item->getState());
+			UpdateAppItemState(item->_state);
 
 		}
 

@@ -87,8 +87,9 @@ namespace Marvel {
 		if (PyObject* item = PyDict_GetItemString(dict, "horizontal")) _horizontal = ToBool(item);
 		if (PyObject* item = PyDict_GetItemString(dict, "outside")) _outside = ToBool(item);
 
-		if (wasShownLastFrameReset())
+		if (_shownLastFrame)
 		{
+			_shownLastFrame = false;
 			if (auto plot = static_cast<mvPlot*>(_parentPtr))
 				plot->removeFlag(ImPlotFlags_NoLegend);
 			else if (auto plot = static_cast<mvSubPlots*>(_parentPtr))
@@ -96,8 +97,9 @@ namespace Marvel {
 			_show = true;
 		}
 
-		if (wasHiddenLastFrameReset())
+		if (_hiddenLastFrame)
 		{
+			_hiddenLastFrame = false;
 			if (auto plot = static_cast<mvPlot*>(_parentPtr))
 				plot->addFlag(ImPlotFlags_NoLegend);
 			else if (auto plot = static_cast<mvSubPlots*>(_parentPtr))

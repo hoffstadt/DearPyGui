@@ -190,7 +190,7 @@ namespace Marvel {
                 _state.contextRegionAvail = { ImGui::GetContentRegionAvail().x, ImGui::GetContentRegionAvail().y };
         
                 // set other tab's value false
-                for (auto& child : parent->getChildren(1))
+                for (auto& child : parent->_children[1])
                 {
                     if (child->getType() == mvAppItemType::mvTab)
                         *((mvTab*)child.get())->_value = false;

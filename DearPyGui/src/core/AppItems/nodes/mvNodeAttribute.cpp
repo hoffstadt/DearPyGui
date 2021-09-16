@@ -79,10 +79,10 @@ namespace Marvel {
 			if (item->_width != 0)
 				ImGui::SetNextItemWidth((float)item->_width);
 
-			if (item->shouldFocusNextFrame())
+			if (item->_focusNextFrame)
 			{
 				ImGui::SetKeyboardFocusHere();
-				item->unfocus();
+				item->_focusNextFrame = false;
 			}
 
 			auto oldCursorPos = ImGui::GetCursorPos();
@@ -96,7 +96,7 @@ namespace Marvel {
 			if (item->_dirtyPos)
 				ImGui::SetCursorPos(oldCursorPos);
 
-			UpdateAppItemState(item->getState());
+			UpdateAppItemState(item->_state);
 		}
 
 		if (_attrType == mvNodeAttribute::AttributeType::mvAttr_Static)

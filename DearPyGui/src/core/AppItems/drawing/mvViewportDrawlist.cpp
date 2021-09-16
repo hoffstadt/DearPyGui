@@ -55,7 +55,7 @@ namespace Marvel {
 
 			item->draw(internal_drawlist, 0.0f, 0.0f);
 
-			UpdateAppItemState(item->getState());
+			UpdateAppItemState(item->_state);
 		}
 
 	}
