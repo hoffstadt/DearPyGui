@@ -70,7 +70,7 @@ namespace Marvel {
             m_dirtyNodes = true;
         }
 
-        if (!item->getDescFlags() & MV_ITEM_DESC_CONTAINER)
+        if (!(item->getDescFlags() & MV_ITEM_DESC_CONTAINER))
         {
             if(expanded)
                 ImGui::TreePop();

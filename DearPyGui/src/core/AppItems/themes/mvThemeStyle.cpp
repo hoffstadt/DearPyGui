@@ -150,7 +150,7 @@ namespace Marvel {
 			_value = std::make_shared<std::array<float, 4>>(temp_array);
 
 		if (_parentPtr)
-			_parentPtr->_triggerAlternativeAction;
+			_parentPtr->_triggerAlternativeAction = true;
 	}
 
 	void mvThemeStyle::setDataSource(mvUUID dataSource)
