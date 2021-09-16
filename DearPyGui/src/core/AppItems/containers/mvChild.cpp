@@ -170,7 +170,24 @@ namespace Marvel {
 			}
 
 			// allows this item to have a render callback
-			registerWindowFocusing();
+			if (ImGui::IsWindowFocused(ImGuiFocusedFlags_ChildWindows))
+			{
+
+				// update mouse
+				ImVec2 mousePos = ImGui::GetMousePos();
+				float x = mousePos.x - ImGui::GetWindowPos().x;
+				float y = mousePos.y - ImGui::GetWindowPos().y;
+				GContext->input.mousePos.x = (int)x;
+				GContext->input.mousePos.y = (int)y;
+
+
+				if (GContext->itemRegistry->activeWindow != _uuid)
+				{
+					GContext->itemRegistry->activeWindow = _uuid;
+					mvEventBus::Publish(mvEVT_CATEGORY_ITEM, mvEVT_ACTIVE_WINDOW, { CreateEventArgument("WINDOW", _uuid) });
+				}
+
+			}
 
 			_scrollX = ImGui::GetScrollX();
 			_scrollY = ImGui::GetScrollY();

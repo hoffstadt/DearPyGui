@@ -67,10 +67,17 @@ namespace Marvel {
 		_id = _uuid;
 		ImGui::TableSetupColumn(_internalLabel.c_str(), _flags, _init_width_or_weight, _id);
 
-		if (wasShownLastFrameReset())
+		if (_shownLastFrame)
+		{
+			_shownLastFrame = false;
 			ImGui::TableSetColumnEnabled(_location, _enabled);
-		else if(wasHiddenLastFrameReset())
+		}
+
+		if (_hiddenLastFrame)
+		{
+			_hiddenLastFrame = false;
 			ImGui::TableSetColumnEnabled(_location, _enabled);
+		}
 	}
 
 	void mvTableColumn::handleSpecificKeywordArgs(PyObject* dict)

@@ -159,7 +159,7 @@ namespace Marvel {
 		if (item->getType() == mvAppItemType::mvNode)
 		{
 
-			for (const auto& otherchild : item->getChildren(1))
+			for (const auto& otherchild : item->_children[1])
 			{
 				int attr_id = static_cast<mvNodeAttribute*>(otherchild.get())->getId();
 
@@ -328,7 +328,7 @@ namespace Marvel {
 				if (child->getType() != mvAppItemType::mvNode)
 					continue;
 
-				for (const auto& grandchild : child->getChildren(1))
+				for (const auto& grandchild : child->_children[1])
 				{
 					if (static_cast<mvNodeAttribute*>(grandchild.get())->getId() == start_attr)
 						node1 = grandchild->_uuid;

@@ -92,7 +92,8 @@ namespace Marvel {
 					for (int i = 0; i < _itemCount; i++)
 					{
 						_availableItems.push_back(CreateRef<item_type>(0));
-						_availableItems.back()->setPoolInfo(_parent, _uuid);
+						_availableItems.back()->_pool = _parent;
+						_availableItems.back()->_itemSet = _uuid;
 					}
 					return;
 				}
@@ -138,11 +139,10 @@ namespace Marvel {
 
 	void mvItemPool::returnItem(mvRef<mvAppItem> item)
 	{
-		auto [pool, itemset] = item->getPoolInfo();
 
 		for (auto& child : _children[1])
 		{
-			if (child->_uuid == itemset)
+			if (child->_uuid == item->_itemSet)
 			{
 				static_cast<mvItemSet*>(child.get())->returnItem(item);
 				break;

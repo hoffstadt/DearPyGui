@@ -251,7 +251,7 @@ namespace Marvel {
 			ImGui::TableNextRow(0, row->_height);
 
 			//int row_index = ImGui::TableGetRowIndex() + _tableHeader ? 1 : 0;
-			int row_index = row->getLocation();
+			int row_index = row->_location;
 
 			if (_rowColorsSet[row_index])
 				ImGui::TableSetBgColor(ImGuiTableBgTarget_RowBg0, _rowColors[row_index]);
@@ -260,7 +260,7 @@ namespace Marvel {
 				ImGui::TableSetBgColor(ImGuiTableBgTarget_RowBg1, _rowSelectionColors[row_index]);
 
 			int column_index = -1;
-			for (auto& cell : row->getChildren(1))
+			for (auto& cell : row->_children[1])
 			{
 				column_index++;
 
@@ -291,7 +291,7 @@ namespace Marvel {
 
 				item->draw(drawlist, ImGui::GetCursorPosX(), ImGui::GetCursorPosY());
 
-				UpdateAppItemState(item->getState());
+				UpdateAppItemState(item->_state);
 			}
 
 			if (_tableHeader)

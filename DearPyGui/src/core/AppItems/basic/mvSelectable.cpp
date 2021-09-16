@@ -237,11 +237,17 @@ namespace Marvel {
 		// window flags
 		flagop("span_columns", ImGuiSelectableFlags_SpanAllColumns, _flags, false);
 
-		if (wasEnabledLastFrameReset())
+		if (_enabledLastFrame)
+		{
+			_enabledLastFrame = false;
 			_flags &= ~ImGuiSelectableFlags_Disabled;
+		}
 
-		if (wasDisabledLastFrameReset())
+		if (_disabledLastFrame)
+		{
+			_disabledLastFrame = false;
 			_flags |= ImGuiSelectableFlags_Disabled;
+		}
 
 	}
 

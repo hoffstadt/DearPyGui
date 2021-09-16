@@ -116,7 +116,7 @@ namespace Marvel {
 				_state.contextRegionAvail = { ImGui::GetContentRegionAvail().x, ImGui::GetContentRegionAvail().y };
 
 				// set other menus's value false on same level
-				for (auto& sibling : _parentPtr->getChildren(1))
+				for (auto& sibling : _parentPtr->_children[1])
 				{
 					// ensure sibling
 					if (sibling->getType() == mvAppItemType::mvMenu)
@@ -129,7 +129,24 @@ namespace Marvel {
 				for (auto& item : _children[1])
 					item->draw(drawlist, ImGui::GetCursorPosX(), ImGui::GetCursorPosY());
 
-				registerWindowFocusing();
+				if (ImGui::IsWindowFocused(ImGuiFocusedFlags_ChildWindows))
+				{
+
+					// update mouse
+					ImVec2 mousePos = ImGui::GetMousePos();
+					float x = mousePos.x - ImGui::GetWindowPos().x;
+					float y = mousePos.y - ImGui::GetWindowPos().y;
+					GContext->input.mousePos.x = (int)x;
+					GContext->input.mousePos.y = (int)y;
+
+
+					if (GContext->itemRegistry->activeWindow != _uuid)
+					{
+						GContext->itemRegistry->activeWindow = _uuid;
+						mvEventBus::Publish(mvEVT_CATEGORY_ITEM, mvEVT_ACTIVE_WINDOW, { CreateEventArgument("WINDOW", _uuid) });
+					}
+
+				}
 
 				ImGui::EndMenu();
 			}

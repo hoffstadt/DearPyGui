@@ -65,7 +65,7 @@ namespace Marvel {
 
 			item->draw(internal_drawlist, _startx, _starty);
 
-			UpdateAppItemState(item->getState());
+			UpdateAppItemState(item->_state);
 		}
 
 		ImGui::PopClipRect();
