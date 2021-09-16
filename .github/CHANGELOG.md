@@ -38,6 +38,8 @@ We generally fold multiple commits pertaining to the same topic as a single entr
 * removed `bind_item_type_disabled_theme(...)`
 * removed `bind_item_type_theme(...)`
 * removed `drag_callback` from `add_menu_item(...)`
+* removed `drag_callback` from `add_colormap_scale(...)`
+* removed `drag_callback` from `add_colormap_slider(...)`
 * user must create, setup, show viewport before starting dpg:
   * "create_viewport()->setup_dearpygui()->show_viewport()->start_dearpygui()"
 * `add_theme_color(...)` and `add_theme_style(...)` must known belong to a `theme_component`
