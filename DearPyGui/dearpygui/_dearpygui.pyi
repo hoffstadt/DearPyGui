@@ -86,11 +86,11 @@ def add_colormap_registry(*, label: str ='', user_data: Any ='', use_internal_la
 	"""Adds a colormap registry."""
 	...
 
-def add_colormap_scale(*, label: str ='', user_data: Any ='', use_internal_label: bool ='', tag: Union[int, str] ='', width: int ='', height: int ='', indent: int ='', parent: Union[int, str] ='', before: Union[int, str] ='', source: Union[int, str] ='', show: bool ='', pos: Union[List[int], Tuple[int]] ='', colormap: Union[int, str] ='', min_scale: float ='', max_scale: float ='') -> Union[int, str]:
+def add_colormap_scale(*, label: str ='', user_data: Any ='', use_internal_label: bool ='', tag: Union[int, str] ='', width: int ='', height: int ='', indent: int ='', parent: Union[int, str] ='', before: Union[int, str] ='', source: Union[int, str] ='', payload_type: str ='', drop_callback: Callable ='', show: bool ='', pos: Union[List[int], Tuple[int]] ='', colormap: Union[int, str] ='', min_scale: float ='', max_scale: float ='') -> Union[int, str]:
 	"""Adds a legend that pairs values with colors. This is typically used with a heat series. """
 	...
 
-def add_colormap_slider(*, label: str ='', user_data: Any ='', use_internal_label: bool ='', tag: Union[int, str] ='', width: int ='', height: int ='', indent: int ='', parent: Union[int, str] ='', before: Union[int, str] ='', payload_type: str ='', callback: Callable ='', drag_callback: Callable ='', drop_callback: Callable ='', show: bool ='', pos: Union[List[int], Tuple[int]] ='', filter_key: str ='', tracked: bool ='', track_offset: float ='', default_value: float ='') -> Union[int, str]:
+def add_colormap_slider(*, label: str ='', user_data: Any ='', use_internal_label: bool ='', tag: Union[int, str] ='', width: int ='', height: int ='', indent: int ='', parent: Union[int, str] ='', before: Union[int, str] ='', payload_type: str ='', callback: Callable ='', drop_callback: Callable ='', show: bool ='', pos: Union[List[int], Tuple[int]] ='', filter_key: str ='', tracked: bool ='', track_offset: float ='', default_value: float ='') -> Union[int, str]:
 	"""Adds a color button."""
 	...
 
