@@ -1602,7 +1602,7 @@ namespace Marvel {
 			}
 			return AddRoot(registry, item);
 		}
-			
+
 		//---------------------------------------------------------------------------
 		// STEP 3: attempt to deduce parent
 		//---------------------------------------------------------------------------
@@ -1632,7 +1632,7 @@ namespace Marvel {
 		else
 		{
 			parentPtr = GetItem(registry, parent);
-			if(parentPtr)
+			if (parentPtr)
 				technique = AddTechnique::PARENT;
 
 			// revert to stack operation (reserved uuid not used)
@@ -1666,29 +1666,36 @@ namespace Marvel {
 		{
 			acceptableParentTypes.append(compatibleParent.first + "\n");
 			if ((int)parentPtr->getType() == compatibleParent.second)
-				return true;
+			{
+				isParentCompatible = true;
+				break;
+			}
 		}
 
-		if (allowableParents->empty())
+		if (!isParentCompatible)
 		{
-			mvThrowPythonError(mvErrorCode::mvIncompatibleParent, item->getCommand(),
-				"Incompatible parent. Item does can not have a parent.", item.get());
-			return false;
-		}
+			if (allowableParents->empty())
+			{
+				mvThrowPythonError(mvErrorCode::mvIncompatibleParent, item->getCommand(),
+					"Incompatible parent. Item does can not have a parent.", item.get());
+				return false;
+			}
 
-		if (!(*allowableParents)[0].second == (int)mvAppItemType::All)
-		{
+			if (!(*allowableParents)[0].second == (int)mvAppItemType::All)
+			{
 
-			mvThrowPythonError(mvErrorCode::mvIncompatibleParent, item->getCommand(),
-				"Incompatible parent. Acceptable parents include:\t" + acceptableParentTypes, item.get());
+				mvThrowPythonError(mvErrorCode::mvIncompatibleParent, item->getCommand(),
+					"Incompatible parent. Acceptable parents include:\t" + acceptableParentTypes, item.get());
 
-			assert(false);
-			return false;
+				assert(false);
+				return false;
+			}
 		}
 
 		//---------------------------------------------------------------------------
 		// STEP 6: check if parent accepts our item (this isn't duplicate STEP 3)
 		//---------------------------------------------------------------------------
+		bool amICompatible = false;
 		const std::vector<std::pair<std::string, int>>* allowableChildren = &parentPtr->getAllowableChildren();
 
 		std::string acceptableChildTypes;
@@ -1697,24 +1704,30 @@ namespace Marvel {
 		{
 			acceptableChildTypes.append(compatibleChildren.first + "\n");
 			if ((int)item->getType() == compatibleChildren.second)
-				return true;
+			{
+				amICompatible = true;
+				break;
+			}
 		}
 
-		if (allowableChildren->empty())
+		if (!amICompatible)
 		{
-			mvThrowPythonError(mvErrorCode::mvIncompatibleChild, parentPtr->getCommand(),
-				"Incompatible child. Item does not accept children.", parentPtr);
-			return false;
-		}
+			if (allowableChildren->empty())
+			{
+				mvThrowPythonError(mvErrorCode::mvIncompatibleChild, parentPtr->getCommand(),
+					"Incompatible child. Item does not accept children.", parentPtr);
+				return false;
+			}
 
-		if (!(*allowableChildren)[0].second == (int)mvAppItemType::All)
-		{
+			if (!(*allowableChildren)[0].second == (int)mvAppItemType::All)
+			{
 
-			mvThrowPythonError(mvErrorCode::mvIncompatibleChild, parentPtr->getCommand(),
-				"Incompatible child. Acceptable children include:\t" + acceptableChildTypes, parentPtr);
+				mvThrowPythonError(mvErrorCode::mvIncompatibleChild, parentPtr->getCommand(),
+					"Incompatible child. Acceptable children include:\t" + acceptableChildTypes, parentPtr);
 
-			assert(false);
-			return false;
+				assert(false);
+				return false;
+			}
 		}
 
 		//---------------------------------------------------------------------------
