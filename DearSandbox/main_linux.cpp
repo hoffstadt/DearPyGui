@@ -39,6 +39,7 @@ int main(int argc, char* argv[])
       PYTHON_LIBS_PATH"/lib-dynload:"
       PYTHON_LIBS_PATH"/site-packages:"
       "../../DearPyGui:"
+      "../../Dependencies/DearPyGui_Ext:"
       "../../DearSandbox",
       nullptr);
 #else

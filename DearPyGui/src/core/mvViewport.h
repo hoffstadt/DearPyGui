@@ -17,20 +17,7 @@
 #include <imgui.h>
 #include "mvCallbackRegistry.h"
 
-#if defined APPLE
-class GLFWwindow;
-#import <Metal/Metal.h>
-#import <QuartzCore/QuartzCore.h>
-#elif defined LINUX
-class GLFWwindow;
-#else
-#include <imgui_impl_win32.h>
-#include <imgui_impl_dx11.h>
-#include <d3d11.h>
-#define DIRECTINPUT_VERSION 0x0800
-#include <dinput.h>
-#include <tchar.h>
-#endif
+struct GLFWwindow;
 
 namespace Marvel {
 
@@ -68,26 +55,6 @@ namespace Marvel {
 		int      xpos         = 100;
 		int      ypos         = 100;
 
-#if defined APPLE
-		GLFWwindow*              handle;
-		CAMetalLayer*            layer;
-		MTLRenderPassDescriptor* renderPassDescriptor;
-		id <MTLCommandQueue>     commandQueue;
-		id <MTLDevice>           device;
-#elif defined LINUX
-		GLFWwindow*              handle = nullptr;
-#else				
-		HWND                     handle = nullptr;
-		WNDCLASSEX               wc;
-		MSG                      msg;
-		DWORD                    modes;
-		ID3D11Device*            device = nullptr;
-		ID3D11DeviceContext*     deviceContext = nullptr;
-		IDXGISwapChain*          swapChain = nullptr;
-		ID3D11RenderTargetView*  target = nullptr;
-		BYTE                     previous_ime_char;
-		WORD                     lang_id;
-#endif
 	};
 
 	mvViewport* mvCreateViewport(unsigned width, unsigned height);

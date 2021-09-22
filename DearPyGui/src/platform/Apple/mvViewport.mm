@@ -1,23 +1,29 @@
 #include "mvViewport.h"
 #include <implot.h>
 #include "imnodes.h"
-#include "mvFontManager.h"
 #include "mvToolManager.h"
+#include "mvFontManager.h"
 
 #define GLFW_INCLUDE_NONE
 #define GLFW_EXPOSE_NATIVE_COCOA
 #include <GLFW/glfw3.h>
 #include <GLFW/glfw3native.h>
 
+#import <Metal/Metal.h>
+#import <QuartzCore/QuartzCore.h>
+
 #include "imgui.h"
-#include "implot.h"
 #include "imgui_impl_glfw.h"
 #include "imgui_impl_metal.h"
 #include <stdio.h>
 
-namespace Marvel {
+static GLFWwindow*              ghandle = nullptr;
+static CAMetalLayer*            glayer;
+static MTLRenderPassDescriptor* grenderPassDescriptor;
+static id <MTLCommandQueue>     gcommandQueue;
+id <MTLDevice>                  gdevice;
 
-    id <MTLDevice> mvAppleViewport::device;
+namespace Marvel {
 
     mvViewport* mvCreateViewport(unsigned width, unsigned height)
     {
@@ -55,7 +61,7 @@ namespace Marvel {
         ImPlot::DestroyContext();
         ImGui::DestroyContext();
 
-        glfwDestroyWindow(GContext->viewport->handle);
+        glfwDestroyWindow(ghandle);
         glfwTerminate();
     }
 
@@ -80,14 +86,12 @@ namespace Marvel {
             glfwWindowHint(GLFW_DECORATED, GLFW_FALSE);
         glfwWindowHint(GLFW_COCOA_GRAPHICS_SWITCHING, GLFW_FALSE);
 
-
         // Create window with graphics context
         glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
         glfwWindowHint(GLFW_COCOA_RETINA_FRAMEBUFFER, GLFW_FALSE);
-        viewport->handle = glfwCreateWindow((int)viewport->actualWidth, (int)viewport->actualHeight, viewport->title.c_str(), nullptr, nullptr);
-        glfwSetWindowPos(viewport->handle, viewport->xpos, viewport->ypos);
-        glfwSetWindowSizeLimits(viewport->handle, (int)viewport->minwidth, (int)viewport->minheight, (int)viewport->maxwidth, (int)viewport->maxheight);
-
+        ghandle = glfwCreateWindow((int)viewport->actualWidth, (int)viewport->actualHeight, viewport->title.c_str(), nullptr, nullptr);
+        glfwSetWindowPos(ghandle, viewport->xpos, viewport->ypos);
+        glfwSetWindowSizeLimits(ghandle, (int)viewport->minwidth, (int)viewport->minheight, (int)viewport->maxwidth, (int)viewport->maxheight);
 
         mvEventBus::Publish(mvEVT_CATEGORY_VIEWPORT, mvEVT_VIEWPORT_RESIZE, {
             CreateEventArgument("actual_width", (int)viewport->actualWidth),
@@ -96,8 +100,8 @@ namespace Marvel {
             CreateEventArgument("client_height", (int)viewport->actualHeight)
                     });
 
-        viewport->device = MTLCreateSystemDefaultDevice();
-        viewport->commandQueue = [viewport->device newCommandQueue];
+        gdevice = MTLCreateSystemDefaultDevice();
+        gcommandQueue = [gdevice newCommandQueue];
 
         // Setup Dear ImGui binding
         IMGUI_CHECKVERSION();
@@ -131,73 +135,73 @@ namespace Marvel {
         ImGui::StyleColorsDark();
         SetDefaultTheme();
 
-        ImGui_ImplGlfw_InitForOpenGL(viewport->handle, true);
-        ImGui_ImplMetal_Init(viewport->device);
+        ImGui_ImplGlfw_InitForOpenGL(ghandle, true);
+        ImGui_ImplMetal_Init(gdevice);
 
-        NSWindow *nswin = glfwGetCocoaWindow(viewport->handle);
-        viewport->layer = [CAMetalLayer viewport->layer];
-        viewport->layer.device = viewport->device;
-        viewport->layer.pixelFormat = MTLPixelFormatBGRA8Unorm;
-        nswin.contentView.layer = viewport->layer;
+        NSWindow *nswin = glfwGetCocoaWindow(ghandle);
+        glayer = [CAMetalLayer layer];
+        glayer.device = gdevice;
+        glayer.pixelFormat = MTLPixelFormatBGRA8Unorm;
+        nswin.contentView.layer = glayer;
         nswin.contentView.wantsLayer = YES;
 
-        viewport->renderPassDescriptor = [MTLRenderPassDescriptor new];
+        grenderPassDescriptor = [MTLRenderPassDescriptor new];
 
         // Setup callbacks
-        glfwSetWindowSizeCallback(viewport->handle, window_size_callback);
+        glfwSetWindowSizeCallback(ghandle, window_size_callback);
         //glfwSetFramebufferSizeCallback(m_window, window_size_callback);
-        glfwSetWindowCloseCallback(viewport->handle, window_close_callback);
+        glfwSetWindowCloseCallback(ghandle, window_close_callback);
     }
   
     void mvMaximizeViewport()
     {
-        glfwMaximizeWindow(GContext->viewport->handle);
+        glfwMaximizeWindow(ghandle);
     }
 
     void mvMinimizeViewport()
     {
-        glfwIconifyWindow(GContext->viewport->handle);
+        glfwIconifyWindow(ghandle);
     }
 
     void mvRestoreViewport()
     {
-        glfwRestoreWindow(GContext->viewport->handle);
+        glfwRestoreWindow(ghandle);
     }
 
     void mvRenderFrame()
     {
         mvViewport* viewport = GContext->viewport;
 
-        viewport->running = !glfwWindowShouldClose(viewport->handle);
+        viewport->running = !glfwWindowShouldClose(ghandle);
 
         if(viewport->posDirty)
         {
-            glfwSetWindowPos(viewport->handle, viewport->xpos, viewport->ypos);
+            glfwSetWindowPos(ghandle, viewport->xpos, viewport->ypos);
             viewport->posDirty = false;
         }
 
         if(viewport->sizeDirty)
         {
-            glfwSetWindowSizeLimits(viewport->handle, (int)viewport->minwidth, (int)viewport->minheight, (int)viewport->maxwidth, (int)viewport->maxheight);
-            glfwSetWindowSize(viewport->handle, viewport->actualWidth, viewport->actualHeight);
+            glfwSetWindowSizeLimits(ghandle, (int)viewport->minwidth, (int)viewport->minheight, (int)viewport->maxwidth, (int)viewport->maxheight);
+            glfwSetWindowSize(ghandle, viewport->actualWidth, viewport->actualHeight);
             viewport->sizeDirty = false;
         }
 
         if(viewport->modesDirty)
         {
-            glfwSetWindowAttrib(viewport->handle, GLFW_RESIZABLE, viewport->resizable ? GLFW_TRUE : GLFW_FALSE);
-            glfwSetWindowAttrib(viewport->handle, GLFW_DECORATED, viewport->decorated ? GLFW_TRUE : GLFW_FALSE);
-            glfwSetWindowAttrib(viewport->handle, GLFW_FLOATING, viewport->alwaysOnTop ? GLFW_TRUE : GLFW_FALSE);
+            glfwSetWindowAttrib(ghandle, GLFW_RESIZABLE, viewport->resizable ? GLFW_TRUE : GLFW_FALSE);
+            glfwSetWindowAttrib(ghandle, GLFW_DECORATED, viewport->decorated ? GLFW_TRUE : GLFW_FALSE);
+            glfwSetWindowAttrib(ghandle, GLFW_FLOATING, viewport->alwaysOnTop ? GLFW_TRUE : GLFW_FALSE);
             viewport->modesDirty = false;
         }
 
         if (viewport->titleDirty)
         {
-            glfwSetWindowTitle(viewport->handle, viewport->title.c_str());
+            glfwSetWindowTitle(ghandle, viewport->title.c_str());
             viewport->titleDirty = false;
         }
 
-        if(glfwGetWindowAttrib(viewport->handle, GLFW_ICONIFIED))
+        if(glfwGetWindowAttrib(ghandle, GLFW_ICONIFIED))
         {
             glfwWaitEvents();
             return;
@@ -216,43 +220,43 @@ namespace Marvel {
                 mvToolManager::GetFontManager().rebuildAtlas();
                 ImGui_ImplMetal_DestroyFontsTexture();
                 mvToolManager::GetFontManager().updateAtlas();
-                ImGui_ImplMetal_CreateFontsTexture(viewport->device);
+                ImGui_ImplMetal_CreateFontsTexture(gdevice);
             }
 
-            NSWindow *nswin = glfwGetCocoaWindow(viewport->handle);
+            NSWindow *nswin = glfwGetCocoaWindow(ghandle);
             if(nswin.isVisible && (nswin.occlusionState & NSWindowOcclusionStateVisible) == 0)
                 usleep(32000u);
 
-            viewport->layer.displaySyncEnabled = viewport->vsync;
+            glayer.displaySyncEnabled = viewport->vsync;
 
             int width;
             int height;
-            glfwGetFramebufferSize(viewport->handle, &width, &height);
-            viewport->layer.drawableSize = CGSizeMake(width, height);
-            id <CAMetalDrawable> drawable = [viewport->layer nextDrawable];
+            glfwGetFramebufferSize(ghandle, &width, &height);
+            glayer.drawableSize = CGSizeMake(width, height);
+            id <CAMetalDrawable> drawable = [glayer nextDrawable];
 
             viewport->width = (unsigned)width;
             viewport->height = (unsigned)height;
 
-            id <MTLCommandBuffer> commandBuffer = [viewport->commandQueue commandBuffer];
-            viewport->renderPassDescriptor.colorAttachments[0].clearColor = MTLClearColorMake(viewport->clearColor.r,
+            id <MTLCommandBuffer> commandBuffer = [gcommandQueue commandBuffer];
+            grenderPassDescriptor.colorAttachments[0].clearColor = MTLClearColorMake(viewport->clearColor.r,
                                                                                       viewport->clearColor.g,
                                                                                       viewport->clearColor.b,
                                                                                       viewport->clearColor.a);
-            viewport->renderPassDescriptor.colorAttachments[0].texture = drawable.texture;
-            viewport->renderPassDescriptor.colorAttachments[0].loadAction = MTLLoadActionClear;
-            viewport->renderPassDescriptor.colorAttachments[0].storeAction = MTLStoreActionStore;
-            id <MTLRenderCommandEncoder> renderEncoder = [commandBuffer renderCommandEncoderWithDescriptor:viewport->renderPassDescriptor];
+            grenderPassDescriptor.colorAttachments[0].texture = drawable.texture;
+            grenderPassDescriptor.colorAttachments[0].loadAction = MTLLoadActionClear;
+            grenderPassDescriptor.colorAttachments[0].storeAction = MTLStoreActionStore;
+            id <MTLRenderCommandEncoder> renderEncoder = [commandBuffer renderCommandEncoderWithDescriptor:grenderPassDescriptor];
             [renderEncoder pushDebugGroup:@"ImGui demo"];
 
             // Start the Dear ImGui frame
-            ImGui_ImplMetal_NewFrame(viewport->renderPassDescriptor);
+            ImGui_ImplMetal_NewFrame(grenderPassDescriptor);
             ImGui_ImplGlfw_NewFrame();
             ImGui::NewFrame();
 
             Render();
 
-            glfwGetWindowPos(viewport->handle, &viewport->xpos, &viewport->ypos);
+            glfwGetWindowPos(ghandle, &viewport->xpos, &viewport->ypos);
 
             // Rendering
             ImGui::Render();

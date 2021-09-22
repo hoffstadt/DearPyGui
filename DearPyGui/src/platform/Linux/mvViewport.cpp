@@ -12,6 +12,8 @@
 #include <stb_image.h>
 #include "mvToolManager.h"
 
+static GLFWwindow* ghandle = nullptr;
+
 namespace Marvel {
 
     static void glfw_error_callback(int error, const char* description)
@@ -37,36 +39,36 @@ namespace Marvel {
     {
         mvViewport* viewport = GContext->viewport;
 
-        viewport->running = !glfwWindowShouldClose(viewport->handle);
+        viewport->running = !glfwWindowShouldClose(ghandle);
 
         if (viewport->posDirty)
         {
-            glfwSetWindowPos(viewport->handle, viewport->xpos, viewport->ypos);
+            glfwSetWindowPos(ghandle, viewport->xpos, viewport->ypos);
             viewport->posDirty = false;
         }
 
         if (viewport->sizeDirty)
         {
-            glfwSetWindowSizeLimits(viewport->handle, (int)viewport->minwidth, (int)viewport->minheight, (int)viewport->maxwidth, (int)viewport->maxheight);
-            glfwSetWindowSize(viewport->handle, viewport->actualWidth, viewport->actualHeight);
+            glfwSetWindowSizeLimits(ghandle, (int)viewport->minwidth, (int)viewport->minheight, (int)viewport->maxwidth, (int)viewport->maxheight);
+            glfwSetWindowSize(ghandle, viewport->actualWidth, viewport->actualHeight);
             viewport->sizeDirty = false;
         }
 
         if (viewport->modesDirty)
         {
-            glfwSetWindowAttrib(viewport->handle, GLFW_RESIZABLE, viewport->resizable ? GLFW_TRUE : GLFW_FALSE);
-            glfwSetWindowAttrib(viewport->handle, GLFW_DECORATED, viewport->decorated ? GLFW_TRUE : GLFW_FALSE);
-            glfwSetWindowAttrib(viewport->handle, GLFW_FLOATING, viewport->alwaysOnTop ? GLFW_TRUE : GLFW_FALSE);
+            glfwSetWindowAttrib(ghandle, GLFW_RESIZABLE, viewport->resizable ? GLFW_TRUE : GLFW_FALSE);
+            glfwSetWindowAttrib(ghandle, GLFW_DECORATED, viewport->decorated ? GLFW_TRUE : GLFW_FALSE);
+            glfwSetWindowAttrib(ghandle, GLFW_FLOATING, viewport->alwaysOnTop ? GLFW_TRUE : GLFW_FALSE);
             viewport->modesDirty = false;
         }
 
         if (viewport->titleDirty)
         {
-            glfwSetWindowTitle(viewport->handle, viewport->title.c_str());
+            glfwSetWindowTitle(ghandle, viewport->title.c_str());
             viewport->titleDirty = false;
         }
 
-        if (glfwGetWindowAttrib(viewport->handle, GLFW_ICONIFIED))
+        if (glfwGetWindowAttrib(ghandle, GLFW_ICONIFIED))
         {
             glfwWaitEvents();
             return;
@@ -97,21 +99,21 @@ namespace Marvel {
     {
         mvViewport* viewport = GContext->viewport;
 
-        glfwGetWindowPos(viewport->handle, &viewport->xpos, &viewport->ypos);
+        glfwGetWindowPos(ghandle, &viewport->xpos, &viewport->ypos);
 
         glfwSwapInterval(viewport->vsync ? 1 : 0); // Enable vsync
 
         // Rendering
         ImGui::Render();
         int display_w, display_h;
-        glfwGetFramebufferSize(viewport->handle, &display_w, &display_h);
+        glfwGetFramebufferSize(ghandle, &display_w, &display_h);
 
         glViewport(0, 0, display_w, display_h);
         glClearColor(viewport->clearColor.r, viewport->clearColor.g, viewport->clearColor.b, viewport->clearColor.a);
         glClear(GL_COLOR_BUFFER_BIT);
         ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 
-        glfwSwapBuffers(viewport->handle);
+        glfwSwapBuffers(ghandle);
     }
 
     mvViewport* mvCreateViewport(unsigned width, unsigned height)
@@ -130,7 +132,7 @@ namespace Marvel {
         imnodes::DestroyContext();
         ImGui::DestroyContext();
 
-        glfwDestroyWindow(GContext->viewport->handle);
+        glfwDestroyWindow(ghandle);
         glfwTerminate();
         GContext->started = false;
     }
@@ -159,9 +161,9 @@ namespace Marvel {
         const char* glsl_version = "#version 130";
         glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
         glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 0);
-        viewport->handle = glfwCreateWindow(viewport->actualWidth, viewport->actualHeight, viewport->title.c_str(), nullptr, nullptr);
-        glfwSetWindowPos(viewport->handle, viewport->xpos, viewport->ypos);
-        glfwSetWindowSizeLimits(viewport->handle, (int)viewport->minwidth, (int)viewport->minheight, (int)viewport->maxwidth, (int)viewport->maxheight);
+        ghandle = glfwCreateWindow(viewport->actualWidth, viewport->actualHeight, viewport->title.c_str(), nullptr, nullptr);
+        glfwSetWindowPos(ghandle, viewport->xpos, viewport->ypos);
+        glfwSetWindowSizeLimits(ghandle, (int)viewport->minwidth, (int)viewport->minheight, (int)viewport->maxwidth, (int)viewport->maxheight);
 
         std::vector<GLFWimage> images;
 
@@ -186,7 +188,7 @@ namespace Marvel {
         }
 
         if (!images.empty())
-            glfwSetWindowIcon(viewport->handle, images.size(), images.data());
+            glfwSetWindowIcon(ghandle, images.size(), images.data());
 
         mvEventBus::Publish(mvEVT_CATEGORY_VIEWPORT, mvEVT_VIEWPORT_RESIZE, {
                 CreateEventArgument("actual_width", (int)viewport->actualWidth),
@@ -195,7 +197,7 @@ namespace Marvel {
                 CreateEventArgument("client_height", (int)viewport->actualHeight)
             });
 
-        glfwMakeContextCurrent(viewport->handle);
+        glfwMakeContextCurrent(ghandle);
 
         gl3wInit();
 
@@ -228,27 +230,27 @@ namespace Marvel {
         SetDefaultTheme();
 
         // Setup Platform/Renderer bindings
-        ImGui_ImplGlfw_InitForOpenGL(viewport->handle, true);
+        ImGui_ImplGlfw_InitForOpenGL(ghandle, true);
         ImGui_ImplOpenGL3_Init(glsl_version);
 
         // Setup callbacks
-        glfwSetWindowSizeCallback(viewport->handle, window_size_callback);
-        glfwSetWindowCloseCallback(viewport->handle, window_close_callback);
+        glfwSetWindowSizeCallback(ghandle, window_size_callback);
+        glfwSetWindowCloseCallback(ghandle, window_close_callback);
     }
     
     void mvMaximizeViewport()
     {
-        glfwMaximizeWindow(GContext->viewport->handle);
+        glfwMaximizeWindow(ghandle);
     }
 
     void mvMinimizeViewport()
     {
-        glfwIconifyWindow(GContext->viewport->handle);
+        glfwIconifyWindow(ghandle);
     }
 
     void mvRestoreViewport()
     {
-        glfwRestoreWindow(GContext->viewport->handle);
+        glfwRestoreWindow(ghandle);
     }
 
     void mvRenderFrame()

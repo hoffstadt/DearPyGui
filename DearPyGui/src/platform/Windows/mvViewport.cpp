@@ -7,6 +7,23 @@
 #include "mvToolManager.h"
 #include "mvItemRegistry.h"
 #include "mvProfiler.h"
+#include <imgui_impl_win32.h>
+#include <imgui_impl_dx11.h>
+#include <d3d11.h>
+#define DIRECTINPUT_VERSION 0x0800
+#include <dinput.h>
+#include <tchar.h>
+
+static HWND                     ghandle = nullptr;
+static WNDCLASSEX               gwc;
+static MSG                      gmsg;
+static DWORD                    gmodes;
+static ID3D11Device*            gdevice = nullptr;
+static ID3D11DeviceContext*     gdeviceContext = nullptr;
+static IDXGISwapChain*          gswapChain = nullptr;
+static ID3D11RenderTargetView*  gtarget = nullptr;
+static BYTE                     gprevious_ime_char;
+static WORD                     glang_id;
 
 // Forward declare message handler from imgui_impl_win32.cpp
 extern IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
