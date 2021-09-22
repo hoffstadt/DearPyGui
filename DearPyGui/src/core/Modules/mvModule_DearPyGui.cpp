@@ -1,6 +1,6 @@
 #include "mvModule_DearPyGui.h"
 #include "mvAppItemCommons.h"
-#include "mvViewport.h"
+#include "mvViewportOps.h"
 #include "mvFontManager.h"
 #include "mvItemRegistry.h"
 #include <ImGuiFileDialog.h>
@@ -24,10 +24,10 @@ namespace Marvel {
 			});
 
 		mvToolManager::FillExtraCommands(methods);
-		mvViewport::FillExtraCommands(methods);
 		mvFontManager::FillExtraCommands(methods);
 		mvCallbackRegistry::FillExtraCommands(methods);
 
+		mvViewportCommands(methods);
 		mvContextCommands(methods);
 		mvItemRegistryCommands(methods);
 
@@ -50,10 +50,10 @@ namespace Marvel {
 				});
 
 			mvToolManager::InsertParser(&parsers);
-			mvViewport::InsertParser(&parsers);
 			mvFontManager::InsertParser(&parsers);
 			mvCallbackRegistry::InsertParser(&parsers);
 
+			InsertParser_mvViewport(&parsers);
 			InsertParser_mvContext(&parsers);
 			InsertParser_mvItemRegistry(&parsers);
 		}

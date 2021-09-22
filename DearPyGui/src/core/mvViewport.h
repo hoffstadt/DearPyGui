@@ -14,103 +14,68 @@
 #include "mvContext.h"
 #include "mvEvents.h"
 #include "cpp.hint"
+#include <imgui.h>
+#include "mvCallbackRegistry.h"
+
+struct GLFWwindow;
 
 namespace Marvel {
 
-	class mvViewport
+	struct mvViewport
 	{
+		bool        running = true;
+		bool        shown = false;
 
-	public:
-
-
-        static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
-
-        MV_CREATE_COMMAND(show_viewport);
-        MV_CREATE_COMMAND(create_viewport);
-        MV_CREATE_COMMAND(configure_viewport);
-        MV_CREATE_COMMAND(get_viewport_configuration);
-        MV_CREATE_COMMAND(is_viewport_ok);
-        
-		// viewport operations
-        MV_CREATE_COMMAND(maximize_viewport);
-        MV_CREATE_COMMAND(minimize_viewport);
-
-		MV_START_COMMANDS
-			MV_ADD_COMMAND(show_viewport)
-			MV_ADD_COMMAND(create_viewport)
-			MV_ADD_COMMAND(configure_viewport)
-			MV_ADD_COMMAND(maximize_viewport)
-			MV_ADD_COMMAND(minimize_viewport)
-			MV_ADD_COMMAND(get_viewport_configuration)
-			MV_ADD_COMMAND(is_viewport_ok)
-		MV_END_COMMANDS
-
-		static mvViewport* CreateViewport(unsigned width, unsigned height);
-
-		mvViewport(unsigned width, unsigned height);
-		virtual ~mvViewport() = default;
-
-		void getConfigDict(PyObject* dict);
-		void setConfigDict(PyObject* dict);
-
-		virtual void invalidateObjects() {}
-
-		virtual void show       (bool minimized, bool maximized) {}
-		virtual void run        () {}
-		virtual void setup      () {}
-		virtual void renderFrame() {}
-
-		virtual void maximize() {}
-		virtual void minimize() {}
-		virtual void restore() {}
+		std::string title = "Dear PyGui";
+		std::string small_icon;
+		std::string large_icon;
+		mvColor     clearColor = mvColor(0, 0, 0, 255);
 		
-		void stop() { _running = false; }
-		bool running() const { return _running; }
-
-		// for use by primary window
-		void setActualWidth(int width) { _actualWidth = width; }
-		void setActualHeight(int height) { _actualHeight = height; }
-		void setClientWidth(int width) { _clientWidth = width; }
-		void setClientHeight(int height) { _clientHeight = height; }
-		int getClientWidth() const { return (int)_clientWidth; }
-		int getClientHeight() const { return (int)_clientHeight; }
-		void onResizeEvent();
-
-	protected:
-
-		bool        _running = true;
-		std::string _title = "DearPyGui";
-		std::string _small_icon;
-		std::string _large_icon;
-		mvColor     _clearColor = mvColor(0, 0, 0, 255);
-		bool        _shown = false;
-
-
 		// window modes
-		bool _titleDirty = false;
-		bool _modesDirty = false;
-		bool _vsync = true;
-		bool _resizable = true;
-		bool _alwaysOnTop = false;
-		bool _decorated = true;
+		bool titleDirty  = false;
+		bool modesDirty  = false;
+		bool vsync       = true;
+		bool resizable   = true;
+		bool alwaysOnTop = false;
+		bool decorated   = true;
 
 		// position/size
-		bool     _sizeDirty = false;
-		bool     _posDirty = false;
-		unsigned _width;
-		unsigned _minwidth = 250;
-		unsigned _maxwidth = 10000;
-		unsigned _height;
-		unsigned _minheight = 250;
-		unsigned _maxheight = 10000;
-		int      _actualWidth = 1280;
-		int      _actualHeight = 800;
-		int      _clientWidth = 1280;
-		int      _clientHeight = 800;
-		int      _xpos = 100;
-		int      _ypos = 100;
-		
+		bool     sizeDirty    = false;
+		bool     posDirty     = false;
+		unsigned width        = 0;
+		unsigned height       = 0;
+		unsigned minwidth     = 250;
+		unsigned minheight    = 250;
+		unsigned maxwidth     = 10000;
+		unsigned maxheight    = 10000;
+		int      actualWidth  = 1280;
+		int      actualHeight = 800;
+		int      clientWidth  = 1280;
+		int      clientHeight = 800;
+		int      xpos         = 100;
+		int      ypos         = 100;
 
 	};
+
+	mvViewport* mvCreateViewport(unsigned width, unsigned height);
+	void        mvCleanupViewport();
+	void        mvShowViewport(bool minimized, bool maximized);
+	void        mvMaximizeViewport();
+	void        mvMinimizeViewport();
+	void        mvRestoreViewport();
+	void        mvRenderFrame();
+
+	static void mvOnResize()
+	{
+		GContext->callbackRegistry->submitCallback([=]() {
+			PyObject* dimensions = PyTuple_New(4);
+			PyTuple_SetItem(dimensions, 0, PyLong_FromLong(GContext->viewport->actualWidth));
+			PyTuple_SetItem(dimensions, 1, PyLong_FromLong(GContext->viewport->actualHeight));
+			PyTuple_SetItem(dimensions, 2, PyLong_FromLong(GContext->viewport->clientWidth));
+			PyTuple_SetItem(dimensions, 3, PyLong_FromLong(GContext->viewport->clientHeight));
+			GContext->callbackRegistry->addCallback(
+				GContext->callbackRegistry->getResizeCallback(), MV_APP_UUID, dimensions, nullptr);
+			});
+	}
 
 }

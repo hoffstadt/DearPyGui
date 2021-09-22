@@ -12,19 +12,19 @@ set(MARVEL_SOURCES
 	"src/core/PythonUtilities/mvGlobalIntepreterLock.cpp"
 	"src/core/PythonUtilities/mvPythonTypeChecker.cpp"
 
-	"$<$<PLATFORM_ID:Windows>:src/platform/Windows/mvWindowsViewport.cpp>"
+	"$<$<PLATFORM_ID:Windows>:src/platform/Windows/mvViewport.cpp>"
 	"$<$<PLATFORM_ID:Windows>:src/platform/Windows/mvUtilities.cpp>"
 
-	"$<$<PLATFORM_ID:Darwin>:src/platform/Apple/mvAppleViewport.mm>"
+	"$<$<PLATFORM_ID:Darwin>:src/platform/Apple/mvViewport.mm>"
 	"$<$<PLATFORM_ID:Darwin>:src/platform/Apple/mvUtilities.mm>"
 
 	"$<$<PLATFORM_ID:Linux>:src/platform/Linux/mvUtilities.cpp>"
-	"$<$<PLATFORM_ID:Linux>:src/platform/Linux/mvLinuxViewport.cpp>"
+	"$<$<PLATFORM_ID:Linux>:src/platform/Linux/mvViewport.cpp>"
 
 	"src/core/mvBuffer.cpp"
 	"src/core/mvEvents.cpp"
 	"src/core/mvContext.cpp"
-	"src/core/mvViewport.cpp"
+	"src/core/mvViewportOps.cpp"
 	"src/core/mvProfiler.cpp"
 	"src/core/mvCallbackRegistry.cpp"
 

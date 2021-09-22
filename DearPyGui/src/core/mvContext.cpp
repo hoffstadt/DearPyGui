@@ -1121,7 +1121,7 @@ namespace Marvel {
 
 		Py_BEGIN_ALLOW_THREADS;
 		auto window = GContext->viewport;
-		window->renderFrame();
+		mvRenderFrame();
 		Py_END_ALLOW_THREADS;
 
 		return GetPyNone();
@@ -1153,7 +1153,7 @@ namespace Marvel {
 		GContext->started = false;
 		auto viewport = GContext->viewport;
 		if (viewport)
-			viewport->stop();
+			viewport->running = false;
 		return GetPyNone();
 	}
 
