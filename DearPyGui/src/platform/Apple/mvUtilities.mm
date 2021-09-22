@@ -1,5 +1,5 @@
 #include "mvUtilities.h"
-#include "mvAppleViewport.h"
+#include "mvViewport.h"
 
 #define STB_IMAGE_IMPLEMENTATION
 #include <stb_image.h>
@@ -13,6 +13,7 @@
 // this is necessary to keep objective-c's reference counts
 // from reaching 0.
 static std::vector<std::pair<id<MTLTexture>, id<MTLTexture>>> g_textures;
+extern id <MTLDevice> gdevice;
 
 namespace Marvel {
     
@@ -24,7 +25,7 @@ namespace Marvel {
         textureDescriptor.usage = MTLTextureUsageShaderRead;
         textureDescriptor.storageMode = MTLStorageModeManaged;
 
-        id <MTLTexture> texture = [mvAppleViewport::GetDevice() newTextureWithDescriptor:textureDescriptor];
+        id <MTLTexture> texture = [gdevice newTextureWithDescriptor:textureDescriptor];
         [texture replaceRegion:MTLRegionMake2D(0, 0, width, height) mipmapLevel:0 withBytes:data bytesPerRow:width * 4 * 4];
 
         g_textures.push_back({texture, texture});
@@ -40,7 +41,7 @@ namespace Marvel {
         textureDescriptor.usage = MTLTextureUsageShaderRead;
         textureDescriptor.storageMode = MTLStorageModeManaged;
 
-        id <MTLTexture> texture = [mvAppleViewport::GetDevice() newTextureWithDescriptor:textureDescriptor];
+        id <MTLTexture> texture = [gdevice newTextureWithDescriptor:textureDescriptor];
         [texture replaceRegion:MTLRegionMake2D(0, 0, width, height) mipmapLevel:0 withBytes:data bytesPerRow:width * 4 * 4];
 
         g_textures.push_back({texture, texture});
@@ -55,7 +56,7 @@ namespace Marvel {
         textureDescriptor.usage = MTLTextureUsageShaderRead;
         textureDescriptor.storageMode = MTLStorageModeManaged;
 
-        id <MTLTexture> texture = [mvAppleViewport::GetDevice() newTextureWithDescriptor:textureDescriptor];
+        id <MTLTexture> texture = [gdevice newTextureWithDescriptor:textureDescriptor];
         [texture replaceRegion:MTLRegionMake2D(0, 0, width, height) mipmapLevel:0 withBytes:data bytesPerRow:width * 4 * 4];
 
         g_textures.push_back({texture, texture});
@@ -77,7 +78,7 @@ namespace Marvel {
         textureDescriptor.usage = MTLTextureUsageShaderRead;
         textureDescriptor.storageMode = MTLStorageModeManaged;
 
-        id <MTLTexture> texture = [mvAppleViewport::GetDevice() newTextureWithDescriptor:textureDescriptor];
+        id <MTLTexture> texture = [gdevice newTextureWithDescriptor:textureDescriptor];
         [texture replaceRegion:MTLRegionMake2D(0, 0, width, height) mipmapLevel:0 withBytes:image_data bytesPerRow:width * 4];
 
         g_textures.push_back({texture, texture});
