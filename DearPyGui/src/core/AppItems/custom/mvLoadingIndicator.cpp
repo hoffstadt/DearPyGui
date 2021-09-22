@@ -17,6 +17,8 @@ namespace Marvel {
             MV_PARSER_ARG_INDENT |
             MV_PARSER_ARG_PARENT |
             MV_PARSER_ARG_BEFORE |
+            MV_PARSER_ARG_DROP_CALLBACK |
+            MV_PARSER_ARG_PAYLOAD_TYPE |
             MV_PARSER_ARG_SHOW |
             MV_PARSER_ARG_POS)
         );
