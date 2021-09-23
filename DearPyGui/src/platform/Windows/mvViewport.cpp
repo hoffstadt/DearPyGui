@@ -14,12 +14,12 @@
 #include <dinput.h>
 #include <tchar.h>
 
+ID3D11Device*                   gdevice = nullptr;
+ID3D11DeviceContext*            gdeviceContext = nullptr;
 static HWND                     ghandle = nullptr;
 static WNDCLASSEX               gwc;
 static MSG                      gmsg;
 static DWORD                    gmodes;
-static ID3D11Device*            gdevice = nullptr;
-static ID3D11DeviceContext*     gdeviceContext = nullptr;
 static IDXGISwapChain*          gswapChain = nullptr;
 static ID3D11RenderTargetView*  gtarget = nullptr;
 static BYTE                     gprevious_ime_char;
@@ -63,10 +63,10 @@ namespace Marvel {
 
 	static void mvHandleModes()
 	{
-		GContext->viewport->modes = WS_OVERLAPPED;
+		gmodes = WS_OVERLAPPED;
 
-		if (GContext->viewport->resizable && GContext->viewport->decorated) GContext->viewport->modes |= WS_THICKFRAME;
-		if (GContext->viewport->decorated) GContext->viewport->modes |= WS_CAPTION | WS_SYSMENU | WS_MINIMIZEBOX | WS_MAXIMIZEBOX;
+		if (GContext->viewport->resizable && GContext->viewport->decorated) gmodes |= WS_THICKFRAME;
+		if (GContext->viewport->decorated) gmodes |= WS_CAPTION | WS_SYSMENU | WS_MINIMIZEBOX | WS_MAXIMIZEBOX;
 
 	}
 
@@ -83,7 +83,7 @@ namespace Marvel {
 		sd.BufferDesc.RefreshRate.Denominator = 1;
 		sd.Flags = DXGI_SWAP_CHAIN_FLAG_ALLOW_MODE_SWITCH;
 		sd.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT;
-		sd.OutputWindow = GContext->viewport->handle;
+		sd.OutputWindow = ghandle;
 		sd.SampleDesc.Count = 1;
 		sd.SampleDesc.Quality = 0;
 		sd.Windowed = TRUE;
@@ -115,30 +115,30 @@ namespace Marvel {
 			}
 
 			if (D3D11CreateDeviceAndSwapChain(adapters[index], D3D_DRIVER_TYPE_UNKNOWN, nullptr,
-				createDeviceFlags, featureLevelArray, 2, D3D11_SDK_VERSION, &sd, &GContext->viewport->swapChain,
-				&GContext->viewport->device, &featureLevel, &GContext->viewport->deviceContext) != S_OK)
+				createDeviceFlags, featureLevelArray, 2, D3D11_SDK_VERSION, &sd, &gswapChain,
+				&gdevice, &featureLevel, &gdeviceContext) != S_OK)
 				return false;
 		}
 		else if (GContext->IO.info_device == -1)
 		{
 			if (D3D11CreateDeviceAndSwapChain(nullptr, D3D_DRIVER_TYPE_HARDWARE, nullptr,
-				createDeviceFlags, featureLevelArray, 2, D3D11_SDK_VERSION, &sd, &GContext->viewport->swapChain,
-				&GContext->viewport->device, &featureLevel, &GContext->viewport->deviceContext) != S_OK)
+				createDeviceFlags, featureLevelArray, 2, D3D11_SDK_VERSION, &sd, &gswapChain,
+				&gdevice, &featureLevel, &gdeviceContext) != S_OK)
 				return false;
 		}
 		else
 		{
 
 			if (D3D11CreateDeviceAndSwapChain(adapters[GContext->IO.info_device], D3D_DRIVER_TYPE_UNKNOWN, nullptr,
-				createDeviceFlags, featureLevelArray, 2, D3D11_SDK_VERSION, &sd, &GContext->viewport->swapChain,
-				&GContext->viewport->device, &featureLevel, &GContext->viewport->deviceContext) != S_OK)
+				createDeviceFlags, featureLevelArray, 2, D3D11_SDK_VERSION, &sd, &gswapChain,
+				&gdevice, &featureLevel, &gdeviceContext) != S_OK)
 				return false;
 		}
 
 		// create render target
 		ID3D11Texture2D* pBackBuffer;
-		GContext->viewport->swapChain->GetBuffer(0, IID_PPV_ARGS(&pBackBuffer));
-		GContext->viewport->device->CreateRenderTargetView(pBackBuffer, nullptr, &GContext->viewport->target);
+		gswapChain->GetBuffer(0, IID_PPV_ARGS(&pBackBuffer));
+		gdevice->CreateRenderTargetView(pBackBuffer, nullptr, &gtarget);
 		pBackBuffer->Release();
 
 		//UINT support1;
@@ -153,28 +153,28 @@ namespace Marvel {
 
 	static void mvCleanupDeviceD3D()
 	{
-		if (GContext->viewport->target)
+		if (gtarget)
 		{
-			GContext->viewport->target->Release();
-			GContext->viewport->target = nullptr;
+			gtarget->Release();
+			gtarget = nullptr;
 		}
 
-		if (GContext->viewport->swapChain)
+		if (gswapChain)
 		{
-			GContext->viewport->swapChain->Release();
-			GContext->viewport->swapChain = nullptr;
+			gswapChain->Release();
+			gswapChain = nullptr;
 		}
 
-		if (GContext->viewport->deviceContext)
+		if (gdeviceContext)
 		{
-			GContext->viewport->deviceContext->Release();
-			GContext->viewport->deviceContext = nullptr;
+			gdeviceContext->Release();
+			gdeviceContext = nullptr;
 		}
 
-		if (GContext->viewport->device)
+		if (gdevice)
 		{
-			GContext->viewport->device->Release();
-			GContext->viewport->device = nullptr;
+			gdevice->Release();
+			gdevice = nullptr;
 		}
 	}
 
@@ -184,36 +184,36 @@ namespace Marvel {
 
 			mvViewport* viewport = GContext->viewport;
 
-		if (viewport->msg.message == WM_QUIT)
+		if (gmsg.message == WM_QUIT)
 			viewport->running = false;
 
 		if (viewport->posDirty)
 		{
-			SetWindowPos(viewport->handle, viewport->alwaysOnTop ? HWND_TOPMOST : HWND_TOP, viewport->xpos, viewport->ypos, 0, 0, SWP_SHOWWINDOW | SWP_NOSIZE);
+			SetWindowPos(ghandle, viewport->alwaysOnTop ? HWND_TOPMOST : HWND_TOP, viewport->xpos, viewport->ypos, 0, 0, SWP_SHOWWINDOW | SWP_NOSIZE);
 			viewport->posDirty = false;
 		}
 
 		if (viewport->sizeDirty)
 		{
-			SetWindowPos(viewport->handle, viewport->alwaysOnTop ? HWND_TOPMOST : HWND_TOP, 0, 0, viewport->actualWidth, viewport->actualHeight, SWP_SHOWWINDOW | SWP_NOMOVE);
+			SetWindowPos(ghandle, viewport->alwaysOnTop ? HWND_TOPMOST : HWND_TOP, 0, 0, viewport->actualWidth, viewport->actualHeight, SWP_SHOWWINDOW | SWP_NOMOVE);
 			viewport->sizeDirty = false;
 		}
 
 		if (viewport->modesDirty)
 		{
-			viewport->modes = WS_OVERLAPPED;
+			gmodes = WS_OVERLAPPED;
 
-			if (viewport->resizable && viewport->decorated) viewport->modes |= WS_THICKFRAME;
-			if (viewport->decorated) viewport->modes |= WS_CAPTION | WS_SYSMENU | WS_MINIMIZEBOX | WS_MAXIMIZEBOX;
+			if (viewport->resizable && viewport->decorated) gmodes |= WS_THICKFRAME;
+			if (viewport->decorated) gmodes |= WS_CAPTION | WS_SYSMENU | WS_MINIMIZEBOX | WS_MAXIMIZEBOX;
 
-			SetWindowLongPtr(viewport->handle, GWL_STYLE, viewport->modes);
-			SetWindowPos(viewport->handle, viewport->alwaysOnTop ? HWND_TOPMOST : HWND_TOP, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_SHOWWINDOW);
+			SetWindowLongPtr(ghandle, GWL_STYLE, gmodes);
+			SetWindowPos(ghandle, viewport->alwaysOnTop ? HWND_TOPMOST : HWND_TOP, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_SHOWWINDOW);
 			viewport->modesDirty = false;
 		}
 
 		if (viewport->titleDirty)
 		{
-			SetWindowTextA(viewport->handle, viewport->title.c_str());
+			SetWindowTextA(ghandle, viewport->title.c_str());
 			viewport->titleDirty = false;
 		}
 
@@ -222,10 +222,10 @@ namespace Marvel {
 		// - When io.WantCaptureMouse is true, do not dispatch mouse input data to your main application.
 		// - When io.WantCaptureKeyboard is true, do not dispatch keyboard input data to your main application.
 		// Generally you may always pass all inputs to dear imgui, and hide them from your application based on those two flags.
-		if (::PeekMessage(&viewport->msg, nullptr, 0U, 0U, PM_REMOVE))
+		if (::PeekMessage(&gmsg, nullptr, 0U, 0U, PM_REMOVE))
 		{
-			::TranslateMessage(&viewport->msg);
-			::DispatchMessage(&viewport->msg);
+			::TranslateMessage(&gmsg);
+			::DispatchMessage(&gmsg);
 			//continue;
 		}
 
@@ -252,12 +252,12 @@ namespace Marvel {
 
 		// Rendering
 		ImGui::Render();
-		viewport->deviceContext->OMSetRenderTargets(1, &viewport->target, nullptr);
-		viewport->deviceContext->ClearRenderTargetView(viewport->target, viewport->clearColor);
+		gdeviceContext->OMSetRenderTargets(1, &gtarget, nullptr);
+		gdeviceContext->ClearRenderTargetView(gtarget, viewport->clearColor);
 		ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
 
 		static UINT presentFlags = 0;
-		if (viewport->swapChain->Present(viewport->vsync ? 1 : 0, presentFlags) == DXGI_STATUS_OCCLUDED)
+		if (gswapChain->Present(viewport->vsync ? 1 : 0, presentFlags) == DXGI_STATUS_OCCLUDED)
 		{
 			presentFlags = DXGI_PRESENT_TEST;
 			Sleep(20);
@@ -291,7 +291,7 @@ namespace Marvel {
 			break;
 
 		case WM_SIZE:
-			if (viewport->device != nullptr && wParam != SIZE_MINIMIZED)
+			if (gdevice != nullptr && wParam != SIZE_MINIMIZED)
 			{
 				RECT rect;
 				RECT crect;
@@ -322,21 +322,21 @@ namespace Marvel {
 				viewport->width = (UINT)LOWORD(lParam);
 				viewport->height = (UINT)HIWORD(lParam);
 
-				if (viewport->target)
+				if (gtarget)
 				{
-					viewport->target->Release();
-					viewport->target = nullptr;
+					gtarget->Release();
+					gtarget = nullptr;
 				}
 
 				if (viewport->decorated)
-					viewport->swapChain->ResizeBuffers(0, (UINT)LOWORD(lParam), (UINT)HIWORD(lParam), DXGI_FORMAT_UNKNOWN, 0);
+					gswapChain->ResizeBuffers(0, (UINT)LOWORD(lParam), (UINT)HIWORD(lParam), DXGI_FORMAT_UNKNOWN, 0);
 				else
-					viewport->swapChain->ResizeBuffers(0, (UINT)awidth, (UINT)aheight, DXGI_FORMAT_UNKNOWN, 0);
+					gswapChain->ResizeBuffers(0, (UINT)awidth, (UINT)aheight, DXGI_FORMAT_UNKNOWN, 0);
 
 				// recreate render target
 				ID3D11Texture2D* pBackBuffer;
-				viewport->swapChain->GetBuffer(0, IID_PPV_ARGS(&pBackBuffer));
-				viewport->device->CreateRenderTargetView(pBackBuffer, nullptr, &viewport->target);
+				gswapChain->GetBuffer(0, IID_PPV_ARGS(&pBackBuffer));
+				gdevice->CreateRenderTargetView(pBackBuffer, nullptr, &gtarget);
 				pBackBuffer->Release();
 			}
 			return 0;
@@ -349,10 +349,10 @@ namespace Marvel {
 			::PostQuitMessage(0);
 			return 0;
 		case WM_INPUTLANGCHANGE:
-			viewport->lang_id = LOWORD(lParam);
+			glang_id = LOWORD(lParam);
 			break;
 		case WM_IME_CHAR:
-			if (viewport->lang_id == 0x0412)
+			if (glang_id == 0x0412)
 				break;
 			auto& io = ImGui::GetIO();
 			DWORD wChar = (DWORD)wParam;
@@ -364,14 +364,14 @@ namespace Marvel {
 			else if (wChar < 0xFF) {
 				//GBK also supports Traditional Chinese, Japanese, English, Russian and (partially) Greek.
 				//When input Japanese with MS Japanese IME under CP936, dual bytes of one Japanese char are send within one or two wParam in succession.
-				if (viewport->previous_ime_char == 0) {
-					viewport->previous_ime_char = (BYTE)(wChar & 0x00FF);
+				if (gprevious_ime_char == 0) {
+					gprevious_ime_char = (BYTE)(wChar & 0x00FF);
 					return 0;
 				}
 				else {
 					BYTE b2 = (BYTE)(wChar & 0x00FF);
-					wChar = MAKEWORD(viewport->previous_ime_char, b2);
-					viewport->previous_ime_char = 0;
+					wChar = MAKEWORD(gprevious_ime_char, b2);
+					gprevious_ime_char = 0;
 				}
 			}
 			else
@@ -379,13 +379,13 @@ namespace Marvel {
 				// swap lower and upper part.
 				BYTE low = (BYTE)(wChar & 0x00FF);
 				BYTE high = (BYTE)((wChar & 0xFF00) >> 8);
-				if (viewport->previous_ime_char == 0)
+				if (gprevious_ime_char == 0)
 					wChar = MAKEWORD(high, low);
 				else
 				{
 					//wChar = MAKEWORD(previous_ime_char, high, low);
-					wChar = MAKEWORD(viewport->previous_ime_char, high);
-					viewport->previous_ime_char = low;
+					wChar = MAKEWORD(gprevious_ime_char, high);
+					gprevious_ime_char = low;
 				}
 			}
 			wchar_t ch[6];
@@ -407,7 +407,7 @@ namespace Marvel {
 	void mvShowViewport(bool minimized, bool maximized)
 	{
 		mvViewport* viewport = GContext->viewport;
-		viewport->wc = {
+		gwc = {
 			sizeof(WNDCLASSEX),
 			CS_CLASSDC,
 			mvHandleMsg,
@@ -416,20 +416,20 @@ namespace Marvel {
 			GetModuleHandle(nullptr), nullptr, nullptr, nullptr, nullptr,
 			_T(viewport->title.c_str()), nullptr
 		};
-		RegisterClassEx(&viewport->wc);
+		RegisterClassEx(&gwc);
 
 		mvHandleModes();
-		viewport->handle = CreateWindow(viewport->wc.lpszClassName, _T(viewport->title.c_str()),
-			viewport->modes,
-			viewport->xpos, viewport->ypos, viewport->actualWidth, viewport->actualHeight, nullptr, nullptr, viewport->wc.hInstance, nullptr);
+		ghandle = CreateWindow(gwc.lpszClassName, _T(viewport->title.c_str()),
+			gmodes,
+			viewport->xpos, viewport->ypos, viewport->actualWidth, viewport->actualHeight, nullptr, nullptr, gwc.hInstance, nullptr);
 
 		if (!viewport->small_icon.empty())
 		{
 			HANDLE hIcon = LoadImage(0, _T(viewport->small_icon.c_str()), IMAGE_ICON, 0, 0, LR_DEFAULTSIZE | LR_LOADFROMFILE);
 			if (hIcon)
 			{
-				SendMessage(viewport->handle, WM_SETICON, ICON_SMALL, (LPARAM)hIcon);
-				SendMessage(GetWindow(viewport->handle, GW_OWNER), WM_SETICON, ICON_SMALL, (LPARAM)hIcon);
+				SendMessage(ghandle, WM_SETICON, ICON_SMALL, (LPARAM)hIcon);
+				SendMessage(GetWindow(ghandle, GW_OWNER), WM_SETICON, ICON_SMALL, (LPARAM)hIcon);
 			}
 		}
 
@@ -438,8 +438,8 @@ namespace Marvel {
 			HANDLE hIcon = LoadImage(0, _T(viewport->large_icon.c_str()), IMAGE_ICON, 0, 0, LR_DEFAULTSIZE | LR_LOADFROMFILE);
 			if (hIcon)
 			{
-				SendMessage(viewport->handle, WM_SETICON, ICON_BIG, (LPARAM)hIcon);
-				SendMessage(GetWindow(viewport->handle, GW_OWNER), WM_SETICON, ICON_BIG, (LPARAM)hIcon);
+				SendMessage(ghandle, WM_SETICON, ICON_BIG, (LPARAM)hIcon);
+				SendMessage(GetWindow(ghandle, GW_OWNER), WM_SETICON, ICON_BIG, (LPARAM)hIcon);
 			}
 		}
 
@@ -447,11 +447,11 @@ namespace Marvel {
 		if (!mvCreateDeviceD3D())
 		{
 			mvCleanupDeviceD3D();
-			::UnregisterClass(viewport->wc.lpszClassName, viewport->wc.hInstance);
+			::UnregisterClass(gwc.lpszClassName, gwc.hInstance);
 		}
-		viewport->previous_ime_char = 0;
+		gprevious_ime_char = 0;
 		HKL hkl = GetKeyboardLayout(0);
-		viewport->lang_id = LOWORD(hkl);
+		glang_id = LOWORD(hkl);
 
 		// Show the window
 
@@ -464,11 +464,11 @@ namespace Marvel {
 		else
 			cmdShow = SW_SHOWDEFAULT;
 
-		::ShowWindow(viewport->handle, cmdShow);
-		::UpdateWindow(viewport->handle);
+		::ShowWindow(ghandle, cmdShow);
+		::UpdateWindow(ghandle);
 
 		if (viewport->alwaysOnTop)
-			SetWindowPos(viewport->handle, HWND_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
+			SetWindowPos(ghandle, HWND_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
 
 		// Setup Dear ImGui context
 		IMGUI_CHECKVERSION();
@@ -499,18 +499,18 @@ namespace Marvel {
 		SetDefaultTheme();
 
 		// Setup Platform/Renderer bindings
-		ImGui_ImplWin32_Init(viewport->handle);
-		ImGui_ImplDX11_Init(viewport->device, viewport->deviceContext);
+		ImGui_ImplWin32_Init(ghandle);
+		ImGui_ImplDX11_Init(gdevice, gdeviceContext);
 	}
 
 	void mvMaximizeViewport()
 	{
-		ShowWindow(GContext->viewport->handle, SW_MAXIMIZE);
+		ShowWindow(ghandle, SW_MAXIMIZE);
 	}
 
 	void mvMinimizeViewport()
 	{
-		ShowWindow(GContext->viewport->handle, SW_MINIMIZE);
+		ShowWindow(ghandle, SW_MINIMIZE);
 	}
 
 	void mvCleanupViewport()
@@ -523,8 +523,8 @@ namespace Marvel {
 		ImGui::DestroyContext();
 
 		mvCleanupDeviceD3D();
-		::DestroyWindow(GContext->viewport->handle);
-		::UnregisterClass(GContext->viewport->wc.lpszClassName, GContext->viewport->wc.hInstance);
+		::DestroyWindow(ghandle);
+		::UnregisterClass(gwc.lpszClassName, gwc.hInstance);
 	}
 
 	void mvRenderFrame()
