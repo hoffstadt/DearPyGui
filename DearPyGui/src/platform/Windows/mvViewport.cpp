@@ -534,4 +534,40 @@ namespace Marvel {
 		mvPostrender();
 	}
 
+    void mvToggleFullScreen()
+    {
+
+        static size_t storedWidth = 0;
+        static size_t storedHeight = 0;
+        static int    storedXPos = 0;
+        static int    storedYPos = 0;
+        
+        size_t width = GetSystemMetrics(SM_CXSCREEN);
+        size_t height = GetSystemMetrics(SM_CYSCREEN);
+
+        if(GContext->viewport->fullScreen)
+        {
+			RECT rect;
+			rect.left = storedXPos;
+			rect.top = storedYPos;
+			rect.right = storedXPos + storedWidth;
+			rect.bottom = storedYPos + storedHeight;
+            SetWindowLongPtr(ghandle, GWL_STYLE, WS_OVERLAPPEDWINDOW | WS_VISIBLE);
+			AdjustWindowRect(&rect, WS_OVERLAPPEDWINDOW, FALSE);
+			MoveWindow(ghandle, storedXPos, storedYPos, storedWidth, storedHeight, TRUE);
+            GContext->viewport->fullScreen = false;
+        }
+        else
+        {
+            storedWidth = GContext->viewport->actualWidth;
+            storedHeight = GContext->viewport->actualHeight;
+            storedXPos = GContext->viewport->xpos;
+            storedYPos = GContext->viewport->ypos;
+            
+            SetWindowLongPtr(ghandle, GWL_STYLE, WS_SYSMENU | WS_POPUP | WS_CLIPCHILDREN | WS_CLIPSIBLINGS | WS_VISIBLE);
+			MoveWindow(ghandle, 0, 0, width, height, TRUE);
+            GContext->viewport->fullScreen = true;
+        }
+    }
+
 }

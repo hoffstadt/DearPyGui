@@ -1094,6 +1094,10 @@ def stop_dearpygui() -> None:
 	"""Stops Dear PyGui"""
 	...
 
+def toggle_viewport_fullscreen() -> None:
+	"""Toggle viewport fullscreen mode.."""
+	...
+
 def top_container_stack() -> Union[int, str]:
 	"""Returns the item on the top of the container stack."""
 	...
