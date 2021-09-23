@@ -265,4 +265,9 @@ namespace Marvel {
         mvPostrender();
     }
 
+    void mvToggleFullScreen()
+    {
+
+    }
+
 }

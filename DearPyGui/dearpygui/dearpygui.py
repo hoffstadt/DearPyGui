@@ -7508,6 +7508,16 @@ def stop_dearpygui() -> None:
 
 	return internal_dpg.stop_dearpygui()
 
+def toggle_viewport_fullscreen() -> None:
+	"""	Toggle viewport fullscreen mode..
+
+	Args:
+	Returns:
+		None
+	"""
+
+	return internal_dpg.toggle_viewport_fullscreen()
+
 def top_container_stack() -> Union[int, str]:
 	"""	Returns the item on the top of the container stack.
 

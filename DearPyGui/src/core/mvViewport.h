@@ -38,6 +38,7 @@ namespace Marvel {
 		bool resizable   = true;
 		bool alwaysOnTop = false;
 		bool decorated   = true;
+        bool fullScreen  = false;
 
 		// position/size
 		bool     sizeDirty    = false;
@@ -64,6 +65,7 @@ namespace Marvel {
 	void        mvMinimizeViewport();
 	void        mvRestoreViewport();
 	void        mvRenderFrame();
+    void        mvToggleFullScreen();
 
 	static void mvOnResize()
 	{
