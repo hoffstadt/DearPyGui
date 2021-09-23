@@ -31,3 +31,6 @@ DearPyGui/dearpygui/_dearpygui.pyi linguist-generated
 # vendored code
 DearPyGui/vendor/* linguist-vendored
 Dependencies/* linguist-vendored
+
+# documentation
+docs/* linguist-documentation
