@@ -85,8 +85,8 @@ namespace Marvel {
         bool          _dirty = true;
         ComponentType _componentType = ComponentType::MV_FLOAT_COMPONENT;
         int           _components = 4;
-        int           _permWidth = 0.0f;
-        int           _permHeight = 0.0f;
+        int           _permWidth = 0;
+        int           _permHeight = 0;
 
     };
 

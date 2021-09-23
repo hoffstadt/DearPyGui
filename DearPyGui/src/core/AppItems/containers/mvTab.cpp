@@ -297,7 +297,7 @@ namespace Marvel {
 
         if (PyObject* item = PyDict_GetItemString(dict, "order_mode"))
         {
-            long order_mode = ToUUID(item);
+            long order_mode = (long)ToUUID(item);
 
             if (order_mode == (long)mvTab::TabOrdering::mvTabOrder_Fixed)
                 _flags = ImGuiTabItemFlags_NoReorder;

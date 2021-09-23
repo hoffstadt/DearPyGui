@@ -71,8 +71,8 @@ namespace Marvel {
         mvRef<std::vector<float>> _value = CreateRef<std::vector<float>>(std::vector<float>{0.0f});
         void*                     _texture = nullptr;
         bool                      _dirty = true;
-        int                       _permWidth = 0.0f;
-        int                       _permHeight = 0.0f;
+        int                       _permWidth = 0;
+        int                       _permHeight = 0;
 
     };
 

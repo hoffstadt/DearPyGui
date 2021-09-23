@@ -153,7 +153,7 @@ namespace Marvel {
         if (_created)
             return;
 
-        _colorMap = ImPlot::AddColormap(_internalLabel.c_str(), _colors.data(), _colors.size(), _qualitative);
+        _colorMap = ImPlot::AddColormap(_internalLabel.c_str(), _colors.data(), (int)_colors.size(), _qualitative);
         _created = true;
 
         _triggerAlternativeAction = false;
@@ -200,25 +200,25 @@ namespace Marvel {
         if (aitem->getType() == mvAppItemType::mvPlot)
         {
             mvPlot* graph = static_cast<mvPlot*>(aitem);
-            graph->SetColorMap(source);
+            graph->SetColorMap((ImPlotColormap)source);
         }
 
         else if (aitem->getType() == mvAppItemType::mvColorMapScale)
         {
             mvColorMapScale* graph = static_cast<mvColorMapScale*>(aitem);
-            graph->setColorMap(source);
+            graph->setColorMap((ImPlotColormap)source);
         }
 
         else if (aitem->getType() == mvAppItemType::mvColorMapButton)
         {
             mvColorMapButton* graph = static_cast<mvColorMapButton*>(aitem);
-            graph->setColorMap(source);
+            graph->setColorMap((ImPlotColormap)source);
         }
 
         else if (aitem->getType() == mvAppItemType::mvColorMapSlider)
         {
             mvColorMapSlider* graph = static_cast<mvColorMapSlider*>(aitem);
-            graph->setColorMap(source);
+            graph->setColorMap((ImPlotColormap)source);
         }
 
         else
@@ -268,7 +268,7 @@ namespace Marvel {
             return GetPyNone();
         }
         
-        ImVec4 result = ImPlot::SampleColormap(t, item);
+        ImVec4 result = ImPlot::SampleColormap(t, (ImPlotColormap)item);
         mvColor resultColor = mvColor(result.x, result.y, result.z, result.w);
         return ToPyColor(resultColor);
     }
@@ -309,7 +309,7 @@ namespace Marvel {
         }
 
 
-        ImVec4 result = ImPlot::GetColormapColor(index, item);
+        ImVec4 result = ImPlot::GetColormapColor(index, (ImPlotColormap)item);
         mvColor resultColor = mvColor(result.x, result.y, result.z, result.w);
         return ToPyColor(resultColor);
     }

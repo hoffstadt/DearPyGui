@@ -193,7 +193,7 @@ namespace Marvel {
         if (PyObject* item = PyDict_GetItemString(dict, "max_scale")) _scale_max = (double)ToFloat(item);
         if (PyObject* item = PyDict_GetItemString(dict, "colormap"))
         {
-            _colormap= GetIDFromPyObject(item);
+            _colormap= (ImPlotColormap)GetIDFromPyObject(item);
             if (_colormap > 10)
             {
                 auto asource = GetItem(*GContext->itemRegistry, _colormap);
@@ -218,8 +218,8 @@ namespace Marvel {
         if (dict == nullptr)
             return;
 
-        PyDict_SetItemString(dict, "min_scale", mvPyObject(ToPyFloat(_scale_min)));
-        PyDict_SetItemString(dict, "max_scale", mvPyObject(ToPyFloat(_scale_max)));
+        PyDict_SetItemString(dict, "min_scale", mvPyObject(ToPyFloat((float)_scale_min)));
+        PyDict_SetItemString(dict, "max_scale", mvPyObject(ToPyFloat((float)_scale_max)));
 
     }
 

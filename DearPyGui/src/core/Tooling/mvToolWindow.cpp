@@ -38,8 +38,8 @@ namespace Marvel {
             ImVec2 mousePos = ImGui::GetMousePos();
             float x = mousePos.x - ImGui::GetWindowPos().x;
             float y = mousePos.y - ImGui::GetWindowPos().y - titleBarHeight;
-            GContext->input.mousePos.x = x;
-            GContext->input.mousePos.y = y;
+            GContext->input.mousePos.x = (int)x;
+            GContext->input.mousePos.y = (int)y;
 
             if (GContext->itemRegistry->activeWindow != getUUID())
             {

@@ -51,7 +51,7 @@ namespace Marvel {
         bool valid = state.lastFrameUpdate == GContext->frame;
 
         PyDict_SetItemString(dict, "ok", mvPyObject(ToPyBool(state.ok)));
-        PyDict_SetItemString(dict, "pos", mvPyObject(ToPyPairII(state.pos.x, state.pos.y)));
+        PyDict_SetItemString(dict, "pos", mvPyObject(ToPyPairII((int)state.pos.x, (int)state.pos.y)));
 
         if(applicableState & MV_STATE_HOVER) PyDict_SetItemString(dict, "hovered", mvPyObject(ToPyBool(valid ? state.hovered : false)));
         if(applicableState & MV_STATE_ACTIVE) PyDict_SetItemString(dict, "active", mvPyObject(ToPyBool(valid ? state.active : false)));
@@ -69,10 +69,10 @@ namespace Marvel {
         if(applicableState & MV_STATE_DEACTIVATED) PyDict_SetItemString(dict, "deactivated", mvPyObject(ToPyBool(valid ? state.deactivated : false)));
         if(applicableState & MV_STATE_DEACTIVATEDAE) PyDict_SetItemString(dict, "deactivated_after_edit", mvPyObject(ToPyBool(valid ? state.deactivatedAfterEdit : false)));
         if(applicableState & MV_STATE_TOGGLED_OPEN) PyDict_SetItemString(dict, "toggled_open", mvPyObject(ToPyBool(valid ? state.toggledOpen : false)));
-        if(applicableState & MV_STATE_RECT_MIN) PyDict_SetItemString(dict, "rect_min", mvPyObject(ToPyPairII(state.rectMin.x, state.rectMin.y)));
-        if(applicableState & MV_STATE_RECT_MAX) PyDict_SetItemString(dict, "rect_max", mvPyObject(ToPyPairII(state.rectMax.x, state.rectMax.y)));
-        if(applicableState & MV_STATE_RECT_SIZE) PyDict_SetItemString(dict, "rect_size", mvPyObject(ToPyPairII(state.rectSize.x, state.rectSize.y)));
-        if(applicableState & MV_STATE_CONT_AVAIL) PyDict_SetItemString(dict, "content_region_avail", mvPyObject(ToPyPairII(state.contextRegionAvail.x, state.contextRegionAvail.y)));
+        if(applicableState & MV_STATE_RECT_MIN) PyDict_SetItemString(dict, "rect_min", mvPyObject(ToPyPairII((int)state.rectMin.x, (int)state.rectMin.y)));
+        if(applicableState & MV_STATE_RECT_MAX) PyDict_SetItemString(dict, "rect_max", mvPyObject(ToPyPairII((int)state.rectMax.x, (int)state.rectMax.y)));
+        if(applicableState & MV_STATE_RECT_SIZE) PyDict_SetItemString(dict, "rect_size", mvPyObject(ToPyPairII((int)state.rectSize.x, (int)state.rectSize.y)));
+        if(applicableState & MV_STATE_CONT_AVAIL) PyDict_SetItemString(dict, "content_region_avail", mvPyObject(ToPyPairII((int)state.contextRegionAvail.x, (int)state.contextRegionAvail.y)));
 
     }
 

@@ -83,8 +83,8 @@ namespace Marvel {
 		if (ImGui::IsItemHovered())
 		{
 			ImVec2 mousepos = ImGui::GetMousePos();
-			GContext->input.mouseDrawingPos.x = mousepos.x - _startx;
-			GContext->input.mouseDrawingPos.y = mousepos.y - _starty;
+			GContext->input.mouseDrawingPos.x = (int)(mousepos.x - _startx);
+			GContext->input.mouseDrawingPos.y = (int)(mousepos.y - _starty);
 		}
 	}
 
