@@ -124,7 +124,8 @@ namespace Marvel {
             MV_ADD_CHILD(mvAppItemType::mvHoverHandler),
             MV_ADD_CHILD(mvAppItemType::mvResizeHandler),
             MV_ADD_CHILD(mvAppItemType::mvToggledOpenHandler),
-            MV_ADD_CHILD(mvAppItemType::mvVisibleHandler)
+            MV_ADD_CHILD(mvAppItemType::mvVisibleHandler),
+            MV_ADD_CHILD(mvAppItemType::mvDragPayload)
         MV_END_CHILDREN
 
     public:
