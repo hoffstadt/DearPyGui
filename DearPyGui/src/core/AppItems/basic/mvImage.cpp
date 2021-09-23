@@ -146,7 +146,7 @@ namespace Marvel {
 				else
 					texture = static_cast<mvDynamicTexture*>(_texture.get())->getRawTexture();
 
-				ImGui::Image(texture, ImVec2(_width, _height), ImVec2(_uv_min.x, _uv_min.y), ImVec2(_uv_max.x, _uv_max.y),
+				ImGui::Image(texture, ImVec2((float)_width, (float)_height), ImVec2(_uv_min.x, _uv_min.y), ImVec2(_uv_max.x, _uv_max.y),
 					ImVec4((float)_tintColor.r, (float)_tintColor.g, (float)_tintColor.b, (float)_tintColor.a),
 					ImVec4((float)_borderColor.r, (float)_borderColor.g, (float)_borderColor.b, (float)_borderColor.a));
 

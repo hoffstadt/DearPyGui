@@ -100,7 +100,7 @@ namespace Marvel {
 		{
 
 			int index = 0;
-			int adapterMemory = 0;
+			SIZE_T adapterMemory = 0;
 
 			for (int i = 0; i < adapters.size(); i++)
 			{

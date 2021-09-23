@@ -473,9 +473,9 @@ namespace Marvel {
 				GContext->callbackRegistry->submitCallback([=]() {
 
 					if(_alias.empty())
-						GContext->callbackRegistry->addCallback(getCallback(false), _uuid, ToPyFloatList(value.data(), value.size()), _user_data);
+						GContext->callbackRegistry->addCallback(getCallback(false), _uuid, ToPyFloatList(value.data(), (int)value.size()), _user_data);
 					else
-						GContext->callbackRegistry->addCallback(getCallback(false), _alias, ToPyFloatList(value.data(), value.size()), _user_data);
+						GContext->callbackRegistry->addCallback(getCallback(false), _alias, ToPyFloatList(value.data(), (int)value.size()), _user_data);
 					});
 			}
 		}

@@ -273,11 +273,11 @@ namespace Marvel {
 
                     if(_alias.empty())
                         GContext->callbackRegistry->submitCallback([=]() {
-                            GContext->callbackRegistry->addCallback(getCallback(false), _uuid, ToPyIntList(value.data(), value.size()), _user_data);
+                            GContext->callbackRegistry->addCallback(getCallback(false), _uuid, ToPyIntList(value.data(), (int)value.size()), _user_data);
                             });
                     else
                         GContext->callbackRegistry->submitCallback([=]() {
-                        GContext->callbackRegistry->addCallback(getCallback(false), _alias, ToPyIntList(value.data(), value.size()), _user_data);
+                        GContext->callbackRegistry->addCallback(getCallback(false), _alias, ToPyIntList(value.data(), (int)value.size()), _user_data);
                             });
                 }
             }
@@ -523,11 +523,11 @@ namespace Marvel {
 
                     if(_alias.empty())
                         GContext->callbackRegistry->submitCallback([=]() {
-                            GContext->callbackRegistry->addCallback(getCallback(false), _uuid, ToPyFloatList(value.data(), value.size()), _user_data);
+                            GContext->callbackRegistry->addCallback(getCallback(false), _uuid, ToPyFloatList(value.data(), (int)value.size()), _user_data);
                             });
                     else
                         GContext->callbackRegistry->submitCallback([=]() {
-                        GContext->callbackRegistry->addCallback(getCallback(false), _alias, ToPyFloatList(value.data(), value.size()), _user_data);
+                        GContext->callbackRegistry->addCallback(getCallback(false), _alias, ToPyFloatList(value.data(), (int)value.size()), _user_data);
                             });
                 }
             }

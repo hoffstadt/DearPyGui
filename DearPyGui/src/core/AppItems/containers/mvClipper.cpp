@@ -43,7 +43,7 @@ namespace Marvel {
 
 
 		ImGuiListClipper clipper;
-		clipper.Begin(_children[1].size());
+		clipper.Begin((int)_children[1].size());
 
 		while (clipper.Step())
 		{

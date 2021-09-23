@@ -281,7 +281,7 @@ namespace Marvel {
 
 		if (PyObject* item = PyDict_GetItemString(dict, "height_mode"))
 		{
-			long height_mode = ToUUID(item);
+			long height_mode = (long)ToUUID(item);
 
 			if (height_mode == (long)mvCombo::ComboHeightMode::mvComboHeight_Small)
 				_flags = ImGuiComboFlags_HeightSmall;

@@ -64,7 +64,7 @@ namespace Marvel {
 
 	void mvTableColumn::draw(ImDrawList* drawlist, float x, float y)
 	{
-		_id = _uuid;
+		_id = (ImGuiID)_uuid;
 		ImGui::TableSetupColumn(_internalLabel.c_str(), _flags, _init_width_or_weight, _id);
 
 		if (_shownLastFrame)

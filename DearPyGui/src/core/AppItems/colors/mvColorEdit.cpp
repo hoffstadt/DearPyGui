@@ -370,7 +370,7 @@ namespace Marvel {
 
 		if (PyObject* item = PyDict_GetItemString(dict, "input_mode"))
 		{
-			long mode = ToUUID(item);
+			long mode = (long)ToUUID(item);
 
 			// reset target flags
 			_flags &= ~ImGuiColorEditFlags_InputRGB;

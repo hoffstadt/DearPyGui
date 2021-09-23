@@ -248,7 +248,7 @@ namespace Marvel {
 
 		auto row_renderer = [&](mvAppItem* row)
 		{
-			ImGui::TableNextRow(0, row->_height);
+			ImGui::TableNextRow(0, (float)row->_height);
 
 			//int row_index = ImGui::TableGetRowIndex() + _tableHeader ? 1 : 0;
 			int row_index = row->_location;
@@ -352,7 +352,7 @@ namespace Marvel {
 			else if (_useClipper)
 			{
 				ImGuiListClipper clipper;
-				clipper.Begin(_children[1].size());
+				clipper.Begin((int)_children[1].size());
 
 				while (clipper.Step())
 				{
@@ -443,8 +443,8 @@ namespace Marvel {
 
 	void mvTable::onChildrenRemoved()
 	{
-		_columns = _children[0].size();
-		_rows = _children[1].size();
+		_columns = (int)_children[0].size();
+		_rows = (int)_children[1].size();
 
 		_columnColors.clear();
 		_columnColorsSet.clear();

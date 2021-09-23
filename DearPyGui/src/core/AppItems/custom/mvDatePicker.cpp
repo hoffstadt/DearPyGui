@@ -199,7 +199,7 @@ namespace Marvel {
 			return;
 		 
 		if (PyObject* item = PyDict_GetItemString(dict, "level")) {
-			_level = ToUUID(item);
+			_level = ToInt(item);
 			if (_level > 2) _level = 0;
 		}
 	}
