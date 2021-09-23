@@ -3,7 +3,7 @@
 
 #define STB_IMAGE_IMPLEMENTATION
 #include <stb_image.h>
-#include <shlobj.h> 
+#include <shlobj.h>
 #include <shobjidl.h> 
 #include <windows.h>
 #include <atlbase.h> // Contains the declaration of CComPtr.
@@ -12,8 +12,11 @@
 #include <sstream>
 #include <filesystem>
 #include <iostream>
+#include <d3d11.h>
 
 namespace fs = std::filesystem;
+extern ID3D11Device* gdevice;
+extern ID3D11DeviceContext* gdeviceContext;
 
 namespace Marvel {
 
@@ -48,7 +51,7 @@ namespace Marvel {
         subResource.pSysMem = image_data;
         subResource.SysMemPitch = desc.Width * 4;
         subResource.SysMemSlicePitch = 0;
-        GContext->viewport->device->CreateTexture2D(&desc, &subResource, &pTexture);
+        gdevice->CreateTexture2D(&desc, &subResource, &pTexture);
 
         // Create texture view
         D3D11_SHADER_RESOURCE_VIEW_DESC srvDesc;
@@ -57,7 +60,7 @@ namespace Marvel {
         srvDesc.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2D;
         srvDesc.Texture2D.MipLevels = desc.MipLevels;
         srvDesc.Texture2D.MostDetailedMip = 0;
-        GContext->viewport->device->CreateShaderResourceView(pTexture, &srvDesc, &out_srv);
+        gdevice->CreateShaderResourceView(pTexture, &srvDesc, &out_srv);
         pTexture->Release();
 
         width = image_width;
@@ -89,7 +92,7 @@ namespace Marvel {
         subResource.pSysMem = data;
         subResource.SysMemPitch = desc.Width * 4 * sizeof(float);
         subResource.SysMemSlicePitch = 0;
-        GContext->viewport->device->CreateTexture2D(&desc, &subResource, &pTexture);
+        gdevice->CreateTexture2D(&desc, &subResource, &pTexture);
 
         // Create texture view
         D3D11_SHADER_RESOURCE_VIEW_DESC srvDesc;
@@ -98,7 +101,7 @@ namespace Marvel {
         srvDesc.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2D;
         srvDesc.Texture2D.MipLevels = desc.MipLevels;
         srvDesc.Texture2D.MostDetailedMip = 0;
-        GContext->viewport->device->CreateShaderResourceView(pTexture, &srvDesc, &out_srv);
+        gdevice->CreateShaderResourceView(pTexture, &srvDesc, &out_srv);
         pTexture->Release();
 
         return out_srv;
@@ -126,7 +129,7 @@ namespace Marvel {
         subResource.pSysMem = data;
         subResource.SysMemPitch = desc.Width * 4 * sizeof(int);
         subResource.SysMemSlicePitch = 0;
-        GContext->viewport->device->CreateTexture2D(&desc, &subResource, &pTexture);
+        gdevice->CreateTexture2D(&desc, &subResource, &pTexture);
 
         // Create texture view
         D3D11_SHADER_RESOURCE_VIEW_DESC srvDesc;
@@ -135,7 +138,7 @@ namespace Marvel {
         srvDesc.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2D;
         srvDesc.Texture2D.MipLevels = desc.MipLevels;
         srvDesc.Texture2D.MostDetailedMip = 0;
-        GContext->viewport->device->CreateShaderResourceView(pTexture, &srvDesc, &out_srv);
+        gdevice->CreateShaderResourceView(pTexture, &srvDesc, &out_srv);
         pTexture->Release();
 
         return out_srv;
@@ -163,7 +166,7 @@ namespace Marvel {
         subResource.pSysMem = data;
         subResource.SysMemPitch = desc.Width * 4 * 4;
         subResource.SysMemSlicePitch = 0;
-        GContext->viewport->device->CreateTexture2D(&desc, &subResource, &pTexture);
+        gdevice->CreateTexture2D(&desc, &subResource, &pTexture);
 
         // Create texture view
         D3D11_SHADER_RESOURCE_VIEW_DESC srvDesc;
@@ -172,7 +175,7 @@ namespace Marvel {
         srvDesc.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2D;
         srvDesc.Texture2D.MipLevels = desc.MipLevels;
         srvDesc.Texture2D.MostDetailedMip = 0;
-        GContext->viewport->device->CreateShaderResourceView(pTexture, &srvDesc, &out_srv);
+        gdevice->CreateShaderResourceView(pTexture, &srvDesc, &out_srv);
         pTexture->Release();
 
         return out_srv;
@@ -200,7 +203,7 @@ namespace Marvel {
         subResource.pSysMem = data;
         subResource.SysMemPitch = desc.Width * 4 * 4;
         subResource.SysMemSlicePitch = 0;
-        GContext->viewport->device->CreateTexture2D(&desc, &subResource, &pTexture);
+        gdevice->CreateTexture2D(&desc, &subResource, &pTexture);
 
         // Create texture view
         D3D11_SHADER_RESOURCE_VIEW_DESC srvDesc;
@@ -209,7 +212,7 @@ namespace Marvel {
         srvDesc.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2D;
         srvDesc.Texture2D.MipLevels = desc.MipLevels;
         srvDesc.Texture2D.MostDetailedMip = 0;
-        GContext->viewport->device->CreateShaderResourceView(pTexture, &srvDesc, &out_srv);
+        gdevice->CreateShaderResourceView(pTexture, &srvDesc, &out_srv);
         pTexture->Release();
 
         return out_srv;
@@ -222,10 +225,9 @@ namespace Marvel {
         ZeroMemory(&mappedResource, sizeof(D3D11_MAPPED_SUBRESOURCE));
 
         //  Disable GPU access to the vertex buffer data.
-        auto m_d3dContext = GContext->viewport->deviceContext;
         ID3D11Resource* resource;
         view->GetResource(&resource);
-        m_d3dContext->Map(resource, 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedResource);
+        gdeviceContext->Map(resource, 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedResource);
 
         BYTE* mappedData = reinterpret_cast<BYTE*>(mappedResource.pData);
         BYTE* buffer = reinterpret_cast<BYTE*>(data.data());
@@ -238,7 +240,7 @@ namespace Marvel {
         //  Update the vertex buffer here.
         //memcpy(mappedResource.pData, data.data(), data.size()*sizeof(float));
         //  Reenable GPU access to the vertex buffer data.
-        m_d3dContext->Unmap(resource, 0);
+        gdeviceContext->Unmap(resource, 0);
 
         resource->Release();
     }
@@ -250,10 +252,9 @@ namespace Marvel {
         ZeroMemory(&mappedResource, sizeof(D3D11_MAPPED_SUBRESOURCE));
 
         //  Disable GPU access to the vertex buffer data.
-        auto m_d3dContext = GContext->viewport->deviceContext;
         ID3D11Resource* resource;
         view->GetResource(&resource);
-        m_d3dContext->Map(resource, 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedResource);
+        gdeviceContext->Map(resource, 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedResource);
 
         BYTE* mappedData = reinterpret_cast<BYTE*>(mappedResource.pData);
         BYTE* buffer = reinterpret_cast<BYTE*>(data.data());
@@ -266,7 +267,7 @@ namespace Marvel {
         //  Update the vertex buffer here.
         //memcpy(mappedResource.pData, data.data(), data.size()*sizeof(float));
         //  Reenable GPU access to the vertex buffer data.
-        m_d3dContext->Unmap(resource, 0);
+        gdeviceContext->Unmap(resource, 0);
 
         resource->Release();
     }
@@ -278,10 +279,9 @@ namespace Marvel {
         ZeroMemory(&mappedResource, sizeof(D3D11_MAPPED_SUBRESOURCE));
 
         //  Disable GPU access to the vertex buffer data.
-        auto m_d3dContext = GContext->viewport->deviceContext;
         ID3D11Resource* resource;
         view->GetResource(&resource);
-        m_d3dContext->Map(resource, 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedResource);
+        gdeviceContext->Map(resource, 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedResource);
 
         BYTE* mappedData = reinterpret_cast<BYTE*>(mappedResource.pData);
         BYTE* buffer = reinterpret_cast<BYTE*>(data);
@@ -294,7 +294,7 @@ namespace Marvel {
         //  Update the vertex buffer here.
         //memcpy(mappedResource.pData, data.data(), data.size()*sizeof(float));
         //  Reenable GPU access to the vertex buffer data.
-        m_d3dContext->Unmap(resource, 0);
+        gdeviceContext->Unmap(resource, 0);
 
         resource->Release();
     }
@@ -335,7 +335,7 @@ namespace Marvel {
         subResource.pSysMem = data;
         subResource.SysMemPitch = desc.Width * components * sizeof(float);
         subResource.SysMemSlicePitch = 0;
-        GContext->viewport->device->CreateTexture2D(&desc, &subResource, &pTexture);
+        gdevice->CreateTexture2D(&desc, &subResource, &pTexture);
 
         // Create texture view
         D3D11_SHADER_RESOURCE_VIEW_DESC srvDesc;
@@ -344,7 +344,7 @@ namespace Marvel {
         srvDesc.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2D;
         srvDesc.Texture2D.MipLevels = desc.MipLevels;
         srvDesc.Texture2D.MostDetailedMip = 0;
-        GContext->viewport->device->CreateShaderResourceView(pTexture, &srvDesc, &out_srv);
+        gdevice->CreateShaderResourceView(pTexture, &srvDesc, &out_srv);
         pTexture->Release();
 
         return out_srv;
