@@ -9,9 +9,9 @@ add_library(_dearpygui SHARED)
 set_target_properties(_dearpygui
   PROPERTIES
   CXX_STANDARD 17
-  ARCHIVE_OUTPUT_DIRECTORY "${CMAKE_SOURCE_DIR}$<$<CONFIG:Release>:/cmake-build-local/>$<$<CONFIG:Debug>:/cmake-build-debug/>DearPyGui/"
-  LIBRARY_OUTPUT_DIRECTORY "${CMAKE_SOURCE_DIR}$<$<CONFIG:Release>:/cmake-build-local/>$<$<CONFIG:Debug>:/cmake-build-debug/>DearPyGui/"
-  RUNTIME_OUTPUT_DIRECTORY "${CMAKE_SOURCE_DIR}$<$<CONFIG:Release>:/cmake-build-local/>$<$<CONFIG:Debug>:/cmake-build-debug/>DearPyGui/"
+  ARCHIVE_OUTPUT_DIRECTORY "${CMAKE_SOURCE_DIR}/cmake-build-local/DearPyGui/"
+  LIBRARY_OUTPUT_DIRECTORY "${CMAKE_SOURCE_DIR}/cmake-build-local/DearPyGui/"
+  RUNTIME_OUTPUT_DIRECTORY "${CMAKE_SOURCE_DIR}/cmake-build-local/DearPyGui/"
   )
 
 target_sources(_dearpygui PRIVATE ${MARVEL_SOURCES})
@@ -37,6 +37,7 @@ target_compile_definitions(_dearpygui
 if(WIN32)
 
 	set_target_properties(_dearpygui PROPERTIES SUFFIX ".pyd")
+	set_target_properties(_dearpygui PROPERTIES PREFIX "")
 	target_link_libraries(_dearpygui PUBLIC d3d11 dxgi ${Python_LIBRARIES} freetype)
 
 elseif(APPLE)
@@ -45,7 +46,7 @@ elseif(APPLE)
 	add_definitions(-DUNIX)
 	set_target_properties(_dearpygui PROPERTIES SUFFIX ".so")
 	set_target_properties(_dearpygui PROPERTIES PREFIX "")
-	SET_PROPERTY(TARGET _dearpygui APPEND_STRING PROPERTY COMPILE_FLAGS "-fobjc-arc -Wno-unused-result -Wsign-compare -Wunreachable-code -fno-common -dynamic -DNDEBUG -g -fwrapv -O3 -Wall")
+	SET_PROPERTY(TARGET _dearpygui APPEND_STRING PROPERTY COMPILE_FLAGS "-fobjc-arc -Wno-comment -Wno-unused-result -Wsign-compare -Wunreachable-code -fno-common -dynamic -DNDEBUG -g -fwrapv -O3 -Wall")
 	target_link_libraries(_dearpygui
 
 		PRIVATE
@@ -65,7 +66,7 @@ else() # Linux
 	add_definitions(-DLINUX)
 	add_definitions(-DUNIX)
 	set_target_properties(_dearpygui PROPERTIES PREFIX "")
-	set_property(TARGET _dearpygui APPEND_STRING PROPERTY COMPILE_FLAGS "-fPIC -Wno-unused-result -Wsign-compare -DNDEBUG -g -fwrapv -O3 -Wall")
+	set_property(TARGET _dearpygui APPEND_STRING PROPERTY COMPILE_FLAGS "-fPIC -Wno-comment -Wno-unused-result -Wsign-compare -DNDEBUG -g -fwrapv -O3 -Wall")
 	add_definitions(-DIMGUI_IMPL_OPENGL_LOADER_GL3W)
 	target_link_libraries(_dearpygui 
 		PRIVATE 
