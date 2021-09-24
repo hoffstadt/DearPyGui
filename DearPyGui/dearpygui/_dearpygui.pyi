@@ -410,11 +410,11 @@ def add_plot_annotation(*, label: str ='', user_data: Any ='', use_internal_labe
 	"""Adds an annotation to a plot."""
 	...
 
-def add_plot_axis(axis : int, *, label: str ='', user_data: Any ='', use_internal_label: bool ='', tag: Union[int, str] ='', parent: Union[int, str] ='', payload_type: str ='', drag_callback: Callable ='', drop_callback: Callable ='', show: bool ='', no_gridlines: bool ='', no_tick_marks: bool ='', no_tick_labels: bool ='', log_scale: bool ='', invert: bool ='', lock_min: bool ='', lock_max: bool ='', time: bool ='') -> Union[int, str]:
+def add_plot_axis(axis : int, *, label: str ='', user_data: Any ='', use_internal_label: bool ='', tag: Union[int, str] ='', parent: Union[int, str] ='', payload_type: str ='', drop_callback: Callable ='', show: bool ='', no_gridlines: bool ='', no_tick_marks: bool ='', no_tick_labels: bool ='', log_scale: bool ='', invert: bool ='', lock_min: bool ='', lock_max: bool ='', time: bool ='') -> Union[int, str]:
 	"""Adds an axis to a plot."""
 	...
 
-def add_plot_legend(*, label: str ='', user_data: Any ='', use_internal_label: bool ='', tag: Union[int, str] ='', parent: Union[int, str] ='', payload_type: str ='', drag_callback: Callable ='', drop_callback: Callable ='', show: bool ='', location: int ='', horizontal: bool ='', outside: bool ='') -> Union[int, str]:
+def add_plot_legend(*, label: str ='', user_data: Any ='', use_internal_label: bool ='', tag: Union[int, str] ='', parent: Union[int, str] ='', payload_type: str ='', drop_callback: Callable ='', show: bool ='', location: int ='', horizontal: bool ='', outside: bool ='') -> Union[int, str]:
 	"""Adds a plot legend to a plot."""
 	...
 
