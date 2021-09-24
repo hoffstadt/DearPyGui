@@ -336,13 +336,13 @@ namespace Marvel {
         checkbitset("no_tooltip", ImGuiTabItemFlags_NoTooltip, _flags);
 
         if(_flags & ImGuiTabItemFlags_Leading)
-            PyDict_SetItemString(dict, "order_mode", mvPyObject(ToPyUUID((long)mvTab::TabOrdering::mvTabOrder_Leading)));
+            PyDict_SetItemString(dict, "order_mode", mvPyObject(ToPyLong((long)mvTab::TabOrdering::mvTabOrder_Leading)));
         else if (_flags & ImGuiTabItemFlags_Trailing)
-            PyDict_SetItemString(dict, "order_mode", mvPyObject(ToPyUUID((long)mvTab::TabOrdering::mvTabOrder_Trailing)));
+            PyDict_SetItemString(dict, "order_mode", mvPyObject(ToPyLong((long)mvTab::TabOrdering::mvTabOrder_Trailing)));
         else if (_flags & ImGuiTabBarFlags_Reorderable)
-            PyDict_SetItemString(dict, "order_mode", mvPyObject(ToPyUUID((long)mvTab::TabOrdering::mvTabOrder_Reorderable)));
+            PyDict_SetItemString(dict, "order_mode", mvPyObject(ToPyLong((long)mvTab::TabOrdering::mvTabOrder_Reorderable)));
         else
-            PyDict_SetItemString(dict, "order_mode", mvPyObject(ToPyUUID((long)mvTab::TabOrdering::mvTabOrder_Fixed)));
+            PyDict_SetItemString(dict, "order_mode", mvPyObject(ToPyLong((long)mvTab::TabOrdering::mvTabOrder_Fixed)));
 
     }
 

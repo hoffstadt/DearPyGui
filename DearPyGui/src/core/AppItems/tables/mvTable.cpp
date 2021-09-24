@@ -323,7 +323,7 @@ namespace Marvel {
 							for (size_t i = 0; i < specs.size(); i++)
 							{
 								PyObject* pySingleSpec = PyList_New(2);
-								PyList_SetItem(pySingleSpec, 0, ToPyUUID(specs[i].column));
+								PyList_SetItem(pySingleSpec, 0, ToPyLong(specs[i].column));
 								PyList_SetItem(pySingleSpec, 1, ToPyInt(specs[i].direction));
 								PyList_SetItem(pySpec, i, pySingleSpec);
 							}

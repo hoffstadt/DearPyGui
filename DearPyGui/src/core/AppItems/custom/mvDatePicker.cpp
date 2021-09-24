@@ -209,7 +209,7 @@ namespace Marvel {
 		if (dict == nullptr)
 			return;
 		 
-		PyDict_SetItemString(dict, "level", mvPyObject(ToPyUUID((long)_level)));
+		PyDict_SetItemString(dict, "level", mvPyObject(ToPyLong((long)_level)));
 	}
 
 	PyObject* mvDatePicker::getPyValue()

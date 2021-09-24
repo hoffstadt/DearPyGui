@@ -409,29 +409,29 @@ namespace Marvel {
 
 		// input_mode
 		if (_flags & ImGuiColorEditFlags_InputRGB)
-			PyDict_SetItemString(dict, "input_mode", mvPyObject(ToPyUUID(ImGuiColorEditFlags_InputRGB)));
+			PyDict_SetItemString(dict, "input_mode", mvPyObject(ToPyLong(ImGuiColorEditFlags_InputRGB)));
 		else if (_flags & ImGuiColorEditFlags_InputHSV)
-			PyDict_SetItemString(dict, "input_mode", mvPyObject(ToPyUUID(ImGuiColorEditFlags_InputHSV)));
+			PyDict_SetItemString(dict, "input_mode", mvPyObject(ToPyLong(ImGuiColorEditFlags_InputHSV)));
 
 		// alpha_preview
 		if (_flags & ImGuiColorEditFlags_AlphaPreview)
-			PyDict_SetItemString(dict, "alpha_preview", mvPyObject(ToPyUUID(ImGuiColorEditFlags_AlphaPreview)));
+			PyDict_SetItemString(dict, "alpha_preview", mvPyObject(ToPyLong(ImGuiColorEditFlags_AlphaPreview)));
 		else if (_flags & ImGuiColorEditFlags_AlphaPreviewHalf)
-			PyDict_SetItemString(dict, "alpha_preview", mvPyObject(ToPyUUID(ImGuiColorEditFlags_AlphaPreviewHalf)));
+			PyDict_SetItemString(dict, "alpha_preview", mvPyObject(ToPyLong(ImGuiColorEditFlags_AlphaPreviewHalf)));
 		else
-			PyDict_SetItemString(dict, "alpha_preview", mvPyObject(ToPyUUID(0)));
+			PyDict_SetItemString(dict, "alpha_preview", mvPyObject(ToPyLong(0)));
 
 		// display_type
 		if (_flags & ImGuiColorEditFlags_Uint8)
-			PyDict_SetItemString(dict, "display_type", mvPyObject(ToPyUUID(ImGuiColorEditFlags_Uint8)));
+			PyDict_SetItemString(dict, "display_type", mvPyObject(ToPyLong(ImGuiColorEditFlags_Uint8)));
 		else if (_flags & ImGuiColorEditFlags_Float)
-			PyDict_SetItemString(dict, "display_type", mvPyObject(ToPyUUID(ImGuiColorEditFlags_Float)));
+			PyDict_SetItemString(dict, "display_type", mvPyObject(ToPyLong(ImGuiColorEditFlags_Float)));
 
 		// picker_mode
 		if (_flags & ImGuiColorEditFlags_PickerHueWheel)
-			PyDict_SetItemString(dict, "picker_mode", mvPyObject(ToPyUUID(ImGuiColorEditFlags_PickerHueWheel)));
+			PyDict_SetItemString(dict, "picker_mode", mvPyObject(ToPyLong(ImGuiColorEditFlags_PickerHueWheel)));
 		else if (_flags & ImGuiColorEditFlags_PickerHueBar)
-			PyDict_SetItemString(dict, "picker_mode", mvPyObject(ToPyUUID(ImGuiColorEditFlags_PickerHueBar)));
+			PyDict_SetItemString(dict, "picker_mode", mvPyObject(ToPyLong(ImGuiColorEditFlags_PickerHueBar)));
 	}
 
 }

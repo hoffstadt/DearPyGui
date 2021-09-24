@@ -330,7 +330,7 @@ namespace Marvel {
 		else
 			mode = (long)mvCombo::ComboHeightMode::mvComboHeight_Largest;
 
-		mvPyObject py_height_mode = ToPyUUID(mode);
+		mvPyObject py_height_mode = ToPyLong(mode);
 		mvPyObject py_items = ToPyList(_items);
 		PyDict_SetItemString(dict, "height_mode", py_height_mode);
 		PyDict_SetItemString(dict, "items", py_items);

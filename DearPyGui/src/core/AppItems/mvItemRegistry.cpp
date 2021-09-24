@@ -555,6 +555,13 @@ namespace Marvel {
         }
     }
 
+    static bool DoesAliasExist(mvItemRegistry& registry, const std::string& alias)
+    {
+        if (registry.aliases.count(alias) != 0)
+            return true;
+        return false;
+    }
+
     static void DebugItem(const char* label, const char* item) {
         ImGui::Text("%s", label);
         ImGui::SameLine();
@@ -572,13 +579,6 @@ namespace Marvel {
                 index++;
             }
         }
-    }
-
-    static bool DoesAliasExist(mvItemRegistry& registry, const std::string& alias)
-    {
-        if (registry.aliases.count(alias) != 0)
-            return true;
-        return false;
     }
 
     static void PushParent(mvItemRegistry& registry, mvAppItem* item)
