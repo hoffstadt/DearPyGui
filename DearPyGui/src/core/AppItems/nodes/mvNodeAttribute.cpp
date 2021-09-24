@@ -122,7 +122,7 @@ namespace Marvel {
 		if (dict == nullptr)
 			return;
 
-		PyDict_SetItemString(dict, "attribute_type", mvPyObject(ToPyUUID((long)_attrType)));
+		PyDict_SetItemString(dict, "attribute_type", mvPyObject(ToPyLong((long)_attrType)));
 		PyDict_SetItemString(dict, "shape", mvPyObject(ToPyInt((int)_shape)));
 		PyDict_SetItemString(dict, "category", mvPyObject(ToPyString(_category)));
 	}

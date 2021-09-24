@@ -412,31 +412,31 @@ namespace Marvel {
 
 		// input_mode
 		if (_flags & ImGuiColorEditFlags_InputRGB)
-			PyDict_SetItemString(dict, "input_mode", mvPyObject(ToPyUUID(mvColorEdit_input_rgb)));
+			PyDict_SetItemString(dict, "input_mode", mvPyObject(ToPyLong(mvColorEdit_input_rgb)));
 		else if (_flags & ImGuiColorEditFlags_InputHSV)
-			PyDict_SetItemString(dict, "input_mode", mvPyObject(ToPyUUID(mvColorEdit_input_hsv)));
+			PyDict_SetItemString(dict, "input_mode", mvPyObject(ToPyLong(mvColorEdit_input_hsv)));
 
 		// alpha_preview
 		if(_flags & ImGuiColorEditFlags_AlphaPreview)
-			PyDict_SetItemString(dict, "alpha_preview", mvPyObject(ToPyUUID(mvColorEdit_AlphaPreview)));
+			PyDict_SetItemString(dict, "alpha_preview", mvPyObject(ToPyLong(mvColorEdit_AlphaPreview)));
 		else if (_flags & ImGuiColorEditFlags_AlphaPreviewHalf)
-			PyDict_SetItemString(dict, "alpha_preview", mvPyObject(ToPyUUID(mvColorEdit_AlphaPreviewHalf)));
+			PyDict_SetItemString(dict, "alpha_preview", mvPyObject(ToPyLong(mvColorEdit_AlphaPreviewHalf)));
 		else
-			PyDict_SetItemString(dict, "alpha_preview", mvPyObject(ToPyUUID(mvColorEdit_AlphaPreviewNone)));
+			PyDict_SetItemString(dict, "alpha_preview", mvPyObject(ToPyLong(mvColorEdit_AlphaPreviewNone)));
 
 		// display_mode
 		if (_flags & ImGuiColorEditFlags_DisplayHSV)
-			PyDict_SetItemString(dict, "display_mode", mvPyObject(ToPyUUID(mvColorEdit_hsv)));
+			PyDict_SetItemString(dict, "display_mode", mvPyObject(ToPyLong(mvColorEdit_hsv)));
 		else if (_flags & ImGuiColorEditFlags_DisplayHex)
-			PyDict_SetItemString(dict, "display_mode", mvPyObject(ToPyUUID(mvColorEdit_hex)));
+			PyDict_SetItemString(dict, "display_mode", mvPyObject(ToPyLong(mvColorEdit_hex)));
 		else
-			PyDict_SetItemString(dict, "display_mode", mvPyObject(ToPyUUID(mvColorEdit_rgb)));
+			PyDict_SetItemString(dict, "display_mode", mvPyObject(ToPyLong(mvColorEdit_rgb)));
 
 		// display_type
 		if (_flags & ImGuiColorEditFlags_Uint8)
-			PyDict_SetItemString(dict, "display_type", mvPyObject(ToPyUUID(mvColorEdit_uint8)));
+			PyDict_SetItemString(dict, "display_type", mvPyObject(ToPyLong(mvColorEdit_uint8)));
 		else if (_flags & ImGuiColorEditFlags_Float)
-			PyDict_SetItemString(dict, "display_type", mvPyObject(ToPyUUID(mvColorEdit_float)));
+			PyDict_SetItemString(dict, "display_type", mvPyObject(ToPyLong(mvColorEdit_float)));
 
 	}
 

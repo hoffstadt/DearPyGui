@@ -110,6 +110,17 @@ namespace Marvel {
 
     PyObject* ToPyUUID(mvUUID value)
     {
+        mvAppItem* item = GetItem(*GContext->itemRegistry, value);
+        if (item)
+        {
+            if (!item->_alias.empty())
+                return ToPyString(item->_alias);
+        }
+        return Py_BuildValue("K", value);
+    }
+
+    PyObject* ToPyLong(long value)
+    {
 
         return Py_BuildValue("K", value);
     }
@@ -397,6 +408,17 @@ namespace Marvel {
         if (value == nullptr)
             return 0;
 
+        if (PyUnicode_Check(value))
+        {
+            std::string result = _PyUnicode_AsString(value);
+            mvUUID idfound = GetIdFromAlias(*GContext->itemRegistry, result);
+            if (idfound == 0)
+            {
+                mvThrowPythonError(mvErrorCode::mvWrongType, "UUID not found.");
+                return 0;
+            }
+            return idfound;
+        }
 
         if (!PyLong_Check(value))
         {

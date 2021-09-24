@@ -27,7 +27,7 @@ SOFTWARE.
 
 namespace Marvel {
 
-    MV_REGISTER_WIDGET(mvTabBar, MV_ITEM_DESC_CONTAINER, StorageValueTypes::String, 1);
+    MV_REGISTER_WIDGET(mvTabBar, MV_ITEM_DESC_CONTAINER, StorageValueTypes::UUID, 1);
     class mvTabBar : public mvAppItem
     {
 

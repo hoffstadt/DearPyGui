@@ -27,8 +27,9 @@ namespace Marvel {
 
 	// conversion to python
 	PyObject*   GetPyNone ();
-	PyObject*	ToPyUUID(mvUUID value);
-	PyObject*	ToPyInt(int value);
+	PyObject*	ToPyUUID  (mvUUID value);
+	PyObject*	ToPyLong  (long value);
+	PyObject*	ToPyInt   (int value);
 	PyObject*	ToPyFloat (float value);
 	PyObject*	ToPyDouble(double value);
 	PyObject*   ToPyBool  (bool value);
