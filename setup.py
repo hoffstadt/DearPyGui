@@ -11,11 +11,8 @@ import subprocess
 
 wip_version = "1.0.0a1"
 
-########################################################################################################################
-# These functions read the version number and library location which is populated by github actions
-########################################################################################################################
-
 def version_number():
+    """This function reads the version number which is populated by github actions"""
 
     if os.environ.get('READTHEDOCS') == 'True':
         return wip_version
@@ -25,21 +22,6 @@ def version_number():
 
     except IOError:
         return wip_version
-
-def lib_location():
-
-    if os.environ.get('READTHEDOCS') == 'True':
-        return 'cmake-build-local/DearPyGui/_dearpygui.so'
-
-    try:
-        with open('lib_location.txt', encoding='utf-8') as f:
-            return f.readline().rstrip()
-
-    except IOError:
-        if get_platform() == "Windows":
-            return 'cmake-build-local/DearPyGui/Release/_dearpygui.pyd'
-        else:
-            return 'cmake-build-local/DearPyGui/Release/_dearpygui.so'
 
 def get_platform():
 
@@ -87,7 +69,7 @@ class DPGBuildCommand(distutils.cmd.Command):
         self.announce('Running command: %s' % "Dear PyGui Build for Windows", level=distutils.log.INFO)
         subprocess.check_call(''.join(command), env=os.environ, shell=True)
         src_path = os.path.dirname(os.path.abspath(__file__))
-        shutil.copy(lib_location(), src_path +"/output/dearpygui")
+        shutil.copy("cmake-build-local/DearPyGui/_dearpygui.pyd", src_path +"/output/dearpygui")
 
     elif get_platform() == "Linux":
         command = ["mkdir cmake-build-local; "]
@@ -97,7 +79,7 @@ class DPGBuildCommand(distutils.cmd.Command):
         self.announce('Running command: %s' % "Dear PyGui Build for Linux",level=distutils.log.INFO)
         subprocess.check_call(''.join(command), shell=True)
         src_path = os.path.dirname(os.path.abspath(__file__))
-        shutil.copy(lib_location(), src_path +"/output/dearpygui")
+        shutil.copy("cmake-build-local/DearPyGui/_dearpygui.so", src_path +"/output/dearpygui")
     
     elif get_platform() == "OS X":
         command = ["mkdir cmake-build-local; "]
@@ -107,7 +89,7 @@ class DPGBuildCommand(distutils.cmd.Command):
         self.announce('Running command: %s' % "Dear PyGui Build for OS X",level=distutils.log.INFO)
         subprocess.check_call(''.join(command), shell=True)
         src_path = os.path.dirname(os.path.abspath(__file__))
-        shutil.copy(lib_location(), src_path +"/output/dearpygui")
+        shutil.copy("cmake-build-local/DearPyGui/_dearpygui.so", src_path +"/output/dearpygui")
 
     else:
         self.announce('Command not ready.',level=distutils.log.INFO)

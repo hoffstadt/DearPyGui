@@ -5,7 +5,14 @@ if(NOT Python_Development_FOUND)
 endif()
 
 add_library(_dearpygui SHARED)
-set_target_properties(_dearpygui PROPERTIES CXX_STANDARD 17)
+
+set_target_properties(_dearpygui
+  PROPERTIES
+  CXX_STANDARD 17
+  ARCHIVE_OUTPUT_DIRECTORY "${CMAKE_SOURCE_DIR}$<$<CONFIG:Release>:/cmake-build-local/>$<$<CONFIG:Debug>:/cmake-build-debug/>DearPyGui/"
+  LIBRARY_OUTPUT_DIRECTORY "${CMAKE_SOURCE_DIR}$<$<CONFIG:Release>:/cmake-build-local/>$<$<CONFIG:Debug>:/cmake-build-debug/>DearPyGui/"
+  RUNTIME_OUTPUT_DIRECTORY "${CMAKE_SOURCE_DIR}$<$<CONFIG:Release>:/cmake-build-local/>$<$<CONFIG:Debug>:/cmake-build-debug/>DearPyGui/"
+  )
 
 target_sources(_dearpygui PRIVATE ${MARVEL_SOURCES})
 

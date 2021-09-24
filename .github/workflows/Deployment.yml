@@ -60,7 +60,6 @@ jobs:
       run: |
         cd %GITHUB_WORKSPACE%
         echo ${{ github.event.inputs.version }} > version_number.txt
-        echo cmake-build-local/DearPyGui/Release/_dearpygui.pyd > lib_location.txt
 
     - name: Build Wheel
       shell: cmd
@@ -104,7 +103,6 @@ jobs:
       run: |
         cd $GITHUB_WORKSPACE
         echo ${{ github.event.inputs.version }} > version_number.txt
-        echo cmake-build-local/DearPyGui/_dearpygui.so > lib_location.txt
 
     - name: Build Wheel
       run: |
@@ -151,7 +149,6 @@ jobs:
       run: |
         cd $GITHUB_WORKSPACE
         echo ${{ github.event.inputs.version }} > version_number.txt
-        echo cmake-build-local/DearPyGui/_dearpygui.so > lib_location.txt
 
     - name: Build Wheel
       run: |
