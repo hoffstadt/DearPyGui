@@ -69,7 +69,7 @@ class DPGBuildCommand(distutils.cmd.Command):
         self.announce('Running command: %s' % "Dear PyGui Build for Windows", level=distutils.log.INFO)
         subprocess.check_call(''.join(command), env=os.environ, shell=True)
         src_path = os.path.dirname(os.path.abspath(__file__))
-        shutil.copy("cmake-build-local/DearPyGui/_dearpygui.pyd", src_path +"/output/dearpygui")
+        shutil.copy("cmake-build-local/DearPyGui/Release/_dearpygui.pyd", src_path +"/output/dearpygui")
 
     elif get_platform() == "Linux":
         command = ["mkdir cmake-build-local; "]
