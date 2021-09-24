@@ -2,7 +2,13 @@
 
 add_executable (DearSandbox)
 
-set_property(TARGET DearSandbox PROPERTY CXX_STANDARD 17)
+set_target_properties(DearSandbox
+  PROPERTIES
+  CXX_STANDARD 17
+  ARCHIVE_OUTPUT_DIRECTORY "${CMAKE_SOURCE_DIR}$<$<CONFIG:Release>:/cmake-build-release/>$<$<CONFIG:Debug>:/cmake-build-debug/>DearSandbox/"
+  LIBRARY_OUTPUT_DIRECTORY "${CMAKE_SOURCE_DIR}$<$<CONFIG:Release>:/cmake-build-release/>$<$<CONFIG:Debug>:/cmake-build-debug/>DearSandbox/"
+  RUNTIME_OUTPUT_DIRECTORY "${CMAKE_SOURCE_DIR}$<$<CONFIG:Release>:/cmake-build-release/>$<$<CONFIG:Debug>:/cmake-build-debug/>DearSandbox/"
+  )
 
 if(APPLE)
 	find_package(Python3 COMPONENTS Interpreter Development)
@@ -47,14 +53,6 @@ target_compile_definitions(DearSandbox
 )
 
 if (WIN32)
-
-
-	set_target_properties(DearSandbox
-		PROPERTIES
-		ARCHIVE_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}$<$<CONFIG:Release>:/DearSandbox/>$<$<CONFIG:Debug>:/DearSandbox/>"
-		LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}$<$<CONFIG:Release>:/DearSandbox/>$<$<CONFIG:Debug>:/DearSandbox/>"
-		RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}$<$<CONFIG:Release>:/DearSandbox/>$<$<CONFIG:Debug>:/DearSandbox/>"
-	)
 
 	target_link_directories(DearSandbox PRIVATE "../Dependencies/cpython/PCbuild/amd64/")
 	target_link_libraries(DearSandbox PUBLIC coreemb $<$<CONFIG:Debug>:python39_d> $<$<CONFIG:Release>:python39>)

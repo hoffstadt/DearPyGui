@@ -1,7 +1,14 @@
 ﻿cmake_minimum_required (VERSION 3.13)
 
 add_library(coreemb STATIC)
-set_target_properties(coreemb PROPERTIES CXX_STANDARD 17)
+
+set_target_properties(coreemb
+  PROPERTIES
+  CXX_STANDARD 17
+  ARCHIVE_OUTPUT_DIRECTORY "${CMAKE_SOURCE_DIR}$<$<CONFIG:Release>:/cmake-build-release/>$<$<CONFIG:Debug>:/cmake-build-debug/>DearPyGui/"
+  LIBRARY_OUTPUT_DIRECTORY "${CMAKE_SOURCE_DIR}$<$<CONFIG:Release>:/cmake-build-release/>$<$<CONFIG:Debug>:/cmake-build-debug/>DearPyGui/"
+  RUNTIME_OUTPUT_DIRECTORY "${CMAKE_SOURCE_DIR}$<$<CONFIG:Release>:/cmake-build-release/>$<$<CONFIG:Debug>:/cmake-build-debug/>DearPyGui/"
+  )
 
 target_include_directories(coreemb PRIVATE ${MARVEL_INCLUDE_DIR})
 
