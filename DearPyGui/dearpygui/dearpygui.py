@@ -1923,7 +1923,7 @@ def plot(*, label: str =None, user_data: Any =None, use_internal_label: bool =Tr
 		internal_dpg.pop_container_stack()
 
 @contextmanager
-def plot_axis(axis : int, *, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, parent: Union[int, str] =0, payload_type: str ='$$DPG_PAYLOAD', drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, no_gridlines: bool =False, no_tick_marks: bool =False, no_tick_labels: bool =False, log_scale: bool =False, invert: bool =False, lock_min: bool =False, lock_max: bool =False, time: bool =False) -> Union[int, str]:
+def plot_axis(axis : int, *, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, parent: Union[int, str] =0, payload_type: str ='$$DPG_PAYLOAD', drop_callback: Callable =None, show: bool =True, no_gridlines: bool =False, no_tick_marks: bool =False, no_tick_labels: bool =False, log_scale: bool =False, invert: bool =False, lock_min: bool =False, lock_max: bool =False, time: bool =False) -> Union[int, str]:
 	"""	Adds an axis to a plot.
 
 	Args:
@@ -1934,7 +1934,6 @@ def plot_axis(axis : int, *, label: str =None, user_data: Any =None, use_interna
 		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
 		parent (Union[int, str], optional): Parent to add this item to. (runtime adding)
 		payload_type (str, optional): Sender string type must be the same as the target for the target to run the payload_callback.
-		drag_callback (Callable, optional): Registers a drag callback for drag and drop.
 		drop_callback (Callable, optional): Registers a drop callback for drag and drop.
 		show (bool, optional): Attempt to render widget.
 		no_gridlines (bool, optional): 
@@ -1949,7 +1948,7 @@ def plot_axis(axis : int, *, label: str =None, user_data: Any =None, use_interna
 		Union[int, str]
 	"""
 	try:
-		widget = internal_dpg.add_plot_axis(axis, label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, parent=parent, payload_type=payload_type, drag_callback=drag_callback, drop_callback=drop_callback, show=show, no_gridlines=no_gridlines, no_tick_marks=no_tick_marks, no_tick_labels=no_tick_labels, log_scale=log_scale, invert=invert, lock_min=lock_min, lock_max=lock_max, time=time)
+		widget = internal_dpg.add_plot_axis(axis, label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, parent=parent, payload_type=payload_type, drop_callback=drop_callback, show=show, no_gridlines=no_gridlines, no_tick_marks=no_tick_marks, no_tick_labels=no_tick_labels, log_scale=log_scale, invert=invert, lock_min=lock_min, lock_max=lock_max, time=time)
 		internal_dpg.push_container_stack(widget)
 		yield widget
 	finally:
@@ -4845,7 +4844,7 @@ def add_plot_annotation(*, label: str =None, user_data: Any =None, use_internal_
 
 	return internal_dpg.add_plot_annotation(label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, parent=parent, before=before, source=source, show=show, default_value=default_value, offset=offset, color=color, clamped=clamped)
 
-def add_plot_axis(axis : int, *, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, parent: Union[int, str] =0, payload_type: str ='$$DPG_PAYLOAD', drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, no_gridlines: bool =False, no_tick_marks: bool =False, no_tick_labels: bool =False, log_scale: bool =False, invert: bool =False, lock_min: bool =False, lock_max: bool =False, time: bool =False) -> Union[int, str]:
+def add_plot_axis(axis : int, *, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, parent: Union[int, str] =0, payload_type: str ='$$DPG_PAYLOAD', drop_callback: Callable =None, show: bool =True, no_gridlines: bool =False, no_tick_marks: bool =False, no_tick_labels: bool =False, log_scale: bool =False, invert: bool =False, lock_min: bool =False, lock_max: bool =False, time: bool =False) -> Union[int, str]:
 	"""	Adds an axis to a plot.
 
 	Args:
@@ -4856,7 +4855,6 @@ def add_plot_axis(axis : int, *, label: str =None, user_data: Any =None, use_int
 		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
 		parent (Union[int, str], optional): Parent to add this item to. (runtime adding)
 		payload_type (str, optional): Sender string type must be the same as the target for the target to run the payload_callback.
-		drag_callback (Callable, optional): Registers a drag callback for drag and drop.
 		drop_callback (Callable, optional): Registers a drop callback for drag and drop.
 		show (bool, optional): Attempt to render widget.
 		no_gridlines (bool, optional): 
@@ -4871,9 +4869,9 @@ def add_plot_axis(axis : int, *, label: str =None, user_data: Any =None, use_int
 		Union[int, str]
 	"""
 
-	return internal_dpg.add_plot_axis(axis, label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, parent=parent, payload_type=payload_type, drag_callback=drag_callback, drop_callback=drop_callback, show=show, no_gridlines=no_gridlines, no_tick_marks=no_tick_marks, no_tick_labels=no_tick_labels, log_scale=log_scale, invert=invert, lock_min=lock_min, lock_max=lock_max, time=time)
+	return internal_dpg.add_plot_axis(axis, label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, parent=parent, payload_type=payload_type, drop_callback=drop_callback, show=show, no_gridlines=no_gridlines, no_tick_marks=no_tick_marks, no_tick_labels=no_tick_labels, log_scale=log_scale, invert=invert, lock_min=lock_min, lock_max=lock_max, time=time)
 
-def add_plot_legend(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, parent: Union[int, str] =0, payload_type: str ='$$DPG_PAYLOAD', drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, location: int =5, horizontal: bool =False, outside: bool =False) -> Union[int, str]:
+def add_plot_legend(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, parent: Union[int, str] =0, payload_type: str ='$$DPG_PAYLOAD', drop_callback: Callable =None, show: bool =True, location: int =5, horizontal: bool =False, outside: bool =False) -> Union[int, str]:
 	"""	Adds a plot legend to a plot.
 
 	Args:
@@ -4883,7 +4881,6 @@ def add_plot_legend(*, label: str =None, user_data: Any =None, use_internal_labe
 		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
 		parent (Union[int, str], optional): Parent to add this item to. (runtime adding)
 		payload_type (str, optional): Sender string type must be the same as the target for the target to run the payload_callback.
-		drag_callback (Callable, optional): Registers a drag callback for drag and drop.
 		drop_callback (Callable, optional): Registers a drop callback for drag and drop.
 		show (bool, optional): Attempt to render widget.
 		location (int, optional): location, mvPlot_Location_*
@@ -4893,7 +4890,7 @@ def add_plot_legend(*, label: str =None, user_data: Any =None, use_internal_labe
 		Union[int, str]
 	"""
 
-	return internal_dpg.add_plot_legend(label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, parent=parent, payload_type=payload_type, drag_callback=drag_callback, drop_callback=drop_callback, show=show, location=location, horizontal=horizontal, outside=outside)
+	return internal_dpg.add_plot_legend(label=label, user_data=user_data, use_internal_label=use_internal_label, tag=tag, parent=parent, payload_type=payload_type, drop_callback=drop_callback, show=show, location=location, horizontal=horizontal, outside=outside)
 
 def add_progress_bar(*, label: str =None, user_data: Any =None, use_internal_label: bool =True, tag: Union[int, str] =0, width: int =0, height: int =0, indent: int =-1, parent: Union[int, str] =0, before: Union[int, str] =0, source: Union[int, str] =0, payload_type: str ='$$DPG_PAYLOAD', drag_callback: Callable =None, drop_callback: Callable =None, show: bool =True, pos: Union[List[int], Tuple[int]] =[], filter_key: str ='', tracked: bool =False, track_offset: float =0.5, overlay: str ='', default_value: float =0.0) -> Union[int, str]:
 	"""	Adds a progress bar.
