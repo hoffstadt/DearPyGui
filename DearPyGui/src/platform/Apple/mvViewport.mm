@@ -273,7 +273,33 @@ namespace Marvel {
 
     void mvToggleFullScreen()
     {
+        static size_t storedWidth = 0;
+        static size_t storedHeight = 0;
+        static int    storedXPos = 0;
+        static int    storedYPos = 0;
 
+        GLFWmonitor *monitor = glfwGetPrimaryMonitor();
+        const GLFWvidmode *mode = glfwGetVideoMode(monitor);
+        int framerate = -1;
+        if (GContext->viewport->vsync)
+        {
+             framerate = mode->refreshRate;
+        }
+
+        if(GContext->viewport->fullScreen)
+        {
+			glfwSetWindowMonitor(ghandle, nullptr, storedXPos, storedYPos, storedWidth, storedHeight, framerate);
+            GContext->viewport->fullScreen = false;
+        }
+        else
+        {
+            storedWidth = (size_t)GContext->viewport->actualWidth;
+            storedHeight = (size_t)GContext->viewport->actualHeight;
+            storedXPos = GContext->viewport->xpos;
+            storedYPos = GContext->viewport->ypos;
+            glfwSetWindowMonitor(ghandle, monitor, 0, 0, mode->width, mode->height, framerate);
+            GContext->viewport->fullScreen = true;
+        }
     }
 
 }
