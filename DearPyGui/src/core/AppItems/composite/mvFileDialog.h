@@ -47,7 +47,6 @@ namespace Marvel {
 
         MV_CREATE_COMMAND(get_file_dialog_info);
 
-        // TODO: add appropriate states
         MV_SET_STATES(MV_STATE_NONE);
 
         MV_START_COMMANDS

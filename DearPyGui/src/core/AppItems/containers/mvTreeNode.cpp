@@ -44,6 +44,7 @@ namespace Marvel {
 
 		parsers->insert({ s_command, parser });
 	}
+	
 	mvTreeNode::mvTreeNode(mvUUID uuid)
 		: mvAppItem(uuid)
 	{
