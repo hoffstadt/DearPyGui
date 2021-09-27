@@ -310,7 +310,7 @@ namespace Marvel {
                 _state.lastFrameUpdate = GContext->frame;
                 _state.hovered = false;
                 _state.focused = false;
-                _state.activated = false;
+                _state.toggledOpen = false;
                 _state.visible = false;
 
                 if(_alias.empty())
@@ -438,7 +438,7 @@ namespace Marvel {
         _state.hovered = ImGui::IsWindowHovered();
         _state.focused = ImGui::IsWindowFocused();
         _state.rectSize = { ImGui::GetWindowSize().x, ImGui::GetWindowSize().y };
-        _state.activated = ImGui::IsWindowCollapsed();
+        _state.toggledOpen = ImGui::IsWindowCollapsed();
 
         if (ImGui::GetWindowWidth() != (float)_width || ImGui::GetWindowHeight() != (float)_height)
         {
@@ -485,7 +485,7 @@ namespace Marvel {
             _state.lastFrameUpdate = GContext->frame;
             _state.hovered = false;
             _state.focused = false;
-            _state.activated = false;
+            _state.toggledOpen = false;
             _state.visible = false;
 
             if(_alias.empty())

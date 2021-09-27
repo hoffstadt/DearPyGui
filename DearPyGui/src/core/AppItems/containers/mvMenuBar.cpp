@@ -48,6 +48,9 @@ namespace Marvel {
 		if (ImGui::BeginMenuBar())
 		{
 
+			_state.lastFrameUpdate = GContext->frame;
+			_state.visible = true;
+	
 			for (auto& item : _children[1])
 				item->draw(drawlist, ImGui::GetCursorPosX(), ImGui::GetCursorPosY());
 

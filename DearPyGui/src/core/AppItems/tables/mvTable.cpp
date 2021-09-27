@@ -250,6 +250,9 @@ namespace Marvel {
 		{
 			ImGui::TableNextRow(0, (float)row->_height);
 
+			row->_state.lastFrameUpdate = GContext->frame;
+			row->_state.visible = true;
+
 			//int row_index = ImGui::TableGetRowIndex() + _tableHeader ? 1 : 0;
 			int row_index = row->_location;
 
@@ -279,6 +282,8 @@ namespace Marvel {
 		if (ImGui::BeginTable(_internalLabel.c_str(), _columns, _flags, 
 			ImVec2((float)_width, (float)_height), (float)_inner_width))
 		{
+			_state.lastFrameUpdate = GContext->frame;
+			_state.visible = true;
 
 			ImGui::TableSetupScrollFreeze(_freezeRows, _freezeColumns);
 
@@ -290,8 +295,6 @@ namespace Marvel {
 					continue;
 
 				item->draw(drawlist, ImGui::GetCursorPosX(), ImGui::GetCursorPosY());
-
-				UpdateAppItemState(item->_state);
 			}
 
 			if (_tableHeader)
@@ -366,6 +369,17 @@ namespace Marvel {
 			{
 				for (auto& row : _children[1])
 					row_renderer(row.get());
+			}
+
+			// columns
+			int columnnum = 0;
+			for (auto& item : _children[0])
+			{
+				ImGuiTableColumnFlags flags = ImGui::TableGetColumnFlags(columnnum);
+				item->_state.lastFrameUpdate = GContext->frame;
+				item->_state.visible = flags & ImGuiTableColumnFlags_IsVisible;
+				item->_state.hovered = flags & ImGuiTableColumnFlags_IsHovered;
+				columnnum++;
 			}
 
 			ImGui::EndTable();

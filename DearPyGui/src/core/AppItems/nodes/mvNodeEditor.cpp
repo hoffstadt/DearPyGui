@@ -274,6 +274,7 @@ namespace Marvel {
 			item->draw(drawlist, x, y);
 		}
 
+		_state.lastFrameUpdate = GContext->frame;
 		_state.hovered = imnodes::IsEditorHovered();
 		imnodes::EndNodeEditor();
 		imnodes::PopAttributeFlag();
