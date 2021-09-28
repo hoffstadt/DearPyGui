@@ -110,6 +110,7 @@ We generally fold multiple commits pertaining to the same topic as a single entr
 * command: `set_staging_mode(...)` is deprecated. No longer needed.
 * command: `add_spacing(...)` is deprecated. Use 'add_spacer(...)`
 * command: `add_dummy(...)` is deprecated. Use 'add_spacer(...)`
+* command: `add_child(...)` is deprecated. Use 'add_child_window(...)`
 
 ### Fixes
 * fixed `get_item_configuration(...)` memory leak #1179
@@ -117,3 +118,8 @@ We generally fold multiple commits pertaining to the same topic as a single entr
 * fixed window info not registering as container #1188
 * fixed min/max clamping issue with input widgets #1229
 * fixed using aliases for set/get value
+* fixed issue with `get_selected_nodes(...)` #1263
+* fixed listbox default value empty #1219
+* fixed ellipse thickness keyword not working #1213
+* fixed return type hints for callbacks #1208
+* fixed modal xpos creep #1171
