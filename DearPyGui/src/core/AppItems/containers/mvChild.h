@@ -27,15 +27,15 @@ SOFTWARE.
 
 namespace Marvel {
 
-    MV_REGISTER_WIDGET(mvChild, MV_ITEM_DESC_CONTAINER, StorageValueTypes::Bool, 1);
-    class mvChild : public mvAppItem
+    MV_REGISTER_WIDGET(mvChildWindow, MV_ITEM_DESC_CONTAINER, StorageValueTypes::Bool, 1);
+    class mvChildWindow : public mvAppItem
     {
 
     public:
 
         static void InsertParser(std::map<std::string, mvPythonParser>* parsers);
 
-        MV_APPLY_WIDGET_REGISTRATION(mvAppItemType::mvChild, add_child)
+        MV_APPLY_WIDGET_REGISTRATION(mvAppItemType::mvChildWindow, add_child_window)
         MV_NO_COMMANDS
         MV_DEFAULT_PARENTS
         MV_DEFAULT_CHILDREN
@@ -52,7 +52,7 @@ namespace Marvel {
 
     public:
 
-        explicit mvChild(mvUUID uuid);
+        explicit mvChildWindow(mvUUID uuid);
 
         void draw(ImDrawList* drawlist, float x, float y) override;
         void handleSpecificKeywordArgs(PyObject* dict) override;

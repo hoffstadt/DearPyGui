@@ -91,8 +91,12 @@ namespace Marvel {
 			}
 		}
 
-		drawlist->AddPolyline((const ImVec2*)const_cast<const mvVec2*>(points.data()), (int)points.size(), 
-			_color, false, ImPlot::GetCurrentContext()->Mx * _thickness);
+        if(ImPlot::GetCurrentContext()->CurrentPlot)
+            drawlist->AddPolyline((const ImVec2*)const_cast<const mvVec2*>(points.data()), (int)points.size(), 
+			    _color, false, ImPlot::GetCurrentContext()->Mx * _thickness);
+        else
+            drawlist->AddPolyline((const ImVec2*)const_cast<const mvVec2*>(points.data()), (int)points.size(), 
+			    _color, false, _thickness);
 		if (_fill.r < 0.0f)
 			return;
 		drawlist->AddConvexPolyFilled((const ImVec2*)const_cast<const mvVec2*>(points.data()), (int)points.size(), _fill);

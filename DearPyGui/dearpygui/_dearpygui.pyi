@@ -46,7 +46,7 @@ def add_checkbox(*, label: str ='', user_data: Any ='', use_internal_label: bool
 	"""Adds a checkbox."""
 	...
 
-def add_child(*, label: str ='', user_data: Any ='', use_internal_label: bool ='', tag: Union[int, str] ='', width: int ='', height: int ='', indent: int ='', parent: Union[int, str] ='', before: Union[int, str] ='', payload_type: str ='', drop_callback: Callable ='', show: bool ='', pos: Union[List[int], Tuple[int]] ='', filter_key: str ='', delay_search: bool ='', tracked: bool ='', track_offset: float ='', border: bool ='', autosize_x: bool ='', autosize_y: bool ='', no_scrollbar: bool ='', horizontal_scrollbar: bool ='', menubar: bool ='') -> Union[int, str]:
+def add_child_window(*, label: str ='', user_data: Any ='', use_internal_label: bool ='', tag: Union[int, str] ='', width: int ='', height: int ='', indent: int ='', parent: Union[int, str] ='', before: Union[int, str] ='', payload_type: str ='', drop_callback: Callable ='', show: bool ='', pos: Union[List[int], Tuple[int]] ='', filter_key: str ='', delay_search: bool ='', tracked: bool ='', track_offset: float ='', border: bool ='', autosize_x: bool ='', autosize_y: bool ='', no_scrollbar: bool ='', horizontal_scrollbar: bool ='', menubar: bool ='') -> Union[int, str]:
 	"""Adds an embedded child window. Will show scrollbars when items do not fit."""
 	...
 
@@ -1303,7 +1303,7 @@ mvMenuBar=0
 mvViewportMenuBar=0
 mvMenu=0
 mvMenuItem=0
-mvChild=0
+mvChildWindow=0
 mvGroup=0
 mvSliderFloat=0
 mvSliderInt=0

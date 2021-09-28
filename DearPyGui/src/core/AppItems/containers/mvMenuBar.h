@@ -45,7 +45,7 @@ namespace Marvel {
 
         MV_START_PARENTS
             MV_ADD_PARENT(mvAppItemType::mvWindowAppItem),
-            MV_ADD_PARENT(mvAppItemType::mvChild),
+            MV_ADD_PARENT(mvAppItemType::mvChildWindow),
             MV_ADD_PARENT(mvAppItemType::mvNodeEditor),
             MV_ADD_PARENT(mvAppItemType::mvStage),
             MV_ADD_PARENT(mvAppItemType::mvTemplateRegistry),

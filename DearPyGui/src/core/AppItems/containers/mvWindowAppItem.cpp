@@ -297,7 +297,7 @@ namespace Marvel {
             if (_shownLastFrame)
             {
                 _shownLastFrame = false;
-                ImGui::OpenPopup(_internalLabel.c_str());
+                ImGui::OpenPopup(_internalLabel.c_str(), ImGuiPopupFlags_NoOpenOverExistingPopup);
             }
             
             if (!ImGui::BeginPopupModal(_internalLabel.c_str(), _no_close ? nullptr : &_show, _windowflags))
@@ -327,7 +327,7 @@ namespace Marvel {
             if (_shownLastFrame)
             {
                 _shownLastFrame = false;
-                ImGui::OpenPopup(_internalLabel.c_str());
+                ImGui::OpenPopup(_internalLabel.c_str(), ImGuiPopupFlags_NoOpenOverExistingPopup);
             }
 
             if (!ImGui::BeginPopup(_internalLabel.c_str(), _windowflags))
@@ -641,16 +641,16 @@ namespace Marvel {
             pWindow->_scrollX = value;
             pWindow->_scrollXSet = true;
         }
-        else if (window->getType() == mvAppItemType::mvChild)
+        else if (window->getType() == mvAppItemType::mvChildWindow)
         {
-            auto pChild = static_cast<mvChild*>(window);
+            auto pChild = static_cast<mvChildWindow*>(window);
 
             pChild->setScrollX(value);
         }
         else
         {
             mvThrowPythonError(mvErrorCode::mvIncompatibleType, "set_x_scroll",
-                "Incompatible type. Expected types include: mvWindowAppItem, mvChild", window);
+                "Incompatible type. Expected types include: mvWindowAppItem, mvChildWindow", window);
         }
         
         return GetPyNone();
@@ -686,16 +686,16 @@ namespace Marvel {
             pWindow->_scrollY = value;
             pWindow->_scrollYSet = true;
         }
-        else if (window->getType() == mvAppItemType::mvChild)
+        else if (window->getType() == mvAppItemType::mvChildWindow)
         {
-            auto pChild = static_cast<mvChild*>(window);
+            auto pChild = static_cast<mvChildWindow*>(window);
 
             pChild->setScrollY(value);
         }
         else
         {
             mvThrowPythonError(mvErrorCode::mvIncompatibleType, "set_y_scroll",
-                "Incompatible type. Expected types include: mvWindowAppItem, mvChild", window);
+                "Incompatible type. Expected types include: mvWindowAppItem, mvChildWindow", window);
         }
 
         return GetPyNone();
@@ -729,16 +729,16 @@ namespace Marvel {
 
             return ToPyFloat(pWindow->_scrollX);
         }
-        else if (window->getType() == mvAppItemType::mvChild)
+        else if (window->getType() == mvAppItemType::mvChildWindow)
         {
-            auto pChild = static_cast<mvChild*>(window);
+            auto pChild = static_cast<mvChildWindow*>(window);
 
             return ToPyFloat(pChild->getScrollX());
         }
         else
         {
             mvThrowPythonError(mvErrorCode::mvIncompatibleType, "get_x_scroll",
-                "Incompatible type. Expected types include: mvWindowAppItem, mvChild", window);
+                "Incompatible type. Expected types include: mvWindowAppItem, mvChildWindow", window);
         }
 
         return GetPyNone();
@@ -772,16 +772,16 @@ namespace Marvel {
 
             return ToPyFloat(pWindow->_scrollY);
         }
-        else if (window->getType() == mvAppItemType::mvChild)
+        else if (window->getType() == mvAppItemType::mvChildWindow)
         {
-            auto pChild = static_cast<mvChild*>(window);
+            auto pChild = static_cast<mvChildWindow*>(window);
 
             return ToPyFloat(pChild->getScrollY());
         }
         else
         {
             mvThrowPythonError(mvErrorCode::mvIncompatibleType, "get_y_scroll",
-                "Incompatible type. Expected types include: mvWindowAppItem, mvChild", window);
+                "Incompatible type. Expected types include: mvWindowAppItem, mvChildWindow", window);
         }
 
         return GetPyNone();
@@ -815,16 +815,16 @@ namespace Marvel {
 
             return ToPyFloat(pWindow->_scrollMaxX);
         }
-        else if (window->getType() == mvAppItemType::mvChild)
+        else if (window->getType() == mvAppItemType::mvChildWindow)
         {
-            auto pChild = static_cast<mvChild*>(window);
+            auto pChild = static_cast<mvChildWindow*>(window);
 
             return ToPyFloat(pChild->getScrollXMax());
         }
         else
         {
             mvThrowPythonError(mvErrorCode::mvIncompatibleType, "get_x_scroll_max",
-                "Incompatible type. Expected types include: mvWindowAppItem, mvChild", window);
+                "Incompatible type. Expected types include: mvWindowAppItem, mvChildWindow", window);
         }
 
         return GetPyNone();
@@ -858,16 +858,16 @@ namespace Marvel {
 
             return ToPyFloat(pWindow->_scrollMaxY);
         }
-        else if (window->getType() == mvAppItemType::mvChild)
+        else if (window->getType() == mvAppItemType::mvChildWindow)
         {
-            auto pChild = static_cast<mvChild*>(window);
+            auto pChild = static_cast<mvChildWindow*>(window);
 
             return ToPyFloat(pChild->getScrollYMax());
         }
         else
         {
             mvThrowPythonError(mvErrorCode::mvIncompatibleType, "set_y_scroll_max",
-                "Incompatible type. Expected types include: mvWindowAppItem, mvChild", window);
+                "Incompatible type. Expected types include: mvWindowAppItem, mvChildWindow", window);
         }
 
         return GetPyNone();
