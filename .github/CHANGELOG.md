@@ -79,7 +79,8 @@ We generally fold multiple commits pertaining to the same topic as a single entr
 * callbacks will now send alias through the `sender` argument if alias is used.
 * columns can now be programmatically hidden
 * table "value" is now a string, which acts as a filter using the row filter keys
-
+* texture id can be updated with `configure_item(...)` for texture based widgets
+        
 ### Deprecated
 * command: `cleanup_dearpygui(...)` is deprecated. Use `destroy_context(...)`
 * command: `staging_container(...)` is deprecated. Use `stage(...)`

@@ -245,6 +245,25 @@ namespace Marvel {
 			_bounds_max.y = result.y;
 		}
 
+		if (PyObject* item = PyDict_GetItemString(dict, "texture_id"))
+        {
+            _textureUUID = GetIDFromPyObject(item);
+            _texture = GetRefItem(*GContext->itemRegistry, _textureUUID);
+            if (_textureUUID == MV_ATLAS_UUID)
+            {
+                _texture = std::make_shared<mvStaticTexture>(_textureUUID);
+                _internalTexture = true;
+            }
+            else if(_texture)
+            {
+                _internalTexture = false;
+            }
+            else
+            {
+                mvThrowPythonError(mvErrorCode::mvTextureNotFound, s_command, "Texture not found.", this);
+			}
+        }
+
 	}
 
 	void mvImageSeries::getSpecificConfiguration(PyObject* dict)

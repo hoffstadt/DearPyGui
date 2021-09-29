@@ -270,6 +270,24 @@ namespace Marvel {
 		if (PyObject* item = PyDict_GetItemString(dict, "tint_color")) _tintColor = ToColor(item);
 		if (PyObject* item = PyDict_GetItemString(dict, "background_color")) _backgroundColor = ToColor(item);
 		if (PyObject* item = PyDict_GetItemString(dict, "frame_padding")) _framePadding = ToInt(item);
+        if (PyObject* item = PyDict_GetItemString(dict, "texture_id"))
+        {
+            _textureUUID = GetIDFromPyObject(item);
+            _texture = GetRefItem(*GContext->itemRegistry, _textureUUID);
+            if (_textureUUID == MV_ATLAS_UUID)
+            {
+                _texture = std::make_shared<mvStaticTexture>(_textureUUID);
+                _internalTexture = true;
+            }
+            else if(_texture)
+            {
+                _internalTexture = false;
+            }
+            else
+            {
+                mvThrowPythonError(mvErrorCode::mvTextureNotFound, s_command, "Texture not found.", this);
+			}
+        }
 	}
 
 	void mvImageButton::getSpecificConfiguration(PyObject* dict)
