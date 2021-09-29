@@ -77,7 +77,6 @@ def start_dearpygui():
 
     while(internal_dpg.is_dearpygui_running()):
         internal_dpg.render_dearpygui_frame()   
-    internal_dpg.destroy_context()
 
 
 @contextmanager
