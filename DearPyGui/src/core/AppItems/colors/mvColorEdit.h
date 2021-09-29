@@ -103,7 +103,7 @@ namespace Marvel {
     private:
         mvRef<std::array<float, 4>> _value = CreateRef<std::array<float, 4>>(std::array<float, 4>{0.0f, 0.0f, 0.0f, 1.0f});
         float                       _disabled_value[4]{};
-        ImGuiColorEditFlags         _flags = ImGuiColorEditFlags__OptionsDefault;
+        ImGuiColorEditFlags         _flags = ImGuiColorEditFlags_DefaultOptions_;
         bool                        _no_picker = false;
         bool                        _no_options = false;
         bool                        _no_inputs = false;
