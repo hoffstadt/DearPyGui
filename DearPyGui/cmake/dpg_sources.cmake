@@ -238,6 +238,7 @@ set(MARVEL_SOURCES
 	"$<$<PLATFORM_ID:Darwin>:../Dependencies/imgui/misc/freetype/imgui_freetype.cpp>"
 	"$<$<PLATFORM_ID:Linux>:../Dependencies/imgui/backends/imgui_impl_glfw.cpp>"
 	"$<$<PLATFORM_ID:Linux>:../Dependencies/imgui/backends/imgui_impl_opengl3.cpp>"
+	"$<$<PLATFORM_ID:Linux>:../Dependencies/gl3w/gl3w.c>"
 )
 
 set(MARVEL_INCLUDE_DIR
@@ -259,6 +260,7 @@ set(MARVEL_INCLUDE_DIR
 	"../Dependencies/glfw/include/"
 	"../Dependencies/glfw/deps/"
 	"../Dependencies/imgui/"
+	"../Dependencies/gl3w/"
 	"../Dependencies/imgui/misc/freetype/"
 	"../Dependencies/imgui/backends/"
 	"../Dependencies/imgui/examples/libs/gl3w"

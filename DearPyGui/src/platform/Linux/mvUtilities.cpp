@@ -4,7 +4,7 @@
 #include <string>
 #include <vector>
 #include <unordered_map>
-#include <GL/gl3w.h>
+#include "gl3w.h"
 #include <GLFW/glfw3.h>
 
 static std::unordered_map<GLuint, GLuint> PBO_ids;
