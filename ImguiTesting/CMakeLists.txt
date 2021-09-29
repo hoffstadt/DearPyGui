@@ -35,6 +35,7 @@ target_sources(PureImgui
 		"$<$<PLATFORM_ID:Darwin>:../Dependencies/imgui/misc/freetype/imgui_freetype.cpp>"
 		"$<$<PLATFORM_ID:Linux>:../Dependencies/imgui/backends/imgui_impl_glfw.cpp>"
 		"$<$<PLATFORM_ID:Linux>:../Dependencies/imgui/backends/imgui_impl_opengl3.cpp>"
+		"$<$<PLATFORM_ID:Linux>:../Dependencies/gl3w/gl3w.c>"
 )
 
 
@@ -65,6 +66,7 @@ target_include_directories(PureImgui
 		"src/"
 		"../Dependencies/glfw/include/"
 		"../Dependencies/glfw/deps/"
+		"../Dependencies/gl3w/"
 		"../Dependencies/imgui/"
 		"../Dependencies/imgui/misc/freetype/"
 		"../Dependencies/ImGuiFileDialog/ImGuiFileDialog/"
