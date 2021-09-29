@@ -1,5 +1,5 @@
 Menus
------
+=====
 
 The menu bar consists of the following components
 
