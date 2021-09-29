@@ -20,7 +20,7 @@ Container items can be manually pushed onto the container stack using
 and popped off using
 :py:func:`pop_container_stack <dearpygui.dearpygui.pop_container_stack>`.
 
-This process is automated when using :doc:`../api-reference/container-context-manager`.
+This process is automated when using :doc:`../documentation/container-context-manager`.
 Below is a simple example demonstrating manual stack operations:
 
 .. code-block:: python

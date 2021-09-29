@@ -37,7 +37,7 @@ Images
 
 Drawlists can display any textures including images
 of types PNG, JPEG, or BMP (See
-:doc:`../api-reference/textures` for
+:doc:`../documentation/textures` for
 more detail). Images are drawn using draw_image.
 
 Using the keywords **pmin** and **pmax** we can define the
