@@ -39,6 +39,7 @@ Any widget can be added to a menu.
     def print_me(sender):
         print(f"Menu Item: {sender}")
 
+    dpg.create_context()
     dpg.create_viewport(title='Custom Title', width=600, height=200)
 
 
@@ -61,12 +62,15 @@ Any widget can be added to a menu.
     dpg.setup_dearpygui()
     dpg.show_viewport()
     dpg.start_dearpygui()
+    dpg.destroy_context()
 
 **Menu Bar Example**
 
 .. code-block:: python
 
     import dearpygui.dearpygui as dpg
+
+    dpg.create_context()
 
     dpg.create_viewport(title='Custom Title', width=600, height=200)
 
@@ -95,6 +99,7 @@ Any widget can be added to a menu.
     dpg.setup_dearpygui()
     dpg.show_viewport()
     dpg.start_dearpygui()
+    dpg.destroy_context()
 
 **Results**
 
