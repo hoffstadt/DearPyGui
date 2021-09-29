@@ -4,7 +4,7 @@
 #include <string>
 #include <vector>
 #include <unordered_map>
-#include "gl3w.h"
+#include <GL/gl3w.h>
 #include <GLFW/glfw3.h>
 
 static std::unordered_map<GLuint, GLuint> PBO_ids;
@@ -130,10 +130,10 @@ namespace Marvel {
     }
 
     bool UnloadTexture(const std::string& filename)
-	{
-		// TODO : decide if cleanup is necessary
-		return true;
-	}
+    {
+        // TODO : decide if cleanup is necessary
+        return true;
+    }
 
     void FreeTexture(void* texture)
     {
