@@ -178,14 +178,14 @@ Tabs in a tab bar can be made reorderable by using the keyword reorderable=True 
 ---------------------------------------------------------
 
 
-:doc:`../api-reference/simple-plots` is for plotting simple data.
-This is not to be confused with the more powerful and complex :doc:`../api-reference/plots`.
+:doc:`../documentation/simple-plots` is for plotting simple data.
+This is not to be confused with the more powerful and complex :doc:`../documentation/plots`.
 
 Create a basic histogram using add_simple_plot(“Plot 1”, value=[1, 4.3, 8, 9, 3], histogram=True).
 There are several keywords to customise the plot.
 
 add_text(“Hover me”, tip=”A simple tooltip”). This simple tooltip
-is only for text. The :doc:`../api-reference/tooltips` is more powerful.
+is only for text. The :doc:`../documentation/tooltips` is more powerful.
 
 The tooltip widget is a container, i.e.
 context manager, just like ‘with window’ and ‘with group’.
@@ -198,7 +198,7 @@ Note that the user cannot interact with the tooltip widget.
 `Popups <https://www.youtube.com/watch?v=paClQ6SewX8>`_
 -------------------------------------------------------
 
-:doc:`../api-reference/popups` require a parent.
+:doc:`../documentation/popups` require a parent.
 That may change in future versions of Dear PyGui.
 
 A popup is a container, so it has a context manager (with popup:).
