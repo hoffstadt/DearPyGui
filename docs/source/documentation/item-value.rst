@@ -20,7 +20,7 @@ Values can be changed manually using :py:func:`set_value <dearpygui.dearpygui.se
     dpg.start_dearpygui()
 
 Value App Items
-------------------
+---------------
 There are several "Value" items that can be used. These are
 widgets that have no visual component. These include:
 

@@ -29,12 +29,12 @@ The most basic example can be found below:
 
 When staging mode is enabled, items will
 still attempt to
-:doc:`../api-reference/container-stack`
+:doc:`../documentation/container-stack`
 according to the regular procedure however if a parent can not be deduced, it will stage the item.
 
 Using :py:func:`unstage_items <dearpygui.dearpygui.unstage_items>`
 will attempt to place the item as if you created it there, following
-the standard rules of :doc:`../api-reference/container-stack`.
+the standard rules of :doc:`../documentation/container-stack`.
 You can also unstage an item by using :py:func:`move_item <dearpygui.dearpygui.move_item>`
 
 Staging Container

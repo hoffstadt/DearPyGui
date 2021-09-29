@@ -36,13 +36,13 @@ All items return their id's when they are created.
 
     dpg.start_dearpygui()
 
-.. note:: Items can be created delete at runtime see :doc:`../api-reference/item-creation-runtime`
+.. note:: Items can be created delete at runtime see :doc:`../documentation/item-creation-runtime`
 
 .. seealso::
     | For more information on the creating items:
-    | :doc:`../api-reference/item-creation`
-    | :doc:`../api-reference/item-id-system`
-    | :doc:`../api-reference/item-creation-runtime`
+    | :doc:`../documentation/item-creation`
+    | :doc:`../documentation/item-id-system`
+    | :doc:`../documentation/item-creation-runtime`
 
 Creating Containers
 -------------------
@@ -70,10 +70,10 @@ by specifying the parent
 
 .. seealso::
     | For more information on containers:
-    | :doc:`../api-reference/item-creation`
-    | :doc:`../api-reference/container-context-manager`
-    | :doc:`../api-reference/container-slots`
-    | :doc:`../api-reference/container-stack`
+    | :doc:`../documentation/item-creation`
+    | :doc:`../documentation/container-context-manager`
+    | :doc:`../documentation/container-slots`
+    | :doc:`../documentation/container-stack`
 
 Configuration, State, Info
 --------------------------
@@ -126,8 +126,8 @@ by viewing them through the item registry tool.
 
 .. seealso::
     | For more information on the these topics:
-    | :doc:`../api-reference/item-configuration`
-    | :doc:`../api-reference/io-handlers-state`
+    | :doc:`../documentation/item-configuration`
+    | :doc:`../documentation/io-handlers-state`
 
 Callbacks
 ---------
@@ -175,7 +175,7 @@ user_data:
     dpg.start_dearpygui()
 
 .. seealso::
-    For more information on the item callbacks :doc:`../api-reference/item-callbacks`
+    For more information on the item callbacks :doc:`../documentation/item-callbacks`
 
 Values
 ------
@@ -256,7 +256,7 @@ We can set the position of the slider by changing items' value at runtime using
     The values' type depends on the widget. (ex.) input_int default value needs to be an integer.
 
 .. seealso::
-    For more information on item values :doc:`../api-reference/item-value`
+    For more information on item values :doc:`../documentation/item-value`
 
 Item Handlers
 -------------
@@ -277,4 +277,4 @@ UI item handlers listen for events (changes in state) related to a UI item then 
     dpg.start_dearpygui()
 
 .. seealso::
-    For more information on item handlers :doc:`../api-reference/io-handlers-state`
+    For more information on item handlers :doc:`../documentation/io-handlers-state`
