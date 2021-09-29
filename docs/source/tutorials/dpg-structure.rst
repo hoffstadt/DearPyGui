@@ -41,7 +41,7 @@ and give it a new title and size.
 
     dpg.start_dearpygui()
 
-.. seealso:: For more information on the viewport :doc:`../api-reference/viewport`
+.. seealso:: For more information on the viewport :doc:`../documentation/viewport`
 
 Render Loop
 -----------
@@ -82,7 +82,7 @@ Lets add this into the first app.
 
     dpg.cleanup_dearpygui()
 
-.. seealso:: for more information on the render loop :doc:`../api-reference/render-loop`
+.. seealso:: for more information on the render loop :doc:`../documentation/render-loop`
 
 Items
 -----
@@ -119,4 +119,4 @@ viewport and always be drawn behind other windows.
     dpg.set_primary_window("Primary Window", True)
     dpg.start_dearpygui()
 
-.. seealso:: for more information on the viewport :doc:`../api-reference/primary-window`
+.. seealso:: for more information on the viewport :doc:`../documentation/primary-window`

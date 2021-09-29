@@ -357,7 +357,7 @@ Colors and Styles
 The color and styles of a plot and series can be changed using theme app item
 
 .. seealso::
-    For more information on item values :doc:`../api-reference/themes`
+    For more information on item values :doc:`../documentation/themes`
 
 Below is a simple example demonstrating this
 

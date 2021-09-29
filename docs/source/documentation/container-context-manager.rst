@@ -3,7 +3,7 @@ Containers & Context Managers
 
 We have added context managers as helpers for most container items.
 
-.. seealso:: For more detail :doc:`../api-reference/container-stack`
+.. seealso:: For more detail :doc:`../documentation/container-stack`
 
 
 +---------------------------+----------------------------------+
