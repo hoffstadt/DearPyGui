@@ -1,13 +1,10 @@
 #pragma once
 
 //-----------------------------------------------------------------------------
-// mvWindow
+// mvViewport
 //
-//     - This abstract class is just a light wrapper for a platform specific
+//     - Light wrapper for a platform specific
 //       window. It's quite lacking so may need to be extended later.
-//
-//     - This class may need to be renamed to remove confusion between this
-//       window and the mvWindowAppItem class (maybe to viewport?)
 //     
 //-----------------------------------------------------------------------------
 
