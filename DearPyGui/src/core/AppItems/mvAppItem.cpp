@@ -11,7 +11,8 @@
 
 namespace Marvel {
 
-    static void UpdateLocations(std::vector<mvRef<mvAppItem>>* children, int slots)
+    mv_internal void 
+    UpdateLocations(std::vector<mvRef<mvAppItem>>* children, int slots)
     {
         for (int i = 0; i < slots; i++)
         {
@@ -30,7 +31,31 @@ namespace Marvel {
         _internalLabel = "###" + std::to_string(_uuid);
     }
 
-    void mvAppItem::applyTemplate(mvAppItem* item)
+    mvAppItem::~mvAppItem()
+    {
+        for (auto& childset : _children)
+        {
+            childset.clear();
+            childset.shrink_to_fit();
+        }
+        onChildrenRemoved();
+
+        mvGlobalIntepreterLock gil;
+        if (_callback) Py_DECREF(_callback);
+        if (_user_data) Py_DECREF(_user_data);
+        if (_dragCallback) Py_DECREF(_dragCallback);
+        if (_dropCallback) Py_DECREF(_dropCallback);
+
+        // in case item registry is destroyed
+        if (GContext->started)
+        {
+            CleanUpItem(*GContext->itemRegistry, _uuid);
+            RemoveAlias(*GContext->itemRegistry, _alias, true);
+        }
+    }
+
+    void 
+    mvAppItem::applyTemplate(mvAppItem* item)
     {
         _useInternalLabel = item->_useInternalLabel;
         _tracked = item->_tracked;
@@ -103,7 +128,8 @@ namespace Marvel {
         applySpecificTemplate(item);
     }
 
-    bool mvAppItem::moveChildUp(mvUUID uuid)
+    bool 
+    mvAppItem::moveChildUp(mvUUID uuid)
     {
         bool found = false;
         int index = 0;
@@ -150,7 +176,8 @@ namespace Marvel {
         return false;
     }
 
-    bool  mvAppItem::moveChildDown(mvUUID uuid)
+    bool  
+    mvAppItem::moveChildDown(mvUUID uuid)
     {
         bool found = false;
         size_t index = 0;
@@ -199,7 +226,8 @@ namespace Marvel {
         return false;
     }
 
-    bool mvAppItem::addRuntimeChild(mvUUID parent, mvUUID before, mvRef<mvAppItem> item)
+    bool 
+    mvAppItem::addRuntimeChild(mvUUID parent, mvUUID before, mvRef<mvAppItem> item)
     {
         if (before == 0 && parent == 0)
             return false;
@@ -295,7 +323,8 @@ namespace Marvel {
         return false;
     }
 
-    bool mvAppItem::addItem(mvRef<mvAppItem> item)
+    bool 
+    mvAppItem::addItem(mvRef<mvAppItem> item)
     {
         item->_location = (int)_children[item->getTarget()].size();
         _children[item->getTarget()].push_back(item);
@@ -303,7 +332,8 @@ namespace Marvel {
         return true;
     }
 
-    bool mvAppItem::addChildAfter(mvUUID prev, mvRef<mvAppItem> item)
+    bool 
+    mvAppItem::addChildAfter(mvUUID prev, mvRef<mvAppItem> item)
     {
         if (prev == 0)
             return false;
@@ -362,7 +392,8 @@ namespace Marvel {
         return false;
     }
 
-    bool mvAppItem::deleteChild(mvUUID uuid)
+    bool 
+    mvAppItem::deleteChild(mvUUID uuid)
     {
 
         for (auto& childset : _children)
@@ -412,7 +443,8 @@ namespace Marvel {
         return false;
     }
 
-    mvRef<mvAppItem> mvAppItem::stealChild(mvUUID uuid)
+    mvRef<mvAppItem>
+    mvAppItem::stealChild(mvUUID uuid)
     {
         mvRef<mvAppItem> stolenChild = nullptr;
 
@@ -466,7 +498,8 @@ namespace Marvel {
         return stolenChild;
     }
 
-    mvAppItem* mvAppItem::getChild(mvUUID uuid)
+    mvAppItem* 
+    mvAppItem::getChild(mvUUID uuid)
     {
 
         if (_uuid == uuid)
@@ -500,7 +533,8 @@ namespace Marvel {
         return nullptr;
     }
 
-    mvRef<mvAppItem> mvAppItem::getChildRef(mvUUID uuid)
+    mvRef<mvAppItem> 
+    mvAppItem::getChildRef(mvUUID uuid)
     {
 
         for (auto& childset : _children)
@@ -519,30 +553,8 @@ namespace Marvel {
         return nullptr;
     }
 
-    mvAppItem::~mvAppItem()
-    {
-        for (auto& childset : _children)
-        {
-            childset.clear();
-            childset.shrink_to_fit();
-        }
-        onChildrenRemoved();
- 
-        mvGlobalIntepreterLock gil;
-        if (_callback) Py_DECREF(_callback);
-        if (_user_data) Py_DECREF(_user_data);
-        if (_dragCallback) Py_DECREF(_dragCallback);
-        if (_dropCallback) Py_DECREF(_dropCallback);
-
-        // in case item registry is destroyed
-        if (GContext->started)
-        {
-            CleanUpItem(*GContext->itemRegistry, _uuid);
-            RemoveAlias(*GContext->itemRegistry, _alias, true);
-        }
-    }
-
-    PyObject* mvAppItem::getCallback(bool ignore_enabled)
+    PyObject* 
+    mvAppItem::getCallback(bool ignore_enabled)
     {
         if (_enabled)
             return _callback;
@@ -550,7 +562,8 @@ namespace Marvel {
         return ignore_enabled ? _callback : nullptr;
     }
 
-    void mvAppItem::handleKeywordArgs(PyObject* dict, const std::string& parser)
+    void 
+    mvAppItem::handleKeywordArgs(PyObject* dict, const std::string& parser)
     {
         if (dict == nullptr)
             return;
@@ -699,7 +712,8 @@ namespace Marvel {
         handleSpecificKeywordArgs(dict);
     }
 
-    void mvAppItem::setDataSource(mvUUID value)
+    void 
+    mvAppItem::setDataSource(mvUUID value)
     {
         _source = value; 
     }

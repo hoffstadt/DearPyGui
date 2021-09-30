@@ -17,7 +17,8 @@ extern id <MTLDevice> gdevice;
 
 namespace Marvel {
     
-    void* LoadTextureFromArray(unsigned width, unsigned height, float* data)
+    mv_impl void*
+    LoadTextureFromArray(unsigned width, unsigned height, float* data)
     {
 
         MTLTextureDescriptor *textureDescriptor = [MTLTextureDescriptor texture2DDescriptorWithPixelFormat:MTLPixelFormatRGBA32Float width:width height:height mipmapped:NO];
@@ -33,7 +34,8 @@ namespace Marvel {
         return (__bridge void*)g_textures.back().second;
     }
 
-    void* LoadTextureFromArrayDynamic(unsigned width, unsigned height, float* data)
+    mv_impl void*
+    LoadTextureFromArrayDynamic(unsigned width, unsigned height, float* data)
     {
 
         MTLTextureDescriptor *textureDescriptor = [MTLTextureDescriptor texture2DDescriptorWithPixelFormat:MTLPixelFormatRGBA32Float width:width height:height mipmapped:NO];
@@ -49,7 +51,8 @@ namespace Marvel {
         return (__bridge void*)g_textures.back().second;
     }
 
-    void* LoadTextureFromArrayRaw(unsigned width, unsigned height, float* data, int components)
+    mv_impl void*
+    LoadTextureFromArrayRaw(unsigned width, unsigned height, float* data, int components)
     {
         MTLTextureDescriptor *textureDescriptor = [MTLTextureDescriptor texture2DDescriptorWithPixelFormat:MTLPixelFormatRGBA32Float width:width height:height mipmapped:NO];
 
@@ -64,7 +67,8 @@ namespace Marvel {
         return (__bridge void*)g_textures.back().second;
     }
 
-    void* LoadTextureFromFile(const char* filename, int& width, int& height)
+    mv_impl void*
+    LoadTextureFromFile(const char* filename, int& width, int& height)
     {
 
         unsigned char* image_data = stbi_load(filename, &width, &height, nullptr, 4);
@@ -86,13 +90,15 @@ namespace Marvel {
         return (__bridge void*)g_textures.back().second;
     }
 
-	bool UnloadTexture(const std::string& filename)
+	mv_impl bool
+    UnloadTexture(const std::string& filename)
 	{
 
 		return true;
 	}
 
-    void FreeTexture(void* texture)
+    mv_impl void
+    FreeTexture(void* texture)
     {
         id <MTLTexture> out_srv = (__bridge id <MTLTexture>)texture;
 
@@ -106,7 +112,8 @@ namespace Marvel {
 
     }
 
-    void UpdateTexture(void* texture, unsigned width, unsigned height, std::vector<float>& data)
+    mv_impl void
+    UpdateTexture(void* texture, unsigned width, unsigned height, std::vector<float>& data)
     {
         id <MTLTexture> out_srv = (__bridge id <MTLTexture>)texture;
         [out_srv replaceRegion:MTLRegionMake2D(0, 0, width, height) mipmapLevel:0 withBytes:data.data() bytesPerRow:width * 4 * 4];

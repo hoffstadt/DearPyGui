@@ -13,7 +13,8 @@
 
 namespace Marvel {
 
-    void InsertParser_mvItemRegistry(std::map<std::string, mvPythonParser>* parsers)
+    void 
+    InsertParser_mvItemRegistry(std::map<std::string, mvPythonParser>* parsers)
     {
 
         {
@@ -559,20 +560,23 @@ namespace Marvel {
         }
     }
 
-    static bool DoesAliasExist(mvItemRegistry& registry, const std::string& alias)
+    mv_internal bool
+    DoesAliasExist(mvItemRegistry& registry, const std::string& alias)
     {
         if (registry.aliases.count(alias) != 0)
             return true;
         return false;
     }
 
-    static void DebugItem(const char* label, const char* item) {
+    mv_internal void
+    DebugItem(const char* label, const char* item) {
         ImGui::Text("%s", label);
         ImGui::SameLine();
         ImGui::TextColored(ImVec4(1.0f, 0.0f, 1.0f, 1.0f), "%s", item);
     }
 
-    static void UpdateLocations(std::vector<mvRef<mvAppItem>>* children, int slots)
+    mv_internal void
+    UpdateLocations(std::vector<mvRef<mvAppItem>>* children, int slots)
     {
         for (int i = 0; i < slots; i++)
         {
@@ -585,12 +589,14 @@ namespace Marvel {
         }
     }
 
-    static void PushParent(mvItemRegistry& registry, mvAppItem* item)
+    mv_internal void
+    PushParent(mvItemRegistry& registry, mvAppItem* item)
     {
         registry.containers.push(item);
     }
 
-    static mvAppItem* PopParent(mvItemRegistry& registry)
+    mv_internal mvAppItem*
+    PopParent(mvItemRegistry& registry)
     {
         if (registry.containers.empty())
         {
@@ -605,14 +611,16 @@ namespace Marvel {
         return item;
     }
 
-    static mvAppItem* TopParent(mvItemRegistry& registry)
+    mv_internal mvAppItem*
+    TopParent(mvItemRegistry& registry)
     {
         if (!registry.containers.empty())
             return registry.containers.top();
         return nullptr;
     }
 
-    static void EmptyParents(mvItemRegistry& registry)
+    mv_internal void
+    EmptyParents(mvItemRegistry& registry)
     {
         while (!registry.containers.empty())
             registry.containers.pop();
@@ -620,7 +628,8 @@ namespace Marvel {
         MV_ITEM_REGISTRY_INFO("Container stack emptied.");
     }
 
-    static void CacheItem(mvItemRegistry& registry, mvAppItem* item)
+    mv_internal void
+    CacheItem(mvItemRegistry& registry, mvAppItem* item)
     {
         if (item->getDescFlags() & MV_ITEM_DESC_CONTAINER)
         {
@@ -638,7 +647,8 @@ namespace Marvel {
             registry.cachedItemsIndex = 0;
     }
 
-    static bool DeleteRoot(std::vector<mvRef<mvAppItem>>& roots, mvUUID uuid)
+    mv_internal bool
+    DeleteRoot(std::vector<mvRef<mvAppItem>>& roots, mvUUID uuid)
     {
         bool deletedItem = false;
 
@@ -690,7 +700,8 @@ namespace Marvel {
         return false;
     }
 
-    static bool MoveRoot(std::vector<mvRef<mvAppItem>>& roots, mvUUID uuid, mvRef<mvAppItem>& item)
+    mv_internal bool
+    MoveRoot(std::vector<mvRef<mvAppItem>>& roots, mvUUID uuid, mvRef<mvAppItem>& item)
     {
         for (auto& window : roots)
         {
@@ -701,7 +712,8 @@ namespace Marvel {
         return false;
     }
 
-    static bool MoveUpRoot(std::vector<mvRef<mvAppItem>>& roots, mvUUID uuid)
+    mv_internal bool
+    MoveUpRoot(std::vector<mvRef<mvAppItem>>& roots, mvUUID uuid)
     {
         for (auto& window : roots)
         {
@@ -711,7 +723,8 @@ namespace Marvel {
         return false;
     }
 
-    static bool MoveDownRoot(std::vector<mvRef<mvAppItem>>& roots, mvUUID uuid)
+    mv_internal bool
+    MoveDownRoot(std::vector<mvRef<mvAppItem>>& roots, mvUUID uuid)
     {
         for (auto& window : roots)
         {
@@ -721,7 +734,8 @@ namespace Marvel {
         return false;
     }
 
-    static bool AddRuntimeChildRoot(std::vector<mvRef<mvAppItem>>& roots, mvUUID parent, mvUUID before, mvRef<mvAppItem> item)
+    mv_internal bool
+    AddRuntimeChildRoot(std::vector<mvRef<mvAppItem>>& roots, mvUUID parent, mvUUID before, mvRef<mvAppItem> item)
     {
         for (auto& root : roots)
         {
@@ -732,7 +746,8 @@ namespace Marvel {
 
     }
 
-    static bool AddItemAfterRoot(std::vector<mvRef<mvAppItem>>& roots, mvUUID prev, mvRef<mvAppItem> item)
+    mv_internal bool
+    AddItemAfterRoot(std::vector<mvRef<mvAppItem>>& roots, mvUUID prev, mvRef<mvAppItem> item)
     {
         for (auto& root : roots)
         {
@@ -743,7 +758,8 @@ namespace Marvel {
         return false;
     }
 
-    static bool AddItemAfter(mvItemRegistry& registry, mvUUID prev, mvRef<mvAppItem> item)
+    mv_internal bool
+    AddItemAfter(mvItemRegistry& registry, mvUUID prev, mvRef<mvAppItem> item)
     {
 
         if (AddItemAfterRoot(registry.colormapRoots, prev, item)) return true;
@@ -764,7 +780,8 @@ namespace Marvel {
         return false;
     }
 
-    static bool AddItem(mvItemRegistry& registry, mvRef<mvAppItem> item)
+    mv_internal bool
+    AddItem(mvItemRegistry& registry, mvRef<mvAppItem> item)
     {
 
         //MV_ITEM_REGISTRY_TRACE("Adding item: " + item->_name);
@@ -776,7 +793,8 @@ namespace Marvel {
         return true;
     }
 
-    static bool AddRuntimeItem(mvItemRegistry& registry, mvUUID parent, mvUUID before, mvRef<mvAppItem> item)
+    mv_internal bool
+    AddRuntimeItem(mvItemRegistry& registry, mvUUID parent, mvUUID before, mvRef<mvAppItem> item)
     {
 
         if (AddRuntimeChildRoot(registry.colormapRoots, parent, before, item)) return true;
@@ -796,7 +814,8 @@ namespace Marvel {
         return false;
     }
 
-    static bool AddRoot(mvItemRegistry& registry, mvRef<mvAppItem> item)
+    mv_internal bool
+    AddRoot(mvItemRegistry& registry, mvRef<mvAppItem> item)
     {
 
         if (item->getType() == mvAppItemType::mvWindowAppItem) registry.windowRoots.push_back(item);
@@ -816,7 +835,8 @@ namespace Marvel {
         return true;
     }
 
-    static mvAppItem* GetItemRoot(mvItemRegistry& registry, std::vector<mvRef<mvAppItem>>& roots, mvUUID uuid)
+    mv_internal mvAppItem*
+    GetItemRoot(mvItemRegistry& registry, std::vector<mvRef<mvAppItem>>& roots, mvUUID uuid)
     {
         for (auto root : roots)
         {
@@ -838,7 +858,8 @@ namespace Marvel {
         return nullptr;
     }
 
-    static mvRef<mvAppItem> GetRefItemRoot(std::vector<mvRef<mvAppItem>>& roots, mvUUID uuid)
+    mv_internal mvRef<mvAppItem>
+    GetRefItemRoot(std::vector<mvRef<mvAppItem>>& roots, mvUUID uuid)
     {
 
         for (auto& root : roots)
@@ -854,7 +875,8 @@ namespace Marvel {
         return nullptr;
     }
 
-    static void GetAllItemsRoot(std::vector<mvRef<mvAppItem>>& roots, std::vector<mvUUID>& childList)
+    mv_internal void
+    GetAllItemsRoot(std::vector<mvRef<mvAppItem>>& roots, std::vector<mvUUID>& childList)
     {
         // to help recursively retrieve children
         std::function<void(mvRef<mvAppItem>)> ChildRetriever;
@@ -890,7 +912,8 @@ namespace Marvel {
         }
     }
 
-    static std::vector<mvUUID> GetAllItems(mvItemRegistry& registry)
+    mv_internal std::vector<mvUUID>
+    GetAllItems(mvItemRegistry& registry)
     {
 
         std::vector<mvUUID> childList;
@@ -912,7 +935,8 @@ namespace Marvel {
         return childList;
     }
 
-    static std::vector<mvUUID> GetWindows(mvItemRegistry& registry)
+    mv_internal std::vector<mvUUID>
+    GetWindows(mvItemRegistry& registry)
     {
 
         std::vector<mvUUID> childList;
@@ -933,7 +957,8 @@ namespace Marvel {
         return childList;
     }
 
-    static void SetPrimaryWindow(mvItemRegistry& registry, mvUUID uuid, bool value)
+    mv_internal void
+    SetPrimaryWindow(mvItemRegistry& registry, mvUUID uuid, bool value)
     {
 
         mvWindowAppItem* window = GetWindow(registry, uuid);
@@ -961,7 +986,8 @@ namespace Marvel {
 
     }
 
-    static void UnstageItem(mvItemRegistry& registry, mvUUID uuid)
+    mv_internal void
+    UnstageItem(mvItemRegistry& registry, mvUUID uuid)
     {
         bool item_found = false;
         for (auto& item : registry.stagingRoots)
@@ -991,7 +1017,8 @@ namespace Marvel {
 
     }
 
-    static std::vector<std::vector<mvUUID>> GetItemChildren(mvItemRegistry& registry, mvUUID uuid)
+    mv_internal std::vector<std::vector<mvUUID>>
+    GetItemChildren(mvItemRegistry& registry, mvUUID uuid)
     {
 
         mvAppItem* item = GetItem(registry, uuid);
@@ -1019,12 +1046,14 @@ namespace Marvel {
         return childList;
     }
 
-    static void AddDebugWindow(mvItemRegistry& registry, mvRef<mvAppItem> item)
+    mv_internal void
+    AddDebugWindow(mvItemRegistry& registry, mvRef<mvAppItem> item)
     {
         registry.debugWindows.push_back(item);
     }
 
-    static void RemoveDebugWindow(mvItemRegistry& registry, mvUUID uuid)
+    mv_internal void
+    RemoveDebugWindow(mvItemRegistry& registry, mvUUID uuid)
     {
         // check if debug window exists
         bool exists = false;
@@ -1051,7 +1080,8 @@ namespace Marvel {
         }
     }
 
-    mvUUID GetIDFromPyObject(PyObject* item)
+    mvUUID 
+    GetIDFromPyObject(PyObject* item)
     {
 
         if (item == nullptr)
@@ -1067,7 +1097,8 @@ namespace Marvel {
         return 0;
     }
 
-    mvRef<mvAppItem> GetItemFromPool(mvItemRegistry& registry, mvAppItemType itemType)
+    mvRef<mvAppItem> 
+    GetItemFromPool(mvItemRegistry& registry, mvAppItemType itemType)
     {
         for (auto& pool : registry.itemPoolRoots)
         {
@@ -1079,7 +1110,8 @@ namespace Marvel {
         return nullptr;
     }
 
-    mvAppItem* GetItemRoot(mvItemRegistry& registry, mvUUID uuid)
+    mvAppItem* 
+    GetItemRoot(mvItemRegistry& registry, mvUUID uuid)
     {
         mvAppItem* item = GetItem(registry, uuid);
         if (item)
@@ -1096,7 +1128,8 @@ namespace Marvel {
         return nullptr;
     }
 
-    bool DeleteItem(mvItemRegistry& registry, mvUUID uuid, bool childrenOnly, int slot)
+    bool 
+    DeleteItem(mvItemRegistry& registry, mvUUID uuid, bool childrenOnly, int slot)
     {
 
         MV_ITEM_REGISTRY_TRACE("Attempting to delete: " + std::to_string(uuid));
@@ -1158,7 +1191,8 @@ namespace Marvel {
         return deletedItem;
     }
 
-    bool MoveItem(mvItemRegistry& registry, mvUUID uuid, mvUUID parent, mvUUID before)
+    bool 
+    MoveItem(mvItemRegistry& registry, mvUUID uuid, mvUUID parent, mvUUID before)
     {
 
         MV_ITEM_REGISTRY_TRACE("Attempting to move: " + std::to_string(uuid));
@@ -1194,7 +1228,8 @@ namespace Marvel {
         return movedItem;
     }
 
-    bool MoveItemUp(mvItemRegistry& registry, mvUUID uuid)
+    bool 
+    MoveItemUp(mvItemRegistry& registry, mvUUID uuid)
     {
 
         MV_ITEM_REGISTRY_TRACE("Attempting to move: " + std::to_string(uuid));
@@ -1227,7 +1262,8 @@ namespace Marvel {
         return movedItem;
     }
 
-    bool MoveItemDown(mvItemRegistry& registry, mvUUID uuid)
+    bool 
+    MoveItemDown(mvItemRegistry& registry, mvUUID uuid)
     {
 
         MV_ITEM_REGISTRY_TRACE("Attempting to move: " + std::to_string(uuid));
@@ -1260,7 +1296,8 @@ namespace Marvel {
         return movedItem;
     }
 
-    void RenderItemRegistry(mvItemRegistry& registry)
+    void 
+    RenderItemRegistry(mvItemRegistry& registry)
     {
 
         MV_PROFILE_SCOPE("Rendering")
@@ -1353,8 +1390,8 @@ namespace Marvel {
                 return;
             }
 
-            static char ts[6] = "True";
-            static char fs[6] = "False";
+            mv_local_persist char ts[6] = "True";
+            mv_local_persist char fs[6] = "False";
 
             std::string width = std::to_string(root->_width);
             std::string height = std::to_string(root->_height);
@@ -1427,18 +1464,21 @@ namespace Marvel {
 
     }
 
-    void ResetTheme(mvItemRegistry& registry)
+    void 
+    ResetTheme(mvItemRegistry& registry)
     {
         for (auto& root : registry.themeRegistryRoots)
             root->_show = false;
     }
 
-    void DelaySearch(mvItemRegistry& registry, mvAppItem* item)
+    void 
+    DelaySearch(mvItemRegistry& registry, mvAppItem* item)
     {
         registry.delayedSearch.push_back(item);
     }
 
-    mvAppItem* GetItem(mvItemRegistry& registry, mvUUID uuid)
+    mvAppItem* 
+    GetItem(mvItemRegistry& registry, mvUUID uuid)
     {
 
         // check cache first
@@ -1481,7 +1521,8 @@ namespace Marvel {
         return nullptr;
     }
 
-    mvRef<mvAppItem> GetRefItem(mvItemRegistry& registry, mvUUID uuid)
+    mvRef<mvAppItem> 
+    GetRefItem(mvItemRegistry& registry, mvUUID uuid)
     {
 
         if (auto foundItem = GetRefItemRoot(registry.colormapRoots, uuid)) return foundItem;
@@ -1501,7 +1542,8 @@ namespace Marvel {
         return nullptr;
     }
 
-    mvWindowAppItem* GetWindow(mvItemRegistry& registry, mvUUID uuid)
+    mvWindowAppItem* 
+    GetWindow(mvItemRegistry& registry, mvUUID uuid)
     {
 
         mvAppItem* item = GetItem(registry, uuid);
@@ -1518,7 +1560,8 @@ namespace Marvel {
         return nullptr;
     }
 
-    void ClearItemRegistry(mvItemRegistry& registry)
+    void 
+    ClearItemRegistry(mvItemRegistry& registry)
     {
         MV_ITEM_REGISTRY_INFO("Clearing item registry.");
         registry.colormapRoots.clear();
@@ -1536,7 +1579,8 @@ namespace Marvel {
         registry.itemHandlerRegistryRoots.clear();
     }
 
-    void CleanUpItem(mvItemRegistry& registry, mvUUID uuid)
+    void 
+    CleanUpItem(mvItemRegistry& registry, mvUUID uuid)
     {
         for (int i = 0; i < registry.CachedContainerCount; i++)
         {
@@ -1554,7 +1598,8 @@ namespace Marvel {
         }
     }
 
-    bool AddItemWithRuntimeChecks(mvItemRegistry& registry, mvRef<mvAppItem> item, mvUUID parent, mvUUID before)
+    bool 
+    AddItemWithRuntimeChecks(mvItemRegistry& registry, mvRef<mvAppItem> item, mvUUID parent, mvUUID before)
     {
         //MV_ITEM_REGISTRY_TRACE("Adding runtime item: " + item->_name);
 
@@ -1763,7 +1808,8 @@ namespace Marvel {
         return AddItem(registry, item);
     }
 
-    void AddAlias(mvItemRegistry& registry, const std::string& alias, mvUUID id)
+    void 
+    AddAlias(mvItemRegistry& registry, const std::string& alias, mvUUID id)
     {
         if (!GContext->IO.allowAliasOverwrites)
         {
@@ -1782,7 +1828,8 @@ namespace Marvel {
             item->_alias = alias;
     }
 
-    void RemoveAlias(mvItemRegistry& registry, const std::string& alias, bool itemTriggered)
+    void 
+    RemoveAlias(mvItemRegistry& registry, const std::string& alias, bool itemTriggered)
     {
 
         if (alias.empty())
@@ -1809,14 +1856,16 @@ namespace Marvel {
 
     }
 
-    mvUUID GetIdFromAlias(mvItemRegistry& registry, const std::string& alias)
+    mvUUID 
+    GetIdFromAlias(mvItemRegistry& registry, const std::string& alias)
     {
         if (DoesAliasExist(registry, alias))
             return registry.aliases[alias];
         return 0;
     }
 
-    void TryBoundTemplateRegistry(mvItemRegistry& registry, mvAppItem* item)
+    void 
+    TryBoundTemplateRegistry(mvItemRegistry& registry, mvAppItem* item)
     {
         if (registry.boundedTemplateRegistry)
         {
@@ -1831,7 +1880,8 @@ namespace Marvel {
         }
     }
 
-    std::tuple<mvUUID, mvUUID, std::string> GetNameFromArgs(mvUUID& name, PyObject* args, PyObject* kwargs)
+    std::tuple<mvUUID, mvUUID, std::string> 
+    GetNameFromArgs(mvUUID& name, PyObject* args, PyObject* kwargs)
     {
 
         mvUUID parent = 0;
@@ -1872,7 +1922,8 @@ namespace Marvel {
         return std::make_tuple(parent, before, alias);
     }
 
-    PyObject* pop_container_stack(PyObject* self, PyObject* args, PyObject* kwargs)
+    mv_python_function
+    pop_container_stack(PyObject* self, PyObject* args, PyObject* kwargs)
     {
 
         if (!GContext->manualMutexControl) std::lock_guard<std::mutex> lk(GContext->mutex);
@@ -1885,14 +1936,16 @@ namespace Marvel {
 
     }
 
-    PyObject* empty_container_stack(PyObject* self, PyObject* args, PyObject* kwargs)
+    mv_python_function
+    empty_container_stack(PyObject* self, PyObject* args, PyObject* kwargs)
     {
         if (!GContext->manualMutexControl) std::lock_guard<std::mutex> lk(GContext->mutex);
         EmptyParents((*GContext->itemRegistry));
         return GetPyNone();
     }
 
-    PyObject* top_container_stack(PyObject* self, PyObject* args, PyObject* kwargs)
+    mv_python_function
+    top_container_stack(PyObject* self, PyObject* args, PyObject* kwargs)
     {
         if (!GContext->manualMutexControl) std::lock_guard<std::mutex> lk(GContext->mutex);
 
@@ -1903,28 +1956,32 @@ namespace Marvel {
             return GetPyNone();
     }
 
-    PyObject* last_item(PyObject* self, PyObject* args, PyObject* kwargs)
+    mv_python_function
+    last_item(PyObject* self, PyObject* args, PyObject* kwargs)
     {
         if (!GContext->manualMutexControl) std::lock_guard<std::mutex> lk(GContext->mutex);
 
         return ToPyUUID(GContext->itemRegistry->lastItemAdded);
     }
 
-    PyObject* last_container(PyObject* self, PyObject* args, PyObject* kwargs)
+    mv_python_function
+    last_container(PyObject* self, PyObject* args, PyObject* kwargs)
     {
         if (!GContext->manualMutexControl) std::lock_guard<std::mutex> lk(GContext->mutex);
 
         return ToPyUUID(GContext->itemRegistry->lastContainerAdded);
     }
 
-    PyObject* last_root(PyObject* self, PyObject* args, PyObject* kwargs)
+    mv_python_function
+    last_root(PyObject* self, PyObject* args, PyObject* kwargs)
     {
         if (!GContext->manualMutexControl) std::lock_guard<std::mutex> lk(GContext->mutex);
 
         return ToPyUUID(GContext->itemRegistry->lastRootAdded);
     }
 
-    PyObject* push_container_stack(PyObject* self, PyObject* args, PyObject* kwargs)
+    mv_python_function
+    push_container_stack(PyObject* self, PyObject* args, PyObject* kwargs)
     {
         PyObject* itemraw;
 
@@ -1947,7 +2004,8 @@ namespace Marvel {
         return ToPyBool(false);
     }
 
-    PyObject* set_primary_window(PyObject* self, PyObject* args, PyObject* kwargs)
+    mv_python_function
+    set_primary_window(PyObject* self, PyObject* args, PyObject* kwargs)
     {
         PyObject* itemraw;
         int value;
@@ -1967,14 +2025,16 @@ namespace Marvel {
         return GetPyNone();
     }
 
-    PyObject* get_active_window(PyObject* self, PyObject* args, PyObject* kwargs)
+    mv_python_function
+    get_active_window(PyObject* self, PyObject* args, PyObject* kwargs)
     {
         if (!GContext->manualMutexControl) std::lock_guard<std::mutex> lk(GContext->mutex);
 
         return ToPyUUID(GContext->itemRegistry->activeWindow);
     }
 
-    PyObject* move_item(PyObject* self, PyObject* args, PyObject* kwargs)
+    mv_python_function
+    move_item(PyObject* self, PyObject* args, PyObject* kwargs)
     {
 
         PyObject* itemraw;
@@ -1996,7 +2056,8 @@ namespace Marvel {
         return GetPyNone();
     }
 
-    PyObject* delete_item(PyObject* self, PyObject* args, PyObject* kwargs)
+    mv_python_function
+    delete_item(PyObject* self, PyObject* args, PyObject* kwargs)
     {
 
         PyObject* itemraw;
@@ -2016,7 +2077,8 @@ namespace Marvel {
 
     }
 
-    PyObject* does_item_exist(PyObject* self, PyObject* args, PyObject* kwargs)
+    mv_python_function
+    does_item_exist(PyObject* self, PyObject* args, PyObject* kwargs)
     {
 
         PyObject* itemraw;
@@ -2033,7 +2095,8 @@ namespace Marvel {
         return ToPyBool(false);
     }
 
-    PyObject* move_item_up(PyObject* self, PyObject* args, PyObject* kwargs)
+    mv_python_function
+    move_item_up(PyObject* self, PyObject* args, PyObject* kwargs)
     {
 
         PyObject* itemraw;
@@ -2051,7 +2114,8 @@ namespace Marvel {
 
     }
 
-    PyObject* move_item_down(PyObject* self, PyObject* args, PyObject* kwargs)
+    mv_python_function
+    move_item_down(PyObject* self, PyObject* args, PyObject* kwargs)
     {
 
         PyObject* itemraw;
@@ -2068,7 +2132,8 @@ namespace Marvel {
         return GetPyNone();
     }
 
-    PyObject* reorder_items(PyObject* self, PyObject* args, PyObject* kwargs)
+    mv_python_function
+    reorder_items(PyObject* self, PyObject* args, PyObject* kwargs)
     {
 
         PyObject* containerraw;
@@ -2107,7 +2172,8 @@ namespace Marvel {
         return GetPyNone();
     }
 
-    PyObject* unstage(PyObject* self, PyObject* args, PyObject* kwargs)
+    mv_python_function
+    unstage(PyObject* self, PyObject* args, PyObject* kwargs)
     {
 
         PyObject* itemraw = nullptr;
@@ -2124,7 +2190,8 @@ namespace Marvel {
         return GetPyNone();
     }
 
-    PyObject* show_item_debug(PyObject* self, PyObject* args, PyObject* kwargs)
+    mv_python_function
+    show_item_debug(PyObject* self, PyObject* args, PyObject* kwargs)
     {
 
         PyObject* itemraw = nullptr;
@@ -2151,7 +2218,8 @@ namespace Marvel {
         return GetPyNone();
     }
 
-    PyObject* get_all_items(PyObject* self, PyObject* args, PyObject* kwargs)
+    mv_python_function
+    get_all_items(PyObject* self, PyObject* args, PyObject* kwargs)
     {
 
         if (!GContext->manualMutexControl) std::lock_guard<std::mutex> lk(GContext->mutex);
@@ -2159,7 +2227,8 @@ namespace Marvel {
         return ToPyList(GetAllItems((*GContext->itemRegistry)));
     }
 
-    PyObject* show_imgui_demo(PyObject* self, PyObject* args, PyObject* kwargs)
+    mv_python_function
+    show_imgui_demo(PyObject* self, PyObject* args, PyObject* kwargs)
     {
 
         if (!GContext->manualMutexControl) std::lock_guard<std::mutex> lk(GContext->mutex);
@@ -2168,7 +2237,8 @@ namespace Marvel {
         return GetPyNone();
     }
 
-    PyObject* show_implot_demo(PyObject* self, PyObject* args, PyObject* kwargs)
+    mv_python_function
+    show_implot_demo(PyObject* self, PyObject* args, PyObject* kwargs)
     {
 
         if (!GContext->manualMutexControl) std::lock_guard<std::mutex> lk(GContext->mutex);
@@ -2177,7 +2247,8 @@ namespace Marvel {
         return GetPyNone();
     }
 
-    PyObject* get_windows(PyObject* self, PyObject* args, PyObject* kwargs)
+    mv_python_function
+    get_windows(PyObject* self, PyObject* args, PyObject* kwargs)
     {
 
         if (!GContext->manualMutexControl) std::lock_guard<std::mutex> lk(GContext->mutex);
@@ -2185,7 +2256,8 @@ namespace Marvel {
         return ToPyList(GetWindows((*GContext->itemRegistry)));
     }
 
-    PyObject* add_alias(PyObject* self, PyObject* args, PyObject* kwargs)
+    mv_python_function
+    add_alias(PyObject* self, PyObject* args, PyObject* kwargs)
     {
 
         const char* alias;
@@ -2204,7 +2276,8 @@ namespace Marvel {
 
     }
 
-    PyObject* remove_alias(PyObject* self, PyObject* args, PyObject* kwargs)
+    mv_python_function
+    remove_alias(PyObject* self, PyObject* args, PyObject* kwargs)
     {
 
         const char* alias;
@@ -2220,7 +2293,8 @@ namespace Marvel {
 
     }
 
-    PyObject* does_alias_exist(PyObject* self, PyObject* args, PyObject* kwargs)
+    mv_python_function
+    does_alias_exist(PyObject* self, PyObject* args, PyObject* kwargs)
     {
 
         const char* alias;
@@ -2235,7 +2309,8 @@ namespace Marvel {
         return ToPyBool(result);
     }
 
-    PyObject* get_alias_id(PyObject* self, PyObject* args, PyObject* kwargs)
+    mv_python_function
+    get_alias_id(PyObject* self, PyObject* args, PyObject* kwargs)
     {
 
         const char* alias;
@@ -2250,7 +2325,8 @@ namespace Marvel {
         return ToPyUUID(result);
     }
 
-    PyObject* get_aliases(PyObject* self, PyObject* args, PyObject* kwargs)
+    mv_python_function
+    get_aliases(PyObject* self, PyObject* args, PyObject* kwargs)
     {
 
         if (!GContext->manualMutexControl) std::lock_guard<std::mutex> lk(GContext->mutex);
@@ -2263,7 +2339,8 @@ namespace Marvel {
         return ToPyList(aliases);
     }
 
-    PyObject* bind_template_registry(PyObject* self, PyObject* args, PyObject* kwargs)
+    mv_python_function
+    bind_template_registry(PyObject* self, PyObject* args, PyObject* kwargs)
     {
 
         PyObject* itemraw;
@@ -2295,7 +2372,8 @@ namespace Marvel {
         return GetPyNone();
     }
 
-    PyObject* focus_item(PyObject* self, PyObject* args, PyObject* kwargs)
+    mv_python_function
+    focus_item(PyObject* self, PyObject* args, PyObject* kwargs)
     {
         PyObject* itemraw;
 
@@ -2335,7 +2413,8 @@ namespace Marvel {
         return GetPyNone();
     }
 
-    PyObject* get_item_info(PyObject* self, PyObject* args, PyObject* kwargs)
+    mv_python_function
+    get_item_info(PyObject* self, PyObject* args, PyObject* kwargs)
     {
         PyObject* itemraw;
 
@@ -2414,7 +2493,8 @@ namespace Marvel {
         return pdict;
     }
 
-    PyObject* get_item_configuration(PyObject* self, PyObject* args, PyObject* kwargs)
+    mv_python_function
+    get_item_configuration(PyObject* self, PyObject* args, PyObject* kwargs)
     {
         PyObject* itemraw;
 
@@ -2498,7 +2578,8 @@ namespace Marvel {
         return pdict;
     }
 
-    PyObject* set_item_children(PyObject* self, PyObject* args, PyObject* kwargs)
+    mv_python_function
+    set_item_children(PyObject* self, PyObject* args, PyObject* kwargs)
     {
         PyObject* itemraw;
         PyObject* sourceraw;
@@ -2559,7 +2640,8 @@ namespace Marvel {
         return GetPyNone();
     }
 
-    PyObject* bind_item_font(PyObject* self, PyObject* args, PyObject* kwargs)
+    mv_python_function
+    bind_item_font(PyObject* self, PyObject* args, PyObject* kwargs)
     {
         PyObject* itemraw;
         PyObject* fontraw;
@@ -2601,7 +2683,8 @@ namespace Marvel {
         return GetPyNone();
     }
 
-    PyObject* bind_item_theme(PyObject* self, PyObject* args, PyObject* kwargs)
+    mv_python_function
+    bind_item_theme(PyObject* self, PyObject* args, PyObject* kwargs)
     {
         PyObject* itemraw;
         PyObject* themeraw;
@@ -2643,7 +2726,8 @@ namespace Marvel {
         return GetPyNone();
     }
 
-    PyObject* bind_item_handler_registry(PyObject* self, PyObject* args, PyObject* kwargs)
+    mv_python_function
+    bind_item_handler_registry(PyObject* self, PyObject* args, PyObject* kwargs)
     {
         PyObject* itemraw;
         PyObject* regraw;
@@ -2685,7 +2769,8 @@ namespace Marvel {
         return GetPyNone();
     }
 
-    PyObject* reset_pos(PyObject* self, PyObject* args, PyObject* kwargs)
+    mv_python_function
+    reset_pos(PyObject* self, PyObject* args, PyObject* kwargs)
     {
         PyObject* itemraw;
 
@@ -2707,7 +2792,8 @@ namespace Marvel {
         return GetPyNone();
     }
 
-    PyObject* get_item_state(PyObject* self, PyObject* args, PyObject* kwargs)
+    mv_python_function
+    get_item_state(PyObject* self, PyObject* args, PyObject* kwargs)
     {
         PyObject* itemraw;
 
@@ -2730,7 +2816,8 @@ namespace Marvel {
         return pdict;
     }
 
-    PyObject* get_item_types(PyObject* self, PyObject* args, PyObject* kwargs)
+    mv_python_function
+    get_item_types(PyObject* self, PyObject* args, PyObject* kwargs)
     {
 
         if (!GContext->manualMutexControl) std::lock_guard<std::mutex> lk(GContext->mutex);
@@ -2746,7 +2833,8 @@ namespace Marvel {
         return pdict;
     }
 
-    PyObject* configure_item(PyObject* self, PyObject* args, PyObject* kwargs)
+    mv_python_function
+    configure_item(PyObject* self, PyObject* args, PyObject* kwargs)
     {
 
         if (!GContext->manualMutexControl) std::lock_guard<std::mutex> lk(GContext->mutex);
@@ -2766,7 +2854,8 @@ namespace Marvel {
         return GetPyNone();
     }
 
-    PyObject* get_value(PyObject* self, PyObject* args, PyObject* kwargs)
+    mv_python_function
+    get_value(PyObject* self, PyObject* args, PyObject* kwargs)
     {
         PyObject* nameraw;
 
@@ -2783,7 +2872,8 @@ namespace Marvel {
         return GetPyNone();
     }
 
-    PyObject* get_values(PyObject* self, PyObject* args, PyObject* kwargs)
+    mv_python_function
+    get_values(PyObject* self, PyObject* args, PyObject* kwargs)
     {
         PyObject* items;
 
@@ -2811,7 +2901,8 @@ namespace Marvel {
         return pyvalues;
     }
 
-    PyObject* set_value(PyObject* self, PyObject* args, PyObject* kwargs)
+    mv_python_function
+    set_value(PyObject* self, PyObject* args, PyObject* kwargs)
     {
         PyObject* nameraw;
         PyObject* value;
@@ -2840,7 +2931,8 @@ namespace Marvel {
         return GetPyNone();
     }
 
-    PyObject* set_item_alias(PyObject* self, PyObject* args, PyObject* kwargs)
+    mv_python_function
+    set_item_alias(PyObject* self, PyObject* args, PyObject* kwargs)
     {
         PyObject* itemraw;
         const char* alias;
@@ -2858,7 +2950,8 @@ namespace Marvel {
         return GetPyNone();
     }
 
-    PyObject* get_item_alias(PyObject* self, PyObject* args, PyObject* kwargs)
+    mv_python_function
+    get_item_alias(PyObject* self, PyObject* args, PyObject* kwargs)
     {
         PyObject* itemraw;
 

@@ -25,7 +25,8 @@ id <MTLDevice>                  gdevice;
 
 namespace Marvel {
 
-    mvViewport* mvCreateViewport(unsigned width, unsigned height)
+    mv_impl mvViewport*
+    mvCreateViewport(unsigned width, unsigned height)
     {
         mvViewport* viewport = new mvViewport();
         viewport->width = width;
@@ -33,12 +34,14 @@ namespace Marvel {
         return viewport;
     }
 
-    static void window_close_callback(GLFWwindow* window)
+    mv_internal void 
+    window_close_callback(GLFWwindow* window)
     {
         GContext->started = false;
     }
 
-    static void window_size_callback(GLFWwindow* window, int width, int height)
+    mv_internal void
+    window_size_callback(GLFWwindow* window, int width, int height)
     {
         GContext->viewport->actualHeight = height;
         GContext->viewport->clientHeight = height;
@@ -47,12 +50,14 @@ namespace Marvel {
         mvOnResize();
     }
 
-    static void glfw_error_callback(int error, const char *description)
+    mv_internal void
+    glfw_error_callback(int error, const char *description)
     {
         fprintf(stderr, "Glfw Error %d: %s\n", error, description);
     }
 
-	void mvCleanupViewport()
+	mv_impl void
+    mvCleanupViewport()
     {
         // Cleanup
         ImGui_ImplMetal_Shutdown();
@@ -65,7 +70,8 @@ namespace Marvel {
         glfwTerminate();
     }
 
-	void mvShowViewport(bool minimized, bool maximized)
+	mv_impl void
+    mvShowViewport(bool minimized, bool maximized)
     {
         mvViewport* viewport = GContext->viewport;
 
@@ -153,22 +159,26 @@ namespace Marvel {
         glfwSetWindowCloseCallback(ghandle, window_close_callback);
     }
   
-    void mvMaximizeViewport()
+    mv_impl void
+    mvMaximizeViewport()
     {
         glfwMaximizeWindow(ghandle);
     }
 
-    void mvMinimizeViewport()
+    mv_impl void
+    mvMinimizeViewport()
     {
         glfwIconifyWindow(ghandle);
     }
 
-    void mvRestoreViewport()
+    mv_impl void
+    mvRestoreViewport()
     {
         glfwRestoreWindow(ghandle);
     }
 
-    void mvRenderFrame()
+    mv_impl void
+    mvRenderFrame()
     {
         mvViewport* viewport = GContext->viewport;
 
@@ -271,12 +281,13 @@ namespace Marvel {
         }
 	}
 
-    void mvToggleFullScreen()
+    mv_impl void
+    mvToggleFullScreen()
     {
-        static size_t storedWidth = 0;
-        static size_t storedHeight = 0;
-        static int    storedXPos = 0;
-        static int    storedYPos = 0;
+        mv_local_persist size_t storedWidth = 0;
+        mv_local_persist size_t storedHeight = 0;
+        mv_local_persist int    storedXPos = 0;
+        mv_local_persist int    storedYPos = 0;
 
         GLFWmonitor *monitor = glfwGetPrimaryMonitor();
         const GLFWvidmode *mode = glfwGetVideoMode(monitor);

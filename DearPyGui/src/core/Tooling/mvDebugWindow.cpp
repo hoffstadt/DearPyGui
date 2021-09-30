@@ -6,27 +6,29 @@
 
 namespace Marvel {
 
-    static void DebugItem(const char* label, const char* item)
+    mv_internal void
+    DebugItem(const char* label, const char* item)
     {
         ImGui::Text("%s", label);
         ImGui::SameLine();
         ImGui::TextColored(ImVec4(1.0f, 0.0f, 1.0f, 1.0f), "%s", item);
     }
 
-    static void DebugItem(const char* label, float x)
+    mv_internal void
+    DebugItem(const char* label, float x)
     {
         ImGui::Text("%s", label);
         ImGui::SameLine();
         ImGui::TextColored(ImVec4(1.0f, 0.0f, 1.0f, 1.0f), "%s", std::to_string(x).c_str());
     }
 
-    static void DebugItem(const char* label, float x, float y)
+    mv_internal void
+    DebugItem(const char* label, float x, float y)
     {
         ImGui::Text("%s", label);
         ImGui::SameLine();
         ImGui::TextColored(ImVec4(1.0f, 0.0f, 1.0f, 1.0f), "%s", (std::to_string(x) + ", " + std::to_string(y)).c_str());
     }
-
 
     mvDebugWindow::mvDebugWindow()
     {
@@ -35,7 +37,7 @@ namespace Marvel {
         m_width = 700;
         m_height = 500;
 
-        for (const auto& item : mvModule_DearPyGui::GetModuleParsers())
+        for (const auto& item : GetModuleParsers())
             m_commands.emplace_back(item.first, item.second.documentation);
     }
 
@@ -44,7 +46,7 @@ namespace Marvel {
 
         //static char ts[6] = "True";
         //static char fs[6] = "False";
-        static std::string commandstring = "";
+        mv_local_persist std::string commandstring;
 
         ImGuiIO& io = ImGui::GetIO();
 
@@ -60,7 +62,7 @@ namespace Marvel {
                 ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / io.Framerate, io.Framerate);
                 ImGui::Text("%d vertices, %d indices (%d triangles)", io.MetricsRenderVertices, io.MetricsRenderIndices, io.MetricsRenderIndices / 3);
                 ImGui::Text("%d active allocations", io.MetricsActiveAllocations);
-                DebugItem("DearPyGui Version: ", GetVersion());
+                DebugItem("DearPyGui Version: ", MV_SANDBOX_VERSION);
                 DebugItem("ImGui Version: ", IMGUI_VERSION);
 
 
@@ -109,9 +111,9 @@ namespace Marvel {
             if (ImGui::BeginTabItem("Commands##debug"))
             {
 
-                static size_t commandselection = 0;
+                mv_local_persist size_t commandselection = 0;
                 const char* commanddoc = m_commands[commandselection].second.c_str();
-                static ImGuiTextFilter filter;
+                mv_local_persist ImGuiTextFilter filter;
                 filter.Draw();
 
                 ImGui::PushItemWidth(-1);

@@ -30,7 +30,8 @@ extern IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg
 
 namespace Marvel {
 
-	static std::vector <IDXGIAdapter*> EnumerateAdapters()
+	mv_internal std::vector <IDXGIAdapter*>
+	EnumerateAdapters()
 	{
 		IDXGIAdapter* pAdapter;
 		std::vector <IDXGIAdapter*> vAdapters;
@@ -61,7 +62,8 @@ namespace Marvel {
 
 	}
 
-	static void mvHandleModes()
+	mv_internal void
+	mvHandleModes()
 	{
 		gmodes = WS_OVERLAPPED;
 
@@ -70,7 +72,8 @@ namespace Marvel {
 
 	}
 
-	static bool mvCreateDeviceD3D()
+	mv_internal bool
+	mvCreateDeviceD3D()
 	{
 		// Setup swap chain
 		DXGI_SWAP_CHAIN_DESC sd;
@@ -151,7 +154,8 @@ namespace Marvel {
 		return true;
 	}
 
-	static void mvCleanupDeviceD3D()
+	mv_internal void
+	mvCleanupDeviceD3D()
 	{
 		if (gtarget)
 		{
@@ -178,7 +182,8 @@ namespace Marvel {
 		}
 	}
 
-	static void mvPrerender()
+	mv_internal void
+	mvPrerender()
 	{
 		MV_PROFILE_SCOPE("Viewport prerender")
 
@@ -243,7 +248,8 @@ namespace Marvel {
 
 	}
 
-	static void mvPostrender()
+	mv_internal void
+	mvPostrender()
 	{
 
 		MV_PROFILE_SCOPE("Presentation")
@@ -266,7 +272,8 @@ namespace Marvel {
 			presentFlags = 0;
 	}
 
-	static LRESULT mvHandleMsg(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) noexcept
+	mv_internal LRESULT
+	mvHandleMsg(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) noexcept
 	{
 		if (ImGui_ImplWin32_WndProcHandler(hWnd, msg, wParam, lParam))
 			return true;
@@ -396,7 +403,8 @@ namespace Marvel {
 		return ::DefWindowProc(hWnd, msg, wParam, lParam);
 	}
 
-	mvViewport* mvCreateViewport(unsigned width, unsigned height)
+	mv_impl mvViewport*
+	mvCreateViewport(unsigned width, unsigned height)
 	{
 		mvViewport* viewport = new mvViewport();
 		viewport->width = width;
@@ -404,7 +412,8 @@ namespace Marvel {
 		return viewport;
 	}
 
-	void mvShowViewport(bool minimized, bool maximized)
+	mv_impl void
+	mvShowViewport(bool minimized, bool maximized)
 	{
 		mvViewport* viewport = GContext->viewport;
 		gwc = {
@@ -503,17 +512,20 @@ namespace Marvel {
 		ImGui_ImplDX11_Init(gdevice, gdeviceContext);
 	}
 
-	void mvMaximizeViewport()
+	mv_impl void
+	mvMaximizeViewport()
 	{
 		ShowWindow(ghandle, SW_MAXIMIZE);
 	}
 
-	void mvMinimizeViewport()
+	mv_impl void
+	mvMinimizeViewport()
 	{
 		ShowWindow(ghandle, SW_MINIMIZE);
 	}
 
-	void mvCleanupViewport()
+	mv_impl void
+	mvCleanupViewport()
 	{
 		// Cleanup
 		ImGui_ImplDX11_Shutdown();
@@ -527,20 +539,22 @@ namespace Marvel {
 		::UnregisterClass(gwc.lpszClassName, gwc.hInstance);
 	}
 
-	void mvRenderFrame()
+	mv_impl void
+	mvRenderFrame()
 	{
 		mvPrerender();
 		Render();
 		mvPostrender();
 	}
 
-    void mvToggleFullScreen()
+	mv_impl void
+	mvToggleFullScreen()
     {
 
-        static size_t storedWidth = 0;
-        static size_t storedHeight = 0;
-        static int    storedXPos = 0;
-        static int    storedYPos = 0;
+        mv_local_persist size_t storedWidth = 0;
+        mv_local_persist size_t storedHeight = 0;
+        mv_local_persist int    storedXPos = 0;
+        mv_local_persist int    storedYPos = 0;
         
         size_t width = GetSystemMetrics(SM_CXSCREEN);
         size_t height = GetSystemMetrics(SM_CYSCREEN);

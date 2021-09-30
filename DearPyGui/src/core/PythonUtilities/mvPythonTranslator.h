@@ -5,6 +5,8 @@
 //
 //     - These functions handle conversion between python/c++ types while also
 //       ensuring thread safety on the python interpreter
+// 
+//     - Needs rework badly
 //     
 //-----------------------------------------------------------------------------
 
@@ -92,6 +94,4 @@ namespace Marvel {
 	std::vector<std::vector<double>>                 ToVectVectDouble     (PyObject* value, const std::string& message = "Type must be an list/tuple of list/tuple of doubles.");
 	std::vector<std::pair<std::string, float>>       ToVectPairStringFloat(PyObject* value, const std::string& message = "Type must be an list/tuple of str,float pairs.");
 
-	//std::function<float(Py_buffer&, Py_ssize_t index)> BufferViewFunctionsFloat(Py_buffer& bufferView);
-	//std::function<int(Py_buffer&, Py_ssize_t index)> BufferViewFunctionsInt(Py_buffer& bufferView);
 }

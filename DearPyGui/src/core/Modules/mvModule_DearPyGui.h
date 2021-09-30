@@ -1,6 +1,11 @@
 #pragma once
 
-#include "mvModule.h"
+#include <map>
+#include <vector>
+#include "mvPythonParser.h"
+
+#define PY_SSIZE_T_CLEAN
+#include <Python.h>
 
 //-----------------------------------------------------------------------------
 // Helper Macro
@@ -11,13 +16,7 @@ namespace Marvel {
 
 	PyMODINIT_FUNC PyInit__dearpygui(void);
 
-	struct mvModule_DearPyGui : mvModule<mvModule_DearPyGui>
-	{
-		static const std::map<std::string, mvPythonParser>& GetSubModuleParsers();
-		static const std::vector<std::pair<std::string, long>>& GetSubModuleConstants();
-		static PyMethodDef* GetSubMethods();
-
-	};
-
+	const std::map<std::string, mvPythonParser>&     GetModuleParsers();
+	const std::vector<std::pair<std::string, long>>& GetModuleConstants();
 
 }

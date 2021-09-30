@@ -28,7 +28,8 @@ namespace Marvel {
 
     extern mvContext* GContext = nullptr;
 
-    static void UpdateInputs(mvInput& input)
+    mv_internal void 
+    UpdateInputs(mvInput& input)
     {
 
         MV_PROFILE_SCOPE("Input Routing")
@@ -132,7 +133,8 @@ namespace Marvel {
         }
     }
 
-    static void CreateContext()
+    mv_internal void
+    CreateContext()
     {
 
         if (GContext)
@@ -147,7 +149,8 @@ namespace Marvel {
         GContext->callbackRegistry = new mvCallbackRegistry();
     }
 
-    static void DestroyContext()
+    mv_internal void
+    DestroyContext()
     {
 
         if (GContext == nullptr)
@@ -177,22 +180,26 @@ namespace Marvel {
         GContext = nullptr;
     }
 
-    const char* GetVersion() 
+    mv_internal const char* 
+    GetVersion() 
     { 
         return MV_SANDBOX_VERSION; 
     }
 
-    static const char* GetPlatform() 
+    mv_internal const char*
+    GetPlatform() 
     { 
         return MV_PLATFORM; 
     }
 
-    mvUUID GenerateUUID() 
+    mvUUID 
+    GenerateUUID() 
     { 
         return ++GContext->id; 
     }
 
-    void SetDefaultTheme()
+    void 
+    SetDefaultTheme()
     {
         ImGuiStyle* style = &ImGui::GetStyle();
         ImVec4* colors = style->Colors;
@@ -272,7 +279,8 @@ namespace Marvel {
 
     }
 
-    void Render()
+    void 
+    Render()
     {
 
         // update timing
@@ -313,12 +321,14 @@ namespace Marvel {
             GContext->waitOneFrame = false;
     }
 
-    std::map<std::string, mvPythonParser>& GetParsers()
+    std::map<std::string, mvPythonParser>& 
+    GetParsers()
     { 
-        return const_cast<std::map<std::string, mvPythonParser>&>(mvModule_DearPyGui::GetModuleParsers());
+        return const_cast<std::map<std::string, mvPythonParser>&>(GetModuleParsers());
     }
 
-    void InsertParser_mvContext(std::map<std::string, mvPythonParser>* parsers)
+    void 
+    InsertParser_mvContext(std::map<std::string, mvPythonParser>* parsers)
     {
 
         {
@@ -703,7 +713,8 @@ namespace Marvel {
         }
     }
 
-    void InsertConstants_mvContext(std::vector<std::pair<std::string, long>>& constants)
+    void 
+    InsertConstants_mvContext(std::vector<std::pair<std::string, long>>& constants)
     {
 
         //-----------------------------------------------------------------------------
@@ -975,7 +986,8 @@ namespace Marvel {
 #endif
     }
 
-    PyObject* save_init_file(PyObject* self, PyObject* args, PyObject* kwargs)
+    mv_python_function
+    save_init_file(PyObject* self, PyObject* args, PyObject* kwargs)
     {
         const char* file;
 
@@ -990,7 +1002,8 @@ namespace Marvel {
         return GetPyNone();
     }
 
-    PyObject* split_frame(PyObject* self, PyObject* args, PyObject* kwargs)
+    mv_python_function
+    split_frame(PyObject* self, PyObject* args, PyObject* kwargs)
     {
         int delay = 32;
 
@@ -1009,7 +1022,8 @@ namespace Marvel {
         return GetPyNone();
     }
 
-    PyObject* lock_mutex(PyObject* self, PyObject* args, PyObject* kwargs)
+    mv_python_function
+    lock_mutex(PyObject* self, PyObject* args, PyObject* kwargs)
     {
         GContext->mutex.lock();
         GContext->manualMutexControl = true;
@@ -1017,7 +1031,8 @@ namespace Marvel {
         return GetPyNone();
     }
 
-    PyObject* unlock_mutex(PyObject* self, PyObject* args, PyObject* kwargs)
+    mv_python_function
+    unlock_mutex(PyObject* self, PyObject* args, PyObject* kwargs)
     {
         GContext->mutex.unlock();
         GContext->manualMutexControl = false;
@@ -1025,7 +1040,8 @@ namespace Marvel {
         return GetPyNone();
     }
 
-    PyObject* get_frame_count(PyObject* self, PyObject* args, PyObject* kwargs)
+    mv_python_function
+    get_frame_count(PyObject* self, PyObject* args, PyObject* kwargs)
     {
         int frame = 0;
 
@@ -1037,7 +1053,8 @@ namespace Marvel {
         return ToPyInt(GContext->frame);
     }
 
-    PyObject* load_image(PyObject* self, PyObject* args, PyObject* kwargs)
+    mv_python_function
+    load_image(PyObject* self, PyObject* args, PyObject* kwargs)
     {
         const char* file;
         float gamma = 1.0f;
@@ -1086,12 +1103,14 @@ namespace Marvel {
         return result;
     }
 
-    PyObject* is_dearpygui_running(PyObject* self, PyObject* args, PyObject* kwargs)
+    mv_python_function
+    is_dearpygui_running(PyObject* self, PyObject* args, PyObject* kwargs)
     {
         return ToPyBool(GContext->started);
     }
 
-    PyObject* setup_dearpygui(PyObject* self, PyObject* args, PyObject* kwargs)
+    mv_python_function
+    setup_dearpygui(PyObject* self, PyObject* args, PyObject* kwargs)
     {
 
         if (!GContext->manualMutexControl) std::lock_guard<std::mutex> lk(GContext->mutex);
@@ -1118,7 +1137,8 @@ namespace Marvel {
         return GetPyNone();
     }
 
-    PyObject* render_dearpygui_frame(PyObject* self, PyObject* args, PyObject* kwargs)
+    mv_python_function
+    render_dearpygui_frame(PyObject* self, PyObject* args, PyObject* kwargs)
     {
         MV_PROFILE_SCOPE("Frame")
 
@@ -1130,7 +1150,8 @@ namespace Marvel {
         return GetPyNone();
     }
 
-    PyObject* create_context(PyObject* self, PyObject* args, PyObject* kwargs)
+    mv_python_function
+    create_context(PyObject* self, PyObject* args, PyObject* kwargs)
     {
         Py_BEGIN_ALLOW_THREADS;
         CreateContext();
@@ -1138,7 +1159,8 @@ namespace Marvel {
         return GetPyNone();
     }
 
-    PyObject* destroy_context(PyObject* self, PyObject* args, PyObject* kwargs)
+    mv_python_function
+    destroy_context(PyObject* self, PyObject* args, PyObject* kwargs)
     {
         //if (!GContext->manualMutexControl) std::lock_guard<std::mutex> lk(GContext->mutex);
 
@@ -1150,7 +1172,8 @@ namespace Marvel {
         return GetPyNone();
     }
 
-    PyObject* stop_dearpygui(PyObject* self, PyObject* args, PyObject* kwargs)
+    mv_python_function
+    stop_dearpygui(PyObject* self, PyObject* args, PyObject* kwargs)
     {
         if (!GContext->manualMutexControl) std::lock_guard<std::mutex> lk(GContext->mutex);
         GContext->started = false;
@@ -1160,32 +1183,37 @@ namespace Marvel {
         return GetPyNone();
     }
 
-    PyObject* get_total_time(PyObject* self, PyObject* args, PyObject* kwargs)
+    mv_python_function
+    get_total_time(PyObject* self, PyObject* args, PyObject* kwargs)
     {
         if(!GContext->manualMutexControl) std::lock_guard<std::mutex> lk(GContext->mutex);
         return ToPyFloat((float)GContext->time);
     }
 
-    PyObject* get_delta_time(PyObject* self, PyObject* args, PyObject* kwargs)
+    mv_python_function
+    get_delta_time(PyObject* self, PyObject* args, PyObject* kwargs)
     {
         if (!GContext->manualMutexControl) std::lock_guard<std::mutex> lk(GContext->mutex);
         return ToPyFloat(GContext->deltaTime);
 
     }
 
-    PyObject* get_frame_rate(PyObject* self, PyObject* args, PyObject* kwargs)
+    mv_python_function
+    get_frame_rate(PyObject* self, PyObject* args, PyObject* kwargs)
     {
         if (!GContext->manualMutexControl) std::lock_guard<std::mutex> lk(GContext->mutex);
         return ToPyFloat((float)GContext->framerate);
 
     }
 
-    PyObject* generate_uuid(PyObject* self, PyObject* args, PyObject* kwargs)
+    mv_python_function
+    generate_uuid(PyObject* self, PyObject* args, PyObject* kwargs)
     {
         return ToPyUUID(GenerateUUID());
     }
 
-    PyObject* configure_app(PyObject* self, PyObject* args, PyObject* kwargs)
+    mv_python_function
+    configure_app(PyObject* self, PyObject* args, PyObject* kwargs)
     {
 
         int docking = false;
@@ -1231,7 +1259,8 @@ namespace Marvel {
         return GetPyNone();
     }
 
-    PyObject* get_app_configuration(PyObject* self, PyObject* args, PyObject* kwargs)
+    mv_python_function
+    get_app_configuration(PyObject* self, PyObject* args, PyObject* kwargs)
     {
         if (!GContext->manualMutexControl) std::lock_guard<std::mutex> lk(GContext->mutex);
         PyObject* pdict = PyDict_New();
@@ -1252,7 +1281,8 @@ namespace Marvel {
         return pdict;
     }
 
-    PyObject* get_mouse_pos(PyObject* self, PyObject* args, PyObject* kwargs)
+    mv_python_function
+    get_mouse_pos(PyObject* self, PyObject* args, PyObject* kwargs)
     {
         int local = true;
 
@@ -1269,7 +1299,8 @@ namespace Marvel {
         return ToPyPair(pos.x, pos.y);
     }
 
-    PyObject* get_plot_mouse_pos(PyObject* self, PyObject* args, PyObject* kwargs)
+    mv_python_function
+    get_plot_mouse_pos(PyObject* self, PyObject* args, PyObject* kwargs)
     {
 
         if (!Parse((GetParsers())["get_plot_mouse_pos"], args, kwargs, __FUNCTION__))
@@ -1280,7 +1311,8 @@ namespace Marvel {
         return ToPyPair(pos.x, pos.y);
     }
 
-    PyObject* get_drawing_mouse_pos(PyObject* self, PyObject* args, PyObject* kwargs)
+    mv_python_function
+    get_drawing_mouse_pos(PyObject* self, PyObject* args, PyObject* kwargs)
     {
 
         if (!Parse((GetParsers())["get_drawing_mouse_pos"], args, kwargs, __FUNCTION__))
@@ -1291,14 +1323,16 @@ namespace Marvel {
         return ToPyPair(pos.x, pos.y);
     }
 
-    PyObject* get_mouse_drag_delta(PyObject* self, PyObject* arg, PyObject* kwargss)
+    mv_python_function
+    get_mouse_drag_delta(PyObject* self, PyObject* arg, PyObject* kwargss)
     {
 
         mvVec2 pos = { (float)GContext->input.mouseDragDelta.x, (float)GContext->input.mouseDragDelta.y };
         return ToPyPair(pos.x, pos.y);
     }
 
-    PyObject* is_key_pressed(PyObject* self, PyObject* args, PyObject* kwargs)
+    mv_python_function
+    is_key_pressed(PyObject* self, PyObject* args, PyObject* kwargs)
     {
         int key;
 
@@ -1308,7 +1342,8 @@ namespace Marvel {
         return ToPyBool(GContext->input.keyspressed[key]);
     }
 
-    PyObject* is_key_released(PyObject* self, PyObject* args, PyObject* kwargs)
+    mv_python_function
+    is_key_released(PyObject* self, PyObject* args, PyObject* kwargs)
     {
         int key;
 
@@ -1318,7 +1353,8 @@ namespace Marvel {
         return ToPyBool(GContext->input.keysreleased[key]);
     }
 
-    PyObject* is_key_down(PyObject* self, PyObject* args, PyObject* kwargs)
+    mv_python_function
+    is_key_down(PyObject* self, PyObject* args, PyObject* kwargs)
     {
         int key;
 
@@ -1328,7 +1364,8 @@ namespace Marvel {
         return ToPyBool(GContext->input.keysdown[key]);
     }
 
-    PyObject* is_mouse_button_dragging(PyObject* self, PyObject* args, PyObject* kwargs)
+    mv_python_function
+    is_mouse_button_dragging(PyObject* self, PyObject* args, PyObject* kwargs)
     {
         int button;
         float threshold;
@@ -1339,7 +1376,8 @@ namespace Marvel {
         return ToPyBool((float)GContext->input.mousedownduration[button] / 100.0f >= threshold);
     }
 
-    PyObject* is_mouse_button_down(PyObject* self, PyObject* args, PyObject* kwargs)
+    mv_python_function
+    is_mouse_button_down(PyObject* self, PyObject* args, PyObject* kwargs)
     {
         int button;
 
@@ -1349,7 +1387,8 @@ namespace Marvel {
         return ToPyBool(GContext->input.mousedown[button]);
     }
 
-    PyObject* is_mouse_button_clicked(PyObject* self, PyObject* args, PyObject* kwargs)
+    mv_python_function
+    is_mouse_button_clicked(PyObject* self, PyObject* args, PyObject* kwargs)
     {
         int button;
 
@@ -1359,7 +1398,8 @@ namespace Marvel {
         return ToPyBool(GContext->input.mouseclick[button]);
     }
 
-    PyObject* is_mouse_button_double_clicked(PyObject* self, PyObject* args, PyObject* kwargs)
+    mv_python_function
+    is_mouse_button_double_clicked(PyObject* self, PyObject* args, PyObject* kwargs)
     {
         int button;
 
@@ -1369,7 +1409,8 @@ namespace Marvel {
         return ToPyBool(GContext->input.mousedoubleclick[button]);
     }
 
-    PyObject* is_mouse_button_released(PyObject* self, PyObject* args, PyObject* kwargs)
+    mv_python_function
+    is_mouse_button_released(PyObject* self, PyObject* args, PyObject* kwargs)
     {
         int button;
 
