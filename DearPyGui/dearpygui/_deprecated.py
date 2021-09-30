@@ -44,115 +44,141 @@ def deprecated(reason):
 
 @deprecated("Use 'configure_app(docking=True, docking_space=dock_space)'.")
 def enable_docking(dock_space=False):
+    """ deprecated function """
     internal_dpg.configure_app(docking=True, docking_space=dock_space)
 
 @deprecated("Use 'get_app_configuration()['version']'.")
 def get_dearpygui_version():
+    """ deprecated function """
     return internal_dpg.get_app_configuration()["version"]
 
 @deprecated("Use 'configure_app(init_file=file)'.")
 def set_init_file(file="dpg.ini"):
+    """ deprecated function """
     internal_dpg.configure_app(init_file=file)
 
 @deprecated("Use 'configure_app(init_file=file, load_init_file=True)'.")
 def load_init_file(file):
+    """ deprecated function """
     internal_dpg.configure_app(init_file=file, load_init_file=True)
 
 @deprecated("Use: `is_viewport_ok(...)`")
 def is_viewport_created():
+    """ deprecated function """
     return internal_dpg.is_viewport_ok()
 
 @deprecated("Use: \ncreate_viewport()\nsetup_dearpygui()\nshow_viewport()")
 def setup_viewport():
+    """ deprecated function """
     internal_dpg.create_viewport()
     internal_dpg.setup_dearpygui()
     internal_dpg.show_viewport()
 
 @deprecated("Use: `bind_item_theme(...)`")
 def set_item_theme(item, theme):
-	return internal_dpg.bind_item_theme(item, theme)
+    """ deprecated function """
+    return internal_dpg.bind_item_theme(item, theme)
 
 @deprecated("Use: `bind_item_type_disabled_theme(...)`")
 def set_item_type_disabled_theme(item, theme):
-	return internal_dpg.bind_item_type_disabled_theme(item, theme)
+    """ deprecated function """
+    return internal_dpg.bind_item_type_disabled_theme(item, theme)
 
 @deprecated("Use: `bind_item_type_theme(...)`")
 def set_item_type_theme(item, theme):
-	return internal_dpg.bind_item_type_theme(item, theme)
+    """ deprecated function """
+    return internal_dpg.bind_item_type_theme(item, theme)
 
 @deprecated("Use: `bind_item_font(...)`")
 def set_item_font(item, font):
-	return internal_dpg.bind_item_font(item, font)
+    """ deprecated function """
+    return internal_dpg.bind_item_font(item, font)
 
 @deprecated("Use: `add_item_activated_handler(...)`")
 def add_activated_handler(parent, **kwargs):
-	return internal_dpg.add_item_activated_handler(parent, **kwargs)
+    """ deprecated function """
+    return internal_dpg.add_item_activated_handler(parent, **kwargs)
 
 @deprecated("Use: `add_item_active_handler(...)`")
 def add_active_handler(parent, **kwargs):
-	return internal_dpg.add_item_active_handler(parent, **kwargs)
+    """ deprecated function """
+    return internal_dpg.add_item_active_handler(parent, **kwargs)
 
 @deprecated("Use: `add_item_clicked_handler(...)`")
 def add_clicked_handler(parent, button=-1, **kwargs):
-	return internal_dpg.add_item_clicked_handler(parent, button, **kwargs)
+    """ deprecated function """
+    return internal_dpg.add_item_clicked_handler(parent, button, **kwargs)
 
 @deprecated("Use: `add_item_deactived_after_edit_handler(...)`")
 def add_deactivated_after_edit_handler(parent, **kwargs):
-	return internal_dpg.add_item_deactivated_after_edit_handler(parent, **kwargs)
+    """ deprecated function """
+    return internal_dpg.add_item_deactivated_after_edit_handler(parent, **kwargs)
 
 @deprecated("Use: `add_item_deactivated_handler(...)`")
 def add_deactivated_handler(parent, **kwargs):
-	return internal_dpg.add_item_deactivated_handler(parent, **kwargs)
+    """ deprecated function """
+    return internal_dpg.add_item_deactivated_handler(parent, **kwargs)
 
 @deprecated("Use: `add_item_edited_handler(...)`")
 def add_edited_handler(parent, **kwargs):
-	return internal_dpg.add_item_edited_handler(parent, **kwargs)
+    """ deprecated function """
+    return internal_dpg.add_item_edited_handler(parent, **kwargs)
 
 @deprecated("Use: `add_item_focus_handler(...)`")
 def add_focus_handler(parent, **kwargs):
-	return internal_dpg.add_item_focus_handler(parent, **kwargs)
+    """ deprecated function """
+    return internal_dpg.add_item_focus_handler(parent, **kwargs)
 
 @deprecated("Use: `add_item_hover_handler(...)`")
 def add_hover_handler(parent, **kwargs):
-	return internal_dpg.add_item_hover_handler(parent, **kwargs)
+    """ deprecated function """
+    return internal_dpg.add_item_hover_handler(parent, **kwargs)
 
 @deprecated("Use: `add_item_resize_handler(...)`")
 def add_resize_handler(parent, **kwargs):
-	return internal_dpg.add_item_resize_handler(parent, **kwargs)
+    """ deprecated function """
+    return internal_dpg.add_item_resize_handler(parent, **kwargs)
 
 @deprecated("Use: `add_item_toggled_open_handler(...)`")
 def add_toggled_open_handler(parent, **kwargs):
-	return internal_dpg.add_item_toggled_open_handler(parent, **kwargs)
+    """ deprecated function """
+    return internal_dpg.add_item_toggled_open_handler(parent, **kwargs)
 
 @deprecated("Use: `add_item_visible_handler(...)`")
 def add_visible_handler(parent, **kwargs):
-	return internal_dpg.add_item_visible_handler(parent, **kwargs)
+    """ deprecated function """
+    return internal_dpg.add_item_visible_handler(parent, **kwargs)
 
 @deprecated("Use: `bind_colormap(...)`")
 def set_colormap(item, source):
-	return internal_dpg.bind_colormap(item, source)
+    """ deprecated function """
+    return internal_dpg.bind_colormap(item, source)
 
 @deprecated("Use: `bind_theme(0)`")
 def reset_default_theme(item, source):
-	return internal_dpg.bind_theme(item, source)
+    """ deprecated function """
+    return internal_dpg.bind_theme(item, source)
 
 @deprecated
 def set_staging_mode(mode):
-	pass
+    """ deprecated function """
+    pass
 
 @deprecated
 def add_table_next_column(**kwargs):
-	pass
+    """ deprecated function """
+    pass
 
 @deprecated("Use: add_stage")
 def add_staging_container(**kwargs):
-	return internal_dpg.add_stage(**kwargs)
+    """ deprecated function """
+    return internal_dpg.add_stage(**kwargs)
 
 @deprecated("Use: stage")
 @contextmanager
 def staging_container(**kwargs):
 	"""
-	Undocumented function
+	deprecated function
 	Args:
 		**label (str): Overrides 'name' as label.
 		**user_data (Any): User data for callbacks.
@@ -171,7 +197,7 @@ def staging_container(**kwargs):
 
 @deprecated("Use: add_spacer(...)")
 def add_spacing(**kwargs):
-	"""	Adds vertical spacing.
+	"""	(deprecated function) Adds vertical spacing. 
 
 	Args:
 		label (str, optional): Overrides 'name' as label.
@@ -201,7 +227,7 @@ def add_spacing(**kwargs):
 
 @deprecated("Use: add_spacer(...)")
 def add_dummy(**kwargs):
-	"""	Adds a spacer or 'dummy' object.
+	"""	(deprecated function) Adds a spacer or 'dummy' object.
 
 	Args:
 		label (str, optional): Overrides 'name' as label.
@@ -223,12 +249,13 @@ def add_dummy(**kwargs):
 
 @deprecated("Use: `destroy_context()`")
 def cleanup_dearpygui():
-	return internal_dpg.destroy_context()
+    """ deprecated function """
+    return internal_dpg.destroy_context()
 
 
 @deprecated("Use: `add_child_window()`")
 def add_child(**kwargs):
-	"""	Adds an embedded child window. Will show scrollbars when items do not fit.
+	"""	(deprecated function) Adds an embedded child window. Will show scrollbars when items do not fit.
 
 	Args:
 		label (str, optional): Overrides 'name' as label.
@@ -264,7 +291,7 @@ def add_child(**kwargs):
 @deprecated("Use: `child_window()`")
 @contextmanager
 def child(**kwargs):
-	"""	Adds an embedded child window. Will show scrollbars when items do not fit.
+	"""	(deprecated function) Adds an embedded child window. Will show scrollbars when items do not fit.
 
 	Args:
 		label (str, optional): Overrides 'name' as label.
