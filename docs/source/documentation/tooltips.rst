@@ -1,5 +1,5 @@
 Tooltips
---------
+========
 
 Tooltips are windows that appear when a widget is hovered.
 In DPG tooltips are containers that can contain any other widget.

@@ -130,7 +130,6 @@ Video Tutorials:
 
 .. toctree::
     :maxdepth: 2
-    :numbered:
     :hidden:
     :caption: More
 

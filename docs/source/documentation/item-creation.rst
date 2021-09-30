@@ -17,6 +17,10 @@ and *use_internal_label*. The *id* is generated automatically and normally does
 not need to be included. A *label* serves as the display name for an item, while
 *user_data* can be any value and is frequently used for **callbacks**.
 
+.. note:: Event **handlers**, **registries**, **group**, **same_line**, and **themes** are also items.
+    These are under-the-hood items for customizing the functionality, flow,
+    and overall look of your interface.
+
 
 Containers
 ----------
@@ -38,10 +42,10 @@ using their context manager function and starting the application:
     import dearpygui.dearpygui as dpg
 
     with dpg.window(label="Window1", pos=(0,0)) as window1:
-        ...
+        pass
 
     with dpg.window(label="Window2", pos=(100,0)) as window2:
-        ...
+        pass
 
     dpg.start_dearpygui()
 
@@ -88,11 +92,59 @@ that parents a few other items:
 
 .. image:: https://raw.githubusercontent.com/Atlamillias/DearPyGui-Stuff/main/wiki%20images/dpg_creating_widgets_ex1.png
 
-Other Items (i.e. everything else)
-----------------------------------
 
-Event **handlers**, **registries**, **group**, **same_line**, and **themes** are also items.
-These are under-the-hood items for customizing the functionality, flow,
-and overall look of your interface.
+Runtime Adding and Deleting 
+---------------------------
+
+With DPG you can dynamically add and delete any items at runtime.
+
+This can be done by using a callback to run the desired item's *add_\*\*\**
+command and specifying the parent the item will belong to.
+
+By using the **before** keyword when adding a item you can control which
+item in the parent the new item will come before. Default will place the
+new widget at the end.
+
+Below is an example demonstrating adding and deleting app items during runtime:
+
+.. code-block:: python
+
+    import dearpygui.dearpygui as dpg
+
+    def add_buttons():
+        global new_button1, new_button2
+        new_button1 = dpg.add_button(label="New Button", before="delete_button", id="new_button1")
+        new_button2 = dpg.add_button(label="New Button 2", parent="secondary_window", id="new_button2")
+
+    def delete_buttons():
+        dpg.delete_item("new_button1")
+        dpg.delete_item("new_button2")
 
 
+    with dpg.window(label="Tutorial", pos=(200, 200)):
+        dpg.add_button(label="Add Buttons", callback=add_buttons)
+        dpg.add_button(label="Delete Buttons", callback=delete_buttons, id="delete_button")
+
+    with dpg.window(label="Secondary Window", id="secondary_window", pos=(100, 100)):
+        pass
+
+    dpg.start_dearpygui()
+
+.. hint::
+    When deleting a container the container and its' children are deleted by default,
+    unless the keyword **children_only** is set to True, i.e.:
+
+.. code-block:: python
+
+    import dearpygui.dearpygui as dpg
+
+    def delete_children():
+        dpg.delete_item("window", children_only=True)
+
+    with dpg.window(label="Tutorial", pos=(200, 200), id="window"):
+        dpg.add_button(label="Delete Children", callback=delete_children)
+        dpg.add_button(label="Button_1")
+        dpg.add_button(label="Button_2")
+        dpg.add_button(label="Button_3")
+
+    dpg.start_dearpygui()
