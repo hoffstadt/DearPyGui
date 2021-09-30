@@ -188,7 +188,7 @@ namespace Marvel {
         virtual void      setPyValue(PyObject* value) { }
 
         // used to check arguments, get/set configurations
-        void handleKeywordArgs(PyObject* dict, std::string parser);  // python dictionary acts as an out parameter 
+        void handleKeywordArgs(PyObject* dict, const std::string& parser);  // python dictionary acts as an out parameter 
         void applyTemplate    (mvAppItem* item);
 
         // used by derived items to register their arguments

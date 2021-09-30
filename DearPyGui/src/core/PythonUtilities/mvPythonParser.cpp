@@ -181,7 +181,7 @@ namespace Marvel {
 		}
 	}
 
-	mvPythonParser FinalizeParser(const mvPythonParserSetup& setup, std::vector<mvPythonDataElement> args)
+	mvPythonParser FinalizeParser(const mvPythonParserSetup& setup, const std::vector<mvPythonDataElement>& args)
 	{
 
 		mvPythonParser parser;

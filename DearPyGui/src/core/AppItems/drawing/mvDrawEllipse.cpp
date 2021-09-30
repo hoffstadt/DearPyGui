@@ -68,7 +68,7 @@ namespace Marvel {
 			{
 				points.push_back(mvVec2{ cx  + cosf(i*radian_inc) * width, cy + sinf(i * radian_inc) * height });
 			}
-			_points = points;
+			_points = std::move(points);
 			_dirty = false;
 		}
 

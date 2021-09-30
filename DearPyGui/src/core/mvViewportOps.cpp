@@ -15,6 +15,7 @@ namespace Marvel {
     {
         {
             std::vector<mvPythonDataElement> args;
+            args.reserve(16);
             args.push_back({ mvPyDataType::String, "title", mvArgType::KEYWORD_ARG, "'Dear PyGui'" });
             args.push_back({ mvPyDataType::String, "small_icon", mvArgType::KEYWORD_ARG, "''" });
             args.push_back({ mvPyDataType::String, "large_icon", mvArgType::KEYWORD_ARG, "''" });

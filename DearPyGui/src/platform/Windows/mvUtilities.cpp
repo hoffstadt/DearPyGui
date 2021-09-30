@@ -31,7 +31,7 @@ namespace Marvel {
         int image_height = 0;
         unsigned char* image_data = stbi_load(filename, &image_width, &image_height, NULL, 4);
         if (image_data == NULL)
-            return false;
+            return nullptr;
 
         // Create texture
         D3D11_TEXTURE2D_DESC desc;

@@ -59,6 +59,7 @@ namespace Marvel {
 
         {
             std::vector<mvPythonDataElement> args;
+            args.reserve(3);
             args.push_back({ mvPyDataType::UUID, "axis" });
             args.push_back({ mvPyDataType::Float, "ymin"});
             args.push_back({ mvPyDataType::Float, "ymax"});
