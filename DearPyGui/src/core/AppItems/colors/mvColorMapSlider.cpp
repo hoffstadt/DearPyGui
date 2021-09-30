@@ -29,6 +29,7 @@ namespace Marvel {
 			MV_PARSER_ARG_POS)
 		);
 
+		args.push_back({ mvPyDataType::Callable, "drag_callback", mvArgType::DEPRECATED_REMOVE_KEYWORD_ARG });
 		args.push_back({ mvPyDataType::Float, "default_value", mvArgType::KEYWORD_ARG, "0.0" });
 
 		mvPythonParserSetup setup;

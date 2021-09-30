@@ -1305,7 +1305,7 @@ def add_spacing(**kwargs):
 		Union[int, str]
 	"""
 
-	if "tag" in kwargs.keys():
+	if 'tag' in kwargs.keys():
 		with internal_dpg.group(tag=kwargs["tag"]) as result_id:
 			kwargs.pop("tag", None)
 			for i in range(count):
@@ -1452,6 +1452,7 @@ def child_window(**kwargs):
 		no_scrollbar (bool, optional):  Disable scrollbars (window can still scroll with mouse or programmatically).
 		horizontal_scrollbar (bool, optional): Allow horizontal scrollbar to appear (off by default).
 		menubar (bool, optional): Shows/Hides the menubar at the top.
+		id (Union[int, str], optional): (deprecated)
 	Yields:
 		Union[int, str]
 	"""
@@ -1477,6 +1478,7 @@ def clipper(**kwargs):
 		before (Union[int, str], optional): This item will be displayed before the specified item in the parent.
 		show (bool, optional): Attempt to render widget.
 		delay_search (bool, optional): Delays searching container for specified items until the end of the app. Possible optimization when a container has many children that are not accessed often.
+		id (Union[int, str], optional): (deprecated)
 	Yields:
 		Union[int, str]
 	"""
@@ -1514,6 +1516,7 @@ def collapsing_header(**kwargs):
 		open_on_arrow (bool, optional): Only open when clicking on the arrow part.
 		leaf (bool, optional): No collapsing, no arrow (use as a convenience for leaf nodes).
 		bullet (bool, optional): Display a bullet instead of arrow.
+		id (Union[int, str], optional): (deprecated)
 	Yields:
 		Union[int, str]
 	"""
@@ -1534,6 +1537,7 @@ def colormap_registry(**kwargs):
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
 		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
 		show (bool, optional): Attempt to render widget.
+		id (Union[int, str], optional): (deprecated)
 	Yields:
 		Union[int, str]
 	"""
@@ -1558,6 +1562,7 @@ def drag_payload(**kwargs):
 		drag_data (Any, optional): Drag data
 		drop_data (Any, optional): Drop data
 		payload_type (str, optional): 
+		id (Union[int, str], optional): (deprecated)
 	Yields:
 		Union[int, str]
 	"""
@@ -1580,6 +1585,7 @@ def draw_layer(**kwargs):
 		parent (Union[int, str], optional): Parent to add this item to. (runtime adding)
 		before (Union[int, str], optional): This item will be displayed before the specified item in the parent.
 		show (bool, optional): Attempt to render widget.
+		id (Union[int, str], optional): (deprecated)
 	Yields:
 		Union[int, str]
 	"""
@@ -1610,6 +1616,7 @@ def drawlist(**kwargs):
 		delay_search (bool, optional): Delays searching container for specified items until the end of the app. Possible optimization when a container has many children that are not accessed often.
 		tracked (bool, optional): Scroll tracking
 		track_offset (float, optional): 0.0f:top, 0.5f:center, 1.0f:bottom
+		id (Union[int, str], optional): (deprecated)
 	Yields:
 		Union[int, str]
 	"""
@@ -1638,6 +1645,7 @@ def file_dialog(**kwargs):
 		file_count (int, optional): Number of visible files in the dialog.
 		modal (bool, optional): Forces user interaction with the file selector.
 		directory_selector (bool, optional): Shows only directory/paths as options. Allows selection of directory/paths only.
+		id (Union[int, str], optional): (deprecated)
 	Yields:
 		Union[int, str]
 	"""
@@ -1663,6 +1671,7 @@ def filter_set(**kwargs):
 		before (Union[int, str], optional): This item will be displayed before the specified item in the parent.
 		show (bool, optional): Attempt to render widget.
 		delay_search (bool, optional): Delays searching container for specified items until the end of the app. Possible optimization when a container has many children that are not accessed often.
+		id (Union[int, str], optional): (deprecated)
 	Yields:
 		Union[int, str]
 	"""
@@ -1685,6 +1694,8 @@ def font(file, size, **kwargs):
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
 		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
 		parent (Union[int, str], optional): Parent to add this item to. (runtime adding)
+		id (Union[int, str], optional): (deprecated)
+		default_font (bool, optional): (deprecated)
 	Yields:
 		Union[int, str]
 	"""
@@ -1705,6 +1716,7 @@ def font_registry(**kwargs):
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
 		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
 		show (bool, optional): Attempt to render widget.
+		id (Union[int, str], optional): (deprecated)
 	Yields:
 		Union[int, str]
 	"""
@@ -1740,6 +1752,7 @@ def group(**kwargs):
 		horizontal (bool, optional): Forces child widgets to be added in a horizontal layout.
 		horizontal_spacing (float, optional): Spacing for the horizontal layout.
 		xoffset (float, optional): Offset from containing window x item location within group.
+		id (Union[int, str], optional): (deprecated)
 	Yields:
 		Union[int, str]
 	"""
@@ -1760,6 +1773,7 @@ def handler_registry(**kwargs):
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
 		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
 		show (bool, optional): Attempt to render widget.
+		id (Union[int, str], optional): (deprecated)
 	Yields:
 		Union[int, str]
 	"""
@@ -1780,6 +1794,7 @@ def item_handler_registry(**kwargs):
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
 		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
 		show (bool, optional): Attempt to render widget.
+		id (Union[int, str], optional): (deprecated)
 	Yields:
 		Union[int, str]
 	"""
@@ -1799,6 +1814,7 @@ def item_pool(**kwargs):
 		user_data (Any, optional): User data for callbacks
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
 		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
+		id (Union[int, str], optional): (deprecated)
 	Yields:
 		Union[int, str]
 	"""
@@ -1820,6 +1836,7 @@ def item_set(type, count, **kwargs):
 		user_data (Any, optional): User data for callbacks
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
 		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
+		id (Union[int, str], optional): (deprecated)
 	Yields:
 		Union[int, str]
 	"""
@@ -1850,6 +1867,7 @@ def menu(**kwargs):
 		delay_search (bool, optional): Delays searching container for specified items until the end of the app. Possible optimization when a container has many children that are not accessed often.
 		tracked (bool, optional): Scroll tracking
 		track_offset (float, optional): 0.0f:top, 0.5f:center, 1.0f:bottom
+		id (Union[int, str], optional): (deprecated)
 	Yields:
 		Union[int, str]
 	"""
@@ -1873,6 +1891,7 @@ def menu_bar(**kwargs):
 		parent (Union[int, str], optional): Parent to add this item to. (runtime adding)
 		show (bool, optional): Attempt to render widget.
 		delay_search (bool, optional): Delays searching container for specified items until the end of the app. Possible optimization when a container has many children that are not accessed often.
+		id (Union[int, str], optional): (deprecated)
 	Yields:
 		Union[int, str]
 	"""
@@ -1904,6 +1923,7 @@ def node(**kwargs):
 		tracked (bool, optional): Scroll tracking
 		track_offset (float, optional): 0.0f:top, 0.5f:center, 1.0f:bottom
 		draggable (bool, optional): Allow node to be draggable.
+		id (Union[int, str], optional): (deprecated)
 	Yields:
 		Union[int, str]
 	"""
@@ -1933,6 +1953,7 @@ def node_attribute(**kwargs):
 		attribute_type (int, optional): mvNode_Attr_Input, mvNode_Attr_Output, or mvNode_Attr_Static.
 		shape (int, optional): Pin shape.
 		category (str, optional): Category
+		id (Union[int, str], optional): (deprecated)
 	Yields:
 		Union[int, str]
 	"""
@@ -1964,6 +1985,7 @@ def node_editor(**kwargs):
 		track_offset (float, optional): 0.0f:top, 0.5f:center, 1.0f:bottom
 		delink_callback (Callable, optional): Callback ran when a link is detached.
 		menubar (bool, optional): Shows or hides the menubar.
+		id (Union[int, str], optional): (deprecated)
 	Yields:
 		Union[int, str]
 	"""
@@ -2020,6 +2042,7 @@ def plot(**kwargs):
 		query_toggle_mod (int, optional): when held, active box selections turn into queries
 		horizontal_mod (int, optional): expands active box selection/query horizontally to plot edge when held
 		vertical_mod (int, optional): expands active box selection/query vertically to plot edge when held
+		id (Union[int, str], optional): (deprecated)
 	Yields:
 		Union[int, str]
 	"""
@@ -2052,6 +2075,7 @@ def plot_axis(axis, **kwargs):
 		lock_min (bool, optional): 
 		lock_max (bool, optional): 
 		time (bool, optional): 
+		id (Union[int, str], optional): (deprecated)
 	Yields:
 		Union[int, str]
 	"""
@@ -2071,6 +2095,7 @@ def stage(**kwargs):
 		user_data (Any, optional): User data for callbacks
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
 		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
+		id (Union[int, str], optional): (deprecated)
 	Yields:
 		Union[int, str]
 	"""
@@ -2115,6 +2140,7 @@ def subplots(rows, columns, **kwargs):
 		link_all_x (bool, optional): link the x-axis limits in every plot in the subplot
 		link_all_y (bool, optional): link the y-axis limits in every plot in the subplot (does not apply to auxiliary y-axes)
 		column_major (bool, optional): subplots are added in column major order instead of the default row major order
+		id (Union[int, str], optional): (deprecated)
 	Yields:
 		Union[int, str]
 	"""
@@ -2147,6 +2173,7 @@ def tab(**kwargs):
 		closable (bool, optional): Creates a button on the tab that can hide the tab.
 		no_tooltip (bool, optional): Disable tooltip for the given tab.
 		order_mode (bool, optional): set using a constant: mvTabOrder_Reorderable: allows reordering, mvTabOrder_Fixed: fixed ordering, mvTabOrder_Leading: adds tab to front, mvTabOrder_Trailing: adds tab to back
+		id (Union[int, str], optional): (deprecated)
 	Yields:
 		Union[int, str]
 	"""
@@ -2177,6 +2204,7 @@ def tab_bar(**kwargs):
 		tracked (bool, optional): Scroll tracking
 		track_offset (float, optional): 0.0f:top, 0.5f:center, 1.0f:bottom
 		reorderable (bool, optional): Allows for the user to change the order of the tabs.
+		id (Union[int, str], optional): (deprecated)
 	Yields:
 		Union[int, str]
 	"""
@@ -2236,6 +2264,7 @@ def table(**kwargs):
 		scrollX (bool, optional): Enable horizontal scrolling. Require 'outer_size' parameter of BeginTable() to specify the container size. Changes default sizing policy. Because this create a child window, ScrollY is currently generally recommended when using ScrollX.
 		scrollY (bool, optional): Enable vertical scrolling.
 		no_saved_settings (bool, optional): Never load/save settings in .ini file.
+		id (Union[int, str], optional): (deprecated)
 	Yields:
 		Union[int, str]
 	"""
@@ -2260,6 +2289,7 @@ def table_cell(**kwargs):
 		before (Union[int, str], optional): This item will be displayed before the specified item in the parent.
 		show (bool, optional): Attempt to render widget.
 		filter_key (str, optional): Used by filter widget.
+		id (Union[int, str], optional): (deprecated)
 	Yields:
 		Union[int, str]
 	"""
@@ -2284,6 +2314,7 @@ def table_row(**kwargs):
 		before (Union[int, str], optional): This item will be displayed before the specified item in the parent.
 		show (bool, optional): Attempt to render widget.
 		filter_key (str, optional): Used by filter widget.
+		id (Union[int, str], optional): (deprecated)
 	Yields:
 		Union[int, str]
 	"""
@@ -2303,6 +2334,7 @@ def template_registry(**kwargs):
 		user_data (Any, optional): User data for callbacks
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
 		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
+		id (Union[int, str], optional): (deprecated)
 	Yields:
 		Union[int, str]
 	"""
@@ -2323,6 +2355,7 @@ def texture_registry(**kwargs):
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
 		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
 		show (bool, optional): Attempt to render widget.
+		id (Union[int, str], optional): (deprecated)
 	Yields:
 		Union[int, str]
 	"""
@@ -2342,6 +2375,8 @@ def theme(**kwargs):
 		user_data (Any, optional): User data for callbacks
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
 		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
+		id (Union[int, str], optional): (deprecated)
+		default_theme (bool, optional): (deprecated)
 	Yields:
 		Union[int, str]
 	"""
@@ -2365,6 +2400,7 @@ def theme_component(item_type=0, **kwargs):
 		parent (Union[int, str], optional): Parent to add this item to. (runtime adding)
 		before (Union[int, str], optional): This item will be displayed before the specified item in the parent.
 		enabled_state (bool, optional): 
+		id (Union[int, str], optional): (deprecated)
 	Yields:
 		Union[int, str]
 	"""
@@ -2386,6 +2422,7 @@ def tooltip(parent, **kwargs):
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
 		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
 		show (bool, optional): Attempt to render widget.
+		id (Union[int, str], optional): (deprecated)
 	Yields:
 		Union[int, str]
 	"""
@@ -2423,6 +2460,7 @@ def tree_node(**kwargs):
 		leaf (bool, optional): No collapsing, no arrow (use as a convenience for leaf nodes).
 		bullet (bool, optional): Display a bullet instead of arrow.
 		selectable (bool, optional): Makes the tree selectable.
+		id (Union[int, str], optional): (deprecated)
 	Yields:
 		Union[int, str]
 	"""
@@ -2442,6 +2480,7 @@ def value_registry(**kwargs):
 		user_data (Any, optional): User data for callbacks
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
 		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
+		id (Union[int, str], optional): (deprecated)
 	Yields:
 		Union[int, str]
 	"""
@@ -2465,6 +2504,7 @@ def viewport_drawlist(**kwargs):
 		filter_key (str, optional): Used by filter widget.
 		delay_search (bool, optional): Delays searching container for specified items until the end of the app. Possible optimization when a container has many children that are not accessed often.
 		front (bool, optional): Draws to the front of the view port instead of the back.
+		id (Union[int, str], optional): (deprecated)
 	Yields:
 		Union[int, str]
 	"""
@@ -2488,6 +2528,7 @@ def viewport_menu_bar(**kwargs):
 		parent (Union[int, str], optional): Parent to add this item to. (runtime adding)
 		show (bool, optional): Attempt to render widget.
 		delay_search (bool, optional): Delays searching container for specified items until the end of the app. Possible optimization when a container has many children that are not accessed often.
+		id (Union[int, str], optional): (deprecated)
 	Yields:
 		Union[int, str]
 	"""
@@ -2532,6 +2573,7 @@ def window(**kwargs):
 		popup (bool, optional): Fills area behind window according to the theme, removes title bar, collapse and close. Window can be closed by selecting area in the background behind the window.
 		no_saved_settings (bool, optional): Never load/save settings in .ini file.
 		on_close (Callable, optional): Callback ran when window is closed.
+		id (Union[int, str], optional): (deprecated)
 	Yields:
 		Union[int, str]
 	"""
@@ -2568,6 +2610,7 @@ def add_2d_histogram_series(x, y, **kwargs):
 		ymax_range (float, optional): 
 		density (bool, optional): 
 		outliers (bool, optional): 
+		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
 	"""
@@ -2605,6 +2648,7 @@ def add_3d_slider(**kwargs):
 		min_y (float, optional): Applies lower limit to slider.
 		min_z (float, optional): Applies lower limit to slider.
 		scale (float, optional): Size of the widget.
+		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
 	"""
@@ -2639,6 +2683,7 @@ def add_area_series(x, y, **kwargs):
 		show (bool, optional): Attempt to render widget.
 		fill (Union[List[int], Tuple[int]], optional): 
 		contribute_to_bounds (bool, optional): 
+		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
 	"""
@@ -2661,6 +2706,7 @@ def add_bar_series(x, y, **kwargs):
 		show (bool, optional): Attempt to render widget.
 		weight (float, optional): 
 		horizontal (bool, optional): 
+		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
 	"""
@@ -2678,6 +2724,7 @@ def add_bool_value(**kwargs):
 		source (Union[int, str], optional): Overrides 'id' as value storage key.
 		default_value (bool, optional): 
 		parent (Union[int, str], optional): Parent to add this item to. (runtime adding)
+		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
 	"""
@@ -2710,6 +2757,7 @@ def add_button(**kwargs):
 		small (bool, optional): Small button, useful for embedding in text.
 		arrow (bool, optional): Arrow button, requires the direction keyword.
 		direction (int, optional): A cardinal direction for arrow.
+		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
 	"""
@@ -2737,6 +2785,7 @@ def add_candle_series(dates, opens, closes, lows, highs, **kwargs):
 		bear_color (Union[List[int], Tuple[int]], optional): 
 		weight (int, optional): 
 		tooltip (bool, optional): 
+		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
 	"""
@@ -2754,6 +2803,7 @@ def add_char_remap(source, target, **kwargs):
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
 		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
 		parent (Union[int, str], optional): Parent to add this item to. (runtime adding)
+		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
 	"""
@@ -2783,6 +2833,7 @@ def add_checkbox(**kwargs):
 		tracked (bool, optional): Scroll tracking
 		track_offset (float, optional): 0.0f:top, 0.5f:center, 1.0f:bottom
 		default_value (bool, optional): 
+		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
 	"""
@@ -2816,6 +2867,7 @@ def add_child_window(**kwargs):
 		no_scrollbar (bool, optional):  Disable scrollbars (window can still scroll with mouse or programmatically).
 		horizontal_scrollbar (bool, optional): Allow horizontal scrollbar to appear (off by default).
 		menubar (bool, optional): Shows/Hides the menubar at the top.
+		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
 	"""
@@ -2836,6 +2888,7 @@ def add_clipper(**kwargs):
 		before (Union[int, str], optional): This item will be displayed before the specified item in the parent.
 		show (bool, optional): Attempt to render widget.
 		delay_search (bool, optional): Delays searching container for specified items until the end of the app. Possible optimization when a container has many children that are not accessed often.
+		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
 	"""
@@ -2868,6 +2921,7 @@ def add_collapsing_header(**kwargs):
 		open_on_arrow (bool, optional): Only open when clicking on the arrow part.
 		leaf (bool, optional): No collapsing, no arrow (use as a convenience for leaf nodes).
 		bullet (bool, optional): Display a bullet instead of arrow.
+		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
 	"""
@@ -2901,6 +2955,7 @@ def add_color_button(default_value=(0, 0, 0, 255), **kwargs):
 		no_alpha (bool, optional): Ignore Alpha component.
 		no_border (bool, optional): Disable border around the image.
 		no_drag_drop (bool, optional): Disable display of inline text label.
+		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
 	"""
@@ -2945,6 +3000,7 @@ def add_color_edit(default_value=(0, 0, 0, 255), **kwargs):
 		display_mode (int, optional): mvColorEdit_rgb, mvColorEdit_hsv, or mvColorEdit_hex
 		display_type (int, optional): mvColorEdit_uint8 or mvColorEdit_float
 		input_mode (int, optional): mvColorEdit_input_rgb or mvColorEdit_input_hsv
+		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
 	"""
@@ -2990,6 +3046,7 @@ def add_color_picker(default_value=(0, 0, 0, 255), **kwargs):
 		alpha_preview (int, optional): mvColorEdit_AlphaPreviewNone, mvColorEdit_AlphaPreview, or mvColorEdit_AlphaPreviewHalf
 		display_type (int, optional): mvColorEdit_uint8 or mvColorEdit_float
 		input_mode (int, optional): mvColorEdit_input_rgb or mvColorEdit_input_hsv
+		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
 	"""
@@ -3007,6 +3064,7 @@ def add_color_value(**kwargs):
 		source (Union[int, str], optional): Overrides 'id' as value storage key.
 		default_value (Union[List[float], Tuple[float]], optional): 
 		parent (Union[int, str], optional): Parent to add this item to. (runtime adding)
+		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
 	"""
@@ -3025,6 +3083,7 @@ def add_colormap(colors, qualitative, **kwargs):
 		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
 		show (bool, optional): Attempt to render widget.
 		parent (Union[int, str], optional): Parent to add this item to. (runtime adding)
+		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
 	"""
@@ -3058,6 +3117,7 @@ def add_colormap_button(default_value=(0, 0, 0, 255), **kwargs):
 		no_alpha (bool, optional): Ignore Alpha component.
 		no_border (bool, optional): Disable border around the image.
 		no_drag_drop (bool, optional): Disable display of inline text label.
+		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
 	"""
@@ -3073,6 +3133,7 @@ def add_colormap_registry(**kwargs):
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
 		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
 		show (bool, optional): Attempt to render widget.
+		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
 	"""
@@ -3100,6 +3161,8 @@ def add_colormap_scale(**kwargs):
 		colormap (Union[int, str], optional): mvPlotColormap_* constants or mvColorMap uuid
 		min_scale (float, optional): Sets the min number of the color scale. Typically is the same as the min scale from the heat series.
 		max_scale (float, optional): Sets the max number of the color scale. Typically is the same as the max scale from the heat series.
+		id (Union[int, str], optional): (deprecated)
+		drag_callback (Callable, optional): (deprecated)
 	Returns:
 		Union[int, str]
 	"""
@@ -3128,6 +3191,8 @@ def add_colormap_slider(**kwargs):
 		tracked (bool, optional): Scroll tracking
 		track_offset (float, optional): 0.0f:top, 0.5f:center, 1.0f:bottom
 		default_value (float, optional): 
+		id (Union[int, str], optional): (deprecated)
+		drag_callback (Callable, optional): (deprecated)
 	Returns:
 		Union[int, str]
 	"""
@@ -3163,6 +3228,7 @@ def add_combo(items=(), **kwargs):
 		no_arrow_button (bool, optional): Display the preview box without the square arrow button.
 		no_preview (bool, optional): Display only the square arrow button.
 		height_mode (int, optional): mvComboHeight_Small, _Regular, _Large, _Largest
+		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
 	"""
@@ -3191,6 +3257,7 @@ def add_date_picker(**kwargs):
 		track_offset (float, optional): 0.0f:top, 0.5f:center, 1.0f:bottom
 		default_value (dict, optional): 
 		level (int, optional): Use avaliable constants. mvDatePickerLevel_Day, mvDatePickerLevel_Month, mvDatePickerLevel_Year
+		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
 	"""
@@ -3208,6 +3275,7 @@ def add_double4_value(**kwargs):
 		source (Union[int, str], optional): Overrides 'id' as value storage key.
 		default_value (Any, optional): 
 		parent (Union[int, str], optional): Parent to add this item to. (runtime adding)
+		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
 	"""
@@ -3225,6 +3293,7 @@ def add_double_value(**kwargs):
 		source (Union[int, str], optional): Overrides 'id' as value storage key.
 		default_value (float, optional): 
 		parent (Union[int, str], optional): Parent to add this item to. (runtime adding)
+		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
 	"""
@@ -3261,6 +3330,7 @@ def add_drag_float(**kwargs):
 		max_value (float, optional): Applies a limit only to draging entry only.
 		no_input (bool, optional): Disable direct entry methods or Enter key allowing to input text directly into the widget.
 		clamped (bool, optional): Applies the min and max limits to direct entry methods also such as double click and CTRL+Click.
+		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
 	"""
@@ -3298,6 +3368,7 @@ def add_drag_floatx(**kwargs):
 		max_value (float, optional): Applies a limit only to draging entry only.
 		no_input (bool, optional): Disable direct entry methods or Enter key allowing to input text directly into the widget.
 		clamped (bool, optional): Applies the min and max limits to direct entry methods also such as double click and CTRL+Click.
+		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
 	"""
@@ -3334,6 +3405,7 @@ def add_drag_int(**kwargs):
 		max_value (int, optional): Applies a limit only to draging entry only.
 		no_input (bool, optional): Disable direct entry methods or Enter key allowing to input text directly into the widget.
 		clamped (bool, optional): Applies the min and max limits to direct entry methods also such as double click and CTRL+Click.
+		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
 	"""
@@ -3371,6 +3443,7 @@ def add_drag_intx(**kwargs):
 		max_value (int, optional): Applies a limit only to draging entry only.
 		no_input (bool, optional): Disable direct entry methods or Enter key allowing to input text directly into the widget.
 		clamped (bool, optional): Applies the min and max limits to direct entry methods also such as double click and CTRL+Click.
+		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
 	"""
@@ -3395,6 +3468,7 @@ def add_drag_line(**kwargs):
 		thickness (float, optional): 
 		show_label (bool, optional): 
 		vertical (bool, optional): 
+		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
 	"""
@@ -3414,6 +3488,7 @@ def add_drag_payload(**kwargs):
 		drag_data (Any, optional): Drag data
 		drop_data (Any, optional): Drop data
 		payload_type (str, optional): 
+		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
 	"""
@@ -3437,6 +3512,7 @@ def add_drag_point(**kwargs):
 		color (Union[List[int], Tuple[int]], optional): 
 		thickness (float, optional): 
 		show_label (bool, optional): 
+		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
 	"""
@@ -3454,6 +3530,7 @@ def add_draw_layer(**kwargs):
 		parent (Union[int, str], optional): Parent to add this item to. (runtime adding)
 		before (Union[int, str], optional): This item will be displayed before the specified item in the parent.
 		show (bool, optional): Attempt to render widget.
+		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
 	"""
@@ -3479,6 +3556,7 @@ def add_drawlist(**kwargs):
 		delay_search (bool, optional): Delays searching container for specified items until the end of the app. Possible optimization when a container has many children that are not accessed often.
 		tracked (bool, optional): Scroll tracking
 		track_offset (float, optional): 0.0f:top, 0.5f:center, 1.0f:bottom
+		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
 	"""
@@ -3497,6 +3575,7 @@ def add_dynamic_texture(width, height, default_value, **kwargs):
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
 		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
 		parent (Union[int, str], optional): Parent to add this item to. (runtime adding)
+		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
 	"""
@@ -3521,6 +3600,7 @@ def add_error_series(x, y, negative, positive, **kwargs):
 		show (bool, optional): Attempt to render widget.
 		contribute_to_bounds (bool, optional): 
 		horizontal (bool, optional): 
+		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
 	"""
@@ -3544,6 +3624,7 @@ def add_file_dialog(**kwargs):
 		file_count (int, optional): Number of visible files in the dialog.
 		modal (bool, optional): Forces user interaction with the file selector.
 		directory_selector (bool, optional): Shows only directory/paths as options. Allows selection of directory/paths only.
+		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
 	"""
@@ -3565,6 +3646,7 @@ def add_file_extension(extension, **kwargs):
 		before (Union[int, str], optional): This item will be displayed before the specified item in the parent.
 		custom_text (str, optional): Replaces the displayed text in the drop down for this extension.
 		color (Union[List[float], Tuple[float]], optional): 
+		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
 	"""
@@ -3585,6 +3667,7 @@ def add_filter_set(**kwargs):
 		before (Union[int, str], optional): This item will be displayed before the specified item in the parent.
 		show (bool, optional): Attempt to render widget.
 		delay_search (bool, optional): Delays searching container for specified items until the end of the app. Possible optimization when a container has many children that are not accessed often.
+		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
 	"""
@@ -3602,6 +3685,7 @@ def add_float4_value(**kwargs):
 		source (Union[int, str], optional): Overrides 'id' as value storage key.
 		default_value (Union[List[float], Tuple[float]], optional): 
 		parent (Union[int, str], optional): Parent to add this item to. (runtime adding)
+		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
 	"""
@@ -3619,6 +3703,7 @@ def add_float_value(**kwargs):
 		source (Union[int, str], optional): Overrides 'id' as value storage key.
 		default_value (float, optional): 
 		parent (Union[int, str], optional): Parent to add this item to. (runtime adding)
+		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
 	"""
@@ -3636,6 +3721,7 @@ def add_float_vect_value(**kwargs):
 		source (Union[int, str], optional): Overrides 'id' as value storage key.
 		default_value (Union[List[float], Tuple[float]], optional): 
 		parent (Union[int, str], optional): Parent to add this item to. (runtime adding)
+		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
 	"""
@@ -3653,6 +3739,8 @@ def add_font(file, size, **kwargs):
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
 		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
 		parent (Union[int, str], optional): Parent to add this item to. (runtime adding)
+		id (Union[int, str], optional): (deprecated)
+		default_font (bool, optional): (deprecated)
 	Returns:
 		Union[int, str]
 	"""
@@ -3669,6 +3757,7 @@ def add_font_chars(chars, **kwargs):
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
 		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
 		parent (Union[int, str], optional): Parent to add this item to. (runtime adding)
+		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
 	"""
@@ -3686,6 +3775,7 @@ def add_font_range(first_char, last_char, **kwargs):
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
 		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
 		parent (Union[int, str], optional): Parent to add this item to. (runtime adding)
+		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
 	"""
@@ -3702,6 +3792,7 @@ def add_font_range_hint(hint, **kwargs):
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
 		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
 		parent (Union[int, str], optional): Parent to add this item to. (runtime adding)
+		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
 	"""
@@ -3717,6 +3808,7 @@ def add_font_registry(**kwargs):
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
 		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
 		show (bool, optional): Attempt to render widget.
+		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
 	"""
@@ -3747,6 +3839,7 @@ def add_group(**kwargs):
 		horizontal (bool, optional): Forces child widgets to be added in a horizontal layout.
 		horizontal_spacing (float, optional): Spacing for the horizontal layout.
 		xoffset (float, optional): Offset from containing window x item location within group.
+		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
 	"""
@@ -3762,6 +3855,7 @@ def add_handler_registry(**kwargs):
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
 		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
 		show (bool, optional): Attempt to render widget.
+		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
 	"""
@@ -3789,6 +3883,7 @@ def add_heat_series(x, rows, cols, **kwargs):
 		bounds_max (Any, optional): 
 		format (str, optional): 
 		contribute_to_bounds (bool, optional): 
+		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
 	"""
@@ -3816,6 +3911,7 @@ def add_histogram_series(x, **kwargs):
 		density (bool, optional): 
 		outliers (bool, optional): 
 		contribute_to_bounds (bool, optional): 
+		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
 	"""
@@ -3835,6 +3931,7 @@ def add_hline_series(x, **kwargs):
 		before (Union[int, str], optional): This item will be displayed before the specified item in the parent.
 		source (Union[int, str], optional): Overrides 'id' as value storage key.
 		show (bool, optional): Attempt to render widget.
+		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
 	"""
@@ -3868,6 +3965,7 @@ def add_image(texture_id, **kwargs):
 		border_color (Union[List[float], Tuple[float]], optional): Displays a border of the specified color around the texture.
 		uv_min (Union[List[float], Tuple[float]], optional): Normalized texture coordinates min point.
 		uv_max (Union[List[float], Tuple[float]], optional): Normalized texture coordinates max point.
+		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
 	"""
@@ -3904,6 +4002,7 @@ def add_image_button(texture_id, **kwargs):
 		background_color (Union[List[float], Tuple[float]], optional): Displays a border of the specified color around the texture.
 		uv_min (Union[List[float], Tuple[float]], optional): Normalized texture coordinates min point.
 		uv_max (Union[List[float], Tuple[float]], optional): Normalized texture coordinates max point.
+		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
 	"""
@@ -3928,6 +4027,7 @@ def add_image_series(texture_id, bounds_min, bounds_max, **kwargs):
 		uv_min (Union[List[float], Tuple[float]], optional): normalized texture coordinates
 		uv_max (Union[List[float], Tuple[float]], optional): normalized texture coordinates
 		tint_color (Union[List[int], Tuple[int]], optional): 
+		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
 	"""
@@ -3967,6 +4067,7 @@ def add_input_float(**kwargs):
 		max_clamped (bool, optional): Activates and deactivates max_value.
 		on_enter (bool, optional): Only runs callback on enter key press.
 		readonly (bool, optional): Activates a read only mode for the input.
+		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
 	"""
@@ -4005,6 +4106,7 @@ def add_input_floatx(**kwargs):
 		max_clamped (bool, optional): Activates and deactivates max_value.
 		on_enter (bool, optional): Only runs callback on enter key press.
 		readonly (bool, optional): Activates a read only mode for the inputs.
+		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
 	"""
@@ -4043,6 +4145,7 @@ def add_input_int(**kwargs):
 		max_clamped (bool, optional): Activates and deactivates max_value.
 		on_enter (bool, optional): Only runs callback on enter key press.
 		readonly (bool, optional): Activates a read only mode for the input.
+		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
 	"""
@@ -4080,6 +4183,7 @@ def add_input_intx(**kwargs):
 		max_clamped (bool, optional): Activates and deactivates max_value.
 		on_enter (bool, optional): Only runs callback on enter.
 		readonly (bool, optional): Activates a read only mode for the inputs.
+		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
 	"""
@@ -4122,6 +4226,7 @@ def add_input_text(**kwargs):
 		password (bool, optional): Password mode, display all characters as '*'.
 		scientific (bool, optional): Only allow 0123456789.+-*/eE (Scientific notation input)
 		on_enter (bool, optional): Only runs callback on enter key press.
+		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
 	"""
@@ -4139,6 +4244,7 @@ def add_int4_value(**kwargs):
 		source (Union[int, str], optional): Overrides 'id' as value storage key.
 		default_value (Union[List[int], Tuple[int]], optional): 
 		parent (Union[int, str], optional): Parent to add this item to. (runtime adding)
+		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
 	"""
@@ -4156,6 +4262,7 @@ def add_int_value(**kwargs):
 		source (Union[int, str], optional): Overrides 'id' as value storage key.
 		default_value (int, optional): 
 		parent (Union[int, str], optional): Parent to add this item to. (runtime adding)
+		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
 	"""
@@ -4173,6 +4280,7 @@ def add_item_activated_handler(**kwargs):
 		parent (Union[int, str], optional): Parent to add this item to. (runtime adding)
 		callback (Callable, optional): Registers a callback.
 		show (bool, optional): Attempt to render widget.
+		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
 	"""
@@ -4190,6 +4298,7 @@ def add_item_active_handler(**kwargs):
 		parent (Union[int, str], optional): Parent to add this item to. (runtime adding)
 		callback (Callable, optional): Registers a callback.
 		show (bool, optional): Attempt to render widget.
+		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
 	"""
@@ -4208,6 +4317,7 @@ def add_item_clicked_handler(button=-1, **kwargs):
 		parent (Union[int, str], optional): Parent to add this item to. (runtime adding)
 		callback (Callable, optional): Registers a callback.
 		show (bool, optional): Attempt to render widget.
+		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
 	"""
@@ -4225,6 +4335,7 @@ def add_item_deactivated_after_edit_handler(**kwargs):
 		parent (Union[int, str], optional): Parent to add this item to. (runtime adding)
 		callback (Callable, optional): Registers a callback.
 		show (bool, optional): Attempt to render widget.
+		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
 	"""
@@ -4242,6 +4353,7 @@ def add_item_deactivated_handler(**kwargs):
 		parent (Union[int, str], optional): Parent to add this item to. (runtime adding)
 		callback (Callable, optional): Registers a callback.
 		show (bool, optional): Attempt to render widget.
+		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
 	"""
@@ -4259,6 +4371,7 @@ def add_item_edited_handler(**kwargs):
 		parent (Union[int, str], optional): Parent to add this item to. (runtime adding)
 		callback (Callable, optional): Registers a callback.
 		show (bool, optional): Attempt to render widget.
+		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
 	"""
@@ -4276,6 +4389,7 @@ def add_item_focus_handler(**kwargs):
 		parent (Union[int, str], optional): Parent to add this item to. (runtime adding)
 		callback (Callable, optional): Registers a callback.
 		show (bool, optional): Attempt to render widget.
+		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
 	"""
@@ -4291,6 +4405,7 @@ def add_item_handler_registry(**kwargs):
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
 		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
 		show (bool, optional): Attempt to render widget.
+		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
 	"""
@@ -4308,6 +4423,7 @@ def add_item_hover_handler(**kwargs):
 		parent (Union[int, str], optional): Parent to add this item to. (runtime adding)
 		callback (Callable, optional): Registers a callback.
 		show (bool, optional): Attempt to render widget.
+		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
 	"""
@@ -4322,6 +4438,7 @@ def add_item_pool(**kwargs):
 		user_data (Any, optional): User data for callbacks
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
 		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
+		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
 	"""
@@ -4339,6 +4456,7 @@ def add_item_resize_handler(**kwargs):
 		parent (Union[int, str], optional): Parent to add this item to. (runtime adding)
 		callback (Callable, optional): Registers a callback.
 		show (bool, optional): Attempt to render widget.
+		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
 	"""
@@ -4355,6 +4473,7 @@ def add_item_set(type, count, **kwargs):
 		user_data (Any, optional): User data for callbacks
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
 		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
+		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
 	"""
@@ -4372,6 +4491,7 @@ def add_item_toggled_open_handler(**kwargs):
 		parent (Union[int, str], optional): Parent to add this item to. (runtime adding)
 		callback (Callable, optional): Registers a callback.
 		show (bool, optional): Attempt to render widget.
+		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
 	"""
@@ -4389,6 +4509,7 @@ def add_item_visible_handler(**kwargs):
 		parent (Union[int, str], optional): Parent to add this item to. (runtime adding)
 		callback (Callable, optional): Registers a callback.
 		show (bool, optional): Attempt to render widget.
+		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
 	"""
@@ -4407,6 +4528,7 @@ def add_key_down_handler(key=-1, **kwargs):
 		callback (Callable, optional): Registers a callback.
 		show (bool, optional): Attempt to render widget.
 		parent (Union[int, str], optional): Parent to add this item to. (runtime adding)
+		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
 	"""
@@ -4425,6 +4547,7 @@ def add_key_press_handler(key=-1, **kwargs):
 		callback (Callable, optional): Registers a callback.
 		show (bool, optional): Attempt to render widget.
 		parent (Union[int, str], optional): Parent to add this item to. (runtime adding)
+		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
 	"""
@@ -4443,6 +4566,7 @@ def add_key_release_handler(key=-1, **kwargs):
 		callback (Callable, optional): Registers a callback.
 		show (bool, optional): Attempt to render widget.
 		parent (Union[int, str], optional): Parent to add this item to. (runtime adding)
+		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
 	"""
@@ -4475,6 +4599,7 @@ def add_knob_float(**kwargs):
 		default_value (float, optional): 
 		min_value (float, optional): Applies lower limit to value.
 		max_value (float, optional): Applies upper limit to value.
+		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
 	"""
@@ -4495,6 +4620,7 @@ def add_line_series(x, y, **kwargs):
 		before (Union[int, str], optional): This item will be displayed before the specified item in the parent.
 		source (Union[int, str], optional): Overrides 'id' as value storage key.
 		show (bool, optional): Attempt to render widget.
+		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
 	"""
@@ -4527,6 +4653,7 @@ def add_listbox(items=(), **kwargs):
 		track_offset (float, optional): 0.0f:top, 0.5f:center, 1.0f:bottom
 		default_value (str, optional): 
 		num_items (int, optional): Expands the height of the listbox to show specified number of items.
+		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
 	"""
@@ -4557,6 +4684,7 @@ def add_loading_indicator(**kwargs):
 		thickness (float, optional): Thickness of the circles or line.
 		color (Union[List[int], Tuple[int]], optional): Color of the growing center circle.
 		secondary_color (Union[List[int], Tuple[int]], optional): Background of the dots in dot mode.
+		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
 	"""
@@ -4582,6 +4710,7 @@ def add_menu(**kwargs):
 		delay_search (bool, optional): Delays searching container for specified items until the end of the app. Possible optimization when a container has many children that are not accessed often.
 		tracked (bool, optional): Scroll tracking
 		track_offset (float, optional): 0.0f:top, 0.5f:center, 1.0f:bottom
+		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
 	"""
@@ -4600,6 +4729,7 @@ def add_menu_bar(**kwargs):
 		parent (Union[int, str], optional): Parent to add this item to. (runtime adding)
 		show (bool, optional): Attempt to render widget.
 		delay_search (bool, optional): Delays searching container for specified items until the end of the app. Possible optimization when a container has many children that are not accessed often.
+		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
 	"""
@@ -4628,6 +4758,8 @@ def add_menu_item(**kwargs):
 		default_value (bool, optional): 
 		shortcut (str, optional): Displays text on the menu item. Typically used to show a shortcut key command.
 		check (bool, optional): Displays a checkmark on the menu item when it is selected.
+		id (Union[int, str], optional): (deprecated)
+		drag_callback (Callable, optional): (deprecated)
 	Returns:
 		Union[int, str]
 	"""
@@ -4646,6 +4778,7 @@ def add_mouse_click_handler(button=-1, **kwargs):
 		callback (Callable, optional): Registers a callback.
 		show (bool, optional): Attempt to render widget.
 		parent (Union[int, str], optional): Parent to add this item to. (runtime adding)
+		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
 	"""
@@ -4664,6 +4797,7 @@ def add_mouse_double_click_handler(button=-1, **kwargs):
 		callback (Callable, optional): Registers a callback.
 		show (bool, optional): Attempt to render widget.
 		parent (Union[int, str], optional): Parent to add this item to. (runtime adding)
+		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
 	"""
@@ -4682,6 +4816,7 @@ def add_mouse_down_handler(button=-1, **kwargs):
 		callback (Callable, optional): Registers a callback.
 		show (bool, optional): Attempt to render widget.
 		parent (Union[int, str], optional): Parent to add this item to. (runtime adding)
+		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
 	"""
@@ -4701,6 +4836,7 @@ def add_mouse_drag_handler(button=-1, threshold=10.0, **kwargs):
 		callback (Callable, optional): Registers a callback.
 		show (bool, optional): Attempt to render widget.
 		parent (Union[int, str], optional): Parent to add this item to. (runtime adding)
+		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
 	"""
@@ -4718,6 +4854,7 @@ def add_mouse_move_handler(**kwargs):
 		callback (Callable, optional): Registers a callback.
 		show (bool, optional): Attempt to render widget.
 		parent (Union[int, str], optional): Parent to add this item to. (runtime adding)
+		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
 	"""
@@ -4736,6 +4873,7 @@ def add_mouse_release_handler(button=-1, **kwargs):
 		callback (Callable, optional): Registers a callback.
 		show (bool, optional): Attempt to render widget.
 		parent (Union[int, str], optional): Parent to add this item to. (runtime adding)
+		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
 	"""
@@ -4753,6 +4891,7 @@ def add_mouse_wheel_handler(**kwargs):
 		callback (Callable, optional): Registers a callback.
 		show (bool, optional): Attempt to render widget.
 		parent (Union[int, str], optional): Parent to add this item to. (runtime adding)
+		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
 	"""
@@ -4779,6 +4918,7 @@ def add_node(**kwargs):
 		tracked (bool, optional): Scroll tracking
 		track_offset (float, optional): 0.0f:top, 0.5f:center, 1.0f:bottom
 		draggable (bool, optional): Allow node to be draggable.
+		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
 	"""
@@ -4803,6 +4943,7 @@ def add_node_attribute(**kwargs):
 		attribute_type (int, optional): mvNode_Attr_Input, mvNode_Attr_Output, or mvNode_Attr_Static.
 		shape (int, optional): Pin shape.
 		category (str, optional): Category
+		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
 	"""
@@ -4829,6 +4970,7 @@ def add_node_editor(**kwargs):
 		track_offset (float, optional): 0.0f:top, 0.5f:center, 1.0f:bottom
 		delink_callback (Callable, optional): Callback ran when a link is detached.
 		menubar (bool, optional): Shows or hides the menubar.
+		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
 	"""
@@ -4847,6 +4989,7 @@ def add_node_link(attr_1, attr_2, **kwargs):
 		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
 		parent (Union[int, str], optional): Parent to add this item to. (runtime adding)
 		show (bool, optional): Attempt to render widget.
+		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
 	"""
@@ -4873,6 +5016,7 @@ def add_pie_series(x, y, radius, values, labels, **kwargs):
 		format (str, optional): 
 		angle (float, optional): 
 		normalize (bool, optional): 
+		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
 	"""
@@ -4924,6 +5068,7 @@ def add_plot(**kwargs):
 		query_toggle_mod (int, optional): when held, active box selections turn into queries
 		horizontal_mod (int, optional): expands active box selection/query horizontally to plot edge when held
 		vertical_mod (int, optional): expands active box selection/query vertically to plot edge when held
+		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
 	"""
@@ -4946,6 +5091,7 @@ def add_plot_annotation(**kwargs):
 		offset (Union[List[float], Tuple[float]], optional): 
 		color (Union[List[int], Tuple[int]], optional): 
 		clamped (bool, optional): 
+		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
 	"""
@@ -4973,6 +5119,7 @@ def add_plot_axis(axis, **kwargs):
 		lock_min (bool, optional): 
 		lock_max (bool, optional): 
 		time (bool, optional): 
+		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
 	"""
@@ -4994,6 +5141,7 @@ def add_plot_legend(**kwargs):
 		location (int, optional): location, mvPlot_Location_*
 		horizontal (bool, optional): 
 		outside (bool, optional): 
+		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
 	"""
@@ -5024,6 +5172,7 @@ def add_progress_bar(**kwargs):
 		track_offset (float, optional): 0.0f:top, 0.5f:center, 1.0f:bottom
 		overlay (str, optional): Overlayed text.
 		default_value (float, optional): Normalized value to fill the bar from 0.0 to 1.0.
+		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
 	"""
@@ -5055,6 +5204,7 @@ def add_radio_button(items=(), **kwargs):
 		track_offset (float, optional): 0.0f:top, 0.5f:center, 1.0f:bottom
 		default_value (str, optional): 
 		horizontal (bool, optional): Displays the radio options horizontally.
+		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
 	"""
@@ -5074,6 +5224,7 @@ def add_raw_texture(width, height, default_value, **kwargs):
 		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
 		format (int, optional): Data format.
 		parent (Union[int, str], optional): Parent to add this item to. (runtime adding)
+		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
 	"""
@@ -5094,6 +5245,7 @@ def add_scatter_series(x, y, **kwargs):
 		before (Union[int, str], optional): This item will be displayed before the specified item in the parent.
 		source (Union[int, str], optional): Overrides 'id' as value storage key.
 		show (bool, optional): Attempt to render widget.
+		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
 	"""
@@ -5126,6 +5278,7 @@ def add_selectable(**kwargs):
 		track_offset (float, optional): 0.0f:top, 0.5f:center, 1.0f:bottom
 		default_value (bool, optional): 
 		span_columns (bool, optional): Span the width of all columns if placed in a table.
+		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
 	"""
@@ -5145,6 +5298,7 @@ def add_separator(**kwargs):
 		before (Union[int, str], optional): This item will be displayed before the specified item in the parent.
 		show (bool, optional): Attempt to render widget.
 		pos (Union[List[int], Tuple[int]], optional): Places the item relative to window coordinates, [0,0] is top left.
+		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
 	"""
@@ -5162,6 +5316,7 @@ def add_series_value(**kwargs):
 		source (Union[int, str], optional): Overrides 'id' as value storage key.
 		default_value (Any, optional): 
 		parent (Union[int, str], optional): Parent to add this item to. (runtime adding)
+		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
 	"""
@@ -5183,6 +5338,7 @@ def add_shade_series(x, y1, **kwargs):
 		source (Union[int, str], optional): Overrides 'id' as value storage key.
 		show (bool, optional): Attempt to render widget.
 		y2 (Any, optional): 
+		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
 	"""
@@ -5216,6 +5372,7 @@ def add_simple_plot(**kwargs):
 		autosize (bool, optional): 
 		min_scale (float, optional): 
 		max_scale (float, optional): 
+		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
 	"""
@@ -5253,6 +5410,7 @@ def add_slider_float(**kwargs):
 		min_value (float, optional): Applies a limit only to sliding entry only.
 		max_value (float, optional): Applies a limit only to sliding entry only.
 		format (str, optional): 
+		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
 	"""
@@ -5289,6 +5447,7 @@ def add_slider_floatx(**kwargs):
 		min_value (float, optional): Applies a limit only to sliding entry only.
 		max_value (float, optional): Applies a limit only to sliding entry only.
 		format (str, optional): 
+		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
 	"""
@@ -5326,6 +5485,7 @@ def add_slider_int(**kwargs):
 		min_value (int, optional): Applies a limit only to sliding entry only.
 		max_value (int, optional): Applies a limit only to sliding entry only.
 		format (str, optional): 
+		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
 	"""
@@ -5362,6 +5522,7 @@ def add_slider_intx(**kwargs):
 		min_value (int, optional): Applies a limit only to sliding entry only.
 		max_value (int, optional): Applies a limit only to sliding entry only.
 		format (str, optional): 
+		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
 	"""
@@ -5383,6 +5544,7 @@ def add_spacer(**kwargs):
 		before (Union[int, str], optional): This item will be displayed before the specified item in the parent.
 		show (bool, optional): Attempt to render widget.
 		pos (Union[List[int], Tuple[int]], optional): Places the item relative to window coordinates, [0,0] is top left.
+		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
 	"""
@@ -5397,6 +5559,7 @@ def add_stage(**kwargs):
 		user_data (Any, optional): User data for callbacks
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
 		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
+		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
 	"""
@@ -5417,6 +5580,7 @@ def add_stair_series(x, y, **kwargs):
 		before (Union[int, str], optional): This item will be displayed before the specified item in the parent.
 		source (Union[int, str], optional): Overrides 'id' as value storage key.
 		show (bool, optional): Attempt to render widget.
+		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
 	"""
@@ -5435,6 +5599,7 @@ def add_static_texture(width, height, default_value, **kwargs):
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
 		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
 		parent (Union[int, str], optional): Parent to add this item to. (runtime adding)
+		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
 	"""
@@ -5456,6 +5621,7 @@ def add_stem_series(x, y, **kwargs):
 		before (Union[int, str], optional): This item will be displayed before the specified item in the parent.
 		source (Union[int, str], optional): Overrides 'id' as value storage key.
 		show (bool, optional): Attempt to render widget.
+		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
 	"""
@@ -5473,6 +5639,7 @@ def add_string_value(**kwargs):
 		source (Union[int, str], optional): Overrides 'id' as value storage key.
 		default_value (str, optional): 
 		parent (Union[int, str], optional): Parent to add this item to. (runtime adding)
+		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
 	"""
@@ -5512,6 +5679,7 @@ def add_subplots(rows, columns, **kwargs):
 		link_all_x (bool, optional): link the x-axis limits in every plot in the subplot
 		link_all_y (bool, optional): link the y-axis limits in every plot in the subplot (does not apply to auxiliary y-axes)
 		column_major (bool, optional): subplots are added in column major order instead of the default row major order
+		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
 	"""
@@ -5539,6 +5707,7 @@ def add_tab(**kwargs):
 		closable (bool, optional): Creates a button on the tab that can hide the tab.
 		no_tooltip (bool, optional): Disable tooltip for the given tab.
 		order_mode (bool, optional): set using a constant: mvTabOrder_Reorderable: allows reordering, mvTabOrder_Fixed: fixed ordering, mvTabOrder_Leading: adds tab to front, mvTabOrder_Trailing: adds tab to back
+		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
 	"""
@@ -5564,6 +5733,7 @@ def add_tab_bar(**kwargs):
 		tracked (bool, optional): Scroll tracking
 		track_offset (float, optional): 0.0f:top, 0.5f:center, 1.0f:bottom
 		reorderable (bool, optional): Allows for the user to change the order of the tabs.
+		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
 	"""
@@ -5593,6 +5763,7 @@ def add_tab_button(**kwargs):
 		leading (bool, optional): Enforce the tab position to the left of the tab bar (after the tab list popup button).
 		trailing (bool, optional): Enforce the tab position to the right of the tab bar (before the scrolling buttons).
 		no_tooltip (bool, optional): Disable tooltip for the given tab.
+		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
 	"""
@@ -5647,6 +5818,7 @@ def add_table(**kwargs):
 		scrollX (bool, optional): Enable horizontal scrolling. Require 'outer_size' parameter of BeginTable() to specify the container size. Changes default sizing policy. Because this create a child window, ScrollY is currently generally recommended when using ScrollX.
 		scrollY (bool, optional): Enable vertical scrolling.
 		no_saved_settings (bool, optional): Never load/save settings in .ini file.
+		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
 	"""
@@ -5666,6 +5838,7 @@ def add_table_cell(**kwargs):
 		before (Union[int, str], optional): This item will be displayed before the specified item in the parent.
 		show (bool, optional): Attempt to render widget.
 		filter_key (str, optional): Used by filter widget.
+		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
 	"""
@@ -5702,6 +5875,7 @@ def add_table_column(**kwargs):
 		prefer_sort_descending (bool, optional): Make the initial sort direction Descending when first sorting on this column.
 		indent_enable (bool, optional): Use current Indent value when entering cell (default for column 0).
 		indent_disable (bool, optional): Ignore current Indent value when entering cell (default for columns > 0). Indentation changes _within_ the cell will still be honored.
+		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
 	"""
@@ -5721,6 +5895,7 @@ def add_table_row(**kwargs):
 		before (Union[int, str], optional): This item will be displayed before the specified item in the parent.
 		show (bool, optional): Attempt to render widget.
 		filter_key (str, optional): Used by filter widget.
+		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
 	"""
@@ -5735,6 +5910,7 @@ def add_template_registry(**kwargs):
 		user_data (Any, optional): User data for callbacks
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
 		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
+		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
 	"""
@@ -5766,6 +5942,7 @@ def add_text(default_value='', **kwargs):
 		bullet (bool, optional): Makes the text bulleted.
 		color (Union[List[float], Tuple[float]], optional): Color of the text (rgba).
 		show_label (bool, optional): Displays the label.
+		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
 	"""
@@ -5789,6 +5966,7 @@ def add_text_point(x, y, **kwargs):
 		x_offset (int, optional): 
 		y_offset (int, optional): 
 		vertical (bool, optional): 
+		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
 	"""
@@ -5804,6 +5982,7 @@ def add_texture_registry(**kwargs):
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
 		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
 		show (bool, optional): Attempt to render widget.
+		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
 	"""
@@ -5818,6 +5997,8 @@ def add_theme(**kwargs):
 		user_data (Any, optional): User data for callbacks
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
 		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
+		id (Union[int, str], optional): (deprecated)
+		default_theme (bool, optional): (deprecated)
 	Returns:
 		Union[int, str]
 	"""
@@ -5836,6 +6017,7 @@ def add_theme_color(target=0, value=(0, 0, 0, 255), **kwargs):
 		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
 		parent (Union[int, str], optional): Parent to add this item to. (runtime adding)
 		category (int, optional): Options include mvThemeCat_Core, mvThemeCat_Plots, mvThemeCat_Nodes.
+		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
 	"""
@@ -5854,6 +6036,7 @@ def add_theme_component(item_type=0, **kwargs):
 		parent (Union[int, str], optional): Parent to add this item to. (runtime adding)
 		before (Union[int, str], optional): This item will be displayed before the specified item in the parent.
 		enabled_state (bool, optional): 
+		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
 	"""
@@ -5873,6 +6056,7 @@ def add_theme_style(target=0, x=1.0, y=-1.0, **kwargs):
 		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
 		parent (Union[int, str], optional): Parent to add this item to. (runtime adding)
 		category (int, optional): Options include mvThemeCat_Core, mvThemeCat_Plots, mvThemeCat_Nodes.
+		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
 	"""
@@ -5901,6 +6085,7 @@ def add_time_picker(**kwargs):
 		track_offset (float, optional): 0.0f:top, 0.5f:center, 1.0f:bottom
 		default_value (dict, optional): 
 		hour24 (bool, optional): Show 24 hour clock instead of 12 hour.
+		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
 	"""
@@ -5917,6 +6102,7 @@ def add_tooltip(parent, **kwargs):
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
 		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
 		show (bool, optional): Attempt to render widget.
+		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
 	"""
@@ -5949,6 +6135,7 @@ def add_tree_node(**kwargs):
 		leaf (bool, optional): No collapsing, no arrow (use as a convenience for leaf nodes).
 		bullet (bool, optional): Display a bullet instead of arrow.
 		selectable (bool, optional): Makes the tree selectable.
+		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
 	"""
@@ -5963,6 +6150,7 @@ def add_value_registry(**kwargs):
 		user_data (Any, optional): User data for callbacks
 		use_internal_label (bool, optional): Use generated internal label instead of user specified (appends ### uuid).
 		tag (Union[int, str], optional): Unique id used to programmatically refer to the item.If label is unused this will be the label.
+		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
 	"""
@@ -5981,6 +6169,7 @@ def add_viewport_drawlist(**kwargs):
 		filter_key (str, optional): Used by filter widget.
 		delay_search (bool, optional): Delays searching container for specified items until the end of the app. Possible optimization when a container has many children that are not accessed often.
 		front (bool, optional): Draws to the front of the view port instead of the back.
+		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
 	"""
@@ -5999,6 +6188,7 @@ def add_viewport_menu_bar(**kwargs):
 		parent (Union[int, str], optional): Parent to add this item to. (runtime adding)
 		show (bool, optional): Attempt to render widget.
 		delay_search (bool, optional): Delays searching container for specified items until the end of the app. Possible optimization when a container has many children that are not accessed often.
+		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
 	"""
@@ -6018,6 +6208,7 @@ def add_vline_series(x, **kwargs):
 		before (Union[int, str], optional): This item will be displayed before the specified item in the parent.
 		source (Union[int, str], optional): Overrides 'id' as value storage key.
 		show (bool, optional): Attempt to render widget.
+		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
 	"""
@@ -6057,6 +6248,7 @@ def add_window(**kwargs):
 		popup (bool, optional): Fills area behind window according to the theme, removes title bar, collapse and close. Window can be closed by selecting area in the background behind the window.
 		no_saved_settings (bool, optional): Never load/save settings in .ini file.
 		on_close (Callable, optional): Callback ran when window is closed.
+		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
 	"""
@@ -6272,6 +6464,7 @@ def draw_arrow(p1, p2, **kwargs):
 		color (Union[List[int], Tuple[int]], optional): 
 		thickness (float, optional): 
 		size (int, optional): 
+		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
 	"""
@@ -6296,6 +6489,7 @@ def draw_bezier_cubic(p1, p2, p3, p4, **kwargs):
 		color (Union[List[int], Tuple[int]], optional): 
 		thickness (float, optional): 
 		segments (int, optional): Number of segments to approximate bezier curve.
+		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
 	"""
@@ -6319,6 +6513,7 @@ def draw_bezier_quadratic(p1, p2, p3, **kwargs):
 		color (Union[List[int], Tuple[int]], optional): 
 		thickness (float, optional): 
 		segments (int, optional): Number of segments to approximate bezier curve.
+		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
 	"""
@@ -6342,6 +6537,7 @@ def draw_circle(center, radius, **kwargs):
 		fill (Union[List[int], Tuple[int]], optional): 
 		thickness (float, optional): 
 		segments (int, optional): Number of segments to approximate circle.
+		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
 	"""
@@ -6365,6 +6561,7 @@ def draw_ellipse(pmin, pmax, **kwargs):
 		fill (Union[List[int], Tuple[int]], optional): 
 		thickness (float, optional): 
 		segments (int, optional): Number of segments to approximate bezier curve.
+		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
 	"""
@@ -6388,6 +6585,7 @@ def draw_image(texture_id, pmin, pmax, **kwargs):
 		uv_min (Union[List[float], Tuple[float]], optional): Normalized coordinates on texture that will be drawn.
 		uv_max (Union[List[float], Tuple[float]], optional): Normalized coordinates on texture that will be drawn.
 		color (Union[List[int], Tuple[int]], optional): 
+		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
 	"""
@@ -6409,6 +6607,7 @@ def draw_line(p1, p2, **kwargs):
 		show (bool, optional): Attempt to render widget.
 		color (Union[List[int], Tuple[int]], optional): 
 		thickness (float, optional): 
+		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
 	"""
@@ -6430,6 +6629,7 @@ def draw_polygon(points, **kwargs):
 		color (Union[List[int], Tuple[int]], optional): 
 		fill (Union[List[int], Tuple[int]], optional): 
 		thickness (float, optional): 
+		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
 	"""
@@ -6451,6 +6651,7 @@ def draw_polyline(points, **kwargs):
 		closed (bool, optional): Will close the polyline by returning to the first point.
 		color (Union[List[int], Tuple[int]], optional): 
 		thickness (float, optional): 
+		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
 	"""
@@ -6475,6 +6676,7 @@ def draw_quad(p1, p2, p3, p4, **kwargs):
 		color (Union[List[int], Tuple[int]], optional): 
 		fill (Union[List[int], Tuple[int]], optional): 
 		thickness (float, optional): 
+		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
 	"""
@@ -6503,6 +6705,7 @@ def draw_rectangle(pmin, pmax, **kwargs):
 		multicolor (bool, optional): 
 		rounding (float, optional): Number of pixels of the radius that will round the corners of the rectangle. Note: doesn't work with multicolor
 		thickness (float, optional): 
+		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
 	"""
@@ -6524,6 +6727,7 @@ def draw_text(pos, text, **kwargs):
 		show (bool, optional): Attempt to render widget.
 		color (Union[List[int], Tuple[int]], optional): 
 		size (float, optional): 
+		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
 	"""
@@ -6547,6 +6751,7 @@ def draw_triangle(p1, p2, p3, **kwargs):
 		color (Union[List[int], Tuple[int]], optional): 
 		fill (Union[List[int], Tuple[int]], optional): 
 		thickness (float, optional): 
+		id (Union[int, str], optional): (deprecated)
 	Returns:
 		Union[int, str]
 	"""
@@ -7532,6 +7737,7 @@ def setup_dearpygui():
 	"""	 Sets up Dear PyGui
 
 	Args:
+		viewport (Union[int, str], optional): (deprecated)
 	Returns:
 		None
 	"""
@@ -7586,6 +7792,7 @@ def show_viewport(**kwargs):
 	Args:
 		minimized (bool, optional): 
 		maximized (bool, optional): 
+		viewport (Union[int, str], optional): (deprecated)
 	Returns:
 		None
 	"""

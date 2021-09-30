@@ -214,7 +214,7 @@ def add_spacing(**kwargs):
 		Union[int, str]
 	"""
 
-	if "tag" in kwargs.keys():
+	if 'tag' in kwargs.keys():
 		with internal_dpg.group(tag=kwargs["tag"]) as result_id:
 			kwargs.pop("tag", None)
 			for i in range(count):

@@ -26,20 +26,11 @@ We generally fold multiple commits pertaining to the same topic as a single entr
 * user must create DearPyGui context with `create_context()` before calling any DPG commands
 * changed dragPayload `drag_data` is submitted to the targets `drag_callback` rather than `drop_callback`
 * moved logger and themes to `Dear PyGui Extensions`
-* changed `id` keyword to `tag`
-* item: removed table_next_column (deprecated)
 * table rows now required
 * removed `add_same_line(...)`
-* removed `default_font` keyword arg from `add_font(...)`, use `bind_font(...)` now
-* removed `default_theme` keyword arg from `add_theme(...)`, use `bind_theme(...)` now
-* removed `viewport` keyword arg from `setup_dearpygui(...)`
-* removed `viewport` keyword arg from `show_viewport(...)`
 * removed `bind_item_disabled_theme(...)`
 * removed `bind_item_type_disabled_theme(...)`
 * removed `bind_item_type_theme(...)`
-* removed `drag_callback` from `add_menu_item(...)`
-* removed `drag_callback` from `add_colormap_scale(...)`
-* removed `drag_callback` from `add_colormap_slider(...)`
 * user must create, setup, show viewport before starting dpg:
   * "create_viewport()->setup_dearpygui()->show_viewport()->start_dearpygui()"
 * `add_theme_color(...)` and `add_theme_style(...)` must known belong to a `theme_component`
@@ -82,6 +73,15 @@ We generally fold multiple commits pertaining to the same topic as a single entr
 * texture id can be updated with `configure_item(...)` for texture based widgets
         
 ### Deprecated
+* item:    removed table_next_column
+* removed `viewport` keyword arg from `setup_dearpygui(...)`
+* removed `viewport` keyword arg from `show_viewport(...)`
+* keyword: removed `drag_callback` from `add_menu_item(...)`
+* keyword: removed `drag_callback` from `add_colormap_scale(...)`
+* keyword: removed `drag_callback` from `add_colormap_slider(...)`
+* keyword: removed `default_font` keyword arg from `add_font(...)`, use `bind_font(...)` now
+* keyword: removed `default_theme` keyword arg from `add_theme(...)`, use `bind_theme(...)` now
+* keyword: renamed `id` keyword to `tag`
 * command: `cleanup_dearpygui(...)` is deprecated. Use `destroy_context(...)`
 * command: `staging_container(...)` is deprecated. Use `stage(...)`
 * command: `enable_docking(...)` is deprecated. Use `configure_app(docking=True, docking_space=dock_space)`

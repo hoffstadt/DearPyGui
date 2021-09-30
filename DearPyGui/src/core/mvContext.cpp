@@ -461,6 +461,7 @@ namespace Marvel {
             setup.about = "Sets up Dear PyGui";
             setup.category = { "General" };
 
+            args.push_back({ mvPyDataType::UUID, "viewport", mvArgType::DEPRECATED_REMOVE_KEYWORD_ARG });
             mvPythonParser parser = FinalizeParser(setup, args);
             parsers->insert({ "setup_dearpygui", parser });
         }
