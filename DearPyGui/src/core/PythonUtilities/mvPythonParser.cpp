@@ -542,7 +542,7 @@ namespace Marvel {
 
 			stream << ") -> " << PythonDataTypeActual(parser.second.returnType) << ":";
 
-			stream << "\n\t\"\"\"\t" << parser.second.about.c_str();
+			stream << "\n\t\"\"\"\t " << parser.second.about.c_str();
 
 			stream << "\n\n\tArgs:";
 			for (const auto& args : parser.second.required_elements)
@@ -653,7 +653,7 @@ namespace Marvel {
 
 			stream << ") -> " << PythonDataTypeActual(parser.second.returnType) << ":";
 
-			stream << "\n\t\"\"\"\t" << parser.second.about.c_str();
+			stream << "\n\t\"\"\"\t " << parser.second.about.c_str();
 
 			stream << "\n\n\tArgs:";
 			for (const auto& args : parser.second.required_elements)
@@ -762,7 +762,7 @@ namespace Marvel {
 					stream << ", **kwargs):";
 			}
 
-			stream << "\n\t\"\"\"\t" << parser.second.about.c_str();
+			stream << "\n\t\"\"\"\t " << parser.second.about.c_str();
 
 			stream << "\n\n\tArgs:";
 			for (const auto& args : parser.second.required_elements)
@@ -864,7 +864,7 @@ namespace Marvel {
 					stream << ", **kwargs):";
 			}
 
-			stream << "\n\t\"\"\"\t" << parser.second.about.c_str();
+			stream << "\n\t\"\"\"\t " << parser.second.about.c_str();
 
 			stream << "\n\n\tArgs:";
 			for (const auto& args : parser.second.required_elements)
