@@ -200,6 +200,8 @@ namespace Marvel {
 			case mvArgType::KEYWORD_ARG:
 				parser.keyword_elements.push_back(arg);
 				break;
+			default:
+				parser.deprecated_elements.push_back(arg);
 			}
 		}
 
@@ -279,6 +281,17 @@ namespace Marvel {
 			documentation += "\n\t\t" + std::string(element.description);
 		}
 
+		if (!parser.keyword_elements.empty())
+			documentation += "\n\Deprecated Keyword Arguments\n_______________\n\n";
+
+		for (const auto& element : parser.deprecated_elements)
+		{
+			documentation += "\n* ";
+			documentation += element.name + std::string(PythonDataTypeString(element.type));
+			documentation += " = " + std::string(element.default_value);
+			documentation += "\n\t\t" + std::string(element.description);
+		}
+
 		parser.documentation = std::move(documentation);
 
 		return parser;
@@ -348,6 +361,18 @@ namespace Marvel {
 			}
 
 			for (const auto& keyword : parser.required_elements)
+			{
+				if (sitem == keyword.name)
+				{
+					found = true;
+					break;
+				}
+			}
+
+			if (found)
+				continue;
+
+			for (const auto& keyword : parser.deprecated_elements)
 			{
 				if (sitem == keyword.name)
 				{
@@ -537,10 +562,11 @@ namespace Marvel {
 			for (const auto& args : parser.second.keyword_elements)
 				stream << ", " << args.name << ": " << PythonDataTypeActual(args.type) << " =" << args.default_value;
 
-			if (parser.second.unspecifiedKwargs)
-				stream << ", **kwargs";
-
-			stream << ") -> " << PythonDataTypeActual(parser.second.returnType) << ":";
+			if (first_arg)
+				stream << "**kwargs) -> ";
+			else
+				stream << ", **kwargs) -> ";
+			stream << PythonDataTypeActual(parser.second.returnType) << ":";
 
 			stream << "\n\t\"\"\"\t " << parser.second.about.c_str();
 
@@ -560,9 +586,32 @@ namespace Marvel {
 				stream << "\n\t\t" << args.name << " (" << PythonDataTypeActual(args.type) << ", optional): " << args.description;
 			}
 
+			for (const auto& args : parser.second.deprecated_elements)
+			{
+				stream << "\n\t\t" << args.name << " (" << PythonDataTypeActual(args.type) << ", optional): (deprecated) " << args.description;
+			}
+
 			stream << "\n\tReturns:";
 			stream << "\n\t\t" << PythonDataTypeActual(parser.second.returnType);
 			stream << "\n\t\"\"\"";
+
+
+			for (const auto& args : parser.second.deprecated_elements)
+			{
+				if (args.arg_type == mvArgType::DEPRECATED_REMOVE_KEYWORD_ARG)
+				{
+					stream << "\n\n\tif '" << args.name << "' in kwargs.keys():";
+					stream << "\n\n\t\twarnings.warn('" << args.name << " keyword removed', DeprecationWarning, 2)";
+					stream << "\n\n\t\tkwargs.pop('" << args.name << "', None)";
+				}
+
+				else if (args.arg_type == mvArgType::DEPRECATED_RENAME_KEYWORD_ARG)
+				{
+					stream << "\n\n\tif '" << args.name << "' in kwargs.keys():";
+					stream << "\n\t\twarnings.warn('" << args.name << " keyword renamed to " << args.new_name << "', DeprecationWarning, 2)";
+					stream << "\n\t\t" << args.new_name << "=kwargs['" << args.name << "']";
+				}
+			}
 
 			stream << "\n\n\treturn internal_dpg." << parser.first << "(";
 
@@ -594,7 +643,10 @@ namespace Marvel {
 				stream << args.name << "=" << args.name;
 			}
 
-			stream << ")\n\n";
+			if (first_arg)
+				stream << "**kwargs)\n\n";
+			else
+				stream << ", **kwargs)\n\n";
 		}
 	}
 
@@ -648,10 +700,11 @@ namespace Marvel {
 			for (const auto& args : parser.second.keyword_elements)
 				stream << ", " << args.name << ": " << PythonDataTypeActual(args.type) << " =" << args.default_value;
 
-			if (parser.second.unspecifiedKwargs)
-				stream << ", **kwargs";
-
-			stream << ") -> " << PythonDataTypeActual(parser.second.returnType) << ":";
+			if (first_arg)
+				stream << "**kwargs) -> ";
+			else
+				stream << ", **kwargs) -> ";
+			stream << PythonDataTypeActual(parser.second.returnType) << ":";
 
 			stream << "\n\t\"\"\"\t " << parser.second.about.c_str();
 
@@ -671,11 +724,34 @@ namespace Marvel {
 				stream << "\n\t\t" << args.name << " (" << PythonDataTypeActual(args.type) << ", optional): " << args.description;
 			}
 
+			for (const auto& args : parser.second.deprecated_elements)
+			{
+				stream << "\n\t\t" << args.name << " (" << PythonDataTypeActual(args.type) << ", optional): (deprecated) " << args.description;
+			}
+
 			stream << "\n\tYields:";
 			stream << "\n\t\t" << PythonDataTypeActual(parser.second.returnType);
 			stream << "\n\t\"\"\"";
 
 			stream << "\n\ttry:";
+
+			for (const auto& args : parser.second.deprecated_elements)
+			{
+				if (args.arg_type == mvArgType::DEPRECATED_REMOVE_KEYWORD_ARG)
+				{
+					stream << "\n\n\t\tif '" << args.name << "' in kwargs.keys():";
+					stream << "\n\t\t\twarnings.warn('" << args.name << " keyword removed', DeprecationWarning, 2)";
+					stream << "\n\t\t\tkwargs.pop('" << args.name << "', None)";
+				}
+
+				else if (args.arg_type == mvArgType::DEPRECATED_RENAME_KEYWORD_ARG)
+				{
+					stream << "\n\n\t\tif '" << args.name << "' in kwargs.keys():";
+					stream << "\n\t\t\twarnings.warn('" << args.name << " keyword renamed to " << args.new_name << "', DeprecationWarning, 2)";
+					stream << "\n\t\t\t" << args.new_name << "=kwargs['" << args.name << "']";
+				}
+			}
+
 			stream << "\n\t\twidget = internal_dpg." << parser.first << "(";
 
 			first_arg = true;
@@ -706,7 +782,11 @@ namespace Marvel {
 				stream << args.name << "=" << args.name;
 			}
 
-			stream << ")\n";
+			if (first_arg)
+				stream << "**kwargs)\n";
+			else
+				stream << ", **kwargs)\n";
+
 			stream << "\t\tinternal_dpg.push_container_stack(widget)\n";
 			stream << "\t\tyield widget\n";
 			stream << "\tfinally:\n";
@@ -778,6 +858,11 @@ namespace Marvel {
 			for (const auto& args : parser.second.keyword_elements)
 			{
 				stream << "\n\t\t" << args.name << " (" << PythonDataTypeActual(args.type) << ", optional): " << args.description;
+			}
+
+			for (const auto& args : parser.second.deprecated_elements)
+			{
+				stream << "\n\t\t" << args.name << " (" << PythonDataTypeActual(args.type) << ", optional): (deprecated)" << args.description;
 			}
 
 			stream << "\n\tReturns:";
@@ -880,6 +965,11 @@ namespace Marvel {
 			for (const auto& args : parser.second.keyword_elements)
 			{
 				stream << "\n\t\t" << args.name << " (" << PythonDataTypeActual(args.type) << ", optional): " << args.description;
+			}
+
+			for (const auto& args : parser.second.deprecated_elements)
+			{
+				stream << "\n\t\t" << args.name << " (" << PythonDataTypeActual(args.type) << ", optional): (deprecated)" << args.description;
 			}
 
 			stream << "\n\tYields:";
@@ -1053,6 +1143,7 @@ namespace Marvel {
 	void AddCommonArgs(std::vector<mvPythonDataElement>& args, CommonParserArgs argsFlags)
 	{
 
+		args.push_back({ mvPyDataType::UUID, "id", mvArgType::DEPRECATED_RENAME_KEYWORD_ARG, "0", "", "tag" });
 		args.push_back({ mvPyDataType::String, "label", mvArgType::KEYWORD_ARG, "None", "Overrides 'name' as label." });
 		args.push_back({ mvPyDataType::Object, "user_data", mvArgType::KEYWORD_ARG, "None", "User data for callbacks" });
 		args.push_back({ mvPyDataType::Bool, "use_internal_label", mvArgType::KEYWORD_ARG, "True", "Use generated internal label instead of user specified (appends ### uuid)." });

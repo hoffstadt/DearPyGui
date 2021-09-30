@@ -27,7 +27,8 @@ namespace Marvel {
 			args.push_back({ mvPyDataType::String, "file" });
 			args.push_back({ mvPyDataType::Integer, "size" });
 			args.push_back({ mvPyDataType::UUID, "parent", mvArgType::KEYWORD_ARG, "internal_dpg.mvReservedUUID_0", "Parent to add this item to. (runtime adding)" });
-
+			args.push_back({ mvPyDataType::Bool, "default_font", mvArgType::DEPRECATED_REMOVE_KEYWORD_ARG });
+			
 			mvPythonParserSetup setup;
 			setup.category = { "Fonts", "Containers" };
 			setup.returnType = mvPyDataType::UUID;

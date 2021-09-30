@@ -45,7 +45,9 @@ namespace Marvel {
     {
         REQUIRED_ARG = 0,
         POSITIONAL_ARG,
-        KEYWORD_ARG
+        KEYWORD_ARG,
+        DEPRECATED_RENAME_KEYWORD_ARG,
+        DEPRECATED_REMOVE_KEYWORD_ARG
     };
 
     enum CommonParserArgs
@@ -76,6 +78,7 @@ namespace Marvel {
         mvArgType   arg_type = mvArgType::REQUIRED_ARG;
         const char* default_value = "...";
         const char* description = "";
+        const char* new_name = "";
     };
 
     struct mvPythonParser
@@ -83,6 +86,7 @@ namespace Marvel {
         std::vector<mvPythonDataElement> required_elements;
         std::vector<mvPythonDataElement> optional_elements;
         std::vector<mvPythonDataElement> keyword_elements;
+        std::vector<mvPythonDataElement> deprecated_elements;
         std::vector<char>                formatstring;
         std::vector<const char*>         keywords;
         std::string                      documentation;

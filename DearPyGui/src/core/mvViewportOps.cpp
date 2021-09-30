@@ -45,6 +45,7 @@ namespace Marvel {
             std::vector<mvPythonDataElement> args;
             args.push_back({ mvPyDataType::Bool, "minimized", mvArgType::KEYWORD_ARG, "False" });
             args.push_back({ mvPyDataType::Bool, "maximized", mvArgType::KEYWORD_ARG, "False" });
+            args.push_back({ mvPyDataType::UUID, "viewport", mvArgType::DEPRECATED_REMOVE_KEYWORD_ARG });
 
             mvPythonParserSetup setup;
             setup.about = "Shows the main viewport.";

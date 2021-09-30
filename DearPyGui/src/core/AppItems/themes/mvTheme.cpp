@@ -18,6 +18,8 @@ namespace Marvel {
 				MV_PARSER_ARG_ID)
 			);
 
+			args.push_back({ mvPyDataType::Bool, "default_theme", mvArgType::DEPRECATED_REMOVE_KEYWORD_ARG });
+
 			mvPythonParserSetup setup;
 			setup.about = "Adds a theme.";
 			setup.category = { "Themes", "Containers" };

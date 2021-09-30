@@ -31,6 +31,7 @@ namespace Marvel {
             MV_PARSER_ARG_POS)
         );
 
+        args.push_back({ mvPyDataType::Callable, "drag_callback", mvArgType::DEPRECATED_REMOVE_KEYWORD_ARG });
         args.push_back({ mvPyDataType::UUID, "colormap", mvArgType::KEYWORD_ARG, "0", "mvPlotColormap_* constants or mvColorMap uuid" });
         args.push_back({ mvPyDataType::Float, "min_scale", mvArgType::KEYWORD_ARG, "0.0", "Sets the min number of the color scale. Typically is the same as the min scale from the heat series." });
         args.push_back({ mvPyDataType::Float, "max_scale", mvArgType::KEYWORD_ARG, "1.0", "Sets the max number of the color scale. Typically is the same as the max scale from the heat series." });
