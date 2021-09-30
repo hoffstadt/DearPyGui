@@ -1,5 +1,5 @@
 Simple Plots
-------------
+============
 
 Simple plots take in a list and plot y-axis data against the
 number of items in the list. These can be line graphs or histograms
