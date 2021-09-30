@@ -78,7 +78,7 @@ namespace Marvel {
             // scoped in order to unlock tail mutex before notifying other threads
             {
                 std::lock_guard<std::mutex> tail_lock(m_tail_mutex);
-                m_tail->data = new_data;
+                m_tail->data = std::move(new_data);
                 node* const new_tail = p.get();
                 m_tail->next = std::move(p);
                 m_tail = new_tail;
@@ -191,7 +191,7 @@ namespace Marvel {
 
     public:
 
-        mvWorkStealingQueue() {}
+        mvWorkStealingQueue() = default;
         ~mvWorkStealingQueue() = default;
 
         // deleted copy constructor/assignment operator.

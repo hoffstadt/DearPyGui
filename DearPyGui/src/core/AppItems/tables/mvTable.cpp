@@ -71,6 +71,7 @@ namespace Marvel {
 
 		{
 			std::vector<mvPythonDataElement> args;
+			args.reserve(3);
 			args.push_back({ mvPyDataType::UUID, "table" });
 			args.push_back({ mvPyDataType::Integer, "column" });
 			args.push_back({ mvPyDataType::IntList, "color" });
@@ -98,6 +99,7 @@ namespace Marvel {
 
 		{
 			std::vector<mvPythonDataElement> args;
+			args.reserve(3);
 			args.push_back({ mvPyDataType::UUID, "table" });
 			args.push_back({ mvPyDataType::Integer, "row" });
 			args.push_back({ mvPyDataType::IntList, "color" });
@@ -125,6 +127,7 @@ namespace Marvel {
 
 		{
 			std::vector<mvPythonDataElement> args;
+			args.reserve(4);
 			args.push_back({ mvPyDataType::UUID, "table" });
 			args.push_back({ mvPyDataType::Integer, "row" });
 			args.push_back({ mvPyDataType::Integer, "column" });
@@ -140,6 +143,7 @@ namespace Marvel {
 
 		{
 			std::vector<mvPythonDataElement> args;
+			args.reserve(3);
 			args.push_back({ mvPyDataType::UUID, "table" });
 			args.push_back({ mvPyDataType::Integer, "row" });
 			args.push_back({ mvPyDataType::Integer, "column" });
@@ -154,6 +158,7 @@ namespace Marvel {
 
 		{
 			std::vector<mvPythonDataElement> args;
+			args.reserve(3);
 			args.push_back({ mvPyDataType::UUID, "table" });
 			args.push_back({ mvPyDataType::Integer, "row" });
 			args.push_back({ mvPyDataType::IntList, "color" });
@@ -209,6 +214,7 @@ namespace Marvel {
 
 		{
 			std::vector<mvPythonDataElement> args;
+			args.reserve(3);
 			args.push_back({ mvPyDataType::UUID, "table" });
 			args.push_back({ mvPyDataType::Integer, "row" });
 			args.push_back({ mvPyDataType::Integer, "column" });

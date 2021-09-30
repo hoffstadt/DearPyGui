@@ -469,7 +469,7 @@ namespace Marvel {
 		GContext->callbackRegistry->submit([=]()
 			{
 				GContext->callbackRegistry->setResizeCallback(callback);
-				return std::string("");
+				return std::string();
 			});
 
 		return GetPyNone();

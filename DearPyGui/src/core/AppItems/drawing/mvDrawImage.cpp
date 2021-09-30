@@ -55,9 +55,6 @@ namespace Marvel {
 
 	void mvDrawImage::draw(ImDrawList* drawlist, float x, float y)
 	{
-
-		mvVec2 start = { x, y };
-
 		if (_texture)
 		{
 			if (_internalTexture)
@@ -78,7 +75,10 @@ namespace Marvel {
 			if (ImPlot::GetCurrentContext()->CurrentPlot)
 				drawlist->AddImage(texture, ImPlot::PlotToPixels(_pmin), ImPlot::PlotToPixels(_pmax), _uv_min, _uv_max, _color);
 			else
+			{
+				mvVec2 start = { x, y };
 				drawlist->AddImage(texture, _pmin + start, _pmax + start, _uv_min, _uv_max, _color);
+			}
 		}
 	}
 

@@ -167,7 +167,7 @@ namespace Marvel {
             bool activated = false;
 
             if (_multiline)
-                _hint = "";
+                _hint.clear();
 
             if (_hint.empty())
             {

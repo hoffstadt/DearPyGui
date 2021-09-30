@@ -151,7 +151,7 @@ namespace Marvel {
 	//-----------------------------------------------------------------------------
 	struct mvColor
 	{
-		static unsigned int ConvertToUnsignedInt(mvColor color)
+		static unsigned int ConvertToUnsignedInt(const mvColor& color)
 		{
 			return ImGui::ColorConvertFloat4ToU32(color.toVec4());
 		}

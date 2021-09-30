@@ -102,6 +102,7 @@ namespace Marvel {
 
         {
             std::vector<mvPythonDataElement> args;
+            args.reserve(3);
             args.push_back({ mvPyDataType::UUID, "container" });
             args.push_back({ mvPyDataType::Integer, "slot" });
             args.push_back({ mvPyDataType::UUIDList, "new_order" });
@@ -224,6 +225,7 @@ namespace Marvel {
 
         {
             std::vector<mvPythonDataElement> args;
+            args.reserve(3);
             args.push_back({ mvPyDataType::UUID, "item" });
             args.push_back({ mvPyDataType::UUID, "parent", mvArgType::KEYWORD_ARG, "0"});
             args.push_back({ mvPyDataType::UUID, "before", mvArgType::KEYWORD_ARG, "0"});
@@ -274,6 +276,7 @@ namespace Marvel {
 
         {
             std::vector<mvPythonDataElement> args;
+            args.reserve(3);
             args.push_back({ mvPyDataType::UUID, "item" });
             args.push_back({ mvPyDataType::Bool, "children_only", mvArgType::KEYWORD_ARG, "False" });
             args.push_back({ mvPyDataType::Integer, "slot", mvArgType::KEYWORD_ARG, "-1" });
@@ -399,6 +402,7 @@ namespace Marvel {
 
         {
             std::vector<mvPythonDataElement> args;
+            args.reserve(3);
             args.push_back({ mvPyDataType::UUID, "item" });
             args.push_back({ mvPyDataType::UUID, "source" });
             args.push_back({ mvPyDataType::Integer, "slot" });
@@ -1793,7 +1797,7 @@ namespace Marvel {
 
         auto item = GetItem(registry, registry.aliases[alias]);
         if (item)
-            item->_alias = "";
+            item->_alias.clear();
 
         if (itemTriggered)
         {
@@ -2279,7 +2283,7 @@ namespace Marvel {
         {
             auto actualItem = GetRefItem((*GContext->itemRegistry), item);
             if (actualItem)
-                GContext->itemRegistry->boundedTemplateRegistry = actualItem;
+                GContext->itemRegistry->boundedTemplateRegistry = std::move(actualItem);
             else
             {
                 mvThrowPythonError(mvErrorCode::mvItemNotFound, "bind_template_registry",

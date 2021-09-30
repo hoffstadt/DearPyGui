@@ -202,10 +202,10 @@ namespace Marvel {
 
     void mvPlot::updateAxesNames()
     {
-        _xaxisName = "";
-        _y1axisName = "";
-        _y2axisName = "";
-        _y3axisName = "";
+        _xaxisName.clear();
+        _y1axisName.clear();
+        _y2axisName.clear();
+        _y3axisName.clear();
 
         for (size_t i = 0; i < _children[1].size(); i++)
         {
