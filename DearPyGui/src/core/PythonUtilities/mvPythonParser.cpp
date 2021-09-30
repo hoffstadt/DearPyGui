@@ -282,7 +282,7 @@ namespace Marvel {
 		}
 
 		if (!parser.keyword_elements.empty())
-			documentation += "\n\Deprecated Keyword Arguments\n_______________\n\n";
+			documentation += "\n\nDeprecated Keyword Arguments\n_______________\n\n";
 
 		for (const auto& element : parser.deprecated_elements)
 		{
