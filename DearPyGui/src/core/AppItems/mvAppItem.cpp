@@ -550,7 +550,7 @@ namespace Marvel{
         return ignore_enabled ? _callback : nullptr;
     }
 
-    void mvAppItem::handleKeywordArgs(PyObject* dict, std::string parser)
+    void mvAppItem::handleKeywordArgs(PyObject* dict, const std::string& parser)
     {
         if (dict == nullptr)
             return;

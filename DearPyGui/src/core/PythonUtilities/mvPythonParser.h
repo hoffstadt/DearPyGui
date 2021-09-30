@@ -104,7 +104,7 @@ namespace Marvel {
         bool                     internal = false;
     };
 
-    mvPythonParser FinalizeParser(const mvPythonParserSetup& setup, std::vector<mvPythonDataElement> args);
+    mvPythonParser FinalizeParser(const mvPythonParserSetup& setup, const std::vector<mvPythonDataElement>& args);
     bool           Parse(const mvPythonParser& parser, PyObject* args, PyObject* kwargs, const char* message, ...);
     const char*    PythonDataTypeActual(mvPyDataType type);
     void           AddCommonArgs(std::vector<mvPythonDataElement>& args, CommonParserArgs argsFlags);

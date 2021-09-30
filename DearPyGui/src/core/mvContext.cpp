@@ -335,6 +335,7 @@ namespace Marvel {
 
         {
             std::vector<mvPythonDataElement> args;
+            args.reserve(11);
             args.push_back({ mvPyDataType::Bool, "docking", mvArgType::KEYWORD_ARG, "False", "Enables docking support." });
             args.push_back({ mvPyDataType::Bool, "docking_space", mvArgType::KEYWORD_ARG, "False", "add explicit dockspace over viewport" });
             args.push_back({ mvPyDataType::String, "load_init_file", mvArgType::KEYWORD_ARG, "''", "Load .ini file." });
@@ -393,6 +394,7 @@ namespace Marvel {
 
         {
             std::vector<mvPythonDataElement> args;
+            args.reserve(3);
             args.push_back({ mvPyDataType::String, "file" });
             args.push_back({ mvPyDataType::Float, "gamma", mvArgType::KEYWORD_ARG, "1.0", "Gamma correction factor. (default is 1.0 to avoid automatic gamma correction on loading." });
             args.push_back({ mvPyDataType::Float, "gamma_scale_factor", mvArgType::KEYWORD_ARG, "1.0", "Gamma scale factor." });
