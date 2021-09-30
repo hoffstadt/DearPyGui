@@ -1426,7 +1426,7 @@ def child(**kwargs):
 
 @contextmanager
 def child_window(**kwargs):
-	"""	Adds an embedded child window. Will show scrollbars when items do not fit.
+	"""	 Adds an embedded child window. Will show scrollbars when items do not fit.
 
 	Args:
 		label (str, optional): Overrides 'name' as label.
@@ -1464,7 +1464,7 @@ def child_window(**kwargs):
 
 @contextmanager
 def clipper(**kwargs):
-	"""	Helper to manually clip large list of items. Increases performance by not searching or drawing widgets outside of the clipped region.
+	"""	 Helper to manually clip large list of items. Increases performance by not searching or drawing widgets outside of the clipped region.
 
 	Args:
 		label (str, optional): Overrides 'name' as label.
@@ -1489,7 +1489,7 @@ def clipper(**kwargs):
 
 @contextmanager
 def collapsing_header(**kwargs):
-	"""	Adds a collapsing header to add items to. Must be closed with the end command.
+	"""	 Adds a collapsing header to add items to. Must be closed with the end command.
 
 	Args:
 		label (str, optional): Overrides 'name' as label.
@@ -1526,7 +1526,7 @@ def collapsing_header(**kwargs):
 
 @contextmanager
 def colormap_registry(**kwargs):
-	"""	Adds a colormap registry.
+	"""	 Adds a colormap registry.
 
 	Args:
 		label (str, optional): Overrides 'name' as label.
@@ -1546,7 +1546,7 @@ def colormap_registry(**kwargs):
 
 @contextmanager
 def drag_payload(**kwargs):
-	"""	User data payload for drag and drop operations.
+	"""	 User data payload for drag and drop operations.
 
 	Args:
 		label (str, optional): Overrides 'name' as label.
@@ -1570,7 +1570,7 @@ def drag_payload(**kwargs):
 
 @contextmanager
 def draw_layer(**kwargs):
-	"""	Creates a layer useful for grouping drawlist items.
+	"""	 Creates a layer useful for grouping drawlist items.
 
 	Args:
 		label (str, optional): Overrides 'name' as label.
@@ -1592,7 +1592,7 @@ def draw_layer(**kwargs):
 
 @contextmanager
 def drawlist(**kwargs):
-	"""	Adds a drawing canvas.
+	"""	 Adds a drawing canvas.
 
 	Args:
 		label (str, optional): Overrides 'name' as label.
@@ -1622,7 +1622,7 @@ def drawlist(**kwargs):
 
 @contextmanager
 def file_dialog(**kwargs):
-	"""	Displays a file or directory selector depending on keywords. Displays a file dialog by default.
+	"""	 Displays a file or directory selector depending on keywords. Displays a file dialog by default.
 
 	Args:
 		label (str, optional): Overrides 'name' as label.
@@ -1650,7 +1650,7 @@ def file_dialog(**kwargs):
 
 @contextmanager
 def filter_set(**kwargs):
-	"""	Helper to parse and apply text filters (e.g. aaaaa[, bbbbb][, ccccc])
+	"""	 Helper to parse and apply text filters (e.g. aaaaa[, bbbbb][, ccccc])
 
 	Args:
 		label (str, optional): Overrides 'name' as label.
@@ -1675,7 +1675,7 @@ def filter_set(**kwargs):
 
 @contextmanager
 def font(file, size, **kwargs):
-	"""	Undocumented
+	"""	 Undocumented
 
 	Args:
 		file (str): 
@@ -1697,7 +1697,7 @@ def font(file, size, **kwargs):
 
 @contextmanager
 def font_registry(**kwargs):
-	"""	Undocumented
+	"""	 Undocumented
 
 	Args:
 		label (str, optional): Overrides 'name' as label.
@@ -1717,7 +1717,7 @@ def font_registry(**kwargs):
 
 @contextmanager
 def group(**kwargs):
-	"""	Creates a group that other widgets can belong to. The group allows item commands to be issued for all of its members.
+	"""	 Creates a group that other widgets can belong to. The group allows item commands to be issued for all of its members.
 
 	Args:
 		label (str, optional): Overrides 'name' as label.
@@ -1752,7 +1752,7 @@ def group(**kwargs):
 
 @contextmanager
 def handler_registry(**kwargs):
-	"""	Adds a handler registry.
+	"""	 Adds a handler registry.
 
 	Args:
 		label (str, optional): Overrides 'name' as label.
@@ -1772,7 +1772,7 @@ def handler_registry(**kwargs):
 
 @contextmanager
 def item_handler_registry(**kwargs):
-	"""	Adds an item handler registry.
+	"""	 Adds an item handler registry.
 
 	Args:
 		label (str, optional): Overrides 'name' as label.
@@ -1792,7 +1792,7 @@ def item_handler_registry(**kwargs):
 
 @contextmanager
 def item_pool(**kwargs):
-	"""	Adds an item pool.
+	"""	 Adds an item pool.
 
 	Args:
 		label (str, optional): Overrides 'name' as label.
@@ -1811,7 +1811,7 @@ def item_pool(**kwargs):
 
 @contextmanager
 def item_set(type, count, **kwargs):
-	"""	Adds an item set to an item pool.
+	"""	 Adds an item set to an item pool.
 
 	Args:
 		type (int): 
@@ -1832,7 +1832,7 @@ def item_set(type, count, **kwargs):
 
 @contextmanager
 def menu(**kwargs):
-	"""	Adds a menu to an existing menu bar.
+	"""	 Adds a menu to an existing menu bar.
 
 	Args:
 		label (str, optional): Overrides 'name' as label.
@@ -1862,7 +1862,7 @@ def menu(**kwargs):
 
 @contextmanager
 def menu_bar(**kwargs):
-	"""	Adds a menu bar to a window.
+	"""	 Adds a menu bar to a window.
 
 	Args:
 		label (str, optional): Overrides 'name' as label.
@@ -1885,7 +1885,7 @@ def menu_bar(**kwargs):
 
 @contextmanager
 def node(**kwargs):
-	"""	Adds a node to a node editor.
+	"""	 Adds a node to a node editor.
 
 	Args:
 		label (str, optional): Overrides 'name' as label.
@@ -1916,7 +1916,7 @@ def node(**kwargs):
 
 @contextmanager
 def node_attribute(**kwargs):
-	"""	Adds a node attribute to a node.
+	"""	 Adds a node attribute to a node.
 
 	Args:
 		label (str, optional): Overrides 'name' as label.
@@ -1945,7 +1945,7 @@ def node_attribute(**kwargs):
 
 @contextmanager
 def node_editor(**kwargs):
-	"""	Adds a node editor.
+	"""	 Adds a node editor.
 
 	Args:
 		label (str, optional): Overrides 'name' as label.
@@ -1976,7 +1976,7 @@ def node_editor(**kwargs):
 
 @contextmanager
 def plot(**kwargs):
-	"""	Adds a plot which is used to hold series, and can be drawn to with draw commands.
+	"""	 Adds a plot which is used to hold series, and can be drawn to with draw commands.
 
 	Args:
 		label (str, optional): Overrides 'name' as label.
@@ -2032,7 +2032,7 @@ def plot(**kwargs):
 
 @contextmanager
 def plot_axis(axis, **kwargs):
-	"""	Adds an axis to a plot.
+	"""	 Adds an axis to a plot.
 
 	Args:
 		axis (int): 
@@ -2064,7 +2064,7 @@ def plot_axis(axis, **kwargs):
 
 @contextmanager
 def stage(**kwargs):
-	"""	Adds a stage.
+	"""	 Adds a stage.
 
 	Args:
 		label (str, optional): Overrides 'name' as label.
@@ -2083,7 +2083,7 @@ def stage(**kwargs):
 
 @contextmanager
 def subplots(rows, columns, **kwargs):
-	"""	Adds a collection of plots.
+	"""	 Adds a collection of plots.
 
 	Args:
 		rows (int): 
@@ -2127,7 +2127,7 @@ def subplots(rows, columns, **kwargs):
 
 @contextmanager
 def tab(**kwargs):
-	"""	Adds a tab to a tab bar.
+	"""	 Adds a tab to a tab bar.
 
 	Args:
 		label (str, optional): Overrides 'name' as label.
@@ -2159,7 +2159,7 @@ def tab(**kwargs):
 
 @contextmanager
 def tab_bar(**kwargs):
-	"""	Adds a tab bar.
+	"""	 Adds a tab bar.
 
 	Args:
 		label (str, optional): Overrides 'name' as label.
@@ -2189,7 +2189,7 @@ def tab_bar(**kwargs):
 
 @contextmanager
 def table(**kwargs):
-	"""	Adds a table.
+	"""	 Adds a table.
 
 	Args:
 		label (str, optional): Overrides 'name' as label.
@@ -2248,7 +2248,7 @@ def table(**kwargs):
 
 @contextmanager
 def table_cell(**kwargs):
-	"""	Adds a table.
+	"""	 Adds a table.
 
 	Args:
 		label (str, optional): Overrides 'name' as label.
@@ -2272,7 +2272,7 @@ def table_cell(**kwargs):
 
 @contextmanager
 def table_row(**kwargs):
-	"""	Adds a table row.
+	"""	 Adds a table row.
 
 	Args:
 		label (str, optional): Overrides 'name' as label.
@@ -2296,7 +2296,7 @@ def table_row(**kwargs):
 
 @contextmanager
 def template_registry(**kwargs):
-	"""	Adds a template registry.
+	"""	 Adds a template registry.
 
 	Args:
 		label (str, optional): Overrides 'name' as label.
@@ -2315,7 +2315,7 @@ def template_registry(**kwargs):
 
 @contextmanager
 def texture_registry(**kwargs):
-	"""	Adds a dynamic texture.
+	"""	 Adds a dynamic texture.
 
 	Args:
 		label (str, optional): Overrides 'name' as label.
@@ -2335,7 +2335,7 @@ def texture_registry(**kwargs):
 
 @contextmanager
 def theme(**kwargs):
-	"""	Adds a theme.
+	"""	 Adds a theme.
 
 	Args:
 		label (str, optional): Overrides 'name' as label.
@@ -2354,7 +2354,7 @@ def theme(**kwargs):
 
 @contextmanager
 def theme_component(item_type=0, **kwargs):
-	"""	Adds a theme component.
+	"""	 Adds a theme component.
 
 	Args:
 		item_type (int, optional): 
@@ -2377,7 +2377,7 @@ def theme_component(item_type=0, **kwargs):
 
 @contextmanager
 def tooltip(parent, **kwargs):
-	"""	Adds a tooltip window.
+	"""	 Adds a tooltip window.
 
 	Args:
 		parent (Union[int, str]): 
@@ -2398,7 +2398,7 @@ def tooltip(parent, **kwargs):
 
 @contextmanager
 def tree_node(**kwargs):
-	"""	Adds a tree node to add items to.
+	"""	 Adds a tree node to add items to.
 
 	Args:
 		label (str, optional): Overrides 'name' as label.
@@ -2435,7 +2435,7 @@ def tree_node(**kwargs):
 
 @contextmanager
 def value_registry(**kwargs):
-	"""	Adds a value registry.
+	"""	 Adds a value registry.
 
 	Args:
 		label (str, optional): Overrides 'name' as label.
@@ -2454,7 +2454,7 @@ def value_registry(**kwargs):
 
 @contextmanager
 def viewport_drawlist(**kwargs):
-	"""	A container that is used to present draw items or layers directly to the viewport. By default this will draw to the back of the viewport. Layers and draw items should be added to this widget as children.
+	"""	 A container that is used to present draw items or layers directly to the viewport. By default this will draw to the back of the viewport. Layers and draw items should be added to this widget as children.
 
 	Args:
 		label (str, optional): Overrides 'name' as label.
@@ -2477,7 +2477,7 @@ def viewport_drawlist(**kwargs):
 
 @contextmanager
 def viewport_menu_bar(**kwargs):
-	"""	Adds a menubar to the viewport.
+	"""	 Adds a menubar to the viewport.
 
 	Args:
 		label (str, optional): Overrides 'name' as label.
@@ -2500,7 +2500,7 @@ def viewport_menu_bar(**kwargs):
 
 @contextmanager
 def window(**kwargs):
-	"""	Creates a new window for following items to be added to.
+	"""	 Creates a new window for following items to be added to.
 
 	Args:
 		label (str, optional): Overrides 'name' as label.
@@ -2547,7 +2547,7 @@ def window(**kwargs):
 ##########################################################
 
 def add_2d_histogram_series(x, y, **kwargs):
-	"""	Undocumented
+	"""	 Undocumented
 
 	Args:
 		x (Any): 
@@ -2575,7 +2575,7 @@ def add_2d_histogram_series(x, y, **kwargs):
 	return internal_dpg.add_2d_histogram_series(x, y, **kwargs)
 
 def add_3d_slider(**kwargs):
-	"""	Adds a 3D box slider.
+	"""	 Adds a 3D box slider.
 
 	Args:
 		label (str, optional): Overrides 'name' as label.
@@ -2612,7 +2612,7 @@ def add_3d_slider(**kwargs):
 	return internal_dpg.add_3d_slider(**kwargs)
 
 def add_alias(alias, item):
-	"""	Adds an alias.
+	"""	 Adds an alias.
 
 	Args:
 		alias (str): 
@@ -2624,7 +2624,7 @@ def add_alias(alias, item):
 	return internal_dpg.add_alias(alias, item)
 
 def add_area_series(x, y, **kwargs):
-	"""	Adds an area series to a plot.
+	"""	 Adds an area series to a plot.
 
 	Args:
 		x (Any): 
@@ -2646,7 +2646,7 @@ def add_area_series(x, y, **kwargs):
 	return internal_dpg.add_area_series(x, y, **kwargs)
 
 def add_bar_series(x, y, **kwargs):
-	"""	Adds a bar series to a plot.
+	"""	 Adds a bar series to a plot.
 
 	Args:
 		x (Any): 
@@ -2668,7 +2668,7 @@ def add_bar_series(x, y, **kwargs):
 	return internal_dpg.add_bar_series(x, y, **kwargs)
 
 def add_bool_value(**kwargs):
-	"""	Adds a bool value.
+	"""	 Adds a bool value.
 
 	Args:
 		label (str, optional): Overrides 'name' as label.
@@ -2685,7 +2685,7 @@ def add_bool_value(**kwargs):
 	return internal_dpg.add_bool_value(**kwargs)
 
 def add_button(**kwargs):
-	"""	Adds a button.
+	"""	 Adds a button.
 
 	Args:
 		label (str, optional): Overrides 'name' as label.
@@ -2717,7 +2717,7 @@ def add_button(**kwargs):
 	return internal_dpg.add_button(**kwargs)
 
 def add_candle_series(dates, opens, closes, lows, highs, **kwargs):
-	"""	Adds a candle series to a plot.
+	"""	 Adds a candle series to a plot.
 
 	Args:
 		dates (Any): 
@@ -2744,7 +2744,7 @@ def add_candle_series(dates, opens, closes, lows, highs, **kwargs):
 	return internal_dpg.add_candle_series(dates, opens, closes, lows, highs, **kwargs)
 
 def add_char_remap(source, target, **kwargs):
-	"""	Undocumented
+	"""	 Undocumented
 
 	Args:
 		source (int): 
@@ -2761,7 +2761,7 @@ def add_char_remap(source, target, **kwargs):
 	return internal_dpg.add_char_remap(source, target, **kwargs)
 
 def add_checkbox(**kwargs):
-	"""	Adds a checkbox.
+	"""	 Adds a checkbox.
 
 	Args:
 		label (str, optional): Overrides 'name' as label.
@@ -2790,7 +2790,7 @@ def add_checkbox(**kwargs):
 	return internal_dpg.add_checkbox(**kwargs)
 
 def add_child_window(**kwargs):
-	"""	Adds an embedded child window. Will show scrollbars when items do not fit.
+	"""	 Adds an embedded child window. Will show scrollbars when items do not fit.
 
 	Args:
 		label (str, optional): Overrides 'name' as label.
@@ -2823,7 +2823,7 @@ def add_child_window(**kwargs):
 	return internal_dpg.add_child_window(**kwargs)
 
 def add_clipper(**kwargs):
-	"""	Helper to manually clip large list of items. Increases performance by not searching or drawing widgets outside of the clipped region.
+	"""	 Helper to manually clip large list of items. Increases performance by not searching or drawing widgets outside of the clipped region.
 
 	Args:
 		label (str, optional): Overrides 'name' as label.
@@ -2843,7 +2843,7 @@ def add_clipper(**kwargs):
 	return internal_dpg.add_clipper(**kwargs)
 
 def add_collapsing_header(**kwargs):
-	"""	Adds a collapsing header to add items to. Must be closed with the end command.
+	"""	 Adds a collapsing header to add items to. Must be closed with the end command.
 
 	Args:
 		label (str, optional): Overrides 'name' as label.
@@ -2875,7 +2875,7 @@ def add_collapsing_header(**kwargs):
 	return internal_dpg.add_collapsing_header(**kwargs)
 
 def add_color_button(default_value=(0, 0, 0, 255), **kwargs):
-	"""	Adds a color button.
+	"""	 Adds a color button.
 
 	Args:
 		default_value (Union[List[int], Tuple[int]], optional): 
@@ -2908,7 +2908,7 @@ def add_color_button(default_value=(0, 0, 0, 255), **kwargs):
 	return internal_dpg.add_color_button(default_value, **kwargs)
 
 def add_color_edit(default_value=(0, 0, 0, 255), **kwargs):
-	"""	Adds an RGBA color editor. Click the small color preview will provide a color picker. Click and draging the small color preview will copy the color to be applied on any other color widget.
+	"""	 Adds an RGBA color editor. Click the small color preview will provide a color picker. Click and draging the small color preview will copy the color to be applied on any other color widget.
 
 	Args:
 		default_value (Union[List[int], Tuple[int]], optional): 
@@ -2952,7 +2952,7 @@ def add_color_edit(default_value=(0, 0, 0, 255), **kwargs):
 	return internal_dpg.add_color_edit(default_value, **kwargs)
 
 def add_color_picker(default_value=(0, 0, 0, 255), **kwargs):
-	"""	Adds an RGB color picker. Right click the color picker for options. Click and drag the color preview to copy the color and drop on any other color widget to apply. Right Click allows the style of the color picker to be changed.
+	"""	 Adds an RGB color picker. Right click the color picker for options. Click and drag the color preview to copy the color and drop on any other color widget to apply. Right Click allows the style of the color picker to be changed.
 
 	Args:
 		default_value (Union[List[int], Tuple[int]], optional): 
@@ -2997,7 +2997,7 @@ def add_color_picker(default_value=(0, 0, 0, 255), **kwargs):
 	return internal_dpg.add_color_picker(default_value, **kwargs)
 
 def add_color_value(**kwargs):
-	"""	Adds a color value.
+	"""	 Adds a color value.
 
 	Args:
 		label (str, optional): Overrides 'name' as label.
@@ -3014,7 +3014,7 @@ def add_color_value(**kwargs):
 	return internal_dpg.add_color_value(**kwargs)
 
 def add_colormap(colors, qualitative, **kwargs):
-	"""	Adds a legend that pairs values with colors. This is typically used with a heat series.
+	"""	 Adds a legend that pairs values with colors. This is typically used with a heat series.
 
 	Args:
 		colors (Any): 
@@ -3032,7 +3032,7 @@ def add_colormap(colors, qualitative, **kwargs):
 	return internal_dpg.add_colormap(colors, qualitative, **kwargs)
 
 def add_colormap_button(default_value=(0, 0, 0, 255), **kwargs):
-	"""	Adds a color button.
+	"""	 Adds a color button.
 
 	Args:
 		default_value (Union[List[int], Tuple[int]], optional): 
@@ -3065,7 +3065,7 @@ def add_colormap_button(default_value=(0, 0, 0, 255), **kwargs):
 	return internal_dpg.add_colormap_button(default_value, **kwargs)
 
 def add_colormap_registry(**kwargs):
-	"""	Adds a colormap registry.
+	"""	 Adds a colormap registry.
 
 	Args:
 		label (str, optional): Overrides 'name' as label.
@@ -3080,7 +3080,7 @@ def add_colormap_registry(**kwargs):
 	return internal_dpg.add_colormap_registry(**kwargs)
 
 def add_colormap_scale(**kwargs):
-	"""	Adds a legend that pairs values with colors. This is typically used with a heat series. 
+	"""	 Adds a legend that pairs values with colors. This is typically used with a heat series. 
 
 	Args:
 		label (str, optional): Overrides 'name' as label.
@@ -3107,7 +3107,7 @@ def add_colormap_scale(**kwargs):
 	return internal_dpg.add_colormap_scale(**kwargs)
 
 def add_colormap_slider(**kwargs):
-	"""	Adds a color button.
+	"""	 Adds a color button.
 
 	Args:
 		label (str, optional): Overrides 'name' as label.
@@ -3135,7 +3135,7 @@ def add_colormap_slider(**kwargs):
 	return internal_dpg.add_colormap_slider(**kwargs)
 
 def add_combo(items=(), **kwargs):
-	"""	Adds a combo dropdown that allows a user to select a single option from a drop down window.
+	"""	 Adds a combo dropdown that allows a user to select a single option from a drop down window.
 
 	Args:
 		items (Union[List[str], Tuple[str]], optional): A tuple of items to be shown in the drop down window. Can consist of any combination of types.
@@ -3170,7 +3170,7 @@ def add_combo(items=(), **kwargs):
 	return internal_dpg.add_combo(items, **kwargs)
 
 def add_date_picker(**kwargs):
-	"""	Adds a data picker.
+	"""	 Adds a data picker.
 
 	Args:
 		label (str, optional): Overrides 'name' as label.
@@ -3198,7 +3198,7 @@ def add_date_picker(**kwargs):
 	return internal_dpg.add_date_picker(**kwargs)
 
 def add_double4_value(**kwargs):
-	"""	Adds a double value.
+	"""	 Adds a double value.
 
 	Args:
 		label (str, optional): Overrides 'name' as label.
@@ -3215,7 +3215,7 @@ def add_double4_value(**kwargs):
 	return internal_dpg.add_double4_value(**kwargs)
 
 def add_double_value(**kwargs):
-	"""	Adds a double value.
+	"""	 Adds a double value.
 
 	Args:
 		label (str, optional): Overrides 'name' as label.
@@ -3232,7 +3232,7 @@ def add_double_value(**kwargs):
 	return internal_dpg.add_double_value(**kwargs)
 
 def add_drag_float(**kwargs):
-	"""	Adds drag for a single float value. Directly entry can be done with double click or CTRL+Click. Min and Max alone are a soft limit for the drag. Use clamped keyword to also apply limits to the direct entry modes.
+	"""	 Adds drag for a single float value. Directly entry can be done with double click or CTRL+Click. Min and Max alone are a soft limit for the drag. Use clamped keyword to also apply limits to the direct entry modes.
 
 	Args:
 		label (str, optional): Overrides 'name' as label.
@@ -3268,7 +3268,7 @@ def add_drag_float(**kwargs):
 	return internal_dpg.add_drag_float(**kwargs)
 
 def add_drag_floatx(**kwargs):
-	"""	Adds drag input for a set of float values up to 4. Directly entry can be done with double click or CTRL+Click. Min and Max alone are a soft limit for the drag. Use clamped keyword to also apply limits to the direct entry modes.
+	"""	 Adds drag input for a set of float values up to 4. Directly entry can be done with double click or CTRL+Click. Min and Max alone are a soft limit for the drag. Use clamped keyword to also apply limits to the direct entry modes.
 
 	Args:
 		label (str, optional): Overrides 'name' as label.
@@ -3305,7 +3305,7 @@ def add_drag_floatx(**kwargs):
 	return internal_dpg.add_drag_floatx(**kwargs)
 
 def add_drag_int(**kwargs):
-	"""	Adds drag for a single int value. Directly entry can be done with double click or CTRL+Click. Min and Max alone are a soft limit for the drag. Use clamped keyword to also apply limits to the direct entry modes.
+	"""	 Adds drag for a single int value. Directly entry can be done with double click or CTRL+Click. Min and Max alone are a soft limit for the drag. Use clamped keyword to also apply limits to the direct entry modes.
 
 	Args:
 		label (str, optional): Overrides 'name' as label.
@@ -3341,7 +3341,7 @@ def add_drag_int(**kwargs):
 	return internal_dpg.add_drag_int(**kwargs)
 
 def add_drag_intx(**kwargs):
-	"""	Adds drag input for a set of int values up to 4. Directly entry can be done with double click or CTRL+Click. Min and Max alone are a soft limit for the drag. Use clamped keyword to also apply limits to the direct entry modes.
+	"""	 Adds drag input for a set of int values up to 4. Directly entry can be done with double click or CTRL+Click. Min and Max alone are a soft limit for the drag. Use clamped keyword to also apply limits to the direct entry modes.
 
 	Args:
 		label (str, optional): Overrides 'name' as label.
@@ -3378,7 +3378,7 @@ def add_drag_intx(**kwargs):
 	return internal_dpg.add_drag_intx(**kwargs)
 
 def add_drag_line(**kwargs):
-	"""	Adds a drag line to a plot.
+	"""	 Adds a drag line to a plot.
 
 	Args:
 		label (str, optional): Overrides 'name' as label.
@@ -3402,7 +3402,7 @@ def add_drag_line(**kwargs):
 	return internal_dpg.add_drag_line(**kwargs)
 
 def add_drag_payload(**kwargs):
-	"""	User data payload for drag and drop operations.
+	"""	 User data payload for drag and drop operations.
 
 	Args:
 		label (str, optional): Overrides 'name' as label.
@@ -3421,7 +3421,7 @@ def add_drag_payload(**kwargs):
 	return internal_dpg.add_drag_payload(**kwargs)
 
 def add_drag_point(**kwargs):
-	"""	Adds a drag point to a plot.
+	"""	 Adds a drag point to a plot.
 
 	Args:
 		label (str, optional): Overrides 'name' as label.
@@ -3444,7 +3444,7 @@ def add_drag_point(**kwargs):
 	return internal_dpg.add_drag_point(**kwargs)
 
 def add_draw_layer(**kwargs):
-	"""	Creates a layer useful for grouping drawlist items.
+	"""	 Creates a layer useful for grouping drawlist items.
 
 	Args:
 		label (str, optional): Overrides 'name' as label.
@@ -3461,7 +3461,7 @@ def add_draw_layer(**kwargs):
 	return internal_dpg.add_draw_layer(**kwargs)
 
 def add_drawlist(**kwargs):
-	"""	Adds a drawing canvas.
+	"""	 Adds a drawing canvas.
 
 	Args:
 		label (str, optional): Overrides 'name' as label.
@@ -3486,7 +3486,7 @@ def add_drawlist(**kwargs):
 	return internal_dpg.add_drawlist(**kwargs)
 
 def add_dynamic_texture(width, height, default_value, **kwargs):
-	"""	Adds a dynamic texture.
+	"""	 Adds a dynamic texture.
 
 	Args:
 		width (int): 
@@ -3504,7 +3504,7 @@ def add_dynamic_texture(width, height, default_value, **kwargs):
 	return internal_dpg.add_dynamic_texture(width, height, default_value, **kwargs)
 
 def add_error_series(x, y, negative, positive, **kwargs):
-	"""	Adds an error series to a plot.
+	"""	 Adds an error series to a plot.
 
 	Args:
 		x (Any): 
@@ -3528,7 +3528,7 @@ def add_error_series(x, y, negative, positive, **kwargs):
 	return internal_dpg.add_error_series(x, y, negative, positive, **kwargs)
 
 def add_file_dialog(**kwargs):
-	"""	Displays a file or directory selector depending on keywords. Displays a file dialog by default.
+	"""	 Displays a file or directory selector depending on keywords. Displays a file dialog by default.
 
 	Args:
 		label (str, optional): Overrides 'name' as label.
@@ -3551,7 +3551,7 @@ def add_file_dialog(**kwargs):
 	return internal_dpg.add_file_dialog(**kwargs)
 
 def add_file_extension(extension, **kwargs):
-	"""	Creates a file extension filter option in the file dialog.
+	"""	 Creates a file extension filter option in the file dialog.
 
 	Args:
 		extension (str): Extension that will show as an when the parent is a file dialog.
@@ -3572,7 +3572,7 @@ def add_file_extension(extension, **kwargs):
 	return internal_dpg.add_file_extension(extension, **kwargs)
 
 def add_filter_set(**kwargs):
-	"""	Helper to parse and apply text filters (e.g. aaaaa[, bbbbb][, ccccc])
+	"""	 Helper to parse and apply text filters (e.g. aaaaa[, bbbbb][, ccccc])
 
 	Args:
 		label (str, optional): Overrides 'name' as label.
@@ -3592,7 +3592,7 @@ def add_filter_set(**kwargs):
 	return internal_dpg.add_filter_set(**kwargs)
 
 def add_float4_value(**kwargs):
-	"""	Adds a float4 value.
+	"""	 Adds a float4 value.
 
 	Args:
 		label (str, optional): Overrides 'name' as label.
@@ -3609,7 +3609,7 @@ def add_float4_value(**kwargs):
 	return internal_dpg.add_float4_value(**kwargs)
 
 def add_float_value(**kwargs):
-	"""	Adds a float value.
+	"""	 Adds a float value.
 
 	Args:
 		label (str, optional): Overrides 'name' as label.
@@ -3626,7 +3626,7 @@ def add_float_value(**kwargs):
 	return internal_dpg.add_float_value(**kwargs)
 
 def add_float_vect_value(**kwargs):
-	"""	Adds a float vect value.
+	"""	 Adds a float vect value.
 
 	Args:
 		label (str, optional): Overrides 'name' as label.
@@ -3643,7 +3643,7 @@ def add_float_vect_value(**kwargs):
 	return internal_dpg.add_float_vect_value(**kwargs)
 
 def add_font(file, size, **kwargs):
-	"""	Undocumented
+	"""	 Undocumented
 
 	Args:
 		file (str): 
@@ -3660,7 +3660,7 @@ def add_font(file, size, **kwargs):
 	return internal_dpg.add_font(file, size, **kwargs)
 
 def add_font_chars(chars, **kwargs):
-	"""	Undocumented
+	"""	 Undocumented
 
 	Args:
 		chars (Union[List[int], Tuple[int]]): 
@@ -3676,7 +3676,7 @@ def add_font_chars(chars, **kwargs):
 	return internal_dpg.add_font_chars(chars, **kwargs)
 
 def add_font_range(first_char, last_char, **kwargs):
-	"""	Undocumented
+	"""	 Undocumented
 
 	Args:
 		first_char (int): 
@@ -3693,7 +3693,7 @@ def add_font_range(first_char, last_char, **kwargs):
 	return internal_dpg.add_font_range(first_char, last_char, **kwargs)
 
 def add_font_range_hint(hint, **kwargs):
-	"""	Undocumented
+	"""	 Undocumented
 
 	Args:
 		hint (int): 
@@ -3709,7 +3709,7 @@ def add_font_range_hint(hint, **kwargs):
 	return internal_dpg.add_font_range_hint(hint, **kwargs)
 
 def add_font_registry(**kwargs):
-	"""	Undocumented
+	"""	 Undocumented
 
 	Args:
 		label (str, optional): Overrides 'name' as label.
@@ -3724,7 +3724,7 @@ def add_font_registry(**kwargs):
 	return internal_dpg.add_font_registry(**kwargs)
 
 def add_group(**kwargs):
-	"""	Creates a group that other widgets can belong to. The group allows item commands to be issued for all of its members.
+	"""	 Creates a group that other widgets can belong to. The group allows item commands to be issued for all of its members.
 
 	Args:
 		label (str, optional): Overrides 'name' as label.
@@ -3754,7 +3754,7 @@ def add_group(**kwargs):
 	return internal_dpg.add_group(**kwargs)
 
 def add_handler_registry(**kwargs):
-	"""	Adds a handler registry.
+	"""	 Adds a handler registry.
 
 	Args:
 		label (str, optional): Overrides 'name' as label.
@@ -3769,7 +3769,7 @@ def add_handler_registry(**kwargs):
 	return internal_dpg.add_handler_registry(**kwargs)
 
 def add_heat_series(x, rows, cols, **kwargs):
-	"""	Adds a heat series to a plot.
+	"""	 Adds a heat series to a plot.
 
 	Args:
 		x (Any): 
@@ -3796,7 +3796,7 @@ def add_heat_series(x, rows, cols, **kwargs):
 	return internal_dpg.add_heat_series(x, rows, cols, **kwargs)
 
 def add_histogram_series(x, **kwargs):
-	"""	Adds a histogram series to a plot.
+	"""	 Adds a histogram series to a plot.
 
 	Args:
 		x (Any): 
@@ -3823,7 +3823,7 @@ def add_histogram_series(x, **kwargs):
 	return internal_dpg.add_histogram_series(x, **kwargs)
 
 def add_hline_series(x, **kwargs):
-	"""	Adds an infinite horizontal line series to a plot.
+	"""	 Adds an infinite horizontal line series to a plot.
 
 	Args:
 		x (Any): 
@@ -3842,7 +3842,7 @@ def add_hline_series(x, **kwargs):
 	return internal_dpg.add_hline_series(x, **kwargs)
 
 def add_image(texture_id, **kwargs):
-	"""	Adds an image from a specified texture. uv_min and uv_max represent the normalized texture coordinates of the original image that will be shown. Using range (0.0,0.0)->(1.0,1.0) for texture coordinates will generally display the entire texture.
+	"""	 Adds an image from a specified texture. uv_min and uv_max represent the normalized texture coordinates of the original image that will be shown. Using range (0.0,0.0)->(1.0,1.0) for texture coordinates will generally display the entire texture.
 
 	Args:
 		texture_id (Union[int, str]): 
@@ -3875,7 +3875,7 @@ def add_image(texture_id, **kwargs):
 	return internal_dpg.add_image(texture_id, **kwargs)
 
 def add_image_button(texture_id, **kwargs):
-	"""	Adds an button with a texture. uv_min and uv_max represent the normalized texture coordinates of the original image that will be shown. Using range (0.0,0.0)->(1.0,1.0) texture coordinates will generally display the entire texture
+	"""	 Adds an button with a texture. uv_min and uv_max represent the normalized texture coordinates of the original image that will be shown. Using range (0.0,0.0)->(1.0,1.0) texture coordinates will generally display the entire texture
 
 	Args:
 		texture_id (Union[int, str]): 
@@ -3911,7 +3911,7 @@ def add_image_button(texture_id, **kwargs):
 	return internal_dpg.add_image_button(texture_id, **kwargs)
 
 def add_image_series(texture_id, bounds_min, bounds_max, **kwargs):
-	"""	Adds an image series to a plot.
+	"""	 Adds an image series to a plot.
 
 	Args:
 		texture_id (Union[int, str]): 
@@ -3935,7 +3935,7 @@ def add_image_series(texture_id, bounds_min, bounds_max, **kwargs):
 	return internal_dpg.add_image_series(texture_id, bounds_min, bounds_max, **kwargs)
 
 def add_input_float(**kwargs):
-	"""	Adds input for an float.
+	"""	 Adds input for an float.
 
 	Args:
 		label (str, optional): Overrides 'name' as label.
@@ -3974,7 +3974,7 @@ def add_input_float(**kwargs):
 	return internal_dpg.add_input_float(**kwargs)
 
 def add_input_floatx(**kwargs):
-	"""	Adds multi float input for up to 4 float values.
+	"""	 Adds multi float input for up to 4 float values.
 
 	Args:
 		label (str, optional): Overrides 'name' as label.
@@ -4012,7 +4012,7 @@ def add_input_floatx(**kwargs):
 	return internal_dpg.add_input_floatx(**kwargs)
 
 def add_input_int(**kwargs):
-	"""	Adds input for an int.
+	"""	 Adds input for an int.
 
 	Args:
 		label (str, optional): Overrides 'name' as label.
@@ -4050,7 +4050,7 @@ def add_input_int(**kwargs):
 	return internal_dpg.add_input_int(**kwargs)
 
 def add_input_intx(**kwargs):
-	"""	Adds multi int input for up to 4 integer values.
+	"""	 Adds multi int input for up to 4 integer values.
 
 	Args:
 		label (str, optional): Overrides 'name' as label.
@@ -4087,7 +4087,7 @@ def add_input_intx(**kwargs):
 	return internal_dpg.add_input_intx(**kwargs)
 
 def add_input_text(**kwargs):
-	"""	Adds input for text.
+	"""	 Adds input for text.
 
 	Args:
 		label (str, optional): Overrides 'name' as label.
@@ -4129,7 +4129,7 @@ def add_input_text(**kwargs):
 	return internal_dpg.add_input_text(**kwargs)
 
 def add_int4_value(**kwargs):
-	"""	Adds a int4 value.
+	"""	 Adds a int4 value.
 
 	Args:
 		label (str, optional): Overrides 'name' as label.
@@ -4146,7 +4146,7 @@ def add_int4_value(**kwargs):
 	return internal_dpg.add_int4_value(**kwargs)
 
 def add_int_value(**kwargs):
-	"""	Adds a int value.
+	"""	 Adds a int value.
 
 	Args:
 		label (str, optional): Overrides 'name' as label.
@@ -4163,7 +4163,7 @@ def add_int_value(**kwargs):
 	return internal_dpg.add_int_value(**kwargs)
 
 def add_item_activated_handler(**kwargs):
-	"""	Adds a activated handler.
+	"""	 Adds a activated handler.
 
 	Args:
 		label (str, optional): Overrides 'name' as label.
@@ -4180,7 +4180,7 @@ def add_item_activated_handler(**kwargs):
 	return internal_dpg.add_item_activated_handler(**kwargs)
 
 def add_item_active_handler(**kwargs):
-	"""	Adds a active handler.
+	"""	 Adds a active handler.
 
 	Args:
 		label (str, optional): Overrides 'name' as label.
@@ -4197,7 +4197,7 @@ def add_item_active_handler(**kwargs):
 	return internal_dpg.add_item_active_handler(**kwargs)
 
 def add_item_clicked_handler(button=-1, **kwargs):
-	"""	Adds a clicked handler.
+	"""	 Adds a clicked handler.
 
 	Args:
 		button (int, optional): Submits callback for all mouse buttons
@@ -4215,7 +4215,7 @@ def add_item_clicked_handler(button=-1, **kwargs):
 	return internal_dpg.add_item_clicked_handler(button, **kwargs)
 
 def add_item_deactivated_after_edit_handler(**kwargs):
-	"""	Adds a deactivated after edit handler.
+	"""	 Adds a deactivated after edit handler.
 
 	Args:
 		label (str, optional): Overrides 'name' as label.
@@ -4232,7 +4232,7 @@ def add_item_deactivated_after_edit_handler(**kwargs):
 	return internal_dpg.add_item_deactivated_after_edit_handler(**kwargs)
 
 def add_item_deactivated_handler(**kwargs):
-	"""	Adds a deactivated handler.
+	"""	 Adds a deactivated handler.
 
 	Args:
 		label (str, optional): Overrides 'name' as label.
@@ -4249,7 +4249,7 @@ def add_item_deactivated_handler(**kwargs):
 	return internal_dpg.add_item_deactivated_handler(**kwargs)
 
 def add_item_edited_handler(**kwargs):
-	"""	Adds an edited handler.
+	"""	 Adds an edited handler.
 
 	Args:
 		label (str, optional): Overrides 'name' as label.
@@ -4266,7 +4266,7 @@ def add_item_edited_handler(**kwargs):
 	return internal_dpg.add_item_edited_handler(**kwargs)
 
 def add_item_focus_handler(**kwargs):
-	"""	Adds a focus handler.
+	"""	 Adds a focus handler.
 
 	Args:
 		label (str, optional): Overrides 'name' as label.
@@ -4283,7 +4283,7 @@ def add_item_focus_handler(**kwargs):
 	return internal_dpg.add_item_focus_handler(**kwargs)
 
 def add_item_handler_registry(**kwargs):
-	"""	Adds an item handler registry.
+	"""	 Adds an item handler registry.
 
 	Args:
 		label (str, optional): Overrides 'name' as label.
@@ -4298,7 +4298,7 @@ def add_item_handler_registry(**kwargs):
 	return internal_dpg.add_item_handler_registry(**kwargs)
 
 def add_item_hover_handler(**kwargs):
-	"""	Adds a hover handler.
+	"""	 Adds a hover handler.
 
 	Args:
 		label (str, optional): Overrides 'name' as label.
@@ -4315,7 +4315,7 @@ def add_item_hover_handler(**kwargs):
 	return internal_dpg.add_item_hover_handler(**kwargs)
 
 def add_item_pool(**kwargs):
-	"""	Adds an item pool.
+	"""	 Adds an item pool.
 
 	Args:
 		label (str, optional): Overrides 'name' as label.
@@ -4329,7 +4329,7 @@ def add_item_pool(**kwargs):
 	return internal_dpg.add_item_pool(**kwargs)
 
 def add_item_resize_handler(**kwargs):
-	"""	Adds a resize handler.
+	"""	 Adds a resize handler.
 
 	Args:
 		label (str, optional): Overrides 'name' as label.
@@ -4346,7 +4346,7 @@ def add_item_resize_handler(**kwargs):
 	return internal_dpg.add_item_resize_handler(**kwargs)
 
 def add_item_set(type, count, **kwargs):
-	"""	Adds an item set to an item pool.
+	"""	 Adds an item set to an item pool.
 
 	Args:
 		type (int): 
@@ -4362,7 +4362,7 @@ def add_item_set(type, count, **kwargs):
 	return internal_dpg.add_item_set(type, count, **kwargs)
 
 def add_item_toggled_open_handler(**kwargs):
-	"""	Adds a togged open handler.
+	"""	 Adds a togged open handler.
 
 	Args:
 		label (str, optional): Overrides 'name' as label.
@@ -4379,7 +4379,7 @@ def add_item_toggled_open_handler(**kwargs):
 	return internal_dpg.add_item_toggled_open_handler(**kwargs)
 
 def add_item_visible_handler(**kwargs):
-	"""	Adds a visible handler.
+	"""	 Adds a visible handler.
 
 	Args:
 		label (str, optional): Overrides 'name' as label.
@@ -4396,7 +4396,7 @@ def add_item_visible_handler(**kwargs):
 	return internal_dpg.add_item_visible_handler(**kwargs)
 
 def add_key_down_handler(key=-1, **kwargs):
-	"""	Adds a key down handler.
+	"""	 Adds a key down handler.
 
 	Args:
 		key (int, optional): Submits callback for all keys
@@ -4414,7 +4414,7 @@ def add_key_down_handler(key=-1, **kwargs):
 	return internal_dpg.add_key_down_handler(key, **kwargs)
 
 def add_key_press_handler(key=-1, **kwargs):
-	"""	Adds a key press handler.
+	"""	 Adds a key press handler.
 
 	Args:
 		key (int, optional): Submits callback for all keys
@@ -4432,7 +4432,7 @@ def add_key_press_handler(key=-1, **kwargs):
 	return internal_dpg.add_key_press_handler(key, **kwargs)
 
 def add_key_release_handler(key=-1, **kwargs):
-	"""	Adds a key release handler.
+	"""	 Adds a key release handler.
 
 	Args:
 		key (int, optional): Submits callback for all keys
@@ -4450,7 +4450,7 @@ def add_key_release_handler(key=-1, **kwargs):
 	return internal_dpg.add_key_release_handler(key, **kwargs)
 
 def add_knob_float(**kwargs):
-	"""	Adds a knob that rotates based on change in x mouse position.
+	"""	 Adds a knob that rotates based on change in x mouse position.
 
 	Args:
 		label (str, optional): Overrides 'name' as label.
@@ -4482,7 +4482,7 @@ def add_knob_float(**kwargs):
 	return internal_dpg.add_knob_float(**kwargs)
 
 def add_line_series(x, y, **kwargs):
-	"""	Adds a line series to a plot.
+	"""	 Adds a line series to a plot.
 
 	Args:
 		x (Any): 
@@ -4502,7 +4502,7 @@ def add_line_series(x, y, **kwargs):
 	return internal_dpg.add_line_series(x, y, **kwargs)
 
 def add_listbox(items=(), **kwargs):
-	"""	Adds a listbox. If height is not large enought to show all items a scroll bar will appear.
+	"""	 Adds a listbox. If height is not large enought to show all items a scroll bar will appear.
 
 	Args:
 		items (Union[List[str], Tuple[str]], optional): A tuple of items to be shown in the listbox. Can consist of any combination of types.
@@ -4534,7 +4534,7 @@ def add_listbox(items=(), **kwargs):
 	return internal_dpg.add_listbox(items, **kwargs)
 
 def add_loading_indicator(**kwargs):
-	"""	Adds a rotating animated loading symbol.
+	"""	 Adds a rotating animated loading symbol.
 
 	Args:
 		label (str, optional): Overrides 'name' as label.
@@ -4564,7 +4564,7 @@ def add_loading_indicator(**kwargs):
 	return internal_dpg.add_loading_indicator(**kwargs)
 
 def add_menu(**kwargs):
-	"""	Adds a menu to an existing menu bar.
+	"""	 Adds a menu to an existing menu bar.
 
 	Args:
 		label (str, optional): Overrides 'name' as label.
@@ -4589,7 +4589,7 @@ def add_menu(**kwargs):
 	return internal_dpg.add_menu(**kwargs)
 
 def add_menu_bar(**kwargs):
-	"""	Adds a menu bar to a window.
+	"""	 Adds a menu bar to a window.
 
 	Args:
 		label (str, optional): Overrides 'name' as label.
@@ -4607,7 +4607,7 @@ def add_menu_bar(**kwargs):
 	return internal_dpg.add_menu_bar(**kwargs)
 
 def add_menu_item(**kwargs):
-	"""	Adds a menu item to an existing menu. Menu items act similar to selectables.
+	"""	 Adds a menu item to an existing menu. Menu items act similar to selectables.
 
 	Args:
 		label (str, optional): Overrides 'name' as label.
@@ -4635,7 +4635,7 @@ def add_menu_item(**kwargs):
 	return internal_dpg.add_menu_item(**kwargs)
 
 def add_mouse_click_handler(button=-1, **kwargs):
-	"""	Adds a mouse click handler.
+	"""	 Adds a mouse click handler.
 
 	Args:
 		button (int, optional): Submits callback for all mouse buttons
@@ -4653,7 +4653,7 @@ def add_mouse_click_handler(button=-1, **kwargs):
 	return internal_dpg.add_mouse_click_handler(button, **kwargs)
 
 def add_mouse_double_click_handler(button=-1, **kwargs):
-	"""	Adds a mouse double click handler.
+	"""	 Adds a mouse double click handler.
 
 	Args:
 		button (int, optional): Submits callback for all mouse buttons
@@ -4671,7 +4671,7 @@ def add_mouse_double_click_handler(button=-1, **kwargs):
 	return internal_dpg.add_mouse_double_click_handler(button, **kwargs)
 
 def add_mouse_down_handler(button=-1, **kwargs):
-	"""	Adds a mouse down handler.
+	"""	 Adds a mouse down handler.
 
 	Args:
 		button (int, optional): Submits callback for all mouse buttons
@@ -4689,7 +4689,7 @@ def add_mouse_down_handler(button=-1, **kwargs):
 	return internal_dpg.add_mouse_down_handler(button, **kwargs)
 
 def add_mouse_drag_handler(button=-1, threshold=10.0, **kwargs):
-	"""	Adds a mouse drag handler.
+	"""	 Adds a mouse drag handler.
 
 	Args:
 		button (int, optional): Submits callback for all mouse buttons
@@ -4708,7 +4708,7 @@ def add_mouse_drag_handler(button=-1, threshold=10.0, **kwargs):
 	return internal_dpg.add_mouse_drag_handler(button, threshold, **kwargs)
 
 def add_mouse_move_handler(**kwargs):
-	"""	Adds a mouse move handler.
+	"""	 Adds a mouse move handler.
 
 	Args:
 		label (str, optional): Overrides 'name' as label.
@@ -4725,7 +4725,7 @@ def add_mouse_move_handler(**kwargs):
 	return internal_dpg.add_mouse_move_handler(**kwargs)
 
 def add_mouse_release_handler(button=-1, **kwargs):
-	"""	Adds a mouse release handler.
+	"""	 Adds a mouse release handler.
 
 	Args:
 		button (int, optional): Submits callback for all mouse buttons
@@ -4743,7 +4743,7 @@ def add_mouse_release_handler(button=-1, **kwargs):
 	return internal_dpg.add_mouse_release_handler(button, **kwargs)
 
 def add_mouse_wheel_handler(**kwargs):
-	"""	Adds a mouse wheel handler.
+	"""	 Adds a mouse wheel handler.
 
 	Args:
 		label (str, optional): Overrides 'name' as label.
@@ -4760,7 +4760,7 @@ def add_mouse_wheel_handler(**kwargs):
 	return internal_dpg.add_mouse_wheel_handler(**kwargs)
 
 def add_node(**kwargs):
-	"""	Adds a node to a node editor.
+	"""	 Adds a node to a node editor.
 
 	Args:
 		label (str, optional): Overrides 'name' as label.
@@ -4786,7 +4786,7 @@ def add_node(**kwargs):
 	return internal_dpg.add_node(**kwargs)
 
 def add_node_attribute(**kwargs):
-	"""	Adds a node attribute to a node.
+	"""	 Adds a node attribute to a node.
 
 	Args:
 		label (str, optional): Overrides 'name' as label.
@@ -4810,7 +4810,7 @@ def add_node_attribute(**kwargs):
 	return internal_dpg.add_node_attribute(**kwargs)
 
 def add_node_editor(**kwargs):
-	"""	Adds a node editor.
+	"""	 Adds a node editor.
 
 	Args:
 		label (str, optional): Overrides 'name' as label.
@@ -4836,7 +4836,7 @@ def add_node_editor(**kwargs):
 	return internal_dpg.add_node_editor(**kwargs)
 
 def add_node_link(attr_1, attr_2, **kwargs):
-	"""	Undocumented
+	"""	 Undocumented
 
 	Args:
 		attr_1 (Union[int, str]): 
@@ -4854,7 +4854,7 @@ def add_node_link(attr_1, attr_2, **kwargs):
 	return internal_dpg.add_node_link(attr_1, attr_2, **kwargs)
 
 def add_pie_series(x, y, radius, values, labels, **kwargs):
-	"""	Adds an pie series to a plot.
+	"""	 Adds an pie series to a plot.
 
 	Args:
 		x (float): 
@@ -4880,7 +4880,7 @@ def add_pie_series(x, y, radius, values, labels, **kwargs):
 	return internal_dpg.add_pie_series(x, y, radius, values, labels, **kwargs)
 
 def add_plot(**kwargs):
-	"""	Adds a plot which is used to hold series, and can be drawn to with draw commands.
+	"""	 Adds a plot which is used to hold series, and can be drawn to with draw commands.
 
 	Args:
 		label (str, optional): Overrides 'name' as label.
@@ -4931,7 +4931,7 @@ def add_plot(**kwargs):
 	return internal_dpg.add_plot(**kwargs)
 
 def add_plot_annotation(**kwargs):
-	"""	Adds an annotation to a plot.
+	"""	 Adds an annotation to a plot.
 
 	Args:
 		label (str, optional): Overrides 'name' as label.
@@ -4953,7 +4953,7 @@ def add_plot_annotation(**kwargs):
 	return internal_dpg.add_plot_annotation(**kwargs)
 
 def add_plot_axis(axis, **kwargs):
-	"""	Adds an axis to a plot.
+	"""	 Adds an axis to a plot.
 
 	Args:
 		axis (int): 
@@ -4980,7 +4980,7 @@ def add_plot_axis(axis, **kwargs):
 	return internal_dpg.add_plot_axis(axis, **kwargs)
 
 def add_plot_legend(**kwargs):
-	"""	Adds a plot legend to a plot.
+	"""	 Adds a plot legend to a plot.
 
 	Args:
 		label (str, optional): Overrides 'name' as label.
@@ -5001,7 +5001,7 @@ def add_plot_legend(**kwargs):
 	return internal_dpg.add_plot_legend(**kwargs)
 
 def add_progress_bar(**kwargs):
-	"""	Adds a progress bar.
+	"""	 Adds a progress bar.
 
 	Args:
 		label (str, optional): Overrides 'name' as label.
@@ -5031,7 +5031,7 @@ def add_progress_bar(**kwargs):
 	return internal_dpg.add_progress_bar(**kwargs)
 
 def add_radio_button(items=(), **kwargs):
-	"""	Adds a set of radio buttons. If items keyword is empty, nothing will be shown.
+	"""	 Adds a set of radio buttons. If items keyword is empty, nothing will be shown.
 
 	Args:
 		items (Union[List[str], Tuple[str]], optional): A tuple of items to be shown as radio options. Can consist of any combination of types.
@@ -5062,7 +5062,7 @@ def add_radio_button(items=(), **kwargs):
 	return internal_dpg.add_radio_button(items, **kwargs)
 
 def add_raw_texture(width, height, default_value, **kwargs):
-	"""	Adds a raw texture.
+	"""	 Adds a raw texture.
 
 	Args:
 		width (int): 
@@ -5081,7 +5081,7 @@ def add_raw_texture(width, height, default_value, **kwargs):
 	return internal_dpg.add_raw_texture(width, height, default_value, **kwargs)
 
 def add_scatter_series(x, y, **kwargs):
-	"""	Adds a scatter series to a plot.
+	"""	 Adds a scatter series to a plot.
 
 	Args:
 		x (Any): 
@@ -5101,7 +5101,7 @@ def add_scatter_series(x, y, **kwargs):
 	return internal_dpg.add_scatter_series(x, y, **kwargs)
 
 def add_selectable(**kwargs):
-	"""	Adds a selectable.
+	"""	 Adds a selectable.
 
 	Args:
 		label (str, optional): Overrides 'name' as label.
@@ -5133,7 +5133,7 @@ def add_selectable(**kwargs):
 	return internal_dpg.add_selectable(**kwargs)
 
 def add_separator(**kwargs):
-	"""	Adds a horizontal separator.
+	"""	 Adds a horizontal separator.
 
 	Args:
 		label (str, optional): Overrides 'name' as label.
@@ -5152,7 +5152,7 @@ def add_separator(**kwargs):
 	return internal_dpg.add_separator(**kwargs)
 
 def add_series_value(**kwargs):
-	"""	Adds a plot series value.
+	"""	 Adds a plot series value.
 
 	Args:
 		label (str, optional): Overrides 'name' as label.
@@ -5169,7 +5169,7 @@ def add_series_value(**kwargs):
 	return internal_dpg.add_series_value(**kwargs)
 
 def add_shade_series(x, y1, **kwargs):
-	"""	Adds a shade series to a plot.
+	"""	 Adds a shade series to a plot.
 
 	Args:
 		x (Any): 
@@ -5190,7 +5190,7 @@ def add_shade_series(x, y1, **kwargs):
 	return internal_dpg.add_shade_series(x, y1, **kwargs)
 
 def add_simple_plot(**kwargs):
-	"""	Adds a simple plot for visualization of a 1 dimensional set of values.
+	"""	 Adds a simple plot for visualization of a 1 dimensional set of values.
 
 	Args:
 		label (str, optional): Overrides 'name' as label.
@@ -5223,7 +5223,7 @@ def add_simple_plot(**kwargs):
 	return internal_dpg.add_simple_plot(**kwargs)
 
 def add_slider_float(**kwargs):
-	"""	Adds slider for a single float value. Directly entry can be done with double click or CTRL+Click. Min and Max alone are a soft limit for the slider. Use clamped keyword to also apply limits to the direct entry modes.
+	"""	 Adds slider for a single float value. Directly entry can be done with double click or CTRL+Click. Min and Max alone are a soft limit for the slider. Use clamped keyword to also apply limits to the direct entry modes.
 
 	Args:
 		label (str, optional): Overrides 'name' as label.
@@ -5260,7 +5260,7 @@ def add_slider_float(**kwargs):
 	return internal_dpg.add_slider_float(**kwargs)
 
 def add_slider_floatx(**kwargs):
-	"""	Adds multi slider for up to 4 float values. Directly entry can be done with double click or CTRL+Click. Min and Max alone are a soft limit for the slider. Use clamped keyword to also apply limits to the direct entry modes.
+	"""	 Adds multi slider for up to 4 float values. Directly entry can be done with double click or CTRL+Click. Min and Max alone are a soft limit for the slider. Use clamped keyword to also apply limits to the direct entry modes.
 
 	Args:
 		label (str, optional): Overrides 'name' as label.
@@ -5296,7 +5296,7 @@ def add_slider_floatx(**kwargs):
 	return internal_dpg.add_slider_floatx(**kwargs)
 
 def add_slider_int(**kwargs):
-	"""	Adds slider for a single int value. Directly entry can be done with double click or CTRL+Click. Min and Max alone are a soft limit for the slider. Use clamped keyword to also apply limits to the direct entry modes.
+	"""	 Adds slider for a single int value. Directly entry can be done with double click or CTRL+Click. Min and Max alone are a soft limit for the slider. Use clamped keyword to also apply limits to the direct entry modes.
 
 	Args:
 		label (str, optional): Overrides 'name' as label.
@@ -5333,7 +5333,7 @@ def add_slider_int(**kwargs):
 	return internal_dpg.add_slider_int(**kwargs)
 
 def add_slider_intx(**kwargs):
-	"""	Adds multi slider for up to 4 int values. Directly entry can be done with double click or CTRL+Click. Min and Max alone are a soft limit for the slider. Use clamped keyword to also apply limits to the direct entry modes.
+	"""	 Adds multi slider for up to 4 int values. Directly entry can be done with double click or CTRL+Click. Min and Max alone are a soft limit for the slider. Use clamped keyword to also apply limits to the direct entry modes.
 
 	Args:
 		label (str, optional): Overrides 'name' as label.
@@ -5369,7 +5369,7 @@ def add_slider_intx(**kwargs):
 	return internal_dpg.add_slider_intx(**kwargs)
 
 def add_spacer(**kwargs):
-	"""	Adds a spacer.
+	"""	 Adds a spacer.
 
 	Args:
 		label (str, optional): Overrides 'name' as label.
@@ -5390,7 +5390,7 @@ def add_spacer(**kwargs):
 	return internal_dpg.add_spacer(**kwargs)
 
 def add_stage(**kwargs):
-	"""	Adds a stage.
+	"""	 Adds a stage.
 
 	Args:
 		label (str, optional): Overrides 'name' as label.
@@ -5404,7 +5404,7 @@ def add_stage(**kwargs):
 	return internal_dpg.add_stage(**kwargs)
 
 def add_stair_series(x, y, **kwargs):
-	"""	Adds a stair series to a plot.
+	"""	 Adds a stair series to a plot.
 
 	Args:
 		x (Any): 
@@ -5424,7 +5424,7 @@ def add_stair_series(x, y, **kwargs):
 	return internal_dpg.add_stair_series(x, y, **kwargs)
 
 def add_static_texture(width, height, default_value, **kwargs):
-	"""	Adds a static texture.
+	"""	 Adds a static texture.
 
 	Args:
 		width (int): 
@@ -5442,7 +5442,7 @@ def add_static_texture(width, height, default_value, **kwargs):
 	return internal_dpg.add_static_texture(width, height, default_value, **kwargs)
 
 def add_stem_series(x, y, **kwargs):
-	"""	Adds a stem series to a plot.
+	"""	 Adds a stem series to a plot.
 
 	Args:
 		x (Any): 
@@ -5463,7 +5463,7 @@ def add_stem_series(x, y, **kwargs):
 	return internal_dpg.add_stem_series(x, y, **kwargs)
 
 def add_string_value(**kwargs):
-	"""	Adds a string value.
+	"""	 Adds a string value.
 
 	Args:
 		label (str, optional): Overrides 'name' as label.
@@ -5480,7 +5480,7 @@ def add_string_value(**kwargs):
 	return internal_dpg.add_string_value(**kwargs)
 
 def add_subplots(rows, columns, **kwargs):
-	"""	Adds a collection of plots.
+	"""	 Adds a collection of plots.
 
 	Args:
 		rows (int): 
@@ -5519,7 +5519,7 @@ def add_subplots(rows, columns, **kwargs):
 	return internal_dpg.add_subplots(rows, columns, **kwargs)
 
 def add_tab(**kwargs):
-	"""	Adds a tab to a tab bar.
+	"""	 Adds a tab to a tab bar.
 
 	Args:
 		label (str, optional): Overrides 'name' as label.
@@ -5546,7 +5546,7 @@ def add_tab(**kwargs):
 	return internal_dpg.add_tab(**kwargs)
 
 def add_tab_bar(**kwargs):
-	"""	Adds a tab bar.
+	"""	 Adds a tab bar.
 
 	Args:
 		label (str, optional): Overrides 'name' as label.
@@ -5571,7 +5571,7 @@ def add_tab_bar(**kwargs):
 	return internal_dpg.add_tab_bar(**kwargs)
 
 def add_tab_button(**kwargs):
-	"""	Adds a tab button to a tab bar.
+	"""	 Adds a tab button to a tab bar.
 
 	Args:
 		label (str, optional): Overrides 'name' as label.
@@ -5600,7 +5600,7 @@ def add_tab_button(**kwargs):
 	return internal_dpg.add_tab_button(**kwargs)
 
 def add_table(**kwargs):
-	"""	Adds a table.
+	"""	 Adds a table.
 
 	Args:
 		label (str, optional): Overrides 'name' as label.
@@ -5654,7 +5654,7 @@ def add_table(**kwargs):
 	return internal_dpg.add_table(**kwargs)
 
 def add_table_cell(**kwargs):
-	"""	Adds a table.
+	"""	 Adds a table.
 
 	Args:
 		label (str, optional): Overrides 'name' as label.
@@ -5673,7 +5673,7 @@ def add_table_cell(**kwargs):
 	return internal_dpg.add_table_cell(**kwargs)
 
 def add_table_column(**kwargs):
-	"""	Adds a table column.
+	"""	 Adds a table column.
 
 	Args:
 		label (str, optional): Overrides 'name' as label.
@@ -5709,7 +5709,7 @@ def add_table_column(**kwargs):
 	return internal_dpg.add_table_column(**kwargs)
 
 def add_table_row(**kwargs):
-	"""	Adds a table row.
+	"""	 Adds a table row.
 
 	Args:
 		label (str, optional): Overrides 'name' as label.
@@ -5728,7 +5728,7 @@ def add_table_row(**kwargs):
 	return internal_dpg.add_table_row(**kwargs)
 
 def add_template_registry(**kwargs):
-	"""	Adds a template registry.
+	"""	 Adds a template registry.
 
 	Args:
 		label (str, optional): Overrides 'name' as label.
@@ -5742,7 +5742,7 @@ def add_template_registry(**kwargs):
 	return internal_dpg.add_template_registry(**kwargs)
 
 def add_text(default_value='', **kwargs):
-	"""	Adds text. Text can have an optional label that will display to the right of the text.
+	"""	 Adds text. Text can have an optional label that will display to the right of the text.
 
 	Args:
 		default_value (str, optional): 
@@ -5773,7 +5773,7 @@ def add_text(default_value='', **kwargs):
 	return internal_dpg.add_text(default_value, **kwargs)
 
 def add_text_point(x, y, **kwargs):
-	"""	Adds a label series to a plot.
+	"""	 Adds a label series to a plot.
 
 	Args:
 		x (float): 
@@ -5796,7 +5796,7 @@ def add_text_point(x, y, **kwargs):
 	return internal_dpg.add_text_point(x, y, **kwargs)
 
 def add_texture_registry(**kwargs):
-	"""	Adds a dynamic texture.
+	"""	 Adds a dynamic texture.
 
 	Args:
 		label (str, optional): Overrides 'name' as label.
@@ -5811,7 +5811,7 @@ def add_texture_registry(**kwargs):
 	return internal_dpg.add_texture_registry(**kwargs)
 
 def add_theme(**kwargs):
-	"""	Adds a theme.
+	"""	 Adds a theme.
 
 	Args:
 		label (str, optional): Overrides 'name' as label.
@@ -5825,7 +5825,7 @@ def add_theme(**kwargs):
 	return internal_dpg.add_theme(**kwargs)
 
 def add_theme_color(target=0, value=(0, 0, 0, 255), **kwargs):
-	"""	Adds a theme color.
+	"""	 Adds a theme color.
 
 	Args:
 		target (int, optional): 
@@ -5843,7 +5843,7 @@ def add_theme_color(target=0, value=(0, 0, 0, 255), **kwargs):
 	return internal_dpg.add_theme_color(target, value, **kwargs)
 
 def add_theme_component(item_type=0, **kwargs):
-	"""	Adds a theme component.
+	"""	 Adds a theme component.
 
 	Args:
 		item_type (int, optional): 
@@ -5861,7 +5861,7 @@ def add_theme_component(item_type=0, **kwargs):
 	return internal_dpg.add_theme_component(item_type, **kwargs)
 
 def add_theme_style(target=0, x=1.0, y=-1.0, **kwargs):
-	"""	Adds a theme style.
+	"""	 Adds a theme style.
 
 	Args:
 		target (int, optional): 
@@ -5880,7 +5880,7 @@ def add_theme_style(target=0, x=1.0, y=-1.0, **kwargs):
 	return internal_dpg.add_theme_style(target, x, y, **kwargs)
 
 def add_time_picker(**kwargs):
-	"""	Adds a time picker.
+	"""	 Adds a time picker.
 
 	Args:
 		label (str, optional): Overrides 'name' as label.
@@ -5908,7 +5908,7 @@ def add_time_picker(**kwargs):
 	return internal_dpg.add_time_picker(**kwargs)
 
 def add_tooltip(parent, **kwargs):
-	"""	Adds a tooltip window.
+	"""	 Adds a tooltip window.
 
 	Args:
 		parent (Union[int, str]): 
@@ -5924,7 +5924,7 @@ def add_tooltip(parent, **kwargs):
 	return internal_dpg.add_tooltip(parent, **kwargs)
 
 def add_tree_node(**kwargs):
-	"""	Adds a tree node to add items to.
+	"""	 Adds a tree node to add items to.
 
 	Args:
 		label (str, optional): Overrides 'name' as label.
@@ -5956,7 +5956,7 @@ def add_tree_node(**kwargs):
 	return internal_dpg.add_tree_node(**kwargs)
 
 def add_value_registry(**kwargs):
-	"""	Adds a value registry.
+	"""	 Adds a value registry.
 
 	Args:
 		label (str, optional): Overrides 'name' as label.
@@ -5970,7 +5970,7 @@ def add_value_registry(**kwargs):
 	return internal_dpg.add_value_registry(**kwargs)
 
 def add_viewport_drawlist(**kwargs):
-	"""	A container that is used to present draw items or layers directly to the viewport. By default this will draw to the back of the viewport. Layers and draw items should be added to this widget as children.
+	"""	 A container that is used to present draw items or layers directly to the viewport. By default this will draw to the back of the viewport. Layers and draw items should be added to this widget as children.
 
 	Args:
 		label (str, optional): Overrides 'name' as label.
@@ -5988,7 +5988,7 @@ def add_viewport_drawlist(**kwargs):
 	return internal_dpg.add_viewport_drawlist(**kwargs)
 
 def add_viewport_menu_bar(**kwargs):
-	"""	Adds a menubar to the viewport.
+	"""	 Adds a menubar to the viewport.
 
 	Args:
 		label (str, optional): Overrides 'name' as label.
@@ -6006,7 +6006,7 @@ def add_viewport_menu_bar(**kwargs):
 	return internal_dpg.add_viewport_menu_bar(**kwargs)
 
 def add_vline_series(x, **kwargs):
-	"""	Adds an infinite vertical line series to a plot.
+	"""	 Adds an infinite vertical line series to a plot.
 
 	Args:
 		x (Any): 
@@ -6025,7 +6025,7 @@ def add_vline_series(x, **kwargs):
 	return internal_dpg.add_vline_series(x, **kwargs)
 
 def add_window(**kwargs):
-	"""	Creates a new window for following items to be added to.
+	"""	 Creates a new window for following items to be added to.
 
 	Args:
 		label (str, optional): Overrides 'name' as label.
@@ -6064,7 +6064,7 @@ def add_window(**kwargs):
 	return internal_dpg.add_window(**kwargs)
 
 def bind_colormap(item, source):
-	"""	Sets the color map for widgets that accept it.
+	"""	 Sets the color map for widgets that accept it.
 
 	Args:
 		item (Union[int, str]): 
@@ -6076,7 +6076,7 @@ def bind_colormap(item, source):
 	return internal_dpg.bind_colormap(item, source)
 
 def bind_font(font):
-	"""	Binds a global font.
+	"""	 Binds a global font.
 
 	Args:
 		font (Union[int, str]): 
@@ -6087,7 +6087,7 @@ def bind_font(font):
 	return internal_dpg.bind_font(font)
 
 def bind_item_handler_registry(item, handler_registry):
-	"""	Binds an item handler registry to an item.
+	"""	 Binds an item handler registry to an item.
 
 	Args:
 		item (Union[int, str]): 
@@ -6099,7 +6099,7 @@ def bind_item_handler_registry(item, handler_registry):
 	return internal_dpg.bind_item_handler_registry(item, handler_registry)
 
 def bind_item_theme(item, theme):
-	"""	Binds a theme to an item.
+	"""	 Binds a theme to an item.
 
 	Args:
 		item (Union[int, str]): 
@@ -6111,7 +6111,7 @@ def bind_item_theme(item, theme):
 	return internal_dpg.bind_item_theme(item, theme)
 
 def bind_template_registry(template_registry):
-	"""	Binds a global template registry.
+	"""	 Binds a global template registry.
 
 	Args:
 		template_registry (Union[int, str]): 
@@ -6122,7 +6122,7 @@ def bind_template_registry(template_registry):
 	return internal_dpg.bind_template_registry(template_registry)
 
 def bind_theme(theme):
-	"""	Binds a global theme.
+	"""	 Binds a global theme.
 
 	Args:
 		theme (Union[int, str]): 
@@ -6133,7 +6133,7 @@ def bind_theme(theme):
 	return internal_dpg.bind_theme(theme)
 
 def clear_selected_links(node_editor):
-	"""	Undocumented
+	"""	 Undocumented
 
 	Args:
 		node_editor (Union[int, str]): 
@@ -6144,7 +6144,7 @@ def clear_selected_links(node_editor):
 	return internal_dpg.clear_selected_links(node_editor)
 
 def clear_selected_nodes(node_editor):
-	"""	Undocumented
+	"""	 Undocumented
 
 	Args:
 		node_editor (Union[int, str]): 
@@ -6155,7 +6155,7 @@ def clear_selected_nodes(node_editor):
 	return internal_dpg.clear_selected_nodes(node_editor)
 
 def configure_app(**kwargs):
-	"""	Configures app.
+	"""	 Configures app.
 
 	Args:
 		docking (bool, optional): Enables docking support.
@@ -6176,7 +6176,7 @@ def configure_app(**kwargs):
 	return internal_dpg.configure_app(**kwargs)
 
 def create_context():
-	"""	Creates the Dear PyGui context.
+	"""	 Creates the Dear PyGui context.
 
 	Args:
 	Returns:
@@ -6186,7 +6186,7 @@ def create_context():
 	return internal_dpg.create_context()
 
 def create_viewport(**kwargs):
-	"""	Creates a viewport.
+	"""	 Creates a viewport.
 
 	Args:
 		title (str, optional): 
@@ -6212,7 +6212,7 @@ def create_viewport(**kwargs):
 	return internal_dpg.create_viewport(**kwargs)
 
 def delete_item(item, **kwargs):
-	"""	Deletes an item..
+	"""	 Deletes an item..
 
 	Args:
 		item (Union[int, str]): 
@@ -6225,7 +6225,7 @@ def delete_item(item, **kwargs):
 	return internal_dpg.delete_item(item, **kwargs)
 
 def destroy_context():
-	"""	Destroys the Dear PyGui context.
+	"""	 Destroys the Dear PyGui context.
 
 	Args:
 	Returns:
@@ -6235,7 +6235,7 @@ def destroy_context():
 	return internal_dpg.destroy_context()
 
 def does_alias_exist(alias):
-	"""	Checks if an alias exist.
+	"""	 Checks if an alias exist.
 
 	Args:
 		alias (str): 
@@ -6246,7 +6246,7 @@ def does_alias_exist(alias):
 	return internal_dpg.does_alias_exist(alias)
 
 def does_item_exist(item):
-	"""	Checks if an item exist..
+	"""	 Checks if an item exist..
 
 	Args:
 		item (Union[int, str]): 
@@ -6257,7 +6257,7 @@ def does_item_exist(item):
 	return internal_dpg.does_item_exist(item)
 
 def draw_arrow(p1, p2, **kwargs):
-	"""	Adds an arrow.
+	"""	 Adds an arrow.
 
 	Args:
 		p1 (Union[List[float], Tuple[float]]): Arrow tip.
@@ -6279,7 +6279,7 @@ def draw_arrow(p1, p2, **kwargs):
 	return internal_dpg.draw_arrow(p1, p2, **kwargs)
 
 def draw_bezier_cubic(p1, p2, p3, p4, **kwargs):
-	"""	Adds a cubic bezier curve.
+	"""	 Adds a cubic bezier curve.
 
 	Args:
 		p1 (Union[List[float], Tuple[float]]): First point in curve.
@@ -6303,7 +6303,7 @@ def draw_bezier_cubic(p1, p2, p3, p4, **kwargs):
 	return internal_dpg.draw_bezier_cubic(p1, p2, p3, p4, **kwargs)
 
 def draw_bezier_quadratic(p1, p2, p3, **kwargs):
-	"""	Adds a quadratic bezier curve.
+	"""	 Adds a quadratic bezier curve.
 
 	Args:
 		p1 (Union[List[float], Tuple[float]]): First point in curve.
@@ -6326,7 +6326,7 @@ def draw_bezier_quadratic(p1, p2, p3, **kwargs):
 	return internal_dpg.draw_bezier_quadratic(p1, p2, p3, **kwargs)
 
 def draw_circle(center, radius, **kwargs):
-	"""	Adds a circle
+	"""	 Adds a circle
 
 	Args:
 		center (Union[List[float], Tuple[float]]): 
@@ -6349,7 +6349,7 @@ def draw_circle(center, radius, **kwargs):
 	return internal_dpg.draw_circle(center, radius, **kwargs)
 
 def draw_ellipse(pmin, pmax, **kwargs):
-	"""	Adds an ellipse.
+	"""	 Adds an ellipse.
 
 	Args:
 		pmin (Union[List[float], Tuple[float]]): Min point of bounding rectangle.
@@ -6372,7 +6372,7 @@ def draw_ellipse(pmin, pmax, **kwargs):
 	return internal_dpg.draw_ellipse(pmin, pmax, **kwargs)
 
 def draw_image(texture_id, pmin, pmax, **kwargs):
-	"""	Adds an image (for a drawing).
+	"""	 Adds an image (for a drawing).
 
 	Args:
 		texture_id (Union[int, str]): 
@@ -6395,7 +6395,7 @@ def draw_image(texture_id, pmin, pmax, **kwargs):
 	return internal_dpg.draw_image(texture_id, pmin, pmax, **kwargs)
 
 def draw_line(p1, p2, **kwargs):
-	"""	Adds a line.
+	"""	 Adds a line.
 
 	Args:
 		p1 (Union[List[float], Tuple[float]]): Start of line.
@@ -6416,7 +6416,7 @@ def draw_line(p1, p2, **kwargs):
 	return internal_dpg.draw_line(p1, p2, **kwargs)
 
 def draw_polygon(points, **kwargs):
-	"""	Adds a polygon.
+	"""	 Adds a polygon.
 
 	Args:
 		points (List[List[float]]): 
@@ -6437,7 +6437,7 @@ def draw_polygon(points, **kwargs):
 	return internal_dpg.draw_polygon(points, **kwargs)
 
 def draw_polyline(points, **kwargs):
-	"""	Adds a polyline.
+	"""	 Adds a polyline.
 
 	Args:
 		points (List[List[float]]): 
@@ -6458,7 +6458,7 @@ def draw_polyline(points, **kwargs):
 	return internal_dpg.draw_polyline(points, **kwargs)
 
 def draw_quad(p1, p2, p3, p4, **kwargs):
-	"""	Adds a quad.
+	"""	 Adds a quad.
 
 	Args:
 		p1 (Union[List[float], Tuple[float]]): 
@@ -6482,7 +6482,7 @@ def draw_quad(p1, p2, p3, p4, **kwargs):
 	return internal_dpg.draw_quad(p1, p2, p3, p4, **kwargs)
 
 def draw_rectangle(pmin, pmax, **kwargs):
-	"""	Adds a rectangle.
+	"""	 Adds a rectangle.
 
 	Args:
 		pmin (Union[List[float], Tuple[float]]): Min point of bounding rectangle.
@@ -6510,7 +6510,7 @@ def draw_rectangle(pmin, pmax, **kwargs):
 	return internal_dpg.draw_rectangle(pmin, pmax, **kwargs)
 
 def draw_text(pos, text, **kwargs):
-	"""	Adds text (drawlist).
+	"""	 Adds text (drawlist).
 
 	Args:
 		pos (Union[List[float], Tuple[float]]): Top left point of bounding text rectangle.
@@ -6531,7 +6531,7 @@ def draw_text(pos, text, **kwargs):
 	return internal_dpg.draw_text(pos, text, **kwargs)
 
 def draw_triangle(p1, p2, p3, **kwargs):
-	"""	Adds a triangle.
+	"""	 Adds a triangle.
 
 	Args:
 		p1 (Union[List[float], Tuple[float]]): 
@@ -6554,7 +6554,7 @@ def draw_triangle(p1, p2, p3, **kwargs):
 	return internal_dpg.draw_triangle(p1, p2, p3, **kwargs)
 
 def empty_container_stack():
-	"""	Emptyes the container stack.
+	"""	 Emptyes the container stack.
 
 	Args:
 	Returns:
@@ -6564,7 +6564,7 @@ def empty_container_stack():
 	return internal_dpg.empty_container_stack()
 
 def fit_axis_data(axis):
-	"""	Sets the axis boundaries max/min in the data series currently on the plot.
+	"""	 Sets the axis boundaries max/min in the data series currently on the plot.
 
 	Args:
 		axis (Union[int, str]): 
@@ -6575,7 +6575,7 @@ def fit_axis_data(axis):
 	return internal_dpg.fit_axis_data(axis)
 
 def focus_item(item):
-	"""	Focuses an item.
+	"""	 Focuses an item.
 
 	Args:
 		item (Union[int, str]): 
@@ -6586,7 +6586,7 @@ def focus_item(item):
 	return internal_dpg.focus_item(item)
 
 def generate_uuid():
-	"""	Generate a new UUID.
+	"""	 Generate a new UUID.
 
 	Args:
 	Returns:
@@ -6596,7 +6596,7 @@ def generate_uuid():
 	return internal_dpg.generate_uuid()
 
 def get_active_window():
-	"""	Returns the active window.
+	"""	 Returns the active window.
 
 	Args:
 	Returns:
@@ -6606,7 +6606,7 @@ def get_active_window():
 	return internal_dpg.get_active_window()
 
 def get_alias_id(alias):
-	"""	Returns the ID associated with an alias.
+	"""	 Returns the ID associated with an alias.
 
 	Args:
 		alias (str): 
@@ -6617,7 +6617,7 @@ def get_alias_id(alias):
 	return internal_dpg.get_alias_id(alias)
 
 def get_aliases():
-	"""	Returns all aliases.
+	"""	 Returns all aliases.
 
 	Args:
 	Returns:
@@ -6627,7 +6627,7 @@ def get_aliases():
 	return internal_dpg.get_aliases()
 
 def get_all_items():
-	"""	Returns all items.
+	"""	 Returns all items.
 
 	Args:
 	Returns:
@@ -6637,7 +6637,7 @@ def get_all_items():
 	return internal_dpg.get_all_items()
 
 def get_app_configuration():
-	"""	Returns app configuration.
+	"""	 Returns app configuration.
 
 	Args:
 	Returns:
@@ -6647,7 +6647,7 @@ def get_app_configuration():
 	return internal_dpg.get_app_configuration()
 
 def get_axis_limits(axis):
-	"""	Get the specified axis limits.
+	"""	 Get the specified axis limits.
 
 	Args:
 		axis (Union[int, str]): 
@@ -6658,7 +6658,7 @@ def get_axis_limits(axis):
 	return internal_dpg.get_axis_limits(axis)
 
 def get_colormap_color(colormap, index):
-	"""	Returns a color from a colormap given an index >= 0 (modulo will be performed). This command can only be ran once the app is started.
+	"""	 Returns a color from a colormap given an index >= 0 (modulo will be performed). This command can only be ran once the app is started.
 
 	Args:
 		colormap (Union[int, str]): 
@@ -6670,7 +6670,7 @@ def get_colormap_color(colormap, index):
 	return internal_dpg.get_colormap_color(colormap, index)
 
 def get_delta_time():
-	"""	Returns time since last frame.
+	"""	 Returns time since last frame.
 
 	Args:
 	Returns:
@@ -6680,7 +6680,7 @@ def get_delta_time():
 	return internal_dpg.get_delta_time()
 
 def get_drawing_mouse_pos():
-	"""	Returns mouse position in drawing.
+	"""	 Returns mouse position in drawing.
 
 	Args:
 	Returns:
@@ -6690,7 +6690,7 @@ def get_drawing_mouse_pos():
 	return internal_dpg.get_drawing_mouse_pos()
 
 def get_file_dialog_info(file_dialog):
-	"""	Undocumented function
+	"""	 Undocumented function
 
 	Args:
 		file_dialog (Union[int, str]): 
@@ -6701,7 +6701,7 @@ def get_file_dialog_info(file_dialog):
 	return internal_dpg.get_file_dialog_info(file_dialog)
 
 def get_frame_count():
-	"""	Returns frame count.
+	"""	 Returns frame count.
 
 	Args:
 	Returns:
@@ -6711,7 +6711,7 @@ def get_frame_count():
 	return internal_dpg.get_frame_count()
 
 def get_frame_rate():
-	"""	Returns the average frame rate across 120 frames.
+	"""	 Returns the average frame rate across 120 frames.
 
 	Args:
 	Returns:
@@ -6721,7 +6721,7 @@ def get_frame_rate():
 	return internal_dpg.get_frame_rate()
 
 def get_global_font_scale():
-	"""	Returns global font scale.
+	"""	 Returns global font scale.
 
 	Args:
 	Returns:
@@ -6731,7 +6731,7 @@ def get_global_font_scale():
 	return internal_dpg.get_global_font_scale()
 
 def get_item_alias(item):
-	"""	Returns an item's alias.
+	"""	 Returns an item's alias.
 
 	Args:
 		item (Union[int, str]): 
@@ -6742,7 +6742,7 @@ def get_item_alias(item):
 	return internal_dpg.get_item_alias(item)
 
 def get_item_configuration(item):
-	"""	Returns an item's configuration.
+	"""	 Returns an item's configuration.
 
 	Args:
 		item (Union[int, str]): 
@@ -6753,7 +6753,7 @@ def get_item_configuration(item):
 	return internal_dpg.get_item_configuration(item)
 
 def get_item_info(item):
-	"""	Returns an item's information.
+	"""	 Returns an item's information.
 
 	Args:
 		item (Union[int, str]): 
@@ -6764,7 +6764,7 @@ def get_item_info(item):
 	return internal_dpg.get_item_info(item)
 
 def get_item_state(item):
-	"""	Returns an item's state.
+	"""	 Returns an item's state.
 
 	Args:
 		item (Union[int, str]): 
@@ -6775,7 +6775,7 @@ def get_item_state(item):
 	return internal_dpg.get_item_state(item)
 
 def get_item_types():
-	"""	Returns an item types.
+	"""	 Returns an item types.
 
 	Args:
 	Returns:
@@ -6785,7 +6785,7 @@ def get_item_types():
 	return internal_dpg.get_item_types()
 
 def get_mouse_drag_delta():
-	"""	Returns mouse drag delta.
+	"""	 Returns mouse drag delta.
 
 	Args:
 	Returns:
@@ -6795,7 +6795,7 @@ def get_mouse_drag_delta():
 	return internal_dpg.get_mouse_drag_delta()
 
 def get_mouse_pos(**kwargs):
-	"""	Returns mouse position.
+	"""	 Returns mouse position.
 
 	Args:
 		local (bool, optional): 
@@ -6806,7 +6806,7 @@ def get_mouse_pos(**kwargs):
 	return internal_dpg.get_mouse_pos(**kwargs)
 
 def get_plot_mouse_pos():
-	"""	Returns mouse position in plot.
+	"""	 Returns mouse position in plot.
 
 	Args:
 	Returns:
@@ -6816,7 +6816,7 @@ def get_plot_mouse_pos():
 	return internal_dpg.get_plot_mouse_pos()
 
 def get_plot_query_area(plot):
-	"""	Returns the last/current query area of the plot. (Requires plot 'query' kwarg to be enabled)
+	"""	 Returns the last/current query area of the plot. (Requires plot 'query' kwarg to be enabled)
 
 	Args:
 		plot (Union[int, str]): 
@@ -6827,7 +6827,7 @@ def get_plot_query_area(plot):
 	return internal_dpg.get_plot_query_area(plot)
 
 def get_selected_links(node_editor):
-	"""	Undocumented
+	"""	 Undocumented
 
 	Args:
 		node_editor (Union[int, str]): 
@@ -6838,7 +6838,7 @@ def get_selected_links(node_editor):
 	return internal_dpg.get_selected_links(node_editor)
 
 def get_selected_nodes(node_editor):
-	"""	Undocumented
+	"""	 Undocumented
 
 	Args:
 		node_editor (Union[int, str]): 
@@ -6849,7 +6849,7 @@ def get_selected_nodes(node_editor):
 	return internal_dpg.get_selected_nodes(node_editor)
 
 def get_total_time():
-	"""	Returns total time since Dear PyGui has started.
+	"""	 Returns total time since Dear PyGui has started.
 
 	Args:
 	Returns:
@@ -6859,7 +6859,7 @@ def get_total_time():
 	return internal_dpg.get_total_time()
 
 def get_value(item):
-	"""	Returns an item's value.
+	"""	 Returns an item's value.
 
 	Args:
 		item (Union[int, str]): 
@@ -6870,7 +6870,7 @@ def get_value(item):
 	return internal_dpg.get_value(item)
 
 def get_values(items):
-	"""	Returns values of a list of items.
+	"""	 Returns values of a list of items.
 
 	Args:
 		items (Union[List[int], Tuple[int]]): 
@@ -6881,7 +6881,7 @@ def get_values(items):
 	return internal_dpg.get_values(items)
 
 def get_viewport_configuration(item):
-	"""	Returns a viewport's configuration.
+	"""	 Returns a viewport's configuration.
 
 	Args:
 		item (Union[int, str]): 
@@ -6892,7 +6892,7 @@ def get_viewport_configuration(item):
 	return internal_dpg.get_viewport_configuration(item)
 
 def get_windows():
-	"""	Returns all windows.
+	"""	 Returns all windows.
 
 	Args:
 	Returns:
@@ -6902,7 +6902,7 @@ def get_windows():
 	return internal_dpg.get_windows()
 
 def get_x_scroll(item):
-	"""	Undocumented
+	"""	 Undocumented
 
 	Args:
 		item (Union[int, str]): 
@@ -6913,7 +6913,7 @@ def get_x_scroll(item):
 	return internal_dpg.get_x_scroll(item)
 
 def get_x_scroll_max(item):
-	"""	Undocumented
+	"""	 Undocumented
 
 	Args:
 		item (Union[int, str]): 
@@ -6924,7 +6924,7 @@ def get_x_scroll_max(item):
 	return internal_dpg.get_x_scroll_max(item)
 
 def get_y_scroll(item):
-	"""	Undocumented
+	"""	 Undocumented
 
 	Args:
 		item (Union[int, str]): 
@@ -6935,7 +6935,7 @@ def get_y_scroll(item):
 	return internal_dpg.get_y_scroll(item)
 
 def get_y_scroll_max(item):
-	"""	Undocumented
+	"""	 Undocumented
 
 	Args:
 		item (Union[int, str]): 
@@ -6946,7 +6946,7 @@ def get_y_scroll_max(item):
 	return internal_dpg.get_y_scroll_max(item)
 
 def highlight_table_cell(table, row, column, color):
-	"""	Highlight specified table cell.
+	"""	 Highlight specified table cell.
 
 	Args:
 		table (Union[int, str]): 
@@ -6960,7 +6960,7 @@ def highlight_table_cell(table, row, column, color):
 	return internal_dpg.highlight_table_cell(table, row, column, color)
 
 def highlight_table_column(table, column, color):
-	"""	Highlight specified table column.
+	"""	 Highlight specified table column.
 
 	Args:
 		table (Union[int, str]): 
@@ -6973,7 +6973,7 @@ def highlight_table_column(table, column, color):
 	return internal_dpg.highlight_table_column(table, column, color)
 
 def highlight_table_row(table, row, color):
-	"""	Highlight specified table row.
+	"""	 Highlight specified table row.
 
 	Args:
 		table (Union[int, str]): 
@@ -6986,7 +6986,7 @@ def highlight_table_row(table, row, color):
 	return internal_dpg.highlight_table_row(table, row, color)
 
 def is_dearpygui_running():
-	"""	Checks if Dear PyGui is running
+	"""	 Checks if Dear PyGui is running
 
 	Args:
 	Returns:
@@ -6996,7 +6996,7 @@ def is_dearpygui_running():
 	return internal_dpg.is_dearpygui_running()
 
 def is_key_down(key):
-	"""	Checks if key is down.
+	"""	 Checks if key is down.
 
 	Args:
 		key (int): 
@@ -7007,7 +7007,7 @@ def is_key_down(key):
 	return internal_dpg.is_key_down(key)
 
 def is_key_pressed(key):
-	"""	Checks if key is pressed.
+	"""	 Checks if key is pressed.
 
 	Args:
 		key (int): 
@@ -7018,7 +7018,7 @@ def is_key_pressed(key):
 	return internal_dpg.is_key_pressed(key)
 
 def is_key_released(key):
-	"""	Checks if key is released.
+	"""	 Checks if key is released.
 
 	Args:
 		key (int): 
@@ -7029,7 +7029,7 @@ def is_key_released(key):
 	return internal_dpg.is_key_released(key)
 
 def is_mouse_button_clicked(button):
-	"""	Checks if mouse button is clicked.
+	"""	 Checks if mouse button is clicked.
 
 	Args:
 		button (int): 
@@ -7040,7 +7040,7 @@ def is_mouse_button_clicked(button):
 	return internal_dpg.is_mouse_button_clicked(button)
 
 def is_mouse_button_double_clicked(button):
-	"""	Checks if mouse button is double clicked.
+	"""	 Checks if mouse button is double clicked.
 
 	Args:
 		button (int): 
@@ -7051,7 +7051,7 @@ def is_mouse_button_double_clicked(button):
 	return internal_dpg.is_mouse_button_double_clicked(button)
 
 def is_mouse_button_down(button):
-	"""	Checks if mouse button is down.
+	"""	 Checks if mouse button is down.
 
 	Args:
 		button (int): 
@@ -7062,7 +7062,7 @@ def is_mouse_button_down(button):
 	return internal_dpg.is_mouse_button_down(button)
 
 def is_mouse_button_dragging(button, threshold):
-	"""	Checks if mouse button is down and dragging.
+	"""	 Checks if mouse button is down and dragging.
 
 	Args:
 		button (int): 
@@ -7074,7 +7074,7 @@ def is_mouse_button_dragging(button, threshold):
 	return internal_dpg.is_mouse_button_dragging(button, threshold)
 
 def is_mouse_button_released(button):
-	"""	Checks if mouse button is released.
+	"""	 Checks if mouse button is released.
 
 	Args:
 		button (int): 
@@ -7085,7 +7085,7 @@ def is_mouse_button_released(button):
 	return internal_dpg.is_mouse_button_released(button)
 
 def is_plot_queried(plot):
-	"""	Returns true if the plot is currently being queried. (Requires plot 'query' kwarg to be enabled)
+	"""	 Returns true if the plot is currently being queried. (Requires plot 'query' kwarg to be enabled)
 
 	Args:
 		plot (Union[int, str]): 
@@ -7096,7 +7096,7 @@ def is_plot_queried(plot):
 	return internal_dpg.is_plot_queried(plot)
 
 def is_table_cell_highlight(table, row, column):
-	"""	Checks if a table cell is highlighted.
+	"""	 Checks if a table cell is highlighted.
 
 	Args:
 		table (Union[int, str]): 
@@ -7109,7 +7109,7 @@ def is_table_cell_highlight(table, row, column):
 	return internal_dpg.is_table_cell_highlight(table, row, column)
 
 def is_table_column_highlight(table, column):
-	"""	Checks if a table column is highlighted.
+	"""	 Checks if a table column is highlighted.
 
 	Args:
 		table (Union[int, str]): 
@@ -7121,7 +7121,7 @@ def is_table_column_highlight(table, column):
 	return internal_dpg.is_table_column_highlight(table, column)
 
 def is_table_row_highlight(table, row):
-	"""	Checks if a table row is highlighted.
+	"""	 Checks if a table row is highlighted.
 
 	Args:
 		table (Union[int, str]): 
@@ -7133,7 +7133,7 @@ def is_table_row_highlight(table, row):
 	return internal_dpg.is_table_row_highlight(table, row)
 
 def is_viewport_ok():
-	"""	Checks if a viewport has been created and shown.
+	"""	 Checks if a viewport has been created and shown.
 
 	Args:
 	Returns:
@@ -7143,7 +7143,7 @@ def is_viewport_ok():
 	return internal_dpg.is_viewport_ok()
 
 def last_container():
-	"""	Returns the last container item added.
+	"""	 Returns the last container item added.
 
 	Args:
 	Returns:
@@ -7153,7 +7153,7 @@ def last_container():
 	return internal_dpg.last_container()
 
 def last_item():
-	"""	Returns the last item added.
+	"""	 Returns the last item added.
 
 	Args:
 	Returns:
@@ -7163,7 +7163,7 @@ def last_item():
 	return internal_dpg.last_item()
 
 def last_root():
-	"""	Returns the last root added (registry or window).
+	"""	 Returns the last root added (registry or window).
 
 	Args:
 	Returns:
@@ -7173,7 +7173,7 @@ def last_root():
 	return internal_dpg.last_root()
 
 def load_image(file, **kwargs):
-	"""	Loads an image. Returns width, height, channels, mvBuffer
+	"""	 Loads an image. Returns width, height, channels, mvBuffer
 
 	Args:
 		file (str): 
@@ -7186,7 +7186,7 @@ def load_image(file, **kwargs):
 	return internal_dpg.load_image(file, **kwargs)
 
 def lock_mutex():
-	"""	Locks render thread mutex.
+	"""	 Locks render thread mutex.
 
 	Args:
 	Returns:
@@ -7196,7 +7196,7 @@ def lock_mutex():
 	return internal_dpg.lock_mutex()
 
 def maximize_viewport():
-	"""	Maximizes the viewport.
+	"""	 Maximizes the viewport.
 
 	Args:
 	Returns:
@@ -7206,7 +7206,7 @@ def maximize_viewport():
 	return internal_dpg.maximize_viewport()
 
 def minimize_viewport():
-	"""	Minimizes a viewport.
+	"""	 Minimizes a viewport.
 
 	Args:
 	Returns:
@@ -7216,7 +7216,7 @@ def minimize_viewport():
 	return internal_dpg.minimize_viewport()
 
 def move_item(item, **kwargs):
-	"""	Moves an item to a new location.
+	"""	 Moves an item to a new location.
 
 	Args:
 		item (Union[int, str]): 
@@ -7229,7 +7229,7 @@ def move_item(item, **kwargs):
 	return internal_dpg.move_item(item, **kwargs)
 
 def move_item_down(item):
-	"""	Moves an item down.
+	"""	 Moves an item down.
 
 	Args:
 		item (Union[int, str]): 
@@ -7240,7 +7240,7 @@ def move_item_down(item):
 	return internal_dpg.move_item_down(item)
 
 def move_item_up(item):
-	"""	Moves an item up.
+	"""	 Moves an item up.
 
 	Args:
 		item (Union[int, str]): 
@@ -7251,7 +7251,7 @@ def move_item_up(item):
 	return internal_dpg.move_item_up(item)
 
 def pop_container_stack():
-	"""	Pops the top item off the parent stack and return its ID.
+	"""	 Pops the top item off the parent stack and return its ID.
 
 	Args:
 	Returns:
@@ -7261,7 +7261,7 @@ def pop_container_stack():
 	return internal_dpg.pop_container_stack()
 
 def push_container_stack(item):
-	"""	Pushes an item onto the container stack.
+	"""	 Pushes an item onto the container stack.
 
 	Args:
 		item (Union[int, str]): 
@@ -7272,7 +7272,7 @@ def push_container_stack(item):
 	return internal_dpg.push_container_stack(item)
 
 def remove_alias(alias):
-	"""	Removes an alias.
+	"""	 Removes an alias.
 
 	Args:
 		alias (str): 
@@ -7283,7 +7283,7 @@ def remove_alias(alias):
 	return internal_dpg.remove_alias(alias)
 
 def render_dearpygui_frame():
-	"""	Render a single Dear PyGui frame.
+	"""	 Render a single Dear PyGui frame.
 
 	Args:
 	Returns:
@@ -7293,7 +7293,7 @@ def render_dearpygui_frame():
 	return internal_dpg.render_dearpygui_frame()
 
 def reorder_items(container, slot, new_order):
-	"""	Reorders an item's children.
+	"""	 Reorders an item's children.
 
 	Args:
 		container (Union[int, str]): 
@@ -7306,7 +7306,7 @@ def reorder_items(container, slot, new_order):
 	return internal_dpg.reorder_items(container, slot, new_order)
 
 def reset_axis_ticks(axis):
-	"""	Removes the manually set axis ticks and applies the default axis ticks
+	"""	 Removes the manually set axis ticks and applies the default axis ticks
 
 	Args:
 		axis (Union[int, str]): 
@@ -7317,7 +7317,7 @@ def reset_axis_ticks(axis):
 	return internal_dpg.reset_axis_ticks(axis)
 
 def reset_pos(item):
-	"""	Resets an item's position after using 'set_item_pos'.
+	"""	 Resets an item's position after using 'set_item_pos'.
 
 	Args:
 		item (Union[int, str]): 
@@ -7328,7 +7328,7 @@ def reset_pos(item):
 	return internal_dpg.reset_pos(item)
 
 def sample_colormap(colormap, t):
-	"""	Returns a color from a colormap given t between 0 and 1. This command can only be ran once the app is started.
+	"""	 Returns a color from a colormap given t between 0 and 1. This command can only be ran once the app is started.
 
 	Args:
 		colormap (Union[int, str]): 
@@ -7340,7 +7340,7 @@ def sample_colormap(colormap, t):
 	return internal_dpg.sample_colormap(colormap, t)
 
 def save_init_file(file):
-	"""	Save dpg.ini file.
+	"""	 Save dpg.ini file.
 
 	Args:
 		file (str): 
@@ -7351,7 +7351,7 @@ def save_init_file(file):
 	return internal_dpg.save_init_file(file)
 
 def set_axis_limits(axis, ymin, ymax):
-	"""	Sets limits on the axis for pan and zoom.
+	"""	 Sets limits on the axis for pan and zoom.
 
 	Args:
 		axis (Union[int, str]): 
@@ -7364,7 +7364,7 @@ def set_axis_limits(axis, ymin, ymax):
 	return internal_dpg.set_axis_limits(axis, ymin, ymax)
 
 def set_axis_limits_auto(axis):
-	"""	Removes all limits on specified axis.
+	"""	 Removes all limits on specified axis.
 
 	Args:
 		axis (Union[int, str]): 
@@ -7375,7 +7375,7 @@ def set_axis_limits_auto(axis):
 	return internal_dpg.set_axis_limits_auto(axis)
 
 def set_axis_ticks(axis, label_pairs):
-	"""	Replaces axis ticks with 'label_pairs' argument.
+	"""	 Replaces axis ticks with 'label_pairs' argument.
 
 	Args:
 		axis (Union[int, str]): 
@@ -7387,7 +7387,7 @@ def set_axis_ticks(axis, label_pairs):
 	return internal_dpg.set_axis_ticks(axis, label_pairs)
 
 def set_exit_callback(callback):
-	"""	Sets a callback to run on last frame.
+	"""	 Sets a callback to run on last frame.
 
 	Args:
 		callback (Callable): 
@@ -7398,7 +7398,7 @@ def set_exit_callback(callback):
 	return internal_dpg.set_exit_callback(callback)
 
 def set_global_font_scale(scale):
-	"""	Sets global font scale.
+	"""	 Sets global font scale.
 
 	Args:
 		scale (float): 
@@ -7409,7 +7409,7 @@ def set_global_font_scale(scale):
 	return internal_dpg.set_global_font_scale(scale)
 
 def set_item_alias(item, alias):
-	"""	Sets an item's alias.
+	"""	 Sets an item's alias.
 
 	Args:
 		item (Union[int, str]): 
@@ -7421,7 +7421,7 @@ def set_item_alias(item, alias):
 	return internal_dpg.set_item_alias(item, alias)
 
 def set_item_children(item, source, slot):
-	"""	Sets an item's children.
+	"""	 Sets an item's children.
 
 	Args:
 		item (Union[int, str]): 
@@ -7434,7 +7434,7 @@ def set_item_children(item, source, slot):
 	return internal_dpg.set_item_children(item, source, slot)
 
 def set_item_font(item, font):
-	"""	Sets an item's font.
+	"""	 Sets an item's font.
 
 	Args:
 		item (Union[int, str]): 
@@ -7446,7 +7446,7 @@ def set_item_font(item, font):
 	return internal_dpg.set_item_font(item, font)
 
 def set_primary_window(window, value):
-	"""	Sets the primary window.
+	"""	 Sets the primary window.
 
 	Args:
 		window (Union[int, str]): 
@@ -7458,7 +7458,7 @@ def set_primary_window(window, value):
 	return internal_dpg.set_primary_window(window, value)
 
 def set_start_callback(callback):
-	"""	Sets a callback to run on first frame.
+	"""	 Sets a callback to run on first frame.
 
 	Args:
 		callback (Callable): 
@@ -7469,7 +7469,7 @@ def set_start_callback(callback):
 	return internal_dpg.set_start_callback(callback)
 
 def set_table_row_color(table, row, color):
-	"""	Set table row color.
+	"""	 Set table row color.
 
 	Args:
 		table (Union[int, str]): 
@@ -7482,7 +7482,7 @@ def set_table_row_color(table, row, color):
 	return internal_dpg.set_table_row_color(table, row, color)
 
 def set_value(item, value):
-	"""	Set's an item's value.
+	"""	 Set's an item's value.
 
 	Args:
 		item (Union[int, str]): 
@@ -7494,7 +7494,7 @@ def set_value(item, value):
 	return internal_dpg.set_value(item, value)
 
 def set_viewport_resize_callback(callback):
-	"""	Sets a callback to run on viewport resize.
+	"""	 Sets a callback to run on viewport resize.
 
 	Args:
 		callback (Callable): 
@@ -7505,7 +7505,7 @@ def set_viewport_resize_callback(callback):
 	return internal_dpg.set_viewport_resize_callback(callback)
 
 def set_x_scroll(item, value):
-	"""	Undocumented
+	"""	 Undocumented
 
 	Args:
 		item (Union[int, str]): 
@@ -7517,7 +7517,7 @@ def set_x_scroll(item, value):
 	return internal_dpg.set_x_scroll(item, value)
 
 def set_y_scroll(item, value):
-	"""	Undocumented
+	"""	 Undocumented
 
 	Args:
 		item (Union[int, str]): 
@@ -7529,7 +7529,7 @@ def set_y_scroll(item, value):
 	return internal_dpg.set_y_scroll(item, value)
 
 def setup_dearpygui():
-	"""	Sets up Dear PyGui
+	"""	 Sets up Dear PyGui
 
 	Args:
 	Returns:
@@ -7539,7 +7539,7 @@ def setup_dearpygui():
 	return internal_dpg.setup_dearpygui()
 
 def show_imgui_demo():
-	"""	Shows the imgui demo.
+	"""	 Shows the imgui demo.
 
 	Args:
 	Returns:
@@ -7549,7 +7549,7 @@ def show_imgui_demo():
 	return internal_dpg.show_imgui_demo()
 
 def show_implot_demo():
-	"""	Shows the implot demo.
+	"""	 Shows the implot demo.
 
 	Args:
 	Returns:
@@ -7559,7 +7559,7 @@ def show_implot_demo():
 	return internal_dpg.show_implot_demo()
 
 def show_item_debug(item):
-	"""	Shows an item's debug window
+	"""	 Shows an item's debug window
 
 	Args:
 		item (Union[int, str]): 
@@ -7570,7 +7570,7 @@ def show_item_debug(item):
 	return internal_dpg.show_item_debug(item)
 
 def show_tool(tool):
-	"""	Shows a built in tool.
+	"""	 Shows a built in tool.
 
 	Args:
 		tool (Union[int, str]): 
@@ -7581,7 +7581,7 @@ def show_tool(tool):
 	return internal_dpg.show_tool(tool)
 
 def show_viewport(**kwargs):
-	"""	Shows the main viewport.
+	"""	 Shows the main viewport.
 
 	Args:
 		minimized (bool, optional): 
@@ -7593,7 +7593,7 @@ def show_viewport(**kwargs):
 	return internal_dpg.show_viewport(**kwargs)
 
 def split_frame(**kwargs):
-	"""	Waits one frame.
+	"""	 Waits one frame.
 
 	Args:
 		delay (int, optional): Minimal delay in in milliseconds
@@ -7604,7 +7604,7 @@ def split_frame(**kwargs):
 	return internal_dpg.split_frame(**kwargs)
 
 def stop_dearpygui():
-	"""	Stops Dear PyGui
+	"""	 Stops Dear PyGui
 
 	Args:
 	Returns:
@@ -7614,7 +7614,7 @@ def stop_dearpygui():
 	return internal_dpg.stop_dearpygui()
 
 def toggle_viewport_fullscreen():
-	"""	Toggle viewport fullscreen mode..
+	"""	 Toggle viewport fullscreen mode..
 
 	Args:
 	Returns:
@@ -7624,7 +7624,7 @@ def toggle_viewport_fullscreen():
 	return internal_dpg.toggle_viewport_fullscreen()
 
 def top_container_stack():
-	"""	Returns the item on the top of the container stack.
+	"""	 Returns the item on the top of the container stack.
 
 	Args:
 	Returns:
@@ -7634,7 +7634,7 @@ def top_container_stack():
 	return internal_dpg.top_container_stack()
 
 def unhighlight_table_cell(table, row, column):
-	"""	Unhighlight specified table cell.
+	"""	 Unhighlight specified table cell.
 
 	Args:
 		table (Union[int, str]): 
@@ -7647,7 +7647,7 @@ def unhighlight_table_cell(table, row, column):
 	return internal_dpg.unhighlight_table_cell(table, row, column)
 
 def unhighlight_table_column(table, column):
-	"""	Unhighlight specified table column.
+	"""	 Unhighlight specified table column.
 
 	Args:
 		table (Union[int, str]): 
@@ -7659,7 +7659,7 @@ def unhighlight_table_column(table, column):
 	return internal_dpg.unhighlight_table_column(table, column)
 
 def unhighlight_table_row(table, row):
-	"""	Unhighlight specified table row.
+	"""	 Unhighlight specified table row.
 
 	Args:
 		table (Union[int, str]): 
@@ -7671,7 +7671,7 @@ def unhighlight_table_row(table, row):
 	return internal_dpg.unhighlight_table_row(table, row)
 
 def unlock_mutex():
-	"""	Unlocks render thread mutex
+	"""	 Unlocks render thread mutex
 
 	Args:
 	Returns:
@@ -7681,7 +7681,7 @@ def unlock_mutex():
 	return internal_dpg.unlock_mutex()
 
 def unset_table_row_color(table, row):
-	"""	Remove user set table row color.
+	"""	 Remove user set table row color.
 
 	Args:
 		table (Union[int, str]): 
@@ -7693,7 +7693,7 @@ def unset_table_row_color(table, row):
 	return internal_dpg.unset_table_row_color(table, row)
 
 def unstage(item):
-	"""	Unstages an item.
+	"""	 Unstages an item.
 
 	Args:
 		item (Union[int, str]): 
