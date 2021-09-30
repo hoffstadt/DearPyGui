@@ -121,9 +121,10 @@ def setup_package():
 
     # copy add items to temporary location
     if os.environ.get('READTHEDOCS') == 'True':
-        shutil.move(src_path + "/DearPyGui/dearpygui/_dearpygui_RTD.py", src_path + "/output/dearpygui/dearpygui.py")
+        shutil.copy(src_path + "/DearPyGui/dearpygui/_dearpygui_RTD.py", src_path + "/output/dearpygui")
     else:
         shutil.copy(src_path + "/DearPyGui/dearpygui/dearpygui.py", src_path + "/output/dearpygui")
+
     shutil.copy(src_path + "/DearPyGui/dearpygui/demo.py", src_path + "/output/dearpygui")
     shutil.copy(src_path + "/DearPyGui/dearpygui/experimental.py", src_path + "/output/dearpygui")
 
@@ -132,6 +133,7 @@ def setup_package():
 
     if os.environ.get('READTHEDOCS') == 'True':
 
+        os.rename(src_path + "/output/dearpygui/_dearpygui_RTD.py", src_path + "/output/dearpygui/dearpygui.py")
         with open(src_path + "/output/dearpygui/_dearpygui.py", 'w') as newfile:
             with open(src_path + "/DearPyGui/dearpygui/_dearpygui.pyi", 'r') as file:
                 lines = file.readlines()
