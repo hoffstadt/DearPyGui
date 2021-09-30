@@ -6,6 +6,7 @@
 #include <unordered_map>
 #include <GL/gl3w.h>
 #include <GLFW/glfw3.h>
+#include "mvContext.h"
 
 static std::unordered_map<GLuint, GLuint> PBO_ids;
 
