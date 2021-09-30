@@ -21,7 +21,7 @@ namespace Marvel {
     //-----------------------------------------------------------------------------
     // forward declarations
     //-----------------------------------------------------------------------------
-    struct  mvViewport;
+    struct mvViewport;
     class  mvCallbackRegistry;
     struct mvItemRegistry;
     struct mvIO;
@@ -34,7 +34,6 @@ namespace Marvel {
 
     extern mvContext* GContext;
 
-    const char*                            GetVersion();
     mvUUID                                 GenerateUUID();
     void                                   SetDefaultTheme();
     void                                   Render();

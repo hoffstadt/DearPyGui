@@ -11,7 +11,8 @@
 
 namespace Marvel {
 
-	static bool VerifyArguments(int start, PyObject* args, const std::vector<mvPythonDataElement>& elements)
+	mv_internal bool 
+	VerifyArguments(int start, PyObject* args, const std::vector<mvPythonDataElement>& elements)
 	{
 
 		if (start >= PyTuple_Size(args))
@@ -113,7 +114,8 @@ namespace Marvel {
 		return true;
 	}
 
-	static char PythonDataTypeSymbol(mvPyDataType type)
+	mv_internal char
+	PythonDataTypeSymbol(mvPyDataType type)
 	{
 		switch (type)
 		{
@@ -128,7 +130,8 @@ namespace Marvel {
 		}
 	}
 
-	static const char* PythonDataTypeString(mvPyDataType type)
+	mv_internal const char*
+	PythonDataTypeString(mvPyDataType type)
 	{
 		switch (type)
 		{
@@ -156,7 +159,8 @@ namespace Marvel {
 		}
 	}
 
-	const char* PythonDataTypeActual(mvPyDataType type)
+	const char* 
+	PythonDataTypeActual(mvPyDataType type)
 	{
 		switch (type)
 		{
@@ -181,7 +185,8 @@ namespace Marvel {
 		}
 	}
 
-	mvPythonParser FinalizeParser(const mvPythonParserSetup& setup, const std::vector<mvPythonDataElement>& args)
+	mvPythonParser 
+	FinalizeParser(const mvPythonParserSetup& setup, const std::vector<mvPythonDataElement>& args)
 	{
 
 		mvPythonParser parser;
@@ -297,7 +302,8 @@ namespace Marvel {
 		return parser;
 	}
 
-	bool VerifyRequiredArguments(const mvPythonParser& parser, PyObject* args)
+	bool 
+	VerifyRequiredArguments(const mvPythonParser& parser, PyObject* args)
 	{
 
 		// ensure enough args were provided
@@ -312,12 +318,14 @@ namespace Marvel {
 		return VerifyArguments(0, args, parser.required_elements);
 	}
 
-	bool VerifyPositionalArguments(const mvPythonParser& parser, PyObject* args)
+	bool 
+	VerifyPositionalArguments(const mvPythonParser& parser, PyObject* args)
 	{
 		return VerifyArguments((int)parser.optional_elements.size(), args, parser.optional_elements);
 	}
 
-	bool VerifyKeywordArguments(const mvPythonParser& parser, PyObject* args)
+	bool 
+	VerifyKeywordArguments(const mvPythonParser& parser, PyObject* args)
 	{
 		if (args == nullptr)
 			return false;
@@ -395,7 +403,8 @@ namespace Marvel {
 		return exists;
 	}
 
-	bool VerifyArgumentCount(const mvPythonParser& parser, PyObject* args)
+	bool 
+	VerifyArgumentCount(const mvPythonParser& parser, PyObject* args)
 	{
 		if (args == nullptr && parser.required_elements.size() == 0)
 			return true;
@@ -424,7 +433,8 @@ namespace Marvel {
 		return true;
 	}
 
-	bool Parse(const mvPythonParser& parser, PyObject* args, PyObject* kwargs, const char* message, ...)
+	bool 
+	Parse(const mvPythonParser& parser, PyObject* args, PyObject* kwargs, const char* message, ...)
 	{
 
 		bool check = true;
@@ -445,9 +455,10 @@ namespace Marvel {
 		return check;
 	}
 
-	void GenerateStubFile(const std::string& directory)
+	void 
+	GenerateStubFile(const std::string& directory)
 	{
-		const auto& commands = mvModule_DearPyGui::GetModuleParsers();
+		const auto& commands = GetModuleParsers();
 
 		std::ofstream stub;
 		stub.open(directory + "/_dearpygui.pyi");
@@ -457,7 +468,7 @@ namespace Marvel {
 		stub << "##########################################################\n";
 		stub << "# This file is generated automatically by mvPythonParser #\n";
 		stub << "##########################################################\n\n";
-		stub << "# ~ Dear PyGui Version: " << GetVersion() << "\n";
+		stub << "# ~ Dear PyGui Version: " << MV_SANDBOX_VERSION << "\n";
 
 		for (const auto& parser : commands)
 		{
@@ -505,7 +516,7 @@ namespace Marvel {
 			stub << "\n\t...\n\n";
 		}
 
-		auto& constants = mvModule_DearPyGui::GetSubModuleConstants();
+		auto& constants = GetModuleConstants();
 
 		for (auto& item : constants)
 			stub << item.first << "=0\n";
@@ -513,9 +524,10 @@ namespace Marvel {
 		stub.close();
 	}
 
-	void GenerateCoreFile(std::ofstream& stream)
+	void 
+	GenerateCoreFile(std::ofstream& stream)
 	{
-		const auto& commands = mvModule_DearPyGui::GetModuleParsers();
+		const auto& commands = GetModuleParsers();
 
 		// current date/time based on current system
 		time_t now = time(0);
@@ -650,9 +662,10 @@ namespace Marvel {
 		}
 	}
 
-	void GenerateContextsFile(std::ofstream& stream)
+	void 
+	GenerateContextsFile(std::ofstream& stream)
 	{
-		const auto& commands = mvModule_DearPyGui::GetModuleParsers();
+		const auto& commands = GetModuleParsers();
 
 		// current date/time based on current system
 		time_t now = time(0);
@@ -796,9 +809,10 @@ namespace Marvel {
 
 	}
 
-	void GenerateCoreFileRTD(std::ofstream& stream)
+	void 
+	GenerateCoreFileRTD(std::ofstream& stream)
 	{
-		const auto& commands = mvModule_DearPyGui::GetModuleParsers();
+		const auto& commands = GetModuleParsers();
 
 		// current date/time based on current system
 		time_t now = time(0);
@@ -902,9 +916,10 @@ namespace Marvel {
 		}
 	}
 
-	void GenerateContextsFileRTD(std::ofstream& stream)
+	void 
+	GenerateContextsFileRTD(std::ofstream& stream)
 	{
-		const auto& commands = mvModule_DearPyGui::GetModuleParsers();
+		const auto& commands = GetModuleParsers();
 
 		// current date/time based on current system
 		time_t now = time(0);
@@ -1016,14 +1031,15 @@ namespace Marvel {
 
 	}
 
-	void GenerateDearPyGuiFile(const std::string& directory)
+	void 
+	GenerateDearPyGuiFile(const std::string& directory)
 	{
 		std::ofstream stub;
 		stub.open(directory + "/dearpygui.py");
 
 		stub << "\n##########################################################\n";
 		stub << "# Dear PyGui User Interface\n";
-		stub << "#   ~ Version: " << GetVersion() << "\n";
+		stub << "#   ~ Version: " << MV_SANDBOX_VERSION << "\n";
 		stub << "#\n";
 		stub << "#   Notes:\n";
 		stub << "#     * This file is automatically generated.\n#\n";
@@ -1065,7 +1081,7 @@ namespace Marvel {
 		stub << "# Constants #\n";
 		stub << "##########################################################\n\n";
 
-		auto& constants = mvModule_DearPyGui::GetSubModuleConstants();
+		auto& constants = GetModuleConstants();
 
 		for (auto& item : constants)
 			stub << item.first << "=internal_dpg." << item.first << "\n";
@@ -1078,14 +1094,15 @@ namespace Marvel {
 		redirect.close();
 	}
 
-	void GenerateDearPyGuiFileRTD(const std::string& directory)
+	void 
+	GenerateDearPyGuiFileRTD(const std::string& directory)
 	{
 		std::ofstream stub;
 		stub.open(directory + "/_dearpygui_RTD.py");
 
 		stub << "\n##########################################################\n";
 		stub << "# Dear PyGui User Interface (MODIFIED FOR READTHEDOCS)\n";
-		stub << "#   ~ Version: " << GetVersion() << "\n";
+		stub << "#   ~ Version: " << MV_SANDBOX_VERSION << "\n";
 		stub << "#\n";
 		stub << "#   Notes:\n";
 		stub << "#     * This file is automatically generated.\n#\n";
@@ -1127,7 +1144,7 @@ namespace Marvel {
 		stub << "# Constants #\n";
 		stub << "##########################################################\n\n";
 
-		auto& constants = mvModule_DearPyGui::GetSubModuleConstants();
+		auto& constants = GetModuleConstants();
 
 		for (auto& item : constants)
 			stub << item.first << "=internal_dpg." << item.first << "\n";
@@ -1140,7 +1157,8 @@ namespace Marvel {
 		redirect.close();
 	}
 
-	void AddCommonArgs(std::vector<mvPythonDataElement>& args, CommonParserArgs argsFlags)
+	void 
+	AddCommonArgs(std::vector<mvPythonDataElement>& args, CommonParserArgs argsFlags)
 	{
 
 		args.push_back({ mvPyDataType::UUID, "id", mvArgType::DEPRECATED_RENAME_KEYWORD_ARG, "0", "", "tag" });

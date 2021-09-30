@@ -16,8 +16,8 @@ namespace Marvel {
     void mvDocWindow::setup()
     {
 
-        const std::map<std::string, mvPythonParser>& docmap = mvModule_DearPyGui::GetModuleParsers();
-        const std::vector<std::pair<std::string, long>>& constants = mvModule_DearPyGui::GetModuleConstants();
+        const std::map<std::string, mvPythonParser>& docmap = GetModuleParsers();
+        const std::vector<std::pair<std::string, long>>& constants = GetModuleConstants();
 
         for (const auto& item : constants)
         {
@@ -106,9 +106,9 @@ namespace Marvel {
             if (ImGui::BeginTabItem("Search Commands##doc"))
             {
 
-                static size_t commandselection = 0;
+                mv_local_persist size_t commandselection = 0;
                 const char* commanddoc = m_commands[commandselection].second.c_str();
-                static ImGuiTextFilter filter;
+                mv_local_persist ImGuiTextFilter filter;
                 filter.Draw();
 
                 ImGui::PushItemWidth(300);

@@ -49,7 +49,7 @@ namespace Marvel {
         static ImGuiStyle ref_saved_style;
 
         // Default to using internal storage as reference
-        static bool init = true;
+        mv_local_persist bool init = true;
         //if (init && ref == NULL)
             ref_saved_style = style;
         init = false;
@@ -171,10 +171,10 @@ namespace Marvel {
             if (ImGui::BeginTabItem("Colors"))
             {
 
-                static ImGuiTextFilter filter;
+                mv_local_persist ImGuiTextFilter filter;
                 filter.Draw("Filter colors", ImGui::GetFontSize() * 16);
 
-                static ImGuiColorEditFlags alpha_flags = 0;
+                mv_local_persist ImGuiColorEditFlags alpha_flags = 0;
                 if (ImGui::RadioButton("Opaque", alpha_flags == ImGuiColorEditFlags_None)) { alpha_flags = ImGuiColorEditFlags_None; } ImGui::SameLine();
                 if (ImGui::RadioButton("Alpha", alpha_flags == ImGuiColorEditFlags_AlphaPreview)) { alpha_flags = ImGuiColorEditFlags_AlphaPreview; } ImGui::SameLine();
                 if (ImGui::RadioButton("Both", alpha_flags == ImGuiColorEditFlags_AlphaPreviewHalf)) { alpha_flags = ImGuiColorEditFlags_AlphaPreviewHalf; } ImGui::SameLine();
@@ -212,7 +212,7 @@ namespace Marvel {
                 }
 
                 // imnodes
-                static std::string imnodesNames[16] = {
+                mv_local_persist std::string imnodesNames[16] = {
                     "mvNodeCol_NodeBackground",
                     "mvNodeCol_NodeBackgroundHovered",
                     "mvNodeCol_NodeBackgroundSelected",

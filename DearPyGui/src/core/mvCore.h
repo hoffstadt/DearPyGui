@@ -222,6 +222,16 @@ namespace Marvel {
 	typedef unsigned long long mvUUID;
 }
 
+#if !defined(mv_internal)
+#define mv_internal static
+#endif
+#define mv_local_persist static
+#define mv_global static
+#define mv_python_function PyObject*
+#ifndef mv_impl
+#define mv_impl
+#endif
+
 #define MV_DEFAULT_COLOR Marvel::mvColor(1.0f, 1.0f, 1.0f, 1.0f)
 
 // UUIDs (+ reserved uuids)

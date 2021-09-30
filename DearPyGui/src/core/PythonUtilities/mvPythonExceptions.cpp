@@ -13,13 +13,15 @@
 namespace Marvel
 {
 
-	void mvThrowPythonError(mvErrorCode code, const std::string& message)
+	void 
+	mvThrowPythonError(mvErrorCode code, const std::string& message)
 	{
 		std::string fullMessage = "Error: [%d] Message: \t" + message;
 		PyErr_Format(PyExc_Exception, fullMessage.c_str(), (int)code);
 	}
 
-	void mvThrowPythonError(mvErrorCode code, const std::string& command, const std::string& message, mvAppItem* item)
+	void 
+	mvThrowPythonError(mvErrorCode code, const std::string& command, const std::string& message, mvAppItem* item)
 	{
 		if (item)
 		{

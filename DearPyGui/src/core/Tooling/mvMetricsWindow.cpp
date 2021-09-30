@@ -41,15 +41,15 @@ namespace Marvel {
     {
 
         ImGuiIO& io = ImGui::GetIO();
-        ImGui::Text("Dear PyGui %s", GetVersion());
+        ImGui::Text("Dear PyGui %s", MV_SANDBOX_VERSION);
         ImGui::Text("Dear ImGui %s", ImGui::GetVersion());
         ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / io.Framerate, io.Framerate);
         ImGui::Text("%d vertices, %d indices (%d triangles)", io.MetricsRenderVertices, io.MetricsRenderIndices, io.MetricsRenderIndices / 3);
         ImGui::Text("%d active windows (%d visible)", io.MetricsActiveWindows, io.MetricsRenderWindows);
         ImGui::Text("%d active allocations", io.MetricsActiveAllocations);
 
-        static std::map<std::string, ScrollingBuffer> buffers;
-        static float t = 0;
+        mv_local_persist std::map<std::string, ScrollingBuffer> buffers;
+        mv_local_persist float t = 0;
         t += ImGui::GetIO().DeltaTime;
 
         const auto& results = mvInstrumentor::Get().getResults();
@@ -57,7 +57,7 @@ namespace Marvel {
         for (const auto& item : results)
             buffers[item.first].AddPoint(t, (float)item.second.count());
 
-        static float history = 10.0f;
+        mv_local_persist float history = 10.0f;
         ImGui::SliderFloat("History", &history, 1, 30, "%.1f s");
 
         float max_value = 0.0f;
@@ -78,17 +78,17 @@ namespace Marvel {
         ImPlot::PushStyleColor(ImPlotCol_PlotBg, ImVec4(0.0f, 0.0f, 0.0f, 1.0f));
         ImPlot::PushStyleColor(ImPlotCol_PlotBorder, ImVec4(0.0f, 0.0f, 0.0f, 0.0f));
 
-        static ImPlotAxisFlags rt_axis = ImPlotAxisFlags_NoTickLabels | ImPlotAxisFlags_NoGridLines | ImPlotAxisFlags_NoTickMarks;
+        mv_local_persist ImPlotAxisFlags rt_axis = ImPlotAxisFlags_NoTickLabels | ImPlotAxisFlags_NoGridLines | ImPlotAxisFlags_NoTickMarks;
         ImPlot::SetNextPlotLimitsX(t - history, t, ImGuiCond_Always);
         ImPlot::FitNextPlotAxes(false);
         if (ImPlot::BeginPlot("##Scrolling1", nullptr, nullptr, ImVec2(-1, 200), 0, rt_axis, ImPlotAxisFlags_NoGridLines | ImPlotAxisFlags_LockMin))
         {
-            static float fps_h[2] = { 0.0f, 0.0f };
-            static float fps_x[2] = { 0.0f, 10.0f };
+            mv_local_persist float fps_h[2] = { 0.0f, 0.0f };
+            mv_local_persist float fps_x[2] = { 0.0f, 10.0f };
             fps_x[0] = t - history;
             fps_x[1] = t;
-            static float fps_60[2] = { 16000.0f, 16000.0f };
-            static float fps_30[2] = { 32000.0f, 32000.0f };
+            mv_local_persist float fps_60[2] = { 16000.0f, 16000.0f };
+            mv_local_persist float fps_30[2] = { 32000.0f, 32000.0f };
 
             ImPlot::PushStyleColor(ImPlotCol_Fill, ImVec4(0.0f, 1.0f, 0.0f, 0.1f));
             ImPlot::PlotShaded("60+ FPS", fps_x, fps_h, fps_60, 2);

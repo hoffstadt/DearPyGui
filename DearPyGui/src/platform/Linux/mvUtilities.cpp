@@ -11,7 +11,8 @@ static std::unordered_map<GLuint, GLuint> PBO_ids;
 
 namespace Marvel {
 
-    static void UpdatePixels(GLubyte* dst, const float* data, int size)
+    mv_internal void
+    UpdatePixels(GLubyte* dst, const float* data, int size)
     {
 
         if(!dst)
@@ -25,7 +26,8 @@ namespace Marvel {
         }
     }
 
-    void* LoadTextureFromArray(unsigned width, unsigned height, float* data)
+    mv_impl void*
+    LoadTextureFromArray(unsigned width, unsigned height, float* data)
     {
 
         // Create a OpenGL texture identifier
@@ -44,7 +46,8 @@ namespace Marvel {
         return reinterpret_cast<void *>(image_texture);
     }
 
-    void* LoadTextureFromArrayDynamic(unsigned width, unsigned height, float* data)
+    mv_impl void*
+    LoadTextureFromArrayDynamic(unsigned width, unsigned height, float* data)
     {
 
         // Create a OpenGL texture identifier
@@ -70,7 +73,8 @@ namespace Marvel {
         return reinterpret_cast<void *>(image_texture);
     }
 
-    void* LoadTextureFromArrayRaw(unsigned width, unsigned height, float* data, int components)
+    mv_impl void*
+    LoadTextureFromArrayRaw(unsigned width, unsigned height, float* data, int components)
     {
 
         // Create a OpenGL texture identifier
@@ -99,7 +103,8 @@ namespace Marvel {
         return reinterpret_cast<void*>(image_texture);
     }
 
-    void* LoadTextureFromFile(const char* filename, int& width, int& height)
+    mv_impl void*
+    LoadTextureFromFile(const char* filename, int& width, int& height)
     {
 
         // Load from file
@@ -129,13 +134,15 @@ namespace Marvel {
         return reinterpret_cast<void *>(image_texture);;
     }
 
-    bool UnloadTexture(const std::string& filename)
+    mv_impl bool
+    UnloadTexture(const std::string& filename)
     {
         // TODO : decide if cleanup is necessary
         return true;
     }
 
-    void FreeTexture(void* texture)
+    mv_impl void
+    FreeTexture(void* texture)
     {
         auto out_srv = (GLuint)(size_t)texture;
 
@@ -145,7 +152,8 @@ namespace Marvel {
         glDeleteTextures(1, &out_srv);
     }
 
-    void UpdateTexture(void* texture, unsigned width, unsigned height, std::vector<float>& data)
+    mv_impl void
+    UpdateTexture(void* texture, unsigned width, unsigned height, std::vector<float>& data)
     {
         auto textureId = (GLuint)(size_t)texture;
 
@@ -191,7 +199,8 @@ namespace Marvel {
         glBindBuffer(GL_PIXEL_UNPACK_BUFFER, 0);
     }
 
-    void UpdateRawTexture(void* texture, unsigned width, unsigned height, float* data, int components)
+    mv_impl void
+    UpdateRawTexture(void* texture, unsigned width, unsigned height, float* data, int components)
     {
         auto textureId = (GLuint)(size_t)texture;
 

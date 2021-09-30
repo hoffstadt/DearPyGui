@@ -5,7 +5,8 @@
 
 namespace Marvel {
 
-    static void DebugItem(const char* label, const char* item) {
+    mv_internal void
+    DebugItem(const char* label, const char* item) {
         ImGui::Text("%s", label);
         ImGui::SameLine();
         ImGui::TextColored(ImVec4(1.0f, 0.0f, 1.0f, 1.0f), "%s", item);
@@ -171,8 +172,8 @@ namespace Marvel {
         ImGui::Checkbox("Show Slots###layout", &_slots);
 
         ImGui::BeginChild("###layoutwindow", ImVec2(400, 0));
-        static char ts[6] = "True";
-        static char fs[6] = "False";
+        mv_local_persist char ts[6] = "True";
+        mv_local_persist char fs[6] = "False";
 
         std::string width = std::to_string(_itemref->_width);
         std::string height = std::to_string(_itemref->_height);

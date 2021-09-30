@@ -20,7 +20,8 @@ extern ID3D11DeviceContext* gdeviceContext;
 
 namespace Marvel {
 
-    void* LoadTextureFromFile(const char* filename, int& width, int& height)
+    mv_impl void*
+    LoadTextureFromFile(const char* filename, int& width, int& height)
     {
 
         //auto out_srv = static_cast<ID3D11ShaderResourceView**>(storage.texture);
@@ -70,7 +71,8 @@ namespace Marvel {
         return out_srv;
     }
 
-    void* LoadTextureFromArray(unsigned width, unsigned height, float* data)
+    mv_impl void*
+    LoadTextureFromArray(unsigned width, unsigned height, float* data)
     {
         ID3D11ShaderResourceView* out_srv = nullptr;
 
@@ -107,7 +109,8 @@ namespace Marvel {
         return out_srv;
     }
 
-    void* LoadTextureFromArray(unsigned width, unsigned height, int* data)
+    mv_impl void*
+    LoadTextureFromArray(unsigned width, unsigned height, int* data)
     {
         ID3D11ShaderResourceView* out_srv = nullptr;
 
@@ -144,7 +147,8 @@ namespace Marvel {
         return out_srv;
     }
 
-    void* LoadTextureFromArrayDynamic(unsigned width, unsigned height, float* data)
+    mv_impl void*
+    LoadTextureFromArrayDynamic(unsigned width, unsigned height, float* data)
     {
         ID3D11ShaderResourceView* out_srv = nullptr;
 
@@ -181,7 +185,8 @@ namespace Marvel {
         return out_srv;
     }
 
-    void* LoadTextureFromArrayDynamic(unsigned width, unsigned height, int* data)
+    mv_impl void*
+    LoadTextureFromArrayDynamic(unsigned width, unsigned height, int* data)
     {
         ID3D11ShaderResourceView* out_srv = nullptr;
 
@@ -218,7 +223,8 @@ namespace Marvel {
         return out_srv;
     }
 
-    void UpdateTexture(void* texture, unsigned width, unsigned height, std::vector<float>& data)
+    mv_impl void
+    UpdateTexture(void* texture, unsigned width, unsigned height, std::vector<float>& data)
     {
         ID3D11ShaderResourceView* view = (ID3D11ShaderResourceView*)texture;
         D3D11_MAPPED_SUBRESOURCE mappedResource;
@@ -245,7 +251,8 @@ namespace Marvel {
         resource->Release();
     }
 
-    void UpdateTexture(void* texture, unsigned width, unsigned height, std::vector<int>& data)
+    mv_impl void
+    UpdateTexture(void* texture, unsigned width, unsigned height, std::vector<int>& data)
     {
         ID3D11ShaderResourceView* view = (ID3D11ShaderResourceView*)texture;
         D3D11_MAPPED_SUBRESOURCE mappedResource;
@@ -272,7 +279,8 @@ namespace Marvel {
         resource->Release();
     }
 
-    void UpdateRawTexture(void* texture, unsigned width, unsigned height, float* data, int components)
+    mv_impl void
+    UpdateRawTexture(void* texture, unsigned width, unsigned height, float* data, int components)
     {
         ID3D11ShaderResourceView* view = (ID3D11ShaderResourceView*)texture;
         D3D11_MAPPED_SUBRESOURCE mappedResource;
@@ -299,7 +307,8 @@ namespace Marvel {
         resource->Release();
     }
 
-    void* LoadTextureFromArrayRaw(unsigned width, unsigned height, float* data, int components)
+    mv_impl void*
+    LoadTextureFromArrayRaw(unsigned width, unsigned height, float* data, int components)
     {
         ID3D11ShaderResourceView* out_srv = nullptr;
 
@@ -350,7 +359,8 @@ namespace Marvel {
         return out_srv;
     }
 
-    void FreeTexture(void* texture)
+    mv_impl void
+    FreeTexture(void* texture)
     {
         ID3D11ShaderResourceView* out_srv = static_cast<ID3D11ShaderResourceView*>(texture);
         if (out_srv)
@@ -359,7 +369,8 @@ namespace Marvel {
         texture = nullptr;
     }
 
-    bool UnloadTexture(const std::string& filename)
+    mv_impl bool
+    UnloadTexture(const std::string& filename)
     {
         // TODO : decide if cleanup is necessary
         return true;

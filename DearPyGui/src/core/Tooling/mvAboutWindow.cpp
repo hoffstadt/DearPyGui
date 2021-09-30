@@ -13,7 +13,7 @@ namespace Marvel {
     void mvAboutWindow::drawWidgets()
     {
 
-        ImGui::Text("Dear PyGui %s", GetVersion());
+        ImGui::Text("Dear PyGui %s", MV_SANDBOX_VERSION);
         ImGui::Text("Dear ImGui %s", ImGui::GetVersion());
         ImGui::Separator();
         ImGui::TextColored(ImGui::GetStyleColorVec4(ImGuiCol_PlotHistogramHovered), "Authors");
@@ -42,7 +42,7 @@ namespace Marvel {
         ImGui::Text("Dear ImGui Author Omar Cornut and all Dear ImGui contributors.");
         ImGui::Text("Dear ImGui is licensed under the MIT License, see LICENSE for more information.");
 
-        static bool show_config_info = false;
+        mv_local_persist bool show_config_info = false;
         ImGui::Checkbox("Config/Build Information", &show_config_info);
         if (show_config_info)
         {
