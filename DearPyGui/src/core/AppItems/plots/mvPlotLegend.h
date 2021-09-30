@@ -77,12 +77,14 @@ namespace Marvel {
         void draw(ImDrawList* drawlist, float x, float y) override;
         void handleSpecificKeywordArgs(PyObject* dict) override;
         void applySpecificTemplate(mvAppItem* item) override;
+        void getSpecificConfiguration(PyObject* dict) override;
 
-    private:
+    public:
 
         ImPlotLocation _legendLocation = ImPlotLocation_NorthWest;
         bool           _horizontal = false;
         bool           _outside = false;
+        bool           _dirty = true;
     };
 
 }

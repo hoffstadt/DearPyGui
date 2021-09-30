@@ -124,3 +124,6 @@ We generally fold multiple commits pertaining to the same topic as a single entr
 * fixed ellipse thickness keyword not working #1213
 * fixed return type hints for callbacks #1208
 * fixed modal xpos creep #1171
+* fixed plot context/configuration sync issues
+* fixed plot axis context/configuration sync issues
+* fixed plot legend context/configuration sync issues
