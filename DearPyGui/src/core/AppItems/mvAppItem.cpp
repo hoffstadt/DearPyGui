@@ -9,7 +9,7 @@
 #include "mvPythonTypeChecker.h"
 #include "mvPyObject.h"
 
-namespace Marvel{
+namespace Marvel {
 
     static void UpdateLocations(std::vector<mvRef<mvAppItem>>* children, int slots)
     {
