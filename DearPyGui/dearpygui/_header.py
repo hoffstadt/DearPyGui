@@ -20,7 +20,7 @@ from dearpygui._dearpygui import mvBuffer
 #      - Viewport Getter Commands
 #      - Deprecated Commands
 #      - Container Context Managers
-#      - Core Wrappings
+#      - Public _dearpygui Wrappings
 #      - Constants
 #
 ########################################################################################################################

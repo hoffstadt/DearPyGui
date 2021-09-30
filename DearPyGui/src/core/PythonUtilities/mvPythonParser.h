@@ -116,8 +116,7 @@ namespace Marvel {
     bool VerifyArgumentCount      (const mvPythonParser& parser, PyObject* args);
 
     // file generation
-    void GenerateStubFile     (const std::string& file);
-    void GenerateCoreFile     (std::ofstream& stream);
-    void GenerateContextsFile (std::ofstream& stream);
-    void GenerateDearPyGuiFile(const std::string& file);
+    void GenerateStubFile        (const std::string& directory);
+    void GenerateDearPyGuiFile   (const std::string& directory);
+    void GenerateDearPyGuiFileRTD(const std::string& directory);
 }
