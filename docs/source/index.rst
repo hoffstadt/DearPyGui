@@ -88,7 +88,6 @@ API Reference Guide:
     /documentation/primary-window
     /documentation/io-handlers-state
     /documentation/item-creation
-    /documentation/item-creation-runtime
     /documentation/item-id-system
     /documentation/item-configuration
     /documentation/item-callbacks
